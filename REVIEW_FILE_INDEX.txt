@@ -1,0 +1,140 @@
+法條之外 SOURCE REVIEW — FILE INDEX
+產生時間：2026-09-27 18:52
+標籤：[CORE][GAMEPLAY][RENDERING][CHARACTER][ENVIRONMENT][NPC][LEGAL][SAVE][UI][ASSET][PLACEHOLDER][CONFIG]
+
+.env.example                                          0 KB  [CONFIG] 無秘密；佔位
+LICENSES.md                                           4 KB  [ASSET][CONFIG] 第三方素材與授權
+README.md                                             6 KB  [CONFIG] 遊玩／操作／系統／結構／限制
+REVIEW_FILE_INDEX.txt                                11 KB  [CONFIG] 本索引
+SOURCES.md                                            1 KB  [CONFIG] 研究參考來源
+assets/models/char/mixamo_clips.glb                 915 KB  [ASSET][CHARACTER] 玩家 VRM（Seed-san 改）／TEMP_PLAYER_DEV_MODEL GLB／Mixamo 動畫骨架／小安 VRM（見 LICENSES.md）
+assets/models/char/rpm_sample.glb                  1795 KB  [ASSET][CHARACTER] 玩家 VRM（Seed-san 改）／TEMP_PLAYER_DEV_MODEL GLB／Mixamo 動畫骨架／小安 VRM（見 LICENSES.md）
+assets/models/char/vrm_player.vrm                  7261 KB  [ASSET][CHARACTER] 玩家 VRM（Seed-san 改）／TEMP_PLAYER_DEV_MODEL GLB／Mixamo 動畫骨架／小安 VRM（見 LICENSES.md）
+assets/models/char/vrm_sample.vrm                  4910 KB  [ASSET][CHARACTER] 玩家 VRM（Seed-san 改）／TEMP_PLAYER_DEV_MODEL GLB／Mixamo 動畫骨架／小安 VRM（見 LICENSES.md）
+assets/models/env/bag-flat.glb                        8 KB  [ASSET] CC0 環境模型（市場：market.pmnd.rs；見 LICENSES.md）
+assets/models/env/bag.glb                             4 KB  [ASSET] CC0 環境模型（市場：market.pmnd.rs；見 LICENSES.md）
+assets/models/env/bench.glb                          72 KB  [ASSET] CC0 環境模型（市場：market.pmnd.rs；見 LICENSES.md）
+assets/models/env/bottle.glb                         17 KB  [ASSET] CC0 環境模型（市場：market.pmnd.rs；見 LICENSES.md）
+assets/models/env/bowl-broth.glb                     20 KB  [ASSET] CC0 環境模型（市場：market.pmnd.rs；見 LICENSES.md）
+assets/models/env/chopstick.glb                       2 KB  [ASSET] CC0 環境模型（市場：market.pmnd.rs；見 LICENSES.md）
+assets/models/env/cup-saucer.glb                      7 KB  [ASSET] CC0 環境模型（市場：market.pmnd.rs；見 LICENSES.md）
+assets/models/env/cup.glb                             6 KB  [ASSET] CC0 環境模型（市場：market.pmnd.rs；見 LICENSES.md）
+assets/models/env/glass.glb                           4 KB  [ASSET] CC0 環境模型（市場：market.pmnd.rs；見 LICENSES.md）
+assets/models/env/low-poly-tree.glb                 289 KB  [ASSET] CC0 環境模型（市場：market.pmnd.rs；見 LICENSES.md）
+assets/models/env/palm-detailed-long.glb             49 KB  [ASSET] CC0 環境模型（市場：market.pmnd.rs；見 LICENSES.md）
+assets/models/env/pizza-box.glb                       6 KB  [ASSET] CC0 環境模型（市場：market.pmnd.rs；見 LICENSES.md）
+assets/models/env/plate.glb                           9 KB  [ASSET] CC0 環境模型（市場：market.pmnd.rs；見 LICENSES.md）
+assets/models/env/rice-ball.glb                      17 KB  [ASSET] CC0 環境模型（市場：market.pmnd.rs；見 LICENSES.md）
+assets/models/env/sandwich.glb                       15 KB  [ASSET] CC0 環境模型（市場：market.pmnd.rs；見 LICENSES.md）
+assets/models/env/soda-can.glb                       13 KB  [ASSET] CC0 環境模型（市場：market.pmnd.rs；見 LICENSES.md）
+assets/models/env/tree-big.glb                       28 KB  [ASSET] CC0 環境模型（市場：market.pmnd.rs；見 LICENSES.md）
+assets/portraits/_cut_report.json                     0 KB  [ASSET][CHARACTER] 正式 2D 立繪（使用者提供合圖切出；production）
+assets/portraits/heroine_01/campus/neutral.png      333 KB  [ASSET][CHARACTER] 正式 2D 立繪（使用者提供合圖切出；production）
+assets/portraits/heroine_01/campus/neutral.webp      41 KB  [ASSET][CHARACTER] 正式 2D 立繪（使用者提供合圖切出；production）
+assets/portraits/heroine_02/campus/neutral.png      302 KB  [ASSET][CHARACTER] 正式 2D 立繪（使用者提供合圖切出；production）
+assets/portraits/heroine_02/campus/neutral.webp      39 KB  [ASSET][CHARACTER] 正式 2D 立繪（使用者提供合圖切出；production）
+assets/portraits/heroine_03/campus/neutral.png      282 KB  [ASSET][CHARACTER] 正式 2D 立繪（使用者提供合圖切出；production）
+assets/portraits/heroine_03/campus/neutral.webp      39 KB  [ASSET][CHARACTER] 正式 2D 立繪（使用者提供合圖切出；production）
+assets/portraits/heroine_04/campus/neutral.png      349 KB  [ASSET][CHARACTER] 正式 2D 立繪（使用者提供合圖切出；production）
+assets/portraits/heroine_04/campus/neutral.webp      46 KB  [ASSET][CHARACTER] 正式 2D 立繪（使用者提供合圖切出；production）
+assets/portraits/heroine_05/campus/neutral.png      287 KB  [ASSET][CHARACTER] 正式 2D 立繪（使用者提供合圖切出；production）
+assets/portraits/heroine_05/campus/neutral.webp      33 KB  [ASSET][CHARACTER] 正式 2D 立繪（使用者提供合圖切出；production）
+assets/portraits_source_sheet.png                  1984 KB  [CONFIG] 其他
+build.py                                              2 KB  [CONFIG] 打包：內嵌 script、複製 GLB、產生 .glb.json、artifact 版
+docs/ADV_SYSTEM.md                                    4 KB  [UI] ADV 系統說明
+docs/CHARACTER_ART_SPEC.md                           11 KB  [CHARACTER] 正式 2D 美術規格與五女主 Character Bible
+docs/CHARACTER_SCHEMA.md                              6 KB  [NPC] 人物／關係／記憶／研究所 schema
+docs/MISSING_EXTERNAL_ART.md                          3 KB  [CONFIG][CHARACTER] 尚未提供的正式美術清單（tier、路徑）
+docs/REVIEW_NOTES.md                                  4 KB  [CONFIG] 10 個技術疑慮
+docs/REVIEW_README.md                                17 KB  [CONFIG] Review 說明 A–T
+docs/STORY_EVENT_SCHEMA.md                            5 KB  [GAMEPLAY] 事件 schema
+index.html                                           17 KB  [CORE][UI][CONFIG] 開發版入口：UI DOM、CSS（HUD／對話框／選項／選單／載入／直向提示）、script 載入順序、GAME.boot()
+lib/three-vrm.bundle.js                             302 KB  [RENDERING][ASSET][CHARACTER] @pixiv/three-vrm（MIT）自 TS 原始碼以 esbuild 打包成 classic script
+lib/three.bundle.js                                2061 KB  [RENDERING][ASSET] three.js r187dev（MIT）classic-script 打包
+lib/three.jsm.bundle.js                             165 KB  [RENDERING][ASSET] GLTFLoader / SkeletonUtils / BufferGeometryUtils 打包
+package.json                                          0 KB  [CONFIG] 專案資訊與 scripts（無 npm 相依）
+play.py                                               3 KB  [CONFIG] Playwright 自動遊玩測試腳本
+screenshots/01_day_campus.png                       216 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/02_dusk_gate.png                        197 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/03_night_campus.png                     165 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/04_library.png                          228 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/05_cafe_an.png                          186 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/06_cafe_night.png                       152 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/07_classroom_law.png                    126 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/08_npc_unknown.png                       98 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/09_rain_event.png                        77 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/10_npc_pair_dusk.png                    213 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/11_studygroup_law.png                    86 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/12_grad_debate_adv.png                  114 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/12b_grad_notes.png                       62 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/13_people_menu.png                       87 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/14_legal_menu.png                        75 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/15_save_menu.png                         48 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/16_portrait_adv.png                      81 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/98_vrm_pipeline_test.png                 58 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/99_hero_retarget_v2.png                 357 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/A_linze_move_01.png                     127 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/A_linze_move_02.png                     134 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/A_linze_move_03_after_reload.png        129 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/B_player_new_model.png                  643 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/D_kai_dialog_land.png                    77 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/D_kai_dialog_portrait.png                56 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/E_zhe_dialog_land.png                   108 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/E_zhe_dialog_portrait.png               106 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/F_heroine01_adv_land.png                198 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/F_heroine01_adv_portrait.png            235 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/F_heroine_adv_land.png                  176 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/F_heroine_adv_portrait.png              240 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/F_studygroup_land.png                   115 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/F_studygroup_portrait.png               176 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/T_A_dorm_move.png                       119 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/T_B_after_desk.png                      118 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/T_C_adv.png                             250 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/T_C_after_adv_move.png                  156 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/T_D_after_reload.png                    160 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/T_E_cafe.png                            122 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/T_E_campus.png                          176 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/T_E_classroom.png                        72 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/T_E_dorm.png                            118 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/_ADV_landscape_overview.png             185 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/_ADV_portrait_overview.png              419 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/_P0_movement_tests.png                  295 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/_grid_A.png                            1009 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+screenshots/_grid_B.png                             596 KB  [CONFIG] 交付截圖（Playwright/SwiftShader 844×390；非真機）
+shot3d.py                                             1 KB  [CONFIG] Playwright 截圖腳本
+src/adv3d.js                                         12 KB  [UI][CHARACTER] ADV 模式：背景（freeze/blur/image）、立繪槽、fallback、歷史、CG 登錄
+src/assets3d.js                                      10 KB  [ASSET] 資產層：manifest（GLB、來源、授權、fallback）、loader（glb / .glb.json / ASSET_DATA）、instance
+src/audio3d.js                                        7 KB  [CORE] WebAudio 合成環境音
+src/character3d.js                                   23 KB  [CHARACTER][ASSET] 人物介面 CHAR.build/animate/setExpr/headY；GLB driver、Mixamo rest-pose 重定向、sit/read 姿勢、口型
+src/chars3d.js                                       20 KB  [PLACEHOLDER] 已淘汰的 Q 版人物（未載入，供對照）
+src/data/characters.js                               27 KB  [NPC][CHARACTER] CHARACTERS（五女主、熟同學、其他系、助教、8 教授）、UNFAMILIAR_POOL（20）、SOCIAL_GRAPH、PORTRAITS registry
+src/data/events.js                                   69 KB  [GAMEPLAY][NPC] STORY_EVENTS 事件包 v1（18）＋ v1.1（34）＝ 52 ＋ SMALLTALK
+src/data/legal_qbank.js                              23 KB  [LEGAL] 刑訴題庫 Q001–Q084（使用者提供；答案不可改）＋誤解標籤
+src/data/portrait_manifest.js                         0 KB  [UI][ASSET] 自動產生：實際存在的立繪檔案
+src/engine3d.js                                      28 KB  [CORE][RENDERING][GAMEPLAY] 引擎：renderer、光線／時間關鍵影格、天氣、天空、鏡頭（跟隨／碰撞／cinematic）、觸控輸入、NavGrid A*、碰撞、NPC 行為（wander/route/follow/greet）、LOD、分區載入
+src/events3d.js                                      11 KB  [GAMEPLAY][NPC] 條件事件引擎：條件評估、auto/enter/interact 觸發、對話執行、選項、後果
+src/game3d.js                                        42 KB  [CORE][GAMEPLAY][UI][SAVE] 遊戲層：狀態、HUD、對話框／選項／caption、運鏡、座位互動、讀書、存檔（自動／欄位／匯出／匯入／驗證／遷移）、選單（筆記／人物／法律／地圖／存檔／設定）、搖桿、主迴圈、boot
+src/legal3d.js                                       10 KB  [LEGAL][GAMEPLAY] 知識狀態機、誤解、抽題、上課／同學／讀書會包裝、筆記本摘要
+src/people3d.js                                      39 KB  [CHARACTER][PLACEHOLDER] PLACEHOLDER_CHARACTER：程序化人物（身體、髮型含馬尾、表情、動畫）、mergeStatic
+src/social3d.js                                       6 KB  [NPC][GAMEPLAY][SAVE] 關係六維、階段、記憶、揭露、教授紀錄、社會圖查詢、研究所志向
+src/story3d.js                                       61 KB  [GAMEPLAY][NPC] 劇本：第一／二天固定劇情、日程生成 populate/populateSchedule、路人、環境事件、talkCharacter、互動（商店／床／書桌）
+src/world3d.js                                       25 KB  [ENVIRONMENT][PLACEHOLDER] LEVEL_BLOCKOUT 產生器：Canvas 貼圖、建築、fallback 樹、路燈、腳踏車、校門、風動 shader
+src/zones3d.js                                       51 KB  [ENVIRONMENT][PLACEHOLDER] 區域定義：校園、公館、溫州街、教室、萬才館、總圖、咖啡廳、便利商店、麵店、書店、宿舍；nav、互動點、座位、道具
+test3d.html                                           5 KB  [CONFIG] 3D 最小測試頁
+test_assets.html                                      3 KB  [ASSET] 資產層測試頁
+test_char.html                                        3 KB  [PLACEHOLDER] 舊 Q 版人物測試頁
+test_glb.html                                         5 KB  [CHARACTER] GLB 重定向早期實驗頁
+test_people.html                                      3 KB  [PLACEHOLDER] 程序化人物 lineup/faces 測試頁
+test_rpm.html                                         5 KB  [CHARACTER] RPM＋Mixamo 重定向驗證頁
+test_vrm.html                                         7 KB  [CHARACTER][ASSET] VRM pipeline 驗證頁（載入、Mixamo 重定向、表情、姿勢）
+test_world.html                                       2 KB  [ENVIRONMENT] 區域渲染測試頁
+tests/movement_regression.py                         11 KB  [CONFIG][GAMEPLAY] MOVEMENT REGRESSION A–E（宿舍／互動／ADV／存檔／各區域），斷言 world position
+tests/p0_movement.py                                  7 KB  [CONFIG][GAMEPLAY] P0 回歸：8 個出生點手機搖桿移動、點地面、事件鎖定／解鎖、save→reload
+tools/cut_portraits.py                                4 KB  [ASSET][CHARACTER] 使用者五人合圖 → 五張透明背景立繪（flood fill 去背、每列分界、去鄰人碎片）
+tools/gen_portrait_manifest.py                        1 KB  [ASSET][UI] 掃描 assets/portraits 產生 PORTRAIT_FILES manifest（build 自動執行）
+tools/make_review_zip.py                              8 KB  [CONFIG] 本索引與 zip 產生器
+tools/recolor_player_vrm.py                           2 KB  [ASSET][CHARACTER] Seed-san 服裝貼圖改色（玩家模型）
+tools/shrink_vrm.py                                   2 KB  [ASSET] VRM 貼圖縮小／移除縮圖
+tools/undraco.js                                      5 KB  [ASSET] Draco glTF → GLB 離線解碼
+
+檔案總數 134；source files（js/py/html/css）41；binary assets 79

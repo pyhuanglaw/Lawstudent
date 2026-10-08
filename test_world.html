@@ -1,0 +1,29 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>世界測試</title><style>html,body{margin:0;height:100%;overflow:hidden;background:#cfe3ea}#c{display:block;width:100%;height:100%}#log{position:fixed;left:8px;top:8px;color:#222;font:12px monospace;white-space:pre;background:rgba(255,255,255,.6)}</style></head>
+<body><canvas id="c"></canvas><div id="log"></div>
+<script src="lib/three.bundle.js"></script>
+<script src="lib/three.jsm.bundle.js"></script>
+<script src="src/people3d.js"></script>
+<script src="src/assets3d.js"></script>
+<script src="src/character3d.js"></script>
+<script src="src/world3d.js"></script>
+<script src="src/engine3d.js"></script>
+<script src="src/zones3d.js"></script>
+<script>
+const log=(t)=>{ document.getElementById('log').textContent+=t+'\n'; console.log(t); };
+window.addEventListener('error',e=>log('ERR '+e.message+' @'+e.lineno));
+const q=new URLSearchParams(location.search); const zoneId=q.get('z')||'campus'; const hour=parseFloat(q.get('h')||'15'); const quality=q.get('q')||'medium';
+const canvas=document.getElementById('c'); const E=E3.init(canvas,{quality});
+(async()=>{ if(!q.get('noassets')) await ASSETS.preload(Object.keys(ASSETS.manifest)); log('assets '+(ASSETS.loaded?'loaded':'skipped')+' errors '+ASSETS.errors.length);
+const hero=P3.build(P3.CAST.hero_m); E.setPlayer(hero); E.player.pocketsIdle=true;
+E.hour=hour; const t0=performance.now(); const zone=E.loadZone(Z3.ZONES[zoneId], q.get('sx')?{x:parseFloat(q.get('sx')),z:parseFloat(q.get('sz')),yaw:parseFloat(q.get('yaw')||'0')}:undefined); log('zone '+zoneId+' built in '+(performance.now()-t0).toFixed(0)+'ms; interactables '+E.interactables.length+' colliders '+E.colliders.length);
+if(q.get('cam')){ const [x,y,z,lx,ly,lz]=q.get('cam').split(',').map(parseFloat); E.cinematic(new THREE.Vector3(x,y,z),new THREE.Vector3(lx,ly,lz)); E.camera.position.set(x,y,z); }
+if(q.get('yaw2')) E.cam.yaw=parseFloat(q.get('yaw2'));
+if(q.get('dist')) E.cam.distTarget=E.cam.dist=parseFloat(q.get('dist'));
+// 幾個 NPC
+const npcDefs=[['an',[[30,-90],[20,-80],[40,-70]]],['zhe',[[-40,3],[0,3],[-80,3]]],['sis',[[60,-60],[90,-60],[60,-40]]]];
+for(const [id,wps] of npcDefs){ const o=P3.build(P3.CAST[id]); o.position.set(wps[0][0],0,wps[0][1]); E.addNPC({obj:o,name:P3.CAST[id].name,beh:'wander',waypoints:wps}); }
+let last=performance.now(); let frames=0, acc=0; window.__fps=0;
+function frame(){ const now=performance.now(); const real=(now-last)/1000; const dt=Math.min(0.05,real); last=now; E.update(dt); E.render(); frames++; acc+=real; if(acc>1){ window.__fps=frames/acc; frames=0; acc=0; } requestAnimationFrame(frame); }
+frame(); window.__ready=true; window.E=E; })();
+</script></body></html>

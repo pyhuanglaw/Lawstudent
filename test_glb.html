@@ -1,0 +1,28 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>GLB 人物測試</title><style>html,body{margin:0;height:100%;overflow:hidden;background:#cfe3ea}#c{display:block;width:100%;height:100%}#log{position:fixed;left:8px;top:8px;color:#222;font:12px monospace;white-space:pre}</style></head>
+<body><canvas id="c"></canvas><div id="log"></div>
+<script src="lib/three.bundle.js"></script><script src="lib/three.jsm.bundle.js"></script>
+<script>
+const log=(t)=>{ document.getElementById('log').textContent+=t+'\n'; console.log(t); };
+const canvas=document.getElementById('c'); const renderer=new THREE.WebGLRenderer({canvas,antialias:true}); renderer.setPixelRatio(1); renderer.setSize(innerWidth,innerHeight); renderer.outputColorSpace=THREE.SRGBColorSpace; renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.0; renderer.shadowMap.enabled=true;
+const scene=new THREE.Scene(); scene.background=new THREE.Color(0xdde9ea); const camera=new THREE.PerspectiveCamera(32,innerWidth/innerHeight,0.1,100);
+scene.add(new THREE.HemisphereLight(0xe8f0ff,0xb8a88a,0.8)); const sun=new THREE.DirectionalLight(0xfff1d8,2.0); sun.position.set(5,9,7); sun.castShadow=true; sun.shadow.mapSize.set(2048,2048); sun.shadow.camera.left=-8; sun.shadow.camera.right=8; sun.shadow.camera.top=8; sun.shadow.camera.bottom=-8; sun.shadow.bias=-0.0005; sun.shadow.normalBias=0.02; scene.add(sun); const rim=new THREE.DirectionalLight(0xcfe3ff,0.5); rim.position.set(-6,6,-8); scene.add(rim);
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(60,60),new THREE.MeshStandardMaterial({color:0xd9d0bd,roughness:1})); ground.rotation.x=-Math.PI/2; ground.receiveShadow=true; scene.add(ground);
+const loader=new THREE_JSM.GLTFLoader.GLTFLoader(); const mode=new URLSearchParams(location.search).get('m')||'lineup';
+const mixers=[]; let anims=null; let xbotSkin=null;
+function load(url){ return new Promise((res,rej)=>loader.load(url,res,undefined,rej)); }
+function retarget(clip,prefix){ const c=clip.clone(); c.tracks=c.tracks.filter(t=>/\.quaternion$/.test(t.name)); if(prefix===false){ for(const t of c.tracks){ t.name=t.name.replace(/^mixamorig:?/,''); } } return c; }
+(async()=>{
+  const xbot=await load('assets/models/Xbot.glb'); anims=xbot.animations; xbot.scene.traverse(o=>{ if(o.isSkinnedMesh&&!xbotSkin) xbotSkin=o; }); window.__xbotSkin=xbotSkin; window.__anims=anims; log('xbot anims: '+anims.map(a=>a.name).join(','));
+  const rpm=await load('assets/models/readyplayer.me.glb'); const rpmRoot=rpm.scene; const names=[]; rpmRoot.traverse(o=>{ if(o.isMesh||o.isSkinnedMesh) names.push(o.name+'('+(o.material&&o.material.name)+')'); }); log('rpm meshes: '+names.join(', '));
+  const mich=await load('assets/models/Michelle.glb'); const mn=[]; mich.scene.traverse(o=>{ if(o.isMesh||o.isSkinnedMesh) mn.push(o.name+'('+(o.material&&o.material.name)+')'); }); log('michelle meshes: '+mn.join(', ')); const box=new THREE.Box3().setFromObject(mich.scene); log('michelle size '+box.getSize(new THREE.Vector3()).toArray().map(v=>v.toFixed(2)).join(','));
+  const box2=new THREE.Box3().setFromObject(rpmRoot); log('rpm size '+box2.getSize(new THREE.Vector3()).toArray().map(v=>v.toFixed(2)).join(','));
+  function place(src,x,rotY,animName,hideNames){ const obj=THREE_JSM.SkeletonUtils.clone(src.scene); obj.traverse(o=>{ if(o.isMesh||o.isSkinnedMesh){ o.castShadow=true; o.frustumCulled=false; if(hideNames&&hideNames.some(h=>o.name.includes(h))) o.visible=false; } }); obj.position.set(x,0,0); obj.rotation.y=rotY; scene.add(obj); let tskin=null; obj.traverse(o=>{ if(o.isSkinnedMesh&&!tskin) tskin=o; }); const isRPM=src===rpm; const names={}; xbotSkin.skeleton.bones.forEach(b=>{ const tn=isRPM?b.name.replace(/^mixamorig:?/,''):b.name; names[tn]=b.name; }); const clip=anims.find(a=>a.name===animName); const t0=performance.now(); const c=THREE_JSM.SkeletonUtils.retargetClip(tskin,xbotSkin,clip,{hip:isRPM?'Hips':'mixamorigHips',names,useFirstFramePosition:true,preserveBonePositions:true,preserveBoneMatrix:true,scale:0.01,fps:15}); log('retarget '+animName+' '+(performance.now()-t0).toFixed(0)+'ms tracks '+c.tracks.length); const mixer=new THREE.AnimationMixer(tskin); const act=mixer.clipAction(c); act.play(); mixers.push(mixer); obj.userData.tskin=tskin; return obj; }
+  const hide=['Beard','Headwear'];
+  if(mode==='lineup'){ place(rpm,-3,0,'idle',hide); place(rpm,-1.5,Math.PI/2,'idle',hide); place(rpm,0,Math.PI,'idle',hide); place(rpm,1.5,0.2,'walk',hide); place(rpm,3,Math.PI/2,'run',hide); camera.position.set(0,1.9,7.6); camera.lookAt(0,0.95,0); }
+  if(mode==='lineupf'){ place(mich,-3,0,'idle'); place(mich,-1.5,Math.PI/2,'idle'); place(mich,0,Math.PI,'idle'); place(mich,1.5,0.2,'walk'); place(mich,3,Math.PI/2,'run'); camera.position.set(0,1.9,7.6); camera.lookAt(0,0.95,0); }
+  if(mode==='faces'){ place(rpm,-0.45,0.15,'idle',hide); place(mich,0.45,-0.15,'idle'); camera.position.set(0,1.6,1.6); camera.lookAt(0,1.55,0); }
+  if(mode==='pair'){ place(rpm,-0.6,0.4,'idle',hide); place(mich,0.6,-0.4,'agree'); camera.position.set(0.2,1.5,3.4); camera.lookAt(0,1.2,0); }
+  const clock=new THREE.Timer(); function frame(){ clock.update(); const dt=clock.getDelta(); for(const m of mixers) m.update(dt); renderer.render(scene,camera); requestAnimationFrame(frame); } frame(); window.__ready=true;
+})().catch(e=>log('ERR '+e.message+' '+e.stack));
+</script></body></html>

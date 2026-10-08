@@ -1,0 +1,15 @@
+{
+  "name": "fatiao-zhi-wai-3d",
+  "version": "0.2.0",
+  "private": true,
+  "description": "法條之外：台灣法律人生 — 3D×ADV 原型。無 npm 相依；three.js 由 GitHub 原始碼打包於 lib/。",
+  "scripts": {
+    "serve": "python3 -m http.server 8765",
+    "build": "python3 build.py",
+    "test:play": "python3 play.py http://127.0.0.1:8765/index.html?lowres&turbo t 844 390 '[[\"wait\",7000],[\"shot\",\"title\"]]'",
+    "undraco": "node tools/undraco.js"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "notes": "Playwright（Python）用於自動測試；環境無法使用 npm registry，故無 lock file。"
+}
