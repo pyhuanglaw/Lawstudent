@@ -1,0 +1,14 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;background:#EFE6D6}canvas{display:block}</style></head><body>
+<canvas id="c" width="1400" height="600"></canvas>
+<script src="a_art.js"></script><script src="a2_bust.js"></script>
+<script>
+const cv=document.getElementById('c'); const ctx=cv.getContext('2d'); ctx.fillStyle='#EFE6D6'; ctx.fillRect(0,0,1400,600);
+const player=makeSpec({skin:SKIN_COLORS[1],hair:HAIR_COLORS[1],hairStyle:'bob',top:{style:'hoodie',color:'#8C3B47',inner:'#fff'},bottom:{style:'pants',color:'#3B3F4A'},shoes:'#F4F1EA',acc:{bag:'backpack'}});
+const specs=[player,NPC_SPECS.an,NPC_SPECS.zhe,NPC_SPECS.sis,NPC_SPECS.may,NPC_SPECS.lee];
+const exprs=['normal','smile','laugh','surprise','worried','shy'];
+specs.forEach((sp,i)=>{ const pc=document.createElement('canvas'); pc.width=220; pc.height=260; const p=pc.getContext('2d'); drawBust(p,sp,exprs[i],220,260); ctx.drawImage(pc,20+i*230,20); });
+// second row: player with all expressions small
+exprs.forEach((e,i)=>{ const pc=document.createElement('canvas'); pc.width=220; pc.height=260; const p=pc.getContext('2d'); drawBust(p,NPC_SPECS.an,e,220,260); ctx.drawImage(pc,20+i*230,300,220,260); });
+// sitting test row
+let x=40; ['down','left'].forEach(d=>{ drawChar(ctx,x,590,player,{dir:d,pose:'sit',scale:1.2}); x+=60; drawChar(ctx,x,590,NPC_SPECS.an,{dir:d,pose:'read',scale:1.2}); x+=60; });
+</script></body></html>

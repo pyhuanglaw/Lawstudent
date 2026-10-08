@@ -1,0 +1,74 @@
+== intro: day1 21.21 dorm busy=False adv=False goal=讀（或不讀）明天的案例，然後睡覺
+    ：你是祐廷，台大法律系一年級。開學第三週。
+    ：書桌上放著明天民法總則要討論的案例——網拍上標價 1,000 元的相機。老師上週說：「會點人。」
+    阿凱：欸，你們法律系是不是每堂課都要先讀一堆東西？
+    阿凱：欸，你們法律系是不是每堂課都要先讀一堆東西？
+    ▶差不多。明天有個案例還沒看。
+    阿凱：那你快看啊，我要開遊戲了，等一下會很吵。
+    flags ['introDone']
+used 坐在書桌前
+== desk: day1 22.34 dorm busy=False adv=False goal=睡覺（明天 13:20 民法總則）
+    ：案例影本放在桌上。「網拍相機 1,000 元」。標題底下是兩頁判決節錄。
+    ▶認真讀完（約 1 小時） | 體力 −10。明天上課可能用得到
+    ：你讀到最後一頁的時候，阿凱的遊戲已經打到第三場。你在頁邊寫下：「標價陳列 vs 價目表寄送——網頁到底像哪一個？」
+    ：案例影本放在桌上。「網拍相機 1,000 元」。標題底下是兩頁判決節錄。
+    ▶認真讀完（約 1 小時） | 體力 −10。明天上課可能用得到
+    ：你讀到最後一頁的時候，阿凱的遊戲已經打到第三場。你在頁邊寫下：「標價陳列 vs 價目表寄送——網頁到底像哪一個？」
+    flags ['introDone']
+used 睡覺
+== sleep1: day2 13.07 campus busy=False adv=False goal=進入霖澤館上課（13:20）
+    ▶睡覺 | 明天早上醒來
+    阿哲：祐廷！你走路超慢。周老師那堂我不想坐最前面。
+    ▶你先進去佔位子啊。
+    阿哲：祐廷！你走路超慢。周老師那堂我不想坐最前面。
+    ▶你先進去佔位子啊。
+    阿哲：好啦好啦。
+    flags ['introDone', 'campusIntro']
+NO 離開宿舍
+== leave dorm / campus morning: day2 13.09 campus busy=False adv=False goal=進入霖澤館上課（13:20）
+    flags ['introDone', 'campusIntro']
+used 進入霖澤館
+== class: day2 15.17 classroom busy=False adv=False goal=走出霖澤館
+    周教授：上週的案例。網拍上標價一千元的相機，市價一萬。買家下標付款，賣家說少打一個零，不出貨。
+    周教授：買家告他。第一個問題：契約成立了嗎？
+    周教授：我們先看民法一五四條。標定賣價陳列，視為要約；價目表之寄送，不視為要約。網頁上的商品頁，比較像哪一個？
+    …
+    周教授：實務上，法院看的是網頁有沒有「明確、可以直接成立契約」的表示。這個案子的判決在講義第三頁。下週——錯誤與撤銷。
+    阿哲：我要去打球。晚一點公館吃麵？阿鳳麵店，六點半。
+    阿哲：還有——你剛剛那個，很慘。
+    flags ['introDone', 'campusIntro', 'classDone', 'zheInvite']
+used 離開教室
+== meetAn: day2 15.25 campus busy=False adv=False goal=和小安一起走到校門，往公館・溫州街
+    小安：呼——你走好快。
+    小安：剛剛那個「標價就是要約」——很敢耶。周老師好像有點開心，他喜歡有人跟他吵。
+    小安：我等一下要去溫州街那間咖啡廳寫民總的報告，就是開到凌晨兩點半那間。
+    小安：你要不要一起？……還是你比較想去總圖？那邊安靜。
+    ▶好啊，去咖啡廳。 | 跟小安一起走去溫州街
+    小安：走吧。從校門出去，過馬路就是。
+    flags ['introDone', 'campusIntro', 'classDone', 'zheInvite', 'metAn', 'met_heroine_01', 'flags_met_an', 'met_an']
+plan cafe companion an
+== cafe: day2 17.71 cafe busy=False adv=False goal=18:30 公館 阿鳳麵店（阿哲）
+    ：窗邊的雙人桌。她把筆電打開，又把它闔上。
+    小安：先不寫。我想先問你一件事。
+    小安：那個賣家——少打一個零的那個。你覺得法律應該保護他嗎？他自己粗心欸。
+    …
+    ：窗外的光慢慢變成橘色。巷子裡有機車經過，吧檯的磨豆機響了一聲。
+    小安：我再待一下，你先走吧。阿哲不是約你吃麵？
+    小安：今天……謝謝。
+    flags ['introDone', 'campusIntro', 'classDone', 'zheInvite', 'metAn', 'met_heroine_01', 'flags_met_an', 'met_an', 'cafeHelp', 'afternoonDone']
+== gongguan: day2 17.78 gongguan busy=False adv=False goal=18:30 公館 阿鳳麵店（阿哲）
+    flags ['introDone', 'campusIntro', 'classDone', 'zheInvite', 'metAn', 'met_heroine_01', 'flags_met_an', 'met_an', 'cafeHelp', 'afternoonDone']
+used 進入阿鳳麵店
+== noodle: day2 17.8 noodle busy=False adv=False goal=18:30 公館 阿鳳麵店（阿哲）
+    flags ['introDone', 'campusIntro', 'classDone', 'zheInvite', 'metAn', 'met_heroine_01', 'flags_met_an', 'met_an', 'cafeHelp', 'afternoonDone', 'zheAtNoodle']
+== dorm night: day2 17.84 dorm busy=False adv=False goal=18:30 公館 阿鳳麵店（阿哲）
+    flags ['introDone', 'campusIntro', 'classDone', 'zheInvite', 'metAn', 'met_heroine_01', 'flags_met_an', 'met_an', 'cafeHelp', 'afternoonDone', 'zheAtNoodle']
+used 睡覺
+== sleep: day3 7.52 dorm busy=False adv=False goal=自由的一天。去圖書館、公館，或找人聊天
+    ▶睡覺 | 明天早上醒來
+    ▶睡覺 | 明天早上醒來
+    flags ['introDone', 'nightKai', 'campusIntro', 'classDone', 'zheInvite', 'metAn', 'met_heroine_01', 'flags_met_an', 'met_an', 'cafeHelp', 'afternoonDone', 'zheAtNoodle']
+snapshot bytes 3204
+== after reload: day3 7.54 dorm busy=False adv=False goal=自由的一天。去圖書館、公館，或找人聊天
+    flags ['introDone', 'nightKai', 'campusIntro', 'classDone', 'zheInvite', 'metAn', 'met_heroine_01', 'flags_met_an', 'met_an', 'cafeHelp', 'afternoonDone', 'zheAtNoodle']
+console issues: 0

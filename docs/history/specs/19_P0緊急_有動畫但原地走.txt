@@ -1,0 +1,564 @@
+【P0 緊急 BUGFIX：玩家有移動動畫，但實際完全無法移動】
+
+先停止目前所有其他工作。
+
+不要做：
+- 女主角
+- 2D 立繪
+- NPC
+- 新事件
+- 新地圖
+- 法律題庫
+- 美術改善
+- 新功能
+
+目前最高優先級只有一件事：
+
+「修復玩家無法移動。」
+
+我已經在實際手機遊玩目前 artifact。
+
+症狀非常明確：
+
+1. 虛擬搖桿有收到我的觸控。
+2. 玩家角色會進入 walk / run animation。
+3. 但是玩家實際 world position 幾乎／完全沒有改變。
+4. 角色看起來像在原地走或原地跑。
+5. 我在宿舍書桌／椅子附近實際遇到這個問題。
+6. 之前在霖澤館附近也遇到無法正常移動。
+
+因此：
+
+不要只檢查 joystick UI。
+不要看到 animation 播放就判定 movement 正常。
+
+這代表目前很可能是：
+
+INPUT 正常
+→ locomotion animation 正常
+→ actual translation / physics / collision / transform 發生問題。
+
+==================================================
+第一步：加入 TEMP MOVEMENT DEBUG TELEMETRY
+==================================================
+
+請先在畫面上暫時顯示：
+
+INPUT VECTOR:
+x =
+y =
+
+VELOCITY:
+x =
+y =
+z =
+
+PLAYER WORLD POSITION:
+x =
+y =
+z =
+
+PLAYER VISUAL ROOT POSITION:
+x =
+y =
+z =
+
+MOVEMENT LOCKED:
+true / false
+
+CURRENT PLAYER STATE:
+idle / walk / run / sit / dialogue / interaction / etc.
+
+COLLISION:
+none / hit + collider name
+
+SPAWN POSITION:
+x =
+y =
+z =
+
+ADV ACTIVE:
+true / false
+
+INTERACTION LOCK:
+true / false
+
+每 frame 或合理頻率更新。
+
+我要你用 telemetry 找出：
+
+「input 已經不是 0、animation 已經進入 run，但 world position 為什麼沒有持續改變？」
+
+不要猜。
+
+==================================================
+第二步：逐層檢查 movement pipeline
+==================================================
+
+請逐項檢查：
+
+INPUT
+↓
+desired movement vector
+↓
+velocity
+↓
+player controller position update
+↓
+collision resolution
+↓
+physics/controller root
+↓
+visual model root
+↓
+camera follow
+
+尤其檢查以下可能性：
+
+1. Player collider 與家具重疊
+
+宿舍：
+- desk
+- chair
+- bed
+- bookshelf
+- wall
+- floor
+
+霖澤館：
+- stairs
+- building collider
+- ground collider
+- invisible collision volume
+
+檢查 spawn 時 capsule / bounding box 是否直接生成在 collider 裡。
+
+如果 spawn penetration 發生：
+
+必須把玩家移到最近合法位置，
+不能讓 collision solver 每 frame 把玩家推回原點。
+
+--------------------------------------------------
+
+2. Collision resolution 是否錯誤
+
+檢查：
+
+position += velocity
+
+之後是否又被：
+
+collision resolution
+ground snapping
+spawn correction
+nav constraint
+room boundary
+interaction anchor
+
+寫回舊 position。
+
+特別搜尋所有可能修改：
+
+player.position
+controller.position
+root.position
+model.position
+
+的地方。
+
+確認一個 frame 裡沒有：
+
+movement system：
+x = 5.1 → 5.2
+
+collision / visual / event system：
+x = 5.2 → 5.1
+
+這種互相打架。
+
+--------------------------------------------------
+
+3. PlayerController 與 PlayerVisual 是否混在一起
+
+目前正式 GLB / retarget pipeline 加入之後，
+請特別檢查：
+
+PLAYER CONTROLLER ROOT
+
+與
+
+PLAYER VISUAL ROOT
+
+必須分離。
+
+正確概念：
+
+PlayerController
+    └── PlayerVisual
+          └── GLB / VRM model
+
+移動的是：
+
+PlayerController
+
+動畫只控制：
+
+PlayerVisual skeleton / bones
+
+animation / retargeting 不得覆寫 PlayerController world position。
+
+--------------------------------------------------
+
+4. Root Motion
+
+檢查 Mixamo / GLB animation clip 是否包含：
+
+Hips.position
+Root.position
+Armature.position
+
+等 translation track。
+
+如果 locomotion 使用程式控制移動：
+
+idle / walk / run animation 必須視為 IN-PLACE animation。
+
+動畫不得每 frame 重設 player translation。
+
+必要時移除 locomotion clips 的 root translation tracks。
+
+--------------------------------------------------
+
+5. Retargeter
+
+你最近新增：
+
+rest-pose-aware retargeter
+T-pose → A-pose
+world-space chain evaluation
+
+請確認 retargetClip v2 沒有把：
+
+root
+armature
+hips
+
+的 transform 錯誤套用到整個 PlayerController。
+
+retargeter 只能處理 visual skeleton。
+
+--------------------------------------------------
+
+6. Movement lock
+
+搜尋所有：
+
+movementLocked
+inputLocked
+controlsEnabled
+playerEnabled
+dialogueActive
+advActive
+interactionActive
+isSitting
+isReading
+eventLock
+
+等狀態。
+
+確認：
+
+BOOT
+spawn
+load save
+exit ADV
+exit dialogue
+stand up
+leave interaction
+
+之後都會正確恢復 movement。
+
+不能存在：
+
+動畫能播放，
+但 translation 被 movementLocked 阻止
+
+的半鎖定狀態。
+
+--------------------------------------------------
+
+7. Sit / Read interaction
+
+目前宿舍有：
+
+sit
+read
+desk
+chair
+
+請特別檢查：
+
+玩家坐下／讀書後，
+是否曾被 anchor 到 chair position。
+
+如果 interaction 結束：
+
+必須：
+
+detach interaction anchor
+clear seated state
+clear interaction lock
+restore controller
+place player at valid stand position
+
+不能每 frame 又 snap 回 chair anchor。
+
+--------------------------------------------------
+
+8. Save / Load
+
+檢查 save 是否錯誤保存：
+
+isSitting = true
+movementLocked = true
+interactionActive = true
+dialogueActive = true
+
+之類 transient state。
+
+這些 transient runtime locks 原則上不應直接在 reload 後永久恢復。
+
+LOAD 後：
+
+如果沒有 active cutscene / dialogue，
+
+玩家必須可以移動。
+
+==================================================
+第三步：建立真正的 MOVEMENT REGRESSION TEST
+==================================================
+
+不要只人工看角色有沒有播放 walk animation。
+
+測試必須 assertion：
+
+PLAYER WORLD POSITION 確實改變。
+
+建立以下流程：
+
+TEST A — 宿舍
+
+spawn
+↓
+記錄 position A
+↓
+向前移動 5 公尺
+↓
+記錄 position B
+
+ASSERT：
+
+distance(A,B) >= 合理門檻
+
+接著：
+
+左轉
+走
+跑
+撞牆
+沿牆滑動
+離開牆
+繼續走
+
+玩家不能被永久卡住。
+
+--------------------------------------------------
+
+TEST B — Interaction
+
+走到椅子
+↓
+坐下
+↓
+起身
+↓
+向前走至少 5 公尺
+
+ASSERT：
+
+起身後 position 持續改變。
+
+--------------------------------------------------
+
+TEST C — ADV
+
+走到 NPC
+↓
+開始對話
+↓
+ADV
+↓
+結束 ADV
+↓
+向前走至少 5 公尺
+
+ASSERT：
+
+ADV 關閉後 movement 恢復。
+
+--------------------------------------------------
+
+TEST D — Save / Reload
+
+自由移動
+↓
+save
+↓
+reload
+↓
+向前走至少 5 公尺
+
+ASSERT：
+
+reload 後 movement 正常。
+
+--------------------------------------------------
+
+TEST E — 不同區域
+
+至少測試：
+
+1. 宿舍
+2. 霖澤館前
+3. 椰林大道
+4. 教室
+5. 咖啡廳／室內場景
+
+每一區都必須：
+
+spawn → walk → run → turn → interact → exit → walk
+
+==================================================
+第四步：手機觸控實際驗證
+==================================================
+
+這個遊戲主要會在手機使用。
+
+不要只測：
+
+desktop keyboard
+WASD
+Playwright keyboard input
+
+必須另外驗證：
+
+touch joystick
+pointer/touch events
+pointer capture
+iOS Safari compatible behavior
+
+但請記住：
+
+目前症狀已經顯示 joystick 很可能有收到 input，
+因為 locomotion animation 會啟動。
+
+所以不要把全部時間花在 joystick CSS。
+
+==================================================
+禁止假修
+==================================================
+
+以下不算修好：
+
+❌ 關掉所有 collision
+
+❌ 把玩家 teleport 到另一個地方後說 fixed
+
+❌ 退回舊白衣 placeholder 才能走
+
+❌ 只讓 WASD 能走
+
+❌ animation 會播放就說 movement works
+
+❌ 只測一個空白測試場景
+
+❌ 只測 desktop
+
+❌ 把家具 collider 全刪掉
+
+❌ 捕捉 exception 後忽略
+
+❌ 每 frame 強制 teleport 玩家
+
+我要的是：
+
+正常 controller
++
+正常 collision
++
+正常 GLB/VRM visual
++
+正常 animation
++
+正常手機 joystick
+
+同時工作。
+
+==================================================
+完成標準
+==================================================
+
+只有以下全部成立才可以標記 FIXED：
+
+[ ] 宿舍可以走
+[ ] 霖澤館前可以走
+[ ] 椰林大道可以走
+[ ] 教室可以走
+[ ] 手機 joystick 可以走
+[ ] walk animation 正常
+[ ] run animation 正常
+[ ] collision 正常
+[ ] 撞牆後不會永久卡住
+[ ] 坐下→起身→可以走
+[ ] ADV→結束→可以走
+[ ] save→reload→可以走
+[ ] GLB/VRM 玩家模型不會覆寫 controller transform
+
+==================================================
+交付要求
+==================================================
+
+修好後請告訴我：
+
+ROOT CAUSE：
+真正原因是什麼。
+
+FILES CHANGED：
+修改哪些檔案。
+
+FIX：
+實際怎麼修。
+
+REGRESSION TEST：
+哪些測試通過。
+
+仍有任何問題就標：
+
+PARTIAL / NOT FIXED
+
+不要寫成 COMPLETED。
+
+並提供至少：
+
+1. 宿舍移動測試
+2. 霖澤館移動測試
+3. ADV 結束後移動測試
+4. save/load 後移動測試
+
+的實際測試結果或截圖。
+
+在 movement regression tests 全部通過以前：
+
+不要繼續做任何新功能、美術、女主角、NPC、事件或題庫。
+
+先讓祐廷可以走路。

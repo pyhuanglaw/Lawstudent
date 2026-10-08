@@ -1,0 +1,1536 @@
+【《法條之外：台灣法律人生》
+Hybrid 3D Exploration × 2D Visual Novel Character System
+正式設計規格】
+
+這是一項新的長期核心架構要求。
+
+IMPORTANT：
+
+不要停止目前正在進行的開發。
+不要重寫目前已完成的 gameplay systems。
+不要為了這項要求推翻現有專案。
+
+請把以下內容納入目前架構以及後續開發方向。
+
+核心原則：
+
+3D = WORLD / EXPLORATION / SPATIAL LIFE
+2D = CHARACTER / DIALOGUE / DRAMA / EMOTION
+CG = MAJOR STORY MOMENTS
+
+《法條之外》不是純3D RPG，也不是純Visual Novel。
+
+它是一款：
+
+「3D校園生活RPG
+＋
+2D日系ADV人物演出
+＋
+法律人生養成」
+
+的Hybrid Game。
+
+━━━━━━━━━━━━━━━━━━━━━━
+一、最重要：不要用程式碼畫動漫人物
+━━━━━━━━━━━━━━━━━━━━━━
+
+DO NOT：
+
+使用CSS幾何圖形畫人物。
+使用circle / triangle / rectangle拼人物。
+使用SVG primitive自行拼動漫臉。
+使用Three.js primitive製作2D角色。
+使用Canvas程序化畫動漫人物。
+把placeholder人物稍微改色後稱為正式立繪。
+
+不要花大量時間自行「畫」正式角色。
+
+正式2D角色未來會由外部高品質image assets提供。
+
+你的工作是：
+
+建立可以載入、管理、切換、演出這些圖片的系統。
+
+如果目前沒有正式圖片：
+
+使用明確標記的 placeholder image。
+
+例如：
+
+PLACEHOLDER_YUNA_NEUTRAL
+PLACEHOLDER_YUNA_SMILE
+
+甚至可以只用：
+
+人物名稱＋輪廓＋表情名稱
+
+但必須明確標記：
+
+PLACEHOLDER_2D_PORTRAIT
+
+不要試圖把placeholder加工成正式美術。
+
+━━━━━━━━━━━━━━━━━━━━━━
+二、3D與2D的工作分工
+━━━━━━━━━━━━━━━━━━━━━━
+
+3D MODE：
+
+玩家自由探索世界。
+
+包含：
+
+校園
+椰林大道
+系館
+教室
+圖書館
+宿舍
+咖啡廳
+餐廳
+社團空間
+公館附近
+其他未來區域
+
+玩家可以：
+
+walking
+running
+entering buildings
+finding NPCs
+seeing NPC activities
+interacting with objects
+checking schedule
+going to class
+studying
+eating
+resting
+
+3D的核心價值是：
+
+「空間存在感。」
+
+玩家應該覺得：
+
+我今天真的從宿舍走到系館，
+上完課去了圖書館，
+晚上又去了咖啡廳。
+
+━━━━━━━━━━━━━━━━━━━━━━
+三、什麼時候切換成2D ADV MODE
+━━━━━━━━━━━━━━━━━━━━━━
+
+當發生「值得觀看的人物互動」時，
+允許從3D Exploration切換到：
+
+2D VISUAL NOVEL / ADV MODE
+
+例如：
+
+重要NPC對話
+五位女主角事件
+教授課堂問答
+朋友深度對話
+讀書會
+吃飯
+約會
+爭執
+和好
+研究所討論
+國考討論
+面試
+研究所口試
+重要人生事件
+
+流程：
+
+3D EXPLORATION
+↓
+EVENT TRIGGER
+↓
+ENTER ADV MODE
+↓
+2D BACKGROUND / 3D BACKGROUND FREEZE
+↓
+CHARACTER SPRITE
+↓
+DIALOGUE
+↓
+CHOICES
+↓
+STATE CHANGES
+↓
+MEMORY FLAGS
+↓
+EXIT ADV MODE
+↓
+RETURN TO 3D WORLD
+
+這個切換必須成為正式架構。
+
+━━━━━━━━━━━━━━━━━━━━━━
+四、ADV MODE畫面
+━━━━━━━━━━━━━━━━━━━━━━
+
+建立一套正式：
+
+ADVSceneManager
+
+畫面可以包含：
+
+BACKGROUND
+CHARACTER SPRITE
+DIALOGUE BOX
+CHARACTER NAME
+TEXT
+CHOICES
+OPTIONAL SECOND CHARACTER
+EXPRESSION
+TRANSITION
+EVENT CG
+
+手機優先。
+
+角色立繪應占畫面主要視覺位置。
+
+對話框位於畫面下方。
+
+不要讓UI遮住人物臉。
+
+支援：
+
+tap to continue
+choice selection
+text reveal
+skip
+auto
+dialogue history
+
+如果時間不足：
+
+優先完成：
+
+dialogue
+choice
+sprite
+expression
+transition
+
+其他功能可以之後做。
+
+━━━━━━━━━━━━━━━━━━━━━━
+五、背景呈現方式
+━━━━━━━━━━━━━━━━━━━━━━
+
+ADV MODE支援至少三種背景：
+
+MODE A
+Freeze current 3D scene
+
+3D畫面停止玩家控制，
+作為對話背景。
+
+MODE B
+Blur / darken current 3D scene
+
+讓人物立繪更突出。
+
+MODE C
+Dedicated 2D background
+
+例如：
+
+classroom_day.webp
+classroom_evening.webp
+library_night.webp
+cafe_rain.webp
+dorm_night.webp
+campus_sunset.webp
+
+event可以指定使用哪一種。
+
+━━━━━━━━━━━━━━━━━━━━━━
+六、建立正式 Character Portrait Asset System
+━━━━━━━━━━━━━━━━━━━━━━
+
+不要把圖片路徑散落在dialogue code裡。
+
+建立：
+
+CharacterPortraitRegistry
+
+概念例如：
+
+characterId
+displayName
+defaultPortrait
+outfits
+expressions
+variants
+
+例如：
+
+characterId: heroine_01
+
+outfits:
+  campus
+  casual
+  formal
+
+expressions:
+  neutral
+  smile
+  laugh
+  surprised
+  embarrassed
+  annoyed
+  sad
+  serious
+  tired
+  thinking
+
+每一個：
+
+OUTFIT × EXPRESSION
+
+不一定都需要獨立圖片。
+
+系統應允許fallback。
+
+例如：
+
+如果：
+
+campus_embarrassed.webp
+
+不存在，
+
+可以fallback：
+
+campus_neutral.webp
+
+不能crash。
+
+━━━━━━━━━━━━━━━━━━━━━━
+七、角色圖片格式
+━━━━━━━━━━━━━━━━━━━━━━
+
+正式人物圖片預計使用：
+
+PNG
+或
+WebP
+
+透明背景。
+
+系統必須可以：
+
+保持aspect ratio
+依viewport縮放
+適應手機直向／橫向
+避免人物被拉伸
+避免頭被裁掉
+避免人物超出safe area
+
+圖片資產與程式碼完全分離。
+
+未來換圖片：
+
+不應該需要修改dialogue engine。
+
+━━━━━━━━━━━━━━━━━━━━━━
+八、人物表情系統
+━━━━━━━━━━━━━━━━━━━━━━
+
+Dialogue line可以指定：
+
+speaker
+expression
+outfit
+pose
+position
+
+例如概念：
+
+{
+ speaker: "heroine_01",
+ expression: "embarrassed",
+ outfit: "campus",
+ position: "right",
+ text: "你剛剛是不是故意不看我？"
+}
+
+下一句：
+
+{
+ speaker: "player",
+ text: "我只是在想明天的案例。"
+}
+
+下一句：
+
+{
+ speaker: "heroine_01",
+ expression: "annoyed",
+ text: "……最好是。"
+}
+
+切換expression時：
+
+不要整個畫面閃白。
+
+可以使用：
+
+crossfade
+短fade
+或instant switch
+
+依效能決定。
+
+━━━━━━━━━━━━━━━━━━━━━━
+九、支援兩人對話
+━━━━━━━━━━━━━━━━━━━━━━
+
+ADV MODE至少預留：
+
+LEFT CHARACTER
+RIGHT CHARACTER
+
+兩人可以同時存在。
+
+目前說話的人：
+
+brightness / opacity = normal
+
+沒有說話的人：
+
+稍微降低brightness或opacity。
+
+例如：
+
+LEFT：
+熟同學
+
+RIGHT：
+女主角
+
+對話：
+
+同學：
+「你們兩個昨天是不是一起念到很晚？」
+
+女主角：
+「……只是剛好而已。」
+
+玩家：
+「你不要亂講。」
+
+角色表情依序改變。
+
+━━━━━━━━━━━━━━━━━━━━━━
+十、玩家角色
+━━━━━━━━━━━━━━━━━━━━━━
+
+玩家自己通常不需要顯示完整立繪。
+
+可以採：
+
+第一人稱Visual Novel convention。
+
+也就是：
+
+NPC在畫面中，
+玩家透過dialogue options說話。
+
+但架構保留：
+
+PLAYER PORTRAIT
+
+未來如果需要：
+
+鏡子
+照片
+CG
+角色資訊
+特殊事件
+
+仍可使用。
+
+━━━━━━━━━━━━━━━━━━━━━━
+十一、NPC視覺分級
+━━━━━━━━━━━━━━━━━━━━━━
+
+不是所有NPC都需要昂貴立繪。
+
+建立：
+
+VISUAL_TIER
+
+TIER 0 — AMBIENT
+
+只有3D模型。
+
+例如：
+
+校園路人
+圖書館學生
+路上騎車的人
+
+沒有正式portrait。
+
+──────────
+
+TIER 1 — ACQUAINTANCE
+
+可以有：
+
+簡單portrait / bust portrait
+
+例如：
+
+不熟的系上同學
+通識課同學
+偶爾遇到的人
+
+表情數量少。
+
+──────────
+
+TIER 2 — RECURRING CHARACTER
+
+完整人物立繪。
+
+例如：
+
+熟同學
+室友
+學長姐
+重要研究生
+重要助教
+
+至少：
+
+neutral
+smile
+annoyed
+surprised
+sad
+thinking
+
+──────────
+
+TIER 3 — CORE CHARACTER
+
+最高品質。
+
+包含：
+
+五位主要女主角
+極重要NPC
+
+具有：
+
+多套服裝
+大量表情
+特殊姿勢
+event CG
+完整story arc
+
+━━━━━━━━━━━━━━━━━━━━━━
+十二、五位女主角正式規格
+━━━━━━━━━━━━━━━━━━━━━━
+
+建立：
+
+FIVE MAIN HEROINES
+
+但是：
+
+現在先建立資料架構與角色設計，
+不要用primitive graphics自行畫正式立繪。
+
+五人必須具有非常高辨識度。
+
+每人建立：
+
+character_id
+name
+age
+department
+year
+height_range
+visual_identity
+hair
+eyes
+clothing_style
+accessories
+personality
+speech_pattern
+humor
+strengths
+weaknesses
+contradictions
+family_context
+academic_status
+career_goal
+romantic_style
+social_circle
+daily_schedule
+relationship_graph
+story_arc
+possible_endings
+
+━━━━━━━━━━━━━━━━━━━━━━
+十三、不要做五種動漫模板
+━━━━━━━━━━━━━━━━━━━━━━
+
+禁止：
+
+Heroine 1 = 傲嬌
+Heroine 2 = 冰山
+Heroine 3 = 天然呆
+Heroine 4 = 學霸
+Heroine 5 = 活潑少女
+
+這太廉價。
+
+每個角色都必須：
+
+有優點
+有缺點
+有矛盾
+有自己的生活
+有自己的人際關係
+有自己的未來
+
+玩家不出現時，
+她們的人生仍然繼續。
+
+━━━━━━━━━━━━━━━━━━━━━━
+十四、五人的科系不必全部法律系
+━━━━━━━━━━━━━━━━━━━━━━
+
+刻意讓來源不同。
+
+例如可以包含：
+
+法律系
+其他社會科學
+文學院
+商管
+理工／醫學相關
+通識課認識的人
+
+不要機械照抄以上分配。
+
+重點是：
+
+玩家透過不同生活路徑認識她們。
+
+例如：
+
+同系
+通識
+社團
+宿舍附近
+朋友介紹
+圖書館
+校園活動
+研究計畫
+
+這會讓五條人物線代表五種不同的大學生活。
+
+━━━━━━━━━━━━━━━━━━━━━━
+十五、角色第一次出現不要自帶攻略標誌
+━━━━━━━━━━━━━━━━━━━━━━
+
+禁止：
+
+「女主角登場！」
+
+禁止：
+
+粉紅愛心UI。
+
+禁止：
+
+第一次見面就讓玩家知道這是可攻略角色。
+
+第一次可能只是：
+
+坐你旁邊的人
+借你筆的人
+一起分組的人
+朋友帶來吃飯的人
+圖書館碰到的人
+
+玩家應該透過相處才逐漸意識到：
+
+這個人對我的人生變重要了。
+
+━━━━━━━━━━━━━━━━━━━━━━
+十六、角色立繪 Character Bible
+━━━━━━━━━━━━━━━━━━━━━━
+
+為每位TIER 2以上角色建立：
+
+CHARACTER_VISUAL_BIBLE
+
+它不是圖片。
+
+它是未來提供給image generator的設計規格。
+
+必須描述：
+
+AGE APPEARANCE
+FACE SHAPE
+EYE SHAPE
+HAIRSTYLE
+HAIR COLOR
+BODY PROPORTION
+HEIGHT
+CLOTHING
+ACCESSORIES
+COLOR PALETTE
+POSTURE
+DEFAULT EXPRESSION
+DISTINCTIVE FEATURES
+
+目的是：
+
+未來大量生成表情差分時保持角色一致。
+
+不要寫：
+
+"beautiful anime girl"
+
+這種沒有資訊量的描述。
+
+━━━━━━━━━━━━━━━━━━━━━━
+十七、正式2D美術方向
+━━━━━━━━━━━━━━━━━━━━━━
+
+整體視覺：
+
+Contemporary Japanese visual novel / romance ADV inspired
+
+但不是：
+
+幼兒風
+Q版
+chibi
+極端萌系
+巨大眼睛
+高中制服戀愛遊戲
+
+角色是：
+
+大學生／成年人。
+
+需要：
+
+自然人體比例
+成熟但年輕
+乾淨線稿
+細緻頭髮
+自然眼睛比例
+柔和但有層次的上色
+現代服裝
+可信的大學生穿搭
+
+整體感覺：
+
+日本青年漫畫／女性向ADV／現代校園劇之間。
+
+不是兒童動畫。
+
+不要模仿任何特定現役藝術家的風格。
+
+建立自己的統一美術語言。
+
+━━━━━━━━━━━━━━━━━━━━━━
+十八、台灣／台北的大學生感
+━━━━━━━━━━━━━━━━━━━━━━
+
+雖然使用日系ADV presentation，
+
+人物生活世界仍然是：
+
+台灣。
+
+服裝與場景要符合：
+
+台北氣候
+台灣大學生
+校園生活
+
+例如：
+
+夏季短袖
+薄外套
+帆布袋
+後背包
+雨傘
+安全帽
+飲料杯
+筆電
+平板
+講義
+便利商店用品
+
+避免所有人看起來像：
+
+日本高中制服角色。
+
+━━━━━━━━━━━━━━━━━━━━━━
+十九、Event CG System
+━━━━━━━━━━━━━━━━━━━━━━
+
+建立：
+
+EVENT_CG
+
+但CG是稀有資源。
+
+只在重要人生事件出現。
+
+例如：
+
+雨天
+深夜圖書館
+重要約會
+第一次牽手
+爭吵
+告白
+分手
+研究所放榜
+國考放榜
+畢業
+離開校園
+
+普通對話不要浪費CG。
+
+event data可以指定：
+
+cg_id
+
+例如：
+
+cg_library_night_heroine02
+
+如果CG不存在：
+
+自動fallback到正常ADV scene。
+
+不能crash。
+
+━━━━━━━━━━━━━━━━━━━━━━
+二十、CG Gallery
+━━━━━━━━━━━━━━━━━━━━━━
+
+架構預留：
+
+CG GALLERY
+
+玩家看過的CG才unlock。
+
+但是：
+
+現在不必優先製作Gallery UI。
+
+先確保unlock state可以存進save。
+
+━━━━━━━━━━━━━━━━━━━━━━
+二十一、故事事件資料格式
+━━━━━━━━━━━━━━━━━━━━━━
+
+所有重要ADV事件應data-driven。
+
+不要寫成：
+
+if heroine == 1
+...
+else if heroine == 2
+...
+
+建立StoryEvent schema。
+
+至少支援：
+
+event_id
+title
+participants
+location
+time_range
+semester
+prerequisites
+relationship_requirements
+memory_requirements
+academic_requirements
+career_requirements
+random_weight
+cooldown
+once_only
+background
+music
+dialogue
+choices
+consequences
+memory_flags
+relationship_changes
+knowledge_changes
+next_event
+cg_id
+
+━━━━━━━━━━━━━━━━━━━━━━
+二十二、Dialogue Line Schema
+━━━━━━━━━━━━━━━━━━━━━━
+
+每一行至少可指定：
+
+speaker
+text
+portrait
+expression
+outfit
+position
+animation
+sound
+delay
+
+但不是每個field都必填。
+
+系統提供default。
+
+━━━━━━━━━━━━━━━━━━━━━━
+二十三、Choice System
+━━━━━━━━━━━━━━━━━━━━━━
+
+玩家選項不應永遠存在：
+
+正確
+普通
+錯誤
+
+不要讓玩家一眼看出：
+
+哪一個是「女主角+5」。
+
+選擇應代表：
+
+個性
+優先順序
+生活方式
+價值
+時間分配
+
+有時候沒有最佳答案。
+
+例如：
+
+朋友：
+「要不要去吃宵夜？」
+
+A：
+「走啊。」
+
+B：
+「我明天要上台報告，下次。」
+
+C：
+「我晚點去找你們。」
+
+三個都是合理人生選擇。
+
+影響不同。
+
+━━━━━━━━━━━━━━━━━━━━━━
+二十四、Relationship不是單一數字
+━━━━━━━━━━━━━━━━━━━━━━
+
+至少預留：
+
+FAMILIARITY
+TRUST
+AFFECTION
+RESPECT
+COMFORT
+ROMANTIC_INTEREST
+
+不一定全部直接顯示給玩家。
+
+NPC也可以具有對玩家的狀態。
+
+例如：
+
+玩家喜歡她，
+
+不代表：
+
+她喜歡玩家。
+
+━━━━━━━━━━━━━━━━━━━━━━
+二十五、NPC MEMORY
+━━━━━━━━━━━━━━━━━━━━━━
+
+ADV事件必須可以寫入memory。
+
+例如：
+
+SHARED_UMBRELLA
+MISSED_DINNER
+HELPED_WITH_REPORT
+STUDIED_ALL_NIGHT
+ARGUED_ABOUT_CAREER
+PLAYER_REMEMBERED_BIRTHDAY
+PLAYER_FORGOT_PROMISE
+GRAD_SCHOOL_DISCUSSION
+BAR_EXAM_DISCUSSION
+
+後面的事件可以引用。
+
+例如三個月後：
+
+「你上次不是還說絕對不要念研究所？」
+
+這才叫角色記得玩家。
+
+━━━━━━━━━━━━━━━━━━━━━━
+二十六、法律內容如何進ADV
+━━━━━━━━━━━━━━━━━━━━━━
+
+法律內容不要全部做成Quiz UI。
+
+例如教授：
+
+「如果第二審第一次判有罪呢？」
+
+同學小聲：
+
+「這不是752嗎？」
+
+玩家可以：
+
+A. 回答核心理由
+B. 混淆成三審權
+C. 說不確定
+D. 不回答
+
+之後教授／同學依玩家回答產生自然反應。
+
+LEGAL KNOWLEDGE SYSTEM仍然更新。
+
+但是玩家感受到的是：
+
+上課。
+
+不是：
+
+Quiz App。
+
+━━━━━━━━━━━━━━━━━━━━━━
+二十七、法研所路線與ADV整合
+━━━━━━━━━━━━━━━━━━━━━━
+
+LAW GRADUATE SCHOOL PATH
+必須使用這套人物系統。
+
+例如：
+
+教授office hour
+↓
+ADV MODE
+
+研究生學長姐聊天
+↓
+ADV MODE
+
+朋友討論要不要考研究所
+↓
+ADV MODE
+
+讀書會
+↓
+ADV MODE
+
+口試
+↓
+ADV MODE
+
+放榜
+↓
+ADV MODE / EVENT CG
+
+玩家可能因為一位教授、一門課、一篇文章或某次對話，
+逐漸決定考研究所。
+
+不要只做：
+
+「是否報考法研所？」
+
+YES / NO
+
+━━━━━━━━━━━━━━━━━━━━━━
+二十八、3D角色的要求因此降低，但不能醜到破壞體驗
+━━━━━━━━━━━━━━━━━━━━━━
+
+3D人物主要負責：
+
+世界辨識
+移動
+站立
+坐下
+簡單活動
+NPC存在感
+
+所以：
+
+不需要優先製作：
+
+精細嘴型
+電影級臉部
+複雜facial animation
+高成本cinematic animation
+
+但是：
+
+仍然必須做到：
+
+正常成人比例
+合理服裝
+正常走路
+正常站姿
+不穿模到荒謬
+不漂浮
+不倒立
+角色之間可以辨認
+
+目前primitive white-shirt character：
+
+繼續標記：
+
+PLACEHOLDER_CHARACTER
+
+不要因為有2D立繪，
+就把現在的primitive人物當成正式3D人物。
+
+━━━━━━━━━━━━━━━━━━━━━━
+二十九、3D與2D人物身份必須一致
+━━━━━━━━━━━━━━━━━━━━━━
+
+每個重要NPC使用同一：
+
+character_id
+
+例如：
+
+heroine_01
+
+這個ID同時連結：
+
+3D model
+2D portrait
+dialogue
+schedule
+relationship
+memory
+story events
+save data
+
+未來替換：
+
+heroine_01.glb
+
+不影響：
+
+heroine_01 portrait
+heroine_01 relationship
+heroine_01 story progress
+
+━━━━━━━━━━━━━━━━━━━━━━
+三十、Asset Replacement Architecture
+━━━━━━━━━━━━━━━━━━━━━━
+
+務必保持：
+
+GAME LOGIC
+≠
+VISUAL ASSET
+
+正式圖片尚未提供時：
+
+系統仍然能運作。
+
+未來把：
+
+placeholder_heroine01.webp
+
+換成：
+
+heroine01_campus_smile.webp
+
+不應修改game logic。
+
+━━━━━━━━━━━━━━━━━━━━━━
+三十一、圖片載入效能
+━━━━━━━━━━━━━━━━━━━━━━
+
+因為目標包含手機瀏覽器：
+
+不要一次載入所有角色所有表情。
+
+建立：
+
+lazy loading
+preloading next likely portraits
+asset cache
+release strategy
+
+例如進入事件前：
+
+preload該事件需要的：
+
+background
+portraits
+CG（如有）
+
+不要在遊戲開始時：
+
+載入五女主×10表情×3服裝全部圖片。
+
+━━━━━━━━━━━━━━━━━━━━━━
+三十二、圖片失敗fallback
+━━━━━━━━━━━━━━━━━━━━━━
+
+任何portrait載入失敗：
+
+不能讓遊戲停止。
+
+fallback順序例如：
+
+requested expression
+↓
+same outfit neutral
+↓
+default portrait
+↓
+placeholder silhouette
+
+並記錄warning。
+
+━━━━━━━━━━━━━━━━━━━━━━
+三十三、未來由外部AI生成角色圖片
+━━━━━━━━━━━━━━━━━━━━━━
+
+請預設：
+
+正式character art會由外部image generation pipeline製作。
+
+所以請輸出：
+
+CHARACTER_ART_SPEC.md
+
+其中記錄：
+
+1. 五位女主角Character Bible
+2. 每位需要哪些outfits
+3. 每位需要哪些expressions
+4. 建議圖片尺寸／aspect ratio
+5. transparent background requirement
+6. naming convention
+7. folder structure
+8. portrait registry格式
+9. event CG需求
+10. background art需求
+
+讓另一個AI拿到文件後，
+可以直接開始生成正式圖片。
+
+━━━━━━━━━━━━━━━━━━━━━━
+三十四、建議資產命名
+━━━━━━━━━━━━━━━━━━━━━━
+
+例如：
+
+assets/
+  portraits/
+    heroine_01/
+      campus/
+        neutral.webp
+        smile.webp
+        laugh.webp
+        embarrassed.webp
+        annoyed.webp
+        sad.webp
+        serious.webp
+        surprised.webp
+
+      casual/
+        neutral.webp
+        smile.webp
+
+      formal/
+        neutral.webp
+
+  backgrounds/
+    law_classroom_day.webp
+    law_classroom_evening.webp
+    library_day.webp
+    library_night.webp
+    cafe_day.webp
+    cafe_rain.webp
+    dorm_night.webp
+
+  cg/
+    heroine_01/
+      event_001.webp
+
+不要把所有圖片塞在同一folder。
+
+━━━━━━━━━━━━━━━━━━━━━━
+三十五、第一階段不要大量生成美術
+━━━━━━━━━━━━━━━━━━━━━━
+
+現在最重要的是：
+
+SYSTEM FIRST.
+
+先確保：
+
+3D → ADV
+ADV → 3D
+
+正常。
+
+portrait switching正常。
+
+expression正常。
+
+choice正常。
+
+memory正常。
+
+relationship正常。
+
+save/load正常。
+
+story event正常。
+
+圖片可以之後替換。
+
+━━━━━━━━━━━━━━━━━━━━━━
+三十六、做一個完整Vertical Slice
+━━━━━━━━━━━━━━━━━━━━━━
+
+完成至少一個完整示範事件。
+
+例如：
+
+玩家在3D校園走路
+↓
+遇到一位熟同學
+↓
+Interaction
+↓
+進入ADV MODE
+↓
+角色portrait出現
+↓
+兩段dialogue
+↓
+expression改變
+↓
+玩家出現3個choices
+↓
+玩家選擇
+↓
+relationship/memory更新
+↓
+dialogue依選擇不同
+↓
+結束事件
+↓
+回到原本3D位置
+↓
+NPC繼續schedule
+↓
+save/load後結果仍存在
+
+這個Vertical Slice比一次做50個半成品事件重要。
+
+━━━━━━━━━━━━━━━━━━━━━━
+三十七、不要把它做成Galgame選單
+━━━━━━━━━━━━━━━━━━━━━━
+
+即使有五位主要女主角，
+
+整款遊戲的核心仍然是：
+
+LAW LIFE RPG。
+
+玩家可以：
+
+完全不談戀愛。
+
+也可以：
+
+把重心放在：
+
+成績
+朋友
+法研所
+國考
+實習
+交換
+職涯
+社團
+生活
+
+Romance只是人生的一部分。
+
+不要讓首頁變成：
+
+「請選擇攻略女主角。」
+
+━━━━━━━━━━━━━━━━━━━━━━
+三十八、最終體驗範例
+━━━━━━━━━━━━━━━━━━━━━━
+
+玩家：
+
+晚上從圖書館走出來。
+
+3D。
+
+下雨。
+
+在門口看到某位認識了一學期，
+但一直沒有非常熟的女生。
+
+走過去。
+
+Interaction。
+
+畫面：
+
+3D背景微微blur。
+
+她的2D立繪出現。
+
+她看著雨：
+
+「……我沒帶傘。」
+
+玩家選：
+
+「一起走吧。」
+「我的給你，我等等搭車。」
+「便利商店應該有賣。」
+「我也沒帶。」
+
+沒有：
+
+❤️ +5
+
+畫面不顯示數值。
+
+玩家選擇後，
+
+世界狀態改變。
+
+三個月後，
+
+另一個事件可能引用這一天。
+
+她說：
+
+「你還記得上次我們兩個困在圖書館門口嗎？」
+
+這就是我要的遊戲。
+
+━━━━━━━━━━━━━━━━━━━━━━
+三十九、這次開發的優先級
+━━━━━━━━━━━━━━━━━━━━━━
+
+這項新要求不要破壞目前8小時開發工作的優先順序。
+
+如果時間不足：
+
+P0
+保持現有遊戲正常運作。
+
+P1
+建立ADV architecture/interface。
+
+P2
+完成3D → ADV → 3D vertical slice。
+
+P3
+建立portrait registry / expression / choice。
+
+P4
+接memory / relationship / save。
+
+P5
+建立五女主與其他重要NPC的Character Bible。
+
+P6
+準備external art replacement pipeline。
+
+不要：
+
+為了做正式人物立繪，
+卡住整個開發數小時。
+
+不要：
+
+自己用primitive graphics製作正式動漫人物。
+
+━━━━━━━━━━━━━━━━━━━━━━
+四十、SOURCE REVIEW ZIP追加要求
+━━━━━━━━━━━━━━━━━━━━━━
+
+最終SOURCE REVIEW ZIP請額外包含：
+
+CHARACTER_ART_SPEC.md
+ADV_SYSTEM.md
+STORY_EVENT_SCHEMA.md
+CHARACTER_SCHEMA.md
+
+並包含實際：
+
+ADV source code
+portrait registry
+story event data
+NPC data
+relationship data
+memory data
+
+我要讓另一個AI可以：
+
+1. Review目前程式碼
+2. 讀取Character Bible
+3. 生成正式角色立繪
+4. 生成表情差分
+5. 生成背景
+6. 生成Event CG
+7. 大量生成story events
+8. 將資料直接放回遊戲
+
+━━━━━━━━━━━━━━━━━━━━━━
+FINAL PRINCIPLE
+━━━━━━━━━━━━━━━━━━━━━━
+
+不要要求3D人物承擔所有情緒演出。
+
+3D讓玩家：
+
+「活在這個世界裡。」
+
+2D讓玩家：
+
+「記住這些人。」
+
+故事系統讓玩家：
+
+「記得自己在這裡生活過。」

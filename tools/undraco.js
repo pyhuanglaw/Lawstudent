@@ -1,6 +1,7 @@
 // 離線把 Draco 壓縮的 glTF 解碼成未壓縮 GLB（Node）。用法：node tools/undraco.js in.gltf out.glb
 const fs=require('fs'); const path=require('path');
-const DracoDecoderModule=require('/home/claude/assets_src/draco/javascript/draco_decoder_gltf.js');
+// Draco decoder：clone https://github.com/google/draco 到 repo 旁的 ../assets_src/draco，或用 DRACO_DECODER 指定路徑
+const DracoDecoderModule=require(process.env.DRACO_DECODER||require('path').join(__dirname,'..','..','assets_src','draco','javascript','draco_decoder_gltf.js'));
 const [,, inPath, outPath]=process.argv;
 const COMP={5120:{T:Int8Array,s:1},5121:{T:Uint8Array,s:1},5122:{T:Int16Array,s:2},5123:{T:Uint16Array,s:2},5125:{T:Uint32Array,s:4},5126:{T:Float32Array,s:4}};
 const NCOMP={SCALAR:1,VEC2:2,VEC3:3,VEC4:4};

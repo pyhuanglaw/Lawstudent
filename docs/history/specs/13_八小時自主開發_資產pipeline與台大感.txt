@@ -1,0 +1,745 @@
+繼續目前的《法條之外：台灣法律人生》專案。
+
+我已經看過你目前輸出的 gameplay screenshots。
+
+整體方向確認：世界探索、NPC、對話、圖書館、教室、咖啡廳、時間、人物關係、筆記、地圖、存檔等系統方向是對的，請全部保留並繼續深化。
+
+但是我要做一個重要修正：
+
+目前的人物、台大校園、樹木、建築、家具與室內空間，視覺上仍明顯屬於 prototype / blockout。
+
+這沒有關係。
+
+不要推倒重做。
+
+我現在再給你完整 8 小時繼續自主開發。
+
+這 8 小時請同時完成：
+
+1. gameplay vertical slice 繼續深化
+2. 建立可替換的正式 3D asset pipeline
+3. 開始把目前最明顯的 placeholder 視覺替換掉
+4. 讓世界第一次真正開始有「台大法律系生活」的氣氛
+
+━━━━━━━━━━━━━━━━━━
+最高原則
+━━━━━━━━━━━━━━━━━━
+
+不要重新開始專案。
+
+不要刪除已經完成的 gameplay。
+
+不要為了美術中斷：
+movement
+NPC
+relationship
+time
+events
+study
+legal content
+save/load
+day-night
+mobile controls
+
+現有幾何世界全部保留。
+
+但請正式把它定義為：
+
+LEVEL_BLOCKOUT
+
+現有人物正式定義為：
+
+PLACEHOLDER_CHARACTER
+
+接下來不要繼續花大量時間把 primitive geometry「雕漂亮」。
+
+我要你建立：
+
+GAMEPLAY LAYER
+↓
+replaceable VISUAL ASSET LAYER
+
+未來替換人物、建築、樹木、家具，不應破壞 collision、NPC、事件、任務或存檔。
+
+━━━━━━━━━━━━━━━━━━
+一、不要再自己發明人類
+━━━━━━━━━━━━━━━━━━
+
+目前白衣人物可以暫時繼續負責：
+
+movement
+collision
+camera
+interaction
+NPC positioning
+animation testing
+
+但不要把它當正式人物。
+
+不要再花時間用 primitive geometry 自己捏：
+
+頭
+頭髮
+手
+腿
+衣服
+五官
+
+正式人物請優先使用成熟的 humanoid asset pipeline。
+
+優先實際研究與測試：
+
+VRM + @pixiv/three-vrm
+
+以及：
+
+Quaternius CC0 humanoid / modular character assets
+Kenney CC0 animated characters
+其他授權明確、允許使用的 rigged GLB / glTF humanoid assets
+
+選擇原則：
+
+1. 成人正常比例
+2. 不要 chibi
+3. 不要 Roblox 感
+4. 不要 Minecraft 感
+5. 不要塑膠公仔感
+6. 不要恐怖谷
+7. 必須已有正常 rig
+8. 最好已有 idle / walk / run
+9. 手機 WebGL 可以負擔
+10. 可以之後更換服裝或角色
+
+重要：
+
+如果跨 skeleton animation retargeting 又出問題，
+
+不要因此放棄好看的人物。
+
+先使用：
+
+角色本身相容的 idle
+角色本身相容的 walk
+角色本身相容的 run
+
+動畫少一點沒關係。
+
+「正常的人＋3個動畫」
+
+遠比：
+
+「很醜的人＋30個動畫」
+
+好。
+
+不要再為了 animation library 倒退回自製人體。
+
+━━━━━━━━━━━━━━━━━━
+二、不要再自己從零發明整間台大
+━━━━━━━━━━━━━━━━━━
+
+目前台大最大的問題不是 layout。
+
+而是：
+
+所有東西都像工程師用基本幾何體做出的 prototype。
+
+例如：
+
+球形樹
+方盒建築
+重複窗戶
+空曠廣場
+簡易桌椅
+沒有材質細節的室內
+generic university atmosphere
+
+這些可以當 blockout。
+
+但不要成為正式 art direction。
+
+請開始使用成熟、授權允許的 environment assets：
+
+trees
+vegetation
+grass
+benches
+street lamps
+bicycles
+desks
+chairs
+bookshelves
+books
+café furniture
+classroom props
+doors
+windows
+architectural modules
+urban props
+campus props
+
+優先：
+
+CC0
+MIT
+public domain
+或其他明確允許本專案用途的資產。
+
+不要為了「全部都是我自己生成的」而故意使用比較醜的素材。
+
+━━━━━━━━━━━━━━━━━━
+三、不要做 generic university，要做「一眼有台大感」
+━━━━━━━━━━━━━━━━━━
+
+不要求1:1重建整個台大。
+
+這會浪費大量時間。
+
+採用：
+
+LANDMARK + VISUAL LANGUAGE
+
+策略。
+
+寧可做少數非常有辨識度的地方。
+
+請優先強化：
+
+椰林大道
+傅鐘附近
+紅磚老校舍
+拱廊
+典型教室
+圖書館
+校園草地
+大量腳踏車
+校園長椅
+法律系活動空間
+學生咖啡廳
+夜間校園
+
+玩家不需要知道每棟樓的精確座標。
+
+但是走10秒後應該產生：
+
+「這裡像台大。」
+
+而不是：
+
+「這是一間不知道在哪裡的大學。」
+
+━━━━━━━━━━━━━━━━━━
+四、椰林大道尤其重要
+━━━━━━━━━━━━━━━━━━
+
+目前樹木的 primitive appearance 嚴重降低台大辨識度。
+
+不要再使用：
+
+sphere foliage + cylinder trunk
+
+作為正式椰林大道。
+
+請尋找低至中 polygon、mobile-friendly 的成熟 palm / campus vegetation assets。
+
+椰林大道應該具有：
+
+長直視線
+規律但自然的樹列
+明顯透視深度
+腳踏車
+學生
+老校舍
+遠景 landmark
+自然光影
+風感
+環境聲
+
+它應該成為玩家第一次覺得：
+
+「喔，這真的是台大。」
+
+的場景。
+
+━━━━━━━━━━━━━━━━━━
+五、建築不要追求數量
+━━━━━━━━━━━━━━━━━━
+
+目前不要再增加大量 generic buildings。
+
+STOP BUILDING BOXES.
+
+改成提升少數核心場景：
+
+A. 椰林大道
+B. 法律系教室
+C. 圖書館
+D. 學生咖啡廳
+E. 宿舍／租屋
+F. 夜間校園
+
+每個地方至少有自己的：
+
+lighting
+material
+props
+ambient sound
+NPC density
+color temperature
+activity pattern
+
+讓玩家不看UI也知道自己在哪裡。
+
+━━━━━━━━━━━━━━━━━━
+六、室內必須開始像有人生活
+━━━━━━━━━━━━━━━━━━
+
+現在部分室內仍然像：
+
+桌子 + 椅子 + 書櫃 = 圖書館
+
+請增加便宜但高效果的 environmental storytelling：
+
+書
+筆記
+筆電
+飲料
+咖啡杯
+講義
+考古題
+背包
+外套
+雨傘
+腳踏車安全帽
+公告
+海報
+黑板文字
+插座
+垃圾桶
+桌燈
+植物
+學生留下的小物
+
+不要全部可以互動。
+
+很多只需要是視覺資產。
+
+目標是：
+
+「這裡有人每天生活。」
+
+━━━━━━━━━━━━━━━━━━
+七、NPC密度
+━━━━━━━━━━━━━━━━━━
+
+台大不能像末日後只剩主角。
+
+請加入 performance-friendly background NPC。
+
+不必每個NPC都有完整AI。
+
+分成：
+
+TIER 1
+重要角色
+完整名字、關係、事件、schedule、dialogue
+
+TIER 2
+次要學生
+簡單schedule、少量dialogue
+
+TIER 3
+ambient NPC
+walking / sitting / studying / cycling / eating / talking
+
+TIER 3 可以使用非常簡單的邏輯。
+
+但他們對「校園活著」非常重要。
+
+━━━━━━━━━━━━━━━━━━
+八、加入腳踏車
+━━━━━━━━━━━━━━━━━━
+
+這是台大校園非常高CP值的視覺元素。
+
+先不需要完整自行車物理。
+
+可以先有：
+
+停放腳踏車
+NPC牽車
+遠景騎車NPC
+腳踏車架
+
+如果效能與時間允許，再加入玩家騎車。
+
+不要為了自行車物理拖垮本次開發。
+
+━━━━━━━━━━━━━━━━━━
+九、光線與時間比增加建築更重要
+━━━━━━━━━━━━━━━━━━
+
+請繼續深化 day/night system。
+
+至少讓：
+
+早晨
+正午
+黃昏
+夜晚
+
+有明顯不同氣氛。
+
+黃昏與夜間尤其重要。
+
+夜晚加入：
+
+室內窗光
+路燈
+咖啡廳暖光
+圖書館燈光
+遠方學生
+較少NPC
+環境音變化
+
+同一張地圖透過時間變化應產生不同情緒。
+
+━━━━━━━━━━━━━━━━━━
+十、法律內容不要變成Quiz App
+━━━━━━━━━━━━━━━━━━
+
+我之後會提供／已提供大量正式法律題庫。
+
+不要讓玩家一直看到：
+
+Q001
+Q002
+Q003
+
+平常應把法律問題藏在：
+
+教授上課
+同學問問題
+讀書會爭論
+圖書館討論
+期中考
+期末考
+國考準備
+實習
+案件
+
+例如不要：
+
+「Q：私人違法取證如何處理？」
+
+而是同學突然說：
+
+「私人自己偷錄的欸，違法取得不是就不能用了嗎？」
+
+玩家回答。
+
+教授可能在下一堂課又從另一角度追問。
+
+讓玩家真的學會爭點。
+
+━━━━━━━━━━━━━━━━━━
+十一、不要讓關係系統退化成數字
+━━━━━━━━━━━━━━━━━━
+
+不要只是：
+
+一起吃飯 → 好感+3
+
+NPC應該記得：
+
+玩家曾經幫過他
+玩家曾經拒絕他
+一起準備過考試
+一起翹過課
+一起熬夜
+玩家答錯法律問題
+玩家借過筆記
+曾經吵架
+曾經告白
+曾經失約
+
+relationship score可以存在底層。
+
+但玩家體驗到的應該是：
+
+「這個人記得我們發生過什麼。」
+
+━━━━━━━━━━━━━━━━━━
+十二、繼續做生活，不要只做讀書
+━━━━━━━━━━━━━━━━━━
+
+這是：
+
+法律人生 RPG
+
+不是：
+
+司法官考試模擬器。
+
+請繼續加入：
+
+吃飯
+聊天
+社團
+咖啡
+散步
+戀愛
+朋友
+宿舍
+打工
+交換
+實習
+約會
+生病
+疲勞
+考前焦慮
+畢業
+職涯選擇
+
+法律是人生的一部分。
+
+不是整個世界只有法律。
+
+━━━━━━━━━━━━━━━━━━
+十三、手機優先
+━━━━━━━━━━━━━━━━━━
+
+繼續以手機瀏覽器實際遊玩為主要標準。
+
+特別注意：
+
+touch joystick
+camera control
+button size
+dialogue readability
+safe area
+FPS
+loading time
+memory
+draw calls
+texture size
+
+不要為了視覺升級讓手機變得不能玩。
+
+如果兩個方案視覺差距很小：
+
+選效能較好的。
+
+━━━━━━━━━━━━━━━━━━
+十四、Asset fallback strategy
+━━━━━━━━━━━━━━━━━━
+
+如果任何外部asset：
+
+下載失敗
+403
+CORS
+格式錯誤
+動畫不相容
+材質失效
+
+不要卡兩小時。
+
+每項 asset integration 設定合理時間上限。
+
+失敗：
+
+記錄原因
+保留接口
+換另一個來源
+繼續開發
+
+不要再次陷入：
+
+為了一個角色 animation retargeting 花掉半天。
+
+━━━━━━━━━━━━━━━━━━
+十五、八小時自主開發規則
+━━━━━━━━━━━━━━━━━━
+
+從現在開始，再給你完整8小時自主開發。
+
+不要每做一小步就停下來問我。
+
+遇到合理設計選擇：
+
+自行判斷。
+
+遇到小bug：
+
+自行修復。
+
+遇到asset失敗：
+
+使用fallback。
+
+只有遇到會破壞整個專案架構的重大問題才需要停下。
+
+請持續：
+
+implement
+run
+test
+inspect
+fix
+iterate
+
+不要只寫企劃書。
+
+不要只告訴我「接下來可以做什麼」。
+
+請實際修改遊戲。
+
+━━━━━━━━━━━━━━━━━━
+十六、這8小時的優先順序
+━━━━━━━━━━━━━━━━━━
+
+P0 — 不准破壞
+現有可玩的核心系統
+
+P1 — Gameplay
+world traversal
+NPC
+relationship
+events
+time
+study
+legal knowledge
+save/load
+mobile controls
+
+P2 — Architecture
+visual asset replacement layer
+
+P3 — Visual replacement
+先替換最醜、最顯眼、最高CP值的素材：
+
+人物
+椰子樹／植栽
+桌椅
+書櫃
+咖啡廳家具
+校園props
+
+P4 — Atmosphere
+lighting
+NPC density
+bicycles
+ambient sound
+environmental storytelling
+
+P5 — Expansion
+只有前面穩定後才增加更多區域。
+
+━━━━━━━━━━━━━━━━━━
+十七、禁止事項
+━━━━━━━━━━━━━━━━━━
+
+不要：
+
+重新開始專案
+重寫已正常運作的系統
+繼續雕目前placeholder人物
+大量增加方盒建築
+自己從零做所有3D assets
+為一個asset卡數小時
+為了畫質犧牲手機效能
+把遊戲變成題庫App
+把關係變成純數字
+做很多不能玩的漂亮mockup
+
+尤其：
+
+DO NOT POLISH PLACEHOLDERS.
+
+Replace them later.
+
+━━━━━━━━━━━━━━━━━━
+十八、8小時後我要看到什麼
+━━━━━━━━━━━━━━━━━━
+
+8小時後請給我：
+
+1. 最新 playable build
+2. 實際手機尺寸 gameplay screenshots
+3. 白天校園
+4. 黃昏／夜間校園
+5. 教室
+6. 圖書館
+7. 咖啡廳
+8. NPC互動
+9. 關係／生活事件
+10. 法律學習自然融入對話的例子
+11. save/load
+12. 已替換的正式或半正式assets
+13. 哪些仍為placeholder的清單
+14. 本次新增系統
+15. 已知bug
+16. 下一輪最值得改善的5件事
+
+另外請明確列出：
+
+ASSETS REPLACED
+ASSETS STILL PLACEHOLDER
+SYSTEMS COMPLETED
+SYSTEMS PARTIAL
+SYSTEMS NOT STARTED
+
+不要把「做了一個畫面」算成「完成系統」。
+
+必須實際可操作。
+
+━━━━━━━━━━━━━━━━━━
+最後的美術方向
+━━━━━━━━━━━━━━━━━━
+
+我追求的不是AAA寫實。
+
+我需要的是：
+
+乾淨
+成熟
+舒服
+有生活感
+成人比例
+有台灣大學氣氛
+有台大辨識度
+有青春感
+可以長時間玩
+手機跑得動
+
+可以 stylized。
+
+但不能 cheap-looking。
+
+可以 low-poly。
+
+但不能像 prototype。
+
+可以簡化。
+
+但不能像初學者第一次用3D primitive蓋出來的世界。
+
+這三句請記住：
+
+「先做一個好看的正常人，再讓他走路；
+不要先做一個會走路的醜人，再試圖把他整形。」
+
+「寧可做5個一眼就是台大的地方，
+不要做50棟不知道是哪間大學的方盒。」
+
+「現在繼續做遊戲，
+不要繼續做醜的正式美術。」
+
+現在直接繼續工作。
+
+你有完整8小時。
+
+不要停在規劃階段。
+不要先回覆長篇計畫。
+開始實作。

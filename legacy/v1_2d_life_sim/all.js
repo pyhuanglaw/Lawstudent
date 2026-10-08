@@ -1,0 +1,2634 @@
+/* ===== 01 基礎資料：學校、課程、老師、活動、小事件、考題 ===== */
+'use strict';
+const SCHOOL = '北辰大學法律學系';
+
+// 國考科目群
+const SUBJ = {
+  const_:{ id:'const_', name:'憲法與行政法', short:'憲行' },
+  civ:{ id:'civ', name:'民法', short:'民法' },
+  civpro:{ id:'civpro', name:'民事訴訟法', short:'民訴' },
+  crim:{ id:'crim', name:'刑法', short:'刑法' },
+  crimpro:{ id:'crimpro', name:'刑事訴訟法', short:'刑訴' },
+  com:{ id:'com', name:'商事法', short:'商法' },
+};
+const SUBJ_IDS = ['const_','civ','civpro','crim','crimpro','com'];
+
+// 老師風格：sys 體系、case 案例、disc 討論、report 報告、prac 實務
+const TEACHERS = {
+  chen:{ id:'chen', name:'陳教授', style:'sys', gender:'f', color:'#4A6C8C',
+    styleName:'體系派', hint:'聽學長姐說：很重視定義與體系位置，考題常從「這個概念放在哪裡」出發。',
+    quirk:'講到重點時會說「這個很基本」，然後全班默默畫星號。' },
+  lin:{ id:'lin', name:'林教授', style:'case', gender:'m', color:'#6B4E2E',
+    styleName:'案例派', hint:'上課幾乎都在講案例，聽說考試就是丟一個案子給你，看你找不找得到爭點。',
+    quirk:'常在下課前五分鐘丟一句「所以，這個案子你們覺得呢？」然後就下課。' },
+  huang:{ id:'huang', name:'黃教授', style:'disc', gender:'m', color:'#3E5A48',
+    styleName:'討論派', hint:'喜歡點人回答，據說平時發言會影響分數，不過怎麼算沒人知道。',
+    quirk:'會突然問「你同意嗎？」不管你有沒有舉手。' },
+  wu:{ id:'wu', name:'吳老師', style:'report', gender:'f', color:'#7A2E3B',
+    styleName:'報告派', hint:'分組報告佔很重，聽說最在意「有沒有自己找資料」。',
+    quirk:'每次都說「這學期報告不會很重」，然後大家在期末都熬夜。' },
+  chang:{ id:'chang', name:'張教授', style:'sys', gender:'m', color:'#4A6C8C', styleName:'體系派', hint:'債編講得很細，體系圖畫得很漂亮。', quirk:'黑板上的體系圖從來沒有一次擦完。' },
+  tsai:{ id:'tsai', name:'蔡教授', style:'case', gender:'f', color:'#6B4E2E', styleName:'案例派', hint:'行政法會拿真實的行政處分來討論。', quirk:'很愛問「那救濟途徑呢？」' },
+  hsu:{ id:'hsu', name:'許教授', style:'prac', gender:'m', color:'#3E5A48', styleName:'實務派', hint:'當過律師，講程序法會講很多實務上的細節。', quirk:'口頭禪是「實務上不是這樣」。' },
+  liu:{ id:'liu', name:'劉教授', style:'disc', gender:'f', color:'#3E5A48', styleName:'討論派', hint:'公司法課會要求分組扮演董事會。', quirk:'講到經營判斷法則時會很興奮。' },
+  kuo:{ id:'kuo', name:'郭老師', style:'report', gender:'m', color:'#7A2E3B', styleName:'報告派', hint:'選修課很輕鬆，但報告要有自己的看法。', quirk:'會在報告後追問「所以你的意見是什麼？」' },
+  sato:{ id:'sato', name:'佐藤老師', style:'disc', gender:'f', color:'#7A5C3A', styleName:'語言課', hint:'日文課，每週小考。', quirk:'很溫柔，但小考很準時。' },
+  eng:{ id:'eng', name:'Ms. Carter', style:'disc', gender:'f', color:'#4A6C8C', styleName:'語言課', hint:'法學英文，全英文上課，讀判決摘要。', quirk:'會要求你用英文解釋 consideration。' },
+};
+
+// 課程資料：subj 對應國考科目；type: req 必修 / elec 選修 / gen 通識
+const COURSES = {
+  civ1:{ id:'civ1', name:'民法總則', teacher:'chen', subj:'civ', type:'req', credits:3, exam:true, y:1,s:1, slots:['一 08:10','三 10:20'] },
+  crim1:{ id:'crim1', name:'刑法總則', teacher:'lin', subj:'crim', type:'req', credits:3, exam:true, y:1,s:1, slots:['二 10:20','四 13:20'] },
+  cons1:{ id:'cons1', name:'憲法', teacher:'huang', subj:'const_', type:'req', credits:2, exam:true, y:1,s:1, slots:['三 13:20'] },
+  intro:{ id:'intro', name:'法學緒論', teacher:'wu', subj:null, type:'req', credits:2, exam:false, report:true, y:1,s:1, slots:['五 10:20'] },
+  legalEn1:{ id:'legalEn1', name:'法學英文（一）', teacher:'eng', subj:null, type:'elec', credits:2, exam:false, lang:'en', y:1,s:1, slots:['二 15:30'] },
+  polsci:{ id:'polsci', name:'政治學', teacher:'kuo', subj:'const_', type:'elec', credits:2, exam:false, report:true, y:1,s:1, slots:['四 15:30'] },
+  econ:{ id:'econ', name:'經濟學原理', teacher:'kuo', subj:'com', type:'elec', credits:2, exam:false, report:true, y:1,s:1, slots:['一 15:30'] },
+  film:{ id:'film', name:'通識：電影與社會', teacher:'kuo', subj:null, type:'gen', credits:2, exam:false, report:true, light:true, y:1,s:1, slots:['五 15:30'] },
+
+  civ2:{ id:'civ2', name:'民法債編總論', teacher:'chang', subj:'civ', type:'req', credits:3, exam:true, y:1,s:2, slots:['一 08:10','三 10:20'] },
+  crim2:{ id:'crim2', name:'刑法分則', teacher:'lin', subj:'crim', type:'req', credits:3, exam:true, y:1,s:2, slots:['二 10:20','四 13:20'] },
+  admin1:{ id:'admin1', name:'行政法總論', teacher:'tsai', subj:'const_', type:'req', credits:3, exam:true, y:1,s:2, slots:['三 13:20','五 08:10'] },
+  legalEn2:{ id:'legalEn2', name:'法學英文（二）', teacher:'eng', subj:null, type:'elec', credits:2, exam:false, lang:'en', y:1,s:2, slots:['二 15:30'] },
+  jp1:{ id:'jp1', name:'日文（一）', teacher:'sato', subj:null, type:'elec', credits:2, exam:false, lang:'ja', y:1,s:2, slots:['四 15:30'] },
+  soc:{ id:'soc', name:'法律與社會', teacher:'kuo', subj:null, type:'gen', credits:2, exam:false, report:true, light:true, y:1,s:2, slots:['五 15:30'] },
+
+  civ3:{ id:'civ3', name:'民法物權', teacher:'chang', subj:'civ', type:'req', credits:3, exam:true, y:2,s:1, slots:['一 10:20','三 08:10'] },
+  civpro1:{ id:'civpro1', name:'民事訴訟法（一）', teacher:'hsu', subj:'civpro', type:'req', credits:3, exam:true, y:2,s:1, slots:['二 13:20','四 10:20'] },
+  crimpro1:{ id:'crimpro1', name:'刑事訴訟法（一）', teacher:'hsu', subj:'crimpro', type:'req', credits:3, exam:true, y:2,s:1, slots:['三 13:20','五 10:20'] },
+  corp:{ id:'corp', name:'公司法', teacher:'liu', subj:'com', type:'req', credits:3, exam:false, report:true, y:2,s:1, slots:['一 13:20'] },
+  jp2:{ id:'jp2', name:'日文（二）', teacher:'sato', subj:null, type:'elec', credits:2, exam:false, lang:'ja', y:2,s:1, slots:['四 15:30'] },
+  anglo:{ id:'anglo', name:'英美法導論', teacher:'eng', subj:null, type:'elec', credits:2, exam:false, lang:'en', report:true, y:2,s:1, slots:['二 15:30'] },
+  de1:{ id:'de1', name:'法學德文', teacher:'kuo', subj:null, type:'elec', credits:2, exam:false, lang:'de', y:2,s:1, slots:['五 15:30'] },
+
+  fam:{ id:'fam', name:'民法親屬繼承', teacher:'chen', subj:'civ', type:'req', credits:3, exam:true, y:2,s:2, slots:['一 10:20','三 08:10'] },
+  civpro2:{ id:'civpro2', name:'民事訴訟法（二）', teacher:'hsu', subj:'civpro', type:'req', credits:3, exam:true, y:2,s:2, slots:['二 13:20','四 10:20'] },
+  crimpro2:{ id:'crimpro2', name:'刑事訴訟法（二）', teacher:'hsu', subj:'crimpro', type:'req', credits:3, exam:true, y:2,s:2, slots:['三 13:20','五 10:20'] },
+  nego:{ id:'nego', name:'票據法與保險法', teacher:'liu', subj:'com', type:'req', credits:3, exam:false, report:true, y:2,s:2, slots:['一 13:20'] },
+  pil:{ id:'pil', name:'國際私法', teacher:'kuo', subj:null, type:'elec', credits:2, exam:false, report:true, y:2,s:2, slots:['二 15:30'] },
+  legalWr:{ id:'legalWr', name:'法律英文寫作', teacher:'eng', subj:null, type:'elec', credits:2, exam:false, lang:'en', y:2,s:2, slots:['五 15:30'] },
+  jp3:{ id:'jp3', name:'日文（三）', teacher:'sato', subj:null, type:'elec', credits:2, exam:false, lang:'ja', y:2,s:2, slots:['四 15:30'] },
+
+  admin2:{ id:'admin2', name:'行政訴訟法', teacher:'tsai', subj:'const_', type:'req', credits:3, exam:true, y:3,s:1, slots:['一 10:20','三 08:10'] },
+  sec:{ id:'sec', name:'證券交易法', teacher:'liu', subj:'com', type:'req', credits:3, exam:true, y:3,s:1, slots:['二 13:20'] },
+  enforce:{ id:'enforce', name:'強制執行法', teacher:'hsu', subj:'civpro', type:'req', credits:2, exam:true, y:3,s:1, slots:['四 10:20'] },
+  juris:{ id:'juris', name:'法理學', teacher:'huang', subj:'const_', type:'req', credits:2, exam:false, report:true, y:3,s:1, slots:['五 10:20'] },
+  ip:{ id:'ip', name:'智慧財產權法', teacher:'kuo', subj:'com', type:'elec', credits:2, exam:false, report:true, y:3,s:1, slots:['二 15:30'] },
+  labor:{ id:'labor', name:'勞動法', teacher:'tsai', subj:'const_', type:'elec', credits:2, exam:false, report:true, y:3,s:1, slots:['五 15:30'] },
+
+  civ4:{ id:'civ4', name:'民法債編各論', teacher:'chang', subj:'civ', type:'req', credits:3, exam:true, y:3,s:2, slots:['一 10:20','三 08:10'] },
+  crimSem:{ id:'crimSem', name:'刑法案例研習', teacher:'lin', subj:'crim', type:'req', credits:2, exam:true, y:3,s:2, slots:['二 13:20'] },
+  civproSem:{ id:'civproSem', name:'民事訴訟法專題', teacher:'hsu', subj:'civpro', type:'req', credits:2, exam:true, y:3,s:2, slots:['四 10:20'] },
+  comSem:{ id:'comSem', name:'商事法專題', teacher:'liu', subj:'com', type:'req', credits:2, exam:false, report:true, y:3,s:2, slots:['五 10:20'] },
+  tax:{ id:'tax', name:'稅法', teacher:'tsai', subj:'const_', type:'elec', credits:2, exam:false, report:true, y:3,s:2, slots:['二 15:30'] },
+  intl:{ id:'intl', name:'國際法', teacher:'kuo', subj:null, type:'elec', credits:2, exam:false, report:true, y:3,s:2, slots:['五 15:30'] },
+
+  moot:{ id:'moot', name:'法律實務（模擬法庭）', teacher:'hsu', subj:'civpro', type:'req', credits:3, exam:false, report:true, y:4,s:1, slots:['二 13:20','四 13:20'] },
+  crimproSem:{ id:'crimproSem', name:'刑事訴訟法專題', teacher:'hsu', subj:'crimpro', type:'req', credits:2, exam:true, y:4,s:1, slots:['三 10:20'] },
+  adminSem:{ id:'adminSem', name:'行政法專題', teacher:'tsai', subj:'const_', type:'req', credits:2, exam:true, y:4,s:1, slots:['一 10:20'] },
+  famLaw:{ id:'famLaw', name:'家事法', teacher:'chen', subj:'civ', type:'elec', credits:2, exam:false, report:true, y:4,s:1, slots:['五 10:20'] },
+  comp:{ id:'comp', name:'公平交易法', teacher:'liu', subj:'com', type:'elec', credits:2, exam:false, report:true, y:4,s:1, slots:['二 15:30'] },
+
+  thesis:{ id:'thesis', name:'畢業專題', teacher:'huang', subj:null, type:'req', credits:2, exam:false, report:true, y:4,s:2, slots:['三 13:20'] },
+  civSem2:{ id:'civSem2', name:'民法案例研習', teacher:'chang', subj:'civ', type:'req', credits:2, exam:true, y:4,s:2, slots:['一 10:20'] },
+  crimSem2:{ id:'crimSem2', name:'刑事法綜合', teacher:'lin', subj:'crim', type:'req', credits:2, exam:true, y:4,s:2, slots:['二 13:20'] },
+  conSem2:{ id:'conSem2', name:'憲法與行政法綜合', teacher:'huang', subj:'const_', type:'req', credits:2, exam:true, y:4,s:2, slots:['四 10:20'] },
+  medi:{ id:'medi', name:'調解與談判', teacher:'kuo', subj:null, type:'elec', credits:2, exam:false, report:true, y:4,s:2, slots:['五 15:30'] },
+};
+function coursesFor(y,s){ return Object.values(COURSES).filter(c=>c.y===y&&c.s===s); }
+
+// 學習活動（大學）
+const ACTS = {
+  preview:{ id:'preview', name:'預習', cat:'學習', course:true, scene:'dorm', pose:'read', desc:'先看過下週進度，上課吸收更多', energy:-5, stress:1 },
+  read:{ id:'read', name:'讀教科書', cat:'學習', course:true, scene:'library', pose:'read', desc:'建立概念理解與體系', energy:-7, stress:3 },
+  notes:{ id:'notes', name:'整理筆記', cat:'學習', course:true, scene:'dorm', pose:'type', desc:'建立結構與記憶；要先讀得懂', energy:-7, stress:2 },
+  cases:{ id:'cases', name:'練習案例', cat:'學習', course:true, scene:'library', pose:'read', desc:'訓練爭點辨識與涵攝', energy:-7, stress:4 },
+  timed:{ id:'timed', name:'限時練題', cat:'學習', course:true, scene:'dorm', pose:'type', desc:'改善答案結構與寫作速度', energy:-8, stress:5 },
+  review:{ id:'review', name:'複習與回想', cat:'學習', course:true, scene:'library', pose:'read', desc:'把「看過」變成「提取得出來」', energy:-6, stress:1 },
+  research:{ id:'research', name:'查判決與文章', cat:'學習', course:true, scene:'library', pose:'type', desc:'研究能力上升，但很花時間', energy:-7, stress:2 },
+  speak:{ id:'speak', name:'課堂發言', cat:'學習', course:true, scene:'classroom', pose:'stand', desc:'讓老師知道你在，也練表達', energy:-3, stress:4 },
+  borrow:{ id:'borrow', name:'借筆記', cat:'學習', course:true, scene:'campus', pose:'stand', desc:'省時間，但還是得自己讀懂', energy:-3, stress:0, need:'rel' },
+  group:{ id:'group', name:'讀書會', cat:'學習', course:false, scene:'library', pose:'read', desc:'交換見解，也可能聊兩小時', energy:-6, stress:1 },
+  rest:{ id:'rest', name:'什麼都不做', cat:'生活', course:false, scene:'dorm', pose:'sleep', desc:'恢復精力與後續效率', energy:18, stress:-10 },
+  sport:{ id:'sport', name:'運動', cat:'生活', course:false, scene:'park', pose:'walk', desc:'精力與心情', energy:6, stress:-7 },
+  game:{ id:'game', name:'打電動、追劇', cat:'生活', course:false, scene:'dorm', pose:'sit', desc:'放空', energy:4, stress:-8 },
+  home:{ id:'home', name:'回家一趟', cat:'生活', course:false, scene:'home', pose:'sit', desc:'家人、家常菜，還有親戚', energy:8, stress:-6, money:1500 },
+  eat:{ id:'eat', name:'和朋友吃飯', cat:'人際', course:false, scene:'street', pose:'stand', desc:'維持關係，聽別人的人生', energy:-2, stress:-5, money:-350 },
+  supper:{ id:'supper', name:'宵夜', cat:'人際', course:false, scene:'street', pose:'stand', desc:'讀完（或沒讀完）一起去吃', energy:-2, stress:-4, money:-150 },
+  club:{ id:'club', name:'社團', cat:'人際', course:false, scene:'campus', pose:'stand', desc:'認識法律系以外的人', energy:-5, stress:-3 },
+  date:{ id:'date', name:'約會', cat:'人際', course:false, scene:'street', pose:'stand', desc:'兩個人的時間', energy:-2, stress:-8, money:-600, need:'partner' },
+  work:{ id:'work', name:'打工（便利商店）', cat:'金錢', course:false, scene:'store', pose:'stand', desc:'穩定但站很久', energy:-12, stress:3, money:3600 },
+  tutor:{ id:'tutor', name:'家教', cat:'金錢', course:false, scene:'home', pose:'sit', desc:'時薪高，教高中生公民', energy:-7, stress:2, money:3200, need:'year2' },
+  lang:{ id:'lang', name:'自學外語', cat:'學習', course:false, scene:'dorm', pose:'read', desc:'準備語言檢定或交換', energy:-6, stress:2 },
+  apply:{ id:'apply', name:'準備交換申請', cat:'學習', course:false, scene:'dorm', pose:'type', desc:'讀書計畫、推薦信、志願排序', energy:-6, stress:3, need:'applyWindow' },
+  intern:{ id:'intern', name:'事務所實習', cat:'金錢', course:false, scene:'firm', pose:'type', desc:'影印、查資料、看律師怎麼工作', energy:-10, stress:4, money:2400, need:'year3' },
+  courtIntern:{ id:'courtIntern', name:'法院見習', cat:'學習', course:false, scene:'court', pose:'stand', desc:'坐在旁聽席看程序怎麼跑', energy:-8, stress:2, need:'year3' },
+  barprep:{ id:'barprep', name:'國考總複習', cat:'學習', course:false, scene:'library', pose:'read', desc:'把大學四年的東西重新串起來', energy:-9, stress:4, need:'year4' },
+};
+const ACT_ORDER = ['read','notes','cases','timed','review','preview','research','speak','borrow','group','lang','apply','barprep','courtIntern','rest','sport','game','home','eat','supper','club','date','work','tutor','intern'];
+
+// 活動中的小事件（純生活感，有些有小效果）
+const FLAVOR = {
+  read:[
+    {t:'原定今天讀一百頁，最後花兩小時研究第七頁的註腳。', fx:{u:-2,research:1}, p:.14},
+    {t:'到圖書館才發現常坐的位置被占走了，換到靠窗那排，其實也不錯。', p:.15},
+    {t:'隔壁桌的人翻書速度快到你懷疑他其實在找東西。', p:.1},
+    {t:'讀到一半，同學傳訊息：「你看到哪了？」你回：「第三章。」他回：「喔，我才第二章。」大家都安心了一點。', p:.15, rel:{an:1}},
+    {t:'教科書買回來三個月，書籤還停在三分之一的地方。今天終於往後翻了一點。', p:.08},
+    {t:'空調太冷，你用外套把自己包起來繼續讀。', p:.1},
+  ],
+  notes:[
+    {t:'整理筆記時發現上禮拜寫的字自己看不懂。', p:.15},
+    {t:'你在老師說「這個很基本」的那段旁邊畫了一顆星星。', p:.15, fx:{s:1}},
+    {t:'筆記整理到一半，開始排版比整理內容還花時間。', p:.12},
+    {t:'系上群組突然出現一份不知道流傳幾屆的筆記，字很小，但架構意外清楚。', p:.1, fx:{s:2}},
+  ],
+  cases:[
+    {t:'讀完案例，覺得每一句話都有問題，又覺得每一句話都沒有問題。', p:.15},
+    {t:'練了一題，翻答案：「這個我明明看過。」', p:.18, flagHint:'retrieval'},
+    {t:'案例裡的人名是甲乙丙丁，你花了三分鐘搞清楚誰是誰。', p:.12},
+  ],
+  timed:[
+    {t:'計時器響的時候，你正在寫第二個爭點的第一句。', p:.15},
+    {t:'寫完才發現前面兩段在講同一件事。', p:.12},
+    {t:'這次比上次多寫了半頁。你把答案卷拍照傳給同學，沒人回。', p:.1},
+  ],
+  review:[
+    {t:'複習時發現，上週覺得很難的地方，這週看起來只是有點難。', p:.15},
+    {t:'蓋住答案回想，第一次沒想起來，第二次想起來一半。', p:.15},
+  ],
+  research:[
+    {t:'查到一篇很有趣的文章，跟考試完全無關，你還是讀完了。', p:.2, fx:{research:1}},
+    {t:'判決系統跳出「查無資料」，你換了三個關鍵字。', p:.15},
+  ],
+  group:[
+    {t:'讀書會開場：「你讀完了嗎？」「沒有。」「我也是。」「那要不要先吃飯？」「好。」', p:.35, half:true},
+    {t:'讀書會今天很有效率，大家把爭點列出來對了一輪，發現每個人抓的重點都不一樣。', p:.3},
+    {t:'討論到一半，話題變成哪家宵夜比較好吃，一小時後才拉回來。', p:.2, half:true},
+  ],
+  work:[
+    {t:'凌晨兩點的便利商店，你替一個穿西裝的人結帳，他買了一罐啤酒和一個御飯糰。', p:.2},
+    {t:'排班表出來，你的班和明天的早八只隔六小時。', p:.15, fx:{energy:-4}},
+    {t:'店長說你補貨很快，問你要不要多排一天。你說再看看。', p:.12},
+  ],
+  rest:[
+    {t:'你回到宿舍，把包放下，泡了一碗麵，坐在床邊看了一集劇。什麼事都沒發生。', p:.35},
+    {t:'睡到自然醒，發現已經下午一點。你決定不要有罪惡感。', p:.3},
+    {t:'你躺在床上滑手機，看到有人 PO 圖書館的座位照片。你把手機放下，繼續躺。', p:.2},
+  ],
+  sport:[
+    {t:'操場跑了三圈，第四圈用走的。回宿舍路上買了一杯無糖綠。', p:.3},
+    {t:'河濱的風很大，你跑得比平常慢，但心情比平常好。', p:.3},
+  ],
+  game:[
+    {t:'本來說只打一場，最後打了四場。', p:.35},
+    {t:'追劇追到主角開始講法律，你忍不住開始挑錯。', p:.25},
+  ],
+  eat:[
+    {t:'午餐時大家開始討論完全不是法律的事情，你發現這樣的午餐比較好吃。', p:.3},
+    {t:'吃飯時有人問「你們期中怎麼準備」，桌上突然安靜了三秒。', p:.25},
+  ],
+  supper:[
+    {t:'鹹酥雞排隊二十分鐘。等的時候你們把民總的爭點講了一遍，講完發現忘記點九層塔。', p:.3},
+    {t:'凌晨的宵夜攤，每個人都說「這是最後一次熬夜」。', p:.3},
+  ],
+  club:[
+    {t:'社課結束後留下來聊天，發現外系的人聽到「法律系」會先問「那你以後是律師嗎？」', p:.3},
+    {t:'社團要辦活動，你負責寫場地借用申請。你發現自己開始在意用語精確。', p:.2},
+  ],
+  home:[
+    {t:'媽媽問你「法律系是不是很多東西要背」，你說「還好」，然後吃了三碗飯。', p:.3},
+    {t:'親戚聽說你讀法律，立刻拿出一份土地資料。你說你才大一，他說「沒關係你先看一下」。', p:.25, flag:'uncle_land'},
+    {t:'回家的火車上你睡著了，醒來已經到站。這是這幾週睡得最好的一次。', p:.2, fx:{energy:3}},
+  ],
+  campus:[
+    {t:'早八上課前，你在便利商店買了一杯咖啡，跟三個同樣在排隊的同學點了頭。', p:1},
+    {t:'教室裡冷氣很強，前排的人都穿外套，後排的人都在睡。', p:1},
+    {t:'老師講了一句「這個很基本」，全班同時在筆記旁邊畫星號。', p:1},
+    {t:'下課時有人問老師問題，你在旁邊偷聽，聽到一半就走了。', p:1},
+    {t:'上課覺得都懂，回家打開題目，突然不知道從哪裡開始。', p:1},
+  ],
+};
+
+// 考試用案例庫：每題 core 最核心；sec 次要；tan 相關但不是重點；irr 無關
+const CASES = {
+  civ1_mid:{ title:'網拍標價', text:'小美在網拍平台看到一台標價 1,000 元的相機，立刻下單並付款。賣家隔天表示標價打錯，原價應為 10,000 元，拒絕出貨。小美主張契約已成立，要求賣家依 1,000 元交付相機。',
+    opts:[
+      {k:'core', t:'網頁標價是要約還是要約之引誘，買賣契約是否已經成立', why:'先確定契約有沒有成立，後面的撤銷才有討論的對象。這是這題的起點。'},
+      {k:'sec', t:'賣家得否主張意思表示錯誤而撤銷', why:'很重要，但它是第二步：契約成立後，賣家才需要用撤銷來擺脫拘束。'},
+      {k:'tan', t:'相機是否有物之瑕疵', why:'題目完全沒有提到相機本身有問題。'},
+      {k:'irr', t:'小美有無消費者保護法上的解除權', why:'這題問的是契約成立與錯誤，不是解除。'},
+    ]},
+  civ1_fin:{ title:'十七歲買機車', text:'阿明十七歲，用打工存的錢向車行購買一台三萬元的中古機車，並已交付價金、取得機車。阿明的父母一週後得知此事，表示反對。車行主張契約有效，阿明父母主張契約無效。',
+    opts:[
+      {k:'core', t:'限制行為能力人未得法定代理人允許所為的契約，其效力如何', why:'整題的核心就是「效力未定」的結構：需要法定代理人承認，父母可以拒絕承認。'},
+      {k:'sec', t:'車行可否催告法定代理人確答，或撤回其意思表示', why:'這是效力未定狀態下相對人的保護手段，是接著要處理的問題。'},
+      {k:'tan', t:'父母主張「無效」在用語上是否精確', why:'可以在結論帶到，但不是分析的主軸。'},
+      {k:'irr', t:'機車作為動產，所有權何時移轉', why:'題目沒有問物權變動。'},
+    ]},
+  crim1_mid:{ title:'反彈的子彈', text:'甲為了嚇唬乙，朝乙腳邊的地面開了一槍，子彈擊中地面後反彈，打中乙的小腿，乙受傷。甲事後表示他只是想嚇乙，沒有想傷害乙。',
+    opts:[
+      {k:'core', t:'甲對於傷害結果的主觀認知：故意（含未必故意）或過失，以及行為與結果的因果關係', why:'案例派老師最想看的就是這一組：客觀上有因果關係與客觀歸責，主觀上是故意還是過失。'},
+      {k:'sec', t:'甲以開槍方式嚇唬乙，是否另成立恐嚇危害安全罪', why:'會成立，也應該寫，但這題的重心在傷害結果的歸責。'},
+      {k:'tan', t:'甲是否可主張正當防衛', why:'題目沒有任何乙先攻擊的事實，這是想太多。'},
+      {k:'irr', t:'乙可否請求民事損害賠償', why:'這是刑法期中考。'},
+    ]},
+  crim1_fin:{ title:'夜歸的反擊', text:'甲深夜返家途中，遭乙持刀搶劫。甲奪下乙的刀後，乙轉身逃跑，甲追上前從背後刺了乙一刀，乙受重傷。',
+    opts:[
+      {k:'core', t:'乙已轉身逃跑，侵害是否仍在進行中，甲的行為能否成立正當防衛或屬於防衛過當', why:'關鍵在「現在」：侵害結束後的反擊不是防衛，最多討論誤想防衛或量刑。'},
+      {k:'sec', t:'甲從背後刺乙，是否具有傷害或殺人故意', why:'需要討論，但要先確定違法性層次的問題怎麼處理。'},
+      {k:'tan', t:'乙的強盜行為是既遂還是未遂', why:'乙的罪責可以帶到，但題目問的是甲。'},
+      {k:'irr', t:'甲對乙的民事侵權責任', why:'不是這科的問題。'},
+    ]},
+  cons1_mid:{ title:'公園的擴音器', text:'某市政府訂定自治規則，規定夜間十點後禁止在公園內使用擴音設備，違者處罰鍰。街頭藝人小華主張此規定侵害其表現自由。',
+    opts:[
+      {k:'core', t:'該規定限制表現自由，能否通過比例原則的審查（目的、適當、必要、衡平）', why:'基本權案例的主軸：先確認保障範圍與限制，再做比例原則審查。'},
+      {k:'sec', t:'以自治規則對人民科處罰鍰，是否符合法律保留原則', why:'這是很好的第二個爭點，處罰需要法律或明確授權的依據。'},
+      {k:'tan', t:'街頭藝人的表演是否受職業自由保障', why:'可以提，但題目已經把問題定在表現自由。'},
+      {k:'irr', t:'公園是否屬於公物', why:'跟這題要問的權利限制無關。'},
+    ]},
+  cons1_fin:{ title:'沒有上限的罰鍰', text:'立法院通過某法律，規定「違反本法者，處罰鍰，其額度由主管機關定之」，未設任何上限或標準。主管機關據此訂定辦法，對違規者處以高額罰鍰。',
+    opts:[
+      {k:'core', t:'法律授權行政機關訂定處罰內容，是否符合授權明確性原則與法律保留', why:'處罰的要件與法律效果應由法律或依法律明確授權的命令定之，這題就是在考這件事。'},
+      {k:'sec', t:'高額罰鍰是否違反比例原則', why:'次要爭點，可以在確認授權有問題後接著討論。'},
+      {k:'tan', t:'罰鍰是否侵害財產權', why:'當然侵害財產權，但問題不在「有沒有侵害」，而在「依據夠不夠」。'},
+      {k:'irr', t:'該法律的立法程序是否有瑕疵', why:'題目沒有給任何程序事實。'},
+    ]},
+  // 通用題庫（後續學期依科目群使用）
+  civ_a:{ title:'借名登記的房子', text:'甲出資購屋，登記在乙名下。多年後乙將房屋出售給不知情的丙並完成移轉登記。甲主張房屋是他的，要求丙返還。',
+    opts:[
+      {k:'core', t:'借名登記契約的效力，以及乙處分房屋對丙是否有效', why:'先定性借名登記，再處理無權處分與善意第三人保護。'},
+      {k:'sec', t:'甲對乙可主張的債務不履行或不當得利', why:'甲對乙的內部關係是第二層問題。'},
+      {k:'tan', t:'丙是否應查證房屋的真正所有人', why:'登記制度下丙原則上可信賴登記。'},
+      {k:'irr', t:'房屋稅由誰負擔', why:'題目沒問。'},
+    ]},
+  civ_b:{ title:'送錯的包裹', text:'甲向網路商店購買一台筆電，商店誤寄了兩台。甲將多出的那台轉賣給乙。商店發現後向甲請求返還。',
+    opts:[
+      {k:'core', t:'甲受領多出的筆電，是否成立不當得利，以及已經轉賣時的返還範圍', why:'核心在不當得利的成立與返還客體轉為價額。'},
+      {k:'sec', t:'甲轉賣給乙是否構成無權處分，乙能否取得所有權', why:'接續問題：善意受讓。'},
+      {k:'tan', t:'商店是否有過失', why:'不影響不當得利的成立。'},
+      {k:'irr', t:'運送人的責任', why:'題目不問運送契約。'},
+    ]},
+  crim_a:{ title:'偷拿又放回', text:'甲在超商拿了一包菸放進口袋，走到門口時覺得不對，又走回去把菸放回架上。店員全程從監視器看到。',
+    opts:[
+      {k:'core', t:'甲將菸放入口袋時竊盜是否已既遂，放回是否影響犯罪成立', why:'既遂時點的判斷是本題核心，放回只是犯後態度。'},
+      {k:'sec', t:'是否可討論中止犯', why:'若認為已既遂則無中止犯適用；這是隨核心答案而定的次要問題。'},
+      {k:'tan', t:'店員未當場制止是否影響', why:'不影響。'},
+      {k:'irr', t:'超商可否請求民事賠償', why:'不是刑法問題。'},
+    ]},
+  crim_b:{ title:'幫忙開車', text:'甲請乙開車載他去「拿東西」，乙不知甲其實是去偷竊，在車上等甲。甲得手後上車，乙才知道。乙仍開車離開。',
+    opts:[
+      {k:'core', t:'乙開車載甲時是否具有幫助故意，事後知情仍載離是否成立幫助犯或其他罪', why:'關鍵在故意的時點：事前不知，事後知情的行為如何評價。'},
+      {k:'sec', t:'乙載離甲是否可能成立藏匿人犯或贓物相關罪名', why:'可接著討論的方向。'},
+      {k:'tan', t:'甲的竊盜是否既遂', why:'題目問的是乙。'},
+      {k:'irr', t:'乙的駕照是否有效', why:'無關。'},
+    ]},
+  const_a:{ title:'市場攤位的許可', text:'市場管理機關以「攤位不足」為由，拒絕發給申請人攤位使用許可，卻未說明審查標準。申請人不服。',
+    opts:[
+      {k:'core', t:'該拒絕決定是否為行政處分，其理由是否充分，申請人可循何種救濟途徑', why:'行政法題型的骨架：處分性質、程序要求、救濟途徑。'},
+      {k:'sec', t:'機關對攤位分配是否享有裁量，以及裁量是否濫用', why:'裁量問題是接著要處理的核心之一。'},
+      {k:'tan', t:'申請人是否有營業自由', why:'可帶到，但這題重點在行政程序與救濟。'},
+      {k:'irr', t:'市場是否應民營化', why:'政策問題。'},
+    ]},
+  const_b:{ title:'畢業典禮的口罩', text:'某公立學校規定學生於典禮期間不得佩戴表達政治立場的口罩。學生小林佩戴印有標語的口罩，遭校方要求離場。',
+    opts:[
+      {k:'core', t:'校方規定限制學生的表現自由，是否有法律依據並符合比例原則', why:'基本權限制的標準流程。'},
+      {k:'sec', t:'學生與學校的關係，學生對校方措施可否尋求救濟', why:'涉及特別權力關係的演變，是次要但重要的爭點。'},
+      {k:'tan', t:'典禮秩序是否屬於公益', why:'目的正當性的一環，不必獨立成節。'},
+      {k:'irr', t:'口罩是否符合防疫規定', why:'無關。'},
+    ]},
+  civpro_a:{ title:'不出庭的被告', text:'原告起訴請求返還借款，被告經合法送達卻未於言詞辯論期日到場，也未提出書狀。',
+    opts:[
+      {k:'core', t:'法院得否依原告聲請為一造辯論判決，其要件為何', why:'這題就是在考一造辯論判決的要件。'},
+      {k:'sec', t:'被告未爭執的事實是否視同自認', why:'與一造辯論的效果有關，是次要爭點。'},
+      {k:'tan', t:'送達是否合法', why:'題目已說合法送達。'},
+      {k:'irr', t:'借款契約是否成立', why:'這是實體問題，不是本題重點。'},
+    ]},
+  civpro_b:{ title:'兩件差不多的案子', text:'甲對乙起訴請求給付貨款。訴訟中甲又以同一筆貨款對乙提起另一訴訟，請求損害賠償。',
+    opts:[
+      {k:'core', t:'兩訴是否為同一事件，後訴是否違反重複起訴禁止', why:'訴訟標的與當事人是否同一是核心判斷。'},
+      {k:'sec', t:'若非同一事件，法院可否合併審理', why:'次要。'},
+      {k:'tan', t:'貨款請求權與損害賠償請求權的實體關係', why:'實體問題。'},
+      {k:'irr', t:'訴訟費用如何計算', why:'不是本題重點。'},
+    ]},
+  crimpro_a:{ title:'半夜的搜索', text:'警察接獲線報，未持搜索票即進入甲的住處搜索，查獲毒品。甲主張證據不得使用。',
+    opts:[
+      {k:'core', t:'無令狀搜索是否合法，違法取得的證據有無證據能力', why:'令狀原則的例外與證據排除的權衡是本題核心。'},
+      {k:'sec', t:'甲是否可以聲請調查或請求排除', why:'程序上的主張方式。'},
+      {k:'tan', t:'線報是否可靠', why:'與緊急搜索要件有關但非主軸。'},
+      {k:'irr', t:'毒品的種類', why:'實體問題。'},
+    ]},
+  crimpro_b:{ title:'翻供的證人', text:'證人在警詢時指認甲，於審判中卻改稱記不清楚。檢察官主張以警詢筆錄為證據。',
+    opts:[
+      {k:'core', t:'審判外陳述的證據能力：傳聞法則與其例外的適用', why:'先前陳述與審判中陳述不符時的處理，是刑訴的經典爭點。'},
+      {k:'sec', t:'警詢筆錄是否具有可信之特別情況', why:'例外要件之一。'},
+      {k:'tan', t:'證人是否構成偽證', why:'非本題重點。'},
+      {k:'irr', t:'甲的量刑', why:'無關。'},
+    ]},
+  com_a:{ title:'董事的好朋友', text:'A 公司董事甲，以公司名義向其好友經營的 B 公司採購設備，價格明顯高於市價。',
+    opts:[
+      {k:'core', t:'甲是否違反忠實義務，該交易是否構成自我交易或利益衝突', why:'董事的忠實義務與利益衝突處理是核心。'},
+      {k:'sec', t:'公司可否對甲請求損害賠償，由誰決定', why:'責任追究的程序問題。'},
+      {k:'tan', t:'設備品質是否合格', why:'非重點。'},
+      {k:'irr', t:'B 公司是否應繳稅', why:'無關。'},
+    ]},
+  com_b:{ title:'沒開股東會', text:'某公司連續兩年未召開股東常會，董事會仍決議分派盈餘。股東乙提出異議。',
+    opts:[
+      {k:'core', t:'盈餘分派的決定權限歸屬與未經股東會之決議效力', why:'公司機關權限劃分是本題核心。'},
+      {k:'sec', t:'股東乙可主張的救濟', why:'程序上的問題。'},
+      {k:'tan', t:'公司是否有盈餘可分派', why:'題目未爭執。'},
+      {k:'irr', t:'董事的薪酬', why:'無關。'},
+    ]},
+};
+const SUBJ_CASE = { civ:['civ_a','civ_b'], crim:['crim_a','crim_b'], const_:['const_a','const_b'], civpro:['civpro_a','civpro_b'], crimpro:['crimpro_a','crimpro_b'], com:['com_a','com_b'] };
+
+// 民總小考（大一上第一次小考）
+const QUIZ_CIV1 = [
+  { q:'六歲的小朋友拿零用錢在便利商店買了一支冰。這個孩子在民法上屬於？', opts:['無行為能力人','限制行為能力人','完全行為能力人'], a:0, why:'未滿七歲為無行為能力人；買冰在生活上當然沒問題，但法律上是由法定代理人代為意思表示的結構（這也是教科書上常拿來討論的例子）。' },
+  { q:'甲在賣場拿起商品走到櫃檯，店員刷條碼。在這個過程中，「要約」比較接近哪一個動作？', opts:['商品陳列標價','甲拿商品到櫃檯','店員刷條碼'], a:1, why:'通說認為陳列標價是要約引誘，顧客拿到櫃檯是要約，店員刷條碼是承諾。' },
+  { q:'「意思表示錯誤」得撤銷的前提之一，是表意人對於錯誤的發生？', opts:['有故意','無過失','有重大過失'], a:1, why:'表意人須無過失才能撤銷，這是民法總則第一次考試最常出現的條件之一。' },
+];
+/* ===== 02 人物：固定 NPC、隱藏人生軌跡、記憶旗標 ===== */
+const NPCS = {
+  an:{ id:'an', name:'小安', full:'安佳蓉', role:'同學', hair:'#2B2118', hairStyle:2, top:'#4A6C8C', skin:'#F3D2B6',
+    bio:'認真、講話直接，大一就決定要考司法官。', goal:'judicial' },
+  zhe:{ id:'zhe', name:'阿哲', full:'林柏哲', role:'同學', hair:'#3A2A1A', hairStyle:1, top:'#C9A24F', skin:'#E9C4A2',
+    bio:'社團咖，看起來什麼都不在意，其實家裡的事很多。', goal:'undecided' },
+  sis:{ id:'sis', name:'溫學姊', full:'溫語珊', role:'大三學姊', hair:'#1F1710', hairStyle:2, top:'#2F5D50', skin:'#F0D0B4',
+    bio:'嚴格，但願意教人。筆記做得很漂亮，借了要記得還。', goal:'lawyer' },
+  kai:{ id:'kai', name:'阿凱', full:'許家凱', role:'室友（資工系）', hair:'#2B2118', hairStyle:3, top:'#7B6A5A', skin:'#E9C4A2',
+    bio:'半夜三點還在寫程式，覺得法律系的書都長得一樣。', goal:'startup' },
+  yu:{ id:'yu', name:'小語', full:'周子語', role:'外文系', hair:'#4B2E1E', hairStyle:2, top:'#7A2E3B', skin:'#F5DCC4',
+    bio:'在社團認識的，聽你講法律會認真問「所以那是合法的嗎？」', goal:'abroad' },
+  mom:{ id:'mom', name:'媽媽', full:'媽媽', role:'家人', hair:'#3A2A1A', hairStyle:2, top:'#8B5E3C', skin:'#F0D0B4',
+    bio:'很熱心，不太懂法律職涯，但每次都會問「以後是要當律師還是法官」。', goal:'' },
+  cat:{ id:'cat', name:'阿判', full:'阿判', role:'早餐店的貓', hair:'#7B6A5A', hairStyle:0, top:'#7B6A5A', skin:'#7B6A5A',
+    bio:'圖書館旁早餐店的店貓，會坐在你書上。', goal:'' , cat:true },
+  // 職涯後才出現
+  boss:{ id:'boss', name:'高律師', full:'高承翰', role:'指導律師', hair:'#2B2118', hairStyle:1, top:'#1E4038', skin:'#E9C4A2', bio:'話少，改狀很兇，但從不遲到。', later:true },
+  clerk:{ id:'clerk', name:'小方', full:'方書記官', role:'書記官', hair:'#3A2A1A', hairStyle:2, top:'#4A6C8C', skin:'#F3D2B6', bio:'庭期、卷宗、報結，什麼都知道。', later:true },
+  chief:{ id:'chief', name:'庭長', full:'庭長', role:'庭長', hair:'#7B6A5A', hairStyle:1, top:'#2B2118', skin:'#E9C4A2', bio:'講話慢，但案件量的數字記得很清楚。', later:true },
+  cop:{ id:'cop', name:'阿豪', full:'蔡警官', role:'偵查佐', hair:'#2B2118', hairStyle:3, top:'#3E5A48', skin:'#D9B48E', bio:'辦案很拚，有時候太拚。', later:true },
+  sales:{ id:'sales', name:'Kevin', full:'業務 Kevin', role:'業務部', hair:'#3A2A1A', hairStyle:1, top:'#C9A24F', skin:'#E9C4A2', bio:'每一份合約都「很簡單，請法務快速看一下」。', later:true },
+  mgr:{ id:'mgr', name:'王經理', full:'王經理', role:'主管', hair:'#2B2118', hairStyle:2, top:'#7A2E3B', skin:'#F0D0B4', bio:'以前都這樣做。', later:true },
+};
+const MAIN_NPCS = ['an','zhe','sis','kai','yu','mom','cat'];
+
+// NPC 人生軌跡：依（學年,學期）或職涯年份更新；某些分支看玩家旗標
+// stage 用來描述近況；scene 用來顯示重逢時的敘述
+function npcLifeUpdate(id){
+  const n=G.npcs[id]; if(!n) return;
+  const y=G.time.year, s=G.time.sem, inCareer=G.phase==='career'||G.phase==='bar', cy=G.careerYears||0;
+  const F=k=>!!G.flags[k];
+  const set=(stage, news)=>{ if(n.stage!==stage){ n.stage=stage; n.news=news; n.newsFresh=true; } };
+  if(id==='an'){
+    if(!inCareer){
+      if(y===1) set('大一，已經決定要考司法官','她已經去問過補習班了。');
+      else if(y===2) set('大二，開始有系統地做筆記','她的筆記開始有目錄。');
+      else if(y===3) set('大三，每天固定在圖書館同一個位子','大家都知道那是她的位子。');
+      else set('大四，全職備考模式','她說：「我不是不理你，我是在讀刑訴。」');
+    } else {
+      if(cy<=1) set('畢業後全職準備司法官','一試過了，二試差一點。');
+      else if(cy<=2) set('第二年，司法官二試通過','她說她哭了十分鐘，然後去買了一杯珍奶。');
+      else if(cy<=4) set('司法官學院受訓中','她說訓練比考試累。');
+      else if(cy<=7) set(F('an_pros')?'分發到地檢署當檢察官':'分發到地方法院當法官','她的辦公室有你們大一合照。');
+      else set(F('an_pros')?'資深檢察官，帶新人':'法官，開始參與合議庭','她在同學會說：「大家不要再問我案子了。」');
+    }
+  }
+  if(id==='zhe'){
+    if(!inCareer){
+      if(y===1) set('大一，社團活動比課還多','他說：「大一不玩什麼時候玩？」');
+      else if(y===2) set('大二，學分岌岌可危',F('help_zhe')?'他說多虧你借他筆記，不然真的要重修。':'他重修了一科。');
+      else if(y===3) set('大三，開始去事務所打工','他說事務所的影印機比圖書館的好用。');
+      else set('大四，猶豫要不要考國考','「大家都在考，我不考好像很奇怪。」');
+    } else {
+      if(cy<=1) set('畢業後邊工作邊準備律師考試','在一間小事務所當助理。');
+      else if(cy<=2) set(F('help_zhe')?'第二年考上律師':'律師考試落榜，決定不考了',F('help_zhe')?'他傳訊息：「欸，我考上了，你請客。」':'他說：「我覺得我不適合考試，但我適合工作。」');
+      else if(cy<=5) set(F('help_zhe')?'受僱律師，做商務案':'進了一間科技公司當法務','他說他終於知道什麼叫「業務說很簡單」。');
+      else set(F('help_zhe')?'資深律師，考慮跟人合開事務所':'法務主管，帶三個人','他在同學會上第一個到，最後一個走。');
+    }
+  }
+  if(id==='sis'){
+    if(!inCareer){
+      if(y===1) set('大三，系上的筆記女王','她在圖書館的位子永遠有一杯冰美式。');
+      else if(y===2) set('大四，全職準備律師考試','她開始不回訊息，然後在半夜回一長串。');
+      else if(y===3) set('畢業，律師考試通過','她說：「終於可以把那些書賣掉了。」然後沒賣。');
+      else set('律師職前訓練與實習中','她說實習律師的工作是「把所有東西都做一遍」。');
+    } else {
+      if(cy<=2) set('受僱律師，訴訟組','她的開庭筆記跟大學筆記一樣整齊。');
+      else if(cy<=5) set('資深律師，開始帶新人',F('sis_trust')?'她說有機會會拉你一把。':'她偶爾會在臉書上發開庭心得。');
+      else set(F('sis_trust')?'成為事務所合夥人':'和朋友合開了一間小事務所','她的名片終於印上了自己的名字。');
+    }
+  }
+  if(id==='kai'){
+    if(!inCareer){
+      if(y<=2) set('資工系，每天寫程式到凌晨','他說法律系的書都長得一樣。');
+      else set('大三大四，在新創公司實習','他開始問你「合約這樣寫可以嗎」。');
+    } else {
+      if(cy<=2) set('和朋友創業，做一個 App','他說法務他們「先用範本」。');
+      else if(cy<=5) set('公司拿到投資，開始找法務','他問你認不認識可以看合約的人。');
+      else set('公司被併購，開始新的計畫','他還是每天凌晨三點傳訊息。');
+    }
+  }
+  if(id==='yu'){
+    if(!n.met) return;
+    if(!inCareer){
+      if(y<=2) set('外文系，忙社團和翻譯打工','她說你講話越來越像課本。');
+      else set('大三大四，準備出國念研究所','她問你要不要一起去。');
+    } else {
+      if(cy<=2) set(F('yu_partner')?'在國外念書，遠距中':'在國外念研究所','她的時差跟你的加班剛好錯開。');
+      else set(F('yu_partner')?'回台灣，在出版社工作':'留在國外工作','她偶爾傳一張很好看的街景給你。');
+    }
+  }
+  if(id==='mom'){
+    if(!inCareer) set('每週打一次電話','「有沒有好好吃飯？」');
+    else if(cy<=3) set('會跟親戚說你在做什麼','親戚聽到「法律」，又拿出土地資料。');
+    else set('開始問你要不要買房子','「你們這一行很穩定吧？」');
+  }
+  if(id==='cat'){
+    if(!inCareer) set('每天坐在早餐店門口','牠對你的書沒有興趣，但對你的書袋有。');
+    else set('早餐店還在，牠變胖了','你回母校時特地去看牠，牠沒認出你。');
+  }
+}
+
+// 記憶旗標的說明（用於人生記憶面板與結局回顧）
+const FLAG_TEXT = {
+  study_with_an:'曾和小安一起準備考試',
+  help_zhe:'在阿哲學分危機時借他筆記',
+  refuse_zhe:'拒絕了阿哲的夜唱邀約（不只一次）',
+  borrow_sis:'跟溫學姊借過筆記',
+  sis_trust:'把補充過的筆記還給溫學姊，得到她的信任',
+  midnight_notes:'期中考前，凌晨兩點和同學一起找那份筆記',
+  footnote:'花兩小時研究第七頁的註腳',
+  uncle_land:'親戚給你看過土地資料',
+  quiz_good:'第一次民總小考表現不錯',
+  quiz_bad:'第一次民總小考一團亂',
+  mid_bad:'某次期中考失利',
+  fin_great:'某門課期末表現很好',
+  failed_course:'曾經被當，重修過',
+  yu_met:'在社團認識了小語',
+  yu_partner:'和小語交往',
+  yu_break:'和小語分開了',
+  club_leader:'當過社團幹部',
+  exch_applied:'申請過交換學生',
+  exch_go:'去了交換',
+  exch_skip:'放棄交換，留在台灣',
+  exch_friend:'交換時交到一起吃飯的朋友',
+  exch_speak:'第一次用外語完整講出自己的法律觀點',
+  exch_broke:'交換時預算不足，開始自己煮',
+  intern_firm:'大學時在事務所實習過',
+  court_visit:'大學時常去法院旁聽',
+  bar_fail:'國考落榜過',
+  bar_pass:'國考通過',
+  judicial_pass:'司法官考試通過',
+  refuse_job:'拒絕過一個工作機會',
+  conflict_boss:'和主管起過衝突',
+  repair_zhe:'修復了和阿哲的關係',
+  career_switch:'轉換過職涯',
+  own_firm:'開了自己的事務所',
+  partner:'成為事務所合夥人',
+  legal_head:'成為法務主管',
+  judge_panel:'參與合議庭審判',
+  pros_chief:'擔任主任檢察官',
+  kai_client:'阿凱的公司成為你的客戶或雇主',
+  an_pros:'小安選了檢察官',
+  helped_friend:'曾幫助一位朋友度過難關',
+  rest_lots:'很懂得休息',
+  overwork:'曾經連續高強度讀書到效率下降',
+};
+/* ===== 03 大學事件（大一上深化 + 各學期通用） ===== */
+// 事件格式：{id,title,scene,once,weight,when(G),lines|linesFn,options:[{label,hint,when,do(G)->lines|string}]}
+// 輔助：Y(y,s) 學年學期；B(id) 目前區塊；F(flag)；R(npc,min) 關係門檻
+const Y=(y,s)=>G.time.year===y&&(s==null||G.time.sem===s);
+const B=(...ids)=>ids.includes(curBlockId());
+const F=k=>!!G.flags[k];
+const R=(id,min)=>(G.npcs[id]&&G.npcs[id].rel>=min);
+const L=(who,t)=>({who,t});
+
+const UNI_EVENTS = [
+  // ---------- 大一上：開學 ----------
+  { id:'y1_open', title:'第一堂法學緒論', scene:'classroom', once:true, weight:1000,
+    when:()=>Y(1,1)&&B('w1'),
+    lines:[
+      L('n','法學緒論的教室很大，冷氣很強。你挑了中間偏後的位子坐下。'),
+      L('wu','這學期報告不會很重，大家放心。'),
+      L('n','旁邊的女生已經把課本翻到第一章，用三種顏色的筆畫線。她發現你在看。'),
+      L('an','你也是法律系的？我是安佳蓉，叫我小安就好。'),
+      L('n','後排傳來一個聲音。'),
+      L('zhe','欸，你們有人知道系烤是哪天嗎？我是阿哲。'),
+    ],
+    options:[
+      { label:'「我是{name}。你們高中就想念法律嗎？」', hint:'打開話題', do:()=>{ addRel('an',6); addRel('zhe',6); G.npcs.an.met=G.npcs.zhe.met=true;
+          return [L('an','嗯，我高中就決定要考司法官。'),L('zhe','我是分數剛好到。'),L('n','小安看了阿哲一眼。阿哲聳肩。你覺得這兩個人大概會常出現在你人生裡。')]; } },
+      { label:'點頭微笑，先觀察', hint:'不急著認識人', do:()=>{ addRel('an',2); addRel('zhe',2); G.npcs.an.met=G.npcs.zhe.met=true;
+          return [L('n','你點了點頭。小安繼續畫線，阿哲開始問前排的人系烤的事。'),L('n','下課時阿哲還是加了你的 LINE：「以後借筆記用。」')]; } },
+      { label:'「系烤我也想知道。」', hint:'先跟阿哲熟', do:()=>{ addRel('zhe',9); addRel('an',2); G.npcs.an.met=G.npcs.zhe.met=true;
+          return [L('zhe','太好了，終於有人在意重要的事。'),L('an','……你們兩個要不要先看一下課綱？'),L('n','你們三個人的關係就這樣開始了。')]; } },
+    ]},
+  { id:'y1_kai', title:'室友', scene:'dorm', once:true, weight:90,
+    when:()=>Y(1,1)&&B('w2','w4')&&G.housing==='dorm',
+    lines:[
+      L('n','宿舍。你的室友阿凱是資工系，桌上有兩台螢幕，凌晨一點還亮著。'),
+      L('kai','法律系的書都長這樣喔？每本都一樣厚。'),
+      L('kai','你們是不是要背整本？'),
+    ],
+    options:[
+      { label:'「不是背，是要理解結構。」', hint:'認真解釋', do:()=>{ addRel('kai',7); G.npcs.kai.met=true; return [L('kai','喔，跟寫程式一樣，要先知道架構。'),L('n','你覺得這個比喻不完全對，但沒有糾正他。')]; } },
+      { label:'「對，要背整本。」', hint:'開玩笑', do:()=>{ addRel('kai',5); G.npcs.kai.met=true; return [L('kai','那你們畢業會不會變成一本書。'),L('n','他笑了。你也笑了。你們的關係從一個爛笑話開始。')]; } },
+    ]},
+  { id:'y1_commute', title:'早班的火車', scene:'campus', once:true, weight:90,
+    when:()=>Y(1,1)&&B('w2','w4')&&G.housing==='commute',
+    lines:[
+      L('n','通勤的第一週。早八的課要搭六點五十的車。'),
+      L('n','車上有個人在看《民法總則》，翻頁很快。你認出她是系上大三的溫學姊。'),
+      L('sis','你也早八？陳教授的民總？'),
+    ],
+    options:[
+      { label:'「對，我大一。」然後問她怎麼讀民總', hint:'向前輩請益', do:()=>{ addRel('sis',8); G.npcs.sis.met=true; return [L('sis','先把體系圖畫出來，再讀細節。她考試很愛問「這個放在哪裡」。'),L('n','你把這句記在手機備忘錄。'),L('sis','有問題可以問我，但不要期中考前一天問。')]; } },
+      { label:'點個頭，繼續看窗外', hint:'早上還沒醒', do:()=>{ addRel('sis',2); G.npcs.sis.met=true; return [L('n','她也點了點頭，繼續翻書。你在系上再遇到她時，她記得你是「火車上的那個」。')]; } },
+    ]},
+  { id:'y1_an_group', title:'讀書會', scene:'library', once:true, weight:70,
+    when:()=>Y(1,1)&&B('w2','w4')&&G.npcs.an.met,
+    lines:[
+      L('an','我想組一個讀書會，每週一次，先從民總開始。'),
+      L('an','不是聊天的那種。'),
+      L('zhe','那我先聲明我是聊天的那種。'),
+    ],
+    options:[
+      { label:'「好，我加入。」', hint:'之後「讀書會」的效果會更穩定', do:()=>{ addRel('an',8); setFlag('study_with_an'); G.groupBonus=true; return [L('an','那週三晚上，圖書館三樓。'),L('zhe','……我也去啦。'),L('n','你們三個人的讀書會成立了。第一次聚會，前二十分鐘在討論要不要買飲料。')]; } },
+      { label:'「我先自己讀看看，之後再說。」', hint:'保留自由', do:()=>{ addRel('an',-1); return [L('an','好，隨時可以來。'),L('n','她沒有不高興，只是把「你」從她的行事曆上暫時拿掉了。')]; } },
+      { label:'「聊天的那種我也可以。」', hint:'跟阿哲站同一邊', do:()=>{ addRel('zhe',6); addRel('an',2); G.groupBonus=false; return [L('an','……你們兩個。'),L('n','讀書會還是成立了，只是小安每次都會準備一份「今天要討論的爭點」，你和阿哲每次都會準備一份宵夜。')]; } },
+    ]},
+  { id:'y1_zhe_club', title:'社團迎新', scene:'campus', once:true, weight:70,
+    when:()=>Y(1,1)&&B('w2','w4','w6')&&G.npcs.zhe.met,
+    lines:[
+      L('zhe','週五晚上吉他社迎新，要不要來？外文系的人很多。'),
+      L('zhe','你不用會彈，我也不會。'),
+    ],
+    options:[
+      { label:'去看看', hint:'認識法律系以外的人', do:()=>{ addRel('zhe',6); G.npcs.yu.met=true; addRel('yu',8); setFlag('yu_met'); G.player.stress=Math.max(0,G.player.stress-5);
+          return [L('n','迎新在活動中心。你被拉去玩一個要自我介紹的遊戲。'),L('yu','法律系？所以你以後會幫人打官司？'),L('you','……不一定。'),L('yu','那你現在能幫我看一下這份打工合約嗎？'),L('n','她叫小語，外文系。你們交換了 LINE。合約你看了三遍，其實看不太懂。')]; } },
+      { label:'「這週要讀書，下次。」', hint:'之後還會有邀約', do:()=>{ G.refuseZhe=(G.refuseZhe||0)+1; if(G.refuseZhe>=2) setFlag('refuse_zhe'); addRel('zhe',-2); return [L('zhe','好啦，用功的人。'),L('n','週五晚上你在圖書館，讀了三十頁，然後滑了一小時手機。')]; } },
+    ]},
+  { id:'y1_sis_notes', title:'學姊的筆記', scene:'campus', once:true, weight:60,
+    when:()=>Y(1,1)&&B('w4','w6')&&(G.npcs.an.met||G.npcs.sis.met),
+    linesFn:()=>[
+      L('n', G.npcs.sis.met?'系辦門口遇到溫學姊。':'小安介紹你認識溫學姊，大三，系上有名的筆記女王。'),
+      L('sis','陳教授的民總我有筆記，體系圖是我自己畫的。要借你可以，但兩個條件。'),
+      L('sis','一，還我的時候要完整。二，不要只抄，你要自己讀得懂。'),
+    ],
+    options:[
+      { label:'借，並且答應條件', hint:'解鎖「借筆記」；之後要記得還', do:()=>{ G.npcs.sis.met=true; addRel('sis',5); setFlag('borrow_sis'); G.sisNotes='have'; return [L('n','筆記很整齊，第一頁是一張手繪的民總體系圖，右下角寫著「這個很基本」。'),L('n','你看了兩頁，發現有些地方要先讀過課本才看得懂。她說的是真的。')]; } },
+      { label:'「謝謝，我想先自己整理看看。」', hint:'走自己的路', do:()=>{ G.npcs.sis.met=true; addRel('sis',3); return [L('sis','也好。自己整理過的東西才真的是自己的。'),L('n','她看起來反而有點欣賞這個回答。')]; } },
+    ]},
+  { id:'y1_basic', title:'這個很基本', scene:'classroom', once:true, weight:50,
+    when:()=>Y(1,1)&&B('w4','w6','w10'),
+    lines:[
+      L('chen','所以，法律行為的成立要件和生效要件要分開看。這個很基本。'),
+      L('n','全班的筆在同一秒動了起來。'),
+      L('n','你發現前排有人在旁邊畫星號，後排有人在旁邊畫問號。'),
+    ],
+    options:[
+      { label:'畫星號，回去把「成立」與「生效」的關係重新整理一次', hint:'體系', do:()=>{ courseFx('civ1',{s:4,u:2}); return [L('n','你回宿舍把這兩個概念畫成一張表。畫完發現，很多之前覺得零散的東西可以掛在上面。')]; } },
+      { label:'下課去問：「老師，為什麼要分開看？」', hint:'表達', do:()=>{ courseFx('civ1',{u:4,part:8}); G.player.skills.express+=1; return [L('chen','問得好。因為不成立的東西不用談生不生效，而成立的東西可能無效、得撤銷、效力未定。'),L('n','她講得很快，但你聽懂了。她好像記住了你的臉。')]; } },
+      { label:'畫問號，之後再說', hint:'先跟上進度', do:()=>{ courseFx('civ1',{m:2}); return [L('n','問號一直留在筆記上。期中考前你看到它的時候，才去查是什麼意思。')]; } },
+    ]},
+  { id:'y1_mom', title:'媽媽的電話', scene:'dorm', once:true, weight:45,
+    when:()=>Y(1,1)&&B('w6','w10','w12'),
+    lines:[
+      L('mom','有沒有好好吃飯？'),
+      L('mom','你二舅問你以後是要當律師還是法官。'),
+      L('mom','他說法官比較穩定。'),
+    ],
+    options:[
+      { label:'「我才大一，還不知道。」', hint:'誠實', do:()=>{ addRel('mom',3); return [L('mom','好啦，不急。你先把書讀好。'),L('n','掛掉電話後，你發現自己真的不知道。這件事會跟著你很久。')]; } },
+      { label:'「先當律師吧，比較快。」', hint:'先給一個答案', do:()=>{ addRel('mom',4); setFlag('told_mom_lawyer'); return [L('mom','那要考試嗎？'),L('you','要。'),L('mom','那你要好好讀喔。'),L('n','你想，很多事情講出來以後就變得比較真了。')]; } },
+      { label:'「媽，法官也要考試，而且更難考。」', hint:'解釋', do:()=>{ addRel('mom',2); G.player.skills.express+=1; return [L('mom','喔，那就律師好了。'),L('n','你發現解釋法律職涯給家人聽，可能比考試還難。')]; } },
+    ]},
+  { id:'y1_cat', title:'阿判', scene:'cafe', once:true, weight:40,
+    when:()=>Y(1,1)&&B('w4','w6','w10','w12'),
+    lines:[
+      L('n','圖書館旁邊的早餐店有一隻貓，店員叫牠阿判。'),
+      L('n','你把刑總課本放在桌上，牠直接坐上去。'),
+    ],
+    options:[
+      { label:'讓牠坐，改看手機上的判決', hint:'牠比較重要', do:()=>{ G.npcs.cat.met=true; addRel('cat',10); G.player.stress=Math.max(0,G.player.stress-6); G.player.skills.research+=0.5; return [L('n','牠在課本上睡著了。你用手機讀了一則判決，讀得比平常認真。'),L('n','店員說：「牠平常不太理人。」你有點得意。')]; } },
+      { label:'把牠抱到椅子上，繼續讀書', hint:'進度', do:()=>{ G.npcs.cat.met=true; addRel('cat',3); courseFx('crim1',{u:2}); return [L('n','牠在椅子上瞪了你十分鐘，然後去找別桌的人。你讀完了一節。')]; } },
+    ]},
+  { id:'y1_midnight', title:'凌晨兩點', scene:'dorm', once:true, weight:100,
+    when:()=>Y(1,1)&&B('w8')&&(G.npcs.an.met||G.npcs.zhe.met),
+    lines:[
+      L('n','期中考前一週的凌晨兩點，群組突然跳出來。'),
+      L('zhe','欸 有人有那份民總的體系筆記嗎 我電腦裡的不見了'),
+      L('an','哪一份？'),
+      L('zhe','就是那份 很多屆傳的那份'),
+      L('an','我找找'),
+      L('n','你看著螢幕，也不知道自己為什麼還醒著。'),
+    ],
+    options:[
+      { label:'一起找，找到凌晨三點', hint:'精力下降，但你們會記得這個晚上', do:()=>{ setFlag('midnight_notes'); addRel('zhe',6); addRel('an',6); G.player.energy=Math.max(0,G.player.energy-10); courseFx('civ1',{s:3});
+          return [L('n','三點十二分，小安在雲端硬碟的第六層資料夾找到了。'),L('zhe','我愛你們'),L('an','去睡覺'),L('n','你多看了一遍那份筆記的體系圖，然後睡了四個小時。')]; } },
+      { label:'把自己整理的筆記直接傳上去', hint:'需要你這學期有整理過民總筆記', when:()=>G.courses.civ1&&G.courses.civ1.s>=25, do:()=>{ setFlag('midnight_notes'); setFlag('helped_friend'); addRel('zhe',10); addRel('an',5);
+          return [L('zhe','靠 你這份比那份還清楚'),L('an','……可以借我看一下嗎'),L('n','你的筆記從這一晚開始在系上有了名字。')]; } },
+      { label:'「先睡，明天再找。」然後真的去睡', hint:'休息', do:()=>{ G.player.energy=Math.min(100,G.player.energy+6); addRel('zhe',1); return [L('an','+1'),L('n','隔天早上群組裡已經有那份筆記了。你不知道是誰找到的，也沒有人再提。')]; } },
+    ]},
+  { id:'y1_after_mid', title:'考完試走出教室', scene:'campus', once:true, weight:100,
+    when:()=>Y(1,1)&&B('w10')&&G.lastExam==='mid',
+    lines:[
+      L('n','刑總考完，大家在走廊上停下來。'),
+      L('zhe','第二題你們寫故意還是過失？'),
+      L('an','我寫未必故意，然後討論客觀歸責。'),
+      L('zhe','……我寫過失。'),
+      L('n','所有人的答案好像都不一樣。'),
+    ],
+    options:[
+      { label:'加入對答案', hint:'會知道自己哪裡沒寫到', do:()=>{ courseFx('crim1',{i:3}); G.player.stress+=4; return [L('n','對了十分鐘，你發現有一個爭點你完全沒想到。'),L('you','我先去吃飯。'),L('n','你們去吃了鹹酥雞。沒有人再提第二題。')]; } },
+      { label:'「考完就不要對了。」', hint:'保護心情', do:()=>{ G.player.stress=Math.max(0,G.player.stress-6); addRel('zhe',3); return [L('zhe','對，走，吃飯。'),L('n','小安一路上還在想第二題，但也沒有再說出來。')]; } },
+    ]},
+  { id:'y1_zhe_credits', title:'阿哲的期中', scene:'street', once:true, weight:80,
+    when:()=>Y(1,1)&&B('w10','w12')&&G.npcs.zhe.met&&G.lastExam==='mid',
+    lines:[
+      L('n','宵夜攤。阿哲比平常安靜。'),
+      L('zhe','民總我大概四十幾分。'),
+      L('zhe','我媽那邊……家裡最近有點事，我這學期沒什麼在讀。'),
+      L('zhe','沒事，我期末拚一下。'),
+    ],
+    options:[
+      { label:'把自己的民總筆記給他，約他每週一起讀一次', hint:'你的時間會被分掉一點', do:()=>{ setFlag('help_zhe'); setFlag('helped_friend'); addRel('zhe',14); G.zheStudy=true; G.player.energy-=4;
+          return [L('zhe','……你不用啦。'),L('you','週三晚上。你不來我就去你宿舍。'),L('zhe','好啦。'),L('n','他把宵夜的錢付了。你們都沒再提家裡的事。')]; } },
+      { label:'「期末我可以幫你畫重點。」', hint:'幫，但不投入太多', do:()=>{ addRel('zhe',6); return [L('zhe','謝啦。'),L('n','期末前你真的把重點傳給他。他回了一個貼圖。')]; } },
+      { label:'「你要不要先跟老師談一下？」', hint:'建議找老師', do:()=>{ addRel('zhe',2); G.player.skills.judgment+=1; return [L('zhe','……我想想。'),L('n','他後來有沒有去找老師，你不知道。宵夜吃完，你們各自回去。')]; } },
+    ]},
+  { id:'y1_sis_return', title:'還筆記', scene:'campus', once:true, weight:80,
+    when:()=>Y(1,1)&&B('w10','w12','w14')&&G.sisNotes==='have',
+    lines:[
+      L('sis','筆記讀完了嗎？'),
+      L('n','她的語氣不像在催，比較像在確認你有沒有做功課。'),
+    ],
+    options:[
+      { label:'還她，附上自己補充的一頁整理', hint:'需要你有讀過民總', when:()=>G.courses.civ1&&G.courses.civ1.u>=30, do:()=>{ G.sisNotes='returned'; setFlag('sis_trust'); addRel('sis',14); courseFx('civ1',{s:3});
+          return [L('sis','……你這頁整理得不錯。'),L('sis','之後有實習機會我會跟你說。'),L('n','她把那一頁夾進她的筆記裡。你知道這代表什麼。')]; } },
+      { label:'還她，說聲謝謝', hint:'乾淨俐落', do:()=>{ G.sisNotes='returned'; addRel('sis',5); return [L('sis','嗯。有幫到就好。'),L('n','她翻了一下，確認每一頁都在。')]; } },
+      { label:'「可以期末再還嗎？」', hint:'多用一陣子', do:()=>{ G.sisNotes='late'; addRel('sis',-6); return [L('sis','可以。但下次不會再借了。'),L('n','她說得很平靜，你反而更不舒服。')]; } },
+    ]},
+  { id:'y1_yu_contract', title:'那份打工合約', scene:'street', once:true, weight:50,
+    when:()=>Y(1,1)&&B('w10','w12','w14')&&F('yu_met'),
+    lines:[
+      L('yu','上次那份合約，我後來去問系辦，他們說「應該沒問題」。'),
+      L('yu','所以到底有沒有問題？'),
+      L('n','你想起合約裡有一條寫「乙方不得於任何情況下請求加班費」。'),
+    ],
+    options:[
+      { label:'「那一條可能有問題，勞動法我還沒學，但我幫你查。」', hint:'誠實，然後真的去查', do:()=>{ addRel('yu',10); G.player.skills.research+=1.5; G.player.skills.judgment+=1; return [L('n','你花了一個晚上查資料，把你找到的東西整理成三行傳給她。'),L('yu','你好認真喔。'),L('n','她加了一個笑臉。你把手機翻過來，繼續查。')]; } },
+      { label:'「我才大一，你去問勞工局比較準。」', hint:'不要越界', do:()=>{ addRel('yu',3); G.player.skills.judgment+=1.5; return [L('yu','也對。'),L('n','她後來真的去問了。你發現「知道自己不知道」也是一種能力。')]; } },
+    ]},
+  { id:'y1_work_clash', title:'排班', scene:'store', once:true, weight:60,
+    when:()=>Y(1,1)&&B('w10','w12')&&G.stats.work>=2,
+    lines:[
+      L('n','店長把下個月的班表貼出來。你的晚班排到期末考前一天。'),
+      L('n','店長：「那天沒人可以換。」'),
+    ],
+    options:[
+      { label:'硬撐，上完班直接去考試', hint:'錢照拿，狀態會差', do:()=>{ G.examPenalty=(G.examPenalty||0)+6; G.player.money+=3600; return [L('n','那天你在店裡站了八小時。回宿舍睡了三小時，然後去考試。')]; } },
+      { label:'跟店長談：這個月少排一天，下個月補', hint:'表達與協商', do:()=>{ G.player.skills.express+=2; G.player.money-=1500; return [L('n','店長皺了一下眉，然後說「好啦」。你這個月少了一天的錢，多了一個晚上。')]; } },
+    ]},
+  { id:'y1_pastpapers', title:'歷屆考題', scene:'library', once:true, weight:70,
+    when:()=>Y(1,1)&&B('w14','w16'),
+    lines:[
+      L('n','考前兩週，有人開始整理歷屆考題。'),
+      L('an','我把陳教授近五年的題目排了一下，她每年都會考「效力未定」。'),
+      L('zhe','所以我們只要讀效力未定？'),
+      L('an','不是。'),
+    ],
+    options:[
+      { label:'跟著把五年的題目寫一遍', hint:'爭點辨識、答案結構', do:()=>{ courseFx('civ1',{i:5,r:4}); G.courses.civ1.knowStyle=true; G.player.skills.structure+=1.5; G.player.energy-=6; return [L('n','寫完才發現，老師真正重視的地方跟課本的章節順序不一樣。'),L('n','你在筆記上把幾個常考的地方標起來。')]; } },
+      { label:'只看題目，不寫', hint:'省時間', do:()=>{ courseFx('civ1',{i:2}); return [L('n','你看了題目，覺得都會。真的動筆的時候，才會知道會不會。')]; } },
+    ]},
+  { id:'y1_wu_report', title:'吳老師說報告不重', scene:'dorm', once:true, weight:90,
+    when:()=>Y(1,1)&&B('w14'),
+    lines:[
+      L('n','法學緒論的期末報告要交了。吳老師開學說「不會很重」。'),
+      L('zhe','為什麼大家都在熬夜'),
+      L('an','因為她說的「不重」是指頁數，不是指她會不會認真看。'),
+    ],
+    options:[
+      { label:'自己找三篇文章，重寫報告的論證', hint:'研究能力；很累', do:()=>{ G.player.skills.research+=2; G.reportBonus=(G.reportBonus||0)+12; G.player.energy-=8; G.player.stress+=5; return [L('n','你在圖書館待到閉館。報告的每一段都有出處。'),L('n','吳老師後來在課堂上說「有一組同學有自己找資料」，沒有說是誰。你知道是誰。')]; } },
+      { label:'按照分工把自己的部分寫好就好', hint:'穩穩交出去', do:()=>{ G.reportBonus=(G.reportBonus||0)+4; return [L('n','你的部分寫得整齊。整份報告交出去的時候，你們三個都鬆了一口氣。')]; } },
+    ]},
+  { id:'y1_burnout', title:'書讀不進去', scene:'library', once:true, weight:90,
+    when:()=>Y(1,1)&&B('w14','w16')&&G.streak>=2,
+    lines:[
+      L('n','你發現同一頁已經看了四次。'),
+      L('n','旁邊小安也停下來，看著天花板。'),
+      L('an','你讀完了嗎？'),
+      L('you','沒有。'),
+      L('an','我也是。'),
+    ],
+    options:[
+      { label:'「那要不要先吃飯？」', hint:'休息不是偷懶', do:()=>{ G.streak=0; G.player.energy=Math.min(100,G.player.energy+10); G.player.stress=Math.max(0,G.player.stress-10); addRel('an',4); setFlag('rest_lots');
+          return [L('an','好。'),L('n','你們去吃了一頓很慢的晚餐。回來以後那一頁只看了一次就過了。')]; } },
+      { label:'再撐一下', hint:'效率會繼續下降', do:()=>{ setFlag('overwork'); G.player.stress+=6; return [L('n','你又看了那一頁兩次。這次你記住的是那頁的排版。')]; } },
+    ]},
+  { id:'y1_grades_react', title:'成績公布', scene:'campus', once:true, weight:100,
+    when:()=>Y(1,1)&&B('grades'),
+    linesFn:()=>{ const a=G.semAvg||0; return [
+      L('n','成績陸續公布。系上群組安靜了一個下午，然後慢慢出現各種貼圖。'),
+      L('zhe', G.flags.help_zhe?'民總過了！！！':'算了，下學期再說。'),
+      L('an', a>=80?'你這學期很穩欸。':'我覺得我刑總寫太多了，沒寫到重點。'),
+      L('n','有人非常開心，有人沉默，有人已經在問下學期的課。'),
+    ]; },
+    options:[
+      { label:'找大家去吃一頓', hint:'不管成績', do:()=>{ addRel('an',3); addRel('zhe',3); G.player.money-=400; G.player.stress=Math.max(0,G.player.stress-8); return [L('n','火鍋店。沒有人提成績。有人提了寒假要幹嘛，然後大家發現都沒有計畫。')]; } },
+      { label:'一個人去操場走一走', hint:'消化一下', do:()=>{ G.player.stress=Math.max(0,G.player.stress-8); G.player.energy+=4; return [L('n','操場很安靜。你走了三圈，想清楚了一件事：這學期的讀書方法哪裡要改。')]; } },
+    ]},
+
+  // ---------- 通用（所有學期）----------
+  { id:'g_seat', title:'位子', scene:'library', weight:20,
+    when:()=>G.phase==='uni'&&!B('w1','grades','break')&&!(Y(1,1)&&B('w2')),
+    lines:[L('n','期中前的圖書館，你八點到的時候，常坐的那排已經全滿了。'),L('n','有一個位子上放著一本書和一杯水，人不在。')],
+    options:[
+      { label:'去別層找位子', do:()=>[L('n','五樓靠窗有一個位子，冷氣直吹。你戴上外套的帽子，坐了一整天。')] },
+      { label:'坐在旁邊的沙發等', do:()=>{ G.player.energy+=2; return [L('n','等了二十分鐘，書和水的主人回來了，是溫學姊。她看了你一眼，把旁邊的包拿開：「坐。」'),]; } },
+    ]},
+  { id:'g_lunch', title:'午餐', scene:'street', weight:18, when:()=>G.phase==='uni'&&!B('w1','grades','break'),
+    lines:[L('n','午餐。桌上五個人，話題從民法的爭點開始，三分鐘後變成哪一家便當的雞腿比較大。'),L('n','沒有人想把話題拉回去。')],
+    options:[
+      { label:'加入雞腿的討論', do:()=>{ G.player.stress=Math.max(0,G.player.stress-4); return [L('n','你們最後決定去吃第三家。雞腿普通，但大家吃得很開心。')]; } },
+      { label:'趁機問大家期中怎麼準備', do:()=>{ G.player.stress+=2; courseFx(pick(examCoursesNow()),{i:1}); return [L('n','桌上安靜了三秒。然後每個人都說「還沒開始」。你知道至少有一個人在說謊。')]; } },
+    ]},
+  { id:'g_thickbook', title:'一本很厚的書', scene:'campus', weight:12, once:true, when:()=>G.phase==='uni'&&B('w2','w4'),
+    lines:[L('n','書局。你拿起一本九百頁的教科書，封面很好看。'),L('n','學長說「這本一定要買」，學姊說「那本沒有人看完過」。')],
+    options:[
+      { label:'買', hint:'錢 −1,200', do:()=>{ G.player.money-=1200; G.bigBook=true; return [L('n','你把它放在書桌最顯眼的位置。學期結束時，書籤停在三分之一的地方。')]; } },
+      { label:'先去圖書館借', do:()=>[L('n','圖書館有兩本，都被借走了。你預約了，排在第十一位。')] },
+    ]},
+  { id:'g_kai_night', title:'凌晨三點', scene:'dorm', weight:14, when:()=>G.phase==='uni'&&G.housing==='dorm'&&G.npcs.kai.met,
+    lines:[L('kai','你還沒睡？'),L('you','你也還沒睡。'),L('kai','我在寫程式。你在幹嘛？'),L('you','在想一個問題。'),L('kai','什麼問題？'),L('you','一個大概不會考的問題。'),L('kai','喔，跟我一樣。')],
+    options:[
+      { label:'跟他聊到四點', do:()=>{ addRel('kai',5); G.player.energy-=5; G.player.stress=Math.max(0,G.player.stress-5); return [L('n','你們聊了法律跟程式哪一個比較像數學。沒有結論。但很好聊。')]; } },
+      { label:'去睡', do:()=>{ G.player.energy+=3; return [L('n','你把燈關了。他的螢幕還亮著，像一個小小的月亮。')]; } },
+    ]},
+  { id:'g_money_low', title:'月底', scene:'store', weight:60, when:()=>G.phase==='uni'&&G.player.money<6000&&!B('grades','break'),
+    linesFn:()=>[L('n','帳戶餘額：'+Math.max(0,Math.round(G.player.money))+' 元。'),L('n','這個月還有兩週。')],
+    options:[
+      { label:'跟家裡開口', hint:'一次性', when:()=>!G.askedMoney, do:()=>{ G.askedMoney=true; G.player.money+=8000; addRel('mom',2); G.player.stress+=3; return [L('mom','你要早講啊。'),L('n','匯款進來了，附帶一句「不要餓到」。你把這句話記了很久。')]; } },
+      { label:'多排一些班', hint:'接下來的打工收入 +20%', do:()=>{ G.workBoost=true; G.player.stress+=4; return [L('n','店長很高興。你的行事曆上多了幾格「便利商店」。')]; } },
+      { label:'這兩週吃便宜一點', hint:'精力略降', do:()=>{ G.player.energy-=6; G.player.money+=1200; return [L('n','你研究出一種泡麵加蛋加青菜的吃法。可以撐。')]; } },
+    ]},
+  { id:'g_pointed', title:'被點到', scene:'classroom', weight:22, when:()=>G.phase==='uni'&&examCoursesNow().some(c=>TEACHERS[COURSES[c].teacher].style==='disc'),
+    linesFn:()=>{ const c=examCoursesNow().find(c=>TEACHERS[COURSES[c].teacher].style==='disc'); G._evCourse=c; return [L(COURSES[c].teacher,'那……這位同學，你同意這個看法嗎？'),L('n','全班轉頭。你沒有舉手。')]; },
+    options:[
+      { label:'說出自己的看法，即使不完整', do:()=>{ const c=G._evCourse; const ok=G.courses[c].u>=30; courseFx(c,{part:ok?12:6}); G.player.skills.express+=ok?2:1; G.player.stress+=3; return [L('n', ok?'你講了三句。老師點頭：「可以，繼續。」':'你講了一句半，老師說：「方向對，回去再想想。」'),L('n','下課後你發現自己手心是濕的。')]; } },
+      { label:'「老師，我還沒想清楚。」', do:()=>{ courseFx(G._evCourse,{part:2}); return [L('n','老師轉向別人。你鬆了一口氣，然後有一點點後悔。')]; } },
+    ]},
+  { id:'g_office', title:'辦公室時間', scene:'classroom', weight:16, when:()=>G.phase==='uni'&&B('w6','w12'),
+    linesFn:()=>{ const c=G._evCourse||pick(examCoursesNow()); G._evCourse=c; return [L('n','你抱著一個問題站在'+TEACHERS[COURSES[c].teacher].name+'的辦公室門口。'),L('n','門開著。老師在改東西。')]; },
+    options:[
+      { label:'敲門進去', do:()=>{ const c=G._evCourse; courseFx(c,{u:4,i:2}); G.courses[c].knowStyle=true; return [L(COURSES[c].teacher,'進來。什麼問題？'),L('n','你問了。老師回答的時候，你發現他在意的東西跟你以為的不一樣。你把「老師的期待」寫進筆記第一頁。')]; } },
+      { label:'算了，回圖書館', do:()=>[L('n','你在門口站了三十秒，然後走了。那個問題你後來自己查到了，花了兩個小時。')] },
+    ]},
+  { id:'g_sys_event', title:'系上活動', scene:'campus', weight:14, when:()=>G.phase==='uni'&&B('w6','w12')&&G.npcs.zhe.met,
+    lines:[L('zhe','系烤，週六，河濱。'),L('zhe','你不來我就把你的名字寫在報名表上。')],
+    options:[
+      { label:'去', do:()=>{ addRel('zhe',4); addRel('an',2); G.player.stress=Math.max(0,G.player.stress-6); G.player.money-=300; return [L('n','烤肉烤到一半下雨。大家躲在橋下，把剩下的肉烤完。這是這學期你笑最多的一天。')]; } },
+      { label:'不去', do:()=>{ G.refuseZhe=(G.refuseZhe||0)+1; if(G.refuseZhe>=2) setFlag('refuse_zhe'); return [L('n','週六下午你在圖書館，聽到外面在下雨，想到他們大概在淋雨。')]; } },
+    ]},
+  { id:'g_break_plan', title:'放假前', scene:'campus', weight:10, when:()=>G.phase==='uni'&&B('w16'),
+    lines:[L('n','考前最後一週，大家已經在討論放假要幹嘛。'),L('an','我要先睡三天。'),L('zhe','然後呢？'),L('an','然後看下學期的課。'),L('zhe','……')],
+    options:[ { label:'「先考完再說。」', do:()=>[L('n','大家點頭，然後繼續翻書。')] } ]},
+  { id:'y_yu_confess', title:'那天晚上', scene:'street', once:true, weight:90, when:()=>G.phase==='uni'&&F('yu_met')&&!F('yu_partner')&&!F('yu_break')&&G.npcs.yu.rel>=35&&!B('w1','grades','break'),
+    lines:[L('n','社團結束後，你們走到校門口。她停下來。'),L('yu','我覺得我們好像不只是朋友。'),L('yu','你覺得呢？')],
+    options:[ {label:'「我也是。」', do:()=>{ setFlag('yu_partner'); addRel('yu',15); G.player.stress=Math.max(0,G.player.stress-8); return [L('n','你們在校門口站了很久，久到警衛出來看了兩次。'),L('n','從此行程表上多了「約會」。')]; }},
+      {label:'「我現在沒辦法想這個。」', do:()=>{ addRel('yu',-10); return [L('yu','好。'),L('n','她笑了一下，但你知道那個笑是什麼意思。你們之後還是朋友，只是有一段時間不太聊天。')]; }} ]},
+  { id:'y_yu_break', title:'我們', scene:'street', once:true, weight:100, when:()=>F('yu_partner')&&!F('yu_break')&&G.npcs.yu.rel<8,
+    lines:[L('yu','你最近都在讀書。'),L('you','嗯。'),L('yu','我不是在怪你。我只是覺得我一個人也可以。'),L('n','你沒有話可以接。')],
+    options:[ {label:'「對不起。」', do:()=>{ setFlag('yu_break'); G.flags.yu_partner=null; delete G.flags.yu_partner; addRel('yu',5); G.player.stress+=10; return [L('n','你們在便利商店前面分開。她說有空再聊。你們後來真的有再聊，只是不一樣了。')]; }},
+      {label:'「我會改。」然後真的排時間', do:()=>{ addRel('yu',18); G.player.energy-=4; return [L('yu','……好。那這週五。'),L('n','你把週五空出來。那一週你少讀了一格書，多了一個人。')]; }} ]},
+  // ---------- 大二以後 ----------
+  { id:'y2_exch_info', title:'交換說明會', scene:'classroom', once:true, weight:80, when:()=>Y(2,1)&&B('w4','w6'),
+    lines:[L('n','國際處辦了一場交換說明會。投影片上有二十幾間學校的名字。'),L('n','小語坐在你旁邊：「我大三一定要出去。」'),L('n','阿哲在後面：「出去要多少錢？」')],
+    options:[
+      { label:'認真聽完，回去查各校的條件', hint:'解鎖「準備交換申請」的方向', do:()=>{ G.exch.interested=true; setFlag('exch_interest'); G.player.skills.research+=1; return [L('n','你回宿舍把三間學校的申請條件抄下來：成績、語言、讀書計畫。每一項都要提早準備。')]; } },
+      { label:'聽一半就走', do:()=>{ G.exch.interested=false; return [L('n','你想，先把眼前的課讀好再說。這個想法沒有錯，但你之後偶爾會想起那張投影片。')]; } },
+    ]},
+  { id:'y2_an_decide', title:'小安的決定', scene:'library', once:true, weight:60, when:()=>Y(2)&&B('w10','w12')&&G.npcs.an.met,
+    lines:[L('an','我決定了，大三開始去補習班。'),L('an','司法官的一試我想大四直接考一次，先看看考場長什麼樣子。'),L('n','她說得很平靜，像在講明天的天氣。')],
+    options:[
+      { label:'「我陪你去補習班看看。」', do:()=>{ addRel('an',6); G.player.money-=200; return [L('n','補習班的走廊貼滿榜單。你看了一下價目表，決定先不看。')]; } },
+      { label:'「你確定嗎？」', do:()=>{ addRel('an',1); return [L('an','不確定。但我知道我想做這個。'),L('n','你想，能這樣講的人不多。')]; } },
+    ]},
+  { id:'y3_intern_offer', title:'學姊的訊息', scene:'campus', once:true, weight:90, when:()=>Y(3)&&B('w2','w4')&&F('sis_trust'),
+    lines:[L('sis','我們所這學期要找一個工讀生，主要是查資料跟整理卷。'),L('sis','薪水不高，但你可以看到案子怎麼做。有興趣嗎？')],
+    options:[
+      { label:'去', hint:'「事務所實習」的效果更好', do:()=>{ G.internBoost=true; setFlag('intern_firm'); addRel('sis',6); return [L('n','第一天你影印了三百頁，然後看了一份起訴狀，看了三遍。')]; } },
+      { label:'「這學期想專心讀書，謝謝學姊。」', do:()=>{ setFlag('refuse_job'); addRel('sis',-2); return [L('sis','好，之後有機會再說。'),L('n','你不確定「之後」是什麼時候。')]; } },
+    ]},
+  { id:'y3_zhe_intern', title:'阿哲的事務所', scene:'street', once:true, weight:60, when:()=>Y(3)&&B('w6','w10')&&G.npcs.zhe.met,
+    lines:[L('zhe','我在一間小事務所打工，律師人很好，但東西很多。'),L('zhe','昨天他叫我把一個案子的卷整理出時間軸，我整理到半夜。'),L('zhe','然後我發現我好像喜歡這個。')],
+    options:[ { label:'「那你要考國考嗎？」', do:()=>{ addRel('zhe',4); return [L('zhe','……不知道。大家都在考。'),L('n','他的表情跟大一講「分數剛好到」的時候不一樣了。')]; } },
+      { label:'「喜歡就好。」', do:()=>{ addRel('zhe',6); return [L('n','他笑了一下。你們沒有再談國考。')]; } } ]},
+  { id:'y3_court', title:'旁聽', scene:'court', once:true, weight:50, when:()=>Y(3)&&B('w8','w12','w14'),
+    lines:[L('n','刑訴老師說「有空去法院坐一坐」。你去了。'),L('n','法庭比電視上小很多。被告站起來的時候，你發現他跟你差不多年紀。')],
+    options:[ { label:'坐一整個下午', do:()=>{ setFlag('court_visit'); G.player.skills.judgment+=2; courseFx(pick(examCoursesNow()),{i:2}); return [L('n','你看到一個律師問證人問題，問法跟課本完全不一樣。回去的路上你一直在想那個問法。')]; } },
+      { label:'看一件就走', do:()=>{ G.player.skills.judgment+=1; return [L('n','一件案子的準備程序，二十分鐘。你發現「程序」是一件很具體的事。')]; } } ]},
+  { id:'y4_bar_anx', title:'大家都在考', scene:'library', once:true, weight:70, when:()=>Y(4)&&B('w4','w6','w10'),
+    lines:[L('n','圖書館四樓，整層都是大四。每個人的桌上都是同一套書。'),L('zhe','我有時候會想，我到底是想考，還是不敢不考。'),L('an','都一樣。先讀。')],
+    options:[ { label:'「先讀。」', do:()=>{ G.player.stress+=2; return [L('n','你們三個人低頭。翻頁聲很整齊。')]; } },
+      { label:'「阿哲，你不考也可以。」', do:()=>{ addRel('zhe',6); G.player.skills.judgment+=1; return [L('zhe','……你是第一個這樣說的。'),L('n','小安沒有抬頭，但你看到她點了一下頭。')]; } } ]},
+  { id:'y4_grad', title:'畢業前', scene:'campus', once:true, weight:100, when:()=>Y(4,2)&&B('w16'),
+    lines:[L('n','畢業前最後一週。學士服的租借表貼在系辦門口。'),L('kai','你們法律系畢業以後真的都要考試喔？'),L('you','不一定。'),L('kai','那你呢？'),L('n','你想了一下。')],
+    options:[ { label:'「我還在想。」', do:()=>[L('n','阿凱說：「想好了跟我說，我公司搞不好需要法務。」他是認真的。')] },
+      { label:'「先考考看。」', do:()=>[L('n','阿凱點頭：「那考完跟我說。」你們把學士服的表填了。')] } ]},
+];
+function examCoursesNow(){ return (G.enrolled||[]).filter(c=>COURSES[c].exam); }
+/* ===== 04 核心引擎：狀態、存檔、學習模型、回合結算、學期流程 ===== */
+let G = null;
+const SAVE_KEY='fatiao_autosave_v3', SLOT_KEY='fatiao_slot_v3_';
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const pick=arr=>arr[Math.floor(Math.random()*arr.length)];
+const chance=p=>Math.random()<p;
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmtT=s=>String(s).replace(/\{name\}/g, G&&G.player?G.player.name:'你');
+const money=n=>Math.round(n).toLocaleString('zh-TW');
+
+const SEM_BLOCKS = [
+  {id:'w1', label:'第1週', kind:'plan', tag:'開學週', weeks:1},
+  {id:'w2', label:'第2–3週', kind:'plan', weeks:2},
+  {id:'w4', label:'第4–5週', kind:'plan', weeks:2, after:'firstquiz'},
+  {id:'w6', label:'第6–7週', kind:'plan', weeks:2},
+  {id:'w8', label:'第8週', kind:'plan', tag:'期中考前', weeks:1, examWeek:true},
+  {id:'mid', label:'期中考週', kind:'exam', which:'mid'},
+  {id:'w10', label:'第10–11週', kind:'plan', weeks:2},
+  {id:'w12', label:'第12–13週', kind:'plan', weeks:2},
+  {id:'w14', label:'第14–15週', kind:'plan', weeks:2},
+  {id:'w16', label:'第16–17週', kind:'plan', tag:'期末考前', weeks:2, examWeek:true},
+  {id:'fin', label:'期末考週', kind:'exam', which:'fin'},
+  {id:'grades', label:'放榜', kind:'grades'},
+  {id:'break', label:'假期', kind:'break'},
+];
+const BACKGROUNDS = {
+  family:{ id:'family', name:'家裡支持多，期待也多', desc:'生活費充裕。家人常常問「以後要當律師還是法官」。', money:60000, allowance:8000 },
+  work:{ id:'work', name:'需要打工，但比較懂職場', desc:'高中就在打工，看人臉色很快。生活費要自己顧。', money:15000, allowance:2500 },
+  academic:{ id:'academic', name:'讀書底子好，人際比較慢熟', desc:'高中成績很好，習慣自己讀。開學第一週還不知道系上的人叫什麼。', money:35000, allowance:5000 },
+};
+const HAIR_STYLES=['短髮','中長髮','長髮','捲髮'];
+const SKINS=['#F5DCC4','#F0D0B4','#E9C4A2','#D9B48E','#B98964'];
+const HAIRS=['#1F1710','#3A2A1A','#6B4423','#8B5E3C','#B0793E','#4B2E1E','#2B2B3A'];
+const TOPS=['#2F5D50','#4A6C8C','#7A2E3B','#C9A24F','#7B6A5A','#3E5A48','#8B5E3C','#5A5A7A'];
+
+function newCourseState(){ return {u:5,s:3,m:3,r:3,i:2,a:2,part:0,cram:0,mid:null,fin:null,grade:null,touched:0}; }
+function newGame(opts){
+  const bg=BACKGROUNDS[opts.bg||'academic'];
+  G={ v:3, mode:opts.mode||'full', phase:'uni', screen:'enroll', ctx:'uni',
+    player:{ name:opts.name||'小法', look:opts.look||{skin:1,hair:0,hairStyle:0,top:0}, bg:bg.id,
+      money:bg.money, energy:80, stress:20,
+      skills:{ structure:10, speed:10, research:8, express: bg.id==='family'?17:bg.id==='work'?16:9, judgment: bg.id==='work'?16:8, lang:{en: bg.id==='academic'?35:bg.id==='family'?40:25, ja:0, de:0} },
+      rep:0 },
+    time:{ year:1, sem:1, block:0, absWeek:0 },
+    housing:null, enrolled:[], courses:{}, semesters:[], retake:[],
+    npcs:{}, flags:{}, diary:[], stats:{study:0,rest:0,work:0,group:0,social:0,sport:0,intern:0,blocks:0},
+    streak:0, sched:[], log:[], pendingEvent:null, usedEvents:{}, queue:[],
+    exch:{interested:false, app:0, applied:false, dest:null, going:false, done:false},
+    bar:null, career:null, careerYears:0, semAvg:null, lastExam:null, previewed:{}, groupBonus:false,
+    barGoal:null, seed:Math.floor(Math.random()*1e9),
+  };
+  for(const id in NPCS){ G.npcs[id]={rel: id==='mom'?60:0, stage:'', news:'', met: id==='mom'||id==='cat', ...(id==='cat'?{met:false}:{})}; }
+  if(bg.id==='academic'){ G.acadBonus=true; }
+  if(bg.id==='work'){ G.workExp=true; }
+  MAIN_NPCS.forEach(npcLifeUpdate);
+  return G;
+}
+// ---------- 時間 ----------
+function curBlock(){ return SEM_BLOCKS[G.time.block]; }
+function curBlockId(){ const b=curBlock(); return b?b.id:''; }
+function yearName(y){ return ['大一','大二','大三','大四','大五','大六'][y-1]||('第'+y+'年'); }
+function timeLabel(){
+  if(G.screen==='gradChoice') return '畢業';
+  if(G.phase==='uni'){ const b=curBlock(); return yearName(G.time.year)+(G.time.sem===1?'上':'下')+'・'+(b?b.label:''); }
+  if(G.phase==='exch') return exchTimeLabel();
+  if(G.phase==='bar') return barTimeLabel();
+  if(G.phase==='career') return careerTimeLabel();
+  return '';
+}
+function playerAge(){ return 18+ (G.time.year-1) + (G.phase==='career'||G.phase==='bar'? (G.postYears||0):0); }
+// ---------- 通用效果 ----------
+function addRel(id,n){ const x=G.npcs[id]; if(!x) return; x.rel=clamp((x.rel||0)+n,-20,100); }
+function setFlag(k,note){ if(!G.flags[k]){ G.flags[k]={t:timeLabel(), note:note||''}; } }
+function courseFx(cid,fx){ const c=G.courses[cid]; if(!c) return; for(const k in fx){ if(k==='research'){G.player.skills.research+=fx[k];continue;} c[k]=clamp((c[k]||0)+fx[k],0,100); } c.touched=(c.touched||0)+1; }
+function diary(text){ G.diary.push({t:timeLabel(), text:fmtT(text)}); if(G.diary.length>80) G.diary.shift(); }
+function relLabel(v){ return v>=60?'很熟':v>=35?'朋友':v>=15?'認識':v>=0?'點頭之交':'有點疏遠'; }
+// ---------- 存檔 ----------
+function save(){ try{ localStorage.setItem(SAVE_KEY, JSON.stringify(G)); }catch(e){} }
+function loadAuto(){ try{ const s=localStorage.getItem(SAVE_KEY); if(s){ const g=JSON.parse(s); if(g&&g.v===3) return g; } }catch(e){} return null; }
+function saveSlot(n){ try{ localStorage.setItem(SLOT_KEY+n, JSON.stringify({t:Date.now(), label: (G.player.name+'・'+timeLabel()), g:G})); return true; }catch(e){ return false; } }
+function slotInfo(n){ try{ const s=localStorage.getItem(SLOT_KEY+n); if(!s) return null; const o=JSON.parse(s); return {label:o.label, t:o.t}; }catch(e){ return null; } }
+function loadSlot(n){ try{ const s=localStorage.getItem(SLOT_KEY+n); if(!s) return false; const o=JSON.parse(s); if(o.g&&o.g.v===3){ G=o.g; return true; } }catch(e){} return false; }
+function exportJSON(){ return JSON.stringify(G); }
+function importJSON(str){ try{ const g=JSON.parse(str); if(g&&g.v===3&&g.player){ G=g; return true; } }catch(e){} return false; }
+function storageOK(){ try{ localStorage.setItem('__t','1'); localStorage.removeItem('__t'); return true; }catch(e){ return false; } }
+// ---------- 學習模型 ----------
+function courseStatus(c){
+  if(!c) return {s:0,t:'尚未接觸'};
+  const avg=(c.u+c.s+c.m+c.r+c.i+c.a)/6;
+  if(c.u>=70&&c.i>=60&&c.a>=55&&c.r>=55) return {s:5,t:'已相當熟練'};
+  if(c.i>=45&&c.a>=35&&c.r>=35) return {s:4,t:'能獨立作答'};
+  if(c.i>=30||(c.u>=45&&c.r>=30)) return {s:3,t:'能辨識'};
+  if(c.m>=25&&c.r<20) return {s:2,t:'熟悉但提取不出來'};
+  if(c.u>=20) return {s:2,t:'尚未穩固'};
+  if(avg>=6) return {s:1,t:'剛開始'};
+  return {s:1,t:'尚未接觸'};
+}
+function studyEff(){
+  let e=1; const p=G.player;
+  if(p.energy<30) e*=0.65; else if(p.energy<50) e*=0.85;
+  if(p.stress>75) e*=0.85;
+  e*=Math.max(0.55, 1-0.07*(G.streak||0));
+  const heavy=G._blockStudy||0; if(heavy>=6) e*=0.9; if(heavy>=8) e*=0.8;
+  return e;
+}
+function gain(cid, fx, eff){ // 考試週：部分進入 cram
+  const c=G.courses[cid]; if(!c) return; const b=curBlock(); const exam=b&&b.examWeek;
+  for(const k of ['u','s','m','r','i','a']){ if(!(k in fx)) continue; let v=fx[k]*eff; if(exam&&v>0){ c.cram=clamp(c.cram+v*0.5,0,40); v*=0.8; } c[k]=clamp(c[k]+v,0,100); }
+  if('part' in fx) c.part=clamp(c.part+fx.part,0,100);
+  if(c.r>c.m+15) c.r=c.m+15;
+  c.touched=(c.touched||0)+1;
+}
+function courseName(cid){ if(cid==='en') return '英文'; if(cid==='ja') return '日文'; const c=COURSES[cid]; return c?c.name:cid; }
+// ---------- 選課與學期 ----------
+function freeSlots(){ let n=7; if((G.enrolled||[]).length>=6) n=6; if(G.retake.length) n-=1; if(G.housing==='commute') n-=0; return Math.max(4,n); }
+function beginSemester(){
+  G.time.block=0; G.previewed={}; G.streak=0; G.semExams={}; G.reportBonus=0; G.examPenalty=0; G.lastExam=null; G.midDone=false;
+  MAIN_NPCS.forEach(npcLifeUpdate);
+  G.enrolled.forEach(cid=>{ if(!G.courses[cid]){ G.courses[cid]=newCourseState(); if(G.acadBonus){ G.courses[cid].u+=8; G.courses[cid].s+=5; } } });
+  G.screen='plan'; G.sched=[]; save();
+}
+function passiveWeek(weeks){ // 每週被動效果
+  const p=G.player;
+  for(let w=0;w<weeks;w++){
+    p.energy=clamp(p.energy+8,0,100); p.stress=clamp(p.stress-2,0,100);
+    // 遺忘
+    for(const cid in G.courses){ const c=G.courses[cid]; const enrolled=G.enrolled.includes(cid);
+      c.r=clamp(c.r-(enrolled?1.0:0.4),0,100); if(c.r<25) c.m=clamp(c.m-0.3,0,100); c.cram=c.cram*0.7; }
+    for(const id of MAIN_NPCS){ const n=G.npcs[id]; if(n.met&&id!=='mom'&&id!=='cat') n.rel=Math.max(-20,n.rel-0.35); }
+    G.time.absWeek++;
+  }
+}
+// ---------- 排程 ----------
+function planSet(idx, actId, course){ G.sched[idx]={act:actId, course:course||null}; }
+function planClear(idx){ G.sched.splice(idx,1); }
+function actAvailable(a){
+  const y=G.time.year;
+  if(a.need==='partner'&&!G.flags.yu_partner) return false;
+  if(a.need==='year2'&&y<2) return false;
+  if(a.need==='year3'&&y<3) return false;
+  if(a.need==='year4'&&y<4) return false;
+  if(a.need==='applyWindow'&&!(y===2&&G.time.sem===2&&!G.exch.applied)) return false;
+  if(a.need==='rel'&&!(G.sisNotes==='have'||(G.npcs.an.rel>=20)||(G.npcs.sis.rel>=20))) return false;
+  if(a.id==='club'&&!G.npcs.zhe.met&&y===1&&G.time.sem===1) return false;
+  return true;
+}
+function uniActs(){ return ACT_ORDER.map(id=>ACTS[id]).filter(actAvailable); }
+function planPreview(){
+  const lines=[]; let en=0,st=0,mo=0; const touched={}; let study=0, rest=0;
+  for(const s of G.sched){ const a=ACTS[s.act]; if(!a) continue; en+=a.energy||0; st+=a.stress||0; mo+=a.money||0; if(a.cat==='學習'&&a.id!=='speak') study++; if(a.id==='rest'||a.id==='game'||a.id==='sport') rest++;
+    if(s.course&&COURSES[s.course]){ touched[s.course]=touched[s.course]||[]; touched[s.course].push(a.id); } }
+  for(const cid in touched){ const acts=touched[cid]; const up=[]; if(acts.some(x=>['read','preview'].includes(x))) up.push('理解'); if(acts.some(x=>['read','notes','borrow'].includes(x))) up.push('體系'); if(acts.some(x=>['notes','borrow','review'].includes(x))) up.push('記憶'); if(acts.some(x=>['review','timed'].includes(x))) up.push('提取'); if(acts.some(x=>['cases'].includes(x))) up.push('爭點・涵攝'); if(acts.some(x=>['timed'].includes(x))) up.push('結構・速度'); if(acts.includes('speak')) up.push('課堂參與');
+    const c=G.courses[cid]; let warn=''; if(acts.includes('cases')&&c&&c.u<25) warn='（理解還不夠，練案例可能看不出爭點）'; if(acts.includes('notes')&&c&&c.u<20) warn='（還沒讀懂就整理，效果有限）'; if(acts.includes('timed')&&c&&c.i<20) warn='（還抓不到爭點，限時練題會很挫折）';
+    lines.push('<b>'+esc(courseName(cid))+'</b>：'+up.join('、')+'<span class="arrow">↑</span> '+warn); }
+  const untouched=G.enrolled.filter(c=>COURSES[c].exam&&!touched[c]); if(untouched.length&&G.sched.length>=3) lines.push('<span class="sub">沒碰到：'+untouched.map(courseName).join('、')+'（提取度會慢慢下降）</span>');
+  const p=G.player; const b=curBlock(); const enFinal=p.energy+en+7*(b?b.weeks||2:2);
+  const meta=[]; meta.push('精力 '+(en>=0?'+':'')+en+(enFinal<30?' <span class="arrow d">（會很低）</span>':'')); meta.push('壓力 '+(st>=0?'+':'')+st); if(mo) meta.push('金錢 '+(mo>0?'+':'')+money(mo));
+  lines.push(meta.join('　'));
+  if(study>=5&&rest===0) lines.push('<span class="arrow d">整段時間沒有安排任何休息：連續高強度讀書會出現邊際效益遞減。</span>');
+  if(G.streak>=1&&rest===0&&study>=4) lines.push('<span class="arrow d">已連續 '+G.streak+' 段高強度：效率約 '+Math.round(Math.max(0.55,1-0.07*G.streak)*100)+'%。</span>');
+  if(p.energy<35) lines.push('<span class="arrow d">目前精力偏低，讀書效率打折。</span>');
+  if(b&&b.examWeek) lines.push('<span class="sub">考試週：這段時間的學習有一部分是短期記憶，考完會慢慢忘掉。</span>');
+  return lines;
+}
+// ---------- 結算 ----------
+function pushLog(o){ G.log.push(o); }
+function resolveBlock(){
+  const b=curBlock(); const weeks=b.weeks||2; G.log=[]; G._blockStudy=0; const p=G.player;
+  const study=G.sched.filter(s=>ACTS[s.act]&&ACTS[s.act].cat==='學習'&&s.act!=='speak').length;
+  const rest=G.sched.filter(s=>['rest','game','sport'].includes(s.act)).length;
+  pushLog({kind:'n', scene: G.housing==='dorm'?'dorm':'campus', pose:'stand', t: timeLabel()+(b.tag?'（'+b.tag+'）':'')});
+  // 上課
+  const classLines=[]; for(const cid of G.enrolled){ const co=COURSES[cid]; const c=G.courses[cid]; const T=TEACHERS[co.teacher]; const pre=G.previewed[cid]?1.6:1;
+    if(co.lang){ const k=co.lang; G.player.skills.lang[k]=clamp(G.player.skills.lang[k]+2.2*weeks,0,100); c.u=clamp(c.u+3*weeks,0,100); continue; }
+    gain(cid,{u:2.6*weeks*pre, s:(T.style==='sys'?2:1)*weeks, i:(T.style==='case'?1.6:0.6)*weeks, a:(T.style==='case'?1:0.4)*weeks, m:1*weeks, r:0.6*weeks, part:(T.style==='disc'?1:0)*weeks},1);
+  }
+  G.player.skills.structure=clamp(G.player.skills.structure+0.15*weeks,0,100); G.player.skills.speed=clamp(G.player.skills.speed+0.15*weeks,0,100);
+  G.previewed={};
+  pushLog({kind:'n', scene:'classroom', pose:'sit', t:'上課：'+G.enrolled.map(courseName).join('、')+'。'+pick(FLAVOR.campus).t});
+  // 活動
+  let lostSlot=false;
+  G.sched.forEach((s,idx)=>{ if(lostSlot){ lostSlot=false; pushLog({kind:'loss',scene:'library',pose:'read',t:'（上一個活動花掉的時間，把這一格也吃掉了：'+ACTS[s.act].name+'沒做成。）'}); return; }
+    const r=applyAct(s); if(r&&r.lost) lostSlot=true; });
+  // 被動
+  passiveWeek(weeks);
+  if(b.examWeek) p.stress=clamp(p.stress+8,0,100);
+  const inc=BACKGROUNDS[p.bg].allowance*(weeks/2); const exp=(3000+(G.housing==='dorm'?1500:900))*(weeks/2);
+  p.money+=inc-exp; pushLog({kind:'n',scene:'store',pose:'stand',t:'這段時間：生活費 −'+money(exp)+(inc?'，家裡／零用 +'+money(inc):'')+'。餘額 '+money(p.money)+' 元。'});
+  if(p.money<0){ p.money=0; }
+  // 連續高強度
+  if(study>=5&&rest===0) G.streak=(G.streak||0)+1; else if(rest>0||study<=3) G.streak=0;
+  if(G.streak>=3) setFlag('overwork');
+  G.stats.study+=study; G.stats.rest+=rest; G.stats.blocks++;
+  if(rest>=2) G.stats.restBlocks=(G.stats.restBlocks||0)+1;
+  // 事件（大一上每段兩件，其餘一件）
+  G.pendingEvent=pickEvent(UNI_EVENTS);
+  G.pendingNext= (G.time.year===1&&G.time.sem===1&&G.pendingEvent)?pickEvent(UNI_EVENTS,G.pendingEvent):null;
+  save();
+}
+function applyAct(s){
+  const a=ACTS[s.act]; if(!a) return; const p=G.player; const cid=s.course; const c=cid?G.courses[cid]:null; const eff=studyEff(); const isStudy=a.cat==='學習'&&a.id!=='speak';
+  const fl=FLAVOR[a.id]; let flavor=null; if(fl){ for(const f of fl){ if(chance(f.p*0.9)){ flavor=f; break; } } }
+  const base={kind:'line', scene:a.scene, pose:a.pose, t:''}; let note='';
+  const cn=cid?courseName(cid):'';
+  switch(a.id){
+    case 'preview': gain(cid,{u:3},eff); G.previewed[cid]=true; note=cn+'預習：上課會吸收得更多。'; break;
+    case 'read': { if(COURSES[cid].lang){ const k=COURSES[cid].lang; p.skills.lang[k]=clamp(p.skills.lang[k]+2.5*eff,0,100); gain(cid,{u:4},eff); note='讀'+cn+'的教材：語言能力上升。'; break; } const fx={u:9*(1-c.u/130), s:4, m:5, r:3}; if(flavor&&flavor.fx){ fx.u+=flavor.fx.u||0; if(flavor.fx.research){ p.skills.research+=flavor.fx.research; setFlag('footnote'); } } gain(cid,fx,eff); note='讀'+cn+'：理解與體系上升'+(c.u>75?'（這科的課本已經讀得很熟，邊際效益不高）':'')+'。'; break; }
+    case 'notes': { const ok=c.u>=20; gain(cid,{s:ok?8:4, m:ok?6:3, r:3},eff); p.skills.structure=clamp(p.skills.structure+0.6*eff,0,100); if(flavor&&flavor.fx) gain(cid,flavor.fx,1); note='整理'+cn+'筆記：'+(ok?'結構與記憶上升。':'你整理了，但其實不太懂在整理什麼。先讀課本比較好。'); break; }
+    case 'cases': { const ok=c.u>=25; if(ok){ gain(cid,{i:8,a:6,r:3},eff); note='練'+cn+'案例：爭點辨識與涵攝上升。'; } else { gain(cid,{i:3,r:1},eff); note='練'+cn+'案例：看不太出爭點在哪裡。理解還不夠，效果有限。'; } break; }
+    case 'timed': { const ok=c.i>=20; if(ok){ gain(cid,{r:4,a:3,i:2},eff); p.skills.structure=clamp(p.skills.structure+1.8*eff,0,100); p.skills.speed=clamp(p.skills.speed+1.8*eff,0,100); note='限時練'+cn+'：答案結構與速度上升。'; } else { p.skills.speed=clamp(p.skills.speed+0.8*eff,0,100); gain(cid,{r:2},eff); note='限時練'+cn+'：寫得很快，但寫的都不是重點。先練案例找爭點。'; } break; }
+    case 'review': { gain(cid,{r:10,m:3,u:1},eff); note='複習'+cn+'：提取度上升'+(c.m<15?'（能複習的東西還不多）':'')+'。'; break; }
+    case 'research': { p.skills.research=clamp(p.skills.research+2.5*eff,0,100); gain(cid,{u:3,i:1},eff); if(flavor&&flavor.fx&&flavor.fx.research) p.skills.research+=flavor.fx.research; note='查'+cn+'的判決與文章：研究能力上升。'; if(chance(0.35)){ note+='比預期多花了很多時間。'; base.lost=true; } break; }
+    case 'speak': { const ok=c.u>=25; gain(cid,{part:ok?15:6},1); p.skills.express=clamp(p.skills.express+(ok?1.5:0.7),0,100); p.stress+=3; note=cn+'課堂發言：'+(ok?'老師點頭，同學回頭。':'講到一半發現自己還沒讀到那裡。'); break; }
+    case 'borrow': { const ok=c.u>=30; gain(cid,{s:ok?6:2, m:ok?6:2},eff); note='借'+cn+'筆記：'+(ok?'結構清楚，省了不少時間。':'很好的筆記，但你看不懂它在寫什麼。還是得自己讀。'); break; }
+    case 'group': { const half=flavor&&flavor.half; const mult=(G.groupBonus?1.4:1)*(half?0.5:1); G.enrolled.filter(x=>COURSES[x].exam).forEach(x=>gain(x,{i:2.5*mult, r:2.5*mult},eff)); addRel('an',1.5); addRel('zhe',1.5); if(G.zheStudy) addRel('zhe',1.5); G.stats.group++; note='讀書會：'+(half?'效率一般，但關係更好了。':'交換了幾個爭點的看法。'); break; }
+    case 'lang': { const k=s.course||'en'; p.skills.lang[k]=clamp((p.skills.lang[k]||0)+3.2*eff,0,100); note='自學'+(k==='ja'?'日文':'英文')+'：語言能力上升。'; break; }
+    case 'apply': { G.exch.app=clamp(G.exch.app+14,0,100); note='準備交換申請：讀書計畫寫了一段，志願序改了三次。（進度 '+Math.round(G.exch.app)+'%）'; break; }
+    case 'barprep': { for(const k of SUBJ_IDS){ const cs=subjCourses(k); cs.forEach(x=>gain(x,{r:3,i:1.5,u:1},eff)); } p.skills.structure=clamp(p.skills.structure+0.8*eff,0,100); note='國考總複習：把四年的東西重新串起來。'; break; }
+    case 'intern': { const m=G.internBoost?1.5:1; p.skills.judgment=clamp(p.skills.judgment+1.5*m,0,100); p.skills.research=clamp(p.skills.research+1,0,100); p.skills.express=clamp(p.skills.express+0.5,0,100); p.money+=a.money; G.stats.intern++; setFlag('intern_firm'); note='事務所實習：影印、查資料、看律師怎麼改狀。實務判斷上升。'; break; }
+    case 'courtIntern': { p.skills.judgment=clamp(p.skills.judgment+2,0,100); G.enrolled.filter(x=>['civpro','crimpro'].includes(COURSES[x].subj)).forEach(x=>gain(x,{i:2,a:1},1)); setFlag('court_visit'); note='法院旁聽：程序變成一件具體的事。'; break; }
+    case 'rest': G.stats.rest++; note='什麼都不做。精力恢復了。'; break;
+    case 'sport': G.stats.sport++; note='運動。'; break;
+    case 'game': note='放空。'; break;
+    case 'home': addRel('mom',3); note='回家。'; if(flavor&&flavor.flag) setFlag(flavor.flag); break;
+    case 'eat': { const who=G.npcs.an.met&&G.npcs.zhe.met?pick(['an','zhe']):G.npcs.an.met?'an':G.npcs.zhe.met?'zhe':null; if(who) addRel(who,4); if(G.npcs.kai.met&&chance(.3)) addRel('kai',3); G.stats.social++; note='和朋友吃飯。'; break; }
+    case 'supper': { if(G.npcs.an.met) addRel('an',2); if(G.npcs.zhe.met) addRel('zhe',3); G.stats.social++; note='宵夜。'; break; }
+    case 'club': { addRel('zhe',2); if(G.npcs.yu.met) addRel('yu',4); G.stats.social++; if(G.stats.social>=12&&!G.flags.club_leader&&G.time.year>=2) setFlag('club_leader'); note='社團。'; break; }
+    case 'date': { addRel('yu',6); note='約會。'; break; }
+    case 'work': { let m=a.money*(G.workBoost?1.2:1)*(G.workExp?1.1:1); p.money+=m; G.stats.work++; note='打工：+'+money(m)+' 元。'; if(flavor&&flavor.fx&&flavor.fx.energy) p.energy+=flavor.fx.energy; break; }
+    case 'tutor': { p.money+=a.money; G.stats.work++; p.skills.express+=0.5; note='家教：+'+money(a.money)+' 元。教別人的時候，自己也弄清楚了一些東西。'; break; }
+  }
+  if(isStudy) G._blockStudy=(G._blockStudy||0)+1;
+  p.energy=clamp(p.energy+(a.energy||0)*(a.id==='work'&&G.workExp?0.85:1),0,100); p.stress=clamp(p.stress+(a.stress||0),0,100);
+  if(a.money&&a.id!=='work'&&a.id!=='tutor'&&a.id!=='intern') p.money+=a.money;
+  if(flavor&&flavor.rel) for(const k in flavor.rel) addRel(k,flavor.rel[k]);
+  if(flavor&&flavor.flag&&a.id!=='home') setFlag(flavor.flag);
+  base.t=note; base.kind=isStudy?'gain':'line'; pushLog(base);
+  if(flavor) pushLog({kind:'vig', scene:a.scene, pose:a.pose, t:flavor.t});
+  if(p.energy<=8&&isStudy){ pushLog({kind:'loss',scene:'library',pose:'sleep',t:'你在圖書館趴著睡著了，醒來已經閉館。'}); p.energy+=10; return {lost:true}; }
+  return base;
+}
+function subjCourses(subj){ return Object.keys(G.courses).filter(cid=>COURSES[cid]&&COURSES[cid].subj===subj); }
+// ---------- 事件 ----------
+function pickEvent(pool,exclude){
+  if(G.queue.length){ const id=G.queue.shift(); const e=pool.find(x=>x.id===id); if(e) return e.id; }
+  const cands=pool.filter(e=>{ if(e.id===exclude) return false; if(e.once&&G.usedEvents[e.id]) return false; if(G.usedEvents[e.id]&&(G.usedEvents[e.id]>=2)) return false; try{ return e.when(); }catch(err){ return false; } });
+  if(!cands.length) return null;
+  const tot=cands.reduce((a,e)=>a+(e.weight||10),0); let r=Math.random()*tot; for(const e of cands){ r-=(e.weight||10); if(r<=0){ return e.id; } } return cands[cands.length-1].id;
+}
+function eventById(id){ return UNI_EVENTS.find(e=>e.id===id)||(typeof EXCH_EVENTS!=='undefined'?EXCH_EVENTS.find(e=>e.id===id):null)||(typeof BAR_EVENTS!=='undefined'?BAR_EVENTS.find(e=>e.id===id):null)||(typeof CAREER_EVENTS!=='undefined'?CAREER_EVENTS.find(e=>e.id===id):null); }
+function eventLines(e){ const ls=e.linesFn?e.linesFn():e.lines; return ls.map(l=>({who:l.who,t:fmtT(l.t)})); }
+function chooseOption(e,opt){ G.usedEvents[e.id]=(G.usedEvents[e.id]||0)+1; let r=opt.do?opt.do():null; if(typeof r==='string') r=[{who:'n',t:r}]; G.eventResult=(r||[]).map(l=>({who:l.who,t:fmtT(l.t)})); diary('【'+e.title+'】'+opt.label.replace(/[「」]/g,'')); save(); }
+// ---------- 週報 ----------
+function blockReport(){
+  const lines=[]; const goals=[]; const p=G.player; const b=curBlock();
+  for(const cid of G.enrolled){ const co=COURSES[cid]; if(!co.exam) continue; const c=G.courses[cid]; const st=courseStatus(c);
+    let tip=''; if(c.m>=25&&c.r<20) tip='看過但提取不出來，安排「複習與回想」或「限時練題」。'; else if(c.u<25) tip='理解還沒建立，先「讀教科書」。'; else if(c.i<25&&c.u>=35) tip='讀得懂，但還抓不到爭點，可以「練習案例」。'; else if(c.i>=35&&(p.skills.structure<25||p.skills.speed<25)) tip='知道爭點，但寫起來沒有結構或寫不完，「限時練題」會有幫助。'; else if(c.r<c.m-20) tip='熟悉度不錯，但提取度落後，「複習與回想」最有效。';
+    lines.push('<b>'+esc(co.name)+'</b> <span class="status s'+st.s+'">'+st.t+'</span> '+(tip?'<span class="sub">'+tip+'</span>':'')); }
+  if(G.streak>=2) lines.push('<span class="arrow d">你已經連續 '+G.streak+' 段高強度讀書，繼續硬讀的邊際效益正在下降。休息不是偷懶。</span>');
+  if(p.energy<30) lines.push('<span class="arrow d">精力很低。下一段安排一格「什麼都不做」，效率會回來。</span>');
+  if(p.stress>=75) lines.push('<span class="arrow d">壓力很高。運動、和朋友吃飯、回家，都有用。</span>');
+  if(p.money<5000) lines.push('<span class="arrow d">錢快沒了。</span>');
+  const idx=G.time.block; const nextExam=SEM_BLOCKS.slice(idx+1).find(x=>x.kind==='exam'); if(nextExam){ const dist=SEM_BLOCKS.indexOf(nextExam)-idx; goals.push((nextExam.which==='mid'?'期中考':'期末考')+'還有 '+dist+' 段時間：'+examCoursesNow().map(courseName).join('、')); }
+  if(b&&b.id==='w2'&&G.time.year===1&&G.time.sem===1) goals.push('第 4–5 週會有民總小考和法緒的分組報告。');
+  if(G.time.year===2&&G.time.sem===2&&!G.exch.applied&&G.exch.decided!=='no') goals.push('交換申請進度 '+Math.round(G.exch.app)+'%（期中前要送出）');
+  return {lines,goals};
+}
+// ---------- 學期結算 ----------
+function computeGrades(){
+  const res=[]; let sum=0,n=0; const p=G.player;
+  const old=G.retake.slice(); G.retake=[]; for(const rid of old){ if(rid==='makeup'){ res.push({cid:'makeup',name:'交換學分補修',g:70,comment:'補修完成。'}); sum+=70; n++; continue; } const c=G.courses[rid]; if(!c||!COURSES[rid]) continue; const g=Math.round(clamp(58+c.u*0.25+c.i*0.1+rnd(-3,6),50,82)); c.grade=g; res.push({cid:rid,name:'重修：'+COURSES[rid].name,g,comment:g>=60?'重修過了。':'又沒過。'}); sum+=g; n++; if(g<60) G.retake.push(rid); }
+  for(const cid of G.enrolled){ const co=COURSES[cid]; const c=G.courses[cid]; let g, comment='';
+    if(co.exam){ const daily=clamp(60+c.part*0.3+(c.touched>6?10:c.touched*1.5),40,100); g=0.35*(c.mid==null?60:c.mid)+0.45*(c.fin==null?60:c.fin)+0.2*daily; comment=(c.fin||0)>=(c.mid||0)+8?'期末比期中進步很多。':(c.mid||0)>=(c.fin||0)+8?'期中不錯，期末掉下來了。':'表現穩定。'; }
+    else if(co.lang){ g=clamp(62+p.skills.lang[co.lang]*0.35+rnd(-3,5),40,100); comment='語言課，靠累積。'; }
+    else if(co.light){ g=clamp(76+rnd(-5,12)+c.u*0.1,50,100); comment='輕鬆的課。'; }
+    else { g=clamp(58+c.u*0.25+c.s*0.12+p.skills.research*0.35+(G.reportBonus||0)+c.part*0.15+rnd(-3,4),35,100); comment=(G.reportBonus||0)>=10?'報告有自己找資料，老師看得出來。':'報告按照分工完成。'; }
+    if(cid==='intro'&&G.assignScore!=null){ g=g*0.6+G.assignScore*0.4; }
+    g=Math.round(clamp(g,0,100)); c.grade=g; res.push({cid,name:co.name,g,comment}); sum+=g; n++;
+    if(g<60){ setFlag('failed_course'); if(!G.retake.includes(cid)) G.retake.push(cid); } else { const ri=G.retake.indexOf(cid); if(ri>=0) G.retake.splice(ri,1); }
+    if(g>=88&&co.exam) setFlag('fin_great',co.name);
+  }
+  const avg=n?sum/n:0; G.semAvg=Math.round(avg*10)/10; G.gradeRows=res;
+  G.semesters.push({y:G.time.year,s:G.time.sem,avg:G.semAvg,rows:res.map(r=>({name:r.name,g:r.g}))});
+  if(G.acadBonus&&avg>=85){ p.money+=12000; G.scholar=true; } else G.scholar=false;
+  diary('學期平均 '+G.semAvg+'：'+res.map(r=>r.name+' '+r.g).join('、'));
+  save();
+}
+function gpaAll(){ if(!G.semesters.length) return 0; return Math.round(G.semesters.reduce((a,s)=>a+s.avg,0)/G.semesters.length*10)/10; }
+function endSemester(){
+  // 假期效果已在 break 畫面套用；推進學期
+  if(G.time.sem===1){ G.time.sem=2; } else { G.time.sem=1; G.time.year++; G.postYears=0; }
+  G.enrolled=[]; G.groupBonus=G.groupBonus||false;
+  if(G.time.year>4){ G.phase='uni'; G.screen='gradChoice'; save(); return; }
+  if(G.time.year===3&&G.time.sem===1&&G.exch.going&&!G.exch.done){ exchBegin(); return; }
+  G.screen='enroll'; save();
+}
+// 進入區塊
+function routeBlock(){
+  const b=curBlock(); if(!b){ endSemester(); return; }
+  if(b.kind==='plan'){
+    if(G.time.year===2&&G.time.sem===2&&b.id==='w2'&&!G.exch.decided){ G.screen='exchDecide'; save(); return; }
+    G.sched=[]; G.screen='plan';
+  } else if(b.kind==='exam'){ if(G.time.year===2&&G.time.sem===2&&b.which==='mid'&&G.exch.decided==='yes'&&!G.exch.applied){ exchSubmit(); } startExamWeek(b.which); }
+  else if(b.kind==='grades'){ computeGrades(); if(G.time.year===2&&G.time.sem===2&&G.exch.applied&&!G.exch.resultShown){ exchResolveApplication(); G.screen='exchResult'; save(); return; } G.pendingEvent=pickEvent(UNI_EVENTS.filter(e=>e.id==='y1_grades_react')); G.screen='grades'; }
+  else if(b.kind==='break'){ G.screen='break'; G.breakPicked=[]; }
+  save();
+}
+function nextBlock(){ G.time.block++; routeBlock(); }
+function afterEventFlow(){
+  // 事件結束後：大一上 w4 有小考／作業；否則週報
+  const b=curBlock();
+  if(b&&b.after==='firstquiz'&&G.time.year===1&&G.time.sem===1&&!G.quizDone){ G.screen='quiz'; G.quiz={i:0,score:0,answers:[]}; save(); return; }
+  G.screen='report'; save();
+}
+/* ===== 05 考試引擎：期中／期末、小考、分組報告 ===== */
+const STYLE_W={ sys:{u:.28,s:.28,m:.14,r:.14,i:.08,a:.08}, case:{u:.2,s:.1,m:.1,r:.15,i:.25,a:.2}, disc:{u:.25,s:.15,m:.1,r:.1,i:.15,a:.1,part:.15}, prac:{u:.2,s:.1,m:.1,r:.15,i:.2,a:.25}, report:{u:.3,s:.2,m:.1,r:.1,i:.15,a:.15} };
+const DIM_NAME={u:'概念理解',s:'體系',m:'記憶熟悉',r:'提取',i:'爭點辨識',a:'涵攝',part:'課堂參與'};
+function prepScore(cid){
+  const c=G.courses[cid]; const co=COURSES[cid]; const w=STYLE_W[TEACHERS[co.teacher].style]||STYLE_W.sys;
+  const m=Math.min(100,c.m+c.cram), r=Math.min(100,c.r+c.cram*0.8); const d={u:c.u,s:c.s,m,r,i:c.i,a:c.a,part:c.part};
+  let p=0; for(const k in w) p+=w[k]*(d[k]||0);
+  return {p:clamp(p,0,100), d, w};
+}
+function examCaseFor(cid, which){
+  const key=cid+'_'+which; if(CASES[key]) return CASES[key];
+  const subj=COURSES[cid].subj||'civ'; const bank=SUBJ_CASE[subj]||SUBJ_CASE.civ; const idx=(which==='mid'?0:1)+(G.time.year-1); return CASES[bank[idx%bank.length]];
+}
+function startExamWeek(which){
+  const cs=examCoursesNow(); if(!cs.length){ G.lastExam=which; nextBlock(); return; }
+  G.examQueue=cs.slice(); G.examWhich=which; G.examResults=[]; G.screen='examIntro'; save();
+}
+function examBegin(){
+  const cid=G.examQueue[0]; const co=COURSES[cid]; const T=TEACHERS[co.teacher]; const pr=prepScore(cid);
+  G.exam={ cid, which:G.examWhich, step:0, T:100, used:0, q:[], prep:pr.p, case:examCaseFor(cid,G.examWhich), bonusQ3:0, log:[] };
+  G.screen='exam'; save();
+}
+function examOptions(step){
+  const e=G.exam; const p=G.player;
+  if(step===0) return [
+    {k:'A', label:'繼續完整處理第一題', hint:'寫完整，但會花很多時間'},
+    {k:'B', label:'先寫出主要爭點，跳到下一題', hint:'省時間；分數看你抓不抓得到主要爭點'},
+    {k:'C', label:'快速掃描剩下的題目，重新分配時間', hint:'多花幾分鐘，但後面比較從容'},
+  ];
+  if(step===1) return e.case.opts.map((o,i)=>({k:o.k, label:o.t, idx:i}));
+  const R=e.T-e.used; const spd=p.skills.speed;
+  return [
+    {k:'full', label:'完整的三段論：爭點、規範、涵攝、結論', hint:'需要約 '+Math.round(35*(1-spd/300))+' 分鐘'},
+    {k:'list', label:'條列出爭點與結論，涵攝寫簡單一點', hint:'需要約 '+Math.round(20*(1-spd/300))+' 分鐘'},
+    {k:'concl', label:'只寫結論和關鍵理由', hint:'需要約 10 分鐘'},
+  ];
+}
+function examAnswer(k, idx){
+  const e=G.exam; const p=G.player; const c=e.bar?barAvgDims():G.courses[e.cid]; const spd=p.skills.speed, str=p.skills.structure; const i=c.i, a=c.a;
+  if(e.step===0){
+    let time,q,txt;
+    if(k==='A'){ time=Math.round(45-spd*0.12); q=0.72+0.28*(i/100); txt= i>=40?'你把三個爭點都寫了。寫完抬頭看鐘，'+(time>40?'花掉的時間比想像中多。':'還好，速度不慢。'):'你寫了很多，但寫到第三個爭點時，開始懷疑前兩個抓得對不對。'; if(i<30) q*=0.9; }
+    else if(k==='B'){ time=25; q=0.7+0.22*(i/100); txt= i>=30?'主要爭點寫出來了，其他的用一句話帶過。':'你寫了一個爭點，但不太確定那是不是主要的。'; }
+    else { time=32; q=0.88; e.bonusQ3=6; txt='你翻了整份考卷，發現第三題其實最好拿分。你在心裡重新分配了時間。'; }
+    e.used+=time; e.q.push({q,k,time,txt}); e.step=1;
+  } else if(e.step===1){
+    const o=e.case.opts[idx]; const base={core:1,sec:0.75,tan:0.5,irr:0.25}[o.k]; const q=Math.min(1,base*(0.8+0.2*(a/100))*(e.q[0].k==='C'?1.05:1));
+    const time=Math.round(30-spd*0.06); e.used+=time; e.q.push({q,k:o.k,time,txt:o.why,pickTxt:o.t}); e.step=2;
+  } else {
+    let R=e.T-e.used+e.bonusQ3; let need,q,txt;
+    if(k==='full'){ need=35*(1-spd/300); const comp=Math.min(1,R/need); q=comp*(0.8+0.2*(str/100)); txt= comp>=1?'寫完了。最後五分鐘在檢查錯字。':'鐘響的時候你寫到涵攝的一半。完成約 '+Math.round(comp*100)+'%。'; }
+    else if(k==='list'){ need=20*(1-spd/300); const comp=Math.min(1,R/need); q=comp*0.8*(0.85+0.15*(str/100)); txt= comp>=1?'條列寫完了，涵攝很薄，但每個爭點都有結論。':'連條列都沒寫完。'; }
+    else { need=10; const comp=Math.min(1,R/need); q=comp*0.5; txt='寫了結論和兩句理由。老師大概看得出你知道答案，但看不出你為什麼知道。'; }
+    e.q.push({q,k,time:Math.min(R,need),txt}); e.step=3; if(e.bar) barExam2Finish(); else examFinishCourse();
+  }
+  save();
+}
+function examFinishCourse(){
+  const e=G.exam; const c=G.courses[e.cid]; const co=COURSES[e.cid]; const p=G.player; const pr=prepScore(e.cid);
+  let cond=1; if(p.energy<30) cond*=0.92; if(p.stress>80) cond*=0.93;
+  const strat=0.35*e.q[0].q+0.30*e.q[1].q+0.35*e.q[2].q;
+  let score=22+pr.p*0.98*strat*cond - (G.examPenalty||0) + rnd(-3,3); score=Math.round(clamp(score,5,100));
+  p.skills.speed=clamp(p.skills.speed+0.6,0,100); p.skills.structure=clamp(p.skills.structure+0.5,0,100);
+  if(e.which==='mid') c.mid=score; else c.fin=score;
+  c.cram*=0.35;
+  // 回饋
+  const d=pr.d, w=pr.w; const dims=Object.keys(w).filter(k=>k!=='part'); let best=dims[0], worst=dims[0]; for(const k of dims){ if(d[k]>d[best]) best=k; if(d[k]<d[worst]) worst=k; }
+  const strong={u:'理解很好',s:'體系很清楚',m:'記得很多',r:'複習做得夠，該想起來的都想起來了',i:'爭點抓得準',a:'涵攝寫得紮實'}[best];
+  const weak={u:'但基礎概念還不夠穩',s:'但架構還沒建立起來，寫的時候東一塊西一塊',m:'但很多內容其實沒記熟',r:'但有些明明看過的東西，考場上就是提取不出來',i:'但爭點抓得不夠準',a:'但涵攝寫得太薄，看得出你知道結論卻沒有把事實套進去'}[worst];
+  const parts=[];
+  parts.push('你的'+co.name+strong+ (d[worst]<40?'，'+weak:'') +'。');
+  const q0=e.q[0], q1=e.q[1], q2=e.q[2];
+  if(q0.k==='A'&&q0.time>40) parts.push('第一題花掉太多時間。');
+  if(q0.k==='B'&&c.i<30) parts.push('第一題你選擇先寫主要爭點，但抓到的不是最主要的那個。');
+  if(q1.k==='sec') parts.push('第二題你記得相關見解，但沒有先處理題目真正的核心問題。');
+  if(q1.k==='tan'||q1.k==='irr') parts.push('第二題的方向抓錯了，寫得再多也拿不到分。');
+  if(q1.k==='core') parts.push('第二題直接切進核心，這是這份考卷最好的部分。');
+  if(q2.q<0.5&&q2.k==='full') parts.push('第三題最後只完成約'+Math.round(Math.min(1,(e.T-e.used+e.bonusQ3)/(35*(1-p.skills.speed/300)))*100)+'%。');
+  if(q2.k==='concl') parts.push('第三題只寫結論，分數很有限。');
+  if(TEACHERS[co.teacher].style==='sys'&&d.s<35) parts.push('這位老師很看重體系位置，你的答案沒有先講「這個概念放在哪裡」。');
+  if(TEACHERS[co.teacher].style==='case'&&d.i<35) parts.push('案例派的考試，重點永遠在爭點。');
+  if(TEACHERS[co.teacher].style==='disc'&&d.part<20) parts.push('這學期你在課堂上幾乎沒有講過話，老師對你沒什麼印象。');
+  if(c.cram>8) parts.push('考前硬塞的那些，一兩週後大概會忘掉一半。');
+  e.result={score, text:parts.join(''), best, worst, d};
+  G.examResults.push({cid:e.cid,score});
+  diary(co.name+(e.which==='mid'?'期中':'期末')+' '+score+' 分');
+  G.screen='examResult'; save();
+}
+function examNext(){
+  G.examQueue.shift();
+  if(G.examQueue.length){ examBegin(); return; }
+  const avg=G.examResults.reduce((a,r)=>a+r.score,0)/G.examResults.length;
+  G.lastExam=G.examWhich; G.examPenalty=0;
+  if(G.examWhich==='mid'&&avg<55) setFlag('mid_bad');
+  G.player.stress=clamp(G.player.stress-12,0,100);
+  G.pendingEvent=null; nextBlock();
+}
+// ---------- 大一上第一次小考與分組報告 ----------
+function quizAnswer(idx){
+  const q=QUIZ_CIV1[G.quiz.i]; const ok=idx===q.a; G.quiz.answers.push({ok,why:q.why,pick:q.opts[idx]}); if(ok) G.quiz.score++;
+  G.quiz.i++; if(G.quiz.i>=QUIZ_CIV1.length){ const c=G.courses.civ1; if(c){ c.part=clamp(c.part+G.quiz.score*4,0,100); gain('civ1',{r:2,i:2},1); } if(G.quiz.score>=3) setFlag('quiz_good'); if(G.quiz.score<=1) setFlag('quiz_bad'); G.quiz.stage='assign'; }
+  save();
+}
+function assignChoose(k){
+  const p=G.player; let s=0, txt='';
+  if(k==='lead'){ s=70+p.skills.research*0.6+(G.npcs.an.rel>=10?6:0); txt='你把整份報告的架構扛下來，小安負責查資料，阿哲負責簡報。報告前一晚你只睡四小時，但報告很完整。'; p.energy-=8; p.stress+=6; addRel('an',4); addRel('zhe',4); p.skills.structure+=1.5; }
+  else if(k==='split'){ s=62+p.skills.research*0.4+(G.npcs.an.rel+G.npcs.zhe.rel)*0.15; txt='三個人平均分工。合起來的時候發現三段的格式都不一樣，花了一個晚上統一。'; addRel('an',2); addRel('zhe',2); }
+  else { s=66+p.skills.research*0.3+(G.npcs.sis.rel>=8?10:0); txt= G.npcs.sis.rel>=8?'你把初稿拿給溫學姊看。她畫了六個問號，全部都是對的。':'你想找學長姐看，但還不熟，最後自己改了兩遍。'; addRel('sis',G.npcs.sis.rel>=8?4:1); p.skills.research+=1; }
+  s=Math.round(clamp(s+rnd(-3,3),40,100)); G.assignScore=s; G.quiz.assignTxt=txt; G.quiz.assignScore=s; G.quiz.stage='done'; G.quizDone=true; diary('法緒分組報告 '+s+' 分；民總小考 '+G.quiz.score+'/3'); save();
+}
+
+function barAvgDims(){ const S=G.bar.subj; const d={u:0,s:0,m:0,r:0,i:0,a:0}; for(const k of SUBJ_IDS) for(const x in d) d[x]+=S[k][x]/6; return d; }
+/* ===== 06 交換學生：申請、出發前、海外學期、返台 ===== */
+const EXCH_DEST = {
+  us:{ id:'us', name:'Lakeside University', country:'美國', city:'一個湖邊的大學城', lang:'en', langReq:55, gpaReq:78, cost:420000, living:18000, quota:2,
+    style:'蘇格拉底式問答，教授會直接點名，先讀完 60 頁判決再上課', vibe:'校園很大，什麼都要開車，超市一次買一週', credits:0.7 },
+  jp:{ id:'jp', name:'青葉大學', country:'日本', city:'仙台附近的城市', lang:'ja', langReq:35, gpaReq:74, cost:260000, living:11000, quota:2, altLang:'en', altReq:60,
+    style:'講義為主，研討課（ゼミ）要輪流報告', vibe:'腳踏車、便利商店、很安靜的圖書館', credits:0.8 },
+  eu:{ id:'eu', name:'Rijnstad University', country:'荷蘭', city:'萊茵河邊的大學城', lang:'en', langReq:50, gpaReq:72, cost:300000, living:13000, quota:3,
+    style:'小組討論與報告，英語授課，同學來自二十幾個國家', vibe:'腳踏車、風、廉價航空到處飛', credits:0.8 },
+};
+const EXCH_BLOCKS=[
+  {id:'e1', label:'抵達第1週', weeks:1, tag:'剛到'},
+  {id:'e2', label:'第2–3週', weeks:2},
+  {id:'e4', label:'第4–5週', weeks:2},
+  {id:'e6', label:'第6–7週', weeks:2},
+  {id:'e8', label:'第8週', weeks:1, tag:'期中'},
+  {id:'e10', label:'第10–11週', weeks:2},
+  {id:'e12', label:'第12–13週', weeks:2},
+  {id:'e14', label:'最後兩週', weeks:2, tag:'快結束了'},
+  {id:'e16', label:'期末與離開', weeks:1, tag:'離開'},
+];
+const EXCH_ACTS={
+  eread:{ id:'eread', name:'讀外語教材', cat:'學習', scene:'abroadClass', pose:'read', desc:'讀得慢，但每週都在變快', energy:-8, stress:3 },
+  egroup:{ id:'egroup', name:'小組報告準備', cat:'學習', scene:'abroadClass', pose:'type', desc:'和同學一起，跟不跟得上看語言', energy:-7, stress:4 },
+  espeak:{ id:'espeak', name:'課堂發言', cat:'學習', scene:'abroadClass', pose:'stand', desc:'用外語講出自己的法律觀點', energy:-4, stress:6 },
+  eevent:{ id:'eevent', name:'法律講座／活動', cat:'學習', scene:'abroadClass', pose:'stand', desc:'探索未來的研究或工作興趣', energy:-4, stress:1 },
+  ecity:{ id:'ecity', name:'熟悉城市', cat:'生活', scene:'abroadStreet', pose:'walk', desc:'找教室、搭車、辦手續', energy:-5, stress:-2 },
+  ecook:{ id:'ecook', name:'超市與煮飯', cat:'生活', scene:'abroadHome', pose:'sit', desc:'外食太貴了', energy:-3, stress:-3, money:-1200 },
+  eout:{ id:'eout', name:'外食與咖啡店', cat:'生活', scene:'abroadStreet', pose:'stand', desc:'貴，但快樂', energy:0, stress:-5, money:-3200 },
+  efriend:{ id:'efriend', name:'認識同學', cat:'人際', scene:'abroadStreet', pose:'stand', desc:'當地同學與其他交換生', energy:-3, stress:-4, money:-800 },
+  etravel:{ id:'etravel', name:'週末旅行', cat:'人際', scene:'abroadTravel', pose:'walk', desc:'很花錢，但只有現在能去', energy:-6, stress:-10, money:-9000 },
+  ecall:{ id:'ecall', name:'半夜和台灣朋友聊天', cat:'人際', scene:'abroadHome', pose:'sit', desc:'時差剛好', energy:-4, stress:-5 },
+  ehome:{ id:'ehome', name:'打電話回家', cat:'人際', scene:'abroadHome', pose:'sit', desc:'媽媽問你有沒有吃飽', energy:2, stress:-4 },
+  erest:{ id:'erest', name:'什麼都不做', cat:'生活', scene:'abroadHome', pose:'sleep', desc:'看窗外', energy:16, stress:-8 },
+  esport:{ id:'esport', name:'運動', cat:'生活', scene:'abroadStreet', pose:'walk', desc:'河邊跑步', energy:5, stress:-6 },
+};
+const EXCH_ACT_ORDER=['eread','egroup','espeak','eevent','ecity','ecook','eout','efriend','etravel','ecall','ehome','erest','esport'];
+function exchTimeLabel(){ const b=EXCH_BLOCKS[G.exch.block]; return '交換・'+EXCH_DEST[G.exch.dest].country+'・'+(b?b.label:''); }
+function exchScore(){ const p=G.player; const gpa=gpaAll(); return {gpa, en:p.skills.lang.en, ja:p.skills.lang.ja, app:G.exch.app}; }
+function exchEligible(d){ const s=exchScore(); const p=G.player; const langOK= (p.skills.lang[d.lang]||0)>=d.langReq || (d.altLang&&(p.skills.lang[d.altLang]||0)>=d.altReq); return {gpa:s.gpa>=d.gpaReq, lang:langOK}; }
+function exchDecideApply(prefs){ G.exch.decided='yes'; G.exch.prefs=prefs; G.exch.applied=false; setFlag('exch_interest'); G.sched=[]; G.screen='plan'; save(); }
+function exchDecideSkip(){ G.exch.decided='no'; setFlag('exch_skip'); diary('決定不申請交換，把大三留給台灣的生活。'); G.sched=[]; G.screen='plan'; save(); }
+function exchSubmit(){ G.exch.applied=true; setFlag('exch_applied'); diary('送出交換申請：'+G.exch.prefs.map(k=>EXCH_DEST[k].name).join(' → ')); }
+function exchResolveApplication(){
+  G.exch.resultShown=true; const p=G.player; const gpa=gpaAll();
+  const strength=gpa*0.5+Math.max(p.skills.lang.en,p.skills.lang.ja)*0.25+G.exch.app*0.25;
+  let got=null; const notes=[];
+  for(const k of G.exch.prefs){ const d=EXCH_DEST[k]; const el=exchEligible(d); if(!el.gpa){ notes.push(d.name+'：成績未達門檻。'); continue; } if(!el.lang){ notes.push(d.name+'：語言未達門檻。'); continue; }
+    const need=d.gpaReq*0.5+d.langReq*0.25+40*0.25; const pr=clamp(0.55+(strength-need)/40,0.15,0.95)*(d.quota>=3?1:0.9);
+    if(chance(pr)){ got=k; notes.push(d.name+'：錄取。'); break; } else notes.push(d.name+'：名額有限，這次沒有排到。'); }
+  G.exch.result=got; G.exch.notes=notes; G.exch.scholar= gpa>=85?150000:gpa>=80?60000:0;
+  if(got){ G.exch.dest=got; }
+}
+function exchAccept(financing){
+  const d=EXCH_DEST[G.exch.dest]; G.exch.going=true; setFlag('exch_go'); G.player.money+=G.exch.scholar||0;
+  if(financing==='loan'){ G.exch.loan=Math.round(d.cost*0.6); G.player.money+=G.exch.loan; }
+  if(financing==='family'){ G.player.money+=Math.round(d.cost*0.7); addRel('mom',-2); }
+  G.player.money-=Math.round(d.cost*0.45); // 學費／機票／保證金
+  diary('決定去'+d.country+'交換。'); G.screen='grades'; G.pendingEvent=null; save();
+}
+function exchDecline(){ G.exch.going=false; setFlag('exch_skip'); diary('錄取了，但決定不去。'); G.screen='grades'; G.pendingEvent=null; save(); }
+// 出發前
+const EXCH_PREP=[
+  { id:'house', q:'住宿', opts:[
+    {t:'學校宿舍：貴，但第一天就有床', fx:g=>{ g.exch.house='dorm'; g.player.money-=25000; g.exch.adapt+=10; } },
+    {t:'和其他交換生分租：便宜，但要自己找', fx:g=>{ g.exch.house='share'; g.player.money-=8000; g.exch.friends+=8; g.exch.adapt-=5; } },
+    {t:'寄宿家庭：語言進步最快，自由最少', fx:g=>{ g.exch.house='host'; g.player.money-=15000; g.player.skills.lang[EXCH_DEST[g.exch.dest].lang]+=6; g.exch.homesick+=5; } } ]},
+  { id:'course', q:'選課', opts:[
+    {t:'法律課為主：回來比較好抵免，但很硬', fx:g=>{ g.exch.courseMix='law'; g.exch.creditPlan+=0.15; } },
+    {t:'語言與文化課為主：輕鬆，抵免少', fx:g=>{ g.exch.courseMix='lang'; g.exch.creditPlan-=0.15; g.exch.adapt+=5; } },
+    {t:'混搭：一門法律研討課加兩門通識', fx:g=>{ g.exch.courseMix='mix'; } } ]},
+  { id:'credit', q:'學分抵免', opts:[
+    {t:'出發前先把抵免申請表跑完，找教授簽名', fx:g=>{ g.exch.creditPlan+=0.15; g.player.energy-=6; } },
+    {t:'回來再說', fx:g=>{ g.exch.creditPlan-=0.1; } } ]},
+  { id:'pack', q:'行李', opts:[
+    {t:'帶電鍋和一整盒台灣泡麵', fx:g=>{ g.exch.homesick-=8; g.exch.adapt+=3; } },
+    {t:'輕裝，到了再買', fx:g=>{ g.player.money-=6000; } } ]},
+  { id:'bye', q:'告別', opts:[
+    {t:'和小安、阿哲吃一頓很長的飯', fx:g=>{ addRel('an',5); addRel('zhe',5); } },
+    {t:'回家住一週', fx:g=>{ addRel('mom',8); g.player.energy+=10; } },
+    {t:'和小語談遠距要怎麼過', when:g=>!!g.flags.yu_partner, fx:g=>{ addRel('yu',6); g.exch.ldr=true; } } ]},
+];
+function exchBegin(){
+  G.phase='exch'; G.ctx='exch'; G.exch.block=0; G.exch.adapt=(G.exch.adapt||0)+15; G.exch.homesick=(G.exch.homesick||0)+20; G.exch.friends=G.exch.friends||0; G.exch.course=10; G.exch.creditPlan=G.exch.creditPlan||0; G.exch.memories=[]; G.exch.prepIdx=0;
+  G.enrolled=[]; G.screen='exchPrep'; save();
+}
+function exchPrepChoose(optIdx){
+  const step=EXCH_PREP[G.exch.prepIdx]; const opt=step.opts.filter(o=>!o.when||o.when(G))[optIdx]; if(opt) opt.fx(G);
+  G.exch.prepIdx++; while(G.exch.prepIdx<EXCH_PREP.length&&EXCH_PREP[G.exch.prepIdx].opts.filter(o=>!o.when||o.when(G)).length===0) G.exch.prepIdx++;
+  if(G.exch.prepIdx>=EXCH_PREP.length){ G.screen='exchDepart'; }
+  save();
+}
+function exchStart(){ G.sched=[]; G.screen='plan'; save(); }
+function exchActs(){ return EXCH_ACT_ORDER.map(k=>EXCH_ACTS[k]); }
+function exchFreeSlots(){ return 6; }
+function exchPreview(){
+  const lines=[]; let en=0,st=0,mo=0; const d=EXCH_DEST[G.exch.dest];
+  for(const s of G.sched){ const a=EXCH_ACTS[s.act]; if(!a) continue; en+=a.energy; st+=a.stress; mo+=a.money||0; }
+  const acts=G.sched.map(s=>s.act);
+  if(acts.some(a=>['eread','egroup','espeak'].includes(a))) lines.push('課業進度 <span class="arrow">↑</span>，'+(d.lang==='ja'?'日文':'英文')+' <span class="arrow">↑</span>');
+  if(acts.some(a=>['ecity','ecook','efriend','etravel'].includes(a))) lines.push('適應 <span class="arrow">↑</span>');
+  if(acts.some(a=>['ecall','ehome','etravel','ecook'].includes(a))) lines.push('想家 <span class="arrow d">↓</span>');
+  if(!acts.some(a=>['eread','egroup','espeak'].includes(a))&&G.sched.length>=3) lines.push('<span class="arrow d">這段時間完全沒碰課業。</span>');
+  lines.push('精力 '+(en>=0?'+':'')+en+'　壓力 '+(st>=0?'+':'')+st+'　金錢 '+money(mo)+'（生活費另計 −'+money(d.living)+'）');
+  if(G.player.money+mo-d.living<20000) lines.push('<span class="arrow d">預算開始不足。</span>');
+  return lines;
+}
+function exchResolve(){
+  const b=EXCH_BLOCKS[G.exch.block]; const d=EXCH_DEST[G.exch.dest]; const p=G.player; const x=G.exch; const L=d.lang; G.log=[];
+  pushLog({kind:'n',scene:'abroadStreet',pose:'walk',t:exchTimeLabel()+(b.tag?'（'+b.tag+'）':'')});
+  const langLv=p.skills.lang[L]||0;
+  pushLog({kind:'n',scene:'abroadClass',pose:'sit',t:'上課：'+(langLv<45?'聽得懂七成，講義要回家重讀。':langLv<70?'跟得上，偶爾要查字。':'已經可以邊聽邊記筆記了。')+' '+d.style+'。'});
+  x.course=clamp(x.course+2*(b.weeks||2),0,100); p.skills.lang[L]=clamp(langLv+1.5*(b.weeks||2),0,100);
+  for(const s of G.sched){ const a=EXCH_ACTS[s.act]; if(!a) continue; let t='';
+    switch(a.id){
+      case 'eread': p.skills.lang[L]=clamp(p.skills.lang[L]+2.5,0,100); x.course=clamp(x.course+6,0,100); p.skills.research+=0.8; t= langLv<40?'一頁讀了二十分鐘。你把不懂的字寫在旁邊，第二次看到的時候居然認得。':'讀教材的速度變快了。'; break;
+      case 'egroup': x.course=clamp(x.course+7,0,100); x.friends=clamp(x.friends+4,0,100); t= langLv<45?'小組討論你只聽懂一半，負責做投影片。':'你負責報告的一段，同學說你講得很清楚。'; if(langLv<45) x.homesick+=3; break;
+      case 'espeak': if(langLv>=50){ p.skills.express+=2; x.course+=4; p.skills.lang[L]+=2; if(!G.flags.exch_speak){ setFlag('exch_speak'); t='今天你第一次用外語完整講出自己的法律觀點。講完的時候手在抖，但教授說「Good point」。'; } else t='課堂發言。你發現自己已經不用先在心裡翻譯了。'; } else { p.stress+=4; p.skills.lang[L]+=1.5; t='舉了手，講到一半找不到那個字。教授等你，全班等你。你說了「sorry」然後坐下。下次再來。'; } break;
+      case 'eevent': p.skills.research+=1.5; p.skills.judgment+=1; x.friends+=2; if(!x.interest&&chance(.5)){ x.interest=pick(['國際商務','人權與難民','比較憲法','科技與法律']); t='去聽了一場關於'+x.interest+'的講座。你走出來的時候，覺得未來好像多了一種可能。'; setFlag('exch_interest_'+x.interest); } else t='講座。內容一半聽懂，另一半靠投影片。'; break;
+      case 'ecity': x.adapt=clamp(x.adapt+8,0,100); t= x.adapt<40?'你找教室找了二十分鐘，還搭錯一次公車。':'你已經知道哪一班車比較不擠了。'; break;
+      case 'ecook': x.adapt=clamp(x.adapt+4,0,100); x.homesick=clamp(x.homesick-4,0,100); t='超市。你認出了三種蔬菜，煮了一鍋自己也說不上來是什麼的東西。很好吃。'; break;
+      case 'eout': x.adapt=clamp(x.adapt+2,0,100); t='咖啡店坐了一下午。帳單讓你決定下週開始自己煮。'; if(!G.flags.exch_broke&&p.money<40000){ setFlag('exch_broke'); } break;
+      case 'efriend': x.friends=clamp(x.friends+7,0,100); x.adapt+=3; x.homesick=clamp(x.homesick-3,0,100); if(x.friends>=30&&!G.flags.exch_friend){ setFlag('exch_friend'); t='你和一個來自另一個國家的交換生變成固定一起吃飯的人。你們的共同語言都是第二語言，反而講得很開。'; } else t='認識了新的人。名字唸了三次才對。'; break;
+      case 'etravel': x.adapt+=4; x.homesick=clamp(x.homesick-8,0,100); x.course=clamp(x.course-3,0,100); { const place=pick(d.id==='us'?['另一個州的國家公園','一座大城市','湖邊'] : d.id==='jp'?['京都','一個溫泉小鎮','東京']:['巴黎','柏林','一個聽不出名字的小鎮']); x.memories.push(place); t='週末去了'+place+'。回來的火車上你想，這件事以後大概會常常想起。'; } break;
+      case 'ecall': x.homesick=clamp(x.homesick-7,0,100); addRel('an',2); addRel('zhe',2); if(G.flags.yu_partner) addRel('yu',4); p.energy-=2; t='半夜兩點，台灣是早上九點。你們聊了一小時完全沒有意義的事情。很好。'; break;
+      case 'ehome': addRel('mom',4); x.homesick=clamp(x.homesick-5,0,100); t='媽媽問你有沒有吃飽，然後把手機轉給每一個在場的親戚。'; break;
+      case 'erest': t='什麼都不做。窗外的光跟台灣不一樣。'; break;
+      case 'esport': t='河邊跑步。跑步的時候不需要語言。'; break;
+    }
+    p.energy=clamp(p.energy+a.energy,0,100); p.stress=clamp(p.stress+a.stress,0,100); if(a.money) p.money+=a.money;
+    pushLog({kind:['eread','egroup','espeak','eevent'].includes(a.id)?'gain':'line',scene:a.scene,pose:a.pose,t});
+  }
+  // 被動
+  p.energy=clamp(p.energy+7*(b.weeks||2),0,100); p.stress=clamp(p.stress-2*(b.weeks||2),0,100); p.money-=d.living*(b.weeks||2)/2; x.homesick=clamp(x.homesick+2*(b.weeks||2)-(x.friends>40?2:0),0,100);
+  if(G.flags.yu_partner&&!G.sched.some(s=>s.act==='ecall')) addRel('yu',-3);
+  for(const cid in G.courses){ const c=G.courses[cid]; c.r=clamp(c.r-0.5*(b.weeks||2),0,100); }
+  G.time.absWeek+=(b.weeks||2);
+  pushLog({kind:'n',scene:'abroadHome',pose:'sit',t:'生活費 −'+money(d.living*(b.weeks||2)/2)+'。餘額 '+money(p.money)+' 元。'+(p.money<30000?' 預算開始不足了。':'')});
+  G.pendingEvent=pickEvent(EXCH_EVENTS); save();
+}
+function exchReport(){
+  const x=G.exch; x.adapt=clamp(x.adapt,0,100); x.homesick=clamp(x.homesick,0,100); x.friends=clamp(x.friends,0,100); x.course=clamp(x.course,0,100); const d=EXCH_DEST[G.exch.dest]; const lines=[]; const goals=[];
+  lines.push('適應：'+(x.adapt>=70?'已經像住在這裡的人':x.adapt>=40?'慢慢習慣中':'還在狼狽')+'　想家：'+(x.homesick>=60?'很想':x.homesick>=30?'偶爾':'還好'));
+  lines.push('課業：'+(x.course>=70?'跟得上，還有餘裕':x.course>=40?'勉強跟上':'落後了')+'　'+(d.lang==='ja'?'日文':'英文')+'：'+Math.round(G.player.skills.lang[d.lang]));
+  if(x.friends>=30) lines.push('這裡有了固定一起吃飯的人。');
+  if(x.memories.length) lines.push('去過的地方：'+x.memories.join('、'));
+  const left=EXCH_BLOCKS.length-1-G.exch.block; if(left<=3) goals.push('只剩 '+left+' 段時間。想去的地方、想見的人、還沒交的報告。'); else goals.push('期末報告和考試佔成績大半，課業進度不要掉。');
+  if(G.player.money<40000) goals.push('錢不多了。自己煮、少旅行，或打電話回家。');
+  return {lines,goals};
+}
+function exchNext(){
+  G.exch.block++; if(G.exch.block>=EXCH_BLOCKS.length){ exchFinish(); return; }
+  G.sched=[]; G.screen='plan'; save();
+}
+function exchFinish(){
+  const x=G.exch; const d=EXCH_DEST[x.dest]; const p=G.player;
+  const grade=clamp(55+x.course*0.4+(p.skills.lang[d.lang]||0)*0.1+rnd(-3,5),40,100);
+  const creditRatio=clamp(d.credits+x.creditPlan+(x.course>=60?0:-0.15),0.3,1);
+  x.finalGrade=Math.round(grade); x.creditRatio=creditRatio; x.done=true; x.langAtReturn=p.skills.lang[d.lang];
+  if(creditRatio<0.7) { G.retake.push('exchMakeup'); }
+  G.semesters.push({y:3,s:1,avg:x.finalGrade,rows:[{name:'交換學期（'+d.name+'）',g:x.finalGrade}]});
+  diary('交換結束：'+d.country+'一個學期，'+(x.friends>=30?'交到了朋友，':'')+(x.memories.length?'去了'+x.memories.length+'個地方，':'')+'學分抵免約 '+Math.round(creditRatio*100)+'%。');
+  G.screen='exchReturn'; save();
+}
+function exchReturnDone(){
+  G.phase='uni'; G.ctx='uni'; G.time.year=3; G.time.sem=2; G.enrolled=[]; const ri=G.retake.indexOf('exchMakeup'); if(ri>=0){ G.retake.splice(ri,1); G.retake.push('makeup'); }
+  G.screen='enroll'; save();
+}
+// 交換事件
+const EXCH_EVENTS=[
+  { id:'x_market', title:'第一次去超市', scene:'abroadStreet', once:true, weight:100, when:()=>G.phase==='exch'&&G.exch.block===0,
+    lines:[L('n','超市很大。你站在牛奶區前面，有六種你分不出差別的牛奶。'),L('n','結帳的時候店員問了一句話，你沒聽懂，說了「yes」。她給了你一個很大的袋子。')],
+    options:[ {label:'買了一週的份量，回去研究標籤', do:()=>{ G.exch.adapt+=6; return [L('n','你回住處用翻譯 App 看了每一個標籤。其中一罐是優格，不是牛奶。')]; }},
+      {label:'先買泡麵和水，之後再說', do:()=>{ G.exch.homesick-=3; G.player.money-=500; return [L('n','泡麵的味道不對。但夠了。')]; }} ]},
+  { id:'x_bus', title:'搭錯車', scene:'abroadStreet', once:true, weight:80, when:()=>G.phase==='exch'&&G.exch.block<=1,
+    lines:[L('n','上課第一天。你搭了跟昨天一樣號碼的車，往反方向開。'),L('n','二十分鐘後你在一個完全不認識的地方。手機只剩 12%。')],
+    options:[ {label:'下車，問路，用走的', do:()=>{ G.exch.adapt+=8; G.player.energy-=6; return [L('n','你問了三個人。第三個人剛好也是要去學校的學生。你遲到了四十分鐘，但認識了一條路。')]; }},
+      {label:'坐回終點站再搭回來', do:()=>{ G.exch.adapt+=3; return [L('n','你錯過了第一堂課。教授說沒關係，然後給你一份 40 頁的補充閱讀。')]; }} ]},
+  { id:'x_roommate', title:'室友', scene:'abroadHome', once:true, weight:80, when:()=>G.phase==='exch'&&G.exch.block>=1&&G.exch.block<=2&&G.exch.house!=='host',
+    lines:[L('n','室友在廚房煮東西，味道很重。'),L('n','「你也是交換生？」他問。你說是。他說他來自另一個大陸，念經濟，也不知道為什麼會來這裡。')],
+    options:[ {label:'一起吃，交換各自國家的事', do:()=>{ G.exch.friends+=10; G.exch.homesick-=4; return [L('n','你們聊到凌晨一點。他說他也想家。你發現想家是一個國際共通的東西。')]; }},
+      {label:'客氣地聊兩句，回房間', do:()=>{ G.exch.friends+=2; return [L('n','你們之後在廚房遇到會點頭。也不錯。')]; }} ]},
+  { id:'x_group_lost', title:'小組討論', scene:'abroadClass', once:true, weight:90, when:()=>G.phase==='exch'&&G.exch.block>=2&&G.exch.block<=3,
+    lines:[L('n','小組討論。四個人講話都很快，你聽懂大意，但每次想插話的時候，話題已經到下一個了。'),L('n','有人問你：「你們國家怎麼處理這個問題？」')],
+    options:[ {label:'慢慢講，講不完整也講', do:()=>{ const L2=EXCH_DEST[G.exch.dest].lang; G.player.skills.lang[L2]+=3; G.player.skills.express+=1.5; G.exch.friends+=4; G.player.stress+=3; return [L('n','你講了三句，中間停了兩次。組員等你講完，然後有人說「that\'s interesting」。你不確定是客套還是真的，但你講完了。')]; }},
+      {label:'「我下次再整理給你們。」然後真的回去整理', do:()=>{ G.exch.course+=5; G.player.skills.research+=1; return [L('n','你回去寫了一頁英文，下週帶去。組員真的看了。')]; }} ]},
+  { id:'x_travel_vs_report', title:'週末', scene:'abroadStreet', once:true, weight:80, when:()=>G.phase==='exch'&&G.exch.block>=3&&G.exch.block<=5,
+    lines:[L('n','同學邀你週末去另一個城市。「只有這個週末有便宜車票。」'),L('n','下週三要交報告，你寫了三分之一。')],
+    options:[ {label:'去，在火車上寫報告', do:()=>{ G.exch.memories.push('和同學一起去的城市'); G.exch.friends+=6; G.exch.homesick-=6; G.player.money-=7000; G.player.energy-=8; G.exch.course-=2; return [L('n','火車上寫了兩段，其他時間在看窗外。報告交出去的時候，你覺得沒有很好，但你記得那個週末。')]; }},
+      {label:'留下來把報告寫完', do:()=>{ G.exch.course+=8; G.exch.friends-=2; return [L('n','報告寫得很完整。週日晚上你看到他們的照片。你告訴自己下次會去。')]; }} ]},
+  { id:'x_broke', title:'帳戶', scene:'abroadHome', once:true, weight:100, when:()=>G.phase==='exch'&&G.player.money<45000&&G.exch.block>=3,
+    linesFn:()=>[L('n','你看了一下帳戶：'+money(G.player.money)+' 元。'),L('n','還有 '+(EXCH_BLOCKS.length-1-G.exch.block)+' 段時間。你把這週的外食全部劃掉。')],
+    options:[ {label:'開始自己煮，取消下一趟旅行', do:()=>{ setFlag('exch_broke'); G.exch.adapt+=5; G.player.money+=3000; return [L('n','你學會了三道菜。室友說你煮的比餐廳好吃，你知道他在客氣，但還是很高興。')]; }},
+      {label:'打電話回家', do:()=>{ addRel('mom',3); G.player.money+=25000; G.player.stress+=3; return [L('mom','你要早講啊。'),L('n','匯款進來的時候，你在超市裡把剛放回去的水果又拿了回來。')]; }} ]},
+  { id:'x_used_to', title:'某一天', scene:'abroadStreet', once:true, weight:90, when:()=>G.phase==='exch'&&G.exch.block>=5&&G.exch.adapt>=50,
+    lines:[L('n','某一天下課，你走到車站，上車，坐下，拿出書。'),L('n','過了兩站你才發現，剛才你完全沒有想這件事。你已經習慣這座城市了。')],
+    options:[ {label:'把這件事記下來', do:()=>{ G.exch.homesick=clamp(G.exch.homesick-10,0,100); setFlag('exch_settled'); return [L('n','你在手機備忘錄寫了一句話。多年後你還會偶爾翻到它。')]; }} ]},
+  { id:'x_ldr', title:'時差', scene:'abroadHome', once:true, weight:90, when:()=>G.phase==='exch'&&G.flags.yu_partner&&G.exch.block>=3,
+    lines:[L('yu','你最近都很晚回訊息。'),L('you','這裡是白天的時候你在睡。'),L('yu','我知道。我只是說一下。'),L('n','螢幕上「輸入中」出現又消失。')],
+    options:[ {label:'訂一個固定通話時間，每週兩次', do:()=>{ addRel('yu',8); G.exch.ldr=true; return [L('yu','好。'),L('n','週三和週日。有時候沒什麼好講，還是講了。')]; }},
+      {label:'「等我回去再說。」', do:()=>{ addRel('yu',-12); return [L('yu','好。'),L('n','這個「好」你看了很久。')]; }} ]},
+  { id:'x_ending_soon', title:'快結束了', scene:'abroadStreet', once:true, weight:100, when:()=>G.phase==='exch'&&G.exch.block>=7,
+    lines:[L('n','還有兩週。你開始算：想去的地方、想見的人、還沒交的報告。'),L('n','室友問你要不要最後再去一趟哪裡。')],
+    options:[ {label:'去，錢再想辦法', do:()=>{ G.exch.memories.push('最後一趟旅行'); G.player.money-=8000; G.exch.homesick-=5; G.exch.friends+=4; return [L('n','那趟旅行你幾乎沒拍照。你想記住的東西不在照片裡。')]; }},
+      {label:'留下來，把報告寫好，和這裡的人多吃幾頓飯', do:()=>{ G.exch.course+=8; G.exch.friends+=6; return [L('n','最後一週你們每天一起煮飯。有一天大家都沒說話，只是在吃。')]; }} ]},
+  { id:'x_souvenir', title:'紀念品', scene:'abroadStreet', once:true, weight:100, when:()=>G.phase==='exch'&&G.exch.block>=8,
+    lines:[L('n','你在市集買了紀念品。給小安一個很實用的東西，給阿哲一個很沒用的東西，給媽媽一個她會放在櫃子上的東西。'),L('n','行李箱關不起來。你把一本書拿出來，決定留在這裡。')],
+    options:[ {label:'把書留給室友', do:()=>{ G.exch.friends+=5; setFlag('exch_left_book'); return [L('n','他說他不會讀，但會放在書架上。你們約好以後有機會再見。你們都知道「有機會」是什麼意思，也都希望是真的。')]; }} ]},
+];
+/* ===== 07 國考：備考、一試二試、訓練、落榜分岔 ===== */
+// 制度依應考人常見的說明整理（一試選擇題四卷、二試申論五科＋選試、前 33% 及格、四大核心 800 分中須達 400）；分數線每年不同，遊戲以近似值代替，屬遊戲簡化。
+const BAR_ACTS={
+  b1:{ id:'b1', name:'第一輪閱讀', cat:'學習', subj:true, scene:'library', pose:'read', desc:'把體系重新建一遍', energy:-8, stress:3 },
+  b2:{ id:'b2', name:'第二輪整理', cat:'學習', subj:true, scene:'dorm', pose:'type', desc:'把重點壓成自己的筆記', energy:-7, stress:2 },
+  bp:{ id:'bp', name:'練題', cat:'學習', subj:true, scene:'library', pose:'type', desc:'爭點、涵攝、寫完', energy:-9, stress:4 },
+  br:{ id:'br', name:'複習與回想', cat:'學習', subj:true, scene:'dorm', pose:'read', desc:'對抗遺忘', energy:-6, stress:1 },
+  bmc:{ id:'bmc', name:'選擇題題庫', cat:'學習', subj:false, scene:'dorm', pose:'type', desc:'一試是選擇題：記憶與辨識', energy:-7, stress:2 },
+  bm:{ id:'bm', name:'模擬考', cat:'學習', subj:false, scene:'classroom', pose:'type', desc:'找出弱科，很累', energy:-12, stress:6 },
+  bc:{ id:'bc', name:'補習班課程', cat:'學習', subj:false, scene:'classroom', pose:'sit', desc:'有人幫你整理，但要錢', energy:-6, stress:1, money:-7000 },
+  bg:{ id:'bg', name:'讀書會', cat:'學習', subj:false, scene:'library', pose:'read', desc:'和還在考的同學', energy:-6, stress:0 },
+  bwork:{ id:'bwork', name:'打工', cat:'金錢', subj:false, scene:'store', pose:'stand', desc:'補貼生活費', energy:-10, stress:3, money:6000 },
+  brest:{ id:'brest', name:'什麼都不做', cat:'生活', subj:false, scene:'dorm', pose:'sleep', desc:'睡眠與恢復', energy:18, stress:-10 },
+  bsport:{ id:'bsport', name:'運動', cat:'生活', subj:false, scene:'park', pose:'walk', desc:'', energy:6, stress:-7 },
+  bfriend:{ id:'bfriend', name:'見朋友', cat:'人際', subj:false, scene:'street', pose:'stand', desc:'', energy:-2, stress:-6, money:-500 },
+  bpartner:{ id:'bpartner', name:'陪伴伴侶', cat:'人際', subj:false, scene:'street', pose:'stand', desc:'', energy:0, stress:-8, money:-700, need:'partner' },
+  bhome:{ id:'bhome', name:'回家', cat:'生活', subj:false, scene:'home', pose:'sit', desc:'', energy:8, stress:-6, money:1000 },
+};
+const BAR_ACT_ORDER=['b1','b2','bp','br','bmc','bm','bc','bg','bwork','brest','bsport','bfriend','bpartner','bhome'];
+const BAR_MONTHS=['1月','2月','3月','4月','5月','6月','7月','8月（一試）','9月','10月（二試）','11月','12月（放榜）'];
+const ELECTIVES={ ip:{name:'智慧財產法',course:'ip'}, labor:{name:'勞動社會法',course:'labor'}, tax:{name:'財稅法',course:'tax'}, marine:{name:'海商法與海洋法',course:null} };
+function barTimeLabel(){ const b=G.bar; return '備考第'+b.year+'年・'+BAR_MONTHS[b.month]; }
+function barInitSubjects(){
+  const S={}; for(const k of SUBJ_IDS){ const cs=subjCourses(k); const d={u:8,s:6,m:6,r:5,i:5,a:5}; if(cs.length){ for(const dim of ['u','s','m','r','i','a']){ d[dim]=cs.reduce((a,c)=>a+G.courses[c][dim],0)/cs.length; } d.r=d.r*0.8; } S[k]=d; } return S;
+}
+function barBegin(mode, target, elective){
+  G.phase='bar'; G.ctx='bar'; G.postYears=(G.postYears||0);
+  G.bar={ mode, target, elective:elective||'labor', month:0, year:1, attempts:0, subj:barInitSubjects(), mocks:[], streak:0, passed1:null, exam2:null, mc:0, results:[] };
+  G.barGoal=target; diary('畢業後：'+(mode==='full'?'全職':'工作兼')+'準備'+(target==='both'?'律師與司法官':target==='judge'?'司法官':'律師')+'考試，選試科目：'+ELECTIVES[G.bar.elective].name+'。');
+  MAIN_NPCS.forEach(npcLifeUpdate); G.sched=[]; G.screen='plan'; save();
+}
+function barActs(){ return BAR_ACT_ORDER.map(k=>BAR_ACTS[k]).filter(a=>!(a.need==='partner'&&!G.flags.yu_partner)); }
+function barFreeSlots(){ return G.bar.mode==='part'?5:8; }
+function barPreview(){
+  const lines=[]; let en=0,st=0,mo=0; const touched={}; let study=0,rest=0;
+  for(const s of G.sched){ const a=BAR_ACTS[s.act]; if(!a) continue; en+=a.energy; st+=a.stress; mo+=a.money||0; if(a.cat==='學習') study++; if(['brest','bsport'].includes(a.id)) rest++; if(s.course) (touched[s.course]=touched[s.course]||[]).push(a.id); }
+  for(const k in touched){ const acts=touched[k]; const up=[]; if(acts.includes('b1')) up.push('理解・體系'); if(acts.includes('b2')) up.push('結構・記憶'); if(acts.includes('bp')) up.push('爭點・涵攝・速度'); if(acts.includes('br')) up.push('提取'); lines.push('<b>'+SUBJ[k].name+'</b>：'+up.join('、')+'<span class="arrow">↑</span>'); }
+  if(G.sched.some(s=>s.act==='bmc')) lines.push('一試選擇題手感 <span class="arrow">↑</span>');
+  const un=SUBJ_IDS.filter(k=>!touched[k]); if(un.length&&G.sched.length>=4) lines.push('<span class="sub">沒碰：'+un.map(k=>SUBJ[k].short).join('、')+'</span>');
+  if(G.bar.mode==='part') mo+=22000;
+  lines.push('精力 '+(en>=0?'+':'')+en+'　壓力 '+(st>=0?'+':'')+st+'　金錢 '+(mo>=0?'+':'')+money(mo)+'（生活費另計 −14,000）');
+  if(study>=6&&rest===0) lines.push('<span class="arrow d">整個月沒有休息：邊際效益會下降。</span>');
+  if(G.bar.streak>=2) lines.push('<span class="arrow d">已連續 '+G.bar.streak+' 個月高強度。</span>');
+  return lines;
+}
+function barEff(){ let e=1; const p=G.player; if(p.energy<30) e*=0.65; else if(p.energy<50) e*=0.85; if(p.stress>75) e*=0.85; e*=Math.max(0.55,1-0.08*G.bar.streak); return e; }
+function barResolve(){
+  const b=G.bar; const p=G.player; G.log=[]; const S=b.subj;
+  pushLog({kind:'n',scene:'library',pose:'read',t:barTimeLabel()+(b.mode==='part'?'（白天在'+(b.job||'事務所')+'工作）':'')});
+  let study=0,rest=0; const eff=barEff();
+  if(b.mode==='part'){ p.money+=22000; p.energy-=10; p.skills.judgment=clamp(p.skills.judgment+0.8,0,100); pushLog({kind:'line',scene:'firm',pose:'type',t:'白天上班：影印、查資料、整理卷。薪水 +22,000。晚上才是自己的時間。'}); }
+  for(const s of G.sched){ const a=BAR_ACTS[s.act]; if(!a) continue; const k=s.course; const d=k?S[k]:null; let t=''; const nm=k?SUBJ[k].short:'';
+    switch(a.id){
+      case 'b1': d.u=clamp(d.u+8*eff*(1-d.u/140),0,100); d.s=clamp(d.s+5*eff,0,100); d.m=clamp(d.m+4*eff,0,100); t='第一輪讀'+nm+'：'+(d.u>70?'這科已經很熟，再讀課本的邊際效益不高。':'體系重新建了一遍。'); break;
+      case 'b2': { const ok=d.u>=30; d.s=clamp(d.s+(ok?8:3)*eff,0,100); d.m=clamp(d.m+(ok?7:3)*eff,0,100); d.r=clamp(d.r+2*eff,0,100); p.skills.structure=clamp(p.skills.structure+1*eff,0,100); t='第二輪整理'+nm+'：'+(ok?'筆記壓成三十頁。':'還沒讀懂就在整理，效果有限。'); break; }
+      case 'bp': { const ok=d.u>=30; if(ok){ d.i=clamp(d.i+7*eff,0,100); d.a=clamp(d.a+6*eff,0,100); d.r=clamp(d.r+3*eff,0,100); p.skills.structure=clamp(p.skills.structure+1.2*eff,0,100); p.skills.speed=clamp(p.skills.speed+1.5*eff,0,100); t='練'+nm+'題：'+(p.skills.speed<35?'知道爭點，但常常寫不完。':'爭點與涵攝都在進步。'); } else { d.i=clamp(d.i+2*eff,0,100); t='練'+nm+'題：看到題目不知道從哪裡下手。基礎不足。'; } break; }
+      case 'br': d.r=clamp(Math.min(d.m+15,d.r+10*eff),0,100); d.m=clamp(d.m+2*eff,0,100); t='複習'+nm+'：提取度回來了。'; break;
+      case 'bmc': b.mc=clamp((b.mc||0)+6*eff,0,100); SUBJ_IDS.forEach(k=>{ S[k].m=clamp(S[k].m+1.2*eff,0,100); S[k].r=clamp(S[k].r+1*eff,0,100); }); t='刷選擇題：一試是四卷選擇題，每題兩分。'+(b.mc<40?'錯的比對的多，但錯的地方都知道為什麼了。':'手感出來了。'); break;
+      case 'bm': { const rows=SUBJ_IDS.map(k=>({k,sc:S[k].u*0.2+S[k].r*0.25+S[k].i*0.3+S[k].a*0.25})); rows.sort((x,y)=>x.sc-y.sc); const weak=rows[0]; b.mocks.push({m:b.month,y:b.year,weak:weak.k,avg:rows.reduce((x,y)=>x+y.sc,0)/6}); SUBJ_IDS.forEach(k=>{ S[k].r=clamp(S[k].r+2*eff,0,100); S[k].i=clamp(S[k].i+1.5*eff,0,100); }); p.skills.speed=clamp(p.skills.speed+1*eff,0,100); t='模擬考：最弱的是'+SUBJ[weak.k].name+'（'+Math.round(weak.sc)+'）。'+(p.skills.speed<35?'另外，你三科都沒寫完。':''); break; }
+      case 'bc': SUBJ_IDS.forEach(k=>{ S[k].u=clamp(S[k].u+2.5*eff,0,100); S[k].s=clamp(S[k].s+2.5*eff,0,100); }); t='補習班：老師的體系圖很好用。你花了七千塊，換到一份別人的整理。'; break;
+      case 'bg': { const anHere=G.careerYears<=2; SUBJ_IDS.forEach(k=>{ S[k].i=clamp(S[k].i+2*eff,0,100); S[k].r=clamp(S[k].r+2*eff,0,100); }); if(anHere) addRel('an',3); addRel('zhe',2); t= anHere?'讀書會：小安把刑訴的爭點表列出來。你們對了一輪，發現大家抓的都不一樣。':'讀書會：還在考的人變少了，話題也變了。'; break; }
+      case 'bwork': p.money+=a.money; t='打工。'; break;
+      case 'brest': t='什麼都不做。你發現自己已經很久沒有在白天走出圖書館。'; break;
+      case 'bsport': t='運動。'; break;
+      case 'bfriend': addRel('zhe',4); addRel('kai',3); t='見朋友。有人已經在上班了，聊天的節奏不太一樣。'; break;
+      case 'bpartner': addRel('yu',6); t='陪伴。她說你講話的時候眼睛還在看書。你把書收起來。'; break;
+      case 'bhome': addRel('mom',4); t='回家。媽媽沒有問考試，你反而有點不習慣。'; break;
+    }
+    if(a.cat==='學習') study++; if(['brest','bsport'].includes(a.id)) rest++;
+    p.energy=clamp(p.energy+a.energy,0,100); p.stress=clamp(p.stress+a.stress,0,100); if(a.money&&a.id!=='bwork') p.money+=a.money;
+    pushLog({kind:a.cat==='學習'?'gain':'line',scene:a.scene,pose:a.pose,t});
+  }
+  SUBJ_IDS.forEach(k=>{ S[k].r=clamp(S[k].r-3,0,100); if(S[k].r<25) S[k].m=clamp(S[k].m-1,0,100); });
+  p.energy=clamp(p.energy+12,0,100); p.stress=clamp(p.stress-3+(b.month>=6&&b.month<=9?6:0),0,100); p.money-=14000; if(G.exch.loan&&p.money>50000){ p.money-=4000; }
+  if(study>=6&&rest===0) b.streak++; else if(rest>0||study<=3) b.streak=0;
+  if(b.streak>=3) setFlag('overwork');
+  G.time.absWeek+=4;
+  pushLog({kind:'n',scene:'store',pose:'stand',t:'生活費 −14,000。餘額 '+money(p.money)+' 元。'});
+  if(p.money<0){ p.money=0; }
+  G.pendingEvent=pickEvent(BAR_EVENTS); save();
+}
+function barReport(){
+  const b=G.bar; const S=b.subj; const p=G.player; const lines=[]; const goals=[];
+  const rows=SUBJ_IDS.map(k=>({k,d:S[k]})); const lowR=rows.slice().sort((x,y)=>(x.d.m-x.d.r)-(y.d.m-y.d.r)).reverse()[0]; const lowU=rows.slice().sort((x,y)=>x.d.u-y.d.u)[0];
+  const avgI=rows.reduce((a,r)=>a+r.d.i,0)/6, avgU=rows.reduce((a,r)=>a+r.d.u,0)/6;
+  if(lowR.d.m-lowR.d.r>18) lines.push('目前最大的風險不是'+SUBJ[lowU.k].short+'不會，而是<b>'+SUBJ[lowR.k].name+'</b>的熟悉度正在下降：看過，但提取不出來。');
+  else if(lowU.d.u<30) lines.push('<b>'+SUBJ[lowU.k].name+'</b>的基礎還沒建立，先第一輪閱讀。');
+  if(avgI>=45&&(p.skills.speed<35||p.skills.structure<35)) lines.push('你抓得到爭點，但最近的練習都出現「知道爭點卻寫不完整」的情況。限時練題、模擬考。');
+  if(avgU>=55&&avgI<30) lines.push('你讀得很多，但輸出能力不足。二試是用寫的。');
+  if(b.month<7&&(b.mc||0)<30&&b.month>=3) lines.push('一試是選擇題。你還沒怎麼碰題庫。');
+  if(b.streak>=2) lines.push('<span class="arrow d">你已經連續 '+b.streak+' 個月高強度學習，繼續硬讀的邊際效益正在下降。</span>');
+  if(p.energy<30) lines.push('<span class="arrow d">精力很低。睡眠也是準備的一部分。</span>');
+  for(const r of rows){ const st=barStatus(r.d); lines.push('<b>'+SUBJ[r.k].short+'</b> <span class="status s'+st.s+'">'+st.t+'</span>'); }
+  const m=b.month; if(m<7) goals.push('一試在 8 月，還有 '+(7-m)+' 個月。四卷選擇題。'); else if(m<9) goals.push('二試在 10 月：兩天，申論。'); else goals.push('12 月放榜。');
+  if(p.money<30000) goals.push('錢快不夠了。可以打工、回家，或考慮工作兼備考。');
+  return {lines,goals};
+}
+function barStatus(d){ if(d.u>=70&&d.i>=60&&d.a>=55&&d.r>=55) return {s:5,t:'已相當熟練'}; if(d.i>=45&&d.a>=35&&d.r>=35) return {s:4,t:'能獨立作答'}; if(d.i>=30||(d.u>=45&&d.r>=30)) return {s:3,t:'能辨識'}; if(d.m>=25&&d.r<20) return {s:2,t:'熟悉但提取不出來'}; if(d.u>=20) return {s:2,t:'尚未穩固'}; return {s:1,t:'剛開始'}; }
+function barNext(){
+  const b=G.bar; b.month++;
+  if(b.month===7){ barExam1(); return; }
+  if(b.month===9){ if(b.passed1){ barExam2Begin(); return; } }
+  if(b.month===11){ barAnnounce(); return; }
+  if(b.month>=12){ b.month=0; b.year++; G.postYears=(G.postYears||0)+1; G.careerYears=(G.careerYears||0)+1; MAIN_NPCS.forEach(npcLifeUpdate); }
+  G.sched=[]; G.screen='plan'; save();
+}
+// 一試：四卷選擇題，總分 600（遊戲簡化：以前 33% 的近似分數線作為門檻）
+function barExam1(){
+  const b=G.bar; const S=b.subj; const p=G.player; const mc=(b.mc||0)/100;
+  const sub=k=>clamp((S[k].m*0.35+S[k].r*0.35+S[k].i*0.3)/100*(0.75+0.35*mc),0,1);
+  const gen=clamp((p.skills.judgment+p.skills.research)/200,0,1), en=clamp(p.skills.lang.en/100,0,1);
+  const cond=(p.energy<30?0.9:1)*(p.stress>85?0.93:1);
+  const paper=[
+    {name:'第一卷 綜合法學（一）：刑法 70、刑訴 50、法倫 30', score: (70*sub('crim')+50*sub('crimpro')+30*(0.4+0.6*gen))},
+    {name:'第二卷 綜合法學（一）：行政法 70、憲法 40、國公 20、國私 20', score: (110*sub('const_')+40*(0.35+0.65*gen))},
+    {name:'第三卷 綜合法學（二）：民法 100、民訴 60', score: (100*sub('civ')+60*sub('civpro'))},
+    {name:'第四卷 綜合法學（二）：公司 30、保險 20、票據 20、證交 20、法英 30、強執 20', score: (90*sub('com')+30*(0.3+0.7*en)+20*sub('civpro'))},
+  ].map(x=>({name:x.name, score:Math.round(clamp(x.score*cond*1.15+rnd(-6,6),0,x.name.includes('第三')?160:x.name.includes('第四')?140:150))}));
+  const total=paper.reduce((a,x)=>a+x.score,0); const cut=Math.round(330+rnd(-12,12));
+  b.exam1={paper,total,cut}; b.passed1=total>=cut;
+  b.results.push({y:b.year,stage:'一試',score:total,pass:b.passed1});
+  diary('一試 '+total+'/600（分數線約 '+cut+'）：'+(b.passed1?'通過':'未通過'));
+  G.screen='barExam1'; save();
+}
+function barExam1Next(){ const b=G.bar; if(!b.passed1){ b.month=11; barAnnounce(); return; } G.sched=[]; G.screen='plan'; save(); }
+// 二試：申論。憲法行政法 200、刑法刑訴 200、國文 100、民法民訴 300、公司保險證交 100、選試 100，共 1000。
+function barExam2Begin(){
+  const b=G.bar; const S=b.subj; const p=G.player;
+  const prep=SUBJ_IDS.reduce((a,k)=>a+(S[k].u*0.15+S[k].s*0.15+S[k].r*0.2+S[k].i*0.25+S[k].a*0.25),0)/6;
+  const weakest=SUBJ_IDS.slice().sort((x,y)=>(S[x].i+S[x].a)-(S[y].i+S[y].a))[0];
+  const bank=SUBJ_CASE[weakest]; const cs=CASES[bank[b.year%bank.length]];
+  G.exam={ cid:'bar', which:'bar', step:0, T:120, used:0, q:[], prep, case:cs, bonusQ3:0, subjName:SUBJ[weakest].name, bar:true };
+  G.screen='exam'; save();
+}
+function barExam2Finish(){
+  const e=G.exam; const b=G.bar; const S=b.subj; const p=G.player; let cond=1; if(p.energy<30) cond*=0.92; if(p.stress>85) cond*=0.93;
+  const strat=0.35*e.q[0].q+0.30*e.q[1].q+0.35*e.q[2].q; const mult=(0.25+0.85*strat)*cond;
+  const essay=k=>clamp((S[k].u*0.15+S[k].s*0.15+S[k].r*0.2+S[k].i*0.25+S[k].a*0.25)/100*mult,0,1);
+  const elec=ELECTIVES[b.elective]; const elecBase= elec.course&&G.courses[elec.course]? 0.45+0.4*(G.courses[elec.course].u/100) : 0.35+0.15*(p.skills.research/100);
+  const rows=[
+    {name:'憲法與行政法', max:200, score:200*essay('const_'), core:true},
+    {name:'刑法與刑事訴訟法', max:200, score:200*(essay('crim')*0.55+essay('crimpro')*0.45), core:true},
+    {name:'國文（作文）', max:100, score:100*(0.45+0.3*(p.skills.express/100)+0.15*(p.skills.structure/100)), core:false},
+    {name:'民法與民事訴訟法', max:300, score:300*(essay('civ')*0.6+essay('civpro')*0.4), core:true},
+    {name:'公司法、保險法與證券交易法', max:100, score:100*essay('com'), core:true},
+    {name:'選試：'+elec.name, max:100, score:100*elecBase*(0.85+0.3*strat), core:false},
+  ].map(r=>({...r, score:Math.round(clamp(r.score+rnd(-4,4),0,r.max))}));
+  const total=rows.reduce((a,r)=>a+r.score,0); const core=rows.filter(r=>r.core).reduce((a,r)=>a+r.score,0);
+  const judgeTotal=total-rows[5].score; // 司法官二試無選試科目，五科共 900 分
+  b.exam2={rows,total,core,strat,judgeTotal};
+  const parts=[]; if(e.q[0].k==='A'&&e.q[0].time>40) parts.push('第一題花掉太多時間。'); if(e.q[1].k==='core') parts.push('第二題直接切進核心。'); if(e.q[1].k==='sec') parts.push('第二題記得見解，但沒有先處理核心問題。'); if(e.q[2].q<0.5) parts.push('第三題沒寫完。'); if(p.skills.speed<35) parts.push('整體來說，速度還是最大的問題。'); if(e.prep<45) parts.push('準備程度本身就不夠，策略救不了太多。');
+  e.result={score:total, max:1000, text:parts.join('')||'發揮穩定。', rows, core};
+  b.results.push({y:b.year,stage:'二試',score:total,pass:null});
+  diary('二試 '+total+'/1000（四大核心 '+core+'/800）'); G.screen='examResult'; save();
+}
+function barAnnounce(){
+  const b=G.bar; const p=G.player; b.attempts++;
+  let lawyer=false, judgeStage=false, why='';
+  const lawyerCut=Math.round(500+rnd(-15,15)), judgeCut=Math.round(555+rnd(-15,15));
+  if(!b.passed1){ why='一試未達分數線。'; }
+  else if(!b.exam2){ why='未參加二試。'; }
+  else { const t=b.exam2.total, c=b.exam2.core, jt=b.exam2.judgeTotal;
+    if(b.target!=='judge'){ if(c<400) why='律師二試四大核心領域合計 '+c+' 分，未達 400 分的及格門檻（總分 '+t+'）。'; else { lawyer=t>=lawyerCut; if(!lawyer) why='律師二試總分 '+t+'，未達當年前 33% 的分數線（約 '+lawyerCut+'）。'; } }
+    if(b.target!=='lawyer'){ judgeStage=jt>=judgeCut; if(!judgeStage){ why+=(why?' ':'')+'司法官二試五科合計 '+jt+'/900，未達進入三試的分數（約 '+judgeCut+'，遊戲簡化：實際依需用名額擇優）。'; } }
+  }
+  b.lawyerPass=lawyer; b.judgePass=false; b.judgeStage=judgeStage; b.why=why; b.cuts={lawyerCut,judgeCut};
+  if(lawyer) setFlag('bar_pass');
+  if(judgeStage){ b.month=11; G.screen='barOral'; b.oralStep=0; diary('二試放榜：司法官進入三試（隔年一月口試）。'+(lawyer?'律師考試通過。':'')); save(); return; }
+  if(!lawyer) setFlag('bar_fail');
+  if(lawyer) diary('放榜：律師考試通過。'); else diary('放榜：落榜。'+why);
+  b.month=11; G.screen='barResult'; save();
+}
+// 三試：集體口試（儀態、溝通、人格特質、才識、應變），100 分，未滿 60 不錄取；二試與三試合併計分擇優（遊戲簡化）
+const ORAL_QS=[
+  { q:'口試委員：「如果當事人在法庭上情緒失控，你會怎麼處理？」', opts:[
+    {t:'先暫停程序，讓當事人冷靜，再說明接下來的程序與他的權利', v:1.0},
+    {t:'嚴正告誡，維持法庭秩序，必要時請法警處理', v:0.7},
+    {t:'我會盡量同理他，聽他把話講完', v:0.75} ]},
+  { q:'口試委員：「你認為司法官最需要的特質是什麼？請舉一個你自己的例子。」', opts:[
+    {t:'耐心與說理：舉大學時處理小組報告分歧的經驗', v:0.9},
+    {t:'正義感：舉自己對某個社會案件的看法', v:0.6},
+    {t:'誠實面對自己不知道的事：舉曾經在朋友面前承認自己不懂勞動法的經驗', v:1.0} ]},
+];
+function barOralChoose(idx){
+  const b=G.bar; const p=G.player; const q=ORAL_QS[b.oralStep]; const o=q.opts[idx]; b.oralV=(b.oralV||0)+o.v;
+  b.oralStep++; if(b.oralStep<ORAL_QS.length){ save(); return; }
+  const oral=Math.round(clamp(46+p.skills.express*0.22+p.skills.judgment*0.1+(b.oralV/ORAL_QS.length)*22+rnd(-4,4),0,100)); b.oral=oral;
+  const jt=b.exam2.judgeTotal; const combined=jt+oral; const need=b.cuts.judgeCut+62;
+  const judge= oral>=60 && combined>=need;
+  b.judgePass=judge; if(judge) setFlag('judicial_pass'); if(!judge&&!b.lawyerPass) setFlag('bar_fail');
+  if(!judge) b.why= oral<60?'三試口試 '+oral+' 分，未滿 60 分，不予錄取。':'二試與三試合計 '+combined+'，未達錄取名額內的分數（約 '+need+'，遊戲簡化）。';
+  diary('三試口試 '+oral+' 分：'+(judge?'司法官考試錄取。':'未錄取。'));
+  G.postYears=(G.postYears||0); G.screen='barResult'; save();
+}
+function barAfterResult(choice){
+  const b=G.bar;
+  if(choice==='trainLawyer'){ G.screen='training'; G.training={kind:'lawyer',step:0}; save(); return; }
+  if(choice==='trainJudge'){ G.screen='training'; G.training={kind:'judicial',step:0}; save(); return; }
+  if(choice==='retryFull'||choice==='retryPart'){ b.mode=choice==='retryFull'?'full':'part'; b.month=0; b.year++; b.passed1=null; b.exam2=null; b.exam1=null; G.postYears=(G.postYears||0)+1; G.careerYears=(G.careerYears||0)+1; MAIN_NPCS.forEach(npcLifeUpdate); G.sched=[]; G.screen='plan'; diary('決定再戰一年（'+(b.mode==='full'?'全職':'工作兼備考')+'）。'); save(); return; }
+  if(choice==='legal'){ G.screen='careerSetup'; G.setupRole='legal'; save(); return; }
+  if(choice==='grad'){ gradSchool(); return; }
+  if(choice==='leave'){ G.screen='ending'; G.endingKey='newpath'; save(); return; }
+}
+function gradSchool(){
+  G.postYears=(G.postYears||0)+2; G.careerYears=(G.careerYears||0)+2; const p=G.player; p.skills.research=clamp(p.skills.research+18,0,100); p.skills.structure=clamp(p.skills.structure+6,0,100);
+  if(G.bar){ SUBJ_IDS.forEach(k=>{ G.bar.subj[k].u=clamp(G.bar.subj[k].u+12,0,100); G.bar.subj[k].s=clamp(G.bar.subj[k].s+10,0,100); }); } else { for(const cid in G.courses){ G.courses[cid].u=clamp(G.courses[cid].u+10,0,100); G.courses[cid].s=clamp(G.courses[cid].s+8,0,100); } }
+  p.money-=60000; setFlag('grad_school'); MAIN_NPCS.forEach(npcLifeUpdate); diary('念了兩年研究所，寫了一本論文，學會了怎麼跟一個問題相處很久。');
+  G.gradDone=true; G.phase='uni'; G.screen='gradChoice'; save();
+}
+// 訓練（遊戲簡化）
+const TRAINING={
+  lawyer:[
+    { q:'律師職前訓練（遊戲簡化：基礎訓練加上約半年的事務所實習）。你要去哪裡實習？', opts:[
+      {t:'溫學姊所在的事務所', hint:'需要她的信任', when:()=>!!G.flags.sis_trust, fx:()=>{ G.firmPick='sis'; addRel('sis',6); } },
+      {t:'大型事務所：案子大，人多，你是最小的那個', hint:'成績或實習經驗要夠', when:()=>gpaAll()>=78||G.flags.intern_firm, fx:()=>{ G.firmPick='big'; } },
+      {t:'小型事務所：什麼都要做，什麼都看得到', fx:()=>{ G.firmPick='small'; } },
+      {t:'公益與法扶：薪水低，案子很真', fx:()=>{ G.firmPick='aid'; } } ]},
+    { q:'實習第三個月。指導律師把你寫的第一份書狀改了六成，紅字比黑字多。', opts:[
+      {t:'逐字看他改了什麼，做成自己的「改狀清單」', fx:()=>{ G.player.skills.structure+=4; G.player.skills.judgment+=2; } },
+      {t:'先照改，然後問他為什麼', fx:()=>{ G.player.skills.express+=3; G.player.skills.judgment+=2; addRel('boss',5); } },
+      {t:'覺得很受傷，但沒有說', fx:()=>{ G.player.stress+=8; G.player.skills.judgment+=1; } } ]},
+  ],
+  judicial:[
+    { q:'司法官學院受訓：分三階段，為期兩年，包含一般課程、司法實務課程與專題課程（遊戲把兩年壓縮成兩個決定）。第一年，你發現自己在哪裡花最多時間？', opts:[
+      {t:'裁判書的寫法：每一段為什麼要這樣寫', fx:()=>{ G.player.skills.structure+=5; G.judicialLean='judge'; } },
+      {t:'偵查實務：從一份報案紀錄開始，證據要怎麼補', fx:()=>{ G.player.skills.judgment+=5; G.judicialLean='pros'; } },
+      {t:'訊問技巧：怎麼問，別人才會說', fx:()=>{ G.player.skills.express+=5; } } ]},
+    { q:'第二年結束前，填分發志願（遊戲簡化：實際分發依成績、志願與缺額）。你想當？', opts:[
+      {t:'法官：審理、證據評價、裁判說理', fx:()=>{ G.setupRole='judge'; } },
+      {t:'檢察官：偵查、蒐證、處分', fx:()=>{ G.setupRole='pros'; } } ]},
+  ],
+};
+function trainingChoose(idx){
+  const t=G.training; const steps=TRAINING[t.kind]; const step=steps[t.step]; const opt=step.opts.filter(o=>!o.when||o.when())[idx]; if(opt&&opt.fx) opt.fx();
+  t.step++; if(t.step>=steps.length){ if(t.kind==='lawyer'){ G.postYears=(G.postYears||0)+1; G.careerYears=(G.careerYears||0)+1; G.setupRole='lawyer'; } else { G.postYears=(G.postYears||0)+2; G.careerYears=(G.careerYears||0)+2; if(G.setupRole!=='judge'&&G.setupRole!=='pros') G.setupRole='judge'; } G.screen='careerSetup'; }
+  save();
+}
+const BAR_EVENTS=[
+  { id:'b_an', title:'小安', scene:'library', once:true, weight:60, when:()=>G.phase==='bar'&&G.bar.month<=3&&G.bar.year===1,
+    lines:[L('an','我一試過了，二試差三十幾分。'),L('an','今年一定要。'),L('n','她的桌上有一份表，每一科每一週該讀到哪裡。')],
+    options:[ {label:'「那我們一起。」', do:()=>{ setFlag('study_with_an'); addRel('an',8); G.anGroup=true; return [L('an','好。週二週五。'),L('n','她把表複製了一份給你。你發現自己的進度差她很多，然後開始追。')]; }},
+      {label:'「我自己讀比較習慣。」', do:()=>{ addRel('an',0); return [L('an','嗯。加油。'),L('n','你們還是常在圖書館遇到。她點頭，你點頭。')]; }} ]},
+  { id:'b_zhe', title:'阿哲的訊息', scene:'street', once:true, weight:60, when:()=>G.phase==='bar'&&G.bar.month>=2&&G.bar.month<=5,
+    linesFn:()=>[L('zhe',G.flags.help_zhe?'我在事務所當助理，晚上讀書。律師人很好，但很累。':'我不考了。我找到一份法務助理的工作，下個月開始。'),L('zhe','你呢？還好嗎？')],
+    options:[ {label:'「還好。」', do:()=>[L('zhe','騙人。'),L('you','……不太好。'),L('zhe','週六出來吃飯。'),L('n','你去了。那天你什麼書都沒讀，也沒有想書的事。')] },
+      {label:'「不好。」', do:()=>{ addRel('zhe',6); G.player.stress-=8; return [L('zhe','我知道。週六出來吃飯。'),L('n','他請客。他說等你考上再還。')]; }} ]},
+  { id:'b_mom', title:'媽媽', scene:'dorm', once:true, weight:50, when:()=>G.phase==='bar'&&G.bar.month>=3,
+    lines:[L('mom','考試準備得怎麼樣？'),L('mom','你二舅說他朋友的小孩考了五年。'),L('mom','我不是那個意思。')],
+    options:[ {label:'「我知道。」', do:()=>{ addRel('mom',3); return [L('mom','好好吃飯。'),L('n','你掛掉電話，把二舅那句話從腦袋裡趕出去。趕了三次。')]; }},
+      {label:'「媽，先不要跟我講別人考幾年。」', do:()=>{ addRel('mom',1); G.player.skills.express+=1; G.player.stress-=4; return [L('mom','好。'),L('n','她之後真的沒有再講。你有點內疚，又有點輕鬆。')]; }} ]},
+  { id:'b_burn', title:'四樓', scene:'library', once:true, weight:80, when:()=>G.phase==='bar'&&G.bar.streak>=2,
+    lines:[L('n','圖書館四樓。你發現這一頁已經看了三遍。'),L('n','旁邊的人也停下來，盯著天花板。你們沒有講話，但你知道。')],
+    options:[ {label:'收書，去河濱走一圈', do:()=>{ G.bar.streak=0; G.player.energy+=12; G.player.stress-=12; setFlag('rest_lots'); return [L('n','走了一圈，四十分鐘。回來的時候那一頁只看了一次就過了。')]; }},
+      {label:'撐下去', do:()=>{ setFlag('overwork'); G.player.stress+=6; return [L('n','你又看了兩遍。這次記住的是頁碼。')]; }} ]},
+  { id:'b_wedding', title:'喜帖', scene:'street', once:true, weight:40, when:()=>G.phase==='bar'&&G.bar.month>=4&&G.bar.month<=6,
+    lines:[L('n','溫學姊要結婚了。喜帖上的日期是一試前一個月。'),L('n','群組裡大家在討論要包多少。')],
+    options:[ {label:'去，坐一個下午', do:()=>{ addRel('sis',6); addRel('an',2); addRel('zhe',2); G.player.money-=2600; G.player.stress-=8; return [L('n','婚禮上她穿得很漂亮，講話還是很直。她說：「考完來找我。」你說好。')]; }},
+      {label:'包紅包，人不去', do:()=>{ addRel('sis',1); G.player.money-=2000; return [L('n','你在圖書館看到大家傳的照片。你想，這種事以後還會有很多次，也不會有很多次。')]; }} ]},
+  { id:'b_insomnia', title:'考前', scene:'dorm', once:true, weight:90, when:()=>G.phase==='bar'&&(G.bar.month===6||G.bar.month===8),
+    lines:[L('n','考前一週。你躺在床上，腦袋裡在跑刑訴的體系圖。'),L('n','凌晨兩點。三點。')],
+    options:[ {label:'起來喝水，寫下明天要複習的三件事，再躺回去', do:()=>{ G.player.energy+=4; G.player.stress-=6; return [L('n','寫完三件事，腦袋安靜了一點。四點睡著。')]; }},
+      {label:'乾脆起來讀', do:()=>{ G.player.energy-=8; SUBJ_IDS.forEach(k=>{ G.bar.subj[k].r+=1; }); return [L('n','讀到天亮。白天在圖書館睡了兩個小時。')]; }} ]},
+  { id:'b_hall', title:'考場', scene:'classroom', once:true, weight:100, when:()=>G.phase==='bar'&&G.bar.month===6,
+    lines:[L('n','考場外面，每個人都拿著一疊紙，沒有人在看。'),L('n','有人在做伸展操。有人在吃三明治。小安在閉眼睛。')],
+    options:[ {label:'深呼吸，進去', do:()=>[L('n','鈴響。翻卷。第一題你看過。')] } ]},
+];
+/* ===== 08 職涯：律師／法官／檢察官／公司法務，進階階段，結局 ===== */
+const ROLE_NAME={lawyer:'律師',judge:'法官',pros:'檢察官',legal:'公司法務'};
+const CAREER_LIFE={
+  chome:{ id:'chome', name:'回家', cat:'生活', scene:'home', pose:'sit', desc:'家常菜與親戚', energy:8, stress:-6 },
+  cfriend:{ id:'cfriend', name:'和朋友吃飯', cat:'人際', scene:'restaurant', pose:'stand', desc:'老同學的人生', energy:-2, stress:-6, money:-800 },
+  cpartner:{ id:'cpartner', name:'陪伴伴侶', cat:'人際', scene:'apt', pose:'sit', desc:'兩個人的晚上', energy:2, stress:-8, money:-500, need:'partner' },
+  csport:{ id:'csport', name:'運動', cat:'生活', scene:'park', pose:'walk', desc:'下班後跑一圈', energy:5, stress:-7 },
+  crest:{ id:'crest', name:'什麼都不做', cat:'生活', scene:'apt', pose:'sleep', desc:'回家，把包放下，坐在沙發上', energy:16, stress:-9 },
+  chobby:{ id:'chobby', name:'興趣與閱讀', cat:'生活', scene:'apt', pose:'read', desc:'跟法律無關的書', energy:3, stress:-6 },
+  ctravel:{ id:'ctravel', name:'休假旅行', cat:'生活', scene:'abroadTravel', pose:'walk', desc:'兩天一夜就好', energy:6, stress:-16, money:-9000 },
+  ccat:{ id:'ccat', name:'照顧貓', cat:'生活', scene:'apt', pose:'sit', desc:'鏟砂、梳毛、被踩', energy:2, stress:-7, need:'cat' },
+  cstudy:{ id:'cstudy', name:'進修', cat:'學習', scene:'library', pose:'read', desc:'外語、專業領域或再考照', energy:-6, stress:2 },
+};
+const ROLE_ACTS={
+  lawyer:{
+    research:{ name:'研究案件', matter:true, desc:'查判決、整理事實', energy:-7, stress:2, scene:'firm', pose:'type' },
+    draft:{ name:'寫狀／草擬', matter:true, desc:'書狀或合約', energy:-9, stress:4, scene:'firm', pose:'type' },
+    prep:{ name:'開庭準備', matter:true, desc:'爭點整理、證據、問題清單', energy:-8, stress:4, scene:'firm', pose:'read' },
+    client:{ name:'當事人溝通', matter:true, desc:'期待管理、說明風險', energy:-5, stress:3, scene:'firm', pose:'stand' },
+    consult:{ name:'新案諮詢', matter:false, desc:'評估要不要接', energy:-4, stress:1, scene:'firm', pose:'stand' },
+    mentor:{ name:'向指導律師請益', matter:false, desc:'被改狀，但學到東西', energy:-3, stress:2, scene:'firm', pose:'stand' },
+  },
+  partner:{
+    assign:{ name:'分配案件', matter:false, desc:'誰做什麼，誰能學到什麼', energy:-4, stress:2, scene:'firm', pose:'stand' },
+    coach:{ name:'培養新人', matter:false, desc:'改狀、帶開庭', energy:-6, stress:2, scene:'firm', pose:'stand' },
+    clients:{ name:'客戶關係', matter:false, desc:'吃飯、回訊息、聽抱怨', energy:-5, stress:3, scene:'restaurant', pose:'stand' },
+    meeting:{ name:'合夥會議', matter:false, desc:'分潤、方向、人事', energy:-5, stress:5, scene:'firm', pose:'sit' },
+    finance:{ name:'看報表', matter:false, desc:'成本、應收、現金', energy:-4, stress:3, scene:'firm', pose:'type' },
+    owncase:{ name:'自己辦案', matter:true, desc:'手不能生', energy:-8, stress:3, scene:'court', pose:'stand' },
+  },
+  own:{
+    source:{ name:'拓展案源', matter:false, desc:'朋友介紹、演講、社群', energy:-6, stress:3, scene:'restaurant', pose:'stand' },
+    quote:{ name:'接案評估與報價', matter:false, desc:'評估時間、報酬、案情', energy:-4, stress:2, scene:'myfirm', pose:'sit' },
+    collect:{ name:'收款', matter:false, desc:'最難開口的工作', energy:-3, stress:5, scene:'myfirm', pose:'type' },
+    work:{ name:'辦案', matter:true, desc:'研究、書狀、開庭', energy:-9, stress:4, scene:'myfirm', pose:'type' },
+    admin:{ name:'所務與人事', matter:false, desc:'租約、設備、助理', energy:-4, stress:3, scene:'myfirm', pose:'stand' },
+    brand:{ name:'定位與經營', matter:false, desc:'精品所、在地所或其他', energy:-4, stress:1, scene:'myfirm', pose:'sit' },
+  },
+  judge:{
+    read:{ name:'閱卷', matter:true, desc:'把卷讀完，事實才會出現', energy:-8, stress:3, scene:'chambers', pose:'read' },
+    issues:{ name:'整理爭點', matter:true, desc:'雙方到底在爭什麼', energy:-6, stress:2, scene:'chambers', pose:'type' },
+    hearing:{ name:'準備程序／開庭', matter:true, desc:'庭期到了就要開', energy:-9, stress:5, scene:'court', pose:'stand' },
+    evaluate:{ name:'證據評價與研究', matter:true, desc:'矛盾的證據要怎麼看', energy:-7, stress:3, scene:'chambers', pose:'read' },
+    write:{ name:'撰寫與修改裁判', matter:true, desc:'說理，然後再改', energy:-9, stress:4, scene:'chambers', pose:'type' },
+    clerk:{ name:'與書記官排庭期', matter:false, desc:'小方什麼都知道', energy:-3, stress:1, scene:'chambers', pose:'stand' },
+  },
+  pros:{
+    intake:{ name:'收案與初步判斷', matter:true, desc:'這件要往哪個方向', energy:-6, stress:2, scene:'prosec', pose:'read' },
+    plan:{ name:'規劃偵查', matter:true, desc:'要查什麼、找誰、怎麼查', energy:-6, stress:2, scene:'prosec', pose:'type' },
+    question:{ name:'訊問與調查', matter:true, desc:'問對問題', energy:-8, stress:4, scene:'prosec', pose:'stand' },
+    evaluate:{ name:'評估證據', matter:true, desc:'夠不夠，哪裡不夠', energy:-7, stress:3, scene:'prosec', pose:'read' },
+    dispose:{ name:'作成處分／出庭', matter:true, desc:'起訴、不起訴、緩起訴，或實行公訴', energy:-8, stress:4, scene:'court', pose:'stand' },
+    police:{ name:'與司法警察協作', matter:false, desc:'阿豪又有新線索', energy:-4, stress:2, scene:'prosec', pose:'stand' },
+  },
+  legal:{
+    review:{ name:'審合約', matter:true, desc:'附件共八十七頁', energy:-7, stress:3, scene:'meeting', pose:'type' },
+    risk:{ name:'設計風險方案', matter:true, desc:'不是同意或不同意，是第三條路', energy:-6, stress:2, scene:'meeting', pose:'type' },
+    internal:{ name:'跨部門溝通', matter:true, desc:'業務、財務、人資、主管', energy:-5, stress:4, scene:'meeting', pose:'stand' },
+    negotiate:{ name:'對外談判', matter:true, desc:'條款、底線、關係', energy:-8, stress:5, scene:'meeting', pose:'stand' },
+    project:{ name:'專案管理', matter:false, desc:'時程、外部律師、進度', energy:-6, stress:3, scene:'meeting', pose:'type' },
+    team:{ name:'帶團隊', matter:false, desc:'分配、審核、教', energy:-5, stress:3, scene:'meeting', pose:'stand', need:'head' },
+  },
+};
+const MATTER_TPL={
+  lawyer:[
+    { t:'lit', title:'借款返還', client:'一位退休老師', type:'民事訴訟', stages:['接案評估','研究','書狀','開庭準備','開庭','結案'], dl:9, cx:2, fee:60000, expect:70, subj:'civ' },
+    { t:'lit', title:'車禍損害賠償', client:'一位外送員', type:'民事訴訟', stages:['接案評估','研究','書狀','開庭準備','開庭','結案'], dl:8, cx:1, fee:45000, expect:80, subj:'civ' },
+    { t:'crim', title:'傷害案辯護', client:'一位夜市攤商', type:'刑事辯護', stages:['接案評估','閱卷研究','答辯狀','開庭準備','開庭','結案'], dl:7, cx:2, fee:70000, expect:60, subj:'crim' },
+    { t:'biz', title:'經銷合約', client:'一間食品公司', type:'商務', stages:['評估','研究','合約草擬','談判','定稿'], dl:6, cx:2, fee:90000, expect:50, subj:'com' },
+    { t:'fam', title:'離婚與監護', client:'一位國小老師', type:'家事', stages:['評估','當事人溝通','書狀','調解','結案'], dl:10, cx:3, fee:80000, expect:65, subj:'civ' },
+    { t:'lit', title:'租屋押金糾紛', client:'一位大學生', type:'民事訴訟', stages:['接案評估','研究','書狀','開庭準備','開庭','結案'], dl:6, cx:1, fee:25000, expect:85, subj:'civ' },
+    { t:'biz', title:'合夥拆夥', client:'兩位開咖啡店的朋友', type:'商務', stages:['評估','研究','協議草擬','談判','定稿'], dl:7, cx:3, fee:110000, expect:55, subj:'com' },
+  ],
+  judge:[
+    { t:'civ', title:'河堤工程承攬爭議', party:'承攬人 vs 定作人', type:'民事', stages:['閱卷','整理爭點','準備程序','開庭','證據評價','撰寫裁判','修改','結案'], dl:14, cx:3, subj:'civ', hearingAt:3 },
+    { t:'crim', title:'超商竊盜', party:'被告一人', type:'刑事', stages:['閱卷','整理爭點','準備程序','審理','證據評價','撰寫裁判','修改','結案'], dl:9, cx:1, subj:'crim', hearingAt:3 },
+    { t:'crim', title:'酒駕致傷', party:'被告一人，告訴人一人', type:'刑事', stages:['閱卷','整理爭點','準備程序','審理','證據評價','撰寫裁判','修改','結案'], dl:10, cx:2, subj:'crim', hearingAt:3 },
+    { t:'civ', title:'借名登記房屋', party:'原告 vs 被告與第三人', type:'民事', stages:['閱卷','整理爭點','準備程序','開庭','證據評價','撰寫裁判','修改','結案'], dl:13, cx:3, subj:'civ', hearingAt:3 },
+    { t:'fam', title:'未成年子女會面交往', party:'父 vs 母', type:'家事', stages:['閱卷','整理爭點','調解','開庭','證據評價','撰寫裁判','修改','結案'], dl:11, cx:2, subj:'civ', hearingAt:2 },
+    { t:'civ', title:'網購商品瑕疵', party:'消費者 vs 平台', type:'民事小額', stages:['閱卷','整理爭點','準備程序','開庭','證據評價','撰寫裁判','修改','結案'], dl:8, cx:1, subj:'civ', hearingAt:3 },
+  ],
+  pros:[
+    { t:'fraud', title:'投資詐欺', party:'被害人六人', type:'詐欺', stages:['收案','初步判斷','規劃偵查','訊問與調查','評估證據','補充偵查','處分'], dl:12, cx:3, subj:'crim' },
+    { t:'assault', title:'夜市鬥毆', party:'雙方互告', type:'傷害', stages:['收案','初步判斷','規劃偵查','訊問與調查','評估證據','補充偵查','處分'], dl:8, cx:1, subj:'crim' },
+    { t:'arson', title:'夜市縱火', party:'嫌疑人一人', type:'公共危險', stages:['收案','初步判斷','規劃偵查','訊問與調查','評估證據','補充偵查','處分'], dl:11, cx:3, subj:'crim' },
+    { t:'theft', title:'工地竊盜', party:'嫌疑人兩人', type:'竊盜', stages:['收案','初步判斷','規劃偵查','訊問與調查','評估證據','補充偵查','處分'], dl:7, cx:1, subj:'crim' },
+    { t:'drug', title:'販賣毒品', party:'嫌疑人一人，通訊監察', type:'毒品', stages:['收案','初步判斷','規劃偵查','訊問與調查','評估證據','補充偵查','處分'], dl:10, cx:3, subj:'crimpro' },
+    { t:'dv', title:'家庭暴力', party:'告訴人一人', type:'傷害', stages:['收案','初步判斷','規劃偵查','訊問與調查','評估證據','補充偵查','處分'], dl:8, cx:2, subj:'crim' },
+  ],
+  legal:[
+    { t:'contract', title:'經銷合約（今晚要簽）', party:'業務部 Kevin', type:'合約審查', stages:['初審','風險盤點','內部溝通','談判','定稿'], dl:2, cx:2, risk:70 },
+    { t:'contract', title:'雲端服務採購', party:'資訊部', type:'合約審查', stages:['初審','風險盤點','內部溝通','談判','定稿'], dl:5, cx:2, risk:50 },
+    { t:'labor', title:'資遣爭議', party:'人資部', type:'勞資', stages:['釐清事實','法律評估','內部溝通','協商','收尾'], dl:4, cx:2, risk:65 },
+    { t:'crisis', title:'客戶資料外洩', party:'總經理', type:'企業危機', stages:['釐清事實','對策','對外說明','主管機關','收尾'], dl:3, cx:3, risk:85 },
+    { t:'project', title:'海外授權專案', party:'產品部與外部律師', type:'專案', stages:['範圍','外部律師','條款','談判','簽約'], dl:10, cx:3, risk:55 },
+    { t:'contract', title:'八十七頁的附件', party:'業務部 Kevin', type:'合約審查', stages:['初審','風險盤點','內部溝通','談判','定稿'], dl:3, cx:2, risk:45 },
+    { t:'gov', title:'董事會決議程序', party:'董事長室', type:'公司治理', stages:['盤點','法律評估','內部溝通','會議','紀錄'], dl:4, cx:2, risk:40 },
+  ],
+};
+let _mid=1;
+function newMatter(role){
+  const pool=MATTER_TPL[role==='partner'||role==='own'?'lawyer':role]; const tpl=pick(pool);
+  return { id:'m'+(G.career.mcount=(G.career.mcount||0)+1), tpl:tpl.t, title:tpl.title, who:tpl.client||tpl.party, type:tpl.type, stages:tpl.stages, stage:0, prog:0, dl:tpl.dl, dl0:tpl.dl, cx:tpl.cx, fee:tpl.fee||0, expect:tpl.expect||50, risk:tpl.risk||0, info:40, trust:50, quality:50, subj:tpl.subj||'civ', hearingAt:tpl.hearingAt, hearingIn: tpl.hearingAt?tpl.hearingAt+2:null, minis:{}, late:0, done:false };
+}
+function careerTimeLabel(){ const c=G.career; return c.title+'・第'+c.year+'年・第'+(c.quarter+1)+'季・第'+(c.week+1)+'週'; }
+function careerTitle(){ const c=G.career; return c.title; }
+const FIRMS={ sis:{name:'溫學姊的事務所',rel:'sis'}, big:{name:'大型事務所（正泰法律事務所）'}, small:{name:'小型事務所（明和法律事務所）'}, aid:{name:'法律扶助基金會'} };
+const COMPANIES={ startup:{name:'阿凱的新創（Loop 科技）',type:'新創',desc:'人少、變動快、資源有限；合約都先用範本',salary:52000}, local:{name:'本土企業（永順食品）',type:'本土企業',desc:'長期合作關係與組織溝通',salary:50000}, mnc:{name:'跨國企業（Nordlicht 台灣分公司）',type:'跨國企業',desc:'外語合約與跨地區協作',salary:68000,needEn:55} };
+function careerBegin(role, opts){
+  opts=opts||{}; G.phase='career'; G.ctx='career'; G.postYears=(G.postYears||0);
+  const c={ role, stage:'', title:'', week:0, quarter:0, year:1, docket:[], done:[], mcount:0, salary:0, metrics:{}, log:[], stageQuarters:0, offers:[], mgmt:0 };
+  if(role==='lawyer'){ c.firm=opts.firm||G.firmPick||'small'; c.stage='associate'; c.title='新進律師'; c.salary= c.firm==='big'?70000:c.firm==='aid'?48000:55000; c.metrics={analysis:40,prep:40,comm:40,time:50,ethics:60,trust:50,rep:20,firmRel:40}; }
+  if(role==='judge'){ c.stage='candidate'; c.title='候補法官'; c.salary=105000; c.metrics={procedure:45,evidence:40,reasoning:40,time:50,growth:30,rep:20}; }
+  if(role==='pros'){ c.stage='candidate'; c.title='候補檢察官'; c.salary=105000; c.metrics={evidence:40,procedure:45,reasoning:40,time:50,coord:40,growth:30,rep:20}; }
+  if(role==='legal'){ c.company=opts.company||'local'; c.stage='specialist'; c.title='法務專員'; c.salary=COMPANIES[c.company].salary; c.metrics={business:40,riskCtl:45,trustSales:45,trustFin:50,trustHR:50,trustBoss:50,rep:20,projects:0}; if(c.company==='startup') setFlag('kai_client'); }
+  G.career=c; for(let i=0;i<(role==='legal'?2:2);i++) c.docket.push(newMatter(role));
+  if(G.npcs.boss) G.npcs.boss.met= role==='lawyer'; if(G.npcs.clerk) G.npcs.clerk.met= role==='judge'; if(G.npcs.cop) G.npcs.cop.met= role==='pros'; if(G.npcs.sales) G.npcs.sales.met= role==='legal'; if(G.npcs.mgr) G.npcs.mgr.met= role==='legal';
+  MAIN_NPCS.forEach(npcLifeUpdate);
+  diary('開始'+c.title+'的生活'+(c.firm?'，在'+FIRMS[c.firm].name:c.company?'，在'+COMPANIES[c.company].name:'')+'。');
+  G.sched=[]; G.screen='plan'; save();
+}
+function careerActs(){
+  const c=G.career; const setKey= c.stage==='partner'?'partner':c.stage==='own'?'own':c.role;
+  const work=Object.entries(ROLE_ACTS[setKey]).filter(([k,a])=>!(a.need==='head'&&!['head','cco'].includes(c.stage))).map(([k,a])=>({id:k,cat:'工作',...a}));
+  const life=Object.values(CAREER_LIFE).filter(a=>!(a.need==='partner'&&!G.flags.yu_partner)&&!(a.need==='cat'&&!G.flags.has_cat));
+  return work.concat(life);
+}
+function careerAct(id){ const c=G.career; const setKey= c.stage==='partner'?'partner':c.stage==='own'?'own':c.role; return (ROLE_ACTS[setKey]&&ROLE_ACTS[setKey][id])?{id,cat:'工作',...ROLE_ACTS[setKey][id]}:CAREER_LIFE[id]; }
+function careerFreeSlots(){ return 6; }
+function matterById(id){ return G.career.docket.find(m=>m.id===id); }
+function careerPreview(){
+  const c=G.career; const lines=[]; let en=0,st=0,mo=0; const per={}; let work=0, rest=0;
+  for(const s of G.sched){ const a=careerAct(s.act); if(!a) continue; en+=a.energy; st+=a.stress; mo+=a.money||0; if(a.cat==='工作') work++; if(['crest','csport','ctravel'].includes(s.act)) rest++; if(s.course){ per[s.course]=(per[s.course]||0)+1; } }
+  for(const id in per){ const m=matterById(id); if(!m) continue; const need=Math.ceil((100-m.prog)/22); lines.push('<b>'+esc(m.title)+'</b>：進度 <span class="arrow">↑</span>（約 '+per[id]+' 格，還需約 '+need+' 格完成）'+(m.dl<=per[id]?'':m.dl<=2?' <span class="arrow d">期限很近</span>':'')); }
+  const urgent=c.docket.filter(m=>!m.done&&m.dl<=2&&!per[m.id]); if(urgent.length) lines.push('<span class="arrow d">這週沒碰但期限很近：'+urgent.map(m=>m.title).join('、')+'</span>');
+  const hearings=c.docket.filter(m=>!m.done&&m.hearingIn!=null&&m.hearingIn<=1); if(hearings.length) lines.push('<span class="arrow d">這週有庭：'+hearings.map(m=>m.title).join('、')+'</span>');
+  lines.push('精力 '+(en>=0?'+':'')+en+'　壓力 '+(st>=0?'+':'')+st+(mo?'　金錢 '+money(mo):''));
+  if(work>=5&&rest===0) lines.push('<span class="arrow d">整週沒有任何自己的時間。</span>');
+  if(work<=1&&c.docket.filter(m=>!m.done).length>=2) lines.push('<span class="sub">工作排得很少，案子會累積。</span>');
+  return lines;
+}
+function workEff(){ let e=1; const p=G.player; if(p.energy<30) e*=0.7; else if(p.energy<50) e*=0.88; if(p.stress>80) e*=0.85; e*=Math.max(0.6,1-0.05*(G.career.streak||0)); return e; }
+function skillFactor(role){ const p=G.player.skills; if(role==='legal') return 0.7+0.3*((p.judgment+p.express)/200); if(role==='judge') return 0.7+0.3*((p.structure+p.judgment)/200); if(role==='pros') return 0.7+0.3*((p.judgment+p.research)/200); return 0.7+0.3*((p.structure+p.judgment+p.express)/300); }
+function careerResolve(){
+  const c=G.career; const p=G.player; G.log=[]; const eff=workEff(); const sf=skillFactor(c.role); let work=0, rest=0;
+  pushLog({kind:'n',scene:careerScene(),pose:'stand',t:careerTimeLabel()});
+  // 值勤（檢察官）
+  if(c.role==='pros'&&c.week%2===1){ const ev=pick(['相驗：凌晨三點，一件車禍。','聲請羈押：警方帶來一個嫌疑人，證據還在補。','突發：一件家暴案的保護令聲請。']); pushLog({kind:'loss',scene:'prosec',pose:'stand',t:'值勤：'+ev+' 這週少了一格自己的時間。'}); p.energy-=8; if(G.sched.length>=6) G.sched.pop(); }
+  G.dynEvent=null; let minis=[];
+  for(const s of G.sched){ const a=careerAct(s.act); if(!a) continue; let t=''; const m=s.course?matterById(s.course):null;
+    if(a.cat==='工作'){ work++; const r=doWork(a,m,eff*sf); t=r.t; if(r.mini) minis.push(r.mini); }
+    else { t=doLife(a); if(['crest','csport','ctravel'].includes(a.id)) rest++; }
+    p.energy=clamp(p.energy+a.energy,0,100); p.stress=clamp(p.stress+a.stress,0,100); if(a.money) p.money+=a.money;
+    pushLog({kind:a.cat==='工作'?'gain':'line',scene:a.scene,pose:a.pose,t});
+  }
+  // 期限與庭期
+  for(const m of c.docket){ if(m.done) continue; m.dl--; if(m.hearingIn!=null){ m.hearingIn--; if(m.hearingIn===0){ const prepared=m.stage>=m.hearingAt; if(!prepared){ m.quality-=12; bump('time',-4); pushLog({kind:'loss',scene:'court',pose:'stand',t:'「'+m.title+'」開庭了，但你還沒準備到那裡。庭上有點狼狽。'}); } else { pushLog({kind:'line',scene:'court',pose:'stand',t:'「'+m.title+'」開庭。準備到位，該問的都問到了。'}); m.quality+=4; } m.hearingIn=null; } }
+    if(m.dl===0&&m.prog<85){ m.late++; m.quality-=(m.late===1?8:3); bump('time',m.late===1?-4:-1); if(c.metrics.rep!=null&&m.late===1) c.metrics.rep=clamp(c.metrics.rep-2,0,100); pushLog({kind:'loss',scene:careerScene(),pose:'type',t:'「'+m.title+'」的期限到了，還沒完成。'+(c.role==='judge'?'裁判期限逼近，你申請了延長。':c.role==='legal'?'業務在群組裡問「法務還好嗎」。':'指導律師把你叫進辦公室。')}); m.dl=3; } }
+  // 完成
+  const finished=c.docket.filter(m=>m.prog>=100); for(const m of finished){ finishMatter(m); }
+  c.docket=c.docket.filter(m=>!m.done);
+  while(c.docket.length<(c.stage==='partner'?1:c.role==='legal'?3:2)){ c.docket.push(newMatter(c.role)); pushLog({kind:'n',scene:careerScene(),pose:'stand',t:'新案進來：「'+c.docket[c.docket.length-1].title+'」（'+c.docket[c.docket.length-1].who+'）。'}); }
+  // 被動
+  p.energy=clamp(p.energy+12,0,100); p.stress=clamp(p.stress-2,0,100);
+  const weeklyIncome=careerIncome()/2; const living=14000+(G.flags.has_cat?800:0); p.money+=weeklyIncome-living;
+  if(work>=5&&rest===0) c.streak=(c.streak||0)+1; else c.streak=0;
+  for(const id of MAIN_NPCS){ const n=G.npcs[id]; if(n.met&&id!=='mom'&&id!=='cat') n.rel=Math.max(-20,n.rel-0.3); }
+  G.time.absWeek++;
+  pushLog({kind:'n',scene:'apt',pose:'sit',t:'這段時間收支：+'+money(weeklyIncome)+'／−'+money(living)+'（一回合約半個月）。餘額 '+money(p.money)+' 元。'});
+  // 事件：先跑案件小互動，其次職涯事件
+  minis=minis.filter(x=>matterById(x.mid)); if(minis.length){ G.dynEvent=minis[0]; G.pendingEvent='__dyn'; } else { G.pendingEvent=pickEvent(CAREER_EVENTS); }
+  save();
+}
+function bump(k,v){ const m=G.career.metrics; if(m[k]!=null) m[k]=clamp(m[k]+v,0,100); }
+function careerIncome(){ const c=G.career; if(c.stage==='own'){ return Math.max(0,(c.own.pipeline||0)*1400+(c.own.brand||0)*600-(c.own.rent||0)-(c.own.staff?45000:0)); } if(c.stage==='partner') return c.salary+Math.round((c.metrics.clients||40)*900); return c.salary; }
+function doWork(a,m,eff){
+  const c=G.career; const p=G.player; let t=''; let mini=null;
+  if(a.matter&&!m){ const cand=c.docket.filter(x=>!x.done).sort((x,y)=>x.dl-y.dl)[0]; m=cand; }
+  const adv=(base)=>{ if(!m) return; const before=m.stage; m.prog=clamp(m.prog+base*eff*(m.cx===3?0.8:m.cx===1?1.2:1),0,100); m.stage=Math.min(m.stages.length-1,Math.floor(m.prog/(100/m.stages.length))); if(m.stage>before){ const stg=m.stages[m.stage]; const mk=miniFor(c.role,m,stg); if(mk&&!m.minis[stg]){ m.minis[stg]=true; mini=mk; } } };
+  const nm=m?'「'+m.title+'」':'';
+  switch(a.id){
+    // 律師
+    case 'research': adv(26); bump('analysis',0.24); p.skills.research+=0.4; t='研究'+nm+'：判決查了一輪，事實時間軸整理出來了。'; break;
+    case 'draft': adv(28); bump('prep',0.24); p.skills.structure+=0.5; t='寫狀'+nm+'：'+(p.skills.structure<40?'寫完自己讀一遍，發現三段在講同一件事。':'一稿寫完，改了兩次。'); break;
+    case 'prep': adv(28); bump('prep',0.3); if(m) m.quality+=2; t='開庭準備'+nm+'：爭點、證據、問題清單。'; break;
+    case 'client': adv(14); if(m){ m.trust=clamp(m.trust+8,0,100); m.expect=clamp(m.expect-6,0,100); m.info=clamp(m.info+15,0,100); } bump('comm',0.3); t='和當事人談'+nm+'：'+(m&&m.expect>70?'他覺得自己一定贏。你花了半小時講「贏」是什麼意思。':'期待對齊了一些，也多拿到幾份資料。'); break;
+    case 'consult': { const nmatter=newMatter('lawyer'); c.offers.push(nmatter); t='新案諮詢：「'+nmatter.title+'」（'+nmatter.who+'）。報酬約 '+money(nmatter.fee)+'，預估 '+nmatter.dl+' 週，複雜度 '+'●'.repeat(nmatter.cx)+'。季末可以決定要不要接。'; break; }
+    case 'mentor': bump('analysis',0.2); bump('prep',0.2); bump('firmRel',0.4); p.skills.judgment+=0.6; addRel('boss',2); t='高律師把你的狀改了四成。他說：「事實寫清楚，法律自然會出來。」'; break;
+    // 合夥
+    case 'assign': c.metrics.team=clamp((c.metrics.team||40)+2,0,100); c.mgmt=(c.mgmt||0)+1; t='分配案件：把一件家事案給了新人，她需要學。你留了一件商務案給自己。'; break;
+    case 'coach': c.metrics.team=clamp((c.metrics.team||40)+3,0,100); c.mgmt=(c.mgmt||0)+1.5; t='改新人的狀。紅字比黑字多。你想起高律師。'; break;
+    case 'clients': c.metrics.clients=clamp((c.metrics.clients||40)+3,0,100); t='和客戶吃飯。他抱怨了三十分鐘，最後又給了一件新案。'; break;
+    case 'meeting': c.metrics.harmony=clamp((c.metrics.harmony||55)+2,0,100); c.mgmt=(c.mgmt||0)+0.5; t='合夥會議：分潤、要不要擴編、要不要換辦公室。三個小時，兩個決定。'; break;
+    case 'finance': c.metrics.profit=clamp((c.metrics.profit||45)+2,0,100); t='看報表：應收帳款比想像中多。你在幾個名字旁邊畫了圈。'; break;
+    case 'owncase': adv(28); bump('rep',0.1); t='自己辦案'+nm+'：手沒生。'; break;
+    // 開業
+    case 'source': c.own.pipeline=clamp((c.own.pipeline||20)+6,0,100); t='拓展案源：'+pick(['朋友介紹了一件案子，「不好意思收費」的那種。','去社區大學講了一堂課，有兩個人留下名片。','在網路上寫了一篇文章，三個月後有人因為那篇文章找上門。']); break;
+    case 'quote': { const nmatter=newMatter('own'); c.offers.push(nmatter); t='評估新案「'+nmatter.title+'」：報酬 '+money(nmatter.fee)+'，'+nmatter.dl+' 週。季末決定。'; break; }
+    case 'collect': { const due=c.own.receivable||0; const got=Math.round(due*0.5); c.own.receivable=due-got; p.money+=got; t='收款：收回 '+money(got)+' 元。'+(due>80000?'還有一筆很久了。':''); break; }
+    case 'work': adv(28); t='辦案'+nm+'。'; break;
+    case 'admin': c.own.ops=clamp((c.own.ops||40)+4,0,100); t='所務：印表機、租約、助理的加班費。'; break;
+    case 'brand': c.own.brand=clamp((c.own.brand||20)+4,0,100); t='經營：你決定把'+(c.own.style||'家事與在地案件')+'放在名片上。'; break;
+    // 法官
+    case 'read': adv(28); bump('evidence',0.2); t='閱卷'+nm+'：卷讀到第三宗，事實才開始有形狀。'; break;
+    case 'issues': adv(22); bump('reasoning',0.2); p.skills.structure+=0.4; t='整理爭點'+nm+'：雙方各說各話，你把真正的爭點壓成三個。'; break;
+    case 'hearing': adv(22); if(m&&m.hearingIn!=null&&m.hearingIn<=1){ m.hearingIn=null; m.quality+=4; } bump('procedure',0.3); t='開庭'+nm+'：'+pick(['證人講到一半改口，你請書記官記明筆錄。','當事人在庭上情緒失控，你暫停了五分鐘。','律師聲請調查證據，你當庭裁定。']); break;
+    case 'evaluate': adv(28); bump('evidence',0.3); t='證據評價'+nm+'：兩份鑑定報告結論相反。'; break;
+    case 'write': adv(28); bump('reasoning',0.3); p.skills.structure+=0.5; t='撰寫裁判'+nm+'：'+(p.skills.structure<45?'寫了六頁，刪掉兩頁。':'說理的部分改了三次，每次都更短。'); break;
+    case 'clerk': bump('time',0.4); addRel('clerk',3); for(const x of c.docket){ if(x.hearingIn!=null&&x.hearingIn<=1) x.hearingIn+=1; } t='和小方排庭期。她把下個月的庭排得剛好可以喘一口氣。'; break;
+    // 檢察官
+    case 'intake': adv(28); bump('evidence',0.2); t='收案初判'+nm+'：先看報案紀錄、筆錄、有沒有監視器。'; break;
+    case 'plan': adv(22); bump('procedure',0.2); t='規劃偵查'+nm+'：要查金流、要傳誰、哪些要聲請。'; break;
+    case 'question': adv(28); bump('evidence',0.3); p.skills.express+=0.5; t='訊問'+nm+'：'+pick(['嫌疑人的說法跟第一次筆錄不一樣。','證人很緊張，你先聊了五分鐘天氣。','律師在旁邊，你問得更謹慎。']); break;
+    case 'evaluate': adv(28); bump('evidence',0.3); bump('reasoning',0.2); t='評估證據'+nm+'：夠嗎？哪裡不夠？'; break;
+    case 'dispose': adv(28); bump('reasoning',0.3); t='處分／出庭'+nm+'：'+(m&&m.stage>=m.stages.length-1?'處分書寫完，主任看過。':'出庭實行公訴，交互詰問三個小時。'); break;
+    case 'police': bump('coord',0.6); addRel('cop',3); for(const x of c.docket){ if(!x.done) x.info=clamp((x.info||40)+6,0,100); } t='和阿豪對案子。他帶來新的監視器畫面，也帶來新的問題。'; break;
+    // 法務
+    case 'review': adv(28); bump('riskCtl',0.24); t='審合約'+nm+'：'+(m&&m.risk>=65?'第 12 條有一個上限沒寫的賠償條款。':'幾個用語要改，其他還好。'); break;
+    case 'risk': adv(22); bump('riskCtl',0.3); bump('business',0.2); p.skills.judgment+=0.5; t='設計風險方案'+nm+'：刪除、替代條款、上限、內部核准，你列了四條路。'; break;
+    case 'internal': adv(20); bump('trustSales',0.3); bump('trustFin',0.2); bump('trustHR',0.2); p.skills.express+=0.4; t='跨部門溝通'+nm+'：'+pick(['業務說客戶今晚一定要簽。','財務問這條會不會影響認列。','人資說以前都這樣做。']); break;
+    case 'negotiate': adv(26); bump('business',0.3); p.skills.express+=0.6; t='對外談判'+nm+'：對方律師先開高，你先談最重要的那條。'; break;
+    case 'project': c.metrics.projects=(c.metrics.projects||0)+0.25; bump('business',0.2); bump('trustBoss',0.3); t='專案管理：時程表、外部律師的報價、下週的里程碑。'; break;
+    case 'team': c.metrics.team=clamp((c.metrics.team||40)+3,0,100); c.mgmt=(c.mgmt||0)+1.5; t='帶團隊：你審了三份別人審過的合約，改了兩份。'; break;
+  }
+  return {t,mini};
+}
+function doLife(a){
+  const p=G.player;
+  switch(a.id){
+    case 'chome': addRel('mom',3); return pick(['回家。媽媽問你要不要買房子，你說再看看。','回家。二舅的土地資料還在，他說「你現在可以看了吧」。','回家。你在自己以前的房間睡了十個小時。']);
+    case 'cfriend': return friendDinner();
+    case 'cpartner': addRel('yu',5); return pick(['兩個人的晚上。她說你今天講話比較像人。','你們去吃了大學附近那家火鍋。','什麼都沒做，就一起看了一部電影。']);
+    case 'csport': return '下班後跑了一圈。';
+    case 'crest': return pick(['回家，把包放下，吃東西，坐在沙發上。什麼事都沒發生。','睡到中午。手機關靜音。','洗了衣服，把冰箱清空，然後發呆一小時。']);
+    case 'chobby': return pick(['讀了一本跟法律完全無關的小說。','打了兩小時電動，其中一小時在看別人打。','把以前彈的曲子重新彈了一遍，手指記得比腦袋多。']);
+    case 'ctravel': { G.career.trips=(G.career.trips||0)+1; return pick(['兩天一夜。海邊。手機只開來拍照。','去了一個沒有法院的小鎮。','搭火車去東部，回來的時候覺得腦袋被洗過。']); }
+    case 'ccat': addRel('cat',3); return pick(['貓踩在鍵盤上，打出了一段亂碼。你覺得比某些書狀好懂。','鏟砂、梳毛、被踩。','牠坐在你的卷宗上。你決定今天不看那宗。']);
+    case 'cstudy': { p.skills.lang.en=clamp(p.skills.lang.en+1.5,0,100); p.skills.research+=0.6; if(G.career.role==='legal'&&!G.flags.bar_pass){ G.career.barPrep=(G.career.barPrep||0)+1; } return '進修。'+(G.career.role==='legal'&&!G.flags.bar_pass?'晚上讀了一點律師考試的東西。（累積 '+G.career.barPrep+'）':'外語或專業領域，慢慢累積。'); }
+  }
+  return '';
+}
+function friendDinner(){
+  const cands=['an','zhe','sis','kai','yu'].filter(id=>G.npcs[id].met); if(!cands.length) return '和同事吃飯。';
+  const id=pick(cands); addRel(id,5); const n=G.npcs[id]; const name=NPCS[id].name;
+  const cb=callbackLine(id); const news=n.news?'她/他說：「'+n.news.replace(/^她說：|^他說：/,'')+'」':'';
+  return '和'+name+'吃飯。'+name+'現在'+n.stage+'。'+(cb?' '+cb:'')+(chance(.5)&&news?' '+news:'');
+}
+function callbackLine(id){
+  const F=G.flags; const opts=[];
+  if(F.midnight_notes&&(id==='an'||id==='zhe')) opts.push(NPCS[id].name+'：「你還記得大一期中考前我們凌晨還在找那份筆記嗎？」你說記得。你們笑了很久。');
+  if(F.help_zhe&&id==='zhe') opts.push('阿哲：「大一那份民總筆記我還留著。」');
+  if(F.footnote&&(id==='an'||id==='zhe')) opts.push(NPCS[id].name+'：「第七頁的註腳。」你說：「不要再提了。」');
+  if(F.exch_go&&id==='an') opts.push('小安：「你那時候從國外寄的明信片我還貼在冰箱上。」');
+  if(F.sis_trust&&id==='sis') opts.push('溫學姊：「你大一補充的那一頁，我現在還在用。」');
+  if(F.uncle_land&&id==='kai') opts.push('阿凱：「你二舅的土地後來怎麼了？」你說：「還在。」');
+  if(F.yu_met&&id==='yu') opts.push('小語：「你還記得那份打工合約嗎？你看了三遍，其實看不懂。」你說：「現在看得懂了。」');
+  if(F.refuse_zhe&&id==='zhe') opts.push('阿哲：「大學你都不跟我去夜唱。」');
+  if(F.court_visit&&id==='an') opts.push('小安：「你大三老是去法院旁聽。」');
+  return opts.length?pick(opts):'';
+}
+function miniFor(role,m,stg){
+  if(role==='lawyer'||role==='own'||role==='partner'){ if(stg==='研究'||stg==='閱卷研究') return {tpl:'issue',mid:m.id}; if(stg==='開庭'||stg==='談判'||stg==='調解') return {tpl:'nego',mid:m.id}; if(stg==='開庭準備') return {tpl:'newfiles',mid:m.id}; if(stg==='當事人溝通') return {tpl:'winrate',mid:m.id}; }
+  if(role==='judge'){ if(stg==='證據評價') return {tpl:'evidence',mid:m.id}; if(stg==='撰寫裁判') return {tpl:'reasoning',mid:m.id}; if(stg==='整理爭點') return {tpl:'issue',mid:m.id}; }
+  if(role==='pros'){ if(stg==='評估證據') return {tpl:'charge',mid:m.id}; if(stg==='規劃偵查') return {tpl:'direction',mid:m.id}; if(stg==='訊問與調查') return {tpl:'detain',mid:m.id}; }
+  if(role==='legal'){ if(stg==='風險盤點') return {tpl:'clause',mid:m.id}; if(stg==='內部溝通') return {tpl:'always',mid:m.id}; if(stg==='談判') return {tpl:'nego',mid:m.id}; }
+  return null;
+}
+function buildDyn(d){
+  const m=matterById(d.mid)||{title:'案件',subj:'civ',trust:50,expect:50}; const nm='「'+m.title+'」';
+  const TPL={
+    issue:()=>{ const cs=CASES[pick(SUBJ_CASE[m.subj]||SUBJ_CASE.civ)]; return { id:'dyn', title:nm+'：爭點辨識', scene:G.career.role==='judge'?'chambers':'firm', lines:[L('n','你把'+nm+'的卷讀到一個段落。事實整理如下，真正該先處理的問題是哪一個？'),L('n',cs.text)],
+      options:cs.opts.map(o=>({label:o.t, do:()=>{ const v={core:1,sec:.7,tan:.4,irr:.15}[o.k]; m.quality+=Math.round(v*10-3); bump(G.career.role==='judge'?'reasoning':'analysis',v*3); if(v<.5) m.prog=Math.max(0,m.prog-6); return [L('n',o.why),L('n',v>=1?'方向對了，後面的工作省了很多時間。':v>=.7?'不算錯，但你先處理了第二重要的問題。':'方向錯了，這週有一部分工作要重來。')]; } })) }; },
+    nego:()=>{ const legal=G.career.role==='legal'; return { id:'dyn', title:nm+'：'+(legal?'談判':'和解方案'), scene:legal?'meeting':'court', lines:[L('n',legal?'對方的法務先開口：「這一條我們不可能讓。」':'調解室裡，對造律師開出一個數字，比你們的底線高一些。'),L('n',legal?'你手上有三個方案。':'當事人在旁邊看著你。')],
+      options:[
+        {label:'先談最重要的那一條，其他暫時擱置', do:()=>{ m.quality+=8; bump(legal?'business':'comm',3); G.player.skills.express+=1; return [L('n','對方鬆了一口氣。你們花了四十分鐘談那一條，其他三條十分鐘就談完了。')]; }},
+        {label:'提出一個整包方案，讓對方選', do:()=>{ m.quality+=5; bump(legal?'riskCtl':'analysis',2); return [L('n','對方看了很久。最後選了你最希望他選的那一個，但要求再降一點。')]; }},
+        {label:'堅持底線，等對方讓步', do:()=>{ m.quality+=(chance(.4)?7:-4); m.dl-=1; return [L('n',chance(.5)?'對方讓了。但這一週的時間就這樣過去了。':'對方沒有讓。談判延到下週，當事人開始問你為什麼。')]; }} ] }; },
+    newfiles:()=>({ id:'dyn', title:nm+'：新資料', scene:'firm', lines:[L('n','開庭前兩天，當事人傳訊息：「律師，我昨天想到一個非常重要的事情。」'),L('n','附件：27 個檔案。')],
+      options:[
+        {label:'全部看完，重排開庭策略', do:()=>{ m.info=clamp(m.info+20,0,100); m.quality+=6; G.player.energy-=10; G.player.stress+=6; return [L('n','27 個檔案裡有 3 個真的重要。你重寫了問題清單，凌晨兩點。')]; }},
+        {label:'請他先說明哪三個最重要，再看', do:()=>{ m.info=clamp(m.info+10,0,100); m.trust=clamp(m.trust+4,0,100); bump('comm',2); G.player.skills.express+=0.8; return [L('n','他挑了五個。其中兩個真的有用。你多睡了三個小時。')]; }},
+        {label:'開庭後再處理', do:()=>{ m.quality-=6; m.trust=clamp(m.trust-8,0,100); return [L('n','開庭時對造拿出了其中一份。你在庭上第一次看到它。')]; }} ] }),
+    winrate:()=>({ id:'dyn', title:nm+'：勝率', scene:'firm', lines:[L('n','當事人問：「律師，你覺得我們勝率多少？」')],
+      options:[
+        {label:'「我不會給數字。我跟你講三個有利、兩個不利的地方。」', do:()=>{ m.expect=clamp(m.expect-15,0,100); m.trust=clamp(m.trust+8,0,100); bump('ethics',3); bump('comm',2); return [L('n','他聽完沉默了一下，然後說：「好，那我們要怎麼補那兩個？」你覺得這個案子從這一刻開始才真的開始。')]; }},
+        {label:'「七成吧。」', do:()=>{ m.expect=clamp(m.expect+10,0,100); m.trust=clamp(m.trust+3,0,100); bump('ethics',-4); return [L('n','他很高興。你回到座位，開始擔心那三成。')]; }},
+        {label:'「這種事不能講。」', do:()=>{ m.trust=clamp(m.trust-5,0,100); bump('comm',-2); return [L('n','他點頭，但你看得出來他覺得你在敷衍。')]; }} ] }),
+    evidence:()=>({ id:'dyn', title:nm+'：矛盾的證據', scene:'chambers', lines:[L('n','兩份鑑定報告結論相反，證人的說法和監視器時間差了十五分鐘。'),L('clerk','法官，下週的庭期要不要先排？')],
+      options:[
+        {label:'再開一次庭，讓雙方就矛盾處表示意見', do:()=>{ m.quality+=8; m.dl-=1; bump('procedure',4); bump('evidence',2); return [L('n','程序多走了一週，但雙方都講了。裁判寫起來反而快。')]; }},
+        {label:'依現有證據判斷，在裁判中說明取捨理由', do:()=>{ m.quality+=4; bump('reasoning',3); bump('evidence',1); return [L('n','你在裁判裡花了兩頁說明為什麼採信這一份。寫完再讀一次，覺得說得過去。')]; }},
+        {label:'直接採信比較晚出具的那份', do:()=>{ m.quality-=6; bump('evidence',-3); return [L('n','寫得很快。但你自己也知道，理由那段站不住。')]; }} ] }),
+    reasoning:()=>({ id:'dyn', title:nm+'：說理', scene:'chambers', lines:[L('n','裁判寫到「本院心證」那一段。你有三種寫法。')],
+      options:[
+        {label:'一個爭點一段：證據、理由、結論', do:()=>{ m.quality+=8; bump('reasoning',4); G.player.skills.structure+=1; return [L('n','八頁。每一段都能回答「為什麼」。')]; }},
+        {label:'先寫結論，再補理由', do:()=>{ m.quality+=3; bump('reasoning',1); return [L('n','五頁。理由有點趕，但結論清楚。')]; }},
+        {label:'引用實務見解為主，自己少寫', do:()=>{ m.quality+=1; bump('reasoning',-1); return [L('n','四頁。庭長看了一眼：「這件事實跟那則見解不太一樣。」')]; }} ] }),
+    charge:()=>({ id:'dyn', title:nm+'：處分', scene:'prosec', lines:[L('n',nm+'的證據評估：'+(m.info>=70?'證據大致完整，但有一個環節只有一個證人。':'證據不足，關鍵的金流還沒查到。')),L('cop','檢座，可以起訴了吧？被害人一直打來。')],
+      options:[
+        {label:'補充偵查：先把缺的那一塊查清楚', do:()=>{ m.dl-=1; m.info=clamp(m.info+20,0,100); m.quality+=8; bump('evidence',4); bump('procedure',2); return [L('n','多花了一週。查到的東西改變了案子的形狀。')]; }},
+        {label:'依現有證據起訴', do:()=>{ const ok=m.info>=70; m.quality+=ok?5:-8; bump('reasoning',ok?2:-3); return [L('n',ok?'起訴書寫得很紮實。':'起訴了。庭上，辯護人問了那個你自己也在意的問題。')]; }},
+        {label:'不起訴，並在處分書中說明理由', do:()=>{ const ok=m.info<50; m.quality+=ok?6:-4; bump('reasoning',3); return [L('n',ok?'被害人不滿意。但你把理由寫清楚了，這是你能做的。':'主任看了處分書：「再查一下金流呢？」')]; }} ] }),
+    direction:()=>({ id:'dyn', title:nm+'：偵查方向', scene:'prosec', lines:[L('cop','檢座，我們覺得就是他。'),L('n','你看了一下卷。確實很像，但有一個時間點對不上。')],
+      options:[
+        {label:'兩個方向都查：查他，也查那個對不上的時間點', do:()=>{ m.quality+=8; bump('evidence',3); bump('procedure',3); m.dl-=1; return [L('n','阿豪有點不服氣，但還是去查了。兩週後那個時間點解釋清楚了，也真的是他。')]; }},
+        {label:'先集中查他', do:()=>{ m.quality+=2; bump('coord',3); return [L('n','效率很高。但你把那個時間點記在便利貼上，貼在螢幕邊。')]; }} ] }),
+    detain:()=>({ id:'dyn', title:nm+'：聲押', scene:'prosec', lines:[L('cop','檢座，證據我們覺得夠了，要不要聲請羈押？'),L('n','你翻了卷。夠嗎？不太夠。')],
+      options:[
+        {label:'不聲押，改限制住居，繼續查', do:()=>{ bump('procedure',4); bump('coord',-1); m.quality+=4; return [L('n','阿豪沒說話。三天後他帶來一份新的監視器畫面。')]; }},
+        {label:'聲請羈押', do:()=>{ const ok=m.info>=65; bump('procedure',ok?1:-4); m.quality+=ok?3:-5; return [L('n',ok?'法院准了。':'法院駁回了。你在回程的車上想，其實你早就知道。')]; }} ] }),
+    clause:()=>({ id:'dyn', title:nm+'：那一條', scene:'meeting', lines:[L('sales','客戶今晚一定要簽，不然這季業績會掉。'),L('n','第 12 條：無上限的賠償責任。你有不只兩個選項。')],
+      options:[
+        {label:'要求刪除第 12 條', do:()=>{ m.quality+=2; bump('riskCtl',3); bump('trustSales',-5); return [L('sales','對方不會同意的……'),L('n','對方沒同意。合約延到下週。')]; }},
+        {label:'提供替代條款：責任上限為合約總價', do:()=>{ m.quality+=8; bump('riskCtl',3); bump('business',3); bump('trustSales',3); return [L('n','對方接受了。Kevin 傳了三個感謝貼圖。你把這個條款存進範本。')]; }},
+        {label:'先處理真正高風險的部分，其他留待後續補充協議', do:()=>{ m.quality+=6; bump('business',4); bump('riskCtl',1); return [L('n','今晚簽了。你在合約旁邊附了一頁清單，下週要補的三件事。')]; }},
+        {label:'建議取得總經理核准後再簽', do:()=>{ m.quality+=4; bump('trustBoss',3); bump('trustSales',-2); return [L('n','總經理十分鐘就簽了核准。Kevin 說：「早知道直接找他。」')]; }},
+        {label:'同意，這是業務的決定', do:()=>{ m.quality-=6; bump('riskCtl',-6); bump('trustSales',4); return [L('n','簽了。半年後那一條真的被觸發。')]; }} ] }),
+    always:()=>({ id:'dyn', title:nm+'：以前都這樣做', scene:'meeting', lines:[L('mgr','以前都這樣做啊，沒出過事。')],
+      options:[
+        {label:'「以前沒出事不代表沒風險。我建議這次改一個地方就好。」', do:()=>{ m.quality+=6; bump('trustBoss',2); bump('riskCtl',3); G.player.skills.express+=1; return [L('mgr','……好啦，改哪裡？'),L('n','你只改了一處。他接受了。')]; }},
+        {label:'照以前的做法，但留下書面建議', do:()=>{ m.quality+=1; bump('trustBoss',3); bump('riskCtl',-1); return [L('n','你寫了一封信，主管回了「收到」。')]; }},
+        {label:'堅持全部照法律意見改', do:()=>{ m.quality+=3; bump('trustBoss',-6); bump('riskCtl',4); m.dl-=1; return [L('mgr','那你去跟總經理講。'),L('n','你去了。事情多花了一週。')]; }} ] }),
+  };
+  return TPL[d.tpl]?TPL[d.tpl]():null;
+}
+function finishMatter(m){
+  const c=G.career; m.done=true; const q=clamp(m.quality+(m.late?-6:4),0,100); m.finalQ=q; c.done.push({title:m.title,q,type:m.type}); if(!m.late) bump('time',2.5);
+  let t='';
+  if(c.role==='lawyer'||c.stage==='partner'||c.stage==='own'){ const win=q>=60?chance(.6):chance(.3); const settle=q>=55&&chance(.4); t='「'+m.title+'」結案：'+(settle?'和解。當事人說「其實這樣也好」。':win?'勝訴。':'敗訴。')+(m.trust>=65?'當事人信任你。':m.trust<40?'當事人不太滿意。':''); bump('rep',q>=65?2.5:q<40?-2:1); bump('trust',m.trust>=60?1.5:-1); if(c.stage==='own'){ c.own.receivable=(c.own.receivable||0)+m.fee; } }
+  if(c.role==='judge'){ t='「'+m.title+'」結案：'+(q>=65?'裁判說理完整。':q>=45?'結案了。':'結案了，但你知道理由那段站不住。')+(m.late?'期限延了一次。':''); bump('growth',q>=60?2:0.5); bump('rep',q>=65?1.5:0); }
+  if(c.role==='pros'){ t='「'+m.title+'」處分：'+(q>=65?'程序完整，證據紮實。':q>=45?'結了。':'結了，但有些地方應該再查。'); bump('growth',q>=60?2:0.5); bump('rep',q>=65?1.5:0); }
+  if(c.role==='legal'){ t='「'+m.title+'」結案：'+(q>=65?'業務推進了，風險也控制住了。':q>=45?'完成了。':'簽了，但有幾條你並不放心。'); bump('rep',q>=65?1.5:0); if(m.type==='專案') c.metrics.projects=(c.metrics.projects||0)+1; }
+  pushLog({kind:q>=60?'gain':'loss',scene:careerScene(),pose:'stand',t}); diary(t);
+}
+function careerScene(){ const c=G.career; return c.stage==='own'?'myfirm':c.role==='lawyer'||c.stage==='partner'?'firm':c.role==='judge'?'chambers':c.role==='pros'?'prosec':'meeting'; }
+function careerReport(){
+  const c=G.career; const lines=[]; const goals=[]; const m=c.metrics;
+  const names={analysis:'法律分析',prep:'準備品質',comm:'溝通',time:'時間管理',ethics:'專業倫理',trust:'客戶信任',rep:'聲譽',firmRel:'事務所關係',procedure:'程序保障',evidence:'證據判斷',reasoning:'說理',growth:'專業成長',coord:'與警協作',business:'商業成果',riskCtl:'風險控制',trustSales:'業務信任',trustFin:'財務信任',trustHR:'人資信任',trustBoss:'主管信任',team:'團隊',clients:'客戶',harmony:'合夥關係',profit:'獲利'};
+  for(const m2 of c.docket.filter(x=>!x.done)){ lines.push('<b>'+esc(m2.title)+'</b>：'+m2.stages[m2.stage]+'，進度 '+Math.round(m2.prog)+'%，'+(m2.dl<=0?'<span class="arrow d">已逾期</span>':'期限 '+m2.dl+' 週'+(m2.dl<=2?' <span class="arrow d">很近</span>':''))+(m2.hearingIn!=null?'，庭期 '+m2.hearingIn+' 週後':'')); }
+  const weak=Object.keys(m).filter(k=>names[k]&&k!=='projects').sort((a,b)=>m[a]-m[b])[0]; if(weak) lines.push('這季最弱的是<b>'+names[weak]+'</b>。');
+  if(c.streak>=3) lines.push('<span class="arrow d">連續 '+c.streak+' 週沒有自己的時間。</span>');
+  if(G.player.energy<30) lines.push('<span class="arrow d">精力很低，工作效率打折。</span>');
+  goals.push('這一季還有 '+(6-c.week-1)+' 週。'+(c.offers.length?'季末有 '+c.offers.length+' 件新案要決定接不接。':''));
+  return {lines,goals};
+}
+function careerNext(){
+  const c=G.career; c.week++;
+  if(c.week>=6){ c.week=0; c.quarter++; c.stageQuarters=(c.stageQuarters||0)+1; if(c.quarter>=4){ c.quarter=0; c.year++; G.careerYears=(G.careerYears||0)+1; G.postYears=(G.postYears||0)+1; c.salary=Math.round(c.salary*1.04); MAIN_NPCS.forEach(npcLifeUpdate); } careerQuarterReview(); return; }
+  G.sched=[]; G.screen='plan'; save();
+}
+function careerQuarterReview(){
+  const c=G.career; const r={lines:[],options:[]}; const m=c.metrics;
+  const done=c.done.slice(-8); const avgQ=done.length?done.reduce((a,x)=>a+x.q,0)/done.length:50;
+  r.lines.push('這一季結了 '+done.length+' 件，平均品質 '+Math.round(avgQ)+'。');
+  // 進階判定
+  if(c.role==='lawyer'&&c.stage==='associate'&&c.stageQuarters>=6&&m.rep>=40){ r.options.push({k:'senior',t:'升為資深律師：獨立承辦、帶實習生，薪水上調',hint:'聲譽已經夠了'}); }
+  if(c.role==='lawyer'&&c.stage==='senior'&&c.stageQuarters>=4&&m.rep>=60&&m.firmRel>=55){ r.options.push({k:'partner',t:'合夥人邀請：加入合夥，開始管理事務所',hint:'分潤、團隊、合夥關係'}); }
+  if(c.role==='lawyer'&&(c.stage==='senior'||c.stage==='associate'&&c.stageQuarters>=8)&&G.player.money>=400000){ r.options.push({k:'own',t:'自行開業：用存款開一間自己的事務所',hint:'存款 '+money(G.player.money)}); }
+  if(c.role==='lawyer'&&c.stageQuarters>=4&&G.npcs.kai.met&&G.careerYears>=3&&!G.flags.career_switch){ r.options.push({k:'toLegal',t:'轉任公司法務：阿凱的公司在找法務',hint:'薪水先降，生活會不一樣'}); }
+  if(c.role==='judge'){ if(c.stage==='candidate'&&c.stageQuarters>=8) r.options.push({k:'j2',t:'候補期滿，進入試署（遊戲簡化）'}); if(c.stage==='trial'&&c.stageQuarters>=4) r.options.push({k:'j3',t:'試署期滿，成為實任法官（遊戲簡化）'}); if(c.stage==='tenured'&&c.stageQuarters>=6&&m.reasoning>=55){ r.options.push({k:'panel',t:'合議庭審判長：主持合議、帶陪席',hint:'說理與程序都夠成熟'}); r.options.push({k:'special',t:'專庭：專辦某一類案件（家事／勞動／智財）'}); r.options.push({k:'chief',t:'行政職：庭長，庭務與分案',hint:'辦案時間變少'}); r.options.push({k:'stay',t:'留在原庭專心辦案',hint:'也是一種完整的發展'}); } }
+  if(c.role==='pros'){ if(c.stage==='candidate'&&c.stageQuarters>=8) r.options.push({k:'p2',t:'候補期滿，進入試署（遊戲簡化）'}); if(c.stage==='trial'&&c.stageQuarters>=4) r.options.push({k:'p3',t:'試署期滿，成為實任檢察官（遊戲簡化）'}); if(c.stage==='tenured'&&c.stageQuarters>=6&&m.evidence>=55){ r.options.push({k:'chiefp',t:'主任檢察官：帶組、審核處分書',hint:'責任變了'}); r.options.push({k:'specialp',t:'專組：經濟犯罪或婦幼專組'}); r.options.push({k:'stayp',t:'留在偵查組專心辦案'}); } }
+  if(c.role==='legal'){ if(c.stage==='specialist'&&c.stageQuarters>=6&&m.rep>=35) r.options.push({k:'seniorL',t:'升為資深法務：獨立負責專案與談判'}); if(c.stage==='seniorL'&&c.stageQuarters>=4&&(m.trustSales+m.trustFin+m.trustHR+m.trustBoss)/4>=55&&(m.projects||0)>=2) r.options.push({k:'head',t:'法務主管：帶團隊、分配工作、參與重大決策'}); if(c.stage==='head'&&c.stageQuarters>=8&&m.trustBoss>=65) r.options.push({k:'cco',t:'法務長：法務部門負責人'}); if(c.stageQuarters>=4&&c.company!=='mnc'&&G.player.skills.lang.en>=55) r.options.push({k:'switchMNC',t:'跳槽跨國企業：外語合約與跨地區協作',hint:'重新累積信任'}); if((c.barPrep||0)>=10&&!G.flags.bar_pass) r.options.push({k:'takeBar',t:'報考律師考試（進修累積夠了）',hint:'離開公司一年全職備考，或邊工作邊考'}); if(G.flags.bar_pass&&c.stageQuarters>=4&&!G.flags.career_switch) r.options.push({k:'toLawyer',t:'轉任律師：你有執照，溫學姊的所在找人',hint:'從新進做起'}); }
+  if(c.stage==='partner'&&c.stageQuarters>=6&&(m.harmony||55)<40) r.options.push({k:'leavePartner',t:'離開合夥，自己開業',hint:'合夥關係已經很差'});
+  // 新案
+  c.offersReview=c.offers.slice(0,3); c.offers=[];
+  if(G.careerYears>=3) r.options.push({k:'ending',t:'回顧這段人生（結束遊戲，看結局）',hint:'隨時可以再玩下去'});
+  G.review=r; G.screen='careerReview'; save();
+}
+function careerChoose(k){
+  const c=G.career; const p=G.player;
+  const S=(stage,title,note)=>{ c.stage=stage; c.title=title; c.stageQuarters=0; diary(note); };
+  switch(k){
+    case 'senior': S('senior','資深律師','升為資深律師。'); c.salary=Math.round(c.salary*1.35); break;
+    case 'partner': S('partner','合夥人','成為事務所合夥人。'); setFlag('partner'); c.metrics.team=45; c.metrics.clients=50; c.metrics.harmony=60; c.metrics.profit=50; break;
+    case 'own': G.screen='setupFirm'; G.firmSetup={step:0}; save(); return;
+    case 'toLegal': setFlag('career_switch'); careerBegin('legal',{company:'startup'}); return;
+    case 'toLawyer': setFlag('career_switch'); G.firmPick=G.flags.sis_trust?'sis':'small'; careerBegin('lawyer',{firm:G.firmPick}); return;
+    case 'takeBar': setFlag('career_switch'); barBegin('part','lawyer','labor'); G.bar.job='公司法務'; return;
+    case 'switchMNC': c.company='mnc'; c.salary=COMPANIES.mnc.salary+ (c.stage==='head'?40000:c.stage==='seniorL'?15000:0); c.metrics.trustSales=40; c.metrics.trustFin=45; c.metrics.trustHR=45; c.metrics.trustBoss=45; c.stageQuarters=0; diary('跳槽到跨國企業。'); break;
+    case 'j2': S('trial','試署法官','候補期滿，進入試署。'); break;
+    case 'j3': S('tenured','法官','成為實任法官。'); break;
+    case 'panel': S('panel','合議庭審判長','擔任合議庭審判長。'); setFlag('judge_panel'); break;
+    case 'special': S('special','專庭法官','轉入專庭。'); break;
+    case 'chief': S('chief','庭長','擔任庭長。'); break;
+    case 'stay': S('stay','法官（資深）','留在原庭專心辦案。'); break;
+    case 'p2': S('trial','試署檢察官','候補期滿，進入試署。'); break;
+    case 'p3': S('tenured','檢察官','成為實任檢察官。'); break;
+    case 'chiefp': S('chiefp','主任檢察官','擔任主任檢察官。'); setFlag('pros_chief'); break;
+    case 'specialp': S('specialp','專組檢察官','轉入專組。'); break;
+    case 'stayp': S('stayp','檢察官（資深）','留在偵查組。'); break;
+    case 'seniorL': S('seniorL','資深法務','升為資深法務。'); c.salary=Math.round(c.salary*1.3); break;
+    case 'head': S('head','法務主管','成為法務主管。'); setFlag('legal_head'); c.salary=Math.round(c.salary*1.35); c.metrics.team=45; break;
+    case 'cco': S('cco','法務長','成為法務長。'); c.salary=Math.round(c.salary*1.3); break;
+    case 'leavePartner': G.screen='setupFirm'; G.firmSetup={step:0}; save(); return;
+    case 'ending': G.screen='ending'; G.endingKey=endingKey(); save(); return;
+  }
+  G.screen='careerOffers'; save();
+}
+function acceptOffer(idx){ const c=G.career; const m=c.offersReview[idx]; if(m){ c.docket.push(m); c.offersReview.splice(idx,1); } save(); }
+function declineOffer(idx){ const c=G.career; c.offersReview.splice(idx,1); if(c.stage==='own'){ c.own.pipeline=clamp((c.own.pipeline||20)-3,0,100); } save(); }
+function offersDone(){ G.career.offersReview=[]; G.sched=[]; G.screen='plan'; save(); }
+// 開業設定
+const FIRM_SETUP=[
+  { q:'地點', opts:[ {t:'市中心：租金高，案源多',fx:()=>{ G.career.own.rent=60000; G.career.own.pipeline=35; }}, {t:'住宅區：租金中，鄰居會來問事情',fx:()=>{ G.career.own.rent=30000; G.career.own.pipeline=25; }}, {t:'家鄉：租金低，親戚很多',fx:()=>{ G.career.own.rent=15000; G.career.own.pipeline=20; addRel('mom',6); }} ]},
+  { q:'人力', opts:[ {t:'聘一位助理',fx:()=>{ G.career.own.staff=true; G.career.own.ops=55; }}, {t:'先自己來',fx:()=>{ G.career.own.staff=false; G.career.own.ops=35; }}, {t:'和阿哲合開', when:()=>G.npcs.zhe.rel>=45&&G.flags.help_zhe, fx:()=>{ G.career.own.cofounder='zhe'; G.career.own.pipeline+=10; G.career.own.rent=Math.round(G.career.own.rent/2); addRel('zhe',10); }} ]},
+  { q:'定位', opts:[ {t:'精品所：專辦一類案件，收費高',fx:()=>{ G.career.own.style='商務與公司法'; G.career.own.brand=30; }}, {t:'在地所：什麼都接，先活下來',fx:()=>{ G.career.own.style='在地案件'; G.career.own.brand=15; G.career.own.pipeline+=8; }}, {t:'家事與弱勢：收費低，案子很真',fx:()=>{ G.career.own.style='家事與弱勢'; G.career.own.brand=20; G.career.own.pipeline+=4; }} ]},
+];
+function firmSetupChoose(idx){
+  const c=G.career; if(!c.own) c.own={rent:30000,pipeline:20,brand:15,ops:40,receivable:0,staff:false};
+  const step=FIRM_SETUP[G.firmSetup.step]; const opt=step.opts.filter(o=>!o.when||o.when())[idx]; if(opt) opt.fx();
+  G.firmSetup.step++; if(G.firmSetup.step>=FIRM_SETUP.length){ c.stage='own'; c.title='開業律師'; c.stageQuarters=0; c.salary=0; G.player.money-=180000; setFlag('own_firm'); c.metrics.rep=clamp(c.metrics.rep-5,0,100); diary('自行開業：'+c.own.style+'，'+(c.own.cofounder?'和阿哲一起。':'一個人。')); c.docket=[newMatter('own')]; G.screen='careerOffers'; c.offersReview=[]; }
+  save();
+}
+function endingKey(){
+  const c=G.career; const p=G.player; const life=(100-p.stress)*0.4+(G.npcs.an.rel+G.npcs.zhe.rel+G.npcs.sis.rel+G.npcs.kai.rel+(G.flags.yu_partner?G.npcs.yu.rel:0))/5*0.6;
+  if(!c) return 'newpath';
+  if(c.stage==='own'&&(c.own.brand||0)>=45) return 'ownfirm';
+  if(c.stage==='partner') return 'partner';
+  if(c.role==='lawyer'&&(c.stage==='senior'||c.stage==='own')&&c.metrics.trust>=55) return 'trusted';
+  if(c.role==='judge'&&c.metrics.reasoning>=50&&c.metrics.procedure>=50) return 'judge';
+  if(c.role==='pros'&&c.metrics.evidence>=50) return 'pros';
+  if(c.role==='legal'&&['head','cco'].includes(c.stage)) return 'legalhead';
+  if(life>=45) return 'stable';
+  return 'newpath';
+}
+const ENDINGS={
+  ownfirm:{ title:'一間有自己風格的小事務所', text:'名片上的名字是你的。案子不多，但每一件你都知道為什麼要接。' },
+  partner:{ title:'合夥人', text:'你學會了自己會辦案，不代表自然會帶人。你花了幾年學第二件事。' },
+  trusted:{ title:'受信任的專業律師', text:'不是每個律師都要當老闆。你的當事人記得你講過的每一句「我不會給數字」。' },
+  judge:{ title:'重視程序與說理的法官', text:'你的裁判不一定每件都被上級審維持，但每一段都能回答「為什麼」。' },
+  pros:{ title:'值得信賴的檢察官', text:'你起訴的案子不一定最多，但阿豪知道，你說證據不夠的時候，是真的不夠。' },
+  legalhead:{ title:'能解決商業問題的法務主管', text:'你的工作從自己審合約，變成讓別人審得對。業務還是會說「很簡單」，但他們現在會先問你。' },
+  stable:{ title:'穩定的工作與好好過的生活', text:'不是每一段人生都要有轉折。你按時下班，週末有朋友，貓在沙發上。' },
+  newpath:{ title:'重新選擇方向', text:'你決定離開原本的路。學過的東西沒有消失，它們只是換了一個用法。' },
+};
+function endingRecap(){
+  const F=G.flags; const lines=[]; const keys=Object.keys(F).filter(k=>FLAG_TEXT[k]);
+  for(const k of keys.slice(0,14)){ lines.push({t:F[k].t, text:FLAG_TEXT[k]}); }
+  return lines;
+}
+function endingSuggest(){
+  const s=[]; const c=G.career; const role=c?c.role:null;
+  if(role!=='judge') s.push('下一輪試試司法官路線：從一試選擇題到司法官學院受訓，再到候補法官的第一件裁判。');
+  if(role!=='pros') s.push('檢察官的一週有值勤與突發案件，和法官完全不同的節奏。');
+  if(role!=='legal') s.push('直接進公司當法務：不用考照，但要學會「法律不是唯一答案」。');
+  if(!F('exch_go')) s.push('大二申請交換，去過一個學期的海外生活。');
+  if(!F('own_firm')&&role==='lawyer') s.push('存夠錢，自己開業：現金流、案源、收款，都是另一種人生。');
+  return s.slice(0,3);
+}
+const CAREER_EVENTS=[
+  { id:'c_an_court', title:'庭上', scene:'court', once:true, weight:60, when:()=>G.phase==='career'&&G.career.role==='lawyer'&&G.careerYears>=5&&G.npcs.an.met,
+    lines:[L('n','今天開庭。法官走進來，你抬頭：是小安。'),L('n','她在庭上完全是另一個人。程序、詰問、裁定，一句多餘的話都沒有。'),L('n','庭後在走廊遇到。')],
+    options:[ {label:'「你剛剛好嚴肅。」', do:()=>{ addRel('an',5); return [L('an','那是工作。'),L('an','……晚上要不要吃飯？'),L('n','你們去吃了大學附近那家火鍋。她說她的辦公室有你們大一的合照。')]; }} ]},
+  { id:'c_zhe_client', title:'阿哲的公司', scene:'firm', once:true, weight:60, when:()=>G.phase==='career'&&(G.career.role==='lawyer'||G.career.stage==='own')&&G.careerYears>=4&&G.npcs.zhe.met,
+    linesFn:()=>[L('zhe',G.flags.help_zhe?'我們所有一件案子的對造是你們所。下週開庭見。':'我們公司有一件合約糾紛，我想找你。'),L('zhe','你現在收費多少？我先講，朋友價我不接受，我要付正常的。')],
+    options:[ {label:'「正常收費，正常辦。」', do:()=>{ addRel('zhe',6); bump('rep',2); if(G.career.stage==='own') G.career.own.pipeline=clamp(G.career.own.pipeline+8,0,100); setFlag('zhe_client'); return [L('n','你們在會議室談了一小時。談完他說：「你講話的樣子跟大一完全不一樣。」')]; }},
+      {label:'「朋友價。」', do:()=>{ addRel('zhe',3); bump('ethics',-1); return [L('zhe','我說了不接受。'),L('n','最後他多付了一頓飯。')]; }} ]},
+  { id:'c_sis_pull', title:'學姊的邀請', scene:'restaurant', once:true, weight:70, when:()=>G.phase==='career'&&G.career.role==='lawyer'&&G.flags.sis_trust&&G.careerYears>=4&&G.career.stage!=='own',
+    lines:[L('sis','我們所要找一個資深律師，我推薦了你。'),L('sis','我沒有跟你講過，但我一直記得你大一還我筆記的那一頁。')],
+    options:[ {label:'接受，換事務所', do:()=>{ G.career.firm='sis'; G.career.salary=Math.round(G.career.salary*1.2); bump('firmRel',15); addRel('sis',8); return [L('n','新的辦公室有一扇窗。第一天她把一疊卷放在你桌上：「跟大一一樣，讀完要還我。」')]; }},
+      {label:'「謝謝，我想留在這裡。」', do:()=>{ setFlag('refuse_job'); addRel('sis',2); bump('firmRel',5); return [L('sis','好。有需要再說。'),L('n','你想，她大概真的會等。')]; }} ]},
+  { id:'c_kai_hire', title:'阿凱的合約', scene:'restaurant', once:true, weight:60, when:()=>G.phase==='career'&&G.npcs.kai.met&&G.careerYears>=3&&G.career.role!=='legal',
+    lines:[L('kai','我們公司拿到投資了。投資人給了一份合約，我看了三遍看不懂。'),L('kai','你可以看嗎？我付錢。')],
+    options:[ {label:'看，用晚上的時間', do:()=>{ addRel('kai',8); setFlag('kai_client'); G.player.energy-=8; G.player.money+=(G.career.role==='lawyer'?25000:0); return [L('n','合約有三處要改。你用便利貼標起來，阿凱在旁邊說「原來這一條是這個意思」。')]; }},
+      {label:'「你去找專門做投資的律師，我幫你介紹。」', do:()=>{ addRel('kai',4); bump(G.career.role==='lawyer'?'ethics':'growth',2); return [L('n','你介紹了一個同學。阿凱後來說那個人很好。你想，這也是一種幫忙。')]; }} ]},
+  { id:'c_yu_propose', title:'一起', scene:'apt', once:true, weight:80, when:()=>G.phase==='career'&&G.flags.yu_partner&&G.npcs.yu.rel>=60&&G.careerYears>=2,
+    lines:[L('yu','我們要不要住在一起？'),L('n','她說得很平常，像在講明天要買什麼。')],
+    options:[ {label:'「好。」', do:()=>{ setFlag('moved_in'); addRel('yu',10); G.player.money-=40000; return [L('n','搬家那天阿哲來幫忙，把你大學的書全部搬進新家。有一本書籤還停在三分之一的地方。')]; }},
+      {label:'「再等一下。」', do:()=>{ addRel('yu',-6); return [L('yu','好。'),L('n','這個「好」你又看了很久。')]; }} ]},
+  { id:'c_cat', title:'貓', scene:'apt', once:true, weight:50, when:()=>G.phase==='career'&&G.careerYears>=2&&!G.flags.has_cat,
+    lines:[L('n','下班回家的路上，巷口有一隻貓跟著你走了兩百公尺。'),L('n','牠在你家門口坐下。')],
+    options:[ {label:'開門', do:()=>{ setFlag('has_cat'); G.player.stress-=8; return [L('n','牠進來了，繞了一圈，跳上沙發。你去便利商店買了貓砂。從此你家多了一個「照顧貓」的時段。')]; }},
+      {label:'餵牠，但不帶回家', do:()=>{ addRel('cat',3); return [L('n','牠吃完就走了。之後每天都在巷口。')]; }} ]},
+  { id:'c_boss_conflict', title:'紅字', scene:'firm', once:true, weight:50, when:()=>G.phase==='career'&&G.career.role==='lawyer'&&G.career.stage==='associate'&&G.careerYears>=1,
+    lines:[L('boss','這份狀我不能送。'),L('n','他把狀退回來，紅字比黑字多，跟實習的時候一樣。'),L('n','但這次你覺得他改錯了一個地方。')],
+    options:[ {label:'指出來，附上判決', do:()=>{ const ok=G.player.skills.research>=35; if(ok){ bump('analysis',3); bump('firmRel',4); addRel('boss',5); } else { bump('firmRel',-3); setFlag('conflict_boss'); } return [L('boss',ok?'……你說得對。送。':'這則判決的事實不一樣。'),L('n',ok?'他沒有多說什麼，但下一份狀他只改了一成。':'你回座位重讀那則判決。他說得對。')]; }},
+      {label:'照改', do:()=>{ bump('firmRel',1); bump('ethics',-1); return [L('n','送出去了。你把自己的版本存在另一個資料夾。')]; }} ]},
+  { id:'c_judge_load', title:'案件量', scene:'chambers', once:true, weight:60, when:()=>G.phase==='career'&&G.career.role==='judge'&&G.careerYears>=1,
+    lines:[L('clerk','法官，這個月新收又比上個月多。'),L('chief','這一庭的未結件數，你看一下。'),L('n','數字很清楚。')],
+    options:[ {label:'把簡單的案子先排密一點，複雜的留時間', do:()=>{ bump('time',5); bump('procedure',1); return [L('n','小方排了一個很緊的月。你每天下午都在開庭，但月底的時候，未結數字往下掉了。')]; }},
+      {label:'每一件都照原本的節奏', do:()=>{ bump('procedure',3); bump('time',-4); return [L('n','數字沒有下來。但每一件你都讀完了卷。')]; }} ]},
+  { id:'c_judge_reversed', title:'廢棄', scene:'chambers', once:true, weight:50, when:()=>G.phase==='career'&&G.career.role==='judge'&&G.career.done.length>=6,
+    lines:[L('n','你去年的一件判決被上級審廢棄發回。理由：認定事實與卷證不符，說理不備。'),L('n','你把發回判決讀了三遍。')],
+    options:[ {label:'把那段說理重寫一次，只給自己看', do:()=>{ bump('reasoning',5); bump('growth',3); return [L('n','重寫的版本比原本長兩頁。你發現當時你其實知道那一段站不住。')]; }},
+      {label:'覺得上級審看法不同而已', do:()=>{ bump('growth',-1); return [L('n','也許吧。但你之後寫到類似的地方，手會停一下。')]; }} ]},
+  { id:'c_pros_media', title:'媒體', scene:'prosec', once:true, weight:60, when:()=>G.phase==='career'&&G.career.role==='pros'&&G.careerYears>=1,
+    lines:[L('n','你手上的縱火案上了新聞。記者在地檢署門口。'),L('cop','檢座，長官問要不要對外說一下。')],
+    options:[ {label:'依規定由發言人處理，你只做案子', do:()=>{ bump('procedure',4); bump('rep',1); return [L('n','新聞第三天就沒有了。案子還在。')]; }},
+      {label:'多說兩句，讓大家安心', do:()=>{ bump('procedure',-4); return [L('n','你說的兩句話被剪成一句。辯護人在庭上引用了它。')]; }} ]},
+  { id:'c_pros_victim', title:'被害人家屬', scene:'prosec', once:true, weight:50, when:()=>G.phase==='career'&&G.career.role==='pros'&&G.careerYears>=1,
+    lines:[L('n','被害人的母親在你辦公室外面等了兩個小時。'),L('n','「檢察官，為什麼還不起訴？」')],
+    options:[ {label:'請她進來，說明程序與目前的狀況，不承諾結果', do:()=>{ bump('reasoning',2); bump('procedure',2); G.player.skills.express+=1; G.player.stress+=4; return [L('n','她哭了。你遞了衛生紙，繼續把程序講完。她離開的時候說「謝謝你跟我講」。')]; }},
+      {label:'請書記官轉達「偵查不公開」', do:()=>{ bump('procedure',1); bump('rep',-1); return [L('n','程序上沒錯。但你晚上一直想到她坐在外面的樣子。')]; }} ]},
+  { id:'c_legal_87', title:'八十七頁', scene:'meeting', once:true, weight:60, when:()=>G.phase==='career'&&G.career.role==='legal',
+    lines:[L('sales','合約很簡單，請法務快速看一下。'),L('n','附件共八十七頁。')],
+    options:[ {label:'先問他哪三條是客戶真正在意的', do:()=>{ bump('trustSales',3); bump('business',2); G.player.skills.judgment+=1; return [L('sales','……付款、交期、違約。'),L('n','你先看了那三條，二十分鐘。其他六十七頁留到明天。')]; }},
+      {label:'全部看完，凌晨兩點', do:()=>{ bump('riskCtl',3); G.player.energy-=12; G.player.stress+=6; return [L('n','第 54 頁有一條沒人會看的仲裁條款，仲裁地在另一個國家。你把它標起來。')]; }} ]},
+  { id:'c_legal_labor', title:'人資', scene:'meeting', once:true, weight:50, when:()=>G.phase==='career'&&G.career.role==='legal'&&G.careerYears>=1,
+    lines:[L('n','人資主管來找你：「有一個員工我們想資遣，但他最近在請假。」'),L('n','你翻了一下法規和他的出勤紀錄。')],
+    options:[ {label:'說明風險，建議先了解請假原因再談', do:()=>{ bump('trustHR',3); bump('riskCtl',3); return [L('n','人資回去問了。原因跟公司想的不一樣。事情變成另一件事，但沒有變成訴訟。')]; }},
+      {label:'照公司的決定準備文件', do:()=>{ bump('trustHR',2); bump('riskCtl',-4); return [L('n','文件準備好了。三個月後你在調解會上見到那位員工。')]; }} ]},
+  { id:'c_own_rent', title:'房東', scene:'myfirm', once:true, weight:70, when:()=>G.phase==='career'&&G.career.stage==='own',
+    lines:[L('n','房東打電話來：下年度租金要漲一成五。'),L('n','你看了一下應收帳款，有一筆四個月了。')],
+    options:[ {label:'跟房東談，簽兩年換少漲一點', do:()=>{ G.career.own.rent=Math.round(G.career.own.rent*1.05); G.player.skills.express+=1; return [L('n','談了半小時，漲五趴，簽兩年。你發現談自己的租約比談當事人的合約緊張。')]; }},
+      {label:'接受，把成本轉到報價', do:()=>{ G.career.own.rent=Math.round(G.career.own.rent*1.15); G.career.own.brand+=2; return [L('n','報價往上調了。兩個舊客戶沒說什麼，一個新客戶跑了。')]; }} ]},
+  { id:'c_own_overload', title:'過量', scene:'myfirm', once:true, weight:70, when:()=>G.phase==='career'&&G.career.stage==='own'&&G.career.docket.filter(m=>!m.done).length>=3,
+    lines:[L('n','三件案子同一週要交狀。助理請假。你已經連續兩週沒有在十點前回家。')],
+    options:[ {label:'跟其中一位當事人談延期', do:()=>{ const m=G.career.docket.find(x=>!x.done); if(m){ m.dl+=2; m.trust-=4; } bump('rep',0); return [L('n','當事人不太高興，但同意了。你多了兩週。')]; }},
+      {label:'聘一位新律師', when:()=>G.player.money>=150000, do:()=>{ G.career.own.staff=true; G.player.money-=60000; G.career.own.ops+=15; return [L('n','面試了三個人。錄取的那個人第一天就問了你大一問陳教授的那個問題。')]; }},
+      {label:'撐過去', do:()=>{ G.player.energy-=15; G.player.stress+=12; setFlag('overwork'); return [L('n','撐過去了。第四週你在事務所的沙發睡了一整天。')]; }} ]},
+  { id:'c_partner_junior', title:'新人', scene:'firm', once:true, weight:70, when:()=>G.phase==='career'&&G.career.stage==='partner',
+    lines:[L('n','新人把一份狀送出去了，沒有給你看。裡面有一個日期錯了。'),L('n','對造律師打電話來，語氣很客氣。')],
+    options:[ {label:'自己打電話補正，然後和新人談', do:()=>{ G.career.metrics.team+=4; G.career.mgmt+=2; return [L('n','新人哭了。你想起大一被改狀的自己，什麼都沒說，只說「下一份我看過再送」。')]; }},
+      {label:'讓新人自己處理', do:()=>{ G.career.metrics.team+=1; G.career.metrics.clients-=3; return [L('n','他處理了，處理得不太好。客戶記住了這件事。')]; }} ]},
+  { id:'c_partner_split', title:'合夥會議', scene:'firm', once:true, weight:60, when:()=>G.phase==='career'&&G.career.stage==='partner'&&G.career.stageQuarters>=3,
+    lines:[L('n','合夥會議。另一位合夥人想把事務所擴到二十人。你覺得現在的十個人剛好。'),L('n','分潤表放在桌上。')],
+    options:[ {label:'提出折衷：先加兩個人，看一年', do:()=>{ G.career.metrics.harmony+=6; G.career.mgmt+=1; return [L('n','大家點頭。你發現合夥跟開庭不一樣，沒有人要「贏」。')]; }},
+      {label:'堅持不擴', do:()=>{ G.career.metrics.harmony-=10; G.career.metrics.profit+=3; return [L('n','會議提早結束。走廊上很安靜。')]; }} ]},
+  { id:'c_head_delegate', title:'分配', scene:'meeting', once:true, weight:60, when:()=>G.phase==='career'&&G.career.role==='legal'&&['head','cco'].includes(G.career.stage),
+    lines:[L('n','你桌上有八份合約。以前你會全部自己看。'),L('n','現在你有三個人。')],
+    options:[ {label:'分出去六份，自己留兩份最難的', do:()=>{ G.career.metrics.team+=5; G.career.mgmt+=2; bump('trustBoss',2); return [L('n','分出去的那六份，回來的時候有兩份你想重改。你忍住了，只改了一份。')]; }},
+      {label:'還是自己看', do:()=>{ G.player.energy-=12; G.career.metrics.team-=3; return [L('n','你看到十一點。團隊的人準時下班，走的時候有點尷尬。')]; }} ]},
+  { id:'c_mom_house', title:'房子', scene:'home', once:true, weight:40, when:()=>G.phase==='career'&&G.careerYears>=4,
+    lines:[L('mom','你們這一行很穩定吧？要不要看房子？'),L('n','她把一份廣告放在桌上。')],
+    options:[ {label:'「再看看。」', do:()=>[L('n','廣告在桌上放了三個月。')] },
+      {label:'真的去看了', do:()=>{ G.player.money-=5000; return [L('n','看了三間。你發現自己看房子的時候會先看契約。')]; }} ]},
+  { id:'c_reunion', title:'同學會', scene:'restaurant', once:true, weight:70, when:()=>G.phase==='career'&&G.careerYears>=6,
+    linesFn:()=>[L('n','畢業後第一次同學會。'),L('n','小安：'+G.npcs.an.stage+'。阿哲：'+G.npcs.zhe.stage+'。'),L('n','你們以前明明坐在同一間教室，現在每個人的人生已經完全不一樣了。')],
+    options:[ {label:'坐到最後', do:()=>{ addRel('an',6); addRel('zhe',6); G.player.stress-=10; setFlag('reunion'); return [L('n','最後剩四個人。有人說：「大家都變了。」有人說：「沒有。」都對。')]; }} ]},
+];
+/* ===== 09 場景與角色（SVG） ===== */
+const P={ wall:'#F1E4CF', wall2:'#E6D5BC', floor:'#C9A57A', floor2:'#B58E63', wood:'#8B5E3C', wood2:'#5C3A21', green:'#2F5D50', green2:'#1E4038', wine:'#7A2E3B', paper:'#FBF6EC', ink:'#2B2118', gold:'#C9A24F', sky:'#CFE3EA', skyN:'#2B3A55', glass:'#DDEBF0', grass:'#7FA36B', road:'#8E8A80', metal:'#9AA3AD' };
+const RC=(x,y,w,h,f,rx,extra)=>'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="'+f+'"'+(rx?' rx="'+rx+'"':'')+(extra||'')+'/>';
+const CI=(x,y,r,f,extra)=>'<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+f+'"'+(extra||'')+'/>';
+const TX=(x,y,s,txt,f,extra)=>'<text x="'+x+'" y="'+y+'" font-size="'+s+'" fill="'+(f||P.ink)+'" font-family="Noto Sans TC, sans-serif"'+(extra||'')+'>'+esc(txt)+'</text>';
+function window_(x,y,w,h,night){ return RC(x,y,w,h,P.wood2,4)+RC(x+4,y+4,w-8,h-8,night?P.skyN:P.sky,2)+(night?CI(x+w*0.7,y+h*0.3,6,'#F3E9B8'):'<circle cx="'+(x+w*0.72)+'" cy="'+(y+h*0.3)+'" r="7" fill="#FFF3C2" opacity=".9"/>')+RC(x+w/2-2,y+4,4,h-8,P.wood2)+RC(x+4,y+h/2-2,w-8,4,P.wood2); }
+function shelf(x,y,w,h){ let s=RC(x,y,w,h,P.wood2,3); const rows=Math.floor(h/34); for(let r=0;r<rows;r++){ const yy=y+6+r*34; s+=RC(x+4,yy+26,w-8,4,P.wood); let xx=x+8; while(xx<x+w-14){ const bw=6+Math.floor(Math.abs(Math.sin(xx*r+xx))*6); const col=[P.green,P.wine,P.gold,'#4A6C8C','#B0793E','#7B6A5A'][(xx+r)%6]; s+=RC(xx,yy+4+((xx*7+r*3)%5),bw,22-((xx*7+r*3)%5),col,1); xx+=bw+3; } } return s; }
+function desk(x,y,w,f){ return RC(x,y,w,8,f||P.wood,2)+RC(x+6,y+8,8,60,f||P.wood2)+RC(x+w-14,y+8,8,60,f||P.wood2); }
+function chair(x,y,f){ return RC(x,y-30,30,6,f||P.wood2,2)+RC(x+2,y-24,26,20,f||P.wood,3)+RC(x+4,y-4,5,26,f||P.wood2)+RC(x+21,y-4,5,26,f||P.wood2); }
+function lamp(x,y,c){ return RC(x+8,y,4,40,P.metal)+'<path d="M'+(x-4)+' '+(y+2)+' L'+(x+24)+' '+(y+2)+' L'+(x+18)+' '+(y-14)+' L'+(x+2)+' '+(y-14)+' Z" fill="'+(c||P.green)+'"/>'+'<ellipse cx="'+(x+10)+'" cy="'+(y+30)+'" rx="26" ry="10" fill="#FFF3C2" opacity=".35"/>'; }
+function plant(x,y){ return RC(x,y,22,26,'#B85C3A',3)+CI(x+11,y-8,16,P.green)+CI(x-2,y-2,10,P.green2)+CI(x+24,y-4,11,P.green2); }
+function cup(x,y){ return RC(x,y,16,16,P.paper,3)+RC(x+16,y+3,5,8,'none',2,' stroke="'+P.paper+'" stroke-width="2"')+RC(x+2,y+3,12,4,'#6B4423')+'<g class="steam"><path d="M'+(x+5)+' '+(y-4)+' q2 -4 0 -8" stroke="#bbb" stroke-width="2" fill="none"/><path d="M'+(x+11)+' '+(y-3)+' q2 -4 0 -8" stroke="#bbb" stroke-width="2" fill="none"/></g>'; }
+function papers(x,y){ return RC(x,y,26,32,P.paper,2)+RC(x+4,y-4,26,32,P.paper,2,' stroke="#ddd"')+RC(x+8,y+4,16,2,'#ccc')+RC(x+8,y+9,18,2,'#ccc')+RC(x+8,y+14,12,2,'#ccc'); }
+function cat(x,y,col){ col=col||'#7B6A5A'; return '<g>'+'<ellipse cx="'+(x+22)+'" cy="'+(y+14)+'" rx="22" ry="12" fill="'+col+'"/>'+CI(x+4,y+4,11,col)+'<path d="M'+(x-4)+' '+(y-2)+' l3 -10 l6 6z M'+(x+6)+' '+(y-6)+' l3 -10 l6 8z" fill="'+col+'"/>'+CI(x+1,y+3,1.6,'#2B2118')+CI(x+7,y+3,1.6,'#2B2118')+'<path class="tail" d="M'+(x+42)+' '+(y+10)+' q14 -14 8 -26" stroke="'+col+'" stroke-width="5" fill="none" stroke-linecap="round"/></g>'; }
+function board(x,y,w,h,txt){ return RC(x,y,w,h,'#F7F7F2',3,' stroke="'+P.wood2+'" stroke-width="4"')+TX(x+14,y+30,15,txt||'法律行為：成立 vs 生效','#2B2118')+RC(x+14,y+40,w*0.6,3,'#4A6C8C')+RC(x+14,y+52,w*0.4,3,'#7A2E3B')+TX(x+14,y+80,13,'（這個很基本）','#7B6A5A'); }
+function tree(x,y,s){ s=s||1; return RC(x-4*s,y-30*s,8*s,40*s,P.wood2)+CI(x,y-42*s,22*s,P.green)+CI(x-16*s,y-30*s,16*s,P.green2)+CI(x+16*s,y-32*s,17*s,'#3E7A66'); }
+function sofa(x,y,col){ col=col||P.wine; return RC(x,y,120,34,col,8)+RC(x-6,y-10,20,44,col,6)+RC(x+106,y-10,20,44,col,6)+RC(x+10,y-16,44,24,'#9A4A57',6)+RC(x+62,y-16,44,24,'#9A4A57',6); }
+function bed(x,y){ return RC(x,y,110,40,P.wood2,4)+RC(x+4,y-6,102,26,'#E8DCC8',4)+RC(x+8,y-12,30,14,P.paper,4); }
+function person(x,y,scale,pose,look,cls){
+  // look: {skin,hair,hairStyle,top} indices or colors; npc: colors given directly
+  const skin=look.skinC||SKINS[look.skin||0], hair=look.hairC||HAIRS[look.hair||0], top=look.topC||TOPS[look.top||0], hs=look.hairStyle||0;
+  let g='';
+  const head=()=>CI(0,-46,13,skin)+ (hs===0?'<path d="M-13 -50 q13 -18 26 0 v-4 q-13 -10 -26 0z" fill="'+hair+'"/>':hs===1?'<path d="M-14 -48 q14 -22 28 0 l0 6 q-4 -6 -8 -4 q-6 -6 -12 0 q-6 -4 -8 4z" fill="'+hair+'"/>':hs===2?'<path d="M-14 -46 q14 -22 28 0 l0 24 l-6 0 l0 -14 l-16 0 l0 14 l-6 0z" fill="'+hair+'"/>':'<path d="M-15 -46 q15 -24 30 0 q-4 6 -8 0 q-4 6 -8 0 q-4 6 -8 0 q-4 6 -6 0z" fill="'+hair+'"/>')+'<g class="blink">'+CI(-5,-45,1.7,'#2B2118')+CI(5,-45,1.7,'#2B2118')+'</g>'+'<path d="M-4 -39 q4 3 8 0" stroke="#8B4A3C" stroke-width="1.5" fill="none"/>';
+  if(pose==='sleep'){ g='<g transform="rotate(-90)">'+RC(-9,-34,18,30,top,5)+head()+'</g>'+'<text class="zz" x="10" y="-40" font-size="12" fill="#7B6A5A">z</text>'; }
+  else if(pose==='sit'||pose==='read'||pose==='type'){
+    g=RC(-9,-34,18,26,top,5)+RC(-9,-10,9,16,'#4A5468',2)+RC(0,-10,9,16,'#4A5468',2)+RC(-11,4,10,5,'#2B2118',2)+RC(1,4,10,5,'#2B2118',2)+head();
+    if(pose==='read') g+='<g transform="translate(-14 -20)">'+RC(0,0,14,18,P.paper,1,' stroke="'+P.wood2+'"')+'<g class="flip">'+RC(14,0,14,18,'#F3EBDD',1,' stroke="'+P.wood2+'"')+'</g></g>';
+    if(pose==='type') g+='<g transform="translate(-14 -22)">'+RC(0,0,28,18,'#4A5468',2)+RC(2,2,24,12,'#DDEBF0',1)+'<g class="typing">'+RC(-2,18,32,4,'#9AA3AD',1)+'</g></g>';
+  } else {
+    const walk=pose==='walk';
+    g=RC(-9,-34,18,30,top,5)+'<g class="'+(walk?'legL':'')+'">'+RC(-9,-5,8,22,'#4A5468',2)+RC(-10,15,10,5,'#2B2118',2)+'</g><g class="'+(walk?'legR':'')+'">'+RC(1,-5,8,22,'#4A5468',2)+RC(0,15,10,5,'#2B2118',2)+'</g>'+RC(-14,-32,5,20,skin,2)+RC(9,-32,5,20,skin,2)+head();
+    if(pose==='coffee') g+='<g transform="translate(10 -22) scale(.7)">'+cup(0,0)+'</g>';
+  }
+  return '<g class="'+(cls||'')+'" transform="translate('+x+' '+y+') scale('+scale+')">'+g+'</g>';
+}
+function playerLook(){ return G&&G.player?G.player.look:{skin:1,hair:0,hairStyle:0,top:0}; }
+function npcLook(id){ const n=NPCS[id]; if(!n) return {skin:1,hair:0,hairStyle:0,top:0}; return {skinC:n.skin,hairC:n.hair,hairStyle:n.hairStyle,topC:n.top}; }
+function poseFor(p){ return p||'stand'; }
+function sceneSVG(id, pose, opts){
+  opts=opts||{}; const night=!!opts.night||pose==='sleep'; const lk=playerLook(); let s=''; const me=(x,y,sc,ps)=>person(x,y,sc||1.9,ps||pose,lk,ps==='walk'||pose==='walk'?'walk':'bob');
+  const npc=(id,x,y,sc,ps)=>person(x,y,sc||1.8,ps||'stand',npcLook(id),'bob');
+  const ground=(f)=>RC(0,240,800,110,f||P.floor)+RC(0,240,800,6,P.floor2);
+  const wall=(f)=>RC(0,0,800,240,f||P.wall);
+  switch(id){
+    case 'dorm': s=wall('#EFE3D0')+window_(520,50,150,110,night)+RC(0,232,800,8,P.wood2)+ground('#D9C3A0')+bed(60,250)+shelf(690,70,90,160)+desk(300,210,220)+lamp(470,180)+papers(320,190)+cup(400,196)+(pose==='sleep'?me(110,268,1.8,'sleep'):pose==='sit'||pose==='read'||pose==='type'?chair(360,250)+me(375,262,1.9):me(240,318,1.9))+plant(720,250)+TX(70,60,13,'租屋處・書桌','#7B6A5A'); break;
+    case 'library': s=wall('#F3E9D6')+shelf(30,40,180,200)+shelf(590,40,180,200)+window_(330,40,140,90,night)+ground()+desk(240,200,320)+lamp(280,170,P.green)+lamp(500,170,P.green)+papers(400,180)+cup(360,188)+chair(320,250)+chair(440,250)+me(335,262,1.9,pose==='stand'||pose==='walk'?pose:'read')+(opts.with?npc(opts.with,455,262,1.85,'read'):'')+TX(30,30,13,'法律學院圖書館 三樓','#7B6A5A'); break;
+    case 'classroom': s=wall()+board(240,40,320,120,opts.boardText)+ground('#D7C29E')+desk(80,180,140)+desk(280,180,140)+desk(480,180,140)+chair(120,230)+chair(320,230)+chair(520,230)+me(335,242,1.8,'sit')+npc('an',135,242,1.75,'sit')+npc('zhe',535,242,1.75,'sit')+person(700,255,1.8,'stand',{skinC:'#F0D0B4',hairC:'#3A2A1A',hairStyle:1,topC:opts.teacherColor||'#4A6C8C'},'bob')+TX(30,30,13,'教室','#7B6A5A'); break;
+    case 'campus': s=RC(0,0,800,240,night?P.skyN:'#DCEBF0')+CI(120,60,26,night?'#F3E9B8':'#FFF3C2')+RC(0,190,800,60,P.grass)+RC(0,250,800,100,P.road)+tree(90,200,1.2)+tree(680,200,1.4)+tree(520,205,1)+RC(230,110,180,100,'#F7F0E2',4)+RC(230,110,180,10,P.green)+TX(250,132,14,'便利商店 24h',P.green)+RC(300,150,40,60,'#DDEBF0',2)+me(420,318,1.9,pose==='stand'?'coffee':pose)+(opts.with?npc(opts.with,300,318):'')+cat(560,300,'#7B6A5A')+TX(30,30,13,'校園・便利商店前','#5A6A5A'); break;
+    case 'cafe': s=wall('#F6E8D2')+window_(500,50,160,100,night)+RC(60,40,240,60,'#F7F0E2',6)+TX(80,78,18,'早餐店','#7A2E3B')+ground('#D2B48C')+desk(120,200,260)+cup(170,186)+papers(220,182)+cat(300,178,'#7B6A5A')+chair(180,250)+me(195,262,1.9,'read')+TX(30,30,13,'圖書館旁的早餐店','#7B6A5A'); break;
+    case 'street': s=RC(0,0,800,240,night?'#1E2A3A':'#EAD9C2')+RC(0,240,800,110,'#5A5550')+RC(80,60,200,180,'#E8C9A0',4)+RC(360,80,170,160,'#D9B48E',4)+RC(600,70,180,170,'#E2CBAF',4)+RC(100,180,60,60,'#FFF3C2')+RC(400,190,50,50,'#FFF3C2')+RC(640,180,60,60,'#FFF3C2')+TX(100,100,15,night?'鹹酥雞':'火鍋','#7A2E3B')+TX(380,120,15,'宵夜','#7A2E3B')+TX(620,110,15,'冰',' #4A6C8C')+me(360,318,1.9,'stand')+npc(opts.with||'zhe',440,318)+(opts.with2?npc(opts.with2,290,318):'')+TX(30,30,13,night?'凌晨的宵夜攤':'學校附近的街',night?'#DDD':'#7B6A5A'); break;
+    case 'home': s=wall('#F5EBDC')+window_(60,50,140,100,night)+ground('#D6B892')+sofa(300,220)+RC(560,120,160,110,'#2B2118',6)+RC(568,128,144,94,'#4A5468',3)+TX(590,180,16,'新聞','#DDD')+RC(220,120,60,90,'#F7F0E2',3)+TX(228,170,13,'全家福','#7B6A5A')+me(340,238,1.9,'sit')+npc('mom',470,318,1.8)+plant(740,250)+TX(30,30,13,'家','#7B6A5A'); break;
+    case 'park': s=RC(0,0,800,240,night?P.skyN:'#D5E8F0')+RC(0,210,800,60,P.grass)+RC(0,270,800,80,'#B8B0A0')+RC(0,290,800,4,'#FFF')+tree(120,215,1.3)+tree(360,220,1)+tree(720,210,1.5)+RC(0,120,800,90,'#B6D5E3')+me(300,330,1.9,'walk')+TX(30,30,13,'河濱公園','#5A6A5A'); break;
+    case 'store': s=wall('#F7F5EE')+RC(0,0,800,30,P.green)+TX(300,22,15,'便利商店','#FFF')+ground('#E8E4DA')+shelf(40,50,160,180)+shelf(600,50,160,180)+desk(300,180,220,'#DDD')+RC(330,140,40,40,'#4A5468',3)+cup(420,166)+me(380,242,1.8,'stand')+person(150,318,1.8,'stand',{skinC:'#E9C4A2',hairC:'#2B2118',hairStyle:1,topC:'#4A5468'},'walk')+TX(30,45,13,'打工：便利商店','#7B6A5A'); break;
+    case 'firm': s=wall('#F2ECE2')+window_(560,40,200,130,night)+RC(0,232,800,8,P.wood2)+ground('#C8B8A0')+shelf(30,40,160,200)+desk(240,200,300,'#5C3A21')+lamp(500,170,P.wine)+papers(300,180)+papers(340,176)+cup(430,186)+chair(360,250)+me(375,262,1.9,pose==='stand'||pose==='walk'?pose:'type')+(opts.with?npc(opts.with,600,318):'')+TX(30,30,13,G&&G.career&&G.career.firm?FIRMS[G.career.firm].name:'律師事務所','#7B6A5A'); break;
+    case 'myfirm': s=wall('#F6EEDF')+window_(540,50,180,120,night)+RC(0,232,800,8,P.wood2)+ground('#C9A57A')+RC(60,40,240,70,P.green,6)+TX(80,84,20,(G&&G.player?G.player.name:'')+' 法律事務所','#FBF6EC')+desk(300,200,260)+lamp(520,170,P.green)+papers(340,180)+cup(430,186)+chair(400,250)+me(415,262,1.9,pose==='stand'||pose==='walk'?pose:'type')+plant(720,250)+(G&&G.career&&G.career.own&&G.career.own.cofounder?npc('zhe',150,318):'')+TX(30,30,13,'自己的事務所','#7B6A5A'); break;
+    case 'court': s=wall('#EFE8DA')+RC(200,40,400,60,P.wood2,4)+TX(340,78,20,'法 庭','#FBF6EC')+ground('#B58E63')+RC(220,120,360,90,'#5C3A21',4)+RC(240,110,320,12,P.wood)+RC(60,180,150,50,P.wood,3)+RC(590,180,150,50,P.wood,3)+person(400,214,1.6,'sit',G&&G.career&&G.career.role==='judge'?playerLook():{skinC:'#F3D2B6',hairC:'#2B2118',hairStyle:2,topC:'#2B2118'},'bob')+(G&&G.career&&G.career.role==='judge'?'':me(130,318,1.9,'stand'))+person(660,318,1.85,'stand',{skinC:'#E9C4A2',hairC:'#3A2A1A',hairStyle:1,topC:'#2B2118'},'bob')+TX(30,30,13,'法庭','#7B6A5A'); break;
+    case 'chambers': s=wall('#F1EBE0')+window_(580,40,180,120,night)+ground('#C8B8A0')+shelf(30,40,140,200)+RC(190,60,120,180,'#DDD3C0',3)+TX(200,90,12,'卷','#7B6A5A')+RC(200,100,100,20,P.paper)+RC(200,124,100,20,P.paper)+RC(200,148,100,20,P.paper)+RC(200,172,100,20,P.paper)+desk(340,200,260,'#5C3A21')+lamp(560,170,P.green)+papers(380,180)+papers(420,176)+cup(520,186)+chair(440,250)+me(455,262,1.9,pose==='stand'||pose==='walk'?pose:'read')+(opts.with?npc(opts.with,680,318):npc('clerk',680,318))+TX(30,30,13,'法官辦公室','#7B6A5A'); break;
+    case 'prosec': s=wall('#EDE7DC')+window_(560,40,200,120,night)+ground('#BFB09A')+RC(40,50,200,120,'#F7F7F2',3,' stroke="#5C3A21" stroke-width="3"')+TX(56,80,13,'偵查進度','#2B2118')+RC(56,92,150,4,'#7A2E3B')+RC(56,104,110,4,'#4A6C8C')+RC(56,116,170,4,'#2F5D50')+TX(56,150,12,'值勤：週三','#7B6A5A')+desk(300,200,260,'#5C3A21')+lamp(520,170,P.wine)+papers(340,180)+papers(380,176)+cup(470,186)+chair(400,250)+me(415,262,1.9,pose==='stand'||pose==='walk'?pose:'read')+npc('cop',680,318)+TX(30,30,13,'地檢署辦公室','#7B6A5A'); break;
+    case 'meeting': s=wall('#F4F1EA')+window_(60,40,200,120,night)+ground('#D9D3C6')+RC(240,60,420,90,'#F7F7F2',3,' stroke="#5C3A21" stroke-width="3"')+TX(260,95,14,'合約：第 12 條 責任上限','#2B2118')+TX(260,125,13,'業務：客戶今晚一定要簽','#7A2E3B')+RC(200,190,400,10,'#5C3A21',4)+RC(210,200,380,60,'#8B5E3C',6)+chair(260,250)+chair(500,250)+me(275,262,1.9,pose==='stand'||pose==='walk'?pose:'type')+npc('sales',515,262,1.8,'sit')+npc('mgr',700,318)+TX(30,30,13,G&&G.career&&G.career.company?COMPANIES[G.career.company].name+'・會議室':'公司會議室','#7B6A5A'); break;
+    case 'apt': s=wall('#F4EBDC')+window_(560,50,160,110,night)+ground('#D6B892')+sofa(120,220)+RC(420,120,120,90,'#2B2118',6)+RC(428,128,104,74,'#4A5468',3)+shelf(680,60,90,170)+plant(600,250)+(G&&G.flags.has_cat?cat(200,190,'#B0793E'):'')+(pose==='sleep'?me(180,240,1.8,'sleep'):me(160,238,1.9,'sit'))+(G&&G.flags.moved_in?npc('yu',280,238,1.8,'sit'):'')+TX(30,30,13,'住處','#7B6A5A'); break;
+    case 'restaurant': s=wall('#F3E4D0')+RC(60,50,300,40,'#7A2E3B',4)+TX(80,78,18,'大學附近那家火鍋','#FBF6EC')+ground('#C9A57A')+desk(220,200,360)+RC(340,170,60,30,'#4A5468',6)+cup(300,186)+cup(480,186)+chair(280,250)+chair(500,250)+me(295,262,1.9,'sit')+npc(opts.with||'an',515,262,1.8,'sit')+TX(30,30,13,'餐廳','#7B6A5A'); break;
+    case 'abroadClass': s=wall('#EEF0EA')+board(220,40,360,120,'Consideration / Offer & Acceptance')+ground('#B8B0A0')+desk(120,180,160)+desk(340,180,160)+desk(560,180,160)+chair(160,230)+chair(380,230)+chair(600,230)+me(395,242,1.8,'sit')+person(175,242,1.75,'sit',{skinC:'#F5DCC4',hairC:'#B0793E',hairStyle:3,topC:'#4A6C8C'},'bob')+person(615,242,1.75,'sit',{skinC:'#B98964',hairC:'#1F1710',hairStyle:0,topC:'#7A2E3B'},'bob')+TX(30,30,13,G&&G.exch&&G.exch.dest?EXCH_DEST[G.exch.dest].name:'海外教室','#7B6A5A'); break;
+    case 'abroadHome': s=wall('#F7F2EA')+window_(520,50,160,120,night)+ground('#C4B7A6')+bed(60,250)+RC(300,120,140,90,'#DDD3C0',3)+RC(310,130,120,20,'#F7F0E2')+TX(318,145,11,'超市買的東西','#7B6A5A')+desk(300,210,200)+cup(340,196)+RC(380,190,30,20,'#B85C3A',3)+TX(384,205,10,'鍋','#FFF')+(pose==='sleep'?me(110,268,1.8,'sleep'):chair(340,250)+me(355,262,1.9,pose==='stand'?'stand':'sit'))+TX(30,30,13,'海外住處','#7B6A5A'); break;
+    case 'abroadStreet': s=RC(0,0,800,240,night?P.skyN:'#D8E6EE')+RC(0,240,800,110,'#9E9A92')+RC(40,70,180,170,'#C89C74',3)+RC(260,50,160,190,'#B8875A',3)+RC(460,90,140,150,'#D9B48E',3)+RC(640,60,140,180,'#A87C58',3)+RC(80,120,40,60,'#DDEBF0')+RC(300,110,40,60,'#DDEBF0')+RC(500,140,40,50,'#DDEBF0')+RC(680,110,40,60,'#DDEBF0')+RC(300,200,60,40,'#F7F0E2')+TX(306,226,12,'Bus 12','#2B2118')+me(360,318,1.9,'walk')+'<g transform="translate(560 280)">'+CI(0,20,12,'none',' stroke="#2B2118" stroke-width="3"')+CI(40,20,12,'none',' stroke="#2B2118" stroke-width="3"')+'<path d="M0 20 L20 0 L40 20 M20 0 L28 -8" stroke="#2B2118" stroke-width="3" fill="none"/></g>'+TX(30,30,13,G&&G.exch&&G.exch.dest?EXCH_DEST[G.exch.dest].city:'海外街道',night?'#DDD':'#5A6A5A'); break;
+    case 'abroadTravel': s=RC(0,0,800,240,'#CFE3EA')+'<path d="M0 240 L150 120 L280 200 L420 90 L560 190 L700 130 L800 220 L800 240Z" fill="#7FA36B"/>'+'<path d="M0 240 L150 140 L280 210 L420 120 L560 200 L700 150 L800 235 L800 240Z" fill="#5C8A5A"/>'+CI(120,60,24,'#FFF3C2')+RC(0,240,800,110,'#8E8A80')+RC(0,260,800,40,'#4A5468')+RC(100,262,600,36,'#DDEBF0',6)+TX(120,286,13,'火車','#2B2118')+me(400,318,1.9,'walk')+TX(30,30,13,'週末旅行','#5A6A5A'); break;
+    default: s=wall()+ground()+me(400,318,1.9,pose);
+  }
+  return '<svg viewBox="0 0 800 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="場景">'+s+'</svg>';
+}
+function avatarSVG(who, size){ size=size||40; const lk= who==='you'?playerLook():npcLook(who); return '<svg viewBox="-20 -66 40 90" width="'+size+'" height="'+(size*1.2)+'">'+person(0,20,1,'stand',lk,'')+'</svg>'; }
+/* ===== 10 介面 ===== */
+const UI={};
+let resolveTimer=null, resolveIdx=0, modalOpen=null, planPick=null, toastTimer=null;
+function $(id){ return document.getElementById(id); }
+function toast(t){ let el=document.querySelector('.toast'); if(!el){ el=document.createElement('div'); el.className='toast'; document.body.appendChild(el); } el.textContent=t; clearTimeout(toastTimer); toastTimer=setTimeout(()=>{ el.remove(); },2200); }
+function render(){ const app=$('app'); if(!G||G.screen==='title'){ app.innerHTML=renderTitle(); return; } app.innerHTML=renderTop()+renderMain()+(modalOpen?renderModal():''); }
+function renderTitle(){
+  const auto=loadAutoInfo(); const slots=[1,2,3].map(n=>slotInfo(n));
+  return '<div class="title-wrap"><h1>法條之外</h1><div class="sub2">台灣法律人生</div><p class="sub" style="max-width:52ch;margin:10px auto 0">從法律系大一開始，一路活到職涯中後期。讀書方法、考試策略、朋友、交換、國考、事務所、法院、地檢署、公司會議室，還有下班後的沙發。</p></div>'+
+  '<div class="menu">'+(auto?'<button class="btn" onclick="UI.continueAuto()">繼續上次的人生：'+esc(auto)+'</button>':'')+'<button class="btn'+(auto?' sec':'')+'" onclick="UI.startNew()">完整人生：從大一開始</button><button class="btn sec" onclick="UI.showChapters()">章節體驗：直接進入某一段人生</button><button class="btn sec" onclick="UI.openModal(\'save\')">讀取存檔／匯入</button></div>'+
+  '<div id="chapters" class="panel hidden" style="max-width:720px;margin:14px auto"><h3>章節體驗</h3><p class="sub">以合理的預設背景直接開始。人物關係與能力會用預設值。</p><div class="chapters">'+
+  [['exch','交換學生','大三上，從出發前的準備開始。'],['lawyer','新進律師','職前訓練結束，在小型事務所的第一週。'],['judge','新進法官','司法官學院結業，分發為候補法官。'],['pros','新進檢察官','分發到地檢署，第一次值勤。'],['legal','公司法務','進入本土企業當法務專員。'],['bar','國考備考','畢業後全職準備律師與司法官考試。']].map(x=>'<button onclick="UI.chapter(\''+x[0]+'\')"><b>'+x[1]+'</b><span>'+x[2]+'</span></button>').join('')+'</div></div>'+
+  '<div class="panel" style="max-width:720px;margin:14px auto"><h3>本版的簡化設定</h3><ul class="sub" style="margin:4px 0 0;padding-left:18px"><li>學校、老師與課程安排都是虛構的；考試制度依公開說明整理，分數線每年不同，遊戲用近似值。</li><li>律師職前訓練、司法官學院受訓、候補與試署等流程都被壓縮成幾個決定。</li><li>存檔用瀏覽器儲存；換裝置請用「匯出」把 JSON 複製過去。</li></ul></div>';
+}
+function loadAutoInfo(){ const g=loadAuto(); if(!g) return null; const old=G; G=g; const t=g.player.name+'・'+timeLabel(); G=old; return t; }
+UI.continueAuto=()=>{ const g=loadAuto(); if(g){ G=g; render(); } };
+UI.showChapters=()=>{ $('chapters').classList.toggle('hidden'); };
+UI.startNew=()=>{ G=null; createState={name:'',look:{skin:1,hair:0,hairStyle:0,top:0},bg:'academic'}; $('app').innerHTML=renderCreate(); };
+let createState={name:'',look:{skin:1,hair:0,hairStyle:0,top:0},bg:'academic'};
+function renderCreate(){
+  const cs=createState; const look=cs.look;
+  const sw=(arr,key)=>arr.map((c,i)=>'<span class="sw'+(look[key]===i?' on':'')+'" style="background:'+c+'" onclick="UI.setLook(\''+key+'\','+i+')"></span>').join('');
+  return '<div class="panel"><h2>建立角色</h2><p class="sub">外觀不影響能力。背景只影響起始資源與事件，不決定人生上限。</p>'+
+  '<div class="cols"><div><label for="pname"><b>名字</b></label><br><input type="text" id="pname" value="'+esc(cs.name)+'" placeholder="例如：林小法" maxlength="8" oninput="createState.name=this.value">'+
+  '<h3>外觀</h3><div class="kv"><b>膚色</b><div class="swatches">'+sw(SKINS,'skin')+'</div><b>髮色</b><div class="swatches">'+sw(HAIRS,'hair')+'</div><b>髮型</b><div class="row">'+HAIR_STYLES.map((n,i)=>'<button class="actbtn'+(look.hairStyle===i?' on':'')+'" onclick="UI.setLook(\'hairStyle\','+i+')">'+n+'</button>').join('')+'</div><b>上衣</b><div class="swatches">'+sw(TOPS,'top')+'</div></div></div>'+
+  '<div style="text-align:center"><svg viewBox="-40 -80 80 110" width="160" height="220">'+person(0,20,1.3,'stand',look,'bob')+'</svg></div></div>'+
+  '<h3>背景</h3><div class="choice-grid">'+Object.values(BACKGROUNDS).map(b=>'<button class="choice'+(cs.bg===b.id?' on':'')+'" onclick="UI.setBg(\''+b.id+'\')"><b>'+b.name+'</b><span>'+b.desc+'</span><span>起始存款 '+money(b.money)+'，每兩週零用 '+money(b.allowance)+'</span></button>').join('')+'</div>'+
+  '<div class="actions"><button class="btn" onclick="UI.createDone()">開始大一</button><button class="btn sec" onclick="G=null;render()">返回</button></div></div>';
+}
+UI.setLook=(k,i)=>{ createState.look[k]=i; $('app').innerHTML=renderCreate(); };
+UI.setBg=(b)=>{ createState.bg=b; $('app').innerHTML=renderCreate(); };
+UI.createDone=()=>{ const name=(createState.name||'').trim()||'小法'; newGame({name, look:createState.look, bg:createState.bg, mode:'full'}); G.screen='enroll'; render(); };
+UI.chapter=(k)=>{ newGame({name:'小法', look:{skin:1,hair:1,hairStyle:1,top:0}, bg:'academic', mode:'chapter'}); G.player.name='小法'; presetChapter(k); render(); };
+function presetChapter(k){
+  // 合理預設：大一到大二的課程與人際
+  const preset=(y)=>{ for(let yy=1;yy<=y;yy++) for(let ss=1;ss<=2;ss++){ coursesFor(yy,ss).filter(c=>c.type==='req').forEach(c=>{ G.courses[c.id]={u:55,s:50,m:45,r:35,i:45,a:40,part:20,cram:0,mid:75,fin:76,grade:76,touched:8}; }); G.semesters.push({y:yy,s:ss,avg:77,rows:[]}); } };
+  ['an','zhe','sis','kai'].forEach(id=>{ G.npcs[id].met=true; G.npcs[id].rel=40; }); G.npcs.yu.met=true; G.npcs.yu.rel=30; setFlag('study_with_an'); setFlag('midnight_notes'); setFlag('borrow_sis');
+  G.player.skills={structure:40,speed:38,research:35,express:38,judgment:35,lang:{en:60,ja:10,de:0}}; G.housing='dorm';
+  if(k==='exch'){ preset(2); G.time.year=3; G.time.sem=1; G.player.money=380000; G.exch={interested:true,app:90,applied:true,decided:'yes',dest:'eu',going:true,done:false,resultShown:true,scholar:0,adapt:0,homesick:0,friends:0,creditPlan:0,memories:[]}; setFlag('exch_go'); exchBegin(); return; }
+  if(k==='bar'){ preset(4); G.time.year=5; G.player.money=150000; G.postYears=0; barBegin('full','both','labor'); return; }
+  preset(4); G.time.year=5; G.player.money=120000; G.postYears=k==='lawyer'?1:k==='legal'?0:2; G.careerYears=G.postYears;
+  if(k==='lawyer'){ setFlag('bar_pass'); G.firmPick='small'; careerBegin('lawyer',{firm:'small'}); }
+  if(k==='judge'){ setFlag('bar_pass'); setFlag('judicial_pass'); careerBegin('judge'); }
+  if(k==='pros'){ setFlag('bar_pass'); setFlag('judicial_pass'); careerBegin('pros'); }
+  if(k==='legal'){ careerBegin('legal',{company:'local'}); }
+}
+// ---------- 上方列 ----------
+function renderTop(){
+  const p=G.player; const pill=(cls,name,v,max)=>'<span class="pill '+cls+'">'+name+'<span class="bar"><i style="width:'+Math.round(clamp(v/max*100,0,100))+'%"></i></span></span>';
+  return '<div class="topbar"><div class="who">'+avatarSVG('you',28)+'<div><div class="name">'+esc(p.name)+' <span class="sub">'+playerAge()+' 歲</span></div><div class="when">'+esc(timeLabel())+'</div></div></div><div class="pills"><span class="pill">💰 '+money(p.money)+'</span>'+pill('energy','精力',p.energy,100)+pill('stress','壓力',p.stress,100)+'</div><div class="tools"><button onclick="UI.openModal(\'skills\')">能力</button><button onclick="UI.openModal(\'people\')">人物</button><button onclick="UI.openModal(\'memory\')">記憶</button><button onclick="UI.openModal(\'save\')">存檔</button><button onclick="UI.openModal(\'help\')">說明</button><button onclick="UI.toTitle()">主選單</button></div></div>';
+}
+UI.toTitle=()=>{ save(); G.screen==='title'; G=null; render(); };
+function stage(sceneId,pose,cap,opts){ return '<div class="stage"><div class="scene">'+sceneSVG(sceneId,pose,opts||{})+'</div>'+(cap?'<div class="cap">'+cap+'</div>':'')+'</div>'; }
+function baseScene(){ if(G.phase==='exch') return 'abroadHome'; if(G.phase==='bar') return 'library'; if(G.phase==='career') return careerScene(); return G.housing==='dorm'?'dorm':'campus'; }
+// ---------- 主畫面路由 ----------
+function renderMain(){
+  const s=G.screen; const f={enroll:renderEnroll, plan:renderPlan, resolve:renderResolve, event:renderEvent, report:renderReport, examIntro:renderExamIntro, exam:renderExam, examResult:renderExamResult, quiz:renderQuiz, grades:renderGrades, 'break':renderBreak, gradChoice:renderGradChoice, exchDecide:renderExchDecide, exchResult:renderExchResult, exchPrep:renderExchPrep, exchDepart:renderExchDepart, exchReturn:renderExchReturn, barExam1:renderBarExam1, barResult:renderBarResult, barOral:renderBarOral, training:renderTraining, careerSetup:renderCareerSetup, careerReview:renderCareerReview, careerOffers:renderCareerOffers, setupFirm:renderSetupFirm, ending:renderEnding};
+  return (f[s]||(()=>'<div class="panel">畫面 '+esc(s)+' 尚未實作。<button class="btn small" onclick="G.screen=\'plan\';render()">回到行程</button></div>'))();
+}
+// ---------- 選課 ----------
+function renderEnroll(){
+  const y=G.time.year, sm=G.time.sem; const all=coursesFor(y,sm); const req=all.filter(c=>c.type==='req'); const el=all.filter(c=>c.type!=='req');
+  if(!G.enrolled.length) G.enrolled=req.map(c=>c.id).concat(G.enrollElec||[]);
+  const elec=G.enrolled.filter(id=>COURSES[id].type!=='req');
+  const row=c=>{ const T=TEACHERS[c.teacher]; const on=G.enrolled.includes(c.id); return '<button class="choice'+(on?' on':'')+'" '+(c.type==='req'?'disabled':'onclick="UI.toggleElec(\''+c.id+'\')"')+'><b>'+c.name+' <span class="tag">'+c.credits+' 學分</span>'+(c.type==='req'?'<span class="tag g">必修</span>':'<span class="tag">'+(c.type==='gen'?'通識':'選修')+'</span>')+'</b><span>'+T.name+'・'+T.styleName+'</span><span>'+T.hint+'</span></button>'; };
+  const retake=G.retake.length?'<div class="note warn">要重修／補修：'+G.retake.map(id=>id==='makeup'?'交換學分補修':COURSES[id]?COURSES[id].name:id).join('、')+'（每段時間少一格自由時間）</div>':'';
+  const housing= (y===1&&sm===1)?'<h3>住哪裡？</h3><div class="choice-grid"><button class="choice'+(G.housing==='dorm'?' on':'')+'" onclick="UI.setHousing(\'dorm\')"><b>住宿舍</b><span>室友是資工系的。每兩週多花 1,500 元，但半夜想去圖書館走五分鐘就到。</span></button><button class="choice'+(G.housing==='commute'?' on':'')+'" onclick="UI.setHousing(\'commute\')"><b>通勤</b><span>住家裡，省錢，早八要搭六點五十的車。車上會遇到人。</span></button></div>':'';
+  const intro= (y===1&&sm===1)?'<div class="note">歡迎來到'+SCHOOL+'。這學期你會上四門必修，選一到兩門選修。每段時間有幾格自由時間可以安排，期中期末是要親自作答的考試。先選課吧。</div>':'';
+  const slots=freeSlots();
+  return stage('campus','walk','<b>'+yearName(y)+(sm===1?'上':'下')+'・選課</b><span>學期開始前</span>')+'<div class="panel"><h2>選課</h2>'+intro+housing+retake+'<h3>必修</h3><div class="choice-grid">'+req.map(row).join('')+'</div><h3>選修（最多兩門）</h3><div class="choice-grid">'+el.map(row).join('')+'</div>'+
+  '<div class="note">目前 '+G.enrolled.length+' 門課，每段時間自由時間 <b>'+slots+'</b> 格。'+(elec.length>=2?'兩門選修：課比較多，自由時間少一格。':'')+'</div><div class="actions"><button class="btn" onclick="UI.enrollDone()" '+((y===1&&sm===1&&!G.housing)?'disabled':'')+'>開學</button></div></div>';
+}
+UI.toggleElec=(id)=>{ const i=G.enrolled.indexOf(id); if(i>=0) G.enrolled.splice(i,1); else { if(G.enrolled.filter(x=>COURSES[x].type!=='req').length>=2){ toast('最多兩門選修'); return; } G.enrolled.push(id); } render(); };
+UI.setHousing=(h)=>{ G.housing=h; render(); };
+UI.enrollDone=()=>{ diary('選課：'+G.enrolled.map(courseName).join('、')); beginSemester(); render(); };
+// ---------- 行程 ----------
+function ctxActs(){ return G.ctx==='exch'?exchActs():G.ctx==='bar'?barActs():G.ctx==='career'?careerActs():uniActs(); }
+function ctxAct(id){ return G.ctx==='exch'?EXCH_ACTS[id]:G.ctx==='bar'?BAR_ACTS[id]:G.ctx==='career'?careerAct(id):ACTS[id]; }
+function ctxSlots(){ return G.ctx==='exch'?exchFreeSlots():G.ctx==='bar'?barFreeSlots():G.ctx==='career'?careerFreeSlots():freeSlots(); }
+function ctxPreview(){ return G.ctx==='exch'?exchPreview():G.ctx==='bar'?barPreview():G.ctx==='career'?careerPreview():planPreview(); }
+function slotLabel(i){ if(G.ctx==='career') return ['週一','週二','週三','週四','週五','週末'][i]||'加班'; if(G.ctx==='bar') return '第 '+(i+1)+' 段'; return '第 '+(i+1)+' 格'; }
+function renderPlan(){
+  const n=ctxSlots(); const acts=ctxActs(); const cats={}; acts.forEach(a=>{ (cats[a.cat]=cats[a.cat]||[]).push(a); });
+  const b=G.phase==='uni'?curBlock():null; const tag=b&&b.tag?'（'+b.tag+'）':'';
+  let head='';
+  if(G.ctx==='uni'){ const days=['一','二','三','四','五']; head='<h3>課表</h3><div class="timetable">'+days.map(d=>'<div><b>週'+d+'</b>'+G.enrolled.flatMap(cid=>COURSES[cid].slots.filter(s=>s.startsWith(d)).map(s=>s.slice(2)+' '+COURSES[cid].name.slice(0,6))).join('<br>')+'</div>').join('')+'</div>'; }
+  if(G.ctx==='career'){ head='<h3>手上的案子</h3><div class="docket">'+G.career.docket.filter(m=>!m.done).map(m=>'<div class="matter"><div class="hd"><b>'+esc(m.title)+'</b><span class="'+(m.dl<=2?'dl':'dl ok')+'">'+(m.dl<=0?'已逾期':'期限 '+m.dl+' 週')+(m.hearingIn!=null?'・庭期 '+m.hearingIn+' 週後':'')+'</span></div><div class="sub">'+esc(m.who)+'・'+m.type+'・複雜度 '+'●'.repeat(m.cx)+(m.fee?'・報酬 '+money(m.fee):'')+(m.risk?'・風險 '+m.risk:'')+'</div><div class="sub">目前：'+m.stages[m.stage]+'（'+m.stages.map((s,i)=>i<m.stage?'✓':i===m.stage?'▶':'·').join(' ')+'）</div><div class="prog"><i style="width:'+Math.round(m.prog)+'%"></i></div></div>').join('')+'</div>'; }
+  const tutorial= !G.tutorialSeen?'<div class="note"><b>怎麼玩：</b>左邊選活動（要讀哪一科就點科目），會填進右邊的格子；點格子可以移除。下面的預覽會告訴你大概會發生什麼。安排好按「開始這段時間」。休息不是偷懶，連續硬讀效率會下降。</div>':'';
+  const slots=Array.from({length:n},(_,i)=>{ const s=G.sched[i]; if(!s) return '<button class="slot" onclick="UI.slotClick('+i+')"><span class="n">'+slotLabel(i)+'</span><span class="c">（空）</span></button>'; const a=ctxAct(s.act); const cn= s.course?(G.ctx==='career'?(matterById(s.course)||{title:''}).title:G.ctx==='bar'?SUBJ[s.course].short:courseName(s.course)):''; return '<button class="slot filled" onclick="UI.slotClick('+i+')"><span class="n">'+slotLabel(i)+'</span><span class="t">'+esc(a?a.name:s.act)+'</span>'+(cn?'<span class="c">'+esc(cn)+'</span>':'')+'</button>'; }).join('');
+  const actBtns=Object.keys(cats).map(c=>'<div class="actgroup"><h4>'+c+'</h4><div class="actbtns">'+cats[c].map(a=>'<button class="actbtn'+(planPick===a.id?' on':'')+'" onclick="UI.pickAct(\''+a.id+'\')" title="'+esc(a.desc||'')+'">'+esc(a.name)+'</button>').join('')+'</div>'+(planPick&&cats[c].some(a=>a.id===planPick)?renderCoursePick():'')+'</div>').join('');
+  const pv=ctxPreview();
+  return stage(baseScene(),'stand','<b>'+esc(timeLabel())+tag+'</b><span>'+(G.ctx==='uni'?'安排這段時間的自由時間':G.ctx==='exch'?'安排這段時間':G.ctx==='bar'?'安排這個月':'安排這一週')+'</span>')+
+  '<div class="panel">'+tutorial+head+'<div class="plan"><div><h3>活動</h3><div class="acts">'+actBtns+'</div></div><div><h3>行程（'+G.sched.length+'/'+n+'）</h3><div class="slots">'+slots+'</div><h3>預覽</h3><div class="preview">'+(pv.length?'<ul>'+pv.map(l=>'<li>'+l+'</li>').join('')+'</ul>':'<span class="sub">還沒安排任何活動。</span>')+'</div><div class="actions"><button class="btn" onclick="UI.startBlock()" '+(G.sched.length?'':'disabled')+'>開始這段時間</button><button class="btn sec small" onclick="G.sched=[];render()">清空</button></div></div></div></div>';
+}
+function renderCoursePick(){
+  const a=ctxAct(planPick); if(!a) return '';
+  if(G.ctx==='uni'){ if(a.id==='lang') return '<div class="coursepick">'+[['en','英文'],['ja','日文']].map(x=>'<button onclick="UI.pickCourse(\''+x[0]+'\')">'+x[1]+'</button>').join('')+'</div>'; if(!a.course) return ''; const cs=G.enrolled.filter(c=>COURSES[c].exam||['borrow','read','notes','review','preview','research','speak','cases','timed'].includes(a.id)); return '<div class="coursepick">'+cs.filter(c=>!COURSES[c].lang||a.id==='preview'||a.id==='read').map(c=>{ const st=courseStatus(G.courses[c]); return '<button onclick="UI.pickCourse(\''+c+'\')">'+esc(COURSES[c].name)+' <span class="status s'+st.s+'">'+st.t+'</span></button>'; }).join('')+'</div>'; }
+  if(G.ctx==='bar'){ if(!a.subj) return ''; return '<div class="coursepick">'+SUBJ_IDS.map(k=>{ const st=barStatus(G.bar.subj[k]); return '<button onclick="UI.pickCourse(\''+k+'\')">'+SUBJ[k].name+' <span class="status s'+st.s+'">'+st.t+'</span></button>'; }).join('')+'</div>'; }
+  if(G.ctx==='career'){ if(!a.matter) return ''; return '<div class="coursepick">'+G.career.docket.filter(m=>!m.done).map(m=>'<button onclick="UI.pickCourse(\''+m.id+'\')">'+esc(m.title)+'（'+m.stages[m.stage]+'・'+Math.round(m.prog)+'%）</button>').join('')+'</div>'; }
+  return '';
+}
+UI.pickAct=(id)=>{ const a=ctxAct(id); if(!a) return; const needPick= (G.ctx==='uni'&&(a.course||a.id==='lang'))||(G.ctx==='bar'&&a.subj)||(G.ctx==='career'&&a.matter); if(needPick){ planPick=(planPick===id?null:id); render(); return; } addSlot(id,null); };
+UI.pickCourse=(c)=>{ addSlot(planPick,c); };
+function addSlot(act,course){ const n=ctxSlots(); if(G.sched.length>=n){ toast('格子滿了'); return; } G.sched.push({act,course}); render(); }
+UI.slotClick=(i)=>{ if(G.sched[i]){ G.sched.splice(i,1); render(); } };
+UI.startBlock=()=>{ G.tutorialSeen=true; planPick=null; if(G.ctx==='exch') exchResolve(); else if(G.ctx==='bar') barResolve(); else if(G.ctx==='career') careerResolve(); else resolveBlock(); G.screen='resolve'; resolveIdx=0; render(); startResolveAnim(); };
+// ---------- 結算動畫 ----------
+function startResolveAnim(){ clearInterval(resolveTimer); resolveTimer=setInterval(()=>{ resolveIdx++; if(resolveIdx>=G.log.length){ clearInterval(resolveTimer); resolveIdx=G.log.length; } render(); },650); }
+function renderResolve(){
+  const shown=G.log.slice(0,Math.max(1,resolveIdx)); const last=shown[shown.length-1]||{scene:baseScene(),pose:'stand'}; const done=resolveIdx>=G.log.length;
+  return stage(last.scene||baseScene(),last.pose||'stand','<b>'+esc(timeLabel())+'</b><span>'+(done?'這段時間結束了':'進行中…')+'</span>')+'<div class="panel"><div class="log">'+shown.map(l=>'<div class="line '+(l.kind||'')+'">'+l.t+'</div>').join('')+'</div><div class="actions">'+(done?'<button class="btn" onclick="UI.afterResolve()">繼續</button>':'<button class="btn sec" onclick="UI.skipResolve()">跳過動畫</button>')+'</div></div>';
+}
+UI.skipResolve=()=>{ clearInterval(resolveTimer); resolveIdx=G.log.length; render(); };
+UI.afterResolve=()=>{ if(G.pendingEvent){ G.screen='event'; G.eventResult=null; } else { G.screen='report'; } save(); render(); };
+// ---------- 事件 ----------
+function curEvent(){ if(G.pendingEvent==='__dyn') return buildDyn(G.dynEvent); return eventById(G.pendingEvent); }
+function bubble(l){ const who=l.who; if(who==='n') return '<div class="bubble n"><div class="msg">'+l.t+'</div></div>'; if(who==='you') return '<div class="bubble you"><div class="av">'+avatarSVG('you',34)+'</div><div class="msg"><b>'+esc(G.player.name)+'</b>'+l.t+'</div></div>'; const name=NPCS[who]?NPCS[who].name:TEACHERS[who]?TEACHERS[who].name:who; const av=NPCS[who]?avatarSVG(who,34):'<svg viewBox="-20 -66 40 90" width="34" height="41">'+person(0,20,1,'stand',{skinC:'#F0D0B4',hairC:'#3A2A1A',hairStyle:1,topC:(TEACHERS[who]||{}).color||'#4A6C8C'},'')+'</svg>'; return '<div class="bubble"><div class="av">'+av+'</div><div class="msg"><b>'+esc(name)+'</b>'+l.t+'</div></div>'; }
+function renderEvent(){
+  const e=curEvent(); if(!e){ G.pendingEvent=null; G.screen='report'; return renderReport(); }
+  const lines=eventLines(e); const withNpc=lines.find(l=>NPCS[l.who]&&!NPCS[l.who].cat)?lines.find(l=>NPCS[l.who]&&!NPCS[l.who].cat).who:null;
+  const opts=e.options.filter(o=>!o.when||o.when());
+  return stage(e.scene||baseScene(),'stand','<b>'+esc(e.title)+'</b><span>'+esc(timeLabel())+'</span>',{with:withNpc})+'<div class="panel"><div class="dialog">'+lines.map(bubble).join('')+(G.eventResult?G.eventResult.map(bubble).join(''):'')+'</div>'+
+  (G.eventResult?'<div class="actions"><button class="btn" onclick="UI.afterEvent()">繼續</button></div>':'<div class="opts">'+opts.map((o,i)=>'<button class="opt" onclick="UI.choose('+i+')">'+fmtT(o.label)+(o.hint?'<small>'+esc(o.hint)+'</small>':'')+'</button>').join('')+'</div>')+'</div>';
+}
+UI.choose=(i)=>{ const e=curEvent(); const opts=e.options.filter(o=>!o.when||o.when()); const o=opts[i]; if(!o) return; if(G.pendingEvent==='__dyn'){ let r=o.do?o.do():null; if(typeof r==='string') r=[{who:'n',t:r}]; G.eventResult=(r||[]).map(l=>({who:l.who,t:fmtT(l.t)})); diary('【'+e.title+'】'+o.label); save(); } else chooseOption(e,o); render(); };
+UI.afterEvent=()=>{ G.pendingEvent=null; G.eventResult=null; G._evCourse=null; if(G.pendingNext){ G.pendingEvent=G.pendingNext; G.pendingNext=null; G.screen='event'; save(); render(); return; } const b=G.phase==='uni'?curBlock():null;
+  if(G.phase==='uni'&&b&&b.kind==='grades'){ nextBlock(); render(); return; }
+  if(G.phase==='uni') afterEventFlow(); else { G.screen='report'; save(); }
+  render(); };
+// ---------- 週報 ----------
+function ctxReport(){ return G.ctx==='exch'?exchReport():G.ctx==='bar'?barReport():G.ctx==='career'?careerReport():blockReport(); }
+function renderReport(){
+  const r=ctxReport();
+  return stage(baseScene(),'sit','<b>'+esc(timeLabel())+'・小結</b><span></span>')+'<div class="panel"><h2>這段時間</h2><div class="log">'+r.lines.map(l=>'<div class="line">'+l+'</div>').join('')+'</div>'+(r.goals.length?'<h3>接下來</h3><ul class="sub">'+r.goals.map(g=>'<li>'+g+'</li>').join('')+'</ul>':'')+'<div class="actions"><button class="btn" onclick="UI.nextBlock()">下一段</button></div></div>';
+}
+UI.nextBlock=()=>{ if(G.ctx==='exch') exchNext(); else if(G.ctx==='bar') barNext(); else if(G.ctx==='career') careerNext(); else nextBlock(); render(); };
+// ---------- 考試 ----------
+function statusRow(label,st){ return '<div><span>'+label+'</span><span class="b"><i style="width:'+Math.round(st.v)+'%"></i></span><span class="status s'+st.s+'">'+st.t+'</span></div>'; }
+function renderExamIntro(){
+  const list=G.examQueue.map(cid=>{ const co=COURSES[cid]; const T=TEACHERS[co.teacher]; const st=courseStatus(G.courses[cid]); return '<div class="matter"><div class="hd"><b>'+co.name+'</b><span class="status s'+st.s+'">'+st.t+'</span></div><div class="sub">'+T.name+'・'+T.styleName+'。'+(G.courses[cid].knowStyle?'你去問過老師，知道他在意什麼。':T.hint)+'</div></div>'; }).join('');
+  return stage('classroom','sit','<b>'+(G.examWhich==='mid'?'期中考週':'期末考週')+'</b><span>'+esc(timeLabel())+'</span>')+'<div class="panel"><h2>'+(G.examWhich==='mid'?'期中考':'期末考')+'</h2><p class="sub">考試不是按一下就出分數。每一科有三題，你要決定時間怎麼分、先寫哪個爭點、答案怎麼組織。平時準備、當場策略、能力與一點運氣，一起決定成績。</p><div class="docket">'+list+'</div><div class="actions"><button class="btn" onclick="examBegin();render()">開始第一科</button></div></div>';
+}
+function renderExam(){
+  const e=G.exam; const isBar=!!e.bar; const co=isBar?null:COURSES[e.cid]; const T=isBar?null:TEACHERS[co.teacher]; const left=e.T-e.used+(e.step===2?e.bonusQ3:0);
+  const prep=isBar?null:prepScore(e.cid);
+  let head='<div class="examhead"><div><b>科目</b>'+(isBar?'律師／司法官二試・'+e.subjName+'（申論）':co.name)+'</div><div><b>老師風格</b>'+(isBar?'閱卷委員：兩位平行閱卷':T.styleName)+'</div><div><b>題數／配分</b>三題・35／30／35</div><div><b>時間</b><span class="clock">'+left+'</span> 分鐘</div></div>';
+  if(e.step===0&&!isBar){ const d=prep.d; const lab=(v)=>v>=60?{s:4,t:'穩',v}:v>=40?{s:3,t:'還可以',v}:v>=25?{s:2,t:'不穩',v}:{s:1,t:'很弱',v}; head+='<div class="skillrows" style="margin:6px 0 10px">'+['u','s','m','r','i','a'].map(k=>statusRow(DIM_NAME[k],lab(d[k]))).join('')+'</div>'; }
+  let body='';
+  if(e.step===0) body='<div class="case"><b>第一題（35 分）</b><br>題幹佔了半頁。你數了一下，至少有三個爭點可以寫。目前剩 '+left+' 分鐘，後面還有兩題。</div>';
+  else if(e.step===1) body='<div class="case"><b>第二題（30 分）：'+esc(e.case.title)+'</b><br>'+esc(e.case.text)+'<br><span class="sub">剩 '+left+' 分鐘。這題問的問題很多，你要先處理哪一個？</span></div>';
+  else body='<div class="case"><b>第三題（35 分）</b><br>問的是一個你有印象的概念，'+(left>=35?'時間還夠。':left>=20?'時間有點緊。':'時間快沒了。')+'剩 '+left+' 分鐘。答案怎麼組織？</div>';
+  const opts=examOptions(e.step).map((o,i)=>'<button class="opt" onclick="UI.examPick(\''+o.k+'\','+(o.idx==null?-1:o.idx)+')">'+esc(o.label)+(o.hint?'<small>'+esc(o.hint)+'</small>':'')+'</button>').join('');
+  const prev=e.q.map((q,i)=>'<div class="line vig">第'+['一','二','三'][i]+'題：'+esc(q.txt)+'</div>').join('');
+  return stage('classroom','type','<b>'+(isBar?'二試考場':co.name)+'</b><span>'+(isBar?'第二天・上午':'考試中')+'</span>',{boardText:'考試中，請安靜'})+'<div class="panel">'+head+(prev?'<div class="log" style="margin-bottom:8px">'+prev+'</div>':'')+body+'<div class="opts">'+opts+'</div></div>';
+}
+UI.examPick=(k,idx)=>{ examAnswer(k,idx); render(); };
+function renderExamResult(){
+  const e=G.exam; const r=e.result; const isBar=!!e.bar;
+  let rows=''; if(!isBar){ const d=r.d; rows='<div class="breakdown">'+['u','s','m','r','i','a'].map(k=>'<div><span>'+DIM_NAME[k]+'</span><span class="b"><i style="width:'+Math.round(d[k])+'%"></i></span><span class="sub">'+Math.round(d[k])+'</span></div>').join('')+'</div>'; }
+  else { rows='<div class="tablewrap"><table><tr><th>科目</th><th>得分</th></tr>'+r.rows.map(x=>'<tr><td>'+x.name+'</td><td class="num">'+x.score+' / '+x.max+'</td></tr>').join('')+'<tr><td><b>合計</b></td><td class="num"><b>'+r.score+' / 1000</b></td></tr><tr><td>四大核心領域（須達 400）</td><td class="num">'+r.core+' / 800</td></tr></table></div>'; }
+  const strat=e.q.map((q,i)=>'<div class="line vig">第'+['一','二','三'][i]+'題：'+esc(q.txt)+'</div>').join('');
+  return stage('campus','stand','<b>'+(isBar?'二試結束':COURSES[e.cid].name+'・考完')+'</b><span>走出教室</span>')+'<div class="panel"><div class="row"><div class="score">'+r.score+'</div><div><div class="sub">'+(isBar?'總分（律師二試 1000 分制；司法官二試不含選試，共 900）':'分數')+'</div></div></div><div class="note">'+esc(r.text)+'</div><div class="log">'+strat+'</div><h3>'+(isBar?'各科':'準備狀態')+'</h3>'+rows+'<div class="actions"><button class="btn" onclick="UI.examNext()">'+(isBar?'回到備考':(G.examQueue.length>1?'下一科':'考完了'))+'</button></div></div>';
+}
+UI.examNext=()=>{ if(G.exam.bar){ G.sched=[]; G.screen='plan'; save(); } else examNext(); render(); };
+// ---------- 小考與分組報告 ----------
+function renderQuiz(){
+  const q=G.quiz;
+  if(q.stage==='assign'){ return stage('classroom','sit','<b>法學緒論・分組報告</b><span>第 4–5 週</span>')+'<div class="panel"><h2>分組報告</h2><p>吳老師的分組報告：你和小安、阿哲一組，題目是「法律與道德的關係」。要怎麼做？</p><div class="opts"><button class="opt" onclick="assignChoose(\'lead\');render()">自己扛架構，小安查資料，阿哲做簡報<small>報告會很完整，但你會很累</small></button><button class="opt" onclick="assignChoose(\'split\');render()">三個人平均分工<small>穩穩交出去</small></button><button class="opt" onclick="assignChoose(\'sis\');render()">把初稿拿給學長姐看<small>需要一點關係</small></button></div></div>'; }
+  if(q.stage==='done'){ return stage('campus','walk','<b>第一次作業與小考</b><span>結束</span>')+'<div class="panel"><h2>結果</h2><div class="note">民總小考：'+q.score+' / 3。'+(q.score>=3?'全對。你發現定義題其實是體系題。':q.score===2?'錯一題。錯的那題你記得看過，但當下想不起來。':'一團亂。你回去把第一章重看了一次。')+'</div><div class="note">法緒報告：'+q.assignScore+' 分。'+esc(q.assignTxt)+'</div><div class="actions"><button class="btn" onclick="G.screen=\'report\';save();render()">繼續</button></div></div>'; }
+  const cq=QUIZ_CIV1[q.i]; const last=q.answers[q.answers.length-1];
+  return stage('classroom','type','<b>民法總則・小考</b><span>第 '+(q.i+1)+' / '+QUIZ_CIV1.length+' 題</span>',{boardText:'小考：十分鐘'})+'<div class="panel"><h2>民總小考</h2>'+(last?'<div class="note '+(last.ok?'ok':'bad')+'">'+(last.ok?'對了。':'不對。')+esc(last.why)+'</div>':'')+'<div class="case">'+esc(cq.q)+'</div><div class="opts">'+cq.opts.map((o,i)=>'<button class="opt" onclick="quizAnswer('+i+');render()">'+esc(o)+'</button>').join('')+'</div></div>';
+}
+// ---------- 放榜 ----------
+function renderGrades(){
+  const rows=G.gradeRows||[]; const fail=rows.filter(r=>r.g<60);
+  return stage('campus','stand','<b>放榜</b><span>'+esc(timeLabel())+'</span>')+'<div class="panel"><h2>學期成績</h2><div class="tablewrap"><table><tr><th>課程</th><th>分數</th><th></th></tr>'+rows.map(r=>'<tr><td>'+esc(r.name)+'</td><td class="num"'+(r.g<60?' style="color:var(--bad)"':'')+'>'+r.g+'</td><td class="sub">'+esc(r.comment)+'</td></tr>').join('')+'<tr><td><b>平均</b></td><td class="num"><b>'+G.semAvg+'</b></td><td class="sub">歷年平均 '+gpaAll()+(G.scholar?'・獎學金 +12,000':'')+'</td></tr></table></div>'+(fail.length?'<div class="note bad">被當：'+fail.map(r=>r.name).join('、')+'。要重修，下學期少一格自由時間。一次低分不會毀掉人生，但會佔掉時間。</div>':'')+'<div class="actions"><button class="btn" onclick="UI.afterGrades()">繼續</button></div></div>';
+}
+UI.afterGrades=()=>{ if(G.pendingEvent){ G.screen='event'; G.eventResult=null; } else nextBlock(); save(); render(); };
+// ---------- 假期 ----------
+const BREAK_OPTS=[
+  {id:'restHome', name:'回家好好休息', desc:'睡飽，吃家裡的飯，被親戚問問題', fx:g=>{ g.player.energy=100; g.player.stress=clamp(g.player.stress-25,0,100); addRel('mom',6); }, txt:'你睡了很久。媽媽每天問要吃什麼。二舅又拿出了那份土地資料。'},
+  {id:'work', name:'打工存錢', desc:'全職一個月', fx:g=>{ g.player.money+=26000; g.player.energy-=10; g.stats.work+=4; }, txt:'一個月的全職打工。錢進來了，腳很痠。'},
+  {id:'preview', name:'先預習下學期', desc:'把下學期的課本翻過一遍', fx:g=>{ const next=coursesFor(g.time.sem===1?g.time.year:g.time.year+1, g.time.sem===1?2:1).filter(c=>c.type==='req'); next.forEach(c=>{ if(!g.courses[c.id]) g.courses[c.id]=newCourseState(); g.courses[c.id].u+=10; g.courses[c.id].s+=5; }); g.player.energy-=8; }, txt:'課本翻了一遍。開學第一堂課，你發現老師講的東西你有印象。'},
+  {id:'travel', name:'和朋友旅行', desc:'三天兩夜，花錢，很開心', fx:g=>{ g.player.money-=8000; g.player.stress=clamp(g.player.stress-20,0,100); addRel('an',5); addRel('zhe',5); if(g.npcs.yu.met) addRel('yu',5); }, txt:'三天兩夜。有人在火車上睡著，有人在海邊講了很多平常不會講的話。'},
+  {id:'lang', name:'準備語言檢定', desc:'為交換或未來鋪路', fx:g=>{ g.player.skills.lang.en=clamp(g.player.skills.lang.en+8,0,100); g.player.energy-=6; }, txt:'一個月的英文。單字書翻到後半本，聽力終於聽得出連音。'},
+  {id:'intern', name:'短期實習', desc:'法扶或事務所打雜（大二以上）', when:g=>g.time.year>=2||(g.time.year===1&&g.time.sem===2), fx:g=>{ g.player.skills.judgment+=5; g.player.skills.research+=3; g.player.money+=8000; setFlag('intern_firm'); }, txt:'一個月的實習。影印、查資料、把卷排時間軸。你第一次看到一份真正的起訴狀。'},
+  {id:'tutor', name:'家教', desc:'教高中生，時薪不錯', when:g=>g.time.year>=2||g.time.sem===2, fx:g=>{ g.player.money+=16000; g.player.skills.express+=3; }, txt:'教高中生公民。你發現教別人的時候，自己反而弄懂了一些東西。'},
+  {id:'club', name:'社團營隊', desc:'辦活動、認識人', fx:g=>{ addRel('zhe',6); if(g.npcs.yu.met) addRel('yu',8); g.player.energy-=6; g.stats.social+=3; if(g.time.year>=2) setFlag('club_leader'); }, txt:'營隊五天。你負責場地和保險，第一次覺得法律系學的東西在生活裡有用。'},
+];
+function renderBreak(){
+  const isWinter=G.time.sem===1; const picked=G.breakPicked||[]; const opts=BREAK_OPTS.filter(o=>!o.when||o.when(G));
+  if(G.breakDone){ return stage('home','sit','<b>'+(isWinter?'寒假':'暑假')+'</b><span>快結束了</span>')+'<div class="panel"><h2>'+(isWinter?'寒假':'暑假')+'</h2>'+G.breakTxt.map(t=>'<div class="line vig">'+esc(t)+'</div>').join('')+'<div class="note">假期本來想好好休息，最後又開始想'+(isWinter?'下學期':'實習、交換和下一學期')+'。</div><div class="actions"><button class="btn" onclick="UI.breakNext()">'+(G.time.year===4&&G.time.sem===2?'畢業':'下學期')+'</button></div></div>'; }
+  return stage('home','sit','<b>'+(isWinter?'寒假':'暑假')+'</b><span>'+esc(timeLabel())+'</span>')+'<div class="panel"><h2>'+(isWinter?'寒假':'暑假')+'</h2><p class="sub">選兩件事。</p><div class="choice-grid">'+opts.map(o=>'<button class="choice'+(picked.includes(o.id)?' on':'')+'" onclick="UI.pickBreak(\''+o.id+'\')"><b>'+o.name+'</b><span>'+o.desc+'</span></button>').join('')+'</div><div class="actions"><button class="btn" onclick="UI.breakGo()" '+(picked.length?'':'disabled')+'>開始假期</button></div></div>';
+}
+UI.pickBreak=(id)=>{ const p=G.breakPicked; const i=p.indexOf(id); if(i>=0) p.splice(i,1); else { if(p.length>=2){ toast('最多兩件'); return; } p.push(id); } render(); };
+UI.breakGo=()=>{ G.breakTxt=[]; for(const id of G.breakPicked){ const o=BREAK_OPTS.find(x=>x.id===id); o.fx(G); G.breakTxt.push(o.txt); } G.breakDone=true; G.player.energy=clamp(G.player.energy+20,0,100); G.player.stress=clamp(G.player.stress-10,0,100); diary('假期：'+G.breakPicked.map(id=>BREAK_OPTS.find(x=>x.id===id).name).join('、')); save(); render(); };
+UI.breakNext=()=>{ G.breakDone=false; G.breakPicked=[]; if(G.time.year===2&&G.time.sem===2&&G.exch.going&&!G.exch.done){ G.time.year=3; G.time.sem=1; exchBegin(); render(); return; } endSemester(); render(); };
+// ---------- 畢業選擇 ----------
+function renderGradChoice(){
+  const p=G.player;
+  return stage('campus','stand','<b>畢業</b><span>學士服還沒還</span>')+'<div class="panel"><h2>畢業之後</h2><p class="sub">歷年平均 '+gpaAll()+'，存款 '+money(p.money)+'。'+(G.gradDone?'研究所也念完了。':'')+'沒有唯一正確的選擇；每一條路都會繼續。</p><div class="opts">'+
+  '<button class="opt" onclick="UI.gradPick(\'full\',\'both\')">全職備考：律師與司法官一起報<small>一試同一份試卷；二試合併舉行；司法官另有三試口試</small></button>'+
+  '<button class="opt" onclick="UI.gradPick(\'full\',\'lawyer\')">全職備考：只考律師<small>目標明確，壓力較小</small></button>'+
+  '<button class="opt" onclick="UI.gradPick(\'part\',\'both\')">工作兼備考：白天在事務所當助理<small>有收入，每月自由時間少三格</small></button>'+
+  '<button class="opt" onclick="G.setupRole=\'legal\';G.screen=\'careerSetup\';save();render()">直接進公司當法務<small>不需要執照。以後仍可再考</small></button>'+
+  (!G.gradDone?'<button class="opt" onclick="gradSchool();render()">念研究所<small>兩年。研究能力與基礎會上升，錢會下降</small></button>':'')+
+  '</div>'+(G.enrolled.length?'':'')+'</div>';
+}
+UI.gradPick=(mode,target)=>{ G.screen='barElective'; G.gradPick={mode,target}; render(); UI._renderElective(); };
+UI._renderElective=()=>{ $('app').innerHTML=renderTop()+stage('library','read','<b>報名</b><span>選試科目</span>')+'<div class="panel"><h2>律師考試選試科目</h2><p class="sub">律師二試須任選一科選試科目（100 分）；司法官二試沒有選試。你大學修過的相關課程會有幫助。</p><div class="opts">'+Object.entries(ELECTIVES).map(([k,e])=>'<button class="opt" onclick="barBegin(\''+G.gradPick.mode+'\',\''+G.gradPick.target+'\',\''+k+'\');render()">'+e.name+(e.course&&G.courses[e.course]?'<small>你修過'+COURSES[e.course].name+'</small>':'<small>沒修過相關課程，靠自己準備</small>')+'</button>').join('')+'</div></div>'; };
+// ---------- 交換 ----------
+function renderExchDecide(){
+  const s=exchScore(); const p=G.player;
+  const dests=Object.values(EXCH_DEST).map(d=>{ const el=exchEligible(d); const on=(G.exchPrefs||[]).includes(d.id); return '<button class="choice'+(on?' on':'')+'" onclick="UI.exchPref(\''+d.id+'\')"><b>'+d.country+'・'+d.name+(on?' <span class="tag g">第 '+((G.exchPrefs||[]).indexOf(d.id)+1)+' 志願</span>':'')+'</b><span>'+d.city+'。'+d.vibe+'</span><span>課堂：'+d.style+'</span><span>成績門檻 '+d.gpaReq+'（你 '+s.gpa+'）'+(el.gpa?' ✓':' ✗')+'；語言：'+(d.lang==='ja'?'日文 '+d.langReq+'（你 '+Math.round(s.ja)+'）':'英文 '+d.langReq+'（你 '+Math.round(s.en)+'）')+(d.altLang?' 或英文 '+d.altReq:'')+(el.lang?' ✓':' ✗')+'；名額 '+d.quota+'</span><span>費用約 '+money(d.cost)+'，每兩週生活費約 '+money(d.living)+'</span></button>'; }).join('');
+  return stage('campus','stand','<b>交換申請</b><span>大二下・第 2 週</span>')+'<div class="panel"><h2>要不要申請交換？</h2><p class="sub">申請要看校內成績、語言、讀書計畫與志願排序。決定申請後，這學期可以安排「準備交換申請」來提高進度，期中前送出。錄取後大三上會在海外。不去交換的大三也有實習、旁聽與本地的生活。</p><div class="choice-grid">'+dests+'</div><div class="actions"><button class="btn" onclick="UI.exchApply()" '+((G.exchPrefs||[]).length?'':'disabled')+'>申請（依志願序）</button><button class="btn sec" onclick="exchDecideSkip();render()">不申請</button></div></div>';
+}
+UI.exchPref=(id)=>{ G.exchPrefs=G.exchPrefs||[]; const i=G.exchPrefs.indexOf(id); if(i>=0) G.exchPrefs.splice(i,1); else G.exchPrefs.push(id); render(); };
+UI.exchApply=()=>{ exchDecideApply(G.exchPrefs.slice()); render(); };
+function renderExchResult(){
+  const x=G.exch; const got=x.result?EXCH_DEST[x.result]:null; const p=G.player;
+  if(!got) return stage('campus','stand','<b>交換結果</b><span>放榜</span>')+'<div class="panel"><h2>沒有排到</h2>'+x.notes.map(n=>'<div class="line vig">'+esc(n)+'</div>').join('')+'<div class="note">大三還有實習、法院旁聽、社團與本地的人際。這不是比較差的人生。</div><div class="actions"><button class="btn" onclick="exchDecline();render()">繼續</button></div></div>';
+  const need=Math.round(got.cost*0.45); const have=p.money+(x.scholar||0);
+  return stage('campus','stand','<b>交換結果</b><span>放榜</span>')+'<div class="panel"><h2>錄取：'+got.country+'・'+got.name+'</h2>'+x.notes.map(n=>'<div class="line vig">'+esc(n)+'</div>').join('')+'<div class="kv"><b>學費／機票／保證金</b><span>約 '+money(need)+'</span><b>存款</b><span>'+money(p.money)+'</span><b>獎學金</b><span>'+(x.scholar?money(x.scholar):'無（歷年平均 80 以上有機會）')+'</span><b>學分抵免</b><span>約 '+Math.round(got.credits*100)+'%，可能影響畢業進度</span></div><div class="note">錢怎麼安排？</div><div class="opts">'+
+  (have>=need?'<button class="opt" onclick="exchAccept(\'self\');render()">用存款與獎學金<small>去</small></button>':'')+
+  '<button class="opt" onclick="exchAccept(\'family\');render()">請家裡支援<small>可以去，但要多打幾通電話</small></button><button class="opt" onclick="exchAccept(\'loan\');render()">申請就學貸款<small>之後每個月會多一筆支出</small></button><button class="opt" onclick="exchDecline();render()">放棄<small>留在台灣過大三</small></button></div></div>';
+}
+function renderExchPrep(){
+  const step=EXCH_PREP[G.exch.prepIdx]; const opts=step.opts.filter(o=>!o.when||o.when(G)); const d=EXCH_DEST[G.exch.dest];
+  return stage('dorm','type','<b>出發前</b><span>'+d.country+'・'+d.name+'</span>')+'<div class="panel"><h2>出發前：'+step.q+'</h2><p class="sub">還有 '+(EXCH_PREP.length-G.exch.prepIdx)+' 件事要決定。</p><div class="opts">'+opts.map((o,i)=>'<button class="opt" onclick="exchPrepChoose('+i+');render()">'+esc(o.t)+'</button>').join('')+'</div></div>';
+}
+function renderExchDepart(){ const d=EXCH_DEST[G.exch.dest]; return stage('abroadTravel','walk','<b>出發</b><span>'+d.country+'</span>')+'<div class="panel"><h2>出發</h2><div class="line vig">機場。媽媽在安檢口外面站了很久。你回頭看了兩次。</div><div class="line vig">飛機上你看了兩部電影，睡了三小時，醒來的時候窗外是另一個國家的早上。</div><div class="line vig">你不知道接下來會怎樣。這是好事。</div><div class="actions"><button class="btn" onclick="exchStart();render()">抵達</button></div></div>'; }
+function renderExchReturn(){ const x=G.exch; const d=EXCH_DEST[x.dest]; return stage('campus','walk','<b>回來了</b><span>'+d.country+'的一個學期</span>')+'<div class="panel"><h2>返台</h2><div class="kv"><b>交換學期成績</b><span>'+x.finalGrade+'</span><b>學分抵免</b><span>約 '+Math.round(x.creditRatio*100)+'%'+(x.creditRatio<0.7?'（下學期要補修，少一格自由時間）':'')+'</span><b>'+(d.lang==='ja'?'日文':'英文')+'</b><span>'+Math.round(x.langAtReturn)+'（之後不用會慢慢掉）</span><b>去過的地方</b><span>'+(x.memories.join('、')||'沒有特別去哪裡')+'</span><b>朋友</b><span>'+(x.friends>=30?'有幾個會偶爾聯絡的人':'認識了一些人')+'</span></div><div class="line vig">回到宿舍，一切都跟離開的時候一樣，只有你不一樣。便利商店的咖啡變便宜了，或者是你變了。</div><div class="line vig">'+(x.interest?'你在那裡對「'+x.interest+'」產生了興趣。這件事之後會回來找你。':'你發現自己講話的時候偶爾會卡在一個中文想不起來的字。')+'</div><div class="actions"><button class="btn" onclick="exchReturnDone();render()">大三下</button></div></div>'; }
+// ---------- 國考畫面 ----------
+function renderBarExam1(){ const b=G.bar; const e=b.exam1; return stage('classroom','type','<b>一試</b><span>8 月・四卷選擇題</span>')+'<div class="panel"><h2>一試結果</h2><div class="tablewrap"><table><tr><th>試卷</th><th>得分</th></tr>'+e.paper.map(x=>'<tr><td>'+esc(x.name)+'</td><td class="num">'+x.score+'</td></tr>').join('')+'<tr><td><b>合計</b></td><td class="num"><b>'+e.total+' / 600</b></td></tr></table></div><div class="note '+(b.passed1?'ok':'bad')+'">'+(b.passed1?'通過。分數線約 '+e.cut+'（前 33%）。二試在 10 月。':'未達分數線（約 '+e.cut+'，前 33%）。今年到此為止。')+'</div><div class="actions"><button class="btn" onclick="barExam1Next();render()">繼續</button></div></div>'; }
+function renderBarOral(){ const b=G.bar; const q=ORAL_QS[b.oralStep]; return stage('court','stand','<b>三試・口試</b><span>隔年一月・台北</span>')+'<div class="panel"><h2>集體口試</h2><p class="sub">評量儀態、溝通能力、人格特質、才識與應變。100 分，未滿 60 分不予錄取；筆試與口試合併計算擇優錄取（遊戲簡化）。</p><div class="case">'+esc(q.q)+'</div><div class="opts">'+q.opts.map((o,i)=>'<button class="opt" onclick="barOralChoose('+i+');render()">'+esc(o.t)+'</button>').join('')+'</div></div>'; }
+function renderBarResult(){
+  const b=G.bar; const p=G.player; const pass=b.lawyerPass||b.judgePass;
+  const opts=[]; if(b.judgePass) opts.push('<button class="opt" onclick="barAfterResult(\'trainJudge\');render()">進入司法官學院受訓<small>兩年後分發為法官或檢察官</small></button>'); if(b.lawyerPass) opts.push('<button class="opt" onclick="barAfterResult(\'trainLawyer\');render()">律師職前訓練<small>基礎訓練加事務所實習，之後成為新進律師</small></button>');
+  if(b.lawyerPass&&!b.judgePass&&b.target!=='lawyer') opts.push('<button class="opt" onclick="barAfterResult(\'retryFull\');render()">先不執業，明年再拚一次司法官<small>律師資格保留</small></button>');
+  if(!pass){ opts.push('<button class="opt" onclick="barAfterResult(\'retryFull\');render()">再戰一年（全職）<small>存款 '+money(p.money)+'</small></button>','<button class="opt" onclick="barAfterResult(\'retryPart\');render()">再戰一年（工作兼備考）<small>白天當助理，有收入</small></button>','<button class="opt" onclick="barAfterResult(\'legal\');render()">轉公司法務<small>不需要執照，以後仍可再考</small></button>'); if(!G.gradDone) opts.push('<button class="opt" onclick="barAfterResult(\'grad\');render()">念研究所<small>換一種方式和法律相處</small></button>'); if(b.attempts>=2) opts.push('<button class="opt" onclick="barAfterResult(\'leave\');render()">離開考試，重新選擇方向<small>學過的東西不會消失</small></button>'); }
+  return stage(pass?'street':'dorm',pass?'stand':'sit','<b>放榜</b><span>'+(b.judgePass?'二月':'十二月')+'</span>',{night:!pass})+'<div class="panel"><h2>'+(b.judgePass?'司法官考試錄取':b.lawyerPass?'律師考試及格':'落榜')+'</h2>'+(b.exam2?'<div class="kv"><b>一試</b><span>'+b.exam1.total+' / 600</span><b>二試（律師）</b><span>'+b.exam2.total+' / 1000，核心 '+b.exam2.core+' / 800</span>'+(b.target!=='lawyer'?'<b>二試（司法官）</b><span>'+b.exam2.judgeTotal+' / 900</span>':'')+(b.oral!=null?'<b>三試口試</b><span>'+b.oral+' / 100</span>':'')+'</div>':'')+(b.why?'<div class="note '+(pass?'':'bad')+'">'+esc(b.why)+'</div>':'')+
+  (pass?'<div class="line vig">'+(b.judgePass?'小安傳來訊息：「我也上了。」你們約在大學附近那家火鍋。':'你在圖書館四樓看到自己的准考證號碼。旁邊的人在哭，你不確定是哪一種哭。')+'</div>':'<div class="line vig">落榜。你在圖書館坐了一個下午，什麼都沒讀。晚上阿哲傳訊息：「吃飯。」</div><div class="line vig">已經累積的能力、人際與存款都還在。接下來怎麼走？</div>')+'<div class="opts">'+opts.join('')+'</div></div>';
+}
+function renderTraining(){ const t=G.training; const step=TRAINING[t.kind][t.step]; const opts=step.opts.filter(o=>!o.when||o.when()); return stage(t.kind==='lawyer'?'firm':'court','stand','<b>'+(t.kind==='lawyer'?'律師職前訓練':'司法官學院')+'</b><span>時間跳轉</span>')+'<div class="panel"><h2>'+(t.kind==='lawyer'?'職前訓練與實習':'受訓')+'</h2><div class="case">'+esc(step.q)+'</div><div class="opts">'+opts.map((o,i)=>'<button class="opt" onclick="trainingChoose('+i+');render()">'+esc(o.t)+(o.hint?'<small>'+esc(o.hint)+'</small>':'')+'</button>').join('')+'</div></div>'; }
+// ---------- 職涯畫面 ----------
+function renderCareerSetup(){
+  const r=G.setupRole;
+  if(r==='legal'){ return stage('meeting','stand','<b>找工作</b><span>公司法務</span>')+'<div class="panel"><h2>去哪一種公司？</h2><div class="opts">'+Object.entries(COMPANIES).map(([k,c])=>{ const ok=!(c.needEn&&G.player.skills.lang.en<c.needEn); const kai=k==='startup'&&!G.npcs.kai.met; return '<button class="opt" '+(ok&&!kai?'onclick="careerBegin(\'legal\',{company:\''+k+'\'});render()"':'disabled')+'>'+c.name+' <span class="tag">'+c.type+'</span><small>'+c.desc+'。起薪約 '+money(c.salary)+(c.needEn?'。英文需達 '+c.needEn:'')+(kai?'。（你不認識阿凱）':'')+'</small></button>'; }).join('')+'</div></div>'; }
+  if(r==='lawyer'){ const f=FIRMS[G.firmPick||'small']; return stage('firm','stand','<b>新進律師</b><span>'+f.name+'</span>')+'<div class="panel"><h2>正式成為律師</h2><p>職前訓練結束，'+f.name+'留下了你。名片印好了，上面有「律師」兩個字。星期一早上，你現在要做什麼？</p><div class="actions"><button class="btn" onclick="careerBegin(\'lawyer\',{firm:\''+(G.firmPick||'small')+'\'});render()">第一週</button></div></div>'; }
+  const isJ=r==='judge'; return stage(isJ?'chambers':'prosec','stand','<b>分發</b><span>'+(isJ?'地方法院':'地方檢察署')+'</span>')+'<div class="panel"><h2>'+(isJ?'候補法官':'候補檢察官')+'</h2><p>分發到'+(isJ?'一間地方法院。書記官小方把第一批卷放在你桌上，說：「法官，下週三有庭。」':'一間地方檢察署。偵查佐阿豪第一天就來敲門：「檢座，這件要不要聲押？」')+'</p><p class="sub">候補與試署期間、職稱與程序，遊戲做了簡化。</p><div class="actions"><button class="btn" onclick="careerBegin(\''+r+'\');render()">第一週</button></div></div>';
+}
+function renderCareerReview(){ const r=G.review; const c=G.career; const m=c.metrics; const names={analysis:'法律分析',prep:'準備品質',comm:'溝通',time:'時間管理',ethics:'專業倫理',trust:'客戶信任',rep:'聲譽',firmRel:'事務所關係',procedure:'程序保障',evidence:'證據判斷',reasoning:'說理',growth:'專業成長',coord:'與警協作',business:'商業成果',riskCtl:'風險控制',trustSales:'業務信任',trustFin:'財務信任',trustHR:'人資信任',trustBoss:'主管信任',team:'團隊',clients:'客戶',harmony:'合夥關係',profit:'獲利'};
+  const meters='<div class="meters">'+Object.keys(m).filter(k=>names[k]).map(k=>'<div>'+names[k]+'<b>'+Math.round(m[k])+'</b></div>').join('')+(c.stage==='own'?'<div>案源<b>'+Math.round(c.own.pipeline||0)+'</b></div><div>品牌<b>'+Math.round(c.own.brand||0)+'</b></div><div>應收<b>'+money(c.own.receivable||0)+'</b></div><div>月租<b>'+money(c.own.rent||0)+'</b></div>':'')+'</div>';
+  return stage(careerScene(),'sit','<b>季末</b><span>'+esc(timeLabel())+'</span>')+'<div class="panel"><h2>這一季</h2>'+r.lines.map(l=>'<div class="line vig">'+l+'</div>').join('')+meters+(r.options.length?'<h3>選擇</h3><div class="opts">'+r.options.map(o=>'<button class="opt" onclick="careerChoose(\''+o.k+'\');render()">'+esc(o.t)+(o.hint?'<small>'+esc(o.hint)+'</small>':'')+'</button>').join('')+'</div>':'')+'<div class="actions"><button class="btn sec" onclick="G.screen=\'careerOffers\';save();render()">維持現狀，繼續</button></div></div>';
+}
+function renderCareerOffers(){ const c=G.career; const o=c.offersReview||[]; if(!o.length) return stage(careerScene(),'stand','<b>新的一季</b><span></span>')+'<div class="panel"><h2>新的一季</h2><p class="sub">沒有待決定的新案。</p><div class="actions"><button class="btn" onclick="offersDone();render()">開始</button></div></div>';
+  return stage(careerScene(),'stand','<b>接案評估</b><span></span>')+'<div class="panel"><h2>要不要接？</h2><p class="sub">評估時間、報酬、案情與委任關係。手上目前 '+c.docket.filter(m=>!m.done).length+' 件。</p><div class="docket">'+o.map((m,i)=>'<div class="matter"><div class="hd"><b>'+esc(m.title)+'</b><span class="sub">'+esc(m.who)+'</span></div><div class="sub">'+m.type+'・預估 '+m.dl+' 週・複雜度 '+'●'.repeat(m.cx)+(m.fee?'・報酬 '+money(m.fee):'')+'・當事人期待 '+(m.expect>=70?'很高（覺得一定贏）':m.expect>=50?'一般':'務實')+'</div><div class="actions"><button class="btn small" onclick="acceptOffer('+i+');render()">接</button><button class="btn small sec" onclick="declineOffer('+i+');render()">不接</button></div></div>').join('')+'</div><div class="actions"><button class="btn" onclick="offersDone();render()">'+(o.length?'剩下的都不接，開始這一季':'開始這一季')+'</button></div></div>';
+}
+function renderSetupFirm(){ const step=FIRM_SETUP[G.firmSetup.step]; const opts=step.opts.filter(o=>!o.when||o.when()); return stage('myfirm','stand','<b>開業</b><span>'+step.q+'</span>')+'<div class="panel"><h2>自己的事務所：'+step.q+'</h2><p class="sub">開辦費約 180,000，之後每月有租金與人力成本；收入來自案源與收款。</p><div class="opts">'+opts.map((o,i)=>'<button class="opt" onclick="firmSetupChoose('+i+');render()">'+esc(o.t)+'</button>').join('')+'</div></div>'; }
+function renderEnding(){ const e=ENDINGS[G.endingKey]||ENDINGS.stable; const recap=endingRecap(); const sug=endingSuggest(); const c=G.career;
+  return stage(c?careerScene():'campus','stand','<b>'+esc(e.title)+'</b><span>'+playerAge()+' 歲</span>')+'<div class="panel ending"><h1>'+esc(e.title)+'</h1><p>'+esc(e.text)+'</p><div class="recap"><h3>你做過的事</h3>'+recap.map(r=>'<div class="memo">'+esc(r.text)+'<small>'+esc(r.t)+'</small></div>').join('')+'</div>'+(G.diary.length?'<h3>最後幾則日記</h3>'+G.diary.slice(-5).map(d=>'<div class="line vig">'+esc(d.t)+'：'+esc(d.text)+'</div>').join(''):'')+'<h3>下一輪可以試試</h3><ul>'+sug.map(s=>'<li>'+esc(s)+'</li>').join('')+'</ul><div class="actions"><button class="btn" onclick="UI.newLife()">重新開始</button><button class="btn sec" onclick="UI.keepPlaying()">其實我還想繼續玩</button></div></div>'; }
+UI.newLife=()=>{ try{ localStorage.removeItem(SAVE_KEY); }catch(e){} G=null; render(); };
+UI.keepPlaying=()=>{ if(G.career){ G.sched=[]; G.screen='plan'; } else { G.screen='plan'; } save(); render(); };
+// ---------- 面板 ----------
+UI.openModal=(k)=>{ modalOpen=k; if(!G){ $('app').innerHTML=renderTitle()+renderModal(); } else render(); };
+UI.closeModal=()=>{ modalOpen=null; if(!G) $('app').innerHTML=renderTitle(); else render(); };
+function renderModal(){
+  let body='';
+  if(modalOpen==='skills'&&G){ const p=G.player.skills; const bar=(n,v)=>'<div><span>'+n+'</span><span class="b"><i style="width:'+Math.round(v)+'%"></i></span><span class="sub">'+Math.round(v)+'</span></div>';
+    body='<h3>一般能力</h3><div class="skillrows">'+bar('答案結構',p.structure)+bar('寫作速度',p.speed)+bar('資料檢索',p.research)+bar('表達與協商',p.express)+bar('實務判斷',p.judgment)+bar('英文',p.lang.en)+bar('日文',p.lang.ja)+'</div>';
+    if(G.bar){ body+='<h3>國考科目</h3><div class="skillrows">'+SUBJ_IDS.map(k=>{ const d=G.bar.subj[k]; const st=barStatus(d); return '<div><span>'+SUBJ[k].name+'</span><span class="b"><i style="width:'+Math.round((d.u+d.s+d.m+d.r+d.i+d.a)/6)+'%"></i></span><span class="status s'+st.s+'">'+st.t+'</span></div>'; }).join('')+'</div>'; }
+    const cs=Object.keys(G.courses); if(cs.length){ body+='<h3>課程熟練度</h3><p class="sub">理解／體系／記憶／提取／爭點／涵攝，系統在背景計算，這裡只顯示狀態。</p><div class="skillrows">'+cs.map(cid=>{ const c=G.courses[cid]; const st=courseStatus(c); return '<div><span>'+esc(courseName(cid))+'</span><span class="b"><i style="width:'+Math.round((c.u+c.s+c.m+c.r+c.i+c.a)/6)+'%"></i></span><span class="status s'+st.s+'">'+st.t+'</span></div>'; }).join('')+'</div>'; }
+    body+='<h3>統計</h3><p class="sub">學習 '+G.stats.study+' 格・休息 '+G.stats.rest+' 格・打工 '+G.stats.work+' 格・社交 '+G.stats.social+' 次・歷年平均 '+gpaAll()+'</p>';
+  }
+  if(modalOpen==='people'&&G){ const ids=Object.keys(NPCS).filter(id=>G.npcs[id]&&G.npcs[id].met); body='<div class="people">'+ids.map(id=>{ const n=NPCS[id]; const s=G.npcs[id]; return '<div class="person"><div class="av">'+avatarSVG(id,36)+'</div><div><b>'+n.name+' <span class="sub">'+n.role+'</span></b><div class="rel"><i style="width:'+Math.round(clamp(s.rel,0,100))+'%"></i></div><div class="sub">'+relLabel(s.rel)+(s.stage?'・'+esc(s.stage):'')+'</div><div class="sub">'+esc(n.bio)+'</div>'+(s.news?'<div class="sub">'+esc(s.news)+'</div>':'')+'</div></div>'; }).join('')+'</div><p class="sub" style="margin-top:8px">人物有自己的人生，即使你沒有互動也會繼續。關係會慢慢淡，也可以修復。</p>'; }
+  if(modalOpen==='memory'&&G){ const ks=Object.keys(G.flags).filter(k=>FLAG_TEXT[k]); body=(ks.length?ks.map(k=>'<div class="memo">'+FLAG_TEXT[k]+(G.flags[k].note?'（'+esc(G.flags[k].note)+'）':'')+'<small>'+esc(G.flags[k].t)+'</small></div>').join(''):'<p class="sub">還沒有值得記住的事。</p>')+'<h3>日記</h3>'+G.diary.slice(-12).reverse().map(d=>'<div class="line vig">'+esc(d.t)+'：'+esc(d.text)+'</div>').join(''); }
+  if(modalOpen==='save'){ const ok=storageOK(); const slots=[1,2,3].map(n=>{ const i=slotInfo(n); return '<div class="s"><span>存檔 '+n+'：'+(i?esc(i.label)+' <span class="sub">'+new Date(i.t).toLocaleString('zh-TW')+'</span>':'（空）')+'</span><span class="row">'+(G?'<button class="btn small" onclick="UI.saveTo('+n+')">存到這裡</button>':'')+(i?'<button class="btn small sec" onclick="UI.loadFrom('+n+')">讀取</button>':'')+'</span></div>'; }).join('');
+    body=(ok?'<p class="sub">每一段時間結束會自動存檔在這個瀏覽器。</p>':'<div class="note warn">這個環境無法使用瀏覽器儲存，請用下面的匯出／匯入保存進度。</div>')+'<div class="saves">'+slots+'</div><h3>匯出／匯入</h3><p class="sub">匯出：複製下面的 JSON 存起來。匯入：把 JSON 貼進來按「匯入」。</p><textarea id="ioarea" placeholder="貼上存檔 JSON">'+(G?esc(exportJSON()):'')+'</textarea><div class="actions">'+(G?'<button class="btn small" onclick="UI.copyExport()">複製匯出</button>':'')+'<button class="btn small sec" onclick="UI.doImport()">匯入</button></div>'; }
+  if(modalOpen==='help'){ body='<h3>怎麼玩</h3><ul class="sub"><li>每段時間有幾格自由時間。學習活動各自提升不同能力：讀教科書建立理解與體系；整理筆記建立結構與記憶；練習案例訓練爭點與涵攝；限時練題改善結構與速度；複習與回想把「看過」變成「提取得出來」。</li><li>連續高強度讀書會出現邊際效益遞減；精力低時效率打折。休息會讓效率回來。</li><li>期中期末要親自作答：時間分配、選爭點、答案結構。考後有回饋。</li><li>人物有自己的人生。關係會淡，也能修復。有些選擇多年後會被記得。</li><li>考上不是結局。律師、法官、檢察官、法務都有各自的工作流與進階階段。</li><li>不存在最佳玩法。成績、人際、實習、交換、打工、休息，各有機會成本。</li></ul><h3>本版簡化</h3><p class="sub">學校、老師、課程與人物均為虛構；國考制度依公開說明整理，分數線用近似值；訓練、候補試署、分發等流程壓縮成少數決定；法條不逐字呈現。</p>'; }
+  return '<div class="modal" onclick="if(event.target===this)UI.closeModal()"><div class="box"><h2>'+({skills:'能力與熟練度',people:'人物',memory:'人生記憶',save:'存檔',help:'說明'}[modalOpen]||'')+'<button class="btn small sec" onclick="UI.closeModal()">關閉</button></h2>'+body+'</div></div>';
+}
+UI.saveTo=(n)=>{ if(saveSlot(n)) toast('已存檔'); else toast('無法存檔（瀏覽器儲存不可用）'); render(); };
+UI.loadFrom=(n)=>{ if(loadSlot(n)){ modalOpen=null; toast('已讀取'); render(); } else toast('讀取失敗'); };
+UI.copyExport=()=>{ const t=$('ioarea').value; navigator.clipboard.writeText(t).then(()=>toast('已複製')).catch(()=>{ $('ioarea').select(); toast('請手動複製'); }); };
+UI.doImport=()=>{ const t=$('ioarea').value; if(importJSON(t)){ modalOpen=null; toast('匯入成功'); render(); } else toast('匯入失敗：格式不對'); };
+// ---------- 啟動 ----------
+function boot(data){ if(data&&data.G&&data.G.v===3){ G=data.G; } render(); }
+try{ if(window.claude&&window.claude.hot&&window.claude.hot.snapshot){ window.claude.hot.snapshot(()=>({G})); } }catch(e){}
+if(window.claude&&window.claude.hot&&window.claude.hot.ready){ window.claude.hot.ready(boot); } else { boot(window.claude&&window.claude.hot?window.claude.hot.data:null); }

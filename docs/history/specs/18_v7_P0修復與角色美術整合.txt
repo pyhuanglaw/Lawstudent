@@ -1,0 +1,626 @@
+【法條之外 v7 — P0 BUGFIX + CHARACTER ART INTEGRATION PASS】
+
+先停止新增玩法、事件、地圖、法律題目與其他 feature。
+
+我剛剛在實際遊玩目前版本時發現三個直接影響可玩性的問題。請先完成這一輪修復與角色視覺整合，再繼續擴充。
+
+==================================================
+P0 — 霖澤館前玩家無法移動
+==================================================
+
+實際情況：
+
+遊戲開啟後，我在「台大校園／霖澤館前」出現，
+畫面與 UI 正常，
+但玩家角色無法正常移動。
+
+這是 BLOCKER。
+
+優先檢查：
+
+- mobile joystick input
+- touch / pointer event
+- pointer capture
+- ADV overlay 是否仍攔截 input
+- invisible DOM overlay
+- player controller enabled state
+- movement lock flag
+- event lock
+- dialogue lock
+- collision
+- nav/collider
+- spawn point 是否生成在 collider 內
+- camera/controller state
+- save/load restore state
+- orientation change 後 input state
+- loading GLB/VRM 時是否意外 disable controller
+- enter event 是否留下 movement lock
+- z-index / pointer-events
+- iOS Safari touch handling
+
+不要只在 desktop keyboard 測試。
+
+建立 regression test：
+
+BOOT
+→ spawn at 霖澤館
+→ joystick up
+→ player position 必須改變
+→ joystick left/right
+→ player 必須轉向／移動
+→ run
+→ movement 正常
+→ trigger dialogue
+→ exit dialogue
+→ movement 必須恢復
+→ save
+→ reload
+→ movement 必須仍正常
+
+任何情況下：
+
+dialogue / ADV 結束後都必須可靠 unlock player control。
+
+若 spawn point 與 collider 重疊，
+修正 spawn point / collision，而不是關掉 collision。
+
+P0 驗收標準：
+
+我重新開啟遊戲，
+不需要任何額外操作，
+在霖澤館前可以立即用手機虛擬搖桿正常走動。
+
+==================================================
+P1 — 玩家角色目前不可接受
+==================================================
+
+目前玩家角色在實際遊戲中顯示為：
+
+灰白／無貼圖／禿頭／西裝測試模型。
+
+這只能是：
+
+DEV TEST MODEL
+
+不能是正式玩家角色。
+
+請把它明確標記：
+
+TEMP_PLAYER_DEV_MODEL
+
+不要再把它當成 shipping visual。
+
+玩家設定：
+
+姓名：祐廷
+台大法律系一年級
+大學生
+男性
+約 18–19 歲
+
+視覺方向：
+
+台灣大學生
+自然、乾淨
+年輕
+不是商務人士
+不是教授
+不是婚宴西裝男
+不是禿頭 mannequin
+不是白色 clay model
+
+服裝第一套：
+
+簡潔素色 T-shirt / 薄襯衫
+休閒長褲
+球鞋
+後背包可選
+
+髮型：
+
+自然黑色短髮
+有正常 hairstyle mesh / texture
+
+3D 玩家只需要：
+
+正常成人比例
+正常頭髮
+正常材質
+正常服裝
+idle
+walk
+run
+sit
+
+不需要電影級 facial animation。
+
+如果目前沒有合適的正式 3D asset：
+
+優先使用現有已驗證可工作的 VRM pipeline，
+使用合法可再散布的正常青年男性 VRM／GLB asset。
+
+如果找不到：
+
+寧可保留 TEMP_PLAYER_DEV_MODEL 並明確報告缺少正式 asset，
+也不要聲稱目前灰白模型已完成。
+
+IMPORTANT：
+
+PlayerController
+必須與
+PlayerVisual
+分離。
+
+替換玩家 VRM/GLB 不得破壞：
+
+movement
+collision
+camera
+save
+interaction
+events
+
+==================================================
+P1 — 五位核心女主角正式資料
+==================================================
+
+以下為正式角色設定。
+
+不要自行改名字、科系、年級、身高與星座。
+
+1. 沈以安（小安）
+19歲
+166 cm
+法律系一年級
+星座：處女座
+
+IMPORTANT：
+上一版視覺太像普通路人。
+
+她必須提高 MAIN CHARACTER READABILITY。
+
+不是靠：
+奇怪髮色
+誇張飾品
+爆乳
+華麗服裝
+
+而是靠：
+
+漂亮但自然的臉
+有辨識度的眼型
+高馬尾／帶自然碎髮
+乾淨但有設計感的大學生穿搭
+米杏／深藍視覺語言
+安靜、認真、稍有距離感
+第一眼就能看出她不是 ambient NPC
+
+她仍然是可信的台大法律系大一學生，
+不是偶像、不是高中生、不是網紅。
+
+2. 林芷若
+20歲
+161 cm
+外國語文學系二年級
+星座：天秤座
+
+黑色及肩微捲髮
+可有細框眼鏡
+亞麻／白／咖啡色系
+文學感
+自然成熟
+笑容有親和力
+可以有 tote bag / 咖啡作為情境 props
+
+3. 陳語彤
+19歲
+159 cm
+社會系一年級
+星座：巨蟹座
+
+黑色齊肩直髮／自然內彎
+墨綠、炭灰、denim
+安靜
+觀察型
+表情較收斂
+不能畫成陰沉或病弱
+視覺上偏低調，但仍要有角色辨識度
+
+4. 高子晴
+20歲
+169 cm
+資訊工程學系二年級
+星座：水瓶座
+
+深棕短髮
+略帶外翹
+灰藍外套／hoodie
+黑色 cargo pants
+耳機
+可在特定情境帶吉他袋
+中性俐落
+動態感最強
+不要刻板化成宅女
+
+5. 溫書瑀（溫學姊）
+21歲
+172 cm
+法律系三年級
+星座：雙子座
+
+IMPORTANT：
+身高固定 172 cm。
+
+深棕色低馬尾
+白襯衫
+卡其／米色高腰長褲
+俐落
+成熟但仍然只有21歲
+法律系學姊感
+姿態自然有自信
+不要畫成30歲上班族
+
+判決節錄、保溫瓶、識別證等屬於：
+CONTEXTUAL PROPS
+
+不要全部永久掛在身上。
+
+==================================================
+五人共同 2D 美術方向
+==================================================
+
+正式 2D portraits：
+
+contemporary Japanese ADV / visual novel inspired
+young adult university students
+natural adult proportions
+clean detailed line art
+subtle anime stylization
+natural-sized eyes
+modern Taiwanese university clothing
+soft detailed shading
+high visual consistency
+
+禁止：
+
+chibi
+兒童比例
+高中制服
+巨大動漫眼
+五個人同一張臉只換髮型
+過度性感化
+奇幻服裝
+CSS/SVG primitive
+procedural silhouette
+灰色墓碑 placeholder
+
+五人必須看起來：
+
+屬於同一款遊戲，
+但五張臉、身形、姿態、穿搭輪廓都能辨認。
+
+==================================================
+先做 CHARACTER MASTER，不要一次生成所有表情
+==================================================
+
+第一階段每位只需要：
+
+campus / neutral
+
+五張正式 master portrait。
+
+要求：
+
+透明背景
+全身或至少膝上
+相同畫風
+相同比例基準
+手機 ADV 畫面可用
+人物完整，不裁頭
+高解析度來源
+遊戲使用版可轉 WebP
+
+先確認五人的人物 identity。
+
+之後才延伸：
+
+smile
+laugh
+serious
+surprised
+embarrassed
+annoyed
+sad
+tired
+thinking
+
+不要一次生成 45 張互相長得不像同一人的圖片。
+
+==================================================
+IMPORTANT — 如果你的環境不能真正生成高品質圖片
+==================================================
+
+不要假裝有。
+
+不要把：
+
+PLACEHOLDER_2D_PORTRAIT
+
+換個顏色後宣稱完成。
+
+如果目前環境無法直接 image-generate 正式立繪：
+
+請：
+
+1. 保留 portrait registry
+2. 建立正確 asset folder
+3. 建立 manifest
+4. 寫好 exact image requirements
+5. 明確列出 MISSING_EXTERNAL_ART
+6. 等外部生成圖片後直接 drop-in
+
+這是可以接受的。
+
+假的完成不可接受。
+
+==================================================
+P1 — 不只五女主：所有會進 ADV 的 NPC 都必須有 portrait strategy
+==================================================
+
+目前實際遊戲中：
+
+阿凱
+阿哲
+以及其他 NPC
+
+進入對話時全部顯示：
+
+PLACEHOLDER_2D_PORTRAIT
+
+這表示 ADV engine 完成，
+但 content coverage 尚未完成。
+
+請建立 NPC PORTRAIT COVERAGE SYSTEM。
+
+NPC visual tiers：
+
+TIER 0 — AMBIENT
+只在3D世界出現。
+不進正式ADV。
+不需要2D portrait。
+
+TIER 1 — MINOR TALKING NPC
+會進ADV但戲份少。
+
+需要：
+至少 1 張 bust portrait
+neutral
+可以共用 body template，
+但臉／髮型／服裝配色必須依 NPC identity 變化。
+
+TIER 2 — RECURRING NPC
+例如：
+阿凱
+阿哲
+熟同學
+室友
+重要學長姐
+助教
+
+至少：
+neutral
+smile
+serious
+annoyed / surprised（依角色）
+
+TIER 3 — CORE
+五位女主角與其他核心人物。
+
+完整 portrait set。
+
+PROFESSORS：
+
+每位重要教授至少需要：
+neutral
+speaking
+serious
+
+不需要浪漫角色等級的表情數量。
+
+==================================================
+禁止對沒有 portrait 的 NPC 開完整 ADV 墓碑模式
+==================================================
+
+這點非常重要。
+
+如果某個 NPC 沒有正式 2D portrait：
+
+不要把一個巨大的灰色 silhouette 放在畫面中央。
+
+Fallback 改成：
+
+A. 若有 portrait → 正常 ADV portrait mode
+
+B. 若 recurring NPC portrait 尚未完成
+→ 使用 compact dialogue mode
+→ 保留模糊 3D 背景
+→ 顯示姓名＋對話框
+→ 不顯示巨大 placeholder silhouette
+
+C. developer mode 才可以顯示：
+PLACEHOLDER_2D_PORTRAIT label
+
+正式玩家版本禁止顯示：
+
+PLACEHOLDER_2D_PORTRAIT
+heroine_03 · campus · neutral
+kai · campus · smile
+
+這些是 debug information。
+
+==================================================
+PORTRAIT REGISTRY
+==================================================
+
+保持既有 registry/fallback architecture。
+
+但新增：
+
+hasProductionPortrait(characterId)
+
+以及：
+
+portraitQuality:
+"production"
+"temporary"
+"missing"
+
+ADVSceneManager：
+
+if production portrait:
+    render portrait ADV
+
+else:
+    render compact portraitless ADV
+
+DEV MODE：
+可以顯示 missing portrait warning。
+
+PLAYER MODE：
+絕不顯示 debug placeholder。
+
+==================================================
+3D NPC 與 2D portrait 必須共用 identity
+==================================================
+
+每個人物：
+
+character_id
+
+必須唯一。
+
+同一 character_id 綁定：
+
+3D model
+2D portrait
+name
+schedule
+relationships
+memories
+story events
+academic identity
+
+不要再建立同一人物多個 alias。
+
+逐步清理：
+
+an ↔ heroine_01
+
+等 legacy alias。
+
+==================================================
+角色圖片命名
+==================================================
+
+例如：
+
+assets/portraits/heroine_01/campus/neutral.webp
+assets/portraits/heroine_02/campus/neutral.webp
+assets/portraits/heroine_03/campus/neutral.webp
+assets/portraits/heroine_04/campus/neutral.webp
+assets/portraits/heroine_05/campus/neutral.webp
+
+recurring NPC：
+
+assets/portraits/kai/campus/neutral.webp
+assets/portraits/kai/campus/smile.webp
+
+assets/portraits/zhe/campus/neutral.webp
+assets/portraits/zhe/campus/smile.webp
+
+==================================================
+測試要求
+==================================================
+
+完成後實際測試：
+
+TEST 1
+啟動遊戲 → 霖澤館 → joystick movement 正常。
+
+TEST 2
+與阿凱對話。
+如果有正式 portrait：
+顯示阿凱 portrait。
+
+如果沒有：
+使用 compact portraitless dialogue。
+不得出現灰色墓碑。
+
+TEST 3
+與阿哲對話。
+同上。
+
+TEST 4
+觸發五女主其中一人的事件。
+若 production portrait 已存在：
+顯示正式人物圖。
+
+若不存在：
+compact mode。
+不得顯示巨大 placeholder。
+
+TEST 5
+結束任何 ADV：
+玩家立刻恢復 movement。
+
+TEST 6
+save → reload：
+movement、character identity、event state 正常。
+
+TEST 7
+iPhone portrait viewport：
+人物不裁頭，
+對話框不蓋住人物臉，
+choice 可完整點擊。
+
+==================================================
+這輪不要做的事
+==================================================
+
+不要新增 50 個事件。
+不要擴張新地圖。
+不要新增法律題庫。
+不要新增戀愛結局。
+不要新增 CG Gallery。
+不要花時間做更多 procedural characters。
+
+這輪目標只有：
+
+1. 修掉「出生在霖澤館就不能動」的 blocker。
+2. 玩家角色不再以灰白禿頭西裝 mannequin 作為可接受正式外觀。
+3. 建立五位女主角正式 master art pipeline。
+4. 讓 recurring NPC 有 portrait coverage plan。
+5. 沒有 portrait 時改成好看的 portraitless dialogue，而不是灰色墓碑。
+6. 確保 ADV 結束後 movement 永遠恢復。
+7. 清楚區分 DEV PLACEHOLDER 與 PLAYER-FACING ART。
+
+完成後不要只給文字報告。
+
+請提供實際 screenshots：
+
+A. 霖澤館玩家正常移動
+B. 玩家角色新外觀
+C. 五女主 production portraits（若環境能生成）
+D. 阿凱對話
+E. 阿哲對話
+F. 女主角 ADV
+G. portrait missing 時的 compact fallback
+
+並在交付報告逐項標示：
+
+FIXED
+PARTIAL
+MISSING_EXTERNAL_ART
+NOT FIXED
+
+不要把 PARTIAL 寫成 COMPLETED。

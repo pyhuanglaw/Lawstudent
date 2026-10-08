@@ -1,13 +1,5 @@
-# 產生物／暫存
-build/
-shots/
 __pycache__/
 *.pyc
 *.zip
 node_modules/
 .env
-# 只給 test_glb.html / test_rpm.html 實驗用的完整 three.js 範例模型（未打包進遊戲）
-assets/models/Michelle.glb
-assets/models/Soldier.glb
-assets/models/Xbot.glb
-assets/models/readyplayer.me.glb

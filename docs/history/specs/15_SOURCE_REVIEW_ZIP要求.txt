@@ -1,0 +1,271 @@
+請在目前開發告一段落後，另外提供一份完整的「SOURCE REVIEW ZIP」，讓另一個 AI 可以完整檢查目前《法條之外：台灣法律人生》的程式碼、架構、遊戲資料與資產系統。
+
+這份 ZIP 的目的不是部署，而是 CODE / ARCHITECTURE / GAME DESIGN REVIEW。
+
+請盡可能包含「重現、理解、修改目前遊戲所需要的所有原始檔」。
+
+ZIP 請包含：
+
+1. 完整 source code
+- src/
+- public/
+- components/
+- systems/
+- game/
+- scenes/
+- world/
+- NPC/
+- dialogue/
+- events/
+- quests/
+- relationship/
+- legal/
+- save/
+- UI/
+- controls/
+- camera/
+- animation/
+- asset loader/
+- 其他實際使用中的 source folders
+
+請依目前專案真實結構提供，不需要為了符合以上名稱重新整理資料夾。
+
+2. 專案設定與 dependency 資訊
+請包含：
+- package.json
+- lock file（package-lock.json / yarn.lock / pnpm-lock.yaml，如有）
+- vite.config / webpack config / tsconfig 等實際存在的設定檔
+- index.html
+- manifest 等必要設定
+- build scripts
+
+3. 所有遊戲資料
+包括：
+- NPC definitions
+- NPC schedules
+- dialogue data
+- relationship data
+- event definitions
+- quest definitions
+- legal knowledge data
+- question bank
+- player stats
+- time/calendar system data
+- location definitions
+- map/world definitions
+- economy data
+- save schema
+- progression data
+
+如果這些目前直接 hard-code 在 source code 裡，也請保留原始 source，不要另外偽造資料檔。
+
+4. Shader / rendering / Three.js 相關程式
+包括：
+- Three.js initialization
+- renderer
+- lighting
+- materials
+- shaders
+- post-processing
+- camera
+- scene loading
+- model loading
+- GLTF/GLB loading
+- VRM loading（如有）
+- animation mixer
+- animation retargeting
+- character controller
+- environment rendering
+- LOD / instancing / optimization
+
+5. 資產系統
+請包含：
+- asset manifest
+- asset registry
+- asset loader
+- asset paths
+- model references
+- texture references
+- animation references
+- placeholder asset definitions
+
+如果實際的 binary assets 不適合全部打包，也至少必須提供完整 manifest 與來源／路徑資訊，讓 reviewer 知道程式期待載入什麼。
+
+若資產本身可合法包含且大小合理，則一起放入 ZIP。
+
+6. 現有 placeholder
+請不要為了交 ZIP 而刪除現在的醜人物、方盒建築、primitive trees 等。
+
+我要 reviewer 看得到它們到底是怎麼產生的。
+
+尤其保留：
+- procedural character generation
+- primitive environment generation
+- current campus generation
+- current dorm generation
+- current classroom/library/café generation
+
+我要判斷哪些應該刪除、哪些可以保留作 blockout。
+
+7. Mobile controls
+完整包含：
+- joystick
+- touch camera
+- run button
+- interaction
+- responsive UI
+- safe area
+- orientation handling
+
+8. Save / load
+包含完整：
+- serialization
+- deserialization
+- localStorage / IndexedDB 等實作
+- save version
+- migration（如有）
+- game state schema
+
+9. 法律知識系統
+包含目前實際完成的：
+- question bank
+- knowledge graph
+- mastery
+- misconception
+- spaced repetition / recurrence
+- professor dialogue integration
+- exam integration
+- NPC legal discussion
+
+不要只給題目文字。
+我要看到題目如何實際進入 gameplay。
+
+10. 請新增 REVIEW_README.md
+
+內容說明：
+
+A. 專案目前如何啟動
+B. build command
+C. entry point
+D. folder structure
+E. major systems
+F. gameplay loop
+G. rendering architecture
+H. character architecture
+I. environment architecture
+J. NPC architecture
+K. dialogue/event architecture
+L. legal knowledge architecture
+M. save architecture
+N. 哪些是 placeholder
+O. 哪些你認為已經接近 production
+P. 已知 bugs
+Q. 已知 technical debt
+R. 尚未完成項目
+S. 外部 assets 的名稱、來源與 license
+T. 最近8小時實際修改了哪些檔案
+
+11. 請新增 REVIEW_FILE_INDEX.txt
+
+列出 ZIP 中所有檔案及其用途。
+
+尤其標出：
+
+[CORE]
+[GAMEPLAY]
+[RENDERING]
+[CHARACTER]
+[ENVIRONMENT]
+[NPC]
+[LEGAL]
+[SAVE]
+[UI]
+[ASSET]
+[PLACEHOLDER]
+[CONFIG]
+
+讓 reviewer 可以快速定位。
+
+12. 請新增 REVIEW_NOTES.md
+
+請誠實列出你目前最不滿意或最擔心的10個技術問題。
+
+例如：
+- architecture coupling
+- character replacement difficulty
+- asset pipeline
+- animation retargeting
+- performance
+- mobile memory
+- draw calls
+- save compatibility
+- hard-coded content
+- duplicated code
+
+不要替自己辯護，只列出實際問題與你認為原因。
+
+━━━━━━━━━━━━━━━━━━
+不要放進 ZIP 的東西
+━━━━━━━━━━━━━━━━━━
+
+不要包含：
+- node_modules/
+- build cache
+- .git/
+- dist/（除非它是目前唯一可執行版本）
+- temporary screenshots
+- 無關大型cache
+- OS temporary files
+
+不要因為排除 node_modules 而刪除 package.json 或 lock file。
+
+━━━━━━━━━━━━━━━━━━
+安全要求
+━━━━━━━━━━━━━━━━━━
+
+不要放入：
+- API keys
+- access tokens
+- passwords
+- credentials
+- private environment secrets
+
+如果 .env 含秘密，不要直接放入。
+
+改提供：
+.env.example
+
+只保留 variable names，不保留 secret values。
+
+━━━━━━━━━━━━━━━━━━
+最重要
+━━━━━━━━━━━━━━━━━━
+
+我不是只要「主要程式碼」。
+
+我要的是：
+
+「另一個工程師／AI拿到這個ZIP後，可以完整理解目前遊戲如何運作、如何build、各系統在哪裡，以及哪些視覺是placeholder。」
+
+不要只挑你認為漂亮的檔案。
+不要只輸出單一HTML。
+不要只提供build後bundle。
+不要把原始碼壓成一個巨大minified JS。
+不要省略你覺得『不重要』但實際參與遊戲運作的source files。
+
+請保持目前真實專案結構。
+
+完成後提供：
+
+法條之外_SOURCE_REVIEW_YYYYMMDD_HHMM.zip
+
+並告訴我：
+- ZIP大小
+- 檔案總數
+- source files數量
+- 是否包含binary assets
+- 是否排除node_modules
+- 是否有任何你因技術限制無法放入ZIP的內容
+
+這份ZIP完成後，不要為了review另外重寫專案。
+我要review的是目前真正正在運作的版本。

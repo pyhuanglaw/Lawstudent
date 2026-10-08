@@ -9,12 +9,14 @@
 
 v2 新增：ADV 模式（3D→2D 對話演出→3D）、資料驅動 NPC 社會網絡（五位主要女主角、熟同學、不熟同學 pool、其他系、教授、助教）、六維關係＋NPC 記憶＋揭露階段、條件事件引擎（事件包 v1＋v1.1：52 個）、刑事訴訟法題庫融入上課／讀書會／同學討論、研究所志向骨架、CC0 環境資產與可替換資產層。詳見 docs/。
 
+> **接手開發請先讀 [`CLAUDE.md`](CLAUDE.md)**；從第一份企劃到現在的完整討論與版本歷程在 [`docs/history/DEVELOPMENT_HISTORY.md`](docs/history/DEVELOPMENT_HISTORY.md)，使用者每一輪的需求原文在 [`docs/history/specs/`](docs/history/specs/)，早期 2D 版本在 [`legacy/`](legacy/)。
+
 ## 遊玩
 
 - **線上（GitHub Pages）：https://pyhuanglaw.github.io/Lawstudent/** — 直接載入根目錄的 `index.html`（分檔載入 `lib/`、`src/`、`assets/`，不需要 build）。
   第一次需在 repo 的 Settings → Pages → Build and deployment 選 **Deploy from a branch → `main` / `(root)`**。根目錄有 `.nojekyll`，GitHub 不會跑 Jekyll。
 - 本機：在 repo 根目錄 `python3 -m http.server 8765`，開 `http://localhost:8765/`（需要靜態伺服器；`file://` 無法載入模型）。
-- 單檔版：`python3 build.py` 產生 `build/index.html`（內嵌全部程式）與 `build/artifact.html`（claude.ai artifact 用）；`build/` 不進 git。
+- 單檔版：`python3 build.py` 產生 `build/index.html`（內嵌全部程式）與 `build/artifact.html`（claude.ai artifact 用）；repo 內的 `build/` 是 v7 的建置結果，線上也可開 https://pyhuanglaw.github.io/Lawstudent/build/ 。
 - 測試：`python3 tests/p0_movement.py http://127.0.0.1:8765/index.html`、`python3 tests/movement_regression.py http://127.0.0.1:8765/index.html`（Playwright，iPhone 直向模擬＋觸控搖桿）。
 
 ## 操作
