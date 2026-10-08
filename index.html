@@ -52,7 +52,7 @@ button{font-family:var(--font);cursor:pointer}
 #title3 small{display:block;font-family:var(--font);font-size:12px;letter-spacing:.3em;color:#e9b96a;margin-top:6px}
 /* panels */
 .panel{position:absolute;inset:0;background:rgba(10,12,16,.82);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);z-index:8}
-#fade{z-index:9}#title3{z-index:10}#toast{z-index:9}#loading{z-index:11}#rotate{z-index:12}#letterT,#letterB{z-index:7}#caption{z-index:6}
+#fade{z-index:9}#title3{z-index:10}#toast{z-index:10}#loading{z-index:11}#rotate{z-index:12}#menu{z-index:9}#letterT,#letterB{z-index:7}#caption{z-index:6}
 .card{width:min(720px,calc(100% - 24px));max-height:calc(100% - 24px);overflow:auto;background:#161a22;border:1px solid var(--line);border-radius:16px;padding:16px 18px;color:#f4efe6;-webkit-user-select:text;user-select:text}
 .card h2{font-family:var(--serif);font-size:18px;margin:0 0 10px;color:var(--accent);letter-spacing:.1em}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
@@ -80,11 +80,12 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
 #titleScreen .sub{font-size:13px;letter-spacing:.35em;color:var(--accent);margin-bottom:26px}
 #titleScreen .btn{width:min(320px,100%);margin:5px auto;display:block}
 #rotate{position:absolute;inset:0;background:rgba(10,12,16,.92);display:none;align-items:center;justify-content:center;text-align:center;padding:24px;font-size:15px;line-height:1.7}
-@media (orientation:portrait){#rotate.want{display:flex} #hudR{top:calc(max(8px,env(safe-area-inset-top)) + 64px)} #minimap{top:calc(max(8px,env(safe-area-inset-top)) + 112px)} #goal{max-width:70vw}}
+
 #loading{position:absolute;inset:0;background:#0d1016;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font-size:14px;color:#e8e2d6}
 #bar{width:min(320px,70%);height:6px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden}
 #bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
 #minimap{position:absolute;right:max(10px,env(safe-area-inset-right));top:calc(max(8px,env(safe-area-inset-top)) + 54px);width:112px;height:80px;border-radius:10px;border:1px solid var(--line);background:rgba(20,22,28,.6);pointer-events:none}
+@media (orientation:portrait){#rotate.want{display:flex} #hudR{top:calc(max(8px,env(safe-area-inset-top)) + 64px)} #minimap{top:calc(max(8px,env(safe-area-inset-top)) + 112px)} #goal{max-width:70vw}}
 #fps{position:absolute;left:8px;bottom:4px;font:11px monospace;color:rgba(255,255,255,.5);pointer-events:none}
 #mdbg{position:absolute;left:max(10px,env(safe-area-inset-left));top:calc(max(8px,env(safe-area-inset-top)) + 150px);font:10px/1.35 monospace;color:#d8ffd8;background:rgba(0,0,0,.55);padding:6px 8px;border-radius:8px;white-space:pre;pointer-events:none;display:none;max-width:calc(100% - 20px)}
 </style></head>
@@ -151,6 +152,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
 <script src="src/character3d.js"></script>
 <script src="src/world3d.js"></script>
 <script src="src/engine3d.js"></script>
+<script src="src/townkit3d.js"></script>
 <script src="src/zones3d.js"></script>
 <script src="src/audio3d.js"></script>
 <script src="src/data/characters.js"></script>

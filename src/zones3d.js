@@ -138,7 +138,7 @@ const Z3 = (function(){
     // 集合點：公館圓環意象（小廣場）
     { const c=new THREE.Mesh(new THREE.CylinderGeometry(3,3,0.3,24),M('#d9cbb0')); c.position.set(20,0.15,28); g.add(c); nav.blockCircle(20,28,3.2); const tree=TREE(1.2); place(g,tree,20,28,0); }
     // 通往溫州街（西側）
-    E.interactables.push({x:-76,z:40,radius:3,label:'往溫州街',exit:{to:'wenzhou',spawn:{x:38,z:-7,yaw:-Math.PI/2}}});
+    E.interactables.push({x:-76,z:40,radius:3,label:'往溫州街',exit:{to:'wenzhou',spawn:{x:45,z:-1,yaw:-Math.PI/2}}});
     nav.blockOutside(-78,-45,78,51.6); /* 南側騎樓走道（z 47.9–51.7）要可走，店門在 z=51 */ for(let z=-2;z<=2;z+=0.5) for(let x=-78;x<=-74;x+=0.5){} for(let xq=-79;xq<=-74;xq+=0.5) for(let zq=37;zq<=43;zq+=0.5){ const [cx,cz]=nav.toCell(xq,zq); if(cx>=0&&cz>=0&&cx<nav.cols&&cz<nav.rows) nav.b[nav.idx(cx,cz)]=0; }
     for(let z=-50;z<=-44;z+=0.5) for(let xq=-4;xq<=4;xq+=0.5){ const [cx,cz]=nav.toCell(xq,z); if(cx>=0&&cz>=0&&cx<nav.cols&&cz<nav.rows) nav.b[nav.idx(cx,cz)]=0; }
     E.interactables.push({x:0,z:-48,radius:3,label:'回到校園',exit:{to:'campus',spawn:{x:-119,z:0,yaw:Math.PI/2}}});
@@ -146,26 +146,92 @@ const Z3 = (function(){
     for(const l of lamps){ const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xffd88a,transparent:true,opacity:0.5,depthWrite:false,blending:THREE.AdditiveBlending})); glow.scale.set(3,3,1); glow.position.set(0,3.9,0.75); l.add(glow); glow.visible=false; E.lampGlows.push(glow); const pool=new THREE.Mesh(new THREE.CircleGeometry(4.2,16),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffd08a,transparent:true,opacity:0.34,depthWrite:false,blending:THREE.AdditiveBlending})); pool.rotation.x=-Math.PI/2; pool.position.set(0,0.03,0.75); l.add(pool); pool.visible=false; E.lampGlows.push(pool); }
     return {group:g,nav,spawn:{x:0,z:-30,yaw:Math.PI},lamps,buildings,onLamps(on){ for(const b of buildings) W3.setNight(b,on); }}; } };
   // ---------- 溫州街 ----------
-  const wenzhou={ id:'wenzhou', name:'溫州街', indoor:false, cityLight:0.6, size:[100,80], camDist:5.6, build(E){
-    treeIdx=0; leafyCount=0; const g=new THREE.Group(); const W=100,D=80; const nav=new E3.NavGrid(W,D,0.5,-W/2,-D/2); const lamps=[]; const buildings=[];
-    ground(g,W,D,W3.asphaltTex(),[W/6,D/6],0,0,0); // 巷道
-    // 兩排公寓（有陽台與植物）
-    const apt=(x,z,w,rot,i)=>{ const b=W3.building({key:'apt'+i,w,h:13,d:12,floors:4,style:'grid',wall:['#e0d6c6','#d3c6b0','#cfd0c8','#e6dcc8','#d9cbb0'][i%5],glass:'#b9cfd6',frame:'#6b6f76',roof:'parapet',entrance:{w:2.2,h:2.6,side:'front',canopy:false,steps:false}}); place(g,b,x,z,rot); buildings.push(b); nav.blockRect(x,z,w+0.2,12.2,rot,0.4); for(let f=1;f<4;f++){ const bal=new THREE.Mesh(new THREE.BoxGeometry(w*0.6,0.9,1.2),M('#b9b1a3')); bal.position.set(x,f*3.2+0.5,z+(rot?0:6.6)); if(rot) bal.position.set(x+6.6,f*3.2+0.5,z); bal.rotation.y=rot; g.add(bal); const pl=W3.bush(0.35); pl.position.set(bal.position.x-(rot?0:w*0.25),f*3.2+0.9,bal.position.z-(rot?w*0.25:0)); g.add(pl); } return b; };
-    let i=0; for(let x=-40;x<=40;x+=17){ apt(x,-26,15,0,i++); apt(x,26,15,Math.PI,i++); }
-    // 咖啡廳（西側轉角）：兩點半 Café
-    const cafe=W3.building({key:'cafe',w:14,h:9,d:12,floors:2,style:'grid',wall:'#f1e7d6',glass:'#bcd6df',frame:'#3b2a1e',roof:'parapet',ground:'glass',entrance:{w:2.6,h:2.8,side:'front',canopy:true,canopyColor:'#3b2a1e',steps:false},sign:'兩點半 Café',signColor:'#f4ead8',signBg:'#3b2a1e'}); place(g,cafe,-40,-2,Math.PI/2); nav.blockRect(-40,-2,12.2,14.2,0,0.4); buildings.push(cafe); const aw=W3.awning(6,'#3b2a1e'); place(g,aw,-33.4,-2,Math.PI/2); aw.position.y=3.2;
-    E.interactables.push({x:-32,z:-2,radius:2.4,label:'進入 兩點半 Café（營業到凌晨 2:30）',exit:{to:'cafe',spawn:{x:0,z:5,yaw:Math.PI}}});
-    const cafeSign=W3.signPlane('營業 11:00–02:30',3,0.5,{color:'#f4ead8'}); cafeSign.position.set(-33.3,2.2,-2); cafeSign.rotation.y=Math.PI/2; g.add(cafeSign);
-    // 小公園
-    ground(g,16,12,W3.grassTex(),[4,3],30,0,0.02); { const t=TREE(1.4); place(g,t,30,0,0); nav.blockCircle(30,0,0.9); const b=BENCH(); place(g,b,26,4,0); nav.blockRect(26,4,2,0.7,0); E.interactables.push({x:26,z:4.55,radius:1.6,label:'坐在小公園的長椅',seat:{x:26,z:4.55,yaw:0}}); }
-    for(let k=0;k<10;k++){ const sc=W3.scooter(['#e8e8e8','#2b2b2b','#8c3b47'][k%3]); place(g,sc,-44+k*9,-16,(k%2?0.3:-0.3)); nav.blockRect(-44+k*9,-16,0.8,1.6,0); }
-    for(let k=0;k<6;k++){ const l=W3.lampPost(); place(g,l,-40+k*16,14,Math.PI); lamps.push(l); nav.blockCircle(-40+k*16,14,0.25); }
-    for(let k=0;k<5;k++){ const b=W3.bush(0.6); place(g,b,-36+k*18,-18,0); nav.blockCircle(-36+k*18,-18,0.6); }
-    E.interactables.push({x:46,z:0,radius:3,label:'回公館',exit:{to:'gongguan',spawn:{x:-72,z:40,yaw:Math.PI/2}}});
-    nav.blockOutside(-48,-19,48,19); for(let xq=44;xq<=49;xq+=0.5) for(let zq=-3;zq<=3;zq+=0.5){ const [cx,cz]=nav.toCell(xq,zq); if(cx>=0&&cz>=0&&cx<nav.cols&&cz<nav.rows) nav.b[nav.idx(cx,cz)]=0; }
-    for(const b of buildings){ const fp=b.userData.footprint; const m=new THREE.Mesh(new THREE.BoxGeometry(fp.w,12,fp.d),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(b.position.x,6,b.position.z); m.rotation.y=b.rotation.y; g.add(m); E.colliders.push(m); }
-    for(const l of lamps){ const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xffd88a,transparent:true,opacity:0.5,depthWrite:false,blending:THREE.AdditiveBlending})); glow.scale.set(3,3,1); glow.position.set(0,3.9,0.75); l.add(glow); glow.visible=false; E.lampGlows.push(glow); const pool=new THREE.Mesh(new THREE.CircleGeometry(4.2,16),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffd08a,transparent:true,opacity:0.34,depthWrite:false,blending:THREE.AdditiveBlending})); pool.rotation.x=-Math.PI/2; pool.position.set(0,0.03,0.75); l.add(pool); pool.visible=false; E.lampGlows.push(pool); }
-    return {group:g,nav,spawn:{x:38,z:-7,yaw:-Math.PI/2},lamps,buildings,onLamps(on){ for(const b of buildings) W3.setNight(b,on); }}; } };
+  // ---------- 溫州街（v9 重建：台北巷弄＋日式宿舍；TK 街景套件）----------
+  /* 座標：x 往東（公館方向）、主巷沿 x 軸，建築立面在 z=±5（巷寬 10m：柏油 7m＋兩側排水溝與停車帶）。
+     西端 T 字路口正對「兩點半 Café」（街景的視覺焦點）；北側小巷（死巷）、南側小巷（死巷）、小公園、騎樓、日式宿舍。
+     所有建築與道具都同步登記 NavGrid 與鏡頭碰撞盒。 */
+  function buildWenzhou(E){ treeIdx=0; leafyCount=0; const g=new THREE.Group(); const NAVX=-58, NAVZ=-30; const nav=new E3.NavGrid(118,60,0.5,NAVX,NAVZ); nav.b.fill(1);
+    const open=(x0,z0,x1,z1)=>{ for(let cz=0;cz<nav.rows;cz++) for(let cx=0;cx<nav.cols;cx++){ const [wx,wz]=nav.toWorld(cx,cz); if(wx>=x0&&wx<=x1&&wz>=z0&&wz<=z1) nav.b[nav.idx(cx,cz)]=0; } };
+    // 可走範圍：主巷、西側橫巷、北巷、南巷、小公園、騎樓、東端路口
+    open(-36.8,-4.9,54.5,4.9); open(-36.8,-15,-30.2,15); open(3.3,4,8.2,20.5); open(-14.7,-19.5,-9.8,-4); open(20.3,4,31.7,14.6); open(16.4,-8.0,29.6,-4); open(48.2,-15,54.5,15);
+    const lamps=[]; const buildings=[]; const colliders=[]; const lights=[]; const pools=[];
+    const addCollider=(x,z,w,d,h,rot)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h||14,d),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(x,(h||14)/2,z); m.rotation.y=rot||0; g.add(m); E.colliders.push(m); };
+    // 地面：主巷柏油、橫巷、北巷、南巷、東端路口
+    const roads=[TK.road(92,10,{manholes:[[-20,0.5],[14,-1.2],[38,0.8]],slow:[[-25,-1.8,Math.PI/2],[4,1.8,Math.PI/2]]}),TK.road(32,7),TK.road(17,5),TK.road(16,5),TK.road(32,8)];
+    roads[0].position.set(9,0,0); roads[1].position.set(-33.4,0.002,0); roads[1].rotation.y=Math.PI/2; roads[2].position.set(5.75,0.003,12.5); roads[2].rotation.y=Math.PI/2; roads[3].position.set(-12.25,0.003,-12); roads[3].rotation.y=Math.PI/2; roads[4].position.set(51.3,0.002,0); roads[4].rotation.y=Math.PI/2; for(const r of roads) g.add(r);
+    // 遠景地面（建築後面）
+    { const m=new THREE.Mesh(new THREE.PlaneGeometry(220,160),TK.col('#6d6a64')); m.rotation.x=-Math.PI/2; m.position.y=-0.02; m.receiveShadow=true; g.add(m); }
+    // ---- 建築：A 側（z>0，立面朝 -z）、B 側（z<0，立面朝 +z）----
+    const aptA=(x0,x1,spec,setback)=>{ const w=x1-x0; const b=TK.apartment(Object.assign({w,d:12},spec)); b.position.set((x0+x1)/2,0,5+(setback||0)); b.rotation.y=Math.PI; g.add(b); buildings.push(b); nav.blockRect((x0+x1)/2,5+(setback||0)+6,w,12,0,0); addCollider((x0+x1)/2,5+(setback||0)+6,w,12,b.userData.h+1); return b; };
+    const aptB=(x0,x1,spec,setback)=>{ const w=x1-x0; const b=TK.apartment(Object.assign({w,d:12},spec)); b.position.set((x0+x1)/2,0,-5-(setback||0)); g.add(b); buildings.push(b); const arc=spec.ground&&spec.ground.type==='arcade'?3:0; nav.blockRect((x0+x1)/2,-5-(setback||0)-6-arc/2,w,12-arc,0,0); addCollider((x0+x1)/2,-5-(setback||0)-6,w,12,b.userData.h+1); return b; };
+    // A 側
+    aptA(-12,-4,{floors:4,wall:'tile',color:'#d9c9a8',ground:{type:'shop',shop:{type:'print',name:'大學影印',sub:'影印・裝訂・論文輸出',signBg:'#f4f1ea',signColor:'#1f4e8c',band:'#1f4e8c',vertical:'影印',vBg:'#ffffff',vColor:'#1f4e8c',vBand:'#1f4e8c'}}});
+    aptA(-4,3.1,{floors:5,wall:'mosaic',color:'#cfd8d0',ground:{type:'door',color:'#9c2f2a'}});
+    aptA(8.4,20,{floors:4,wall:'tile',color:'#c9b49a',balcony:true,ground:{type:'shop',shop:{type:'books',name:'巷口書房',sub:'二手書・人文社會・法律',signBg:'#2f4a3a',signColor:'#f4ead8',serif:true,awning:'#2f4a3a',vertical:'書',vBg:'#f4ead8',vColor:'#2f4a3a',vBand:'#2f4a3a'}}});
+    aptA(32,40,{floors:4,wall:'plaster',color:'#e8e1d4',ground:{type:'shop',shop:{type:'noodle',name:'林家乾麵',sub:'乾麵・餛飩・滷味',signBg:'#f4ead8',signColor:'#9c2f2a',vertical:'麵',vBg:'#ffffff',vColor:'#9c2f2a',vBand:'#9c2f2a',awning:'#9c2f2a'}}});
+    aptA(40,48,{floors:3,wall:'tile',color:'#b8a088',roofAdd:true,ground:{type:'shop',shop:{type:'cvs',name:'日日便利',sub:'24H',signBg:'#ffffff',signColor:'#1f6f78',band:'#e8a33a',frame:'#cfd6d6'}}});
+    // B 側
+    aptB(-30,-21,{floors:3,wall:'plaster',color:'#d8d0c0',roofAdd:true,ground:{type:'shutter'}});
+    aptB(-21,-15,{floors:4,wall:'tile',color:'#bfb3a3',ground:{type:'shop',shop:{type:'laundry',name:'自助洗衣',sub:'24 小時・投幣式',signBg:'#e9f2f6',signColor:'#2a5f8a',frame:'#cfd6d6'}}});
+    aptB(-9.6,4,{floors:5,wall:'tile',color:'#d5c7b0',ground:{type:'shop',shop:{type:'teishoku',name:'巷子裡定食',sub:'日式家庭料理',signBg:'#1f2e45',signColor:'#f4ead8',serif:true,awning:'#1f2e45',vertical:'定食',vBg:'#f4ead8',vColor:'#1f2e45',vBand:'#1f2e45'}}});
+    aptB(4,16,{floors:4,wall:'mosaic',color:'#d8d2c6',ground:{type:'door',color:'#2f4a3a'}});
+    aptB(16,30,{floors:4,wall:'tile',color:'#cbbba3',ground:{type:'arcade',shop:{type:'tea',name:'巷口茶飲',sub:'手搖飲・現煮珍珠',signBg:'#f4ead8',signColor:'#5c3a21',band:'#7a9a5a'}}});
+    aptB(30,40,{floors:5,wall:'plaster',color:'#e6dccb',ground:{type:'shop',shop:{type:'fruit',name:'阿忠水果',sub:'當季水果・果汁',signBg:'#f2b33e',signColor:'#5c2a1a'}}});
+    aptB(40,48,{floors:4,wall:'tile',color:'#a89a88',ground:{type:'door',color:'#8a3a2a'}});
+    // 巷底與遠景（讓巷子看起來還有延伸）
+    { const b=TK.apartment({w:12,d:10,floors:5,wall:'tile',color:'#c7b9a3',detail:false,ground:{type:'door'}}); b.position.set(5.75,0,21); b.rotation.y=Math.PI; g.add(b); buildings.push(b); addCollider(5.75,26,12,10,17); }
+    { const b=TK.apartment({w:12,d:10,floors:4,wall:'mosaic',color:'#d6d0c2',detail:false,ground:{type:'shutter'}}); b.position.set(-12.25,0,-20); g.add(b); buildings.push(b); addCollider(-12.25,-25,12,10,14); }
+    for(const [x,z,ry,w,f,c] of [[-33.4,16.2,Math.PI,9,4,'#cfc4b2'],[-33.4,-16.2,0,9,5,'#d9cdb8'],[51.3,15.5,Math.PI,9,6,'#c8bca8'],[51.3,-15.5,0,9,5,'#bfb09a'],[62,0,-Math.PI/2,30,7,'#d2c8b8']]){ const b=TK.apartment({w,d:10,floors:f,wall:'tile',color:c,detail:false,ground:{type:f>5?'shop':'door',shop:{type:'cvs',name:'新生大樓',sub:'',signBg:'#f4f1ea',signColor:'#333'}}}); b.position.set(x,0,z); b.rotation.y=ry; g.add(b); buildings.push(b); addCollider(x,z,ry%Math.PI?10:w,ry%Math.PI?w:10,30); }
+    // 西端：兩點半 Café（2 層木構＋大玻璃，正對主巷）
+    const cafeB=TK.apartment({w:14,d:13,floors:2,fh:3.3,groundH:3.6,wall:'plaster',color:'#efe6d6',tank:false,grille:'#3b2a1e',ground:{type:'shop',shop:{type:'cafe',name:'兩點半 Café',sub:'營業 11:00–02:30',signBg:'#3b2a1e',signColor:'#f4ead8',serif:true,awning:'#3b2a1e',frame:'#3b2a1e'}}}); cafeB.position.set(-37.2,0,-1); cafeB.rotation.y=Math.PI/2; g.add(cafeB); buildings.push(cafeB); nav.blockRect(-43.7,-1,13,14,0,0); addCollider(-43.7,-1,13,14,9);
+    for(const [z,ry,c] of [[11,Math.PI/2,'#d4c6b0'],[-13,Math.PI/2,'#cbbfae']]){ const b=TK.apartment({w:10,d:12,floors:4,wall:'tile',color:c,detail:false,ground:{type:'door'}}); b.position.set(-37.2,0,z); b.rotation.y=ry; g.add(b); buildings.push(b); addCollider(-43.2,z,12,10,14); }
+    E.interactables.push({x:-35.0,z:-1,radius:2.3,label:'進入 兩點半 Café（營業到凌晨 2:30）',exit:{to:'cafe',spawn:{x:0,z:5,yaw:Math.PI}}});
+    { const ab=TK.aBoard(['今日手沖','衣索比亞','耶加雪菲','—','讀書位 有']); ab.position.set(-35.6,0,2.4); ab.rotation.y=Math.PI/2; g.add(ab); nav.blockCircle(-35.6,2.4,0.35); }
+    { const bk=W3.bike('#2f5d50'); bk.position.set(-35.9,0,-5.2); bk.rotation.y=0.15; g.add(bk); nav.blockRect(-35.9,-5.2,0.6,1.8,0.15,0.1); }
+    { const pt=TK.pots(5,1); pt.position.set(-36.6,0,3.4); pt.rotation.y=Math.PI/2; g.add(pt); nav.blockRect(-36.4,4.2,0.6,1.8,0,0); }
+    // A 側：日式宿舍（圍牆＋黑瓦木屋＋老樹）
+    { const w=TK.wall(17,1.7,{gate:2.4,gateX:-0.5}); w.position.set(-21,0,5.35); w.rotation.y=Math.PI; g.add(w); nav.blockRect(-21,5.4,17.2,0.5,0,0.05); addCollider(-21,5.4,17,0.4,2.2);
+      const h=TK.japaneseHouse(10,7); h.position.set(-21.5,0,12.5); h.rotation.y=Math.PI; g.add(h); addCollider(-21.5,12.5,11,8,6);
+      for(const [tx,tz,sc] of [[-15.2,8.2,1.3],[-27.5,8.6,1.05],[-13.6,14,0.9]]){ const t=TK.tree(8*sc); place(g,t,tx,tz,0); }
+      E.interactables.push({x:-21.5,z:4.2,radius:1.8,label:'看日式宿舍',look:'圍牆後面是一棟日式宿舍。黑瓦、木雨淋板，樹比屋頂還高。門牌旁貼著「私人住宅，請勿進入」。'}); }
+    // 小公園（A 側 x 20–32）
+    { const gr=new THREE.Mesh(new THREE.PlaneGeometry(11.6,10.4),new THREE.MeshStandardMaterial({map:(()=>{ const t=W3.grassTex().clone(); t.needsUpdate=true; t.repeat.set(3,3); return t; })(),roughness:0.95})); gr.rotation.x=-Math.PI/2; gr.position.set(26,0.01,10.2); gr.receiveShadow=true; g.add(gr);
+      const pathM=new THREE.Mesh(new THREE.PlaneGeometry(2.2,10.4),TK.col('#b8ad9c')); pathM.rotation.x=-Math.PI/2; pathM.position.set(26,0.015,10.2); g.add(pathM);
+      for(const [tx,tz,sc] of [[21.6,12.8,1.2],[30.6,12.6,1.1],[30.8,6.4,0.8]]){ const t=TK.tree(7.5*sc); place(g,t,tx,tz,0); nav.blockCircle(tx,tz,0.5); }
+      for(const [bx,bz] of [[23.6,8.0],[28.4,8.0]]){ const b=BENCH(); place(g,b,bx,bz,Math.PI); nav.blockRect(bx,bz,2,0.7,0); E.interactables.push({x:bx,z:bz-0.55,radius:1.4,label:'坐在小公園的長椅',seat:{x:bx,z:bz-0.55,yaw:Math.PI}}); }
+      for(const [hx,hz] of [[20.6,5.6],[30.0,5.6]]){ const pt=TK.pots(4,7); pt.position.set(hx,0,hz); pt.rotation.y=Math.PI; g.add(pt); nav.blockRect(hx-0.8,hz,1.8,0.7,0,0); }
+      const sg=TK.signTex('溫州公園',{bg:'#2f4a3a',color:'#f4ead8',serif:true}); const sp=new THREE.Mesh(new THREE.PlaneGeometry(1.6,0.4),new THREE.MeshStandardMaterial({map:sg})); sp.position.set(20.2,1.4,5.6); sp.rotation.y=Math.PI; g.add(sp); }
+    // ---- 電線桿＋路燈（A 側沿街）、電線 ----
+    const poleXs=[-26.5,-9.2,12.2,34.2,45.5]; const tops=[];
+    poleXs.forEach((px,i)=>{ const p=TK.utilityPole({arm:true,armDir:1,transformer:i===2,sign:i===4?'溫州街':null}); p.position.set(px,0,4.65); p.rotation.y=Math.PI/2; g.add(p); nav.blockCircle(px,4.65,0.3); tops.push([px,8.52,4.65]); const L=p.userData.lamp; if(L){ const wx=px, wz=4.65-L.x; lamps.push({x:wx,z:wz}); const pool=TK.lightPool(4.5,'rgba(255,214,150,1)'); pool.position.set(wx,0.03,wz); g.add(pool); pools.push(pool); } });
+    { const pairs=[]; for(let i=0;i<tops.length-1;i++){ for(const dy of [0,-0.6]) pairs.push([[tops[i][0]-0.75,tops[i][1]+dy,tops[i][2]],[tops[i+1][0]-0.75,tops[i+1][1]+dy,tops[i+1][2]],0.7]); pairs.push([[tops[i][0]+0.75,tops[i][1],tops[i][2]],[tops[i+1][0]+0.75,tops[i+1][1],tops[i+1][2]],0.55]); }
+      // 跨巷到對面建築、到巷子
+      for(const [px,tx,tz] of [[-9.2,-6,-5.2],[12.2,10,-5.2],[34.2,36,-5.2],[12.2,5.8,9],[-26.5,-30,-5.2]]) pairs.push([[px,8.0,4.65],[tx,7.2,tz],0.4]);
+      g.add(TK.wires(pairs)); }
+    // 轉角反光鏡
+    for(const [mx,mz,ry] of [[8.7,4.5,-2.4],[-9.4,-4.5,0.7],[-30.4,4.6,-2.3]]){ const m=TK.trafficMirror(); m.position.set(mx,0,mz); m.rotation.y=ry; g.add(m); nav.blockCircle(mx,mz,0.2); }
+    // 機車（停車格裡，車頭朝建築）＋腳踏車
+    const scColors=['#e8e8e8','#2b2b2b','#8c3b47','#4a6c8c','#c9b48a','#f2f0ea','#3e5a48'];
+    const scRow=(x0,n,z,ry)=>{ for(let k=0;k<n;k++){ if(TK.rnd()<0.15) continue; const s=TK.scooter(scColors[(k*3+Math.round(x0))%scColors.length]); const x=x0+k*0.85; s.position.set(x,0,z+(TK.rnd()-0.5)*0.15); s.rotation.y=ry+(TK.rnd()-0.5)*0.12; g.add(s); } nav.blockRect(x0+(n-1)*0.85/2,z,n*0.85,1.7,0,0.05); };
+    scRow(-11.5,7,3.95,0); scRow(5.0,12,-3.95,Math.PI); scRow(31.5,8,-3.95,Math.PI); scRow(-28.5,6,-3.95,Math.PI); scRow(24.4,4,3.95,0);
+    for(const [bx,bz,ry,c] of [[9.4,4.1,0.1,'#3a6fb0'],[10.3,4.1,-0.08,'#8c3b47'],[18.6,4.1,0.05,'#e0b95b']]){ const bk=W3.bike(c); bk.position.set(bx,0,bz); bk.rotation.y=ry; g.add(bk); nav.blockRect(bx,bz,0.6,1.8,ry,0.05); }
+    // 盆栽（住家門口）、郵筒、立牌
+    for(const [px,pz,ry,n] of [[-2.6,4.55,Math.PI,6],[9.6,-4.55,0,5],[41.5,-4.55,0,7],[3.6,9.5,-Math.PI/2,5],[-13.5,-9,Math.PI/2,4],[-14.4,4.6,Math.PI,4]]){ const pt=TK.pots(n,Math.round(px)); pt.position.set(px,0,pz); pt.rotation.y=ry; g.add(pt); const L=pt.userData.len; const c=Math.cos(ry), sn=Math.sin(ry); nav.blockRect(px+c*L/2,pz-sn*L/2,Math.abs(c)*L+0.6,Math.abs(sn)*L+0.6,0,0); }
+    { const mb=TK.mailbox(); mb.position.set(47.3,0,4.3); mb.rotation.y=Math.PI; g.add(mb); nav.blockRect(47.3,4.3,1.2,0.6,0,0); }
+    for(const [ax,az,ry,ls] of [[14.6,3.9,Math.PI,['二手書','民法・刑法','教科書收購']],[-2.4,-3.9,0,['本日定食','鯖魚 / 豚汁','11:30–20:00']]]){ const ab=TK.aBoard(ls); ab.position.set(ax,0,az); ab.rotation.y=ry; g.add(ab); nav.blockCircle(ax,az,0.35); }
+    // 店面（不能進去的）用「看櫥窗」：清楚表示只能看，不假裝有完整室內
+    for(const it of [{x:14.2,z:3.8,label:'看書店的櫥窗',look:'巷口書房的櫥窗裡擺著一套舊版的《民法總則》，旁邊手寫的紙條：「學長姐留下來的，筆記很多」。'},{x:44,z:3.8,label:'看便利商店',look:'日日便利的自動門開了又關。櫃檯後面的店員在補咖啡豆。'},{x:36,z:3.8,label:'看林家乾麵',look:'林家乾麵外面排了三個人。滷味的味道飄到巷子中間。'},{x:23,z:-6.5,label:'看手搖飲菜單',look:'巷口茶飲的菜單：紅茶 30、綠茶 30、珍珠奶茶 55。騎樓下有兩張塑膠椅。'},{x:-2.6,z:-3.8,label:'看定食店',look:'巷子裡定食的布簾後面傳來煎魚的聲音。今天的定食是鯖魚。'}]) E.interactables.push(Object.assign({radius:1.6},it));
+    // 騎樓柱子
+    for(const px of [16.3,29.7]) nav.blockRect(px,-5.3,0.6,0.6,0,0.05);
+    // 夜間點光源（數量固定，白天強度 0，避免換燈數造成 shader 重編）
+    for(const [lx,ly,lz,c,i] of [[-34.6,3.2,-1,0xffc88a,1],[44,3.0,3.8,0xf2fbff,0.85],[14.2,3.0,3.6,0xffd6a0,0.7]]){ const L=new THREE.PointLight(c,0,16,1.8); L.position.set(lx,ly,lz); L.userData.maxI=i*18; g.add(L); lights.push(L); }
+    // 東端：回公館
+    E.interactables.push({x:51.5,z:0,radius:3,label:'回公館',exit:{to:'gongguan',spawn:{x:-72,z:40,yaw:Math.PI/2}}});
+    for(const b of buildings) b.traverse(o=>{ if(o.isMesh){ o.castShadow=o.castShadow!==false; } });
+    // 時間：0 白天 → 1 夜晚（傍晚漸亮）
+    const warmSky=new THREE.Color(0xffc48a), warmGround=new THREE.Color(0x6a5644); const zoneTime=(h,E)=>{ let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); k=Math.max(0,Math.min(1,k)); TK.setNight(k); if(E&&E.hemi){ E.hemi.intensity+=0.85*k; E.hemi.color.lerp(warmSky,0.3*k); E.hemi.groundColor.lerp(warmGround,0.55*k); } for(const L of lights) L.intensity=L.userData.maxI*Math.max(0,Math.min(1,k)); for(const p of pools) p.material.opacity=p.userData.poolMax*Math.max(0,Math.min(1,k*1.2-0.2)); };
+    return {group:g,nav,spawn:{x:44,z:-1,yaw:-Math.PI/2},lamps:[],buildings,applyTimeOutdoor:zoneTime,onLamps(on){}}; }
+  const wenzhou={ id:'wenzhou', name:'溫州街', indoor:false, cityLight:0.85, size:[110,60], camDist:5.2, build(E){ return buildWenzhou(E); } };
   // ---------- 室內：通用房間 ----------
   function room(E,o){ const g=new THREE.Group(); const W=o.w,D=o.d,H=o.h||3.6; const nav=new E3.NavGrid(W+2,D+2,0.4,-W/2-1,-D/2-1); const floor=ground(g,W,D,o.floorTex||W3.stoneTex('#e6dccb'),[W/2,D/2],0,0,0); floor.material.roughness=0.7;
     const wallM=M(o.wallColor||'#efe6d6'); const walls=[]; const mk=(x,z,w,d,rot,dir)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,H,0.2),wallM); m.position.set(x,H/2,z); m.rotation.y=rot; m.userData.dir=dir; m.material=wallM.clone(); m.material.transparent=true; g.add(m); walls.push(m); }; mk(0,-D/2,W,0,0,new THREE.Vector3(0,0,1)); mk(0,D/2,W,0,0,new THREE.Vector3(0,0,-1)); mk(-W/2,0,D,0,Math.PI/2,new THREE.Vector3(1,0,0)); mk(W/2,0,D,0,Math.PI/2,new THREE.Vector3(-1,0,0));
@@ -231,7 +297,7 @@ const Z3 = (function(){
     // 窗（右側牆）
     for(let i=0;i<2;i++){ const win=new THREE.Mesh(new THREE.PlaneGeometry(2.6,1.8),new THREE.MeshBasicMaterial({color:0xcfe3ea})); win.position.set(6.88,2.0,-2.5+i*4); win.rotation.y=-Math.PI/2; win.userData.dyn=true; g.add(win); z.wins=z.wins||[]; z.wins.push(win); }
     E.interactables.push({x:-2.5,z:-3.2,radius:1.6,label:'到吧檯點餐',counter:'cafe'});
-    E.interactables.push({x:0,z:5.6,radius:1.6,label:'離開咖啡廳',exit:{to:'wenzhou',spawn:{x:-30,z:-2,yaw:Math.PI/2}}}); z.spawn={x:0,z:4.6,yaw:Math.PI}; return z; } };
+    E.interactables.push({x:0,z:5.6,radius:1.6,label:'離開咖啡廳',exit:{to:'wenzhou',spawn:{x:-32.6,z:-1,yaw:Math.PI/2}}}); z.spawn={x:0,z:4.6,yaw:Math.PI}; return z; } };
   // ---------- 便利商店 ----------
   const cvs={ id:'cvs', name:'全日便利商店', indoor:true, camDist:4.0, build(E){ const z=room(E,{w:12,d:9,h:3.2,wallColor:'#f4f1ea',floorTex:W3.stoneTex('#e8e4da'),spawn:{x:0,z:3.5,yaw:Math.PI}}); const g=z.group, nav=z.nav; shelfWall(g,nav,-4.5,-4.2,0,6); shelfWall(g,nav,4.5,-4.2,0,3); for(let i=0;i<2;i++){ shelfWall(g,nav,-2+i*4,0,Math.PI/2,5); } const counter=new THREE.Mesh(new THREE.BoxGeometry(3,1.0,0.8),M('#d9d3c6',{rough:0.5})); counter.position.set(4,0.5,-1.5); g.add(counter); nav.blockRect(4,-1.5,3,0.8,0,0.15); const fridge=new THREE.Mesh(new THREE.BoxGeometry(0.8,2.2,4),new THREE.MeshStandardMaterial({color:0xbcd6df,roughness:0.2,metalness:0.1})); fridge.position.set(5.6,1.1,2); g.add(fridge); nav.blockRect(5.6,2,0.8,4,0,0.1); const glow=new THREE.Mesh(new THREE.PlaneGeometry(3.8,1.8),new THREE.MeshBasicMaterial({color:0xe6f5ff})); glow.position.set(5.19,1.2,2); glow.rotation.y=-Math.PI/2; g.add(glow);
     for(let i=0;i<4;i++){ PROP(g,'prop.riceBall',-6+i*0.35,2.42,-4.05,0.2); PROP(g,'prop.sandwich',-4.2+i*0.4,2.42,-4.05); } for(let i=0;i<6;i++){ PROP(g,'prop.sodaCan',5.45,1.6+(i%3)*0.3,0.6+Math.floor(i/3)*0.5); } PROP(g,'prop.riceBall',3.4,1.02,-1.5); PROP(g,'prop.bag',4.9,1.02,-1.4,0.6);

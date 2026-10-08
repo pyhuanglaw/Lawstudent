@@ -5,7 +5,7 @@
 import asyncio, json, sys, math
 from playwright.async_api import async_playwright
 URL=(sys.argv[1] if len(sys.argv)>1 else 'http://127.0.0.1:8765/build/index.html')+'?turbo'
-SPAWNS=[('霖澤館前（教室出口）','campus',{'x':34,'z':-99,'yaw':0}),('霖澤館門口','campus',{'x':34,'z':-101,'yaw':0}),('校園預設出生點','campus',{'x':34,'z':-98,'yaw':0}),('宿舍門口','campus',{'x':20,'z':54,'yaw':3.1416}),('公館麵店門口','gongguan',{'x':-63,'z':48,'yaw':3.1416}),('公館便利商店門口','gongguan',{'x':-19,'z':48,'yaw':3.1416}),('校門外','gongguan',{'x':-2.5,'z':-29,'yaw':0}),('溫州街','wenzhou',{'x':38,'z':-7,'yaw':3.1416})]
+SPAWNS=[('霖澤館前（教室出口）','campus',{'x':34,'z':-99,'yaw':0}),('霖澤館門口','campus',{'x':34,'z':-101,'yaw':0}),('校園預設出生點','campus',{'x':34,'z':-98,'yaw':0}),('宿舍門口','campus',{'x':20,'z':54,'yaw':3.1416}),('公館麵店門口','gongguan',{'x':-63,'z':48,'yaw':3.1416}),('公館便利商店門口','gongguan',{'x':-19,'z':48,'yaw':3.1416}),('校門外','gongguan',{'x':-2.5,'z':-29,'yaw':0}),('溫州街','wenzhou',{'x':40,'z':-1,'yaw':-1.5708})]
 async def joystick(pg,cdp,dx,dy,ms):
     jx,jy=await pg.evaluate("(()=>{ const r=document.getElementById('joy').getBoundingClientRect(); return [r.left+r.width/2, r.top+r.height/2]; })()")
     await cdp.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{'x':jx,'y':jy}]})
