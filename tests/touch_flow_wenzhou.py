@@ -1,7 +1,7 @@
 """手機觸控整合測試：溫州街 → 進兩點半 Café → 和沈以安說話 → 坐下 → 離開 → 存檔 → 重新整理 → 讀檔 → 繼續走。
 玩家的每一個操作都用 CDP 觸控事件（touchStart/touchEnd 點擊、在 #joy 上拖曳），不用滑鼠、不用鍵盤、不直接呼叫遊戲函式。
 （測試前置：用 localStorage 放一個「週六 14:50、在溫州街東口」的自動存檔，再從標題畫面點「繼續」。）
-iPhone 直向 390×844、is_mobile、has_touch。截圖存到 screenshots/flow_*.png。
+iPhone 直向 390×844、is_mobile、has_touch。截圖存到 docs/art-rebuild/screenshots/flow_*.png。
 用法：python3 tests/touch_flow_wenzhou.py [URL]   （預設 http://127.0.0.1:8765/index.html）"""
 import asyncio, json, sys, math, time
 from playwright.async_api import async_playwright
@@ -101,13 +101,13 @@ async def main():
         for i in range(240):
             if await pg.evaluate("document.getElementById('loading').classList.contains('hide')"): break
             await pg.wait_for_timeout(500)
-        await pg.screenshot(path='screenshots/flow_00_title.png')
+        await pg.screenshot(path='docs/art-rebuild/screenshots/flow_00_title.png')
         await t.tap_el('#rotate')  # 直向提示：點一下繼續直向遊玩
         await pg.wait_for_timeout(400)
         ok = await t.tap_el('#btnContinue'); check('標題畫面：觸控點「繼續」', ok)
         await pg.wait_for_timeout(6000)
         st = await state(pg); check('讀到溫州街', st['zone'] == 'wenzhou', st)
-        await pg.screenshot(path='screenshots/flow_01_wenzhou.png')
+        await pg.screenshot(path='docs/art-rebuild/screenshots/flow_01_wenzhou.png')
         # 1. 自由走在溫州街（搖桿）
         p0 = await state(pg); await t.joy(0, -55, 1600); p1 = await state(pg)
         check('溫州街：搖桿往前走', math.hypot(p1['x'] - p0['x'], p1['z'] - p0['z']) > 0.5, (p0['x'], p1['x']))
@@ -117,12 +117,12 @@ async def main():
         # 3. 走到兩點半 Café 門口
         st = await walk_to(pg, t, -33.6, -1.0, 'cafe door', tol=1.6)
         await pg.wait_for_timeout(800); st = await state(pg)
-        await pg.screenshot(path='screenshots/flow_02_cafe_front.png')
+        await pg.screenshot(path='docs/art-rebuild/screenshots/flow_02_cafe_front.png')
         check('走到 Café 門口出現「進入 兩點半 Café」', '兩點半' in st['interact'], st)
         await t.tap_el('#interact'); await pg.wait_for_timeout(5000)
         await advance_dialogue(pg, t)
         st = await state(pg); check('進入 Café', st['zone'] == 'cafe', st)
-        await pg.screenshot(path='screenshots/flow_03_cafe_inside.png')
+        await pg.screenshot(path='docs/art-rebuild/screenshots/flow_03_cafe_inside.png')
         # 4. 找沈以安（週六 14–17 在 Café 讀書）
         an = await pg.evaluate("(()=>{ const n=GAME.E.npcs.find(n=>n.charId==='heroine_01'); return n?{x:n.obj.position.x,z:n.obj.position.z,driver:n.obj.userData.driver,label:n.talkLabel}:null; })()")
         check('Café 裡有沈以安（正式模型）', bool(an) and an['driver'] == 'vrm', an)
@@ -131,7 +131,7 @@ async def main():
             await pg.wait_for_timeout(600); st = await state(pg)
             check('靠近沈以安出現對話按鈕', '說話' in st['interact'] or '小安' in st['interact'] or '沈以安' in st['interact'], st['interact'])
             await t.tap_el('#interact'); await pg.wait_for_timeout(2500)
-            seen = await advance_dialogue(pg, t, shots='screenshots/flow_04_an')
+            seen = await advance_dialogue(pg, t, shots='docs/art-rebuild/screenshots/flow_04_an')
             check('和沈以安的對話有內容並結束', len(seen) > 0, len(seen))
             st = await state(pg); check('對話結束後可以操作', not st['busy'], st)
         # 5. 坐下（窗邊雙人桌）
@@ -139,7 +139,7 @@ async def main():
         await pg.wait_for_timeout(600); st = await state(pg)
         check('靠近座位出現「坐」的按鈕', '坐' in st['interact'], st['interact'])
         await t.tap_el('#interact'); await pg.wait_for_timeout(3000)
-        st = await state(pg); await pg.screenshot(path='screenshots/flow_05_sit.png')
+        st = await state(pg); await pg.screenshot(path='docs/art-rebuild/screenshots/flow_05_sit.png')
         check('坐下（姿勢 sit）', st['pose'] in ('sit', 'read'), st['pose'])
         await advance_dialogue(pg, t, choose=0)
         await pg.wait_for_timeout(1500); st = await state(pg)
@@ -151,7 +151,7 @@ async def main():
         await t.tap_el('#interact'); await pg.wait_for_timeout(5000)
         await advance_dialogue(pg, t)
         st = await state(pg); check('回到溫州街', st['zone'] == 'wenzhou' and st['x'] < -28, st)
-        await pg.screenshot(path='screenshots/flow_06_back_street.png')
+        await pg.screenshot(path='docs/art-rebuild/screenshots/flow_06_back_street.png')
         p0 = await state(pg); await t.joy(0, -55, 1500); p1 = await state(pg)
         check('出來後可以繼續走', math.hypot(p1['x'] - p0['x'], p1['z'] - p0['z']) > 0.5)
         # 7. 存檔（選單 → 存檔 → 欄位 1）
@@ -161,7 +161,7 @@ async def main():
         ok = await t.tap_el('#saveSlots .btn', si); await pg.wait_for_timeout(800)
         saved = await pg.evaluate("JSON.parse(localStorage.getItem('fatiao3d_slot_1')||'null')")
         check('觸控存到欄位 1', bool(saved) and saved['zone'] == 'wenzhou', saved and (saved['zone'], saved['pos']))
-        await pg.screenshot(path='screenshots/flow_07_save_menu.png')
+        await pg.screenshot(path='docs/art-rebuild/screenshots/flow_07_save_menu.png')
         await t.tap_el('#btnClose'); await pg.wait_for_timeout(500)
         # 8. 重新整理 → 讀取欄位 1
         await pg.reload()
@@ -177,7 +177,7 @@ async def main():
         check('重新整理後讀回欄位 1（溫州街、位置相同）', st['zone'] == 'wenzhou' and saved and abs(st['x'] - saved['pos']['x']) < 0.6 and abs(st['z'] - saved['pos']['z']) < 0.6, (st['x'], st['z'], saved and saved['pos']))
         p0 = await state(pg); await t.joy(0, -55, 1500); p1 = await state(pg)
         check('讀檔後可以走', math.hypot(p1['x'] - p0['x'], p1['z'] - p0['z']) > 0.5)
-        await pg.screenshot(path='screenshots/flow_08_after_load.png')
+        await pg.screenshot(path='docs/art-rebuild/screenshots/flow_08_after_load.png')
         bad = [e for e in errs if 'PAGEERROR' in e]
         check('沒有 JS 例外', not bad, bad[:3])
         await b.close()
