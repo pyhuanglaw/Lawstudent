@@ -7,7 +7,7 @@ mkdir -p vroid_src
 tmp=$(mktemp -d)
 git clone --depth 1 --filter=blob:none --no-checkout https://github.com/madjin/vrm-samples "$tmp/vrm-samples"
 cd "$tmp/vrm-samples"
-for f in HairSample_Male HairSample_Female Sakurada_Fumiriya Sendagaya_Shibu Sendagaya_Shino Victoria_Rubin Vivi Vita; do
+for f in HairSample_Male HairSample_Female Sakurada_Fumiriya Sendagaya_Shibu Sendagaya_Shino Victoria_Rubin Vivi Vita Darkness_Shibu; do
   git checkout HEAD -- "vroid/beta/$f.vrm"
   cp "vroid/beta/$f.vrm" "$OLDPWD/vroid_src/"
 done

@@ -185,7 +185,7 @@ const Z3 = (function(){
     // 西端：兩點半 Café（2 層木構＋大玻璃，正對主巷）
     const cafeB=TK.apartment({w:14,d:13,floors:2,fh:3.3,groundH:3.6,wall:'plaster',color:'#efe6d6',tank:false,grille:'#3b2a1e',ground:{type:'shop',shop:{type:'cafe',name:'兩點半 Café',sub:'營業 11:00–02:30',signBg:'#3b2a1e',signColor:'#f4ead8',serif:true,awning:'#3b2a1e',frame:'#3b2a1e'}}}); cafeB.position.set(-37.2,0,-1); cafeB.rotation.y=Math.PI/2; g.add(cafeB); buildings.push(cafeB); nav.blockRect(-43.7,-1,13,14,0,0); addCollider(-43.7,-1,13,14,9);
     for(const [z,ry,c] of [[11,Math.PI/2,'#d4c6b0'],[-13,Math.PI/2,'#cbbfae']]){ const b=TK.apartment({w:10,d:12,floors:4,wall:'tile',color:c,detail:false,ground:{type:'door'}}); b.position.set(-37.2,0,z); b.rotation.y=ry; g.add(b); buildings.push(b); addCollider(-43.2,z,12,10,14); }
-    E.interactables.push({x:-35.0,z:-1,radius:2.3,label:'進入 兩點半 Café（營業到凌晨 2:30）',exit:{to:'cafe',spawn:{x:0,z:5,yaw:Math.PI}}});
+    E.interactables.push({x:-35.0,z:-1,radius:2.3,label:'進入兩點半 Café',exit:{to:'cafe',spawn:{x:0,z:5,yaw:Math.PI}}});
     { const ab=TK.aBoard(['今日手沖','衣索比亞','耶加雪菲','—','讀書位 有']); ab.position.set(-35.6,0,2.4); ab.rotation.y=Math.PI/2; g.add(ab); nav.blockCircle(-35.6,2.4,0.35); }
     { const bk=W3.bike('#2f5d50'); bk.position.set(-35.9,0,-5.2); bk.rotation.y=0.15; g.add(bk); nav.blockRect(-35.9,-5.2,0.6,1.8,0.15,0.1); }
     { const pt=TK.pots(5,1); pt.position.set(-36.6,0,3.4); pt.rotation.y=Math.PI/2; g.add(pt); nav.blockRect(-36.4,4.2,0.6,1.8,0,0); }

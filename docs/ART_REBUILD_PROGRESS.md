@@ -9,16 +9,26 @@
 
 ## CURRENTLY WORKING ON — 現在正在修改什麼
 
-- **最近更新**：2026-10-09 06:20（台灣時間）
-- **最新程式 commit**：`7f38a46`（溫州街＋觸控測試）。本文件與截圖在其後的一個 commit。
-- **正在處理**：「標題畫面 →『讀取／匯入存檔』→ 點欄位的『讀取』」在手機與電腦上都會誤觸到被蓋住的「開始新的一天」。
-  - 原因：`#menu` 和 `#titleScreen` 都是 `.panel`（z-index 8），標題畫面在 DOM 後面，所以蓋在選單上面；選單看得到（標題背景半透明）但點不到。
-  - 相關檔案：`index.html`（CSS z-index）。
-  - 已完成到哪裡：已用觸控測試重現（`tests/touch_flow_wenzhou.py` 最後兩項 FAIL）並找到原因；修正（`#menu{z-index:9}`、`#toast{z-index:10}`）**尚未套用**（上一次嘗試被中斷，這次同步後立刻做）。
-  - 還有哪些錯誤：見下方「技術問題紀錄」中狀態不是 FIXED 的項目。
-  - 下一步：套用 z-index 修正 → 重跑觸控整合測試 → 重拍沈以安（已改成單一馬尾）的角色展示截圖 → 跑 `tests/p0_movement.py`、`tests/movement_regression.py` → `python3 build.py` → push。
+- **最近更新**：2026-10-09 06:50（台灣時間；前一版寫的「07:05」時間算錯，已更正）
+- **最新已推送 commit**：見本次 push（上一個是 `2378bf1`）。PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
+- **更正**：前一版日誌寫「`#menu{z-index:9}` 尚未套用」是錯的，它在 `7f38a46` 就已經在 `index.html`。
 
----
+### 階段一（存讀檔與回歸測試）——本次結果
+
+| 測試 | 結果 | 說明 |
+|---|---|---|
+| `tests/touch_flow_wenzhou.py`（只用觸控） | **已測試通過**（21 項全過） | 含：標題「繼續」、溫州街搖桿、互動按鈕不蓋搖桿、進 Café、和沈以安說話、坐下起身、離開、選單存到欄位 1、重新整理、標題「讀取」欄位 1、讀檔後可以走、沒有 JS 例外 |
+| `tests/p0_movement.py` | **已測試通過**（ALL PASS） | 含溫州街出生點 |
+| `tests/movement_regression.py` | 完整跑一次 41/42，B3 失敗 → **已找到原因並修正，B 組重跑 4/4 通過** | B3 失敗原因：測試挑到的第一個「坐下讀書」座位已經有 NPC 坐著（v9 起有人坐的位子不能再坐，按鈕變成和那個人說話），玩家根本沒坐下；測試把玩家放到 `nearestFree` 回傳、但半徑 0.3 其實站不下的點。修法只改測試的「挑座位、放玩家」：挑沒人坐的座位、放好後 `unstick`；**判定標準沒改**（起身後可站、不 busy、能走 ≥2 m）。遊戲本身的起身邏輯本來就用 `unstick` 找可站的位置 |
+| `python3 build.py` | **可以正常建置**（build/index.html 3004 KB） | 建置輸出（含 13 個 VRoid 模型的 base64，約 119 MB）**這次不 commit**，等模型定案的里程碑再提交，避免 repo 每次改模型都多 90 MB。GitHub Pages 用根目錄 `index.html`，不受影響 |
+
+已修改並測試通過（本次 commit）：互動按鈕長標籤蓋住搖桿（`index.html` 的 `#interact` 最大寬度＋換行、Café 標籤縮短）。
+
+### 正在做（依使用者 2026-10-09 指示的順序）
+
+1. **參考圖整合場景**：在實際遊戲裡把祐廷和沈以安放在溫州街「兩點半 Café」門口（黃昏 17:30），用接近參考圖的鏡頭與一般遊戲鏡頭各拍一張，和參考圖（`docs/art-rebuild/reference/`）並排，逐項列差距，依優先順序修正。
+2. 六位核心角色（已重建模型，**尚未驗收、尚未 commit**：祐廷、沈以安、林芷若、陳語彤、高子晴、溫書瑀）。模型檢視發現的問題：林芷若與溫書瑀的上衣仍像制服背心、陳語彤腰側有破洞、高子晴手腕殘留手套、沈以安上衣是泡泡袖襯衫不是針織衫——要先修。
+3. 溫州街四處精修 → 三時段光影 → `docs/art-rebuild/VISUAL_REVIEW.md` 嵌圖驗收。
 
 ## 進度總表
 
@@ -29,7 +39,7 @@
 | VRM 系統 | IN PROGRESS | — | parse 一次＋骨架 clone 共用 GPU 資源；VRM 0.x 朝向與姿勢軸向；身高計算；換色（材質顏色相乘）；路人不投即時陰影改圓影；NPC frustum culling；載入失敗在 `?dev` 顯示 | 動畫仍是 Mixamo（授權疑慮，見 REVIEW_NOTES）；clone 沒有彈簧骨與表情（路人頭髮不會晃）；手機實機效能未測 | `src/assets3d.js`、`src/character3d.js`、`src/engine3d.js` |
 | 溫州街 | PARTIAL | — | 10m 巷道、20+ 棟台北公寓（磁磚、鐵窗、冷氣、陽台、雨遮、水塔、加蓋）、8 間店面（含兩點半 Café）、日式宿舍、小公園、騎樓、死巷、電線桿＋電線＋路燈、反光鏡、機車、盆栽、行道樹（葉片卡）、白天／黃昏／夜晚光線；NavGrid 與鏡頭碰撞同步 | 日式宿舍從街上看不太到（圍牆擋住）；騎腳踏車的 NPC 很粗糙（W3.bike）；遠景建築單調；雨天地面反光未做；只有 Café 能進，其他店是「看櫥窗」 | `src/townkit3d.js`、`src/zones3d.js`（`buildWenzhou`） |
 | NPC 動畫 | PARTIAL | — | VRM 0.x 坐／讀書／揮手／說話軸向修正；教室同學坐下面向黑板 | 騎腳踏車沒有踩踏動畫（VRM 沒有 P3 的 parts）；路人 clone 沒有表情 | `src/character3d.js`、`src/story3d.js` |
-| 互動與存檔 | IN PROGRESS | 標題畫面讀取選單被蓋住（見上方） | 標題畫面不再自動存檔覆蓋進度；Café 裡有人坐的位子不擋說話；觸控存檔到欄位成功 | 套用 z-index 修正並重跑完整觸控測試 | `src/game3d.js`、`src/engine3d.js`、`index.html`、`tests/touch_flow_wenzhou.py` |
+| 互動與存檔 | IN PROGRESS | 互動按鈕蓋住搖桿（見上方） | 標題畫面不再自動存檔覆蓋進度；Café 裡有人坐的位子不擋說話；觸控存檔到欄位、標題讀取欄位（`#menu` z-index，7f38a46）皆 PASS | 重跑完整觸控測試確認「讀檔後可以走」 | `src/game3d.js`、`src/engine3d.js`、`index.html`、`tests/touch_flow_wenzhou.py` |
 
 ---
 
@@ -45,12 +55,15 @@
 | 6 | 衣物移植後手臂消失 | VRoid 同一個 mesh 的 primitive 共用整個頂點緩衝，移植時把整個身體的頂點都帶過來，遮蔽測試把手臂附近的皮膚全刪了 | FIXED | `tools/vroid_build.py`（`transplant` 只取用到的頂點；`hide_covered` 加切線距離限制） | 模型檢視截圖：手臂正常 | — |
 | 7 | 女性 NPC（npc_f2）臉部深色條紋 | 調查中：低解析的檢視截圖裡看起來像瀏海染深色後蓋住眼睛；近距離檢視時臉部正常 | NEEDS RECHECK | `tools/vroid_build.py`（`build_npc_f2`） | 近距離模型檢視：正常；遊戲中遠距離尚未專門檢查 | 需要在遊戲裡近距離截圖確認 |
 | 8 | Café 座位互動擋住沈以安 | 沈以安坐的位置正好是桌子「坐在這一桌」互動點，互動按鈕只取最近的一個 | FIXED | `src/engine3d.js`（`nearestInteractable`：有人坐的座位不顯示、人優先 0.5m） | 觸控測試 PASS：「靠近沈以安出現對話按鈕」「和沈以安的對話有內容並結束」 | — |
-| 9 | 存檔欄位點擊失敗 | (a) 測試腳本點錯按鈕（點到自動存檔那列的「讀取」）→ 已修測試；(b) **真正的 bug**：標題畫面開啟的存檔選單被標題畫面蓋住 | (a) FIXED／(b) IN PROGRESS | `tests/touch_flow_wenzhou.py`、`index.html` | 觸控測試：存到欄位 1 PASS；重新整理後讀取 FAIL | 套用 z-index 修正後重測 |
+| 9 | 存檔欄位點擊失敗 | (a) 測試腳本點錯按鈕（點到自動存檔那列的「讀取」）→ 已修測試；(b) **真正的 bug**：標題畫面開啟的存檔選單被標題畫面蓋住（兩個 `.panel` 同為 z-index 8，標題在 DOM 後面） | FIXED（`#menu{z-index:9}`、`#toast{z-index:10}`，commit 7f38a46）；**已測試通過** | `tests/touch_flow_wenzhou.py`、`index.html` | 觸控測試：存到欄位 1、重新整理後讀回欄位 1、讀檔後可以走，全部 PASS | — |
 | 10 | 溫州街 `townkit3d.js` 場景製作 | 原本的溫州街是 38m 寬的空柏油地＋一棟方盒 | PARTIAL | `src/townkit3d.js`、`src/zones3d.js` | 白天／黃昏／夜晚截圖；觸控測試走完整條街 | 見總表「溫州街」的下一步 |
 | 11 | （新發現）自動存檔被空白第一天覆蓋 | 45 秒自動存檔計時在標題畫面也會跑，載入慢或停在標題 45 秒就會把真正的進度蓋掉 | FIXED | `src/game3d.js`（`autosave` 在 `titleIdle` 時不存） | 觸控測試：從標題點「繼續」讀到正確的溫州街存檔 PASS | — |
 | 12 | （新發現）直向時小地圖蓋住 ☰ 選單按鈕 | `#minimap` 的基本 CSS 寫在 portrait media query 後面，把直向位置蓋掉 | FIXED | `index.html` | 截圖：直向時 ☰ 可見 | 橫向未重新截圖 |
 | 13 | （新發現）沈以安的頭髮是「貓耳＋雙馬尾」 | HairSample_Female 是 VRoid 的髮型示範樣本 | FIXED（模型）／截圖待重拍 | `tools/vroid_build.py`（`ponytail_from_twintails`） | 模型檢視：正面／側面／背面為單一高馬尾 | 馬尾是剛體綁在頭骨上，不會隨走路擺動 |
 | 14 | （新發現）胸部穿出上衣 | 原模型上衣領口開很低、身體比衣服大 | FIXED | `tools/vroid_build.py`（`paint_skin`、對模型自己的上衣做 `hide_covered`） | 模型檢視：上衣正常 | — |
+| 15 | （新發現）互動按鈕蓋住搖桿 | `#interact` 沒有最大寬度，長標籤讓按鈕延伸到左下角搖桿上方（DOM 在後面，會吃掉觸控） | FIXED；**已測試通過** | `index.html`、`src/zones3d.js`、`tests/touch_flow_wenzhou.py` | 觸控測試「互動按鈕不會蓋住搖桿」PASS | 其他長標籤（例如「和法律系一年級的女生說話」）會換成兩行 |
+
+| 16 | movement_regression B3 失敗 | 測試挑到有 NPC 坐著的座位（v9 起不能坐），且測試放玩家的點半徑 0.3 站不下 | FIXED（只改測試的挑座位與放置方式，判定標準不變）；**B 組已測試通過 4/4** | `tests/movement_regression.py` | `python3 tests/movement_regression.py URL B` → 4/4 PASS | 完整 A–E 下一輪程式改動後再整套重跑 |
 
 ---
 
@@ -60,7 +73,7 @@
 - **人物風格**：VRoid 是日系動畫風（MToon 卡通著色），與使用者提供的 2D 立繪同一類風格，但臉型、眼睛仍偏動畫；已用 blendshape 把女性眼睛收細一點，無法再大幅修改臉型（需要 VRoid Studio）。
 - **合法素材的數量限制**：沙盒網路只能連 GitHub／npm／PyPI。找到的 CC0 VRoid 樣本只有 2 位男性、6 位女性（其中 Vivi 比例像小孩、Vita 是奇幻造型，未使用）。
 - **動畫**：沿用既有 Mixamo 動畫（three.js 範例），REVIEW_NOTES 已記載再散布疑慮，尚未替換。
-- **`build/` 單檔版尚未重建**（還是 v8）；GitHub Pages 用根目錄 `index.html`，不受影響。
+- **`build/` 單檔版**：`python3 build.py` 可以正常建置，但輸出這次不 commit（還是 v8 的檔案），等模型定案的里程碑再提交；GitHub Pages 用根目錄 `index.html`，不受影響。
 
 ## 截圖檔名規則（`docs/art-rebuild/screenshots/`）
 

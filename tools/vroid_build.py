@@ -498,7 +498,258 @@ def ponytail_from_twintails(v, back_offset=0.0, drop=0.0):
     newp = {'attributes': out, 'indices': v.add_acc(inv.astype(np.uint32), 5125, 'SCALAR', 34963), 'material': right[0][0]['material'], 'mode': 4}
     drop_ids = set(id(x[0]) for x in ears + left + right)
     mesh['primitives'] = [p for p in mesh['primitives'] if id(p) not in drop_ids] + [newp]
+    v._ponytail = newp
     return len(ears), len(left), len(right)
+
+
+# ======================== v9.1：依 Character Bible 與美術參考圖的進一步改作 ========================
+def uv_cull(v, mat_pat, rects):
+    """刪掉 UV 中心落在 rects（貼圖座標 u0,v0,u1,v1；v 向下）裡的三角形：用來拿掉連帽上衣的帽子／抽繩、背心等。"""
+    n = 0
+    for m in v.j['meshes']:
+        for p in m['primitives']:
+            if mat_pat not in v.j['materials'][p['material']]['name']:
+                continue
+            uv = v.acc(p['attributes']['TEXCOORD_0']).astype(np.float64)
+            tris = v.acc(p['indices']).astype(np.int64).reshape(-1, 3)
+            c = uv[tris].mean(axis=1)
+            kill = np.zeros(len(tris), dtype=bool)
+            for (u0, v0, u1, v1) in rects:
+                kill |= (c[:, 0] >= u0) & (c[:, 0] <= u1) & (c[:, 1] >= v0) & (c[:, 1] <= v1)
+            n += int(kill.sum())
+            p['indices'] = v.add_acc(tris[~kill].reshape(-1).astype(np.uint32), 5125, 'SCALAR', 34963)
+    return n
+
+
+def joint_world(v, name_suffix, mesh_prefix='Body'):
+    ni, node = v.mesh_node(mesh_prefix)
+    names, ibm = v.skin_mats(node['skin'])
+    for i, n in enumerate(names):
+        if n.endswith(name_suffix):
+            return np.linalg.inv(ibm[i])
+    raise KeyError(name_suffix)
+
+
+def flare(v, mat_pat, amount=0.075, start=0.32, inner=0.45):
+    """長褲變寬褲：膝蓋以下的頂點沿腿軸向外推（越往褲腳越寬，內側推一半，避免兩腳穿插）。"""
+    node, mesh, prims = body_primitives(v, mat_pat)
+    legs = {}
+    for side in ('L', 'R'):
+        hip = joint_world(v, f'J_Bip_{side}_UpperLeg')[:3, 3]; ank = joint_world(v, f'J_Bip_{side}_Foot')[:3, 3]
+        legs[side] = (hip, ank)
+    cx = (legs['L'][0][0] + legs['R'][0][0]) / 2
+    for p in prims:
+        A = p['attributes']; pos = v.acc(A['POSITION']).astype(np.float64)
+        out = pos.copy()
+        for i, q in enumerate(pos):
+            side = 'L' if (q[0] - cx) * (legs['L'][0][0] - cx) > 0 else 'R'
+            hip, ank = legs[side]; d = ank - hip; L2 = (d * d).sum()
+            t = np.clip(((q - hip) * d).sum() / L2, 0, 1)
+            w = np.clip((t - start) / (1 - start), 0, 1) ** 1.4
+            if w <= 0: continue
+            axis = hip + t * d; r = q - axis; r[1] = 0; rl = np.linalg.norm(r)
+            if rl < 1e-5: continue
+            r /= rl
+            inward = (r[0] * (cx - axis[0])) > 0
+            out[i] = q + r * amount * w * (inner if inward else 1.0)
+        A['POSITION'] = v.add_acc(out.astype(np.float32), 5126, 'VEC3', 34962, True)
+
+
+def inpaint_face_markings(v, sat_min=0.28):
+    """把臉部貼圖上的彩色花紋（Vita 臉頰的科幻紋路）用周圍膚色填掉。"""
+    for i, m in enumerate(v.j['materials']):
+        if 'Face_00_SKIN' not in m['name']:
+            continue
+        ii = v.image_of_tex(v.vrm_mat(i)['textureProperties']['_MainTex'])
+        img = v.get_image(ii); a = np.asarray(img).astype(np.float64) / 255
+        rgb = a[..., :3]; mx = rgb.max(2); mn = rgb.min(2); sat = (mx - mn) / np.maximum(1e-4, mx)
+        mask = (sat > sat_min) & ((rgb[..., 2] > rgb[..., 0] + 0.05) | (rgb[..., 1] > rgb[..., 0] + 0.05))
+        from PIL import ImageFilter
+        m8 = Image.fromarray((mask * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(7))
+        mask = np.asarray(m8) > 0
+        valid = (~mask).astype(np.float64)
+        cur = rgb.copy()
+        for it in range(60):
+            acc = np.zeros_like(cur); cnt = np.zeros(cur.shape[:2])
+            for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1), (2, 0), (-2, 0), (0, 2), (0, -2)):
+                acc += np.roll(np.roll(cur * valid[..., None], dy, 0), dx, 1); cnt += np.roll(np.roll(valid, dy, 0), dx, 1)
+            fill = acc / np.maximum(1e-6, cnt[..., None])
+            newly = mask & (cnt > 0) & (valid == 0)
+            cur[newly] = fill[newly]; valid[newly] = 1
+            if not (mask & (valid == 0)).any(): break
+        out = np.concatenate([cur, a[..., 3:]], 2)
+        v.set_image(ii, Image.fromarray((np.clip(out, 0, 1) * 255).astype(np.uint8), 'RGBA'))
+        return int(mask.sum())
+
+
+def swap_image(v, donor, pat):
+    """把 donor 模型某張貼圖（名稱含 pat）換到 v 的同名貼圖（例如虹膜：Vita 的貓眼換成一般圓瞳）。"""
+    di = [i for i, im in enumerate(donor.j['images']) if pat in im.get('name', '')][0]
+    vi = [i for i, im in enumerate(v.j['images']) if pat in im.get('name', '')][0]
+    img = donor.get_image(di).resize(v.get_image(vi).size, Image.LANCZOS)
+    v.set_image(vi, img)
+
+
+def hair_prims_info(v):
+    m = [x for x in v.j['meshes'] if x['name'].startswith('Hair')][0]
+    P = v.acc(m['primitives'][0]['attributes']['POSITION'])
+    info = []
+    for p in m['primitives']:
+        idx = v.acc(p['indices']).astype(np.int64); q = P[np.unique(idx)]
+        info.append((p, q.min(0), q.max(0), len(idx) // 3))
+    return m, info
+
+
+def hair_drop(v, pred):
+    m, info = hair_prims_info(v)
+    keep = [x[0] for x in info if not pred(x)]
+    n = len(m['primitives']) - len(keep); m['primitives'] = keep
+    return n
+
+
+def no_hair_shine(v):
+    """頭髮不要「塑膠亮片」：拿掉頭髮的 emission（VRoid 的高光貼圖）與 matcap 亮邊，只留柔和的明暗。"""
+    vm = v.j['extensions']['VRM']['materialProperties']
+    black = [i for i, t in enumerate(v.j['textures']) if v.j['images'][t['source']].get('name', '').startswith('Shader_NoneBlack')]
+    for mp in vm:
+        if 'HAIR' not in mp['name']:
+            continue
+        tp = mp['textureProperties']
+        tp.pop('_EmissionMap', None)
+        if black: tp['_SphereAdd'] = black[0]
+        mp['vectorProperties']['_EmissionColor'] = [0, 0, 0, 1]
+        mp['floatProperties']['_RimLightingMix'] = 0.0
+        mp['vectorProperties']['_RimColor'] = [0, 0, 0, 1]
+
+
+def soften_matcap(v, k=0.45):
+    """所有材質的 matcap（_SphereAdd）亮邊減弱：皮膚與衣服不要像塑膠反光。"""
+    done = set()
+    for mp in v.j['extensions']['VRM']['materialProperties']:
+        t = mp['textureProperties'].get('_SphereAdd')
+        if t is None: continue
+        ii = v.image_of_tex(t)
+        if ii in done or v.j['images'][ii].get('name', '').startswith('Shader_None'): continue
+        done.add(ii); img = v.get_image(ii); a = np.asarray(img).astype(np.float64)
+        a[..., :3] *= k
+        v.set_image(ii, Image.fromarray(a.astype(np.uint8), 'RGBA'))
+
+
+def paint_tshirt(v, color, sleeve=0.11, neck_drop=0.05):
+    """在身體皮膚貼圖上畫一件合身 T 恤（軀幹＋上臂靠肩的部分）：VRoid 本來就用這種方式做貼身衣物。"""
+    from PIL import ImageDraw
+    node, mesh, skins = body_primitives(v, 'SKIN')
+    names, _ = v.skin_mats(node['skin'])
+    neck_y = joint_y(v, 'Neck'); hips_y = joint_y(v, 'Hips')
+    shL = joint_world(v, 'J_Bip_L_UpperArm')[:3, 3]; shR = joint_world(v, 'J_Bip_R_UpperArm')[:3, 3]
+    ii = v.image_of_tex(v.vrm_mat(skins[0]['material'])['textureProperties']['_MainTex'])
+    img = v.get_image(ii); W, H = img.size; d = ImageDraw.Draw(img)
+    base = hexrgb(color)
+    n = 0
+    for p in skins:
+        pos, J, Wt, idx = prim_arrays(v, p)
+        uv = v.acc(p['attributes']['TEXCOORD_0'])
+        dom = np.array(names, dtype=object)[J[np.arange(len(J)), Wt.argmax(axis=1)]]
+        torso = np.array([any(s in x for s in ('Spine', 'Chest', 'Bust', 'Shoulder')) for x in dom])
+        arm = np.array(['UpperArm' in x for x in dom])
+        near_sh = np.minimum(np.linalg.norm(pos - shL, axis=1), np.linalg.norm(pos - shR, axis=1)) < sleeve
+        ok = ((torso & (pos[:, 1] < neck_y - neck_drop)) | (arm & near_sh)) & (pos[:, 1] > hips_y - 0.05)
+        for t in idx.reshape(-1, 3):
+            if ok[t].all():
+                sh = 0.92 + 0.08 * np.random.rand()
+                c = tuple(int(255 * min(1, x * sh)) for x in base) + (255,)
+                d.polygon([(uv[k][0] * W, uv[k][1] * H) for k in t], fill=c); n += 1
+    v.set_image(ii, img)
+    return n
+
+
+def repaint_region(v, mat_pat, rect, color, detail=0.6):
+    """把衣服貼圖某個區域重畫成指定顏色（保留一點原本的明暗紋理）：背心區塊 → 白襯衫。"""
+    for i, m in enumerate(v.j['materials']):
+        if mat_pat not in m['name']: continue
+        ii = v.image_of_tex(v.vrm_mat(i)['textureProperties']['_MainTex'])
+        img = v.get_image(ii); W, H = img.size
+        u0, v0, u1, v1 = rect; box = (int(u0 * W), int(v0 * H), int(u1 * W), int(v1 * H))
+        part = img.crop(box)
+        part = recolor(part, color, strength=1.0, keep_detail=detail)
+        img.paste(part, box[:2]); v.set_image(ii, img)
+        return
+
+
+def rigid_hair_gather(v, y_start_off=0.0, tie_drop=0.07, cut_front_below=0.13, width=0.28):
+    """長直髮 → 低馬尾：後腦以下的頭髮往後中央收攏（綁在後頸），前面兩側長髮剪到下巴；改過的頭髮改綁頭骨（剛體）。"""
+    ni = [i for i, n in enumerate(v.j['nodes']) if 'mesh' in n and v.j['meshes'][n['mesh']]['name'].startswith('Hair')][0]
+    mesh = v.j['meshes'][v.j['nodes'][ni]['mesh']]
+    names, _ = v.skin_mats(v.j['nodes'][ni]['skin'])
+    head = names.index('J_Bip_C_Head')
+    A = mesh['primitives'][0]['attributes']
+    P = v.acc(A['POSITION']).astype(np.float64); JJ = v.acc(A['JOINTS_0']).astype(np.int64); WW = v.acc(A['WEIGHTS_0']).astype(np.float64)
+    head_y = joint_world(v, 'J_Bip_C_Head', 'Hair')[1, 3]; neck_y = joint_y(v, 'Neck')
+    y0 = head_y + y_start_off; yt = neck_y - tie_drop
+    zb = np.percentile(P[:, 2], 97) - 0.02
+    out = P.copy(); changed = np.zeros(len(P), dtype=bool)
+    back = P[:, 2] > -0.03
+    for i, q in enumerate(P):
+        if not back[i] or q[1] >= y0: continue
+        s = np.clip((y0 - q[1]) / max(1e-3, y0 - yt), 0, 1)
+        f = 1 - (1 - width) * (s ** 0.8)
+        out[i, 0] = q[0] * f
+        out[i, 2] = zb + (q[2] - zb) * f
+        changed[i] = True
+    JJ[changed] = [head, 0, 0, 0]; WW[changed] = [1, 0, 0, 0]
+    newA = {'POSITION': v.add_acc(out.astype(np.float32), 5126, 'VEC3', 34962, True), 'JOINTS_0': v.add_acc(JJ.astype(np.uint16), 5123, 'VEC4', 34962), 'WEIGHTS_0': v.add_acc(WW.astype(np.float32), 5126, 'VEC4', 34962)}
+    for p in mesh['primitives']:
+        p['attributes'] = dict(p['attributes'], **newA)
+    # 前面（臉旁）垂到胸前的長髮剪到下巴
+    ycut = head_y - cut_front_below
+    for p in mesh['primitives']:
+        tris = v.acc(p['indices']).astype(np.int64).reshape(-1, 3)
+        kill = (out[tris][:, :, 1] < ycut).all(1) & (P[tris][:, :, 2] < -0.03).all(1)
+        p['indices'] = v.add_acc(tris[~kill].reshape(-1).astype(np.uint32), 5125, 'SCALAR', 34963)
+    return int(changed.sum())
+
+
+def add_ponytail_chain(v, prim):
+    """在馬尾上加三節骨頭（頭 → 1 → 2 → 3），頂點依位置分配權重，並註冊成 VRM 彈簧骨：走路、轉身時馬尾自然擺動。"""
+    ni = [i for i, n in enumerate(v.j['nodes']) if 'mesh' in n and v.j['meshes'][n['mesh']]['name'].startswith('Hair')][0]
+    sk = v.j['skins'][v.j['nodes'][ni]['skin']]
+    names = [v.j['nodes'][j]['name'] for j in sk['joints']]
+    head_ix = names.index('J_Bip_C_Head'); head_node = sk['joints'][head_ix]
+    ibm = v.acc(sk['inverseBindMatrices']).reshape(-1, 4, 4).transpose(0, 2, 1)
+    Hw = np.linalg.inv(ibm[head_ix])
+    A = prim['attributes']; P = v.acc(A['POSITION']).astype(np.float64)
+    root = P[P[:, 1].argmax()]; tip = P[P[:, 1].argmin()]
+    d = tip - root; L = np.linalg.norm(d)
+    params = [0.04, 0.42, 0.78]
+    pts = [root + d * t for t in params]
+    new_nodes = []; parent = head_node; parent_w = Hw
+    for k, pt in enumerate(pts):
+        W = np.eye(4); W[:3, 3] = pt
+        local = np.linalg.inv(parent_w) @ W
+        node = {'name': f'J_Sec_Ponytail_{k+1}', 'translation': [float(x) for x in local[:3, 3]], 'rotation': [0, 0, 0, 1], 'scale': [1, 1, 1]}
+        v.j['nodes'].append(node); idx = len(v.j['nodes']) - 1
+        v.j['nodes'][parent].setdefault('children', []).append(idx)
+        new_nodes.append((idx, W)); parent = idx; parent_w = W
+    base = len(sk['joints'])
+    sk['joints'] = sk['joints'] + [x[0] for x in new_nodes]
+    ibm2 = np.concatenate([ibm, np.stack([np.linalg.inv(x[1]) for x in new_nodes])])
+    sk['inverseBindMatrices'] = v.add_acc(ibm2.transpose(0, 2, 1).reshape(-1, 16).astype(np.float32), 5126, 'MAT4')
+    t = np.clip(((P - root) @ d) / (L * L), 0, 1)
+    J = np.zeros((len(P), 4), dtype=np.uint16); Wt = np.zeros((len(P), 4), dtype=np.float32)
+    for i, tt in enumerate(t):
+        if tt < params[0]:
+            J[i] = [head_ix, base, 0, 0]; w = tt / params[0]; Wt[i] = [1 - w, w, 0, 0]
+        elif tt < params[1]:
+            w = (tt - params[0]) / (params[1] - params[0]); J[i] = [base, base + 1, 0, 0]; Wt[i] = [1 - w, w, 0, 0]
+        elif tt < params[2]:
+            w = (tt - params[1]) / (params[2] - params[1]); J[i] = [base + 1, base + 2, 0, 0]; Wt[i] = [1 - w, w, 0, 0]
+        else:
+            J[i] = [base + 2, 0, 0, 0]; Wt[i] = [1, 0, 0, 0]
+    A['JOINTS_0'] = v.add_acc(J, 5123, 'VEC4', 34962); A['WEIGHTS_0'] = v.add_acc(Wt, 5126, 'VEC4', 34962)
+    sec = v.j['extensions']['VRM']['secondaryAnimation']
+    sec['boneGroups'].append({'comment': 'ponytail', 'stiffiness': 0.7, 'gravityPower': 0.45, 'gravityDir': {'x': 0, 'y': -1, 'z': 0}, 'dragForce': 0.38, 'center': -1, 'hitRadius': 0.035, 'bones': [new_nodes[0][0]], 'colliderGroups': list(range(len(sec.get('colliderGroups', []))))})
+    return [x[0] for x in new_nodes]
+
 
 def cut_below(v, mat_pat, y_cut):
     """把某件衣服在 y_cut 以下的三角形刪掉（例如長版上衣改成到腰）。"""
@@ -621,34 +872,108 @@ def src(name):
     return VRM(os.path.join(SRC, name + '.vrm'))
 
 
+def drop_small_parts(v, mat_pat, max_tris=400, front_z=None):
+    """衣服裡面小的獨立零件（連帽上衣的抽繩、領結）用連通元件找出來刪掉。"""
+    n = 0
+    for m in v.j['meshes']:
+        for p in m['primitives']:
+            if mat_pat not in v.j['materials'][p['material']]['name']: continue
+            P = v.acc(p['attributes']['POSITION'])
+            tris = v.acc(p['indices']).astype(np.int64).reshape(-1, 3)
+            # 以「位置相同」合併頂點後做 union-find（VRoid 在 UV 接縫會重複頂點）
+            key = {tuple(np.round(q, 4)): i for i, q in enumerate(P)}
+            rep = np.array([key[tuple(np.round(q, 4))] for q in P])
+            par = np.arange(len(P))
+            def f(a):
+                while par[a] != a:
+                    par[a] = par[par[a]]; a = par[a]
+                return a
+            for a, b, c in rep[tris]:
+                ra, rb, rc = f(a), f(b), f(c); par[rb] = ra; par[rc] = ra
+            comp = np.array([f(rep[t[0]]) for t in tris])
+            ids, cnt = np.unique(comp, return_counts=True)
+            small = set(ids[cnt <= max_tris])
+            kill = np.array([c in small for c in comp])
+            if front_z is not None:
+                kill &= P[tris][:, :, 2].mean(1) < front_z
+            n += int(kill.sum())
+            p['indices'] = v.add_acc(tris[~kill].reshape(-1).astype(np.uint32), 5125, 'SCALAR', 34963)
+    return n
+
+
+
 def build_yuting():
-    """祐廷（玩家）：VRoid CC0「HairSample_Male」——黑短髮、連帽上衣、深色長褲、球鞋。上衣改燕麥灰。"""
+    """祐廷（玩家）：HairSample_Male。依參考圖：自然黑短髮（拿掉頭髮高光）、圓領燕麥灰上衣（連帽上衣拿掉帽子與抽繩）、深灰長褲、白球鞋；後背包是遊戲內配件。"""
     v = src('HairSample_Male')
-    recolor_mat(v, 'Tops', '#d9d4ca', strength=0.75)
-    recolor_mat(v, 'Bottoms', '#2c3039', strength=0.6)
-    recolor_mat(v, 'Shoes', '#eeeae2', strength=0.5)
+    print('  yuting: hood tris removed', uv_cull(v, 'Tops', [(0.295, 0.0, 0.705, 0.27), (0.32, 0.27, 0.68, 0.41)]), 'strings', drop_small_parts(v, 'Tops', 600, front_z=-0.05))
+    recolor_mat(v, 'Tops', '#c9c3b6', strength=0.85)
+    recolor_mat(v, 'Bottoms', '#3a3d44', strength=0.75)
+    recolor_mat(v, 'Shoes', '#f2f0ea', strength=0.7)
+    recolor_mat(v, 'HAIR', '#1c1a1c', strength=0.85, keep_detail=0.7)
+    no_hair_shine(v); soften_matcap(v)
     return finish(v, MALE_EYES, '#3a2a22', '祐廷（法條之外）', 'Based on VRoid CC0 sample "HairSample_Male" (pixiv); modified for 法條之外')
 
 
+def knit(v, mat_pat, period=6, depth=0.09):
+    """在衣服貼圖加上直條針織紋（換色前做），讓上衣看起來是針織。"""
+    done = set()
+    for i, m in enumerate(v.j['materials']):
+        if mat_pat not in m['name']: continue
+        ii = v.image_of_tex(v.vrm_mat(i)['textureProperties']['_MainTex'])
+        if ii in done: continue
+        done.add(ii); img = v.get_image(ii); a = np.asarray(img).astype(np.float64)
+        x = np.arange(img.size[0]); mod = 1 - depth * (0.5 + 0.5 * np.cos(2 * np.pi * x / period))
+        a[..., :3] *= mod[None, :, None]
+        v.set_image(ii, Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), 'RGBA'))
+
+
+def wide_pants(v, donor, name, color, amount=0.075):
+    mi, added = transplant(v, donor, 'Bottoms', name)
+    flare(v, name, amount=amount)
+    n = hide_covered(v, garment_of(v, name))
+    recolor_mat(v, name, color, strength=0.9)
+    return n
+
+
 def build_heroine_01():
-    """沈以安：VRoid CC0「HairSample_Female」（高馬尾）＋ HairSample_Male 的長褲（重新綁定）；
-    深棕長髮、米杏針織上衣（長版下擺剪到腰）、深藍寬褲、白球鞋（依 Character Bible／2D 立繪）。"""
-    v = src('HairSample_Female')
-    donor = src('HairSample_Male')
+    """沈以安（Character Bible：深棕長髮單一馬尾＋碎髮、針織上衣、寬褲、樂福鞋、帆布托特包、166cm）。
+    臉＋頭髮：HairSample_Female（拿掉貓耳、雙馬尾改成單一高馬尾、加三節彈簧骨讓馬尾擺動）；
+    上衣：自己的長袖上衣剪到腰＋針織紋；褲子：HairSample_Male 長褲重新綁定後加寬成寬褲；鞋：Sendagaya_Shino 的樂福鞋；托特包是遊戲內配件。"""
+    v = src('HairSample_Female'); donor = src('HairSample_Male'); shino = src('Sendagaya_Shino')
     print('  heroine_01: ears/left/right hair prims', ponytail_from_twintails(v))
+    print('  heroine_01: ponytail joints', add_ponytail_chain(v, v._ponytail))
     waist = joint_y(v, 'Hips') + 0.07
     cut_below(v, 'Tops', waist)
-    mi, added = transplant(v, donor, 'Bottoms', 'F00_901_Bottoms_Pants_CLOTH')
-    n = hide_covered(v, added)
-    recolor_mat(v, 'Bottoms_Pants', '#262d44', strength=0.9)
-    recolor_mat(v, 'Tops', '#d8c3a5', strength=0.85)
-    # 原模型是深 U 領：領口下方的軀幹皮膚塗成內搭（同色系、稍淺），變成一般圓領針織
-    print('  heroine_01: painted inner tris', paint_skin(v, '#e3d2b8', y_max=joint_y(v, 'Neck') - 0.035))
+    print('  heroine_01: culled under pants', wide_pants(v, donor, 'F00_901_Bottoms_Pants_CLOTH', '#28304a'))
+    remove_prims(v, ['F00_002_01_Shoes'])
+    mi, sh = transplant(v, shino, 'Shoes', 'F00_903_Shoes_Loafer_CLOTH'); hide_covered(v, sh)
+    recolor_mat(v, 'Shoes_Loafer', '#4a3428', strength=0.85)
+    knit(v, 'Tops')
+    recolor_mat(v, 'Tops', '#dccab0', strength=0.85)
+    print('  heroine_01: painted inner tris', paint_skin(v, '#e5d5bd', y_max=joint_y(v, 'Neck') - 0.035))
     print('  heroine_01: culled skin under top', hide_covered(v, garment_of(v, 'Tops'), max_d=0.09, eps=0.035, max_tan=0.035))
     recolor_mat(v, 'HAIR', '#3a2619', strength=0.9, keep_detail=1.0)
-    recolor_mat(v, 'Shoes', '#f1eee8', strength=0.8)
-    print('  heroine_01: culled skin tris', n)
-    return finish(v, FEMALE_EYES, '#5a3a26', '沈以安（法條之外）', 'Based on VRoid CC0 samples "HairSample_Female" + trousers from "HairSample_Male" (pixiv); modified for 法條之外')
+    no_hair_shine(v); soften_matcap(v)
+    return finish(v, FEMALE_EYES, '#5a3a26', '沈以安（法條之外）', 'Based on VRoid CC0 samples "HairSample_Female" + trousers from "HairSample_Male" + loafers from "Sendagaya Shino" (pixiv); modified for 法條之外')
+
+
+def build_heroine_02():
+    """林芷若（黑色及肩微捲髮、細框眼鏡、亞麻米色系、工作時圍裙、銀色小耳環、161cm）。
+    臉＋頭髮：Victoria_Rubin（拿掉側馬尾與髮飾、染黑）；上衣：Sendagaya_Shino 的短袖襯衫（背心區塊重畫成亞麻色、拿掉領結）；
+    褲子：棕色寬褲；鞋：樂福鞋；眼鏡、耳環、圍裙是遊戲內配件。"""
+    v = src('Victoria_Rubin'); shino = src('Sendagaya_Shino'); donor = src('HairSample_Male')
+    print('  heroine_02: hair prims dropped', hair_drop(v, lambda x: (x[1][0] < -0.145) or ('HAIR_03' in v.j['materials'][x[0]['material']]['name'])))
+    remove_prims(v, ['Tops', 'F00_002_01_Shoes'])
+    mi, tp = transplant(v, shino, 'Tops', 'F00_904_Tops_Linen_CLOTH')
+    repaint_region(v, 'Tops_Linen', (0.0, 0.38, 1.0, 1.0), '#e7dcc6', detail=0.35)
+    recolor_mat(v, 'Tops_Linen', '#e9dfcb', strength=0.85)
+    hide_covered(v, garment_of(v, 'Tops_Linen'), max_d=0.09, eps=0.035, max_tan=0.035)
+    print('  heroine_02: culled under pants', wide_pants(v, donor, 'F00_901_Bottoms_Pants_CLOTH', '#6a4c36', amount=0.07))
+    mi, sh = transplant(v, shino, 'Shoes', 'F00_903_Shoes_Loafer_CLOTH'); hide_covered(v, sh)
+    recolor_mat(v, 'Shoes_Loafer', '#3a2a22', strength=0.85)
+    recolor_mat(v, 'HAIR', '#161314', strength=0.92, keep_detail=0.9)
+    no_hair_shine(v); soften_matcap(v)
+    return finish(v, FEMALE_EYES, '#3e2c24', '林芷若（法條之外）', 'Based on VRoid CC0 samples "Victoria Rubin" + top/loafers from "Sendagaya Shino" + trousers from "HairSample_Male" (pixiv); modified for 法條之外')
 
 
 def build_zhe():
@@ -668,18 +993,64 @@ def build_zhe():
 
 
 def build_heroine_03():
-    """陳語彤：VRoid CC0「Sendagaya_Shibu」（齊肩黑短髮）＋ HairSample_Male 的長褲；
-    拿掉領結與百褶裙、上衣改深綠、褲子改牛仔藍、白球鞋。"""
-    v = src('Sendagaya_Shibu')
-    donor = src('HairSample_Male')
-    remove_prims(v, ['AccessoryNeck', 'Bottoms'])
+    """陳語彤（黑色齊肩直髮、髮尾內彎、深色 T 恤、牛仔褲、後背包、159cm）。
+    臉＋頭髮：Sendagaya_Shibu（齊肩鮑伯，本來就是髮尾內彎）；拿掉制服上衣、領結、百褶裙；
+    T 恤畫在身體貼圖上（VRoid 做貼身衣物的方式）；牛仔褲：HairSample_Male 長褲；白球鞋：HairSample_Female；後背包是遊戲內配件。"""
+    v = src('Sendagaya_Shibu'); donor = src('HairSample_Male'); hsf = src('HairSample_Female')
+    remove_prims(v, ['AccessoryNeck', 'Bottoms', 'Tops', 'F00_001_01_Shoes'])
+    print('  heroine_03: tshirt tris', paint_tshirt(v, '#2c2e33'))
     mi, added = transplant(v, donor, 'Bottoms', 'F00_901_Bottoms_Jeans_CLOTH')
-    n = hide_covered(v, added)
-    recolor_mat(v, 'Bottoms_Jeans', '#55708f', strength=0.9)
-    recolor_mat(v, 'Tops', '#2f4a3c', strength=0.9)
-    recolor_mat(v, 'HAIR', '#15120f', strength=0.8, keep_detail=1.0)
-    recolor_mat(v, 'Shoes', '#ece8e0', strength=0.85)
-    return finish(v, FEMALE_EYES, '#4a3226', '陳語彤（法條之外）', 'Based on VRoid CC0 samples "Sendagaya Shibu" + trousers from "HairSample_Male" (pixiv); modified for 法條之外')
+    print('  heroine_03: culled under jeans', hide_covered(v, added))
+    recolor_mat(v, 'Bottoms_Jeans', '#5a7593', strength=0.9)
+    mi, sh = transplant(v, hsf, 'Shoes', 'F00_905_Shoes_Sneaker_CLOTH'); hide_covered(v, sh)
+    recolor_mat(v, 'Shoes_Sneaker', '#efece6', strength=0.6)
+    recolor_mat(v, 'HAIR', '#141113', strength=0.85, keep_detail=0.9)
+    no_hair_shine(v); soften_matcap(v)
+    return finish(v, FEMALE_EYES, '#3a2a22', '陳語彤（法條之外）', 'Based on VRoid CC0 samples "Sendagaya Shibu" + jeans from "HairSample_Male" + sneakers from "HairSample_Female" (pixiv); modified for 法條之外')
+
+
+def build_heroine_04():
+    """高子晴（耳下短髮、深棕、明亮有精神、oversize 連帽外套、短褲、球鞋、169cm、吉他袋）。
+    臉＋頭髮：Vita（拿掉頭上的科幻角飾、臉頰花紋用膚色補掉、貓眼虹膜換成 Shibu 的圓瞳、頭髮染深棕）；
+    連帽外套：HairSample_Male（女生穿就是 oversize）；短褲：HairSample_Male 長褲剪到大腿；腿上畫的科幻褲襪改回膚色；白球鞋：HairSample_Female；吉他袋是遊戲內配件。"""
+    v = src('Vita'); donor = src('HairSample_Male'); hsf = src('HairSample_Female'); shibu = src('Sendagaya_Shibu')
+    print('  heroine_04: horn prims', hair_drop(v, lambda x: 'HAIR_03' in v.j['materials'][x[0]['material']]['name']))
+    remove_prims(v, ['Onepiece', 'F00_002_01_Shoes', 'Tops'])
+    print('  heroine_04: face marking px', inpaint_face_markings(v))
+    swap_image(v, shibu, 'EyeIris')
+    paint_skin(v, '#f1d6c3', joints=('UpperLeg', 'LowerLeg', 'Foot', 'Toe'))
+    paint_skin(v, '#f1d6c3', joints=('LowerArm', 'Hand'))
+    mi, hood = transplant(v, donor, 'Tops', 'F00_906_Tops_Hoodie_CLOTH')
+    hide_covered(v, hood, max_d=0.09, eps=0.03, max_tan=0.035)
+    recolor_mat(v, 'Tops_Hoodie', '#c3c6c9', strength=0.8)
+    mi, pants = transplant(v, donor, 'Bottoms', 'F00_907_Bottoms_Shorts_CLOTH')
+    knee = joint_y(v, 'LowerLeg'); hip = joint_y(v, 'UpperLeg')
+    cut_below(v, 'Bottoms_Shorts', hip - (hip - knee) * 0.55)
+    hide_covered(v, garment_of(v, 'Bottoms_Shorts'))
+    recolor_mat(v, 'Bottoms_Shorts', '#4f6684', strength=0.9)
+    mi, sh = transplant(v, hsf, 'Shoes', 'F00_905_Shoes_Sneaker_CLOTH'); hide_covered(v, sh)
+    recolor_mat(v, 'Shoes_Sneaker', '#ecebe8', strength=0.6)
+    recolor_mat(v, 'HAIR', '#3b281d', strength=0.95, keep_detail=0.8)
+    no_hair_shine(v); soften_matcap(v)
+    return finish(v, FEMALE_EYES, '#4a3226', '高子晴（法條之外）', 'Based on VRoid CC0 samples "Vita" + hoodie/shorts from "HairSample_Male" + sneakers from "HairSample_Female" + iris from "Sendagaya Shibu" (pixiv); modified for 法條之外')
+
+
+def build_heroine_05():
+    """溫書瑀（深棕低馬尾、白襯衫、卡其長褲、樂福鞋、172cm、判決節錄）。
+    臉＋頭髮：Sendagaya_Shino（長直髮在後頸收成低馬尾、臉旁長髮剪到下巴、染深棕）；
+    白襯衫：Sakurada_Fumiriya 的長袖襯衫（背心區塊重畫成白襯衫）；卡其寬褲；自己的樂福鞋；判決節錄是遊戲內配件。"""
+    v = src('Sendagaya_Shino'); fumi = src('Sakurada_Fumiriya'); donor = src('HairSample_Male')
+    print('  heroine_05: gathered hair verts', rigid_hair_gather(v))
+    remove_prims(v, ['AccessoryNeck', 'Bottoms', 'Tops'])
+    mi, sh = transplant(v, fumi, 'Tops', 'F00_908_Tops_Shirt_CLOTH')
+    repaint_region(v, 'Tops_Shirt', (0.0, 0.36, 1.0, 1.0), '#f2f1ee', detail=0.3)
+    recolor_mat(v, 'Tops_Shirt', '#f4f3f0', strength=0.8, keep_detail=0.6)
+    hide_covered(v, garment_of(v, 'Tops_Shirt'), max_d=0.09, eps=0.035, max_tan=0.035)
+    print('  heroine_05: culled under pants', wide_pants(v, donor, 'F00_901_Bottoms_Pants_CLOTH', '#b9a582', amount=0.065))
+    recolor_mat(v, 'Shoes', '#2f2622', strength=0.8)
+    recolor_mat(v, 'HAIR', '#2e1f17', strength=0.92, keep_detail=0.9)
+    no_hair_shine(v); soften_matcap(v)
+    return finish(v, FEMALE_EYES, '#3a2a22', '溫書瑀（法條之外）', 'Based on VRoid CC0 samples "Sendagaya Shino" + shirt from "Sakurada Fumiriya" + trousers from "HairSample_Male" (pixiv); modified for 法條之外')
 
 
 AMB_SIZES = dict(DEFAULT_SIZES, Body=512, Tops=512, Onepiece=512, Bottoms=256, Hair=256, HairBack=256, Face_00=512)
@@ -751,7 +1122,8 @@ def build_npc_m2():
     return finish_amb(v, MALE_EYES, 'NPC male B（法條之外）', 'Based on VRoid CC0 samples "HairSample_Male" + shirt from "Sakurada Fumiriya" (pixiv)')
 
 
-BUILDS = {'vroid_yuting': build_yuting, 'vroid_heroine_01': build_heroine_01, 'vroid_zhe': build_zhe, 'vroid_heroine_03': build_heroine_03,
+BUILDS = {'vroid_yuting': build_yuting, 'vroid_heroine_01': build_heroine_01, 'vroid_zhe': build_zhe, 'vroid_heroine_02': build_heroine_02, 'vroid_heroine_03': build_heroine_03,
+          'vroid_heroine_04': build_heroine_04, 'vroid_heroine_05': build_heroine_05,
           'vroid_npc_f1': build_npc_f1, 'vroid_npc_f2': build_npc_f2, 'vroid_npc_m1': build_npc_m1, 'vroid_npc_m2': build_npc_m2}
 
 if __name__ == '__main__':

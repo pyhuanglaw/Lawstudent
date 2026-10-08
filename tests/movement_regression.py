@@ -36,7 +36,8 @@ class Rig:
             if r=='done': break
         await s.pg.wait_for_timeout(500)
     async def use(s,label):
-        return await s.pg.evaluate("(async(sub)=>{ const it=GAME.E.interactables.find(i=>(i.label||'').includes(sub)); if(!it) return 'NO '+sub; const P=GAME.E.player; const nf=GAME.E.nav.nearestFree(it.x,it.z+0.6,6)||[it.x,it.z]; P.obj.position.set(nf[0],0,nf[1]); P.path=null; GAME.updateInteract(); await new Promise(r=>setTimeout(r,80)); GAME.updateInteract(); GAME.doInteract(); return 'used '+it.label; })('%s')" % label)
+        # 有 NPC 坐著的座位遊戲不讓玩家坐（v9 起），所以挑沒人坐的那一個；放玩家時用 unstick 保證半徑 0.3 也站得下（nearestFree 只看單一格）
+        return await s.pg.evaluate("(async(sub)=>{ const E=GAME.E; const occ=st=>E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.35); const it=E.interactables.find(i=>(i.label||'').includes(sub)&&!(i.seat&&occ(i.seat))); if(!it) return 'NO '+sub; const P=E.player; const nf=E.nav.nearestFree(it.x,it.z+0.6,6)||[it.x,it.z]; P.obj.position.set(nf[0],0,nf[1]); E.unstick(P,6); P.path=null; GAME.updateInteract(); await new Promise(r=>setTimeout(r,80)); GAME.updateInteract(); const ni=E.nearestInteractable(); GAME.doInteract(); return 'used '+it.label+' @'+it.x.toFixed(1)+','+it.z.toFixed(1)+' nearest='+(ni&&ni.label); })('%s')" % label)
     async def forward(s,ms=2200):
         a=await s.pos(); await s.joy(0,-60,ms); b=await s.pos(); return a,b
     async def best(s,ms=1400):
@@ -110,7 +111,7 @@ async def test_E(rig):
         await rig.pg.screenshot(path=f'screenshots/T_E_{zone}.png')
 async def main():
     async with async_playwright() as p:
-        b=await p.chromium.launch(args=['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist'])
+        b=await p.chromium.launch(executable_path='/opt/pw-browsers/chromium',args=['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist'])
         ctx=await b.new_context(viewport={'width':390,'height':844},device_scale_factor=1,has_touch=True,is_mobile=True,user_agent='Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1')
         pg=await ctx.new_page(); msgs=[]
         pg.on('console', lambda m: msgs.append(m.type+': '+m.text) if m.type in ('error',) and '404' not in m.text and 'ERR_TUNNEL' not in m.text else None)

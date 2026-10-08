@@ -118,7 +118,9 @@ async def main():
         st = await walk_to(pg, t, -33.6, -1.0, 'cafe door', tol=1.6)
         await pg.wait_for_timeout(800); st = await state(pg)
         await pg.screenshot(path='docs/art-rebuild/screenshots/flow_02_cafe_front.png')
-        check('走到 Café 門口出現「進入 兩點半 Café」', '兩點半' in st['interact'], st)
+        check('走到 Café 門口出現「進入兩點半 Café」', '兩點半' in st['interact'], st)
+        ov = await pg.evaluate("(()=>{ const a=document.getElementById('interact').getBoundingClientRect(), j=document.getElementById('joy').getBoundingClientRect(); return !(a.right<j.left||a.left>j.right||a.bottom<j.top||a.top>j.bottom); })()")
+        check('互動按鈕不會蓋住搖桿', not ov)
         await t.tap_el('#interact'); await pg.wait_for_timeout(5000)
         await advance_dialogue(pg, t)
         st = await state(pg); check('進入 Café', st['zone'] == 'cafe', st)
@@ -175,8 +177,13 @@ async def main():
         await t.tap_el('#saveSlots .btn.pri', idx); await pg.wait_for_timeout(6000)
         st = await state(pg)
         check('重新整理後讀回欄位 1（溫州街、位置相同）', st['zone'] == 'wenzhou' and saved and abs(st['x'] - saved['pos']['x']) < 0.6 and abs(st['z'] - saved['pos']['z']) < 0.6, (st['x'], st['z'], saved and saved['pos']))
-        p0 = await state(pg); await t.joy(0, -55, 1500); p1 = await state(pg)
-        check('讀檔後可以走', math.hypot(p1['x'] - p0['x'], p1['z'] - p0['z']) > 0.5)
+        # 存檔位置可能正對牆（Café 正面），往前被擋是正確的碰撞；換方向推，任一方向能走就算可以移動
+        moved = 0
+        for jx, jy in [(0, -55), (0, 55), (55, 0), (-55, 0)]:
+            p0 = await state(pg); await t.joy(jx, jy, 1300); p1 = await state(pg)
+            moved = max(moved, math.hypot(p1['x'] - p0['x'], p1['z'] - p0['z']))
+            if moved > 0.5: break
+        check('讀檔後可以走', moved > 0.5, round(moved, 2))
         await pg.screenshot(path='docs/art-rebuild/screenshots/flow_08_after_load.png')
         bad = [e for e in errs if 'PAGEERROR' in e]
         check('沒有 JS 例外', not bad, bad[:3])
