@@ -10,7 +10,7 @@
 ## CURRENTLY WORKING ON — 現在正在修改什麼
 
 - **最近更新**：2026-10-09（台灣時間，v9.3 第十二批：公館捷運出口；溫書瑀馬尾彈簧骨）
-- **最新已推送 commit**：見下一個文件 commit；這次的程式在 `13cfeda`（第十二批：捷運出口）與 `b4c30ae`（溫書瑀馬尾彈簧骨）。之前是 `320c2e7`（第十、十一批：農業陳列館、公館重建）、`6db8289`（第九批）、`416afee`（第八批：黃昏調色提案，等使用者決定）、`40bb50e`（第七批）、`86deef8`（第六批）、`edb01e8`（第五批）、`0080bf5`（第四批）、`66374e2`（第三批）、`7a4eca6`（第二批）、`ad76109`（第一批）。分支 `claude/friendly-brahmagupta-6bbkzc`，PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
+- **最新已推送 commit**：`7d9b6b8`（第十二批文件；程式在 `13cfeda` 捷運出口、`b4c30ae` 溫書瑀馬尾彈簧骨；測試全部 PASS）。之前是 `320c2e7`（第十、十一批：農業陳列館、公館重建）、`6db8289`（第九批）、`416afee`（第八批：黃昏調色提案，等使用者決定）、`40bb50e`（第七批）、`86deef8`（第六批）、`edb01e8`（第五批）、`0080bf5`（第四批）、`66374e2`（第三批）、`7a4eca6`（第二批）、`ad76109`（第一批）。分支 `claude/friendly-brahmagupta-6bbkzc`，PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
 - **畫面驗收**：[`docs/art-rebuild/VISUAL_REVIEW.md`](art-rebuild/VISUAL_REVIEW.md)。**美術規範**：[`docs/art-rebuild/ART_DIRECTION.md`](art-rebuild/ART_DIRECTION.md)（參考圖在 `docs/art-rebuild/references/`）
 
 ### 這次完成（v9.3 第十二批，`07bb5e5` 之後）
