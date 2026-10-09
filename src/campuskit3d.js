@@ -23,6 +23,9 @@ const CK=(function(){ 'use strict';
   const GLASS=()=>TK.glowMat('ckGlass',glassTex(),{nightI:0.9,emap:glassEmit(),mat:{roughness:0.25,metalness:0.1}});
   // 晚上不亮的窗（約三成；沒有這個的話傍晚、晚上整棟每扇窗都一起亮，像每間教室都開燈）
   const GLASS_DARK=()=>TK.M('ckGlassDark',()=>TK.std({map:glassTex(),roughness:0.25,metalness:0.1}));
+  // 大片玻璃帷幕（法學院系館的大廳、穿堂、入口）：比一般窗亮一點、反射天空的灰藍色
+  function glassLTex(){ return TK.tex('ckGlassL',64,128,(x,w,h)=>{ const g=x.createLinearGradient(0,0,0,h); g.addColorStop(0,'#a3b4c0'); g.addColorStop(0.45,'#6f8290'); g.addColorStop(1,'#4d5d68'); x.fillStyle=g; x.fillRect(0,0,w,h); x.fillStyle='rgba(255,255,255,0.14)'; x.beginPath(); x.moveTo(0,h*0.35); x.lineTo(w,h*0.12); x.lineTo(w,h*0.24); x.lineTo(0,h*0.47); x.fill(); }); }
+  const GLASS_LIGHT=()=>TK.glowMat('ckGlassL',glassLTex(),{nightI:0.9,emap:glassEmit(),mat:{roughness:0.18,metalness:0.2}});
   const winLit=(x,y,z)=>{ const h=Math.sin(x*12.9898+y*78.233+z*37.719)*43758.5453; return h-Math.floor(h)>0.3; };
   // ---------- 幾何零件 ----------
   // 拱形（矩形＋半圓頂），底邊在 y=0
@@ -249,13 +252,15 @@ const CK=(function(){ 'use strict';
   function lawhall(o){ o=o||{}; const g=new THREE.Group(); const bin=new TK.Bin(); const blocks=[], cols=[];
     const portal=(o.entry||'portal')==='portal';
     const w=o.w||40, d=o.d||18, nf=o.floors||8, gfh=4.4, fh=3.5, H=gfh+(nf-1)*fh, CW=2.4, lowF=3;
-    const PW=14, PH=gfh+2*fh, PF=portal?0.9:1.8;                          // 穿堂寬、高、地坪高
+    const PW=14, PH=gfh+2*fh, PF=portal?0.9:2.08;                         // 穿堂寬、高、地坪高（萬才館：平台高 13 階 × 16 cm）
     const LW=7.4, RW=7.4, RD=2.4, RH=gfh+fh;                              // 霖澤館：左邊玻璃大廳寬；右邊退縮玻璃牆的寬、深、高
-    const EX=o.entryX||0, EW=o.entryW||8, LD=2.4, GH=gfh+fh-0.6;          // 萬才館：入口中心、寬、平台深、玻璃高
+    const EX=o.entryX||0, EW=o.entryW||5.6, LD=2.4, GH=gfh+fh-0.6;        // 萬才館：入口中心、寬、平台深、玻璃高
     const AW=o.annex?10:0, AD=14, AH=gfh+fh+0.6;                          // 萬才館：西側低樓
     const topG=!portal;                                                   // 萬才館頂樓是石材帶（照片）
-    const gr=graniteMat(o.wall||'#9d9c98'), grD=graniteMat('#8a8984'), brick=wallMat(o.brick||'#a34d36'), white=TK.col('#ecebe6',{roughness:0.9}), glass=GLASS(), glassD=GLASS_DARK(), frame=TK.col('#3a3d40',{roughness:0.5}), steel=TK.col('#c9ccd0',{roughness:0.3,metalness:0.5}), roofEq=TK.col('#8f9399',{roughness:0.6});
-    const grDS=TK.M('ckGraniteDS',()=>TK.std({map:graniteTex('#8a8984'),roughness:0.7,side:THREE.DoubleSide}));
+    const gr=graniteMat(o.wall||'#b0aea8'), grD=graniteMat('#9c9a95'), brick=wallMat(o.brick||'#8a4b3b'), glass=GLASS(), glassD=GLASS_DARK(), glassL=GLASS_LIGHT(), frame=TK.col('#3a3d40',{roughness:0.5}), steel=TK.col('#c9ccd0',{roughness:0.3,metalness:0.5}), roofEq=TK.col('#8f9399',{roughness:0.6});
+    const grDS=TK.M('ckGraniteDS',()=>TK.std({map:graniteTex('#9c9a95'),roughness:0.7,side:THREE.DoubleSide}));
+    // 穿堂天花板：白天也帶一點自發光（模擬地面反射上來的光；不然在陰影裡是一片土黃色）
+    const white=TK.glowMat('ckCeil',TK.tex('ckCeilT',8,8,(c,ww,hh)=>{ c.fillStyle='#f1f0ec'; c.fillRect(0,0,ww,hh); },false),{dayI:0.32,nightI:0.5,mat:{roughness:0.9}});
     const GL=(x,y,z)=>winLit(x,y,z)?glass:glassD;
     // ---- 量體 ----
     if(portal){ const sw=(w-PW)/2, sx0=(w+PW)/4;
@@ -275,7 +280,8 @@ const CK=(function(){ 'use strict';
       const nameZone=portal&&front;   // 霖澤館正面：館名石材帶那一層的磚帶分兩段
       for(let fl=0;fl<nf;fl++){ const y0=fl===0?0:gfh+(fl-1)*fh, fhh=fl===0?gfh:fh, upper=fl>=lowF&&!(topG&&fl===nf-1), ribbon=!portal&&fl===lowF-1;
         if(upper){ const segs=(nameZone&&fl===3)?[[-inner/2,-(PW/2+1.4)],[PW/2+1.4,inner/2]]:[[-inner/2,inner/2]];
-          for(const [a,b] of segs){ let q=at((a+b)/2,0.16); bin.add(brick,TK.boxG(b-a,1.05,0.32,1.2),q[0],y0+0.52,q[1],ry); q=at((a+b)/2,0.16); bin.add(brick,TK.boxG(b-a,0.42,0.32,1.2),q[0],y0+fhh-0.21,q[1],ry); } }
+          for(const [a,b] of segs){ let q=at((a+b)/2,0.16); bin.add(brick,TK.boxG(b-a,1.05,0.32,1.2),q[0],y0+0.52,q[1],ry); q=at((a+b)/2,0.16); bin.add(brick,TK.boxG(b-a,0.42,0.32,1.2),q[0],y0+fhh-0.21,q[1],ry);
+            if(portal){ q=at((a+b)/2,0.2); bin.add(grD,TK.boxG(b-a,0.3,0.4,2.4),q[0],y0+0.15,q[1],ry,{noShadow:true}); } } }   // 霖澤館：每層樓板線是灰色石材（照片）
         if(ribbon){ const wh=fhh-1.6; let q=at(0,0.03); bin.add(glass,TK.planeG(inner,wh),q[0],y0+1.0+wh/2,q[1],ry,{noShadow:true}); q=at(0,0.1); bin.add(grD,TK.boxG(inner,0.16,0.22,2.4),q[0],y0+0.92,q[1],ry,{noShadow:true});
           for(let i=0;i<=nb;i++){ q=at(-inner/2+i*bw,0.07); bin.add(frame,TK.boxG(0.12,wh,0.12),q[0],y0+1.0+wh/2,q[1],ry,{noShadow:true}); } continue; }   // 萬才館：石材與紅磚之間的橫向長窗
         for(let i=0;i<nb;i++){ const t=-inner/2+bw*(i+0.5);
@@ -307,17 +313,17 @@ const CK=(function(){ 'use strict';
       bin.add(glassD,TK.planeG(PW+2.2,0.62),0,PH+0.31,d/2+0.03,0,{noShadow:true}); for(const x of [-4,4]) bin.add(gr,TK.boxG(0.5,0.62,0.4,2.4),x,PH+0.31,d/2+0.2);
       bin.add(gr,TK.boxG(PW+2.4,2.2,0.4,2.4),0,PH+0.62+1.1,d/2+0.2);
       // 穿堂兩側：落地玻璃牆＋直櫺（左側中間是自動門）
-      for(const sx of [-1,1]){ const gh=PH-2.4-PF; bin.add(glass,TK.planeG(d-1.4,gh),sx*(PW/2-0.02),PF+gh/2,0,-sx*Math.PI/2,{noShadow:true});
+      for(const sx of [-1,1]){ const gh=PH-2.4-PF; bin.add(glassL,TK.planeG(d-1.4,gh),sx*(PW/2-0.02),PF+gh/2,0,-sx*Math.PI/2,{noShadow:true});
         for(let z=-d/2+0.7;z<=d/2-0.69;z+=1.6) bin.add(frame,TK.boxG(0.12,gh,0.1),sx*(PW/2-0.06),PF+gh/2,z,0,{noShadow:true}); bin.add(frame,TK.boxG(0.12,0.12,d-1.4),sx*(PW/2-0.06),PF+2.8,0,0,{noShadow:true}); }
       bin.add(frame,TK.boxG(0.18,2.7,3.4),-(PW/2-0.12),PF+1.35,4.5,0,{noShadow:true}); bin.add(TK.col('#20262b',{roughness:0.3}),TK.boxG(0.06,2.5,3.0),-(PW/2-0.1),PF+1.25,4.5,0,{noShadow:true});   // 自動門（前排與中間那排柱子之間）
       // 穿堂後段的連通天橋（二樓高、玻璃欄杆＋不鏽鋼扶手）
       { const by=PF+gfh-0.3, bz=-d/2+2.6; bin.add(grD,TK.boxG(PW,0.5,2.2,2.4),0,by-0.25,bz); for(const e of [-1,1]){ bin.add(glass,TK.planeG(PW,1.0),0,by+0.5,bz+e*1.08,e>0?0:Math.PI,{noShadow:true}); bin.add(steel,TK.boxG(PW,0.06,0.08),0,by+1.03,bz+e*1.08,0,{noShadow:true}); } }
       // 左邊：兩層樓高的玻璃大廳（落地玻璃＋直櫺、橫櫺、自動門）
-      { const x0=-PW/2-LW, x1=-PW/2-0.2, gw=x1-x0, gh=RH-0.4-PF, cx=(x0+x1)/2; bin.add(glass,TK.planeG(gw,gh),cx,PF+gh/2,d/2+0.03,0,{noShadow:true});
+      { const x0=-PW/2-LW, x1=-PW/2-0.2, gw=x1-x0, gh=RH-0.4-PF, cx=(x0+x1)/2; bin.add(glassL,TK.planeG(gw,gh),cx,PF+gh/2,d/2+0.03,0,{noShadow:true});
         for(let x=x0;x<=x1+0.01;x+=gw/6) bin.add(frame,TK.boxG(0.1,gh,0.12),x,PF+gh/2,d/2+0.08,0,{noShadow:true}); for(const y of [PF+2.9,PF+gh]) bin.add(frame,TK.boxG(gw,0.12,0.12),cx,y,d/2+0.08,0,{noShadow:true});
         bin.add(grD,TK.boxG(gw+0.4,0.3,0.5),cx,PF+gh+0.15,d/2+0.2,0,{noShadow:true}); }
       // 右邊：退縮的玻璃牆（一樓、二樓）＋地坪＋前面一根方柱（橘色直式「法律學院」掛在這根）
-      { const x0=PW/2, gw=RW, cx=x0+gw/2, gh=RH-PF; bin.add(grD,TK.boxG(gw,PF,RD,2.4),cx,PF/2,d/2-RD/2); bin.add(glass,TK.planeG(gw,gh),cx,PF+gh/2,d/2-RD+0.02,0,{noShadow:true});
+      { const x0=PW/2, gw=RW, cx=x0+gw/2, gh=RH-PF; bin.add(grD,TK.boxG(gw,PF,RD,2.4),cx,PF/2,d/2-RD/2); bin.add(glassL,TK.planeG(gw,gh),cx,PF+gh/2,d/2-RD+0.02,0,{noShadow:true});
         for(let x=x0+0.1;x<=x0+gw;x+=gw/5) bin.add(frame,TK.boxG(0.1,gh,0.12),x,PF+gh/2,d/2-RD+0.07,0,{noShadow:true}); bin.add(frame,TK.boxG(gw,0.12,0.12),cx,PF+2.9,d/2-RD+0.07,0,{noShadow:true});
         bin.add(gr,TK.boxG(1.2,RH-PF,1.2,2.4),x0+3.2,PF+(RH-PF)/2,d/2-0.6); }
       // 穿堂後面：往中庭的台階
@@ -329,24 +335,24 @@ const CK=(function(){ 'use strict';
       blocks.push([0,z0+NS*TR/2,SW,NS*TR+0.1,0.15]); doorZ=z0+NS*TR+0.1;
     } else {
       // ---- 萬才館：玻璃入口（兩層樓高、花崗石門框與上方石材帶）＋墊高平台 ----
-      bin.add(glass,TK.planeG(EW-0.6,GH-PF),EX,PF+(GH-PF)/2,d/2+0.03,0,{noShadow:true});
+      bin.add(glassL,TK.planeG(EW-0.6,GH-PF),EX,PF+(GH-PF)/2,d/2+0.03,0,{noShadow:true});
       for(let i=0;i<=6;i++){ const x=EX-(EW-0.6)/2+i*(EW-0.6)/6; bin.add(frame,TK.boxG(0.1,GH-PF,0.12),x,PF+(GH-PF)/2,d/2+0.08,0,{noShadow:true}); } bin.add(frame,TK.boxG(EW-0.6,0.12,0.12),EX,PF+2.8,d/2+0.08,0,{noShadow:true});
       bin.add(gr,TK.boxG(EW+0.8,0.8,1.2,2.4),EX,GH+0.4,d/2+0.6); for(const sx of [-1,1]) bin.add(gr,TK.boxG(0.6,GH,1.2,2.4),EX+sx*(EW/2+0.1),GH/2,d/2+0.6);
       bin.add(grD,TK.boxG(EW+0.8,PF,LD,2.4),EX,PF/2,d/2+LD/2);
-      // 往下張開的弧形大台階：12 階、每階 15 cm、深 36 cm；寬度照二次曲線張開（越下面張得越快，所以兩側是弧線）
-      const NS=12, RS=PF/NS, TR=0.36, L=NS*TR, z0=d/2+LD, w0=EW+0.8, FL=o.flare||7.0, hwAt=(s)=>w0/2+FL/2*s*s;
+      // 往下張開的弧形大台階（照片 2）：13 階、每階 16 cm、深 34 cm；上面窄（和入口同寬）、越下面張得越快（兩側是弧線），最下面約是上面的兩倍寬
+      const NS=13, RS=PF/NS, TR=0.34, L=NS*TR, z0=d/2+LD, w0=EW+0.8, FL=o.flare||6.4, hwAt=(s)=>w0/2+FL/2*Math.pow(s,2.4);
       for(let k=0;k<NS;k++){ const dk=(NS-k)*TR; bin.add(grD,roundStepG(2*hwAt((NS-k)/NS),dk,(k+1)*RS,1.2),EX,0,z0); }
-      // 兩側弧形石牆（從平台側邊到大台階的七成，最下面幾階張開到石牆外面）＋牆頂的不鏽鋼扶手
-      const SC=0.7;
-      for(const sx of [-1,1]){ const pts=[[EX+sx*(w0/2+0.2),d/2+0.02]], tops=[PF+0.5]; for(let i=0;i<=12;i++){ const s=SC*i/12; pts.push([EX+sx*(hwAt(s)+0.2),z0+s*L]); tops.push(PF*(1-s)+0.5); }
-        bin.add(grDS,cheekG(pts,0.4,tops),0,0,0);
-        const rp=pts.map((p,i)=>new THREE.Vector3(p[0],tops[i]+0.4,p[1]));
-        railAlong(bin,steel,rp,(p)=>{ const s=Math.max(0,(p.z-z0)/L); return p.z<z0?PF+0.5:PF*(1-Math.min(s,SC))+0.5; },1.3); }
+      // 兩側弧形石牆（從平台側邊一路順著台階往下，到九成的地方落地；最下面兩階張開到石牆外面）＋牆頂的不鏽鋼扶手
+      const SC=0.9;
+      for(const sx of [-1,1]){ const pts=[[EX+sx*(w0/2+0.21),d/2+0.02]], tops=[PF+0.75]; for(let i=0;i<=14;i++){ const s=SC*i/14; pts.push([EX+sx*(hwAt(s)+0.21),z0+s*L]); tops.push(Math.max(0.45,PF*(1-s)+0.75)); }
+        bin.add(grDS,cheekG(pts,0.42,tops),0,0,0);
+        const rp=pts.map((p,i)=>new THREE.Vector3(p[0],tops[i]+0.32,p[1]));
+        railAlong(bin,steel,rp,(p)=>{ const s=Math.max(0,(p.z-z0)/L); return p.z<z0?PF+0.75:Math.max(0.45,PF*(1-Math.min(s,SC))+0.75); },1.2); }
       // 導航：平台、台階（分三段，越下面越寬）
       blocks.push([EX,d/2+LD/2,w0+1.0,LD,0.1]); for(let j=0;j<3;j++){ const s1=(j+1)/3; blocks.push([EX,z0+(j+0.5)*L/3,2*hwAt(s1)+0.8,L/3+0.05,0.15]); } doorZ=z0+L+0.2; doorX=EX;
       // ---- 西側兩層樓的花崗石低樓：正面大片方格玻璃、頂上石材帶（照片 2）----
       if(AW){ const ax=-w/2-AW/2, az=d/2-1-AD/2, fz=az+AD/2; bin.add(gr,TK.boxG(AW,AH,AD,2.4),ax,AH/2,az); bin.add(grD,TK.boxG(AW+0.3,0.45,AD+0.3,2.4),ax,AH+0.22,az);
-        const gw=AW-1.6, gh=AH-2.6; bin.add(glass,TK.planeG(gw,gh),ax,1.2+gh/2,fz+0.03,0,{noShadow:true});
+        const gw=AW-1.6, gh=AH-2.6; bin.add(glassL,TK.planeG(gw,gh),ax,1.2+gh/2,fz+0.03,0,{noShadow:true});
         for(let i=0;i<=4;i++) bin.add(frame,TK.boxG(0.12,gh,0.14),ax-gw/2+i*gw/4,1.2+gh/2,fz+0.08,0,{noShadow:true}); for(let j=0;j<=2;j++) bin.add(frame,TK.boxG(gw,0.12,0.14),ax,1.2+j*gh/2,fz+0.08,0,{noShadow:true});
         for(const z of [az-3.5,az+0.5]) for(const y of [1.2,1.2+gfh]){ bin.add(GL(ax,y,z),TK.planeG(1.2,2.4),-w/2-AW-0.02,y+1.2,z,-Math.PI/2,{noShadow:true}); }
         blocks.push([ax,az,AW,AD,0.3]); cols.push([ax,az,AW,AD,0,AH]); }
@@ -354,10 +360,11 @@ const CK=(function(){ 'use strict';
     bin.build(g);
     // 館名：霖澤館在門廊上的石材帶（金色大字）；萬才館在玻璃入口上方的石材帶（位置是推測）。橘色直式「法律學院」掛在霖澤館右邊玻璃牆前的方柱上
     const name=o.name||(portal?'霖澤館':'萬才館');
-    const nameT=TK.signTex(name,{bg:'#9a9994',color:'#d8b45c',serif:true,size:96});
-    if(portal){ const nm=new THREE.Mesh(new THREE.PlaneGeometry(8.4,2.1),new THREE.MeshStandardMaterial({map:nameT,roughness:0.6,metalness:0.2})); nm.position.set(0,PH+0.62+1.1,d/2+0.41); g.add(nm);
+    // 館名是金色的字直接裝在石材上（照片：沒有底板、字距很開）：透明底的字
+    const nameT=TK.signTex(name.split('').join('\u3000'),{bg:'rgba(0,0,0,0)',color:'#d6b25a',serif:true,size:96}), nameM=new THREE.MeshStandardMaterial({map:nameT,roughness:0.45,metalness:0.45,transparent:true,alphaTest:0.3,depthWrite:false});
+    if(portal){ const nm=new THREE.Mesh(new THREE.PlaneGeometry(10.4,2.6),nameM); nm.position.set(0,PH+0.62+1.1,d/2+0.41); g.add(nm);
       const lawT=TK.signTex('法律學院',{vertical:true,bg:'#e2711f',color:'#2b1b10',size:88}); const lm=new THREE.Mesh(new THREE.PlaneGeometry(0.42,1.68),new THREE.MeshStandardMaterial({map:lawT,roughness:0.7})); lm.position.set(PW/2+3.2,PF+2.0,d/2+0.011); g.add(lm); }
-    else { const nm=new THREE.Mesh(new THREE.PlaneGeometry(3.2,0.8),new THREE.MeshStandardMaterial({map:nameT,roughness:0.6,metalness:0.2})); nm.position.set(EX,GH+0.4,d/2+1.21); g.add(nm); }
+    else { const nm=new THREE.Mesh(new THREE.PlaneGeometry(4.4,1.1),nameM); nm.position.set(EX,GH+0.4,d/2+1.21); g.add(nm); }
     g.traverse(m=>{ if(m.isMesh) m.castShadow=m.castShadow!==false; });
     g.userData.ck={w,d,H,gfh,ad:0,blocks,doorZ,doorX,cols}; return g; }
   // 傅鐘（v9.3 第十六批）：原本是 LEVEL_BLOCKOUT 的小鐘亭（圓台、四根細圓柱、綠色四角錐）。改成校園套件同一套語彙的鐘亭：

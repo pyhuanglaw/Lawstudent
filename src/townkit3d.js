@@ -400,8 +400,10 @@ const TK = (function(){
     for(const b of list){ const W=b.w, D=b.d||12, F=b.floors||5, gh=b.gh||(style==='campus'?4.2:4.0), H=gh+(F-1)*FH, ry=b.ry||0, c=Math.cos(ry), sn=Math.sin(ry);
       const at=(lx,lz)=>[b.x+lx*c+lz*sn,b.z-lx*sn+lz*c]; const tint={isPaint:true,color:new THREE.Color(b.color||(style==='campus'?'#b9876a':'#e2dccf')),key:'bgFac'+style,mat:facM};
       const u0=Math.floor(hs(b.x,b.z)*4)/4, v0=Math.floor(hs(b.z,b.x)*4)/4;
-      let p=at(0,-D/2); bin.add(tint,bgBoxG(W,gh,D,UR,VR,0,0,true),p[0],gh/2,p[1],ry); bin.add(tint,bgBoxG(W,H-gh,D,UR,VR,u0,v0,false),p[0],gh+(H-gh)/2,p[1],ry);
-      if(b.shop!==false){ p=at(0,0.03); bin.add(gndM,planeG(W-0.3,gh-0.15,[u0,0,W/UR,1]),p[0],(gh-0.15)/2,p[1],ry,{noShadow:true}); }
+      let p=at(0,-D/2);
+      if(b.shop===false) bin.add(tint,bgBoxG(W,H,D,UR,VR,u0,v0,false),p[0],H/2,p[1],ry);   // 一樓沒有店面：一樓也是窗（宿舍、住宅大樓）
+      else { bin.add(tint,bgBoxG(W,gh,D,UR,VR,0,0,true),p[0],gh/2,p[1],ry); bin.add(tint,bgBoxG(W,H-gh,D,UR,VR,u0,v0,false),p[0],gh+(H-gh)/2,p[1],ry);
+        p=at(0,0.03); bin.add(gndM,planeG(W-0.3,gh-0.15,[u0,0,W/UR,1]),p[0],(gh-0.15)/2,p[1],ry,{noShadow:true}); }
       if(b.roof==='hip'||(style==='campus'&&b.roof!=='flat')){ p=at(0,-D/2); bin.add(col(b.roofColor||'#4a3e38'),bgHipG(W+0.8,D+0.8,Math.min(W,D)*0.28),p[0],H,p[1],ry); }
       else { p=at(0,-D/2); bin.add(tint,bgBoxG(W+0.12,0.9,D+0.12,UR,VR,0,0,true),p[0],H+0.45,p[1],ry,{noShadow:true});
         if(hs(b.x+1,b.z)<0.7){ p=at((hs(b.x,b.z+3)-0.5)*(W-3),-D*0.35); bin.add(col('#c9ced4',{metalness:0.5,roughness:0.4}),new THREE.CylinderGeometry(0.6,0.6,1.3,8),p[0],H+1.55,p[1],0,{noShadow:true}); }
