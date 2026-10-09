@@ -19,6 +19,8 @@
 | `python3 tests/see_through.py http://127.0.0.1:8765/index.html` | 鏡頭和玩家之間有大王椰子樹幹時看得到玩家（v9.3 #35）：同一幀畫正常畫面、拿掉樹幹的畫面、玩家剪影，比較玩家範圍內看得到的比例。關掉透視時要 < 40%（確認樹幹真的擋住）、打開時 ≥ 60%；演出鏡頭、室內不開 | 約 3 分鐘 |
 | `python3 tools/dev_scratch/render_stats.py http://127.0.0.1:8765/index.html` | （參考用，不判定）六個常用鏡頭（校園三個、溫州街 Café 前、公館兩個）畫一幀的三角形數、draw call、幾何數、貼圖數；改建築、加大量物件之後和上一版比較（量第十一批以前的版本時加 `GG_Z=44`，公館店面街的鏡頭位置才相同） | 約 2 分鐘 |
 | `python3 tools/dev_scratch/evtest.py`（需先 build） | 52 個事件的觸發條件與鎖定解鎖 | 約 10 分鐘 |
+| `python3 tools/dev_scratch/view_audit.py URL spec.json 輸出資料夾 [方向數=8]` | （畫面盤點，人工看圖）把玩家放到 spec 裡的每個位置，用一般跟隨鏡頭轉一圈各拍一張，拼成一張對照表：找「轉鏡頭看到大片空地、地面盡頭、孤立建築」的角度（v9.3 第十八～二十批用 33 個位置，spec 範例見 ART_REBUILD_PROGRESS） | 約 40 分鐘（33 個位置） |
+| `python3 tools/dev_scratch/cine_multi.py URL spec.json [寬] [高]` | （截圖用，不判定）一次載入、連拍多個固定鏡頭（演出鏡頭）；同一個區域＋時間只載入一次，比 `tools/shots/scene_shot.py` 快很多。改前改後比較圖用同一份 spec 對兩個版本各跑一次 | 每張約 30 秒 |
 
 ## 修改影響對照
 
@@ -30,6 +32,7 @@
 | 人物朝向與動畫 | `character3d.js`（buildVRM、animateVRM、setBonesV）、`assets3d.js`（cloneVRM）、`tools/vroid_build.py` 重建的模型 | 角色展示截圖（正側背、走跑坐交談）、教室座位朝向、touch_flow 坐下；改到彈簧骨、`updateVRM` 或重建有頭髮的模型時跑 `sim_hair.js` |
 | 場景切換 | `game3d.js` enter／applySave、各區域 exits | touch_flow（溫州街 ↔ Café）、movement_regression E |
 | 日夜與天氣 | `engine3d.js` applyTime／KEY、區域的 `applyTimeOutdoor`、`townkit3d.js` setNight | 同位置 11:00／17:30／20:30 截圖 |
+| 視距、霧、遠景 | 區域的 `viewFar`／`fogNear`、`engine3d.js` applyViewFar／applyTime 裡的霧、天空與遠景剪影（makeSky、makeSkyline 的 renderOrder）、邊界外的背景（`TK.bgCity`、`zones3d.js` 的 campusBackdrop） | view_audit（邊界附近的位置轉一圈）、render_stats（draw call、三角形數和改前比）；**確認霧的距離真的生效**：applyTime 每幀會設霧，曾經把區域的 viewFar 蓋掉（v9.3 第二十批） |
 | 劇情事件與對話 | `events3d.js`、`data/events.js`、`story3d.js` | evtest、第一二天流程（`tools/dev_scratch/flowtest.py`） |
 | 人物關係 | `social3d.js` | evtest |
 | 存檔與讀檔、舊存檔相容 | `game3d.js` snapshot／validate／migrate／autosave、`G` 的欄位 | touch_flow（存到欄位、重新整理、讀取）、p0 存讀檔、用舊版存檔 JSON 讀取 |
