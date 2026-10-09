@@ -12,6 +12,10 @@ const Z3 = (function(){
   const BENCH=()=>ASSETS.get('prop.bench',{});
   const PROP=(g,key,x,y,z,ry,scale)=>{ const o=ASSETS.get(key,{}); if(!o) return null; o.position.set(x,y,z); if(ry) o.rotation.y=ry; if(scale) o.scale.multiplyScalar(scale); g.add(o); return o; };
   function place(g,obj,x,z,ry,scale){ obj.position.set(x,0,z); if(ry) obj.rotation.y=ry; if(scale) obj.scale.setScalar(scale); g.add(obj); return obj; }
+  // 校門（CK.gate）：放好之後把本地座標的阻擋轉成導航格；門房加鏡頭碰撞（ry 只用 0、±π/2）
+  function placeGate(E,g,nav,gate,x,z,ry){ place(g,gate,x,z,ry); const c=Math.cos(ry||0), sn=Math.sin(ry||0), q=Math.abs(sn)>0.5;
+    for(const [bx,bz,bw,bd,pad] of gate.userData.gate.blocks){ const wx=x+bx*c+bz*sn, wz=z-bx*sn+bz*c; nav.blockRect(wx,wz,q?bd:bw,q?bw:bd,0,pad); }
+    const hx=7.6, hz=-3.4; const m=new THREE.Mesh(new THREE.BoxGeometry(q?3.2:3.8,4.4,q?3.8:3.2),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(x+hx*c+hz*sn,2.2,z-hx*sn+hz*c); g.add(m); E.colliders.push(m); }
   function collider(E,x,z,w,d,h,rot){ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h||6,d),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(x,(h||6)/2,z); m.rotation.y=rot||0; E.colliders.push(m); E.scene.add(m); E.zone&&E.zone.group; return m; }
   // ---------- 校園主區 ----------
   const campus={ id:'campus', name:'台大校園', indoor:false, cityLight:0.25, size:[260,170], build(E){
@@ -50,7 +54,8 @@ const Z3 = (function(){
     // 男一舍：宿舍沒有拱廊——淺灰米色面磚、方窗、平屋頂、一樓正面中間是大門＋小平頂門廊（佔地、門口位置和舊版相同）
     const dormB=CK.hall({w:36,d:14,floors:5,gfh:3.6,fh:3.1,wall:'#cfc6b4',trim:'#e8e2d6',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4},sign:'男一舍'}); ckPlace(dormB,20,68,Math.PI); buildings.push(dormB); for(const x of [-4,44]){ const b=TREE(1.2); place(g,b,x,60,0); nav.blockCircle(x,60,0.9); }
     // ---- 校門（西端）----
-    const gate=W3.gate(); place(g,gate,-124,0,Math.PI/2); nav.blockRect(-123.1,13.5,3.6,4.4,0,0.4); nav.blockRect(-124,-5,2,4,0,0.4); nav.blockRect(-124,5,2,4,0,0.4); nav.blockRect(-124,-10,2,6,0); nav.blockRect(-124,10,2,6,0);
+    // v9.3 第十四批：CK.gate（面磚門柱＋石材、打開的鑄鐵門、矮牆、校名石牌、門房在校內）；校外（本地 +z）朝西。開口寬度和舊版相同
+    const gate=CK.gate(); placeGate(E,g,nav,gate,-124,0,-Math.PI/2);
     // 圍牆（校門兩側）
     for(const s of [-1,1]){ const wall=new THREE.Mesh(new THREE.BoxGeometry(1,1.8,70),texMat(W3.brickTex('#b8735a'))); wall.position.set(-124,0.9,s*45); g.add(wall); nav.blockRect(-124,s*45,1.2,70,0,0.3); }
     // ---- 椰林大道：大王椰子 ----
@@ -190,7 +195,8 @@ const Z3 = (function(){
     // 羅斯福路：車道線
     { const line=W3.canvasTex('lane',64,256,(x,w,h)=>{ x.clearRect(0,0,w,h); x.fillStyle='rgba(255,255,255,0.85)'; x.fillRect(28,0,8,120); }); for(const z of [-25,-19,-8,-2]){ const t=line.clone(); t.needsUpdate=true; t.repeat.set(1,40); const m=new THREE.Mesh(new THREE.PlaneGeometry(0.4,W),new THREE.MeshStandardMaterial({map:t,transparent:true,roughness:0.8})); m.rotation.x=-Math.PI/2; m.rotation.z=Math.PI/2; m.position.set(0,0.03,z); m.receiveShadow=true; g.add(m); } /* 路中間的黃色雙實線（路面 z -31..4）*/ for(const z of [-13.65,-13.35]){ const m=new THREE.Mesh(new THREE.PlaneGeometry(W,0.14),new THREE.MeshStandardMaterial({color:0xd9a93a,roughness:0.8})); m.rotation.x=-Math.PI/2; m.position.set(0,0.03,z); m.receiveShadow=true; g.add(m); } /* 車道線改成受光材質：晚上不會像螢光一樣亮 */ }
     // 校門（北側牆中央）——回校園
-    const gate=W3.gate(); place(g,gate,0,-46,0); nav.blockRect(-5,-46,1.6,1.6,0,0.4); nav.blockRect(5,-46,1.6,1.6,0,0.4); for(const s of [-1,1]){ const wall=new THREE.Mesh(new THREE.BoxGeometry(70,1.8,1),texMat(W3.brickTex('#b8735a'))); wall.position.set(s*44,0.9,-46); g.add(wall); nav.blockRect(s*44,-46,70,1.2,0,0.3); }
+    // v9.3 第十四批：和校園同一座校門（CK.gate），校外朝南；門房在圍牆裡面（舊版的門房在校外人行道上，而且沒有碰撞）
+    const gate=CK.gate(); placeGate(E,g,nav,gate,0,-46,0); for(const s of [-1,1]){ const wall=new THREE.Mesh(new THREE.BoxGeometry(70,1.8,1),texMat(W3.brickTex('#b8735a'))); wall.position.set(s*44,0.9,-46); g.add(wall); nav.blockRect(s*44,-46,70,1.2,0,0.3); }
     // 捷運公館站出口：人行道上順著街的玻璃亭（TK.mrtExit；原本是 W3 的四柱雨棚），入口朝東，入口外面是互動點
     { const mrt=TK.mrtExit({name:'捷運 公館站',sub:'出口 2'}); mrt.position.set(-36.6,0,11); mrt.rotation.y=Math.PI/2; g.add(mrt); nav.blockRect(-39.8,11,6.6,3.6,0,0);
       const m=new THREE.Mesh(new THREE.BoxGeometry(6.4,3.4,3.4),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(-39.8,1.7,11); g.add(m); E.colliders.push(m);

@@ -184,6 +184,40 @@ const CK=(function(){ 'use strict';
     bin.build(g);
     g.traverse(m=>{ if(m.isMesh){ m.castShadow=m.castShadow!==false; } });
     g.userData.ck={w,d,H,gfh,ad:0,blocks,doorZ:d/2}; return g; }
+  // ---------- 校門（v9.3 第十四批）：面磚門柱（石材柱基、柱頭、門燈）、往內打開的鑄鐵門、兩側矮牆（石材壓頂）、門房；校名刻在石牌上（校外、校內各一面）----------
+  /* 取代 W3.gate（磚盒子＋飄在兩根柱子中間的校名板，門房還放在校外）。本地座標：門口中心在原點，+z 是校外、-z 是校內；開口 x ∈ [-4.2, 4.2]（和舊版一樣寬）。
+     g.userData.gate.blocks：[x,z,w,d,pad]（本地座標），區域放好之後轉成導航阻擋。不是照真實台大校門建模。 */
+  function gate(o){ o=o||{}; const g=new THREE.Group(); const bin=new TK.Bin(); const blocks=[];
+    const wall=wallMat(o.wall||'#a8604a'), trim=trimMat(o.trim||'#d8cfbd'), roof=roofMat(o.roof||'#43342e'), iron=TK.col('#1f2124',{roughness:0.5,metalness:0.6});
+    const PW=1.4, PH=4.0, PX=4.9;
+    for(const sx of [-1,1]){ const x=sx*PX;
+      bin.add(trim,TK.boxG(PW+0.24,0.6,PW+0.24,1.2),x,0.3,0); bin.add(wall,TK.boxG(PW,PH-0.6,PW,1.2),x,0.6+(PH-0.6)/2,0);
+      bin.add(trim,TK.boxG(PW+0.3,0.22,PW+0.3,1.2),x,PH+0.11,0); bin.add(trim,TK.boxG(PW+0.1,0.16,PW+0.1,1.2),x,PH+0.3,0);
+      bin.add(trim,TK.boxG(0.5,0.22,0.5,1.2),x,PH+0.49,0);   // 門燈的座
+      bin.add(TK.glowMat('ckGateLamp',TK.tex('ckGateLampT',32,32,(c,w,h)=>{ c.fillStyle='#f3e6c8'; c.fillRect(0,0,w,h); c.fillStyle='#2a2c2f'; c.fillRect(0,0,w,3); c.fillRect(0,h-3,w,3); c.fillRect(0,0,3,h); c.fillRect(w-3,0,3,h); c.fillRect(w/2-1,0,2,h); },false),{nightI:1.1,dayI:0.05}),TK.boxG(0.38,0.5,0.38),x,PH+0.85,0,0,{noShadow:true});
+      bin.add(iron,TK.boxG(0.46,0.06,0.46),x,PH+1.13,0,0,{noShadow:true});
+      blocks.push([x,0,PW+0.24,PW+0.24,0.15]);
+      // 兩側矮牆（門柱到 |x|=10，接上區域原本的圍牆；比圍牆高 10 cm，壓頂不和圍牆頂面重疊）
+      const wx0=PX+PW/2, wx1=10.0, wl=wx1-wx0, wc=sx*(wx0+wl/2); bin.add(trim,TK.boxG(wl,0.4,0.7,1.2),wc,0.2,0); bin.add(wall,TK.boxG(wl,1.5,0.6,1.2),wc,0.4+0.75,0); bin.add(trim,TK.boxG(wl+0.06,0.12,0.74,1.2),wc,1.96,0);
+      blocks.push([wc,0,wl,0.74,0.15]);
+      // 鑄鐵門：一邊一扇（2 m），往校內打開、靠在門柱內側
+      const lx=sx*(PX-PW/2-0.08), L=2.0, Hh=2.3;
+      for(const y of [0.12,Hh*0.55,Hh]) bin.add(iron,TK.boxG(0.06,0.06,L),lx,y,-L/2,0,{noShadow:true});
+      for(let k=0;k<=10;k++){ const z=-0.05-(L-0.1)*k/10; bin.add(iron,TK.boxG(0.035,Hh+(k%2?0.12:0.22),0.035),lx,(Hh+(k%2?0.12:0.22))/2,z,0,{noShadow:true}); }
+      blocks.push([lx,-L/2,0.2,L,0.05]); }
+    // 校名石牌（校外一面在 +x 的矮牆、校內一面在 -x 的矮牆）
+    const nameT=TK.signTex(o.name||'國立臺灣大學',{bg:'#e6e0d2',color:'#3a2f28',serif:true,size:84});
+    for(const [sx,zs] of [[1,1],[-1,-1]]){ const x=sx*7.8; bin.add(trim,TK.boxG(3.1,0.95,0.12,1.2),x,1.25,zs*0.36); const pl=new THREE.Mesh(new THREE.PlaneGeometry(2.9,0.75),new THREE.MeshStandardMaterial({map:nameT,roughness:0.8})); pl.position.set(x,1.25,zs*0.425); if(zs<0) pl.rotation.y=Math.PI; g.add(pl); }
+    // 門房：校內、開口旁邊（面磚、石材腰帶、四坡瓦屋頂、面向通道的窗、校內一側的門）
+    { const hx=7.6, hz=-3.4, W=3.6, D=3.0, H=2.8;
+      bin.add(trim,TK.boxG(W+0.1,0.45,D+0.1,1.2),hx,0.225,hz); bin.add(wall,TK.boxG(W,H-0.45,D,1.2),hx,0.45+(H-0.45)/2,hz); bin.add(trim,TK.boxG(W+0.16,0.14,D+0.16,1.2),hx,H+0.07,hz);
+      const rf=new THREE.ConeGeometry(Math.hypot(W,D)/2+0.55,1.35,4,1); rf.rotateY(Math.PI/4); rf.scale(1,1,(D+0.8)/(W+0.8)); bin.add(roof,rf,hx,H+0.14+0.675,hz);
+      const glass=GLASS(); bin.add(glass,TK.planeG(1.5,1.0),hx-W/2-0.01,1.65,hz+0.2,-Math.PI/2,{noShadow:true}); bin.add(trim,TK.boxG(0.12,1.16,1.66,1.2),hx-W/2-0.02,1.65,hz+0.2,0,{noShadow:true});
+      bin.add(glass,TK.planeG(1.2,0.9),hx+0.5,1.7,hz+D/2+0.01,0,{noShadow:true});
+      bin.add(TK.col('#4a3426',{roughness:0.7}),TK.planeG(0.9,2.0),hx-0.6,1.0+0.45,hz-D/2-0.01,Math.PI,{noShadow:true});
+      blocks.push([hx,hz,W+0.2,D+0.2,0.15]); }
+    bin.build(g); g.traverse(m=>{ if(m.isMesh) m.castShadow=m.castShadow!==false; });
+    g.userData.gate={blocks}; return g; }
   function setNight(on){ TK.setNight(on?1:0); }
-  return {hall,modern,pavilion,setNight,tileTex};
+  return {hall,modern,pavilion,gate,setNight,tileTex};
 })();
