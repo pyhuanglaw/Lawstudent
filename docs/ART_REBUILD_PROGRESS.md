@@ -9,8 +9,8 @@
 
 ## CURRENTLY WORKING ON — 現在正在修改什麼
 
-- **最近更新**：2026-10-09（台灣時間，v9.3 第六批）
-- **最新已推送 commit**：`86deef8`（v9.3 第六批：校園四棟主要建築換成台大風格外觀、托特包；測試全部 PASS）；之前是 `edb01e8`（第五批）、`0080bf5`（第四批）、`66374e2`（第三批）、`7a4eca6`（第二批）、`ad76109`（第一批）。分支 `claude/friendly-brahmagupta-6bbkzc`，PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
+- **最近更新**：2026-10-09（台灣時間，v9.3 第七批）
+- **最新已推送 commit**：`40bb50e`（v9.3 第七批：拱廊走得進去、霖澤館與萬才館、樹幹透視、林芷若袖口；測試全部 PASS）；之前是 `86deef8`（第六批）、`edb01e8`（第五批）、`0080bf5`（第四批）、`66374e2`（第三批）、`7a4eca6`（第二批）、`ad76109`（第一批）。分支 `claude/friendly-brahmagupta-6bbkzc`，PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
 - **畫面驗收**：[`docs/art-rebuild/VISUAL_REVIEW.md`](art-rebuild/VISUAL_REVIEW.md)。**美術規範**：[`docs/art-rebuild/ART_DIRECTION.md`](art-rebuild/ART_DIRECTION.md)（參考圖在 `docs/art-rebuild/references/`）
 
 ### 這次完成（v9.3 第七批，`d59390c` 之後）
