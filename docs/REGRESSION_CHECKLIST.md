@@ -42,3 +42,5 @@
 - 沒有任何手機實機測試；真機效能、觸控手感、Safari 特有行為都未驗證。
 - SwiftShader 下的 FPS 數字沒有參考價值。
 - `evtest.py` 與 `flowtest.py` 預設測 `build/` 單檔版，改程式後要先 `python3 build.py`。
+- `movement_regression` A5（往宿舍前牆推 3.2 秒）停的位置會隨幀率不同（v9.3 #38：正面推牆會沿牆橫移一點）；A6 會往前牆上空間比較大的那一側斜推，判定仍是「沿牆滑動 0.3 m 以上」。如果 A6 失敗，先看 A5 停的位置再判斷。
+- `tools/dev_scratch/render_stats.py` 量算圖負擔（draw call、三角形）；`VIEWSET=interior` 量七個室內。
