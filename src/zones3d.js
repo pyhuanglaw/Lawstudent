@@ -353,6 +353,10 @@ const Z3 = (function(){
       const st=TK.signTex('溫州街',{bg:'#1f6448',color:'#f4f6f2',border:'#f4f6f2',sub:'Wenzhou St.'}); const pmat=new THREE.MeshStandardMaterial({map:st,roughness:0.6}); for(const sd of [0,1]){ const plate=new THREE.Mesh(new THREE.PlaneGeometry(0.95,0.3),pmat); plate.position.set(0.5,2.75,sd?-0.006:0.006); plate.rotation.y=sd?Math.PI:0; sg.add(plate); }   // 兩面各一片（單片雙面的背面字會左右相反）
       const arm=new THREE.Mesh(TK.boxG(0.1,0.04,0.04),pm); arm.position.set(0.04,2.75,0); sg.add(arm);
       sg.position.set(47.7,0,7.6); sg.rotation.y=Math.PI*0.08; g.add(sg); nav.blockCircle(47.7,7.6,0.15); }
+    // 路口往北那段：Café 北側公寓前停一排機車（車頭朝建築）、西側一根電線桿＋電線（參考圖 07 的街景）
+    { const cols=['#e8e8e8','#2b2b2b','#8c3b47','#4a6c8c','#c9b48a','#f2f0ea','#3e5a48']; for(let k=0;k<7;k++){ if(k===3) continue; const sc=TK.scooter(cols[(k*3+2)%cols.length]); sc.position.set(54.55,0,8.7+k*0.85); sc.rotation.y=Math.PI/2+(k%2?0.06:-0.05); g.add(sc); } nav.blockRect(54.6,11.25,1.5,5.6,0,0.05);
+      const up=TK.utilityPole({}); up.position.set(47.55,0,14.2); up.rotation.y=Math.PI/2; g.add(up); nav.blockCircle(47.55,14.2,0.3);
+      g.add(TK.wires([[[47.55-0.75,8.52,14.2],[45.5-0.75,8.52,4.65],0.6],[[47.55+0.75,8.52,14.2],[45.5+0.75,8.52,4.65],0.55],[[47.55,8.0,14.2],[55.2,7.4,13.0],0.4]])); }
     // v9.3 三時段光影：Café 櫥窗灑到騎樓與路面的暖光、路口往北那條路的路燈（參考圖晚上 20:30：路燈照亮路面、店家燈光灑出來；
     // 原本 Café 門口的路面晚上是一片均勻的暗色）。光暈是加法混色的貼地圓片，不增加即時光源
     { const sp=TK.lightPool(3.6,'rgba(255,190,120,1)'); sp.position.set(53.2,0.031,0); sp.scale.set(1,1.75,1); g.add(sp); pools.push(sp); sp.userData.poolMax=(sp.userData.poolMax||0.55)*0.9; }

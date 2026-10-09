@@ -810,6 +810,28 @@ def paint_white_shirt(v, mat_pat, color='#f3f2ee', body_v0=0.355):
             v.set_image(ii, full)
 
 
+def lower_hood(v, mat_pat, rects, k=0.45, narrow=0.32):
+    """連帽外套的帽子放下來（高子晴）：HairSample_Male 的帽子穿在比較小的身體上，會立在後腦勺（到頭骨關節以上），
+    兩側帽緣升到臉頰高度，從正面看是頭髮縫隙裡露出來的白色毛邊。帽子（UV 在 rects 裡）臉旁的帽緣（前面、兩側）
+    高於脖子關節的部分，高度壓成 k 倍；後面靠著後腦的部分不動；脖子以下（和外套接縫）不動。回傳移動的頂點數。"""
+    ny = joint_y(v, 'Neck'); n = 0
+    node, mesh, prims = body_primitives(v, mat_pat)
+    for p in prims:
+        A = p['attributes']; P = v.acc(A['POSITION']).astype(np.float64); UV = v.acc(A['TEXCOORD_0'])
+        inr = np.zeros(len(P), dtype=bool)
+        for (u0, v0, u1, v1) in rects: inr |= (UV[:, 0] >= u0) & (UV[:, 0] <= u1) & (UV[:, 1] >= v0) & (UV[:, 1] <= v1)
+        # 只壓低臉旁（前面、兩側）的帽緣：後面立在後腦的部分不動（整個壓低會在脖子後面變成往後凸出的平台）；z 在 z0~z1 之間漸變
+        z0, z1 = 0.02, 0.09
+        w = np.clip((z1 - P[:, 2]) / (z1 - z0), 0, 1)
+        m = inr & (P[:, 1] > ny) & (w > 0); d = P[m, 1] - ny
+        P[m, 1] = ny + d * (1 - w[m] * (1 - k)); n += int(m.sum())
+        # 立在後腦的部分比頭寬（±0.12 m，頭約 ±0.085 m），從正面會在兩側頭髮的縫隙露出淺灰色：往中間收窄、稍微壓低，躲到頭後面
+        mb = inr & (P[:, 1] > ny); d = P[mb, 1] - ny; sq = np.clip(d / 0.05, 0, 1)
+        P[mb, 0] = P[mb, 0] * (1 - narrow * sq); P[mb, 1] = ny + d * (1 - 0.15 * sq); n += int(mb.sum())
+        A['POSITION'] = v.add_acc(P.astype(np.float32), 5126, 'VEC3', 34962, True)
+    return n
+
+
 def extend_sleeves(v, mat_pat, end_frac=0.45, clearance=0.014, roll_w=0.038, roll_bulge=0.009, rings=8, K=32):
     """短袖 → 反摺到前臂的長袖（溫書瑀：參考圖是白襯衫長袖、袖子反摺到前臂）。VRoid 樣本裡沒有長袖白襯衫，
     所以把襯衫袖口沿著手臂接一段袖管：從原本袖口內側開始（接縫藏在袖口裡），半徑從袖口漸漸收到前臂粗細＋鬆份，
@@ -1592,6 +1614,8 @@ def build_heroine_04():
     paint_skin(v, '#f1d6c3', joints=('Hips',))   # 原本的深色緊身褲：大腿內側會在短褲下面露出一塊深色
     print('  heroine_04: hair below neck cut', cut_hair_below(v, joint_y(v, 'Neck') - 0.01))
     mi, hood = transplant(v, donor, 'Tops', 'F00_906_Tops_Hoodie_CLOTH')
+    print('  heroine_04: hood lowered verts', lower_hood(v, 'Tops_Hoodie', HOOD_RECTS))   # 帽子放下來（原本立在後腦、兩側帽緣到臉頰高度，從頭髮縫隙露出白邊）
+    hood = garment_of(v, 'Tops_Hoodie')
     hide_covered(v, hood, max_d=0.09, eps=0.03, max_tan=0.035)
     recolor_mat(v, 'Tops_Hoodie', '#b3b6ba', strength=0.9)   # 淺灰（#c3c6c9 在遊戲光線下看起來是全白）
     mi, pants = transplant(v, donor, 'Bottoms', 'F00_907_Bottoms_Shorts_CLOTH')

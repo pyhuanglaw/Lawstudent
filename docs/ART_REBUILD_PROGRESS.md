@@ -13,6 +13,15 @@
 - **最新已推送 commit**：`0080bf5`（v9.3 第四批：Café 門前紅磚人行道、路名牌；測試全部 PASS）；之前是 `66374e2`（第三批）、`7a4eca6`（第二批）、`ad76109`（第一批）。分支 `claude/friendly-brahmagupta-6bbkzc`，PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
 - **畫面驗收**：[`docs/art-rebuild/VISUAL_REVIEW.md`](art-rebuild/VISUAL_REVIEW.md)。**美術規範**：[`docs/art-rebuild/ART_DIRECTION.md`](art-rebuild/ART_DIRECTION.md)（參考圖在 `docs/art-rebuild/references/`）
 
+### 這次完成（v9.3 第五批，`5bfac96` 之後）
+
+| 項目 | 狀態 | 玩家會看到什麼 |
+|---|---|---|
+| 路口往北的街景 | 技術完成；READY_FOR_ART_REVIEW | Café 北側公寓前停一排機車（車頭朝建築）、西側一根電線桿和電線（參考圖 07 的街景）。機車和電線桿有碰撞 |
+| 高子晴的帽子 | 技術完成；READY_FOR_ART_REVIEW | 臉部近景時，臉頰兩側頭髮縫隙裡的白色毛邊不見了（#32） |
+
+測試（最終版，Playwright 模擬）：街景：`campus_layout_nav` 29/29、`p0_movement` 31/31、`movement_regression` 42/42、`touch_flow_wenzhou` 21/21、`nav_islands`（溫州街）ALL CLEAR；高子晴新模型：`sim_hair` PASS、`p0_movement` 31/31、`movement_regression` 42/42、`touch_flow_wenzhou` 21/21。全部 PASS。
+
 ### 這次完成（v9.3 第四批，`27f900d` 之後）
 
 | 項目 | 狀態 | 玩家會看到什麼 |
@@ -136,6 +145,7 @@
 | 29 | 林芷若領口剪低後，脖子有一個洞 | `hide_covered` 把領口附近的脖子皮膚當成「被衣服蓋住」刪掉 | FIXED（`hide_covered` 加 `y_keep`：領口線以上的皮膚不刪；要在剪領口之後、刪皮膚之前） | `tools/vroid_build.py` | bind pose 簡易算圖：脖子、鎖骨完整；遊戲內臉部近景 | — |
 | 30 | 陳語彤臉部近景，脖子兩側有深色的尖片 | 連帽上衣改圓領時，領口剪裁線往兩側沿肩線升高（每公分 1.2 公分），在脖子兩側比脖子根部高 2 公分以上，帽口的布留成兩個尖角；從正面看到的是尖角的內側（深色） | FIXED（`crew_neck` 加 `cap`：領口線往兩側最多升高 4 mm） | `tools/vroid_build.py`、`assets/models/char/vroid_heroine_03.vrm` | bind pose 簡易算圖：背面尖角消失、正面圓領平順；遊戲內臉部近景 | — |
 | 31 | 宿舍：沿牆斜推滑進書桌後面的窄縫之後，往哪個方向推都出不來（`movement_regression` A7 在一次測試失敗；重跑兩次通過，但把玩家直接放到那個位置可以穩定重現，所以不是偶發） | 書桌後面和後牆之間只有約 0.5 m（比人窄），導航格 0.4 m＋半徑 0.3 m 的「站得住」檢查在那裡留下只有一個點站得住的小孤島；測試模式（?turbo）一步最多 1.2 m，會跳進去；孤島四周都站不住，所以出不來 | FIXED：(1) 宿舍書桌後面、床頭與書架之間、溫州街 A 字立牌與盆栽之間、電線桿與郵筒之間，四個比人窄的縫標成不可走（沒有刪任何碰撞）；(2) 前進、沿牆滑、繞角都過不去時，再往左右偏 30°／50°／70° 試一步（只移到站得住的位置、不穿牆；目前位置本身站不住時不用，交給原本的脫困邏輯）；(3) 新增 `tools/dev_scratch/nav_islands.py` 掃描所有區域的小孤島 | `src/zones3d.js`、`src/engine3d.js`（`stepEntity`）、`tools/dev_scratch/nav_islands.py` | 把玩家直接放在卡住的位置推搖桿：修正前不動，修正後走出來；nav_islands：11 個區域 ALL CLEAR；campus_layout_nav 29/29、p0 31/31、movement_regression 42/42、touch_flow 21/21；A 組多跑 3 次都 7/7 | 手機實機一步約 7 cm（60 fps），本來就比較難跳進孤島；修正後孤島已不存在 |
+| 32 | 高子晴臉部近景，臉頰兩側頭髮縫隙裡有白色毛邊（之前記成「帽口兩側的白色髮尾」） | **一開始判斷錯**：先以為是頭髮貼圖的淺色髮尾（檢查貼圖：全部是深色，最亮只有 63/255），再以為是臉旁的帽緣（壓低之後還在）。實際是 HairSample_Male 的帽子穿在比較小的身體上，立在後腦勺、比頭寬（±0.12 m，頭約 ±0.085 m），從正面透過兩側頭髮的縫隙看得到後面的淺灰色帽子 | FIXED（`lower_hood`：帽子高於脖子的部分往中間收窄 32%、稍微壓低；臉旁的帽緣壓低） | `tools/vroid_build.py`、`assets/models/char/vroid_heroine_04.vrm` | bind pose 簡易算圖（正面、側面、背面）；遊戲內臉部近景修改前後 | 第一次試「整個帽子壓低」，側面看帽子在脖子後面變成往後凸的平台，所以改成只收窄 |
 
 ---
 
