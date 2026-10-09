@@ -20,7 +20,7 @@ const Z3 = (function(){
     const hx=7.6, hz=-3.4; const m=new THREE.Mesh(new THREE.BoxGeometry(q?3.2:3.8,4.4,q?3.8:3.2),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(x+hx*c+hz*sn,2.2,z-hx*sn+hz*c); g.add(m); E.colliders.push(m); }
   function collider(E,x,z,w,d,h,rot){ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h||6,d),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(x,(h||6)/2,z); m.rotation.y=rot||0; E.colliders.push(m); E.scene.add(m); E.zone&&E.zone.group; return m; }
   // ---------- 校園主區 ----------
-  const campus={ id:'campus', name:'台大校園', indoor:false, cityLight:0.25, size:[260,170], viewFar:220, fogNear:90, build(E){   /* 第二十批：邊界外有背景了，視距拉遠（照片裡椰林大道盡頭的總圖看得清楚）*/
+  const campus={ id:'campus', name:'台大校園', indoor:false, cityLight:0.25, size:[260,170], viewFar:260, fogNear:100, build(E){   /* 第二十批：邊界外有背景了，視距拉遠（照片裡椰林大道盡頭的總圖看得清楚；從校門口看總圖約 205 m）*/
     treeIdx=0; leafyCount=0; palmIdx=0; const g=new THREE.Group(); const W=260, D=170; /* 導航格必須涵蓋法學院前庭（z 到 -124），否則霖澤館前完全不能走 */ const nav=new E3.NavGrid(W,210,0.5,-W/2,-125); const seats=[]; const lamps=[]; const buildings=[];
     // 地面：草地
     ground(g,W,D,W3.grassTex(),[W/4,D/4],0,0,0); ground(g,120,44,W3.grassTex(),[30,11],52,-106,-0.002); // 北側法學院區地面
