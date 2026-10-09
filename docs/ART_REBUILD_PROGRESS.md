@@ -9,9 +9,17 @@
 
 ## CURRENTLY WORKING ON — 現在正在修改什麼
 
-- **最近更新**：2026-10-09（台灣時間，v9.3 第十三批：沈以安臉旁碎髮加長）
+- **最近更新**：2026-10-09（台灣時間，v9.3 第十四批：校門）
 - **最新已推送 commit**：`3c2496d`（第十三批：沈以安臉旁碎髮加長）；之前是 `7d9b6b8`（第十二批：捷運出口 `13cfeda`、溫書瑀馬尾彈簧骨 `b4c30ae`）、`320c2e7`（第十、十一批：農業陳列館、公館重建）、`6db8289`（第九批）、`416afee`（第八批：黃昏調色提案，等使用者決定）、`40bb50e`（第七批）、`86deef8`（第六批）、`edb01e8`（第五批）、`0080bf5`（第四批）、`66374e2`（第三批）、`7a4eca6`（第二批）、`ad76109`（第一批）。分支 `claude/friendly-brahmagupta-6bbkzc`，PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
 - **畫面驗收**：[`docs/art-rebuild/VISUAL_REVIEW.md`](art-rebuild/VISUAL_REVIEW.md)。**美術規範**：[`docs/art-rebuild/ART_DIRECTION.md`](art-rebuild/ART_DIRECTION.md)（參考圖在 `docs/art-rebuild/references/`）
+
+### 這次完成（v9.3 第十四批，`1b17f42` 之後）
+
+| 項目 | 狀態 | 玩家會看到什麼 |
+|---|---|---|
+| 校門（校園＋公館） | 技術完成；功能完成（導航測試）；READY_FOR_ART_REVIEW | 原本是兩根磚盒子＋飄在柱子中間的校名板（背面空白）、沒有門；公館那一側的門房在**校外**人行道上而且走得過去。換成校園套件的 `CK.gate`：面磚門柱＋石材柱基柱頭＋門燈（晚上亮）、往校內打開的鑄鐵門、兩側矮牆、校名石牌（內外各一面）、門房在校內。開口寬度與互動點不變（VISUAL_REVIEW 第 8 節） |
+
+測試（Playwright 模擬，程式＝這次 push 的版本）：`campus_layout_nav` 34/34（新增校門開口、走出校門的位置、門柱、門房）、`gongguan_layout_nav` 46/46（新增門柱、校門裡）、`nav_islands`（校園、公館）ALL CLEAR、`p0_movement` 31/31、`movement_regression` 42/42、`see_through` ALL PASS。
 
 ### 這次完成（v9.3 第十三批，`192434c` 之後）
 
@@ -177,7 +185,7 @@
 2. 三時段光影（任務 8）：黃昏整體仍偏暗、不夠金（參考圖 07），要做較大的調色，先給使用者看比較圖再決定。
 3. 林芷若微捲髮（BLOCKED_BY_ART_ASSET：VRoid 樣本沒有捲髮）；沈以安臉旁碎髮加長、細手錶；溫書瑀馬尾不會擺動。
 4. 臉：仍是 VRoid 動畫臉（BLOCKED_BY_ART_ASSET）。
-5. 校門（`W3.gate`）、傅鐘、路燈仍是 LEVEL_BLOCKOUT 的方塊造型（校園建築、公館店面街、捷運出口已經換掉，第九～十二批）。
+5. 傅鐘、路燈仍是 LEVEL_BLOCKOUT 的方塊造型（校園建築、公館店面街、捷運出口、校門已經換掉，第九～十四批）。
 6. 沈以安：側面頭髮往後收到馬尾、只留幾綹長碎髮——**BLOCKED_BY_ART_ASSET**（樣本頭髮底層沒蓋到頭側、拿掉側髮會露出頭皮；9 個 CC0 樣本都沒有這種髮型；需要有高馬尾的 VRM 或用 VRoid Studio 重做頭髮）。第十三批只做到臉旁碎髮加長到下巴下緣。
 
 ## 進度總表
@@ -188,8 +196,8 @@
 | 女性角色 | PARTIAL | 細修（陳語彤領口、林芷若髮型） | 五位女主角各有自己的模型與服裝（不是路人換色）：沈以安（單一高馬尾、米白針織衫、藍灰寬褲、樂福鞋、托特包）；林芷若（黑直髮、細框眼鏡、米色亞麻上衣改圓領、米灰寬褲、銀色小耳環、工作時圍裙）；陳語彤（黑髮接近齊肩、深灰圓領 T 恤、牛仔褲、後背包）；高子晴（深棕短髮、淺灰連帽外套、黑短褲、白球鞋、吉他袋）；溫書瑀（深棕低馬尾＋髮圈、白襯衫反摺長袖、卡其直筒褲、判決節錄資料夾）。轉身照見 VISUAL_REVIEW 第 2–5 節 | 臉是 VRoid 動畫臉（BLOCKED_BY_ART_ASSET）；林芷若微捲髮（BLOCKED_BY_ART_ASSET）；陳語彤領口兩側的深色內層；高子晴帽口白色髮尾 | `tools/vroid_build.py`、`assets/models/char/vroid_heroine_0[1-5].vrm`、`src/props3d.js`、`src/character3d.js`（`MODEL_PROPS`） |
 | VRM 系統 | 技術完成 | — | parse 一次＋骨架 clone 共用 GPU 資源；VRM 0.x 朝向與姿勢軸向；身高計算；換色（材質顏色相乘）；路人不投即時陰影改圓影；NPC frustum culling；載入失敗在 `?dev` 顯示；彈簧骨在人物座標系、固定小步長，更新前先更新 world matrix（#25）；配件掛在骨頭上（`src/props3d.js`） | 動畫仍是 Mixamo（授權疑慮，見 REVIEW_NOTES）；clone 沒有彈簧骨與表情（路人頭髮不會晃）；手機實機效能未測 | `src/assets3d.js`、`src/character3d.js`、`src/engine3d.js`、`src/props3d.js` |
 | 溫州街 | PARTIAL | 三時段光影 | 10 m 巷道、20+ 棟台北公寓（磁磚、鐵窗、冷氣、陽台、雨遮、水塔、加蓋）、店面（含兩點半 Café：有深度的室內、木窗框、壁燈、爬藤）、日式老屋（圍牆降低、玄關、寄棟屋頂、石燈籠）、小公園（鋪面、大樹＋樹圍座椅、路燈、睡覺的貓）、騎樓、死巷、電線桿＋電線＋路燈、反光鏡、機車、盆栽、行道樹；Café 在東端路口，路口往北延伸到天空；白天／黃昏／夜晚光線；NavGrid 與鏡頭碰撞同步 | 騎腳踏車的 NPC 很粗糙（W3.bike）；雨天地面反光未做；只有 Café 能進，其他店是「看櫥窗」；日式老屋側面與背面是平的雨淋板 | `src/townkit3d.js`、`src/zones3d.js`（`buildWenzhou`） |
-| 校園 | PARTIAL | 第十批：農業陳列館（校園建築全部換成套件） | 依臺大校總區平面圖配置（D23、D25）；大王椰子、闊葉樹、醉月湖（湖心亭走得上去）；行政大樓、文學院、校史館、總圖換成台大風格的外觀（面磚／紅磚、拱窗、一樓拱廊、石材門廊、四坡屋頂、總圖塔樓）| 校門、傅鐘仍是方塊造型；建築不是照真實立面逐棟建模；屋頂沒有立體瓦片 | `src/zones3d.js`（校園）、`src/campuskit3d.js`、`tests/campus_layout_nav.py` |
-| 公館 | PARTIAL | 第十一批：台北街屋＋連續騎樓、南側往馬路搬 30 m、往溫州街的巷口 | 15 間台北公寓、整排連續騎樓、招牌與櫥窗、騎樓日光燈、人行道 15 m（路燈、機車、捷運入口、圓環花台）、巷口（轉角公寓、路名牌、反光鏡）、校門後看得到校園；導航與互動測試 `tests/gongguan_layout_nav.py` | 校門、路燈仍是方塊造型；店名虛構、不是照真實街景建模；只有麵店、書店、便利商店進得去 | `src/zones3d.js`（公館）、`src/townkit3d.js`（`ground.through`、`ground.pillars`）、`src/story3d.js`（路人路線）、`tests/gongguan_layout_nav.py` |
+| 校園 | PARTIAL | 第十批：農業陳列館（校園建築全部換成套件） | 依臺大校總區平面圖配置（D23、D25）；大王椰子、闊葉樹、醉月湖（湖心亭走得上去）；行政大樓、文學院、校史館、總圖換成台大風格的外觀（面磚／紅磚、拱窗、一樓拱廊、石材門廊、四坡屋頂、總圖塔樓）| 傅鐘仍是方塊造型；建築不是照真實立面逐棟建模；屋頂沒有立體瓦片 | `src/zones3d.js`（校園）、`src/campuskit3d.js`、`tests/campus_layout_nav.py` |
+| 公館 | PARTIAL | 第十一批：台北街屋＋連續騎樓、南側往馬路搬 30 m、往溫州街的巷口 | 15 間台北公寓、整排連續騎樓、招牌與櫥窗、騎樓日光燈、人行道 15 m（路燈、機車、捷運入口、圓環花台）、巷口（轉角公寓、路名牌、反光鏡）、校門後看得到校園；導航與互動測試 `tests/gongguan_layout_nav.py` | 路燈仍是方塊造型；店名虛構、不是照真實街景建模；只有麵店、書店、便利商店進得去 | `src/zones3d.js`（公館）、`src/townkit3d.js`（`ground.through`、`ground.pillars`）、`src/story3d.js`（路人路線）、`tests/gongguan_layout_nav.py` |
 | NPC 動畫 | PARTIAL | — | VRM 0.x 坐／讀書／揮手／說話軸向修正；教室同學坐下面向黑板 | 騎腳踏車沒有踩踏動畫（VRM 沒有 P3 的 parts）；路人 clone 沒有表情 | `src/character3d.js`、`src/story3d.js` |
 | 互動與存檔 | 技術完成；功能完成（Playwright） | — | 標題畫面不再自動存檔覆蓋進度；Café 裡有人坐的位子不擋說話；觸控存檔到欄位、重新整理後讀回、讀檔後可以走；互動按鈕不蓋搖桿；校園改版後舊存檔移位（含「走得到」檢查）——全部 PASS | 手機實機未測 | `src/game3d.js`、`src/engine3d.js`、`index.html`、`tests/touch_flow_wenzhou.py`、`tests/campus_layout_nav.py` |
 
