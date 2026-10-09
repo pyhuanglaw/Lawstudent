@@ -13,6 +13,15 @@
 - **最新已推送 commit**：`416afee`（v9.3 第八批：黃昏調色提案（預設不開，等使用者決定）、霖澤館淺褐面磚、窗戶不全亮、陳語彤領口原因實驗；測試全部 PASS）；之前是 `40bb50e`（第七批）、`86deef8`（第六批）、`edb01e8`（第五批）、`0080bf5`（第四批）、`66374e2`（第三批）、`7a4eca6`（第二批）、`ad76109`（第一批）。分支 `claude/friendly-brahmagupta-6bbkzc`，PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
 - **畫面驗收**：[`docs/art-rebuild/VISUAL_REVIEW.md`](art-rebuild/VISUAL_REVIEW.md)。**美術規範**：[`docs/art-rebuild/ART_DIRECTION.md`](art-rebuild/ART_DIRECTION.md)（參考圖在 `docs/art-rebuild/references/`）
 
+### 這次完成（v9.3 第九批，`ef11bb4` 之後）
+
+| 項目 | 狀態 | 玩家會看到什麼 |
+|---|---|---|
+| 男一舍（宿舍外觀） | 技術完成；功能完成（導航測試）；READY_FOR_ART_REVIEW | 每天出門第一眼看到的建築：從貼圖方盒換成淺灰米色面磚、方窗、平屋頂、石材小門廊（男一舍招牌）。宿舍沒有拱廊，套件多了「一樓正面有窗、中間是大門」的版本。佔地、門口位置不變；「回宿舍」的互動範圍涵蓋門廊到門口 |
+| 社會科學院 | 技術完成；功能完成（導航測試）；READY_FOR_ART_REVIEW | 從貼圖方盒換成現代白色系館：白色粉光牆、每層橫向長窗、樓板白線、一樓玻璃大廳＋雨遮（新的 `CK.modern`）；門前的白色樹狀柱保留；晚上長窗分段亮 |
+
+測試（Playwright 模擬，程式＝這次 push 的版本）：`campus_layout_nav` 29/29、`nav_islands`（校園）ALL CLEAR、`p0_movement` 31/31、`movement_regression` 42/42、`touch_flow_wenzhou` 21/21、`see_through` ALL PASS（測試期間沒有同時跑其他瀏覽器工作）。
+
 ### 這次完成（v9.3 第八批，`6e6c76d` 之後）
 
 | 項目 | 狀態 | 玩家會看到什麼 |
@@ -143,7 +152,7 @@
 | 女性角色 | PARTIAL | 細修（陳語彤領口、林芷若髮型） | 五位女主角各有自己的模型與服裝（不是路人換色）：沈以安（單一高馬尾、米白針織衫、藍灰寬褲、樂福鞋、托特包）；林芷若（黑直髮、細框眼鏡、米色亞麻上衣改圓領、米灰寬褲、銀色小耳環、工作時圍裙）；陳語彤（黑髮接近齊肩、深灰圓領 T 恤、牛仔褲、後背包）；高子晴（深棕短髮、淺灰連帽外套、黑短褲、白球鞋、吉他袋）；溫書瑀（深棕低馬尾＋髮圈、白襯衫反摺長袖、卡其直筒褲、判決節錄資料夾）。轉身照見 VISUAL_REVIEW 第 2–5 節 | 臉是 VRoid 動畫臉（BLOCKED_BY_ART_ASSET）；林芷若微捲髮（BLOCKED_BY_ART_ASSET）；陳語彤領口兩側的深色內層；高子晴帽口白色髮尾 | `tools/vroid_build.py`、`assets/models/char/vroid_heroine_0[1-5].vrm`、`src/props3d.js`、`src/character3d.js`（`MODEL_PROPS`） |
 | VRM 系統 | 技術完成 | — | parse 一次＋骨架 clone 共用 GPU 資源；VRM 0.x 朝向與姿勢軸向；身高計算；換色（材質顏色相乘）；路人不投即時陰影改圓影；NPC frustum culling；載入失敗在 `?dev` 顯示；彈簧骨在人物座標系、固定小步長，更新前先更新 world matrix（#25）；配件掛在骨頭上（`src/props3d.js`） | 動畫仍是 Mixamo（授權疑慮，見 REVIEW_NOTES）；clone 沒有彈簧骨與表情（路人頭髮不會晃）；手機實機效能未測 | `src/assets3d.js`、`src/character3d.js`、`src/engine3d.js`、`src/props3d.js` |
 | 溫州街 | PARTIAL | 三時段光影 | 10 m 巷道、20+ 棟台北公寓（磁磚、鐵窗、冷氣、陽台、雨遮、水塔、加蓋）、店面（含兩點半 Café：有深度的室內、木窗框、壁燈、爬藤）、日式老屋（圍牆降低、玄關、寄棟屋頂、石燈籠）、小公園（鋪面、大樹＋樹圍座椅、路燈、睡覺的貓）、騎樓、死巷、電線桿＋電線＋路燈、反光鏡、機車、盆栽、行道樹；Café 在東端路口，路口往北延伸到天空；白天／黃昏／夜晚光線；NavGrid 與鏡頭碰撞同步 | 騎腳踏車的 NPC 很粗糙（W3.bike）；雨天地面反光未做；只有 Café 能進，其他店是「看櫥窗」；日式老屋側面與背面是平的雨淋板 | `src/townkit3d.js`、`src/zones3d.js`（`buildWenzhou`） |
-| 校園 | PARTIAL | 第七批：霖澤館、萬才館、走得進去的拱廊 | 依臺大校總區平面圖配置（D23、D25）；大王椰子、闊葉樹、醉月湖（湖心亭走得上去）；行政大樓、文學院、校史館、總圖換成台大風格的外觀（面磚／紅磚、拱窗、一樓拱廊、石材門廊、四坡屋頂、總圖塔樓）| 社科院、農業陳列館、宿舍仍是方盒；建築不是照真實立面逐棟建模；屋頂沒有立體瓦片 | `src/zones3d.js`（校園）、`src/campuskit3d.js`、`tests/campus_layout_nav.py` |
+| 校園 | PARTIAL | 第七批：霖澤館、萬才館、走得進去的拱廊 | 依臺大校總區平面圖配置（D23、D25）；大王椰子、闊葉樹、醉月湖（湖心亭走得上去）；行政大樓、文學院、校史館、總圖換成台大風格的外觀（面磚／紅磚、拱窗、一樓拱廊、石材門廊、四坡屋頂、總圖塔樓）| 農業陳列館仍是方盒（第九批換了男一舍、社科院）；建築不是照真實立面逐棟建模；屋頂沒有立體瓦片 | `src/zones3d.js`（校園）、`src/campuskit3d.js`、`tests/campus_layout_nav.py` |
 | NPC 動畫 | PARTIAL | — | VRM 0.x 坐／讀書／揮手／說話軸向修正；教室同學坐下面向黑板 | 騎腳踏車沒有踩踏動畫（VRM 沒有 P3 的 parts）；路人 clone 沒有表情 | `src/character3d.js`、`src/story3d.js` |
 | 互動與存檔 | 技術完成；功能完成（Playwright） | — | 標題畫面不再自動存檔覆蓋進度；Café 裡有人坐的位子不擋說話；觸控存檔到欄位、重新整理後讀回、讀檔後可以走；互動按鈕不蓋搖桿；校園改版後舊存檔移位（含「走得到」檢查）——全部 PASS | 手機實機未測 | `src/game3d.js`、`src/engine3d.js`、`index.html`、`tests/touch_flow_wenzhou.py`、`tests/campus_layout_nav.py` |
 

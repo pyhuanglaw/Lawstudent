@@ -428,6 +428,24 @@ v9.3 中午的淺色衣服都看得出顏色：
 
 ![霖澤館 20:30](screenshots/v93_CMP_campus_linze_night.jpg)
 
+### v9.3 第九批：男一舍、社會科學院
+
+**男一舍**（每天出門第一眼看到的建築）：原本是貼圖方盒。宿舍沒有拱廊，所以套件多了「一樓正面有窗、中間是大門」的版本：淺灰米色面磚、方窗、平屋頂、石材小門廊（男一舍招牌）。佔地、門口位置和舊版相同；「回宿舍」的互動範圍涵蓋門廊到門口。左：第八批，右：第九批：
+
+![男一舍](screenshots/v93_CMP_campus_dorm.jpg)
+
+![男一舍 20:30](screenshots/v93_CMP_campus_dorm_night.jpg)
+
+![男一舍 手機](screenshots/v93_CMP_campus_dorm_phone.jpg)
+
+**社會科學院**：原本是貼圖方盒。改成現代白色系館：白色粉光牆、每層一條橫向長窗（細直櫺）、樓板邊緣的白色水平線、一樓玻璃大廳＋入口薄雨遮、平屋頂細女兒牆（`CK.modern`）。門前的白色樹狀柱保留。左：第八批，右：第九批：
+
+![社會科學院](screenshots/v93_CMP_campus_soc.jpg)
+
+![社會科學院 20:30](screenshots/v93_CMP_campus_soc_night.jpg)
+
+和其他建築一樣，**不是照真實立面建模**，只是概略的樣子。
+
 ## 9. 日式老屋與小公園（v9.3）
 
 規範（`ART_DIRECTION.md` 第 6 節）：

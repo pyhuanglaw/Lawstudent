@@ -77,7 +77,9 @@ const CK=(function(){ 'use strict';
     const sillY=(fl)=> (fl===0?1.2:gfh+(fl-1)*fh+0.75);
     for(let fl=0;fl<nf;fl++){ const y=sillY(fl);
       for(let i=0;i<nb;i++){ const x=-w/2+bw*(i+0.5);
-        if(fl>0) addWindow(bin,M,wpU,x,y,d/2+0.01,0); // 正面（一樓是拱廊）
+        const door=!arc&&fl===0&&Math.abs(i-(nb-1)/2)<0.6; // 沒有拱廊（宿舍）：一樓正面中間是大門
+        if(fl>0||(!arc&&!door)) addWindow(bin,M,wpU,x,y,d/2+0.01,0); // 正面（有拱廊時一樓是拱廊）
+        if(door){ bin.add(M.door,TK.boxG(1.9,2.7,0.08),x,1.35,d/2+0.12); bin.add(M.trim,TK.boxG(2.4,0.22,0.2),x,2.85,d/2+0.12); /* 門在勒腳前面（勒腳正面在 d/2+0.08，同一平面會閃爍）*/ bin.add(M.trim,TK.boxG(2.6,0.12,0.9,1.0),x,0.06,d/2+0.45); }
         if(fl>0||!o.backArcade) addWindow(bin,M,wpU,x,y,-d/2-0.01,Math.PI); }
       for(let j=0;j<nbs;j++){ const z=-d/2+bws*(j+0.5); if(fl===0&&z>d/2-ad-0.8) continue; addWindow(bin,M,wpS,w/2+0.01,y,z,Math.PI/2); addWindow(bin,M,wpS,-w/2-0.01,y,z,-Math.PI/2); } }
     // 一樓拱廊：柱墩＋拱圈＋天花板＋地坪＋裡面的門窗
@@ -126,6 +128,36 @@ const CK=(function(){ 'use strict';
     bin.build(g);
     g.traverse(m=>{ if(m.isMesh){ m.castShadow=m.castShadow!==false; } });
     g.userData.ck={w,d,H,gfh,ad,blocks,doorZ:d/2-ad}; return g; }
+  // ---------- 現代系館（社會科學院）----------
+  // 白色粉光牆、每層一條橫向長窗（細直櫺）、樓板邊緣一道白色水平線、一樓正面是玻璃大廳＋薄雨遮、平屋頂細女兒牆。
+  // 和 hall() 一樣：本地座標建築中心在原點、正面朝 +z；回傳 userData.ck（導航阻擋、鏡頭碰撞給 zones3d 的 ckPlace 用）。
+  function modern(o){ const g=new THREE.Group(); const bin=new TK.Bin(); const blocks=[];
+    const w=o.w, d=o.d, nf=o.floors||4, gfh=o.gfh||4.4, fh=o.fh||3.8, H=gfh+(nf-1)*fh;
+    const wall=TK.M('ckModWall'+(o.wall||'#eeebe4'),()=>TK.std({map:TK.plasterTex(o.wall||'#eeebe4','ckMod'),roughness:0.9}));
+    const slab=TK.col(o.slab||'#f7f5f0'), mull=TK.col('#5f656c'), dark=TK.col('#2e2a26');
+    const glass=GLASS(), glassDark=GLASS_DARK();
+    const lobbyD=1.2; // 一樓玻璃往內退
+    bin.add(wall,TK.boxG(w,H-gfh,d,1.6),0,gfh+(H-gfh)/2,0);
+    bin.add(wall,TK.boxG(w,gfh,d-lobbyD,1.6),0,gfh/2,-lobbyD/2);
+    // 樓板邊緣（水平白線）、屋頂薄簷＋女兒牆
+    for(let i=1;i<nf;i++){ bin.add(slab,TK.boxG(w+0.3,0.28,d+0.3,1.0),0,gfh+(i-1)*fh,0); }
+    bin.add(slab,TK.boxG(w+0.3,0.28,d+0.3,1.0),0,gfh,0);
+    bin.add(slab,TK.boxG(w+1.2,0.2,d+1.2,1.0),0,H+0.1,0); bin.add(slab,TK.boxG(w+0.2,0.7,0.25,1.0),0,H+0.55,d/2-0.02); bin.add(slab,TK.boxG(w+0.2,0.7,0.25,1.0),0,H+0.55,-d/2+0.02); bin.add(slab,TK.boxG(0.25,0.7,d,1.0),w/2-0.02,H+0.55,0); bin.add(slab,TK.boxG(0.25,0.7,d,1.0),-w/2+0.02,H+0.55,0); bin.add(dark,TK.boxG(w-0.4,0.05,d-0.4),0,H+0.22,0,0,{noShadow:true});
+    // 長窗：每層前、後、左右；一段一段（約 1.4 m）分開，方便晚上有亮有暗
+    const band=(len,y,z,ry,seg)=>{ const n=Math.max(1,Math.round(len/seg)), sw=len/n, wh=1.45; for(let k=0;k<n;k++){ const lx=-len/2+sw*(k+0.5); const c=Math.cos(ry), sn=Math.sin(ry); const px=lx*c+z*sn, pz=-lx*sn+z*c; bin.add(winLit(px,y,pz)?glass:glassDark,TK.planeG(sw-0.08,wh,[0,0,1,1]),px,y,pz,ry,{noShadow:true}); const mx=(lx+sw/2)*c+z*sn, mz=-(lx+sw/2)*sn+z*c; if(k<n-1) bin.add(mull,TK.boxG(0.07,wh,0.06),mx,y,mz,ry,{noShadow:true}); }
+      const c=Math.cos(ry), sn=Math.sin(ry); bin.add(mull,TK.boxG(len,0.07,0.08),z*sn,y-wh/2,z*c,ry,{noShadow:true}); bin.add(mull,TK.boxG(len,0.07,0.08),z*sn,y+wh/2,z*c,ry,{noShadow:true}); };
+    for(let f=1;f<nf;f++){ const y=gfh+(f-1)*fh+0.95+0.72; band(w-1.6,y,d/2+0.01,0,1.4); band(w-1.6,y,d/2+0.01,Math.PI,1.4); band(d-1.6,y,w/2+0.01,Math.PI/2,1.4); band(d-1.6,y,w/2+0.01,-Math.PI/2,1.4); }
+    // 一樓玻璃大廳（正面）：整片玻璃＋直櫺；入口在中間：門框＋薄雨遮
+    const gz=d/2-lobbyD+0.02, lw=w-0.6; { const n=Math.round(lw/1.5), sw=lw/n; for(let k=0;k<n;k++){ const x=-lw/2+sw*(k+0.5); bin.add(winLit(x,1.8,gz)?glass:glassDark,TK.planeG(sw-0.06,gfh-0.5,[0,0,1,1]),x,(gfh-0.5)/2+0.1,gz,0,{noShadow:true}); if(k<n-1) bin.add(mull,TK.boxG(0.08,gfh-0.4,0.08),x+sw/2,(gfh-0.4)/2+0.1,gz+0.02,0,{noShadow:true}); } }
+    bin.add(slab,TK.boxG(w,0.1,lobbyD+0.2,1.0),0,0.05,d/2-lobbyD/2);
+    bin.add(dark,TK.boxG(2.6,2.8,0.06),0,1.4,gz+0.03,0,{noShadow:true}); bin.add(slab,TK.boxG(6.0,0.18,2.6,1.0),0,3.4,d/2+1.0); // 入口雨遮
+    // 一樓兩端的實牆（玻璃大廳兩側收邊）
+    for(const sx of [-1,1]) bin.add(wall,TK.boxG(0.6,gfh,lobbyD,1.6),sx*(w/2-0.3),gfh/2,d/2-lobbyD/2);
+    blocks.push([0,0,w,d,0.3]);
+    if(o.sign){ const st=TK.signTex(o.sign,{bg:o.signBg||'#f7f5f0',color:o.signColor||'#3b3b3b',size:72}); const sm=new THREE.Mesh(new THREE.PlaneGeometry(Math.min(8,o.sign.length*1.1),0.8),new THREE.MeshStandardMaterial({map:st,roughness:0.8})); sm.position.set(0,gfh+0.55,d/2+0.16); g.add(sm); }
+    bin.build(g);
+    g.traverse(m=>{ if(m.isMesh){ m.castShadow=m.castShadow!==false; } });
+    g.userData.ck={w,d,H,gfh,ad:0,blocks,doorZ:d/2}; return g; }
   function setNight(on){ TK.setNight(on?1:0); }
-  return {hall,setNight,tileTex};
+  return {hall,modern,setNight,tileTex};
 })();
