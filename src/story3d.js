@@ -105,7 +105,7 @@ const STORY = (function(){
     else { const lines=SMALLTALK[id]||(c.facts?c.facts.map(f=>'「'+f+'。」'):['「嗨。」']); const rv=SOCIAL.reveal(id); if(c.social_layer==='B'&&rv==='ACQUAINTANCE'&&c.facts&&c.facts[1]&&SOCIAL.rel(id).talked>=3&&!SOCIAL.has(id,'SHARED_SECRET')){ await GM.say(who,'「其實……'+c.facts[1]+'。沒跟很多人講過。」'); SOCIAL.remember(id,'SHARED_SECRET',c.facts[1]); SOCIAL.adjust(id,{fam:4,trust:4}); } else { await GM.say(who,lines[(Math.random()*lines.length)|0],{expr:'smile'}); SOCIAL.adjust(id,{fam:1}); } }
     n.name=SOCIAL.displayName(id); n.talkLabel='和'+n.name+'說話'; GM.sceneEnd(); };
   let GM_ref=null;
-  function spawnCompanion(GM){ const E=GM.E; const P=E.player.obj; const n=GM.spawnNPC('an',AN,P.position.x-Math.sin(P.rotation.y)*1.2+0.6,P.position.z-Math.cos(P.rotation.y)*1.2,{beh:'follow',talk:n=>talkAn(GM,n),talkLabel:'和小安說話'}); n.followOff=1.1; return n; }
+  function spawnCompanion(GM){ const E=GM.E; const P=E.player.obj; const n=GM.spawnNPC('an',AN,P.position.x-Math.sin(P.rotation.y)*1.2+0.6,P.position.z-Math.cos(P.rotation.y)*1.2,{beh:'follow',greet:false,talk:n=>talkAn(GM,n),talkLabel:'和小安說話'}); n.followOff=1.1; return n; }  // 一起走的人不會每隔一段時間對你揮手
   // ---------- 進入區域時 ----------
   S.onEnter=async function(zoneId,GM,opts){ opts=opts||{}; const G=GM.G, F=G.flags, E=GM.E; if(G.day===1&&zoneId==='dorm'&&!F.introDone){ await introDorm(GM); return; }
     if(zoneId==='campus'&&G.day===2&&!F.classDone&&!F.campusIntro){ F.campusIntro=true; await campusMorning(GM); return; }

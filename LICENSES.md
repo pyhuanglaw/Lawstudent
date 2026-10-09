@@ -14,10 +14,18 @@
 | Seed-san.vrm（VirtualCast, Inc.） | vrm-c/vrm-specification `samples/Seed-san/`（git clone，2026-09） | VRM Public License 1.0（avatarPermission everyone、commercialUsage corporation、allowRedistribution true、modification allowModificationRedistribution、**creditNotation: required**） | `assets/models/char/vrm_player.vrm`：v8 以前的玩家（祐廷）3D 模型；**v9 起遊戲不再載入**（改用 VRoid CC0 改作的 `vroid_yuting.vrm`），檔案仍保留在 repo，所以署名仍需保留。本專案修改：機械手臂／背包／配件 mesh 隱藏（`hide`）、服裝貼圖改成墨綠 T-shirt＋炭灰長褲（`tools/recolor_player_vrm.py`）、貼圖縮小。**必須標示：「Seed-san by VirtualCast, Inc.」**（已寫在遊戲說明頁） |
 | 五位女主角 2D 立繪（`assets/portraits/*/campus/neutral.webp`、`assets/portraits_source_sheet.png`） | 使用者提供（2026-09-27 合圖） | 使用者自有素材 | `tools/cut_portraits.py` 去背切圖；ADV 立繪 |
 | VRM1_Constraint_Twist_Sample.vrm（(c) 2022 pixiv Inc.） | three-vrm 倉庫 `packages/three-vrm/examples/models/` | VRM Public License 1.0（meta：avatarPermission everyone、commercialUsage corporation、allowRedistribution true、modification allowModificationRedistribution、creditNotation unnecessary） | `assets/models/char/vrm_sample.vrm`：v8 以前小安（heroine_01）的 3D 模型，**v9 起不再載入**；貼圖已縮小（2048→≤1024、移除縮圖，10.5 MB→4.9 MB），其餘未改。正式版應換成自製或授權的 VRM |
-| **VRoid Studio β 版 CC0 樣本模型**：HairSample_Male、HairSample_Female、Sakurada Fumiriya（桜田史利矢）、Sendagaya Shibu（千駄ヶ谷渋）、Sendagaya Shino（千駄ヶ谷篠）、Victoria Rubin（© pixiv Inc. / VRoid Project，已放棄著作權） | VRoid 官方說明「VRoid Studio 的樣本模型是否有使用條件」：β 版樣本為 **CC0**（AvatarSample_A／B／C 另有條件，**未使用**）。取得管道：github.com/madjin/vrm-samples `vroid/beta/`（commit e16eb18）。每個檔案內嵌的 VRM meta 皆為 `licenseName: CC0`、allowedUserName Everyone、commercialUssageName Allow（已用 `tools/vroid_build.py` 讀取確認） | CC0 1.0（不需署名；仍在此註明來源） | `assets/models/char/vroid_*.vrm`：**v9 起的正式 3D 人物**——祐廷（玩家）、沈以安、阿哲、陳語彤，以及 4 個路人底模（npc_f1/f2、npc_m1/m2）。全部由 `tools/vroid_build.py` 修改：衣物在模型之間移植並依骨架重新綁定（例：女性角色穿上 HairSample_Male 的長褲）、刪除被衣物蓋住的皮膚三角形、HairSample_Female 拿掉貓耳並把雙馬尾改成單一高馬尾、貼圖換色、眼型 blendshape 微調、只保留用到的表情、合併同材質 primitive、縮貼圖。原始 VRM 不放進 repo（見 `tools/fetch_vroid_src.sh`） |
+| **VRoid Studio β 版 CC0 樣本模型**：HairSample_Male、HairSample_Female、Sakurada Fumiriya（桜田史利矢）、Sendagaya Shibu（千駄ヶ谷渋）、Sendagaya Shino（千駄ヶ谷篠）、Victoria Rubin、Vita（© pixiv Inc. / VRoid Project，已放棄著作權） | VRoid 官方說明「VRoid Studio 的樣本模型是否有使用條件」：β 版樣本為 **CC0**（AvatarSample_A／B／C 另有條件，**未使用**）。取得管道：github.com/madjin/vrm-samples `vroid/beta/`（commit e16eb18）。每個檔案內嵌的 VRM meta 皆為 `licenseName: CC0`、allowedUserName Everyone、commercialUssageName Allow（已用 `tools/vroid_build.py` 讀取確認） | CC0 1.0（不需署名；仍在此註明來源） | `assets/models/char/vroid_*.vrm`：**v9 起的正式 3D 人物**——祐廷（玩家）、沈以安、林芷若、陳語彤、高子晴、溫書瑀、阿哲，以及 4 個路人底模（npc_f1/f2、npc_m1/m2）。v9.2 起另外做的修改：連帽上衣拿掉帽子／抽繩／口袋線改成圓領上衣、針織衫或剪短袖成 T 恤；長褲加寬成直筒寬褲；馬尾改成自然下垂並加三節彈簧骨；眼睛幾何縮小；描邊顏色改成布料的深色。全部由 `tools/vroid_build.py` 修改：衣物在模型之間移植並依骨架重新綁定（例：女性角色穿上 HairSample_Male 的長褲）、刪除被衣物蓋住的皮膚三角形、HairSample_Female 拿掉貓耳並把雙馬尾改成單一高馬尾、貼圖換色、眼型 blendshape 微調、只保留用到的表情、合併同材質 primitive、縮貼圖。原始 VRM 不放進 repo（見 `tools/fetch_vroid_src.sh`） |
 | Noto Sans TC / Noto Serif TC | Google Fonts | SIL OFL 1.1 | `<link>` 載入；離線退回系統字型 |
 
 未使用（評估後排除）：Kenney 人物（方塊風格）、market bike（27 萬三角形）、bed/mug/headphones（過重）。
 遊戲內其餘貼圖、建築（含 v9 溫州街 `src/townkit3d.js` 的公寓、店面、日式宿舍、電線桿、機車、行道樹）、程序化人物、聲音皆為程式即時產生。所有人物、店名、事件皆為虛構；「台大／公館／溫州街」僅作空間氣質與地標語彙參考。
 
 其他：`legacy/` 的早期 2D 版本與美術測試全部為本專案自製程式（SVG／Canvas），未使用外部素材。`docs/history/specs/` 為使用者撰寫的需求文件，`docs/history/user_feedback_images/` 為使用者提供的實機截圖。
+
+## 本作自製（程式產生，無外部素材）
+
+| 內容 | 檔案 | 說明 |
+|---|---|---|
+| 人物配件（後背包、托特包、細框眼鏡、銀耳環、咖啡廳圍裙、吉他袋、判決節錄資料夾） | `src/props3d.js` | three.js 幾何＋Canvas 布紋貼圖，本作自己寫的程式，無外部素材 |
+| 天空（程序雲、星星）與遠方天際線（台北市區剪影、山稜線、台北 101 剪影） | `src/engine3d.js`（`makeSky`、`makeSkyline`） | Shader 雜訊與 Canvas 繪製，本作自己寫的程式；台北 101 只是遠景剪影（公共地標外形），沒有使用任何照片或商標圖 |
+| 兩點半 Café 店面與室內（窗框、吊燈、書架、黑板菜單、桌椅、爬藤、盆栽） | `src/townkit3d.js`（`cafeFront`、`plantClump`） | 本作自己寫的程式；葉片貼圖為 Canvas 程序繪製 |

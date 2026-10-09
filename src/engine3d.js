@@ -27,12 +27,55 @@ const E3 = (function(){
     scene=new THREE.Scene(); E.scene=scene; camera=new THREE.PerspectiveCamera(46,1,0.1,200); E.camera=camera; clock=new THREE.Timer?null:null; E.time=0;
     E.hemi=new THREE.HemisphereLight(0xdfe9f5,0xb9a98d,0.8); scene.add(E.hemi); E.sun=new THREE.DirectionalLight(0xfff2dc,1.9); E.sun.position.set(30,50,20); scene.add(E.sun); E.sun.target.position.set(0,0,0); scene.add(E.sun.target); E.fill=new THREE.DirectionalLight(0xcfe3ff,0.35); E.fill.position.set(-20,20,-30); scene.add(E.fill);
     E.sun.shadow.mapSize.set(1024,1024); E.sun.shadow.camera.near=1; E.sun.shadow.camera.far=120; E.sun.shadow.camera.left=-22; E.sun.shadow.camera.right=22; E.sun.shadow.camera.top=22; E.sun.shadow.camera.bottom=-22; E.sun.shadow.bias=-0.0006; E.sun.shadow.normalBias=0.03;
-    scene.fog=new THREE.Fog(0xdbe6ea,40,150); E.sky=makeSky(); scene.add(E.sky);
+    scene.fog=new THREE.Fog(0xdbe6ea,40,150); E.sky=makeSky(); scene.add(E.sky); E.skyline=makeSkyline(); scene.add(E.skyline);
     E.groundPlane=new THREE.Plane(new THREE.Vector3(0,1,0),0); E.ray=new THREE.Raycaster(); E.ndc=new THREE.Vector2();
     E.cam={yaw:Math.PI,pitch:0.22,dist:6.0,distTarget:6.0,target:new THREE.Vector3(),mode:'follow',shake:0}; E.player=null; E.npcs=[]; E.extras=[]; E.zone=null; E.colliders=[]; E.interactables=[]; E.hour=8.5; E.weather='clear'; E.paused=false; E.lampGlows=[]; E.windowsLit=false;
     setupInput(); E.setQuality(opts.quality||'medium'); E.resize(); window.addEventListener('resize',E.resize); return E; };
-  function makeSky(){ const geo=new THREE.SphereGeometry(120,24,12); const mat=new THREE.ShaderMaterial({side:THREE.BackSide,depthWrite:false,uniforms:{top:{value:new THREE.Color(0x7fb0d8)},mid:{value:new THREE.Color(0xd8e8ef)},bot:{value:new THREE.Color(0xf1e7d6)},sunDir:{value:new THREE.Vector3(0,1,0)},sunCol:{value:new THREE.Color(0xffe6b0)},sunAmt:{value:0.3}},vertexShader:'varying vec3 vP; void main(){ vP=normalize(position); gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',fragmentShader:'uniform vec3 top; uniform vec3 mid; uniform vec3 bot; uniform vec3 sunDir; uniform vec3 sunCol; uniform float sunAmt; varying vec3 vP; void main(){ float h=vP.y; vec3 c= h>0.0? mix(mid,top,pow(h,0.7)) : mix(mid,bot,pow(-h,0.6)); float d=max(0.0,dot(normalize(vP),normalize(sunDir))); c+=sunCol*pow(d,18.0)*sunAmt+sunCol*pow(d,3.0)*sunAmt*0.25; gl_FragColor=vec4(c,1.0); }'}); const m=new THREE.Mesh(geo,mat); m.renderOrder=-10; m.frustumCulled=false; return m; }
-  E.setQuality=function(level){ E.q.level=level; const dpr=window.devicePixelRatio||1; if(level==='high'){ E.q.pr=Math.min(dpr,2); E.q.shadows=true; E.q.far=160; } else if(level==='low'){ E.q.pr=Math.min(dpr,1); E.q.shadows=false; E.q.far=90; } else { E.q.pr=Math.min(dpr,1.5); E.q.shadows=true; E.q.far=130; } renderer.setPixelRatio(E.q.forcePR||E.q.pr); renderer.shadowMap.enabled=E.q.shadows; E.sun.castShadow=E.q.shadows; camera.far=E.q.far+40; camera.updateProjectionMatrix(); scene.fog.far=E.q.far; if(E.sky){ const s=(E.q.far+30)/120; E.sky.scale.setScalar(s); } E.resize(); scene.traverse(o=>{ if(o.material&&o.material.needsUpdate!==undefined) o.material.needsUpdate=true; }); };
+  // 天空（v9.2）：漸層＋地平線霧氣＋會隨時間變色的雲（程序雜訊，緩慢飄動）＋夜晚星星
+  function makeSky(){ const geo=new THREE.SphereGeometry(120,32,16); const mat=new THREE.ShaderMaterial({side:THREE.BackSide,depthWrite:false,fog:false,
+      uniforms:{top:{value:new THREE.Color(0x7fb0d8)},mid:{value:new THREE.Color(0xd8e8ef)},bot:{value:new THREE.Color(0xf1e7d6)},sunDir:{value:new THREE.Vector3(0,1,0)},sunCol:{value:new THREE.Color(0xffe6b0)},sunAmt:{value:0.3},
+        time:{value:0},cover:{value:0.5},cloudLit:{value:new THREE.Color(0xffffff)},cloudDark:{value:new THREE.Color(0xb8c4d2)},starAmt:{value:0},oct:{value:5}},
+      vertexShader:'varying vec3 vP; void main(){ vP=normalize(position); gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
+      fragmentShader:[
+        'uniform vec3 top; uniform vec3 mid; uniform vec3 bot; uniform vec3 sunDir; uniform vec3 sunCol; uniform float sunAmt; uniform float time; uniform float cover; uniform vec3 cloudLit; uniform vec3 cloudDark; uniform float starAmt; uniform float oct; varying vec3 vP;',
+        'float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }',
+        'float noise(vec2 p){ vec2 i=floor(p); vec2 f=fract(p); f=f*f*(3.0-2.0*f); float a=hash(i), b=hash(i+vec2(1.0,0.0)), c=hash(i+vec2(0.0,1.0)), d=hash(i+vec2(1.0,1.0)); return mix(mix(a,b,f.x),mix(c,d,f.x),f.y); }',
+        'float fbm(vec2 p){ float v=0.0; float a=0.5; for(int i=0;i<5;i++){ if(float(i)>=oct) break; v+=a*noise(p); p=p*2.03+vec2(1.7,9.2); a*=0.5; } return v; }',
+        'void main(){ vec3 d=normalize(vP); float h=d.y;',
+        '  vec3 c= h>0.0? mix(mid,top,pow(clamp(h,0.0,1.0),0.85)) : mix(mid,bot,pow(-h,0.6));',
+        '  c=mix(c,mid,exp(-abs(h)*16.0)*0.45);',  /* 地平線的霧氣 */
+        '  vec3 sd3=normalize(sunDir); float sd=max(0.0,dot(d,sd3));',
+        '  c+=sunCol*pow(sd,18.0)*sunAmt+sunCol*pow(sd,3.0)*sunAmt*0.25;',
+        '  float dens=0.0;',
+        '  if(h>0.0){ vec2 uv=d.xz/(h+0.16)*1.25+vec2(time*0.0045,time*0.0016); float n=fbm(uv*1.5)*0.75+fbm(uv*0.55+vec2(3.1,1.7))*0.35; dens=smoothstep(cover,cover+0.26,n)*smoothstep(0.0,0.12,h);',
+        '    float shade=clamp(0.6+1.1*(n-fbm(uv*1.5+sd3.xz*0.12)*0.75-fbm(uv*0.55+vec2(3.1,1.7)+sd3.xz*0.05)*0.35),0.0,1.0); vec3 cc=mix(cloudDark,cloudLit,shade); cc+=sunCol*pow(sd,5.0)*0.45*sunAmt*(1.0-dens*0.4);',
+        '    c=mix(c,cc,dens*0.9); }',
+        '  if(starAmt>0.001&&h>0.04){ vec2 sp=d.xz/(h+0.35)*180.0; float st=step(0.9972,hash(floor(sp))); c+=vec3(0.9,0.92,1.0)*st*starAmt*smoothstep(0.04,0.3,h)*(1.0-dens); }',
+        '  gl_FragColor=vec4(c,1.0); }'].join('\n')});
+    const m=new THREE.Mesh(geo,mat); m.renderOrder=-10; m.frustumCulled=false; return m; }
+  // 遠方天際線（v9.2）：跟著鏡頭的兩圈圓柱（遠山＋台北市區剪影），越遠越淡（空氣感）；晚上市區窗戶亮燈。只在室外區域顯示
+  function skylineTex(kind){ const W=2048, H=256; const c=document.createElement('canvas'); c.width=W; c.height=H; const x=c.getContext('2d'); let seed=kind==='city'?7:3; const rnd=()=>{ seed=(seed*16807)%2147483647; return seed/2147483647; };
+    const win=document.createElement('canvas'); win.width=W; win.height=H; const wx=win.getContext('2d');
+    if(kind==='mount'){ // 兩層山稜線（遠的淡、近的深一點）
+      for(const [base,amp,g] of [[150,70,'rgba(255,255,255,0.78)'],[185,48,'rgba(205,210,215,1)']]){ x.fillStyle=g; x.beginPath(); x.moveTo(0,H); for(let i=0;i<=W;i+=8){ const t=i/W*Math.PI*2; const y=base-amp*(0.55+0.25*Math.sin(t*3+1.3)+0.12*Math.sin(t*7+0.4)+0.06*Math.sin(t*17+2.1)); x.lineTo(i,y); } x.lineTo(W,H); x.closePath(); x.fill(); }
+      // 台北 101（遠景地標剪影，在山前面）
+      const cx=W*0.18, by=H-14; x.fillStyle='rgba(150,158,168,1)'; for(let k=0;k<8;k++){ const w0=26-k*1.2, y0=by-22-k*17; x.beginPath(); x.moveTo(cx-w0/2,y0+17); x.lineTo(cx-w0/2-3,y0); x.lineTo(cx+w0/2+3,y0); x.lineTo(cx+w0/2,y0+17); x.fill(); } x.fillRect(cx-16,by-22,32,22); x.fillRect(cx-5,by-170,10,14); x.fillRect(cx-1.5,by-205,3,36);
+      return {map:c}; }
+    // 市區：後排（淡）＋前排（深）建築剪影，可水平接續；窗戶另外一張（晚上亮）
+    for(const [row,minH,maxH,g] of [[0,60,150,'rgba(255,255,255,1)'],[1,30,110,'rgba(170,176,184,1)']]){ let px=0; while(px<W){ const bw=18+rnd()*46, bh=minH+rnd()*(maxH-minH)*(rnd()<0.12?1.6:1); const top=H-bh; x.fillStyle=g;
+        const draw=(ox)=>{ x.fillRect(ox,top,bw,bh); if(rnd()<0.35){ x.fillRect(ox+bw*0.2,top-6,bw*0.25,6); } if(rnd()<0.15){ x.fillRect(ox+bw*0.6,top-14,2,14); } };
+        draw(px); if(px+bw>W) draw(px-W);
+        if(row===1){ for(let wy=top+6;wy<H-6;wy+=9){ for(let wxp=px+4;wxp<px+bw-5;wxp+=7){ const lit=rnd(); x.fillStyle='rgba(120,128,138,1)'; x.fillRect(wxp,wy,3,4); if(lit<0.38){ wx.fillStyle=lit<0.27?'rgba(255,214,150,1)':'rgba(220,235,255,1)'; wx.fillRect(wxp%W,wy,3,4); } } } }
+        px+=bw+(rnd()<0.2?6:0); } }
+    return {map:c,win}; }
+  function makeSkyline(){ const g=new THREE.Group(); g.name='skyline';
+    const mk=(canvas,r,hgt,y,o)=>{ const t=new THREE.CanvasTexture(canvas); t.colorSpace=THREE.SRGBColorSpace; t.wrapS=THREE.RepeatWrapping; t.repeat.set(o.rep||1,1); const m=new THREE.MeshBasicMaterial(Object.assign({map:t,transparent:true,depthWrite:false,fog:false,side:THREE.BackSide},o.mat||{})); const mesh=new THREE.Mesh(new THREE.CylinderGeometry(r,r,hgt,64,1,true),m); mesh.position.y=y; mesh.renderOrder=-9; mesh.frustumCulled=false; g.add(mesh); return mesh; };
+    const M=skylineTex('mount'), C=skylineTex('city');
+    g.userData.mount=mk(M.map,150,60,22,{rep:1});
+    g.userData.city=mk(C.map,118,40,15,{rep:2});
+    g.userData.win=mk(C.win,117.5,40,15,{rep:2,mat:{blending:THREE.AdditiveBlending,opacity:0}});
+    return g; }
+  E.setQuality=function(level){ E.q.level=level; const dpr=window.devicePixelRatio||1; if(level==='high'){ E.q.pr=Math.min(dpr,2); E.q.shadows=true; E.q.far=160; } else if(level==='low'){ E.q.pr=Math.min(dpr,1); E.q.shadows=false; E.q.far=90; } else { E.q.pr=Math.min(dpr,1.5); E.q.shadows=true; E.q.far=130; } renderer.setPixelRatio(E.q.forcePR||E.q.pr); renderer.shadowMap.enabled=E.q.shadows; E.sun.castShadow=E.q.shadows; camera.far=E.q.far+40; camera.updateProjectionMatrix(); scene.fog.far=E.q.far; if(E.sky){ const s=(E.q.far+30)/120; E.sky.scale.setScalar(s); E.sky.material.uniforms.oct.value=level==='low'?3:5; } E.resize(); scene.traverse(o=>{ if(o.material&&o.material.needsUpdate!==undefined) o.material.needsUpdate=true; }); };
   E.resize=function(){ const w=E.canvas.clientWidth||innerWidth, h=E.canvas.clientHeight||innerHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.fov=w<h?60:46; camera.updateProjectionMatrix(); E.w=w; E.h=h; E.portrait=w<h; };
   // ---------- 時間與天氣 ----------
   const KEY=[ // hour, sun color, sun int, elev(deg), azimuth(deg), hemi sky, hemi ground, hemi int, fog color, exposure, skyTop, skyMid, skyBot, lamps
@@ -41,9 +84,9 @@ const E3 = (function(){
     [9,'#fff2dc',1.9,32,100,'#dfe9f5','#b9a98d',0.8,'#dbe6ea',1.0,'#79aedb','#d8e8ef','#f1e7d6',0],
     [12,'#fff8ec',2.2,68,150,'#e6eefa','#c0b29a',0.85,'#dfe9ec',1.0,'#6fa9dc','#dbe9f0','#eee6d8',0],
     [15,'#fff1d6',2.0,45,225,'#dfe9f5','#c0b29a',0.8,'#dfe6ea',1.0,'#75acd9','#dbe7ee','#efe4d2',0],
-    [17,'#ffd7a0',1.8,20,255,'#dfe0ee','#c9a67a',0.9,'#e3ddd4',1.0,'#79a6d2','#e6dccb','#f3dcb8',0],
-    [18,'#ffa462',1.5,7,266,'#d8b8c8','#8a6a58',0.95,'#dcb9a6',1.05,'#5d7fb5','#e9b48e','#f6c48e',1],
-    [18.6,'#ff8a5a',0.7,1.5,272,'#a88fb0','#6a5248',0.85,'#b9a0b0',1.0,'#3f5a95','#c98a8e','#f0a878',1],
+    [17,'#ffcf96',1.85,26,262,'#dfe0ee','#c9a67a',0.9,'#e3ddd4',1.0,'#79a6d2','#e6dccb','#f3dcb8',0],
+    [18,'#ffa060',1.5,13,268,'#d8b8c8','#8a6a58',0.95,'#dcb9a6',1.05,'#5d7fb5','#e9b48e','#f6c48e',1],
+    [18.6,'#ff8a5a',0.75,3,272,'#a88fb0','#6a5248',0.85,'#b9a0b0',1.0,'#3f5a95','#c98a8e','#f0a878',1],
     [19.2,'#7080b8',0.25,-2,276,'#6a7ab0','#3a3440',0.8,'#3a4468',0.95,'#22386a','#5a6a9a','#8a7a8c',1],
     [21,'#3a4670',0.08,-10,280,'#2b3a5c','#1a1a24',0.55,'#1b2233',0.85,'#0f1a33','#243052','#3a3a4a',1],
     [24,'#3a4670',0.05,-10,280,'#232f4c','#151520',0.5,'#141a2b',0.8,'#0b1329','#1c2540','#2b2b3a',1],
@@ -53,11 +96,16 @@ const E3 = (function(){
     E.sun.color.copy(lerpC(A[1],B[1])); E.sun.intensity=lerp(A[2],B[2]); const el=lerp(A[3],B[3])*Math.PI/180, az=lerp(A[4],B[4])*Math.PI/180; const target=E.player?E.player.obj.position:new THREE.Vector3(); E.sun.position.set(target.x+Math.cos(el)*Math.sin(az)*60,Math.max(2,Math.sin(el)*60)+target.y,target.z+Math.cos(el)*Math.cos(az)*60); E.sun.target.position.copy(target); E.sun.target.updateMatrixWorld();
     E.hemi.color.copy(lerpC(A[5],B[5])); E.hemi.groundColor.copy(lerpC(A[6],B[6])); E.hemi.intensity=lerp(A[7],B[7]); scene.fog.color.copy(lerpC(A[8],B[8])); renderer.toneMappingExposure=lerp(parseFloat(A[9]),parseFloat(B[9]));
     const sk=E.sky.material.uniforms; sk.top.value.copy(lerpC(A[10],B[10])); sk.mid.value.copy(lerpC(A[11],B[11])); sk.bot.value.copy(lerpC(A[12],B[12])); sk.sunDir.value.copy(E.sun.position).sub(target).normalize(); sk.sunCol.value.copy(E.sun.color); sk.sunAmt.value=0.15+0.45*Math.max(0,1-Math.abs(el)/0.6);
+    { // 雲與天際線：白天白雲、黃昏染上夕陽色、夜晚暗；天際線用霧的顏色做空氣感，越暗越像剪影
+      const nk=h>=19.2||h<5.6?1:(h>=17.6?(h-17.6)/1.6:(h<6.4?(6.4-h)/0.8:0)); const dusk=Math.max(0,1-Math.abs(h-18.0)/1.6)*(1-nk*0.6); const elDeg=lerp(A[3],B[3]);
+      const lit=new THREE.Color(0xffffff).lerp(E.sun.color,0.25+0.6*dusk); lit.lerp(new THREE.Color(0x323a52),nk*0.92); const dark=sk.top.value.clone().lerp(new THREE.Color(0xa6b0bf),0.55).lerp(new THREE.Color(0x8a6f86),dusk*0.45).lerp(new THREE.Color(0x141a28),nk*0.9);
+      sk.cloudLit.value.copy(lit); sk.cloudDark.value.copy(dark); sk.cover.value=0.5-0.05*dusk; sk.starAmt.value=Math.max(0,nk-0.3)*0.9;
+      if(E.skyline){ const fc=scene.fog.color; const haze=fc.clone().lerp(sk.mid.value,0.35); const U=E.skyline.userData; U.mount.material.color.copy(haze).lerp(new THREE.Color(0x6f8496),0.55*(1-nk)).lerp(new THREE.Color(0x8a6f80),dusk*0.3).lerp(new THREE.Color(0x232a3c),nk*0.8); U.city.material.color.copy(haze).lerp(new THREE.Color(0x6f7c8c),0.45*(1-nk)).lerp(new THREE.Color(0x7a5e6c),dusk*0.35).lerp(new THREE.Color(0x121827),nk*0.9); U.win.material.opacity=Math.max(0,Math.min(1,(nk-0.15)*1.4)); } }
     const lamps=lerp(A[13],B[13])>0.5; if(lamps!==E.lampsOn){ E.lampsOn=lamps; E.setLamps(lamps); }
     if(!E.indoor&&E.zone&&E.zone.def&&E.zone.def.cityLight&&E.lampsOn){ const cl=E.zone.def.cityLight; E.hemi.intensity+=0.45*cl; E.hemi.color.lerp(new THREE.Color(0xffd9a8),0.5*cl); scene.fog.color.lerp(new THREE.Color(0x4a4058),0.4*cl); }
     if(E.indoor){ const night=(h<6.5||h>=18); const dusk=(h>=16.5&&h<18.4); const warm=!!(E.zone&&E.zone.warm), cool=!!(E.zone&&E.zone.cool); E.hemi.intensity=night?(warm?0.8:(cool?1.05:0.95)):(dusk?1.1:1.2); E.hemi.color.set(night?(warm?0xffdcb0:(cool?0xe6ecfa:0xfff0dc)):(dusk?0xf9e6c8:(h<8?0xeef2f8:0xf4f1ea))); E.hemi.groundColor.set(night?0x6e5f52:(dusk?0xa08a6a:0x9a8a78)); E.sun.intensity=night?0.12:(dusk?0.7:0.9); if(E.sun.color) E.sun.color.set(dusk?0xffc07a:0xffffff); renderer.toneMappingExposure=1.0; scene.fog.far=E.q.far; if(E.zone&&E.zone.applyTime) E.zone.applyTime(h,E.weather); return; }
     if(E.zone&&E.zone.applyTimeOutdoor) E.zone.applyTimeOutdoor(h,E);
-    if(E.weather==='rain'||E.weather==='cloudy'){ E.sun.intensity*=E.weather==='rain'?0.35:0.55; E.hemi.intensity*=0.9; sk.sunAmt.value*=0.2; sk.top.value.lerp(new THREE.Color(0x7f8a99),0.7); sk.mid.value.lerp(new THREE.Color(0xa9b3bd),0.6); scene.fog.color.lerp(new THREE.Color(0xa9b3bd),0.5); scene.fog.far=E.q.far*0.7; } else scene.fog.far=E.q.far; };
+    if(E.weather==='rain'||E.weather==='cloudy'){ E.sun.intensity*=E.weather==='rain'?0.35:0.55; E.hemi.intensity*=0.9; sk.sunAmt.value*=0.2; sk.cover.value=E.weather==='rain'?0.22:0.32; sk.cloudLit.value.lerp(new THREE.Color(0xb7bec8),0.6); sk.cloudDark.value.lerp(new THREE.Color(0x6d7682),0.6); sk.top.value.lerp(new THREE.Color(0x7f8a99),0.7); sk.mid.value.lerp(new THREE.Color(0xa9b3bd),0.6); scene.fog.color.lerp(new THREE.Color(0xa9b3bd),0.5); scene.fog.far=E.q.far*0.7; } else scene.fog.far=E.q.far; };
   E.setLamps=function(on){ for(const l of E.lampGlows){ l.visible=on; } if(E.zone&&E.zone.onLamps) E.zone.onLamps(on); };
   E.setWeather=function(w){ E.weather=w; if(w==='rain'){ if(!E.rain){ E.rain=makeRain(); scene.add(E.rain); } E.rain.visible=true; } else if(E.rain) E.rain.visible=false; if(E.zone&&E.zone.onWeather) E.zone.onWeather(w); E.applyTime(E.hour); };
   function makeRain(){ const n=1400; const pos=new Float32Array(n*3); for(let i=0;i<n;i++){ pos[i*3]=(Math.random()-0.5)*40; pos[i*3+1]=Math.random()*18; pos[i*3+2]=(Math.random()-0.5)*40; } const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(pos,3)); const c=document.createElement('canvas'); c.width=8; c.height=32; const x=c.getContext('2d'); const gr=x.createLinearGradient(0,0,0,32); gr.addColorStop(0,'rgba(255,255,255,0)'); gr.addColorStop(0.5,'rgba(220,230,255,0.8)'); gr.addColorStop(1,'rgba(255,255,255,0)'); x.fillStyle=gr; x.fillRect(3,0,2,32); const t=new THREE.CanvasTexture(c); const m=new THREE.PointsMaterial({size:0.45,map:t,transparent:true,depthWrite:false,opacity:0.7}); const p=new THREE.Points(g,m); p.frustumCulled=false; return p; }
@@ -99,15 +147,18 @@ const E3 = (function(){
     camera.updateMatrixWorld(); _frM.multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse); _fr.setFromProjectionMatrix(_frM); for(const n of E.npcs){ updateNPC(n,dt); }
     for(const x of E.extras){ if(x.update) x.update(dt); }
     // 鏡頭
-    updateCamera(dt); if(E.sky) E.sky.position.copy(camera.position);
+    updateCamera(dt); if(E.sky){ E.sky.position.copy(camera.position); E.sky.material.uniforms.time.value=E.time; } if(E.skyline){ E.skyline.position.set(camera.position.x,0,camera.position.z); E.skyline.visible=!E.indoor; }
     // 雨
     if(E.rain&&E.rain.visible){ const pos=E.rain.geometry.attributes.position; const cx=P.obj.position.x, cz=P.obj.position.z; for(let i=0;i<pos.count;i++){ let y=pos.getY(i)-dt*14; if(y<0){ y=16+Math.random()*4; pos.setX(i,cx+(Math.random()-0.5)*40); pos.setZ(i,cz+(Math.random()-0.5)*40); } pos.setY(i,y); } pos.needsUpdate=true; }
     if(E.zone&&E.zone.update) E.zone.update(dt,E); if(typeof W3!=='undefined'&&W3.updateWind) W3.updateWind(E.time);
     if(E.frame%5===0) E.applyTime(E.hour);
   };
   function stepEntity(ent,dx,dz,sp,dt){ const o=ent.obj; const nx=o.position.x+dx*sp*dt, nz=o.position.z+dz*sp*dt; const r=ent.radius||0.3; // 圓形碰撞（對導航格）
-    ent.blockedAt=null; if(E.nav){ if(canStand(nx,nz,r)||escapeOK(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(canStand(nx,o.position.z,r)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(canStand(o.position.x,nz,r)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else { ent.blockedAt={x:nx,z:nz,slide:'none'}; // 滑動失敗：嘗試側向
-        const px=-dz, pz=dx; if(canStand(o.position.x+px*sp*dt*0.6,o.position.z+pz*sp*dt*0.6,r)){ o.position.x+=px*sp*dt*0.6; o.position.z+=pz*sp*dt*0.6; } } } else { o.position.x=nx; o.position.z=nz; }
+    ent.blockedAt=null; if(E.nav){ const mx=Math.abs(dx*sp*dt)>1e-4, mz=Math.abs(dz*sp*dt)>1e-4; // 滑動只在那個方向真的有位移時才算（沿著床邊直走時 dx=0，舊版會「滑動成功」但原地不動）
+      if(canStand(nx,nz,r)||escapeOK(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(mx&&canStand(nx,o.position.z,r)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(mz&&canStand(o.position.x,nz,r)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else { ent.blockedAt={x:nx,z:nz,slide:'none'};
+        // 擦到家具或格子的角：前進方向再往左或右偏一點（最多 0.48 m，導航格是 0.5 m）就過得去時，往空的那一側讓開（正面撞平的牆時偏移也過不去，不會亂滑）
+        const px=-dz, pz=dx; let side=0; for(const e of [0.08,0.16,0.24,0.32,0.4,0.48]){ if(canStand(nx+px*e,nz+pz*e,r)){ side=1; break; } if(canStand(nx-px*e,nz-pz*e,r)){ side=-1; break; } }
+        if(side){ const lat=Math.min(0.18,sp*dt*0.8), lx=o.position.x+px*side*lat, lz=o.position.z+pz*side*lat; if(canStand(lx,lz,r)){ o.position.x=lx; o.position.z=lz; ent.blockedAt.slide='corner'; } } } } else { o.position.x=nx; o.position.z=nz; }
     const targetYaw=Math.atan2(dx,dz); let d=targetYaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,dt*12); }
   function canStand(x,z,r){ const n=E.nav; if(!n) return true; return n.free(x,z)&&n.free(x+r,z)&&n.free(x-r,z)&&n.free(x,z+r)&&n.free(x,z-r); }
   // 卡在阻擋格裡（例如舊存檔的位置、資料錯誤）時，允許往任何方向移動，走出去就恢復正常碰撞
@@ -141,7 +192,7 @@ const E3 = (function(){
     // 鏡頭碰撞：對建築碰撞盒
     let dist=C.dist; if(E.colliders.length){ const dir=tmpV3.copy(desired).sub(C.target); const len=dir.length(); dir.normalize(); E.ray.set(C.target,dir); E.ray.far=len; const hits=E.ray.intersectObjects(E.colliders,false); if(hits.length){ dist=Math.max(0.7,hits[0].distance-0.35); desired.copy(C.target).addScaledVector(dir,dist); } }
     if(desired.y<0.6) desired.y=0.6; camera.position.lerp(desired,Math.min(1,dt*(C.manualT>0?18:7))); camera.lookAt(C.target.x,C.target.y-0.15,C.target.z); if(E.zone&&E.zone.fadeWalls) E.zone.fadeWalls(camera,P.obj.position); }
-  E.cinematic=function(pos,look){ E.cam.mode='cinematic'; E.cam.cine={pos:pos.clone(),look:look.clone()}; };
+  E.cinematic=function(pos,look){ if(E.cam.mode!=='cinematic'||!E.cam.look){ /* 從目前的視線方向開始平滑轉過去（舊版注視點從世界原點出發，第一次運鏡會甩頭） */ const fwd=new THREE.Vector3(); camera.getWorldDirection(fwd); E.cam.look=camera.position.clone().addScaledVector(fwd,Math.max(1,camera.position.distanceTo(look))); } E.cam.mode='cinematic'; E.cam.cine={pos:pos.clone(),look:look.clone()}; };
   E.endCinematic=function(){ E.cam.mode='follow'; E.cam.cine=null; };
   E.nearestInteractable=function(){ const P=E.player; if(!P) return null; let best=null, bd=1e9; const occupied=(st)=>E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.35); for(const it of E.interactables){ if(it.hidden) continue; if(it.seat&&occupied(it.seat)) continue; /* 有人坐的位子不能再坐，也不能擋住和那個人說話 */ const d=Math.hypot(it.x-P.obj.position.x,it.z-P.obj.position.z); if(d<(it.radius||1.8)&&d<bd){ bd=d; best=it; } } for(const n of E.npcs){ if(!n.talk||n.hidden) continue; const d=Math.hypot(n.obj.position.x-P.obj.position.x,n.obj.position.z-P.obj.position.z); if(d<2.2&&d-0.5<bd){ /* 人優先於旁邊的椅子 */ bd=d; best={npc:n,label:n.talkLabel||('和'+n.name+'說話'),x:n.obj.position.x,z:n.obj.position.z,onInteract:()=>n.talk(n)}; } } return best; };
   E.render=function(){ renderer.render(scene,camera); };

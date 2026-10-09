@@ -1,0 +1,20 @@
+[
+ {"out":"OUT/integration_ref_cine.png","w":1536,"h":1024,
+  "state":{"zone":"wenzhou","hour":17.5,"pos":{"x":52.3,"z":0.2,"yaw":-2.68},"flags":{"companion":"an"}},
+  "player":{"lookAt":[52.9,-0.9]},
+  "companion":{"x":52.9,"z":-0.9,"yaw":-0.75,"pose":"talk","lookAt":[52.3,0.2]},
+  "cam":{"pos":[47.2,1.5,2.8],"look":[53.0,1.25,-0.8]},"wait":6000},
+ {"out":"OUT/integration_closeup.png","w":1536,"h":1024,
+  "state":{"zone":"wenzhou","hour":17.5,"pos":{"x":52.3,"z":0.2,"yaw":-2.68},"flags":{"companion":"an"}},
+  "player":{"lookAt":[52.9,-0.9]},
+  "companion":{"x":52.9,"z":-0.9,"yaw":-0.75,"pose":"talk","lookAt":[52.3,0.2]},
+  "cam":{"pos":[50.56,1.5,0.92],"look":[52.6,1.42,-0.35]},"wait":6000},
+ {"out":"OUT/integration_follow_portrait.png","w":390,"h":844,"mobile":true,"hud":true,
+  "state":{"zone":"wenzhou","hour":17.5,"pos":{"x":50.2,"z":-0.3,"yaw":1.5708},"flags":{"companion":"an"}},
+  "companion":{"x":49.9,"z":0.8,"yaw":1.5708},
+  "cam":{"yaw":-1.5708,"pitch":0.22,"dist":5.2},"wait":6000},
+ {"out":"OUT/integration_follow_landscape.png","w":844,"h":390,"mobile":true,"hud":true,
+  "state":{"zone":"wenzhou","hour":17.5,"pos":{"x":50.2,"z":-0.3,"yaw":1.5708},"flags":{"companion":"an"}},
+  "companion":{"x":49.9,"z":0.8,"yaw":1.5708},
+  "cam":{"yaw":-1.5708,"pitch":0.22,"dist":5.2},"wait":6000}
+]

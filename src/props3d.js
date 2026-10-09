@@ -23,11 +23,13 @@ const PROPS = (function(){
     const top=tube([[-0.04,0.14,0.14],[0,0.17,0.14],[0.04,0.14,0.14]],0.008,dark); g.add(top);
     for(const s of [-1,1]){ g.add(strapBand([[s*0.08,0.12,0.09],[s*0.1,0.16,0.02],[s*0.11,0.14,-0.07],[s*0.12,0.02,-0.1],[s*0.12,-0.12,-0.05],[s*0.1,-0.2,0.08]],0.012,dark)); }
     return g; }
-  // ---- 帆布托特包（沈以安：米白帆布，背右肩）----
-  function tote(o){ o=o||{}; const g=new THREE.Group(); const base=o.color||'#e6dcc8'; const cv=mat('tote',base,fabric('tote',base,{weave:true}));
-    const shape=new THREE.Shape(); shape.moveTo(-0.17,0); shape.lineTo(0.17,0); shape.lineTo(0.15,-0.36); shape.lineTo(-0.15,-0.36); shape.lineTo(-0.17,0); const geo=new THREE.ExtrudeGeometry(shape,{depth:0.07,bevelEnabled:true,bevelThickness:0.012,bevelSize:0.012,bevelSegments:2}); geo.translate(0,0,-0.035);
-    const bag=new THREE.Mesh(geo,cv); bag.position.set(0.19,-0.42,0.08); bag.rotation.y=-0.35; g.add(bag);
-    const strap=mat('totes',shadeHex(base,0.88)); for(const dz of [-0.05,0.05]) g.add(strapBand([[0.1,-0.42,0.08+dz],[0.12,-0.15,0.02+dz*0.6],[0.12,0.14,-0.02+dz*0.4],[0.11,0.17,0.0]],0.01,strap));
+  // ---- 帆布托特包（沈以安：米白帆布，掛右肩，包身貼著右腰）----
+  // 包身是「軟布袋」：細分方塊，厚度往邊緣收（中間鼓、邊緣扁），底部略寬；背帶從包口兩側繞過右肩
+  function tote(o){ o=o||{}; const g=new THREE.Group(); const base=o.color||'#ece3d2'; const cv=mat('tote',base,fabric('tote',base,{weave:true}));
+    const W=0.31, H=0.34, D=0.07; const geo=new THREE.BoxGeometry(W,H,D,10,10,2); const p=geo.attributes.position;
+    for(let i=0;i<p.count;i++){ const x=p.getX(i), y=p.getY(i), z=p.getZ(i); const u=x/(W/2), v=(y+H/2)/H; const puff=Math.max(0.12,(1-u*u*0.85)*(0.35+0.65*Math.sin(Math.PI*Math.min(1,v*1.05)))); p.setXYZ(i,x*(1+0.06*(1-v)),y,z*puff); }
+    geo.computeVertexNormals(); const bag=new THREE.Mesh(geo,cv); bag.position.set(0.165,-0.5,0.035); bag.rotation.set(0,-0.25,0.04); g.add(bag);
+    const strap=mat('totes',shadeHex(base,0.86)); for(const dz of [-0.022,0.022]) g.add(strapBand([[0.12+dz*0.4,-0.34,0.04+dz],[0.135,-0.16,0.02+dz*0.8],[0.145,0.04,0.0+dz*0.6],[0.135,0.155,0.01+dz*0.4],[0.11,0.17,0.035]],0.009,strap));
     return g; }
   // ---- 細框眼鏡（林芷若）----
   function glasses(o){ o=o||{}; const g=new THREE.Group(); const m=mat('gl',o.color||'#3a302a',null); const lw=0.044, lh=0.034, r=0.012, t=0.0028;

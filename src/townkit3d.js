@@ -90,7 +90,7 @@ const TK = (function(){
     bin.add(wallM,boxG(W,totalH-gh,D,1.0),0,gh+(totalH-gh)/2,-D/2);
     // 一樓牆面（較深色的石材或磁磚）
     // 一樓牆體：店面要退縮（玻璃在立面、室內景深卡在 1.2m 後面，牆體從那後面開始）
-    const gt=(spec.ground||{}).type; const rec=(gt==='shop'?1.3:(gt==='arcade'?4.3:0.2)); const gm=col(spec.groundWall||'#8a8278'); bin.add(gm,boxG(W,gh,D-rec,1.0),0,gh/2,-rec-(D-rec)/2);
+    const gt=(spec.ground||{}).type; const rec=(gt==='shop'?((spec.ground.shop||{}).type==='cafe'?3.5:1.3):(gt==='arcade'?4.3:0.2)); /* Café 有 3.4m 深的室內，一樓實心牆往後退 */ const gm=col(spec.groundWall||'#8a8278'); bin.add(gm,boxG(W,gh,D-rec,1.0),0,gh/2,-rec-(D-rec)/2);
     if(gt==='shop'||gt==='arcade'){ for(const sx of [-1,1]) bin.add(gm,boxG(0.3,gh,rec),sx*(W/2-0.15),gh/2,-rec/2); }
     // 樓板線
     const slab=col(shadeHex(spec.color,0.82)); for(let f=1;f<F;f++){ bin.add(slab,boxG(W+0.06,0.18,0.12),0,gh+(f-1)*FH,0.03,0,{noShadow:true}); }
@@ -126,6 +126,7 @@ const TK = (function(){
 
   // 一樓：店面、鐵門、鐵捲門、騎樓
   function groundFloor(bin,gr,W,gh,spec,winD){ const extras=[]; const t=gr.type;
+    if(t==='shop'&&gr.shop&&gr.shop.type==='cafe'){ cafeFront(bin,extras,W,gh,gr.shop); return extras; }
     if(t==='shop'||t==='arcade'){ const s=gr.shop||{}; const dep=t==='arcade'?3.0:0; const iw=W-0.6, ih=gh-0.9;
       // 室內景深卡（後退 1.2m）＋玻璃框
       const im=glowMat('int_'+s.type,interiorTex(s.type),{nightI:1.15,dayI:0.6}); bin.add(im,planeG(iw,ih),0,ih/2+0.15,-1.2-dep,0,{noShadow:true}); bin.add(col('#d9d3c6'),boxG(iw,0.15,1.3),0,0.08,-0.6-dep,0,{noShadow:true});
@@ -143,6 +144,53 @@ const TK = (function(){
     else { // 住家：紅色或墨綠鐵門＋信箱＋門燈
       const dc=gr.color||['#9c2f2a','#2f4a3a','#8a3a2a','#5b4a3a'][Math.floor(rnd()*4)]; bin.add({isPaint:true,color:new THREE.Color(dc).multiplyScalar(2.2),key:'door',mat:M('doorN',()=>std({map:ironDoorTex('#7a7a7a'),roughness:0.5,metalness:0.35,vertexColors:true}))},planeG(1.4,2.3),-W*0.2,1.15+0.05,0.03,0,{noShadow:true}); bin.add(col('#d9d3c6'),boxG(1.7,0.12,0.4),-W*0.2,0.06,0.2,0,{noShadow:true}); bin.add(glowMat('doorLamp',radialTex('dl','#fff2c8','#e0a050')),new THREE.SphereGeometry(0.09,8,6),-W*0.2+0.95,2.25,0.1,0,{noShadow:true}); if(gr.window!==false) bin.add(winD,planeG(1.8,1.1,[0.25,0.5,0.25,0.5]),W*0.18,1.6,0.02,0,{noShadow:true}); bin.add(col('#c9ccd0'),boxG(2.0,1.3,0.06),W*0.18,1.6,0.0,0,{noShadow:true}); }
     return extras; }
+  // ---------------- 植物叢（葉片卡，和行道樹共用材質 → 合併成同一個 draw call）----------------
+  function plantClump(bin,x,y,z,size,n,tint){ const leafM={isPaint:true,color:new THREE.Color(1,1,1),key:'leaf',mat:M('leafCard',()=>std({map:leafTex(),alphaTest:0.45,side:THREE.DoubleSide,roughness:0.85,vertexColors:true}))}; n=n||5;
+    for(let i=0;i<n;i++){ const a=i/n*Math.PI*2+rnd()*0.6, rr=size*0.18*rnd(); const sz=size*(0.55+rnd()*0.45); const sh=0.82+rnd()*0.25; const c=new THREE.Color(sh*(tint?tint[0]:1),sh*(tint?tint[1]:1),sh*(tint?tint[2]:0.92));
+      bin.add({isPaint:true,color:c,key:'leaf',mat:leafM.mat},planeG(sz,sz),x+Math.cos(a)*rr,y+sz*0.42+rnd()*size*0.15,z+Math.sin(a)*rr,a,{rx:(rnd()-0.5)*0.5,noShadow:true}); } }
+  // 夜間光暈（燈泡、壁燈）：Sprite，透明度跟著 setNight 變（白天淡、晚上亮）
+  const nightSprites=[];
+  function glowSprite(color,scale,dayO,nightO){ const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:radialTex('glow'+color,color,'rgba(0,0,0,0)'),transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,opacity:dayO})); sp.scale.set(scale,scale,1); sp.userData.dayO=dayO; sp.userData.nightO=nightO; nightSprites.push(sp); return sp; }
+  // ---------------- 兩點半 Café 店面（v9.2）----------------
+  // 玻璃後面是有深度的室內（後牆書架與黑板菜單、吊燈、窗邊小桌、吧檯、植物），木窗框、木門、兩側壁燈、爬藤；
+  // 室內燈從傍晚就亮（dayI 偏高），站在對街也看得出店內空間；和 cafe 區域（店內）的配置一致：吧檯在左後、窗邊雙人桌、書架在右後
+  function cafeBackTex(){ return tex('cafeBack',1024,288,(x,w,h)=>{ x.fillStyle='#d9b98f'; x.fillRect(0,0,w,h); const g=x.createLinearGradient(0,0,0,h); g.addColorStop(0,'rgba(255,236,200,0.35)'); g.addColorStop(1,'rgba(90,50,20,0.25)'); x.fillStyle=g; x.fillRect(0,0,w,h);
+      x.fillStyle='#6b4a2e'; x.fillRect(0,h*0.62,w,h*0.38); for(let i=0;i<w;i+=26){ x.fillStyle='rgba(30,15,5,0.25)'; x.fillRect(i,h*0.62,2,h*0.38); }
+      const shelf=(sx,sy,sw,sh,rows)=>{ x.fillStyle='#4a301c'; x.fillRect(sx,sy,sw,sh); for(let r=0;r<rows;r++){ const yy=sy+6+r*(sh-6)/rows; x.fillStyle='#2e1d10'; x.fillRect(sx+4,yy+(sh-6)/rows-8,sw-8,4); let px=sx+8; while(px<sx+sw-14){ const kind=rnd(); if(kind<0.7){ const bw=6+rnd()*9, bh=(sh-6)/rows-16-rnd()*10; x.fillStyle=['#e8dcc4','#8c3b47','#2f5d50','#c9a24f','#f4f1ea','#4a6c8c','#7b5a3a'][(rnd()*7)|0]; x.fillRect(px,yy+(sh-6)/rows-8-bh,bw,bh); px+=bw+1; } else { x.fillStyle='rgba(240,230,210,0.9)'; x.beginPath(); x.ellipse(px+9,yy+(sh-6)/rows-20,9,12,0,0,7); x.fill(); x.fillStyle='#3a2414'; x.fillRect(px+3,yy+(sh-6)/rows-34,12,5); px+=22; } } } };
+      shelf(w*0.56,h*0.08,w*0.4,h*0.5,4); shelf(w*0.04,h*0.1,w*0.14,h*0.46,3);
+      x.fillStyle='#2b2f2c'; x.fillRect(w*0.22,h*0.08,w*0.28,h*0.36); x.strokeStyle='#8a6a48'; x.lineWidth=8; x.strokeRect(w*0.22,h*0.08,w*0.28,h*0.36);
+      x.fillStyle='#f2efe6'; x.font='bold 30px "Noto Sans TC","PingFang TC",sans-serif'; x.fillText('今日手沖',w*0.245,h*0.2); x.font='22px "Noto Sans TC","PingFang TC",sans-serif'; ['衣索比亞　耶加雪菲','瓜地馬拉　安提瓜','拿鐵　120　・　檸檬塔　90'].forEach((t,i)=>x.fillText(t,w*0.245,h*0.29+i*28));
+      for(const fx of [0.53,0.2]){ x.fillStyle='#3a2a1e'; x.fillRect(w*fx-26,h*0.5,52,40); x.fillStyle='#c9b48a'; x.fillRect(w*fx-21,h*0.5+5,42,30); } }, false); }
+  function cafeFront(bin,extras,W,gh,s){ const iw=W-0.6, ih=gh-0.9, D=3.4; const doorW=1.2;
+    const wood=col('#5a3a22',{roughness:0.6}), woodL=col('#8a5e3c',{roughness:0.7}), metal=col('#2e2b28',{roughness:0.4,metalness:0.6});
+    // 室內：地板、後牆、側牆、天花板（會發光的材質：傍晚起就有暖光）
+    const floorT=tex('cafeFloor',256,256,(x,w,h)=>{ x.fillStyle='#8a5e3c'; x.fillRect(0,0,w,h); for(let j=0;j<h;j+=32){ x.fillStyle=(j/32)%2?'rgba(0,0,0,0.1)':'rgba(255,230,200,0.06)'; x.fillRect(0,j,w,32); x.fillStyle='rgba(40,20,10,0.4)'; x.fillRect(0,j,w,2); for(let i=((j/32)%2)*64;i<w;i+=128) x.fillRect(i,j,2,32); } });
+    bin.add(glowMat('cafeFloor',floorT,{dayI:0.6,nightI:0.8,mat:{emissive:new THREE.Color(0xffd0a0)}}),planeG(iw,D,[0,0,iw/2.5,D/2.5]),0,0.03,-D/2,0,{rx:-Math.PI/2,noShadow:true});
+    bin.add(glowMat('cafeBackW',cafeBackTex(),{dayI:0.95,nightI:1.2,mat:{emissive:new THREE.Color(0xffdcae)}}),planeG(iw,gh),0,gh/2,-D,0,{noShadow:true});
+    const sideT=plasterTex('#d8b98e','cafeSide'); for(const sx of [-1,1]) bin.add(glowMat('cafeSide',sideT,{dayI:0.8,nightI:1.0,mat:{emissive:new THREE.Color(0xffd6a0)}}),planeG(D,gh),sx*iw/2,gh/2,-D/2,-sx*Math.PI/2,{noShadow:true});
+    bin.add(col('#3a2616',{roughness:0.8}),planeG(iw,D),0,gh-0.05,-D/2,0,{rx:Math.PI/2,noShadow:true});
+    // 吊燈 ×5（燈罩、燈泡、光暈）
+    const bulbM=glowMat('cafeBulb',radialTex('cbulb','#fff4d6','#ffb45a'),{dayI:0.9,nightI:2.2});
+    for(let i=0;i<5;i++){ const lx=-iw/2+1.4+i*(iw-2.8)/4, lz=-1.5, ly=2.3; bin.add(metal,boxG(0.015,gh-ly-0.1,0.015),lx,(gh+ly)/2,lz,0,{noShadow:true}); bin.add(col('#c9a24f',{roughness:0.35,metalness:0.7}),new THREE.CylinderGeometry(0.06,0.26,0.24,16,1,true),lx,ly,lz,0,{noShadow:true}); bin.add(bulbM,new THREE.SphereGeometry(0.08,10,8),lx,ly-0.1,lz,0,{noShadow:true}); const sp=glowSprite('rgba(255,200,130,1)',1.5,0.55,1.0); sp.position.set(lx,ly-0.12,lz); extras.push(sp); }
+    // 吧檯（左後）＋咖啡機＋磨豆機＋杯子
+    const cx=-iw/2+2.6; bin.add(wood,boxG(4.2,1.0,0.6),cx,0.5,-2.75); bin.add(col('#d9cbb0',{roughness:0.4}),boxG(4.3,0.05,0.68),cx,1.03,-2.75,0,{noShadow:true}); bin.add(col('#a9adb2',{roughness:0.3,metalness:0.6}),boxG(0.62,0.45,0.42),cx-1.2,1.28,-2.8,0,{noShadow:true}); bin.add(col('#2b2b2b'),new THREE.CylinderGeometry(0.08,0.1,0.38,10),cx-0.6,1.24,-2.8,0,{noShadow:true}); for(let i=0;i<4;i++) bin.add(col('#f4f1ea'),new THREE.CylinderGeometry(0.04,0.035,0.08,10),cx+0.2+i*0.18,1.09,-2.62,0,{noShadow:true});
+    // 窗邊雙人小桌 ×4（避開門）
+    for(const tx of [-iw/2+1.5,-iw/2+4.0,iw/2-4.0,iw/2-1.5]){ bin.add(col('#c9a57a',{roughness:0.5}),new THREE.CylinderGeometry(0.34,0.34,0.04,18),tx,0.74,-0.85,0,{noShadow:true}); bin.add(metal,new THREE.CylinderGeometry(0.035,0.16,0.72,10),tx,0.36,-0.85,0,{noShadow:true}); for(const s2 of [-1,1]){ const chx=tx+s2*0.58; bin.add(woodL,boxG(0.38,0.05,0.38),chx,0.46,-0.85,0,{noShadow:true}); bin.add(woodL,boxG(0.05,0.48,0.36),chx+s2*0.17,0.72,-0.85,0,{noShadow:true}); bin.add(metal,boxG(0.04,0.44,0.04),chx,0.22,-0.85,0,{noShadow:true}); } bin.add(col('#f4f1ea'),new THREE.CylinderGeometry(0.045,0.04,0.09,10),tx+0.1,0.8,-0.85,0,{noShadow:true}); }
+    // 室內植物
+    for(const [px,pz,sz] of [[iw/2-0.5,-0.5,1.3],[-iw/2+0.45,-1.8,1.1],[iw/2-0.6,-3.0,1.5]]){ bin.add(col('#e6e3de'),new THREE.CylinderGeometry(0.2,0.16,0.4,12),px,0.2,pz,0,{noShadow:true}); plantClump(bin,px,0.35,pz,sz,6); }
+    // 立面：窗下的木作矮牆、木窗框（上下框、直櫺、橫條）、木門（玻璃＋把手）
+    const glassM=M('glassWarm',()=>std({color:0xe8dcc8,transparent:true,opacity:0.08,roughness:0.05,metalness:0.1,depthWrite:false}));
+    const paneW=(iw-doorW)/2; for(const sx of [-1,1]){ const pc=sx*(doorW/2+paneW/2); bin.add(M('cafePanel',()=>std({map:woodSidingTex(),roughness:0.7})),boxG(paneW,0.5,0.16,0.6),pc,0.25,0.0); bin.add(glassM,planeG(paneW,ih-0.4),pc,0.5+(ih-0.4)/2,0.02,0,{noShadow:true}); bin.add(wood,boxG(paneW,0.07,0.12),pc,0.5+(ih-0.4)*0.74,0.03,0,{noShadow:true}); for(const k of [0.5]) bin.add(wood,boxG(0.08,ih-0.4,0.12),pc+(k-0.5)*paneW,0.5+(ih-0.4)/2,0.03,0,{noShadow:true}); bin.add(wood,boxG(0.14,ih+0.15,0.16),sx*(iw/2),(ih+0.15)/2,0.02); bin.add(wood,boxG(0.14,ih+0.15,0.16),sx*(doorW/2+0.04),(ih+0.15)/2,0.02); bin.add(woodL,boxG(paneW,0.06,0.26),pc,0.53,0.1,0,{noShadow:true}); }
+    bin.add(wood,boxG(iw+0.3,0.22,0.22),0,ih+0.2,0.02); bin.add(glassM,planeG(doorW-0.2,ih-0.35),0,(ih-0.35)/2+0.1,0.03,0,{noShadow:true}); bin.add(wood,boxG(doorW-0.12,0.1,0.1),0,ih*0.45,0.04,0,{noShadow:true}); bin.add(col('#c9a24f',{roughness:0.3,metalness:0.8}),boxG(0.03,0.32,0.05),doorW/2-0.22,1.05,0.08,0,{noShadow:true});
+    // 店名招牌：深色木底＋米白字（傍晚起字會亮）；木製雨遮
+    const sg=glowMat('sign'+s.name,signTex(s.name,{bg:s.signBg||'#3b2a1e',color:s.signColor||'#f4ead8',sub:s.sub,serif:s.serif}),{nightI:1.1,dayI:0.15}); bin.add(sg,boxG(Math.min(W-0.6,7.2),0.66,0.14),0,ih+0.62,0.12,0,{noShadow:true});
+    bin.add(wood,boxG(W-0.2,0.1,0.32),0,ih+0.24,0.12,0,{noShadow:true});
+    // 壁燈 ×2（門兩側）
+    const lampM=glowMat('cafeLamp',radialTex('clamp','#fff2cc','#ffb050'),{dayI:0.35,nightI:2.0}); for(const sx of [-1,1]){ const lx=sx*(doorW/2+0.55); bin.add(metal,boxG(0.05,0.05,0.24),lx,2.55,0.14,0,{noShadow:true}); bin.add(metal,boxG(0.2,0.04,0.2),lx,2.73,0.28,0,{noShadow:true}); bin.add(lampM,boxG(0.15,0.24,0.15),lx,2.58,0.28,0,{noShadow:true}); const sp=glowSprite('rgba(255,205,140,1)',1.6,0.25,1.0); sp.position.set(lx,2.58,0.32); extras.push(sp); }
+    // 爬藤（兩側壁柱往上爬到二樓）＋窗台小盆栽
+    for(const sx of [-1,1]){ for(let k=0;k<9;k++){ plantClump(bin,sx*(W/2-0.12)+(rnd()-0.5)*0.25,0.2+k*0.55,0.12,0.75+rnd()*0.3,2,[0.85,1,0.85]); } }
+    for(const sx of [-1,1]) for(let k=0;k<3;k++){ const px=sx*(doorW/2+0.6+k*((paneW-1.2)/2)); plantClump(bin,px,0.56,0.12,0.42,3); }
+  }
   function awningTex(color){ return tex('awn2'+color,128,64,(x,w,h)=>{ x.fillStyle=color; x.fillRect(0,0,w,h); x.fillStyle='rgba(255,255,255,0.75)'; for(let i=0;i<w;i+=32) x.fillRect(i,0,16,h); x.fillStyle='rgba(0,0,0,0.15)'; x.fillRect(0,h-6,w,6); }); }
 
   // ---------------- 日式宿舍（黑瓦木造）＋圍牆 ----------------
@@ -198,7 +246,7 @@ const TK = (function(){
     bin.add(col('#f4f1ea'),boxG(0.22,0.12,0.01),0,0.45,-0.84,0,{noShadow:true});
     bin.build(g); return g; }
   // 盆栽群（住家門口常見的一排盆栽、保麗龍箱種菜）
-  function pots(n,seed){ const g=new THREE.Group(); const bin=new Bin(); const potC=['#a8573a','#8f9399','#e6e3de','#5a4636']; const leaf=['#5f9a5e','#4f8a4e','#7aa860','#3f7a4a']; let x=0; for(let i=0;i<n;i++){ const r=0.12+rnd()*0.16, h=0.18+rnd()*0.3; if(rnd()<0.25){ bin.add(col('#f4f4f2'),boxG(0.5,0.28,0.35),x+0.25,0.14,0); bin.add(col(leaf[i%4]),boxG(0.46,0.12,0.3),x+0.25,0.33,0,0,{noShadow:true}); x+=0.55; continue; } bin.add(col(potC[(i+(seed||0))%4]),new THREE.CylinderGeometry(r,r*0.75,h,10),x+r,h/2,(rnd()-0.5)*0.2); const big=rnd()<0.35; if(big){ bin.add(col(leaf[(i+1)%4]),new THREE.ConeGeometry(r*1.6,0.9+rnd()*0.6,7),x+r,h+0.45,0); } else bin.add(col(leaf[i%4]),new THREE.SphereGeometry(r*1.5,8,6),x+r,h+r*0.9,0,0,{noShadow:true}); x+=r*2+0.05; } bin.build(g); g.userData.len=x; return g; }
+  function pots(n,seed){ const g=new THREE.Group(); const bin=new Bin(); const potC=['#a8573a','#8f9399','#e6e3de','#5a4636']; const leaf=['#5f9a5e','#4f8a4e','#7aa860','#3f7a4a']; let x=0; for(let i=0;i<n;i++){ const r=0.12+rnd()*0.16, h=0.18+rnd()*0.3; if(rnd()<0.25){ bin.add(col('#f4f4f2'),boxG(0.5,0.28,0.35),x+0.25,0.14,0); bin.add(col(leaf[i%4]),boxG(0.46,0.12,0.3),x+0.25,0.33,0,0,{noShadow:true}); x+=0.55; continue; } bin.add(col(potC[(i+(seed||0))%4]),new THREE.CylinderGeometry(r,r*0.75,h,10),x+r,h/2,(rnd()-0.5)*0.2); const big=rnd()<0.35; plantClump(bin,x+r,h-0.05,0,big?0.9+rnd()*0.5:0.45+r*1.4,big?6:4); x+=r*2+0.05; } bin.build(g); g.userData.len=x; return g; }
   // 郵筒（綠：限時、紅：普通）
   function mailbox(){ const g=new THREE.Group(); const bin=new Bin(); for(const [s,c] of [[-0.3,'#2f7d4a'],[0.3,'#c0392b']]){ bin.add(col(c,{roughness:0.5}),boxG(0.5,1.0,0.45),s,0.55,0); bin.add(col(c,{roughness:0.5}),new THREE.CylinderGeometry(0.25,0.25,0.45,12,1,false,0,Math.PI),s,1.05,0,0,{rx:Math.PI/2,rz:Math.PI/2}); bin.add(col('#2b2b2b'),boxG(0.3,0.05,0.02),s,0.85,0.23,0,{noShadow:true}); } bin.build(g); return g; }
   // 路面：柏油＋白邊線＋排水溝＋人孔＋「慢」字
@@ -217,6 +265,6 @@ const TK = (function(){
   function aBoard(lines){ const g=new THREE.Group(); const bin=new Bin(); const t=tex('ab'+lines.join(),128,160,(x,w,h)=>{ x.fillStyle='#2e3a33'; x.fillRect(0,0,w,h); x.strokeStyle='#8a6a48'; x.lineWidth=8; x.strokeRect(4,4,w-8,h-8); x.fillStyle='#f4ead8'; x.font='bold 18px "Noto Sans TC",sans-serif'; x.textAlign='center'; lines.forEach((l,i)=>x.fillText(l,w/2,34+i*28)); },false); const m=M('ab'+lines.join(),()=>std({map:t})); for(const s of [-1,1]) bin.add(m,boxG(0.5,0.75,0.03),0,0.4,s*0.12,s>0?0:Math.PI,{rx:-0.2}); bin.build(g); return g; }
 
   // 夜間：所有 emissive 材質、光暈、點光源一起調
-  function setNight(k){ for(const m of nightMats){ m.emissiveIntensity=(m.userData.dayI||0)*(1-k)+(m.userData.nightI||1)*k; } }
-  return {tex,tileTex,mosaicTex,plasterTex,Bin,boxG,planeG,col:colMat,paint:col,M,std,tree,glowMat,apartment,japaneseHouse,wall,utilityPole,trafficMirror,scooter,pots,mailbox,road,sidewalk,lightPool,wires,aBoard,signTex,interiorTex,setNight,nightMats,rnd};
+  function setNight(k){ for(const m of nightMats){ m.emissiveIntensity=(m.userData.dayI||0)*(1-k)+(m.userData.nightI||1)*k; } for(const sp of nightSprites){ const o=sp.userData.dayO*(1-k)+sp.userData.nightO*k; sp.material.opacity=o; sp.visible=o>0.02; } }
+  return {tex,tileTex,mosaicTex,plasterTex,Bin,boxG,planeG,col:colMat,paint:col,M,std,tree,glowMat,plantClump,glowSprite,apartment,japaneseHouse,wall,utilityPole,trafficMirror,scooter,pots,mailbox,road,sidewalk,lightPool,wires,aBoard,signTex,interiorTex,setNight,nightMats,rnd};
 })();

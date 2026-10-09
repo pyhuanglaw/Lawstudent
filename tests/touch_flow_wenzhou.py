@@ -115,8 +115,9 @@ async def main():
         npcs = await pg.evaluate("GAME.E.npcs.map(n=>({name:n.name||'(路人)',driver:n.obj.userData.driver,x:+n.obj.position.x.toFixed(1),z:+n.obj.position.z.toFixed(1)}))")
         check('溫州街：NPC 都是正式模型（沒有程序化球體人）', all(n['driver'] == 'vrm' for n in npcs) and len(npcs) > 0, npcs)
         # 3. 走到兩點半 Café 門口
-        st = await walk_to(pg, t, -33.6, -1.0, 'cafe door', tol=1.6)
-        await pg.wait_for_timeout(800); st = await state(pg)
+        # v9.2 起 Café 在東端路口（門口互動點 (54.2,0)、半徑 2.3 m）。目標點＋容許誤差要落在互動半徑內：(53.4,0)±0.9 → 離門最遠 1.7 m
+        st = await walk_to(pg, t, 53.4, 0.0, 'cafe door', tol=0.9)
+        await pg.wait_for_timeout(1500); st = await state(pg)
         await pg.screenshot(path='docs/art-rebuild/screenshots/flow_02_cafe_front.png')
         check('走到 Café 門口出現「進入兩點半 Café」', '兩點半' in st['interact'], st)
         ov = await pg.evaluate("(()=>{ const a=document.getElementById('interact').getBoundingClientRect(), j=document.getElementById('joy').getBoundingClientRect(); return !(a.right<j.left||a.left>j.right||a.bottom<j.top||a.top>j.bottom); })()")
@@ -152,7 +153,7 @@ async def main():
         check('門口出現「離開咖啡廳」', '離開' in st['interact'], st['interact'])
         await t.tap_el('#interact'); await pg.wait_for_timeout(5000)
         await advance_dialogue(pg, t)
-        st = await state(pg); check('回到溫州街', st['zone'] == 'wenzhou' and st['x'] < -28, st)
+        st = await state(pg); check('回到溫州街（Café 門口）', st['zone'] == 'wenzhou' and abs(st['x'] - 51.7) < 3 and abs(st['z']) < 3, st)   # v9.2：Café 在東端路口，出口在 (51.7,0)
         await pg.screenshot(path='docs/art-rebuild/screenshots/flow_06_back_street.png')
         p0 = await state(pg); await t.joy(0, -55, 1500); p1 = await state(pg)
         check('出來後可以繼續走', math.hypot(p1['x'] - p0['x'], p1['z'] - p0['z']) > 0.5)
