@@ -1026,6 +1026,11 @@ def low_ponytail(v, tie_below=0.025, top_above=0.15, tie_w=0.16, tail_w=0.24, fr
         vi = np.unique(v.acc(p['indices']).astype(np.int64))
         if changed[vi].any(): rigid[vi] = True
     JJ[rigid] = [head, 0, 0, 0]; WW[rigid] = [1, 0, 0, 0]
+    # 綁點以下那一束：記下來給 low_ponytail_chain 加骨頭（v9.3：原本整束綁在頭骨上，走路完全不會晃）
+    tail = np.zeros(len(P), dtype=bool); tail[lo] = True
+    if tail.any():
+        ymin = out[tail, 1].min(); low = tail & (out[:, 1] < ymin + 0.01)
+        v._lowtail = {'mask': tail, 'root': np.array([0.0, yt, zt]), 'tip': np.array([0.0, float(ymin), float(np.median(out[low, 2]))])}
     newA = {'POSITION': v.add_acc(out.astype(np.float32), 5126, 'VEC3', 34962, True), 'JOINTS_0': v.add_acc(JJ.astype(np.uint16), 5123, 'VEC4', 34962), 'WEIGHTS_0': v.add_acc(WW.astype(np.float32), 5126, 'VEC4', 34962)}
     for p in mesh['primitives']:
         p['attributes'] = dict(p['attributes'], **newA)
@@ -1037,6 +1042,52 @@ def low_ponytail(v, tie_below=0.025, top_above=0.15, tie_w=0.16, tail_w=0.24, fr
         p['indices'] = v.add_acc(tris[~kill].reshape(-1).astype(np.uint32), 5125, 'SCALAR', 34963)
     mesh['primitives'] = [p for p in mesh['primitives'] if v.j['accessors'][p['indices']]['count'] > 0]
     return int(changed.sum()), (0.0, float(yt), float(zt)), (float(hw[0, 3]), float(head_y), float(zc))
+
+
+def low_ponytail_chain(v, params=(0.04, 0.42, 0.78), stiff=0.35, grav=0.9, drag=0.42):
+    """low_ponytail 收成一束的馬尾加三節骨頭（綁點 → 1 → 2 → 3），頂點依沿著馬尾的位置分配權重，註冊成 VRM 彈簧骨：
+    走路、轉身時馬尾自然擺動（v9.3：溫書瑀的馬尾原本整束綁在頭骨上，完全不會動）。綁點以上收攏的頭髮仍然綁頭骨。"""
+    lt = getattr(v, '_lowtail', None)
+    if lt is None: return []
+    ni = [i for i, n in enumerate(v.j['nodes']) if 'mesh' in n and v.j['meshes'][n['mesh']]['name'].startswith('Hair')][0]
+    mesh = v.j['meshes'][v.j['nodes'][ni]['mesh']]
+    sk = v.j['skins'][v.j['nodes'][ni]['skin']]
+    names = [v.j['nodes'][j]['name'] for j in sk['joints']]
+    head_ix = names.index('J_Bip_C_Head'); head_node = sk['joints'][head_ix]
+    ibm = v.acc(sk['inverseBindMatrices']).reshape(-1, 4, 4).transpose(0, 2, 1)
+    Hw = np.linalg.inv(ibm[head_ix])
+    A = mesh['primitives'][0]['attributes']
+    P = v.acc(A['POSITION']).astype(np.float64); J = v.acc(A['JOINTS_0']).astype(np.uint16).copy(); Wt = v.acc(A['WEIGHTS_0']).astype(np.float32).copy()
+    root, tip = lt['root'], lt['tip']; d = tip - root; L = float(np.linalg.norm(d))
+    new_nodes = []; parent = head_node; parent_w = Hw
+    for k, tt in enumerate(params):
+        W = np.eye(4); W[:3, 3] = root + d * tt
+        local = np.linalg.inv(parent_w) @ W
+        node = {'name': f'J_Sec_LowTail_{k+1}', 'translation': [float(x) for x in local[:3, 3]], 'rotation': [0, 0, 0, 1], 'scale': [1, 1, 1]}
+        v.j['nodes'].append(node); idx = len(v.j['nodes']) - 1
+        v.j['nodes'][parent].setdefault('children', []).append(idx)
+        new_nodes.append((idx, W)); parent = idx; parent_w = W
+    base = len(sk['joints'])
+    sk['joints'] = sk['joints'] + [x[0] for x in new_nodes]
+    ibm2 = np.concatenate([ibm, np.stack([np.linalg.inv(x[1]) for x in new_nodes])])
+    sk['inverseBindMatrices'] = v.add_acc(ibm2.transpose(0, 2, 1).reshape(-1, 16).astype(np.float32), 5126, 'MAT4')
+    t = np.clip(((P - root) @ d) / (L * L), 0, 1)
+    for i in np.where(lt['mask'])[0]:
+        tt = t[i]
+        if tt < params[0]:
+            w = tt / params[0]; J[i] = [head_ix, base, 0, 0]; Wt[i] = [1 - w, w, 0, 0]
+        elif tt < params[1]:
+            w = (tt - params[0]) / (params[1] - params[0]); J[i] = [base, base + 1, 0, 0]; Wt[i] = [1 - w, w, 0, 0]
+        elif tt < params[2]:
+            w = (tt - params[1]) / (params[2] - params[1]); J[i] = [base + 1, base + 2, 0, 0]; Wt[i] = [1 - w, w, 0, 0]
+        else:
+            J[i] = [base + 2, 0, 0, 0]; Wt[i] = [1, 0, 0, 0]
+    nJ = v.add_acc(J, 5123, 'VEC4', 34962); nW = v.add_acc(Wt, 5126, 'VEC4', 34962)
+    for p in mesh['primitives']:
+        p['attributes'] = dict(p['attributes'], JOINTS_0=nJ, WEIGHTS_0=nW)
+    sec = v.j['extensions']['VRM']['secondaryAnimation']
+    sec['boneGroups'].append({'comment': 'ponytail', 'stiffiness': stiff, 'gravityPower': grav, 'gravityDir': {'x': 0, 'y': -1, 'z': 0}, 'dragForce': drag, 'center': -1, 'hitRadius': 0.035, 'bones': [new_nodes[0][0]], 'colliderGroups': list(range(len(sec.get('colliderGroups', []))))})
+    return [x[0] for x in new_nodes]
 
 
 def add_ponytail_chain(v, prim):
@@ -1689,6 +1740,7 @@ def build_heroine_05():
     v = src('Sendagaya_Shino'); fumi = src('Sakurada_Fumiriya'); donor = src('HairSample_Male')
     n, tie, hj = low_ponytail(v)
     print('  heroine_05: low ponytail verts', n, 'tie (file)', np.round(tie, 3), 'tie - head joint (給 src/props3d.js 的髮圈)', np.round(np.array(tie) - np.array(hj), 3))
+    print('  heroine_05: low ponytail joints (彈簧骨，走路會擺動)', low_ponytail_chain(v))
     remove_prims(v, ['AccessoryNeck', 'Bottoms', 'Tops'])
     mi, sh = transplant(v, fumi, 'Tops', 'F00_908_Tops_Shirt_CLOTH')
     paint_white_shirt(v, 'Tops_Shirt')   # 背心區塊塗白、畫門襟鈕扣（舊版只把背心區塊淡化，線條還在）
