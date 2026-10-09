@@ -9,9 +9,18 @@
 
 ## CURRENTLY WORKING ON — 現在正在修改什麼
 
-- **最近更新**：2026-10-09（台灣時間，v9.3 第十二批：公館捷運出口；溫書瑀馬尾彈簧骨）
+- **最近更新**：2026-10-09（台灣時間，v9.3 第十三批：沈以安臉旁碎髮加長）
 - **最新已推送 commit**：`7d9b6b8`（第十二批文件；程式在 `13cfeda` 捷運出口、`b4c30ae` 溫書瑀馬尾彈簧骨；測試全部 PASS）。之前是 `320c2e7`（第十、十一批：農業陳列館、公館重建）、`6db8289`（第九批）、`416afee`（第八批：黃昏調色提案，等使用者決定）、`40bb50e`（第七批）、`86deef8`（第六批）、`edb01e8`（第五批）、`0080bf5`（第四批）、`66374e2`（第三批）、`7a4eca6`（第二批）、`ad76109`（第一批）。分支 `claude/friendly-brahmagupta-6bbkzc`，PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
 - **畫面驗收**：[`docs/art-rebuild/VISUAL_REVIEW.md`](art-rebuild/VISUAL_REVIEW.md)。**美術規範**：[`docs/art-rebuild/ART_DIRECTION.md`](art-rebuild/ART_DIRECTION.md)（參考圖在 `docs/art-rebuild/references/`）
+
+### 這次完成（v9.3 第十三批，`192434c` 之後）
+
+| 項目 | 狀態 | 玩家會看到什麼 |
+|---|---|---|
+| 沈以安臉旁碎髮加長 | 技術完成；READY_FOR_ART_REVIEW | 原本臉旁的頭髮都停在下巴（正面看像短鮑伯）。臉旁往前掃的碎髮、臉前兩側的長髮束下半段拉長到下巴下緣（停在肩膀上緣以上，不碰針織衫），走路照樣擺動。比較接近參考圖 01，但仍不是「馬尾＋幾綹長碎髮」的樣子（側面頭髮是一整層；VISUAL_REVIEW 第 3 節） |
+
+測試：`sim_hair.js char.heroine_01` PASS（髮尾不上翹）；遊戲內轉身照（正面／側面／背面／臉／走路）沒有 JS 錯誤；`touch_flow_wenzhou`（含和沈以安說話、坐下）21/21。
+**第一版的錯誤**（截圖抓到）：`lengthen_side_locks` 第一版假設所有髮束共用同一組頂點座標，結果把 `ponytail_from_twintails` 拿掉的貓耳改回來了；改成每一束用自己的 POSITION、只把改過的換給原本共用的髮束後，貓耳沒有回來。
 
 ### 這次完成（v9.3 第十二批，`07bb5e5` 之後）
 
@@ -169,7 +178,7 @@
 3. 林芷若微捲髮（BLOCKED_BY_ART_ASSET：VRoid 樣本沒有捲髮）；沈以安臉旁碎髮加長、細手錶；溫書瑀馬尾不會擺動。
 4. 臉：仍是 VRoid 動畫臉（BLOCKED_BY_ART_ASSET）。
 5. 校門（`W3.gate`）、傅鐘、路燈仍是 LEVEL_BLOCKOUT 的方塊造型（校園建築、公館店面街、捷運出口已經換掉，第九～十二批）。
-6. 沈以安臉旁碎髮加長（參考圖臉旁的長碎髮不夠長）。
+6. 沈以安：側面那一層頭髮往後收到馬尾、只留幾綹長碎髮（第十三批只把臉旁碎髮加長到下巴下緣）。
 
 ## 進度總表
 

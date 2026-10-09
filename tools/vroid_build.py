@@ -1044,6 +1044,41 @@ def low_ponytail(v, tie_below=0.025, top_above=0.15, tie_w=0.16, tail_w=0.24, fr
     return int(changed.sum()), (0.0, float(yt), float(zt)), (float(hw[0, 3]), float(head_y), float(zc))
 
 
+def lengthen_side_locks(v, rules):
+    """臉旁的碎髮加長（沈以安：參考圖臉旁的長碎髮垂到下巴以下；樣本的側髮只到臉頰）。
+    rules：[(條件, 目標髮尾高度)]，條件看每一束頭髮的髮尾（最低處）位置 (tip_x, tip_y, tip_z) 與髮根高度。
+    做法：只拉長那一束的下半段——髮束中點以下的頂點依「離中點多遠」往下拉，髮尾剛好到目標高度；x、z 不動，骨頭權重不動（照樣跟著彈簧骨擺）。
+    注意：前面的步驟（例如 ponytail_from_twintails 拿掉貓耳、改馬尾）會讓部分髮束有自己的 POSITION；
+    每一束都用自己的 POSITION 算，改過的 POSITION 只換給原本共用同一個 POSITION 的髮束（v9.3：第一版假設全部共用，把貓耳改回來了）。
+    回傳 [(primitive 編號, 原本髮尾高度, 新的髮尾高度)]。"""
+    m = [x for x in v.j['meshes'] if x['name'].startswith('Hair')][0]
+    arrays = {}; owner = {}
+    for k, p in enumerate(m['primitives']):
+        a = p['attributes']['POSITION']
+        if a not in arrays: arrays[a] = v.acc(a).astype(np.float64)
+        for i in np.unique(v.acc(p['indices']).astype(np.int64)): owner.setdefault((a, int(i)), set()).add(k)
+    out = {a: P.copy() for a, P in arrays.items()}; changed = set(); done = []
+    for k, p in enumerate(m['primitives']):
+        a = p['attributes']['POSITION']; P = arrays[a]
+        idx = np.unique(v.acc(p['indices']).astype(np.int64)); q = P[idx]; nt = len(v.acc(p['indices'])) // 3
+        if nt > 300: continue   # 只動一束一束的碎髮（幾十～一百多個三角形）；頭髮底層、馬尾這種大片的不動
+        mn, mx = q.min(0), q.max(0)
+        tip = q[q[:, 1] < mn[1] + 0.012].mean(0); yroot = q[q[:, 1] > mx[1] - 0.012][:, 1].mean()
+        for cond, y_target in rules:
+            if not cond(tip, yroot): continue
+            if any(len(owner[(a, int(i))]) > 1 for i in idx): break   # 和別的髮束共用頂點就不動（避免拉壞旁邊那一束）
+            ytip = mn[1]; y0 = ytip + 0.5 * (mx[1] - ytip); d = ytip - y_target
+            sel = idx[P[idx, 1] < y0]
+            s_ = (y0 - P[sel, 1]) / max(1e-4, y0 - ytip)
+            out[a][sel, 1] = P[sel, 1] - s_ * d; changed.add(a)
+            done.append((k, round(float(ytip), 3), round(float(y_target), 3))); break
+    for a in changed:
+        newP = v.add_acc(out[a].astype(np.float32), 5126, 'VEC3', 34962, True)
+        for p in m['primitives']:
+            if p['attributes']['POSITION'] == a: p['attributes'] = dict(p['attributes'], POSITION=newP)
+    return done
+
+
 def low_ponytail_chain(v, params=(0.04, 0.42, 0.78), stiff=0.35, grav=0.9, drag=0.42):
     """low_ponytail 收成一束的馬尾加三節骨頭（綁點 → 1 → 2 → 3），頂點依沿著馬尾的位置分配權重，註冊成 VRM 彈簧骨：
     走路、轉身時馬尾自然擺動（v9.3：溫書瑀的馬尾原本整束綁在頭骨上，完全不會動）。綁點以上收攏的頭髮仍然綁頭骨。"""
@@ -1593,6 +1628,13 @@ def build_heroine_01():
     print('  heroine_01: ears/left/right hair prims', ponytail_from_twintails(v, back_offset=-0.008, drop=-0.035))
     print('  heroine_01: ponytail rotated deg', round(hang_ponytail(v, v._ponytail, scale=1.3), 1))
     print('  heroine_01: ponytail joints', add_ponytail_chain(v, v._ponytail))
+    # 臉旁碎髮加長（參考圖 01：臉旁的長碎髮垂到下巴以下）：最下面三束到下巴下緣、上面一束到下巴；肩膀上緣 y≈1.34，髮尾停在 1.375 以上不會插進針織衫
+    side = lambda t, yr: abs(t[0]) > 0.075 and t[2] < 0.012 and yr - t[1] > 0.035   # 左右樣本不完全對稱：0.075 讓兩邊臉前的長髮束都選到
+    print('  heroine_01: side locks lengthened', lengthen_side_locks(v, [
+        (lambda t, yr: side(t, yr) and t[1] < 1.495, 1.375),
+        (lambda t, yr: side(t, yr) and 1.495 <= t[1] < 1.507, 1.385),
+        (lambda t, yr: side(t, yr) and 1.507 <= t[1] < 1.52, 1.392),
+        (lambda t, yr: side(t, yr) and 1.52 <= t[1] < 1.54, 1.43)]))
     remove_prims(v, ['Tops'])
     mi, sw = transplant(v, donor, 'Tops', 'F00_906_Tops_Sweater_CLOTH')
     print('  heroine_01: sweater hood tris', uv_cull(v, 'Tops_Sweater', HOOD_RECTS), 'strings', drop_small_parts(v, 'Tops_Sweater', 600, front_z=-0.05))
