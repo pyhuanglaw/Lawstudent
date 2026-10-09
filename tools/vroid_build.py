@@ -312,10 +312,11 @@ def hide_skin_under_pants(v, pants_pos, margin_top=0.03, margin_bottom=0.02):
     return tot
 
 
-def hide_covered(v, added, max_d=0.06, eps=0.004, max_tan=0.03, skip_joints=(), y_keep=None):
+def hide_covered(v, added, max_d=0.06, eps=0.004, max_tan=0.03, skip_joints=(), y_keep=None, keep_fn=None):
     """刪掉被移植衣物蓋住的皮膚三角形：皮膚頂點離最近的衣物頂點 < max_d，且在衣物表面的內側（沿衣物法向量的反方向）。
     skip_joints：這些骨頭的皮膚不刪（衣服接縫有縫隙的地方，留著並塗成衣服顏色當內層）。
-    y_keep(P)：高於這條線的皮膚不刪（領口剪低之後，脖子與鎖骨的皮膚要留著）。"""
+    y_keep(P)：高於這條線的皮膚不刪（領口剪低之後，脖子與鎖骨的皮膚要留著）。
+    keep_fn(P)：回傳 True 的皮膚不刪（例如袖口剪短之後，袖口外的手腕；袖口邊緣附近的皮膚會被 max_tan 當成「被蓋住」）。"""
     G = np.concatenate([a[1] for a in added]); N = np.concatenate([a[2] for a in added])
     node, mesh, skins = body_primitives(v, 'SKIN')
     names, _ = v.skin_mats(node['skin'])
@@ -336,6 +337,8 @@ def hide_covered(v, added, max_d=0.06, eps=0.004, max_tan=0.03, skip_joints=(), 
             cov &= ~np.array([any(k in x for k in skip_joints) for x in dom])
         if y_keep is not None:
             cov &= ~(pos[:, 1] > y_keep(pos))
+        if keep_fn is not None:
+            cov &= ~keep_fn(pos)
         tris = idx.reshape(-1, 3)
         keep = ~cov[tris].all(axis=1)
         tot += int((~keep).sum())
@@ -652,6 +655,21 @@ def crew_neck(v, mat_pat, y0, x_max=0.11, slope=0.9, cap=None):
             fix = used & above; P[fix, 1] = edge(P[fix])
             p['indices'] = v.add_acc(tris.reshape(-1).astype(np.uint32), 5125, 'SCALAR', 34963)
             p['attributes'] = dict(p['attributes'], POSITION=v.add_acc(P, 5126, 'VEC3', 34962, True))
+    return n
+
+
+def neck_strip_uv(v, mat_pat, y_min, x_max=0.1, uv_rect=(0.2, 0.0, 0.8, 0.36), u_of_x=lambda x: 0.5 - 0.92 * x, v_fixed=0.55):
+    """連帽上衣改圓領之後，領口正中間留下一圈很窄的三角形，還在用帽子貼圖的尖端（帽緣的深色描邊＋貼圖島外面的底色）；
+    陳語彤臉部近景看起來像領口中間一個深色的小蝴蝶結。把這些頂點的 UV 改到胸口上緣的素面布料（u 依左右位置對應，v 固定）。"""
+    n = 0; u0, v0, u1, v1 = uv_rect
+    for m in v.j['meshes']:
+        for p in m['primitives']:
+            if mat_pat not in v.j['materials'][p['material']]['name']: continue
+            P = v.acc(p['attributes']['POSITION']).astype(np.float32); UV = v.acc(p['attributes']['TEXCOORD_0']).astype(np.float32).copy()
+            sel = (np.abs(P[:, 0]) < x_max) & (P[:, 1] > y_min) & (UV[:, 0] > u0) & (UV[:, 0] < u1) & (UV[:, 1] > v0) & (UV[:, 1] < v1)
+            if not sel.any(): continue
+            UV[sel, 0] = u_of_x(P[sel, 0]); UV[sel, 1] = v_fixed; n += int(sel.sum())
+            p['attributes'] = dict(p['attributes'], TEXCOORD_0=v.add_acc(UV, 5126, 'VEC2', 34962))
     return n
 
 
@@ -1394,8 +1412,9 @@ def body_alpha_fill(v):
     return int(m.sum())
 
 
-def cut_sleeves(v, mat_pat, keep=0.17, clean=False):
-    """上衣袖子剪短：離肩關節（沿上臂方向）超過 keep 公尺的三角形刪掉 → 短袖（連帽上衣改 T 恤）。"""
+def cut_sleeves(v, mat_pat, keep=0.17, clean=False, extra=()):
+    """上衣袖子剪短：離肩關節（沿上臂方向）超過 keep 公尺的三角形刪掉 → 短袖（連帽上衣改 T 恤）。
+    extra：也算在手臂上的次要骨頭（例如林芷若袖口荷葉邊綁在 J_Sec_*_TipSleeve，不在 UpperArm／LowerArm／Hand 上）。"""
     node, mesh, prims = body_primitives(v, mat_pat)
     names, _ = v.skin_mats(node['skin'])
     sh = {s: joint_world(v, f'J_Bip_{s}_UpperArm')[:3, 3] for s in ('L', 'R')}
@@ -1408,7 +1427,7 @@ def cut_sleeves(v, mat_pat, keep=0.17, clean=False):
         for s in ('L', 'R'):
             d = el[s] - sh[s]; L = np.linalg.norm(d); d /= L
             t = (pos - sh[s]) @ d
-            onarm = np.array([(f'_{s}_' in x) and any(k in x for k in ('UpperArm', 'LowerArm', 'Hand')) for x in dom])
+            onarm = np.array([(f'_{s}_' in x) and any(k in x for k in ('UpperArm', 'LowerArm', 'Hand') + tuple(extra)) for x in dom])
             cut |= onarm & (t > keep)
             if clean:   # 剪口：留下來的三角形如果有頂點超過剪裁線，沿手臂方向收回剪裁線（袖口平整，不留鋸齒）
                 sel = onarm & (t > keep); moved[sel] -= np.outer(t[sel] - keep, d)
@@ -1580,6 +1599,7 @@ def build_heroine_03():
     mi, tee = transplant(v, donor, 'Tops', 'F00_909_Tops_Tee_CLOTH')
     print('  heroine_03: tee hood', uv_cull(v, 'Tops_Tee', HOOD_RECTS), 'strings', drop_small_parts(v, 'Tops_Tee', 600, front_z=-0.05), 'sleeve tris cut', cut_sleeves(v, 'Tops_Tee', 0.17, clean=True))
     print('  heroine_03: crew neck tris', crew_neck(v, 'Tops_Tee', joint_y(v, 'Neck') - 0.012, slope=1.2, cap=0.004))   # 帽口那圈立領剪掉 → 貼近脖子的圓領（太低會看到後領內側，像脖子上有深色條紋；cap：兩側不留尖角）
+    print('  heroine_03: neckline strip uv', neck_strip_uv(v, 'Tops_Tee', joint_y(v, 'Neck') - 0.03))   # 領口正中間的小蝴蝶結（帽子貼圖尖端的深色描邊）→ 胸口素面布料
     uv_cull(v, 'Tops_Tee', [(0.05, 0.915, 0.95, 1.0)])   # 拿掉羅紋下擺（T 恤是平口）
     print('  heroine_03: tee hem flattened', flatten_hem(v, 'Tops_Tee', joint_y(v, 'UpperLeg') - 0.05))   # 剪掉羅紋後下擺是鋸齒狀 → 收平
     smooth_region(v, 'Tops_Tee', POCKET_RECT); smooth_normals_region(v, 'Tops_Tee', POCKET_RECT)

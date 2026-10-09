@@ -27,7 +27,12 @@ const PROPS = (function(){
   // 包身是「軟布袋」：細分方塊，厚度往邊緣收（中間鼓、邊緣扁），底部略寬；背帶從包口兩側繞過右肩
   function tote(o){ o=o||{}; const g=new THREE.Group(); const base=o.color||'#ece3d2'; const cv=mat('tote',base,fabric('tote',base,{weave:true}));
     const W=0.31, H=0.34, D=0.07; const geo=new THREE.BoxGeometry(W,H,D,10,10,2); const p=geo.attributes.position;
-    for(let i=0;i<p.count;i++){ const x=p.getX(i), y=p.getY(i), z=p.getZ(i); const u=x/(W/2), v=(y+H/2)/H; const puff=Math.max(0.12,(1-u*u*0.85)*(0.35+0.65*Math.sin(Math.PI*Math.min(1,v*1.05)))); p.setXYZ(i,x*(1+0.06*(1-v)),y,z*puff); }
+    // 帆布袋要軟：上緣在兩條提帶之間往下垂、底部被裝的東西撐得比較鼓、下方兩角是圓的、布面有幾道淺皺褶（舊版是完美長方形，看起來像紙板）
+    for(let i=0;i<p.count;i++){ const x=p.getX(i), y=p.getY(i), z=p.getZ(i); const u=x/(W/2), v=(y+H/2)/H; const puff=Math.max(0.12,(1-u*u*0.85)*(0.42+0.58*Math.sin(Math.PI*Math.min(1,v*1.05)))*(1.12-0.25*v));
+      let nx=x*(1+0.07*(1-v))+Math.sign(x)*0.006*Math.sin(Math.PI*v), ny=y; if(v>0.82) ny-=0.022*(1-u*u)*((v-0.82)/0.18);
+      const cu=Math.max(0,Math.abs(u)-0.72)/0.28, cb=Math.max(0,0.16-v)/0.16, k=cu*cb; if(k>0){ nx-=Math.sign(x)*0.022*k; ny+=0.02*k; }
+      const crease=0.0035*Math.sin(u*5.2+v*3.1)+0.0025*Math.sin(v*9.0-u*2.0)+0.004*Math.exp(-Math.pow((u*0.8+v-0.75)/0.08,2));
+      p.setXYZ(i,nx,ny,z*puff+Math.sign(z)*crease); }
     geo.computeVertexNormals(); const bag=new THREE.Mesh(geo,cv); bag.position.set(0.165,-0.5,0.035); bag.rotation.set(0,-0.25,0.04); g.add(bag);
     const strap=mat('totes',shadeHex(base,0.86)); for(const dz of [-0.022,0.022]) g.add(strapBand([[0.12+dz*0.4,-0.34,0.04+dz],[0.135,-0.16,0.02+dz*0.8],[0.145,0.04,0.0+dz*0.6],[0.135,0.155,0.01+dz*0.4],[0.11,0.17,0.035]],0.009,strap));
     return g; }
