@@ -107,7 +107,8 @@ const GAME = (function(){
   GM.spawnRider=spawnRider;
   // ---------- 區域進入 ----------
   let entering=false;
-  async function enter(zoneId,spawn,opts){ opts=opts||{}; if(entering) return; entering=true; if(!opts.noFade) await fade(true); GM.npc={}; GM.extras=[]; const z=E.loadZone(Z3.ZONES[zoneId],spawn); G.zone=zoneId; G.visited[zoneId]=true; E.player.path=null; E.player.pose='idle'; E.player.frozen=false; E.player.seat=null; E.player.idlePose='idle'; if(STORY.populate) STORY.populate(zoneId,GM); buildMinimap(); updateHUD(); A3.setScene(zoneId,G.hour,G.weather); E.update(0.016); E.render(); if(!opts.noFade){ await fade(false); } entering=false; if(STORY.onEnter) STORY.onEnter(zoneId,GM,opts); autosave(); return z; }
+  async function enter(zoneId,spawn,opts){ opts=opts||{}; if(entering) return; entering=true; let z; try{ if(!opts.noFade) await fade(true); GM.npc={}; GM.extras=[]; z=E.loadZone(Z3.ZONES[zoneId],spawn); G.zone=zoneId; G.visited[zoneId]=true; E.player.path=null; E.player.pose='idle'; E.player.frozen=false; E.player.seat=null; E.player.idlePose='idle'; if(STORY.populate) STORY.populate(zoneId,GM); buildMinimap(); updateHUD(); A3.setScene(zoneId,G.hour,G.weather); E.update(0.016); E.render(); if(!opts.noFade){ await fade(false); } } finally { entering=false; /* 區域建立失敗時錯誤照樣丟出去，但不能讓 entering 永遠是 true（之後就再也換不了區域）*/ } if(STORY.onEnter) STORY.onEnter(zoneId,GM,opts); autosave(); return z; }
+  GM.isEntering=()=>entering;
   GM.enter=enter;
   // ---------- 小地圖 ----------
   let mmImg=null;
@@ -136,7 +137,10 @@ const GAME = (function(){
   function autosave(){ if(!G||!E.player||D.busyDepth>0||GM.titleIdle) return; /* 標題畫面（還沒開始或讀檔）不能自動存檔：否則會用空白的第一天蓋掉玩家真正的進度 */ write(KEY_AUTO,snapshot()); GM.lastAuto=performance.now(); }
   GM.autosave=autosave;
   function saveSlot(i){ const prev=read(KEY_SLOT+i); if(prev) write(KEY_BACKUP,prev); const ok=write(KEY_SLOT+i,snapshot()); toast(ok?'已存到欄位 '+i:'存檔失敗（瀏覽器儲存不可用）'); renderSlots(); }
-  async function applySave(s){ const err=validate(s); if(err) throw new Error(err); s=migrate(JSON.parse(JSON.stringify(s))); G=s; GM.G=G; bindSystems(); E.player.busy=false; E.endCinematic(); D.busyDepth=0; GM.titleIdle=false; hideHUD(false); GM.running=true; E.hour=G.hour; E.weather=G.weather; E.setWeather(G.weather); const sp=G.pos?{x:G.pos.x,z:G.pos.z,yaw:G.pos.yaw}:undefined; await enter(G.zone,sp,{fromLoad:true}); setGoal(G.goal||'—'); updateHUD(); if(G.flags.companion==='an'&&STORY.resumeWalk) STORY.resumeWalk(GM); }
+  async function applySave(s){ const err=validate(s); if(err) throw new Error(err); s=migrate(JSON.parse(JSON.stringify(s)));
+    /* 換區域的淡出淡入還沒結束時 enter() 會直接略過：先等它結束再讀檔，否則存檔內容換掉了、人卻沒移過去（下次自動存檔會把這一區的座標記在另一區名下）*/
+    for(let i=0;i<200&&entering;i++) await new Promise(r=>setTimeout(r,50)); if(entering) throw new Error('正在切換場景，請稍後再讀取');
+    G=s; GM.G=G; bindSystems(); E.player.busy=false; E.endCinematic(); D.busyDepth=0; GM.titleIdle=false; hideHUD(false); GM.running=true; E.hour=G.hour; E.weather=G.weather; E.setWeather(G.weather); const sp=G.pos?{x:G.pos.x,z:G.pos.z,yaw:G.pos.yaw}:undefined; await enter(G.zone,sp,{fromLoad:true}); setGoal(G.goal||'—'); updateHUD(); if(G.flags.companion==='an'&&STORY.resumeWalk) STORY.resumeWalk(GM); }
   GM.applySave=applySave;
   function exportText(){ return btoa(unescape(encodeURIComponent(JSON.stringify(snapshot())))); }
   function parseImport(t){ t=t.trim(); let obj=null; try{ obj=JSON.parse(t); }catch(e){ try{ obj=JSON.parse(decodeURIComponent(escape(atob(t)))); }catch(e2){ throw new Error('無法解析：不是 JSON 也不是匯出的文字格式'); } } const err=validate(obj); if(err) throw new Error(err); return obj; }

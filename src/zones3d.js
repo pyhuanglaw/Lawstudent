@@ -188,39 +188,69 @@ const Z3 = (function(){
     // 人行道（北側靠校門）與騎樓街區
     ground(g,W,14,W3.stoneTex('#dcd5c8'),[40,4],0,-38,0.02); ground(g,W,16,W3.stoneTex('#dcd5c8'),[40,4],0,12,0.02); ground(g,W,40,W3.stoneTex('#d9d3c6'),[40,10],0,40,0.02);
     // 羅斯福路：車道線
-    { const line=W3.canvasTex('lane',64,256,(x,w,h)=>{ x.clearRect(0,0,w,h); x.fillStyle='rgba(255,255,255,0.85)'; x.fillRect(28,0,8,120); }); for(const z of [-16,-4,8]){ const t=line.clone(); t.needsUpdate=true; t.repeat.set(1,40); const m=new THREE.Mesh(new THREE.PlaneGeometry(0.4,W),new THREE.MeshBasicMaterial({map:t,transparent:true})); m.rotation.x=-Math.PI/2; m.rotation.z=Math.PI/2; m.position.set(0,0.03,z); g.add(m); } }
+    { const line=W3.canvasTex('lane',64,256,(x,w,h)=>{ x.clearRect(0,0,w,h); x.fillStyle='rgba(255,255,255,0.85)'; x.fillRect(28,0,8,120); }); for(const z of [-25,-19,-8,-2]){ const t=line.clone(); t.needsUpdate=true; t.repeat.set(1,40); const m=new THREE.Mesh(new THREE.PlaneGeometry(0.4,W),new THREE.MeshStandardMaterial({map:t,transparent:true,roughness:0.8})); m.rotation.x=-Math.PI/2; m.rotation.z=Math.PI/2; m.position.set(0,0.03,z); m.receiveShadow=true; g.add(m); } /* 路中間的黃色雙實線（路面 z -31..4）*/ for(const z of [-13.65,-13.35]){ const m=new THREE.Mesh(new THREE.PlaneGeometry(W,0.14),new THREE.MeshStandardMaterial({color:0xd9a93a,roughness:0.8})); m.rotation.x=-Math.PI/2; m.position.set(0,0.03,z); m.receiveShadow=true; g.add(m); } /* 車道線改成受光材質：晚上不會像螢光一樣亮 */ }
     // 校門（北側牆中央）——回校園
     const gate=W3.gate(); place(g,gate,0,-46,0); nav.blockRect(-5,-46,1.6,1.6,0,0.4); nav.blockRect(5,-46,1.6,1.6,0,0.4); for(const s of [-1,1]){ const wall=new THREE.Mesh(new THREE.BoxGeometry(70,1.8,1),texMat(W3.brickTex('#b8735a'))); wall.position.set(s*44,0.9,-46); g.add(wall); nav.blockRect(s*44,-46,70,1.2,0,0.3); }
     // 捷運公館站入口
-    const mrt=W3.mrtEntrance('捷運 公館站'); place(g,mrt,-40,26,0); nav.blockRect(-40,26,3.4,2.8,0); E.interactables.push({x:-40,z:28.5,radius:2.4,label:'捷運公館站入口',mrt:true});
-    // 店面街（南側）：騎樓
-    const shops=[{n:'阿鳳麵店',c:'#c9463d',w:10,type:'noodle'},{n:'青葉茶行 手搖飲',c:'#2f7d5b',w:8,type:'tea'},{n:'舊路書房 文具',c:'#3b5a8c',w:12,type:'book'},{n:'全日便利商店',c:'#3a6fb0',w:10,type:'cvs'},{n:'公館藥局',c:'#4a9a6a',w:8,type:'none'},{n:'滷味・鹹酥雞',c:'#c9a24a',w:8,type:'none'},{n:'眼鏡 · 手機維修',c:'#5a5a7a',w:9,type:'none'},{n:'咖啡・輕食',c:'#8c3b47',w:9,type:'none'}];
-    let x=-68; for(const s of shops){ const b=W3.building({key:'shop'+s.n,w:s.w,h:14,d:16,floors:4,style:'grid',wall:['#e3ddd0','#d9cbb0','#cfc5b2','#e6dfd0'][(x/7|0)%4],glass:'#bcd6df',frame:'#6b6f76',roof:'parapet',entrance:{w:3,h:3,side:'back',canopy:false,steps:false},sign:s.n,signColor:'#ffffff',signBg:s.c}); place(g,b,x+s.w/2,60,0); nav.blockRect(x+s.w/2,60,s.w+0.2,16.2,0,0.4); buildings.push(b);
-      // 騎樓柱與招牌
-      for(let i=0;i<=1;i++){ const col=new THREE.Mesh(new THREE.BoxGeometry(0.6,3.6,0.6),M('#cfc5b2')); col.position.set(x+0.5+i*(s.w-1),1.8,50); g.add(col); nav.blockRect(col.position.x,50,0.7,0.7,0); } const arcade=new THREE.Mesh(new THREE.BoxGeometry(s.w,0.4,4.2),M('#d9cbb0')); arcade.position.set(x+s.w/2,3.8,50); g.add(arcade);
-      const sign=new THREE.Mesh(new THREE.BoxGeometry(s.w-1,1.2,0.3),M(s.c)); sign.position.set(x+s.w/2,4.6,48.2); g.add(sign); const sp=W3.signPlane(s.n,s.w-1.4,0.9,{color:'#ffffff'}); sp.position.set(x+s.w/2,4.6,48.0); g.add(sp); const vsign=new THREE.Mesh(new THREE.BoxGeometry(0.4,4,1.4),M(s.c)); vsign.position.set(x+s.w-0.5,7,49.6); g.add(vsign); const lit=new THREE.Mesh(new THREE.BoxGeometry(s.w-1.2,1.0,0.02),new THREE.MeshBasicMaterial({color:new THREE.Color(s.c).lerp(new THREE.Color(1,1,1),0.5)})); lit.position.set(x+s.w/2,4.6,48.0-0.16); lit.visible=false; g.add(lit); E.lampGlows.push(lit);
-      if(s.type==='noodle') E.interactables.push({x:x+s.w/2,z:51,radius:2.2,label:'進入阿鳳麵店',exit:{to:'noodle',spawn:{x:0,z:3.4,yaw:Math.PI}}});
-      if(s.type==='tea') E.interactables.push({x:x+s.w/2,z:51,radius:2.2,label:'買一杯飲料',shop:'tea'});
-      if(s.type==='book') E.interactables.push({x:x+s.w/2,z:51,radius:2.2,label:'進入舊路書房',exit:{to:'bookstore',spawn:{x:0,z:4,yaw:Math.PI}}});
-      if(s.type==='cvs') E.interactables.push({x:x+s.w/2,z:51,radius:2.2,label:'進入便利商店',exit:{to:'cvs',spawn:{x:0,z:3.4,yaw:Math.PI}}});
-      x+=s.w+1.2; }
-    // 北側店面（校門兩側外的騎樓）
-    for(const [xx,name,c] of [[-30,'台大書局',' #3b5a8c'],[30,'公館小吃',' #c9463d']]){ const b=W3.building({key:'nshop'+name,w:16,h:12,d:12,floors:3,style:'grid',wall:'#d9cbb0',glass:'#bcd6df',frame:'#6b6f76',roof:'parapet',entrance:{w:3,h:3,side:'front',canopy:false,steps:false},sign:name,signColor:'#ffffff',signBg:c.trim()}); place(g,b,xx,-56,0); buildings.push(b); }
+    const mrt=W3.mrtEntrance('捷運 公館站'); place(g,mrt,-40,9.5,0); nav.blockRect(-40,9.5,3.4,2.8,0); E.interactables.push({x:-40,z:12,radius:2.4,label:'捷運公館站入口',mrt:true});
+    // 店面街（南側）：連續騎樓的台北街屋（TK.apartment；v9.3 第十一批取代 LEVEL_BLOCKOUT 方盒＋另外搭的柱子與招牌）
+    /* 立面在 z=19、面向羅斯福路（人行道 z 4–19）；騎樓 3 m 深、整排連續可以走（柱子落在店與店的分界），店面玻璃在 z=22。
+       舊版店面在 z=52，和馬路之間隔著 30 m 空蕩蕩的鋪面廣場（LEVEL_BLOCKOUT 留下的），整個南側往北搬 30 m：店面、互動點、立牌、捷運入口、圓環、往溫州街的出口、
+       從麵店／書店／便利商店出來的位置、路人路線（story3d.js）一起搬。各店的 x 位置不變；舊版店與店之間 1.2 m 的縫併進左邊那間；x=15.6 以東補上沒有互動的店面，整排店接到街尾。 */
+    const addCol=(x,z,w,d,y0,y1)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,y1-y0,d),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(x,(y0+y1)/2,z); g.add(m); E.colliders.push(m); };
+    const shops=[{n:'阿鳳麵店',c:'#c9463d',w:10,type:'noodle',it:'noodle',sub:'乾麵・餛飩湯・小菜',v:'阿鳳麵店'},{n:'青葉茶行',c:'#2f7d5b',w:8,type:'tea',it:'tea',sub:'手搖飲・現煮珍珠'},{n:'舊路書房',c:'#3b5a8c',w:12,type:'book',it:'books',sub:'法律書・文具・二手書',v:'舊路書房'},{n:'全日便利商店',c:'#3a6fb0',w:10,type:'cvs',it:'cvs',band:'#e0a030'},
+      {n:'公館藥局',c:'#4a9a6a',w:8,type:'none',it:'cvs',v:'藥局'},{n:'滷味・鹹酥雞',c:'#e0b24a',sc:'#3b2a1e',w:8,type:'none',it:'teishoku'},{n:'眼鏡・手機維修',c:'#5a5a7a',w:9,type:'none',it:'print',v:'眼鏡'},{n:'咖啡・輕食',c:'#8c3b47',w:9,type:'none',it:'cafe'},
+      {n:'水果行',c:'#e0a030',sc:'#3b2a1e',w:8,type:'none',it:'fruit'},{n:'自助洗衣',c:'#4a90c2',w:9,type:'none',it:'laundry'},{n:'影印・輸出',c:'#2f3a44',w:9,type:'none',it:'print',v:'影印'},{n:'日日定食',c:'#5c3a21',w:10,type:'none',it:'teishoku',v:'定食'},{n:'二手唱片',c:'#2b2b2b',w:8,type:'none',it:'books'},{n:'文具・畫材',c:'#8c3b47',w:9,type:'none',it:'books'},{n:'早午餐',c:'#c9463d',w:9,type:'none',it:'cafe'}];
+    const FZ=19, GH=4.2, ARC=3.0, SHOPD=16, WALLC=['#d9cbb0','#cfc5b2','#e3ddd0','#c8bca8','#d6c3a5','#e6dfd0','#bfb2a0'], WALLT=['tile','mosaic','tile','plaster'];
+    let x=-68; shops.forEach((s,i)=>{ const last=i===shops.length-1; const X0=x, X1=x+s.w+(i<8&&!last?1.2:0), W=X1-X0, cx=(X0+X1)/2;
+      // 柱子（TK 區域座標；建築轉 180°，區域 +x＝世界西側）：西邊分界一根；沒有互動的寬店面中間再一根（有互動的店門口前面不放柱子）；最後一間另加東邊盡頭
+      const pl=[W/2]; const nb=s.type==='none'?Math.max(1,Math.round(W/5)):1; for(let k=1;k<nb;k++) pl.push(W/2-k*W/nb); if(last) pl.push(-W/2);
+      const b=TK.apartment({w:W,d:SHOPD,floors:4+((i*5)%4),fh:3.1,groundH:GH,wall:WALLT[i%4],color:WALLC[i%7],balcony:i%3===1,tank:i%2===0,roofAdd:i%5===3,ground:{type:'arcade',through:true,pillars:pl,shop:{type:s.it,name:s.n,sub:s.sub,signBg:s.c,signColor:s.sc||'#ffffff',band:s.band,vertical:s.v,vBg:'#ffffff',vColor:s.c,vBand:s.c}}});
+      b.position.set(cx,0,FZ); b.rotation.y=Math.PI; g.add(b); buildings.push(b);
+      for(const lx of pl) nav.blockRect(cx-lx,FZ+0.3,0.55,0.55,0,0.1);
+      // 鏡頭碰撞：店面玻璃後面的本體＋騎樓上方的樓層（在騎樓裡鏡頭不會被拉到臉前面，也不會穿到樓上）
+      addCol(cx,FZ+ARC+0.3+(SHOPD-ARC-0.3)/2,W,SHOPD-ARC-0.3,0,b.userData.h+1); addCol(cx,FZ+(ARC+0.3)/2,W,ARC+0.3,GH-0.35,b.userData.h+1);
+      const ix=x+s.w/2;
+      if(s.type==='noodle') E.interactables.push({x:ix,z:FZ+2,radius:2.2,label:'進入阿鳳麵店',exit:{to:'noodle',spawn:{x:0,z:3.4,yaw:Math.PI}}});
+      if(s.type==='tea') E.interactables.push({x:ix,z:FZ+2,radius:2.2,label:'買一杯飲料',shop:'tea'});
+      if(s.type==='book') E.interactables.push({x:ix,z:FZ+2,radius:2.2,label:'進入舊路書房',exit:{to:'bookstore',spawn:{x:0,z:4,yaw:Math.PI}}});
+      if(s.type==='cvs') E.interactables.push({x:ix,z:FZ+2,radius:2.2,label:'進入便利商店',exit:{to:'cvs',spawn:{x:0,z:3.4,yaw:Math.PI}}});
+      x=X1; });
+    // 往溫州街的巷口（店面街西端）：麵店西邊留 6 m 寬的巷子（x −74～−68）往南，巷口對面是轉角公寓（一般店面、沒有騎樓）；巷口有路名牌和反光鏡。
+    /* 原本「往溫州街」只是區域邊上地面的互動點，旁邊什麼都沒有 */
+    { const cb=TK.apartment({w:14,d:SHOPD,floors:5,fh:3.1,groundH:GH,wall:'tile',color:'#cdbfa8',balcony:true,tank:true,ground:{type:'shop',shop:{type:'teishoku',name:'豆花・甜湯',sub:'粉圓・芋圓・紅豆',signBg:'#f4ead8',signColor:'#5c3a21',band:'#c9a24a'}}}); cb.position.set(-81,0,FZ); cb.rotation.y=Math.PI; g.add(cb); buildings.push(cb);
+      nav.blockRect(-81,FZ+SHOPD/2,14.2,SHOPD+0.2,0,0); addCol(-81,FZ+SHOPD/2,14,SHOPD,0,cb.userData.h+1);
+      const lane=new THREE.Mesh(new THREE.PlaneGeometry(6,36),new THREE.MeshStandardMaterial({map:(()=>{ const t=W3.asphaltTex().clone(); t.needsUpdate=true; t.repeat.set(1,6); return t; })(),roughness:0.95})); lane.rotation.x=-Math.PI/2; lane.position.set(-71,0.028,FZ+18); lane.receiveShadow=true; g.add(lane);
+      const pole=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.05,3.0,8),M('#7d8288')); pole.position.set(-73.7,1.5,FZ-0.5); g.add(pole); nav.blockCircle(-73.7,FZ-0.5,0.2);
+      const st=TK.signTex('溫州街',{bg:'#2f6b4f',color:'#ffffff',size:80}); for(const ry of [0,Math.PI]){ const sg=new THREE.Mesh(new THREE.PlaneGeometry(1.1,0.3),new THREE.MeshStandardMaterial({map:st,roughness:0.6})); sg.position.set(-73.7,2.85,FZ-1.05); sg.rotation.y=ry+Math.PI/2; g.add(sg); }   /* 路名牌掛在柱子靠馬路那一側，沿人行道走的人看得到 */
+      const mir=TK.trafficMirror(); mir.position.set(-68.35,0,FZ-0.5); mir.rotation.y=-2.4; g.add(mir); nav.blockCircle(-68.35,FZ-0.5,0.2); }
+    // 騎樓外的立牌（店門口前面、騎樓柱子外側；不擋騎樓，也不擋從店裡出來的位置）
+    for(const [ax,ls] of [[-66.2,['今日小菜','滷豆干・海帶','餛飩湯 70']],[-49.8,['本日推薦','冬瓜檸檬','大杯 45']],[-45.4,['二手法律書','教科書收購','國考用書']]]){ const ab=TK.aBoard(ls); ab.position.set(ax,0,FZ-0.6); ab.rotation.y=Math.PI; g.add(ab); nav.blockCircle(ax,FZ-0.6,0.35); }
+    // 校門北側是校園：從公館看回校門，看得到大道的大王椰子、洞洞館（農業陳列館）的側面和校園的樹（和校園區域的配置一致：校門往裡是椰林大道，洞洞館在大道北側、靠近校門）
+    /* 舊版這裡是兩間「台大書局／公館小吃」方盒，但位置在校門圍牆裡面（校園內），不合理，拿掉 */
+    { const hole=CK.pavilion({w:22,d:14,gfh:4.0,h:9,sign:'農業陳列館'}); place(g,hole,-30,-66,Math.PI/2);
+      for(let z=-60;z>=-106;z-=7.5) for(const sx of [-1,1]){ const p=PALM(9+((-z*7)%3)); place(g,p,sx*9.5,z,(z*0.3)%6.28); }
+      for(const [tx,tz] of [[-62,-53],[-50,-55],[-14,-54],[22,-53],[36,-57],[52,-53],[66,-55]]){ const t=TREE(1.0+((Math.abs(tx)*13)%3)*0.1); place(g,t,tx,tz,0); } }
     // 機車、路燈、行道樹
-    for(let i=0;i<14;i++){ const sc=W3.scooter(['#e8e8e8','#2b2b2b','#8c3b47','#3a6fb0'][i%4]); place(g,sc,-70+i*10,-32,Math.PI/2+(i%2?0.2:-0.2)); nav.blockRect(-70+i*10,-32,0.8,1.6,0); }
-    for(let i=0;i<8;i++){ const sc=W3.scooter(['#e8e8e8','#2b2b2b','#5a5a7a'][i%3]); place(g,sc,-60+i*14,18,Math.PI/2); nav.blockRect(-60+i*14,18,0.8,1.6,0); }
-    for(let i=0;i<9;i++){ const l=W3.lampPost(); place(g,l,-63+i*18,-24,0); lamps.push(l); nav.blockCircle(-63+i*18,-24,0.25); const l2=W3.lampPost(); place(g,l2,-63+i*18,20,Math.PI); lamps.push(l2); nav.blockCircle(-63+i*18,20,0.25); }
+    // 機車（townkit，和溫州街同一套）：人行道邊三台一排；校門正前方只停一台，留出走路的空間
+    const scC=['#e8e8e8','#2b2b2b','#8c3b47','#3a6fb0','#c9b48a','#f2f0ea','#5a5a7a'];
+    const scRow=(xc,z,n,ry)=>{ for(let k=0;k<n;k++){ const s=TK.scooter(scC[((k*3+Math.round(xc*7))%7+7)%7]); s.position.set(xc+(k-(n-1)/2)*0.85,0,z+((k*7)%3-1)*0.06); s.rotation.y=ry+((k*5)%3-1)*0.05; g.add(s); } nav.blockRect(xc,z-0.04,n*0.85+0.5,1.7,0); };
+    for(let i=0;i<14;i++){ const x=-70+i*10; scRow(x,-32,Math.abs(x)<12?1:3,0); }
+    for(let i=0;i<8;i++) scRow(-60+i*14,6.8,3,Math.PI);
+    for(let i=0;i<9;i++){ const l=W3.lampPost(); place(g,l,-63+i*18,-31.4,0); lamps.push(l); nav.blockCircle(-63+i*18,-31.4,0.25); /* 北側路燈原本在 z=-24（馬路的車道上），移到人行道邊 */ const l2=W3.lampPost(); place(g,l2,-63+i*18,5,Math.PI); lamps.push(l2); nav.blockCircle(-63+i*18,5,0.25); }
     for(let i=0;i<6;i++){ const t=TREE(0.9); place(g,t,-65+i*26,-36,0); nav.blockCircle(-65+i*26,-36,0.7); }
     // 集合點：公館圓環意象（小廣場）
-    { const c=new THREE.Mesh(new THREE.CylinderGeometry(3,3,0.3,24),M('#d9cbb0')); c.position.set(20,0.15,28); g.add(c); nav.blockCircle(20,28,3.2); const tree=TREE(1.2); place(g,tree,20,28,0); }
+    { const c=new THREE.Mesh(new THREE.CylinderGeometry(3,3,0.3,24),M('#d9cbb0')); c.position.set(22,0.15,11.5); g.add(c); nav.blockCircle(22,11.5,3.2); const tree=TREE(1.2); place(g,tree,22,11.5,0); }
     // 通往溫州街（西側）
-    E.interactables.push({x:-76,z:40,radius:3,label:'往溫州街',exit:{to:'wenzhou',spawn:{x:51.3,z:-9.8,yaw:0}}});
-    nav.blockOutside(-78,-45,78,51.6); /* 南側騎樓走道（z 47.9–51.7）要可走，店門在 z=51 */ for(let z=-2;z<=2;z+=0.5) for(let x=-78;x<=-74;x+=0.5){} for(let xq=-79;xq<=-74;xq+=0.5) for(let zq=37;zq<=43;zq+=0.5){ const [cx,cz]=nav.toCell(xq,zq); if(cx>=0&&cz>=0&&cx<nav.cols&&cz<nav.rows) nav.b[nav.idx(cx,cz)]=0; }
+    E.interactables.push({x:-71,z:FZ+1.2,radius:2.6,label:'往溫州街',exit:{to:'wenzhou',spawn:{x:51.3,z:-9.8,yaw:0}}});
+    nav.blockOutside(-78,-45,78,FZ+2.6); /* 南側騎樓（z 19–22，店面玻璃在 z=22）要可走，互動點在 z=21 */ for(let z=-2;z<=2;z+=0.5) for(let x=-78;x<=-74;x+=0.5){} for(let xq=-79;xq<=-74;xq+=0.5) for(let zq=9;zq<=15;zq+=0.5){ const [cx,cz]=nav.toCell(xq,zq); if(cx>=0&&cz>=0&&cx<nav.cols&&cz<nav.rows) nav.b[nav.idx(cx,cz)]=0; }
     for(let z=-50;z<=-44;z+=0.5) for(let xq=-4;xq<=4;xq+=0.5){ const [cx,cz]=nav.toCell(xq,z); if(cx>=0&&cz>=0&&cx<nav.cols&&cz<nav.rows) nav.b[nav.idx(cx,cz)]=0; }
     E.interactables.push({x:0,z:-48,radius:3,label:'回到校園',exit:{to:'campus',spawn:{x:-119,z:0,yaw:Math.PI/2}}});
-    for(const b of buildings){ const fp=b.userData.footprint; const m=new THREE.Mesh(new THREE.BoxGeometry(fp.w,12,fp.d),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(b.position.x,6,b.position.z); m.rotation.y=b.rotation.y; g.add(m); E.colliders.push(m); }
+    /* 店面街的鏡頭碰撞在上面逐間加（TK 建築的原點在立面上，不能用舊的 footprint 置中方盒）*/
     for(const l of lamps){ const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xffd88a,transparent:true,opacity:0.5,depthWrite:false,blending:THREE.AdditiveBlending})); glow.scale.set(3,3,1); glow.position.set(0,3.9,0.75); l.add(glow); glow.visible=false; E.lampGlows.push(glow); const pool=new THREE.Mesh(new THREE.CircleGeometry(4.2,16),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffd08a,transparent:true,opacity:0.34,depthWrite:false,blending:THREE.AdditiveBlending})); pool.rotation.x=-Math.PI/2; pool.position.set(0,0.03,0.75); l.add(pool); pool.visible=false; E.lampGlows.push(pool); }
-    return {group:g,nav,spawn:{x:0,z:-30,yaw:Math.PI},lamps,buildings,onLamps(on){ for(const b of buildings) W3.setNight(b,on); }}; } };
+    // 招牌、店內、窗戶的夜間亮度跟著時間漸變（和溫州街同一套：17:24 開始、19:12 全亮）
+    const zoneTime=(h)=>{ let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); TK.setNight(Math.max(0,Math.min(1,k))); };
+    return {group:g,nav,spawn:{x:0,z:-30,yaw:Math.PI},lamps,buildings,applyTimeOutdoor:zoneTime,onLamps(on){}}; } };
   // ---------- 溫州街 ----------
   // ---------- 溫州街（v9 重建：台北巷弄＋日式宿舍；TK 街景套件）----------
   /* 座標：x 往東（公館方向）、主巷沿 x 軸，建築立面在 z=±5（巷寬 10m：柏油 7m＋兩側排水溝與停車帶）。
@@ -372,7 +402,7 @@ const Z3 = (function(){
     // 夜間點光源（數量固定，白天強度 0，避免換燈數造成 shader 重編）
     for(const [lx,ly,lz,c,i] of [[53.8,3.2,0,0xffc88a,1],[44,3.0,3.8,0xf2fbff,0.85],[14.2,3.0,3.6,0xffd6a0,0.7]]){ const L=new THREE.PointLight(c,0,16,1.8); L.position.set(lx,ly,lz); L.userData.maxI=i*18; g.add(L); lights.push(L); }
     // 東端：回公館
-    E.interactables.push({x:51.3,z:-13.4,radius:2.6,label:'回公館',exit:{to:'gongguan',spawn:{x:-72,z:40,yaw:Math.PI/2}}});
+    E.interactables.push({x:51.3,z:-13.4,radius:2.6,label:'回公館',exit:{to:'gongguan',spawn:{x:-71,z:16.5,yaw:Math.PI}}});
     for(const b of buildings) b.traverse(o=>{ if(o.isMesh){ o.castShadow=o.castShadow!==false; } });
     // 時間：0 白天 → 1 夜晚（傍晚漸亮）
     const warmSky=new THREE.Color(0xffc48a), warmGround=new THREE.Color(0x6a5644); const zoneTime=(h,E)=>{ let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); k=Math.max(0,Math.min(1,k)); TK.setNight(k); if(E&&E.hemi){ E.hemi.intensity+=0.85*k; E.hemi.color.lerp(warmSky,0.3*k); E.hemi.groundColor.lerp(warmGround,0.55*k); } for(const L of lights) L.intensity=L.userData.maxI*Math.max(0,Math.min(1,k)); for(const p of pools) p.material.opacity=p.userData.poolMax*Math.max(0,Math.min(1,k*1.2-0.2)); };
@@ -447,13 +477,13 @@ const Z3 = (function(){
   // ---------- 便利商店 ----------
   const cvs={ id:'cvs', name:'全日便利商店', indoor:true, camDist:4.0, build(E){ const z=room(E,{w:12,d:9,h:3.2,wallColor:'#f4f1ea',floorTex:W3.stoneTex('#e8e4da'),spawn:{x:0,z:3.5,yaw:Math.PI}}); const g=z.group, nav=z.nav; shelfWall(g,nav,-4.5,-4.2,0,6); shelfWall(g,nav,4.5,-4.2,0,3); for(let i=0;i<2;i++){ shelfWall(g,nav,-2+i*4,0,Math.PI/2,5); } const counter=new THREE.Mesh(new THREE.BoxGeometry(3,1.0,0.8),M('#d9d3c6',{rough:0.5})); counter.position.set(4,0.5,-1.5); g.add(counter); nav.blockRect(4,-1.5,3,0.8,0,0.15); const fridge=new THREE.Mesh(new THREE.BoxGeometry(0.8,2.2,4),new THREE.MeshStandardMaterial({color:0xbcd6df,roughness:0.2,metalness:0.1})); fridge.position.set(5.6,1.1,2); g.add(fridge); nav.blockRect(5.6,2,0.8,4,0,0.1); const glow=new THREE.Mesh(new THREE.PlaneGeometry(3.8,1.8),new THREE.MeshBasicMaterial({color:0xe6f5ff})); glow.position.set(5.19,1.2,2); glow.rotation.y=-Math.PI/2; g.add(glow);
     for(let i=0;i<4;i++){ PROP(g,'prop.riceBall',-6+i*0.35,2.42,-4.05,0.2); PROP(g,'prop.sandwich',-4.2+i*0.4,2.42,-4.05); } for(let i=0;i<6;i++){ PROP(g,'prop.sodaCan',5.45,1.6+(i%3)*0.3,0.6+Math.floor(i/3)*0.5); } PROP(g,'prop.riceBall',3.4,1.02,-1.5); PROP(g,'prop.bag',4.9,1.02,-1.4,0.6);
-    E.interactables.push({x:3.2,z:-0.6,radius:1.4,label:'結帳：飯糰／咖啡／飲料',shop:'cvs'}); E.interactables.push({x:0,z:4.2,radius:1.5,label:'離開便利商店',exit:{to:'gongguan',spawn:{x:-19,z:48,yaw:Math.PI}}}); return z; } };
+    E.interactables.push({x:3.2,z:-0.6,radius:1.4,label:'結帳：飯糰／咖啡／飲料',shop:'cvs'}); E.interactables.push({x:0,z:4.2,radius:1.5,label:'離開便利商店',exit:{to:'gongguan',spawn:{x:-29.4,z:18,yaw:Math.PI}}}); return z; } };
   // ---------- 麵店 ----------
   const noodle={ id:'noodle', name:'阿鳳麵店', indoor:true, camDist:4.0, build(E){ const z=room(E,{w:10,d:9,h:3.2,warm:true,wallColor:'#f1e7d6',floorTex:W3.stoneTex('#d9cbb0'),spawn:{x:0,z:3.5,yaw:Math.PI}}); const g=z.group, nav=z.nav; const kitchen=new THREE.Mesh(new THREE.BoxGeometry(6,1.0,1.2),M('#8f9399',{rough:0.4})); kitchen.position.set(-1,0.5,-3.8); g.add(kitchen); nav.blockRect(-1,-3.8,6,1.2,0,0.15); const pot=new THREE.Mesh(new THREE.CylinderGeometry(0.4,0.4,0.5,14),M('#3a3f46',{rough:0.4})); pot.position.set(-2,1.25,-3.8); g.add(pot); z.seats=[]; for(let i=0;i<3;i++){ const x=-3+i*3; desk(g,nav,x,0.5,0,1.4,0.9,'#d9cbb0'); for(const s of [-1,1]){ chair(g,x,0.5+s*0.8,s>0?Math.PI:0,'#c9463d'); z.seats.push({x,z:0.5+s*0.8,yaw:s>0?Math.PI:0}); } E.interactables.push({x,z:1.3,radius:1.1,label:'坐下吃麵',seat:{x,z:1.3,yaw:Math.PI},pairSeat:{x,z:-0.3,yaw:0},eat:'noodle'}); }
     for(let i=0;i<3;i++){ const x=-3+i*3; PROP(g,'prop.bowl',x-0.2,0.77,0.5+0.25); PROP(g,'prop.chopstick',x+0.15,0.78,0.45,0.3); if(i===1) PROP(g,'prop.bowl',x+0.25,0.77,0.5-0.25,2.4); } PROP(g,'prop.bowl',-1.5,1.02,-3.8); PROP(g,'prop.bowl',-0.9,1.02,-3.7,1.2);
-    const mp=W3.signPlane('乾麵 60 ・ 餛飩湯 70 ・ 滷蛋 15',3,0.6,{color:'#3b2a1e',size:44}); mp.position.set(0,2.4,-4.35); g.add(mp); E.interactables.push({x:0,z:4.2,radius:1.5,label:'離開麵店',exit:{to:'gongguan',spawn:{x:-63,z:48,yaw:Math.PI}}}); return z; } };
+    const mp=W3.signPlane('乾麵 60 ・ 餛飩湯 70 ・ 滷蛋 15',3,0.6,{color:'#3b2a1e',size:44}); mp.position.set(0,2.4,-4.35); g.add(mp); E.interactables.push({x:0,z:4.2,radius:1.5,label:'離開麵店',exit:{to:'gongguan',spawn:{x:-63,z:18,yaw:Math.PI}}}); return z; } };
   // ---------- 書店 ----------
-  const bookstore={ id:'bookstore', name:'舊路書房', indoor:true, camDist:4.0, build(E){ const z=room(E,{w:12,d:10,h:3.4,wallColor:'#efe6d6',floorTex:W3.canvasTex('woodfloor2',256,256,(x,w,h)=>{ x.fillStyle='#b98a5f'; x.fillRect(0,0,w,h); x.strokeStyle='rgba(60,30,10,0.3)'; x.lineWidth=2; for(let j=0;j<h;j+=32){ x.beginPath(); x.moveTo(0,j); x.lineTo(w,j); x.stroke(); } }),spawn:{x:0,z:4,yaw:Math.PI}}); const g=z.group, nav=z.nav; shelfWall(g,nav,0,-4.7,0,11); shelfWall(g,nav,-5.7,0,Math.PI/2,8); shelfWall(g,nav,5.7,0,Math.PI/2,8); shelfWall(g,nav,-2,0,Math.PI/2,5); shelfWall(g,nav,2,0,Math.PI/2,5); const table=new THREE.Mesh(new THREE.BoxGeometry(2.4,0.8,1.2),M('#8b5e3c')); table.position.set(0,0.4,3); g.add(table); nav.blockRect(0,3,2.4,1.2,0,0.1); E.interactables.push({x:0,z:2,radius:1.4,label:'看看法律書與文具',shop:'book'}); E.interactables.push({x:0,z:4.6,radius:1.5,label:'離開書店',exit:{to:'gongguan',spawn:{x:-42,z:48,yaw:Math.PI}}}); return z; } };
+  const bookstore={ id:'bookstore', name:'舊路書房', indoor:true, camDist:4.0, build(E){ const z=room(E,{w:12,d:10,h:3.4,wallColor:'#efe6d6',floorTex:W3.canvasTex('woodfloor2',256,256,(x,w,h)=>{ x.fillStyle='#b98a5f'; x.fillRect(0,0,w,h); x.strokeStyle='rgba(60,30,10,0.3)'; x.lineWidth=2; for(let j=0;j<h;j+=32){ x.beginPath(); x.moveTo(0,j); x.lineTo(w,j); x.stroke(); } }),spawn:{x:0,z:4,yaw:Math.PI}}); const g=z.group, nav=z.nav; shelfWall(g,nav,0,-4.7,0,11); shelfWall(g,nav,-5.7,0,Math.PI/2,8); shelfWall(g,nav,5.7,0,Math.PI/2,8); shelfWall(g,nav,-2,0,Math.PI/2,5); shelfWall(g,nav,2,0,Math.PI/2,5); const table=new THREE.Mesh(new THREE.BoxGeometry(2.4,0.8,1.2),M('#8b5e3c')); table.position.set(0,0.4,3); g.add(table); nav.blockRect(0,3,2.4,1.2,0,0.1); E.interactables.push({x:0,z:2,radius:1.4,label:'看看法律書與文具',shop:'book'}); E.interactables.push({x:0,z:4.6,radius:1.5,label:'離開書店',exit:{to:'gongguan',spawn:{x:-42,z:18,yaw:Math.PI}}}); return z; } };
   // ---------- 宿舍房間 ----------
   const dorm={ id:'dorm', name:'宿舍 房間', indoor:true, camDist:3.6, build(E){ const z=room(E,{w:6,d:7,h:3.0,wallColor:'#f1ebe0',floorTex:W3.stoneTex('#e3d9c6'),spawn:{x:0,z:2.8,yaw:Math.PI}}); const g=z.group, nav=z.nav; // 床、書桌、室友桌
     const bed=new THREE.Mesh(new THREE.BoxGeometry(1.1,0.5,2.1),M('#d9cbb0')); bed.position.set(-2.2,0.25,-1.5); g.add(bed); const mat=new THREE.Mesh(new THREE.BoxGeometry(1.0,0.2,2.0),M('#4a6c8c',{rough:0.9})); mat.position.set(-2.2,0.6,-1.5); g.add(mat); const pillow=new THREE.Mesh(new THREE.BoxGeometry(0.7,0.15,0.4),M('#ffffff')); pillow.position.set(-2.2,0.78,-2.3); g.add(pillow); nav.blockRect(-2.2,-1.5,1.1,2.1,0,0.1); nav.blockRect(-2.3,-2.95,1.4,0.7,0,0); /* 床頭和書架之間的窄縫（約 0.5 m，比人窄）：同書桌後面，整段不可走 */

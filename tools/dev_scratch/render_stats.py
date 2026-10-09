@@ -1,11 +1,12 @@
 """開發用：在實際遊戲裡量某個位置、某個鏡頭的算圖負擔（draw call、三角形數、幾何數、材質數）。
 用法：python3 tools/dev_scratch/render_stats.py [URL]   （預設 http://127.0.0.1:8765/index.html）
-固定量幾個常用鏡頭（校園椰林大道往總圖、傅鐘、霖澤館前、溫州街 Café 前），印出 renderer.info。SwiftShader 的 FPS 沒有參考價值，所以只看數量。"""
-import asyncio, json, sys
+公館店面街的鏡頭：玩家站在店門前 7 m 的人行道（z=14）；量 v9.3 第十一批以前的版本（店面在 z=49）時用 GG_Z=44，位置才相同
+固定量幾個常用鏡頭（校園椰林大道往總圖、傅鐘、霖澤館前、溫州街 Café 前、公館店面街），印出 renderer.info。SwiftShader 的 FPS 沒有參考價值，所以只看數量。"""
+import asyncio, json, os, sys
 from playwright.async_api import async_playwright
 URL = (sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html') + '?turbo'
 FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'lawclub': True, 'wenzhouLine': True}
-VIEWS = [('校園：椰林大道往總圖', 'campus', 40, -3, 1.5708, 4.712), ('校園：傅鐘往行政大樓', 'campus', -38, 6, 3.1416, 0.0), ('校園：霖澤館前', 'campus', 34, -95, 3.1416, 0.0), ('溫州街：Café 前', 'wenzhou', 50.5, 0.5, 3.1416, 0.0)]
+VIEWS = [('校園：椰林大道往總圖', 'campus', 40, -3, 1.5708, 4.712), ('校園：傅鐘往行政大樓', 'campus', -38, 6, 3.1416, 0.0), ('校園：霖澤館前', 'campus', 34, -95, 3.1416, 0.0), ('溫州街：Café 前', 'wenzhou', 50.5, 0.5, 3.1416, 0.0), ('公館：店面街', 'gongguan', -45, float(os.environ.get('GG_Z', '14')), 0.0, 3.1416), ('公館：出生點往店面', 'gongguan', 0, -30, 0.0, 3.1416)]
 async def main():
     async with async_playwright() as p:
         b = await p.chromium.launch(executable_path='/opt/pw-browsers/chromium', args=['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'])

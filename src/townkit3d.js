@@ -93,7 +93,7 @@ const TK = (function(){
     // 一樓牆面（較深色的石材或磁磚）
     // 一樓牆體：店面要退縮（玻璃在立面、室內景深卡在 1.2m 後面，牆體從那後面開始）
     const gt=(spec.ground||{}).type; const rec=(gt==='shop'?((spec.ground.shop||{}).type==='cafe'?3.5:1.3):(gt==='arcade'?4.3:0.2)); /* Café 有 3.4m 深的室內，一樓實心牆往後退 */ const gm=col(spec.groundWall||'#8a8278'); bin.add(gm,boxG(W,gh,D-rec,1.0),0,gh/2,-rec-(D-rec)/2);
-    if(gt==='shop'||gt==='arcade'){ for(const sx of [-1,1]) bin.add(gm,boxG(0.3,gh,rec),sx*(W/2-0.15),gh/2,-rec/2); }
+    if(gt==='shop'||gt==='arcade'){ const r0=(gt==='arcade'&&spec.ground.through)?3.0:0; /* 連續騎樓（through）：側牆只留在店面玻璃後面，騎樓可以沿整排店走 */ for(const sx of [-1,1]) bin.add(gm,boxG(0.3,gh,rec-r0),sx*(W/2-0.15),gh/2,-r0-(rec-r0)/2); }
     // 樓板線
     const slab=col(shadeHex(spec.color,0.82)); for(let f=1;f<F;f++){ bin.add(slab,boxG(W+0.06,0.18,0.12),0,gh+(f-1)*FH,0.03,0,{noShadow:true}); }
     // 女兒牆＋屋頂
@@ -140,8 +140,11 @@ const TK = (function(){
       // 直立招牌（突出）
       if(s.vertical){ const vg=glowMat('vsign'+s.vertical,signTex(s.vertical,{vertical:true,bg:s.vBg||'#ffffff',color:s.vColor||'#b0332a',band:s.vBand||'#b0332a'}),{nightI:1.0}); bin.add(vg,boxG(0.16,2.6,0.75),W/2-0.5,gh+1.6,0.55,0,{noShadow:true}); }
       if(s.awning){ const aw=s.awning; bin.add({isPaint:true,color:new THREE.Color(aw).multiplyScalar(1.25),key:'awn',mat:M('awnN',()=>std({map:awningTex('#cccccc'),side:THREE.DoubleSide,roughness:0.85,vertexColors:true}))},planeG(W-0.4,1.3,[0,0,(W-0.4)/1.2,1]),0,gh-0.95,0.55,0,{rx:-1.15}); }
-      if(t==='arcade'){ // 騎樓：上方樓板延伸到街邊，柱子
-        bin.add(col('#cfc7b8'),boxG(W,0.35,dep),0,gh-0.17,-dep/2); for(const sx of [-W/2+0.3,W/2-0.3]) bin.add(M('pillar',()=>std({map:tileTex('#b8aa96','#a09482','pillar')})),boxG(0.55,gh,0.55,1),sx,gh/2,-0.3); bin.add(M('swalkA',()=>std({map:sidewalkTex('#9a8f84')})),boxG(W,0.12,dep,2),0,0.06,-dep/2,0,{noShadow:true}); } }
+      if(t==='arcade'){ // 騎樓：上方樓板延伸到街邊，柱子（gr.pillars：柱子的區域 x；預設兩端各一根）
+        bin.add(col('#cfc7b8'),boxG(W,0.35,dep),0,gh-0.17,-dep/2); for(const sx of (gr.pillars||[-W/2+0.3,W/2-0.3])) bin.add(M('pillar',()=>seeThru(std({map:tileTex('#b8aa96','#a09482','pillar')}))),boxG(0.55,gh,0.55,1),sx,gh/2,-0.3);
+        // 連續騎樓的地面很薄（和人行道幾乎同高，人物的腳不會陷進去）；天花板每 2.5 m 一支日光燈，晚上亮
+        if(gr.through){ bin.add(M('swalkA',()=>std({map:sidewalkTex('#9a8f84')})),boxG(W,0.05,dep,2),0,0.025,-dep/2,0,{noShadow:true}); const nl=Math.max(1,Math.round(W/2.5)); for(let k=0;k<nl;k++) bin.add(glowMat('arcTube',radialTex('tube','#ffffff','#f2efe6'),{nightI:1.3}),planeG(1.2,0.1),-W/2+(k+0.5)*W/nl,gh-0.36,-dep*0.55,0,{rx:Math.PI/2,noShadow:true}); }
+        else bin.add(M('swalkA',()=>std({map:sidewalkTex('#9a8f84')})),boxG(W,0.12,dep,2),0,0.06,-dep/2,0,{noShadow:true}); } }
     else if(t==='shutter'){ bin.add(M('shut',()=>std({map:shutterTex(),roughness:0.5,metalness:0.4})),planeG(W-0.8,gh-0.6,[0,0,1,(gh-0.6)/1.2]),0,(gh-0.6)/2+0.05,0.02,0,{noShadow:true}); bin.add(col('#8f9295'),boxG(W-0.6,0.35,0.3),0,gh-0.45,0.12,0,{noShadow:true}); if(gr.sign){ const sg=glowMat('sign'+gr.sign,signTex(gr.sign,{bg:'#f4f1ea',color:'#2b2b2b'}),{nightI:0.6}); bin.add(sg,boxG(Math.min(W-1,4),0.6,0.1),0,gh-0.05,0.1,0,{noShadow:true}); } }
     else { // 住家：紅色或墨綠鐵門＋信箱＋門燈
       const dc=gr.color||['#9c2f2a','#2f4a3a','#8a3a2a','#5b4a3a'][Math.floor(rnd()*4)]; bin.add({isPaint:true,color:new THREE.Color(dc).multiplyScalar(2.2),key:'door',mat:M('doorN',()=>std({map:ironDoorTex('#7a7a7a'),roughness:0.5,metalness:0.35,vertexColors:true}))},planeG(1.4,2.3),-W*0.2,1.15+0.05,0.03,0,{noShadow:true}); bin.add(col('#d9d3c6'),boxG(1.7,0.12,0.4),-W*0.2,0.06,0.2,0,{noShadow:true}); bin.add(glowMat('doorLamp',radialTex('dl','#fff2c8','#e0a050')),new THREE.SphereGeometry(0.09,8,6),-W*0.2+0.95,2.25,0.1,0,{noShadow:true}); if(gr.window!==false) bin.add(winD,planeG(1.8,1.1,[0.25,0.5,0.25,0.5]),W*0.18,1.6,0.02,0,{noShadow:true}); bin.add(col('#c9ccd0'),boxG(2.0,1.3,0.06),W*0.18,1.6,0.0,0,{noShadow:true}); }
