@@ -316,9 +316,40 @@ const TK = (function(){
   // 電線：兩點之間的下垂曲線（細線，夜裡也看得到剪影）
   function wires(pairs){ const pos=[]; for(const [a,b,sag] of pairs){ const N=14; for(let i=0;i<N;i++){ const t0=i/N, t1=(i+1)/N; const p0=[a[0]+(b[0]-a[0])*t0,a[1]+(b[1]-a[1])*t0-(sag||0.6)*4*t0*(1-t0),a[2]+(b[2]-a[2])*t0]; const p1=[a[0]+(b[0]-a[0])*t1,a[1]+(b[1]-a[1])*t1-(sag||0.6)*4*t1*(1-t1),a[2]+(b[2]-a[2])*t1]; pos.push(...p0,...p1); } } const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3)); return new THREE.LineSegments(g,new THREE.LineBasicMaterial({color:0x26282a,transparent:true,opacity:0.85})); }
   // 立牌（黑板 A 字架）
+  // 捷運出口：台北人行道上常見的長條玻璃亭——花崗石矮牆＋玻璃側牆＋微弧玻璃屋頂（鋼骨），一端是入口，裡面是往下的電扶梯（貼圖）。
+  /* 區域座標：入口在 z=0、亭子往 -z 延伸 L。站名招牌只有文字，沒有用台北捷運的標誌（商標）。 */
+  function mrtEscTex(){ return tex('mrtEsc',256,256,(x,w,h)=>{ const gr=x.createLinearGradient(0,0,0,h); gr.addColorStop(0,'#cfd3d6'); gr.addColorStop(1,'#7c8186'); x.fillStyle=gr; x.fillRect(0,0,w,h);
+      x.fillStyle='#f4f6f2'; x.fillRect(w*0.2,h*0.04,w*0.6,h*0.035);   // 天花板燈帶
+      const vx=w/2, vy=h*0.42; x.fillStyle='#3d4247'; x.beginPath(); x.moveTo(w*0.1,h); x.lineTo(vx-w*0.07,vy); x.lineTo(vx+w*0.07,vy); x.lineTo(w*0.9,h); x.fill();   // 往下的電扶梯
+      for(let k=0;k<14;k++){ const t=k/14, y=vy+(h-vy)*t*t, half=w*0.07+(w*0.33)*t*t; x.fillStyle='rgba(205,210,214,0.75)'; x.fillRect(vx-half,y,half*2,Math.max(1,3*t)); }
+      x.strokeStyle='#15181b'; x.lineWidth=7; for(const s of [-1,1]){ x.beginPath(); x.moveTo(w/2+s*w*0.42,h); x.lineTo(vx+s*w*0.075,vy); x.stroke(); }
+      x.fillStyle='#e2b53a'; x.fillRect(w*0.12,h*0.93,w*0.76,h*0.025); }, false); }
+  function mrtExit(o){ o=o||{}; const g=new THREE.Group(); const bin=new Bin(); const W=o.w||3.4, L=o.l||6.4, H=2.7;
+    const granite=M('mrtGranite',()=>std({map:tileTex('#8f9193','#7d7f82','mrtg'),roughness:0.8}));
+    const steel=col('#3a3f45',{roughness:0.45,metalness:0.6});
+    const glass=M('mrtGlass',()=>std({color:0xb8cdd6,transparent:true,opacity:0.28,roughness:0.08,metalness:0.2,depthWrite:false,side:THREE.DoubleSide}));
+    const roofG=M('mrtRoof',()=>std({color:0xc6d2d8,transparent:true,opacity:0.55,roughness:0.2,metalness:0.1,depthWrite:false,side:THREE.DoubleSide}));
+    // 花崗石矮牆（兩側＋後端）、玻璃側牆＋鋼框
+    for(const sx of [-1,1]){ bin.add(granite,boxG(0.28,0.95,L,1),sx*(W/2-0.14),0.475,-L/2);
+      bin.add(glass,planeG(L-0.2,H-1.0),sx*(W/2-0.14),0.95+(H-1.0)/2,-L/2,Math.PI/2,{noShadow:true});
+      const n=Math.round(L/1.3); for(let k=0;k<=n;k++) bin.add(steel,boxG(0.06,H-0.95,0.06),sx*(W/2-0.14),0.95+(H-0.95)/2,-0.1-(L-0.2)*k/n,0,{noShadow:true});
+      bin.add(steel,boxG(0.08,0.08,L),sx*(W/2-0.14),H,-L/2,0,{noShadow:true}); }
+    bin.add(granite,boxG(W,0.95,0.28,1),0,0.475,-L+0.14); bin.add(glass,planeG(W-0.3,H-1.0),0,0.95+(H-1.0)/2,-L+0.14,0,{noShadow:true});
+    // 微弧屋頂：圓弧（半徑 R）分成 6 片，邊緣略高於玻璃牆；每 1.3 m 一道鋼拱
+    const R=4.2, segs=6, hw=W/2+0.3, half=Math.asin(hw/R), top=H+0.6, cy=top-R;
+    for(let k=0;k<segs;k++){ const a0=-half+2*half*k/segs, a1=-half+2*half*(k+1)/segs, am=(a0+a1)/2, c=2*R*Math.sin((a1-a0)/2);
+      bin.add(roofG,boxG(c,0.04,L+0.5),R*Math.sin(am),cy+R*Math.cos(am),-L/2+0.1,0,{rz:-am,noShadow:true});
+      for(let z=0;z<=L+0.01;z+=L/Math.round(L/1.3)) bin.add(steel,boxG(c,0.07,0.07),R*Math.sin(am),cy+R*Math.cos(am)-0.04,-z,0,{rz:-am,noShadow:true}); }
+    // 入口上方的站名招牌（晚上亮）
+    const sg=glowMat('mrtSign'+(o.name||''),signTex(o.name||'捷運站',{bg:'#1f3b63',color:'#ffffff',sub:o.sub||''}),{nightI:0.95,dayI:0.0}); bin.add(sg,boxG(W+0.3,0.55,0.12),0,H+0.32,0.22,0,{noShadow:true});
+    // 裡面：往下的電扶梯（貼圖）、地面、入口的黃色止滑條
+    bin.add(glowMat('mrtEscG',mrtEscTex(),{nightI:0.9,dayI:0.35}),planeG(W-0.62,H-0.3),0,(H-0.3)/2+0.02,-L+0.3,0,{noShadow:true});
+    bin.add(col('#5a5e62',{roughness:0.85}),boxG(W-0.56,0.03,L-0.4),0,0.015,-L/2,0,{noShadow:true});
+    bin.add(col('#e2b53a',{roughness:0.6}),boxG(W-0.56,0.035,0.12),0,0.02,-0.5,0,{noShadow:true});
+    bin.build(g); return g; }
   function aBoard(lines){ const g=new THREE.Group(); const bin=new Bin(); const t=tex('ab'+lines.join(),128,160,(x,w,h)=>{ x.fillStyle='#2e3a33'; x.fillRect(0,0,w,h); x.strokeStyle='#8a6a48'; x.lineWidth=8; x.strokeRect(4,4,w-8,h-8); x.fillStyle='#f4ead8'; x.font='bold 18px "Noto Sans TC",sans-serif'; x.textAlign='center'; lines.forEach((l,i)=>x.fillText(l,w/2,34+i*28)); },false); const m=M('ab'+lines.join(),()=>std({map:t})); for(const s of [-1,1]) bin.add(m,boxG(0.5,0.75,0.03),0,0.4,s*0.12,s>0?0:Math.PI,{rx:-0.2}); bin.build(g); return g; }
 
   // 夜間：所有 emissive 材質、光暈、點光源一起調
   function setNight(k){ for(const m of nightMats){ m.emissiveIntensity=(m.userData.dayI||0)*(1-k)+(m.userData.nightI||1)*k; } for(const sp of nightSprites){ const o=sp.userData.dayO*(1-k)+sp.userData.nightO*k; sp.material.opacity=o; sp.visible=o>0.02; } }
-  return {tex,tileTex,mosaicTex,plasterTex,Bin,boxG,planeG,col:colMat,paint:col,M,std,tree,royalPalm,glowMat,plantClump,glowSprite,apartment,japaneseHouse,wall,utilityPole,trafficMirror,scooter,pots,mailbox,road,sidewalk,lightPool,wires,aBoard,signTex,interiorTex,setNight,nightMats,rnd};
+  return {tex,tileTex,mosaicTex,plasterTex,Bin,boxG,planeG,col:colMat,paint:col,M,std,tree,royalPalm,glowMat,mrtExit,plantClump,glowSprite,apartment,japaneseHouse,wall,utilityPole,trafficMirror,scooter,pots,mailbox,road,sidewalk,lightPool,wires,aBoard,signTex,interiorTex,setNight,nightMats,rnd};
 })();

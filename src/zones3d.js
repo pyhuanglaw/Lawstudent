@@ -191,8 +191,10 @@ const Z3 = (function(){
     { const line=W3.canvasTex('lane',64,256,(x,w,h)=>{ x.clearRect(0,0,w,h); x.fillStyle='rgba(255,255,255,0.85)'; x.fillRect(28,0,8,120); }); for(const z of [-25,-19,-8,-2]){ const t=line.clone(); t.needsUpdate=true; t.repeat.set(1,40); const m=new THREE.Mesh(new THREE.PlaneGeometry(0.4,W),new THREE.MeshStandardMaterial({map:t,transparent:true,roughness:0.8})); m.rotation.x=-Math.PI/2; m.rotation.z=Math.PI/2; m.position.set(0,0.03,z); m.receiveShadow=true; g.add(m); } /* 路中間的黃色雙實線（路面 z -31..4）*/ for(const z of [-13.65,-13.35]){ const m=new THREE.Mesh(new THREE.PlaneGeometry(W,0.14),new THREE.MeshStandardMaterial({color:0xd9a93a,roughness:0.8})); m.rotation.x=-Math.PI/2; m.position.set(0,0.03,z); m.receiveShadow=true; g.add(m); } /* 車道線改成受光材質：晚上不會像螢光一樣亮 */ }
     // 校門（北側牆中央）——回校園
     const gate=W3.gate(); place(g,gate,0,-46,0); nav.blockRect(-5,-46,1.6,1.6,0,0.4); nav.blockRect(5,-46,1.6,1.6,0,0.4); for(const s of [-1,1]){ const wall=new THREE.Mesh(new THREE.BoxGeometry(70,1.8,1),texMat(W3.brickTex('#b8735a'))); wall.position.set(s*44,0.9,-46); g.add(wall); nav.blockRect(s*44,-46,70,1.2,0,0.3); }
-    // 捷運公館站入口
-    const mrt=W3.mrtEntrance('捷運 公館站'); place(g,mrt,-40,9.5,0); nav.blockRect(-40,9.5,3.4,2.8,0); E.interactables.push({x:-40,z:12,radius:2.4,label:'捷運公館站入口',mrt:true});
+    // 捷運公館站出口：人行道上順著街的玻璃亭（TK.mrtExit；原本是 W3 的四柱雨棚），入口朝東，入口外面是互動點
+    { const mrt=TK.mrtExit({name:'捷運 公館站',sub:'出口 2'}); mrt.position.set(-36.6,0,11); mrt.rotation.y=Math.PI/2; g.add(mrt); nav.blockRect(-39.8,11,6.6,3.6,0,0);
+      const m=new THREE.Mesh(new THREE.BoxGeometry(6.4,3.4,3.4),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(-39.8,1.7,11); g.add(m); E.colliders.push(m);
+      E.interactables.push({x:-35.6,z:11,radius:2.4,label:'捷運公館站入口',mrt:true}); }
     // 店面街（南側）：連續騎樓的台北街屋（TK.apartment；v9.3 第十一批取代 LEVEL_BLOCKOUT 方盒＋另外搭的柱子與招牌）
     /* 立面在 z=19、面向羅斯福路（人行道 z 4–19）；騎樓 3 m 深、整排連續可以走（柱子落在店與店的分界），店面玻璃在 z=22。
        舊版店面在 z=52，和馬路之間隔著 30 m 空蕩蕩的鋪面廣場（LEVEL_BLOCKOUT 留下的），整個南側往北搬 30 m：店面、互動點、立牌、捷運入口、圓環、往溫州街的出口、
