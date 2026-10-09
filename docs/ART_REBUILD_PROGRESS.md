@@ -9,9 +9,18 @@
 
 ## CURRENTLY WORKING ON — 現在正在修改什麼
 
-- **最近更新**：2026-10-09（台灣時間，v9.3 第十、十一批：農業陳列館、公館重建）
-- **最新已推送 commit**：`320c2e7`（v9.3 第十、十一批：農業陳列館、公館重建；測試全部 PASS；程式在 `6564b61`、`329680f`）；之前是 `6db8289`（第九批：男一舍、社會科學院）、`416afee`（第八批：黃昏調色提案，等使用者決定）、`40bb50e`（第七批）、`86deef8`（第六批）、`edb01e8`（第五批）、`0080bf5`（第四批）、`66374e2`（第三批）、`7a4eca6`（第二批）、`ad76109`（第一批）。分支 `claude/friendly-brahmagupta-6bbkzc`，PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
+- **最近更新**：2026-10-09（台灣時間，v9.3 第十二批：公館捷運出口；溫書瑀馬尾彈簧骨）
+- **最新已推送 commit**：見下一個文件 commit；這次的程式在 `13cfeda`（第十二批：捷運出口）與 `b4c30ae`（溫書瑀馬尾彈簧骨）。之前是 `320c2e7`（第十、十一批：農業陳列館、公館重建）、`6db8289`（第九批）、`416afee`（第八批：黃昏調色提案，等使用者決定）、`40bb50e`（第七批）、`86deef8`（第六批）、`edb01e8`（第五批）、`0080bf5`（第四批）、`66374e2`（第三批）、`7a4eca6`（第二批）、`ad76109`（第一批）。分支 `claude/friendly-brahmagupta-6bbkzc`，PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
 - **畫面驗收**：[`docs/art-rebuild/VISUAL_REVIEW.md`](art-rebuild/VISUAL_REVIEW.md)。**美術規範**：[`docs/art-rebuild/ART_DIRECTION.md`](art-rebuild/ART_DIRECTION.md)（參考圖在 `docs/art-rebuild/references/`）
+
+### 這次完成（v9.3 第十二批，`07bb5e5` 之後）
+
+| 項目 | 狀態 | 玩家會看到什麼 |
+|---|---|---|
+| 公館捷運出口 | 技術完成；功能完成（導航測試）；READY_FOR_ART_REVIEW | 原本是方塊四柱雨棚。改成台北人行道上的長條玻璃亭：花崗石矮牆、玻璃側牆＋鋼框、微弧玻璃屋頂、只有文字的站名招牌（不用捷運標誌）、裡面看得到往下的電扶梯；晚上招牌和裡面亮（VISUAL_REVIEW 第 12 節） |
+| 溫書瑀低馬尾會動 | 技術完成；READY_FOR_ART_REVIEW | 原本綁點以下那一束整個綁在頭骨上，走路、轉身時形狀完全不變。現在有三節彈簧骨（只和身體碰撞）：走路、轉身時跟著身體輕微擺動。**幅度小**（Node 模擬：末端左右約 ±1.3 cm、前後約 3 cm；彈簧放鬆也差不多，因為低馬尾貼在背上），一般鏡頭距離不太看得出來；站著的樣子和原本相同、沒有穿進背（VISUAL_REVIEW 第 4 節） |
+
+測試（Playwright 模擬）：捷運出口——`gongguan_layout_nav` 43/43、`nav_islands`（公館）ALL CLEAR、`p0_movement` 31/31（只改了公館；其他回歸測試涵蓋的系統沒有動）。溫書瑀——`sim_hair.js char.heroine_05` PASS（髮尾不上翹）；實際遊戲轉身照（正面／側面／背面／臉／走路）與背面走路連拍，沒有 JS 錯誤。
 
 ### 這次完成（v9.3 第十、十一批，`c48f022` 之後）
 
@@ -159,8 +168,8 @@
 2. 三時段光影（任務 8）：黃昏整體仍偏暗、不夠金（參考圖 07），要做較大的調色，先給使用者看比較圖再決定。
 3. 林芷若微捲髮（BLOCKED_BY_ART_ASSET：VRoid 樣本沒有捲髮）；沈以安臉旁碎髮加長、細手錶；溫書瑀馬尾不會擺動。
 4. 臉：仍是 VRoid 動畫臉（BLOCKED_BY_ART_ASSET）。
-5. 校門（`W3.gate`）、傅鐘、捷運入口、路燈仍是 LEVEL_BLOCKOUT 的方塊造型（校園建築、公館店面街已經全部換掉，第九～十一批）。
-6. 溫書瑀低馬尾加彈簧骨（走路會擺動）：模型已重建、Node 模擬通過，等實際遊戲背面走路連拍驗收後再推（不和公館那批混在一起）。
+5. 校門（`W3.gate`）、傅鐘、路燈仍是 LEVEL_BLOCKOUT 的方塊造型（校園建築、公館店面街、捷運出口已經換掉，第九～十二批）。
+6. 沈以安臉旁碎髮加長（參考圖臉旁的長碎髮不夠長）。
 
 ## 進度總表
 
@@ -171,7 +180,7 @@
 | VRM 系統 | 技術完成 | — | parse 一次＋骨架 clone 共用 GPU 資源；VRM 0.x 朝向與姿勢軸向；身高計算；換色（材質顏色相乘）；路人不投即時陰影改圓影；NPC frustum culling；載入失敗在 `?dev` 顯示；彈簧骨在人物座標系、固定小步長，更新前先更新 world matrix（#25）；配件掛在骨頭上（`src/props3d.js`） | 動畫仍是 Mixamo（授權疑慮，見 REVIEW_NOTES）；clone 沒有彈簧骨與表情（路人頭髮不會晃）；手機實機效能未測 | `src/assets3d.js`、`src/character3d.js`、`src/engine3d.js`、`src/props3d.js` |
 | 溫州街 | PARTIAL | 三時段光影 | 10 m 巷道、20+ 棟台北公寓（磁磚、鐵窗、冷氣、陽台、雨遮、水塔、加蓋）、店面（含兩點半 Café：有深度的室內、木窗框、壁燈、爬藤）、日式老屋（圍牆降低、玄關、寄棟屋頂、石燈籠）、小公園（鋪面、大樹＋樹圍座椅、路燈、睡覺的貓）、騎樓、死巷、電線桿＋電線＋路燈、反光鏡、機車、盆栽、行道樹；Café 在東端路口，路口往北延伸到天空；白天／黃昏／夜晚光線；NavGrid 與鏡頭碰撞同步 | 騎腳踏車的 NPC 很粗糙（W3.bike）；雨天地面反光未做；只有 Café 能進，其他店是「看櫥窗」；日式老屋側面與背面是平的雨淋板 | `src/townkit3d.js`、`src/zones3d.js`（`buildWenzhou`） |
 | 校園 | PARTIAL | 第十批：農業陳列館（校園建築全部換成套件） | 依臺大校總區平面圖配置（D23、D25）；大王椰子、闊葉樹、醉月湖（湖心亭走得上去）；行政大樓、文學院、校史館、總圖換成台大風格的外觀（面磚／紅磚、拱窗、一樓拱廊、石材門廊、四坡屋頂、總圖塔樓）| 校門、傅鐘仍是方塊造型；建築不是照真實立面逐棟建模；屋頂沒有立體瓦片 | `src/zones3d.js`（校園）、`src/campuskit3d.js`、`tests/campus_layout_nav.py` |
-| 公館 | PARTIAL | 第十一批：台北街屋＋連續騎樓、南側往馬路搬 30 m、往溫州街的巷口 | 15 間台北公寓、整排連續騎樓、招牌與櫥窗、騎樓日光燈、人行道 15 m（路燈、機車、捷運入口、圓環花台）、巷口（轉角公寓、路名牌、反光鏡）、校門後看得到校園；導航與互動測試 `tests/gongguan_layout_nav.py` | 校門、捷運入口、路燈仍是方塊造型；店名虛構、不是照真實街景建模；只有麵店、書店、便利商店進得去 | `src/zones3d.js`（公館）、`src/townkit3d.js`（`ground.through`、`ground.pillars`）、`src/story3d.js`（路人路線）、`tests/gongguan_layout_nav.py` |
+| 公館 | PARTIAL | 第十一批：台北街屋＋連續騎樓、南側往馬路搬 30 m、往溫州街的巷口 | 15 間台北公寓、整排連續騎樓、招牌與櫥窗、騎樓日光燈、人行道 15 m（路燈、機車、捷運入口、圓環花台）、巷口（轉角公寓、路名牌、反光鏡）、校門後看得到校園；導航與互動測試 `tests/gongguan_layout_nav.py` | 校門、路燈仍是方塊造型；店名虛構、不是照真實街景建模；只有麵店、書店、便利商店進得去 | `src/zones3d.js`（公館）、`src/townkit3d.js`（`ground.through`、`ground.pillars`）、`src/story3d.js`（路人路線）、`tests/gongguan_layout_nav.py` |
 | NPC 動畫 | PARTIAL | — | VRM 0.x 坐／讀書／揮手／說話軸向修正；教室同學坐下面向黑板 | 騎腳踏車沒有踩踏動畫（VRM 沒有 P3 的 parts）；路人 clone 沒有表情 | `src/character3d.js`、`src/story3d.js` |
 | 互動與存檔 | 技術完成；功能完成（Playwright） | — | 標題畫面不再自動存檔覆蓋進度；Café 裡有人坐的位子不擋說話；觸控存檔到欄位、重新整理後讀回、讀檔後可以走；互動按鈕不蓋搖桿；校園改版後舊存檔移位（含「走得到」檢查）——全部 PASS | 手機實機未測 | `src/game3d.js`、`src/engine3d.js`、`index.html`、`tests/touch_flow_wenzhou.py`、`tests/campus_layout_nav.py` |
 
