@@ -10,7 +10,7 @@
 ## CURRENTLY WORKING ON — 現在正在修改什麼
 
 - **最近更新**：2026-10-09（台灣時間，v9.3 第二批）
-- **最新已推送 commit**：`7a4eca6`（v9.3 第二批：頭髮彈簧骨修正、溫書瑀低馬尾與反摺長袖、林芷若圓領、Café 三時段與夜間暖光；測試全部 PASS）；上一次是 `ad76109`（v9.3 第一批）。分支 `claude/friendly-brahmagupta-6bbkzc`，PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
+- **最新已推送 commit**：`66374e2`（v9.3 第三批：黃昏人物輪廓光、陳語彤領口、宿舍與溫州街窄縫卡住；測試全部 PASS）；之前是 `7a4eca6`（第二批）、`ad76109`（第一批）。分支 `claude/friendly-brahmagupta-6bbkzc`，PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
 - **畫面驗收**：[`docs/art-rebuild/VISUAL_REVIEW.md`](art-rebuild/VISUAL_REVIEW.md)。**美術規範**：[`docs/art-rebuild/ART_DIRECTION.md`](art-rebuild/ART_DIRECTION.md)（參考圖在 `docs/art-rebuild/references/`）
 
 ### 這次完成（v9.3 第三批，`e094b32` 之後）
