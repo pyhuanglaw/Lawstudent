@@ -262,7 +262,7 @@ const TK = (function(){
     const trunkH=H*0.78, shaftH=H*0.1;
     const bark=M('palmTrunk',()=>seeThru(std({map:tex('palmTrunk',64,256,(x,w,hh)=>{ x.fillStyle='#c4bfb3'; x.fillRect(0,0,w,hh); for(let y=0;y<hh;y+=6+((y*7)%5)){ x.fillStyle='rgba(120,112,98,0.2)'; x.fillRect(0,y,w,1.5); } for(let i=0;i<90;i++){ x.fillStyle=rnd()<0.5?'rgba(90,84,74,0.12)':'rgba(240,236,226,0.18)'; x.fillRect(rnd()*w,rnd()*hh,3+rnd()*6,2+rnd()*5); } }),roughness:0.92})));
     // 樹幹：lathe 斷面（半徑隨高度變化）
-    const prof=[]; const R0=H*0.026; for(let i=0;i<=10;i++){ const t=i/10; const rr=R0*(1.25-0.3*Math.min(1,t*5)+0.12*Math.sin(Math.PI*Math.min(1,t*1.4))-0.12*t); prof.push(new THREE.Vector2(Math.max(0.05,rr),t*trunkH)); }
+    const prof=[]; const R0=Math.min(H,13)*0.026;   /* 樹幹粗細只跟到 13 m：椰林大道的樹拉高了，樹幹不要跟著變粗 */ for(let i=0;i<=10;i++){ const t=i/10; const rr=R0*(1.25-0.3*Math.min(1,t*5)+0.12*Math.sin(Math.PI*Math.min(1,t*1.4))-0.12*t); prof.push(new THREE.Vector2(Math.max(0.05,rr),t*trunkH)); }
     const trunk=new THREE.LatheGeometry(prof,10); const uvA=trunk.attributes.uv; for(let i=0;i<uvA.count;i++) uvA.setY(i,uvA.getY(i)*trunkH/3); bin.add(bark,trunk,0,0,0);
     const lean=(r()-0.5)*0.05;
     const shaft=new THREE.CylinderGeometry(R0*0.82,R0*0.95,shaftH,10); bin.add(col('#5f8a4a',{roughness:0.55}),shaft,0,trunkH+shaftH/2,0);
