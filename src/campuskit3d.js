@@ -158,6 +158,32 @@ const CK=(function(){ 'use strict';
     bin.build(g);
     g.traverse(m=>{ if(m.isMesh){ m.castShadow=m.castShadow!==false; } });
     g.userData.ck={w,d,H,gfh,ad:0,blocks,doorZ:d/2}; return g; }
+  // ---------- 洞洞館（農業陳列館）：上層四面是一格一格圓洞的鏤空牆，一樓玻璃＋方柱，平屋頂寬屋簷；晚上圓洞透出暖光 ----------
+  function holeTex(){ return TK.tex('ckHoles',256,256,(x,w,h)=>{ x.fillStyle='#e7e4d6'; x.fillRect(0,0,w,h); const n=6, cs=w/n; for(let j=0;j<n;j++) for(let i=0;i<n;i++){ const cx=(i+0.5)*cs, cy=(j+0.5)*cs; x.fillStyle='rgba(0,0,0,0.10)'; x.beginPath(); x.arc(cx+2,cy+3,cs*0.33,0,7); x.fill(); x.fillStyle='#2d3133'; x.beginPath(); x.arc(cx,cy,cs*0.3,0,7); x.fill(); } }); }
+  function holeEmit(){ return TK.tex('ckHolesE',256,256,(x,w,h)=>{ x.fillStyle='#000'; x.fillRect(0,0,w,h); const n=6, cs=w/n; for(let j=0;j<n;j++) for(let i=0;i<n;i++){ if(((i*7+j*3)%5)===0) continue; x.fillStyle='#ffc888'; x.beginPath(); x.arc((i+0.5)*cs,(j+0.5)*cs,cs*0.3,0,7); x.fill(); } }); }
+  function pavilion(o){ const g=new THREE.Group(); const bin=new TK.Bin(); const blocks=[];
+    const w=o.w, d=o.d, gfh=o.gfh||4.0, H=o.h||9, inset=0.6;
+    const wall=TK.M('ckPavWall',()=>TK.std({map:TK.plasterTex('#ece8dc','ckPav'),roughness:0.9}));
+    const screen=TK.glowMat('ckHoleScreen',holeTex(),{nightI:0.8,emap:holeEmit(),mat:{roughness:0.85}});
+    const slab=TK.col('#f2efe6'), colM=TK.col('#dcd6c8'), dark=TK.col('#2e2a26'), glass=GLASS(), glassDark=GLASS_DARK();
+    // 一樓：往內退的玻璃（前後）＋實牆（左右）＋方柱
+    bin.add(wall,TK.boxG(w-2*inset,gfh,d-2*inset,1.6),0,gfh/2,0);
+    const gw=w-2*inset-0.4; { const n=Math.round(gw/1.6), sw=gw/n; for(const zs of [1,-1]) for(let k=0;k<n;k++){ const x=-gw/2+sw*(k+0.5); bin.add(winLit(x,1.5,zs)?glass:glassDark,TK.planeG(sw-0.08,gfh-0.6,[0,0,1,1]),x,(gfh-0.6)/2+0.15,zs*(d/2-inset+0.02),zs>0?0:Math.PI,{noShadow:true}); } }
+    const nc=Math.max(3,Math.round(w/4)); for(let i=0;i<=nc;i++){ const x=-w/2+0.3+(w-0.6)*i/nc; for(const zs of [1,-1]) bin.add(colM,TK.boxG(0.5,gfh,0.5,1.0),x,gfh/2,zs*(d/2-0.3)); }
+    for(const xs of [1,-1]) for(const zz of [-d/2+0.3+ (d-0.6)/2]) bin.add(colM,TK.boxG(0.5,gfh,0.5,1.0),xs*(w/2-0.3),gfh/2,zz);
+    // 二樓：牆＋外面一圈鏤空洞洞牆
+    bin.add(wall,TK.boxG(w-2*inset,H-gfh,d-2*inset,1.6),0,gfh+(H-gfh)/2,0);
+    const sh=H-gfh-0.4, tile=2.4; // 一張貼圖 6×6 個洞＝2.4 m：洞的間距 0.4 m、直徑約 0.24 m
+    for(const [len,px,pz,ry] of [[w,0,d/2,0],[w,0,-d/2,Math.PI],[d,w/2,0,Math.PI/2],[d,-w/2,0,-Math.PI/2]]){ bin.add(screen,TK.boxG(len,sh,0.12,tile),px,gfh+0.2+sh/2,pz,ry); }
+    bin.add(slab,TK.boxG(w+0.3,0.35,d+0.3,1.0),0,gfh,0);
+    bin.add(slab,TK.boxG(w+2.2,0.4,d+2.2,1.0),0,H+0.2,0); bin.add(dark,TK.boxG(w-0.6,0.05,d-0.6),0,H+0.42,0,0,{noShadow:true});
+    // 入口：正面中間的門＋台階
+    bin.add(dark,TK.boxG(2.2,2.8,0.06),0,1.4,d/2-inset+0.05,0,{noShadow:true}); bin.add(slab,TK.boxG(4.0,0.15,1.6,1.0),0,0.075,d/2+0.2);
+    blocks.push([0,0,w,d,0.3]);
+    if(o.sign){ const st=TK.signTex(o.sign,{bg:'#f2efe6',color:'#3b3b3b',size:72}); const sm=new THREE.Mesh(new THREE.PlaneGeometry(Math.min(6,o.sign.length*1.0),0.7),new THREE.MeshStandardMaterial({map:st,roughness:0.8})); sm.position.set(0,gfh-0.65,d/2-inset+0.08); g.add(sm); }
+    bin.build(g);
+    g.traverse(m=>{ if(m.isMesh){ m.castShadow=m.castShadow!==false; } });
+    g.userData.ck={w,d,H,gfh,ad:0,blocks,doorZ:d/2}; return g; }
   function setNight(on){ TK.setNight(on?1:0); }
-  return {hall,modern,setNight,tileTex};
+  return {hall,modern,pavilion,setNight,tileTex};
 })();

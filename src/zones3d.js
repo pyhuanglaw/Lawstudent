@@ -68,9 +68,8 @@ const Z3 = (function(){
     // ---- 文學院（大道北側，正對行政大樓）：仿羅馬式拱窗 ----
     const arts=CK.hall({w:40,d:18,floors:2,gfh:4.8,fh:4.4,wall:'#9b5a42',trim:'#d8cfbd',roof:'#43342e',roofH:4.8,arcade:true,porch:{bays:3,depth:3.0,pediment:true,pedH:1.8},sign:'文學院'}); ckPlace(arts,-38,-34,0); buildings.push(arts); strip(g,-38,-8,-38,-24,4,W3.pathTex(),4);
     // ---- 農業陳列館（洞洞館）北側近校門 ----
-    const hole=W3.building({key:'hole',w:22,h:9,d:14,floors:2,style:'grid',wall:'#e6dfd0',glass:'#c8d8de',frame:'#8f9399',roof:'parapet',entrance:{w:3,h:3,side:'front',canopy:false},sign:'農業陳列館'}); place(g,hole,-104,-30,0); nav.blockRect(-104,-30,22.6,14.6,0,0.6); buildings.push(hole);
-    // 洞洞館的外牆格柵（琉璃筒瓦意象：以格柵近似）
-    { const grille=new THREE.Mesh(new THREE.BoxGeometry(22.4,7,0.3),texMat(W3.canvasTex('grille',128,128,(x,w,h)=>{ x.fillStyle='#cfc2ad'; x.fillRect(0,0,w,h); x.fillStyle='#8a7a66'; for(let j=8;j<h;j+=16) for(let i=8;i<w;i+=16){ x.beginPath(); x.arc(i,j,5,0,Math.PI*2); x.fill(); } }),null,{transparent:false})); grille.material.map.repeat.set(8,3); grille.position.set(-104,4.6,-30+7.35); g.add(grille); }
+    // 農業陳列館（洞洞館）：上層四面是圓洞鏤空牆、一樓玻璃＋方柱、平屋頂寬屋簷（CK.pavilion；佔地和舊版相同）
+    const hole=CK.pavilion({w:22,d:14,gfh:4.0,h:9,sign:'農業陳列館'}); ckPlace(hole,-104,-30,0); buildings.push(hole);
     // ---- 校史館（舊總圖）：大道北側、靠近大門（農業陳列館東邊），紅磚拱窗、圓石柱、屋瓦 ----
     const hist=CK.hall({w:24,d:16,floors:2,gfh:5.0,fh:4.6,wall:'#a25d43',trim:'#d8cfbd',roof:'#43342e',roofH:4.4,arcade:true,porch:{bays:3,depth:2.6,pediment:true,pedH:1.6},sign:'校史館'}); ckPlace(hist,-77,-29,0); buildings.push(hist);
     // ---- 總圖書館（椰林大道東端盡頭，正面朝西對著大道）----
@@ -113,7 +112,7 @@ const Z3 = (function(){
     // 校門通道格：確保 -124..-118 之間可走（往公館）
     for(let z=-4;z<=4;z+=0.5) for(let x=-127;x<=-118;x+=0.5){ const [cx,cz]=nav.toCell(x,z); if(cx>=0&&cz>=0&&cx<nav.cols&&cz<nav.rows) nav.b[nav.idx(cx,cz)]=0; }
     // 碰撞盒（鏡頭用）
-    const boxes=[[-104,-30,22,14]]; /* 套件建築（行政大樓、文學院、校史館、總圖、霖澤館、萬才館、男一舍、社科院）的鏡頭碰撞在 ckPlace 裡 */ for(const [x,z,w,d] of boxes){ const h=12; const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(x,h/2,z); g.add(m); E.colliders.push(m); }
+    /* 校園建築的鏡頭碰撞都在 ckPlace 裡（套件建築：行政大樓、文學院、校史館、總圖、霖澤館、萬才館、男一舍、社科院、農業陳列館）*/
     // 燈光光暈
     for(const l of lamps){ const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xffd88a,transparent:true,opacity:0.55,depthWrite:false,blending:THREE.AdditiveBlending})); glow.scale.set(3,3,1); glow.position.set(0,3.9,0.75); l.add(glow); glow.visible=false; E.lampGlows.push(glow); const pool=new THREE.Mesh(new THREE.CircleGeometry(4.2,16),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffd08a,transparent:true,opacity:0.34,depthWrite:false,blending:THREE.AdditiveBlending})); pool.rotation.x=-Math.PI/2; pool.position.set(0,0.03,0.75); l.add(pool); pool.visible=false; E.lampGlows.push(pool); }
     // 出口
