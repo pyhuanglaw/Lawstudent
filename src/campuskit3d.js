@@ -240,6 +240,12 @@ const CK=(function(){ 'use strict';
     // 正面石碑
     const st=TK.signTex(o.name||'傅鐘',{bg:'#e3dccd',color:'#3a2f28',serif:true,size:96}); bin.add(trim,TK.boxG(1.5,0.86,0.28,1.2),0,0.43,3.05); bin.add(trim,TK.boxG(1.62,0.1,0.36,1.2),0,0.9,3.05);
     const pl=new THREE.Mesh(new THREE.PlaneGeometry(1.36,0.34),new THREE.MeshStandardMaterial({map:st,roughness:0.85})); pl.position.set(0,0.52,3.196); g.add(pl);   /* 招牌貼圖是 4:1 */
+    // 夜間投光：前面兩根柱子腳下的地燈（燈罩玻璃晚上亮）＋柱面一道由下往上淡出的暖光（加法混合的黑色面：白天看不到，晚上只有自發光）
+    { const lampT=TK.tex('ckBellUpT',16,16,(c,w,h)=>{ c.fillStyle='#fff1d6'; c.fillRect(0,0,w,h); },false); const lens=TK.glowMat('ckBellUp',lampT,{nightI:1.6,dayI:0});
+      const washT=TK.tex('ckWashK',8,8,(c,w,h)=>{ c.fillStyle='#000'; c.fillRect(0,0,w,h); },false), washE=TK.tex('ckWashE',8,64,(c,w,h)=>{ const gr=c.createLinearGradient(0,h,0,0); gr.addColorStop(0,'#ffd7a0'); gr.addColorStop(0.55,'#7a5a38'); gr.addColorStop(1,'#000000'); c.fillStyle=gr; c.fillRect(0,0,w,h); },false);
+      const wash=TK.glowMat('ckBellWash',washT,{emap:washE,nightI:0.75,dayI:0,mat:{transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,roughness:1}});
+      for(const sx of [-1,1]){ bin.add(TK.col('#2a2c2f',{roughness:0.5}),TK.boxG(0.18,0.07,0.14),sx*C,F+0.035,C+0.42,0,{noShadow:true}); bin.add(lens,TK.planeG(0.14,0.1),sx*C,F+0.072,C+0.42,0,{rx:-Math.PI/2,noShadow:true});
+        bin.add(wash,TK.planeG(CW+0.04,CH),sx*C,F+0.14+CH/2,C+CW/2+0.012,0,{noShadow:true}); const sp=TK.glowSprite('rgba(255,214,160,1)',0.7,0,0.55); sp.position.set(sx*C,F+0.14,C+0.42); g.add(sp); } }
     blocks.push([0,0,4.8,4.8,0.15],[0,3.05,1.62,0.36,0.1]);
     bin.build(g); g.traverse(m=>{ if(m.isMesh) m.castShadow=m.castShadow!==false; });
     g.userData.gate={blocks}; return g; }
