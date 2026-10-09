@@ -561,7 +561,7 @@ def flare(v, mat_pat, amount=0.075, start=0.32, inner=0.45, straight=False):
         A['POSITION'] = v.add_acc(out.astype(np.float32), 5126, 'VEC3', 34962, True)
 
 
-def inpaint_face_markings(v, sat_min=0.28):
+def inpaint_face_markings(v, sat_min=0.28, warm_check=False, dilate=7):
     """把臉部貼圖上的彩色花紋（Vita 臉頰的科幻紋路）用周圍膚色填掉。"""
     for i, m in enumerate(v.j['materials']):
         if 'Face_00_SKIN' not in m['name']:
@@ -570,8 +570,10 @@ def inpaint_face_markings(v, sat_min=0.28):
         img = v.get_image(ii); a = np.asarray(img).astype(np.float64) / 255
         rgb = a[..., :3]; mx = rgb.max(2); mn = rgb.min(2); sat = (mx - mn) / np.maximum(1e-4, mx)
         mask = (sat > sat_min) & ((rgb[..., 2] > rgb[..., 0] + 0.05) | (rgb[..., 1] > rgb[..., 0] + 0.05))
+        if warm_check:   # 皮膚一定是 R 明顯大於 G、B；花紋的淡綠光暈、藍紫色描邊與皮膚混色的邊緣都不夠「暖」→ 一起填掉
+            mask |= ((rgb[..., 0] - rgb[..., 1]) < 0.05) | ((rgb[..., 0] - rgb[..., 2]) < 0.1)
         from PIL import ImageFilter
-        m8 = Image.fromarray((mask * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(7))
+        m8 = Image.fromarray((mask * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(dilate))
         mask = np.asarray(m8) > 0
         valid = (~mask).astype(np.float64)
         cur = rgb.copy()
@@ -606,6 +608,48 @@ def hair_prims_info(v):
     return m, info
 
 
+def cut_hair_below(v, y):
+    """頭髮三角形整個在 y 以下就拿掉（短髮角色：垂到脖子以下、會從帽子裡穿出來的髮尾）。"""
+    m = [x for x in v.j['meshes'] if x['name'].startswith('Hair')][0]
+    P = v.acc(m['primitives'][0]['attributes']['POSITION']); n = 0
+    for p in m['primitives']:
+        tris = v.acc(p['indices']).astype(np.int64).reshape(-1, 3)
+        kill = (P[tris][:, :, 1] < y).all(1); n += int(kill.sum())
+        p['indices'] = v.add_acc(tris[~kill].reshape(-1).astype(np.uint32), 5125, 'SCALAR', 34963)
+    m['primitives'] = [p for p in m['primitives'] if v.j['accessors'][p['indices']]['count'] > 0]
+    return n
+
+
+def lengthen_hair(v, y_from, factor):
+    """頭髮在 y_from 以下的部分往下拉長（陳語彤：Shibu 的鮑伯只到下巴，正式設定是齊肩、髮尾內彎）。只改頂點位置，骨頭權重不變。"""
+    m = [x for x in v.j['meshes'] if x['name'].startswith('Hair')][0]
+    acc = m['primitives'][0]['attributes']['POSITION']
+    P = v.acc(acc).astype(np.float32).copy(); low = P[:, 1] < y_from
+    P[low, 1] = y_from - (y_from - P[low, 1]) * factor
+    newp = v.add_acc(P, 5126, 'VEC3', 34962, True)
+    for p in m['primitives']:
+        if p['attributes']['POSITION'] == acc: p['attributes'] = dict(p['attributes'], POSITION=newp)
+    return int(low.sum())
+
+
+def crew_neck(v, mat_pat, y0, x_max=0.11, slope=0.9):
+    """連帽上衣改 T 恤：帽子拿掉後，脖子周圍還有一圈立起來的帽口（像漏斗）。把領口剪到脖子根部（中間低、往兩側沿肩線升高），
+    剪口的頂點收到領口線上（不會留下鋸齒）。"""
+    edge = lambda P: y0 + slope * np.maximum(0, np.abs(P[:, 0]) - 0.045) + np.where(P[:, 2] > 0, 0.012, 0.0)
+    n = 0
+    for m in v.j['meshes']:
+        for p in m['primitives']:
+            if mat_pat not in v.j['materials'][p['material']]['name']: continue
+            P = v.acc(p['attributes']['POSITION']).astype(np.float32).copy(); tris = v.acc(p['indices']).astype(np.int64).reshape(-1, 3)
+            near = np.abs(P[:, 0]) < x_max; above = near & (P[:, 1] > edge(P))
+            kill = above[tris].all(1); tris = tris[~kill]; n += int(kill.sum())
+            used = np.zeros(len(P), dtype=bool); used[np.unique(tris)] = True
+            fix = used & above; P[fix, 1] = edge(P[fix])
+            p['indices'] = v.add_acc(tris.reshape(-1).astype(np.uint32), 5125, 'SCALAR', 34963)
+            p['attributes'] = dict(p['attributes'], POSITION=v.add_acc(P, 5126, 'VEC3', 34962, True))
+    return n
+
+
 def hair_drop(v, pred):
     m, info = hair_prims_info(v)
     keep = [x[0] for x in info if not pred(x)]
@@ -626,6 +670,56 @@ def no_hair_shine(v):
         mp['vectorProperties']['_EmissionColor'] = [0, 0, 0, 1]
         mp['floatProperties']['_RimLightingMix'] = 0.0
         mp['vectorProperties']['_RimColor'] = [0, 0, 0, 1]
+
+
+def hair_factor_reset(v, shade=(0.66, 0.6, 0.57)):
+    """頭髮材質的顏色乘數改成白色、陰影色改成偏棕：Sendagaya_Shino 的頭髮 _Color 是深藍（0.10, 0.14, 0.22），
+    貼圖換成棕色也會被乘成接近黑色。"""
+    n = 0
+    for i, m in enumerate(v.j['materials']):
+        if 'HAIR' not in m['name']: continue
+        vp = v.vrm_mat(i)['vectorProperties']
+        vp['_Color'] = [1, 1, 1, 1]; vp['_ShadeColor'] = [shade[0], shade[1], shade[2], 1]
+        pbr = m.setdefault('pbrMetallicRoughness', {}); pbr['baseColorFactor'] = [1, 1, 1, 1]; n += 1
+    return n
+
+
+def face_line_colors(v, brow, line, lash=None):
+    """眉毛、眼線、睫毛的顏色（材質顏色乘數）：Vita 原本是淺藍灰、Victoria 原本是金髮的淺米色眉毛，
+    換成跟頭髮一致的深色；貼圖是灰階形狀，顏色由材質決定。"""
+    n = 0
+    for i, m in enumerate(v.j['materials']):
+        nm = m['name']; c = brow if 'FaceBrow' in nm else (line if 'FaceEyeline' in nm else ((lash or line) if 'FaceEyelash' in nm else None))
+        if c is None: continue
+        r, g, b = hexrgb(c); vp = v.vrm_mat(i)['vectorProperties']
+        vp['_Color'] = [r, g, b, 1]; vp['_ShadeColor'] = [r * 0.75, g * 0.75, b * 0.75, 1]
+        m.setdefault('pbrMetallicRoughness', {})['baseColorFactor'] = [r, g, b, 1]; n += 1
+    return n
+
+
+def flatten_hem(v, mat_pat, y_cut):
+    """剪短的褲子：跨過剪裁線的三角形會留下往下垂的鋸齒（大腿內側特別明顯）；把剪裁線以下的頂點往上收到剪裁線，褲口變平整。"""
+    n = 0
+    for m in v.j['meshes']:
+        for p in m['primitives']:
+            if mat_pat not in v.j['materials'][p['material']]['name']: continue
+            P = v.acc(p['attributes']['POSITION']).astype(np.float32).copy()
+            used = np.zeros(len(P), dtype=bool); used[np.unique(v.acc(p['indices']).astype(np.int64))] = True   # 只動這件褲子自己的頂點（頂點緩衝可能和身體共用）
+            low = used & (P[:, 1] < y_cut); P[low, 1] = y_cut; n += int(low.sum())
+            p['attributes'] = dict(p['attributes'], POSITION=v.add_acc(P, 5126, 'VEC3', 34962, True))
+    return n
+
+
+def remove_center_curtain(v, mat_pat, y_max, x_thr=0.022):
+    """長褲移植過來時兩腿之間有一片連接面（寬褲看不出來；剪成短褲後會在大腿中間垂下一塊）：拿掉胯下以下、靠中線的三角形。"""
+    n = 0
+    for m in v.j['meshes']:
+        for p in m['primitives']:
+            if mat_pat not in v.j['materials'][p['material']]['name']: continue
+            P = v.acc(p['attributes']['POSITION']); tris = v.acc(p['indices']).astype(np.int64).reshape(-1, 3); T = P[tris]
+            kill = (T[:, :, 1].max(1) < y_max) & (np.abs(T[:, :, 0].mean(1)) < x_thr)
+            p['indices'] = v.add_acc(tris[~kill].reshape(-1).astype(np.uint32), 5125, 'SCALAR', 34963); n += int(kill.sum())
+    return n
 
 
 def soften_matcap(v, k=0.45):
@@ -682,7 +776,36 @@ def repaint_region(v, mat_pat, rect, color, detail=0.6):
         return
 
 
-def rigid_hair_gather(v, y_start_off=0.0, tie_drop=0.07, cut_front_below=0.13, width=0.28):
+def paint_white_shirt(v, mat_pat, color='#f3f2ee', body_v0=0.355):
+    """制服襯衫＋V 領背心 → 一般白襯衫（溫書瑀）：整件換成白色（袖子、領子保留 45% 皺褶）；
+    身體區塊（原本的深藍 V 領背心與羅紋下擺）只留 6% 明暗，再畫前襟門襟與鈕扣。影子貼圖同樣處理、略暗。"""
+    from PIL import ImageDraw
+    done = set()
+    for i, m in enumerate(v.j['materials']):
+        if mat_pat not in m['name']: continue
+        tp = v.vrm_mat(i)['textureProperties']
+        for k in ('_MainTex', '_ShadeTexture'):
+            if k not in tp: continue
+            ii = v.image_of_tex(tp[k])
+            if ii in done: continue
+            done.add(ii)
+            orig = v.get_image(ii).convert('RGBA'); W, H = orig.size
+            full = recolor(orig, color, strength=1.0, keep_detail=0.45)
+            box = (0, int(body_v0 * H), W, H)
+            full.paste(recolor(orig.crop(box), color, strength=1.0, keep_detail=0.06), box[:2])
+            d = ImageDraw.Draw(full); cx = W * 0.5; lw = max(2, W // 700)
+            y0, y1 = (body_v0 + 0.03) * H, 0.985 * H
+            for sx in (-0.011, 0.011):
+                d.line([(cx + sx * W, y0), (cx + sx * W, y1)], fill=(206, 203, 196, 255), width=lw)
+            y = (body_v0 + 0.065) * H; r = W * 0.0055
+            while y < y1 - 0.02 * H:
+                d.ellipse([cx - r, y - r, cx + r, y + r], fill=(238, 236, 230, 255), outline=(186, 182, 174, 255), width=max(1, lw // 2)); y += 0.075 * H
+            if k == '_ShadeTexture':
+                a = np.asarray(full).astype(np.float64); a[..., :3] *= np.array([0.84, 0.85, 0.88]); full = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), 'RGBA')
+            v.set_image(ii, full)
+
+
+def rigid_hair_gather(v, y_start_off=0.0, tie_drop=0.07, cut_front_below=0.13, width=0.28, whole_strand=False):
     """長直髮 → 低馬尾：後腦以下的頭髮往後中央收攏（綁在後頸），前面兩側長髮剪到下巴；改過的頭髮改綁頭骨（剛體）。"""
     ni = [i for i, n in enumerate(v.j['nodes']) if 'mesh' in n and v.j['meshes'][n['mesh']]['name'].startswith('Hair')][0]
     mesh = v.j['meshes'][v.j['nodes'][ni]['mesh']]
@@ -702,7 +825,12 @@ def rigid_hair_gather(v, y_start_off=0.0, tie_drop=0.07, cut_front_below=0.13, w
         out[i, 0] = q[0] * f
         out[i, 2] = zb + (q[2] - zb) * f
         changed[i] = True
-    JJ[changed] = [head, 0, 0, 0]; WW[changed] = [1, 0, 0, 0]
+    rigid = changed.copy()
+    if whole_strand:
+        for p in mesh['primitives']:
+            vi = np.unique(v.acc(p['indices']).astype(np.int64))
+            if changed[vi].any(): rigid[vi] = True
+    JJ[rigid] = [head, 0, 0, 0]; WW[rigid] = [1, 0, 0, 0]
     newA = {'POSITION': v.add_acc(out.astype(np.float32), 5126, 'VEC3', 34962, True), 'JOINTS_0': v.add_acc(JJ.astype(np.uint16), 5123, 'VEC4', 34962), 'WEIGHTS_0': v.add_acc(WW.astype(np.float32), 5126, 'VEC4', 34962)}
     for p in mesh['primitives']:
         p['attributes'] = dict(p['attributes'], **newA)
@@ -778,14 +906,14 @@ def hexrgb(h):
     h = h.lstrip('#'); return np.array([int(h[i:i + 2], 16) for i in (0, 2, 4)], dtype=np.float64) / 255.0
 
 
-def recolor(img, color, strength=1.0, keep_detail=0.85, gamma=1.0):
+def recolor(img, color, strength=1.0, keep_detail=0.85, gamma=1.0, s_max=1.6):
     """保留明暗、把顏色換成 color。亮度相對於中位數做為明暗因子。"""
     a = np.asarray(img).astype(np.float64) / 255.0
     rgb, al = a[..., :3], a[..., 3:]
     L = (0.299 * rgb[..., 0] + 0.587 * rgb[..., 1] + 0.114 * rgb[..., 2])
     mask = al[..., 0] > 0.5
     med = np.median(L[mask]) if mask.any() else 0.5
-    s = np.clip(L / max(0.04, med), 0.0, 1.6) ** gamma
+    s = np.clip(L / max(0.04, med), 0.0, s_max) ** gamma
     s = 1.0 + (s - 1.0) * keep_detail
     tgt = hexrgb(color)[None, None, :] * s[..., None]
     out = rgb * (1 - strength) + tgt * strength
@@ -1088,7 +1216,7 @@ def body_alpha_fill(v):
     return int(m.sum())
 
 
-def cut_sleeves(v, mat_pat, keep=0.17):
+def cut_sleeves(v, mat_pat, keep=0.17, clean=False):
     """上衣袖子剪短：離肩關節（沿上臂方向）超過 keep 公尺的三角形刪掉 → 短袖（連帽上衣改 T 恤）。"""
     node, mesh, prims = body_primitives(v, mat_pat)
     names, _ = v.skin_mats(node['skin'])
@@ -1098,15 +1226,32 @@ def cut_sleeves(v, mat_pat, keep=0.17):
     for p in prims:
         pos, J, W, idx = prim_arrays(v, p)
         dom = np.array(names, dtype=object)[J[np.arange(len(J)), W.argmax(axis=1)]]
-        cut = np.zeros(len(pos), dtype=bool)
+        cut = np.zeros(len(pos), dtype=bool); moved = np.array(pos, dtype=np.float64)
         for s in ('L', 'R'):
             d = el[s] - sh[s]; L = np.linalg.norm(d); d /= L
             t = (pos - sh[s]) @ d
             onarm = np.array([(f'_{s}_' in x) and any(k in x for k in ('UpperArm', 'LowerArm', 'Hand')) for x in dom])
             cut |= onarm & (t > keep)
-        tris = idx.reshape(-1, 3); keep_t = ~cut[tris].any(axis=1)
+            if clean:   # 剪口：留下來的三角形如果有頂點超過剪裁線，沿手臂方向收回剪裁線（袖口平整，不留鋸齒）
+                sel = onarm & (t > keep); moved[sel] -= np.outer(t[sel] - keep, d)
+        tris = idx.reshape(-1, 3); keep_t = ~cut[tris].all(axis=1) if clean else ~cut[tris].any(axis=1)
         n += int((~keep_t).sum())
         p['indices'] = v.add_acc(tris[keep_t].reshape(-1).astype(np.uint32), 5125, 'SCALAR', 34963)
+        if clean:
+            used = np.zeros(len(pos), dtype=bool); used[np.unique(tris[keep_t])] = True; fx = used & cut
+            P = v.acc(p['attributes']['POSITION']).astype(np.float32).copy(); P[fx] = moved[fx]
+            p['attributes'] = dict(p['attributes'], POSITION=v.add_acc(P, 5126, 'VEC3', 34962, True))
+    return n
+
+
+def tame_springs(v, grav=0.6, stiff_max=0.75, drag_min=0.42):
+    """頭髮彈簧骨：重力至少 grav、剛性不超過 stiff_max、阻尼至少 drag_min——遊戲裡頭髮自然垂下、不會往上翹或往外飛。"""
+    n = 0
+    for gp in v.j['extensions']['VRM']['secondaryAnimation'].get('boneGroups', []):
+        if gp.get('comment') == 'ponytail':
+            continue
+        gp['gravityPower'] = max(gp.get('gravityPower', 0), grav); gp['gravityDir'] = {'x': 0, 'y': -1, 'z': 0}
+        gp['stiffiness'] = min(gp.get('stiffiness', 1), stiff_max); gp['dragForce'] = max(gp.get('dragForce', 0.4), drag_min); n += 1
     return n
 
 
@@ -1120,9 +1265,10 @@ def build_yuting():
     v = src('HairSample_Male')
     print('  yuting: ahoge prims', hair_drop(v, lambda x: x[2][1] > 1.79 and x[3] < 80))
     print('  yuting: hood tris removed', uv_cull(v, 'Tops', HOOD_RECTS), 'strings', drop_small_parts(v, 'Tops', 600, front_z=-0.05))
+    print('  yuting: crew neck tris', crew_neck(v, 'Tops', joint_y(v, 'Neck') - 0.012, slope=1.2))   # 帽口那圈立領 → 圓領（參考圖 02：圓領上衣）
     smooth_region(v, 'Tops', POCKET_RECT)
     print('  yuting: pocket seam normals', smooth_normals_region(v, 'Tops', POCKET_RECT))
-    recolor_mat(v, 'Tops', '#bdb9b2', strength=0.88)
+    recolor_mat(v, 'Tops', '#aaa59e', strength=0.88)
     flare(v, 'Bottoms', amount=0.03, start=0.12)
     recolor_mat(v, 'Bottoms', '#3d3f45', strength=0.8)
     recolor_mat(v, 'Shoes', '#f2f0ea', strength=0.7)
@@ -1165,16 +1311,17 @@ def build_heroine_01():
     remove_prims(v, ['Tops'])
     mi, sw = transplant(v, donor, 'Tops', 'F00_906_Tops_Sweater_CLOTH')
     print('  heroine_01: sweater hood tris', uv_cull(v, 'Tops_Sweater', HOOD_RECTS), 'strings', drop_small_parts(v, 'Tops_Sweater', 600, front_z=-0.05))
+    print('  heroine_01: crew neck tris', crew_neck(v, 'Tops_Sweater', joint_y(v, 'Neck') - 0.012, slope=1.2))   # 帽口那圈立領（看起來像襯衫領片）→ 圓領針織衫
     smooth_region(v, 'Tops_Sweater', POCKET_RECT)
     smooth_normals_region(v, 'Tops_Sweater', POCKET_RECT)
     waist = joint_y(v, 'Hips') + 0.07
     cut_below(v, 'Tops_Sweater', waist)
-    print('  heroine_01: culled under pants', wide_pants(v, donor, 'F00_901_Bottoms_Pants_CLOTH', '#68728a', amount=0.045, straight=True, start=0.12))
+    print('  heroine_01: culled under pants', wide_pants(v, donor, 'F00_901_Bottoms_Pants_CLOTH', '#596377', amount=0.045, straight=True, start=0.12))
     remove_prims(v, ['F00_002_01_Shoes'])
     mi, sh = transplant(v, shino, 'Shoes', 'F00_903_Shoes_Loafer_CLOTH'); hide_covered(v, sh)
     recolor_mat(v, 'Shoes_Loafer', '#3b2a20', strength=0.85)
     knit(v, 'Tops_Sweater', period=5, depth=0.11)
-    recolor_mat(v, 'Tops_Sweater', '#ece2d2', strength=0.88)
+    recolor_mat(v, 'Tops_Sweater', '#e0d2bc', strength=0.88)
     print('  heroine_01: maroon inner px -> skin', body_tex_replace(v, is_maroon, lambda med: med))
     print('  heroine_01: painted inner tris', paint_skin(v, '#e3d8c6', joints=('Spine', 'Chest', 'Bust', 'Shoulder', 'UpperArm'), y_max=joint_y(v, 'Neck') - 0.045))
     print('  heroine_01: culled skin under top', hide_covered(v, garment_of(v, 'Tops_Sweater'), max_d=0.11, eps=0.04, max_tan=0.055, skip_joints=('Shoulder', 'UpperArm', 'Chest')))
@@ -1190,20 +1337,23 @@ def build_heroine_02():
     臉＋頭髮：Victoria_Rubin（拿掉側馬尾與髮飾、染黑，剩下及肩髮）；上衣：HairSample_Female 的長袖上衣（女生身形、米色亞麻）——
     不再用 Sendagaya_Shino 的制服短袖＋背心；褲子：淺灰直筒寬褲；鞋：樂福鞋；眼鏡、耳環、圍裙是遊戲內配件。"""
     v = src('Victoria_Rubin'); hsf = src('HairSample_Female'); shino = src('Sendagaya_Shino'); donor = src('HairSample_Male')
-    print('  heroine_02: hair prims dropped', hair_drop(v, lambda x: (x[1][0] < -0.145) or ('HAIR_03' in v.j['materials'][x[0]['material']]['name'])))
+    print('  heroine_02: hair prims dropped', hair_drop(v, lambda x: (x[1][0] < -0.145) or ('HAIR_03' in v.j['materials'][x[0]['material']]['name'])
+                                                     or (x[2][1] > 1.72 and x[2][0] < -0.045 and x[3] < 220)))   # 側馬尾的髮束（含舊版漏掉、在頭頂翹起來的兩束）
     remove_prims(v, ['Tops', 'F00_002_01_Shoes'])
     mi, tp = transplant(v, hsf, 'Tops', 'F00_904_Tops_Linen_CLOTH')
     waist = joint_y(v, 'Hips') + 0.07
     cut_below(v, 'Tops_Linen', waist)
-    recolor_mat(v, 'Tops_Linen', '#e2d5bf', strength=0.88, keep_detail=0.9)
+    recolor_mat(v, 'Tops_Linen', '#d6c6aa', strength=0.88, keep_detail=0.9)
     print('  heroine_02: maroon inner px -> skin', body_tex_replace(v, is_maroon, lambda med: med))
     paint_skin(v, '#ddd0b9', joints=('Spine', 'Chest', 'Bust', 'Shoulder'), y_max=joint_y(v, 'Neck') - 0.045)
     hide_covered(v, garment_of(v, 'Tops_Linen'), max_d=0.1, eps=0.04, max_tan=0.05, skip_joints=('Shoulder', 'UpperArm'))
-    print('  heroine_02: culled under pants', wide_pants(v, donor, 'F00_901_Bottoms_Pants_CLOTH', '#b3aea4', amount=0.04, straight=True, start=0.12))
+    print('  heroine_02: culled under pants', wide_pants(v, donor, 'F00_901_Bottoms_Pants_CLOTH', '#9f998e', amount=0.04, straight=True, start=0.12))
     mi, sh = transplant(v, shino, 'Shoes', 'F00_903_Shoes_Loafer_CLOTH'); hide_covered(v, sh)
     recolor_mat(v, 'Shoes_Loafer', '#3a2a22', strength=0.85)
-    recolor_mat(v, 'HAIR', '#161314', strength=0.92, keep_detail=0.9)
-    print('  heroine_02: eye verts scaled', scale_eyes(v, 0.9, 0.88))
+    recolor_mat(v, 'HAIR', '#161314', strength=0.92, keep_detail=0.9); hair_factor_reset(v, shade=(0.7, 0.68, 0.7))
+    face_line_colors(v, '#2a2422', '#211b19')   # Victoria 原本是金髮，眉毛是淺米色
+    swap_image(v, hsf, 'EyeHighlight')           # Victoria 的眼睛反光是青色點點，換成一般白色反光
+    print('  heroine_02: eye verts scaled', scale_eyes(v, 0.9, 0.88), 'springs tamed', tame_springs(v))
     no_hair_shine(v); soften_matcap(v)
     return finish(v, FEMALE_EYES, '#3e2c24', '林芷若（法條之外）', 'Based on VRoid CC0 samples "Victoria Rubin" + top from "HairSample_Female" + loafers from "Sendagaya Shino" + trousers from "HairSample_Male" (pixiv); modified for 法條之外')
 
@@ -1230,11 +1380,14 @@ def build_heroine_03():
     T 恤：HairSample_Male 的連帽上衣拿掉帽子／抽繩／口袋線、袖子剪短 → 寬鬆深灰 T 恤（不是畫在身上的緊身衣）；
     牛仔褲：HairSample_Male 長褲（略寬的直筒）；白球鞋：HairSample_Female；後背包是遊戲內配件。"""
     v = src('Sendagaya_Shibu'); donor = src('HairSample_Male'); hsf = src('HairSample_Female')
-    remove_prims(v, ['AccessoryNeck', 'Bottoms', 'Tops', 'F00_001_01_Shoes'])
+    remove_prims(v, ['AccessoryNeck', 'Bottoms', 'Tops', 'F00_001_01_Shoes', 'Hair_00_HAIR_02'])   # HAIR_02：前面的 7 字髮夾（參考圖沒有）
+    print('  heroine_03: hair verts lengthened', lengthen_hair(v, 1.45, 1.3))   # 鮑伯只到下巴 → 接近齊肩（髮尾內彎保留）
     print('  heroine_03: transparent skin px filled', body_alpha_fill(v))
     mi, tee = transplant(v, donor, 'Tops', 'F00_909_Tops_Tee_CLOTH')
-    print('  heroine_03: tee hood', uv_cull(v, 'Tops_Tee', HOOD_RECTS), 'strings', drop_small_parts(v, 'Tops_Tee', 600, front_z=-0.05), 'sleeve tris cut', cut_sleeves(v, 'Tops_Tee', 0.17))
+    print('  heroine_03: tee hood', uv_cull(v, 'Tops_Tee', HOOD_RECTS), 'strings', drop_small_parts(v, 'Tops_Tee', 600, front_z=-0.05), 'sleeve tris cut', cut_sleeves(v, 'Tops_Tee', 0.17, clean=True))
+    print('  heroine_03: crew neck tris', crew_neck(v, 'Tops_Tee', joint_y(v, 'Neck') - 0.012, slope=1.2))   # 帽口那圈立領剪掉 → 貼近脖子的圓領（太低會看到後領內側，像脖子上有深色條紋）
     uv_cull(v, 'Tops_Tee', [(0.05, 0.915, 0.95, 1.0)])   # 拿掉羅紋下擺（T 恤是平口）
+    print('  heroine_03: tee hem flattened', flatten_hem(v, 'Tops_Tee', joint_y(v, 'UpperLeg') - 0.05))   # 剪掉羅紋後下擺是鋸齒狀 → 收平
     smooth_region(v, 'Tops_Tee', POCKET_RECT); smooth_normals_region(v, 'Tops_Tee', POCKET_RECT)
     recolor_mat(v, 'Tops_Tee', '#3a3b40', strength=0.9, keep_detail=0.8)
     paint_skin(v, '#34353a', joints=('Spine', 'Chest', 'Bust', 'Shoulder'), y_max=joint_y(v, 'Neck') - 0.05)
@@ -1242,11 +1395,12 @@ def build_heroine_03():
     mi, added = transplant(v, donor, 'Bottoms', 'F00_901_Bottoms_Jeans_CLOTH')
     flare(v, 'Bottoms_Jeans', amount=0.02, start=0.15, straight=True)
     print('  heroine_03: culled under jeans', hide_covered(v, garment_of(v, 'Bottoms_Jeans')))
-    recolor_mat(v, 'Bottoms_Jeans', '#5f7a98', strength=0.9)
+    recolor_mat(v, 'Bottoms_Jeans', '#506a88', strength=0.9)   # 中藍（舊的 #5f7a98 在白天看起來太淺）
     mi, sh = transplant(v, hsf, 'Shoes', 'F00_905_Shoes_Sneaker_CLOTH'); hide_covered(v, sh)
     recolor_mat(v, 'Shoes_Sneaker', '#efece6', strength=0.6)
-    recolor_mat(v, 'HAIR', '#141113', strength=0.85, keep_detail=0.9)
-    print('  heroine_03: eye verts scaled', scale_eyes(v, 0.9, 0.88))
+    recolor_mat(v, 'HAIR', '#1a1614', strength=0.9, keep_detail=0.9); hair_factor_reset(v, shade=(0.7, 0.68, 0.7))   # 黑髮（原本材質乘深藍，帶藍色調）
+    face_line_colors(v, '#221d1b', '#1c1716')   # 眉毛原本是深藍色
+    print('  heroine_03: eye verts scaled', scale_eyes(v, 0.9, 0.88), 'springs tamed', tame_springs(v))
     no_hair_shine(v); soften_matcap(v)
     return finish(v, FEMALE_EYES, '#3a2a22', '陳語彤（法條之外）', 'Based on VRoid CC0 samples "Sendagaya Shibu" + top/jeans from "HairSample_Male" + sneakers from "HairSample_Female" (pixiv); modified for 法條之外')
 
@@ -1257,22 +1411,29 @@ def build_heroine_04():
     連帽外套：HairSample_Male（女生穿就是 oversize）；短褲：HairSample_Male 長褲剪到大腿；腿上畫的科幻褲襪改回膚色；白球鞋：HairSample_Female；吉他袋是遊戲內配件。"""
     v = src('Vita'); donor = src('HairSample_Male'); hsf = src('HairSample_Female'); shibu = src('Sendagaya_Shibu')
     print('  heroine_04: horn prims', hair_drop(v, lambda x: 'HAIR_03' in v.j['materials'][x[0]['material']]['name']))
+    print('  heroine_04: ahoge prims', hair_drop(v, lambda x: x[1][1] > 1.66 and x[3] < 100))   # 頭頂翹起的兩撮呆毛（參考圖沒有）
     remove_prims(v, ['Onepiece', 'F00_002_01_Shoes', 'Tops'])
-    print('  heroine_04: face marking px', inpaint_face_markings(v))
+    print('  heroine_04: face marking px', inpaint_face_markings(v, warm_check=True, dilate=11))   # 臉頰的科幻花紋（含淡綠光暈與描邊殘影）
     swap_image(v, shibu, 'EyeIris')
     paint_skin(v, '#f1d6c3', joints=('UpperLeg', 'LowerLeg', 'Foot', 'Toe'))
-    paint_skin(v, '#f1d6c3', joints=('LowerArm', 'Hand'))
+    paint_skin(v, '#f1d6c3', joints=('LowerArm', 'Hand', 'Thumb', 'Index', 'Middle', 'Ring', 'Little'))   # 手套殘影（手背、手指）
+    paint_skin(v, '#f1d6c3', joints=('Hips',))   # 原本的深色緊身褲：大腿內側會在短褲下面露出一塊深色
+    print('  heroine_04: hair below neck cut', cut_hair_below(v, joint_y(v, 'Neck') - 0.01))
     mi, hood = transplant(v, donor, 'Tops', 'F00_906_Tops_Hoodie_CLOTH')
     hide_covered(v, hood, max_d=0.09, eps=0.03, max_tan=0.035)
-    recolor_mat(v, 'Tops_Hoodie', '#c3c6c9', strength=0.8)
+    recolor_mat(v, 'Tops_Hoodie', '#b3b6ba', strength=0.9)   # 淺灰（#c3c6c9 在遊戲光線下看起來是全白）
     mi, pants = transplant(v, donor, 'Bottoms', 'F00_907_Bottoms_Shorts_CLOTH')
     knee = joint_y(v, 'LowerLeg'); hip = joint_y(v, 'UpperLeg')
     cut_below(v, 'Bottoms_Shorts', hip - (hip - knee) * 0.55)
+    print('  heroine_04: hem verts flattened', flatten_hem(v, 'Bottoms_Shorts', hip - (hip - knee) * 0.55))
     hide_covered(v, garment_of(v, 'Bottoms_Shorts'))
-    recolor_mat(v, 'Bottoms_Shorts', '#4f6684', strength=0.9)
+    recolor_mat(v, 'Bottoms_Shorts', '#2f3035', strength=0.92, keep_detail=0.85)   # 參考圖：黑色牛仔短褲
+    print('  heroine_04: crotch curtain tris', remove_center_curtain(v, 'Bottoms_Shorts', hip - 0.06) + remove_center_curtain(v, 'Bottoms_Shorts', hip - 0.075, x_thr=0.034))
     mi, sh = transplant(v, hsf, 'Shoes', 'F00_905_Shoes_Sneaker_CLOTH'); hide_covered(v, sh)
     recolor_mat(v, 'Shoes_Sneaker', '#ecebe8', strength=0.6)
-    recolor_mat(v, 'HAIR', '#3b281d', strength=0.95, keep_detail=0.8)
+    recolor_mat(v, 'HAIR', '#3b281d', strength=0.95, keep_detail=0.8, s_max=1.15); hair_factor_reset(v)   # 髮尾不要白（帽口像毛邊）、HAIR_02 原本乘淺藍
+    face_line_colors(v, '#3b2a1f', '#2b201b')   # 原本是淺藍灰色的眉毛與眼線
+    print('  heroine_04: springs tamed', tame_springs(v, grav=0.7, stiff_max=0.6))
     no_hair_shine(v); soften_matcap(v)
     return finish(v, FEMALE_EYES, '#4a3226', '高子晴（法條之外）', 'Based on VRoid CC0 samples "Vita" + hoodie/shorts from "HairSample_Male" + sneakers from "HairSample_Female" + iris from "Sendagaya Shibu" (pixiv); modified for 法條之外')
 
@@ -1282,16 +1443,20 @@ def build_heroine_05():
     臉＋頭髮：Sendagaya_Shino（長直髮在後頸收成低馬尾、臉旁長髮剪到下巴、染深棕）；
     白襯衫：Sakurada_Fumiriya 的長袖襯衫（背心區塊重畫成白襯衫）；卡其寬褲；自己的樂福鞋；判決節錄是遊戲內配件。"""
     v = src('Sendagaya_Shino'); fumi = src('Sakurada_Fumiriya'); donor = src('HairSample_Male')
-    print('  heroine_05: gathered hair verts', rigid_hair_gather(v))
+    print('  heroine_05: gathered hair verts', rigid_hair_gather(v, whole_strand=True))
     remove_prims(v, ['AccessoryNeck', 'Bottoms', 'Tops'])
     mi, sh = transplant(v, fumi, 'Tops', 'F00_908_Tops_Shirt_CLOTH')
-    repaint_region(v, 'Tops_Shirt', (0.0, 0.36, 1.0, 1.0), '#f2f1ee', detail=0.3)
-    recolor_mat(v, 'Tops_Shirt', '#f4f3f0', strength=0.8, keep_detail=0.6)
+    paint_white_shirt(v, 'Tops_Shirt')   # 背心區塊塗白、畫門襟鈕扣（舊版只把背心區塊淡化，線條還在）
+    no_outline(v, 'Tops_Shirt')          # 背心的 V 領與袖口是模型折線，描邊會把它畫成線：白襯衫不畫描邊
+    shade_color(v, 'Tops_Shirt', 0.84, (0.95, 0.965, 1.0))   # 陰影偏冷灰（原本偏粉紅，白襯衫看起來像粉色）
+    remove_prims(v, ['Hair_00_HAIR_02'])  # Shino 的 X 形髮夾（參考圖的溫書瑀沒有）
+    print('  heroine_05: shirt normals smoothed', smooth_normals_region(v, 'Tops_Shirt', (0.0, 0.0, 1.0, 1.0)))
     hide_covered(v, garment_of(v, 'Tops_Shirt'), max_d=0.09, eps=0.035, max_tan=0.035)
-    print('  heroine_05: culled under pants', wide_pants(v, donor, 'F00_901_Bottoms_Pants_CLOTH', '#b9a582', amount=0.065))
+    print('  heroine_05: culled under pants', wide_pants(v, donor, 'F00_901_Bottoms_Pants_CLOTH', '#b8aa8e', amount=0.05, straight=True))   # 參考圖：高腰直筒寬褲（不是喇叭褲）
     recolor_mat(v, 'Shoes', '#2f2622', strength=0.8)
-    recolor_mat(v, 'HAIR', '#2e1f17', strength=0.92, keep_detail=0.9)
-    no_hair_shine(v); soften_matcap(v)
+    recolor_mat(v, 'HAIR', '#4a3427', strength=0.92, keep_detail=0.88); hair_factor_reset(v)   # 深棕（原本材質乘了深藍色，貼圖再怎麼改都是黑色）
+    face_line_colors(v, '#3d2b22', '#2b201b')   # 眉毛跟著深棕髮色（原本乘深藍）
+    no_hair_shine(v); soften_matcap(v); tame_springs(v, grav=0.6, stiff_max=0.75)
     return finish(v, FEMALE_EYES, '#3a2a22', '溫書瑀（法條之外）', 'Based on VRoid CC0 samples "Sendagaya Shino" + shirt from "Sakurada Fumiriya" + trousers from "HairSample_Male" (pixiv); modified for 法條之外')
 
 

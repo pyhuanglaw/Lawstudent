@@ -74,7 +74,8 @@ async def test_B(rig):
     a,b,d,dr=await rig.best(1800); check('B4 圖書館起身後能走（最佳方向 ≥ 2 m）', d>=2.0, f'{a} → {b} via {dr}')
 async def test_C(rig):
     print('--- TEST C ADV 結束後移動')
-    await rig.load(state('campus',{'x':78,'z':-52,'yaw':1.5708},weather='rain'))
+    # 總圖門口（v9.3 依台大平面圖把總圖移到椰林大道東端；起點跟著事件地點搬，通過標準不變）
+    await rig.load(state('campus',{'x':74,'z':-2.5,'yaw':1.5708},weather='rain'))
     await rig.pg.evaluate("void EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_rain_library_door'))"); await rig.pg.wait_for_timeout(3000)
     p=await rig.pos(); check('C1 ADV 中玩家鎖定', p['busy'])
     await rig.pg.screenshot(path='screenshots/T_C_adv.png')

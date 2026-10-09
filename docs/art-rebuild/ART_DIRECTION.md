@@ -137,7 +137,8 @@
 | 04／05／06 日式老屋 | 日式宿舍 | `TK.japaneseHouse`、`buildWenzhou` |
 | 04／05／06 小公園 | 溫州街小公園 | `buildWenzhou`（小公園段） |
 | 05-10／06-四 三時段 | 日夜系統 | `src/engine3d.js`（`KEY`、`applyTime`）、區域的 `applyTimeOutdoor`、`TK.setNight` |
-| 07 雙人黃昏 | 同行（`flags.companion='an'`）時的溫州街 | `src/story3d.js`（`spawnCompanion`）；拍攝腳本 `tools/shots/scene_shot.py` |
+| 07 雙人黃昏 | 同行（`flags.companion='an'`）時的溫州街 | `src/story3d.js`（`spawnCompanion`）；拍攝腳本 `tools/shots/scene_shot.py`（對話構圖）、`tools/shots/integration_walk.py`（並肩走過 Café 的構圖） |
+| 使用者提供的臺大校總區平面圖（不放 repo） | 校園配置 | `src/zones3d.js`（校園、`lake`）、`TK.royalPalm`；決策 D23、D25；俯視對照 `tools/shots/campus_overview.py`＋`annotate_overview.py`；導航測試 `tests/campus_layout_nav.py` |
 | 04-6／05-11 UI | 手機 HUD、ADV 對話 | `index.html`、`src/game3d.js`、`src/adv3d.js`（本輪不改 UI） |
 
 ## 11. 素材與授權

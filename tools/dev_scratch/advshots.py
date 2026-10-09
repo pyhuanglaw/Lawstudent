@@ -25,7 +25,7 @@ async def main():
             await pg.goto(URL); await pg.wait_for_timeout(9000)
             cdp=await ctx.new_cdp_session(pg)
             await pg.evaluate("document.getElementById('rotate').classList.remove('want')")
-            base={'day':8,'weekday':1,'hour':15.0,'zone':'campus','pos':{'x':78,'z':-52,'yaw':1.5708},'weather':'rain','flags':{'introDone':True,'campusIntro':True,'classDone':True,'metAn':True,'met_an':True,'afternoonDone':True,'lawclub':True},'visited':{'dorm':True,'campus':True,'library':True,'cafe':True},'social':{'rel':{},'mem':{},'reveal':{},'prof':{},'grad':{'interest':'NONE','field':None,'prep':0}}}
+            base={'day':8,'weekday':1,'hour':15.0,'zone':'campus','pos':{'x':74,'z':-2.5,'yaw':1.5708},'weather':'rain','flags':{'introDone':True,'campusIntro':True,'classDone':True,'metAn':True,'met_an':True,'afternoonDone':True,'lawclub':True},'visited':{'dorm':True,'campus':True,'library':True,'cafe':True},'social':{'rel':{},'mem':{},'reveal':{},'prof':{},'grad':{'interest':'NONE','field':None,'prep':0}}}
             await run(pg,cdp,base,'ev_rain_library_door',f'F_heroine_adv_{tag}',lines=3)
             st=dict(base); st.update({'zone':'dorm','pos':{'x':0,'z':2.0,'yaw':3.1416},'hour':23.5,'weather':'sunny'})
             await run(pg,cdp,st,'ev_dorm_late_kai',f'D_kai_dialog_{tag}',lines=0)

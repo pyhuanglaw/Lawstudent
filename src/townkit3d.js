@@ -199,13 +199,34 @@ const TK = (function(){
     bin.add(M('siding',()=>std({map:woodSidingTex()})),boxG(w,wh,d,1.2),0,0.5+wh/2,0);
     // 窗：橫向木格窗，夜間微亮
     const shoji=glowMat('shoji',tex('shoji',128,64,(x,ww,hh)=>{ x.fillStyle='#efe6cf'; x.fillRect(0,0,ww,hh); x.strokeStyle='#5a3e28'; x.lineWidth=3; for(let i=0;i<=ww;i+=16){ x.beginPath(); x.moveTo(i,0); x.lineTo(i,hh); x.stroke(); } for(let j=0;j<=hh;j+=16){ x.beginPath(); x.moveTo(0,j); x.lineTo(ww,j); x.stroke(); } x.lineWidth=6; x.strokeRect(0,0,ww,hh); }),{nightI:0.7});
-    for(const sx of [-0.3,0.25]) bin.add(shoji,planeG(w*0.32,1.3),sx*w,0.5+wh*0.55,d/2+0.02,0,{noShadow:true});
+    for(const sx of [-0.3,0.25]){ bin.add(shoji,planeG(w*0.32,1.3),sx*w,0.5+wh*0.55,d/2+0.02,0,{noShadow:true});
+      // 深色木窗框＋窗台（窗戶不再是貼在牆上的一張紙）
+      const fw=w*0.32, cy=0.5+wh*0.55, fz=d/2+0.06; const fr=col('#3b2a1e');
+      bin.add(fr,boxG(fw+0.16,0.1,0.1),sx*w,cy+0.7,fz); bin.add(fr,boxG(fw+0.24,0.08,0.22),sx*w,cy-0.69,fz+0.05); bin.add(fr,boxG(0.08,1.4,0.1),sx*w-fw/2-0.04,cy,fz); bin.add(fr,boxG(0.08,1.4,0.1),sx*w+fw/2+0.04,cy,fz); }
+    // 玄關：往前突出的小門廊（小三角屋頂、木格拉門、門燈、踏石）
+    { const px=-0.025*w, pw=2.2, pd=1.3, ph=2.5, fz=d/2; const wood=col('#4a3424'), dark=col('#2e221a');
+      bin.add(M('siding',()=>std({map:woodSidingTex()})),boxG(0.16,ph,pd,1.2),px-pw/2,0.5+ph/2,fz+pd/2); bin.add(M('siding',()=>std({map:woodSidingTex()})),boxG(0.16,ph,pd,1.2),px+pw/2,0.5+ph/2,fz+pd/2);
+      bin.add(col('#8a8278'),boxG(pw+0.4,0.5,pd+0.2),px,0.25,fz+pd/2);   // 玄關的石基座
+      const door=M('koshido',()=>std({map:tex('koshido',128,128,(x,ww,hh)=>{ x.fillStyle='#d9d2c0'; x.fillRect(0,0,ww,hh); x.fillStyle='#3e2c1e'; for(let i=0;i<ww;i+=9) x.fillRect(i,0,3,hh); x.fillRect(0,0,ww,8); x.fillRect(0,hh-8,ww,8); x.fillRect(0,hh*0.62,ww,5); x.fillRect(ww/2-3,0,6,hh); }),roughness:0.75}));
+      bin.add(door,planeG(pw-0.2,ph-0.3),px,0.5+(ph-0.3)/2,fz+pd+0.01,0,{noShadow:true});
+      bin.add(wood,boxG(pw,0.18,0.16),px,0.5+ph-0.15,fz+pd);   // 門楣
+      const ang=0.42, rl=(pw/2+0.35)/Math.cos(ang); for(const sgn of [-1,1]) bin.add(M('roof',()=>std({map:roofTileTex(),roughness:0.8})),boxG(rl,0.12,pd+0.7,0.5),px+sgn*(pw/2+0.35)/2,0.5+ph+0.08+Math.tan(ang)*(pw/2+0.35)/2,fz+pd/2+0.15,0,{rz:-sgn*ang});
+      bin.add(dark,boxG(0.14,0.16,pd+0.8),px,0.5+ph+0.1+Math.tan(ang)*(pw/2+0.35),fz+pd/2+0.15);   // 屋脊
+      bin.add(col('#9a948a'),boxG(0.9,0.14,0.55),px,0.07,fz+pd+0.5);   // 沓脫石
+      const lamp=glowMat('genkanLamp',null,{dayI:0.15,nightI:1.6,mat:{color:new THREE.Color('#f7e3b8'),emissive:new THREE.Color('#ffcf8a')}}); bin.add(lamp,boxG(0.2,0.26,0.2),px+pw/2-0.25,0.5+ph-0.55,fz+pd+0.12,0,{noShadow:true});
+      g.userData.genkan={x:px,z:fz+pd+0.12,y:0.5+ph-0.55}; }
     // 寄棟屋頂（四坡）：用壓扁的四角錐
     const roof=new THREE.ConeGeometry(Math.hypot(w,d)/2+0.9,1.9,4,1); roof.rotateY(Math.PI/4); roof.scale(1,1,(d+1.6)/(w+1.6)); const rt=roofTileTex(); const rm=M('roof',()=>std({map:rt,roughness:0.8})); const uv=roof.attributes.uv; for(let i=0;i<uv.count;i++) uv.setXY(i,uv.getX(i)*6,uv.getY(i)*3);
     bin.add(rm,roof,0,0.5+wh+0.95,0); bin.add(col('#2e3034'),boxG(w*0.5,0.18,0.25),0,0.5+wh+1.85,0,0,{noShadow:true});
     bin.add(col('#3a2a1e'),boxG(w+1.4,0.12,d+1.4),0,0.5+wh+0.02,0,0,{noShadow:true}); // 屋簷
     bin.build(g); g.userData.footprint={w,d}; return g; }
-  function wall(len,h,o){ o=o||{}; const g=new THREE.Group(); const bin=new Bin(); bin.add(M('wallC',()=>std({map:plasterTex('#cfc8bb','jpwall')})),boxG(len,h,0.25,1.2),0,h/2,0); bin.add(M('wallTop',()=>std({map:roofTileTex(),roughness:0.8})),boxG(len+0.2,0.16,0.5,0.5),0,h+0.08,0); if(o.gate){ bin.add(col('#5a3e28'),boxG(o.gate,h+0.4,0.3),o.gateX||0,(h+0.4)/2,0.01); bin.add(M('gateWood',()=>std({map:woodSidingTex()})),planeG(o.gate-0.3,h-0.2,[0,0,1,1.5]),o.gateX||0,h/2,0.17,0,{noShadow:true}); bin.add(M('roof',()=>std({map:roofTileTex(),roughness:0.8})),boxG(o.gate+0.8,0.25,1.0,0.5),o.gateX||0,h+0.55,0); }
+  function wall(len,h,o){ o=o||{}; const g=new THREE.Group(); const bin=new Bin(); const gx=o.gateX||0, gw=o.gate||0;
+    const seg=(x0,x1)=>{ if(x1-x0<0.05) return; bin.add(M('wallC',()=>std({map:plasterTex('#cfc8bb','jpwall')})),boxG(x1-x0,h,0.25,1.2),(x0+x1)/2,h/2,0); bin.add(M('wallTop',()=>std({map:roofTileTex(),roughness:0.8})),boxG(x1-x0+0.1,0.16,0.5,0.5),(x0+x1)/2,h+0.08,0); };
+    if(gw&&o.openGate){ seg(-len/2,gx-gw/2); seg(gx+gw/2,len/2); } else seg(-len/2,len/2);
+    if(gw){ const gh=Math.max(h+0.4,2.1); for(const sx of [-1,1]) bin.add(col('#5a3e28'),boxG(0.22,gh,0.22),gx+sx*(gw/2+0.11),gh/2,0.01);   // 門柱（開著的門：只有柱子＋冠木＋小屋頂）
+      bin.add(col('#4a3424'),boxG(gw+0.7,0.2,0.24),gx,gh-0.15,0.01);
+      if(!o.openGate) bin.add(M('gateWood',()=>std({map:woodSidingTex()})),planeG(gw-0.3,h-0.2,[0,0,1,1.5]),gx,h/2,0.17,0,{noShadow:true});
+      bin.add(M('roof',()=>std({map:roofTileTex(),roughness:0.8})),boxG(gw+1.0,0.22,0.9,0.5),gx,gh+0.1,0); }
     bin.build(g); return g; }
 
 
@@ -221,6 +242,29 @@ const TK = (function(){
       if(i%4===0){ const br=new THREE.CylinderGeometry(0.04,0.07,Math.hypot(cx-px,yy-th),5); const ang=Math.atan2(cx-px,cz-pz); bin.add(bark,br,(px+cx)/2,(th+yy)/2,(pz+cz)/2,ang,{rx:Math.atan2(Math.hypot(cx-px,cz-pz),yy-th)}); }
       for(let k=0;k<3;k++){ const pl=new THREE.PlaneGeometry(sz,sz*0.85); const lm=Object.assign({},leafM,{color:c}); bin.add(lm,pl,cx,yy,cz,a+k*Math.PI/3,{rx:r(-0.35,0.35)}); } }
     bin.build(g); g.userData.trunk={x:px,z:pz}; return g; }
+
+  // 大王椰子（台大椰林大道、小椰林道）：灰白筆直的樹幹（基部略寬、中段微鼓、淡淡的環紋）、
+  // 頂端一段光滑的綠色葉鞘、十幾片拱形下垂的羽狀葉（葉片卡帶 V 形斷面）。h＝總高（公尺）
+  function frondTex(){ return tex('palmFrond',128,512,(x,w,h)=>{ x.clearRect(0,0,w,h); const c=w/2;
+    for(let y=10;y<h-4;y+=4){ const t=y/h; const L=(c-4)*(0.25+0.75*Math.sin(Math.PI*Math.min(1,0.15+t*0.95))); for(const s of [-1,1]){ const g=150+((y*7)%34), gg=0.78+((y*13)%20)/100; x.strokeStyle='rgb('+Math.round(70*gg)+','+Math.round(g*gg)+','+Math.round(58*gg)+')'; x.lineWidth=2.2; x.beginPath(); x.moveTo(c+s*2,y); x.quadraticCurveTo(c+s*(2+L*0.6),y-L*0.18,c+s*(2+L),y-L*0.5); x.stroke(); } }
+    x.fillStyle='#b8b48a'; x.fillRect(c-2,0,4,h); }, false); }
+  function royalPalm(h, seed){ const g=new THREE.Group(); const bin=new Bin(); const H=h||12; let s=(seed||1)*9301+49297; const r=()=>{ s=(s*16807)%2147483647; return (s-1)/2147483646; };
+    const trunkH=H*0.78, shaftH=H*0.1;
+    const bark=M('palmTrunk',()=>std({map:tex('palmTrunk',64,256,(x,w,hh)=>{ x.fillStyle='#c4bfb3'; x.fillRect(0,0,w,hh); for(let y=0;y<hh;y+=6+((y*7)%5)){ x.fillStyle='rgba(120,112,98,0.2)'; x.fillRect(0,y,w,1.5); } for(let i=0;i<90;i++){ x.fillStyle=rnd()<0.5?'rgba(90,84,74,0.12)':'rgba(240,236,226,0.18)'; x.fillRect(rnd()*w,rnd()*hh,3+rnd()*6,2+rnd()*5); } }),roughness:0.92}));
+    // 樹幹：lathe 斷面（半徑隨高度變化）
+    const prof=[]; const R0=H*0.026; for(let i=0;i<=10;i++){ const t=i/10; const rr=R0*(1.25-0.3*Math.min(1,t*5)+0.12*Math.sin(Math.PI*Math.min(1,t*1.4))-0.12*t); prof.push(new THREE.Vector2(Math.max(0.05,rr),t*trunkH)); }
+    const trunk=new THREE.LatheGeometry(prof,10); const uvA=trunk.attributes.uv; for(let i=0;i<uvA.count;i++) uvA.setY(i,uvA.getY(i)*trunkH/3); bin.add(bark,trunk,0,0,0);
+    const lean=(r()-0.5)*0.05;
+    const shaft=new THREE.CylinderGeometry(R0*0.82,R0*0.95,shaftH,10); bin.add(col('#5f8a4a',{roughness:0.55}),shaft,0,trunkH+shaftH/2,0);
+    const topY=trunkH+shaftH; bin.add(col('#4f6e3c',{roughness:0.7}),new THREE.ConeGeometry(R0*0.7,H*0.05,8),0,topY+H*0.02,0);
+    const frondM=M('palmFrondMat',()=>std({map:frondTex(),alphaTest:0.4,side:THREE.DoubleSide,roughness:0.8,vertexColors:true}));
+    const nF=13+((r()*4)|0); const pos=[], uv=[], colA=[], idx=[];
+    for(let f=0;f<nF;f++){ const a=f/nF*Math.PI*2+r()*0.35; const up=0.55+r()*0.5-(f%3===0?0.45:0); const L=H*(0.3+r()*0.06); const W=H*0.12; const dx=Math.cos(a), dz=Math.sin(a); const sx=-dz, sz=dx; const seg=8; const base=pos.length/3; const shade=0.82+r()*0.3;
+      for(let i=0;i<=seg;i++){ const t=i/seg; const hor=L*t*(1-0.18*t); const vert=L*(up*1.1*t-1.0*t*t); const px=dx*hor, py=topY+H*0.015+vert, pz=dz*hor; const w=W*(0.18+0.82*Math.sin(Math.PI*Math.min(1,0.12+t*0.95)))*0.5; const dr=w*0.55;
+        for(const [k,u] of [[-1,0],[0,0.5],[1,1]]){ pos.push(px+sx*w*k, py-(k?dr:0), pz+sz*w*k); uv.push(u,1-t); const sh=shade*(k?0.92:1); colA.push(sh,sh,sh); } }
+      for(let i=0;i<seg;i++){ const a0=base+i*3, a1=base+(i+1)*3; idx.push(a0,a1,a0+1, a1,a1+1,a0+1, a0+1,a1+1,a0+2, a1+1,a1+2,a0+2); } }
+    const fg=new THREE.BufferGeometry(); fg.setAttribute('position',new THREE.Float32BufferAttribute(pos,3)); fg.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2)); fg.setAttribute('color',new THREE.Float32BufferAttribute(colA,3)); fg.setIndex(idx); fg.computeVertexNormals();
+    bin.build(g); const fm=new THREE.Mesh(fg,frondM); fm.castShadow=true; fm.receiveShadow=true; g.add(fm); g.rotation.z=lean; return g; }
 
   // ---------------- 街道小物 ----------------
   // 電線桿（水泥）＋橫擔＋變壓器；arm:true 時附巷道路燈
@@ -266,5 +310,5 @@ const TK = (function(){
 
   // 夜間：所有 emissive 材質、光暈、點光源一起調
   function setNight(k){ for(const m of nightMats){ m.emissiveIntensity=(m.userData.dayI||0)*(1-k)+(m.userData.nightI||1)*k; } for(const sp of nightSprites){ const o=sp.userData.dayO*(1-k)+sp.userData.nightO*k; sp.material.opacity=o; sp.visible=o>0.02; } }
-  return {tex,tileTex,mosaicTex,plasterTex,Bin,boxG,planeG,col:colMat,paint:col,M,std,tree,glowMat,plantClump,glowSprite,apartment,japaneseHouse,wall,utilityPole,trafficMirror,scooter,pots,mailbox,road,sidewalk,lightPool,wires,aBoard,signTex,interiorTex,setNight,nightMats,rnd};
+  return {tex,tileTex,mosaicTex,plasterTex,Bin,boxG,planeG,col:colMat,paint:col,M,std,tree,royalPalm,glowMat,plantClump,glowSprite,apartment,japaneseHouse,wall,utilityPole,trafficMirror,scooter,pots,mailbox,road,sidewalk,lightPool,wires,aBoard,signTex,interiorTex,setNight,nightMats,rnd};
 })();
