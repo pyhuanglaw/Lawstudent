@@ -98,7 +98,7 @@ const E3 = (function(){
     E.hemi.color.copy(lerpC(A[5],B[5])); E.hemi.groundColor.copy(lerpC(A[6],B[6])); E.hemi.intensity=lerp(A[7],B[7]); scene.fog.color.copy(lerpC(A[8],B[8])); renderer.toneMappingExposure=lerp(parseFloat(A[9]),parseFloat(B[9]));
     const sk=E.sky.material.uniforms; sk.top.value.copy(lerpC(A[10],B[10])); sk.mid.value.copy(lerpC(A[11],B[11])); sk.bot.value.copy(lerpC(A[12],B[12])); sk.sunDir.value.copy(E.sun.position).sub(target).normalize(); sk.sunCol.value.copy(E.sun.color); sk.sunAmt.value=0.15+0.45*Math.max(0,1-Math.abs(el)/0.6);
     { // 雲與天際線：白天白雲、黃昏染上夕陽色、夜晚暗；天際線用霧的顏色做空氣感，越暗越像剪影
-      const nk=h>=19.2||h<5.6?1:(h>=17.6?(h-17.6)/1.6:(h<6.4?(6.4-h)/0.8:0)); const dusk=Math.max(0,1-Math.abs(h-18.0)/1.6)*(1-nk*0.6); const elDeg=lerp(A[3],B[3]);
+      const nk=h>=19.2||h<5.6?1:(h>=17.6?(h-17.6)/1.6:(h<6.4?(6.4-h)/0.8:0)); const dusk=Math.max(0,1-Math.abs(h-18.0)/1.6)*(1-nk*0.6); const elDeg=lerp(A[3],B[3]); if(typeof CHAR!=='undefined'&&CHAR.setDuskRim) CHAR.setDuskRim(E.indoor?0:Math.max(0,1-Math.abs(h-17.8)/1.0),E.sun.color);   /* 黃昏人物的暖色輪廓光（室內不用）*/
       const lit=new THREE.Color(0xffffff).lerp(E.sun.color,0.25+0.6*dusk); lit.lerp(new THREE.Color(0x323a52),nk*0.92); const dark=sk.top.value.clone().lerp(new THREE.Color(0xa6b0bf),0.55).lerp(new THREE.Color(0x9a7472),dusk*0.45).lerp(new THREE.Color(0x141a28),nk*0.9);
       sk.cloudLit.value.copy(lit); sk.cloudDark.value.copy(dark); sk.cover.value=0.43-0.04*dusk; sk.starAmt.value=Math.max(0,nk-0.3)*0.9;
       if(E.skyline){ const fc=scene.fog.color; const haze=fc.clone().lerp(sk.mid.value,0.35); const U=E.skyline.userData; U.mount.material.color.copy(haze).lerp(new THREE.Color(0x67798c),0.7*(1-nk)).lerp(new THREE.Color(0x8a6f80),dusk*0.3).lerp(new THREE.Color(0x232a3c),nk*0.8); U.city.material.color.copy(haze).lerp(new THREE.Color(0x6f7c8c),0.45*(1-nk)).lerp(new THREE.Color(0x7a5e6c),dusk*0.35).lerp(new THREE.Color(0x121827),nk*0.9); U.win.material.opacity=Math.max(0,Math.min(1,(nk-0.15)*1.4)); } }
@@ -159,7 +159,11 @@ const E3 = (function(){
       if(canStand(nx,nz,r)||escapeOK(ent,nx,nz,r)) { o.position.x=nx; o.position.z=nz; } else if(mx&&canStand(nx,o.position.z,r)) { o.position.x=nx; ent.blockedAt={x:nx,z:nz,slide:'x'}; } else if(mz&&canStand(o.position.x,nz,r)) { o.position.z=nz; ent.blockedAt={x:nx,z:nz,slide:'z'}; } else { ent.blockedAt={x:nx,z:nz,slide:'none'};
         // 擦到家具或格子的角：前進方向再往左或右偏一點（最多 0.48 m，導航格是 0.5 m）就過得去時，往空的那一側讓開（正面撞平的牆時偏移也過不去，不會亂滑）
         const px=-dz, pz=dx; let side=0; for(const e of [0.08,0.16,0.24,0.32,0.4,0.48]){ if(canStand(nx+px*e,nz+pz*e,r)){ side=1; break; } if(canStand(nx-px*e,nz-pz*e,r)){ side=-1; break; } }
-        if(side){ const lat=Math.min(0.18,sp*dt*0.8), lx=o.position.x+px*side*lat, lz=o.position.z+pz*side*lat; if(canStand(lx,lz,r)){ o.position.x=lx; o.position.z=lz; ent.blockedAt.slide='corner'; } } } } else { o.position.x=nx; o.position.z=nz; }
+        if(side){ const lat=Math.min(0.18,sp*dt*0.8), lx=o.position.x+px*side*lat, lz=o.position.z+pz*side*lat; if(canStand(lx,lz,r)){ o.position.x=lx; o.position.z=lz; ent.blockedAt.slide='corner'; } }
+        // 還是過不去（v9.3 #31：宿舍書桌後面的窄縫，玩家沿牆滑進去之後，往哪個正方向推都過不去，永久卡住）：前進方向往左右各偏 30°／50°／70° 試一步，
+        // 站得住就走。每個方向都還有往前的分量；正面頂著平的牆或在牆角時這些方向都過不去，所以不會亂滑；只移到站得住的位置，不穿牆。
+        // 目前位置本身站不住（卡在阻擋格裡）時不用這個，交給 escapeOK（否則可能從阻擋格被帶進另一個小空隙）
+        else if(!stuckIn(ent)){ const st=Math.hypot(nx-o.position.x,nz-o.position.z); for(const a of [0.52,-0.52,0.87,-0.87,1.22,-1.22]){ const c=Math.cos(a), sn=Math.sin(a), rx=dx*c-dz*sn, rz=dx*sn+dz*c, tx=o.position.x+rx*st, tz=o.position.z+rz*st; if(canStand(tx,tz,r)){ o.position.x=tx; o.position.z=tz; ent.blockedAt.slide='turn'; break; } } } } } else { o.position.x=nx; o.position.z=nz; }
     const targetYaw=Math.atan2(dx,dz); let d=targetYaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,dt*12); }
   function canStand(x,z,r){ const n=E.nav; if(!n) return true; return n.free(x,z)&&n.free(x+r,z)&&n.free(x-r,z)&&n.free(x,z+r)&&n.free(x,z-r); }
   // 卡在阻擋格裡（例如舊存檔的位置、資料錯誤）時，允許往任何方向移動，走出去就恢復正常碰撞

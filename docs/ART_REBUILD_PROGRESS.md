@@ -13,6 +13,16 @@
 - **最新已推送 commit**：`7a4eca6`（v9.3 第二批：頭髮彈簧骨修正、溫書瑀低馬尾與反摺長袖、林芷若圓領、Café 三時段與夜間暖光；測試全部 PASS）；上一次是 `ad76109`（v9.3 第一批）。分支 `claude/friendly-brahmagupta-6bbkzc`，PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
 - **畫面驗收**：[`docs/art-rebuild/VISUAL_REVIEW.md`](art-rebuild/VISUAL_REVIEW.md)。**美術規範**：[`docs/art-rebuild/ART_DIRECTION.md`](art-rebuild/ART_DIRECTION.md)（參考圖在 `docs/art-rebuild/references/`）
 
+### 這次完成（v9.3 第三批，`e094b32` 之後）
+
+| 項目 | 狀態 | 玩家會看到什麼 |
+|---|---|---|
+| 黃昏人物輪廓光 | 技術完成；READY_FOR_ART_REVIEW | 17:00–18:40 在室外，人物的頭髮邊緣有暖金色的光（像參考圖 07 被夕陽從後面照到），上衣邊緣淡淡一層；白天、晚上、室內不會出現。褲子、鞋子、皮膚、臉不加：試過全身都加，深色褲子會變成偏棕的塑膠光澤，所以拿掉 |
+| 陳語彤領口 | 技術完成；READY_FOR_ART_REVIEW | 圓領兩側原本留著兩片帽口的尖角（臉部近景看起來是脖子旁邊的深色尖片），現在領口是平順的圓領（#30） |
+| 移動：窄縫卡住 | FIXED（Playwright＋直接重現） | 宿舍書桌後面、床頭旁，以及溫州街兩處比人窄的縫，不會再把人卡住；被卡在窄處往前推時，會往左右偏一點找路出來（#31） |
+
+測試（最終版，Playwright 模擬）：`campus_layout_nav` 29/29、`p0_movement` 31/31、`movement_regression` 42/42（A 組宿舍另外多跑 3 次都 7/7）、`touch_flow_wenzhou` 21/21、`sim_hair` PASS、`nav_islands` 11 個區域 ALL CLEAR，全部 PASS。
+
 ### 這次完成（v9.3 第二批，`ad76109` 之後）
 
 | 項目 | 狀態 | 玩家會看到什麼 |
@@ -115,6 +125,8 @@
 | 27 | 讀舊存檔被移位時，可能被移到新建築後面的封閉空地（走不出來） | 只找最近的空地，沒有檢查走不走得到 | 預防（目前三個測試位置用舊程式也走得到） | `src/engine3d.js`（`loadZone`） | `campus_layout_nav`：三個舊存檔位置讀檔後都走得到霖澤館前 | — |
 | 28 | v9.3 第一批的 Café 三時段照片，右邊三分之一是一片灰牆 | 拍照鏡頭放在 Café 南側那棟建築的範圍裡，拍到的是建築內側（遊戲本身沒有問題，玩家走不進去） | FIXED（換鏡頭重拍；有問題的照片沒有 commit） | 拍照設定 | 重拍照片 | — |
 | 29 | 林芷若領口剪低後，脖子有一個洞 | `hide_covered` 把領口附近的脖子皮膚當成「被衣服蓋住」刪掉 | FIXED（`hide_covered` 加 `y_keep`：領口線以上的皮膚不刪；要在剪領口之後、刪皮膚之前） | `tools/vroid_build.py` | bind pose 簡易算圖：脖子、鎖骨完整；遊戲內臉部近景 | — |
+| 30 | 陳語彤臉部近景，脖子兩側有深色的尖片 | 連帽上衣改圓領時，領口剪裁線往兩側沿肩線升高（每公分 1.2 公分），在脖子兩側比脖子根部高 2 公分以上，帽口的布留成兩個尖角；從正面看到的是尖角的內側（深色） | FIXED（`crew_neck` 加 `cap`：領口線往兩側最多升高 4 mm） | `tools/vroid_build.py`、`assets/models/char/vroid_heroine_03.vrm` | bind pose 簡易算圖：背面尖角消失、正面圓領平順；遊戲內臉部近景 | — |
+| 31 | 宿舍：沿牆斜推滑進書桌後面的窄縫之後，往哪個方向推都出不來（`movement_regression` A7 在一次測試失敗；重跑兩次通過，但把玩家直接放到那個位置可以穩定重現，所以不是偶發） | 書桌後面和後牆之間只有約 0.5 m（比人窄），導航格 0.4 m＋半徑 0.3 m 的「站得住」檢查在那裡留下只有一個點站得住的小孤島；測試模式（?turbo）一步最多 1.2 m，會跳進去；孤島四周都站不住，所以出不來 | FIXED：(1) 宿舍書桌後面、床頭與書架之間、溫州街 A 字立牌與盆栽之間、電線桿與郵筒之間，四個比人窄的縫標成不可走（沒有刪任何碰撞）；(2) 前進、沿牆滑、繞角都過不去時，再往左右偏 30°／50°／70° 試一步（只移到站得住的位置、不穿牆；目前位置本身站不住時不用，交給原本的脫困邏輯）；(3) 新增 `tools/dev_scratch/nav_islands.py` 掃描所有區域的小孤島 | `src/zones3d.js`、`src/engine3d.js`（`stepEntity`）、`tools/dev_scratch/nav_islands.py` | 把玩家直接放在卡住的位置推搖桿：修正前不動，修正後走出來；nav_islands：11 個區域 ALL CLEAR；campus_layout_nav 29/29、p0 31/31、movement_regression 42/42、touch_flow 21/21；A 組多跑 3 次都 7/7 | 手機實機一步約 7 cm（60 fps），本來就比較難跳進孤島；修正後孤島已不存在 |
 
 ---
 

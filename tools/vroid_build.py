@@ -635,10 +635,12 @@ def lengthen_hair(v, y_from, factor):
     return int(low.sum())
 
 
-def crew_neck(v, mat_pat, y0, x_max=0.11, slope=0.9):
+def crew_neck(v, mat_pat, y0, x_max=0.11, slope=0.9, cap=None):
     """連帽上衣改 T 恤：帽子拿掉後，脖子周圍還有一圈立起來的帽口（像漏斗）。把領口剪到脖子根部（中間低、往兩側沿肩線升高），
-    剪口的頂點收到領口線上（不會留下鋸齒）。"""
-    edge = lambda P: y0 + slope * np.maximum(0, np.abs(P[:, 0]) - 0.045) + np.where(P[:, 2] > 0, 0.012, 0.0)
+    剪口的頂點收到領口線上（不會留下鋸齒）。cap：領口線往兩側最多升高多少（陳語彤：不設上限時，脖子兩側後面會留下
+    兩個帽口的尖角，從正面看是脖子旁邊的深色尖片）。"""
+    rise = (lambda d: d) if cap is None else (lambda d: np.minimum(d, cap))
+    edge = lambda P: y0 + rise(slope * np.maximum(0, np.abs(P[:, 0]) - 0.045)) + np.where(P[:, 2] > 0, 0.012, 0.0)
     n = 0
     for m in v.j['meshes']:
         for p in m['primitives']:
@@ -1555,7 +1557,7 @@ def build_heroine_03():
     print('  heroine_03: transparent skin px filled', body_alpha_fill(v))
     mi, tee = transplant(v, donor, 'Tops', 'F00_909_Tops_Tee_CLOTH')
     print('  heroine_03: tee hood', uv_cull(v, 'Tops_Tee', HOOD_RECTS), 'strings', drop_small_parts(v, 'Tops_Tee', 600, front_z=-0.05), 'sleeve tris cut', cut_sleeves(v, 'Tops_Tee', 0.17, clean=True))
-    print('  heroine_03: crew neck tris', crew_neck(v, 'Tops_Tee', joint_y(v, 'Neck') - 0.012, slope=1.2))   # 帽口那圈立領剪掉 → 貼近脖子的圓領（太低會看到後領內側，像脖子上有深色條紋）
+    print('  heroine_03: crew neck tris', crew_neck(v, 'Tops_Tee', joint_y(v, 'Neck') - 0.012, slope=1.2, cap=0.004))   # 帽口那圈立領剪掉 → 貼近脖子的圓領（太低會看到後領內側，像脖子上有深色條紋；cap：兩側不留尖角）
     uv_cull(v, 'Tops_Tee', [(0.05, 0.915, 0.95, 1.0)])   # 拿掉羅紋下擺（T 恤是平口）
     print('  heroine_03: tee hem flattened', flatten_hem(v, 'Tops_Tee', joint_y(v, 'UpperLeg') - 0.05))   # 剪掉羅紋後下擺是鋸齒狀 → 收平
     smooth_region(v, 'Tops_Tee', POCKET_RECT); smooth_normals_region(v, 'Tops_Tee', POCKET_RECT)
