@@ -64,6 +64,8 @@ const TK = (function(){
   // 純色零件用「代理材質」：同一組粗糙度/金屬度共用一個 vertexColors 材質，顏色烘進頂點 → 整條街的純色零件可以合併成很少的 draw call
   const col=(hex,o)=>({isPaint:true,color:new THREE.Color(hex),key:JSON.stringify(o||{}),o:o||{}});
   const paintMat=(key,o)=>M('paint'+key,()=>std(Object.assign({vertexColors:true},o)));
+  // 樹幹、電線桿：擋在鏡頭和玩家之間時，引擎會在玩家周圍把它變成網點透空（engine3d.js 的樹幹透視）
+  const seeThru=(m)=>{ m.userData.seeThrough=true; return m; };
   const colMat=(hex,o)=>M('c'+hex+JSON.stringify(o||{}),()=>std(Object.assign({color:new THREE.Color(hex)},o||{})));
   // 夜間會亮的材質（emissive 由 setNight 控制）
   const nightMats=[];
@@ -239,7 +241,7 @@ const TK = (function(){
   function leafTex(){ return tex('leafCluster',256,256,(x,w,h)=>{ x.clearRect(0,0,w,h); const cols=['#3f6e3a','#4f8a44','#5f9a4e','#6fa85a','#3a5f34','#7cb064']; for(let i=0;i<420;i++){ const a=rnd()*Math.PI*2, r=Math.pow(rnd(),0.6)*w*0.46; const px=w/2+Math.cos(a)*r, py=h/2+Math.sin(a)*r*0.92; x.save(); x.translate(px,py); x.rotate(rnd()*Math.PI*2); x.fillStyle=cols[(rnd()*cols.length)|0]; x.beginPath(); x.ellipse(0,0,4+rnd()*4,8+rnd()*6,0,0,7); x.fill(); x.restore(); } }, false); }
   function tree(height, seed){ const g=new THREE.Group(); const bin=new Bin(); const H=height||7; const r=(a,b)=>a+(b-a)*rnd();
     // 樹幹（略彎）＋主枝
-    const bark=M('bark',()=>std({map:tex('bark',64,256,(x,w,hh)=>{ x.fillStyle='#5a4a3c'; x.fillRect(0,0,w,hh); for(let i=0;i<120;i++){ x.fillStyle=rnd()<0.5?'rgba(30,22,16,0.35)':'rgba(140,125,105,0.25)'; x.fillRect(rnd()*w,rnd()*hh,2+rnd()*3,8+rnd()*20); } }),roughness:0.95}));
+    const bark=M('bark',()=>seeThru(std({map:tex('bark',64,256,(x,w,hh)=>{ x.fillStyle='#5a4a3c'; x.fillRect(0,0,w,hh); for(let i=0;i<120;i++){ x.fillStyle=rnd()<0.5?'rgba(30,22,16,0.35)':'rgba(140,125,105,0.25)'; x.fillRect(rnd()*w,rnd()*hh,2+rnd()*3,8+rnd()*20); } }),roughness:0.95})));
     const th=H*0.45; let px=0, pz=0; for(let i=0;i<3;i++){ const seg=new THREE.CylinderGeometry(0.16-i*0.03,0.22-i*0.03,th/3+0.05,8); const nx=px+r(-0.12,0.12), nz=pz+r(-0.12,0.12); bin.add(bark,seg,(px+nx)/2,th/6+i*th/3,(pz+nz)/2,0,{rx:(nz-pz)*0.8,rz:-(nx-px)*0.8}); px=nx; pz=nz; }
     const leafM={isPaint:true,color:new THREE.Color(1,1,1),key:'leaf',mat:M('leafCard',()=>std({map:leafTex(),alphaTest:0.45,side:THREE.DoubleSide,roughness:0.85,vertexColors:true}))};
     const crownY=th+H*0.22, cr=H*0.32; const n=Math.round(14+H*2.2);
@@ -255,7 +257,7 @@ const TK = (function(){
     x.fillStyle='#b8b48a'; x.fillRect(c-2,0,4,h); }, false); }
   function royalPalm(h, seed){ const g=new THREE.Group(); const bin=new Bin(); const H=h||12; let s=(seed||1)*9301+49297; const r=()=>{ s=(s*16807)%2147483647; return (s-1)/2147483646; };
     const trunkH=H*0.78, shaftH=H*0.1;
-    const bark=M('palmTrunk',()=>std({map:tex('palmTrunk',64,256,(x,w,hh)=>{ x.fillStyle='#c4bfb3'; x.fillRect(0,0,w,hh); for(let y=0;y<hh;y+=6+((y*7)%5)){ x.fillStyle='rgba(120,112,98,0.2)'; x.fillRect(0,y,w,1.5); } for(let i=0;i<90;i++){ x.fillStyle=rnd()<0.5?'rgba(90,84,74,0.12)':'rgba(240,236,226,0.18)'; x.fillRect(rnd()*w,rnd()*hh,3+rnd()*6,2+rnd()*5); } }),roughness:0.92}));
+    const bark=M('palmTrunk',()=>seeThru(std({map:tex('palmTrunk',64,256,(x,w,hh)=>{ x.fillStyle='#c4bfb3'; x.fillRect(0,0,w,hh); for(let y=0;y<hh;y+=6+((y*7)%5)){ x.fillStyle='rgba(120,112,98,0.2)'; x.fillRect(0,y,w,1.5); } for(let i=0;i<90;i++){ x.fillStyle=rnd()<0.5?'rgba(90,84,74,0.12)':'rgba(240,236,226,0.18)'; x.fillRect(rnd()*w,rnd()*hh,3+rnd()*6,2+rnd()*5); } }),roughness:0.92})));
     // 樹幹：lathe 斷面（半徑隨高度變化）
     const prof=[]; const R0=H*0.026; for(let i=0;i<=10;i++){ const t=i/10; const rr=R0*(1.25-0.3*Math.min(1,t*5)+0.12*Math.sin(Math.PI*Math.min(1,t*1.4))-0.12*t); prof.push(new THREE.Vector2(Math.max(0.05,rr),t*trunkH)); }
     const trunk=new THREE.LatheGeometry(prof,10); const uvA=trunk.attributes.uv; for(let i=0;i<uvA.count;i++) uvA.setY(i,uvA.getY(i)*trunkH/3); bin.add(bark,trunk,0,0,0);
@@ -274,7 +276,7 @@ const TK = (function(){
   // ---------------- 街道小物 ----------------
   // 電線桿（水泥）＋橫擔＋變壓器；arm:true 時附巷道路燈
   function utilityPole(o){ o=o||{}; const g=new THREE.Group(); const bin=new Bin(); const h=9;
-    bin.add(col('#b9b5ad'),new THREE.CylinderGeometry(0.12,0.17,h,10),0,h/2,0); bin.add(col('#6b6f73'),boxG(1.8,0.12,0.12),0,h-0.6,0,0,{noShadow:true}); bin.add(col('#6b6f73'),boxG(1.4,0.1,0.1),0,h-1.2,0,0,{noShadow:true});
+    bin.add(M('poleBody',()=>seeThru(std({color:new THREE.Color('#b9b5ad')}))),new THREE.CylinderGeometry(0.12,0.17,h,10),0,h/2,0); bin.add(col('#6b6f73'),boxG(1.8,0.12,0.12),0,h-0.6,0,0,{noShadow:true}); bin.add(col('#6b6f73'),boxG(1.4,0.1,0.1),0,h-1.2,0,0,{noShadow:true});
     for(const s of [-0.75,0,0.75]) bin.add(col('#e6e3de'),new THREE.CylinderGeometry(0.05,0.05,0.16,6),s,h-0.48,0,0,{noShadow:true});
     if(o.transformer) bin.add(col('#8f969c',{metalness:0.4,roughness:0.5}),new THREE.CylinderGeometry(0.35,0.35,0.9,12),0.42,h-2.4,0);
     bin.add(col('#2b2b2b'),boxG(0.36,0.06,0.36),0,2.4,0,0,{noShadow:true}); // 黃黑反光帶

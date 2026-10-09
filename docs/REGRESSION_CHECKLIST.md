@@ -15,13 +15,15 @@
 | `python3 tests/campus_layout_nav.py http://127.0.0.1:8765/index.html` | 校園配置（依台大平面圖）：17 個地點站得住、從霖澤館前走得到（含醉月湖木棧道、湖心亭）；湖面與建築內不能走；舊存檔站在新建築／湖裡時讀檔後移到可走的地方 | 約 2 分鐘 |
 | `node tools/dev_scratch/spring_sim/sim_hair.js` | 六位核心角色的頭髮彈簧骨：站著、瞬移後、走路（人物移動，30 fps 與 0.3 秒一幀）的髮尾高度；走路／瞬移時髮尾比站著高超過 2 cm 就 FAIL（v9.3 #25：頭髮被甩到耳朵高度）。Node 直接載入遊戲的 `lib/`、`src/`，不需要瀏覽器 | 約 1 分鐘 |
 | `python3 tools/dev_scratch/nav_islands.py http://127.0.0.1:8765/index.html [區域 id …]` | 每個區域用 0.1 m 間距取樣「站得住」，找出和主要區域不相連的小孤島（面積 < 0.5 m²、離主要區域 1.5 m 內 → SUSPECT）。孤島四周都站不住，滑進去就出不來（v9.3 #31） | 全部區域約 10 分鐘 |
+| `python3 tests/see_through.py http://127.0.0.1:8765/index.html` | 鏡頭和玩家之間有大王椰子樹幹時看得到玩家（v9.3 #35）：同一幀畫正常畫面、拿掉樹幹的畫面、玩家剪影，比較玩家範圍內看得到的比例。關掉透視時要 < 40%（確認樹幹真的擋住）、打開時 ≥ 60%；演出鏡頭、室內不開 | 約 3 分鐘 |
+| `python3 tools/dev_scratch/render_stats.py http://127.0.0.1:8765/index.html` | （參考用，不判定）四個常用鏡頭畫一幀的三角形數、draw call、幾何數、貼圖數；改建築、加大量物件之後和上一版比較 | 約 2 分鐘 |
 | `python3 tools/dev_scratch/evtest.py`（需先 build） | 52 個事件的觸發條件與鎖定解鎖 | 約 10 分鐘 |
 
 ## 修改影響對照
 
 | 系統 | 什麼修改會影響 | 至少要跑 |
 |---|---|---|
-| 移動與鏡頭 | `engine3d.js`（stepEntity、updateCamera、input）、`game3d.js`（搖桿、sitAt/standUp） | p0、movement_regression、touch_flow |
+| 移動與鏡頭 | `engine3d.js`（stepEntity、updateCamera、input、樹幹透視）、`game3d.js`（搖桿、sitAt/standUp） | p0、movement_regression、touch_flow；改 updateCamera 或樹幹透視時加跑 see_through |
 | 地形與碰撞 | `zones3d.js` 任何幾何或 NavGrid（`blockRect/blockOutside/open`）、出生點、出入口座標 | 改校園時加跑 campus_layout_nav；p0（含溫州街）、movement_regression E、touch_flow；加家具、改 `blockRect` 之後跑 `nav_islands.py` |
 | NPC 導航 | `story3d.js` 的 walkRoutes／bikeRoutes、`engine3d.js` updateNPC | 截圖確認 NPC 不在牆裡、touch_flow |
 | 人物朝向與動畫 | `character3d.js`（buildVRM、animateVRM、setBonesV）、`assets3d.js`（cloneVRM）、`tools/vroid_build.py` 重建的模型 | 角色展示截圖（正側背、走跑坐交談）、教室座位朝向、touch_flow 坐下；改到彈簧骨、`updateVRM` 或重建有頭髮的模型時跑 `sim_hair.js` |

@@ -1327,6 +1327,29 @@ def smooth_region(v, mat_pat, rect, size=15):
             img.paste(part, box[:2]); v.set_image(ii, img)
 
 
+def fill_from_row(v, mat_pat, rect, src_v):
+    """把衣服貼圖 rect（u0,v0,u1,v1）裡的每一欄，換成同一欄在 src_v 那一列的顏色（用下面素面布料的顏色蓋掉畫在貼圖上的細線、陰影）。
+    左右兩端 6 px 漸變，不留接縫。"""
+    done = set()
+    for i, m in enumerate(v.j['materials']):
+        if mat_pat not in m['name']:
+            continue
+        tp = v.vrm_mat(i)['textureProperties']
+        for k in ('_MainTex', '_ShadeTexture'):
+            if k not in tp:
+                continue
+            ii = v.image_of_tex(tp[k])
+            if ii in done:
+                continue
+            done.add(ii)
+            img = v.get_image(ii); W, H = img.size; a = np.array(img).astype(np.float32)
+            u0, v0, u1, v1 = rect; x0, x1, y0, y1, ys = int(u0 * W), int(u1 * W), int(v0 * H), int(v1 * H), int(src_v * H)
+            for x in range(x0, x1):
+                w = min(1.0, (x - x0 + 1) / 6.0, (x1 - x) / 6.0)
+                a[y0:y1, x] = a[y0:y1, x] * (1 - w) + a[ys, x] * w
+            v.set_image(ii, Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), img.mode))
+
+
 def body_tex_replace(v, pred, color_fn):
     """身體皮膚貼圖裡符合 pred(rgb 陣列) 的像素換成 color_fn(skin_median) 的顏色：
     例如 HairSample_Female 在身體貼圖上畫了酒紅色內搭／領子，換上別的上衣後會從縫隙露出來。"""
@@ -1467,6 +1490,7 @@ def hair_colliders_body_only(v, drag_min=0.55):
 
 HOOD_RECTS = [(0.295, 0.0, 0.705, 0.27), (0.32, 0.27, 0.68, 0.41)]   # HairSample_Male 連帽上衣：帽子
 POCKET_RECT = (0.29, 0.63, 0.71, 0.915)                              # HairSample_Male 連帽上衣：前口袋
+NECK_V_RECT = (0.458, 0.5265, 0.544, 0.5375)                         # HairSample_Male 連帽上衣：前領口正中間帽子交疊的 V 形陰影（領口羅紋下緣，貼圖 1024 px 的 y 539–550）
 
 
 def build_yuting():
@@ -1555,11 +1579,14 @@ def build_heroine_02():
     cut_below(v, 'Tops_Linen', waist)
     neck_cut = joint_y(v, 'Neck') - 0.03
     print('  heroine_02: round neckline tris', crew_neck(v, 'Tops_Linen', neck_cut, x_max=0.12, slope=1.0))   # 參考圖：開領上衣（原本是荷葉邊高領）；要在 hide_covered 之前剪，脖子的皮膚才不會被當成「被衣服蓋住」刪掉
+    cuff_x = joint_world(v, 'J_Bip_R_UpperArm')[0, 3] + 0.40
+    print('  heroine_02: ruffle cuffs cut', cut_sleeves(v, 'Tops_Linen', 0.40, clean=True, extra=('TipSleeve',)))   # 袖口的荷葉邊（手腕收口之後再張開的喇叭狀布）剪掉，留收口當袖口（參考圖是一般袖口）；要在 hide_covered 之前，手腕的皮膚才不會被刪
     recolor_mat(v, 'Tops_Linen', '#d6c6aa', strength=0.88, keep_detail=0.9)
     print('  heroine_02: maroon inner px -> skin', body_tex_replace(v, is_maroon, lambda med: med))
     paint_skin(v, '#ddd0b9', joints=('Spine', 'Chest', 'Bust', 'Shoulder'), y_max=joint_y(v, 'Neck') - 0.045)
     hide_covered(v, garment_of(v, 'Tops_Linen'), max_d=0.1, eps=0.04, max_tan=0.05, skip_joints=('Shoulder', 'UpperArm'),
-                 y_keep=lambda P: neck_cut - 0.025 + 1.0 * np.maximum(0, np.abs(P[:, 0]) - 0.045) + np.where(P[:, 2] > 0, 0.012, 0.0))   # 領口線以上（往下 2.5 cm 內）的皮膚留著
+                 y_keep=lambda P: neck_cut - 0.025 + 1.0 * np.maximum(0, np.abs(P[:, 0]) - 0.045) + np.where(P[:, 2] > 0, 0.012, 0.0),   # 領口線以上（往下 2.5 cm 內）的皮膚留著
+                 keep_fn=lambda P: np.abs(P[:, 0]) > cuff_x - 0.03)   # 袖口（剪掉荷葉邊後的收口）往內 3 cm 以外的手腕、手留著
     print('  heroine_02: culled under pants', wide_pants(v, donor, 'F00_901_Bottoms_Pants_CLOTH', '#9f998e', amount=0.04, straight=True, start=0.12))
     mi, sh = transplant(v, shino, 'Shoes', 'F00_903_Shoes_Loafer_CLOTH'); hide_covered(v, sh)
     recolor_mat(v, 'Shoes_Loafer', '#3a2a22', strength=0.85)
@@ -1603,6 +1630,7 @@ def build_heroine_03():
     uv_cull(v, 'Tops_Tee', [(0.05, 0.915, 0.95, 1.0)])   # 拿掉羅紋下擺（T 恤是平口）
     print('  heroine_03: tee hem flattened', flatten_hem(v, 'Tops_Tee', joint_y(v, 'UpperLeg') - 0.05))   # 剪掉羅紋後下擺是鋸齒狀 → 收平
     smooth_region(v, 'Tops_Tee', POCKET_RECT); smooth_normals_region(v, 'Tops_Tee', POCKET_RECT)
+    fill_from_row(v, 'Tops_Tee', NECK_V_RECT, NECK_V_RECT[3] + 0.004)   # 領口正中間的深色 V 形（連帽上衣帽子兩邊在胸前交疊的陰影，畫在貼圖上）：臉部近景看起來像一個深色小蝴蝶結
     recolor_mat(v, 'Tops_Tee', '#3a3b40', strength=0.9, keep_detail=0.8)
     paint_skin(v, '#34353a', joints=('Spine', 'Chest', 'Bust', 'Shoulder'), y_max=joint_y(v, 'Neck') - 0.05)
     hide_covered(v, garment_of(v, 'Tops_Tee'), max_d=0.1, eps=0.04, max_tan=0.05, skip_joints=('Shoulder', 'UpperArm'))

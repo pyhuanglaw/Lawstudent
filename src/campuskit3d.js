@@ -27,19 +27,23 @@ const CK=(function(){ 'use strict';
   function archPath(w,h,cx,cy){ const r=w/2, p=new THREE.Path(); p.moveTo(cx-r,cy); p.lineTo(cx+r,cy); p.lineTo(cx+r,cy+h-r); p.absarc(cx,cy+h-r,r,0,Math.PI,false); p.lineTo(cx-r,cy); return p; }
   // 拱窗：石材窗框（環狀擠出）＋玻璃＋窗台＋中間直櫺與橫櫺；回傳要加進 Bin 的零件（本地座標，窗的正面朝 +z）
   const winCache={};
-  function windowParts(w,h,f){ const key=w+'_'+h+'_'+f; if(winCache[key]) return winCache[key];
-    const ring=archShape(w+2*f,h+f); ring.holes.push(archPath(w,h,0,0));
-    const frame=new THREE.ExtrudeGeometry(ring,{depth:0.12,bevelEnabled:false,curveSegments:10});
-    const glass=new THREE.ShapeGeometry(archShape(w,h),10); { const uv=glass.attributes.uv, p=glass.attributes.position; for(let i=0;i<uv.count;i++) uv.setXY(i,(p.getX(i)+w/2)/w,p.getY(i)/h); }
+  // 方窗（戰後新建的系館：面磚＋方窗＋一樓拱廊）
+  function rectShape(w,h){ const s=new THREE.Shape(); s.moveTo(-w/2,0); s.lineTo(w/2,0); s.lineTo(w/2,h); s.lineTo(-w/2,h); s.lineTo(-w/2,0); return s; }
+  function rectPath(w,h){ const p=new THREE.Path(); p.moveTo(-w/2,0); p.lineTo(-w/2,h); p.lineTo(w/2,h); p.lineTo(w/2,0); p.lineTo(-w/2,0); return p; }
+  function windowParts(w,h,f,rect){ const key=w+'_'+h+'_'+f+(rect?'_r':''); if(winCache[key]) return winCache[key];
+    const ring=rect?rectShape(w+2*f,h+f):archShape(w+2*f,h+f); ring.holes.push(rect?rectPath(w,h):archPath(w,h,0,0));
+    // 手機效能：拱的曲線 6 段就夠圓（第六批用 10 段，校園畫面多了約 10 萬個三角形）
+    const frame=new THREE.ExtrudeGeometry(ring,{depth:0.12,bevelEnabled:false,curveSegments:6});
+    const glass=new THREE.ShapeGeometry(rect?rectShape(w,h):archShape(w,h),6); { const uv=glass.attributes.uv, p=glass.attributes.position; for(let i=0;i<uv.count;i++) uv.setXY(i,(p.getX(i)+w/2)/w,p.getY(i)/h); }
     const sill=TK.boxG(w+2*f+0.18,0.1,0.26);
     const mull=TK.boxG(0.06,h-0.1,0.05), tran=TK.boxG(w,0.06,0.05);
-    return (winCache[key]={frame,glass,sill,mull,tran,w,h,f}); }
+    return (winCache[key]={frame,glass,sill,mull,tran,w,h,f,ty:rect?h*0.72:h-w/2}); }
   function addWindow(bin,M,wp,x,y,z,ry){ const c=Math.cos(ry), s=Math.sin(ry); const at=(lx,ly,lz)=>[x+lx*c+lz*s,y+ly,z-lx*s+lz*c];
-    let p=at(0,0,-0.02); bin.add(M.trim,wp.frame.clone(),p[0],p[1],p[2],ry);
+    let p=at(0,0,-0.02); bin.add(M.trim,wp.frame.clone(),p[0],p[1],p[2],ry,{noShadow:true}); // 窗框、窗台很薄，不投影（陰影圖少畫很多三角形）
     p=at(0,0,0.02); bin.add(M.glass,wp.glass.clone(),p[0],p[1],p[2],ry,{noShadow:true});
-    p=at(0,-0.05,0.1); bin.add(M.trim,wp.sill.clone(),p[0],p[1],p[2],ry);
+    p=at(0,-0.05,0.1); bin.add(M.trim,wp.sill.clone(),p[0],p[1],p[2],ry,{noShadow:true});
     p=at(0,(wp.h-0.1)/2,0.05); bin.add(M.frameDark,wp.mull.clone(),p[0],p[1],p[2],ry,{noShadow:true});
-    p=at(0,wp.h-wp.w/2,0.05); bin.add(M.frameDark,wp.tran.clone(),p[0],p[1],p[2],ry,{noShadow:true}); }
+    p=at(0,wp.ty,0.05); bin.add(M.frameDark,wp.tran.clone(),p[0],p[1],p[2],ry,{noShadow:true}); }
   // 寄棟屋頂（四坡）：W×D 的範圍、屋脊高 Hr
   function hipRoof(W,D,Hr){ const r=(W-D)/2>0?(W-D)/2:0; const hw=W/2, hd=D/2; const P=[]; const UV=[];
     const tri=(a,b,c)=>{ P.push(...a,...b,...c); for(const v of [a,b,c]) UV.push(v[0]/2.4,(v[1]+Math.abs(v[2]))/1.8); };
@@ -49,12 +53,13 @@ const CK=(function(){ 'use strict';
   // 拱廊的拱圈牆（一個開間）：bw 寬、從 ys（起拱線）到 top，挖掉半徑 r 的半圓
   function spandrel(bw,ys,top,r){ const s=new THREE.Shape(); s.moveTo(-bw/2,ys); s.lineTo(-r,ys); s.absarc(0,ys,r,Math.PI,0,true); s.lineTo(bw/2,ys); s.lineTo(bw/2,top); s.lineTo(-bw/2,top); s.lineTo(-bw/2,ys); return s; }
   // ---------- 建築 ----------
-  // o: {w,d,floors,gfh,fh,bay,wall,trim,roof,roofH,arcade,arcDepth,porch:{bays,depth,pediment},tower:{w,h},sign,signColor,winW}
+  // o: {w,d,floors,gfh,fh,bay,wall,trim,roof,roofH,roofType:'flat',win:'rect',arcade,arcDepth,porch:{bays,depth,pediment,style:'flat',h,ys,pedH},tower:{w,h},sign,signColor,winW}
   function hall(o){ const g=new THREE.Group(); const bin=new TK.Bin(); const blocks=[];
     const w=o.w, d=o.d, nf=o.floors||2, gfh=o.gfh||4.6, fh=o.fh||4.0, H=gfh+(nf-1)*fh, bayT=o.bay||3.8;
     const M={wall:wallMat(o.wall||'#a8664a'), trim:trimMat(o.trim||'#d8d0c0'), roof:roofMat(o.roof||'#4f3a32'), glass:GLASS(), frameDark:TK.col('#3a2e28'), ceil:TK.col(o.ceilCol||'#cfc6b6'), dark:TK.col('#2e2a26'), door:TK.col('#4a3426')};
     const arc=o.arcade!==false, ad=arc?(o.arcDepth||2.6):0;
-    const nb=Math.max(3,Math.round(w/bayT)), bw=w/nb; // 正面開間
+    // 正面開間；有門廊時，開間數和門廊的拱數同奇偶，門廊兩側的牆才會剛好落在拱廊的柱子上（不會有柱子擋在拱的正中間）
+    let nb=Math.max(3,Math.round(w/bayT)); if(arc&&o.porch&&(nb-(o.porch.bays||3))%2){ nb+=(w/bayT>nb?1:-1); if(nb<3) nb+=2; } const bw=w/nb, apw=Math.max(0.7,bw*0.22);
     const nbs=Math.max(2,Math.round(d/bayT)), bws=d/nbs; // 側面開間
     // 主體：上面幾層是完整的盒子；一樓有拱廊時正面往內縮 ad
     bin.add(M.wall,TK.boxG(w,H-gfh,d,1.2),0,gfh+(H-gfh)/2,0);
@@ -64,8 +69,8 @@ const CK=(function(){ 'use strict';
     for(let i=1;i<nf;i++){ const y=gfh+(i-1)*fh; bin.add(M.trim,TK.boxG(w+0.24,0.22,d+0.24,1.0),0,y,0); }
     bin.add(M.trim,TK.boxG(w+0.7,0.5,d+0.7,1.0),0,H+0.25,0); bin.add(M.trim,TK.boxG(w+0.4,0.25,d+0.4,1.0),0,H-0.08,0);
     // 窗：上面各層四面都有拱窗；一樓背面、側面也有
-    const ww=Math.min(o.winW||1.5,bw*0.48), wh=Math.min(fh*0.62,2.7), wpU=windowParts(ww,wh,0.16);
-    const wwS=Math.min(o.winW||1.5,bws*0.48), wpS=windowParts(wwS,wh,0.16);
+    const rw=o.win==='rect', ww=Math.min(o.winW||1.5,bw*0.48), wh=Math.min(fh*(rw?0.55:0.62),2.7), wpU=windowParts(ww,wh,0.16,rw);
+    const wwS=Math.min(o.winW||1.5,bws*0.48), wpS=windowParts(wwS,wh,0.16,rw);
     const sillY=(fl)=> (fl===0?1.2:gfh+(fl-1)*fh+0.75);
     for(let fl=0;fl<nf;fl++){ const y=sillY(fl);
       for(let i=0;i<nb;i++){ const x=-w/2+bw*(i+0.5);
@@ -73,19 +78,21 @@ const CK=(function(){ 'use strict';
         if(fl>0||!o.backArcade) addWindow(bin,M,wpU,x,y,-d/2-0.01,Math.PI); }
       for(let j=0;j<nbs;j++){ const z=-d/2+bws*(j+0.5); if(fl===0&&z>d/2-ad-0.8) continue; addWindow(bin,M,wpS,w/2+0.01,y,z,Math.PI/2); addWindow(bin,M,wpS,-w/2-0.01,y,z,-Math.PI/2); } }
     // 一樓拱廊：柱墩＋拱圈＋天花板＋地坪＋裡面的門窗
-    if(arc){ const pw=Math.max(0.7,bw*0.22), r=(bw-pw)/2, ys=Math.min(gfh-r-0.5,2.6), fz=d/2-0.3;
+    // 碰撞（本地座標 [x,z,寬,深,外擴]）：有拱廊時只擋建築本體＋每根柱子，拱廊底下可以走
+    if(arc){ blocks.push([0,-ad/2,w,d-ad,0.3]); for(let i=0;i<=nb;i++) blocks.push([-w/2+bw*i,d/2-0.3,apw,0.6,0.15]); } else blocks.push([0,0,w,d,0.3]);
+    if(arc){ const pw=apw, r=(bw-pw)/2, ys=Math.min(gfh-r-0.5,2.6), fz=d/2-0.3;
       for(let i=0;i<=nb;i++){ const x=-w/2+bw*i; bin.add(M.wall,TK.boxG(pw,ys,0.6,1.2),x,ys/2,fz); bin.add(M.trim,TK.boxG(pw+0.16,0.22,0.72,1.0),x,ys,fz); bin.add(M.trim,TK.boxG(pw+0.12,0.4,0.7,1.0),x,0.2,fz); }
-      const sp=new THREE.ExtrudeGeometry(spandrel(bw,ys,gfh,r),{depth:0.6,bevelEnabled:false,curveSegments:12}); { const uv=sp.attributes.uv; for(let k=0;k<uv.count;k++) uv.setXY(k,uv.getX(k)/1.2,uv.getY(k)/1.2); }
+      const sp=new THREE.ExtrudeGeometry(spandrel(bw,ys,gfh,r),{depth:0.6,bevelEnabled:false,curveSegments:8}); { const uv=sp.attributes.uv; for(let k=0;k<uv.count;k++) uv.setXY(k,uv.getX(k)/1.2,uv.getY(k)/1.2); }
       for(let i=0;i<nb;i++){ const x=-w/2+bw*(i+0.5); bin.add(M.wall,sp.clone(),x,0,fz-0.3); }
       // 拱圈石材收邊（拱頂一圈）
       const ring=new THREE.Shape(); ring.absarc(0,0,r+0.14,0,Math.PI,false); ring.lineTo(-r,0); ring.absarc(0,0,r,Math.PI,0,true); ring.lineTo(r+0.14,0);
-      const ringG=new THREE.ExtrudeGeometry(ring,{depth:0.08,bevelEnabled:false,curveSegments:12});
+      const ringG=new THREE.ExtrudeGeometry(ring,{depth:0.08,bevelEnabled:false,curveSegments:8});
       for(let i=0;i<nb;i++){ const x=-w/2+bw*(i+0.5); bin.add(M.trim,ringG.clone(),x,ys,fz+0.3); }
       sp.dispose(); ringG.dispose();
       bin.add(M.ceil,TK.boxG(w,0.1,ad-0.6,1),0,gfh-0.25,d/2-0.6-(ad-0.6)/2,0,{noShadow:true}); // 天花板只到拱圈背面（和拱圈正面同一平面會閃爍）
       bin.add(M.trim,TK.boxG(w,0.06,ad+0.2,1),0,0.03,d/2-ad/2);
       // 廊內的門與窗（背牆）
-      const iw=windowParts(Math.min(1.4,bw*0.4),2.5,0.12);
+      const iw=windowParts(Math.min(1.4,bw*0.4),rw?2.2:2.5,0.12,rw);
       for(let i=0;i<nb;i++){ const x=-w/2+bw*(i+0.5); const center=Math.abs(i-(nb-1)/2)<0.6;
         if(center){ bin.add(M.door,TK.boxG(1.8,2.9,0.08),x,1.45,d/2-ad+0.04); bin.add(M.trim,TK.boxG(2.2,0.2,0.16),x,3.0,d/2-ad+0.08); }
         else addWindow(bin,M,iw,x,0.9,d/2-ad+0.01,0); } }
@@ -93,17 +100,18 @@ const CK=(function(){ 'use strict';
     if(o.roofType==='flat'){ bin.add(M.trim,TK.boxG(w+0.2,0.9,0.3,1.0),0,H+0.95,d/2-0.05); bin.add(M.trim,TK.boxG(w+0.2,0.9,0.3,1.0),0,H+0.95,-d/2+0.05); bin.add(M.trim,TK.boxG(0.3,0.9,d,1.0),w/2-0.05,H+0.95,0); bin.add(M.trim,TK.boxG(0.3,0.9,d,1.0),-w/2+0.05,H+0.95,0); bin.add(M.dark,TK.boxG(w-0.4,0.1,d-0.4),0,H+0.55,0,0,{noShadow:true}); }
     else { const rh=o.roofH||Math.min(5,d*0.28); const rg=hipRoof(w+1.6,d+1.6,rh); bin.add(M.roof,rg,0,H+0.5,0); const ridge=Math.max(0.5,w-d); bin.add(TK.col('#3b2c26'),TK.boxG(ridge+0.3,0.22,0.32),0,H+0.5+rh,0); }
     // 中央入口門廊：往前突出、三連拱（較高）、上面是陽台欄杆或山牆
-    if(o.porch){ const pb=o.porch.bays||3, pd=o.porch.depth||3.2, pwid=Math.min(w*0.4,pb*bw), ph=o.porch.h||gfh+0.6, z0=d/2, pbw=pwid/pb, pw=0.9, r=(pbw-pw)/2, ys=Math.min(ph-r-0.6,o.porch.ys||3.2);
-      for(let i=1;i<pb;i++){ const x=-pwid/2+pbw*i; bin.add(M.trim,TK.boxG(pw,ys,0.9,1.0),x,ys/2,z0+pd-0.45); bin.add(M.trim,TK.boxG(pw,ys,0.9,1.0),x,ys/2,z0+0.2); } // 兩端由側牆代替（重疊的面會閃爍）
+    if(o.porch){ const pb=o.porch.bays||3, pd=o.porch.depth||3.2, pwid=arc?pb*bw:Math.min(w*0.4,pb*bw), ph=o.porch.h||gfh+0.6, z0=d/2, pbw=pwid/pb, pw=0.9, r=(pbw-pw)/2, ys=Math.min(ph-r-0.6,o.porch.ys||3.2);
+      for(let i=1;i<pb;i++){ const x=-pwid/2+pbw*i; bin.add(M.trim,TK.boxG(pw,ys,0.9,1.0),x,ys/2,z0+pd-0.45); if(!arc) bin.add(M.trim,TK.boxG(pw,ys,0.9,1.0),x,ys/2,z0+0.2); } // 兩端由側牆代替（重疊的面會閃爍）；有拱廊時後排由拱廊的柱子撐（不擋住門廊通到拱廊的路）
       const sp=new THREE.ExtrudeGeometry(spandrel(pbw,ys,ph,r),{depth:0.9,bevelEnabled:false,curveSegments:12}); { const uv=sp.attributes.uv; for(let k=0;k<uv.count;k++) uv.setXY(k,uv.getX(k)/1.0,uv.getY(k)/1.0); }
       for(let i=0;i<pb;i++){ const x=-pwid/2+pbw*(i+0.5); bin.add(M.trim,sp.clone(),x,0,z0+pd-0.9); }
       sp.dispose();
       for(const sx of [-1,1]) bin.add(M.trim,TK.boxG(0.9,ph,pd,1.0),sx*(pwid/2+0.0),ph/2,z0+pd/2);
-      blocks.push([-pwid/2,z0+pd/2,0.9,pd],[pwid/2,z0+pd/2,0.9,pd]); for(let i=1;i<pb;i++) blocks.push([-pwid/2+pbw*i,z0+pd-0.45,pw,0.9]);
+      blocks.push([-pwid/2,z0+pd/2,0.9,pd,0.15],[pwid/2,z0+pd/2,0.9,pd,0.15]); for(let i=1;i<pb;i++) blocks.push([-pwid/2+pbw*i,z0+pd-0.45,pw,0.9,0.15]);
       bin.add(M.trim,TK.boxG(pwid+1.2,0.45,pd+0.3,1.0),0,ph+0.22,z0+pd/2);
       bin.add(M.ceil,TK.boxG(pwid,0.1,pd-0.9,1),0,ph-0.1,z0+(pd-0.9)/2,0,{noShadow:true});
       bin.add(M.trim,TK.boxG(pwid+0.6,0.08,pd+1.2,1.0),0,0.04,z0+pd/2+0.3);
-      if(o.porch.pediment){ const sh=new THREE.Shape(); const hw=pwid/2+0.6; sh.moveTo(-hw,0); sh.lineTo(hw,0); sh.lineTo(0,o.porch.pedH||2.0); sh.lineTo(-hw,0); const ped=new THREE.ExtrudeGeometry(sh,{depth:pd+0.3,bevelEnabled:false}); { const uv=ped.attributes.uv; for(let k=0;k<uv.count;k++) uv.setXY(k,uv.getX(k)/1.0,uv.getY(k)/1.0); } bin.add(M.trim,ped,0,ph+0.45,z0); }
+      if(o.porch.style==='flat'){ /* 平頂門廊：頂板上再一道細的石材線 */ bin.add(M.trim,TK.boxG(pwid+1.3,0.12,pd+0.4,1.0),0,ph+0.5,z0+pd/2); }
+      else if(o.porch.pediment){ const sh=new THREE.Shape(); const hw=pwid/2+0.6; sh.moveTo(-hw,0); sh.lineTo(hw,0); sh.lineTo(0,o.porch.pedH||2.0); sh.lineTo(-hw,0); const ped=new THREE.ExtrudeGeometry(sh,{depth:pd+0.3,bevelEnabled:false}); { const uv=ped.attributes.uv; for(let k=0;k<uv.count;k++) uv.setXY(k,uv.getX(k)/1.0,uv.getY(k)/1.0); } bin.add(M.trim,ped,0,ph+0.45,z0); }
       else { for(let i=0;i<=Math.round(pwid/0.5);i++){ const x=-pwid/2+i*pwid/Math.round(pwid/0.5); bin.add(M.trim,TK.boxG(0.12,0.75,0.12),x,ph+0.45+0.37,z0+pd-0.1); } bin.add(M.trim,TK.boxG(pwid+0.3,0.12,0.22,1.0),0,ph+0.45+0.8,z0+pd-0.1); }
       if(o.sign){ const st=TK.signTex(o.sign,{bg:o.signBg||'#d8d0c0',color:o.signColor||'#3b2a1e',serif:true,size:80}); const sm=new THREE.Mesh(new THREE.PlaneGeometry(Math.min(pwid*0.7,o.sign.length*1.25),0.9),new THREE.MeshStandardMaterial({map:st,roughness:0.8})); sm.position.set(0,ys+r+(ph-ys-r)/2+0.05,z0+pd+0.02); g.add(sm); } }
     else if(o.sign){ const st=TK.signTex(o.sign,{bg:o.signBg||'#d8d0c0',color:o.signColor||'#3b2a1e',serif:true,size:80}); const sm=new THREE.Mesh(new THREE.PlaneGeometry(o.sign.length*1.1,0.8),new THREE.MeshStandardMaterial({map:st,roughness:0.8})); sm.position.set(0,gfh-0.45,d/2+0.32); g.add(sm); }
@@ -114,7 +122,7 @@ const CK=(function(){ 'use strict';
       const trg=hipRoof(tw+1.2,tw+1.2,3.2); bin.add(M.roof,trg,0,ty+th+0.5,tz); }
     bin.build(g);
     g.traverse(m=>{ if(m.isMesh){ m.castShadow=m.castShadow!==false; } });
-    g.userData.ck={w,d,H,blocks}; return g; }
+    g.userData.ck={w,d,H,gfh,ad,blocks,doorZ:d/2-ad}; return g; }
   function setNight(on){ TK.setNight(on?1:0); }
   return {hall,setNight,tileTex};
 })();
