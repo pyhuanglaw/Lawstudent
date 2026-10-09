@@ -10,7 +10,7 @@
 ## CURRENTLY WORKING ON — 現在正在修改什麼
 
 - **最近更新**：2026-10-09（台灣時間，v9.3 第十六批：傅鐘、路燈）
-- **最新已推送 commit**：`08ec0a0`（第十五批：室內天花板、窗、便利商店貨架、宿舍；測試全部 PASS，movement_regression 第一次 41/42 的原因見 #38）；之前是 `c863e56`（第十四批：校門；程式在 `790944e`）、`1b17f42`（沈以安高馬尾標 BLOCKED）、`3c2496d`（第十三批：沈以安臉旁碎髮）、`7d9b6b8`（第十二批：捷運出口、溫書瑀馬尾）、`320c2e7`（第十、十一批：農業陳列館、公館重建）、`6db8289`（第九批）、`416afee`（第八批：黃昏調色提案，等使用者決定）、`40bb50e`（第七批）、`86deef8`（第六批）、`edb01e8`（第五批）、`0080bf5`（第四批）、`66374e2`（第三批）、`7a4eca6`（第二批）、`ad76109`（第一批）。分支 `claude/friendly-brahmagupta-6bbkzc`，PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
+- **最新已推送 commit**：`f4b9149`（第十六批：傅鐘、路燈；程式 `c9cb9d8`＋`ab8daee`、比較圖 `b3125d6`、測試結果 `f4b9149`，全部 PASS）；之前是 `08ec0a0`（第十五批：室內天花板、窗、便利商店貨架、宿舍；movement_regression 第一次 41/42 的原因見 #38）、`c863e56`（第十四批：校門；程式在 `790944e`）、`1b17f42`（沈以安高馬尾標 BLOCKED）、`3c2496d`（第十三批：沈以安臉旁碎髮）、`7d9b6b8`（第十二批：捷運出口、溫書瑀馬尾）、`320c2e7`（第十、十一批：農業陳列館、公館重建）、`6db8289`（第九批）、`416afee`（第八批：黃昏調色提案，等使用者決定）、`40bb50e`（第七批）、`86deef8`（第六批）、`edb01e8`（第五批）、`0080bf5`（第四批）、`66374e2`（第三批）、`7a4eca6`（第二批）、`ad76109`（第一批）。分支 `claude/friendly-brahmagupta-6bbkzc`，PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
 - **畫面驗收**：[`docs/art-rebuild/VISUAL_REVIEW.md`](art-rebuild/VISUAL_REVIEW.md)。**美術規範**：[`docs/art-rebuild/ART_DIRECTION.md`](art-rebuild/ART_DIRECTION.md)（參考圖在 `docs/art-rebuild/references/`）
 
 ### 這次完成（v9.3 第十六批，`294a0e8` 之後）
