@@ -13,6 +13,15 @@
 - **最新已推送 commit**：`66374e2`（v9.3 第三批：黃昏人物輪廓光、陳語彤領口、宿舍與溫州街窄縫卡住；測試全部 PASS）；之前是 `7a4eca6`（第二批）、`ad76109`（第一批）。分支 `claude/friendly-brahmagupta-6bbkzc`，PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
 - **畫面驗收**：[`docs/art-rebuild/VISUAL_REVIEW.md`](art-rebuild/VISUAL_REVIEW.md)。**美術規範**：[`docs/art-rebuild/ART_DIRECTION.md`](art-rebuild/ART_DIRECTION.md)（參考圖在 `docs/art-rebuild/references/`）
 
+### 這次完成（v9.3 第四批，`27f900d` 之後）
+
+| 項目 | 狀態 | 玩家會看到什麼 |
+|---|---|---|
+| Café 門前的紅磚人行道、路名牌 | 技術完成；READY_FOR_ART_REVIEW | 兩點半 Café 門前從柏油路面變成紅磚人行道（外緣一條低路緣，參考圖 07）；路口有綠色的「溫州街 Wenzhou St.」路名牌。人行道是平的，不改導航；路名牌的柱子有 0.15 m 的碰撞 |
+| 黃昏調整套用到其他區域 | 已截圖確認 | 校園 17:30 鋪面偏暖橘、椰子樹影子拉長，沒有過曝；公館仍是方盒 placeholder（依規則先不打磨） |
+
+測試（最終版，Playwright 模擬）：`campus_layout_nav` 29/29、`p0_movement` 31/31、`movement_regression` 42/42、`touch_flow_wenzhou` 21/21、`nav_islands`（溫州街）ALL CLEAR，全部 PASS。
+
 ### 這次完成（v9.3 第三批，`e094b32` 之後）
 
 | 項目 | 狀態 | 玩家會看到什麼 |
