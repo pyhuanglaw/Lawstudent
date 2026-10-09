@@ -36,7 +36,8 @@ const PROPS = (function(){
     function ring(cx){ const s=new THREE.Shape(); const x0=cx-lw/2, y0=-lh/2; s.moveTo(x0+r,y0); s.lineTo(x0+lw-r,y0); s.quadraticCurveTo(x0+lw,y0,x0+lw,y0+r); s.lineTo(x0+lw,y0+lh-r); s.quadraticCurveTo(x0+lw,y0+lh,x0+lw-r,y0+lh); s.lineTo(x0+r,y0+lh); s.quadraticCurveTo(x0,y0+lh,x0,y0+lh-r); s.lineTo(x0,y0+r); s.quadraticCurveTo(x0,y0,x0+r,y0); const hole=new THREE.Path(); const i=t; hole.moveTo(x0+r,y0+i); hole.lineTo(x0+lw-r,y0+i); hole.quadraticCurveTo(x0+lw-i,y0+i,x0+lw-i,y0+r); hole.lineTo(x0+lw-i,y0+lh-r); hole.quadraticCurveTo(x0+lw-i,y0+lh-i,x0+lw-r,y0+lh-i); hole.lineTo(x0+r,y0+lh-i); hole.quadraticCurveTo(x0+i,y0+lh-i,x0+i,y0+lh-r); hole.lineTo(x0+i,y0+r); hole.quadraticCurveTo(x0+i,y0+i,x0+r,y0+i); s.holes.push(hole); return new THREE.Mesh(new THREE.ExtrudeGeometry(s,{depth:0.002,bevelEnabled:false}),m); }
     const sep=o.ipd||0.084; g.add(ring(-sep/2)); g.add(ring(sep/2));
     const bridge=tube([[-sep/2+lw/2,0.006,0.001],[0,0.012,-0.004],[sep/2-lw/2,0.006,0.001]],0.0015,m); g.add(bridge);
-    for(const s of [-1,1]) g.add(tube([[s*(sep/2+lw/2),0.008,0.001],[s*(sep/2+lw/2+0.006),0.008,0.03],[s*(sep/2+lw/2+0.004),0.0,0.095]],0.0016,m));
+    // 鏡腳往耳朵（後方）：整組最後轉 180°，所以這裡往 -z 畫（舊版往 +z，轉完變成從臉前面伸出去，側面看得到兩根細線）
+    for(const s of [-1,1]) g.add(tube([[s*(sep/2+lw/2),0.008,-0.001],[s*(sep/2+lw/2+0.006),0.008,-0.03],[s*(sep/2+lw/2+0.004),0.0,-0.1]],0.0016,m));
     const lens=new THREE.MeshBasicMaterial({color:0xdde8ef,transparent:true,opacity:0.12,depthWrite:false}); for(const cx of [-sep/2,sep/2]){ const p=new THREE.Mesh(new THREE.PlaneGeometry(lw-0.006,lh-0.006),lens); p.position.set(cx,0,0.001); g.add(p); }
     g.rotation.y=Math.PI; // 模型檔空間前方是 -z：鏡片正面朝 -z
     return g; }
@@ -59,6 +60,9 @@ const PROPS = (function(){
   // ---- 判決節錄資料夾（溫書瑀：深藍資料夾＋白紙）----
   function folder(o){ o=o||{}; const g=new THREE.Group(); const cv=mat('fold',o.color||'#24324a',null); const f=new THREE.Mesh(roundBox(0.31,0.012,0.23,0.004,2),cv); g.add(f); const paper=new THREE.Mesh(new THREE.BoxGeometry(0.29,0.008,0.215),mat('paper','#f4f1ea',null)); paper.position.set(0.004,0.004,0.006); g.add(paper); return g; }
 
+  // ---- 髮圈（溫書瑀的低馬尾：綁點在後頸，位置由 tools/vroid_build.py 的 low_ponytail 算出）----
+  function hairtie(o){ o=o||{}; const g=new THREE.Group(); const m=mat('htie',o.color||'#2a1d17',null); const ring=new THREE.Mesh(new THREE.TorusGeometry(0.019,0.0065,8,20),m); ring.rotation.x=Math.PI/2-0.25; ring.scale.set(1.15,1,0.85); g.add(ring); return g; }
+
   function shadeHex(hex,f){ const c=new THREE.Color(hex); c.multiplyScalar(f); return '#'+c.getHexString(); }
   // 掛到哪根骨頭、位置（模型檔空間、相對骨頭）
   const DEF={
@@ -69,6 +73,7 @@ const PROPS = (function(){
     apron:{bone:'spine',make:apron,pos:[0,0,0],hidden:true},
     guitar:{bone:'upperChest',make:guitarBag,pos:[0,0,0]},
     folder:{bone:'leftHand',make:folder,pos:[-0.09,-0.02,0.0],rot:[0,0,0]},
+    hairtie:{bone:'head',make:hairtie,pos:[0,-0.025,0.116]},
   };
   // 依骨頭與眼睛位置把配件掛上去；回傳 {name: object}
   function attach(vrm,list,opts){ opts=opts||{}; const out={}; const H=vrm.humanoid; for(const item of list){ const name=typeof item==='string'?item:item.name; const d=DEF[name]; if(!d) continue; const bone=H.getRawBoneNode(d.bone)||H.getRawBoneNode('chest')||H.getRawBoneNode('head'); if(!bone) continue; const o=d.make(typeof item==='object'?item:{}); o.name='prop:'+name; o.traverse(m=>{ if(m.isMesh){ m.castShadow=!!opts.shadow; m.frustumCulled=false; } });

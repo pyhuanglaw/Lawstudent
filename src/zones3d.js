@@ -249,7 +249,7 @@ const Z3 = (function(){
     // 巷底與遠景（讓巷子看起來還有延伸）
     { const b=TK.apartment({w:12,d:10,floors:5,wall:'tile',color:'#c7b9a3',detail:false,ground:{type:'door'}}); b.position.set(5.75,0,21); b.rotation.y=Math.PI; g.add(b); buildings.push(b); addCollider(5.75,26,12,10,17); }
     { const b=TK.apartment({w:12,d:10,floors:4,wall:'mosaic',color:'#d6d0c2',detail:false,ground:{type:'shutter'}}); b.position.set(-12.25,0,-20); g.add(b); buildings.push(b); addCollider(-12.25,-25,12,10,14); }
-    for(const [x,z,ry,w,f,c] of [[-33.4,16.2,Math.PI,9,4,'#cfc4b2'],[-33.4,-16.2,0,9,5,'#d9cdb8'],[51.3,15.5,Math.PI,9,6,'#c8bca8']]){ const b=TK.apartment({w,d:10,floors:f,wall:'tile',color:c,detail:false,ground:{type:f>5?'shop':'door',shop:{type:'cvs',name:'新生大樓',sub:'',signBg:'#f4f1ea',signColor:'#333'}}}); b.position.set(x,0,z); b.rotation.y=ry; g.add(b); buildings.push(b); addCollider(x,z,ry%Math.PI?10:w,ry%Math.PI?w:10,30); }
+    for(const [x,z,ry,w,f,c] of [[-33.4,16.2,Math.PI,9,4,'#cfc4b2'],[-33.4,-16.2,0,9,5,'#d9cdb8']]){ const b=TK.apartment({w,d:10,floors:f,wall:'tile',color:c,detail:false,ground:{type:f>5?'shop':'door',shop:{type:'cvs',name:'新生大樓',sub:'',signBg:'#f4f1ea',signColor:'#333'}}}); b.position.set(x,0,z); b.rotation.y=ry; g.add(b); buildings.push(b); addCollider(x,z,ry%Math.PI?10:w,ry%Math.PI?w:10,30); }
     // 西端（巷底）：住家公寓。v9.2 起兩點半 Café 搬到東端路口（門面朝西，傍晚夕陽沿著巷子照到店門口）
     { const endB=TK.apartment({w:14,d:13,floors:4,wall:'tile',color:'#cdbfa8',balcony:true,ground:{type:'door',color:'#5c3a21'}}); endB.position.set(-37.2,0,-1); endB.rotation.y=Math.PI/2; g.add(endB); buildings.push(endB); nav.blockRect(-43.7,-1,13,14,0,0); addCollider(-43.7,-1,13,14,16); }
     // 東端路口：兩點半 Café（一樓咖啡廳＋樓上住家；正對主巷，從公館走進溫州街第一眼就看到）
@@ -258,6 +258,15 @@ const Z3 = (function(){
     // Café 南側：轉角公寓；路口往南是通往公館的路（遠景）
     { const b=TK.apartment({w:10,d:12,floors:5,wall:'tile',color:'#cbbba6',ground:{type:'shutter'}}); b.position.set(55.4,0,-12.4); b.rotation.y=-Math.PI/2; g.add(b); buildings.push(b); nav.blockRect(61.4,-12.4,12,10,0,0); addCollider(61.4,-12.4,12,10,18); }
     { const r=TK.road(30,8); r.position.set(51.3,0.002,-31); r.rotation.y=Math.PI/2; g.add(r); }
+    // v9.3：路口往北的路也延伸出去（原本 z=15.5 被一棟 6 樓公寓整個堵住，Café 前面往北看只看到一面牆、看不到天空）：兩側遠景公寓＋行道樹，路的盡頭是天空；
+    // 可走範圍仍到 z=15 為止，用道路施工的護欄和三角錐擋住（不是隱形牆）
+    { const r=TK.road(34,8); r.position.set(51.3,0.002,32.5); r.rotation.y=Math.PI/2; g.add(r);
+      for(const [x,z,ry,w,f,c] of [[47.9,23,Math.PI/2,11,5,'#cdbfa9'],[54.7,22.5,-Math.PI/2,10,4,'#d6cab6'],[47.9,37,Math.PI/2,14,6,'#c3b6a0'],[54.7,36,-Math.PI/2,14,5,'#cfc3ae']]){ const b=TK.apartment({w,d:10,floors:f,wall:'tile',color:c,detail:false,ground:{type:'door'}}); b.position.set(x,0,z); b.rotation.y=ry; g.add(b); buildings.push(b); }
+      for(const [tx,tz,sc] of [[49.0,18.6,0.9],[53.7,29.5,1.0],[49.0,43,1.1]]){ const t=TK.tree(7*sc); place(g,t,tx,tz,0); }
+      const sb=new TK.Bin(); const stripe=TK.M('roadworkStripe',()=>TK.std({map:TK.tex('roadwork',128,16,(x,w,h)=>{ for(let i=-16;i<w+16;i+=16){ x.fillStyle='#e8622a'; x.beginPath(); x.moveTo(i,0); x.lineTo(i+8,0); x.lineTo(i+8-h,h); x.lineTo(i-h,h); x.fill(); x.fillStyle='#f4f1ea'; x.beginPath(); x.moveTo(i+8,0); x.lineTo(i+16,0); x.lineTo(i+16-h,h); x.lineTo(i+8-h,h); x.fill(); } }),roughness:0.6}));
+      for(const bx of [49.8,53.0]){ sb.add(stripe,TK.boxG(2.8,0.22,0.06),bx,0.95,15.7,0); sb.add(stripe,TK.boxG(2.8,0.22,0.06),bx,0.55,15.7,0); for(const sx of [-1.25,1.25]) sb.add(TK.paint('#3a3d42'),TK.boxG(0.08,1.1,0.4),bx+sx,0.55,15.7,0); }
+      for(const cx of [48.6,51.4,54.0]){ sb.add(TK.paint('#e8622a'),new THREE.ConeGeometry(0.2,0.7,12),cx,0.35,15.2,0); sb.add(TK.paint('#f4f1ea'),new THREE.CylinderGeometry(0.11,0.14,0.12,12),cx,0.42,15.2,0); sb.add(TK.paint('#2b2b2b'),TK.boxG(0.42,0.04,0.42),cx,0.02,15.2,0); }
+      const sg=new THREE.Group(); sb.build(sg); g.add(sg); }
     // Café 北側：轉角公寓（原本是空地，從路口看會露出遠景地面）
     { const b=TK.apartment({w:7,d:12,floors:4,wall:'mosaic',color:'#d3cbbd',balcony:true,ground:{type:'door',color:'#2f4a3a'}}); b.position.set(55.4,0,11.2); b.rotation.y=-Math.PI/2; g.add(b); buildings.push(b); nav.blockRect(61.4,11.2,12,7,0,0); addCollider(61.4,11.2,12,7,16); }
     // 巷口斑馬線（主巷接路口處）＋轉角行道樹
@@ -335,6 +344,10 @@ const Z3 = (function(){
     for(const it of [{x:14.2,z:3.8,label:'看書店的櫥窗',look:'巷口書房的櫥窗裡擺著一套舊版的《民法總則》，旁邊手寫的紙條：「學長姐留下來的，筆記很多」。'},{x:44,z:3.8,label:'看便利商店',look:'日日便利的自動門開了又關。櫃檯後面的店員在補咖啡豆。'},{x:36,z:3.8,label:'看林家乾麵',look:'林家乾麵外面排了三個人。滷味的味道飄到巷子中間。'},{x:23,z:-6.5,label:'看手搖飲菜單',look:'巷口茶飲的菜單：紅茶 30、綠茶 30、珍珠奶茶 55。騎樓下有兩張塑膠椅。'},{x:-2.6,z:-3.8,label:'看定食店',look:'巷子裡定食的布簾後面傳來煎魚的聲音。今天的定食是鯖魚。'}]) E.interactables.push(Object.assign({radius:1.6},it));
     // 騎樓柱子
     for(const px of [16.3,29.7]) nav.blockRect(px,-5.3,0.6,0.6,0,0.05);
+    // v9.3 三時段光影：Café 櫥窗灑到騎樓與路面的暖光、路口往北那條路的路燈（參考圖晚上 20:30：路燈照亮路面、店家燈光灑出來；
+    // 原本 Café 門口的路面晚上是一片均勻的暗色）。光暈是加法混色的貼地圓片，不增加即時光源
+    { const sp=TK.lightPool(3.6,'rgba(255,190,120,1)'); sp.position.set(53.2,0.031,0); sp.scale.set(1,1.75,1); g.add(sp); pools.push(sp); sp.userData.poolMax=(sp.userData.poolMax||0.55)*0.9; }
+    { const L=W3.lampPost(); place(g,L,47.75,11.8,Math.PI/2); nav.blockCircle(47.75,11.8,0.25); const pool=TK.lightPool(4.4,'rgba(255,214,150,1)'); pool.position.set(48.5,0.03,11.8); g.add(pool); pools.push(pool); const gs=TK.glowSprite('rgba(255,214,150,1)',1.8,0,0.85); gs.position.set(48.5,3.9,11.8); g.add(gs); }
     // 夜間點光源（數量固定，白天強度 0，避免換燈數造成 shader 重編）
     for(const [lx,ly,lz,c,i] of [[53.8,3.2,0,0xffc88a,1],[44,3.0,3.8,0xf2fbff,0.85],[14.2,3.0,3.6,0xffd6a0,0.7]]){ const L=new THREE.PointLight(c,0,16,1.8); L.position.set(lx,ly,lz); L.userData.maxI=i*18; g.add(L); lights.push(L); }
     // 東端：回公館

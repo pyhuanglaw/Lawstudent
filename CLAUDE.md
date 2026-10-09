@@ -152,6 +152,7 @@ python3 build.py
 - 溫州街：已用 `src/townkit3d.js` 重建成台北巷弄（原本是空柏油地＋方盒）；兩點半 Café 搬到東端路口（D22）；正在精修日式老屋、小公園與三個時段的光影。
 - 校園（v9.3）：依使用者提供的臺大校總區平面圖重排（D23、D25）——大門 → 椰林大道 → 總圖；傅鐘＋行政大樓在大道南側、文學院正對面、校史館靠大門、醉月湖（湖心亭＋木棧道）、小椰林道；大王椰子與闊葉樹改成 `townkit3d.js` 程序化（`royalPalm`、`tree`）。霖澤館、宿舍、校門座標沒動（舊存檔與測試不受影響）；改校園要跑 `tests/campus_layout_nav.py`。
 - 已修：教室同學朝向、VRM 0.x 朝向與坐姿軸向、標題畫面自動存檔覆蓋進度、標題「讀取」選單被蓋住、Café 座位擋住對話、直向小地圖蓋住選單、互動按鈕蓋住搖桿（細節見 ART_REBUILD_PROGRESS 的技術問題紀錄）。
+- VRM 彈簧骨（頭髮、馬尾）：`src/character3d.js` 的 `updateVRM` 在彈簧骨更新前先 `vrm.scene.updateWorldMatrix(true,true)`——three-vrm 用子骨頭的 matrixWorld 算骨長，少了這行，人物移動或低幀率時頭髮會被甩到耳朵高度（v9.3 技術問題 #25）。**不要拿掉**。開發時可以用 Node 載入 `lib/` 與 `src/` 模擬彈簧骨（不需要瀏覽器），做法見 ART_REBUILD_PROGRESS #25。
 
 ### v7 時的狀態與已知問題（保留供參考，部分已在 v9 改變）
 

@@ -216,8 +216,13 @@ const TK = (function(){
       const lamp=glowMat('genkanLamp',null,{dayI:0.15,nightI:1.6,mat:{color:new THREE.Color('#f7e3b8'),emissive:new THREE.Color('#ffcf8a')}}); bin.add(lamp,boxG(0.2,0.26,0.2),px+pw/2-0.25,0.5+ph-0.55,fz+pd+0.12,0,{noShadow:true});
       g.userData.genkan={x:px,z:fz+pd+0.12,y:0.5+ph-0.55}; }
     // 寄棟屋頂（四坡）：用壓扁的四角錐
-    const roof=new THREE.ConeGeometry(Math.hypot(w,d)/2+0.9,1.9,4,1); roof.rotateY(Math.PI/4); roof.scale(1,1,(d+1.6)/(w+1.6)); const rt=roofTileTex(); const rm=M('roof',()=>std({map:rt,roughness:0.8})); const uv=roof.attributes.uv; for(let i=0;i<uv.count;i++) uv.setXY(i,uv.getX(i)*6,uv.getY(i)*3);
-    bin.add(rm,roof,0,0.5+wh+0.95,0); bin.add(col('#2e3034'),boxG(w*0.5,0.18,0.25),0,0.5+wh+1.85,0,0,{noShadow:true});
+    // 寄棟屋頂（四坡）：前後是梯形、兩側是三角形，頂端是一條水平的屋脊（舊版是四角錐，加上一根浮在尖頂上的屋脊棒）
+    const rt=roofTileTex(); const rm=M('roof',()=>std({map:rt,roughness:0.8,side:THREE.DoubleSide}));
+    { const W=w+1.6, D=d+1.6, H=1.9, r=Math.max(0.2,(W-D)/2); const A=[-W/2,0,D/2],B=[W/2,0,D/2],C=[W/2,0,-D/2],Dd=[-W/2,0,-D/2],R1=[-r,H,0],R2=[r,H,0];
+      const tris=[[A,B,R2],[A,R2,R1],[C,Dd,R1],[C,R1,R2],[Dd,A,R1],[B,C,R2]]; const pos=[], uv=[]; const sl=Math.hypot(D/2,H);
+      for(const t of tris){ const side=(t[0][0]===t[1][0]); for(const q of t){ pos.push(q[0],q[1],q[2]); const along=side?q[2]:q[0]; const up=q[1]/H*sl; uv.push(along/2.2,up/1.4); } }
+      const rg=new THREE.BufferGeometry(); rg.setAttribute('position',new THREE.Float32BufferAttribute(pos,3)); rg.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2)); rg.computeVertexNormals();
+      bin.add(rm,rg,0,0.5+wh,0); bin.add(col('#2e3034'),boxG(2*r+0.5,0.22,0.3),0,0.5+wh+H+0.06,0,0,{noShadow:true}); }
     bin.add(col('#3a2a1e'),boxG(w+1.4,0.12,d+1.4),0,0.5+wh+0.02,0,0,{noShadow:true}); // 屋簷
     bin.build(g); g.userData.footprint={w,d}; return g; }
   function wall(len,h,o){ o=o||{}; const g=new THREE.Group(); const bin=new Bin(); const gx=o.gateX||0, gw=o.gate||0;

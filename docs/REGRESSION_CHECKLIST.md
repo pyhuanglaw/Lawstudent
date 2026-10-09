@@ -13,6 +13,7 @@
 | `python3 tests/p0_movement.py http://127.0.0.1:8765/index.html` | 霖澤館前、校園、宿舍門口、公館店門口、校門外、溫州街出生點：搖桿上／左／右、推到底跑、點地移動、事件中鎖定、對話後解鎖、存讀檔後可走 | 約 15–30 分鐘 |
 | `python3 tests/movement_regression.py http://127.0.0.1:8765/index.html` | A 宿舍走跑撞牆滑牆／B 坐下起身／C ADV 後移動／D 存讀檔後移動／E 各區域出生走跑轉身互動 | 約 20–40 分鐘 |
 | `python3 tests/campus_layout_nav.py http://127.0.0.1:8765/index.html` | 校園配置（依台大平面圖）：17 個地點站得住、從霖澤館前走得到（含醉月湖木棧道、湖心亭）；湖面與建築內不能走；舊存檔站在新建築／湖裡時讀檔後移到可走的地方 | 約 2 分鐘 |
+| `node tools/dev_scratch/spring_sim/sim_hair.js` | 六位核心角色的頭髮彈簧骨：站著、瞬移後、走路（人物移動，30 fps 與 0.3 秒一幀）的髮尾高度；走路／瞬移時髮尾比站著高超過 2 cm 就 FAIL（v9.3 #25：頭髮被甩到耳朵高度）。Node 直接載入遊戲的 `lib/`、`src/`，不需要瀏覽器 | 約 1 分鐘 |
 | `python3 tools/dev_scratch/evtest.py`（需先 build） | 52 個事件的觸發條件與鎖定解鎖 | 約 10 分鐘 |
 
 ## 修改影響對照
@@ -22,7 +23,7 @@
 | 移動與鏡頭 | `engine3d.js`（stepEntity、updateCamera、input）、`game3d.js`（搖桿、sitAt/standUp） | p0、movement_regression、touch_flow |
 | 地形與碰撞 | `zones3d.js` 任何幾何或 NavGrid（`blockRect/blockOutside/open`）、出生點、出入口座標 | 改校園時加跑 campus_layout_nav；p0（含溫州街）、movement_regression E、touch_flow |
 | NPC 導航 | `story3d.js` 的 walkRoutes／bikeRoutes、`engine3d.js` updateNPC | 截圖確認 NPC 不在牆裡、touch_flow |
-| 人物朝向與動畫 | `character3d.js`（buildVRM、animateVRM、setBonesV）、`assets3d.js`（cloneVRM）、`tools/vroid_build.py` 重建的模型 | 角色展示截圖（正側背、走跑坐交談）、教室座位朝向、touch_flow 坐下 |
+| 人物朝向與動畫 | `character3d.js`（buildVRM、animateVRM、setBonesV）、`assets3d.js`（cloneVRM）、`tools/vroid_build.py` 重建的模型 | 角色展示截圖（正側背、走跑坐交談）、教室座位朝向、touch_flow 坐下；改到彈簧骨、`updateVRM` 或重建有頭髮的模型時跑 `sim_hair.js` |
 | 場景切換 | `game3d.js` enter／applySave、各區域 exits | touch_flow（溫州街 ↔ Café）、movement_regression E |
 | 日夜與天氣 | `engine3d.js` applyTime／KEY、區域的 `applyTimeOutdoor`、`townkit3d.js` setNight | 同位置 11:00／17:30／20:30 截圖 |
 | 劇情事件與對話 | `events3d.js`、`data/events.js`、`story3d.js` | evtest、第一二天流程（`tools/dev_scratch/flowtest.py`） |

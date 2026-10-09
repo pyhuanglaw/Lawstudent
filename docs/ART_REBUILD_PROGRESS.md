@@ -9,11 +9,29 @@
 
 ## CURRENTLY WORKING ON — 現在正在修改什麼
 
-- **最近更新**：2026-10-09（台灣時間，v9.3）
-- **最新已推送 commit**：見本次 push（上一個是 `f3254d5`）。PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
+- **最近更新**：2026-10-09（台灣時間，v9.3 第二批）
+- **最新已推送 commit**：見下方「GitHub」；上一次是 `ad76109`（v9.3 第一批）。PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
 - **畫面驗收**：[`docs/art-rebuild/VISUAL_REVIEW.md`](art-rebuild/VISUAL_REVIEW.md)。**美術規範**：[`docs/art-rebuild/ART_DIRECTION.md`](art-rebuild/ART_DIRECTION.md)（參考圖在 `docs/art-rebuild/references/`）
 
-### 這次完成（v9.3）
+### 這次完成（v9.3 第二批，`ad76109` 之後）
+
+| 項目 | 狀態 | 玩家會看到什麼 |
+|---|---|---|
+| 頭髮被甩起來（所有 VRM 角色，林芷若最明顯） | FIXED（遊戲內走路照＋Node 模擬驗證） | 走路、轉身、讀檔瞬移、手機卡頓時，長髮不再在耳朵高度往兩側翹。上一批以為是手臂碰撞體，改了沒用；真正原因見技術問題 #25 |
+| 林芷若：眼鏡 | FIXED | 側面看不再有兩根細線從臉前面伸出去（鏡腳方向反了，#26） |
+| 林芷若：領口 | 技術完成；READY_FOR_ART_REVIEW | 荷葉邊高領剪成圓領，看得到脖子和鎖骨（參考圖是開領上衣） |
+| 溫書瑀：低馬尾 | 技術完成；READY_FOR_ART_REVIEW | 頭髮沿著頭收到後頸、深色髮圈、一束馬尾沿背垂下，臉旁前髮剪到下巴。原本從側面看是一片往後翹的長直髮 |
+| 溫書瑀：長袖 | 技術完成；READY_FOR_ART_REVIEW | 白襯衫袖子接長到前臂、反摺袖口（參考圖）。VRoid 樣本只有短袖，袖管是程式接上去的 |
+| 黃昏光線 | 技術完成；**效果很小，需要使用者看過** | 17:00–18:00 的陽光與天空略調亮、偏暖，雲的陰影不再偏紫。實際畫面平均亮度只多約 3%，Café 前的街道大部分在建築陰影裡，修改前後幾乎看不出差別。要接近參考圖的金色光，需要人物輪廓光與整體色調等較大的改動（下一步，做之前先給使用者看） |
+| 晚上的 Café 門口 | 技術完成；READY_FOR_ART_REVIEW | Café 櫥窗的暖光灑到騎樓和路面；路口往北的路多一盞路燈。原本 Café 前的路面晚上是一片均勻的暗色 |
+| 路口往北延伸 | 技術完成；READY_FOR_ART_REVIEW | 從 Café 前往北看，是延伸的路、兩側公寓、行道樹和天空。原本是一棟 6 樓公寓的牆；可走範圍用道路施工護欄與三角錐擋住，不是隱形牆 |
+| 日式老屋屋頂 | 技術完成 | 寄棟（四坡）屋頂。原本是金字塔形屋頂，上面還浮著一根屋脊 |
+| 校園長距離點地移動 | FIXED | 從霖澤館點地到校門走得到（#24） |
+| 舊存檔安全（預防） | 技術完成 | 讀舊存檔被移位時，如果移到的空地走不到區域出生點，改放到出生點（#27）。目前的三個測試位置用舊程式也走得到，這是預防 |
+| Café 三時段照片 | 重拍 | 第一批拍的照片鏡頭在南側建築裡面，右邊三分之一是一片灰牆（#28）；換到路口重拍 |
+
+### v9.3 第一批（`ad76109`）
+
 
 | 項目 | 狀態 | 玩家會看到什麼 |
 |---|---|---|
@@ -30,32 +48,37 @@
 | 日式老屋 | 技術完成；READY_FOR_ART_REVIEW | 圍牆降到 1.15 m、門開著；從巷子看得到木造外觀、有窗框的格子窗、玄關（小屋頂、木格拉門、門燈）、踏石、石燈籠、矮籬 |
 | 小公園 | 技術完成；READY_FOR_ART_REVIEW | 鋪面步道＋圓形小廣場、大樹＋可以坐的樹圍座椅、兩側灌木、單槓、公園路燈（晚上照亮地面）、長椅上睡覺的橘貓 |
 
+
 ### 測試結果
 
-| 測試 | 結果 |
-|---|---|
-| `tests/p0_movement.py`（校園重排後） | **ALL PASS** |
-| `tests/movement_regression.py`（校園重排後；C 改在新的總圖門口） | **42/42 PASS** |
-| `tests/touch_flow_wenzhou.py`（只用觸控：溫州街搖桿 → 走到 Café → 進出 → 存到欄位 → 重新整理讀回 → 再走） | **ALL PASS** |
-| `tests/campus_layout_nav.py`（新增） | 跑中 |
-| 日式老屋、小公園、湖放大之後的 p0＋觸控流程 | 跑中 |
+| 測試 | 對象 | 結果 |
+|---|---|---|
+| `tests/campus_layout_nav.py`（17 個地點走得到、8 個點不能走、3 個舊存檔位置讀檔後站得住**而且走得到霖澤館前**、沒有 JS 例外） | 最終版 | **29/29 ALL PASS** |
+| `tests/p0_movement.py`（iPhone 模擬、CDP 觸控搖桿，各區域上下左右） | 最終版 | **31/31 ALL PASS** |
+| `tests/movement_regression.py`（A 宿舍／B 坐下起身／C ADV／D 存讀檔／E 各區域） | 最終版 | **42/42 PASS** |
+| `tests/touch_flow_wenzhou.py`（只用觸控：溫州街 → Café 進出 → 存到欄位 → 重新整理讀回 → 再走） | 最終版 | **21/21 ALL PASS** |
+| 同上四項 | A* 修正後、頭髮修正前 | 29/29、31/31、42/42、21/21，全部 PASS |
+| Node 模擬（three.js＋three-vrm＋遊戲的 `CHAR`，不算圖）：0.3 秒一幀、人物移動時的髮尾高度 | 頭髮修正 | 修正前林芷若髮尾平均比站著高 12–16 cm（翹起來）；修正後六位角色走路與站著相差 ≤ 6 mm |
+
+「最終版」＝這次 push 的程式與模型（含頭髮修正、林芷若與溫書瑀新模型、黃昏光線微調、路燈）。全部是 Playwright（Chromium SwiftShader）模擬，**不是手機實機**。
 
 ### 正在做／接下來
 
-1. 參考圖 07 的構圖重拍：黃昏、祐廷和沈以安並肩走過 Café 前（Café 在左、夕陽從右邊）——腳本 `tools/shots/integration_walk.py` 已寫好。
-2. 三時段光影（Café 門口、小公園 11:00／17:30／20:30）。
-3. 溫書瑀長袖襯衫與低馬尾、林芷若微捲髮：VRoid 樣本裡沒有適合的衣服與髮型，可能要標 BLOCKED_BY_ART_ASSET。
+1. 三時段光影（任務 8）：黃昏調整後，校園、公館的傍晚也要截圖確認；溫州街其他巷段晚上的店家燈光。
+2. 陳語彤：T 恤領口兩側看得到深色內層和小尖角（臉部近景）。
+3. 林芷若微捲髮（BLOCKED_BY_ART_ASSET：VRoid 樣本沒有捲髮）、高子晴帽口兩側的白色髮尾、沈以安托特包太硬。
+4. 臉：仍是 VRoid 動畫臉（BLOCKED_BY_ART_ASSET）。
 
 ## 進度總表
 
 | 項目 | 目前狀態 | 正在修改什麼 | 已完成什麼 | 下一步 | 相關檔案 |
 |---|---|---|---|---|---|
-| 男性角色 | PARTIAL | 祐廷與阿哲的外觀細修（髮色反光、阿哲髮型的紅色高光） | 祐廷：VRoid CC0「HairSample_Male」改作（黑短髮、燕麥灰連帽上衣、炭灰長褲、白球鞋、深棕虹膜）；阿哲：「Sakurada Fumiriya」＋移植連帽上衣（深棕髮、墨綠連帽、卡其褲）；男性路人底模 2 種 | 祐廷補後背包（目前沒有合法可用的背包模型）；男性臉型只有 2 種（樣本限制），需要更多 CC0 男性 VRM 或使用者用 VRoid Studio 做 | `tools/vroid_build.py`、`assets/models/char/vroid_yuting.vrm`、`vroid_zhe.vrm`、`vroid_npc_m1.vrm`、`vroid_npc_m2.vrm` |
-| 女性角色 | PARTIAL | 沈以安重拍展示截圖（已改單一高馬尾、拿掉貓耳） | 沈以安：「HairSample_Female」＋移植長褲；深棕高馬尾、米杏長袖上衣（剪到腰）、深藍長褲、白球鞋；陳語彤：「Sendagaya Shibu」拿掉領結與百褶裙、深綠上衣、牛仔褲；女性路人底模 2 種（Shino、Victoria 改作） | 林芷若、高子晴、溫書瑀還在用路人底模＋換色（**尚未**對應 Character Bible 的髮型與服裝）；沈以安的褲子是直筒不是立繪的寬褲 | 同上，`vroid_heroine_01.vrm`、`vroid_heroine_03.vrm`、`vroid_npc_f1.vrm`、`vroid_npc_f2.vrm` |
-| VRM 系統 | IN PROGRESS | — | parse 一次＋骨架 clone 共用 GPU 資源；VRM 0.x 朝向與姿勢軸向；身高計算；換色（材質顏色相乘）；路人不投即時陰影改圓影；NPC frustum culling；載入失敗在 `?dev` 顯示 | 動畫仍是 Mixamo（授權疑慮，見 REVIEW_NOTES）；clone 沒有彈簧骨與表情（路人頭髮不會晃）；手機實機效能未測 | `src/assets3d.js`、`src/character3d.js`、`src/engine3d.js` |
-| 溫州街 | PARTIAL | — | 10m 巷道、20+ 棟台北公寓（磁磚、鐵窗、冷氣、陽台、雨遮、水塔、加蓋）、8 間店面（含兩點半 Café）、日式宿舍、小公園、騎樓、死巷、電線桿＋電線＋路燈、反光鏡、機車、盆栽、行道樹（葉片卡）、白天／黃昏／夜晚光線；NavGrid 與鏡頭碰撞同步 | 日式宿舍從街上看不太到（圍牆擋住）；騎腳踏車的 NPC 很粗糙（W3.bike）；遠景建築單調；雨天地面反光未做；只有 Café 能進，其他店是「看櫥窗」 | `src/townkit3d.js`、`src/zones3d.js`（`buildWenzhou`） |
+| 男性角色 | PARTIAL | — | 祐廷：VRoid CC0「HairSample_Male」改作（自然黑短髮、拿掉呆毛、淺灰圓領上衣、深灰直筒褲、白球鞋、黑色後背包配件）；阿哲：「Sakurada Fumiriya」＋移植連帽上衣；男性路人底模 2 種 | 男性臉型只有 2 種（樣本限制）；祐廷頭髮更厚、更柔需要新的髮型素材（BLOCKED_BY_ART_ASSET） | `tools/vroid_build.py`、`assets/models/char/vroid_yuting.vrm`、`vroid_zhe.vrm`、`vroid_npc_m1.vrm`、`vroid_npc_m2.vrm`、`src/props3d.js` |
+| 女性角色 | PARTIAL | 細修（陳語彤領口、林芷若髮型） | 五位女主角各有自己的模型與服裝（不是路人換色）：沈以安（單一高馬尾、米白針織衫、藍灰寬褲、樂福鞋、托特包）；林芷若（黑直髮、細框眼鏡、米色亞麻上衣改圓領、米灰寬褲、銀色小耳環、工作時圍裙）；陳語彤（黑髮接近齊肩、深灰圓領 T 恤、牛仔褲、後背包）；高子晴（深棕短髮、淺灰連帽外套、黑短褲、白球鞋、吉他袋）；溫書瑀（深棕低馬尾＋髮圈、白襯衫反摺長袖、卡其直筒褲、判決節錄資料夾）。轉身照見 VISUAL_REVIEW 第 2–5 節 | 臉是 VRoid 動畫臉（BLOCKED_BY_ART_ASSET）；林芷若微捲髮（BLOCKED_BY_ART_ASSET）；陳語彤領口兩側的深色內層；高子晴帽口白色髮尾 | `tools/vroid_build.py`、`assets/models/char/vroid_heroine_0[1-5].vrm`、`src/props3d.js`、`src/character3d.js`（`MODEL_PROPS`） |
+| VRM 系統 | 技術完成 | — | parse 一次＋骨架 clone 共用 GPU 資源；VRM 0.x 朝向與姿勢軸向；身高計算；換色（材質顏色相乘）；路人不投即時陰影改圓影；NPC frustum culling；載入失敗在 `?dev` 顯示；彈簧骨在人物座標系、固定小步長，更新前先更新 world matrix（#25）；配件掛在骨頭上（`src/props3d.js`） | 動畫仍是 Mixamo（授權疑慮，見 REVIEW_NOTES）；clone 沒有彈簧骨與表情（路人頭髮不會晃）；手機實機效能未測 | `src/assets3d.js`、`src/character3d.js`、`src/engine3d.js`、`src/props3d.js` |
+| 溫州街 | PARTIAL | 三時段光影 | 10 m 巷道、20+ 棟台北公寓（磁磚、鐵窗、冷氣、陽台、雨遮、水塔、加蓋）、店面（含兩點半 Café：有深度的室內、木窗框、壁燈、爬藤）、日式老屋（圍牆降低、玄關、寄棟屋頂、石燈籠）、小公園（鋪面、大樹＋樹圍座椅、路燈、睡覺的貓）、騎樓、死巷、電線桿＋電線＋路燈、反光鏡、機車、盆栽、行道樹；Café 在東端路口，路口往北延伸到天空；白天／黃昏／夜晚光線；NavGrid 與鏡頭碰撞同步 | 騎腳踏車的 NPC 很粗糙（W3.bike）；雨天地面反光未做；只有 Café 能進，其他店是「看櫥窗」；日式老屋側面與背面是平的雨淋板 | `src/townkit3d.js`、`src/zones3d.js`（`buildWenzhou`） |
 | NPC 動畫 | PARTIAL | — | VRM 0.x 坐／讀書／揮手／說話軸向修正；教室同學坐下面向黑板 | 騎腳踏車沒有踩踏動畫（VRM 沒有 P3 的 parts）；路人 clone 沒有表情 | `src/character3d.js`、`src/story3d.js` |
-| 互動與存檔 | IN PROGRESS | 互動按鈕蓋住搖桿（見上方） | 標題畫面不再自動存檔覆蓋進度；Café 裡有人坐的位子不擋說話；觸控存檔到欄位、標題讀取欄位（`#menu` z-index，7f38a46）皆 PASS | 重跑完整觸控測試確認「讀檔後可以走」 | `src/game3d.js`、`src/engine3d.js`、`index.html`、`tests/touch_flow_wenzhou.py` |
+| 互動與存檔 | 技術完成；功能完成（Playwright） | — | 標題畫面不再自動存檔覆蓋進度；Café 裡有人坐的位子不擋說話；觸控存檔到欄位、重新整理後讀回、讀檔後可以走；互動按鈕不蓋搖桿；校園改版後舊存檔移位（含「走得到」檢查）——全部 PASS | 手機實機未測 | `src/game3d.js`、`src/engine3d.js`、`index.html`、`tests/touch_flow_wenzhou.py`、`tests/campus_layout_nav.py` |
 
 ---
 
@@ -75,12 +98,10 @@
 | 10 | 溫州街 `townkit3d.js` 場景製作 | 原本的溫州街是 38m 寬的空柏油地＋一棟方盒 | PARTIAL | `src/townkit3d.js`、`src/zones3d.js` | 白天／黃昏／夜晚截圖；觸控測試走完整條街 | 見總表「溫州街」的下一步 |
 | 11 | （新發現）自動存檔被空白第一天覆蓋 | 45 秒自動存檔計時在標題畫面也會跑，載入慢或停在標題 45 秒就會把真正的進度蓋掉 | FIXED | `src/game3d.js`（`autosave` 在 `titleIdle` 時不存） | 觸控測試：從標題點「繼續」讀到正確的溫州街存檔 PASS | — |
 | 12 | （新發現）直向時小地圖蓋住 ☰ 選單按鈕 | `#minimap` 的基本 CSS 寫在 portrait media query 後面，把直向位置蓋掉 | FIXED | `index.html` | 截圖：直向時 ☰ 可見 | 橫向未重新截圖 |
-| 13 | （新發現）沈以安的頭髮是「貓耳＋雙馬尾」 | HairSample_Female 是 VRoid 的髮型示範樣本 | FIXED（模型）／截圖待重拍 | `tools/vroid_build.py`（`ponytail_from_twintails`） | 模型檢視：正面／側面／背面為單一高馬尾 | 馬尾是剛體綁在頭骨上，不會隨走路擺動 |
+| 13 | （新發現）沈以安的頭髮是「貓耳＋雙馬尾」 | HairSample_Female 是 VRoid 的髮型示範樣本 | FIXED（模型與遊戲內轉身照） | `tools/vroid_build.py`（`ponytail_from_twintails`、`add_ponytail_chain`） | 遊戲內正面／側面／背面：單一高馬尾 | v9.2 加了三節彈簧骨，走路時馬尾會擺動 |
 | 14 | （新發現）胸部穿出上衣 | 原模型上衣領口開很低、身體比衣服大 | FIXED | `tools/vroid_build.py`（`paint_skin`、對模型自己的上衣做 `hide_covered`） | 模型檢視：上衣正常 | — |
 | 15 | （新發現）互動按鈕蓋住搖桿 | `#interact` 沒有最大寬度，長標籤讓按鈕延伸到左下角搖桿上方（DOM 在後面，會吃掉觸控） | FIXED；**已測試通過** | `index.html`、`src/zones3d.js`、`tests/touch_flow_wenzhou.py` | 觸控測試「互動按鈕不會蓋住搖桿」PASS | 其他長標籤（例如「和法律系一年級的女生說話」）會換成兩行 |
-
 | 16 | movement_regression B3 失敗 | 測試挑到有 NPC 坐著的座位（v9 起不能坐），且測試放玩家的點半徑 0.3 站不下 | FIXED（只改測試的挑座位與放置方式，判定標準不變）；**B 組已測試通過 4/4** | `tests/movement_regression.py` | `python3 tests/movement_regression.py URL B` → 4/4 PASS | 完整 A–E 下一輪程式改動後再整套重跑 |
-
 | 17 | 沿著家具邊直走會卡住（v9.2） | `stepEntity` 的「沿牆滑動」分支在位移為 0 時也算成功，玩家原地不動 | FIXED | `src/engine3d.js` | movement_regression 42/42 | — |
 | 18 | 吉他袋、後背包在遊戲裡是全黑剪影（看不到拉鍊、背帶） | 配件材質的顏色＝布紋貼圖的顏色，兩者相乘變成顏色平方（深色 → 接近黑） | FIXED（有貼圖時材質用白色） | `src/props3d.js` | 遊戲內轉身照 | — |
 | 19 | 中午的淺色衣服（米白針織衫、淺灰上衣、白襯衫）曝成一片白 | MToon 卡通明暗：受光面拿到整個太陽亮度（不乘入射角），建築牆面卻有乘；淺色衣服在 ACES 色調映射後變白 | FIXED（衣服材質 ×0.8，皮膚臉頭髮不動）；**亮度需要使用者看過** | `src/character3d.js`（`C.CLOTH_K`） | 遊戲內轉身照 11:00 | 黃昏／夜晚衣服會略暗 |
@@ -88,6 +109,12 @@
 | 21 | 剪短的衣褲邊緣是鋸齒；短褲大腿中間垂下一片布 | 以三角形為單位剪裁會留下跨線三角形；移植的長褲兩腿之間有連接面（寬褲看不出來） | FIXED | `tools/vroid_build.py`（`flatten_hem`、`remove_center_curtain`、`cut_sleeves(clean)`、`crew_neck`） | 模型檢視 | — |
 | 22 | 總圖門口有一塊黑色三角形擋住館名 | 門廊山牆用了 3 邊的圓錐（尖錐），正面看是黑色三角形 | FIXED（改成三角柱山牆＋屋面，館名往上移） | `src/zones3d.js` | 校園截圖 | — |
 | 23 | 校園改版後，舊存檔可能站在新建築或湖裡 | 原本只在 8 m 內找空地 | FIXED（擴大到 45 m，再不行回到區域出生點） | `src/engine3d.js` loadZone | `tests/campus_layout_nav.py` | — |
+| 24 | 校園改版後，從霖澤館前點地移動到校門走不到（`tests/campus_layout_nav.py` 抓到；舊版走得到） | A* 搜尋上限 6 萬步；新增醉月湖、樹列後，長路徑展開的格子超過上限，回傳「沒有路」 | FIXED（上限 20 萬步、啟發函數 ×1.1；長路徑 27 ms） | `src/engine3d.js`（`NavGrid.path`） | campus_layout_nav、p0、回歸、觸控流程（重跑） | 路徑最多比最短路徑長 10%（之後還會直線平滑） |
+| 25 | 林芷若走路時，長髮在耳朵高度往兩側翹（所有 VRM 角色都會，長髮最明顯；站著剛生成時也會） | **第一次判斷錯了**：以為是手臂碰撞體把頭髮往外推，改成頭髮只和頭、脖子、胸、脊椎碰撞之後重拍，還是翹。用 Node 載入遊戲的 three.js＋three-vrm＋`CHAR` 逐步模擬才找到真正原因：three-vrm 用「子骨頭的 matrixWorld」算每一節頭髮的骨長，但子骨頭的 matrixWorld 還停在上一幀；人物移動、瞬移或動畫之後，低幀率時一幀差幾十公分，骨長算錯，頭髮被當成甩出去。和碰撞體無關（拿掉所有碰撞體一樣會翹） | FIXED（彈簧骨更新前先更新整個 VRM 的 world matrix） | `src/character3d.js`（`updateVRM`） | Node 模擬：0.3 秒一幀、人物移動時，林芷若髮尾平均比站著高 12–16 cm → 修正後六位角色走路和站著相差 ≤ 6 mm；遊戲內轉身照：站著、走路的頭髮都自然下垂 | 30 fps 手機上誤差較小（一幀約 4–5 cm），原本髮尾會抖；實機未測。上一批加的「頭髮不和手臂碰撞」保留（不影響結果） |
+| 26 | 林芷若的眼鏡從側面看，有兩根細線從臉前面伸出去 | 眼鏡整組轉 180°（模型檔空間的前方是 -z），鏡腳卻還是往 +z 畫，轉完就變成往前伸 | FIXED | `src/props3d.js`（`glasses`） | Node：鏡腳從鏡框往後約 10 cm（到眼睛後方）；遊戲內側面照 | — |
+| 27 | 讀舊存檔被移位時，可能被移到新建築後面的封閉空地（走不出來） | 只找最近的空地，沒有檢查走不走得到 | 預防（目前三個測試位置用舊程式也走得到） | `src/engine3d.js`（`loadZone`） | `campus_layout_nav`：三個舊存檔位置讀檔後都走得到霖澤館前 | — |
+| 28 | v9.3 第一批的 Café 三時段照片，右邊三分之一是一片灰牆 | 拍照鏡頭放在 Café 南側那棟建築的範圍裡，拍到的是建築內側（遊戲本身沒有問題，玩家走不進去） | FIXED（換鏡頭重拍；有問題的照片沒有 commit） | 拍照設定 | 重拍照片 | — |
+| 29 | 林芷若領口剪低後，脖子有一個洞 | `hide_covered` 把領口附近的脖子皮膚當成「被衣服蓋住」刪掉 | FIXED（`hide_covered` 加 `y_keep`：領口線以上的皮膚不刪；要在剪領口之後、刪皮膚之前） | `tools/vroid_build.py` | bind pose 簡易算圖：脖子、鎖骨完整；遊戲內臉部近景 | — |
 
 ---
 

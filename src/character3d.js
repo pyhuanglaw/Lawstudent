@@ -91,7 +91,7 @@ const CHAR = (function(){
     // 彈簧骨（頭髮、馬尾）在人物自己的座標系模擬：瞬移、換區域、坐下起身時頭髮不會被甩飛（要在 root.userData 設定之後：three-vrm 把反矩陣快取放在 center.userData）
     const sbm=vrm.springBoneManager; if(sbm){ try{ sbm.reset(); sbm.joints.forEach(j=>{ j.center=root; }); root.updateMatrixWorld(true); sbm.setInitState(); }catch(err){ console.warn('spring bone center',err); } }
     return root; }
-  C.MODEL_PROPS={'char.yuting':['backpack'],'char.heroine_01':['tote'],'char.heroine_02':['glasses','earrings','apron'],'char.heroine_03':['backpack'],'char.heroine_04':['guitar'],'char.heroine_05':['folder']};
+  C.MODEL_PROPS={'char.yuting':['backpack'],'char.heroine_01':['tote'],'char.heroine_02':['glasses','earrings','apron'],'char.heroine_03':['backpack'],'char.heroine_04':['guitar'],'char.heroine_05':['folder','hairtie']};
   // 切換配件（例：林芷若在 Café 工作時才穿圍裙）
   C.setProp=function(h,name,on){ const u=h&&h.userData; const o=u&&u.props&&u.props[name]; if(!o) return false; o.visible=!!on; (u.propOn=u.propOn||{})[name]=!!on; return true; };
   C.release=function(h){ const u=h&&h.userData; if(!u||u.driver!=='vrm') return; try{ if(u.props&&typeof PROPS!=='undefined') PROPS.detach(u.props); u.props=null; const sbm=u.vrm.springBoneManager; if(sbm) sbm.joints.forEach(j=>{ j.center=null; }); }catch(e){} try{ for(const n in u.anim.actions) u.anim.actions[n].stop(); u.anim.mixer.stopAllAction(); u.vrm.humanoid.resetNormalizedPose(); if(u.vrm.expressionManager) u.vrm.expressionManager.expressions.forEach(ex=>u.vrm.expressionManager.setValue(ex.expressionName,0)); for(const t of (u.tinted||[])){ const cur=Array.isArray(t.mesh.material)?t.mesh.material:[t.mesh.material]; const orig=Array.isArray(t.orig)?t.orig:[t.orig]; cur.forEach((mt,i)=>{ if(mt!==orig[i]&&mt.dispose) mt.dispose(); }); t.mesh.material=t.orig; } u.tinted=[]; }catch(e){} ASSETS.releaseVRM(u.key,u.vrm); };
@@ -107,7 +107,9 @@ const CHAR = (function(){
     const em=vrm.expressionManager; if(em){ a.blink-=dt; if(a.blink<=0){ a.blinkT=0.14; a.blink=2.5+Math.random()*3.5; } if(a.blinkT>0){ a.blinkT-=dt; em.setValue('blink',a.blinkT>0.07?1:(a.blinkT/0.07)); } else em.setValue('blink',0); const target=pose==='talk'?(0.08+Math.abs(Math.sin(a.t*9))*0.3):0; a.mouth+=(target-a.mouth)*Math.min(1,dt*14); em.setValue('aa',a.mouth); }
     updateVRM(vrm,dt); }
   // VRM 更新：彈簧骨（頭髮、馬尾）用固定小步長。低幀率（SwiftShader 1–4 fps、手機突然卡頓）時一次積分太大，馬尾會失穩往上翹
-  function updateVRM(vrm,dt){ const sbm=vrm.springBoneManager; if(!sbm||vrm.lite){ vrm.update(dt); return; } vrm.humanoid.update(); if(vrm.lookAt) vrm.lookAt.update(dt); if(vrm.expressionManager) vrm.expressionManager.update(); if(vrm.nodeConstraintManager) vrm.nodeConstraintManager.update(); const T=Math.min(dt,0.2), n=Math.min(6,Math.max(1,Math.ceil(T/(1/30)))); for(let i=0;i<n;i++) sbm.update(T/n); if(vrm.materials) vrm.materials.forEach(m=>{ if(m.update) m.update(dt); }); }
+  // 彈簧骨前先更新整個 VRM 的 world matrix：three-vrm 用「子骨頭的 matrixWorld」算骨長，人物移動／瞬移／動畫之後子骨頭還停在上一幀，
+  // 低幀率時一幀差幾十公分 → 骨長算錯、頭髮被甩到耳朵高度往外翹（林芷若走路截圖；30 fps 時也會讓髮尾抖）
+  function updateVRM(vrm,dt){ const sbm=vrm.springBoneManager; if(!sbm||vrm.lite){ vrm.update(dt); return; } vrm.humanoid.update(); if(vrm.lookAt) vrm.lookAt.update(dt); if(vrm.expressionManager) vrm.expressionManager.update(); if(vrm.nodeConstraintManager) vrm.nodeConstraintManager.update(); vrm.scene.updateWorldMatrix(true,true); const T=Math.min(dt,0.2), n=Math.min(6,Math.max(1,Math.ceil(T/(1/30)))); for(let i=0;i<n;i++) sbm.update(T/n); if(vrm.materials) vrm.materials.forEach(m=>{ if(m.update) m.update(dt); }); }
   C.setExprVRM=function(h,expr){ const u=h.userData; u.anim.expr=expr; const em=u.vrm.expressionManager; if(!em) return; for(const k in EXPR_VRM){ const e=EXPR_VRM[k]; if(e) em.setValue(e[0],0); } const e=EXPR_VRM[expr]; if(e) em.setValue(e[0],e[1]); };
   // ---- 建立 ----
   // 建立順序：VRM（spec.model）→ GLB（spec.model 或 spec.fallbackModel，例如主角的 TEMP_PLAYER_DEV_MODEL）→ 程序化 placeholder

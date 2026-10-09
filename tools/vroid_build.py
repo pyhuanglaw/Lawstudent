@@ -312,9 +312,10 @@ def hide_skin_under_pants(v, pants_pos, margin_top=0.03, margin_bottom=0.02):
     return tot
 
 
-def hide_covered(v, added, max_d=0.06, eps=0.004, max_tan=0.03, skip_joints=()):
+def hide_covered(v, added, max_d=0.06, eps=0.004, max_tan=0.03, skip_joints=(), y_keep=None):
     """刪掉被移植衣物蓋住的皮膚三角形：皮膚頂點離最近的衣物頂點 < max_d，且在衣物表面的內側（沿衣物法向量的反方向）。
-    skip_joints：這些骨頭的皮膚不刪（衣服接縫有縫隙的地方，留著並塗成衣服顏色當內層）。"""
+    skip_joints：這些骨頭的皮膚不刪（衣服接縫有縫隙的地方，留著並塗成衣服顏色當內層）。
+    y_keep(P)：高於這條線的皮膚不刪（領口剪低之後，脖子與鎖骨的皮膚要留著）。"""
     G = np.concatenate([a[1] for a in added]); N = np.concatenate([a[2] for a in added])
     node, mesh, skins = body_primitives(v, 'SKIN')
     names, _ = v.skin_mats(node['skin'])
@@ -333,6 +334,8 @@ def hide_covered(v, added, max_d=0.06, eps=0.004, max_tan=0.03, skip_joints=()):
         if skip_joints:
             dom = np.array(names, dtype=object)[J[np.arange(len(J)), Wt.argmax(axis=1)]]
             cov &= ~np.array([any(k in x for k in skip_joints) for x in dom])
+        if y_keep is not None:
+            cov &= ~(pos[:, 1] > y_keep(pos))
         tris = idx.reshape(-1, 3)
         keep = ~cov[tris].all(axis=1)
         tot += int((~keep).sum())
@@ -805,6 +808,90 @@ def paint_white_shirt(v, mat_pat, color='#f3f2ee', body_v0=0.355):
             v.set_image(ii, full)
 
 
+def extend_sleeves(v, mat_pat, end_frac=0.45, clearance=0.014, roll_w=0.038, roll_bulge=0.009, rings=8, K=32):
+    """短袖 → 反摺到前臂的長袖（溫書瑀：參考圖是白襯衫長袖、袖子反摺到前臂）。VRoid 樣本裡沒有長袖白襯衫，
+    所以把襯衫袖口沿著手臂接一段袖管：從原本袖口內側開始（接縫藏在袖口裡），半徑從袖口漸漸收到前臂粗細＋鬆份，
+    到前臂中段（手肘→手腕 end_frac）結束，最後 roll_w 做成鼓起的反摺袖口；最末一圈往內收到貼近手臂。
+    蒙皮權重抄最近的手臂皮膚頂點，UV 抄同一角度的原袖口頂點（白色布料、皺褶延續）。回傳每邊新增的三角形數。"""
+    from collections import Counter
+    node, mesh, prims = body_primitives(v, mat_pat); p = prims[0]; A = p['attributes']
+    P = v.acc(A['POSITION']).astype(np.float64); N = v.acc(A['NORMAL']).astype(np.float64); UV = v.acc(A['TEXCOORD_0']).astype(np.float64)
+    J = v.acc(A['JOINTS_0']).astype(np.int64); W = v.acc(A['WEIGHTS_0']).astype(np.float64)
+    tris = v.acc(p['indices']).astype(np.int64).reshape(-1, 3)
+    E = Counter()
+    for t in tris:
+        for a, b in ((t[0], t[1]), (t[1], t[2]), (t[2], t[0])): E[(min(a, b), max(a, b))] += 1
+    bv = np.unique(np.array([e for e, c in E.items() if c == 1]).ravel())
+    _, _, skins = body_primitives(v, 'SKIN')
+    SP = []; SJ = []; SW = []
+    for sp_ in skins:
+        pa, ja, wa, ia = prim_arrays(v, sp_); u = np.unique(ia); SP.append(pa[u]); SJ.append(ja[u]); SW.append(wa[u])
+    SP = np.concatenate(SP); SJ = np.concatenate(SJ); SW = np.concatenate(SW)
+    addP, addN, addUV, addJ, addW, addT = [], [], [], [], [], []
+    base = len(P); counts = []
+    for sgn, side in ((-1, 'L'), (1, 'R')):
+        el = joint_world(v, 'J_Bip_%s_LowerArm' % side)[:3, 3]; ha = joint_world(v, 'J_Bip_%s_Hand' % side)[:3, 3]
+        hem = bv[sgn * P[bv, 0] > 0.2]
+        if not len(hem): counts.append(0); continue
+        c0 = np.array([P[hem, 1].mean(), P[hem, 2].mean()])
+        x_end = el[0] + end_frac * (ha[0] - el[0]); ce = np.array([el[1] + end_frac * (ha[1] - el[1]), el[2] + end_frac * (ha[2] - el[2])])
+        phis = np.linspace(-np.pi, np.pi, K, endpoint=False)
+        def bins(Y, Z, c, R):
+            ph = np.arctan2(Z - c[1], Y - c[0]); out = np.full(K, np.nan)
+            k = ((ph + np.pi) / (2 * np.pi) * K).astype(int) % K
+            for kk in range(K):
+                m = k == kk
+                if m.any(): out[kk] = R[m].max()
+            ok = ~np.isnan(out)
+            return np.interp(np.arange(K), np.arange(K)[ok], out[ok], period=K)
+        rho_h = bins(P[hem, 1], P[hem, 2], c0, np.hypot(P[hem, 1] - c0[0], P[hem, 2] - c0[1]))
+        near = np.abs(SP[:, 0] - x_end) < 0.012
+        rho_s = bins(SP[near, 1], SP[near, 2], ce, np.hypot(SP[near, 1] - ce[0], SP[near, 2] - ce[1]))
+        xin = np.abs(P[hem, 0]).min() * sgn - sgn * 0.012; xh = np.abs(P[hem, 0]).max() * sgn + sgn * 0.002
+        # 每一圈：(x, 圓心, 半徑陣列)
+        ring_def = [(xin, c0, rho_h - 0.005)]
+        for i in range(rings):
+            t = i / (rings - 1); xr = xh + t * (x_end - roll_w * sgn - xh); s_ = t * t * (3 - 2 * t)
+            ring_def.append((xr, c0 * (1 - t) + ce * t, rho_h * (1 - s_) + (rho_s + clearance) * s_ - 0.001 * (1 - t)))
+        for f, bulge in ((0.35, 0.75), (0.7, 1.0), (1.0, 0.55)):
+            ring_def.append((x_end - roll_w * sgn * (1 - f), ce, rho_s + clearance + roll_bulge * bulge))
+        ring_def.append((x_end + 0.003 * sgn, ce, rho_s + 0.004))
+        hem_ph = np.arctan2(P[hem, 2] - c0[1], P[hem, 1] - c0[0])
+        verts = []
+        for (xr, c, rho) in ring_def:
+            ring = []
+            for kk, ph in enumerate(phis):
+                y = c[0] + rho[kk] * np.cos(ph); z = c[1] + rho[kk] * np.sin(ph)
+                ring.append((xr, y, z, ph))
+            verts.append(ring)
+        V = np.array([[r[0], r[1], r[2]] for ring in verts for r in ring])
+        PH = np.array([r[3] for ring in verts for r in ring])
+        Nn = np.stack([np.zeros(len(V)), np.cos(PH), np.sin(PH)], 1)
+        hu = np.array([UV[hem[np.argmin(np.abs(np.angle(np.exp(1j * (hem_ph - ph)))))]] for ph in PH])
+        d2 = ((V[:, None, :] - SP[None, :, :]) ** 2).sum(2); nn = d2.argmin(1)
+        off = base + sum(len(a) for a in addP)
+        T = []
+        R = len(ring_def)
+        for i in range(R - 1):
+            for kk in range(K):
+                a = off + i * K + kk; b = off + i * K + (kk + 1) % K; c = off + (i + 1) * K + (kk + 1) % K; d = off + (i + 1) * K + kk
+                T += [(a, b, c), (a, c, d)]
+        T = np.array(T)
+        # 法向量朝外：檢查第一個三角形
+        allP = np.concatenate([P] + addP + [V])
+        t0 = T[R * K // 2]; nrm = np.cross(allP[t0[1]] - allP[t0[0]], allP[t0[2]] - allP[t0[0]])
+        if np.dot(nrm, Nn[t0[0] - off]) < 0: T = T[:, ::-1]
+        addP.append(V); addN.append(Nn); addUV.append(hu); addJ.append(SJ[nn]); addW.append(SW[nn]); addT.append(T); counts.append(len(T))
+    if not addP: return counts
+    A['POSITION'] = v.add_acc(np.concatenate([P] + addP).astype(np.float32), 5126, 'VEC3', 34962, True)
+    A['NORMAL'] = v.add_acc(np.concatenate([N] + addN).astype(np.float32), 5126, 'VEC3', 34962)
+    A['TEXCOORD_0'] = v.add_acc(np.concatenate([UV] + addUV).astype(np.float32), 5126, 'VEC2', 34962)
+    A['JOINTS_0'] = v.add_acc(np.concatenate([J] + addJ).astype(np.uint16), 5123, 'VEC4', 34962)
+    A['WEIGHTS_0'] = v.add_acc(np.concatenate([W] + addW).astype(np.float32), 5126, 'VEC4', 34962)
+    p['indices'] = v.add_acc(np.concatenate([tris] + addT).reshape(-1).astype(np.uint32), 5125, 'SCALAR', 34963)
+    return counts
+
+
 def rigid_hair_gather(v, y_start_off=0.0, tie_drop=0.07, cut_front_below=0.13, width=0.28, whole_strand=False):
     """長直髮 → 低馬尾：後腦以下的頭髮往後中央收攏（綁在後頸），前面兩側長髮剪到下巴；改過的頭髮改綁頭骨（剛體）。"""
     ni = [i for i, n in enumerate(v.j['nodes']) if 'mesh' in n and v.j['meshes'][n['mesh']]['name'].startswith('Hair')][0]
@@ -841,6 +928,73 @@ def rigid_hair_gather(v, y_start_off=0.0, tie_drop=0.07, cut_front_below=0.13, w
         kill = (out[tris][:, :, 1] < ycut).all(1) & (P[tris][:, :, 2] < -0.03).all(1)
         p['indices'] = v.add_acc(tris[~kill].reshape(-1).astype(np.uint32), 5125, 'SCALAR', 34963)
     return int(changed.sum())
+
+
+def low_ponytail(v, tie_below=0.025, top_above=0.15, tie_w=0.16, tail_w=0.24, front_lim=0.62, cut_front_below=0.06, hang=0.18, gap=0.035):
+    """長直髮 → 真的「低馬尾」（v9.3 取代 rigid_hair_gather：舊版只是把後面的頭髮往下逐漸收窄，從側面看還是一片往後翹的長直髮）。
+    做法（模型檔座標：前方 -z、後方 +z）：以頭的中軸為圓心，後半圈與兩側的頭髮在綁點以上沿著頭的弧面往後中央收攏（半徑不變，
+    頭髮貼著頭）；綁點在後頸（頭骨下緣）；綁點以下的頭髮收成一束窄的馬尾，沿著背往下垂（離背 gap）。臉旁的前髮不動、剪到下巴。
+    改過的頭髮改綁頭骨（剛體）。回傳 (改了幾個頂點, 綁點座標)：綁點給遊戲內的髮圈配件用。"""
+    ni = [i for i, n in enumerate(v.j['nodes']) if 'mesh' in n and v.j['meshes'][n['mesh']]['name'].startswith('Hair')][0]
+    mesh = v.j['meshes'][v.j['nodes'][ni]['mesh']]
+    names, _ = v.skin_mats(v.j['nodes'][ni]['skin'])
+    head = names.index('J_Bip_C_Head')
+    A = mesh['primitives'][0]['attributes']
+    P = v.acc(A['POSITION']).astype(np.float64); JJ = v.acc(A['JOINTS_0']).astype(np.int64); WW = v.acc(A['WEIGHTS_0']).astype(np.float64)
+    used = np.zeros(len(P), dtype=bool)
+    for p in mesh['primitives']:
+        used[np.unique(v.acc(p['indices']).astype(np.int64))] = True
+    hw = joint_world(v, 'J_Bip_C_Head', 'Hair'); head_y, zc = hw[1, 3], hw[2, 3]
+    yt = head_y - tie_below; ytop = head_y + top_above
+    r = np.hypot(P[:, 0], P[:, 2] - zc); th = np.arctan2(P[:, 0], P[:, 2] - zc)
+    backish = used & (np.abs(th) <= front_lim * np.pi)
+    # 身體背面（x 接近 0）每個高度的 z：馬尾沿著背垂，不能穿進身體
+    bm = [x for x in v.j['meshes'] if x['name'].startswith('Body')][0]
+    B = v.acc(bm['primitives'][0]['attributes']['POSITION'])
+    def back_z(y):
+        s = B[(np.abs(B[:, 1] - y) < 0.02) & (np.abs(B[:, 0]) < 0.06)]
+        return float(s[:, 2].max()) if len(s) else 0.06
+    near = backish & (np.abs(P[:, 1] - yt) < 0.02) & (np.abs(th) < 0.35)
+    rt = float(np.median(r[near])) if near.any() else 0.11
+    zt = zc + rt
+    out = P.copy(); changed = np.zeros(len(P), dtype=bool)
+    # 綁點以上：沿著頭的弧面往後中央收攏
+    up = backish & (P[:, 1] >= yt) & (P[:, 1] < ytop)
+    s_ = np.clip((ytop - P[up, 1]) / max(1e-3, ytop - yt), 0, 1)
+    th2 = th[up] * (1 - (1 - tie_w) * s_ ** 1.6)
+    out[up, 0] = r[up] * np.sin(th2); out[up, 2] = zc + r[up] * np.cos(th2); changed[up] = True
+    # 綁點以下：收成一束，沿著背往下垂
+    lo = np.where(backish & (P[:, 1] < yt))[0]
+    if len(lo):
+        ys = P[lo, 1]
+        bands = {}
+        for i in lo:
+            k = int(round(P[i, 1] / 0.02)); bands.setdefault(k, []).append(P[i, 2])
+        zmid = {k: float(np.median(z)) for k, z in bands.items()}
+        bz = {k: back_z(k * 0.02) for k in bands}
+        for i in lo:
+            y = P[i, 1]; k = int(round(y / 0.02))
+            zcen = max(zt - (yt - y) * hang, bz[k] + gap)
+            w = tie_w + (tail_w - tie_w) * min(1.0, (yt - y) / 0.05)
+            out[i, 0] = P[i, 0] * w
+            out[i, 2] = zcen + (P[i, 2] - zmid[k]) * 0.3
+            changed[i] = True
+    rigid = changed.copy()
+    for p in mesh['primitives']:
+        vi = np.unique(v.acc(p['indices']).astype(np.int64))
+        if changed[vi].any(): rigid[vi] = True
+    JJ[rigid] = [head, 0, 0, 0]; WW[rigid] = [1, 0, 0, 0]
+    newA = {'POSITION': v.add_acc(out.astype(np.float32), 5126, 'VEC3', 34962, True), 'JOINTS_0': v.add_acc(JJ.astype(np.uint16), 5123, 'VEC4', 34962), 'WEIGHTS_0': v.add_acc(WW.astype(np.float32), 5126, 'VEC4', 34962)}
+    for p in mesh['primitives']:
+        p['attributes'] = dict(p['attributes'], **newA)
+    # 臉旁的前髮剪到下巴
+    ycut = head_y - cut_front_below; front = ~backish
+    for p in mesh['primitives']:
+        tris = v.acc(p['indices']).astype(np.int64).reshape(-1, 3)
+        kill = (out[tris][:, :, 1] < ycut).all(1) & front[tris].all(1)
+        p['indices'] = v.add_acc(tris[~kill].reshape(-1).astype(np.uint32), 5125, 'SCALAR', 34963)
+    mesh['primitives'] = [p for p in mesh['primitives'] if v.j['accessors'][p['indices']]['count'] > 0]
+    return int(changed.sum()), (0.0, float(yt), float(zt)), (float(hw[0, 3]), float(head_y), float(zc))
 
 
 def add_ponytail_chain(v, prim):
@@ -1255,6 +1409,19 @@ def tame_springs(v, grav=0.6, stiff_max=0.75, drag_min=0.42):
     return n
 
 
+def hair_colliders_body_only(v, drag_min=0.55):
+    """長髮的彈簧骨只和頭、脖子、胸、脊椎碰撞，不和手臂碰撞：走路時手臂擺動會把垂到胸前的長髮往外推，
+    頭髮在耳朵高度往兩側翹起來（林芷若走路截圖）。阻尼也提高一點，頭髮比較穩。"""
+    sa = v.j['extensions']['VRM']['secondaryAnimation']; cgs = sa.get('colliderGroups', [])
+    keep = [i for i, cg in enumerate(cgs) if any(k in v.j['nodes'][cg['node']]['name'] for k in ('Spine', 'Chest', 'Neck', 'Head'))]
+    n = 0
+    for gp in sa.get('boneGroups', []):
+        if gp.get('comment') in ('Bust', 'Skirt', 'Sleeve'): continue
+        old = gp.get('colliderGroups', []); gp['colliderGroups'] = [i for i in old if i in keep]; n += len(old) - len(gp['colliderGroups'])
+        gp['dragForce'] = max(gp.get('dragForce', 0.4), drag_min)
+    return n
+
+
 HOOD_RECTS = [(0.295, 0.0, 0.705, 0.27), (0.32, 0.27, 0.68, 0.41)]   # HairSample_Male 連帽上衣：帽子
 POCKET_RECT = (0.29, 0.63, 0.71, 0.915)                              # HairSample_Male 連帽上衣：前口袋
 
@@ -1343,17 +1510,20 @@ def build_heroine_02():
     mi, tp = transplant(v, hsf, 'Tops', 'F00_904_Tops_Linen_CLOTH')
     waist = joint_y(v, 'Hips') + 0.07
     cut_below(v, 'Tops_Linen', waist)
+    neck_cut = joint_y(v, 'Neck') - 0.03
+    print('  heroine_02: round neckline tris', crew_neck(v, 'Tops_Linen', neck_cut, x_max=0.12, slope=1.0))   # 參考圖：開領上衣（原本是荷葉邊高領）；要在 hide_covered 之前剪，脖子的皮膚才不會被當成「被衣服蓋住」刪掉
     recolor_mat(v, 'Tops_Linen', '#d6c6aa', strength=0.88, keep_detail=0.9)
     print('  heroine_02: maroon inner px -> skin', body_tex_replace(v, is_maroon, lambda med: med))
     paint_skin(v, '#ddd0b9', joints=('Spine', 'Chest', 'Bust', 'Shoulder'), y_max=joint_y(v, 'Neck') - 0.045)
-    hide_covered(v, garment_of(v, 'Tops_Linen'), max_d=0.1, eps=0.04, max_tan=0.05, skip_joints=('Shoulder', 'UpperArm'))
+    hide_covered(v, garment_of(v, 'Tops_Linen'), max_d=0.1, eps=0.04, max_tan=0.05, skip_joints=('Shoulder', 'UpperArm'),
+                 y_keep=lambda P: neck_cut - 0.025 + 1.0 * np.maximum(0, np.abs(P[:, 0]) - 0.045) + np.where(P[:, 2] > 0, 0.012, 0.0))   # 領口線以上（往下 2.5 cm 內）的皮膚留著
     print('  heroine_02: culled under pants', wide_pants(v, donor, 'F00_901_Bottoms_Pants_CLOTH', '#9f998e', amount=0.04, straight=True, start=0.12))
     mi, sh = transplant(v, shino, 'Shoes', 'F00_903_Shoes_Loafer_CLOTH'); hide_covered(v, sh)
     recolor_mat(v, 'Shoes_Loafer', '#3a2a22', strength=0.85)
     recolor_mat(v, 'HAIR', '#161314', strength=0.92, keep_detail=0.9); hair_factor_reset(v, shade=(0.7, 0.68, 0.7))
     face_line_colors(v, '#2a2422', '#211b19')   # Victoria 原本是金髮，眉毛是淺米色
     swap_image(v, hsf, 'EyeHighlight')           # Victoria 的眼睛反光是青色點點，換成一般白色反光
-    print('  heroine_02: eye verts scaled', scale_eyes(v, 0.9, 0.88), 'springs tamed', tame_springs(v))
+    print('  heroine_02: eye verts scaled', scale_eyes(v, 0.9, 0.88), 'springs tamed', tame_springs(v), 'arm colliders off', hair_colliders_body_only(v))
     no_hair_shine(v); soften_matcap(v)
     return finish(v, FEMALE_EYES, '#3e2c24', '林芷若（法條之外）', 'Based on VRoid CC0 samples "Victoria Rubin" + top from "HairSample_Female" + loafers from "Sendagaya Shino" + trousers from "HairSample_Male" (pixiv); modified for 法條之外')
 
@@ -1440,13 +1610,15 @@ def build_heroine_04():
 
 def build_heroine_05():
     """溫書瑀（深棕低馬尾、白襯衫、卡其長褲、樂福鞋、172cm、判決節錄）。
-    臉＋頭髮：Sendagaya_Shino（長直髮在後頸收成低馬尾、臉旁長髮剪到下巴、染深棕）；
-    白襯衫：Sakurada_Fumiriya 的長袖襯衫（背心區塊重畫成白襯衫）；卡其寬褲；自己的樂福鞋；判決節錄是遊戲內配件。"""
+    臉＋頭髮：Sendagaya_Shino（長直髮沿著頭的弧面收到後頸、綁成一束低馬尾沿背垂下；臉旁長髮剪到下巴；染深棕；髮圈是遊戲內配件）；
+    白襯衫：Sakurada_Fumiriya 的短袖襯衫（背心區塊重畫成白襯衫），袖子接長到前臂、做反摺袖口；卡其寬褲；自己的樂福鞋；判決節錄是遊戲內配件。"""
     v = src('Sendagaya_Shino'); fumi = src('Sakurada_Fumiriya'); donor = src('HairSample_Male')
-    print('  heroine_05: gathered hair verts', rigid_hair_gather(v, whole_strand=True))
+    n, tie, hj = low_ponytail(v)
+    print('  heroine_05: low ponytail verts', n, 'tie (file)', np.round(tie, 3), 'tie - head joint (給 src/props3d.js 的髮圈)', np.round(np.array(tie) - np.array(hj), 3))
     remove_prims(v, ['AccessoryNeck', 'Bottoms', 'Tops'])
     mi, sh = transplant(v, fumi, 'Tops', 'F00_908_Tops_Shirt_CLOTH')
     paint_white_shirt(v, 'Tops_Shirt')   # 背心區塊塗白、畫門襟鈕扣（舊版只把背心區塊淡化，線條還在）
+    print('  heroine_05: rolled long sleeves tris', extend_sleeves(v, 'Tops_Shirt'))   # 參考圖：長袖反摺到前臂（樣本只有短袖）
     no_outline(v, 'Tops_Shirt')          # 背心的 V 領與袖口是模型折線，描邊會把它畫成線：白襯衫不畫描邊
     shade_color(v, 'Tops_Shirt', 0.84, (0.95, 0.965, 1.0))   # 陰影偏冷灰（原本偏粉紅，白襯衫看起來像粉色）
     remove_prims(v, ['Hair_00_HAIR_02'])  # Shino 的 X 形髮夾（參考圖的溫書瑀沒有）
@@ -1456,7 +1628,7 @@ def build_heroine_05():
     recolor_mat(v, 'Shoes', '#2f2622', strength=0.8)
     recolor_mat(v, 'HAIR', '#4a3427', strength=0.92, keep_detail=0.88); hair_factor_reset(v)   # 深棕（原本材質乘了深藍色，貼圖再怎麼改都是黑色）
     face_line_colors(v, '#3d2b22', '#2b201b')   # 眉毛跟著深棕髮色（原本乘深藍）
-    no_hair_shine(v); soften_matcap(v); tame_springs(v, grav=0.6, stiff_max=0.75)
+    no_hair_shine(v); soften_matcap(v); tame_springs(v, grav=0.6, stiff_max=0.75); hair_colliders_body_only(v)
     return finish(v, FEMALE_EYES, '#3a2a22', '溫書瑀（法條之外）', 'Based on VRoid CC0 samples "Sendagaya Shino" + shirt from "Sakurada Fumiriya" + trousers from "HairSample_Male" (pixiv); modified for 法條之外')
 
 

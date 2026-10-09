@@ -1,6 +1,6 @@
 """校園配置（依台大平面圖重排後）導航檢查：實際載入遊戲的校園區域，查詢導航格與 A* 路徑。
 檢查：主要地點都站得住、彼此走得到（從霖澤館前出發）；醉月湖水面不能走、木棧道與湖心亭可以走；
-新的長椅座位前面站得住；舊存檔若站在新建築裡，讀檔後會被移到可走的地方。
+新的長椅座位前面站得住；舊存檔若站在新建築裡，讀檔後會被移到可走、而且走得到霖澤館前的地方。
 用法：python3 tests/campus_layout_nav.py [URL]   （預設 http://127.0.0.1:8765/index.html）"""
 import asyncio, json, sys
 from playwright.async_api import async_playwright
@@ -45,8 +45,9 @@ async def main():
             check(f'{name} 不能走', not r)
         for name, x, z in OLD_SAVES:
             await load_at(x, z)
-            r = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return {x:+o.x.toFixed(2),z:+o.z.toFixed(2),stand:GAME.E.canStand?GAME.E.canStand(o.x,o.z,0.3):GAME.E.nav.free(o.x,o.z)}; })()")
-            check(f'{name} → 讀檔後移到可走的地方', r['stand'], json.dumps(r))
+            # 不只要站得住，還要走得到霖澤館前（不能被移到新建築後面的封閉小空地）
+            r = await pg.evaluate("(s=>{ const E=GAME.E, o=E.player.obj.position; const p=E.nav.path(o.x,o.z,s[0],s[1]); return {x:+o.x.toFixed(2),z:+o.z.toFixed(2),stand:E.canStand?E.canStand(o.x,o.z,0.3):E.nav.free(o.x,o.z),reach:!!(p&&p.length)}; })(%s)" % json.dumps(START))
+            check(f'{name} → 讀檔後移到可走、走得到的地方', r['stand'] and r['reach'], json.dumps(r))
         check('沒有 JS 例外', not errs, str(errs[:3]))
         await b.close()
     print('ALL PASS' if not fails else 'FAILED: ' + ', '.join(fails))
