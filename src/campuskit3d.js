@@ -21,6 +21,9 @@ const CK=(function(){ 'use strict';
   function trimMat(hex){ return TK.M('ckTrim'+hex,()=>{ const t=stoneTex(hex); t.wrapS=t.wrapT=THREE.RepeatWrapping; return TK.std({map:t,roughness:0.85}); }); }
   function roofMat(hex){ return TK.M('ckRoofM'+hex,()=>{ const t=roofTex(hex); t.wrapS=t.wrapT=THREE.RepeatWrapping; return TK.std({map:t,roughness:0.88,side:THREE.DoubleSide}); }); }
   const GLASS=()=>TK.glowMat('ckGlass',glassTex(),{nightI:0.9,emap:glassEmit(),mat:{roughness:0.25,metalness:0.1}});
+  // 晚上不亮的窗（約三成；沒有這個的話傍晚、晚上整棟每扇窗都一起亮，像每間教室都開燈）
+  const GLASS_DARK=()=>TK.M('ckGlassDark',()=>TK.std({map:glassTex(),roughness:0.25,metalness:0.1}));
+  const winLit=(x,y,z)=>{ const h=Math.sin(x*12.9898+y*78.233+z*37.719)*43758.5453; return h-Math.floor(h)>0.3; };
   // ---------- 幾何零件 ----------
   // 拱形（矩形＋半圓頂），底邊在 y=0
   function archShape(w,h,cx,cy){ cx=cx||0; cy=cy||0; const r=w/2, s=new THREE.Shape(); s.moveTo(cx-r,cy); s.lineTo(cx-r,cy+h-r); s.absarc(cx,cy+h-r,r,Math.PI,0,true); s.lineTo(cx+r,cy); s.lineTo(cx-r,cy); return s; }
@@ -40,7 +43,7 @@ const CK=(function(){ 'use strict';
     return (winCache[key]={frame,glass,sill,mull,tran,w,h,f,ty:rect?h*0.72:h-w/2}); }
   function addWindow(bin,M,wp,x,y,z,ry){ const c=Math.cos(ry), s=Math.sin(ry); const at=(lx,ly,lz)=>[x+lx*c+lz*s,y+ly,z-lx*s+lz*c];
     let p=at(0,0,-0.02); bin.add(M.trim,wp.frame.clone(),p[0],p[1],p[2],ry,{noShadow:true}); // 窗框、窗台很薄，不投影（陰影圖少畫很多三角形）
-    p=at(0,0,0.02); bin.add(M.glass,wp.glass.clone(),p[0],p[1],p[2],ry,{noShadow:true});
+    p=at(0,0,0.02); bin.add(winLit(p[0],p[1],p[2])?M.glass:M.glassDark,wp.glass.clone(),p[0],p[1],p[2],ry,{noShadow:true});
     p=at(0,-0.05,0.1); bin.add(M.trim,wp.sill.clone(),p[0],p[1],p[2],ry,{noShadow:true});
     p=at(0,(wp.h-0.1)/2,0.05); bin.add(M.frameDark,wp.mull.clone(),p[0],p[1],p[2],ry,{noShadow:true});
     p=at(0,wp.ty,0.05); bin.add(M.frameDark,wp.tran.clone(),p[0],p[1],p[2],ry,{noShadow:true}); }
@@ -56,7 +59,7 @@ const CK=(function(){ 'use strict';
   // o: {w,d,floors,gfh,fh,bay,wall,trim,roof,roofH,roofType:'flat',win:'rect',arcade,arcDepth,porch:{bays,depth,pediment,style:'flat',h,ys,pedH},tower:{w,h},sign,signColor,winW}
   function hall(o){ const g=new THREE.Group(); const bin=new TK.Bin(); const blocks=[];
     const w=o.w, d=o.d, nf=o.floors||2, gfh=o.gfh||4.6, fh=o.fh||4.0, H=gfh+(nf-1)*fh, bayT=o.bay||3.8;
-    const M={wall:wallMat(o.wall||'#a8664a'), trim:trimMat(o.trim||'#d8d0c0'), roof:roofMat(o.roof||'#4f3a32'), glass:GLASS(), frameDark:TK.col('#3a2e28'), ceil:TK.col(o.ceilCol||'#cfc6b6'), dark:TK.col('#2e2a26'), door:TK.col('#4a3426')};
+    const M={wall:wallMat(o.wall||'#a8664a'), trim:trimMat(o.trim||'#d8d0c0'), roof:roofMat(o.roof||'#4f3a32'), glass:GLASS(), glassDark:GLASS_DARK(), frameDark:TK.col('#3a2e28'), ceil:TK.col(o.ceilCol||'#cfc6b6'), dark:TK.col('#2e2a26'), door:TK.col('#4a3426')};
     const arc=o.arcade!==false, ad=arc?(o.arcDepth||2.6):0;
     // 正面開間；有門廊時，開間數和門廊的拱數同奇偶，門廊兩側的牆才會剛好落在拱廊的柱子上（不會有柱子擋在拱的正中間）
     let nb=Math.max(3,Math.round(w/bayT)); if(arc&&o.porch&&(nb-(o.porch.bays||3))%2){ nb+=(w/bayT>nb?1:-1); if(nb<3) nb+=2; } const bw=w/nb, apw=Math.max(0.7,bw*0.22);

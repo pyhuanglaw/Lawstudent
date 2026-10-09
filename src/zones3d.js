@@ -86,8 +86,9 @@ const Z3 = (function(){
     for(const x of [30,46,62,78]){ const pl=W3.planter(); place(g,pl,x,-83.5,0); nav.blockRect(x,-83.5,1.2,0.5,0); }
     for(const x of [12,100]){ const t=TREE(1.3); place(g,t,x,-96,0); nav.blockCircle(x,-96,0.9); const t2=TREE(1.0); place(g,t2,x+(x<50?-6:6),-108,1); nav.blockCircle(x+(x<50?-6:6),-108,0.8); }
     { const h=W3.hedge(20); h.position.set(48,0.35,-106.5); g.add(h); nav.blockRect(48,-106.5,20,0.7,0,0.1); const h2=W3.hedge(14); h2.position.set(74,0.35,-106.5); g.add(h2); nav.blockRect(74,-106.5,14,0.7,0,0.1); }
-    // 霖澤館、萬才館：戰後新建的系館——面磚、方窗、平屋頂，一樓仍是台大的連續拱廊；入口是平頂門廊（佔地、門口位置和舊版相同）
-    const linze=CK.hall({w:40,d:18,floors:5,gfh:4.4,fh:3.65,wall:'#b5785e',trim:'#e3dccd',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:3.0,style:'flat'},sign:'霖澤館'}); ckPlace(linze,34,-112,0); buildings.push(linze);
+    // 霖澤館、萬才館：戰後新建的系館——面磚、方窗、平屋頂，一樓仍是台大的連續拱廊；入口是平頂門廊（佔地、門口位置和舊版相同）。
+    // 霖澤館用淺褐面磚、萬才館用紅磚（兩棟並排，同色看起來像同一棟）
+    const linze=CK.hall({w:40,d:18,floors:5,gfh:4.4,fh:3.65,wall:'#c8a27c',trim:'#e6dfd0',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:3.0,style:'flat'},sign:'霖澤館'}); ckPlace(linze,34,-112,0); buildings.push(linze);
     const wancai=CK.hall({w:30,d:20,floors:5,gfh:4.6,fh:4.1,wall:'#a35c48',trim:'#ddd5c6',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'},sign:'萬才館'}); ckPlace(wancai,88,-112,0); buildings.push(wancai);
     const soc=W3.building({key:'soc',w:56,h:16,d:22,floors:4,style:'grid',wall:'#e9e4da',glass:'#c8d8de',frame:'#8f9399',roof:'parapet',ground:'glass',entrance:{w:5,h:4.2,side:'front',canopy:false},sign:'社會科學院',signColor:'#3b2a1e'}); place(g,soc,110,-70,-Math.PI/2); nav.blockRect(110,-70,22.6,56.6,0,0.6); buildings.push(soc);
     // 社科院前的樹狀白柱意象（圖書館的柱）

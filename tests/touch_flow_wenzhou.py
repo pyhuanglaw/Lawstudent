@@ -131,6 +131,9 @@ async def main():
         check('Café 裡有沈以安（正式模型）', bool(an) and an['driver'] == 'vrm', an)
         if an:
             st = await walk_to(pg, t, an['x'] + 0.9, an['z'] + 0.9, 'to An', tol=1.2)
+            # 點地走路停下來的位置有誤差（v9.3 第八批一次停在離她 2.22 m，剛好超過 2.2 m 的對話距離）：還不夠近就再走近一點。判定標準不變（靠近時要出現對話按鈕）
+            if math.hypot(st['x'] - an['x'], st['z'] - an['z']) > 1.8:
+                st = await walk_to(pg, t, an['x'] + 0.6, an['z'] + 0.6, 'closer to An', tol=0.6)
             await pg.wait_for_timeout(600); st = await state(pg)
             check('靠近沈以安出現對話按鈕', '說話' in st['interact'] or '小安' in st['interact'] or '沈以安' in st['interact'], st['interact'])
             await t.tap_el('#interact'); await pg.wait_for_timeout(2500)

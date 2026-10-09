@@ -79,7 +79,7 @@ const E3 = (function(){
   E.setQuality=function(level){ E.q.level=level; const dpr=window.devicePixelRatio||1; if(level==='high'){ E.q.pr=Math.min(dpr,2); E.q.shadows=true; E.q.far=160; } else if(level==='low'){ E.q.pr=Math.min(dpr,1); E.q.shadows=false; E.q.far=90; } else { E.q.pr=Math.min(dpr,1.5); E.q.shadows=true; E.q.far=130; } renderer.setPixelRatio(E.q.forcePR||E.q.pr); renderer.shadowMap.enabled=E.q.shadows; E.sun.castShadow=E.q.shadows; camera.far=E.q.far+40; camera.updateProjectionMatrix(); scene.fog.far=E.q.far; if(E.sky){ const s=(E.q.far+30)/120; E.sky.scale.setScalar(s); E.sky.material.uniforms.oct.value=level==='low'?3:5; } E.resize(); scene.traverse(o=>{ if(o.material&&o.material.needsUpdate!==undefined) o.material.needsUpdate=true; }); };
   E.resize=function(){ const w=E.canvas.clientWidth||innerWidth, h=E.canvas.clientHeight||innerHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.fov=w<h?60:46; camera.updateProjectionMatrix(); E.w=w; E.h=h; E.portrait=w<h; };
   // ---------- 時間與天氣 ----------
-  const KEY=[ // hour, sun color, sun int, elev(deg), azimuth(deg), hemi sky, hemi ground, hemi int, fog color, exposure, skyTop, skyMid, skyBot, lamps
+  const KEY0=[ // hour, sun color, sun int, elev(deg), azimuth(deg), hemi sky, hemi ground, hemi int, fog color, exposure, skyTop, skyMid, skyBot, lamps
     [5.5,'#c8c2d8',0.35,2,80,'#8f9ebf','#3d3a3a',0.55,'#b9c4d4',0.85,'#5f7aa8','#b9c4d4','#d7c9b8',1],
     [7,'#ffd9a8',1.4,12,88,'#cfdcef','#a9967a',0.75,'#dbe6ea',0.95,'#7fb0d8','#d8e8ef','#f1e7d6',0],
     [9,'#fff2dc',1.9,32,100,'#dfe9f5','#b9a98d',0.8,'#dbe6ea',1.0,'#79aedb','#d8e8ef','#f1e7d6',0],
@@ -92,8 +92,16 @@ const E3 = (function(){
     [21,'#3a4670',0.08,-10,280,'#2b3a5c','#1a1a24',0.55,'#1b2233',0.85,'#0f1a33','#243052','#3a3a4a',1],
     [24,'#3a4670',0.05,-10,280,'#232f4c','#151520',0.5,'#141a2b',0.8,'#0b1329','#1c2540','#2b2b3a',1],
   ];
+  // 黃昏調色提案（v9.3，使用者還沒決定，預設不開）：網址加 ?grade=golden 才用。目標是參考圖 07 的 17:30——
+  // 暖金色的陽光、陰影裡也偏暖（環境光從冷灰改成暖杏色）、街道盡頭的空氣有一層暖橘色的霧、天空下緣金黃。只換 17:00–18:00 這一段。
+  const KEY_GOLDEN=[
+    [17,'#ffbb70',2.4,24,262,'#ffd2a4','#b8845e',1.1,'#f6c294',1.1,'#7a9acb','#f6c08a','#ffd49a',0],
+    [17.5,'#ffa458',2.6,18,265,'#ffc488','#a8704e',1.18,'#ffb074',1.18,'#6f8cc2','#ffae72','#ffc480',0.5],   // 路燈：最後一欄 0.5，17:30 一過就亮（和預設一樣）
+    [18,'#ff9450',2.1,13,268,'#f6b088','#8f6248',1.08,'#f4a272',1.14,'#5f7fb2','#f6a070','#ffb47c',1]];
+  const KEYG=KEY0.filter(r=>r[0]<17||r[0]>18).concat(KEY_GOLDEN).sort((a,b)=>a[0]-b[0]);
+  E.grade=(typeof location!=='undefined'&&(location.search.match(/[?&]grade=(\w+)/)||[])[1])||null;
   const c1=new THREE.Color(), c2=new THREE.Color();
-  E.applyTime=function(hour){ E.hour=hour; let h=hour%24; if(h<KEY[0][0]) h=KEY[0][0]; let i=0; while(i<KEY.length-2&&KEY[i+1][0]<=h) i++; const A=KEY[i], B=KEY[i+1]; const t=Math.max(0,Math.min(1,(h-A[0])/(B[0]-A[0]))); const lerpC=(a,b)=>{ c1.set(a); c2.set(b); return c1.lerp(c2,t); }; const lerp=(a,b)=>a+(b-a)*t;
+  E.applyTime=function(hour){ E.hour=hour; const KEY=E.grade==='golden'?KEYG:KEY0; let h=hour%24; if(h<KEY[0][0]) h=KEY[0][0]; let i=0; while(i<KEY.length-2&&KEY[i+1][0]<=h) i++; const A=KEY[i], B=KEY[i+1]; const t=Math.max(0,Math.min(1,(h-A[0])/(B[0]-A[0]))); const lerpC=(a,b)=>{ c1.set(a); c2.set(b); return c1.lerp(c2,t); }; const lerp=(a,b)=>a+(b-a)*t;
     E.sun.color.copy(lerpC(A[1],B[1])); E.sun.intensity=lerp(A[2],B[2]); const el=lerp(A[3],B[3])*Math.PI/180, az=lerp(A[4],B[4])*Math.PI/180; const target=E.player?E.player.obj.position:new THREE.Vector3(); E.sun.position.set(target.x+Math.cos(el)*Math.sin(az)*60,Math.max(2,Math.sin(el)*60)+target.y,target.z+Math.cos(el)*Math.cos(az)*60); E.sun.target.position.copy(target); E.sun.target.updateMatrixWorld();
     E.hemi.color.copy(lerpC(A[5],B[5])); E.hemi.groundColor.copy(lerpC(A[6],B[6])); E.hemi.intensity=lerp(A[7],B[7]); scene.fog.color.copy(lerpC(A[8],B[8])); renderer.toneMappingExposure=lerp(parseFloat(A[9]),parseFloat(B[9]));
     const sk=E.sky.material.uniforms; sk.top.value.copy(lerpC(A[10],B[10])); sk.mid.value.copy(lerpC(A[11],B[11])); sk.bot.value.copy(lerpC(A[12],B[12])); sk.sunDir.value.copy(E.sun.position).sub(target).normalize(); sk.sunCol.value.copy(E.sun.color); sk.sunAmt.value=0.15+0.45*Math.max(0,1-Math.abs(el)/0.6);
