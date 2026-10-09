@@ -218,6 +218,31 @@ const CK=(function(){ 'use strict';
       blocks.push([hx,hz,W+0.2,D+0.2,0.15]); }
     bin.build(g); g.traverse(m=>{ if(m.isMesh) m.castShadow=m.castShadow!==false; });
     g.userData.gate={blocks}; return g; }
+  // 傅鐘（v9.3 第十六批）：原本是 LEVEL_BLOCKOUT 的小鐘亭（圓台、四根細圓柱、綠色四角錐）。改成校園套件同一套語彙的鐘亭：
+  // 兩層石材台基、四根方柱（柱礎、柱頭）、四面的梁、四坡瓦屋頂＋屋簷封板＋寶頂、梁下木橫梁吊著銅鐘、正面的石碑。
+  // 不是照真實傅鐘建模，只是概略的樣子。+z 是正面（石碑那一側）。blocks＝導航阻擋（區域座標換算見 zones3d 的 placeGate）
+  function bell(o){ o=o||{}; const g=new THREE.Group(); const bin=new TK.Bin(); const blocks=[];
+    const trim=trimMat(o.trim||'#d8cfbd'), colm=trimMat(o.col||'#ebe5d8'), roof=roofMat(o.roof||'#3f4842'), wood=TK.col('#4a3426',{roughness:0.7}), bronze=TK.col('#6b6a4c',{roughness:0.5,metalness:0.2,side:THREE.DoubleSide});
+    bin.add(trim,TK.boxG(4.8,0.2,4.8,1.2),0,0.1,0); bin.add(trim,TK.boxG(4.0,0.2,4.0,1.2),0,0.3,0);
+    const F=0.4, C=1.3, CW=0.34, CH=2.9;
+    for(const sx of [-1,1]) for(const sz of [-1,1]){ const x=sx*C, z=sz*C;
+      bin.add(trim,TK.boxG(CW+0.14,0.14,CW+0.14,1.2),x,F+0.07,z); bin.add(colm,TK.boxG(CW,CH,CW,1.2),x,F+0.14+CH/2,z); bin.add(trim,TK.boxG(CW+0.16,0.14,CW+0.16,1.2),x,F+0.14+CH+0.07,z); }
+    const BT=F+0.14+CH+0.14, BL=2*C+CW+0.2;
+    for(const s of [-1,1]){ bin.add(trim,TK.boxG(BL,0.34,0.4,1.2),0,BT+0.17,s*C); bin.add(trim,TK.boxG(0.4,0.34,BL-0.8,1.2),s*C,BT+0.17,0); }
+    // 屋頂：屋簷封板＋四坡瓦＋寶頂
+    const RW=4.5, RH=1.3, RY=BT+0.34; bin.add(TK.col('#3b2f2a',{roughness:0.8}),TK.boxG(RW,0.12,RW),0,RY+0.06,0); bin.add(roof,hipRoof(RW+0.1,RW+0.1,RH),0,RY+0.12,0);
+    bin.add(trim,TK.boxG(0.3,0.16,0.3,1.2),0,RY+0.12+RH+0.02,0); bin.add(bronze,new THREE.SphereGeometry(0.13,12,8),0,RY+0.12+RH+0.2,0);
+    // 吊鐘：木橫梁、吊環、銅鐘（外擴的鐘口、裡面看得到鐘舌）
+    bin.add(wood,TK.boxG(2*C,0.24,0.26),0,BT-0.07,0); const by=BT-0.19;
+    bin.add(bronze,new THREE.TorusGeometry(0.07,0.025,6,12),0,by-0.06,0);
+    const prof=[[0.001,0.62],[0.2,0.58],[0.33,0.36],[0.4,0.12],[0.44,0.0],[0.475,0.02],[0.47,0.07],[0.41,0.17],[0.335,0.38],[0.305,0.58],[0.29,0.76],[0.25,0.88],[0.15,0.95],[0.001,0.97]].map(([x,y])=>new THREE.Vector2(x,y));
+    const bh=0.97; bin.add(bronze,new THREE.LatheGeometry(prof,20),0,by-0.12-bh,0); bin.add(bronze,new THREE.SphereGeometry(0.08,10,8),0,by-0.12-bh+0.12,0);
+    // 正面石碑
+    const st=TK.signTex(o.name||'傅鐘',{bg:'#e3dccd',color:'#3a2f28',serif:true,size:96}); bin.add(trim,TK.boxG(1.5,0.86,0.28,1.2),0,0.43,3.05); bin.add(trim,TK.boxG(1.62,0.1,0.36,1.2),0,0.9,3.05);
+    const pl=new THREE.Mesh(new THREE.PlaneGeometry(1.36,0.34),new THREE.MeshStandardMaterial({map:st,roughness:0.85})); pl.position.set(0,0.52,3.196); g.add(pl);   /* 招牌貼圖是 4:1 */
+    blocks.push([0,0,4.8,4.8,0.15],[0,3.05,1.62,0.36,0.1]);
+    bin.build(g); g.traverse(m=>{ if(m.isMesh) m.castShadow=m.castShadow!==false; });
+    g.userData.gate={blocks}; return g; }
   function setNight(on){ TK.setNight(on?1:0); }
-  return {hall,modern,pavilion,gate,setNight,tileTex};
+  return {hall,modern,pavilion,gate,bell,setNight,tileTex};
 })();
