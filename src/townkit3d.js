@@ -258,7 +258,7 @@ const TK = (function(){
   function frondTex(){ return tex('palmFrond',128,512,(x,w,h)=>{ x.clearRect(0,0,w,h); const c=w/2;
     for(let y=10;y<h-4;y+=4){ const t=y/h; const L=(c-4)*(0.25+0.75*Math.sin(Math.PI*Math.min(1,0.15+t*0.95))); for(const s of [-1,1]){ const g=150+((y*7)%34), gg=0.78+((y*13)%20)/100; x.strokeStyle='rgb('+Math.round(70*gg)+','+Math.round(g*gg)+','+Math.round(58*gg)+')'; x.lineWidth=2.2; x.beginPath(); x.moveTo(c+s*2,y); x.quadraticCurveTo(c+s*(2+L*0.6),y-L*0.18,c+s*(2+L),y-L*0.5); x.stroke(); } }
     x.fillStyle='#b8b48a'; x.fillRect(c-2,0,4,h); }, false); }
-  function royalPalm(h, seed){ const g=new THREE.Group(); const bin=new Bin(); const H=h||12; let s=(seed||1)*9301+49297; const r=()=>{ s=(s*16807)%2147483647; return (s-1)/2147483646; };
+  function royalPalm(h, seed, o){ const g=new THREE.Group(); const bin=new Bin(); const H=h||12; const CR=(o&&o.crown)||1;   /* o.crown：樹冠（葉片長度、寬度）相對樹高的比例（椰林大道的樹高、樹冠小）*/ let s=(seed||1)*9301+49297; const r=()=>{ s=(s*16807)%2147483647; return (s-1)/2147483646; };
     const trunkH=H*0.78, shaftH=H*0.1;
     const bark=M('palmTrunk',()=>seeThru(std({map:tex('palmTrunk',64,256,(x,w,hh)=>{ x.fillStyle='#c4bfb3'; x.fillRect(0,0,w,hh); for(let y=0;y<hh;y+=6+((y*7)%5)){ x.fillStyle='rgba(120,112,98,0.2)'; x.fillRect(0,y,w,1.5); } for(let i=0;i<90;i++){ x.fillStyle=rnd()<0.5?'rgba(90,84,74,0.12)':'rgba(240,236,226,0.18)'; x.fillRect(rnd()*w,rnd()*hh,3+rnd()*6,2+rnd()*5); } }),roughness:0.92})));
     // 樹幹：lathe 斷面（半徑隨高度變化）
@@ -269,7 +269,7 @@ const TK = (function(){
     const topY=trunkH+shaftH; bin.add(col('#4f6e3c',{roughness:0.7}),new THREE.ConeGeometry(R0*0.7,H*0.05,8),0,topY+H*0.02,0);
     const frondM=M('palmFrondMat',()=>std({map:frondTex(),alphaTest:0.4,side:THREE.DoubleSide,roughness:0.8,vertexColors:true}));
     const nF=13+((r()*4)|0); const pos=[], uv=[], colA=[], idx=[];
-    for(let f=0;f<nF;f++){ const a=f/nF*Math.PI*2+r()*0.35; const up=0.55+r()*0.5-(f%3===0?0.45:0); const L=H*(0.3+r()*0.06); const W=H*0.12; const dx=Math.cos(a), dz=Math.sin(a); const sx=-dz, sz=dx; const seg=8; const base=pos.length/3; const shade=0.82+r()*0.3;
+    for(let f=0;f<nF;f++){ const a=f/nF*Math.PI*2+r()*0.35; const up=0.55+r()*0.5-(f%3===0?0.45:0); const L=H*(0.3+r()*0.06)*CR; const W=H*0.12*CR; const dx=Math.cos(a), dz=Math.sin(a); const sx=-dz, sz=dx; const seg=8; const base=pos.length/3; const shade=0.82+r()*0.3;
       for(let i=0;i<=seg;i++){ const t=i/seg; const hor=L*t*(1-0.18*t); const vert=L*(up*1.1*t-1.0*t*t); const px=dx*hor, py=topY+H*0.015+vert, pz=dz*hor; const w=W*(0.18+0.82*Math.sin(Math.PI*Math.min(1,0.12+t*0.95)))*0.5; const dr=w*0.55;
         for(const [k,u] of [[-1,0],[0,0.5],[1,1]]){ pos.push(px+sx*w*k, py-(k?dr:0), pz+sz*w*k); uv.push(u,1-t); const sh=shade*(k?0.92:1); colA.push(sh,sh,sh); } }
       for(let i=0;i<seg;i++){ const a0=base+i*3, a1=base+(i+1)*3; idx.push(a0,a1,a0+1, a1,a1+1,a0+1, a0+1,a1+1,a0+2, a1+1,a1+2,a0+2); } }

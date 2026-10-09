@@ -28,14 +28,11 @@ const Z3 = (function(){
     // 大道南側：傅鐘＋行政大樓；北側：文學院、校史館、農業陳列館；小椰林道（x=30）往北通法學院；醉月湖在文學院北邊。
     // 主要道路：椰林大道 東西向（z=0），從校門 x=-124 到總圖前廣場 x≈72
     strip(g,-124,0,72,0,16,W3.pathTex(),4); curb(g,-124,0,72,0,16);
-    // v9.3 第十九批：大道中間 8 m 是柏油路面（白色邊線、虛線中線、自行車圖示），兩側各 4 m 人行道（原本整條 16 m 都是淺色石磚，像廣場）。
-    // 只是路面貼圖，導航不變；騎腳踏車的路人本來就走 z=±3（路面上），行人走 z=±6（人行道上）
-    { const rt=W3.canvasTex('avenueRoad',256,256,(x,w,h)=>{ x.fillStyle='#6f6c68'; x.fillRect(0,0,w,h); let s=17; const r=()=>{ s=(s*16807)%2147483647; return s/2147483647; }; for(let i=0;i<2600;i++){ const v=(r()*30)|0; x.fillStyle='rgba('+(90+v)+','+(88+v)+','+(84+v)+',0.5)'; x.fillRect(r()*w,r()*h,2,2); }
-        x.fillStyle='rgba(60,58,55,0.35)'; for(let i=0;i<6;i++){ x.fillRect(0,r()*h,w,1); } x.fillStyle='#e9e6dc'; x.fillRect(w*0.03,0,w*0.012,h); x.fillRect(w*0.958,0,w*0.012,h); x.fillRect(w*0.494,0,w*0.012,h*0.375); }).clone(); rt.needsUpdate=true; rt.repeat.set(1,196/8);
-      const road=new THREE.Mesh(new THREE.PlaneGeometry(8,196),texMat(rt,null,{roughness:0.92})); road.rotation.x=-Math.PI/2; road.rotation.z=-Math.PI/2; road.position.set(-26,0.024,0); road.receiveShadow=true; g.add(road);
-      const bt=W3.canvasTex('bikeMark',128,128,(x,w,h)=>{ x.clearRect(0,0,w,h); x.strokeStyle='#ecebe4'; x.fillStyle='#ecebe4'; x.lineWidth=7; for(const cx of [30,98]){ x.beginPath(); x.arc(cx,80,22,0,7); x.stroke(); } x.beginPath(); x.moveTo(30,80); x.lineTo(56,46); x.lineTo(86,46); x.lineTo(98,80); x.moveTo(56,46); x.lineTo(66,80); x.lineTo(86,46); x.moveTo(50,36); x.lineTo(64,36); x.moveTo(86,46); x.lineTo(90,30); x.lineTo(100,30); x.stroke(); });
-      const bmat=new THREE.MeshStandardMaterial({map:bt,roughness:0.9,alphaTest:0.5,polygonOffset:true,polygonOffsetFactor:-2});
-      for(let x=-108;x<=60;x+=28){ for(const s of [-1,1]){ const m=new THREE.Mesh(new THREE.PlaneGeometry(1.5,1.5),bmat); m.rotation.x=-Math.PI/2; m.rotation.z=s>0?0:Math.PI; m.position.set(x+(s>0?0:14),0.03,s*2.0); g.add(m); } } }
+    // v9.3 第十八批：大道中間 12 m 是柏油路面（黃色虛線中線、白色邊線；照使用者給的椰林大道照片），兩側各 2 m 石磚人行道（原本整條 16 m 都是淺色石磚，像廣場）。
+    // 只是路面貼圖，導航不變；騎腳踏車的路人走 z=±3（路面上），行人走 z=±7（人行道上）
+    { const rt=W3.canvasTex('avenueRoad2',256,256,(x,w,h)=>{ x.fillStyle='#5f5d5a'; x.fillRect(0,0,w,h); let s=17; const r=()=>{ s=(s*16807)%2147483647; return s/2147483647; }; for(let i=0;i<2600;i++){ const v=(r()*28)|0; x.fillStyle='rgba('+(78+v)+','+(76+v)+','+(73+v)+',0.5)'; x.fillRect(r()*w,r()*h,2,2); }
+        x.fillStyle='rgba(50,48,46,0.3)'; for(let i=0;i<5;i++){ x.fillRect(0,r()*h,w,1); } x.fillStyle='#dedbd2'; x.fillRect(w*0.025,0,w*0.008,h); x.fillRect(w*0.967,0,w*0.008,h); x.fillStyle='#d9a521'; x.fillRect(w*0.493,0,w*0.014,h*0.4); }).clone(); rt.needsUpdate=true; rt.repeat.set(1,196/9);
+      const road=new THREE.Mesh(new THREE.PlaneGeometry(12,196),texMat(rt,null,{roughness:0.9})); road.rotation.x=-Math.PI/2; road.rotation.z=-Math.PI/2; road.position.set(-26,0.024,0); road.receiveShadow=true; g.add(road); }
     // 總圖前廣場（椰林大道盡頭）
     ground(g,17,36,W3.stoneTex('#e3d9c6'),[4,9],78.5,0,0.016);
     // 椰林大道兩側的杜鵑花叢（真實的椰林大道中間沒有分隔島；開學的九月杜鵑不開花，只有綠叢）：每兩棵椰子樹中間一叢；
@@ -69,7 +66,7 @@ const Z3 = (function(){
     // 圍牆（校門兩側）
     for(const s of [-1,1]){ const wall=new THREE.Mesh(new THREE.BoxGeometry(1,1.8,70),texMat(W3.brickTex('#b8735a'))); wall.position.set(-124,0.9,s*45); g.add(wall); nav.blockRect(-124,s*45,1.2,70,0,0.3); }
     // ---- 椰林大道：大王椰子 ----
-    for(let x=-110;x<=70;x+=7.5){ for(const s of [-1,1]){ const p=PALM(9+((x*7)%3)); place(g,p,x,s*9.5,(x*0.3)%6.28); nav.blockCircle(x,s*9.5,0.5); } }
+    for(let x=-110;x<=70;x+=7.5){ for(const s of [-1,1]){ palmIdx++; const p=TK.royalPalm((14.5+((x*7)%3)*0.8)*1.35,palmIdx,{crown:0.66});   /* v9.3 第十八批：照椰林大道照片拉高到約 20 m、樹冠相對變小 */ place(g,p,x,s*9.5,(x*0.3)%6.28); nav.blockCircle(x,s*9.5,0.5); } }
     // 兩側草地小徑與長椅、腳踏車
     for(let x=-100;x<=50;x+=25){ for(const s of [-1,1]){ const b=BENCH(); place(g,b,x,s*13,s>0?Math.PI:0); nav.blockRect(x,s*13,2.0,0.7,0); seats.push({x,z:s*13+(s>0?-0.55:0.55),yaw:s>0?Math.PI:0,label:'坐在椰林大道的長椅上'}); } }
     for(let x=-90;x<=40;x+=32){ const r=W3.bikeRack(7); place(g,r,x+8,-16,0); nav.blockRect(x+8,-16,5,1.4,0); }
@@ -115,14 +112,14 @@ const Z3 = (function(){
     { const r=W3.bikeRack(9); place(g,r,58,-102,0); nav.blockRect(58,-102,6,1.4,0); const r2=W3.bikeRack(6); place(g,r2,10,-100,0); nav.blockRect(10,-100,4,1.4,0); }
     { const bb=W3.bulletin(); place(g,bb,48,-105.35,0); nav.blockRect(48,-105.35,2.6,0.4,0); /* 霖澤館一樓拱廊的內牆上（拱廊可以走，不擋路）*/ const v=W3.vending(); place(g,v,13.5,-107.5,-Math.PI/2); nav.blockRect(13.5,-107.5,0.9,1.2,0); /* 靠霖澤館西側牆（舊位置一半埋在建築轉角裡，現在那裡是拱廊入口）*/ }
     for(const [x,z] of [[30,-86],[62,-86],[94,-86],[46,-108],[76,-108]]){ const l=W3.lampPost(); place(g,l,x,z,Math.PI/2); lamps.push(l); nav.blockCircle(x,z,0.25); }
-    for(const [x,z] of [[8,-70],[8,-50],[52,-50],[-54,-19],[-5,-16],[40,-20],[-10,18],[10,18],[50,18],[-95,-12],[-62,-56],[0,-56],[-96,24],[-82,31],[-68,24],[78,-38],[64,-44]]){   /* (8,-30)、(20,-20)、(52,-30)、(66,-28) 第二十批拿掉（新系館的位置）*/ const b=TREE(1+((x+z)%3)*0.2); place(g,b,x,z,(x+z)*0.3); nav.blockCircle(x,z,0.8); }
+    for(const [x,z] of [[8,-70],[8,-50],[52,-50],[-54,-19],[-5,-16],[40,-20],[-95,-12],[-62,-56],[0,-56],[-96,24],[-82,31],[-68,24],[78,-38],[64,-44]]){   /* 第十八批拿掉：(8,-30)、(20,-20)、(52,-30)、(66,-28)（新系館的位置）、(-10,18)、(10,18)、(50,18)（換成大道南側的大樹牆）*/ const b=TREE(1+((x+z)%3)*0.2); place(g,b,x,z,(x+z)*0.3); nav.blockCircle(x,z,0.8); }
     // 花圃
     for(const x of [-64,-48]){ const p=W3.planter(); place(g,p,x,-13,0); nav.blockRect(x,-13,1.2,0.5,0); }
     // 社團招生攤位（傅鐘廣場東側，面向椰林大道）：摺疊桌、布條、傳單
     { const SX=-18, SZ=14.5; const st=new THREE.Group(); const tb=new THREE.Mesh(new THREE.BoxGeometry(1.8,0.05,0.7),M('#e8e2d6')); tb.position.set(0,0.74,0); st.add(tb); for(const [sx,sz] of [[-0.8,-0.25],[0.8,-0.25],[-0.8,0.25],[0.8,0.25]]){ const leg=new THREE.Mesh(new THREE.BoxGeometry(0.04,0.72,0.04),M('#3a3f46')); leg.position.set(sx,0.36,sz); st.add(leg); } const cloth=new THREE.Mesh(new THREE.BoxGeometry(1.85,0.6,0.02),M('#2f5d50')); cloth.position.set(0,0.42,0.36); st.add(cloth); const banner=W3.signPlane('法律服務社 招生中 ・ 免費法律諮詢',1.8,0.5,{color:'#ffffff',size:40}); banner.position.set(0,0.42,0.38); st.add(banner); const fly=new THREE.Mesh(new THREE.BoxGeometry(0.3,0.02,0.42),M('#ffffff')); fly.position.set(-0.4,0.78,0); st.add(fly); st.position.set(SX,0,SZ); st.rotation.y=Math.PI; g.add(st); nav.blockRect(SX,SZ,1.9,0.8,0,0.1); E.interactables.push({x:SX,z:SZ-1,radius:1.5,label:'看法律服務社的招生攤位',notice:'lawclub'}); }
     // 路旁散置腳踏車
     for(const [x,z] of [[-60,-15.5],[-57,15.5],[0,-15.5],[24,-64],[36,-64]]){ const b=W3.bike(['#3a6fb0','#8c3b47','#2f5d50','#e0b95b'][(x+z)&3]); place(g,b,x,z,Math.PI/2); nav.blockRect(x,z,1.7,0.6,0); }   /* v9.3 第十八批：車子沿 x 方向停，導航原本擋成沿 z 方向（走得過車頭車尾、旁邊空地反而不能走）*/
-    // ---- v9.3 第二十批：校園加密 ----
+    // ---- v9.3 第十八批：校園加密 ----
     // 真實的椰林大道兩側幾乎整排都是系館（離大道 20–30 m、前面是草地）；原本這裡大道東半段兩側、行政大樓東邊、男一舍兩側都是空草地。
     // 補上沒有掛名字的系館（不冒用真實系館的名字和位置），同一套校園套件語彙：紅磚／面磚、一樓拱廊、拱窗或方窗
     { const fill=[
@@ -134,12 +131,16 @@ const Z3 = (function(){
         [CK.hall({w:30,d:13,floors:5,gfh:3.6,fh:3.1,wall:'#c9b49a',trim:'#e8e2d6',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4}}),74,68,Math.PI]];
       for(const [b,x,z,ry] of fill){ ckPlace(b,x,z,ry); buildings.push(b); }
       // 系館前的樹列、大道外側的樹、宿舍區與校園邊緣的樹帶（擋住草地直接接到遠景的盡頭）
-      const rows=[[-6,19.5],[6,19.5],[28,19.5],[38,19.5],[54,19.5],[64,19.5],[46,-19.5],[60,-19.5],[70,-19.5],
+      const rows=[
         [-104,36],[-90,41],[-76,38],[-100,16],[-112,26],[74,-12],[78,14],[68,26],
         [-60,58],[-12,60],[54,58],[93,60],[104,66]];
       for(let x=-116;x<=116;x+=11){ if(x>-52&&x<-16) continue; if(x>-4&&x<44) continue; if(x>56&&x<92) continue; rows.push([x,80]); }
       for(let z=-30;z<=40;z+=10){ rows.push([121,z+((z*7)%3)]); }   /* 總圖東邊；社科院在 z<-42 */
       for(const [x,z] of rows){ const t=TREE(1+((Math.abs(x*3+z))%4)*0.12); place(g,t,x,z,(x+z)*0.37); nav.blockCircle(x,z,0.8); }
+      // 大道兩側的大樹牆：椰子樹列後面（z=±17.5），約 8 m 一棵、高 10–12 m；路口、門口、停車架、傅鐘廣場、社團攤位留空。整排合成一個網格（一側 2 個 draw call）
+      for(const side of [-1,1]){ const skip=side<0?[[-116,-111],[-84,-70],[-85,-79],[-53,-47],[-46,-30],[-21,-15],[-15,-9],[-7,2],[2,12],[11,17],[23,37],[37,43],[43,49],[50,64]]:[[-116,-111],[-53,-23],[-22,-14],[-2,6],[16,24],[39,51]];
+        const rowG=new THREE.Group(); let k=0; for(let x=-108;x<=66;x+=8){ const jx=x+((x*13)%5)*0.4; if(skip.some(([a,b])=>jx>a&&jx<b)) continue; k++; const t=TK.tree(6.4*(1.55+((k*7)%4)*0.1),k+(side>0?50:0)); t.position.set(jx,0,side*(17.5+((k*5)%3)*0.5)); t.rotation.y=k*1.3; rowG.add(t); nav.blockCircle(t.position.x,t.position.z,0.8); }
+        g.add(W3.mergeGroup(rowG)); }
       // 系館門口的腳踏車架（台大的系館前面一定停滿腳踏車）
       for(const [x,z,ry] of [[-6,24,0],[12,24,0],[33,24,0],[57,24,0],[-1,-17.2,Math.PI],[46,-23.5,Math.PI],[68,-23.5,Math.PI]]){ const r=W3.bikeRack(7); place(g,r,x,z,ry); nav.blockRect(x,z,4.6,1.6,0); } }
     // 邊界
