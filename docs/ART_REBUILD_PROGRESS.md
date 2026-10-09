@@ -10,7 +10,7 @@
 ## CURRENTLY WORKING ON — 現在正在修改什麼
 
 - **最近更新**：2026-10-09（台灣時間，v9.3 第十、十一批：農業陳列館、公館重建）
-- **最新已推送 commit**：`6db8289`（v9.3 第九批：男一舍、社會科學院；測試全部 PASS）；之前是 `416afee`（第八批：黃昏調色提案，等使用者決定）、`40bb50e`（第七批）、`86deef8`（第六批）、`edb01e8`（第五批）、`0080bf5`（第四批）、`66374e2`（第三批）、`7a4eca6`（第二批）、`ad76109`（第一批）。分支 `claude/friendly-brahmagupta-6bbkzc`，PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
+- **最新已推送 commit**：`320c2e7`（v9.3 第十、十一批：農業陳列館、公館重建；測試全部 PASS；程式在 `6564b61`、`329680f`）；之前是 `6db8289`（第九批：男一舍、社會科學院）、`416afee`（第八批：黃昏調色提案，等使用者決定）、`40bb50e`（第七批）、`86deef8`（第六批）、`edb01e8`（第五批）、`0080bf5`（第四批）、`66374e2`（第三批）、`7a4eca6`（第二批）、`ad76109`（第一批）。分支 `claude/friendly-brahmagupta-6bbkzc`，PR：https://github.com/pyhuanglaw/Lawstudent/pull/1
 - **畫面驗收**：[`docs/art-rebuild/VISUAL_REVIEW.md`](art-rebuild/VISUAL_REVIEW.md)。**美術規範**：[`docs/art-rebuild/ART_DIRECTION.md`](art-rebuild/ART_DIRECTION.md)（參考圖在 `docs/art-rebuild/references/`）
 
 ### 這次完成（v9.3 第十、十一批，`c48f022` 之後）
