@@ -290,7 +290,14 @@ def bind(obj, arm, groups_weights=None):
 def mtoon_from(template_name, new_name, base_img=None, shade_img=None, alpha='OPAQUE', cutoff=0.5, double_sided=False, outline=None):
     """複製一個現有的 MToon 材質（保留陰影、描邊等設定），換貼圖。alpha：OPAQUE／MASK／BLEND"""
     src = bpy.data.materials[template_name]; m = src.copy(); m.name = new_name; e = m.vrm_addon_extension.mtoon1
-    if base_img is not None: e.pbr_metallic_roughness.base_color_texture.index.source = base_img
+    if base_img is not None:
+        e.pbr_metallic_roughness.base_color_texture.index.source = base_img
+        # 新貼圖已經是最終顏色：底色倍數改白、自發光歸零（Victoria Rubin 的金髮材質有奶油色的自發光 (0.92, 0.90, 0.72)，
+        # 複製過來整頭頭髮會發出米白色的光——林芷若第一版在遊戲裡是一頭白髮）
+        try: e.pbr_metallic_roughness.base_color_factor = (1.0, 1.0, 1.0, 1.0)
+        except Exception as ex: print('  base factor', ex)
+        try: e.emissive_factor = (0.0, 0.0, 0.0)
+        except Exception as ex: print('  emissive factor', ex)
     if shade_img is not None or base_img is not None:
         e.extensions.vrmc_materials_mtoon.shade_multiply_texture.index.source = shade_img or base_img
     e.alpha_mode = alpha; e.alpha_cutoff = cutoff; e.double_sided = double_sided
