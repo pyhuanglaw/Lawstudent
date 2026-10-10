@@ -54,9 +54,9 @@ async def main():
                     await pg.evaluate("(c=>{ const C=GAME.E.cam; C.mode='follow'; C.yaw=c.yaw; C.pitch=c.pitch; C.distTarget=c.dist; C.dist=c.dist; C.manualT=999; })(%s)" % json.dumps(cam))
                 if 'hour' in st: await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.applyTime(h); })(%s)" % st['hour'])
                 await pg.wait_for_timeout(min(s.get('wait', 3000), 2500)); await frames(pg, 6)
-                if 'hour' in st: await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.applyTime(h); })(%s)" % st['hour'])
+                if 'hour' in st: await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.applyTime(h); GAME.updateHUD&&GAME.updateHUD(); })(%s)" % st['hour'])   # HUD 的時鐘也要更新（不然畫面是 17:30、左上角還寫 11:00）
                 await frames(pg, 2)
-                info = await pg.evaluate("(()=>{ const E=GAME.E, P=E.player.obj.position, C=E.camera.position; return {zone:GAME.G.zone, hour:+GAME.G.hour.toFixed(2), player:[+P.x.toFixed(2),+P.z.toFixed(2)], cam:[+C.x.toFixed(2),+C.y.toFixed(2),+C.z.toFixed(2)], mode:E.cam.mode}; })()")
+                info = await pg.evaluate("(()=>{ const E=GAME.E, P=E.player.obj.position, C=E.camera.position, t=document.getElementById('clockT'); return {zone:GAME.G.zone, hour:+GAME.G.hour.toFixed(2), hud:t?t.textContent:null, player:[+P.x.toFixed(2),+P.z.toFixed(2)], cam:[+C.x.toFixed(2),+C.y.toFixed(2),+C.z.toFixed(2)], mode:E.cam.mode}; })()")
                 await pg.screenshot(path=s['out']); print('shot', s['out'], info, 'errors:', errs[:3], flush=True)
             await ctx.close()
         await b.close()

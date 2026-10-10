@@ -7,6 +7,8 @@
   scooter_b：復古款（圓弧車殼、圓頭燈、鍍鉻後照鏡與排氣管護片、後扶手）
 每一款是一個網格（多個材質）：遊戲用 InstancedMesh 擺很多台（溫州街主巷 37 台左右），**車殼顏色每台不同**：
 材質 scooter_paint 是白色，顏色用 instanceColor 乘上去（套件 TK.scooter 給的顏色）。
+其他零件的顏色放在頂點色，只分兩個材質：scooter_parts（塑膠、橡膠、燈、車牌）、scooter_metal（金屬、鍍鉻）——
+一款車 3 個 InstancedMesh（原本約 10 個），整條巷子的機車連陰影約 12 次 draw call。
 """
 import math, os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -27,16 +29,33 @@ M = {
     'dark': L.flat('scooter_dark', '#2a2b2d', rough=0.55),
     'seat': L.flat('scooter_seat', '#1d1c1c', rough=0.5),
     'tire': L.flat('scooter_tire', '#191919', rough=0.85),
-    'metal': L.flat('scooter_metal', '#7d8186', rough=0.4, metal=0.45),
+    'metal': L.flat('scooter_metal_flat', '#7d8186', rough=0.4, metal=0.45),
     'chrome': L.flat('scooter_chrome', '#c9ced2', rough=0.18, metal=0.6),
     'lamp': L.flat('scooter_lamp', '#e8edf0', rough=0.1),
     'tail': L.flat('scooter_tail', '#a1231b', rough=0.25),
     'amber': L.flat('scooter_amber', '#d98a1e', rough=0.3),
     'plate': L.flat('scooter_plate', '#f1f1ec', rough=0.5),
+    'parts': L.vc_material('scooter_parts', rough=0.55),
+    'metalvc': L.vc_material('scooter_metal', rough=0.3),
 }
+M['metalvc'].node_tree.nodes['Principled BSDF'].inputs['Metallic'].default_value = 0.45
+VC = {'scooter_dark': '#2a2b2d', 'scooter_seat': '#1d1c1c', 'scooter_tire': '#191919', 'scooter_lamp': '#e8edf0', 'scooter_tail': '#a1231b', 'scooter_amber': '#d98a1e', 'scooter_plate': '#f1f1ec'}
+VCM = {'scooter_metal_flat': '#7d8186', 'scooter_chrome': '#c9ced2'}
 
 
-def sect(x, cy, hw, hh, p=2.6, n=14, ytop=None):
+def bake_vc(parts):
+    """零件的顏色寫進頂點色（Col），材質換成共用的 scooter_parts／scooter_metal；車殼也寫白色（合併時每個零件都要有 Col，不然會補成黑色）"""
+    lin = lambda c: c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
+    for ob in [o for o in parts if o is not None]:
+        nm = ob.data.materials[0].name; hx = VC.get(nm) or VCM.get(nm) or '#ffffff'
+        col = [lin(int(hx[i:i + 2], 16) / 255) for i in (1, 3, 5)] + [1.0]
+        at = ob.data.color_attributes.new('Col', 'FLOAT_COLOR', 'CORNER')
+        for d in at.data: d.color = col
+        if nm in VC: ob.data.materials[0] = M['parts']
+        elif nm in VCM: ob.data.materials[0] = M['metalvc']
+
+
+def sect(x, cy, hw, hh, p=2.6, n=10, ytop=None):
     """一個橫斷面（x 處）：超橢圓，中心高 cy、半寬 hw、半高 hh；p 越大越方"""
     pts = []
     for i in range(n):
@@ -59,9 +78,9 @@ def loft(m, rings, cap=True):
 
 def wheel(parts, x, r=0.235, w=0.1, hub=0.11):
     t = Mesh('tire', M['tire']); prof = [(hub + 0.02, -w / 2), (r - 0.03, -w / 2), (r, -w / 2 + 0.025), (r, w / 2 - 0.025), (r - 0.03, w / 2), (hub + 0.02, w / 2)]
-    bm = L.lathe([(a, b) for a, b in prof], seg=18); t.add_bm(bm, Matrix.Translation(g2b(x, r, 0)) @ Matrix.Rotation(math.pi / 2, 4, 'X')); bm.free()
+    bm = L.lathe([(a, b) for a, b in prof], seg=14); t.add_bm(bm, Matrix.Translation(g2b(x, r, 0)) @ Matrix.Rotation(math.pi / 2, 4, 'X')); bm.free()
     ob = t.finish(None, uv=False); L.smooth_mesh(ob, angle=0.9); parts.append(ob)
-    rm = Mesh('rim', M['metal']); bm = L.lathe([(0.0, -w / 2 - 0.006), (hub + 0.025, -w / 2 - 0.006), (hub + 0.025, w / 2 + 0.006), (0.0, w / 2 + 0.006)], seg=14)   # 輪框的兩面露在輪胎外
+    rm = Mesh('rim', M['metal']); bm = L.lathe([(0.0, -w / 2 - 0.006), (hub + 0.025, -w / 2 - 0.006), (hub + 0.025, w / 2 + 0.006), (0.0, w / 2 + 0.006)], seg=10)   # 輪框的兩面露在輪胎外
     rm.add_bm(bm, Matrix.Translation(g2b(x, r, 0)) @ Matrix.Rotation(math.pi / 2, 4, 'X')); bm.free(); parts.append(rm.finish(None, uv=False))
 
 
@@ -84,7 +103,7 @@ def scooter(kind):
     st = [(0.31, 0.3, 0.2, 0.06), (0.35, 0.5, 0.19, 0.07), (0.39, 0.7, 0.17, 0.07), (0.42, 0.86, 0.14, 0.065), (0.44, 0.96, 0.1, 0.055)]
     rings = []
     for (x, y, hw, hd) in st:                                  # 這個殼沿著 y 往上接：斷面在 x–z 平面
-        n = 14; ring = []
+        n = 10; ring = []
         for i in range(n):
             t = 2 * math.pi * i / n; c, s = math.cos(t), math.sin(t); e = 2 / (3.0 if not retro else 2.2)
             ring.append((x + hd * math.copysign(abs(s) ** e, s), y, hw * math.copysign(abs(c) ** e, c)))
@@ -92,10 +111,10 @@ def scooter(kind):
     loft(fr, rings); ob = fr.finish(None, uv=False); L.smooth_mesh(ob, angle=1.0); parts.append(ob)
     # 前土除（前輪上方的擋泥板）＋前叉
     ff = Mesh('front_fender', p); arc = []
-    for i in range(8):                                         # 斷面垂直於弧：徑向 × 車寬方向
-        a = math.radians(-35 + i * 15); cx, cy = 0.635 + math.sin(a) * 0.3, 0.235 + math.cos(a) * 0.3; rx, ry = math.sin(a), math.cos(a); ring = []
-        for k in range(10):
-            t = 2 * math.pi * k / 10; c, s_ = math.cos(t), math.sin(t); e = 2 / 2.4
+    for i in range(7):                                         # 斷面垂直於弧：徑向 × 車寬方向
+        a = math.radians(-35 + i * 17.5); cx, cy = 0.635 + math.sin(a) * 0.3, 0.235 + math.cos(a) * 0.3; rx, ry = math.sin(a), math.cos(a); ring = []
+        for k in range(8):
+            t = 2 * math.pi * k / 8; c, s_ = math.cos(t), math.sin(t); e = 2 / 2.4
             dz = 0.07 * math.copysign(abs(c) ** e, c); dr = 0.018 * math.copysign(abs(s_) ** e, s_)
             ring.append((cx + rx * dr, cy + ry * dr, dz))
         arc.append(ring)
@@ -119,7 +138,7 @@ def scooter(kind):
     parts.append(mr.finish(None, uv=False))
     # 燈：頭燈（a＝龍頭罩上的長條 LED、b＝圓燈）、方向燈、尾燈、車牌
     lp = Mesh('headlamp', M['lamp'])
-    if retro: lp.cyl((0.52, 0.98, 0), (0.56, 0.98, 0), 0.07, seg=14)
+    if retro: lp.cyl((0.52, 0.98, 0), (0.56, 0.98, 0), 0.07, seg=10)
     else: lp.box(0.53, 0.565, 0.95, 0.99, -0.11, 0.11)
     parts.append(lp.finish(None, uv=False))
     am = Mesh('turn', M['amber'])
@@ -130,7 +149,7 @@ def scooter(kind):
     # 後土除（黑）、引擎＋傳動箱（左邊，深灰金屬）、排氣管（右邊；b 有鍍鉻護片）、中柱
     rf = Mesh('rear_fender', M['dark']); rf.box(-0.98, -0.8, 0.36, 0.5, -0.08, 0.08); rf.box(-0.86, -0.5, 0.44, 0.5, -0.09, 0.09); parts.append(rf.finish(None, uv=False))
     en = Mesh('engine', M['metal'])                            # 傳動箱（左邊，從踏板後面到後輪軸，圓角）
-    loft(en, [sect(x, cy, hw, hh, p=2.4, n=12) for (x, cy, hw, hh) in [(-0.7, 0.24, 0.03, 0.06), (-0.62, 0.25, 0.04, 0.1), (-0.3, 0.27, 0.045, 0.1), (-0.08, 0.26, 0.04, 0.09), (-0.02, 0.25, 0.025, 0.06)]])
+    loft(en, [sect(x, cy, hw, hh, p=2.4, n=8) for (x, cy, hw, hh) in [(-0.7, 0.24, 0.03, 0.06), (-0.62, 0.25, 0.04, 0.1), (-0.3, 0.27, 0.045, 0.1), (-0.08, 0.26, 0.04, 0.09), (-0.02, 0.25, 0.025, 0.06)]])
     for v in en.bm.verts: v.co.y -= 0.12                       # 往左（遊戲 +z＝Blender −y）移到後輪左邊
     ob = en.finish(None, uv=False); L.smooth_mesh(ob, angle=1.0); parts.append(ob)
     ub = Mesh('underbody', M['dark']); ub.box(-0.45, -0.04, 0.2, 0.36, -0.1, 0.06); parts.append(ub.finish(None, uv=False))
@@ -142,7 +161,7 @@ def scooter(kind):
     cs = Mesh('stand', M['metal'])
     for z in (-0.12, 0.12): cs.cyl((-0.15, 0.2, z), (-0.2, 0.0, z * 1.1), 0.015, seg=4)
     cs.cyl((-0.2, 0.01, -0.13), (-0.2, 0.01, 0.13), 0.015, seg=4); parts.append(cs.finish(None, uv=False))
-    me = combine(parts, f'scooter_{kind}'); ob = bpy.data.objects.new(f'scooter_{kind}', me); bpy.context.scene.collection.objects.link(ob); ob.parent = root
+    bake_vc(parts); me = combine(parts, f'scooter_{kind}'); ob = bpy.data.objects.new(f'scooter_{kind}', me); bpy.context.scene.collection.objects.link(ob); ob.parent = root
     ob.location = (0.0, 0.0 if kind == 'a' else 3.0, 0.0)                                   # 匯出時兩款分開放（遊戲照名稱取，不看位置）
     return ob
 
