@@ -88,4 +88,22 @@
 | Poly Haven `walnut_veneer`（Jenelle van Heerden） | https://polyhaven.com/a/walnut_veneer | CC0 | Café 店內木護牆、桌椅、吧檯 |
 | Poly Haven `black_walnut_veneer_01`（Jenelle van Heerden） | https://polyhaven.com/a/black_walnut_veneer_01 | CC0 | Café 書牆、層架、畫框 |
 | Poly Haven `fine_grained_wood`（Rob Tuytel；第一個 AI 已下載到 `tools/blender/textures/`，只讀使用） | https://polyhaven.com/a/fine_grained_wood | CC0 | Café 店面門窗框、招牌框、窗下木板 |
+| 溫州街主巷兩側 14 棟公寓近景 `assets/models/env/second_ai/wenzhou_street.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_street.py`（和 Café 共用 `cafe_layout.py` 的材質與零件） | 本作 | 溫州街主巷 A1–A5、B1–B7 與 Café 南北兩側的公寓 |
+| Poly Haven `long_white_tiles`（Jenelle van Heerden、Sergej Majboroda） | https://polyhaven.com/a/long_white_tiles | CC0 | 溫州街公寓的長條磁磚外牆、騎樓柱子 |
+| Poly Haven `rounded_square_tiled_wall`（Charlotte Baglioni） | https://polyhaven.com/a/rounded_square_tiled_wall | CC0 | 溫州街公寓的小方塊馬賽克外牆 |
+| Poly Haven `painted_metal_shutter`（Charlotte Baglioni、Dario Barresi、Rico Cilliers） | https://polyhaven.com/a/painted_metal_shutter | CC0 | 溫州街公寓一樓的鐵捲門 |
+| Poly Haven `square_brick_paving`（Dimitrios Savva） | https://polyhaven.com/a/square_brick_paving | CC0 | 溫州街騎樓地坪、小公園的步道與圓形廣場 |
+| Poly Haven `brick_pavement_04`（Charlotte Baglioni） | https://polyhaven.com/a/brick_pavement_04 | CC0 | 溫州街 Café 門前的紅磚人行道 |
+| Poly Haven `grey_roof_tiles`（Rob Tuytel） | https://polyhaven.com/a/grey_roof_tiles | CC0 | 已下載，沒有用（日式宿舍的黑瓦改用本作程式產生的貼圖） |
+| 溫州街日式宿舍＋院牆 `assets/models/env/second_ai/wz_jphouse.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_jphouse.py` | 本作 | 溫州街 A 側的日式宿舍（取代套件 `TK.japaneseHouse`、`TK.wall` 的外觀） |
+| 溫州街電線桿、反光鏡、路名牌、Café 門前紅磚道 `assets/models/env/second_ai/wz_props.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_props.py` | 本作 | 溫州街主巷與東端路口 |
+| 溫州街小公園 `assets/models/env/second_ai/wz_park.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_park.py` | 本作 | 溫州街 A 側的小公園（草地、鋪面、路緣、樹穴、樹圍座椅、單槓、名牌） |
+| 黑瓦、紙拉門貼圖 `tools/blender/env_second/textures/jp_kawara/`、`jp_shoji/` | 本作程式產生 `tools/blender/env_second/gen_jp_textures.py`（固定亂數種子） | 本作 | 日式宿舍的屋瓦、院牆瓦頂、窗後的紙拉門 |
+| 窗台下的雨痕貼圖 `tools/blender/env_second/textures/gen/wz_stain.png` | 本作程式產生 `tools/blender/env_second/gen_street_textures.py`（固定亂數種子） | 本作 | 溫州街公寓每扇窗下的水漬 |
+| 機車兩款 `assets/models/env/second_ai/scooter.glb` | 本作 Blender 腳本 `tools/blender/env_second/scooter.py`（不仿特定品牌） | 本作 | 溫州街的機車（遊戲用 InstancedMesh 擺放） |
+| Poly Haven `dark_planks`（Rob Tuytel） | https://polyhaven.com/a/dark_planks | CC0 | 日式宿舍的雨淋板（下見板） |
+| Poly Haven `concrete_wall_006`（Charlotte Baglioni、Dario Barresi） | https://polyhaven.com/a/concrete_wall_006 | CC0 | 日式宿舍的院牆、基座；電線桿；小公園的花崗石路緣 |
+| Poly Haven `leafy_grass`（Charlotte Baglioni） | https://polyhaven.com/a/leafy_grass | CC0 | 小公園的草地 |
+| 全日便利商店室內 `assets/models/env/second_ai/cvs_interior.glb` | 本作 Blender 腳本 `tools/blender/env_second/cvs_interior.py`（不仿特定連鎖品牌：店名、配色、牌子都是本作自訂） | 本作 | `cvs` 室內區域（貨架、商品、飲料櫃、櫃檯、香菸櫃、咖啡機、關東煮、包子蒸櫃、自動門、窗） |
+| Poly Haven `large_floor_tiles_02`、`granite_tile_03`（第一個 AI 已下載到 `tools/blender/textures/`，只讀使用；作者與授權見上面「Poly Haven 貼圖」一節） | https://polyhaven.com/a/large_floor_tiles_02 、https://polyhaven.com/a/granite_tile_03 | CC0 | 便利商店的白色大地磚（調成米白）、櫃檯石材檯面 |
 

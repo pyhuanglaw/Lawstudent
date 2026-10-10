@@ -117,3 +117,206 @@
 8. **沒有 iPhone 實機驗證**；手機效能只用 draw call 與三角形數估計，沒有實測 FPS。
 9. 時段用 ART_DIRECTION 第 8 節的 11:00／17:30／20:30（交接文件寫 10:00，差一小時）。
 10. 招牌、立牌、菜單的字用裝置上的字型畫（Noto Serif／Sans TC，沒有時用系統字型），不同手機字型會不一樣。
+
+---
+
+## 2. 溫州街近景（主巷公寓、日式宿舍、街道細節、小公園、機車）
+
+### 2.1 玩家會看到什麼不同
+
+| | 修改前（程序化套件） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 主巷兩側 14 棟公寓 | 方盒＋貼圖窗（窗、鐵窗、冷氣都是畫上去的）；招牌字被拉寬（512×128 的字貼在 6.5×0.75 m 的招牌上） | 真的窗洞（鋁窗、窗簾、窗內房間；三成五的窗晚上亮燈）、外凸鐵窗（真的鐵條）與窗台盆栽、**約四分之一的鐵窗裡曬著衣服**（T 恤、毛巾、長褲、襯衫）、**每扇窗台下有往下流的雨痕**、浪板雨遮、冷氣室外機＋鐵架＋排水管、樓板線、女兒牆、頂樓不鏽鋼水塔或頂樓加蓋；外牆照每棟原本的種類與顏色（長條磁磚、小方塊馬賽克、水泥漆）；一樓：店面（木框或鋁框玻璃、店內景深卡、橫招牌、直立招牌、帆布雨遮）、住家（凸框造型鐵門、信箱、門燈、門口台階、小窗）、鐵捲門、騎樓（磁磚柱、天花板日光燈、地磚）；招牌字照板面比例畫，不再被拉寬 |
+| 日式宿舍（A 側圍牆裡） | 木紋貼圖方盒、平的四坡屋頂、紙貼在牆上的窗 | 水泥基座（高架地板、鐵條通風口）、下見板（雨淋板）＋直條押緣、腰線以上白灰泥、木柱、木框玻璃拉窗（窗格；後面是紙拉門，有的半開，晚上紙拉門透出暖光）、寄棟黑瓦屋頂（瓦的波浪、屋簷一排瓦頭、隅棟、大棟、鬼瓦）、屋簷下的椽木、鐵皮雨水槽與落水管、玄關（切妻小屋頂、格子拉門、門燈、沓脫石）；後來加的窗型冷氣、浪板雨遮、電表箱 |
+| 院牆 | 平的牆＋瓦頂方塊 | 有污漬的水泥粉刷牆、壁柱、牆腳、瓦頂、木門柱＋冠木＋門上的小屋頂；**藍底白字的門牌**（台北的門牌）、「私人住宅 請勿進入」告示、鐵信箱 |
+| 電線桿 | 灰色圓柱＋方塊橫擔 | 錐形水泥桿、鍍鋅橫擔與斜撐、瓷礙子、腳踏釘、黃黑反光帶、貼在桿上的小廣告、白底黑字的桿號牌；路燈臂（往上翹的鋼管＋燈具，晚上燈罩亮）；第 3 根有柱上變壓器、第 5 根有藍底白字的路牌 |
+| 反光鏡、路名牌、紅磚道 | 橘色圓柱＋平的圓；浮在空中的綠色牌子；canvas 畫的紅磚 | 凸面鏡（橘框、黑背板、遮雨罩）；灰色柱＋圓頂＋細框的綠底白字「溫州街 Wenzhou St.」；Poly Haven 紅磚（brick_pavement_04）＋水泥路緣 |
+| 小公園 | 貼圖草地與鋪面、方塊樹圍座椅 | Poly Haven 草地（有落葉的台北公園草地）、方磚步道與圓形廣場、花崗石路緣、樹穴（石框＋土）、八角形樹圍座椅（每邊五條木條、鋼腳；座面高度和原本一樣）、綠柱黃桿的單槓、雙木柱的「溫州公園」名牌 |
+| 機車（主巷約 37 台＋路口 6 台） | 擠出的側面輪廓方塊 | 兩款 125cc 速克達（現代款、復古款；不仿特定品牌）：車殼、座墊、前擋、前土除、龍頭罩、把手、後照鏡、頭燈、方向燈、尾燈、車牌、傳動箱、排氣管、中柱；每台顏色照原本的套件 |
+
+**沒有改的東西**：導航格、鏡頭碰撞方塊、所有互動點（看櫥窗、看日式宿舍、坐在長椅／大樹下的圓椅、回公館、進 Café）和 `?nobldg` 版**完全相同**（`tests/wz_street_integration.py` 比對）；電線、路燈的光暈與地面光圈、玄關燈光暈、樹、灌木、石燈籠、踏石、長椅、盆栽、郵筒、腳踏車都是原本的。
+
+### 2.2 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 主巷公寓（`bldg.wenzhou_street`） | 完成 | （見 2.5） | `READY_FOR_ART_REVIEW`（等使用者看） |
+| 日式宿舍＋院牆（`bldg.wz_jphouse`） | 完成 | （見 2.5） | `READY_FOR_ART_REVIEW` |
+| 電線桿、反光鏡、路名牌、紅磚道（`bldg.wz_props`） | 完成 | （見 2.5） | `READY_FOR_ART_REVIEW` |
+| 小公園（`bldg.wz_park`） | 完成 | （見 2.5） | `READY_FOR_ART_REVIEW` |
+| 機車（`bldg.wz_scooter`，交接第三項的一部分，只用在溫州街） | 完成 | （見 2.5） | `READY_FOR_ART_REVIEW` |
+
+### 2.3 製作方式
+
+- 全部是 Blender 5.2 `bpy` 腳本（`tools/blender/env_second/wz_street.py`、`wz_jphouse.py`、`wz_props.py`、`wz_park.py`、`scooter.py`），配置照 `zones3d.js buildWenzhou` 的套件（位置、寬深、樓層、牆面種類、顏色、店名都照抄）；GLB 用溫州街的世界座標（機車是自己的座標）。
+- **效能**：公寓的窗（每扇窗＝房間＋鋁框＋玻璃＋窗台）、鐵窗、雨遮、冷氣、水塔、盆栽、屋簷瓦頭、電線桿、反光鏡都用 `EXT_mesh_gpu_instancing`（三角形只存一次）；外牆每一種只有一個材質，每棟的顏色放在頂點色（同一種外牆整條巷子一次 draw call）；機車在遊戲裡是 `InstancedMesh`（39 台＝每款 3 次 draw call），車殼顏色用 `instanceColor`；招牌、門牌合成 atlas；只有大面投影（見 2.5 的效能）。
+- 字不放在 GLB：招牌、直立招牌、店內景深卡、門牌、告示牌、桿號牌、路牌、公園名牌都是空白板面＋自訂屬性，遊戲用 canvas 畫，**比例照板面**。
+- 貼圖：Poly Haven CC0（長條磁磚、馬賽克、水泥漆、磨石子、鐵捲門、騎樓地磚、雨淋板 dark_planks、有污漬的水泥 concrete_wall_006、紅磚 brick_pavement_04、草地 leafy_grass…）；**黑瓦與紙拉門是本作程式產生**（`gen_jp_textures.py`：Poly Haven 沒有日本瓦）。授權在 `LICENSES.md` 第二個 AI 小節。
+- 套件物件都還在（導航、碰撞、互動、光暈照舊），正式模型載入後才把它們的外觀藏起來；載入失敗或 `?nobldg` 時和以前一模一樣。有正式模型時，被替換的套件物件不參加整區靜態合併（才藏得起來）；機車另外自己合併成一組。
+
+### 2.4 GLB 規格
+
+（`python3 tools/blender/env_second/glb_specs.py <glb>`）
+
+| 檔案 | 大小 | 三角形 | 網格／draw call | 材質 | 貼圖 |
+|---|---|---|---|---|---|
+| `assets/models/env/second_ai/wenzhou_street.glb`（14 棟公寓） | 1.22 MB | 12,882（畫出 95,100） | 72 個網格（13 組 instancing＝32 個 InstancedMesh：窗、鐵窗、雨遮、冷氣、水塔、盆栽、曬的衣服；遊戲裡 16 面招牌合成 1 個網格） | 44 | 20 張 WebP 共 342 KB |
+| `assets/models/env/second_ai/wz_jphouse.glb`（日式宿舍＋院牆） | 0.55 MB | 4,854（畫出 8,979） | 21 個網格、約 21 次 draw call（屋簷瓦頭 instancing） | 19 | 14 張 WebP 共 220 KB |
+| `assets/models/env/second_ai/wz_props.glb`（電線桿 6、反光鏡 3、路名牌、紅磚道） | 0.25 MB | 1,876（畫出 7,532） | 18 個網格、約 28 次 draw call（3 組 instancing） | 16 | 5 張 WebP 共 112 KB |
+| `assets/models/env/second_ai/wz_park.glb`（小公園） | 0.48 MB | 1,554 | 10 個網格、10 次 draw call | 10 | 7 張 WebP 共 389 KB |
+| `assets/models/env/second_ai/scooter.glb`（機車兩款） | 0.15 MB | 3,052（現代款 1,388、復古款 1,664；遊戲裡 39 台用 InstancedMesh） | 一款 3 個材質（車殼＋頂點色的塑膠橡膠、頂點色的金屬）→ 6 個 InstancedMesh＋1 個影子貼片 | 3 | 無（車殼 instanceColor、其他頂點色） |
+
+溫州街這五個加起來 2.6 MB（進溫州街時才下載；Café 外觀另外 1.95 MB）。每一個都在交接文件的目標內（外觀 ≤ 2.5 MB）。
+**draw call 比原本多**：套件的公寓、電線桿等在整區合併後只有幾十次；正式模型的窗、招牌、店內景深卡各自是一次（招牌和景深卡每家店有自己的 canvas）。實際的 draw call 與三角形數在 2.5 的整合測試裡量（同一個鏡頭，修改前／後）。
+
+### 2.5 測試結果
+
+測試都是 **Playwright 手機模擬**（Chromium＋SwiftShader，iPhone 尺寸、觸控），**不是 iPhone 實機**。log 在 `docs/art-rebuild/second_ai/test_logs/street/`，測試寫出來的截圖在 `docs/art-rebuild/second_ai/test_shots/`。
+跑法：`bash tools/blender/env_second/run_street_acceptance.sh <log 資料夾> all <網址>`（一次只跑一個瀏覽器）。
+
+| 測試 | 測什麼 | 結果 |
+|---|---|---|
+| `tests/wz_street_integration.py`（新增） | 一般網址與 `?nobldg` 各載入一次溫州街：5 個正式模型都接上、被替換的套件外觀藏起來；**導航格、鏡頭碰撞方塊、互動點（位置、半徑、名稱）和 `?nobldg` 完全相同**；招牌合成 atlas（16 面一個網格、atlas 不超過 2048×1024），atlas 裡每一格的長寬比照板面（±8%，含故意拉寬的自我檢查）；入夜時亮燈的窗、招牌、燈罩、玄關燈、紙拉門會亮；樹幹透視的標記（水泥柱、電線桿）；12 個門牌／告示牌有字（每個 GLB 一張 atlas）；機車換成 InstancedMesh（台數相同、每台顏色照套件）；同一個鏡頭的 draw call／三角形 | 38 項 ALL PASS |
+| `tests/cafe_glb_integration.py` | Café 外觀＋室內（溫州街改動後重跑，確定 Café 沒被影響） | 62 項 ALL PASS |
+| `tests/cvs_glb_integration.py`（新增，見第 3 節） | 便利商店 | 38 項 ALL PASS |
+| `tests/reachability_all.py --zones wenzhou,cafe,cvs` | 用引擎真正的移動模擬走到每一個互動點、劇情走路目的地、出入口到達點 | 3 個區域、19 個互動點全部走得到 |
+| `tests/zone_transitions.py` | 全部區域的進出（含溫州街、Café、便利商店） | 37 項 ALL PASS |
+| `tests/p0_movement.py` | 搖桿移動、各區域出生點（含溫州街、公館店門口） | 34 項 ALL PASS |
+| `tests/touch_flow_wenzhou.py` | 觸控走到 Café 門口、互動按鈕不蓋住搖桿、NPC 都是正式模型 | 21 項 ALL PASS |
+| `tests/see_through.py` | 樹幹透視的引擎行為（**這個測試在椰林大道測**；溫州街的電線桿、騎樓柱子有沒有標記透視，由 `wz_street_integration` 檢查） | 11 項 ALL PASS |
+
+**效能**：
+
+量法：`tests/wz_street_integration.py` 在同一個鏡頭讀 `renderer.info`（**含陰影那一輪**；量的時候把路人暫時移出場景，只比場景本身——路人每次的位置不同，會讓數字飄 ±30 次）。SwiftShader 的 FPS 不準，所以不報 FPS。
+
+| 鏡頭 | 修改前（`?nobldg`） | 第一版（全部投影、機車 10 個材質） | 減量後（交付版） | 和修改前比 |
+|---|---|---|---|---|
+| 巷子往東 | 219 次／25.2 萬 | 約 485 次／57.6 萬（含路人） | **322 次／35.6 萬** | +47%／+41% |
+| 巷子往西 | 188 次／24.8 萬 | 約 492 次／63.2 萬（含路人） | **286 次／32.9 萬** | +52%／+33% |
+| 騎樓 | 224 次／25.2 萬 | 約 515 次／60.8 萬（含路人） | **329 次／35.6 萬** | +47%／+41% |
+
+減量做了什麼（畫面上幾乎看不出差別）：
+1. **只有大面投影**：陰影貼圖一格約 4 cm（1024² 蓋 44 m），窗框、鐵窗、冷氣、盆栽、招牌、門把這些小零件的影子本來就看不出來，卻要在陰影那一輪整組再畫一次。現在只有「不是 instancing、平均三角形面積 > 0.1 m²、最高點離地 0.35 m 以上」的網格投影（牆、屋頂、雨遮、鐵捲門、騎樓天花板…）；店內、窗內房間、窗簾、紙拉門、玻璃、燈泡、葉子、貼地的鋪面都不投影。
+2. **機車**：零件顏色改成頂點色（一款 3 個材質，原本約 10 個）、減面（每台 1.4k–1.7k 個三角形）；機車不進陰影那一輪，改成每台車底下一片柔和的影子貼片（全部一個 InstancedMesh）。
+3. **招牌、門牌合成 atlas**：16 面招牌（橫、直立）一張 2048×1024 貼圖、一個網格（直的招牌轉 90° 排；字牌高度縮 6%，看不出差別）；門牌、告示牌、桿號牌、路牌每個 GLB 一張（原本 29 面各自一次 draw call）。店內景深卡（8 面）還是各自的網格（貼圖要重複，不能放進 atlas）。
+
+**還沒達到 LAWWW 訂的目標（draw call ≤ 原本 +30%）**：三角形在目標內（≤ 42 萬），draw call 還是比修改前多 47–52%（286–329 次；LAWWW 的目標是 +30%，約 310 次：巷子往西 286 次在目標內，另外兩個鏡頭多 12–19 次）。剩下的主要是：正式模型每一種材質一次 draw call（公寓約 40 種、Café 外觀約 45 種，含窗內看得到的店內）、窗的 instancing 原型（不同尺寸、亮燈與否各一組）、玩家本人（VRM，約 60 次，修改前後都有）。再降的做法（還沒做，等 LAWWW 決定要不要現在做）：在 Blender 把門、雨遮、窗框、小五金這些純色材質改成頂點色合併（公寓約 −10、Café 約 −15）；窗統一一個原型、用縮放（約 −10）；遠處的公寓用簡化版（LOD）。
+
+
+### 2.6 遊戲內截圖（修改前｜修改後）
+
+實際遊戲畫面（`tools/blender/env_second/shots/fast_shots.py`：和 `tools/shots/scene_shot.py` 同一種清單格式，只是同一種畫面大小只載入一次遊戲；清單 `tools/blender/env_second/shots/street_{before,after}.json`）。修改前＝`?nobldg`，修改後＝一般網址，同一個鏡頭、同一個時段；演出鏡頭時人物與 NPC 藏起來。
+
+| 鏡頭 | 修改前（程序化套件） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 巷子中段往東（Café）11:00 | ![修改前](shots/street_before_lane_east_1100.webp) | ![修改後](shots/street_after_lane_east_1100.webp) |
+| 巷子中段往東 17:30 | ![修改前](shots/street_before_lane_east_1730.webp) | ![修改後](shots/street_after_lane_east_1730.webp) |
+| 巷子中段往東 20:30 | ![修改前](shots/street_before_lane_east_2030.webp) | ![修改後](shots/street_after_lane_east_2030.webp) |
+| 巷子中段往西 17:30 | ![修改前](shots/street_before_lane_west_1730.webp) | ![修改後](shots/street_after_lane_west_1730.webp) |
+| 巷子中段往西 20:30 | ![修改前](shots/street_before_lane_west_2030.webp) | ![修改後](shots/street_after_lane_west_2030.webp) |
+| 騎樓（巷口茶飲）17:30 | ![修改前](shots/street_before_arcade_1730.webp) | ![修改後](shots/street_after_arcade_1730.webp) |
+| A 側店面（書店、電線桿）11:00 | ![修改前](shots/street_before_shops_a_1100.webp) | ![修改後](shots/street_after_shops_a_1100.webp) |
+| Café 南側轉角 20:30 | ![修改前](shots/street_before_corner_2030.webp) | ![修改後](shots/street_after_corner_2030.webp) |
+| 日式宿舍正面 17:30 | ![修改前](shots/street_before_jp_front_1730.webp) | ![修改後](shots/street_after_jp_front_1730.webp) |
+| 日式宿舍正面 20:30 | ![修改前](shots/street_before_jp_front_2030.webp) | ![修改後](shots/street_after_jp_front_2030.webp) |
+| 日式宿舍斜看 11:00 | ![修改前](shots/street_before_jp_oblique_1100.webp) | ![修改後](shots/street_after_jp_oblique_1100.webp) |
+| 小公園 11:00 | ![修改前](shots/street_before_park_1100.webp) | ![修改後](shots/street_after_park_1100.webp) |
+| 小公園 17:30 | ![修改前](shots/street_before_park_1730.webp) | ![修改後](shots/street_after_park_1730.webp) |
+| 機車近景 11:00 | ![修改前](shots/street_before_scooters_1100.webp) | ![修改後](shots/street_after_scooters_1100.webp) |
+| 一般玩家鏡頭（手機直向）11:00 | ![修改前](shots/street_before_follow_east_1100.webp) | ![修改後](shots/street_after_follow_east_1100.webp) |
+| 一般玩家鏡頭 17:30 | ![修改前](shots/street_before_follow_east_1730.webp) | ![修改後](shots/street_after_follow_east_1730.webp) |
+| 一般玩家鏡頭 20:30 | ![修改前](shots/street_before_follow_east_2030.webp) | ![修改後](shots/street_after_follow_east_2030.webp) |
+
+### 2.6.1 Blender 渲染圖（模型本身，不是遊戲畫面）
+
+`tools/blender/env_second/render_cycles.py`（Cycles、CPU、24 samples＋降噪；四個 GLB 一起載入，世界座標相同；灰色地面是渲染時加的，遊戲裡的柏油路、人行道是套件）。**招牌、門牌的字在遊戲裡用 canvas 畫，所以渲染圖裡是空白板面**；窗內亮燈、路燈要遊戲的夜間設定，渲染圖只有白天。
+
+| 巷子中段往東 | 騎樓 |
+|---|---|
+| ![](blender_renders/wz_lane_east.webp) | ![](blender_renders/wz_arcade.webp) |
+| 日式宿舍正面 | 小公園 |
+| ![](blender_renders/wz_jp_front.webp) | ![](blender_renders/wz_park.webp) |
+
+### 2.7 還沒達到參考品質的地方（誠實列出）
+
+1. **生活痕跡還不夠**：有了鐵窗裡曬的衣服、窗台下的雨痕，但還沒有門口的鞋櫃與雜物、招牌燈箱的污漬、牆面整片的老舊斑駁；雨痕每扇窗都一樣（共用一個模型）。
+2. **公寓的窗內房間是暗盒＋窗簾**，亮燈的窗只是整面發光，沒有室內的家具剪影。
+3. **一樓店面的店內是一張景深卡**（原本套件的 canvas 畫，依板面寬度重複），近看是平的；「看櫥窗」的互動沒有變。
+4. **日式宿舍的瓦是貼圖＋法線**（屋簷一排瓦頭是真的幾何），斜看屋面時還是平的；屋頂沒有青苔、落葉。
+5. **電線還是原本套件的線**（位置對得上礙子），沒有下垂的細節、沒有電纜箱。
+6. **機車兩款都是同一個比例**，沒有安全帽、車廂置物、雨衣；車牌沒有字。為了效能減面後（每台 1.4k–1.7k 個三角形），**近看車殼的弧面有稜角**；影子是貼地的柔和貼片，不是真的投影。
+7. **沒有 iPhone 實機驗證**：效能只用 draw call 與三角形數估計（見 2.4、2.5 的量測），沒有實測 FPS。
+8. **draw call 還沒達到 LAWWW 訂的目標**：同一個鏡頭比修改前多 47–52%（目標 +30%；三角形在目標內）。再降的做法列在 2.5，等 LAWWW 決定。
+9. 遠景（巷底、北邊、路口南邊的遠景公寓、`detail:false` 的那些）**還是套件**；這次只換近景。Café 往南看，路的盡頭是施工護欄（LAWWW 建議延伸成遠景街道，排在下一批）。
+
+---
+
+## 3. 全日便利商店（`cvs` 室內）
+
+### 3.1 玩家會看到什麼不同
+
+| | 修改前（程序化） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 空間 | 灰白方盒房間、礦纖天花板、牆上兩扇假窗 | 白色大地磚、白牆＋上緣青綠／琥珀色帶（和溫州街「日日便利」招牌同一套顏色，不仿特定品牌）、深灰踢腳板、明亮的天花板＋十排 LED 燈條 |
+| 貨架 | 一塊塊白色方塊，正面貼一張商品圖 | 白色金屬貨架（底座、背板、層板、價格條＋黃色價格標籤），每層排滿商品（盒子、瓶子、罐子；顏色各不同，放在頂點色：所有商品一次 draw call）；兩排雙面貨架＋端架促銷堆疊 |
+| 飲料櫃 | 淺藍方塊＋發光平面 | 不鏽鋼框、五扇玻璃門＋門把、櫃內打光背板、五層飲料瓶 |
+| 櫃檯 | 白色方塊 | 白色櫃身＋青綠色帶、石材檯面、兩台收銀機、關東煮鍋（有料）、茶葉蛋鍋、包子蒸櫃；櫃檯後面是香菸櫃（黑框、打光的背板、玻璃門，菸盒排在裡面）＋兩台咖啡機；後牆中間是促銷看板（「咖啡第二杯半價・集點換好禮」，canvas 字）＋海報 |
+| 店面 | 兩扇假窗 | 兩扇大玻璃窗（窗外是遊戲原本的窗景，跟著時段換）、玻璃自動門（門頂箱、門上的貼紙帶）、門口地墊；門外也放了一片窗景 |
+| 分類牌 | 沒有 | 吊在走道上的「零食・餅乾」「泡麵・調味」「麵包・飯糰」「冷藏飲料」（canvas 字） |
+
+**沒有改的東西**：導航格（貨架、雙面貨架、櫃檯、飲料櫃的阻擋照套件）、結帳 (3.2,−0.6)、離開 (0,4.2)、出生點；沒有加新的障礙物。
+
+### 3.2 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 便利商店室內（`bldg.cvs_interior`） | 完成 | （見 3.5） | `READY_FOR_ART_REVIEW`（等使用者看） |
+
+### 3.3 GLB 規格
+
+| 檔案 | 大小 | 三角形 | 網格／draw call | 材質 | 貼圖 |
+|---|---|---|---|---|---|
+| `assets/models/env/second_ai/cvs_interior.glb` | 1.35 MB（1,411,160 bytes；目標 ≤ 2 MB） | 17,220 | 47 個網格、約 47 次 draw call（所有商品一個網格，顏色在頂點色） | 23 | 3 張 WebP 共 100 KB |
+
+第一版有 4.2 MB、5.4 萬個三角形（每個商品六面、前後兩排）；改成只做看得到的四面、只排最前面一排後是現在的大小。
+
+### 3.4 測試結果
+
+Playwright 手機模擬（不是 iPhone 實機）；和溫州街同一批跑（log 在 `docs/art-rebuild/second_ai/test_logs/street/`）。
+
+| 測試 | 測什麼 | 結果 |
+|---|---|---|
+| `tests/cvs_glb_integration.py`（新增） | 一般網址與 `?nobldg`：正式模型接上、程序化備用模型藏起來；會淡出的牆有四面；鏡頭在前牆外時前牆淡出、後牆不淡出（含故意把前牆方向弄反、檢查必須失敗的自我檢查）；**導航格和 `?nobldg` 完全相同**；貨架、雙面貨架、櫃檯、飲料櫃擋住，出生點、結帳、走道走得到；結帳 (3.2,−0.6)、離開 (0,4.2) 不變；走道分類牌 8 面有 canvas 字；LED 燈條、飲料櫃背光、商品的頂點色自發光；自動門外的窗景和窗戶同一個材質（跟著時段換） | 38 項 ALL PASS |
+| `tests/reachability_all.py --zones wenzhou,cafe,cvs` | 結帳、離開走得到（引擎真正的移動模擬） | ALL PASS |
+| `tests/zone_transitions.py`、`tests/p0_movement.py` | 進出便利商店、公館便利商店門口的搖桿移動 | ALL PASS |
+
+效能：便利商店是室內小區域，正式模型約 47 次 draw call、1.7 萬個三角形（室內不投影）。
+
+
+### 3.5 遊戲內截圖（修改前｜修改後）
+
+（清單 `tools/blender/env_second/shots/cvs_{before,after}.json`。）
+
+| 鏡頭 | 修改前（程序化套件） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 進門（手機直向）11:00 | ![修改前](shots/cvs_before_entry_1100.webp) | ![修改後](shots/cvs_after_entry_1100.webp) |
+| 進門 17:30 | ![修改前](shots/cvs_before_entry_1730.webp) | ![修改後](shots/cvs_after_entry_1730.webp) |
+| 進門 20:30 | ![修改前](shots/cvs_before_entry_2030.webp) | ![修改後](shots/cvs_after_entry_2030.webp) |
+| 走道 11:00 | ![修改前](shots/cvs_before_aisle_1100.webp) | ![修改後](shots/cvs_after_aisle_1100.webp) |
+| 櫃檯 17:30 | ![修改前](shots/cvs_before_counter_1730.webp) | ![修改後](shots/cvs_after_counter_1730.webp) |
+| 飲料櫃 20:30 | ![修改前](shots/cvs_before_cooler_2030.webp) | ![修改後](shots/cvs_after_cooler_2030.webp) |
+
+### 3.5.1 Blender 渲染圖（模型本身）
+
+Cycles、三盞點光代替遊戲的燈（遊戲裡是自發光的燈條＋天花板光）；走道牌、促銷看板的字在遊戲裡用 canvas 畫，渲染圖裡是空白。
+
+| 走道 | 櫃檯 |
+|---|---|
+| ![](blender_renders/cvs_aisle.webp) | ![](blender_renders/cvs_counter.webp) |
+
+### 3.6 還沒達到參考品質的地方
+
+1. **商品是色塊**：盒子、瓶子、罐子的形狀和顏色有變化，但沒有包裝上的字和圖案（近看是素色）。
+2. **沒有店員**（櫃檯後面空的）；收銀機螢幕沒有畫面。
+3. **店內的光是「自發光＋一盞點光」**，沒有貨架的陰影、地板沒有燈條的反光。
+4. 沒有 ATM、影印機、座位區（套件原本也沒有；要加就會改導航，這次不動）。
