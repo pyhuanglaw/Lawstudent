@@ -1664,6 +1664,162 @@ def hair_tuck_sides(v, y_top, head_r, keep=0.4, front_z=-0.06, back_z=0.06):
     return deform_mesh(v, 'Hair', fn)
 
 
+def trim_side_hair(v, y_stop, k=0.3, z_front=-0.06, z_back=0.05, x_min=0.06, push_back=0.025):
+    """側簾往上收、往後梳：臉兩側（z_front ≤ z ≤ z_back、|x| > x_min）在 y_stop 以下的頭髮垂直壓短成 k 倍、並往後（+z）推最多 push_back。
+    臉前的長碎髮（z < z_front）不動。綁高馬尾時側邊頭髮往後梳、露出下巴線條（沈以安：原本下巴高度一圈側簾，正面看像短鮑伯）"""
+    def fn(P, sel):
+        x, y, z = P[sel, 0], P[sel, 1], P[sel, 2]
+        s = (z >= z_front) & (z <= z_back) & (np.abs(x) > x_min) & (y < y_stop)
+        d = np.where(s, y_stop - y, 0.0)
+        P[sel, 1] = np.where(s, y_stop - d * k, y)
+        w = np.clip(d / 0.06, 0, 1)
+        P[sel, 2] = z + push_back * w * s
+        return P
+    return deform_mesh(v, 'Hair', fn)
+
+
+# ---- 沈以安 v9.4（人物外觀驗收：分析代理在暫存區做的原型 scratchpad/wf/h01/proto_v2.py，整合進來）----
+def _ss(t):
+    t = np.clip(t, 0, 1); return t * t * (3 - 2 * t)
+
+
+def strand_info(v):
+    """頭髮網格的每一個 primitive（VRoid 一束一個）：髮尾（最低 1.2 cm 的平均）、髮根（最高 1.2 cm 的平均）、三角形數"""
+    m = [x for x in v.j['meshes'] if x['name'].startswith('Hair')][0]; out = []
+    for k, p in enumerate(m['primitives']):
+        a = p['attributes']['POSITION']; P = v.acc(a).astype(float); ids = np.unique(v.acc(p['indices']).astype(np.int64)); q = P[ids]
+        mn, mx = q.min(0), q.max(0)
+        out.append(dict(k=k, p=p, acc=a, ids=ids, tip=q[q[:, 1] < mn[1] + 0.012].mean(0), root=q[q[:, 1] > mx[1] - 0.012].mean(0), nt=len(v.acc(p['indices'])) // 3))
+    return m, out
+
+
+def edit_strands(v, pred, fn):
+    """pred(髮束資訊)→要不要改；fn(P, ids, 髮束資訊)→P（只改 ids 的頂點）。依 accessor 分組寫回；馬尾（v._ponytail）不動"""
+    m, infos = strand_info(v); arrays = {}; hit = []
+    for s in infos:
+        if s['p'] is getattr(v, '_ponytail', None) or not pred(s): continue
+        if s['acc'] not in arrays: arrays[s['acc']] = v.acc(s['acc']).astype(np.float64)
+        arrays[s['acc']] = fn(arrays[s['acc']], s['ids'], s); hit.append(s['k'])
+    for a, P in arrays.items():
+        new = v.add_acc(P.astype(np.float32), 5126, 'VEC3', 34962, True)
+        for p in m['primitives']:
+            if p['attributes']['POSITION'] == a: p['attributes'] = dict(p['attributes'], POSITION=new)
+    return hit
+
+
+def trim_fn(y_stop, k):
+    """髮束在 y_stop 以下的部分垂直壓短成 k 倍（髮尾形狀不變）"""
+    def fn(P, ids, s):
+        sel = ids[P[ids, 1] < y_stop]; P[sel, 1] = y_stop - (y_stop - P[sel, 1]) * k; return P
+    return fn
+
+
+def drape_fn(tip_y, B, gap=0.012):
+    """髮束下半段拉長到 tip_y，並且整條往前推到衣服／皮膚表面（B）前面 gap（垂在胸前、不插進衣服）"""
+    def front_z(x, y, win=0.012):
+        s = B[(np.abs(B[:, 0] - x) < win) & (np.abs(B[:, 1] - y) < win) & (B[:, 2] < 0.02)]
+        return s[:, 2].min() if len(s) else None
+    def fn(P, ids, s):
+        q = P[ids]; ytop = q[:, 1].max(); ytip = q[:, 1].min(); ymid = ytip + 0.5 * (ytop - ytip)
+        sel = ids[P[ids, 1] < ymid]; f = (ymid - P[sel, 1]) / (ymid - ytip); P[sel, 1] = P[sel, 1] - f * (ytip - tip_y)
+        rows = np.arange(1.44, tip_y - 0.02, -0.01); need = []
+        for y in rows:
+            r = ids[np.abs(P[ids, 1] - y) < 0.005]
+            if not len(r): need.append(0.0); continue
+            zs = [front_z(x, y) for x in np.linspace(P[r, 0].min(), P[r, 0].max(), 3)]; zs = [z for z in zs if z is not None]
+            need.append(max(0.0, P[r, 2].max() - (min(zs) - gap)) if zs else 0.0)
+        need = np.maximum.accumulate(np.array(need))
+        P[ids, 2] -= np.interp(P[ids, 1], rows[::-1], need[::-1], left=need[-1], right=0.0)
+        return P
+    return fn
+
+
+def reshape_ponytail(v, prim, tip_y=1.13, path=((1.60, 0.172), (1.52, 0.175), (1.46, 0.160), (1.40, 0.142), (1.34, 0.132), (1.26, 0.128), (1.19, 0.126), (1.13, 0.124)),
+                     drift=((1.60, 0.0), (1.46, 0.022), (1.36, 0.035), (1.13, 0.04)), wx_end=0.62, wz_end=0.7, f_keep=0.12):
+    """馬尾重新塑形：髮尾拉到 tip_y（腰上方）、中心線沿著 path（貼著背、離背約 3 cm）往下、往下漸細（寬 ×wx_end、厚 ×wz_end）、
+    綁點附近（f_keep）保持原樣。原本離背 10–12 cm 往後翹、只到肩膀下面（參考圖 01：貼著背垂到腰上方）"""
+    A = prim['attributes']; P = v.acc(A['POSITION']).astype(float); idx = np.unique(v.acc(prim['indices']).astype(np.int64)); q = P[idx]
+    y_tie = q[:, 1].max(); y0 = q[:, 1].min(); yc = []; cx = []; cz = []
+    for y in np.arange(y_tie, y0 - 0.02, -0.02):
+        s = q[(q[:, 1] <= y + 0.01) & (q[:, 1] > y - 0.01)]
+        if len(s) >= 3: yc.append(y); cx.append(s[:, 0].mean()); cz.append(s[:, 2].mean())
+    yc = np.array(yc)[::-1]; sm = lambda a: np.convolve(np.pad(np.array(a)[::-1], 1, mode='edge'), np.ones(3) / 3, 'valid'); cx = sm(cx); cz = sm(cz)
+    y = q[:, 1]; f = (y_tie - y) / (y_tie - y0); yn = y_tie - f * (y_tie - tip_y)
+    ox = np.interp(y, yc, cx); oz = np.interp(y, yc, cz)
+    py = np.array([p[0] for p in path])[::-1]; pz = np.array([p[1] for p in path])[::-1]; dy = np.array([p[0] for p in drift])[::-1]; dx = np.array([p[1] for p in drift])[::-1]
+    b = _ss(f / f_keep); nx = (1 - b) * ox + b * np.interp(yn, dy, dx); nz = (1 - b) * oz + b * np.interp(yn, py, pz)
+    wx = 1 - (1 - wx_end) * _ss(f); wz = 1 - (1 - wz_end) * _ss(f)
+    out = P.copy(); out[idx, 0] = nx + (q[:, 0] - ox) * wx; out[idx, 1] = yn; out[idx, 2] = nz + (q[:, 2] - oz) * wz
+    A['POSITION'] = v.add_acc(out.astype(np.float32), 5126, 'VEC3', 34962, True)
+    return len(idx)
+
+
+def v_neck(v, mat_pat, y_bottom, y_top, half_w, front_z=-0.01):
+    """V 領：前面（z < front_z）在 V 字邊以上的衣服三角形拿掉，剩下的邊緣頂點拉到 V 字邊上（不留鋸齒）。回傳 (拿掉的三角形數, V 字邊函式)"""
+    edge = lambda P: y_bottom + (y_top - y_bottom) * np.clip(np.abs(P[:, 0]) / half_w, 0, 1)
+    n = 0
+    for m in v.j['meshes']:
+        for p in m['primitives']:
+            if mat_pat not in v.j['materials'][p['material']]['name']: continue
+            P = v.acc(p['attributes']['POSITION']).astype(np.float32).copy(); tris = v.acc(p['indices']).astype(np.int64).reshape(-1, 3)
+            reg = (P[:, 2] < front_z) & (np.abs(P[:, 0]) < half_w + 0.02) & (P[:, 1] > edge(P))
+            kill = reg[tris].all(1); tris = tris[~kill]; n += int(kill.sum())
+            used = np.zeros(len(P), bool); used[np.unique(tris)] = True; fix = used & reg; P[fix, 1] = edge(P[fix])
+            p['indices'] = v.add_acc(tris.reshape(-1).astype(np.uint32), 5125, 'SCALAR', 34963)
+            p['attributes'] = dict(p['attributes'], POSITION=v.add_acc(P, 5126, 'VEC3', 34962, True))
+    return n, edge
+
+
+def raise_waist(v, mat_pat, y_new, ref_body, band=0.10, gap=0.012):
+    """高腰：褲頭往上拉到 y_new（自然腰線），最上面 band 公尺漸進，並貼著身體（ref_body＝還沒被藏起來的原始皮膚頂點）"""
+    node, mesh, prims = body_primitives(v, mat_pat); p = prims[0]; A = p['attributes']
+    P = v.acc(A['POSITION']).astype(float); ids = np.unique(v.acc(p['indices']).astype(np.int64)); q = P[ids]
+    ytop = q[:, 1].max(); ya = ytop - band; out = P.copy()
+    sel = ids[P[ids, 1] > ya]; t = (P[sel, 1] - ya) / band
+    Q = P[sel].copy(); Q[:, 1] = P[sel, 1] + t * (y_new - ytop)
+    for a in range(0, len(Q), 256):
+        qq = Q[a:a + 256]; d2 = ((qq[:, None, :] - ref_body[None, :, :]) ** 2).sum(-1); j = d2.argmin(1); b = ref_body[j]; d = np.sqrt(d2[np.arange(len(qq)), j])
+        keep = 1 - 0.85 * _ss((t[a:a + 256] - 0.3) / 0.7); nd = np.where(d > gap, gap + (d - gap) * keep, d)
+        Q[a:a + 256] = b + (qq - b) * (nd / np.maximum(d, 1e-9))[:, None]
+    out[sel] = Q; A['POSITION'] = v.add_acc(out.astype(np.float32), 5126, 'VEC3', 34962, True)
+    return len(sel)
+
+
+def straighten_hem(v, mat_pat, y_ref=0.20, y_back=0.032, y_front=0.07):
+    """褲管直直垂到鞋面：y_ref 以下的褲管照 y_ref 那一圈的半徑往下延伸（不再往外翻、像反摺的褲口），後面垂到 y_back、前面到 y_front（露鞋尖）"""
+    node, mesh, prims = body_primitives(v, mat_pat); p = prims[0]; A = p['attributes']
+    P = v.acc(A['POSITION']).astype(float); ids = np.unique(v.acc(p['indices']).astype(np.int64)); out = P.copy()
+    for side in ('L', 'R'):
+        hip = joint_world(v, f'J_Bip_{side}_UpperLeg')[:3, 3]; ank = joint_world(v, f'J_Bip_{side}_Foot')[:3, 3]
+        sid = ids[(P[ids, 0] < 0) == (hip[0] < 0)]
+        ax = lambda y: hip + (y - hip[1]) / (ank[1] - hip[1]) * (ank - hip)
+        ring = sid[np.abs(P[sid, 1] - y_ref) < 0.02]; a0 = ax(y_ref)
+        ph_r = np.arctan2(P[ring, 2] - a0[2], P[ring, 0] - a0[0]); r_r = np.hypot(P[ring, 2] - a0[2], P[ring, 0] - a0[0])
+        K = 24; bins = ((ph_r + np.pi) / (2 * np.pi) * K).astype(int) % K; R = np.full(K, np.nan)
+        for kk in range(K):
+            if (bins == kk).any(): R[kk] = np.median(r_r[bins == kk])
+        ok = ~np.isnan(R); R = np.interp(np.arange(K), np.arange(K)[ok], R[ok], period=K)
+        low = sid[P[sid, 1] < y_ref]; ylow = P[sid, 1].min()
+        for i in low:
+            ph = np.arctan2(P[i, 2] - ax(P[i, 1])[2], P[i, 0] - ax(P[i, 1])[0]); kk = int((ph + np.pi) / (2 * np.pi) * K) % K
+            sfr = (y_ref - P[i, 1]) / (y_ref - ylow); front = np.clip(-np.sin(ph), 0, 1); yb = y_back + (y_front - y_back) * front
+            yn = y_ref - sfr * (y_ref - yb); an = ax(yn)
+            out[i] = [an[0] + R[kk] * np.cos(ph), yn, an[2] + R[kk] * np.sin(ph)]
+    A['POSITION'] = v.add_acc(out.astype(np.float32), 5126, 'VEC3', 34962, True)
+
+
+def surface_verts(v, pats):
+    """目前看得到的衣服／皮膚頂點（用來讓頭髮垂在衣服前面）"""
+    mats = v.j['materials']; out = []
+    for m in v.j['meshes']:
+        if not m['name'].startswith('Body'): continue
+        for p in m['primitives']:
+            if any(t in mats[p['material']]['name'] for t in pats):
+                idx = np.unique(v.acc(p['indices']).astype(np.int64))
+                if len(idx): out.append(v.acc(p['attributes']['POSITION']).astype(float)[idx])
+    return np.concatenate(out)
+
+
 def fit_to_body(v, mat_pat, keep=0.45, gap=0.012, y_min=None, y_max=None, skin_pat='Body_00_SKIN'):
     """衣服收合身：mat_pat 衣服的每個頂點，朝最近的身體皮膚頂點靠近——離身體的距離 d 變成 gap + (d − gap)·keep（本來就貼著的不動）。
     寬鬆的連帽衫 → 合身的毛衣（祐廷：參考圖 02）。骨頭權重不變；只動 y_min..y_max 之間（不給＝全部）。回傳改動的頂點數"""
@@ -1749,56 +1905,73 @@ def knit(v, mat_pat, period=6, depth=0.09):
         v.set_image(ii, Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), 'RGBA'))
 
 
-def wide_pants(v, donor, name, color, amount=0.075, straight=False, start=0.32):
+def wide_pants(v, donor, name, color, amount=0.075, straight=False, start=0.32, keep_detail=0.85):
     mi, added = transplant(v, donor, 'Bottoms', name)
     flare(v, name, amount=amount, straight=straight, start=start)
     n = hide_covered(v, garment_of(v, name))
-    recolor_mat(v, name, color, strength=0.9)
+    recolor_mat(v, name, color, strength=0.9, keep_detail=keep_detail)   # keep_detail 低＝貼圖畫的反光皺褶變淡（布料變霧面，不像發亮的牛仔布）
     return n
 
 
 def build_heroine_01():
-    """沈以安（Character Bible：深棕長髮單一馬尾＋碎髮、針織上衣、寬褲、樂福鞋、帆布托特包、166cm；參考圖 01）。
-    臉＋頭髮：HairSample_Female（拿掉貓耳、雙馬尾改成單一高馬尾並讓它自然下垂、加三節彈簧骨讓馬尾擺動、眼睛縮小）；
-    上衣：HairSample_Male 的連帽上衣拿掉帽子／抽繩／口袋線 → 寬鬆米白針織衫（加針織紋、下擺紮進褲子）；
-    褲子：HairSample_Male 長褲重新綁定後加寬成藍灰寬褲；鞋：Sendagaya_Shino 的樂福鞋；托特包是遊戲內配件。"""
+    """沈以安（Character Bible：深棕長髮單一高馬尾＋碎髮、米白寬鬆 V 領針織衫、藍灰高腰寬褲、深棕樂福鞋、帆布托特包、166cm；參考圖 01、06）。
+    v9.4 人物外觀驗收（2026-10-10，docs/art-rebuild/CHARACTER_REVIEW.md）：分析代理的原型（暫存區 proto_v2.py）整合進來——
+    頭髮：瀏海剪到眉毛（原本 4 束橫過眼睛）、側簾與後頸收短（原本正面看是一頭鮑伯、耳朵被蓋住）、臉旁兩束細碎髮垂到胸口（在衣服前面）、
+          馬尾重新塑形（貼著背垂到腰上方、往下漸細；原本離背 10–12 cm 往後翹、只到肩膀下面），塑形之後才加彈簧骨（走路照樣擺動）；
+    上衣：HairSample_Male 的連帽上衣 → V 領、袖子剪到手肘＋反摺袖口、收合身一點、下擺紮進高腰褲；粗針直紋米色；
+    褲子：HairSample_Male 長褲 → 褲頭拉到自然腰線（高腰）、褲管直直垂到鞋面（原本褲口外翻像反摺的牛仔褲）、霧面淺藍灰；
+    臉：眼睛縮小、下半臉收窄＋下巴稍長（鵝蛋臉）、鼻樑。鞋：Sendagaya_Shino 的樂福鞋；托特包是遊戲內配件。"""
     v = src('HairSample_Female'); donor = src('HairSample_Male'); shino = src('Sendagaya_Shino')
+    RB = surface_verts(v, ('SKIN',))   # 原始皮膚（還沒被衣服藏起來）：高腰褲貼著身體用
     print('  heroine_01: ears/left/right hair prims', ponytail_from_twintails(v, back_offset=-0.008, drop=-0.035))
     print('  heroine_01: ponytail rotated deg', round(hang_ponytail(v, v._ponytail, scale=1.3), 1))
-    print('  heroine_01: ponytail joints', add_ponytail_chain(v, v._ponytail))
-    # 臉旁碎髮加長（參考圖 01：臉旁的長碎髮垂到下巴以下）：最下面三束到下巴下緣、上面一束到下巴；肩膀上緣 y≈1.34，髮尾停在 1.375 以上不會插進針織衫
-    side = lambda t, yr: abs(t[0]) > 0.075 and t[2] < 0.012 and yr - t[1] > 0.035   # 左右樣本不完全對稱：0.075 讓兩邊臉前的長髮束都選到
-    print('  heroine_01: side locks lengthened', lengthen_side_locks(v, [
-        (lambda t, yr: side(t, yr) and t[1] < 1.495, 1.375),
-        (lambda t, yr: side(t, yr) and 1.495 <= t[1] < 1.507, 1.385),
-        (lambda t, yr: side(t, yr) and 1.507 <= t[1] < 1.52, 1.392),
-        (lambda t, yr: side(t, yr) and 1.52 <= t[1] < 1.54, 1.43)]))
+    # 上衣：V 領、袖子到手肘、收合身、紮進高腰褲
     remove_prims(v, ['Tops'])
     mi, sw = transplant(v, donor, 'Tops', 'F00_906_Tops_Sweater_CLOTH')
     print('  heroine_01: sweater hood tris', uv_cull(v, 'Tops_Sweater', HOOD_RECTS), 'strings', drop_small_parts(v, 'Tops_Sweater', 600, front_z=-0.05))
-    print('  heroine_01: crew neck tris', crew_neck(v, 'Tops_Sweater', joint_y(v, 'Neck') - 0.012, slope=1.2))   # 帽口那圈立領（看起來像襯衫領片）→ 圓領針織衫
+    print('  heroine_01: crew neck tris', crew_neck(v, 'Tops_Sweater', joint_y(v, 'Neck') - 0.012, slope=1.2))
+    n, vedge = v_neck(v, 'Tops_Sweater', 1.272, 1.352, 0.065); print('  heroine_01: v-neck tris', n)
+    print('  heroine_01: sleeve tris cut', cut_sleeves(v, 'Tops_Sweater', 0.19, clean=True))
+    print('  heroine_01: sleeve roll', extend_sleeves(v, 'Tops_Sweater', end_frac=0.10, clearance=0.022, roll_w=0.035, roll_bulge=0.012))
     smooth_region(v, 'Tops_Sweater', POCKET_RECT)
     smooth_normals_region(v, 'Tops_Sweater', POCKET_RECT)
-    waist = joint_y(v, 'Hips') + 0.07
-    cut_below(v, 'Tops_Sweater', waist)
-    print('  heroine_01: culled under pants', wide_pants(v, donor, 'F00_901_Bottoms_Pants_CLOTH', '#7b8595', amount=0.045, straight=True, start=0.12))   # v9.4：#596377（看起來像牛仔褲）→ 淺藍灰（參考圖 01 的寬褲）
+    waist_new = 1.085   # 自然腰線（模型座標；參考圖側面腰頭離地約 1.07 m）
+    cut_below(v, 'Tops_Sweater', waist_new - 0.015)
+    print('  heroine_01: sweater fit', fit_to_body(v, 'Tops_Sweater', keep=0.6, gap=0.015), 'tuck', fit_to_body(v, 'Tops_Sweater', keep=0.2, gap=0.006, y_max=waist_new + 0.01))
+    # 褲子：高腰、直筒垂到鞋面、霧面淺藍灰
+    mi, added = transplant(v, donor, 'Bottoms', 'F00_901_Bottoms_Pants_CLOTH')
+    flare(v, 'Bottoms_Pants', amount=0.06, straight=True, start=0.12)
+    print('  heroine_01: raise waist verts', raise_waist(v, 'Bottoms_Pants', waist_new, RB))
+    straighten_hem(v, 'Bottoms_Pants')
+    print('  heroine_01: culled under pants', hide_covered(v, garment_of(v, 'Bottoms_Pants')))
+    recolor_mat(v, 'Bottoms_Pants', '#86909f', strength=0.9, keep_detail=0.38)
     remove_prims(v, ['F00_002_01_Shoes'])
     mi, sh = transplant(v, shino, 'Shoes', 'F00_903_Shoes_Loafer_CLOTH'); hide_covered(v, sh)
     recolor_mat(v, 'Shoes_Loafer', '#3b2a20', strength=0.85)
-    knit(v, 'Tops_Sweater', period=5, depth=0.11)
-    recolor_mat(v, 'Tops_Sweater', '#e0d2bc', strength=0.88)
+    knit(v, 'Tops_Sweater', period=12, depth=0.16)   # 粗針直紋（原本 5 px＝約 5 mm，太細）
+    recolor_mat(v, 'Tops_Sweater', '#dccfb6', strength=0.9, keep_detail=0.8)   # 米色（原本在遊戲光線下接近白色）
     print('  heroine_01: maroon inner px -> skin', body_tex_replace(v, is_maroon, lambda med: med))
-    print('  heroine_01: painted inner tris', paint_skin(v, '#e3d8c6', joints=('Spine', 'Chest', 'Bust', 'Shoulder', 'UpperArm'), y_max=joint_y(v, 'Neck') - 0.045))
-    print('  heroine_01: culled skin under top', hide_covered(v, garment_of(v, 'Tops_Sweater'), max_d=0.11, eps=0.04, max_tan=0.055, skip_joints=('Shoulder', 'UpperArm', 'Chest')))
+    print('  heroine_01: painted inner tris', paint_skin(v, '#e3d8c6', joints=('Spine', 'Chest', 'Bust', 'Shoulder', 'UpperArm'), y_max=1.262))   # V 領裡面（1.272 以上）保留皮膚色
+    vkeep = lambda P: (P[:, 2] < 0) & (P[:, 1] > vedge(P) - 0.02) & (np.abs(P[:, 0]) < 0.085)
+    print('  heroine_01: culled skin under top', hide_covered(v, garment_of(v, 'Tops_Sweater'), max_d=0.11, eps=0.04, max_tan=0.055, skip_joints=('Shoulder', 'UpperArm', 'Chest'),
+                                                             keep_fn=lambda P: vkeep(P) | (np.abs(P[:, 0]) > 0.33)))
     recolor_mat(v, 'HAIR', '#3a2619', strength=0.9, keep_detail=1.0)
-    print('  heroine_01: eye verts scaled', scale_eyes(v, 0.84, 0.8))   # v9.4 外觀驗收：0.88／0.86 → 0.84／0.8
-    fm = face_marks(v)
-    print('  heroine_01: face slim verts', face_slim(v, narrow=0.08, chin=0.007))   # 下半臉收窄、下巴稍長（參考圖 01：鵝蛋臉）
+    # 頭髮（在衣服之後：碎髮要垂在衣服前面）
+    fm = face_marks(v); B = surface_verts(v, ('Tops_Sweater', 'SKIN'))
+    bang = lambda st: st['tip'][2] < -0.06 and abs(st['root'][0]) < 0.016 and st['root'][1] > 1.62 and st['tip'][1] > 1.43
+    print('  heroine_01: bangs trimmed', edit_strands(v, bang, trim_fn(fm['brow_lo'] + 0.004, 0.12)))
+    print('  heroine_01: side curtain trimmed', edit_strands(v, lambda st: abs(st['tip'][0]) > 0.075 and -0.02 < st['tip'][2] < 0.01 and st['root'][2] > 0.05 and st['tip'][1] < 1.5, trim_fn(1.505, 0.2)))
+    print('  heroine_01: nape trimmed', edit_strands(v, lambda st: st['root'][2] > 0.08 and st['tip'][1] < 1.46 and abs(st['tip'][0]) < 0.075, trim_fn(1.455, 0.3)))
+    print('  heroine_01: side locks draped', edit_strands(v, lambda st: 0.058 < abs(st['tip'][0]) < 0.075 and st['tip'][2] < -0.06 and st['tip'][1] < 1.405 and st['nt'] > 200, drape_fn(1.25, B)))
+    print('  heroine_01: ponytail reshaped verts', reshape_ponytail(v, v._ponytail))
+    print('  heroine_01: ponytail joints', add_ponytail_chain(v, v._ponytail))   # 塑形之後才加骨頭（骨頭沿著新的馬尾）
+    # 臉
+    print('  heroine_01: eye verts scaled', scale_eyes(v, 0.82, 0.78))   # 原本 0.88／0.86（眼睛約臉寬 1/4.4 → 約 1/5）
+    print('  heroine_01: face slim verts', face_slim(v, narrow=0.08, chin=0.007))
     print('  heroine_01: nose bridge verts', nose_bridge(v, 0.005, half_w=0.016))
-    print('  heroine_01: side hair tucked verts', hair_tuck_sides(v, fm['eye_y'] + 0.03, 0.118, keep=0.35))   # 兩側頭髮貼著頭（高馬尾），正面不再像鮑伯
     no_outline(v, 'Tops_Sweater')
     no_hair_shine(v); soften_matcap(v)
-    return finish(v, FEMALE_EYES, '#5a3a26', '沈以安（法條之外）', 'Based on VRoid CC0 samples "HairSample_Female" + sweater/trousers from "HairSample_Male" + loafers from "Sendagaya Shino" (pixiv); modified for 法條之外')
+    return finish(v, FEMALE_EYES, '#4a3226', '沈以安（法條之外）', 'Based on VRoid CC0 samples "HairSample_Female" + sweater/trousers from "HairSample_Male" + loafers from "Sendagaya Shino" (pixiv); modified for 法條之外')
 
 
 def build_heroine_02():
