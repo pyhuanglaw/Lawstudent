@@ -21,11 +21,11 @@ const Z3 = (function(){
   function collider(E,x,z,w,d,h,rot){ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h||6,d),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(x,(h||6)/2,z); m.rotation.y=rot||0; E.colliders.push(m); E.scene.add(m); E.zone&&E.zone.group; return m; }
   // 椰林大道的路面（照使用者的照片；第十八批是深色柏油＋白邊線，第二十一批再比對後改成）：淺灰、有補過的深色色塊、沒有白色邊線、中線是細的黃色虛線，路邊一條稍深的排水溝。
   // 貼圖 12 m 寬 × 9 m 一段；校園、公館（從校門看進去的背景）共用
-  const avenueRoadTex=()=>W3.canvasTex('avenueRoad3',256,256,(x,w,h)=>{ x.fillStyle='#8a8883'; x.fillRect(0,0,w,h); let s=17; const r=()=>{ s=(s*16807)%2147483647; return s/2147483647; };
-        for(let i=0;i<16;i++){ const cx=r()*w, cy=r()*h, rx=10+r()*46, ry=5+r()*22, a=0.07+r()*0.09; x.fillStyle='rgba(66,64,60,'+a+')'; for(const oy of [-h,0,h]){ x.beginPath(); x.ellipse(cx,cy+oy,rx,ry,r()*0.3,0,Math.PI*2); x.fill(); } }   /* 補過的路面（上下接縫處畫兩次，重複時不會斷）*/
-        for(let i=0;i<3400;i++){ const v=(r()*44)|0; x.fillStyle='rgba('+(104+v)+','+(102+v)+','+(98+v)+',0.42)'; x.fillRect(r()*w,r()*h,2,2); }
-        x.fillStyle='rgba(58,56,53,0.32)'; x.fillRect(0,0,w*0.022,h); x.fillRect(w*0.978,0,w*0.022,h);
-        x.fillStyle='#d6a425'; x.fillRect(w*0.4955,0,w*0.009,h*0.33); });
+  const avenueRoadTex=()=>{ const t=W3.canvasTex('avenueRoad4',256,256,(x,w,h)=>{ x.fillStyle='#acacaa'; x.fillRect(0,0,w,h); let s=17; const r=()=>{ s=(s*16807)%2147483647; return s/2147483647; };   /* 第二十二批再調淺（使用者：「柏油路的顏色是淺灰 你的太深」；第二十一批的 #8a8883 算圖後受光處只有約 130、偏暖）*/
+        for(let i=0;i<16;i++){ const cx=r()*w, cy=r()*h, rx=10+r()*46, ry=5+r()*22, a=0.08+r()*0.1; x.fillStyle='rgba(98,98,96,'+a+')'; for(const oy of [-h,0,h]){ x.beginPath(); x.ellipse(cx,cy+oy,rx,ry,r()*0.3,0,Math.PI*2); x.fill(); } }   /* 補過的路面（上下接縫處畫兩次，重複時不會斷）*/
+        for(let i=0;i<3400;i++){ const v=(r()*44)|0; x.fillStyle='rgba('+(144+v)+','+(144+v)+','+(141+v)+',0.4)'; x.fillRect(r()*w,r()*h,2,2); }
+        x.fillStyle='rgba(88,88,86,0.3)'; x.fillRect(0,0,w*0.022,h); x.fillRect(w*0.978,0,w*0.022,h);
+        x.fillStyle='#d6a425'; x.fillRect(w*0.4955,0,w*0.009,h*0.33); }); t.userData.asphalt=true; return t; };
   const campusWallMat=()=>TK.M('bgWallM',()=>TK.std({map:TK.tileTex('#b8735a','#9c8676','bgWall'),roughness:0.9}));   // 校園圍牆（紅褐色面磚）：校園、公館共用
   // ---------- 校園主區 ----------
   const campus={ id:'campus', name:'台大校園', indoor:false, cityLight:0.25, size:[260,170], viewFar:260, fogNear:100, build(E){   /* 第二十批：邊界外有背景了，視距拉遠（照片裡椰林大道盡頭的總圖看得清楚；從校門口看總圖約 205 m）*/
