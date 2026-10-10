@@ -2,6 +2,7 @@
 每人：參考圖｜正面全身｜45 度｜側面｜背面｜臉部特寫｜走路｜實際遊戲畫面（一般跟隨鏡頭＋介面）。
 做法沿用 tools/shots/char_turnaround.py（溫州街小公園前、白天 11:00、遊戲本身生成的人物、E.cinematic 定位鏡頭）。
 用法：python3 tools/shots/char_review.py <URL> <輸出資料夾> [人物 id ...]（player、heroine_01…heroine_05；不給就全部）
+試作版：CHAR_SWAP="assets/models/char/vroid_heroine_01.vrm=tools/vroid_wip/bl/h01.vrm" python3 tools/shots/char_review.py …
 輸出：<輸出>/REVIEW_<id>.jpg（並排）、各角度原圖、drivers.json（每個人實際用的模型與 driver，確認不是備用人物）"""
 import asyncio, json, sys, os
 from playwright.async_api import async_playwright
@@ -71,6 +72,11 @@ async def main():
         ctx = await b.new_context(viewport={'width': 720, 'height': 960}, device_scale_factor=1, has_touch=True, is_mobile=True)
         pg = await ctx.new_page(); errs = []
         pg.on('pageerror', lambda e: errs.append(str(e)))
+        # 環境變數 CHAR_SWAP="遊戲裡的模型路徑=試作檔[;…]"：瀏覽器攔截那個模型的請求、改送試作檔（不覆蓋正式模型，就能在真的遊戲場景拍試作版）
+        for pair in filter(None, os.environ.get('CHAR_SWAP', '').split(';')):
+            u, f = pair.split('=', 1); body = open(os.path.join(ROOT, f), 'rb').read()
+            await pg.route('**/' + u, lambda route, body=body: route.fulfill(status=200, body=body, headers={'Content-Type': 'application/octet-stream'}))
+            print('swap', u, '->', f, len(body), flush=True)
         await load(pg)
         x0, z0 = SPOT
         for cid in IDS:
