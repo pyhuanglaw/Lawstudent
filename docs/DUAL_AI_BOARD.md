@@ -24,8 +24,8 @@
 
 | # | 工作 | 狀態 | 主要檔案 | 最新 commit | 測試 | 已整合 | 等美術驗收 |
 |---|---|---|---|---|---|---|---|
-| 1 | 兩點半 Café（外觀＋室內） | 進行中：外觀與室內 Blender GLB 都已接進遊戲（INTEGRATED）；正在拍三時段新舊截圖、跑回歸測試 | `tools/blender/env_second/`（`cafe_layout.py` 外觀與室內共用配置）、`assets/models/env/second_ai/`、`zones3d.js` 的 `cafe`／`wenzhou` 區塊（含 `buildWenzhou`）、`tests/cafe_glb_integration.py` | `7ce14f3`（外觀第一版 WIP） | 見 `docs/art-rebuild/second_ai/VISUAL_REVIEW.md` | 否 | 是（完成後） |
-| 2 | 溫州街近景（日式老屋、小公園、公寓立面模組） | 排隊 | `wenzhou` 區塊、`townkit3d.js` | — | — | — | — |
+| 1 | 兩點半 Café（外觀＋室內） | **`READY_FOR_ART_REVIEW`**（功能 `FUNCTIONAL_VERIFIED`；等 AI-1 merge、等使用者看美術） | `tools/blender/env_second/`（`cafe_layout.py` 外觀與室內共用配置）、`assets/models/env/second_ai/cafe_*.glb`、`zones3d.js` 的 `cafe`／`wenzhou` 區塊（含 `buildWenzhou`、模組層級的 Café 小函式）、`assets3d.js` 標記區、`tests/cafe_glb_integration.py` | 交付 commit 見下方訊息紀錄 | `cafe_glb_integration` 62 項、`reachability_all`（wenzhou,cafe）、`zone_transitions`、`p0_movement`、`touch_flow_wenzhou` 都 ALL PASS（Playwright 手機模擬，不是實機）；16 組前後截圖 | 否（等 AI-1） | 是 |
+| 2 | 溫州街近景（主巷 14 棟公寓、日式宿舍＋院牆、電線桿／反光鏡／路名牌／Café 門前紅磚道、小公園） | 進行中：四個 Blender GLB 已建好、在本機接進 `wenzhou` 區塊（`INTEGRATED`，還沒 push）；整合測試 `tests/wz_street_integration.py` 寫好；接下來跑回歸測試＋三時段新舊截圖 | `tools/blender/env_second/wz_*.py`、`assets/models/env/second_ai/{wenzhou_street,wz_jphouse,wz_props,wz_park}.glb`、`wenzhou` 區塊 | — | 執行中 | 否 | 是（完成後） |
 | 3 | 街道道具（機車、腳踏車、行道樹、盆栽、路燈、長椅） | 排隊 | `townkit3d.js`、`world3d.js` 的四個函式（先通知 AI-1） | — | — | — | — |
 | 4 | 公館近景（騎樓店面、捷運出口） | 排隊（開工前認領 `gongguan` 區塊） | `gongguan` 區塊 | — | — | — | — |
 | 5 | 獨立室內（便利商店、麵店、書店、宿舍） | 排隊（開工前認領各區塊） | 各室內區塊 | — | — | — | — |
