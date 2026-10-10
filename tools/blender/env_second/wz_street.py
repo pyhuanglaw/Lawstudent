@@ -23,7 +23,8 @@ from cafe_layout import bush, pot, card, rand_uv, proto, combine, uv01   # noqa:
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 def arg(name, default=None):
     return ARGS[ARGS.index(name) + 1] if name in ARGS else default
-OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/wenzhou_street.glb'))
+SET = arg('--set', 'wenzhou')   # wenzhou＝溫州街（預設）；gongguan＝公館羅斯福路南側的騎樓店面（同一套公寓、材質與窗戶原型）
+OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/' + ('gongguan_shops.glb' if SET == 'gongguan' else 'wenzhou_street.glb')))
 
 # ---------------- 遊戲裡的配置（照 zones3d.js buildWenzhou；改那邊要一起改這裡） ----------------
 SHOP = lambda **k: k
@@ -68,9 +69,48 @@ SPECS = [
 ]
 GH, FH = 3.4, 3.1          # TK.apartment 的預設一樓高、樓高
 
+# ---------------- 公館（--set gongguan）：照 zones3d.js gongguan 區塊的 shops（位置、寬度、樓層、牆、顏色、招牌、柱子），改那邊要一起改這裡 ----------------
+if SET == 'gongguan':
+    GH = 4.2                # 公館的騎樓店面一樓高 4.2 m（groundH）
+    _SHOPS = [dict(n='阿鳳麵店', c='#c9463d', w=10, type='noodle', it='noodle', sub='乾麵・餛飩湯・小菜', v='阿鳳麵店'), dict(n='青葉茶行', c='#2f7d5b', w=8, type='tea', it='tea', sub='手搖飲・現煮珍珠'),
+              dict(n='舊路書房', c='#3b5a8c', w=12, type='book', it='books', sub='法律書・文具・二手書', v='舊路書房'), dict(n='全日便利商店', c='#3a6fb0', w=10, type='cvs', it='cvs', band='#e0a030'),
+              dict(n='公館藥局', c='#4a9a6a', w=8, type='none', it='cvs', v='藥局'), dict(n='滷味・鹹酥雞', c='#e0b24a', sc='#3b2a1e', w=8, type='none', it='teishoku'),
+              dict(n='眼鏡・手機維修', c='#5a5a7a', w=9, type='none', it='print', v='眼鏡'), dict(n='咖啡・輕食', c='#8c3b47', w=9, type='none', it='cafe'),
+              dict(n='水果行', c='#e0a030', sc='#3b2a1e', w=8, type='none', it='fruit'), dict(n='自助洗衣', c='#4a90c2', w=9, type='none', it='laundry'),
+              dict(n='影印・輸出', c='#2f3a44', w=9, type='none', it='print', v='影印'), dict(n='日日定食', c='#5c3a21', w=10, type='none', it='teishoku', v='定食'),
+              dict(n='二手唱片', c='#2b2b2b', w=8, type='none', it='books'), dict(n='文具・畫材', c='#8c3b47', w=9, type='none', it='books'), dict(n='早午餐', c='#c9463d', w=9, type='none', it='cafe')]
+    _WALLC = ['#d9cbb0', '#cfc5b2', '#e3ddd0', '#c8bca8', '#d6c3a5', '#e6dfd0', '#bfb2a0']; _WALLT = ['tile', 'mosaic', 'tile', 'plaster']
+    # 樓上的住戶（套件沒有；台北商店街的樓上是補習班、診所、髮廊…）：直立招牌（建築另一側：字、底色、字色、長度）、二樓整面大招牌（二樓不開窗）、屋頂廣告看板
+    _VT = {1: ('美髮', '#ffffff', '#c9463d', 2.6), 4: ('中醫診所', '#f4ead8', '#2f5d50', 4.2), 6: ('民宿', '#ffffff', '#3b5a8c', 2.6), 7: ('數學補習', '#fff2a8', '#c9463d', 4.2),
+           8: ('按摩', '#ffffff', '#8c3b47', 2.6), 10: ('健身房', '#2b2b2b', '#e0b24a', 4.2), 12: ('鋼琴教室', '#ffffff', '#2f3a44', 4.2), 14: ('撞球', '#c9463d', '#ffffff', 2.6)}
+    _S2 = {2: ('文理補習班', '高中・轉學考・研究所', '#1f4e8c', '#ffffff', '#e0a030'), 5: ('小火鍋', '二樓・學生套餐', '#c9463d', '#ffffff', ''),
+           9: ('桌遊・撞球', '二樓', '#2f3a44', '#f4ead8', '#e0b24a'), 11: ('牙醫診所', '週日休診', '#ffffff', '#2f7d5b', '#2f7d5b'), 13: ('英語會話', '小班制・多益', '#f4ead8', '#8c3b47', '#8c3b47')}
+    _RS = {7: ('學生套房出租', '近捷運・月租', '#ffffff', '#c9463d', '#c9463d')}
+    # 小零件的密度（instancing 的原型整條街一組，任何鏡頭都整組畫出來；從校門看整排店面的鏡頭一定全部看到）：商店街的鐵窗、盆栽比住宅巷少
+    # （溫州街 0.7／0.6／0.65；照原本的密度，從校門看的鏡頭三角形 44.9 萬，超過 42 萬的上限）
+    _P = dict(p_grille=0.4, p_pot=0.25, p_ac=0.5)
+    SPECS = []; _x = -68.0
+    for _i, _s in enumerate(_SHOPS):
+        _last = _i == len(_SHOPS) - 1; _X0 = _x; _X1 = _x + _s['w'] + (1.2 if (_i < 8 and not _last) else 0.0); _W = _X1 - _X0; _cx = (_X0 + _X1) / 2
+        _pl = [_W / 2]; _nb = max(1, round(_W / 5)) if _s['type'] == 'none' else 1
+        for _k in range(1, _nb): _pl.append(_W / 2 - _k * _W / _nb)
+        if _last: _pl.append(-_W / 2)
+        _sp = dict(id=f'G{_i:02d}', pos=(_cx, 19.0), ry=math.pi, w=_W, d=16, floors=4 + ((_i * 5) % 4), wall=_WALLT[_i % 4], color=_WALLC[_i % 7],
+                   balcony=_i % 3 == 1, tank=_i % 2 == 0, roofAdd=_i % 5 == 3, ground='arcade', pillars=_pl, rollbox=True, **_P,
+                   shop=SHOP(type=_s['it'], name=_s['n'], sub=_s.get('sub', ''), signBg=_s['c'], signColor=_s.get('sc', '#ffffff'), band=_s.get('band', ''),
+                             vertical=_s.get('v'), vBg='#ffffff', vColor=_s['c'], vBand=_s['c']))
+        if _i in _VT: _t = _VT[_i]; _sp['vtenant'] = dict(vertical=_t[0], vBg=_t[1], vColor=_t[2], vBand=_t[2], len=_t[3])
+        if _i in _S2: _t = _S2[_i]; _sp['sign2f'] = dict(sign=_t[0], sub=_t[1], bg=_t[2], color=_t[3], band=_t[4])
+        if _i in _RS: _t = _RS[_i]; _sp['roofsign'] = dict(sign=_t[0], sub=_t[1], bg=_t[2], color=_t[3], band=_t[4])
+        if _i == 0: _sp['side_wins'] = '+x'   # 麵店西側（朝往溫州街的巷子）開窗
+        SPECS.append(_sp); _x = _X1
+    # 巷口轉角（往溫州街的巷子西側）：一般店面、沒有騎樓（照套件 cb）；東側朝巷子開窗
+    SPECS.append(dict(id='G15', pos=(-81.0, 19.0), ry=math.pi, w=14.0, d=16, floors=5, wall='tile', color='#cdbfa8', balcony=True, tank=True, ground='shop', side_wins='-x', **_P,
+                      shop=SHOP(type='teishoku', name='豆花・甜湯', sub='粉圓・芋圓・紅豆', signBg='#f4ead8', signColor='#5c3a21', band='#c9a24a')))
+
 random.seed(707)
 B.reset(texres=512)
-root = B.group('wenzhou_street', props={'kind': 'wenzhou_street'})
+root = B.group('gongguan_shops' if SET == 'gongguan' else 'wenzhou_street', props={'kind': 'gongguan_shops' if SET == 'gongguan' else 'wenzhou_street'})
 base = CL.materials()      # Café 的共用材質（鋁窗、鐵窗、冷氣、浪板、水塔、植物…，名稱相同→遊戲同一套夜間設定）
 _mats = {}
 
@@ -190,11 +230,16 @@ def hood_mesh(w_, dep=0.62):
     return combine([m.finish(None), fr.finish(None)], 'hood_proto')
 
 
-def ac_mesh():
+def ac_mesh(lite=False):
+    """冷氣室外機。lite（公館）：風扇格柵 5 條、側面散熱條 6 條、風扇 14 邊、細條去掉看不到的端蓋（328 → 約 200 個三角形；冷氣都在二樓以上，從街上看不出差別）"""
     body = Mesh('ac_body', M['ac']); body.box(-0.4, 0.4, 0, 0.56, 0, 0.3)
-    fan = Mesh('ac_fan', M['ac_dark']); fan.cyl((0.1, 0.28, 0.3), (0.1, 0.28, 0.305), 0.21, seg=20)
-    for k in range(7): fan.box(-0.13, 0.33, 0.1 + k * 0.06, 0.11 + k * 0.06, 0.304, 0.312)
-    for k in range(9): fan.box(-0.38, -0.2, 0.06 + k * 0.05, 0.075 + k * 0.05, 0.3, 0.306)
+    fan = Mesh('ac_fan', M['ac_dark']); fan.cyl((0.1, 0.28, 0.3), (0.1, 0.28, 0.305), 0.21, seg=14 if lite else 20)
+    if lite:
+        for k in range(5): bar(fan, -0.13, 0.33, 0.12 + k * 0.08, 0.13 + k * 0.08, 0.304, 0.312)
+        for k in range(6): bar(fan, -0.38, -0.2, 0.08 + k * 0.07, 0.095 + k * 0.07, 0.3, 0.306)
+    else:
+        for k in range(7): fan.box(-0.13, 0.33, 0.1 + k * 0.06, 0.11 + k * 0.06, 0.304, 0.312)
+        for k in range(9): fan.box(-0.38, -0.2, 0.06 + k * 0.05, 0.075 + k * 0.05, 0.3, 0.306)
     br = Mesh('ac_bracket', M['metal'])
     for x in (-0.4, 0.4): br.box(x - 0.02, x + 0.02, -0.06, 0.0, -0.02, 0.36); br.box(x - 0.02, x + 0.02, -0.3, 0.0, -0.02, 0.02)
     return combine([body.finish(None), fan.finish(None), br.finish(None)], 'ac_unit')
@@ -211,7 +256,7 @@ def tank_mesh():
     return combine([tob, st.finish(None)], 'roof_tank')
 
 
-GRILLE = grille_mesh(2.5, 1.75); HOOD = hood_mesh(2.7); AC = ac_mesh(); TANK = tank_mesh()
+GRILLE = grille_mesh(2.5, 1.75); HOOD = hood_mesh(2.7); AC = ac_mesh(lite=SET == 'gongguan'); TANK = tank_mesh()
 M['room_lit'] = L.flat('wz_room_lit', '#3a3228', rough=0.9, emit=B.srgb('#ffcf8a'))   # 亮燈的房間：晚上發光（遊戲 TK.addNight）
 M['laundry'] = L.vc_material('wz_laundry', rough=0.85)                                    # 鐵窗裡曬的衣服（顏色在頂點色）
 M['glass_lit'] = L.flat('wz_win_glass_lit', '#8a8272', rough=0.08, alpha=0.3, emit=B.srgb('#ffc070'))   # 亮燈那戶的窗玻璃：比較透明、晚上自己帶一點暖光（深色玻璃在夜間的環境光下會變淺灰、蓋住燈光）
@@ -338,8 +383,19 @@ def apartment(spec):
         for i in range(n):
             x = -W / 2 + (i + 0.5) * W / n
             far = spec.get('far')   # 遠景：只有窗＋少量鐵窗，沒有雨遮、冷氣（instancing 的原型整條巷子一組，任何鏡頭都整組畫出來：遠景加太多會超過三角形預算）
-            kind_ = 'balcony' if (spec.get('balcony') and i == n // 2 and f == 1) else ('grille' if rng.random() < (0.15 if far else 0.7) else 'plain')
-            wins.append(dict(f=f, x=x, y0=yc - wh / 2, y1=yc + wh / 2, kind=kind_, hood=(not far and kind_ != 'grille' and rng.random() < 0.5), ac=(not far and rng.random() < 0.65), lit=rng.random() < 0.35, acs=rng.choice((-1, 1))))
+            kind_ = 'balcony' if (spec.get('balcony') and i == n // 2 and f == 1) else ('grille' if rng.random() < spec.get('p_grille', 0.15 if far else 0.7) else 'plain')   # p_*：每棟可調（公館商店街；預設和溫州街一樣）
+            wins.append(dict(f=f, x=x, y0=yc - wh / 2, y1=yc + wh / 2, kind=kind_, hood=(not far and kind_ != 'grille' and rng.random() < 0.5), ac=(not far and rng.random() < spec.get('p_ac', 0.65)), lit=rng.random() < 0.35, acs=rng.choice((-1, 1))))
+    if SET == 'gongguan':
+        if spec.get('sign2f'): wins = [w for w in wins if w['f'] != 1]   # 二樓整面大招牌：二樓不開窗
+        # 直立招牌（店的、樓上住戶的）旁邊的窗不加鐵窗、雨遮、冷氣（不然會穿過招牌）
+        vs = []
+        if gt in ('shop', 'arcade') and spec['shop'].get('vertical'): vs.append((W / 2 - 0.5, GH + 0.3, GH + 2.9))
+        if spec.get('vtenant'): vs.append((-W / 2 + 0.5, GH + 0.3, GH + 0.3 + spec['vtenant']['len']))
+        for w in wins:
+            for vx, a, b in vs:
+                if abs(w['x'] - vx) < 1.6 and w['y0'] - 1.0 < b and w['y1'] + 0.6 > a:
+                    if w['kind'] == 'grille': w['kind'] = 'plain'
+                    w['hood'] = False; w['ac'] = False
     # ---- 牆：一樓以上（留窗洞，牆厚 0.25）
     for f in range(1, F):
         y0 = GH + (f - 1) * FH; y1 = y0 + FH
@@ -349,9 +405,12 @@ def apartment(spec):
         for w in ws:
             xf.box(wall, w['x'] - ww / 2, w['x'] + ww / 2, y0, w['y0'], -0.25, 0); xf.box(wall, w['x'] - ww / 2, w['x'] + ww / 2, w['y1'], y1, -0.25, 0)
     xf.box(wall, -W / 2, W / 2, totalH, totalH + 0.9, -0.2, 0)                                   # 女兒牆
-    xf.box(wall, -W / 2, -W / 2 + 0.2, GH, totalH + 0.9, -D, -0.25); xf.box(wall, W / 2 - 0.2, W / 2, GH, totalH + 0.9, -D, -0.25)
-    xf.box(wall, -W / 2, W / 2, GH, totalH + 0.9, -D, -D + 0.2)
     band = acc(M['band'])
+    for sd in (-1, 1):
+        if spec.get('side_wins') == ('+x' if sd > 0 else '-x'): side_windows(spec, xf, wall, band, W, D, F, totalH, sd, rng)   # 側面朝巷子：開窗
+        elif sd < 0: xf.box(wall, -W / 2, -W / 2 + 0.2, GH, totalH + 0.9, -D, -0.25)
+        else: xf.box(wall, W / 2 - 0.2, W / 2, GH, totalH + 0.9, -D, -0.25)
+    xf.box(wall, -W / 2, W / 2, GH, totalH + 0.9, -D, -D + 0.2)
     for f in range(1, F): xf.box(band, -W / 2 - 0.03, W / 2 + 0.03, GH + (f - 1) * FH - 0.09, GH + (f - 1) * FH + 0.09, -0.25, 0.08)
     xf.box(band, -W / 2 - 0.04, W / 2 + 0.04, totalH + 0.9, totalH + 0.97, -0.26, 0.05)
     xf.box(acc(M['roof']), -W / 2 + 0.2, W / 2 - 0.2, totalH - 0.05, totalH + 0.05, -D + 0.2, -0.2)
@@ -366,7 +425,7 @@ def apartment(spec):
         if w['kind'] == 'grille':
             inst(GRILLE, f'grille_{spec["id"]}', xf, cx, y0 - 0.14, 0.0); inst(HOOD, f'ghood_{spec["id"]}', xf, cx, y0 - 0.14 + 1.77, 0.0)
             if not spec.get('far') and lrng.random() < 0.28: bake(LAUNDRY[lrng.randrange(3)], f'laundry_{spec["id"]}', xf, cx, y0 - 0.14, 0.0)
-            if not spec.get('far') and rng.random() < 0.6:
+            if not spec.get('far') and rng.random() < spec.get('p_pot', 0.6):
                 px_ = cx + rng.uniform(-0.9, 0.9); pz_ = rng.uniform(0.16, 0.28); q = xf.p(px_, 0, pz_)
                 B.instance(POT_FERN[rng.randrange(2)], f'pot_{spec["id"]}_{len(_inst)}', q[0], y0 - 0.11, q[2], root, ry=rng.uniform(0, 2 * math.pi)); _inst.append(1)
         elif w['kind'] == 'balcony':
@@ -389,14 +448,17 @@ def apartment(spec):
     if spec.get('roofAdd'):
         aw, ad = W * 0.7, D * 0.55; ra = acc(M['corr']); xf.box(ra, -aw / 2, aw / 2, totalH, totalH + 2.4, -D * 0.5 - ad / 2, -D * 0.5 + ad / 2)
         xf.box(band, -aw / 2 - 0.15, aw / 2 + 0.15, totalH + 2.4, totalH + 2.5, -D * 0.5 - ad / 2 - 0.15, -D * 0.5 + ad / 2 + 0.15)
-    else:
+    elif spec.get('tank', True):
         tx = rng.uniform(-W / 2 + 1.5, W / 2 - 1.5); wx, _, wz = xf.p(tx, 0, -D * 0.45); B.instance(TANK, f'tank_{spec["id"]}', wx, totalH, wz, root, ry=xf.ry)
+    upper_signs(spec, xf, W, totalH)
     # ---- 一樓：牆體和樓上同一種外牆（側面露在巷口時不會變成另一種材質）；店面兩側的石材壁柱
     xf.box(wall, -W / 2, W / 2, 0, GH, -D, -rec)                                                  # 一樓牆體（店面退縮）
     gw = acc(M['gwall'])
     if gt in ('shop', 'arcade'):
         r0 = 3.0 if gt == 'arcade' else 0.0
-        for sx in (-1, 1): xf.box(gw, sx * (W / 2 - 0.15) - 0.15, sx * (W / 2 - 0.15) + 0.15, 0, GH, -rec, -r0)
+        # 公館的騎樓：店與店之間的壁柱貼和柱子一樣的磁磚（磨石子在騎樓裡近看是一大片斑點，像髒汙；溫州街照舊）
+        pm = acc(M['pillar']) if (gt == 'arcade' and SET == 'gongguan') else gw
+        for sx in (-1, 1): xf.box(pm, sx * (W / 2 - 0.15) - 0.15, sx * (W / 2 - 0.15) + 0.15, 0, GH, -rec, -r0)
     else: xf.box(gw, -W / 2, W / 2, 0, 0.9, -rec - 0.02, -rec + 0.04)                              # 住家／鐵捲門：牆腳的磨石子護牆
     xf.box(band, -W / 2, W / 2, GH - 0.12, GH, -0.25, 0.06)
     if gt in ('shop', 'arcade'): shopfront(spec, xf, W, gt)
@@ -405,17 +467,81 @@ def apartment(spec):
     set_tint(wall.finish(root), spec['color'], kind)
 
 
+def vsign(xf, sid, vx, vy0, vy1, props):
+    """直立招牌（突出牆面，兩面都有字）＋上下鐵架"""
+    xf.box(acc(M['metal']), vx - 0.04, vx + 0.04, vy1 + 0.02, vy1 + 0.08, 0.0, 0.95); xf.box(acc(M['metal']), vx - 0.04, vx + 0.04, vy0 - 0.08, vy0 - 0.02, 0.0, 0.95)
+    xf.box(acc(M['ac']), vx - 0.07, vx + 0.07, vy0, vy1, 0.18, 0.92)
+    face(f'VSIGN_FACE_{sid}_a', M['board'], xf, [(vx + 0.075, vy0, 0.92), (vx + 0.075, vy0, 0.18), (vx + 0.075, vy1, 0.18), (vx + 0.075, vy1, 0.92)], props)
+    face(f'VSIGN_FACE_{sid}_b', M['board'], xf, [(vx - 0.075, vy0, 0.18), (vx - 0.075, vy0, 0.92), (vx - 0.075, vy1, 0.92), (vx - 0.075, vy1, 0.18)], props)
+
+
+def upper_signs(spec, xf, W, totalH):
+    """公館：樓上住戶的招牌（套件沒有）——另一側的直立招牌、二樓整面大招牌、屋頂廣告看板（鐵架）。字都由遊戲畫（SIGN_FACE／VSIGN_FACE），晚上會亮"""
+    vt = spec.get('vtenant')
+    if vt: vsign(xf, spec['id'] + '_t', -W / 2 + 0.5, GH + 0.3, GH + 0.3 + vt['len'], {k: vt[k] for k in ('vertical', 'vBg', 'vColor', 'vBand')} | {'serif': 0})
+    s2 = spec.get('sign2f')
+    if s2:   # 板子＋框離牆 0.16 m；店的直立招牌那一側讓出來（鐵架穿過板子）
+        xa = -W / 2 + 0.4; xb = W / 2 - (1.1 if spec['shop'].get('vertical') else 0.4); y0 = GH + 0.35; y1 = GH + FH - 0.3
+        xf.box(acc(M['alu']), xa - 0.06, xb + 0.06, y0 - 0.06, y1 + 0.06, 0.0, 0.16)
+        face(f'SIGN_FACE_{spec["id"]}_2F', M['board'], xf, [(xa, y0, 0.165), (xb, y0, 0.165), (xb, y1, 0.165), (xa, y1, 0.165)],
+             {'sign': s2['sign'], 'sub': s2['sub'], 'bg': s2['bg'], 'color': s2['color'], 'serif': 0, 'band': s2['band']})
+    rs = spec.get('roofsign')
+    if rs:   # 屋頂廣告看板：三根立柱＋往後的斜撐＋兩道橫桿、板子朝馬路（離女兒牆 1.6 m）
+        bw = min(9.0, W - 1.2); zb = -1.6; yb0 = totalH + 1.5; yb1 = yb0 + 2.4; st = acc(M['metal'])
+        for px in (-bw / 2 + 0.6, 0.0, bw / 2 - 0.6):
+            xf.box(st, px - 0.07, px + 0.07, totalH, yb1 + 0.1, zb - 0.22, zb - 0.08)
+            xf.cyl(st, (px, totalH, zb - 2.6), (px, yb0 + 1.2, zb - 0.15), 0.045, seg=6)
+        for y in (yb0 + 0.15, yb1 - 0.15): xf.box(st, -bw / 2, bw / 2, y - 0.05, y + 0.05, zb - 0.2, zb - 0.08)
+        xf.box(acc(M['alu']), -bw / 2 - 0.08, bw / 2 + 0.08, yb0 - 0.08, yb1 + 0.08, zb - 0.08, zb)
+        face(f'SIGN_FACE_{spec["id"]}_roof', M['board'], xf, [(-bw / 2, yb0, zb + 0.005), (bw / 2, yb0, zb + 0.005), (bw / 2, yb1, zb + 0.005), (-bw / 2, yb1, zb + 0.005)],
+             {'sign': rs['sign'], 'sub': rs['sub'], 'bg': rs['bg'], 'color': rs['color'], 'serif': 0, 'band': rs['band']})
+
+
+def side_windows(spec, xf, wall, band, W, D, F, totalH, sd, rng):
+    """側牆開窗（公館：朝往溫州街巷子的那一面）。側牆自己的座標：x'＝沿著牆、+z'＝朝外、原點在側牆外面的中央；窗和正面同一套原型"""
+    ox, _, oz = xf.p(sd * W / 2, 0, -(D + 0.25) / 2); sx_ = Xf(ox, oz, xf.ry + sd * math.pi / 2)
+    Ls = D - 0.25; n = max(1, round(Ls / 3.6)); ww = min(2.2, Ls / n - 0.9); wh = 1.5; T = 0.25
+    wins = []
+    for f in range(1, F):
+        yc = GH + (f - 1) * FH + FH * 0.52
+        for i in range(n): wins.append(dict(f=f, x=-Ls / 2 + (i + 0.5) * Ls / n, y0=yc - wh / 2, y1=yc + wh / 2, grille=rng.random() < spec.get('p_grille', 0.5), lit=rng.random() < 0.35, ac=rng.random() < 0.4, acs=rng.choice((-1, 1))))
+    for f in range(1, F):
+        y0 = GH + (f - 1) * FH; y1 = y0 + FH; ws = sorted([w for w in wins if w['f'] == f], key=lambda w: w['x'])
+        xs = [-Ls / 2] + [v for w in ws for v in (w['x'] - ww / 2, w['x'] + ww / 2)] + [Ls / 2]
+        for k in range(0, len(xs), 2): sx_.box(wall, xs[k], xs[k + 1], y0, y1, -T, 0)
+        for w in ws: sx_.box(wall, w['x'] - ww / 2, w['x'] + ww / 2, y0, w['y0'], -T, 0); sx_.box(wall, w['x'] - ww / 2, w['x'] + ww / 2, w['y1'], y1, -T, 0)
+        # 樓板線：往正面多伸 0.325 m 接到正面的樓板線（側牆座標 sd<0 時正面在 +x'）。比正面的薄 1 cm、停在正面樓板線的前緣後 5 mm：
+        # 重疊的地方不能有同一個平面上的面（Cycles 會變黑、遊戲裡會閃爍）
+        if f > 1: sx_.box(band, -Ls / 2 - (0.325 if sd > 0 else 0), Ls / 2 + (0.325 if sd < 0 else 0), y0 - 0.085, y0 + 0.085, -T, 0.08)
+    sx_.box(wall, -Ls / 2 - (0.05 if sd > 0 else 0), Ls / 2 + (0.05 if sd < 0 else 0), totalH, totalH + 0.9, -T, 0)   # 女兒牆：接到正面的女兒牆（正面的在 z −0.2…0，原本中間有 5 cm 的縫）
+    for w in wins:
+        cx, y0, y1 = w['x'], w['y0'], w['y1']; x0, x1 = cx - ww / 2, cx + ww / 2
+        inst(window_proto(wh, 'shell'), f'swin_{spec["id"]}', sx_, cx, y0, 0.0, sx=ww / WIN_W)
+        inst(window_proto(wh, 'lit' if w['lit'] else 'dark'), f'spane_{spec["id"]}', sx_, cx, y0, 0.0, sx=ww / WIN_W)
+        cm = acc(M['curtain_lit'] if w['lit'] else M['curtain']); cw = ww * rng.uniform(0.3, 0.55)
+        if rng.random() < 0.5: sx_.quad(cm, [(x1 - cw, y0 + 0.03, -0.29), (x1 - 0.03, y0 + 0.03, -0.29), (x1 - 0.03, y1 - 0.05, -0.29), (x1 - cw, y1 - 0.05, -0.29)])
+        else: sx_.quad(cm, [(x0 + 0.03, y0 + 0.03, -0.29), (x0 + cw, y0 + 0.03, -0.29), (x0 + cw, y1 - 0.05, -0.29), (x0 + 0.03, y1 - 0.05, -0.29)])
+        if w['grille']: inst(GRILLE, f'sgrille_{spec["id"]}', sx_, cx, y0 - 0.14, 0.0); inst(HOOD, f'sghood_{spec["id"]}', sx_, cx, y0 - 0.14 + 1.77, 0.0)
+        elif w['ac']:
+            ax = cx + w['acs'] * (ww / 2 + 0.55)
+            if -Ls / 2 + 0.5 < ax < Ls / 2 - 0.5:
+                inst(AC, f'sac_{spec["id"]}', sx_, ax, y0 - 0.2, 0.0); sx_.cyl(acc(M['pipe']), (ax + 0.3, y0 - 0.2, 0.04), (ax + 0.3, GH + 0.1, 0.04), 0.018, seg=6)
+
+
 def shopfront(spec, xf, W, gt):
     s = spec['shop']; dep = 3.0 if gt == 'arcade' else 0.0; iw = W - 0.6; ih = GH - 0.9; fr = frame_mat(s.get('frame', '#3b2a1e'))
     # 店內景深卡（後退 1.2 m）：遊戲貼 TK.interiorTex(店種)
     face(f'INTERIOR_FACE_{spec["id"]}', M['board'], xf, [(-iw / 2, 0.15, -1.2 - dep), (iw / 2, 0.15, -1.2 - dep), (iw / 2, ih + 0.15, -1.2 - dep), (-iw / 2, ih + 0.15, -1.2 - dep)], {'interior': s['type']})
     fl = acc(M['gwall']); xf.box(fl, -iw / 2, iw / 2, 0, 0.15, -1.3 - dep, -dep)
-    for sx in (-1, 1): xf.box(acc(M['plaster']), sx * iw / 2 - 0.03, sx * iw / 2 + 0.03, 0.15, ih + 0.15, -1.2 - dep, -dep)
+    # 店內兩側的牆：公館用淺米色素面（和騎樓天花板同一個頂點色材質，套件原本也是淺米色素面）；Café 的灰泥貼圖在騎樓陰影＋玻璃後面變成深褐色斑點
+    for sx in (-1, 1): xf.box(acc(M['ceilA'] if SET == 'gongguan' else M['plaster']), sx * iw / 2 - 0.03, sx * iw / 2 + 0.03, 0.15, ih + 0.15, -1.2 - dep, -dep)
     f_ = acc(fr)
     xf.box(f_, -W / 2, W / 2, ih + 0.15, ih + 0.4, -dep - 0.12, -dep + 0.12)
     for sx in (-0.5, -0.17, 0.17, 0.5): xf.box(f_, sx * iw - 0.05, sx * iw + 0.05, 0.15, ih + 0.15, -dep - 0.06, -dep + 0.06)
     xf.box(f_, -iw / 2, iw / 2, 0.1, 0.18, -dep - 0.06, -dep + 0.08)
     xf.quad(acc(M['glass']), [(-iw / 2, 0.18, -dep + 0.01), (iw / 2, 0.18, -dep + 0.01), (iw / 2, ih + 0.15, -dep + 0.01), (-iw / 2, ih + 0.15, -dep + 0.01)])
+    if gt == 'arcade' and spec.get('rollbox'):   # 公館：鐵捲門箱（白天捲門收在店面上方的箱子裡）；在頭頂以上，不加導軌（騎樓走得到店面玻璃前 0.4 m，導軌會穿過人物）
+        xf.box(acc(M['alu']), -iw / 2 - 0.1, iw / 2 + 0.1, ih + 0.18, GH - 0.37, -dep + 0.12, -dep + 0.42)
     # 橫招牌（板面＋框）
     sw = min(W - 0.4, 6.5); sy0, sy1 = GH - 0.67, GH - 0.03
     xf.box(acc(fr), -sw / 2 - 0.05, sw / 2 + 0.05, sy0 - 0.04, sy1 + 0.04, 0.0, 0.1)
@@ -439,7 +565,7 @@ def shopfront(spec, xf, W, gt):
     # 騎樓：上面樓板延伸到街邊、兩端柱子、地坪、天花板日光燈
     if gt == 'arcade':
         xf.box(acc(M['ceilA']), -W / 2, W / 2, GH - 0.35, GH - 0.12, -dep, 0.0)
-        for sx in (-W / 2 + 0.3, W / 2 - 0.3): xf.box(acc(M['pillar']), sx - 0.275, sx + 0.275, 0.05, GH - 0.35, -0.575, -0.025)
+        for sx in spec.get('pillars', (-W / 2 + 0.3, W / 2 - 0.3)): xf.box(acc(M['pillar']), sx - 0.275, sx + 0.275, 0.05, GH - 0.35, -0.575, -0.025)   # 公館：柱子照套件的位置（店與店的分界）
         xf.box(acc(M['sidewalk']), -W / 2, W / 2, 0.0, 0.05, -dep, 0.0)
         nl = max(1, round(W / 2.5))
         for k in range(nl):

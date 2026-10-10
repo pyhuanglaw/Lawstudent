@@ -44,7 +44,8 @@ async def main():
                 await pg.evaluate("""(s=>{ const E=GAME.E, P=E.player; E.endCinematic&&E.endCinematic(); if(s.pos&&'x' in s.pos){ P.obj.position.set(s.pos.x,0,s.pos.z); P.obj.rotation.y=s.pos.yaw||0; P.path=null; }
                     if('hour' in s){ GAME.G.hour=s.hour; E.applyTime(s.hour); } })(%s)""" % json.dumps(st, ensure_ascii=False))
                 await pg.evaluate("(h=>{ GAME.E.player.obj.visible=!h; })(%s)" % ('true' if s.get('hidePlayer') else 'false'))
-                if s.get('hideNPCs'): await pg.evaluate("GAME.E.npcs.slice().forEach(n=>{ n.obj.visible=false; })")
+                # 路人移出場景（引擎每格會依遠近重設 visible，只設 visible=false 擋不住；2026-10-10 街道道具那批截圖還看得到路人）
+                if s.get('hideNPCs'): await pg.evaluate("GAME.E.npcs.slice().forEach(n=>{ n.obj.visible=false; if(n.obj.parent) n.obj.parent.remove(n.obj); })")
                 await pg.evaluate("(css=>{ let el=document.getElementById('fastShotsCss'); if(!el){ el=document.createElement('style'); el.id='fastShotsCss'; document.head.appendChild(el); } el.textContent=css; })(%s)" % json.dumps('' if s.get('hud') else HIDE_HUD))
                 if s.get('js'): await pg.evaluate(s['js'])
                 await pg.evaluate("[GAME.E.player].concat(GAME.E.npcs).forEach(n=>{ const u=n.obj&&n.obj.userData; if(u&&u.anim){ u.anim.blink=1e9; u.anim.blinkT=0; } })")

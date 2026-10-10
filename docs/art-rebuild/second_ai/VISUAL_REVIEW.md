@@ -597,3 +597,91 @@ LAWWW 2026-10-10 的工作順序第 ③ 項「Café 往南看的街底」。施�
 3. **路燈只有一款**（公園式）；台北街道常見的高桿路燈、校園的方形庭園燈還是套件或沒有。
 4. 長椅只有一款；**行道樹、盆栽**（交接文件第三項的其他道具）還沒做。
 5. 沒有 iPhone 實機驗證；效能用 `renderer.info` 量（見 6.4）。
+
+---
+
+## 7. 公館：羅斯福路南側的騎樓店面街（15 棟＋往溫州街的巷口轉角）
+
+LAWWW 2026-10-10 的工作佇列第 4 項「公館近景」；21:21Z 同意我認領 `gongguan` 區塊（條件見 7.4）。
+
+### 7.1 玩家會看到什麼不同
+
+| | 修改前（程序化套件 `TK.apartment`） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 店面街 15 棟（麵店、茶行、書房、便利商店…早午餐） | 平的窗貼圖、鐵窗是透明貼圖片、樓上只有窗 | 和溫州街同一套台北公寓：長條磁磚／馬賽克／水泥漆外牆（Poly Haven PBR）、鋁窗＋窗簾＋窗內房間（傍晚、晚上有的亮燈）、真的鐵條鐵窗、雨遮、冷氣室外機＋排水管、樓板線、女兒牆、水塔、頂樓加蓋 |
+| 騎樓 | 柱子、天花板、日光燈（套件） | 磁磚柱子（位置照套件，擋住玩家時一樣網點透空）、店與店之間的壁柱也貼同一種磁磚、天花板日光燈（晚上亮）、地磚、**店面上方的鐵捲門箱**、玻璃店面＋店內景深卡 |
+| 樓上的招牌（套件沒有） | 只有一樓的店招牌、少數直立招牌 | **樓上住戶的直立招牌 8 塊**（美髮、中醫診所、民宿、數學補習、按摩、健身房、鋼琴教室、撞球）、**二樓整面大招牌 5 塊**（文理補習班、小火鍋、桌遊・撞球、牙醫診所、英語會話）、**屋頂廣告看板 1 座**（學生套房出租，鐵架）；晚上和店招牌一起亮 |
+| 往溫州街的巷口 | 轉角那棟和麵店的側面是一整片沒有窗的牆 | 兩棟朝巷子的側面都有窗（鐵窗、冷氣、樓板線） |
+
+**沒有改的東西**（LAWWW 的條件 1–3、6）：店的位置與寬度、騎樓柱子與導航阻擋、鏡頭碰撞（`addCol`）、店門互動點（z=21）、從店裡出來的位置（z=18）、捷運出口、路人路線、校門（`CK.gate`）、傅鐘、路燈（`W3.lampPost`）、店門口的立牌、機車、柏油路、`sunYaw`（π/2）、`campusBackdrop`（從校門往外看的背景，維持套件）。正式模型還沒載入、載入失敗、`?nobldg` 時照舊是套件。
+
+### 7.2 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 公館店面街（`bldg.gongguan_shops`） | 完成 | `FUNCTIONAL_VERIFIED`（見 7.4） | `READY_FOR_ART_REVIEW` |
+
+### 7.3 製作方式與規格
+
+- Blender 5.2 `bpy`：`tools/blender/env_second/wz_street.py --set gongguan`（和溫州街同一支腳本、同一套公寓、材質、窗戶原型）→ `assets/models/env/second_ai/gongguan_shops.glb`：**1.91 MB**、814 個物件（89 個不同的網格；窗、鐵窗、雨遮、冷氣、水塔、盆栽用 `EXT_mesh_gpu_instancing`）、三角形 20,279（含 instancing 畫出來 83,073）、貼圖 512 px。
+- 配置照 `zones3d.js` gongguan 區塊的 `shops`（位置、寬度＝店寬＋店與店之間的 1.2 m、樓層、牆、顏色、招牌、柱子位置）；改那邊要一起改這裡（腳本裡有註明）。
+- 招牌的字不放在 GLB：板面帶店名、顏色（自訂屬性），遊戲用 canvas 畫、合成一張 atlas（和溫州街同一套）。直立招牌兩面的字一樣，改成共用 atlas 的同一格（`wzAtlasFaces`；溫州街也受惠）。
+- 公館和溫州街不同的地方（`--set gongguan` 才有）：樓上住戶的招牌、鐵捲門箱、側面開窗；鐵窗、盆栽、冷氣的密度比較低、冷氣用簡化版（見 7.4）；騎樓裡店與店之間的壁柱貼和柱子一樣的磁磚（溫州街用磨石子）；店面玻璃後面兩側的牆用淺米色素面（溫州街用 Café 室內的暖米色灰泥貼圖；第一版公館也是，在騎樓的陰影＋玻璃後面變成一大片深褐色斑點，像髒汙，改掉）。
+- 遊戲端：`zones3d.js` gongguan 區塊（套件店面標 `userData.ggShop`＝G00–G15；有正式模型時不參加整區合併；載入後用 `attachWenzhouModel` 藏套件外觀）、`assets3d.js` 加 `bldg.gongguan_shops`（lazy）。
+
+### 7.4 測試結果
+
+測試都是 Playwright 手機模擬（不是 iPhone 實機）；log 在 `docs/art-rebuild/second_ai/test_logs/gongguan/`。
+
+`gongguan_glb_integration` 35、`gongguan_layout_nav` 46、`p0_movement` 34、`reachability_all` 48、`zone_transitions` 37：**全部通過**（`reachability_all`：全遊戲 11 個區域、139 個互動點、劇情走路目的地、出入口到達點，用引擎真正的移動模擬走一遍，含公館的店門口、捷運、往溫州街、回校園）。
+
+**效能（LAWWW 的條件：同一個鏡頭 draw call ≤ `?nobldg`＋30%、三角形 ≤ 42 萬；藏起路人、含陰影那一輪、含玩家）**：
+
+| 鏡頭（17:30） | draw call：`?nobldg` → 正式模型（倍數） | 三角形：`?nobldg` → 正式模型 |
+|---|---|---|
+| 人行道往西看整排店面 | 183 → 194（×1.06） | 335,172 → 402,728 |
+| 校門口往南看過羅斯福路 | 192 → 202（×1.052） | 334,490 → 401,392 |
+| 騎樓裡往西 | 183 → 199（×1.087） | 335,168 → 402,766 |
+| 往溫州街的巷口 | 150 → 167（×1.113） | 333,118 → 396,926 |
+
+第一輪（照溫州街的密度）三角形 44.6～45.0 萬，超過上限：instancing 的小零件（鐵窗、冷氣、盆栽）整條街一組、任何鏡頭都整組畫出來，從校門看整排店面的鏡頭一定全部看到。改成公館的鐵窗比例 0.7→0.4、盆栽 0.6→0.25、冷氣 0.65→0.5（商店街的鐵窗、盆栽本來就比住宅巷少），冷氣用簡化版（每台 328→200 個三角形；冷氣都在二樓以上，從街上看不出差別）→ 模型裡 instancing 畫出來的三角形 12.9 萬→8.3 萬。draw call 多出來的是正式模型的材質（三種外牆、窗、鐵件、招牌 atlas…）各一次、會投影的再加陰影那一輪一次。
+
+**新檢查在修正前會失敗**（docs/TESTING.md 規則 3）：第一輪（照溫州街的密度、atlas 還沒共用格）的 log 保留在 `test_logs/gongguan/gongguan_glb_integration_first.log`——效能（三角形 44.6～45.0 萬）、atlas（2048×4096）兩項 FAIL；修正後 PASS。同一份 log 裡另外兩項 FAIL 是測試本身的問題（太陽方位的門檻寫錯：12:00 的時段表本來就是 150°；「沒有標記的群組」把路燈光暈算進去，兩輪之間路燈亮了），已修正測試，判定的意思不變。
+
+
+### 7.5 遊戲內截圖（修改前｜修改後；修改前＝同一版遊戲、只擋掉 `gongguan_shops.glb`）
+
+| 鏡頭 | 修改前（程序化套件） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 人行道往西看整排店面 11:00 | ![修改前](shots/gongguan_before_street_west_1100.webp) | ![修改後](shots/gongguan_after_street_west_1100.webp) |
+| 人行道往西看整排店面 17:30 | ![修改前](shots/gongguan_before_street_west_1730.webp) | ![修改後](shots/gongguan_after_street_west_1730.webp) |
+| 人行道往西看整排店面 20:30 | ![修改前](shots/gongguan_before_street_west_2030.webp) | ![修改後](shots/gongguan_after_street_west_2030.webp) |
+| 校門口往南看過羅斯福路 11:00 | ![修改前](shots/gongguan_before_from_gate_1100.webp) | ![修改後](shots/gongguan_after_from_gate_1100.webp) |
+| 校門口往南看過羅斯福路 17:30 | ![修改前](shots/gongguan_before_from_gate_1730.webp) | ![修改後](shots/gongguan_after_from_gate_1730.webp) |
+| 校門口往南看過羅斯福路 20:30 | ![修改前](shots/gongguan_before_from_gate_2030.webp) | ![修改後](shots/gongguan_after_from_gate_2030.webp) |
+| 騎樓裡往西 11:00 | ![修改前](shots/gongguan_before_arcade_1100.webp) | ![修改後](shots/gongguan_after_arcade_1100.webp) |
+| 騎樓裡往西 17:30 | ![修改前](shots/gongguan_before_arcade_1730.webp) | ![修改後](shots/gongguan_after_arcade_1730.webp) |
+| 騎樓裡往西 20:30 | ![修改前](shots/gongguan_before_arcade_2030.webp) | ![修改後](shots/gongguan_after_arcade_2030.webp) |
+| 往溫州街的巷口 11:00 | ![修改前](shots/gongguan_before_lane_1100.webp) | ![修改後](shots/gongguan_after_lane_1100.webp) |
+| 往溫州街的巷口 17:30 | ![修改前](shots/gongguan_before_lane_1730.webp) | ![修改後](shots/gongguan_after_lane_1730.webp) |
+| 往溫州街的巷口 20:30 | ![修改前](shots/gongguan_before_lane_2030.webp) | ![修改後](shots/gongguan_after_lane_2030.webp) |
+| 玩家鏡頭（手機直向） 17:30 | ![修改前](shots/gongguan_before_follow_1730.webp) | ![修改後](shots/gongguan_after_follow_1730.webp) |
+
+### 7.6 Blender 渲染圖（Cycles；招牌的字是遊戲裡用 canvas 畫的，所以這裡是空白板面）
+
+| 人行道往西 | 立面（二樓大招牌、直立招牌） | 往溫州街的巷口（兩側開窗） |
+|---|---|---|
+| ![](blender_renders/gongguan_street_w.webp) | ![](blender_renders/gongguan_facade.webp) | ![](blender_renders/gongguan_lane.webp) |
+
+| 騎樓（磁磚柱、日光燈、鐵捲門箱） | 屋頂看板 | 夜景（亮燈的窗、騎樓日光燈） |
+|---|---|---|
+| ![](blender_renders/gongguan_arcade.webp) | ![](blender_renders/gongguan_roof.webp) | ![](blender_renders/gongguan_night_street_w.webp) |
+
+### 7.7 還沒達到參考品質的地方
+
+1. 店內是景深卡（一張圖），不是有深度的室內；站在騎樓裡近看玻璃，看得出是平面。
+2. 店面的造型都一樣（玻璃＋四道直框）：真實的公館有開放式的攤位（滷味、水果行、手搖飲的櫃台），這裡都是玻璃店面。
+3. 騎樓裡沒有機車、沒有騎樓下的吊牌（保持騎樓可以走、鏡頭不被擋）。
+4. 店面街東西兩端以外（x 超過 ±78）、後面那排高樓還是套件的遠景方盒；從校門往外看的背景（`campusBackdrop`）也還是套件（LAWWW 之後決定要不要改用同一個 GLB）。
+5. 機車還是套件（溫州街已經換成正式模型的那兩款，公館可以用同一套）。
+6. 沒有 iPhone 實機驗證；效能用 `renderer.info` 量（見 7.4）。
