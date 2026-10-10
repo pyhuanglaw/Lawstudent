@@ -44,7 +44,9 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 
 **不在這一版（留在開發分支）**：溫書瑀 Blender 版（製作中）；街道道具（LAWWW2）；Café 往南／往北的遠景公寓（LAWWW2 製作中）。
 
-**發布前測試**：（執行中，結果寫在這裡）
+**發布前測試**（乾淨 worktree，候選 `dfd2618`，2026-10-10 20:57–21:41 UTC；Playwright 手機模擬＋SwiftShader，**不是 iPhone 實機**）：`tests/release_suite.sh` **25 項第一次就全部 PASS**——nav_levels_unit、nav_buildings_unit、stairs_feet（祐廷＋五位女主角）、sim_hair、sit_feet_unit（新：腳底高度＋小腿／大腿角度）、deploy_check（版本字樣 `v9.4.2`）、model_upgrade、zone_transitions、campus_layout_nav、gongguan_layout_nav、reachability_all（全遊戲）、indoor_cam_occlusion、minimap_direction、joystick_direction、p0_movement、touch_flow_wenzhou、flow_class_real、flow_linze_floors、save_compat_v7（v7 玩家的存檔）、save_compat_live（線上 v9.4.1 玩家的存檔）。
+- 候選裡的 LAWWW2 成果，整合到開發分支時另外跑過的回歸：wz_street_integration 42、cafe_glb_integration 62、cvs_glb_integration 39、interior_glb_integration 104、see_through、movement_regression 42/42（全部 PASS）。
+- **還沒發布**：九小時授權期在 21:05 UTC 左右結束，等使用者核准。核准後照之前的流程：main 快轉到候選（或內容相同的 commit）→ 看 GitHub Actions 的部署結果 → 本機對同一個 commit 跑 deploy_check。
 
 ---
 
