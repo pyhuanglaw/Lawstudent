@@ -16,13 +16,13 @@ import h01_hair as HB
 from h01_hair import _unit, sph, slerp, sstep, tangents
 
 SEED = 20261011
-POLE = (180.0, 58.0)      # 髮旋（方位角、仰角，度）：頭頂偏後
+POLE = (180.0, 70.0)      # 髮旋（方位角、仰角，度）：頭頂稍偏後（第九版 58°：側面看最高點在後腦上方，像一個包）
 PART = 14.0               # 瀏海分線（方位角）：略偏人物的左邊
 # 髮際線（方位角 → 仰角）：男生的前額髮際線略高、鬢角短、耳朵上方的髮際線貼著耳朵、後頸收高
 HAIRLINE = [(0, 33), (20, 33), (35, 30), (48, 21), (57, 9), (63, -1), (69, -5), (76, -1), (86, 8), (98, 7), (108, -6),
             (120, -26), (136, -44), (152, -52), (168, -56), (180, -57)]
 # 顏色（sRGB）：參考圖 02 的深黑棕（頭頂受光處偏暖棕）
-DEEP = np.array([0.11, 0.095, 0.092]); BASE = np.array([0.19, 0.165, 0.158]); LIGHT = np.array([0.29, 0.255, 0.243]); SHEEN = np.array([0.42, 0.38, 0.36])   # 參考圖 02 頭髮取樣：中位數 (0.21, 0.18, 0.18)、暗部 (0.13, 0.11, 0.11)、亮部 (0.29, 0.26, 0.24)
+DEEP = np.array([0.13, 0.11, 0.10]); BASE = np.array([0.23, 0.195, 0.178]); LIGHT = np.array([0.35, 0.30, 0.27]); SHEEN = np.array([0.50, 0.45, 0.41])   # 第十一版：遊戲裡（MToon）頭髮整片接近黑色、看不出髮絲，整體調亮一級   # 參考圖 02 頭髮取樣：中位數 (0.21, 0.18, 0.18)、暗部 (0.13, 0.11, 0.11)、亮部 (0.29, 0.26, 0.24)
 REG = {'card': (0, 384, 0, 1024), 'cardB': (384, 640, 0, 1024), 'bang': (640, 896, 0, 1024), 'shell': (896, 1024, 0, 1024)}
 HEAD = 'J_Bip_C_Head'
 
@@ -40,7 +40,7 @@ def make_atlas(seed=SEED):
     h, w = reg('cardB')
     put('cardB', HB._strand_color(rng, h, w, 0.78, sheen=(0.28, 0.44), tip_light=0.05, base=BASE), HB._clumps(rng, h, w, 4, 0.58, 0.80, 1.0, hw_k=(0.95, 1.3), lean=0.2, power=0.6, full=2.2, minw=3.5))
     h, w = reg('bang')
-    put('bang', HB._strand_color(rng, h, w, 0.84, tip_light=0.04, base=BASE), HB._clumps(rng, h, w, 3, 0.50, 0.72, 1.0, hw_k=(1.1, 1.4), lean=0.15, power=0.55, full=2.6, minw=3.0))   # 瀏海一撮一撮寬一點（第一版像細線）
+    put('bang', HB._strand_color(rng, h, w, 0.84, tip_light=0.04, base=BASE), HB._clumps(rng, h, w, 2, 0.50, 0.62, 1.0, hw_k=(1.2, 1.6), lean=0.12, power=0.9, full=3.5, minw=5.0))   # 瀏海一撮一撮寬一點（第一版像細線）；第七版每片 2 撮、長短差更多（遊戲裡一排同樣大小的尖角像鋸齒）
     h, w = reg('shell')
     put('shell', HB._strand_color(rng, h, w, 0.75, tip_light=0.0, base=BASE * 0.85), np.ones((h, w)))
     return img
@@ -57,11 +57,17 @@ def apply(m):
 
     def vol(a, v):          # 髮殼／髮片離頭皮的距離：頭頂（靠髮旋）最蓬、前額蓬、兩側貼、後頸收
         aa = az(a); ca = math.cos(math.radians(aa))
-        top = 0.012 + 0.022 * float(sstep(0.10, 0.70, v))       # 頭頂蓬（第一版 0.009＋0.018 仍像貼著頭的安全帽；參考圖頭頂約 3～4 cm 厚）
+        top = 0.012 + 0.020 * float(sstep(0.10, 0.55, v)) - 0.010 * float(sstep(0.75, 0.97, v))   # 頭頂前半最蓬、髮旋附近收回來（第六版在遊戲裡髮旋堆成一個圓頂）
         side = 1 - 0.55 * float(sstep(55, 95, aa)) * (1 - 0.4 * float(sstep(120, 160, aa)))   # 兩側貼一點（第三版 0.40：耳朵高度往外蓬，正面看像香菇頭）
-        return top * side + 0.007 * max(ca, 0.0)
+        return top * side * (0.6 + 0.4 * max(ca, 0.0)) + max(ca, 0.0) * (0.004 + 0.010 * float(sstep(0.2, 0.6, v)))   # 第八版：後腦薄一點（遊戲裡髮旋後面鼓成一個包）；第十版：前額上方再蓬一點（側面看最高點在前半）
 
-    def line_dir(a, v): return slerp(sph(a, HB.hairline_beta(a)), dP, v)
+    def line_dir(a, v):
+        b0 = HB.hairline_beta(a); d0 = sph(a, b0); g = slerp(d0, dP, v)
+        if v >= 0: return g
+        # 髮際線以下：漸漸改成同一個方位角往正下方（第四版沿著大圓往外延：太陽穴的髮尾往前跑到眼尾，側面看頭髮像帽簷蓋住眼睛）
+        om = math.degrees(math.acos(float(np.clip(np.dot(d0, dP), -1, 1))))
+        w = float(sstep(0.0, 0.12, -v))
+        return _unit(g * (1 - w) + sph(a, b0 + v * om) * w)
 
     def surf(a, v, extra=0.0):
         d = line_dir(a, v); out = v < 0.03                     # 髮際線外面（額頭、太陽穴、耳朵）：量最外層（臉、耳朵）
@@ -83,8 +89,10 @@ def apply(m):
     # （第一版太陽穴的髮尾只到耳朵上緣以上、而且下半段是透明的尖端：太陽穴整片露出來，像剃短的兩側）
     # 第三版：太陽穴、鬢角再往下 2～3 cm（第二版的目標只到眉毛高度；耳朵前面的髮際線本來就在那個高度，髮尾剛好停在髮際線上，側面看是一個缺口）
     eye_z = H.brow_z - 0.025
-    TIP_A = [0, 20, 36, 50, 62, 76, 92, 108, 112]
-    TIP_Z = [H.brow_z + 0.002, H.brow_z + 0.004, H.brow_z - 0.006, eye_z + 0.004, eye_z - 0.001, eye_z - 0.005, ear_top - 0.016, ear_top - 0.010, ear_top - 0.006]
+    # 第五版：太陽穴前段（方位 36–55°）留在眉毛高度——側面看，太陽穴就在眼睛正外側，那裡的頭髮垂到眼睛高度會把眼睛整個擋住；
+    # 只有耳朵前面的鬢角（60–85°，在眼睛後面）垂到眼睛高度
+    TIP_A = [0, 20, 36, 50, 58, 66, 78, 92, 108, 112]
+    TIP_Z = [H.brow_z + 0.002, H.brow_z + 0.004, H.brow_z - 0.004, H.brow_z - 0.006, eye_z + 0.010, eye_z, eye_z - 0.004, ear_top - 0.016, ear_top - 0.010, ear_top - 0.006]
     def v_tip(a):           # 髮尾停在哪（v<0：超出髮際線）
         aa = az(a)
         if aa < 112: return min(-0.02 if aa > 36 else 1.0, v_at_z(a, float(np.interp(aa, TIP_A, TIP_Z))))
@@ -115,7 +123,7 @@ def apply(m):
     def card(a, vroot, vtip, off, wfac, reg, nseg=14, bulge=0.0, arch=0.1, curl=0.0):
         vv = np.linspace(vroot, vtip, nseg + 1); P = []; D = []; Wd = []; da = 360.0 / 56
         for i, v in enumerate(vv):
-            t = i / nseg; e = off + bulge * math.sin(math.pi * min(1.0, t * 1.2))
+            t = i / nseg; e = (off + bulge * math.sin(math.pi * min(1.0, t * 1.2))) * (0.15 + 0.85 * float(sstep(0.0, 0.35, t)))   # 髮根那一段貼近：三層髮片都從髮旋出發，髮根一起往外推會在髮旋堆成圓頂；第十二版再貼平（外層髮根排成一圈，遊戲裡頭微低時後腦上方像一道台階、一個包）
             p, d = surf(a + curl * t * t, v, e); q, _ = surf(a + curl * t * t + da, v, e)
             P.append(p); D.append(d); Wd.append(np.linalg.norm(q - p))
         P = np.array(P); D = np.array(D)
@@ -129,12 +137,12 @@ def apply(m):
         card(a, 0.97, min(0.0, v_tip(a) * (0.55 + 0.30 * float(sstep(36, 58, aa)) * (1 - float(sstep(100, 120, aa))))), 0.0015, 1.7, 'card')
     for k in range(40):        # 中層：蓬一點
         a = -180 + 360 * (k + rng.uniform(0.2, 0.8)) / 40
-        card(a, 0.95 - rng.uniform(0, 0.08), v_tip(a) * rng.uniform(0.8, 1.0), 0.0045 + 0.001 * rng.random(), rng.uniform(1.3, 1.6), 'cardB',
+        card(a, 0.90 - rng.uniform(0, 0.08), v_tip(a) * rng.uniform(0.8, 1.0), 0.0045 + 0.001 * rng.random(), rng.uniform(1.3, 1.6), 'cardB',
              bulge=0.002 + 0.002 * rng.random(), arch=0.12, curl=rng.uniform(-6, 6))
     for k in range(30):        # 外層：碎、長短不一（頭頂的層次）
         a = -180 + 360 * (k + rng.uniform(0.1, 0.9)) / 30
-        sk = 1 - 0.45 * float(sstep(50, 80, az(a))) * (1 - float(sstep(120, 150, az(a))))     # 兩側（耳朵附近）外層貼近一點
-        card(a, 0.92 - rng.uniform(0, 0.15), v_tip(a) * rng.uniform(0.55, 1.05), (0.008 + 0.002 * rng.random()) * sk, rng.uniform(1.1, 1.45), 'cardB',
+        sk = (1 - 0.45 * float(sstep(50, 80, az(a))) * (1 - float(sstep(120, 150, az(a))))) * (1 - 0.4 * float(sstep(110, 150, az(a))))   # 兩側（耳朵附近）、後腦外層貼近一點
+        card(a, 0.86 - rng.uniform(0, 0.15), v_tip(a) * rng.uniform(0.55, 1.05), (0.008 + 0.002 * rng.random()) * sk, rng.uniform(1.1, 1.45), 'cardB',
              bulge=(0.003 + 0.003 * rng.random()) * sk, arch=0.16, curl=rng.uniform(-6, 6))
     for sgn in (1.0, -1.0):    # 鬢角：太陽穴到耳朵前面，從髮際線上方往下梳（短、寬、不透明的部分多）
         for k in range(7):
@@ -149,12 +157,12 @@ def apply(m):
     for k in range(10):
         a = -40 + 80 * (k + rng.uniform(0.3, 0.7)) / 10
         card(a, 0.62 + rng.uniform(0, 0.08), v_tip(a) + rng.uniform(0.0, 0.03), 0.008 + 0.001 * rng.random(), rng.uniform(2.2, 2.6), 'bang',
-             nseg=16, bulge=0.005, arch=0.12, curl=(1.0 if a > PART else -1.0) * rng.uniform(2, 6))
+             nseg=16, bulge=0.005, arch=0.08, curl=(1.0 if a > PART else -1.0) * rng.uniform(2, 6))
     for k in range(9):
         a = -36 + 72 * (k + rng.uniform(0.2, 0.8)) / 9
         sgn = 1.0 if a > PART else -1.0
         card(a, 0.50 + rng.uniform(0, 0.20), v_tip(a) + rng.uniform(-0.05, 0.02), 0.012 + 0.002 * rng.random(), rng.uniform(1.6, 2.0), 'bang',
-             nseg=16, bulge=0.006 + 0.002 * rng.random(), arch=0.16, curl=sgn * rng.uniform(8, 18))
+             nseg=16, bulge=0.006 + 0.002 * rng.random(), arch=0.10, curl=sgn * rng.uniform(8, 18))
     n_bang = len(mb.F) - n_shell - n_card
 
     # ---- 4. 物件、材質、權重 ----
@@ -171,7 +179,7 @@ def apply(m):
     tmpl = next((mt.name for mt in bpy.data.materials if 'HAIR' in mt.name and getattr(mt, 'vrm_addon_extension', None)), None)
     mat = C.mtoon_from(tmpl, 'P00_HairCard_HAIR', base_img=img, alpha='MASK', cutoff=0.5, double_sided=False, outline=0.0)
     mt = mat.vrm_addon_extension.mtoon1.extensions.vrmc_materials_mtoon
-    mt.shade_color_factor = (0.72, 0.66, 0.66)
+    mt.shade_color_factor = (0.80, 0.74, 0.72)        # 第十一版：陰影面不要那麼暗（0.72／0.66）
     e1 = mat.vrm_addon_extension.mtoon1
     e1.emissive_texture.index.source = None; e1.normal_texture.index.source = None
     me.materials.append(mat)

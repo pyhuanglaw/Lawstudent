@@ -51,6 +51,9 @@
   - 三方比較見 CHARACTER_REVIEW 第 9 節。
 - 14:10–14:20 v9.4 發布前測試：第一個候選唯一的失敗（`zone_transitions` 的霖澤館）查明是測試過時（v9.4 進霖澤館先到大廳），修測試（`f10b387`）；新候選 `f10b387` 的完整發布前測試在乾淨 worktree 執行中。
 - 14:20– 人物生產線：`common.BodyMap`（依骨頭地標把不同身形對到沈以安的比例，衣服、臉的模組可以共用）、`h01_face` 的貼圖參數可調；祐廷的 `player.py`＋`p00_face.py`、`p00_clothes.py`（淺灰圓領毛衣、深灰直筒褲、白球鞋）、`p00_hair.py`（新的層次短髮）開始寫。
+- 14:20–14:47 **v9.4 正式發布**（使用者的條件式發布授權）：候選 `f10b387` 發布前測試 24 項中 22 項第一次 PASS；另外兩項是測試本身的問題——`flow_class_real` 還是 v9.3 的走法（改測試 `b006183`）、`flow_linze_floors` 在人物還在走、經過座位時就檢查按鈕（`tests/playlib.py` 的 `go_to` 改成等人物停下來，`6b9c0dc`）——對同一個候選重跑都 PASS。main 快轉到 `6b9c0dc`（遊戲檔案和候選完全相同），GitHub Pages 14:47:16 UTC 部署成功；本機同一 commit `deploy_check` ALL PASS。紀錄在 `docs/RELEASES.md`（含不用 force push 的緊急回復方法）。下一次發布最早 17:47 UTC。
+- 14:20–15:30 **祐廷 Blender 版第一版**（人物生產線第二位，`READY_FOR_ART_REVIEW`，網址 `?blchar`）：Blender 預覽＋遊戲內看了十二版，修掉的問題見 CHARACTER_REVIEW 第 10 節（褲頭在肋骨下面＝BodyMap 換算、V 領改圓領、手放下肩膀翹成墊肩＝落肩身片蓋在袖子上、太陽穴空、頭髮擋眼睛、後頸細髮、髮旋鼓包、頭髮在遊戲裡全黑）。遊戲內六視角、坐下、霖澤館樓梯、14 個表情、`stairs_feet_unit` PASS；`?blchar` 實際載入兩個 Blender 人物、沒有重複下載 VRoid 檔。新工具：`render_blend.py` 的手放下姿勢（`ARMS_DOWN`）與自訂鏡頭（`CAM`）在暫存區、`char_motion.py` 可以拍玩家本人。
+- 15:00 沈以安 Blender 第二輪（髮色、褲子前中線）在遊戲裡和第一版差別很小，先不換；下一輪要連同毛衣肩膀（同樣的落肩帽沿問題）一起改。
 
 ### 正在做（v9.4 人物：Blender 正式製作——示範角色沈以安，2026-10-10 11:00 起，使用者指示）
 

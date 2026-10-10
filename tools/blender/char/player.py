@@ -18,6 +18,8 @@ def stage0(m):
     hair_bones = [b.name for b in arm.data.bones if 'HairJoint' in b.name or b.name.startswith('J_Sec_Hair')]
     if m['hair']: bpy.data.objects.remove(m['hair'], do_unlink=True); m['hair'] = None
     print('  removed hair bones', C.remove_bones(arm, hair_bones))
+    m['wsrc_top'] = C.extract_by_material(m['body'], ['Tops'], 'WSRC_Tops', 'J_Sec_')   # 原本的連帽上衣（拿掉帽兜、抽繩）：新毛衣的權重來源（衣服階段用完就刪）
+    print('  weight source (VRoid tops) faces', len(m['wsrc_top'].data.polygons))
     print('  removed clothes faces', C.delete_by_material(m['body'], ['Tops', 'Bottoms', 'Shoes']))
     keep = ('Bust',)
     sec_bones = [b.name for b in arm.data.bones if b.name.startswith('J_Sec_') and not any(k in b.name for k in keep)]

@@ -40,6 +40,9 @@ SIDE_NECK = (0.071, 1.402) # 領口側頸點（|x|、z）
 BACK_NECK_Z = 1.388
 NECK_STYLE = 'V'           # 'V'（沈以安）／'crew'（圓領：前中心在 CREW_FRONT_Z，往側頸點圓弧上升）
 CREW_FRONT_Z = 1.352
+SLEEVE_K = 0.82           # 袖子粗細（設計輪廓的倍數；沈以安 0.82）
+EASE_K = 1.0              # 身片寬鬆量的倍數
+WSRC = None               # 權重來源：VRoid 原本的上衣網格（祐廷：連帽上衣）。有的話，毛衣的身片、袖子根部照它的權重（VRoid 調過手放下的姿勢）
 HEM_OVER_PANTS = False     # 毛衣下擺蓋過褲頭、落在胯部（祐廷）：身片的箱形往下量到下擺，而且把褲子算進去（不然下擺會切進臀部和褲子）
 
 
@@ -399,7 +402,7 @@ def build_top(skin, arm, mb, pants):
     RBmax = np.maximum.accumulate(RB[:, ::-1], axis=1)[:, ::-1]           # 高度 ≥ z 的最大
     # 第二版：每個高度的截面＝「這個高度以上身體最突出的輪廓（直落）＋寬鬆量」與落肩寬度的凸包——
     # 布料跨過胸部中間的凹處（第一版貼著胸形，正面看是兩個鼓包），從胸口直直落下
-    EASE = np.where(np.abs(np.sin(th)) > 0.5, 0.024, 0.016)
+    EASE = np.where(np.abs(np.sin(th)) > 0.5, 0.024, 0.016) * EASE_K
     HR = np.zeros((K, len(zgrid)))
     for iz, z in enumerate(zgrid):
         W = 0.152 + (DROP_X - 0.152) * float(sstep(1.28, 1.34, z))
@@ -499,7 +502,7 @@ def build_top(skin, arm, mb, pants):
         st_cuff = list(np.linspace(Lt - 0.062, s_end, 5))
         KS = 24; ph = np.arange(KS) * 2 * math.pi / KS
         prof_s = np.array([-0.01, 0.03, 0.08, 0.14, Lu, Lu + 0.08, Lt - 0.10, Lt - 0.075])
-        prof_r = np.array([0.058, 0.060, 0.066, 0.069, 0.071, 0.072, 0.068, 0.056]) * 0.82   # 第二版：袖子細一點（第一版正面看像氣球）
+        prof_r = np.array([0.058, 0.060, 0.066, 0.069, 0.071, 0.072, 0.068, 0.056]) * SLEEVE_K   # 第二版：袖子細一點（第一版正面看像氣球）
         rings = []; cens_s = []; vv = []
         for i, s in enumerate(st_body + st_cuff + ['fold']):
             cuff = (s == 'fold') or (s >= Lt - 0.0621)
@@ -752,15 +755,33 @@ def compute_weights(skin, arm, mb, top, pants, shoes):
     V = np.array(mb.V); tags = np.array(mb.tag); n = len(V)
     W = np.zeros((n, len(skin.names)))
     bust = [skin.col(b) for b in BUST if skin.col(b) is not None]
+    src = Skin(WSRC) if WSRC is not None else None
+    col = {n: j for j, n in enumerate(skin.names)}
+    def near_w(Q):
+        Wn = skin.nearest_weights(Q)
+        if src is None: return Wn
+        Ws = src.nearest_weights(Q); out = np.zeros_like(Wn)
+        for j, n in enumerate(src.names):
+            if n in col: out[:, col[n]] += Ws[:, j]
+        bad = out.sum(1) < 0.5                       # 來源在已經拿掉的骨頭上：退回身體最近點
+        out[bad] = Wn[bad]
+        return out
     # 軀幹：最近點內插（胸部的彈簧骨不要）
     m = tags == 'torso'
-    Wt = skin.nearest_weights(V[m]); Wt[:, bust] = 0; W[m] = Wt
+    Wt = near_w(V[m]); Wt[:, bust] = 0; W[m] = Wt
+    if os.environ.get('WDEBUG'):
+        Vt = V[m]; ua = [col[n] for n in ('J_Bip_L_UpperArm', 'J_Bip_R_UpperArm', 'J_Bip_L_Shoulder', 'J_Bip_R_Shoulder') if n in col]
+        sel = (np.abs(Vt[:, 0]) > DROP_X - 0.04) & (Vt[:, 2] > SHOULDER_Z - 0.06)
+        Wb = skin.nearest_weights(Vt[sel])
+        print('   WDEBUG torso shoulder verts', int(sel.sum()), 'src', src is not None,
+              'upperarm w (src/body): %.2f / %.2f' % (Wt[sel][:, ua[:2]].sum(1).mean(), Wb[:, ua[:2]].sum(1).mean()),
+              'shoulder w: %.2f / %.2f' % (Wt[sel][:, ua[2:]].sum(1).mean(), Wb[:, ua[2:]].sum(1).mean()))
     # 袖子：肩膀附近用最近點、其他沿手臂軸
     for side, sl in top['sleeves'].items():
         m = tags == 'sleeve' + side; Q = V[m]
         S, E, Wr, Lu, Lt = sl['S'], sl['E'], sl['W'], sl['Lu'], sl['Lt']
         ax = unit(Wr - S); s = (Q - S) @ ax
-        near = skin.nearest_weights(Q); near[:, bust] = 0
+        near = near_w(Q); near[:, bust] = 0
         u_ = 1 - sstep(Lu - 0.045, Lu + 0.045, s)
         Wa = axis_weights(skin, len(Q), [('J_Bip_%s_UpperArm' % side, u_), ('J_Bip_%s_LowerArm' % side, 1 - u_)])
         a = sstep(0.035, 0.13, s)[:, None]

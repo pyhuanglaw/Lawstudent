@@ -14,7 +14,7 @@
 | # | 工作 | 狀態 | 主要檔案 | 最新 commit | 測試 | 已整合 | 等美術驗收 |
 |---|---|---|---|---|---|---|---|
 | 1 | 沈以安 Blender 正式模型（臉、頭髮、服裝 → 遊戲用 VRM → 遊戲內驗收 → 三方比較） | **第一版完成**（`READY_FOR_ART_REVIEW`）；第二輪細修中（髮色、瀏海、褲子中縫） | `tools/blender/char/`、`assets/models/char/bl_heroine_01.vrm`、`assets/blender/heroine_01_work_v1.blend` | `8f45184` | 遊戲內六視角、坐下、上下樓梯、表情、`stairs_feet_unit`、`sim_hair` 通過（Playwright 模擬） | 本分支（網址 `?blchar`） | 是 |
-| 2 | 六位角色共用的 Blender 人物生產線 → 祐廷 → 林芷若 → 陳語彤 → 高子晴 → 溫書瑀 | 進行中：生產線（`common.BodyMap`）可用；祐廷第五版建置完成、遊戲內驗收中 | `tools/blender/char/`（`player.py`、`p00_*.py`） | `6b9c0dc` | — | 否 | 是 |
+| 2 | 六位角色共用的 Blender 人物生產線 → 祐廷 → 林芷若 → 陳語彤 → 高子晴 → 溫書瑀 | 祐廷**第一版完成**（`READY_FOR_ART_REVIEW`，`?blchar`）；下一位林芷若 | `tools/blender/char/`（`player.py`、`p00_*.py`）、`assets/models/char/bl_yuting.vrm` | （本次提交） | 六視角、坐下、樓梯、表情、`stairs_feet_unit` PASS（Playwright 模擬） | 本分支（`?blchar`） | 是 |
 | 3 | v9.4 發布 | **已發布**：`6b9c0dc`，GitHub Pages 2026-10-10 14:47:16 UTC 部署成功（遊戲檔案＝測試過的候選 `f10b387`）；下一次發布最早 17:47 UTC | `tests/release_suite.sh`、`docs/RELEASES.md` | `6b9c0dc` | 發布前 24/24 PASS（2 項是修好測試後重跑）；發布後本機同一 commit `deploy_check` ALL PASS（Playwright 模擬） | main | — |
 | 4 | 霖澤館剩餘美術（夜間玻璃、反射、201 窗外與設備、電梯）＋ `b3lib.py` 法線／粗糙度貼圖沒縮小（AI-2 回報） | 排隊（WIP patch 在暫存區） | `tools/blender/linze_*.py`、`b3lib.py` | — | — | — | 是 |
 | 5 | 萬才館第二階段（Blender＋可以走的弧形大樓梯） | 排隊 | 校園區塊、`campuskit3d.js`、`building3d.js` | — | — | — | — |
