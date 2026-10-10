@@ -232,7 +232,7 @@ def warp_eyes(P, ex, ez, ru, rv, pin, fall=2.5):
     x, y, z = P[:, 0], P[:, 1], P[:, 2]; s = np.sign(x); ax = np.abs(x)
     u = ax - ex; v = z - ez
     r = np.sqrt((u / ru) ** 2 + (v / rv) ** 2); w = (1 - ss(1.0, fall, r)) * front_gate(y) * pin
-    ax2 = ex + u * (1 - (1 - EYE_SX) * w)
+    ax2 = ex + u * (1 - (1 - EYE_SX) * w * ss(0.003, 0.016, ax))      # 中線附近不左右縮放（放大時不會把鼻樑的點推過中線）
     z2 = ez + v * (1 - (1 - EYE_SZ) * w) + (EYE_TILT * u + EYE_LIFT) * w
     Q = P.copy(); Q[:, 0] = s * ax2; Q[:, 2] = z2; return Q
 
