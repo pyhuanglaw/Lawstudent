@@ -24,10 +24,23 @@ const ASSETS = (function(){
     'prop.chopstick': {url:'assets/models/env/chopstick.glb', source:'market.pmnd.rs', license:'CC0', ground:true, fitHeight:0.01},
     'prop.bag':       {url:'assets/models/env/bag.glb', source:'market.pmnd.rs', license:'CC0', ground:true, fitHeight:0.35},
     'prop.bagFlat':   {url:'assets/models/env/bag-flat.glb', source:'market.pmnd.rs', license:'CC0', ground:true, fitHeight:0.25},
-    // 人物：Ready Player Me 範例 avatar（three.js examples）＋ Mixamo 動畫（Xbot，僅保留骨架與 idle/walk/run/agree/headShake）
-    'char.rpm_sample':{url:'assets/models/char/rpm_sample.glb', type:'character', role:'TEMP_PLAYER_DEV_MODEL', anims:'char.mixamo_clips', hide:['Beard','Headwear'], source:'three.js examples (readyplayer.me.glb)', license:'Ready Player Me sample — 原型測試用；正式版需自行產生 RPM avatar 或改用其他授權人物', height:1.8},
-    'char.vrm_player':{url:'assets/models/char/vrm_player.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.75,instances:1,hide:['robo_arm','wear_2','wear_3','wear_5','wear_6','wear_7','wear_8','wear_9','wear_10','wear_11','wear_12'],source:'Seed-san（VirtualCast, Inc.）— vrm-c/vrm-specification samples；本專案修改：隱藏機械手臂／背包／配件、服裝貼圖改成素色 T-shirt＋長褲、貼圖縮小',license:'VRM Public License 1.0（allowRedistribution、modification: allowModificationRedistribution、creditNotation: required → 需標示「Seed-san by VirtualCast, Inc.」）',role:'PLAYER'},
-    'char.vrm_sample':{url:'assets/models/char/vrm_sample.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.66,instances:2,source:'three-vrm examples VRM1_Constraint_Twist_Sample（pixiv Inc.）',license:'VRM Public License 1.0（allowRedistribution、modification: allowModificationRedistribution、credit unnecessary；貼圖已縮小）'},
+    // 人物（正式）：VRoid 官方 CC0 樣本模型（pixiv，VRoid Studio β 版樣本；檔內 meta licenseName=CC0），
+    // 用 tools/vroid_build.py 改成本作角色：移植衣物、換色、縮貼圖。主要角色各一個檔；路人用 4 個底模＋材質顏色相乘。
+    'char.yuting':     {url:'assets/models/char/vroid_yuting.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.75,role:'PLAYER',source:'VRoid CC0 樣本「HairSample_Male」（pixiv）；本作修改：拿掉帽子／抽繩／口袋線的淺灰上衣、深灰直筒褲、白球鞋、拿掉呆毛、眼睛縮小；後背包是 src/props3d.js',license:'CC0'},
+    'char.heroine_01': {url:'assets/models/char/vroid_heroine_01.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.66,source:'VRoid CC0 樣本「HairSample_Female」＋「HairSample_Male」的上衣與長褲＋「Sendagaya Shino」的樂福鞋（pixiv）；本作修改：單一高馬尾、米白針織衫、藍灰直筒寬褲；托特包是 src/props3d.js',license:'CC0'},
+    'char.heroine_02': {url:'assets/models/char/vroid_heroine_02.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.61,source:'VRoid CC0 樣本「Victoria Rubin」＋「HairSample_Female」的亞麻上衣（剪成圓領）＋「Sendagaya Shino」的樂福鞋＋「HairSample_Male」的長褲（pixiv）；眼鏡、耳環、圍裙是 src/props3d.js',license:'CC0'},
+    'char.zhe':        {url:'assets/models/char/vroid_zhe.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.78,source:'VRoid CC0 樣本「Sakurada Fumiriya」＋「HairSample_Male」的連帽上衣（pixiv）',license:'CC0'},
+    'char.heroine_03': {url:'assets/models/char/vroid_heroine_03.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.59,source:'VRoid CC0 樣本「Sendagaya Shibu」＋「HairSample_Male」的長褲＋「HairSample_Female」的球鞋（pixiv）；本作修改：拿掉制服、深色 T 恤、牛仔褲；後背包是 src/props3d.js',license:'CC0'},
+    'char.heroine_04': {url:'assets/models/char/vroid_heroine_04.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.69,source:'VRoid CC0 樣本「Vita」＋「HairSample_Male」的連帽上衣與短褲＋「HairSample_Female」的球鞋＋「Sendagaya Shibu」的虹膜（pixiv）；吉他袋是 src/props3d.js',license:'CC0'},
+    'char.heroine_05': {url:'assets/models/char/vroid_heroine_05.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.72,source:'VRoid CC0 樣本「Sendagaya Shino」（長直髮改成低馬尾）＋「Sakurada Fumiriya」的襯衫（袖子接長成反摺長袖）＋「HairSample_Male」的長褲（pixiv）；判決節錄資料夾、髮圈是 src/props3d.js',license:'CC0'},
+    'char.npc_f1':     {url:'assets/models/char/vroid_npc_f1.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.62,ambient:true,sex:'f',tintBase:{hair:'#8a6a52',top:'#e6e3de',bottom:'#cfcbc4'},source:'VRoid CC0 樣本「Sendagaya Shino」＋長褲（pixiv）',license:'CC0'},
+    'char.npc_f2':     {url:'assets/models/char/vroid_npc_f2.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.64,ambient:true,sex:'f',tintBase:{hair:'#8a6a52',top:'#e6e3de',bottom:'#cfcbc4'},source:'VRoid CC0 樣本「Victoria Rubin」＋上衣、長褲（pixiv）',license:'CC0'},
+    'char.npc_m1':     {url:'assets/models/char/vroid_npc_m1.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.74,ambient:true,sex:'m',tintBase:{hair:'#8a6a52',top:'#e6e3de',bottom:'#cfcbc4'},source:'VRoid CC0 樣本「Sakurada Fumiriya」＋連帽上衣（pixiv）',license:'CC0'},
+    'char.npc_m2':     {url:'assets/models/char/vroid_npc_m2.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.74,ambient:true,sex:'m',tintBase:{hair:'#8a6a52',top:'#e6e3de',bottom:'#cfcbc4'},source:'VRoid CC0 樣本「HairSample_Male」＋襯衫背心（pixiv）',license:'CC0'},
+    // 舊人物模型：不再預載（v8 以前的玩家／小安；保留檔案與授權紀錄）
+    'char.rpm_sample':{url:'assets/models/char/rpm_sample.glb', type:'character', lazy:true, role:'TEMP_PLAYER_DEV_MODEL（v8 以前；已停用）', anims:'char.mixamo_clips', hide:['Beard','Headwear'], source:'three.js examples (readyplayer.me.glb)', license:'Ready Player Me sample — 原型測試用', height:1.8},
+    'char.vrm_player':{url:'assets/models/char/vrm_player.vrm',type:'vrm',lazy:true,anims:'char.mixamo_clips',height:1.75,hide:['robo_arm','wear_2','wear_3','wear_5','wear_6','wear_7','wear_8','wear_9','wear_10','wear_11','wear_12'],source:'Seed-san（VirtualCast, Inc.）— v8 以前的玩家模型（已停用）',license:'VRM Public License 1.0（creditNotation: required → 「Seed-san by VirtualCast, Inc.」）'},
+    'char.vrm_sample':{url:'assets/models/char/vrm_sample.vrm',type:'vrm',lazy:true,anims:'char.mixamo_clips',height:1.66,source:'three-vrm examples VRM1_Constraint_Twist_Sample（pixiv Inc.）— v8 以前的小安模型（已停用）',license:'VRM Public License 1.0'},
     'char.mixamo_clips':{url:'assets/models/char/mixamo_clips.glb', type:'clips', source:'three.js examples (Xbot.glb, Mixamo)', license:'Mixamo 動畫（Adobe 條款：可用於專案，不可單獨再散布）'},
   };
   // ---- placeholder fallbacks（procedural；LEVEL_BLOCKOUT）----
@@ -42,24 +55,30 @@ const ASSETS = (function(){
   A.loadOne=function(key){ const m=A.manifest[key]; if(!m) return Promise.reject(new Error('unknown asset '+key)); if(A.cache[key]) return Promise.resolve(A.cache[key]); if(A.status[key]) return A.status[key];
     const b64ToBuf=(data)=>{ const bin=atob(data); const buf=new ArrayBuffer(bin.length); const u8=new Uint8Array(buf); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i); return buf; };
     A.status[key]=new Promise((res,rej)=>{ const done=(gltf)=>{ try{ if(m.type==='character'||m.type==='clips'){ A.cache[key]={gltf,scene:gltf.scene,animations:gltf.animations}; } else { A.cache[key]=normalize(key,gltf); } res(A.cache[key]); }catch(e){ rej(e); } }; const fail=(e)=>{ A.errors.push(key+': '+(e&&e.message||e)); rej(e); };
-      if(m.type==='vrm'){ // VRM：解析 N 個實例放進 pool（three-vrm 沒有 clone；重新 parse 同一個 buffer）
-        const parseAll=(buf)=>{ const n=m.instances||1; const ps=[]; for(let i=0;i<n;i++) ps.push(A.parseVRM(buf.slice(0))); return Promise.all(ps).then(list=>{ A.cache[key]={vrm:true,buffer:buf,pool:list.map(x=>({vrm:x.vrm,gltf:x.gltf,inUse:false}))}; res(A.cache[key]); }); };
-        const dataV=window.ASSET_DATA&&window.ASSET_DATA[m.url]; if(dataV){ parseAll(b64ToBuf(dataV)).catch(fail); return; }
-        fetch(m.url).then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.arrayBuffer(); }).then(parseAll).catch(()=>{ fetch(m.url+'.json').then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.json(); }).then(j=>parseAll(b64ToBuf(j.b64))).catch(fail); }); return; }
+      if(m.type==='vrm'){ // VRM：只 parse 一次。第一個實例用原本的 VRM（表情、彈簧骨、視線）；之後的實例用骨架 clone（共用幾何與貼圖，手機記憶體才夠）
+        const setup=(buf)=>A.parseVRM(buf).then(x=>{ const rest=THREE_JSM.SkeletonUtils.clone(x.vrm.scene); const rig=rest.getObjectByName('VRMHumanoidRig'); if(rig&&rig.parent) rig.parent.remove(rig); A.cache[key]={vrm:true,tpl:{vrm:x.vrm,gltf:x.gltf,inUse:false,full:true},rest,clones:[]}; res(A.cache[key]); });
+        const dataV=window.ASSET_DATA&&window.ASSET_DATA[m.url]; if(dataV){ setup(b64ToBuf(dataV)).catch(fail); return; }
+        fetch(m.url).then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.arrayBuffer(); }).then(setup).catch(()=>{ fetch(m.url+'.json').then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.json(); }).then(j=>setup(b64ToBuf(j.b64))).catch(fail); }); return; }
       const data=window.ASSET_DATA&&window.ASSET_DATA[m.url]; if(data){ loader().parse((m.url.endsWith('.glb')||m.url.endsWith('.vrm'))?b64ToBuf(data):data,'',done,fail); return; }
       // 1) 直接抓 .glb；2) 失敗（例如平台不提供 .glb）改抓同名 .glb.json（{b64}）
       fetch(m.url).then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.arrayBuffer(); }).then(buf=>loader().parse(buf,'',done,fail)).catch(()=>{ fetch(m.url+'.json').then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.json(); }).then(j=>loader().parse(b64ToBuf(j.b64),'',done,fail)).catch(fail); }); });
     return A.status[key]; };
   // 預載：每個資產有時間上限（預設 20 秒；VRM 30 秒）。逾時的資產先用 placeholder，背景繼續載，載好之後之後生成的人物／物件會自動用到
-  A.preload=function(keys,onProgress,capMs){ let n=0; const total=keys.length; A.timedOut=[]; return Promise.all(keys.map(k=>{ const m=A.manifest[k]||{}; const cap=capMs||(m.type==='vrm'?30000:20000); const p=A.loadOne(k).catch(e=>null); const t=new Promise(res=>setTimeout(()=>res('__timeout'),cap)); return Promise.race([p,t]).then(r=>{ if(r==='__timeout'){ A.timedOut.push(k); console.warn('asset preload timeout → placeholder for now:',k); } n++; if(onProgress) onProgress(n/total,k); return r; }); })).then(r=>{ A.loaded=true; return r; }); };
+  A.preload=function(keys,onProgress,capMs){ keys=keys.filter(k=>!(A.manifest[k]||{}).lazy); let n=0; const total=keys.length; A.timedOut=[]; return Promise.all(keys.map(k=>{ const m=A.manifest[k]||{}; const cap=capMs||(m.type==='vrm'?30000:20000); const p=A.loadOne(k).catch(e=>null); const t=new Promise(res=>setTimeout(()=>res('__timeout'),cap)); return Promise.race([p,t]).then(r=>{ if(r==='__timeout'){ A.timedOut.push(k); console.warn('asset preload timeout → placeholder for now:',k); } n++; if(onProgress) onProgress(n/total,k); return r; }); })).then(r=>{ A.loaded=true; return r; }); };
   A.has=function(key){ return !!A.cache[key]; };
   // 取得一個實例（環境物件）。opts: {height, scale, rotY}
   A.get=function(key,opts){ opts=opts||{}; const t=A.cache[key]; if(!t||!t.isObject3D){ const f=A.fallbacks[key]; if(f){ const o=f(opts); o.userData.placeholder=true; return o; } return new THREE.Group(); } const inst=t.clone(); const m=A.manifest[key]; if(opts.height&&m.fitHeight===true){ inst.scale.setScalar(opts.height/Math.max(1e-6,t.userData.baseHeight)); } if(opts.scale) inst.scale.multiplyScalar(opts.scale); if(opts.rotY) inst.rotation.y=opts.rotY; inst.userData.asset=key; return inst; };
   A.getRaw=function(key){ return A.cache[key]; };
   // VRM 實例池
-  A.acquireVRM=function(key){ const c=A.cache[key]; if(!c||!c.pool) return null; const e=c.pool.find(x=>!x.inUse); if(!e) return null; e.inUse=true; return e; };
-  A.releaseVRM=function(key,vrm){ const c=A.cache[key]; if(!c||!c.pool) return; const e=c.pool.find(x=>x.vrm===vrm); if(e){ e.inUse=false; if(e.vrm.scene.parent) e.vrm.scene.parent.remove(e.vrm.scene); } };
-  A.vrmFree=function(key){ const c=A.cache[key]; return c&&c.pool?c.pool.filter(x=>!x.inUse).length:0; };
+  // 骨架 clone：新的 VRMHumanoid（normalized rig）＋共用的幾何／材質；沒有彈簧骨與表情（給路人與重複出現的底模）
+  function cloneVRM(c){ const tv=c.tpl.vrm; const scene=THREE_JSM.SkeletonUtils.clone(c.rest); scene.position.set(0,0,0); scene.rotation.set(0,0,0); scene.scale.set(1,1,1); scene.updateMatrixWorld(true);
+    const hb={}; const raw=tv.humanoid.humanBones; for(const name in raw){ const node=raw[name]&&raw[name].node; if(!node) continue; const cn=scene.getObjectByName(node.name); if(cn) hb[name]={node:cn}; }
+    const humanoid=new THREE_VRM.VRMHumanoid(hb,{autoUpdateHumanBones:true}); scene.add(humanoid.normalizedHumanBonesRoot);
+    if(tv.meta&&tv.meta.metaVersion==='0') scene.rotation.y=Math.PI;
+    return {scene,humanoid,meta:tv.meta,expressionManager:null,lookAt:null,lite:true,update(){ humanoid.update(); }}; }
+  A.acquireVRM=function(key){ const c=A.cache[key]; if(!c||!c.tpl) return null; if(!c.tpl.inUse){ c.tpl.inUse=true; return c.tpl; } try{ const e={vrm:cloneVRM(c),inUse:true,full:false}; c.clones.push(e); return e; }catch(err){ console.error('VRM clone failed',key,err); A.errors.push(key+': clone '+err.message); return null; } };
+  A.releaseVRM=function(key,vrm){ const c=A.cache[key]; if(!c) return; if(c.tpl.vrm===vrm){ c.tpl.inUse=false; } else { c.clones=c.clones.filter(e=>e.vrm!==vrm); } if(vrm.scene.parent) vrm.scene.parent.remove(vrm.scene); };
+  A.vrmFree=function(key){ const c=A.cache[key]; return c&&c.tpl?99:0; };
   // 清單（給 REVIEW / LICENSES 用）
   A.report=function(){ const out=[]; for(const k in A.manifest){ const m=A.manifest[k]; out.push({key:k,url:m.url,loaded:!!A.cache[k],source:m.source,license:m.license}); } return out; };
   return A;

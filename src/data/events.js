@@ -5,7 +5,7 @@
 'use strict';
 const STORY_EVENTS=[
   // ────────────────────────────────────────── 語彤：雨天圖書館門口（Vertical Slice）
-  { id:'ev_rain_library_door', title:'雨天的總圖門口', participants:['heroine_03'], location:'campus', near:{x:82,z:-52,r:7}, trigger:'auto', time:[18,23], weather:'rain', day_min:3, once:true, spawn:{npc:'heroine_03',at:{x:81,z:-49.5},pose:'idle'}, background:'blur', cg_id:'cg_library_rain_heroine03',
+  { id:'ev_rain_library_door', title:'雨天的總圖門口', participants:['heroine_03'], location:'campus', near:{x:81,z:0,r:7}, trigger:'auto', time:[18,23], weather:'rain', day_min:3, once:true, spawn:{npc:'heroine_03',at:{x:80.5,z:2.6},pose:'idle'}, background:'blur', cg_id:'cg_library_rain_heroine03',
     dialogue:[
       {speaker:null,text:'總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。'},
       {speaker:'heroine_03',expression:'neutral',text:'……'},
@@ -43,9 +43,9 @@ const STORY_EVENTS=[
       {speaker:'heroine_03',expression:'neutral',text:'我叫陳語彤。社會系的。你呢？'},
       {label:'end'},
       {speaker:null,text:'（她會記得今天。）'} ],
-    consequences:{memo:'雨天在總圖門口遇到陳語彤',goal:'自由行動'}, despawn:20, after:(G,GM,npcs)=>{ const n=npcs[0]; if(n){ n.beh='route'; n.waypoints=[[70,-52],[30,-60],[30,-6]]; n.pauseAt=false; n.talk=null; } } },
+    consequences:{memo:'雨天在總圖門口遇到陳語彤',goal:'自由行動'}, despawn:20, after:(G,GM,npcs)=>{ const n=npcs[0]; if(n){ n.beh='route'; n.waypoints=[[70,-2.5],[40,-2.5],[30,-6]]; n.pauseAt=false; n.talk=null; } } },
   // 沒下雨的另一種初遇
-  { id:'ev_library_door_phone', title:'總圖門口', participants:['heroine_03'], location:'campus', near:{x:82,z:-52,r:6}, trigger:'auto', time:[17,22], not_weather:'rain', day_min:3, once:true, random_weight:20, prereq:{notMemory:[{npc:'heroine_03',tag:'FIRST_MET'}]}, spawn:{npc:'heroine_03',at:{x:80,z:-49},pose:'idle'}, background:'blur',
+  { id:'ev_library_door_phone', title:'總圖門口', participants:['heroine_03'], location:'campus', near:{x:81,z:0,r:6}, trigger:'auto', time:[17,22], not_weather:'rain', day_min:3, once:true, random_weight:20, prereq:{notMemory:[{npc:'heroine_03',tag:'FIRST_MET'}]}, spawn:{npc:'heroine_03',at:{x:79.5,z:3.2},pose:'idle'}, background:'blur',
     dialogue:[ {speaker:null,text:'總圖門口有個女生一直在看手機，看一眼、收起來、再看一眼。'},{speaker:'heroine_03',expression:'neutral',text:'……不好意思，現在幾點？'},{speaker:'player',text:'{name}看了一下手機，告訴她時間。'},{speaker:'heroine_03',expression:'tired',text:'她又遲到了。高中同學，每次都這樣。'},{choice:[{text:'「要不要先進去等？裡面有冷氣。」',consequences:{rel:{heroine_03:{fam:4,comf:3}}}},{text:'「你是社會系的？我好像在三樓看過你。」',consequences:{rel:{heroine_03:{fam:5}},mem:[{npc:'heroine_03',tag:'PLAYER_ASKED_QUESTION'}]}},{text:'（點個頭就走）',consequences:{rel:{heroine_03:{fam:1}}}}]},{speaker:'heroine_03',expression:'smile',text:'陳語彤。……你是法律系的吧。你們系的人走路都很快。'} ], despawn:30, after:(G,GM,npcs)=>{ const n=npcs[0]; if(n){ n.beh='idle'; n.talk=null; } } },
   // 麵店：語彤在幫忙（她阿姨的店）
   { id:'ev_noodle_yutong', title:'阿鳳麵店', participants:['heroine_03'], location:'noodle', trigger:'interact', priority:5, prereq:{memory:[{npc:'heroine_03',tag:'FIRST_MET'}]}, cooldown_days:2, background:'blur',

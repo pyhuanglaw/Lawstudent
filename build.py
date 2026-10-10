@@ -4,7 +4,7 @@ root=pathlib.Path(__file__).parent
 subprocess.run([sys.executable,str(root/'tools'/'gen_portrait_manifest.py')],check=True)
 src=(root/'index.html').read_text(encoding='utf-8')
 def inline(m):
-    path=m.group(1)
+    path=m.group(1).split('?')[0]   # index.html 的 script 網址帶 ?v=版本（GitHub Pages 快取用），讀檔時去掉
     code=(root/path).read_text(encoding='utf-8')
     code=code.replace('</script','<\\/script')
     return '<script>/* '+path+' */\n'+code+'\n</script>'

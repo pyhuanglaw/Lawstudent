@@ -36,7 +36,8 @@ class Rig:
             if r=='done': break
         await s.pg.wait_for_timeout(500)
     async def use(s,label):
-        return await s.pg.evaluate("(async(sub)=>{ const it=GAME.E.interactables.find(i=>(i.label||'').includes(sub)); if(!it) return 'NO '+sub; const P=GAME.E.player; const nf=GAME.E.nav.nearestFree(it.x,it.z+0.6,6)||[it.x,it.z]; P.obj.position.set(nf[0],0,nf[1]); P.path=null; GAME.updateInteract(); await new Promise(r=>setTimeout(r,80)); GAME.updateInteract(); GAME.doInteract(); return 'used '+it.label; })('%s')" % label)
+        # 有 NPC 坐著的座位遊戲不讓玩家坐（v9 起），所以挑沒人坐的那一個；放玩家時用 unstick 保證半徑 0.3 也站得下（nearestFree 只看單一格）
+        return await s.pg.evaluate("(async(sub)=>{ const E=GAME.E; const occ=st=>E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.35); const it=E.interactables.find(i=>(i.label||'').includes(sub)&&!(i.seat&&occ(i.seat))); if(!it) return 'NO '+sub; const P=E.player; const nf=E.nav.nearestFree(it.x,it.z+0.6,6)||[it.x,it.z]; P.obj.position.set(nf[0],0,nf[1]); E.unstick(P,6); P.path=null; GAME.updateInteract(); await new Promise(r=>setTimeout(r,80)); GAME.updateInteract(); const ni=E.nearestInteractable(); GAME.doInteract(); return 'used '+it.label+' @'+it.x.toFixed(1)+','+it.z.toFixed(1)+' nearest='+(ni&&ni.label); })('%s')" % label)
     async def forward(s,ms=2200):
         a=await s.pos(); await s.joy(0,-60,ms); b=await s.pos(); return a,b
     async def best(s,ms=1400):
@@ -55,7 +56,11 @@ async def test_A(rig):
     await rig.joy(0,60,900); e=await rig.pos(); check('A4 跑（推到底）位置改變', dist(d,e)>0.5, f'{e} pose={e["pose"]}')
     # 撞牆：往前牆持續推 3 秒（會撞到書架／牆）
     await rig.joy(0,-60,3200); f=await rig.pos(); check('A5 撞牆後仍在合法位置（standable，沒有陷進去）', f['stand'] and f['blocked'] is not None, f'{f}')
-    await rig.joy(45,-45,1500); g=await rig.pos(); check('A6 斜推 → 沿牆滑動（x 改變）', abs(g['x']-f['x'])>0.3, f'{f} → {g}')
+    # 斜推的方向：往這面牆上空間比較大的那一側。前牆可以貼著走的範圍約 x=-1.2（床頭）到 0.7（書桌）；
+    # A5 停在哪裡會隨幀率不同（低幀率時一步很大，正面推牆會被沿牆脫困的偏移帶著橫移，可能已經停在書桌旁的牆角，
+    # 再往右推就是推進牆角，本來就滑不動）。標準不變：斜推要沿牆滑動 0.3 m 以上
+    sx=45 if f['x']<-0.3 else -45
+    await rig.joy(sx,-45,1500); g=await rig.pos(); check('A6 斜推 → 沿牆滑動（x 改變）', abs(g['x']-f['x'])>0.3, f'{f} → {g} 推的方向＝{"右前" if sx>0 else "左前"}')
     await rig.joy(0,60,1500); h=await rig.pos(); check('A7 離開牆 → 繼續走', dist(g,h)>0.8, f'{h}')
     await rig.pg.screenshot(path='screenshots/T_A_dorm_move.png')
 async def test_B(rig):
@@ -73,7 +78,8 @@ async def test_B(rig):
     a,b,d,dr=await rig.best(1800); check('B4 圖書館起身後能走（最佳方向 ≥ 2 m）', d>=2.0, f'{a} → {b} via {dr}')
 async def test_C(rig):
     print('--- TEST C ADV 結束後移動')
-    await rig.load(state('campus',{'x':78,'z':-52,'yaw':1.5708},weather='rain'))
+    # 總圖門口（v9.3 依台大平面圖把總圖移到椰林大道東端；起點跟著事件地點搬，通過標準不變）
+    await rig.load(state('campus',{'x':74,'z':-2.5,'yaw':1.5708},weather='rain'))
     await rig.pg.evaluate("void EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_rain_library_door'))"); await rig.pg.wait_for_timeout(3000)
     p=await rig.pos(); check('C1 ADV 中玩家鎖定', p['busy'])
     await rig.pg.screenshot(path='screenshots/T_C_adv.png')
@@ -110,7 +116,7 @@ async def test_E(rig):
         await rig.pg.screenshot(path=f'screenshots/T_E_{zone}.png')
 async def main():
     async with async_playwright() as p:
-        b=await p.chromium.launch(args=['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist'])
+        b=await p.chromium.launch(executable_path='/opt/pw-browsers/chromium',args=['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist'])
         ctx=await b.new_context(viewport={'width':390,'height':844},device_scale_factor=1,has_touch=True,is_mobile=True,user_agent='Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1')
         pg=await ctx.new_page(); msgs=[]
         pg.on('console', lambda m: msgs.append(m.type+': '+m.text) if m.type in ('error',) and '404' not in m.text and 'ERR_TUNNEL' not in m.text else None)

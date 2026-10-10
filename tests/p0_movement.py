@@ -5,7 +5,8 @@
 import asyncio, json, sys, math
 from playwright.async_api import async_playwright
 URL=(sys.argv[1] if len(sys.argv)>1 else 'http://127.0.0.1:8765/build/index.html')+'?turbo'
-SPAWNS=[('霖澤館前（教室出口）','campus',{'x':34,'z':-99,'yaw':0}),('霖澤館門口','campus',{'x':34,'z':-101,'yaw':0}),('校園預設出生點','campus',{'x':34,'z':-98,'yaw':0}),('宿舍門口','campus',{'x':20,'z':54,'yaw':3.1416}),('公館麵店門口','gongguan',{'x':-63,'z':48,'yaw':3.1416}),('公館便利商店門口','gongguan',{'x':-19,'z':48,'yaw':3.1416}),('校門外','gongguan',{'x':-2.5,'z':-29,'yaw':0}),('溫州街','wenzhou',{'x':38,'z':-7,'yaw':3.1416})]
+# v9.3 第十九批：霖澤館改成墊高的門廊＋大台階（不能走），門口互動點移到台階下面 (34,-99.8)，教室出口改成 (34,-97.6)；(34,-101) 現在在台階上
+SPAWNS=[('霖澤館前（教室出口）','campus',{'x':34,'z':-97.6,'yaw':0}),('霖澤館門口（台階下）','campus',{'x':34,'z':-99.6,'yaw':0}),('舊存檔：站在霖澤館舊門口（現在是台階）','campus',{'x':34,'z':-101,'yaw':0}),('校園預設出生點','campus',{'x':34,'z':-98,'yaw':0}),('宿舍門口','campus',{'x':20,'z':54,'yaw':3.1416}),('公館麵店門口','gongguan',{'x':-63,'z':18,'yaw':3.1416}),('公館便利商店門口','gongguan',{'x':-29.4,'z':18,'yaw':3.1416}),('校門外','gongguan',{'x':-2.5,'z':-29,'yaw':0}),('溫州街','wenzhou',{'x':40,'z':-1,'yaw':-1.5708})]
 async def joystick(pg,cdp,dx,dy,ms):
     jx,jy=await pg.evaluate("(()=>{ const r=document.getElementById('joy').getBoundingClientRect(); return [r.left+r.width/2, r.top+r.height/2]; })()")
     await cdp.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{'x':jx,'y':jy}]})
@@ -18,7 +19,7 @@ def dist(a,b): return math.hypot(a['x']-b['x'],a['z']-b['z'])
 async def main():
     fails=[]
     async with async_playwright() as p:
-        b=await p.chromium.launch(args=['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist'])
+        b=await p.chromium.launch(executable_path='/opt/pw-browsers/chromium',args=['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist'])
         ctx=await b.new_context(viewport={'width':390,'height':844},device_scale_factor=1,has_touch=True,is_mobile=True,user_agent='Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1')
         pg=await ctx.new_page(); msgs=[]
         pg.on('console', lambda m: msgs.append(m.type+': '+m.text) if m.type in ('error','warning') and '404' not in m.text and 'portrait missing' not in m.text and 'ERR_TUNNEL' not in m.text else None)
