@@ -208,3 +208,72 @@ look-dev 全身比較（上排現在的遊戲版、下排這一輪；兩排都�
 
 測試：`sim_hair char.heroine_04` PASS（0.004 m）；`stairs_feet_unit char.heroine_04` PASS；遊戲內截圖沒有 JS 錯誤、driver＝vrm。Playwright 模擬，不是手機實機。
 仍不符合參考圖：臉仍是動畫臉；鮑伯是 VRoid 髮束推出來的（近看髮尾仍是一束束尖端）；背帶在胸前是兩條粗黑帶（參考圖的吉他袋背帶比較細、顏色和袋子一樣）；一邊撥到耳後＋小耳環還沒做；頭身比約 6.4。狀態：美術待使用者驗收。
+
+## 9. 沈以安 Blender 版 第一版（v9.4 Blender 人物示範；2026-10-10，`c54bbce`）
+
+**製作工具**：Blender 5.2.2（`bpy`，無介面）＋ VRM Add-on for Blender。
+- 腳本：`tools/blender/char/heroine_01.py --stages stage0,face,clothes,hair`。
+  - `stage0`：VRoid CC0 樣本 HairSample_Female 拿掉原本的頭髮與衣服，頭縮 0.90。
+  - `h01_face.py`：臉。
+  - `h01_clothes.py`：衣服。
+  - `h01_hair.py`：頭髮。
+- 遊戲用整理：`vrm_finish.py`。
+- 材質：頭髮、衣服、鞋的貼圖由腳本產生（numpy），沒有用外部素材。
+- **遊戲用模型** `assets/models/char/bl_heroine_01.vrm`（3.3 MB）。
+- **Blender 工作檔** `assets/blender/heroine_01_work_v1.blend`。
+- **怎麼看**：網址加 `?blchar`，例如 `index.html?blchar`。預設仍是 VRoid 加工版（`vroid_heroine_01.vrm`），使用者驗收美術方向之前不換。
+
+**這一版做了什麼**
+- **臉**：
+  - 下半臉加長，下唇、頦唇溝、下巴照參考圖側面往後收。第一版側面看像嘴往前推，現在鼻尖是最前面的點。
+  - 嘴往下 2 mm，下巴有小突起；鼻樑、鼻頭、唇形都有立體感。
+  - 眼裂變細長、虹膜變小，眉眼距離拉近。
+  - 嘴下面的明暗直條紋（法向量雜訊）已磨平。
+- **頭髮**：
+  - 新髮片網格：空氣瀏海（每片 5 束細髮）、臉旁長髮（3.1 cm 寬、下段 S 形波浪、兩旁各一小束）、高馬尾（6 節彈簧骨）、深色髮圈。
+  - 頭髮避開毛衣表面。
+- **衣服**（全部 Blender 參數化建模，不用現成衣服網格）：
+  - 米白 V 領粗針織衫：落肩、凸包直落、不貼胸形，下擺羅紋，袖口羅紋。
+  - 藍灰高腰寬褲：褲頭帶＋鈕扣、前片打褶、燙痕，從臀部直落，兩管在中線接平。
+  - 深棕樂福鞋＋金色馬銜扣。
+  - 衣服蓋住的胸、臀、胯略收。
+
+修正過程抓到的錯誤（都已修）：
+- 剪掉衣服下皮膚時，身體座標和衣服座標前後顛倒：V 領裡面的胸口被剪成一個洞，小腿穿出褲子。
+- 褲子膝蓋上下的權重寫反：褲腳綁在大腿上，膝蓋一彎，腳就從褲管旁邊穿出來。
+- 褲頭在腰上的射線打不到身體：褲頭最上面兩圈縮進身體，後面出現缺口。
+- 落肩在 T 字姿勢往外加寬：遊戲裡手放下來，肩膀下面多了一圈像披肩的平台。
+
+**三方比較**（參考圖｜目前 VRoid 加工版，遊戲內｜Blender 版，遊戲內｜Blender 渲染圖，bind pose）：
+
+![沈以安三方比較](screenshots/v94_CHAR_heroine_01_blender_3way.jpg)
+
+**實際遊戲畫面**（溫州街 11:00；正面、45 度、側面、背面、臉、走路、一般跟隨鏡頭）：
+
+![沈以安 Blender 版遊戲內](screenshots/v94_CHAR_heroine_01_blender_ingame.jpg)
+
+**動作**（實際遊戲：溫州街小公園長椅坐下，正面＋側面；霖澤館大廳樓梯自己走上二樓，第一段／平台／第二段／二樓）：
+
+![沈以安 Blender 版動作](screenshots/v94_CHAR_heroine_01_blender_motion.jpg)
+
+**表情**（上排 VRoid 加工版、下排 Blender 版；遊戲的 three-vrm 載入，15 個表情都在）：
+
+![沈以安 Blender 版表情](screenshots/v94_CHAR_heroine_01_blender_expressions.jpg)
+
+**測試**：
+- `stairs_feet_unit char.heroine_01`（`CHAR_FILE`＝Blender 版）：ALL PASS。上樓梯穿進台階 0.3 cm、下樓梯 0.3 cm。
+- `sim_hair`：PASS。走路、瞬移時髮尾最多比站著高 0.006 m。
+- 遊戲內 `char_review`、`char_motion`：driver＝vrm，沒有 JS 錯誤。
+- 以上都是 Playwright 模擬，**不是手機實機**。
+
+**仍不符合參考圖（誠實列出）**：
+- 頭髮顏色比參考圖深：參考圖是偏亮的灰棕。
+- 瀏海尖端還是偏硬、偏黑。
+- 頭頂的髮殼近看有明顯的髮片紋路。
+- 毛衣比參考圖短，下擺在高腰褲頭上方，參考圖有一點蓬鬆塞進去的感覺。
+- 肩膀上緣近看有一點隆起。
+- 褲子前面鈕扣下方有一條細縫；褲頭背面中線有小缺口。
+- 托特包仍是舊的 `props3d.js` 版本。
+- 臉仍偏卡通（虹膜、眼線是貼圖畫的），離參考圖的寫實感還有距離。
+
+狀態：`READY_FOR_ART_REVIEW`（美術待使用者驗收，**未標 ART_APPROVED**）。
