@@ -2,7 +2,7 @@
 
 > 這份文件是本次「3D 美術重建 v1」的即時工作日誌，**每次 push 都會一起更新**。其他 AI 或開發者可以從這裡接手。
 > 需求原文：`docs/history/specs/20_3D美術重建v1_人物與溫州街.txt`。
-> 開發分支：`claude/friendly-brahmagupta-6bbkzc`（沒有 force push）。**2026-10-10 使用者要求正式發布**：PR #1 合併到 `main`（`0ef3a73`），GitHub Pages 已部署 v9.3（D32）；之後的修改照樣先在開發分支驗證，使用者要求發布時才合併到 `main`。
+> 開發分支：`claude/confident-ritchie-8rwh7t`（2026-10-10 新的工作階段；由 `claude/friendly-brahmagupta-6bbkzc` 的 `88ce04b` 快轉接續，歷史完全相同，沒有 force push）。舊分支停在 `88ce04b`，之後不再推。**2026-10-10 使用者要求正式發布**：PR #1 合併到 `main`（`0ef3a73`），GitHub Pages 已部署 v9.3（D32）；之後的修改照樣先在開發分支驗證，使用者要求發布時才合併到 `main`。
 > 測試制度（2026-10-10 永久規範，D34）：`docs/TESTING.md`。
 > 截圖：`docs/art-rebuild/screenshots/`（全部是實際執行遊戲或模型檢視頁的渲染結果；檔名規則見最後一節）。
 
