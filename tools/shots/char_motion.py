@@ -33,7 +33,7 @@ async def main():
         # ---- 坐下：溫州街小公園的長椅 ----
         await L.load_state(pg, {'zone': 'wenzhou', 'hour': 11.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': 17, 'z': -2.5, 'yaw': 0}, 'flags': flags}, quiet_events=True)
         await pg.wait_for_timeout(2500); await pg.add_style_tag(content=HIDE)
-        seat = {'x': 23.6, 'z': 7.45, 'yaw': 3.14159}
+        seat = {'x': 23.6, 'z': 7.94, 'yaw': 3.14159}   # 溫州街小公園長椅的座位點（zones3d：長椅 (23.6, 8.0)、座位在中心前 0.06 m）
         info = await pg.evaluate("""(c=>{ const E=GAME.E; E.npcs.slice().forEach(n=>{ if(n.charId!==c.id) E.removeNPC(n); }); let n=E.npcs.find(k=>k.charId===c.id); if(!n) n=GAME.spawnCharacter(c.id,c.s.x,c.s.z-1,{yaw:c.s.yaw});
             GAME.sitAt(n,c.s); n.greet=false; const u=n.obj.userData; if(u.anim){ u.anim.blink=1e9; } E.player.obj.position.set(c.s.x-6,0,c.s.z-6); return {key:u.key,driver:u.driver}; })(%s)""" % json.dumps({'id': CID, 's': seat}))
         print('sit', info, flush=True)

@@ -10,7 +10,7 @@ const ASSETS = (function(){
     'tree.palm':      {url:'assets/models/env/palm-detailed-long.glb', source:'Kenney (via market.pmnd.rs)', license:'CC0', ground:true, fitHeight:true, tris:488},
     'tree.leafy':     {url:'assets/models/env/low-poly-tree.glb', source:'Sara Vieira (via market.pmnd.rs)', license:'CC0', ground:true, fitHeight:true, tris:9436},
     'tree.conifer':   {url:'assets/models/env/tree-big.glb', source:'Kenney (via market.pmnd.rs)', license:'CC0', ground:true, fitHeight:true, tris:556},
-    'prop.bench':     {url:'assets/models/env/bench.glb', source:'Sara Vieira (via market.pmnd.rs)', license:'CC0', ground:true, fitWidth:1.8, tris:2048},
+    'prop.bench':     {url:'assets/models/env/bench.glb', source:'Sara Vieira (via market.pmnd.rs)', license:'CC0', ground:true, fitWidth:1.35, tris:2048},   /* 寬 1.35 m：座面約 0.46 m 高（1.8 m 時座面 0.61 m，坐下的人物腳碰不到地、像坐在空中）*/
     'prop.cup':       {url:'assets/models/env/cup.glb', source:'market.pmnd.rs', license:'CC0', ground:true, fitHeight:0.09},
     'prop.cupSaucer': {url:'assets/models/env/cup-saucer.glb', source:'market.pmnd.rs', license:'CC0', ground:true, fitHeight:0.08},
     'prop.glass':     {url:'assets/models/env/glass.glb', source:'market.pmnd.rs', license:'CC0', ground:true, fitHeight:0.12},

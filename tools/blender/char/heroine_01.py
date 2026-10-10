@@ -34,13 +34,11 @@ def stage0(m):
 
 
 STAGES = {'stage0': stage0}
-# 各部位的模組（tools/blender/char/h01_<部位>.py，提供 apply(m)）：有檔案就載入
+# 各部位的模組（tools/blender/char/h01_<部位>.py，提供 apply(m)）：--stages 有指定才載入（一個模組改到一半不會影響其他模組的執行）
 import importlib
-for _k in ('face', 'hair', 'clothes'):
-    try:
-        STAGES[_k] = importlib.import_module('h01_' + _k).apply
-    except ModuleNotFoundError as _e:
-        if _e.name != 'h01_' + _k: raise
+def stage_fn(name):
+    if name not in STAGES: STAGES[name] = importlib.import_module('h01_' + name).apply
+    return STAGES[name]
 
 
 def main():
@@ -49,7 +47,7 @@ def main():
     stages = opt.get('--stages', 'stage0').split(',')
     C.setup(); m = C.import_vrm(os.path.join(C.SRC, 'HairSample_Female.vrm'))
     for s in stages:
-        print('[stage]', s); STAGES[s](m)
+        print('[stage]', s); stage_fn(s)(m)
     if '--blend' in opt:
         os.makedirs(os.path.dirname(os.path.abspath(opt['--blend'])), exist_ok=True)
         bpy.ops.file.pack_all(); bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(opt['--blend']), compress=True); print('saved blend', opt['--blend'])

@@ -82,12 +82,12 @@ const Z3 = (function(){
     // ---- 椰林大道：大王椰子 ----
     for(let x=-110;x<=70;x+=7.5){ for(const s of [-1,1]){ palmIdx++; const p=TK.royalPalm((14.5+((x*7)%3)*0.8)*1.35,palmIdx,{crown:0.66});   /* v9.3 第十八批：照椰林大道照片拉高到約 20 m、樹冠相對變小 */ place(g,p,x,s*9.5,(x*0.3)%6.28); nav.blockCircle(x,s*9.5,0.5); } }
     // 兩側草地小徑與長椅、腳踏車
-    for(let x=-100;x<=50;x+=25){ for(const s of [-1,1]){ const b=BENCH(); place(g,b,x,s*13,s>0?Math.PI:0); nav.blockRect(x,s*13,2.0,0.7,0); seats.push({x,z:s*13+(s>0?-0.55:0.55),yaw:s>0?Math.PI:0,label:'坐在椰林大道的長椅上'}); } }
+    for(let x=-100;x<=50;x+=25){ for(const s of [-1,1]){ const b=BENCH(); place(g,b,x,s*13,s>0?Math.PI:0); nav.blockRect(x,s*13,1.4,0.7,0); seats.push({x,z:s*13+(s>0?-0.06:0.06),yaw:s>0?Math.PI:0,label:'坐在椰林大道的長椅上'}); } }
     for(let x=-90;x<=40;x+=32){ const r=W3.bikeRack(7); place(g,r,x+8,-16,0); nav.blockRect(x+8,-16,5,1.4,0); }
     for(let x=-105;x<=55;x+=22){ for(const s of [-1,1]){ const l=W3.lampPost(); place(g,l,x,s*11,s>0?0:Math.PI); lamps.push(l); nav.blockCircle(x,s*11,0.25); } }
     // ---- 傅鐘（大道南側小廣場，行政大樓正前方）----
     const plaza=ground(g,28,12,W3.stoneTex('#e3d9c6'),[7,3],-38,17,0.015); const bell=CK.bell(); place(g,bell,-38,16.5,Math.PI); placeBlocks(nav,bell,-38,16.5,Math.PI);   /* v9.3 第十六批：校園套件的鐘亭，石碑朝北對著大道 */ for(const [x,z] of [[-51,21.5],[-25,21.5]]){ const b=TREE(1.3); place(g,b,x,z,0); nav.blockCircle(x,z,0.9); }
-    for(const x of [-46,-30]){ const b=BENCH(); place(g,b,x,21,Math.PI); nav.blockRect(x,21,2,0.7,0); seats.push({x,z:21-0.55,yaw:Math.PI,label:'坐在傅鐘旁的長椅'}); }
+    for(const x of [-46,-30]){ const b=BENCH(); place(g,b,x,21,Math.PI); nav.blockRect(x,21,1.4,0.7,0); seats.push({x,z:21-0.06,yaw:Math.PI,label:'坐在傅鐘旁的長椅'}); }
     // ---- 行政大樓（大道南側、傅鐘後面）：大圓柱、對稱，正面朝北對著椰林大道 ----
     // v9.3：台大日治時期建築語彙（src/campuskit3d.js）：面磚、一樓拱廊、拱窗、石材腰帶與簷口、寄棟屋頂、中央門廊（佔地不變；門廊的柱墩與側牆另外加碰撞）
     const admin=CK.hall({w:46,d:16,floors:3,gfh:4.2,fh:3.4,wall:'#cdb48e',trim:'#e8e0cf',roof:'#4a3a33',roofH:4.2,arcade:true,porch:{bays:3,depth:3.0,pediment:false},sign:'行政大樓'}); ckPlace(admin,-38,33,Math.PI); buildings.push(admin);
@@ -124,7 +124,7 @@ const Z3 = (function(){
     // 社科院前的樹狀白柱意象（圖書館的柱）
     for(let i=0;i<7;i++){ const col=new THREE.Mesh(new THREE.CylinderGeometry(0.22,0.35,7,10),M('#f4f1ea')); col.position.set(96,3.5,-90+i*6); g.add(col); const cap=new THREE.Mesh(new THREE.CylinderGeometry(1.6,0.6,0.8,10),M('#f4f1ea')); cap.position.set(96,7.2,-90+i*6); g.add(cap); nav.blockCircle(96,-90+i*6,0.5); }
     // 法學院廣場：長椅、腳踏車、樹、公告欄、販賣機
-    for(const x of [40,70]){ const b=BENCH(); place(g,b,x,-88,0); nav.blockRect(x,-88,2,0.7,0); seats.push({x,z:-87.45,yaw:0,label:'坐在霖澤館前的長椅'}); }
+    for(const x of [40,70]){ const b=BENCH(); place(g,b,x,-88,0); nav.blockRect(x,-88,1.4,0.7,0); seats.push({x,z:-87.94,yaw:0,label:'坐在霖澤館前的長椅'}); }
     
     { const r=W3.bikeRack(9); place(g,r,58,-102,0); nav.blockRect(58,-102,6,1.4,0); const r2=W3.bikeRack(6); place(g,r2,10,-100,0); nav.blockRect(10,-100,4,1.4,0); }
     { const bb=W3.bulletin(); place(g,bb,16.6,-100.6,0); nav.blockRect(16.6,-100.6,2.6,0.4,0); /* v9.3 第十九批：原本掛在霖澤館一樓拱廊的內牆上；新的霖澤館沒有拱廊、正面整排是台階，移到台階西端外面的鋪面上 */ const v=W3.vending(); place(g,v,13.5,-107.5,-Math.PI/2); nav.blockRect(13.5,-107.5,0.9,1.2,0); /* 靠霖澤館西側牆（舊位置一半埋在建築轉角裡）*/ }
@@ -329,7 +329,7 @@ const Z3 = (function(){
       const grp=new THREE.Group(); bin.build(grp); g.add(grp); }
     for(const [x,z,s] of [[cx-21,cz-4,1.25],[cx-19,cz+8.5,1.0],[cx+20,cz-5,1.2],[cx+19.5,cz+8,1.0],[cx-10,cz-13,1.15],[cx+7.5,cz-13,1.3],[cx-1,cz-14,1.0]]){ const t=TK.tree(7.5*s,Math.abs(x*7+z*3)|0); place(g,t,x,z,(x+z)*0.37); nav.blockCircle(x,z,0.6); }
     // 南岸步道旁：面向湖的長椅、路燈
-    for(const x of [cx-11,cx+7]){ const b=BENCH(); place(g,b,x,-53.9,Math.PI); nav.blockRect(x,-53.9,2.0,0.7,0); seats.push({x,z:-53.9-0.55,yaw:Math.PI,label:'坐在醉月湖畔的長椅'}); }
+    for(const x of [cx-11,cx+7]){ const b=BENCH(); place(g,b,x,-53.9,Math.PI); nav.blockRect(x,-53.9,1.4,0.7,0); seats.push({x,z:-53.9-0.06,yaw:Math.PI,label:'坐在醉月湖畔的長椅'}); }
     for(const x of [cx-16,cx+12]){ const l=W3.lampPost(); place(g,l,x,-48.6,Math.PI); lamps.push(l); nav.blockCircle(x,-48.6,0.25); }
     return {mat:wmat};
   }
@@ -545,7 +545,7 @@ const Z3 = (function(){
         const tail=new THREE.TorusGeometry(0.16,0.026,6,14,Math.PI*1.1); cat.add(dk,tail,cx-0.02,cy+0.035,cz-0.02,0.4,{rx:-Math.PI/2});
         const cg=new THREE.Group(); cat.build(cg); cg.traverse(o=>{ if(o.isMesh) o.castShadow=false; }); g.add(cg); }
       { const pg=new THREE.Group(); pb.build(pg); g.add(pg); }
-      for(const [bx,bz] of [[23.6,8.0],[28.4,8.0]]){ const b=BENCH(); place(g,b,bx,bz,Math.PI); nav.blockRect(bx,bz,2,0.7,0); E.interactables.push({x:bx,z:bz-0.55,radius:1.4,label:'坐在小公園的長椅',seat:{x:bx,z:bz-0.55,yaw:Math.PI}}); }
+      for(const [bx,bz] of [[23.6,8.0],[28.4,8.0]]){ const b=BENCH(); place(g,b,bx,bz,Math.PI); nav.blockRect(bx,bz,1.4,0.7,0); E.interactables.push({x:bx,z:bz-0.06,radius:1.4,label:'坐在小公園的長椅',seat:{x:bx,z:bz-0.06,yaw:Math.PI}}); }
       for(const [hx,hz] of [[20.6,5.6],[30.0,5.6]]){ const pt=TK.pots(4,7); pt.position.set(hx,0,hz); pt.rotation.y=Math.PI; g.add(pt); nav.blockRect(hx-0.8,hz,1.8,0.7,0,0); }
       const sg=TK.signTex('溫州公園',{bg:'#2f4a3a',color:'#f4ead8',serif:true}); const sp=new THREE.Mesh(new THREE.PlaneGeometry(1.6,0.4),new THREE.MeshStandardMaterial({map:sg})); sp.position.set(20.2,1.4,5.6); sp.rotation.y=Math.PI; g.add(sp); }
     // ---- 電線桿＋路燈（A 側沿街）、電線 ----
