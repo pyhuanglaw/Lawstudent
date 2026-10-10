@@ -26,6 +26,18 @@ async def wait_control(pg, cdp, run, pick=0, max_steps=120, extra=None):
     return await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['dlg'] and not q['choices'] and not q['busy'] and (extra is None or extra(q)), max_steps=max_steps, pick=pick)
 
 
+async def wait_story(pg, cdp, run, js_done, pick=0, max_s=300):
+    """等劇情場景真的演完：js_done（遊戲自己的劇情旗標）為真、而且恢復控制（沒有對話、選項、忙碌）。
+    只看「恢復控制」會在換場景的空檔（標題卡、載入區域，場景還沒 sceneBegin）提早成立——
+    2026-10-10 發布前測試：第一天宿舍、第二天霖澤館前都在劇情開始前就檢查了目標（截圖：阿哲才剛說「祐廷！」）"""
+    t0 = time.time()
+    while time.time() - t0 < max_s:
+        s = await wait_control(pg, cdp, run, pick=pick)
+        if not s['busy'] and not s['dlg'] and not s['choices'] and await pg.evaluate(js_done): return s
+        await pg.wait_for_timeout(800)
+    return await L.state(pg)
+
+
 async def goal(pg): return await pg.evaluate("(document.getElementById('goal')||{}).textContent||''")
 
 
@@ -39,7 +51,7 @@ async def main():
         await run.shot(pg, 'title')
         run.check('標題畫面有「開始新的一天」', await L.tap(pg, cdp, '#btnNew'))
         # ---- 第一天：宿舍 ----
-        s = await wait_control(pg, cdp, run, extra=lambda q: q['zone'] == 'dorm')
+        s = await wait_story(pg, cdp, run, "!!GAME.G.flags.introDone")   # 宿舍開場（introDorm）演完
         g = await goal(pg); await run.shot(pg, 'day1_dorm')
         run.check('第一天宿舍開場結束、恢復控制、目標是讀案例或睡覺', s['zone'] == 'dorm' and not s['busy'] and '睡覺' in g, f'goal={g} ' + json.dumps(s, ensure_ascii=False))
         desk = await L.find_it(pg, '坐在書桌前')
@@ -54,7 +66,7 @@ async def main():
         if bed and await L.go_to(pg, cdp, run, bed['x'], bed['z'], bed['r'] * 0.8, '床'):
             await pg.wait_for_timeout(800)
             run.check('床邊出現「睡覺」', await use_interact(pg, cdp, run, '睡覺'))
-            s = await wait_control(pg, cdp, run, pick=0, max_steps=150, extra=lambda q: q['zone'] == 'campus')
+            s = await wait_story(pg, cdp, run, "GAME.G.zone==='campus'&&!!GAME.G.flags.campusIntro")   # 第二天霖澤館前（campusMorning：阿哲）演完
         # ---- 第二天：霖澤館前 ----
         g = await goal(pg); day = await pg.evaluate("GAME.G.day")
         await run.shot(pg, 'day2_campus')
@@ -78,7 +90,7 @@ async def main():
             if ex and await L.go_to(pg, cdp, run, ex['x'], ex['z'], ex['r'] * 0.7, '教室後門'):
                 await pg.wait_for_timeout(800)
                 run.check('後門出現「離開教室」', await use_interact(pg, cdp, run, '離開教室'))
-                s = await wait_control(pg, cdp, run, pick=0, max_steps=150, extra=lambda q: q['zone'] == 'campus')
+                s = await wait_story(pg, cdp, run, "GAME.G.zone==='campus'&&!!GAME.G.flags.campusIntro")   # 第二天霖澤館前（campusMorning：阿哲）演完
                 g = await goal(pg); await run.shot(pg, 'after_class_campus')
                 run.check('走出霖澤館、回到校園、恢復控制', s['zone'] == 'campus' and not s['busy'] and s['stand'], f'goal={g} ' + json.dumps(s, ensure_ascii=False))
         # ---- 存檔 → 重新整理 → 讀檔 ----
