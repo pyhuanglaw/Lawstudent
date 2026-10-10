@@ -26,6 +26,7 @@ const Z3 = (function(){
         for(let i=0;i<3400;i++){ const v=(r()*44)|0; x.fillStyle='rgba('+(144+v)+','+(144+v)+','+(141+v)+',0.4)'; x.fillRect(r()*w,r()*h,2,2); }
         x.fillStyle='rgba(88,88,86,0.3)'; x.fillRect(0,0,w*0.022,h); x.fillRect(w*0.978,0,w*0.022,h);
         x.fillStyle='#d6a425'; x.fillRect(w*0.4955,0,w*0.009,h*0.33); }); t.userData.asphalt=true; return t; };
+  const AVE_TREE={spread:1.45,dark:0.8};   // 椰林大道兩側樹牆（校園、公館看進校門的背景共用；第二十三批照照片）
   const campusWallMat=()=>TK.M('bgWallM',()=>TK.std({map:TK.tileTex('#b8735a','#9c8676','bgWall'),roughness:0.9}));   // 校園圍牆（紅褐色面磚）：校園、公館共用
   // ---------- 校園主區 ----------
   const campus={ id:'campus', name:'台大校園', indoor:false, cityLight:0.25, size:[260,170], viewFar:260, fogNear:100, build(E){   /* 第二十批：邊界外有背景了，視距拉遠（照片裡椰林大道盡頭的總圖看得清楚；從校門口看總圖約 205 m）*/
@@ -147,8 +148,9 @@ const Z3 = (function(){
       for(let z=-30;z<=40;z+=10){ rows.push([121,z+((z*7)%3)]); }   /* 總圖東邊；社科院在 z<-42 */
       for(const [x,z] of rows){ const t=TREE(1+((Math.abs(x*3+z))%4)*0.12); place(g,t,x,z,(x+z)*0.37); nav.blockCircle(x,z,0.8); }
       // 大道兩側的大樹牆：椰子樹列後面（z=±17.5），約 6 m 一棵、高 11–13 m（樹冠相連）；路口、門口、停車架、傅鐘廣場、社團攤位留空。整排合成一個網格（一側 2 個 draw call）
+      // 第二十三批（照片：椰子樹後面是一整片連在一起的深綠樹冠，幾乎看不到後面的系館）：樹冠加寬、葉色調深（AVE_TREE）；樹幹位置不動，地面的路口、車架、系館門口照樣看得到、走得到
       for(const side of [-1,1]){ const skip=side<0?[[-116,-111],[-84,-70],[-85,-79],[-53,-47],[-46,-30],[-21,-15],[-15,-9],[-7,2],[2,12],[11,17],[23,37],[37,43],[43,50.5],[50,64]]:[[-116,-111],[-53,-23],[-22,-14],[-2,6],[16,24],[39,51]];
-        const rowG=new THREE.Group(); let k=0; for(let x=-108;x<=66;x+=6){ const jx=x+((x*13)%5)*0.35; if(skip.some(([a,b])=>jx>a&&jx<b)) continue; k++; const t=TK.tree(6.4*(1.75+((k*7)%4)*0.1),k+(side>0?50:0)); t.position.set(jx,0,side*(17.5+((k*5)%3)*0.5)); t.rotation.y=k*1.3; rowG.add(t); nav.blockCircle(t.position.x,t.position.z,0.8); }
+        const rowG=new THREE.Group(); let k=0; for(let x=-108;x<=66;x+=6){ const jx=x+((x*13)%5)*0.35; if(skip.some(([a,b])=>jx>a&&jx<b)) continue; k++; const t=TK.tree(6.4*(1.75+((k*7)%4)*0.1),k+(side>0?50:0),AVE_TREE); t.position.set(jx,0,side*(17.5+((k*5)%3)*0.5)); t.rotation.y=k*1.3; rowG.add(t); nav.blockCircle(t.position.x,t.position.z,0.8); }
         g.add(W3.mergeGroup(rowG)); }   /* 北側 [43,50.5]：(49.4,-17.8) 那棵和停車架 (46,-16) 東端之間會留一道比人窄的縫（nav_islands 的孤島，第二十批拿掉）*/
       // 系館門口的腳踏車架（台大的系館前面一定停滿腳踏車）
       for(const [x,z,ry] of [[-6,24,0],[12,24,0],[33,24,0],[57,24,0],[-1,-17.2,Math.PI],[46,-23.5,Math.PI],[68,-23.5,Math.PI]]){ const r=W3.bikeRack(7); place(g,r,x,z,ry); nav.blockRect(x,z,4.6,1.6,0); } }
@@ -356,7 +358,7 @@ const Z3 = (function(){
       // 大王椰子（和校園同一個高度公式，約 20 m）、椰子樹後面的大樹牆、大道南側西段的樹林——合併
       const trees=new THREE.Group(); let pi=0;
       for(let gz=-60;gz>=-190;gz-=7.5) for(const sx of [-1,1]){ pi++; const cx=-170-gz; const p=TK.royalPalm((14.5+((cx*7)%3)*0.8)*1.35,pi,{crown:0.66}); p.position.set(sx*9.5,0,gz); p.rotation.y=(cx*0.3)%6.28; trees.add(p); }
-      for(let gz=-62;gz>=-190;gz-=6) for(const sx of [-1,1]){ if(H(gz,sx)<0.15) continue; const t=TK.tree(6.4*(1.75+H(sx,gz)*0.4),Math.round(-gz)+(sx>0?50:0)); t.position.set(sx*(17.5+H(gz,7)*1.5),0,gz+H(7,gz)*2); t.rotation.y=gz*1.3; trees.add(t); }
+      for(let gz=-62;gz>=-190;gz-=6) for(const sx of [-1,1]){ if(H(gz,sx)<0.15) continue; const t=TK.tree(6.4*(1.75+H(sx,gz)*0.4),Math.round(-gz)+(sx>0?50:0),AVE_TREE); t.position.set(sx*(17.5+H(gz,7)*1.5),0,gz+H(7,gz)*2); t.rotation.y=gz*1.3; trees.add(t); }
       for(const [tx,tz] of [[36,-66],[41,-80],[38,-94],[16,-70],[26,-58],[24,-74],[31,-88],[24,-102],[-62,-53],[-50,-55],[-14,-54],[22,-53],[52,-53],[66,-55]]){ const t=TK.tree(6.4*(1.0+((Math.abs(tx)*13)%3)*0.1)); t.position.set(tx,0,tz); trees.add(t); }
       const tm=W3.mergeGroup(trees); tm.traverse(m=>{ if(m.isMesh) m.castShadow=false; }); g.add(tm);
       // 校園建築（遠景方盒，和校園那邊的外觀同色、同尺寸）：校史館、文學院、行政大樓、舟山路西段南側系館、大道東邊的兩棟

@@ -243,15 +243,19 @@ const TK = (function(){
 
   // ---------------- 行道樹（葉片卡：交叉的透明葉叢面片，會投下斑駁樹影）----------------
   function leafTex(){ return tex('leafCluster',256,256,(x,w,h)=>{ x.clearRect(0,0,w,h); const cols=['#3f6e3a','#4f8a44','#5f9a4e','#6fa85a','#3a5f34','#7cb064']; for(let i=0;i<420;i++){ const a=rnd()*Math.PI*2, r=Math.pow(rnd(),0.6)*w*0.46; const px=w/2+Math.cos(a)*r, py=h/2+Math.sin(a)*r*0.92; x.save(); x.translate(px,py); x.rotate(rnd()*Math.PI*2); x.fillStyle=cols[(rnd()*cols.length)|0]; x.beginPath(); x.ellipse(0,0,4+rnd()*4,8+rnd()*6,0,0,7); x.fill(); x.restore(); } }, false); }
-  function tree(height, seed){ const g=new THREE.Group(); const bin=new Bin(); const H=height||7; const r=(a,b)=>a+(b-a)*rnd();
+  // o.spread：樹冠半徑倍數（加寬的部分用以 seed 決定的獨立亂數補葉片，不動共用的 rnd 序列，其他物件的形狀不會跟著變）；o.dark：葉色倍數（<1 較深）
+  function tree(height, seed, o){ o=o||{}; const g=new THREE.Group(); const bin=new Bin(); const H=height||7; const r=(a,b)=>a+(b-a)*rnd(); const SP=o.spread||1, DK=o.dark||1;
     // 樹幹（略彎）＋主枝
     const bark=M('bark',()=>seeThru(std({map:tex('bark',64,256,(x,w,hh)=>{ x.fillStyle='#5a4a3c'; x.fillRect(0,0,w,hh); for(let i=0;i<120;i++){ x.fillStyle=rnd()<0.5?'rgba(30,22,16,0.35)':'rgba(140,125,105,0.25)'; x.fillRect(rnd()*w,rnd()*hh,2+rnd()*3,8+rnd()*20); } }),roughness:0.95})));
     const th=H*0.45; let px=0, pz=0; for(let i=0;i<3;i++){ const seg=new THREE.CylinderGeometry(0.16-i*0.03,0.22-i*0.03,th/3+0.05,8); const nx=px+r(-0.12,0.12), nz=pz+r(-0.12,0.12); bin.add(bark,seg,(px+nx)/2,th/6+i*th/3,(pz+nz)/2,0,{rx:(nz-pz)*0.8,rz:-(nx-px)*0.8}); px=nx; pz=nz; }
     const leafM={isPaint:true,color:new THREE.Color(1,1,1),key:'leaf',mat:M('leafCard',()=>std({map:leafTex(),alphaTest:0.45,side:THREE.DoubleSide,roughness:0.85,vertexColors:true}))};
-    const crownY=th+H*0.22, cr=H*0.32; const n=Math.round(14+H*2.2);
-    for(let i=0;i<n;i++){ const a=rnd()*Math.PI*2, rr=Math.sqrt(rnd())*cr, yy=crownY+r(-0.35,0.45)*H*0.35; const cx=px+Math.cos(a)*rr, cz=pz+Math.sin(a)*rr; const sz=r(1.6,2.4)*(H/7); const shade=0.78+rnd()*0.3+(yy-crownY)*0.05; const c=new THREE.Color(shade,shade*(0.98+rnd()*0.06),shade*0.92);
+    const crownY=th+H*0.22, cr=H*0.32*SP; const n=Math.round(14+H*2.2);
+    for(let i=0;i<n;i++){ const a=rnd()*Math.PI*2, rr=Math.sqrt(rnd())*cr, yy=crownY+r(-0.35,0.45)*H*0.35; const cx=px+Math.cos(a)*rr, cz=pz+Math.sin(a)*rr; const sz=r(1.6,2.4)*(H/7); const shade=(0.78+rnd()*0.3+(yy-crownY)*0.05)*DK; const c=new THREE.Color(shade,shade*(0.98+rnd()*0.06),shade*0.92);
       if(i%4===0){ const br=new THREE.CylinderGeometry(0.04,0.07,Math.hypot(cx-px,yy-th),5); const ang=Math.atan2(cx-px,cz-pz); bin.add(bark,br,(px+cx)/2,(th+yy)/2,(pz+cz)/2,ang,{rx:Math.atan2(Math.hypot(cx-px,cz-pz),yy-th)}); }
       for(let k=0;k<3;k++){ const pl=new THREE.PlaneGeometry(sz,sz*0.85); const lm=Object.assign({},leafM,{color:c}); bin.add(lm,pl,cx,yy,cz,a+k*Math.PI/3,{rx:r(-0.35,0.35)}); } }
+    if(SP>1){ let s2=(((seed||Math.round(H*97))*9301+49297)%233280)||7; const q=()=>{ s2=(s2*16807)%2147483647; return s2/2147483647; }; const n2=Math.round(n*(SP*SP-1));   // 加寬的樹冠補葉片（密度和原本差不多）
+      for(let i=0;i<n2;i++){ const a=q()*Math.PI*2, rr=Math.sqrt(q())*cr, yy=crownY+(q()*0.8-0.35)*H*0.35; const cx=px+Math.cos(a)*rr, cz=pz+Math.sin(a)*rr; const sz=(1.6+q()*0.8)*(H/7); const shade=(0.78+q()*0.3+(yy-crownY)*0.05)*DK; const c=new THREE.Color(shade,shade*(0.98+q()*0.06),shade*0.92);
+        for(let k=0;k<3;k++){ const pl=new THREE.PlaneGeometry(sz,sz*0.85); const lm=Object.assign({},leafM,{color:c}); bin.add(lm,pl,cx,yy,cz,a+k*Math.PI/3,{rx:q()*0.7-0.35}); } } }
     bin.build(g); g.userData.trunk={x:px,z:pz}; return g; }
 
   // 大王椰子（台大椰林大道、小椰林道）：灰白筆直的樹幹（基部略寬、中段微鼓、淡淡的環紋）、
