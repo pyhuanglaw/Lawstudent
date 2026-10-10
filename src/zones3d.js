@@ -630,8 +630,9 @@ const Z3 = (function(){
   function cafeFacePaint(mesh,tex,nightI,dayI){ const m=mesh.material.clone(); m.map=tex; m.color=new THREE.Color(0xffffff); m.emissive=new THREE.Color(0xffffff); m.emissiveMap=tex; m.roughness=0.85; m.metalness=0; mesh.material=m; if(nightI!=null) TK.addNight(m,nightI,dayI||0); else m.emissiveIntensity=0; m.needsUpdate=true; }
   /* 正式模型的哪些網格要投影：陰影貼圖一格約 4 cm（1024² 蓋 44 m），窗框、鐵窗、冷氣、盆栽、招牌這些小零件的影子看不出來，
      卻要在陰影那一輪整組再畫一次（instancing 的窗一次就是幾萬個三角形）。只讓不是 instancing、由大面組成的網格投影（牆、屋頂、陽台、雨遮…）；招牌面不投影 */
-  const WZ_NO_SHADOW=/^(cafe_int_|cafe_room_dark|cafe_curtain|ext_glass_lit|wz_room_lit|jp_shoji|cafe_leaf_|cafe_glass|cafe_win_glass|cafe_lampglass|cafe_bulb|cafe_books)/;   /* 店內、窗內的房間與窗簾、紙拉門、玻璃、燈泡、葉子：不投影 */
+  const WZ_NO_SHADOW=/^(cafe_int_|cafe_room_dark|cafe_curtain|ext_glass_lit|wz_room_lit|jp_shoji|cafe_leaf_|cafe_glass|cafe_win_glass|cafe_lampglass|cafe_bulb|cafe_books|cafe_vc_)/;   /* 店內、窗內的房間與窗簾、紙拉門、玻璃、燈泡、葉子、Café 的小零件（頂點色合併的 cafe_vc_*）：不投影 */
   function wzCastsShadow(o){ if(o.isInstancedMesh||/FACE/.test(o.name)) return false; const g=o.geometry; if(!g||!g.attributes.position) return false; const mn=o.material&&o.material.name||''; if(WZ_NO_SHADOW.test(mn)) return false;
+    if(/^wz_vc_/.test(mn)) return true;   /* 溫州街的純色零件合成的頂點色網格（門、鋁框、雨遮、屋頂板、鐵件…，第二輪減量）：整條巷子一個網格、陰影一次 draw call；平均面積混了小零件，不用下面的規則 */
     if(!g.boundingBox) g.computeBoundingBox(); if(g.boundingBox.max.y<0.35) return false;   /* 貼地的（草地、地磚、人行道、路緣）：影子落不到別的東西上 */
     if(g.userData.wzMeanArea===undefined){ const p=g.attributes.position, ix=g.index, n=Math.floor((ix?ix.count:p.count)/3), step=Math.max(1,Math.floor(n/400)); const A=new THREE.Vector3(), B=new THREE.Vector3(), C=new THREE.Vector3(); let a=0, m=0;
       for(let t=0;t<n;t+=step){ const k=t*3; A.fromBufferAttribute(p,ix?ix.getX(k):k); B.fromBufferAttribute(p,ix?ix.getX(k+1):k+1); C.fromBufferAttribute(p,ix?ix.getX(k+2):k+2); a+=B.sub(A).cross(C.sub(A)).length()/2; m++; }
@@ -1017,7 +1018,7 @@ const Z3 = (function(){
     { const cal=W3.canvasTex('dormCal',128,176,(x,w,h)=>{ x.fillStyle='#fbfaf6'; x.fillRect(0,0,w,h); x.fillStyle='#b0332a'; x.fillRect(0,0,w,34); x.fillStyle='#ffffff'; x.font='bold 22px "Noto Sans TC",sans-serif'; x.fillText('10 月',36,25); x.fillStyle='#555'; x.font='12px sans-serif'; for(let r=0;r<5;r++) for(let c=0;c<7;c++){ const d=r*7+c-2; if(d>=1&&d<=31) x.fillText(String(d),8+c*17,58+r*24); } x.strokeStyle='#b0332a'; x.lineWidth=2; x.beginPath(); x.arc(8+4*17+6,58+2*24-4,9,0,7); x.stroke(); });
       const cm=new THREE.Mesh(new THREE.PlaneGeometry(0.4,0.55),new THREE.MeshStandardMaterial({map:cal,roughness:0.9})); cm.position.set(2.88,1.75,-0.9); cm.rotation.y=-Math.PI/2; cm.name='dorm_calendar'; g0.add(cm);
       const fly=W3.canvasTex('dormFlyer',128,180,(x,w,h)=>{ x.fillStyle='#f4ead8'; x.fillRect(0,0,w,h); x.fillStyle='#2f5d50'; x.fillRect(0,0,w,46); x.fillStyle='#f4ead8'; x.font='bold 18px "Noto Sans TC",sans-serif'; x.fillText('法律服務社',18,29); x.fillStyle='#2f5d50'; x.font='bold 15px "Noto Sans TC",sans-serif'; x.fillText('招 新 中',36,74); x.fillStyle='#555'; x.font='11px "Noto Sans TC",sans-serif'; ['一年級也可以','週三晚上 社課','萬才館 社辦'].forEach((t,i)=>x.fillText(t,22,104+i*20)); x.fillStyle='#c9a24a'; x.fillRect(16,164,96,4); });
-      const fm=new THREE.Mesh(new THREE.PlaneGeometry(0.42,0.6),new THREE.MeshStandardMaterial({map:fly,roughness:0.9})); fm.position.set(-2.88,1.75,-1.3); fm.rotation.y=Math.PI/2; fm.name='dorm_flyer'; g0.add(fm); }
+      const fm=new THREE.Mesh(new THREE.PlaneGeometry(0.42,0.6),new THREE.MeshStandardMaterial({map:fly,roughness:0.9})); fm.position.set(-2.88,1.75,-1.3); fm.rotation.y=Math.PI/2; fm.name='dorm_flyer'; g0.add(fm); dormWallItems(z,g0); }
     E.interactables.push({x:1.8,z:-1.9,radius:1.0,label:'坐在書桌前',seat:{x:1.8,z:-1.9,yaw:Math.PI},deskStudy:true}); E.interactables.push({x:-1.4,z:-1.5,radius:1.1,label:'睡覺',sleep:true}); E.interactables.push({x:0,z:3.3,radius:1.4,label:'離開宿舍',exit:{to:'campus',spawn:{x:20,z:54,yaw:Math.PI}}});
     P3.mergeStatic(g);   /* 備用模型自己合併（外層合併會跳過它，正式模型載入後要能整組藏起來）*/
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_interior']) ASSETS.loadOne('bldg.dorm_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachDormInterior(z,g0,root); }).catch(e=>console.warn('宿舍室內正式模型載入失敗，用程序化備用模型',e));
@@ -1033,7 +1034,12 @@ const Z3 = (function(){
       const b=DORM_BOUNCE[nm]; if(b) TK.bounce(mt,b[0],b[1]);
       if(nm==='dorm_items'){ mt.onBeforeCompile=sh=>{ sh.fragmentShader=sh.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n#if defined( USE_COLOR ) || defined( USE_COLOR_ALPHA )\n totalEmissiveRadiance += vColor.rgb * 0.25;\n#endif'); }; mt.customProgramCacheKey=()=>'dormVcGlow'; mt.needsUpdate=true; } });
     for(const n of ['dorm_calendar','dorm_flyer']){ const o=g0.getObjectByName(n); if(o) o.position.x+=(o.position.x<0?0.005:-0.005); }   /* 正式模型的牆面在 ±2.9：月曆、傳單貼在牆前 */
+    dormWallItems(z,g0);   /* attachRoomGLB 換掉了 z.walls：月曆、傳單再加回去 */
     return root; }
+  /* 宿舍牆上的月曆（右牆）、社團傳單（左牆）跟著那面牆淡出（放進 z.walls；dir＝往室內的法線，和牆一樣）：
+     不然鏡頭在側牆外、牆淡出時，它們會浮在半空中（2026-10-10 LAWWW 回報正式模型的掛勾、冷氣有這個問題，這兩張是同一類） */
+  function dormWallItems(z,g0){ for(const n of ['dorm_calendar','dorm_flyer']){ const o=g0.getObjectByName(n); if(!o||z.walls.includes(o)) continue;
+    o.material.transparent=true; o.userData.dir=new THREE.Vector3(o.position.x<0?1:-1,0,0); o.updateWorldMatrix(true,false); o.userData.center=o.getWorldPosition(new THREE.Vector3()); z.walls.push(o); } }
   const ZONES={campus,gongguan,wenzhou,classroom,wancai,library,cafe,cvs,noodle,bookstore,dorm};
   return {ZONES,room,desk,chair,glowTex};
 })();

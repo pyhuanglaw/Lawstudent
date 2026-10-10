@@ -293,6 +293,10 @@ def jp_wall():
 jp_house(); jp_wall()
 for k, m in _acc.items(): m.finish(root)
 for m, props in faces: uv01(m.finish(root, uv=True, props=props))
+# 純色材質改成頂點色材質（第二輪減量，2026-10-10；lib2.vc_consolidate）：同一組的零件合成一個網格、一次 draw call
+L.vc_consolidate(root, {
+                        **dict.fromkeys(('jp_ridge', 'cafe_ac_body', 'cafe_ac_fan', 'cafe_room_dark'), L.vc_material('wz_vc_matte', rough=0.85)),
+                        **dict.fromkeys(('cafe_iron_black', 'jp_gutter', 'jp_meter'), L.vc_metal('wz_vc_metal', rough=0.45, metal=0.35))})
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
 info = L.export(OUT, gpu_instances=True)
 L.write_json(OUT[:-4] + '.json', info)

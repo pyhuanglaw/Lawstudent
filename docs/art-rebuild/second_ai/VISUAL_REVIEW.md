@@ -48,7 +48,7 @@
 
 | 檔案 | 大小 | 三角形 | 網格／draw call | 材質 | 貼圖 |
 |---|---|---|---|---|---|
-| `assets/models/env/second_ai/cafe_exterior.glb` | 1.94 MB（目標 ≤ 2.5 MB） | 27,096（畫出 33,796） | 51 個網格、約 56 次 draw call（6 組 instancing：鐵窗、雨遮、冷氣、桌、椅、高腳椅） | 46 | 27 張 WebP（512×512 ×13、256×256 ×13、色票 8×1）共 504 KB |
+| `assets/models/env/second_ai/cafe_exterior.glb` | 2.19 MB（目標 ≤ 2.5 MB；2026-10-10 溫州街第二輪減量後，原本 1.94 MB） | 27,096（畫出 33,796） | 37 個網格、約 41 次 draw call（原本 51／56；小零件合成 `cafe_vc_gloss`／`cafe_vc_matte`／`cafe_vc_metal`，見 2.5.1；6 組 instancing：鐵窗、雨遮、冷氣、桌、椅、高腳椅） | 30 | 27 張 WebP（512×512 ×13、256×256 ×13、色票 8×1）共 519 KB |
 | `assets/models/env/second_ai/cafe_interior.glb` | 1.14 MB（目標 ≤ 2 MB） | 17,268（畫出 21,752） | 45 個網格、約 47 次 draw call（3 組 instancing） | 27 | 17 張 WebP（512×512 ×8、256×256 ×8、色票）共 197 KB |
 
 （`python3 tools/blender/env_second/glb_specs.py <glb>` 產生。同材質零件已合併（`lib2.merge_by_material`）：外觀原本 90 個網格物件。）
@@ -76,7 +76,7 @@
 
 ### 1.7 遊戲內截圖（修改前｜修改後）
 
-實際執行遊戲的畫面（`tools/shots/scene_shot.py`；清單 `tools/blender/env_second/shots/cafe_{before,after}.json`）。修改前＝`?nobldg`，修改後＝一般網址，同一個鏡頭、同一個時段。人物在店外的演出鏡頭藏起來；NPC 都藏起來（只看場景）。
+實際執行遊戲的畫面（`tools/shots/scene_shot.py`；清單 `tools/blender/env_second/shots/cafe_{before,after}.json`）。修改前＝`?nobldg`，修改後＝一般網址，同一個鏡頭、同一個時段。人物在店外的演出鏡頭藏起來；NPC 都藏起來（只看場景）。 **外觀的修改後截圖在 2026-10-10 溫州街第二輪減量（2.5.1：Café 外觀的小零件合成頂點色材質）之後重拍**；店內的沒有變（店內是另一個模型）。
 
 | 鏡頭 | 修改前（程序化套件） | 修改後（Blender 正式模型） |
 |---|---|---|
@@ -160,13 +160,13 @@
 
 | 檔案 | 大小 | 三角形 | 網格／draw call | 材質 | 貼圖 |
 |---|---|---|---|---|---|
-| `assets/models/env/second_ai/wenzhou_street.glb`（14 棟公寓） | 1.22 MB | 12,882（畫出 95,100） | 72 個網格（13 組 instancing＝32 個 InstancedMesh：窗、鐵窗、雨遮、冷氣、水塔、盆栽、曬的衣服；遊戲裡 16 面招牌合成 1 個網格） | 44 | 20 張 WebP 共 342 KB |
-| `assets/models/env/second_ai/wz_jphouse.glb`（日式宿舍＋院牆） | 0.55 MB | 4,854（畫出 8,979） | 21 個網格、約 21 次 draw call（屋簷瓦頭 instancing） | 19 | 14 張 WebP 共 220 KB |
-| `assets/models/env/second_ai/wz_props.glb`（電線桿 6、反光鏡 3、路名牌、紅磚道） | 0.25 MB | 1,876（畫出 7,532） | 18 個網格、約 28 次 draw call（3 組 instancing） | 16 | 5 張 WebP 共 112 KB |
-| `assets/models/env/second_ai/wz_park.glb`（小公園） | 0.48 MB | 1,554 | 10 個網格、10 次 draw call | 10 | 7 張 WebP 共 389 KB |
+| `assets/models/env/second_ai/wenzhou_street.glb`（14 棟公寓） | 1.34 MB | 13,410（畫出 95,100） | 52 個網格（10 組 instancing：窗框、亮燈／沒亮燈窗內、鐵窗、雨遮、冷氣、水塔、盆栽 3 款；遊戲裡 16 面招牌合成 1 個網格）；**第二輪減量後** | 26 | 20 張 WebP 共 342 KB |
+| `assets/models/env/second_ai/wz_jphouse.glb`（日式宿舍＋院牆） | 0.57 MB | 4,854（畫出 8,979） | 16 個網格、約 16 次 draw call（屋簷瓦頭 instancing） | 14 | 14 張 WebP 共 220 KB |
+| `assets/models/env/second_ai/wz_props.glb`（電線桿 6、反光鏡 3、路名牌、紅磚道） | 0.28 MB | 1,876（畫出 7,532） | 17 個網格、約 23 次 draw call（3 組 instancing） | 8 | 5 張 WebP 共 112 KB |
+| `assets/models/env/second_ai/wz_park.glb`（小公園） | 0.49 MB | 1,554 | 9 個網格、9 次 draw call | 9 | 7 張 WebP 共 389 KB |
 | `assets/models/env/second_ai/scooter.glb`（機車兩款） | 0.15 MB | 3,052（現代款 1,388、復古款 1,664；遊戲裡 39 台用 InstancedMesh） | 一款 3 個材質（車殼＋頂點色的塑膠橡膠、頂點色的金屬）→ 6 個 InstancedMesh＋1 個影子貼片 | 3 | 無（車殼 instanceColor、其他頂點色） |
 
-溫州街這五個加起來 2.6 MB（進溫州街時才下載；Café 外觀另外 1.95 MB）。每一個都在交接文件的目標內（外觀 ≤ 2.5 MB）。
+溫州街這五個加起來 2.8 MB（第二輪減量後；顏色放進頂點色多了約 0.2 MB；進溫州街時才下載；Café 外觀另外 2.19 MB）。每一個都在交接文件的目標內（外觀 ≤ 2.5 MB）。
 **draw call 比原本多**：套件的公寓、電線桿等在整區合併後只有幾十次；正式模型的窗、招牌、店內景深卡各自是一次（招牌和景深卡每家店有自己的 canvas）。實際的 draw call 與三角形數在 2.5 的整合測試裡量（同一個鏡頭，修改前／後）。
 
 ### 2.5 測試結果
@@ -202,10 +202,37 @@
 
 **還沒達到 LAWWW 訂的目標（draw call ≤ 原本 +30%）**：三角形在目標內（≤ 42 萬），draw call 還是比修改前多 47–52%（286–329 次；LAWWW 的目標是 +30%，約 310 次：巷子往西 286 次在目標內，另外兩個鏡頭多 12–19 次）。剩下的主要是：正式模型每一種材質一次 draw call（公寓約 40 種、Café 外觀約 45 種，含窗內看得到的店內）、窗的 instancing 原型（不同尺寸、亮燈與否各一組）、玩家本人（VRM，約 60 次，修改前後都有）。再降的做法（還沒做，等 LAWWW 決定要不要現在做）：在 Blender 把門、雨遮、窗框、小五金這些純色材質改成頂點色合併（公寓約 −10、Café 約 −15）；窗統一一個原型、用縮放（約 −10）；遠處的公寓用簡化版（LOD）。
 
+### 2.5.1 第二輪減量（2026-10-10 19:35Z 量；LAWWW 18:54Z：同一鏡頭 ≤ 約 310 次 draw call）
+
+量法同上（`tests/wz_street_integration.py`，同一個鏡頭、含陰影那一輪、藏起路人、含玩家）。
+
+| 鏡頭 | 修改前（`?nobldg`） | 第一次交付（`e2ae4d6`） | 第二輪減量後 | 和修改前比 |
+|---|---|---|---|---|
+| 巷子往東 | 219 次／25.2 萬 | 322 次／35.6 萬 | **277 次／36.1 萬** | +26%／+43% |
+| 巷子往西 | 188 次／24.8 萬 | 286 次／32.9 萬 | **239 次／33.4 萬** | +27%／+35% |
+| 騎樓 | 224 次／25.2 萬 | 329 次／35.6 萬 | **283 次／36.1 萬** | +26%／+43% |
+
+做了什麼（都在 Blender 腳本裡，遊戲端只改投影規則）：
+1. **純色零件改成頂點色**（`lib2.vc_consolidate`）：門、雨遮、鋁框、木框、鐵件、黃銅把手、鐵窗欄杆、排水管、屋頂板、騎樓天花板、窗簾、信箱、冷氣、水塔、曬的衣服——原本每一種顏色一個材質、整條巷子各一次 draw call（會投影的再加陰影一次），現在合成兩個材質：`wz_vc_matte`（霧面）、`wz_vc_metal`（金屬）；顏色放在頂點色，金屬度不同的照漫射補償（顏色看起來一樣）。日式宿舍、電線桿／反光鏡／路名牌、小公園也一樣；Café 外觀的小零件（盆栽、瓷杯、檯面、黃銅、鐵件、鋁框、窗簾…）合成 `cafe_vc_gloss`／`cafe_vc_matte`／`cafe_vc_metal` 三個（Café 的這些零件本來就不投影，現在也不投影）。
+2. **窗戶共用原型**：原本「每種寬度 × 亮燈與否」各一個原型、每個 5 個材質（20 次 draw call）；現在窗框＋窗台＋雨痕是一個原型（116 扇共用，3 次），窗內房間＋玻璃分亮燈（52 扇）／沒亮燈（64 扇）兩個原型（各 2 次）。比較窄的窗用 x 方向縮放（2.2 m → 最窄 1.85 m，鋁框粗細差不到 1 cm）。
+3. **曬的衣服**不用 instancing（三款各一次 draw call），直接合進 `wz_vc_matte`。
+4. **投影**：`wz_vc_*` 合併的網格整個投影（原本門、雨遮、屋頂板、鋁框這些就會投影；現在黃銅把手、窗簾、排水管、曬的衣服也投影，影子很小；陰影那一輪一次 draw call）；小公園樹圍的土（貼地）、Café 的小零件照舊不投影。
+
+Blender 渲染比對（同一個鏡頭、同樣的燈光；左＝減量前的模型、右＝減量後）：平均每個像素差 1.7／255（渲染雜訊與粗糙度的差別），顏色一樣。
+
+| 減量前 | 減量後（頂點色合併） |
+|---|---|
+| ![](blender_renders/wz_lane_east.webp) | ![](blender_renders/wz_lane_east_vc.webp) |
+
+畫面差異：顏色一樣；粗糙度、金屬度變成兩組（霧面 0.85、金屬 0.45／0.35），雨遮、鐵門、鋁框的反光略有不同。截圖見 2.6（修改後是第二輪減量之後重拍的）。
+
+**測試（第二輪減量後整套重跑，Playwright 手機模擬，不是實機；log 在 `docs/art-rebuild/second_ai/test_logs/street_perf2/`）**：`wz_street_integration` 42 項（加了 4 項：純色零件都已合併、合併網格的投影規則、窗戶共用原型、**三個鏡頭 draw call ≤ 310／三角形 ≤ 42 萬**）、`cafe_glb_integration` 62、`cvs_glb_integration` 39、`reachability_all --zones wenzhou,cafe,cvs` 14、`zone_transitions` 37、`p0_movement` 34、`touch_flow_wenzhou` 21、`see_through` 11，**全部 ALL PASS**。修改後截圖（2.6 的溫州街、第 3 節的便利商店、第 1 節的 Café 外觀）是減量之後重拍的。
+
+**LOD（遠處公寓簡化）沒有做**：正式模型是「整條巷子同一個材質一個網格」，遠近都在同一個網格裡，LOD 不會少 draw call；三角形已經在目標內（≤ 42 萬）。
 
 ### 2.6 遊戲內截圖（修改前｜修改後）
 
-實際遊戲畫面（`tools/blender/env_second/shots/fast_shots.py`：和 `tools/shots/scene_shot.py` 同一種清單格式，只是同一種畫面大小只載入一次遊戲；清單 `tools/blender/env_second/shots/street_{before,after}.json`）。修改前＝`?nobldg`，修改後＝一般網址，同一個鏡頭、同一個時段；演出鏡頭時人物與 NPC 藏起來。
+實際遊戲畫面（`tools/blender/env_second/shots/fast_shots.py`：和 `tools/shots/scene_shot.py` 同一種清單格式，只是同一種畫面大小只載入一次遊戲；清單 `tools/blender/env_second/shots/street_{before,after}.json`）。修改前＝`?nobldg`，修改後＝一般網址，同一個鏡頭、同一個時段；演出鏡頭時人物與 NPC 藏起來。 **修改後的截圖是第二輪減量（2.5.1）之後重拍的**。
 
 | 鏡頭 | 修改前（程序化套件） | 修改後（Blender 正式模型） |
 |---|---|---|
@@ -246,7 +273,7 @@
 5. **電線還是原本套件的線**（位置對得上礙子），沒有下垂的細節、沒有電纜箱。
 6. **機車兩款都是同一個比例**，沒有安全帽、車廂置物、雨衣；車牌沒有字。為了效能減面後（每台 1.4k–1.7k 個三角形），**近看車殼的弧面有稜角**；影子是貼地的柔和貼片，不是真的投影。
 7. **沒有 iPhone 實機驗證**：效能只用 draw call 與三角形數估計（見 2.4、2.5 的量測），沒有實測 FPS。
-8. **draw call 還沒達到 LAWWW 訂的目標**：同一個鏡頭比修改前多 47–52%（目標 +30%；三角形在目標內）。再降的做法列在 2.5，等 LAWWW 決定。
+8. **效能**：第二輪減量後同一個鏡頭 277／239／283 次 draw call（LAWWW 的目標 ≤ 約 310，見 2.5.1），比修改前（套件整區合併）還是多 26–27%。材質合併後粗糙度、金屬度只剩兩組（霧面、金屬），雨遮、鐵門、鋁框的反光和原本略有不同。
 9. 遠景（巷底、北邊、路口南邊的遠景公寓、`detail:false` 的那些）**還是套件**；這次只換近景。Café 往南看，路的盡頭是施工護欄（LAWWW 建議延伸成遠景街道，排在下一批）。
 
 ---
@@ -419,3 +446,16 @@ Cycles、點光代替遊戲的燈（遊戲裡是自發光的日光燈管＋天�
 - **改了什麼**：本來就半透明的 `WALL_` 材質（玻璃、紗窗）不放進 `z.walls`，改成窗的零件（`z.winParts`：固定透明，牆淡出時一起藏，和 Café 室內一樣）。`src/zones3d.js` 3 行。
 - **怎麼測**：`tests/interior_glb_integration.py`、`tests/cvs_glb_integration.py` 加「玻璃、紗窗保持透明（不在 `z.walls`、不透明度 < 0.5）」。**在沒修的版本跑會失敗**（宿舍：`WALL_back_glass`、`WALL_back_screen` 不透明度 1、在 `z.walls` 裡，log `test_logs/interiors/interior_glb_integration_unfixed_dorm.log`；便利商店：`WALL_front_glass` 在 `z.walls` 裡），修好之後通過。修改後截圖（這一節、第 3 節）都是修好之後重拍的。
 - **沒有測的**：iPhone 實機。
+
+### 4.8 交付後 LAWWW 發現並修好的 bug：宿舍貼在牆上的東西在牆淡出後浮在半空中（2026-10-10 19:58Z 回報）
+
+- **原本錯在哪**：宿舍的 Blender 腳本把門邊的掛勾架、毛巾、帆布袋（前牆）、冷氣、冷氣管蓋板、窗簾桿、窗簾（後牆）做成一般的家具網格，不在那面牆的 `WALL_` 群組裡。鏡頭跑到牆外、那面牆淡出時，它們不會跟著淡出，看起來浮在半空中（LAWWW 從 `test_shots/interior_glb_integration/03_dorm_formal.png` 左前方看到）。遊戲本身掛的**月曆（右牆）、社團傳單（左牆）**是同一類問題（程序化備用模型也有）。
+- **改了什麼**：`dorm_interior.py` 把這些零件放進那面牆的群組（`WALL_front_chrome`／`_curtain`／`_pillow`、`WALL_back_ac`／`_black`／`_trim`／`_curtain`／`_rod`；原本毛巾和窗簾在同一個網格，現在按前後牆拆開），遊戲端不用改淡出的程式；月曆、傳單在 `zones3d.js` 的宿舍區塊加進 `z.walls`（`dormWallItems`，方向＝那面牆往室內的法線；正式模型、程序化備用模型都適用）。
+- **怎麼測**：`tests/interior_glb_integration.py` 加「貼在牆上的東西（離牆 0.3 m 內、離地 0.5 m 以上）都在那面牆的 `WALL_` 群組裡」（三間都檢查；落地家具不算），**在沒修的版本跑會失敗**、修好之後通過（見下面 log）；另外每間多拍一張「鏡頭在後牆外」的截圖（`*_formal_from_back.png`）。
+- 麵店、書店照同一項檢查：沒有貼牆卻不在牆群組裡的東西（靠牆的書架、煮麵台、貨架是落地家具）。
+
+| 鏡頭在前牆外（前牆淡出；門邊的掛勾、毛巾跟著淡出） | 鏡頭在後牆外（後牆淡出；冷氣、窗簾、窗簾桿跟著淡出，落地的書架照樣在） |
+|---|---|
+| ![](test_shots/interior_glb_integration/05_dorm_formal.png) | ![](test_shots/interior_glb_integration/06_dorm_formal_from_back.png) |
+
+（測試的截圖，畫面下方是遊戲開場的對話框；`?nobldg` 與麵店、書店的同一組截圖在同一個資料夾。）
