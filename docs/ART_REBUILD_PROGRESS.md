@@ -2,7 +2,7 @@
 
 > 這份文件是本次「3D 美術重建 v1」的即時工作日誌，**每次 push 都會一起更新**。其他 AI 或開發者可以從這裡接手。
 > 需求原文：`docs/history/specs/20_3D美術重建v1_人物與溫州街.txt`。
-> 開發分支（2026-10-10 起兩個平行工作階段，使用者訂的分工）：**人物組** `claude/confident-ritchie-8rwh7t`（主角與五位女主角模型、臉、髮型、服裝、走／跑／坐／上下樓梯的動畫品質與腳步貼合 footIK、人物模型載入）；**建築組** `claude/friendly-brahmagupta-6bbkzc`（霖澤館／萬才館 Blender 模型、穿堂、樓梯、電梯、教室、多樓層導航、校園／公館／溫州街、場景材質與光影、碰撞、場景整合與回歸測試）。兩邊用 `send_message` 直接聯絡；改共用檔案（`src/character3d.js`、`src/assets3d.js`、`tests/playlib.py`）前先通知對方；整合前兩邊互相 merge 並跑測試；不 force push、不自己合併到 `main`。**2026-10-10 使用者要求正式發布**：PR #1 合併到 `main`（`0ef3a73`），GitHub Pages 已部署 v9.3（D32）；之後的修改照樣先在開發分支驗證，使用者要求發布時才合併到 `main`。
+> **2026-10-10 09:55 更新：建築組工作階段結束（使用者指示），之後只有 `claude/confident-ritchie-8rwh7t` 一個工作階段，人物與建築都由它負責；建築組的交接清單在 v9.4 一節的「建築組交接」。** 原本的分工（留作紀錄）：**人物組** `claude/confident-ritchie-8rwh7t`（主角與五位女主角模型、臉、髮型、服裝、走／跑／坐／上下樓梯的動畫品質與腳步貼合 footIK、人物模型載入）；**建築組** `claude/friendly-brahmagupta-6bbkzc`（霖澤館／萬才館 Blender 模型、穿堂、樓梯、電梯、教室、多樓層導航、校園／公館／溫州街、場景材質與光影、碰撞、場景整合與回歸測試）。兩邊用 `send_message` 直接聯絡；改共用檔案（`src/character3d.js`、`src/assets3d.js`、`tests/playlib.py`）前先通知對方；整合前兩邊互相 merge 並跑測試；不 force push、不自己合併到 `main`。**2026-10-10 使用者要求正式發布**：PR #1 合併到 `main`（`0ef3a73`），GitHub Pages 已部署 v9.3（D32）；之後的修改照樣先在開發分支驗證，使用者要求發布時才合併到 `main`。
 > 測試制度（2026-10-10 永久規範，D34）：`docs/TESTING.md`。
 > 截圖：`docs/art-rebuild/screenshots/`（全部是實際執行遊戲或模型檢視頁的渲染結果；檔名規則見最後一節）。
 
@@ -31,6 +31,26 @@
 
 **commit**：`76cfe72`（分層導航、霖澤館室內、穿堂、階梯教室）、`b22adec`（永久美術規範 D38）、`7dcd8a9`（教室 Blender 模型）、`3430f73`（霖澤館外觀 Blender 模型）、`c4a987d`／`5821f9a`（測試修正）、`17a28b7`（腳步貼合）。
 **未解決／接下來**：瀏覽器真實流程 `flow_linze_floors`、遊戲內截圖（三個時段）與新舊比較、Blender 渲染圖、VISUAL_REVIEW；第二階段：萬才館（弧形大樓梯可以走）、總圖、其他樓層。
+
+#### 建築組交接（2026-10-10 09:55，使用者：建築組工作階段結束，之後只有人物組那個工作階段（`claude/confident-ritchie-8rwh7t`）繼續，人物和建築都由它負責）
+
+建築組最後的 commit：`8af3aeb`（點樓梯修正＋測試＋比較圖），合併人物組 `279bb9b` 之後是 `c0dfde1`（分支 `claude/friendly-brahmagupta-6bbkzc`，已 push）。接手時先把這個分支 merge 進 `claude/confident-ritchie-8rwh7t`。
+
+**已完成、已驗證**
+- 遊戲 bug（FIXED）：Blender 室內載入後點樓梯踏面走不上樓梯——`src/building3d.js` 的 `attachFormal` 把點地面用的透明地板搬出備用模型群組。修正前 `flow_linze_floors` 到樓梯下面之後點地面 71 次只有 1 次落在樓梯上；修正後點 4 次樓梯踏面走上二樓（Playwright 手機模擬，不是真機）。
+- `flow_linze_floors` 修正後跑到：廣場 → 穿堂 → 後面小廣場 → 大廳門口 → 進大廳 → 樓梯下 → **自己走上二樓** → 201 教室門口，全部 PASS。
+- Node：`nav_levels_unit`、`nav_buildings_unit`、`stairs_feet_unit`（合併人物組的祐廷新模型之後）ALL PASS。
+- 畫面驗收：VISUAL_REVIEW 第 17 節（外觀 4 視角 × 3 時段新舊比較、室內備用｜Blender、腳步貼合開關、GLB 規格、未達標處）。
+
+**還沒做完（接手的人照順序做）**
+1. **重跑 `PLAYLIB_TAPLOG=1 python3 tests/flow_linze_floors.py http://127.0.0.1:8765/index.html`**：上一次在「進入 201」失敗——沒課的日子（星期六）進 201 有一句旁白（`story3d.js` 148 行），舊的 `press()` 不點對話。`press()` 已改成像玩家一樣點對話（`8af3aeb`），**還沒重跑驗證**。之後的步驟（坐下、起身、離開教室、二樓存讀檔、電梯、走出霖澤館、NPC 上下樓）在瀏覽器裡**都還沒跑過**。跑完把結果寫進 TESTING 第七節（「修好之後」欄）、VISUAL_REVIEW 17.5 的狀態（通過才能把外觀／室內／教室標 FUNCTIONAL_VERIFIED → READY_FOR_ART_REVIEW）。
+2. **後台階走到一半停住**（瀏覽器才有，Node 模擬不會）：從霖澤館後面的小廣場 (34,-125.39) 點大廳門口 (28.34,-107.6)，人物走到 (33.24,-123.03)（後台階、高度約 0.2 m）就原地停住，再點一次也不動，推一次搖桿才繼續。`E.simWalk` 同一條路在 dt＝1/30、0.1、0.25 都走得到。還沒查出原因；查法：讀檔到那個位置、鏡頭 yaw≈2.75，點門口後每 0.5 秒記 `P.path`、`P.pose`、`P.busy`、`P.blockedAt`、`E.canStand`（`stepEntity` 只看導航格，不看 NPC）。
+3. 201 教室的**舊版截圖**（`tools/dev_scratch/linze_interior_shots.py` 已改成舊版沒有 linze 區域時跳過；對線上版副本跑一次）→ VISUAL_REVIEW 17.2 補教室的新舊比較。
+4. 夜間大廳玻璃改暖色（`zones3d.js` 的 `ext_glass_lobby`）之後**還沒重拍** 20:30。
+5. Blender 渲染圖（`/opt/blenv/bin/python tools/blender/linze_exterior.py --render <資料夾>` 等三個腳本；headless EEVEE 在沙盒能不能跑還沒驗證）。
+6. 第二階段：萬才館（弧形大樓梯可以走、室內樓層）、總圖、Meshopt／KTX2 壓縮。
+
+**測試工具的變更（`tests/playlib.py`，共用）**：`tap_ground(..., verify=True)` 先用 `E.screenToFloor` 驗證落點（3D 位置）才點，回傳 dict 或 None；新增 `tap_path`（沿 `E.pathTo` 的路線點最遠、看得到、點下去真的落在那裡的點）；`go_to` 在目標位於鏡頭背後而且超過 4 m 時先滑動畫面轉鏡頭；環境變數 `PLAYLIB_TAPLOG=1` 印出每次點地面。
 
 ### 這次完成（v9.3 第二十五批：線上實玩回報的兩個 bug＋全遊戲真實玩家測試制度，`0ef3a73` 之後）
 
