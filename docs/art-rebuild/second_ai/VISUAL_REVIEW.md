@@ -286,7 +286,7 @@ Playwright 手機模擬（不是 iPhone 實機）；和溫州街同一批跑（l
 
 | 測試 | 測什麼 | 結果 |
 |---|---|---|
-| `tests/cvs_glb_integration.py`（新增） | 一般網址與 `?nobldg`：正式模型接上、程序化備用模型藏起來；會淡出的牆有四面；鏡頭在前牆外時前牆淡出、後牆不淡出（含故意把前牆方向弄反、檢查必須失敗的自我檢查）；**導航格和 `?nobldg` 完全相同**；貨架、雙面貨架、櫃檯、飲料櫃擋住，出生點、結帳、走道走得到；結帳 (3.2,−0.6)、離開 (0,4.2) 不變；走道分類牌 8 面有 canvas 字；LED 燈條、飲料櫃背光、商品的頂點色自發光；自動門外的窗景和窗戶同一個材質（跟著時段換） | 38 項 ALL PASS |
+| `tests/cvs_glb_integration.py`（新增） | 一般網址與 `?nobldg`：正式模型接上、程序化備用模型藏起來；會淡出的牆有四面；鏡頭在前牆外時前牆淡出、後牆不淡出（含故意把前牆方向弄反、檢查必須失敗的自我檢查）；**導航格和 `?nobldg` 完全相同**；貨架、雙面貨架、櫃檯、飲料櫃擋住，出生點、結帳、走道走得到；結帳 (3.2,−0.6)、離開 (0,4.2) 不變；走道分類牌 8 面有 canvas 字；LED 燈條、飲料櫃背光、商品的頂點色自發光；自動門外的窗景和窗戶同一個材質（跟著時段換）；**自動門玻璃保持透明**（2026-10-10 19:00Z 補的檢查，見 4.7） | 38 項 ALL PASS（`e2ae4d6`）→ 加上玻璃檢查 39 項：**沒修的版本 FAIL、修好的版本 ALL PASS** |
 | `tests/reachability_all.py --zones wenzhou,cafe,cvs` | 結帳、離開走得到（引擎真正的移動模擬） | ALL PASS |
 | `tests/zone_transitions.py`、`tests/p0_movement.py` | 進出便利商店、公館便利商店門口的搖桿移動 | ALL PASS |
 
@@ -295,7 +295,7 @@ Playwright 手機模擬（不是 iPhone 實機）；和溫州街同一批跑（l
 
 ### 3.5 遊戲內截圖（修改前｜修改後）
 
-（清單 `tools/blender/env_second/shots/cvs_{before,after}.json`。）
+（清單 `tools/blender/env_second/shots/cvs_{before,after}.json`。）**修改後的 6 張在玻璃修正之後重拍**（4.7：`e2ae4d6` 的自動門玻璃在鏡頭進到店裡時會變成不透明的灰板；`e2ae4d6` 交付時的進門截圖鏡頭在門外、剛好淡出，所以當時沒看出來）。
 
 | 鏡頭 | 修改前（程序化套件） | 修改後（Blender 正式模型） |
 |---|---|---|
@@ -320,3 +320,102 @@ Cycles、三盞點光代替遊戲的燈（遊戲裡是自發光的燈條＋天�
 2. **沒有店員**（櫃檯後面空的）；收銀機螢幕沒有畫面。
 3. **店內的光是「自發光＋一盞點光」**，沒有貨架的陰影、地板沒有燈條的反光。
 4. 沒有 ATM、影印機、座位區（套件原本也沒有；要加就會改導航，這次不動）。
+
+---
+
+## 4. 阿鳳麵店、舊路書房、宿舍房間（`noodle`、`bookstore`、`dorm` 室內）
+
+### 4.1 玩家會看到什麼不同
+
+| | 修改前（程序化） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 麵店 | 方盒房間、灰色方塊煮麵台＋一個圓柱鍋、程序化桌椅、牆上一塊價目字 | 牆的下半白色小方磚＋紅色收邊、上半奶油色；磨石子地板；不鏽鋼煮麵台（櫃門、煮麵爐＋三支麵杓、湯鍋、滷味玻璃櫃與小菜、碗堆、調味罐）；白色美耐板桌＋紅色鐵椅（座面高度照原本）、每桌辣椒罐／醬油／醋／筷筒／面紙盒、桌上的乾麵與餛飩湯；價目板（白底深咖啡字）、一排紅紙菜單（直式黑字：陽春麵、餛飩麵、炸醬麵…）、牆上的電扇、角落的電視、日光燈管；店面玻璃窗與門 |
+| 書店 | 方盒房間、書架是方塊＋書的貼圖（右牆和右邊那排的書朝錯邊） | 深色木書架塞滿書（書背顏色、高矮、厚薄都不同，偶爾一疊平放、一個空隙；頂點色，一次 draw call），兩側牆的書都朝店內、中間兩排是雙面；木地板、灰泥牆、木梁天花板、暖色燈罩吊燈；櫃台桌（一疊疊書、舊收銀機、黃銅檯燈、牛皮紙袋）；手寫牌「二手書・法律・人文」、門邊的老海報；店面玻璃窗與門 |
+| 宿舍（玩家每天起床的地方） | 礦纖天花板的方盒房間、木色方塊床、方塊書桌＋程序化椅子、書櫃是一片書的貼圖、牆上兩扇假窗 | 米白粉光牆＋深灰踢腳板、米色磨石子地板、兩組雙管日光燈（格柵）、偵煙器；**分離式冷氣**（冷媒管蓋板）、**鋁框推拉窗＋紗窗＋石材窗台＋收起來的波浪窗簾**（窗外是遊戲原本的窗景，跟著時段換）、木門（門板凸框、壓把、門下通風百葉、門檔）、電燈開關；木床（床柱、床頭板、床尾板）＋圓角床墊、藍色被子（床尾摺一段）、枕頭、床下收納箱；**書架**（兩片直隔板、五層層板，塞滿高矮厚薄不同的書、紅色六法、藍白講義夾、盆栽、相框、紙箱）；**我的書桌**（三抽屜櫃、筆電開著、檯燈、一疊書、攤開的筆記本、馬克杯、筆筒、手機）；**室友的書桌**（兩台螢幕、鍵盤、滑鼠、掛著的耳機、零食、飲料）；兩張辦公椅（五爪腳、氣壓桿、網背、扶手；座面高度和原本一樣）；門邊的掛勾（毛巾、帆布袋）。牆上的月曆、床頭的「法律服務社」傳單是遊戲原本的內容，照舊掛著 |
+
+**沒有改的東西**：導航格（家具的阻擋照套件）、麵店的 6 個座位與「坐下吃麵」、書店的「看看法律書與文具」、宿舍的「坐在書桌前」「睡覺」、三間的出口與出生點；沒有加新的障礙物（宿舍沒有加衣櫃：走得到的地方不放家具，掛在牆上的不佔地）。
+
+### 4.2 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 阿鳳麵店（`bldg.noodle_interior`） | 完成 | （見 4.4） | `READY_FOR_ART_REVIEW` |
+| 舊路書房（`bldg.bookstore_interior`） | 完成 | （見 4.4） | `READY_FOR_ART_REVIEW` |
+| 宿舍房間（`bldg.dorm_interior`） | 完成 | （見 4.4） | `READY_FOR_ART_REVIEW` |
+
+### 4.3 GLB 規格
+
+| 檔案 | 大小 | 三角形 | 網格／draw call | 材質 | 貼圖 |
+|---|---|---|---|---|---|
+| `assets/models/env/second_ai/noodle_interior.glb` | 0.42 MB | 6,008 | 47 個網格、約 47 次 draw call | 24 | 5 張 WebP 共 127 KB |
+| `assets/models/env/second_ai/bookstore_interior.glb` | 1.33 MB | 17,992 | 21 個網格、約 21 次 draw call（所有書一個網格） | 15 | 5 張 WebP 共 29 KB |
+| `assets/models/env/second_ai/dorm_interior.glb` | 0.65 MB | 8,144 | 38 個網格、約 38 次 draw call（書與雜物一個網格，顏色在頂點色） | 28 | 8 張 WebP 共 155 KB |
+
+### 4.4 測試結果
+
+Playwright 手機模擬（不是 iPhone 實機）。log 在 `docs/art-rebuild/second_ai/test_logs/interiors/`。跑法：`bash tools/blender/env_second/run_interiors_acceptance.sh <log 資料夾> all <網址> noodle,bookstore,dorm`。
+**下面的結果都是玻璃修正（4.7）之後重跑的**（修正前也全部跑過一次，結果相同、整合測試當時 98 項；修正前的 log 在 `test_logs/interiors/before_glass_fix/`，整合測試那一份被修正後的結果蓋掉了）。
+
+| 測試 | 測什麼 | 結果 |
+|---|---|---|
+| `tests/interior_glb_integration.py`（新增） | 三間各比較一般網址與 `?nobldg`：正式模型接上、程序化備用模型藏起來；會淡出的牆有四面；鏡頭在前牆外時前牆淡出、後牆不淡出（含故意弄反方向、檢查必須失敗的自我檢查）；**導航格和 `?nobldg` 完全相同**；家具擋住、走道走得到；互動點（名稱、位置）與麵店的 6 個座位不變；牌子都有 canvas 字；店面自動門外的窗景和窗戶同一個材質；**宿舍的月曆、社團傳單在正式模型載入後還看得到、貼在牆前**；**玻璃、紗窗保持透明**（見 4.7） | 101 項 ALL PASS（加上玻璃檢查之後重跑） |
+| `tests/reachability_all.py --zones noodle,bookstore,dorm` | 坐下吃麵、看書、坐在書桌前、睡覺、離開，都走得到（引擎真正的移動模擬） | ALL PASS |
+| `tests/zone_transitions.py` | 全部區域的進出 | ALL PASS |
+| `tests/movement_regression.py A`（宿舍：搖桿前進、轉向、走／跑、撞牆、沿牆滑、離開牆） | **改之前**（交接文件要求）在沒改過的版本跑兩次：6/7（A4 失敗）、6/7（A5 失敗）——同一個房間兩次失敗在不同步驟，是模擬器速度造成的不穩定（人物上一步停在哪裡會影響下一步）；**改之後**：7/7 PASS | 改後 7/7 PASS |
+| `tests/p0_movement.py` | 搖桿移動、各區域出生點 | 34 項 ALL PASS |
+
+
+### 4.5 遊戲內截圖（修改前｜修改後）
+
+實際遊戲畫面（`tools/blender/env_second/shots/fast_shots.py`；清單 `tools/blender/env_second/shots/interiors_{before,after}.json`）。修改前＝`?nobldg`，修改後＝一般網址，同一個鏡頭、同一個時段；演出鏡頭時玩家藏起來。修改後的 13 張是**玻璃修正（4.7）之後重拍**的。
+麵店座位那張的客人是遊戲原本坐在店裡的 NPC（前後兩張都有；截圖工具的「藏 NPC」沒有效果——引擎每一格會把 NPC 設回看得見，所以前後兩張都照實拍進去）。
+
+| 鏡頭 | 修改前（程序化） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 麵店：進門（手機直向）11:00 | ![修改前](shots/interiors_before_noodle_entry_1100.webp) | ![修改後](shots/interiors_after_noodle_entry_1100.webp) |
+| 麵店：進門 17:30 | ![修改前](shots/interiors_before_noodle_entry_1730.webp) | ![修改後](shots/interiors_after_noodle_entry_1730.webp) |
+| 麵店：煮麵台 17:30 | ![修改前](shots/interiors_before_noodle_counter_1730.webp) | ![修改後](shots/interiors_after_noodle_counter_1730.webp) |
+| 麵店：座位 20:30 | ![修改前](shots/interiors_before_noodle_seat_2030.webp) | ![修改後](shots/interiors_after_noodle_seat_2030.webp) |
+| 書店：進門（手機直向）11:00 | ![修改前](shots/interiors_before_bookstore_entry_1100.webp) | ![修改後](shots/interiors_after_bookstore_entry_1100.webp) |
+| 書店：進門 17:30 | ![修改前](shots/interiors_before_bookstore_entry_1730.webp) | ![修改後](shots/interiors_after_bookstore_entry_1730.webp) |
+| 書店：左邊走道 17:30 | ![修改前](shots/interiors_before_bookstore_aisle_1730.webp) | ![修改後](shots/interiors_after_bookstore_aisle_1730.webp) |
+| 書店：櫃台（從門口左邊看）20:30 | ![修改前](shots/interiors_before_bookstore_counter_2030.webp) | ![修改後](shots/interiors_after_bookstore_counter_2030.webp) |
+| 宿舍：進門（手機直向）11:00 | ![修改前](shots/interiors_before_dorm_entry_1100.webp) | ![修改後](shots/interiors_after_dorm_entry_1100.webp) |
+| 宿舍：進門 17:30 | ![修改前](shots/interiors_before_dorm_entry_1730.webp) | ![修改後](shots/interiors_after_dorm_entry_1730.webp) |
+| 宿舍：進門 20:30 | ![修改前](shots/interiors_before_dorm_entry_2030.webp) | ![修改後](shots/interiors_after_dorm_entry_2030.webp) |
+| 宿舍：床與書架 17:30 | ![修改前](shots/interiors_before_dorm_bed_1730.webp) | ![修改後](shots/interiors_after_dorm_bed_1730.webp) |
+| 宿舍：我的書桌 20:30 | ![修改前](shots/interiors_before_dorm_desk_2030.webp) | ![修改後](shots/interiors_after_dorm_desk_2030.webp) |
+
+
+### 4.5.1 Blender 渲染圖（模型本身，不是遊戲畫面）
+
+Cycles、點光代替遊戲的燈（遊戲裡是自發光的日光燈管＋天花板光）；牌子上的字（麵店的紅紙菜單與價目板、書店的手寫牌）在遊戲裡用 canvas 畫，渲染圖裡是空白。宿舍窗外的景在遊戲裡是時段貼圖，渲染圖裡是天空。
+
+| 麵店：煮麵台 | 麵店：座位 |
+|---|---|
+| ![](blender_renders/noodle_counter.webp) | ![](blender_renders/noodle_seat.webp) |
+
+| 書店：左邊走道 | 書店：櫃台（從門口左邊看） |
+|---|---|
+| ![](blender_renders/bookstore_aisle.webp) | ![](blender_renders/bookstore_counter.webp) |
+
+| 宿舍：床與書架 | 宿舍：我的書桌 |
+|---|---|
+| ![](blender_renders/dorm_bed.webp) | ![](blender_renders/dorm_desk.webp) |
+
+### 4.6 還沒達到參考品質的地方
+
+1. **書背、菜單以外沒有字**：書背是色塊（沒有書名）；麵店的紅紙菜單和價目板有字，其他海報是色塊。
+2. **沒有店員、沒有客人**（遊戲原本的 NPC 照舊）；麵店沒有蒸氣、書店沒有灰塵光束。
+3. **店內的光是「自發光＋一盞點光」**，沒有燈罩下的光池。
+4. 麵店的煮麵台是「照套件的位置」放在後牆前；真實的台北麵店常把煮麵台放在店門口（面向街），要改就得改導航，這次不動。
+5. **宿舍是「床在地上」的雙人房**（照原本的配置）；台大宿舍常見的是上床下桌的四人房，要改就得改導航與睡覺的位置，這次不動。沒有衣櫃（原本的配置裡走得到的地方不能放）。
+6. 宿舍的被子、枕頭是圓角方塊＋一點起伏，沒有布料皺褶；書背沒有書名。
+7. 夜間（20:30）的麵店是偏白的日光燈色，比程序化版本的暖黃色冷（台灣麵店常見日光燈，但畫面比較平）；店內沒有局部的暖色光。
+
+### 4.7 驗收時發現並修好的 bug：玻璃變成灰板（也影響第 3 節的便利商店）
+
+- **原本錯在哪**：`src/zones3d.js` 的 `attachRoomGLB`（正式室內模型共用）把名字含 `WALL_` 的網格全部放進 `z.walls`（會淡出的牆）；`room()` 每一格依鏡頭位置把清單裡的牆設成不透明度 1（鏡頭在牆內）或淡出。玻璃（約 0.16–0.18）和宿舍的紗窗也在清單裡，所以**鏡頭在室內時，玻璃變成不透明的灰板**：麵店、書店的店面玻璃，宿舍的窗戶（窗外的景看不到），便利商店的自動門。鏡頭在牆外時剛好淡出，所以 `e2ae4d6` 便利商店的進門截圖沒看出來。Café 室內用自己的函式，不受影響。
+- **改了什麼**：本來就半透明的 `WALL_` 材質（玻璃、紗窗）不放進 `z.walls`，改成窗的零件（`z.winParts`：固定透明，牆淡出時一起藏，和 Café 室內一樣）。`src/zones3d.js` 3 行。
+- **怎麼測**：`tests/interior_glb_integration.py`、`tests/cvs_glb_integration.py` 加「玻璃、紗窗保持透明（不在 `z.walls`、不透明度 < 0.5）」。**在沒修的版本跑會失敗**（宿舍：`WALL_back_glass`、`WALL_back_screen` 不透明度 1、在 `z.walls` 裡，log `test_logs/interiors/interior_glb_integration_unfixed_dorm.log`；便利商店：`WALL_front_glass` 在 `z.walls` 裡），修好之後通過。修改後截圖（這一節、第 3 節）都是修好之後重拍的。
+- **沒有測的**：iPhone 實機。
