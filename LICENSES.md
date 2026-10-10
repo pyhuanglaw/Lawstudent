@@ -34,6 +34,26 @@
 | 校園建築外觀（行政大樓、文學院、校史館、總圖：面磚／紅磚、拱窗、一樓拱廊、石材門廊、四坡屋頂、塔樓） | `src/campuskit3d.js`（`CK.hall`） | 本作自己寫的程式；面磚、石材、屋瓦、玻璃貼圖都是 Canvas 程序繪製。依台大老建築常見的特徵做概略外觀，沒有使用照片、圖面或任何外部模型 |
 | 校園配置 | `src/zones3d.js`（校園） | 地標相對位置參考臺大校總區平面圖（使用者 2026-10-09 提供，官方網址 https://map.ntu.edu.tw ）。**地圖本身沒有放進 repo，也沒有當貼圖或背景使用**；遊戲裡的建築、道路都是程式產生 |
 
+## Poly Haven 貼圖（CC0，2026-10-10 起，D38）
+
+正式 3D 模型（Blender 腳本 `tools/blender/*.py` 產生的 GLB）用的 PBR 貼圖來自 Poly Haven（https://polyhaven.com ，**CC0**，授權說明 https://polyhaven.com/license ），由 `tools/blender/fetch_polyhaven.py` 下載 1k JPG（顏色 diff、法線 nor_gl、粗糙度 rough）到 `tools/blender/textures/<id>/`，匯出 GLB 時縮成 512 px WebP 打包。
+
+| Poly Haven id | 用途 | 用在哪個模型 |
+|---|---|---|
+| `large_floor_tiles_02` | 灰色石材地磚、牆面花崗石板、樓梯踏階 | `assets/models/env/linze_interior.glb`（霖澤館室內） |
+| `painted_plaster_wall` | 白色粉光牆、樓板底面 | 同上 |
+| `ceiling_interior` | 天花板 | 同上 |
+| `fine_grained_wood` | 服務台、門片、踢腳板 | 同上 |
+| `fabric_leather_02` | 大廳皮沙發（染成灰藍） | 同上 |
+
+（`tools/blender/textures/` 裡其他下載過、還沒用到的材質：`granite_tile`、`granite_tile_02`、`granite_wall`、`grey_plaster_02`、`wood_table_001`、`floor_tiles_06`、`concrete_floor_02`，同樣是 Poly Haven CC0；用到時補進上表。）
+
+## 本作自製的 3D 模型（Blender 腳本，2026-10-10 起）
+
+| 模型 | 腳本 | 說明 |
+|---|---|---|
+| 霖澤館室內（一樓大廳、直跑樓梯、二樓迴廊） | `tools/blender/linze_interior.py` → `assets/models/env/linze_interior.glb` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/linze_layout.js`（遊戲化設計，D37）；貼圖見上表（CC0） |
+
 ## 開發工具（不打包進遊戲）
 
 - `.claude/skills/blender-web-3d/`：blender-web-3d-skill（https://github.com/czlonkowski/blender-web-3d-skill ，commit `858762f`），MIT License，Copyright (c) 2026 Romuald Członkowski / AiAdvisors；授權全文在該資料夾的 `LICENSE`。Claude Code 專案 Skill，只在開發時使用；裡面的範例模型 `station.glb` 與檢視器範本不載入遊戲。

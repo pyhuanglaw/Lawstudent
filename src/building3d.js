@@ -75,19 +75,19 @@ const B3=(function(){
     b0.build(lv0); b1.build(lv1); }
 
   // ---- 門、告示、家具（程序化；正式模型也會有，這裡的只在沒有正式模型時顯示）----
-  function buildDoors(L,lv0,lv1){ const D=L.D, Y1=L.floors[1].y; const b0=new TK.Bin(), b1=new TK.Bin();
-    for(const d of L.doors){ const g=d.lv?lv1:lv0, b=d.lv?b1:b0, y=d.lv?Y1:0, z=-D/2+L.wallT/2+0.02, open=!d.closed;
+  function buildDoors(L,lv0,lv1,keep0,keep1){ const D=L.D, Y1=L.floors[1].y; const b0=new TK.Bin(), b1=new TK.Bin();   /* 門框、門片＝備用模型；門牌（中文字）一直顯示（正式模型沒有字）*/
+    for(const d of L.doors){ const g=d.lv?keep1:keep0, b=d.lv?b1:b0, y=d.lv?Y1:0, z=-D/2+L.wallT/2+0.02, open=!d.closed;
       b.add(MAT.frame(),TK.boxG(1.5,2.5,0.1),d.x,y+1.25,z); b.add(open?MAT.woodD():MAT.wood(),TK.boxG(1.3,2.35,0.06),d.x,y+1.18,z+0.05);
-      const sg=new THREE.Mesh(new THREE.PlaneGeometry(1.4,0.35),new THREE.MeshBasicMaterial({map:TK.signTex(d.label,{bg:'#f4f2ec',fg:'#2b2b2b'})})); sg.position.set(d.x,y+2.75,z+0.07); g.add(sg); }
+      const sg=new THREE.Mesh(new THREE.PlaneGeometry(1.4,0.35),new THREE.MeshBasicMaterial({map:TK.signTex(d.label,{bg:'#f4f2ec',fg:'#2b2b2b'})})); sg.position.set(d.x,y+2.85,z+0.16); g.add(sg); }
     b0.build(lv0); b1.build(lv1); }
-  function buildFurniture(L,lv0,lv1,nav0,nav1){ const Y1=L.floors[1].y; const b0=new TK.Bin(), b1=new TK.Bin();
+  function buildFurniture(L,lv0,lv1,nav0,nav1,keep0){ const Y1=L.floors[1].y; const b0=new TK.Bin(), b1=new TK.Bin();
     for(const f of L.furniture){ const b=f.lv?b1:b0, y=f.lv?Y1:0, nav=f.lv?nav1:nav0, ry=f.ry||0;
       if(f.type==='counter'){ b.add(MAT.wood(),TK.boxG(f.w,1.0,f.d),f.x,y+0.5,f.z); b.add(MAT.graniteD(),TK.boxG(f.w+0.1,0.05,f.d+0.1),f.x,y+1.02,f.z); nav.blockRect(f.x,f.z,f.w,f.d,0,0.1); }
       else if(f.type==='sofa'){ const c=Math.cos(ry), s=Math.sin(ry); b.add(MAT.sofa(),TK.boxG(f.w,0.42,f.d),f.x,y+0.21,f.z,ry); b.add(MAT.sofa(),TK.boxG(f.w,0.45,0.18),f.x-s*(f.d/2-0.09),y+0.6,f.z-c*(f.d/2-0.09),ry); nav.blockRect(f.x,f.z,f.w,f.d,ry,0.05); }
       else if(f.type==='planter'){ b.add(MAT.graniteD(),new THREE.CylinderGeometry(f.r,f.r*0.9,0.6,16),f.x,y+0.3,f.z); b.add(MAT.plant(),new THREE.IcosahedronGeometry(f.r*1.25,1),f.x,y+1.15,f.z); nav.blockCircle(f.x,f.z,f.r+0.1); }
       else if(f.type==='bench'){ b.add(MAT.wood(),TK.boxG(f.w,0.06,f.d),f.x,y+0.45,f.z); for(const sx of [-1,1]) b.add(MAT.steel(),TK.boxG(0.06,0.43,f.d*0.9),f.x+sx*(f.w/2-0.12),y+0.215,f.z); nav.blockRect(f.x,f.z,f.w,f.d,0,0.05); }
       else if(f.type==='board'){ const tx=W3.canvasTex('b3board',512,256,(x,w,h)=>{ x.fillStyle='#24303a'; x.fillRect(0,0,w,h); x.fillStyle='#f3efe4'; x.font='bold 34px "Noto Sans TC",sans-serif'; x.fillText('霖澤館 樓層簡介',24,52); x.font='24px "Noto Sans TC",sans-serif'; x.fillText('1F　大廳｜101 教室｜法律學院辦公室',24,104); x.fillText('2F　201 階梯教室｜202 教室（整修中）',24,146); x.fillText('3F–8F　研究室、教室（本學期整修中）',24,188); x.fillStyle='#d6a425'; x.fillText('↑ 樓梯在大廳西側　電梯在中庭',24,232); });
-        const bd=new THREE.Mesh(new THREE.PlaneGeometry(f.w,f.w/2),new THREE.MeshBasicMaterial({map:tx})); bd.position.set(f.x,y+1.65,f.z); g0(lv0,lv1,f.lv).add(bd); b.add(MAT.frame(),TK.boxG(f.w+0.1,f.w/2+0.1,0.04),f.x,y+1.65,f.z-0.03); } }
+        const bd=new THREE.Mesh(new THREE.PlaneGeometry(f.w,f.w/2),new THREE.MeshBasicMaterial({map:tx})); bd.position.set(f.x,y+1.65,f.z+0.01); keep0.add(bd); b.add(MAT.frame(),TK.boxG(f.w+0.1,f.w/2+0.1,0.04),f.x,y+1.65,f.z-0.03); } }
     b0.build(lv0); b1.build(lv1); }
   const g0=(lv0,lv1,k)=>k?lv1:lv0;
 
@@ -138,9 +138,10 @@ const B3=(function(){
     for(const n of [nav0]){ n.blockRect(EL.x0-0.1,(EL.z0+EL.z1)/2,0.2,EL.z1-EL.z0+0.2,0); n.blockRect(EL.x1+0.1,(EL.z0+EL.z1)/2,0.2,EL.z1-EL.z0+0.2,0); n.blockRect((EL.x0+EL.x1)/2,EL.z1+0.1,EL.x1-EL.x0+0.4,0.2,0); }   // 井道玻璃（東、西、南）
     // 畫面（程序化備用）
     const walls=[], walkMeshes=[]; const fb=new THREE.Group(); fb.name='fallback'; const fb0=new THREE.Group(), fb1=new THREE.Group(); fb0.userData.dyn=true; fb1.userData.dyn=true; lv0.add(fb0); lv1.add(fb1);
-    buildFallback(L,fb0,fb1,walls,walkMeshes); buildDoors(L,fb0,fb1); buildFurniture(L,fb0,fb1,nav0,nav1);
+    buildFallback(L,fb0,fb1,walls,walkMeshes); buildDoors(L,fb0,fb1,lv0,lv1); buildFurniture(L,fb0,fb1,nav0,nav1,lv0);
+    for(const o of fb0.children.slice()) if(o.userData&&o.userData.outside){ fb0.remove(o); lv0.add(o); }   /* 窗外的景一直顯示 */
     const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},camMaxY:3.4,cool:true,
-      fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
+      fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
       applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); g.traverse(o=>{ if(o.userData&&o.userData.outside){ const want=outsideTex(o.userData.outside,night); if(o.material.map!==want){ o.material.map=want; o.material.needsUpdate=true; } } }); },
       onLamps(on){} };
     zone.elev=buildElevator(L,g,nav0,nav1,zone);
@@ -156,15 +157,12 @@ const B3=(function(){
     zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.linze_interior']){ ASSETS.loadOne('bldg.linze_interior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachFormal(zone,c.scene.clone(true),fb0,fb1,lv0,lv1,walls,walkMeshes); }).catch(e=>console.warn('霖澤館正式模型載入失敗，用程序化備用模型',e)); }
     return zone; } };
   // 正式模型：節點名稱的約定（tools/blender/linze_interior.py）——L0_*（一樓）、L1_*（二樓）、WALK_L0／WALK_L1（點地面的面，不畫）、WALL_*（會淡出的外牆）
-  function attachFormal(zone,root,fb0,fb1,lv0,lv1,walls,walkMeshes){ const add0=[], add1=[], newWalls=[], newWalk=[];
-    root.traverse(o=>{ if(!o.isMesh) return; o.castShadow=true; o.receiveShadow=true; });
-    for(const ch of root.children.slice()){ const n=ch.name||''; if(/^WALK_L([01])/.test(n)){ ch.traverse(o=>{ if(o.isMesh){ o.material=new THREE.MeshBasicMaterial({visible:false}); o.userData.walkLv=+n.match(/^WALK_L([01])/)[1]; newWalk.push(o); } }); (n.startsWith('WALK_L1')?add1:add0).push(ch); continue; }
-      const lv1Node=/^L1_/.test(n); if(/WALL_/.test(n)){ ch.traverse(o=>{ if(o.isMesh){ o.material=o.material.clone(); o.material.transparent=true; o.userData.dir=new THREE.Vector3().fromArray(ch.userData.dir||[0,0,1]); newWalls.push(o); } }); }
-      (lv1Node?add1:add0).push(ch); }
-    for(const c of add0) lv0.add(c); for(const c of add1) lv1.add(c);
-    fb0.visible=false; fb1.visible=false; walls.length=0; for(const w of newWalls){ w.updateMatrixWorld(true); w.position.setFromMatrixPosition(w.matrixWorld); walls.push(w); }
-    if(newWalk.length){ walkMeshes.length=0; for(const m of newWalk) walkMeshes.push(m); }
-    zone.formal=true; }
+  function attachFormal(zone,root,fb0,fb1,lv0,lv1,walls,walkMeshes){ const r0=root.getObjectByName('L0_root'), r1=root.getObjectByName('L1_root'); if(!r0||!r1) throw new Error('GLB 少了 L0_root／L1_root');
+    root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } });
+    lv0.add(r0); lv1.add(r1); r0.updateMatrixWorld(true); r1.updateMatrixWorld(true);
+    const nw=[]; for(const r of [r0,r1]) r.traverse(o=>{ if(o.isMesh&&/WALL_/.test(o.name)){ o.material=o.material.clone(); o.material.transparent=true; const d=o.userData.dir||[0,0,1]; o.userData.dir=new THREE.Vector3(d[0],d[1],d[2]); o.geometry.computeBoundingBox(); o.userData.center=o.geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(o.matrixWorld); nw.push(o); } });
+    fb0.visible=false; fb1.visible=false; walls.length=0; for(const w of nw) walls.push(w);   /* 點地面用的透明地板照樣用程序化的（同一份配置）*/
+    zone.formal=true; zone.formalInfo={walls:nw.length}; }
   return {linze,stairSurfs,CAMPUS_DOOR};
 })();
 Z3.ZONES.linze=B3.linze;

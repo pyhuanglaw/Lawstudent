@@ -4,3 +4,10 @@ __pycache__/
 node_modules/
 .env
 tools/vroid_src/
+# Poly Haven 原始貼圖（tools/blender/fetch_polyhaven.py 下載）：只追蹤模型實際用到的（見 LICENSES.md）
+tools/blender/textures/*
+!tools/blender/textures/large_floor_tiles_02/
+!tools/blender/textures/painted_plaster_wall/
+!tools/blender/textures/ceiling_interior/
+!tools/blender/textures/fine_grained_wood/
+!tools/blender/textures/fabric_leather_02/
