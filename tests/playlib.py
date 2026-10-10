@@ -85,6 +85,18 @@ async def joystick(pg, cdp, dx, dy, ms):
     await cdp.send('Input.dispatchTouchEvent', {'type': 'touchEnd', 'touchPoints': []})
 
 
+async def push_until(pg, cdp, dx, dy, min_dist, max_pushes=4, ms=1500):
+    """推搖桿直到走了 min_dist 公尺（最多推 max_pushes 次，每次 ms 毫秒）；回傳 (走了幾公尺, 推了幾次, 最後的 state)。
+    SwiftShader 每秒 1–4 格、遊戲每格最多 0.1 秒：同樣推 1.5 秒，走的距離隨幀率變（2026-10-10 發布前測試：人物在空曠廣場上走路，只走了 0.43 m）。
+    卡住的時候推幾次都不會前進，照樣失敗"""
+    s = await state(pg); p0 = (s['x'], s['z']); moved = 0.0
+    for k in range(max_pushes):
+        await joystick(pg, cdp, dx, dy, ms)
+        s = await state(pg); moved = math.hypot(s['x'] - p0[0], s['z'] - p0[1])
+        if moved >= min_dist: return moved, k + 1, s
+    return moved, max_pushes, s
+
+
 async def drag(pg, cdp, x0, y0, x1, y1, steps=10):
     await cdp.send('Input.dispatchTouchEvent', {'type': 'touchStart', 'touchPoints': [{'x': x0, 'y': y0}]})
     for i in range(1, steps + 1):

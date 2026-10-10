@@ -119,8 +119,8 @@ async def main():
         s = await wait_control(pg, cdp, run, max_steps=40)
         after = await pg.evaluate("(()=>{ const G=GAME.G; return {day:G.day, zone:G.zone, hour:+G.hour.toFixed(2), classDone:!!G.flags.classDone, readCase:G.flags.readCase||null}; })()")
         run.check('標題「讀取」欄位 1：天數、地點、上課與讀案例的進度一樣', after['day'] == before['day'] and after['zone'] == before['zone'] and after['classDone'] == before['classDone'] and after['readCase'] == before['readCase'], f'{before} → {after}')
-        p0 = (s['x'], s['z']); await L.joystick(pg, cdp, 0, -40, 1500); s2 = await L.state(pg)
-        run.check('讀檔後搖桿走得動', math.hypot(s2['x'] - p0[0], s2['z'] - p0[1]) > 0.5, json.dumps(s2, ensure_ascii=False))
+        moved, pushes, s2 = await L.push_until(pg, cdp, 0, -40, 0.5)   # 推到走了 0.5 m（最多 4 次）：距離隨幀率變，見 playlib.push_until
+        run.check('讀檔後搖桿走得動', moved > 0.5, json.dumps(s2, ensure_ascii=False) + f' 推了 {pushes} 次、走了 {moved:.2f} m')
         await run.shot(pg, 'after_load')
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
         await b.close()
