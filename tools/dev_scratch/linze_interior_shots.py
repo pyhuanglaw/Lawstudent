@@ -28,9 +28,14 @@ async def main():
         ctx = await b.new_context(viewport={'width': W, 'height': H}, device_scale_factor=1, has_touch=True, is_mobile=True)
         pg = await ctx.new_page(); errs = []
         pg.on('pageerror', lambda e: errs.append(str(e)))
-        await pg.goto(URL); await pg.wait_for_timeout(6000)
+        await pg.goto(URL)
+        for _ in range(360):   # 等開機載入完成（人物模型分批下載，2026-10-10 起可能超過 6 秒；太早讀檔，開機結束時會把 HUD 藏起來）
+            if await pg.evaluate("typeof GAME!=='undefined'&&!!document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide')"): break
+            await pg.wait_for_timeout(500)
+        await pg.wait_for_timeout(1500)
         cur = None
         for zone, name, pos, look, stand in VIEWS:
+            if not await pg.evaluate("(z=>!!Z3.ZONES[z])(%s)" % json.dumps(zone)): print('skip', zone, '（這個版本沒有這個區域）'); continue   # 舊版（線上 v9.3）沒有 linze
             if zone != cur:
                 st = {'day': 8, 'weekday': 6, 'hour': 11.0, 'zone': zone, 'pos': {'x': stand[0], 'z': stand[1], 'yaw': 0, 'lv': stand[2]}, 'weather': 'sunny',
                       'flags': {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True}, 'visited': {'dorm': True, 'campus': True}}
@@ -41,7 +46,7 @@ async def main():
                     ok = await pg.evaluate("(()=>{ const z=GAME.E.zone, k=z.id==='linze'?'bldg.linze_interior':'bldg.classroom_201'; return !ASSETS.manifest[k]||!!z.formal; })()")
                     if ok: break
                     await pg.wait_for_timeout(1000)
-            await pg.evaluate("(([p,l,s])=>{ const E=GAME.E; E.placeAt(E.player,s[0],s[1],s[2]); E.cinematic(new THREE.Vector3(...p),new THREE.Vector3(...l)); E.camera.position.set(...p); E.camera.lookAt(...l); })(%s)" % json.dumps([pos, look, stand]))
+            await pg.evaluate("(([p,l,s])=>{ const E=GAME.E; if(E.placeAt) E.placeAt(E.player,s[0],s[1],s[2]); else E.player.obj.position.set(s[0],0,s[1]); E.cinematic(new THREE.Vector3(...p),new THREE.Vector3(...l)); E.camera.position.set(...p); E.camera.lookAt(...l); })(%s)" % json.dumps([pos, look, stand]))
             await pg.wait_for_timeout(3500)
             formal = await pg.evaluate("!!GAME.E.zone.formal")
             f = os.path.join(OUT, f'{TAG}_{zone}_{name}.png'); await pg.screenshot(path=f); print('shot', f, 'formal' if formal else 'fallback')

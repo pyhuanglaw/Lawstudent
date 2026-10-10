@@ -277,7 +277,7 @@ const Z3 = (function(){
   // 建築外觀的正式模型（Blender GLB，建築自己的座標）接到套件的建築上：套件的外觀藏起來（招牌 keepWithFormal 留著）；導航、走路高度、鏡頭碰撞照舊由套件給。
   // 窗玻璃、大廳玻璃、穿堂嵌燈登記成夜間會亮（材質名稱約定見 tools/blender/linze_exterior.py）
   function attachExterior(b,root){ for(const m of b.children) if(m.isMesh&&!m.userData.keepWithFormal) m.visible=false;
-    const NIGHT={ext_glass_lit:[0xffd9a0,0.75,0],ext_glass_lobby:[0xfff0d8,0.9,0],ext_downlight:[0xfff3dc,1.4,0.25]};
+    const NIGHT={ext_glass_lit:[0xffd9a0,0.75,0],ext_glass_lobby:[0xffdcae,0.8,0],ext_downlight:[0xfff3dc,1.4,0.25]};
     root.traverse(o=>{ if(!o.isMesh) return; o.castShadow=true; o.receiveShadow=true; const mt=o.material, nn=mt&&NIGHT[mt.name]; if(nn&&!mt.userData.nightReg){ mt.userData.nightReg=true; mt.emissive=new THREE.Color(nn[0]); TK.addNight(mt,nn[1],nn[2]); } if(mt&&mt.name==='ext_ceiling') TK.bounce(mt,0.32,0.5); });   /* 穿堂天花板：地面反射上來的光（套件的穿堂天花板也是這樣做）*/
     b.add(root); b.userData.formal=true; }
   // ---- 醉月湖：不規則湖面（反射天空顏色＋細碎波紋＋太陽反光）、石砌湖岸、湖心亭＋木棧道（可以走上去）、湖邊樹叢與蘆葦、長椅、路燈 ----

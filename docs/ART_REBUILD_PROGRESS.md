@@ -2,7 +2,7 @@
 
 > 這份文件是本次「3D 美術重建 v1」的即時工作日誌，**每次 push 都會一起更新**。其他 AI 或開發者可以從這裡接手。
 > 需求原文：`docs/history/specs/20_3D美術重建v1_人物與溫州街.txt`。
-> 開發分支：`claude/confident-ritchie-8rwh7t`（2026-10-10 新的工作階段；由 `claude/friendly-brahmagupta-6bbkzc` 的 `88ce04b` 快轉接續，歷史完全相同，沒有 force push）。舊分支停在 `88ce04b`，之後不再推。**2026-10-10 使用者要求正式發布**：PR #1 合併到 `main`（`0ef3a73`），GitHub Pages 已部署 v9.3（D32）；之後的修改照樣先在開發分支驗證，使用者要求發布時才合併到 `main`。
+> 開發分支（2026-10-10 起兩個平行工作階段，使用者訂的分工）：**人物組** `claude/confident-ritchie-8rwh7t`（主角與五位女主角模型、臉、髮型、服裝、走／跑／坐／上下樓梯的動畫品質與腳步貼合 footIK、人物模型載入）；**建築組** `claude/friendly-brahmagupta-6bbkzc`（霖澤館／萬才館 Blender 模型、穿堂、樓梯、電梯、教室、多樓層導航、校園／公館／溫州街、場景材質與光影、碰撞、場景整合與回歸測試）。兩邊用 `send_message` 直接聯絡；改共用檔案（`src/character3d.js`、`src/assets3d.js`、`tests/playlib.py`）前先通知對方；整合前兩邊互相 merge 並跑測試；不 force push、不自己合併到 `main`。**2026-10-10 使用者要求正式發布**：PR #1 合併到 `main`（`0ef3a73`），GitHub Pages 已部署 v9.3（D32）；之後的修改照樣先在開發分支驗證，使用者要求發布時才合併到 `main`。
 > 測試制度（2026-10-10 永久規範，D34）：`docs/TESTING.md`。
 > 截圖：`docs/art-rebuild/screenshots/`（全部是實際執行遊戲或模型檢視頁的渲染結果；檔名規則見最後一節）。
 

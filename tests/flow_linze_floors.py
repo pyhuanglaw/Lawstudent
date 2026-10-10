@@ -30,12 +30,10 @@ async def press(pg, cdp, run, label, wait_zone=None, timeout=60):
         run.note(f'互動按鈕是「{s["interact"]}」，不是「{label}」'); return False
     await L.tap(pg, cdp, '#interact')
     if wait_zone:
-        t0 = time.time()
-        while time.time() - t0 < timeout:
-            s = await L.state(pg)
-            if s['zone'] == wait_zone and not s['busy']: return True
-            await pg.wait_for_timeout(700)
-        return False
+        # 換場景前可能有一句旁白（例如沒課的日子進 201：「霖澤館。今天沒有民法總則。教室裡只有幾個在自習的人。」），像玩家一樣點對話框往下
+        # （2026-10-10：原本只等換場景、不點對話，停在旁白 60 秒判失敗）
+        s = await L.advance_dialogs(pg, cdp, run, until=lambda q: q['zone'] == wait_zone and not q['busy'] and not q['dlg'], max_steps=int(timeout))
+        return s['zone'] == wait_zone and not s['busy']
     return True
 
 
@@ -87,6 +85,8 @@ async def main():
         run.check('進入 201 階梯教室', await press(pg, cdp, run, '進入 201', 'classroom'))
         await pg.wait_for_timeout(2500); s = await L.state(pg); await run.shot(pg, 'classroom_top')
         run.check('在階梯教室最上面那一排的走道（1.8 m）', s['zone'] == 'classroom' and abs(s['y'] - 1.8) < 0.1, json.dumps(s, ensure_ascii=False))
+        if s['zone'] != 'classroom':   # 後面的步驟都在教室裡，進不去就停（不要讓測試自己當掉）
+            run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False)); await b.close(); sys.exit(run.finish())
         # 5. 坐下、起身
         seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.find(s=>s.row===2&&s.col===5); return {x:s.x,z:s.z,y:s.y}; })()")
         ok = await L.go_to(pg, cdp, run, seat['x'], seat['z'] + 0.6, 0.55, '第 2 排第 5 個座位後面')

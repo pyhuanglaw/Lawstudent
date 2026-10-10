@@ -151,13 +151,19 @@ async def find_it(pg, label):
     return await pg.evaluate("(lb=>{ const it=GAME.E.interactables.find(i=>(i.label||'').startsWith(lb)); return it?{x:it.x,z:it.z,r:it.radius||1.5,label:it.label,lv:it.lv===undefined?null:it.lv,y:it.y===undefined?null:it.y}:null; })(%s)" % json.dumps(label))
 
 
-async def tap_ground(pg, cdp, x, z, lv=None):
+async def tap_ground(pg, cdp, x, z, lv=None, verify=False):
     """把世界座標投影到螢幕，確認那一點是遊戲畫面（不是按鈕），然後用手指點一下（遊戲會用自動找路走過去）。
-    v9.4 多樓層：lv＝那一點在第幾層（投影用那一層地板的高度；點下去遊戲會打到那一層看得到的地板）"""
+    v9.4 多樓層：lv＝那一點在第幾層（投影用那一層地板的高度；點下去遊戲會打到那一層看得到的地板）。
+    verify：先用遊戲自己的 E.screenToFloor 確認點下去會落在那一點附近（水平 1 m、高度 0.35 m 內）才點（像玩家看著畫面點，不會點到別層的地板）。
+    回傳 dict（螢幕座標、點下去會落在哪裡）或 None"""
     pt = await pg.evaluate("""(([x,z,lv])=>{ const E=GAME.E; const y=!E.heightAt?0:((lv===null||lv===undefined)?E.heightAt(x,z,E.player.lv|0):E.heightAt(x,z,lv)); const v=new THREE.Vector3(x,y,z).project(E.camera); if(v.z>1) return null; const sx=(v.x+1)/2*innerWidth, sy=(1-v.y)/2*innerHeight;
-        if(sx<10||sy<10||sx>innerWidth-10||sy>innerHeight-10) return null; const el=document.elementFromPoint(sx,sy); return {sx,sy,ok:!!el&&el.id==='c'}; })(%s)""" % json.dumps([x, z, lv]))
-    if not pt or not pt['ok']: return False
-    await touch_tap(cdp, pt['sx'], pt['sy']); return True
+        if(sx<10||sy<10||sx>innerWidth-10||sy>innerHeight-10) return null; const el=document.elementFromPoint(sx,sy); const h=E.screenToFloor?E.screenToFloor(sx,sy):null;
+        return {sx,sy,y,ok:!!el&&el.id==='c',hit:h?[+h.x.toFixed(2),+h.z.toFixed(2),h.lv|0,+h.y.toFixed(2)]:null}; })(%s)""" % json.dumps([x, z, lv]))
+    if not pt or not pt['ok']: return None
+    if verify:
+        h = pt['hit']   # 落點和目標的 3D 距離（樓梯兩層共用，不比層）
+        if not h or math.hypot(h[0] - x, h[1] - z) > 1.0 or abs(h[3] - pt['y']) > 0.35: return None
+    await touch_tap(cdp, pt['sx'], pt['sy']); return pt
 
 
 async def turn_camera_to(pg, cdp, tx, tz, tries=4):
@@ -194,6 +200,13 @@ async def go_to(pg, cdp, run, tx, tz, near, label, max_s=420, lv=None):
         # 點地面：先點目標；目標太遠或不在畫面上（例如在鏡頭後面）時，點往目標方向 6 m、3 m、1.5 m 的點（像玩家一樣分段走）
         ok = False
         if time.time() - last_prog < 40:
+            # 目標在鏡頭背後（和畫面的「前」夾角超過約 100°）而且還遠：真人會先滑動畫面把鏡頭轉過去，不會對著腳邊一步一步點
+            # （2026-10-10 加：flow_linze_floors 從霖澤館後面的小廣場走回穿堂，鏡頭還朝著剛才走的方向，大廳門口在背後，
+            #   tap_path 每次只點得到腳邊 1–2 m 的點，點了 13 次才到）
+            yaw = s['camYaw']
+            if d > 4 and turns < 3 and (tx - s['x']) * -math.sin(yaw) + (tz - s['z']) * -math.cos(yaw) < -0.17 * d:
+                turns += 1
+                if await turn_camera_to(pg, cdp, tx, tz): s = await state(pg)
             ok = await _tap_toward(pg, cdp, s, tx, tz, d, lv)
             # 目標在鏡頭後面、點不到（例如下課後坐在前排，後門在背後）：真人會先滑動畫面把鏡頭轉過去，看到目標再點
             # （2026-10-10 加：原本直接改推搖桿，朝目標直推會被下一排長桌擋住，flow_class_real 在 cd52bab 推了 69 次沒前進）
@@ -213,10 +226,43 @@ async def go_to(pg, cdp, run, tx, tz, near, label, max_s=420, lv=None):
     run.note(f'走不到「{label}」：最後位置 ({s["x"]},{s["z"]})，目標 ({tx},{tz})；點地面 {taps} 次、轉鏡頭 {turns} 次、搖桿 {joys} 次'); return False
 
 
+PICK_TAP_JS = """(([tx,tz,tlv])=>{ const E=GAME.E, P=E.player, o=P.obj.position, plv=P.lv|0; if(!E.pathTo||!E.screenToFloor) return null;
+  const glv=(tlv===null||tlv===undefined)?plv:tlv; const p=E.pathTo(o.x,o.z,plv,tx,tz,glv); if(!p||!p.length) return {why:'沒有路'};
+  // 路線上每 0.75 m 一個點（含層）：從最遠的往回找第一個「畫面上看得到、點下去遊戲真的會打到那一點」的
+  const pts=[]; let ax=o.x, az=o.z, al=plv;
+  for(const q of p){ const bl=q.length>2?q[2]|0:al, L=Math.hypot(q[0]-ax,q[1]-az), n=Math.max(1,Math.ceil(L/0.75)); for(let i=1;i<=n;i++) pts.push([ax+(q[0]-ax)*i/n, az+(q[1]-az)*i/n, i<n?al:bl]); ax=q[0]; az=q[1]; al=bl; }
+  for(let i=pts.length-1;i>=0;i--){ const [x,z,l]=pts[i]; const y=E.heightAt?E.heightAt(x,z,l):0; const v=new THREE.Vector3(x,y,z).project(E.camera); if(v.z>1) continue;
+    const sx=(v.x+1)/2*innerWidth, sy=(1-v.y)/2*innerHeight; if(sx<10||sy<10||sx>innerWidth-10||sy>innerHeight-10) continue; const el=document.elementFromPoint(sx,sy); if(!el||el.id!=='c') continue;
+    const h=E.screenToFloor(sx,sy); if(!h||Math.hypot(h.x-x,h.z-z)>0.8||Math.abs(h.y-y)>0.35) continue;   /* 比 3D 位置不比層：樓梯兩層共用，第二跑的透明地板標第 1 層 */
+    return {sx,sy,x,z,lv:l,k:i,n:pts.length}; }
+  return {why:'路線上沒有看得到的點',n:pts.length}; })(%s)"""
+
+
+async def tap_path(pg, cdp, tx, tz, lv=None):
+    """像玩家一樣看著畫面點：沿著遊戲找路的路線（E.pathTo），點最遠的、畫面上看得到、而且點下去真的會落在那裡（E.screenToFloor 驗證）的點。
+    真人會點看得到的地板（例如樓梯的踏面），一段一段走過去；這個函式只是用遊戲自己的路線替測試挑「看得到的那一段」，
+    點擊本身是真的觸控事件，移動由遊戲的點地面移動完成（2026-10-10，flow_linze_floors：目標在二樓時，原本只點目標本身，
+    從一樓投影到二樓的點不在畫面上，就改推搖桿直衝，卡在樓梯扶手外面）。回傳點到的點（dict）或 None"""
+    pk = await pg.evaluate(PICK_TAP_JS % json.dumps([tx, tz, lv]))
+    if not pk or 'sx' not in pk: return None
+    await touch_tap(cdp, pk['sx'], pk['sy']); return pk
+
+
 async def _tap_toward(pg, cdp, s, tx, tz, d, lv):
-    """點目標；點不到時點往目標方向 6 m、3 m、1.5 m 的點"""
-    ok = await tap_ground(pg, cdp, tx, tz, lv)
+    """點目標（點下去會落在目標附近才點）；不行就沿著路線點看得到的點（tap_path）；再不行照舊：直接點目標、點往目標方向 6 m、3 m、1.5 m 的點。
+    回傳點了什麼（字串）或 None。環境變數 PLAYLIB_TAPLOG=1 會印出每一次點地面（查「點了好幾次才走到」用）"""
+    how = None
+    pt = await tap_ground(pg, cdp, tx, tz, lv, verify=True)
+    if pt: how = f'目標 落點{pt["hit"]}'
+    if not how:
+        pk = await tap_path(pg, cdp, tx, tz, lv)
+        if pk: how = f'路線上第 {pk["k"]+1}/{pk["n"]} 點 ({pk["x"]:.1f},{pk["z"]:.1f},第{pk["lv"]}層)'
+    if not how:
+        pt = await tap_ground(pg, cdp, tx, tz, lv)
+        if pt: how = f'目標（未驗證）落點{pt["hit"]}'
     for step in (6.0, 3.0, 1.5):
-        if ok or (lv is not None and lv != s.get('lv', 0)): break   # 目標在別層：中途的點不知道在哪一層，只點目標本身（遊戲的找路會走樓梯）
-        f = min(1.0, step / max(d, 0.01)); ok = await tap_ground(pg, cdp, s['x'] + (tx - s['x']) * f, s['z'] + (tz - s['z']) * f)
-    return ok
+        if how or (lv is not None and lv != s.get('lv', 0)): break   # 目標在別層：中途的直線點不知道在哪一層，不點
+        f = min(1.0, step / max(d, 0.01)); pt = await tap_ground(pg, cdp, s['x'] + (tx - s['x']) * f, s['z'] + (tz - s['z']) * f)
+        if pt: how = f'往目標 {step} m 落點{pt["hit"]}'
+    if os.environ.get('PLAYLIB_TAPLOG'): print(f'  [點地面] 在 ({s["x"]},{s["z"]},第{s.get("lv",0)}層) 鏡頭 {s["camYaw"]} → {how or "沒有點得到的地方"}', flush=True)
+    return how
