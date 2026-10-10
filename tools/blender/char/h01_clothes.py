@@ -51,6 +51,8 @@ WSRC = None               # 權重來源：VRoid 原本的上衣網格（祐廷�
 TOP_FIT = 0.0             # 上衣合身度（0＝從胸口直落的寬鬆箱形：沈以安、祐廷；林芷若 0.65：腰部跟著身體收）
 HEM_LOOSE = False         # 下擺不收緊（亞麻上衣；針織衫的羅紋下擺會收）
 HEM_OVER_PANTS = False     # 毛衣下擺蓋過褲頭、落在胯部（祐廷）：身片的箱形往下量到下擺，而且把褲子算進去（不然下擺會切進臀部和褲子）
+TROUSER_TEX = 'twill'      # 褲子布料：'twill'（斜紋西裝褲，沈以安、祐廷、林芷若）／'denim'（牛仔褲：靛藍斜紋、刷色、橘色車縫線，陳語彤）
+BELT_RGB = None            # 皮帶顏色（None＝沒有皮帶）：畫在褲頭帶上，前中心一個方形金屬扣
 
 
 def sstep(a, b, x):
@@ -704,11 +706,28 @@ def linen_texture(S=1024, seed=13):
     return np.concatenate([np.clip(rgb, 0, 1), np.ones((S, S, 1))], -1)
 
 
+def jersey_texture(S=1024, seed=17):
+    """棉 T 恤（陳語彤）：細的平針（直向細條）＋淡淡的棉絮斑駁；v 0.75 以上（領口、袖口、下擺的邊）是細羅紋"""
+    rng = np.random.default_rng(seed)
+    v = (np.arange(S)[::-1] + 0.5)[:, None] / S; u = (np.arange(S) + 0.5)[None, :] / S
+    wale = 0.5 + 0.5 * np.cos(2 * math.pi * u * 360)                      # 平針的直條（整數頻率：u＝0 和 1 接得起來）
+    lum = 0.96 + 0.035 * wale + (_noise(rng, S, S, 5) - 0.5) * 0.03 + (_noise(rng, S, S, 60) - 0.5) * 0.03
+    m = (v > 0.75).astype(float)
+    rib = np.abs(np.cos(math.pi * ((u * 180) % 1.0 - 0.5))) ** 1.2
+    lum = lum * (1 - m) + (0.86 + 0.14 * rib) * m
+    rgb = KNIT_RGB[None, None, :] * lum[:, :, None]
+    return np.concatenate([np.clip(rgb, 0, 1), np.ones((S, S, 1))], -1)
+
+
 def trouser_texture(S=512, seed=11):
     rng = np.random.default_rng(seed)
     v = (np.arange(S)[::-1] + 0.5)[:, None] / S; u = (np.arange(S) + 0.5)[None, :] / S
     lum = 1.0 + (_noise(rng, S, S, 2) - 0.5) * 0.07 + (_noise(rng, S, S, 24) - 0.5) * 0.06
     lum += 0.015 * np.cos(2 * math.pi * (u * S / 3 + v * S / 3))           # 斜紋
+    if TROUSER_TEX == 'denim':     # 牛仔布：明顯的右斜紋＋縱向的紗線粗細不均＋大腿前面、膝蓋刷淡
+        lum += 0.05 * np.cos(2 * math.pi * (u * S / 2.5 - v * S / 2.5)) + (_noise(rng, 1, S, 2)[0][None, :] - 0.5) * 0.06
+        front = np.exp(-((u - 0.75) / 0.09) ** 2)             # 褲管的前面（u 0.75＝前燙痕的位置；u 0.25 是後面）
+        lum += 0.10 * front * np.exp(-((v * 1.12 - 0.70) / 0.12) ** 2) + 0.07 * front * np.exp(-((v * 1.12 - 0.50) / 0.05) ** 2)
     z = v * 1.12
     # 燙痕（前 k=24、後 k=8）：亮線；褶（k=26）：暗線
     for kc, amp, zmax in ((24, 0.10, 0.97), (8, 0.07, 0.97)):
@@ -723,6 +742,16 @@ def trouser_texture(S=512, seed=11):
         lum -= 0.12 * (np.abs(u - kc / 32) < 0.006) * band
         lum += 0.05 * (np.abs(u - kc / 32 - 0.008) < 0.002) * band
     rgb = TROUSER_RGB[None, None, :] * lum[:, :, None]
+    if TROUSER_TEX == 'denim':     # 側縫、褲腳的橘色車縫線
+        st = (np.cos(2 * math.pi * v * 220) > 0.3) & (np.abs(((u + 0.0) % 0.5) - 0.0) < 0.004)
+        rgb = np.where(st[:, :, None], np.array([0.72, 0.52, 0.26])[None, None, :], rgb)
+    if BELT_RGB is not None:       # 皮帶：蓋住褲頭帶（PANTS_BAND～PANTS_TOP）、前中心（u≈0.955，鈕扣的位置）一個方形金屬扣
+        zz = v * 1.12; belt = (zz > PANTS_BAND + 0.002) & (zz < PANTS_TOP - 0.002)
+        bl = BELT_RGB[None, None, :] * (0.92 + 0.08 * _noise(rng, S, S, 4)[:, :, None])
+        rgb = np.where(belt[:, :, None], bl, rgb)
+        bk = belt & (np.abs(u - 0.955) < 0.022)
+        ring = bk & ((np.abs(u - 0.955) > 0.014) | (np.abs(zz - (PANTS_BAND + PANTS_TOP) / 2) > (PANTS_TOP - PANTS_BAND) * 0.28))
+        rgb = np.where(ring[:, :, None], np.array([0.62, 0.58, 0.52])[None, None, :], rgb)
     # 鈕扣（右上角）
     bu, bv_ = 0.955, 0.955; d = np.sqrt((u - bu) ** 2 + (v - bv_) ** 2)
     btn = (u > 0.92) & (v > 0.92)
@@ -916,7 +945,7 @@ def _apply(m, arm, body):
     top = build_top(skin, arm, mb, pants)
     shoes = build_shoes(skin, arm, mb)
     os.makedirs(WIP, exist_ok=True)
-    img_k = C.image_from_array('H01_Knit', linen_texture() if TOP_TEX == 'linen' else knit_texture(), os.path.join(WIP, 'clothes_Knit.png'))
+    img_k = C.image_from_array('H01_Knit', {'linen': linen_texture, 'jersey': jersey_texture}.get(TOP_TEX, knit_texture)(), os.path.join(WIP, 'clothes_Knit.png'))
     img_t = C.image_from_array('H01_Trouser', trouser_texture(), os.path.join(WIP, 'clothes_Trouser.png'))
     img_l = C.image_from_array('H01_Loafer', loafer_texture(), os.path.join(WIP, 'clothes_Loafer.png'))
     def tmpl(pat):      # 範本材質（女性樣本 F00_002_01_Tops_01_CLOTH、男性樣本 M00_006_01_Tops_01_CLOTH……）
