@@ -71,7 +71,8 @@ INTERIORS = [
     ('dorm_desk', ('2030',), dict(zone='dorm', w=1280, h=720, hidePlayer=True, pos={'x': 0, 'z': 2.4, 'yaw': 3.1416}, cam={'pos': [0.9, 1.45, -0.7], 'look': [1.95, 0.95, -2.95]})),
 ]
 WAIT_ROOM = ("(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if((z&&z.formal)||%s) return z&&z.formal?'formal':'fallback'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()")
-WAIT_EXT = ("(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; const ok=z&&z.group.children.some(o=>o.userData&&o.userData.formal); "
+# Café 外觀：等 Café 那一棟（套件 14×13、x＝55.4）接上正式模型——不是「任何一個物件有 formal」（溫州街公寓接上時也會標 formal）
+WAIT_EXT = ("(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; const c=z&&z.group.children.find(o=>{ const f=o.userData&&o.userData.footprint; return f&&f.w===14&&f.d===13&&Math.abs(o.position.x-55.4)<0.05; }); const ok=!!(c&&c.userData.formal); "
             "if(ok||%s) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()")
 WAIT_INT = ("(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if((z&&z.formal)||%s) break; await new Promise(r=>setTimeout(r,250)); } "
             "%s return GAME.E.zone.formal?'formal':'fallback'; })()")

@@ -3,7 +3,7 @@
   bldg.wz_park＝小公園（地面、鋪面、路緣、樹圍座椅、單槓、名牌）、bldg.wz_scooter＝機車兩款（InstancedMesh，擺在套件機車的位置、顏色照套件）。
 
 檢查正式模型接進遊戲之後，「畫面以外的東西」都沒變、或照設計變了：
-  1. 14 棟套件公寓（A1–A5、B1–B7、Café 南北兩側 C1、C2）都接上正式模型、套件外觀全部藏起來；其他建築（遠景、巷底）不受影響。
+  1. 29 棟套件公寓（主巷 A1–A5、B1–B7、Café 南北兩側 C1、C2、巷底 W0、遠景 F1–F4、S1–S4、N1–N4、W1、W2）都接上正式模型、套件外觀全部藏起來；沒有標記的建築不受影響。
   2. 導航格、鏡頭碰撞方塊、互動點（看櫥窗、回公館、進 Café…）和 ?nobldg（程序化套件）完全相同。
   3. 招牌、直立招牌、店內景深卡都有 canvas 貼圖；招牌的貼圖比例和板面相同（字不會被拉寬；
      自我檢查：套件原本的 512×128 招牌貼圖用同一個檢查必須失敗）。
@@ -72,7 +72,7 @@ async def check(pg, run, formal):
         run.check('?nobldg：套件公寓照舊參加靜態合併（不是 dyn、沒有接正式模型）', all(not v['dyn'] and not v['formal'] for v in per.values()), json.dumps(per))
         merged = await pg.evaluate("GAME.E.zone.group.children.filter(o=>o.isMesh&&o.userData&&o.userData.merged&&o.visible).length")
         run.check('?nobldg：整區有合併過的網格（套件外觀在裡面）', merged > 0, json.dumps(merged))
-    run.check('其他建築（遠景、巷底）沒有被藏起來', info['others'] > 0 and info['othersHidden'] == 0, json.dumps([info['others'], info['othersHidden']]))
+    run.check('沒有標記的建築沒有被藏起來（2026-10-10 起溫州街的公寓連遠景都換成正式模型，沒有標記的只剩少數；有的話不能被藏）', info['othersHidden'] == 0, json.dumps([info['others'], info['othersHidden']]))
     if formal:
         # 招牌（橫、直立）合成一張 atlas（wz_signs_atlas）：每一格＝一面招牌的 canvas，比例看 atlas 裡那一格；店內景深卡還是各自的網格
         faces = await pg.evaluate("""(()=>{ const root=GAME.E.zone.group.children.find(o=>o.name==='wenzhou_street_glb'); const out={}; const box=new THREE.Box3(), s=new THREE.Vector3();
