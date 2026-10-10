@@ -5,7 +5,7 @@ const E3 = (function(){
   const UP=new THREE.Vector3(0,1,0); const tmpV=new THREE.Vector3(), tmpV2=new THREE.Vector3(), tmpV3=new THREE.Vector3();
   // ---------- 導航格 ----------
   // 多樓層（v9.4 第一批，D36：使用者 2026-10-10 撤銷 D26「沒有地形高度」）：每一層一張導航格（同一個區域的各層格子大小、原點相同），
-  // 每格有地板高度——y0＝這一層的基本高度；surf＝高度區塊（平台 {y}、斜坡／樓梯 {axis,ya,yb} 沿 x 或 z 線性、或 {fn(x,z)} 任意形狀），後加的蓋過先加的。
+  // 每格有地板高度——y0＝這一層的基本高度；surf＝高度區塊（平台 {y}、斜坡／樓梯 {axis,ya,yb} 沿 x 或 z 線性、或 {fn(x,z)} 任意形狀＋可選的 vfn(x,z)＝畫面上的高度），後加的蓋過先加的。
   // 樓梯是「兩層都走得到、高度一樣」的格子：人物走到樓梯頂（這一層被擋、另一層走得到、高度接得上）就換到另一層；A* 也在這種格子換層。
   // 沒有設定高度的區域（surf＝null、y0＝0）行為和第二十五批完全一樣。
   const HT=0.25;                                   // 人物半徑內允許的高度差：樓梯（每階 15 cm、深 30 cm，坡度 0.5）在 0.32 m 內差 0.16 m；平台邊、樓板邊（落差 ≥ 0.3 m）站不上去
@@ -18,7 +18,7 @@ const E3 = (function(){
     fillBlocked(){ this.b.fill(1); this._cm=null; return this; }
     freeRect(x0,z0,x1,z1){ this._cm=null; const [c0,r0]=this.toCell(x0,z0), [c1,r1]=this.toCell(x1,z1); for(let cz=Math.max(0,r0);cz<=Math.min(this.rows-1,r1);cz++) for(let cx=Math.max(0,c0);cx<=Math.min(this.cols-1,c1);cx++){ const [wx,wz]=this.toWorld(cx,cz); if(wx>=x0-1e-6&&wx<=x1+1e-6&&wz>=z0-1e-6&&wz<=z1+1e-6) this.b[this.idx(cx,cz)]=0; } return this; }   /* 邊界剛好在格子中心時也算（浮點誤差：-3.4 會變成 -3.3999999）*/
     // 畫面上的高度（v9.4）：樓梯的斜面（有 tread／rise／low）一階一階算（人物一階一階踩上去，不是滑上斜坡）；碰撞與找路照樣用連續的斜面
-    visualHeightAt(x,z){ const S=this.surf; if(S){ for(let i=S.length-1;i>=0;i--){ const s=S[i]; if(x<s.x0||x>s.x1||z<s.z0||z>s.z1) continue; if(s.fn){ const v=s.fn(x,z); if(v!=null) return v; continue; } if(s.y!==undefined) return s.y;
+    visualHeightAt(x,z){ const S=this.surf; if(S){ for(let i=S.length-1;i>=0;i--){ const s=S[i]; if(x<s.x0||x>s.x1||z<s.z0||z>s.z1) continue; if(s.fn){ const v=(s.vfn||s.fn)(x,z); if(v!=null) return v; continue; } if(s.y!==undefined) return s.y;   /* vfn：任意形狀的樓梯（萬才館大樓梯）畫面上一階一階的高度；fn 是給碰撞、找路的連續高度 */
           if(s.tread){ const lo=s.low==='z0'?s.z0:s.z1, d=s.axis==='x'?Math.abs(x-(s.low==='x0'?s.x0:s.x1)):Math.abs(z-lo), base=Math.min(s.ya,s.yb), n=Math.max(1,Math.round((Math.max(s.ya,s.yb)-base)/s.rise)); return base+Math.min(n,Math.floor(d/s.tread)+1)*s.rise; }
           const t=s.axis==='x'?(x-s.x0)/(s.x1-s.x0):(z-s.z0)/(s.z1-s.z0); return s.ya+(s.yb-s.ya)*t; } } return this.y0; }
     hArr(){ if(this._h) return this._h; const H=new Float32Array(this.cols*this.rows); for(let cz=0;cz<this.rows;cz++) for(let cx=0;cx<this.cols;cx++){ const [x,z]=this.toWorld(cx,cz); H[cz*this.cols+cx]=this.heightAt(x,z); } this._h=H; return H; }
@@ -45,7 +45,7 @@ const E3 = (function(){
   // 回傳 [x,z,層] 的點列（平滑只在同一層裡做，換層的地方一定留一個點）
   function gridPath(G,x0,z0,l0,x1,z1,l1){ const A=G[l0], B=G[l1]; if(!A||!B) return null; const cols=A.cols, rows=A.rows, N=cols*rows, L=G.length;
     const s=A.toCell(x0,z0); let e=B.toCell(x1,z1); if(B.blocked(e[0],e[1])){ const nf=B.nearestFree(x1,z1,20); if(!nf) return null; e=B.toCell(nf[0],nf[1]); } if(A.blocked(s[0],s[1])){ const nf=A.nearestFree(x0,z0,6); if(nf){ const c=A.toCell(nf[0],nf[1]); s[0]=c[0]; s[1]=c[1]; } }
-    const M=N*L; const g=new Float32Array(M).fill(1e9), f=new Float32Array(M).fill(1e9), from=new Int32Array(M).fill(-1), closed=new Uint8Array(M); const open=[]; const si=l0*N+s[1]*cols+s[0], ei=l1*N+e[1]*cols+e[0]; const HW=1.1;   // HW：啟發函數略加權（路徑最多長 10%，但長距離搜尋快很多；之後還會直線平滑）
+    const M=N*L; const PB=gridPath._b&&gridPath._b.M===M?gridPath._b:(gridPath._b={M,g:new Float32Array(M),f:new Float32Array(M),from:new Int32Array(M),closed:new Uint8Array(M)});   /* 暫存陣列重用（search() 開頭會全部重設）：校園約 22.6 萬格，萬才館陽台加了第 1 層之後每次找路要 45 萬格×13 bytes，每次重新配置會一直觸發 GC */ const g=PB.g, f=PB.f, from=PB.from, closed=PB.closed; const open=[]; const si=l0*N+s[1]*cols+s[0], ei=l1*N+e[1]*cols+e[0]; const HW=1.1;   // HW：啟發函數略加權（路徑最多長 10%，但長距離搜尋快很多；之後還會直線平滑）
     const push=(i)=>{ open.push(i); let k=open.length-1; while(k>0){ const p=(k-1)>>1; if(f[open[p]]<=f[open[k]]) break; [open[p],open[k]]=[open[k],open[p]]; k=p; } };
     const pop=()=>{ const top=open[0]; const last=open.pop(); if(open.length){ open[0]=last; let k=0; for(;;){ let l=2*k+1, r=l+1, m=k; if(l<open.length&&f[open[l]]<f[open[m]]) m=l; if(r<open.length&&f[open[r]]<f[open[m]]) m=r; if(m===k) break; [open[m],open[k]]=[open[k],open[m]]; k=m; } } return top; };
     const Hs=G.map(n=>n.surf?n.hArr():null); const CMs=E.navLegacy?null:G.map(n=>n.clearMask()); const strictOK=(k)=>!CMs||CMs[(k/N)|0][k%N]||k===si||k===ei;   /* 起點、終點本身可以貼邊（玩家站在牆邊、目標在家具旁）*/

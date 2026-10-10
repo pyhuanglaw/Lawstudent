@@ -29,6 +29,41 @@ const Z3 = (function(){
   const AVE_TREE={spread:1.45,dark:0.8};   // 椰林大道兩側樹牆（校園、公館看進校門的背景共用；第二十三批照照片）
   const campusWallMat=()=>TK.M('bgWallM',()=>TK.std({map:TK.tileTex('#b8735a','#9c8676','bgWall'),roughness:0.9}));   // 校園圍牆（紅褐色面磚）：校園、公館共用
   // ---------- 校園主區 ----------
+  /* 萬才館第二階段（D36；使用者需求 21：「萬才館的弧形大樓梯必須能讓玩家走上去」「玩家能從室外地面走上樓梯，到達二樓平台」）：
+     校園加第 1 層導航格（和第 0 層同樣大小、同原點；只有樓梯、樓梯頂端的平台、弧形陽台走得到）。樓梯兩層共用，高度一階一階算（和套件畫出來的台階是同一組外緣
+     ck.wancai.outl：每一階的頂面高 (k+1)×16.5 cm），走到樓梯頂端時引擎換到第 1 層（第 0 層的平台是實心石材、擋住）；陽台下面的一樓入口照舊在第 0 層（地面）。
+     二樓入口（樓梯正上方、平台後面的玻璃門）：萬才館室內現在只有一樓大廳，這一版先用看得懂的告示關著（D38 第 4 條），之後做二樓室內再打開。
+     要在整個校園的導航阻擋都放好之後才呼叫（第 1 層的樓梯格照第 0 層走得到的格子複製）。 */
+  function wancaiStairs(E,g,nav,b,bx,bz,walk){ const W=b.userData.ck.wancai; if(!W) return null;
+    const halfAt=(R,zp)=>{ for(let i=1;i<R.length;i++){ const a=R[i-1], c=R[i]; if(zp<=c[1]+1e-9){ const t=c[1]>a[1]?(zp-a[1])/(c[1]-a[1]):1; return a[0]+(c[0]-a[0])*Math.max(0,Math.min(1,t)); } } return -1; };   /* 外緣（右半邊）在 zp 的半寬 */
+    let hwMax=0; for(const R of W.outl) for(const p of R) hwMax=Math.max(hwMax,p[0]);
+    /* 每一階外緣的半寬先算成表（每 1 cm 一格）：高度函式每一幀、每個人物都會叫好幾次 */
+    const DZ=0.01, NZ=Math.ceil(W.L/DZ)+1, HW=W.outl.map(R=>{ const zf=R[R.length-1][1], a=new Float32Array(NZ); for(let i=0;i<NZ;i++){ const zp=i*DZ; a[i]=zp>zf+1e-9?-1:halfAt(R,zp); } return a; });
+    const kOf=zp=>Math.max(0,Math.min(W.NS-1,W.NS-1-Math.floor(zp/W.TR))), at=zp=>Math.min(NZ-1,Math.round(zp/DZ));
+    const CORE=new Float32Array(NZ), OUT=new Float32Array(NZ); for(let i=0;i<NZ;i++){ const kc=kOf(Math.min(i*DZ,W.L-1e-6)); let o=-1; for(let k=0;k<=kc;k++) o=Math.max(o,HW[k][i]); OUT[i]=o; CORE[i]=Math.min(HW[kc][i],o); }
+    // 畫面上的高度（腳踩的踏面）：那一點最上面的那一階 (k+1)×16.5 cm；外側（最下面幾階往外張開的地方）往下一階找
+    const vfn=(x,z)=>{ const zp=z-bz-W.z0; if(zp<0||zp>=W.L) return null; const dx=Math.abs(x-bx-W.SX), i=at(zp); for(let k=kOf(zp);k>=0;k--){ if(dx<=HW[k][i]) return (k+1)*W.RS; } return null; };
+    // 碰撞、找路用的連續高度（和霖澤館的台階一樣：最上面一階踏面中心 3.63 m 連續斜下到最下面一階的邊緣 0）；兩側往外張開的地方往外漸漸降到地面——
+    // 張開的那幾階每一階只露出 10～30 cm 寬，照一階一階算的話人物半徑裡高低差超過 25 cm、站不住（走到樓梯下面往旁邊走會卡住，nav_buildings_unit 抓到）；高的地方（石牆盡頭旁邊）照樣是走不下去的邊
+    const hsAt=zp=>Math.max(0,Math.min(W.PF,W.PF*(W.L-zp)/(W.L-W.TR/2)));
+    const fn=(x,z)=>{ const zp=z-bz-W.z0; if(zp<0||zp>=W.L) return null; const dx=Math.abs(x-bx-W.SX), i=at(zp), o=OUT[i]; if(dx>o) return null; const c=CORE[i], h=hsAt(zp); return dx<=c?h:h*(o-dx)/Math.max(1e-3,o-c); };
+    const stair={x0:bx+W.SX-hwMax-0.01,x1:bx+W.SX+hwMax+0.01,z0:bz+W.z0,z1:bz+W.z0+W.L,fn,vfn,wancai:true};
+    nav.addSurf(stair);
+    const nav1=new E3.NavGrid(nav.w,nav.h,nav.cell,nav.ox,nav.oz).fillBlocked().setFloor(W.PF); nav1.addSurf(stair);
+    { const [c0,r0]=nav.toCell(stair.x0,stair.z0), [c1,r1]=nav.toCell(stair.x1,stair.z1); for(let cz=r0;cz<=r1;cz++) for(let cx=c0;cx<=c1;cx++){ const i=nav.idx(cx,cz); if(nav.b[i]) continue; const [x,z]=nav.toWorld(cx,cz); if(fn(x,z)!=null) nav1.b[i]=0; } }   // 樓梯（石牆、端塊在第 0 層已經擋住）
+    nav1.freeRect(bx+W.LX0+W.CT+0.02,bz+W.d/2+0.12,bx+W.LX1,bz+W.z0);   // 樓梯頂端的平台（西側是石牆、北側是二樓玻璃）
+    { const [c0,r0]=nav.toCell(bx+W.BX0,bz+W.d/2), [c1,r1]=nav.toCell(bx+W.BX1,bz+W.d/2+W.BB); for(let cz=r0;cz<=r1;cz++) for(let cx=c0;cx<=c1;cx++){ const [x,z]=nav.toWorld(cx,cz), lx=x-bx, lz=z-bz; if(lx<W.BX0||lx>W.BX1-0.3||lz<W.d/2+0.12) continue; if(lz<W.bzf(lx)-W.railIn-0.1) nav1.b[nav.idx(cx,cz)]=0; } }   // 弧形陽台（欄杆內側）
+    nav1._cm=null;
+    // 點地面移動：樓梯（斜面，第 0 層）；平台＋陽台（第 1 層，照陽台的弧形外緣；只有從上面看打得到）
+    { const N=28, P=[], I=[], R0=W.outl[0], zf0=R0[R0.length-1][1];   /* 照樓梯的寬度（兩道石牆之間；最下面幾階往外張開的地方照最下面那一階的外緣），不是一整片長方形：旁邊的地面（陽台下的一樓入口、弧形量體前）點下去不會先打到樓梯的透明斜面、把目的地算錯 */
+      for(let i=0;i<=N;i++){ const sv=i/N, zp=sv*W.L; let hw=W.hw(sv); if(sv>W.SC) hw=Math.max(hw,halfAt(R0,Math.min(zp,zf0))); const y=W.PF*(1-sv)+0.01; P.push(bx+W.SX-hw,y,bz+W.z0+zp, bx+W.SX+hw,y,bz+W.z0+zp); }
+      for(let i=0;i<N;i++){ const a=2*i, b=a+1, c=a+2, d=a+3; I.push(a,c,b, b,c,d); }   /* 正面朝上（從上面點才打得到）*/
+      const geo=new THREE.BufferGeometry(); geo.setAttribute('position',new THREE.Float32BufferAttribute(P,3)); geo.setIndex(I); geo.computeVertexNormals(); geo.computeBoundingSphere();
+      const m=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({visible:false})); m.userData.walkLv=0; m.userData.dyn=true; g.add(m); walk.push(m); }
+    { const sh=new THREE.Shape(); sh.moveTo(W.LX0,-W.d/2); sh.lineTo(W.LX0,-W.z0); sh.lineTo(W.BX0,-W.z0); for(let i=1;i<=24;i++){ const x=W.BX0+(W.BX1-W.BX0)*i/24; sh.lineTo(x,-W.bzf(x)); } sh.lineTo(W.LX0,-W.d/2);
+      const geo=new THREE.ShapeGeometry(sh); geo.rotateX(-Math.PI/2); const m=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({visible:false})); m.position.set(bx,W.PF+0.01,bz); m.userData.walkLv=1; m.userData.dyn=true; g.add(m); walk.push(m); }
+    E.interactables.push({x:bx+W.SX,z:bz+W.d/2+0.8,radius:1.4,lv:1,y:W.PF,label:'萬才館二樓入口',look:'二樓入口的玻璃門關著。門上貼著：「本學期二樓以上整修中，請由陽台下方的一樓入口進出。」'});
+    return nav1; }
   const campus={ id:'campus', name:'台大校園', indoor:false, cityLight:0.25, size:[260,170], viewFar:260, fogNear:100, build(E){   /* 第二十批：邊界外有背景了，視距拉遠（照片裡椰林大道盡頭的總圖看得清楚；從校門口看總圖約 205 m）*/
     treeIdx=0; leafyCount=0; palmIdx=0; const g=new THREE.Group(); const W=260, D=170; /* 導航格必須涵蓋法學院前庭（z 到 -124），否則霖澤館前完全不能走 */ const nav=new E3.NavGrid(W,217,0.5,-W/2,-132); const seats=[]; const lamps=[]; const buildings=[];
     // 地面：草地
@@ -263,12 +298,13 @@ const Z3 = (function(){
     // 燈光光暈
     for(const l of lamps){ const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xffd88a,transparent:true,opacity:0.55,depthWrite:false,blending:THREE.AdditiveBlending})); glow.scale.set(3,3,1); glow.position.set(0,3.9,0.75); l.add(glow); glow.visible=false; E.lampGlows.push(glow); const pool=new THREE.Mesh(new THREE.CircleGeometry(4.2,16),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffd08a,transparent:true,opacity:0.34,depthWrite:false,blending:THREE.AdditiveBlending})); pool.rotation.x=-Math.PI/2; pool.position.set(0,0.03,0.75); l.add(pool); pool.visible=false; E.lampGlows.push(pool); }
     // 出口
-    const exits=[{x:-126,z:0,r:3,to:'gongguan',spawn:{x:-2.5,z:-29,yaw:0},label:'走出校門'},{x:34+linze.userData.ck.lobby.x,z:-112+linze.userData.ck.lobby.z,r:1.5,to:'linze',spawn:Object.assign({},LINZE_LAYOUT.entrance.spawn),label:'進入霖澤館',door:true},{x:93.8,z:-100.6,r:1.6,to:'wancai',spawn:{x:0,z:5,yaw:Math.PI},label:'進入萬才館',door:true},{x:86.4,z:0,r:3.8,to:'library',spawn:{x:0,z:7,yaw:Math.PI},label:'進入總圖書館',door:true},{x:20,z:59.6,r:2.6,to:'dorm',spawn:{x:0,z:2.4,yaw:Math.PI},label:'回宿舍',door:true}];
+    const exits=[{x:-126,z:0,r:3,to:'gongguan',spawn:{x:-2.5,z:-29,yaw:0},label:'走出校門'},{x:34+linze.userData.ck.lobby.x,z:-112+linze.userData.ck.lobby.z,r:1.5,to:'linze',spawn:Object.assign({},LINZE_LAYOUT.entrance.spawn),label:'進入霖澤館',door:true},{x:93.8,z:-100.6,r:1.6,to:'wancai',spawn:{x:0,z:5,yaw:Math.PI},label:'進入萬才館',door:true,lv:0,y:0},{x:86.4,z:0,r:3.8,to:'library',spawn:{x:0,z:7,yaw:Math.PI},label:'進入總圖書館',door:true},{x:20,z:59.6,r:2.6,to:'dorm',spawn:{x:0,z:2.4,yaw:Math.PI},label:'回宿舍',door:true}];
     // 總圖：門在一樓拱廊裡面，互動範圍從門廊前緣涵蓋到門口；霖澤館（第十九批）：入口比地面高、前面是大台階（不能走），互動點在台階下面；萬才館（第二十四批）：互動點在陽台下面的一樓入口（半徑 1.6；出來的出生點離互動點 2.2 m，不會一出來就跳出按鈕）
-    for(const ex of exits){ E.interactables.push({x:ex.x,z:ex.z,radius:ex.r,label:ex.label,exit:ex}); }
+    for(const ex of exits){ E.interactables.push({x:ex.x,z:ex.z,radius:ex.r,label:ex.label,exit:ex,lv:ex.lv,y:ex.y}); }   /* 萬才館一樓入口在陽台正下方：只在地面那一層（站在陽台上不會跳出「進入萬才館」）*/
     // 座位互動
     for(const s of seats){ E.interactables.push({x:s.x,z:s.z,radius:1.6,label:s.label,seat:s}); }
-    const zone={group:g,nav,spawn:{x:34,z:-98,yaw:0},seats,lamps,buildings,exits,walkMeshes:campusWalk,linzeDoor:{x:34+linze.userData.ck.lobby.x,z:-112+linze.userData.ck.lobby.z},
+    const nav1=wancaiStairs(E,g,nav,wancai,88,-112,campusWalk);   // 萬才館大樓梯、平台、陽台（第 1 層）
+    const zone={group:g,nav,levels:nav1?[nav,nav1]:undefined,spawn:{x:34,z:-98,yaw:0},seats,lamps,buildings,exits,walkMeshes:campusWalk,linzeDoor:{x:34+linze.userData.ck.lobby.x,z:-112+linze.userData.ck.lobby.z},
       onLamps(on){ for(const b of buildings) W3.setNight(b,on); CK.setNight(on); },   // 校園套件的窗戶晚上透出暖光
       update(dt,E){ updateLake(lakeU,E); },
     };
