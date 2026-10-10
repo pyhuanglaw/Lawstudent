@@ -200,27 +200,35 @@ M['stain'] = stain_mat()
 
 
 _WIN = {}
-def window_proto(ww, wh, lit):
-    """一扇窗（instancing）：窗內房間（只有看得到的內面）、鋁框＋中間的直框、玻璃、窗台。原點＝窗的下緣中央、牆面（z＝0）。
-    窗簾不在這裡（每扇的寬度、左右不同）"""
-    key = (round(ww, 3), round(wh, 3), lit)
+WIN_W = 2.2   # 窗的原型寬度（巷子裡大多是 2.2 m；比較窄的窗用 x 方向縮放，鋁框粗細差 1 cm 以內，看不出來）
+
+
+def window_proto(wh, part):
+    """一扇窗（instancing）分兩個原型，所有的窗共用：
+      'shell'＝鋁框＋中間的直框、窗台、窗台下的雨痕（亮燈與否都一樣）；'lit'／'dark'＝窗內房間（只有看得到的內面）＋玻璃。
+    原本「每種寬度 × 亮燈與否」各一個原型、每個 5 個材質（整條巷子 20 次 draw call），改成 3＋2＋2 次。
+    原點＝窗的下緣中央、牆面（z＝0）；寬度 WIN_W，實際寬度用實例的 x 縮放。窗簾不在這裡（每扇的寬度、左右不同）"""
+    key = (round(wh, 3), part)
     if key in _WIN: return _WIN[key]
+    ww = WIN_W; lit = part == 'lit'
     x0, x1, y0, y1, fz, t, bk = -ww / 2, ww / 2, 0.0, wh, -0.12, 0.05, -0.9
+    if part == 'shell':
+        al = Mesh('win_alu', M['alu'])
+        al.box(x0, x1, y0, y0 + t, fz - 0.05, fz + 0.03); al.box(x0, x1, y1 - t, y1, fz - 0.05, fz + 0.03)
+        al.box(x0, x0 + t, y0, y1, fz - 0.05, fz + 0.03); al.box(x1 - t, x1, y0, y1, fz - 0.05, fz + 0.03)
+        al.box(-0.03, 0.01, y0 + t, y1 - t, fz - 0.03, fz + 0.02)
+        sl = Mesh('win_sill', M['band']); sl.box(x0 - 0.08, x1 + 0.08, y0 - 0.07, y0, -0.25, 0.07)
+        stn = Mesh('win_stain', M['stain']); stn.quad([(x0 - 0.05, y0 - 1.05, 0.012), (x1 + 0.05, y0 - 1.05, 0.012), (x1 + 0.05, y0 - 0.07, 0.012), (x0 - 0.05, y0 - 0.07, 0.012)])
+        so = stn.finish(None, uv=True); uv01(so)                                              # 窗台下的雨痕（整張貼圖）
+        _WIN[key] = combine([al.finish(None), sl.finish(None), so], 'window_shell'); return _WIN[key]
     rm = Mesh('win_room', M['room_lit'] if lit else M['room_dark'])
     rm.quad([(x0, y0, bk), (x1, y0, bk), (x1, y1, bk), (x0, y1, bk)])                    # 後牆（朝外）
     rm.quad([(x0, y0, fz), (x1, y0, fz), (x1, y0, bk), (x0, y0, bk)])                    # 地板（朝上）
     rm.quad([(x0, y1, bk), (x1, y1, bk), (x1, y1, fz), (x0, y1, fz)])                    # 天花板（朝下）
     rm.quad([(x0, y0, fz), (x0, y0, bk), (x0, y1, bk), (x0, y1, fz)])                    # 左牆（朝 +x）
     rm.quad([(x1, y0, bk), (x1, y0, fz), (x1, y1, fz), (x1, y1, bk)])                    # 右牆（朝 −x）
-    al = Mesh('win_alu', M['alu'])
-    al.box(x0, x1, y0, y0 + t, fz - 0.05, fz + 0.03); al.box(x0, x1, y1 - t, y1, fz - 0.05, fz + 0.03)
-    al.box(x0, x0 + t, y0, y1, fz - 0.05, fz + 0.03); al.box(x1 - t, x1, y0, y1, fz - 0.05, fz + 0.03)
-    al.box(-0.03, 0.01, y0 + t, y1 - t, fz - 0.03, fz + 0.02)
     gl = Mesh('win_glass', M['glass_lit'] if lit else M['win_glass']); gl.quad([(x0 + t, y0 + t, fz - 0.01), (x1 - t, y0 + t, fz - 0.01), (x1 - t, y1 - t, fz - 0.01), (x0 + t, y1 - t, fz - 0.01)])
-    sl = Mesh('win_sill', M['band']); sl.box(x0 - 0.08, x1 + 0.08, y0 - 0.07, y0, -0.25, 0.07)
-    stn = Mesh('win_stain', M['stain']); stn.quad([(x0 - 0.05, y0 - 1.05, 0.012), (x1 + 0.05, y0 - 1.05, 0.012), (x1 + 0.05, y0 - 0.07, 0.012), (x0 - 0.05, y0 - 0.07, 0.012)])
-    so = stn.finish(None, uv=True); uv01(so)                                                  # 窗台下的雨痕（整張貼圖）
-    _WIN[key] = combine([rm.finish(None, uv=False), al.finish(None), gl.finish(None), sl.finish(None), so], f'window_{"lit" if lit else "dark"}_{ww:g}')
+    _WIN[key] = combine([rm.finish(None, uv=False), gl.finish(None)], f'window_{part}')
     return _WIN[key]
 
 
@@ -272,8 +280,17 @@ def face(name, mat, xf, pts, props):
     m = Mesh(name, mat); xf.quad(m, pts); faces.append((m, props))
 
 
-def inst(mesh, tag, xf, x, y, z):
-    wx, _, wz = xf.p(x, 0, z); B.instance(mesh, f'{tag}_{len(_inst)}', wx, y, wz, root, ry=xf.ry); _inst.append(1)
+def bake(mesh, tag, xf, x, y, z):
+    """不用 instancing：放一份自己的網格（之後 merge_by_material 和同材質的零件合成一個）。數量少、三角形少的小東西
+    （曬的衣服三款各一個原型＝三次 draw call）這樣比較省"""
+    wx, _, wz = xf.p(x, 0, z); ob = bpy.data.objects.new(f'{tag}_{len(_inst)}', mesh.copy()); B.scene().collection.objects.link(ob)
+    ob.location = g2b(wx, y, wz); ob.rotation_euler = (0, 0, xf.ry); ob.parent = root; _inst.append(1); return ob
+
+
+def inst(mesh, tag, xf, x, y, z, sx=1.0):
+    wx, _, wz = xf.p(x, 0, z); ob = B.instance(mesh, f'{tag}_{len(_inst)}', wx, y, wz, root, ry=xf.ry); _inst.append(1)
+    if sx != 1.0: ob.scale = (sx, 1.0, 1.0)   # 建築自己的 x（寬度方向）
+    return ob
 
 
 def apartment(spec):
@@ -309,13 +326,14 @@ def apartment(spec):
     # ---- 窗（instancing）＋窗簾；鐵窗／雨遮／冷氣／陽台
     for w in wins:
         x0, x1, y0, y1, cx = w['x'] - ww / 2, w['x'] + ww / 2, w['y0'], w['y1'], w['x']
-        inst(window_proto(ww, wh, w['lit']), f'win_{spec["id"]}', xf, cx, y0, 0.0)
+        inst(window_proto(wh, 'shell'), f'win_{spec["id"]}', xf, cx, y0, 0.0, sx=ww / WIN_W)
+        inst(window_proto(wh, 'lit' if w['lit'] else 'dark'), f'pane_{spec["id"]}', xf, cx, y0, 0.0, sx=ww / WIN_W)
         cm = acc(M['curtain_lit'] if w['lit'] else M['curtain']); cw = ww * rng.uniform(0.3, 0.55)
         if rng.random() < 0.5: xf.quad(cm, [(x1 - cw, y0 + 0.03, -0.29), (x1 - 0.03, y0 + 0.03, -0.29), (x1 - 0.03, y1 - 0.05, -0.29), (x1 - cw, y1 - 0.05, -0.29)])
         else: xf.quad(cm, [(x0 + 0.03, y0 + 0.03, -0.29), (x0 + cw, y0 + 0.03, -0.29), (x0 + cw, y1 - 0.05, -0.29), (x0 + 0.03, y1 - 0.05, -0.29)])
         if w['kind'] == 'grille':
             inst(GRILLE, f'grille_{spec["id"]}', xf, cx, y0 - 0.14, 0.0); inst(HOOD, f'ghood_{spec["id"]}', xf, cx, y0 - 0.14 + 1.77, 0.0)
-            if lrng.random() < 0.28: inst(LAUNDRY[lrng.randrange(3)], f'laundry_{spec["id"]}', xf, cx, y0 - 0.14, 0.0)
+            if lrng.random() < 0.28: bake(LAUNDRY[lrng.randrange(3)], f'laundry_{spec["id"]}', xf, cx, y0 - 0.14, 0.0)
             if rng.random() < 0.6:
                 px_ = cx + rng.uniform(-0.9, 0.9); pz_ = rng.uniform(0.16, 0.28); q = xf.p(px_, 0, pz_)
                 B.instance(POT_FERN[rng.randrange(2)], f'pot_{spec["id"]}_{len(_inst)}', q[0], y0 - 0.11, q[2], root, ry=rng.uniform(0, 2 * math.pi)); _inst.append(1)
@@ -427,6 +445,15 @@ for k, m in _acc.items():
     m.finish(root, uv=(k not in ('cafe_leaf_fern', 'cafe_leaf_broad', 'cafe_leaf_olive', 'cafe_leaf_ivy')), smooth=k in ('cafe_pot_terracotta', 'cafe_bulb'))
 for m, props in faces: uv01(m.finish(root, uv=True, props=props))
 
+# 純色材質改成兩個頂點色材質（第二輪減量，2026-10-10）：門、鋁框、雨遮、屋頂板、鐵件、窗簾…原本每一種一次 draw call（會投影的再加陰影那一輪一次），
+# 整條巷子同一組合成一個網格。顏色放在頂點色；金屬度不同的照漫射補償（lib2.vc_consolidate）。冷氣、水塔這些 instancing 原型裡的零件也合成一個材質。
+VC_MATTE = L.vc_material('wz_vc_matte', rough=0.85)
+VC_METAL = L.vc_metal('wz_vc_metal', rough=0.45, metal=0.35)
+WZ_VC = {**{n: VC_MATTE for n in ('cafe_ac_body', 'cafe_ac_fan', 'cafe_roof_slab', 'cafe_pipe', 'cafe_curtain', 'wz_arcade_ceiling', 'wz_frame_3b2a1e',
+                                   'wz_awning_1f2e45', 'wz_awning_2f4a3a', 'wz_awning_9c2f2a', 'wz_laundry')},
+         **{n: VC_METAL for n in ('cafe_alu', 'cafe_iron_black', 'cafe_brass', 'cafe_grille', 'cafe_tank_steel', 'wz_mailbox', 'wz_frame_cfd6d6',
+                                   'wz_door_2f4a3a', 'wz_door_8a3a2a', 'wz_door_9c2f2a')}}
+L.vc_consolidate(root, WZ_VC)
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
 info = L.export(OUT, gpu_instances=True)
 info.update({'buildings': [s['id'] for s in SPECS]})
