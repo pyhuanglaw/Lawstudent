@@ -233,9 +233,18 @@ const CK=(function(){ 'use strict';
   // 遊戲沒有地形高度：台階、門廊與穿堂地坪、平台都不能走（導航擋住）；入口互動點在台階下面（ck.doorX、ck.doorZ）。
   function graniteTex(hex){ return TK.tex('ckGranite'+hex,256,256,(x,w,h)=>{ x.fillStyle=hex; x.fillRect(0,0,w,h); let s=23; const r=()=>{ s=(s*16807)%2147483647; return s/2147483647; }; for(let i=0;i<3600;i++){ const v=r(); x.fillStyle=v<0.45?'rgba(30,30,32,0.22)':(v<0.8?'rgba(255,255,255,0.22)':'rgba(120,96,86,0.2)'); x.fillRect(r()*w,r()*h,1.6,1.6); } x.fillStyle='rgba(70,70,70,0.4)'; for(const y of [0,128]) x.fillRect(0,y,w,2); for(const xx of [0,128]) x.fillRect(xx,0,2,h); }); }
   function graniteMat(hex){ return TK.M('ckGraniteM'+hex,()=>{ const t=graniteTex(hex); t.wrapS=t.wrapT=THREE.RepeatWrapping; return TK.std({map:t,roughness:0.7}); }); }
-  // 圓角（前緣兩角是弧形）的台階：shape 在 xz 平面往上擠出
-  function roundStepG(wd,dp,h,r){ const sh=new THREE.Shape(); const hw=wd/2; r=Math.min(r,dp*0.95,hw*0.5); sh.moveTo(-hw,0); sh.lineTo(hw,0); sh.lineTo(hw,-dp+r); sh.quadraticCurveTo(hw,-dp,hw-r,-dp); sh.lineTo(-hw+r,-dp); sh.quadraticCurveTo(-hw,-dp,-hw,-dp+r); sh.lineTo(-hw,0);
-    const g=new THREE.ExtrudeGeometry(sh,{depth:h,bevelEnabled:false,curveSegments:6}); g.rotateX(-Math.PI/2); const uv=g.attributes.uv; for(let i=0;i<uv.count;i++) uv.setXY(i,uv.getX(i)/2.4,uv.getY(i)/2.4); return g; }
+  // 萬才館大台階的一階（第二十一批）：平面夾在兩側石牆之間——外緣是 x=±(hw(s)+0.24)（壓在石牆底下），從平台前緣（s=0）到這一階的前緣（s=sk）；
+  // ext>0 的（最下面幾階，前緣在石牆盡頭之後）從 sa0 開始往外張開、圓角，繞過石牆的端塊（照片右下角）。原本每階都是長方形、一路延伸到平台，石牆外側也有一層層的台階。
+  // stepOutline 回傳右半邊的外緣 [x, z]（z 從平台前緣往前量）；導航阻擋也用同一組外緣算
+  function stepOutline(hw,L,sk,ext,sa0){ const R=[], sa=ext>0?Math.min(sk,sa0):sk, N=14;
+    for(let i=0;i<=N;i++){ const s=sa*i/N; R.push([hw(s)+0.24,s*L]); }
+    if(ext>0){ const zf=sk*L, r=Math.min(0.8,(zf-sa*L)*0.6), xo=hw(sk)+ext, x0=R[R.length-1][0], za=sa*L, zb=zf-r;
+      for(let i=1;i<=8;i++){ const t=i/8, e=t*t*(3-2*t); R.push([x0+(xo-x0)*e,za+(zb-za)*t]); }
+      for(let i=1;i<=6;i++){ const a=i/6*Math.PI/2; R.push([xo-r+r*Math.cos(a),zb+r*Math.sin(a)]); } }
+    return R; }
+  // 外緣往上擠出成一階（shape 的 y＝-z）
+  function stepFromOutline(R,h){ const sh=new THREE.Shape(); sh.moveTo(-R[0][0],0); for(const [x,z] of R) sh.lineTo(x,-z); for(let i=R.length-1;i>=0;i--) sh.lineTo(-R[i][0],-R[i][1]);
+    const g=new THREE.ExtrudeGeometry(sh,{depth:h,bevelEnabled:false,curveSegments:2}); g.rotateX(-Math.PI/2); const uv=g.attributes.uv; for(let i=0;i<uv.count;i++) uv.setXY(i,uv.getX(i)/2.4,uv.getY(i)/2.4); return g; }
   // 弧形石牆（萬才館大台階兩側）：pts＝牆中心線 [x,z]、tops＝各點的牆頂高度、th＝厚度；底在 y=0。雙面材質（不用管面的方向）
   function cheekG(pts,th,tops){ const P=[], U=[], n=pts.length, ox=[], oz=[], acc=[0];
     for(let i=0;i<n;i++){ const a=pts[Math.max(0,i-1)], b=pts[Math.min(n-1,i+1)]; const dx=b[0]-a[0], dz=b[1]-a[1], L=Math.hypot(dx,dz)||1; ox.push(-dz/L*th/2); oz.push(dx/L*th/2); if(i) acc.push(acc[i-1]+Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1])); }
@@ -258,7 +267,7 @@ const CK=(function(){ 'use strict';
     const AW=o.annex?10:0, AD=14, AH=gfh+fh+0.6;                          // 萬才館：西側低樓
     const topG=!portal;                                                   // 萬才館頂樓是石材帶（照片）
     const gr=graniteMat(o.wall||'#b0aea8'), grD=graniteMat('#9c9a95'), brick=wallMat(o.brick||'#8a4b3b'), glass=GLASS(), glassD=GLASS_DARK(), glassL=GLASS_LIGHT(), frame=TK.col('#3a3d40',{roughness:0.5}), steel=TK.col('#c9ccd0',{roughness:0.3,metalness:0.5}), roofEq=TK.col('#8f9399',{roughness:0.6});
-    const grDS=TK.M('ckGraniteDS',()=>TK.std({map:graniteTex('#9c9a95'),roughness:0.7,side:THREE.DoubleSide}));
+    const grS=graniteMat('#c4c1b9'), grSDS=TK.M('ckGraniteSDS',()=>TK.std({map:graniteTex('#c4c1b9'),roughness:0.7,side:THREE.DoubleSide}));   // 萬才館大台階、平台、兩側石牆：淺色花崗石（照片：台階約 (190,182,174)、石牆受光面約 (225,223,220)；原本和樓板線同一個中灰色）
     // 穿堂天花板：白天也帶一點自發光（模擬地面反射上來的光；不然在陰影裡是一片土黃色）
     const white=TK.glowMat('ckCeil',TK.tex('ckCeilT',8,8,(c,ww,hh)=>{ c.fillStyle='#f1f0ec'; c.fillRect(0,0,ww,hh); },false),{dayI:0.32,nightI:0.5,mat:{roughness:0.9}});
     const GL=(x,y,z)=>winLit(x,y,z)?glass:glassD;
@@ -338,18 +347,28 @@ const CK=(function(){ 'use strict';
       bin.add(glassL,TK.planeG(EW-0.6,GH-PF),EX,PF+(GH-PF)/2,d/2+0.03,0,{noShadow:true});
       for(let i=0;i<=6;i++){ const x=EX-(EW-0.6)/2+i*(EW-0.6)/6; bin.add(frame,TK.boxG(0.1,GH-PF,0.12),x,PF+(GH-PF)/2,d/2+0.08,0,{noShadow:true}); } bin.add(frame,TK.boxG(EW-0.6,0.12,0.12),EX,PF+2.8,d/2+0.08,0,{noShadow:true});
       bin.add(gr,TK.boxG(EW+0.8,0.8,1.2,2.4),EX,GH+0.4,d/2+0.6); for(const sx of [-1,1]) bin.add(gr,TK.boxG(0.6,GH,1.2,2.4),EX+sx*(EW/2+0.1),GH/2,d/2+0.6);
-      bin.add(grD,TK.boxG(EW+0.8,PF,LD,2.4),EX,PF/2,d/2+LD/2);
+      bin.add(grS,TK.boxG(EW+0.8,PF,LD,2.4),EX,PF/2,d/2+LD/2);
       // 往下張開的弧形大台階（照片 2）：13 階、每階 16 cm、深 34 cm；上面窄（和入口同寬）、越下面張得越快（兩側是弧線），最下面約是上面的兩倍寬
       const NS=13, RS=PF/NS, TR=0.34, L=NS*TR, z0=d/2+LD, w0=EW+0.8, FL=o.flare||6.4, hwAt=(s)=>w0/2+FL/2*Math.pow(s,2.4);
-      for(let k=0;k<NS;k++){ const dk=(NS-k)*TR; bin.add(grD,roundStepG(2*hwAt((NS-k)/NS),dk,(k+1)*RS,1.2),EX,0,z0); }
-      // 兩側弧形石牆（從平台側邊一路順著台階往下，到九成的地方落地；最下面兩階張開到石牆外面）＋牆頂的不鏽鋼扶手
-      const SC=0.9;
-      for(const sx of [-1,1]){ const pts=[[EX+sx*(w0/2+0.21),d/2+0.02]], tops=[PF+0.75]; for(let i=0;i<=14;i++){ const s=SC*i/14; pts.push([EX+sx*(hwAt(s)+0.21),z0+s*L]); tops.push(Math.max(0.45,PF*(1-s)+0.75)); }
-        bin.add(grDS,cheekG(pts,0.42,tops),0,0,0);
-        const rp=pts.map((p,i)=>new THREE.Vector3(p[0],tops[i]+0.32,p[1]));
-        railAlong(bin,steel,rp,(p)=>{ const s=Math.max(0,(p.z-z0)/L); return p.z<z0?PF+0.75:Math.max(0.45,PF*(1-Math.min(s,SC))+0.75); },1.2); }
-      // 導航：平台、台階（分三段，越下面越寬）
-      blocks.push([EX,d/2+LD/2,w0+1.0,LD,0.1]); for(let j=0;j<3;j++){ const s1=(j+1)/3; blocks.push([EX,z0+(j+0.5)*L/3,2*hwAt(s1)+0.8,L/3+0.05,0.15]); } doorZ=z0+L+0.2; doorX=EX;
+      // 兩側弧形石牆（從平台側邊順著台階往下，到 SC 的地方結束）＋牆頂的不鏽鋼扶手；最下面四階（前緣在石牆盡頭之後）繞過牆端往外張開（照片右下角）
+      // 第二十一批（照片比對）：石牆加高加厚（照片裡牆頂約在台階上 0.9 m、厚約 0.5 m）、牆頂是圓的、盡頭是較粗的端塊（和牆頂同高）；扶手是頂管＋兩道橫管
+      const SC=0.72, CT=0.52, CH=0.92, CR=CT/2, cheekTop=(s)=>Math.max(0.62,PF*(1-s)+CH), EXT=[0.8,0.7,0.6,0.6];
+      const outl=[]; for(let k=0;k<NS;k++){ const R=stepOutline(hwAt,L,(NS-k)/NS,EXT[k]||0,SC-0.08); outl.push(R); bin.add(grS,stepFromOutline(R,(k+1)*RS),EX,0,z0); }
+      for(const sx of [-1,1]){ const pts=[[EX+sx*(w0/2+0.26),d/2+0.02]], tops=[PF+CH-CR]; for(let i=0;i<=14;i++){ const s=SC*i/14; pts.push([EX+sx*(hwAt(s)+0.26),z0+s*L]); tops.push(cheekTop(s)-CR); }
+        bin.add(grSDS,cheekG(pts,CT,tops),0,0,0);
+        bin.add(grSDS,new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts.map((p,i)=>new THREE.Vector3(p[0],tops[i],p[1]))),30,CR,8,false),0,0,0);   // 圓的牆頂
+        const n=pts.length, pe=pts[n-1], pp=pts[n-2], ery=Math.atan2(pe[0]-pp[0],pe[1]-pp[1]), ER=CR+0.08, eb=cheekTop(SC)+0.02-ER;   // 端塊：比牆粗一點、頂和牆頂同高（圓頂沿著牆的方向）
+        bin.add(grSDS,TK.boxG(2*ER,eb,0.7,2.4),pe[0],eb/2,pe[1],ery); bin.add(grSDS,new THREE.CylinderGeometry(ER,ER,0.7,10,1,false,Math.PI/2,Math.PI),pe[0],eb,pe[1],ery,{rx:Math.PI/2});   // 半圓柱：先繞 x 轉成沿著牆的方向，圓的一半朝上
+        const base=(p)=>{ const s=Math.max(0,(p.z-z0)/L); return p.z<z0?PF+CH:cheekTop(Math.min(s,SC)); };
+        for(const [hh,post] of [[0.5,true],[0.34,false],[0.17,false]]){ const rp=pts.map((p,i)=>new THREE.Vector3(p[0],tops[i]+CR+hh,p[1])); if(post) railAlong(bin,steel,rp,base,1.2); else bin.add(steel,new THREE.TubeGeometry(new THREE.CatmullRomCurve3(rp),20,0.018,4,false),0,0,0,0,{noShadow:true}); } }
+      // 導航：平台＋台階分 8 段，每段的寬度＝這一段裡台階外緣、石牆外緣、端塊的最大值（原本三段估寬度：石牆旁邊會有最多 2 m 看不見的牆，張開的台階也有一部分沒擋到）
+      blocks.push([EX,d/2+LD/2,w0+1.0,LD,0.1]);
+      for(let j=0,SN=8;j<SN;j++){ const za=j*L/SN, zb=(j+1)*L/SN; let mx=0;
+        for(const R of outl) for(let i=0;i<R.length;i++){ const [x,z]=R[i]; if(z>=za-0.01&&z<=zb+0.01) mx=Math.max(mx,x); else if(i&&Math.min(R[i-1][1],z)<za&&Math.max(R[i-1][1],z)>zb) mx=Math.max(mx,x,R[i-1][0]); }
+        for(let i=0;i<=24;i++){ const s=SC*i/24, z=s*L; if(z>=za-0.3&&z<=zb+0.3) mx=Math.max(mx,hwAt(s)+CT+0.02); }
+        const ze=SC*L; if(ze+0.4>=za&&ze-0.4<=zb) mx=Math.max(mx,hwAt(SC)+0.26+CR+0.1);
+        blocks.push([EX,z0+(za+zb)/2,2*mx+0.06,zb-za+0.04,0.1]); }
+      doorZ=z0+L+0.2; doorX=EX;
       // ---- 西側兩層樓的花崗石低樓：正面大片方格玻璃、頂上石材帶（照片 2）----
       if(AW){ const ax=-w/2-AW/2, az=d/2-1-AD/2, fz=az+AD/2; bin.add(gr,TK.boxG(AW,AH,AD,2.4),ax,AH/2,az); bin.add(grD,TK.boxG(AW+0.3,0.45,AD+0.3,2.4),ax,AH+0.22,az);
         const gw=AW-1.6, gh=AH-2.6; bin.add(glassL,TK.planeG(gw,gh),ax,1.2+gh/2,fz+0.03,0,{noShadow:true});

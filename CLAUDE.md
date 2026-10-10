@@ -157,6 +157,7 @@ python3 build.py
 - 公館（v9.3 第十一批）：南側店面街改用 `TK.apartment` 的連續騎樓（`ground.through`、`ground.pillars`），整個南側往馬路搬 30 m（店面立面 z=19、店門互動點 z=21、從店裡出來站在 z=18）；西端是往溫州街的巷口（轉角公寓＋路名牌）；校門那一側看得到校園（洞洞館側面、椰子樹）。改公館要跑 `tests/gongguan_layout_nav.py`；店門口座標和 `tests/p0_movement.py` 的「公館店門口」出生點要一起改。捷運出口（`TK.mrtExit`，第十二批）、校門（`CK.gate`，第十四批，校園與公館共用；`zones3d.js` 的 `placeGate` 轉換導航阻擋）已換新；第十六批換了傅鐘（`CK.bell()`，+z 是石碑那一面，用 `placeBlocks()` 把 `userData.gate.blocks` 轉成導航阻擋，`placeGate` 也用它）和路燈（`W3.lampPost()`：柱座、燈桿、燈臂、燈罩是一個共用幾何＋燈罩玻璃；燈頭位置 (0, 3.95, 0.75) 不能動，各區域的夜間光暈與地面光圈照這個位置加）。
 - 室內（v9.3 第十五批）：`zones3d.js` 的 `room()` 有天花板（單面朝下：鏡頭超過天花板高度時看不到，維持剖面視角）和窗（`winWall` 選哪一面牆、`winXs` 位置、`curtains`；窗的零件掛在 `zone.winParts`，牆淡出時一起隱藏；19:24 以後換夜景貼圖）。便利商店的貨架是 `goodsWall`（導航和 `shelfWall` 相同）。
 - 鏡頭：跟隨鏡頭只對建築碰撞；樹幹、電線桿擋住玩家時用「樹幹透視」（`engine3d.js`，shader 網點透空，只作用在 `userData.seeThrough` 的材質；`townkit3d.js` 的 `seeThru()` 標記）。改鏡頭要跑 `tests/see_through.py`。
+- 太陽方位（v9.3 第二十一批，D29）：`engine3d.js` 的時段表 azimuth 是羅盤方位；戶外照 x 往東、-z 往北換算，區域座標轉過方向的在區域定義加 `sunYaw`（公館 `π/2`）；室內維持舊的方向。**新增戶外區域或改區域方向時要設 `sunYaw`**，不然中午的太陽會跑到北邊（v9.3 之前就是這樣：朝南的系館正面整天背光）。
 - 已修：教室同學朝向、VRM 0.x 朝向與坐姿軸向、標題畫面自動存檔覆蓋進度、標題「讀取」選單被蓋住、Café 座位擋住對話、直向小地圖蓋住選單、互動按鈕蓋住搖桿（細節見 ART_REBUILD_PROGRESS 的技術問題紀錄）。
 - 等使用者決定：黃昏調色提案（`engine3d.js` 的 `KEY_GOLDEN`，網址加 `?grade=golden` 才用，預設不開；比較圖在 VISUAL_REVIEW 第 10 節）。使用者沒選之前不要改預設。
 - 已知、暫不修：陳語彤領口中間的黑色小蝴蝶結（ART_REBUILD_PROGRESS #34：連帽上衣改的領口離胸口 5–6 cm；收緊領口會更醜，需要真的圓領 T 恤模型）。查人物畫面問題時，用 `tools/dev_scratch/outline_probe.py` 在遊戲裡「一次只改一樣東西」截圖，不要用猜的（同一個問題猜錯過兩次）。

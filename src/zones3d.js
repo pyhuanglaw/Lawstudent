@@ -19,9 +19,13 @@ const Z3 = (function(){
   function placeGate(E,g,nav,gate,x,z,ry){ place(g,gate,x,z,ry); placeBlocks(nav,gate,x,z,ry); const c=Math.cos(ry||0), sn=Math.sin(ry||0), q=Math.abs(sn)>0.5;
     const hx=7.6, hz=-3.4; const m=new THREE.Mesh(new THREE.BoxGeometry(q?3.2:3.8,4.4,q?3.8:3.2),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(x+hx*c+hz*sn,2.2,z-hx*sn+hz*c); g.add(m); E.colliders.push(m); }
   function collider(E,x,z,w,d,h,rot){ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h||6,d),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(x,(h||6)/2,z); m.rotation.y=rot||0; E.colliders.push(m); E.scene.add(m); E.zone&&E.zone.group; return m; }
-  // 椰林大道的路面（柏油、黃色虛線中線、白邊線；v9.3 第十八批照使用者的照片）：校園、公館（從校門看進去的背景）共用
-  const avenueRoadTex=()=>W3.canvasTex('avenueRoad2',256,256,(x,w,h)=>{ x.fillStyle='#5f5d5a'; x.fillRect(0,0,w,h); let s=17; const r=()=>{ s=(s*16807)%2147483647; return s/2147483647; }; for(let i=0;i<2600;i++){ const v=(r()*28)|0; x.fillStyle='rgba('+(78+v)+','+(76+v)+','+(73+v)+',0.5)'; x.fillRect(r()*w,r()*h,2,2); }
-        x.fillStyle='rgba(50,48,46,0.3)'; for(let i=0;i<5;i++){ x.fillRect(0,r()*h,w,1); } x.fillStyle='#dedbd2'; x.fillRect(w*0.025,0,w*0.008,h); x.fillRect(w*0.967,0,w*0.008,h); x.fillStyle='#d9a521'; x.fillRect(w*0.493,0,w*0.014,h*0.4); });
+  // 椰林大道的路面（照使用者的照片；第十八批是深色柏油＋白邊線，第二十一批再比對後改成）：淺灰、有補過的深色色塊、沒有白色邊線、中線是細的黃色虛線，路邊一條稍深的排水溝。
+  // 貼圖 12 m 寬 × 9 m 一段；校園、公館（從校門看進去的背景）共用
+  const avenueRoadTex=()=>W3.canvasTex('avenueRoad3',256,256,(x,w,h)=>{ x.fillStyle='#8a8883'; x.fillRect(0,0,w,h); let s=17; const r=()=>{ s=(s*16807)%2147483647; return s/2147483647; };
+        for(let i=0;i<16;i++){ const cx=r()*w, cy=r()*h, rx=10+r()*46, ry=5+r()*22, a=0.07+r()*0.09; x.fillStyle='rgba(66,64,60,'+a+')'; for(const oy of [-h,0,h]){ x.beginPath(); x.ellipse(cx,cy+oy,rx,ry,r()*0.3,0,Math.PI*2); x.fill(); } }   /* 補過的路面（上下接縫處畫兩次，重複時不會斷）*/
+        for(let i=0;i<3400;i++){ const v=(r()*44)|0; x.fillStyle='rgba('+(104+v)+','+(102+v)+','+(98+v)+',0.42)'; x.fillRect(r()*w,r()*h,2,2); }
+        x.fillStyle='rgba(58,56,53,0.32)'; x.fillRect(0,0,w*0.022,h); x.fillRect(w*0.978,0,w*0.022,h);
+        x.fillStyle='#d6a425'; x.fillRect(w*0.4955,0,w*0.009,h*0.33); });
   const campusWallMat=()=>TK.M('bgWallM',()=>TK.std({map:TK.tileTex('#b8735a','#9c8676','bgWall'),roughness:0.9}));   // 校園圍牆（紅褐色面磚）：校園、公館共用
   // ---------- 校園主區 ----------
   const campus={ id:'campus', name:'台大校園', indoor:false, cityLight:0.25, size:[260,170], viewFar:260, fogNear:100, build(E){   /* 第二十批：邊界外有背景了，視距拉遠（照片裡椰林大道盡頭的總圖看得清楚；從校門口看總圖約 205 m）*/
@@ -291,7 +295,7 @@ const Z3 = (function(){
   function updateLake(L,E){ if(!L||!E.sky) return; const U=L.mat.uniforms, S=E.sky.material.uniforms; U.time.value=E.time||0; U.skyLo.value.copy(S.bot.value).lerp(S.mid.value,0.25); U.skyHi.value.copy(S.mid.value).lerp(S.top.value,0.5); U.sunDir.value.copy(S.sunDir.value); U.sunCol.value.copy(E.sun.color).multiplyScalar(Math.min(1.6,E.sun.intensity)); }
   function glowTex(){ return W3.canvasTex('glow',64,64,(x,w,h)=>{ const g=x.createRadialGradient(32,32,2,32,32,32); g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(0.4,'rgba(255,255,255,0.35)'); g.addColorStop(1,'rgba(255,255,255,0)'); x.fillStyle=g; x.fillRect(0,0,w,h); }); }
   // ---------- 公館商圈 ----------
-  const gongguan={ id:'gongguan', name:'公館', indoor:false, cityLight:1.0, size:[160,110], camDist:6.5, build(E){
+  const gongguan={ id:'gongguan', name:'公館', indoor:false, cityLight:1.0, size:[160,110], camDist:6.5, sunYaw:Math.PI/2, build(E){   /* sunYaw：公館的區域座標 +x 往南、+z 往西（羅斯福路南北向、校門在東邊；和校園的換算見 campusBackdrop），太陽方向要轉 90° */
     treeIdx=0; leafyCount=0; const g=new THREE.Group(); const W=160,D=110; const nav=new E3.NavGrid(W,D,0.5,-W/2,-D/2); const lamps=[]; const buildings=[];
     ground(g,W,D,W3.asphaltTex(),[W/6,D/6],0,0,0);
     // 人行道（北側靠校門）與騎樓街區

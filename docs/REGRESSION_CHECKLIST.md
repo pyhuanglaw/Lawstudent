@@ -32,7 +32,7 @@
 | NPC 導航 | `story3d.js` 的 walkRoutes／bikeRoutes、`engine3d.js` updateNPC | 截圖確認 NPC 不在牆裡、touch_flow |
 | 人物朝向與動畫 | `character3d.js`（buildVRM、animateVRM、setBonesV）、`assets3d.js`（cloneVRM）、`tools/vroid_build.py` 重建的模型 | 角色展示截圖（正側背、走跑坐交談）、教室座位朝向、touch_flow 坐下；改到彈簧骨、`updateVRM` 或重建有頭髮的模型時跑 `sim_hair.js` |
 | 場景切換 | `game3d.js` enter／applySave、各區域 exits、入口互動點與出來的出生點座標 | zone_transitions、touch_flow（溫州街 ↔ Café）、movement_regression E |
-| 日夜與天氣 | `engine3d.js` applyTime／KEY、區域的 `applyTimeOutdoor`、`townkit3d.js` setNight | 同位置 11:00／17:30／20:30 截圖 |
+| 日夜與天氣 | `engine3d.js` applyTime／KEY、區域的 `applyTimeOutdoor`、`townkit3d.js` setNight、區域的 `sunYaw`（D29） | 同位置 11:00／17:30／20:30 截圖；新增戶外區域或改區域方向時，中午椰子樹、路燈的影子要往北倒（太陽在南邊） |
 | 視距、霧、遠景 | 區域的 `viewFar`／`fogNear`、`engine3d.js` applyViewFar／applyTime 裡的霧、天空與遠景剪影（makeSky、makeSkyline 的 renderOrder）、邊界外的背景（`TK.bgCity`、`zones3d.js` 的 campusBackdrop） | view_audit（邊界附近的位置轉一圈）、render_stats（draw call、三角形數和改前比）；**確認霧的距離真的生效**：applyTime 每幀會設霧，曾經把區域的 viewFar 蓋掉（v9.3 第二十批） |
 | 劇情事件與對話 | `events3d.js`、`data/events.js`、`story3d.js` | evtest、第一二天流程（`tools/dev_scratch/flowtest.py`） |
 | 人物關係 | `social3d.js` | evtest |
