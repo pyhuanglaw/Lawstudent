@@ -45,6 +45,26 @@ SPECS = [
     # Café 南北兩側（立面朝西，rotation.y=−π/2）
     dict(id='C1', pos=(55.4, -12.4), ry=-math.pi / 2, w=10, d=12, floors=5, wall='tile', color='#cbbba6', ground='shutter'),
     dict(id='C2', pos=(55.4, 11.2), ry=-math.pi / 2, w=7, d=12, floors=4, wall='mosaic', color='#d3cbbd', balcony=True, ground='door', door='#2f4a3a'),
+    # 巷底（西端）的住家公寓（套件 endB；近景，原本沒換）
+    dict(id='W0', pos=(-37.2, -1.0), ry=math.pi / 2, w=14, d=13, floors=4, wall='tile', color='#cdbfa8', balcony=True, ground='door', door='#5c3a21'),
+    # 遠景（套件 detail:false）：far＝細節少一點（鐵窗少、沒有曬衣服與盆栽、冷氣少），材質與窗戶原型和近景共用 → draw call 不增加
+    dict(id='F1', pos=(5.75, 21.0), ry=math.pi, w=12, d=10, floors=5, wall='tile', color='#c7b9a3', ground='door', far=True),
+    dict(id='F2', pos=(-12.25, -20.0), ry=0.0, w=12, d=10, floors=4, wall='mosaic', color='#d6d0c2', ground='shutter', far=True),
+    dict(id='F3', pos=(-33.4, 16.2), ry=math.pi, w=9, d=10, floors=4, wall='tile', color='#cfc4b2', ground='door', far=True),
+    dict(id='F4', pos=(-33.4, -16.2), ry=0.0, w=9, d=10, floors=5, wall='tile', color='#d9cdb8', ground='door', far=True),
+    # Café 往南的路（+z，施工護欄外，走不到）
+    dict(id='S1', pos=(47.9, 23.0), ry=math.pi / 2, w=11, d=10, floors=5, wall='tile', color='#cdbfa9', ground='door', far=True),
+    dict(id='S2', pos=(54.7, 22.5), ry=-math.pi / 2, w=10, d=10, floors=4, wall='tile', color='#d6cab6', ground='door', far=True),
+    dict(id='S3', pos=(47.9, 37.0), ry=math.pi / 2, w=14, d=10, floors=6, wall='tile', color='#c3b6a0', ground='door', far=True),
+    dict(id='S4', pos=(54.7, 36.0), ry=-math.pi / 2, w=14, d=10, floors=5, wall='tile', color='#cfc3ae', ground='door', far=True),
+    # Café 往北的路（−z）
+    dict(id='N1', pos=(47.9, -24.0), ry=math.pi / 2, w=12, d=10, floors=5, wall='tile', color='#c9bba5', ground='door', far=True),
+    dict(id='N2', pos=(54.7, -24.0), ry=-math.pi / 2, w=12, d=10, floors=6, wall='tile', color='#d4c8b4', ground='door', far=True),
+    dict(id='N3', pos=(47.9, -38.0), ry=math.pi / 2, w=14, d=10, floors=4, wall='tile', color='#bfb29c', ground='door', far=True),
+    dict(id='N4', pos=(54.7, -38.0), ry=-math.pi / 2, w=14, d=10, floors=7, wall='tile', color='#cdc2ae', ground='door', far=True),
+    # 西端巷口兩側
+    dict(id='W1', pos=(-37.2, 11.0), ry=math.pi / 2, w=10, d=12, floors=4, wall='tile', color='#d4c6b0', ground='door', far=True),
+    dict(id='W2', pos=(-37.2, -13.0), ry=math.pi / 2, w=10, d=12, floors=4, wall='tile', color='#cbbfae', ground='door', far=True),
 ]
 GH, FH = 3.4, 3.1          # TK.apartment 的預設一樓高、樓高
 
@@ -138,16 +158,27 @@ def place(spec):
 
 
 # 共用零件（instancing）：鐵窗、雨遮、冷氣、水塔
+def bar(m, x0, x1, y0, y1, z0, z1):
+    """細鐵條：方塊去掉兩端看不到的蓋子（每根 8 個三角形，原本 12）。最長的那一軸＝鐵條方向（遊戲 x/y/z → Blender x/z/−y）"""
+    fs = L.bm_box(m.bm, x0, x1, y0, y1, z0, z1)
+    ax = {0: 0, 1: 2, 2: 1}[max((abs(x1 - x0), 0), (abs(y1 - y0), 1), (abs(z1 - z0), 2))[1]]
+    caps = []
+    for f in fs:
+        f.normal_update()
+        if abs(f.normal[ax]) > 0.9: caps.append(f)
+    bmesh.ops.delete(m.bm, geom=caps, context='FACES_ONLY')
+
+
 def grille_mesh(w_, h_, dep=0.42):
     m = Mesh('grille_proto', M['grille']); b = 0.018; n = max(6, int(w_ / 0.12))
     for i in range(n + 1):
-        x = -w_ / 2 + i * w_ / n; m.box(x - b / 2, x + b / 2, 0, h_, dep - b, dep)
-    for y in (0.0, 0.32, h_ * 0.55, h_ - b * 1.6): m.box(-w_ / 2, w_ / 2, y, y + b * 1.6, dep - b * 1.5, dep + 0.005)
+        x = -w_ / 2 + i * w_ / n; bar(m, x - b / 2, x + b / 2, 0, h_, dep - b, dep)
+    for y in (0.0, 0.32, h_ * 0.55, h_ - b * 1.6): bar(m, -w_ / 2, w_ / 2, y, y + b * 1.6, dep - b * 1.5, dep + 0.005)
     for s in (-1, 1):
         x = s * w_ / 2
-        for k in range(4): m.box(x - b / 2, x + b / 2, 0, h_, dep * k / 3 - b / 2, dep * k / 3 + b / 2)
-        for y in (0.0, h_ * 0.55, h_ - b * 1.6): m.box(x - b / 2, x + b / 2, y, y + b * 1.6, 0, dep)
-    for k in range(3): m.box(-w_ / 2, w_ / 2, 0.0, 0.03, dep * (k + 0.5) / 3 - 0.03, dep * (k + 0.5) / 3 + 0.03)
+        for k in range(4): bar(m, x - b / 2, x + b / 2, 0, h_, dep * k / 3 - b / 2, dep * k / 3 + b / 2)
+        for y in (0.0, h_ * 0.55, h_ - b * 1.6): bar(m, x - b / 2, x + b / 2, y, y + b * 1.6, 0, dep)
+    for k in range(3): m.box(-w_ / 2, w_ / 2, 0.0, 0.03, dep * (k + 0.5) / 3 - 0.03, dep * (k + 0.5) / 3 + 0.03)   # 底下的踏板（扁平，兩端蓋子看得到，不省）
     return proto(m.finish(None))
 
 
@@ -213,10 +244,10 @@ def window_proto(wh, part):
     ww = WIN_W; lit = part == 'lit'
     x0, x1, y0, y1, fz, t, bk = -ww / 2, ww / 2, 0.0, wh, -0.12, 0.05, -0.9
     if part == 'shell':
-        al = Mesh('win_alu', M['alu'])
-        al.box(x0, x1, y0, y0 + t, fz - 0.05, fz + 0.03); al.box(x0, x1, y1 - t, y1, fz - 0.05, fz + 0.03)
-        al.box(x0, x0 + t, y0, y1, fz - 0.05, fz + 0.03); al.box(x1 - t, x1, y0, y1, fz - 0.05, fz + 0.03)
-        al.box(-0.03, 0.01, y0 + t, y1 - t, fz - 0.03, fz + 0.02)
+        al = Mesh('win_alu', M['alu'])   # 鋁框：兩端的蓋子藏在窗洞裡、看不到（bar 不做蓋子）
+        bar(al, x0, x1, y0, y0 + t, fz - 0.05, fz + 0.03); bar(al, x0, x1, y1 - t, y1, fz - 0.05, fz + 0.03)
+        bar(al, x0, x0 + t, y0, y1, fz - 0.05, fz + 0.03); bar(al, x1 - t, x1, y0, y1, fz - 0.05, fz + 0.03)
+        bar(al, -0.03, 0.01, y0 + t, y1 - t, fz - 0.03, fz + 0.02)
         sl = Mesh('win_sill', M['band']); sl.box(x0 - 0.08, x1 + 0.08, y0 - 0.07, y0, -0.25, 0.07)
         stn = Mesh('win_stain', M['stain']); stn.quad([(x0 - 0.05, y0 - 1.05, 0.012), (x1 + 0.05, y0 - 1.05, 0.012), (x1 + 0.05, y0 - 0.07, 0.012), (x0 - 0.05, y0 - 0.07, 0.012)])
         so = stn.finish(None, uv=True); uv01(so)                                              # 窗台下的雨痕（整張貼圖）
@@ -306,8 +337,9 @@ def apartment(spec):
         yc = GH + (f - 1) * FH + FH * 0.52
         for i in range(n):
             x = -W / 2 + (i + 0.5) * W / n
-            kind_ = 'balcony' if (spec.get('balcony') and i == n // 2 and f == 1) else ('grille' if rng.random() < 0.7 else 'plain')
-            wins.append(dict(f=f, x=x, y0=yc - wh / 2, y1=yc + wh / 2, kind=kind_, hood=(kind_ != 'grille' and rng.random() < 0.5), ac=rng.random() < 0.65, lit=rng.random() < 0.35, acs=rng.choice((-1, 1))))
+            far = spec.get('far')   # 遠景：只有窗＋少量鐵窗，沒有雨遮、冷氣（instancing 的原型整條巷子一組，任何鏡頭都整組畫出來：遠景加太多會超過三角形預算）
+            kind_ = 'balcony' if (spec.get('balcony') and i == n // 2 and f == 1) else ('grille' if rng.random() < (0.15 if far else 0.7) else 'plain')
+            wins.append(dict(f=f, x=x, y0=yc - wh / 2, y1=yc + wh / 2, kind=kind_, hood=(not far and kind_ != 'grille' and rng.random() < 0.5), ac=(not far and rng.random() < 0.65), lit=rng.random() < 0.35, acs=rng.choice((-1, 1))))
     # ---- 牆：一樓以上（留窗洞，牆厚 0.25）
     for f in range(1, F):
         y0 = GH + (f - 1) * FH; y1 = y0 + FH
@@ -333,8 +365,8 @@ def apartment(spec):
         else: xf.quad(cm, [(x0 + 0.03, y0 + 0.03, -0.29), (x0 + cw, y0 + 0.03, -0.29), (x0 + cw, y1 - 0.05, -0.29), (x0 + 0.03, y1 - 0.05, -0.29)])
         if w['kind'] == 'grille':
             inst(GRILLE, f'grille_{spec["id"]}', xf, cx, y0 - 0.14, 0.0); inst(HOOD, f'ghood_{spec["id"]}', xf, cx, y0 - 0.14 + 1.77, 0.0)
-            if lrng.random() < 0.28: bake(LAUNDRY[lrng.randrange(3)], f'laundry_{spec["id"]}', xf, cx, y0 - 0.14, 0.0)
-            if rng.random() < 0.6:
+            if not spec.get('far') and lrng.random() < 0.28: bake(LAUNDRY[lrng.randrange(3)], f'laundry_{spec["id"]}', xf, cx, y0 - 0.14, 0.0)
+            if not spec.get('far') and rng.random() < 0.6:
                 px_ = cx + rng.uniform(-0.9, 0.9); pz_ = rng.uniform(0.16, 0.28); q = xf.p(px_, 0, pz_)
                 B.instance(POT_FERN[rng.randrange(2)], f'pot_{spec["id"]}_{len(_inst)}', q[0], y0 - 0.11, q[2], root, ry=rng.uniform(0, 2 * math.pi)); _inst.append(1)
         elif w['kind'] == 'balcony':
@@ -453,6 +485,9 @@ WZ_VC = {**{n: VC_MATTE for n in ('cafe_ac_body', 'cafe_ac_fan', 'cafe_roof_slab
                                    'wz_awning_1f2e45', 'wz_awning_2f4a3a', 'wz_awning_9c2f2a', 'wz_laundry')},
          **{n: VC_METAL for n in ('cafe_alu', 'cafe_iron_black', 'cafe_brass', 'cafe_grille', 'cafe_tank_steel', 'wz_mailbox', 'wz_frame_cfd6d6',
                                    'wz_door_2f4a3a', 'wz_door_8a3a2a', 'wz_door_9c2f2a')}}
+for _m in bpy.data.materials:   # 門、窗框、雨遮的顏色是每棟自己的（例如巷底那棟的深咖啡色鐵門）：全部照金屬度分到兩組
+    if _m.name.startswith(('wz_door_', 'wz_frame_', 'wz_awning_')) and _m.name not in WZ_VC and L.flat_info(_m):
+        WZ_VC[_m.name] = VC_METAL if L.flat_info(_m)['metal'] > 0.1 else VC_MATTE
 L.vc_consolidate(root, WZ_VC)
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
 info = L.export(OUT, gpu_instances=True)
