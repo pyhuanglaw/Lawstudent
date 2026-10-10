@@ -405,3 +405,57 @@ look-dev 全身比較（上排現在的遊戲版、下排這一輪；兩排都�
 - 咖啡廳圍裙、眼鏡、耳環仍是遊戲內配件（`props3d.js`），這一版沒改。
 
 狀態：`READY_FOR_ART_REVIEW`（美術待使用者驗收，**未標 ART_APPROVED**）。
+
+---
+
+## 12. 陳語彤 Blender 版 第一版（v9.4 人物生產線第四位；2026-10-10，第五版）
+
+**製作工具**：Blender 5.2.2（`bpy`，無介面）＋ VRM Add-on for Blender。共用沈以安、祐廷、林芷若的模組，陳語彤只寫自己的參數與髮型。
+- 腳本：`tools/blender/char/heroine_03.py --stages stage0,face,clothes,hair`。
+  - `stage0`：VRoid CC0 樣本「Sendagaya Shibu」拿掉原本的頭髮（含身體網格上的後髮）、上衣、頸飾、褲子（原本是裙子，裙擺骨頭一起拿掉）、鞋與胸部以外的次要骨頭，頭縮 0.92、脖子收 5%。原本的上衣先複製一份當「權重來源」。
+  - `p03_face.py`：沿用 `h01_face`（`p00_face.run`），參數換成她的：比沈以安圓一點的臉（下巴短一點、下顎線柔和）、眼睛自然大小不上揚、平直稍粗的眉、自然唇色；VRoid 貼圖的大塊腮紅拿掉（林芷若第七版的做法）。
+  - `p03_clothes.py`：沿用 `h01_clothes`。款式照參考圖 06：深炭灰（帶一點棕）棉質圓領短袖 T 恤（新的 `jersey` 布料：平針直條＋羅紋邊）紮進高腰直筒牛仔褲（新的 `denim` 布料：右斜紋、大腿前面與膝蓋刷淡、橘色車縫線）、棕色皮帶（畫在褲頭帶上、前中心方形金屬扣）、白球鞋。
+  - `p03_hair.py`：及肩黑直髮＋空氣瀏海：中分、頭頂服貼、直直落到肩膀（兩側停在肩膀上、前面垂到鎖骨、後面到肩胛骨上緣）；瀏海用沈以安的做法（幾片寬的瀏海片、貼圖下段分成細髮束、越過髮際線時離額頭約 1.2 cm），長到眉毛。全部綁在頭骨。
+- 遊戲用整理：`vrm_finish.py`（`VRM_BASE=Sendagaya_Shibu`）。後背包仍是 `props3d.js`。
+
+**第一版到第五版修掉的問題**（Blender 預覽裡看到才修）：
+- 瀏海：第一版 15 條窄髮束，近看是一排尖刺；改成沈以安的寬瀏海片＋細髮束（第二版），髮束再細一點（第三版），最後髮尾鈍一點、長到蓋過眉毛一點（第五版，參考圖是剪齊的空氣瀏海）。
+- 耳朵高度兩側各一個小凸塊：頭髮在耳朵那裡被頂出一個角。兩側從髮際線往下漸漸蓬出 1.3 cm（林芷若是 1 cm；陳語彤的樣本耳朵比較凸）。
+- 牛仔褲蓋到鞋面：褲腳往上 2.2 cm、褲管細一點，露出整雙球鞋（第四版）。
+- **遊戲用模型** `assets/models/char/bl_heroine_03.vrm`（3.5 MB）；**Blender 工作檔** `assets/blender/heroine_03_work_v1.blend`。**怎麼看**：網址加 `?blchar`（預設仍是 VRoid 加工版 `vroid_heroine_03.vrm`）。
+
+**三方比較**（參考圖 06｜目前 VRoid 加工版，遊戲內｜Blender 第一版，遊戲內｜Blender 渲染圖，bind pose）：
+
+![陳語彤三方比較](screenshots/v94_CHAR_heroine_03_blender_3way.jpg)
+
+**看模型頁面同角度比較**（上：VRoid 加工版；下：Blender 第五版；遊戲的 three-vrm 載入、遊戲的光線與描邊；後背包是遊戲內配件）：
+
+![陳語彤 VRoid 版與 Blender 版](screenshots/v94_CHAR_heroine_03_blender_lookdev.jpg)
+
+**實際遊戲畫面**（溫州街 11:00；正面、45 度、側面、背面、臉、走路、一般跟隨鏡頭）：
+
+![陳語彤 Blender 版遊戲內](screenshots/v94_CHAR_heroine_03_blender_ingame.jpg)
+
+**動作**（實際遊戲：溫州街小公園長椅坐下，正面＋側面；霖澤館大廳樓梯自己走上二樓）：
+
+![陳語彤 Blender 版動作](screenshots/v94_CHAR_heroine_03_blender_motion.jpg)
+
+**表情**（上排 VRoid 加工版、下排 Blender 版；15 個表情都在，眨眼完全閉合；Blender 版沒有大塊腮紅）：
+
+![陳語彤 Blender 版表情](screenshots/v94_CHAR_heroine_03_blender_expressions.jpg)
+
+**測試**（都是 Playwright 模擬／Node，**不是手機實機**）：
+- `CHAR_FILE=tools/vroid_wip/bl/h03_r5.vrm node tests/stairs_feet_unit.js char.heroine_03`：ALL PASS（上樓梯穿進台階最多 0.1 cm、支撐腳最多離地 2.5 cm；下樓梯 0.0 cm／0.8 cm）。
+- `?blchar` 實際載入：`bl_heroine_03.vrm` 取代 `vroid_heroine_03.vrm`（VRoid 檔沒有下載）；沒有退回程序化人物、沒有 JS 例外。
+- 遊戲內 `char_review`、`char_motion`、表情檢查：沒有 JS 錯誤。頭髮沒有彈簧骨，`sim_hair` 不適用。
+
+**仍不符合參考圖（誠實列出）**：
+- 瀏海近看是一束一束的細髮束，參考圖是比較整齊、蓬鬆的剪齊瀏海；兩側直髮的髮尾有一點參差。
+- 頭髮沒有彈簧骨：走路、轉頭時不會擺動。
+- T 恤是素面，參考圖左胸有一個小標誌；T 恤下擺紮進褲子的地方沒有布料堆起來的皺褶。
+- 牛仔褲在遊戲光線下偏亮、偏藍（參考圖是刷色的中藍灰），褲管偏直筒寬鬆。
+- 坐下時從正面看，兩腿之間露出後面長椅的紅色（褲管寬，兩腿之間有空隙）。
+- 後背包仍是遊戲內配件，側面看提把高過肩膀一點。
+- 臉的五官仍是 VRoid 的畫法（眼線、虹膜是貼圖）。
+
+狀態：`READY_FOR_ART_REVIEW`（美術待使用者驗收，**未標 ART_APPROVED**）。

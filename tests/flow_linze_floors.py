@@ -12,7 +12,7 @@
   7. 存到欄位 3（在二樓）→ 重新整理 → 讀取欄位 3 → 還在二樓（第 1 層、4.2 m）、走得動
   8. 搭電梯：按「搭電梯」→ 門開 → 走進車廂 → 選「1F 大廳」→ 車廂往下 → 門開 → 走出來（第 0 層、地面）
   9. 走到「走出霖澤館」→ 回到校園的穿堂 → 走下前台階到廣場（高度 0）
-  10. NPC 上下樓：大廳裡走樓梯的路人，60 秒內有上到二樓或下到一樓（高度變化 ≥ 2 m）
+  10. NPC 上下樓：大廳裡走樓梯的路人，150 秒內有上到二樓或下到一樓（高度變化 ≥ 2 m；到了就提早結束）
   11. 劇情自動走路沒有用到卡住保險（walkFallbacks＝0）、沒有 JS 例外
 用法：python3 tests/flow_linze_floors.py URL [輸出資料夾]"""
 import asyncio, json, sys, time, math
@@ -143,13 +143,16 @@ async def main():
         run.check('搭電梯：選「1F 大廳」→ 看得到車廂往下（經過中間的高度）→ 到一樓（第 0 層、地面）、走出車廂', seen['inside'] and seen['moving'] and s['lv'] == 0 and abs(s['y']) < 0.05 and not s['busy'], json.dumps(dict(s, **seen), ensure_ascii=False))
         # 10. NPC 上下樓（大廳裡走樓梯的路人）
         npc_y = await pg.evaluate("GAME.E.npcs.filter(n=>n.isExtra&&n.beh==='route').map(n=>n.obj.position.y)")
+        # 觀察最多 150 秒（真實時間），走到 ≥ 2 m 就提早結束。2026-10-10：原本只看 60 秒——SwiftShader 約 6 fps 時，路人一趟上樓或下樓約 30～45 秒、
+        # 在平台和兩端還會停 1～4 秒（遊戲時間），視窗剛好落在停留和半路時只量到 1.8～2.0 m（v9.4 線上版也只以 2.016 m 剛好過）；
+        # 直接觀察 3 分鐘，兩個路人都反覆走完整的 0～4.2 m。標準（≥ 2 m）不變，只是觀察時間配合模擬器的畫格數
         t0 = time.time(); spans = [[y, y] for y in npc_y]
-        while time.time() - t0 < 60 and npc_y:
+        while time.time() - t0 < 150 and npc_y:
             await pg.wait_for_timeout(2000)
             cur = await pg.evaluate("GAME.E.npcs.filter(n=>n.isExtra&&n.beh==='route').map(n=>n.obj.position.y)")
             for i, y in enumerate(cur[:len(spans)]): spans[i][0] = min(spans[i][0], y); spans[i][1] = max(spans[i][1], y)
             if any(b2 - a2 >= 2.0 for a2, b2 in spans): break
-        run.check('NPC 走樓梯上下樓（60 秒內高度變化 ≥ 2 m）', any(b2 - a2 >= 2.0 for a2, b2 in spans), json.dumps(spans))
+        run.check('NPC 走樓梯上下樓（150 秒內高度變化 ≥ 2 m）', any(b2 - a2 >= 2.0 for a2, b2 in spans), json.dumps(spans) + '  %.0f 秒' % (time.time() - t0))
         # 9. 走出建築
         ex = await L.find_it(pg, '走出霖澤館')
         ok = await L.go_to(pg, cdp, run, ex['x'] - 0.3, ex['z'], 0.9, '大廳出口', lv=0)
