@@ -86,6 +86,9 @@ if SET == 'gongguan':
     _S2 = {2: ('文理補習班', '高中・轉學考・研究所', '#1f4e8c', '#ffffff', '#e0a030'), 5: ('小火鍋', '二樓・學生套餐', '#c9463d', '#ffffff', ''),
            9: ('桌遊・撞球', '二樓', '#2f3a44', '#f4ead8', '#e0b24a'), 11: ('牙醫診所', '週日休診', '#ffffff', '#2f7d5b', '#2f7d5b'), 13: ('英語會話', '小班制・多益', '#f4ead8', '#8c3b47', '#8c3b47')}
     _RS = {7: ('學生套房出租', '近捷運・月租', '#ffffff', '#c9463d', '#c9463d')}
+    # 小零件的密度（instancing 的原型整條街一組，任何鏡頭都整組畫出來；從校門看整排店面的鏡頭一定全部看到）：商店街的鐵窗、盆栽比住宅巷少
+    # （溫州街 0.7／0.6／0.65；照原本的密度，從校門看的鏡頭三角形 44.9 萬，超過 42 萬的上限）
+    _P = dict(p_grille=0.4, p_pot=0.25, p_ac=0.5)
     SPECS = []; _x = -68.0
     for _i, _s in enumerate(_SHOPS):
         _last = _i == len(_SHOPS) - 1; _X0 = _x; _X1 = _x + _s['w'] + (1.2 if (_i < 8 and not _last) else 0.0); _W = _X1 - _X0; _cx = (_X0 + _X1) / 2
@@ -93,7 +96,7 @@ if SET == 'gongguan':
         for _k in range(1, _nb): _pl.append(_W / 2 - _k * _W / _nb)
         if _last: _pl.append(-_W / 2)
         _sp = dict(id=f'G{_i:02d}', pos=(_cx, 19.0), ry=math.pi, w=_W, d=16, floors=4 + ((_i * 5) % 4), wall=_WALLT[_i % 4], color=_WALLC[_i % 7],
-                   balcony=_i % 3 == 1, tank=_i % 2 == 0, roofAdd=_i % 5 == 3, ground='arcade', pillars=_pl, rollbox=True,
+                   balcony=_i % 3 == 1, tank=_i % 2 == 0, roofAdd=_i % 5 == 3, ground='arcade', pillars=_pl, rollbox=True, **_P,
                    shop=SHOP(type=_s['it'], name=_s['n'], sub=_s.get('sub', ''), signBg=_s['c'], signColor=_s.get('sc', '#ffffff'), band=_s.get('band', ''),
                              vertical=_s.get('v'), vBg='#ffffff', vColor=_s['c'], vBand=_s['c']))
         if _i in _VT: _t = _VT[_i]; _sp['vtenant'] = dict(vertical=_t[0], vBg=_t[1], vColor=_t[2], vBand=_t[2], len=_t[3])
@@ -102,7 +105,7 @@ if SET == 'gongguan':
         if _i == 0: _sp['side_wins'] = '+x'   # 麵店西側（朝往溫州街的巷子）開窗
         SPECS.append(_sp); _x = _X1
     # 巷口轉角（往溫州街的巷子西側）：一般店面、沒有騎樓（照套件 cb）；東側朝巷子開窗
-    SPECS.append(dict(id='G15', pos=(-81.0, 19.0), ry=math.pi, w=14.0, d=16, floors=5, wall='tile', color='#cdbfa8', balcony=True, tank=True, ground='shop', side_wins='-x',
+    SPECS.append(dict(id='G15', pos=(-81.0, 19.0), ry=math.pi, w=14.0, d=16, floors=5, wall='tile', color='#cdbfa8', balcony=True, tank=True, ground='shop', side_wins='-x', **_P,
                       shop=SHOP(type='teishoku', name='豆花・甜湯', sub='粉圓・芋圓・紅豆', signBg='#f4ead8', signColor='#5c3a21', band='#c9a24a')))
 
 random.seed(707)
@@ -227,11 +230,16 @@ def hood_mesh(w_, dep=0.62):
     return combine([m.finish(None), fr.finish(None)], 'hood_proto')
 
 
-def ac_mesh():
+def ac_mesh(lite=False):
+    """冷氣室外機。lite（公館）：風扇格柵 5 條、側面散熱條 6 條、風扇 14 邊、細條去掉看不到的端蓋（328 → 約 200 個三角形；冷氣都在二樓以上，從街上看不出差別）"""
     body = Mesh('ac_body', M['ac']); body.box(-0.4, 0.4, 0, 0.56, 0, 0.3)
-    fan = Mesh('ac_fan', M['ac_dark']); fan.cyl((0.1, 0.28, 0.3), (0.1, 0.28, 0.305), 0.21, seg=20)
-    for k in range(7): fan.box(-0.13, 0.33, 0.1 + k * 0.06, 0.11 + k * 0.06, 0.304, 0.312)
-    for k in range(9): fan.box(-0.38, -0.2, 0.06 + k * 0.05, 0.075 + k * 0.05, 0.3, 0.306)
+    fan = Mesh('ac_fan', M['ac_dark']); fan.cyl((0.1, 0.28, 0.3), (0.1, 0.28, 0.305), 0.21, seg=14 if lite else 20)
+    if lite:
+        for k in range(5): bar(fan, -0.13, 0.33, 0.12 + k * 0.08, 0.13 + k * 0.08, 0.304, 0.312)
+        for k in range(6): bar(fan, -0.38, -0.2, 0.08 + k * 0.07, 0.095 + k * 0.07, 0.3, 0.306)
+    else:
+        for k in range(7): fan.box(-0.13, 0.33, 0.1 + k * 0.06, 0.11 + k * 0.06, 0.304, 0.312)
+        for k in range(9): fan.box(-0.38, -0.2, 0.06 + k * 0.05, 0.075 + k * 0.05, 0.3, 0.306)
     br = Mesh('ac_bracket', M['metal'])
     for x in (-0.4, 0.4): br.box(x - 0.02, x + 0.02, -0.06, 0.0, -0.02, 0.36); br.box(x - 0.02, x + 0.02, -0.3, 0.0, -0.02, 0.02)
     return combine([body.finish(None), fan.finish(None), br.finish(None)], 'ac_unit')
@@ -248,7 +256,7 @@ def tank_mesh():
     return combine([tob, st.finish(None)], 'roof_tank')
 
 
-GRILLE = grille_mesh(2.5, 1.75); HOOD = hood_mesh(2.7); AC = ac_mesh(); TANK = tank_mesh()
+GRILLE = grille_mesh(2.5, 1.75); HOOD = hood_mesh(2.7); AC = ac_mesh(lite=SET == 'gongguan'); TANK = tank_mesh()
 M['room_lit'] = L.flat('wz_room_lit', '#3a3228', rough=0.9, emit=B.srgb('#ffcf8a'))   # 亮燈的房間：晚上發光（遊戲 TK.addNight）
 M['laundry'] = L.vc_material('wz_laundry', rough=0.85)                                    # 鐵窗裡曬的衣服（顏色在頂點色）
 M['glass_lit'] = L.flat('wz_win_glass_lit', '#8a8272', rough=0.08, alpha=0.3, emit=B.srgb('#ffc070'))   # 亮燈那戶的窗玻璃：比較透明、晚上自己帶一點暖光（深色玻璃在夜間的環境光下會變淺灰、蓋住燈光）
@@ -375,8 +383,8 @@ def apartment(spec):
         for i in range(n):
             x = -W / 2 + (i + 0.5) * W / n
             far = spec.get('far')   # 遠景：只有窗＋少量鐵窗，沒有雨遮、冷氣（instancing 的原型整條巷子一組，任何鏡頭都整組畫出來：遠景加太多會超過三角形預算）
-            kind_ = 'balcony' if (spec.get('balcony') and i == n // 2 and f == 1) else ('grille' if rng.random() < (0.15 if far else 0.7) else 'plain')
-            wins.append(dict(f=f, x=x, y0=yc - wh / 2, y1=yc + wh / 2, kind=kind_, hood=(not far and kind_ != 'grille' and rng.random() < 0.5), ac=(not far and rng.random() < 0.65), lit=rng.random() < 0.35, acs=rng.choice((-1, 1))))
+            kind_ = 'balcony' if (spec.get('balcony') and i == n // 2 and f == 1) else ('grille' if rng.random() < spec.get('p_grille', 0.15 if far else 0.7) else 'plain')   # p_*：每棟可調（公館商店街；預設和溫州街一樣）
+            wins.append(dict(f=f, x=x, y0=yc - wh / 2, y1=yc + wh / 2, kind=kind_, hood=(not far and kind_ != 'grille' and rng.random() < 0.5), ac=(not far and rng.random() < spec.get('p_ac', 0.65)), lit=rng.random() < 0.35, acs=rng.choice((-1, 1))))
     if SET == 'gongguan':
         if spec.get('sign2f'): wins = [w for w in wins if w['f'] != 1]   # 二樓整面大招牌：二樓不開窗
         # 直立招牌（店的、樓上住戶的）旁邊的窗不加鐵窗、雨遮、冷氣（不然會穿過招牌）
@@ -417,7 +425,7 @@ def apartment(spec):
         if w['kind'] == 'grille':
             inst(GRILLE, f'grille_{spec["id"]}', xf, cx, y0 - 0.14, 0.0); inst(HOOD, f'ghood_{spec["id"]}', xf, cx, y0 - 0.14 + 1.77, 0.0)
             if not spec.get('far') and lrng.random() < 0.28: bake(LAUNDRY[lrng.randrange(3)], f'laundry_{spec["id"]}', xf, cx, y0 - 0.14, 0.0)
-            if not spec.get('far') and rng.random() < 0.6:
+            if not spec.get('far') and rng.random() < spec.get('p_pot', 0.6):
                 px_ = cx + rng.uniform(-0.9, 0.9); pz_ = rng.uniform(0.16, 0.28); q = xf.p(px_, 0, pz_)
                 B.instance(POT_FERN[rng.randrange(2)], f'pot_{spec["id"]}_{len(_inst)}', q[0], y0 - 0.11, q[2], root, ry=rng.uniform(0, 2 * math.pi)); _inst.append(1)
         elif w['kind'] == 'balcony':
@@ -494,7 +502,7 @@ def side_windows(spec, xf, wall, band, W, D, F, totalH, sd, rng):
     wins = []
     for f in range(1, F):
         yc = GH + (f - 1) * FH + FH * 0.52
-        for i in range(n): wins.append(dict(f=f, x=-Ls / 2 + (i + 0.5) * Ls / n, y0=yc - wh / 2, y1=yc + wh / 2, grille=rng.random() < 0.5, lit=rng.random() < 0.35, ac=rng.random() < 0.4, acs=rng.choice((-1, 1))))
+        for i in range(n): wins.append(dict(f=f, x=-Ls / 2 + (i + 0.5) * Ls / n, y0=yc - wh / 2, y1=yc + wh / 2, grille=rng.random() < spec.get('p_grille', 0.5), lit=rng.random() < 0.35, ac=rng.random() < 0.4, acs=rng.choice((-1, 1))))
     for f in range(1, F):
         y0 = GH + (f - 1) * FH; y1 = y0 + FH; ws = sorted([w for w in wins if w['f'] == f], key=lambda w: w['x'])
         xs = [-Ls / 2] + [v for w in ws for v in (w['x'] - ww / 2, w['x'] + ww / 2)] + [Ls / 2]

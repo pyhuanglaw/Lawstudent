@@ -32,9 +32,10 @@ STATE = """(()=>{ const E=GAME.E; const r=v=>Math.round(v*100)/100;
     const col=E.colliders.map(c=>[r(c.position.x),r(c.position.y),r(c.position.z),r(c.geometry.parameters.width),r(c.geometry.parameters.height),r(c.geometry.parameters.depth)]).sort();
     const it=E.interactables.map(i=>[i.label||'',r(i.x),r(i.z),r(i.radius||0)]).sort();
     return {col, it}; })()"""
-# 沒有標記的群組（捷運出口、校門、路燈、立牌、背景…）：數「底下沒有任何看得到的網格／sprite」的群組，正式模型和 ?nobldg 必須一樣多（多了＝藏錯東西）
-OTHERS = """(()=>{ const z=GAME.E.zone; let n=0, empty=0; const shown=m=>{ for(let p=m;p&&p!==z.group;p=p.parent) if(!p.visible) return false; return true; };
-    for(const o of z.group.children){ if(!o.isGroup||(o.userData&&o.userData.ggShop)||/_glb$/.test(o.name)) continue; n++; let vis=false; o.traverse(m=>{ if(!vis&&(m.isMesh||m.isSprite)&&shown(m)) vis=true; }); if(!vis) empty++; }
+# 沒有標記的群組（捷運出口、校門、路燈、立牌、背景…）：數「底下沒有任何看得到的網格／sprite」的群組，正式模型和 ?nobldg 必須一樣多（多了＝藏錯東西）。
+# 路燈的光暈與地面光圈（E.lampGlows）不算：遊戲時鐘在跑，兩輪量的時候一個還沒開燈、一個已經開燈（第一次跑就因為這樣差了 18 個＝18 盞路燈）
+OTHERS = """(()=>{ const z=GAME.E.zone; let n=0, empty=0; const skip=new Set(GAME.E.lampGlows||[]); const shown=m=>{ for(let p=m;p&&p!==z.group;p=p.parent) if(!p.visible) return false; return true; };
+    for(const o of z.group.children){ if(!o.isGroup||(o.userData&&o.userData.ggShop)||/_glb$/.test(o.name)) continue; n++; let vis=false; o.traverse(m=>{ if(!vis&&(m.isMesh||m.isSprite)&&!skip.has(m)&&shown(m)) vis=true; }); if(!vis) empty++; }
     return {n, empty}; })()"""
 DRAW = """(async(e,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
     const hid=E.npcs.map(n=>[n.obj,n.obj.parent]).filter(a=>a[1]); hid.forEach(a=>a[1].remove(a[0]));   /* 路人每次的位置不同（量測雜訊）：量的時候暫時移出場景，只比場景 */
@@ -77,6 +78,11 @@ async def check(pg, run, formal):
         run.check('招牌合成一張 atlas、一個網格（%d 面＝店的橫招牌 16＋二樓大招牌 5＋屋頂看板 1＋直立招牌 %d 塊×2 面）' % (nface, len(VERT) + len(TENANT)),
                   bool(atl) and atl['visible'] and atl['n'] == nface and atl['tris'] == 2 * nface and not any(k.startswith(('SIGN_FACE_', 'VSIGN_FACE_')) and not v.get('atlas') for k, v in faces.items()), json.dumps(atl))
         run.check('招牌 atlas 不超過 2048×2048', bool(atl) and atl['w'] <= 2048 and atl['h'] <= 2048, json.dumps(atl))
+        cells = await pg.evaluate("""(()=>{ const at=GAME.E.zone.group.children.find(o=>o.name==='%s').getObjectByName('wz_signs_atlas'); const u=at.userData.atlas, pos={};
+            for(const it of u.items) pos[it.name]=[it.x,it.y]; return {cells:u.cells, pos}; })()""" % GLB)
+        pairs = [(a, a[:-1] + 'b') for a in cells['pos'] if a.startswith('VSIGN_FACE_') and a.endswith('_a')]
+        run.check('直立招牌的兩面共用 atlas 的同一格（%d 塊；不同內容的板面各自一格：%d 格）' % (len(pairs), nface - len(pairs)),
+                  len(pairs) == len(VERT) + len(TENANT) and all(cells['pos'][a] == cells['pos'][b] for a, b in pairs) and cells['cells'] == nface - len(pairs), json.dumps({'cells': cells['cells'], 'pairs': len(pairs)}))
         signs = {k: v for k, v in faces.items() if k.startswith('SIGN_FACE_')}; vs = {k: v for k, v in faces.items() if k.startswith('VSIGN_FACE_')}; ints = {k: v for k, v in faces.items() if k.startswith('INTERIOR_FACE_')}
         want = sorted(['SIGN_FACE_' + i for i in IDS] + ['SIGN_FACE_%s_2F' % i for i in SIGN2F] + ['SIGN_FACE_%s_roof' % i for i in ROOF])
         run.check('橫招牌（店 16、二樓 5、屋頂 1）都有 canvas 字', sorted(signs) == want and all(v['canvas'] for v in signs.values()), json.dumps(sorted(signs)))
@@ -109,8 +115,11 @@ async def check(pg, run, formal):
         neg = await pg.evaluate("""(()=>{ const b=GAME.E.zone.group.children.find(o=>o.userData&&o.userData.ggShop==='G07'); const m=b.children.find(o=>o.isMesh); m.visible=true;
             const n=b.children.filter(o=>(o.isMesh||o.isSprite)&&o.visible).length; m.visible=false; return n; })()""")
         run.check('（自我檢查）故意打開 G07 的套件外觀時，會被數到', neg > 0, json.dumps(neg))
-    sun = await pg.evaluate("""(()=>{ const E=GAME.E; E.applyTime(12); const d=E.sun.position.clone().sub(E.player.obj.position); const h=Math.hypot(d.x,d.z); const out={x:+(d.x/h).toFixed(3), z:+(d.z/h).toFixed(3), sunYaw:E.zone.def.sunYaw}; E.applyTime(17.5); return out; })()""")
-    run.check('中午太陽在南邊（公館 +x＝南；sunYaw π/2）', sun['x'] > 0.9 and abs(sun['sunYaw'] - 1.5708) < 1e-3, json.dumps(sun))
+    # 太陽方位角（羅盤：0 北、90 東、180 南）：公館的區域座標 +x＝南、−z＝東 → 方位角＝atan2(東, 北)＝atan2(−z, −x)。
+    # 12:00 的時段表是 150°（南偏東）；判定正南 ±45°。沒有 sunYaw（區域座標當成 +z＝南）會算出 240°、D29 以前「中午在北邊」的錯誤會更偏，都會失敗
+    sun = await pg.evaluate("""(()=>{ const E=GAME.E; E.applyTime(12); const d=E.sun.position.clone().sub(E.player.obj.position); const h=Math.hypot(d.x,d.z);
+        let az=Math.atan2(-d.z,-d.x)*180/Math.PI; if(az<0) az+=360; const out={x:+(d.x/h).toFixed(3), z:+(d.z/h).toFixed(3), azimuth:+az.toFixed(1), sunYaw:E.zone.def.sunYaw}; E.applyTime(17.5); return out; })()""")
+    run.check('中午太陽在南邊（公館 +x＝南；sunYaw π/2；方位角在正南 ±45° 內）', 135 <= sun['azimuth'] <= 225 and abs(sun['sunYaw'] - 1.5708) < 1e-3, json.dumps(sun))
     draws = {}
     for name, eye, look in VIEWS:
         draws[name] = await pg.evaluate(DRAW + '(%s,%s)' % (json.dumps(eye), json.dumps(look)))
