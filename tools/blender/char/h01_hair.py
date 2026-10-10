@@ -240,7 +240,8 @@ class Head:
         V = np.vstack([F, B]).tolist()
         self.scalp = BVHTree.FromPolygons(V, skin + [[i + nF for i in pv] for pv in bhead])
         # 衣服（服裝模組在頭髮之前執行時）：臉旁碎髮、馬尾要避開毛衣表面，不只避開皮膚——掛在骨架下、不是臉／身體／頭髮的網格都算
-        cl = [o for o in (m.get('clothes') or [o for o in bpy.data.objects if o.type == 'MESH' and o.parent == arm and o not in (face, body) and not o.name.startswith('Hair')])]
+        cl = m.get('clothes')
+        cl = [cl] if cl is not None and not isinstance(cl, (list, tuple)) else list(cl or [o for o in bpy.data.objects if o.type == 'MESH' and o.parent == arm and o not in (face, body) and not o.name.startswith('Hair')])
         CV, CP = [], []
         for o in cl:
             Xo = self._world(o); off = len(V) + sum(len(x) for x in CV); CV.append(Xo); CP += [[i + off for i in p.vertices] for p in o.data.polygons]

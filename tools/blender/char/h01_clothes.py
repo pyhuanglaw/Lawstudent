@@ -739,7 +739,7 @@ def compute_weights(skin, arm, mb, top, pants, shoes):
             if ('_%s_' % other) in nm or 'Arm' in nm or 'Hand' in nm or 'Shoulder' in nm: near[:, j] = 0
         near[:, bust] = 0
         K_ = C.bone_head(arm, 'J_Bip_%s_LowerLeg' % side)[2]
-        u_ = 1 - sstep(K_ - 0.06, K_ + 0.06, Q[:, 2])
+        u_ = sstep(K_ - 0.06, K_ + 0.06, Q[:, 2])          # 膝蓋以上＝大腿、以下＝小腿（第一版寫反：褲腳綁在大腿上，膝蓋一彎褲腳就不跟著腳，腳從褲管旁邊穿出來）
         hip = sstep(zc - 0.02, zc + 0.10, Q[:, 2]) * 0.0
         Wa = axis_weights(skin, len(Q), [('J_Bip_%s_UpperLeg' % side, u_), ('J_Bip_%s_LowerLeg' % side, 1 - u_)])
         a = sstep(zc + 0.02, zc - 0.16, Q[:, 2])[:, None]

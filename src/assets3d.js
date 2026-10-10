@@ -27,7 +27,7 @@ const ASSETS = (function(){
     // 人物（正式）：VRoid 官方 CC0 樣本模型（pixiv，VRoid Studio β 版樣本；檔內 meta licenseName=CC0），
     // 用 tools/vroid_build.py 改成本作角色：移植衣物、換色、縮貼圖。主要角色各一個檔；路人用 4 個底模＋材質顏色相乘。
     'char.yuting':     {url:'assets/models/char/vroid_yuting.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.75,role:'PLAYER',source:'VRoid CC0 樣本「HairSample_Male」（pixiv）；本作修改：拿掉帽子／抽繩／口袋線的淺灰上衣、深灰直筒褲、白球鞋、拿掉呆毛、眼睛縮小；後背包是 src/props3d.js',license:'CC0'},
-    'char.heroine_01': {url:'assets/models/char/vroid_heroine_01.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.66,source:'VRoid CC0 樣本「HairSample_Female」＋「HairSample_Male」的上衣與長褲＋「Sendagaya Shino」的樂福鞋（pixiv）；本作修改：單一高馬尾、米白針織衫、藍灰直筒寬褲；托特包是 src/props3d.js',license:'CC0'},
+    'char.heroine_01': {url:'assets/models/char/vroid_heroine_01.vrm', blUrl:'assets/models/char/bl_heroine_01.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.66,source:'VRoid CC0 樣本「HairSample_Female」＋「HairSample_Male」的上衣與長褲＋「Sendagaya Shino」的樂福鞋（pixiv）；本作修改：單一高馬尾、米白針織衫、藍灰直筒寬褲；托特包是 src/props3d.js',license:'CC0'},
     'char.heroine_02': {url:'assets/models/char/vroid_heroine_02.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.61,source:'VRoid CC0 樣本「Victoria Rubin」＋「HairSample_Female」的亞麻上衣（剪成圓領）＋「Sendagaya Shino」的樂福鞋＋「HairSample_Male」的長褲（pixiv）；眼鏡、耳環、圍裙是 src/props3d.js',license:'CC0'},
     'char.zhe':        {url:'assets/models/char/vroid_zhe.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.78,source:'VRoid CC0 樣本「Sakurada Fumiriya」＋「HairSample_Male」的連帽上衣（pixiv）',license:'CC0'},
     'char.heroine_03': {url:'assets/models/char/vroid_heroine_03.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.59,source:'VRoid CC0 樣本「Sendagaya Shibu」＋「HairSample_Male」的長褲＋「HairSample_Female」的球鞋（pixiv）；本作修改：拿掉制服、深色 T 恤、牛仔褲；後背包是 src/props3d.js',license:'CC0'},
@@ -51,6 +51,9 @@ const ASSETS = (function(){
   };
   // 網址加 ?nobldg：不載入建築的正式模型（Blender GLB），只看程序化備用模型（新舊比較、載入失敗時的樣子）
   if(typeof location!=='undefined'&&/[?&]nobldg\b/.test(location.search||'')) for(const k of Object.keys(A.manifest)) if(k.startsWith('bldg.')) delete A.manifest[k];
+  // 網址加 ?blchar：有 Blender 正式製作版本的人物（manifest 的 blUrl）改用 Blender 版（v9.4 起；沈以安是示範角色）。
+  // 使用者驗收美術方向之前，預設仍是 VRoid 加工版；這個參數讓使用者在實際遊戲（包括手機）裡看 Blender 版
+  if(typeof location!=='undefined'&&/[?&]blchar\b/.test(location.search||'')) for(const k of Object.keys(A.manifest)) if(A.manifest[k].blUrl) A.manifest[k].url=A.manifest[k].blUrl;
   // ---- placeholder fallbacks（procedural；LEVEL_BLOCKOUT）----
   A.fallbacks={
     'tree.palm':(o)=>W3.palm(o.height||9), 'tree.leafy':(o)=>W3.banyan((o.height||6)/6), 'tree.conifer':(o)=>W3.banyan((o.height||6)/6), 'prop.bench':()=>W3.bench(),
