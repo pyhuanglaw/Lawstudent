@@ -22,6 +22,10 @@
 | `python3 tools/dev_scratch/evtest.py`（需先 build） | 52 個事件的觸發條件與鎖定解鎖 | 約 10 分鐘 |
 | `python3 tests/zone_transitions.py http://127.0.0.1:8765/index.html` | 場景切換：校園 ↔ 霖澤館教室、萬才館、總圖、宿舍、公館（校門兩個方向）進出各一次——入口按鈕、進去站得住走得動、出來站在預期位置、走得到霖澤館前、出來不會又跳出進去的按鈕；遇到旁白像玩家一樣點掉、等淡入結束（v9.3 第二十批） | 約 5 分鐘 |
 | `python3 tests/deploy_check.py http://127.0.0.1:8790/index.html "v9.3 第 24 批"` | **發布前／發布後**（2026-10-10 加）：對乾淨 checkout（`git worktree add --detach <dir> HEAD` 後在那裡開 server：只有 git 追蹤的檔案＝GitHub Pages 實際的檔案）載入遊戲、進 11 個區域：資源 404、JS 例外、script 版本號 `?v=`、標題版本字樣、玩家與 NPC 是正式 VRM | 約 1 分鐘 |
+| `python3 tests/reachability_all.py http://127.0.0.1:8765/index.html`（加 `--legacy` 是切回舊找路，預期失敗） | **第二層（2026-10-10 加，永久）**：全部 11 個區域、103 個互動點：互動範圍內有人物（半徑 0.32 m）站得住、而且是「最近的互動」的位置，用引擎真正的找路＋移動碰撞（`E.simWalk`，模擬時間、dt=1/30 與 0.1）走得到；「坐下」的接近點；劇情自動走路的 11 個目的地；20 個出入口到達點。有人坐的座位列 INFO | 約 3 分鐘 |
+| `python3 tests/flow_class_real.py http://127.0.0.1:8765/index.html` | **第三層真實玩家流程（永久回歸：教室卡住）**：不用 turbo。讀檔到星期四 12:55 霖澤館門口 → 點「進入霖澤館」→ 上課劇情自己走到座位（`GAME.walkFallbacks` 必須是 0）→ 點對話、選選項上完課 → 搖桿走到後門 → 離開教室 → 校園走得動 | 約 10–15 分鐘 |
+| `python3 tests/minimap_direction.py http://127.0.0.1:8765/index.html` | **永久回歸：小地圖方向**：讀小地圖的像素，鏡頭四個方向時出入口方塊的方向；手指拖曳轉鏡頭；搖桿往前走（地圖上前方在上、玩家箭頭朝上） | 約 3 分鐘 |
+| `python3 tests/flow_main_day12.py http://127.0.0.1:8765/index.html` | **第三層真實玩家流程：第一、二天主線**：不用 turbo、不讀檔，從標題開新遊戲 → 宿舍 → 點地面走到書桌讀案例 → 睡覺 → 第二天 → 走進霖澤館上課 → 下課離開 → 選單存檔 → 重新整理 → 讀檔 → 走得動 | 約 20–40 分鐘 |
 | `python3 tests/save_compat_v7.py http://127.0.0.1:8791/index.html http://127.0.0.1:8790/index.html` | **發布前**（2026-10-10 加）：8791 開 `main` 舊版（v7）的乾淨 checkout，開新遊戲寫出真正的 v7 存檔＋抽 v7 各區域走得到的 48 個位置；新版啟動前把 v7 存檔放進 localStorage（同網址升級）：標題畫面不覆蓋、「繼續」讀得進來且資料一樣、站得住走得動、欄位 1、48 個位置 | 約 5–10 分鐘 |
 | `python3 tools/dev_scratch/view_audit.py URL spec.json 輸出資料夾 [方向數=8]` | （畫面盤點，人工看圖）把玩家放到 spec 裡的每個位置，用一般跟隨鏡頭轉一圈各拍一張，拼成一張對照表：找「轉鏡頭看到大片空地、地面盡頭、孤立建築」的角度（v9.3 第十八～二十批用 33 個位置，spec 範例見 ART_REBUILD_PROGRESS） | 約 40 分鐘（33 個位置） |
 | `python3 tools/dev_scratch/cine_multi.py URL spec.json [寬] [高]` | （截圖用，不判定）一次載入、連拍多個固定鏡頭（演出鏡頭）；同一個區域＋時間只載入一次，比 `tools/shots/scene_shot.py` 快很多。改前改後比較圖用同一份 spec 對兩個版本各跑一次 | 每張約 30 秒 |

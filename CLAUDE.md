@@ -7,7 +7,8 @@
 手機優先的 3D life RPG：玩家「祐廷」是台大法律系一年級學生，在參考台大、公館、溫州街生活圈的 3D 世界裡自由走動、上課、讀書、認識人；重要對話切到 2D ADV（日系 visual novel 式立繪＋對話框）。three.js（純靜態檔，無 npm 相依）。
 
 - 線上（GitHub Pages）：https://pyhuanglaw.github.io/Lawstudent/ ——推到 `main` 就自動重新部署。
-- 目前版本：v7（2026-09-27）已部署在 `main`；**v9（3D 美術重建）在開發分支 `claude/friendly-brahmagupta-6bbkzc`／PR #1 進行中**。詳見下方「目前狀態」。
+- 目前版本：**v9.3 已部署在 `main`（2026-10-10，PR #1 合併，`0ef3a73`）**；之後的開發仍在開發分支 `claude/friendly-brahmagupta-6bbkzc`，驗證完、使用者要求發布時才合併到 `main`（D32）。標題畫面最下面有版本字樣。詳見下方「目前狀態」。
+- **測試制度（2026-10-10 永久規範，D34）**：`docs/TESTING.md`。真實玩家流程測試不用 `?turbo`、不瞬移、不改劇情狀態；捷徑只能當前置條件並標示；重要測試要在有 bug 的版本失敗、修好的版本通過；不用「N 項全部通過」代替驗收；分清楚手機模擬與真機。
 
 ## 和使用者合作的規則（使用者在各輪明確要求過，持續有效）
 
@@ -69,7 +70,7 @@
 
 **9. 對玩家的存檔負責。** 不任意改存檔格式；新欄位要有預設值；必要時寫遷移；用舊版存檔驗證；**不在標題畫面意外覆蓋進度**；新增角色或場景不能讓舊存檔讀不到；不可逆的存檔變更先備份並取得使用者確認；不能要求玩家重新開始。
 
-**10. GitHub 能讓另一個 AI 無縫接手。** 使用目前的開發分支與 PR #1（`claude/friendly-brahmagupta-6bbkzc`，https://github.com/pyhuanglaw/Lawstudent/pull/1），有實質進展就 commit＋push，不碰 `main`、不 force push。進度文件寫明：正在做什麼、最近完成什麼、接下來做什麼、未解決問題、因素材或授權受阻的事、最新 commit SHA、測試結果、相關素材與截圖。重要決策不能只存在對話裡；不要讓未 push 的工作成為唯一版本；push 失敗要說明，不可宣稱已同步。
+**10. GitHub 能讓另一個 AI 無縫接手。** 使用目前的開發分支與 PR #1（`claude/friendly-brahmagupta-6bbkzc`，https://github.com/pyhuanglaw/Lawstudent/pull/1），有實質進展就 commit＋push，不碰 `main`、不 force push。（2026-10-10 起：PR #1 已合併；使用者要求發布時才把開發分支合併到 `main`，見 `docs/PROJECT_DECISIONS.md` D32。）進度文件寫明：正在做什麼、最近完成什麼、接下來做什麼、未解決問題、因素材或授權受阻的事、最新 commit SHA、測試結果、相關素材與截圖。重要決策不能只存在對話裡；不要讓未 push 的工作成為唯一版本；push 失敗要說明，不可宣稱已同步。
 
 **11. 不要每做完一件小事就停。** 使用者已交辦、可安全繼續的工作，完成一個階段就接著做下一個（修存檔 → 人物美術 → 溫州街 → 光影 → 測試 → 同步）。但不能擅自：花錢買素材、改主要角色設定、合併到 `main`、刪除重要內容、做不可逆的資料修改、使用授權不明的資產。單一項目受阻就記錄原因、轉做其他不受阻的工作。工作階段或工具時間要結束時，先同步成果、寫下一步，誠實說明中斷，不宣稱能在沒有執行環境時繼續。
 
@@ -135,6 +136,12 @@ python3 tests/movement_regression.py http://127.0.0.1:8765/index.html   # A 宿�
 python3 build.py
 
 # 部署：push 到 main，GitHub Pages（Deploy from a branch → main / root）自動更新；根目錄有 .nojekyll
+
+# 發布前必跑（docs/TESTING.md 第五節）：對乾淨 checkout（git worktree add --detach <dir> HEAD，在那裡開 server）跑
+#   tests/deploy_check.py、tests/reachability_all.py、tests/flow_class_real.py、tests/minimap_direction.py、
+#   tests/zone_transitions.py、tests/touch_flow_wenzhou.py、tests/p0_movement.py、tests/save_compat_v7.py
+# 真實玩家流程（不用 turbo，慢）：tests/flow_class_real.py、tests/flow_main_day12.py（從標題開新遊戲的第一、二天主線）
+# 共用工具 tests/playlib.py：手機觸控、點對話／選項／互動、搖桿、拖曳、截圖、[前置／捷徑] 標示
 ```
 
 測試環境注意：
@@ -173,6 +180,8 @@ python3 build.py
 - 太陽方位（v9.3 第二十一批，D29）：`engine3d.js` 的時段表 azimuth 是羅盤方位；戶外照 x 往東、-z 往北換算，區域座標轉過方向的在區域定義加 `sunYaw`（公館 `π/2`）；室內維持舊的方向。**新增戶外區域或改區域方向時要設 `sunYaw`**，不然中午的太陽會跑到北邊（v9.3 之前就是這樣：朝南的系館正面整天背光）。
 - 柏油路（v9.3 第二十二批，D30）：照片的淺灰（`W3.asphaltTex`、`TK.asphaltTex`、`zones3d.js` 的 `avenueRoadTex`，底色約 #acacaa）。貼圖有 `userData.asphalt`，`engine3d.js` 會在入夜時把這些材質調暗；**新增柏油貼圖要加這個標記**，不然晚上整條路會發亮。
 - 法學院區（v9.3 第二十四批，D31，使用者提供配置圖＋萬才館照片）：萬才館的入口互動點在陽台下的一樓入口 (93.8,-100.6)，從萬才館出來在 (93.8,-98.4)；正面的弧形量體、樓梯、平台、凸出量體不能走，陽台底下可以走。國青中心是兩館中間後方的背景（走不到），黑森林＋小水池在法學院廣場南邊。改 `CK.lawhall` 要跑 `node tools/dev_scratch/kit_nav_check.js`。
+- 找路（v9.3 第二十五批，D35）：`E3.NavGrid.path` 先只走「人物（半徑 0.33 m）站得住」的格子（`clearMask`），找不到才退回舊的；拉直路線用 `losR`。**加家具、改 `blockRect` 後跑 `tests/reachability_all.py`**（全遊戲 103 個互動點用引擎真正的移動模擬走一遍；`--legacy` 切回舊找路）。測試用的掛勾：`E.simWalk`、`?navlegacy`、`GAME.walkFallbacks`（劇情自動走路卡住 4 秒遊戲時間就放到目的地的次數，真實流程測試要求 0）、`GAME.seatApproach`、`GAME.minimapArrow`。
+- 小地圖（v9.3 第二十五批）：前方朝上的旋轉地圖，旋轉角＝鏡頭角度（`E.cam.yaw`，鏡頭在玩家的 (sin yaw, cos yaw) 那一側）；有「北」標示與玩家箭頭。改小地圖跑 `tests/minimap_direction.py`。
 - 已修：教室同學朝向、VRM 0.x 朝向與坐姿軸向、標題畫面自動存檔覆蓋進度、標題「讀取」選單被蓋住、Café 座位擋住對話、直向小地圖蓋住選單、互動按鈕蓋住搖桿（細節見 ART_REBUILD_PROGRESS 的技術問題紀錄）。
 - 等使用者決定：黃昏調色提案（`engine3d.js` 的 `KEY_GOLDEN`，網址加 `?grade=golden` 才用，預設不開；比較圖在 VISUAL_REVIEW 第 10 節）。使用者沒選之前不要改預設。
 - 已知、暫不修：陳語彤領口中間的黑色小蝴蝶結（ART_REBUILD_PROGRESS #34：連帽上衣改的領口離胸口 5–6 cm；收緊領口會更醜，需要真的圓領 T 恤模型）。查人物畫面問題時，用 `tools/dev_scratch/outline_probe.py` 在遊戲裡「一次只改一樣東西」截圖，不要用猜的（同一個問題猜錯過兩次）。
