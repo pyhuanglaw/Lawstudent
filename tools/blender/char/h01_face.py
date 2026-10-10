@@ -37,7 +37,10 @@ MOUTH_K = 1.80           # 嘴寬倍數（VRoid 嘴縫只有 2.2 cm）
 FACE_NARROW = 0.95       # 臉的前半（眉毛以下、耳朵以前）左右收窄：VRoid 的臉頰／太陽穴偏寬，參考圖的眼寬約臉寬 1/4
 JAW_OUTLINE = 0.5        # 下巴、下顎描邊寬度倍數（45 度看下顎那條描邊像刀切；參考圖沒有描邊）
 IRIS_FRAC = 0.53         # 虹膜直徑 / 眼裂寬（參考圖約 0.5）
-SUBDIV_L1 = dict(ax=0.056, z0=1.383, z1=1.468, y0=0.045, amin=1.2e-5)   # 下半臉細分一次
+LOWER_BACK = (0.0010, 0.0055)   # 嘴縫、下巴往後收（側面看下半臉像往前推：遊戲內側面截圖；參考圖側面嘴唇在鼻尖後 1.1–1.7 cm、下巴在 2.7–3.4 cm，原本 1.0／2.2 cm）
+CHIN_FWD = 0.0036        # 下巴尖（頦）往前：下唇下面的凹（頦唇溝）到下巴是一個圓的小突起，不是一路斜下去（原本 2.2 mm）
+MOUTH_DOWN = 0.0020      # 嘴往下（人中加長：參考圖正面鼻下→嘴：嘴→下巴＝1:2，原本 1:2.2；側面參考圖嘴更低）
+SUBDIV_L1 = dict(ax=0.056, z0=1.383, z1=1.468, y0=0.045, amin=1.5e-6)   # 下半臉細分一次
 SUBDIV_L2 = dict(ax=0.016, z0=1.430, z1=1.476, y0=0.072, amin=2.0e-6)   # 鼻子再細分一次
 
 
@@ -102,6 +105,22 @@ def weld_ids(P, dec=6):
     _, inv = np.unique(np.round(P, dec), axis=0, return_inverse=True); return inv.ravel()
 
 
+def smooth_normals(f, N, w, iters=12, lam=0.6):
+    """法向量在網格上做拉普拉斯平滑（w：每個頂點的強度 0～1）。嘴下面到下巴的明暗直條紋是法向量的高頻變化
+    （關掉描邊還在、把陰影色改成亮色就不見：遊戲內實測），在這一區把它磨平；位置相同的頂點（UV 接縫）當成同一個"""
+    me = f.data; P = C.co(f); wid = weld_ids(P); nW = wid.max() + 1
+    E = np.empty(len(me.edges) * 2, np.int64); me.edges.foreach_get('vertices', E); E = wid[E.reshape(-1, 2)]
+    E = E[E[:, 0] != E[:, 1]]; E = np.unique(np.sort(E, 1), axis=0)
+    deg = np.bincount(E.ravel(), minlength=nW).astype(float)
+    Nw = np.zeros((nW, 3)); np.add.at(Nw, wid, N); Nw /= np.linalg.norm(Nw, axis=1, keepdims=True) + 1e-12
+    ww = np.zeros(nW); np.maximum.at(ww, wid, w)
+    for _ in range(iters):
+        S = np.zeros_like(Nw); np.add.at(S, E[:, 0], Nw[E[:, 1]]); np.add.at(S, E[:, 1], Nw[E[:, 0]])
+        avg = S / np.maximum(deg, 1)[:, None]
+        Nw = Nw + (lam * ww)[:, None] * (avg - Nw); Nw /= np.linalg.norm(Nw, axis=1, keepdims=True) + 1e-12
+    return np.where((w > 0)[:, None], Nw[wid], N)
+
+
 def boundary_loops(f, mat_i):
     """某個材質的開放邊界（焊接重複頂點之後），回傳 [有順序的頂點 index 陣列]"""
     B = C.co(f); wid = weld_ids(B); TV, _ = tris(f, mat_i)
@@ -161,7 +180,8 @@ def subdivide(f, N, ax, z0, z1, y0, amin, mat_pat='Face_00_SKIN'):
     for fc in bm.faces: fc.select_set(False)
     for fc in bm.faces:
         c = fc.calc_center_median()
-        if fc.material_index == skin and abs(c.x) < ax and z0 < c.z < z1 and c.y > y0 and fc.calc_area() > amin:
+        if fc.material_index == skin and abs(c.x) < ax and z0 < c.z < z1 and c.y > y0 and fc.calc_area() > amin \
+                and not any(e.is_boundary for e in fc.edges):      # 嘴縫、眼洞邊上的面不細分（邊界保持原樣）
             fc.select_set(True); n += 1
     bmesh.update_edit_mesh(f.data)
     if n:
@@ -245,11 +265,32 @@ def warp_jaw(P, chin_z, pin):
     Q = P.copy(); Q[:, 0] = x * (1 + CHIN_WIDEN * gc * g) + np.sign(x) * JAW_OUT * gj * g; return Q
 
 
-def warp_narrow(P, ez, pin):
-    """臉的前半左右收窄（耳朵、太陽穴、頭頂不動）"""
+def warp_narrow(P, ez, chin_z, pin):
+    """臉的前半左右收窄（耳朵、太陽穴、頭頂不動；下巴附近少收，不變回尖下巴）"""
     x, y, z = P[:, 0], P[:, 1], P[:, 2]
-    w = front_gate(y) * (1 - ss(0.060, 0.078, np.abs(x))) * (1 - ss(ez + 0.020, ez + 0.050, z)) * pin
+    w = front_gate(y) * (1 - ss(0.060, 0.078, np.abs(x))) * (1 - ss(ez + 0.020, ez + 0.050, z)) * (0.35 + 0.65 * ss(chin_z + 0.012, chin_z + 0.040, z)) * pin
     Q = P.copy(); Q[:, 0] = x * (1 - (1 - FACE_NARROW) * w); return Q
+
+
+def warp_retract(P, zs, pin):
+    """下唇、下巴往後收（只動臉的前面、嘴角以外漸弱；y 方向的剪切，不會摺疊）"""
+    x, y, z = P[:, 0], P[:, 1], P[:, 2]
+    R = LOWER_BACK[0] * ss(zs + 0.006, zs - 0.001, z) + (LOWER_BACK[1] - LOWER_BACK[0]) * ss(zs, zs - 0.010, z)
+    Q = P.copy(); Q[:, 1] -= R * (1 - ss(0.022, 0.052, np.abs(x))) * front_gate(y) * pin; return Q
+
+
+def warp_mouth_down(P, tip_z, zs, chin_z, pin):
+    """嘴（連同嘴裡）往下移 MOUTH_DOWN：鼻子下面拉長、嘴到下巴縮短（鼻子、下巴底不動）"""
+    x, y, z = P[:, 0], P[:, 1], P[:, 2]
+    w = ss(tip_z - 0.005, zs + 0.004, z) * ss(chin_z + 0.004, zs - 0.007, z) * (1 - ss(0.030, 0.055, np.abs(x))) * front_gate(y) * pin
+    Q = P.copy(); Q[:, 2] -= MOUTH_DOWN * w; return Q
+
+
+def jacobian_min3(fn, B, h=2e-5):
+    J = np.empty((len(B), 3, 3))
+    for k in range(3):
+        e = np.zeros(3); e[k] = h; J[:, :, k] = (fn(B + e) - fn(B - e)) / (2 * h)
+    return float(np.linalg.det(J).min())
 
 
 def warp_mouth(P, zs, pin):
@@ -323,8 +364,8 @@ def cheek_field(P, ez):
 
 def chin_field(P, chin_z):
     x, y, z = P[:, 0], P[:, 1], P[:, 2]
-    w = np.exp(-((x / 0.017) ** 2 + ((z - (chin_z + 0.007)) / 0.011) ** 2)) * front_gate(y)
-    D = np.zeros_like(P); D[:, 1] = 0.0022 * w; D[:, 2] = -0.0008 * w; return D
+    w = np.exp(-((x / 0.016) ** 2 + ((z - (chin_z + 0.009)) / 0.009) ** 2)) * front_gate(y)
+    D = np.zeros_like(P); D[:, 1] = CHIN_FWD * w; D[:, 2] = -0.0008 * w; return D
 
 
 def slit_fit(sp):
@@ -506,15 +547,18 @@ def apply(m):
     for nm, fn, box in (('lower', W_lower, ((-0.07, 0.07), (1.37, 1.46), 0.07)), ('eye_in', W_in, ((-0.08, 0.08), (1.44, 1.54), 0.07)), ('brow', W_brow, ((-0.08, 0.08), (1.46, 1.54), 0.075)),
                         ('eye', W_eye, ((-0.08, 0.08), (1.44, 1.51), 0.07)), ('jaw', W_jaw, ((-0.08, 0.08), (1.36, 1.45), 0.06))):
         print('  warp', nm, 'min det J %.3f' % jacobian_check(fn, box))
+        if nm in os.environ.get('H01_SKIP', ''): continue
         N = warp_n(f, fn, N)
     # 嘴：下半臉拉長之後量嘴縫
     B = C.co(f); slit = B[classify_loops(f)['mouth']]; zs = float(slit[:, 2].mean())
     W_mouth = lambda P: warp_mouth(P, zs, pin(P))
     print('  warp mouth (slit z %.4f half width %.4f) min det J %.3f' % (zs, np.abs(slit[:, 0]).max(), jacobian_check(W_mouth, ((-0.07, 0.07), (1.39, 1.44), 0.08))))
-    N = warp_n(f, W_mouth, N)
-    W_nar = lambda P: warp_narrow(P, ez, pin(P))
+    # 嘴變寬只動位置、不轉法向量：這個變形是臉平面內的左右拉伸，轉法向量只會在臉頰邊緣出現一圈像法令紋的明暗線（實測）
+    if 'mouth' not in os.environ.get('H01_SKIP', ''): C.warp(f, lambda P, _B: W_mouth(P))
+    chin_now = float(C.co(f)[(np.abs(C.co(f)[:, 0]) < 0.002) & (C.co(f)[:, 1] > 0.05), 2].min())
+    W_nar = lambda P: warp_narrow(P, ez, chin_now, pin(P))
     print('  warp narrow min det J %.3f' % jacobian_check(W_nar, ((-0.09, 0.09), (1.36, 1.56), 0.06)))
-    N = warp_n(f, W_nar, N)
+    if 'narrow' not in os.environ.get('H01_SKIP', ''): N = warp_n(f, W_nar, N)
     # 3. 表面細節（鼻、唇、下巴）：同一個位移加到所有 shape key；法向量加上「細節造成的幾何法向量變化」
     B = C.co(f); skin_v = np.unique(tris(f, skin)[0])
     tip_i = np.argmax(np.where(np.abs(B[:, 0]) < 0.002, B[:, 1], -1)); tip_z = float(B[tip_i, 2])
@@ -522,7 +566,8 @@ def apply(m):
     slit_curve = slit_fit(sp)
     chin_z = float(B[(np.abs(B[:, 0]) < 0.002) & (B[:, 1] > 0.05), 2].min())
     prof = smooth_profile(*midline_profile(B, skin_v))
-    field = lambda P: (nose_field(P, prof, tip_z) + lip_field(P, slit_curve, mw) + chin_field(P, chin_z) + cheek_field(P, ez)) * pin(P)[:, None]
+    _sk = os.environ.get('H01_SKIP', ''); _z = lambda P: np.zeros_like(P)
+    field = lambda P: ((_z(P) if 'nose' in _sk else nose_field(P, prof, tip_z)) + (_z(P) if 'lip' in _sk else lip_field(P, slit_curve, mw)) + (_z(P) if 'chinf' in _sk else chin_field(P, chin_z)) + (_z(P) if 'cheek' in _sk else cheek_field(P, ez))) * pin(P)[:, None]
     is_skin = np.zeros(len(B), bool); is_skin[skin_v] = True
     Dn = field(B) * is_skin[:, None]
     # 休息時嘴縫有 ~0.7 mm 的縫（會看到後面的牙齒變成一條白線）：上下唇邊緣往中間合起來（只動 Basis 附近的相對位移，張嘴表情照常）
@@ -535,12 +580,23 @@ def apply(m):
     N = np.where(is_skin[:, None], transport_normals(B, lambda P: P + field(P), N), N)
     C.warp(f, lambda P, _B: P + Dn)
     print('  surface detail max %.4f m; mouth half width %.4f; chin z %.4f' % (np.abs(Dn).max(), mw, chin_z))
+    # 4. 側面輪廓：下唇、下巴往後收；嘴往下（量好的嘴縫、鼻尖、下巴底）
+    B = C.co(f); zs0 = float(np.interp(0.0, slit_curve[0], slit_curve[1]))
+    W_ret = lambda P: warp_retract(P, zs0, pin(P))
+    W_md = lambda P: warp_mouth_down(P, tip_z, zs0, chin_z, pin(P))
+    for nm, fn in (('retract', W_ret), ('mouth_down', W_md)):
+        print('  warp %s min det J (3D, vertices) %.3f' % (nm, jacobian_min3(fn, B)))
+        if nm in _sk: continue
+        N = warp_n(f, fn, N); B = C.co(f)
     tn1, ta1 = tri_normals(f, None); flip = ((tn0 * tn1).sum(1) < 0) & (ta0 > 1e-9)
     print('  folded triangles after all deformations: %d (degenerate before: %d)' % (flip.sum(), (ta0 <= 1e-9).sum()))
     if flip.any():
         TVa, _ = tris(f, None); Pa = C.co(f); nm = mat_names(f); _, _, mia, _ = poly_data(f)
         print('    folded at', np.round(Pa[TVa[flip]].mean(1), 4).tolist())
-    # 4. 法向量
+    # 4. 法向量（嘴下面到下巴先磨平）
+    B = C.co(f); zs1 = float(np.interp(0.0, slit_curve[0], slit_curve[1])) - MOUTH_DOWN
+    w_sm = ss(zs1 - 0.0025, zs1 - 0.0060, B[:, 2]) * (1 - ss(0.022, 0.034, np.abs(B[:, 0]))) * ss(0.045, 0.060, B[:, 1]) * pin(B)
+    N = smooth_normals(f, N, w_sm); print('  smoothed normals below the lower lip: %d vertices' % int((w_sm > 0.01).sum()))
     me.normals_split_custom_set_from_vertices([tuple(v) for v in N])
     # 5. 貼圖
     paint_all(f)
@@ -734,7 +790,7 @@ def paint_skin(f, R, eyes, loops):
     for sgn in (1, -1):
         dc = np.sqrt(((x - sgn * mw * 1.02) / 0.0012) ** 2 + ((z - (np.interp(mw, sg, sz) + 0.0003)) / 0.0007) ** 2)
         sel = mask & (y > 0.06)
-        rgb[sel] = mix(rgb[sel], [0.70, 0.45, 0.42], ((1 - ss(0.6, 1.0, dc)) * 0.35)[sel])
+        rgb[sel] = mix(rgb[sel], [0.74, 0.50, 0.47], ((1 - ss(0.5, 1.0, dc)) * 0.18)[sel])
     # (d) 鼻孔、鼻下陰影、鼻翼溝
     mid = (np.abs(B[:, 0]) < 0.002); tip_i = np.argmax(np.where(mid, R[:, 1], -1)); tip = R[tip_i]
     for sgn in (1, -1):
