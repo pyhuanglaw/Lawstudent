@@ -18,7 +18,7 @@ from h01_hair import _unit, sph, slerp, sstep, tangents, catmull, resample
 
 SEED = 20261012
 POLE = (180.0, 70.0)      # 髮旋：頭頂稍偏後
-PART = -9.0               # 分線（方位角）：略偏人物的右邊
+PART = -4.0               # 分線（方位角）：接近中分、略偏人物的右邊（參考圖 06 的臉部特寫；第六版 -9° 的側分瀏海在近看時像一排齊瀏海）
 # 顏色（sRGB）：參考圖 06 的黑髮（受光處偏深棕）；比純黑亮一級：遊戲（MToon）裡太黑會看不出髮絲（祐廷第十一版的經驗）
 DEEP = np.array([0.07, 0.06, 0.06]); BASE = np.array([0.14, 0.12, 0.115]); LIGHT = np.array([0.24, 0.205, 0.19]); SHEEN = np.array([0.40, 0.355, 0.33])
 REG = {'card': (0, 288, 0, 1024), 'cardB': (288, 512, 0, 1024), 'bang': (512, 704, 0, 1024), 'lock': (704, 960, 0, 1024), 'shell': (960, 1024, 0, 1024)}
@@ -52,6 +52,7 @@ def apply(m):
     neck_z = C.landmarks(arm)['neck']
     print('  hair(p02): head center', np.round(c, 4), 'R top %.3f brow %.3f..%.3f neck %.3f' % (H.Rtop, H.brow_z, H.brow_top, neck_z), 'avoid clothes', H.clothes)
     mb = HB.MB(); dP = sph(*POLE)
+    SKIP = set(filter(None, os.environ.get('HAIR_SKIP', '').split(',')))     # 除錯：只看某幾組（shell、inner、main、outer、bang）
 
     def az(a): return abs(((a + 180) % 360) - 180)
 
@@ -89,7 +90,7 @@ def apply(m):
     z_hang = H.brow_z - 0.052           # 耳垂附近：這個高度以下頭髮改成往下垂
     # 髮尾高度（方位角 → z）：前面兩側到下巴（框住臉）、兩側到肩膀、後面最長
     TIP_A = [36, 50, 65, 90, 130, 180]
-    TIP_Z = [eye_z - 0.040, neck_z + 0.030, neck_z + 0.016, neck_z + 0.010, neck_z - 0.010, neck_z - 0.026]   # 第三版：兩側停在肩膀上方（T 字姿勢的肩膀會把髮尾往外推 5 cm）
+    TIP_Z = [eye_z - 0.040, neck_z + 0.032, neck_z + 0.028, neck_z + 0.026, neck_z - 0.006, neck_z - 0.026]   # 第三版：兩側停在肩膀上方（T 字姿勢的肩膀會把髮尾往外推 5 cm）；第七版兩側再短 1.5 cm（第六版側面 82–91° 的髮尾被肩膀推到離頭中心 14 cm，正面看是幾條往外飄的細線）
     def z_tip(a): return float(np.interp(az(a), TIP_A, TIP_Z))
 
     # ---- 1. 髮殼 ----
@@ -105,7 +106,7 @@ def apply(m):
         U = u0 + (u1 - u0) * np.linspace(0, 1, PAN + 1); Vv = v0 + (v1 - v0) * (vs / vs[-1])
         UV = np.stack(np.broadcast_arrays(U[None, :], Vv[:, None]), -1)
         mb.grid(G, UV, Nn, 'head', np.zeros(Nv + 1))
-    n_shell = len(mb.F)
+    n_shell = len(mb.F); GR = [('shell', 0, n_shell)]
 
     # ---- 2. 垂落的髮片：上段沿頭皮（球面參數）、耳下以下往下垂 ----
     def hang_card(a, vroot, off, wfac, reg, nseg=12, curl=0.0, wave=0.0, wph=0.0, flip=0.010, tip_dz=0.0, short=False):
@@ -118,6 +119,8 @@ def apply(m):
             p, d = surf(a + curl * t * t, v, e); P.append(p); D.append(d)
         P = np.array(P); D = np.array(D)
         if not short:
+            sw = float(sstep(55, 75, az(a)) * (1 - sstep(112, 132, az(a))))      # 兩側（肩膀上方）
+            flip = flip * (1 - 0.7 * sw)
             p0 = P[-1]; rad = _unit(np.array([p0[0] - c[0], p0[1] - c[1], 0.0]))
             tan = _unit(np.cross([0, 0, 1.0], rad))
             zt = z_tip(a) + tip_dz; n2 = 12; L2 = max(p0[2] - zt, 0.02)
@@ -133,6 +136,10 @@ def apply(m):
             for _ in range(2):
                 P[1:-1] = P[1:-1] * 0.5 + (P[:-2] + P[2:]) * 0.25
             P = H.push(P, np.r_[np.full(nseg + 1, 0.003), np.full(len(low), 0.008)])
+            # 第七版：髮尾離頭的中心最多比耳下那一點外 1.4 cm（兩側）～2.4 cm（前後）。第六版兩側幾片被 T 字姿勢的肩膀推到外面，正面看是往外飄的細線
+            r0 = float(np.hypot(p0[0] - c[0], p0[1] - c[1])); rmax = r0 + 0.014 + 0.010 * (1 - sw)
+            hz = np.hypot(P[nseg + 1:, 0] - c[0], P[nseg + 1:, 1] - c[1]); k = np.minimum(1.0, rmax / np.maximum(hz, 1e-6))
+            P[nseg + 1:, 0] = c[0] + (P[nseg + 1:, 0] - c[0]) * k; P[nseg + 1:, 1] = c[1] + (P[nseg + 1:, 1] - c[1]) * k
         else:
             P = H.push(P, np.linspace(0.003, 0.004 + off, len(P)))
         Tn = tangents(P)
@@ -145,47 +152,62 @@ def apply(m):
             if far > 0.13 or P[:, 2].min() < neck_z - 0.08: print('   FAR hang a=%.1f vroot=%.2f short=%s far=%.3f zmin=%.3f pts %s' % (a, vroot, short, far, P[:, 2].min(), np.round(P[[0, len(P) // 2, -1]], 3).tolist()))
         mb.ribbon(P, side, D, width, reg, 'head', np.zeros(len(P)), arch=0.10, tt=np.linspace(0, 1, len(P)))
 
+    f0 = len(mb.F)
     for k in range(56):        # 內層：頭頂到耳下（短），蓋住髮殼的邊
         a = -180 + 360 * (k + 0.5) / 56 + rng.uniform(-1.5, 1.5)
         if az(a) < 34: continue                      # 前額交給瀏海
         hang_card(a, 0.95, 0.0015, 1.7, 'card', short=True)
+    GR.append(('inner', f0, len(mb.F))); f0 = len(mb.F)
     for k in range(48):        # 主層：垂到肩膀
         a = -180 + 360 * (k + rng.uniform(0.25, 0.75)) / 48
         if az(a) < 36: continue
         hang_card(a, 0.90 - rng.uniform(0, 0.06), 0.0040 + 0.001 * rng.random(), rng.uniform(1.5, 1.8), 'lock',
                   curl=rng.uniform(-4, 4), wave=0.006 + 0.004 * rng.random(), wph=rng.uniform(0, 6.28), flip=0.008 + 0.006 * rng.random(), tip_dz=rng.uniform(-0.012, 0.010))
+    GR.append(('main', f0, len(mb.F))); f0 = len(mb.F)
     for k in range(34):        # 外層：碎一點、長短不一
         a = -180 + 360 * (k + rng.uniform(0.1, 0.9)) / 34
         if az(a) < 38: continue
         hang_card(a, 0.86 - rng.uniform(0, 0.12), 0.0070 + 0.002 * rng.random(), rng.uniform(1.2, 1.5), 'cardB' if rng.random() < 0.4 else 'lock',
                   curl=rng.uniform(-6, 6), wave=0.008 + 0.005 * rng.random(), wph=rng.uniform(0, 6.28), flip=0.010 + 0.008 * rng.random(), tip_dz=rng.uniform(-0.025, 0.020))
+    GR.append(('outer', f0, len(mb.F)))
     n_card = len(mb.F) - n_shell
 
-    # ---- 3. 瀏海：分線兩邊往外撥，髮尾在顴骨，接到前面兩側的髮束 ----
-    def bang_card(a, vroot, off, wfac, sgn, z_end):
-        # 第二版：往外撥最多 14°，髮尾高度用撥過去的方位算（第一版撥 28°、高度用原本的方位算：外側幾片的髮尾跑到下顎、肩膀，像天線往外飛）
-        vt = max(-0.35, v_at_z(a + sgn * 12, z_end))
-        vv = np.linspace(vroot, vt, 17); P = []; D = []
-        for i, v in enumerate(vv):
-            t = i / 16; e = off * (0.3 + 0.7 * float(sstep(0.0, 0.3, t))) + 0.004 * math.sin(math.pi * min(1.0, t * 1.1))
-            p, d = surf(a + sgn * (4 + 10 * t * t), v, e); P.append(p); D.append(d)
-        P = H.push(np.array(P), 0.004); D = np.array(D); Tn = tangents(P)
-        D = _unit(D - Tn * np.sum(D * Tn, 1)[:, None]); side = _unit(np.cross(D, Tn))
-        width = wfac * 0.011 * (0.6 + 0.4 * sstep(0.0, 0.3, np.linspace(0, 1, len(P))))
+    # ---- 3. 瀏海：中分偏一邊的八字瀏海（第七版）----
+    # 參考圖 06 的臉部特寫：分線旁的頭髮越過髮際線後馬上往兩邊撥開，沿著額頭外側斜斜往下、經過眉尾外面，
+    # 髮尾在眼睛旁（顴骨高度），和臉旁垂下來的頭髮接成框住臉的弧線；額頭中間露出一個倒 V。
+    # 第六版是「分線旁到眉毛、往外越長」的側分瀏海：近看是一排橫過額頭的齊瀏海（遊戲內臉部特寫），所以改成這種走法。
+    def curtain_card(sgn, t, vroot, off, wfac, rr):
+        """t：0＝最靠分線（倒 V 的內緣）→ 1＝最外面；控制點用（方位角, v）：髮根 → 髮際線 → 額頭外上方 → 眼睛旁"""
+        a1 = PART + sgn * (3.0 + 13.0 * t)
+        a2 = sgn * (23.0 + 11.0 * t) + rr * 1.5; z2 = H.brow_top + 0.014 - 0.004 * t
+        a3 = sgn * (41.0 + 11.0 * t) + rr * 2.0; z3 = eye_z - 0.004 - 0.024 * t - 0.006 * abs(rr)
+        ctrl = np.array([[PART + sgn * (0.8 + 7.0 * t), vroot], [a1, 0.0], [a2, v_at_z(a2, z2)], [a3, v_at_z(a3, z3)]])
+        AV = catmull(ctrl, 8)
+        P = []; D = []; n = len(AV)
+        for i, (a, v) in enumerate(AV):
+            tt = i / (n - 1); e = off * (0.35 + 0.65 * float(sstep(0.0, 0.25, tt))) + 0.003 * math.sin(math.pi * min(1.0, tt * 1.15))
+            p, d = surf(a, v, e); P.append(p); D.append(d)
+        P = H.push(np.array(P), 0.004); D = np.array(D)
+        for _ in range(2): P[1:-1] = P[1:-1] * 0.5 + (P[:-2] + P[2:]) * 0.25
+        Tn = tangents(P); D = _unit(D - Tn * np.sum(D * Tn, 1)[:, None]); side = _unit(np.cross(D, Tn))
+        width = wfac * 0.011 * (0.55 + 0.45 * sstep(0.0, 0.25, np.linspace(0, 1, len(P)))) * (1.0 - 0.25 * sstep(0.75, 1.0, np.linspace(0, 1, len(P))))
         if os.environ.get('HAIR_DEBUG'):
-            far = np.hypot(P[:, 0] - c[0], P[:, 1] - c[1]).max()
-            if far > 0.13 or P[:, 2].min() < neck_z: print('   FAR bang a=%.1f vt=%.2f far=%.3f zmin=%.3f pts %s' % (a, vt, far, P[:, 2].min(), np.round(P[[0, 8, -1]], 3).tolist()))
+            print('   bang sgn=%+d t=%.2f a %.1f→%.1f z_end %.3f pts %s' % (sgn, t, ctrl[0, 0], ctrl[-1, 0], P[-1, 2], np.round(P[[0, n // 3, 2 * n // 3, -1]], 3).tolist()))
         mb.ribbon(P, side, D, width, 'bang', 'head', np.zeros(len(P)), arch=0.08, tt=np.linspace(0, 1, len(P)))
-    for sgn in (1.0, -1.0):
-        for k in range(7):
-            t = (k + rng.uniform(0.2, 0.8)) / 7
-            a = PART + sgn * (2 + 30 * t)
-            z_end = H.brow_z + 0.004 - (0.040 + 0.012 * rng.random()) * float(sstep(0.1, 1.0, t))    # 分線旁在眉毛上方、往外到顴骨
-            bang_card(a, 0.62 + rng.uniform(0, 0.10), 0.008 + 0.002 * rng.random(), rng.uniform(1.6, 2.1), sgn, z_end)
+    for sgn, nb in ((-1.0, 8), (1.0, 9)):     # 分線在人物右邊一點：左邊（+X）的頭髮多一片
+        for k in range(nb):
+            t = (k + rng.uniform(0.3, 0.7)) / nb
+            curtain_card(sgn, t, 0.42 + rng.uniform(0, 0.12), 0.005 + 0.004 * t, rng.uniform(2.0, 2.5), rng.uniform(-1, 1))
     n_bang = len(mb.F) - n_shell - n_card
+    GR.append(('bang', n_shell + n_card, len(mb.F)))
 
     # ---- 4. 物件、材質、權重 ----
     V = np.array(mb.V); Fc = mb.F
+    if SKIP:                 # 除錯：拿掉某幾組的面（不影響其他組的亂數）
+        keep = np.ones(len(Fc), bool)
+        for g, i0, i1 in GR:
+            if g in SKIP: keep[i0:i1] = False
+        Fc = [f for f, k in zip(Fc, keep) if k]; print('  hair(p02): debug skip', sorted(SKIP), 'faces left', len(Fc))
     me = bpy.data.meshes.new('Hair_P02'); me.from_pydata(V.tolist(), [], Fc); me.validate(clean_customdata=False); me.update()
     uv = me.uv_layers.new(name='UVMap'); li = np.zeros(len(me.loops), int); me.loops.foreach_get('vertex_index', li)
     uv.data.foreach_set('uv', np.array(mb.UV)[li].reshape(-1).astype(np.float32))

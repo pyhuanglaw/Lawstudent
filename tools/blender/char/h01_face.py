@@ -801,11 +801,20 @@ def paint_skin(f, R, eyes, loops):
         if ref.sum() > 20:
             med = np.median(rgb[ref], axis=0); tgt = lum[..., None] * (med / max(float(med @ lw), 1e-3))
             if CHEEK_TINT_K > 0:
+                # 第二版（2026-10-10 林芷若第七版）：第一版把腮紅中心換成「同亮度、額頭色相」——粉紅色的亮度比膚色低，換完變成一塊灰藍色，
+                # 而且橢圓只蓋到腮紅中心，外圈的粉紅還在。改成：在臉頰範圍內，比額頭更紅的像素才算腮紅，
+                # 用周圍「不是腮紅」的皮膚模糊補上（亮度、色相都跟著周圍走）。
+                redn = (rgb[..., 0] - rgb[..., 1]) - float(med[0] - med[1])
+                area = np.zeros(lum.shape)
                 for s_ in (1, -1):
-                    E0 = eyes[s_]; cxc = (E0['a_in'] + E0['a_out']) / 2 + 0.004; czc = (E0['up'].max() + E0['lo'].min()) / 2 - 0.024
-                    dc = np.sqrt(((ax - cxc) / 0.022) ** 2 + ((z - czc) / 0.017) ** 2)
-                    rgb[:] = mix(rgb, tgt, (1 - ss(0.55, 1.0, dc)) * CHEEK_TINT_K * mask * ((x > 0) == (s_ > 0)))
-                print('  cheek blush reduced (forehead skin %s)' % np.round(med, 3))
+                    E0 = eyes[s_]; cxc = (E0['a_in'] + E0['a_out']) / 2 + 0.004; czc = (E0['up'].max() + E0['lo'].min()) / 2 - 0.020
+                    dc = np.sqrt(((ax - cxc) / 0.034) ** 2 + ((z - czc) / 0.026) ** 2)
+                    area = np.maximum(area, (1 - ss(0.65, 1.0, dc)) * mask * ((x > 0) == (s_ > 0)))
+                bm = area * ss(0.008, 0.045, redn)
+                keep = (mask & (bm < 0.04)).astype(float)
+                fill = blur(rgb * keep[..., None], 40) / np.maximum(blur(keep, 40), 1e-4)[..., None]
+                rgb[:] = mix(rgb, fill, np.clip(bm * CHEEK_TINT_K * 1.25, 0, 1))
+                print('  cheek blush removed (forehead skin %s, blush px %d)' % (np.round(med, 3), int((bm > 0.5).sum())))
             for s, E in eyes.items():
                 cx = (E['a_in'] + E['a_out']) / 2; cz = (E['up'].max() + E['lo'].min()) / 2
                 de = np.sqrt(((ax - cx) / 0.021) ** 2 + ((z - cz) / 0.0135) ** 2)

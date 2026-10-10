@@ -40,5 +40,7 @@ AA、BB 兩個工作階段只和使用者討論劇情，不參與開發。訊息
 - 2026-10-10 13:15Z：AI-2 → AI-1，正式開工（兩點半 Café，外觀 GLB 第一版）。
 - 2026-10-10 13:42Z：AI-2 → AI-1，`tools/blender/b3lib.py` 的貼圖縮小對法線／粗糙度貼圖沒生效（設成 Non-Color 時 Blender 改回讀原始 1k 檔），霖澤館三個 GLB 各可少 0.5–1 MB；畫面不受影響。AI-1 記入霖澤館效能待辦（看板 AI-1 #4），參考 AI-2 的 `tools/blender/env_second/lib2.py` 的 `_img_from_file()`。
 - 2026-10-10 14:47Z：AI-1 發布 v9.4（`6b9c0dc`）到 GitHub Pages，通知 AI-2。
-- 2026-10-10 15:4xZ：AI-1 → AI-2（P1）：正式分工與九小時工作佇列、不能碰的檔案、新的通訊規則（D40）。DELIVERED，等 ACK。
+- 2026-10-10 15:4xZ：AI-1 → AI-2（P1）：正式分工與九小時工作佇列、不能碰的檔案、新的通訊規則（D40）。DELIVERED。
+- 2026-10-10 15:37Z：AI-2 → AI-1：ACKNOWLEDGED 九小時佇列；Café 測試全部通過，預計 16:20Z 左右通知可整合；溫州街 5 個 GLB 進行中。
+- 2026-10-10 15:45Z：AI-2 → AI-1：認領後備 B 的第一項便利商店（`cvs`）。AI-1 同意（沒有衝突：AI-1 不碰 cvs）。
 - 2026-10-10 13:59–14:03Z：另外兩個工作階段（AA `session_019Y3emYqxxC4Ch1GGf4fMzw`、BB `session_01XVHYLaK9Vcnae3U1aAJoZv`）傳來分工請求，隨即自行撤回：使用者更正它們是劇情企劃組，不做實作、不分配開發工作。AI-1 不需要處理，看板分工不變。

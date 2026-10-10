@@ -693,7 +693,9 @@ def linen_texture(S=1024, seed=13):
     rng = np.random.default_rng(seed)
     v = (np.arange(S)[::-1] + 0.5)[:, None] / S; u = (np.arange(S) + 0.5)[None, :] / S
     weave = 0.5 + 0.5 * np.cos(2 * math.pi * u * 420) * np.cos(2 * math.pi * v * 420)
-    slub_u = _noise(rng, 1, S, 90)[0][None, :]; slub_v = _noise(rng, S, 1, 90)[:, 0][:, None]
+    ph = rng.uniform(0, 2 * math.pi, 4)      # 竹節紗：橫向用整數頻率的正弦（u＝0 和 1 接得起來；第一版用雜訊，前中心看得到一條接縫）
+    slub_u = (0.5 + 0.22 * np.sin(2 * math.pi * 37 * u + ph[0]) + 0.18 * np.sin(2 * math.pi * 61 * u + ph[1]) + 0.1 * np.sin(2 * math.pi * 113 * u + ph[2]))
+    slub_v = _noise(rng, S, 1, 90)[:, 0][:, None]
     lum = 0.95 + 0.05 * weave + 0.022 * (slub_u - 0.5) + 0.022 * (slub_v - 0.5) + (_noise(rng, S, S, 6) - 0.5) * 0.02   # 竹節紗與斑駁淡一點（第一版像毛氈）
     m = (v > 0.75).astype(float)
     stitch = (np.abs(((v - 0.75) % 0.05) - 0.012) < 0.0012) * (np.cos(2 * math.pi * u * 160) > 0.2)
