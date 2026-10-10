@@ -536,5 +536,42 @@ look-dev 全身比較（上排現在的遊戲版、下排這一輪；兩排都�
 - 領子：第一版太寬（在肩膀上像披肩）、邊緣一上一下像荷葉邊、貼圖用到下擺的車縫線——收窄、磨順、貼圖改用素面的部分。
 - 瀏海：第一版是細髮束的貼圖，一根根散開很亂；第三版加寬又變成一排齊瀏海、看不到中分；第四版靠分線的兩束細一點、往兩旁撥開。
 - V 領裡的皮膚：試過兩種另外做的皮膚片（一片單色的、一片從脖子邊界長出來的），都看得到接縫；查出是貼圖透明（上面 `stage0`），改成補貼圖。
+- **遊戲用模型** `assets/models/char/bl_heroine_05.vrm`（3.2 MB）；**Blender 工作檔** `assets/blender/heroine_05_work_v1.blend`。**怎麼看**：網址加 `?blchar`（預設仍是 VRoid 加工版 `vroid_heroine_05.vrm`）。
 
-狀態：**製作中**——遊戲內六視角、坐下、樓梯、表情、三方比較還沒做；`bl_heroine_05.vrm` 還沒放進遊戲（`?blchar` 目前仍載入 VRoid 加工版）。
+**三方比較**（參考圖 06｜目前 VRoid 加工版，遊戲內｜Blender 第一版，遊戲內｜Blender 渲染圖，手放下）：
+
+![溫書瑀三方比較](screenshots/v94_CHAR_heroine_05_blender_3way.jpg)
+
+**遊戲渲染器裡的 VRoid 版與 Blender 版**（同一個 test_charlook 頁面、同樣的光）：
+
+![溫書瑀 VRoid 版與 Blender 版](screenshots/v94_CHAR_heroine_05_blender_lookdev.jpg)
+
+**遊戲內六視角＋走路＋實際遊戲畫面**（溫州街小公園前，11:00，網址 `?blchar`）：
+
+![溫書瑀 Blender 版遊戲內](screenshots/v94_CHAR_heroine_05_blender_ingame.jpg)
+
+**動作**（坐溫州街小公園的長椅——坐姿第二版；自己走上霖澤館大廳的樓梯）：
+
+![溫書瑀 Blender 版動作](screenshots/v94_CHAR_heroine_05_blender_motion.jpg)
+
+**表情**（遊戲的 three-vrm 載入：一般、眨眼、張嘴、微笑、o 嘴、生氣；15 個表情都在）：
+
+![溫書瑀 Blender 版表情](screenshots/v94_CHAR_heroine_05_blender_expressions.jpg)
+
+**和參考圖比**：
+- 接近的：成熟的臉（六人裡最像大人）、中分往兩旁撥的長瀏海（看得到額頭）、深棕低馬尾（髮圈在後頸）、白襯衫開領紮進卡其褲＋深色皮帶、捲起的袖子、判決節錄資料夾。VRoid 加工版是一排很重的齊瀏海，參考圖沒有。
+- 不一樣的：參考圖的褲子是窄管、往下收，這版是直筒、偏寬；參考圖的鞋看起來是黑色低跟鞋（文字寫樂福鞋，這版照文字做深棕樂福鞋）；參考圖臉部特寫的馬尾從肩膀前面垂下來，這版垂在背後。
+
+**測試**（都是 Playwright 模擬／Node，**不是手機實機**）：
+- `CHAR_FILE=assets/models/char/bl_heroine_05.vrm node tests/stairs_feet_unit.js char.heroine_05`：ALL PASS（上下樓梯穿進台階 0.0 cm）。
+- `sit_feet_unit`：腳底 −0.5 cm、小腿 7°、大腿 11°，PASS。`sim_hair`：走路／瞬移時髮尾最多比站著高 0.4 cm，PASS（馬尾與臉旁碎髮的彈簧骨正常）。
+- `?blchar` 實際載入 `bl_heroine_05.vrm`、driver=vrm、沒有退回程序化人物、沒有 JS 例外；遊戲內 `char_review`、`char_motion`、表情檢查都沒有錯誤。
+
+**仍不符合參考圖（誠實列出）**：
+- 頭頂的剪影還有一點一根根翹起來（往後梳的第二層髮片）；遊戲的臉部特寫裡比較明顯。
+- 領子在遊戲裡近看有一點皺（襯衫用的是亞麻布料的貼圖，有皺紋的明暗）；遠看是一個開領。
+- 褲子是直筒偏寬，參考圖是窄管。
+- 臉的五官仍是 VRoid 的畫法；嘴巴張開時口腔是 VRoid 的鮮紅色（六人都一樣）。
+- 上樓梯的第一張截圖裡，一隻手往前伸到肩膀高（走路動畫擺手的那一格，其他人物同一套動畫）。
+
+狀態：`READY_FOR_ART_REVIEW`（美術待使用者驗收，**未標 ART_APPROVED**）。
