@@ -188,11 +188,17 @@ for xc in (-2.0, 2.0):
         for k in range(4): goods.cbox(xc - 0.24, xc + 0.24, 0.1 + k * 0.26, 0.34 + k * 0.26, za, zb, random.choice(PALETTE), 0.95, face='+z' if s > 0 else '-z')
 
 # ---- 櫃檯後面：香菸櫃（後牆右段，套件 goodsWall(4.5,−4.2,0,3) 的位置）＋咖啡機台
-cab = Mesh('cvs_cabinet', M['black']); cab.box(3.0, X1 - 0.02, 0.0, 0.9, Z0 + 0.05, Z0 + 0.5); cab.box(3.0, X1 - 0.02, 1.2, 2.2, Z0 + 0.05, Z0 + 0.35)
+cab = Mesh('cvs_cabinet', M['black']); cab.box(3.0, X1 - 0.02, 0.0, 0.9, Z0 + 0.05, Z0 + 0.5)
+# 香菸櫃（上半）：黑框＋打光背板＋四層菸盒（在框裡面、玻璃後面看得到）
+cab.box(3.0, X1 - 0.02, 2.14, 2.2, Z0 + 0.05, Z0 + 0.36); cab.box(3.0, X1 - 0.02, 1.2, 1.26, Z0 + 0.05, Z0 + 0.36)
+for x in (3.0, X1 - 0.06): cab.box(x, x + 0.04, 1.2, 2.2, Z0 + 0.05, Z0 + 0.36)
+Mesh('cvs_cabinet_light', M['coolerlit']).box(3.04, X1 - 0.06, 1.26, 2.14, Z0 + 0.05, Z0 + 0.08).finish(root)
 for y in (1.4, 1.6, 1.8, 2.0):
+    cab.box(3.04, X1 - 0.06, y - 0.17, y - 0.155, Z0 + 0.08, Z0 + 0.33)
     a = 3.08
     while a < X1 - 0.12:
-        goods.cbox(a, a + 0.07, y - 0.15, y - 0.03, Z0 + 0.2, Z0 + 0.33, random.choice(['#f4f1ea', '#d8432f', '#2f7ed8', '#1d1d1f', '#f0b429']), 0.95, face='+z'); a += 0.085
+        goods.cbox(a, a + 0.07, y - 0.155, y - 0.035, Z0 + 0.12, Z0 + 0.26, random.choice(['#f4f1ea', '#d8432f', '#2f7ed8', '#1d1d1f', '#f0b429']), 0.95, face='+z'); a += 0.085
+Mesh('cvs_cabinet_glass', M['glass']).quad([(3.04, 1.26, Z0 + 0.34), (X1 - 0.06, 1.26, Z0 + 0.34), (X1 - 0.06, 2.14, Z0 + 0.34), (3.04, 2.14, Z0 + 0.34)]).finish(root)
 cab.finish(root)
 top = Mesh('cvs_backtop', M['top']); top.box(3.0, X1 - 0.02, 0.9, 0.95, Z0 + 0.05, Z0 + 0.52); top.finish(root)
 cm = Mesh('cvs_coffee', M['black']); cm.box(3.3, 3.8, 0.95, 1.6, Z0 + 0.1, Z0 + 0.45); cm.box(4.1, 4.6, 0.95, 1.55, Z0 + 0.1, Z0 + 0.45); cm.finish(root)
@@ -238,6 +244,13 @@ for y in (0.3, 0.68, 1.06, 1.44, 1.82):
         zz += w + 0.01
 cs.finish(root)
 
+# ---- 後牆中間（貨架與香菸櫃之間）：促銷看板（canvas 字）＋海報色塊
+pb = L.CMesh('back_promo', M['poster'])
+for i, col in enumerate(('#e8a33a', '#1f6f78', '#d8432f', '#f4f1ea')): pb.cbox(-1.25 + i * 1.02, -0.35 + i * 1.02, 1.25, 1.95, Z0 + 0.12, Z0 + 0.13, col)
+walls['back'].append(pb)
+pm = Mesh('WALL_back_SIGN_FACE_promo', M['board']); pm.quad([(-1.3, 2.05, Z0 + 0.125), (2.75, 2.05, Z0 + 0.125), (2.75, 2.5, Z0 + 0.125), (-1.3, 2.5, Z0 + 0.125)])
+PROMO = (pm, {'dir': DIRS['back'], 'sign': '咖啡第二杯半價・集點換好禮', 'promo': 1})
+
 # ---- 走道上的分類牌（吊在天花板，兩面）、牆上的海報
 hang = Mesh('cvs_sign_hang', M['frame'])
 for i, (x, z, txt) in enumerate(((-2.0, 0.0, '零食・餅乾'), (2.0, 0.0, '泡麵・調味'), (-3.8, -3.6, '麵包・飯糰'), (5.6, 2.0, '冷藏飲料'))):
@@ -263,6 +276,7 @@ for side, ms in walls.items():
     for m in ms:
         m.name = f'WALL_{m.name}'; ob = m.finish(root, uv=True, props={'dir': DIRS[side]})
 for m in (goods, sh, rl, tg): m.finish(root, uv=(m is not goods))
+uv01(PROMO[0].finish(root, uv=True, props=PROMO[1]))
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
 info = L.export(OUT, gpu_instances=True)
 L.write_json(OUT[:-4] + '.json', info)

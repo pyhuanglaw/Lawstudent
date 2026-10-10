@@ -47,7 +47,7 @@ WAIT_STREET = ("(async()=>{ const want=%s; for(let i=0;i<240;i++){ const z=GAME.
 CVS = [
     ('entry', ALL, dict(zone='cvs', w=390, h=844, mobile=True, hud=True, pos={'x': 0, 'z': 3.5, 'yaw': 3.1416}, cam={'yaw': 0.0, 'pitch': 0.38, 'dist': 4.0})),
     ('aisle', ('1100',), dict(zone='cvs', w=1280, h=720, hidePlayer=True, pos={'x': 0, 'z': 2.8, 'yaw': 3.1416}, cam={'pos': [0.2, 1.6, 3.6], 'look': [0.0, 1.0, -3.5]})),
-    ('counter', ('1730',), dict(zone='cvs', w=1280, h=720, hidePlayer=True, pos={'x': 3.2, 'z': -0.6, 'yaw': 3.1416}, cam={'pos': [1.2, 1.65, 1.6], 'look': [4.4, 1.0, -2.6]})),
+    ('counter', ('1730',), dict(zone='cvs', w=1280, h=720, hidePlayer=True, pos={'x': 3.2, 'z': -0.6, 'yaw': 3.1416}, cam={'pos': [3.0, 1.6, 1.1], 'look': [4.3, 1.0, -2.3]})),
     ('cooler', ('2030',), dict(zone='cvs', w=1280, h=720, hidePlayer=True, pos={'x': 4.0, 'z': 2.0, 'yaw': 1.5708}, cam={'pos': [2.6, 1.6, 0.2], 'look': [5.6, 1.1, 2.6]})),
 ]
 WAIT_ROOM = ("(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if((z&&z.formal)||%s) return z&&z.formal?'formal':'fallback'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()")
