@@ -59,6 +59,7 @@
 | 霖澤館室內（一樓大廳、直跑樓梯、二樓迴廊） | `tools/blender/linze_interior.py` → `assets/models/env/linze_interior.glb` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/linze_layout.js`（遊戲化設計，D37）；貼圖見上表（CC0） |
 | 霖澤館外觀（十層樓：花崗石基座＋三層樓高穿堂、灰色帶窗層、紅磚窗格＋窗楣遮陽盒、頂樓開放層＋大屋頂板、二樓天橋、玻璃大廳） | `tools/blender/linze_exterior.py` → `assets/models/env/linze_exterior.glb` | 本作自己寫的 Blender Python 腳本建模；量體與導航同 `src/campuskit3d.js` 的 `CK.lawhall`；外觀照使用者提供的霖澤館照片概略重建（照片本身沒有放進 repo；不是精確複製）；館名與「法律學院」招牌由遊戲用 Canvas 字畫（沒有把字型做進模型）；貼圖見上表（CC0） |
 | 霖澤館 201 階梯教室（六排平台、兩側走道台階、深色長桌、木翻椅 ×48、講桌、黑板、投影幕、方格天花板＋日光燈、西牆三扇窗） | `tools/blender/classroom_201.py` → `assets/models/env/classroom_201.glb` | 本作自己寫的 Blender Python 腳本建模（共用工具 `tools/blender/b3lib.py`）；配置 `src/data/classroom_layout.js`；外觀參考使用者提供的教室照片（照片本身沒有放進 repo）；貼圖見上表（CC0） |
+| 沈以安 Blender 版（v9.4 示範角色：臉部立體結構、新髮型、新衣服；網址加 `?blchar` 才使用，預設仍是 VRoid 加工版） | `tools/blender/char/heroine_01.py`（`h01_face.py`、`h01_hair.py`、`h01_clothes.py`、`common.py`、`vrm_finish.py`）→ `assets/models/char/bl_heroine_01.vrm`；Blender 工作檔 `assets/blender/heroine_01_work_v1.blend` | 身體、臉、表情、骨架的基底是 VRoid CC0 樣本「HairSample_Female」（pixiv，CC0）；頭髮、衣服、鞋的網格與貼圖由本作腳本產生（numpy，沒有用外部素材）；VRM 匯出用 VRM Add-on for Blender（MIT） |
 
 ## 開發工具（不打包進遊戲）
 

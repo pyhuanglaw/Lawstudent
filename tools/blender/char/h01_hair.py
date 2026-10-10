@@ -91,7 +91,9 @@ W = 1024
 REG_PX = {'long': (0, 320, 0, 1024), 'swept': (320, 576, 0, 1024), 'lock': (576, 704, 0, 1024),
           'bangA': (704, 832, 0, 1024), 'bangB': (832, 960, 0, 1024), 'shell': (960, 1024, 0, 640), 'wisp': (960, 1024, 640, 896), 'tie': (960, 1024, 896, 1024)}
 # 顏色（sRGB）：目標 #3a2820 附近的深棕，有明暗層次
-DEEP = np.array([0.20, 0.135, 0.105]); BASE = np.array([0.33, 0.235, 0.18]); LIGHT = np.array([0.47, 0.355, 0.275]); SHEEN = np.array([0.60, 0.49, 0.40])
+DEEP = np.array([0.24, 0.18, 0.155]); BASE = np.array([0.36, 0.28, 0.235]); LIGHT = np.array([0.47, 0.385, 0.33]); SHEEN = np.array([0.60, 0.52, 0.46])
+# 第二版（2026-10-10）：照參考圖 01 取樣的灰棕（臉旁長髮、馬尾的中位數約 sRGB (0.35, 0.28, 0.24)、暗部 (0.27, 0.20, 0.17)）；
+# 第一版 #3a2820 一帶偏暖偏深，遊戲裡打光之後像黑髮、瀏海尖端很硬
 
 
 def reg_uv(name, pad=4):
@@ -240,7 +242,8 @@ class Head:
         V = np.vstack([F, B]).tolist()
         self.scalp = BVHTree.FromPolygons(V, skin + [[i + nF for i in pv] for pv in bhead])
         # 衣服（服裝模組在頭髮之前執行時）：臉旁碎髮、馬尾要避開毛衣表面，不只避開皮膚——掛在骨架下、不是臉／身體／頭髮的網格都算
-        cl = [o for o in (m.get('clothes') or [o for o in bpy.data.objects if o.type == 'MESH' and o.parent == arm and o not in (face, body) and not o.name.startswith('Hair')])]
+        cl = m.get('clothes')
+        cl = [cl] if cl is not None and not isinstance(cl, (list, tuple)) else list(cl or [o for o in bpy.data.objects if o.type == 'MESH' and o.parent == arm and o not in (face, body) and not o.name.startswith('Hair')])
         CV, CP = [], []
         for o in cl:
             Xo = self._world(o); off = len(V) + sum(len(x) for x in CV); CV.append(Xo); CP += [[i + off for i in p.vertices] for p in o.data.polygons]

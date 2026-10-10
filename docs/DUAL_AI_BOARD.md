@@ -13,9 +13,9 @@
 
 | # | 工作 | 狀態 | 主要檔案 | 最新 commit | 測試 | 已整合 | 等美術驗收 |
 |---|---|---|---|---|---|---|---|
-| 1 | 沈以安 Blender 正式模型（臉、頭髮、服裝 → 遊戲用 VRM → 遊戲內驗收 → 三方比較） | 進行中：臉第二版、髮第二版完成，服裝製作中 | `tools/blender/char/` | `08d0841` | 臉、髮在遊戲 look-dev 截圖確認；完整模型還沒測 | 本分支 | 是（完成後） |
+| 1 | 沈以安 Blender 正式模型（臉、頭髮、服裝 → 遊戲用 VRM → 遊戲內驗收 → 三方比較） | **第一版完成**（`READY_FOR_ART_REVIEW`）；第二輪細修中（髮色、瀏海、褲子中縫） | `tools/blender/char/`、`assets/models/char/bl_heroine_01.vrm`、`assets/blender/heroine_01_work_v1.blend` | `8f45184` | 遊戲內六視角、坐下、上下樓梯、表情、`stairs_feet_unit`、`sim_hair` 通過（Playwright 模擬） | 本分支（網址 `?blchar`） | 是 |
 | 2 | 六位角色共用的 Blender 人物生產線 → 祐廷 → 林芷若 → 陳語彤 → 高子晴 → 溫書瑀 | 排隊 | `tools/blender/char/` | — | — | — | — |
-| 3 | v9.4 發布（候選 `47b2043`） | 暫停（zone_transitions 的 classroom 失敗待查） | `tests/release_suite.sh`、`docs/RELEASES.md` | `47b2043` | 部分通過 | — | — |
+| 3 | v9.4 發布（候選改為 `f10b387`） | 發布前測試執行中（zone_transitions 的失敗是測試過時，已修，`f10b387`） | `tests/release_suite.sh`、`docs/RELEASES.md` | `f10b387` | 執行中 | — | — |
 | 4 | 霖澤館剩餘美術（夜間玻璃、反射、201 窗外與設備、電梯） | 排隊（WIP patch 在暫存區） | `tools/blender/linze_*.py`、`b3lib.py` | — | — | — | 是 |
 | 5 | 萬才館第二階段（Blender＋可以走的弧形大樓梯） | 排隊 | 校園區塊、`campuskit3d.js`、`building3d.js` | — | — | — | — |
 | 6 | 整合 AI-2 的成果、跑回歸測試 | 收到 AI-2 通知時做 | — | — | — | — | — |

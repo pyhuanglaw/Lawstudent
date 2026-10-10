@@ -37,6 +37,14 @@ MOUTH_K = 1.80           # 嘴寬倍數（VRoid 嘴縫只有 2.2 cm）
 FACE_NARROW = 0.95       # 臉的前半（眉毛以下、耳朵以前）左右收窄：VRoid 的臉頰／太陽穴偏寬，參考圖的眼寬約臉寬 1/4
 JAW_OUTLINE = 0.5        # 下巴、下顎描邊寬度倍數（45 度看下顎那條描邊像刀切；參考圖沒有描邊）
 IRIS_FRAC = 0.53         # 虹膜直徑 / 眼裂寬（參考圖約 0.5）
+# 貼圖參數（v9.4 人物生產線：其他人物的模組可以改這些，沈以安用預設值）
+EYELINE_K = 1.0          # 上眼線粗細倍數
+WING = 0.0030            # 眼尾往外上延伸的長度（m）
+LASH_N, LASH_L = 28, 1.0 # 睫毛根數、長度倍數
+BROW_K, BROW_ARCH = 1.0, 1.0   # 眉毛粗細倍數、眉峰高度倍數（1＝沈以安的柔和弧眉）
+BROW_COL = (0.39, 0.28, 0.215)
+LIP_OUT, LIP_IN, LIP_HI = (0.86, 0.54, 0.56), (0.77, 0.36, 0.43), (0.94, 0.72, 0.72)
+LIP_A = 0.9              # 唇色濃度
 LOWER_BACK = (0.0010, 0.0055)   # 嘴縫、下巴往後收（側面看下半臉像往前推：遊戲內側面截圖；參考圖側面嘴唇在鼻尖後 1.1–1.7 cm、下巴在 2.7–3.4 cm，原本 1.0／2.2 cm）
 CHIN_FWD = 0.0036        # 下巴尖（頦）往前：下唇下面的凹（頦唇溝）到下巴是一個圓的小突起，不是一路斜下去（原本 2.2 mm）
 MOUTH_DOWN = 0.0020      # 嘴往下（人中加長：參考圖正面鼻下→嘴：嘴→下巴＝1:2，原本 1:2.2；側面參考圖嘴更低）
@@ -663,11 +671,11 @@ def paint_eyeline(f, R, eyes):
         sel = mask & ((pos[..., 0] > 0) == (s > 0))
         ax = np.abs(pos[..., 0]); z = pos[..., 2]
         t, du, dl = eye_coords(E, ax, z)
-        th = 0.0005 + 0.0010 * ss(0.0, 0.45, t) + 0.0006 * ss(0.5, 0.95, t)           # 上眼線粗細：內眼角細、眼尾粗
+        th = (0.0005 + 0.0010 * ss(0.0, 0.45, t) + 0.0006 * ss(0.5, 0.95, t)) * EYELINE_K   # 上眼線粗細：內眼角細、眼尾粗
         a_up = ss(-0.0007, -0.0003, du) * (1 - ss(th - 0.00018, th + 0.00018, du)) * ss(-0.03, 0.06, t) * (1 - ss(0.99, 1.04, t))
         # 眼尾：從外眼角往外上延伸 2.6 mm（18°）
         p0 = np.array([E['a_out'] - 0.0012, np.interp(E['a_out'] - 0.0012, E['g'], E['up'])]); ang = math.radians(16)
-        p1 = np.array([E['a_out'] + 0.0030 * math.cos(ang), E['z_out'] + 0.0030 * math.sin(ang) + 0.0005])
+        p1 = np.array([E['a_out'] + WING * math.cos(ang), E['z_out'] + WING * math.sin(ang) + 0.0005])
         dseg, ts = seg_dist(np.stack([ax, z], -1), p0, p1)
         a_wing = 1 - ss(0.0013 * (1 - ts) * 0.85 + 0.00005, 0.0013 * (1 - ts) * 0.85 + 0.0003, dseg)
         # 下眼線：外側 2/3、很淡
@@ -687,11 +695,11 @@ def paint_lash(f, R, eyes):
     for s, E in eyes.items():
         sel = mask & ((pos[..., 0] > 0) == (s > 0))
         P2 = np.stack([np.abs(pos[..., 0]), pos[..., 2]], -1); a = np.zeros(pos.shape[:2])
-        for k in range(28):
-            t = 0.18 + 0.86 * k / 27 + rng.uniform(-0.015, 0.015)
+        for k in range(LASH_N):
+            t = 0.18 + 0.86 * k / (LASH_N - 1) + rng.uniform(-0.015, 0.015)
             ax0 = E['a_in'] + t * (E['a_out'] - E['a_in']) if t <= 1 else E['a_out'] + (t - 1) * 0.008
             z0 = np.interp(min(ax0, E['a_out']), E['g'], E['up']) + 0.0005 + (0.0003 * (t - 1) / 0.04 if t > 1 else 0)
-            L = 0.0009 + 0.0017 * ss(0.3, 1.0, t)
+            L = (0.0009 + 0.0017 * ss(0.3, 1.0, t)) * LASH_L
             ang = math.radians(90 - 12 - 48 * ss(0.2, 1.05, t))          # 越外側越往外倒
             p0 = np.array([ax0, z0]); p1 = p0 + L * np.array([math.cos(ang), math.sin(ang)])
             d, ts = seg_dist(P2, p0, p1); wdt = 0.00016 * (1 - ts) + 0.00002
@@ -704,16 +712,16 @@ def paint_brow(f, R, eyes):
     mi_ = mat_index(f, 'FaceBrow'); mat = f.data.materials[mi_]
     remap_uv(f, mi_, [(0.01, 0.02, 0.49, 0.98), (0.51, 0.02, 0.99, 0.98)])
     W, H = 256, 128; pos, mask = raster(f, mi_, W, H, R)
-    col = np.array([0.39, 0.28, 0.215]); img = np.zeros((H, W, 4)); img[..., :3] = col
+    col = np.array(BROW_COL); img = np.zeros((H, W, 4)); img[..., :3] = col
     for s, E in eyes.items():
         sel = mask & ((pos[..., 0] > 0) == (s > 0))
         ax = np.abs(pos[..., 0]); z = pos[..., 2]
         top = E['up'].max()
         b0, bp, b1 = E['a_in'] - 0.0072, E['a_in'] + 0.024, E['a_out'] + 0.0075     # 眉頭、眉峰、眉尾
-        zp = top + 0.0160; z0 = zp - 0.0032; z1 = zp - 0.0046
+        zp = top + 0.0160; z0 = zp - 0.0032 * BROW_ARCH; z1 = zp - 0.0046 * BROW_ARCH
         t = np.clip((ax - b0) / (b1 - b0), -0.2, 1.2); tp = (bp - b0) / (b1 - b0)
         zc = np.where(t < tp, z0 + (zp - z0) * np.sin(np.clip(t / tp, 0, 1) * np.pi / 2), zp + (z1 - zp) * (np.clip((t - tp) / (1 - tp), 0, 1) ** 1.6))
-        hw = np.where(t < tp, 0.0018 - 0.0003 * (t / tp), 0.0015 * (1 - np.clip((t - tp) / (1 - tp), 0, 1)) ** 1.1 + 0.0001)   # 半粗細
+        hw = np.where(t < tp, 0.0018 - 0.0003 * (t / tp), 0.0015 * (1 - np.clip((t - tp) / (1 - tp), 0, 1)) ** 1.1 + 0.0001) * BROW_K   # 半粗細
         d = z - zc
         a = (1 - ss(hw - 0.0005, hw + 0.0004, np.abs(d - 0.0002 * (t < tp))))
         a *= ss(-0.03, 0.09, t) * (1 - ss(0.96, 1.03, t))            # 眉頭羽化、眉尾收細
@@ -780,12 +788,12 @@ def paint_skin(f, R, eyes, loops):
     a_u = (1 - ss(hu - 0.00035, hu + 0.00025, d)) * (d >= -0.0001)
     a_l = (1 - ss(hl - 0.0005, hl + 0.0004, -d)) * (d < 0.0001)
     a = np.maximum(a_u, a_l) * (1 - ss(0.96, 1.12, xn)) * (y > 0.06) * (np.abs(d) < 0.01)
-    lip_out = np.array([0.86, 0.54, 0.56]); lip_in = np.array([0.77, 0.36, 0.43]); lip_hi = np.array([0.94, 0.72, 0.72])
+    lip_out = np.array(LIP_OUT); lip_in = np.array(LIP_IN); lip_hi = np.array(LIP_HI)
     col = mix(lip_out, lip_in, (1 - ss(0.0, 0.0024, np.abs(d))) * 0.85)
     col = mix(col, lip_hi, np.exp(-((ax / 0.0055) ** 2 + ((d + 0.0029) / 0.0011) ** 2)) * 0.55)
     col = mix(col, [0.55, 0.27, 0.29], (1 - ss(0.0, 0.00045, np.abs(d))) * (1 - ss(0.85, 1.0, xn)))   # 嘴縫
     sel = mask & (a > 0.001)
-    rgb[sel] = mix(rgb[sel], col[sel], (a * 0.9)[sel])
+    rgb[sel] = mix(rgb[sel], col[sel], (a * LIP_A)[sel])
     # 嘴角：往上的一點小陰影（表情柔和）
     for sgn in (1, -1):
         dc = np.sqrt(((x - sgn * mw * 1.02) / 0.0012) ** 2 + ((z - (np.interp(mw, sg, sz) + 0.0003)) / 0.0007) ** 2)

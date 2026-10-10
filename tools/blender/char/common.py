@@ -198,6 +198,46 @@ def scale_head(arm, meshes, s, extra_bones=()):
     return H
 
 
+
+# ---------------- 不同身形共用參數（v9.4 人物生產線）----------------
+LANDMARK_BONES = (('knee', 'J_Bip_L_LowerLeg'), ('hip', 'J_Bip_L_UpperLeg'), ('spine', 'J_Bip_C_Spine'), ('chest', 'J_Bip_C_Chest'),
+                  ('upper', 'J_Bip_C_UpperChest'), ('neck', 'J_Bip_C_Neck'), ('head', 'J_Bip_C_Head'))
+
+
+def landmarks(arm):
+    """人物的高度地標（骨頭關節）與肩寬、胯寬：服裝、臉的參數是照沈以安寫的，其他人物用 BodyMap 對到沈以安的比例"""
+    L = {k: float(bone_head(arm, b)[2]) for k, b in LANDMARK_BONES}
+    L['sh_x'] = abs(float(bone_head(arm, 'J_Bip_L_UpperArm')[0])); L['hip_x'] = abs(float(bone_head(arm, 'J_Bip_L_UpperLeg')[0]))
+    return L
+
+
+class BodyMap:
+    """人物空間 ↔ 參考空間（沈以安）的對應：高度照地標分段線性（地面、膝、胯、脊椎、胸、上胸、脖子、頭、頭頂），
+    左右與前後照肩寬（上身）／胯寬（下身）縮放，中間內插。分段線性、可逆：在參考空間做衣服，再整件轉回人物空間"""
+    KEYS = ('knee', 'hip', 'spine', 'chest', 'upper', 'neck', 'head')
+
+    def __init__(self, cur, ref):
+        self.zc = np.array([0.0] + [cur[k] for k in self.KEYS] + [cur['head'] + 0.4])
+        self.zr = np.array([0.0] + [ref[k] for k in self.KEYS] + [ref['head'] + 0.4 * (ref['head'] - ref['neck']) / (cur['head'] - cur['neck'])])
+        self.s_up = ref['sh_x'] / cur['sh_x']; self.s_lo = ref['hip_x'] / cur['hip_x']; self.zh = ref['hip']; self.zch = ref['chest']
+
+    def _s(self, zr):
+        t = np.clip((zr - self.zh) / (self.zch - self.zh), 0, 1); return self.s_lo + (self.s_up - self.s_lo) * t
+
+    def fwd(self, P):
+        P = np.asarray(P, float); Q = P.copy().reshape(-1, 3); Q[:, 2] = np.interp(Q[:, 2], self.zc, self.zr); s = self._s(Q[:, 2])
+        Q[:, 0] *= s; Q[:, 1] *= s; return Q.reshape(P.shape)
+
+    def inv(self, Q):
+        Q = np.asarray(Q, float); P = Q.copy().reshape(-1, 3); s = self._s(P[:, 2])
+        P[:, 0] /= s; P[:, 1] /= s; P[:, 2] = np.interp(P[:, 2], self.zr, self.zc); return P.reshape(Q.shape)
+
+
+def warp_world(obj, fn):
+    """warp，但 fn 在世界座標上算（Face／Body 物件本身有 180° 旋轉）"""
+    M = np.array(obj.matrix_world); R = M[:3, :3]; t = M[:3, 3]; Ri = np.linalg.inv(R)
+    warp(obj, lambda P, B: (fn(P @ R.T + t) - t) @ Ri.T)
+
 # ---------------- 權重 ----------------
 def transfer_weights(dst, src, limit=4, exclude=()):
     """dst（新做的衣服、頭髮）從 src（身體）拿骨頭權重：Blender Data Transfer（最近的面、內插），之後每個頂點最多 limit 根骨頭、正規化"""
