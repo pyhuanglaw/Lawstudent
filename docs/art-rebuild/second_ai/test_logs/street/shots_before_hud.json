@@ -1,0 +1,146 @@
+[
+ {
+  "out": "docs/art-rebuild/second_ai/shots/street_before_follow_east_1100.png",
+  "w": 390,
+  "h": 844,
+  "hideNPCs": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 11,
+   "pos": {
+    "x": 22,
+    "z": -1.5,
+    "yaw": 1.5708
+   }
+  },
+  "cam": {
+   "yaw": -1.5708,
+   "pitch": 0.22,
+   "dist": 5.2
+  },
+  "wait": 3500,
+  "mobile": true,
+  "hud": true,
+  "js": "(async()=>{ const want=[\"wenzhou_street_glb\", \"wz_jphouse_glb\", \"wz_props_glb\", \"wz_park_glb\", \"wz_scooters_glb\"]; for(let i=0;i<240;i++){ const z=GAME.E.zone; const ok=z&&want.every(n=>z.group.children.some(o=>o.name===n)); if(ok||true) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/street_before_follow_east_1730.png",
+  "w": 390,
+  "h": 844,
+  "hideNPCs": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 17.5,
+   "pos": {
+    "x": 22,
+    "z": -1.5,
+    "yaw": 1.5708
+   }
+  },
+  "cam": {
+   "yaw": -1.5708,
+   "pitch": 0.22,
+   "dist": 5.2
+  },
+  "wait": 3500,
+  "mobile": true,
+  "hud": true,
+  "js": "(async()=>{ const want=[\"wenzhou_street_glb\", \"wz_jphouse_glb\", \"wz_props_glb\", \"wz_park_glb\", \"wz_scooters_glb\"]; for(let i=0;i<240;i++){ const z=GAME.E.zone; const ok=z&&want.every(n=>z.group.children.some(o=>o.name===n)); if(ok||true) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/street_before_follow_east_2030.png",
+  "w": 390,
+  "h": 844,
+  "hideNPCs": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 20.5,
+   "pos": {
+    "x": 22,
+    "z": -1.5,
+    "yaw": 1.5708
+   }
+  },
+  "cam": {
+   "yaw": -1.5708,
+   "pitch": 0.22,
+   "dist": 5.2
+  },
+  "wait": 3500,
+  "mobile": true,
+  "hud": true,
+  "js": "(async()=>{ const want=[\"wenzhou_street_glb\", \"wz_jphouse_glb\", \"wz_props_glb\", \"wz_park_glb\", \"wz_scooters_glb\"]; for(let i=0;i<240;i++){ const z=GAME.E.zone; const ok=z&&want.every(n=>z.group.children.some(o=>o.name===n)); if(ok||true) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cvs_before_entry_1100.png",
+  "w": 390,
+  "h": 844,
+  "hideNPCs": true,
+  "state": {
+   "zone": "cvs",
+   "hour": 11,
+   "pos": {
+    "x": 0,
+    "z": 3.5,
+    "yaw": 3.1416
+   }
+  },
+  "cam": {
+   "yaw": 0.0,
+   "pitch": 0.38,
+   "dist": 4.0
+  },
+  "wait": 3500,
+  "mobile": true,
+  "hud": true,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if((z&&z.formal)||true) return z&&z.formal?'formal':'fallback'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cvs_before_entry_1730.png",
+  "w": 390,
+  "h": 844,
+  "hideNPCs": true,
+  "state": {
+   "zone": "cvs",
+   "hour": 17.5,
+   "pos": {
+    "x": 0,
+    "z": 3.5,
+    "yaw": 3.1416
+   }
+  },
+  "cam": {
+   "yaw": 0.0,
+   "pitch": 0.38,
+   "dist": 4.0
+  },
+  "wait": 3500,
+  "mobile": true,
+  "hud": true,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if((z&&z.formal)||true) return z&&z.formal?'formal':'fallback'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cvs_before_entry_2030.png",
+  "w": 390,
+  "h": 844,
+  "hideNPCs": true,
+  "state": {
+   "zone": "cvs",
+   "hour": 20.5,
+   "pos": {
+    "x": 0,
+    "z": 3.5,
+    "yaw": 3.1416
+   }
+  },
+  "cam": {
+   "yaw": 0.0,
+   "pitch": 0.38,
+   "dist": 4.0
+  },
+  "wait": 3500,
+  "mobile": true,
+  "hud": true,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if((z&&z.formal)||true) return z&&z.formal?'formal':'fallback'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ }
+]

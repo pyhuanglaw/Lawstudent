@@ -11,7 +11,7 @@
   5. ?nobldg：沒有載入正式模型，套件公寓照舊參加整區靜態合併（draw call 和以前一樣）。
   6. 日式宿舍、街道細節：套件的房子、院牆、電線桿、反光鏡、路名牌、紅磚道都藏起來；玄關燈的光暈、路燈的光暈與地面光圈、電線還在；
      門牌、告示牌、桿號牌、路牌都有 canvas 字；路燈燈罩晚上亮、白天不亮；電線桿有樹幹透視。
-  另外記錄兩邊同一個鏡頭的 draw call 與三角形數（資訊，不判定）。
+  另外記錄兩邊同一個鏡頭的 draw call 與三角形數（renderer.info，含陰影那一輪；量的時候藏起路人；資訊，不判定）。
 [前置／捷徑]：用遊戲自己的讀檔把玩家放到溫州街（GAME.applySave），關掉條件事件；直接設鏡頭位置截圖與量 draw call。
 用法：python3 tests/wz_street_integration.py http://127.0.0.1:8765/index.html
 """
@@ -35,7 +35,8 @@ STATE = """(()=>{ const E=GAME.E, z=E.zone; const r=v=>Math.round(v*100)/100;
     const it=E.interactables.map(i=>[i.label||'',r(i.x),r(i.z),r(i.radius||0)]).sort();
     return {col, it}; })()"""
 DRAW = """(async(e,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
-    const f0=E.frame; for(let i=0;i<240&&E.frame<f0+4;i++) await new Promise(r=>setTimeout(r,250)); const ri=E.renderer.info.render; return {calls:ri.calls, tris:ri.triangles}; })"""
+    const hid=E.npcs.map(n=>[n.obj,n.obj.parent]).filter(a=>a[1]); hid.forEach(a=>a[1].remove(a[0]));   /* 路人每次的位置不同（量測雜訊）：量的時候暫時移出場景（引擎每格會重設 visible，所以不能只設 visible=false），只比場景 */
+    const f0=E.frame; for(let i=0;i<240&&E.frame<f0+4;i++) await new Promise(r=>setTimeout(r,250)); const ri=E.renderer.info.render; const out={calls:ri.calls, tris:ri.triangles}; hid.forEach(a=>a[1].add(a[0])); return out; })"""
 VIEWS = [('lane_east', (30, 1.7, -1.5), (44, 3.5, 1.5)), ('lane_west', (14, 1.7, 1.0), (-2, 4.0, -2)), ('arcade', (14.5, 1.6, -1.8), (24, 2.2, -5.5))]
 
 
@@ -72,10 +73,15 @@ async def check(pg, run, formal):
         run.check('?nobldg：整區有合併過的網格（套件外觀在裡面）', merged > 0, json.dumps(merged))
     run.check('其他建築（遠景、巷底）沒有被藏起來', info['others'] > 0 and info['othersHidden'] == 0, json.dumps([info['others'], info['othersHidden']]))
     if formal:
+        # 招牌（橫、直立）合成一張 atlas（wz_signs_atlas）：每一格＝一面招牌的 canvas，比例看 atlas 裡那一格；店內景深卡還是各自的網格
         faces = await pg.evaluate("""(()=>{ const root=GAME.E.zone.group.children.find(o=>o.name==='wenzhou_street_glb'); const out={}; const box=new THREE.Box3(), s=new THREE.Vector3();
+            const at=root.getObjectByName('wz_signs_atlas'); if(at){ const m=at.material.map, img=m&&m.image; for(const it of at.userData.atlas.items) out[it.name]={canvas:!!(m&&(m.isCanvasTexture||(img&&img.getContext))), board:it.board, tex:+(it.w/it.h).toFixed(3), atlas:true}; }
             root.traverse(o=>{ if(!o.isMesh||!/_FACE_/.test(o.name)) return; o.geometry.computeBoundingBox(); box.copy(o.geometry.boundingBox).getSize(s); const m=o.material.map, img=m&&m.image;
               const rep=m?m.repeat.x:1; out[o.name]={canvas:!!(m&&(m.isCanvasTexture||(img&&img.getContext))), board:+(Math.max(s.x,s.z)/s.y).toFixed(3), tex:img?+(img.width*rep/img.height).toFixed(3):0, night:+o.material.emissiveIntensity.toFixed(2)}; });
-            return out; })()""")
+            out.__atlas=at?{visible:at.visible, w:at.userData.atlas.w, h:at.userData.atlas.h, n:at.userData.atlas.items.length, tris:at.geometry.index.count/3}:null; return out; })()""")
+        atl = faces.pop('__atlas')
+        run.check('招牌合成一張 atlas、一個網格（16 面＝8 家橫招牌＋4 塊直立招牌兩面；原本各自一次 draw call）', bool(atl) and atl['visible'] and atl['n'] == 16 and atl['tris'] == 32 and not any(k.startswith(('SIGN_FACE_', 'VSIGN_FACE_')) and not v.get('atlas') for k, v in faces.items()), json.dumps(atl))
+        run.check('招牌 atlas 不超過 2048×1024（直的招牌轉 90° 排；原本分開的貼圖加起來約 1.75M 像素）', bool(atl) and atl['w'] * atl['h'] <= 2048 * 1024, json.dumps(atl))
         signs = {k: v for k, v in faces.items() if k.startswith('SIGN_FACE_')}; vs = {k: v for k, v in faces.items() if k.startswith('VSIGN_FACE_')}; ints = {k: v for k, v in faces.items() if k.startswith('INTERIOR_FACE_')}
         run.check('8 家店的橫招牌都有 canvas 字', sorted(k[10:] for k in signs) == sorted(SHOPS) and all(v['canvas'] for v in signs.values()), json.dumps(signs))
         run.check('4 家店的直立招牌兩面都有 canvas 字', len(vs) == 8 and all(v['canvas'] for v in vs.values()), json.dumps(vs))
@@ -87,7 +93,7 @@ async def check(pg, run, formal):
         kit = [512 / 128 / v['board'] for v in signs.values()]
         run.check('（自我檢查）套件原本 512×128 的招牌貼圖，比例檢查會失敗', any(not (0.92 < r < 1.08) for r in kit), json.dumps([round(r, 2) for r in kit]))
         night = await pg.evaluate("""(()=>{ const z=GAME.E.zone, root=z.group.children.find(o=>o.name==='wenzhou_street_glb'); const mats={};
-            root.traverse(o=>{ if(o.isMesh) for(const m of [o.material]) mats[m.name]=m; }); const sign=root.getObjectByName('SIGN_FACE_A4');
+            root.traverse(o=>{ if(o.isMesh) for(const m of [o.material]) mats[m.name]=m; }); const sign=root.getObjectByName('wz_signs_atlas');
             const read=()=>({lit:+(mats.wz_room_lit?mats.wz_room_lit.emissiveIntensity:-1).toFixed(2), tube:+(mats.wz_tube?mats.wz_tube.emissiveIntensity:-1).toFixed(2), sign:+sign.material.emissiveIntensity.toFixed(2)});
             z.applyTimeOutdoor(11,GAME.E); const day=read(); z.applyTimeOutdoor(21,GAME.E); const nt=read(); z.applyTimeOutdoor(17.5,GAME.E);
             return {day, night:nt, pillarSeeThrough:!!(mats.wz_pillar_tile&&mats.wz_pillar_tile.userData._st)}; })()""")
@@ -95,7 +101,8 @@ async def check(pg, run, formal):
         run.check('招牌：晚上比白天亮', night['night']['sign'] > night['day']['sign'] + 0.3, json.dumps(night))
         run.check('騎樓柱子有樹幹透視（擋住玩家時網點透空）', night['pillarSeeThrough'], json.dumps(night))
         extra = await pg.evaluate("""(()=>{ const z=GAME.E.zone; const out={plates:{}}; for(const n of ['wz_jphouse_glb','wz_props_glb']){ const r=z.group.children.find(o=>o.name===n);
-              r.traverse(o=>{ if(o.isMesh&&/^PLATE_FACE_/.test(o.name)){ const m=o.material.map; out.plates[o.name]=!!(m&&m.image&&m.image.getContext); } }); }
+              r.traverse(o=>{ if(o.isMesh&&/^PLATE_FACE_/.test(o.name)){ const m=o.material.map; out.plates[o.name]=!!(m&&m.image&&m.image.getContext); } });
+              const at=r.getObjectByName('wz_plates_atlas'); if(at){ const m=at.material.map; for(const it of at.userData.atlas.items) out.plates[it.name]=!!(m&&m.image&&m.image.getContext)&&at.visible&&it.w>8&&it.h>8; } }
             const mats={}; for(const n of ['wz_jphouse_glb','wz_props_glb']) z.group.children.find(o=>o.name===n).traverse(o=>{ if(o.isMesh) mats[o.material.name]=o.material; });
             const rd=()=>({lens:+mats.wz_lamp_lens.emissiveIntensity.toFixed(2), genkan:+mats.jp_lamp.emissiveIntensity.toFixed(2), shoji:+mats.jp_shoji.emissiveIntensity.toFixed(2)});
             z.applyTimeOutdoor(11,GAME.E); out.day=rd(); z.applyTimeOutdoor(21,GAME.E); out.night=rd(); z.applyTimeOutdoor(17.5,GAME.E);
@@ -103,7 +110,7 @@ async def check(pg, run, formal):
             out.glows=z.group.children.filter(o=>o.isSprite&&o.visible).length; out.wires=z.group.children.filter(o=>o.isLine||o.isLineSegments||(o.isMesh&&o.geometry&&o.geometry.type==='TubeGeometry')).length;
             return out; })()""")
         pl = extra['plates']
-        run.check('門牌、告示牌、6 個桿號牌、路牌兩面、路名牌兩面都有 canvas 字', len(pl) == 12 and all(pl.values()), json.dumps(pl))
+        run.check('門牌、告示牌、6 個桿號牌、路牌兩面、路名牌兩面都有 canvas 字（每個 GLB 合成一張 atlas）', len(pl) == 12 and all(pl.values()), json.dumps(pl))
         run.check('路燈燈罩、玄關燈、紙拉門：晚上亮、白天暗', all(extra['night'][k] > extra['day'][k] + 0.3 for k in ('lens', 'genkan', 'shoji')), json.dumps([extra['day'], extra['night']]))
         run.check('電線桿有樹幹透視', extra['poleST'], json.dumps(extra['poleST']))
         run.note('看得到的光暈 sprite：%d 個（玄關燈、路燈、Café…，套件的光暈不屬於被藏起來的物件）' % extra['glows'])
@@ -123,7 +130,7 @@ async def check(pg, run, formal):
         draws[name] = await pg.evaluate(DRAW + '(%s,%s)' % (json.dumps(eye), json.dumps(look)))
         await run.shot(pg, name + '_' + ('formal' if formal else 'nobldg'))
     await pg.evaluate("GAME.E.endCinematic()")
-    run.note(('一般網址' if formal else '?nobldg') + '：同一個鏡頭的 draw call／三角形 ' + json.dumps(draws))
+    run.note(('一般網址' if formal else '?nobldg') + '：同一個鏡頭（藏起路人）的 draw call／三角形 ' + json.dumps(draws))
     return await pg.evaluate(NAV_HASH), await pg.evaluate(STATE)
 
 

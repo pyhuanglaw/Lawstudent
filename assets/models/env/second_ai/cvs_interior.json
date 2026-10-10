@@ -1,10 +1,10 @@
 {
- "objects": 45,
- "unique_meshes": 45,
- "tris": 17072,
- "tris_drawn": 17072,
+ "objects": 47,
+ "unique_meshes": 47,
+ "tris": 17220,
+ "tris_drawn": 17220,
  "materials": 23,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/cvs/cvs_interior.glb",
- "bytes": 1397852,
+ "out": "assets/models/env/second_ai/cvs_interior.glb",
+ "bytes": 1411160,
  "texres": 512
 }

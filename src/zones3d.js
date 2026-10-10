@@ -628,12 +628,21 @@ const Z3 = (function(){
       const fs=o.fs||Math.round(H/(lines.length+(o.cup?3.6:3))); const gap=o.cup?1.25:1.35; x.textAlign='center'; x.textBaseline='middle'; x.font='600 '+fs+'px '+CAFE_SANS; lines.forEach((l,i)=>{ x.fillStyle=i===0?'#f6e3b0':'#f2ecdc'; x.fillText(l,W/2,H*(o.top||0.16)+i*fs*gap); });   /* 有咖啡杯時字小一點、行距密一點，杯子放到最下面（之前最後一行被杯子的熱氣蓋住） */
       if(o.cup){ const cx=W/2, cy=H*0.9, r=H*0.042; x.strokeStyle='#f2ecdc'; x.lineWidth=Math.max(2,H/120); x.beginPath(); x.moveTo(cx-r*1.4,cy-r); x.lineTo(cx-r*1.1,cy+r); x.lineTo(cx+r*1.1,cy+r); x.lineTo(cx+r*1.4,cy-r); x.closePath(); x.stroke(); x.beginPath(); x.arc(cx+r*1.6,cy-r*0.1,r*0.5,-1.4,1.4); x.stroke(); for(const dx of [-0.5,0,0.5]){ x.beginPath(); x.moveTo(cx+dx*r,cy-r*1.4); x.quadraticCurveTo(cx+dx*r+r*0.3,cy-r*1.9,cx+dx*r,cy-r*2.4); x.stroke(); } } }); }   /* 黑板：深綠底、粉筆字、手繪咖啡杯 */
   function cafeFacePaint(mesh,tex,nightI,dayI){ const m=mesh.material.clone(); m.map=tex; m.color=new THREE.Color(0xffffff); m.emissive=new THREE.Color(0xffffff); m.emissiveMap=tex; m.roughness=0.85; m.metalness=0; mesh.material=m; if(nightI!=null) TK.addNight(m,nightI,dayI||0); else m.emissiveIntensity=0; m.needsUpdate=true; }
+  /* 正式模型的哪些網格要投影：陰影貼圖一格約 4 cm（1024² 蓋 44 m），窗框、鐵窗、冷氣、盆栽、招牌這些小零件的影子看不出來，
+     卻要在陰影那一輪整組再畫一次（instancing 的窗一次就是幾萬個三角形）。只讓不是 instancing、由大面組成的網格投影（牆、屋頂、陽台、雨遮…）；招牌面不投影 */
+  const WZ_NO_SHADOW=/^(cafe_int_|cafe_room_dark|cafe_curtain|ext_glass_lit|wz_room_lit|jp_shoji|cafe_leaf_|cafe_glass|cafe_win_glass|cafe_lampglass|cafe_bulb|cafe_books)/;   /* 店內、窗內的房間與窗簾、紙拉門、玻璃、燈泡、葉子：不投影 */
+  function wzCastsShadow(o){ if(o.isInstancedMesh||/FACE/.test(o.name)) return false; const g=o.geometry; if(!g||!g.attributes.position) return false; const mn=o.material&&o.material.name||''; if(WZ_NO_SHADOW.test(mn)) return false;
+    if(!g.boundingBox) g.computeBoundingBox(); if(g.boundingBox.max.y<0.35) return false;   /* 貼地的（草地、地磚、人行道、路緣）：影子落不到別的東西上 */
+    if(g.userData.wzMeanArea===undefined){ const p=g.attributes.position, ix=g.index, n=Math.floor((ix?ix.count:p.count)/3), step=Math.max(1,Math.floor(n/400)); const A=new THREE.Vector3(), B=new THREE.Vector3(), C=new THREE.Vector3(); let a=0, m=0;
+      for(let t=0;t<n;t+=step){ const k=t*3; A.fromBufferAttribute(p,ix?ix.getX(k):k); B.fromBufferAttribute(p,ix?ix.getX(k+1):k+1); C.fromBufferAttribute(p,ix?ix.getX(k+2):k+2); a+=B.sub(A).cross(C.sub(A)).length()/2; m++; }
+      g.userData.wzMeanArea=m?a/m:0; }
+    return g.userData.wzMeanArea>0.1; }   /* 平均三角形面積 > 0.1 m²：牆、屋頂、雨遮、鐵捲門、騎樓天花板這種大面才投影；門把、花盆、窗框、欄杆、信箱這種小零件不投影 */
   function attachCafeExterior(cafe,root,hide){
     for(const m of cafe.children) if(m.isMesh||m.isSprite) m.visible=false;
     for(const o of hide||[]) o.visible=false;
     const glows=[];
     root.traverse(o=>{ if(o.userData&&o.userData.glow) glows.push(o); if(!o.isMesh) return; const mt=o.material, nm=mt&&mt.name;
-      const glassy=!!(mt&&mt.transparent); o.castShadow=!glassy; o.receiveShadow=!glassy;
+      const glassy=!!(mt&&mt.transparent); o.castShadow=!glassy&&wzCastsShadow(o); o.receiveShadow=!glassy;
       if(o.name==='SIGN_FACE'){ cafeFacePaint(o,cafeSignTex(o.userData),1.1,0.15); return; }
       if(o.name.indexOf('ABOARD_FACE')===0){ cafeFacePaint(o,cafeChalkTex(o.userData.aboard||[],256,336,{cup:true,top:0.15}),null); return; }
       if(o.name==='MENU_FACE'){ cafeFacePaint(o,cafeMenuTex(o.userData.menu||[]),0.35,0.12); return; }
@@ -665,27 +674,56 @@ const Z3 = (function(){
     for(const k of ['a','b']){ const node=vars[k], L=by[k]; if(!L.length) continue; const inv=new THREE.Matrix4().copy(node.matrixWorld).invert(); const meshes=[]; node.traverse(o=>{ if(o.isMesh) meshes.push(o); });
       for(const m of meshes){ const local=new THREE.Matrix4().multiplyMatrices(inv,m.matrixWorld); const im=new THREE.InstancedMesh(m.geometry,m.material,L.length); const paint=m.material.name==='scooter_paint'; const M4=new THREE.Matrix4();
         L.forEach((s,i)=>{ s.o.updateMatrixWorld(true); M4.multiplyMatrices(s.o.matrixWorld,fix).multiply(local); im.setMatrixAt(i,M4); if(paint) im.setColorAt(i,new THREE.Color(s.color)); });
-        im.instanceMatrix.needsUpdate=true; if(im.instanceColor) im.instanceColor.needsUpdate=true; im.castShadow=true; im.receiveShadow=true; im.computeBoundingSphere(); out.add(im); } }
+        im.instanceMatrix.needsUpdate=true; if(im.instanceColor) im.instanceColor.needsUpdate=true; im.castShadow=false; im.receiveShadow=true; im.computeBoundingSphere(); out.add(im); } }
+    /* 影子：機車不進陰影那一輪（39 台×1.5k 個三角形要再畫一次），改成每台車底下一片柔和的影子貼片（全部一個 InstancedMesh、一次 draw call） */
+    { const tex=W3.canvasTex('wzScooterBlob',64,64,(x,w,h)=>{ const gr=x.createRadialGradient(w/2,h/2,1,w/2,h/2,w/2); gr.addColorStop(0,'rgba(0,0,0,0.6)'); gr.addColorStop(0.55,'rgba(0,0,0,0.35)'); gr.addColorStop(1,'rgba(0,0,0,0)'); x.clearRect(0,0,w,h); x.fillStyle=gr; x.fillRect(0,0,w,h); });
+      const geo=new THREE.PlaneGeometry(2.05,0.8); geo.rotateX(-Math.PI/2); geo.translate(0,0.012,0); const bl=new THREE.InstancedMesh(geo,new THREE.MeshBasicMaterial({map:tex,color:0x000000,transparent:true,depthWrite:false}),list.length); const M4=new THREE.Matrix4();
+      list.forEach((s,i)=>{ M4.multiplyMatrices(s.o.matrixWorld,fix); bl.setMatrixAt(i,M4); }); bl.instanceMatrix.needsUpdate=true; bl.computeBoundingSphere(); bl.name='wz_scooter_shadows'; out.add(bl); }
     scG.visible=false; g.add(out); return list.length; }
   function wzPlateTex(d,wM,hM){ const vert=hM>wM, W=vert?96:Math.round(96*wM/hM), H=vert?Math.round(96*hM/wM):96;   /* 門牌（藍底白字，直式）、告示牌（白底紅字） */
     return cafeCanvas(W,H,(x,w,h)=>{ x.fillStyle=d.bg||'#ffffff'; x.fillRect(0,0,w,h); x.strokeStyle=d.color||'#222'; x.lineWidth=Math.max(3,w*0.04); x.strokeRect(x.lineWidth,x.lineWidth,w-x.lineWidth*2,h-x.lineWidth*2);
       x.fillStyle=d.color||'#222'; x.textAlign='center'; x.textBaseline='middle';
       if(vert){ const ch=[...(d.text||'')], fs=Math.min(w*0.56,h*(d.sub?0.6:0.8)/Math.max(1,ch.length)/1.1); x.font='bold '+fs+'px '+WZ_SANS; ch.forEach((c,i)=>x.fillText(c,w/2,h*0.07+fs*0.62+i*fs*1.1)); if(d.sub){ x.font='bold '+Math.round(Math.min(w*0.3,h*0.14))+'px '+WZ_SANS; x.fillText(d.sub,w/2,h*0.86); } return; }
       x.font='bold '+Math.round(h*(d.sub?0.34:0.5))+'px '+WZ_SANS; x.fillText(d.text||'',w/2,h*(d.sub?0.36:0.52)); if(d.sub){ x.font='bold '+Math.round(h*0.26)+'px '+WZ_SANS; x.fillText(d.sub,w/2,h*0.72); } }); }
-  function attachWenzhouModel(E,g,root,tag,name){ let n=0; const box=new THREE.Box3(), sz=new THREE.Vector3();   /* tag＝套件建築上的標記（wzApt 公寓、wzJp 日式宿舍與院牆） */
+  function attachWenzhouModel(E,g,root,tag,name){ let n=0; const box=new THREE.Box3(), sz=new THREE.Vector3(); const signFaces=[], plateFaces=[];   /* tag＝套件建築上的標記（wzApt 公寓、wzJp 日式宿舍與院牆） */
     for(const b of g.children) if(b.userData&&b.userData[tag]){ if(b.isMesh) b.visible=false; else for(const m of b.children) if(m.isMesh||m.isSprite) m.visible=false; b.userData.formal=true; n++; }
-    root.traverse(o=>{ if(!o.isMesh) return; const ud=o.userData||{}, mt=o.material, nm=mt&&mt.name; const glassy=!!(mt&&mt.transparent); o.castShadow=!glassy; o.receiveShadow=!glassy;
-      if(/^PLATE_FACE_/.test(o.name)){ o.geometry.computeBoundingBox(); box.copy(o.geometry.boundingBox).getSize(sz); cafeFacePaint(o,wzPlateTex(ud,Math.max(sz.x,sz.z),sz.y),null); o.castShadow=false; return; }
+    root.traverse(o=>{ if(!o.isMesh) return; const ud=o.userData||{}, mt=o.material, nm=mt&&mt.name; const glassy=!!(mt&&mt.transparent); o.castShadow=!glassy&&wzCastsShadow(o); o.receiveShadow=!glassy;
+      if(/^PLATE_FACE_/.test(o.name)){ o.geometry.computeBoundingBox(); box.copy(o.geometry.boundingBox).getSize(sz); cafeFacePaint(o,wzPlateTex(ud,Math.max(sz.x,sz.z),sz.y),null); o.castShadow=false; plateFaces.push(o); return; }
       if(/^(V?SIGN|INTERIOR)_FACE_/.test(o.name)){ o.geometry.computeBoundingBox(); box.copy(o.geometry.boundingBox).getSize(sz); const wM=Math.max(sz.x,sz.z), hM=sz.y; o.castShadow=false;
-        if(o.name.indexOf('SIGN_FACE_')===0){ cafeFacePaint(o,wzSignTex(ud,wM,hM,false),0.9,0); return; }
-        if(o.name.indexOf('VSIGN_FACE_')===0){ cafeFacePaint(o,wzSignTex(ud,wM,hM,true),1.0,0); return; }
+        if(o.name.indexOf('SIGN_FACE_')===0){ cafeFacePaint(o,wzSignTex(ud,wM,hM,false),0.9,0); signFaces.push(o); return; }
+        if(o.name.indexOf('VSIGN_FACE_')===0){ cafeFacePaint(o,wzSignTex(ud,wM,hM,true),1.0,0); signFaces.push(o); return; }
         const t=TK.interiorTex(ud.interior||'cafe').clone(); t.flipY=false; t.wrapS=THREE.RepeatWrapping; t.repeat.set(Math.max(1,Math.round(wM/hM/2)),1); t.needsUpdate=true; cafeFacePaint(o,t,1.15,0.6); return; }
       if(!mt||mt.userData.wzReg) return; mt.userData.wzReg=true;
       const nn=WZ_NIGHT[nm]; if(nn){ mt.emissive=new THREE.Color(nn[0]); TK.addNight(mt,nn[1],nn[2]); }
       if(nm==='jp_shoji'){ mt.emissiveMap=mt.map; }   /* 紙拉門：亮燈時整片紙發光、木格比較暗 */
       if((nm==='wz_pillar_tile'||nm==='wz_pole_concrete')&&E.patchSeeThrough){ mt.userData.seeThrough=true; E.patchSeeThrough(mt); }   /* 騎樓柱子：擋住玩家時網點透空（和套件的柱子一樣） */
       if(nm&&nm.indexOf('cafe_leaf_')===0){ mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; } });
+    /* 招牌（橫、直立）、門牌告示牌：每一面原本各自一張 canvas、各自一次 draw call（整條巷子 29 面）→ 合成一張 atlas、一個網格 */
+    if(signFaces.length) wzAtlasFaces(root,signFaces,'wz_signs_atlas',0.95,0);
+    if(plateFaces.length) wzAtlasFaces(root,plateFaces,'wz_plates_atlas',null,0);
     root.name=name; g.add(root); return n; }
+  /* 把好幾面 canvas 字牌合成一張 atlas（一列一列排、每格留 2 px）、網格合成一個（UV 換到 atlas 裡的那一格）；原本的字牌網格拿掉。
+     userData.atlas.items 記每一格：名稱、在 atlas 裡的位置大小（px）、板面的長寬比（測試用：每一格的字照板面比例、沒有被拉寬） */
+  function wzAtlasFaces(root,faces,name,nightI,dayI){ root.updateMatrixWorld(true); const inv=new THREE.Matrix4().copy(root.matrixWorld).invert(); const P=2;
+    const items=faces.map(o=>{ const c=o.material.map.image; o.geometry.computeBoundingBox(); const s=o.geometry.boundingBox.getSize(new THREE.Vector3()); const rot=c.height>c.width;   /* 直的字牌轉 90° 放（全部變成橫條，排得比較密）*/
+      return {o, c, w:c.width, h:c.height, rot, bw:rot?c.height:c.width, bh:rot?c.width:c.height, board:Math.max(s.x,s.z)/Math.max(1e-6,s.y)}; });
+    const AW=Math.min(2048, Math.max(256, 1<<Math.ceil(Math.log2(Math.max(...items.map(i=>i.bw+P*2))))));
+    /* 一列一列排；只超過 2 的次方一點點時，全部等比例縮小幾 %（例如 128 px 高的字牌變 124 px，看不出差別），atlas 就小一半 */
+    const pack=k=>{ const rest=items.slice().sort((a,b)=>b.bh-a.bh||b.bw-a.bw); let y=0;   /* 每一列：先放最高（再最寬）的，再把剩下放得進這一列的都塞進去 */
+      while(rest.length){ let x=0, rowH=0; for(let i=0;i<rest.length;){ const it=rest[i], w=Math.ceil(it.bw*k), h=Math.ceil(it.bh*k); if(x+w+P*2<=AW||x===0){ it.x=x+P; it.y=y+P; it.k=k; x+=w+P*2; rowH=Math.max(rowH,h+P*2); rest.splice(i,1); } else i++; } y+=rowH; }
+      return 1<<Math.ceil(Math.log2(Math.max(4,y))); };
+    let best=1, AH=pack(1); for(const k of [0.97,0.94,0.9]){ const h=pack(k); if(h<AH){ AH=h; best=k; break; } }
+    pack(best);   /* 最後用選到的比例重排一次（pack 會改每一格的 x、y、k） */
+    const cv=document.createElement('canvas'); cv.width=AW; cv.height=AH; const cx=cv.getContext('2d');
+    for(const it of items){ const k=it.k; it.dw=it.w*k; it.dh=it.h*k; if(!it.rot){ cx.drawImage(it.c,it.x,it.y,it.dw,it.dh); continue; } cx.save(); cx.translate(it.x+it.dh,it.y); cx.rotate(Math.PI/2); cx.drawImage(it.c,0,0,it.dw,it.dh); cx.restore(); }   /* 轉 90°：canvas 的 (cx,cy) → atlas (x+h−cy, y+cx)（h、w 是縮放後的大小）*/
+    const tex=new THREE.CanvasTexture(cv); tex.colorSpace=THREE.SRGBColorSpace; tex.flipY=false; tex.anisotropy=8;
+    const geos=items.map(it=>{ const g=it.o.geometry.clone(); for(const k of Object.keys(g.attributes)) if(!['position','normal','uv'].includes(k)) g.deleteAttribute(k); it.o.updateMatrixWorld(true); g.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv,it.o.matrixWorld));
+      const uv=g.attributes.uv; for(let i=0;i<uv.count;i++){ const u=uv.getX(i), v=uv.getY(i); if(it.rot) uv.setXY(i,(it.x+it.dh*(1-v))/AW,(it.y+u*it.dw)/AH); else uv.setXY(i,(it.x+u*it.dw)/AW,(it.y+v*it.dh)/AH); } return g; });
+    const merged=THREE_JSM.BufferGeometryUtils.mergeGeometries(geos,false); if(!merged) return null; for(const g of geos) g.dispose();
+    const m=faces[0].material.clone(); m.map=tex; m.emissiveMap=tex; if(nightI!=null) TK.addNight(m,nightI,dayI||0); else m.emissiveIntensity=0; m.needsUpdate=true;
+    const mesh=new THREE.Mesh(merged,m); mesh.name=name; mesh.castShadow=false; mesh.receiveShadow=true; mesh.userData.atlas={w:AW,h:AH,items:items.map(it=>({name:it.o.name,x:it.x,y:it.y,w:+it.dw.toFixed(1),h:+it.dh.toFixed(1),rot:it.rot,board:+it.board.toFixed(3)}))};
+    for(const it of items){ it.o.parent.remove(it.o); it.o.material.map.dispose(); it.o.material.dispose(); }
+    root.add(mesh); return mesh; }
   const wenzhou={ id:'wenzhou', name:'溫州街', indoor:false, cityLight:0.85, size:[110,60], camDist:5.2, build(E){ return buildWenzhou(E); } };
   // ---------- 室內：通用房間 ----------
   // ---------- 室內共用貼圖（v9.3 第十五批）----------
@@ -906,7 +944,8 @@ const Z3 = (function(){
   const CVS_BOUNCE={cvs_wall:[0.45,0.55],cvs_floor:[0.4,0.5],cvs_shelf:[0.4,0.5],cvs_counter:[0.4,0.5],cvs_countertop:[0.3,0.4]};   /* TK.bounce 的自發光是白色（乘貼圖）：只給白色或有貼圖的材質；有顏色的純色材質不加（會變白） */
   function attachCvsInterior(z,g0,root){
     root.traverse(o=>{ if(!o.isMesh) return; const mt=o.material, nm=mt&&mt.name;
-      if(/^SIGN_FACE_aisle/.test(o.name)){ const t=cafeCanvas(512,128,(x,w,h)=>{ x.fillStyle='#ffffff'; x.fillRect(0,0,w,h); x.fillStyle='#e8a33a'; x.fillRect(0,h*0.84,w,h*0.16); x.fillStyle='#1f6f78'; x.textAlign='center'; x.textBaseline='middle'; x.font='bold 60px '+WZ_SANS; x.fillText((o.userData||{}).sign||'',w/2,h*0.44); }); cafeFacePaint(o,t,null); o.material.emissiveIntensity=0.35; return; }
+      if(/SIGN_FACE_aisle/.test(o.name)){ const t=cafeCanvas(512,128,(x,w,h)=>{ x.fillStyle='#ffffff'; x.fillRect(0,0,w,h); x.fillStyle='#e8a33a'; x.fillRect(0,h*0.84,w,h*0.16); x.fillStyle='#1f6f78'; x.textAlign='center'; x.textBaseline='middle'; x.font='bold 60px '+WZ_SANS; x.fillText((o.userData||{}).sign||'',w/2,h*0.44); }); cafeFacePaint(o,t,null); o.material.emissiveIntensity=0.35; return; }
+      if(/SIGN_FACE_promo/.test(o.name)){ const t=cafeCanvas(1152,128,(x,w,h)=>{ x.fillStyle='#e8a33a'; x.fillRect(0,0,w,h); x.fillStyle='#1f6f78'; x.fillRect(0,0,w,h*0.12); x.fillStyle='#ffffff'; x.textAlign='center'; x.textBaseline='middle'; x.font='bold 64px '+WZ_SANS; x.fillText((o.userData||{}).sign||'',w/2,h*0.58); }); cafeFacePaint(o,t,null); o.material.emissive=new THREE.Color(0xffffff); o.material.emissiveMap=t; o.material.emissiveIntensity=0.3; return; }   /* 後牆的促銷看板（琥珀底白字） */
       if(!mt||mt.userData.cvsReg) return; mt.userData.cvsReg=true;
       if(nm==='cvs_led'){ mt.emissive=new THREE.Color(0xffffff); mt.emissiveIntensity=1.5; }
       if(nm==='cvs_cooler_light'){ mt.emissive=new THREE.Color(0xe9f4ff); mt.emissiveIntensity=1.1; }
