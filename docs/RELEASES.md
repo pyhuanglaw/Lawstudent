@@ -11,20 +11,21 @@
 | v9.3 | `0ef3a73` | 2026-10-10 05:35:59 | v7 |
 | v9.3 第 25 批 | `cd52bab` | 2026-10-10 08:38:53 | `0ef3a73` |
 | v9.4 | `6b9c0dc`（遊戲檔案和測試過的候選 `f10b387` 完全相同，見下面） | 2026-10-10 14:47:16 | `cd52bab` |
+| v9.4.1 | `e4ded6a`（遊戲檔案和測試過的候選 `f2f1c03` 完全相同） | 2026-10-10 18:59:10 | `6b9c0dc` |
 
 ---
 
-**下一次正式發布最早：2026-10-10 17:47:16 UTC**（三小時規則；緊急回復不受限制）。
+**下一次正式發布最早：2026-10-10 21:59:10 UTC**（三小時規則；緊急回復不受限制）。
 
 **緊急回復（不用 force push）**：做一個「內容＝上一個穩定版、父節點＝目前 main」的新 commit，再快轉推上去：
 ```bash
 git fetch origin main
-C=$(git commit-tree cd52bab^{tree} -p origin/main -m "緊急回復到 v9.3 第 25 批（cd52bab）")
+C=$(git commit-tree 6b9c0dc^{tree} -p origin/main -m "緊急回復到 v9.4（6b9c0dc）")
 git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub Actions 的 pages build and deployment 確認部署
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.4.1（發布中；測試過的候選 `f2f1c03`）
+## v9.4.1（2026-10-10 18:59:10 UTC 發布 `e4ded6a`；測試過的候選 `f2f1c03`）
 
 **玩家會看到的改變**
 - **兩點半 Café 換成 Blender 正式模型**（第二個 AI「LAWWW2」製作，`384c612` 整合）：
@@ -45,6 +46,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
   - 同一個測試對**線上 v9.4**（`6b9c0dc`）也只以 2.016 m 剛好通過——兩邊都在門檻邊緣；
   - 直接觀察候選版霖澤館大廳 3 分鐘（約 6 fps）：兩個路人都反覆走完整的 0～4.2 m，大約每 30～45 秒一趟（在平台與兩端會停 1～4 秒）——**路人上下樓的功能正常**，這一版也沒有改霖澤館與路人的程式；
   - 結論：測試只看 60 秒真實時間太短（視窗落在停留與半路時量不到 2 m）。**標準不變（≥ 2 m）**，觀察時間改成最多 150 秒、達到就提早結束（`tests/flow_linze_floors.py`，本次提交）；對同一個候選重跑 **29/29 PASS**（路人 28 秒就走了 2.18 m）。
+- 發布：main 從 `6b9c0dc` 快轉到 `e4ded6a`（不是強制推送）；`e4ded6a` 和測試過的 `f2f1c03` 比較：`src/`、`index.html`、`lib/`、`assets/`、`build/`、`build.py`、`.nojekyll`、`test_charlook.html` 完全相同（git tree hash 相同），差別只有測試、Blender 製作腳本、文件。GitHub Actions「pages build and deployment」#12 對 `e4ded6a` **success**（18:57:07 開始、18:59:10 完成）；本機對同一個 commit 跑 `deploy_check v9.4.1`：**ALL PASS**（標題畫面「版本 v9.4.1」、26 個 script 都帶版本號、384 個網址都載得到）。這個沙盒連不到 `*.github.io`，**沒有直接打開正式網站，也沒有 iPhone 實機測試**。
 
 ## v9.4（2026-10-10 14:47:16 UTC 發布 `6b9c0dc`；發布候選 `f10b387`；第一個候選 `47b2043` 沒有發布）
 
