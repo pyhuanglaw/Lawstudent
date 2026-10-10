@@ -5,7 +5,7 @@
 只換畫面：導航、床（睡覺）、書桌座位、離開 (0,3.3)、出生點在 src/zones3d.js 的 dorm 區塊，不變；
 家具的位置與佔地照套件：床 1.1×2.1 在 (−2.2,−1.5)（床頭朝後牆）、書架 2.4 m 長在 (−1,−3.3) 靠後牆、
 我的書桌 1.6×0.7 在 (1.8,−2.6)＋椅子 (1.8,−1.9)、室友的書桌在 (1.8,1.5)＋椅子 (1.8,2.2)（椅子都朝 −z）。
-椅子座面 0.485 m、桌面 0.77 m（和套件一樣，坐下的姿勢不用改）。沒有在走得到的地方加新的家具；牆上的東西（冷氣、掛勾、時鐘）不佔地。
+椅子座面 0.485 m、桌面 0.77 m（和套件一樣，坐下的姿勢不用改）。沒有在走得到的地方加新的家具；牆上的東西（冷氣、掛勾、毛巾、帆布袋、窗簾）不佔地，而且放在那面牆的 WALL_ 群組裡（牆淡出時一起淡出，不會浮在半空中）。
 牆上的月曆和床頭的社團傳單是遊戲原本的 canvas（留在遊戲裡，不在 GLB）。
 
 台灣大學宿舍的雙人房：米白漆牆＋深灰踢腳板、米色磨石子地板、兩組日光燈、分離式冷氣、鋁框推拉窗＋紗窗＋窗簾、木門（壓把、門檔）；
@@ -155,16 +155,17 @@ ch_.cyl((dx0 + 0.15, 0.0, zi - 0.12), (dx0 + 0.15, 0.04, zi - 0.12), 0.025, seg=
 sw = wm('front', 'trim'); sw.box(dx1 + 0.16, dx1 + 0.24, 1.22, 1.34, zi - 0.012, zi)                                               # 電燈開關
 wm('front', 'black').box(dx1 + 0.185, dx1 + 0.215, 1.255, 1.305, zi - 0.016, zi - 0.012)
 
-# ---------------- 冷氣（後牆、書架上方）、掛勾（前牆門左邊）、時鐘（左牆、床的上方） ----------------
-ac = Mesh('dorm_ac', M['ac']); soft_box(ac, -1.45, -0.55, 2.52, 2.82, Z0 + T, Z0 + T + 0.22, r=0.03, seg=2); fin(ac, smooth=0.6)
-acl = Mesh('dorm_ac_vent', M['black']); acl.box(-1.4, -0.6, 2.53, 2.555, Z0 + T + 0.12, Z0 + T + 0.225); fin(acl)
-pipe = Mesh('dorm_ac_pipe', M['trim']); pipe.box(-0.56, -0.3, 2.58, 2.65, Z0 + T, Z0 + T + 0.06); pipe.box(-0.36, -0.3, 2.65, 2.95, Z0 + T, Z0 + T + 0.06); fin(pipe)   # 冷媒管的蓋板（往上進牆）
-hk = Mesh('dorm_hooks', M['chrome'])
+# ---------------- 冷氣（後牆、書架上方）、掛勾＋毛巾＋帆布袋（前牆門左邊）----------------
+# 貼在牆上的東西都放進那面牆的 WALL_ 群組（wm）：牆淡出時一起淡出（2026-10-10 LAWWW 回報：原本牆淡出後它們浮在半空中）
+ac = wm('back', 'ac'); soft_box(ac, -1.45, -0.55, 2.52, 2.82, Z0 + T, Z0 + T + 0.22, r=0.03, seg=2)
+acl = wm('back', 'black'); acl.box(-1.4, -0.6, 2.53, 2.555, Z0 + T + 0.12, Z0 + T + 0.225)
+pipe = wm('back', 'trim'); pipe.box(-0.56, -0.3, 2.58, 2.65, Z0 + T, Z0 + T + 0.06); pipe.box(-0.36, -0.3, 2.65, 2.95, Z0 + T, Z0 + T + 0.06)   # 冷媒管的蓋板（往上進牆）
+hk = wm('front', 'chrome')
 for i in range(4):
     x = -2.3 + i * 0.22; hk.box(x - 0.012, x + 0.012, 1.68, 1.74, Z1 - T - 0.02, Z1 - T); hk.cyl((x, 1.7, Z1 - T - 0.02), (x, 1.75, Z1 - T - 0.07), 0.008, seg=5)
-hk.box(-2.42, -1.56, 1.66, 1.76, Z1 - T - 0.012, Z1 - T); fin(hk)
-tw = Mesh('dorm_towel', M['curtain']); soft_box(tw, -2.24, -1.94, 1.12, 1.71, Z1 - T - 0.06, Z1 - T - 0.03, r=0.012, seg=1); fin(tw, smooth=0.8, uv=False)   # 掛勾上的毛巾、帆布袋（不佔地）
-bg = Mesh('dorm_tote', M['pillow']); soft_box(bg, -1.88, -1.56, 1.22, 1.62, Z1 - T - 0.1, Z1 - T - 0.04, r=0.02, seg=1); bg.box(-1.84, -1.83, 1.62, 1.73, Z1 - T - 0.075, Z1 - T - 0.065); bg.box(-1.61, -1.6, 1.62, 1.73, Z1 - T - 0.075, Z1 - T - 0.065); fin(bg, smooth=0.6, uv=False)
+hk.box(-2.42, -1.56, 1.66, 1.76, Z1 - T - 0.012, Z1 - T)
+tw = wm('front', 'curtain'); soft_box(tw, -2.24, -1.94, 1.12, 1.71, Z1 - T - 0.06, Z1 - T - 0.03, r=0.012, seg=1)   # 掛勾上的毛巾、帆布袋（不佔地）
+bg = wm('front', 'pillow'); soft_box(bg, -1.88, -1.56, 1.22, 1.62, Z1 - T - 0.1, Z1 - T - 0.04, r=0.02, seg=1); bg.box(-1.84, -1.83, 1.62, 1.73, Z1 - T - 0.075, Z1 - T - 0.065); bg.box(-1.61, -1.6, 1.62, 1.73, Z1 - T - 0.075, Z1 - T - 0.065)
 
 # ---------------- 家具與雜物 ----------------
 wood = Mesh('dorm_wood', M['wood'], tile=1.0); woodd = Mesh('dorm_wood_dark', M['wood_dark'], tile=1.0)
@@ -296,8 +297,8 @@ it.cbox(2.42, 2.48, Y, Y + 0.2, 1.42, 1.48, '#e8eef0')
 fin(wood); fin(woodd); fin(met, smooth=0.9, uv=False); fin(blk, smooth=0.9, uv=False); fin(fab, smooth=0.8, uv=False)
 it.bm.normal_update(); it.finish(root, uv=False)
 
-# ---------------- 窗簾（窗的兩側收起來的波浪布）、窗簾桿 ----------------
-cu = Mesh('dorm_curtain', M['curtain']); rd = Mesh('dorm_rod', M['rod'])
+# ---------------- 窗簾（窗的兩側收起來的波浪布）、窗簾桿：後牆的 WALL_ 群組 ----------------
+cu = wm('back', 'curtain'); rd = wm('back', 'rod')
 rd.cyl((x0w - 0.3, y1w + 0.12, Z0 + T + 0.08), (x1w + 0.3, y1w + 0.12, Z0 + T + 0.08), 0.012, seg=8)
 for xa, xb in ((x0w - 0.28, x0w + 0.14), (x1w - 0.14, x1w + 0.28)):
     n = 9; top = y1w + 0.1; bot = y0w - 0.12; zc = Z0 + T + 0.08
@@ -310,12 +311,15 @@ for xa, xb in ((x0w - 0.28, x0w + 0.14), (x1w - 0.14, x1w + 0.28)):
         rows.append(row)
     for a, b_ in zip(rows, rows[1:]):
         for k in range(n): cu.bm.faces.new((a[k], a[k + 1], b_[k + 1], b_[k]))
-cu.bm.normal_update(); cu.finish(root, uv=False); fin(rd, uv=False)
+cu.bm.normal_update()
 
 # ---------------- 收尾 ----------------
+WALL_SMOOTH = {'ac': 0.6, 'curtain': 0.8, 'pillow': 0.6, 'rod': 0.9, 'chrome': 0.6}   # 貼牆零件（冷氣、毛巾、窗簾、帆布袋、窗簾桿、掛勾）照原本的平滑設定
 for side, ms in walls.items():
     for m in ms:
-        m.name = f'WALL_{m.name}'; bmesh.ops.recalc_face_normals(m.bm, faces=m.bm.faces); m.finish(root, uv=True, props={'dir': DIRS[side]})
+        key = m.name.split('_', 1)[1]; m.name = f'WALL_{m.name}'; bmesh.ops.recalc_face_normals(m.bm, faces=m.bm.faces)
+        ob = m.finish(root, uv=True, props={'dir': DIRS[side]})
+        if key in WALL_SMOOTH: L.smooth_mesh(ob, angle=WALL_SMOOTH[key])
 L.merge_by_material(root, keep=lambda ob: False, key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
 info = L.export(OUT, gpu_instances=True)
 L.write_json(OUT[:-4] + '.json', info)
