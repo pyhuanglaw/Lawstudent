@@ -198,8 +198,13 @@ look-dev 全身比較（上排現在的遊戲版、下排這一輪；兩排都�
 
 ---
 
-## 8. 高子晴 第一輪（VRoid 加工；**遊戲內截圖驗收未做**，2026-10-10 使用者改要求以 Blender 正式製作人物，這一輪先停在這裡）
+## 8. 高子晴 第一輪（VRoid 加工；遊戲內截圖 2026-10-10 12:30 補拍，發布候選 `47b2043`）
 
 `build_heroine_04`：瀏海剪到（縮小後的）眼睛上緣（`edit_strands`＋`trim_fn`）；`bob_reshape`：蘑菇頭 → 耳下鮑伯（到下巴維持寬度、髮尾鈍）；新函式 `refit_hair_joints`：頭髮頂點改形狀之後，髮束彈簧骨跟著移、IBM 重算（不移的話兩側髮尾被重力甩成往外翹的翅膀——look-dev 關掉重力對照確認過）；`scale_eyes` 0.8／0.8、`face_slim` 0.05、`nose_bridge`；`v_neck` 交疊 V 領；外套淺麻灰、`fit_leg_openings` 短褲褲管收合身、球鞋保留鞋底差別。
 吉他袋（`props3d.js` 的 `guitarBag` 加 `x／z／tilt／straps／flat` 參數）：包身置中、幾乎直立、往後移 3.5 cm（舊版下半部插進背 2 cm、琴頸從頭的左上方冒出來像貓耳）；單條斜背帶 → 照她的肩膀與胸口實測路徑的雙肩扁平背帶。
-測試：`sim_hair char.heroine_04` PASS（0.004 m）；`stairs_feet_unit char.heroine_04` PASS。**沒有遊戲內截圖**（被新指令中斷）；look-dev 檢視頁的截圖只當開發參考。狀態：模型完成、整合完成、遊戲內驗收待做。
+實際遊戲畫面（溫州街 11:00；上排改前、下排改後；左邊參考圖 06）：
+
+![高子晴改前改後](screenshots/v94_CHAR_heroine_04_before_after.jpg)
+
+測試：`sim_hair char.heroine_04` PASS（0.004 m）；`stairs_feet_unit char.heroine_04` PASS；遊戲內截圖沒有 JS 錯誤、driver＝vrm。Playwright 模擬，不是手機實機。
+仍不符合參考圖：臉仍是動畫臉；鮑伯是 VRoid 髮束推出來的（近看髮尾仍是一束束尖端）；背帶在胸前是兩條粗黑帶（參考圖的吉他袋背帶比較細、顏色和袋子一樣）；一邊撥到耳後＋小耳環還沒做；頭身比約 6.4。狀態：美術待使用者驗收。
