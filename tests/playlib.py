@@ -160,15 +160,21 @@ async def go_to(pg, cdp, run, tx, tz, near, label, max_s=420):
             await advance_dialogs(pg, cdp, run, until=lambda q: not q['dlg'] and not q['choices'] and not q['busy'], max_steps=40); continue
         if s['path'] and time.time() - last_prog < 20:
             await pg.wait_for_timeout(1500); continue
-        # 點地面：目標太遠或不在畫面上時，點往目標方向 6 m 的點
-        f = min(1.0, 6.0 / max(d, 0.01)); px, pz = s['x'] + (tx - s['x']) * f, s['z'] + (tz - s['z']) * f
-        ok = time.time() - last_prog < 40 and (await tap_ground(pg, cdp, tx, tz) or await tap_ground(pg, cdp, px, pz))
+        # 點地面：先點目標；目標太遠或不在畫面上（例如在鏡頭後面）時，點往目標方向 6 m、3 m、1.5 m 的點（像玩家一樣分段走）
+        ok = False
+        if time.time() - last_prog < 40:
+            ok = await tap_ground(pg, cdp, tx, tz)
+            for step in (6.0, 3.0, 1.5):
+                if ok: break
+                f = min(1.0, step / max(d, 0.01)); ok = await tap_ground(pg, cdp, s['x'] + (tx - s['x']) * f, s['z'] + (tz - s['z']) * f)
         if ok:
             taps += 1; await pg.wait_for_timeout(2500); continue
-        # 點不到（不在畫面上、被按鈕擋住）或一直沒進展：搖桿朝目標推
+        # 點不到（不在畫面上、被按鈕擋住）或一直沒進展：搖桿朝目標推。
+        # 鏡頭在玩家的 (sin yaw, cos yaw) 那一側，畫面的「前」＝(-sin yaw, -cos yaw)、「右」＝(cos yaw, -sin yaw)；搖桿往右推是 +x、往前推是 -y
+        # （2026-10-10 修正：原本左右的正負號寫反，目標在右邊時往左推，flow_class_real 下課後走到教室左後角）
         yaw = s['camYaw']; fx, fz = -math.sin(yaw), -math.cos(yaw); rx, rz = -fz, fx
         ux, uz = (tx - s['x']) / d, (tz - s['z']) / d
-        await joystick(pg, cdp, int(40 * (ux * (-rx) + uz * (-rz))), int(-40 * (ux * fx + uz * fz)), 1200); joys += 1
+        await joystick(pg, cdp, int(40 * (ux * rx + uz * rz)), int(-40 * (ux * fx + uz * fz)), 1200); joys += 1
         await pg.wait_for_timeout(300)
     s = await state(pg)
-    run.note(f'走不到「{label}」：最後位置 ({s["x"]},{s["z"]})，目標 ({tx},{tz})'); return False
+    run.note(f'走不到「{label}」：最後位置 ({s["x"]},{s["z"]})，目標 ({tx},{tz})；點地面 {taps} 次、搖桿 {joys} 次'); return False

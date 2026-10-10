@@ -52,9 +52,11 @@ async def walk_to(pg, t, x, z, label, tol=1.3, max_s=150):
         if 0 < sx < W and 140 < sy < H - 200 and sz < 1:
             await t.tap(sx, sy); await pg.wait_for_timeout(2200)
         else:
-            # 搖桿：引擎把搖桿向量 (mx,mz) 依鏡頭 yaw 旋轉成世界方向；這裡反算要推的方向
+            # 搖桿：像玩家一樣看畫面推——目標在鏡頭的右邊就往右推、在前面就往上推。鏡頭在玩家的 (sin yaw, cos yaw) 那一側，
+            # 畫面的「前」＝(-sin yaw,-cos yaw)、「右」＝(cos yaw,-sin yaw)；搖桿 x＝目標方向·右、y＝−目標方向·前
+            # （2026-10-10：原本這裡照引擎當時寫反的旋轉反算，所以測試一直沒發現鏡頭轉到側面時搖桿方向相反）
             wx, wz = x - st['x'], z - st['z']; L = math.hypot(wx, wz) or 1; wx /= L; wz /= L
-            a = st['camYaw']; mx = wx * math.cos(a) + wz * math.sin(a); mz = -wx * math.sin(a) + wz * math.cos(a)
+            a = st['camYaw']; mx = wx * math.cos(a) - wz * math.sin(a); mz = wx * math.sin(a) + wz * math.cos(a)
             await t.joy(mx * 58, mz * 58, 900 if d > 6 else 400)
     print('  walk timeout', label, st)
     return st

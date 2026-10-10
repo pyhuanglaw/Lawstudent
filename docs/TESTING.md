@@ -26,7 +26,7 @@
 |---|---|---|---|
 | 第一層：單元 | 個別函式、資料、計算、條件 | `node tools/dev_scratch/kit_nav_check.js`（校園套件建築的導航阻擋涵蓋所有看得到的東西）、`node tools/dev_scratch/spring_sim/sim_hair.js`（頭髮彈簧骨）、`tools/dev_scratch/nav_islands.py`（比人窄的小孤島） | 不開瀏覽器或只載入資料 |
 | 第二層：系統整合 | 存檔、劇情、時間、找路、場景切換之間的連動 | `tests/reachability_all.py`（**全遊戲可達性**：每個互動點站得住、按鈕會出現、用引擎真正的找路＋移動碰撞走得到；劇情自動走路的目的地；出入口到達點）、`tests/campus_layout_nav.py`、`tests/gongguan_layout_nav.py`、`tests/zone_transitions.py`、`tests/save_compat_v7.py`、`tests/deploy_check.py`、`tests/see_through.py` | 讀檔前置、`?turbo`（載入快）、可達性是**模擬時間**的移動（不是瞬移，但不畫面） |
-| 第三層：真實玩家流程 | 用玩家的方式完成主要流程，不跳過關鍵步驟 | `tests/flow_class_real.py`（星期四進霖澤館上課 → 劇情自己走到座位 → 上完課 → 搖桿走到後門離開）、`tests/minimap_direction.py`（拖曳轉鏡頭、搖桿往前走，小地圖方向）、`tests/touch_flow_wenzhou.py`（溫州街 → 咖啡廳 → 坐下 → 存讀檔）、`tests/p0_movement.py`（各出生點搖桿移動） | 只有讀檔前置（會標示）；`touch_flow_wenzhou`、`p0_movement` 目前仍用 `?turbo`（見第六節待辦） |
+| 第三層：真實玩家流程 | 用玩家的方式完成主要流程，不跳過關鍵步驟 | `tests/flow_class_real.py`（星期四進霖澤館上課 → 劇情自己走到座位 → 上完課 → 搖桿走到後門離開）、`tests/minimap_direction.py`（拖曳轉鏡頭、搖桿往前走，小地圖方向）、`tests/joystick_direction.py`（鏡頭 8 個角度 × 搖桿 4 個方向）、`tests/touch_flow_wenzhou.py`（溫州街 → 咖啡廳 → 坐下 → 存讀檔）、`tests/p0_movement.py`（各出生點搖桿移動） | 只有讀檔前置（會標示）；`touch_flow_wenzhou`、`p0_movement` 目前仍用 `?turbo`（見第六節待辦） |
 | 第四層：探索與異常 | 偏離預期路線、重複進出、錯誤時機互動、存讀檔打斷事件、NPC 擋路 | 尚未建立（見第六節） | — |
 
 ## 三、全遊戲清單（2026-10-10 從程式掃出來）
@@ -59,7 +59,7 @@
 
 1. `tests/deploy_check.py`（資源 404、11 區域、正式 VRM、版本字樣）
 2. `tests/reachability_all.py`（全遊戲可達性）
-3. `tests/flow_class_real.py`、`tests/minimap_direction.py`（永久回歸：教室卡住、小地圖方向）
+3. `tests/flow_class_real.py`、`tests/minimap_direction.py`、`tests/joystick_direction.py`（永久回歸：教室卡住、小地圖方向、搖桿方向）
 4. `tests/zone_transitions.py`、`tests/touch_flow_wenzhou.py`、`tests/p0_movement.py`
 5. `tests/save_compat_v7.py`（線上玩家的舊存檔）
 
@@ -79,5 +79,6 @@
 | 日期 | 問題 | 測試 | 在有 bug 的版本 | 修好之後 |
 |---|---|---|---|---|
 | 2026-10-10 | 進教室上課劇情卡在桌角、找不到地方坐下 | `flow_class_real.py`、`reachability_all.py`（教室） | 失敗（卡在 (-6.4,1.9)；`--legacy` 可達性 15 項失敗） | 見最新測試報告 |
-| 2026-10-10 | 霖澤館外跑的方向和小地圖相反 | `minimap_direction.py` | 失敗（鏡頭朝北時前方的出入口在地圖下方 181°） | 見最新測試報告 |
+| 2026-10-10 | 霖澤館外跑的方向和小地圖相反（一）：小地圖旋轉角正負號錯 | `minimap_direction.py` | 失敗（鏡頭朝北時前方的出入口在地圖下方 181°） | 見最新測試報告 |
+| 2026-10-10 | 霖澤館外跑的方向和小地圖相反（二）：**搖桿方向依鏡頭角度旋轉時寫反**——只有鏡頭朝正北／正南時對，轉 45° 偏 90°、轉到側面整個相反（往鏡頭這邊跑）；`touch_flow_wenzhou` 的搖桿反算照著錯的公式寫，所以也沒抓到 | `joystick_direction.py`（8 個鏡頭角度 × 4 個方向＋手指拖曳轉鏡頭） | 失敗（45°：偏 90°；90°、270°：偏 180°） | 見最新測試報告 |
 | 2026-10-09 | 標題畫面自動存檔覆蓋進度 | `save_compat_v7.py`（標題停 8 秒存檔不變） | — | 通過 |
