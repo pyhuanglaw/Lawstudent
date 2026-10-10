@@ -19,6 +19,7 @@ import playlib as L
 URL = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith('--') else 'http://127.0.0.1:8765/index.html'
 LEGACY = '--legacy' in sys.argv
 ZONES = ['campus', 'gongguan', 'wenzhou', 'classroom', 'wancai', 'library', 'cafe', 'cvs', 'noodle', 'bookstore', 'dorm']
+if '--zones' in sys.argv: ZONES = sys.argv[sys.argv.index('--zones') + 1].split(',')   # 只測某幾個區域（開發時用；發布前要全測）
 FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'lawclub': True, 'wenzhouLine': True}
 
 SCAN = r"""(()=>{ const E=GAME.E, R=0.32; const P=E.player.obj.position; const start=[P.x,P.z]; const zone=GAME.G.zone; const out={zone, start:[+start[0].toFixed(2),+start[1].toFixed(2)], startStand:E.canStand(start[0],start[1],R), items:[], arrivals:[]};
@@ -30,8 +31,8 @@ SCAN = r"""(()=>{ const E=GAME.E, R=0.32; const P=E.player.obj.position; const s
     // 互動範圍內站得住、而且「最近的互動」就是它的位置（照距離排）
     const cands=[]; for(let dz=-r;dz<=r+1e-6;dz+=0.2) for(let dx=-r;dx<=r+1e-6;dx+=0.2){ const d=Math.hypot(dx,dz); if(d>r) continue; const x=it.x+dx, z=it.z+dz; if(E.canStand(x,z,R)) cands.push([d,x,z]); }
     cands.sort((a,b)=>a[0]-b[0]); let ok=null, tried=0, standButOther=0, npcBlock=0, npcName='', lastFail=null;
-    for(const [d,x,z] of cands){ P.set(x,0,z); const near=E.nearestInteractable(); if(near!==it){ if(near&&near.obj){ npcBlock++; npcName=near.name||near.charId||'NPC'; } else standButOther++; continue; } if(++tried>6) break; const w=walk(x,z); if(w.ok){ ok={x:+x.toFixed(2),z:+z.toFixed(2),d:+d.toFixed(2)}; break; } lastFail=Object.assign({at:[+x.toFixed(2),+z.toFixed(2)]},w); }
-    P.set(start[0],0,start[1]);
+    for(const [d,x,z] of cands){ P.set(x,E.heightAt(x,z,E.player.lv|0),z); /* 站在那一格的地板高度（階梯教室每一排不一樣高；舊版一律 y=0，最上排 1.5 m 的座位被當成「別層」而算失敗）*/ const near=E.nearestInteractable(); if(near!==it){ if(near&&near.obj){ npcBlock++; npcName=near.name||near.charId||'NPC'; } else standButOther++; continue; } if(++tried>6) break; const w=walk(x,z); if(w.ok){ ok={x:+x.toFixed(2),z:+z.toFixed(2),d:+d.toFixed(2)}; break; } lastFail=Object.assign({at:[+x.toFixed(2),+z.toFixed(2)]},w); }
+    P.set(start[0],E.heightAt(start[0],start[1],E.player.lv|0),start[1]);
     rec.standable=cands.length; rec.ok=!!ok; rec.at=ok; if(!ok){ rec.why=!cands.length?'互動範圍內沒有站得住的位置':(tried===0?(standButOther?'站得住的位置都被別的互動點搶走（按鈕不會出現）':'被 NPC 佔用（'+npcName+'在這裡，靠近時出現的是和他說話）'):'走不到'); rec.fail=lastFail;
       /* 座位被這個時段的 NPC 坐著：設計如此（人優先於物件），列為說明、不算失敗；出入口等其他互動點被 NPC 擋住仍然算失敗 */ if(tried===0&&!standButOther&&npcBlock&&it.seat){ rec.ok=true; rec.info=rec.why; } }
     if(it.seat&&GAME.seatApproach){ const ap=GAME.seatApproach(it.seat); const w=walk(ap[0],ap[1]); rec.seatApproach={at:[+ap[0].toFixed(2),+ap[1].toFixed(2)], ok:w.ok, fail:w.ok?null:w}; }
