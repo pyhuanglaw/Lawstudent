@@ -446,3 +446,16 @@ Cycles、點光代替遊戲的燈（遊戲裡是自發光的日光燈管＋天�
 - **改了什麼**：本來就半透明的 `WALL_` 材質（玻璃、紗窗）不放進 `z.walls`，改成窗的零件（`z.winParts`：固定透明，牆淡出時一起藏，和 Café 室內一樣）。`src/zones3d.js` 3 行。
 - **怎麼測**：`tests/interior_glb_integration.py`、`tests/cvs_glb_integration.py` 加「玻璃、紗窗保持透明（不在 `z.walls`、不透明度 < 0.5）」。**在沒修的版本跑會失敗**（宿舍：`WALL_back_glass`、`WALL_back_screen` 不透明度 1、在 `z.walls` 裡，log `test_logs/interiors/interior_glb_integration_unfixed_dorm.log`；便利商店：`WALL_front_glass` 在 `z.walls` 裡），修好之後通過。修改後截圖（這一節、第 3 節）都是修好之後重拍的。
 - **沒有測的**：iPhone 實機。
+
+### 4.8 交付後 LAWWW 發現並修好的 bug：宿舍貼在牆上的東西在牆淡出後浮在半空中（2026-10-10 19:58Z 回報）
+
+- **原本錯在哪**：宿舍的 Blender 腳本把門邊的掛勾架、毛巾、帆布袋（前牆）、冷氣、冷氣管蓋板、窗簾桿、窗簾（後牆）做成一般的家具網格，不在那面牆的 `WALL_` 群組裡。鏡頭跑到牆外、那面牆淡出時，它們不會跟著淡出，看起來浮在半空中（LAWWW 從 `test_shots/interior_glb_integration/03_dorm_formal.png` 左前方看到）。遊戲本身掛的**月曆（右牆）、社團傳單（左牆）**是同一類問題（程序化備用模型也有）。
+- **改了什麼**：`dorm_interior.py` 把這些零件放進那面牆的群組（`WALL_front_chrome`／`_curtain`／`_pillow`、`WALL_back_ac`／`_black`／`_trim`／`_curtain`／`_rod`；原本毛巾和窗簾在同一個網格，現在按前後牆拆開），遊戲端不用改淡出的程式；月曆、傳單在 `zones3d.js` 的宿舍區塊加進 `z.walls`（`dormWallItems`，方向＝那面牆往室內的法線；正式模型、程序化備用模型都適用）。
+- **怎麼測**：`tests/interior_glb_integration.py` 加「貼在牆上的東西（離牆 0.3 m 內、離地 0.5 m 以上）都在那面牆的 `WALL_` 群組裡」（三間都檢查；落地家具不算），**在沒修的版本跑會失敗**、修好之後通過（見下面 log）；另外每間多拍一張「鏡頭在後牆外」的截圖（`*_formal_from_back.png`）。
+- 麵店、書店照同一項檢查：沒有貼牆卻不在牆群組裡的東西（靠牆的書架、煮麵台、貨架是落地家具）。
+
+| 鏡頭在前牆外（前牆淡出；門邊的掛勾、毛巾跟著淡出） | 鏡頭在後牆外（後牆淡出；冷氣、窗簾、窗簾桿跟著淡出，落地的書架照樣在） |
+|---|---|
+| ![](test_shots/interior_glb_integration/05_dorm_formal.png) | ![](test_shots/interior_glb_integration/06_dorm_formal_from_back.png) |
+
+（測試的截圖，畫面下方是遊戲開場的對話框；`?nobldg` 與麵店、書店的同一組截圖在同一個資料夾。）
