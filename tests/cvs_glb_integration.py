@@ -48,6 +48,9 @@ async def check(pg, run, formal):
             E.cinematic(new THREE.Vector3(0,2.2,8.0),new THREE.Vector3(0,1.4,0)); E.camera.position.set(0,2.2,8.0); const f0=E.frame; for(let i=0;i<240&&E.frame<f0+6;i++) await new Promise(r=>setTimeout(r,250));
             const op=fw.map(w=>+w.material.opacity.toFixed(2)); for(const w of fw) w.userData.dir.z=-1; E.endCinematic(); return op; })()""")
         run.check('（自我檢查）前牆 dir 故意弄反時，淡出檢查會失敗', len(neg) > 0 and max(neg) > 0.5, json.dumps(neg))
+        gl = await pg.evaluate("""(async()=>{ const E=GAME.E, z=E.zone; const f0=E.frame; for(let i=0;i<240&&E.frame<f0+4;i++) await new Promise(r=>setTimeout(r,250));
+            const out=[]; z.group.traverse(o=>{ if(o.isMesh&&/^WALL_/.test(o.name)&&/glass|screen/.test(o.name)) out.push({name:o.name, op:+o.material.opacity.toFixed(2), inWalls:z.walls.includes(o)}); }); return out; })()""")
+        run.check('自動門玻璃保持透明（不在會淡出的牆裡；淡出邏輯會把不透明度設回 1，玻璃會變成灰板）', len(gl) > 0 and all(g['op'] < 0.5 and not g['inWalls'] for g in gl), json.dumps(gl))
         ex = await pg.evaluate("""(()=>{ const z=GAME.E.zone; const mats={}, signs={}; z.group.traverse(o=>{ if(!o.isMesh) return; mats[o.material.name]=o.material; if(/^SIGN_FACE_aisle/.test(o.name)) signs[o.name]=!!(o.material.map&&o.material.map.image&&o.material.map.image.getContext); });
             const dv=z.winParts&&z.winParts.find(p=>Math.abs(p.at.z-4.5)<0.01&&Math.abs(p.at.x)<0.01); const same=!!(dv&&z.wins&&z.wins[0]&&dv.obj.material===z.wins[0].material);
             return {signs, led:mats.cvs_led?+mats.cvs_led.emissiveIntensity.toFixed(2):-1, cooler:mats.cvs_cooler_light?+mats.cvs_cooler_light.emissiveIntensity.toFixed(2):-1, goodsGlow:mats.cvs_goods?mats.cvs_goods.customProgramCacheKey()==='cvsVcGlow':false, doorView:same}; })()""")
