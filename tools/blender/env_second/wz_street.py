@@ -55,15 +55,37 @@ base = CL.materials()      # Café 的共用材質（鋁窗、鐵窗、冷氣、
 _mats = {}
 
 
-def wall_mat(kind, color):
-    """外牆：tile＝長條磁磚、mosaic＝小方塊馬賽克、plaster＝水泥漆（每棟依顏色校正一張顏色貼圖；法線／粗糙度共用）"""
-    key = (kind, color)
-    if key not in _mats:
-        nm = f'wz_wall_{kind}_{color.lstrip("#")}'
-        if kind == 'mosaic': _mats[key] = L.pbr(nm, 'rounded_square_tiled_wall', tile=1.0, target=color, normal=0.8, maps=('diff', 'nor'), rough_value=0.45)
-        elif kind == 'plaster': _mats[key] = L.pbr(nm, 'plaster_grey_04', tile=1.5, target=color, normal=0.5, maps=('diff', 'nor'), res=256, rough_value=0.9)
-        else: _mats[key] = L.pbr(nm, 'long_white_tiles', tile=1.2, target=color, normal=0.8, maps=('diff', 'nor'), rough_value=0.5)
-    return _mats[key]
+NEUTRAL = {'tile': '#dadada', 'mosaic': '#dadada', 'plaster': '#e9e9e9'}   # 外牆貼圖的平均色（最亮的那棟也不超過，頂點色 ≤ 1）
+
+
+def wall_mat(kind):
+    """外牆：tile＝長條磁磚、mosaic＝小方塊馬賽克、plaster＝水泥漆。每一種只有一個材質、一張中性灰的貼圖：
+    每棟的顏色放在頂點色（glTF COLOR_0，three.js 乘上貼圖）→ 同一種外牆整條巷子合成一次 draw call、只存一張貼圖"""
+    if kind not in _mats:
+        nm = f'wz_wall_{kind}'; c = NEUTRAL[kind]
+        if kind == 'mosaic': m = L.pbr(nm, 'rounded_square_tiled_wall', tile=1.0, target=c, normal=0.8, maps=('diff', 'nor'), rough_value=0.45)
+        elif kind == 'plaster': m = L.pbr(nm, 'plaster_grey_04', tile=1.5, target=c, normal=0.5, maps=('diff', 'nor'), res=256, rough_value=0.9)
+        else: m = L.pbr(nm, 'long_white_tiles', tile=1.2, target=c, normal=0.8, maps=('diff', 'nor'), rough_value=0.5)
+        _mats[kind] = vc_tint(m)
+    return _mats[kind]
+
+
+def vc_tint(m, layer='Col'):
+    """顏色貼圖 × 頂點色（Color Attribute 節點：glTF 匯出器看到它就輸出 COLOR_0）"""
+    nt = m.node_tree; N = nt.nodes; Lk = nt.links; bsdf = N['Principled BSDF']
+    src = bsdf.inputs['Base Color'].links[0].from_socket
+    mix = N.new('ShaderNodeMix'); mix.data_type = 'RGBA'; mix.blend_type = 'MULTIPLY'; mix.inputs['Factor'].default_value = 1.0
+    vc = N.new('ShaderNodeVertexColor'); vc.layer_name = layer
+    Lk.new(src, mix.inputs[6]); Lk.new(vc.outputs['Color'], mix.inputs[7]); Lk.new(mix.outputs[2], bsdf.inputs['Base Color'])
+    return m
+
+
+def set_tint(ob, hexcol, kind):
+    """整個物件的頂點色＝這棟的牆色 ÷ 貼圖的平均色（線性空間）"""
+    lin = lambda c: c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
+    t = [int(hexcol[i:i + 2], 16) / 255 for i in (1, 3, 5)]; n = [int(NEUTRAL[kind][i:i + 2], 16) / 255 for i in (1, 3, 5)]
+    col = [min(1.0, lin(a) / lin(b)) for a, b in zip(t, n)] + [1.0]
+    ca = ob.data.color_attributes.new('Col', 'FLOAT_COLOR', 'CORNER'); ca.data.foreach_set('color', col * len(ca.data))
 
 
 def flat(name, hexcol, **kw):
@@ -159,6 +181,43 @@ def tank_mesh():
 
 
 GRILLE = grille_mesh(2.5, 1.75); HOOD = hood_mesh(2.7); AC = ac_mesh(); TANK = tank_mesh()
+M['room_lit'] = L.flat('wz_room_lit', '#3a3228', rough=0.9, emit=B.srgb('#ffcf8a'))   # 亮燈的房間：晚上發光（遊戲 TK.addNight）
+
+
+_WIN = {}
+def window_proto(ww, wh, lit):
+    """一扇窗（instancing）：窗內房間（只有看得到的內面）、鋁框＋中間的直框、玻璃、窗台。原點＝窗的下緣中央、牆面（z＝0）。
+    窗簾不在這裡（每扇的寬度、左右不同）"""
+    key = (round(ww, 3), round(wh, 3), lit)
+    if key in _WIN: return _WIN[key]
+    x0, x1, y0, y1, fz, t, bk = -ww / 2, ww / 2, 0.0, wh, -0.12, 0.05, -0.9
+    rm = Mesh('win_room', M['room_lit'] if lit else M['room_dark'])
+    rm.quad([(x0, y0, bk), (x1, y0, bk), (x1, y1, bk), (x0, y1, bk)])                    # 後牆（朝外）
+    rm.quad([(x0, y0, fz), (x1, y0, fz), (x1, y0, bk), (x0, y0, bk)])                    # 地板（朝上）
+    rm.quad([(x0, y1, bk), (x1, y1, bk), (x1, y1, fz), (x0, y1, fz)])                    # 天花板（朝下）
+    rm.quad([(x0, y0, fz), (x0, y0, bk), (x0, y1, bk), (x0, y1, fz)])                    # 左牆（朝 +x）
+    rm.quad([(x1, y0, bk), (x1, y0, fz), (x1, y1, fz), (x1, y1, bk)])                    # 右牆（朝 −x）
+    al = Mesh('win_alu', M['alu'])
+    al.box(x0, x1, y0, y0 + t, fz - 0.05, fz + 0.03); al.box(x0, x1, y1 - t, y1, fz - 0.05, fz + 0.03)
+    al.box(x0, x0 + t, y0, y1, fz - 0.05, fz + 0.03); al.box(x1 - t, x1, y0, y1, fz - 0.05, fz + 0.03)
+    al.box(-0.03, 0.01, y0 + t, y1 - t, fz - 0.03, fz + 0.02)
+    gl = Mesh('win_glass', M['win_glass']); gl.quad([(x0 + t, y0 + t, fz - 0.01), (x1 - t, y0 + t, fz - 0.01), (x1 - t, y1 - t, fz - 0.01), (x0 + t, y1 - t, fz - 0.01)])
+    sl = Mesh('win_sill', M['band']); sl.box(x0 - 0.08, x1 + 0.08, y0 - 0.07, y0, -0.25, 0.07)
+    _WIN[key] = combine([rm.finish(None, uv=False), al.finish(None), gl.finish(None), sl.finish(None)], f'window_{"lit" if lit else "dark"}_{ww:g}')
+    return _WIN[key]
+
+
+def potted_proto(kind, r, h, lift, size, n, seed):
+    """盆栽（instancing）：陶盆＋葉片卡。原點＝盆底中央"""
+    random.seed(seed)
+    pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper', y0=0.0)
+    lv = Mesh('leaves', M[kind]); bush(lv, 0.0, lift, 0.0, size, n=n, span=0.45)
+    return combine([pm.finish(None, smooth=True), lv.finish(None, uv=False)], f'potted_{kind}_{seed}')
+
+
+POT_FERN = [potted_proto('fern', 0.09, 0.16, 0.33, 0.32, 4, s) for s in (11, 12)]
+POT_BROAD = potted_proto('broad', 0.16, 0.3, 0.66, 0.45, 5, 13)
+random.seed(707)
 
 # 累積的網格（同材質一個）：用 dict 依材質名取用
 _acc = {}
@@ -169,15 +228,20 @@ def acc(mat, name=None):
 
 
 faces = []   # (名稱, 材質, 四點, 自訂屬性)
+_inst = []
 
 
 def face(name, mat, xf, pts, props):
     m = Mesh(name, mat); xf.quad(m, pts); faces.append((m, props))
 
 
+def inst(mesh, tag, xf, x, y, z):
+    wx, _, wz = xf.p(x, 0, z); B.instance(mesh, f'{tag}_{len(_inst)}', wx, y, wz, root, ry=xf.ry); _inst.append(1)
+
+
 def apartment(spec):
     xf, Wd, Dd = place(spec); F = spec['floors']; totalH = GH + (F - 1) * FH; rng = random.Random(sum(ord(c) * (i + 7) for i, c in enumerate(spec['id'])))   # 固定種子（Python 的 hash() 每次執行不同）
-    wm = wall_mat(spec['wall'], spec['color'])
+    kind = spec['wall']; wall = Mesh(f'wall_{spec["id"]}', wall_mat(kind))     # 這棟的外牆（一個物件，頂點色＝牆色）
     gt = spec['ground']; rec = 1.3 if gt == 'shop' else (4.3 if gt == 'arcade' else 0.2)
     W = Wd; D = Dd
     # ---- 樓上的窗：每層 n 扇（和套件相同的算法：n＝round(W/3.6)）
@@ -187,10 +251,9 @@ def apartment(spec):
         yc = GH + (f - 1) * FH + FH * 0.52
         for i in range(n):
             x = -W / 2 + (i + 0.5) * W / n
-            kind = 'balcony' if (spec.get('balcony') and i == n // 2 and f == 1) else ('grille' if rng.random() < 0.7 else 'plain')
-            wins.append(dict(f=f, x=x, y0=yc - wh / 2, y1=yc + wh / 2, kind=kind, hood=(kind != 'grille' and rng.random() < 0.5), ac=rng.random() < 0.65, lit=rng.random() < 0.35, acs=rng.choice((-1, 1))))
+            kind_ = 'balcony' if (spec.get('balcony') and i == n // 2 and f == 1) else ('grille' if rng.random() < 0.7 else 'plain')
+            wins.append(dict(f=f, x=x, y0=yc - wh / 2, y1=yc + wh / 2, kind=kind_, hood=(kind_ != 'grille' and rng.random() < 0.5), ac=rng.random() < 0.65, lit=rng.random() < 0.35, acs=rng.choice((-1, 1))))
     # ---- 牆：一樓以上（留窗洞，牆厚 0.25）
-    wall = acc(wm)
     for f in range(1, F):
         y0 = GH + (f - 1) * FH; y1 = y0 + FH
         ws = sorted([w for w in wins if w['f'] == f], key=lambda w: w['x'])
@@ -199,70 +262,58 @@ def apartment(spec):
         for w in ws:
             xf.box(wall, w['x'] - ww / 2, w['x'] + ww / 2, y0, w['y0'], -0.25, 0); xf.box(wall, w['x'] - ww / 2, w['x'] + ww / 2, w['y1'], y1, -0.25, 0)
     xf.box(wall, -W / 2, W / 2, totalH, totalH + 0.9, -0.2, 0)                                   # 女兒牆
-    side = acc(wm)
-    xf.box(side, -W / 2, -W / 2 + 0.2, GH, totalH + 0.9, -D, -0.25); xf.box(side, W / 2 - 0.2, W / 2, GH, totalH + 0.9, -D, -0.25)
-    xf.box(side, -W / 2, W / 2, GH, totalH + 0.9, -D, -D + 0.2)
+    xf.box(wall, -W / 2, -W / 2 + 0.2, GH, totalH + 0.9, -D, -0.25); xf.box(wall, W / 2 - 0.2, W / 2, GH, totalH + 0.9, -D, -0.25)
+    xf.box(wall, -W / 2, W / 2, GH, totalH + 0.9, -D, -D + 0.2)
     band = acc(M['band'])
     for f in range(1, F): xf.box(band, -W / 2 - 0.03, W / 2 + 0.03, GH + (f - 1) * FH - 0.09, GH + (f - 1) * FH + 0.09, -0.25, 0.08)
     xf.box(band, -W / 2 - 0.04, W / 2 + 0.04, totalH + 0.9, totalH + 0.97, -0.26, 0.05)
     xf.box(acc(M['roof']), -W / 2 + 0.2, W / 2 - 0.2, totalH - 0.05, totalH + 0.05, -D + 0.2, -0.2)
-    # ---- 窗：鋁框、玻璃、窗簾、窗內房間；鐵窗／雨遮／冷氣／陽台
+    # ---- 窗（instancing）＋窗簾；鐵窗／雨遮／冷氣／陽台
     for w in wins:
-        x0, x1, y0, y1 = w['x'] - ww / 2, w['x'] + ww / 2, w['y0'], w['y1']; fz = -0.12; t = 0.05; cx = w['x']
-        rm = acc(M['room_dark'])
-        xf.box(rm, x0, x1, y0, y1, -0.92, -0.88); xf.box(rm, x0, x1, y0 - 0.02, y0, -0.9, fz); xf.box(rm, x0, x1, y1, y1 + 0.02, -0.9, fz)
-        xf.box(rm, x0, x0 + 0.02, y0, y1, -0.9, fz); xf.box(rm, x1 - 0.02, x1, y0, y1, -0.9, fz)
+        x0, x1, y0, y1, cx = w['x'] - ww / 2, w['x'] + ww / 2, w['y0'], w['y1'], w['x']
+        inst(window_proto(ww, wh, w['lit']), f'win_{spec["id"]}', xf, cx, y0, 0.0)
         cm = acc(M['curtain_lit'] if w['lit'] else M['curtain']); cw = ww * rng.uniform(0.3, 0.55)
-        if rng.random() < 0.5: xf.box(cm, x1 - cw, x1 - 0.03, y0 + 0.03, y1 - 0.05, -0.3, -0.28)
-        else: xf.box(cm, x0 + 0.03, x0 + cw, y0 + 0.03, y1 - 0.05, -0.3, -0.28)
-        al = acc(M['alu'])
-        xf.box(al, x0, x1, y0, y0 + t, fz - 0.05, fz + 0.03); xf.box(al, x0, x1, y1 - t, y1, fz - 0.05, fz + 0.03)
-        xf.box(al, x0, x0 + t, y0, y1, fz - 0.05, fz + 0.03); xf.box(al, x1 - t, x1, y0, y1, fz - 0.05, fz + 0.03)
-        xf.box(al, cx - 0.03, cx + 0.01, y0 + t, y1 - t, fz - 0.03, fz + 0.02)
-        gl = acc(M['win_glass'])
-        xf.quad(gl, [(x0 + t, y0 + t, fz - 0.01), (x1 - t, y0 + t, fz - 0.01), (x1 - t, y1 - t, fz - 0.01), (x0 + t, y1 - t, fz - 0.01)])
-        xf.box(acc(M['band']), x0 - 0.08, x1 + 0.08, y0 - 0.07, y0, -0.25, 0.07)               # 窗台
+        if rng.random() < 0.5: xf.quad(cm, [(x1 - cw, y0 + 0.03, -0.29), (x1 - 0.03, y0 + 0.03, -0.29), (x1 - 0.03, y1 - 0.05, -0.29), (x1 - cw, y1 - 0.05, -0.29)])
+        else: xf.quad(cm, [(x0 + 0.03, y0 + 0.03, -0.29), (x0 + cw, y0 + 0.03, -0.29), (x0 + cw, y1 - 0.05, -0.29), (x0 + 0.03, y1 - 0.05, -0.29)])
         if w['kind'] == 'grille':
-            wx, _, wz = xf.p(cx, 0, 0.0); B.instance(GRILLE, f'grille_{spec["id"]}_{len(_inst)}', wx, y0 - 0.14, wz, root, ry=xf.ry); _inst.append(1)
-            wx, _, wz = xf.p(cx, 0, 0.0); B.instance(HOOD, f'ghood_{spec["id"]}_{len(_inst)}', wx, y0 - 0.14 + 1.77, wz, root, ry=xf.ry); _inst.append(1)
+            inst(GRILLE, f'grille_{spec["id"]}', xf, cx, y0 - 0.14, 0.0); inst(HOOD, f'ghood_{spec["id"]}', xf, cx, y0 - 0.14 + 1.77, 0.0)
             if rng.random() < 0.6:
-                px_ = cx + rng.uniform(-0.9, 0.9); pz_ = rng.uniform(0.16, 0.28)
-                q = xf.p(px_, 0, pz_); pot(acc(M['pot_terra']), q[0], q[2], 0.09, 0.16, 'taper', y0=y0 - 0.11); bush(acc(M['fern']), q[0], y0 + 0.22, q[2], 0.32, n=4, span=0.45)
+                px_ = cx + rng.uniform(-0.9, 0.9); pz_ = rng.uniform(0.16, 0.28); q = xf.p(px_, 0, pz_)
+                B.instance(POT_FERN[rng.randrange(2)], f'pot_{spec["id"]}_{len(_inst)}', q[0], y0 - 0.11, q[2], root, ry=rng.uniform(0, 2 * math.pi)); _inst.append(1)
         elif w['kind'] == 'balcony':
-            bx0, bx1, bd = x0 - 0.6, x1 + 0.6, 1.05; sl = acc(M['band']); xf.box(sl, bx0, bx1, y0 - 0.3, y0 - 0.16, -0.25, bd)
-            pw = acc(wm); xf.box(pw, bx0, bx1, y0 - 0.16, y0 + 0.4, bd - 0.12, bd); xf.box(pw, bx0, bx0 + 0.12, y0 - 0.16, y0 + 0.4, 0, bd); xf.box(pw, bx1 - 0.12, bx1, y0 - 0.16, y0 + 0.4, 0, bd)
+            bx0, bx1, bd = x0 - 0.6, x1 + 0.6, 1.05; xf.box(band, bx0, bx1, y0 - 0.3, y0 - 0.16, -0.25, bd)
+            xf.box(wall, bx0, bx1, y0 - 0.16, y0 + 0.4, bd - 0.12, bd); xf.box(wall, bx0, bx0 + 0.12, y0 - 0.16, y0 + 0.4, 0, bd); xf.box(wall, bx1 - 0.12, bx1, y0 - 0.16, y0 + 0.4, 0, bd)
             rl = acc(M['grille']); xx = bx0 + 0.06
             while xx < bx1 - 0.05: xf.box(rl, xx - 0.01, xx + 0.01, y0 + 0.4, y0 + 0.92, bd - 0.07, bd - 0.05); xx += 0.13
             xf.box(rl, bx0, bx1, y0 + 0.9, y0 + 0.94, bd - 0.09, bd - 0.03)
             for k in range(3):
-                q = xf.p(bx0 + 0.5 + k * (bx1 - bx0 - 1.0) / 2, 0, bd - 0.45); pot(acc(M['pot_terra']), q[0], q[2], 0.16, 0.3, y0=y0 - 0.16)
-                bush(acc(M['broad']), q[0], y0 + 0.5, q[2], 0.45, n=5, span=0.42)
+                q = xf.p(bx0 + 0.5 + k * (bx1 - bx0 - 1.0) / 2, 0, bd - 0.45)
+                B.instance(POT_BROAD, f'bpot_{spec["id"]}_{len(_inst)}', q[0], y0 - 0.16, q[2], root, ry=rng.uniform(0, 2 * math.pi)); _inst.append(1)
         elif w['hood']:
-            wx, _, wz = xf.p(cx, 0, 0.0); B.instance(HOOD, f'hood_{spec["id"]}_{len(_inst)}', wx, y1 + 0.18, wz, root, ry=xf.ry); _inst.append(1)
+            inst(HOOD, f'hood_{spec["id"]}', xf, cx, y1 + 0.18, 0.0)
         if w['ac'] and w['kind'] != 'balcony':
             ax = cx + w['acs'] * (ww / 2 + 0.55)
             if -W / 2 + 0.5 < ax < W / 2 - 0.5:
-                wx, _, wz = xf.p(ax, 0, 0.0); B.instance(AC, f'ac_{spec["id"]}_{len(_inst)}', wx, y0 - 0.2, wz, root, ry=xf.ry); _inst.append(1)
+                inst(AC, f'ac_{spec["id"]}', xf, ax, y0 - 0.2, 0.0)
                 xf.cyl(acc(M['pipe']), (ax + 0.3, y0 - 0.2, 0.04), (ax + 0.3, GH + 0.1, 0.04), 0.018, seg=6)
     # ---- 頂樓：水塔、頂樓加蓋
     if spec.get('roofAdd'):
         aw, ad = W * 0.7, D * 0.55; ra = acc(M['corr']); xf.box(ra, -aw / 2, aw / 2, totalH, totalH + 2.4, -D * 0.5 - ad / 2, -D * 0.5 + ad / 2)
-        xf.box(acc(M['band']), -aw / 2 - 0.15, aw / 2 + 0.15, totalH + 2.4, totalH + 2.5, -D * 0.5 - ad / 2 - 0.15, -D * 0.5 + ad / 2 + 0.15)
+        xf.box(band, -aw / 2 - 0.15, aw / 2 + 0.15, totalH + 2.4, totalH + 2.5, -D * 0.5 - ad / 2 - 0.15, -D * 0.5 + ad / 2 + 0.15)
     else:
         tx = rng.uniform(-W / 2 + 1.5, W / 2 - 1.5); wx, _, wz = xf.p(tx, 0, -D * 0.45); B.instance(TANK, f'tank_{spec["id"]}', wx, totalH, wz, root, ry=xf.ry)
-    # ---- 一樓
+    # ---- 一樓：牆體和樓上同一種外牆（側面露在巷口時不會變成另一種材質）；店面兩側的石材壁柱
+    xf.box(wall, -W / 2, W / 2, 0, GH, -D, -rec)                                                  # 一樓牆體（店面退縮）
     gw = acc(M['gwall'])
-    xf.box(gw, -W / 2, W / 2, 0, GH, -D, -rec)                                                    # 一樓牆體（店面退縮）
     if gt in ('shop', 'arcade'):
         r0 = 3.0 if gt == 'arcade' else 0.0
         for sx in (-1, 1): xf.box(gw, sx * (W / 2 - 0.15) - 0.15, sx * (W / 2 - 0.15) + 0.15, 0, GH, -rec, -r0)
-    xf.box(acc(M['band']), -W / 2, W / 2, GH - 0.12, GH, -0.25, 0.06)
+    else: xf.box(gw, -W / 2, W / 2, 0, 0.9, -rec - 0.02, -rec + 0.04)                              # 住家／鐵捲門：牆腳的磨石子護牆
+    xf.box(band, -W / 2, W / 2, GH - 0.12, GH, -0.25, 0.06)
     if gt in ('shop', 'arcade'): shopfront(spec, xf, W, gt)
-    elif gt == 'shutter': shutter(spec, xf, W)
-    else: housedoor(spec, xf, W, rng)
-
-
-_inst = []
+    elif gt == 'shutter': shutter(spec, xf, W, rec)
+    else: housedoor(spec, xf, W, rng, rec)
+    set_tint(wall.finish(root), spec['color'], kind)
 
 
 def shopfront(spec, xf, W, gt):
@@ -286,7 +337,7 @@ def shopfront(spec, xf, W, gt):
         vx = W / 2 - 0.5; vy0, vy1 = GH + 0.3, GH + 2.9
         xf.box(acc(M['metal']), vx - 0.04, vx + 0.04, vy1 + 0.02, vy1 + 0.08, 0.0, 0.95); xf.box(acc(M['metal']), vx - 0.04, vx + 0.04, vy0 - 0.08, vy0 - 0.02, 0.0, 0.95)
         xf.box(acc(M['ac']), vx - 0.07, vx + 0.07, vy0, vy1, 0.18, 0.92)
-        vp = {'vertical': s['vertical'], 'vBg': s.get('vBg', '#ffffff'), 'vColor': s.get('vColor', '#b0332a'), 'vBand': s.get('vBand', '#b0332a')}
+        vp = {'vertical': s['vertical'], 'vBg': s.get('vBg', '#ffffff'), 'vColor': s.get('vColor', '#b0332a'), 'vBand': s.get('vBand', '#b0332a'), 'serif': 1 if s.get('serif') else 0}
         face(f'VSIGN_FACE_{spec["id"]}_a', M['board'], xf, [(vx + 0.075, vy0, 0.92), (vx + 0.075, vy0, 0.18), (vx + 0.075, vy1, 0.18), (vx + 0.075, vy1, 0.92)], vp)
         face(f'VSIGN_FACE_{spec["id"]}_b', M['board'], xf, [(vx - 0.075, vy0, 0.18), (vx - 0.075, vy0, 0.92), (vx - 0.075, vy1, 0.92), (vx - 0.075, vy1, 0.18)], vp)
     # 帆布雨遮（斜的，有前緣垂邊）
@@ -306,27 +357,30 @@ def shopfront(spec, xf, W, gt):
             tx = -W / 2 + (k + 0.5) * W / nl; xf.box(acc(M['tube']), tx - 0.6, tx + 0.6, GH - 0.38, GH - 0.35, -dep * 0.55 - 0.05, -dep * 0.55 + 0.05)
 
 
-def shutter(spec, xf, W):
-    sm = acc(M['shutter']); xf.quad(sm, [(-W / 2 + 0.4, 0.05, 0.02), (W / 2 - 0.4, 0.05, 0.02), (W / 2 - 0.4, GH - 0.55, 0.02), (-W / 2 + 0.4, GH - 0.55, 0.02)])
-    xf.box(acc(M['alu']), -W / 2 + 0.3, W / 2 - 0.3, GH - 0.62, GH - 0.27, -0.03, 0.27)
-    for sx in (-1, 1): xf.box(acc(M['alu']), sx * (W / 2 - 0.4) - 0.04, sx * (W / 2 - 0.4) + 0.04, 0.0, GH - 0.55, -0.02, 0.06)
+def shutter(spec, xf, W, rec):
+    """鐵捲門：門片貼在一樓牆面前（退縮 rec）、上方捲門箱、兩側導軌"""
+    z = -rec + 0.04; sm = acc(M['shutter'])
+    xf.quad(sm, [(-W / 2 + 0.4, 0.05, z), (W / 2 - 0.4, 0.05, z), (W / 2 - 0.4, GH - 0.55, z), (-W / 2 + 0.4, GH - 0.55, z)])
+    xf.box(acc(M['alu']), -W / 2 + 0.3, W / 2 - 0.3, GH - 0.62, GH - 0.27, -rec, -rec + 0.3)
+    for sx in (-1, 1): xf.box(acc(M['alu']), sx * (W / 2 - 0.4) - 0.04, sx * (W / 2 - 0.4) + 0.04, 0.0, GH - 0.55, -rec, -rec + 0.08)
 
 
-def housedoor(spec, xf, W, rng):
-    dc = door_mat(spec.get('door', '#9c2f2a')); dx = -W * 0.2
-    d = acc(dc); xf.box(d, dx - 0.7, dx + 0.7, 0.05, 2.35, -0.02, 0.03)
+def housedoor(spec, xf, W, rng, rec):
+    """住家：鐵門（凸起方框）、門把、門口台階、信箱、門燈、小窗（一半有鐵窗）。全部貼在一樓牆面（退縮 rec）前"""
+    dc = door_mat(spec.get('door', '#9c2f2a')); dx = -W * 0.2; z = -rec
+    d = acc(dc); xf.box(d, dx - 0.7, dx + 0.7, 0.05, 2.35, z - 0.02, z + 0.03)
     for k in range(3):                                   # 鐵門上的凸起方框（台灣老公寓常見的造型鐵門）
-        y = 0.25 + k * 0.72; xf.box(d, dx - 0.58, dx + 0.58, y, y + 0.55, 0.03, 0.05)
-    xf.box(acc(M['brass']), dx + 0.48, dx + 0.53, 1.0, 1.25, 0.05, 0.09)
-    xf.box(acc(M['base']), dx - 0.85, dx + 0.85, 0.0, 0.12, -0.05, 0.4)                          # 門口台階
-    mb = acc(M['mailbox']); xf.box(mb, dx + 0.85, dx + 1.3, 1.1, 1.55, 0.0, 0.18)                 # 信箱
-    q = xf.p(dx + 0.95, 2.25, 0.12); acc(M['bulb']).sphere(q, 0.08, seg=8, rings=4)              # 門燈
+        y = 0.25 + k * 0.72; xf.box(d, dx - 0.58, dx + 0.58, y, y + 0.55, z + 0.03, z + 0.05)
+    xf.box(acc(M['brass']), dx + 0.48, dx + 0.53, 1.0, 1.25, z + 0.05, z + 0.09)
+    xf.box(acc(M['base']), dx - 0.85, dx + 0.85, 0.0, 0.12, z - 0.05, z + 0.3)                    # 門口台階
+    mb = acc(M['mailbox']); xf.box(mb, dx + 0.85, dx + 1.3, 1.1, 1.55, z, z + 0.18)                 # 信箱
+    q = xf.p(dx + 0.95, 2.25, z + 0.12); acc(M['bulb']).sphere(q, 0.08, seg=8, rings=4)            # 門燈
     if W > 4:
-        wx = W * 0.18; al = acc(M['alu']); fz = 0.0
-        xf.box(al, wx - 1.0, wx + 1.0, 1.0, 1.06, -0.05, 0.05); xf.box(al, wx - 1.0, wx + 1.0, 2.14, 2.2, -0.05, 0.05)
-        for xx in (wx - 1.0, wx - 0.03, wx + 0.94): xf.box(al, xx, xx + 0.06, 1.0, 2.2, -0.05, 0.05)
-        xf.quad(acc(M['win_glass']), [(wx - 0.97, 1.06, 0.0), (wx + 0.97, 1.06, 0.0), (wx + 0.97, 2.14, 0.0), (wx - 0.97, 2.14, 0.0)])
-        wx_, _, wz_ = xf.p(wx, 0, 0.0); B.instance(GRILLE, f'dgrille_{spec["id"]}', wx_, 0.95, wz_, root, ry=xf.ry) if rng.random() < 0.5 else None
+        wx = W * 0.18; al = acc(M['alu'])
+        xf.box(al, wx - 1.0, wx + 1.0, 1.0, 1.06, z - 0.05, z + 0.05); xf.box(al, wx - 1.0, wx + 1.0, 2.14, 2.2, z - 0.05, z + 0.05)
+        for xx in (wx - 1.0, wx - 0.03, wx + 0.94): xf.box(al, xx, xx + 0.06, 1.0, 2.2, z - 0.05, z + 0.05)
+        xf.quad(acc(M['win_glass']), [(wx - 0.97, 1.06, z), (wx + 0.97, 1.06, z), (wx + 0.97, 2.14, z), (wx - 0.97, 2.14, z)])
+        if rng.random() < 0.5: inst(GRILLE, f'dgrille_{spec["id"]}', xf, wx, 0.95, z)
 
 
 for sp in SPECS: apartment(sp)

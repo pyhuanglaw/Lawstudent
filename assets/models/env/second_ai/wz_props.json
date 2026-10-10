@@ -1,0 +1,10 @@
+{
+ "objects": 29,
+ "unique_meshes": 18,
+ "tris": 1876,
+ "tris_drawn": 7532,
+ "materials": 63,
+ "out": "assets/models/env/second_ai/wz_props.glb",
+ "bytes": 257160,
+ "texres": 512
+}

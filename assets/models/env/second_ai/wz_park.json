@@ -1,0 +1,10 @@
+{
+ "objects": 9,
+ "unique_meshes": 9,
+ "tris": 1470,
+ "tris_drawn": 1470,
+ "materials": 56,
+ "out": "assets/models/env/second_ai/wz_park.glb",
+ "bytes": 377828,
+ "texres": 512
+}

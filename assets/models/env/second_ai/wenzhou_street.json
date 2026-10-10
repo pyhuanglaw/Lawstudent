@@ -1,0 +1,26 @@
+{
+ "objects": 468,
+ "unique_meshes": 69,
+ "tris": 12766,
+ "tris_drawn": 93986,
+ "materials": 67,
+ "out": "assets/models/env/second_ai/wenzhou_street.glb",
+ "bytes": 1260136,
+ "texres": 512,
+ "buildings": [
+  "A1",
+  "A2",
+  "A3",
+  "A4",
+  "A5",
+  "B1",
+  "B2",
+  "B3",
+  "B4",
+  "B5",
+  "B6",
+  "B7",
+  "C1",
+  "C2"
+ ]
+}

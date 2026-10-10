@@ -1,0 +1,10 @@
+{
+ "objects": 2,
+ "unique_meshes": 2,
+ "tris": 3820,
+ "tris_drawn": 3820,
+ "materials": 10,
+ "out": "assets/models/env/second_ai/scooter.glb",
+ "bytes": 128732,
+ "texres": 256
+}
