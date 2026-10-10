@@ -54,11 +54,12 @@ const ASSETS = (function(){
     'bldg.wz_park':{url:'assets/models/env/second_ai/wz_park.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_park.py（溫州街小公園的草地、鋪面、路緣、樹穴、樹圍座椅、單槓、名牌；溫州街世界座標；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
     'bldg.wz_scooter':{url:'assets/models/env/second_ai/scooter.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/scooter.py（台灣常見的 125cc 速克達兩款：現代款、復古款；不仿特定品牌；遊戲用 InstancedMesh 擺放、車殼顏色每台不同）', license:'本作'},
     'bldg.cvs_interior':{url:'assets/models/env/second_ai/cvs_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/cvs_interior.py（全日便利商店室內；配置照 zones3d.js cvs 區塊；商品顏色是頂點色；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+    'prop.street':{url:'assets/models/env/second_ai/street_props.glb', type:'building', source:'本作 Blender 腳本 tools/blender/env_second/street_props.py（淑女車、路燈、公園長椅：W3.bike／W3.lampPost／長椅的正式模型；開機時預載，W3 的函式同步複製；鐵絲網與鋼絲貼圖本作程式產生、長椅木頭貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},   /* 這個不是 lazy（W3.lampPost()、W3.bike() 是同步建立的）；?nobldg 一樣會關掉 */
     // ==== 第二個 AI 區塊結束 ====
     'char.mixamo_clips':{url:'assets/models/char/mixamo_clips.glb', type:'clips', source:'three.js examples (Xbot.glb, Mixamo)', license:'Mixamo 動畫（Adobe 條款：可用於專案，不可單獨再散布）'},
   };
   // 網址加 ?nobldg：不載入建築的正式模型（Blender GLB），只看程序化備用模型（新舊比較、載入失敗時的樣子）
-  if(typeof location!=='undefined'&&/[?&]nobldg\b/.test(location.search||'')) for(const k of Object.keys(A.manifest)) if(k.startsWith('bldg.')) delete A.manifest[k];
+  if(typeof location!=='undefined'&&/[?&]nobldg\b/.test(location.search||'')) for(const k of Object.keys(A.manifest)) if(k.startsWith('bldg.')||k==='prop.street') delete A.manifest[k];
   // 網址加 ?blchar：有 Blender 正式製作版本的人物（manifest 的 blUrl）改用 Blender 版（v9.4 起；沈以安是示範角色）。
   // 使用者驗收美術方向之前，預設仍是 VRoid 加工版；這個參數讓使用者在實際遊戲（包括手機）裡看 Blender 版
   if(typeof location!=='undefined'&&/[?&]blchar\b/.test(location.search||'')) for(const k of Object.keys(A.manifest)) if(A.manifest[k].blUrl) A.manifest[k].url=A.manifest[k].blUrl;
