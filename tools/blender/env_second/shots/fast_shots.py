@@ -2,7 +2,7 @@
 同一個區域內換鏡頭只改：時段（GAME.G.hour＋E.applyTime）、玩家位置、鏡頭；換區域才重新讀檔（GAME.applySave）。
 支援的欄位：out、w、h、mobile、hud、hidePlayer、hideNPCs、state{zone,hour,pos,flags}、cam{pos,look}|{yaw,pitch,dist}、js、wait（毫秒，另外至少等引擎畫 6 格）。
 不支援 scene_shot 的 companion／player／spawn／walk（要拍人物站位時用 scene_shot.py）。
-用法：python3 tools/blender/env_second/shots/fast_shots.py <URL> <shots.json>"""
+用法：python3 tools/blender/env_second/shots/fast_shots.py <URL> <shots.json> [--block=檔名]（--block：擋掉那個檔案的下載，例如 street_props.glb，只關掉那一個正式模型）"""
 import asyncio, json, sys
 from playwright.async_api import async_playwright
 UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1'
@@ -15,7 +15,7 @@ async def frames(pg, n=6):
 
 
 async def main():
-    url = sys.argv[1]; shots = json.load(open(sys.argv[2]))
+    url = sys.argv[1]; shots = json.load(open(sys.argv[2])); block = [a.split('=', 1)[1] for a in sys.argv[3:] if a.startswith('--block=')]
     groups = {}
     for s in shots: groups.setdefault((s.get('w', 1536), s.get('h', 1024), bool(s.get('mobile'))), []).append(s)
     async with async_playwright() as p:
@@ -23,6 +23,7 @@ async def main():
         for (w, h, mobile), L in groups.items():
             ctx = await b.new_context(viewport={'width': w, 'height': h}, device_scale_factor=1, has_touch=mobile, is_mobile=mobile, user_agent=UA if mobile else None)
             pg = await ctx.new_page(); errs = []
+            for pat in block: await pg.route('**/' + pat, lambda route: route.abort())
             pg.on('pageerror', lambda e: errs.append(str(e)))
             await pg.goto(url)
             for i in range(240):

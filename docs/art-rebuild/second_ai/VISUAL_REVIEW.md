@@ -510,3 +510,90 @@ LAWWW 2026-10-10 的工作順序第 ③ 項「Café 往南看的街底」。施�
 2. 往南、往北的路盡頭還是天空（沒有橫向的街）；遠景的電線桿、機車還是沒有（只有主巷有）。
 3. 正式模型的鐵窗是直條鐵窗；套件原本巷底那棟有拱形花紋的鐵窗（台灣老公寓常見），這次沒有做花紋款。
 4. 沒有 iPhone 實機驗證。
+
+---
+
+## 6. 街道道具：淑女車、路燈、公園長椅（全遊戲）
+
+交接文件第三項；LAWWW 2026-10-10 16:45Z 同意改共用檔（條件見下面 6.4）。機車在第 2 節（只用在溫州街）。
+
+### 6.1 玩家會看到什麼不同
+
+| | 修改前（程序化） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 腳踏車（校園停車架、騎車的路人、溫州街、公館） | 管子拼的淑女車（4 邊形管、平面鋼絲貼圖、方盒前籃） | 平滑的彎下管＋座管＋頭管、後下叉／後上叉、彎的前叉、淺 V 形斷面的擋泥板、**鍊條蓋**、略胖的城市車胎＋輪圈＋花鼓、36 根交叉鋼絲（透明貼圖）、**鐵絲網前籃**（實體上緣與底框＋鐵絲網貼圖）、舒適型座墊、後掠把手＋握把、車鈴、後貨架、**環形鎖**、雙腳中柱、前燈、紅色後反光片；車架顏色照原本的參數（每台不同） |
+| 路燈（校園椰林大道、法學院、醉月湖、公館、溫州街） | 車床柱座＋錐形燈桿＋彎臂＋半球燈罩 | 鑄鐵柱座（六道直條紋凹槽、檢修門）、燈桿中段的裝飾環、柱頂尖飾、彎燈臂＋下方的捲曲裝飾、扁圓頂燈罩（前後拉長）＋邊緣、朝下的發光面（**燈頭位置和原本完全一樣**，夜間光暈、地面光圈照舊） |
+| 公園長椅（椰林大道、傅鐘旁、霖澤館前、醉月湖畔、溫州街小公園） | 第三方 CC0 長椅模型（market.pmnd.rs） | 兩側鑄鐵椅腳（前腳、後腳連椅背、扶手、地腳板）、四條木條座面、三條往後傾的木條椅背（Poly Haven `dark_wood`）、中間的橫撐；**座面高度、坐的位置和朝向照原本**（0.45 m、正面朝 +z） |
+
+**沒有改的東西**：呼叫方式（`W3.lampPost()`、`W3.bike(color)`、`W3.bikeRack(n)`、`BENCH()`）、所有擺放位置、整區合併（`P3.mergeStatic`）、導航、碰撞、互動點、座位。正式模型還沒載入、載入失敗、`?nobldg` 時照舊是程序化版本。
+
+### 6.2 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 街道道具（`prop.street`） | 完成 | （見 6.4） | `READY_FOR_ART_REVIEW` |
+
+### 6.3 製作方式與規格
+
+- Blender 5.2 `bpy` 腳本 `tools/blender/env_second/street_props.py` → `assets/models/env/second_ai/street_props.glb`：**169 KB**、三樣道具各一個網格（多材質）。
+- 三角形（LAWWW 的預算）：**腳踏車 1,484（≤ 1,500）、路燈 584＋發光面 12（≤ 600）、長椅 524（≤ 800）**；整個檔案 ≤ 0.5 MB。
+- 材質：腳踏車 5 個（車架白色＋遊戲端頂點色上色、深色、銀色、透明貼圖〔鋼絲＋鐵絲網共用一張 512×256，本作程式產生〕、反光片）；路燈 2 個；長椅 2 個（木頭 Poly Haven `dark_wood` 256 px）。
+- 遊戲端（共用檔，LAWWW 同意）：`world3d.js` 的 `lampPost`、`bike`、`bench` 開頭各一行＋一小段 helper（`formalSrc`、`formalLamp`、`formalBike`、`formalBench`）；`zones3d.js` 頂端的 `BENCH()` 一行；`assets3d.js` 標記區加 `prop.street`（**不是 lazy**：這三個函式是同步建立、建完就被整區合併，所以開機時和其他環境資產一起預載）、`?nobldg` 那一行也關掉它。
+
+### 6.4 測試結果
+
+測試都是 Playwright 手機模擬（不是 iPhone 實機）；log 在 `docs/art-rebuild/second_ai/test_logs/props/`。
+
+`street_props_integration` 26、`campus_layout_nav` 67、`see_through` 11、`movement_regression_BE` 30、`reachability_all` 48、`zone_transitions` 37、`p0_movement` 34：**全部通過**（`reachability_all`：全遊戲 11 個區域、139 個互動點、11 個劇情走路目的地、20 個出入口到達點，用引擎真正的移動模擬走一遍）。
+
+**效能（LAWWW 的條件：校園前後的 draw call、三角形、載入時間）**：同一版遊戲、同一個鏡頭（藏起路人；含陰影那一輪、含玩家），修改前＝只擋掉 `street_props.glb` 的下載（其他正式模型照舊），17:30。
+
+| 鏡頭 | draw call（前→後） | 三角形（前→後） |
+|---|---|---|
+| 校園：椰林大道（長椅、路燈） | 266 → 260 | 940,276 → 928,056 |
+| 校園：停車架（腳踏車） | 243 → 237 | 933,600 → 920,780 |
+| 溫州街：小公園（長椅、路燈） | 203 → 199 | 355,251 → 351,607 |
+| 公館：人行道（路燈） | 202 → 202 | 333,762 → 332,372 |
+
+開機到載入完成（SwiftShader 模擬，只能相對比較）：這次量測修改前 8.4 秒、修改後 9.9 秒（和截圖同時跑，雜訊大）；`street_props_integration` 單獨跑時：正式模型 8.0 秒、`?nobldg` 7.1 秒、道具模型網址故意壞掉 7.7 秒。`street_props.glb` 169 KB，開機時和其他環境資產一起預載（不是 lazy），所以開機多下載 169 KB；沒有 iPhone 實機數字。 道具在整區合併（`P3.mergeStatic`）裡和原本的程序化版一樣併進同材質的大網格，所以 draw call 幾乎不變；三角形差多少看那個鏡頭裡有幾台腳踏車、幾支路燈、幾張長椅。（錯誤：無）
+
+### 6.5 長椅坐姿（玩家坐在溫州街小公園的長椅，正面＋側面；`tools/shots/char_motion.py`）
+
+| | 正面 | 側面 |
+|---|---|---|
+| 正式模型 | ![](shots/props_bench_formal_front.webp) | ![](shots/props_bench_formal_side.webp) |
+| `?nobldg`（程序化長椅） | ![](shots/props_bench_nobldg_front.webp) | ![](shots/props_bench_nobldg_side.webp) |
+
+**新舊長椅的坐姿完全一樣**：座面高度 0.45 m、坐的位置、朝向照約定（`userData.seat`），人物照常坐在座面上、沒有陷進去；正式模型的扶手在手的外側，沒有穿模。腿的姿勢（大腿略抬、小腿接近垂直）是 LAWWW 20:15Z 改過的坐姿（`sitFeet`），新舊長椅相同，不是長椅造成的。
+
+### 6.6 三時段前後比較（實際遊戲；修改前＝擋掉 `street_props.glb` 的下載，其他正式模型照舊）
+
+| 鏡頭 | 修改前（程序化） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 椰林大道（長椅、路燈） 11:00 | ![修改前](shots/props_before_campus_bench_1100.webp) | ![修改後](shots/props_after_campus_bench_1100.webp) |
+| 椰林大道（長椅、路燈） 17:30 | ![修改前](shots/props_before_campus_bench_1730.webp) | ![修改後](shots/props_after_campus_bench_1730.webp) |
+| 椰林大道（長椅、路燈） 20:30 | ![修改前](shots/props_before_campus_bench_2030.webp) | ![修改後](shots/props_after_campus_bench_2030.webp) |
+| 校園停車架（腳踏車） 11:00 | ![修改前](shots/props_before_campus_racks_1100.webp) | ![修改後](shots/props_after_campus_racks_1100.webp) |
+| 校園停車架（腳踏車） 17:30 | ![修改前](shots/props_before_campus_racks_1730.webp) | ![修改後](shots/props_after_campus_racks_1730.webp) |
+| 校園停車架（腳踏車） 20:30 | ![修改前](shots/props_before_campus_racks_2030.webp) | ![修改後](shots/props_after_campus_racks_2030.webp) |
+| 溫州街小公園（長椅、路燈） 11:00 | ![修改前](shots/props_before_wenzhou_park_1100.webp) | ![修改後](shots/props_after_wenzhou_park_1100.webp) |
+| 溫州街小公園（長椅、路燈） 17:30 | ![修改前](shots/props_before_wenzhou_park_1730.webp) | ![修改後](shots/props_after_wenzhou_park_1730.webp) |
+| 溫州街小公園（長椅、路燈） 20:30 | ![修改前](shots/props_before_wenzhou_park_2030.webp) | ![修改後](shots/props_after_wenzhou_park_2030.webp) |
+| 公館人行道（路燈） 11:00 | ![修改前](shots/props_before_gongguan_lamps_1100.webp) | ![修改後](shots/props_after_gongguan_lamps_1100.webp) |
+| 公館人行道（路燈） 17:30 | ![修改前](shots/props_before_gongguan_lamps_1730.webp) | ![修改後](shots/props_after_gongguan_lamps_1730.webp) |
+| 公館人行道（路燈） 20:30 | ![修改前](shots/props_before_gongguan_lamps_2030.webp) | ![修改後](shots/props_after_gongguan_lamps_2030.webp) |
+
+### 6.7 Blender 渲染圖
+
+| 腳踏車（側面、斜前方） | 路燈（全景、燈頭） | 長椅 |
+|---|---|---|
+| ![](blender_renders/props_bike_side.webp) ![](blender_renders/props_bike_34.webp) | ![](blender_renders/props_lamp_full.webp) ![](blender_renders/props_lamp_head.webp) | ![](blender_renders/props_bench_34.webp) |
+
+### 6.8 還沒達到參考品質的地方
+
+1. **腳踏車為了預算減面**（輪胎 16 段、管子 4–5 邊），近看輪胎外緣有稜角；鋼絲和鐵絲網是透明貼圖，很斜的角度看會變薄。
+   **路燈也一樣**：燈罩 12 邊、燈臂下的捲曲裝飾只有 3 邊，近看燈罩邊緣是多邊形（燈頭在 4 m 高，從地面看比較不明顯）。
+2. **只有一款腳踏車**（淑女車），顏色不同；沒有登山車、公路車、YouBike。
+3. **路燈只有一款**（公園式）；台北街道常見的高桿路燈、校園的方形庭園燈還是套件或沒有。
+4. 長椅只有一款；**行道樹、盆栽**（交接文件第三項的其他道具）還沒做。
+5. 沒有 iPhone 實機驗證；效能用 `renderer.info` 量（見 6.4）。

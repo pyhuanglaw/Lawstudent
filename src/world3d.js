@@ -61,11 +61,27 @@ const W3 = (function(){
   function bush(r){ r=r||0.6; const g=new THREE.Group(); for(let i=0;i<3;i++){ const m=new THREE.Mesh(G('bush',()=>new THREE.SphereGeometry(1,9,7)),foliageMat(i===1?'#6faa6c':'#5f9a5e')); m.position.set((i-1)*r*0.7,r*0.7,(i%2)*r*0.3); m.scale.set(r,r*0.8,r); g.add(m); outline(m,1.04); } return g; }
   function hedge(len){ const m=new THREE.Mesh(new THREE.BoxGeometry(len,0.7,0.7,Math.max(2,len|0),1,1),mat('#5f9a5e')); m.position.y=0.35; outline(m,1.02); return m; }
   // ---- 道具 ----
-  function bench(){ const g=new THREE.Group(); const wood=mat('#a8744a'); for(let i=0;i<3;i++){ const p=new THREE.Mesh(new THREE.BoxGeometry(1.8,0.06,0.16),wood); p.position.set(0,0.45,-0.2+i*0.2); g.add(p); outline(p,1.03); } for(let i=0;i<2;i++){ const p=new THREE.Mesh(new THREE.BoxGeometry(1.8,0.16,0.06),wood); p.position.set(0,0.62+i*0.2,-0.3); g.add(p); } for(const s of [-1,1]){ const leg=new THREE.Mesh(new THREE.BoxGeometry(0.08,0.45,0.5),mat('#3a3f46')); leg.position.set(s*0.75,0.22,0); g.add(leg); const back=new THREE.Mesh(new THREE.BoxGeometry(0.08,0.5,0.08),mat('#3a3f46')); back.position.set(s*0.75,0.7,-0.3); g.add(back); } g.userData={seat:{y:0.45}}; return g; }
+  function bench(){ const f=formalBench(); if(f) return f; const g=new THREE.Group(); const wood=mat('#a8744a'); for(let i=0;i<3;i++){ const p=new THREE.Mesh(new THREE.BoxGeometry(1.8,0.06,0.16),wood); p.position.set(0,0.45,-0.2+i*0.2); g.add(p); outline(p,1.03); } for(let i=0;i<2;i++){ const p=new THREE.Mesh(new THREE.BoxGeometry(1.8,0.16,0.06),wood); p.position.set(0,0.62+i*0.2,-0.3); g.add(p); } for(const s of [-1,1]){ const leg=new THREE.Mesh(new THREE.BoxGeometry(0.08,0.45,0.5),mat('#3a3f46')); leg.position.set(s*0.75,0.22,0); g.add(leg); const back=new THREE.Mesh(new THREE.BoxGeometry(0.08,0.5,0.08),mat('#3a3f46')); back.position.set(s*0.75,0.7,-0.3); g.add(back); } g.userData={seat:{y:0.45}}; return g; }
   // 路燈（v9.3 第十六批：原本是方棒燈臂＋方塊燈頭的 LEVEL_BLOCKOUT）：鑄鐵柱座、往上收細的燈桿、彎出去的燈臂、扁平燈罩＋朝下的燈罩玻璃。
   // 燈頭位置和舊版相同（0, 3.95, 0.75），各區域加的夜間光暈與地面光圈不用改；幾何與材質所有路燈共用
   const lampMat={};
-  function lampPost(){ const g=new THREE.Group(); const dark=lampMat.dark||(lampMat.dark=new THREE.MeshStandardMaterial({color:0x2e3532,roughness:0.6,metalness:0.25})); const lens=lampMat.lens||(lampMat.lens=new THREE.MeshBasicMaterial({color:0xfff2c8}));
+  // 街道道具的正式模型（第二個 AI：tools/blender/env_second/street_props.py → ASSETS 'prop.street'，開機預載）：已經載入就複製正式模型；
+  // 還沒載入、載入失敗或 ?nobldg 時照舊用下面的程序化版本。約定和程序化版本相同：路燈燈頭 (0, 3.95, 0.75)、userData.lamp／lightPos；
+  // 腳踏車沿 z 建模、外層轉 π/2、車架顏色是頂點色（所有顏色共用一個材質，停車架整排可以合併）；長椅座面 0.45 m、正面朝 +z
+  function formalSrc(name){ const c=(typeof ASSETS!=='undefined'&&ASSETS.getRaw)?ASSETS.getRaw('prop.street'):null; return c&&c.scene?c.scene.getObjectByName(name):null; }
+  function formalCopy(src){ const o=src.clone(true); o.position.set(0,0,0); o.rotation.set(0,0,0); o.scale.set(1,1,1); return o; }
+  function formalLamp(){ const s=formalSrc('lamp_post'); if(!s) return null; const g=new THREE.Group(), o=formalCopy(s); let lens=null;
+    o.traverse(m=>{ if(m.isMesh&&m.material&&m.material.name==='lamp_lens'){ m.material=lampMat.lens||(lampMat.lens=new THREE.MeshBasicMaterial({color:0xfff2c8})); lens=m; } });
+    g.add(o); g.userData={lamp:lens,lightPos:new THREE.Vector3(0,3.9,0.75),formal:'prop.street'}; return g; }
+  const formalFrameGeo={}, bikeMat={};
+  function formalBike(color){ const s=formalSrc('bike_city'); if(!s) return null; const g=new THREE.Group(), o=formalCopy(s), col=new THREE.Color(color||'#3a6fb0');
+    o.traverse(m=>{ if(!m.isMesh) return; const n=m.material&&m.material.name; m.castShadow=n!=='bike_alpha'&&n!=='bike_metal'; m.receiveShadow=true;
+      if(n==='bike_frame'){ const k=m.geometry.uuid+col.getHexString(); let geo=formalFrameGeo[k];
+        if(!geo){ geo=m.geometry.clone(); const N=geo.attributes.position.count, a=new Float32Array(N*3); for(let i=0;i<N;i++){ a[i*3]=col.r; a[i*3+1]=col.g; a[i*3+2]=col.b; } geo.setAttribute('color',new THREE.BufferAttribute(a,3)); formalFrameGeo[k]=geo; }
+        m.geometry=geo; m.material=bikeMat.formalFrame||(bikeMat.formalFrame=Object.assign(m.material.clone(),{vertexColors:true})); } });
+    g.add(o); g.rotation.y=Math.PI/2; g.userData.formal='prop.street'; return g; }
+  function formalBench(){ const s=formalSrc('bench_park'); if(!s) return null; const g=new THREE.Group(); g.add(formalCopy(s)); g.userData={seat:{y:0.45},formal:'prop.street'}; return g; }
+  function lampPost(){ const f=formalLamp(); if(f) return f; const g=new THREE.Group(); const dark=lampMat.dark||(lampMat.dark=new THREE.MeshStandardMaterial({color:0x2e3532,roughness:0.6,metalness:0.25})); const lens=lampMat.lens||(lampMat.lens=new THREE.MeshBasicMaterial({color:0xfff2c8}));
     // 柱座、燈桿、柱頂、燈臂、燈罩合成一個幾何（所有路燈共用）：一盞路燈 2 個 draw call（舊版 4 個）
     const body=G('lpBody',()=>{ const L=[]; L.push(new THREE.LatheGeometry([[0.001,0],[0.2,0],[0.2,0.08],[0.16,0.13],[0.15,0.4],[0.11,0.48],[0.085,0.56],[0.001,0.56]].map(([x,y])=>new THREE.Vector2(x,y)),8));
       const pole=new THREE.CylinderGeometry(0.048,0.078,3.5,10); pole.translate(0,0.56+1.75,0); L.push(pole); const cap=new THREE.SphereGeometry(0.06,10,8); cap.translate(0,4.06,0); L.push(cap);
@@ -78,7 +94,6 @@ const W3 = (function(){
   // 腳踏車（v9.3 第十八批：原本是兩個圓環＋六根棒子＋半透明圓片）：台灣學生常騎的淑女車——低跨的彎下管、前籃、擋泥板、後貨架、鍊條蓋、
   // 輻條輪、後掠的把手、腳架。沿 z 方向建模（前面是 +z，輪子在 z=±0.47、半徑 0.3，座墊 0.83 高；騎車的 NPC 會把整組轉回 0），
   // 同材質合成一個網格（TK.Bin），一台 4 個 draw call（原本 12 個）
-  const bikeMat={};
   function basketTex(){ return canvasTex('bikeBasket',64,64,(x,w,h)=>{ x.clearRect(0,0,w,h); x.strokeStyle='#d6d9dc'; x.lineWidth=3; for(let i=2;i<w;i+=10){ x.beginPath(); x.moveTo(i,0); x.lineTo(i,h); x.stroke(); x.beginPath(); x.moveTo(0,i); x.lineTo(w,i); x.stroke(); } x.lineWidth=5; x.strokeRect(1,1,w-2,h-2); }); }
   // 把一個群組裡的網格依材質合成（位置換算到群組座標）：停車架整排車、之後的大量小道具
   function mergeGroup(src){ src.updateMatrixWorld(true); const inv=new THREE.Matrix4().copy(src.matrixWorld).invert(); const by=new Map();
@@ -88,7 +103,7 @@ const W3 = (function(){
   function wheelTex(){ return canvasTex('bikeWheel',128,128,(x,w,h)=>{ x.clearRect(0,0,w,h); const c=w/2; x.strokeStyle='#b9bdc3'; x.lineWidth=7; x.beginPath(); x.arc(c,c,c-6,0,Math.PI*2); x.stroke();
       x.lineWidth=1.6; for(let k=0;k<20;k++){ const a=k*Math.PI/10, a2=a+0.35; x.beginPath(); x.moveTo(c+Math.cos(a)*7,c+Math.sin(a)*7); x.lineTo(c+Math.cos(a2)*(c-8),c+Math.sin(a2)*(c-8)); x.stroke(); }
       x.fillStyle='#8f9399'; x.beginPath(); x.arc(c,c,9,0,Math.PI*2); x.fill(); }); }
-  function bike(color){ const g=new THREE.Group(); const bin=new TK.Bin(); const NS={noShadow:true};   /* 車架顏色、黑色零件投影；銀色小零件、輪圈貼圖不投影（同材質同一組，停車架合併後每種材質一個 draw call）*/
+  function bike(color){ const f=formalBike(color); if(f) return f; const g=new THREE.Group(); const bin=new TK.Bin(); const NS={noShadow:true};   /* 車架顏色、黑色零件投影；銀色小零件、輪圈貼圖不投影（同材質同一組，停車架合併後每種材質一個 draw call）*/
     const fm=TK.paint(color||'#3a6fb0',{roughness:0.45,metalness:0.15});   /* 車架顏色用頂點色：所有顏色的車共用一個材質，停車架可以整排合併 */ const dark=bikeMat.dark||(bikeMat.dark=TK.col('#1f2022',{roughness:0.85})); const silver=bikeMat.silver||(bikeMat.silver=TK.col('#b9bdc3',{roughness:0.35,metalness:0.35}));
     const wheelM=bikeMat.wheel||(bikeMat.wheel=new THREE.MeshStandardMaterial({map:wheelTex(),roughness:0.4,metalness:0.3,alphaTest:0.45,side:THREE.DoubleSide}));
     // 管子：4 邊、彎管 5 段（遠看和圓管一樣；原本 6 邊 10 段）
@@ -129,5 +144,5 @@ const W3 = (function(){
     return g; }
   function mrtEntrance(name){ const g=new THREE.Group(); const roof=new THREE.Mesh(new THREE.BoxGeometry(3.2,0.15,2.6),mat('#4a5058')); roof.position.y=2.6; g.add(roof); for(const [x,z] of [[-1.5,-1.2],[1.5,-1.2],[-1.5,1.2],[1.5,1.2]]){ const p=new THREE.Mesh(new THREE.CylinderGeometry(0.06,0.06,2.6,8),mat('#8f9399')); p.position.set(x,1.3,z); g.add(p); } const stairs=new THREE.Mesh(new THREE.BoxGeometry(2.6,0.1,2.2),mat('#3a3f46')); stairs.position.y=0.05; g.add(stairs); const rail=new THREE.Mesh(new THREE.BoxGeometry(2.8,0.9,0.05),mat('#8f9399')); rail.position.set(0,0.5,-1.15); g.add(rail); const sign=new THREE.Mesh(new THREE.BoxGeometry(2.6,0.6,0.15),mat('#2f5d50')); sign.position.set(0,3.1,0); g.add(sign); const sp=signPlane(name||'捷運 公館站',2.4,0.5,{color:'#ffffff'}); sp.position.set(0,3.1,0.09); g.add(sp); return g; }
   function awning(w,color){ const g=new THREE.Group(); const m=new THREE.Mesh(new THREE.BoxGeometry(w,0.08,1.2),mat(color||'#8c3b47')); m.position.set(0,0,0.6); m.rotation.x=0.25; g.add(m); const tex=canvasTex('awn'+color,128,32,(x,ww,hh)=>{ x.fillStyle=color||'#8c3b47'; x.fillRect(0,0,ww,hh); x.fillStyle='rgba(255,255,255,0.7)'; for(let i=0;i<ww;i+=32) x.fillRect(i,0,16,hh); }); tex.repeat.set(w/1.2,1); m.material=toonMap(tex); return g; }
-  return {mergeGroup,canvasTex,grassTex,pathTex,asphaltTex,brickTex,stoneTex,facadeTex,signPlane,signTex,building,setNight,palm,banyan,bush,hedge,bench,lampPost,bike,bikeRack,bulletin,planter,bell,vending,scooter,foodCart,gate,mrtEntrance,awning,updateWind,foliageMat};
+  return {mergeGroup,canvasTex,grassTex,pathTex,asphaltTex,brickTex,stoneTex,facadeTex,signPlane,signTex,building,setNight,palm,banyan,bush,hedge,bench,formalBench,lampPost,bike,bikeRack,bulletin,planter,bell,vending,scooter,foodCart,gate,mrtEntrance,awning,updateWind,foliageMat};
 })();
