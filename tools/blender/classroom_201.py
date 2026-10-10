@@ -25,14 +25,14 @@ rowH = lambda r: 0.0 if r < 0 else C['rise'] * (r + 1)
 A0, A1 = C['aisleX0'], C['aisleX1']
 
 MAT = {
-    'floor':   B.pbr('cls_floor', 'large_floor_tiles_02', tile=0.6, tint=B.srgb('#d9d8d4')),     # 照片：灰色地磚（60 cm）
-    'plat':    B.pbr('cls_platform', 'large_floor_tiles_02', tile=0.6, tint=B.srgb('#cfcdc8')),
-    'riser':   B.pbr('cls_riser', 'painted_plaster_wall', tile=1.5, tint=B.srgb('#9b968e')),
-    'wall':    B.pbr('cls_wall', 'painted_plaster_wall', tile=2.5, tint=B.srgb('#efece6')),
-    'deskTop': B.pbr('cls_desk', 'fine_grained_wood', tile=1.2, tint=B.srgb('#6a5a50')),         # 照片：深色長桌
-    'seat':    B.pbr('cls_seat', 'wood_table_001', tile=0.8, tint=B.srgb('#d9a77a')),            # 照片：木翻椅
-    'woodL':   B.pbr('cls_lectern', 'fine_grained_wood', tile=1.0, tint=B.srgb('#c9a27a')),      # 照片：木講桌
-    'ceiling': B.pbr('cls_ceiling', 'ceiling_interior', tile=1.2, tint=B.srgb('#ffffff'), normal=0.25),
+    'floor':   B.pbr('cls_floor', 'large_floor_tiles_02', tile=0.6, sat=0.3, target='#c4c3be'),     # 照片：灰色地磚（60 cm）
+    'plat':    B.pbr('cls_platform', 'large_floor_tiles_02', tile=0.6, sat=0.3, target='#bebcb6'),
+    'riser':   B.pbr('cls_riser', 'painted_plaster_wall', tile=1.5, target='#9b968e'),
+    'wall':    B.pbr('cls_wall', 'painted_plaster_wall', tile=2.5, target='#e6e3dc'),
+    'deskTop': B.pbr('cls_desk', 'fine_grained_wood', tile=1.2, target='#4d3f38'),         # 照片：深色長桌
+    'seat':    B.pbr('cls_seat', 'wood_table_001', tile=0.8, target='#b98a5c'),            # 照片：木翻椅
+    'woodL':   B.pbr('cls_lectern', 'fine_grained_wood', tile=1.0, target='#a87d55'),      # 照片：木講桌
+    'ceiling': B.pbr('cls_ceiling', 'ceiling_interior', tile=1.2, sat=0.2, target='#f2f1ee', normal=0.25),
     'grid':    B.pbr('cls_grid', None, tint=B.srgb('#e4e2dc'), rough=0.6),
     'metal':   B.pbr('cls_metal', None, tint=B.srgb('#3d4146'), rough=0.4, metal=0.7),
     'steel':   B.pbr('cls_steel', None, tint=B.srgb('#c9ccd0'), rough=0.3, metal=1.0),
