@@ -46,6 +46,9 @@
 | `fine_grained_wood` | 服務台、門片、踢腳板；教室深色長桌、木講桌、門 | 兩者 |
 | `wood_table_001` | 教室木翻椅（坐墊、椅背） | `classroom_201.glb` |
 | `fabric_leather_02` | 大廳皮沙發（染成灰藍） | `linze_interior.glb` |
+| `granite_tile_03` | 霖澤館外牆淺灰花崗石（去彩度）、台階、穿堂柱子與大梁 | `linze_exterior.glb`（霖澤館外觀） |
+| `granular_concrete` | 灰色預鑄：遮陽板、窗楣遮陽盒、帶窗層、頂樓女兒牆與屋頂板 | `linze_exterior.glb` |
+| `red_brick` | 紅磚窗格（五六樓、八九樓） | `linze_exterior.glb` |
 
 （`tools/blender/textures/` 裡其他下載過、還沒用到的材質：`granite_tile`、`granite_tile_02`、`granite_wall`、`grey_plaster_02`、`floor_tiles_06`、`concrete_floor_02`，同樣是 Poly Haven CC0；用到時補進上表。）
 
@@ -54,6 +57,7 @@
 | 模型 | 腳本 | 說明 |
 |---|---|---|
 | 霖澤館室內（一樓大廳、直跑樓梯、二樓迴廊） | `tools/blender/linze_interior.py` → `assets/models/env/linze_interior.glb` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/linze_layout.js`（遊戲化設計，D37）；貼圖見上表（CC0） |
+| 霖澤館外觀（十層樓：花崗石基座＋三層樓高穿堂、灰色帶窗層、紅磚窗格＋窗楣遮陽盒、頂樓開放層＋大屋頂板、二樓天橋、玻璃大廳） | `tools/blender/linze_exterior.py` → `assets/models/env/linze_exterior.glb` | 本作自己寫的 Blender Python 腳本建模；量體與導航同 `src/campuskit3d.js` 的 `CK.lawhall`；外觀照使用者提供的霖澤館照片概略重建（照片本身沒有放進 repo；不是精確複製）；館名與「法律學院」招牌由遊戲用 Canvas 字畫（沒有把字型做進模型）；貼圖見上表（CC0） |
 | 霖澤館 201 階梯教室（六排平台、兩側走道台階、深色長桌、木翻椅 ×48、講桌、黑板、投影幕、方格天花板＋日光燈、西牆三扇窗） | `tools/blender/classroom_201.py` → `assets/models/env/classroom_201.glb` | 本作自己寫的 Blender Python 腳本建模（共用工具 `tools/blender/b3lib.py`）；配置 `src/data/classroom_layout.js`；外觀參考使用者提供的教室照片（照片本身沒有放進 repo）；貼圖見上表（CC0） |
 
 ## 開發工具（不打包進遊戲）

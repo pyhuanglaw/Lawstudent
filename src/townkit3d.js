@@ -414,6 +414,9 @@ const TK = (function(){
         if(hs(b.x+1,b.z)<0.7){ p=at((hs(b.x,b.z+3)-0.5)*(W-3),-D*0.35); bin.add(col('#c9ced4',{metalness:0.5,roughness:0.4}),new THREE.CylinderGeometry(0.6,0.6,1.3,8),p[0],H+1.55,p[1],0,{noShadow:true}); }
         if(hs(b.x,b.z+7)<0.35){ p=at(0,-D*0.55); bin.add(col('#8f9792'),boxG(W*0.6,2.4,D*0.45),p[0],H+0.9+1.2,p[1],ry,{noShadow:true}); } } }
     bin.build(g); g.traverse(m=>{ if(m.isMesh){ m.castShadow=false; m.receiveShadow=false; } }); return g; }
-  function setNight(k){ for(const m of nightMats){ m.emissiveIntensity=(m.userData.dayI||0)*(1-k)+(m.userData.nightI||1)*k; } for(const sp of nightSprites){ const o=sp.userData.dayO*(1-k)+sp.userData.nightO*k; sp.material.opacity=o; sp.visible=o>0.02; } }
-  return {tex,tileTex,mosaicTex,plasterTex,Bin,boxG,planeG,col:colMat,paint:col,M,std,tree,royalPalm,glowMat,mrtExit,plantClump,glowSprite,apartment,japaneseHouse,wall,utilityPole,trafficMirror,scooter,pots,mailbox,road,sidewalk,lightPool,wires,aBoard,signTex,interiorTex,setNight,nightMats,rnd,bgCity};
+  let nightK=0;   // 目前的夜間程度（之後才登記的材質用它馬上套用）
+  // 外部載入的材質（Blender 正式模型的窗玻璃、嵌燈）登記成夜間會亮：emissive 已經設好顏色，強度由 setNight 控制
+  function addNight(m,nightI,dayI){ m.userData.nightI=nightI||1.0; m.userData.dayI=dayI||0; if(nightMats.indexOf(m)<0) nightMats.push(m); m.emissiveIntensity=m.userData.dayI*(1-nightK)+m.userData.nightI*nightK; }
+  function setNight(k){ nightK=k; for(const m of nightMats){ m.emissiveIntensity=(m.userData.dayI||0)*(1-k)+(m.userData.nightI||1)*k; } for(const sp of nightSprites){ const o=sp.userData.dayO*(1-k)+sp.userData.nightO*k; sp.material.opacity=o; sp.visible=o>0.02; } }
+  return {tex,tileTex,mosaicTex,plasterTex,Bin,boxG,planeG,col:colMat,paint:col,M,std,tree,royalPalm,glowMat,addNight,mrtExit,plantClump,glowSprite,apartment,japaneseHouse,wall,utilityPole,trafficMirror,scooter,pots,mailbox,road,sidewalk,lightPool,wires,aBoard,signTex,interiorTex,setNight,nightMats,rnd,bgCity};
 })();

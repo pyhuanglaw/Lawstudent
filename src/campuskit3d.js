@@ -326,6 +326,7 @@ const CK=(function(){ 'use strict';
         for(const x of [-5.2,-1.75,1.75,5.2]) for(let z=-d/2+1.5;z<d/2;z+=3) bin.add(lm,TK.planeG(0.22,0.22),x,PH-0.125,z,0,{rx:Math.PI/2,noShadow:true}); }
       const BH=1.7, colH=PH-BH-PF;
       for(const zc of [d/2-0.6,0,-d/2+0.6]) for(const sx of [-1,1]){ bin.add(gr,TK.boxG(1.2,colH,1.2,2.4),sx*(PW/2-0.6),PF+colH/2,zc); blocks.push([sx*(PW/2-0.6),zc,1.2,1.2,0.12]); }
+      if(o.centerCol){ bin.add(gr,TK.boxG(1.2,colH,1.2,2.4),0,PF+colH/2,d/2-0.6); blocks.push([0,d/2-0.6,1.2,1.2,0.12]); }   // v9.4（照片）：穿堂前排中間的柱子（導航也擋）
       for(const zs of [1,-1]){ bin.add(gr,TK.boxG(PW+2.4,BH,1.5,2.4),0,PH-BH/2,zs*(d/2-0.45)); bin.add(grD,TK.boxG(PW+2.6,0.12,1.6,2.4),0,PH-BH-0.06,zs*(d/2-0.45),0,{noShadow:true}); }
       // 大梁上面：深色的退縮窗帶＋兩根短柱、館名石材帶（金色字）
       bin.add(glassD,TK.planeG(PW+2.2,0.62),0,PH+0.31,d/2+0.03,0,{noShadow:true}); for(const x of [-4,4]) bin.add(gr,TK.boxG(0.5,0.62,0.4,2.4),x,PH+0.31,d/2+0.2);
@@ -422,8 +423,8 @@ const CK=(function(){ 'use strict';
     const name=o.name||(portal?'霖澤館':'萬才館');
     // 館名是金色的字直接裝在石材上（照片：沒有底板、字距很開）：透明底的字
     const nameT=TK.signTex(name.split('').join('\u3000'),{bg:'rgba(0,0,0,0)',color:'#d6b25a',serif:true,size:96}), nameM=new THREE.MeshStandardMaterial({map:nameT,roughness:0.45,metalness:0.45,transparent:true,alphaTest:0.3,depthWrite:false});
-    if(portal){ const nm=new THREE.Mesh(new THREE.PlaneGeometry(10.4,2.6),nameM); nm.position.set(0,PH+0.62+1.1,d/2+0.41); g.add(nm);
-      const lawT=TK.signTex('法律學院',{vertical:true,bg:'#e2711f',color:'#2b1b10',size:88}); const lm=new THREE.Mesh(new THREE.PlaneGeometry(0.42,1.68),new THREE.MeshStandardMaterial({map:lawT,roughness:0.7})); lm.position.set(PW/2+3.2,PF+2.0,d/2+0.011); g.add(lm); }
+    if(portal){ const nm=new THREE.Mesh(new THREE.PlaneGeometry(10.4,2.6),nameM); nm.position.set(0,PH+0.62+1.1,d/2+0.41); nm.userData.keepWithFormal=true; g.add(nm);   /* keepWithFormal：Blender 正式外觀載入後，套件的外觀藏起來，招牌留著 */
+      const lawT=TK.signTex('法律學院',{vertical:true,bg:'#e2711f',color:'#2b1b10',size:88}); const lm=new THREE.Mesh(new THREE.PlaneGeometry(0.42,1.68),new THREE.MeshStandardMaterial({map:lawT,roughness:0.7})); lm.position.set(PW/2+3.2,PF+2.0,d/2+0.011); lm.userData.keepWithFormal=true; g.add(lm); }
     else { const nm=new THREE.Mesh(new THREE.PlaneGeometry(3.6,0.66),nameM); nm.position.set((WC.LX0+WC.BX1)/2,PF+3.5+0.35,d/2+0.51); g.add(nm); }   // 萬才館：二樓玻璃上面的石材帶（位置是推測：照片看不到館名）
     g.traverse(m=>{ if(m.isMesh) m.castShadow=m.castShadow!==false; });
     g.userData.ck={w,d,H,gfh,ad:0,blocks,doorZ,doorX,cols,surfs,lobby,PF}; return g; }
