@@ -186,6 +186,11 @@ python3 build.py
 ## 目前狀態（v9 WIP：3D 美術重建進行中）
 
 - **3D 美術重建 v1 正在進行**（需求：`docs/history/specs/20_*`；即時進度：`docs/ART_REBUILD_PROGRESS.md`；畫面驗收：`docs/art-rebuild/VISUAL_REVIEW.md`）。
+- **v9.4（2026-10-10 起，開發分支，還沒發布）：多樓層＋Blender 正式模型**（需求：`docs/history/specs/21_*`、`22_*`；D36 分層導航方案 A、D37 霖澤館室內、D38 永久美術規範）。
+  - 引擎：每層一張 `E3.NavGrid`（同尺寸、同原點）＋格子高度（`addSurf`：平台 `{y}`、斜面 `{axis,ya,yb}`；`tread/rise/low`＝畫面上一階一階的高度）；樓梯格子兩層共用、高度相同的地方可以換層；`gridPath` 是（層, 格）的 A*。人物有 `lv`、真的 `y`（`settleY` 用 `visualHeightAt`）；`E.nav` 永遠是玩家那一層。存檔 `pos.lv`、`pos.y`（舊存檔預設第 0 層）。**改任何導航或區域幾何要跑 `node tests/nav_levels_unit.js`、`node tests/nav_buildings_unit.js`**。
+  - 霖澤館：穿堂可以走（0.9 m）；室內是 `linze` 區域（`src/building3d.js`、配置 `src/data/linze_layout.js`：大廳、雙跑樓梯、玻璃電梯、二樓迴廊、201 教室門；三樓以上整修中）；201 是階梯教室（`src/data/classroom_layout.js`，48 個座位都能坐）。
+  - Blender（`/opt/blenv/bin/python tools/blender/<腳本>.py`；共用 `tools/blender/b3lib.py`；貼圖 Poly Haven CC0 在 `tools/blender/textures/`）：`linze_interior.py`、`classroom_201.py`、`linze_exterior.py` → `assets/models/env/*.glb`（`ASSETS` 的 `type:'building'`）。程序化版本留作導航與載入失敗的備用（D38 分類 ③）。遊戲沒有環境貼圖：金屬度上限 0.45（`b3lib.MAX_METAL`）。
+  - 走樓梯腳步貼合：`character3d.js` 的 `footIK`（真實骨架、兩段式 IK）；`node tests/stairs_feet_unit.js` 量腳和踏面的距離。
 - 人物：玩家與所有 NPC 已改用 VRoid CC0 樣本改作的 VRM（`tools/vroid_build.py` → `assets/models/char/vroid_*.vrm`），不再出現程序化球體人；舊的 Seed-san／Twist sample／RPM 不再載入。六位核心角色正依 Character Bible 與美術參考圖逐一修正，**美術尚未經使用者驗收**。
 - 溫州街：已用 `src/townkit3d.js` 重建成台北巷弄（原本是空柏油地＋方盒）；兩點半 Café 搬到東端路口（D22）；正在精修日式老屋、小公園與三個時段的光影。
 - 校園（v9.3）：依使用者提供的臺大校總區平面圖重排（D23、D25）——大門 → 椰林大道 → 總圖；傅鐘＋行政大樓在大道南側、文學院正對面、校史館靠大門、醉月湖（湖心亭＋木棧道）、小椰林道；大王椰子與闊葉樹改成 `townkit3d.js` 程序化（`royalPalm`、`tree`）。霖澤館、宿舍、校門座標沒動（舊存檔與測試不受影響）；改校園要跑 `tests/campus_layout_nav.py`。v9.3 第六批起，行政大樓、文學院、校史館、總圖用 `src/campuskit3d.js`（`CK.hall`）蓋；建築的導航阻擋由套件回傳（`userData.ck.blocks`：建築本體＋拱廊柱子＋門廊），在 `zones3d.js` 的 `ckPlace` 轉成世界座標，鏡頭碰撞也在 `ckPlace` 加（本體＋拱廊上方樓層）；第七批起霖澤館、萬才館也是套件，一樓拱廊走得進去；第九批男一舍（沒有拱廊的版本）、社會科學院（`CK.modern` 現代白色系館）；第十批農業陳列館（`CK.pavilion`：圓洞鏤空牆）——校園已經沒有 `W3.building` 方盒，所有建築的導航阻擋與鏡頭碰撞都來自套件。
