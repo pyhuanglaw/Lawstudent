@@ -38,6 +38,12 @@ DROP_X = 0.162             # 落肩：身片在肩膀的寬度（袖子從這裡
 SHOULDER_Z = 1.366         # 落肩線的高度（身片側面上緣）
 SIDE_NECK = (0.071, 1.402) # 領口側頸點（|x|、z）
 BACK_NECK_Z = 1.388
+NECK_STYLE = 'V'           # 'V'（沈以安）／'crew'（圓領：前中心在 CREW_FRONT_Z，往側頸點圓弧上升）
+CREW_FRONT_Z = 1.352
+SLEEVE_K = 0.82           # 袖子粗細（設計輪廓的倍數；沈以安 0.82）
+EASE_K = 1.0              # 身片寬鬆量的倍數
+WSRC = None               # 權重來源：VRoid 原本的上衣網格（祐廷：連帽上衣）。有的話，毛衣的身片、袖子根部照它的權重（VRoid 調過手放下的姿勢）
+HEM_OVER_PANTS = False     # 毛衣下擺蓋過褲頭、落在胯部（祐廷）：身片的箱形往下量到下擺，而且把褲子算進去（不然下擺會切進臀部和褲子）
 
 
 def sstep(a, b, x):
@@ -230,7 +236,7 @@ def drape_pants(rows, phi, sg, z_crotch, mid=None):
         if axo.min() >= X0 or axo[0] < X0 or axo[-1] < X0: continue
         ib = next(i for i in range(1, len(order)) if axo[i] < X0); jf = max(i for i in range(len(order) - 1) if axo[i] < X0)
         fb = (ib - 1) + (axo[ib - 1] - X0) / max(axo[ib - 1] - axo[ib], 1e-9)
-        ff = jf + (axo[jf] - X0) / max(axo[jf] - axo[jf + 1], 1e-9)
+        ff = jf + (X0 - axo[jf]) / max(axo[jf + 1] - axo[jf], 1e-9)          # jf 在 X0 裡面、jf+1 在外面
         Pb = ring[order[ib - 1]] + (ring[order[ib]] - ring[order[ib - 1]]) * (fb - (ib - 1))
         Pf = ring[order[jf]] + (ring[order[jf + 1]] - ring[order[jf]]) * (ff - jf)
         arc_i = list(range(ib, jf + 1)); arc = np.array([order[i] for i in arc_i]); ya = ring[arc, 1]
@@ -274,7 +280,7 @@ def build_pants(skin, arm, mb):
     z_crotch = hit[0].z if hit[0] is not None else 0.80
     K = 32; phi = np.arange(K) * 2 * math.pi / K           # 0＝外側、90°＝後、180°＝內側、270°＝前
     zt = list(np.linspace(PANTS_TOP, PANTS_BAND, 5)) + [PANTS_BAND - 0.003]     # 褲頭帶（照 PANTS_TOP／PANTS_BAND 分 4 段：其他人物的褲頭高度不同）
-    zl = list(np.linspace(1.00, z_crotch + 0.02, 6)) + list(np.linspace(z_crotch - 0.01, 0.62, 5)) + list(np.linspace(0.58, 0.48, 3)) + list(np.linspace(0.42, 0.12, 7)) + [0.09]
+    zl = list(np.linspace(min(1.00, PANTS_BAND - 0.015), z_crotch + 0.02, 6)) + list(np.linspace(z_crotch - 0.01, 0.62, 5)) + list(np.linspace(0.58, 0.48, 3)) + list(np.linspace(0.42, 0.12, 7)) + [0.09]
     zs = np.array(zt + zl)
     def zhem(ph): return 0.049 - 0.020 * np.sin(ph)        # 後面 3 cm、前面 6.9 cm（褲管蓋在鞋面上）
     legs = {}
@@ -315,7 +321,12 @@ def build_pants(skin, arm, mb):
         def mid(z, _cy=hips_c[1]):
             f = Skin.outer(skin.full, (0, _cy, z), (0, -1, 0), 0.40); b = Skin.outer(skin.full, (0, _cy, z), (0, 1, 0), 0.40)
             return (_cy - f if np.isfinite(f) else 1e9), (_cy + b if np.isfinite(b) else -1e9)
+        rows0 = rows.copy()
         rows = drape_pants(rows, phi, sg, z_crotch, mid)
+        if os.environ.get('PANTS_DEBUG'):
+            bad = np.argwhere(np.abs(rows[:, :, :2]).max(-1) > 0.5)
+            print('   pants', side, 'extreme points', len(bad), bad[:6].tolist(), 'before drape max', np.abs(rows0[:, :, :2]).max().round(3))
+            for r_, k_ in bad[:3]: print('     row', r_, 'k', k_, 'z %.3f' % rows[r_, k_, 2], 'before', rows0[r_, k_].round(3), 'after', rows[r_, k_].round(3))
         # 褲頭上緣往內折（厚度）
         top_in = rows[0].copy(); cc = cens[0]
         top_in[:, :2] = cc[:2] + (top_in[:, :2] - cc[:2]) * 0.95; top_in[:, 2] -= 0.004
@@ -358,7 +369,7 @@ def build_top(skin, arm, mb, pants):
         f = Skin.outer(bvT, (0, 0.0, z), (0, -1, 0), 0.35); b = Skin.outer(bvT, (0, 0.0, z), (0, 1, 0), 0.35)
         if not (np.isfinite(f) and np.isfinite(b)): return 0.0
         return (b - f) / 2
-    zz = np.arange(1.02, 1.42, 0.01); ycs = np.array([yc_at(z) for z in zz])
+    zz = np.arange(min(1.02, KNIT_HEM - 0.02) if HEM_OVER_PANTS else 1.02, 1.42, 0.01); ycs = np.array([yc_at(z) for z in zz])
     ycs = np.convolve(np.pad(ycs, 3, mode='edge'), np.ones(7) / 7, mode='valid')
     def YC(z): return float(np.interp(z, zz, ycs))
     K = 64; th = np.arange(K) * 2 * math.pi / K - math.pi / 2       # 從正前方（-y）開始，往 +x（人物左）轉
@@ -368,23 +379,30 @@ def build_top(skin, arm, mb, pants):
     def rneck(k, z):
         r = Skin.outer(bvN, (0, YC(z), z), dirs[k], 0.12); return r if np.isfinite(r) else 0.056
     # 胸前／背後最外面（直落的箱形）：每個方向、每個高度往上到 1.30 的最大值
-    zgrid = np.arange(1.05, 1.42, 0.005)
-    RB = np.array([[rbody(k, z) for z in zgrid] for k in range(K)])
-    RBmax = np.maximum.accumulate(RB[:, ::-1], axis=1)[:, ::-1]           # 高度 ≥ z 的最大
+    zgrid = np.arange(min(1.05, KNIT_HEM - 0.01) if HEM_OVER_PANTS else 1.05, 1.42, 0.005)
     # 褲頭帶的半徑（毛衣下擺套在外面）
     pl = pants['legs']
-    def band_r(k, z):
+    def pants_r(k, z):
         o = np.array([0, YC(z), z]); d = dirs[k]
         best = 0.0
         for side in ('L', 'R'):
             rows = pl[side]['rows']; zr = rows[:, :, 2].mean(1); j = int(np.argmin(abs(zr - z)))
+            if abs(zr[j] - z) > 0.03: continue
             Pp = rows[j]; v = Pp[:, :2] - o[:2]; t = v @ d[:2]; perp = np.abs(v[:, 0] * d[1] - v[:, 1] * d[0])
             m = (t > 0) & (perp < 0.02)
             if m.any(): best = max(best, float(t[m].max()))
+        return best
+    def band_r(k, z):
+        best = pants_r(k, z)
         return best if best > 0.03 else rbody(k, z) + 0.008
+    if HEM_OVER_PANTS:      # 褲頭以下：身體或褲子，取外面的（下擺落在臀部、胯部，蓋在褲子外面）
+        RB = np.array([[max(rbody(k, z), pants_r(k, z) + 0.004 if z < PANTS_TOP + 0.005 else 0.0) for z in zgrid] for k in range(K)])
+    else:
+        RB = np.array([[rbody(k, z) for z in zgrid] for k in range(K)])
+    RBmax = np.maximum.accumulate(RB[:, ::-1], axis=1)[:, ::-1]           # 高度 ≥ z 的最大
     # 第二版：每個高度的截面＝「這個高度以上身體最突出的輪廓（直落）＋寬鬆量」與落肩寬度的凸包——
     # 布料跨過胸部中間的凹處（第一版貼著胸形，正面看是兩個鼓包），從胸口直直落下
-    EASE = np.where(np.abs(np.sin(th)) > 0.5, 0.024, 0.016)
+    EASE = np.where(np.abs(np.sin(th)) > 0.5, 0.024, 0.016) * EASE_K
     HR = np.zeros((K, len(zgrid)))
     for iz, z in enumerate(zgrid):
         W = 0.152 + (DROP_X - 0.152) * float(sstep(1.28, 1.34, z))
@@ -403,6 +421,9 @@ def build_top(skin, arm, mb, pants):
         if s >= -0.05:      # 後半圈＋側面：圓領口
             z = BACK_NECK_Z + (SIDE_NECK[1] - BACK_NECK_Z) * abs(math.cos(t)) ** 1.5
             return rneck(k, z) + 0.013, z
+        if NECK_STYLE == 'crew':        # 前面：圓領（前中心最低，往側頸點圓弧上升）
+            z = CREW_FRONT_Z + (SIDE_NECK[1] - CREW_FRONT_Z) * abs(math.cos(t)) ** 1.8
+            return max(rneck(k, z), rbody(k, z)) + 0.012, z
         # 前面：V 領，側頸點到 V 底的直線（3D），找方向 t 的點
         yb = YC(V_BOTTOM) - (rbody(0, V_BOTTOM) + 0.024)
         if abs(math.cos(t)) < 1e-6: return YC(V_BOTTOM) - yb, V_BOTTOM
@@ -481,7 +502,7 @@ def build_top(skin, arm, mb, pants):
         st_cuff = list(np.linspace(Lt - 0.062, s_end, 5))
         KS = 24; ph = np.arange(KS) * 2 * math.pi / KS
         prof_s = np.array([-0.01, 0.03, 0.08, 0.14, Lu, Lu + 0.08, Lt - 0.10, Lt - 0.075])
-        prof_r = np.array([0.058, 0.060, 0.066, 0.069, 0.071, 0.072, 0.068, 0.056]) * 0.82   # 第二版：袖子細一點（第一版正面看像氣球）
+        prof_r = np.array([0.058, 0.060, 0.066, 0.069, 0.071, 0.072, 0.068, 0.056]) * SLEEVE_K   # 第二版：袖子細一點（第一版正面看像氣球）
         rings = []; cens_s = []; vv = []
         for i, s in enumerate(st_body + st_cuff + ['fold']):
             cuff = (s == 'fold') or (s >= Lt - 0.0621)
@@ -734,15 +755,33 @@ def compute_weights(skin, arm, mb, top, pants, shoes):
     V = np.array(mb.V); tags = np.array(mb.tag); n = len(V)
     W = np.zeros((n, len(skin.names)))
     bust = [skin.col(b) for b in BUST if skin.col(b) is not None]
+    src = Skin(WSRC) if WSRC is not None else None
+    col = {n: j for j, n in enumerate(skin.names)}
+    def near_w(Q):
+        Wn = skin.nearest_weights(Q)
+        if src is None: return Wn
+        Ws = src.nearest_weights(Q); out = np.zeros_like(Wn)
+        for j, n in enumerate(src.names):
+            if n in col: out[:, col[n]] += Ws[:, j]
+        bad = out.sum(1) < 0.5                       # 來源在已經拿掉的骨頭上：退回身體最近點
+        out[bad] = Wn[bad]
+        return out
     # 軀幹：最近點內插（胸部的彈簧骨不要）
     m = tags == 'torso'
-    Wt = skin.nearest_weights(V[m]); Wt[:, bust] = 0; W[m] = Wt
+    Wt = near_w(V[m]); Wt[:, bust] = 0; W[m] = Wt
+    if os.environ.get('WDEBUG'):
+        Vt = V[m]; ua = [col[n] for n in ('J_Bip_L_UpperArm', 'J_Bip_R_UpperArm', 'J_Bip_L_Shoulder', 'J_Bip_R_Shoulder') if n in col]
+        sel = (np.abs(Vt[:, 0]) > DROP_X - 0.04) & (Vt[:, 2] > SHOULDER_Z - 0.06)
+        Wb = skin.nearest_weights(Vt[sel])
+        print('   WDEBUG torso shoulder verts', int(sel.sum()), 'src', src is not None,
+              'upperarm w (src/body): %.2f / %.2f' % (Wt[sel][:, ua[:2]].sum(1).mean(), Wb[:, ua[:2]].sum(1).mean()),
+              'shoulder w: %.2f / %.2f' % (Wt[sel][:, ua[2:]].sum(1).mean(), Wb[:, ua[2:]].sum(1).mean()))
     # 袖子：肩膀附近用最近點、其他沿手臂軸
     for side, sl in top['sleeves'].items():
         m = tags == 'sleeve' + side; Q = V[m]
         S, E, Wr, Lu, Lt = sl['S'], sl['E'], sl['W'], sl['Lu'], sl['Lt']
         ax = unit(Wr - S); s = (Q - S) @ ax
-        near = skin.nearest_weights(Q); near[:, bust] = 0
+        near = near_w(Q); near[:, bust] = 0
         u_ = 1 - sstep(Lu - 0.045, Lu + 0.045, s)
         Wa = axis_weights(skin, len(Q), [('J_Bip_%s_UpperArm' % side, u_), ('J_Bip_%s_LowerArm' % side, 1 - u_)])
         a = sstep(0.035, 0.13, s)[:, None]
@@ -839,9 +878,11 @@ def apply(m):
     img_k = C.image_from_array('H01_Knit', knit_texture(), os.path.join(WIP, 'clothes_Knit.png'))
     img_t = C.image_from_array('H01_Trouser', trouser_texture(), os.path.join(WIP, 'clothes_Trouser.png'))
     img_l = C.image_from_array('H01_Loafer', loafer_texture(), os.path.join(WIP, 'clothes_Loafer.png'))
-    mats = [make_mat('F00_002_01_Tops_01_CLOTH', 'H01_Knit_CLOTH', img_k, (0.84, 0.78, 0.74)),
-            make_mat('F00_002_01_Tops_01_CLOTH', 'H01_Trouser_CLOTH', img_t, (0.74, 0.76, 0.84)),
-            make_mat('F00_002_01_Shoes_01_CLOTH', 'H01_Loafer_CLOTH', img_l, (0.62, 0.56, 0.56))]
+    def tmpl(pat):      # 範本材質（女性樣本 F00_002_01_Tops_01_CLOTH、男性樣本 M00_006_01_Tops_01_CLOTH……）
+        return next(mt.name for mt in bpy.data.materials if pat in mt.name and mt.name.endswith('_CLOTH') and not mt.name.startswith('H01_'))
+    mats = [make_mat(tmpl('Tops'), 'H01_Knit_CLOTH', img_k, (0.84, 0.78, 0.74)),
+            make_mat(tmpl('Tops'), 'H01_Trouser_CLOTH', img_t, (0.74, 0.76, 0.84)),
+            make_mat(tmpl('Shoes'), 'H01_Loafer_CLOTH', img_l, (0.62, 0.56, 0.56))]
     W = compute_weights(skin, arm, mb, top, pants, shoes)
     obj, bad = mb.build('Clothes_H01', mats)
     (arm.users_collection[0] if arm.users_collection else bpy.context.scene.collection).objects.link(obj)
