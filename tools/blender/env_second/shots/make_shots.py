@@ -40,6 +40,13 @@ STREET = [
     ('scooters', ('1100',), dict(zone='wenzhou', w=1280, h=720, hidePlayer=True, pos={'x': 8.5, 'z': -1.2, 'yaw': 0.0}, cam={'pos': [8.5, 1.25, -1.2], 'look': [12, 0.5, -4.0]})),
     ('follow_east', ALL, dict(zone='wenzhou', w=390, h=844, mobile=True, hud=True, pos={'x': 22, 'z': -1.5, 'yaw': 1.5708}, cam={'yaw': -1.5708, 'pitch': 0.22, 'dist': 5.2})),
 ]
+# 遠景公寓（巷底 W0、巷口兩端、Café 往南／往北的路；同一個 wenzhou_street 正式模型）：從 Café 門口往南（施工護欄外）、往北、巷子西端
+SOUTH = [
+    ('south_vista', ALL, dict(zone='wenzhou', w=1280, h=720, hidePlayer=True, pos={'x': 51.5, 'z': 7.0, 'yaw': 0.0}, cam={'pos': [51.6, 1.7, 7.5], 'look': [51.2, 4.5, 40]})),
+    ('north_vista', ('1730',), dict(zone='wenzhou', w=1280, h=720, hidePlayer=True, pos={'x': 51.5, 'z': -6.0, 'yaw': 3.1416}, cam={'pos': [51.6, 1.7, -6.5], 'look': [51.2, 4.5, -40]})),
+    ('west_end', ('1730',), dict(zone='wenzhou', w=1280, h=720, hidePlayer=True, pos={'x': -24, 'z': 0.5, 'yaw': -1.5708}, cam={'pos': [-24, 1.7, 0.5], 'look': [-38, 3.5, 0.0]})),
+    ('follow_south', ('1730',), dict(zone='wenzhou', w=390, h=844, mobile=True, hud=True, pos={'x': 51.5, 'z': 9.0, 'yaw': 0.0}, cam={'yaw': 3.1416, 'pitch': 0.18, 'dist': 5.2})),
+]
 STREET_GLBS = ['wenzhou_street_glb', 'wz_jphouse_glb', 'wz_props_glb', 'wz_park_glb', 'wz_scooters_glb']
 WAIT_STREET = ("(async()=>{ const want=%s; for(let i=0;i<240;i++){ const z=GAME.E.zone; const ok=z&&want.every(n=>z.group.children.some(o=>o.name===n)); "
                "if(ok||%%s) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()") % json.dumps(STREET_GLBS)
@@ -72,14 +79,14 @@ WAIT_INT = ("(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if((z&&z.f
 
 def build(mode, which='cafe'):
     shots = []
-    for name, tags, v in {'cafe': VIEWS, 'street': STREET, 'cvs': CVS, 'interiors': INTERIORS}[which]:
+    for name, tags, v in {'cafe': VIEWS, 'street': STREET, 'south': SOUTH, 'cvs': CVS, 'interiors': INTERIORS}[which]:
         for tag in tags:
             s = {'out': f'{OUT}/{which}_{mode}_{name}_{tag}.png', 'w': v['w'], 'h': v['h'], 'hideNPCs': True,
                  'state': {'zone': v['zone'], 'hour': H[tag], 'pos': v['pos']}, 'cam': v['cam'], 'wait': 3500}
             for k in ('mobile', 'hud', 'hidePlayer'):
                 if v.get(k): s[k] = True
             nb = 'true' if mode == 'before' else 'false'
-            if which == 'street': s['js'] = WAIT_STREET % nb
+            if which in ('street', 'south'): s['js'] = WAIT_STREET % nb
             elif which in ('cvs', 'interiors'): s['js'] = WAIT_ROOM % nb
             elif v['zone'] == 'wenzhou': s['js'] = WAIT_EXT % nb
             else:
@@ -90,6 +97,6 @@ def build(mode, which='cafe'):
 
 
 if __name__ == '__main__':
-    for which in ('cafe', 'street', 'cvs', 'interiors'):
+    for which in ('cafe', 'street', 'south', 'cvs', 'interiors'):
         for mode in ('before', 'after'):
             p = os.path.join(HERE, f'{which}_{mode}.json'); sh = build(mode, which); json.dump(sh, open(p, 'w'), ensure_ascii=False, indent=1); print(p, len(sh))

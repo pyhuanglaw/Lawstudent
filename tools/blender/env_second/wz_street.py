@@ -158,16 +158,27 @@ def place(spec):
 
 
 # 共用零件（instancing）：鐵窗、雨遮、冷氣、水塔
+def bar(m, x0, x1, y0, y1, z0, z1):
+    """細鐵條：方塊去掉兩端看不到的蓋子（每根 8 個三角形，原本 12）。最長的那一軸＝鐵條方向（遊戲 x/y/z → Blender x/z/−y）"""
+    fs = L.bm_box(m.bm, x0, x1, y0, y1, z0, z1)
+    ax = {0: 0, 1: 2, 2: 1}[max((abs(x1 - x0), 0), (abs(y1 - y0), 1), (abs(z1 - z0), 2))[1]]
+    caps = []
+    for f in fs:
+        f.normal_update()
+        if abs(f.normal[ax]) > 0.9: caps.append(f)
+    bmesh.ops.delete(m.bm, geom=caps, context='FACES_ONLY')
+
+
 def grille_mesh(w_, h_, dep=0.42):
     m = Mesh('grille_proto', M['grille']); b = 0.018; n = max(6, int(w_ / 0.12))
     for i in range(n + 1):
-        x = -w_ / 2 + i * w_ / n; m.box(x - b / 2, x + b / 2, 0, h_, dep - b, dep)
-    for y in (0.0, 0.32, h_ * 0.55, h_ - b * 1.6): m.box(-w_ / 2, w_ / 2, y, y + b * 1.6, dep - b * 1.5, dep + 0.005)
+        x = -w_ / 2 + i * w_ / n; bar(m, x - b / 2, x + b / 2, 0, h_, dep - b, dep)
+    for y in (0.0, 0.32, h_ * 0.55, h_ - b * 1.6): bar(m, -w_ / 2, w_ / 2, y, y + b * 1.6, dep - b * 1.5, dep + 0.005)
     for s in (-1, 1):
         x = s * w_ / 2
-        for k in range(4): m.box(x - b / 2, x + b / 2, 0, h_, dep * k / 3 - b / 2, dep * k / 3 + b / 2)
-        for y in (0.0, h_ * 0.55, h_ - b * 1.6): m.box(x - b / 2, x + b / 2, y, y + b * 1.6, 0, dep)
-    for k in range(3): m.box(-w_ / 2, w_ / 2, 0.0, 0.03, dep * (k + 0.5) / 3 - 0.03, dep * (k + 0.5) / 3 + 0.03)
+        for k in range(4): bar(m, x - b / 2, x + b / 2, 0, h_, dep * k / 3 - b / 2, dep * k / 3 + b / 2)
+        for y in (0.0, h_ * 0.55, h_ - b * 1.6): bar(m, x - b / 2, x + b / 2, y, y + b * 1.6, 0, dep)
+    for k in range(3): m.box(-w_ / 2, w_ / 2, 0.0, 0.03, dep * (k + 0.5) / 3 - 0.03, dep * (k + 0.5) / 3 + 0.03)   # 底下的踏板（扁平，兩端蓋子看得到，不省）
     return proto(m.finish(None))
 
 
@@ -233,10 +244,10 @@ def window_proto(wh, part):
     ww = WIN_W; lit = part == 'lit'
     x0, x1, y0, y1, fz, t, bk = -ww / 2, ww / 2, 0.0, wh, -0.12, 0.05, -0.9
     if part == 'shell':
-        al = Mesh('win_alu', M['alu'])
-        al.box(x0, x1, y0, y0 + t, fz - 0.05, fz + 0.03); al.box(x0, x1, y1 - t, y1, fz - 0.05, fz + 0.03)
-        al.box(x0, x0 + t, y0, y1, fz - 0.05, fz + 0.03); al.box(x1 - t, x1, y0, y1, fz - 0.05, fz + 0.03)
-        al.box(-0.03, 0.01, y0 + t, y1 - t, fz - 0.03, fz + 0.02)
+        al = Mesh('win_alu', M['alu'])   # 鋁框：兩端的蓋子藏在窗洞裡、看不到（bar 不做蓋子）
+        bar(al, x0, x1, y0, y0 + t, fz - 0.05, fz + 0.03); bar(al, x0, x1, y1 - t, y1, fz - 0.05, fz + 0.03)
+        bar(al, x0, x0 + t, y0, y1, fz - 0.05, fz + 0.03); bar(al, x1 - t, x1, y0, y1, fz - 0.05, fz + 0.03)
+        bar(al, -0.03, 0.01, y0 + t, y1 - t, fz - 0.03, fz + 0.02)
         sl = Mesh('win_sill', M['band']); sl.box(x0 - 0.08, x1 + 0.08, y0 - 0.07, y0, -0.25, 0.07)
         stn = Mesh('win_stain', M['stain']); stn.quad([(x0 - 0.05, y0 - 1.05, 0.012), (x1 + 0.05, y0 - 1.05, 0.012), (x1 + 0.05, y0 - 0.07, 0.012), (x0 - 0.05, y0 - 0.07, 0.012)])
         so = stn.finish(None, uv=True); uv01(so)                                              # 窗台下的雨痕（整張貼圖）
@@ -326,9 +337,9 @@ def apartment(spec):
         yc = GH + (f - 1) * FH + FH * 0.52
         for i in range(n):
             x = -W / 2 + (i + 0.5) * W / n
-            far = spec.get('far')
-            kind_ = 'balcony' if (spec.get('balcony') and i == n // 2 and f == 1) else ('grille' if rng.random() < (0.4 if far else 0.7) else 'plain')
-            wins.append(dict(f=f, x=x, y0=yc - wh / 2, y1=yc + wh / 2, kind=kind_, hood=(kind_ != 'grille' and rng.random() < 0.5), ac=rng.random() < (0.3 if far else 0.65), lit=rng.random() < 0.35, acs=rng.choice((-1, 1))))
+            far = spec.get('far')   # 遠景：只有窗＋少量鐵窗，沒有雨遮、冷氣（instancing 的原型整條巷子一組，任何鏡頭都整組畫出來：遠景加太多會超過三角形預算）
+            kind_ = 'balcony' if (spec.get('balcony') and i == n // 2 and f == 1) else ('grille' if rng.random() < (0.15 if far else 0.7) else 'plain')
+            wins.append(dict(f=f, x=x, y0=yc - wh / 2, y1=yc + wh / 2, kind=kind_, hood=(not far and kind_ != 'grille' and rng.random() < 0.5), ac=(not far and rng.random() < 0.65), lit=rng.random() < 0.35, acs=rng.choice((-1, 1))))
     # ---- 牆：一樓以上（留窗洞，牆厚 0.25）
     for f in range(1, F):
         y0 = GH + (f - 1) * FH; y1 = y0 + FH
