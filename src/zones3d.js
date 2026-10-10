@@ -359,11 +359,14 @@ const Z3 = (function(){
       {n:'公館藥局',c:'#4a9a6a',w:8,type:'none',it:'cvs',v:'藥局'},{n:'滷味・鹹酥雞',c:'#e0b24a',sc:'#3b2a1e',w:8,type:'none',it:'teishoku'},{n:'眼鏡・手機維修',c:'#5a5a7a',w:9,type:'none',it:'print',v:'眼鏡'},{n:'咖啡・輕食',c:'#8c3b47',w:9,type:'none',it:'cafe'},
       {n:'水果行',c:'#e0a030',sc:'#3b2a1e',w:8,type:'none',it:'fruit'},{n:'自助洗衣',c:'#4a90c2',w:9,type:'none',it:'laundry'},{n:'影印・輸出',c:'#2f3a44',w:9,type:'none',it:'print',v:'影印'},{n:'日日定食',c:'#5c3a21',w:10,type:'none',it:'teishoku',v:'定食'},{n:'二手唱片',c:'#2b2b2b',w:8,type:'none',it:'books'},{n:'文具・畫材',c:'#8c3b47',w:9,type:'none',it:'books'},{n:'早午餐',c:'#c9463d',w:9,type:'none',it:'cafe'}];
     const FZ=19, GH=4.2, ARC=3.0, SHOPD=16, WALLC=['#d9cbb0','#cfc5b2','#e3ddd0','#c8bca8','#d6c3a5','#e6dfd0','#bfb2a0'], WALLT=['tile','mosaic','tile','plaster'];
+    /* 店面街 15 棟＋巷口轉角（userData.ggShop＝棟號 G00–G15）：有 Blender 正式模型（bldg.gongguan_shops，第二個 AI：tools/blender/env_second/wz_street.py --set gongguan）時不參加整區靜態合併，
+       模型載入後把套件外觀藏起來；?nobldg 或載入失敗時照舊是套件。導航阻擋、鏡頭碰撞、柱子、互動點都不變（照套件算） */
+    const ggGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.gongguan_shops']; const ggTag=(b,id)=>{ b.userData.ggShop=id; if(ggGLB) b.userData.dyn=true; };
     let x=-68; shops.forEach((s,i)=>{ const last=i===shops.length-1; const X0=x, X1=x+s.w+(i<8&&!last?1.2:0), W=X1-X0, cx=(X0+X1)/2;
       // 柱子（TK 區域座標；建築轉 180°，區域 +x＝世界西側）：西邊分界一根；沒有互動的寬店面中間再一根（有互動的店門口前面不放柱子）；最後一間另加東邊盡頭
       const pl=[W/2]; const nb=s.type==='none'?Math.max(1,Math.round(W/5)):1; for(let k=1;k<nb;k++) pl.push(W/2-k*W/nb); if(last) pl.push(-W/2);
       const b=TK.apartment({w:W,d:SHOPD,floors:4+((i*5)%4),fh:3.1,groundH:GH,wall:WALLT[i%4],color:WALLC[i%7],balcony:i%3===1,tank:i%2===0,roofAdd:i%5===3,ground:{type:'arcade',through:true,pillars:pl,shop:{type:s.it,name:s.n,sub:s.sub,signBg:s.c,signColor:s.sc||'#ffffff',band:s.band,vertical:s.v,vBg:'#ffffff',vColor:s.c,vBand:s.c}}});
-      b.position.set(cx,0,FZ); b.rotation.y=Math.PI; g.add(b); buildings.push(b);
+      b.position.set(cx,0,FZ); b.rotation.y=Math.PI; g.add(b); buildings.push(b); ggTag(b,'G'+String(i).padStart(2,'0'));
       for(const lx of pl) nav.blockRect(cx-lx,FZ+0.3,0.55,0.55,0,0.1);
       // 鏡頭碰撞：店面玻璃後面的本體＋騎樓上方的樓層（在騎樓裡鏡頭不會被拉到臉前面，也不會穿到樓上）
       addCol(cx,FZ+ARC+0.3+(SHOPD-ARC-0.3)/2,W,SHOPD-ARC-0.3,0,b.userData.h+1); addCol(cx,FZ+(ARC+0.3)/2,W,ARC+0.3,GH-0.35,b.userData.h+1);
@@ -375,7 +378,7 @@ const Z3 = (function(){
       x=X1; });
     // 往溫州街的巷口（店面街西端）：麵店西邊留 6 m 寬的巷子（x −74～−68）往南，巷口對面是轉角公寓（一般店面、沒有騎樓）；巷口有路名牌和反光鏡。
     /* 原本「往溫州街」只是區域邊上地面的互動點，旁邊什麼都沒有 */
-    { const cb=TK.apartment({w:14,d:SHOPD,floors:5,fh:3.1,groundH:GH,wall:'tile',color:'#cdbfa8',balcony:true,tank:true,ground:{type:'shop',shop:{type:'teishoku',name:'豆花・甜湯',sub:'粉圓・芋圓・紅豆',signBg:'#f4ead8',signColor:'#5c3a21',band:'#c9a24a'}}}); cb.position.set(-81,0,FZ); cb.rotation.y=Math.PI; g.add(cb); buildings.push(cb);
+    { const cb=TK.apartment({w:14,d:SHOPD,floors:5,fh:3.1,groundH:GH,wall:'tile',color:'#cdbfa8',balcony:true,tank:true,ground:{type:'shop',shop:{type:'teishoku',name:'豆花・甜湯',sub:'粉圓・芋圓・紅豆',signBg:'#f4ead8',signColor:'#5c3a21',band:'#c9a24a'}}}); cb.position.set(-81,0,FZ); cb.rotation.y=Math.PI; g.add(cb); buildings.push(cb); ggTag(cb,'G15');
       nav.blockRect(-81,FZ+SHOPD/2,14.2,SHOPD+0.2,0,0); addCol(-81,FZ+SHOPD/2,14,SHOPD,0,cb.userData.h+1);
       const lane=new THREE.Mesh(new THREE.PlaneGeometry(6,36),new THREE.MeshStandardMaterial({map:(()=>{ const t=W3.asphaltTex().clone(); t.needsUpdate=true; t.repeat.set(1,6); return t; })(),roughness:0.95})); lane.rotation.x=-Math.PI/2; lane.position.set(-71,0.028,FZ+18); lane.receiveShadow=true; g.add(lane);
       const pole=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.05,3.0,8),M('#7d8288')); pole.position.set(-73.7,1.5,FZ-0.5); g.add(pole); nav.blockCircle(-73.7,FZ-0.5,0.2);
@@ -437,7 +440,10 @@ const Z3 = (function(){
     for(const l of lamps){ const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xffd88a,transparent:true,opacity:0.5,depthWrite:false,blending:THREE.AdditiveBlending})); glow.scale.set(3,3,1); glow.position.set(0,3.9,0.75); l.add(glow); glow.visible=false; E.lampGlows.push(glow); const pool=new THREE.Mesh(new THREE.CircleGeometry(4.2,16),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffd08a,transparent:true,opacity:0.34,depthWrite:false,blending:THREE.AdditiveBlending})); pool.rotation.x=-Math.PI/2; pool.position.set(0,0.03,0.75); l.add(pool); pool.visible=false; E.lampGlows.push(pool); }
     // 招牌、店內、窗戶的夜間亮度跟著時間漸變（和溫州街同一套：17:24 開始、19:12 全亮）
     const zoneTime=(h)=>{ let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); TK.setNight(Math.max(0,Math.min(1,k))); };
-    return {group:g,nav,spawn:{x:0,z:-30,yaw:Math.PI},lamps,buildings,applyTimeOutdoor:zoneTime,onLamps(on){}}; } };
+    const zone={group:g,nav,spawn:{x:0,z:-30,yaw:Math.PI},lamps,buildings,applyTimeOutdoor:zoneTime,onLamps(on){}};
+    // 店面街的 Blender 正式模型（第二個 AI）：載入後藏起套件外觀（和溫州街同一套接法；招牌、直立招牌合成一張 atlas，晚上照 TK.setNight 發光）；失敗或 ?nobldg 時維持套件
+    if(ggGLB) ASSETS.loadOne('bldg.gongguan_shops').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ggShop','gongguan_shops_glb'); }).catch(e=>console.warn('公館店面正式模型載入失敗，用套件的外觀',e));
+    return zone; } };
   // ---------- 溫州街 ----------
   // ---------- 溫州街（v9 重建：台北巷弄＋日式宿舍；TK 街景套件）----------
   /* 座標：x 往東（公館方向）、主巷沿 x 軸，建築立面在 z=±5（巷寬 10m：柏油 7m＋兩側排水溝與停車帶）。
@@ -707,22 +713,24 @@ const Z3 = (function(){
      userData.atlas.items 記每一格：名稱、在 atlas 裡的位置大小（px）、板面的長寬比（測試用：每一格的字照板面比例、沒有被拉寬） */
   function wzAtlasFaces(root,faces,name,nightI,dayI){ root.updateMatrixWorld(true); const inv=new THREE.Matrix4().copy(root.matrixWorld).invert(); const P=2;
     const items=faces.map(o=>{ const c=o.material.map.image; o.geometry.computeBoundingBox(); const s=o.geometry.boundingBox.getSize(new THREE.Vector3()); const rot=c.height>c.width;   /* 直的字牌轉 90° 放（全部變成橫條，排得比較密）*/
-      return {o, c, w:c.width, h:c.height, rot, bw:rot?c.height:c.width, bh:rot?c.width:c.height, board:Math.max(s.x,s.z)/Math.max(1e-6,s.y)}; });
-    const AW=Math.min(2048, Math.max(256, 1<<Math.ceil(Math.log2(Math.max(...items.map(i=>i.bw+P*2))))));
+      return {o, c, w:c.width, h:c.height, rot, bw:rot?c.height:c.width, bh:rot?c.width:c.height, board:Math.max(s.x,s.z)/Math.max(1e-6,s.y), key:JSON.stringify(Object.assign({},o.userData,{name:0}))+'|'+c.width+'x'+c.height}; });   /* userData.name＝GLTFLoader 放的原始節點名稱（每一面不同），比對內容時不算 */
+    /* 內容一樣的板面（直立招牌的兩面：同一組字、同樣大小）共用 atlas 的同一格（公館 50 面招牌不共用會排成 2048×4096） */
+    const cells=[], byKey={}; for(const it of items){ const u=byKey[it.key]; if(u) it.src=u; else { byKey[it.key]=it; it.src=it; cells.push(it); } }
+    const AW=Math.min(2048, Math.max(256, 1<<Math.ceil(Math.log2(Math.max(...cells.map(i=>i.bw+P*2))))));
     /* 一列一列排；只超過 2 的次方一點點時，全部等比例縮小幾 %（例如 128 px 高的字牌變 124 px，看不出差別），atlas 就小一半 */
-    const pack=k=>{ const rest=items.slice().sort((a,b)=>b.bh-a.bh||b.bw-a.bw); let y=0;   /* 每一列：先放最高（再最寬）的，再把剩下放得進這一列的都塞進去 */
+    const pack=k=>{ const rest=cells.slice().sort((a,b)=>b.bh-a.bh||b.bw-a.bw); let y=0;   /* 每一列：先放最高（再最寬）的，再把剩下放得進這一列的都塞進去 */
       while(rest.length){ let x=0, rowH=0; for(let i=0;i<rest.length;){ const it=rest[i], w=Math.ceil(it.bw*k), h=Math.ceil(it.bh*k); if(x+w+P*2<=AW||x===0){ it.x=x+P; it.y=y+P; it.k=k; x+=w+P*2; rowH=Math.max(rowH,h+P*2); rest.splice(i,1); } else i++; } y+=rowH; }
       return 1<<Math.ceil(Math.log2(Math.max(4,y))); };
     let best=1, AH=pack(1); for(const k of [0.97,0.94,0.9]){ const h=pack(k); if(h<AH){ AH=h; best=k; break; } }
     pack(best);   /* 最後用選到的比例重排一次（pack 會改每一格的 x、y、k） */
     const cv=document.createElement('canvas'); cv.width=AW; cv.height=AH; const cx=cv.getContext('2d');
-    for(const it of items){ const k=it.k; it.dw=it.w*k; it.dh=it.h*k; if(!it.rot){ cx.drawImage(it.c,it.x,it.y,it.dw,it.dh); continue; } cx.save(); cx.translate(it.x+it.dh,it.y); cx.rotate(Math.PI/2); cx.drawImage(it.c,0,0,it.dw,it.dh); cx.restore(); }   /* 轉 90°：canvas 的 (cx,cy) → atlas (x+h−cy, y+cx)（h、w 是縮放後的大小）*/
+    for(const it of cells){ const k=it.k; it.dw=it.w*k; it.dh=it.h*k; if(!it.rot){ cx.drawImage(it.c,it.x,it.y,it.dw,it.dh); continue; } cx.save(); cx.translate(it.x+it.dh,it.y); cx.rotate(Math.PI/2); cx.drawImage(it.c,0,0,it.dw,it.dh); cx.restore(); }   /* 轉 90°：canvas 的 (cx,cy) → atlas (x+h−cy, y+cx)（h、w 是縮放後的大小）*/
     const tex=new THREE.CanvasTexture(cv); tex.colorSpace=THREE.SRGBColorSpace; tex.flipY=false; tex.anisotropy=8;
     const geos=items.map(it=>{ const g=it.o.geometry.clone(); for(const k of Object.keys(g.attributes)) if(!['position','normal','uv'].includes(k)) g.deleteAttribute(k); it.o.updateMatrixWorld(true); g.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv,it.o.matrixWorld));
-      const uv=g.attributes.uv; for(let i=0;i<uv.count;i++){ const u=uv.getX(i), v=uv.getY(i); if(it.rot) uv.setXY(i,(it.x+it.dh*(1-v))/AW,(it.y+u*it.dw)/AH); else uv.setXY(i,(it.x+u*it.dw)/AW,(it.y+v*it.dh)/AH); } return g; });
+      const s=it.src, uv=g.attributes.uv; for(let i=0;i<uv.count;i++){ const u=uv.getX(i), v=uv.getY(i); if(s.rot) uv.setXY(i,(s.x+s.dh*(1-v))/AW,(s.y+u*s.dw)/AH); else uv.setXY(i,(s.x+u*s.dw)/AW,(s.y+v*s.dh)/AH); } return g; });
     const merged=THREE_JSM.BufferGeometryUtils.mergeGeometries(geos,false); if(!merged) return null; for(const g of geos) g.dispose();
     const m=faces[0].material.clone(); m.map=tex; m.emissiveMap=tex; if(nightI!=null) TK.addNight(m,nightI,dayI||0); else m.emissiveIntensity=0; m.needsUpdate=true;
-    const mesh=new THREE.Mesh(merged,m); mesh.name=name; mesh.castShadow=false; mesh.receiveShadow=true; mesh.userData.atlas={w:AW,h:AH,items:items.map(it=>({name:it.o.name,x:it.x,y:it.y,w:+it.dw.toFixed(1),h:+it.dh.toFixed(1),rot:it.rot,board:+it.board.toFixed(3)}))};
+    const mesh=new THREE.Mesh(merged,m); mesh.name=name; mesh.castShadow=false; mesh.receiveShadow=true; mesh.userData.atlas={w:AW,h:AH,cells:cells.length,items:items.map(it=>({name:it.o.name,x:it.src.x,y:it.src.y,w:+it.src.dw.toFixed(1),h:+it.src.dh.toFixed(1),rot:it.src.rot,board:+it.board.toFixed(3)}))};
     for(const it of items){ it.o.parent.remove(it.o); it.o.material.map.dispose(); it.o.material.dispose(); }
     root.add(mesh); return mesh; }
   const wenzhou={ id:'wenzhou', name:'溫州街', indoor:false, cityLight:0.85, size:[110,60], camDist:5.2, build(E){ return buildWenzhou(E); } };

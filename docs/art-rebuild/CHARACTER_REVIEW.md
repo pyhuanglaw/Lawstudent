@@ -536,5 +536,63 @@ look-dev 全身比較（上排現在的遊戲版、下排這一輪；兩排都�
 - 領子：第一版太寬（在肩膀上像披肩）、邊緣一上一下像荷葉邊、貼圖用到下擺的車縫線——收窄、磨順、貼圖改用素面的部分。
 - 瀏海：第一版是細髮束的貼圖，一根根散開很亂；第三版加寬又變成一排齊瀏海、看不到中分；第四版靠分線的兩束細一點、往兩旁撥開。
 - V 領裡的皮膚：試過兩種另外做的皮膚片（一片單色的、一片從脖子邊界長出來的），都看得到接縫；查出是貼圖透明（上面 `stage0`），改成補貼圖。
+- **遊戲用模型** `assets/models/char/bl_heroine_05.vrm`（3.2 MB）；**Blender 工作檔** `assets/blender/heroine_05_work_v1.blend`。**怎麼看**：網址加 `?blchar`（預設仍是 VRoid 加工版 `vroid_heroine_05.vrm`）。
 
-狀態：**製作中**——遊戲內六視角、坐下、樓梯、表情、三方比較還沒做；`bl_heroine_05.vrm` 還沒放進遊戲（`?blchar` 目前仍載入 VRoid 加工版）。
+**三方比較**（參考圖 06｜目前 VRoid 加工版，遊戲內｜Blender 第一版，遊戲內｜Blender 渲染圖，手放下）：
+
+![溫書瑀三方比較](screenshots/v94_CHAR_heroine_05_blender_3way.jpg)
+
+**遊戲渲染器裡的 VRoid 版與 Blender 版**（同一個 test_charlook 頁面、同樣的光）：
+
+![溫書瑀 VRoid 版與 Blender 版](screenshots/v94_CHAR_heroine_05_blender_lookdev.jpg)
+
+**遊戲內六視角＋走路＋實際遊戲畫面**（溫州街小公園前，11:00，網址 `?blchar`）：
+
+![溫書瑀 Blender 版遊戲內](screenshots/v94_CHAR_heroine_05_blender_ingame.jpg)
+
+**動作**（坐溫州街小公園的長椅——坐姿第二版；自己走上霖澤館大廳的樓梯）：
+
+![溫書瑀 Blender 版動作](screenshots/v94_CHAR_heroine_05_blender_motion.jpg)
+
+**表情**（遊戲的 three-vrm 載入：一般、眨眼、張嘴、微笑、o 嘴、生氣；15 個表情都在）：
+
+![溫書瑀 Blender 版表情](screenshots/v94_CHAR_heroine_05_blender_expressions.jpg)
+
+**和參考圖比**：
+- 接近的：成熟的臉（六人裡最像大人）、中分往兩旁撥的長瀏海（看得到額頭）、深棕低馬尾（髮圈在後頸）、白襯衫開領紮進卡其褲＋深色皮帶、捲起的袖子、判決節錄資料夾。VRoid 加工版是一排很重的齊瀏海，參考圖沒有。
+- 不一樣的：參考圖的褲子是窄管、往下收，這版是直筒、偏寬；參考圖的鞋看起來是黑色低跟鞋（文字寫樂福鞋，這版照文字做深棕樂福鞋）；參考圖臉部特寫的馬尾從肩膀前面垂下來，這版垂在背後。
+
+**測試**（都是 Playwright 模擬／Node，**不是手機實機**）：
+- `CHAR_FILE=assets/models/char/bl_heroine_05.vrm node tests/stairs_feet_unit.js char.heroine_05`：ALL PASS（上下樓梯穿進台階 0.0 cm）。
+- `sit_feet_unit`：腳底 −0.5 cm、小腿 7°、大腿 11°，PASS。`sim_hair`：走路／瞬移時髮尾最多比站著高 0.4 cm，PASS（馬尾與臉旁碎髮的彈簧骨正常）。
+- `?blchar` 實際載入 `bl_heroine_05.vrm`、driver=vrm、沒有退回程序化人物、沒有 JS 例外；遊戲內 `char_review`、`char_motion`、表情檢查都沒有錯誤。
+
+**仍不符合參考圖（誠實列出）**：
+- 頭頂的剪影還有一點一根根翹起來（往後梳的第二層髮片）；遊戲的臉部特寫裡比較明顯。
+- 領子在遊戲裡近看有一點皺（襯衫用的是亞麻布料的貼圖，有皺紋的明暗）；遠看是一個開領。
+- 褲子是直筒偏寬，參考圖是窄管。
+- 臉的五官仍是 VRoid 的畫法；嘴巴張開時口腔是 VRoid 的鮮紅色（六人都一樣）。
+- 上樓梯的第一張截圖裡，一隻手往前伸到肩膀高（走路動畫擺手的那一格，其他人物同一套動畫）。
+
+狀態：`READY_FOR_ART_REVIEW`（美術待使用者驗收，**未標 ART_APPROVED**）。
+
+## 15. 林芷若、陳語彤、高子晴的頭髮彈簧骨（2026-10-10 晚上）
+
+**原本的問題**：這三位的 Blender 版頭髮整束綁在頭骨上，走路、轉身時完全不會動（沈以安、溫書瑀的馬尾本來就有彈簧骨）。
+
+**做法**：新寫的後處理工具 `tools/blender/char/hair_springs.py` 讀人物的 Blender 工作檔（臉、衣服、頭髮都做好了），把耳朵以下的頭髮依方位角分成幾條 2 節的鏈。臉前面 ±60° 不加鏈，因為瀏海、臉旁的頭髮擺起來會掃到臉。權重從頭骨漸變到鏈上，再註冊成 VRM 彈簧骨，匯出後照舊用 `vrm_finish.py` 整理。
+- 林芷若、陳語彤：6 條鏈（後面、斜後方、兩側）。高子晴（到下巴的鮑伯）：4 條鏈，從耳垂高度開始，擺得少。
+- 碰撞體只用上臂。第一次照一般做法把頭、脖子、上胸的碰撞球也算進去，結果後頸那幾束頭髮站著時就在碰撞球裡面（碰撞球比實際的頭和脖子大），一跑起來就被推開 3～4 cm，看起來像頭髮往後飛。拿掉之後是 0.7～1.5 cm，停下來就回到原位。
+- 新的檢查 `tools/dev_scratch/spring_sim/hair_sway.js`：站著 → 往前跑 1 秒 → 急停、0.4 秒內轉身 90° → 再站 1.5 秒，量彈簧骨末端相對頭的偏移。標準：會動（> 0.5 cm）、不超過鏈長（約 60°）、停下後回到 2 cm 內。
+  - 加之前：林芷若「沒有頭髮的彈簧骨」。
+  - 加之後：林芷若 1.5 cm、陳語彤 2.3 cm、高子晴 1.0 cm，都 PASS。
+  - 對照：沈以安的馬尾 20.8 cm、溫書瑀的馬尾 15.8 cm，也 PASS。
+- 模型：`assets/models/char/bl_heroine_0{2,3,4}.vrm` 換成新版；Blender 工作檔另存 `assets/blender/heroine_0{2,3,4}_work_v2.blend`，第一版保留。
+
+**遊戲內檢查**（`?blchar`，溫州街小公園前，`char_review.py`）：背面、側面、臉部特寫沒有破圖、頭髮沒有被拉開。擺動很小，靜態截圖看不出來，要在遊戲裡走路才看得到。
+
+![頭髮彈簧骨（背面、側面、臉）](screenshots/v94_CHAR_hair_springs.jpg)
+
+**測試**（Node／Playwright 模擬，**不是手機實機**）：三人的 `stairs_feet_unit`、`sit_feet_unit`、`hair_sway`、`sim_hair` 都 PASS。
+
+狀態：`READY_FOR_ART_REVIEW`（未標 ART_APPROVED）。
