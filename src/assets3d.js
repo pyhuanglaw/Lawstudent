@@ -47,6 +47,8 @@ const ASSETS = (function(){
     'bldg.classroom_201':{url:'assets/models/env/classroom_201.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/classroom_201.py（配置 src/data/classroom_layout.js；貼圖 Poly Haven CC0；48 張椅子用 EXT_mesh_gpu_instancing）', license:'本作；貼圖 CC0'},
     'char.mixamo_clips':{url:'assets/models/char/mixamo_clips.glb', type:'clips', source:'three.js examples (Xbot.glb, Mixamo)', license:'Mixamo 動畫（Adobe 條款：可用於專案，不可單獨再散布）'},
   };
+  // 網址加 ?nobldg：不載入建築的正式模型（Blender GLB），只看程序化備用模型（新舊比較、載入失敗時的樣子）
+  if(typeof location!=='undefined'&&/[?&]nobldg\b/.test(location.search||'')) for(const k of Object.keys(A.manifest)) if(k.startsWith('bldg.')) delete A.manifest[k];
   // ---- placeholder fallbacks（procedural；LEVEL_BLOCKOUT）----
   A.fallbacks={
     'tree.palm':(o)=>W3.palm(o.height||9), 'tree.leafy':(o)=>W3.banyan((o.height||6)/6), 'tree.conifer':(o)=>W3.banyan((o.height||6)/6), 'prop.bench':()=>W3.bench(),
