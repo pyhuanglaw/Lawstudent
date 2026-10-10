@@ -1607,8 +1607,8 @@ def face_marks(v):
         if not m['name'].startswith('Face'): continue
         for p in m['primitives']:
             nm = mats[p['material']]['name']; q = v.acc(p['attributes']['POSITION'])[np.unique(v.acc(p['indices']).astype(np.int64))]
-            for k in ('EyeWhite', 'FaceBrow', 'FaceMouth', 'Face_00_SKIN'):
-                if k in nm: out[k] = (q.min(0), q.max(0), q)
+            for k in ('EyeWhite', 'FaceBrow', 'FaceMouth', 'Face_00_SKIN'):   # 同一種材質可能分成好幾個 primitive：全部合起來量
+                if k in nm: q2 = np.concatenate([out[k][2], q]) if k in out else q; out[k] = (q2.min(0), q2.max(0), q2)
     return {'eye_y': float((out['EyeWhite'][0][1] + out['EyeWhite'][1][1]) / 2), 'eye_top': float(out['EyeWhite'][1][1]),
             'brow_y': float((out['FaceBrow'][0][1] + out['FaceBrow'][1][1]) / 2), 'brow_lo': float(out['FaceBrow'][0][1]),
             'mouth_y': float((out['FaceMouth'][0][1] + out['FaceMouth'][1][1]) / 2), 'chin_y': float(out['Face_00_SKIN'][0][1]),
@@ -1634,6 +1634,34 @@ def nose_bridge(v, amount=0.006, y0=None, y1=None, half_w=0.022):
         P[sel, 2] -= amount * wx * wy
         return P
     return deform_mesh(v, 'Face', fn, lambda nm: 'Face_00_SKIN' in nm)
+
+
+def face_slim(v, narrow=0.07, chin=0.006, z_front=-0.03, z_back=0.02):
+    """臉型：眼睛以下的臉往中線收窄（越往下巴越多，最多 narrow 比例）、下巴往下拉長 chin 公尺（二次曲線：越接近下巴越多）。
+    只動臉的前半部（z < z_front 全部、到 z_back 漸減為 0），耳朵與脖子接縫不動。整個臉網格（臉皮、嘴、眼睛以下的部分）一起變形，表情 morph 照樣疊上去。
+    VRoid 女性樣本的下半臉偏圓（像小孩），參考圖是鵝蛋臉、下巴比較尖"""
+    fm = face_marks(v); y0 = fm['eye_y'] - 0.008; y1 = fm['chin_y']
+    def fn(P, sel):
+        y = P[sel, 1]; z = P[sel, 2]
+        t = np.clip((y0 - y) / (y0 - y1), 0, 1)
+        wz = np.clip((z_back - z) / (z_back - z_front), 0, 1)
+        P[sel, 0] *= 1 - narrow * t * wz
+        P[sel, 1] -= chin * t * t * wz
+        return P
+    return deform_mesh(v, 'Face', fn)
+
+
+def hair_tuck_sides(v, y_top, head_r, keep=0.4, front_z=-0.06, back_z=0.06):
+    """兩側的頭髮往頭收：y_top 以下、臉前（z < front_z）以外、後腦（z > back_z）以外的頭髮，離中線的距離超過 head_r 的部分壓成 keep 倍
+    （綁高馬尾時側邊頭髮往後梳，輪廓貼著頭；原本兩側各伸出 9 cm，正面看像短鮑伯）。y_top 附近漸進。只改頂點位置"""
+    def fn(P, sel):
+        x, y, z = P[sel, 0], P[sel, 1], P[sel, 2]
+        side = (z >= front_z) & (z <= back_z) & (np.abs(x) > head_r) & (y < y_top + 0.02)
+        w = np.clip((y_top + 0.02 - y) / 0.04, 0, 1) * side
+        ax = np.abs(x); nx = head_r + (ax - head_r) * (1 - (1 - keep) * w)
+        P[sel, 0] = np.sign(x) * np.where(side, nx, ax)
+        return P
+    return deform_mesh(v, 'Hair', fn)
 
 
 def fit_to_body(v, mat_pat, keep=0.45, gap=0.012, y_min=None, y_max=None, skin_pat='Body_00_SKIN'):
@@ -1753,7 +1781,7 @@ def build_heroine_01():
     smooth_normals_region(v, 'Tops_Sweater', POCKET_RECT)
     waist = joint_y(v, 'Hips') + 0.07
     cut_below(v, 'Tops_Sweater', waist)
-    print('  heroine_01: culled under pants', wide_pants(v, donor, 'F00_901_Bottoms_Pants_CLOTH', '#596377', amount=0.045, straight=True, start=0.12))
+    print('  heroine_01: culled under pants', wide_pants(v, donor, 'F00_901_Bottoms_Pants_CLOTH', '#7b8595', amount=0.045, straight=True, start=0.12))   # v9.4：#596377（看起來像牛仔褲）→ 淺藍灰（參考圖 01 的寬褲）
     remove_prims(v, ['F00_002_01_Shoes'])
     mi, sh = transplant(v, shino, 'Shoes', 'F00_903_Shoes_Loafer_CLOTH'); hide_covered(v, sh)
     recolor_mat(v, 'Shoes_Loafer', '#3b2a20', strength=0.85)
@@ -1763,7 +1791,11 @@ def build_heroine_01():
     print('  heroine_01: painted inner tris', paint_skin(v, '#e3d8c6', joints=('Spine', 'Chest', 'Bust', 'Shoulder', 'UpperArm'), y_max=joint_y(v, 'Neck') - 0.045))
     print('  heroine_01: culled skin under top', hide_covered(v, garment_of(v, 'Tops_Sweater'), max_d=0.11, eps=0.04, max_tan=0.055, skip_joints=('Shoulder', 'UpperArm', 'Chest')))
     recolor_mat(v, 'HAIR', '#3a2619', strength=0.9, keep_detail=1.0)
-    print('  heroine_01: eye verts scaled', scale_eyes(v, 0.88, 0.86))
+    print('  heroine_01: eye verts scaled', scale_eyes(v, 0.84, 0.8))   # v9.4 外觀驗收：0.88／0.86 → 0.84／0.8
+    fm = face_marks(v)
+    print('  heroine_01: face slim verts', face_slim(v, narrow=0.08, chin=0.007))   # 下半臉收窄、下巴稍長（參考圖 01：鵝蛋臉）
+    print('  heroine_01: nose bridge verts', nose_bridge(v, 0.005, half_w=0.016))
+    print('  heroine_01: side hair tucked verts', hair_tuck_sides(v, fm['eye_y'] + 0.03, 0.118, keep=0.35))   # 兩側頭髮貼著頭（高馬尾），正面不再像鮑伯
     no_outline(v, 'Tops_Sweater')
     no_hair_shine(v); soften_matcap(v)
     return finish(v, FEMALE_EYES, '#5a3a26', '沈以安（法條之外）', 'Based on VRoid CC0 samples "HairSample_Female" + sweater/trousers from "HairSample_Male" + loafers from "Sendagaya Shino" (pixiv); modified for 法條之外')
