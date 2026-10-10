@@ -1,0 +1,6 @@
+shot docs/art-rebuild/second_ai/shots/south_before_south_vista_1100.png {'zone': 'wenzhou', 'hour': 11, 'hud': '週三 11:00', 'player': [51.5, 7], 'cam': [51.6, 1.7, 7.5], 'mode': 'cinematic'} errors: []
+shot docs/art-rebuild/second_ai/shots/south_before_south_vista_1730.png {'zone': 'wenzhou', 'hour': 17.5, 'hud': '週三 17:30', 'player': [51.5, 7], 'cam': [51.6, 1.7, 7.5], 'mode': 'cinematic'} errors: []
+shot docs/art-rebuild/second_ai/shots/south_before_south_vista_2030.png {'zone': 'wenzhou', 'hour': 20.5, 'hud': '週三 20:30', 'player': [51.5, 7], 'cam': [51.6, 1.7, 7.5], 'mode': 'cinematic'} errors: []
+shot docs/art-rebuild/second_ai/shots/south_before_north_vista_1730.png {'zone': 'wenzhou', 'hour': 17.5, 'hud': '週三 17:30', 'player': [51.5, -6], 'cam': [51.6, 1.7, -6.5], 'mode': 'cinematic'} errors: []
+shot docs/art-rebuild/second_ai/shots/south_before_west_end_1730.png {'zone': 'wenzhou', 'hour': 17.5, 'hud': '週三 17:30', 'player': [-24, 0.5], 'cam': [-24, 1.7, 0.5], 'mode': 'cinematic'} errors: []
+shot docs/art-rebuild/second_ai/shots/south_before_follow_south_1730.png {'zone': 'wenzhou', 'hour': 17.5, 'hud': '週三 17:30', 'player': [51.5, 9], 'cam': [51.5, 2.58, 3.88], 'mode': 'follow'} errors: []
