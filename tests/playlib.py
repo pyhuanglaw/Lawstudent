@@ -191,6 +191,12 @@ async def go_to(pg, cdp, run, tx, tz, near, label, max_s=420, lv=None):
         s = await state(pg)
         d = math.hypot(tx - s['x'], tz - s['z'])
         if d <= near and (lv is None or s.get('lv', 0) == lv):
+            # 還在走（路線還沒走完）：真人會等人物停下來再看按鈕、按按鈕。不等的話，人物經過座位旁那一瞬間按鈕是「坐下」
+            # （2026-10-10：flow_linze_floors 在 201 往後門走、離目標 0.67 m 時就檢查，按鈕還是最上排座位的「坐下」，停下來後才是「離開教室」）
+            t1 = time.time()
+            while s['path'] and time.time() - t1 < 12:
+                await pg.wait_for_timeout(500); s = await state(pg)
+            d = math.hypot(tx - s['x'], tz - s['z'])
             run.note(f'到達「{label}」附近（{d:.2f} m）：點地面 {taps} 次、轉鏡頭 {turns} 次、搖桿 {joys} 次，{time.time()-t0:.0f} 秒'); return True
         if last is None or math.hypot(s['x'] - last[0], s['z'] - last[1]) > 0.3: last = (s['x'], s['z']); last_prog = time.time()
         if s['busy'] or s['dlg'] or s['choices']:

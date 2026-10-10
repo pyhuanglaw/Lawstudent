@@ -7,8 +7,8 @@
 手機優先的 3D life RPG：玩家「祐廷」是台大法律系一年級學生，在參考台大、公館、溫州街生活圈的 3D 世界裡自由走動、上課、讀書、認識人；重要對話切到 2D ADV（日系 visual novel 式立繪＋對話框）。three.js（純靜態檔，無 npm 相依）。
 
 - 線上（GitHub Pages）：https://pyhuanglaw.github.io/Lawstudent/ ——推到 `main` 就自動重新部署。
-- 目前版本：**v9.3 已部署在 `main`（2026-10-10，PR #1 合併，`0ef3a73`）**；之後的開發在開發分支（2026-10-10 起是 `claude/confident-ritchie-8rwh7t`，由舊分支 `claude/friendly-brahmagupta-6bbkzc` 快轉接續，歷史相同；**每個工作階段以系統指定的分支為準**），驗證完、使用者要求發布時才合併到 `main`（D32）。標題畫面最下面有版本字樣。詳見下方「目前狀態」。
-- **雙 AI 分工（2026-10-10 晚上起，D39）**：第一個 AI「LAWWW」（`session_01Eds6msqpsuzNEw98sdw8JX`，分支 `claude/confident-ritchie-8rwh7t`）負責人物、核心系統、霖澤館、萬才館、整合、發布。第二個 AI「遊戲協作專案」（`session_01AC1WVgJSmoJK1uRsPK2Zn1`，分支 `claude/second-ai-env-art`）負責環境美術：Café、溫州街、街道道具、公館、獨立室內。**交接文件、檔案所有權、通訊與交付流程：`docs/SECOND_AI_HANDOFF.md`；工作看板：`docs/DUAL_AI_BOARD.md`**。兩邊用 claude-code-remote 的 `send_message` 事件驅動聯絡。第二個 AI 不碰 `main`、不發布；成果由第一個 AI merge 進開發分支、跑回歸測試後才能發布。
+- 目前版本：**v9.4 已部署在 `main`（2026-10-10 14:47:16 UTC，`6b9c0dc`；上一個穩定版 v9.3 第 25 批 `cd52bab`）**，發布紀錄與回復方法在 `docs/RELEASES.md`；之後的開發在開發分支（2026-10-10 起是 `claude/confident-ritchie-8rwh7t`，由舊分支 `claude/friendly-brahmagupta-6bbkzc` 快轉接續，歷史相同；**每個工作階段以系統指定的分支為準**），驗證完才合併到 `main`（D32；使用者 2026-10-10 授權：測試通過的成熟成果可以自行發布，兩次發布至少相隔三小時，見 RELEASES.md）。標題畫面最下面有版本字樣。詳見下方「目前狀態」。
+- **雙 AI 分工（2026-10-10 晚上起，D39、D40）**：第一個 AI「LAWWW」（`session_01Eds6msqpsuzNEw98sdw8JX`，分支 `claude/confident-ritchie-8rwh7t`）負責人物、核心系統、霖澤館、萬才館、整合、發布，也負責分派工作。第二個 AI「LAWWW2」（工作階段標題「遊戲協作專案」，`session_01AC1WVgJSmoJK1uRsPK2Zn1`，分支 `claude/second-ai-env-art`）負責環境美術：Café、溫州街、街道道具、公館、獨立室內。**交接文件、檔案所有權、通訊與交付流程：`docs/SECOND_AI_HANDOFF.md`；工作看板：`docs/DUAL_AI_BOARD.md`**。兩邊用 claude-code-remote 的 `send_message` 事件驅動聯絡。第二個 AI 不碰 `main`、不發布；成果由第一個 AI merge 進開發分支、跑回歸測試後才能發布。
 - **（2026-10-10 09:55 起只剩一個工作階段：使用者結束建築組，之後人物與建築都由 `claude/confident-ritchie-8rwh7t` 負責；建築組未完成的事見 `docs/ART_REBUILD_PROGRESS.md` 的「建築組交接」。下面是原本的分工，留作紀錄。）** 兩個平行工作階段（2026-10-10 使用者訂的分工）：人物組（分支 `claude/confident-ritchie-8rwh7t`：主角與五女主模型、臉／髮型／服裝、走跑坐上下樓梯的動畫品質與 footIK、人物模型載入）；建築組（分支 `claude/friendly-brahmagupta-6bbkzc`：霖澤館／萬才館 Blender 模型、穿堂、樓梯、電梯、教室、多樓層導航、校園／公館／溫州街、場景材質光影碰撞、場景整合與回歸測試）。兩邊用 claude-code-remote 的 `send_message` 直接聯絡；改共用檔案（`src/character3d.js`、`src/assets3d.js`、`tests/playlib.py`）前先通知對方；整合前互相 merge 並跑測試；各自向使用者回報（【人物組／建築組｜進度回報】）。只有工作階段實際在跑時才能聯絡。
 - **測試制度（2026-10-10 永久規範，D34）**：`docs/TESTING.md`。真實玩家流程測試不用 `?turbo`、不瞬移、不改劇情狀態；捷徑只能當前置條件並標示；重要測試要在有 bug 的版本失敗、修好的版本通過；不用「N 項全部通過」代替驗收；分清楚手機模擬與真機。
 
@@ -57,6 +57,27 @@
 6. **保持任務連續性**：記錄正在進行的任務、已完成、下一步、阻礙；回覆新訊息後從中斷點接續。不要重做已完成工作，也不要因為使用者提出新問題而自行展開無關長任務。
 7. **需等待決策的例外**：涉及劇情／角色 canon 衝突、可能破壞存檔的高風險操作、使用者明確要求先討論再動手的設計選擇，先問清楚；其餘既定工作照原規劃繼續。
 8. **發布仍須確認**：commit、push、GitHub Pages 實際發布是三件事。使用者要求發布時，驗證線上版本確實包含新改動；不要只報「已 push」就說已發布。
+
+## USER MESSAGE PRIORITY — 使用者即時訊息優先＋雙 AI 即時協作（2026-10-10 使用者訂定，永久，D40）
+
+**使用者的時間優先於 AI 的工作流程便利性。**
+1. 使用者在工作階段傳來新訊息時，先判斷是否需要立即回答。
+2. 使用者說「先回答我」「先分配工作」「先確認這件事」「回覆之後再繼續」時，先回覆，再繼續原本的開發。
+3. 不得為了完成長時間的 Blender 渲染、模型製作、背景代理或測試，延後可以立即回答的問題。
+4. 使用者只是問狀態時，依當下已知的資訊直接回答，不必等整個模型完成。
+5. 回覆不等於停工：回覆之後立即恢復原本的工作。
+6. 不因為使用者插話就放棄或刪除正在進行的工作。
+7. 「等目前任務全部完成再回答」不是預設行為。
+8. 執行環境在工具呼叫期間讀不到新訊息時，在下一個可以處理訊息的時點優先回覆；不假裝能突破平台限制。不可安全中斷的原子操作（匯出、Git）先完成並保存，再處理訊息。
+
+**雙 AI 協作**（分工、檔案所有權、交付流程：`docs/SECOND_AI_HANDOFF.md`；看板：`docs/DUAL_AI_BOARD.md`）：
+- **LAWWW**（第一個 AI，`session_01Eds6msqpsuzNEw98sdw8JX`，分支 `claude/confident-ritchie-8rwh7t`）是主要負責人：技術分工、指定 LAWWW2 的工作範圍、GitHub 整合、正式發布（唯一能發布的一方，兩次發布至少相隔三小時）。**LAWWW2**（第二個 AI，`session_01AC1WVgJSmoJK1uRsPK2Zn1`，分支 `claude/second-ai-env-art`）是環境美術協作組，以 LAWWW 的正式分派為準，不碰 `main`、不發布。
+- **AA、BB 兩個工作階段只和使用者討論劇情，不參與開發**：不分派工作給它們，它們的分工請求不用處理。
+- LAWWW 要讓 LAWWW2 **一直有下一項工作**：一次給足夠長的佇列（目前任務 → 下一項 → 後備 A → 後備 B → 其他候選），佇列快用完、或它回報完成時補充；九小時自主開發期間要隨時注意 LAWWW2 的進度有沒有需要再派工作。不要讓它做完一項就等半小時。也不要因為管理而停止自己的開發（事件驅動，不定時檢查）。
+- **所有雙 AI 訊息都要讓使用者看得到**：送出時在對話裡顯示「【雙 AI 通訊｜LAWWW → LAWWW2】」＋內容或忠實摘要＋狀態＋要不要回覆；收到時顯示「【雙 AI 通訊｜LAWWW2 → LAWWW｜已收到】」＋內容＋怎麼處理＋是否已回 ACK。重要訊息一定要真的用 claude-code-remote 的 `send_message` 傳，不能只寫在自己的對話裡。
+- **狀態分清楚**：SENT（已送出）／DELIVERED（工具確認送達）／ACKNOWLEDGED（對方明確回覆收到）／ACTIONED（對方已照做）。不能把送達說成對方已讀或同意；工具只確認送達時，由接收方主動回 ACK。
+- **優先級**：P0 立即處理（使用者要求先回覆或決策、另一方發現會破壞成果的衝突、要緊急暫停合併或發布、線上版本嚴重錯誤）；P1 在最近的安全工作節點回覆（對方正式開工、分工與檔案所有權、交付可整合的成果、要改共用檔、發布前整合確認）；P2 一般進度可以累積再處理。不要重送同一則訊息催對方。
+- 直接通訊不可用時，改用 `docs/DUAL_AI_BOARD.md`（push 到自己的分支）當備援通道，並寫明；不要因為通訊不通就停工。
 
 ## AI 長期合作、溝通與開發工作規範（2026-10-09 使用者訂定，持續有效）
 
@@ -188,7 +209,7 @@ python3 build.py
 ## 目前狀態（v9 WIP：3D 美術重建進行中）
 
 - **3D 美術重建 v1 正在進行**（需求：`docs/history/specs/20_*`；即時進度：`docs/ART_REBUILD_PROGRESS.md`；畫面驗收：`docs/art-rebuild/VISUAL_REVIEW.md`）。
-- **v9.4（2026-10-10 起，開發分支，還沒發布）：多樓層＋Blender 正式模型**（需求：`docs/history/specs/21_*`、`22_*`；D36 分層導航方案 A、D37 霖澤館室內、D38 永久美術規範）。
+- **v9.4（2026-10-10 14:47 UTC 已發布，`6b9c0dc`）：多樓層＋Blender 正式模型**（需求：`docs/history/specs/21_*`、`22_*`；D36 分層導航方案 A、D37 霖澤館室內、D38 永久美術規範）。
   - 引擎：每層一張 `E3.NavGrid`（同尺寸、同原點）＋格子高度（`addSurf`：平台 `{y}`、斜面 `{axis,ya,yb}`；`tread/rise/low`＝畫面上一階一階的高度）；樓梯格子兩層共用、高度相同的地方可以換層；`gridPath` 是（層, 格）的 A*。人物有 `lv`、真的 `y`（`settleY` 用 `visualHeightAt`）；`E.nav` 永遠是玩家那一層。存檔 `pos.lv`、`pos.y`（舊存檔預設第 0 層）。**改任何導航或區域幾何要跑 `node tests/nav_levels_unit.js`、`node tests/nav_buildings_unit.js`**。
   - 霖澤館：穿堂可以走（0.9 m）；室內是 `linze` 區域（`src/building3d.js`、配置 `src/data/linze_layout.js`：大廳、雙跑樓梯、玻璃電梯、二樓迴廊、201 教室門；三樓以上整修中）；201 是階梯教室（`src/data/classroom_layout.js`，48 個座位都能坐）。
   - Blender（`/opt/blenv/bin/python tools/blender/<腳本>.py`；共用 `tools/blender/b3lib.py`；貼圖 Poly Haven CC0 在 `tools/blender/textures/`）：`linze_interior.py`、`classroom_201.py`、`linze_exterior.py` → `assets/models/env/*.glb`（`ASSETS` 的 `type:'building'`）。程序化版本留作導航與載入失敗的備用（D38 分類 ③）。遊戲沒有環境貼圖：金屬度上限 0.45（`b3lib.MAX_METAL`）。

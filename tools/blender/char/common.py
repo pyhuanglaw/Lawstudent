@@ -118,6 +118,23 @@ def delete_by_material(obj, pats):
     return n
 
 
+def extract_by_material(obj, pats, name, drop_groups_prefix=None):
+    """複製一份 obj，只留材質名稱含 pats 的面（例：VRoid 原本的上衣 'Tops'），當作新衣服的權重來源；
+    drop_groups_prefix：頂點權重有一半以上在這些骨頭（例 'J_Sec_'：帽兜、抽繩）上的面也拿掉"""
+    o = obj.copy(); o.data = obj.data.copy(); o.name = name
+    (obj.users_collection[0] if obj.users_collection else bpy.context.scene.collection).objects.link(o)
+    if o.data.shape_keys is not None: o.shape_key_clear()
+    mats = [m.name if m else '' for m in o.data.materials]
+    keep = np.array([any(p in mats[p_.material_index] for p in pats) for p_ in o.data.polygons])
+    if drop_groups_prefix:
+        names = [g.name for g in o.vertex_groups]; sec = np.zeros(len(o.data.vertices))
+        for v in o.data.vertices:
+            sec[v.index] = sum(g.weight for g in v.groups if names[g.group].startswith(drop_groups_prefix))
+        keep &= np.array([not all(sec[i] > 0.5 for i in p_.vertices) for p_ in o.data.polygons])
+    delete_faces(o, ~keep)
+    return o
+
+
 # ---------------- 骨頭 ----------------
 def descendants(arm, name):
     b = arm.data.bones[name]; out = []

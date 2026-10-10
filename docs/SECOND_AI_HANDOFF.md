@@ -3,6 +3,8 @@
 - 建立：2026-10-10 晚上（台灣時間），由第一個 AI 寫（工作階段「LAWWW」）。依據是使用者的〈雙 Claude Code 工作階段分工與即時協作指令〉。
 - 這份文件給第二個 Claude Code 工作階段（環境美術）。新的工作階段讀完這份＋`CLAUDE.md` 就可以開工，不必再問使用者專案背景。
 - 分工有變動時由第一個 AI 改這份文件，並用訊息通知第二個 AI。工作看板在 [`docs/DUAL_AI_BOARD.md`](DUAL_AI_BOARD.md)。
+- **名稱（使用者 2026-10-10 晚上確定）**：第一個 AI＝**LAWWW**（主要負責人、工作分配者、整合者、唯一的正式發布者）；第二個 AI＝**LAWWW2**（環境美術協作組，以 LAWWW 的正式分派為準）。另外兩個工作階段 **AA、BB 只和使用者討論劇情，不參與開發**，不用回應它們的分工請求。
+- **2026-10-10 晚上更新**：使用者訊息優先、雙 AI 訊息要讓使用者看得到、ACK 與 P0／P1／P2 規則（第 10 節，CLAUDE.md「USER MESSAGE PRIORITY」、D40）；LAWWW2 的九小時工作佇列（第 3 節開頭）。
 
 ---
 
@@ -10,11 +12,11 @@
 
 | 項目 | 內容 |
 |---|---|
-| 你是誰 | **第二個 AI**：環境美術（Blender 場景資產＋把自己的場景接進遊戲）。工作階段 `session_01AC1WVgJSmoJK1uRsPK2Zn1`（「遊戲協作專案」，2026-10-10 12:45Z 開） |
+| 你是誰 | **第二個 AI「LAWWW2」**：環境美術（Blender 場景資產＋把自己的場景接進遊戲）。工作階段 `session_01AC1WVgJSmoJK1uRsPK2Zn1`（標題「遊戲協作專案」，2026-10-10 12:45Z 開） |
 | 你的分支 | **`claude/second-ai-env-art`**，基底是第一個 AI 的開發分支。如果平台另外指定了分支，以平台為準，並用訊息告訴第一個 AI 分支名稱 |
-| 第一個 AI | 工作階段 `session_01Eds6msqpsuzNEw98sdw8JX`（「LAWWW」），分支 `claude/confident-ritchie-8rwh7t`（開發主線）。負責人物、核心系統、霖澤館、萬才館、整合、發布 |
+| 第一個 AI | **LAWWW**：工作階段 `session_01Eds6msqpsuzNEw98sdw8JX`，分支 `claude/confident-ritchie-8rwh7t`（開發主線）。負責人物、核心系統、霖澤館、萬才館、整合、發布，也負責分派 LAWWW2 的工作（使用者 2026-10-10 授權） |
 | 通訊 | claude-code-remote MCP 的 **`send_message`**（`session_id` 填對方的 ID），2026-10-10 已確認雙向可用。用名稱定址的 `SendMessage` 到不了對方 |
-| 第一項任務 | **兩點半 Café**：溫州街東端路口那棟的外觀，加上 `cafe` 室內區域，用 Blender 正式模型接進遊戲。驗收方式見第 3 節 |
+| 目前任務 | **兩點半 Café**（外觀＋`cafe` 室內，Blender 正式模型接進遊戲）→ 溫州街近景 → 後備 A 街道道具 → 後備 B 獨立室內 → 公館、校園地標。佇列見第 3 節開頭 |
 | 絕對不能做 | 改 `main`、發布 GitHub Pages、force push、改劇情／角色設定／存檔格式、改第一個 AI 擁有的檔案（第 5 節）、標 `ART_APPROVED` |
 | 交付 | 一次完成一個場景，做到遊戲內可驗收 → push 自己的分支 → `send_message` 通知第一個 AI（commit、檔案、測試、截圖）→ 第一個 AI merge 進開發分支、跑回歸測試 → 接著做下一個 |
 
@@ -22,7 +24,8 @@
 
 ## 1. 遊戲目前的狀態（2026-10-10）
 
-- **線上版（`main`）**：v9.3（`cd52bab`，2026-10-10 08:38Z 部署）。發布紀錄：[`docs/RELEASES.md`](RELEASES.md)。
+- **線上版（`main`）**：**v9.4**（`6b9c0dc`，2026-10-10 14:47:16Z 部署；上一個穩定版 v9.3 第 25 批 `cd52bab`）。下一次發布最早 17:47:16Z（兩次發布至少相隔三小時）。發布紀錄：[`docs/RELEASES.md`](RELEASES.md)。
+- **人物**：沈以安、祐廷的 Blender 版第一版完成（`READY_FOR_ART_REVIEW`），網址加 `?blchar` 才載入，預設仍是 VRoid 加工版。
 - **開發分支 `claude/confident-ritchie-8rwh7t`（v9.4，還沒發布）**：
   - 多樓層導航（D36）。
   - 霖澤館外觀、室內（大廳、樓梯、電梯、二樓）、201 階梯教室都換成 Blender 正式模型（`tools/blender/linze_*.py`、`classroom_201.py` → `assets/models/env/*.glb`）。
@@ -97,6 +100,17 @@
 ---
 
 ## 3. 第二個 AI 的工作佇列（一次一個場景，做到可驗收再接下一個）
+
+**2026-10-10 晚上 LAWWW 正式派給 LAWWW2 的九小時佇列**（做完一項自己接下一項，不必等 LAWWW 回覆；LAWWW 在佇列快用完或收到完成通知時補充）：
+
+| 順序 | 工作 | 備註 |
+|---|---|---|
+| 目前 | 兩點半 Café 外觀＋室內（第一項） | 已接進 `wenzhou`／`cafe` 區塊（`a72f85d`）。補齊下面的驗收後發「可整合」訊息；17:00Z 前通知、LAWWW merge＋回歸測試通過，就會進下一版 |
+| 下一項 | 溫州街近景（第二項） | `tools/blender/env_second/wz_street.py` 已開始 |
+| 後備 A | 街道道具的 Blender GLB（第三項） | 資產先在自己的目錄做；換掉 `world3d.js` 的 `W3.lampPost`／`bike`／`bikeRack`／`scooter` 之前先通知 LAWWW（校園也在用） |
+| 後備 B | 獨立室內：`cvs` → `noodle` → `bookstore` → `dorm`（第五項） | 開工前發一句「認領 xxx 區塊」就可以開始；`dorm` 改之前跑 `movement_regression` 的 A 段 |
+| 其他 | 公館近景（第四項）、校園地標 GLB（第六項） | 公館：認領 `gongguan` 區塊，動到店面時通知 LAWWW 改校園那邊的背景；校園地標：交 GLB＋接法建議，由 LAWWW 接進校園 |
+| 整合示範 | 17:30 祐廷與沈以安站在 Café 外（目標圖 07） | Café merge 後由 LAWWW 拍；LAWWW2 可以先提供最好的 Café 外鏡頭（`tools/shots/scene_shot.py` 的 JSON） |
 
 每一項都走同樣的流程：參考圖 → 比例與構造 → Blender `bpy` 建模 → PBR 材質 → GLB → 接進遊戲 → 驗證導航／碰撞／互動 → 三個時段的遊戲內截圖（新舊比較）→ push → 通知 AI-1。
 
@@ -203,7 +217,7 @@
 | 範圍 | 擁有者 | 另一方可以做什麼 |
 |---|---|---|
 | `tools/blender/env_second/**`（Blender 腳本、自己的工具 lib、工作檔）、`assets/models/env/second_ai/**`（GLB、貼圖）、`docs/art-rebuild/second_ai/**`（進度、VISUAL_REVIEW、截圖） | AI-2 | AI-1 只讀 |
-| `src/zones3d.js` 的 `const cafe={...}`、`const wenzhou={...}` 兩個區塊 | AI-2 | AI-1 不改。需要改時先發訊息 |
+| `src/zones3d.js` 的 `const cafe={...}`、`const wenzhou={...}` 兩個區塊，包括溫州街的建置函式 `buildWenzhou` 與它用到、放在它旁邊的 Café 專用 helper（例如 `attachCafeExterior`、`cafe*`） | AI-2 | AI-1 不改。需要改時先發訊息 |
 | `src/zones3d.js` 的 `gongguan`、`cvs`、`noodle`、`bookstore`、`dorm` 區塊 | 認領後歸 AI-2 | 開工前發訊息「認領」，AI-1 回覆後就不碰 |
 | `src/zones3d.js` 其他部分：`campus`、`linze`、`classroom`、`wancai`、`library` 區塊、共用 helper（`room()`、`chair()`、`desk()`、`shelfWall()`、`attachRoomGLB()`、`attachExterior()`……）、`ZONES` 表 | AI-1 | AI-2 可以**呼叫** helper，不改它們。需要不同行為就在自己的區塊裡另寫 |
 | `src/townkit3d.js`（街道套件 TK） | AI-2 | AI-1 不改。`TK.bgCity`（校園背景用）、`TK.addNight`／`TK.bounce`／`TK.lightPool`（全遊戲共用）的行為要改之前，AI-2 先通知 |
@@ -295,6 +309,13 @@
 ---
 
 ## 10. 通訊（事件驅動，不定時問候）
+
+**2026-10-10 晚上使用者訂的永久規則（D40，兩邊都照做）**：
+- **讓使用者看得到**：送出時在自己的對話顯示「【雙 AI 通訊｜LAWWW → LAWWW2】」（或反方向）＋內容或忠實摘要＋狀態＋要不要回覆；收到重要訊息時顯示「【雙 AI 通訊｜LAWWW2 → LAWWW｜已收到】」（或反方向）＋摘要＋怎麼處理＋是否已回 ACK。重要訊息一定要真的用 `send_message` 傳。
+- **狀態**：SENT（已送出）／DELIVERED（工具確認送達）／ACKNOWLEDGED（對方明確回覆收到）／ACTIONED（對方已照做）。工具只確認送達，所以接收方要主動回 ACK。
+- **優先級**：P0 立即（使用者要求先回覆或決策、會破壞對方成果的衝突、緊急暫停合併或發布、線上嚴重錯誤）；P1 在最近的安全工作節點回覆（開工、分工與檔案所有權、交付可整合成果、要改共用檔、發布前確認）；P2 一般進度（可以累積）。不重送同一則訊息催對方。
+- **使用者訊息永遠優先**：使用者要求先回覆、先決定、先分工時，下一個可以處理訊息的時點先回，再恢復施工；不可安全中斷的原子操作先完成並保存。
+- **備援通道**：`send_message` 不通時，寫進 `docs/DUAL_AI_BOARD.md` 自己那一節並 push，訊息裡寫明是備援；不要因為通訊不通就停工。
 
 - 工具：claude-code-remote MCP 的 `send_message`（`session_id`＝對方的 ID）。另一邊的訊息會以新的一輪送進對方的工作階段。
   - 對方可能正在忙，送達後就繼續做不衝突的工作。
