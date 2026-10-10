@@ -13,6 +13,7 @@ run nav_levels_unit       node tests/nav_levels_unit.js
 run nav_buildings_unit    node tests/nav_buildings_unit.js
 for c in char.yuting char.heroine_01 char.heroine_02 char.heroine_03 char.heroine_04 char.heroine_05; do run "stairs_feet_${c#char.}" node tests/stairs_feet_unit.js "$c"; done
 run sim_hair              node tools/dev_scratch/spring_sim/sim_hair.js
+run sit_feet_unit         node tests/sit_feet_unit.js
 run deploy_check          python3 tests/deploy_check.py "$URL" $VER
 run model_upgrade         python3 tests/model_upgrade.py "$URL" "$OUT/model_upgrade"
 run zone_transitions      python3 tests/zone_transitions.py "$URL"
