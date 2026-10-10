@@ -26,11 +26,11 @@ AA、BB 兩個工作階段只和使用者討論劇情，不參與開發。訊息
 
 | # | 工作 | 狀態 | 主要檔案 | 最新 commit | 測試 | 已整合 | 等美術驗收 |
 |---|---|---|---|---|---|---|---|
-| 1 | 兩點半 Café（外觀＋室內） | **`READY_FOR_ART_REVIEW`**（功能 `FUNCTIONAL_VERIFIED`；等 AI-1 merge、等使用者看美術） | `tools/blender/env_second/`（`cafe_layout.py` 外觀與室內共用配置）、`assets/models/env/second_ai/cafe_*.glb`、`zones3d.js` 的 `cafe`／`wenzhou` 區塊（含 `buildWenzhou`、模組層級的 Café 小函式）、`assets3d.js` 標記區、`tests/cafe_glb_integration.py` | 交付 commit 見下方訊息紀錄 | `cafe_glb_integration` 62 項、`reachability_all`（wenzhou,cafe）、`zone_transitions`、`p0_movement`、`touch_flow_wenzhou` 都 ALL PASS（Playwright 手機模擬，不是實機）；16 組前後截圖 | 否（等 AI-1） | 是 |
-| 2 | 溫州街近景（主巷 14 棟公寓、日式宿舍＋院牆、電線桿／反光鏡／路名牌／Café 門前紅磚道、小公園） | 進行中：四個 Blender GLB 已建好、在本機接進 `wenzhou` 區塊（`INTEGRATED`，還沒 push）；整合測試 `tests/wz_street_integration.py` 寫好；接下來跑回歸測試＋三時段新舊截圖 | `tools/blender/env_second/wz_*.py`、`assets/models/env/second_ai/{wenzhou_street,wz_jphouse,wz_props,wz_park}.glb`、`wenzhou` 區塊 | — | 執行中 | 否 | 是（完成後） |
-| 3 | 街道道具（機車、腳踏車、行道樹、盆栽、路燈、長椅） | 排隊 | `townkit3d.js`、`world3d.js` 的四個函式（先通知 AI-1） | — | — | — | — |
+| 1 | 兩點半 Café（外觀＋室內） | **`READY_FOR_ART_REVIEW`**（功能 `FUNCTIONAL_VERIFIED`）；**已交付 16:1xZ（`2ffd7d5`，整合示範截圖 `e9d8d80`），等 AI-1 merge**、等使用者看美術 | `tools/blender/env_second/`（`cafe_layout.py` 外觀與室內共用配置）、`assets/models/env/second_ai/cafe_*.glb`、`zones3d.js` 的 `cafe`／`wenzhou` 區塊（含 `buildWenzhou`、模組層級的 Café 小函式）、`assets3d.js` 標記區、`tests/cafe_glb_integration.py` | `2ffd7d5`、`e9d8d80` | `cafe_glb_integration` 62 項、`reachability_all`（wenzhou,cafe）、`zone_transitions`、`p0_movement`、`touch_flow_wenzhou` 都 ALL PASS（Playwright 手機模擬，不是實機）；16 組前後截圖＋整合示範 2 張 | 否（等 AI-1） | 是 |
+| 2 | 溫州街近景（主巷 14 棟公寓＋曬衣服＋雨痕、日式宿舍＋院牆、電線桿／反光鏡／路名牌／Café 門前紅磚道、小公園＋後牆、機車兩款） | **驗收中**（16:25Z 開始：整合測試＋回歸＋三時段新舊截圖；和第 5 項的便利商店一起）。在暫存分支 `second-ai-wz-tmp`（本機工作目錄），驗收過了才 merge 進 `claude/second-ai-env-art` | `tools/blender/env_second/wz_*.py`、`scooter.py`、`assets/models/env/second_ai/{wenzhou_street,wz_jphouse,wz_props,wz_park,scooter}.glb`、`wenzhou` 區塊、`tests/wz_street_integration.py` | （驗收後） | 執行中 | 否 | 是（完成後） |
+| 3 | 街道道具（機車、腳踏車、行道樹、盆栽、路燈、長椅） | 機車已做（只在 wenzhou 區塊換成 InstancedMesh，隨第 2 項驗收；沒有改 `TK.scooter`、`W3.*`）；腳踏車、行道樹、盆栽、路燈、長椅排隊 | `townkit3d.js`、`world3d.js` 的四個函式（先通知 AI-1） | — | — | — | — |
 | 4 | 公館近景（騎樓店面、捷運出口） | 排隊（開工前認領 `gongguan` 區塊） | `gongguan` 區塊 | — | — | — | — |
-| 5 | 獨立室內（便利商店、麵店、書店、宿舍） | 排隊（開工前認領各區塊） | 各室內區塊 | — | — | — | — |
+| 5 | 獨立室內（便利商店、麵店、書店、宿舍） | `cvs` 已認領、驗收中（和第 2 項一起）；`noodle`、`bookstore` 已認領、Blender GLB＋接法做好（第二個暫存工作目錄），下一批驗收；`dorm` 還沒開始 | `cvs`／`noodle`／`bookstore` 區塊、`tools/blender/env_second/{cvs,noodle,bookstore}_interior.py`、`tests/cvs_glb_integration.py`、`tests/interior_glb_integration.py` | — | — | — | — |
 | 6 | 校園地標（傅鐘、校門、總圖、行政大樓）的 Blender 模型 | 排隊（開工前跟 AI-1 協調接法） | `tools/blender/env_second/` | — | — | — | — |
 
 ## 訊息紀錄（重要的才記；送不到對方時寫在這裡）
@@ -49,3 +49,6 @@ AA、BB 兩個工作階段只和使用者討論劇情，不參與開發。訊息
 - 2026-10-10 13:59–14:03Z：另外兩個工作階段（AA `session_019Y3emYqxxC4Ch1GGf4fMzw`、BB `session_01XVHYLaK9Vcnae3U1aAJoZv`）傳來分工請求，隨即自行撤回：使用者更正它們是劇情企劃組，不做實作、不分配開發工作。AI-1 不需要處理，看板分工不變。
 - 2026-10-10 15:39Z：AI-2（LAWWW2）→ AI-1（P1，ACK）：已讀 2eacc4a（D40、九小時佇列）；Café 驗收收尾、預計 17:00Z 前通知可整合；溫州街近景進行中。DELIVERED。
 - 2026-10-10 15:44Z：AI-2 → AI-1（P1）：認領 `cvs` 區塊（便利商店室內）。DELIVERED。
+- 2026-10-10 16:1xZ：AI-2 → AI-1（P1）：可整合：兩點半 Café（`2ffd7d5`）；檔案、測試、截圖、merge 方式。DELIVERED，等 ACK。
+- 2026-10-10 16:2xZ：AI-2 → AI-1（P2）：Café 整合示範截圖（`e9d8d80`）。DELIVERED。
+- 2026-10-10 16:2xZ：AI-2 → AI-1（P1）：認領 `noodle`、`bookstore`。DELIVERED。
