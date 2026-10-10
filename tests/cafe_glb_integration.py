@@ -24,7 +24,9 @@ URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'art-rebuild', 'second_ai', 'test_shots', 'cafe_glb_integration')
 SEATS = [(4.5, -3.3, 0), (4.5, -1.7, 3.1416), (4.5, 0.7, 0), (4.5, 2.3, 3.1416), (0, 0.7, 0), (0, 2.3, 3.1416), (-4, 1.7, 0), (-4, 3.3, 3.1416)]   # twoTop：先 z−0.8（朝 +z）再 z+0.8（朝 −z）
 
-WAIT_FORMAL_EXT = "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.userData&&o.userData.formal)) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()"
+# 等 Café 那一棟（套件 14×13、x＝55.4）接上正式模型：不能等「任何一個物件有 formal」——溫州街公寓的正式模型接上時，那些套件公寓也會標 formal，
+# 先載完的話測試會在 Café 還沒接上時就開始檢查（2026-10-10 遠景公寓那批的 GLB 變大、載入順序變了才發現）
+WAIT_FORMAL_EXT = "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; const c=z&&z.group.children.find(o=>{ const f=o.userData&&o.userData.footprint; return f&&f.w===14&&f.d===13&&Math.abs(o.position.x-55.4)<0.05; }); if(c&&c.userData.formal) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()"
 WAIT_FORMAL_INT = "(async()=>{ for(let i=0;i<240;i++){ if(GAME.E.zone&&GAME.E.zone.formal) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()"
 NAV_HASH = "(()=>{ const n=GAME.E.nav; let h=0; for(let i=0;i<n.b.length;i++){ h=(h*31+n.b[i]+i%7)>>>0; } return [n.cols,n.rows,h, n.b.reduce((a,v)=>a+(v?1:0),0)]; })()"
 

@@ -232,7 +232,7 @@ Blender 渲染比對（同一個鏡頭、同樣的燈光；左＝減量前的模
 
 ### 2.6 遊戲內截圖（修改前｜修改後）
 
-實際遊戲畫面（`tools/blender/env_second/shots/fast_shots.py`：和 `tools/shots/scene_shot.py` 同一種清單格式，只是同一種畫面大小只載入一次遊戲；清單 `tools/blender/env_second/shots/street_{before,after}.json`）。修改前＝`?nobldg`，修改後＝一般網址，同一個鏡頭、同一個時段；演出鏡頭時人物與 NPC 藏起來。 **修改後的截圖是第二輪減量（2.5.1）之後重拍的**。
+實際遊戲畫面（`tools/blender/env_second/shots/fast_shots.py`：和 `tools/shots/scene_shot.py` 同一種清單格式，只是同一種畫面大小只載入一次遊戲；清單 `tools/blender/env_second/shots/street_{before,after}.json`）。修改前＝`?nobldg`，修改後＝一般網址，同一個鏡頭、同一個時段；演出鏡頭時人物與 NPC 藏起來。 **修改後的截圖是遠景公寓（第 5 節）做完之後重拍的**（含第二輪減量）。
 
 | 鏡頭 | 修改前（程序化套件） | 修改後（Blender 正式模型） |
 |---|---|---|
@@ -459,3 +459,54 @@ Cycles、點光代替遊戲的燈（遊戲裡是自發光的日光燈管＋天�
 | ![](test_shots/interior_glb_integration/05_dorm_formal.png) | ![](test_shots/interior_glb_integration/06_dorm_formal_from_back.png) |
 
 （測試的截圖，畫面下方是遊戲開場的對話框；`?nobldg` 與麵店、書店的同一組截圖在同一個資料夾。）
+
+---
+
+## 5. 溫州街遠景公寓（巷底、巷口兩端、Café 往南／往北的路）
+
+LAWWW 2026-10-10 的工作順序第 ③ 項「Café 往南看的街底」。施工護欄**保留**（看得懂的邊界，D36 不做隱形牆），護欄外的街景換成正式模型。
+
+### 5.1 玩家會看到什麼不同
+
+| | 修改前 | 修改後 |
+|---|---|---|
+| Café 往南看（施工護欄外） | 套件的遠景公寓（`detail:false`：平的窗貼圖、沒有鐵窗、沒有窗台） | 和主巷同一套 Blender 公寓：長條磁磚／馬賽克外牆、鋁窗＋窗簾、窗內房間（傍晚、晚上有的亮燈）、樓板線、女兒牆、水塔、一樓鐵門／鐵捲門、少數鐵窗 |
+| Café 往北看 | 同上（套件） | 同上（正式模型） |
+| 巷子西端（日式宿舍後面那一段） | 巷底那棟住家公寓（`endB`）是近景套件，兩側遠景是套件 | 巷底那棟換成正式模型（陽台、鐵窗、冷氣、曬衣服、鐵門、信箱），兩側遠景也換 |
+
+**沒有改的東西**：導航、鏡頭碰撞（遠景公寓的 `addCollider` 照舊）、施工護欄、路、行道樹、互動點。正式模型載入失敗或 `?nobldg` 時照舊是套件。
+
+### 5.2 製作方式與效能
+
+- `wz_street.py` 的 `SPECS` 加 15 棟（巷底 `W0` 近景、遠景 `F1`–`F4`、`S1`–`S4`、`N1`–`N4`、`W1`、`W2`），和主巷 14 棟在**同一個 GLB、同一套材質與窗戶原型**裡（同材質整條巷子一個網格、instancing 共用原型）→ **draw call 不增加**。
+- 遠景（`far`）細節少一點：沒有雨遮、冷氣、曬衣服、盆栽，鐵窗只有約 15%（instancing 的原型整條巷子一組，任何鏡頭都整組畫出來；遠景加太多會超過三角形預算）。
+- 鐵窗、窗框的細鐵條去掉看不到的端蓋（每根 8 個三角形，原本 12）：近景也一起變輕。
+- `wenzhou_street.glb`：2.20 MB（原本 1.34 MB）、25,872 個三角形（畫出 125,982；原本 95,100）、材質 26 個（不變）。同一個鏡頭（量法同 2.5.1）：**draw call 268／224／274**（比第二輪減量後的 277／239／283 還少：遠景的套件公寓不用畫了），**三角形 39.4／36.7／39.5 萬**（≤ 42 萬，但餘裕剩約 2.5 萬：之後在溫州街加東西要先量）。
+
+### 5.3 測試結果
+
+測試都是 Playwright 手機模擬（不是 iPhone 實機）；log 在 `docs/art-rebuild/second_ai/test_logs/street_south/`。
+
+`wz_street_integration` 42、`cafe_glb_integration` 62、`cvs_glb_integration` 39、`reachability_wenzhou_cafe_cvs` 14、`zone_transitions` 37、`p0_movement` 34、`touch_flow_wenzhou` 21、`see_through` 11，**全部 ALL PASS**。`wz_street_integration` 的效能檢查（三個鏡頭 draw call ≤ 310、三角形 ≤ 42 萬）在這一版照樣通過。
+
+`cafe_glb_integration` 第一次跑有 3 項失敗：測試等「任何一個物件有 formal」就開始檢查 Café，這一版溫州街公寓先接上正式模型（也會標 formal），測試在 Café 還沒接上時就檢查了。改成「等 Café 那一棟接上」之後重跑 ALL PASS（截圖清單的同一個等待條件也一起改）。這個時序問題之前就存在，只是剛好沒碰到。
+
+### 5.4 遊戲內截圖（修改前｜修改後）
+
+| 鏡頭 | 修改前（程序化套件） | 修改後（Blender 正式模型） |
+|---|---|---|
+| Café 往南看（施工護欄外） 11:00 | ![修改前](shots/south_before_south_vista_1100.webp) | ![修改後](shots/south_after_south_vista_1100.webp) |
+| Café 往南看（施工護欄外） 17:30 | ![修改前](shots/south_before_south_vista_1730.webp) | ![修改後](shots/south_after_south_vista_1730.webp) |
+| Café 往南看（施工護欄外） 20:30 | ![修改前](shots/south_before_south_vista_2030.webp) | ![修改後](shots/south_after_south_vista_2030.webp) |
+| Café 往北看 17:30 | ![修改前](shots/south_before_north_vista_1730.webp) | ![修改後](shots/south_after_north_vista_1730.webp) |
+| 巷子西端（巷底那棟） 17:30 | ![修改前](shots/south_before_west_end_1730.webp) | ![修改後](shots/south_after_west_end_1730.webp) |
+| 玩家鏡頭往南（手機直向） 17:30 | ![修改前](shots/south_before_follow_south_1730.webp) | ![修改後](shots/south_after_follow_south_1730.webp) |
+
+溫州街主巷的修改後截圖（2.6）也在這一版重拍（巷子往西的鏡頭看得到巷底那棟）。
+
+### 5.5 還沒達到參考品質的地方
+
+1. 遠景公寓的一樓只有住家鐵門／鐵捲門，沒有店面招牌（套件原本也沒有）；遠景沒有騎樓。
+2. 往南、往北的路盡頭還是天空（沒有橫向的街）；遠景的電線桿、機車還是沒有（只有主巷有）。
+3. 正式模型的鐵窗是直條鐵窗；套件原本巷底那棟有拱形花紋的鐵窗（台灣老公寓常見），這次沒有做花紋款。
+4. 沒有 iPhone 實機驗證。
