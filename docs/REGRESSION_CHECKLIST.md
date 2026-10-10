@@ -28,6 +28,11 @@
 | `python3 tests/joystick_direction.py http://127.0.0.1:8765/index.html` | **永久回歸：搖桿方向（2026-10-10 加）**：鏡頭 8 個角度（0°、45°…315°，直接設）× 搖桿往上／右／下／左，玩家走的方向要和畫面上推的方向一致（≤ 25°）；再用手指拖曳轉鏡頭到側面、推搖桿往上要往畫面前方走。第二十五批之前的版本（`92acd48`）在 45°、90°、270° 失敗 | 約 5 分鐘 |
 | `python3 tests/flow_main_day12.py http://127.0.0.1:8765/index.html` | **第三層真實玩家流程：第一、二天主線**：不用 turbo、不讀檔，從標題開新遊戲 → 宿舍 → 點地面走到書桌讀案例 → 睡覺 → 第二天 → 走進霖澤館上課 → 下課離開 → 選單存檔 → 重新整理 → 讀檔 → 走得動 | 約 20–40 分鐘 |
 | `python3 tests/save_compat_v7.py http://127.0.0.1:8791/index.html http://127.0.0.1:8790/index.html` | **發布前**（2026-10-10 加）：8791 開 `main` 舊版（v7）的乾淨 checkout，開新遊戲寫出真正的 v7 存檔＋抽 v7 各區域走得到的 48 個位置；新版啟動前把 v7 存檔放進 localStorage（同網址升級）：標題畫面不覆蓋、「繼續」讀得進來且資料一樣、站得住走得動、欄位 1、48 個位置 | 約 5–10 分鐘 |
+| `node tests/nav_levels_unit.js` | **v9.4 多樓層（Node，幾秒）**：分層導航引擎——單層時的找路結果和改版前（`92acd48`）完全相同（300 組 × 2 種模式）；兩層＋樓梯：上下樓找路、樓梯中段高度、換層、跨層的 A* | 約 10 秒 |
+| `node tests/nav_buildings_unit.js` | **v9.4 多樓層（Node）**：用真的區域程式建校園、霖澤館、201 教室：穿堂 0.9 m、前後台階、從廣場走到後面中庭、大廳 → 樓梯 → 二樓、電梯車廂、48 個座位站得住且走得到、上課劇情走到座位、離開教室；改 `zones3d.js`、`building3d.js`、`campuskit3d.js` 的 `lawhall`、`classroom_layout.js`、`linze_layout.js` 時一定要跑 | 約 30 秒 |
+| `node tests/stairs_feet_unit.js [char.yuting]` | **v9.4 走樓梯的腳步（Node）**：角色上樓梯、下樓梯（霖澤館尺寸），footIK 開／關各走一次，量腳穿進台階多深、支撐腳離地多高（開：穿進 < 4.5 cm、離地 < 5 cm，而且比關掉時好）；改 `character3d.js` 的動畫或 footIK 時跑 | 約 1 分鐘 |
+| `python3 tests/flow_linze_floors.py http://127.0.0.1:8765/index.html` | **v9.4 第三層真實玩家流程（最高驗收標準）**：廣場 → 穿堂 → 穿過建築 → 大廳 → 自己走樓梯上二樓 → 201 坐下起身 → 在二樓存讀檔 → 電梯 → NPC 上下樓 → 走出建築回廣場（見 `docs/TESTING.md` 第八節） | 約 30–60 分鐘 |
+| `python3 tools/dev_scratch/linze_shots.py URL 輸出資料夾 標籤` | （截圖用，不判定）霖澤館外觀四個固定鏡頭 × 11:00／17:30／20:30；新舊比較用（8790＝線上版副本） | 約 10 分鐘 |
 | `python3 tools/dev_scratch/view_audit.py URL spec.json 輸出資料夾 [方向數=8]` | （畫面盤點，人工看圖）把玩家放到 spec 裡的每個位置，用一般跟隨鏡頭轉一圈各拍一張，拼成一張對照表：找「轉鏡頭看到大片空地、地面盡頭、孤立建築」的角度（v9.3 第十八～二十批用 33 個位置，spec 範例見 ART_REBUILD_PROGRESS） | 約 40 分鐘（33 個位置） |
 | `python3 tools/dev_scratch/cine_multi.py URL spec.json [寬] [高]` | （截圖用，不判定）一次載入、連拍多個固定鏡頭（演出鏡頭）；同一個區域＋時間只載入一次，比 `tools/shots/scene_shot.py` 快很多。改前改後比較圖用同一份 spec 對兩個版本各跑一次 | 每張約 30 秒 |
 
@@ -38,6 +43,7 @@
 | 移動與鏡頭 | `engine3d.js`（stepEntity、updateCamera、input、樹幹透視）、`game3d.js`（搖桿、sitAt/standUp） | p0、movement_regression、touch_flow；改 updateCamera 或樹幹透視時加跑 see_through |
 | 地形與碰撞 | `zones3d.js` 任何幾何或 NavGrid（`blockRect/blockOutside/open`）、出生點、出入口座標 | 改校園時加跑 campus_layout_nav；改公館時加跑 gongguan_layout_nav（出入口座標要和 p0 的「公館店門口」出生點一起改）；p0（含溫州街）、movement_regression E、touch_flow；加家具、改 `blockRect` 之後跑 `nav_islands.py` |
 | NPC 導航 | `story3d.js` 的 walkRoutes／bikeRoutes、`engine3d.js` updateNPC | 截圖確認 NPC 不在牆裡、touch_flow |
+| 樓層與高度（v9.4，D36） | `engine3d.js` 的 NavGrid 高度面（`addSurf`、`heightAt`、`visualHeightAt`）、`gridPath`（跨層找路）、`switchLevel`、`settleY`、`screenToFloor`、`updateLevelVis`；`building3d.js`（霖澤館室內、電梯）；`zones3d.js` 的教室平台、`ckPlace` 的 `surfs`；`campuskit3d.js` 的 `lawhall`（穿堂、台階）；`character3d.js` 的 footIK；存檔的 `pos.lv`、`pos.y` | nav_levels_unit、nav_buildings_unit、stairs_feet_unit（Node）；flow_linze_floors、flow_class_real、p0、save_compat_v7 |
 | 人物朝向與動畫 | `character3d.js`（buildVRM、animateVRM、setBonesV）、`assets3d.js`（cloneVRM）、`tools/vroid_build.py` 重建的模型 | 角色展示截圖（正側背、走跑坐交談）、教室座位朝向、touch_flow 坐下；改到彈簧骨、`updateVRM` 或重建有頭髮的模型時跑 `sim_hair.js` |
 | 場景切換 | `game3d.js` enter／applySave、各區域 exits、入口互動點與出來的出生點座標 | zone_transitions、touch_flow（溫州街 ↔ Café）、movement_regression E |
 | 日夜與天氣 | `engine3d.js` applyTime／KEY、區域的 `applyTimeOutdoor`、`townkit3d.js` setNight、區域的 `sunYaw`（D29） | 同位置 11:00／17:30／20:30 截圖；新增戶外區域或改區域方向時，中午椰子樹、路燈的影子要往北倒（太陽在南邊） |
