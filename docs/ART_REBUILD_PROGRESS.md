@@ -71,6 +71,8 @@
 - 19:54 看實際遊戲截圖發現：宿舍前牆淡出後，門邊牆上的掛勾架＋兩條毛巾浮在畫面前景（這些網格不在 `WALL_front` 群組，牆淡出時沒有一起淡出）；後牆的冷氣、冷氣管、窗簾桿、窗簾也一樣。用 GLB 節點外框掃過四間室內，只有宿舍有。已交給 LAWWW2（P1，修法：改名進牆的群組＋新增測試）。
 - 20:05–20:20 **坐姿第二版**：在麵店實際坐下（像玩家一樣按「坐下吃麵」、選乾麵）看到第一版修正的問題——腳是踩到地了，但小腿斜 47°、腳伸到桌子底下 70 cm，像半躺著。改成先把大腿往上抬（膝蓋比臀部高一點、小腿方向不變），抬到上限（水平以上 17°）還不夠才讓小腿往前伸：六位主要人物小腿 6～8°、大腿 10～13°、腳底 −0.4～−0.6 cm。`tests/sit_feet_unit.js` 多檢查小腿 ≤ 25°、大腿 ≤ 20°（第一版 FAIL、第二版 PASS）。麵店、溫州街小公園長椅、Café 窗邊雙人桌截圖（CHARACTER_REVIEW 第 13 節）。CHARACTER_REVIEW 第 11–13 節的圖原本放錯資料夾（根目錄 `screenshots/`），移到 `docs/art-rebuild/screenshots/`，文件裡的圖現在都看得到。
 - 20:26–20:41 **整合 LAWWW2 的溫州街第二輪減量**（`a58b517` → merge `c9dbdf3`）：同一鏡頭 draw call 322→277、286→239、329→283（目標 ≤ 310；比舊的程序化版多 26～27%），三角形 33～36 萬。回歸全部通過：touch_flow_wenzhou、see_through、wz_street_integration 42、cafe_glb_integration 62、cvs_glb_integration 39、interior_glb_integration 101、zone_transitions、reachability_all 全遊戲（Playwright 手機模擬）。
+- 20:41–20:55 **整合 LAWWW2 的宿舍貼牆修正**（`6374654` → merge `1f95ca9`）：掛勾、毛巾、冷氣、窗簾、月曆、傳單跟著牆淡出；新測試修改前 FAIL、修改後 PASS。回歸全部通過：interior_glb_integration 104、movement_regression 42/42、p0_movement 34、zone_transitions、reachability_all 全遊戲。
+- 20:56 **v9.4.2 發布候選**：版本字樣 v9.4.2、script 版本號 9.4-3；內容見 `docs/RELEASES.md`（溫州街近景、四間室內、玻璃與宿舍修正、坐姿第二版、`?blchar` 多陳語彤和高子晴）。九小時授權期之後才能發布（最早 21:59 UTC），**要使用者核准**；發布前測試在乾淨 worktree 執行。
 - 20:20– 溫書瑀 Blender（人物生產線第六位）開工：`heroine_05.py`（Sendagaya Shino、頭縮 0.90）、`p05_face`（成熟的鵝蛋臉）、`p05_clothes`（白襯衫：開領＋自己做的領子網格、門襟＋扣子、捲起的袖口；卡其直筒褲、深棕皮帶、深棕樂福鞋）、`p05_hair`（從沈以安的高馬尾改成低馬尾＋中分長瀏海，馬尾有彈簧骨）。發現：Shino 樣本的身體在原本上衣下面沒有胸口（VRoid 匯出時刪掉），V 領會看到洞——補一片胸口皮膚；Shino 的頭髮材質有一張加亮的 MatCap，頭頂斜著看一圈白光——關掉（林芷若、陳語彤、高子晴的 Blender 版也有這張 MatCap，遊戲內要再確認）。
 
 ### 正在做（v9.4 人物：Blender 正式製作——示範角色沈以安，2026-10-10 11:00 起，使用者指示）
