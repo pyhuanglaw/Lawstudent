@@ -12,7 +12,7 @@ FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': Tru
 START = (34, -98)
 # 名稱, 出發區域, 入口 label, 目的區域, 目的區域的出口 label, 回到出發區域時預期的位置
 CASES = [('霖澤館（教室）', 'campus', '進入霖澤館', 'classroom', '離開教室', (34, -97.6)),
-         ('萬才館', 'campus', '進入萬才館', 'wancai', '離開萬才館', (79.5, -92.2)),
+         ('萬才館', 'campus', '進入萬才館', 'wancai', '離開萬才館', (93.8, -98.4)),
          ('總圖', 'campus', '進入總圖書館', 'library', '離開圖書館', (80, 0)),
          ('宿舍', 'campus', '回宿舍', 'dorm', '離開宿舍', (20, 54)),
          ('校門 → 公館', 'campus', '走出校門', 'gongguan', '回到校園', (-119, 0))]
