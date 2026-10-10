@@ -33,11 +33,12 @@ PART = -6.0              # 分線的方位角（度）：略偏人物的右邊
 TIE_ELEV = 50.0          # 綁點的仰角（度，從頭的中心往正後方量）：後腦上方偏高
 PONY_BONES = 6
 SIDE_BONES = 3
+PONY_HIT = 0.04          # 馬尾彈簧骨的碰撞半徑：馬尾朝身體那一側約 4 cm 厚，走路、急轉身時不會壓進背（之後穿毛衣也留了厚度）
 SEED = 20261010
 
 # 髮際線（方位角 → 仰角，度；方位角 0＝前額正中、90＝人物左耳、180＝後頸）：前額 → 太陽穴 → 耳前的鬢角 → 越過耳朵上緣 → 耳後 → 後頸
-HAIRLINE = [(0, 35), (20, 34), (35, 31), (50, 21), (58, 11), (66, 4), (74, 2), (82, 4), (90, 6), (100, 4),
-            (108, -10), (118, -32), (132, -50), (150, -60), (165, -64), (180, -66)]
+HAIRLINE = [(0, 35), (20, 34), (35, 31), (50, 21), (58, 10), (66, 2), (74, -1), (82, 0), (90, 1), (100, 0),
+            (108, -10), (118, -34), (132, -54), (150, -64), (165, -69), (180, -72)]
 
 # ---------------- 小工具 ----------------
 def _unit(v):
@@ -329,7 +330,7 @@ def apply(m):
     def vol(a):     # 髮殼加厚：頭頂／前額蓬、兩側貼、後腦中等
         a = abs(((a + 180) % 360) - 180); ca = math.cos(math.radians(a))
         sa = abs(math.sin(math.radians(a)))
-        return 0.0080 + 0.0050 * max(ca, 0) ** 1.2 + 0.0030 * sa ** 2 + 0.0010 * max(-ca, 0)   # 前額頭頂蓬、兩側耳上也有一點蓬度
+        return 0.0095 + 0.0065 * max(ca, 0) ** 1.2 + 0.0045 * sa ** 2 + 0.0010 * max(-ca, 0)   # 前額頭頂蓬、兩側耳上也有蓬度（參考圖頭髮離頭皮約 2 cm）
 
     def off_shell(a, v):
         return 0.0022 + vol(a) * float(sstep(0.0, 0.42, v)) * (1 - 0.35 * float(sstep(0.72, 0.95, v))) + 0.0065 * float(sstep(0.82, 1.0, v))
@@ -390,6 +391,13 @@ def apply(m):
     for sgn in (1, -1):
         for a in (45, 52, 59, 66):
             swept(sgn * (a + rng.uniform(-2, 2)), -0.03 - 0.02 * rng.random(), 0.34 + 0.1 * rng.random(), 0.0042, 0.62, 'wisp', nseg=10, bulge=0.0015)
+    # 後頸幾束沒收進馬尾的短碎髮（參考圖背面）：從髮際線稍上方往下垂 3～4 cm
+    for a in (-163, -148, 152, 168):
+        b0_ = hairline_beta(a) + 7; q = []
+        for k in range(8):
+            t = k / 7; d = sph(a + 4 * t * np.sign(a), b0_ - 22 * t); q.append(c + d * (H.R(d) + 0.0045 + 0.003 * t))
+        Q = H.push(np.array(q), 0.004); Dq = _unit(Q - c); Tq = tangents(Q)
+        mb.ribbon(Q, _unit(np.cross(Dq, Tq)), Dq, 0.010, 'wisp', 'head', np.zeros(len(Q)), arch=0.0, both=True)
     # （試過頭頂另外加拱起的細碎髮：遊戲裡在頭的剪影上變成一條條暗色的「電線」，拿掉）
     n_swept = len(mb.F) - n_shell
 
@@ -451,6 +459,19 @@ def apply(m):
             width = (0.024 - 0.010 * sstep(0.12, 0.42, s / L) + 0.004 * sstep(0.5, 0.85, s / L)) * wfac * (0.5 + 0.5 * sstep(0.0, 0.12, s / L))
             mb.ribbon(P + nrm * dx, sd2, _unit(n2 * 0.5 + nrm * 0.3 + np.array([0, -0.45, 0.15])), width, reg, grp, s, arch=0.14, both=True)   # 法線偏向前方：亮度和瀏海接近
         side_chains[grp] = (P, s, jaw)
+        # 臉頰旁較短的碎髮（太陽穴 → 顴骨 → 下顎，剛體）：和長的臉旁碎髮一起做出參考圖那種包住臉側的層次
+        for a_r, a_m, wq in ((49, 57, 0.015), (55, 63, 0.011)):
+            q = []
+            d = sph(sgn * a_r, 24); q.append(c + d * (H.R(d) + 0.0035))
+            d = sph(sgn * (a_r + 5), 4); q.append(c + d * (H.R(d, True) + 0.007))
+            d = sph(sgn * a_m, -22); q.append(c + d * (H.R(d, True) + 0.008))
+            q.append(np.array([sgn * (0.064 + 0.006 * (a_m - 57) / 6), -0.044, jaw + 0.012]))
+            Q = catmull(np.array(q), 10); Q, sq = resample(Q, 16)
+            Q = H.push(Q, np.r_[0.0035, 0.005, np.full(len(Q) - 2, 0.0065)])
+            D = _unit(np.column_stack([Q[:, 0], -0.5 + 0.6 * Q[:, 1], 0.2 * np.ones(len(Q))])); Tq = tangents(Q)
+            D = _unit(D - Tq * np.sum(D * Tq, 1)[:, None]); sdq = _unit(np.cross(D, Tq))
+            wq_ = wq * (0.5 + 0.5 * sstep(0.0, 0.15, np.linspace(0, 1, len(Q))))
+            mb.ribbon(Q, sdq, D, wq_, 'lock', 'head', np.zeros(len(Q)), arch=0.12, both=True)
         # 耳前短碎髮（剛體）
         Q = []
         for k in range(9):
@@ -471,21 +492,22 @@ def apply(m):
     sph_p = colliders(arm, {HEAD, 'J_Bip_C_Neck', 'J_Bip_C_UpperChest', 'J_Bip_C_Spine'})
     i_lift = int(np.searchsorted(s, 0.06))
     for _ in range(3):
-        P = push_spheres(P, sph_p, 0.03, start=i_lift)
+        P = push_spheres(P, sph_p, PONY_HIT, start=i_lift)
         P[i_lift:] = H.push(P[i_lift:], 0.055, H.body, iters=1)
         P[1:-1] = P[1:-1] * 0.5 + (P[:-2] + P[2:]) * 0.25
     P[0] = T0
     NP = 40; P, s = resample(P, NP); L = s[-1]; sn = s / L
     Tn = tangents(P); e1 = np.array([1.0, 0, 0]); e2 = _unit(np.cross(Tn, e1))
     if e2[len(e2) // 2][1] < 0: e2 = -e2        # e2 朝外（離開身體／頭）
-    rr = np.interp(sn, [0, 0.03, 0.08, 0.18, 0.4, 0.65, 0.85, 1.0], [0.013, 0.018, 0.030, 0.040, 0.045, 0.042, 0.035, 0.027])
+    rr = np.interp(sn, [0, 0.03, 0.08, 0.18, 0.4, 0.65, 0.85, 1.0], [0.013, 0.017, 0.026, 0.035, 0.040, 0.038, 0.032, 0.025])
     print('  ponytail length %.3f m, tip %s' % (L, np.round(P[-1], 3)))
     K = 14
     for i in range(K):
         th0 = 2 * math.pi * (i + rng.uniform(-0.15, 0.15)) / K; tw = rng.uniform(-0.25, 0.25)
         th = th0 + tw * np.sin(np.pi * sn)
         rho = rr * rng.uniform(0.93, 1.05) * (1 + 0.10 * sstep(0.8, 1.0, sn))
-        radial = np.cos(th)[:, None] * e1 * 1.12 + np.sin(th)[:, None] * e2 * 0.88
+        fx = (0.95 + 0.15 * sstep(0.12, 0.45, sn))[:, None]; fy = (1.0 - 0.1 * sstep(0.12, 0.45, sn))[:, None]   # 綁點附近圓、往下垂的部分略扁（從背後看不會一開始就很寬）
+        radial = np.cos(th)[:, None] * e1 * fx + np.sin(th)[:, None] * e2 * fy
         cen = P + radial * rho[:, None]
         nrm = _unit(np.cos(th)[:, None] * e1 + np.sin(th)[:, None] * e2)
         side = _unit(np.cross(nrm, Tn))
@@ -553,7 +575,7 @@ def apply(m):
     for grp, (names, js) in sides.items(): chain(Gs == grp, names, js)
     tot = sum(wts.values()); tot[tot < 1e-6] = 1
     C.bind(obj, arm, {k: v / tot for k, v in wts.items() if v.max() > 1e-4})
-    C.add_spring_group(arm, 'Hair_Ponytail', [pony[0]], stiffness=0.85, gravity=0.45, drag=0.5, hit_radius=0.03,
+    C.add_spring_group(arm, 'Hair_Ponytail', [pony[0]], stiffness=0.85, gravity=0.45, drag=0.5, hit_radius=PONY_HIT,
                        colliders={HEAD, 'J_Bip_C_Neck', 'J_Bip_C_UpperChest', 'J_Bip_C_Spine'})
     C.add_spring_group(arm, 'Hair_SideLocks', [sides['sideL'][0][0], sides['sideR'][0][0]], stiffness=1.0, gravity=0.35, drag=0.55, hit_radius=0.012,
                        colliders={HEAD, 'J_Bip_C_Neck', 'J_Bip_C_UpperChest', 'J_Bip_L_UpperArm', 'J_Bip_R_UpperArm'})

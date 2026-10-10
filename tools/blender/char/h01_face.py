@@ -3,13 +3,15 @@
 嘴寬只有兩眼距離的 0.3、下半臉很短），這裡改成參考圖（docs/art-rebuild/references/01_shen_yian_character_sheet.webp）的成年寫實日系臉。
 
 做法（全部在 Blender 裡做，表情跟著變）：
-  1. 局部細分（bpy.ops.mesh.subdivide）：鼻子、嘴、下巴附近加頂點（shape key 由 Blender 線性內插，已驗證誤差 < 1e-7 m）。
+  1. 局部細分（bpy.ops.mesh.subdivide＋BEAUTY 三角化）：下半臉細分一次、鼻子再一次（3158 → 4600 三角形）。
+     shape key、UV、權重由 Blender 線性內插（已驗證誤差 < 1e-7 m）；法向量自己內插（見 subdivide）。
   2. 空間變形（common.warp：同一個平滑位移場套在 Basis 與全部 41 個表情 shape key，眨眼、嘴型仍然對得上）：
-     下半臉加長、眉毛降低、眼睛（眼裂高度、寬度、外眼角上揚）、嘴變寬。
-  3. 表面細節（同一個位移加到 Basis 與全部 shape key）：鼻樑、鼻頭、鼻翼、嘴唇厚度、下巴。
-  4. 法向量：改過形狀的地方用焊接後的平滑法向量重算（臉和身體的接縫維持原本的法向量）。
+     下半臉加長、兩眼往中間靠、眉毛降低、眼睛（眼裂高度、寬度、外眼角上揚）、下巴變圓、嘴變寬。每個變形都檢查 det J > 0（不摺疊）。
+  3. 表面細節（同一個位移加到 Basis 與全部 shape key，張嘴時嘴唇跟著動）：鼻樑、鼻頭、鼻翼、嘴唇厚度、下巴、臉頰；休息時的嘴縫合起來。
+  4. 法向量：VRoid 原本調好的平滑法向量照每個變形的 Jacobian 轉（n' ∝ J^-T n），不從低面數幾何重算（重算會出現放射狀雜紋、亮帶）。
   5. 貼圖（numpy）：先把每個材質的 UV 三角形「點陣化」成每個像素在臉上的 3D 位置（休息姿勢），再用臉上的座標畫：
-     虹膜（深棕、外圈、瞳孔、小高光）、上眼線＋眼尾、下眼線、細睫毛、自然的眉毛、雙眼皮線、唇形與唇色、鼻孔。
+     虹膜（深棕、外圈、瞳孔、小高光；EyeHighlight 網格拿掉）、眼白、上眼線＋眼尾、下眼線、細睫毛、自然的眉毛、雙眼皮線、唇形與唇色、鼻孔；
+     VRoid 畫在臉皮上的「^」、鼻尖線、嘴線拿掉。眉毛／眼線／睫毛／虹膜／眼白的 UV 重新排滿各自的貼圖（解析度用滿）。
 
 座標：Face 物件的網格座標（物件有 180° 旋轉）：+Y＝臉的前方、|x| 越大越靠外側、Z 朝上。
 臉的網格邊界（後腦勺、脖子和身體網格的接縫）全部固定不動（所有變形都乘上 pin 權重）。
@@ -24,15 +26,15 @@ REST = {'Fcl_EYE_Natural': 0.5, 'Fcl_EYE_Close': 0.2}   # = tools/vroid_build.py
 # ---------------- 造型參數（公尺；臉網格座標）----------------
 D_CHIN = 0.009           # 下巴往下（下半臉加長：鼻下到下巴 4.1 → 5.1 cm，接近參考圖的三等分）
 LOW_ZA = 1.438           # 下半臉加長從這個高度開始（鼻頭下方，不拉長鼻子）
-BROW_DROP = 0.0035       # 眉毛降低（參考圖眉眼距離較近）
-EYE_SX, EYE_SZ = 1.06, 0.74   # 眼裂寬、高的縮放（眼睛中心）
+BROW_DROP = 0.0055       # 眉毛降低（參考圖眉眼距離較近）
+EYE_SX, EYE_SZ = 1.06, 0.71   # 眼裂寬、高的縮放（眼睛中心）
 EYE_TILT = 0.10          # 外眼角上揚（z 位移 / x 距離）
 EYE_IN = 0.0040           # 兩眼往中間靠（VRoid 兩眼內眼角距離是 1.5 個眼寬，參考圖約 1 個）
 EYE_LIFT = 0.0006        # 眼睛整體上移一點（眼睛在頭的位置偏低是動畫比例）
 CHIN_WIDEN = 0.45        # 下巴尖端變寬（圓下巴）
 JAW_OUT = 0.0032         # 下顎線中段往外（鵝蛋臉）
-MOUTH_K = 1.55           # 嘴寬倍數（VRoid 嘴縫只有 2.2 cm）
-IRIS_FRAC = 0.50         # 虹膜直徑 / 眼裂寬（參考圖約 0.5）
+MOUTH_K = 1.72           # 嘴寬倍數（VRoid 嘴縫只有 2.2 cm）
+IRIS_FRAC = 0.53         # 虹膜直徑 / 眼裂寬（參考圖約 0.5）
 SUBDIV_L1 = dict(ax=0.056, z0=1.383, z1=1.468, y0=0.045, amin=1.2e-5)   # 下半臉細分一次
 SUBDIV_L2 = dict(ax=0.016, z0=1.430, z1=1.476, y0=0.072, amin=2.0e-6)   # 鼻子再細分一次
 
@@ -244,7 +246,7 @@ def warp_jaw(P, chin_z, pin):
 def warp_mouth(P, zs, pin):
     x, y, z = P[:, 0], P[:, 1], P[:, 2]
     sz = np.where(z > zs, 0.010, 0.012)
-    w = np.exp(-((z - zs) / sz) ** 2) * (1 - ss(0.010, 0.036, np.abs(x))) * front_gate(y) * pin
+    w = np.exp(-((z - zs) / sz) ** 2) * (1 - ss(0.008, 0.046, np.abs(x))) * front_gate(y) * pin
     Q = P.copy(); Q[:, 0] = x * (1 + (MOUTH_K - 1) * w); return Q
 
 
@@ -284,7 +286,7 @@ def nose_field(P, prof, tip_z):
     along = ss(z_t - 0.0045, z_t + 0.002, z) * (1 - ss(z_n - 0.004, z_n + 0.004, z))
     sig = 0.0042 + 0.0022 * t                                            # 鼻樑寬度：鼻根窄、鼻頭寬
     dy = softplus(y_line - ymid) * along * np.exp(-(x / sig) ** 2)
-    dy += 0.0007 * np.exp(-((x / 0.0042) ** 2 + ((z - (tip_z + 0.0004)) / 0.0035) ** 2))    # 鼻頭圓潤
+    dy += 0.0010 * np.exp(-((x / 0.0048) ** 2 + ((z - (tip_z + 0.0002)) / 0.0040) ** 2))    # 鼻頭圓潤
     ala_z = tip_z - 0.0040; ala_x = 0.0088                                                  # 鼻翼（左右小鼓起）＋鼻翼溝
     ra = np.sqrt(((ax - ala_x) / 0.0036) ** 2 + ((z - ala_z) / 0.0027) ** 2)
     dy += 0.0005 * np.exp(-ra ** 2)
@@ -306,8 +308,8 @@ def lip_field(P, slit, mw):
 def cheek_field(P, ez):
     """顴骨下方的臉頰飽滿一點（45 度看比較圓潤，VRoid 臉頰是平的）"""
     x, y, z = P[:, 0], P[:, 1], P[:, 2]; ax = np.abs(x)
-    w = np.exp(-(((ax - 0.046) / 0.014) ** 2 + ((z - (ez - 0.030)) / 0.016) ** 2)) * front_gate(y)
-    D = np.zeros_like(P); D[:, 0] = 0.0012 * w * np.sign(x); D[:, 1] = 0.0016 * w; return D
+    w = np.exp(-(((ax - 0.046) / 0.016) ** 2 + ((z - (ez - 0.033)) / 0.020) ** 2)) * front_gate(y)
+    D = np.zeros_like(P); D[:, 0] = 0.0018 * w * np.tanh(x / 0.01); D[:, 1] = 0.0024 * w; return D
 
 
 def chin_field(P, chin_z):
@@ -336,15 +338,6 @@ def corner_normals(f):
 def vertex_normals_from_corners(f):
     _, _, _, lv = poly_data(f); cn = corner_normals(f); n = np.zeros((len(f.data.vertices), 3))
     np.add.at(n, lv, cn); return n / (np.linalg.norm(n, axis=1, keepdims=True) + 1e-12)
-
-
-def smooth_normals(f, mat_set):
-    """焊接（同位置的重複頂點視為同一點）後的面積加權平滑法向量；只用 mat_set 材質的面"""
-    B = C.co(f); wid = weld_ids(B); TV, _ = tris(f, mat_set)
-    a, b, c = B[TV[:, 0]], B[TV[:, 1]], B[TV[:, 2]]; fn = np.cross(b - a, c - a)
-    acc = np.zeros((wid.max() + 1, 3))
-    for k in range(3): np.add.at(acc, wid[TV[:, k]], fn)
-    n = acc[wid]; return n / (np.linalg.norm(n, axis=1, keepdims=True) + 1e-12)
 
 
 # ---------------- UV 點陣化（每個像素在臉上的位置）----------------
@@ -411,6 +404,17 @@ def blur(a, r):
             c = np.cumsum(np.pad(out, [(r + 1, r) if k == ax_ else (0, 0) for k in range(out.ndim)], mode='edge'), axis=ax_)
             out = (np.take(c, np.arange(2 * r + 1, c.shape[ax_]), axis=ax_) - np.take(c, np.arange(0, c.shape[ax_] - 2 * r - 1), axis=ax_)) / (2 * r + 1)
     return out
+
+
+def dilate_into(rgb, mask, n=4):
+    """UV 島外面的像素（mask=False）用旁邊島內的顏色填（貼圖過濾時島的邊緣才不會混到舊顏色，例如嘴縫下面的亮線）"""
+    rgb = rgb.copy(); m = mask.copy()
+    for _ in range(n):
+        acc = np.zeros_like(rgb); cnt = np.zeros(m.shape)
+        for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            mm = np.roll(m, (dy, dx), (0, 1)); acc += np.roll(rgb, (dy, dx), (0, 1)) * mm[..., None]; cnt += mm
+        new = (~m) & (cnt > 0); rgb[new] = acc[new] / cnt[new][:, None]; m |= new
+    return rgb
 
 
 def mix(a, b, t):
@@ -522,7 +526,7 @@ def apply(m):
     tn1, ta1 = tri_normals(f, None); flip = ((tn0 * tn1).sum(1) < 0) & (ta0 > 1e-9)
     print('  folded triangles after all deformations: %d (degenerate before: %d)' % (flip.sum(), (ta0 <= 1e-9).sum()))
     # 4. 法向量
-    if not os.environ.get('H01_DBG_NONORMAL'): me.normals_split_custom_set_from_vertices([tuple(v) for v in N])
+    me.normals_split_custom_set_from_vertices([tuple(v) for v in N])
     # 5. 貼圖
     paint_all(f)
     print('  face done: verts', len(me.vertices), 'tris', sum(len(p.vertices) - 2 for p in me.polygons))
@@ -541,7 +545,8 @@ def paint_all(f):
     paint_eyeline(f, R, eyes)
     paint_lash(f, R, eyes)
     paint_brow(f, R, eyes)
-    if not os.environ.get('H01_DBG_NOSKIN'): paint_skin(f, R, eyes, loops)
+    paint_eyewhite(f, R, eyes)
+    paint_skin(f, R, eyes, loops)
 
 
 def paint_iris(f, R, eyes):
@@ -628,24 +633,41 @@ def paint_brow(f, R, eyes):
     mi_ = mat_index(f, 'FaceBrow'); mat = f.data.materials[mi_]
     remap_uv(f, mi_, [(0.01, 0.02, 0.49, 0.98), (0.51, 0.02, 0.99, 0.98)])
     W, H = 256, 128; pos, mask = raster(f, mi_, W, H, R)
-    col = np.array([0.37, 0.265, 0.205]); img = np.zeros((H, W, 4)); img[..., :3] = col
+    col = np.array([0.39, 0.28, 0.215]); img = np.zeros((H, W, 4)); img[..., :3] = col
     for s, E in eyes.items():
         sel = mask & ((pos[..., 0] > 0) == (s > 0))
         ax = np.abs(pos[..., 0]); z = pos[..., 2]
         top = E['up'].max()
         b0, bp, b1 = E['a_in'] - 0.0072, E['a_in'] + 0.024, E['a_out'] + 0.0075     # 眉頭、眉峰、眉尾
-        zp = top + 0.0180; z0 = zp - 0.0034; z1 = zp - 0.0048
+        zp = top + 0.0160; z0 = zp - 0.0032; z1 = zp - 0.0046
         t = np.clip((ax - b0) / (b1 - b0), -0.2, 1.2); tp = (bp - b0) / (b1 - b0)
         zc = np.where(t < tp, z0 + (zp - z0) * np.sin(np.clip(t / tp, 0, 1) * np.pi / 2), zp + (z1 - zp) * (np.clip((t - tp) / (1 - tp), 0, 1) ** 1.6))
         hw = np.where(t < tp, 0.0018 - 0.0003 * (t / tp), 0.0015 * (1 - np.clip((t - tp) / (1 - tp), 0, 1)) ** 1.1 + 0.0001)   # 半粗細
         d = z - zc
-        a = (1 - ss(hw - 0.00045, hw + 0.00035, np.abs(d - 0.0002 * (t < tp))))
-        a *= ss(-0.02, 0.07, t) * (1 - ss(0.97, 1.03, t))
-        a *= 0.55 + 0.4 * ss(0.0, 0.25, t)                          # 眉頭淡、眉峰濃
-        strokes = 0.94 + 0.06 * np.cos((ax * 2600 + d * 9000 * (0.6 - 0.5 * t)))   # 很淡的毛流
-        a *= strokes
-        img[sel, 3] = (a * 0.80)[sel]
+        a = (1 - ss(hw - 0.0005, hw + 0.0004, np.abs(d - 0.0002 * (t < tp))))
+        a *= ss(-0.03, 0.09, t) * (1 - ss(0.96, 1.03, t))            # 眉頭羽化、眉尾收細
+        a *= 0.50 + 0.42 * ss(0.0, 0.30, t)                          # 眉頭淡、眉峰濃
+        a *= 1 - 0.28 * ss(-hw, hw, d)                               # 下緣濃、上緣淡（不畫毛流條紋：貼圖解析度低會變成斜條紋）
+        img[sel, 3] = (a * 0.85)[sel]
     im = C.image_from_array('H01_FaceBrow', np.clip(img, 0, 1)); set_tex(mat, im, white=True, shade=(0.85, 0.82, 0.82))
+
+
+def paint_eyewhite(f, R, eyes):
+    """眼白：乾淨的白（VRoid 原本偏灰褐）、上眼瞼下面一條柔和的陰影、眼頭／眼尾略帶粉"""
+    mi_ = mat_index(f, 'EyeWhite'); mat = f.data.materials[mi_]
+    remap_uv(f, mi_, [(0.01, 0.02, 0.49, 0.98), (0.51, 0.02, 0.99, 0.98)])
+    W, H = 256, 128; pos, mask = raster(f, mi_, W, H, R)
+    img = np.ones((H, W, 4)); img[..., :3] = [0.94, 0.92, 0.91]
+    for s, E in eyes.items():
+        sel = mask & ((pos[..., 0] > 0) == (s > 0))
+        ax = np.abs(pos[..., 0]); z = pos[..., 2]; t, du, dl = eye_coords(E, ax, z)
+        col = np.zeros(pos.shape) + [0.95, 0.935, 0.925]
+        col = mix(col, [0.70, 0.62, 0.60], (1 - ss(0.0, 0.0018, -du)) * 0.8)        # 上眼瞼的影子
+        col = mix(col, [0.90, 0.78, 0.77], (1 - ss(0.0, 0.16, t)) * 0.5)            # 眼頭
+        col = mix(col, [0.85, 0.79, 0.77], ss(0.82, 1.0, t) * 0.45)                 # 眼尾
+        img[sel, :3] = col[sel]
+    img[..., :3] = dilate_into(img[..., :3], mask)
+    im = C.image_from_array('H01_EyeWhite', np.clip(img, 0, 1)); set_tex(mat, im, white=True)
 
 
 def paint_skin(f, R, eyes, loops):
@@ -657,12 +679,13 @@ def paint_skin(f, R, eyes, loops):
     #     （鼻子、嘴唇現在是幾何＋下面重畫的唇形，舊記號的位置和新形狀對不上）
     bl = blur(base, 10); dev = np.abs(base[..., :3] - bl[..., :3]).max(-1)
     reg = np.zeros((H, W), bool)
-    for r0, r1, c0, c1 in ((0.43, 0.53, 0.33, 0.67), (0.62, 0.70, 0.47, 0.53), (0.735, 0.79, 0.43, 0.57)):
+    for r0, r1, c0, c1 in ((0.462, 0.50, 0.365, 0.44), (0.462, 0.50, 0.56, 0.635), (0.62, 0.70, 0.47, 0.53), (0.735, 0.79, 0.43, 0.57)):
         reg[int(r0 * H):int(r1 * H), int(c0 * W):int(c1 * W)] = True
-    mk = blur((reg & (dev > 0.03)).astype(float), 3) > 0.02
+    mk = blur((reg & (dev > 0.025)).astype(float), 3) > 0.02
     keep = (~mk).astype(float)[..., None]
     bl2 = blur(base * keep, 14) / np.maximum(blur(keep, 14), 1e-3)
-    out[mk] = bl2[mk]
+    wk = np.clip(blur(mk.astype(float), 2) * 1.5, 0, 1)[..., None]       # 邊緣羽化，不留補丁的邊
+    out[..., :3] = out[..., :3] * (1 - wk) + bl2[..., :3] * wk
     pos, mask = raster(f, skin, W, H, R)
     ax = np.abs(pos[..., 0]); x = pos[..., 0]; z = pos[..., 2]; y = pos[..., 1]
     rgb = out[..., :3]
@@ -670,7 +693,8 @@ def paint_skin(f, R, eyes, loops):
     for s, E in eyes.items():
         sel = mask & ((x > 0) == (s > 0)) & (y > 0.03)
         t, du, dl = eye_coords(E, ax, z)
-        off = 0.0010 + 0.0013 * ss(0.0, 0.65, t)
+        th = 0.0005 + 0.0010 * ss(0.0, 0.45, t) + 0.0006 * ss(0.5, 0.95, t)          # = paint_eyeline 的上眼線粗細
+        off = th + 0.0007 + 0.0008 * ss(0.1, 0.7, t)                                  # 雙眼皮線在眼線上方 0.7～1.5 mm
         a = 0.55 * ss(0.08, 0.35, t) * (1 - ss(0.92, 1.1, t)) * (1 - ss(0.00014, 0.00036, np.abs(du - off)))
         rgb[sel] = mix(rgb[sel], [0.62, 0.42, 0.38], a[sel])
         a2 = 0.16 * ss(0.15, 0.4, t) * (1 - ss(0.95, 1.08, t)) * ss(-0.0002, 0.0002, dl) * (1 - ss(0.0006, 0.0018, dl))
@@ -680,8 +704,8 @@ def paint_skin(f, R, eyes, loops):
     zs = np.interp(ax, sg, sz); d = z - zs
     xn = np.clip(ax / (mw * 1.06), 0, 1.5)
     bow = 1 - 0.20 * np.exp(-(x / 0.0016) ** 2) + 0.05 * np.exp(-((ax - 0.0042) / 0.0022) ** 2)
-    hu = 0.0045 * np.clip(1 - xn ** 2.4, 0, 1) ** 0.55 * bow
-    hl = 0.0064 * np.clip(1 - xn ** 2.0, 0, 1) ** 0.6
+    hu = 0.0049 * np.clip(1 - xn ** 2.4, 0, 1) ** 0.55 * bow
+    hl = 0.0068 * np.clip(1 - xn ** 2.0, 0, 1) ** 0.6
     a_u = (1 - ss(hu - 0.00035, hu + 0.00025, d)) * (d >= -0.0001)
     a_l = (1 - ss(hl - 0.0005, hl + 0.0004, -d)) * (d < 0.0001)
     a = np.maximum(a_u, a_l) * (1 - ss(0.96, 1.12, xn)) * (y > 0.06) * (np.abs(d) < 0.01)
@@ -708,7 +732,7 @@ def paint_skin(f, R, eyes, loops):
     sel = mask & (y > 0.07)
     dsub = np.sqrt((x / 0.0055) ** 2 + ((z - (tip[2] - 0.0058)) / 0.0018) ** 2)
     rgb[sel] = mix(rgb[sel], [0.82, 0.60, 0.55], ((1 - ss(0.4, 1.0, dsub)) * 0.18)[sel])
-    out[..., :3] = np.clip(rgb, 0, 1); out[..., 3] = 1
+    out[..., :3] = np.clip(dilate_into(rgb, mask), 0, 1); out[..., 3] = 1
     im = C.image_from_array('H01_Face_00', out.astype(np.float32))
     set_tex(mat, im)
     e.normal_texture.index.source = None        # 舊的法線貼圖是照舊臉型畫的（遊戲版本來就拿掉）
