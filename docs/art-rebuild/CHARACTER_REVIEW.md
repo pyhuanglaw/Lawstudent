@@ -195,3 +195,11 @@ look-dev 全身比較（上排現在的遊戲版、下排這一輪；兩排都�
 
 測試：`sim_hair char.heroine_03` PASS（最多高 0.006 m）；`stairs_feet_unit char.heroine_03` PASS；遊戲內截圖沒有 JS 錯誤、driver＝vrm。Node／Playwright 模擬，不是手機實機。
 仍不符合參考圖：臉仍是動畫臉、眉毛是上挑的細眉（參考圖是直眉，要重畫貼圖）；頭髮是一片片髮片、瀏海太厚太齊；腋下到背包下緣那段背帶離身體 2～3 cm（包身 30 cm 寬，背帶接在包的兩角；走路時要看）；參考圖的棕色皮帶、手腕髮圈還沒有；T 恤是連帽上衣改的（沒有羅紋領口）；頭身比約 6.5。狀態：美術待使用者驗收。
+
+---
+
+## 8. 高子晴 第一輪（VRoid 加工；**遊戲內截圖驗收未做**，2026-10-10 使用者改要求以 Blender 正式製作人物，這一輪先停在這裡）
+
+`build_heroine_04`：瀏海剪到（縮小後的）眼睛上緣（`edit_strands`＋`trim_fn`）；`bob_reshape`：蘑菇頭 → 耳下鮑伯（到下巴維持寬度、髮尾鈍）；新函式 `refit_hair_joints`：頭髮頂點改形狀之後，髮束彈簧骨跟著移、IBM 重算（不移的話兩側髮尾被重力甩成往外翹的翅膀——look-dev 關掉重力對照確認過）；`scale_eyes` 0.8／0.8、`face_slim` 0.05、`nose_bridge`；`v_neck` 交疊 V 領；外套淺麻灰、`fit_leg_openings` 短褲褲管收合身、球鞋保留鞋底差別。
+吉他袋（`props3d.js` 的 `guitarBag` 加 `x／z／tilt／straps／flat` 參數）：包身置中、幾乎直立、往後移 3.5 cm（舊版下半部插進背 2 cm、琴頸從頭的左上方冒出來像貓耳）；單條斜背帶 → 照她的肩膀與胸口實測路徑的雙肩扁平背帶。
+測試：`sim_hair char.heroine_04` PASS（0.004 m）；`stairs_feet_unit char.heroine_04` PASS。**沒有遊戲內截圖**（被新指令中斷）；look-dev 檢視頁的截圖只當開發參考。狀態：模型完成、整合完成、遊戲內驗收待做。

@@ -66,11 +66,14 @@ const PROPS = (function(){
     const tie=mat('aprt',shadeHex(base,0.8)); g.add(tube([[-0.12,0.3,-0.07],[-0.07,0.42,-0.02],[0,0.47,0.04],[0.07,0.42,-0.02],[0.12,0.3,-0.07]],0.006,tie)); g.add(tube([[-0.19,0.08,-0.05],[-0.17,0.08,0.08],[0,0.08,0.15],[0.17,0.08,0.08],[0.19,0.08,-0.05]],0.006,tie));
     return g; }
   // ---- 吉他袋（高子晴：黑色，背在背上）----
+  // 參數（C.MODEL_PROPS 給 {name:'guitar', ...}）：x、z、tilt＝包身位置與傾斜（預設 0.02、0.2、-0.18）；straps＝雙肩背帶路徑（右邊那一條，左邊鏡射；不給＝舊的單條斜背帶）；flat＝[寬, 厚]
   function guitarBag(o){ o=o||{}; const g=new THREE.Group(); const base=o.color||'#1e1f22'; const cv=mat('gtr',base,fabric('gtr',base,{zip:20}));
     const s=new THREE.Shape(); s.moveTo(0,-0.5); s.bezierCurveTo(0.2,-0.5,0.21,-0.3,0.15,-0.2); s.bezierCurveTo(0.11,-0.14,0.16,-0.04,0.12,0.06); s.lineTo(0.05,0.12); s.lineTo(0.045,0.5); s.lineTo(-0.045,0.5); s.lineTo(-0.05,0.12); s.lineTo(-0.12,0.06); s.bezierCurveTo(-0.16,-0.04,-0.11,-0.14,-0.15,-0.2); s.bezierCurveTo(-0.21,-0.3,-0.2,-0.5,0,-0.5);
     const geo=new THREE.ExtrudeGeometry(s,{depth:0.09,bevelEnabled:true,bevelThickness:0.025,bevelSize:0.02,bevelSegments:3,curveSegments:10}); geo.translate(0,0,-0.045);
-    const bag=new THREE.Mesh(geo,cv); bag.position.set(0.02,-0.12,0.2); bag.rotation.z=-0.18; g.add(bag);
-    const dark=mat('gtrs','#121214'); g.add(strapBand([[0.12,0.13,0.12],[0.12,0.16,0.0],[0.11,0.1,-0.11],[-0.02,-0.12,-0.13],[-0.15,-0.32,-0.04],[-0.13,-0.4,0.14]],0.012,dark));
+    const bag=new THREE.Mesh(geo,cv); bag.position.set(o.x!==undefined?o.x:0.02,-0.12,o.z||0.2); bag.rotation.z=o.tilt!==undefined?o.tilt:-0.18; g.add(bag);
+    const dark=mat('gtrs','#121214');
+    if(o.straps){ for(const sd of [-1,1]){ const pts=o.straps.map(q=>[sd*q[0],q[1],q[2]]); g.add(o.flat?ribbon(pts,o.flat[0],o.flat[1],dark,-0.05):strapBand(pts,0.012,dark)); } }
+    else g.add(strapBand([[0.12,0.13,0.12],[0.12,0.16,0.0],[0.11,0.1,-0.11],[-0.02,-0.12,-0.13],[-0.15,-0.32,-0.04],[-0.13,-0.4,0.14]],0.012,dark));
     return g; }
   // ---- 判決節錄資料夾（溫書瑀：深藍資料夾＋白紙）----
   function folder(o){ o=o||{}; const g=new THREE.Group(); const cv=mat('fold',o.color||'#24324a',null); const f=new THREE.Mesh(roundBox(0.31,0.012,0.23,0.004,2),cv); g.add(f); const paper=new THREE.Mesh(new THREE.BoxGeometry(0.29,0.008,0.215),mat('paper','#f4f1ea',null)); paper.position.set(0.004,0.004,0.006); g.add(paper); return g; }
