@@ -98,6 +98,8 @@
 | 溫州街電線桿、反光鏡、路名牌、Café 門前紅磚道 `assets/models/env/second_ai/wz_props.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_props.py` | 本作 | 溫州街主巷與東端路口 |
 | 溫州街小公園 `assets/models/env/second_ai/wz_park.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_park.py` | 本作 | 溫州街 A 側的小公園（草地、鋪面、路緣、樹穴、樹圍座椅、單槓、名牌） |
 | 黑瓦、紙拉門貼圖 `tools/blender/env_second/textures/jp_kawara/`、`jp_shoji/` | 本作程式產生 `tools/blender/env_second/gen_jp_textures.py`（固定亂數種子） | 本作 | 日式宿舍的屋瓦、院牆瓦頂、窗後的紙拉門 |
+| 窗台下的雨痕貼圖 `tools/blender/env_second/textures/gen/wz_stain.png` | 本作程式產生 `tools/blender/env_second/gen_street_textures.py`（固定亂數種子） | 本作 | 溫州街公寓每扇窗下的水漬 |
+| 機車兩款 `assets/models/env/second_ai/scooter.glb` | 本作 Blender 腳本 `tools/blender/env_second/scooter.py`（不仿特定品牌） | 本作 | 溫州街的機車（遊戲用 InstancedMesh 擺放） |
 | Poly Haven `dark_planks`（Rob Tuytel） | https://polyhaven.com/a/dark_planks | CC0 | 日式宿舍的雨淋板（下見板） |
 | Poly Haven `concrete_wall_006`（Charlotte Baglioni、Dario Barresi） | https://polyhaven.com/a/concrete_wall_006 | CC0 | 日式宿舍的院牆、基座；電線桿；小公園的花崗石路緣 |
 | Poly Haven `leafy_grass`（Charlotte Baglioni） | https://polyhaven.com/a/leafy_grass | CC0 | 小公園的草地 |

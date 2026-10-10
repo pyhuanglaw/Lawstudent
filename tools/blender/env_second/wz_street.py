@@ -182,6 +182,20 @@ def tank_mesh():
 
 GRILLE = grille_mesh(2.5, 1.75); HOOD = hood_mesh(2.7); AC = ac_mesh(); TANK = tank_mesh()
 M['room_lit'] = L.flat('wz_room_lit', '#3a3228', rough=0.9, emit=B.srgb('#ffcf8a'))   # 亮燈的房間：晚上發光（遊戲 TK.addNight）
+M['laundry'] = L.vc_material('wz_laundry', rough=0.85)                                    # 鐵窗裡曬的衣服（顏色在頂點色）
+
+
+def stain_mat():
+    """窗台下的雨痕（gen_street_textures.py 產生的 RGBA；半透明疊在外牆上：glTF alphaMode BLEND）"""
+    m = bpy.data.materials.new('wz_stain'); m.use_nodes = True; nt = m.node_tree; N = nt.nodes; bsdf = N['Principled BSDF']
+    tx = N.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(os.path.join(HERE, 'textures', 'gen', 'wz_stain.png'))
+    nt.links.new(tx.outputs['Color'], bsdf.inputs['Base Color']); nt.links.new(tx.outputs['Alpha'], bsdf.inputs['Alpha']); bsdf.inputs['Roughness'].default_value = 0.9
+    try: m.surface_render_method = 'BLENDED'
+    except Exception: pass
+    m.use_backface_culling = True; m['tile'] = 1.0; return m
+
+
+M['stain'] = stain_mat()
 
 
 _WIN = {}
@@ -203,7 +217,9 @@ def window_proto(ww, wh, lit):
     al.box(-0.03, 0.01, y0 + t, y1 - t, fz - 0.03, fz + 0.02)
     gl = Mesh('win_glass', M['win_glass']); gl.quad([(x0 + t, y0 + t, fz - 0.01), (x1 - t, y0 + t, fz - 0.01), (x1 - t, y1 - t, fz - 0.01), (x0 + t, y1 - t, fz - 0.01)])
     sl = Mesh('win_sill', M['band']); sl.box(x0 - 0.08, x1 + 0.08, y0 - 0.07, y0, -0.25, 0.07)
-    _WIN[key] = combine([rm.finish(None, uv=False), al.finish(None), gl.finish(None), sl.finish(None)], f'window_{"lit" if lit else "dark"}_{ww:g}')
+    stn = Mesh('win_stain', M['stain']); stn.quad([(x0 - 0.05, y0 - 1.05, 0.012), (x1 + 0.05, y0 - 1.05, 0.012), (x1 + 0.05, y0 - 0.07, 0.012), (x0 - 0.05, y0 - 0.07, 0.012)])
+    so = stn.finish(None, uv=True); uv01(so)                                                  # 窗台下的雨痕（整張貼圖）
+    _WIN[key] = combine([rm.finish(None, uv=False), al.finish(None), gl.finish(None), sl.finish(None), so], f'window_{"lit" if lit else "dark"}_{ww:g}')
     return _WIN[key]
 
 
@@ -215,6 +231,26 @@ def potted_proto(kind, r, h, lift, size, n, seed):
     return combine([pm.finish(None, smooth=True), lv.finish(None, uv=False)], f'potted_{kind}_{seed}')
 
 
+def laundry_proto(seed):
+    """鐵窗裡曬的衣服（instancing；原點同鐵窗：窗下緣下 0.14 m、牆面）：一支曬衣桿＋三到五件（T 恤、毛巾、長褲、襯衫），掛在鐵窗籠子裡"""
+    rnd = random.Random(seed); m = L.CMesh('laundry', M['laundry']); z = 0.27; top = 1.56
+    m.cbox(-1.1, 1.1, top + 0.01, top + 0.035, z - 0.012, z + 0.012, '#9aa0a3')                 # 曬衣桿
+    cols = ['#f4f2ec', '#dfe6ee', '#7f9cc4', '#2f3e5c', '#9ea3a8', '#e7b8c2', '#d9c7a6', '#3d5a47', '#262626', '#c94f45']
+    x = -1.0 + rnd.uniform(0, 0.15)
+    while x < 0.85:
+        kind = rnd.choice(('tee', 'tee', 'towel', 'pants', 'shirt')); c = rnd.choice(cols)
+        if kind == 'towel': w_, h_ = rnd.uniform(0.28, 0.36), rnd.uniform(0.5, 0.65); m.poly([(x, top - h_, z), (x + w_, top - h_, z), (x + w_, top, z), (x, top, z)], c)
+        elif kind == 'pants':
+            w_, h_ = 0.36, rnd.uniform(0.7, 0.85); m.poly([(x, top - h_, z), (x + 0.16, top - h_, z), (x + 0.18, top - 0.3, z), (x + 0.2, top - h_, z), (x + w_, top - h_, z), (x + w_, top, z), (x, top, z)], c)
+        else:
+            w_, h_ = (0.46, rnd.uniform(0.55, 0.62)) if kind == 'tee' else (0.48, rnd.uniform(0.68, 0.75)); sl_ = 0.11 if kind == 'tee' else 0.05
+            m.poly([(x + sl_, top - h_, z), (x + w_ - sl_, top - h_, z), (x + w_ - sl_, top - 0.24, z), (x + w_, top - 0.3 if kind == 'tee' else top - 0.62, z),
+                    (x + w_, top - 0.06, z), (x + w_ * 0.62, top, z), (x + w_ * 0.38, top, z), (x, top - 0.06, z), (x, top - 0.3 if kind == 'tee' else top - 0.62, z), (x + sl_, top - 0.24, z)], c, rnd.uniform(0.9, 1.05))
+        x += w_ + rnd.uniform(0.06, 0.16)
+    return combine([m.finish(None, uv=False)], f'laundry_{seed}')
+
+
+LAUNDRY = [laundry_proto(s) for s in (21, 22, 23)]
 POT_FERN = [potted_proto('fern', 0.09, 0.16, 0.33, 0.32, 4, s) for s in (11, 12)]
 POT_BROAD = potted_proto('broad', 0.16, 0.3, 0.66, 0.45, 5, 13)
 random.seed(707)
@@ -241,6 +277,7 @@ def inst(mesh, tag, xf, x, y, z):
 
 def apartment(spec):
     xf, Wd, Dd = place(spec); F = spec['floors']; totalH = GH + (F - 1) * FH; rng = random.Random(sum(ord(c) * (i + 7) for i, c in enumerate(spec['id'])))   # 固定種子（Python 的 hash() 每次執行不同）
+    lrng = random.Random(len(spec['id']) * 131 + ord(spec['id'][0]) * 7 + ord(spec['id'][1]))                                # 曬衣服用另一個亂數（不改變窗、冷氣的配置）
     kind = spec['wall']; wall = Mesh(f'wall_{spec["id"]}', wall_mat(kind))     # 這棟的外牆（一個物件，頂點色＝牆色）
     gt = spec['ground']; rec = 1.3 if gt == 'shop' else (4.3 if gt == 'arcade' else 0.2)
     W = Wd; D = Dd
@@ -277,6 +314,7 @@ def apartment(spec):
         else: xf.quad(cm, [(x0 + 0.03, y0 + 0.03, -0.29), (x0 + cw, y0 + 0.03, -0.29), (x0 + cw, y1 - 0.05, -0.29), (x0 + 0.03, y1 - 0.05, -0.29)])
         if w['kind'] == 'grille':
             inst(GRILLE, f'grille_{spec["id"]}', xf, cx, y0 - 0.14, 0.0); inst(HOOD, f'ghood_{spec["id"]}', xf, cx, y0 - 0.14 + 1.77, 0.0)
+            if lrng.random() < 0.28: inst(LAUNDRY[lrng.randrange(3)], f'laundry_{spec["id"]}', xf, cx, y0 - 0.14, 0.0)
             if rng.random() < 0.6:
                 px_ = cx + rng.uniform(-0.9, 0.9); pz_ = rng.uniform(0.16, 0.28); q = xf.p(px_, 0, pz_)
                 B.instance(POT_FERN[rng.randrange(2)], f'pot_{spec["id"]}_{len(_inst)}', q[0], y0 - 0.11, q[2], root, ry=rng.uniform(0, 2 * math.pi)); _inst.append(1)

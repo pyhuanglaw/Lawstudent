@@ -211,3 +211,30 @@ def merge_by_material(root, keep=lambda ob: False, key=lambda ob: ''):
         for kk, vv in props.items(): nob[kk] = vv
         made += 1
     print(json.dumps({'merge_by_material': {'objects_in': n_before, 'merged_into': made}}))
+
+
+# ---------- 頂點色（商品、曬的衣服…：一個材質、顏色放在頂點色，一次 draw call） ----------
+def vc_material(name, rough=0.5, cull=False):
+    """顏色全部來自頂點色（Color Attribute 'Col' → Base Color；glTF COLOR_0）"""
+    m = flat(name, '#ffffff', rough=rough, cull=cull); nt = m.node_tree; vc = nt.nodes.new('ShaderNodeVertexColor'); vc.layer_name = 'Col'
+    nt.links.new(vc.outputs['Color'], nt.nodes['Principled BSDF'].inputs['Base Color']); return m
+
+
+class CMesh(Mesh):
+    """每個零件一個顏色的網格（頂點色 Col；hex 是 sRGB，存成線性）"""
+    def __init__(self, name, mat):
+        super().__init__(name, mat); self.col = self.bm.loops.layers.float_color.new('Col')
+
+    def paint(self, faces, hexcol, k=1.0):
+        lin = lambda c: c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
+        c = [lin(min(1.0, int(hexcol[i:i + 2], 16) / 255 * k)) for i in (1, 3, 5)] + [1.0]
+        for f in faces:
+            for lp in f.loops: lp[self.col] = c
+        return faces
+
+    def poly(self, pts, hexcol, k=1.0):
+        """一個多邊形面（遊戲座標的點，逆時針＝正面）"""
+        f = self.bm.faces.new([self.bm.verts.new(g2b(*p)) for p in pts]); return self.paint([f], hexcol, k)
+
+    def cbox(self, x0, x1, y0, y1, z0, z1, hexcol, k=1.0):
+        return self.paint(bm_box(self.bm, x0, x1, y0, y1, z0, z1), hexcol, k)

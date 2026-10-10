@@ -1,4 +1,4 @@
-"""溫州街的小公園（溫州公園）：草地、鋪面步道與圓形小廣場、花崗石路緣、大樹的樹穴與樹圍座椅、單槓、公園名牌 → 一個 GLB（溫州街區域的世界座標）。
+"""溫州街的小公園（溫州公園）：草地、鋪面步道與圓形小廣場、花崗石路緣、大樹的樹穴與樹圍座椅、單槓、公園名牌、後面的水泥圍牆 → 一個 GLB（溫州街區域的世界座標）。
 第二 AI 工作階段（環境美術）製作：
   /opt/blenv/bin/python tools/blender/env_second/wz_park.py [-- --out assets/models/env/second_ai/wz_park.glb]
 
@@ -32,6 +32,7 @@ M = {
     'steel': L.flat('park_steel', '#3e4246', rough=0.45, metal=0.45),
     'green': L.flat('park_bar_green', '#3f7a5a', rough=0.45, metal=0.2), 'yellow': L.flat('park_bar_yellow', '#e2b934', rough=0.45),
     'board': base['board'],
+    'wall': L.pbr('park_wall', 'concrete_wall_006', tile=2.0, target='#b5afa4', normal=0.8, maps=('diff', 'nor'), rough_value=0.9),
 }
 _acc = {}
 def acc(key):
@@ -96,6 +97,10 @@ for sx in (-0.6, 0.6):
     acc('green').sphere((22.3 + sx, 1.71, 10.4), 0.055, seg=8, rings=4)
 acc('green').cyl((22.25 - 0.6, 1.62, 10.4), (22.35 + 0.6, 1.62, 10.4), 0.03, seg=8)
 acc('yellow').cyl((22.3 - 0.6, 1.1, 10.4), (22.3 + 0.6, 1.1, 10.4), 0.035, seg=8)
+
+# ---- 公園後面的水泥圍牆（可走範圍到 z 14.6，牆在 15.5–15.75：不影響導航）：原本後面是一片空地，從巷子看進公園會看到遠景的地面
+cw = acc('wall'); cw.box(20.2, 31.8, 0.0, 2.3, 15.5, 15.75); acc('granite').box(20.15, 31.85, 2.3, 2.38, 15.45, 15.8)
+for x in (20.2, 23.1, 26.0, 28.9, 31.8): cw.box(x - 0.15, x + 0.15, 0.0, 2.4, 15.42, 15.82)          # 壁柱
 
 # ---- 公園名牌：兩支木柱＋深綠底的牌子（盆栽後面，朝巷子）
 for px in (19.5, 20.9): acc('wood').box(px - 0.05, px + 0.05, 0.0, 1.66, 5.9, 6.0)
