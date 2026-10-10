@@ -45,6 +45,26 @@ SPECS = [
     # Café 南北兩側（立面朝西，rotation.y=−π/2）
     dict(id='C1', pos=(55.4, -12.4), ry=-math.pi / 2, w=10, d=12, floors=5, wall='tile', color='#cbbba6', ground='shutter'),
     dict(id='C2', pos=(55.4, 11.2), ry=-math.pi / 2, w=7, d=12, floors=4, wall='mosaic', color='#d3cbbd', balcony=True, ground='door', door='#2f4a3a'),
+    # 巷底（西端）的住家公寓（套件 endB；近景，原本沒換）
+    dict(id='W0', pos=(-37.2, -1.0), ry=math.pi / 2, w=14, d=13, floors=4, wall='tile', color='#cdbfa8', balcony=True, ground='door', door='#5c3a21'),
+    # 遠景（套件 detail:false）：far＝細節少一點（鐵窗少、沒有曬衣服與盆栽、冷氣少），材質與窗戶原型和近景共用 → draw call 不增加
+    dict(id='F1', pos=(5.75, 21.0), ry=math.pi, w=12, d=10, floors=5, wall='tile', color='#c7b9a3', ground='door', far=True),
+    dict(id='F2', pos=(-12.25, -20.0), ry=0.0, w=12, d=10, floors=4, wall='mosaic', color='#d6d0c2', ground='shutter', far=True),
+    dict(id='F3', pos=(-33.4, 16.2), ry=math.pi, w=9, d=10, floors=4, wall='tile', color='#cfc4b2', ground='door', far=True),
+    dict(id='F4', pos=(-33.4, -16.2), ry=0.0, w=9, d=10, floors=5, wall='tile', color='#d9cdb8', ground='door', far=True),
+    # Café 往南的路（+z，施工護欄外，走不到）
+    dict(id='S1', pos=(47.9, 23.0), ry=math.pi / 2, w=11, d=10, floors=5, wall='tile', color='#cdbfa9', ground='door', far=True),
+    dict(id='S2', pos=(54.7, 22.5), ry=-math.pi / 2, w=10, d=10, floors=4, wall='tile', color='#d6cab6', ground='door', far=True),
+    dict(id='S3', pos=(47.9, 37.0), ry=math.pi / 2, w=14, d=10, floors=6, wall='tile', color='#c3b6a0', ground='door', far=True),
+    dict(id='S4', pos=(54.7, 36.0), ry=-math.pi / 2, w=14, d=10, floors=5, wall='tile', color='#cfc3ae', ground='door', far=True),
+    # Café 往北的路（−z）
+    dict(id='N1', pos=(47.9, -24.0), ry=math.pi / 2, w=12, d=10, floors=5, wall='tile', color='#c9bba5', ground='door', far=True),
+    dict(id='N2', pos=(54.7, -24.0), ry=-math.pi / 2, w=12, d=10, floors=6, wall='tile', color='#d4c8b4', ground='door', far=True),
+    dict(id='N3', pos=(47.9, -38.0), ry=math.pi / 2, w=14, d=10, floors=4, wall='tile', color='#bfb29c', ground='door', far=True),
+    dict(id='N4', pos=(54.7, -38.0), ry=-math.pi / 2, w=14, d=10, floors=7, wall='tile', color='#cdc2ae', ground='door', far=True),
+    # 西端巷口兩側
+    dict(id='W1', pos=(-37.2, 11.0), ry=math.pi / 2, w=10, d=12, floors=4, wall='tile', color='#d4c6b0', ground='door', far=True),
+    dict(id='W2', pos=(-37.2, -13.0), ry=math.pi / 2, w=10, d=12, floors=4, wall='tile', color='#cbbfae', ground='door', far=True),
 ]
 GH, FH = 3.4, 3.1          # TK.apartment 的預設一樓高、樓高
 
@@ -306,8 +326,9 @@ def apartment(spec):
         yc = GH + (f - 1) * FH + FH * 0.52
         for i in range(n):
             x = -W / 2 + (i + 0.5) * W / n
-            kind_ = 'balcony' if (spec.get('balcony') and i == n // 2 and f == 1) else ('grille' if rng.random() < 0.7 else 'plain')
-            wins.append(dict(f=f, x=x, y0=yc - wh / 2, y1=yc + wh / 2, kind=kind_, hood=(kind_ != 'grille' and rng.random() < 0.5), ac=rng.random() < 0.65, lit=rng.random() < 0.35, acs=rng.choice((-1, 1))))
+            far = spec.get('far')
+            kind_ = 'balcony' if (spec.get('balcony') and i == n // 2 and f == 1) else ('grille' if rng.random() < (0.4 if far else 0.7) else 'plain')
+            wins.append(dict(f=f, x=x, y0=yc - wh / 2, y1=yc + wh / 2, kind=kind_, hood=(kind_ != 'grille' and rng.random() < 0.5), ac=rng.random() < (0.3 if far else 0.65), lit=rng.random() < 0.35, acs=rng.choice((-1, 1))))
     # ---- 牆：一樓以上（留窗洞，牆厚 0.25）
     for f in range(1, F):
         y0 = GH + (f - 1) * FH; y1 = y0 + FH
@@ -333,8 +354,8 @@ def apartment(spec):
         else: xf.quad(cm, [(x0 + 0.03, y0 + 0.03, -0.29), (x0 + cw, y0 + 0.03, -0.29), (x0 + cw, y1 - 0.05, -0.29), (x0 + 0.03, y1 - 0.05, -0.29)])
         if w['kind'] == 'grille':
             inst(GRILLE, f'grille_{spec["id"]}', xf, cx, y0 - 0.14, 0.0); inst(HOOD, f'ghood_{spec["id"]}', xf, cx, y0 - 0.14 + 1.77, 0.0)
-            if lrng.random() < 0.28: bake(LAUNDRY[lrng.randrange(3)], f'laundry_{spec["id"]}', xf, cx, y0 - 0.14, 0.0)
-            if rng.random() < 0.6:
+            if not spec.get('far') and lrng.random() < 0.28: bake(LAUNDRY[lrng.randrange(3)], f'laundry_{spec["id"]}', xf, cx, y0 - 0.14, 0.0)
+            if not spec.get('far') and rng.random() < 0.6:
                 px_ = cx + rng.uniform(-0.9, 0.9); pz_ = rng.uniform(0.16, 0.28); q = xf.p(px_, 0, pz_)
                 B.instance(POT_FERN[rng.randrange(2)], f'pot_{spec["id"]}_{len(_inst)}', q[0], y0 - 0.11, q[2], root, ry=rng.uniform(0, 2 * math.pi)); _inst.append(1)
         elif w['kind'] == 'balcony':

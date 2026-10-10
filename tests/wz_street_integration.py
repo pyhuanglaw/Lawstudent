@@ -22,12 +22,13 @@ import playlib as PL
 
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'art-rebuild', 'second_ai', 'test_shots', 'wz_street_integration')
-IDS = ['A1', 'A2', 'A3', 'A4', 'A5', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'C1', 'C2']
+IDS = ['A1', 'A2', 'A3', 'A4', 'A5', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'C1', 'C2', 'W0',
+       'F1', 'F2', 'F3', 'F4', 'S1', 'S2', 'S3', 'S4', 'N1', 'N2', 'N3', 'N4', 'W1', 'W2']   # 近景 15 棟（含巷底 W0）＋遠景 14 棟（巷口兩端、Café 往南／往北的路）
 SHOPS = ['A1', 'A3', 'A4', 'A5', 'B2', 'B3', 'B5', 'B6']          # 一樓是店面（招牌＋店內景深卡）
 VERT = ['A1', 'A3', 'A4', 'B3']                                    # 有直立招牌
 
 GLBS = ['wenzhou_street_glb', 'wz_jphouse_glb', 'wz_props_glb', 'wz_park_glb', 'wz_scooters_glb']
-TAGS = {'wzApt': 14, 'wzJp': 2, 'wzProp': 12, 'wzPark': 5}                    # 套件物件的數量：公寓 14 棟；宿舍＋院牆；電線桿 6＋反光鏡 3＋路名牌＋紅磚道 2 片
+TAGS = {'wzApt': 29, 'wzJp': 2, 'wzProp': 12, 'wzPark': 5}                    # 套件物件的數量：公寓 29 棟（近景 15、遠景 14）；宿舍＋院牆；電線桿 6＋反光鏡 3＋路名牌＋紅磚道 2 片
 WAIT_FORMAL = "(async()=>{ const want=%s; for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&want.every(n=>z.group.children.some(o=>o.name===n))) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()" % json.dumps(GLBS)
 NAV_HASH = "(()=>{ const n=GAME.E.nav; let h=0; for(let i=0;i<n.b.length;i++){ h=(h*31+n.b[i]+i%7)>>>0; } return [n.cols,n.rows,h, n.b.reduce((a,v)=>a+(v?1:0),0)]; })()"
 STATE = """(()=>{ const E=GAME.E, z=E.zone; const r=v=>Math.round(v*100)/100;
@@ -50,7 +51,7 @@ async def check(pg, run, formal):
     tags = await pg.evaluate("""(()=>{ const out={}; for(const t of %s){ const objs=GAME.E.zone.group.children.filter(o=>o.userData&&o.userData[t]);
         out[t]={n:objs.length, formal:objs.filter(o=>o.userData.formal).length, dyn:objs.filter(o=>o.userData.dyn).length,
           shown:objs.filter(o=>o.isMesh?o.visible:o.children.some(m=>(m.isMesh||m.isSprite)&&m.visible)).length}; } return out; })()""" % json.dumps(list(TAGS)))
-    run.check('套件物件都有標記（公寓 14、宿舍＋院牆 2、街道細節 12、小公園 5）', all(tags[t]['n'] == n for t, n in TAGS.items()), json.dumps(tags))
+    run.check('套件物件都有標記（公寓 29、宿舍＋院牆 2、街道細節 12、小公園 5）', all(tags[t]['n'] == n for t, n in TAGS.items()), json.dumps(tags))
     if formal:
         run.check('標記的套件物件都接上正式模型、外觀全部藏起來', all(tags[t]['formal'] == n and tags[t]['shown'] == 0 for t, n in TAGS.items()), json.dumps(tags))
     else:
@@ -61,9 +62,9 @@ async def check(pg, run, formal):
         const others=z.group.children.filter(o=>o.userData&&o.userData.footprint&&!o.userData.wzApt&&!o.userData.wzJp&&!o.userData.formal); const othersHidden=others.filter(b=>b.children.length&&!b.children.some(o=>o.visible)).length;
         return {per, others:others.length, othersHidden}; })()""")
     per = info['per']
-    run.check('14 棟套件公寓都有棟號（A1–A5、B1–B7、C1、C2）', sorted(per) == sorted(IDS), json.dumps(sorted(per)))
+    run.check('29 棟套件公寓都有棟號（A1–A5、B1–B7、C1、C2、W0、遠景 F1–F4、S1–S4、N1–N4、W1、W2）', sorted(per) == sorted(IDS), json.dumps(sorted(per)))
     if formal:
-        run.check('14 棟都接上正式模型（userData.formal）', all(per.get(i, {}).get('formal') for i in IDS), json.dumps({k: v['formal'] for k, v in per.items()}))
+        run.check('29 棟都接上正式模型（userData.formal）', all(per.get(i, {}).get('formal') for i in IDS), json.dumps({k: v['formal'] for k, v in per.items()}))
         bad = {k: v['kitVisible'] for k, v in per.items() if v['kitVisible']}
         run.check('套件公寓的外觀全部藏起來', not bad, json.dumps(bad))
     else:
