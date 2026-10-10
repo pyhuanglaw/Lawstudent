@@ -149,77 +149,9 @@ def build_shirt_parts(m, clothes):
     mc.strip(mid, outer, (0.53, 0.60), wneck * 0.5)
     collar = mc.obj('Clothes_Collar', arm, mat, lambda V, W: {'J_Bip_C_Neck': W, 'J_Bip_C_UpperChest': 1 - W})
 
-    # ---- 3b. V 字開口裡的胸口皮膚 ----
-    # Sendagaya Shino 樣本的身體在原本上衣蓋住的地方（胸口、上背、上臂）沒有面（VRoid 匯出時刪掉了），襯衫開 V 領會看到一個洞。
-    # 第二版：從脖子皮膚的下緣（身體網格的開口邊界）往下長出一片——第一列就是邊界上的點（接縫看不出來）、每一行的 UV 用那個邊界頂點的 UV
-    # （顏色接得上）、法線從邊界頂點的法線漸變到胸口的方向；深度照開口兩邊襯衫表面內插（中間微微往前凸 4 mm）、在襯衫表面後面 6 mm。
-    # （第一版是一片單色、和脖子分開的面：遊戲裡脖子下緣的鋸齒邊和顏色差都看得到。）
-    body = m['body']; Mb = np.array(body.matrix_world); Pb = C.co(body) @ Mb[:3, :3].T + Mb[:3, 3]
-    Nl = np.empty(len(body.data.vertices) * 3); body.data.vertices.foreach_get('normal', Nl); Nw = _u(Nl.reshape(-1, 3) @ Mb[:3, :3].T)
-    zN = float(N[2]); yc = float(N[1]); zb = float(R[0][2]) - 0.025
-    # 脖子前面的下緣：身體網格開口邊界（軀幹那個大洞的邊界是一整圈，脖子、肩膀、手臂連在一起）上，|x| < 7.5 cm、比脖子骨頭低不到 10 cm、在前面的那一段；
-    # 照邊界的順序取最長的連續一段（不用 x 排序：下緣是鋸齒狀的）
-    okf = lambda v: bool(Pb[v, 1] < yc - 0.005 and abs(Pb[v, 0]) < 0.075 and zN - 0.10 < Pb[v, 2] < zN + 0.03)
-    best = []
-    for l in _boundary_loops(body, Pb):
-        isf = [okf(v) for v in l]
-        if not any(isf): continue
-        if all(isf): runs = [l]
-        else:
-            st = next(i for i in range(len(l)) if not isf[i]); runs = []; cur = []
-            for k in range(1, len(l) + 1):
-                i = (st + k) % len(l)
-                if isf[i]: cur.append(l[i])
-                elif cur: runs.append(cur); cur = []
-            if cur: runs.append(cur)
-        for r_ in runs:
-            if len(r_) > len(best): best = r_
-    front = best
-    if Pb[front[0], 0] > Pb[front[-1], 0]: front = front[::-1]
-    uvb = body.data.uv_layers.active.data; li = np.zeros(len(body.data.loops), int); body.data.loops.foreach_get('vertex_index', li)
-    first_loop = {}
-    for k, v in enumerate(li):
-        if v not in first_loop: first_loop[int(v)] = k
-    def chest_y(x, z):
-        hits = {}
-        for sg in (-1, 1):
-            for k in range(45):
-                xx = x + sg * 0.003 * k
-                h = bvh.ray_cast(Vector((xx, -0.5, z)), Vector((0, 1, 0)), 1.0)
-                if h[0] is not None and h[1][1] < -0.3 and h[0][1] < yc: hits[sg] = (xx, h[0][1]); break
-        if not hits: return None
-        if len(hits) == 1: return list(hits.values())[0][1] + 0.006
-        (xl, yl), (xr, yr) = hits[-1], hits[1]
-        if xr - xl < 1e-4: return yl + 0.006
-        t = (x - xl) / (xr - xl)
-        return yl + (yr - yl) * t + 0.006 - 0.004 * 4 * t * (1 - t)
-    depth = [0.0, 0.010, 0.022, 0.036, 0.052, 0.072, 0.095, 0.120]
-    ms = Mesh(); NN = []; ncol = len(front)
-    for v in front:
-        pb = Pb[v]; uv0 = tuple(uvb[first_loop[int(v)]].uv); prev_y = pb[1]
-        for k, dz in enumerate(depth):
-            z = max(pb[2] - dz, zb) if k else pb[2]
-            x = pb[0] * (1 + 0.25 * dz / 0.12)
-            yt = chest_y(x, z)
-            yt = prev_y if yt is None else yt
-            w = float(_sstep(0.0, 0.026, dz))
-            y = pb[1] * (1 - w) + yt * w if k else pb[1]
-            prev_y = y
-            ms.V.append(np.array([x, y, z])); ms.UV.append(uv0); ms.W.append(float(_sstep(zN - 0.045, zN + 0.010, z)))
-            nk = _u(Nw[v] * (1 - w) + np.array([0, -0.97, 0.24]) * w); NN.append(nk)
-    nr = len(depth)
-    for c in range(ncol - 1):
-        for k in range(nr - 1):
-            a0 = c * nr + k; ms.F.append((a0, a0 + nr, a0 + nr + 1, a0 + 1))
-    smat = next(sl.material for sl in body.material_slots if sl.material and 'Body_00_SKIN' in sl.material.name)
-    chest = ms.obj('Body_ChestPatch', arm, smat, lambda V, W: {'J_Bip_C_Neck': W, 'J_Bip_C_UpperChest': 1 - W})
-    me = chest.data; pn = np.array([p.normal for p in me.polygons])
-    if pn[:, 1].mean() > 0:
-        for p in me.polygons: p.flip()
-        me.update()
-    try: me.normals_split_custom_set_from_vertices([tuple(n) for n in NN])
-    except Exception as ex: print('  chest normals', ex)
-    print('  chest patch: %d boundary verts on the neck front (x %.3f..%.3f, z %.3f..%.3f), %d faces' % (ncol, Pb[front[0], 0], Pb[front[-1], 0], Pb[front, 2].min(), Pb[front, 2].max(), len(ms.F)))
+    # ---- 3b. V 字開口裡的胸口：樣本身體的網格本來就在，只是貼圖透明——heroine_05.py 的 fill_hidden_skin 已經補上皮膚顏色
+    # （試過兩種另外做的皮膚片：遊戲裡和脖子之間看得到鋸齒邊、色差；那條鋸齒邊其實是貼圖透明的邊界，不是網格的邊）
+    chest = None
 
     # ---- 4. 門襟＋扣子：V 字最低點到褲頭（紮進去的地方）的前中心 ----
     vb = R[0]; ztop = vb[2] - 0.004; zbot = C.bone_head(arm, 'J_Bip_C_Spine')[2] + 0.034

@@ -12,6 +12,29 @@ HEAD_SCALE = 0.90    # 頭縮小（參考圖 06 的溫書瑀是 172 cm、六人�
 NECK_SLIM = 0.95
 
 
+def fill_hidden_skin(obj, pat, name, r=40):
+    """VRoid 樣本的身體貼圖在原本衣服蓋住的地方（胸口、上背、上臂…）是透明的（alpha 0；網格還在，只是看不見）：
+    襯衫開 V 領會看到一個洞、脖子下緣像一條鋸齒邊（2026-10-10 溫書瑀第一版）。透明的地方填上周圍皮膚的顏色（只取像皮膚的像素做正規化模糊，
+    離皮膚太遠的用皮膚的中位數）、alpha 改成 1；新衣服蓋住的皮膚之後由衣服模組照常刪掉，只有 V 字開口裡的看得到。"""
+    import h01_face as F
+    for slot in obj.material_slots:
+        mt = slot.material
+        if not mt or pat not in mt.name: continue
+        e = mt.vrm_addon_extension.mtoon1; src = e.pbr_metallic_roughness.base_color_texture.index.source
+        if src is None: continue
+        a = F.img_array(src); rgb = a[..., :3]; hole = a[..., 3] < 0.5
+        R, G, B = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+        skin = (~hole) & (R > 0.55) & (R > G + 0.03) & (G > B) & (R - B < 0.45)
+        keep = skin.astype(float)
+        fill = F.blur(rgb * keep[..., None], r) / np.maximum(F.blur(keep, r), 1e-4)[..., None]
+        w = np.clip(F.blur(keep, r) * 8, 0, 1)[..., None]
+        med = np.median(rgb[skin], axis=0)
+        fill = fill * w + med * (1 - w)
+        out = a.copy(); out[..., :3] = np.where(hole[..., None], fill, rgb); out[..., 3] = 1
+        im = C.image_from_array(name, out.astype(np.float32)); F.set_tex(mt, im)
+        print('  %s: filled %d transparent px with skin (median %s)' % (name, int(hole.sum()), np.round(med, 3)))
+
+
 def stage0(m):
     """拿掉樣本的頭髮（頭髮物件＋身體網格上的後髮）、上衣、鞋、胸部以外的次要骨頭；頭縮小、脖子收一點"""
     arm = m['arm']
@@ -28,6 +51,7 @@ def stage0(m):
             if n in o.vertex_groups: o.vertex_groups.remove(o.vertex_groups[n])
     print('  removed secondary bones', C.remove_bones(arm, sec_bones), sec_bones[:6])
     C.prune_springs(arm)
+    fill_hidden_skin(m['body'], 'Body_00_SKIN', 'P05_Body_filled')
     H = C.scale_head(arm, [m['face'], m['body']], HEAD_SCALE)
     nk = C.bone_head(arm, 'J_Bip_C_Neck')
     w = np.clip(C.vgroup_weights(m['body'], {'J_Bip_C_Neck'}), 0, 1)
