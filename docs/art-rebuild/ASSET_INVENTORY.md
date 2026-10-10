@@ -14,8 +14,8 @@
 
 | 資產 | 用在哪裡 | 分類 | 狀態 | 升級做法（D38） |
 |---|---|---|---|---|
-| `CK.lawhall` 霖澤館（外觀） | 校園：法學院廣場北側 | ④＋③ | BLOCKOUT（程序化）；穿堂、前後台階已經可以走（D36） | Blender 外觀模型（照片：灰色花崗石下三層、紅磚方格上層、穿堂中柱、二樓天橋、屋頂板）→ GLB；套件留作導航阻擋與備用。**下一個** |
-| 霖澤館室內（`src/building3d.js` 程序化備用） | 霖澤館大廳、樓梯、二樓迴廊（`linze` 區域） | ③ | BLOCKOUT（備用）；正式模型 `tools/blender/linze_interior.py` 製作中 | Blender 室內（Poly Haven 石材地磚、粉光牆、木作、皮革）→ `assets/models/env/linze_interior.glb` |
+| `CK.lawhall` 霖澤館（外觀） | 校園：法學院廣場北側 | ⑤（套件：③導航阻擋、鏡頭碰撞、GLB 失敗時的備用） | **INTEGRATED**：`tools/blender/linze_exterior.py` → `assets/models/env/linze_exterior.glb`（2.32 MB；Poly Haven 花崗石磚、預鑄混凝土、紅磚；窗框窗戶 GPU instancing）；穿堂、前後台階可以走（D36）；新舊比較 VISUAL_REVIEW 17.1 | 玻璃反射（沒有環境貼圖）、遠處磚紋、Meshopt／KTX2 壓縮；使用者看過才能標 ART_APPROVED |
+| 霖澤館室內（`src/building3d.js` 程序化備用） | 霖澤館大廳、樓梯、二樓迴廊（`linze` 區域） | ③（備用；點地面用的透明地板也在這裡，正式模型載入後搬出來繼續用） | 正式模型 **INTEGRATED**：`tools/blender/linze_interior.py` → `linze_interior.glb`（1.95 MB）；遊戲化設計（D37，沒有照片）；比較圖 VISUAL_REVIEW 17.2 | 三樓以上、更多家具與標示 |
 | 玻璃電梯（`building3d.js` 程序化，要動） | 霖澤館中庭 | ④ | BLOCKOUT | Blender 車廂與井道模型（車廂、門分開的節點，遊戲照樣控制開關與上下） |
 | `CK.lawhall` 萬才館 | 校園：法學院廣場東側 | ④＋③ | BLOCKOUT；弧形大樓梯**還不能走** | 第二階段：Blender 外觀＋大樓梯可以走（高度面）＋室內樓層 |
 | `CK.hall` 總圖、行政大樓、文學院、校史館、男一舍、無名系館 | 校園 | ④（總圖、行政大樓、文學院：主要地標）／②（無名系館、遠的） | BLOCKOUT | 第三階段：地標逐棟 Blender；背景系館可保留程序化 |
@@ -55,7 +55,7 @@
 | 資產 | 用在哪裡 | 分類 | 狀態 | 升級做法 |
 |---|---|---|---|---|
 | `room()` 牆、地板、天花板、窗 | 萬才館大廳、總圖、Café、便利商店、麵店、書店、宿舍 | ④＋③ | BLOCKOUT | 逐間 Blender 室內（第二、三階段） |
-| 201 階梯教室（v9.4：平台、走道台階、長桌、木翻椅） | `classroom` 區域 | ③（目前是可玩的 blockout） | BLOCKOUT；導航、48 個座位 FUNCTIONAL（Node 模擬，瀏覽器待驗證） | Blender：階梯平台、深色長桌、木翻椅（Instancing）、木講桌、投影幕（照使用者的教室照片）。**霖澤館室內之後馬上做** |
+| 201 階梯教室（v9.4：平台、走道台階、長桌、木翻椅） | `classroom` 區域 | ③（程序化版本留作導航與備用） | 正式模型 **INTEGRATED**：`tools/blender/classroom_201.py` → `classroom_201.glb`（1.57 MB；深色長桌、木翻椅 48 張 instancing、木講桌、投影幕、方格天花板＋日光燈，照使用者的教室照片）；48 個座位導航 FUNCTIONAL（Node 模擬）；瀏覽器真實流程見 TESTING 第八節 | 黑板／投影內容、窗外景、使用者看過才能標 ART_APPROVED |
 | `desk()`、`chair()`、`shelfWall()`、`goodsWall()`、床、沙發、Café 家具 | 各室內 | ④ | BLOCKOUT | Blender 家具組（GLB，同一款重用） |
 
 ## 五、人物（`src/character3d.js`、`assets/models/char/`）

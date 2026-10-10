@@ -8,6 +8,7 @@
 
 - 線上（GitHub Pages）：https://pyhuanglaw.github.io/Lawstudent/ ——推到 `main` 就自動重新部署。
 - 目前版本：**v9.3 已部署在 `main`（2026-10-10，PR #1 合併，`0ef3a73`）**；之後的開發在開發分支（2026-10-10 起是 `claude/confident-ritchie-8rwh7t`，由舊分支 `claude/friendly-brahmagupta-6bbkzc` 快轉接續，歷史相同；**每個工作階段以系統指定的分支為準**），驗證完、使用者要求發布時才合併到 `main`（D32）。標題畫面最下面有版本字樣。詳見下方「目前狀態」。
+- **（2026-10-10 09:55 起只剩一個工作階段：使用者結束建築組，之後人物與建築都由 `claude/confident-ritchie-8rwh7t` 負責；建築組未完成的事見 `docs/ART_REBUILD_PROGRESS.md` 的「建築組交接」。下面是原本的分工，留作紀錄。）** 兩個平行工作階段（2026-10-10 使用者訂的分工）：人物組（分支 `claude/confident-ritchie-8rwh7t`：主角與五女主模型、臉／髮型／服裝、走跑坐上下樓梯的動畫品質與 footIK、人物模型載入）；建築組（分支 `claude/friendly-brahmagupta-6bbkzc`：霖澤館／萬才館 Blender 模型、穿堂、樓梯、電梯、教室、多樓層導航、校園／公館／溫州街、場景材質光影碰撞、場景整合與回歸測試）。兩邊用 claude-code-remote 的 `send_message` 直接聯絡；改共用檔案（`src/character3d.js`、`src/assets3d.js`、`tests/playlib.py`）前先通知對方；整合前互相 merge 並跑測試；各自向使用者回報（【人物組／建築組｜進度回報】）。只有工作階段實際在跑時才能聯絡。
 - **測試制度（2026-10-10 永久規範，D34）**：`docs/TESTING.md`。真實玩家流程測試不用 `?turbo`、不瞬移、不改劇情狀態；捷徑只能當前置條件並標示；重要測試要在有 bug 的版本失敗、修好的版本通過；不用「N 項全部通過」代替驗收；分清楚手機模擬與真機。
 
 ## MANDATORY 3D ART PRODUCTION RULES（2026-10-10 使用者訂定的永久強制規則，D38；詳細流程：`docs/art-rebuild/ART_DIRECTION.md` 第 12 節）

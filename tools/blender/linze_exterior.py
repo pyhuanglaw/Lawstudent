@@ -41,12 +41,12 @@ def lit(x, y, z):   # 晚上哪些窗亮著（和 campuskit3d.js 的 winLit 同�
     return h - math.floor(h) > 0.3
 
 MAT = {
-    'granite': B.pbr('ext_granite', 'granite_tile_03', tile=2.4, tint=B.srgb('#d4d6d8'), sat=0.12, gain=1.08, cull=True),   # 照片：淺灰花崗石（貼圖偏棕，去彩度）
-    'graniteD': B.pbr('ext_granite_dark', 'granite_tile_03', tile=2.4, tint=B.srgb('#a9abad'), sat=0.12, cull=True),       # 台階、穿堂地坪邊
-    'precast': B.pbr('ext_precast', 'granular_concrete', tile=2.0, tint=B.srgb('#c9c9c6'), sat=0.2, gain=1.12, cull=True), # 灰色預鑄：遮陽板、窗楣盒、帶窗層
-    'brick': B.pbr('ext_brick', 'red_brick', tile=1.0, tint=B.srgb('#d9c4bc'), sat=0.8, cull=True),                        # 照片：紅褐色面磚
-    'paver': B.pbr('ext_paver', 'large_floor_tiles_02', tile=1.2, tint=B.srgb('#d8d6d0'), sat=0.3, cull=True),             # 穿堂地坪
-    'ceiling': B.pbr('ext_ceiling', 'painted_plaster_wall', tile=3.0, tint=B.srgb('#f4f3ef'), normal=0.3, cull=True),       # 穿堂白色天花板與梁
+    'granite': B.pbr('ext_granite', 'granite_tile_03', tile=2.4, sat=0.12, target='#aeaca7', cull=True),   # 照片：淺灰花崗石（貼圖偏棕：去彩度、平均顏色校正到照片）
+    'graniteD': B.pbr('ext_granite_dark', 'granite_tile_03', tile=2.4, sat=0.12, target='#8f8d89', cull=True),       # 台階、基座頂的石材帶
+    'precast': B.pbr('ext_precast', 'granular_concrete', tile=2.0, sat=0.2, target='#bdbcb6', cull=True), # 灰色預鑄：遮陽板、窗楣盒、帶窗層（照片淺灰）
+    'brick': B.pbr('ext_brick', 'red_brick', tile=1.0, sat=0.85, target='#a35a45', cull=True),                        # 照片：紅褐色面磚
+    'paver': B.pbr('ext_paver', 'large_floor_tiles_02', tile=1.2, sat=0.3, target='#b5b3ad', cull=True),             # 穿堂地坪
+    'ceiling': B.pbr('ext_ceiling', 'painted_plaster_wall', tile=3.0, target='#ecebe6', normal=0.3, cull=True),       # 穿堂白色天花板與梁（遊戲另外加一點自發光＝地面反射上來的光）
     'frame': B.pbr('ext_frame', None, tint=B.srgb('#34383c'), rough=0.45, metal=0.6, cull=True),                         # 深灰鋁框
     'steel': B.pbr('ext_steel', None, tint=B.srgb('#c9ccd0'), rough=0.3, metal=1.0, cull=True),
     'glass_lit': B.pbr('ext_glass_lit', None, tint=B.srgb('#3c4650'), rough=0.12, metal=0.4, cull=True),

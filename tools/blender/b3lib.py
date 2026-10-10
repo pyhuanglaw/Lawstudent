@@ -32,26 +32,33 @@ def img(path):
     return _S['imgs'][path]
 
 
-def img_adj(path, sat=1.0, gain=1.0):
-    """顏色貼圖的調整版（降低彩度、調亮暗）：另外產生一張圖（glTF 匯出不帶 Hue/Saturation 節點，要把調整做進像素）"""
-    key = (path, round(sat, 3), round(gain, 3))
+def img_adj(path, sat=1.0, gain=1.0, target=None):
+    """顏色貼圖的調整版：降低彩度（sat）、調亮暗（gain），或校正到指定的平均顏色（target＝sRGB 色碼，照片量到的顏色）。
+    另外產生一張圖（glTF 匯出不帶 Hue/Saturation 節點，要把調整做進像素）。
+    為什麼要 target：Poly Haven 的照片貼圖平均顏色很暗（花崗石約 (99,90,82)），再乘上淡色 tint 在遊戲裡變成近黑色
+    （v9.4 第一次遊戲內截圖：霖澤館的花崗石、穿堂天花板、教室都太暗）。校正後貼圖的「平均」等於照片的顏色，紋理的明暗變化保留"""
+    key = (path, round(sat, 3), round(gain, 3), target)
     if key not in _S['imgs']:
         import numpy as np
         src = img(path); w, h = src.size; px = np.empty(w * h * 4, dtype=np.float32); src.pixels.foreach_get(px); px = px.reshape(-1, 4)
         lum = px[:, :3] @ np.array([0.2126, 0.7152, 0.0722], dtype=np.float32)
         px[:, :3] = (lum[:, None] + (px[:, :3] - lum[:, None]) * sat) * gain
-        im = bpy.data.images.new(f'{os.path.basename(path)[:-4]}_s{sat:g}_g{gain:g}', w, h, alpha=False); im.pixels.foreach_set(np.clip(px, 0, 1).ravel())
+        if target:
+            t = np.array([int(target.lstrip('#')[i:i + 2], 16) / 255 for i in (0, 2, 4)], dtype=np.float32); m = px[:, :3].mean(axis=0)
+            px[:, :3] *= t / np.maximum(m, 1e-3)
+        im = bpy.data.images.new(f'{os.path.basename(path)[:-4]}_s{sat:g}_g{gain:g}{("_" + target.lstrip("#")) if target else ""}', w, h, alpha=False); im.pixels.foreach_set(np.clip(px, 0, 1).ravel())
         _S['imgs'][key] = im
     return _S['imgs'][key]
 
 
-def pbr(name, pid=None, tile=1.0, tint=None, rough=None, metal=0.0, alpha=None, emit=None, normal=0.8, sat=None, gain=1.0, cull=False):
+def pbr(name, pid=None, tile=1.0, tint=None, rough=None, metal=0.0, alpha=None, emit=None, normal=0.8, sat=None, gain=1.0, cull=False, target=None):
     """Principled BSDF：Poly Haven 的顏色（乘上 tint；sat／gain＝先降低彩度、調亮暗）、粗糙度、法線（OpenGL）；沒有 pid 就是純色材質"""
     m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N = nt.nodes; Lk = nt.links
     bsdf = N['Principled BSDF']; bsdf.inputs['Metallic'].default_value = min(metal, MAX_METAL); m['tile'] = tile
     if pid:
         base = os.path.join(TEX, pid, pid)
-        tc = N.new('ShaderNodeTexImage'); tc.image = img_adj(base + '_diff_1k.jpg', 1.0 if sat is None else sat, gain) if (sat is not None or gain != 1.0) else img(base + '_diff_1k.jpg')
+        tc = N.new('ShaderNodeTexImage'); tc.image = img_adj(base + '_diff_1k.jpg', 1.0 if sat is None else sat, gain, target) if (sat is not None or gain != 1.0 or target) else img(base + '_diff_1k.jpg')
+        if target: tint = None   # 校正過的貼圖就是最後的顏色（不再乘 tint）
         if tint:
             mix = N.new('ShaderNodeMix'); mix.data_type = 'RGBA'; mix.blend_type = 'MULTIPLY'; mix.inputs['Factor'].default_value = 1.0
             Lk.new(tc.outputs['Color'], mix.inputs[6]); mix.inputs[7].default_value = (*tint, 1.0); Lk.new(mix.outputs[2], bsdf.inputs['Base Color'])

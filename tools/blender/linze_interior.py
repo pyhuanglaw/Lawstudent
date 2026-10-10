@@ -26,6 +26,9 @@ S, G, EL = L['stair'], L['gallery'], L['elevator']
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 scene = bpy.context.scene
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import b3lib as B   # 貼圖平均顏色校正（img_adj target）
+B._S['texres'] = TEXRES; B._S['imgs'] = {}
 
 def g2b(x, y, z): return Vector((x, -z, y))
 
@@ -38,13 +41,14 @@ def img(path):
         _imgs[path] = im
     return _imgs[path]
 
-def pbr(name, pid=None, tile=1.0, tint=None, rough=None, metal=0.0, alpha=None, emit=None, normal=0.8):
+def pbr(name, pid=None, tile=1.0, tint=None, rough=None, metal=0.0, alpha=None, emit=None, normal=0.8, target=None, sat=1.0):
     m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N = nt.nodes; Lk = nt.links
     bsdf = N['Principled BSDF']; bsdf.inputs['Metallic'].default_value = metal
     m['tile'] = tile
     if pid:
         base = os.path.join(TEX, pid, pid)
-        tc = N.new('ShaderNodeTexImage'); tc.image = img(base + '_diff_1k.jpg')
+        tc = N.new('ShaderNodeTexImage'); tc.image = B.img_adj(base + '_diff_1k.jpg', sat, 1.0, target) if target else img(base + '_diff_1k.jpg')   # target：平均顏色校正（tools/blender/b3lib.py）
+        if target: tint = None
         if tint:
             mix = N.new('ShaderNodeMix'); mix.data_type = 'RGBA'; mix.blend_type = 'MULTIPLY'; mix.inputs['Factor'].default_value = 1.0
             Lk.new(tc.outputs['Color'], mix.inputs[6]); mix.inputs[7].default_value = (*tint, 1.0); Lk.new(mix.outputs[2], bsdf.inputs['Base Color'])
@@ -73,14 +77,14 @@ def srgb(h):
     return tuple(((v + 0.055) / 1.055) ** 2.4 if v > 0.04045 else v / 12.92 for v in c)
 
 MAT = {
-    'floor':   pbr('stone_floor', 'large_floor_tiles_02', tile=1.2, tint=srgb('#e9e7e2')),        # 照片：穿堂與大廳的灰色石材地磚
-    'granite': pbr('granite_panel', 'large_floor_tiles_02', tile=2.4, tint=srgb('#f2f0eb')),      # 牆面的花崗石板（大片）
-    'step':    pbr('granite_step', 'large_floor_tiles_02', tile=0.9, tint=srgb('#d6d4cf')),
-    'plaster': pbr('plaster', 'painted_plaster_wall', tile=2.5, tint=srgb('#f6f4ef')),
-    'ceiling': pbr('ceiling', 'ceiling_interior', tile=2.0, tint=srgb('#ffffff'), normal=0.3),
-    'wood':    pbr('wood', 'fine_grained_wood', tile=1.6, tint=srgb('#c9a27a')),
-    'woodD':   pbr('wood_dark', 'fine_grained_wood', tile=1.6, tint=srgb('#8a7060')),
-    'leather': pbr('leather', 'fabric_leather_02', tile=1.0, tint=srgb('#6b7480')),             # 灰藍色皮沙發
+    'floor':   pbr('stone_floor', 'large_floor_tiles_02', tile=1.2, sat=0.3, target='#bdbbb5'),        # 照片：穿堂與大廳的灰色石材地磚
+    'granite': pbr('granite_panel', 'large_floor_tiles_02', tile=2.4, sat=0.3, target='#c8c6c0'),      # 牆面的花崗石板（大片）
+    'step':    pbr('granite_step', 'large_floor_tiles_02', tile=0.9, sat=0.3, target='#a9a7a2'),
+    'plaster': pbr('plaster', 'painted_plaster_wall', tile=2.5, target='#e9e6df'),
+    'ceiling': pbr('ceiling', 'ceiling_interior', tile=2.0, sat=0.2, target='#efeeea', normal=0.3),
+    'wood':    pbr('wood', 'fine_grained_wood', tile=1.6, target='#a77d57'),
+    'woodD':   pbr('wood_dark', 'fine_grained_wood', tile=1.6, target='#6e5848'),
+    'leather': pbr('leather', 'fabric_leather_02', tile=1.0, sat=0.15, target='#5f6a76'),             # 灰藍色皮沙發
     'steel':   pbr('steel', None, tint=srgb('#c9ccd0'), rough=0.28, metal=0.45),   # 遊戲沒有環境貼圖：金屬度太高會發黑
     'frame':   pbr('frame', None, tint=srgb('#3a3d40'), rough=0.45, metal=0.35),
     'glass':   pbr('glass', None, tint=srgb('#c4d6dc'), rough=0.05, alpha=0.22),

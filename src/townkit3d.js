@@ -417,6 +417,8 @@ const TK = (function(){
   let nightK=0;   // 目前的夜間程度（之後才登記的材質用它馬上套用）
   // 外部載入的材質（Blender 正式模型的窗玻璃、嵌燈）登記成夜間會亮：emissive 已經設好顏色，強度由 setNight 控制
   function addNight(m,nightI,dayI){ m.userData.nightI=nightI||1.0; m.userData.dayI=dayI||0; if(nightMats.indexOf(m)<0) nightMats.push(m); m.emissiveIntensity=m.userData.dayI*(1-nightK)+m.userData.nightI*nightK; }
+  // 正式模型（Blender GLB）的天花板、穿堂頂：陰影裡只有半球光照到，看起來髒暗——加一點自發光當作地面反射上來的光（和套件的天花板一樣），晚上可以亮一點
+  function bounce(m,dayI,nightI){ if(!m||m.userData.bounce) return; m.userData.bounce=true; m.emissive=new THREE.Color(0xffffff); m.emissiveMap=m.map||null; addNight(m,nightI,dayI); m.needsUpdate=true; }
   function setNight(k){ nightK=k; for(const m of nightMats){ m.emissiveIntensity=(m.userData.dayI||0)*(1-k)+(m.userData.nightI||1)*k; } for(const sp of nightSprites){ const o=sp.userData.dayO*(1-k)+sp.userData.nightO*k; sp.material.opacity=o; sp.visible=o>0.02; } }
-  return {tex,tileTex,mosaicTex,plasterTex,Bin,boxG,planeG,col:colMat,paint:col,M,std,tree,royalPalm,glowMat,addNight,mrtExit,plantClump,glowSprite,apartment,japaneseHouse,wall,utilityPole,trafficMirror,scooter,pots,mailbox,road,sidewalk,lightPool,wires,aBoard,signTex,interiorTex,setNight,nightMats,rnd,bgCity};
+  return {tex,tileTex,mosaicTex,plasterTex,Bin,boxG,planeG,col:colMat,paint:col,M,std,tree,royalPalm,glowMat,addNight,bounce,mrtExit,plantClump,glowSprite,apartment,japaneseHouse,wall,utilityPole,trafficMirror,scooter,pots,mailbox,road,sidewalk,lightPool,wires,aBoard,signTex,interiorTex,setNight,nightMats,rnd,bgCity};
 })();
