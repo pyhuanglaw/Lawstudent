@@ -6,9 +6,10 @@ import numpy as np
 import common as C
 import h01_clothes as K
 
-REF = dict(knee=0.4535, hip=0.9133, spine=1.0161, chest=1.1307, upper=1.2448, neck=1.3699, head=1.4447, sh_x=0.0915, hip_x=0.0739)   # 沈以安 stage0（量測值，見 player.py 的 landmarks 記錄）
+REF = dict(knee=0.5519, hip=0.9041, spine=0.997, chest=1.111, upper=1.2351, neck=1.3497, head=1.4219, sh_x=0.1083, hip_x=0.0768)   # 沈以安（HairSample_Female，stage0 只縮頭、這些關節不動）的骨頭地標，2026-10-10 量測
 
-STYLE = dict(KNIT_RGB=np.array([200, 199, 194]) / 255.0, TROUSER_RGB=np.array([62, 64, 70]) / 255.0, LEATHER_RGB=np.array([236, 234, 228]) / 255.0,
+STYLE = dict(KNIT_RGB=np.array([210, 199, 191]) / 255.0, TROUSER_RGB=np.array([75, 72, 72]) / 255.0,   # 參考圖 02 取樣：毛衣 (0.82, 0.78, 0.75)、褲子 (0.29, 0.28, 0.28)
+             LEATHER_RGB=np.array([236, 234, 228]) / 255.0,
              SOLE_RGB=np.array([226, 224, 218]) / 255.0, GOLD_RGB=np.array([236, 234, 228]) / 255.0,
              V_BOTTOM=1.372, KNIT_HEM=0.985, KNIT_HEM_TOP=1.03, PANTS_TOP=1.06, DROP_X=0.156, SLIM=False, PANTS_ELLIPSE=(0.070, 0.082), SHOE_STYLE='sneaker')
 
@@ -26,6 +27,7 @@ def apply(m):
     finally:
         C.bone_head = bh
     me = obj.data; Mw = np.array(obj.matrix_world); P = C.co(obj) @ Mw[:3, :3].T + Mw[:3, 3]
+    print('  clothes(p00): reference-space bbox', P.min(0).round(3), P.max(0).round(3), 'far points', int((np.abs(P[:, :2]) > 0.6).any(1).sum()))
     C.set_co(obj, (bm.inv(P) - Mw[:3, 3]) @ np.linalg.inv(Mw[:3, :3]).T)
     C.warp_world(body, bm.inv)
     return obj

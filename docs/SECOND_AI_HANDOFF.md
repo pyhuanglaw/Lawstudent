@@ -203,7 +203,7 @@
 | 範圍 | 擁有者 | 另一方可以做什麼 |
 |---|---|---|
 | `tools/blender/env_second/**`（Blender 腳本、自己的工具 lib、工作檔）、`assets/models/env/second_ai/**`（GLB、貼圖）、`docs/art-rebuild/second_ai/**`（進度、VISUAL_REVIEW、截圖） | AI-2 | AI-1 只讀 |
-| `src/zones3d.js` 的 `const cafe={...}`、`const wenzhou={...}` 兩個區塊 | AI-2 | AI-1 不改。需要改時先發訊息 |
+| `src/zones3d.js` 的 `const cafe={...}`、`const wenzhou={...}` 兩個區塊，包括溫州街的建置函式 `buildWenzhou` 與它用到、放在它旁邊的 Café 專用 helper（例如 `attachCafeExterior`、`cafe*`） | AI-2 | AI-1 不改。需要改時先發訊息 |
 | `src/zones3d.js` 的 `gongguan`、`cvs`、`noodle`、`bookstore`、`dorm` 區塊 | 認領後歸 AI-2 | 開工前發訊息「認領」，AI-1 回覆後就不碰 |
 | `src/zones3d.js` 其他部分：`campus`、`linze`、`classroom`、`wancai`、`library` 區塊、共用 helper（`room()`、`chair()`、`desk()`、`shelfWall()`、`attachRoomGLB()`、`attachExterior()`……）、`ZONES` 表 | AI-1 | AI-2 可以**呼叫** helper，不改它們。需要不同行為就在自己的區塊裡另寫 |
 | `src/townkit3d.js`（街道套件 TK） | AI-2 | AI-1 不改。`TK.bgCity`（校園背景用）、`TK.addNight`／`TK.bounce`／`TK.lightPool`（全遊戲共用）的行為要改之前，AI-2 先通知 |

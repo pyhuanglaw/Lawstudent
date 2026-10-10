@@ -164,6 +164,11 @@ def classify_loops(f):
         if L is big: out['back'] = L
         elif abs(c[0]) > 0.015 and 1.44 < c[2] < 1.51: out['eye'].append(L)
         elif abs(c[0]) < 0.006 and c[2] < 1.44: out['mouth'] = L
+    if not out['eye']:          # 別的人物（臉的高度不同，例如祐廷）：不用絕對高度，眼睛＝離中線遠的兩個洞、嘴＝中線上的洞
+        cs = [(L, B[L].mean(0)) for L in loops if L is not big]
+        out['eye'] = [L for L, c in cs if abs(c[0]) > 0.015]
+        mids = [(L, c) for L, c in cs if abs(c[0]) < 0.006]
+        if mids: out['mouth'] = min(mids, key=lambda t: t[1][2])[0]
     return out
 
 

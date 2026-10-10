@@ -1,8 +1,10 @@
 """真實玩家流程：星期四進霖澤館上民法總則（永久回歸案例：2026-10-10 線上回報「才進入教室就卡住沒辦法找到地方坐下」）。
+v9.4（D37）：教室搬到霖澤館二樓的 201；校園 → 穿堂 → 大廳 → 走樓梯上二樓這一段由 tests/flow_linze_floors.py 走真實流程，
+這個測試從二樓 201 門口開始（v9.3 以前從校園的霖澤館門口開始、直接進教室）。
 不用 ?turbo——上課劇情的自動走路要真的走過去（turbo 會瞬移，舊測試因此沒抓到這個 bug）。
-前置（捷徑，會標示）：讀檔到星期四 12:55、霖澤館門口、已讀案例。
-玩家操作（真的介面）：點互動按鈕進霖澤館 → 等劇情自己走到座位坐下（不能靠「卡住後傳送」的保險）→ 點對話、選選項上完課 →
-下課後恢復控制 → 用搖桿走到教室後門 → 點「離開教室」→ 回到校園、站得住、走得動。
+前置（捷徑，會標示）：讀檔到星期四 12:55、霖澤館二樓 201 門口、已讀案例。
+玩家操作（真的介面）：點互動按鈕進 201 → 等劇情自己走到座位坐下（不能靠「卡住後傳送」的保險）→ 點對話、選選項上完課 →
+下課後恢復控制 → 用搖桿走到教室後門 → 點「離開教室」→ 回到霖澤館二樓、站得住、走得動。
 用法：python3 tests/flow_class_real.py URL [輸出資料夾]"""
 import asyncio, json, sys, time, math
 from playwright.async_api import async_playwright
@@ -19,12 +21,12 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
-        run.setup('讀檔：星期四 12:55（第 2 天），霖澤館門口 (34,-98.6)，已讀案例（readCase=full）')
-        await L.load_state(pg, {'zone': 'campus', 'hour': 12.92, 'day': 2, 'weekday': 4, 'weather': 'sunny', 'pos': {'x': 34, 'z': -98.6, 'yaw': 3.14},
+        run.setup('讀檔：星期四 12:55（第 2 天），霖澤館二樓 201 門口 (-2.0,-6.0, 2F)，已讀案例（readCase=full）')
+        await L.load_state(pg, {'zone': 'linze', 'hour': 12.92, 'day': 2, 'weekday': 4, 'weather': 'sunny', 'pos': {'x': -2.0, 'z': -6.0, 'lv': 1, 'yaw': 3.14},
                                 'flags': {'introDone': True, 'campusIntro': True, 'readCase': 'full'}})
         await pg.wait_for_timeout(3000)
         s = await L.state(pg)
-        run.check('門口出現「進入霖澤館」按鈕', s['interact'].startswith('進入霖澤館'), json.dumps(s, ensure_ascii=False))
+        run.check('門口出現「進入 201 階梯教室」按鈕', s['interact'].startswith('進入 201'), json.dumps(s, ensure_ascii=False))
         await L.tap(pg, cdp, '#interact'); run.note('點了互動按鈕')
         # 等進教室、劇情自己走到座位坐下、教授開口
         t0 = time.time(); last_xy = None; still_since = time.time(); stuck = False; reached = False; path_log = []
@@ -58,13 +60,13 @@ async def main():
             await L.tap(pg, cdp, '#interact')
             for i in range(30):
                 s = await L.state(pg)
-                if s['zone'] == 'campus' and not s['busy']: break
+                if s['zone'] == 'linze' and not s['busy']: break
                 if s['dlg'] or s['choices']: await L.advance_dialogs(pg, cdp, run, until=lambda s: not s['dlg'] and not s['choices'], max_steps=30)
                 await pg.wait_for_timeout(700)
             await pg.wait_for_timeout(1500)
             moved, pushes, s2 = await L.push_until(pg, cdp, 0, -40, 0.5)   # 推到走了 0.5 m（最多 4 次）：距離隨幀率變，見 playlib.push_until
-            await run.shot(pg, 'back_on_campus')
-            run.check('回到校園、站得住、搖桿走得動', s2['zone'] == 'campus' and s2['stand'] and moved > 0.5, json.dumps(s2, ensure_ascii=False) + f' 推了 {pushes} 次、走了 {moved:.2f} m')
+            await run.shot(pg, 'back_in_linze_2f')
+            run.check('回到霖澤館二樓、站得住、搖桿走得動', s2['zone'] == 'linze' and s2.get('lv') == 1 and s2['stand'] and moved > 0.5, json.dumps(s2, ensure_ascii=False) + f' 推了 {pushes} 次、走了 {moved:.2f} m')
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
         await b.close()
     sys.exit(run.finish())

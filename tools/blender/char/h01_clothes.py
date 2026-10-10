@@ -230,7 +230,7 @@ def drape_pants(rows, phi, sg, z_crotch, mid=None):
         if axo.min() >= X0 or axo[0] < X0 or axo[-1] < X0: continue
         ib = next(i for i in range(1, len(order)) if axo[i] < X0); jf = max(i for i in range(len(order) - 1) if axo[i] < X0)
         fb = (ib - 1) + (axo[ib - 1] - X0) / max(axo[ib - 1] - axo[ib], 1e-9)
-        ff = jf + (axo[jf] - X0) / max(axo[jf] - axo[jf + 1], 1e-9)
+        ff = jf + (X0 - axo[jf]) / max(axo[jf + 1] - axo[jf], 1e-9)          # jf 在 X0 裡面、jf+1 在外面
         Pb = ring[order[ib - 1]] + (ring[order[ib]] - ring[order[ib - 1]]) * (fb - (ib - 1))
         Pf = ring[order[jf]] + (ring[order[jf + 1]] - ring[order[jf]]) * (ff - jf)
         arc_i = list(range(ib, jf + 1)); arc = np.array([order[i] for i in arc_i]); ya = ring[arc, 1]
@@ -315,7 +315,12 @@ def build_pants(skin, arm, mb):
         def mid(z, _cy=hips_c[1]):
             f = Skin.outer(skin.full, (0, _cy, z), (0, -1, 0), 0.40); b = Skin.outer(skin.full, (0, _cy, z), (0, 1, 0), 0.40)
             return (_cy - f if np.isfinite(f) else 1e9), (_cy + b if np.isfinite(b) else -1e9)
+        rows0 = rows.copy()
         rows = drape_pants(rows, phi, sg, z_crotch, mid)
+        if os.environ.get('PANTS_DEBUG'):
+            bad = np.argwhere(np.abs(rows[:, :, :2]).max(-1) > 0.5)
+            print('   pants', side, 'extreme points', len(bad), bad[:6].tolist(), 'before drape max', np.abs(rows0[:, :, :2]).max().round(3))
+            for r_, k_ in bad[:3]: print('     row', r_, 'k', k_, 'z %.3f' % rows[r_, k_, 2], 'before', rows0[r_, k_].round(3), 'after', rows[r_, k_].round(3))
         # 褲頭上緣往內折（厚度）
         top_in = rows[0].copy(); cc = cens[0]
         top_in[:, :2] = cc[:2] + (top_in[:, :2] - cc[:2]) * 0.95; top_in[:, 2] -= 0.004
@@ -839,9 +844,11 @@ def apply(m):
     img_k = C.image_from_array('H01_Knit', knit_texture(), os.path.join(WIP, 'clothes_Knit.png'))
     img_t = C.image_from_array('H01_Trouser', trouser_texture(), os.path.join(WIP, 'clothes_Trouser.png'))
     img_l = C.image_from_array('H01_Loafer', loafer_texture(), os.path.join(WIP, 'clothes_Loafer.png'))
-    mats = [make_mat('F00_002_01_Tops_01_CLOTH', 'H01_Knit_CLOTH', img_k, (0.84, 0.78, 0.74)),
-            make_mat('F00_002_01_Tops_01_CLOTH', 'H01_Trouser_CLOTH', img_t, (0.74, 0.76, 0.84)),
-            make_mat('F00_002_01_Shoes_01_CLOTH', 'H01_Loafer_CLOTH', img_l, (0.62, 0.56, 0.56))]
+    def tmpl(pat):      # 範本材質（女性樣本 F00_002_01_Tops_01_CLOTH、男性樣本 M00_006_01_Tops_01_CLOTH……）
+        return next(mt.name for mt in bpy.data.materials if pat in mt.name and mt.name.endswith('_CLOTH') and not mt.name.startswith('H01_'))
+    mats = [make_mat(tmpl('Tops'), 'H01_Knit_CLOTH', img_k, (0.84, 0.78, 0.74)),
+            make_mat(tmpl('Tops'), 'H01_Trouser_CLOTH', img_t, (0.74, 0.76, 0.84)),
+            make_mat(tmpl('Shoes'), 'H01_Loafer_CLOTH', img_l, (0.62, 0.56, 0.56))]
     W = compute_weights(skin, arm, mb, top, pants, shoes)
     obj, bad = mb.build('Clothes_H01', mats)
     (arm.users_collection[0] if arm.users_collection else bpy.context.scene.collection).objects.link(obj)
