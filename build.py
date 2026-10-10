@@ -12,7 +12,7 @@ out=re.sub(r'<script src="([^"]+)"></script>',inline,src)
 (root/'build').mkdir(exist_ok=True)
 # 複製執行期需要的資產（GLB）到 build/assets（相對路徑不變）
 import shutil
-for sub in ['models/env','models/char']:
+for sub in ['models/env','models/env/second_ai','models/char']:   # models/env/second_ai：第二個 AI（環境美術）的 GLB（docs/SECOND_AI_HANDOFF.md）
     d=root/'build'/'assets'/sub; d.mkdir(parents=True,exist_ok=True)
     for f in list((root/'assets'/sub).glob('*.glb'))+list((root/'assets'/sub).glob('*.vrm')): shutil.copy2(f,d/f.name)
 # 正式立繪（webp）

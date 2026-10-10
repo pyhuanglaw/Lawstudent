@@ -37,6 +37,8 @@
 - 12:08 #19「201 有 17 個座位按鈕不出現」查明是**測試的錯**（測試把玩家放在 y=0，最上排座位 1.5–1.8 m 被當成別層）；遊戲裡站在最上排按鈕正常出現（3/3）。修測試後 classroom ALL PASS。
 - 12:13 #16 霖澤館／201 鏡頭遮擋修好：外牆上的門與框跟著牆淡出（Blender 腳本分組、重新匯出兩個 GLB）；新測試 `tests/indoor_camera_occlusion.py` 舊版 4/5 失敗、新版 5/5 PASS。順便修 `char_review`／`char_motion` 的 `CHAR_SWAP` 攔截寫法（之前還沒用到，不影響已有結果）。
 - 12:20 第二個工作流程（霖澤館美術：玻璃反射與夜間暖色玻璃、室內與 201 的 Blender 細節，各自建模 → 審查 → 修正）開始，和沈以安人物工作流程平行（檔案不重疊）；舊存檔相容測試（線上 main `cd52bab` 的存檔、v7 `ba53746` 的存檔 → 開發分支）在背景跑。
+- 12:40–13:00 沈以安：側臉的下半臉往後收、嘴下面的條紋陰影消除、瀏海改細髮束、臉旁長髮加寬加波浪（`232ebdc`、`08d0841`，遊戲 look-dev 截圖確認）。使用者要求減少平行工作，霖澤館工作流程暫停（WIP patch 在暫存區）。
+- 13:00–13:20 雙 AI 分工（使用者指示）：第二個工作階段「遊戲協作專案」（`session_01AC1WVgJSmoJK1uRsPK2Zn1`，分支 `claude/second-ai-env-art`）負責環境美術，第一項是兩點半 Café。交接文件 `docs/SECOND_AI_HANDOFF.md`、看板 `docs/DUAL_AI_BOARD.md`、決策 D39；`build.py` 打包 `assets/models/env/second_ai/`；`assets3d.js`、`LICENSES.md` 各開一個第二個 AI 的區段。雙方 `send_message` 已確認雙向可用。
 
 ### 正在做（v9.4 人物：Blender 正式製作——示範角色沈以安，2026-10-10 11:00 起，使用者指示）
 
