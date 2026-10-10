@@ -1,0 +1,164 @@
+[
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cvs_after_entry_1100.png",
+  "w": 390,
+  "h": 844,
+  "hideNPCs": true,
+  "state": {
+   "zone": "cvs",
+   "hour": 11,
+   "pos": {
+    "x": 0,
+    "z": 3.5,
+    "yaw": 3.1416
+   }
+  },
+  "cam": {
+   "yaw": 0.0,
+   "pitch": 0.38,
+   "dist": 4.0
+  },
+  "wait": 3500,
+  "mobile": true,
+  "hud": true,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if((z&&z.formal)||false) return z&&z.formal?'formal':'fallback'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cvs_after_entry_1730.png",
+  "w": 390,
+  "h": 844,
+  "hideNPCs": true,
+  "state": {
+   "zone": "cvs",
+   "hour": 17.5,
+   "pos": {
+    "x": 0,
+    "z": 3.5,
+    "yaw": 3.1416
+   }
+  },
+  "cam": {
+   "yaw": 0.0,
+   "pitch": 0.38,
+   "dist": 4.0
+  },
+  "wait": 3500,
+  "mobile": true,
+  "hud": true,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if((z&&z.formal)||false) return z&&z.formal?'formal':'fallback'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cvs_after_entry_2030.png",
+  "w": 390,
+  "h": 844,
+  "hideNPCs": true,
+  "state": {
+   "zone": "cvs",
+   "hour": 20.5,
+   "pos": {
+    "x": 0,
+    "z": 3.5,
+    "yaw": 3.1416
+   }
+  },
+  "cam": {
+   "yaw": 0.0,
+   "pitch": 0.38,
+   "dist": 4.0
+  },
+  "wait": 3500,
+  "mobile": true,
+  "hud": true,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if((z&&z.formal)||false) return z&&z.formal?'formal':'fallback'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cvs_after_aisle_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "state": {
+   "zone": "cvs",
+   "hour": 11,
+   "pos": {
+    "x": 0,
+    "z": 2.8,
+    "yaw": 3.1416
+   }
+  },
+  "cam": {
+   "pos": [
+    0.2,
+    1.6,
+    3.6
+   ],
+   "look": [
+    0.0,
+    1.0,
+    -3.5
+   ]
+  },
+  "wait": 3500,
+  "hidePlayer": true,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if((z&&z.formal)||false) return z&&z.formal?'formal':'fallback'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cvs_after_counter_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "state": {
+   "zone": "cvs",
+   "hour": 17.5,
+   "pos": {
+    "x": 3.2,
+    "z": -0.6,
+    "yaw": 3.1416
+   }
+  },
+  "cam": {
+   "pos": [
+    1.2,
+    1.65,
+    1.6
+   ],
+   "look": [
+    4.4,
+    1.0,
+    -2.6
+   ]
+  },
+  "wait": 3500,
+  "hidePlayer": true,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if((z&&z.formal)||false) return z&&z.formal?'formal':'fallback'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cvs_after_cooler_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "state": {
+   "zone": "cvs",
+   "hour": 20.5,
+   "pos": {
+    "x": 4.0,
+    "z": 2.0,
+    "yaw": 1.5708
+   }
+  },
+  "cam": {
+   "pos": [
+    2.6,
+    1.6,
+    0.2
+   ],
+   "look": [
+    5.6,
+    1.1,
+    2.6
+   ]
+  },
+  "wait": 3500,
+  "hidePlayer": true,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if((z&&z.formal)||false) return z&&z.formal?'formal':'fallback'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ }
+]

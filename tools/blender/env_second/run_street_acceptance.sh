@@ -1,5 +1,5 @@
 #!/bin/bash
-# 溫州街主巷公寓（bldg.wenzhou_street）的驗收流程（第二個 AI）：回歸測試（docs/SECOND_AI_HANDOFF.md 第 3 節；騎樓柱子有樹幹透視 → 加跑 see_through）→ 修改前／後截圖。
+# 溫州街近景（公寓、日式宿舍、街道細節、小公園、機車）＋便利商店室內的驗收流程（第二個 AI）：回歸測試（docs/SECOND_AI_HANDOFF.md 第 3 節；騎樓柱子有樹幹透視 → 加跑 see_through）→ 修改前／後截圖。
 # 模擬器（SwiftShader）一次只跑一個，不要和其他瀏覽器工作同時跑（會逾時或誤判）。
 # 用法：bash tools/blender/env_second/run_street_acceptance.sh [log 資料夾] [tests|shots|all] [網址]
 cd "$(dirname "$0")/../../.."
@@ -9,7 +9,9 @@ keep(){ local d=docs/art-rebuild/second_ai/test_shots/street/$1; mkdir -p "$d"; 
 run(){ local name=$1; shift; echo "=== $name $(date -u +%H:%M:%S)"; timeout 3000 "$@" > "$LOG/$name.log" 2>&1; echo "exit $? $(date -u +%H:%M:%S)"; grep -E "^(ALL PASS|FAILED|PASS|FAIL)" "$LOG/$name.log" | tail -3; keep "$name"; }
 if [ "$WHAT" != shots ]; then
   run wz_street_integration python3 tests/wz_street_integration.py $U
-  run reachability_wenzhou_cafe python3 tests/reachability_all.py $U --zones wenzhou,cafe
+  run cafe_glb_integration python3 tests/cafe_glb_integration.py $U
+  run cvs_glb_integration python3 tests/cvs_glb_integration.py $U
+  run reachability_wenzhou_cafe_cvs python3 tests/reachability_all.py $U --zones wenzhou,cafe,cvs
   run zone_transitions python3 tests/zone_transitions.py $U
   run p0_movement python3 tests/p0_movement.py $U
   run touch_flow_wenzhou python3 tests/touch_flow_wenzhou.py $U
@@ -17,7 +19,10 @@ if [ "$WHAT" != shots ]; then
 fi
 if [ "$WHAT" != tests ]; then
   python3 tools/blender/env_second/shots/make_shots.py > /dev/null
-  run shots_before python3 tools/shots/scene_shot.py "$U?nobldg" tools/blender/env_second/shots/street_before.json
-  run shots_after python3 tools/shots/scene_shot.py "$U" tools/blender/env_second/shots/street_after.json
+  # 截圖：fast_shots.py（同一種畫面大小只載入一次遊戲；和 scene_shot.py 同一種 JSON）
+  python3 -c "import json;a=json.load(open('tools/blender/env_second/shots/street_before.json'))+json.load(open('tools/blender/env_second/shots/cvs_before.json'));json.dump(a,open('$LOG/shots_before.json','w'))"
+  python3 -c "import json;a=json.load(open('tools/blender/env_second/shots/street_after.json'))+json.load(open('tools/blender/env_second/shots/cvs_after.json'));json.dump(a,open('$LOG/shots_after.json','w'))"
+  run shots_before python3 tools/blender/env_second/shots/fast_shots.py "$U?nobldg" $LOG/shots_before.json
+  run shots_after python3 tools/blender/env_second/shots/fast_shots.py "$U" $LOG/shots_after.json
 fi
 echo "=== done $(date -u +%H:%M:%S)"

@@ -183,6 +183,7 @@ def tank_mesh():
 GRILLE = grille_mesh(2.5, 1.75); HOOD = hood_mesh(2.7); AC = ac_mesh(); TANK = tank_mesh()
 M['room_lit'] = L.flat('wz_room_lit', '#3a3228', rough=0.9, emit=B.srgb('#ffcf8a'))   # 亮燈的房間：晚上發光（遊戲 TK.addNight）
 M['laundry'] = L.vc_material('wz_laundry', rough=0.85)                                    # 鐵窗裡曬的衣服（顏色在頂點色）
+M['glass_lit'] = L.flat('wz_win_glass_lit', '#8a8272', rough=0.08, alpha=0.3, emit=B.srgb('#ffc070'))   # 亮燈那戶的窗玻璃：比較透明、晚上自己帶一點暖光（深色玻璃在夜間的環境光下會變淺灰、蓋住燈光）
 
 
 def stain_mat():
@@ -215,7 +216,7 @@ def window_proto(ww, wh, lit):
     al.box(x0, x1, y0, y0 + t, fz - 0.05, fz + 0.03); al.box(x0, x1, y1 - t, y1, fz - 0.05, fz + 0.03)
     al.box(x0, x0 + t, y0, y1, fz - 0.05, fz + 0.03); al.box(x1 - t, x1, y0, y1, fz - 0.05, fz + 0.03)
     al.box(-0.03, 0.01, y0 + t, y1 - t, fz - 0.03, fz + 0.02)
-    gl = Mesh('win_glass', M['win_glass']); gl.quad([(x0 + t, y0 + t, fz - 0.01), (x1 - t, y0 + t, fz - 0.01), (x1 - t, y1 - t, fz - 0.01), (x0 + t, y1 - t, fz - 0.01)])
+    gl = Mesh('win_glass', M['glass_lit'] if lit else M['win_glass']); gl.quad([(x0 + t, y0 + t, fz - 0.01), (x1 - t, y0 + t, fz - 0.01), (x1 - t, y1 - t, fz - 0.01), (x0 + t, y1 - t, fz - 0.01)])
     sl = Mesh('win_sill', M['band']); sl.box(x0 - 0.08, x1 + 0.08, y0 - 0.07, y0, -0.25, 0.07)
     stn = Mesh('win_stain', M['stain']); stn.quad([(x0 - 0.05, y0 - 1.05, 0.012), (x1 + 0.05, y0 - 1.05, 0.012), (x1 + 0.05, y0 - 0.07, 0.012), (x0 - 0.05, y0 - 0.07, 0.012)])
     so = stn.finish(None, uv=True); uv01(so)                                                  # 窗台下的雨痕（整張貼圖）
