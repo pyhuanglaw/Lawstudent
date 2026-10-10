@@ -454,15 +454,18 @@ def apply(m):
             P[1:-1] = P[1:-1] * 0.5 + (P[:-2] + P[2:]) * 0.25
         P = H.push(P, marg)
         P, s = resample(P, 25); L = s[-1]
+        # 下段微微的 S 形波浪（參考圖臉旁的長髮有弧度，不是一條直的；第二版 2026-10-10）
+        uu = s / L; P[:, 0] += sgn * 0.006 * np.sin((uu - 0.35) / 0.65 * 2 * np.pi * 1.1) * sstep(0.30, 0.55, uu)
+        P = H.push(P, marg)
         Tn = tangents(P)
         out = _unit(np.column_stack([P[:, 0], -0.5 + 0.6 * P[:, 1], np.zeros(len(P))]))   # 髮片正面朝外、略朝前
-        for rot, wfac, reg, dx in ((0.0, 1.0, 'lock', 0.0), (0.55 * sgn, 0.7, 'lock', 0.0035)):   # 主髮束＋旁邊一小束（轉個角度，側面看有厚度）
+        for rot, wfac, reg, dx in ((0.0, 1.0, 'lock', 0.0), (0.55 * sgn, 0.7, 'lock', 0.0035), (-0.45 * sgn, 0.75, 'lock', -0.004)):   # 主髮束＋兩旁各一小束（轉個角度，側面看有厚度、正面看比較蓬）
             nrm = _unit(out - Tn * np.sum(out * Tn, 1)[:, None])
             sd = _unit(np.cross(nrm, Tn))
             twist = np.linspace(0, 0.5 * sgn, len(P))[:, None]
             sd2 = _unit(sd * np.cos(twist + rot) + nrm * np.sin(twist + rot)); n2 = _unit(np.cross(Tn, sd2))
             if np.mean(np.sum(n2 * nrm, 1)) < 0: n2 = -n2
-            width = (0.024 - 0.010 * sstep(0.12, 0.42, s / L) + 0.004 * sstep(0.5, 0.85, s / L)) * wfac * (0.5 + 0.5 * sstep(0.0, 0.12, s / L))
+            width = (0.031 - 0.011 * sstep(0.12, 0.42, s / L) + 0.006 * sstep(0.5, 0.85, s / L)) * wfac * (0.5 + 0.5 * sstep(0.0, 0.12, s / L))   # 第二版加寬（原本 2.4 cm：正面看像兩條細麵）
             mb.ribbon(P + nrm * dx, sd2, _unit(n2 * 0.5 + nrm * 0.3 + np.array([0, -0.45, 0.15])), width, reg, grp, s, arch=0.14, both=True)   # 法線偏向前方：亮度和瀏海接近
         side_chains[grp] = (P, s, jaw)
         # 臉頰旁較短的碎髮（太陽穴 → 顴骨 → 下顎，剛體）：和長的臉旁碎髮一起做出參考圖那種包住臉側的層次
