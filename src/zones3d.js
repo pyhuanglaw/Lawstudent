@@ -478,7 +478,7 @@ const Z3 = (function(){
     // 西端（巷底）：住家公寓。v9.2 起兩點半 Café 搬到東端路口（門面朝西，傍晚夕陽沿著巷子照到店門口）
     { const endB=TK.apartment({w:14,d:13,floors:4,wall:'tile',color:'#cdbfa8',balcony:true,ground:{type:'door',color:'#5c3a21'}}); endB.position.set(-37.2,0,-1); endB.rotation.y=Math.PI/2; g.add(endB); buildings.push(endB); nav.blockRect(-43.7,-1,13,14,0,0); addCollider(-43.7,-1,13,14,16); }
     // 東端路口：兩點半 Café（一樓咖啡廳＋樓上住家；正對主巷，從公館走進溫州街第一眼就看到）
-    const cafeB=TK.apartment({w:14,d:13,floors:3,fh:3.2,groundH:3.8,wall:'tile',color:'#e6d9c4',balcony:true,tank:false,grille:'#3b2a1e',ground:{type:'shop',shop:{type:'cafe',name:'兩點半 Café',sub:'營業 11:00–02:30',signBg:'#3b2a1e',signColor:'#f4ead8',serif:true,awning:'#3b2a1e',frame:'#3b2a1e'}}}); cafeB.position.set(55.4,0,0); cafeB.rotation.y=-Math.PI/2; g.add(cafeB); buildings.push(cafeB); nav.blockRect(61.9,0,13,14,0,0); addCollider(61.9,0,13,14,14);
+    const cafeB=TK.apartment({w:14,d:13,floors:3,fh:3.2,groundH:3.8,wall:'tile',color:'#e6d9c4',balcony:true,tank:false,grille:'#3b2a1e',ground:{type:'shop',shop:{type:'cafe',name:'兩點半 Café',sub:'營業 11:00–02:30',signBg:'#3b2a1e',signColor:'#f4ead8',serif:true,awning:'#3b2a1e',frame:'#3b2a1e'}}}); cafeB.position.set(55.4,0,0); cafeB.rotation.y=-Math.PI/2; g.add(cafeB); buildings.push(cafeB); cafeB.userData.dyn=true;   /* 不參加整區靜態合併：Blender 正式模型（bldg.cafe_exterior）載入後要能把套件外觀藏起來 */ nav.blockRect(61.9,0,13,14,0,0); addCollider(61.9,0,13,14,14);
     open(54.5,-6.6,55.15,6.6); // 店門口的騎樓地（可以走到門邊）
     // Café 南側：轉角公寓；路口往南是通往公館的路（遠景）
     { const b=TK.apartment({w:10,d:12,floors:5,wall:'tile',color:'#cbbba6',ground:{type:'shutter'}}); b.position.set(55.4,0,-12.4); b.rotation.y=-Math.PI/2; g.add(b); buildings.push(b); nav.blockRect(61.4,-12.4,12,10,0,0); addCollider(61.4,-12.4,12,10,18); }
@@ -500,11 +500,12 @@ const Z3 = (function(){
     for(const [x,z,ry,w,f,c] of [[47.9,-24,Math.PI/2,12,5,'#c9bba5'],[54.7,-24,-Math.PI/2,12,6,'#d4c8b4'],[47.9,-38,Math.PI/2,14,4,'#bfb29c'],[54.7,-38,-Math.PI/2,14,7,'#cdc2ae']]){ const b=TK.apartment({w,d:10,floors:f,wall:'tile',color:c,detail:false,ground:{type:'door'}}); b.position.set(x,0,z); b.rotation.y=ry; g.add(b); buildings.push(b); addCollider(x+(ry>0?-5:5),z,10,w,f*3.3+4); }
     for(const [z,ry,c] of [[11,Math.PI/2,'#d4c6b0'],[-13,Math.PI/2,'#cbbfae']]){ const b=TK.apartment({w:10,d:12,floors:4,wall:'tile',color:c,detail:false,ground:{type:'door'}}); b.position.set(-37.2,0,z); b.rotation.y=ry; g.add(b); buildings.push(b); addCollider(-43.2,z,12,10,14); }
     E.interactables.push({x:54.2,z:0,radius:2.3,label:'進入兩點半 Café',exit:{to:'cafe',spawn:{x:0,z:5,yaw:Math.PI}}});
-    { const ab=TK.aBoard(['今日手沖','衣索比亞','耶加雪菲','—','讀書位 有']); ab.position.set(54.4,0,3.6); ab.rotation.y=-Math.PI/2; g.add(ab); nav.blockCircle(54.4,3.6,0.35); }
+    const cafeKitProps=[];   // 套件的 A 字立牌、門口盆栽：Café 正式模型裡有自己的版本（位置、導航阻擋相同），載入後藏起來
+    { const ab=TK.aBoard(['今日手沖','衣索比亞','耶加雪菲','—','讀書位 有']); ab.position.set(54.4,0,3.6); ab.rotation.y=-Math.PI/2; g.add(ab); nav.blockCircle(54.4,3.6,0.35); ab.userData.dyn=true; cafeKitProps.push(ab); }
     { const bk=W3.bike('#2f5d50'); bk.position.set(54.6,0,-5.4); bk.rotation.y=Math.PI+0.15; g.add(bk); nav.blockRect(54.6,-5.4,0.6,1.8,0.15,0.1); }
-    { const pt=TK.pots(5,1); pt.position.set(54.85,0,4.6); pt.rotation.y=-Math.PI/2; g.add(pt); nav.blockRect(54.85,5.4,0.6,1.8,0,0); }
+    { const pt=TK.pots(5,1); pt.position.set(54.85,0,4.6); pt.rotation.y=-Math.PI/2; g.add(pt); nav.blockRect(54.85,5.4,0.6,1.8,0,0); pt.userData.dyn=true; cafeKitProps.push(pt); }
     nav.blockRect(54.8,4.22,0.7,0.65,0,0); nav.blockRect(46.25,4.7,0.9,0.7,0,0);   // 比人窄的縫（A 字立牌和盆栽之間、電線桿和郵筒之間）：會留下只有一點站得住的小孤島，滑進去就出不來（v9.3 #31，tools/dev_scratch/nav_islands.py）
-    { const pt=TK.pots(4,3); pt.position.set(54.85,0,-4.6); pt.rotation.y=-Math.PI/2; g.add(pt); nav.blockRect(54.85,-3.8,0.6,1.6,0,0); }
+    { const pt=TK.pots(4,3); pt.position.set(54.85,0,-4.6); pt.rotation.y=-Math.PI/2; g.add(pt); nav.blockRect(54.85,-3.8,0.6,1.6,0,0); pt.userData.dyn=true; cafeKitProps.push(pt); }
     { const bk=W3.bike('#3a6fb0'); bk.position.set(-35.9,0,-5.2); bk.rotation.y=0.15; g.add(bk); nav.blockRect(-35.9,-5.2,0.6,1.8,0.15,0.1); }
     { const pt=TK.pots(5,1); pt.position.set(-36.6,0,3.4); pt.rotation.y=Math.PI/2; g.add(pt); nav.blockRect(-36.4,4.2,0.6,1.8,0,0); }
     // A 側：日式宿舍（圍牆＋黑瓦木屋＋老樹）
@@ -593,7 +594,41 @@ const Z3 = (function(){
     for(const b of buildings) b.traverse(o=>{ if(o.isMesh){ o.castShadow=o.castShadow!==false; } });
     // 時間：0 白天 → 1 夜晚（傍晚漸亮）
     const warmSky=new THREE.Color(0xffc48a), warmGround=new THREE.Color(0x6a5644); const zoneTime=(h,E)=>{ let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); k=Math.max(0,Math.min(1,k)); TK.setNight(k); if(E&&E.hemi){ E.hemi.intensity+=0.85*k; E.hemi.color.lerp(warmSky,0.3*k); E.hemi.groundColor.lerp(warmGround,0.55*k); } for(const L of lights) L.intensity=L.userData.maxI*Math.max(0,Math.min(1,k)); for(const p of pools) p.material.opacity=p.userData.poolMax*Math.max(0,Math.min(1,k*1.2-0.2)); };
-    return {group:g,nav,spawn:{x:44,z:-1,yaw:-Math.PI/2},lamps:[],buildings,applyTimeOutdoor:zoneTime,onLamps(on){}}; }
+    const zone={group:g,nav,spawn:{x:44,z:-1,yaw:-Math.PI/2},lamps:[],buildings,applyTimeOutdoor:zoneTime,onLamps(on){}};
+    // 兩點半 Café 的 Blender 正式模型（第二個 AI：tools/blender/env_second/cafe_exterior.py）：載入後接到套件建築上；失敗或 ?nobldg 時維持套件外觀
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.cafe_exterior']) ASSETS.loadOne('bldg.cafe_exterior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachCafeExterior(cafeB,c.scene.clone(true),cafeKitProps); }).catch(e=>console.warn('兩點半 Café 正式模型載入失敗，用套件的外觀',e));
+    return zone; }
+  /* 兩點半 Café 正式模型接到套件建築上（GLB 是建築自己的座標：正面朝 +z、原點在正面中央地面，和 TK.apartment 相同）。
+     套件的外觀與光暈藏起來（導航、鏡頭碰撞、店門互動點不在這裡，照舊）；hide＝一起藏起來的套件道具（A 字立牌、盆栽）。
+     名稱約定（見 cafe_exterior.py）：SIGN_FACE／ABOARD_FACE_*／MENU_FACE＝空白板面，字用 canvas 畫（自訂屬性帶文字）；
+     CAFE_NIGHT 的材質夜間發光（TK.addNight）、CAFE_BOUNCE 的店內材質有燈光感（TK.bounce）；GLOW_* 空節點＝光暈位置（TK.glowSprite）。 */
+  const CAFE_NIGHT={cafe_bulb:[0xfff1d6,2.4,1.0],cafe_lampglass:[0xffd49a,1.5,0.3],ext_glass_lit:[0xffd9a0,0.75,0]};
+  const CAFE_BOUNCE={cafe_int_floor:[0.45,0.75],cafe_int_plaster:[0.6,0.95],cafe_int_wood:[0.4,0.7],cafe_int_ceiling:[0.4,0.75],cafe_int_books:[0.5,0.8],cafe_int_shelf:[0.4,0.7],cafe_int_bar:[0.4,0.7]};   /* 白天店裡也開燈：從玻璃外看得到暖色的店內 */
+  function cafeCanvas(w,h,draw){ const c=document.createElement('canvas'); c.width=w; c.height=h; draw(c.getContext('2d'),w,h); const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.flipY=false; t.anisotropy=8; return t; }   /* glTF 的 UV：flipY=false */
+  const CAFE_SERIF='"Noto Serif TC","Songti TC","Noto Serif CJK TC","Source Han Serif TC",serif', CAFE_SANS='"Noto Sans TC","PingFang TC","Noto Sans CJK TC","Microsoft JhengHei",sans-serif';
+  function cafeSignTex(d){ return cafeCanvas(2048,192,(x,w,h)=>{ x.fillStyle=d.bg||'#3b2a1e'; x.fillRect(0,0,w,h); const gr=x.createLinearGradient(0,0,0,h); gr.addColorStop(0,'rgba(255,240,220,0.06)'); gr.addColorStop(1,'rgba(0,0,0,0.12)'); x.fillStyle=gr; x.fillRect(0,0,w,h);
+      x.strokeStyle='rgba(222,200,160,0.55)'; x.lineWidth=3; x.strokeRect(14,12,w-28,h-24); x.fillStyle=d.color||'#f4ead8'; x.textBaseline='middle'; x.textAlign='center'; x.font='600 118px '+CAFE_SERIF; x.fillText(d.sign||'兩點半 Café',w/2,h*0.5+4);
+      if(d.sub){ x.font='34px '+CAFE_SANS; x.textAlign='right'; x.fillStyle='rgba(244,234,216,0.75)'; x.fillText(d.sub,w-48,h*0.5+6); } }); }   /* 板面 6.6×0.62 m → 2048×192 */
+  function cafeChalkTex(lines,w,h,o){ o=o||{}; return cafeCanvas(w,h,(x,W,H)=>{ x.fillStyle='#26302b'; x.fillRect(0,0,W,H); for(let i=0;i<60;i++){ x.fillStyle='rgba(255,255,255,'+(0.015+((i*37)%7)/400)+')'; x.beginPath(); x.ellipse((i*97)%W,(i*53)%H,30+(i*13)%40,8+(i*7)%10,(i%5)*0.6,0,7); x.fill(); }
+      const fs=o.fs||Math.round(H/(lines.length+3)); x.textAlign='center'; x.textBaseline='middle'; x.font='600 '+fs+'px '+CAFE_SANS; lines.forEach((l,i)=>{ x.fillStyle=i===0?'#f6e3b0':'#f2ecdc'; x.fillText(l,W/2,H*(o.top||0.16)+i*fs*1.35); });
+      if(o.cup){ const cx=W/2, cy=H*0.86, r=H*0.05; x.strokeStyle='#f2ecdc'; x.lineWidth=Math.max(2,H/120); x.beginPath(); x.moveTo(cx-r*1.4,cy-r); x.lineTo(cx-r*1.1,cy+r); x.lineTo(cx+r*1.1,cy+r); x.lineTo(cx+r*1.4,cy-r); x.closePath(); x.stroke(); x.beginPath(); x.arc(cx+r*1.6,cy-r*0.1,r*0.5,-1.4,1.4); x.stroke(); for(const dx of [-0.5,0,0.5]){ x.beginPath(); x.moveTo(cx+dx*r,cy-r*1.4); x.quadraticCurveTo(cx+dx*r+r*0.3,cy-r*1.9,cx+dx*r,cy-r*2.4); x.stroke(); } } }); }   /* 黑板：深綠底、粉筆字、手繪咖啡杯 */
+  function cafeFacePaint(mesh,tex,nightI,dayI){ const m=mesh.material.clone(); m.map=tex; m.color=new THREE.Color(0xffffff); m.emissive=new THREE.Color(0xffffff); m.emissiveMap=tex; m.roughness=0.85; m.metalness=0; mesh.material=m; if(nightI!=null) TK.addNight(m,nightI,dayI||0); else m.emissiveIntensity=0; m.needsUpdate=true; }
+  function attachCafeExterior(cafe,root,hide){
+    for(const m of cafe.children) if(m.isMesh||m.isSprite) m.visible=false;
+    for(const o of hide||[]) o.visible=false;
+    const glows=[];
+    root.traverse(o=>{ if(o.userData&&o.userData.glow) glows.push(o); if(!o.isMesh) return; const mt=o.material, nm=mt&&mt.name;
+      const glassy=!!(mt&&mt.transparent); o.castShadow=!glassy; o.receiveShadow=!glassy;
+      if(o.name==='SIGN_FACE'){ cafeFacePaint(o,cafeSignTex(o.userData),1.1,0.15); return; }
+      if(o.name.indexOf('ABOARD_FACE')===0){ cafeFacePaint(o,cafeChalkTex(o.userData.aboard||[],256,336,{cup:true,top:0.15}),null); return; }
+      if(o.name==='MENU_FACE'){ cafeFacePaint(o,cafeChalkTex(o.userData.menu||[],512,352,{top:0.18,fs:40}),0.35,0.12); return; }
+      if(!mt||mt.userData.cafeReg) return; mt.userData.cafeReg=true;
+      const n=CAFE_NIGHT[nm]; if(n){ mt.emissive=new THREE.Color(n[0]); TK.addNight(mt,n[1],n[2]); }
+      const b=CAFE_BOUNCE[nm]; if(b) TK.bounce(mt,b[0],b[1]);
+      if(nm&&nm.indexOf('cafe_leaf_')===0){ mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; } });
+    cafe.add(root); root.updateMatrixWorld(true); const v=new THREE.Vector3();
+    for(const o of glows){ const d=o.userData; const sp=TK.glowSprite(d.glow,d.size||1.4,d.day||0,d.night==null?1:d.night); cafe.worldToLocal(o.getWorldPosition(v)); sp.position.copy(v); cafe.add(sp); }
+    cafe.userData.formal=true; return root; }
   const wenzhou={ id:'wenzhou', name:'溫州街', indoor:false, cityLight:0.85, size:[110,60], camDist:5.2, build(E){ return buildWenzhou(E); } };
   // ---------- 室內：通用房間 ----------
   // ---------- 室內共用貼圖（v9.3 第十五批）----------

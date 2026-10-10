@@ -1,0 +1,62 @@
+{
+ "objects": 98,
+ "unique_meshes": 77,
+ "tris": 19636,
+ "tris_drawn": 24800,
+ "materials": 44,
+ "out": "assets/models/env/second_ai/cafe_exterior.glb",
+ "bytes": 1679364,
+ "texres": 512,
+ "night_mats": {
+  "cafe_bulb": [
+   "#fff1d6",
+   2.4,
+   1.0
+  ],
+  "cafe_lampglass": [
+   "#ffd49a",
+   1.5,
+   0.3
+  ],
+  "cafe_sign_face": [
+   "#f4ead8",
+   1.1,
+   0.15
+  ],
+  "ext_glass_lit": [
+   "#ffd9a0",
+   0.75,
+   0.0
+  ]
+ },
+ "bounce_mats": {
+  "cafe_int_floor": [
+   0.45,
+   0.75
+  ],
+  "cafe_int_plaster": [
+   0.6,
+   0.95
+  ],
+  "cafe_int_wood": [
+   0.4,
+   0.7
+  ],
+  "cafe_int_ceiling": [
+   0.4,
+   0.75
+  ],
+  "cafe_int_books": [
+   0.5,
+   0.8
+  ],
+  "cafe_int_shelf": [
+   0.4,
+   0.7
+  ],
+  "cafe_int_bar": [
+   0.4,
+   0.7
+  ]
+ }
+}

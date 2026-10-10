@@ -1,0 +1,398 @@
+[
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cafe_before_follow_portrait_1100.png",
+  "w": 390,
+  "h": 844,
+  "hideNPCs": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 11,
+   "pos": {
+    "x": 50.2,
+    "z": -0.3,
+    "yaw": 1.5708
+   }
+  },
+  "cam": {
+   "yaw": -1.5708,
+   "pitch": 0.22,
+   "dist": 5.2
+  },
+  "wait": 5000,
+  "js": "(async()=>{ for(let i=0;i<200;i++){ const z=GAME.E.zone; const ok=z&&z.group.children.some(o=>o.userData&&o.userData.formal); if(ok||true) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()",
+  "mobile": true,
+  "hud": true
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cafe_before_follow_portrait_1730.png",
+  "w": 390,
+  "h": 844,
+  "hideNPCs": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 17.5,
+   "pos": {
+    "x": 50.2,
+    "z": -0.3,
+    "yaw": 1.5708
+   }
+  },
+  "cam": {
+   "yaw": -1.5708,
+   "pitch": 0.22,
+   "dist": 5.2
+  },
+  "wait": 5000,
+  "js": "(async()=>{ for(let i=0;i<200;i++){ const z=GAME.E.zone; const ok=z&&z.group.children.some(o=>o.userData&&o.userData.formal); if(ok||true) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()",
+  "mobile": true,
+  "hud": true
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cafe_before_follow_portrait_2030.png",
+  "w": 390,
+  "h": 844,
+  "hideNPCs": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 20.5,
+   "pos": {
+    "x": 50.2,
+    "z": -0.3,
+    "yaw": 1.5708
+   }
+  },
+  "cam": {
+   "yaw": -1.5708,
+   "pitch": 0.22,
+   "dist": 5.2
+  },
+  "wait": 5000,
+  "js": "(async()=>{ for(let i=0;i<200;i++){ const z=GAME.E.zone; const ok=z&&z.group.children.some(o=>o.userData&&o.userData.formal); if(ok||true) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()",
+  "mobile": true,
+  "hud": true
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cafe_before_follow_landscape_1100.png",
+  "w": 844,
+  "h": 390,
+  "hideNPCs": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 11,
+   "pos": {
+    "x": 50.2,
+    "z": -0.3,
+    "yaw": 1.5708
+   }
+  },
+  "cam": {
+   "yaw": -1.5708,
+   "pitch": 0.22,
+   "dist": 5.2
+  },
+  "wait": 5000,
+  "js": "(async()=>{ for(let i=0;i<200;i++){ const z=GAME.E.zone; const ok=z&&z.group.children.some(o=>o.userData&&o.userData.formal); if(ok||true) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()",
+  "mobile": true,
+  "hud": true
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cafe_before_follow_landscape_1730.png",
+  "w": 844,
+  "h": 390,
+  "hideNPCs": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 17.5,
+   "pos": {
+    "x": 50.2,
+    "z": -0.3,
+    "yaw": 1.5708
+   }
+  },
+  "cam": {
+   "yaw": -1.5708,
+   "pitch": 0.22,
+   "dist": 5.2
+  },
+  "wait": 5000,
+  "js": "(async()=>{ for(let i=0;i<200;i++){ const z=GAME.E.zone; const ok=z&&z.group.children.some(o=>o.userData&&o.userData.formal); if(ok||true) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()",
+  "mobile": true,
+  "hud": true
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cafe_before_follow_landscape_2030.png",
+  "w": 844,
+  "h": 390,
+  "hideNPCs": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 20.5,
+   "pos": {
+    "x": 50.2,
+    "z": -0.3,
+    "yaw": 1.5708
+   }
+  },
+  "cam": {
+   "yaw": -1.5708,
+   "pitch": 0.22,
+   "dist": 5.2
+  },
+  "wait": 5000,
+  "js": "(async()=>{ for(let i=0;i<200;i++){ const z=GAME.E.zone; const ok=z&&z.group.children.some(o=>o.userData&&o.userData.formal); if(ok||true) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()",
+  "mobile": true,
+  "hud": true
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cafe_before_approach_1100.png",
+  "w": 390,
+  "h": 844,
+  "hideNPCs": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 11,
+   "pos": {
+    "x": 50.0,
+    "z": -9.0,
+    "yaw": 0.535
+   }
+  },
+  "cam": {
+   "yaw": 3.68,
+   "pitch": 0.2,
+   "dist": 5.2
+  },
+  "wait": 5000,
+  "js": "(async()=>{ for(let i=0;i<200;i++){ const z=GAME.E.zone; const ok=z&&z.group.children.some(o=>o.userData&&o.userData.formal); if(ok||true) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()",
+  "mobile": true,
+  "hud": true
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cafe_before_approach_1730.png",
+  "w": 390,
+  "h": 844,
+  "hideNPCs": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 17.5,
+   "pos": {
+    "x": 50.0,
+    "z": -9.0,
+    "yaw": 0.535
+   }
+  },
+  "cam": {
+   "yaw": 3.68,
+   "pitch": 0.2,
+   "dist": 5.2
+  },
+  "wait": 5000,
+  "js": "(async()=>{ for(let i=0;i<200;i++){ const z=GAME.E.zone; const ok=z&&z.group.children.some(o=>o.userData&&o.userData.formal); if(ok||true) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()",
+  "mobile": true,
+  "hud": true
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cafe_before_approach_2030.png",
+  "w": 390,
+  "h": 844,
+  "hideNPCs": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 20.5,
+   "pos": {
+    "x": 50.0,
+    "z": -9.0,
+    "yaw": 0.535
+   }
+  },
+  "cam": {
+   "yaw": 3.68,
+   "pitch": 0.2,
+   "dist": 5.2
+  },
+  "wait": 5000,
+  "js": "(async()=>{ for(let i=0;i<200;i++){ const z=GAME.E.zone; const ok=z&&z.group.children.some(o=>o.userData&&o.userData.formal); if(ok||true) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()",
+  "mobile": true,
+  "hud": true
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cafe_before_street_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 11,
+   "pos": {
+    "x": 49.0,
+    "z": -1.0,
+    "yaw": 1.5708
+   }
+  },
+  "cam": {
+   "pos": [
+    46.6,
+    1.7,
+    4.2
+   ],
+   "look": [
+    55.4,
+    2.4,
+    -0.6
+   ]
+  },
+  "wait": 5000,
+  "js": "(async()=>{ for(let i=0;i<200;i++){ const z=GAME.E.zone; const ok=z&&z.group.children.some(o=>o.userData&&o.userData.formal); if(ok||true) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()",
+  "hidePlayer": true
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cafe_before_street_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 17.5,
+   "pos": {
+    "x": 49.0,
+    "z": -1.0,
+    "yaw": 1.5708
+   }
+  },
+  "cam": {
+   "pos": [
+    46.6,
+    1.7,
+    4.2
+   ],
+   "look": [
+    55.4,
+    2.4,
+    -0.6
+   ]
+  },
+  "wait": 5000,
+  "js": "(async()=>{ for(let i=0;i<200;i++){ const z=GAME.E.zone; const ok=z&&z.group.children.some(o=>o.userData&&o.userData.formal); if(ok||true) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()",
+  "hidePlayer": true
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cafe_before_street_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 20.5,
+   "pos": {
+    "x": 49.0,
+    "z": -1.0,
+    "yaw": 1.5708
+   }
+  },
+  "cam": {
+   "pos": [
+    46.6,
+    1.7,
+    4.2
+   ],
+   "look": [
+    55.4,
+    2.4,
+    -0.6
+   ]
+  },
+  "wait": 5000,
+  "js": "(async()=>{ for(let i=0;i<200;i++){ const z=GAME.E.zone; const ok=z&&z.group.children.some(o=>o.userData&&o.userData.formal); if(ok||true) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()",
+  "hidePlayer": true
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cafe_before_close_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 11,
+   "pos": {
+    "x": 49.0,
+    "z": -1.0,
+    "yaw": 1.5708
+   }
+  },
+  "cam": {
+   "pos": [
+    51.2,
+    1.55,
+    2.3
+   ],
+   "look": [
+    55.4,
+    1.5,
+    -0.4
+   ]
+  },
+  "wait": 5000,
+  "js": "(async()=>{ for(let i=0;i<200;i++){ const z=GAME.E.zone; const ok=z&&z.group.children.some(o=>o.userData&&o.userData.formal); if(ok||true) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()",
+  "hidePlayer": true
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cafe_before_close_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 17.5,
+   "pos": {
+    "x": 49.0,
+    "z": -1.0,
+    "yaw": 1.5708
+   }
+  },
+  "cam": {
+   "pos": [
+    51.2,
+    1.55,
+    2.3
+   ],
+   "look": [
+    55.4,
+    1.5,
+    -0.4
+   ]
+  },
+  "wait": 5000,
+  "js": "(async()=>{ for(let i=0;i<200;i++){ const z=GAME.E.zone; const ok=z&&z.group.children.some(o=>o.userData&&o.userData.formal); if(ok||true) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()",
+  "hidePlayer": true
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/cafe_before_close_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 20.5,
+   "pos": {
+    "x": 49.0,
+    "z": -1.0,
+    "yaw": 1.5708
+   }
+  },
+  "cam": {
+   "pos": [
+    51.2,
+    1.55,
+    2.3
+   ],
+   "look": [
+    55.4,
+    1.5,
+    -0.4
+   ]
+  },
+  "wait": 5000,
+  "js": "(async()=>{ for(let i=0;i<200;i++){ const z=GAME.E.zone; const ok=z&&z.group.children.some(o=>o.userData&&o.userData.formal); if(ok||true) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()",
+  "hidePlayer": true
+ }
+]
