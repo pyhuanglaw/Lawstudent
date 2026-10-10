@@ -15,13 +15,23 @@ const PROPS = (function(){
   function tube(points,r,col){ const curve=new THREE.CatmullRomCurve3(points.map(q=>new THREE.Vector3(q[0],q[1],q[2]))); return new THREE.Mesh(new THREE.TubeGeometry(curve,24,r,6,false),col); }
   function strapBand(points,w,col){ // 扁平背帶：沿曲線的細長扁管
     const g=new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points.map(q=>new THREE.Vector3(q[0],q[1],q[2]))),28,w,4,false); g.scale(1,1,1); return new THREE.Mesh(g,col); }
+  // 真的扁平背帶（寬 w、厚 t）：寬的那一面貼著身體——每一段的「外側」方向＝從軀幹中心線（0, yc, 0）往外，去掉沿著背帶的分量
+  function ribbon(points,w,t,col,yc){ const curve=new THREE.CatmullRomCurve3(points.map(q=>new THREE.Vector3(q[0],q[1],q[2]))); const n=40, pos=[], idx=[]; const T=new THREE.Vector3(), N=new THREE.Vector3(), B=new THREE.Vector3(), p=new THREE.Vector3();
+    for(let i=0;i<=n;i++){ const u=i/n; curve.getPointAt(u,p); curve.getTangentAt(u,T); N.set(p.x,p.y-yc,p.z); N.addScaledVector(T,-N.dot(T)).normalize(); B.crossVectors(T,N).normalize();
+      for(const [a,b] of [[1,1],[-1,1],[-1,-1],[1,-1]]) pos.push(p.x+B.x*a*w/2+N.x*b*t/2, p.y+B.y*a*w/2+N.y*b*t/2, p.z+B.z*a*w/2+N.z*b*t/2); }
+    for(let i=0;i<n;i++) for(let k=0;k<4;k++){ const a=i*4+k, b=i*4+(k+1)%4, c=a+4, d=b+4; idx.push(a,c,b, b,c,d); }
+    const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3)); g.setIndex(idx); g.computeVertexNormals(); const m=new THREE.Mesh(g,col); return m; }
 
   // ---- 後背包（祐廷：深灰黑；語彤：黑）----
-  function backpack(o){ o=o||{}; const g=new THREE.Group(); const base=o.color||'#2c2e33'; const body=mat('bp',base,fabric('bp',base,{zip:34,patch:o.patch||null})); const dark=mat('bpd',shadeHex(base,0.7));
-    const b=new THREE.Mesh(roundBox(0.30,0.40,0.14,0.05,5),body); b.position.set(0,-0.06,0.15); g.add(b);
-    const pk=new THREE.Mesh(roundBox(0.24,0.17,0.06,0.03,4),body); pk.position.set(0,-0.15,0.235); g.add(pk);
-    const top=tube([[-0.04,0.14,0.14],[0,0.17,0.14],[0.04,0.14,0.14]],0.008,dark); g.add(top);
-    for(const s of [-1,1]){ g.add(strapBand([[s*0.08,0.12,0.09],[s*0.1,0.16,0.02],[s*0.11,0.14,-0.07],[s*0.12,0.02,-0.1],[s*0.12,-0.12,-0.05],[s*0.1,-0.2,0.08]],0.012,dark)); }
+  // 背帶路徑與包身位置是相對 upperChest 骨頭的公尺數，預設照祐廷的身材；身材不同的人在 C.MODEL_PROPS 給 {name:'backpack', drop, strap}：
+  // drop＝包身往下移（公尺，負＝往下）；strap＝背帶路徑（右邊那一條，x 用 +；左邊自動鏡射）；flat＝[寬, 厚] 改用扁平背帶（不給＝舊的圓管）。陳語彤用預設的話背帶頂端比她的肩膀高 4 cm（和下巴一樣高），
+  // 前段直直垂到胸口，正面看起來像兩束垂到胸前的頭髮（v9.4 CHARACTER_REVIEW 第 7 節）。
+  function backpack(o){ o=o||{}; const g=new THREE.Group(); const base=o.color||'#2c2e33'; const body=mat('bp',base,fabric('bp',base,{zip:34,patch:o.patch||null})); const dark=mat('bpd',shadeHex(base,0.7)); const dy=o.drop||0;
+    const b=new THREE.Mesh(roundBox(0.30,0.40,0.14,0.05,5),body); b.position.set(0,-0.06+dy,0.15); g.add(b);
+    const pk=new THREE.Mesh(roundBox(0.24,0.17,0.06,0.03,4),body); pk.position.set(0,-0.15+dy,0.235); g.add(pk);
+    const top=tube([[-0.04,0.14+dy,0.14],[0,0.17+dy,0.14],[0.04,0.14+dy,0.14]],0.008,dark); g.add(top);
+    const path=o.strap||[[0.08,0.12,0.09],[0.1,0.16,0.02],[0.11,0.14,-0.07],[0.12,0.02,-0.1],[0.12,-0.12,-0.05],[0.1,-0.2,0.08]];
+    for(const s of [-1,1]){ const pts=path.map(q=>[s*q[0],q[1],q[2]]); g.add(o.flat?ribbon(pts,o.flat[0],o.flat[1],dark,-0.05):strapBand(pts,o.strapW||0.012,dark)); }   // flat＝[寬, 厚]：扁平背帶
     return g; }
   // ---- 帆布托特包（沈以安：米白帆布，掛右肩，包身貼著右腰）----
   // 包身是「軟布袋」：細分方塊，厚度往邊緣收（中間鼓、邊緣扁），底部略寬；背帶從包口兩側繞過右肩
