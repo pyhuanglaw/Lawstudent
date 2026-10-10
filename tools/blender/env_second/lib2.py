@@ -220,6 +220,62 @@ def vc_material(name, rough=0.5, cull=False):
     nt.links.new(vc.outputs['Color'], nt.nodes['Principled BSDF'].inputs['Base Color']); return m
 
 
+def vc_metal(name, rough=0.45, metal=0.35):
+    """頂點色材質（金屬零件用：門、鋁框、鐵件…）"""
+    m = vc_material(name, rough=rough); m.node_tree.nodes['Principled BSDF'].inputs['Metallic'].default_value = min(metal, B.MAX_METAL); return m
+
+
+def flat_info(m):
+    """純色材質（沒有貼圖、不透明、不發光）的線性顏色、金屬度；顏色本來就在頂點色的（vc_material）color＝None；其他回傳 None"""
+    if not (m and m.use_nodes): return None
+    b = m.node_tree.nodes.get('Principled BSDF')
+    if b is None or b.inputs['Alpha'].is_linked or b.inputs['Alpha'].default_value < 0.999: return None
+    if b.inputs['Base Color'].is_linked:
+        if b.inputs['Base Color'].links[0].from_node.bl_idname != 'ShaderNodeVertexColor': return None
+        return {'color': None, 'metal': b.inputs['Metallic'].default_value}
+    es = b.inputs.get('Emission Strength'); ec = b.inputs.get('Emission Color')
+    if es is not None and es.default_value > 0 and ec is not None and max(ec.default_value[:3]) > 0: return None
+    return {'color': list(b.inputs['Base Color'].default_value[:3]), 'metal': b.inputs['Metallic'].default_value}
+
+
+def vc_consolidate(root, groups):
+    """把純色材質換成共用的頂點色材質（同一組的零件之後由 merge_by_material 合成一個網格 → 一次 draw call）。
+    groups：{原材質名: 頂點色材質（vc_material／vc_metal 建的）}。每個面原本材質的顏色寫進頂點色 Col
+    （金屬度不同時補償漫射：顏色 ×(1−原金屬度)/(1−新金屬度)，最多到 1）。instancing 原型的網格也處理（原型裡的零件合成一個材質）。
+    原本就有頂點色的網格（外牆的牆色、曬的衣服）保留其他面的顏色。要在 merge_by_material 之前呼叫。"""
+    meshes = {ob.data for ob in root.children_recursive if ob.type == 'MESH'}
+    st = {'meshes': 0, 'faces': 0, 'materials': set()}
+    for me in meshes:
+        idx = [i for i, m in enumerate(me.materials) if m and m.name in groups]
+        if not idx: continue
+        ca = me.color_attributes.get('Col')
+        if ca is None:
+            ca = me.color_attributes.new('Col', 'FLOAT_COLOR', 'CORNER'); ca.data.foreach_set('color', [1.0] * (4 * len(ca.data)))
+        assert ca.domain == 'CORNER' and ca.data_type == 'FLOAT_COLOR', (me.name, ca.domain, ca.data_type)
+        slot = {}
+        for i in idx:
+            m = me.materials[i]; tgt = groups[m.name]; info = flat_info(m); assert info, ('不是純色材質', m.name)
+            tm = tgt.node_tree.nodes['Principled BSDF'].inputs['Metallic'].default_value; k = (1 - info['metal']) / max(1e-3, 1 - tm)
+            if tgt.name not in [mm.name for mm in me.materials if mm]: me.materials.append(tgt)
+            col = None if info['color'] is None else [min(1.0, v * k) for v in info['color']] + [1.0]   # None：本來就是頂點色，保留（只乘 k）
+            slot[i] = ([j for j, mm in enumerate(me.materials) if mm and mm.name == tgt.name][0], col, k)
+            st['materials'].add(m.name)
+        cols = [0.0] * (4 * len(ca.data)); ca.data.foreach_get('color', cols)
+        for p in me.polygons:
+            s = slot.get(p.material_index)
+            if s is None: continue
+            for li in p.loop_indices:
+                if s[1] is not None: cols[li * 4:li * 4 + 4] = s[1]
+                else: cols[li * 4:li * 4 + 3] = [min(1.0, v * s[2]) for v in cols[li * 4:li * 4 + 3]]
+            p.material_index = s[0]; st['faces'] += 1
+        ca.data.foreach_set('color', cols)
+        used = {p.material_index for p in me.polygons}
+        for i in reversed(range(len(me.materials))):   # 用不到的材質欄位拿掉（由後往前；Blender 會把後面的面的索引往前移）
+            if i not in used: me.materials.pop(index=i)
+        st['meshes'] += 1
+    st['materials'] = sorted(st['materials']); print(json.dumps({'vc_consolidate': st}, ensure_ascii=False)); return st
+
+
 class CMesh(Mesh):
     """每個零件一個顏色的網格（頂點色 Col；hex 是 sRGB，存成線性）"""
     def __init__(self, name, mat):

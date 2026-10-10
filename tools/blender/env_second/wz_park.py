@@ -109,5 +109,9 @@ fm = Mesh('PLATE_FACE_parksign', M['board']); fm.quad([(21.0, 1.2, 5.935), (19.4
 
 for k, m in _acc.items(): m.finish(root, uv=True, smooth=False)
 uv01(fm.finish(root, uv=True, props={'plate': 'park', 'text': '溫州公園', 'bg': '#2f4a3a', 'color': '#f4ead8'}))
+# 純色材質改成頂點色材質（第二輪減量，2026-10-10；lib2.vc_consolidate）：同一組的零件合成一個網格、一次 draw call
+# 樹圍的土（貼地，不投影）、黃色單槓（亮黃色，金屬度補償會超過 1）不併
+L.vc_consolidate(root, dict.fromkeys(('park_steel', 'park_bar_green'), L.vc_metal('wz_vc_metal', rough=0.45, metal=0.35)))
+L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
 info = L.export(OUT, gpu_instances=True)
 L.write_json(OUT[:-4] + '.json', info)

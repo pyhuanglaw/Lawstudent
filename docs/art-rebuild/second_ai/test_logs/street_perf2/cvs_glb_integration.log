@@ -1,0 +1,42 @@
+PASS 一般網址：遊戲載入
+  [前置／捷徑] 讀檔到便利商店出生點 (0,3.5) 11:00，關掉條件事件
+PASS 正式模型接上（zone.formal）
+PASS 程序化備用模型藏起來  false
+PASS 會淡出的牆有前後左右四面（WALL_*）  {"back": 6, "front": 4, "left": 5, "right": 4}
+PASS 結帳 (3.2,−0.6)、離開 (0,4.2) 不變  [["結帳：飯糰／咖啡／飲料", 3.2, -0.6], ["離開便利商店", 0, 4.2]]
+PASS 導航：後牆貨架 (-4.5,-4.2) 擋住
+PASS 導航：左邊雙面貨架 (-2.0,0.0) 擋住
+PASS 導航：右邊雙面貨架 (2.0,0.0) 擋住
+PASS 導航：櫃檯 (4.0,-1.5) 擋住
+PASS 導航：飲料櫃 (5.6,2.0) 擋住
+PASS 導航：出生點 (0.0,3.5) 走得到
+PASS 導航：結帳位置 (3.2,-0.6) 走得到
+PASS 導航：中間走道 (0.0,0.0) 走得到
+PASS 導航：左邊走道 (-4.0,-2.0) 走得到
+PASS 導航：飲料櫃前 (4.0,1.0) 走得到
+PASS 鏡頭在前牆外：前牆淡出  {"front": [0.12, 0.12, 0.12, 0.12], "back": [1, 1, 1, 1, 1, 1]}
+PASS 鏡頭在前牆外：後牆不淡出  [1, 1, 1, 1, 1, 1]
+PASS （自我檢查）前牆 dir 故意弄反時，淡出檢查會失敗  [1, 1, 1, 1]
+PASS 自動門玻璃保持透明（不在會淡出的牆裡；淡出邏輯會把不透明度設回 1，玻璃會變成灰板）  [{"name": "WALL_front_glass", "op": 0.18, "inWalls": false}]
+PASS 走道分類牌（4 塊兩面＝8 面）都有 canvas 字  {"SIGN_FACE_aisle0a": true, "SIGN_FACE_aisle0b": true, "SIGN_FACE_aisle1a": true, "SIGN_FACE_aisle1b": true, "SIGN_FACE_aisle2a": true, "SIGN_FACE_aisle2b": true, "SIGN_FACE_aisle3a": true, "SIGN_FACE_aisle3b": true}
+PASS LED 燈條、飲料櫃背光亮著；商品頂點色有自發光  {"signs": {"SIGN_FACE_aisle0a": true, "SIGN_FACE_aisle0b": true, "SIGN_FACE_aisle1a": true, "SIGN_FACE_aisle1b": true, "SIGN_FACE_aisle2a": true, "SIGN_FACE_aisle2b": true, "SIGN_FACE_aisle3a": true, "SIGN_FACE_aisle3b": true}, "led": 1.5, "cooler": 1.1, "goodsGlow": true, "doorView": true}
+PASS 自動門外的窗景和窗戶同一個材質（跟著時段換）  true
+PASS 一般網址：沒有 JS 錯誤
+PASS ?nobldg：遊戲載入
+  [前置／捷徑] 讀檔到便利商店出生點 (0,3.5) 11:00，關掉條件事件
+PASS ?nobldg：沒有載入正式模型
+PASS ?nobldg：程序化備用模型看得到  true
+PASS 結帳 (3.2,−0.6)、離開 (0,4.2) 不變  [["結帳：飯糰／咖啡／飲料", 3.2, -0.6], ["離開便利商店", 0, 4.2]]
+PASS 導航：後牆貨架 (-4.5,-4.2) 擋住
+PASS 導航：左邊雙面貨架 (-2.0,0.0) 擋住
+PASS 導航：右邊雙面貨架 (2.0,0.0) 擋住
+PASS 導航：櫃檯 (4.0,-1.5) 擋住
+PASS 導航：飲料櫃 (5.6,2.0) 擋住
+PASS 導航：出生點 (0.0,3.5) 走得到
+PASS 導航：結帳位置 (3.2,-0.6) 走得到
+PASS 導航：中間走道 (0.0,0.0) 走得到
+PASS 導航：左邊走道 (-4.0,-2.0) 走得到
+PASS 導航：飲料櫃前 (4.0,1.0) 走得到
+PASS ?nobldg：沒有 JS 錯誤
+PASS 導航格：正式模型和程序化版完全相同  [[35, 28, 1447554370, 462], [35, 28, 1447554370, 462]]
+ALL PASS

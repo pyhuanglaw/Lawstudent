@@ -170,5 +170,9 @@ bw = Mesh('cafe_brick_walk', M['brick']); bw.box(53.35, 55.25, 0.0, 0.016, -6.7,
 cb = Mesh('cafe_brick_curb', M['curb']); cb.box(53.26, 53.4, 0.0, 0.045, -6.7, 6.7); cb.finish(root)
 
 for m, props in faces: uv01(m.finish(root, uv=True, props=props))
+# 純色材質改成頂點色材質（第二輪減量，2026-10-10；lib2.vc_consolidate）：同一組的零件合成一個網格、一次 draw call
+L.vc_consolidate(root, {**dict.fromkeys(('wz_porcelain', 'wz_stripe_y', 'wz_stripe_k', 'wz_poster', 'wz_poster_y', 'wz_mirror_orange'), L.vc_material('wz_vc_matte', rough=0.85)),
+                        **dict.fromkeys(('wz_galv', 'wz_transformer', 'wz_signpole', 'cafe_iron_black', 'wz_lamp_body'), L.vc_metal('wz_vc_metal', rough=0.45, metal=0.35))})
+L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
 info = L.export(OUT, gpu_instances=True)
 L.write_json(OUT[:-4] + '.json', info)
