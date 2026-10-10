@@ -23,14 +23,18 @@ def measure(f):
     return dict(ez=ez, chin=chin, tip_y=float(B[tip_i, 1]))
 
 
-def apply(m):
-    F.REST = {'Fcl_EYE_Close': 0.0}
+def run(m, params, rest):
+    """任何 VRoid 樣本的臉：等比例對到沈以安的臉 → h01_face（params 換參數）→ 轉回來。rest＝量測時的基本眼型（女性樣本 h01 的預設、男性樣本沒有 Fcl_EYE_Natural）"""
+    F.REST = rest
     f = m['face']; cur = measure(f)
     s = (REF['ez'] - REF['chin']) / (cur['ez'] - cur['chin'])
     a0 = np.array([0.0, cur['tip_y'], cur['ez']]); a1 = np.array([0.0, REF['tip_y'], REF['ez']])
-    print('  face(p00): measured', {k: round(v, 4) for k, v in cur.items()}, 'scale %.4f' % s)
-    F.REST = {'Fcl_EYE_Close': 0.0}          # 男性樣本沒有 Fcl_EYE_Natural；眼型不烘（vrm_finish 用 MALE_EYES）
-    for k, v in MALE.items(): setattr(F, k, v)
+    print('  face(sim): measured', {k: round(v, 4) for k, v in cur.items()}, 'scale %.4f' % s)
+    for k, v in params.items(): setattr(F, k, v)
     C.warp(f, lambda P, B: a1 + (P - a0) * s)
     F.apply(m)
     C.warp(f, lambda P, B: a0 + (P - a1) / s)
+
+
+def apply(m):
+    run(m, MALE, {'Fcl_EYE_Close': 0.0})          # 男性樣本沒有 Fcl_EYE_Natural；眼型不烘（vrm_finish 用 MALE_EYES）

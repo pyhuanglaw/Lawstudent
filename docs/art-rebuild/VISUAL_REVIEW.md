@@ -1375,3 +1375,24 @@ Node 檢查：沒加選項的樹改前改後頂點完全一樣；加寬的樹後
 - 室內：和程序化備用相比，空間構成相同，進步主要在材質；還沒有照片可以對。
 - 沒有 Blender 渲染圖（headless EEVEE 在這個沙盒要另外驗證能不能跑；排在下一步）。
 - 夜間大廳玻璃第一次截圖偏白（`ext_glass_lobby` 夜間顏色 #fff0d8），已改成暖色 #ffdcae，要重拍確認。
+
+## 18. 雙 AI 整合示範：17:30 祐廷＋沈以安在兩點半 Café 前（參考圖 07；2026-10-10）
+
+這是兩個 AI 的成果第一次放在同一個畫面：**兩點半 Café**（LAWWW2 的 Blender 外觀＋室內 GLB，merge `384c612`）＋**祐廷、沈以安**（LAWWW 的 Blender 人物，網址 `?blchar`）。全部是**實際執行遊戲**的畫面（Playwright＋SwiftShader，**手機模擬，不是 iPhone 實機**）：遊戲本身的 17:30 光線、店家燈光、找路與走路動畫；兩人用遊戲的 `GAME.walkTo` 沿紅磚人行道並肩走（劇情自動走路退回瞬移 0 次），拍照那一格暫停遊戲、手動擺鏡頭。工具：`tools/shots/demo_cafe_dusk.py`。
+
+![17:30 Café 雙人示範（參考圖 07｜中景｜全景｜側面）](../../screenshots/v94_DEMO_cafe_dusk_1730.jpg)
+
+最接近參考圖氣氛的一張（側面：兩人走過店面，看得到店內的書牆、吊燈、窗邊吧台）：
+
+![17:30 Café 雙人示範 側面](../../screenshots/v94_DEMO_cafe_dusk_1730_side.jpg)
+
+LAWWW2 自己拍的兩個建議鏡頭（`tools/blender/env_second/shots/cafe_demo_proposal.json`；人物是預設的 VRoid 加工版、站著說話）：`second_ai/shots/cafe_demo_wide_1730.webp`、`second_ai/shots/cafe_demo_two_shot_1730.webp`（見 `second_ai/VISUAL_REVIEW.md` 1.7.1）。
+
+**和參考圖 07 還差在哪裡（誠實列出）**：
+- 參考圖是逆光的金黃色夕陽、強烈的暖色光暈；遊戲的 17:30 是偏粉紫的天空、整體比較平。黃昏調色提案（`?grade=golden`，VISUAL_REVIEW 第 10 節）還在等使用者決定，這裡沒有用。
+- 往南看的街底是路口的紅白施工柵欄（溫州街區域的邊界）；參考圖那個方向是一路延伸出去的街景、機車、電線桿與路名牌。已列入 LAWWW2 溫州街近景的後續工作。
+- 人物：沈以安是低馬尾（參考圖是高馬尾＋大波浪，BLOCKED，見 CHARACTER_REVIEW）、沒有托特包；祐廷的頭髮比參考圖平、整齊。兩人沒有互看的表情演出（劇情將重新設計，這次不做依賴劇情的專屬演出）。
+- 店面玻璃沒有反射、店內是自發光（LAWWW2 的 1.8 節）。
+- 往北拍的版本（`DEMO_DIR=north`）兩人步伐不同、沒有並肩，背景是單調的公寓側牆，沒有採用。
+
+狀態：Café `READY_FOR_ART_REVIEW`（LAWWW2）；人物 `READY_FOR_ART_REVIEW`（`?blchar`）。**都未標 ART_APPROVED**。

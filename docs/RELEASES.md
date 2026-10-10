@@ -11,18 +11,67 @@
 | v9.3 | `0ef3a73` | 2026-10-10 05:35:59 | v7 |
 | v9.3 第 25 批 | `cd52bab` | 2026-10-10 08:38:53 | `0ef3a73` |
 | v9.4 | `6b9c0dc`（遊戲檔案和測試過的候選 `f10b387` 完全相同，見下面） | 2026-10-10 14:47:16 | `cd52bab` |
+| v9.4.1 | `e4ded6a`（遊戲檔案和測試過的候選 `f2f1c03` 完全相同） | 2026-10-10 18:59:10 | `6b9c0dc` |
 
 ---
 
-**下一次正式發布最早：2026-10-10 17:47:16 UTC**（三小時規則；緊急回復不受限制）。
+**下一次正式發布最早：2026-10-10 21:59:10 UTC**（三小時規則；緊急回復不受限制）。v9.4.2 候選見下一節，**要使用者核准**。
 
 **緊急回復（不用 force push）**：做一個「內容＝上一個穩定版、父節點＝目前 main」的新 commit，再快轉推上去：
 ```bash
 git fetch origin main
-C=$(git commit-tree cd52bab^{tree} -p origin/main -m "緊急回復到 v9.3 第 25 批（cd52bab）")
+C=$(git commit-tree 6b9c0dc^{tree} -p origin/main -m "緊急回復到 v9.4（6b9c0dc）")
 git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub Actions 的 pages build and deployment 確認部署
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
+
+## v9.4.2（候選，**等使用者核准才發布**；最早 2026-10-10 21:59:10 UTC）
+
+九小時授權期在 21:05 UTC 左右結束，這一版的發布時間在那之後，所以先準備好、跑完發布前測試，等使用者說可以。
+
+**玩家會看到的改變**
+- **溫州街近景換成 Blender 正式模型**（LAWWW2；整合 `f14b533`、減量版 `c9dbdf3`）：
+  - 主巷 14 棟公寓（磁磚、鐵窗、冷氣、曬衣服、雨痕）、日式宿舍＋院牆、電線桿／反光鏡／路名牌、Café 門前紅磚道、小公園＋後牆、兩款機車。
+  - 導航、碰撞、互動點、劇情走位不變（`?nobldg` 可以切回舊的程序化版本）。
+  - 效能（Playwright 量測，同一鏡頭、含陰影）：draw call 277／239／283 次（舊版 219／188／224，多 26～27%），三角形 33～36 萬。**手機實機效能沒量過。**
+- **四間室內換成 Blender 正式模型**（LAWWW2）：全日便利商店、阿鳳麵店、舊路書房、宿舍雙人房。座位、互動點、出口、導航格和舊版完全相同。
+- **修好**：
+  - 玻璃變成灰板（便利商店自動門、麵店與書店的店面、宿舍的窗）。
+  - 宿舍牆上的東西（掛勾、毛巾、冷氣、窗簾、月曆、社團傳單）跟著牆一起淡出，不再浮在空中。
+- **坐下時腳不再沉到地面下**（長椅、Café、麵店、圖書館、宿舍書桌）：膝蓋比臀部高一點、小腿幾乎垂直、腳踩在地上。階梯教室 201 不變。
+- `?blchar`：多了陳語彤、高子晴的 Blender 版。預設畫面的人物沒有換。
+- 標題畫面版本字樣「版本 v9.4.2（2026-10-10）」；script 版本號 9.4-3。
+
+**不在這一版（留在開發分支）**：溫書瑀 Blender 版（製作中）；街道道具（LAWWW2）；Café 往南／往北的遠景公寓（LAWWW2 製作中）。
+
+**發布前測試**（乾淨 worktree，候選 `dfd2618`，2026-10-10 20:57–21:41 UTC；Playwright 手機模擬＋SwiftShader，**不是 iPhone 實機**）：`tests/release_suite.sh` **25 項第一次就全部 PASS**——nav_levels_unit、nav_buildings_unit、stairs_feet（祐廷＋五位女主角）、sim_hair、sit_feet_unit（新：腳底高度＋小腿／大腿角度）、deploy_check（版本字樣 `v9.4.2`）、model_upgrade、zone_transitions、campus_layout_nav、gongguan_layout_nav、reachability_all（全遊戲）、indoor_cam_occlusion、minimap_direction、joystick_direction、p0_movement、touch_flow_wenzhou、flow_class_real、flow_linze_floors、save_compat_v7（v7 玩家的存檔）、save_compat_live（線上 v9.4.1 玩家的存檔）。
+- 候選裡的 LAWWW2 成果，整合到開發分支時另外跑過的回歸：wz_street_integration 42、cafe_glb_integration 62、cvs_glb_integration 39、interior_glb_integration 104、see_through、movement_regression 42/42（全部 PASS）。
+- **還沒發布**：九小時授權期在 21:05 UTC 左右結束，等使用者核准。核准後照之前的流程：main 快轉到候選（或內容相同的 commit）→ 看 GitHub Actions 的部署結果 → 本機對同一個 commit 跑 deploy_check。
+
+---
+
+## v9.4.1（2026-10-10 18:59:10 UTC 發布 `e4ded6a`；測試過的候選 `f2f1c03`）
+
+**玩家會看到的改變**
+- **兩點半 Café 換成 Blender 正式模型**（第二個 AI「LAWWW2」製作，`384c612` 整合）：
+  - 外觀：深色木框店面、木板斜雨遮、方形燈籠壁燈、招牌（字的比例正確）、橄欖樹與大葉植物、常春藤、木製 A 字立牌；二三樓是長條磁磚公寓、鐵窗、冷氣、陽台、水塔。玻璃後面是完整 12 m 深的店（和走進去看到的同一套）。
+  - 店內：人字拼木地板、木護牆、木梁天花板、吧檯（咖啡機、甜點櫃）、整面書牆、窗邊吧台與高腳椅、玻璃球吊燈；店面玻璃外看得到溫州街（白天／黃昏／夜晚三張）。
+  - **沒有改**：導航、碰撞、店門互動點、8 個座位、雙人桌、吧檯點餐、出口（`tests/cafe_glb_integration.py` 比對，導航格和舊版完全相同）。網址加 `?nobldg` 可以看舊的程序化版本。
+  - 美術 `READY_FOR_ART_REVIEW`（`docs/art-rebuild/second_ai/VISUAL_REVIEW.md` 第 1 節；未標 ART_APPROVED）。
+- **Blender 人物（只在網址加 `?blchar` 時載入，預設畫面不變）**：祐廷第一版、沈以安第二版、林芷若第一版（`docs/art-rebuild/CHARACTER_REVIEW.md` 第 9–11 節）。
+- 標題畫面版本字樣「版本 v9.4.1（2026-10-10）」；script 版本號 9.4-2。
+
+**為什麼 Café 是預設畫面、人物不是**：比照 v9.4 霖澤館的 Blender GLB（環境正式模型＝D38 的正式製作流程，功能完整驗證後就是預設畫面，美術仍待使用者驗收、`?nobldg` 可以切回舊版）；Blender 人物仍在逐一製作（使用者授權第 7 條：實驗中的人物留在開發分支／`?blchar`），所以預設不換。使用者如果不想讓 Café 正式模型在正式網站上，緊急回復見上面（或下一版把 `bldg.cafe_*` 從 manifest 拿掉，程序化版本仍在）。
+
+**不在這一版（留在開發分支）**：溫州街近景＋便利商店室內（LAWWW2，18:19Z 交付；draw call 比原本多 47～52%，請 LAWWW2 再降，降完的版本進下一版）；麵店、書店室內（LAWWW2）；街道道具（LAWWW2）；陳語彤、高子晴 Blender 版（製作中）。
+
+**測試結果**（乾淨 worktree，Playwright 手機模擬＋SwiftShader，**不是 iPhone 實機**）：
+- 候選 `f2f1c03` 的 `tests/release_suite.sh`（2026-10-10 16:58–17:54 UTC）：24 項中 23 項 PASS——nav_levels_unit、nav_buildings_unit、stairs_feet（祐廷＋五位女主角）、sim_hair、deploy_check（`v9.4.1`）、model_upgrade、zone_transitions、campus_layout_nav、gongguan_layout_nav、reachability_all、indoor_cam_occlusion、minimap_direction、joystick_direction、p0_movement、touch_flow_wenzhou、flow_class_real、save_compat_v7（v7 玩家的存檔）、save_compat_live（線上 v9.4 玩家的存檔）。
+- `flow_linze_floors` 第一次 28/29：只有「NPC 60 秒內走樓梯高度變化 ≥ 2 m」沒過（1.68 m；那段時間我在低優先度跑 Blender 渲染，整項測試跑了 1163 秒，平常 565 秒）。安靜時單獨重跑還是差一點（1.85 m）。查證：
+  - 同一個測試對**線上 v9.4**（`6b9c0dc`）也只以 2.016 m 剛好通過——兩邊都在門檻邊緣；
+  - 直接觀察候選版霖澤館大廳 3 分鐘（約 6 fps）：兩個路人都反覆走完整的 0～4.2 m，大約每 30～45 秒一趟（在平台與兩端會停 1～4 秒）——**路人上下樓的功能正常**，這一版也沒有改霖澤館與路人的程式；
+  - 結論：測試只看 60 秒真實時間太短（視窗落在停留與半路時量不到 2 m）。**標準不變（≥ 2 m）**，觀察時間改成最多 150 秒、達到就提早結束（`tests/flow_linze_floors.py`，本次提交）；對同一個候選重跑 **29/29 PASS**（路人 28 秒就走了 2.18 m）。
+- 發布：main 從 `6b9c0dc` 快轉到 `e4ded6a`（不是強制推送）；`e4ded6a` 和測試過的 `f2f1c03` 比較：`src/`、`index.html`、`lib/`、`assets/`、`build/`、`build.py`、`.nojekyll`、`test_charlook.html` 完全相同（git tree hash 相同），差別只有測試、Blender 製作腳本、文件。GitHub Actions「pages build and deployment」#12 對 `e4ded6a` **success**（18:57:07 開始、18:59:10 完成）；本機對同一個 commit 跑 `deploy_check v9.4.1`：**ALL PASS**（標題畫面「版本 v9.4.1」、26 個 script 都帶版本號、384 個網址都載得到）。這個沙盒連不到 `*.github.io`，**沒有直接打開正式網站，也沒有 iPhone 實機測試**。
 
 ## v9.4（2026-10-10 14:47:16 UTC 發布 `6b9c0dc`；發布候選 `f10b387`；第一個候選 `47b2043` 沒有發布）
 
