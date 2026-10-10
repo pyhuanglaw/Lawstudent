@@ -1355,9 +1355,15 @@ Node 檢查：沒加選項的樹改前改後頂點完全一樣；加寬的樹後
 
 | 項目 | 狀態 |
 |---|---|
-| 霖澤館外觀 | INTEGRATED → 等瀏覽器流程測試（見 17.6）→ READY_FOR_ART_REVIEW |
-| 霖澤館室內（大廳、樓梯、電梯、二樓） | INTEGRATED；遊戲化設計 |
-| 201 階梯教室 | INTEGRATED |
+| 霖澤館外觀 | **FUNCTIONAL_VERIFIED → READY_FOR_ART_REVIEW**（2026-10-10 `flow_linze_floors` 瀏覽器 29/29 通過；使用者還沒看過） |
+| 霖澤館室內（大廳、樓梯、電梯、二樓） | **FUNCTIONAL_VERIFIED → READY_FOR_ART_REVIEW**；遊戲化設計（D37） |
+| 201 階梯教室 | **FUNCTIONAL_VERIFIED → READY_FOR_ART_REVIEW** |
+
+2026-10-10 瀏覽器真實玩家流程（Playwright 手機模擬、不用 turbo，不是手機實機）全部通過，流程截圖：
+
+![霖澤館流程](screenshots/v94_FLOW_linze_floors_allpass.jpg)
+
+截圖看得到、還沒修的：③一樓大廳剛進門時鏡頭前有一大片深色門板擋住人物；⑤201 最上排走道畫面中間有一塊深色方塊（鏡頭和人物之間的門／牆沒有淡出）。
 
 **還沒達到照片品質的地方**：
 - 窗玻璃沒有反射（遊戲沒有環境貼圖），白天看起來是平的深灰色；照片的玻璃會反射天空。
