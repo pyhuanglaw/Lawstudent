@@ -12,5 +12,6 @@ for(const f of ['lib/three.bundle.js','lib/three.jsm.bundle.js','lib/three-vrm.b
 }
 const origWarn=console.warn; console.warn=(...a)=>{ if(String(a[0]).includes('Missing min/max')) return; origWarn(...a); };
 // 把要用的模型讀進 ASSET_DATA（ASSETS 會優先用它，不走 fetch）
-function preload(keys){ window.ASSET_DATA=window.ASSET_DATA||{}; for(const k of keys.concat(['char.mixamo_clips'])){ const u=ASSETS.manifest[k].url; window.ASSET_DATA[u]=fs.readFileSync(path.join(ROOT,u)).toString('base64'); } return Promise.all(keys.concat(['char.mixamo_clips']).map(k=>ASSETS.loadOne(k))); }
+// 環境變數 CHAR_FILE＝試作版的 VRM 檔（只套用在第一個人物，例：CHAR_FILE=tools/vroid_wip/bl/hair.vrm node tests/stairs_feet_unit.js char.heroine_01）
+function preload(keys){ window.ASSET_DATA=window.ASSET_DATA||{}; for(const k of keys.concat(['char.mixamo_clips'])){ const u=ASSETS.manifest[k].url; const f=(process.env.CHAR_FILE&&k===keys[0])?path.resolve(ROOT,process.env.CHAR_FILE):path.join(ROOT,u); window.ASSET_DATA[u]=fs.readFileSync(f).toString('base64'); } return Promise.all(keys.concat(['char.mixamo_clips']).map(k=>ASSETS.loadOne(k))); }
 module.exports={ROOT,preload};

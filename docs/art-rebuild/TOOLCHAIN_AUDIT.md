@@ -42,3 +42,15 @@ python3 -m venv /opt/blenv && /opt/blenv/bin/pip install bpy==5.2.2      # Blend
 apt-get update && apt-get install -y libegl1 libegl-mesa0 libgl1-mesa-dri libgbm1   # 只有要用 EEVEE 時才需要；Cycles 不需要
 /opt/blenv/bin/python tools/blender/<script>.py -- <args>                 # 跑建模腳本（不是 blender --background）
 ```
+
+## 人物用 Blender（VRM ↔ Blender），2026-10-10 11:00 實測
+
+使用者要求人物改用 Blender 正式製作（不只用 numpy 改 VRoid 網格），先做一位示範角色（沈以安）。
+
+| # | 項目 | 狀態 | 實際測試 → 結果 | 限制 | 需要使用者操作 |
+|---|---|---|---|---|---|
+| 17 | VRM Add-on for Blender | 已實測成功 | `git clone --depth 1 https://github.com/saturday06/VRM-Addon-for-Blender.git /opt/vrmaddon/src`（`10bf3e7`，MIT／GPL-3.0 雙授權，支援 Blender 4.2–5.3）→ 連結到 `~/.config/blender/5.2/scripts/addons/io_scene_vrm` → `addon_utils.enable('io_scene_vrm')`（直接 `import`＋`register()` 會因為沒有偏好設定而匯入失敗）。無介面匯入 `vroid_heroine_01.vrm`：55 根 humanoid 骨、15 組表情、11 組彈簧骨、12 組碰撞球、MToon 材質全部讀到；匯出 1.0 秒 | 工具不放進 repo；容器重開要重新 clone（幾秒） | 不需要 |
+| 18 | VRM 往返（匯入→不改→匯出）完整性 | 已實測成功 | 結構比較（`humanoid`、表情、彈簧骨、碰撞球、MToon 參數）完全相同；差別只有沒用到的東西被丟掉（已刪衣服的材質、沒用到的 normal map、縮圖）。遊戲的 look-dev 頁（遊戲自己的 ASSETS＋CHAR.build）畫面和原檔一樣 | — | 不需要 |
+| 19 | 從 VRoid 原始樣本在 Blender 重做 | 第 0 階段已實測成功 | `tools/blender/char/heroine_01.py`：HairSample_Female 拿掉頭髮、衣服、裙子／袖子骨頭；頭以頭關節為中心縮 0.90（6.8 → 約 7.4 頭身）、脖子收細；匯出 → `vrm_finish.py`（沿用 vroid_build 的整理）→ 遊戲載入、idle 動畫正常；`CHAR_FILE=… node tests/stairs_feet_unit.js char.heroine_01` PASS；EEVEE 預覽算圖正常（有 EGL 警告訊息，不影響出圖） | 一次執行約 2 分半（含 6 張算圖） | 不需要 |
+
+注意：Blender 腳本檔名不能和 Python 標準模組同名（例如 `inspect.py` 會讓 bpy 初始化兩次而當掉）。
