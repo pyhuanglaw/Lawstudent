@@ -7,11 +7,16 @@ heroine_01.py --stages ...,hair 時執行 apply(m)：新建頭髮物件（Hair_H
  2. 髮殼：以綁點（後腦上方）為極點、髮際線為邊界的球面網格（u＝沿髮際線一圈、v＝從髮際線往綁點），
     貼著頭皮往外加厚——頭頂與前額較蓬、兩側往後梳較貼，靠近綁點的頭髮被拉高收進髮圈。
  3. 往後梳的髮片：沿著 u 固定的線（髮際線 → 綁點）做兩層有寬度、漸細的髮片；第二層離頭皮較遠、中段拱起，做出蓬度與髮束層次。
- 4. 空氣瀏海（略偏一邊的分線、一束一束、到眉毛，看得到額頭）、兩側較長的瀏海、太陽穴垂到胸口的臉旁碎髮、耳前的短碎髮、頭頂少量細碎髮。
+ 4. 空氣瀏海（略偏一邊的分線、一束一束、到眉毛，看得到額頭）、兩側較長的瀏海、太陽穴垂到胸口的臉旁碎髮、太陽穴與耳前的短碎髮（讓髮際線不是一條硬線）。
  5. 高馬尾：綁點往後上方翹起再沿背部 S 形垂到肩胛骨下方；十幾片髮片圍成有蓬度的髮束（截面略扁），髮尾長短不一、稍微散開、微微內彎；深色髮圈。
- 6. 貼圖：numpy 產生一張 1024 atlas（細髮絲、髮根到髮尾的明暗、柔和的高光帶、髮尾與髮際線的 alpha 鋸齒），MToon alpha MASK、雙面。
+ 6. 貼圖：numpy 產生一張 1024 atlas（細髮絲、髮根到髮尾的明暗、柔和的高光帶、髮尾分成幾束尖端），MToon alpha MASK（cutout）。
+    材質是單面：雙面的話 three.js 會把背面的法線翻過來，頭的剪影邊緣出現一條條暗色；兩面都看得到的臉旁碎髮另外做一層背面。
+    髮片法線用「從頭的中心／馬尾中心線往外」的自訂法線，整頭頭髮的明暗是一個連續的體積，不是一片一片。
+    遠看（遊戲的跟隨鏡頭）不要有細到 1～2 px 的 alpha：瀏海上段整片、下段才分尖端；髮束尖端太細的部分直接不畫。
  7. 骨頭：髮殼、瀏海、梳上去的髮片綁 J_Bip_C_Head（剛體）；馬尾一條 6 節的鏈、臉旁碎髮各 3 節，頂點權重沿鏈漸變；VRM 彈簧骨群組。
 
+預算：約 11.4k 三角形（上限 14k）、一張 1024 貼圖、一個材質；新增骨頭 12 根（馬尾 6、兩側碎髮各 3）、彈簧骨群組 2 個。
+驗證：tools/dev_scratch/spring_sim/sim_hair.js（CHAR_FILE=…）、遊戲 look-dev（tools/shots/char_lookdev.py）。
 座標：Blender Z 朝上、人物面向 -Y、+X＝人物的左手邊（骨架空間＝世界座標；Face／Body 物件本身有 180° 旋轉，量測時換成世界座標）。"""
 import math, os
 import numpy as np
@@ -31,8 +36,8 @@ SIDE_BONES = 3
 SEED = 20261010
 
 # 髮際線（方位角 → 仰角，度；方位角 0＝前額正中、90＝人物左耳、180＝後頸）：前額 → 太陽穴 → 耳前的鬢角 → 越過耳朵上緣 → 耳後 → 後頸
-HAIRLINE = [(0, 35), (20, 34), (35, 31), (50, 22), (60, 9), (66, -6), (71, -11), (76, -6), (82, 3), (90, 6), (100, 5),
-            (108, -6), (118, -24), (132, -40), (150, -52), (165, -58), (180, -60)]
+HAIRLINE = [(0, 35), (20, 34), (35, 31), (50, 21), (58, 11), (66, 4), (74, 2), (82, 4), (90, 6), (100, 4),
+            (108, -10), (118, -32), (132, -50), (150, -60), (165, -64), (180, -66)]
 
 # ---------------- 小工具 ----------------
 def _unit(v):
@@ -56,8 +61,10 @@ def sstep(a, b, x):
 
 
 def hairline_beta(a):
-    a = abs(((a + 180) % 360) - 180)
-    xs, ys = zip(*HAIRLINE); return float(np.interp(a, xs, ys))
+    a0 = ((a + 180) % 360) - 180; a = abs(a0)
+    xs, ys = zip(*HAIRLINE)
+    jit = (1.6 * math.sin(math.radians(a0) * 9 + 0.7) + 0.9 * math.sin(math.radians(a0) * 23 + 2.1)) * float(sstep(40, 70, a))   # 兩側與後頸的髮際線不是一條平滑的線
+    return float(np.interp(a, xs, ys)) + jit
 
 
 def catmull(P, n=24):
@@ -80,10 +87,10 @@ def tangents(P):
 
 # ---------------- 貼圖 atlas（1024×1024；numpy 第 0 列＝圖片最上面；髮片的「髮根」在區塊上緣、髮尾在下緣）----------------
 W = 1024
-REG_PX = {'long': (0, 320, 0, 1024), 'swept': (320, 576, 0, 1024), 'wisp': (576, 704, 0, 1024),
-          'bangA': (704, 832, 0, 1024), 'bangB': (832, 960, 0, 1024), 'shell': (960, 1024, 0, 832), 'tie': (960, 1024, 832, 1024)}
+REG_PX = {'long': (0, 320, 0, 1024), 'swept': (320, 576, 0, 1024), 'lock': (576, 704, 0, 1024),
+          'bangA': (704, 832, 0, 1024), 'bangB': (832, 960, 0, 1024), 'shell': (960, 1024, 0, 640), 'wisp': (960, 1024, 640, 896), 'tie': (960, 1024, 896, 1024)}
 # 顏色（sRGB）：目標 #3a2820 附近的深棕，有明暗層次
-DEEP = np.array([0.135, 0.090, 0.072]); BASE = np.array([0.235, 0.160, 0.124]); LIGHT = np.array([0.345, 0.250, 0.193]); SHEEN = np.array([0.45, 0.35, 0.28])
+DEEP = np.array([0.20, 0.135, 0.105]); BASE = np.array([0.33, 0.235, 0.18]); LIGHT = np.array([0.47, 0.355, 0.275]); SHEEN = np.array([0.60, 0.49, 0.40])
 
 
 def reg_uv(name, pad=4):
@@ -110,14 +117,14 @@ def _wobble(f, rng, amp, wl):
 
 def _strand_color(rng, h, w, root_dark=0.8, sheen=None, tip_light=0.06, base=BASE):
     """細髮絲（1px）＋中等髮束（4px）＋大的明暗（16px），沿長度方向拉長；髮根暗、髮尾稍亮；柔和的高光帶"""
-    S = _streaks(rng, h, w, 1, 70, 0.55) + _streaks(rng, h, w, 4, 150, 0.4) + _streaks(rng, h, w, 15, 320, 0.3)
+    S = _streaks(rng, h, w, 2, 90, 0.18) + _streaks(rng, h, w, 6, 170, 0.42) + _streaks(rng, h, w, 20, 360, 0.38)
     S = _wobble(S, rng, 1.6, 260)
     t = ((np.arange(h) + 0.5) / h)[:, None]
     g = root_dark + (1 - root_dark) * sstep(0.0, 0.3, t) + tip_light * t
     k = np.clip(0.5 + 0.42 * S, 0, 1)[..., None]
     col = (DEEP + (LIGHT - DEEP) * k * 0.92 + (base - (DEEP + LIGHT) / 2) * 0.9) * g[..., None]
     fine = _wobble(_streaks(rng, h, w, 1, 40, 1.0), rng, 1.2, 200)
-    col = col + (LIGHT - BASE)[None, None, :] * 0.55 * np.clip(fine - 0.55, 0, 1)[..., None] * 2   # 少數較亮的髮絲
+    col = col + (LIGHT - BASE)[None, None, :] * 0.35 * np.clip(fine - 0.6, 0, 1)[..., None] * 2.5   # 少數較亮的髮絲
     if sheen is not None:
         c0, c1 = sheen
         band = sstep(c0 - 0.06, c0, t) * (1 - sstep(c1, c1 + 0.08, t)) * np.clip(0.55 + 0.6 * S, 0, 1)
@@ -125,7 +132,7 @@ def _strand_color(rng, h, w, root_dark=0.8, sheen=None, tip_light=0.06, base=BAS
     return np.clip(col, 0, 1)
 
 
-def _clumps(rng, h, w, n, t_split, Lmin, Lmax, edge_taper=0.0, hw_k=(1.0, 1.35), lean=0.15, power=0.75, merged_top=True):
+def _clumps(rng, h, w, n, t_split, Lmin, Lmax, edge_taper=0.0, hw_k=(1.0, 1.35), lean=0.15, power=0.75, merged_top=True, full=1.0, minw=1.6):
     """髮尾分成 n 束、各自漸細成尖端（長短不一）；t_split 以上（靠髮根）合成一片。回傳 alpha（h×w，0..1，邊緣 1px 柔化）"""
     xn = (np.arange(w) + 0.5) / w; t = ((np.arange(h) + 0.5) / h)[:, None]
     cen = (np.arange(n) + 0.5) / n + rng.uniform(-0.22, 0.22, n) / n; hw = 0.5 / n * rng.uniform(*hw_k, n)
@@ -133,9 +140,9 @@ def _clumps(rng, h, w, n, t_split, Lmin, Lmax, edge_taper=0.0, hw_k=(1.0, 1.35),
     A = np.zeros((h, w))
     for i in range(n):
         u = np.clip((t - t_split) / max(1e-3, L[i] - t_split), 0, None)
-        hwi = hw[i] * np.clip(1 - u, 0, 1) ** power
+        hwi = hw[i] * np.clip(1 - np.clip(u, 0, 1) ** full, 0, 1) ** power   # full>1：髮束維持寬度，接近末端才收尖
         cx = cen[i] + (0.5 - cen[i]) * lean * u
-        A = np.maximum(A, np.clip((hwi - np.abs(xn[None, :] - cx)) * w + 0.5, 0, 1))
+        A = np.maximum(A, np.clip((hwi - np.abs(xn[None, :] - cx)) * w, 0, 1) * (hwi * w > minw))   # 末端太細的針尖不要（遠看會變成散落的點）
     if merged_top: A[t[:, 0] < t_split] = 1
     return A
 
@@ -156,30 +163,33 @@ def make_atlas(seed=SEED):
         x0, x1, y0, y1 = REG_PX[name]; img[y0:y1, x0:x1, :3] = col; img[y0:y1, x0:x1, 3] = A
     # 馬尾、臉旁碎髮：大部分不透明，下段 28% 分成多束尖端；上段有柔和的高光帶（馬尾翹起的弧頂受光）
     x0, x1, y0, y1 = REG_PX['long']; h, w = y1 - y0, x1 - x0
-    A = _edge_breakup(rng, _clumps(rng, h, w, 13, 0.70, 0.84, 1.0, edge_taper=0.08, hw_k=(1.0, 1.5)), 0.05)
+    A = _clumps(rng, h, w, 5, 0.74, 0.86, 1.0, edge_taper=0.08, hw_k=(1.1, 1.5), power=0.9, full=1.7, minw=3.0)
     put('long', _strand_color(rng, h, w, 0.72, sheen=(0.08, 0.2), tip_light=0.10), A)
     # 往後梳的髮片：髮根（綁點那一端）不透明，髮際線那一端短短的鋸齒
     x0, x1, y0, y1 = REG_PX['swept']; h, w = y1 - y0, x1 - x0
-    A = _edge_breakup(rng, _clumps(rng, h, w, 10, 0.92, 0.975, 1.0, hw_k=(1.05, 1.4), power=0.6), 0.08)
+    A = _clumps(rng, h, w, 6, 0.93, 0.975, 1.0, hw_k=(1.05, 1.4), power=0.8, full=1.5)
     put('swept', _strand_color(rng, h, w, 0.85, sheen=(0.42, 0.56), tip_light=0.0), A)
-    # 細碎髮：4 小束、彼此有空隙、長短不一
+    # 細碎髮（短髮片：太陽穴、耳前、瀏海之間）：3 小束、彼此有空隙、長短不一
     x0, x1, y0, y1 = REG_PX['wisp']; h, w = y1 - y0, x1 - x0
-    A = _clumps(rng, h, w, 4, 0.05, 0.62, 1.0, hw_k=(0.45, 0.7), lean=0.0, power=0.9, merged_top=False)
+    A = _clumps(rng, h, w, 3, 0.05, 0.70, 1.0, hw_k=(0.62, 0.85), lean=0.0, power=0.9, merged_top=False, full=2.0, minw=2.0)
     put('wisp', _strand_color(rng, h, w, 0.9, tip_light=0.08), A)
+    # 臉旁碎髮：下段 22% 分成 3 束較寬的尖端（遠看不會變成一條條細線）
+    x0, x1, y0, y1 = REG_PX['lock']; h, w = y1 - y0, x1 - x0
+    A = _clumps(rng, h, w, 3, 0.78, 0.9, 1.0, edge_taper=0.06, hw_k=(1.1, 1.35), power=0.9, full=1.7, minw=3.0)
+    put('lock', _strand_color(rng, h, w, 0.8, tip_light=0.10), A)
     # 瀏海：一束主髮束＋兩側較短的小束，收成尖端
-    for nm, lens in (('bangA', (0.80, 1.0)), ('bangB', (0.72, 0.95))):
+    for nm, lens in (('bangA', (0.88, 1.0)), ('bangB', (0.85, 0.97))):
         x0, x1, y0, y1 = REG_PX[nm]; h, w = y1 - y0, x1 - x0; xn = (np.arange(w) + 0.5) / w; t = ((np.arange(h) + 0.5) / h)[:, None]
         A = np.zeros((h, w))
-        for cx0, cx1, hw0, L, ts in ((0.52, 0.5, 0.25, lens[1], 0.26), (0.2, 0.3, 0.16, lens[0], 0.2), (0.8, 0.7, 0.15, lens[0] + 0.07, 0.22)):
-            u = np.clip((t - ts) / (L - ts), 0, None); hwi = hw0 * np.clip(1 - u, 0, 1) ** 0.85; cx = cx0 + (cx1 - cx0) * np.clip(u, 0, 1)
-            A = np.maximum(A, np.clip((hwi - np.abs(xn[None, :] - cx)) * w + 0.5, 0, 1))
-        rootw = 0.47 - 0.1 * np.clip(t / 0.22, 0, 1)   # 上段（髮根）合成一片
-        A = np.maximum(A, np.clip((rootw - np.abs(xn[None, :] - 0.5)) * w + 0.5, 0, 1) * (t < 0.22))
-        A = _edge_breakup(rng, A, 0.1)
+        for cx0, cx1, hw0, L, ts in ((0.5, 0.5, 0.27, lens[1], 0.6), (0.22, 0.17, 0.21, lens[0], 0.6), (0.79, 0.84, 0.2, lens[0] + 0.05, 0.6)):
+            u = np.clip((t - ts) / (L - ts), 0, None); hwi = hw0 * np.clip(1 - np.clip(u, 0, 1) ** 1.6, 0, 1) ** 0.8; cx = cx0 + (cx1 - cx0) * np.clip(u, 0, 1)
+            A = np.maximum(A, np.clip((hwi - np.abs(xn[None, :] - cx)) * w, 0, 1) * (hwi * w > 1.6))
+        rootw = 0.47 - 0.03 * np.clip(t / 0.6, 0, 1)   # 上段（髮根、越過髮際線、額頭上半）合成一片：遠看是一片完整的瀏海，下段才分成尖端
+        A = np.maximum(A, np.clip((rootw - np.abs(xn[None, :] - 0.5)) * w, 0, 1) * (t < 0.61))
         put(nm, _strand_color(rng, h, w, 0.82, tip_light=0.05), A)
     # 髮殼：不透明、偏暗；髮際線那一端細細的鋸齒
     x0, x1, y0, y1 = REG_PX['shell']; h, w = y1 - y0, x1 - x0
-    A = _clumps(rng, h, w, 4, 0.93, 0.985, 1.0, hw_k=(1.1, 1.4), power=0.55)
+    A = _clumps(rng, h, w, 3, 0.93, 0.985, 1.0, hw_k=(1.1, 1.4), power=0.55)
     put('shell', _strand_color(rng, h, w, 0.75, tip_light=0.0, base=BASE * 0.86), A)
     # 髮圈：近黑色，中間一條柔和的光澤
     x0, x1, y0, y1 = REG_PX['tie']; h, w = y1 - y0, x1 - x0; t = ((np.arange(h) + 0.5) / h)[:, None]
@@ -206,14 +216,15 @@ class MB:
                 if np.dot(g, N[i, j] + N[i + 1, j + 1]) < 0: q = q[::-1]
                 self.F.append(q)
 
-    def ribbon(self, P, side, nrm, width, reg, grp, s, ncross=2, arch=0.12, tt=None, tilt=0.25):
+    def ribbon(self, P, side, nrm, width, reg, grp, s, ncross=2, arch=0.12, tt=None, tilt=0.25, both=False):
         n = len(P); a = np.linspace(-1, 1, ncross + 1); width = np.broadcast_to(np.asarray(width, float), (n,))
         G = P[:, None, :] + side[:, None, :] * (a[None, :, None] * width[:, None, None] / 2) + nrm[:, None, :] * (arch * width[:, None, None] * (1 - a[None, :, None] ** 2))
         u0, v0, u1, v1 = reg_uv(reg); tt = np.linspace(0, 1, n) if tt is None else np.asarray(tt, float)
         U = u0 + (u1 - u0) * (a + 1) / 2; Vv = v1 - (v1 - v0) * tt
         UV = np.stack(np.broadcast_arrays(U[None, :], Vv[:, None]), -1)
-        N = nrm[:, None, :] + side[:, None, :] * (tilt * a[None, :, None])
-        self.grid(G, UV, np.broadcast_to(N, G.shape).copy(), grp, s)
+        N = np.broadcast_to(nrm[:, None, :] + side[:, None, :] * (tilt * a[None, :, None]), G.shape).copy()
+        self.grid(G, UV, N, grp, s)
+        if both: self.grid(G, UV, -N, grp, s)     # 背面另外做一層（材質是單面：頭上的髮片背面不畫，避免剪影邊緣出現翻面的暗色）
 
 
 class Head:
@@ -317,10 +328,11 @@ def apply(m):
 
     def vol(a):     # 髮殼加厚：頭頂／前額蓬、兩側貼、後腦中等
         a = abs(((a + 180) % 360) - 180); ca = math.cos(math.radians(a))
-        return 0.0056 + 0.0050 * max(ca, 0) ** 1.2 + 0.0022 * max(-ca, 0)
+        sa = abs(math.sin(math.radians(a)))
+        return 0.0080 + 0.0050 * max(ca, 0) ** 1.2 + 0.0030 * sa ** 2 + 0.0010 * max(-ca, 0)   # 前額頭頂蓬、兩側耳上也有一點蓬度
 
     def off_shell(a, v):
-        return 0.0018 + vol(a) * float(sstep(0.0, 0.42, v)) * (1 - 0.35 * float(sstep(0.72, 0.95, v))) + 0.0065 * float(sstep(0.82, 1.0, v))
+        return 0.0022 + vol(a) * float(sstep(0.0, 0.42, v)) * (1 - 0.35 * float(sstep(0.72, 0.95, v))) + 0.0065 * float(sstep(0.82, 1.0, v))
 
     def line_dir(a, v):
         return slerp(sph(a, hairline_beta(a)), dT, v)
@@ -329,14 +341,13 @@ def apply(m):
         d = line_dir(a, v); return c + d * (H.R(d) + off_shell(a, v) + extra), d
 
     RT = H.R(dT); T0 = c + dT * (RT + off_shell(180, 1.0))
-    arc_tot = {}
 
     def v_end(a):    # 髮片停在綁點外 1.4 cm（髮圈蓋住）
         d0 = sph(a, hairline_beta(a)); om = math.acos(float(np.clip(np.dot(d0, dT), -1, 1)))
         return 1 - (0.014 / RT) / om
 
     def v_bang(a):   # 瀏海區（前額）的範圍：髮際線到 v_bang 這一段由瀏海蓋住
-        a = abs(((a + 180) % 360) - 180); return 0.30 * float(1 - sstep(36, 54, a))
+        a = abs(((a + 180) % 360) - 180); return 0.30 * float(1 - sstep(30, 44, a))
 
     # ---- 1. 髮殼 ----
     Nu, Nv, PAN = 64, 15, 4
@@ -369,118 +380,117 @@ def apply(m):
 
     for k in range(52):
         a = -180 + 360 * (k + 0.5) / 52 + rng.uniform(-1.5, 1.5)
-        swept(a, v_bang(a) + (0.0 if v_bang(a) < 0.01 else 0.02), v_end(a), 0.0024 + 0.0012 * rng.random(), 1.75, 'swept')
+        swept(a, v_bang(a) + (rng.uniform(0.0, 0.03) if v_bang(a) < 0.01 else 0.02), v_end(a), 0.0016 + 0.0010 * rng.random(), 1.75, 'swept')
     for k in range(30):
         a = -180 + 360 * (k + rng.uniform(0.2, 0.8)) / 30
         vb = v_bang(a); vst = vb + (0.03 if vb > 0.01 else 0.0) + rng.uniform(0.0, 0.10)
-        swept(a, vst, v_end(a) - rng.uniform(0.0, 0.05), 0.0052 + 0.0015 * rng.random(), rng.uniform(1.1, 1.5),
-              'swept' if rng.random() < 0.7 else 'wisp', bulge=0.0035 + 0.003 * rng.random(), arch=0.16)
-    # 頭頂少量細碎髮（拱起、細）
-    for k in range(7):
-        a = rng.uniform(-150, 150); vb = v_bang(a)
-        vst = vb + rng.uniform(0.08, 0.3); vsp = min(v_end(a) - 0.02, vst + rng.uniform(0.25, 0.45))
-        swept(a, vst, vsp, 0.008, 0.45, 'wisp', nseg=10, bulge=0.006 + 0.006 * rng.random(), arch=0.0)
+        swept(a, vst, v_end(a) - rng.uniform(0.0, 0.05), 0.0040 + 0.0012 * rng.random(), rng.uniform(1.1, 1.5),
+              'swept', bulge=0.002 + 0.002 * rng.random(), arch=0.12)
+    # 太陽穴的髮際線：幾束細碎髮從髮際線稍前方往後梳，讓邊緣不是一條硬線
+    for sgn in (1, -1):
+        for a in (45, 52, 59, 66):
+            swept(sgn * (a + rng.uniform(-2, 2)), -0.03 - 0.02 * rng.random(), 0.34 + 0.1 * rng.random(), 0.0042, 0.62, 'wisp', nseg=10, bulge=0.0015)
+    # （試過頭頂另外加拱起的細碎髮：遊戲裡在頭的剪影上變成一條條暗色的「電線」，拿掉）
     n_swept = len(mb.F) - n_shell
 
     # ---- 3. 空氣瀏海 ----
-    # (根部方位角, 髮尾方位角, 髮尾高度（相對眉毛上緣）, 寬度, 貼圖)
-    bangs = []
-    for at in (-31, -24, -17, -11, -5.5, 0.5, 6, 12, 18, 25, 31):
-        side_k = abs(at - PART) / 37
-        bangs.append((PART + (at - PART) * 0.5, at, -0.004 - 0.010 * side_k ** 2 + rng.uniform(-0.003, 0.003), 0.019 + rng.uniform(-0.002, 0.002) - 0.003 * side_k, 'bangA' if rng.random() < 0.6 else 'bangB'))
-    for sgn in (-1, 1):      # 兩側較長的瀏海（眼尾外側、到顴骨）
-        bangs.append((PART + sgn * 26, sgn * 44, -0.032, 0.017, 'bangB'))
-        bangs.append((PART + sgn * 33, sgn * 53, -0.050, 0.015, 'bangA'))
-    for ar, at, zt, w0, reg in bangs:
-        n = 13; vb = max(v_bang(ar), 0.2)
-        d_root = line_dir(ar, vb)
-        z_tip = H.brow_top + zt
-        # 髮尾方向：在 at 方位上找高度 = z_tip 的仰角
+    # 每一束：從頭頂的瀏海區（根部）往前越過髮際線（離額頭約 1.2 cm 的「空氣感」），沿額頭往下、往外撥，髮尾到眉毛；兩側較長、到顴骨。
+    # (越過髮際線的方位角, 髮尾方位角, 髮尾高度（相對眉毛上緣）, 寬度, 貼圖)；分線在 PART（略偏人物右邊）
+    bangs = [(-13, -17, 0.002, 0.027, 'bangA'), (-21, -29, -0.002, 0.028, 'bangB'), (-30, -40, -0.010, 0.026, 'bangA'), (-38, -51, -0.034, 0.023, 'bangB'),
+             (7, 13, 0.001, 0.027, 'bangA'), (16, 25, -0.003, 0.027, 'bangB'), (25, 37, -0.011, 0.026, 'bangA'), (34, 50, -0.035, 0.023, 'bangB'),
+             (-24, -21, -0.005, 0.013, 'wisp'), (11, 8, -0.002, 0.013, 'wisp')]
+
+    def beta_at_z(a, z_tip):
         bt = 0.0
         for _ in range(30):
-            d = sph(at, bt); z = c[2] + d[2] * H.R(d, True); bt += (z_tip - z) / max(0.03, H.R(d, True)) * 57.3 * 0.8
-        d_tip = sph(at, bt)
-        P = []; D = []
-        for k in range(n + 1):
-            s = k / n; d = _unit(slerp(d_root, d_tip, s ** 0.9))
-            lift = 0.0058 + 0.0062 * math.sin(math.pi * min(1.0, s / 0.85)) ** 1.3 - 0.0008 * s
-            base = H.R(d, s > 0.35) if s > 0.35 else H.R(d) + off_shell(ar, vb * (1 - s))
-            P.append(c + d * (base + lift)); D.append(d)
-        P = H.push(np.array(P), np.linspace(0.006, 0.0045, n + 1)); D = _unit(np.array(D)); Tn = tangents(P)
-        side = _unit(np.cross(D, Tn)); width = w0 * (0.6 + 0.4 * sstep(0.0, 0.35, np.linspace(0, 1, n + 1)))
-        mb.ribbon(P, side, D, width, reg, 'head', np.zeros(n + 1), arch=0.10)
+            d = sph(a, bt); r = H.R(d, True); bt += (z_tip - (c[2] + d[2] * r)) / max(0.03, r) * 57.3 * 0.8
+        return bt
+
+    for ah, at, zt, w0, reg in bangs:
+        ar = PART + (ah - PART) * 0.55; vr = 0.33
+        dr = line_dir(ar, vr); p_root = c + dr * (H.R(dr) + off_shell(ar, vr) + 0.0042)
+        bh = hairline_beta(ah) + 2.0; dh = sph(ah, bh); p_h = c + dh * (H.R(dh, True) + 0.0125)
+        bt = beta_at_z(at, H.brow_z + zt + rng.uniform(-0.002, 0.002))
+        am = ah + (at - ah) * 0.5; bm = bh + (bt - bh) * 0.5; dm = sph(am, bm); p_m = c + dm * (H.R(dm, True) + 0.0088)
+        dt_ = sph(at, bt); p_t = c + dt_ * (H.R(dt_, True) + 0.0052)
+        P = catmull(np.array([p_root, p_h, p_m, p_t]), 10); P, sl = resample(P, 15); n = len(P)
+        P = H.push(P, np.linspace(0.009, 0.0045, n)); P[1:-1] = P[1:-1] * 0.6 + (P[:-2] + P[2:]) * 0.2; P = H.push(P, np.linspace(0.009, 0.0045, n))
+        D = _unit(P - c); Tn = tangents(P)
+        side = _unit(np.cross(D, Tn)); width = w0 * (0.55 + 0.45 * sstep(0.0, 0.3, np.linspace(0, 1, n)))
+        if os.environ.get('HAIR_DEBUG'): print('   bang', ah, at, 'root', np.round(p_root, 3), 'hl', np.round(p_h, 3), 'tip', np.round(P[-1], 3), 'w', np.round(width[[0, n // 2, -1]], 3), 'side', np.round(side[n // 2], 2))
+        mb.ribbon(P, side, D, width, reg, 'head', np.zeros(n), arch=0.10)
     n_bang = len(mb.F) - n_shell - n_swept
 
     # ---- 4. 臉旁碎髮（太陽穴 → 下顎 → 胸口）與耳前短碎髮 ----
     side_chains = {}
     for sgn, grp in ((1, 'sideL'), (-1, 'sideR')):
-        a0 = sgn * 60
         ctrl = []
-        d = sph(a0, 17); ctrl.append(c + d * (H.R(d) + 0.006))
+        d = sph(sgn * 52, 30); ctrl.append(c + d * (H.R(d) + 0.0035))     # 髮根藏在往後梳的髮片底下
+        d = sph(sgn * 58, 15); ctrl.append(c + d * (H.R(d) + 0.0055))
         d = sph(sgn * 64, -4); ctrl.append(c + d * (H.R(d, True) + 0.008))
         d = sph(sgn * 62, -28); ctrl.append(c + d * (H.R(d, True) + 0.009))
         jaw = H.c[2] - 0.098
-        for z, dx, dy in ((jaw, 0.072, -0.030), (jaw - 0.06, 0.076, -0.040), (jaw - 0.115, 0.080, -0.052), (jaw - 0.155, 0.083, -0.064)):
+        for z, dx, dy in ((jaw, 0.070, -0.030), (jaw - 0.06, 0.079, -0.040), (jaw - 0.115, 0.086, -0.052), (jaw - 0.16, 0.083, -0.066)):
             ctrl.append(np.array([sgn * dx, min(H.front_y(sgn * dx, z) - 0.024, dy), z]))
         P = catmull(np.array(ctrl), 16)
         P, s = resample(P, 25)
-        marg = np.where(P[:, 2] > jaw, 0.008, 0.022)
+        marg = np.where(P[:, 2] > jaw, 0.008, 0.022); marg[:4] = [0.0035, 0.0045, 0.006, 0.007]
         P = H.push(P, marg); P = push_spheres(P, colliders(arm, {'J_Bip_C_UpperChest', 'J_Bip_C_Neck'}), 0.012, start=12)
         for _ in range(2):
             P[1:-1] = P[1:-1] * 0.5 + (P[:-2] + P[2:]) * 0.25
         P = H.push(P, marg)
         P, s = resample(P, 25); L = s[-1]
         Tn = tangents(P)
-        out = _unit(np.column_stack([P[:, 0], P[:, 1] - c[1] * 0.0 - 0.0, np.zeros(len(P))]) * np.array([1, 0.6, 0]) + np.array([0, -0.5, 0]))  # 朝外、略朝前
-        for kk, (rot, wfac, reg, dx) in enumerate(((0.0, 1.0, 'long', 0.0), (0.55 * sgn, 0.75, 'wisp', 0.0035))):
+        out = _unit(np.column_stack([P[:, 0], -0.5 + 0.6 * P[:, 1], np.zeros(len(P))]))   # 髮片正面朝外、略朝前
+        for rot, wfac, reg, dx in ((0.0, 1.0, 'lock', 0.0), (0.55 * sgn, 0.7, 'lock', 0.0035)):   # 主髮束＋旁邊一小束（轉個角度，側面看有厚度）
             nrm = _unit(out - Tn * np.sum(out * Tn, 1)[:, None])
             sd = _unit(np.cross(nrm, Tn))
-            ca, sa = math.cos(rot), math.sin(rot)
             twist = np.linspace(0, 0.5 * sgn, len(P))[:, None]
             sd2 = _unit(sd * np.cos(twist + rot) + nrm * np.sin(twist + rot)); n2 = _unit(np.cross(Tn, sd2))
             if np.mean(np.sum(n2 * nrm, 1)) < 0: n2 = -n2
-            width = (0.016 - 0.004 * sstep(0.15, 0.45, s / L) + 0.002 * sstep(0.5, 0.9, s / L)) * wfac
-            mb.ribbon(P + nrm * dx, sd2, _unit(n2 * 0.6 + nrm * 0.4), width, reg, grp, s, arch=0.14)
+            width = (0.024 - 0.010 * sstep(0.12, 0.42, s / L) + 0.004 * sstep(0.5, 0.85, s / L)) * wfac * (0.5 + 0.5 * sstep(0.0, 0.12, s / L))
+            mb.ribbon(P + nrm * dx, sd2, _unit(n2 * 0.5 + nrm * 0.3 + np.array([0, -0.45, 0.15])), width, reg, grp, s, arch=0.14, both=True)   # 法線偏向前方：亮度和瀏海接近
         side_chains[grp] = (P, s, jaw)
         # 耳前短碎髮（剛體）
         Q = []
         for k in range(9):
             t = k / 8; d = sph(sgn * (66 + 3 * t), 12 - 34 * t); Q.append(c + d * (H.R(d, True) + 0.006 + 0.004 * math.sin(math.pi * t)))
         Q = H.push(np.array(Q), 0.005); D = _unit(Q - c); Tn = tangents(Q)
-        mb.ribbon(Q, _unit(np.cross(D, Tn)), D, 0.009, 'wisp', 'head', np.zeros(len(Q)), arch=0.0)
+        mb.ribbon(Q, _unit(np.cross(D, Tn)), D, 0.009, 'wisp', 'head', np.zeros(len(Q)), arch=0.0, both=True)
     n_side = len(mb.F) - n_shell - n_swept - n_bang
 
     # ---- 5. 馬尾 ----
-    b0 = _unit(np.array([0, math.cos(math.radians(38)), math.sin(math.radians(38))]))
+    b0 = _unit(np.array([0, math.cos(math.radians(26)), math.sin(math.radians(26))]))
     def by(z, gap): return H.back_y(z) + gap
-    ctrl = [T0, T0 + b0 * 0.035, T0 + np.array([0, 0.078, 0.010]), T0 + np.array([0, 0.108, -0.045])]
-    z1 = T0[2] - 0.13
-    ctrl += [np.array([0, max(T0[1] + 0.095, by(z1, 0.07)), z1]), np.array([0, by(1.37, 0.085), 1.37]),
-             np.array([0, by(1.27, 0.066), 1.27]), np.array([0, by(1.17, 0.060), 1.17]), np.array([0, by(1.08, 0.050), 1.08])]
+    ctrl = [T0, T0 + b0 * 0.03, T0 + np.array([0, 0.062, 0.003]), T0 + np.array([0, 0.086, -0.04])]
+    z1 = T0[2] - 0.12
+    # 垂下的部分離背（皮膚）的距離：留毛衣的厚度；上段往外、中段貼著肩胛骨、髮尾微微往內彎（柔和的 S 形）
+    ctrl += [np.array([0, max(T0[1] + 0.074, by(z1, 0.062)), z1]), np.array([0, by(1.37, 0.084), 1.37]),
+             np.array([0, by(1.27, 0.071), 1.27]), np.array([0, by(1.17, 0.066), 1.17]), np.array([0, by(1.08, 0.053), 1.08])]
     P = catmull(np.array(ctrl), 24); P, s = resample(P, 120)
     sph_p = colliders(arm, {HEAD, 'J_Bip_C_Neck', 'J_Bip_C_UpperChest', 'J_Bip_C_Spine'})
     i_lift = int(np.searchsorted(s, 0.06))
     for _ in range(3):
         P = push_spheres(P, sph_p, 0.03, start=i_lift)
-        P[i_lift:] = H.push(P[i_lift:], 0.05, H.body, iters=1)
+        P[i_lift:] = H.push(P[i_lift:], 0.055, H.body, iters=1)
         P[1:-1] = P[1:-1] * 0.5 + (P[:-2] + P[2:]) * 0.25
     P[0] = T0
-    NP = 33; P, s = resample(P, NP); L = s[-1]; sn = s / L
+    NP = 40; P, s = resample(P, NP); L = s[-1]; sn = s / L
     Tn = tangents(P); e1 = np.array([1.0, 0, 0]); e2 = _unit(np.cross(Tn, e1))
     if e2[len(e2) // 2][1] < 0: e2 = -e2        # e2 朝外（離開身體／頭）
-    rr = np.interp(sn, [0, 0.03, 0.08, 0.18, 0.4, 0.65, 0.85, 1.0], [0.013, 0.018, 0.029, 0.037, 0.041, 0.039, 0.034, 0.031])
+    rr = np.interp(sn, [0, 0.03, 0.08, 0.18, 0.4, 0.65, 0.85, 1.0], [0.013, 0.018, 0.030, 0.040, 0.045, 0.042, 0.035, 0.027])
     print('  ponytail length %.3f m, tip %s' % (L, np.round(P[-1], 3)))
     K = 14
     for i in range(K):
         th0 = 2 * math.pi * (i + rng.uniform(-0.15, 0.15)) / K; tw = rng.uniform(-0.25, 0.25)
         th = th0 + tw * np.sin(np.pi * sn)
-        rho = rr * rng.uniform(0.93, 1.05) * (1 + 0.22 * sstep(0.8, 1.0, sn))
+        rho = rr * rng.uniform(0.93, 1.05) * (1 + 0.10 * sstep(0.8, 1.0, sn))
         radial = np.cos(th)[:, None] * e1 * 1.12 + np.sin(th)[:, None] * e2 * 0.88
         cen = P + radial * rho[:, None]
         nrm = _unit(np.cos(th)[:, None] * e1 + np.sin(th)[:, None] * e2)
         side = _unit(np.cross(nrm, Tn))
-        width = 2 * math.pi * rr / K * 1.85
-        end = 1.0 - 0.12 * rng.random(); n_use = max(6, int(round(end * (NP - 1)))) + 1
+        width = 2 * math.pi * rr / K * 1.85 * (1 - 0.45 * sstep(0.72, 1.0, sn))
+        end = 1.0 - 0.2 * rng.random() ** 1.5; n_use = max(6, int(round(end * (NP - 1)))) + 1
         sl = slice(0, n_use)
         mb.ribbon(cen[sl], side[sl], nrm[sl], width[sl], 'long', 'pony', s[sl], arch=0.16, tt=sn[sl] / sn[n_use - 1])
     for i in range(5):        # 內層（擋住馬尾中間的空隙）
@@ -491,7 +501,7 @@ def apply(m):
     # 髮圈
     s_tie = 0.011; it = int(np.searchsorted(s, s_tie)); pc = P[it]; ax = Tn[it]
     a1 = _unit(np.cross(ax, np.array([1.0, 0, 0]))); a2 = np.cross(ax, a1)
-    Rm, rm, nu, nv = float(rr[it]) + 0.0035, 0.0058, 20, 8
+    Rm, rm, nu, nv = float(rr[it]) + 0.003, 0.005, 20, 8
     G = np.zeros((nv + 1, nu + 1, 3)); Nn = np.zeros_like(G); UV = np.zeros((nv + 1, nu + 1, 2)); tu0, tv0, tu1, tv1 = reg_uv('tie')
     for j in range(nv + 1):
         ph = 2 * math.pi * j / nv
@@ -514,9 +524,11 @@ def apply(m):
     atlas = make_atlas()
     wip = os.path.join(C.ROOT, 'tools', 'vroid_wip', 'bl'); os.makedirs(wip, exist_ok=True)
     img = C.image_from_array('H01_HairCard', atlas, os.path.join(wip, 'hair_HairCard_atlas.png'))
-    mat = C.mtoon_from('F00_000_Hair_00_HAIR_01', 'H01_HairCard_HAIR', base_img=img, alpha='MASK', cutoff=0.5, double_sided=True, outline=0.0)
+    mat = C.mtoon_from('F00_000_Hair_00_HAIR_01', 'H01_HairCard_HAIR', base_img=img, alpha='MASK', cutoff=0.5, double_sided=False, outline=0.0)
     mt = mat.vrm_addon_extension.mtoon1.extensions.vrmc_materials_mtoon
     mt.shade_color_factor = (0.80, 0.70, 0.70)     # 原本的頭髮陰影偏藍紫；深棕髮的陰影用暖色
+    e1 = mat.vrm_addon_extension.mtoon1
+    e1.emissive_texture.index.source = None; e1.normal_texture.index.source = None   # 範本的 VRoid 高光圖、法線圖對不上新的 UV，不用
     me.materials.append(mat)
 
     # ---- 7. 骨頭、權重、彈簧骨 ----
