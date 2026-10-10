@@ -107,6 +107,8 @@
 | Poly Haven `dark_planks`（Rob Tuytel） | https://polyhaven.com/a/dark_planks | CC0 | 日式宿舍的雨淋板（下見板） |
 | Poly Haven `concrete_wall_006`（Charlotte Baglioni、Dario Barresi） | https://polyhaven.com/a/concrete_wall_006 | CC0 | 日式宿舍的院牆、基座；電線桿；小公園的花崗石路緣 |
 | Poly Haven `leafy_grass`（Charlotte Baglioni） | https://polyhaven.com/a/leafy_grass | CC0 | 小公園的草地 |
+| 街道道具 `assets/models/env/second_ai/street_props.glb`（淑女車、路燈、公園長椅） | 本作 Blender 腳本 `tools/blender/env_second/street_props.py`（不仿特定品牌） | 本作 | 全遊戲的 `W3.bike`（含停車架、騎車的路人）、`W3.lampPost`、長椅 `BENCH()`。長椅木條貼圖 `dark_wood`（上面列過的 Poly Haven CC0） |
+| 腳踏車輪圈鋼絲、前籃鐵絲網的透明貼圖 `tools/blender/env_second/textures/gen/bike_alpha.png` | 本作程式產生（`street_props.py` 裡的 `alpha_atlas()`） | 本作 | 淑女車 |
 | 全日便利商店室內 `assets/models/env/second_ai/cvs_interior.glb` | 本作 Blender 腳本 `tools/blender/env_second/cvs_interior.py`（不仿特定連鎖品牌：店名、配色、牌子都是本作自訂） | 本作 | `cvs` 室內區域（貨架、商品、飲料櫃、櫃檯、香菸櫃、咖啡機、關東煮、包子蒸櫃、自動門、窗） |
 | Poly Haven `large_floor_tiles_02`、`granite_tile_03`（第一個 AI 已下載到 `tools/blender/textures/`，只讀使用；作者與授權見上面「Poly Haven 貼圖」一節） | https://polyhaven.com/a/large_floor_tiles_02 、https://polyhaven.com/a/granite_tile_03 | CC0 | 便利商店的白色大地磚（調成米白）、櫃檯石材檯面 |
 | 阿鳳麵店室內 `assets/models/env/second_ai/noodle_interior.glb` | 本作 Blender 腳本 `tools/blender/env_second/noodle_interior.py`（店名、菜單、價目是遊戲裡的 canvas 字，不在模型裡） | 本作 | `noodle` 室內區域。貼圖：`terrazzo_tiles`（地板）、`rounded_square_tiled_wall`（牆下半的小方磚）、`dark_wood`（木作），都是上面列過的 Poly Haven CC0 |

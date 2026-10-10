@@ -1,0 +1,42 @@
+--- TEST B 互動（坐下→起身→走）
+used 坐在書桌前 @1.8,-1.9 nearest=坐在書桌前
+PASS B1 起身後位置合法（standable）且無 seat/busy   {'x': 1.8, 'z': -1.15, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+PASS B2 起身後能走（最佳方向位移 ≥ 1.2 m，宿舍空間有限）   {'x': 1.8, 'z': -1.15, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': -0.3, 'z': 2.49, 'yaw': 6.28, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via down
+used 坐下讀書 @-5.6,-2.1 nearest=坐下讀書
+PASS B3 圖書館起身後 standable、不 busy   {'x': -5.6, 'z': -1.35, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': 'none', 'stand': True}
+PASS B4 圖書館起身後能走（最佳方向 ≥ 2 m）   {'x': -5.6, 'z': -1.35, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': 'none', 'stand': True} → {'x': -0.43, 'z': -1.7, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via right
+--- TEST E 各區域
+PASS E 宿舍：walk 位置改變   {'x': 0, 'z': 2.8, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': -1.16, 'z': -2.54, 'yaw': 3.14, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': 'none', 'stand': True}
+PASS E 宿舍：turn   {'x': 1.94, 'z': -0.99, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': 'none', 'stand': True}
+PASS E 宿舍：run（最佳方向）   {'x': 0.17, 'z': 2.44, 'yaw': 6.28, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': 'none', 'stand': True} via down pose=run
+    used 坐在書桌前 @1.8,-1.9 nearest=坐在書桌前
+PASS E 宿舍：interact 結束後未鎖定且 standable   {'x': 1.8, 'z': -1.15, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': 'none', 'stand': True}
+PASS E 宿舍：exit 後能走（最佳方向 ≥ 1 m）   {'x': 1.8, 'z': -1.15, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': 'none', 'stand': True} → {'x': -0.3, 'z': 2.55, 'yaw': 6.28, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': 'none', 'stand': True} via down
+PASS E 霖澤館前：walk 位置改變   {'x': 34, 'z': -99, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': 'none', 'stand': True} → {'x': 34, 'z': -94.08, 'yaw': -0.0, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+PASS E 霖澤館前：turn   {'x': 30.31, 'z': -94.08, 'yaw': -1.57, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+PASS E 霖澤館前：run（最佳方向）   {'x': 34, 'z': -94.08, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via left pose=run
+    used 進入霖澤館 @27.9,-107.5 nearest=進入霖澤館
+PASS E 霖澤館前：interact 進入 linze   linze
+    exit 走出校門
+PASS E 霖澤館前：interact 結束後未鎖定且 standable   {'x': -2.5, 'z': -29, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+PASS E 霖澤館前：exit 後能走（最佳方向 ≥ 1 m）   {'x': -2.5, 'z': -29, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': 4.88, 'z': -29, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via left
+PASS E 椰林大道：walk 位置改變   {'x': -40, 'z': -5, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': -46.15, 'z': -5, 'yaw': -1.57, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+PASS E 椰林大道：turn   {'x': -46.15, 'z': -8.69, 'yaw': -3.14, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+PASS E 椰林大道：run（最佳方向）   {'x': -44.92, 'z': -4.82, 'yaw': -0.0, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via left pose=run
+    used 坐在椰林大道的長椅上 @-100.0,-12.9 nearest=坐在椰林大道的長椅上
+PASS E 椰林大道：interact 結束後未鎖定且 standable   {'x': -99, 'z': -12.94, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+PASS E 椰林大道：exit 後能走（最佳方向 ≥ 1 m）   {'x': -99, 'z': -12.94, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': -98.56, 'z': -13.88, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via down
+PASS E 教室：walk 位置改變   {'x': 0, 'z': 4.6, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': 1.16, 'z': 2.95, 'yaw': 3.14, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': 'none', 'stand': True}
+PASS E 教室：turn   {'x': 4.85, 'z': 2.95, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+PASS E 教室：run（最佳方向）   {'x': -1.23, 'z': 3.37, 'yaw': 4.71, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via left pose=run
+    used 坐下 @-5.3,-3.4 nearest=坐下
+PASS E 教室：interact 結束後未鎖定且 standable   {'x': -5.25, 'z': -3.2, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+PASS E 教室：exit 後能走（最佳方向 ≥ 1 m）   {'x': -5.25, 'z': -3.2, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': 0.24, 'z': -1.72, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via right
+PASS E 咖啡廳：walk 位置改變   {'x': 0, 'z': 4.6, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': -0.54, 'z': -0.39, 'yaw': 3.14, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+PASS E 咖啡廳：turn   {'x': 4.38, 'z': -0.39, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+PASS E 咖啡廳：run（最佳方向）   {'x': 5.32, 'z': 1.28, 'yaw': 6.28, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via down pose=run
+    used 坐在窗邊的雙人桌 @4.5,-1.7 nearest=坐在窗邊的雙人桌
+PASS E 咖啡廳：interact 結束後未鎖定且 standable   {'x': 3.75, 'z': -1.7, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True}
+PASS E 咖啡廳：exit 後能走（最佳方向 ≥ 1 m）   {'x': 3.75, 'z': -1.7, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': -2.26, 'z': 2.26, 'yaw': 4.71, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} via left
+console errors: []
+RESULT: 30/30 PASS

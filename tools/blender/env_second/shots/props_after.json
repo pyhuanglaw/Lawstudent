@@ -1,0 +1,350 @@
+[
+ {
+  "out": "docs/art-rebuild/second_ai/shots/props_after_campus_bench_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11,
+   "pos": {
+    "x": -42,
+    "z": 5,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -42.5,
+    1.6,
+    7.0
+   ],
+   "look": [
+    -50,
+    0.6,
+    13
+   ]
+  },
+  "wait": 3000
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/props_after_campus_bench_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -42,
+    "z": 5,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -42.5,
+    1.6,
+    7.0
+   ],
+   "look": [
+    -50,
+    0.6,
+    13
+   ]
+  },
+  "wait": 3000
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/props_after_campus_bench_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": -42,
+    "z": 5,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -42.5,
+    1.6,
+    7.0
+   ],
+   "look": [
+    -50,
+    0.6,
+    13
+   ]
+  },
+  "wait": 3000
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/props_after_campus_racks_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11,
+   "pos": {
+    "x": 6,
+    "z": 18,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    5.5,
+    1.7,
+    18.0
+   ],
+   "look": [
+    12,
+    0.5,
+    24
+   ]
+  },
+  "wait": 3000
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/props_after_campus_racks_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": 6,
+    "z": 18,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    5.5,
+    1.7,
+    18.0
+   ],
+   "look": [
+    12,
+    0.5,
+    24
+   ]
+  },
+  "wait": 3000
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/props_after_campus_racks_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": 6,
+    "z": 18,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    5.5,
+    1.7,
+    18.0
+   ],
+   "look": [
+    12,
+    0.5,
+    24
+   ]
+  },
+  "wait": 3000
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/props_after_wenzhou_park_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 11,
+   "pos": {
+    "x": 26,
+    "z": 2,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    26,
+    1.7,
+    2.2
+   ],
+   "look": [
+    26,
+    1.0,
+    9
+   ]
+  },
+  "wait": 3000
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/props_after_wenzhou_park_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 17.5,
+   "pos": {
+    "x": 26,
+    "z": 2,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    26,
+    1.7,
+    2.2
+   ],
+   "look": [
+    26,
+    1.0,
+    9
+   ]
+  },
+  "wait": 3000
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/props_after_wenzhou_park_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 20.5,
+   "pos": {
+    "x": 26,
+    "z": 2,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    26,
+    1.7,
+    2.2
+   ],
+   "look": [
+    26,
+    1.0,
+    9
+   ]
+  },
+  "wait": 3000
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/props_after_gongguan_lamps_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "gongguan",
+   "hour": 11,
+   "pos": {
+    "x": -50,
+    "z": 0,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -52,
+    1.7,
+    -1
+   ],
+   "look": [
+    -40,
+    2.6,
+    5
+   ]
+  },
+  "wait": 3000
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/props_after_gongguan_lamps_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "gongguan",
+   "hour": 17.5,
+   "pos": {
+    "x": -50,
+    "z": 0,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -52,
+    1.7,
+    -1
+   ],
+   "look": [
+    -40,
+    2.6,
+    5
+   ]
+  },
+  "wait": 3000
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/props_after_gongguan_lamps_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "gongguan",
+   "hour": 20.5,
+   "pos": {
+    "x": -50,
+    "z": 0,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -52,
+    1.7,
+    -1
+   ],
+   "look": [
+    -40,
+    2.6,
+    5
+   ]
+  },
+  "wait": 3000
+ }
+]

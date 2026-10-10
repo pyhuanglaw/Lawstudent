@@ -1,0 +1,12 @@
+sit {'key': 'char.yuting', 'driver': 'vrm'}
+stairs {'walk': True}
+  dbg {'ndc': [0, 0.03], 'visible': True, 'vis': 19, 'nNpc': 0, 'parent': 'Scene'}
+stairs_flight1 {'x': -6.550605861244988, 'y': 0.8400000000000001, 'z': 3.7772637560246647, 'lv': 0}
+  dbg {'ndc': [0, 0.03], 'visible': True, 'vis': 19, 'nNpc': 0, 'parent': 'Scene'}
+stairs_landing {'x': -6.500676965623528, 'y': 2.184, 'z': 1.5304634530588932, 'lv': 0}
+  dbg {'ndc': [0, 0.03], 'visible': True, 'vis': 19, 'nNpc': 0, 'parent': 'Scene'}
+stairs_flight2 {'x': -6.437862362376683, 'y': 3.024, 'z': -1.296193693049212, 'lv': 0}
+  dbg {'ndc': [0, 0.03], 'visible': True, 'vis': 19, 'nNpc': 0, 'parent': 'Scene'}
+stairs_top {'x': -6.451593740749632, 'y': 4.2, 'z': -3.2505659333892205, 'lv': 1}
+errors []
+saved docs/art-rebuild/second_ai/test_shots/props/bench_formal/MOTION_player.jpg
