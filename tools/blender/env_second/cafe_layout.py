@@ -45,7 +45,7 @@ def materials():
         'pier': M_('cafe_pier_tile', 'exterior_wall_cladding_02', tile=1.4, target='#6e4a36', normal=0.9, maps=('diff', 'nor'), rough_value=0.75),
         'band': M_('cafe_band', 'plaster_grey_04', tile=1.5, target='#d6ccbb', maps=('diff',), res=256, rough_value=0.85),
         'base': M_('cafe_base_stone', 'terrazzo_tiles', tile=1.2, target='#8a8279', normal=0.6, maps=('diff', 'nor'), res=256, rough_value=0.6),
-        'wood': M_('cafe_wood_dark', 'fine_grained_wood', tile=0.9, target='#4a3426', normal=0.5, sat=0.6),   # 降低彩度：深胡桃木，不要偏紅的斑紋
+        'wood': M_('cafe_wood_dark', 'fine_grained_wood', tile=0.9, target='#5a3f2c', normal=0.5, sat=0.6),   # 降低彩度：深胡桃木，不要偏紅的斑紋
         'wood2': M_('cafe_wood_mid', 'dark_wood', tile=1.2, target='#6b4a30', normal=0.6, maps=('diff', 'nor'), res=256, rough_value=0.7),
         'board': L.pbr('cafe_sign_face', None, tint=B.srgb('#3b2a1e'), rough=0.7),
         'metal': L.flat('cafe_iron_black', '#24221f', rough=0.45, metal=0.45),

@@ -799,6 +799,11 @@ const Z3 = (function(){
       if(nm&&nm.indexOf('cafe_leaf_')===0){ mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; } });
     root.updateMatrixWorld(true); const v=new THREE.Vector3();
     root.traverse(o=>{ if(!(o.userData&&o.userData.glow)) return; const d=o.userData; const sp=TK.glowSprite(d.glow,d.size||1.2,d.day==null?0.45:d.day,d.night==null?0.45:d.night); o.getWorldPosition(v); g0.worldToLocal(v); sp.position.copy(v); g0.add(sp); });
+    /* 玻璃（WALL_front_shop_glass、WALL_right_winglass）不參加牆面淡出：淡出會把面向鏡頭的牆設成不透明，玻璃就變成一片灰、擋住窗外的景。
+       改成和窗景一樣——鏡頭在牆外時藏起來，平常維持原本的透明度 */
+    for(const w of z.walls.filter(w=>w.material&&/cafe_glass/.test(w.material.name))){ z.walls.splice(z.walls.indexOf(w),1); w.material.opacity=0.16; w.material.transparent=true; w.material.depthWrite=false; z.winParts.push({obj:w,at:w.userData.center,dir:w.userData.dir}); }
+    /* 牆面淡出時整面藏起來（店面的木框、壁柱很細，留 12% 的殘影會在鏡頭前變成一條條鬼影）*/
+    const baseFade=z.fadeWalls; z.fadeWalls=function(cam,pp){ baseFade.call(this,cam,pp); for(const w of this.walls) w.visible=w.material.opacity>0.5; };
     const view=new THREE.Mesh(new THREE.PlaneGeometry(15,3.5),new THREE.MeshBasicMaterial({map:cafeStreetTex('day'),fog:false})); view.position.set(0,1.75,6.55); view.rotation.y=Math.PI; view.userData.dyn=true; g0.add(view);
     z.winParts.push({obj:view,at:new THREE.Vector3(0,1.7,6),dir:new THREE.Vector3(0,0,-1)});
     const baseTime=z.applyTime; z.applyTime=function(h,weather){ if(baseTime) baseTime.call(this,h,weather); h=h%24; const t=cafeStreetTex((h<5.6||h>=19.2)?'night':(h>=16.6||h<6.6)?'dusk':'day'); if(view.material.map!==t){ view.material.map=t; view.material.needsUpdate=true; } };   /* 引擎每幾幀呼叫一次 */
