@@ -54,6 +54,8 @@ const ASSETS = (function(){
     'bldg.wz_park':{url:'assets/models/env/second_ai/wz_park.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_park.py（溫州街小公園的草地、鋪面、路緣、樹穴、樹圍座椅、單槓、名牌；溫州街世界座標；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
     'bldg.wz_scooter':{url:'assets/models/env/second_ai/scooter.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/scooter.py（台灣常見的 125cc 速克達兩款：現代款、復古款；不仿特定品牌；遊戲用 InstancedMesh 擺放、車殼顏色每台不同）', license:'本作'},
     'bldg.cvs_interior':{url:'assets/models/env/second_ai/cvs_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/cvs_interior.py（全日便利商店室內；配置照 zones3d.js cvs 區塊；商品顏色是頂點色；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+    'bldg.noodle_interior':{url:'assets/models/env/second_ai/noodle_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/noodle_interior.py（阿鳳麵店室內；配置照 zones3d.js noodle 區塊；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+    'bldg.bookstore_interior':{url:'assets/models/env/second_ai/bookstore_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/bookstore_interior.py（舊路書房室內；配置照 zones3d.js bookstore 區塊；書背顏色是頂點色；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
     // ==== 第二個 AI 區塊結束 ====
     'char.mixamo_clips':{url:'assets/models/char/mixamo_clips.glb', type:'clips', source:'three.js examples (Xbot.glb, Mixamo)', license:'Mixamo 動畫（Adobe 條款：可用於專案，不可單獨再散布）'},
   };
