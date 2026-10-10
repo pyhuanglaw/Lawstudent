@@ -74,7 +74,7 @@
 - 20:41–20:55 **整合 LAWWW2 的宿舍貼牆修正**（`6374654` → merge `1f95ca9`）：掛勾、毛巾、冷氣、窗簾、月曆、傳單跟著牆淡出；新測試修改前 FAIL、修改後 PASS。回歸全部通過：interior_glb_integration 104、movement_regression 42/42、p0_movement 34、zone_transitions、reachability_all 全遊戲。
 - 20:57–21:41 **v9.4.2 發布前測試**（候選 `dfd2618`，乾淨 worktree）：25 項第一次全部 PASS（`docs/RELEASES.md`）；等使用者核准才發布。
 - 21:00–21:55 **溫書瑀 Blender 版第一版**（人物生產線第六位，`READY_FOR_ART_REVIEW`，網址 `?blchar`）：做到第四版。查出 V 領裡的洞和脖子下緣的鋸齒邊，是 Shino 樣本的身體貼圖在原本衣服蓋住的地方透明（網格還在），`fill_hidden_skin` 補上皮膚色（之前另外做的兩種皮膚片都看得到接縫）；頭髮材質的加亮 MatCap 關掉（頭頂一圈白光）；瀏海改成中分往兩旁撥。遊戲內六視角、坐長椅、走上霖澤館樓梯、15 個表情、三方比較（CHARACTER_REVIEW 第 14 節）；stairs_feet_unit、sit_feet_unit、sim_hair PASS。`?blchar` 用 Blender 版時不再另外掛遊戲的髮圈（`assets3d.js` 的 `blProps`）。**六位主要人物的 Blender 第一版都完成了**（都只在 `?blchar`）。
-- 21:18–21:21 LAWWW2：溫州街遠景公寓（`beadd1b`，merge `6083076`，排在 v9.4.2 的下一版，回歸待做）；認領公館近景（同意，附條件）。
+- 21:18–21:21 LAWWW2：溫州街遠景公寓（`beadd1b`，merge `6083076`，排在 v9.4.2 的下一版）；認領公館近景（同意，附條件）。22:02 遠景公寓＋`blProps` 的回歸全部通過：touch_flow_wenzhou、see_through、wz_street_integration 42、cafe_glb_integration 62、model_upgrade、p0_movement、zone_transitions、reachability_all 全遊戲（Playwright 手機模擬）。
 - 20:56 **v9.4.2 發布候選**：版本字樣 v9.4.2、script 版本號 9.4-3；內容見 `docs/RELEASES.md`（溫州街近景、四間室內、玻璃與宿舍修正、坐姿第二版、`?blchar` 多陳語彤和高子晴）。九小時授權期之後才能發布（最早 21:59 UTC），**要使用者核准**；發布前測試在乾淨 worktree 執行。
 - 20:20– 溫書瑀 Blender（人物生產線第六位）開工：`heroine_05.py`（Sendagaya Shino、頭縮 0.90）、`p05_face`（成熟的鵝蛋臉）、`p05_clothes`（白襯衫：開領＋自己做的領子網格、門襟＋扣子、捲起的袖口；卡其直筒褲、深棕皮帶、深棕樂福鞋）、`p05_hair`（從沈以安的高馬尾改成低馬尾＋中分長瀏海，馬尾有彈簧骨）。發現：Shino 樣本的身體在原本上衣下面沒有胸口（VRoid 匯出時刪掉），V 領會看到洞——補一片胸口皮膚；Shino 的頭髮材質有一張加亮的 MatCap，頭頂斜著看一圈白光——關掉（林芷若、陳語彤、高子晴的 Blender 版也有這張 MatCap，遊戲內要再確認）。
 
