@@ -31,6 +31,6 @@ const log=s=>{ document.getElementById('log').textContent+=s+'\n'; };
   window.__view=(n)=>{ const v=V[n]; cam.position.set(v[0],v[1],v[2]); cam.lookAt(0,v[3]?Hh*0.5:head-0.03,0); };
   window.__view('face_front');
   let last=performance.now(); function frame(){ requestAnimationFrame(frame); const now=performance.now(); const dt=Math.min(0.05,(now-last)/1000); last=now; CHAR.animate(h,dt,{pose:'idle',speed:0}); renderer.render(scene,cam); } frame();
-  window.__ready={ok:true,driver:h.userData.driver,key:KEY};
+  window.__h=h; window.__ready={ok:true,driver:h.userData.driver,key:KEY};
 }catch(e){ log('ERROR '+e.message); console.error(e); window.__ready={ok:false,err:String(e)}; } })();
 </script></body></html>

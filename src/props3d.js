@@ -36,14 +36,14 @@ const PROPS = (function(){
     geo.computeVertexNormals(); const bag=new THREE.Mesh(geo,cv); bag.position.set(0.165,-0.5,0.035); bag.rotation.set(0,-0.25,0.04); g.add(bag);
     const strap=mat('totes',shadeHex(base,0.86)); for(const dz of [-0.022,0.022]) g.add(strapBand([[0.12+dz*0.4,-0.34,0.04+dz],[0.135,-0.16,0.02+dz*0.8],[0.145,0.04,0.0+dz*0.6],[0.135,0.155,0.01+dz*0.4],[0.11,0.17,0.035]],0.009,strap));
     return g; }
-  // ---- 細框眼鏡（林芷若）----
-  function glasses(o){ o=o||{}; const g=new THREE.Group(); const m=mat('gl',o.color||'#3a302a',null); const lw=0.05, lh=0.036, r=0.012, t=0.0028;
-    function ring(cx){ const s=new THREE.Shape(); const x0=cx-lw/2, y0=-lh/2; s.moveTo(x0+r,y0); s.lineTo(x0+lw-r,y0); s.quadraticCurveTo(x0+lw,y0,x0+lw,y0+r); s.lineTo(x0+lw,y0+lh-r); s.quadraticCurveTo(x0+lw,y0+lh,x0+lw-r,y0+lh); s.lineTo(x0+r,y0+lh); s.quadraticCurveTo(x0,y0+lh,x0,y0+lh-r); s.lineTo(x0,y0+r); s.quadraticCurveTo(x0,y0,x0+r,y0); const hole=new THREE.Path(); const i=t; hole.moveTo(x0+r,y0+i); hole.lineTo(x0+lw-r,y0+i); hole.quadraticCurveTo(x0+lw-i,y0+i,x0+lw-i,y0+r); hole.lineTo(x0+lw-i,y0+lh-r); hole.quadraticCurveTo(x0+lw-i,y0+lh-i,x0+lw-r,y0+lh-i); hole.lineTo(x0+r,y0+lh-i); hole.quadraticCurveTo(x0+i,y0+lh-i,x0+i,y0+lh-r); hole.lineTo(x0+i,y0+r); hole.quadraticCurveTo(x0+i,y0+i,x0+r,y0+i); s.holes.push(hole); return new THREE.Mesh(new THREE.ExtrudeGeometry(s,{depth:0.002,bevelEnabled:false}),m); }
+  // ---- 細框眼鏡（林芷若）：參考圖是細的橢圓金屬框（舊版是粗的深色圓角方框，像黑框眼鏡）----
+  function glasses(o){ o=o||{}; const g=new THREE.Group(); const m=mat('gl',o.color||'#7d6a5c',null); const lw=0.05, lh=0.035, t=0.0016;
+    function ring(cx){ const s=new THREE.Shape(); s.absellipse(cx,0,lw/2,lh/2,0,Math.PI*2,false,0); const hole=new THREE.Path(); hole.absellipse(cx,0,lw/2-t,lh/2-t,0,Math.PI*2,true,0); s.holes.push(hole); return new THREE.Mesh(new THREE.ExtrudeGeometry(s,{depth:0.0016,bevelEnabled:false,curveSegments:28}),m); }
     const sep=o.ipd||0.084; g.add(ring(-sep/2)); g.add(ring(sep/2));
-    const bridge=tube([[-sep/2+lw/2,0.006,0.001],[0,0.012,-0.004],[sep/2-lw/2,0.006,0.001]],0.0015,m); g.add(bridge);
+    const bridge=tube([[-sep/2+lw/2-0.001,0.005,0.001],[0,0.009,-0.003],[sep/2-lw/2+0.001,0.005,0.001]],0.0011,m); g.add(bridge);
     // 鏡腳往耳朵（後方）：整組最後轉 180°，所以這裡往 -z 畫（舊版往 +z，轉完變成從臉前面伸出去，側面看得到兩根細線）
-    for(const s of [-1,1]) g.add(tube([[s*(sep/2+lw/2),0.008,-0.001],[s*(sep/2+lw/2+0.006),0.008,-0.03],[s*(sep/2+lw/2+0.004),0.0,-0.1]],0.0016,m));
-    const lens=new THREE.MeshBasicMaterial({color:0xdde8ef,transparent:true,opacity:0.12,depthWrite:false}); for(const cx of [-sep/2,sep/2]){ const p=new THREE.Mesh(new THREE.PlaneGeometry(lw-0.006,lh-0.006),lens); p.position.set(cx,0,0.001); g.add(p); }
+    for(const s of [-1,1]) g.add(tube([[s*(sep/2+lw/2-0.001),0.004,-0.001],[s*(sep/2+lw/2+0.005),0.006,-0.03],[s*(sep/2+lw/2+0.004),-0.002,-0.1]],0.0011,m));
+    const lens=new THREE.MeshBasicMaterial({color:0xdde8ef,transparent:true,opacity:0.10,depthWrite:false}); for(const cx of [-sep/2,sep/2]){ const p=new THREE.Mesh(new THREE.CircleGeometry(1,28),lens); p.scale.set(lw/2-t,lh/2-t,1); p.position.set(cx,0,0.001); g.add(p); }
     g.rotation.y=Math.PI; // 模型檔空間前方是 -z：鏡片正面朝 -z
     return g; }
   // ---- 銀色小耳環 ----

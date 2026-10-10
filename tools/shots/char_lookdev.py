@@ -8,8 +8,8 @@ from PIL import Image, ImageDraw, ImageFont
 
 BASE, OUT, CID = sys.argv[1].rstrip('/'), sys.argv[2], sys.argv[3]
 ROWS = [a.split('=', 1) for a in sys.argv[4:]] or [['現在', '']]
-VIEWS = ['face_front', 'face_q45', 'face_side', 'body_front', 'body_q45', 'body_side']
-LABEL = {'face_front': '臉 正面', 'face_q45': '臉 45 度', 'face_side': '臉 側面', 'body_front': '全身 正面', 'body_q45': '全身 45 度', 'body_side': '全身 側面'}
+VIEWS = os.environ.get('LD_VIEWS', 'face_front,face_q45,face_side,body_front,body_q45,body_side').split(',')   # 環境變數 LD_VIEWS 可以只拍其中幾個
+LABEL = {'face_front': '臉 正面', 'face_q45': '臉 45 度', 'face_side': '臉 側面', 'body_front': '全身 正面', 'body_q45': '全身 45 度', 'body_side': '全身 側面', 'body_back': '全身 背面'}
 FONT = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
 
 

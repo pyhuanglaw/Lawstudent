@@ -1868,6 +1868,228 @@ def crew_collar(v, mat_pat, y_c, gap=0.012, x_lim=0.16, band=0.025, skin_pat='Bo
     return deform_mesh(v, 'Body', fn, lambda nm: mat_pat in nm)
 
 
+# ======================== 林芷若第一輪（2026-10-10）：側分瀏海、剪到及肩、右耳撥到耳後、微捲、平滑髮際線 ========================
+# 頭髮的頂點和髮束彈簧骨要一起改（骨頭的位置、IBM 重算），不然遊戲裡彈簧骨一動，頭髮就被拉回原本的長度／位置。
+# 頭的球心：Victoria_Rubin 的頭（bind pose，模型座標，臉朝 -z）；其他模型要另外量（head_center）。
+HEAD_C_VICTORIA = np.array([0.0, 1.598, -0.007])
+
+
+def _hair_mesh(v):
+    ni = [i for i, n in enumerate(v.j['nodes']) if 'mesh' in n and v.j['meshes'][n['mesh']]['name'].startswith('Hair')][0]
+    return ni, v.j['meshes'][v.j['nodes'][ni]['mesh']]
+
+
+def node_world(v):
+    """每個節點 bind pose 的世界矩陣 W(i)（4×4），和 parent 對照表"""
+    nodes = v.j['nodes']; parent = {}
+    for i, n in enumerate(nodes):
+        for c in n.get('children', []): parent[c] = i
+    def local(n):
+        T = np.eye(4); t = n.get('translation', [0, 0, 0]); x, y, z, w = n.get('rotation', [0, 0, 0, 1]); s = n.get('scale', [1, 1, 1])
+        R = np.array([[1 - 2 * (y * y + z * z), 2 * (x * y - z * w), 2 * (x * z + y * w)], [2 * (x * y + z * w), 1 - 2 * (x * x + z * z), 2 * (y * z - x * w)],
+                      [2 * (x * z - y * w), 2 * (y * z + x * w), 1 - 2 * (x * x + y * y)]])
+        T[:3, :3] = R * np.array(s)[None, :]; T[:3, 3] = t
+        return T
+    cache = {}
+    def W(i):
+        if i not in cache: cache[i] = local(nodes[i]) if i not in parent else W(parent[i]) @ local(nodes[i])
+        return cache[i]
+    return W, parent
+
+
+def _set_hair_pos(v, m, acc, P, N=None):
+    newp = v.add_acc(P.astype(np.float32), 5126, 'VEC3', 34962, True)
+    newn = v.add_acc(N.astype(np.float32), 5126, 'VEC3', 34962) if N is not None else None
+    for p in m['primitives']:
+        if p['attributes']['POSITION'] == acc:
+            p['attributes'] = dict(p['attributes'], POSITION=newp, **({'NORMAL': newn} if newn is not None else {}))
+
+
+def rebind_head(v, vids):
+    """頭髮頂點 vids 改成 100% 綁頭骨（剛體跟著頭，彈簧骨不會把它甩回原處）"""
+    ni, m = _hair_mesh(v)
+    names, _ = v.skin_mats(v.j['nodes'][ni]['skin']); head = names.index('J_Bip_C_Head')
+    A = m['primitives'][0]['attributes']
+    J = v.acc(A['JOINTS_0']).astype(np.int64); Wt = v.acc(A['WEIGHTS_0']).astype(np.float64)
+    J[vids] = [head, 0, 0, 0]; Wt[vids] = [1, 0, 0, 0]
+    nJ = v.add_acc(J.astype(np.uint16), 5123, 'VEC4', 34962); nW = v.add_acc(Wt.astype(np.float32), 5126, 'VEC4', 34962)
+    for p in m['primitives']: p['attributes'] = dict(p['attributes'], JOINTS_0=nJ, WEIGHTS_0=nW)
+
+
+def shorten_hair_rig(v, y_from, factor, C=HEAD_C_VICTORIA, joint_prefix='HairJoint'):
+    """頭髮剪短：y_from 以下的部分在（半徑 r、高度 y）平面上，以「這一束在 y_from 的半徑」為中心等比縮小 factor（方位角不變）——
+    只壓 y 會把往外翹的髮尾壓成水平的尖刺；等比縮小保留彎曲角度。髮束彈簧骨用同樣的對應一起移（半徑以骨頭所屬髮束的半徑為中心），
+    節點 local 位移與 IBM 重算。回傳移動的骨頭數"""
+    ni, m = _hair_mesh(v)
+    acc = m['primitives'][0]['attributes']['POSITION']; A0 = m['primitives'][0]['attributes']
+    P = v.acc(acc).astype(np.float64); out = P.copy()
+    J = v.acc(A0['JOINTS_0']).astype(np.int64); Wt = v.acc(A0['WEIGHTS_0']).astype(np.float64)
+    zc = C[2]; jnodes = v.j['skins'][v.j['nodes'][ni]['skin']]['joints']; anchor = {}
+    for p in m['primitives']:
+        vi = np.unique(v.acc(p['indices']).astype(np.int64)); q = P[vi]
+        if q[:, 1].min() >= y_from: continue
+        r = np.hypot(q[:, 0], q[:, 2] - zc); ph = np.arctan2(q[:, 0], q[:, 2] - zc)
+        near = np.abs(q[:, 1] - y_from) < 0.012
+        ra = float(np.median(r[near])) if near.any() else float(r[q[:, 1] < y_from].max())
+        lo = q[:, 1] < y_from; r2 = ra + (r[lo] - ra) * factor
+        out[vi[lo], 0] = r2 * np.sin(ph[lo]); out[vi[lo], 2] = zc + r2 * np.cos(ph[lo]); out[vi[lo], 1] = y_from - (y_from - q[lo, 1]) * factor
+        dom = J[vi, :][np.arange(len(vi)), Wt[vi].argmax(1)]
+        for j in np.unique(dom): anchor.setdefault(int(jnodes[j]), []).append(ra)
+    _set_hair_pos(v, m, acc, out)
+    W, parent = node_world(v); nodes = v.j['nodes']
+    hj = [i for i, n in enumerate(nodes) if n.get('name', '').startswith(joint_prefix)]
+    newW = {i: W(i) for i in range(len(nodes))}; moved = []
+    def chain_anchor(i):   # 沿著鏈往上找有直接權重的骨頭（同一條鏈共用一個中心）
+        cur = i
+        while cur in parent:
+            if cur in anchor: return float(np.median(anchor[cur]))
+            cur = parent[cur]
+        return None
+    for i in hj:
+        M = newW[i].copy(); x, y, z = M[:3, 3]
+        if y >= y_from: continue
+        r = np.hypot(x, z - zc); ph = np.arctan2(x, z - zc); ra = chain_anchor(i)
+        if ra is None: ra = r
+        r2 = ra + (r - ra) * factor
+        M[0, 3] = r2 * np.sin(ph); M[2, 3] = zc + r2 * np.cos(ph); M[1, 3] = y_from - (y_from - y) * factor
+        newW[i] = M; moved.append(i)
+    for i in hj:
+        L = np.linalg.inv(newW[parent[i]]) @ newW[i]; nodes[i]['translation'] = [float(t) for t in L[:3, 3]]
+    done = set()
+    for s in v.j['skins']:
+        a = s['inverseBindMatrices']
+        if a in done: continue
+        done.add(a)
+        ibm = v.acc(a).reshape(-1, 4, 4).transpose(0, 2, 1).copy()
+        for k, ji in enumerate(s['joints']):
+            if ji in moved: ibm[k] = np.linalg.inv(newW[ji])
+        na = v.add_acc(ibm.transpose(0, 2, 1).reshape(-1, 16).astype(np.float32), 5126, 'MAT4')
+        for s2 in v.j['skins']:
+            if s2['inverseBindMatrices'] == a: s2['inverseBindMatrices'] = na
+    return len(moved)
+
+
+def _rodrigues(axis, ang):
+    a = axis / np.linalg.norm(axis); K = np.array([[0, -a[2], a[1]], [a[2], 0, -a[0]], [-a[1], a[0], 0]])
+    return np.eye(3) + np.sin(ang) * K + (1 - np.cos(ang)) * K @ K
+
+
+def sweep_bangs(v, part_deg=-15.0, major_deg=-30.0, minor_deg=35.0, lift_major=(0.30, 0.12), lift_minor=0.35, C=HEAD_C_VICTORIA, mat='HAIR_02', ramp=1.5):
+    """齊瀏海 → 側分：每一束以「頭中心 C → 髮根」為軸彎過去（從髮根 0 漸增到髮尾 θ），髮束形狀與寬度不變、貼著頭的弧面；
+    髮尾往上收（以髮根為中心壓縮夾角 lift 比例；負值＝拉長）。part_deg＝分線方位（0＝正前方，負＝角色左邊 -x）；分線右側的髮束撥 major_deg
+    （越靠分線撥越多）、左側撥 minor_deg。被撥到太陽穴那一側（分線左側）的髮束改綁頭骨。回傳（髮束數、綁頭骨的髮束數）"""
+    ni, m = _hair_mesh(v); mats = v.j['materials']
+    acc = m['primitives'][0]['attributes']['POSITION']; P = v.acc(acc).astype(np.float64); P0 = P.copy()
+    strands = [np.unique(v.acc(p['indices']).astype(np.int64)) for p in m['primitives'] if mat in mats[p['material']]['name']]
+    part = np.radians(part_deg); info = []
+    for vi in strands:
+        q = P0[vi]; it = q[:, 1].argmin(); d = q[it] - C; info.append((vi, np.arctan2(d[0], -d[2]), it))
+    far_major = max(abs(t[1] - part) for t in info if t[1] > part); far_minor = max(abs(t[1] - part) for t in info if t[1] <= part)
+    rigid = []
+    for vi, ph_tip, it in info:
+        q = P0[vi]; root = q[q[:, 1] > q[:, 1].max() - 0.01].mean(0); tip = q[it]; ax = root - C; b = ax / np.linalg.norm(ax)
+        u = abs(ph_tip - part) / (far_major if ph_tip > part else far_minor)
+        if ph_tip > part: th = np.radians(major_deg) * (1 - 0.5 * u); lift = lift_major[0] + (lift_major[1] - lift_major[0]) * u
+        else: th = np.radians(minor_deg) * (0.6 + 0.4 * u); lift = lift_minor; rigid.append(vi)
+        def ang(p): a = (p - C); a = a / np.linalg.norm(a, axis=-1, keepdims=True); return np.arccos(np.clip(a @ b, -1, 1))
+        s = np.clip(ang(q) / ang(tip[None])[0], 0, 1); out = q.copy()
+        for i in range(len(q)): out[i] = C + _rodrigues(ax, th * s[i] ** ramp) @ (q[i] - C)
+        if lift != 0:   # 負的 lift＝髮尾往下拉長
+            for i in range(len(out)):
+                d = out[i] - C; r = np.linalg.norm(d); dn = d / r; a = np.arccos(np.clip(dn @ b, -1, 1))
+                if a < 1e-4: continue
+                perp = dn - b * np.cos(a); perp /= np.linalg.norm(perp); a2 = a * (1 - lift * s[i] ** 1.2)
+                out[i] = C + r * (b * np.cos(a2) + perp * np.sin(a2))
+        P[vi] = out
+    _set_hair_pos(v, m, acc, P)
+    if rigid: rebind_head(v, np.concatenate(rigid))
+    return len(strands), len(rigid)
+
+
+def tuck_behind_ear(v, side=1, C=HEAD_C_VICTORIA, y_lo=1.40, y_band=(1.49, 1.585), y_fade=1.64, x_min=0.06, z_max=0.05, gap=0.006):
+    """一側（side=+1：角色右邊 +x）蓋住耳朵的側髮撥到耳後：繞頭的垂直軸往後轉，耳朵高度以下整段都轉（髮尾跟著在耳後），
+    耳朵以上到 y_fade 漸變為 0。被轉的頂點改綁頭骨。回傳轉了幾束"""
+    ni, m = _hair_mesh(v); mats = v.j['materials']
+    acc = m['primitives'][0]['attributes']['POSITION']; P = v.acc(acc).astype(np.float64); out = P.copy()
+    ear = [p for mm in v.j['meshes'] if mm['name'].startswith('Face') for p in mm['primitives'] if 'Face_00_SKIN' in mats[p['material']]['name']][1]
+    E = v.acc(ear['attributes']['POSITION'])[np.unique(v.acc(ear['indices']).astype(np.int64))].astype(np.float64); E = E[side * E[:, 0] > 0]
+    ear_back = E[:, 2].max(); zc = C[2]; moved = []
+    for p in m['primitives']:
+        if 'HAIR_01' not in mats[p['material']]['name']: continue
+        vi = np.unique(v.acc(p['indices']).astype(np.int64)); q = P[vi]
+        band = (side * q[:, 0] > x_min) & (q[:, 1] > y_band[0]) & (q[:, 1] < y_band[1]) & (q[:, 2] < z_max)
+        if band.sum() < 4: continue
+        th = np.arctan2(side * q[:, 0], -(q[:, 2] - zc)); r = np.hypot(q[:, 0], q[:, 2] - zc)
+        rb = r[band].mean(); th_goal = np.arccos(np.clip(-(ear_back + gap - zc) / rb, -1, 1))   # 這一束在耳朵高度的最前緣要轉到耳後
+        dth = max(0.0, th_goal - th[band].min())
+        if dth <= 0: continue
+        w = np.where(q[:, 1] <= y_band[1], 1.0, np.clip((y_fade - q[:, 1]) / (y_fade - y_band[1]), 0, 1)); w = np.where(q[:, 1] < y_lo, 1.0, w)
+        th2 = th + dth * w
+        out[vi, 0] = side * r * np.sin(th2); out[vi, 2] = zc - r * np.cos(th2); moved.append(vi[w > 0])
+    _set_hair_pos(v, m, acc, out)
+    if moved: rebind_head(v, np.concatenate(moved))
+    return len(moved)
+
+
+def wave_bob(v, C=HEAD_C_VICTORIA, y_top=1.56, y_tip=1.40, amp=0.008, lam=0.075, tamp=0.005, flare=0.010, mat='HAIR_01'):
+    """直髮 → 微捲：y_top 以下的側髮／後髮沿著半徑方向（amp）與切線方向（tamp）做波浪，越往髮尾越明顯，髮尾微微外張（flare）；
+    每一束的相位不同（不會整排一起彎）。法線照位移的斜率調整（明暗跟著波浪）。回傳改動的頂點數"""
+    ni, m = _hair_mesh(v); mats = v.j['materials']
+    A = m['primitives'][0]['attributes']; acc = A['POSITION']
+    P = v.acc(acc).astype(np.float64); N = v.acc(A['NORMAL']).astype(np.float64); sid = np.full(len(P), -1)
+    for k, p in enumerate(m['primitives']):
+        if mat in mats[p['material']]['name']: sid[np.unique(v.acc(p['indices']).astype(np.int64))] = k
+    sel = np.where((sid >= 0) & (P[:, 1] < y_top))[0]
+    def disp(y, ph):
+        t = np.clip((y_top - y) / (y_top - y_tip), 0, 1); a = 2 * np.pi * (y_top - y) / lam + ph
+        return flare * t ** 1.5 + amp * np.sin(a) * t ** 0.6, tamp * np.cos(a) * t ** 0.6
+    x, y, z = P[sel, 0], P[sel, 1], P[sel, 2] - C[2]; r = np.maximum(np.hypot(x, z), 1e-6)
+    u = np.stack([x / r, np.zeros_like(x), z / r], 1); tv = np.stack([-u[:, 2], np.zeros_like(x), u[:, 0]], 1)
+    ph = 2.39996 * sid[sel]; dr, dt = disp(y, ph); e = 1e-4; dr2, dt2 = disp(y + e, ph)
+    P[sel] += u * dr[:, None] + tv * dt[:, None]
+    fr = (dr2 - dr) / e; ft = (dt2 - dt) / e; n = N[sel]
+    n2 = n - (fr * (u * n).sum(1) + ft * (tv * n).sum(1))[:, None] * np.array([0, 1.0, 0])
+    N[sel] = n2 / np.maximum(1e-9, np.linalg.norm(n2, axis=1, keepdims=True))
+    _set_hair_pos(v, m, acc, P, N)
+    return len(sel)
+
+
+def paint_hairline(v, color, y0=1.655, k=0.6, z_max=-0.02, soft=0.003):
+    """瀏海撥開後，額頭上方的臉皮（髮際線 y > y0 + k·x² 以上、只看前面 z < z_max）在臉的貼圖上塗成髮色：
+    髮際線是貼圖解析度的平滑曲線（刪三角形會留下鋸齒）；soft＝髮際線的漸層寬度（公尺）。回傳塗到的像素數"""
+    mats = v.j['materials']; col = hexrgb(color) * 255; acc_w = {}
+    for mm in v.j['meshes']:
+        if not mm['name'].startswith('Face'): continue
+        for p in mm['primitives']:
+            if 'Face_00_SKIN' not in mats[p['material']]['name']: continue
+            ii = v.image_of_tex(v.vrm_mat(p['material'])['textureProperties']['_MainTex'])
+            if ii not in acc_w:
+                im = v.get_image(ii); acc_w[ii] = np.zeros((im.size[1], im.size[0]))
+            wmap = acc_w[ii]; H, Wd = wmap.shape
+            P = v.acc(p['attributes']['POSITION']).astype(np.float64); UV = v.acc(p['attributes']['TEXCOORD_0']).astype(np.float64)
+            T = v.acc(p['indices']).astype(np.int64).reshape(-1, 3); Q = P[T]
+            cand = (Q[:, :, 1] > y0 + k * Q[:, :, 0] ** 2 - 2 * soft).any(1) & (Q[:, :, 2] < z_max).any(1)
+            for t in T[cand]:
+                us, vs = UV[t, 0] * Wd, UV[t, 1] * H
+                x0, x1 = int(max(0, np.floor(us.min()))), int(min(Wd - 1, np.ceil(us.max()))); y0p, y1p = int(max(0, np.floor(vs.min()))), int(min(H - 1, np.ceil(vs.max())))
+                if x0 > x1 or y0p > y1p: continue
+                xs, ys = np.meshgrid(np.arange(x0, x1 + 1) + 0.5, np.arange(y0p, y1p + 1) + 0.5)
+                (ax, ay), (bx, by), (cx, cy) = zip(us, vs); den = (by - cy) * (ax - cx) + (cx - bx) * (ay - cy)
+                if abs(den) < 1e-12: continue
+                l1 = ((by - cy) * (xs - cx) + (cx - bx) * (ys - cy)) / den; l2 = ((cy - ay) * (xs - cx) + (ax - cx) * (ys - cy)) / den; l3 = 1 - l1 - l2
+                e = -0.02; inside = (l1 >= e) & (l2 >= e) & (l3 >= e)   # 邊上的像素也算（三角形之間不留縫）
+                if not inside.any(): continue
+                X = l1 * P[t[0], 0] + l2 * P[t[1], 0] + l3 * P[t[2], 0]; Y = l1 * P[t[0], 1] + l2 * P[t[1], 1] + l3 * P[t[2], 1]; Z = l1 * P[t[0], 2] + l2 * P[t[1], 2] + l3 * P[t[2], 2]
+                w = np.clip((Y - (y0 + k * X ** 2)) / soft + 0.5, 0, 1) * (Z < z_max) * inside
+                sub = wmap[y0p:y1p + 1, x0:x1 + 1]; np.maximum(sub, w, out=sub)
+    n = 0
+    for ii, wmap in acc_w.items():
+        img = np.asarray(v.get_image(ii)).astype(np.float64).copy()
+        img[..., :3] = img[..., :3] * (1 - wmap[..., None]) + col[None, None, :] * wmap[..., None]
+        v.set_image(ii, Image.fromarray(np.clip(img, 0, 255).astype(np.uint8), 'RGBA')); n += int((wmap > 0.5).sum())
+    return n
+
+
 def build_yuting():
     """祐廷（玩家）：HairSample_Male。依參考圖 02：自然黑短髮（拿掉頭頂呆毛與頭髮高光）、淺灰圓領上衣（連帽上衣拿掉帽子、抽繩與口袋線）、
     深灰直筒長褲（略加寬）、白球鞋、眼睛略縮小；黑色後背包是遊戲內配件（src/props3d.js）。"""
@@ -1975,33 +2197,47 @@ def build_heroine_01():
 
 
 def build_heroine_02():
-    """林芷若（黑色及肩微捲髮、細框眼鏡、亞麻米色系、工作時圍裙、銀色小耳環、161cm；參考圖 03／05）。
-    臉＋頭髮：Victoria_Rubin（拿掉側馬尾與髮飾、染黑，剩下及肩髮）；上衣：HairSample_Female 的長袖上衣（女生身形、米色亞麻）——
-    不再用 Sendagaya_Shino 的制服短袖＋背心；褲子：淺灰直筒寬褲；鞋：樂福鞋；眼鏡、耳環、圍裙是遊戲內配件。"""
+    """林芷若（黑色及肩微捲髮、側分瀏海、細框眼鏡、亞麻米色系、工作時圍裙、銀色小耳環、161cm；參考圖 03／05）。
+    臉＋頭髮：Victoria_Rubin（拿掉側馬尾與髮飾、染黑）；上衣：HairSample_Female 的上衣（女生身形、米色亞麻）；褲子：淺灰直筒寬褲；鞋：樂福鞋；
+    眼鏡、耳環、圍裙是遊戲內配件（src/props3d.js）。
+    v9.4 第一輪（CHARACTER_REVIEW 第 6 節）：舊版是過肩直髮＋厚齊瀏海壓在眼鏡上、耳朵被蓋住（耳環看不到）、燈籠長袖＋腰間蝴蝶結（像荷葉邊襯衫）、
+    眼睛占臉寬 26%。改成：瀏海從左邊分線往兩側撥開、頭髮剪到肩上（連彈簧骨一起剪）、右邊撥到耳後露出耳朵、髮尾微捲；
+    袖子剪到手肘上方反摺（參考圖的短袖亞麻衫）、拿掉腰間蝴蝶結、下襬收合身；眼睛縮小、鼻樑；褲子的反光皺褶變淡。"""
     v = src('Victoria_Rubin'); hsf = src('HairSample_Female'); shino = src('Sendagaya_Shino'); donor = src('HairSample_Male')
     print('  heroine_02: hair prims dropped', hair_drop(v, lambda x: (x[1][0] < -0.145) or ('HAIR_03' in v.j['materials'][x[0]['material']]['name'])
                                                      or (x[2][1] > 1.72 and x[2][0] < -0.045 and x[3] < 220)))   # 側馬尾的髮束（含舊版漏掉、在頭頂翹起來的兩束）
+    # 頭髮（順序：先撥瀏海、再剪短、再撥到耳後、最後捲；剪短會移動彈簧骨，撥到耳後的頂點改綁頭骨）
+    print('  heroine_02: bangs swept (strands, rigid)', sweep_bangs(v, part_deg=-15, major_deg=-55, minor_deg=50, lift_major=(-0.2, -0.35), lift_minor=-0.2))   # 往兩側撥、髮尾拉長到眼鏡外側（髮尾往上收會在額頭排成一排鋸齒；4 種變體比較見 CHARACTER_REVIEW 第 6 節）
+    print('  heroine_02: hair shortened, joints moved', shorten_hair_rig(v, 1.50, 0.62))
+    print('  heroine_02: right side tucked behind ear', tuck_behind_ear(v, side=1))
+    print('  heroine_02: wave verts', wave_bob(v, amp=0.008, lam=0.075, tamp=0.005, flare=0.010))
+    print('  heroine_02: hairline px', paint_hairline(v, '#1d1819', y0=1.655, k=0.6))   # 瀏海撥開後露出的額頭上方塗成髮色（平滑的髮際線）
     remove_prims(v, ['Tops', 'F00_002_01_Shoes'])
     mi, tp = transplant(v, hsf, 'Tops', 'F00_904_Tops_Linen_CLOTH')
+    print('  heroine_02: waist bow parts dropped', drop_small_parts(v, 'Tops_Linen', max_tris=60, front_z=-0.10))   # 腰間的蝴蝶結（參考圖是素面亞麻衫）
     waist = joint_y(v, 'Hips') + 0.07
     cut_below(v, 'Tops_Linen', waist)
     neck_cut = joint_y(v, 'Neck') - 0.03
     print('  heroine_02: round neckline tris', crew_neck(v, 'Tops_Linen', neck_cut, x_max=0.12, slope=1.0))   # 參考圖：開領上衣（原本是荷葉邊高領）；要在 hide_covered 之前剪，脖子的皮膚才不會被當成「被衣服蓋住」刪掉
-    cuff_x = joint_world(v, 'J_Bip_R_UpperArm')[0, 3] + 0.40
-    print('  heroine_02: ruffle cuffs cut', cut_sleeves(v, 'Tops_Linen', 0.40, clean=True, extra=('TipSleeve',)))   # 袖口的荷葉邊（手腕收口之後再張開的喇叭狀布）剪掉，留收口當袖口（參考圖是一般袖口）；要在 hide_covered 之前，手腕的皮膚才不會被刪
+    print('  heroine_02: sleeves cut', cut_sleeves(v, 'Tops_Linen', 0.12, clean=True, extra=('TipSleeve', 'LowerSleeve')))   # 燈籠袖剪到上臂，再接一段到手肘上方的反摺袖
+    el = joint_world(v, 'J_Bip_R_LowerArm')[0, 3]; ha = joint_world(v, 'J_Bip_R_Hand')[0, 3]
+    cuff_x = el - 0.14 * (ha - el)
+    print('  heroine_02: rolled sleeves', extend_sleeves(v, 'Tops_Linen', end_frac=-0.14, clearance=0.016, roll_w=0.035, roll_bulge=0.008))
+    print('  heroine_02: hem fitted', fit_to_body(v, 'Tops_Linen', keep=0.55, gap=0.024, y_max=1.13))   # 下襬原本是撐開的荷葉邊
     recolor_mat(v, 'Tops_Linen', '#d6c6aa', strength=0.88, keep_detail=0.9)
     print('  heroine_02: maroon inner px -> skin', body_tex_replace(v, is_maroon, lambda med: med))
     paint_skin(v, '#ddd0b9', joints=('Spine', 'Chest', 'Bust', 'Shoulder'), y_max=joint_y(v, 'Neck') - 0.045)
     hide_covered(v, garment_of(v, 'Tops_Linen'), max_d=0.1, eps=0.04, max_tan=0.05, skip_joints=('Shoulder', 'UpperArm'),
                  y_keep=lambda P: neck_cut - 0.025 + 1.0 * np.maximum(0, np.abs(P[:, 0]) - 0.045) + np.where(P[:, 2] > 0, 0.012, 0.0),   # 領口線以上（往下 2.5 cm 內）的皮膚留著
-                 keep_fn=lambda P: np.abs(P[:, 0]) > cuff_x - 0.03)   # 袖口（剪掉荷葉邊後的收口）往內 3 cm 以外的手腕、手留著
-    print('  heroine_02: culled under pants', wide_pants(v, donor, 'F00_901_Bottoms_Pants_CLOTH', '#9f998e', amount=0.04, straight=True, start=0.12))
+                 keep_fn=lambda P: np.abs(P[:, 0]) > cuff_x - 0.03)   # 袖口往內 3 cm 以外的前臂、手留著
+    print('  heroine_02: culled under pants', wide_pants(v, donor, 'F00_901_Bottoms_Pants_CLOTH', '#9f998e', amount=0.04, straight=True, start=0.12, keep_detail=0.38))   # keep_detail 低：褲子貼圖畫的緞面反光、縫線變淡
     mi, sh = transplant(v, shino, 'Shoes', 'F00_903_Shoes_Loafer_CLOTH'); hide_covered(v, sh)
     recolor_mat(v, 'Shoes_Loafer', '#3a2a22', strength=0.85)
     recolor_mat(v, 'HAIR', '#161314', strength=0.92, keep_detail=0.9); hair_factor_reset(v, shade=(0.7, 0.68, 0.7))
     face_line_colors(v, '#2a2422', '#211b19')   # Victoria 原本是金髮，眉毛是淺米色
     swap_image(v, hsf, 'EyeHighlight')           # Victoria 的眼睛反光是青色點點，換成一般白色反光
-    print('  heroine_02: eye verts scaled', scale_eyes(v, 0.9, 0.88), 'springs tamed', tame_springs(v), 'arm colliders off', hair_colliders_body_only(v))
+    print('  heroine_02: eye verts scaled', scale_eyes(v, 0.80, 0.74), 'nose', nose_bridge(v, 0.004),
+          'springs tamed', tame_springs(v), 'arm colliders off', hair_colliders_body_only(v))
     no_hair_shine(v); soften_matcap(v)
     return finish(v, FEMALE_EYES, '#3e2c24', '林芷若（法條之外）', 'Based on VRoid CC0 samples "Victoria Rubin" + top from "HairSample_Female" + loafers from "Sendagaya Shino" + trousers from "HairSample_Male" (pixiv); modified for 法條之外')
 
