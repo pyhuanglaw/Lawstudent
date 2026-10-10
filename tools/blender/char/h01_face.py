@@ -46,6 +46,7 @@ BROW_COL = (0.39, 0.28, 0.215)
 BROW_A = 0.85             # 眉毛濃度
 BROW_SCALE_Z = 1.0        # 眉毛網格（FaceBrow）上下放大（男生的粗眉：原本的網格太窄，畫粗的眉會被網格邊緣切掉）
 EYE_TINT_K = 0.0          # 眼睛周圍皮膚的粉紅色調拿掉多少（男生：VRoid 貼圖眼周的粉色像眼影）
+CHEEK_TINT_K = 0.0        # 臉頰腮紅拿掉多少（VRoid 女性貼圖的腮紅是動畫式的大塊粉紅；林芷若 0.7）
 LIP_OUT, LIP_IN, LIP_HI = (0.86, 0.54, 0.56), (0.77, 0.36, 0.43), (0.94, 0.72, 0.72)
 LIP_A = 0.9              # 唇色濃度
 LOWER_BACK = (0.0010, 0.0055)   # 嘴縫、下巴往後收（側面看下半臉像往前推：遊戲內側面截圖；參考圖側面嘴唇在鼻尖後 1.1–1.7 cm、下巴在 2.7–3.4 cm，原本 1.0／2.2 cm）
@@ -791,18 +792,26 @@ def paint_skin(f, R, eyes, loops):
     ax = np.abs(pos[..., 0]); x = pos[..., 0]; z = pos[..., 2]; y = pos[..., 1]
     rgb = out[..., :3]
     # (a2) 眼睛周圍的粉紅色調拿掉（保留明暗，顏色換成臉頰的膚色）：男生的 VRoid 貼圖眼周偏粉，看起來像畫了眼影
-    if EYE_TINT_K > 0:
+    if EYE_TINT_K > 0 or CHEEK_TINT_K > 0:
         lw = np.array([0.299, 0.587, 0.114]); lum = rgb @ lw
         ez_ = float(np.mean([E['up'].max() for E in eyes.values()]))
         ck = mask & (y > 0.05) & (ax > 0.018) & (ax < 0.040) & (z < ez_ - 0.016) & (z > ez_ - 0.030)
-        if ck.sum() > 20:
-            med = np.median(rgb[ck], axis=0); tgt = lum[..., None] * (med / max(float(med @ lw), 1e-3))
+        fh = mask & (y > 0.05) & (ax < 0.024) & (z > ez_ + 0.030) & (z < ez_ + 0.048)       # 額頭（沒有腮紅、眼影）：女性樣本的臉頰有腮紅，不能當參考
+        ref = fh if (CHEEK_TINT_K > 0 and fh.sum() > 20) else ck
+        if ref.sum() > 20:
+            med = np.median(rgb[ref], axis=0); tgt = lum[..., None] * (med / max(float(med @ lw), 1e-3))
+            if CHEEK_TINT_K > 0:
+                for s_ in (1, -1):
+                    E0 = eyes[s_]; cxc = (E0['a_in'] + E0['a_out']) / 2 + 0.004; czc = (E0['up'].max() + E0['lo'].min()) / 2 - 0.024
+                    dc = np.sqrt(((ax - cxc) / 0.022) ** 2 + ((z - czc) / 0.017) ** 2)
+                    rgb[:] = mix(rgb, tgt, (1 - ss(0.55, 1.0, dc)) * CHEEK_TINT_K * mask * ((x > 0) == (s_ > 0)))
+                print('  cheek blush reduced (forehead skin %s)' % np.round(med, 3))
             for s, E in eyes.items():
                 cx = (E['a_in'] + E['a_out']) / 2; cz = (E['up'].max() + E['lo'].min()) / 2
                 de = np.sqrt(((ax - cx) / 0.021) ** 2 + ((z - cz) / 0.0135) ** 2)
                 w = (1 - ss(0.65, 1.0, de)) * EYE_TINT_K * mask * ((x > 0) == (s > 0))
-                rgb[:] = mix(rgb, tgt, w)
-            print('  eye tint removed (cheek skin %s)' % np.round(med, 3))
+                if EYE_TINT_K > 0: rgb[:] = mix(rgb, tgt, w)
+            if EYE_TINT_K > 0: print('  eye tint removed (reference skin %s)' % np.round(med, 3))
     # (b) 雙眼皮線（末廣型：內眼角窄、往外變寬）＋下眼瞼淡淡的陰影
     for s, E in eyes.items():
         sel = mask & ((x > 0) == (s > 0)) & (y > 0.03)

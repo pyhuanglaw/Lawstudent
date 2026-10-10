@@ -34,15 +34,22 @@ PANTS_BAND = 1.031         # 褲頭帶下緣
 KNIT_HEM = 1.065           # 毛衣下擺（蓋到褲頭帶上緣，褲頭帶與鈕扣露出來）
 KNIT_HEM_TOP = 1.112       # 下擺羅紋上緣
 V_BOTTOM = 1.252           # V 領最低點（鎖骨下約 9 cm）
-DROP_X = 0.162             # 落肩：身片在肩膀的寬度（袖子從這裡接出）。第二版 0.19 → 0.162：T 字姿勢做的身片在腋下往外加寬，遊戲裡手放下來變成肩膀下面一圈像披肩的平台
+DROP_X = 0.105             # 落肩：身片在肩膀的寬度（袖子從這裡接出）。第二版 0.19 → 0.162：T 字姿勢做的身片在腋下往外加寬，遊戲裡手放下來變成肩膀下面一圈像披肩的平台；第三版 0.162 → 0.105（肩關節）：身片伸到上臂上方的那一段，手放下時變成蓋在袖子上的一圈帽沿（祐廷先發現，Blender 手放下預覽比較 0.162／0.125／0.105）
 SHOULDER_Z = 1.366         # 落肩線的高度（身片側面上緣）
 SIDE_NECK = (0.071, 1.402) # 領口側頸點（|x|、z）
 BACK_NECK_Z = 1.388
 NECK_STYLE = 'V'           # 'V'（沈以安）／'crew'（圓領：前中心在 CREW_FRONT_Z，往側頸點圓弧上升）
 CREW_FRONT_Z = 1.352
 SLEEVE_K = 0.82           # 袖子粗細（設計輪廓的倍數；沈以安 0.82）
-EASE_K = 1.0              # 身片寬鬆量的倍數
+SLEEVE_LEN = 1.0          # 袖長（手臂全長的比例；1＝長袖到手腕。林芷若的短袖 ≈ 0.55：過手肘一點）
+CUFF_EASE = 0.0085        # 袖口離手臂的距離（長袖羅紋收口 8.5 mm；短袖反摺袖口鬆一點）
+TOP_TEX = 'knit'          # 上衣布料：'knit'（粗針織，沈以安、祐廷）／'linen'（亞麻，林芷若）
+PANTS_DROP = True         # 寬褲從臀部直落（False：合身褲，褲管照腿的形狀）
+PANTS_HEM_UP = 0.0        # 褲腳往上（九分褲：露出腳踝）
+EASE_K = 0.85             # 身片寬鬆量的倍數（沈以安第二版 1.0 → 0.85：側面看毛衣從胸口直落、下擺收緊，像氣球）
 WSRC = None               # 權重來源：VRoid 原本的上衣網格（祐廷：連帽上衣）。有的話，毛衣的身片、袖子根部照它的權重（VRoid 調過手放下的姿勢）
+TOP_FIT = 0.0             # 上衣合身度（0＝從胸口直落的寬鬆箱形：沈以安、祐廷；林芷若 0.65：腰部跟著身體收）
+HEM_LOOSE = False         # 下擺不收緊（亞麻上衣；針織衫的羅紋下擺會收）
 HEM_OVER_PANTS = False     # 毛衣下擺蓋過褲頭、落在胯部（祐廷）：身片的箱形往下量到下擺，而且把褲子算進去（不然下擺會切進臀部和褲子）
 
 
@@ -252,12 +259,12 @@ def drape_pants(rows, phi, sg, z_crotch, mid=None):
             j = min(int(np.searchsorted(cum, t, side='right')) - 1, 2); f = (t - cum[j]) / max(seg[j], 1e-9)
             q = path[j] + (path[j + 1] - path[j]) * f
             ring[k, 0] = ring[k, 0] + (sg * q[0] - ring[k, 0]) * wD; ring[k, 1] = ring[k, 1] + (q[1] - ring[k, 1]) * wD
-    # (b) 直落（褲頭帶下面 z<1.02 開始）
+    # (b) 直落（褲頭帶下面 z<1.02 開始）；合身褲（PANTS_DROP=False）不做
     yb_ext = np.full(K, -1e9); yf_ext = np.full(K, 1e9); xo_ext = np.full(K, -1e9)
     wb = sstep(0.25, 0.6, sn); wf = sstep(0.25, 0.6, -sn); wo = sstep(0.25, 0.6, sg * 0 + cs)
     last = None
     for r in range(R - 2):
-        if zr[r] > 1.02: continue
+        if zr[r] > 1.02 or not PANTS_DROP: continue
         ring = rows[r]; old = ring.copy()
         yb_ext = np.maximum(yb_ext, ring[:, 1]); yf_ext = np.minimum(yf_ext, ring[:, 1]); xo_ext = np.maximum(xo_ext, sg * ring[:, 0])
         ring[:, 1] = ring[:, 1] + wb * (yb_ext - ring[:, 1]) + wf * (yf_ext - ring[:, 1])
@@ -281,8 +288,9 @@ def build_pants(skin, arm, mb):
     K = 32; phi = np.arange(K) * 2 * math.pi / K           # 0＝外側、90°＝後、180°＝內側、270°＝前
     zt = list(np.linspace(PANTS_TOP, PANTS_BAND, 5)) + [PANTS_BAND - 0.003]     # 褲頭帶（照 PANTS_TOP／PANTS_BAND 分 4 段：其他人物的褲頭高度不同）
     zl = list(np.linspace(min(1.00, PANTS_BAND - 0.015), z_crotch + 0.02, 6)) + list(np.linspace(z_crotch - 0.01, 0.62, 5)) + list(np.linspace(0.58, 0.48, 3)) + list(np.linspace(0.42, 0.12, 7)) + [0.09]
+    if PANTS_HEM_UP > 0: zl = [z for z in zl if z > 0.09 + PANTS_HEM_UP + 0.012] + [0.09 + PANTS_HEM_UP]   # 九分褲：褲腳上面的圈不能低於褲腳
     zs = np.array(zt + zl)
-    def zhem(ph): return 0.049 - 0.020 * np.sin(ph)        # 後面 3 cm、前面 6.9 cm（褲管蓋在鞋面上）
+    def zhem(ph): return 0.049 - 0.020 * np.sin(ph) + PANTS_HEM_UP        # 後面 3 cm、前面 6.9 cm（褲管蓋在鞋面上）
     legs = {}
     for side, sg in (('L', 1.0), ('R', -1.0)):
         # 褲頭在腰上（1.03–1.085 m）：那裡的皮膚綁 Spine＋Chest，每個頂點單一骨頭的權重常常 < 0.5——第一版只用 Hips/Spine、門檻 0.5，
@@ -400,13 +408,17 @@ def build_top(skin, arm, mb, pants):
     else:
         RB = np.array([[rbody(k, z) for z in zgrid] for k in range(K)])
     RBmax = np.maximum.accumulate(RB[:, ::-1], axis=1)[:, ::-1]           # 高度 ≥ z 的最大
+    if TOP_FIT > 0:          # 合身：直落的箱形和這個高度身體（＋褲子）的輪廓之間內插（先沿高度平滑，避免一圈一圈的起伏）
+        RBs = RB.copy()
+        for _ in range(6): RBs[:, 1:-1] = RBs[:, 1:-1] * 0.5 + (RBs[:, :-2] + RBs[:, 2:]) * 0.25
+        RBmax = RBmax * (1 - TOP_FIT) + np.maximum(RBs, RB) * TOP_FIT
     # 第二版：每個高度的截面＝「這個高度以上身體最突出的輪廓（直落）＋寬鬆量」與落肩寬度的凸包——
     # 布料跨過胸部中間的凹處（第一版貼著胸形，正面看是兩個鼓包），從胸口直直落下
     EASE = np.where(np.abs(np.sin(th)) > 0.5, 0.024, 0.016) * EASE_K
     HR = np.zeros((K, len(zgrid)))
     for iz, z in enumerate(zgrid):
         W = 0.152 + (DROP_X - 0.152) * float(sstep(1.28, 1.34, z))
-        Df = RBmax[0, iz] + 0.024; Db = RBmax[K // 2, iz] + 0.022
+        Df = RBmax[0, iz] + 0.024 * EASE_K; Db = RBmax[K // 2, iz] + 0.022 * EASE_K
         pts = [dirs[k][:2] * (RBmax[k, iz] + EASE[k]) for k in range(K)]
         for k in range(K):
             ax_, ay_ = abs(math.cos(th[k])), abs(math.sin(th[k])); D = Df if math.sin(th[k]) < 0 else Db
@@ -449,6 +461,7 @@ def build_top(skin, arm, mb, pants):
         dense = []
         for z in np.arange(KNIT_HEM_TOP, zbt, 0.002):
             rb = box_r(k, z); rh = max(band_r(k, KNIT_HEM_TOP) + 0.014, box_r(k, KNIT_HEM_TOP + 0.08) - 0.016)   # 第二版：下擺只比身片小一點（第一版緊箍）
+            if HEM_LOOSE: rh = max(rh, box_r(k, KNIT_HEM_TOP) - 0.002)
             w = float(sstep(KNIT_HEM_TOP, KNIT_HEM_TOP + 0.075, z))
             r = rh + (rb - rh) * (1 - (1 - w) ** 2)
             dense.append((r, z))
@@ -472,6 +485,7 @@ def build_top(skin, arm, mb, pants):
         band_rz = []
         for i, z in enumerate(hem_rows):
             r = max(band_r(k, z) + 0.011, box_r(k, KNIT_HEM_TOP + 0.08) - 0.020) + 0.003 * (i / NBAND) + 0.002 * math.sin(math.pi * i / NBAND)
+            if HEM_LOOSE: r = max(r, box_r(k, z) - 0.002)
             band_rz.append((r, z))
         band_rz = np.array(band_rz); hem_fold = band_rz[0] + np.array([-0.005, 0.004])
         col = np.concatenate([[hem_fold], band_rz, body_rz[1:], neck_rz, [fold]])
@@ -493,7 +507,7 @@ def build_top(skin, arm, mb, pants):
     for side, sg in (('L', 1.0), ('R', -1.0)):
         S = C.bone_head(arm, 'J_Bip_%s_UpperArm' % side); E = C.bone_head(arm, 'J_Bip_%s_LowerArm' % side); Wr = C.bone_head(arm, 'J_Bip_%s_Hand' % side)
         bvA = skin.bvh(['J_Bip_%s_UpperArm' % side, 'J_Bip_%s_LowerArm' % side, 'J_Bip_%s_Hand' % side], thr=0.5)
-        Lu = np.linalg.norm(E - S); Lf = np.linalg.norm(Wr - E); Lt = Lu + Lf
+        Lu = np.linalg.norm(E - S); Lf = np.linalg.norm(Wr - E); Lt = (Lu + Lf) * SLEEVE_LEN
         def axis_pt(s):
             if s <= Lu: return S + (E - S) * (s / Lu), unit(E - S)
             return E + (Wr - E) * ((s - Lu) / Lf), unit(Wr - E)
@@ -515,7 +529,7 @@ def build_top(skin, arm, mb, pants):
                 ra = Skin.outer(bvA, c0, d, 0.15)
                 if not np.isfinite(ra): ra = 0.03
                 if cuff:
-                    r = ra + 0.0085 + (0.002 if s != 'fold' else -0.003)
+                    r = ra + CUFF_EASE + (0.002 if s != 'fold' else -0.003)
                 else:
                     r = float(np.interp(ss, prof_s, prof_r))
                     # 下臂的布料皺褶（袖口上方堆起來）
@@ -672,6 +686,20 @@ def knit_texture(S=1024, seed=7):
     rgb = KNIT_RGB[None, None, :] * lum[:, :, None]
     rgb = np.clip(rgb * 1.02, 0, 1)
     return np.concatenate([rgb, np.ones((S, S, 1))], -1)
+
+
+def linen_texture(S=1024, seed=13):
+    """亞麻（林芷若）：細的平織＋粗細不均的竹節紗（橫、直）＋淡淡的皺；v 0.75 以上（下擺、袖口、領口的邊）是同一塊布、多一條車縫線"""
+    rng = np.random.default_rng(seed)
+    v = (np.arange(S)[::-1] + 0.5)[:, None] / S; u = (np.arange(S) + 0.5)[None, :] / S
+    weave = 0.5 + 0.5 * np.cos(2 * math.pi * u * 420) * np.cos(2 * math.pi * v * 420)
+    slub_u = _noise(rng, 1, S, 90)[0][None, :]; slub_v = _noise(rng, S, 1, 90)[:, 0][:, None]
+    lum = 0.95 + 0.05 * weave + 0.022 * (slub_u - 0.5) + 0.022 * (slub_v - 0.5) + (_noise(rng, S, S, 6) - 0.5) * 0.02   # 竹節紗與斑駁淡一點（第一版像毛氈）
+    m = (v > 0.75).astype(float)
+    stitch = (np.abs(((v - 0.75) % 0.05) - 0.012) < 0.0012) * (np.cos(2 * math.pi * u * 160) > 0.2)
+    lum = lum - 0.10 * stitch * m
+    rgb = KNIT_RGB[None, None, :] * lum[:, :, None]
+    return np.concatenate([np.clip(rgb, 0, 1), np.ones((S, S, 1))], -1)
 
 
 def trouser_texture(S=512, seed=11):
@@ -866,7 +894,18 @@ def slim_body(body):
 
 # ---------------------------------------------------------------- 主程式
 def apply(m):
+    global WSRC
     arm, body = m['arm'], m['body']
+    own_ws = WSRC is None and m.get('wsrc_top') is not None     # 直接呼叫（沈以安）：用 stage0 留下的原本上衣當權重來源，用完刪掉；p00_clothes 呼叫時由它管理
+    if own_ws: WSRC = m['wsrc_top']
+    try:
+        return _apply(m, arm, body)
+    finally:
+        if own_ws:
+            WSRC = None; bpy.data.objects.remove(m['wsrc_top'], do_unlink=True); m['wsrc_top'] = None
+
+
+def _apply(m, arm, body):
     if SLIM: slim_body(body)
     skin = Skin(body)
     mb = MB()
@@ -875,7 +914,7 @@ def apply(m):
     top = build_top(skin, arm, mb, pants)
     shoes = build_shoes(skin, arm, mb)
     os.makedirs(WIP, exist_ok=True)
-    img_k = C.image_from_array('H01_Knit', knit_texture(), os.path.join(WIP, 'clothes_Knit.png'))
+    img_k = C.image_from_array('H01_Knit', linen_texture() if TOP_TEX == 'linen' else knit_texture(), os.path.join(WIP, 'clothes_Knit.png'))
     img_t = C.image_from_array('H01_Trouser', trouser_texture(), os.path.join(WIP, 'clothes_Trouser.png'))
     img_l = C.image_from_array('H01_Loafer', loafer_texture(), os.path.join(WIP, 'clothes_Loafer.png'))
     def tmpl(pat):      # 範本材質（女性樣本 F00_002_01_Tops_01_CLOTH、男性樣本 M00_006_01_Tops_01_CLOTH……）

@@ -24,13 +24,18 @@ SIDE_NECK_M = (0.066, 1.492)
 
 
 def apply(m):
+    return run(m, STYLE, STYLE_M, SIDE_NECK_M)
+
+
+def run(m, style, style_m, side_neck_m):
+    """任何身形：BodyMap 對到沈以安的比例 → h01_clothes（style＝參數；style_m＝寫在這個人物身上的高度，公尺；side_neck_m＝領口側頸點）→ 轉回來"""
     arm, body = m['arm'], m['body']
     bm = C.BodyMap(C.landmarks(arm), REF)
-    print('  clothes(p00): landmarks', {k: round(v, 3) for k, v in C.landmarks(arm).items()}, 'scale up %.3f lo %.3f' % (bm.s_up, bm.s_lo))
-    for k, v in STYLE.items(): setattr(K, k, v)
-    for k, v in STYLE_M.items(): setattr(K, k, float(np.interp(v, bm.zc, bm.zr)))
-    zr = float(np.interp(SIDE_NECK_M[1], bm.zc, bm.zr)); K.SIDE_NECK = (SIDE_NECK_M[0] * float(bm._s(np.array([zr]))[0]), zr)
-    print('  clothes(p00): heights in reference space', {k: round(getattr(K, k), 3) for k in STYLE_M}, 'side neck', np.round(K.SIDE_NECK, 3))
+    print('  clothes(sim): landmarks', {k: round(v, 3) for k, v in C.landmarks(arm).items()}, 'scale up %.3f lo %.3f' % (bm.s_up, bm.s_lo))
+    for k, v in style.items(): setattr(K, k, v)
+    for k, v in style_m.items(): setattr(K, k, float(np.interp(v, bm.zc, bm.zr)))
+    zr = float(np.interp(side_neck_m[1], bm.zc, bm.zr)); K.SIDE_NECK = (side_neck_m[0] * float(bm._s(np.array([zr]))[0]), zr)
+    print('  clothes(sim): heights in reference space', {k: round(getattr(K, k), 3) for k in style_m}, 'side neck', np.round(K.SIDE_NECK, 3))
     bh = C.bone_head
     C.bone_head = lambda a, n: bm.fwd(bh(a, n))          # 衣服模組量骨頭位置時拿到參考空間的位置
     C.warp_world(body, bm.fwd)
