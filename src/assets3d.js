@@ -56,6 +56,7 @@ const ASSETS = (function(){
     'bldg.cvs_interior':{url:'assets/models/env/second_ai/cvs_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/cvs_interior.py（全日便利商店室內；配置照 zones3d.js cvs 區塊；商品顏色是頂點色；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
     'bldg.noodle_interior':{url:'assets/models/env/second_ai/noodle_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/noodle_interior.py（阿鳳麵店室內；配置照 zones3d.js noodle 區塊；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
     'bldg.bookstore_interior':{url:'assets/models/env/second_ai/bookstore_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/bookstore_interior.py（舊路書房室內；配置照 zones3d.js bookstore 區塊；書背顏色是頂點色；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+    'bldg.dorm_interior':{url:'assets/models/env/second_ai/dorm_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/dorm_interior.py（宿舍雙人房室內；配置照 zones3d.js dorm 區塊；書與雜物的顏色是頂點色；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
     // ==== 第二個 AI 區塊結束 ====
     'char.mixamo_clips':{url:'assets/models/char/mixamo_clips.glb', type:'clips', source:'three.js examples (Xbot.glb, Mixamo)', license:'Mixamo 動畫（Adobe 條款：可用於專案，不可單獨再散布）'},
   };

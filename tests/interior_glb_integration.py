@@ -1,9 +1,10 @@
 """公館南側店家室內的正式模型（第二個 AI：Blender GLB）整合檢查——第二層「系統整合」測試（docs/TESTING.md），不是真實玩家流程。
-麵店 noodle（bldg.noodle_interior）、書店 bookstore（bldg.bookstore_interior）；每一間都比較一般網址與 ?nobldg：
+麵店 noodle（bldg.noodle_interior）、書店 bookstore（bldg.bookstore_interior）、宿舍 dorm（bldg.dorm_interior）；每一間都比較一般網址與 ?nobldg：
   1. 正式模型接上（zone.formal）、程序化備用模型藏起來；會淡出的牆（WALL_*）有前後左右四面。
   2. 導航格和 ?nobldg 完全相同；互動點（名稱、位置）不變；麵店的 6 個座位（z.seats）不變；家具擋住、走道走得到。
   3. 鏡頭在前牆外：前牆淡出、後牆不淡出（自我檢查：故意把前牆 dir 弄反，淡出檢查必須失敗）。
-  4. 牌子（價目板、紅紙菜單、手寫牌）都有 canvas 字；自動門外的窗景和窗戶同一個材質。
+  4. 牌子（價目板、紅紙菜單、手寫牌）都有 canvas 字；自動門外的窗景和窗戶同一個材質（宿舍的門通走廊，沒有窗景）。
+  5. 宿舍：月曆、床頭的社團傳單（遊戲內容）在正式模型載入後還看得到、貼在牆前。
 [前置／捷徑]：用遊戲自己的讀檔把玩家放進店裡（GAME.applySave），關掉條件事件；直接設鏡頭位置測牆面淡出。
 用法：python3 tests/interior_glb_integration.py http://127.0.0.1:8765/index.html [noodle,bookstore]
 """
@@ -25,6 +26,10 @@ ZONES = {
                       it={'看看法律書與文具': [(0, 4.05)], '離開書店': [(0, 4.6)]}, seats=None,
                       blocked=[(0.0, -4.7, '後牆書架'), (-5.7, 0.0, '左牆書架'), (5.7, 0.0, '右牆書架'), (-2.0, 0.0, '左邊雙面書架'), (2.0, 0.0, '右邊雙面書架'), (0.0, 3.0, '櫃台桌')],
                       free=[(0.0, 4.0, '出生點'), (0.0, 0.0, '中間走道'), (-3.8, 0.0, '左邊走道'), (3.8, 0.0, '右邊走道')]),
+    'dorm': dict(name='宿舍', spawn={'x': 0, 'z': 2.4, 'yaw': 3.1416}, front=3.5, signs=0, door=False, keep=['dorm_calendar', 'dorm_flyer'],
+                 it={'坐在書桌前': [(1.8, -1.9)], '睡覺': [(-1.4, -1.5)], '離開宿舍': [(0, 3.3)]}, seats=None,
+                 blocked=[(-2.2, -1.5, '床'), (1.8, -2.6, '我的書桌'), (1.8, 1.5, '室友的書桌'), (-1.0, -3.3, '書架')],
+                 free=[(0.0, 2.4, '出生點'), (0.0, 0.0, '房間中間'), (-1.0, 0.8, '床尾'), (1.0, -0.5, '兩張書桌中間')]),
 }
 WAIT_FORMAL = "(async()=>{ for(let i=0;i<240;i++){ if(GAME.E.zone&&GAME.E.zone.formal) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()"
 NAV_HASH = "(()=>{ const n=GAME.E.nav; let h=0; for(let i=0;i<n.b.length;i++){ h=(h*31+n.b[i]+i%7)>>>0; } return [n.cols,n.rows,h, n.b.reduce((a,v)=>a+(v?1:0),0)]; })()"
@@ -68,7 +73,10 @@ async def check(pg, run, zid, cfg, formal):
         ex = await pg.evaluate("""(f=>{ const z=GAME.E.zone; const signs={}; z.group.traverse(o=>{ if(o.isMesh&&/SIGN_FACE_/.test(o.name)) signs[o.name]=!!(o.material.map&&o.material.map.image&&o.material.map.image.getContext); });
             const dv=z.winParts&&z.winParts.find(p=>Math.abs(p.at.z-f)<0.01&&Math.abs(p.at.x)<0.01); return {signs, door:!!(dv&&z.wins&&z.wins[0]&&dv.obj.material===z.wins[0].material)}; })(%s)""" % cfg['front'])
         run.check(f"{tag}牌子都有 canvas 字（{cfg['signs']} 面）", len(ex['signs']) == cfg['signs'] and all(ex['signs'].values()), json.dumps(ex['signs']))
-        run.check(tag + '自動門外的窗景和窗戶同一個材質', ex['door'], json.dumps(ex['door']))
+        if cfg.get('door', True): run.check(tag + '自動門外的窗景和窗戶同一個材質', ex['door'], json.dumps(ex['door']))
+        for n in cfg.get('keep', []):
+            k = await pg.evaluate("(n=>{ const o=GAME.E.zone.group.getObjectByName(n); if(!o) return null; let v=true, p=o; while(p){ if(!p.visible) v=false; p=p.parent; } return {v, x:+o.position.x.toFixed(3)}; })(%s)" % json.dumps(n))
+            run.check(f'{tag}{n} 看得到（遊戲內容，不在正式模型裡）、貼在牆前', bool(k) and k['v'] and abs(abs(k['x']) - 2.875) < 0.02, json.dumps(k))
     await run.shot(pg, zid + ('_formal' if formal else '_nobldg'))
     return await pg.evaluate(NAV_HASH)
 

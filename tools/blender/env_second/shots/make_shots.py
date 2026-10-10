@@ -50,7 +50,7 @@ CVS = [
     ('counter', ('1730',), dict(zone='cvs', w=1280, h=720, hidePlayer=True, pos={'x': 3.2, 'z': -0.6, 'yaw': 3.1416}, cam={'pos': [1.2, 1.65, 1.6], 'look': [4.4, 1.0, -2.6]})),
     ('cooler', ('2030',), dict(zone='cvs', w=1280, h=720, hidePlayer=True, pos={'x': 4.0, 'z': 2.0, 'yaw': 1.5708}, cam={'pos': [2.6, 1.6, 0.2], 'look': [5.6, 1.1, 2.6]})),
 ]
-# 麵店、書店（室內）：進門（手機直向）＋店內一景
+# 麵店、書店、宿舍（室內）：進門（手機直向）＋店內一景
 INTERIORS = [
     ('noodle_entry', ('1100', '1730'), dict(zone='noodle', w=390, h=844, mobile=True, hud=True, pos={'x': 0, 'z': 3.5, 'yaw': 3.1416}, cam={'yaw': 0.0, 'pitch': 0.38, 'dist': 4.0})),
     ('noodle_counter', ('1730',), dict(zone='noodle', w=1280, h=720, hidePlayer=True, pos={'x': 0, 'z': 2.5, 'yaw': 3.1416}, cam={'pos': [2.6, 1.6, 2.8], 'look': [-1.5, 1.0, -3.6]})),
@@ -58,6 +58,10 @@ INTERIORS = [
     ('bookstore_entry', ('1100', '1730'), dict(zone='bookstore', w=390, h=844, mobile=True, hud=True, pos={'x': 0, 'z': 4.0, 'yaw': 3.1416}, cam={'yaw': 0.0, 'pitch': 0.38, 'dist': 4.0})),
     ('bookstore_aisle', ('1730',), dict(zone='bookstore', w=1280, h=720, hidePlayer=True, pos={'x': -3.8, 'z': 3.5, 'yaw': 3.1416}, cam={'pos': [-3.8, 1.6, 3.6], 'look': [-3.8, 1.2, -3.0]})),
     ('bookstore_counter', ('2030',), dict(zone='bookstore', w=1280, h=720, hidePlayer=True, pos={'x': 0, 'z': 4.0, 'yaw': 3.1416}, cam={'pos': [2.8, 1.7, 1.2], 'look': [0.0, 0.9, 3.4]})),
+    # 宿舍（玩家每天起床的地方）：進門（手機直向）＋床、書桌
+    ('dorm_entry', ('1100', '1730', '2030'), dict(zone='dorm', w=390, h=844, mobile=True, hud=True, pos={'x': 0, 'z': 2.4, 'yaw': 3.1416}, cam={'yaw': 0.0, 'pitch': 0.38, 'dist': 3.6})),
+    ('dorm_bed', ('1730',), dict(zone='dorm', w=1280, h=720, hidePlayer=True, pos={'x': 0, 'z': 2.4, 'yaw': 3.1416}, cam={'pos': [0.6, 1.55, 0.6], 'look': [-2.3, 0.55, -1.9]})),
+    ('dorm_desk', ('2030',), dict(zone='dorm', w=1280, h=720, hidePlayer=True, pos={'x': 0, 'z': 2.4, 'yaw': 3.1416}, cam={'pos': [0.9, 1.45, -0.7], 'look': [1.95, 0.95, -2.95]})),
 ]
 WAIT_ROOM = ("(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if((z&&z.formal)||%s) return z&&z.formal?'formal':'fallback'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()")
 WAIT_EXT = ("(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; const ok=z&&z.group.children.some(o=>o.userData&&o.userData.formal); "
