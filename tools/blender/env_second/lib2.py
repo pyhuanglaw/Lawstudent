@@ -204,7 +204,8 @@ def merge_by_material(root, keep=lambda ob: False, key=lambda ob: ''):
             me = ob.data.copy(); me.transform(ob.matrix_world); bm.from_mesh(me); bpy.data.meshes.remove(me)
         name = (k + '_' if k else '') + mname
         me = bpy.data.meshes.new(name); bm.to_mesh(me); bm.free(); me.materials.append(obs[0].data.materials[0])
-        props = dict(obs[0].items()) if k else {}
+        # 自訂屬性要先轉成一般的 Python 值：IDPropertyArray 只是參照，原物件刪掉後會變成亂碼（2026-10-10 實測：WALL_back 的 dir 變成 [687033168,0,32]）
+        props = {kk: (vv.to_list() if hasattr(vv, 'to_list') else (vv.to_dict() if hasattr(vv, 'to_dict') else vv)) for kk, vv in obs[0].items()} if k else {}
         for ob in obs: old = ob.data; bpy.data.objects.remove(ob); bpy.data.meshes.remove(old)
         nob = bpy.data.objects.new(name, me); B.scene().collection.objects.link(nob); nob.parent = root
         for kk, vv in props.items(): nob[kk] = vv

@@ -1,0 +1,23 @@
+PASS 標題畫面：觸控點「繼續」
+PASS 讀到溫州街  {'zone': 'wenzhou', 'x': 44, 'z': -1, 'yaw': -1.57, 'camYaw': 1.57, 'busy': False, 'pose': 'idle', 'dlg': False, 'choices': 0, 'interact': '', 'text': '', 'name': '', 'fade': False, 'menu': False}
+PASS 溫州街：搖桿往前走  (44, 39.08)
+PASS 溫州街：NPC 都是正式模型（沒有程序化球體人）  [{'name': '(路人)', 'driver': 'vrm', 'x': -2.1, 'z': -1.7}, {'name': '(路人)', 'driver': 'vrm', 'x': -23.1, 'z': 2.7}, {'name': '不認識的女生', 'driver': 'vrm', 'x': -24.7, 'z': -2.3}, {'name': '法律系一年級的女生', 'driver': 'vrm', 'x': -9.3, 'z': 2.4}]
+PASS 走到 Café 門口出現「進入兩點半 Café」  {'zone': 'wenzhou', 'x': 53.87, 'z': 0.03, 'yaw': 1.5, 'camYaw': 1.57, 'busy': False, 'pose': 'idle', 'dlg': False, 'choices': 0, 'interact': '進入兩點半 Café', 'text': '', 'name': '', 'fade': False, 'menu': False}
+PASS 互動按鈕不會蓋住搖桿
+PASS 進入 Café  {'zone': 'cafe', 'x': 0, 'z': 5, 'yaw': 3.14, 'camYaw': 6.28, 'busy': False, 'pose': 'idle', 'dlg': False, 'choices': 0, 'interact': '離開咖啡廳', 'text': '', 'name': '', 'fade': False, 'menu': False}
+PASS Café 裡有沈以安（正式模型）  {'x': -4, 'z': 3.3, 'driver': 'vrm', 'label': '和不認識的女生說話'}
+PASS 靠近沈以安出現對話按鈕  和不認識的女生說話
+    沈以安：「你好，我是沈以安。法律系的。」
+PASS 和沈以安的對話有內容並結束  1
+PASS 對話結束後可以操作  {'zone': 'cafe', 'x': -3.5, 'z': 3.85, 'yaw': 4.3, 'camYaw': 6.28, 'busy': False, 'pose': 'idle', 'dlg': False, 'choices': 0, 'interact': '和沈以安說話', 'text': '講話直接，做事有規劃，不擅長表達脆弱。', 'name': '', 'fade': False, 'menu': False}
+PASS 靠近座位出現「坐」的按鈕  坐在窗邊的雙人桌
+PASS 坐下（姿勢 sit）  sit
+PASS 起身後可以操作  {'zone': 'cafe', 'x': 3.75, 'z': 2.3, 'yaw': 3.14, 'camYaw': 6.28, 'busy': False, 'pose': 'idle', 'dlg': False, 'choices': 0, 'interact': '坐在窗邊的雙人桌', 'text': '講話直接，做事有規劃，不擅長表達脆弱。', 'name': '', 'fade': False, 'menu': False}
+PASS 門口出現「離開咖啡廳」  離開咖啡廳
+PASS 回到溫州街（Café 門口）  {'zone': 'wenzhou', 'x': 51.7, 'z': 0, 'yaw': -1.57, 'camYaw': 1.57, 'busy': False, 'pose': 'idle', 'dlg': False, 'choices': 0, 'interact': '', 'text': '講話直接，做事有規劃，不擅長表達脆弱。', 'name': '', 'fade': False, 'menu': False}
+PASS 出來後可以繼續走
+PASS 觸控存到欄位 1  ('wenzhou', {'x': 46.78, 'z': 0, 'yaw': -1.571, 'lv': 0, 'y': 0})
+PASS 重新整理後讀回欄位 1（溫州街、位置相同）  (46.78, 0, {'x': 46.78, 'z': 0, 'yaw': -1.571, 'lv': 0, 'y': 0})
+PASS 讀檔後可以走  4.92
+PASS 沒有 JS 例外
+ALL PASS

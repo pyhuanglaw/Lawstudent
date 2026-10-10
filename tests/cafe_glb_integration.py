@@ -22,7 +22,7 @@ import playlib as PL
 
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'art-rebuild', 'second_ai', 'test_shots', 'cafe_glb_integration')
-SEATS = [(4.5, -1.7, 3.1416), (4.5, -3.3, 0), (4.5, 2.3, 3.1416), (4.5, 0.7, 0), (0, 2.3, 3.1416), (0, 0.7, 0), (-4, 3.3, 3.1416), (-4, 1.7, 0)]
+SEATS = [(4.5, -3.3, 0), (4.5, -1.7, 3.1416), (4.5, 0.7, 0), (4.5, 2.3, 3.1416), (0, 0.7, 0), (0, 2.3, 3.1416), (-4, 1.7, 0), (-4, 3.3, 3.1416)]   # twoTop：先 z−0.8（朝 +z）再 z+0.8（朝 −z）
 
 WAIT_FORMAL_EXT = "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.userData&&o.userData.formal)) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()"
 WAIT_FORMAL_INT = "(async()=>{ for(let i=0;i<240;i++){ if(GAME.E.zone&&GAME.E.zone.formal) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()"
@@ -84,14 +84,20 @@ async def cafe(pg, run, formal):
     run.check('吧檯點餐 (−2.5,−3.2)、出口 (0,5.6) 不變', info['bar'] == [-2.5, -3.2] and info['exit'] == [0, 5.6], json.dumps([info['bar'], info['exit']]))
     for (x, z, name) in ((3.775, 5.56, '右段窗邊吧台'), (-3.775, 5.56, '左段窗邊吧台'), (4.1, -5.81, '書牆'), (-6.35, 0.4, '左牆大盆栽'), (6.35, -0.5, '右牆大盆栽'), (-2.5, -4.4, '吧檯')):
         run.check(f'導航：{name} ({x},{z}) 擋住', not await pg.evaluate(f"GAME.E.nav.free({x},{z})"))
-    for (x, z, name) in ((0, 4.6, '出生點'), (0, 5.4, '門口走道'), (-2.5, -3.2, '點餐位置'), (2.0, 4.6, '窗邊吧台前')):
+    for (x, z, name) in ((0, 4.6, '出生點'), (0, 5.0, '門口走道'), (-2.5, -3.2, '點餐位置'), (2.0, 4.6, '窗邊吧台前')):   # 0.4 m 格子：z>5.2 那一排本來就是牆邊（room() 的 blockOutside）
         run.check(f'導航：{name} ({x},{z}) 走得到', await pg.evaluate(f"GAME.E.nav.free({x},{z})"))
     if formal:
         # 牆面淡出：鏡頭放在前牆外面（z=+9）→ 前牆淡出、後牆照常
         fade = await pg.evaluate("""(async()=>{ const E=GAME.E, z=E.zone; E.cinematic(new THREE.Vector3(0,2.2,9.2),new THREE.Vector3(0,1.5,0)); E.camera.position.set(0,2.2,9.2); E.cam.look=new THREE.Vector3(0,1.5,0); E.camera.lookAt(E.cam.look);
-            await new Promise(r=>setTimeout(r,1500)); const o={front:[],back:[]}; for(const w of z.walls){ const d=w.userData.dir; if(!d) continue; if(d.z<-0.5) o.front.push(+w.material.opacity.toFixed(2)); if(d.z>0.5) o.back.push(+w.material.opacity.toFixed(2)); } E.endCinematic(); return o; })()""")
-        run.check('鏡頭在前牆外：前牆淡出', len(fade['front']) > 0 and max(fade['front']) < 0.5, json.dumps(fade['front']))
+            const f0=E.frame; for(let i=0;i<240&&E.frame<f0+6;i++) await new Promise(r=>setTimeout(r,250));   /* 等引擎真的再畫幾格（SwiftShader 每秒 1–4 格；只等固定秒數可能一格都沒畫）*/
+            const o={front:[],back:[],frames:E.frame-f0}; for(const w of z.walls){ const d=w.userData.dir; if(!d) continue; if(d.z<-0.5) o.front.push(+w.material.opacity.toFixed(2)); if(d.z>0.5) o.back.push(+w.material.opacity.toFixed(2)); } E.endCinematic(); return o; })()""")
+        run.check('鏡頭在前牆外：前牆淡出', len(fade['front']) > 0 and max(fade['front']) < 0.5, json.dumps(fade))
         run.check('鏡頭在前牆外：後牆不淡出', len(fade['back']) > 0 and min(fade['back']) > 0.9, json.dumps(fade['back']))
+        # 測試的自我檢查（TESTING.md 規則 3：要證明抓得到 bug）：故意把前牆的 dir 反過來（模擬 GLB 的 dir 寫錯），同一個檢查必須看得出來
+        neg = await pg.evaluate("""(async()=>{ const E=GAME.E, z=E.zone; const fw=z.walls.filter(w=>w.userData.dir&&w.userData.dir.z<-0.5); for(const w of fw) w.userData.dir.z=1;
+            E.cinematic(new THREE.Vector3(0,2.2,9.2),new THREE.Vector3(0,1.5,0)); E.camera.position.set(0,2.2,9.2); const f0=E.frame; for(let i=0;i<240&&E.frame<f0+6;i++) await new Promise(r=>setTimeout(r,250));
+            const op=fw.map(w=>+w.material.opacity.toFixed(2)); for(const w of fw) w.userData.dir.z=-1; E.endCinematic(); return op; })()""")
+        run.check('（自我檢查）前牆 dir 故意弄反時，淡出檢查會失敗', len(neg) > 0 and max(neg) > 0.5, json.dumps(neg))
         sv = await pg.evaluate("""(()=>{ const E=GAME.E, z=E.zone; const v=z.group.children.find(o=>o.isMesh&&o.geometry&&o.geometry.parameters&&o.geometry.parameters.width===15); if(!v) return null; z.applyTime(11,'sunny'); const a=v.material.map.uuid; z.applyTime(21,'sunny'); const b=v.material.map.uuid; z.applyTime(11,'sunny'); return [a!==b, !!a]; })()""")
         run.check('店面玻璃外的街景：白天和夜晚是不同的貼圖', sv == [True, True], json.dumps(sv))
     await run.shot(pg, 'cafe_' + ('formal' if formal else 'nobldg'))

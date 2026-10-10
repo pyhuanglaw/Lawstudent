@@ -1,0 +1,5 @@
+shot docs/art-rebuild/second_ai/shots/cafe_before_follow_portrait_1100.png {'zone': 'wenzhou', 'player': [50.2, -0.3], 'cam': [44.85, 2.67, -0.3], 'mode': 'follow'} errors: []
+shot docs/art-rebuild/second_ai/shots/cafe_before_follow_portrait_1730.png {'zone': 'wenzhou', 'player': [50.2, -0.3], 'cam': [44.84, 2.65, -0.3], 'mode': 'follow'} errors: []
+shot docs/art-rebuild/second_ai/shots/cafe_before_follow_portrait_2030.png {'zone': 'wenzhou', 'player': [50.2, -0.3], 'cam': [44.85, 2.67, -0.3], 'mode': 'follow'} errors: []
+shot docs/art-rebuild/second_ai/shots/cafe_before_follow_landscape_1730.png {'zone': 'wenzhou', 'player': [50.2, -0.3], 'cam': [44.84, 2.65, -0.3], 'mode': 'follow'} errors: []
+shot docs/art-rebuild/second_ai/shots/cafe_before_approach_1730.png {'zone': 'wenzhou', 'player': [50, -9], 'cam': [48.11, 2.22, -12.19], 'mode': 'follow'} errors: []

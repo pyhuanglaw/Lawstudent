@@ -1,0 +1,42 @@
+PASS 霖澤館（大廳）：入口旁邊最近的互動是「進入霖澤館」  {"near": "進入霖澤館", "at": [27.9, -107.5], "z0": "campus"}
+PASS 霖澤館（大廳）：互動後進到 linze  linze
+PASS 霖澤館（大廳）：進來後站得住、走得動  {"x": 6.6, "z": 4, "stand": true, "inR": true, "walk": true, "zone": "linze"}
+INFO 霖澤館（大廳）：進來時已經「走出霖澤館」的範圍裡
+PASS 霖澤館（大廳）：出口旁邊最近的互動是「走出霖澤館」  {"near": "走出霖澤館", "at": [7.3, 4], "z0": "linze"}
+PASS 霖澤館（大廳）：出來回到 campus  campus
+PASS 霖澤館（大廳）：回來站在預期位置附近、站得住、走得動、不會又跳出「進入霖澤館」  {"x": 30, "z": -107.4, "stand": true, "inR": false, "walk": true, "zone": "campus"} 距預期 0.00 m
+PASS 霖澤館（大廳）：回到校園後走得到霖澤館前
+PASS 萬才館：入口旁邊最近的互動是「進入萬才館」  {"near": "進入萬才館", "at": [93.8, -100.6], "z0": "campus"}
+PASS 萬才館：互動後進到 wancai  wancai
+PASS 萬才館：進來後站得住、走得動  {"x": 0, "z": 5, "stand": true, "inR": true, "walk": true, "zone": "wancai"}
+INFO 萬才館：進來時已經「離開萬才館」的範圍裡
+PASS 萬才館：出口旁邊最近的互動是「離開萬才館」  {"near": "離開萬才館", "at": [-0.2, 6.2], "z0": "wancai"}
+PASS 萬才館：出來回到 campus  campus
+PASS 萬才館：回來站在預期位置附近、站得住、走得動、不會又跳出「進入萬才館」  {"x": 93.8, "z": -98.4, "stand": true, "inR": false, "walk": true, "zone": "campus"} 距預期 0.00 m
+PASS 萬才館：回到校園後走得到霖澤館前
+PASS 總圖：入口旁邊最近的互動是「進入總圖書館」  {"near": "進入總圖書館", "at": [86.4, 0], "z0": "campus"}
+PASS 總圖：互動後進到 library  library
+PASS 總圖：進來後站得住、走得動  {"x": 0, "z": 7, "stand": true, "inR": true, "walk": true, "zone": "library"}
+INFO 總圖：進來時已經「離開圖書館」的範圍裡
+PASS 總圖：出口旁邊最近的互動是「離開圖書館」  {"near": "離開圖書館", "at": [-0.2, 7.2], "z0": "library"}
+PASS 總圖：出來回到 campus  campus
+PASS 總圖：回來站在預期位置附近、站得住、走得動、不會又跳出「進入總圖書館」  {"x": 80, "z": 0, "stand": true, "inR": false, "walk": true, "zone": "campus"} 距預期 0.00 m
+PASS 總圖：回到校園後走得到霖澤館前
+PASS 宿舍：入口旁邊最近的互動是「回宿舍」  {"near": "回宿舍", "at": [20, 59.6], "z0": "campus"}
+PASS 宿舍：互動後進到 dorm  dorm
+PASS 宿舍：進來後站得住、走得動  {"x": 0, "z": 2.4, "stand": true, "inR": true, "walk": true, "zone": "dorm"}
+INFO 宿舍：進來時已經「離開宿舍」的範圍裡
+PASS 宿舍：出口旁邊最近的互動是「離開宿舍」  {"near": "離開宿舍", "at": [-0.2, 2.9], "z0": "dorm"}
+PASS 宿舍：出來回到 campus  campus
+PASS 宿舍：回來站在預期位置附近、站得住、走得動、不會又跳出「回宿舍」  {"x": 20, "z": 54, "stand": true, "inR": false, "walk": true, "zone": "campus"} 距預期 0.00 m
+PASS 宿舍：回到校園後走得到霖澤館前
+PASS 校門 → 公館：入口旁邊最近的互動是「走出校門」  {"near": "走出校門", "at": [-126, 0], "z0": "campus"}
+PASS 校門 → 公館：互動後進到 gongguan  gongguan
+PASS 校門 → 公館：進來後站得住、走得動  {"x": -2.5, "z": -29, "stand": true, "inR": false, "walk": true, "zone": "gongguan"}
+PASS 校門 → 公館：進來後不在「回到校園」範圍裡（不會一出校門就又跳出回校園的按鈕）  {"x": -2.5, "z": -29, "stand": true, "inR": false, "walk": true, "zone": "gongguan"}
+PASS 校門 → 公館：出口旁邊最近的互動是「回到校園」  {"near": "回到校園", "at": [0, -48], "z0": "gongguan"}
+PASS 校門 → 公館：出來回到 campus  campus
+PASS 校門 → 公館：回來站在預期位置附近、站得住、走得動、不會又跳出「走出校門」  {"x": -119, "z": 0, "stand": true, "inR": false, "walk": true, "zone": "campus"} 距預期 0.00 m
+PASS 校門 → 公館：回到校園後走得到霖澤館前
+PASS 沒有 JS 例外  []
+ALL PASS

@@ -1,0 +1,36 @@
+PASS 霖澤館前（教室出口）：搖桿上 → 位置改變  {'x': 34, 'z': -97.6, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -93.91, 'yaw': -0.0, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 霖澤館前（教室出口）：搖桿右 → 移動／轉向  {'x': 30.31, 'z': -93.91, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 霖澤館前（教室出口）：搖桿左 → 移動／轉向  {'x': 34, 'z': -93.91, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 霖澤館前：推到底 → 跑  {'x': 34, 'z': -88.99, 'yaw': -0.0, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 霖澤館前：點地面 → 走過去  {'x': 33.96, 'z': -88.56, 'yaw': -0.1, 'pose': 'walk', 'busy': False, 'cam': 'follow'}
+PASS 事件中玩家鎖定
+PASS 事件中搖桿不移動  {'x': 33.96, 'z': -88.56, 'yaw': -0.1, 'pose': 'idle', 'busy': True, 'cam': 'follow'}
+PASS 對話結束後 busy 解除  {'x': 33.96, 'z': -88.56, 'yaw': -0.1, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 對話結束後移動恢復  {'x': 33.96, 'z': -88.56, 'yaw': -0.1, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 33.96, 'z': -84.87, 'yaw': -0.0, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 讀檔後移動仍正常  {'x': 33.96, 'z': -84.87, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 33.96, 'z': -81.18, 'yaw': -0.0, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 霖澤館門口（台階下）：搖桿上 → 位置改變  {'x': 34, 'z': -99.6, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -95.91, 'yaw': -0.0, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 霖澤館門口（台階下）：搖桿右 → 移動／轉向  {'x': 30.31, 'z': -95.91, 'yaw': -1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 霖澤館門口（台階下）：搖桿左 → 移動／轉向  {'x': 34, 'z': -95.91, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 舊存檔：站在霖澤館舊門口（現在是台階）：搖桿上 → 位置改變  {'x': 34, 'z': -101, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -97.17, 'yaw': -0.0, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 舊存檔：站在霖澤館舊門口（現在是台階）：搖桿右 → 移動／轉向  {'x': 30.31, 'z': -97.17, 'yaw': -1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 舊存檔：站在霖澤館舊門口（現在是台階）：搖桿左 → 移動／轉向  {'x': 34, 'z': -97.17, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 校園預設出生點：搖桿上 → 位置改變  {'x': 34, 'z': -98, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -94.31, 'yaw': -0.0, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 校園預設出生點：搖桿右 → 移動／轉向  {'x': 30.31, 'z': -94.31, 'yaw': -1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 校園預設出生點：搖桿左 → 移動／轉向  {'x': 34, 'z': -94.31, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 宿舍門口：搖桿上 → 位置改變  {'x': 20, 'z': 54, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 20, 'z': 50.31, 'yaw': 3.14, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 宿舍門口：搖桿右 → 移動／轉向  {'x': 22.6, 'z': 50.31, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 宿舍門口：搖桿左 → 移動／轉向  {'x': 18.91, 'z': 50.31, 'yaw': -1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 公館麵店門口：搖桿上 → 位置改變  {'x': -63, 'z': 18, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': -63, 'z': 11.85, 'yaw': 3.14, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 公館麵店門口：搖桿右 → 移動／轉向  {'x': -58.08, 'z': 11.85, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 公館麵店門口：搖桿左 → 移動／轉向  {'x': -63, 'z': 11.85, 'yaw': -1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 公館便利商店門口：搖桿上 → 位置改變  {'x': -29.4, 'z': 18, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': -29.4, 'z': 14.31, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 公館便利商店門口：搖桿右 → 移動／轉向  {'x': -24.48, 'z': 14.31, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 公館便利商店門口：搖桿左 → 移動／轉向  {'x': -29.4, 'z': 14.31, 'yaw': -1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 校門外：搖桿上 → 位置改變  {'x': -2.5, 'z': -29, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': -2.5, 'z': -24.08, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 校門外：搖桿右 → 移動／轉向  {'x': -7.42, 'z': -24.08, 'yaw': -1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 校門外：搖桿左 → 移動／轉向  {'x': -2.5, 'z': -24.08, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 溫州街：搖桿上 → 位置改變  {'x': 40, 'z': -1, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 35.08, 'z': -1, 'yaw': -1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 溫州街：搖桿右 → 移動／轉向  {'x': 36.24, 'z': -2.65, 'yaw': -3.14, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 溫州街：搖桿左 → 移動／轉向  {'x': 36.24, 'z': 1.17, 'yaw': -6.28, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+console: ['warning: THREE.GLTFLoader: Missing min/max properties for accessor POSITION.', 'warning: THREE.GLTFLoader: Missing min/max properties for accessor POSITION.', 'warning: THREE.GLTFLoader: Missing min/max properties for accessor POSITION.', 'warning: THREE.GLTFLoader: Missing min/max properties for accessor POSITION.', 'warning: THREE.GLTFLoader: Missing min/max properties for accessor POSITION.']
+RESULT: ALL PASS
