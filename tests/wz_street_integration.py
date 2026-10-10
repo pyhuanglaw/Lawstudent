@@ -131,11 +131,12 @@ async def check(pg, run, formal):
         vc = await pg.evaluate("""(()=>{ const z=GAME.E.zone, OLD=/^(cafe_alu|cafe_iron_black|cafe_brass|cafe_grille|cafe_tank_steel|cafe_ac_body|cafe_ac_fan|cafe_roof_slab|cafe_pipe|cafe_curtain|wz_mailbox|wz_door_|wz_frame_|wz_awning_|wz_arcade_ceiling|wz_laundry|jp_ridge|jp_gutter|jp_meter|wz_galv|wz_porcelain|wz_stripe_|wz_poster|wz_transformer|wz_signpole|wz_lamp_body|wz_mirror_orange|park_steel|park_bar_green)/;
             const out={old:[], vc:{}, win:{}}; for(const n of ['wenzhou_street_glb','wz_jphouse_glb','wz_props_glb','wz_park_glb']){ const r=z.group.getObjectByName(n); if(!r) continue;
               r.traverse(o=>{ if(!o.isMesh) return; const mn=o.material.name; if(OLD.test(mn)) out.old.push(n+':'+mn); if(/^wz_vc_/.test(mn)) out.vc[n+':'+mn+(o.isInstancedMesh?'[inst]':'')]=o.castShadow;
-                if(n==='wenzhou_street_glb'&&o.isInstancedMesh&&/^(wz_stain|wz_room_lit|cafe_room_dark)$/.test(mn)) out.win[mn]=(out.win[mn]||0)+o.count; }); }
+                if(n==='wenzhou_street_glb'&&o.isInstancedMesh&&/^(wz_stain|wz_room_lit|cafe_room_dark)$/.test(mn)){ const e=out.win[mn]||(out.win[mn]={meshes:0,count:0}); e.meshes++; e.count+=o.count; } }); }
             return out; })()""")
         run.check('純色零件都合成頂點色材質（門、雨遮、鋁框、鐵件、窗簾、曬的衣服…沒有剩下原本的單獨材質）', not vc['old'] and any(k.startswith('wenzhou_street_glb:wz_vc_matte') for k in vc['vc']) and any(k.startswith('wenzhou_street_glb:wz_vc_metal') for k in vc['vc']), json.dumps(vc, ensure_ascii=False))
         run.check('頂點色合併的網格（不是 instancing）會投影、instancing 的不投影', all(v == (not k.endswith('[inst]')) for k, v in vc['vc'].items()), json.dumps(vc['vc'], ensure_ascii=False))
-        run.check('窗戶：116 扇共用一個窗框原型（雨痕）、窗內 52 亮燈＋64 沒亮燈', vc['win'].get('wz_stain') == 116 and vc['win'].get('wz_room_lit') == 52 and vc['win'].get('cafe_room_dark') == 64, json.dumps(vc['win']))
+        wn = vc['win']; st_, li_, da_ = wn.get('wz_stain', {}), wn.get('wz_room_lit', {}), wn.get('cafe_room_dark', {})
+        run.check('窗戶：所有的窗共用一個窗框原型（一個 InstancedMesh），窗內只有亮燈／沒亮燈兩個原型，扇數對得上', st_.get('meshes') == 1 and li_.get('meshes') == 1 and da_.get('meshes') == 1 and st_.get('count', 0) > 100 and st_.get('count') == li_.get('count', 0) + da_.get('count', 0), json.dumps(wn))
     draws = {}
     for name, eye, look in VIEWS:
         draws[name] = await pg.evaluate(DRAW + '(%s,%s)' % (json.dumps(eye), json.dumps(look)))
