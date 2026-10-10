@@ -1,0 +1,10 @@
+{
+ "objects": 21,
+ "unique_meshes": 21,
+ "tris": 17992,
+ "tris_drawn": 17992,
+ "materials": 16,
+ "out": "assets/models/env/second_ai/bookstore_interior.glb",
+ "bytes": 1393400,
+ "texres": 512
+}

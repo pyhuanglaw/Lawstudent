@@ -1,0 +1,10 @@
+--- TEST A 宿舍
+PASS A1 宿舍 spawn → 前進 ≥ 3 m   {'x': 0, 'z': 2.8, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} → {'x': -0.36, 'z': -2.58, 'yaw': 3.14, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': 'turn', 'stand': True}
+PASS A2 左（轉向＋位移）   {'x': -2.37, 'z': 0.46, 'yaw': 4.71, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': 'none', 'stand': True}
+PASS A3 走（半推，往回）位置改變   {'x': -2.37, 'z': 2.54, 'yaw': 6.28, 'pose': 'walk', 'busy': False, 'cam': 'follow', 'blocked': None, 'stand': True} pose=walk
+FAIL A4 跑（推到底）位置改變   {'x': -2.37, 'z': 2.54, 'yaw': 6.28, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': 'none', 'stand': True} pose=run
+PASS A5 撞牆後仍在合法位置（standable，沒有陷進去）   {'x': -0.61, 'z': -2.58, 'yaw': 3.14, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': 'none', 'stand': True}
+PASS A6 斜推 → 沿牆滑動（x 改變）   {'x': -0.61, 'z': -2.58, 'yaw': 3.14, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': 'none', 'stand': True} → {'x': 0.17, 'z': -2.58, 'yaw': 2.36, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': 'none', 'stand': True} 推的方向＝右前
+PASS A7 離開牆 → 繼續走   {'x': -0.34, 'z': 2.76, 'yaw': 0, 'pose': 'run', 'busy': False, 'cam': 'follow', 'blocked': 'none', 'stand': True}
+console errors: []
+RESULT: 6/7 PASS  FAILED: A4 跑（推到底）位置改變
