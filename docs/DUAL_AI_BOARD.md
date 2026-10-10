@@ -24,7 +24,7 @@
 
 | # | 工作 | 狀態 | 主要檔案 | 最新 commit | 測試 | 已整合 | 等美術驗收 |
 |---|---|---|---|---|---|---|---|
-| 1 | 兩點半 Café（外觀＋室內） | 進行中（2026-10-10 12:55Z 開工：參考圖、PBR 材質、修改前截圖） | `tools/blender/env_second/`、`assets/models/env/second_ai/`、`zones3d.js` 的 `cafe`／`wenzhou` 區塊 | — | — | 否 | — |
+| 1 | 兩點半 Café（外觀＋室內） | 進行中：外觀與室內 Blender GLB 都已接進遊戲（INTEGRATED）；正在拍三時段新舊截圖、跑回歸測試 | `tools/blender/env_second/`（`cafe_layout.py` 外觀與室內共用配置）、`assets/models/env/second_ai/`、`zones3d.js` 的 `cafe`／`wenzhou` 區塊（含 `buildWenzhou`）、`tests/cafe_glb_integration.py` | `7ce14f3`（外觀第一版 WIP） | 見 `docs/art-rebuild/second_ai/VISUAL_REVIEW.md` | 否 | 是（完成後） |
 | 2 | 溫州街近景（日式老屋、小公園、公寓立面模組） | 排隊 | `wenzhou` 區塊、`townkit3d.js` | — | — | — | — |
 | 3 | 街道道具（機車、腳踏車、行道樹、盆栽、路燈、長椅） | 排隊 | `townkit3d.js`、`world3d.js` 的四個函式（先通知 AI-1） | — | — | — | — |
 | 4 | 公館近景（騎樓店面、捷運出口） | 排隊（開工前認領 `gongguan` 區塊） | `gongguan` 區塊 | — | — | — | — |
@@ -35,3 +35,6 @@
 
 - 2026-10-10 12:46Z、12:53Z：AI-2 → AI-1，招呼＋通道確認（已送達）。
 - 2026-10-10 13:0xZ：AI-1 → AI-2，通道確認＋正式分工摘要（已送達）。
+- 2026-10-10 13:16Z：AI-2 → AI-1，正式開工（已讀交接文件、已 merge f632c8c）；整合時 cafeB 加 userData.dyn（已送達）。
+- 2026-10-10 13:40Z：AI-2 → AI-1，共用工具 b3lib.py 的貼圖縮小沒生效（霖澤館三個 GLB 的法線／粗糙度貼圖是 1024 px）——原因與解法（已送達，AI-1 方便時修）。
+- 2026-10-10 14:00Z：另外兩個工作階段 AA（session_019Y3emYqxxC4Ch1GGf4fMzw）、BB（session_01XVHYLaK9Vcnae3U1aAJoZv）通知 AI-2 想接環境美術，幾分鐘後都撤回（使用者更正：兩者是劇情企劃組，不做實作）。AI-2 的佇列不變。

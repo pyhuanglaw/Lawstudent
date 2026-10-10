@@ -185,3 +185,28 @@ def export(out, gpu_instances=True):
                               export_gpu_instances=gpu_instances)
     st.update({'out': os.path.relpath(out, ROOT), 'bytes': os.path.getsize(out), 'texres': B._S['texres']})
     print(json.dumps(st, ensure_ascii=False)); return st
+
+
+def merge_by_material(root, keep=lambda ob: False, key=lambda ob: ''):
+    """把 root 底下（任何層）單一材質、不是 instancing 的網格物件，依「材質＋key(ob)」合併成一個物件（掛在 root，世界座標烘進頂點）。
+    減少 draw call：一棟建築原本幾十個零件，同材質的合成一個。keep(ob) 為真的不動（招牌板面、會淡出的牆分組…）。
+    instancing 的物件（多個物件共用同一個網格）不動：匯出時是 EXT_mesh_gpu_instancing。"""
+    bpy.context.view_layer.update()
+    groups = {}
+    for ob in [o for o in root.children_recursive if o.type == 'MESH']:
+        if keep(ob) or ob.data.users > 1 or len(ob.data.materials) != 1: continue
+        groups.setdefault((ob.data.materials[0].name, key(ob)), []).append(ob)
+    n_before = sum(len(v) for v in groups.values()); made = 0
+    for (mname, k), obs in groups.items():
+        if len(obs) < 2: continue
+        bm = bmesh.new()
+        for ob in obs:
+            me = ob.data.copy(); me.transform(ob.matrix_world); bm.from_mesh(me); bpy.data.meshes.remove(me)
+        name = (k + '_' if k else '') + mname
+        me = bpy.data.meshes.new(name); bm.to_mesh(me); bm.free(); me.materials.append(obs[0].data.materials[0])
+        props = dict(obs[0].items()) if k else {}
+        for ob in obs: old = ob.data; bpy.data.objects.remove(ob); bpy.data.meshes.remove(old)
+        nob = bpy.data.objects.new(name, me); B.scene().collection.objects.link(nob); nob.parent = root
+        for kk, vv in props.items(): nob[kk] = vv
+        made += 1
+    print(json.dumps({'merge_by_material': {'objects_in': n_before, 'merged_into': made}}))
