@@ -9,7 +9,7 @@ from PIL import Image, ImageDraw, ImageFont
 BASE, OUT, CID = sys.argv[1].rstrip('/'), sys.argv[2], sys.argv[3]
 ROWS = [a.split('=', 1) for a in sys.argv[4:]] or [['現在', '']]
 VIEWS = os.environ.get('LD_VIEWS', 'face_front,face_q45,face_side,body_front,body_q45,body_side').split(',')   # 環境變數 LD_VIEWS 可以只拍其中幾個
-LABEL = {'face_front': '臉 正面', 'face_q45': '臉 45 度', 'face_side': '臉 側面', 'body_front': '全身 正面', 'body_q45': '全身 45 度', 'body_side': '全身 側面', 'body_back': '全身 背面', 'mouth_front': '嘴 正面', 'mouth_q45': '嘴 45 度', 'mouth_side': '嘴 側面', 'hair_side': '頭髮 側面近拍', 'hair_q45': '頭髮 45 度近拍', 'hair_front': '頭髮 正面近拍'}
+LABEL = {'face_front': '臉 正面', 'face_q45': '臉 45 度', 'face_side': '臉 側面', 'body_front': '全身 正面', 'body_q45': '全身 45 度', 'body_side': '全身 側面', 'body_back': '全身 背面', 'mouth_front': '嘴 正面', 'mouth_q45': '嘴 45 度', 'mouth_side': '嘴 側面', 'hair_side': '頭髮 側面近拍', 'hair_q45': '頭髮 45 度近拍', 'hair_front': '頭髮 正面近拍', 'torso_front': '上身 正面', 'torso_q45': '上身 45 度', 'torso_side': '上身 側面', 'torso_back': '上身 背面', 'legs_back': '腿 背面', 'legs_side': '腿 側面', 'hips_front': '腰臀 正面', 'hips_side': '腰臀 側面', 'hips_back': '腰臀 背面', 'hips_q45': '腰臀 45 度', 'waist_back': '腰 背面（俯視）', 'waist_front': '腰 正面（俯視）'}
 FONT = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
 
 
@@ -20,7 +20,7 @@ async def main():
         for label, f in ROWS:
             pg = await (await b.new_context(viewport={'width': 480, 'height': 600}, device_scale_factor=1)).new_page(); errs = []
             pg.on('pageerror', lambda e: errs.append(str(e)))
-            url = f'{BASE}/test_charlook.html?id={CID}' + (f'&file={f}' if f else '')
+            url = f'{BASE}/test_charlook.html?id={CID}' + (f'&file={f}' if f else '') + os.environ.get('LD_QS', '')   # LD_QS='&tpose=1'：不播動畫（T 字姿勢）；'&pose=walk&speed=1.2'：走路
             await pg.goto(url)
             for i in range(240):
                 r = await pg.evaluate('window.__ready||null')
