@@ -456,7 +456,9 @@ def apartment(spec):
     gw = acc(M['gwall'])
     if gt in ('shop', 'arcade'):
         r0 = 3.0 if gt == 'arcade' else 0.0
-        for sx in (-1, 1): xf.box(gw, sx * (W / 2 - 0.15) - 0.15, sx * (W / 2 - 0.15) + 0.15, 0, GH, -rec, -r0)
+        # 公館的騎樓：店與店之間的壁柱貼和柱子一樣的磁磚（磨石子在騎樓裡近看是一大片斑點，像髒汙；溫州街照舊）
+        pm = acc(M['pillar']) if (gt == 'arcade' and SET == 'gongguan') else gw
+        for sx in (-1, 1): xf.box(pm, sx * (W / 2 - 0.15) - 0.15, sx * (W / 2 - 0.15) + 0.15, 0, GH, -rec, -r0)
     else: xf.box(gw, -W / 2, W / 2, 0, 0.9, -rec - 0.02, -rec + 0.04)                              # 住家／鐵捲門：牆腳的磨石子護牆
     xf.box(band, -W / 2, W / 2, GH - 0.12, GH, -0.25, 0.06)
     if gt in ('shop', 'arcade'): shopfront(spec, xf, W, gt)
@@ -531,7 +533,8 @@ def shopfront(spec, xf, W, gt):
     # 店內景深卡（後退 1.2 m）：遊戲貼 TK.interiorTex(店種)
     face(f'INTERIOR_FACE_{spec["id"]}', M['board'], xf, [(-iw / 2, 0.15, -1.2 - dep), (iw / 2, 0.15, -1.2 - dep), (iw / 2, ih + 0.15, -1.2 - dep), (-iw / 2, ih + 0.15, -1.2 - dep)], {'interior': s['type']})
     fl = acc(M['gwall']); xf.box(fl, -iw / 2, iw / 2, 0, 0.15, -1.3 - dep, -dep)
-    for sx in (-1, 1): xf.box(acc(M['plaster']), sx * iw / 2 - 0.03, sx * iw / 2 + 0.03, 0.15, ih + 0.15, -1.2 - dep, -dep)
+    # 店內兩側的牆：公館用淺米色素面（和騎樓天花板同一個頂點色材質，套件原本也是淺米色素面）；Café 的灰泥貼圖在騎樓陰影＋玻璃後面變成深褐色斑點
+    for sx in (-1, 1): xf.box(acc(M['ceilA'] if SET == 'gongguan' else M['plaster']), sx * iw / 2 - 0.03, sx * iw / 2 + 0.03, 0.15, ih + 0.15, -1.2 - dep, -dep)
     f_ = acc(fr)
     xf.box(f_, -W / 2, W / 2, ih + 0.15, ih + 0.4, -dep - 0.12, -dep + 0.12)
     for sx in (-0.5, -0.17, 0.17, 0.5): xf.box(f_, sx * iw - 0.05, sx * iw + 0.05, 0.15, ih + 0.15, -dep - 0.06, -dep + 0.06)
