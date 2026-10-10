@@ -43,6 +43,9 @@ WING = 0.0030            # 眼尾往外上延伸的長度（m）
 LASH_N, LASH_L = 28, 1.0 # 睫毛根數、長度倍數
 BROW_K, BROW_ARCH = 1.0, 1.0   # 眉毛粗細倍數、眉峰高度倍數（1＝沈以安的柔和弧眉）
 BROW_COL = (0.39, 0.28, 0.215)
+BROW_A = 0.85             # 眉毛濃度
+BROW_SCALE_Z = 1.0        # 眉毛網格（FaceBrow）上下放大（男生的粗眉：原本的網格太窄，畫粗的眉會被網格邊緣切掉）
+EYE_TINT_K = 0.0          # 眼睛周圍皮膚的粉紅色調拿掉多少（男生：VRoid 貼圖眼周的粉色像眼影）
 LIP_OUT, LIP_IN, LIP_HI = (0.86, 0.54, 0.56), (0.77, 0.36, 0.43), (0.94, 0.72, 0.72)
 LIP_A = 0.9              # 唇色濃度
 LOWER_BACK = (0.0010, 0.0055)   # 嘴縫、下巴往後收（側面看下半臉像往前推：遊戲內側面截圖；參考圖側面嘴唇在鼻尖後 1.1–1.7 cm、下巴在 2.7–3.4 cm，原本 1.0／2.2 cm）
@@ -618,7 +621,21 @@ def apply(m):
 
 
 # ---------------- 貼圖 ----------------
+def scale_brow_mesh(f, k):
+    """眉毛網格以每一邊的中心高度為準上下放大 k 倍（所有 shape key 一起；只動 FaceBrow 的頂點）"""
+    mi_ = mat_index(f, 'FaceBrow'); idx = sorted({v for p in f.data.polygons if p.material_index == mi_ for v in p.vertices})
+    if not idx: return
+    idx = np.array(idx); B0 = C.co(f)
+    cz = {sg: float(B0[idx][(B0[idx, 0] > 0) == (sg > 0), 2].mean()) for sg in (1, -1)}
+    def fn(P, B):
+        P = P.copy(); zc = np.where(B[idx, 0] > 0, cz[1], cz[-1])
+        P[idx, 2] = zc + (P[idx, 2] - zc) * k; return P
+    C.warp(f, fn)
+    print('  brow mesh scaled in z by %.2f (%d vertices)' % (k, len(idx)))
+
+
 def paint_all(f):
+    if BROW_SCALE_Z != 1.0: scale_brow_mesh(f, BROW_SCALE_Z)
     R = rest_pose(f); loops = classify_loops(f)
     eyes = {}
     for L in loops['eye']:
@@ -732,7 +749,7 @@ def paint_brow(f, R, eyes):
         a *= ss(-0.03, 0.09, t) * (1 - ss(0.96, 1.03, t))            # 眉頭羽化、眉尾收細
         a *= 0.50 + 0.42 * ss(0.0, 0.30, t)                          # 眉頭淡、眉峰濃
         a *= 1 - 0.28 * ss(-hw, hw, d)                               # 下緣濃、上緣淡（不畫毛流條紋：貼圖解析度低會變成斜條紋）
-        img[sel, 3] = (a * 0.85)[sel]
+        img[sel, 3] = np.clip(a * BROW_A, 0, 1)[sel]
     im = C.image_from_array('H01_FaceBrow', np.clip(img, 0, 1)); set_tex(mat, im, white=True, shade=(0.85, 0.82, 0.82))
 
 
@@ -773,6 +790,19 @@ def paint_skin(f, R, eyes, loops):
     pos, mask = raster(f, skin, W, H, R)
     ax = np.abs(pos[..., 0]); x = pos[..., 0]; z = pos[..., 2]; y = pos[..., 1]
     rgb = out[..., :3]
+    # (a2) 眼睛周圍的粉紅色調拿掉（保留明暗，顏色換成臉頰的膚色）：男生的 VRoid 貼圖眼周偏粉，看起來像畫了眼影
+    if EYE_TINT_K > 0:
+        lw = np.array([0.299, 0.587, 0.114]); lum = rgb @ lw
+        ez_ = float(np.mean([E['up'].max() for E in eyes.values()]))
+        ck = mask & (y > 0.05) & (ax > 0.018) & (ax < 0.040) & (z < ez_ - 0.016) & (z > ez_ - 0.030)
+        if ck.sum() > 20:
+            med = np.median(rgb[ck], axis=0); tgt = lum[..., None] * (med / max(float(med @ lw), 1e-3))
+            for s, E in eyes.items():
+                cx = (E['a_in'] + E['a_out']) / 2; cz = (E['up'].max() + E['lo'].min()) / 2
+                de = np.sqrt(((ax - cx) / 0.021) ** 2 + ((z - cz) / 0.0135) ** 2)
+                w = (1 - ss(0.65, 1.0, de)) * EYE_TINT_K * mask * ((x > 0) == (s > 0))
+                rgb[:] = mix(rgb, tgt, w)
+            print('  eye tint removed (cheek skin %s)' % np.round(med, 3))
     # (b) 雙眼皮線（末廣型：內眼角窄、往外變寬）＋下眼瞼淡淡的陰影
     for s, E in eyes.items():
         sel = mask & ((x > 0) == (s > 0)) & (y > 0.03)

@@ -38,6 +38,9 @@ DROP_X = 0.162             # 落肩：身片在肩膀的寬度（袖子從這裡
 SHOULDER_Z = 1.366         # 落肩線的高度（身片側面上緣）
 SIDE_NECK = (0.071, 1.402) # 領口側頸點（|x|、z）
 BACK_NECK_Z = 1.388
+NECK_STYLE = 'V'           # 'V'（沈以安）／'crew'（圓領：前中心在 CREW_FRONT_Z，往側頸點圓弧上升）
+CREW_FRONT_Z = 1.352
+HEM_OVER_PANTS = False     # 毛衣下擺蓋過褲頭、落在胯部（祐廷）：身片的箱形往下量到下擺，而且把褲子算進去（不然下擺會切進臀部和褲子）
 
 
 def sstep(a, b, x):
@@ -274,7 +277,7 @@ def build_pants(skin, arm, mb):
     z_crotch = hit[0].z if hit[0] is not None else 0.80
     K = 32; phi = np.arange(K) * 2 * math.pi / K           # 0＝外側、90°＝後、180°＝內側、270°＝前
     zt = list(np.linspace(PANTS_TOP, PANTS_BAND, 5)) + [PANTS_BAND - 0.003]     # 褲頭帶（照 PANTS_TOP／PANTS_BAND 分 4 段：其他人物的褲頭高度不同）
-    zl = list(np.linspace(1.00, z_crotch + 0.02, 6)) + list(np.linspace(z_crotch - 0.01, 0.62, 5)) + list(np.linspace(0.58, 0.48, 3)) + list(np.linspace(0.42, 0.12, 7)) + [0.09]
+    zl = list(np.linspace(min(1.00, PANTS_BAND - 0.015), z_crotch + 0.02, 6)) + list(np.linspace(z_crotch - 0.01, 0.62, 5)) + list(np.linspace(0.58, 0.48, 3)) + list(np.linspace(0.42, 0.12, 7)) + [0.09]
     zs = np.array(zt + zl)
     def zhem(ph): return 0.049 - 0.020 * np.sin(ph)        # 後面 3 cm、前面 6.9 cm（褲管蓋在鞋面上）
     legs = {}
@@ -363,7 +366,7 @@ def build_top(skin, arm, mb, pants):
         f = Skin.outer(bvT, (0, 0.0, z), (0, -1, 0), 0.35); b = Skin.outer(bvT, (0, 0.0, z), (0, 1, 0), 0.35)
         if not (np.isfinite(f) and np.isfinite(b)): return 0.0
         return (b - f) / 2
-    zz = np.arange(1.02, 1.42, 0.01); ycs = np.array([yc_at(z) for z in zz])
+    zz = np.arange(min(1.02, KNIT_HEM - 0.02) if HEM_OVER_PANTS else 1.02, 1.42, 0.01); ycs = np.array([yc_at(z) for z in zz])
     ycs = np.convolve(np.pad(ycs, 3, mode='edge'), np.ones(7) / 7, mode='valid')
     def YC(z): return float(np.interp(z, zz, ycs))
     K = 64; th = np.arange(K) * 2 * math.pi / K - math.pi / 2       # 從正前方（-y）開始，往 +x（人物左）轉
@@ -373,20 +376,27 @@ def build_top(skin, arm, mb, pants):
     def rneck(k, z):
         r = Skin.outer(bvN, (0, YC(z), z), dirs[k], 0.12); return r if np.isfinite(r) else 0.056
     # 胸前／背後最外面（直落的箱形）：每個方向、每個高度往上到 1.30 的最大值
-    zgrid = np.arange(1.05, 1.42, 0.005)
-    RB = np.array([[rbody(k, z) for z in zgrid] for k in range(K)])
-    RBmax = np.maximum.accumulate(RB[:, ::-1], axis=1)[:, ::-1]           # 高度 ≥ z 的最大
+    zgrid = np.arange(min(1.05, KNIT_HEM - 0.01) if HEM_OVER_PANTS else 1.05, 1.42, 0.005)
     # 褲頭帶的半徑（毛衣下擺套在外面）
     pl = pants['legs']
-    def band_r(k, z):
+    def pants_r(k, z):
         o = np.array([0, YC(z), z]); d = dirs[k]
         best = 0.0
         for side in ('L', 'R'):
             rows = pl[side]['rows']; zr = rows[:, :, 2].mean(1); j = int(np.argmin(abs(zr - z)))
+            if abs(zr[j] - z) > 0.03: continue
             Pp = rows[j]; v = Pp[:, :2] - o[:2]; t = v @ d[:2]; perp = np.abs(v[:, 0] * d[1] - v[:, 1] * d[0])
             m = (t > 0) & (perp < 0.02)
             if m.any(): best = max(best, float(t[m].max()))
+        return best
+    def band_r(k, z):
+        best = pants_r(k, z)
         return best if best > 0.03 else rbody(k, z) + 0.008
+    if HEM_OVER_PANTS:      # 褲頭以下：身體或褲子，取外面的（下擺落在臀部、胯部，蓋在褲子外面）
+        RB = np.array([[max(rbody(k, z), pants_r(k, z) + 0.004 if z < PANTS_TOP + 0.005 else 0.0) for z in zgrid] for k in range(K)])
+    else:
+        RB = np.array([[rbody(k, z) for z in zgrid] for k in range(K)])
+    RBmax = np.maximum.accumulate(RB[:, ::-1], axis=1)[:, ::-1]           # 高度 ≥ z 的最大
     # 第二版：每個高度的截面＝「這個高度以上身體最突出的輪廓（直落）＋寬鬆量」與落肩寬度的凸包——
     # 布料跨過胸部中間的凹處（第一版貼著胸形，正面看是兩個鼓包），從胸口直直落下
     EASE = np.where(np.abs(np.sin(th)) > 0.5, 0.024, 0.016)
@@ -408,6 +418,9 @@ def build_top(skin, arm, mb, pants):
         if s >= -0.05:      # 後半圈＋側面：圓領口
             z = BACK_NECK_Z + (SIDE_NECK[1] - BACK_NECK_Z) * abs(math.cos(t)) ** 1.5
             return rneck(k, z) + 0.013, z
+        if NECK_STYLE == 'crew':        # 前面：圓領（前中心最低，往側頸點圓弧上升）
+            z = CREW_FRONT_Z + (SIDE_NECK[1] - CREW_FRONT_Z) * abs(math.cos(t)) ** 1.8
+            return max(rneck(k, z), rbody(k, z)) + 0.012, z
         # 前面：V 領，側頸點到 V 底的直線（3D），找方向 t 的點
         yb = YC(V_BOTTOM) - (rbody(0, V_BOTTOM) + 0.024)
         if abs(math.cos(t)) < 1e-6: return YC(V_BOTTOM) - yb, V_BOTTOM

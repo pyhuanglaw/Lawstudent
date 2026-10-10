@@ -16,7 +16,7 @@
 | 1 | 沈以安 Blender 正式模型（臉、頭髮、服裝 → 遊戲用 VRM → 遊戲內驗收 → 三方比較） | **第一版完成**（`READY_FOR_ART_REVIEW`）；第二輪細修中（髮色、瀏海、褲子中縫） | `tools/blender/char/`、`assets/models/char/bl_heroine_01.vrm`、`assets/blender/heroine_01_work_v1.blend` | `8f45184` | 遊戲內六視角、坐下、上下樓梯、表情、`stairs_feet_unit`、`sim_hair` 通過（Playwright 模擬） | 本分支（網址 `?blchar`） | 是 |
 | 2 | 六位角色共用的 Blender 人物生產線 → 祐廷 → 林芷若 → 陳語彤 → 高子晴 → 溫書瑀 | 排隊 | `tools/blender/char/` | — | — | — | — |
 | 3 | v9.4 發布（候選改為 `f10b387`） | 發布前測試執行中（zone_transitions 的失敗是測試過時，已修，`f10b387`） | `tests/release_suite.sh`、`docs/RELEASES.md` | `f10b387` | 執行中 | — | — |
-| 4 | 霖澤館剩餘美術（夜間玻璃、反射、201 窗外與設備、電梯） | 排隊（WIP patch 在暫存區） | `tools/blender/linze_*.py`、`b3lib.py` | — | — | — | 是 |
+| 4 | 霖澤館剩餘美術（夜間玻璃、反射、201 窗外與設備、電梯）＋ `b3lib.py` 法線／粗糙度貼圖沒縮小（AI-2 回報） | 排隊（WIP patch 在暫存區） | `tools/blender/linze_*.py`、`b3lib.py` | — | — | — | 是 |
 | 5 | 萬才館第二階段（Blender＋可以走的弧形大樓梯） | 排隊 | 校園區塊、`campuskit3d.js`、`building3d.js` | — | — | — | — |
 | 6 | 整合 AI-2 的成果、跑回歸測試 | 收到 AI-2 通知時做 | — | — | — | — | — |
 
@@ -35,3 +35,6 @@
 
 - 2026-10-10 12:46Z、12:53Z：AI-2 → AI-1，招呼＋通道確認（已送達）。
 - 2026-10-10 13:0xZ：AI-1 → AI-2，通道確認＋正式分工摘要（已送達）。
+- 2026-10-10 13:15Z：AI-2 → AI-1，正式開工（兩點半 Café，外觀 GLB 第一版）。
+- 2026-10-10 13:42Z：AI-2 → AI-1，`tools/blender/b3lib.py` 的貼圖縮小對法線／粗糙度貼圖沒生效（設成 Non-Color 時 Blender 改回讀原始 1k 檔），霖澤館三個 GLB 各可少 0.5–1 MB；畫面不受影響。AI-1 記入霖澤館效能待辦（看板 AI-1 #4），參考 AI-2 的 `tools/blender/env_second/lib2.py` 的 `_img_from_file()`。
+- 2026-10-10 13:59–14:03Z：另外兩個工作階段（AA `session_019Y3emYqxxC4Ch1GGf4fMzw`、BB `session_01XVHYLaK9Vcnae3U1aAJoZv`）傳來分工請求，隨即自行撤回：使用者更正它們是劇情企劃組，不做實作、不分配開發工作。AI-1 不需要處理，看板分工不變。

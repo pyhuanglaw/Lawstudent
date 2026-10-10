@@ -10,6 +10,7 @@ player.py --stages ...,hair 時執行 apply(m)。沿用沈以安 h01_hair 的頭
 import math, os
 import numpy as np
 import bpy
+from mathutils import Vector
 import common as C
 import h01_hair as HB
 from h01_hair import _unit, sph, slerp, sstep, tangents
@@ -35,11 +36,11 @@ def make_atlas(seed=SEED):
     def reg(name): x0, x1, y0, y1 = REG[name]; return y1 - y0, x1 - x0
     # 層次髮片：上段一片（髮根），下段分成一撮一撮、長短不一、往中間微靠
     h, w = reg('card')
-    put('card', HB._strand_color(rng, h, w, 0.78, sheen=(0.22, 0.38), tip_light=0.05, base=BASE), HB._clumps(rng, h, w, 5, 0.55, 0.78, 1.0, hw_k=(0.95, 1.3), lean=0.12, power=0.65, full=2.2, minw=2.5))
+    put('card', HB._strand_color(rng, h, w, 0.78, sheen=(0.22, 0.38), tip_light=0.05, base=BASE), HB._clumps(rng, h, w, 5, 0.68, 0.84, 1.0, hw_k=(0.95, 1.3), lean=0.12, power=0.65, full=2.4, minw=3.5))   # 第二版：髮尾分束從 55% 改 68%（太多透明的尖端，太陽穴看起來像剃短）
     h, w = reg('cardB')
-    put('cardB', HB._strand_color(rng, h, w, 0.78, sheen=(0.28, 0.44), tip_light=0.05, base=BASE), HB._clumps(rng, h, w, 4, 0.42, 0.70, 1.0, hw_k=(0.9, 1.25), lean=0.2, power=0.6, full=2.0, minw=2.5))
+    put('cardB', HB._strand_color(rng, h, w, 0.78, sheen=(0.28, 0.44), tip_light=0.05, base=BASE), HB._clumps(rng, h, w, 4, 0.58, 0.80, 1.0, hw_k=(0.95, 1.3), lean=0.2, power=0.6, full=2.2, minw=3.5))
     h, w = reg('bang')
-    put('bang', HB._strand_color(rng, h, w, 0.84, tip_light=0.04, base=BASE), HB._clumps(rng, h, w, 4, 0.40, 0.68, 1.0, hw_k=(0.9, 1.2), lean=0.15, power=0.6, full=2.0, minw=2.2))
+    put('bang', HB._strand_color(rng, h, w, 0.84, tip_light=0.04, base=BASE), HB._clumps(rng, h, w, 3, 0.50, 0.72, 1.0, hw_k=(1.1, 1.4), lean=0.15, power=0.55, full=2.6, minw=3.0))   # 瀏海一撮一撮寬一點（第一版像細線）
     h, w = reg('shell')
     put('shell', HB._strand_color(rng, h, w, 0.75, tip_light=0.0, base=BASE * 0.85), np.ones((h, w)))
     return img
@@ -56,15 +57,19 @@ def apply(m):
 
     def vol(a, v):          # 髮殼／髮片離頭皮的距離：頭頂（靠髮旋）最蓬、前額蓬、兩側貼、後頸收
         aa = az(a); ca = math.cos(math.radians(aa))
-        top = 0.008 + 0.014 * float(sstep(0.15, 0.75, v))
-        side = 1 - 0.5 * float(sstep(55, 95, aa)) * (1 - 0.4 * float(sstep(120, 160, aa)))
-        return top * side + 0.004 * max(ca, 0.0)
+        top = 0.012 + 0.022 * float(sstep(0.10, 0.70, v))       # 頭頂蓬（第一版 0.009＋0.018 仍像貼著頭的安全帽；參考圖頭頂約 3～4 cm 厚）
+        side = 1 - 0.55 * float(sstep(55, 95, aa)) * (1 - 0.4 * float(sstep(120, 160, aa)))   # 兩側貼一點（第三版 0.40：耳朵高度往外蓬，正面看像香菇頭）
+        return top * side + 0.007 * max(ca, 0.0)
 
     def line_dir(a, v): return slerp(sph(a, HB.hairline_beta(a)), dP, v)
 
     def surf(a, v, extra=0.0):
         d = line_dir(a, v); out = v < 0.03                     # 髮際線外面（額頭、太陽穴、耳朵）：量最外層（臉、耳朵）
-        return c + d * (H.R(d, out) + vol(a, max(v, 0.0)) + extra + (0.006 if out else 0.0)), d
+        r = H.R(d, out)
+        if out and az(a) >= 100:            # 後半圈往下的方向：從外面打會打到毛衣的背（髮尾被拉到背上）——改從頭的中心往外打第一個碰到的身體表面（後腦、後頸的皮膚）
+            h = H.body.ray_cast(Vector(c), Vector(d), 0.4)[0]
+            if h is not None: r = min(r, float(np.dot(np.array(h) - c, d)) + 0.004)
+        return c + d * (r + vol(a, max(v, 0.0)) + extra + (0.006 if out else 0.0)), d
 
     def v_at_z(a, z_tip, lo=-0.7, hi=0.0):                     # 沿這個方位往下，表面高度到 z_tip 的 v（二分法）
         for _ in range(26):
@@ -73,13 +78,24 @@ def apply(m):
             else: lo = mid
         return (lo + hi) / 2
 
-    ear_top = H.brow_top + 0.004
+    ear_top = H.brow_z + 0.023          # 耳朵上緣（第二版用 brow_top＋0.004；第三版眉毛網格放大後 brow_top 變高，改用不受影響的 brow_z）
+    # 髮尾高度（方位角 → z）：瀏海到眉毛；太陽穴蓋到眼尾上方；耳朵前面的鬢角到耳朵中段；耳朵上面蓋住耳朵上緣約 1 cm
+    # （第一版太陽穴的髮尾只到耳朵上緣以上、而且下半段是透明的尖端：太陽穴整片露出來，像剃短的兩側）
+    # 第三版：太陽穴、鬢角再往下 2～3 cm（第二版的目標只到眉毛高度；耳朵前面的髮際線本來就在那個高度，髮尾剛好停在髮際線上，側面看是一個缺口）
+    eye_z = H.brow_z - 0.025
+    TIP_A = [0, 20, 36, 50, 62, 76, 92, 108, 112]
+    TIP_Z = [H.brow_z + 0.002, H.brow_z + 0.004, H.brow_z - 0.006, eye_z + 0.004, eye_z - 0.001, eye_z - 0.005, ear_top - 0.016, ear_top - 0.010, ear_top - 0.006]
     def v_tip(a):           # 髮尾停在哪（v<0：超出髮際線）
         aa = az(a)
-        if aa < 40: return v_at_z(a, H.brow_z + 0.004 + 0.010 * float(sstep(18, 40, aa)))       # 瀏海到眉毛（兩邊略高）
-        if aa < 112: return min(-0.02, v_at_z(a, ear_top + 0.012 * float(1 - sstep(60, 75, aa))))   # 兩側：到耳朵上緣，耳朵露出來
-        return -0.06 - 0.04 * float(sstep(130, 170, aa))                                        # 後頸
+        if aa < 112: return min(-0.02 if aa > 36 else 1.0, v_at_z(a, float(np.interp(aa, TIP_A, TIP_Z))))
+        # 後頸：髮際線往下 1.5～2.5 cm（第二版固定 v＝-0.06～-0.10：後面的方向幾乎朝正下方，髮尾跑到頸背 10～20 cm 下面，側面看是一條細線掛到毛衣上）
+        z_hl = surf(a, 0.0)[0][2]
+        return min(-0.02, v_at_z(a, z_hl - 0.015 - 0.010 * float(sstep(130, 170, aa)), lo=-0.12))   # 最多延伸 12%（正後方的方向再往下就是朝正下方，會穿進脖子）
 
+    if os.environ.get('HAIR_DEBUG'):
+        for a in (0, 20, 36, 45, 50, 56, 62, 70, 76, 84, 92, 100, 108, 116, 130, 150, 165, 175, 180):
+            vt = v_tip(a); p, d = surf(a, vt); p0, _ = surf(a, 0.0)
+            print('   az %4d v_tip %+.3f tip %s (target z %.3f) hairline %s' % (a, vt, np.round(p, 3), float(np.interp(min(a, 112), TIP_A, TIP_Z)), np.round(p0, 3)))
     # ---- 1. 髮殼 ----
     Nu, Nv, PAN = 64, 12, 4
     A_ = np.linspace(-180, 180, Nu + 1); vs = np.linspace(0, 0.97, Nv + 1)
@@ -108,25 +124,37 @@ def apply(m):
         width = np.maximum(np.array(Wd) * wfac, 0.006) * (0.65 + 0.35 * sstep(0.0, 0.3, np.linspace(0, 1, len(P))))
         mb.ribbon(P, side, D, width, reg, 'head', np.zeros(len(P)), arch=arch, tt=np.linspace(0, 1, len(P)))
 
-    for k in range(56):        # 內層：貼頭、短一點，蓋住髮殼的邊
-        a = -180 + 360 * (k + 0.5) / 56 + rng.uniform(-1.5, 1.5)
-        card(a, 0.97, min(0.0, v_tip(a) * 0.55), 0.0015, 1.7, 'card')
+    for k in range(56):        # 內層：貼頭、短一點，蓋住髮殼的邊（兩側長到 85%：太陽穴、鬢角要蓋滿，不能只靠外層透明的髮尾）
+        a = -180 + 360 * (k + 0.5) / 56 + rng.uniform(-1.5, 1.5); aa = az(a)
+        card(a, 0.97, min(0.0, v_tip(a) * (0.55 + 0.30 * float(sstep(36, 58, aa)) * (1 - float(sstep(100, 120, aa))))), 0.0015, 1.7, 'card')
     for k in range(40):        # 中層：蓬一點
         a = -180 + 360 * (k + rng.uniform(0.2, 0.8)) / 40
         card(a, 0.95 - rng.uniform(0, 0.08), v_tip(a) * rng.uniform(0.8, 1.0), 0.0045 + 0.001 * rng.random(), rng.uniform(1.3, 1.6), 'cardB',
              bulge=0.002 + 0.002 * rng.random(), arch=0.12, curl=rng.uniform(-6, 6))
     for k in range(30):        # 外層：碎、長短不一（頭頂的層次）
         a = -180 + 360 * (k + rng.uniform(0.1, 0.9)) / 30
-        card(a, 0.92 - rng.uniform(0, 0.15), v_tip(a) * rng.uniform(0.55, 1.05), 0.008 + 0.002 * rng.random(), rng.uniform(1.0, 1.35), 'cardB',
-             bulge=0.003 + 0.003 * rng.random(), arch=0.16, curl=rng.uniform(-10, 10))
+        sk = 1 - 0.45 * float(sstep(50, 80, az(a))) * (1 - float(sstep(120, 150, az(a))))     # 兩側（耳朵附近）外層貼近一點
+        card(a, 0.92 - rng.uniform(0, 0.15), v_tip(a) * rng.uniform(0.55, 1.05), (0.008 + 0.002 * rng.random()) * sk, rng.uniform(1.1, 1.45), 'cardB',
+             bulge=(0.003 + 0.003 * rng.random()) * sk, arch=0.16, curl=rng.uniform(-6, 6))
+    for sgn in (1.0, -1.0):    # 鬢角：太陽穴到耳朵前面，從髮際線上方往下梳（短、寬、不透明的部分多）
+        for k in range(7):
+            a = sgn * (44 + 40 * (k + rng.uniform(0.25, 0.75)) / 7)
+            card(a, 0.30 + rng.uniform(0, 0.10), v_tip(a) - rng.uniform(0.0, 0.03), 0.003 + 0.001 * rng.random(), rng.uniform(1.8, 2.2), 'card',
+                 nseg=10, bulge=0.002, arch=0.10, curl=-sgn * rng.uniform(2, 8))
     n_card = len(mb.F) - n_shell
 
     # ---- 3. 瀏海：分線兩邊各自往外撥，一撮一撮、長短不一 ----
-    for k in range(14):
-        a = -38 + 76 * (k + rng.uniform(0.2, 0.8)) / 14
+    # 第二版：分兩層。底層寬、短一點（蓋住額頭，不透出皮膚）；上層一撮一撮、長短不一（有的到眼睛上緣）、離開額頭一點、從分線往兩邊撥
+    # （第一版 14 片同樣長度的窄髮片：正面看像一排梳齒）
+    for k in range(10):
+        a = -40 + 80 * (k + rng.uniform(0.3, 0.7)) / 10
+        card(a, 0.62 + rng.uniform(0, 0.08), v_tip(a) + rng.uniform(0.0, 0.03), 0.008 + 0.001 * rng.random(), rng.uniform(2.2, 2.6), 'bang',
+             nseg=16, bulge=0.005, arch=0.12, curl=(1.0 if a > PART else -1.0) * rng.uniform(2, 6))
+    for k in range(9):
+        a = -36 + 72 * (k + rng.uniform(0.2, 0.8)) / 9
         sgn = 1.0 if a > PART else -1.0
-        card(a, 0.55 + rng.uniform(0, 0.15), v_tip(a) + rng.uniform(-0.03, 0.04), 0.010 + 0.002 * rng.random(), rng.uniform(1.2, 1.6), 'bang',
-             nseg=16, bulge=0.004, arch=0.14, curl=sgn * rng.uniform(4, 12))
+        card(a, 0.50 + rng.uniform(0, 0.20), v_tip(a) + rng.uniform(-0.05, 0.02), 0.012 + 0.002 * rng.random(), rng.uniform(1.6, 2.0), 'bang',
+             nseg=16, bulge=0.006 + 0.002 * rng.random(), arch=0.16, curl=sgn * rng.uniform(8, 18))
     n_bang = len(mb.F) - n_shell - n_card
 
     # ---- 4. 物件、材質、權重 ----

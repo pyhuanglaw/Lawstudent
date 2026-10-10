@@ -11,7 +11,7 @@ REF = dict(ez=1.4717, chin=1.3920, tip_y=0.0968)     # 沈以安 stage0 之後�
 MALE = dict(D_CHIN=0.004, BROW_DROP=0.0035, EYE_SX=1.06, EYE_SZ=0.72, EYE_TILT=0.03, EYE_IN=0.0020, EYE_LIFT=0.0004,
             CHIN_WIDEN=0.55, JAW_OUT=0.0048, MOUTH_K=1.50, FACE_NARROW=0.965, LOWER_BACK=(0.0006, 0.0035), CHIN_FWD=0.0042,
             MOUTH_DOWN=0.0012, IRIS_FRAC=0.50, EYELINE_K=0.85, WING=0.0010, LASH_N=14, LASH_L=0.55, BROW_K=1.55, BROW_ARCH=0.45,
-            BROW_COL=(0.14, 0.11, 0.10), LIP_OUT=(0.80, 0.60, 0.57), LIP_IN=(0.70, 0.47, 0.46), LIP_HI=(0.88, 0.73, 0.70), LIP_A=0.55)
+            BROW_COL=(0.11, 0.085, 0.08), BROW_A=1.0, BROW_SCALE_Z=1.45, EYE_TINT_K=0.85, LIP_OUT=(0.82, 0.58, 0.56), LIP_IN=(0.72, 0.44, 0.44), LIP_HI=(0.90, 0.72, 0.70), LIP_A=0.70)   # 第一版 0.55＋灰色調：嘴唇看起來發白。第三版：眉毛網格放大 1.45 倍、顏色更深（第二版的眉毛是淡灰色細條）；眼周粉色拿掉
 
 
 def measure(f):
