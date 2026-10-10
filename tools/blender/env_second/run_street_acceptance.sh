@@ -1,7 +1,7 @@
 #!/bin/bash
 # 溫州街近景（公寓、日式宿舍、街道細節、小公園、機車）＋便利商店室內的驗收流程（第二個 AI）：回歸測試（docs/SECOND_AI_HANDOFF.md 第 3 節；騎樓柱子有樹幹透視 → 加跑 see_through）→ 修改前／後截圖。
 # 模擬器（SwiftShader）一次只跑一個，不要和其他瀏覽器工作同時跑（會逾時或誤判）。
-# 用法：bash tools/blender/env_second/run_street_acceptance.sh [log 資料夾] [tests|shots|all] [網址]
+# 用法：bash tools/blender/env_second/run_street_acceptance.sh [log 資料夾] [tests|shots|after|all] [網址]（after＝只拍修改後，加 Café 外觀）
 cd "$(dirname "$0")/../../.."
 LOG=${1:-docs/art-rebuild/second_ai/test_logs/street}; WHAT=${2:-all}; U=${3:-http://127.0.0.1:8765/index.html}; mkdir -p "$LOG"
 # 回歸測試會把截圖寫進第一個 AI 的資料夾（screenshots/、docs/art-rebuild/screenshots/）：複製到第二個 AI 的 test_shots/street/<測試>/，再把第一個 AI 的檔案還原
@@ -22,7 +22,8 @@ if [ "$WHAT" != tests ]; then
   # 截圖：fast_shots.py（同一種畫面大小只載入一次遊戲；和 scene_shot.py 同一種 JSON）
   python3 -c "import json;a=json.load(open('tools/blender/env_second/shots/street_before.json'))+json.load(open('tools/blender/env_second/shots/cvs_before.json'));json.dump(a,open('$LOG/shots_before.json','w'))"
   python3 -c "import json;a=json.load(open('tools/blender/env_second/shots/street_after.json'))+json.load(open('tools/blender/env_second/shots/cvs_after.json'));json.dump(a,open('$LOG/shots_after.json','w'))"
-  run shots_before python3 tools/blender/env_second/shots/fast_shots.py "$U?nobldg" $LOG/shots_before.json
+  [ "$WHAT" != after ] && run shots_before python3 tools/blender/env_second/shots/fast_shots.py "$U?nobldg" $LOG/shots_before.json
+  if [ "$WHAT" = after ]; then python3 -c "import json;a=json.load(open('$LOG/shots_after.json'))+[v for v in json.load(open('tools/blender/env_second/shots/cafe_after.json')) if '_int_' not in v['out']];json.dump(a,open('$LOG/shots_after.json','w'))"; fi   # after：只重拍修改後（修改前＝?nobldg 沒變）；Café 外觀也一起
   run shots_after python3 tools/blender/env_second/shots/fast_shots.py "$U" $LOG/shots_after.json
 fi
 echo "=== done $(date -u +%H:%M:%S)"

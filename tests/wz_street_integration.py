@@ -125,12 +125,24 @@ async def check(pg, run, formal):
         neg = await pg.evaluate("""(()=>{ const b=GAME.E.zone.group.children.find(o=>o.userData&&o.userData.wzApt==='B5'); const m=b.children.find(o=>o.isMesh); m.visible=true;
             const n=b.children.filter(o=>(o.isMesh||o.isSprite)&&o.visible).length; m.visible=false; return n; })()""")
         run.check('（自我檢查）故意打開 B5 的套件外觀時，會被數到', neg > 0, json.dumps(neg))
+    if formal:
+        # 第二輪減量（LAWWW 18:54Z：同一鏡頭 ≤ 約 310 次 draw call）：純色零件合成頂點色材質、窗戶共用原型
+        vc = await pg.evaluate("""(()=>{ const z=GAME.E.zone, OLD=/^(cafe_alu|cafe_iron_black|cafe_brass|cafe_grille|cafe_tank_steel|cafe_ac_body|cafe_ac_fan|cafe_roof_slab|cafe_pipe|cafe_curtain|wz_mailbox|wz_door_|wz_frame_|wz_awning_|wz_arcade_ceiling|wz_laundry|jp_ridge|jp_gutter|jp_meter|wz_galv|wz_porcelain|wz_stripe_|wz_poster|wz_transformer|wz_signpole|wz_lamp_body|wz_mirror_orange|park_steel|park_bar_green)/;
+            const out={old:[], vc:{}, win:{}}; for(const n of ['wenzhou_street_glb','wz_jphouse_glb','wz_props_glb','wz_park_glb']){ const r=z.group.getObjectByName(n); if(!r) continue;
+              r.traverse(o=>{ if(!o.isMesh) return; const mn=o.material.name; if(OLD.test(mn)) out.old.push(n+':'+mn); if(/^wz_vc_/.test(mn)) out.vc[n+':'+mn+(o.isInstancedMesh?'[inst]':'')]=o.castShadow;
+                if(n==='wenzhou_street_glb'&&o.isInstancedMesh&&/^(wz_stain|wz_room_lit|cafe_room_dark)$/.test(mn)) out.win[mn]=(out.win[mn]||0)+o.count; }); }
+            return out; })()""")
+        run.check('純色零件都合成頂點色材質（門、雨遮、鋁框、鐵件、窗簾、曬的衣服…沒有剩下原本的單獨材質）', not vc['old'] and any(k.startswith('wenzhou_street_glb:wz_vc_matte') for k in vc['vc']) and any(k.startswith('wenzhou_street_glb:wz_vc_metal') for k in vc['vc']), json.dumps(vc, ensure_ascii=False))
+        run.check('頂點色合併的網格（不是 instancing）會投影、instancing 的不投影', all(v == (not k.endswith('[inst]')) for k, v in vc['vc'].items()), json.dumps(vc['vc'], ensure_ascii=False))
+        run.check('窗戶：116 扇共用一個窗框原型（雨痕）、窗內 52 亮燈＋64 沒亮燈', vc['win'].get('wz_stain') == 116 and vc['win'].get('wz_room_lit') == 52 and vc['win'].get('cafe_room_dark') == 64, json.dumps(vc['win']))
     draws = {}
     for name, eye, look in VIEWS:
         draws[name] = await pg.evaluate(DRAW + '(%s,%s)' % (json.dumps(eye), json.dumps(look)))
         await run.shot(pg, name + '_' + ('formal' if formal else 'nobldg'))
     await pg.evaluate("GAME.E.endCinematic()")
     run.note(('一般網址' if formal else '?nobldg') + '：同一個鏡頭（藏起路人）的 draw call／三角形 ' + json.dumps(draws))
+    if formal:
+        run.check('效能：三個鏡頭的 draw call ≤ 310、三角形 ≤ 42 萬（含陰影那一輪、含玩家；LAWWW 的目標）', all(d['calls'] <= 310 and d['tris'] <= 420000 for d in draws.values()), json.dumps(draws))
     return await pg.evaluate(NAV_HASH), await pg.evaluate(STATE)
 
 
