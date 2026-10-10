@@ -28,7 +28,6 @@ async def main():
             for i in range(240):
                 if await pg.evaluate("!!(window.GAME&&document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide'))"): break
                 await pg.wait_for_timeout(500)
-            await pg.add_style_tag(content="")
             zone = None
             for s in sorted(L, key=lambda s: s['state']['zone']):
                 st = dict(s['state']); fl = dict(FLAGS); fl.update(st.get('flags', {})); st['flags'] = fl
