@@ -74,4 +74,18 @@
 
 | 素材或模型 | 來源 | 授權 | 用在哪裡 |
 |---|---|---|---|
+| 兩點半 Café 外觀＋店面＋窗內店內＋門口道具 `assets/models/env/second_ai/cafe_exterior.glb` | 本作 Blender 腳本 `tools/blender/env_second/cafe_exterior.py`（配置與零件 `cafe_layout.py`，工具 `lib2.py`） | 本作 | 溫州街東端的 Café 建築 |
+| 兩點半 Café 室內 `assets/models/env/second_ai/cafe_interior.glb` | 本作 Blender 腳本 `tools/blender/env_second/cafe_interior.py`（和外觀共用 `cafe_layout.py`） | 本作 | `cafe` 室內區域 |
+| 葉片貼圖 `tools/blender/env_second/textures/gen/{ivy,broad,olive,fern}_leaves.png` | 本作程式產生 `tools/blender/env_second/gen_leaves.py`（固定亂數種子） | 本作 | Café 的爬藤、盆栽、窗台植物 |
+| Poly Haven `rectangular_facade_tiles`（Charlotte Baglioni） | https://polyhaven.com/a/rectangular_facade_tiles ，`lib2.fetch()` 下載 1k JPG 到 `tools/blender/env_second/textures/` | CC0 | Café 二三樓長條磁磚外牆（校正成米色） |
+| Poly Haven `exterior_wall_cladding_02`（Charlotte Baglioni） | https://polyhaven.com/a/exterior_wall_cladding_02 | CC0 | Café 一樓壁柱的深褐磁磚 |
+| Poly Haven `plaster_grey_04`（Rob Tuytel） | https://polyhaven.com/a/plaster_grey_04 | CC0 | Café 樓板線、窗台、陽台板 |
+| Poly Haven `terrazzo_tiles`（Amal Kumar） | https://polyhaven.com/a/terrazzo_tiles | CC0 | Café 牆腳石、門檻 |
+| Poly Haven `dark_wood`（Dario Barresi、Dimitrios Savva、Rico Cilliers） | https://polyhaven.com/a/dark_wood | CC0 | Café 雨遮木板、A 字立牌、店內天花板木梁 |
+| Poly Haven `corrugated_iron`（Jenelle van Heerden、Dimitrios Savva） | https://polyhaven.com/a/corrugated_iron | CC0 | Café 樓上窗的浪板雨遮 |
+| Poly Haven `herringbone_parquet`（Jenelle van Heerden、Sergej Majboroda） | https://polyhaven.com/a/herringbone_parquet | CC0 | Café 店內人字拼木地板 |
+| Poly Haven `white_plaster_02`（Rob Tuytel） | https://polyhaven.com/a/white_plaster_02 | CC0 | Café 店內牆面、天花板 |
+| Poly Haven `walnut_veneer`（Jenelle van Heerden） | https://polyhaven.com/a/walnut_veneer | CC0 | Café 店內木護牆、桌椅、吧檯 |
+| Poly Haven `black_walnut_veneer_01`（Jenelle van Heerden） | https://polyhaven.com/a/black_walnut_veneer_01 | CC0 | Café 書牆、層架、畫框 |
+| Poly Haven `fine_grained_wood`（Rob Tuytel；第一個 AI 已下載到 `tools/blender/textures/`，只讀使用） | https://polyhaven.com/a/fine_grained_wood | CC0 | Café 店面門窗框、招牌框、窗下木板 |
 

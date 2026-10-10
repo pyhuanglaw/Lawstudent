@@ -46,6 +46,8 @@ const ASSETS = (function(){
     'bldg.linze_exterior':{url:'assets/models/env/linze_exterior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/linze_exterior.py（照使用者照片概略重建；量體同 CK.lawhall；貼圖 Poly Haven CC0；窗用 EXT_mesh_gpu_instancing）', license:'本作；貼圖 CC0'},
     'bldg.classroom_201':{url:'assets/models/env/classroom_201.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/classroom_201.py（配置 src/data/classroom_layout.js；貼圖 Poly Haven CC0；48 張椅子用 EXT_mesh_gpu_instancing）', license:'本作；貼圖 CC0'},
     // ==== 第二個 AI（環境美術）的資產：只在這兩行標記之間增減（docs/SECOND_AI_HANDOFF.md）。key 用 bldg. 開頭＋type:'building', lazy:true（網址 ?nobldg 可以看舊的程序化版本）；檔案放 assets/models/env/second_ai/ ====
+    'bldg.cafe_exterior':{url:'assets/models/env/second_ai/cafe_exterior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/cafe_exterior.py（兩點半 Café 外觀＋窗內店面＋門口道具；建築座標同 TK.apartment；貼圖 Poly Haven CC0、葉片貼圖本作程式產生；鐵窗、冷氣、雨遮、椅子用 EXT_mesh_gpu_instancing）', license:'本作；貼圖 CC0'},
+    'bldg.cafe_interior':{url:'assets/models/env/second_ai/cafe_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/cafe_interior.py（兩點半 Café 室內；配置 cafe_layout.py 和外觀共用；貼圖 Poly Haven CC0；桌椅用 EXT_mesh_gpu_instancing）', license:'本作；貼圖 CC0'},
     // ==== 第二個 AI 區塊結束 ====
     'char.mixamo_clips':{url:'assets/models/char/mixamo_clips.glb', type:'clips', source:'three.js examples (Xbot.glb, Mixamo)', license:'Mixamo 動畫（Adobe 條款：可用於專案，不可單獨再散布）'},
   };

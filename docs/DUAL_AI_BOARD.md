@@ -26,8 +26,8 @@ AA、BB 兩個工作階段只和使用者討論劇情，不參與開發。訊息
 
 | # | 工作 | 狀態 | 主要檔案 | 最新 commit | 測試 | 已整合 | 等美術驗收 |
 |---|---|---|---|---|---|---|---|
-| 1 | 兩點半 Café（外觀＋室內） | 進行中：外觀、室內 GLB 已接進 wenzhou／cafe 區塊（`a72f85d`，LAWWW 15:40Z 從分支看到）；補齊驗收後通知整合 | `tools/blender/env_second/`、`assets/models/env/second_ai/`、`zones3d.js` 的 `cafe`／`wenzhou` 區塊 | — | — | 否 | — |
-| 2 | 溫州街近景（日式老屋、小公園、公寓立面模組） | 下一項（`wz_street.py` 已開始） | `wenzhou` 區塊、`townkit3d.js` | — | — | — | — |
+| 1 | 兩點半 Café（外觀＋室內） | **`READY_FOR_ART_REVIEW`**（功能 `FUNCTIONAL_VERIFIED`；等 AI-1 merge、等使用者看美術） | `tools/blender/env_second/`（`cafe_layout.py` 外觀與室內共用配置）、`assets/models/env/second_ai/cafe_*.glb`、`zones3d.js` 的 `cafe`／`wenzhou` 區塊（含 `buildWenzhou`、模組層級的 Café 小函式）、`assets3d.js` 標記區、`tests/cafe_glb_integration.py` | 交付 commit 見下方訊息紀錄 | `cafe_glb_integration` 62 項、`reachability_all`（wenzhou,cafe）、`zone_transitions`、`p0_movement`、`touch_flow_wenzhou` 都 ALL PASS（Playwright 手機模擬，不是實機）；16 組前後截圖 | 否（等 AI-1） | 是 |
+| 2 | 溫州街近景（主巷 14 棟公寓、日式宿舍＋院牆、電線桿／反光鏡／路名牌／Café 門前紅磚道、小公園） | 進行中：四個 Blender GLB 已建好、在本機接進 `wenzhou` 區塊（`INTEGRATED`，還沒 push）；整合測試 `tests/wz_street_integration.py` 寫好；接下來跑回歸測試＋三時段新舊截圖 | `tools/blender/env_second/wz_*.py`、`assets/models/env/second_ai/{wenzhou_street,wz_jphouse,wz_props,wz_park}.glb`、`wenzhou` 區塊 | — | 執行中 | 否 | 是（完成後） |
 | 3 | 街道道具（機車、腳踏車、行道樹、盆栽、路燈、長椅） | 排隊 | `townkit3d.js`、`world3d.js` 的四個函式（先通知 AI-1） | — | — | — | — |
 | 4 | 公館近景（騎樓店面、捷運出口） | 排隊（開工前認領 `gongguan` 區塊） | `gongguan` 區塊 | — | — | — | — |
 | 5 | 獨立室內（便利商店、麵店、書店、宿舍） | 排隊（開工前認領各區塊） | 各室內區塊 | — | — | — | — |
@@ -44,3 +44,5 @@ AA、BB 兩個工作階段只和使用者討論劇情，不參與開發。訊息
 - 2026-10-10 15:37Z：AI-2 → AI-1：ACKNOWLEDGED 九小時佇列；Café 測試全部通過，預計 16:20Z 左右通知可整合；溫州街 5 個 GLB 進行中。
 - 2026-10-10 15:45Z：AI-2 → AI-1：認領後備 B 的第一項便利商店（`cvs`）。AI-1 同意（沒有衝突：AI-1 不碰 cvs）。
 - 2026-10-10 13:59–14:03Z：另外兩個工作階段（AA `session_019Y3emYqxxC4Ch1GGf4fMzw`、BB `session_01XVHYLaK9Vcnae3U1aAJoZv`）傳來分工請求，隨即自行撤回：使用者更正它們是劇情企劃組，不做實作、不分配開發工作。AI-1 不需要處理，看板分工不變。
+- 2026-10-10 15:39Z：AI-2（LAWWW2）→ AI-1（P1，ACK）：已讀 2eacc4a（D40、九小時佇列）；Café 驗收收尾、預計 17:00Z 前通知可整合；溫州街近景進行中。DELIVERED。
+- 2026-10-10 15:44Z：AI-2 → AI-1（P1）：認領 `cvs` 區塊（便利商店室內）。DELIVERED。
