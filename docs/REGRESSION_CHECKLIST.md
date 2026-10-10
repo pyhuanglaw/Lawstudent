@@ -21,6 +21,8 @@
 | `python3 tools/dev_scratch/render_stats.py http://127.0.0.1:8765/index.html` | （參考用，不判定）六個常用鏡頭（校園三個、溫州街 Café 前、公館兩個）畫一幀的三角形數、draw call、幾何數、貼圖數；改建築、加大量物件之後和上一版比較（量第十一批以前的版本時加 `GG_Z=44`，公館店面街的鏡頭位置才相同） | 約 2 分鐘 |
 | `python3 tools/dev_scratch/evtest.py`（需先 build） | 52 個事件的觸發條件與鎖定解鎖 | 約 10 分鐘 |
 | `python3 tests/zone_transitions.py http://127.0.0.1:8765/index.html` | 場景切換：校園 ↔ 霖澤館教室、萬才館、總圖、宿舍、公館（校門兩個方向）進出各一次——入口按鈕、進去站得住走得動、出來站在預期位置、走得到霖澤館前、出來不會又跳出進去的按鈕；遇到旁白像玩家一樣點掉、等淡入結束（v9.3 第二十批） | 約 5 分鐘 |
+| `python3 tests/deploy_check.py http://127.0.0.1:8790/index.html "v9.3 第 24 批"` | **發布前／發布後**（2026-10-10 加）：對乾淨 checkout（`git worktree add --detach <dir> HEAD` 後在那裡開 server：只有 git 追蹤的檔案＝GitHub Pages 實際的檔案）載入遊戲、進 11 個區域：資源 404、JS 例外、script 版本號 `?v=`、標題版本字樣、玩家與 NPC 是正式 VRM | 約 1 分鐘 |
+| `python3 tests/save_compat_v7.py http://127.0.0.1:8791/index.html http://127.0.0.1:8790/index.html` | **發布前**（2026-10-10 加）：8791 開 `main` 舊版（v7）的乾淨 checkout，開新遊戲寫出真正的 v7 存檔＋抽 v7 各區域走得到的 48 個位置；新版啟動前把 v7 存檔放進 localStorage（同網址升級）：標題畫面不覆蓋、「繼續」讀得進來且資料一樣、站得住走得動、欄位 1、48 個位置 | 約 5–10 分鐘 |
 | `python3 tools/dev_scratch/view_audit.py URL spec.json 輸出資料夾 [方向數=8]` | （畫面盤點，人工看圖）把玩家放到 spec 裡的每個位置，用一般跟隨鏡頭轉一圈各拍一張，拼成一張對照表：找「轉鏡頭看到大片空地、地面盡頭、孤立建築」的角度（v9.3 第十八～二十批用 33 個位置，spec 範例見 ART_REBUILD_PROGRESS） | 約 40 分鐘（33 個位置） |
 | `python3 tools/dev_scratch/cine_multi.py URL spec.json [寬] [高]` | （截圖用，不判定）一次載入、連拍多個固定鏡頭（演出鏡頭）；同一個區域＋時間只載入一次，比 `tools/shots/scene_shot.py` 快很多。改前改後比較圖用同一份 spec 對兩個版本各跑一次 | 每張約 30 秒 |
 
@@ -49,3 +51,5 @@
 - `evtest.py` 與 `flowtest.py` 預設測 `build/` 單檔版，改程式後要先 `python3 build.py`。
 - `movement_regression` A5（往宿舍前牆推 3.2 秒）停的位置會隨幀率不同（v9.3 #38：正面推牆會沿牆橫移一點）；A6 會往前牆上空間比較大的那一側斜推，判定仍是「沿牆滑動 0.3 m 以上」。如果 A6 失敗，先看 A5 停的位置再判斷。
 - `tools/dev_scratch/render_stats.py` 量算圖負擔（draw call、三角形）；`VIEWSET=interior` 量七個室內。
+
+> 2026-10-10：測試腳本等待載入完成原本用 `window.GAME`，但 `game3d.js` 是 `const GAME=`（不會掛在 window 上），所以每個測試都白等滿 120 秒才繼續（不影響判定，只是慢）。已改成 `typeof GAME!=='undefined'`（tests/ 與 tools/dev_scratch/ 共 11 個腳本）。新寫的測試照這個寫法。

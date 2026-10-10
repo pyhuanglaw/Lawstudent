@@ -33,3 +33,8 @@
 | 醉月湖（水面 shader、石砌湖岸、湖心亭、木棧道、睡蓮葉）、椰林大道杜鵑叢 | `src/zones3d.js`（`lake`、校園） | 本作自己寫的程式，無外部素材 |
 | 校園建築外觀（行政大樓、文學院、校史館、總圖：面磚／紅磚、拱窗、一樓拱廊、石材門廊、四坡屋頂、塔樓） | `src/campuskit3d.js`（`CK.hall`） | 本作自己寫的程式；面磚、石材、屋瓦、玻璃貼圖都是 Canvas 程序繪製。依台大老建築常見的特徵做概略外觀，沒有使用照片、圖面或任何外部模型 |
 | 校園配置 | `src/zones3d.js`（校園） | 地標相對位置參考臺大校總區平面圖（使用者 2026-10-09 提供，官方網址 https://map.ntu.edu.tw ）。**地圖本身沒有放進 repo，也沒有當貼圖或背景使用**；遊戲裡的建築、道路都是程式產生 |
+
+## 開發工具（不打包進遊戲）
+
+- `.claude/skills/blender-web-3d/`：blender-web-3d-skill（https://github.com/czlonkowski/blender-web-3d-skill ，commit `858762f`），MIT License，Copyright (c) 2026 Romuald Członkowski / AiAdvisors；授權全文在該資料夾的 `LICENSE`。Claude Code 專案 Skill，只在開發時使用；裡面的範例模型 `station.glb` 與檢視器範本不載入遊戲。
+- Blender 5.2.2（`bpy`，GPL）：開發時用來建模、烘焙材質、匯出 GLB（2026-10-10 起，見 docs/PROJECT_DECISIONS.md D33）。用 Blender 做出來的模型與貼圖不受 GPL 約束（Blender 授權只涵蓋程式本身）。

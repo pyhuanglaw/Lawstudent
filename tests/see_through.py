@@ -39,7 +39,7 @@ async def main():
         pg.on('pageerror', lambda e: errs.append(str(e)))
         await pg.goto(URL)
         for i in range(240):
-            if await pg.evaluate("!!(window.GAME&&document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide'))"): break
+            if await pg.evaluate("!!(typeof GAME!=='undefined'&&document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide'))"): break
             await pg.wait_for_timeout(500)
         has = await pg.evaluate("!!(GAME.E.seeThrough)")
         check('引擎有樹幹透視', has)
