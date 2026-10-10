@@ -27,13 +27,15 @@ REST = {'Fcl_EYE_Natural': 0.5, 'Fcl_EYE_Close': 0.2}   # = tools/vroid_build.py
 D_CHIN = 0.009           # 下巴往下（下半臉加長：鼻下到下巴 4.1 → 5.1 cm，接近參考圖的三等分）
 LOW_ZA = 1.438           # 下半臉加長從這個高度開始（鼻頭下方，不拉長鼻子）
 BROW_DROP = 0.0055       # 眉毛降低（參考圖眉眼距離較近）
-EYE_SX, EYE_SZ = 1.06, 0.71   # 眼裂寬、高的縮放（眼睛中心）
+EYE_SX, EYE_SZ = 1.12, 0.74   # 眼裂寬、高的縮放（眼睛中心；之後整張臉再收窄 FACE_NARROW）
 EYE_TILT = 0.10          # 外眼角上揚（z 位移 / x 距離）
-EYE_IN = 0.0040           # 兩眼往中間靠（VRoid 兩眼內眼角距離是 1.5 個眼寬，參考圖約 1 個）
+EYE_IN = 0.0030           # 兩眼往中間靠（VRoid 兩眼內眼角距離是 1.5 個眼寬，參考圖約 1 個）
 EYE_LIFT = 0.0006        # 眼睛整體上移一點（眼睛在頭的位置偏低是動畫比例）
 CHIN_WIDEN = 0.45        # 下巴尖端變寬（圓下巴）
 JAW_OUT = 0.0032         # 下顎線中段往外（鵝蛋臉）
-MOUTH_K = 1.72           # 嘴寬倍數（VRoid 嘴縫只有 2.2 cm）
+MOUTH_K = 1.80           # 嘴寬倍數（VRoid 嘴縫只有 2.2 cm）
+FACE_NARROW = 0.95       # 臉的前半（眉毛以下、耳朵以前）左右收窄：VRoid 的臉頰／太陽穴偏寬，參考圖的眼寬約臉寬 1/4
+JAW_OUTLINE = 0.5        # 下巴、下顎描邊寬度倍數（45 度看下顎那條描邊像刀切；參考圖沒有描邊）
 IRIS_FRAC = 0.53         # 虹膜直徑 / 眼裂寬（參考圖約 0.5）
 SUBDIV_L1 = dict(ax=0.056, z0=1.383, z1=1.468, y0=0.045, amin=1.2e-5)   # 下半臉細分一次
 SUBDIV_L2 = dict(ax=0.016, z0=1.430, z1=1.476, y0=0.072, amin=2.0e-6)   # 鼻子再細分一次
@@ -241,6 +243,13 @@ def warp_jaw(P, chin_z, pin):
     gc = np.exp(-((z - (chin_z + 0.005)) / 0.011) ** 2) * (1 - ss(0.010, 0.032, ax))
     gj = np.exp(-(((ax - 0.036) / 0.016) ** 2 + ((z - (chin_z + 0.022)) / 0.014) ** 2))
     Q = P.copy(); Q[:, 0] = x * (1 + CHIN_WIDEN * gc * g) + np.sign(x) * JAW_OUT * gj * g; return Q
+
+
+def warp_narrow(P, ez, pin):
+    """臉的前半左右收窄（耳朵、太陽穴、頭頂不動）"""
+    x, y, z = P[:, 0], P[:, 1], P[:, 2]
+    w = front_gate(y) * (1 - ss(0.060, 0.078, np.abs(x))) * (1 - ss(ez + 0.020, ez + 0.050, z)) * pin
+    Q = P.copy(); Q[:, 0] = x * (1 - (1 - FACE_NARROW) * w); return Q
 
 
 def warp_mouth(P, zs, pin):
@@ -503,6 +512,9 @@ def apply(m):
     W_mouth = lambda P: warp_mouth(P, zs, pin(P))
     print('  warp mouth (slit z %.4f half width %.4f) min det J %.3f' % (zs, np.abs(slit[:, 0]).max(), jacobian_check(W_mouth, ((-0.07, 0.07), (1.39, 1.44), 0.08))))
     N = warp_n(f, W_mouth, N)
+    W_nar = lambda P: warp_narrow(P, ez, pin(P))
+    print('  warp narrow min det J %.3f' % jacobian_check(W_nar, ((-0.09, 0.09), (1.36, 1.56), 0.06)))
+    N = warp_n(f, W_nar, N)
     # 3. 表面細節（鼻、唇、下巴）：同一個位移加到所有 shape key；法向量加上「細節造成的幾何法向量變化」
     B = C.co(f); skin_v = np.unique(tris(f, skin)[0])
     tip_i = np.argmax(np.where(np.abs(B[:, 0]) < 0.002, B[:, 1], -1)); tip_z = float(B[tip_i, 2])
@@ -525,6 +537,9 @@ def apply(m):
     print('  surface detail max %.4f m; mouth half width %.4f; chin z %.4f' % (np.abs(Dn).max(), mw, chin_z))
     tn1, ta1 = tri_normals(f, None); flip = ((tn0 * tn1).sum(1) < 0) & (ta0 > 1e-9)
     print('  folded triangles after all deformations: %d (degenerate before: %d)' % (flip.sum(), (ta0 <= 1e-9).sum()))
+    if flip.any():
+        TVa, _ = tris(f, None); Pa = C.co(f); nm = mat_names(f); _, _, mia, _ = poly_data(f)
+        print('    folded at', np.round(Pa[TVa[flip]].mean(1), 4).tolist())
     # 4. 法向量
     me.normals_split_custom_set_from_vertices([tuple(v) for v in N])
     # 5. 貼圖
@@ -701,7 +716,7 @@ def paint_skin(f, R, eyes, loops):
         rgb[sel] = mix(rgb[sel], [0.78, 0.55, 0.50], a2[sel])
     # (c) 嘴唇
     B = C.co(f); sp = R[loops['mouth']]; mw = float(np.abs(sp[:, 0]).max()); sg, sz = slit_fit(sp)
-    zs = np.interp(ax, sg, sz); d = z - zs
+    zs = np.interp(ax, sg, sz); d = z - zs; zs0 = float(np.interp(0.0, sg, sz))
     xn = np.clip(ax / (mw * 1.06), 0, 1.5)
     bow = 1 - 0.20 * np.exp(-(x / 0.0016) ** 2) + 0.05 * np.exp(-((ax - 0.0042) / 0.0022) ** 2)
     hu = 0.0049 * np.clip(1 - xn ** 2.4, 0, 1) ** 0.55 * bow
@@ -735,6 +750,13 @@ def paint_skin(f, R, eyes, loops):
     out[..., :3] = np.clip(dilate_into(rgb, mask), 0, 1); out[..., 3] = 1
     im = C.image_from_array('H01_Face_00', out.astype(np.float32))
     set_tex(mat, im)
+    # 描邊寬度貼圖：嘴巴以下（下巴、下顎）描邊變細
+    mt = e.extensions.vrmc_materials_mtoon; osrc = mt.outline_width_multiply_texture.index.source
+    if osrc is not None:
+        ob = img_array(osrc); oh, ow = ob.shape[:2]; opos, omask = raster(f, skin, ow, oh, R)
+        jaw = (1 - ss(zs0 - 0.012, zs0 - 0.002, opos[..., 2])) * omask
+        ob[..., :3] *= (1 - (1 - JAW_OUTLINE) * jaw)[..., None]
+        mt.outline_width_multiply_texture.index.source = C.image_from_array('H01_Face_00_out', np.clip(ob, 0, 1).astype(np.float32))
     e.normal_texture.index.source = None        # 舊的法線貼圖是照舊臉型畫的（遊戲版本來就拿掉）
 
 
