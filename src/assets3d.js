@@ -43,6 +43,7 @@ const ASSETS = (function(){
     'char.vrm_sample':{url:'assets/models/char/vrm_sample.vrm',type:'vrm',lazy:true,anims:'char.mixamo_clips',height:1.66,source:'three-vrm examples VRM1_Constraint_Twist_Sample（pixiv Inc.）— v8 以前的小安模型（已停用）',license:'VRM Public License 1.0'},
     // 建築正式模型（v9.4，D36）：Blender 腳本產生（tools/blender/），進那個區域時才載入；載入失敗就用程序化備用模型
     'bldg.linze_interior':{url:'assets/models/env/linze_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/linze_interior.py（配置 src/data/linze_layout.js；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+    'bldg.classroom_201':{url:'assets/models/env/classroom_201.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/classroom_201.py（配置 src/data/classroom_layout.js；貼圖 Poly Haven CC0；48 張椅子用 EXT_mesh_gpu_instancing）', license:'本作；貼圖 CC0'},
     'char.mixamo_clips':{url:'assets/models/char/mixamo_clips.glb', type:'clips', source:'three.js examples (Xbot.glb, Mixamo)', license:'Mixamo 動畫（Adobe 條款：可用於專案，不可單獨再散布）'},
   };
   // ---- placeholder fallbacks（procedural；LEVEL_BLOCKOUT）----

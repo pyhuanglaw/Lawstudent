@@ -259,6 +259,21 @@ for i, f in enumerate(L['furniture']):
     elif f['type'] == 'board':
         box(f'{pre}_board_frame', MAT['frame'], f['x'] - f['w'] / 2 - 0.05, f['x'] + f['w'] / 2 + 0.05, y + 1.65 - f['w'] / 4 - 0.05, y + 1.65 + f['w'] / 4 + 0.05, f['z'] - 0.05, f['z'] - 0.01, P)
 
+# ---------------- 同一層、同材質的物件合併（減少 draw call；外牆不合併：要各自淡出）----------------
+def join_by_material(level_root, prefix):
+    groups = {}
+    for ob in list(level_root.children):
+        if ob.type != 'MESH' or 'WALL_' in ob.name: continue
+        groups.setdefault(ob.data.materials[0].name, []).append(ob)
+    for mname, obs in groups.items():
+        if len(obs) < 2: continue
+        bm = bmesh.new()
+        for ob in obs: bm.from_mesh(ob.data)
+        mat = obs[0].data.materials[0]
+        for ob in obs: bpy.data.meshes.remove(ob.data)
+        mesh_obj(f'{prefix}_{mname}', bm, mat, level_root)
+for r, pre in ((L0, 'L0'), (L1, 'L1')): join_by_material(r, pre)
+
 # ---------------- 匯出 ----------------
 for ob in scene.objects:
     if ob.type == 'MESH':

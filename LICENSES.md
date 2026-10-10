@@ -40,19 +40,21 @@
 
 | Poly Haven id | 用途 | 用在哪個模型 |
 |---|---|---|
-| `large_floor_tiles_02` | 灰色石材地磚、牆面花崗石板、樓梯踏階 | `assets/models/env/linze_interior.glb`（霖澤館室內） |
-| `painted_plaster_wall` | 白色粉光牆、樓板底面 | 同上 |
-| `ceiling_interior` | 天花板 | 同上 |
-| `fine_grained_wood` | 服務台、門片、踢腳板 | 同上 |
-| `fabric_leather_02` | 大廳皮沙發（染成灰藍） | 同上 |
+| `large_floor_tiles_02` | 灰色石材地磚、牆面花崗石板、樓梯踏階；教室地磚與座位平台 | `assets/models/env/linze_interior.glb`（霖澤館室內）、`assets/models/env/classroom_201.glb`（201 階梯教室） |
+| `painted_plaster_wall` | 白色粉光牆、樓板底面；教室牆面、平台側面 | 兩者 |
+| `ceiling_interior` | 天花板；教室方格天花板 | 兩者 |
+| `fine_grained_wood` | 服務台、門片、踢腳板；教室深色長桌、木講桌、門 | 兩者 |
+| `wood_table_001` | 教室木翻椅（坐墊、椅背） | `classroom_201.glb` |
+| `fabric_leather_02` | 大廳皮沙發（染成灰藍） | `linze_interior.glb` |
 
-（`tools/blender/textures/` 裡其他下載過、還沒用到的材質：`granite_tile`、`granite_tile_02`、`granite_wall`、`grey_plaster_02`、`wood_table_001`、`floor_tiles_06`、`concrete_floor_02`，同樣是 Poly Haven CC0；用到時補進上表。）
+（`tools/blender/textures/` 裡其他下載過、還沒用到的材質：`granite_tile`、`granite_tile_02`、`granite_wall`、`grey_plaster_02`、`floor_tiles_06`、`concrete_floor_02`，同樣是 Poly Haven CC0；用到時補進上表。）
 
 ## 本作自製的 3D 模型（Blender 腳本，2026-10-10 起）
 
 | 模型 | 腳本 | 說明 |
 |---|---|---|
 | 霖澤館室內（一樓大廳、直跑樓梯、二樓迴廊） | `tools/blender/linze_interior.py` → `assets/models/env/linze_interior.glb` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/linze_layout.js`（遊戲化設計，D37）；貼圖見上表（CC0） |
+| 霖澤館 201 階梯教室（六排平台、兩側走道台階、深色長桌、木翻椅 ×48、講桌、黑板、投影幕、方格天花板＋日光燈、西牆三扇窗） | `tools/blender/classroom_201.py` → `assets/models/env/classroom_201.glb` | 本作自己寫的 Blender Python 腳本建模（共用工具 `tools/blender/b3lib.py`）；配置 `src/data/classroom_layout.js`；外觀參考使用者提供的教室照片（照片本身沒有放進 repo）；貼圖見上表（CC0） |
 
 ## 開發工具（不打包進遊戲）
 

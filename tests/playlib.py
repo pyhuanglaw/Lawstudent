@@ -97,7 +97,7 @@ STATE_JS = """(()=>{ const E=GAME.E, P=E.player, o=P.obj.position, D=GAME.D; con
   return {zone:GAME.G.zone, x:+o.x.toFixed(2), z:+o.z.toFixed(2), ry:+P.obj.rotation.y.toFixed(2), busy:!!P.busy, pose:P.pose, path:P.path?P.path.length:0,
     dlg:!!(D&&D.active), dtext:((document.getElementById('dlgText')||{}).textContent||'').slice(0,60), choices:(ch&&!ch.classList.contains('hide'))?ch.querySelectorAll('button').length:0,
     interact:(it&&!it.classList.contains('hide')&&getComputedStyle(it).display!=='none')?(it.textContent||'').trim().slice(0,20):'', hour:+GAME.G.hour.toFixed(2),
-    stand:E.canStand?E.canStand(o.x,o.z,0.3):true, camYaw:+E.cam.yaw.toFixed(3), fallbacks:GAME.walkFallbacks||0}; })()"""
+    stand:E.canStand?E.canStand(o.x,o.z,0.3):true, camYaw:+E.cam.yaw.toFixed(3), fallbacks:GAME.walkFallbacks||0, y:+o.y.toFixed(2), lv:P.lv|0}; })()"""   # y、lv：v9.4 多樓層（人物的高度、在第幾層）
 
 
 async def state(pg):
@@ -136,25 +136,44 @@ def ang_diff(a, b):
 
 # ---- 走路：點地面（引擎的自動找路）優先，走不動才用搖桿（2026-10-10 從 flow_main_day12 搬來共用）----
 async def find_it(pg, label):
-    return await pg.evaluate("(lb=>{ const it=GAME.E.interactables.find(i=>(i.label||'').startsWith(lb)); return it?{x:it.x,z:it.z,r:it.radius||1.5,label:it.label}:null; })(%s)" % json.dumps(label))
+    return await pg.evaluate("(lb=>{ const it=GAME.E.interactables.find(i=>(i.label||'').startsWith(lb)); return it?{x:it.x,z:it.z,r:it.radius||1.5,label:it.label,lv:it.lv===undefined?null:it.lv,y:it.y===undefined?null:it.y}:null; })(%s)" % json.dumps(label))
 
 
-async def tap_ground(pg, cdp, x, z):
-    """把世界座標投影到螢幕，確認那一點是遊戲畫面（不是按鈕），然後用手指點一下（遊戲會用自動找路走過去）"""
-    pt = await pg.evaluate("""(([x,z])=>{ const E=GAME.E; const v=new THREE.Vector3(x,0,z).project(E.camera); if(v.z>1) return null; const sx=(v.x+1)/2*innerWidth, sy=(1-v.y)/2*innerHeight;
-        if(sx<10||sy<10||sx>innerWidth-10||sy>innerHeight-10) return null; const el=document.elementFromPoint(sx,sy); return {sx,sy,ok:!!el&&el.id==='c'}; })(%s)""" % json.dumps([x, z]))
+async def tap_ground(pg, cdp, x, z, lv=None):
+    """把世界座標投影到螢幕，確認那一點是遊戲畫面（不是按鈕），然後用手指點一下（遊戲會用自動找路走過去）。
+    v9.4 多樓層：lv＝那一點在第幾層（投影用那一層地板的高度；點下去遊戲會打到那一層看得到的地板）"""
+    pt = await pg.evaluate("""(([x,z,lv])=>{ const E=GAME.E; const y=!E.heightAt?0:((lv===null||lv===undefined)?E.heightAt(x,z,E.player.lv|0):E.heightAt(x,z,lv)); const v=new THREE.Vector3(x,y,z).project(E.camera); if(v.z>1) return null; const sx=(v.x+1)/2*innerWidth, sy=(1-v.y)/2*innerHeight;
+        if(sx<10||sy<10||sx>innerWidth-10||sy>innerHeight-10) return null; const el=document.elementFromPoint(sx,sy); return {sx,sy,ok:!!el&&el.id==='c'}; })(%s)""" % json.dumps([x, z, lv]))
     if not pt or not pt['ok']: return False
     await touch_tap(cdp, pt['sx'], pt['sy']); return True
 
 
-async def go_to(pg, cdp, run, tx, tz, near, label, max_s=420):
-    """像玩家一樣走到 (tx,tz) 附近：先點地面（遠的話點中途的點），走不動才改用搖桿朝目標推。回傳是否到達"""
-    t0 = time.time(); last = None; last_prog = time.time(); taps = 0; joys = 0
+async def turn_camera_to(pg, cdp, tx, tz, tries=4):
+    """像玩家一樣用一根手指在畫面空白處左右滑，把鏡頭轉到「看向目標」的方向（鏡頭在玩家背後）。
+    遊戲：單指拖曳 dx 像素 → 鏡頭 yaw −= dx×0.0075（engine3d.js 的 pointermove；超過 12 px 才算拖曳）。回傳是否轉到 ±0.15 rad 內"""
+    for _ in range(tries):
+        s = await state(pg)
+        want = math.atan2(-(tx - s['x']), -(tz - s['z']))          # 畫面的「前」＝(-sin yaw, -cos yaw) 朝向目標
+        dy = (want - s['camYaw'] + math.pi) % (2 * math.pi) - math.pi
+        if abs(dy) < 0.15: return True
+        px = max(-240.0, min(240.0, -dy / 0.0075))
+        # 起點：畫面上半部、不是按鈕的地方（避開搖桿、互動鈕、小地圖、時鐘）
+        pt = await pg.evaluate("""(px=>{ for(const fy of [0.4,0.33,0.5,0.27]){ const y=innerHeight*fy, x0=innerWidth/2-px/2; const a=document.elementFromPoint(x0,y), b=document.elementFromPoint(x0+px,y); if(a&&a.id==='c'&&b&&b.id==='c') return {x0,y}; } return null; })(%s)""" % json.dumps(px))
+        if not pt: return False
+        await drag(pg, cdp, pt['x0'], pt['y'], pt['x0'] + px, pt['y'], steps=12)
+        await pg.wait_for_timeout(700)
+    return False
+
+
+async def go_to(pg, cdp, run, tx, tz, near, label, max_s=420, lv=None):
+    """像玩家一樣走到 (tx,tz) 附近：先點地面（遠的話點中途的點），走不動才改用搖桿朝目標推。回傳是否到達。
+    lv（v9.4 多樓層）：目標在第幾層；到達要在那一層（不能只是在正下方／正上方）"""
+    t0 = time.time(); last = None; last_prog = time.time(); taps = 0; joys = 0; turns = 0
     while time.time() - t0 < max_s:
         s = await state(pg)
         d = math.hypot(tx - s['x'], tz - s['z'])
-        if d <= near:
-            run.note(f'到達「{label}」附近（{d:.2f} m）：點地面 {taps} 次、搖桿 {joys} 次，{time.time()-t0:.0f} 秒'); return True
+        if d <= near and (lv is None or s.get('lv', 0) == lv):
+            run.note(f'到達「{label}」附近（{d:.2f} m）：點地面 {taps} 次、轉鏡頭 {turns} 次、搖桿 {joys} 次，{time.time()-t0:.0f} 秒'); return True
         if last is None or math.hypot(s['x'] - last[0], s['z'] - last[1]) > 0.3: last = (s['x'], s['z']); last_prog = time.time()
         if s['busy'] or s['dlg'] or s['choices']:
             await advance_dialogs(pg, cdp, run, until=lambda q: not q['dlg'] and not q['choices'] and not q['busy'], max_steps=40); continue
@@ -163,10 +182,12 @@ async def go_to(pg, cdp, run, tx, tz, near, label, max_s=420):
         # 點地面：先點目標；目標太遠或不在畫面上（例如在鏡頭後面）時，點往目標方向 6 m、3 m、1.5 m 的點（像玩家一樣分段走）
         ok = False
         if time.time() - last_prog < 40:
-            ok = await tap_ground(pg, cdp, tx, tz)
-            for step in (6.0, 3.0, 1.5):
-                if ok: break
-                f = min(1.0, step / max(d, 0.01)); ok = await tap_ground(pg, cdp, s['x'] + (tx - s['x']) * f, s['z'] + (tz - s['z']) * f)
+            ok = await _tap_toward(pg, cdp, s, tx, tz, d, lv)
+            # 目標在鏡頭後面、點不到（例如下課後坐在前排，後門在背後）：真人會先滑動畫面把鏡頭轉過去，看到目標再點
+            # （2026-10-10 加：原本直接改推搖桿，朝目標直推會被下一排長桌擋住，flow_class_real 在 cd52bab 推了 69 次沒前進）
+            if not ok and turns < 3:
+                turns += 1
+                if await turn_camera_to(pg, cdp, tx, tz): ok = await _tap_toward(pg, cdp, await state(pg), tx, tz, d, lv)
         if ok:
             taps += 1; await pg.wait_for_timeout(2500); continue
         # 點不到（不在畫面上、被按鈕擋住）或一直沒進展：搖桿朝目標推。
@@ -177,4 +198,13 @@ async def go_to(pg, cdp, run, tx, tz, near, label, max_s=420):
         await joystick(pg, cdp, int(40 * (ux * rx + uz * rz)), int(-40 * (ux * fx + uz * fz)), 1200); joys += 1
         await pg.wait_for_timeout(300)
     s = await state(pg)
-    run.note(f'走不到「{label}」：最後位置 ({s["x"]},{s["z"]})，目標 ({tx},{tz})；點地面 {taps} 次、搖桿 {joys} 次'); return False
+    run.note(f'走不到「{label}」：最後位置 ({s["x"]},{s["z"]})，目標 ({tx},{tz})；點地面 {taps} 次、轉鏡頭 {turns} 次、搖桿 {joys} 次'); return False
+
+
+async def _tap_toward(pg, cdp, s, tx, tz, d, lv):
+    """點目標；點不到時點往目標方向 6 m、3 m、1.5 m 的點"""
+    ok = await tap_ground(pg, cdp, tx, tz, lv)
+    for step in (6.0, 3.0, 1.5):
+        if ok or (lv is not None and lv != s.get('lv', 0)): break   # 目標在別層：中途的點不知道在哪一層，只點目標本身（遊戲的找路會走樓梯）
+        f = min(1.0, step / max(d, 0.01)); ok = await tap_ground(pg, cdp, s['x'] + (tx - s['x']) * f, s['z'] + (tz - s['z']) * f)
+    return ok
