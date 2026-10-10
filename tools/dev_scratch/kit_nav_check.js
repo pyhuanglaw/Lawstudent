@@ -16,6 +16,7 @@ for(const [name,opts] of [['霖澤館',{w:40,d:18,floors:8}],['萬才館',{entry
   g.traverse(o=>{ if(!o.isMesh) return; const p=o.geometry.attributes.position, ix=o.geometry.index; tris+=(ix?ix.count:p.count)/3;
     for(let i=0;i<p.count;i++){ const x=p.getX(i), y=p.getY(i), z=p.getZ(i); if(z<=ck.d/2+0.3||y<=0.01||y>=2.2) continue;   /* 只看 2.2 m 以下（人走過去會撞到的高度）：萬才館的弧形陽台（底面 3.0 m）下面本來就要讓人走 */
       if(B.some(([bx,bz,bw,bd,m])=>Math.abs(x-bx)<=bw/2+m+1e-3&&Math.abs(z-bz)<=bd/2+m+1e-3)) continue;
+      /* v9.4（D36）：可以走的面（霖澤館前台階、穿堂地坪）本身不算障礙：頂點在那一塊的範圍內、高度不超過那一塊最高處加一階 */ if((ck.surfs||[]).some(s=>x>=s.x0-1e-3&&x<=s.x1+1e-3&&z>=s.z0-1e-3&&z<=s.z1+1e-3&&y<=(s.y!==undefined?s.y:Math.max(s.ya,s.yb))+(s.rise||0)+0.02)) continue;
       out++; let dm=1e9; for(const [bx,bz,bw,bd,m] of B){ const dx=Math.max(0,Math.abs(x-bx)-bw/2-m), dz=Math.max(0,Math.abs(z-bz)-bd/2-m); dm=Math.min(dm,Math.hypot(dx,dz)); } if(dm>worst){ worst=dm; at=[x,y,z].map(v=>+v.toFixed(2)); } } });
   console.log(`${name}：三角形 ${tris}，入口互動點 (${ck.doorX}, ${ck.doorZ.toFixed(2)})，正面外的頂點在導航阻擋外：${out} 個`+(out?`（最遠 ${worst.toFixed(2)} m，在 ${JSON.stringify(at)}）`:''));
   if(out) fail++;

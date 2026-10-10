@@ -18,10 +18,14 @@ OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/joystick_direction'
 X0, Z0 = 0.0, 30.0   # 校園南側的空地（四周 6 m 內沒有障礙物）
 
 
-async def push_and_measure(pg, cdp, jx, jy, ms=2000):
+async def push_and_measure(pg, cdp, jx, jy, ms=2000, need=0.4):
+    """推搖桿直到走了 need 公尺（最多推 3 次）：手機模擬的幀率會變（SwiftShader 搶不到 CPU 時遊戲時間變慢），
+    固定推 2 秒有時只走 0.29 m；標準不變（要往推的方向走 ≥ 0.4 m），只是推久一點"""
     s0 = await L.state(pg)
-    await L.joystick(pg, cdp, jx, jy, ms)
-    s1 = await L.state(pg)
+    for k in range(3):
+        await L.joystick(pg, cdp, jx, jy, ms)
+        s1 = await L.state(pg)
+        if math.hypot(s1['x'] - s0['x'], s1['z'] - s0['z']) >= need: break
     return s1['x'] - s0['x'], s1['z'] - s0['z'], s0['camYaw']
 
 
@@ -50,7 +54,7 @@ async def main():
                 ex, ez = (jx * rx - jy * fx) / 40, (jx * rz - jy * fz) / 40
                 ang = math.degrees(math.acos(max(-1, min(1, (dx * ex + dz * ez) / max(d, 1e-6)))))
                 worst = max(worst, ang)
-                run.check(f'鏡頭 {k*45:3d}°、搖桿往{name}：走的方向和畫面方向差 {ang:5.1f}°', d > 0.3 and ang <= 25, f'移動 ({dx:.2f},{dz:.2f})')
+                run.check(f'鏡頭 {k*45:3d}°、搖桿往{name}：走的方向和畫面方向差 {ang:5.1f}°', d >= 0.4 and ang <= 25, f'移動 ({dx:.2f},{dz:.2f})')
         run.note(f'最大偏差 {worst:.1f}°')
         # 真的用手指拖曳轉鏡頭（不直接設角度），轉到大約側面，再推搖桿往上
         await pg.evaluate("(([x,z])=>{ const E=GAME.E, P=E.player; P.path=null; P.obj.position.set(x,0,z); E.cam.yaw=0; })(%s)" % json.dumps([X0, Z0]))
@@ -65,7 +69,7 @@ async def main():
         d = math.hypot(dx, dz); fx, fz = -math.sin(cy), -math.cos(cy)
         ang = math.degrees(math.acos(max(-1, min(1, (dx * fx + dz * fz) / max(d, 1e-6)))))
         await run.shot(pg, 'after_drag_push_up')
-        run.check(f'拖曳轉鏡頭後推搖桿往上：往畫面前方走（差 {ang:.0f}°）', d > 0.3 and ang <= 25, f'鏡頭 {math.degrees(cy):.0f}°，移動 ({dx:.2f},{dz:.2f})')
+        run.check(f'拖曳轉鏡頭後推搖桿往上：往畫面前方走（差 {ang:.0f}°）', d >= 0.4 and ang <= 25, f'鏡頭 {math.degrees(cy):.0f}°，移動 ({dx:.2f},{dz:.2f})')
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
         await b.close()
     sys.exit(run.finish())
