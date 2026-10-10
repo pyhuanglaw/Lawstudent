@@ -1,0 +1,6 @@
+shot docs/art-rebuild/second_ai/shots/cvs_before_entry_1100.png {'zone': 'cvs', 'hour': 11, 'hud': '週三 11:00', 'player': [0, 3.5], 'cam': [0, 3.13, 7.21], 'mode': 'follow'} errors: []
+shot docs/art-rebuild/second_ai/shots/cvs_before_entry_1730.png {'zone': 'cvs', 'hour': 17.5, 'hud': '週三 17:30', 'player': [0, 3.5], 'cam': [0, 3.13, 7.21], 'mode': 'follow'} errors: []
+shot docs/art-rebuild/second_ai/shots/cvs_before_entry_2030.png {'zone': 'cvs', 'hour': 20.5, 'hud': '週三 20:30', 'player': [0, 3.5], 'cam': [0, 3.13, 7.21], 'mode': 'follow'} errors: []
+shot docs/art-rebuild/second_ai/shots/street_before_follow_east_1100.png {'zone': 'wenzhou', 'hour': 11, 'hud': '週三 11:00', 'player': [22, -1.5], 'cam': [16.93, 2.78, -1.5], 'mode': 'follow'} errors: []
+shot docs/art-rebuild/second_ai/shots/street_before_follow_east_1730.png {'zone': 'wenzhou', 'hour': 17.5, 'hud': '週三 17:30', 'player': [22, -1.5], 'cam': [16.93, 2.78, -1.5], 'mode': 'follow'} errors: []
+shot docs/art-rebuild/second_ai/shots/street_before_follow_east_2030.png {'zone': 'wenzhou', 'hour': 20.5, 'hud': '週三 20:30', 'player': [22, -1.5], 'cam': [16.93, 2.78, -1.5], 'mode': 'follow'} errors: []

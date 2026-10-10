@@ -26,11 +26,11 @@ AA、BB 兩個工作階段只和使用者討論劇情，不參與開發。訊息
 
 | # | 工作 | 狀態 | 主要檔案 | 最新 commit | 測試 | 已整合 | 等美術驗收 |
 |---|---|---|---|---|---|---|---|
-| 1 | 兩點半 Café（外觀＋室內） | **`READY_FOR_ART_REVIEW`**（功能 `FUNCTIONAL_VERIFIED`）；**已交付 16:1xZ（`2ffd7d5`，整合示範截圖 `e9d8d80`），等 AI-1 merge**、等使用者看美術 | `tools/blender/env_second/`（`cafe_layout.py` 外觀與室內共用配置）、`assets/models/env/second_ai/cafe_*.glb`、`zones3d.js` 的 `cafe`／`wenzhou` 區塊（含 `buildWenzhou`、模組層級的 Café 小函式）、`assets3d.js` 標記區、`tests/cafe_glb_integration.py` | `2ffd7d5`、`e9d8d80` | `cafe_glb_integration` 62 項、`reachability_all`（wenzhou,cafe）、`zone_transitions`、`p0_movement`、`touch_flow_wenzhou` 都 ALL PASS（Playwright 手機模擬，不是實機）；16 組前後截圖＋整合示範 2 張 | 否（等 AI-1） | 是 |
-| 2 | 溫州街近景（主巷 14 棟公寓＋曬衣服＋雨痕、日式宿舍＋院牆、電線桿／反光鏡／路名牌／Café 門前紅磚道、小公園＋後牆、機車兩款） | **驗收中**（16:25Z 開始：整合測試＋回歸＋三時段新舊截圖；和第 5 項的便利商店一起）。在暫存分支 `second-ai-wz-tmp`（本機工作目錄），驗收過了才 merge 進 `claude/second-ai-env-art` | `tools/blender/env_second/wz_*.py`、`scooter.py`、`assets/models/env/second_ai/{wenzhou_street,wz_jphouse,wz_props,wz_park,scooter}.glb`、`wenzhou` 區塊、`tests/wz_street_integration.py` | （驗收後） | 執行中 | 否 | 是（完成後） |
-| 3 | 街道道具（機車、腳踏車、行道樹、盆栽、路燈、長椅） | 機車已做（只在 wenzhou 區塊換成 InstancedMesh，隨第 2 項驗收；沒有改 `TK.scooter`、`W3.*`）；腳踏車、行道樹、盆栽、路燈、長椅排隊 | `townkit3d.js`、`world3d.js` 的四個函式（先通知 AI-1） | — | — | — | — |
-| 4 | 公館近景（騎樓店面、捷運出口） | 排隊（開工前認領 `gongguan` 區塊） | `gongguan` 區塊 | — | — | — | — |
-| 5 | 獨立室內（便利商店、麵店、書店、宿舍） | `cvs` 已認領、驗收中（和第 2 項一起）；`noodle`、`bookstore` 已認領、Blender GLB＋接法做好（第二個暫存工作目錄），下一批驗收；`dorm` 還沒開始 | `cvs`／`noodle`／`bookstore` 區塊、`tools/blender/env_second/{cvs,noodle,bookstore}_interior.py`、`tests/cvs_glb_integration.py`、`tests/interior_glb_integration.py` | — | — | — | — |
+| 1 | 兩點半 Café（外觀＋室內） | **`READY_FOR_ART_REVIEW`**（功能 `FUNCTIONAL_VERIFIED`）；**AI-1 已整合**（16:16Z merge `384c612`，回歸全部通過），排在下一次發布；等使用者看美術 | `tools/blender/env_second/`（`cafe_layout.py`）、`assets/models/env/second_ai/cafe_*.glb`、`zones3d.js` 的 `cafe`／`wenzhou` 區塊、`assets3d.js` 標記區、`tests/cafe_glb_integration.py` | `2ffd7d5`、`e9d8d80` | `cafe_glb_integration` 62 項等全部 ALL PASS（Playwright 手機模擬，不是實機） | 是（`384c612`） | 是 |
+| 2 | 溫州街近景（主巷 14 棟公寓＋曬衣服＋雨痕、日式宿舍＋院牆、電線桿／反光鏡／路名牌／Café 門前紅磚道、小公園＋後牆、機車兩款） | **`READY_FOR_ART_REVIEW`**（功能 `FUNCTIONAL_VERIFIED`）；**18:18Z 交付（`e2ae4d6`），等 AI-1 merge＋決定效能**：同鏡頭（藏起路人、含陰影）draw call 219→322、188→286、224→329（+47–52%，目標 +30% 還沒到），三角形 ≤ 35.6 萬（目標內） | `tools/blender/env_second/wz_*.py`、`scooter.py`、`assets/models/env/second_ai/{wenzhou_street,wz_jphouse,wz_props,wz_park,scooter}.glb`、`wenzhou` 區塊、`tests/wz_street_integration.py` | `192b7ee`（merge `e2ae4d6`） | `wz_street_integration` 38、`cafe_glb_integration` 62、`cvs_glb_integration` 38、`reachability_all`（wenzhou,cafe,cvs）、`zone_transitions` 37、`p0_movement` 34、`touch_flow_wenzhou` 21、`see_through` 11 全部 ALL PASS（手機模擬）；23 組三時段前後截圖＋Blender 渲染圖（VISUAL_REVIEW 第 2 節） | 否（等 AI-1） | 是 |
+| 3 | 街道道具（機車、腳踏車、行道樹、盆栽、路燈、長椅） | 機車已隨第 2 項交付（只在 wenzhou 區塊換）。腳踏車、路燈、長椅 Blender GLB 做好（`street_props.glb` 169 KB；腳踏車 1,484、路燈 584、長椅 524 個三角形，都在 AI-1 的預算內）；**AI-1 16:45Z 同意改共用檔（附條件）**，下一批接（先 merge AI-1 最新分支） | `world3d.js` 的 lampPost／bike／bench 開頭、`zones3d.js` 頂端的 `BENCH()`、`assets3d.js` 的 `?nobldg` 那一行＋標記區的 `prop.street` | — | — | — | — |
+| 4 | 公館近景（騎樓店面、捷運出口）；溫州街 Café 往南的遠景街道（AI-1 16:50Z 建議） | 排隊（開工前認領 `gongguan` 區塊） | `gongguan` 區塊、`wenzhou` 區塊 | — | — | — | — |
+| 5 | 獨立室內（便利商店、麵店、書店、宿舍） | `cvs` 隨第 2 項交付（`READY_FOR_ART_REVIEW`）；`noodle`、`bookstore` Blender GLB＋接法做好；`dorm` Blender GLB（0.69 MB、8.1k 個三角形）＋接法做好（月曆、社團傳單、z.deskItems 留在遊戲裡）。三間下一批一起驗收（宿舍先跑 movement_regression A） | `cvs`／`noodle`／`bookstore`／`dorm` 區塊、`tools/blender/env_second/{cvs,noodle,bookstore,dorm}_interior.py`、`tests/{cvs_glb,interior_glb}_integration.py` | `192b7ee`（cvs） | cvs 見第 2 項 | 否 | 是 |
 | 6 | 校園地標（傅鐘、校門、總圖、行政大樓）的 Blender 模型 | 排隊（開工前跟 AI-1 協調接法） | `tools/blender/env_second/` | — | — | — | — |
 
 ## 訊息紀錄（重要的才記；送不到對方時寫在這裡）
@@ -55,3 +55,5 @@ AA、BB 兩個工作階段只和使用者討論劇情，不參與開發。訊息
 - 2026-10-10 16:1xZ：AI-2 → AI-1（P1）：可整合：兩點半 Café（`2ffd7d5`）；檔案、測試、截圖、merge 方式。DELIVERED，等 ACK。
 - 2026-10-10 16:2xZ：AI-2 → AI-1（P2）：Café 整合示範截圖（`e9d8d80`）。DELIVERED。
 - 2026-10-10 16:2xZ：AI-2 → AI-1（P1）：認領 `noodle`、`bookstore`。DELIVERED。
+- 2026-10-10 16:58Z：AI-1 14:50Z–16:55Z 的 8 則 send_message 一起送到 AI-2（原本排在佇列裡，要等 AI-2 一輪工作結束才會進來）。AI-2 → AI-1（P1）：ACK；溫州街＋cvs 17:30Z 前交不了（先減量），估 18:30Z；GLTFLoader 缺 min/max 的警告來自 VRoid VRM 的表情形變 accessor（vroid_heroine_01～04、vroid_yuting），不是第二個 AI 的 GLB。
+- 2026-10-10 18:18Z（P1）：AI-2 → AI-1：可整合：溫州街近景＋便利商店（`e2ae4d6`）。測試全部 ALL PASS；效能：三角形在目標內，draw call +47–52%（目標 +30% 還沒到，數字與再降的做法在 VISUAL_REVIEW 2.5，請 AI-1 決定）。
