@@ -139,6 +139,36 @@ const CHAR = (function(){
       const n=new THREE.Vector3().crossVectors(u1,v1); if(n.lengthSq()<1e-8) n.set(-Math.cos(ry),0,Math.sin(ry)); n.normalize(); rotWorld(L.b,n,tgt-cur);   /* 膝蓋（腿完全打直時用「人物的左方」當彎曲軸：膝蓋往前彎）*/
       const a2=L.c.getWorldPosition(IKV[4]).sub(hip), t2=new THREE.Vector3().copy(T).sub(hip); const ax=new THREE.Vector3().crossVectors(a2,t2); if(ax.lengthSq()>1e-10){ ax.normalize(); rotWorld(L.a,ax,a2.angleTo(t2)); }   /* 大腿 */
       L.c.parent.getWorldQuaternion(IKQ[0]); L.c.quaternion.copy(IKQ[0].invert().multiply(IKQ[3])); L.c.updateWorldMatrix(false,true); } }   /* 腳掌照原本的方向（踩平） */
+  // 坐姿的腳（2026-10-10）：坐姿把人物往下移 0.47 m×身高比例讓臀部對到椅面、小腿用固定角度垂下——小腿加腳比椅面高的人物（六位主要人物都是），
+  // 腳底沉到地面下 12～14 cm（tests/sit_feet_unit.js），穿短褲的高子晴看起來小腿斷在地面。這裡在真實骨架上讓腳踝停在「站著時腳踝離地的高度」：
+  // 先把大腿往上抬（膝蓋比臀部高一點，像坐在比較矮的椅子上；小腿維持原本的方向），抬到上限還不夠才讓小腿往前伸；腳掌保持原本的方向。
+  // （第一版只把小腿往前伸：麵店的椅子上小腿斜 45°、腳伸到桌子底下 70 cm，像半躺著。）站著時量腳踝高度（同一個模型共用），沒量過就用 0.085×身高比例。
+  const RA={}, SFV=[new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3()];
+  function sitFeet(h,u){ const hm=u.vrm.humanoid; const B=u.rawLegs||(u.rawLegs=(()=>{ const o={}; for(const L of LEGS) for(const n of L) o[n]=hm.getRawBoneNode(n); return o; })());
+    if(LEGS.some(L=>L.slice(0,3).some(n=>!B[n]))) return;
+    const gy=h.getWorldPosition(SFV[0]).y, key=u.key||'_';
+    if(!(u.anim&&u.anim.static)){   // 站著（不是坐姿）：記下腳踝離地的高度
+      if(u.anim&&u.anim.cur==='idle'&&!u.ikDrop){ h.updateWorldMatrix(true,true); const a=Math.min(B.leftFoot.getWorldPosition(SFV[1]).y,B.rightFoot.getWorldPosition(SFV[2]).y)-gy; if(a>0.02&&a<0.2) RA[key]=RA[key]?Math.min(RA[key],a):a; }
+      return; }
+    if(u.sitFeet===false) return;     // 階梯教室的座位（有平台高度、前面是桌子）：腳往前伸會從桌子下面、平台邊緣突出來，維持原樣（GAME.sitAt 設定）
+    const ra=RA[key]||0.085*(u.k||1); h.updateWorldMatrix(true,true);
+    for(const [a,b,c] of LEGS){ const hip=B[a].getWorldPosition(SFV[1]), knee=B[b].getWorldPosition(SFV[2]), ank=B[c].getWorldPosition(SFV[3]);
+      const target=gy+ra; if(ank.y>=target-0.003) continue;
+      B[c].getWorldQuaternion(IKQ[3]);   // 腳掌原本的方向
+      { // 1. 大腿往上抬（最多抬到水平以上 17°），膝蓋同時反轉同樣的角度：小腿的方向不變、整段往上移（試過只補 85%：剩下 2 cm 要靠小腿斜 19° 才補得到——接近垂直時小腿要轉很多角度才抬得高一點）
+        const tv=SFV[4].copy(knee).sub(hip), Lt=tv.length();
+        if(Lt>1e-3){ const e0=Math.asin(Math.max(-1,Math.min(1,tv.y/Lt))), need=target-ank.y;
+          const e1=Math.min(0.30,Math.asin(Math.max(-1,Math.min(1,(tv.y+need)/Lt)))), al=e1-e0;
+          const ax=new THREE.Vector3().crossVectors(tv,new THREE.Vector3(0,1,0));
+          if(al>1e-4&&ax.lengthSq()>1e-10){ ax.normalize(); rotWorld(B[a],ax,al); rotWorld(B[b],ax,-al);
+            B[b].getWorldPosition(knee); B[c].getWorldPosition(ank); } } }
+      const L=knee.distanceTo(ank); if(L<1e-3) continue;
+      const ry=h.rotation.y, fwd=(ank.x-knee.x)*Math.sin(ry)+(ank.z-knee.z)*Math.cos(ry);   // 小腿往前（＋）還是往後（－）斜：坐姿的小腿本來略往後
+      const ph0=Math.sign(fwd||1)*Math.acos(Math.max(-1,Math.min(1,(knee.y-ank.y)/L))), ph1=Math.acos(Math.max(0.17,Math.min(1,(knee.y-target)/L)));   // 最多往前伸到離垂直 80°
+      const d=ph1-ph0;
+      if(d>1e-4){ B[a].getWorldPosition(hip); const u1=SFV[4].copy(hip).sub(knee), v1=new THREE.Vector3().copy(ank).sub(knee), n=new THREE.Vector3().crossVectors(u1,v1);
+        if(n.lengthSq()>1e-10){ n.normalize(); rotWorld(B[b],n,d); } }   // 2. 還差的部分：小腿往前伸（膝蓋角度變大）
+      B[c].parent.getWorldQuaternion(IKQ[0]); B[c].quaternion.copy(IKQ[0].invert().multiply(IKQ[3])); B[c].updateWorldMatrix(false,true); } }
   function animateVRM(h,dt,st){ const u=h.userData; const a=u.anim; a.t+=dt; const pose=st.pose||'idle'; const B=u.bones; const spd=st.speed||0; const vrm=u.vrm; const sx=u.sx||1;
     if(u.props){ const sitting=pose==='sit'||pose==='read'; for(const k of ['backpack','guitar']){ const o=u.props[k]; if(o) o.visible=!sitting&&!(u.propOn&&u.propOn[k]===false); } }
     if(pose==='sit'||pose==='read'){ if(!a.static){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.cur=null; vrm.humanoid.resetNormalizedPose(); } u.ikDrop=0; u.ikSt=null; u.model.position.y=(u.model.userData.baseY||0)-0.47*u.k; setBonesV(B,SIT_VRM,sx); if(pose==='read'){ setBonesV(B,READ_VRM,sx); if(B.Head) B.Head.rotation.set((0.35+Math.sin(a.t*0.6)*0.02)*sx,0,0); } else { if(B.Head) B.Head.rotation.set(Math.sin(a.t*0.7)*0.03*sx,Math.sin(a.t*0.4)*0.15,0); } if(B.Spine) B.Spine.rotation.set(0.06*sx,0,0); }
@@ -150,7 +180,7 @@ const CHAR = (function(){
     if(st.lookAt){ const local=h.worldToLocal(new THREE.Vector3(st.lookAt.x,u.headY,st.lookAt.z)); u.look.position.copy(local); if(B.Head){ const dx=st.lookAt.x-h.position.x, dz=st.lookAt.z-h.position.z; let ang=Math.atan2(dx,dz)-h.rotation.y; ang=Math.atan2(Math.sin(ang),Math.cos(ang)); ang=Math.max(-0.7,Math.min(0.7,ang)); B.Head.rotation.y+=ang*0.6; if(B.Spine1) B.Spine1.rotation.y+=ang*0.15; } } else { u.look.position.set(0,u.headY,3); }
     // 表情：眨眼、嘴型
     const em=vrm.expressionManager; if(em){ a.blink-=dt; if(a.blink<=0){ a.blinkT=0.14; a.blink=2.5+Math.random()*3.5; } if(a.blinkT>0){ a.blinkT-=dt; em.setValue('blink',a.blinkT>0.07?1:(a.blinkT/0.07)); } else em.setValue('blink',0); const target=pose==='talk'?(0.08+Math.abs(Math.sin(a.t*9))*0.3):0; a.mouth+=(target-a.mouth)*Math.min(1,dt*14); em.setValue('aa',a.mouth); }
-    updateVRM(vrm,dt,()=>footIK(h,u,u.ikSt,dt)); }
+    updateVRM(vrm,dt,()=>{ footIK(h,u,u.ikSt,dt); sitFeet(h,u); }); }
   // VRM 更新：彈簧骨（頭髮、馬尾）用固定小步長。低幀率（SwiftShader 1–4 fps、手機突然卡頓）時一次積分太大，馬尾會失穩往上翹
   // 彈簧骨前先更新整個 VRM 的 world matrix：three-vrm 用「子骨頭的 matrixWorld」算骨長，人物移動／瞬移／動畫之後子骨頭還停在上一幀，
   // 低幀率時一幀差幾十公分 → 骨長算錯、頭髮被甩到耳朵高度往外翹（林芷若走路截圖；30 fps 時也會讓髮尾抖）
