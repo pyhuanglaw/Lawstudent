@@ -7,6 +7,7 @@ from mathutils import Vector
 HERE = os.path.dirname(os.path.abspath(__file__))
 TEX = os.path.join(HERE, 'textures')
 _S = {'texres': 512, 'imgs': {}}
+MAX_METAL = 0.45   # 遊戲場景沒有環境貼圖（envMap）：金屬度高的材質在 three.js 裡只剩高光、整片發黑，正式模型的金屬度最多 0.45
 
 
 def reset(texres=512):
@@ -47,7 +48,7 @@ def img_adj(path, sat=1.0, gain=1.0):
 def pbr(name, pid=None, tile=1.0, tint=None, rough=None, metal=0.0, alpha=None, emit=None, normal=0.8, sat=None, gain=1.0, cull=False):
     """Principled BSDF：Poly Haven 的顏色（乘上 tint；sat／gain＝先降低彩度、調亮暗）、粗糙度、法線（OpenGL）；沒有 pid 就是純色材質"""
     m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N = nt.nodes; Lk = nt.links
-    bsdf = N['Principled BSDF']; bsdf.inputs['Metallic'].default_value = metal; m['tile'] = tile
+    bsdf = N['Principled BSDF']; bsdf.inputs['Metallic'].default_value = min(metal, MAX_METAL); m['tile'] = tile
     if pid:
         base = os.path.join(TEX, pid, pid)
         tc = N.new('ShaderNodeTexImage'); tc.image = img_adj(base + '_diff_1k.jpg', 1.0 if sat is None else sat, gain) if (sat is not None or gain != 1.0) else img(base + '_diff_1k.jpg')

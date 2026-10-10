@@ -81,8 +81,8 @@ MAT = {
     'wood':    pbr('wood', 'fine_grained_wood', tile=1.6, tint=srgb('#c9a27a')),
     'woodD':   pbr('wood_dark', 'fine_grained_wood', tile=1.6, tint=srgb('#8a7060')),
     'leather': pbr('leather', 'fabric_leather_02', tile=1.0, tint=srgb('#6b7480')),             # 灰藍色皮沙發
-    'steel':   pbr('steel', None, tint=srgb('#c9ccd0'), rough=0.28, metal=1.0),
-    'frame':   pbr('frame', None, tint=srgb('#3a3d40'), rough=0.45, metal=0.6),
+    'steel':   pbr('steel', None, tint=srgb('#c9ccd0'), rough=0.28, metal=0.45),   # 遊戲沒有環境貼圖：金屬度太高會發黑
+    'frame':   pbr('frame', None, tint=srgb('#3a3d40'), rough=0.45, metal=0.35),
     'glass':   pbr('glass', None, tint=srgb('#c4d6dc'), rough=0.05, alpha=0.22),
     'light':   pbr('light_panel', None, tint=srgb('#fff6e4'), rough=0.9, emit=srgb('#fff4dc')),
     'plant':   pbr('plant', None, tint=srgb('#4f7a46'), rough=0.85),

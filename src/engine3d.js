@@ -199,7 +199,7 @@ const E3 = (function(){
     if(mv.lengthSq()>0.02){ mv.normalize(); const ang=E.cam.yaw; /* 搖桿／鍵盤的方向換成世界方向（v9.3 第二十五批修正，2026-10-10 線上回報「霖澤館外面跑的方向相反」）：鏡頭在玩家的 (sin yaw, cos yaw) 那一側，畫面的「前」是 (-sin yaw,-cos yaw)、「右」是 (cos yaw,-sin yaw)；推 (x,y)（y 往下為正）＝ x·右 − y·前。原本旋轉方向寫反：只有鏡頭朝正北／正南時對，鏡頭轉 45° 時偏 90°、轉到側面時整個相反（往鏡頭這邊跑）*/ const dx=mv.x*Math.cos(ang)+mv.z*Math.sin(ang); const dz=-mv.x*Math.sin(ang)+mv.z*Math.cos(ang); const run=input.runToggle||input.joy.run||P.runHold; const sp=run?spdRun:spdWalk; P.path=null; P.target=null; stepEntity(P,dx,dz,sp,dt); moving=true; P.pose=run?'run':'walk'; P.speed=sp; }
     else if(P.path){ const t=P.path[0]; const dx=t[0]-P.obj.position.x, dz=t[1]-P.obj.position.z; const d=Math.hypot(dx,dz); if(d<0.25){ P.path.shift(); if(!P.path.length){ P.path=null; if(P.onArrive){ const f=P.onArrive; P.onArrive=null; f(); } } } else { const sp=P.run?spdRun:spdWalk; stepEntity(P,dx/d,dz/d,sp,dt); moving=true; P.pose=P.run?'run':'walk'; P.speed=sp; } }
     if(!moving){ if(P.pose==='walk'||P.pose==='run'){ P.pose='idle'; } P.speed=0; }
-    CHAR.animate(P.obj,dt,{pose:P.busy?P.pose:(P.pose),speed:P.speed,handsPockets:P.pocketsIdle&&P.pose==='idle',lookAt:P.lookAt});
+    CHAR.animate(P.obj,dt,{pose:P.busy?P.pose:(P.pose),speed:P.speed,handsPockets:P.pocketsIdle&&P.pose==='idle',lookAt:P.lookAt,ground:groundFn(P)});
     // NPC
     camera.updateMatrixWorld(); _frM.multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse); _fr.setFromProjectionMatrix(_frM); for(const n of E.npcs){ updateNPC(n,dt); }
     for(const x of E.extras){ if(x.update) x.update(dt); }
@@ -230,6 +230,8 @@ const E3 = (function(){
   function switchLevel(ent,x,z,r){ const L=E.levels; if(!L) return false; const y=ent.obj.position.y; for(let k=0;k<L.length;k++){ if(k===(ent.lv|0)) continue; if(L[k].clear(x,z,r)&&Math.abs(L[k].heightAt(x,z)-y)<0.3){ setLv(ent,k); return true; } } return false; }
   function setLv(ent,k){ ent.lv=k; if(ent===E.player){ E.nav=navOf(k); if(E.onLevel) E.onLevel(k); } }
   // 人物的高度跟著地板（樓梯、斜坡、平台）；差太多（換區域、讀檔）直接放上去
+  // 人物動畫的腳步貼合（character3d.js 的 footIK）用：那一層有高度面（樓梯、台階、平台）時給地面高度函式，平地區域不給
+  function groundFn(ent){ const n=navOf(ent.lv|0); if(!n||!n.surf) return null; return n._gf||(n._gf=(x,z)=>n.visualHeightAt(x,z)); }
   function settleY(ent,dt){ const n=navOf(ent.lv|0); if(!n) return; const o=ent.obj.position; const ty=n.surf?n.visualHeightAt(o.x,o.z):n.y0; if(dt===undefined||Math.abs(ty-o.y)>0.6) o.y=ty; else o.y+=(ty-o.y)*Math.min(1,dt*16); }
   // 卡在阻擋格裡（例如舊存檔的位置、資料錯誤）時，允許往任何方向移動，走出去就恢復正常碰撞
   function freeScore(x,z,r,lv){ const n=lv===undefined?E.nav:navOf(lv); if(!n) return 5; return (n.free(x,z)?1:0)+(n.free(x+r,z)?1:0)+(n.free(x-r,z)?1:0)+(n.free(x,z+r)?1:0)+(n.free(x,z-r)?1:0); }
@@ -268,7 +270,7 @@ const E3 = (function(){
     if(!moving&&n.faceYaw!=null&&!n.frozen){ let d=n.faceYaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,dt*6); }
     // 距離 LOD：遠處路人不畫、動畫降頻
     const cd=Math.hypot(camera.position.x-o.position.x,camera.position.z-o.position.z); const lim=E.q.level==='low'?34:(E.q.level==='high'?95:60); _frS.center.set(o.position.x,o.position.y+0.9,o.position.z); _frS.radius=1.3; const vis=(cd<lim||!n.isExtra)&&_fr.intersectsSphere(_frS)&&!(E.zone&&E.zone.hideAbove!==undefined&&o.position.y>E.zone.hideAbove-0.5);   /* 多樓層剖面視角：被藏起來的樓層上的人也不畫 */ /* 畫面外的人不畫也不更新骨架（VRM 人物 frustumCulled 關掉，所以在這裡做）*/ if(o.visible!==vis) o.visible=vis; if(!vis) return; if(cd>28&&(E.frame+(n.lodPhase||0))%2) { n._skipDt=(n._skipDt||0)+dt; return; } const adt=dt+(n._skipDt||0); n._skipDt=0;
-    CHAR.animate(o,adt,{pose:n.pose,speed:n.speed,handsPockets:n.pockets&&n.pose==='idle',lookAt:n.lookAt}); }
+    CHAR.animate(o,adt,{pose:n.pose,speed:n.speed,handsPockets:n.pockets&&n.pose==='idle',lookAt:n.lookAt,ground:groundFn(n)}); }
   // ---------- 樹幹透視 ----------
   // 跟隨鏡頭時，擋在鏡頭和玩家之間的樹幹、電線桿，在玩家周圍（直立的橢圓，高約玩家身高的 1.2 倍）變成網點透空（鏡頭本身不動、碰撞不變）；離鏡頭 1.7 m 內的部分也透空。
   // 只作用在 userData.seeThrough 的材質（大王椰子、行道樹樹幹、電線桿）。用 shader 判斷，所以區域合併過的靜態網格也適用。
