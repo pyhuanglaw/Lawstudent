@@ -7,7 +7,7 @@ LOG=${1:-docs/art-rebuild/second_ai/test_logs/street}; WHAT=${2:-all}; U=${3:-ht
 # 回歸測試會把截圖寫進第一個 AI 的資料夾（screenshots/、docs/art-rebuild/screenshots/）：複製到第二個 AI 的 test_shots/street/<測試>/，再把第一個 AI 的檔案還原
 keep(){ local d=docs/art-rebuild/second_ai/test_shots/street/$1; mkdir -p "$d"; git status --porcelain -- screenshots docs/art-rebuild/screenshots | sed 's/^...//' | while read -r f; do [ -f "$f" ] && cp "$f" "$d/"; done; git checkout -q -- screenshots docs/art-rebuild/screenshots; }
 run(){ local name=$1; shift; echo "=== $name $(date -u +%H:%M:%S)"; timeout 3000 "$@" > "$LOG/$name.log" 2>&1; echo "exit $? $(date -u +%H:%M:%S)"; grep -E "^(ALL PASS|FAILED|PASS|FAIL)" "$LOG/$name.log" | tail -3; keep "$name"; }
-if [ "$WHAT" != shots ]; then
+if [ "$WHAT" != shots ] && [ "$WHAT" != after ]; then
   run wz_street_integration python3 tests/wz_street_integration.py $U
   run cafe_glb_integration python3 tests/cafe_glb_integration.py $U
   run cvs_glb_integration python3 tests/cvs_glb_integration.py $U
