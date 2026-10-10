@@ -83,24 +83,29 @@ const W3 = (function(){
   function mergeGroup(src){ src.updateMatrixWorld(true); const inv=new THREE.Matrix4().copy(src.matrixWorld).invert(); const by=new Map();
     src.traverse(m=>{ if(!m.isMesh) return; const geo=m.geometry.clone(); geo.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv,m.matrixWorld)); const k=m.material.uuid+(m.castShadow?'s':'n'); if(!by.has(k)) by.set(k,{mat:m.material,list:[],cast:m.castShadow}); by.get(k).list.push(geo); });
     const out=new THREE.Group(); for(const e of by.values()){ const merged=THREE_JSM.BufferGeometryUtils.mergeGeometries(e.list,false); if(!merged) continue; for(const gg of e.list) gg.dispose(); merged.computeBoundingSphere(); const mesh=new THREE.Mesh(merged,e.mat); mesh.castShadow=e.cast; mesh.receiveShadow=true; out.add(mesh); } return out; }
-  function bike(color){ const g=new THREE.Group(); const bin=new TK.Bin();
+  // 輪圈＋鋼絲＋花鼓畫在一張圓形貼圖上（第二十批減面：原本 20 根鋼絲、輪圈都是實體，一台車約 3,000 個三角形）
+  function wheelTex(){ return canvasTex('bikeWheel',128,128,(x,w,h)=>{ x.clearRect(0,0,w,h); const c=w/2; x.strokeStyle='#b9bdc3'; x.lineWidth=7; x.beginPath(); x.arc(c,c,c-6,0,Math.PI*2); x.stroke();
+      x.lineWidth=1.6; for(let k=0;k<20;k++){ const a=k*Math.PI/10, a2=a+0.35; x.beginPath(); x.moveTo(c+Math.cos(a)*7,c+Math.sin(a)*7); x.lineTo(c+Math.cos(a2)*(c-8),c+Math.sin(a2)*(c-8)); x.stroke(); }
+      x.fillStyle='#8f9399'; x.beginPath(); x.arc(c,c,9,0,Math.PI*2); x.fill(); }); }
+  function bike(color){ const g=new THREE.Group(); const bin=new TK.Bin(); const NS={noShadow:true};   /* 車架顏色、黑色零件投影；銀色小零件、輪圈貼圖不投影（同材質同一組，停車架合併後每種材質一個 draw call）*/
     const fm=TK.paint(color||'#3a6fb0',{roughness:0.45,metalness:0.15});   /* 車架顏色用頂點色：所有顏色的車共用一個材質，停車架可以整排合併 */ const dark=bikeMat.dark||(bikeMat.dark=TK.col('#1f2022',{roughness:0.85})); const silver=bikeMat.silver||(bikeMat.silver=TK.col('#b9bdc3',{roughness:0.35,metalness:0.35}));
-    const V=(x,y,z)=>new THREE.Vector3(x,y,z); const tube=(m,pts,r)=>bin.add(m,new THREE.TubeGeometry(pts.length===2?new THREE.LineCurve3(pts[0],pts[1]):new THREE.QuadraticBezierCurve3(pts[0],pts[1],pts[2]),pts.length===2?1:10,r,6,false),0,0,0);
+    const wheelM=bikeMat.wheel||(bikeMat.wheel=new THREE.MeshStandardMaterial({map:wheelTex(),roughness:0.4,metalness:0.3,alphaTest:0.45,side:THREE.DoubleSide}));
+    // 管子：4 邊、彎管 5 段（遠看和圓管一樣；原本 6 邊 10 段）
+    const V=(x,y,z)=>new THREE.Vector3(x,y,z); const tube=(m,pts,r,o)=>bin.add(m,new THREE.TubeGeometry(pts.length===2?new THREE.LineCurve3(pts[0],pts[1]):new THREE.QuadraticBezierCurve3(pts[0],pts[1],pts[2]),pts.length===2?1:5,r,4,false),0,0,0,0,o);
     const RZ=-0.47, FZ=0.47, WY=0.3;
-    for(const wz of [RZ,FZ]){ bin.add(dark,new THREE.TorusGeometry(0.3,0.022,8,28),0,WY,wz,Math.PI/2); bin.add(silver,new THREE.TorusGeometry(0.276,0.009,5,28),0,WY,wz,Math.PI/2);
-      for(let k=0;k<10;k++) bin.add(silver,new THREE.BoxGeometry(0.003,0.55,0.003),0,WY,wz,0,{rx:k*Math.PI/10}); bin.add(silver,new THREE.CylinderGeometry(0.028,0.028,0.09,8),0,WY,wz,0,{rz:Math.PI/2}); }
+    for(const wz of [RZ,FZ]){ bin.add(dark,new THREE.TorusGeometry(0.3,0.022,4,18),0,WY,wz,Math.PI/2); bin.add(wheelM,new THREE.CircleGeometry(0.29,12),0,WY,wz,Math.PI/2,NS); }   // 輪胎＋輪圈鋼絲（貼圖）
     const B=V(0,0.27,-0.06), S=V(0,0.7,-0.17), Hb=V(0,0.6,0.33), H=V(0,0.8,0.29);
     tube(fm,[B,S],0.02); tube(fm,[Hb,V(0,0.22,0.2),B],0.024); tube(fm,[Hb,H],0.026);   // 座管、低跨彎下管、頭管
     for(const sx of [-0.045,0.045]){ tube(fm,[V(sx,WY,RZ),V(sx*0.6,0.27,-0.06)],0.011); tube(fm,[V(sx,WY,RZ),V(sx*0.6,0.66,-0.18)],0.011); tube(fm,[V(sx*0.7,0.6,0.335),V(sx,0.45,0.44),V(sx,WY,FZ)],0.012); }   // 後下叉、後上叉、前叉
-    tube(silver,[S,V(0,0.8,-0.19)],0.012); { const sd=new THREE.SphereGeometry(1,12,8); sd.scale(0.085,0.035,0.135); bin.add(dark,sd,0,0.83,-0.15); }   // 座管、座墊
-    tube(silver,[H,V(0,0.9,0.27)],0.013); tube(silver,[V(-0.27,0.9,0.15),V(0,0.92,0.36),V(0.27,0.9,0.15)],0.011); for(const sx of [-1,1]) bin.add(dark,new THREE.CylinderGeometry(0.017,0.017,0.11,8),sx*0.27,0.9,0.15,Math.PI/2,{rz:Math.PI/2});   // 把手、握把
-    bin.add(fm,new THREE.TorusGeometry(0.335,0.013,4,16,2.3),0,WY,FZ,Math.PI/2,{rz:0.95}); bin.add(fm,new THREE.TorusGeometry(0.335,0.013,4,16,2.1),0,WY,RZ,Math.PI/2,{rz:-0.25});   // 擋泥板
-    for(const sx of [-0.06,0.06]) tube(silver,[V(sx,0.66,-0.62),V(sx,WY,RZ)],0.007); bin.add(silver,new THREE.BoxGeometry(0.14,0.012,0.34),0,0.67,-0.45);   // 後貨架
-    bin.add(dark,new THREE.BoxGeometry(0.008,0.07,0.44),0.06,0.3,-0.27); bin.add(silver,new THREE.CylinderGeometry(0.06,0.06,0.02,12),0.05,0.27,-0.06,0,{rz:Math.PI/2});   // 鍊條蓋、齒盤
-    tube(silver,[V(0.03,0.26,-0.1),V(0.17,0.0,-0.2)],0.008);   // 腳架
-    bin.add(silver,new THREE.CylinderGeometry(0.03,0.025,0.05,10),0,0.72,0.42,0,{rx:Math.PI/2});   // 前燈
+    tube(silver,[S,V(0,0.8,-0.19)],0.012,NS); { const sd=new THREE.SphereGeometry(1,8,5); sd.scale(0.085,0.035,0.135); bin.add(dark,sd,0,0.83,-0.15); }   // 座管、座墊
+    tube(silver,[H,V(0,0.9,0.27)],0.013,NS); tube(silver,[V(-0.27,0.9,0.15),V(0,0.92,0.36),V(0.27,0.9,0.15)],0.011,NS); for(const sx of [-1,1]) bin.add(dark,new THREE.CylinderGeometry(0.017,0.017,0.11,6),sx*0.27,0.9,0.15,Math.PI/2,{rz:Math.PI/2});   // 把手、握把
+    bin.add(fm,new THREE.TorusGeometry(0.335,0.013,3,10,2.3),0,WY,FZ,Math.PI/2,{rz:0.95}); bin.add(fm,new THREE.TorusGeometry(0.335,0.013,3,10,2.1),0,WY,RZ,Math.PI/2,{rz:-0.25});   // 擋泥板
+    for(const sx of [-0.06,0.06]) tube(silver,[V(sx,0.66,-0.62),V(sx,WY,RZ)],0.007,NS); bin.add(silver,new THREE.BoxGeometry(0.14,0.012,0.34),0,0.67,-0.45,0,NS);   // 後貨架
+    bin.add(dark,new THREE.BoxGeometry(0.008,0.07,0.44),0.06,0.3,-0.27); bin.add(silver,new THREE.CylinderGeometry(0.06,0.06,0.02,8),0.05,0.27,-0.06,0,{rz:Math.PI/2,noShadow:true});   // 鍊條蓋、齒盤
+    tube(silver,[V(0.03,0.26,-0.1),V(0.17,0.0,-0.2)],0.008,NS);   // 腳架
+    bin.add(silver,new THREE.CylinderGeometry(0.03,0.025,0.05,6),0,0.72,0.42,0,{rx:Math.PI/2,noShadow:true});   // 前燈
     bin.build(g);
-    const bm=bikeMat.basket||(bikeMat.basket=new THREE.MeshStandardMaterial({map:basketTex(),roughness:0.5,metalness:0.2,alphaTest:0.5,side:THREE.DoubleSide})); const bk=new THREE.Mesh(G('bikeBasket',()=>new THREE.BoxGeometry(0.34,0.22,0.26)),bm); bk.position.set(0,0.83,0.5); g.add(bk);   // 前籃（鐵絲網）
+    const bm=bikeMat.basket||(bikeMat.basket=new THREE.MeshStandardMaterial({map:basketTex(),roughness:0.5,metalness:0.2,alphaTest:0.5,side:THREE.DoubleSide})); const bk=new THREE.Mesh(G('bikeBasket',()=>new THREE.BoxGeometry(0.34,0.22,0.26)),bm); bk.position.set(0,0.83,0.5); bk.castShadow=false; g.add(bk);   // 前籃（鐵絲網）
     g.rotation.y=Math.PI/2; return g; }
   // 腳踏車架（v9.3 第十八批）：前輪插進去的低停車架；車子垂直於車架並排（原本車子沿著車架頭尾相疊），空位是固定的（原本每次載入隨機）
   function bikeRack(n,color){ const g=new THREE.Group(); const bin=new TK.Bin(); const rm=TK.col('#8f9399',{roughness:0.4,metalness:0.3}); const cols=['#3a6fb0','#8c3b47','#2f5d50','#e0b95b','#7b6a5a','#c46a4a','#f2efe8','#3a3f46'];
