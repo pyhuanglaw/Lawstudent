@@ -21,6 +21,9 @@ TROUSER_RGB = np.array([108, 119, 139]) / 255.0   # #6c778b
 LEATHER_RGB = np.array([66, 40, 29]) / 255.0
 SOLE_RGB = np.array([36, 26, 22]) / 255.0
 GOLD_RGB = np.array([206, 168, 92]) / 255.0
+SLIM = True                # 衣服蓋住的胸、臀、胯略收（沈以安；男生不用）
+SHOE_STYLE = 'loafer'      # 'loafer'（沈以安：樂福鞋＋馬銜扣）／'sneaker'（球鞋：厚鞋底、鞋口較高、鞋帶）
+PANTS_ELLIPSE = (0.083, 0.102)   # 寬褲褲管的截面半徑（左右、前後；膝蓋以下前後再加寬 2 cm）
 BUST = ('J_Sec_L_Bust1', 'J_Sec_L_Bust2', 'J_Sec_R_Bust1', 'J_Sec_R_Bust2')
 TORSO_BONES = {'J_Bip_C_Hips', 'J_Bip_C_Spine', 'J_Bip_C_Chest', 'J_Bip_C_UpperChest', 'J_Bip_C_Neck',
                'J_Bip_L_Shoulder', 'J_Bip_R_Shoulder'} | set(BUST)
@@ -220,21 +223,26 @@ def drape_pants(rows, phi, sg, z_crotch, mid=None):
         wD = float(sstep(z_crotch + 0.004, z_crotch + 0.045, zr[r]))
         if wD <= 0: continue
         ring = rows[r]; ax = sg * ring[:, 0]
-        inner = [k for k in range(K) if ax[k] < X0 and cs[k] < 0.5]
-        if len(inner) < 3: continue
-        # 內側弧（從後面跨過 X0 的地方 → 中線 → 前面跨過 X0 的地方），照角度排好
-        ks = sorted(inner, key=lambda k: (phi[k] - math.pi / 2) % (2 * math.pi))
-        kb, kf = (ks[0] - 1) % K, (ks[-1] + 1) % K          # 內側弧外面相鄰的兩點（後、前）
-        # 前面的平面不能在肚子後面（肚子中線比 3 cm 外面更前面，第一版肚子從兩管之間露出來）；後面同理取最後面的
-        arc = np.array(ks); ya = ring[arc, 1]
-        yb = max(ring[kb, 1], ya[sn[arc] > 0].max() if (sn[arc] > 0).any() else -1e9)
-        yf = min(ring[kf, 1], ya[sn[arc] < 0].min() if (sn[arc] < 0).any() else 1e9)
+        # 第三版：內側弧照「角度」對應到 D 字形的邊（後角 → 中線 → 前角），不是照點數平均分配——
+        # 點數分配時相鄰兩圈同一個點會落在不同的地方，四邊形斜著接，兩管在中縫之間露出細縫（鈕扣下面、褲頭背面）
+        order = [(K // 4 + i) % K for i in range(K // 2 + 1)]          # 正後方（90°）→ 內側（180°）→ 正前方（270°）
+        axo = ax[order]
+        if axo.min() >= X0 or axo[0] < X0 or axo[-1] < X0: continue
+        ib = next(i for i in range(1, len(order)) if axo[i] < X0); jf = max(i for i in range(len(order) - 1) if axo[i] < X0)
+        fb = (ib - 1) + (axo[ib - 1] - X0) / max(axo[ib - 1] - axo[ib], 1e-9)
+        ff = jf + (axo[jf] - X0) / max(axo[jf] - axo[jf + 1], 1e-9)
+        Pb = ring[order[ib - 1]] + (ring[order[ib]] - ring[order[ib - 1]]) * (fb - (ib - 1))
+        Pf = ring[order[jf]] + (ring[order[jf + 1]] - ring[order[jf]]) * (ff - jf)
+        arc_i = list(range(ib, jf + 1)); arc = np.array([order[i] for i in arc_i]); ya = ring[arc, 1]
+        # 前面的平面不能在肚子後面；後面同理取最後面的
+        yb = max(Pb[1], ya[sn[arc] > 0].max() if (sn[arc] > 0).any() else -1e9)
+        yf = min(Pf[1], ya[sn[arc] < 0].min() if (sn[arc] < 0).any() else 1e9)
         if mid is not None:          # 身體中線最前面／最後面（射線直接量）＋寬鬆量：中縫不會露出皮膚
             mf, mb_ = mid(zr[r]); yf = min(yf, mf - 0.009); yb = max(yb, mb_ + 0.009)
         path = np.array([[X0, yb], [0.0005, yb], [0.0005, yf], [X0, yf]])
         seg = np.linalg.norm(np.diff(path, axis=0), axis=1); cum = np.concatenate([[0], np.cumsum(seg)])
-        tt = (np.arange(len(ks)) + 1) / (len(ks) + 1) * cum[-1]
-        for t, k in zip(tt, ks):
+        for i, k in zip(arc_i, arc):
+            t = float(np.clip((i - fb) / max(ff - fb, 1e-9), 0, 1)) * cum[-1]
             j = min(int(np.searchsorted(cum, t, side='right')) - 1, 2); f = (t - cum[j]) / max(seg[j], 1e-9)
             q = path[j] + (path[j + 1] - path[j]) * f
             ring[k, 0] = ring[k, 0] + (sg * q[0] - ring[k, 0]) * wD; ring[k, 1] = ring[k, 1] + (q[1] - ring[k, 1]) * wD
@@ -265,7 +273,7 @@ def build_pants(skin, arm, mb):
     hit = skin.full[0].ray_cast(Vector((0, hips_c[1], 0.45)), Vector((0, 0, 1)), 0.6)
     z_crotch = hit[0].z if hit[0] is not None else 0.80
     K = 32; phi = np.arange(K) * 2 * math.pi / K           # 0＝外側、90°＝後、180°＝內側、270°＝前
-    zt = [PANTS_TOP, 1.072, 1.058, 1.044, PANTS_BAND, PANTS_BAND - 0.003]
+    zt = list(np.linspace(PANTS_TOP, PANTS_BAND, 5)) + [PANTS_BAND - 0.003]     # 褲頭帶（照 PANTS_TOP／PANTS_BAND 分 4 段：其他人物的褲頭高度不同）
     zl = list(np.linspace(1.00, z_crotch + 0.02, 6)) + list(np.linspace(z_crotch - 0.01, 0.62, 5)) + list(np.linspace(0.58, 0.48, 3)) + list(np.linspace(0.42, 0.12, 7)) + [0.09]
     zs = np.array(zt + zl)
     def zhem(ph): return 0.049 - 0.020 * np.sin(ph)        # 後面 3 cm、前面 6.9 cm（褲管蓋在鞋面上）
@@ -279,7 +287,7 @@ def build_pants(skin, arm, mb):
             zz = 0.06 if isinstance(z, str) else z
             wl = sstep(z_crotch + 0.07, z_crotch - 0.05, zz)              # 0：臀部（貼身體）、1：寬褲管
             cx = 0.073 + (0.086 - 0.073) * wl; cy = hips_c[1] + 0.004 - 0.004 * wl
-            a = 0.083; b = 0.102 + 0.020 * np.clip((0.80 - zz) / 0.70, 0, 1)
+            a = PANTS_ELLIPSE[0]; b = PANTS_ELLIPSE[1] + 0.020 * (PANTS_ELLIPSE[1] / 0.102) * np.clip((0.80 - zz) / 0.70, 0, 1)
             gap = -0.004 if zz > z_crotch - 0.005 else 0.0015     # 胯下以上：兩片在中線稍微重疊（前後中縫沒有縫隙）
             ring = []
             for k, ph in enumerate(phi):
@@ -322,7 +330,7 @@ def build_pants(skin, arm, mb):
         legs[side] = dict(I=I, rows=rows, cens=cens)
     # 鈕扣（左片前中、褲頭帶中間）
     yb = min(legs['L']['rows'][3][:, 1].min(), legs['R']['rows'][3][:, 1].min())
-    bc = np.array([0.008, yb - 0.0025, 1.058]); nb = 10
+    bc = np.array([0.008, yb - 0.0025, (PANTS_TOP + PANTS_BAND) / 2 - 0.007]); nb = 10
     ang = np.arange(nb) * 2 * math.pi / nb
     front = bc + np.stack([0.0075 * np.cos(ang), np.full(nb, -0.0012), 0.0075 * np.sin(ang)], -1)
     back = bc + np.stack([0.0075 * np.cos(ang), np.full(nb, 0.0018), 0.0075 * np.sin(ang)], -1)
@@ -513,7 +521,7 @@ def build_shoes(skin, arm, mb):
         Pf = skin.P[(w > 0.5) & (skin.P[:, 2] < 0.16)]
         y_heel = Pf[:, 1].max() + 0.007; y_toe = Pf[:, 1].min() - 0.012
         y_ball = C.bone_head(arm, 'J_Bip_%s_ToeBase' % side)[1]
-        y_vamp = y_ball + 0.040
+        y_vamp = y_ball + (0.040 if SHOE_STYLE == 'loafer' else 0.072)
         NS = 18
         tt = np.linspace(0, 1, NS); ys = y_heel + (y_toe - y_heel) * (0.5 - 0.5 * np.cos(math.pi * tt))  # 兩端密
         rings = []; cen = []; vv = []
@@ -531,8 +539,9 @@ def build_shoes(skin, arm, mb):
             arch = float(sstep(y_ball + 0.020, y_ball + 0.040, y)) * (1 - heel)
             z_bot = 0.0 + 0.007 * arch
             z_welt = 0.015 + 0.015 * heel
+            if SHOE_STYLE == 'sneaker': z_bot = 0.0; z_welt = 0.027 + 0.004 * float(sstep(y_ball + 0.03, y_heel - 0.02, y))   # 球鞋：平的厚鞋底
             opening = y > y_vamp + 1e-4
-            if opening: ztop = 0.072 + 0.010 * float(sstep(y_heel - 0.04, y_heel, y))
+            if opening: ztop = (0.072 if SHOE_STYLE == 'loafer' else 0.080) + 0.010 * float(sstep(y_heel - 0.04, y_heel, y))
             if ft > 0: ztop = z_welt + (ztop - z_welt) * (0.45 + 0.55 * math.sqrt(max(0, 1 - min(ft, 0.99) ** 2)))
             hh = ztop - z_welt
             def side_w(zq):
@@ -564,6 +573,8 @@ def build_shoes(skin, arm, mb):
         for end, sgn in ((0, 1.0), (NS - 1, -1.0)):
             cc = rings[end].mean(0); ic = mb.add([cc], 'shoe' + side)[0]
             mb.fan(list(I[end]), ic, [tuple(UV[end, k]) for k in range(KS)], (0.43, Vv[end]), 2, np.array([0, sgn, 0]))
+        if SHOE_STYLE != 'loafer':
+            out[side] = dict(y_ball=y_ball, I=I); continue
         # 馬銜扣：鞋舌前面橫跨鞋面的一條金色細桿＋兩個環
         iv = int(np.argmin(np.abs(ys - (y_vamp - 0.012))))
         rg = rings[iv]; pts = [rg[k] for k in (7, 8, 9, 10, 11)]
@@ -685,6 +696,13 @@ def loafer_texture(S=256, seed=5):
     # 鞋面縫線（moc toe）＋橫帶
     stitch = ((np.abs(k - 6.8) < 0.10) | (np.abs(k - 11.2) < 0.10)) & (v > 0.50) & (v < 0.84) & ((np.floor(v * 160) % 2) == 0)
     rgb = np.where(stitch[:, :, None], (LEATHER_RGB * 1.6)[None, None, :] * np.ones_like(rgb), rgb)
+    if SHOE_STYLE == 'sneaker':     # 球鞋：白色鞋面、鞋底一條灰線、鞋舌上的鞋帶（淺灰橫條）、腳跟一塊淺灰
+        rgb = np.where(sole[:, :, None], SOLE_RGB[None, None, :] * (1 - 0.18 * (np.abs(k - 1.5) < 0.25) - 0.18 * (np.abs(k - 16.5) < 0.25))[:, :, None], LEATHER_RGB[None, None, :] * (1 + (_noise(rng, S, S, 6) - 0.5) * 0.05)[:, :, None])
+        lace = (np.abs(k - 9) < 1.6) & (v > 0.48) & (v < 0.66) & ((np.floor(v * 90) % 3) == 0)
+        rgb = np.where(lace[:, :, None], np.array([0.78, 0.78, 0.76])[None, None, :] * np.ones_like(rgb), rgb)
+        heelp = (v < 0.12) & (k > 4) & (k < 14)
+        rgb = np.where(heelp[:, :, None], (LEATHER_RGB * 0.88)[None, None, :] * np.ones_like(rgb), rgb)
+        return np.concatenate([np.clip(rgb, 0, 1), np.ones((S, S, 1))], -1)
     # 金色（右上角）
     gold = (u > 0.92) & (v > 0.88)
     gcol = GOLD_RGB[None, None, :] * (0.85 + 0.35 * np.cos((u - 0.95) * 60) ** 2)[:, :, None]
@@ -810,7 +828,7 @@ def slim_body(body):
 # ---------------------------------------------------------------- 主程式
 def apply(m):
     arm, body = m['arm'], m['body']
-    slim_body(body)
+    if SLIM: slim_body(body)
     skin = Skin(body)
     mb = MB()
     pants = build_pants(skin, arm, mb)

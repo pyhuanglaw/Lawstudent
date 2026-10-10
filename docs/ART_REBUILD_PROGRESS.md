@@ -39,6 +39,18 @@
 - 12:20 第二個工作流程（霖澤館美術：玻璃反射與夜間暖色玻璃、室內與 201 的 Blender 細節，各自建模 → 審查 → 修正）開始，和沈以安人物工作流程平行（檔案不重疊）；舊存檔相容測試（線上 main `cd52bab` 的存檔、v7 `ba53746` 的存檔 → 開發分支）在背景跑。
 - 12:40–13:00 沈以安：側臉的下半臉往後收、嘴下面的條紋陰影消除、瀏海改細髮束、臉旁長髮加寬加波浪（`232ebdc`、`08d0841`，遊戲 look-dev 截圖確認）。使用者要求減少平行工作，霖澤館工作流程暫停（WIP patch 在暫存區）。
 - 13:00–13:20 雙 AI 分工（使用者指示）：第二個工作階段「遊戲協作專案」（`session_01AC1WVgJSmoJK1uRsPK2Zn1`，分支 `claude/second-ai-env-art`）負責環境美術，第一項是兩點半 Café。交接文件 `docs/SECOND_AI_HANDOFF.md`、看板 `docs/DUAL_AI_BOARD.md`、決策 D39；`build.py` 打包 `assets/models/env/second_ai/`；`assets3d.js`、`LICENSES.md` 各開一個第二個 AI 的區段。雙方 `send_message` 已確認雙向可用。
+- 13:20–14:10 **沈以安 Blender 版第一版完成並進遊戲**（`c54bbce`、驗收資料 `8f45184`）。
+  - 服裝：背景代理被使用者插話中斷，改由主代理自己接手 `h01_clothes.py`，修掉四個錯：
+    - 剪皮膚的座標前後顛倒；
+    - 褲子膝蓋上下的權重寫反；
+    - 褲頭射線打不到身體；
+    - 落肩在手放下時像披肩。
+  - 毛衣改成凸包直落，褲子兩管在中線接平、從臀部直落。
+  - 完整模型 `stage0,face,clothes,hair` → `assets/models/char/bl_heroine_01.vrm`，Blender 工作檔 `assets/blender/heroine_01_work_v1.blend`；網址 `?blchar` 才載入。
+  - 遊戲內驗收：六視角、坐長椅、霖澤館樓梯走上二樓、15 個表情；`stairs_feet_unit`、`sim_hair` 通過。
+  - 三方比較見 CHARACTER_REVIEW 第 9 節。
+- 14:10–14:20 v9.4 發布前測試：第一個候選唯一的失敗（`zone_transitions` 的霖澤館）查明是測試過時（v9.4 進霖澤館先到大廳），修測試（`f10b387`）；新候選 `f10b387` 的完整發布前測試在乾淨 worktree 執行中。
+- 14:20– 人物生產線：`common.BodyMap`（依骨頭地標把不同身形對到沈以安的比例，衣服、臉的模組可以共用）、`h01_face` 的貼圖參數可調；祐廷的 `player.py`＋`p00_face.py`、`p00_clothes.py`（淺灰圓領毛衣、深灰直筒褲、白球鞋）、`p00_hair.py`（新的層次短髮）開始寫。
 
 ### 正在做（v9.4 人物：Blender 正式製作——示範角色沈以安，2026-10-10 11:00 起，使用者指示）
 
