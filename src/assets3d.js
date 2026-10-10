@@ -62,7 +62,7 @@ const ASSETS = (function(){
     const b64ToBuf=(data)=>{ const bin=atob(data); const buf=new ArrayBuffer(bin.length); const u8=new Uint8Array(buf); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i); return buf; };
     A.status[key]=new Promise((res,rej)=>{ const done=(gltf)=>{ try{ if(m.type==='character'||m.type==='clips'||m.type==='building'){ A.cache[key]={gltf,scene:gltf.scene,animations:gltf.animations}; }   /* building：建築正式模型（遊戲座標、不縮放）*/ else { A.cache[key]=normalize(key,gltf); } res(A.cache[key]); }catch(e){ rej(e); } }; const fail=(e)=>{ A.errors.push(key+': '+(e&&e.message||e)); rej(e); };
       if(m.type==='vrm'){ // VRM：只 parse 一次。第一個實例用原本的 VRM（表情、彈簧骨、視線）；之後的實例用骨架 clone（共用幾何與貼圖，手機記憶體才夠）
-        const setup=(buf)=>A.parseVRM(buf).then(x=>{ const rest=THREE_JSM.SkeletonUtils.clone(x.vrm.scene); const rig=rest.getObjectByName('VRMHumanoidRig'); if(rig&&rig.parent) rig.parent.remove(rig); A.cache[key]={vrm:true,tpl:{vrm:x.vrm,gltf:x.gltf,inUse:false,full:true},rest,clones:[]}; res(A.cache[key]); });
+        const setup=(buf)=>A.parseVRM(buf).then(x=>{ const rest=THREE_JSM.SkeletonUtils.clone(x.vrm.scene); copyColliderShapes(x.vrm.scene,rest); const rig=rest.getObjectByName('VRMHumanoidRig'); if(rig&&rig.parent) rig.parent.remove(rig); A.cache[key]={vrm:true,tpl:{vrm:x.vrm,gltf:x.gltf,inUse:false,full:true},rest,clones:[]}; res(A.cache[key]); });
         const dataV=window.ASSET_DATA&&window.ASSET_DATA[m.url]; if(dataV){ setup(b64ToBuf(dataV)).catch(fail); return; }
         fetch(m.url).then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.arrayBuffer(); }).then(setup).catch(()=>{ fetch(m.url+'.json').then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.json(); }).then(j=>setup(b64ToBuf(j.b64))).catch(fail); }); return; }
       const data=window.ASSET_DATA&&window.ASSET_DATA[m.url]; if(data){ loader().parse((m.url.endsWith('.glb')||m.url.endsWith('.vrm'))?b64ToBuf(data):data,'',done,fail); return; }
@@ -77,7 +77,10 @@ const ASSETS = (function(){
   A.getRaw=function(key){ return A.cache[key]; };
   // VRM 實例池
   // 骨架 clone：新的 VRMHumanoid（normalized rig）＋共用的幾何／材質；沒有彈簧骨與表情（給路人與重複出現的底模）
-  function cloneVRM(c){ const tv=c.tpl.vrm; const scene=THREE_JSM.SkeletonUtils.clone(c.rest); scene.position.set(0,0,0); scene.rotation.set(0,0,0); scene.scale.set(1,1,1); scene.updateMatrixWorld(true);
+  // 彈簧骨碰撞體（VRMSpringBoneCollider）用 Object3D.clone 複製時不會帶 shape，之後 updateWorldMatrix 會讀 shape.offset 而丟錯
+  // （v9.4 的腳步貼合在樓梯、階梯教室會對整個人物 updateWorldMatrix(true,true)）：照同樣的樹狀結構把 shape 帶過去（只讀，共用沒關係）
+  function copyColliderShapes(a,b){ if(a.shape&&!b.shape&&a.constructor===b.constructor) b.shape=a.shape; const n=Math.min(a.children.length,b.children.length); for(let i=0;i<n;i++) copyColliderShapes(a.children[i],b.children[i]); }
+  function cloneVRM(c){ const tv=c.tpl.vrm; const scene=THREE_JSM.SkeletonUtils.clone(c.rest); copyColliderShapes(c.rest,scene); scene.position.set(0,0,0); scene.rotation.set(0,0,0); scene.scale.set(1,1,1); scene.updateMatrixWorld(true);
     const hb={}; const raw=tv.humanoid.humanBones; for(const name in raw){ const node=raw[name]&&raw[name].node; if(!node) continue; const cn=scene.getObjectByName(node.name); if(cn) hb[name]={node:cn}; }
     const humanoid=new THREE_VRM.VRMHumanoid(hb,{autoUpdateHumanBones:true}); scene.add(humanoid.normalizedHumanBonesRoot);
     if(tv.meta&&tv.meta.metaVersion==='0') scene.rotation.y=Math.PI;
