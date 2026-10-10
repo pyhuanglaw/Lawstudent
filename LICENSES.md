@@ -106,4 +106,7 @@
 | Poly Haven `leafy_grass`（Charlotte Baglioni） | https://polyhaven.com/a/leafy_grass | CC0 | 小公園的草地 |
 | 全日便利商店室內 `assets/models/env/second_ai/cvs_interior.glb` | 本作 Blender 腳本 `tools/blender/env_second/cvs_interior.py`（不仿特定連鎖品牌：店名、配色、牌子都是本作自訂） | 本作 | `cvs` 室內區域（貨架、商品、飲料櫃、櫃檯、香菸櫃、咖啡機、關東煮、包子蒸櫃、自動門、窗） |
 | Poly Haven `large_floor_tiles_02`、`granite_tile_03`（第一個 AI 已下載到 `tools/blender/textures/`，只讀使用；作者與授權見上面「Poly Haven 貼圖」一節） | https://polyhaven.com/a/large_floor_tiles_02 、https://polyhaven.com/a/granite_tile_03 | CC0 | 便利商店的白色大地磚（調成米白）、櫃檯石材檯面 |
+| 阿鳳麵店室內 `assets/models/env/second_ai/noodle_interior.glb` | 本作 Blender 腳本 `tools/blender/env_second/noodle_interior.py`（店名、菜單、價目是遊戲裡的 canvas 字，不在模型裡） | 本作 | `noodle` 室內區域。貼圖：`terrazzo_tiles`（地板）、`rounded_square_tiled_wall`（牆下半的小方磚）、`dark_wood`（木作），都是上面列過的 Poly Haven CC0 |
+| 舊路書房室內 `assets/models/env/second_ai/bookstore_interior.glb` | 本作 Blender 腳本 `tools/blender/env_second/bookstore_interior.py` | 本作 | `bookstore` 室內區域。貼圖：`dark_wood`、`white_plaster_02`、`black_walnut_veneer_01`、`walnut_veneer`（上面列過的 Poly Haven CC0） |
+| 宿舍雙人房室內 `assets/models/env/second_ai/dorm_interior.glb` | 本作 Blender 腳本 `tools/blender/env_second/dorm_interior.py` | 本作 | `dorm` 室內區域。貼圖：`terrazzo_tiles`（地板、窗台）、`walnut_veneer`（家具、門）（上面列過的 Poly Haven CC0）、`painted_plaster_wall`（牆；第一個 AI 已下載到 `tools/blender/textures/`，只讀使用） |
 

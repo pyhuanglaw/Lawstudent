@@ -57,7 +57,7 @@ INTERIORS = [
     ('noodle_seat', ('2030',), dict(zone='noodle', w=1280, h=720, hidePlayer=True, pos={'x': 0, 'z': 2.5, 'yaw': 3.1416}, cam={'pos': [-4.2, 1.5, 2.6], 'look': [1.0, 0.8, 0.0]})),
     ('bookstore_entry', ('1100', '1730'), dict(zone='bookstore', w=390, h=844, mobile=True, hud=True, pos={'x': 0, 'z': 4.0, 'yaw': 3.1416}, cam={'yaw': 0.0, 'pitch': 0.38, 'dist': 4.0})),
     ('bookstore_aisle', ('1730',), dict(zone='bookstore', w=1280, h=720, hidePlayer=True, pos={'x': -3.8, 'z': 3.5, 'yaw': 3.1416}, cam={'pos': [-3.8, 1.6, 3.6], 'look': [-3.8, 1.2, -3.0]})),
-    ('bookstore_counter', ('2030',), dict(zone='bookstore', w=1280, h=720, hidePlayer=True, pos={'x': 0, 'z': 4.0, 'yaw': 3.1416}, cam={'pos': [2.8, 1.7, 1.2], 'look': [0.0, 0.9, 3.4]})),
+    ('bookstore_counter', ('2030',), dict(zone='bookstore', w=1280, h=720, hidePlayer=True, pos={'x': 0, 'z': 4.0, 'yaw': 3.1416}, cam={'pos': [-2.6, 1.6, 4.5], 'look': [0.3, 0.85, 2.6]})),   # 從門口左邊看櫃台（原本的鏡頭在右邊那排雙面書架裡面）
     # 宿舍（玩家每天起床的地方）：進門（手機直向）＋床、書桌
     ('dorm_entry', ('1100', '1730', '2030'), dict(zone='dorm', w=390, h=844, mobile=True, hud=True, pos={'x': 0, 'z': 2.4, 'yaw': 3.1416}, cam={'yaw': 0.0, 'pitch': 0.38, 'dist': 3.6})),
     ('dorm_bed', ('1730',), dict(zone='dorm', w=1280, h=720, hidePlayer=True, pos={'x': 0, 'z': 2.4, 'yaw': 3.1416}, cam={'pos': [0.6, 1.55, 0.6], 'look': [-2.3, 0.55, -1.9]})),

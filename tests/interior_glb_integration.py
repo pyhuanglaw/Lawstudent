@@ -2,7 +2,7 @@
 麵店 noodle（bldg.noodle_interior）、書店 bookstore（bldg.bookstore_interior）、宿舍 dorm（bldg.dorm_interior）；每一間都比較一般網址與 ?nobldg：
   1. 正式模型接上（zone.formal）、程序化備用模型藏起來；會淡出的牆（WALL_*）有前後左右四面。
   2. 導航格和 ?nobldg 完全相同；互動點（名稱、位置）不變；麵店的 6 個座位（z.seats）不變；家具擋住、走道走得到。
-  3. 鏡頭在前牆外：前牆淡出、後牆不淡出（自我檢查：故意把前牆 dir 弄反，淡出檢查必須失敗）。
+  3. 鏡頭在前牆外：前牆淡出、後牆不淡出（自我檢查：故意把前牆 dir 弄反，淡出檢查必須失敗）；玻璃、紗窗保持透明（不放進會淡出的牆）。
   4. 牌子（價目板、紅紙菜單、手寫牌）都有 canvas 字；自動門外的窗景和窗戶同一個材質（宿舍的門通走廊，沒有窗景）。
   5. 宿舍：月曆、床頭的社團傳單（遊戲內容）在正式模型載入後還看得到、貼在牆前。
 [前置／捷徑]：用遊戲自己的讀檔把玩家放進店裡（GAME.applySave），關掉條件事件；直接設鏡頭位置測牆面淡出。
@@ -36,6 +36,8 @@ NAV_HASH = "(()=>{ const n=GAME.E.nav; let h=0; for(let i=0;i<n.b.length;i++){ h
 FADE = """(async f=>{ const E=GAME.E, z=E.zone; E.cinematic(new THREE.Vector3(0,2.2,f+3.5),new THREE.Vector3(0,1.4,0)); E.camera.position.set(0,2.2,f+3.5); E.cam.look=new THREE.Vector3(0,1.4,0); E.camera.lookAt(E.cam.look);
     const f0=E.frame; for(let i=0;i<240&&E.frame<f0+6;i++) await new Promise(r=>setTimeout(r,250));
     const o={front:[],back:[]}; for(const w of z.walls){ const d=w.userData.dir; if(!d) continue; if(d.z<-0.5) o.front.push(+w.material.opacity.toFixed(2)); if(d.z>0.5) o.back.push(+w.material.opacity.toFixed(2)); } E.endCinematic(); return o; })"""
+GLASS = """(async()=>{ const E=GAME.E, z=E.zone; const f0=E.frame; for(let i=0;i<240&&E.frame<f0+3;i++) await new Promise(r=>setTimeout(r,250));
+    const out=[]; z.group.traverse(o=>{ if(o.isMesh&&/^WALL_/.test(o.name)&&/glass|screen/.test(o.name)) out.push({name:o.name, op:+o.material.opacity.toFixed(2), inWalls:z.walls.includes(o)}); }); return out; })()"""
 NEG = """(async f=>{ const E=GAME.E, z=E.zone; const fw=z.walls.filter(w=>w.userData.dir&&w.userData.dir.z<-0.5); for(const w of fw) w.userData.dir.z=1;
     E.cinematic(new THREE.Vector3(0,2.2,f+3.5),new THREE.Vector3(0,1.4,0)); E.camera.position.set(0,2.2,f+3.5); const f0=E.frame; for(let i=0;i<240&&E.frame<f0+6;i++) await new Promise(r=>setTimeout(r,250));
     const op=fw.map(w=>+w.material.opacity.toFixed(2)); for(const w of fw) w.userData.dir.z=-1; E.endCinematic(); return op; })"""
@@ -70,6 +72,8 @@ async def check(pg, run, zid, cfg, formal):
         run.check(tag + '鏡頭在前牆外：後牆不淡出', len(fade['back']) > 0 and min(fade['back']) > 0.9, json.dumps(fade['back']))
         neg = await pg.evaluate(NEG + '(%s)' % cfg['front'])
         run.check(tag + '（自我檢查）前牆 dir 故意弄反時，淡出檢查會失敗', len(neg) > 0 and max(neg) > 0.5, json.dumps(neg))
+        gl = await pg.evaluate(GLASS)
+        run.check(tag + '玻璃、紗窗保持透明（不在會淡出的牆裡；淡出邏輯會把不透明度設回 1，玻璃會變成灰板）', len(gl) > 0 and all(g['op'] < 0.5 and not g['inWalls'] for g in gl), json.dumps(gl))
         ex = await pg.evaluate("""(f=>{ const z=GAME.E.zone; const signs={}; z.group.traverse(o=>{ if(o.isMesh&&/SIGN_FACE_/.test(o.name)) signs[o.name]=!!(o.material.map&&o.material.map.image&&o.material.map.image.getContext); });
             const dv=z.winParts&&z.winParts.find(p=>Math.abs(p.at.z-f)<0.01&&Math.abs(p.at.x)<0.01); return {signs, door:!!(dv&&z.wins&&z.wins[0]&&dv.obj.material===z.wins[0].material)}; })(%s)""" % cfg['front'])
         run.check(f"{tag}牌子都有 canvas 字（{cfg['signs']} 面）", len(ex['signs']) == cfg['signs'] and all(ex['signs'].values()), json.dumps(ex['signs']))
