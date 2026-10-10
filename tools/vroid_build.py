@@ -1579,6 +1579,111 @@ POCKET_RECT = (0.29, 0.63, 0.71, 0.915)                              # HairSampl
 NECK_V_RECT = (0.458, 0.5265, 0.544, 0.5375)                         # HairSample_Male 連帽上衣：前領口正中間帽子交疊的 V 形陰影（領口羅紋下緣，貼圖 1024 px 的 y 539–550）
 
 
+# ======================== v9.4 人物外觀驗收（2026-10-10，docs/art-rebuild/CHARACTER_REVIEW.md）：改臉、瀏海、鼻樑 ========================
+def deform_mesh(v, prefix, fn, mat_filter=None):
+    """對名字以 prefix 開頭的網格，每個 POSITION accessor 套 fn(P, sel)→新的 P（sel＝這個 accessor 裡屬於 mat_filter 材質的頂點；沒有給就是全部）。
+    morph target 的位移不動（表情照樣疊在新的形狀上）。回傳改動的頂點數"""
+    mats = v.j['materials']; n = 0; done = {}
+    for m in v.j['meshes']:
+        if not m['name'].startswith(prefix): continue
+        by_acc = {}
+        for p in m['primitives']: by_acc.setdefault(p['attributes']['POSITION'], []).append(p)
+        for acc_i, prims in by_acc.items():
+            if acc_i in done: continue
+            P = v.acc(acc_i).astype(np.float64)
+            ps = [p for p in prims if (mat_filter is None or mat_filter(mats[p['material']]['name']))]
+            if not ps: continue
+            sel = np.unique(np.concatenate([v.acc(p['indices']).astype(np.int64) for p in ps]))
+            P2 = fn(P.copy(), sel); ch = np.any(np.abs(P2 - P) > 1e-7, axis=1); n += int(ch.sum())
+            new = v.add_acc(P2.astype(np.float32), 5126, 'VEC3', 34962, True); done[acc_i] = new
+            for p in prims: p['attributes'] = dict(p['attributes'], POSITION=new)
+    return n
+
+
+def face_marks(v):
+    """臉部的參考位置（模型座標，臉朝 -z）：眼睛中心高度、眉毛高度、嘴的高度、臉最前面的 z"""
+    mats = v.j['materials']; out = {}
+    for m in v.j['meshes']:
+        if not m['name'].startswith('Face'): continue
+        for p in m['primitives']:
+            nm = mats[p['material']]['name']; q = v.acc(p['attributes']['POSITION'])[np.unique(v.acc(p['indices']).astype(np.int64))]
+            for k in ('EyeWhite', 'FaceBrow', 'FaceMouth', 'Face_00_SKIN'):
+                if k in nm: out[k] = (q.min(0), q.max(0), q)
+    return {'eye_y': float((out['EyeWhite'][0][1] + out['EyeWhite'][1][1]) / 2), 'eye_top': float(out['EyeWhite'][1][1]),
+            'brow_y': float((out['FaceBrow'][0][1] + out['FaceBrow'][1][1]) / 2), 'brow_lo': float(out['FaceBrow'][0][1]),
+            'mouth_y': float((out['FaceMouth'][0][1] + out['FaceMouth'][1][1]) / 2), 'chin_y': float(out['Face_00_SKIN'][0][1]),
+            'front_z': float(out['Face_00_SKIN'][0][2]), 'skin': out['Face_00_SKIN'][2]}
+
+
+def trim_bangs(v, y_stop, k=0.3, x_max=0.1, z_max=-0.075):
+    """瀏海縮短：臉前面（z < z_max、|x| < x_max）在 y_stop 以下的頭髮往上壓到 y_stop 下方（y' = y_stop − (y_stop − y)·k）。
+    髮尾的尖細形狀、髮束的寬度、骨頭權重都不變，只是垂直方向變短（祐廷：參考圖 02 的瀏海在眉毛上下，原本一束束垂到鼻子、蓋住眼睛）"""
+    def fn(P, sel):
+        s = sel[(P[sel, 1] < y_stop) & (np.abs(P[sel, 0]) < x_max) & (P[sel, 2] < z_max)]
+        P[s, 1] = y_stop - (y_stop - P[s, 1]) * k
+        return P
+    return deform_mesh(v, 'Hair', fn)
+
+
+def nose_bridge(v, amount=0.006, y0=None, y1=None, half_w=0.022):
+    """鼻樑墊高：臉皮在鼻子那一條（|x| < half_w、y0..y1）往前（−z）推，越靠中線、越靠鼻樑中段推越多（側面才看得出鼻子；VRoid 的鼻子幾乎是平的）"""
+    fm = face_marks(v); y0 = fm['mouth_y'] + 0.012 if y0 is None else y0; y1 = fm['eye_y'] + 0.004 if y1 is None else y1
+    def fn(P, sel):
+        x, y = P[sel, 0], P[sel, 1]
+        wx = np.clip(1 - (np.abs(x) / half_w) ** 2, 0, None); t = np.clip((y - y0) / (y1 - y0), 0, 1); wy = np.sin(np.pi * t) * ((y >= y0) & (y <= y1))
+        P[sel, 2] -= amount * wx * wy
+        return P
+    return deform_mesh(v, 'Face', fn, lambda nm: 'Face_00_SKIN' in nm)
+
+
+def fit_to_body(v, mat_pat, keep=0.45, gap=0.012, y_min=None, y_max=None, skin_pat='Body_00_SKIN'):
+    """衣服收合身：mat_pat 衣服的每個頂點，朝最近的身體皮膚頂點靠近——離身體的距離 d 變成 gap + (d − gap)·keep（本來就貼著的不動）。
+    寬鬆的連帽衫 → 合身的毛衣（祐廷：參考圖 02）。骨頭權重不變；只動 y_min..y_max 之間（不給＝全部）。回傳改動的頂點數"""
+    mats = v.j['materials']
+    # 身體＝皮膚三角形實際用到的頂點（同一個 POSITION accessor 裡還有衣服、以及被複製走的舊衣服頂點，不能整個拿來用）
+    ids = {}
+    for m in v.j['meshes']:
+        for p in m['primitives']:
+            if skin_pat in mats[p['material']]['name']: ids.setdefault(p['attributes']['POSITION'], []).append(v.acc(p['indices']).astype(np.int64))
+    body = np.concatenate([v.acc(a).astype(np.float64)[np.unique(np.concatenate(l))] for a, l in ids.items()]) if ids else None
+    if body is None or not len(body): return 0
+    def fn(P, sel):
+        if y_min is not None: sel = sel[P[sel, 1] >= y_min]
+        if y_max is not None: sel = sel[P[sel, 1] <= y_max]
+        Q = P[sel]; out = Q.copy()
+        for a in range(0, len(Q), 512):
+            q = Q[a:a + 512]; d2 = ((q[:, None, :] - body[None, :, :]) ** 2).sum(-1); j = d2.argmin(1)
+            b = body[j]; vec = q - b; d = np.sqrt(d2[np.arange(len(q)), j])
+            nd = np.where(d > gap, gap + (d - gap) * keep, d)
+            out[a:a + 512] = b + vec * (nd / np.maximum(d, 1e-9))[:, None]
+        P[sel] = out
+        return P
+    return deform_mesh(v, 'Body', fn, lambda nm: mat_pat in nm)
+
+
+def crew_collar(v, mat_pat, y_c, gap=0.012, x_lim=0.16, band=0.025, skin_pat='Body_00_SKIN'):
+    """圓領：上衣在脖子附近（|x| < x_lim、y > y_c − band）的頂點往脖子收——在 xz 平面上拉到「脖子橢圓＋gap」以內、高度壓到 y_c＋0.01 以下；
+    y_c − band..y_c 之間漸進（不留折痕）。連帽衫帽子底部那兩片翻領 → 貼著脖子的圓領（祐廷：參考圖 02）。只移動頂點，不挖洞"""
+    mats = v.j['materials']; ids = {}
+    for m in v.j['meshes']:
+        for p in m['primitives']:
+            if skin_pat in mats[p['material']]['name']: ids.setdefault(p['attributes']['POSITION'], []).append(v.acc(p['indices']).astype(np.int64))
+    B = np.concatenate([v.acc(a).astype(np.float64)[np.unique(np.concatenate(l))] for a, l in ids.items()])
+    nk = B[(np.abs(B[:, 1] - y_c) < 0.006) & (np.abs(B[:, 0]) < 0.1)]
+    cx, cz = (nk[:, 0].min() + nk[:, 0].max()) / 2, (nk[:, 2].min() + nk[:, 2].max()) / 2
+    rx, rz = (nk[:, 0].max() - nk[:, 0].min()) / 2 + gap, (nk[:, 2].max() - nk[:, 2].min()) / 2 + gap
+    def fn(P, sel):
+        s = sel[(np.abs(P[sel, 0]) < x_lim) & (P[sel, 1] > y_c - band)]
+        x, y, z = P[s, 0] - cx, P[s, 1], P[s, 2] - cz
+        w = np.clip((y - (y_c - band)) / band, 0, 1)                      # 0（領口下緣）→ 1（領口）
+        r = np.sqrt((x / rx) ** 2 + (z / rz) ** 2); k = np.where(r > 1, 1 / np.maximum(r, 1e-9), 1.0)
+        k = 1 + (k - 1) * w
+        P[s, 0] = cx + x * k; P[s, 2] = cz + z * k
+        P[s, 1] = np.where(y > y_c + 0.01, y_c + 0.01 + (y - y_c - 0.01) * 0.25, y)
+        return P
+    return deform_mesh(v, 'Body', fn, lambda nm: mat_pat in nm)
+
+
 def build_yuting():
     """祐廷（玩家）：HairSample_Male。依參考圖 02：自然黑短髮（拿掉頭頂呆毛與頭髮高光）、淺灰圓領上衣（連帽上衣拿掉帽子、抽繩與口袋線）、
     深灰直筒長褲（略加寬）、白球鞋、眼睛略縮小；黑色後背包是遊戲內配件（src/props3d.js）。"""
@@ -1593,7 +1698,12 @@ def build_yuting():
     recolor_mat(v, 'Bottoms', '#3d3f45', strength=0.8)
     recolor_mat(v, 'Shoes', '#f2f0ea', strength=0.7)
     recolor_mat(v, 'HAIR', '#1d1a1b', strength=0.85, keep_detail=0.75)
-    print('  yuting: eye verts scaled', scale_eyes(v, 0.93, 0.9))
+    print('  yuting: eye verts scaled', scale_eyes(v, 0.86, 0.82))   # v9.4 外觀驗收：0.93／0.9 → 0.86／0.82（參考圖 02：自然大小、偏細長）
+    fm = face_marks(v)
+    print('  yuting: bangs trimmed verts', trim_bangs(v, fm['brow_y'] - 0.004, k=0.28))   # 瀏海到眉毛（原本垂到鼻子、蓋住眼睛）
+    print('  yuting: nose bridge verts', nose_bridge(v, 0.007))
+    print('  yuting: top fitted verts', fit_to_body(v, 'Tops', keep=0.45, gap=0.014))   # 寬鬆連帽衫 → 合身圓領毛衣（參考圖 02）
+    print('  yuting: crew collar verts', crew_collar(v, 'Tops', joint_y(v, 'Neck') - 0.016))
     no_hair_shine(v); soften_matcap(v)
     return finish(v, MALE_EYES, '#3a2a22', '祐廷（法條之外）', 'Based on VRoid CC0 sample "HairSample_Male" (pixiv); modified for 法條之外')
 
@@ -1875,7 +1985,10 @@ BUILDS = {'vroid_yuting': build_yuting, 'vroid_heroine_01': build_heroine_01, 'v
           'vroid_npc_f1': build_npc_f1, 'vroid_npc_f2': build_npc_f2, 'vroid_npc_m1': build_npc_m1, 'vroid_npc_m2': build_npc_m2}
 
 if __name__ == '__main__':
-    want = sys.argv[1:] or list(BUILDS)
+    args = sys.argv[1:]
+    if '--out' in args:   # 試作版輸出到別的資料夾（例如 tools/vroid_wip/，用 test_charlook.html?file=… 比較），不覆蓋遊戲用的模型
+        i = args.index('--out'); OUT = os.path.join(ROOT, args[i + 1]); del args[i:i + 2]
+    want = args or list(BUILDS)
     os.makedirs(OUT, exist_ok=True)
     for k in want:
         v = BUILDS[k]()

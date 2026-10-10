@@ -1,0 +1,36 @@
+<!doctype html><html><head><meta charset="utf-8"><title>人物 look-dev</title>
+<style>html,body{margin:0;background:#c9c6bf;overflow:hidden}#log{position:fixed;left:6px;top:6px;font:12px monospace;color:#222;white-space:pre;pointer-events:none}</style></head><body>
+<div id="log"></div>
+<script src="lib/three.bundle.js"></script>
+<script src="lib/three.jsm.bundle.js"></script>
+<script src="lib/three-vrm.bundle.js"></script>
+<script src="src/people3d.js"></script>
+<script src="src/assets3d.js"></script>
+<script src="src/character3d.js"></script>
+<script src="src/props3d.js"></script>
+<script>
+/* 人物外觀調整用的檢視頁（開發用，不是驗收畫面：最後驗收一律用實際遊戲截圖，tools/shots/char_review.py）。
+   用遊戲本身的 ASSETS＋CHAR.build 建人物（C.LOOK 材質、配件、身高都和遊戲一樣），光線照遊戲白天的設定（半球光＋太陽＋補光、ACES）。
+   網址參數：id＝角色（player、heroine_01…05）；file＝改用另一個 VRM 檔（例如 tools/vroid_wip/ 的試作版）；hour 不支援（只有白天）。
+   Playwright：window.__ready 之後呼叫 window.__view('face_front'|'face_q45'|'face_side'|'body_front'|'body_q45'|'body_side'|'body_back')。 */
+const Q=new URLSearchParams(location.search); const ID=Q.get('id')||'player';
+const KEY={player:'char.yuting',heroine_01:'char.heroine_01',heroine_02:'char.heroine_02',heroine_03:'char.heroine_03',heroine_04:'char.heroine_04',heroine_05:'char.heroine_05',zhe:'char.zhe'}[ID]||ID;
+const log=s=>{ document.getElementById('log').textContent+=s+'\n'; };
+(async()=>{ try{
+  const W=innerWidth,H=innerHeight; const renderer=new THREE.WebGLRenderer({antialias:true}); renderer.setPixelRatio(1); renderer.setSize(W,H); renderer.outputColorSpace=THREE.SRGBColorSpace; renderer.toneMapping=THREE.ACESFilmicToneMapping; document.body.appendChild(renderer.domElement);
+  const scene=new THREE.Scene(); scene.background=new THREE.Color(0xc9c6bf);
+  scene.add(new THREE.HemisphereLight(0xdfe9f5,0xb9a98d,0.8)); const sun=new THREE.DirectionalLight(0xfff2dc,1.9); sun.position.set(-3,6,-4); scene.add(sun); const fill=new THREE.DirectionalLight(0xcfe3ff,0.35); fill.position.set(3,3,4); scene.add(fill);
+  const ground=new THREE.Mesh(new THREE.PlaneGeometry(10,10),new THREE.MeshStandardMaterial({color:0x9a958d,roughness:1})); ground.rotation.x=-Math.PI/2; scene.add(ground);
+  if(Q.get('file')) ASSETS.manifest[KEY].url=Q.get('file');
+  const t0=performance.now(); await ASSETS.loadOne('char.mixamo_clips'); await ASSETS.loadOne(KEY);
+  const h=CHAR.build({id:ID==='player'?'hero_m':ID,model:KEY,height:ASSETS.manifest[KEY].height}); scene.add(h); h.rotation.y=Math.PI;   /* 面向 -z（鏡頭在 -z 那一側）*/
+  log(ID+' '+KEY+' driver='+h.userData.driver+' '+Math.round(performance.now()-t0)+'ms');
+  const Hh=ASSETS.manifest[KEY].height||1.7, head=h.userData.headY||Hh*0.92;
+  const cam=new THREE.PerspectiveCamera(30,W/H,0.05,50);
+  const V={face_front:[0,head-0.02,-0.95,0],face_q45:[0.67,head-0.02,-0.67,0],face_side:[0.95,head-0.02,0,0],body_front:[0,Hh*0.55,-4.2,1],body_q45:[2.97,Hh*0.55,-2.97,1],body_side:[4.2,Hh*0.55,0,1],body_back:[0,Hh*0.55,4.2,1]};
+  window.__view=(n)=>{ const v=V[n]; cam.position.set(v[0],v[1],v[2]); cam.lookAt(0,v[3]?Hh*0.5:head-0.03,0); };
+  window.__view('face_front');
+  let last=performance.now(); function frame(){ requestAnimationFrame(frame); const now=performance.now(); const dt=Math.min(0.05,(now-last)/1000); last=now; CHAR.animate(h,dt,{pose:'idle',speed:0}); renderer.render(scene,cam); } frame();
+  window.__ready={ok:true,driver:h.userData.driver,key:KEY};
+}catch(e){ log('ERROR '+e.message); console.error(e); window.__ready={ok:false,err:String(e)}; } })();
+</script></body></html>
