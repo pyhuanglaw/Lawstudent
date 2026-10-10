@@ -459,3 +459,59 @@ look-dev 全身比較（上排現在的遊戲版、下排這一輪；兩排都�
 - 臉的五官仍是 VRoid 的畫法（眼線、虹膜是貼圖）。
 
 狀態：`READY_FOR_ART_REVIEW`（美術待使用者驗收，**未標 ART_APPROVED**）。
+
+---
+
+## 13. 高子晴 Blender 版 第一版（v9.4 人物生產線第五位；2026-10-10，第三版）
+
+**製作工具**：Blender 5.2.2（`bpy`，無介面）＋ VRM Add-on for Blender。共用前四位的模組；高子晴另外做了「放下來的帽子＋帽繩」與樣本皮膚貼圖的清理。
+- 腳本：`tools/blender/char/heroine_04.py --stages stage0,face,clothes,hair`。
+  - `stage0`：VRoid CC0 樣本「Vita」拿掉原本的頭髮（含身體網格上的後髮）、上衣（連身）、鞋、裙擺等次要骨頭，頭縮 0.91、脖子收 5%。**Vita 的皮膚貼圖畫了科幻花紋（臉頰、肩膀、胸口）和緊身褲、手套的顏色**——高子晴穿短褲、連帽上衣會露出來：`clean_texture` 把「不像皮膚」（不是暖色、太暗）的像素換成周圍皮膚的模糊值（VRoid 加工版 `inpaint_face_markings` 的 Blender 版）。
+  - `p04_face.py`：沿用 `h01_face`，參數換成她的：清爽的鵝蛋臉、眼睛明亮微微上揚、細直眉、自然唇色；腮紅拿掉。
+  - `p04_clothes.py`：沿用 `h01_clothes`。款式照參考圖 06：淺麻灰 oversize 連帽上衣（`jersey` 布料、交疊的淺 V 領、長袖羅紋袖口、下擺羅紋蓋過短褲褲頭）、深色牛仔短褲（`denim`，大腿中段）、白球鞋。**帽子與帽繩是新寫的網格**（`build_hood`）：脖子後面一圈粗 1.9 cm 的帽緣（從左肩頸繞到右肩頸）＋垂在背上 21 cm 的圓角帽身（貼著上衣背面、中間鼓起來，顏色暗 8% 才分得出來）＋兩條 17 cm 的帽繩。
+  - `p04_hair.py`：深棕色到下巴的鮑伯（前面略長、後面略短、髮尾不外張）＋往人物左邊撥的空氣瀏海（陳語彤的做法）。全部綁在頭骨。
+- 遊戲用整理：`vrm_finish.py`（`VRM_BASE=Vita`）。吉他袋與背帶仍是 `props3d.js`。
+
+**第一版到第三版修掉的問題**（Blender 預覽裡看到才修）：
+- 第一版沒有清貼圖：臉頰、肩膀是青綠色的科幻花紋。
+- 帽子：第一版只是背上一條細線（帽緣太低太細、帽身貼平）；第二版帽緣抬高加粗、帽身鼓起來；第三版帽子用自己的材質、顏色暗 8%（同一個材質時，遊戲光線下帽身和背後分不出來）。
+- **遊戲用模型** `assets/models/char/bl_heroine_04.vrm`（3.0 MB）；**Blender 工作檔** `assets/blender/heroine_04_work_v1.blend`。**怎麼看**：網址加 `?blchar`（預設仍是 VRoid 加工版 `vroid_heroine_04.vrm`）。
+
+**三方比較**（參考圖 06｜目前 VRoid 加工版，遊戲內｜Blender 第一版，遊戲內｜Blender 渲染圖，bind pose）：
+
+![高子晴三方比較](screenshots/v94_CHAR_heroine_04_blender_3way.jpg)
+
+**看模型頁面同角度比較**（上：VRoid 加工版；下：Blender 第三版；吉他袋與背帶是遊戲內配件）：
+
+![高子晴 VRoid 版與 Blender 版](screenshots/v94_CHAR_heroine_04_blender_lookdev.jpg)
+
+**放下來的帽子與帽繩**（Blender 預覽，T 字姿勢：背面、斜後方、正面）：
+
+![高子晴帽子](screenshots/v94_CHAR_heroine_04_blender_hood.jpg)
+
+**實際遊戲畫面**（溫州街 11:00；正面、45 度、側面、背面、臉、走路、一般跟隨鏡頭）：
+
+![高子晴 Blender 版遊戲內](screenshots/v94_CHAR_heroine_04_blender_ingame.jpg)
+
+**動作**（實際遊戲：溫州街小公園長椅坐下；霖澤館大廳樓梯自己走上二樓）：
+
+![高子晴 Blender 版動作](screenshots/v94_CHAR_heroine_04_blender_motion.jpg)
+
+**表情**（上排 VRoid 加工版、下排 Blender 版；15 個表情都在）：
+
+![高子晴 Blender 版表情](screenshots/v94_CHAR_heroine_04_blender_expressions.jpg)
+
+**測試**（都是 Playwright 模擬／Node，**不是手機實機**）：
+- `CHAR_FILE=tools/vroid_wip/bl/h04_r3.vrm node tests/stairs_feet_unit.js char.heroine_04`：ALL PASS（上下樓梯穿進台階 0.0 cm；支撐腳最多離地 2.5／0.8 cm）。
+- `?blchar` 實際載入：`bl_heroine_04.vrm` 取代 `vroid_heroine_04.vrm`；沒有退回程序化人物、沒有 JS 例外。遊戲內 `char_review`、`char_motion`、表情檢查：沒有 JS 錯誤。
+
+**發現的共同問題（不是這個模型造成的，線上版本也有）——坐下時腳沉到地面下**：動作截圖裡高子晴坐長椅時小腿斷在地面、看不到鞋子。線上預設的 VRoid 版同樣如此。新寫的 `tests/sit_feet_unit.js`（Node，遊戲的 CHAR 坐姿）量到**六位主要人物坐下時腳底都在地面下 12～14 cm**——穿長褲的人被褲管遮住不明顯，高子晴穿短褲才露出來。原因：坐姿（`character3d.js` 的 `SIT_VRM`）把人物往下移 0.47 m×身高比例讓臀部對到椅面，小腿用固定角度（膝蓋彎 1.5 rad、小腿略往後）垂下，小腿加腳的長度大於椅面高度。修法（下一步，還沒做）：坐姿套上之後量每一隻腳的腳底高度，低於地面就把小腿往前伸（減少膝蓋彎曲、腳掌保持平放），讓腳底停在地面上；長椅、階梯教室、Café 的座位都要回歸測試。
+
+**仍不符合參考圖（誠實列出）**：
+- 沒有白色短襪（參考圖穿白襪＋黑白球鞋；這版是白球鞋、光腳踝）。
+- 連帽上衣沒有袋鼠口袋、胸口小標誌；帽子是簡化的形狀（帽緣＋帽身），近看沒有布料的皺褶與帽子內側。
+- 瀏海是一束一束的細髮束，近看邊緣有一點參差；參考圖的鮑伯一邊塞在耳後、露出耳環，這版兩邊都蓋住耳朵。
+- 頭髮沒有彈簧骨。臉的五官仍是 VRoid 的畫法。
+- 坐下時腳沉到地面下（上面的共同問題）。
+
+狀態：`READY_FOR_ART_REVIEW`（美術待使用者驗收，**未標 ART_APPROVED**）。
