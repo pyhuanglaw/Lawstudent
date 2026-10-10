@@ -151,58 +151,75 @@ def build_shirt_parts(m, clothes):
 
     # ---- 3b. V 字開口裡的胸口皮膚 ----
     # Sendagaya Shino 樣本的身體在原本上衣蓋住的地方（胸口、上背、上臂）沒有面（VRoid 匯出時刪掉了），襯衫開 V 領會看到一個洞。
-    # 補一片皮膚：每一列照開口兩邊襯衫表面的深度內插（中間微微往前凸 4 mm）、在襯衫表面後面 6 mm；脖子還有皮膚的地方藏在脖子後面 3 mm。
+    # 第二版：從脖子皮膚的下緣（身體網格的開口邊界）往下長出一片——第一列就是邊界上的點（接縫看不出來）、每一行的 UV 用那個邊界頂點的 UV
+    # （顏色接得上）、法線從邊界頂點的法線漸變到胸口的方向；深度照開口兩邊襯衫表面內插（中間微微往前凸 4 mm）、在襯衫表面後面 6 mm。
+    # （第一版是一片單色、和脖子分開的面：遊戲裡脖子下緣的鋸齒邊和顏色差都看得到。）
     body = m['body']; Mb = np.array(body.matrix_world); Pb = C.co(body) @ Mb[:3, :3].T + Mb[:3, 3]
-    bb = BVHTree.FromPolygons(Pb.tolist(), [list(p.vertices) for p in body.data.polygons])
-    zN = float(N[2]); zb = float(R[0][2]) - 0.028
-    zs = np.linspace(zb, zN + 0.012, 15); yc = float(N[1])
-    xf = np.linspace(-0.09, 0.09, 91)
-    def half_open(z):      # 這一列 V 字開口的半寬（從正面打射線打不到襯衫前片的範圍）
-        miss = []
-        for x in xf:
-            h = bvh.ray_cast(Vector((x, -0.5, z)), Vector((0, 1, 0)), 1.0)
-            if not (h[0] is not None and h[1][1] < -0.3 and h[0][1] < yc): miss.append(abs(x))
-        return min(0.045, max(miss)) if miss else 0.006
-    nx = 13; G = np.zeros((len(zs), nx, 3))
-    for j, z in enumerate(zs):
-        xs = np.linspace(-1, 1, nx) * (half_open(z) + 0.014)
-        ys = np.full(len(xs), np.nan); yn = np.full(len(xs), np.nan)
-        for i, x in enumerate(xs):
-            h = bvh.ray_cast(Vector((x, -0.5, z)), Vector((0, 1, 0)), 1.0)
-            if h[0] is not None and h[1][1] < -0.3 and h[0][1] < yc: ys[i] = h[0][1] + 0.006
-            h = bb.ray_cast(Vector((x, -0.5, z)), Vector((0, 1, 0)), 1.0)
-            if h[0] is not None and h[1][1] < -0.3 and h[0][1] < yc: yn[i] = h[0][1] + 0.003
-        ok = ~np.isnan(ys)
-        if ok.sum() >= 2:
-            yi = np.interp(xs, xs[ok], ys[ok])
-            gap = ~ok
-            if gap.any():
-                xg = xs[gap]; c0, hw = (xg.min() + xg.max()) / 2, max(1e-3, (xg.max() - xg.min()) / 2 + 0.01)
-                yi = yi - 0.004 * np.clip(1 - ((xs - c0) / hw) ** 2, 0, 1) * gap
-        elif ok.sum() == 1: yi = np.full(len(xs), ys[ok][0])
-        else: yi = np.full(len(xs), np.nan)
-        y = np.where(~np.isnan(yn), np.fmax(np.nan_to_num(yi, nan=-9), yn), yi)      # 脖子有皮膚的地方：在脖子後面
-        if np.isnan(y).all(): y = G[j - 1, :, 1] if j > 0 else np.full(len(xs), yc - 0.06)
-        y = np.where(np.isnan(y), np.nanmean(y), y)
-        G[j, :, 0] = xs; G[j, :, 1] = y; G[j, :, 2] = z
-    smat = next(sl.material for sl in body.material_slots if sl.material and 'Body_00_SKIN' in sl.material.name)
-    cand = np.nonzero((np.abs(Pb[:, 0]) < 0.04) & (np.abs(Pb[:, 2] - (float(C.bone_head(arm, 'J_Bip_C_Spine')[2]) + 0.05)) < 0.02))[0]
-    near = int(cand[np.argmin(Pb[cand, 1])]) if len(cand) else int(np.argmin(np.linalg.norm(Pb - np.array([0.0, yc - 0.045, zN - 0.005]), axis=1)))   # 肚子正面的皮膚（平滑、沒有畫陰影）
+    Nl = np.empty(len(body.data.vertices) * 3); body.data.vertices.foreach_get('normal', Nl); Nw = _u(Nl.reshape(-1, 3) @ Mb[:3, :3].T)
+    zN = float(N[2]); yc = float(N[1]); zb = float(R[0][2]) - 0.025
+    # 脖子前面的下緣：身體網格開口邊界（軀幹那個大洞的邊界是一整圈，脖子、肩膀、手臂連在一起）上，|x| < 7.5 cm、比脖子骨頭低不到 10 cm、在前面的那一段；
+    # 照邊界的順序取最長的連續一段（不用 x 排序：下緣是鋸齒狀的）
+    okf = lambda v: bool(Pb[v, 1] < yc - 0.005 and abs(Pb[v, 0]) < 0.075 and zN - 0.10 < Pb[v, 2] < zN + 0.03)
+    best = []
+    for l in _boundary_loops(body, Pb):
+        isf = [okf(v) for v in l]
+        if not any(isf): continue
+        if all(isf): runs = [l]
+        else:
+            st = next(i for i in range(len(l)) if not isf[i]); runs = []; cur = []
+            for k in range(1, len(l) + 1):
+                i = (st + k) % len(l)
+                if isf[i]: cur.append(l[i])
+                elif cur: runs.append(cur); cur = []
+            if cur: runs.append(cur)
+        for r_ in runs:
+            if len(r_) > len(best): best = r_
+    front = best
+    if Pb[front[0], 0] > Pb[front[-1], 0]: front = front[::-1]
     uvb = body.data.uv_layers.active.data; li = np.zeros(len(body.data.loops), int); body.data.loops.foreach_get('vertex_index', li)
-    uv0 = tuple(uvb[int(np.nonzero(li == near)[0][0])].uv)
-    ms = Mesh()
-    for j in range(len(zs)):
-        for i in range(nx):
-            ms.V.append(G[j, i]); ms.UV.append(uv0); ms.W.append(float(_sstep(zN - 0.045, zN + 0.010, zs[j])))
-    for j in range(len(zs) - 1):
-        for i in range(nx - 1):
-            a = j * nx + i; ms.F.append((a, a + 1, a + nx + 1, a + nx))      # 法線朝前（-Y）
+    first_loop = {}
+    for k, v in enumerate(li):
+        if v not in first_loop: first_loop[int(v)] = k
+    def chest_y(x, z):
+        hits = {}
+        for sg in (-1, 1):
+            for k in range(45):
+                xx = x + sg * 0.003 * k
+                h = bvh.ray_cast(Vector((xx, -0.5, z)), Vector((0, 1, 0)), 1.0)
+                if h[0] is not None and h[1][1] < -0.3 and h[0][1] < yc: hits[sg] = (xx, h[0][1]); break
+        if not hits: return None
+        if len(hits) == 1: return list(hits.values())[0][1] + 0.006
+        (xl, yl), (xr, yr) = hits[-1], hits[1]
+        if xr - xl < 1e-4: return yl + 0.006
+        t = (x - xl) / (xr - xl)
+        return yl + (yr - yl) * t + 0.006 - 0.004 * 4 * t * (1 - t)
+    depth = [0.0, 0.010, 0.022, 0.036, 0.052, 0.072, 0.095, 0.120]
+    ms = Mesh(); NN = []; ncol = len(front)
+    for v in front:
+        pb = Pb[v]; uv0 = tuple(uvb[first_loop[int(v)]].uv); prev_y = pb[1]
+        for k, dz in enumerate(depth):
+            z = max(pb[2] - dz, zb) if k else pb[2]
+            x = pb[0] * (1 + 0.25 * dz / 0.12)
+            yt = chest_y(x, z)
+            yt = prev_y if yt is None else yt
+            w = float(_sstep(0.0, 0.026, dz))
+            y = pb[1] * (1 - w) + yt * w if k else pb[1]
+            prev_y = y
+            ms.V.append(np.array([x, y, z])); ms.UV.append(uv0); ms.W.append(float(_sstep(zN - 0.045, zN + 0.010, z)))
+            nk = _u(Nw[v] * (1 - w) + np.array([0, -0.97, 0.24]) * w); NN.append(nk)
+    nr = len(depth)
+    for c in range(ncol - 1):
+        for k in range(nr - 1):
+            a0 = c * nr + k; ms.F.append((a0, a0 + nr, a0 + nr + 1, a0 + 1))
+    smat = next(sl.material for sl in body.material_slots if sl.material and 'Body_00_SKIN' in sl.material.name)
     chest = ms.obj('Body_ChestPatch', arm, smat, lambda V, W: {'J_Bip_C_Neck': W, 'J_Bip_C_UpperChest': 1 - W})
-    me = chest.data; nrm = np.array([p.normal for p in me.polygons])
-    if nrm[:, 1].mean() > 0:
+    me = chest.data; pn = np.array([p.normal for p in me.polygons])
+    if pn[:, 1].mean() > 0:
         for p in me.polygons: p.flip()
         me.update()
-    print('  chest patch: %d faces, uv %s, rows z %.3f..%.3f' % (len(ms.F), np.round(uv0, 3), zs[0], zs[-1]))
+    try: me.normals_split_custom_set_from_vertices([tuple(n) for n in NN])
+    except Exception as ex: print('  chest normals', ex)
+    print('  chest patch: %d boundary verts on the neck front (x %.3f..%.3f, z %.3f..%.3f), %d faces' % (ncol, Pb[front[0], 0], Pb[front[-1], 0], Pb[front, 2].min(), Pb[front, 2].max(), len(ms.F)))
 
     # ---- 4. 門襟＋扣子：V 字最低點到褲頭（紮進去的地方）的前中心 ----
     vb = R[0]; ztop = vb[2] - 0.004; zbot = C.bone_head(arm, 'J_Bip_C_Spine')[2] + 0.034

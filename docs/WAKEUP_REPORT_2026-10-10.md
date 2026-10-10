@@ -126,6 +126,6 @@
 
 ## 十、分支與 commit
 
-- 開發分支：`claude/confident-ritchie-8rwh7t`（寫報告時最新是 `1f95ca9`：整合了宿舍修正，回歸測試正在跑）。
+- 開發分支：`claude/confident-ritchie-8rwh7t`（寫報告時最新是 `dfd2618`＝v9.4.2 發布候選；宿舍修正整合後的回歸全部通過）。
 - LAWWW2：`claude/second-ai-env-art`（最新 `6374654`，已經全部整合）。
 - main（線上）：`e4ded6a`（v9.4.1）。
