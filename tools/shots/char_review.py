@@ -75,7 +75,7 @@ async def main():
         # 環境變數 CHAR_SWAP="遊戲裡的模型路徑=試作檔[;…]"：瀏覽器攔截那個模型的請求、改送試作檔（不覆蓋正式模型，就能在真的遊戲場景拍試作版）
         for pair in filter(None, os.environ.get('CHAR_SWAP', '').split(';')):
             u, f = pair.split('=', 1); body = open(os.path.join(ROOT, f), 'rb').read()
-            await pg.route('**/' + u, lambda route, body=body: route.fulfill(status=200, body=body, headers={'Content-Type': 'application/octet-stream'}))
+            await pg.route('**/' + u, (lambda b_: (lambda route: route.fulfill(status=200, body=b_, headers={'Content-Type': 'application/octet-stream'})))(body))
             print('swap', u, '->', f, len(body), flush=True)
         await load(pg)
         x0, z0 = SPOT

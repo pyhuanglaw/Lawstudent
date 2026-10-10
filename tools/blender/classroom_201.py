@@ -114,8 +114,9 @@ for t in xs:
         B.box(f'win_rail_{t}_{yy:.2f}', MAT['frame'], -W / 2 + T / 2 - 0.02, -W / 2 + T / 2 + 0.04, yy, yy + 0.06, t - 1.15, t + 1.15, root)
     B.box(f'win_sill_{t}', MAT['frame'], -W / 2 + T / 2, -W / 2 + T / 2 + 0.2, wy0 - 0.05, wy0, t - 1.25, t + 1.25, root)
 # 門（後牆中間）
-B.box('door_frame', MAT['metal'], C['door']['x'] - 0.85, C['door']['x'] + 0.85, rowH(C['rows'] - 1), rowH(C['rows'] - 1) + 2.65, D / 2 - T / 2 - 0.06, D / 2 - T / 2, root)
-B.box('door_leaf', MAT['woodL'], C['door']['x'] - 0.75, C['door']['x'] + 0.75, rowH(C['rows'] - 1), rowH(C['rows'] - 1) + 2.5, D / 2 - T / 2 - 0.1, D / 2 - T / 2 - 0.06, root)
+# 後門的門框、門板：名字含 WALL_，跟著後牆淡出（舊版合併進 CLS_cls_*，鏡頭在後牆外時一大塊深色門擋住最上排的人物，#16）
+B.box('WALL_S_doorframe', MAT['metal'], C['door']['x'] - 0.85, C['door']['x'] + 0.85, rowH(C['rows'] - 1), rowH(C['rows'] - 1) + 2.65, D / 2 - T / 2 - 0.06, D / 2 - T / 2, root, props={'dir': [0, 0, -1]})
+B.box('WALL_S_doorleaf', MAT['woodL'], C['door']['x'] - 0.75, C['door']['x'] + 0.75, rowH(C['rows'] - 1), rowH(C['rows'] - 1) + 2.5, D / 2 - T / 2 - 0.1, D / 2 - T / 2 - 0.06, root, props={'dir': [0, 0, -1]})
 
 # ---------------- 天花板：白色方格天花板（T 型骨架）＋日光燈 ----------------
 B.quad('ceiling', MAT['ceiling'], [(-W / 2, H, -D / 2), (W / 2, H, -D / 2), (W / 2, H, D / 2), (-W / 2, H, D / 2)], root)

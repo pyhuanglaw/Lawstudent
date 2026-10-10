@@ -179,9 +179,11 @@ def wall_with_doors(prefix, parent, z, y0, y1, doors, lvl):
         obs.append(box(f'{prefix}_WALL_Nu_{k}', MAT['plaster'], a, b, y0 + 1.2, y1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]}))
     for dx in xs:   # 門楣
         obs.append(box(f'{prefix}_WALL_Nd_{dx}', MAT['plaster'], dx - 0.75, dx + 0.75, y0 + 2.6, y1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]}))
-        box(f'{prefix}_doorframe_{dx}', MAT['frame'], dx - 0.8, dx + 0.8, y0, y0 + 2.7, z + T / 2 - 0.02, z + T / 2 + 0.05, parent)
-        box(f'{prefix}_door_{dx}', MAT['woodD'], dx - 0.68, dx + 0.68, y0, y0 + 2.5, z + T / 2 + 0.05, z + T / 2 + 0.09, parent)
-        cyl(f'{prefix}_doorhandle_{dx}', MAT['steel'], (dx + 0.45, y0 + 0.9, z + T / 2 + 0.14), (dx + 0.45, y0 + 1.3, z + T / 2 + 0.14), 0.018, parent)
+        FN = {'fadegrp': 'Ndoor', 'fadedir': [0, 0, 1]}   # 門框、門板、門把跟著北牆淡出（鏡頭在牆外時；2026-10-10 #16）
+        box(f'{prefix}_doorframe_{dx}', MAT['frame'], dx - 0.8, dx + 0.8, y0, y0 + 2.7, z + T / 2 - 0.02, z + T / 2 + 0.05, parent, props=FN)
+        box(f'{prefix}_door_{dx}', MAT['woodD'], dx - 0.68, dx + 0.68, y0, y0 + 2.5, z + T / 2 + 0.05, z + T / 2 + 0.09, parent, props=FN)
+        h_ = cyl(f'{prefix}_doorhandle_{dx}', MAT['steel'], (dx + 0.45, y0 + 0.9, z + T / 2 + 0.14), (dx + 0.45, y0 + 1.3, z + T / 2 + 0.14), 0.018, parent)
+        for k_, v_ in FN.items(): h_[k_] = v_
     return obs
 
 wall_with_doors('L0', L0, -D / 2, 0, Y1, L['doors'], 0)
@@ -193,22 +195,24 @@ box('L1_WALL_E', MAT['granite'], W / 2 - T / 2, W / 2 + T / 2, Y1, RY, -D / 2, D
 # 東面一樓：玻璃門面（直櫺每 1.75 m）、入口自動門（兩扇玻璃）
 gh = Y1 - 0.3
 quad('L0_glass_E', MAT['glass'], [(W / 2, 0, D / 2), (W / 2, 0, -D / 2), (W / 2, gh, -D / 2), (W / 2, gh, D / 2)], L0)
+FE = {'fadegrp': 'Efacade', 'fadedir': [-1, 0, 0]}   # 東面（入口那一面）：鏡頭在建築外面時跟著淡出——舊版合併進 L0_frame，進門時兩扇深色自動門擋住人物（#16）
 z = -D / 2
 while z <= D / 2 + 1e-6:
-    box(f'L0_mullion_E_{z:.2f}', MAT['frame'], W / 2 - 0.1, W / 2, 0, gh, z - 0.05, z + 0.05, L0); z += 1.75
-box('L0_transom_E', MAT['frame'], W / 2 - 0.1, W / 2, 2.85, 2.95, -D / 2, D / 2, L0)
+    box(f'L0_mullion_E_{z:.2f}', MAT['frame'], W / 2 - 0.1, W / 2, 0, gh, z - 0.05, z + 0.05, L0, props=FE); z += 1.75
+box('L0_transom_E', MAT['frame'], W / 2 - 0.1, W / 2, 2.85, 2.95, -D / 2, D / 2, L0, props=FE)
 box('L0_beam_E', MAT['granite'], W / 2 - T / 2, W / 2 + T / 2, gh, Y1, -D / 2, D / 2, L0, props={'dir': [-1, 0, 0]})
 EN = L['entrance']
 for k, (a, b) in enumerate(((EN['z0'] + 0.1, (EN['z0'] + EN['z1']) / 2 - 0.02), ((EN['z0'] + EN['z1']) / 2 + 0.02, EN['z1'] - 0.1))):
-    box(f'L0_autodoor_{k}', MAT['frame'], W / 2 - 0.16, W / 2 - 0.12, 0, 2.6, a, b, L0)
+    box(f'L0_autodoor_{k}', MAT['frame'], W / 2 - 0.16, W / 2 - 0.12, 0, 2.6, a, b, L0, props=FE)
 # 南面：兩層樓高的玻璃帷幕＋直櫺（W/8）＋三道橫櫺
 gh2 = RY - 0.4
+FS = {'fadegrp': 'Sfacade', 'fadedir': [0, 0, -1]}   # 南面帷幕的框：鏡頭在建築外面時跟著淡出
 quad('L0_glass_S', MAT['glass'], [(-W / 2, 0, D / 2), (W / 2, 0, D / 2), (W / 2, gh2, D / 2), (-W / 2, gh2, D / 2)], L0)
 for i in range(9):
     x = -W / 2 + i * W / 8
-    box(f'L0_mullion_S_{i}', MAT['frame'], x - 0.06, x + 0.06, 0, gh2, D / 2 - 0.14, D / 2, L0)
+    box(f'L0_mullion_S_{i}', MAT['frame'], x - 0.06, x + 0.06, 0, gh2, D / 2 - 0.14, D / 2, L0, props=FS)
 for k, yy in enumerate((2.9, Y1, Y1 + 2.9)):
-    box(f'L0_transom_S_{k}', MAT['frame'], -W / 2, W / 2, yy - 0.06, yy + 0.06, D / 2 - 0.14, D / 2, L0)
+    box(f'L0_transom_S_{k}', MAT['frame'], -W / 2, W / 2, yy - 0.06, yy + 0.06, D / 2 - 0.14, D / 2, L0, props=FS)
 box('L0_glass_top_S', MAT['granite'], -W / 2, W / 2, gh2, RY, D / 2 - T / 2, D / 2 + T / 2, L0)
 
 # ---------------- 樓梯：每一階一塊石材（實心到地面）、平台、第二跑；東側玻璃欄板＋不鏽鋼扶手、西牆扶手 ----------------
@@ -265,17 +269,19 @@ for i, f in enumerate(L['furniture']):
 
 # ---------------- 同一層、同材質的物件合併（減少 draw call；外牆不合併：要各自淡出）----------------
 def join_by_material(level_root, prefix):
+    """同材質合併；有自訂屬性 fadegrp 的（門、外牆上的框）照（群組, 材質）合併成 {prefix}_WALL_{群組}_{材質}，帶 dir（跟著牆淡出）"""
     groups = {}
     for ob in list(level_root.children):
         if ob.type != 'MESH' or 'WALL_' in ob.name: continue
-        groups.setdefault(ob.data.materials[0].name, []).append(ob)
-    for mname, obs in groups.items():
-        if len(obs) < 2: continue
+        groups.setdefault((ob.get('fadegrp'), ob.data.materials[0].name), []).append(ob)
+    for (fg, mname), obs in groups.items():
+        if len(obs) < 2 and not fg: continue
+        dirv = list(obs[0]['fadedir']) if fg else None
         bm = bmesh.new()
         for ob in obs: bm.from_mesh(ob.data)
         mat = obs[0].data.materials[0]
         for ob in obs: bpy.data.meshes.remove(ob.data)
-        mesh_obj(f'{prefix}_{mname}', bm, mat, level_root)
+        mesh_obj(f'{prefix}_WALL_{fg}_{mname}' if fg else f'{prefix}_{mname}', bm, mat, level_root, props={'dir': dirv} if fg else None)
 for r, pre in ((L0, 'L0'), (L1, 'L1')): join_by_material(r, pre)
 
 # ---------------- 匯出 ----------------

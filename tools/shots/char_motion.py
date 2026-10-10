@@ -26,7 +26,7 @@ async def main():
         await pg.set_viewport_size({'width': 720, 'height': 960})
         for pair in filter(None, os.environ.get('CHAR_SWAP', '').split(';')):
             u, f = pair.split('=', 1); body = open(os.path.join(ROOT, f), 'rb').read()
-            await pg.route('**/' + u, lambda route, body=body: route.fulfill(status=200, body=body, headers={'Content-Type': 'application/octet-stream'}))
+            await pg.route('**/' + u, (lambda b_: (lambda route: route.fulfill(status=200, body=b_, headers={'Content-Type': 'application/octet-stream'})))(body))
             print('swap', u, '->', f, flush=True)
         await pg.goto(URL); await L.wait_loaded(pg)
         flags = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True}
