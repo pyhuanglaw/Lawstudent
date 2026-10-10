@@ -50,6 +50,19 @@ CVS = [
     ('counter', ('1730',), dict(zone='cvs', w=1280, h=720, hidePlayer=True, pos={'x': 3.2, 'z': -0.6, 'yaw': 3.1416}, cam={'pos': [3.0, 1.6, 1.1], 'look': [4.3, 1.0, -2.3]})),
     ('cooler', ('2030',), dict(zone='cvs', w=1280, h=720, hidePlayer=True, pos={'x': 4.0, 'z': 2.0, 'yaw': 1.5708}, cam={'pos': [2.6, 1.6, 0.2], 'look': [5.6, 1.1, 2.6]})),
 ]
+# 麵店、書店、宿舍（室內）：進門（手機直向）＋店內一景
+INTERIORS = [
+    ('noodle_entry', ('1100', '1730'), dict(zone='noodle', w=390, h=844, mobile=True, hud=True, pos={'x': 0, 'z': 3.5, 'yaw': 3.1416}, cam={'yaw': 0.0, 'pitch': 0.38, 'dist': 4.0})),
+    ('noodle_counter', ('1730',), dict(zone='noodle', w=1280, h=720, hidePlayer=True, pos={'x': 0, 'z': 2.5, 'yaw': 3.1416}, cam={'pos': [2.6, 1.6, 2.8], 'look': [-1.5, 1.0, -3.6]})),
+    ('noodle_seat', ('2030',), dict(zone='noodle', w=1280, h=720, hidePlayer=True, pos={'x': 0, 'z': 2.5, 'yaw': 3.1416}, cam={'pos': [-4.2, 1.5, 2.6], 'look': [1.0, 0.8, 0.0]})),
+    ('bookstore_entry', ('1100', '1730'), dict(zone='bookstore', w=390, h=844, mobile=True, hud=True, pos={'x': 0, 'z': 4.0, 'yaw': 3.1416}, cam={'yaw': 0.0, 'pitch': 0.38, 'dist': 4.0})),
+    ('bookstore_aisle', ('1730',), dict(zone='bookstore', w=1280, h=720, hidePlayer=True, pos={'x': -3.8, 'z': 3.5, 'yaw': 3.1416}, cam={'pos': [-3.8, 1.6, 3.6], 'look': [-3.8, 1.2, -3.0]})),
+    ('bookstore_counter', ('2030',), dict(zone='bookstore', w=1280, h=720, hidePlayer=True, pos={'x': 0, 'z': 4.0, 'yaw': 3.1416}, cam={'pos': [-2.6, 1.6, 4.5], 'look': [0.3, 0.85, 2.6]})),   # 從門口左邊看櫃台（原本的鏡頭在右邊那排雙面書架裡面）
+    # 宿舍（玩家每天起床的地方）：進門（手機直向）＋床、書桌
+    ('dorm_entry', ('1100', '1730', '2030'), dict(zone='dorm', w=390, h=844, mobile=True, hud=True, pos={'x': 0, 'z': 2.4, 'yaw': 3.1416}, cam={'yaw': 0.0, 'pitch': 0.38, 'dist': 3.6})),
+    ('dorm_bed', ('1730',), dict(zone='dorm', w=1280, h=720, hidePlayer=True, pos={'x': 0, 'z': 2.4, 'yaw': 3.1416}, cam={'pos': [0.6, 1.55, 0.6], 'look': [-2.3, 0.55, -1.9]})),
+    ('dorm_desk', ('2030',), dict(zone='dorm', w=1280, h=720, hidePlayer=True, pos={'x': 0, 'z': 2.4, 'yaw': 3.1416}, cam={'pos': [0.9, 1.45, -0.7], 'look': [1.95, 0.95, -2.95]})),
+]
 WAIT_ROOM = ("(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if((z&&z.formal)||%s) return z&&z.formal?'formal':'fallback'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()")
 WAIT_EXT = ("(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; const ok=z&&z.group.children.some(o=>o.userData&&o.userData.formal); "
             "if(ok||%s) return ok?'formal':'kit'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()")
@@ -59,7 +72,7 @@ WAIT_INT = ("(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if((z&&z.f
 
 def build(mode, which='cafe'):
     shots = []
-    for name, tags, v in {'cafe': VIEWS, 'street': STREET, 'cvs': CVS}[which]:
+    for name, tags, v in {'cafe': VIEWS, 'street': STREET, 'cvs': CVS, 'interiors': INTERIORS}[which]:
         for tag in tags:
             s = {'out': f'{OUT}/{which}_{mode}_{name}_{tag}.png', 'w': v['w'], 'h': v['h'], 'hideNPCs': True,
                  'state': {'zone': v['zone'], 'hour': H[tag], 'pos': v['pos']}, 'cam': v['cam'], 'wait': 3500}
@@ -67,7 +80,7 @@ def build(mode, which='cafe'):
                 if v.get(k): s[k] = True
             nb = 'true' if mode == 'before' else 'false'
             if which == 'street': s['js'] = WAIT_STREET % nb
-            elif which == 'cvs': s['js'] = WAIT_ROOM % nb
+            elif which in ('cvs', 'interiors'): s['js'] = WAIT_ROOM % nb
             elif v['zone'] == 'wenzhou': s['js'] = WAIT_EXT % nb
             else:
                 sit = ("GAME.sitAt(GAME.E.player,%s);" % json.dumps(v['sit'])) if v.get('sit') else ''
@@ -77,6 +90,6 @@ def build(mode, which='cafe'):
 
 
 if __name__ == '__main__':
-    for which in ('cafe', 'street', 'cvs'):
+    for which in ('cafe', 'street', 'cvs', 'interiors'):
         for mode in ('before', 'after'):
             p = os.path.join(HERE, f'{which}_{mode}.json'); sh = build(mode, which); json.dump(sh, open(p, 'w'), ensure_ascii=False, indent=1); print(p, len(sh))
