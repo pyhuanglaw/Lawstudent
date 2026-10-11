@@ -92,7 +92,7 @@ const B3=(function(){
   const g0=(lv0,lv1,k)=>k?lv1:lv0;
 
   // ---- 玻璃電梯（中庭裡）：井道、車廂、車門＋各層的層門、樓層燈號 ----
-  function buildElevator(L,g,nav0,nav1,zone){ const EL=L.elevator, Y=L.floors.map(f=>f.y), RY=L.roofY;
+  function buildElevator(L,g,nav0,nav1,zone){ const EL=L.elevator, Y=L.floors.map(f=>f.y), RY=L.roofY, base=EL.base||1;   /* base：第 0 層是幾樓（總圖閱覽室的電梯在 3F）；nav1 可以沒有（只有一層的區域）*/
     const grp=new THREE.Group(); grp.userData.dyn=true; grp.name='elevator'; g.add(grp);
     const cx=(EL.x0+EL.x1)/2, cz=(EL.z0+EL.z1)/2, w=EL.x1-EL.x0, d=EL.z1-EL.z0;
     // 井道：四根不鏽鋼角柱、東西南三面玻璃、頂上機房
@@ -113,16 +113,20 @@ const B3=(function(){
     const drawInd=(n)=>{ for(const {c,t} of ind){ const x=c.getContext('2d'); x.fillStyle='#101418'; x.fillRect(0,0,64,32); x.fillStyle='#ffb347'; x.font='bold 24px sans-serif'; x.textAlign='center'; x.fillText(n+'F',32,25); t.needsUpdate=true; } };
     // 車廂裡的導航格（動態）：車廂在這一層而且門開著才能走
     const cells=[]; for(let cz2=0;cz2<nav0.rows;cz2++) for(let cx2=0;cx2<nav0.cols;cx2++){ const [x,z]=nav0.toWorld(cx2,cz2); if(x>EL.x0+0.1&&x<EL.x1-0.1&&z>EL.z0+0.1&&z<EL.z1-0.05) cells.push(nav0.idx(cx2,cz2)); }
-    const navs=[nav0,nav1];
-    const el={lv:0,y:Y[0],isOpen:false,cx,cz:cz,inZ:cz-0.15,outZ:EL.callZ,floors:EL.floors,floorY:Y,tweens:[],car};
+    const navs=[nav0,nav1].filter(Boolean);
+    const el={lv:0,y:Y[0],isOpen:false,cx,cz:cz,inZ:cz-0.15,outZ:EL.callZ,floors:EL.floors,floorY:Y,tweens:[],car,base};
     el.setCells=()=>{ navs.forEach((n,k)=>{ const free=el.isOpen&&el.lv===k; for(const i of cells) n.b[i]=free?0:1; n._cm=null; }); };
     const setDoor=(k)=>{ for(const p of carDoors) p.m.position.x=cx+p.sx*(doorW/2+k*doorW*0.92); landDoors.forEach((ds,f)=>{ const kk=f===el.lv?k:0; for(const p of ds) p.m.position.x=cx+p.sx*(doorW/2+kk*doorW*0.92); }); };
     const tween=(dur,fn)=>new Promise(res=>el.tweens.push({t:0,dur,fn,res}));
     el.open=()=>tween(0.9,k=>setDoor(k)).then(()=>{ el.isOpen=true; el.setCells(); });
     el.close=()=>{ el.isOpen=false; el.setCells(); return tween(0.9,k=>setDoor(1-k)); };
-    el.travel=(lv,rider,onStep)=>{ const y0=el.y, y1=Y[lv]; const dur=2.4+Math.abs(y1-y0)*0.4; return tween(dur,k=>{ const e=k<0.5?2*k*k:1-Math.pow(-2*k+2,2)/2; const y=y0+(y1-y0)*e; el.y=y; car.position.y=y-Y[0]; if(rider) rider.obj.position.y=y; drawInd(y>=(Y[0]+Y[1])/2?2:1); if(onStep) onStep(y); }).then(()=>{ el.lv=lv; el.y=y1; el.setCells(); drawInd(lv+1); }); };
+    el.travel=(lv,rider,onStep)=>{ const y0=el.y, y1=Y[lv]; const dur=2.4+Math.abs(y1-y0)*0.4; return tween(dur,k=>{ const e=k<0.5?2*k*k:1-Math.pow(-2*k+2,2)/2; const y=y0+(y1-y0)*e; el.y=y; car.position.y=y-Y[0]; if(rider) rider.obj.position.y=y; let fk=0; for(let i=1;i<Y.length;i++) if(y>=(Y[i-1]+Y[i])/2) fk=i; drawInd(base+fk); if(onStep) onStep(y); }).then(()=>{ el.lv=lv; el.y=y1; el.setCells(); drawInd(lv+base); }); };
+    /* 往「別的區域」的樓層（總圖：大廳 ⇄ 3F 閱覽區）：車廂往上／往下走一段、燈號一層一層跳到那一層，之後換區域（game3d.js 的 elevatorRide）*/
+    el.leave=(num,rider,onStep)=>{ const n0=el.lv+base, dir=num>n0?1:-1, y0=el.y, dy=dir*Math.min(3.0,1.5*Math.abs(num-n0)); const dur=2.6+Math.abs(num-n0)*0.5; return tween(dur,k=>{ const e=k*k; const y=y0+dy*e; car.position.y=y-Y[0]; if(rider) rider.obj.position.y=y; drawInd(n0+Math.round((num-n0)*Math.min(1,k*1.15))); if(onStep) onStep(y); }); };
+    /* 換區域之後：車廂停在玩家那一層、人在車廂裡；hold＝先讓車廂的格子可以走（出生點在車廂裡，門之後才打開）*/
+    el.placeAt=(lv,hold)=>{ el.lv=lv; el.y=Y[lv]; car.position.y=Y[lv]-Y[0]; drawInd(lv+base); if(hold){ el.isOpen=true; } el.setCells(); };
     el.update=(dt)=>{ for(const tw of el.tweens.slice()){ tw.t+=dt; const k=Math.min(1,tw.t/tw.dur); tw.fn(k); if(k>=1){ el.tweens.splice(el.tweens.indexOf(tw),1); tw.res(); } } };
-    setDoor(0); drawInd(1); el.setCells(); return el; }
+    setDoor(0); drawInd(base); el.setCells(); return el; }
 
   // ---- 區域 ----
   const CAMPUS_DOOR={x:30.0,z:-107.4,yaw:Math.PI/2};   // 校園：從大廳走出來站在穿堂裡（西側玻璃門往東 2 m，面向東；離門的互動點 2 m，不會一出來就跳出「進入霖澤館」）
