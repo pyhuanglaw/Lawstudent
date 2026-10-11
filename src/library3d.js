@@ -66,15 +66,22 @@ const LB3=(function(){
     const stone=MAT.graniteD();
     for(let k=0;k<C.risers;k++){ const top=(k+1)*r, z1=C.z1-k*t; b0.add(stone,TK.boxG(C.x1-C.x0,top,t,2.4),(C.x0+C.x1)/2,top/2,z1-t/2); }
     b0.add(stone,TK.boxG(LD.x1-LD.x0,LD.y,LD.z1-LD.z0,2.4),(LD.x0+LD.x1)/2,LD.y/2,(LD.z0+LD.z1)/2);
-    for(const sd of S.sides) for(let k=0;k<SD.risers;k++){ const top=LD.y+(k+1)*r, z0=SD.z0+k*t; b0.add(stone,TK.boxG(sd.x1-sd.x0,top,t,2.4),(sd.x0+sd.x1)/2,top/2,z0+t/2); }
-    for(const sx of [-1,1]){ const dx=sx*(C.x1+S.sides[1].x0)/2, dw=S.sides[1].x0-C.x1; for(let k=0;k<SD.risers;k++){ const h=LD.y+(k+1)*r+0.95, z0=SD.z0+k*t; b0.add(MAT.plaster(),TK.boxG(dw,h,t,1.2),dx,h/2,z0+t/2); }
-      b0.add(MAT.plaster(),TK.boxG(CO.x1-S.railX+0.1,Y1-ST,CO.z1-CO.z0,1.2),sx*(S.railX-0.1+CO.x1)/2,(Y1-ST)/2,(CO.z0+CO.z1)/2); }
+    /* 兩側那一跑：懸空的樓梯（踏階＋斜的樓梯板），底下是花台與室內樹（走不進去：導航上那裡是樓梯的格子，高度接不上；前緣 0.8 m 高的石材花台擋著）*/
+    const slope=Math.atan2(Y1-LD.y,SD.z1-SD.z0), slen=Math.hypot(Y1-LD.y,SD.z1-SD.z0);
+    for(const sd of S.sides){ const cx=(sd.x0+sd.x1)/2, w=sd.x1-sd.x0;
+      for(let k=0;k<SD.risers;k++){ const top=LD.y+(k+1)*r, z0=SD.z0+k*t; b0.add(stone,TK.boxG(w,r+0.02,t,2.4),cx,top-(r+0.02)/2,z0+t/2); }
+      b0.add(MAT.plaster(),TK.boxG(w,0.32,slen,1.2),cx,(LD.y+Y1)/2-0.16,(SD.z0+SD.z1)/2,0,{rx:-slope});
+      b0.add(MAT.graniteD(),TK.boxG(w-0.1,0.8,0.7,2.4),cx,0.4,SD.z1-0.4); b0.add(MAT.graniteD(),TK.boxG(w-0.1,0.45,SD.z1-SD.z0-0.8,2.4),cx,0.225,(SD.z0+SD.z1-0.75)/2);
+      for(const [pz,ph,pr] of [[SD.z1-1.4,2.6,0.75],[SD.z0+1.6,1.5,0.55]]){ b0.add(MAT.woodD(),new THREE.CylinderGeometry(0.05,0.05,ph*0.7,8),cx,0.45+ph*0.35,pz); b0.add(MAT.plant(),new THREE.IcosahedronGeometry(pr,1),cx,0.45+ph*0.7+pr*0.5,pz); }
+      for(let j=0;j<5;j++) b0.add(MAT.plant(),new THREE.IcosahedronGeometry(0.26,1),sd.x0+0.3+j*(w-0.6)/4,0.95,SD.z1-0.4); }
+    for(const sx of [-1,1]) b0.add(MAT.plaster(),TK.boxG(CO.x1-S.railX+0.1,Y1-ST,CO.z1-CO.z0,1.2),sx*(S.railX-0.1+CO.x1)/2,(Y1-ST)/2,(CO.z0+CO.z1)/2);
     // 欄杆：玻璃欄板＋不鏽鋼扶手（樓梯兩側外緣、平台、二樓的連廊與兩翼）
     const rail=(grp,pts,x,along)=>{ for(let i=0;i<pts.length-1;i++){ const [za,ya]=pts[i], [zb,yb]=pts[i+1]; const len=Math.hypot(zb-za,yb-ya); if(len<0.05) continue;
         const gp=new THREE.Mesh(new THREE.PlaneGeometry(len,0.95),MAT.glass()); const mid=new THREE.Vector3(along==='z'?x:(za+zb)/2,(ya+yb)/2+0.55,along==='z'?(za+zb)/2:x);
         gp.position.copy(mid); if(along==='z'){ gp.rotation.set(0,Math.PI/2,0); gp.rotateZ(-Math.atan2(yb-ya,zb-za)); } else gp.rotateZ(Math.atan2(yb-ya,zb-za)); gp.userData.noMerge=true; grp.add(gp);
         const hr=new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.03,len,8),MAT.steel()); hr.position.copy(mid).add(new THREE.Vector3(0,0.47,0)); hr.lookAt(along==='z'?x:zb,yb+1.02,along==='z'?zb:x); hr.rotateX(Math.PI/2); grp.add(hr); } };
-    for(const sx of [-1,1]){ rail(lv0,[[LD.z0,LD.y],[SD.z0,LD.y],[SD.z1,Y1]],sx*(S.railX-0.05),'z');                // 樓梯外緣（平台→兩側那一跑）
+    for(const sx of [-1,1]){ rail(lv0,[[C.z1,0],[C.z0,LD.y]],sx*(C.x1+0.03),'z'); rail(lv0,[[SD.z0,LD.y],[SD.z1,Y1]],sx*(S.sides[1].x0-0.03),'z');   // 中間那一跑兩側、兩側那一跑靠中間那一側（中間空著，看得到樓梯底下的植栽）
+      rail(lv0,[[LD.z0,LD.y],[SD.z0,LD.y],[SD.z1,Y1]],sx*(S.railX-0.05),'z');                // 樓梯外緣（平台→兩側那一跑）
       rail(lv1,[[CO.z0,Y1],[SD.z1-0.3,Y1]],sx*(S.railX+0.02),'z'); rail(lv1,[[U.band.z1,Y1],[D/2,Y1]],sx*U.band.x1,'z'); }   // 兩翼的邊
     rail(lv1,[[-S.sides[1].x0,Y1],[S.sides[1].x0,Y1]],SD.z1,'x'); rail(lv1,[[U.band.x0,Y1],[U.band.x1,Y1]],U.band.z1,'x');   // 連廊北邊、南邊
     rail(lv0,[[LD.x0,LD.y],[LD.x1,LD.y]],LD.z0+0.05,'x');   /* 平台靠北牆那一邊（窗台） */

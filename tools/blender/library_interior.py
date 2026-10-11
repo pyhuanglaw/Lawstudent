@@ -95,6 +95,7 @@ MAT = {
     'light':   pbr('lb_light_panel', None, tint=srgb('#fff6e4'), rough=0.9, emit=srgb('#fff4dc')),
     'sky':     pbr('lb_skylight', None, tint=srgb('#e6f0f6'), rough=0.9, emit=srgb('#e8f2f8')),
     'plant':   pbr('lb_plant', None, tint=srgb('#4f7a46'), rough=0.85),
+    'soil':    pbr('lb_soil', None, tint=srgb('#3b2d22'), rough=0.95),
     'paper':   pbr('lb_paper', None, tint=srgb('#ece6d8'), rough=0.9),
 }
 BOOKC = ['#2f5d50', '#8c3b47', '#c9a24f', '#4a6c8c', '#7b6a5a', '#b5643f', '#d9d3c6', '#3e4a5c', '#6e2f2f', '#5d7a4a']
@@ -304,22 +305,45 @@ for k in range(C['risers']):
     box(f'L0_c_step_{k}', MAT['step'], C['x0'], C['x1'], 0, top, za, zb, L0, bevel=0.012)
     box(f'L0_c_nosing_{k}', MAT['frame'], C['x0'], C['x1'], top - 0.012, top + 0.003, zb - 0.045, zb, L0)   # 踏面前緣＝南邊
 box('L0_landing', MAT['step'], LD['x0'], LD['x1'], 0, LD['y'], LD['z0'], LD['z1'], L0, bevel=0.012)
+# 兩側那一跑：懸空的樓梯（踏階＋斜的樓梯板，底下看得到），一樓那一側用矮花台圍起來（樓梯底下是室內植栽，走不進去：導航上那裡是樓梯的格子，高度接不上）
+SLOPE = (Y1 - LD['y']) / (SD['z1'] - SD['z0'])
 for si, sd in enumerate(S['sides']):
     for k in range(SD['risers']):
         top = LD['y'] + (k + 1) * R; za = SD['z0'] + k * TR; zb = za + TR
-        box(f'L0_s{si}_step_{k}', MAT['step'], sd['x0'], sd['x1'], 0, top, za, zb, L0, bevel=0.012)
+        box(f'L0_s{si}_step_{k}', MAT['step'], sd['x0'], sd['x1'], top - R - 0.02, top, za, zb, L0, bevel=0.01)
         box(f'L0_s{si}_nosing_{k}', MAT['frame'], sd['x0'], sd['x1'], top - 0.012, top + 0.003, za, za + 0.045, L0)   # 踏面前緣＝北邊
-# 中間那一跑和兩側之間的矮牆（頂跟著兩側那一跑的扶手高度斜上去）＋牆上的扶手
+    prism(f'L0_s{si}_slab', MAT['slab'], [(SD['z0'], LD['y'] - 0.32), (SD['z0'], LD['y']), (SD['z1'], Y1), (SD['z1'], Y1 - 0.32)], sd['x0'], sd['x1'], L0)   # 樓梯板（底面粉光）
+    xo = sd['x1'] if sd['x0'] < 0 else sd['x0']; xi = sd['x0'] if sd['x0'] < 0 else sd['x1']   # xo：靠中間那一側（矮牆那一側）；xi：靠外側（核心牆）
+    # 底下：花台（前緣 0.8 m 高的石材矮牆＋整片植栽）＋兩棵室內樹
+    xa, xb = sorted((sd['x0'] + 0.05, sd['x1'] - 0.05))
+    box(f'L0_s{si}_planter_front', MAT['granite'], xa, xb, 0, 0.8, SD['z1'] - 0.75, SD['z1'] - 0.05, L0, bevel=0.015)
+    box(f'L0_s{si}_planter_bed', MAT['granite'], xa, xb, 0, 0.45, SD['z0'] + 0.05, SD['z1'] - 0.75, L0)
+    box(f'L0_s{si}_soil', MAT['soil'], xa + 0.05, xb - 0.05, 0.45, 0.47, SD['z0'] + 0.1, SD['z1'] - 0.8, L0)
+    for (pz, ph, pr) in ((SD['z1'] - 1.4, 2.6, 0.75), (SD['z0'] + 1.6, 1.5, 0.55)):
+        px = (xa + xb) / 2
+        cyl(f'L0_s{si}_tree_trunk_{pz:.1f}', MAT['walnut'], (px, 0.45, pz), (px, 0.45 + ph * 0.7, pz), 0.05, L0, seg=8)
+        bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=2, radius=pr)
+        for v in bm.verts: v.co.z *= 0.85; v.co += Vector((math.sin(v.co.x * 7 + pz) * 0.06, math.cos(v.co.y * 6) * 0.06, math.sin(v.co.z * 5) * 0.04))
+        bmesh.ops.translate(bm, verts=bm.verts, vec=g2b(px, 0.45 + ph * 0.7 + pr * 0.5, pz)); bm.normal_update(); box_uv(bm, 1.0); mesh_obj(f'L0_s{si}_tree_{pz:.1f}', bm, MAT['plant'], L0)
+    for j in range(5):   # 前緣花台裡的低矮植栽
+        px = xa + 0.25 + j * (xb - xa - 0.5) / 4
+        bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=1, radius=0.26)
+        for v in bm.verts: v.co.z *= 0.7
+        bmesh.ops.translate(bm, verts=bm.verts, vec=g2b(px, 0.95, SD['z1'] - 0.4)); bm.normal_update(); box_uv(bm, 1.0); mesh_obj(f'L0_s{si}_shrub_{j}', bm, MAT['plant'], L0)
+# 中間那一跑和兩側那一跑之間：兩道玻璃欄板（中間那一跑的兩側、兩側那一跑靠中間那一側），中間空著（看得到樓梯底下的植栽）
 for sx in (-1, 1):
-    xa, xb = sorted((sx * C['x1'], sx * S['sides'][1]['x0']))
-    prism(f'L0_divider_{sx}', MAT['slab'], [(SD['z0'], 0.0), (SD['z1'], 0.0), (SD['z1'], Y1 + 0.95), (SD['z0'], LD['y'] + 0.95)], xa, xb, L0)
-    box(f'L0_divider_cap_{sx}', MAT['granite'], xa - 0.02, xb + 0.02, 0, 0.12, SD['z0'], SD['z1'], L0)
-    for xr in (xa - 0.06 if sx < 0 else xb + 0.06, xb + 0.06 if sx < 0 else xa - 0.06):   # 中間那一跑那一側、兩側那一跑那一側
-        pass
-    xc = sx * (C['x1'] - 0.06)   # 中間那一跑的扶手（靠矮牆）
-    cyl(f'L0_c_rail_{sx}', MAT['brass'], (xc, 0.9, C['z1']), (xc, LD['y'] + 0.9, C['z0']), 0.022, L0)
-    xs = sx * (S['sides'][1]['x0'] + 0.06)   # 兩側那一跑的扶手（靠矮牆）
-    cyl(f'L0_s_rail_{sx}', MAT['brass'], (xs, LD['y'] + 0.9, SD['z0']), (xs, Y1 + 0.9, SD['z1']), 0.022, L0)
+    xc = sx * (C['x1'] + 0.03); xs = sx * (S['sides'][1]['x0'] - 0.03)
+    quad(f'L0_c_glass_{sx}', MAT['glass'], [(xc, 0.05, C['z1']), (xc, LD['y'] + 0.05, C['z0']), (xc, LD['y'] + 1.0, C['z0']), (xc, 1.0, C['z1'])], L0, tile=1.0)
+    quad(f'L0_s_glass_{sx}', MAT['glass'], [(xs, LD['y'] + 0.05, SD['z0']), (xs, Y1 + 0.05, SD['z1']), (xs, Y1 + 1.0, SD['z1']), (xs, LD['y'] + 1.0, SD['z0'])], L0, tile=1.0)
+    cyl(f'L0_c_rail_{sx}', MAT['brass'], (xc, 1.02, C['z1']), (xc, LD['y'] + 1.02, C['z0']), 0.024, L0)
+    cyl(f'L0_s_rail_{sx}', MAT['brass'], (xs, LD['y'] + 1.02, SD['z0']), (xs, Y1 + 1.02, SD['z1']), 0.024, L0)
+    box(f'L0_c_shoe_{sx}', MAT['steel'], xc - 0.03, xc + 0.03, 0, 0.12, C['z1'] - 0.3, C['z1'], L0)
+    for k in range(0, C['risers'], 3):   # 中間那一跑的欄杆柱
+        zz = C['z1'] - (k + 0.5) * TR; yy = (k + 1) * R
+        box(f'L0_c_post_{sx}_{k}', MAT['steel'], xc - 0.02, xc + 0.02, yy, yy + 1.0, zz - 0.02, zz + 0.02, L0)
+    for k in range(0, SD['risers'], 3):
+        zz = SD['z0'] + (k + 0.5) * TR; yy = LD['y'] + (k + 1) * R
+        box(f'L0_s_post_{sx}_{k}', MAT['steel'], xs - 0.02, xs + 0.02, yy, yy + 1.0, zz - 0.02, zz + 0.02, L0)
 # 外側玻璃欄板（平台兩側 → 兩側那一跑）＋不鏽鋼扶手
 def glass_run(name, x, pts, parent):
     for i in range(len(pts) - 1):
