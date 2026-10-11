@@ -53,6 +53,14 @@ const LB3=(function(){
     x.fillStyle=night?'#1b2a22':'#5f8a55'; for(let i=0;i<8;i++){ const cx=i*70+10, r=34+((i*29)%22); x.beginPath(); x.arc(cx,h*0.6,r,0,Math.PI*2); x.fill(); }
     x.fillStyle=night?'#2a2c30':'#bcb8ae'; x.fillRect(0,h*0.74,w,h*0.26); if(night){ x.fillStyle='rgba(255,214,150,0.85)'; for(const lx of [60,230,400]) x.fillRect(lx,h*0.6,4,4); } });
 
+  /* 窗外的景（正式）：遊戲裡校園實際的畫面——從總圖門口往西拍椰林大道（avenue，正面玻璃）、從總圖南側拍草地與系館（lawn，側窗、平台的大窗）；
+     白天 11:00、晚上 20:30，1024×512（tools/blender/env_second/shots/fast_shots.py，設定在 tools/shots/library_views.json）。
+     已經是調過色的畫面：不再做一次色調映射（toneMapped=false）。載不到（例如 claude.ai artifact 版沒有這些檔案）就用上面程序化畫的 */
+  const VIEW_URL='assets/models/env/library_view_', viewTex={};
+  function viewOf(kind,night){ const k=kind+(night?'_night':'_day'); if(!(k in viewTex)){ viewTex[k]=null; try{ new THREE.TextureLoader().load(VIEW_URL+k+'.webp',t=>{ t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=4; viewTex[k]=t; },undefined,()=>{ viewTex[k]=false; }); }catch(e){ viewTex[k]=false; } } return viewTex[k]||null; }
+  /* 窗的長寬比和景（2:1）不一樣：在平面的 UV 上裁一塊（不拉長）；fx＝橫向裁哪裡（0 左、1 右），一排側窗依序往右，合起來像一張全景 */
+  function cropUV(geo,a,fx){ const uv=geo.attributes.uv; let uw=1, vh=1; if(a<2) uw=a/2; else vh=2/a; const u0=(1-uw)*fx, v0=(1-vh)*0.5; for(let i=0;i<uv.count;i++) uv.setXY(i,u0+uv.getX(i)*uw,v0+uv.getY(i)*vh); uv.needsUpdate=true; }
+
   // ---- 程序化備用模型 ----
   function buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,outs){ const W=L.W, D=L.D, Y1=L.floors[1].y, RY=L.roofY, T=L.wallT, ST=L.slabT, S=L.stair, C=S.center, SD=S.side, LD=S.landing, CO=L.core, U=L.upper, V=L.vestibule, MAT=B3.MAT, r=riseOf(L), t=S.tread;
     const b0=new TK.Bin(), b1=new TK.Bin();
@@ -94,12 +102,12 @@ const LB3=(function(){
       wall(0,-D/2,W,h,y,0,new THREE.Vector3(0,0,1),wallM,grp); wall(-W/2,0,D,h,y,Math.PI/2,new THREE.Vector3(1,0,0),wallM,grp); wall(W/2,0,D,h,y,Math.PI/2,new THREE.Vector3(-1,0,0),wallM,grp);
       for(const sx of [-1,1]) wall(sx*(V.x1+W/2)/2,D/2,W/2-V.x1,h,y,0,new THREE.Vector3(0,0,-1),wallM,grp); }
     /* 窗外的景：備用模型的牆沒有洞，景貼在牆的內側；正式模型的牆有窗洞，景搬到牆外面（fpos）、放大一點（斜著看也蓋得住窗洞）*/
-    const outPlane=(w,h,x,y,z,ry,grp,fpos)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:outsideTex(false)})); m.position.set(x,y,z); m.rotation.y=ry; m.userData.libOut=true; if(fpos) m.userData.fpos=fpos; grp.add(m); outs.push(m); return m; };
-    for(const [grp,y0] of [[lv0,1.1],[lv1,Y1+1.0]]) for(let z=-7.2;z<=7.3;z+=2.4){ outPlane(1.6,2.4,-W/2+T/2+0.02,y0+1.2,z,Math.PI/2,grp,new THREE.Vector3(-W/2-0.5,y0+1.2,z)); (grp===lv0?b0:b1).add(MAT.frame(),TK.boxG(0.08,2.56,1.76),-W/2+T/2+0.03,y0+1.2,z); }
+    const outPlane=(w,h,x,y,z,ry,grp,fpos,kind,fx)=>{ const geo=new THREE.PlaneGeometry(w,h); cropUV(geo,w/h,fx==null?0.5:fx); const m=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({map:outsideTex(false)})); m.position.set(x,y,z); m.rotation.y=ry; m.userData.libOut=true; m.userData.view=kind||'lawn'; if(fpos) m.userData.fpos=fpos; grp.add(m); outs.push(m); return m; };
+    for(const [grp,y0] of [[lv0,1.1],[lv1,Y1+1.0]]) for(let z=-7.2;z<=7.3;z+=2.4){ outPlane(1.6,2.4,-W/2+T/2+0.02,y0+1.2,z,Math.PI/2,grp,new THREE.Vector3(-W/2-0.5,y0+1.2,z),'lawn',(7.2-z)/14.4); (grp===lv0?b0:b1).add(MAT.frame(),TK.boxG(0.08,2.56,1.76),-W/2+T/2+0.03,y0+1.2,z); }
     { const gw=LD.x1-LD.x0-0.6, gh=RY-LD.y-1.6; outPlane(gw,gh,0,LD.y+1.0+gh/2,-D/2+T/2+0.02,0,lv0,new THREE.Vector3(0,LD.y+1.0+gh/2,-D/2-0.6)); for(let x=-gw/2;x<=gw/2+0.01;x+=gw/4) b0.add(MAT.frame(),TK.boxG(0.1,gh,0.1),x,LD.y+1.0+gh/2,-D/2+T/2+0.05); for(const y of [LD.y+1.0,LD.y+1.0+gh/2,LD.y+1.0+gh]) b0.add(MAT.frame(),TK.boxG(gw,0.1,0.1),0,y,-D/2+T/2+0.05); }
     { const gw=V.x1-V.x0, gh=RY-0.2; const gp=new THREE.Mesh(new THREE.PlaneGeometry(gw,gh),MAT.glass()); gp.position.set(0,gh/2,D/2-0.02); gp.rotation.y=Math.PI; lv0.add(gp);
       for(let x=V.x0;x<=V.x1+0.01;x+=gw/6) b0.add(MAT.frame(),TK.boxG(0.12,gh,0.14),x,gh/2,D/2-0.06); for(const y of [3.0,Y1,Y1+2.4,gh]) b0.add(MAT.frame(),TK.boxG(gw,0.12,0.14),0,y,D/2-0.06);
-      outPlane(gw+8,RY+2,0,RY/2,D/2+3.0,Math.PI,lv0); }
+      outPlane(gw+8,RY+2,0,RY/2,D/2+3.0,Math.PI,lv0,null,'avenue'); }
     // 門廳兩側的牆（一樓、3 m 高，木作）、館員辦公室的牆
     for(const sx of [-1,1]) b0.add(MAT.woodD(),TK.boxG(0.2,3.0,V.z1-V.z0),sx*V.x1,1.5,(V.z0+V.z1)/2);
     // 天花板：屋頂（9.6 m，中庭上方是天窗）＋一樓兩翼的嵌燈（二樓樓板底面）
@@ -168,7 +176,7 @@ const LB3=(function(){
     const walls=[], walkMeshes=[], outs=[]; const fb0=new THREE.Group(), fb1=new THREE.Group(); fb0.name='fallback0'; fb1.name='fallback1'; fb0.userData.dyn=true; fb1.userData.dyn=true; lv0.add(fb0); lv1.add(fb1);
     const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},camMaxY:3.6,
       fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
-      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); const want=outsideTex(night); for(const o of outs){ if(o.material.map!==want){ o.material.map=want; o.material.needsUpdate=true; } } },
+      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); for(const o of outs){ const v=viewOf(o.userData.view,night), want=v||outsideTex(night); if(o.material.map!==want){ o.material.map=want; o.material.toneMapped=!v; o.material.needsUpdate=true; } } },
       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; } };
     buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,outs); buildFurniture(E,L,lv0,lv1,fb0,fb1,nav0,nav1,zone);
     // 劇情：小安「總圖的下午」坐的那一桌（二樓西側、靠窗的那一張長桌，面對面的兩個座位）
