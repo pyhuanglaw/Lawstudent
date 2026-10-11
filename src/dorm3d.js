@@ -42,6 +42,12 @@ const DM3=(function(){
     x.fillStyle=night?'#1b2a22':'#5f8a55'; for(let i=0;i<7;i++){ const cx=i*80+20, r=30+((i*29)%20); x.beginPath(); x.arc(cx,h*0.62,r,0,Math.PI*2); x.fill(); }
     x.fillStyle=night?'#2a2c30':'#9a9a96'; x.fillRect(0,h*0.78,w,h*0.22); if(night){ x.fillStyle='rgba(255,214,150,0.85)'; for(const lx of [80,260,440]) x.fillRect(lx,h*0.58,4,4); } });
 
+  /* 窗外的景（正式）：遊戲裡校園實際的畫面（tools/shots/dorm_views.py：road＝從宿舍門口往北、side＝從宿舍東端往東；白天 11:00、晚上 20:30，1024×512）。
+     已經調過色：不再做一次色調映射。載不到（claude.ai artifact 版沒有這些檔案）就用上面程序化畫的（和總圖大廳同一套做法） */
+  const VIEW_URL='assets/models/env/dorm_view_', viewTex={};
+  function viewOf(kind,night){ const k=kind+(night?'_night':'_day'); if(!(k in viewTex)){ viewTex[k]=null; try{ new THREE.TextureLoader().load(VIEW_URL+k+'.webp',t=>{ t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=4; viewTex[k]=t; },undefined,()=>{ viewTex[k]=false; }); }catch(e){ viewTex[k]=false; } } return viewTex[k]||null; }
+  function cropUV(geo,a,fx){ const uv=geo.attributes.uv; let uw=1, vh=1; if(a<2) uw=a/2; else vh=2/a; const u0=(1-uw)*fx, v0=(1-vh)*0.5; for(let i=0;i<uv.count;i++) uv.setXY(i,u0+uv.getX(i)*uw,v0+uv.getY(i)*vh); uv.needsUpdate=true; }   /* 窗的長寬比和景（2:1）不一樣：在 UV 上裁一塊，不拉長 */
+
   // ---- 程序化備用模型 ----
   function buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,outs,cols){ const W=L.W, D=L.D, Y1=L.floors[1].y, RY=L.roofY, T=L.wallT, ST=L.slabT, S=L.stair, A=S.A, B=S.B, LD=S.landing, MW=S.midWall, WL=S.well, CO=L.corridor, LB=L.lobby, LG=L.lounge, MAT=B3.MAT, r=riseOf(L), t=S.tread;
     const b0=new TK.Bin(), b1=new TK.Bin(); const H0=Y1-ST, H1=RY-Y1;   // 一樓、二樓的淨高
@@ -81,12 +87,12 @@ const DM3=(function(){
     hand([[A.z1,0],[A.z0,LD.y]],A.x0+0.06); hand([[B.z0,LD.y],[B.z1,Y1]],B.x1-0.06); hand([[A.z1,0],[A.z0,LD.y]],MW.x0-0.03); hand([[B.z0,LD.y],[B.z1,Y1]],MW.x1+0.03);
     { const x0=WL.x0, x1=MW.x1, z=CO.z0; b1.add(steel,TK.boxG(x1-x0,0.05,0.05),(x0+x1)/2,Y1+1.05,z); for(let x=x0+0.1;x<=x1;x+=0.12) b1.add(steel,TK.boxG(0.02,1.0,0.02),x,Y1+0.5,z); }
     // 窗（窗外的景）：兩端的走廊窗（一樓西端、二樓兩端；一樓東端是側門）、交誼廳正面三扇、樓梯平台的窗
-    const outPlane=(w,h,x,y,z,ry,grp,fpos)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:outsideTex(false)})); m.position.set(x,y,z); m.rotation.y=ry; m.userData.dmOut=true; if(fpos) m.userData.fpos=fpos; grp.add(m); outs.push(m); return m; };
+    const outPlane=(w,h,x,y,z,ry,grp,fpos,kind,fx)=>{ const geo=new THREE.PlaneGeometry(w,h); cropUV(geo,w/h,fx==null?0.5:fx); const m=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({map:outsideTex(false)})); m.position.set(x,y,z); m.rotation.y=ry; m.userData.dmOut=true; m.userData.view=kind||'side'; if(fpos) m.userData.fpos=fpos; grp.add(m); outs.push(m); return m; };
     const winX=(grp,b,x,y0,s)=>{ outPlane(1.6,1.5,x+s*0.12,y0+0.75,0,s>0?-Math.PI/2:Math.PI/2,grp,new THREE.Vector3(x-s*0.6,y0+0.75,0)); b.add(MAT.frame(),TK.boxG(0.08,1.6,1.7),x+s*0.13,y0+0.75,0); };
     winX(lv0,b0,CO.x0,1.0,1); winX(lv1,b1,CO.x0,Y1+1.0,1); winX(lv1,b1,CO.x1,Y1+1.0,-1);
-    for(const x of [8.4,11.4]){ outPlane(2.0,1.5,x,1.75,LB.z1-0.12,Math.PI,lv0,new THREE.Vector3(x,1.75,LB.z1+0.6)); b0.add(MAT.frame(),TK.boxG(2.1,1.6,0.08),x,1.75,LB.z1-0.13); }
+    for(const x of [8.4,11.4]){ outPlane(2.0,1.5,x,1.75,LB.z1-0.12,Math.PI,lv0,new THREE.Vector3(x,1.75,LB.z1+0.6),'road',0.25+(x-8.4)/6); b0.add(MAT.frame(),TK.boxG(2.1,1.6,0.08),x,1.75,LB.z1-0.13); }
     outPlane(1.8,1.5,0,LD.y+1.65,WL.z0+0.12,0,lv0,new THREE.Vector3(0,LD.y+1.65,WL.z0-0.6)); b0.add(MAT.frame(),TK.boxG(1.9,1.6,0.08),0,LD.y+1.65,WL.z0+0.13);
-    outPlane(2.0,2.4,0,1.2,LB.z1+0.5,Math.PI,lv0);   // 大門外面
+    outPlane(2.0,2.4,0,1.2,LB.z1+0.5,Math.PI,lv0,null,'road',0.5);   // 大門外面
     // 天花板＋日光燈
     { const tube=MAT.lightPanel(); const ceil=(a,y,grp)=>{ const c=new THREE.Mesh(new THREE.PlaneGeometry(a.x1-a.x0,a.z1-a.z0),M('#f2f0ea')); c.rotation.x=Math.PI/2; c.position.set((a.x0+a.x1)/2,y,(a.z0+a.z1)/2); grp.add(c); };
       ceil({x0:CO.x0,x1:CO.x1,z0:CO.z0,z1:LB.z1},H0,fb0); ceil(CO,RY,fb1); ceil(WL,RY,fb0);
@@ -140,7 +146,7 @@ const DM3=(function(){
     const walls=[], walkMeshes=[], outs=[], cols=[]; const fb0=new THREE.Group(), fb1=new THREE.Group(); fb0.name='fallback0'; fb1.name='fallback1'; fb0.userData.dyn=true; fb1.userData.dyn=true; lv0.add(fb0); lv1.add(fb1);
     const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},camMaxY:3.0,
       fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
-      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); const want=outsideTex(night); for(const o of outs){ if(o.material.map!==want){ o.material.map=want; o.material.needsUpdate=true; } } },
+      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); for(const o of outs){ const v=viewOf(o.userData.view,night), want=v||outsideTex(night); if(o.material.map!==want){ o.material.map=want; o.material.toneMapped=!v; o.material.needsUpdate=true; } } },
       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; } };
     buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,outs,cols); buildDoors(E,L,lv0,lv1,fb0,fb1); buildFurniture(E,L,lv0,lv1,fb0,fb1,nav0,nav1,zone);
     // 走廊兩側的牆是鏡頭碰撞：放在樓層群組外面（正式模型載入後備用模型藏起來，碰撞還在）
