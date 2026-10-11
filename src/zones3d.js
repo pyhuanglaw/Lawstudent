@@ -140,11 +140,13 @@ const Z3 = (function(){
     const admGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_admin']; admin.userData.ckTag='admin'; if(admGLB) admin.userData.dyn=true;   /* 行政大樓的 Blender 正式模型（第二個 AI：campus_hall.py --set admin → bldg.campus_admin）：和總圖同一套接法；導航、鏡頭碰撞、門口照舊是套件的（ckPlace） */
     // ---- 文學院（大道北側，正對行政大樓）：仿羅馬式拱窗 ----
     const arts=CK.hall({w:40,d:18,floors:2,gfh:4.8,fh:4.4,wall:'#9b5a42',trim:'#d8cfbd',roof:'#43342e',roofH:4.8,arcade:true,porch:{bays:3,depth:3.0,pediment:true,pedH:1.8},sign:'文學院'}); ckPlace(arts,-38,-34,0); buildings.push(arts); strip(g,-38,-8,-38,-24,4,W3.pathTex(),4);
+    const artsGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_arts']; arts.userData.ckTag='arts'; if(artsGLB) arts.userData.dyn=true;   /* 文學院的 Blender 正式模型（第二個 AI：campus_hall.py --set arts → bldg.campus_arts）：和總圖同一套接法；導航、鏡頭碰撞、門口照舊是套件的（ckPlace） */
     // ---- 農業陳列館（洞洞館）北側近校門 ----
     // 農業陳列館（洞洞館）：上層四面是圓洞鏤空牆、一樓玻璃＋方柱、平屋頂寬屋簷（CK.pavilion；佔地和舊版相同）
     const hole=CK.pavilion({w:22,d:14,gfh:4.0,h:9,sign:'農業陳列館'}); ckPlace(hole,-104,-30,0); buildings.push(hole);
     // ---- 校史館（舊總圖）：大道北側、靠近大門（農業陳列館東邊），紅磚拱窗、圓石柱、屋瓦 ----
     const hist=CK.hall({w:24,d:16,floors:2,gfh:5.0,fh:4.6,wall:'#a25d43',trim:'#d8cfbd',roof:'#43342e',roofH:4.4,arcade:true,porch:{bays:3,depth:2.6,pediment:true,pedH:1.6},sign:'校史館'}); ckPlace(hist,-77,-29,0); buildings.push(hist);
+    const histGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_hist']; hist.userData.ckTag='hist'; if(histGLB) hist.userData.dyn=true;   /* 校史館的 Blender 正式模型（第二個 AI：campus_hall.py --set hist → bldg.campus_hist）：同上 */
     // ---- 總圖書館（椰林大道東端盡頭，正面朝西對著大道）----
     const lib=CK.hall({w:60,d:26,floors:4,gfh:5.0,fh:4.3,wall:'#9e5a44',trim:'#dcd3c2',roof:'#4a3a33',roofH:4.0,arcade:true,arcDepth:3.0,porch:{bays:5,depth:4.2,pediment:true,pedH:3.0,h:9.0,ys:5.6},tower:{w:9,h:9},sign:'總圖書館'}); ckPlace(lib,100,0,-Math.PI/2); buildings.push(lib);
     /* 總圖的 Blender 正式模型（第二個 AI：tools/blender/env_second/campus_library.py → bldg.campus_library）：有模型時套件的總圖不參加整區靜態合併，載入後藏起套件外觀；
@@ -329,6 +331,8 @@ const Z3 = (function(){
     if(libGLB) ASSETS.loadOne('bldg.campus_library').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_library_glb','library'); }).catch(e=>console.warn('總圖正式模型載入失敗，用套件的外觀',e));
     if(bellGLB) ASSETS.loadOne('bldg.campus_bell').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_bell_glb','bell'); }).catch(e=>console.warn('傅鐘正式模型載入失敗，用套件的外觀',e));
     if(admGLB) ASSETS.loadOne('bldg.campus_admin').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_admin_glb','admin'); }).catch(e=>console.warn('行政大樓正式模型載入失敗，用套件的外觀',e));
+    if(artsGLB) ASSETS.loadOne('bldg.campus_arts').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_arts_glb','arts'); }).catch(e=>console.warn('文學院正式模型載入失敗，用套件的外觀',e));
+    if(histGLB) ASSETS.loadOne('bldg.campus_hist').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_hist_glb','hist'); }).catch(e=>console.warn('校史館正式模型載入失敗，用套件的外觀',e));
     return zone; } };
   // 建築外觀的正式模型（Blender GLB，建築自己的座標）接到套件的建築上：套件的外觀藏起來（招牌 keepWithFormal 留著）；導航、走路高度、鏡頭碰撞照舊由套件給。
   // 窗玻璃、大廳玻璃、穿堂嵌燈登記成夜間會亮（材質名稱約定見 tools/blender/linze_exterior.py）

@@ -1,5 +1,6 @@
 """校園地標的正式模型（第二個 AI：Blender GLB）整合檢查——第二層「系統整合」測試（docs/TESTING.md），不是真實玩家流程。
-  LAWWW 2026-10-10 23:26Z 分派的順序：①總圖書館 bldg.campus_library（campus_library.py）②傅鐘 bldg.campus_bell（campus_bell.py）③行政大樓 bldg.campus_admin（campus_hall.py --set admin）④文學院、校史館。
+  LAWWW 2026-10-10 23:26Z 分派的順序：①總圖書館 bldg.campus_library（campus_library.py）②傅鐘 bldg.campus_bell（campus_bell.py）③行政大樓 bldg.campus_admin（campus_hall.py --set admin）
+  ④文學院 bldg.campus_arts、校史館 bldg.campus_hist（campus_hall.py --set arts／hist）。
   新的地標加進 TAGS 就好（標記、外框、匾額、效能的檢查都照 TAGS 跑）。
 
 比較的對象＝「改之前」：同一版遊戲、開機後把 manifest 裡這些地標的 key 拿掉再進校園（套件照舊參加整區靜態合併，和這次修改之前一模一樣；
@@ -8,8 +9,8 @@
   1. 校園裡有 ckTag 的只有 TAGS 這幾個，都接上正式模型、套件外觀全部藏起來；沒有標記的東西（樹、路燈、其他建築、背景）沒有多藏任何一個。
   2. 位置、尺寸、朝向照套件：正式模型的外框和套件的外框差 ≤ 1.5 m（屋簷、簷口出挑的差別）。
   3. 導航格、鏡頭碰撞方塊、互動點和「改之前」完全相同。
-  4. 匾額（總圖「總圖書館」、傅鐘石碑「傅鐘」、行政大樓門廊檐部「行政大樓」）：石材匾額，canvas 字、貼圖比例＝板面比例。
-  5. 夜間：總圖 20:30 窗戶亮、11:00 不亮；傅鐘的地燈燈罩、柱面暖光、光暈 20:30 亮、11:00 不亮，套件的光暈晚上不會跑回來（藏起來的套件光暈
+  4. 匾額（總圖「總圖書館」、傅鐘石碑「傅鐘」、行政大樓門廊檐部「行政大樓」、文學院門廊檐部「文學院」、校史館中央拱上方「校史館」）：石材匾額，canvas 字、貼圖比例＝板面比例。
+  5. 夜間：總圖、行政大樓、文學院、校史館 20:30 窗戶亮、11:00 不亮；傅鐘的地燈燈罩、柱面暖光、光暈 20:30 亮、11:00 不亮，套件的光暈晚上不會跑回來（藏起來的套件光暈
      會被 TK.setNight 重新打開——這一項在沒修的版本會失敗）、夜裡才進校園（模型在晚上才載入）光暈也是亮的；20:30 路燈開著，開燈數和改之前一樣。
   6. 陰影：大面（牆、屋頂、石材）投影；窗框、窗洞、玻璃、門、燈罩、暖光片不投影。
   7. 太陽：中午在南邊（校園 x 往東、−z 往北，沒有 sunYaw）。
@@ -27,7 +28,10 @@ OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'ar
 # ckTag → (manifest key, 正式模型的節點名稱, 匾額板面的名稱)
 TAGS = {'library': ('bldg.campus_library', 'campus_library_glb', 'PLATE_FACE_LIB'),
         'bell': ('bldg.campus_bell', 'campus_bell_glb', 'PLATE_FACE_BELL'),
-        'admin': ('bldg.campus_admin', 'campus_admin_glb', 'PLATE_FACE_ADMIN')}
+        'admin': ('bldg.campus_admin', 'campus_admin_glb', 'PLATE_FACE_ADMIN'),
+        'arts': ('bldg.campus_arts', 'campus_arts_glb', 'PLATE_FACE_ARTS'),
+        'hist': ('bldg.campus_hist', 'campus_hist_glb', 'PLATE_FACE_HIST')}
+HALLS = ['campus_library_glb', 'campus_admin_glb', 'campus_arts_glb', 'campus_hist_glb']   # campus_hall.py 做的（有窗、拱廊、門廊）
 WAIT_FORMAL = "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='%s')) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()"
 # 等所有延遲載入的模型（建築、道具、人物）都載完或失敗：「改之前」原本只等 3 秒，路燈、腳踏車等正式模型還沒載完、畫面還是合併過的套件版，
 # 校門鏡頭的 draw call 偏少（2026-10-11 AI-1 整合時：同一版本「改之前」一次 297、等全部載完是 341，每次開遊戲都一樣；LAWWW2 自己的紀錄也有 297／331／341）
@@ -60,7 +64,11 @@ VIEWS = [('gate_avenue', (-110, 1.7, 0.5), (100, 8, 0)),     # 進校門往東�
          ('bell_avenue', (-38, 1.7, 4), (-38, 3.0, 16.5)),    # 從大道看傅鐘（石碑那一面）
          ('bell_close', (-35.6, 1.6, 12.4), (-38, 2.8, 16.5)),  # 傅鐘近看（斜前方）
          ('admin_front', (-30, 1.7, 14), (-38, 6, 28)),       # 行政大樓：傅鐘廣場東側斜看正面（門廊、拱廊、陽台欄杆）
-         ('admin_arcade', (-58.6, 1.6, 26.4), (-20, 2.4, 26.4))]   # 行政大樓一樓拱廊裡往東
+         ('admin_arcade', (-58.6, 1.6, 26.4), (-20, 2.4, 26.4)),   # 行政大樓一樓拱廊裡往東
+         ('arts_front', (-30, 1.7, -12), (-38, 6, -28)),      # 文學院：從椰林大道北側斜看正面（門廊、山牆、拱廊）
+         ('arts_arcade', (-56.6, 1.6, -26.3), (-20, 2.4, -26.3)),   # 文學院一樓拱廊裡往東
+         ('hist_front', (-69, 1.7, -8), (-77, 6, -24)),       # 校史館：從椰林大道北側斜看正面
+         ('hist_porch', (-74.5, 1.7, -14.2), (-77, 4.6, -19.4))]   # 校史館門廊近看（圓石柱）
 
 
 async def check(pg, run, formal):
@@ -106,14 +114,18 @@ async def check(pg, run, formal):
                 const m=at.material.map, img=m&&m.image, it=at.userData.atlas.items; return {visible:at.visible, canvas:!!(m&&(m.isCanvasTexture||(img&&img.getContext))), n:it.length, names:it.map(i=>i.name), ratio:it.map(i=>+((i.w/i.h)/i.board).toFixed(3))}; })""" + "(%s)" % json.dumps(glb))
             run.check('%s：匾額 %s 是 canvas 字（石材匾額）、貼圖比例＝板面比例（±8%%）' % (tag, plate), bool(pl) and pl['visible'] and pl['canvas'] and pl['names'] == [plate] and all(0.92 < r < 1.08 for r in pl['ratio']), json.dumps(pl))
         shadow = await pg.evaluate("""(()=>{ const out={}; for(const o of GAME.E.zone.group.children) if(/^campus_.*_glb$/.test(o.name)) o.traverse(m=>{ if(m.isMesh) out[m.material.name]=m.castShadow; }); return out; })()""")
+        tri = await pg.evaluate("""(()=>{ const out={}; for(const o of GAME.E.zone.group.children) if(/^campus_.*_glb$/.test(o.name)){ let t=0,c=0; o.traverse(m=>{ if(!m.isMesh) return; const g=m.geometry; const n=(g.index?g.index.count:g.attributes.position.count)/3; t+=n; if(m.castShadow) c+=n; }); out[o.name]={tris:t, castTris:c}; } return out; })()""")
+        run.note('正式模型的三角形（全部／會投影的）：' + json.dumps(tri))
         run.check('陰影：大面（牆、屋頂、石材）投影；窗框、窗洞、玻璃、門、地燈燈罩、柱面暖光片不投影',
                   all(shadow.get(k) for k in ('ck_wall', 'ck_roof', 'ck_trim', 'ck_bell_stone', 'ck_bell_roof')) and not any(shadow.get(k) for k in ('ck_trim_win', 'ck_glass', 'ck_glass_lit', 'ck_frame', 'ck_door', 'ck_bell_lens', 'ck_bell_wash')), json.dumps(shadow))
-        night = await pg.evaluate("""(()=>{ const E=GAME.E, root=E.zone.group.children.find(o=>o.name==='campus_library_glb'); const mats={};
-            root.traverse(o=>{ if(o.isMesh) mats[o.material.name]=o.material; });
-            const read=()=>({lit:+(mats.ck_glass_lit?mats.ck_glass_lit.emissiveIntensity:-1).toFixed(2), dark:+(mats.ck_glass&&mats.ck_glass.emissive?mats.ck_glass.emissiveIntensity*mats.ck_glass.emissive.getHSL({}).l:0).toFixed(2), ceil:+(mats.ck_ceiling?mats.ck_ceiling.emissiveIntensity:-1).toFixed(2)});
-            E.applyTime(11); const day=read(); E.applyTime(20.5); const n2030=read(); E.applyTime(17.5); return {day, n2030, litMap:!!(mats.ck_glass_lit&&mats.ck_glass_lit.emissiveMap)}; })()""")
-        run.check('總圖的窗：20:30 亮燈的窗發光、11:00 不發光；沒亮燈的窗晚上也不發光；亮燈的窗有自發光貼圖（由上往下漸暗，不是一片平的光）', night['n2030']['lit'] > 0.5 and night['day']['lit'] < 0.05 and night['n2030']['dark'] < 0.05 and night['litMap'], json.dumps(night))
-        run.check('總圖的拱廊、門廊、屋簷底下的天花板：晚上比白天暗（白天的補光是陽光的反射；第一版晚上反而更亮，沒有燈的拱廊整片發亮）', 0 <= night['n2030']['ceil'] < night['day']['ceil'], json.dumps(night))
+        for hall in HALLS:
+            night = await pg.evaluate("""(name=>{ const E=GAME.E, root=E.zone.group.children.find(o=>o.name===name); const mats={};
+                root.traverse(o=>{ if(o.isMesh) mats[o.material.name]=o.material; });
+                const read=()=>({lit:+(mats.ck_glass_lit?mats.ck_glass_lit.emissiveIntensity:-1).toFixed(2), dark:+(mats.ck_glass&&mats.ck_glass.emissive?mats.ck_glass.emissiveIntensity*mats.ck_glass.emissive.getHSL({}).l:0).toFixed(2), ceil:+(mats.ck_ceiling?mats.ck_ceiling.emissiveIntensity:-1).toFixed(2)});
+                E.applyTime(11); const day=read(); E.applyTime(20.5); const n2030=read(); E.applyTime(17.5); return {day, n2030, litMap:!!(mats.ck_glass_lit&&mats.ck_glass_lit.emissiveMap)}; })""" + "(%s)" % json.dumps(hall))
+            nm = hall[len('campus_'):-len('_glb')]
+            run.check('%s 的窗：20:30 亮燈的窗發光、11:00 不發光；沒亮燈的窗晚上也不發光；亮燈的窗有自發光貼圖（由上往下漸暗，不是一片平的光）' % nm, night['n2030']['lit'] > 0.5 and night['day']['lit'] < 0.05 and night['n2030']['dark'] < 0.05 and night['litMap'], json.dumps(night))
+            run.check('%s 的拱廊、門廊、屋簷底下的天花板：晚上比白天暗（白天的補光是陽光的反射；總圖第一版晚上反而更亮，沒有燈的拱廊整片發亮）' % nm, 0 <= night['n2030']['ceil'] < night['day']['ceil'], json.dumps(night))
         bd = await pg.evaluate(BELL_NIGHT + '(11)'); bn = await pg.evaluate(BELL_NIGHT + '(20.5)'); await pg.evaluate('GAME.E.applyTime(17.5)')
         run.check('傅鐘的地燈燈罩、柱面暖光：20:30 發光、11:00 不發光；暖光片是加法混合（白天看不到）',
                   bn['lens'] > 1.0 and bd['lens'] < 0.05 and bn['wash'] > 0.5 and bd['wash'] < 0.05 and bn['washAdditive'], json.dumps({'11:00': bd, '20:30': bn}))

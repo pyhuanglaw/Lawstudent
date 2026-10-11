@@ -1,5 +1,5 @@
 """臺大校舍（套件 CK.hall 的那幾棟：總圖書館、行政大樓…）的正式外觀 → 每一棟一個 GLB（校園世界座標）。第二 AI 工作階段（環境美術）製作：
-  /opt/blenv/bin/python tools/blender/env_second/campus_hall.py -- --set library|admin [--out 輸出.glb]
+  /opt/blenv/bin/python tools/blender/env_second/campus_hall.py -- --set library|admin|arts|hist [--out 輸出.glb]
 （tools/blender/env_second/campus_library.py 也是呼叫這裡的 build(LIBRARY)。）
 
 每一棟的參數照 src/zones3d.js campus 區塊的 CK.hall({...}) 與 ckPlace(...)（改那邊要一起改這裡的 SETS）：位置、尺寸、朝向、樓層、開間、
@@ -8,7 +8,8 @@
 台大校舍的語彙（ART_DIRECTION、D23／D25）：面磚外牆、石材收邊（勒腳、樓層腰帶、簷口、拱窗窗框與窗台）、一樓連續拱廊、中央入口門廊、四坡屋頂。和套件不同的地方（品質）：
   - 窗是牆上真的開出的拱形窗洞：石材窗框外凸 6 cm、窗玻璃內凹 30 cm（看得到窗洞內側），窗台外凸；套件是貼在牆面上的薄片。亮燈的窗有由上往下漸暗的自發光貼圖。
   - 拱廊與門廊的拱有拱腹（拱的內側面），拱圈石材收邊；簷口是三段線腳；屋簷底下有簷底板。
-  - 門廊頂：山牆（pediment）或陽台欄杆（三面、欄杆柱＋扶手＋底座；套件只有正面一排）。
+  - 門廊頂：山牆（pediment）或陽台欄杆（三面、欄杆柱＋扶手＋底座；套件只有正面一排）。山牆可以有牛眼窗（oculus：石材圓框＋深色玻璃＋十字窗櫺）。
+  - 門廊正面的柱子：方柱（套件）或圓石柱（cols='round'：方形柱礎、圓柱身、喇叭形柱頭，上面照舊是方形的拱墩；校史館，套件的註解「圓石柱」）。
   - 面磚（exterior_wall_cladding_02，真實比例）、切石（sandstone_blocks_08）、屋瓦（grey_roof_tiles）、花崗石（granite_tile_03）、木門（dark_wood）都是 Poly Haven CC0 PBR。
 不用 instancing：全部合成每個材質一個網格（draw call 少）；窗框、窗台、窗洞內側用另一個材質（ck_trim_win），遊戲端不投影。
 招牌：PLATE_FACE_*（遊戲用 canvas 畫字：石材匾額樣式，晚上不發光）。
@@ -41,6 +42,20 @@ SETS = {
                   porch=dict(bays=3, depth=3.0, pediment=False), tower=None,
                   wall='#cdb48e', wall_sat=0.3, trim='#e2dac9', roof='#4a3a33',
                   plate=dict(name='PLATE_FACE_ADMIN', text='行政大樓', where='frieze', w=5.2, h=0.42, fs=0.72), expect=dict(nb=13, nbs=4)),   # 第一版 4.4×0.36、字 0.6 倍：字只有 0.22 m 高，比套件的招牌小很多、遠看讀不出來
+    # CK.hall({w:40,d:18,floors:2,gfh:4.8,fh:4.4,wall:'#9b5a42',trim:'#d8cfbd',roof:'#43342e',roofH:4.8,arcade:true,porch:{bays:3,depth:3.0,pediment:true,pedH:1.8},sign:'文學院'})；
+    # ckPlace(arts,-38,-34,0)（大道北側，正面朝南對著行政大樓）。中央拱上方到檐部只剩 0.67 m（放不下有框的匾額）→ 匾額刻在檐部正面（和行政大樓一樣）
+    'arts': dict(name='campus_arts', prefix='art_', out='assets/models/env/second_ai/campus_arts.glb', place=(-38.0, -34.0, 0.0),
+                 w=40.0, d=18.0, floors=2, gfh=4.8, fh=4.4, arcDepth=None, roofH=4.8,
+                 porch=dict(bays=3, depth=3.0, pediment=True, pedH=1.8, oculus=True), tower=None,
+                 wall='#9b5a42', trim='#d8cfbd', roof='#43342e',
+                 plate=dict(name='PLATE_FACE_ARTS', text='文學院', where='frieze', w=4.0, h=0.42, fs=0.72), expect=dict(nb=11, nbs=5)),
+    # CK.hall({w:24,d:16,floors:2,gfh:5.0,fh:4.6,wall:'#a25d43',trim:'#d8cfbd',roof:'#43342e',roofH:4.4,arcade:true,porch:{bays:3,depth:2.6,pediment:true,pedH:1.6},sign:'校史館'})；
+    # ckPlace(hist,-77,-29,0)（大道北側、靠近大門）。中央拱上方到檐部有 0.98 m：有框的匾額放在拱上方（bh＝石框高度）
+    'hist': dict(name='campus_hist', prefix='his_', out='assets/models/env/second_ai/campus_hist.glb', place=(-77.0, -29.0, 0.0),
+                 w=24.0, d=16.0, floors=2, gfh=5.0, fh=4.6, arcDepth=None, roofH=4.4,
+                 porch=dict(bays=3, depth=2.6, pediment=True, pedH=1.6, oculus=True, cols='round'), tower=None,
+                 wall='#a25d43', trim='#d8cfbd', roof='#43342e',
+                 plate=dict(name='PLATE_FACE_HIST', text='校史館', where='spandrel', w=3.0, h=0.6, bh=0.8, fs=0.72), expect=dict(nb=7, nbs=4)),
 }
 
 
@@ -354,9 +369,24 @@ def build(c, out=None):
 
     # ---------------- 中央入口門廊（石材；正面拱、兩側實牆、檐部、山牆或陽台欄杆、天花板、地坪、招牌）----------------
     pzf, pzb = Z0 + PD, Z0 + PD - 0.9
+    def ring(m, xc, zc, ya, ra, yb, rb, n=16):
+        """圓錐台的側面（中心 (xc, zc)、從 ya 半徑 ra 到 yb 半徑 rb），法線往外"""
+        for k in range(n):
+            a0, a1 = 2 * math.pi * k / n, 2 * math.pi * (k + 1) / n; am = (a0 + a1) / 2
+            face(m, [(xc + ra * math.cos(a0), ya, zc + ra * math.sin(a0)), (xc + ra * math.cos(a1), ya, zc + ra * math.sin(a1)),
+                     (xc + rb * math.cos(a1), yb, zc + rb * math.sin(a1)), (xc + rb * math.cos(a0), yb, zc + rb * math.sin(a0))],
+                 (math.cos(am) * (yb - ya), ra - rb, math.sin(am) * (yb - ya)))
+
+    rcol = Mesh(c['prefix'] + 'col', M['trim']) if po.get('cols') == 'round' else None   # 圓柱另外一個網格（平滑著色），最後和石材合併成同一個（同一個材質）
     for i in range(1, PB):
         x = -PWID / 2 + PBW * i
-        box(tm, x - PPW / 2, x + PPW / 2, 0.0, PYS - 0.12, pzb, pzf, skip=('bottom', 'top'))
+        if rcol:   # 圓石柱：方形柱礎（0.8 m）＋柱腳圓盤＋圓柱身（直徑 0.6 m，往上稍微收分）＋喇叭形柱頭；上面的拱墩照舊（導航阻擋是套件的 0.9 m 方形，柱子在裡面）
+            zc = (pzb + pzf) / 2
+            box(tm, x - 0.4, x + 0.4, 0.0, 0.3, zc - 0.4, zc + 0.4, skip=('bottom',))
+            ring(rcol, x, zc, 0.3, 0.37, 0.42, 0.31); ring(rcol, x, zc, 0.42, 0.31, PYS - 0.42, 0.28)
+            ring(rcol, x, zc, PYS - 0.42, 0.28, PYS - 0.34, 0.32); ring(rcol, x, zc, PYS - 0.34, 0.32, PYS - 0.12, 0.44)
+        else:
+            box(tm, x - PPW / 2, x + PPW / 2, 0.0, PYS - 0.12, pzb, pzf, skip=('bottom', 'top'))
         box(tm, x - PPW / 2 - 0.08, x + PPW / 2 + 0.08, PYS - 0.12, PYS + 0.1, pzb - 0.09, pzf + 0.09)
     for i in range(PB): arch_bay(tm, acc('trimw'), -PWID / 2 + PBW * (i + 0.5), PBW, PYS, PH, PR, pzf, pzb, ring=0.16, clip=(-PWID / 2 + 0.45, PWID / 2 - 0.45))
     for sx in (-1, 1):
@@ -373,6 +403,20 @@ def build(c, out=None):
             off = 0.14
             face(tm, [(a[0], a[1], pz1 + 0.12), (b[0], b[1], pz1 + 0.12), (b[0] + nx * off, b[1] + ny * off, pz1 + 0.12), (a[0] + nx * off, a[1] + ny * off, pz1 + 0.12)], (0, 0, 1))
             face(tm, [(a[0], a[1], pz1), (b[0], b[1], pz1), (b[0], b[1], pz1 + 0.12), (a[0], a[1], pz1 + 0.12)], (-nx, -ny, 0))
+        if po.get('oculus'):   # 牛眼窗：石材圓框（外凸 7 cm）＋深色玻璃（由上往下變暗，和窗戶同一個材質）＋十字窗櫺
+            R = min(0.42, PEDH * 0.25); cy = py0 + PEDH * 0.42; n = 20; tw = acc('trimw'); fm = acc('frame')
+            I = [(R * math.cos(2 * math.pi * k / n), cy + R * math.sin(2 * math.pi * k / n)) for k in range(n)]
+            O = [(1.3 * R * math.cos(2 * math.pi * k / n), cy + 1.3 * R * math.sin(2 * math.pi * k / n)) for k in range(n)]
+            for k in range(n):
+                k1 = (k + 1) % n; am = 2 * math.pi * (k + 0.5) / n
+                face(tw, [(I[k][0], I[k][1], pz1 + 0.07), (I[k1][0], I[k1][1], pz1 + 0.07), (O[k1][0], O[k1][1], pz1 + 0.07), (O[k][0], O[k][1], pz1 + 0.07)], (0, 0, 1))
+                face(tw, [(O[k][0], O[k][1], pz1), (O[k1][0], O[k1][1], pz1), (O[k1][0], O[k1][1], pz1 + 0.07), (O[k][0], O[k][1], pz1 + 0.07)], (math.cos(am), math.sin(am), 0))
+                face(tw, [(I[k][0], I[k][1], pz1 + 0.012), (I[k1][0], I[k1][1], pz1 + 0.012), (I[k1][0], I[k1][1], pz1 + 0.07), (I[k][0], I[k][1], pz1 + 0.07)], (-math.cos(am), -math.sin(am), 0))
+            gm = acc('glass'); f = face(gm, [(x_, y_, pz1 + 0.012) for x_, y_ in I], (0, 0, 1))
+            for lp in f.loops:
+                t = max(0.0, min(1.0, (lp.vert.co.z - (cy - R)) / (2 * R)))
+                lp[gm.col] = [GL_BOT[i] + (GL_TOP[i] - GL_BOT[i]) * t for i in range(3)] + [1.0]
+            rect(fm, Fr((0, 0, pz1), (1, 0, 0), (0, 0, 1)), -0.03, 0.03, cy - R, cy + R, 0.03); rect(fm, Fr((0, 0, pz1), (1, 0, 0), (0, 0, 1)), -R, R, cy - 0.03, cy + 0.03, 0.035)
     else:
         # 陽台欄杆（套件：正面一排欄杆柱＋扶手）：三面（正面、兩側）都有——底座、方形欄杆柱（每 0.5 m）、轉角的大柱、扶手；後面接到牆
         bt, rail_y, post = py0, py0 + 0.8, 0.12
@@ -398,8 +442,10 @@ def build(c, out=None):
     pl = c['plate']; sw, sh = pl['w'], pl['h']
     plate = Mesh(pl['name'], M['board'])
     if pl['where'] == 'spandrel':
-        sy = PYS + PR + (PH - PYS - PR) / 2 + 0.05
-        box(tm, -sw / 2 - 0.15, sw / 2 + 0.15, sy - 0.58, sy + 0.58, pzf, pzf + 0.06, skip=('back',))
+        bh = pl.get('bh')   # 石框高度（校史館：中央拱圈頂到檐部之間置中）；沒給＝總圖的 1.16 m
+        sy = (PYS + PR + 0.16 + PH) / 2 if bh else PYS + PR + (PH - PYS - PR) / 2 + 0.05
+        hb = bh / 2 if bh else 0.58
+        box(tm, -sw / 2 - 0.15, sw / 2 + 0.15, sy - hb, sy + hb, pzf, pzf + 0.06, skip=('back',))
         face(plate, [(-sw / 2, sy - sh / 2, pzf + 0.065), (sw / 2, sy - sh / 2, pzf + 0.065), (sw / 2, sy + sh / 2, pzf + 0.065), (-sw / 2, sy + sh / 2, pzf + 0.065)], (0, 0, 1))
     else:
         sy = PH + 0.225; zf_ = Z0 + PD + 0.15
@@ -409,6 +455,7 @@ def build(c, out=None):
     for k, m in accs.items():
         if k.startswith('glass'): m.finish(root, uv=False)
         else: m.finish(root, uv=True)
+    if rcol: rcol.finish(root, uv=True, smooth=True)
     uv01(plate.finish(root, uv=True, props=dict({'text': pl['text'], 'bg': '#d8d0c0', 'color': '#3b2a1e', 'serif': 1}, **({'fs': pl['fs']} if pl.get('fs') else {}))))   # fs：字高是板面高的幾倍（遊戲的 wzPlateTex；沒給＝0.6）
     L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
     info = L.export(out, gpu_instances=False)
