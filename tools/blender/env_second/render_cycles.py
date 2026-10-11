@@ -1,6 +1,6 @@
 """Blender 模型渲染圖（驗收用，D38 第 12.8 節的⑤；不是遊戲截圖）：匯入 GLB → Cycles（CPU、低取樣＋降噪）→ PNG。
 這個沙盒的 EEVEE 要用軟體 OpenGL，一張圖十幾分鐘還出不來，所以用 Cycles。
-用法：/opt/blenv/bin/python tools/blender/env_second/render_cycles.py -- <glb[,glb…]> <輸出資料夾> <前綴> <views.json> [--res 960x600] [--samples 24] [--night] [--ground] [--threads N] [--tint 材質=#色碼]... [--exposure EV] [--view Standard] [--hide 名稱]... [--point x,y,z,W]...
+用法：/opt/blenv/bin/python tools/blender/env_second/render_cycles.py -- <glb[,glb…]> <輸出資料夾> <前綴> <views.json> [--res 960x600] [--samples 24] [--night] [--ground] [--threads N] [--tint 材質=#色碼]... [--exposure EV] [--view Standard] [--hide 名稱]... [--noemit] [--point x,y,z,W]...
 views.json：[["名稱", [眼睛 x,y,z], [看的點 x,y,z], 鏡頭焦距mm], ...]（遊戲座標）"""
 import json, math, os, sys
 import bpy
@@ -42,6 +42,9 @@ for t in [A[i + 1] for i, x in enumerate(A) if x == '--point']:   # 室內預覽
     x, y, z, e = map(float, t.split(',')); lt = bpy.data.objects.new('pt', bpy.data.lights.new('pt', 'POINT')); lt.data.energy = e; lt.data.color = (1.0, 0.95, 0.88); lt.data.shadow_soft_size = 0.4
     lt.location = g2b(x, y, z); sc.collection.objects.link(lt)
 if '--exposure' in A: sc.view_settings.exposure = float(A[A.index('--exposure') + 1])
+if '--noemit' in A:   # --noemit：白天的渲染不讓自發光發亮（總圖、行政大樓亮燈的窗有自發光貼圖；遊戲裡只有晚上開，Blender 會一直亮）
+    for mt in bpy.data.materials:
+        if mt.use_nodes and 'Principled BSDF' in mt.node_tree.nodes: mt.node_tree.nodes['Principled BSDF'].inputs['Emission Strength'].default_value = 0.0
 for pat in [A[i + 1] for i, x in enumerate(A) if x == '--hide']:   # --hide 名稱：不渲染這個物件（例如傅鐘柱面的夜間暖光片：遊戲裡白天是加法混合的黑色＝看不到，渲染器會畫成不透明的漸層）
     for ob in bpy.data.objects:
         if pat in ob.name: ob.hide_render = True

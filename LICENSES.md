@@ -49,6 +49,9 @@
 | `granite_tile_03` | 霖澤館外牆淺灰花崗石（去彩度）、台階、穿堂柱子與大梁 | `linze_exterior.glb`（霖澤館外觀） |
 | `granular_concrete` | 灰色預鑄：遮陽板、窗楣遮陽盒、帶窗層、頂樓女兒牆與屋頂板 | `linze_exterior.glb` |
 | `red_brick` | 紅磚窗格（五六樓、八九樓） | `linze_exterior.glb` |
+| `granite_tile_03`（萬才館） | 萬才館本體與一二樓的淺灰花崗石、窗台與屋頂邊（深一點）、大台階的踏面與平台、陽台地板、踢面（再深一點）、兩側弧形石牆（照片：比台階亮） | `wancai_exterior.glb`（萬才館外觀） |
+| `granular_concrete`（萬才館） | 凸出的混凝土窗框、弧形量體、凸出量體、陽台側面與底面、屋頂框架、屋頂設備 | `wancai_exterior.glb` |
+| `red_brick`（萬才館） | 四～八樓偏橘的淺紅磚 | `wancai_exterior.glb` |
 
 （`tools/blender/textures/` 裡其他下載過、還沒用到的材質：`granite_tile`、`granite_tile_02`、`granite_wall`、`grey_plaster_02`、`floor_tiles_06`、`concrete_floor_02`，同樣是 Poly Haven CC0；用到時補進上表。）
 
@@ -58,6 +61,7 @@
 |---|---|---|
 | 霖澤館室內（一樓大廳、直跑樓梯、二樓迴廊） | `tools/blender/linze_interior.py` → `assets/models/env/linze_interior.glb` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/linze_layout.js`（遊戲化設計，D37）；貼圖見上表（CC0） |
 | 霖澤館外觀（十層樓：花崗石基座＋三層樓高穿堂、灰色帶窗層、紅磚窗格＋窗楣遮陽盒、頂樓開放層＋大屋頂板、二樓天橋、玻璃大廳） | `tools/blender/linze_exterior.py` → `assets/models/env/linze_exterior.glb` | 本作自己寫的 Blender Python 腳本建模；量體與導航同 `src/campuskit3d.js` 的 `CK.lawhall`；外觀照使用者提供的霖澤館照片概略重建（照片本身沒有放進 repo；不是精確複製）；館名與「法律學院」招牌由遊戲用 Canvas 字畫（沒有把字型做進模型）；貼圖見上表（CC0） |
+| 萬才館外觀（九層樓：一二樓花崗石、三樓橫向長窗、四～八樓紅磚＋凸出的混凝土窗框、頂樓石材帶、屋頂鏤空框架；正面的弧形量體、往下張開的弧形大樓梯＋兩側石牆與扶手、樓梯頂端平台、弧形陽台、二樓玻璃、陽台下的一樓入口、凸出量體） | `tools/blender/wancai_exterior.py` → `assets/models/env/wancai_exterior.glb` | 本作自己寫的 Blender Python 腳本建模（共用工具 `tools/blender/b3lib.py`）；量體與大樓梯每一階的外緣同 `src/campuskit3d.js` 的 `CK.lawhall`（遊戲導航用同一組外緣，`tools/blender/wancai_ck_dump.js` 匯出、`--check` 比對）；外觀照使用者提供的萬才館照片與法律學院配置圖概略重建（D28、D31），沒有照片的背面、側面、屋頂是推測；貼圖見上表（CC0） |
 | 霖澤館 201 階梯教室（六排平台、兩側走道台階、深色長桌、木翻椅 ×48、講桌、黑板、投影幕、方格天花板＋日光燈、西牆三扇窗） | `tools/blender/classroom_201.py` → `assets/models/env/classroom_201.glb` | 本作自己寫的 Blender Python 腳本建模（共用工具 `tools/blender/b3lib.py`）；配置 `src/data/classroom_layout.js`；外觀參考使用者提供的教室照片（照片本身沒有放進 repo）；貼圖見上表（CC0） |
 | 祐廷 Blender 版（v9.4 人物生產線第二位：臉、新的層次短髮、圓領毛衣、直筒寬褲、球鞋；網址加 `?blchar` 才使用，預設仍是 VRoid 加工版） | `tools/blender/char/player.py`（`p00_face.py`、`p00_clothes.py`、`p00_hair.py`，沿用 `h01_*`、`common.py`、`vrm_finish.py`）→ `assets/models/char/bl_yuting.vrm`；Blender 工作檔 `assets/blender/yuting_work_v1.blend` | 身體、臉、表情、骨架的基底是 VRoid CC0 樣本「HairSample_Male」（pixiv，CC0）；毛衣的骨頭權重參考同一樣本原本的連帽上衣（CC0，只用權重，網格是本作腳本產生）；頭髮、衣服、鞋的網格與貼圖由本作腳本產生（numpy，沒有用外部素材）；VRM 匯出用 VRM Add-on for Blender（MIT） |
 | 溫書瑀 Blender 版（v9.4 人物生產線第六位：臉、深棕低馬尾＋中分長瀏海、白襯衫（反摺領、門襟與扣子、捲起的袖口）、卡其直筒褲＋深棕皮帶、深棕樂福鞋；網址加 `?blchar` 才使用，預設仍是 VRoid 加工版） | `tools/blender/char/heroine_05.py`（`p05_face.py`、`p05_clothes.py`、`p05_hair.py`，沿用 `p00_face.py`、`h01_*`、`common.py`、`vrm_finish.py`）→ `assets/models/char/bl_heroine_05.vrm`；Blender 工作檔 `assets/blender/heroine_05_work_v1.blend` | 身體、臉、表情、骨架的基底是 VRoid CC0 樣本「Sendagaya Shino」（pixiv，CC0；身體貼圖在原本衣服蓋住的透明區域用本作程式補上皮膚色）；頭髮、衣服、領子、門襟、袖口、鞋的網格與貼圖由本作腳本產生（numpy，沒有用外部素材）；判決節錄資料夾是遊戲內配件（`src/props3d.js`）；VRM 匯出用 VRM Add-on for Blender（MIT） |
@@ -117,5 +121,6 @@
 | 宿舍雙人房室內 `assets/models/env/second_ai/dorm_interior.glb` | 本作 Blender 腳本 `tools/blender/env_second/dorm_interior.py` | 本作 | `dorm` 室內區域。貼圖：`terrazzo_tiles`（地板、窗台）、`walnut_veneer`（家具、門）（上面列過的 Poly Haven CC0）、`painted_plaster_wall`（牆；第一個 AI 已下載到 `tools/blender/textures/`，只讀使用） |
 | 公館店面街 `assets/models/env/second_ai/gongguan_shops.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_street.py --set gongguan`（店名、招牌字是遊戲裡的 canvas 字，不仿真實店家） | 本作 | 公館羅斯福路南側 15 棟騎樓店面＋往溫州街的巷口轉角。貼圖和溫州街公寓相同（上面列過的 Poly Haven CC0） |
 | 總圖書館外觀 `assets/models/env/second_ai/campus_library.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_library.py`（位置、尺寸、樓層、開間照套件 `CK.hall`；匾額「總圖書館」是遊戲裡的 canvas 字） | 本作 | 校園椰林大道東端的總圖（取代套件 `CK.hall` 的外觀）。貼圖：`exterior_wall_cladding_02`（面磚）、`sandstone_blocks_08`（切石）、`grey_roof_tiles`（屋瓦）、`dark_wood`（大門），以及 `granite_tile_03`（勒腳、地坪；第一個 AI 已下載到 `tools/blender/textures/`，只讀使用） |
-| Poly Haven `sandstone_blocks_08`（Rob Tuytel） | https://polyhaven.com/a/sandstone_blocks_08 | CC0 | 總圖的石材：拱廊柱頭柱腳、拱圈、門廊、樓層腰帶、簷口、窗框窗台（降低彩度、校正成淺米灰） |
+| Poly Haven `sandstone_blocks_08`（Rob Tuytel） | https://polyhaven.com/a/sandstone_blocks_08 | CC0 | 總圖的石材：拱廊柱頭柱腳、拱圈、門廊、樓層腰帶、簷口、窗框窗台（降低彩度、校正成淺米灰）；傅鐘的台基、柱子、梁、石碑 |
+| 傅鐘 `assets/models/env/second_ai/campus_bell.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_bell.py`（尺寸照套件 `CK.bell`；石碑的「傅鐘」是遊戲裡的 canvas 字；柱面暖光的漸層貼圖本作程式產生） | 本作 | 校園傅鐘廣場（取代套件 `CK.bell` 的外觀）。貼圖：`sandstone_blocks_08`（切石）、`grey_roof_tiles`（屋瓦）、`dark_wood`（木橫梁），上面列過的 Poly Haven CC0 |
 

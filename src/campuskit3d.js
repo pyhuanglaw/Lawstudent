@@ -230,7 +230,8 @@ const CK=(function(){ 'use strict';
   // entry:'stairs'（萬才館，照片 2 張）：石材與紅磚之間一整排橫向長窗、頂樓是石材帶、西側兩層樓的花崗石低樓（大片方格玻璃）、
   //   正面偏西的兩層樓玻璃入口＋墊高平台、往下張開的弧形大台階（兩側弧形石牆＋不鏽鋼扶手、最下面幾階張開到石牆外面）。
   // 照片沒拍到的背面、側面、屋頂、樓層數是照同一套語彙推測補上的（文件裡標「推測」）。
-  // 遊戲沒有地形高度：台階、門廊與穿堂地坪、平台都不能走（導航擋住）；入口互動點在台階下面（ck.doorX、ck.doorZ）。
+  // 高度（v9.4 起，D36）：霖澤館的前後台階、穿堂地坪可以走（ck.surfs）；萬才館第二階段起大樓梯可以走（ck.wancai：zones3d.js 建兩層共用的台階高度，
+  //   樓梯頂端的平台與弧形陽台在校園的第 1 層導航格）；入口互動點在台階下面（ck.doorX、ck.doorZ）。
   function graniteTex(hex){ return TK.tex('ckGranite'+hex,256,256,(x,w,h)=>{ x.fillStyle=hex; x.fillRect(0,0,w,h); let s=23; const r=()=>{ s=(s*16807)%2147483647; return s/2147483647; }; for(let i=0;i<3600;i++){ const v=r(); x.fillStyle=v<0.45?'rgba(30,30,32,0.22)':(v<0.8?'rgba(255,255,255,0.22)':'rgba(120,96,86,0.2)'); x.fillRect(r()*w,r()*h,1.6,1.6); } x.fillStyle='rgba(70,70,70,0.4)'; for(const y of [0,128]) x.fillRect(0,y,w,2); for(const xx of [0,128]) x.fillRect(xx,0,2,h); }); }
   function graniteMat(hex){ return TK.M('ckGraniteM'+hex,()=>{ const t=graniteTex(hex); t.wrapS=t.wrapT=THREE.RepeatWrapping; return TK.std({map:t,roughness:0.7}); }); }
   // 萬才館大台階的一階（第二十一批）：平面夾在兩側石牆之間——外緣是 x=±(hw(s)+0.24)（壓在石牆底下），從平台前緣（s=0）到這一階的前緣（s=sk）；
@@ -258,7 +259,7 @@ const CK=(function(){ 'use strict';
   // 不鏽鋼扶手：沿著點列的管子＋每隔一段一根立柱（立柱底高 base(p)）
   function railAlong(bin,mat,pts,base,every){ const curve=new THREE.CatmullRomCurve3(pts); bin.add(mat,new THREE.TubeGeometry(curve,Math.max(8,pts.length*4),0.035,6,false),0,0,0,0,{noShadow:true});
     const L=curve.getLength(), n=Math.max(2,Math.round(L/(every||1.4))); for(let i=0;i<=n;i++){ const p=curve.getPointAt(Math.min(0.999,Math.max(0.001,i/n))); const b=base(p), hh=Math.max(0.15,p.y-b); bin.add(mat,new THREE.CylinderGeometry(0.025,0.025,hh,6),p.x,b+hh/2,p.z,0,{noShadow:true}); } }
-  function lawhall(o){ o=o||{}; const g=new THREE.Group(); const bin=new TK.Bin(); const blocks=[], cols=[], surfs=[]; let lobby=null;
+  function lawhall(o){ o=o||{}; const g=new THREE.Group(); const bin=new TK.Bin(); const blocks=[], cols=[], surfs=[]; let lobby=null, wancai=null;
     const portal=(o.entry||'portal')==='portal';
     const w=o.w||40, d=o.d||18, nf=o.floors||8, gfh=4.4, fh=3.5, H=gfh+(nf-1)*fh, CW=2.4, lowF=3;
     const PW=14, PH=gfh+2*fh, PF=portal?0.9:3.63;                         // 穿堂寬、高、地坪高（萬才館：樓梯頂端平台＝陽台高度 22 階 × 16.5 cm；陽台下面要留一樓入口的高度）
@@ -409,13 +410,14 @@ const CK=(function(){ 'use strict';
       { const PX0=BX1, PX1=w/2, PHt=gfh+2*fh, pcx=(PX0+PX1)/2; bin.add(gr,TK.boxG(PX1-PX0,PHt,PD,2.4),pcx,PHt/2,d/2+PD/2);
         for(let fl=0;fl<3;fl++){ const y0=fl===0?0:gfh+(fl-1)*fh, fhh=fl===0?gfh:fh, wh=fhh-1.5; for(const dx of [-0.17,0.17]){ const x=pcx+dx*(PX1-PX0); bin.add(GL(x,y0,d/2+PD),TK.planeG(0.62,wh),x,y0+0.9+wh/2,d/2+PD+0.02,0,{noShadow:true}); bin.add(grD,TK.boxG(0.86,0.14,0.2,2.4),x,y0+0.83,d/2+PD+0.09,0,{noShadow:true}); } }
         blocks.push([pcx,d/2+PD/2,PX1-PX0,PD,0.3]); cols.push([pcx,d/2+PD/2,PX1-PX0,PD,0,PHt]); }
-      // 導航：樓梯頂端平台＋樓梯分 8 段（每段寬度＝台階外緣、石牆外緣、端塊的最大值）；陽台底下不擋（一樓入口）
+      // 導航（萬才館第二階段，D36：大樓梯可以走上去）：樓梯頂端的平台在第 0 層擋住（實心石材；走到樓梯頂端時引擎換到第 1 層，平台和陽台在第 1 層）；
+      // 樓梯本身不擋（兩層共用、一階一階的高度：zones3d.js 用 ck.wancai 建高度面）；兩側石牆、牆端的端塊擋住；陽台底下不擋（一樓入口）。
+      // 原本整座樓梯分 8 段擋住（D26：遊戲沒有地形高度，樓梯只能看）
       blocks.push([(LX0+LX1)/2,d/2+LD/2,LX1-LX0,LD,0.1]);
-      for(let j=0,SN=8;j<SN;j++){ const za=j*L/SN, zb=(j+1)*L/SN; let mx=0;
-        for(const R of outl) for(let i=0;i<R.length;i++){ const [x,z]=R[i]; if(z>=za-0.01&&z<=zb+0.01) mx=Math.max(mx,x); else if(i&&Math.min(R[i-1][1],z)<za&&Math.max(R[i-1][1],z)>zb) mx=Math.max(mx,x,R[i-1][0]); }
-        for(let i=0;i<=24;i++){ const s=SC*i/24, z=s*L; if(z>=za-0.3&&z<=zb+0.3) mx=Math.max(mx,hwAt(s)+CT+0.02); }
-        const ze=SC*L; if(ze+0.4>=za&&ze-0.4<=zb) mx=Math.max(mx,hwAt(SC)+0.26+CR+0.1);
-        blocks.push([SX,z0+(za+zb)/2,2*mx+0.06,zb-za+0.04,0.1]); }
+      for(const sx of [-1,1]){ const pts=[]; for(let i=0;i<=14;i++){ const s=SC*i/14; pts.push([SX+sx*(hwAt(s)+0.26),z0+s*L]); }
+        for(let i=0;i<pts.length-1;i++){ const a=pts[i], b=pts[i+1], xa=Math.min(a[0],b[0])-CT/2, xb=Math.max(a[0],b[0])+CT/2; blocks.push([(xa+xb)/2,(a[1]+b[1])/2,xb-xa,Math.abs(b[1]-a[1])+0.02,0.04]); }   // 石牆：一小段一小段（導航格不能斜）
+        const pe=pts[pts.length-1]; blocks.push([pe[0],pe[1],0.9,0.92,0.05]); }   // 牆端的端塊（比牆粗、沿著牆的方向斜 20°：外接方形）
+      wancai={SX,z0,L,NS,RS,TR,PF,outl,hw:hwAt,SC,CT,LX0,LX1,BX0,BX1,BB,bzf,railIn:0.18,d};   // 給 zones3d.js 建樓梯的高度、第 1 層的平台與陽台、二樓入口
       doorX=gcx; doorZ=d/2+1.25;   // 互動點：陽台下面的一樓入口
     }
     bin.build(g);
@@ -425,9 +427,9 @@ const CK=(function(){ 'use strict';
     const nameT=TK.signTex(name.split('').join('\u3000'),{bg:'rgba(0,0,0,0)',color:'#d6b25a',serif:true,size:96}), nameM=new THREE.MeshStandardMaterial({map:nameT,roughness:0.45,metalness:0.45,transparent:true,alphaTest:0.3,depthWrite:false});
     if(portal){ const nm=new THREE.Mesh(new THREE.PlaneGeometry(10.4,2.6),nameM); nm.position.set(0,PH+0.62+1.1,d/2+0.41); nm.userData.keepWithFormal=true; g.add(nm);   /* keepWithFormal：Blender 正式外觀載入後，套件的外觀藏起來，招牌留著 */
       const lawT=TK.signTex('法律學院',{vertical:true,bg:'#e2711f',color:'#2b1b10',size:88}); const lm=new THREE.Mesh(new THREE.PlaneGeometry(0.42,1.68),new THREE.MeshStandardMaterial({map:lawT,roughness:0.7})); lm.position.set(PW/2+3.2,PF+2.0,d/2+0.011); lm.userData.keepWithFormal=true; g.add(lm); }
-    else { const nm=new THREE.Mesh(new THREE.PlaneGeometry(3.6,0.66),nameM); nm.position.set((WC.LX0+WC.BX1)/2,PF+3.5+0.35,d/2+0.51); g.add(nm); }   // 萬才館：二樓玻璃上面的石材帶（位置是推測：照片看不到館名）
+    else { const nm=new THREE.Mesh(new THREE.PlaneGeometry(3.6,0.66),nameM); nm.position.set((WC.LX0+WC.BX1)/2,PF+3.5+0.35,d/2+0.51); nm.userData.keepWithFormal=true; g.add(nm); }   // 萬才館：二樓玻璃上面的石材帶（位置是推測：照片看不到館名）
     g.traverse(m=>{ if(m.isMesh) m.castShadow=m.castShadow!==false; });
-    g.userData.ck={w,d,H,gfh,ad:0,blocks,doorZ,doorX,cols,surfs,lobby,PF}; return g; }
+    g.userData.ck={w,d,H,gfh,ad:0,blocks,doorZ,doorX,cols,surfs,lobby,PF,wancai}; return g; }
   // 傅鐘（v9.3 第十六批）：原本是 LEVEL_BLOCKOUT 的小鐘亭（圓台、四根細圓柱、綠色四角錐）。改成校園套件同一套語彙的鐘亭：
   // 兩層石材台基、四根方柱（柱礎、柱頭）、四面的梁、四坡瓦屋頂＋屋簷封板＋寶頂、梁下木橫梁吊著銅鐘、正面的石碑。
   // 不是照真實傅鐘建模，只是概略的樣子。+z 是正面（石碑那一側）。blocks＝導航阻擋（區域座標換算見 zones3d 的 placeGate）

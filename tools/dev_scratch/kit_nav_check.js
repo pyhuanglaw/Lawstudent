@@ -2,6 +2,7 @@
 // 建霖澤館、萬才館（CK.lawhall，參數和 zones3d.js 一樣），把建築正面以外（z > d/2 + 0.3）、高於地面的每個頂點，
 // 和套件回傳的導航阻擋（userData.ck.blocks，含邊距）比對。台階、石牆、端塊如果有一部分不在阻擋裡，玩家會走進去（腳陷進台階）。
 // v9.3 第二十一批：萬才館台階原本有 73 個頂點在阻擋外（石牆外側的台階），改完是 0。第二十四批：只看 2.2 m 以下（陽台底下可以走）。
+// 萬才館第二階段：大樓梯可以走，台階頂點在那一階的外緣裡、高度不超過那一階的頂面就不算（石牆、端塊還是要在阻擋裡）。
 // 用法：node tools/dev_scratch/kit_nav_check.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'../..');
@@ -17,6 +18,8 @@ for(const [name,opts] of [['霖澤館',{w:40,d:18,floors:8}],['萬才館',{entry
     for(let i=0;i<p.count;i++){ const x=p.getX(i), y=p.getY(i), z=p.getZ(i); if(z<=ck.d/2+0.3||y<=0.01||y>=2.2) continue;   /* 只看 2.2 m 以下（人走過去會撞到的高度）：萬才館的弧形陽台（底面 3.0 m）下面本來就要讓人走 */
       if(B.some(([bx,bz,bw,bd,m])=>Math.abs(x-bx)<=bw/2+m+1e-3&&Math.abs(z-bz)<=bd/2+m+1e-3)) continue;
       /* v9.4（D36）：可以走的面（霖澤館前台階、穿堂地坪）本身不算障礙：頂點在那一塊的範圍內、高度不超過那一塊最高處加一階 */ if((ck.surfs||[]).some(s=>x>=s.x0-1e-3&&x<=s.x1+1e-3&&z>=s.z0-1e-3&&z<=s.z1+1e-3&&y<=(s.y!==undefined?s.y:Math.max(s.ya,s.yb))+(s.rise||0)+0.02)) continue;
+      /* 萬才館第二階段：大樓梯可以走（ck.wancai：每一階的外緣與高度；zones3d.js 的 wancaiStairs 用同一組資料建高度面）——台階頂點在那一階的外緣裡、高度不超過那一階的頂面 */
+      if(ck.wancai){ const W=ck.wancai, zp=z-W.z0, dx=Math.abs(x-W.SX); if(zp>=-1e-3&&zp<=W.L+1e-3){ let hit=false; for(let k=W.NS-1;k>=0&&!hit;k--){ const R=W.outl[k]; if(zp>R[R.length-1][1]+1e-3) continue; for(let j=1;j<R.length;j++){ const a=R[j-1], c=R[j]; if(zp<=c[1]+1e-3){ const t=c[1]>a[1]?Math.max(0,Math.min(1,(zp-a[1])/(c[1]-a[1]))):1; if(dx<=a[0]+(c[0]-a[0])*t+1e-3&&y<=(k+1)*W.RS+0.02) hit=true; break; } } } if(hit) continue; } }
       out++; let dm=1e9; for(const [bx,bz,bw,bd,m] of B){ const dx=Math.max(0,Math.abs(x-bx)-bw/2-m), dz=Math.max(0,Math.abs(z-bz)-bd/2-m); dm=Math.min(dm,Math.hypot(dx,dz)); } if(dm>worst){ worst=dm; at=[x,y,z].map(v=>+v.toFixed(2)); } } });
   console.log(`${name}：三角形 ${tris}，入口互動點 (${ck.doorX}, ${ck.doorZ.toFixed(2)})，正面外的頂點在導航阻擋外：${out} 個`+(out?`（最遠 ${worst.toFixed(2)} m，在 ${JSON.stringify(at)}）`:''));
   if(out) fail++;
