@@ -186,14 +186,18 @@ const E3 = (function(){
   E.screenToGround=function(x,y){ E.ndc.set(x/E.w*2-1,-(y/E.h)*2+1); E.ray.setFromCamera(E.ndc,camera); const hit=new THREE.Vector3(); if(E.ray.ray.intersectPlane(E.groundPlane,hit)) return hit; return null; };
   // 點地面（v9.4）：多樓層／有高度的區域，先打「看得到的地板」（zone.walkMeshes，userData.walkLv＝第幾層）；打不到就用玩家那一層的基本地板高度的平面
   E.screenToFloor=function(x,y){ E.ndc.set(x/E.w*2-1,-(y/E.h)*2+1); E.ray.setFromCamera(E.ndc,camera); E.ray.near=0; E.ray.far=Infinity; const P=E.player; const wm=E.zone&&E.zone.walkMeshes;
-    if(wm&&wm.length){ const vis=wm.filter(m=>{ for(let o=m;o;o=o.parent){ if(!o.visible) return false; } return true; }); const hits=E.ray.intersectObjects(vis,false); if(hits.length){ const h=hits[0]; return {x:h.point.x,z:h.point.z,y:h.point.y,lv:h.object.userData.walkLv|0}; } }
+    if(wm&&wm.length){ const vis=wm.filter(m=>{ for(let o=m;o;o=o.parent){ if(!o.visible) return false; } return true; }); const hits=E.ray.intersectObjects(vis,false); if(hits.length){ const h=hits[0]; return {x:h.point.x,z:h.point.z,y:h.point.y,lv:h.object.userData.walkLv|0,obj:h.object}; } }
     const lv=P?P.lv|0:0, n=navOf(lv); const fy=n?n.y0:0; const pl=new THREE.Plane(UP,-fy); const hit=new THREE.Vector3(); if(E.ray.ray.intersectPlane(pl,hit)) return {x:hit.x,z:hit.z,y:fy,lv}; return null; };
   E.screenRay=function(x,y){ E.ndc.set(x/E.w*2-1,-(y/E.h)*2+1); E.ray.setFromCamera(E.ndc,camera); return E.ray; };
   // ---------- 更新 ----------
   E.onTapGround=null; E.onInteractNear=null; E.frame=0;
   E.update=function(dt){ E.time+=dt; E.frame++; const P=E.player; if(!P) return;
     // 點擊
-    if(input.tap&&!E.paused){ const tp=input.tap; input.tap=null; let handled=false; if(E.onTap) handled=E.onTap(tp); if(!handled&&!P.busy&&E.cam.mode==='follow'){ const hit=E.screenToFloor(tp.x,tp.y); if(hit&&E.nav){ E.moveTo(P,hit.x,hit.z,null,hit.lv); P.run=Math.hypot(hit.x-P.obj.position.x,hit.z-P.obj.position.z)>16||input.runToggle; if(E.onTapGround) E.onTapGround(hit); } } }
+    if(input.tap&&!E.paused){ const tp=input.tap; input.tap=null; let handled=false; if(E.onTap) handled=E.onTap(tp); if(!handled&&!P.busy&&E.cam.mode==='follow'){ const hit=E.screenToFloor(tp.x,tp.y); if(hit&&E.nav){ let tx=hit.x, tz=hit.z, tlv=hit.lv;
+        /* 室內的樓梯（任務 #42）：點在一跑樓梯上＝走完這一跑（點的地方比腳高就走到上面那一端、比較低就走到下面那一端）。
+           原本只走到點的那一點：從一樓看不到二樓的地板，只點得到前面幾階，上一層樓要點十幾次（萬才館 14 次、霖澤館 16 次）*/
+        const se=hit.obj&&hit.obj.userData.stairEnds; if(se){ const e2=se[hit.y>=P.obj.position.y-0.05?1:0]; tx=e2.x; tz=e2.z; tlv=e2.lv; }
+        E.moveTo(P,tx,tz,null,tlv); P.run=Math.hypot(tx-P.obj.position.x,tz-P.obj.position.z)>16||input.runToggle; if(E.onTapGround) E.onTapGround(Object.assign({},hit,{x:tx,z:tz,lv:tlv})); } } }
     // 直接操控
     let mv=tmpV.set(0,0,0); if(!P.busy&&E.cam.mode==='follow'){ if(input.keys['w']||input.keys['arrowup']) mv.z-=1; if(input.keys['s']||input.keys['arrowdown']) mv.z+=1; if(input.keys['a']||input.keys['arrowleft']) mv.x-=1; if(input.keys['d']||input.keys['arrowright']) mv.x+=1; if(input.joy.active){ mv.x+=input.joy.x; mv.z+=input.joy.y; } }
     const spdWalk=1.45, spdRun=4.1; let moving=false;

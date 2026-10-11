@@ -168,7 +168,9 @@ const LB3=(function(){
     { const s=zone.seats, T=L.furniture.find(f=>f.type==='studyTable'&&f.z>0); const row=(zz)=>s.filter(q=>Math.abs(q.z-zz)<0.05).sort((p,q)=>p.x-q.x)[0];
       const a=T&&row(T.z-0.8), b2=T&&row(T.z+0.8); if(a&&b2){ s.splice(s.indexOf(a),1); s.splice(s.indexOf(b2),1); s.unshift(a,b2); } }   /* seats[0]：玩家（−z 那一側，面向 +z）、seats[1]：小安（對面）；和閱覽室 seats 的排法一樣 */
     // 樓梯可以點的面（點地面移動；一直在，正式模型載入後也用這幾片）
-    for(const s of ss.all){ const w=s.x1-s.x0, d=s.z1-s.z0; const ya=s.y!==undefined?s.y:(s.low==='z1'?s.ya:s.ya), yb=s.y!==undefined?s.y:s.yb; const m=new THREE.Mesh(new THREE.PlaneGeometry(w,Math.hypot(d,yb-ya)),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set((s.x0+s.x1)/2,(ya+yb)/2+0.01,(s.z0+s.z1)/2); m.rotation.x=-Math.PI/2-Math.atan2(yb-ya,d); m.userData.walkLv=(ss.sides.indexOf(s)>=0||ss.tops.indexOf(s)>=0)?1:0; m.userData.dyn=true; lv0.add(m); walkMeshes.push(m); }
+    for(const s of ss.all){ const w=s.x1-s.x0, d=s.z1-s.z0; const ya=s.y!==undefined?s.y:(s.low==='z1'?s.ya:s.ya), yb=s.y!==undefined?s.y:s.yb; const m=new THREE.Mesh(new THREE.PlaneGeometry(w,Math.hypot(d,yb-ya)),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set((s.x0+s.x1)/2,(ya+yb)/2+0.01,(s.z0+s.z1)/2); m.rotation.x=-Math.PI/2-Math.atan2(yb-ya,d); m.userData.walkLv=(ss.sides.indexOf(s)>=0||ss.tops.indexOf(s)>=0)?1:0; m.userData.dyn=true; lv0.add(m); walkMeshes.push(m);
+      /* 點在一跑樓梯上＝走完這一跑（engine3d.js；任務 #42）：[下面那一端, 上面那一端] */
+      const LD=L.stair.landing, ldz=(LD.z0+LD.z1)/2; if(s===ss.c) m.userData.stairEnds=[{x:0,z:s.z1+0.6,lv:0},{x:0,z:ldz,lv:0}]; const si=ss.sides.indexOf(s); if(si>=0){ const sx=(s.x0+s.x1)/2; m.userData.stairEnds=[{x:sx,z:ldz,lv:0},{x:sx,z:L.stair.side.z1+0.6,lv:1}]; } }
     zone.elev=B3.buildElevator(Object.assign({},L,{elevator:Object.assign({},EL,{floors:hallFloors(L)})}),g,nav0,nav1,zone);
     { const sh=E.spawnHint; if(sh&&sh.elev) zone.elev.placeAt(Math.max(0,Math.min(1,sh.lv|0)),true); }   /* 從閱覽室搭電梯下來：車廂停在那一層、人在車廂裡（門之後才打開） */
     zone.update=function(dt){ zone.elev.update(dt); };
