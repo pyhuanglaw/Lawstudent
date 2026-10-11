@@ -54,7 +54,7 @@ const LIBRARY_LAYOUT={
     {"type":"display","lv":0,"x":-8.4,"z":2.4,"w":2.4,"d":1.0},
     {"type":"display","lv":0,"x":-8.4,"z":-1.6,"w":2.4,"d":1.0},
     {"type":"sofa","lv":0,"x":-10.9,"z":-5.6,"w":2.2,"d":0.9,"ry":1.5708,"seat":true},
-    {"type":"sofa","lv":0,"x":-10.9,"z":6.6,"w":2.2,"d":0.9,"ry":1.5708,"seat":true},
+    {"type":"sofa","lv":0,"x":-10.9,"z":6.2,"w":2.2,"d":0.9,"ry":1.5708,"seat":true},
     {"type":"racks","lv":0,"x":11.45,"z":-6.6,"w":3.6,"d":0.6,"ry":-1.5708},
     {"type":"armchair","lv":0,"x":8.6,"z":-5.8,"ry":1.5708,"seat":true},
     {"type":"armchair","lv":0,"x":8.6,"z":-7.4,"ry":1.5708,"seat":true},
