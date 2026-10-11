@@ -126,6 +126,7 @@ index.html              開發版入口：UI DOM、CSS、script 載入順序、G
 src/                    遊戲程式（classic script、全域 IIFE 模組）
   engine3d.js             渲染、日夜光線、天氣、鏡頭、觸控輸入、NavGrid A*、碰撞、NPC 行為、LOD、分區載入
   zones3d.js              各區域：校園、公館、溫州街、教室、萬才館、總圖、咖啡廳、便利商店、麵店、書店、宿舍（含導航格）
+  library3d.js            總圖大廳（library_hall：一樓大廳、帝國式大樓梯、電梯、二樓自習區；閱覽室的電梯與樓梯間，D43）
   world3d.js              LEVEL_BLOCKOUT 產生器（建築、貼圖、路燈、腳踏車、風動 shader）
   townkit3d.js            街道套件 TK（台北公寓、店面、兩點半 Café、日式老屋、電線桿、機車、行道樹、大王椰子、夜間發光材質）
   campuskit3d.js          校園建築套件 CK（台大風格：面磚／紅磚、拱窗、一樓拱廊、門廊、四坡屋頂、塔樓）
@@ -216,6 +217,7 @@ python3 build.py
   - 走樓梯腳步貼合：`character3d.js` 的 `footIK`（真實骨架、兩段式 IK）；`node tests/stairs_feet_unit.js` 量腳和踏面的距離。
 - **萬才館第二階段（2026-10-11，D41；需求 21「萬才館的弧形大樓梯必須能讓玩家走上去」）**：校園有兩層導航格（`zones3d.js` 的 `wancaiStairs`：第 1 層只有萬才館大樓梯、樓梯頂端平台、弧形陽台）；大樓梯兩層共用，高度用 `CK.lawhall` 畫台階的同一組外緣（`ck.wancai.outl`：畫面一階一階 `vfn`、碰撞連續 `fn`）；陽台下的一樓入口照舊在地面那一層；二樓入口這一版關著（告示）。外觀是 Blender 模型（`tools/blender/wancai_exterior.py` → `assets/models/env/wancai_exterior.glb`，台階外緣用 `--check` 和遊戲比對）。戶外往下走樓梯時鏡頭俯角會加（`engine3d.js` 的 `C.pitchAdd`）。**改萬才館或校園導航要跑 `node tests/nav_buildings_unit.js`、`node tools/dev_scratch/kit_nav_check.js`、`tests/campus_layout_nav.py`、`tests/flow_wancai_stairs.py`、`tests/wancai_glb_integration.py`**；改 `CK.lawhall` 的萬才館台階要重新匯出 GLB（外緣不一致時 `--check` 會失敗）。
 - **萬才館第三階段：室內兩層樓（2026-10-11，D42）**：`wancai` 區域搬到 `src/wancai3d.js`（配置 `src/data/wancai_layout.js`，Blender `tools/blender/wancai_interior.py` 讀同一份）。**一樓大廳的座標和 v9.3 完全相同**（柱子、沙發、圓桌、公告欄 `notice:'lawclub'`、出口 (0,6.6)、`story3d.js` 的劇情站位與 `CLUB_SPOTS`、`TA_SPOT`）；二樓 4.2 m：北側走廊、西側迴廊、西南門廳；西側直跑樓梯往南爬（第二跑＋最上一階兩層共用）、東側玻璃電梯（`B3.buildElevator`，3F 以上按不亮：要刷識別證）；平台上的二樓入口打開（從二樓的門出去回到平台，校園第 1 層）。房間門牌不用「201」（法服公告寫萬才館 201，社團目前在大廳聚會）。改萬才館室內要跑 `node tests/nav_buildings_unit.js`、`tests/flow_wancai_floors.py`、`tests/zone_transitions.py`、`tests/reachability_all.py`。
+- **總圖第一階段：大廳＋二樓自習區（2026-10-11，D43；需求 21「圖書館可進入閱讀區、自習區」）**：校園的總圖門口進新區域 `library_hall`（`src/library3d.js`、配置 `src/data/library_layout.js`）：一樓大廳（門廳、閘門、服務台）＋帝國式中央大樓梯（中間一跑上到平台、兩側兩跑折返，三跑與平台兩層共用）＋電梯＋二樓自習區（長桌可以坐下讀書）。現有的閱覽室（`library`）是「3F 閱覽區」（劇情：「我看過你在三樓」），座標、座位、劇情不動，出口改成樓梯間（回到大廳二樓東側）、東側多一部電梯。電梯可以到**別的區域**的樓層（樓層資料 `zone`；`E.spawnHint` 讓新區域建好時車廂停在那一層、人在車廂裡；`GAME.enter` 的 `deferStory`／`noAutosave`）。小安「總圖的下午」（原文「二樓靠牆的長桌」）改成走到大廳二樓就開始（`story3d.js` 的 S.tick；舊存檔在閱覽室的照舊）。正式模型 `tools/blender/library_interior.py`。**改總圖要跑 `node tests/nav_buildings_unit.js`、`tests/flow_library_floors.py`、`tests/flow_library_scene.py`**。
 - 沿路線移動（2026-10-11，`engine3d.js`）：最後一步只走到轉折點（`stepSp`）；換層（`switchLevel`）用人物所在那一層的**連續高度**比、容許值依步長放寬——跑步＋低幀率時一步 0.41 m，舊做法會在樓梯底來回跳、換不回地面那一層。`tests/nav_buildings_unit.js` 有跑步＋低幀率的上下樓梯檢查。
 - 人物：玩家與所有 NPC 已改用 VRoid CC0 樣本改作的 VRM（`tools/vroid_build.py` → `assets/models/char/vroid_*.vrm`），不再出現程序化球體人；舊的 Seed-san／Twist sample／RPM 不再載入。六位核心角色正依 Character Bible 與美術參考圖逐一修正，**美術尚未經使用者驗收**。
 - 溫州街：已用 `src/townkit3d.js` 重建成台北巷弄（原本是空柏油地＋方盒）；兩點半 Café 搬到東端路口（D22）；正在精修日式老屋、小公園與三個時段的光影。

@@ -124,7 +124,7 @@ const GAME = (function(){
     if(n) console.info('upgraded character models:',n); return n; };
   // ---------- 區域進入 ----------
   let entering=false;
-  async function enter(zoneId,spawn,opts){ opts=opts||{}; if(entering) return; entering=true; let z; try{ if(!opts.noFade) await fade(true); GM.npc={}; GM.extras=[]; z=E.loadZone(Z3.ZONES[zoneId],spawn); G.zone=zoneId; G.visited[zoneId]=true; E.player.path=null; E.player.pose='idle'; E.player.frozen=false; E.player.seat=null; E.player.idlePose='idle'; if(STORY.populate) STORY.populate(zoneId,GM); buildMinimap(); updateHUD(); A3.setScene(zoneId,G.hour,G.weather); E.update(0.016); E.render(); if(!opts.noFade){ await fade(false); } } finally { entering=false; /* 區域建立失敗時錯誤照樣丟出去，但不能讓 entering 永遠是 true（之後就再也換不了區域）*/ } if(STORY.onEnter) STORY.onEnter(zoneId,GM,opts); autosave(); return z; }
+  async function enter(zoneId,spawn,opts){ opts=opts||{}; if(entering) return; entering=true; let z; try{ if(!opts.noFade) await fade(true); GM.npc={}; GM.extras=[]; z=E.loadZone(Z3.ZONES[zoneId],spawn); G.zone=zoneId; G.visited[zoneId]=true; E.player.path=null; E.player.pose='idle'; E.player.frozen=false; E.player.seat=null; E.player.idlePose='idle'; if(STORY.populate) STORY.populate(zoneId,GM); buildMinimap(); updateHUD(); A3.setScene(zoneId,G.hour,G.weather); E.update(0.016); E.render(); if(!opts.noFade){ await fade(false); } } finally { entering=false; /* 區域建立失敗時錯誤照樣丟出去，但不能讓 entering 永遠是 true（之後就再也換不了區域）*/ } if(STORY.onEnter&&!opts.deferStory) STORY.onEnter(zoneId,GM,opts); if(!opts.noAutosave) autosave(); return z; }   /* deferStory／noAutosave：搭電梯換區域（總圖），走出車廂之後才觸發劇情、存檔 */
   GM.isEntering=()=>entering;
   GM.enter=enter;
   // ---------- 小地圖 ----------
@@ -147,15 +147,22 @@ const GAME = (function(){
     return best||[seat.x+fx*0.5,seat.z+fz*0.5]; }
   GM.seatApproach=seatApproach;
   // 搭電梯（v9.4 多樓層，D36）：按按鈕 →（電梯不在這一層就先開過來）→ 門開 → 走進車廂 → 選樓層（整修中的樓層按不亮）→ 門關 → 車廂帶著人上下（看得到整個過程）→ 門開 → 走出來 → 門關
-  async function elevatorRide(it){ const el=E.zone&&E.zone.elev; if(!el) return; const P=E.player, here=P.lv|0; sceneBegin(); try{
+  async function elevatorRide(it){ const el=E.zone&&E.zone.elev; if(!el) return; const P=E.player, here=P.lv|0, base=el.base||1; let arrived=null; sceneBegin(); try{
       const track=(y)=>{ E.cinematic(V(el.cx-3.4,y+2.6,el.cz+4.2),V(el.cx,y+1.2,el.cz)); };
-      track(el.y); if(el.lv!==here){ caption('','電梯從 '+(el.lv+1)+' 樓'+(el.lv>here?'下來':'上來')+'……',2200); await el.travel(here,null,track); }
+      track(el.y); if(el.lv!==here){ caption('','電梯從 '+(el.lv+base)+' 樓'+(el.lv>here?'下來':'上來')+'……',2200); await el.travel(here,null,track); }
       A3.blip&&A3.blip('ok'); await el.open(); await walkTo(P,el.cx,el.inZ,{lv:here}); face(P,el.cx,el.outZ); track(el.y);
-      const opts=el.floors.map(f=>({t:f.label,hint:!f.open?(f.why||'整修中，暫停開放'):(f.lv===here?'現在在這一層':''),dim:!f.open||f.lv===here})); opts.push({t:'不搭了，出去'}); let i;
-      for(;;){ i=await choose(opts); if(i<el.floors.length&&!el.floors[i].open){ toast(el.floors[i].toast||'這一層整修中，按鈕按不亮'); continue; } if(i<el.floors.length&&el.floors[i].lv===here){ toast('你已經在這一層了'); continue; } break; }
-      if(i<el.floors.length){ const to=el.floors[i].lv; await el.close(); await el.travel(to,P,track); E.setLv(P,to); P.obj.position.y=el.y; A3.blip&&A3.blip('ok'); await el.open(); }
-      E.endCinematic(); await walkTo(P,el.cx,el.outZ,{lv:P.lv|0}); await el.close();
-    } finally { E.endCinematic(); sceneEnd(); } }
+      /* 樓層：f.lv＝這個區域的第幾層；f.zone＝別的區域（總圖：大廳 ⇄ 3F 閱覽區，f.lv 是那個區域的層）；STORY.elevatorLock 可以暫時不讓去某一層（劇情約好的地方）*/
+      const cur=f=>!f.zone&&f.lv===here, lockOf=f=>(STORY.elevatorLock&&STORY.elevatorLock(f,GM))||null;
+      const opts=el.floors.map(f=>{ const lk=f.open&&lockOf(f); return {t:f.label,hint:!f.open?(f.why||'整修中，暫停開放'):(lk?lk.hint:(cur(f)?'現在在這一層':'')),dim:!f.open||cur(f)||!!lk}; }); opts.push({t:'不搭了，出去'}); let i;
+      for(;;){ i=await choose(opts); if(i<el.floors.length){ const f=el.floors[i]; if(!f.open){ toast(f.toast||'這一層整修中，按鈕按不亮'); continue; } const lk=lockOf(f); if(lk){ toast(lk.toast); continue; } if(cur(f)){ toast('你已經在這一層了'); continue; } } break; }
+      const f=i<el.floors.length?el.floors[i]:null;
+      if(f&&f.zone){ await el.close(); caption('','電梯往'+((f.num||0)>here+base?'上':'下')+'……',2000); await el.leave(f.num,P,track); arrived=f;
+        await enter(f.zone,Object.assign({},f.spawn),{deferStory:true,noAutosave:true});
+        const e2=E.zone&&E.zone.elev; if(e2){ const tr2=(y)=>{ E.cinematic(V(e2.cx-3.4,y+2.6,e2.cz+4.2),V(e2.cx,y+1.2,e2.cz)); }; tr2(e2.y); face(P,e2.cx,e2.outZ); A3.blip&&A3.blip('ok'); await e2.open(); E.endCinematic(); await walkTo(P,e2.cx,e2.outZ,{lv:P.lv|0}); await e2.close(); } }
+      else { if(f){ const to=f.lv; await el.close(); await el.travel(to,P,track); E.setLv(P,to); P.obj.position.y=el.y; A3.blip&&A3.blip('ok'); await el.open(); }
+        E.endCinematic(); await walkTo(P,el.cx,el.outZ,{lv:P.lv|0}); await el.close(); }
+    } finally { E.endCinematic(); sceneEnd(); }
+    if(arrived){ autosave(); if(STORY.onEnter) STORY.onEnter(arrived.zone,GM,{}); } }
   GM.elevatorRide=elevatorRide;
   async function seatMenu(it){ const P=E.player; sceneBegin(); const ap=seatApproach(it.seat); await walkTo(P,ap[0],ap[1],{lv:it.seat.lv}); sitAt(P,it.seat); E.cam.distTarget=Math.min(E.cam.distTarget,4.2); await sleep(400); const opts=[{t:'坐一下，看看四周',hint:'體力 +5，時間 +20 分鐘'}]; if(it.study||it.deskStudy) opts.push({t:'讀書（1 小時）',hint:'體力 −8。整理筆記，之後上課用得到'}); if(it.cafeTable) opts.push({t:'點杯咖啡慢慢讀（1 小時）',hint:'120 元，體力 −3'}); opts.push({t:'起身'}); const i=await choose(opts); const o=opts[i].t; if(o.startsWith('坐一下')){ P.pose='sit'; await sleep(600); advance(1/3); energy(5); caption('',['風從椰林大道那頭吹過來。','遠處有人在笑。','你看著來來去去的人，想著今天還要做什麼。'][(Math.random()*3)|0],2600); await sleep(1200); } else if(o.startsWith('讀書')){ P.pose='read'; P.idlePose='read'; await studySession(); } else if(o.startsWith('點杯')){ if(G.money<120){ toast('錢不夠'); } else { money(-120); P.pose='read'; P.idlePose='read'; energy(-3); await studySession(true); } } standUp(P); sceneEnd(); }
   // 研究所準備：學姊給的文章要讀三次（讀書時可選），讀完進入 PREPARING
