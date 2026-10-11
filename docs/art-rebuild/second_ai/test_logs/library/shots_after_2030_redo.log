@@ -1,0 +1,4 @@
+shot docs/art-rebuild/second_ai/shots/library_after_avenue_2030.png {'zone': 'campus', 'hour': 20.5, 'hud': '週三 20:30', 'player': [38, 1], 'cam': [38, 1.7, 0.5], 'mode': 'cinematic'} errors: []
+shot docs/art-rebuild/second_ai/shots/library_after_plaza_2030.png {'zone': 'campus', 'hour': 20.5, 'hud': '週三 20:30', 'player': [68, 12], 'cam': [68, 1.7, 13], 'mode': 'cinematic'} errors: []
+shot docs/art-rebuild/second_ai/shots/library_after_porch_2030.png {'zone': 'campus', 'hour': 20.5, 'hud': '週三 20:30', 'player': [78, 5], 'cam': [78, 1.7, 5.5], 'mode': 'cinematic'} errors: []
+shot docs/art-rebuild/second_ai/shots/library_after_arcade_2030.png {'zone': 'campus', 'hour': 20.5, 'hud': '週三 20:30', 'player': [88.5, -20], 'cam': [88.6, 1.6, -22], 'mode': 'cinematic'} errors: []

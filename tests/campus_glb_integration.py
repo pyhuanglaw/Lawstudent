@@ -78,9 +78,10 @@ async def check(pg, run, formal):
         run.check('招牌「總圖書館」：一張 canvas 字（石材匾額）、貼圖比例＝板面比例（±8%）', bool(pl) and pl['visible'] and pl['canvas'] and pl['names'] == ['PLATE_FACE_LIB'] and all(0.92 < r < 1.08 for r in pl['ratio']), json.dumps(pl))
         night = await pg.evaluate("""(()=>{ const E=GAME.E, root=E.zone.group.children.find(o=>o.name==='campus_library_glb'); const mats={}, shadow={};
             root.traverse(o=>{ if(o.isMesh){ mats[o.material.name]=o.material; shadow[o.material.name]=o.castShadow; } });
-            const read=()=>({lit:+(mats.ck_glass_lit?mats.ck_glass_lit.emissiveIntensity:-1).toFixed(2), dark:+(mats.ck_glass&&mats.ck_glass.emissive?mats.ck_glass.emissiveIntensity*mats.ck_glass.emissive.getHSL({}).l:0).toFixed(2)});
-            E.applyTime(11); const day=read(); E.applyTime(20.5); const n2030=read(); E.applyTime(17.5); return {day, n2030, shadow}; })()""")
-        run.check('窗：20:30 亮燈的窗發光、11:00 不發光；沒亮燈的窗晚上也不發光', night['n2030']['lit'] > 0.5 and night['day']['lit'] < 0.05 and night['n2030']['dark'] < 0.05, json.dumps(night))
+            const read=()=>({lit:+(mats.ck_glass_lit?mats.ck_glass_lit.emissiveIntensity:-1).toFixed(2), dark:+(mats.ck_glass&&mats.ck_glass.emissive?mats.ck_glass.emissiveIntensity*mats.ck_glass.emissive.getHSL({}).l:0).toFixed(2), ceil:+(mats.ck_ceiling?mats.ck_ceiling.emissiveIntensity:-1).toFixed(2)});
+            E.applyTime(11); const day=read(); E.applyTime(20.5); const n2030=read(); E.applyTime(17.5); return {day, n2030, shadow, litMap:!!(mats.ck_glass_lit&&mats.ck_glass_lit.emissiveMap)}; })()""")
+        run.check('窗：20:30 亮燈的窗發光、11:00 不發光；沒亮燈的窗晚上也不發光；亮燈的窗有自發光貼圖（由上往下漸暗，不是一片平的光）', night['n2030']['lit'] > 0.5 and night['day']['lit'] < 0.05 and night['n2030']['dark'] < 0.05 and night['litMap'], json.dumps(night))
+        run.check('拱廊、門廊、屋簷底下的天花板：晚上比白天暗（白天的補光是陽光的反射；第一版晚上反而更亮，沒有燈的拱廊整片發亮）', 0 <= night['n2030']['ceil'] < night['day']['ceil'], json.dumps(night))
         sh = night['shadow']
         run.check('陰影：牆、屋頂、石材投影；窗框、窗洞、玻璃、門不投影', all(sh.get(k) for k in ('ck_wall', 'ck_roof', 'ck_trim')) and not any(sh.get(k) for k in ('ck_trim_win', 'ck_glass', 'ck_glass_lit', 'ck_frame', 'ck_door')), json.dumps(sh))
         neg = await pg.evaluate("""(()=>{ const b=GAME.E.zone.group.children.find(o=>o.userData&&o.userData.ckTag==='library'); const m=b.children.find(o=>o.isMesh); m.visible=true;
