@@ -18,6 +18,9 @@ const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
 function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; return z; }
 const sim=(a,b,dt)=>E.simWalk(a[0],a[1],b[0],b[1],{lv0:a[2]|0,lv1:b[2]|0,dt:dt||1/30});
 const both=(a,b)=>{ const r1=sim(a,b,1/30); if(!r1.ok) return r1; const r2=sim(a,b,0.1); return r2.ok?r1:Object.assign({lowfps:true},r2); };
+// 跑步（點的地方超過 16 m 時玩家用跑的，4.1 m/s）＋低幀率（dt 0.1，手機或模擬器卡的時候）：一步 0.41 m。2026-10-11 萬才館大樓梯真實流程：走下樓梯停在最下面一兩階
+//（轉折點前後來回跳、換層時拿畫面上一階一階的高度比，跨一大步就換不回地面那一層）。走路速度、30 fps 都抓不到
+const run=(a,b)=>{ for(const dt of [1/30,0.1]){ const r=E.simWalk(a[0],a[1],b[0],b[1],{lv0:a[2]|0,lv1:b[2]|0,dt,speed:4.1}); if(!r.ok) return Object.assign({dt:+dt.toFixed(3)},r); } return {ok:true}; };
 const fmt=(r)=>JSON.stringify(r).slice(0,220);
 // ---------- 校園：穿堂 ----------
 { const t0=Date.now(); const z=loadZone('campus'); console.log(`（校園建好：${((Date.now()-t0)/1000).toFixed(1)} 秒）`);
@@ -50,6 +53,8 @@ const fmt=(r)=>JSON.stringify(r).slice(0,220);
     r=both(plaza,top); check('廣場 → 大樓梯（一階一階）→ 平台 → 陽台（模擬走路，不瞬移；第 1 層、高 3.63）',r.ok&&r.lv===1&&Math.abs(r.y-W.PF)<0.05,fmt(r));
     const p=E.pathTo(plaza[0],plaza[1],0,top[0],top[1],1); check('這條路經過大樓梯、在樓梯上換到第 1 層',!!p&&p.some(q=>q[1]>Z0&&q[1]<Z0+W.L&&Math.abs(q[0]-SX)<W.hw(1))&&p[p.length-1][2]===1,JSON.stringify(p&&p.map(q=>q.map(v=>+(+v).toFixed(1)))));
     r=both(top,plaza); check('陽台 → 平台 → 大樓梯往下 → 廣場（回到地面那一層、高 0）',r.ok&&r.lv===0&&Math.abs(r.y)<0.05,fmt(r));
+    r=run(top,[SX,Z0+W.L+5.5,0]); check('跑步＋低幀率（4.1 m/s、dt 0.1）：陽台 → 大樓梯往下 → 廣場（真實流程：停在最下面一兩階）',r.ok,fmt(r));
+    r=run([SX,Z0+W.L+5.5,0],top); check('跑步＋低幀率：廣場 → 大樓梯往上 → 陽台',r.ok,fmt(r));
     r=both([SX,Z0+W.L/2,0],top); check('從樓梯中間（地面那一層）往上走到陽台',r.ok&&r.lv===1,fmt(r));
     const d2=E.interactables.find(i=>i.label==='萬才館二樓入口'), d1=E.interactables.find(i=>i.label==='進入萬才館');
     check('二樓入口在第 1 層（看得懂的告示、這一版關著）；一樓入口在地面那一層',!!d2&&d2.lv===1&&!!d2.look&&!!d1&&d1.lv===0,d2&&d2.look);
@@ -69,6 +74,8 @@ const fmt=(r)=>JSON.stringify(r).slice(0,220);
   let r=both([sp.x,sp.z,0],[c201.x,c201.z+0.3,1]); check('入口 → 大廳 → 樓梯 → 二樓 → 201 教室門口（模擬走路，不瞬移）',r.ok&&r.lv===1&&Math.abs(r.y-4.2)<0.05,fmt(r));
   const p=E.pathTo(sp.x,sp.z,0,c201.x,c201.z+0.3,1); check('這條路經過樓梯（第一跑、平台、第二跑），在樓梯上換到二樓',!!p&&p.some(q=>q[0]<-5.6&&q[1]>1.5&&q[1]<5)&&p[p.length-1][2]===1,JSON.stringify(p&&p.map(q=>q.map(v=>+(+v).toFixed(1)))));
   r=both([c201.x,c201.z+0.3,1],[sp.x,sp.z,0]); check('二樓 → 樓梯 → 一樓入口',r.ok&&r.lv===0&&Math.abs(r.y)<0.05,fmt(r));
+  r=run([sp.x,sp.z,0],[c201.x,c201.z+0.3,1]); check('跑步＋低幀率（4.1 m/s、dt 0.1）：入口 → 樓梯 → 二樓 201 門口',r.ok,fmt(r));
+  r=run([c201.x,c201.z+0.3,1],[sp.x,sp.z,0]); check('跑步＋低幀率：二樓 → 樓梯 → 一樓入口',r.ok,fmt(r));
   const ex=IT.find(i=>i.exit&&i.exit.to==='campus'); r=both([sp.x,sp.z,0],[ex.x,ex.z,0]); check('一樓「走出霖澤館」站得到',r.ok,fmt(r));
   for(const d of L.doors){ const it=IT.find(i=>i.label.indexOf(d.label)>=0); const st=it&&[it.x,it.z+0.2,d.lv]; const rr=it&&both([sp.x,sp.z,0],st); check(`門「${d.label}」（${d.lv+1}F）走得到`,!!rr&&rr.ok,fmt(rr)); }
   const el=z.elev; const inside=[el.cx,el.inZ];
