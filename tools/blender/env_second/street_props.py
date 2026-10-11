@@ -325,7 +325,7 @@ def planter_box():
         for lp, uv in zip(fc.loops, uvs): lp[lay].uv = uv
     for row, zr in enumerate((-0.09, 0.09)):
         for i in range(5):
-            x = -0.44 + i * 0.22 + row * 0.08; h = 0.36 + ((i + row) % 3) * 0.04; w_ = 0.24
+            x = (-0.4 + i * 0.2) if row == 0 else (-0.36 + i * 0.18); h = 0.36 + ((i + row) % 3) * 0.04; w_ = 0.24   # 葉片卡最外到 |x|≤0.64（花台 1.2 m、導航阻擋同寬；原本後排往右偏 8 cm，葉子超出 0.14 m）
             for a in (0.5 + i * 0.7 + row, 0.5 + i * 0.7 + row + math.pi / 2):
                 ca, sa = math.cos(a) * w_, math.sin(a) * w_ * 0.6
                 card([(x - ca, 0.37, zr - sa), (x + ca, 0.37, zr + sa), (x + ca, 0.37 + h, zr + sa), (x - ca, 0.37 + h, zr - sa)])
