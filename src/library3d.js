@@ -177,7 +177,7 @@ const LB3=(function(){
     const lights=[]; for(const [x,y,z,on,off] of [[0,8.6,4.6,16,10],[0,6.6,-4.0,10,6],[-8.6,8.6,0,9,6],[8.6,8.6,0,9,6],[-8.6,3.8,0,7,4],[8.6,3.8,0,7,4]]){ const l=new THREE.PointLight(0xfff0d8,off,22,2); l.position.set(x,y,z); l.userData.on=on; l.userData.off=off; g.add(l); lights.push(l); }
     // 互動點（每一個都標樓層）
     const IT=E.interactables, EN=L.entrance, SDR=L.stairDoor;
-    IT.push({x:EN.x,z:EN.exitZ,radius:1.6,lv:0,label:'離開總圖',exit:{to:'campus',spawn:Object.assign({},CAMPUS)}});
+    IT.push({x:EN.x,z:EN.exitZ,radius:1.4,lv:0,label:'離開總圖',exit:{to:'campus',spawn:Object.assign({},CAMPUS)}});   /* 進來的出生點離出口 1.7 m：一進來不會就跳出「離開總圖」*/
     IT.push({x:SDR.x-0.7,z:SDR.z,radius:1.0,lv:1,label:SDR.label,exit:{to:'library',spawn:Object.assign({},L.reading.spawnFromStairs)}});
     for(const lv of [0,1]) IT.push({x:zone.elev.cx,z:EL.callZ,radius:1.0,lv,label:'搭電梯',elevator:true});
     // 正式模型（GLB）：載入成功就藏起程序化備用模型（導航、互動點不變）

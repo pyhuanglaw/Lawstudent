@@ -31,7 +31,7 @@ const LIBRARY_LAYOUT={
     "floors":[ {"label":"1F 大廳、出口","lv":0,"open":true}, {"label":"2F 自習區","lv":1,"open":true},
       {"label":"3F 閱覽區","zone":"library","open":true},
       {"label":"4F–6F 書庫","open":false,"why":"書庫整理中","toast":"4 樓以上的書庫這學期在整理，按鈕按不亮"} ] },
-  "entrance":{ "x":0, "exitZ":8.3, "spawn":{"x":0,"z":7.2,"lv":0,"yaw":3.1416} },
+  "entrance":{ "x":0, "exitZ":8.3, "spawn":{"x":0,"z":6.6,"lv":0,"yaw":3.1416} },
   "stairDoor":{ "x":11.8, "z":-6.0, "lv":1, "label":"樓梯間：往 3F 閱覽區", "spawn":{"x":10.8,"z":-6.0,"lv":1,"yaw":-1.5708} },
   "reading":{ "spawnFromStairs":{"x":0,"z":7,"yaw":3.1416},
     "elevator":{ "x0":8.8, "x1":10.8, "z0":-1.0, "z1":1.2, "doorX0":9.2, "doorX1":10.4, "doorZ":-1.0, "callZ":-2.0, "base":3,

@@ -122,6 +122,7 @@ const fmt=(r)=>JSON.stringify(r).slice(0,220);
 { const z=loadZone('library_hall'); const L=LIBRARY_LAYOUT, Y1=L.floors[1].y, IT=E.interactables, H0=(x,zz)=>z.levels[0].heightAt(x,zz), H1=(x,zz)=>z.levels[1].heightAt(x,zz);
 check('總圖：兩層、二樓 5.0',z.levels.length===2&&z.levels[1].y0===Y1);
 const EN=L.entrance.spawn; check('總圖：入口出生點站得住',E.canStand(EN.x,EN.z,0.32,0)&&H0(EN.x,EN.z)===0);
+{ const ex=IT.find(i=>i.label==='離開總圖'); check('總圖：入口出生點離「離開總圖」≥ 半徑＋0.3（一進來不會就跳出離開的按鈕）',!!ex&&Math.hypot(EN.x-ex.x,EN.z-ex.z)>=ex.radius+0.3,ex&&`距離 ${Math.hypot(EN.x-ex.x,EN.z-ex.z).toFixed(2)}、半徑 ${ex.radius}`); }
 check('總圖：高度：中間最下 0、平台 2.5、兩側最上 5.0',Math.abs(H0(0,-0.62))<0.03&&Math.abs(H0(0,-6)-2.5)<1e-6&&Math.abs(H0(-2.6,-0.65)-Y1)<0.02&&Math.abs(H1(2.6,-0.65)-Y1)<0.02,[H0(0,-0.62),H0(0,-6),H0(-2.6,-0.65),H1(2.6,-0.65)].map(v=>v.toFixed(3)).join(' '));
 const W2=[-8.6,1.5,1], E2=[8.0,-5.0,1], SD=L.stairDoor.spawn;
 let r=both([EN.x,EN.z,0],W2); check('總圖：入口 → 大樓梯 → 二樓西側自習區',r.ok&&r.lv===1&&Math.abs(r.y-Y1)<0.05,fmt(r));
