@@ -4,7 +4,8 @@
   [前置／捷徑] 只有一個：讀檔到星期六 10:00、法學院廣場（萬才館大樓梯前面 (87,-84)，面向樓梯）。之後全部是玩家操作：
   1. 推搖桿往前：從廣場走上大樓梯（一階一階：經過樓梯中段 1–3 m 的高度）→ 樓梯頂端的平台（第 1 層、3.63 m）
   2. 點地面走到弧形陽台；站在一樓入口正上方時不會跳出「進入萬才館」（那是陽台下面一樓的門）
-  3. 二樓入口：出現「萬才館二樓入口」→ 按下去畫面下方出現看得懂的告示（這一版關著：整修中、請走一樓入口），之後還在平台上
+  3. 二樓入口（萬才館第三階段，D42：第二階段是關著的告示）：出現「進入萬才館（二樓）」→ 進到萬才館二樓的門廳（第 1 層、4.2 m）
+     →「走出去（大樓梯平台）」→ 回到平台（校園第 1 層、3.63 m）、走得動
   4. 在陽台上存檔（欄位 3）→ 重新整理 → 讀取 → 還在陽台上（第 1 層、3.63 m）、走得動
   5. 點地面走下樓梯回到廣場（經過樓梯中段、回到地面那一層、高度 0）
   6. 走到陽台下面的一樓入口 → 「進入萬才館」→ 一樓大廳 →「離開萬才館」→ 回到校園（地面）
@@ -62,17 +63,19 @@ async def main():
         s = await L.state(pg); await run.shot(pg, 'balcony')
         run.check('點地面走到弧形陽台（第 1 層、3.63 m）', ok and s['lv'] == 1 and abs(s['y'] - PF) < 0.1, json.dumps(s, ensure_ascii=False))
         run.check('站在一樓入口正上方：不會跳出「進入萬才館」（那是陽台下面的門）', not s['interact'].startswith('進入萬才館'), f'按鈕：「{s["interact"]}」')
-        # 3. 二樓入口（這一版關著，看得懂的告示）
-        d2 = await L.find_it(pg, '萬才館二樓入口')
+        # 3. 二樓入口 → 萬才館二樓 → 走出去回到平台（萬才館第三階段，D42）
+        d2 = await L.find_it(pg, '進入萬才館（二樓）')
         ok = await L.go_to(pg, cdp, run, d2['x'], d2['z'] + 0.3, 0.8, '二樓入口', lv=1)
         s = await L.state(pg)
-        run.check('走到二樓入口（出現「萬才館二樓入口」）', ok and s['interact'].startswith('萬才館二樓入口'), json.dumps(s, ensure_ascii=False))
-        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
-        cap = await pg.evaluate("(()=>{ const e=document.getElementById('caption'); return e&&!e.classList.contains('hide')?e.textContent:''; })()")
-        await run.shot(pg, 'door_2f_notice')
-        run.check('按下去是看得懂的告示（畫面下方的說明文字：整修中、請走一樓入口）', ('整修' in cap) and ('一樓入口' in cap), f'「{cap}」')
-        await pg.wait_for_timeout(5200); s = await L.state(pg)
-        run.check('告示自己消失之後還在平台上、可以走', s['lv'] == 1 and abs(s['y'] - PF) < 0.1 and not s['busy'] and not s['dlg'], json.dumps(s, ensure_ascii=False))
+        run.check('走到二樓入口（出現「進入萬才館（二樓）」）', ok and s['interact'].startswith('進入萬才館（二樓）'), json.dumps(s, ensure_ascii=False))
+        run.check('進入萬才館（二樓）→ 室內二樓', await press(pg, cdp, run, '進入萬才館（二樓）', 'wancai'))
+        await pg.wait_for_timeout(2000); s = await L.state(pg); await run.shot(pg, 'wancai_2f_foyer')
+        run.check('在萬才館二樓的門廳（第 1 層、4.2 m）', s['zone'] == 'wancai' and s['lv'] == 1 and abs(s['y'] - 4.2) < 0.05 and s['stand'], json.dumps(s, ensure_ascii=False))
+        ex2 = await L.find_it(pg, '走出去')
+        ok = await L.go_to(pg, cdp, run, ex2['x'], ex2['z'] - 0.3, 0.8, '二樓的門（走出去）', lv=1)
+        run.check('走出去（大樓梯平台）→ 回到校園', ok and await press(pg, cdp, run, '走出去', 'campus'))
+        await pg.wait_for_timeout(2000); s = await L.state(pg)
+        run.check('回到平台（校園第 1 層、3.63 m）、站得住、沒有馬上又跳出進門按鈕', s['zone'] == 'campus' and s['lv'] == 1 and abs(s['y'] - PF) < 0.1 and s['stand'] and not s['interact'].startswith('進入萬才館'), json.dumps(s, ensure_ascii=False))
         # 4. 在陽台上存檔 → 重新整理 → 讀檔
         ok = await L.go_to(pg, cdp, run, 92.5, -100.4, 0.7, '陽台', lv=1)
         await L.tap(pg, cdp, '#btnMenu'); await pg.wait_for_timeout(1200)

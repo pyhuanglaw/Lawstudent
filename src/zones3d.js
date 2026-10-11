@@ -72,7 +72,9 @@ const Z3 = (function(){
     /* 校園的地面（第 0 層、y=0）也要打得到：站在平台或樓梯上（第 1 層）點廣場時，原本打不到「有高度的地面」就用玩家那一層的基本高度（3.63 m）的平面，
        目的地算在離玩家很近、平台外面走不到的地方（真實玩家流程：從平台走下大樓梯點了 7 次）。正面朝上；在地面那一層時和原本的平面是同一個點（霖澤館室內的一樓地板也是這樣） */
     { const geo=new THREE.PlaneGeometry(nav.w,nav.h); geo.rotateX(-Math.PI/2); const m=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({visible:false})); m.position.set(nav.ox+nav.w/2,0,nav.oz+nav.h/2); m.name='campus_ground_tap'; m.userData.walkLv=0; m.userData.dyn=true; g.add(m); walk.push(m); }
-    E.interactables.push({x:bx+W.SX,z:bz+W.d/2+0.8,radius:1.4,lv:1,y:W.PF,label:'萬才館二樓入口',look:'二樓入口的玻璃門關著。門上貼著：「本學期二樓以上整修中，請由陽台下方的一樓入口進出。」'});
+    /* 二樓入口（萬才館第三階段，D42）：進到室內二樓的西南門廳（src/data/wancai_layout.js 的 upperDoor）。第二階段（D41）這扇門關著 */
+    { const UD=(typeof WANCAI_LAYOUT!=='undefined')&&WANCAI_LAYOUT.upperDoor; E.interactables.push(UD?{x:bx+W.SX,z:bz+W.d/2+0.8,radius:1.4,lv:1,y:W.PF,label:'進入萬才館（二樓）',exit:{to:'wancai',spawn:Object.assign({},UD.spawn)}}
+        :{x:bx+W.SX,z:bz+W.d/2+0.8,radius:1.4,lv:1,y:W.PF,label:'萬才館二樓入口',look:'二樓入口的玻璃門關著。'}); }
     return nav1; }
   const campus={ id:'campus', name:'台大校園', indoor:false, cityLight:0.25, size:[260,170], viewFar:260, fogNear:100, build(E){   /* 第二十批：邊界外有背景了，視距拉遠（照片裡椰林大道盡頭的總圖看得清楚；從校門口看總圖約 205 m）*/
     treeIdx=0; leafyCount=0; palmIdx=0; const g=new THREE.Group(); const W=260, D=170; /* 導航格必須涵蓋法學院前庭（z 到 -124），否則霖澤館前完全不能走 */ const nav=new E3.NavGrid(W,217,0.5,-W/2,-132); const seats=[]; const lamps=[]; const buildings=[];
@@ -930,10 +932,7 @@ const Z3 = (function(){
     for(const o of glassy) wp.push({obj:o,at:o.userData.center,dir:o.userData.dir});
     fb.visible=false; z.walls.length=0; for(const w of nw) z.walls.push(w); z.winParts=wp; z.formal=true; }
   // ---------- 萬才館大廳／研討室 ----------
-  const wancai={ id:'wancai', name:'萬才館 大廳', indoor:true, camDist:4.6, build(E){ const z=room(E,{w:18,d:14,h:4.2,wallColor:'#eae1d3',spawn:{x:0,z:6,yaw:Math.PI}}); const g=z.group, nav=z.nav; for(let i=0;i<4;i++){ const col=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.3,4.2,12),M('#d9cbb0')); col.position.set(-6+i*4,2.1,-2); g.add(col); nav.blockCircle(-6+i*4,-2,0.4); } const sofa=(x,zz,rot)=>{ /* v9.3 第十七批：原本是兩個方塊；改成底座、兩塊坐墊、靠背、扶手、短腳（佔地、導航、座位不變）*/ const sg=new THREE.Group(); sg.position.set(x,0,zz); sg.rotation.y=rot; g.add(sg); const sb=new TK.Bin(); const fab=M('#3e5a48',{rough:0.85}), fab2=M('#2f5d50',{rough:0.85}), lg=M('#3a2a20',{rough:0.6}); sb.add(fab2,new THREE.BoxGeometry(2.2,0.22,0.86),0,0.19,0); for(const sx of [-0.49,0.49]) sb.add(fab,new THREE.BoxGeometry(0.96,0.14,0.66),sx,0.37,0.08); sb.add(fab2,new THREE.BoxGeometry(2.0,0.52,0.2),0,0.56,-0.33,0,{rx:-0.08}); for(const sx of [-1,1]) sb.add(fab2,new THREE.BoxGeometry(0.16,0.34,0.86),sx*1.02,0.43,0); for(const [lx,lz] of [[-1,-1],[1,-1],[-1,1],[1,1]]) sb.add(lg,new THREE.BoxGeometry(0.06,0.08,0.06),lx*1.0,0.04,lz*0.36); sb.build(sg); nav.blockRect(x,zz,2.2,0.9,rot,0.1); E.interactables.push({x:x+Math.sin(rot)*0.7,z:zz+Math.cos(rot)*0.7,radius:1.2,label:'坐在沙發上',seat:{x:x,z:zz,yaw:rot}}); }; sofa(-5,2,0); sofa(5,2,0); const table=new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,0.06,24),M('#c9a57a')); table.position.set(0,0.5,2); g.add(table); /* v9.3 第十七批：原本桌面浮在半空中，加上桌腳和底座 */ const tst=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.06,0.47,10),M('#4a4f55',{rough:0.45})); tst.position.set(0,0.235,2); g.add(tst); const tbs=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.32,0.03,20),M('#4a4f55',{rough:0.45})); tbs.position.set(0,0.015,2); g.add(tbs);
-    const bb=W3.bulletin(); bb.position.set(6,0,-6.6); g.add(bb); nav.blockRect(6,-6.6,2.6,0.4,0); E.interactables.push({x:6,z:-5.6,radius:1.6,label:'看公告：法律服務社招募',notice:'lawclub'});
-    const sp=W3.signPlane('演講廳 →',2.2,0.5,{color:'#3b2a1e'}); sp.position.set(-7,2.6,-6.85); g.add(sp);
-    E.interactables.push({x:0,z:6.6,radius:1.6,label:'離開萬才館',exit:{to:'campus',spawn:{x:93.8,z:-98.4,yaw:0}}});   /* 第二十四批：萬才館陽台下的一樓入口前面（離入口互動點 2.2 m，不會一出來就又跳出進門按鈕）*/ return z; } };
+  // 萬才館（室內兩層樓）：src/wancai3d.js（萬才館第三階段，D42；一樓大廳的座標和 v9.3 一樣）
   // ---------- 總圖閱覽室 ----------
   const library={ id:'library', name:'總圖書館 閱覽室', indoor:true, camDist:4.4, build(E){ const z=room(E,{w:22,d:16,h:4.0,cool:true,wallColor:'#efe8dc',floorTex:W3.stoneTex('#d9cbb0'),spawn:{x:0,z:7,yaw:Math.PI}}); const g=z.group, nav=z.nav; shelfWall(g,nav,-9,-7.6,0,10); shelfWall(g,nav,9,-7.6,0,10); shelfWall(g,nav,-10.8,0,Math.PI/2,12); z.seats=[]; for(let r=0;r<3;r++){ for(let c=0;c<2;c++){ const x=-4+c*8, zz=-3+r*3.6; desk(g,nav,x,zz,0,5,1.2,'#c9a57a','wood'); for(let i=0;i<3;i++){ const lamp=new THREE.Mesh(new THREE.ConeGeometry(0.16,0.18,10,1,true),M('#2f5d50',{rough:0.5})); lamp.position.set(x-1.6+i*1.6,1.05,zz); g.add(lamp); const stem=new THREE.Mesh(new THREE.CylinderGeometry(0.02,0.02,0.28,6),M('#c9a24f')); stem.position.set(x-1.6+i*1.6,0.9,zz); g.add(stem); const glow=new THREE.Mesh(new THREE.SphereGeometry(0.08,8,6),new THREE.MeshBasicMaterial({color:0xffe9a8})); glow.position.set(x-1.6+i*1.6,1.0,zz); g.add(glow); }
       for(let i=0;i<3;i++){ for(const s of [-1,1]){ const cx=x-1.6+i*1.6, cz=zz+s*0.9; chair(g,cx,cz,s>0?Math.PI:0,'#5c3a21'); z.seats.push({x:cx,z:cz,yaw:s>0?Math.PI:0}); if(i%2===0) E.interactables.push({x:cx,z:cz,radius:0.9,label:'坐下讀書',seat:{x:cx,z:cz,yaw:s>0?Math.PI:0},study:true}); } } } }
@@ -1118,6 +1117,6 @@ const Z3 = (function(){
      不然鏡頭在側牆外、牆淡出時，它們會浮在半空中（2026-10-10 LAWWW 回報正式模型的掛勾、冷氣有這個問題，這兩張是同一類） */
   function dormWallItems(z,g0){ for(const n of ['dorm_calendar','dorm_flyer']){ const o=g0.getObjectByName(n); if(!o||z.walls.includes(o)) continue;
     o.material.transparent=true; o.userData.dir=new THREE.Vector3(o.position.x<0?1:-1,0,0); o.updateWorldMatrix(true,false); o.userData.center=o.getWorldPosition(new THREE.Vector3()); z.walls.push(o); } }
-  const ZONES={campus,gongguan,wenzhou,classroom,wancai,library,cafe,cvs,noodle,bookstore,dorm};
+  const ZONES={campus,gongguan,wenzhou,classroom,library,cafe,cvs,noodle,bookstore,dorm};   /* wancai：src/wancai3d.js；linze：src/building3d.js */
   return {ZONES,room,desk,chair,glowTex};
 })();

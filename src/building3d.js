@@ -168,6 +168,6 @@ const B3=(function(){
     for(const m of walkMeshes){ let p=m.parent; while(p&&p!==fb0&&p!==fb1) p=p.parent; if(!p) continue; if(!m.material||m.material.visible!==false) m.material=hid; m.userData.dyn=true; (p===fb0?lv0:lv1).attach(m); }
     fb0.visible=false; fb1.visible=false; walls.length=0; for(const w of nw) walls.push(w);
     zone.formal=true; zone.formalInfo={walls:nw.length}; }
-  return {linze,stairSurfs,CAMPUS_DOOR};
+  return {linze,stairSurfs,CAMPUS_DOOR,MAT,outsideTex,buildDoors,buildElevator,attachFormal};   /* 萬才館室內（src/wancai3d.js）共用：材質、窗外的景、門、電梯、正式模型的接法 */
 })();
 Z3.ZONES.linze=B3.linze;

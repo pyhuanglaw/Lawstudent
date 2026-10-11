@@ -27,6 +27,7 @@ run p0_movement           python3 tests/p0_movement.py "$URL"
 run touch_flow_wenzhou    python3 tests/touch_flow_wenzhou.py "$URL"
 run flow_class_real       python3 tests/flow_class_real.py "$URL" "$OUT/flow_class_real"
 run flow_linze_floors     python3 tests/flow_linze_floors.py "$URL" "$OUT/flow_linze_floors"
+run flow_main_day12      python3 tests/flow_main_day12.py "$URL" "$OUT/flow_main_day12"   # TESTING.md 第五節第 6 項（第一、二天主線，20–40 分鐘）：2026-10-11 才補進來，之前的發布都沒跑
 [ -n "$V7" ]   && run save_compat_v7   python3 tests/save_compat_v7.py "$V7" "$URL"
 [ -n "$LIVE" ] && run save_compat_live python3 tests/save_compat_v7.py "$LIVE" "$URL"
 echo "=== 總表（$SUM）"; cat "$SUM"; grep -q "FAIL" "$SUM" && exit 1 || exit 0
