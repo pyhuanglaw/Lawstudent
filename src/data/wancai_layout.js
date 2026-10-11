@@ -40,7 +40,7 @@ const WANCAI_LAYOUT={
     {"type":"sofa","lv":0,"x":5,"z":2,"w":2.2,"d":0.9,"ry":0,"seat":true},
     {"type":"table","lv":0,"x":0,"z":2,"r":0.6},
     {"type":"bulletin","lv":0,"x":6,"z":-6.6,"w":2.6,"label":"公告欄"},
-    {"type":"board","lv":0,"x":-5.0,"z":-6.75,"w":1.8,"label":"樓層簡介"},
+    {"type":"board","lv":0,"x":-5.0,"z":-6.82,"w":1.8,"label":"樓層簡介"},
     {"type":"planter","lv":0,"x":-7.9,"z":5.9,"r":0.5},
     {"type":"bench","lv":1,"x":-6.4,"z":-6.15,"w":1.6,"d":0.5},
     {"type":"bench","lv":1,"x":-0.75,"z":-6.15,"w":1.6,"d":0.5},
