@@ -53,6 +53,7 @@
 | `granular_concrete`（萬才館） | 凸出的混凝土窗框、弧形量體、凸出量體、陽台側面與底面、屋頂框架、屋頂設備 | `wancai_exterior.glb` |
 | `red_brick`（萬才館） | 四～八樓偏橘的淺紅磚 | `wancai_exterior.glb` |
 | `granite_tile_03`、`painted_plaster_wall`、`ceiling_interior`、`fine_grained_wood`、`wood_table_001`、`fabric_leather_02`（萬才館室內） | 牆腳 1.2 m、方柱、樓板邊、樓梯踏面（花崗石）；米色粉光牆、二樓樓板底面；天花板；木門、長椅、踢腳板；圓桌桌面；深綠色沙發（皮紋染色）。地板的磨石子見下面 `terrazzo_tiles` 那一列 | `wancai_interior.glb` |
+| `granite_tile_03`、`painted_plaster_wall`、`ceiling_interior`、`fine_grained_wood`、`fabric_leather_02`（總圖大廳） | 花崗石：柱子、樓板邊收邊、閘門台座、樓梯踏面與平台（深一點）；米色粉光牆、樓板底面、樓梯中間的矮牆；天花板；淺色木：自習區的椅子、新書展示桌；深棕皮沙發、單人沙發。地板的磨石子、人字拼木地板、胡桃木見下面 `terrazzo_tiles`、`herringbone_parquet`、`walnut_veneer` | `library_interior.glb` |
 
 （`tools/blender/textures/` 裡其他下載過、還沒用到的材質：`granite_tile`、`granite_tile_02`、`granite_wall`、`grey_plaster_02`、`floor_tiles_06`、`concrete_floor_02`，同樣是 Poly Haven CC0；用到時補進上表。）
 
@@ -64,6 +65,8 @@
 | 霖澤館外觀（十層樓：花崗石基座＋三層樓高穿堂、灰色帶窗層、紅磚窗格＋窗楣遮陽盒、頂樓開放層＋大屋頂板、二樓天橋、玻璃大廳） | `tools/blender/linze_exterior.py` → `assets/models/env/linze_exterior.glb` | 本作自己寫的 Blender Python 腳本建模；量體與導航同 `src/campuskit3d.js` 的 `CK.lawhall`；外觀照使用者提供的霖澤館照片概略重建（照片本身沒有放進 repo；不是精確複製）；館名與「法律學院」招牌由遊戲用 Canvas 字畫（沒有把字型做進模型）；貼圖見上表（CC0） |
 | 萬才館外觀（九層樓：一二樓花崗石、三樓橫向長窗、四～八樓紅磚＋凸出的混凝土窗框、頂樓石材帶、屋頂鏤空框架；正面的弧形量體、往下張開的弧形大樓梯＋兩側石牆與扶手、樓梯頂端平台、弧形陽台、二樓玻璃、陽台下的一樓入口、凸出量體） | `tools/blender/wancai_exterior.py` → `assets/models/env/wancai_exterior.glb` | 本作自己寫的 Blender Python 腳本建模（共用工具 `tools/blender/b3lib.py`）；量體與大樓梯每一階的外緣同 `src/campuskit3d.js` 的 `CK.lawhall`（遊戲導航用同一組外緣，`tools/blender/wancai_ck_dump.js` 匯出、`--check` 比對）；外觀照使用者提供的萬才館照片與法律學院配置圖概略重建（D28、D31），沒有照片的背面、側面、屋頂是推測；貼圖見上表（CC0） |
 | 萬才館室內兩層樓（一樓大廳＋二樓北側走廊、西側迴廊、西南門廳；直跑樓梯、柱子、外牆、南面兩層樓高的玻璃帷幕、二樓通到外面平台的玻璃門、沙發、圓桌、長椅、花台；萬才館第三階段 D42） | `tools/blender/wancai_interior.py` → `assets/models/env/wancai_interior.glb` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/wancai_layout.js`（**遊戲化設計，不是實測**：一樓沿用 v9.3 大廳的配置）；電梯、門牌與樓層簡介的字、公告欄是遊戲裡的程序化物件；貼圖見上表與下面的 Poly Haven 列（CC0） |
+| 總圖書館大廳（一樓大廳：門廳、入口閘門、服務台、置物櫃、還書箱、期刊報紙架、新書展示、沙發；帝國式中央大樓梯（中間一跑、平台、兩側兩跑）與玻璃欄板；二樓自習區長桌＋檯燈＋椅子、書架與書；挑高中庭的天窗、正面兩層樓高的玻璃帷幕、窗；總圖第一階段 D43） | `tools/blender/library_interior.py` → `assets/models/env/library_interior.glb` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/library_layout.js`（遊戲化設計，D43）；貼圖 Poly Haven CC0（見上表與下表的 `terrazzo_tiles`、`herringbone_parquet`、`walnut_veneer`）；書是一本一個方塊（顏色、高矮隨機，固定亂數種子）；植物：室內樹與花台的蕨類是葉片卡，葉片貼圖用第二個 AI 的 `tools/blender/env_second/gen_leaves.py` 程式產生的 `olive_leaves.png`、`fern_leaves.png`（本作，不是外部素材）；大葉盆栽是一片一片的模型葉子（腳本產生，沒有貼圖） |
+| 總圖大廳窗外的景（正面玻璃帷幕：椰林大道；側窗、樓梯平台後面的大窗：總圖南側的草地與系館；白天、晚上各一張） | `tools/shots/library_views.py` → `assets/models/env/library_view_{avenue,lawn}_{day,night}.webp` | 本作：在遊戲裡的校園拍的畫面（Playwright 截圖，1024×512），不是照片、不是外部素材 |
 | 霖澤館 201 階梯教室（六排平台、兩側走道台階、深色長桌、木翻椅 ×48、講桌、黑板、投影幕、方格天花板＋日光燈、西牆三扇窗） | `tools/blender/classroom_201.py` → `assets/models/env/classroom_201.glb` | 本作自己寫的 Blender Python 腳本建模（共用工具 `tools/blender/b3lib.py`）；配置 `src/data/classroom_layout.js`；外觀參考使用者提供的教室照片（照片本身沒有放進 repo）；貼圖見上表（CC0） |
 | 祐廷 Blender 版（v9.4 人物生產線第二位：臉、新的層次短髮、圓領毛衣、直筒寬褲、球鞋；網址加 `?blchar` 才使用，預設仍是 VRoid 加工版） | `tools/blender/char/player.py`（`p00_face.py`、`p00_clothes.py`、`p00_hair.py`，沿用 `h01_*`、`common.py`、`vrm_finish.py`）→ `assets/models/char/bl_yuting.vrm`；Blender 工作檔 `assets/blender/yuting_work_v1.blend` | 身體、臉、表情、骨架的基底是 VRoid CC0 樣本「HairSample_Male」（pixiv，CC0）；毛衣的骨頭權重參考同一樣本原本的連帽上衣（CC0，只用權重，網格是本作腳本產生）；頭髮、衣服、鞋的網格與貼圖由本作腳本產生（numpy，沒有用外部素材）；VRM 匯出用 VRM Add-on for Blender（MIT） |
 | 溫書瑀 Blender 版（v9.4 人物生產線第六位：臉、深棕低馬尾＋中分長瀏海、白襯衫（反摺領、門襟與扣子、捲起的袖口）、卡其直筒褲＋深棕皮帶、深棕樂福鞋；網址加 `?blchar` 才使用，預設仍是 VRoid 加工版） | `tools/blender/char/heroine_05.py`（`p05_face.py`、`p05_clothes.py`、`p05_hair.py`，沿用 `p00_face.py`、`h01_*`、`common.py`、`vrm_finish.py`）→ `assets/models/char/bl_heroine_05.vrm`；Blender 工作檔 `assets/blender/heroine_05_work_v1.blend` | 身體、臉、表情、骨架的基底是 VRoid CC0 樣本「Sendagaya Shino」（pixiv，CC0；身體貼圖在原本衣服蓋住的透明區域用本作程式補上皮膚色）；頭髮、衣服、領子、門襟、袖口、鞋的網格與貼圖由本作腳本產生（numpy，沒有用外部素材）；判決節錄資料夾是遊戲內配件（`src/props3d.js`）；VRM 匯出用 VRM Add-on for Blender（MIT） |
@@ -90,12 +93,12 @@
 | Poly Haven `rectangular_facade_tiles`（Charlotte Baglioni） | https://polyhaven.com/a/rectangular_facade_tiles ，`lib2.fetch()` 下載 1k JPG 到 `tools/blender/env_second/textures/` | CC0 | Café 二三樓長條磁磚外牆（校正成米色） |
 | Poly Haven `exterior_wall_cladding_02`（Charlotte Baglioni） | https://polyhaven.com/a/exterior_wall_cladding_02 | CC0 | Café 一樓壁柱的深褐磁磚 |
 | Poly Haven `plaster_grey_04`（Rob Tuytel） | https://polyhaven.com/a/plaster_grey_04 | CC0 | Café 樓板線、窗台、陽台板 |
-| Poly Haven `terrazzo_tiles`（Amal Kumar） | https://polyhaven.com/a/terrazzo_tiles | CC0 | Café 牆腳石、門檻；萬才館室內一二樓的磨石子地（AI-1 `wancai_interior.glb`，只讀使用 `tools/blender/env_second/textures/`） |
+| Poly Haven `terrazzo_tiles`（Amal Kumar） | https://polyhaven.com/a/terrazzo_tiles | CC0 | Café 牆腳石、門檻；萬才館室內一二樓的磨石子地（AI-1 `wancai_interior.glb`，只讀使用 `tools/blender/env_second/textures/`）；總圖大廳一樓、連廊的磨石子地（AI-1 `library_interior.glb`） |
 | Poly Haven `dark_wood`（Dario Barresi、Dimitrios Savva、Rico Cilliers） | https://polyhaven.com/a/dark_wood | CC0 | Café 雨遮木板、A 字立牌、店內天花板木梁 |
 | Poly Haven `corrugated_iron`（Jenelle van Heerden、Dimitrios Savva） | https://polyhaven.com/a/corrugated_iron | CC0 | Café 樓上窗的浪板雨遮 |
-| Poly Haven `herringbone_parquet`（Jenelle van Heerden、Sergej Majboroda） | https://polyhaven.com/a/herringbone_parquet | CC0 | Café 店內人字拼木地板 |
+| Poly Haven `herringbone_parquet`（Jenelle van Heerden、Sergej Majboroda） | https://polyhaven.com/a/herringbone_parquet | CC0 | Café 店內人字拼木地板；總圖大廳二樓自習區的人字拼木地板（AI-1 `library_interior.glb`，只讀使用） |
 | Poly Haven `white_plaster_02`（Rob Tuytel） | https://polyhaven.com/a/white_plaster_02 | CC0 | Café 店內牆面、天花板 |
-| Poly Haven `walnut_veneer`（Jenelle van Heerden） | https://polyhaven.com/a/walnut_veneer | CC0 | Café 店內木護牆、桌椅、吧檯 |
+| Poly Haven `walnut_veneer`（Jenelle van Heerden） | https://polyhaven.com/a/walnut_veneer | CC0 | Café 店內木護牆、桌椅、吧檯；總圖大廳的牆裙、服務台、書架、長桌、門（AI-1 `library_interior.glb`，只讀使用） |
 | Poly Haven `black_walnut_veneer_01`（Jenelle van Heerden） | https://polyhaven.com/a/black_walnut_veneer_01 | CC0 | Café 書牆、層架、畫框 |
 | Poly Haven `fine_grained_wood`（Rob Tuytel；第一個 AI 已下載到 `tools/blender/textures/`，只讀使用） | https://polyhaven.com/a/fine_grained_wood | CC0 | Café 店面門窗框、招牌框、窗下木板 |
 | 溫州街主巷兩側 14 棟公寓近景 `assets/models/env/second_ai/wenzhou_street.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_street.py`（和 Café 共用 `cafe_layout.py` 的材質與零件） | 本作 | 溫州街主巷 A1–A5、B1–B7 與 Café 南北兩側的公寓 |
@@ -127,4 +130,6 @@
 | 傅鐘 `assets/models/env/second_ai/campus_bell.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_bell.py`（尺寸照套件 `CK.bell`；石碑的「傅鐘」是遊戲裡的 canvas 字；柱面暖光的漸層貼圖本作程式產生） | 本作 | 校園傅鐘廣場（取代套件 `CK.bell` 的外觀）。貼圖：`sandstone_blocks_08`（切石）、`grey_roof_tiles`（屋瓦）、`dark_wood`（木橫梁），上面列過的 Poly Haven CC0 |
 | 行政大樓外觀 `assets/models/env/second_ai/campus_admin.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_hall.py --set admin`（和總圖同一支腳本；位置、尺寸、樓層、開間照套件 `CK.hall`；匾額「行政大樓」是遊戲裡的 canvas 字） | 本作 | 校園椰林大道南側的行政大樓（取代套件 `CK.hall` 的外觀）。貼圖和總圖相同（上面列過的 Poly Haven CC0：面磚降低彩度後校正成米黃） |
 | 文學院、校史館外觀 `assets/models/env/second_ai/campus_arts.glb`、`campus_hist.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_hall.py --set arts／hist`（和總圖、行政大樓同一支腳本；位置、尺寸、樓層、開間照套件 `CK.hall`；匾額「文學院」「校史館」是遊戲裡的 canvas 字） | 本作 | 校園椰林大道北側的文學院、校史館（取代套件 `CK.hall` 的外觀）。貼圖和總圖相同（上面列過的 Poly Haven CC0） |
+| 農業陳列館（洞洞館）外觀 `assets/models/env/second_ai/campus_pavilion.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_pavilion.py`（位置、尺寸、樓層照套件 `CK.pavilion`；鏤空牆的透明貼圖 `textures/gen/pav_screen.png` 本作程式產生（Poly Haven `painted_plaster_wall` 的顏色＋程式挖的圓洞）；匾額「農業陳列館」是遊戲裡的 canvas 字） | 本作 | 校園洞洞館（取代套件 `CK.pavilion` 的外觀）。貼圖：`painted_plaster_wall`（第一個 AI 已下載到 `tools/blender/textures/`，只讀使用，Poly Haven CC0） |
+| 社會科學院外觀 `assets/models/env/second_ai/campus_modern.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_modern.py`（位置、尺寸、樓層、長窗照套件 `CK.modern`；匾額「社會科學院」是遊戲裡的 canvas 字） | 本作 | 校園社會科學院（取代套件 `CK.modern` 的外觀）。貼圖：`painted_plaster_wall`（同上，Poly Haven CC0） |
 

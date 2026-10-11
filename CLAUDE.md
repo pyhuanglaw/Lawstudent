@@ -79,6 +79,17 @@
 - **優先級**：P0 立即處理（使用者要求先回覆或決策、另一方發現會破壞成果的衝突、要緊急暫停合併或發布、線上版本嚴重錯誤）；P1 在最近的安全工作節點回覆（對方正式開工、分工與檔案所有權、交付可整合的成果、要改共用檔、發布前整合確認）；P2 一般進度可以累積再處理。不要重送同一則訊息催對方。
 - 直接通訊不可用時，改用 `docs/DUAL_AI_BOARD.md`（push 到自己的分支）當備援通道，並寫明；不要因為通訊不通就停工。
 
+## 緊急保存規則（2026-10-11 使用者訂定，永久，D45；適用 LAWWW、LAWWW2、AA、BB）
+
+使用者的 Claude 每週額度可能隨時用完、工作階段隨時中斷：**即使下一分鐘就停止，也要能從 GitHub 找回大部分做好的工作並無縫接續。**
+1. **約每 30 分鐘、或每完成一個重要階段**檢查：哪些成果完成但沒 commit、哪些檔案在改、哪些只在本機（含本機分支、worktree、scratchpad）、Blender 原始檔／GLB／腳本／圖片／企劃有沒有保存、已討論完但沒寫進 GitHub 的決策或草稿、現在的工作能不能從 GitHub 恢復。有重要成果沒保存就立刻 checkpoint commit＋push。沒有真正的背景計時器——在每個可控制的工作節點檢查，不假裝定時；不中斷不能安全中斷的操作（匯出、Git、完整回歸跑到一半）。
+2. **狀態分清楚**：`WORK_IN_PROGRESS`（還在做，可以保存、標 WIP）→ `CHECKPOINT_SAVED`（已 commit＋push，只是備份）→ `READY_FOR_REVIEW` → `APPROVED_FOR_INTEGRATION` → `RELEASED`／`ART_APPROVED`／`STORY_APPROVED`（後三者只有正式發布或使用者批准才成立）。**commit、push 只是保存，不是核准、不是發布。**
+3. **權限不變**：LAWWW 照舊負責開發分支、整合、發布；**沒測完的功能不因額度快用完而搶著發布**；沒批准的劇情不寫進正式遊戲；不標 ART_APPROVED。LAWWW2 只 push 自己的分支、不碰 main、不改 LAWWW 的檔案、不發布。AA、BB 只在自己的企劃分支保存，故事都標 `PROPOSAL`，保存企劃不代表可以叫 LAWWW／LAWWW2 實作。
+4. **Git 安全**：確認分支與 worktree → `git status` → 只加這次要存、自己負責的檔案（**不要無條件 `git add .`**）→ 看得懂的 commit 訊息 → push 到自己的遠端分支 → 確認成功、記下 SHA → 確認原始素材真的被追蹤。不 force push、不為了保存合併 main、不覆寫其他 AI 的工作、不提交密鑰或授權不明的素材。push 不了的檔案（太大、LFS 問題）要明確寫「沒有遠端備份」。
+5. **只在本機分支上的半成品**（工作階段只能 push 自己的開發分支）：用 `git bundle` 備份到開發分支的 `wip_backup/`（還原方法見 `wip_backup/README.md`）；遊戲不讀這個資料夾。
+6. **交接紀錄**：`docs/ART_REBUILD_PROGRESS.md` 最上面的「交接（最新）」一節隨時更新：最新 SHA、分支、已完成／未完成／沒測過、下一步、需要誰協助、哪些不能合併或發布。
+7. **不要為了保存停下實際工作**：保存完立刻繼續；不要整個工作階段只剩寫日誌和 commit。只有影響對方工作或要交接時才通知其他 AI（寫明工作名稱、分支、SHA、檔案範圍、完成狀態、能不能整合、測試結果；分清楚「已保存」「已交付」「已整合」）。
+
 ## AI 長期合作、溝通與開發工作規範（2026-10-09 使用者訂定，持續有效）
 
 這一節補充上面的規則，**不取代**上面的安全、授權、法律題庫與測試規範。長期設計決策記在 `docs/PROJECT_DECISIONS.md`，目前工作進度記在 `docs/ART_REBUILD_PROGRESS.md`，回歸測試清單在 `docs/REGRESSION_CHECKLIST.md`，畫面驗收在 `docs/art-rebuild/VISUAL_REVIEW.md`。
@@ -126,6 +137,7 @@ index.html              開發版入口：UI DOM、CSS、script 載入順序、G
 src/                    遊戲程式（classic script、全域 IIFE 模組）
   engine3d.js             渲染、日夜光線、天氣、鏡頭、觸控輸入、NavGrid A*、碰撞、NPC 行為、LOD、分區載入
   zones3d.js              各區域：校園、公館、溫州街、教室、萬才館、總圖、咖啡廳、便利商店、麵店、書店、宿舍（含導航格）
+  library3d.js            總圖大廳（library_hall：一樓大廳、帝國式大樓梯、電梯、二樓自習區；閱覽室的電梯與樓梯間，D43）
   world3d.js              LEVEL_BLOCKOUT 產生器（建築、貼圖、路燈、腳踏車、風動 shader）
   townkit3d.js            街道套件 TK（台北公寓、店面、兩點半 Café、日式老屋、電線桿、機車、行道樹、大王椰子、夜間發光材質）
   campuskit3d.js          校園建築套件 CK（台大風格：面磚／紅磚、拱窗、一樓拱廊、門廊、四坡屋頂、塔樓）
@@ -216,6 +228,7 @@ python3 build.py
   - 走樓梯腳步貼合：`character3d.js` 的 `footIK`（真實骨架、兩段式 IK）；`node tests/stairs_feet_unit.js` 量腳和踏面的距離。
 - **萬才館第二階段（2026-10-11，D41；需求 21「萬才館的弧形大樓梯必須能讓玩家走上去」）**：校園有兩層導航格（`zones3d.js` 的 `wancaiStairs`：第 1 層只有萬才館大樓梯、樓梯頂端平台、弧形陽台）；大樓梯兩層共用，高度用 `CK.lawhall` 畫台階的同一組外緣（`ck.wancai.outl`：畫面一階一階 `vfn`、碰撞連續 `fn`）；陽台下的一樓入口照舊在地面那一層；二樓入口這一版關著（告示）。外觀是 Blender 模型（`tools/blender/wancai_exterior.py` → `assets/models/env/wancai_exterior.glb`，台階外緣用 `--check` 和遊戲比對）。戶外往下走樓梯時鏡頭俯角會加（`engine3d.js` 的 `C.pitchAdd`）。**改萬才館或校園導航要跑 `node tests/nav_buildings_unit.js`、`node tools/dev_scratch/kit_nav_check.js`、`tests/campus_layout_nav.py`、`tests/flow_wancai_stairs.py`、`tests/wancai_glb_integration.py`**；改 `CK.lawhall` 的萬才館台階要重新匯出 GLB（外緣不一致時 `--check` 會失敗）。
 - **萬才館第三階段：室內兩層樓（2026-10-11，D42）**：`wancai` 區域搬到 `src/wancai3d.js`（配置 `src/data/wancai_layout.js`，Blender `tools/blender/wancai_interior.py` 讀同一份）。**一樓大廳的座標和 v9.3 完全相同**（柱子、沙發、圓桌、公告欄 `notice:'lawclub'`、出口 (0,6.6)、`story3d.js` 的劇情站位與 `CLUB_SPOTS`、`TA_SPOT`）；二樓 4.2 m：北側走廊、西側迴廊、西南門廳；西側直跑樓梯往南爬（第二跑＋最上一階兩層共用）、東側玻璃電梯（`B3.buildElevator`，3F 以上按不亮：要刷識別證）；平台上的二樓入口打開（從二樓的門出去回到平台，校園第 1 層）。房間門牌不用「201」（法服公告寫萬才館 201，社團目前在大廳聚會）。改萬才館室內要跑 `node tests/nav_buildings_unit.js`、`tests/flow_wancai_floors.py`、`tests/zone_transitions.py`、`tests/reachability_all.py`。
+- **總圖第一階段：大廳＋二樓自習區（2026-10-11，D43；需求 21「圖書館可進入閱讀區、自習區」）**：校園的總圖門口進新區域 `library_hall`（`src/library3d.js`、配置 `src/data/library_layout.js`）：一樓大廳（門廳、閘門、服務台）＋帝國式中央大樓梯（中間一跑上到平台、兩側兩跑折返，三跑與平台兩層共用）＋電梯＋二樓自習區（長桌可以坐下讀書）。現有的閱覽室（`library`）是「3F 閱覽區」（劇情：「我看過你在三樓」），座標、座位、劇情不動，出口改成樓梯間（回到大廳二樓東側）、東側多一部電梯。電梯可以到**別的區域**的樓層（樓層資料 `zone`；`E.spawnHint` 讓新區域建好時車廂停在那一層、人在車廂裡；`GAME.enter` 的 `deferStory`／`noAutosave`）。小安「總圖的下午」（原文「二樓靠牆的長桌」）改成走到大廳二樓就開始（`story3d.js` 的 S.tick；舊存檔在閱覽室的照舊）。正式模型 `tools/blender/library_interior.py`（植物：室內樹＝葉片卡、大葉盆栽＝模型葉子，共用做法在 `tools/blender/plants.py`）；窗外的景是遊戲裡校園的畫面 `assets/models/env/library_view_*.webp`（`tools/shots/library_views.py` 重拍；改校園的總圖附近或椰林大道後可以重拍）。窗玻璃不能放進牆的淡出群組（`fadeWalls` 會把整組設成不透明）。**改總圖要跑 `node tests/nav_buildings_unit.js`、`tests/flow_library_floors.py`、`tests/flow_library_scene.py`**。
 - 沿路線移動（2026-10-11，`engine3d.js`）：最後一步只走到轉折點（`stepSp`）；換層（`switchLevel`）用人物所在那一層的**連續高度**比、容許值依步長放寬——跑步＋低幀率時一步 0.41 m，舊做法會在樓梯底來回跳、換不回地面那一層。`tests/nav_buildings_unit.js` 有跑步＋低幀率的上下樓梯檢查。
 - 人物：玩家與所有 NPC 已改用 VRoid CC0 樣本改作的 VRM（`tools/vroid_build.py` → `assets/models/char/vroid_*.vrm`），不再出現程序化球體人；舊的 Seed-san／Twist sample／RPM 不再載入。六位核心角色正依 Character Bible 與美術參考圖逐一修正，**美術尚未經使用者驗收**。
 - 溫州街：已用 `src/townkit3d.js` 重建成台北巷弄（原本是空柏油地＋方盒）；兩點半 Café 搬到東端路口（D22）；正在精修日式老屋、小公園與三個時段的光影。

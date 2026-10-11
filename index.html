@@ -43,7 +43,7 @@ button{font-family:var(--font);cursor:pointer}
 #choices .hint{font-size:12px;color:#b7b0a4;margin-top:3px}
 #caption{position:absolute;left:50%;bottom:calc(max(14px,env(safe-area-inset-bottom)) + 66px);transform:translateX(-50%);max-width:min(620px,calc(100% - 40px));background:rgba(20,22,28,.7);border-radius:10px;padding:8px 14px;font-size:14px;line-height:1.5;color:#f4efe6;text-align:center;pointer-events:none;transition:opacity .3s}
 #caption b{color:var(--accent);font-weight:500;margin-right:6px}
-#toast{position:absolute;left:50%;top:calc(max(8px,env(safe-area-inset-top)) + 56px);transform:translateX(-50%);background:rgba(233,185,106,.95);color:#1c1a17;padding:8px 16px;border-radius:999px;font-size:13px;pointer-events:none;transition:opacity .3s;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+#toast{position:absolute;left:50%;top:calc(max(8px,env(safe-area-inset-top)) + 56px);transform:translateX(-50%);background:rgba(233,185,106,.95);color:#1c1a17;padding:8px 16px;border-radius:16px;max-width:calc(100% - 32px);width:max-content;text-align:center;line-height:1.45;font-size:13px;pointer-events:none;transition:opacity .3s;box-shadow:0 6px 18px rgba(0,0,0,.3)}
 #letter{position:absolute;left:0;right:0;height:0;background:#000;transition:height .6s}
 #letterT{top:0}#letterB{bottom:0}
 #fade{position:absolute;inset:0;background:#000;opacity:0;transition:opacity .45s;pointer-events:none}
@@ -84,17 +84,24 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
 #loading{position:absolute;inset:0;background:#0d1016;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font-size:14px;color:#e8e2d6}
 #bar{width:min(320px,70%);height:6px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden}
 #bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
-#minimap{position:absolute;right:max(10px,env(safe-area-inset-right));top:calc(max(8px,env(safe-area-inset-top)) + 54px);width:112px;height:80px;border-radius:10px;border:1px solid var(--line);background:rgba(20,22,28,.6);pointer-events:none}
-@media (orientation:portrait){#rotate.want{display:flex} #hudR{top:calc(max(8px,env(safe-area-inset-top)) + 64px)} #minimap{top:calc(max(8px,env(safe-area-inset-top)) + 112px)} #goal{max-width:70vw}}
+#minimap{position:absolute;right:max(10px,env(safe-area-inset-right));top:calc(max(8px,env(safe-area-inset-top)) + 54px);width:112px;height:80px;border-radius:10px;border:1px solid var(--line);background:rgba(20,22,28,.6);pointer-events:auto;cursor:pointer}
+#guide{display:flex;align-items:center;gap:6px;font-size:12px;color:#ffe2a8;max-width:70vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#guide.hide{display:none}#guideArrow{flex:none;width:18px;height:18px;transition:transform .2s linear}
+#bigmap{position:absolute;inset:0;z-index:9;background:#0e1014;display:flex;flex-direction:column;padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))}#bigmap.hide{display:none}
+#bigmap .bmHead{display:flex;align-items:center;gap:10px;padding:4px 4px 8px;color:#f4efe6}#bmTitle{font-size:16px;white-space:nowrap}#bmSub{flex:1;font-size:12px;color:#d9d2c4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#bmCanvas{flex:1;width:100%;min-height:0;border-radius:12px;touch-action:none}#bigmap .bmTools{position:absolute;right:max(16px,calc(env(safe-area-inset-right) + 8px));bottom:calc(max(16px,env(safe-area-inset-bottom)) + 44px);display:flex;flex-direction:column;gap:10px}
+#bmPeople{position:absolute;left:max(16px,calc(env(safe-area-inset-left) + 8px));top:calc(max(8px,env(safe-area-inset-top)) + 60px);max-width:min(330px,calc(100% - 96px));max-height:52%;overflow:auto;background:rgba(22,26,32,.9);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:13px;line-height:1.55;color:#f4efe6}#bmPeople.hide{display:none}#bmPeople b{color:#ffd88a}
+#bmInfo{position:absolute;left:50%;transform:translateX(-50%);bottom:max(14px,env(safe-area-inset-bottom));max-width:calc(100% - 32px);background:rgba(255,200,90,.95);color:#1c1a17;border-radius:12px;padding:7px 14px;font-size:13px;text-align:center}#bmInfo.hide{display:none}
+@media (orientation:portrait){#rotate.want{display:flex} #hudR{top:calc(max(8px,env(safe-area-inset-top)) + 64px)} #minimap{top:calc(max(8px,env(safe-area-inset-top)) + 112px)} #goal{max-width:70vw} #guide{position:absolute;left:0;top:112px;max-width:calc(100vw - 152px - env(safe-area-inset-left) - env(safe-area-inset-right));white-space:normal;line-height:1.35}}   /* 直向：導航條在「體力」那一列下面、小地圖左邊（2026-10-11 截圖：第三列會被體力那一列蓋住）*/
 #fps{position:absolute;left:8px;bottom:4px;font:11px monospace;color:rgba(255,255,255,.5);pointer-events:none}
 #mdbg{position:absolute;left:max(10px,env(safe-area-inset-left));top:calc(max(8px,env(safe-area-inset-top)) + 150px);font:10px/1.35 monospace;color:#d8ffd8;background:rgba(0,0,0,.55);padding:6px 8px;border-radius:8px;white-space:pre;pointer-events:none;display:none;max-width:calc(100% - 20px)}
 </style></head>
 <body>
 <canvas id="c"></canvas>
 <div id="ui">
-  <div id="hud"><div class="chip" id="clock"><b id="clockT">週四 13:20</b><span id="clockZ">台大校園</span><span id="clockW">☀</span></div><div class="chip" id="goal">目標：—</div></div>
+  <div id="hud"><div class="chip" id="clock"><b id="clockT">週四 13:20</b><span id="clockZ">台大校園</span><span id="clockW">☀</span></div><div class="chip" id="goal">目標：—</div><div class="chip hide" id="guide"><svg id="guideArrow" viewBox="-10 -10 20 20" aria-hidden="true"><path d="M0 -8.5 L6.8 6.5 L0 3 L-6.8 6.5 Z" fill="#ffc85a" stroke="#1c1a17" stroke-width="1.2" stroke-linejoin="round"/></svg><span id="guideText"></span></div></div>
   <div id="hudR"><div class="chip"><span>體力</span><div id="energy"><i></i></div><span id="money">$0</span></div><button class="ibtn" id="btnMenu" aria-label="選單">☰</button></div>
-  <canvas id="minimap" width="224" height="160"></canvas>
+  <canvas id="minimap" width="224" height="160" aria-label="小地圖（點一下看整張地圖）"></canvas>
+  <div id="bigmap" class="hide"><div class="bmHead"><b id="bmTitle">地圖</b><span id="bmSub"></span><button class="ibtn" id="bmClose" aria-label="關閉地圖">✕</button></div><canvas id="bmCanvas"></canvas><div class="bmTools"><button class="ibtn" id="bmWho" aria-label="認識的人在哪">👥</button><button class="ibtn" id="bmTravel" aria-label="快速前往">🚶</button><button class="ibtn" id="bmIn" aria-label="放大">＋</button><button class="ibtn" id="bmOut" aria-label="縮小">－</button><button class="ibtn" id="bmMe" aria-label="回到我的位置">◎</button></div><div id="bmInfo" class="hide"></div><div id="bmPeople" class="hide"></div></div>
   <div id="joy"><i></i></div>
   <div id="ctlR"><button id="interact" class="hide"><span id="interactLabel">互動</span></button><div class="row"><button class="ibtn" id="btnRun" aria-label="跑步">跑</button><button class="ibtn" id="btnCenter" aria-label="鏡頭回正">◎</button></div></div>
   <div id="caption" class="hide"></div>
@@ -113,7 +120,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
     <div class="tab on" id="tab-notes"><div class="list" id="notesList"></div></div>
     <div class="tab" id="tab-people"><div class="list" id="peopleList"></div></div>
     <div class="tab" id="tab-legal"><div class="list" id="legalList"></div></div>
-    <div class="tab" id="tab-map"><div class="muted" style="margin-bottom:8px">去過的地點可以快速前往（消耗一點時間）。</div><div class="list" id="mapList"></div></div>
+    <div class="tab" id="tab-map"><button class="btn pri" id="btnBigMap" style="margin-bottom:10px">打開整張地圖（也可以點右上角的小地圖）</button><div class="muted" style="margin-bottom:8px">去過的地點可以快速前往（消耗一點時間）。</div><div class="list" id="mapList"></div></div>
     <div class="tab" id="tab-save">
       <div class="list" id="saveSlots"></div>
       <div style="margin-top:12px" class="row2"><button class="btn" id="btnExport">匯出存檔（複製文字／下載）</button><button class="btn" id="btnImport">匯入存檔</button></div>
@@ -123,6 +130,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
     <div class="tab" id="tab-settings">
       <label class="opt">畫質 <select id="setQuality"><option value="low">省電（低）</option><option value="medium" selected>標準（中）</option><option value="high">高（陰影）</option></select></label>
       <label class="opt"><input type="checkbox" id="setJoy" checked> 顯示虛擬搖桿（也可直接點地面移動）</label>
+      <label class="opt"><input type="checkbox" id="setGuide" checked> 導航：目標方向箭頭、小地圖路線、目的地入口標成金色</label>
       <label class="opt">音量 <input type="range" id="setVol" min="0" max="1" step="0.05" value="0.6"></label>
       <label class="opt">文字速度 <select id="setSpeed"><option value="1">慢</option><option value="2" selected>中</option><option value="3">快</option><option value="9">立即</option></select></label>
       <label class="opt"><input type="checkbox" id="setFps"> 顯示 FPS</label>
@@ -140,38 +148,42 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
     <button class="btn" id="btnContinue">繼續（自動存檔）</button>
     <button class="btn" id="btnLoadMenu">讀取／匯入存檔</button>
     <div class="muted" style="margin-top:16px;font-size:12px">建議橫向遊玩。點地面移動、拖曳旋轉鏡頭。<br>所有人物與故事皆為虛構。</div>
-    <div class="muted" id="verLabel" style="margin-top:8px;font-size:11px;opacity:.7">版本 v9.4.2（2026-10-10）</div>
+    <div class="muted" id="verLabel" style="margin-top:8px;font-size:11px;opacity:.7">版本 v9.5（2026-10-11）</div>
   </div></div>
   <div id="rotate" class="want"><div>請把手機轉成橫向<br><span class="muted">（或直接點這裡繼續直向遊玩）</span></div></div>
   <div id="loading"><div style="font-family:var(--serif);letter-spacing:.2em;font-size:18px">法條之外</div><div id="bar"><i></i></div><div id="loadMsg">載入中…</div><button class="btn hide" id="btnRetry">重試</button></div>
 </div>
-<script src="lib/three.bundle.js?v=9.4-3"></script>
-<script src="lib/three.jsm.bundle.js?v=9.4-3"></script>
-<script src="lib/three-vrm.bundle.js?v=9.4-3"></script>
-<script src="src/people3d.js?v=9.4-3"></script>
-<script src="src/assets3d.js?v=9.4-3"></script>
-<script src="src/character3d.js?v=9.4-3"></script>
-<script src="src/props3d.js?v=9.4-3"></script>
-<script src="src/world3d.js?v=9.4-3"></script>
-<script src="src/engine3d.js?v=9.4-3"></script>
-<script src="src/townkit3d.js?v=9.4-3"></script>
-<script src="src/campuskit3d.js?v=9.4-3"></script>
-<script src="src/zones3d.js?v=9.4-3"></script>
-<script src="src/data/linze_layout.js?v=9.4-3"></script>
-<script src="src/data/classroom_layout.js?v=9.4-3"></script>
-<script src="src/building3d.js?v=9.4-3"></script>
-<script src="src/data/wancai_layout.js?v=9.4-3"></script>
-<script src="src/wancai3d.js?v=9.4-3"></script>
-<script src="src/audio3d.js?v=9.4-3"></script>
-<script src="src/data/characters.js?v=9.4-3"></script>
-<script src="src/data/portrait_manifest.js?v=9.4-3"></script>
-<script src="src/data/legal_qbank.js?v=9.4-3"></script>
-<script src="src/data/events.js?v=9.4-3"></script>
-<script src="src/social3d.js?v=9.4-3"></script>
-<script src="src/adv3d.js?v=9.4-3"></script>
-<script src="src/legal3d.js?v=9.4-3"></script>
-<script src="src/events3d.js?v=9.4-3"></script>
-<script src="src/game3d.js?v=9.4-3"></script>
-<script src="src/story3d.js?v=9.4-3"></script>
+<script src="lib/three.bundle.js?v=9.5-2"></script>
+<script src="lib/three.jsm.bundle.js?v=9.5-2"></script>
+<script src="lib/three-vrm.bundle.js?v=9.5-2"></script>
+<script src="src/people3d.js?v=9.5-2"></script>
+<script src="src/assets3d.js?v=9.5-2"></script>
+<script src="src/character3d.js?v=9.5-2"></script>
+<script src="src/props3d.js?v=9.5-2"></script>
+<script src="src/world3d.js?v=9.5-2"></script>
+<script src="src/engine3d.js?v=9.5-2"></script>
+<script src="src/townkit3d.js?v=9.5-2"></script>
+<script src="src/campuskit3d.js?v=9.5-2"></script>
+<script src="src/zones3d.js?v=9.5-2"></script>
+<script src="src/data/linze_layout.js?v=9.5-2"></script>
+<script src="src/data/classroom_layout.js?v=9.5-2"></script>
+<script src="src/building3d.js?v=9.5-2"></script>
+<script src="src/data/wancai_layout.js?v=9.5-2"></script>
+<script src="src/wancai3d.js?v=9.5-2"></script>
+<script src="src/data/library_layout.js?v=9.5-2"></script>
+<script src="src/library3d.js?v=9.5-2"></script>
+<script src="src/audio3d.js?v=9.5-2"></script>
+<script src="src/data/characters.js?v=9.5-2"></script>
+<script src="src/data/portrait_manifest.js?v=9.5-2"></script>
+<script src="src/data/legal_qbank.js?v=9.5-2"></script>
+<script src="src/data/events.js?v=9.5-2"></script>
+<script src="src/social3d.js?v=9.5-2"></script>
+<script src="src/adv3d.js?v=9.5-2"></script>
+<script src="src/legal3d.js?v=9.5-2"></script>
+<script src="src/events3d.js?v=9.5-2"></script>
+<script src="src/data/places.js?v=9.5-2"></script>
+<script src="src/game3d.js?v=9.5-2"></script>
+<script src="src/guide3d.js?v=9.5-2"></script>
+<script src="src/story3d.js?v=9.5-2"></script>
 <script>GAME.boot();</script>
 </body></html>

@@ -18,7 +18,7 @@ import playlib as L
 
 URL = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith('--') else 'http://127.0.0.1:8765/index.html'
 LEGACY = '--legacy' in sys.argv
-ZONES = ['campus', 'gongguan', 'wenzhou', 'classroom', 'wancai', 'library', 'cafe', 'cvs', 'noodle', 'bookstore', 'dorm']
+ZONES = ['campus', 'gongguan', 'wenzhou', 'classroom', 'wancai', 'library_hall', 'library', 'cafe', 'cvs', 'noodle', 'bookstore', 'dorm']
 if '--zones' in sys.argv: ZONES = sys.argv[sys.argv.index('--zones') + 1].split(',')   # 只測某幾個區域（開發時用；發布前要全測）
 FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'lawclub': True, 'wenzhouLine': True}
 
@@ -36,7 +36,7 @@ SCAN = r"""(()=>{ const E=GAME.E, R=0.32; const P=E.player.obj.position; const s
     if(E.levels) E.setLv(E.player,slv); P.set(start[0],E.heightAt(start[0],start[1],slv),start[1]);
     rec.standable=cands.length; rec.ok=!!ok; rec.at=ok; if(!ok){ rec.why=!cands.length?'互動範圍內沒有站得住的位置':(tried===0?(standButOther?'站得住的位置都被別的互動點搶走（按鈕不會出現）':'被 NPC 佔用（'+npcName+'在這裡，靠近時出現的是和他說話）'):'走不到'); rec.fail=lastFail;
       /* 座位被這個時段的 NPC 坐著：設計如此（人優先於物件），列為說明、不算失敗；出入口等其他互動點被 NPC 擋住仍然算失敗 */ if(tried===0&&!standButOther&&npcBlock&&it.seat){ rec.ok=true; rec.info=rec.why; } }
-    if(it.seat&&GAME.seatApproach){ const ap=GAME.seatApproach(it.seat); const w=walk(ap[0],ap[1]); rec.seatApproach={at:[+ap[0].toFixed(2),+ap[1].toFixed(2)], ok:w.ok, fail:w.ok?null:w}; }
+    if(it.seat&&GAME.seatApproach){ const ap=GAME.seatApproach(it.seat); const w=walk(ap[0],ap[1],(E.levels&&it.seat.lv!==undefined)?(it.seat.lv|0):undefined);   /* 二樓的座位（總圖自習區）：照座位的樓層走 */ rec.seatApproach={at:[+ap[0].toFixed(2),+ap[1].toFixed(2)], ok:w.ok, fail:w.ok?null:w}; }
     if(it.exit&&it.exit.spawn) out.arrivals.push({to:it.exit.to, x:it.exit.spawn.x, z:it.exit.spawn.z, lv:it.exit.spawn.lv|0, from:zone, label:lab});   /* 到達點的樓層（萬才館二樓的門：校園第 1 層的平台、萬才館二樓門廳）*/
     out.items.push(rec); }
   // 劇情自動走路的目的地（和 story3d.js／events3d.js 的 walkTo 相同）
@@ -45,8 +45,9 @@ SCAN = r"""(()=>{ const E=GAME.E, R=0.32; const P=E.player.obj.position; const s
     for(const ev of (typeof STORY_EVENTS!=='undefined'?STORY_EVENTS:[])){ if(ev.location==='classroom'&&ev.player_seat){ const st=S.find(x=>x.row===ev.player_seat[0]&&x.col===ev.player_seat[1])||S[0]; if(st) story.push(['事件 '+ev.id+'：走到座位後面',st.x,st.z+0.6]); } } }
   if(zone==='cafe'){ story.push(['咖啡廳劇情：玩家走到桌邊（cafeScene）',4.5-0.6,-2.5+1.6]); story.push(['咖啡廳劇情：小安走到桌子對面',4.5-0.6,-2.5-1.6]); }
   if(zone==='library'&&S.length>1){ story.push(['圖書館劇情：玩家走到座位（libraryScene）',S[0].x,S[0].z-0.7]); story.push(['圖書館劇情：小安走到對面座位',S[1].x,S[1].z+0.7]); }
+  if(zone==='library_hall'&&S.length>1){ story.push(['總圖劇情：玩家走到二樓長桌的座位（libraryScene，D43）',S[0].x,S[0].z-0.7,S[0].lv]); story.push(['總圖劇情：小安走到對面座位',S[1].x,S[1].z+0.7,S[1].lv]); }
   for(const it of items){ if(it.seat&&(zone==='dorm'||zone==='noodle')) story.push([(zone==='dorm'?'宿舍書桌（deskScene）':'麵店座位（noodleScene）')+'：'+it.label,it.seat.x,it.seat.z+0.5]); }
-  out.story=story.map(([lab,x,z])=>{ const st=E.canStand(x,z,R); const w=walk(x,z); return {label:lab,x:+x.toFixed(2),z:+z.toFixed(2),stand:st,ok:w.ok,fail:w.ok?null:w}; });
+  out.story=story.map(([lab,x,z,lv])=>{ const st=E.canStand(x,z,R,lv===undefined?slv:lv); const w=walk(x,z,lv); return {label:lab,x:+x.toFixed(2),z:+z.toFixed(2),stand:st,ok:w.ok,fail:w.ok?null:w}; });   /* lv：劇情走到別的樓層（總圖二樓）*/
   return out; })()"""
 
 
