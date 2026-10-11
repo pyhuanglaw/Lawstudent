@@ -29,6 +29,64 @@
   "wait": 3500
  },
  {
+  "out": "docs/art-rebuild/second_ai/shots/library_before_avenue_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": 38,
+    "z": 1,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    38,
+    1.7,
+    0.5
+   ],
+   "look": [
+    100,
+    10,
+    0
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/library_before_avenue_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": 38,
+    "z": 1,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    38,
+    1.7,
+    0.5
+   ],
+   "look": [
+    100,
+    10,
+    0
+   ]
+  },
+  "wait": 3500
+ },
+ {
   "out": "docs/art-rebuild/second_ai/shots/library_before_plaza_1100.png",
   "w": 1280,
   "h": 720,
@@ -37,6 +95,64 @@
   "state": {
    "zone": "campus",
    "hour": 11,
+   "pos": {
+    "x": 68,
+    "z": 12,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    68,
+    1.7,
+    13
+   ],
+   "look": [
+    96,
+    8,
+    -3
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/library_before_plaza_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": 68,
+    "z": 12,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    68,
+    1.7,
+    13
+   ],
+   "look": [
+    96,
+    8,
+    -3
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/library_before_plaza_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
    "pos": {
     "x": 68,
     "z": 12,
@@ -87,6 +203,64 @@
   "wait": 3500
  },
  {
+  "out": "docs/art-rebuild/second_ai/shots/library_before_porch_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": 78,
+    "z": 5,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    78,
+    1.7,
+    5.5
+   ],
+   "look": [
+    88,
+    5.5,
+    -1
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/library_before_porch_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": 78,
+    "z": 5,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    78,
+    1.7,
+    5.5
+   ],
+   "look": [
+    88,
+    5.5,
+    -1
+   ]
+  },
+  "wait": 3500
+ },
+ {
   "out": "docs/art-rebuild/second_ai/shots/library_before_arcade_1100.png",
   "w": 1280,
   "h": 720,
@@ -112,6 +286,87 @@
     2.4,
     10
    ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/library_before_arcade_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": 88.5,
+    "z": -20,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    88.6,
+    1.6,
+    -22
+   ],
+   "look": [
+    88.6,
+    2.4,
+    10
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/library_before_arcade_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": 88.5,
+    "z": -20,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    88.6,
+    1.6,
+    -22
+   ],
+   "look": [
+    88.6,
+    2.4,
+    10
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/library_before_follow_1730.png",
+  "w": 390,
+  "h": 844,
+  "mobile": true,
+  "hud": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": 74,
+    "z": 2,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "yaw": -1.9207963267948966,
+   "pitch": 0.16,
+   "dist": 6.0
   },
   "wait": 3500
  }

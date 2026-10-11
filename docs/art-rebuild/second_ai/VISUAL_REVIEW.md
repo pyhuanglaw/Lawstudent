@@ -685,3 +685,98 @@ LAWWW 2026-10-10 的工作佇列第 4 項「公館近景」；21:21Z 同意我�
 4. 店面街東西兩端以外（x 超過 ±78）、後面那排高樓還是套件的遠景方盒；從校門往外看的背景（`campusBackdrop`）也還是套件（LAWWW 之後決定要不要改用同一個 GLB）。
 5. 機車還是套件（溫州街已經換成正式模型的那兩款，公館可以用同一套）。
 6. 沒有 iPhone 實機驗證；效能用 `renderer.info` 量（見 7.4）。
+
+---
+
+## 8. 校園地標①：總圖書館（椰林大道東端盡頭）
+
+LAWWW 2026-10-10 23:26Z 分派：校園地標依序 ①總圖 ②傅鐘 ③行政大樓 ④文學院、校史館，一次交一棟（校門 `CK.gate` 不動）。條件見 8.4。
+
+### 8.1 玩家會看到什麼不同
+
+| | 修改前（程序化套件 `CK.hall`） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 外牆 | 單色磚紋貼圖 | 褐色面磚（Poly Haven `exterior_wall_cladding_02`，真實比例：一塊約 22×8 cm，接近二丁掛），法線貼圖讓磚縫有凹凸 |
+| 窗 | 貼在牆面上的薄片（窗框、玻璃都在牆的同一個平面附近） | **牆上真的開出拱形窗洞**：石材窗框外凸 6 cm、玻璃內凹 30 cm（看得到窗洞的內側面）、深色窗框＋直櫺＋起拱線的橫櫺、外凸的石材窗台；傍晚以後約七成的窗亮暖光 |
+| 石材（門廊、拱圈、柱頭柱腳、樓層腰帶、簷口、窗框） | 程序化斑點的米色石材 | **切石**（Poly Haven `sandstone_blocks_08`，一塊約 86×57 cm，看得到石塊的接縫與表面），降低彩度、校正成套件的淺米灰 |
+| 一樓拱廊 | 拱只有正面一片 | 每個拱有拱腹（拱的內側面）、正面石材拱圈；柱墩是面磚＋石材柱頭柱腳；轉角的柱墩一路到二樓樓板（套件的轉角柱子上面是空的） |
+| 中央門廊 | 石材方塊＋三角山牆 | 五個拱（有拱腹、拱圈）、兩側實牆、檐部、山牆斜邊線腳、天花板、花崗石地坪；匾額「總圖書館」是**石材匾額**：大字、字距拉開、一圈細內框（canvas 字，晚上不發光） |
+| 簷口、屋頂 | 方塊收邊、四坡屋頂 | 三段線腳的簷口（四周斜接）、屋簷底下有簷底板與屋簷前緣；屋瓦貼圖（Poly Haven `grey_roof_tiles`）、屋脊 |
+| 中央塔樓 | 面磚方塊＋四坡屋頂 | 四面各兩扇拱窗（真的窗洞）、腰帶、線腳簷口、四坡瓦屋頂 |
+
+**沒有改的東西**（LAWWW 的條件）：位置、尺寸、朝向、樓層、開間（照 `CK.hall` 的參數；外框差異見 8.4）、導航阻擋（`userData.ck.blocks`）、鏡頭碰撞（`ckPlace`）、門口互動點、`campusBackdrop`、`sunYaw`、樹、椰林大道、路燈、其他建築、霖澤館／萬才館／國青中心／法學院廣場（LAWWW 的）。`zones3d.js` campus 區塊只加了：總圖的 `ckTag='library'`、有模型時 `dyn`（不參加整區合併）、區塊最後載入模型（和溫州街、公館同一個 `attachWenzhouModel`，多一個參數：只藏標記等於 `library` 的那一棟）。正式模型還沒載入、載入失敗、`?nobldg` 時照舊是套件。
+
+### 8.2 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 總圖書館外觀（`bldg.campus_library`） | 完成 | `FUNCTIONAL_VERIFIED`（見 8.4） | `READY_FOR_ART_REVIEW` |
+
+### 8.3 製作方式與規格
+
+- 參考：ART_DIRECTION（台大校舍語彙：褐色面磚、石材收邊、一樓連續拱廊、拱窗）、D23／D25（校園配置：總圖在椰林大道東端、正面朝西）。**沒有使用者提供的總圖照片**；這是照套件的量體與台大校舍的共同特徵做的，不是照真實總圖的立面一比一重建（真實的總圖是 1998 年的建築，正面細節和這裡不同）。
+- Blender 5.2 `bpy`：`tools/blender/env_second/campus_library.py` → `assets/models/env/second_ai/campus_library.glb`：**1.47 MB**、11 個網格（每個材質一個，全部合成：不用 instancing）、**三角形 22,816**（套件的總圖 34,503）、貼圖 512 px（WebP）、校園世界座標（套件的 `ckPlace(lib,100,0,−π/2)` 換算好）。
+- 參數照 `zones3d.js` 的 `CK.hall({w:60,d:26,floors:4,gfh:5.0,fh:4.3,…,arcade:true,arcDepth:3.0,porch:{bays:5,depth:4.2,…},tower:{w:9,h:9}})`；改那邊要一起改這裡（腳本開頭有註明）。
+- 遊戲端：窗框、窗洞內側、玻璃、門不投影（陰影那一輪少畫）；亮燈的窗（`ck_glass_lit`）晚上照 `CK.setNight` 發光；匾額是 `PLATE_FACE_LIB`（`wzPlateTex` 的石材匾額樣式：`serif`，門牌、告示牌的樣式不變）。
+- 驗收時改掉的五個問題（都是遊戲內截圖看到的）：①石材第一版用清水混凝土貼圖（`concrete_wall_006`），門廊柱子滿是褐色水痕，比套件的切石還髒 → 換成切石；②面磚第一版縮成一半大小，近看是一片紅色雜訊、看不出磚縫 → 真實比例；③拱廊裡斜看窗戶，玻璃和窗框之間有一條縫，看得到空的建築裡面和後面的草地（一條綠線）→ 玻璃改成整個窗洞、邊緣壓在窗框後面，窗洞內側延伸到玻璃後面；④拱廊、門廊的天花板晚上反而整片發亮（白天補的反射光，晚上設得比白天還亮；拱廊沒有燈）→ 晚上比白天暗；⑤亮燈的窗是一片平均的光，近看像發亮的平板 → 加自發光貼圖，由上往下漸暗（像天花板的燈照下來）。
+- Blender 渲染圖（8.6）是加窗內自發光貼圖之前輸出的同一個模型（幾何、材質相同；自發光在遊戲裡只有晚上開，Blender 的白天渲染會一直亮，所以沒有重渲）。
+
+### 8.4 測試結果
+
+測試都是 Playwright 手機模擬（不是 iPhone 實機）；log 在 `docs/art-rebuild/second_ai/test_logs/library/`。
+
+`campus_glb_integration` 27、`campus_layout_nav` 67、`see_through` 11、`p0_movement` 34、`reachability_all` 48、`zone_transitions` 37：**全部通過**（`reachability_all`：全遊戲 11 個區域、139 個互動點、劇情走路目的地、出入口到達點，用引擎真正的移動模擬走一遍，含總圖門口）。`campus_glb_integration` 的外框檢查：{"kit": [81.9, -0.0, -30.8, 113.8, 30.6, 30.8], "glb": [81.9, 0, -30.8, 113.8, 30.52, 30.8]} 最大差 0.08 m。
+
+`tools/dev_scratch/view_audit.py`（360° 盤點，總圖門口、總圖前廣場南側、椰林大道東段、社科院前各 8 個方向）：正式模型 `shots/library_audit/`、改之前（`?nobldg`）`shots/library_audit_nobldg/`，沒有 JS 錯誤；沒有看到空洞、穿模、被擋住的方向（例：總圖門口）：
+
+![總圖門口 360°](shots/library_audit/總圖門口.jpg)
+
+④⑤修好之後，`campus_glb_integration` 多兩項檢查（亮燈的窗有自發光貼圖、天花板晚上比白天暗）：用同一份測試跑修正前的版本（`7cd230b`）這兩項 **FAIL**（`test_logs/library/campus_glb_integration_old_7cd230b.log`），修正後 **PASS**（docs/TESTING.md 規則 3）；第一輪的 log 保留在 `campus_glb_integration_first.log`。
+
+**效能（LAWWW 的條件：同一個鏡頭三角形不能比現在多、draw call ≤ 現在的 +10%；藏起路人與騎腳踏車的路人、含陰影那一輪、含玩家）**：「改之前」＝同一版遊戲、進校園前把 `bldg.campus_library` 從 manifest 拿掉（套件照舊參加整區合併，和這次修改之前一樣；路燈、腳踏車、霖澤館的正式模型兩邊都有，只比總圖）。
+
+| 鏡頭（17:30） | draw call：改之前 → 正式模型（倍數） | 三角形：改之前 → 正式模型（倍數） |
+|---|---|---|
+| 進校門往東看椰林大道盡頭（總圖在 210 m 外） | 331 → 297（×0.897） | 962,190 → 950,916（×0.988） |
+| 椰林大道後段往東 | 156 → 165（×1.058） | 772,582 → 761,630（×0.986） |
+| 總圖前廣場，斜看正面 | 149 → 157（×1.054） | 756,604 → 745,640（×0.986） |
+| 門廊近看 | 143 → 151（×1.056） | 739,228 → 728,264（×0.985） |
+| 一樓拱廊裡 | 148 → 156（×1.054） | 757,372 → 746,408（×0.986） |
+
+三角形每個鏡頭都比改之前少（模型 22,816 個三角形，套件 34,503；窗框、窗洞、玻璃、門不投影）。draw call 多 5～6%：套件原本和整個校園一起合併（同材質的網格合成一個），正式模型是自己的 11 個材質各一次（會投影的牆、屋頂、石材、勒腳、天花板再加陰影那一輪）。進校門往東看的鏡頭，正式模型兩次量到 341（第一輪，`campus_glb_integration_first.log`）和 297（這一輪）、改之前兩次都是 331：差 44 次 draw call、三角形只差 382 個，是遠處很小的東西在量的那一格有沒有畫（原因沒有再追）；兩次都在 +10% 以內。
+
+### 8.5 遊戲內截圖（修改前｜修改後；修改前＝同一版遊戲、只擋掉 `campus_library.glb`）
+
+| 鏡頭 | 修改前（程序化套件） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 椰林大道往東看總圖 11:00 | ![修改前](shots/library_before_avenue_1100.webp) | ![修改後](shots/library_after_avenue_1100.webp) |
+| 椰林大道往東看總圖 17:30 | ![修改前](shots/library_before_avenue_1730.webp) | ![修改後](shots/library_after_avenue_1730.webp) |
+| 椰林大道往東看總圖 20:30 | ![修改前](shots/library_before_avenue_2030.webp) | ![修改後](shots/library_after_avenue_2030.webp) |
+| 總圖前廣場，斜看正面 11:00 | ![修改前](shots/library_before_plaza_1100.webp) | ![修改後](shots/library_after_plaza_1100.webp) |
+| 總圖前廣場，斜看正面 17:30 | ![修改前](shots/library_before_plaza_1730.webp) | ![修改後](shots/library_after_plaza_1730.webp) |
+| 總圖前廣場，斜看正面 20:30 | ![修改前](shots/library_before_plaza_2030.webp) | ![修改後](shots/library_after_plaza_2030.webp) |
+| 門廊近看 11:00 | ![修改前](shots/library_before_porch_1100.webp) | ![修改後](shots/library_after_porch_1100.webp) |
+| 門廊近看 17:30 | ![修改前](shots/library_before_porch_1730.webp) | ![修改後](shots/library_after_porch_1730.webp) |
+| 門廊近看 20:30 | ![修改前](shots/library_before_porch_2030.webp) | ![修改後](shots/library_after_porch_2030.webp) |
+| 一樓拱廊裡 11:00 | ![修改前](shots/library_before_arcade_1100.webp) | ![修改後](shots/library_after_arcade_1100.webp) |
+| 一樓拱廊裡 17:30 | ![修改前](shots/library_before_arcade_1730.webp) | ![修改後](shots/library_after_arcade_1730.webp) |
+| 一樓拱廊裡 20:30 | ![修改前](shots/library_before_arcade_2030.webp) | ![修改後](shots/library_after_arcade_2030.webp) |
+| 玩家鏡頭（手機直向） 17:30 | ![修改前](shots/library_before_follow_1730.webp) | ![修改後](shots/library_after_follow_1730.webp) |
+
+### 8.6 Blender 渲染圖（Cycles；匾額的字是遊戲裡用 canvas 畫的，所以這裡是空白板面；窗的亮燈要遊戲的夜間設定，這裡只有白天）
+
+| 正面（從椰林大道） | 斜看正面 | 門廊 |
+|---|---|---|
+| ![](blender_renders/library_front.webp) | ![](blender_renders/library_three_q.webp) | ![](blender_renders/library_porch.webp) |
+
+| 一樓拱廊 | 背面＋側面 | 鳥瞰 |
+|---|---|---|
+| ![](blender_renders/library_arcade.webp) | ![](blender_renders/library_back_side.webp) | ![](blender_renders/library_aerial.webp) |
+
+### 8.7 還沒達到參考品質的地方
+
+1. **不是照真實總圖的立面重建**：沒有總圖的照片，量體與開間照套件、細節照台大校舍的共同語彙（面磚、石材、拱窗、拱廊、門廊山牆）。真實的總圖正面有高大的中央入口與不同的開窗比例；有照片的話，可以照照片改立面（位置、尺寸、導航不用動）。
+2. 窗裡面是一片深色玻璃（亮燈時是由上往下漸暗的暖光），沒有窗簾或室內的景深；近看拱廊裡的窗看得出是平的。
+3. 外觀模型裡面是空的；從拱廊裡的大門進去，照舊切換到原本的室內區域「總圖書館 閱覽室」（`library`，套件的房間，還沒換成 Blender）。
+4. 屋頂、塔樓沒有排水管、避雷針、冷氣等設備；牆面沒有雨痕與髒污（刻意保持乾淨，避免像第一版的混凝土一樣髒）。
+5. 沒有 iPhone 實機驗證；效能用 `renderer.info` 量（見 8.4）。

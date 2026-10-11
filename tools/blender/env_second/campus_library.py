@@ -58,6 +58,16 @@ M = {
     'glass_lit': L.vc_material('ck_glass_lit', rough=0.12),
     'board': L.flat('ck_board', '#d8d0c0', rough=0.8),
 }
+# 亮燈的窗：室內的光由上往下漸暗（天花板燈）——自發光貼圖（glTF emissiveTexture），遊戲端晚上照 WZ_NIGHT 乘上暖色、白天強度 0。
+# 第一版是一片平均的自發光：近看（拱廊裡）像一塊發亮的平板
+_lit = bpy.data.images.new('win_lit_grad', 4, 64, alpha=False); _px = []
+for j in range(64):
+    t = j / 63; k = [(0.50, 0.36, 0.22), (0.86, 0.70, 0.48), (1.0, 0.92, 0.76)]
+    a, b, u = (k[0], k[1], t / 0.6) if t < 0.6 else (k[1], k[2], (t - 0.6) / 0.4)
+    _px += [a[i] + (b[i] - a[i]) * u for i in range(3)] + [1.0]
+_lit.pixels.foreach_set([v for j in range(64) for _ in range(4) for v in _px[j * 4:j * 4 + 4]]); _lit.pack()   # 每一列 4 個像素一樣
+_nt = M['glass_lit'].node_tree; _tx = _nt.nodes.new('ShaderNodeTexImage'); _tx.image = _lit
+_nt.links.new(_tx.outputs['Color'], _nt.nodes['Principled BSDF'].inputs['Emission Color']); _nt.nodes['Principled BSDF'].inputs['Emission Strength'].default_value = 1.0
 _acc = {}
 def acc(k):
     if k not in _acc: _acc[k] = (CMesh if k.startswith('glass') else Mesh)('lib_' + k, M[k])
@@ -81,12 +91,16 @@ def newell(pts):
     return n
 
 
-def face(m, pts, want=None):
-    """一個平面多邊形（本地座標）；want＝想要的法線方向（本地），反了就把點的順序倒過來"""
+def face(m, pts, want=None, uvs=None):
+    """一個平面多邊形（本地座標）；want＝想要的法線方向（本地），反了就把點的順序倒過來；uvs＝每個點的 UV（和點一起倒過來，寫進 UVMap）"""
     if want is not None:
         n = newell(pts)
-        if n[0] * want[0] + n[1] * want[1] + n[2] * want[2] < 0: pts = pts[::-1]
-    return m.bm.faces.new([m.bm.verts.new(g2b(*XF.p(*p))) for p in pts])
+        if n[0] * want[0] + n[1] * want[1] + n[2] * want[2] < 0: pts = pts[::-1]; uvs = uvs[::-1] if uvs else uvs
+    f = m.bm.faces.new([m.bm.verts.new(g2b(*XF.p(*p))) for p in pts])
+    if uvs:
+        lay = m.bm.loops.layers.uv.get('UVMap') or m.bm.loops.layers.uv.new('UVMap')
+        for lp, uv in zip(f.loops, uvs): lp[lay].uv = uv
+    return f
 
 
 def box(m, x0, x1, y0, y1, z0, z1, skip=()):
@@ -134,7 +148,9 @@ GL_TOP, GL_BOT = (0.26, 0.31, 0.36), (0.06, 0.08, 0.10)   # 玻璃的上下顏�
 
 
 def glass_face(fr, pts_uv, d, lit, vb, vt):
-    m = acc('glass_lit' if lit else 'glass'); f = face(m, [fr.p(u, v, d) for u, v in pts_uv], fr.N)
+    u0, u1 = min(p[0] for p in pts_uv), max(p[0] for p in pts_uv)   # 亮燈的窗：每扇窗自己的 UV（0–1），自發光貼圖由下往上
+    uvs = [((u - u0) / max(1e-6, u1 - u0), (v - vb) / max(1e-6, vt - vb)) for u, v in pts_uv] if lit else None
+    m = acc('glass_lit' if lit else 'glass'); f = face(m, [fr.p(u, v, d) for u, v in pts_uv], fr.N, uvs)
     for lp in f.loops:
         t = max(0.0, min(1.0, ((lp.vert.co.z) - vb) / max(1e-6, vt - vb)))   # Blender z＝遊戲 y（高度）
         lp[m.col] = [GL_BOT[i] + (GL_TOP[i] - GL_BOT[i]) * t for i in range(3)] + [1.0]
