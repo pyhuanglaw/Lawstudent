@@ -970,3 +970,130 @@ LAWWW 2026-10-10 23:26Z 分派的第三棟（條件和總圖相同）。和總�
 3. 窗裡面是一片深色玻璃（亮燈時是由上往下漸暗的暖光），沒有窗簾或室內的景深。
 4. 沒有 iPhone 實機驗證；效能用 `renderer.info` 量（見 10.4）。
 
+---
+
+## 11. 校園地標④：文學院、校史館（椰林大道北側）
+
+LAWWW 2026-10-10 23:26Z 分派的第四項（兩棟一起交，條件和總圖相同）。和總圖、行政大樓用同一支腳本產生（`campus_hall.py --set arts／hist`；加新零件之後先確認總圖、行政大樓重建的 GLB 和交付的逐位元組相同；之後為了五個地標一起看得到時的 draw call，四棟一起換了材質重建，見 11.3）。
+
+### 11.1 玩家會看到什麼不同
+
+| | 修改前（程序化套件 `CK.hall`） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 外牆 | 單色磚紋貼圖 | 紅褐面磚（Poly Haven `exterior_wall_cladding_02`，真實比例，校正成套件的顏色：文學院 `#9b5a42`、校史館 `#a25d43`），看得到磚縫與每塊磚的深淺 |
+| 窗 | 貼在牆面上的薄片 | 牆上真的開出的拱形窗洞（石材窗框外凸、玻璃內凹 30 cm、窗台外凸）；傍晚以後約七成的窗亮暖光（由上往下漸暗） |
+| 一樓拱廊 | 拱只有正面一片 | 每個開間的拱都有拱腹、石材拱圈；面磚柱墩＋石材柱頭柱腳；轉角柱墩到二樓樓板（文學院 11 開間、校史館 7 開間） |
+| 中央門廊 | 三拱、方柱、山牆是一塊三角形 | 三拱（有拱腹、拱圈）、兩側實牆、檐部、山牆斜邊的線腳；**山牆中間的牛眼窗**（石材圓框＋深色玻璃＋十字窗櫺）；**校史館門廊是圓石柱**（方形柱礎、圓柱身、喇叭形柱頭，照套件註解「紅磚拱窗、圓石柱」） |
+| 匾額 | 很大的字貼在中央拱上方 | 文學院：刻在門廊檐部正面（中央拱上方到檐部只剩 0.67 m，放不下有框的匾額）；校史館：中央拱上方的石框匾額（拱頂到檐部有 0.98 m）。canvas 字，和總圖、傅鐘、行政大樓同一套樣式 |
+| 簷口、屋頂 | 方塊收邊、四坡屋頂 | 三段線腳的簷口、簷底板、屋簷前緣；屋瓦（真實比例）、屋脊 |
+
+**沒有改的東西**：位置、尺寸、朝向、樓層、開間（`CK.hall` 的參數、`ckPlace(arts,-38,-34,0)`、`ckPlace(hist,-77,-29,0)`）、導航阻擋、鏡頭碰撞、門口互動點、往文學院的步道、樹、路燈。`zones3d.js` campus 區塊只加了：兩棟的 `ckTag`（`arts`、`hist`）、有模型時 `dyn`、區塊最後載入模型。
+
+### 11.2 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 文學院外觀（`bldg.campus_arts`） | 完成 | `FUNCTIONAL_VERIFIED`（見 11.4） | `READY_FOR_ART_REVIEW` |
+| 校史館外觀（`bldg.campus_hist`） | 完成 | `FUNCTIONAL_VERIFIED`（見 11.4） | `READY_FOR_ART_REVIEW` |
+
+### 11.3 製作方式與規格
+
+- 參考：ART_DIRECTION（台大校舍語彙）、D23／D25（兩棟在椰林大道北側、正面朝南；校史館靠近大門）、套件 `CK.hall` 的參數與註解（文學院「仿羅馬式拱窗」、校史館「紅磚拱窗、圓石柱、屋瓦」）。**沒有使用者提供的文學院、校史館照片**；是照套件的量體與台大校舍的共同特徵做的，不是照真實建築一比一重建。
+- Blender 5.2 `bpy`：`tools/blender/env_second/campus_hall.py -- --set arts／hist` → `assets/models/env/second_ai/campus_arts.glb`（文學院）：**0.65 MB**、9 個網格（每個材質一個）、**三角形 8,776**（套件 13,397；會投影的：套件 3,306、正式模型 2,633）；`assets/models/env/second_ai/campus_hist.glb`（校史館）：**0.51 MB**、9 個網格（每個材質一個）、**三角形 6,354**（套件 9,105；會投影的：套件 2,314、正式模型 2,111）；貼圖 512 px（WebP）、校園世界座標。
+- 開間照套件的算法：文學院正面 11 開間（每間 3.64 m）、側面 5 開間；校史館正面 7 開間（每間 3.43 m；套件把 6 改成 7，和門廊的 3 拱同奇偶）、側面 4 開間；拱廊深 2.6 m；門廊深 3.0／2.6 m、山牆高 1.8／1.6 m。
+- **draw call 減量（五個地標一起）**：第一次整合測試在進校門鏡頭（五個地標都看得到）超過 +10%。改了三件事：①大門併進深色木作材質（`ck_frame` 改用 Poly Haven `dark_wood` 木紋：窗框、直櫺、大門、門把、屋脊；原本大門自己一個材質、只有 2 個三角形，窗框是純色）；②拱廊天花板、簷底板（`ck_ceiling`）與勒腳、地坪（`ck_stone_base`）不投影（都在屋頂的影子裡或貼地，畫面上看不出差別）；③亮燈的窗、沒亮燈的窗合成同一個玻璃材質（`ck_glass`）：自發光貼圖 64×64 左半黑、右半是由上往下漸暗的燈光，每扇窗的 UV 決定亮不亮（取樣點離黑白交界 24 個像素，避開 WebP 壓縮的漣漪；遊戲端這張貼圖不用 mipmap，遠處不會混色）。每棟少 4 次 draw call（材質 11 → 9、投影 5 → 3）。**總圖、行政大樓的 GLB 也一起重建**（幾何、三角形數不變；窗框和大門的材質、玻璃合併）。
+- 這一版新加的零件（`campus_hall.py` 的選項，總圖、行政大樓不受影響）：山牆的牛眼窗（`oculus`：石材圓框外凸 7 cm、深色玻璃、十字窗櫺）、門廊的圓石柱（`cols='round'`：0.8 m 方形柱礎、柱腳圓盤、直徑 0.6 m 的柱身往上稍微收分、喇叭形柱頭，平滑著色；上面照舊是方形拱墩，導航阻擋照舊是套件的 0.9 m 方形，柱子在裡面）、中央拱上方匾額的石框高度（`bh`：校史館 0.8 m）。
+
+### 11.4 測試結果
+
+測試都是 Playwright 手機模擬（不是 iPhone 實機）；log 在 `docs/art-rebuild/second_ai/test_logs/arthist/`。測試前 merge 了 AI-1 開發分支的 `c296d70`（萬才館室內兩層樓、走樓梯引擎修正）；交付前再 merge 最新的 `2c0cbc1`——遊戲程式和 `c296d70`＋這次的修改完全相同，只有 `reachability_all` 改成照出生點的樓層檢查出入口的到達點（AI-1 `2e2cd32`）：merge 前那一次在萬才館二樓的兩個到達點 FAIL（AI-1 新開的二樓門在第 1 層，舊測試一律在第 0 層檢查；不是這次的修改造成的），merge 後重跑 ALL PASS。
+
+`campus_glb_integration` 56、`campus_layout_nav` 67、`see_through` 11、`p0_movement` 34、`reachability_all` 48、`zone_transitions` 37：**全部通過**（`reachability_all`：全遊戲的互動點都走得到）。`campus_glb_integration` 的外框檢查：文學院 {"kit": [-58.8, -0.0, -43.8, -17.2, 14.61, -21.1], "glb": [-58.8, 0, -43.8, -17.2, 14.67, -21.1]} 最大差 0.06 m；校史館 {"kit": [-89.8, -0.0, -37.8, -64.2, 14.61, -17.5], "glb": [-89.8, 0, -37.8, -64.2, 14.67, -17.5]} 最大差 0.06 m。
+
+`tools/dev_scratch/view_audit.py`（360° 盤點：文學院前、文學院與校史館之間的草地、校史館前）：正式模型 `shots/arthist_audit/`、改之前（`?nobldg`）`shots/arthist_audit_nobldg/`，沒有 JS 錯誤（例：校史館前）：
+
+![校史館前 360°](shots/arthist_audit/校史館前（門廊外）.jpg)
+
+測試本身這一輪修了兩件事（檢查標準不變，兩件都是量測方法）：
+1. **量測前凍結遊戲時鐘在 17:30**。17:30 剛好是路燈開關的門檻（時段表的值＝0.5，大於 0.5 才開），引擎每 5 格才套用一次時段，時鐘在跑的話量的那一刻路燈可能開也可能關——22 盞路燈的光暈＋地面光圈＝44 次 draw call。第一次跑的時候「改之前」的進校門鏡頭是 297（路燈關）、正式模型是 377（路燈開），除錯腳本在同一版本連量兩次「改之前」都是 341（log：`test_logs/arthist/campus_glb_integration_fail_round1.log`、`gate_diff.json`）。之前 297／331／341 不穩定的另一半原因也是這個。凍結後兩輪都是「路燈剛好還沒開」的同一個狀態（比較嚴格：沒有 44 個光暈稀釋倍數）。
+2. **「沒有多藏任何一個群組」改數「被藏起來」的群組**（底下有網格、但一個都看不到），不數「整區靜態合併後變成空的」群組。第一次跑的時候「改之前」225、正式模型 224：多出來的是 (2,33) 的無名系館——地標有正式模型時不參加合併，它和地標共用的材質只剩一個網格、沒有合併，兩邊都畫得出來，不是被藏起來。新加自我檢查：故意把一個沒有標記的群組藏起來，數字會多一。
+
+**效能（同一個鏡頭三角形不能比現在多、draw call ≤ 現在的 +10%；藏起路人與騎腳踏車的路人、含陰影那一輪、含玩家）**：「改之前」＝進校園前把五個地標（總圖、傅鐘、行政大樓、文學院、校史館）的 key 都從 manifest 拿掉（都是套件、照舊參加整區合併）。
+
+| 鏡頭（17:30） | draw call：改之前 → 正式模型（倍數） | 三角形：改之前 → 正式模型（倍數） |
+|---|---|---|
+| 進校門往東看椰林大道 | 297 → 323（×1.088） | 971,222 → 941,008（×0.969） |
+| 椰林大道後段往東（總圖） | 152 → 157（×1.033） | 771,700 → 747,977（×0.969） |
+| 總圖前廣場 | 157 → 161（×1.025） | 768,936 → 745,189（×0.969） |
+| 總圖門廊近看 | 148 → 152（×1.027） | 748,546 → 724,799（×0.968） |
+| 總圖一樓拱廊裡 | 148 → 152（×1.027） | 756,526 → 732,779（×0.969） |
+| 從椰林大道看傅鐘 | 159 → 164（×1.031） | 772,858 → 733,122（×0.949） |
+| 傅鐘近看 | 162 → 165（×1.019） | 825,682 → 785,242（×0.951） |
+| 行政大樓正面 | 160 → 164（×1.025） | 825,654 → 785,238（×0.951） |
+| 行政大樓一樓拱廊裡 | 220 → 231（×1.05） | 862,676 → 818,016（×0.948） |
+| 文學院：從椰林大道北側斜看正面 | 167 → 180（×1.078） | 806,174 → 782,971（×0.971） |
+| 文學院一樓拱廊裡 | 241 → 255（×1.058） | 884,038 → 850,943（×0.963） |
+| 校史館：從椰林大道北側斜看正面 | 152 → 163（×1.072） | 804,136 → 780,444（×0.971） |
+| 校史館門廊近看 | 151 → 156（×1.033） | 804,134 → 772,157（×0.96） |
+
+### 11.5 遊戲內截圖（修改前｜修改後；修改前＝同一版遊戲、只擋掉 `campus_arts.glb`、`campus_hist.glb`，總圖、傅鐘、行政大樓兩邊都是正式模型；17:30 凍結遊戲時鐘）
+
+| 鏡頭 | 修改前（程序化套件） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 文學院：從椰林大道往北看 11:00 | ![修改前](shots/arthist_before_arts_avenue_1100.webp) | ![修改後](shots/arthist_after_arts_avenue_1100.webp) |
+| 文學院：從椰林大道往北看 17:30 | ![修改前](shots/arthist_before_arts_avenue_1730.webp) | ![修改後](shots/arthist_after_arts_avenue_1730.webp) |
+| 文學院：從椰林大道往北看 20:30 | ![修改前](shots/arthist_before_arts_avenue_2030.webp) | ![修改後](shots/arthist_after_arts_avenue_2030.webp) |
+| 文學院：斜看正面 11:00 | ![修改前](shots/arthist_before_arts_front_1100.webp) | ![修改後](shots/arthist_after_arts_front_1100.webp) |
+| 文學院：斜看正面 17:30 | ![修改前](shots/arthist_before_arts_front_1730.webp) | ![修改後](shots/arthist_after_arts_front_1730.webp) |
+| 文學院：斜看正面 20:30 | ![修改前](shots/arthist_before_arts_front_2030.webp) | ![修改後](shots/arthist_after_arts_front_2030.webp) |
+| 文學院：門廊近看 11:00 | ![修改前](shots/arthist_before_arts_porch_1100.webp) | ![修改後](shots/arthist_after_arts_porch_1100.webp) |
+| 文學院：門廊近看 17:30 | ![修改前](shots/arthist_before_arts_porch_1730.webp) | ![修改後](shots/arthist_after_arts_porch_1730.webp) |
+| 文學院：門廊近看 20:30 | ![修改前](shots/arthist_before_arts_porch_2030.webp) | ![修改後](shots/arthist_after_arts_porch_2030.webp) |
+| 文學院：一樓拱廊裡往東 11:00 | ![修改前](shots/arthist_before_arts_arcade_1100.webp) | ![修改後](shots/arthist_after_arts_arcade_1100.webp) |
+| 文學院：一樓拱廊裡往東 17:30 | ![修改前](shots/arthist_before_arts_arcade_1730.webp) | ![修改後](shots/arthist_after_arts_arcade_1730.webp) |
+| 文學院：一樓拱廊裡往東 20:30 | ![修改前](shots/arthist_before_arts_arcade_2030.webp) | ![修改後](shots/arthist_after_arts_arcade_2030.webp) |
+| 校史館：從椰林大道往北看 11:00 | ![修改前](shots/arthist_before_hist_avenue_1100.webp) | ![修改後](shots/arthist_after_hist_avenue_1100.webp) |
+| 校史館：從椰林大道往北看 17:30 | ![修改前](shots/arthist_before_hist_avenue_1730.webp) | ![修改後](shots/arthist_after_hist_avenue_1730.webp) |
+| 校史館：從椰林大道往北看 20:30 | ![修改前](shots/arthist_before_hist_avenue_2030.webp) | ![修改後](shots/arthist_after_hist_avenue_2030.webp) |
+| 校史館：斜看正面 11:00 | ![修改前](shots/arthist_before_hist_front_1100.webp) | ![修改後](shots/arthist_after_hist_front_1100.webp) |
+| 校史館：斜看正面 17:30 | ![修改前](shots/arthist_before_hist_front_1730.webp) | ![修改後](shots/arthist_after_hist_front_1730.webp) |
+| 校史館：斜看正面 20:30 | ![修改前](shots/arthist_before_hist_front_2030.webp) | ![修改後](shots/arthist_after_hist_front_2030.webp) |
+| 校史館：門廊近看（圓石柱） 11:00 | ![修改前](shots/arthist_before_hist_porch_1100.webp) | ![修改後](shots/arthist_after_hist_porch_1100.webp) |
+| 校史館：門廊近看（圓石柱） 17:30 | ![修改前](shots/arthist_before_hist_porch_1730.webp) | ![修改後](shots/arthist_after_hist_porch_1730.webp) |
+| 校史館：門廊近看（圓石柱） 20:30 | ![修改前](shots/arthist_before_hist_porch_2030.webp) | ![修改後](shots/arthist_after_hist_porch_2030.webp) |
+| 校史館：一樓拱廊裡往東 11:00 | ![修改前](shots/arthist_before_hist_arcade_1100.webp) | ![修改後](shots/arthist_after_hist_arcade_1100.webp) |
+| 校史館：一樓拱廊裡往東 17:30 | ![修改前](shots/arthist_before_hist_arcade_1730.webp) | ![修改後](shots/arthist_after_hist_arcade_1730.webp) |
+| 校史館：一樓拱廊裡往東 20:30 | ![修改前](shots/arthist_before_hist_arcade_2030.webp) | ![修改後](shots/arthist_after_hist_arcade_2030.webp) |
+| 文學院：玩家鏡頭（手機直向） 17:30 | ![修改前](shots/arthist_before_arts_follow_1730.webp) | ![修改後](shots/arthist_after_arts_follow_1730.webp) |
+| 校史館：玩家鏡頭（手機直向） 17:30 | ![修改前](shots/arthist_before_hist_follow_1730.webp) | ![修改後](shots/arthist_after_hist_follow_1730.webp) |
+
+### 11.6 Blender 渲染圖（Cycles；匾額的字是遊戲裡用 canvas 畫的，所以這裡是空白板面；亮燈的窗只有遊戲的夜間才亮，這裡關掉自發光）
+
+文學院：
+
+| 正面 | 斜看正面 | 門廊（山牆的牛眼窗） |
+|---|---|---|
+| ![](blender_renders/arts_front.webp) | ![](blender_renders/arts_three_q.webp) | ![](blender_renders/arts_porch.webp) |
+
+| 一樓拱廊 | 背面 |
+|---|---|
+| ![](blender_renders/arts_arcade.webp) | ![](blender_renders/arts_back.webp) |
+
+校史館：
+
+| 正面 | 斜看正面 | 門廊（圓石柱、拱上方的匾額） |
+|---|---|---|
+| ![](blender_renders/hist_front.webp) | ![](blender_renders/hist_three_q.webp) | ![](blender_renders/hist_porch.webp) |
+
+| 一樓拱廊 | 背面 |
+|---|---|
+| ![](blender_renders/hist_arcade.webp) | ![](blender_renders/hist_back.webp) |
+
+### 11.7 還沒達到參考品質的地方
+
+1. **不是照真實建築重建**：沒有照片，量體照套件；真實的文學院（中庭、長向立面）、校史館（舊總圖：正面的開窗與門廊）比例和細部都不同，有照片可以照照片改（位置、導航不用動）。
+2. 四棟（總圖、行政大樓、文學院、校史館）用同一套零件（窗、拱廊、簷口），差別在比例、顏色、門廊頂（山牆／陽台欄杆）、牛眼窗、圓石柱；真實校園每棟的細部都不一樣。
+3. 門廊的山牆在二樓窗戶前面，從正面看中間三扇窗被山牆擋住一部分（套件的量體就是這樣；斜看是自然的）。
+4. 窗裡面是一片深色玻璃（亮燈時是由上往下漸暗的暖光），沒有窗簾或室內的景深。
+5. 沒有 iPhone 實機驗證；效能用 `renderer.info` 量（見 11.4）。
+

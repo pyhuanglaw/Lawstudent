@@ -1,0 +1,770 @@
+[
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_arts_avenue_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11,
+   "pos": {
+    "x": -38,
+    "z": -2,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    -38,
+    1.7,
+    -2
+   ],
+   "look": [
+    -38,
+    6,
+    -30
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_arts_avenue_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -38,
+    "z": -2,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    -38,
+    1.7,
+    -2
+   ],
+   "look": [
+    -38,
+    6,
+    -30
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_arts_avenue_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": -38,
+    "z": -2,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    -38,
+    1.7,
+    -2
+   ],
+   "look": [
+    -38,
+    6,
+    -30
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_arts_front_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11,
+   "pos": {
+    "x": -30,
+    "z": -12,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    -30,
+    1.7,
+    -12
+   ],
+   "look": [
+    -38,
+    6,
+    -28
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_arts_front_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -30,
+    "z": -12,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    -30,
+    1.7,
+    -12
+   ],
+   "look": [
+    -38,
+    6,
+    -28
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_arts_front_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": -30,
+    "z": -12,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    -30,
+    1.7,
+    -12
+   ],
+   "look": [
+    -38,
+    6,
+    -28
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_arts_porch_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11,
+   "pos": {
+    "x": -34.5,
+    "z": -18.5,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    -34.5,
+    1.7,
+    -18.5
+   ],
+   "look": [
+    -38,
+    5,
+    -24
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_arts_porch_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -34.5,
+    "z": -18.5,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    -34.5,
+    1.7,
+    -18.5
+   ],
+   "look": [
+    -38,
+    5,
+    -24
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_arts_porch_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": -34.5,
+    "z": -18.5,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    -34.5,
+    1.7,
+    -18.5
+   ],
+   "look": [
+    -38,
+    5,
+    -24
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_arts_arcade_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11,
+   "pos": {
+    "x": -56,
+    "z": -26.3,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    -56.6,
+    1.6,
+    -26.3
+   ],
+   "look": [
+    -20,
+    2.4,
+    -26.3
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_arts_arcade_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -56,
+    "z": -26.3,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    -56.6,
+    1.6,
+    -26.3
+   ],
+   "look": [
+    -20,
+    2.4,
+    -26.3
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_arts_arcade_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": -56,
+    "z": -26.3,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    -56.6,
+    1.6,
+    -26.3
+   ],
+   "look": [
+    -20,
+    2.4,
+    -26.3
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_hist_avenue_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11,
+   "pos": {
+    "x": -77,
+    "z": -2,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    -77,
+    1.7,
+    -2
+   ],
+   "look": [
+    -77,
+    6,
+    -24
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_hist_avenue_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -77,
+    "z": -2,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    -77,
+    1.7,
+    -2
+   ],
+   "look": [
+    -77,
+    6,
+    -24
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_hist_avenue_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": -77,
+    "z": -2,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    -77,
+    1.7,
+    -2
+   ],
+   "look": [
+    -77,
+    6,
+    -24
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_hist_front_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11,
+   "pos": {
+    "x": -69,
+    "z": -8,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    -69,
+    1.7,
+    -8
+   ],
+   "look": [
+    -77,
+    6,
+    -24
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_hist_front_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -69,
+    "z": -8,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    -69,
+    1.7,
+    -8
+   ],
+   "look": [
+    -77,
+    6,
+    -24
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_hist_front_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": -69,
+    "z": -8,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    -69,
+    1.7,
+    -8
+   ],
+   "look": [
+    -77,
+    6,
+    -24
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_hist_porch_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11,
+   "pos": {
+    "x": -74.5,
+    "z": -14.2,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    -74.5,
+    1.7,
+    -14.2
+   ],
+   "look": [
+    -77,
+    4.6,
+    -19.4
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_hist_porch_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -74.5,
+    "z": -14.2,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    -74.5,
+    1.7,
+    -14.2
+   ],
+   "look": [
+    -77,
+    4.6,
+    -19.4
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_hist_porch_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": -74.5,
+    "z": -14.2,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    -74.5,
+    1.7,
+    -14.2
+   ],
+   "look": [
+    -77,
+    4.6,
+    -19.4
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_hist_arcade_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11,
+   "pos": {
+    "x": -88,
+    "z": -22.3,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    -88.2,
+    1.6,
+    -22.3
+   ],
+   "look": [
+    -60,
+    2.4,
+    -22.3
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_hist_arcade_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -88,
+    "z": -22.3,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    -88.2,
+    1.6,
+    -22.3
+   ],
+   "look": [
+    -60,
+    2.4,
+    -22.3
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_hist_arcade_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": -88,
+    "z": -22.3,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    -88.2,
+    1.6,
+    -22.3
+   ],
+   "look": [
+    -60,
+    2.4,
+    -22.3
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_arts_follow_1730.png",
+  "w": 390,
+  "h": 844,
+  "mobile": true,
+  "hud": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -33,
+    "z": -19,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "yaw": 0.35,
+   "pitch": 0.16,
+   "dist": 6.0
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/arthist_after_hist_follow_1730.png",
+  "w": 390,
+  "h": 844,
+  "mobile": true,
+  "hud": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -72.5,
+    "z": -15,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "yaw": 0.35,
+   "pitch": 0.16,
+   "dist": 6.0
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&['campus_arts_glb','campus_hist_glb'].every(n=>z.group.children.some(o=>o.name===n))) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ }
+]
