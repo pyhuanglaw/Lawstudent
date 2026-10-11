@@ -5,7 +5,7 @@
   1. 走到二樓入口 →「進入萬才館（二樓）」→ 萬才館二樓的門廳（第 1 層、4.2 m）；不會一進來就跳出「走出去」
   2. 沿著西側迴廊走到北側走廊、研討室 A 的門 → 按下去是看得懂的說明（門鎖著）
   3. 搭電梯：二樓電梯門口「搭電梯」→ 選「3F–9F 研究室」按不亮（要刷識別證）→ 選「1F 大廳」→ 看得到車廂往下 → 到一樓（第 0 層、地面）
-  4. 一樓大廳（v9.3 的大廳）：坐在沙發上（「坐一下，看看四周」）→ 自己站起來
+  4. 一樓大廳（v9.3 的大廳）：路人走樓梯上下樓（高度變化 ≥ 2 m）；坐在沙發上（「坐一下，看看四周」）→ 自己站起來
   5. 走樓梯上二樓（點地面／搖桿：經過樓梯中段 1–3 m）→ 二樓門廳
   6. 在二樓存檔（欄位 3）→ 重新整理 → 讀取 → 還在萬才館二樓（第 1 層、4.2 m）、走得動
   7. 走樓梯下一樓 →「離開萬才館」→ 回到校園：陽台下的一樓入口前面（地面）
@@ -93,6 +93,14 @@ async def main():
         s = await L.state(pg); await run.shot(pg, 'after_elevator')
         run.check('電梯：選「3F–9F 研究室」按不亮（說明要刷識別證），還在選單裡', seen['locked'] and '識別證' in seen['lockedToast'], seen['lockedToast'])
         run.check('電梯：選「1F 大廳」→ 看得到車廂往下（經過中間的高度）→ 到一樓（第 0 層、地面）、走出車廂', seen['inside'] and seen['moving'] and s['lv'] == 0 and abs(s['y']) < 0.05 and not s['busy'], json.dumps(dict(s, **seen), ensure_ascii=False))
+        # 3b. 路人跨樓層（背景路人照路線走樓梯上下樓；觀察最多 150 秒，高度變化 ≥ 2 m 就提早結束；和霖澤館同一個標準）
+        t0 = time.time(); npc_y = await pg.evaluate("GAME.E.npcs.filter(n=>n.isExtra&&n.beh==='route').map(n=>n.obj.position.y)"); spans = [[y, y] for y in npc_y]
+        while time.time() - t0 < 150 and npc_y:
+            await pg.wait_for_timeout(2000)
+            cur = await pg.evaluate("GAME.E.npcs.filter(n=>n.isExtra&&n.beh==='route').map(n=>n.obj.position.y)")
+            for i, y in enumerate(cur[:len(spans)]): spans[i][0] = min(spans[i][0], y); spans[i][1] = max(spans[i][1], y)
+            if any(b2 - a2 >= 2.0 for a2, b2 in spans): break
+        run.check('路人走樓梯上下樓（150 秒內高度變化 ≥ 2 m）', any(b2 - a2 >= 2.0 for a2, b2 in spans), json.dumps(spans) + '  %.0f 秒' % (time.time() - t0))
         # 4. 一樓大廳：坐沙發 → 站起來
         sofa = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.seat&&i.label==='坐在沙發上'&&i.seat.x>0); return it?{x:it.x,z:it.z}:null; })()")
         ok = await L.go_to(pg, cdp, run, sofa['x'], sofa['z'], 0.6, '沙發（東邊那張）', lv=0)

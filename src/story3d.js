@@ -65,7 +65,10 @@ const STORY = (function(){
     if(zoneId==='cafe'){ const seats=E.zone.seats; if(hr>=19&&hr<23){ GM.spawnNPC('sis',C.sis,0,0,{seat:seats[5],pose:'read',talk:n=>talkSis(GM,n)}); GM.npc.sis.idlePose='read'; } for(const i of [6]){ const o=CHAR.build(extraSpec(xi++)); const s=seats[i]; o.position.set(s.x,0,s.z); o.rotation.y=s.yaw; E.addNPC({obj:o,name:'',beh:'idle',pose:'read',idlePose:'read',frozen:true,isExtra:true}); } if(F.companion==='an') spawnCompanion(GM); }
     if(zoneId==='noodle'){ if(F.afternoonDone&&hr>=17.5&&hr<20.5&&!F.zheNoodleDone){ GM.spawnNPC('zhe',C.zhe,0,0,{seat:{x:0,z:-0.3,yaw:0},talk:n=>talkZhe(GM,n)}); F.zheAtNoodle=true; } }
     if(zoneId==='dorm'){ if(hr>=18||hr<8){ GM.spawnNPC('kai',C.kai,0,0,{seat:{x:1.8,z:2.2,yaw:Math.PI},talk:n=>talkKai(GM,n)}); } }
-    if(zoneId==='wancai'){ if(hr>=15.2&&hr<17){ GM.spawnNPC('sis',C.sis,4,-5,{yaw:Math.PI,talk:n=>talkSis(GM,n)}); } if(isThu(G)&&hr>=15.2&&hr<16.2){ GM.spawnNPC('prof',PROF,-5,1.2,{yaw:0,talk:n=>talkProf(GM,n)}); } if(G.weekday===3&&hr>=18.8&&hr<21){ GM.spawnNPC('sis',C.sis,-3,3.6,{yaw:Math.PI,talk:n=>talkSis(GM,n)}); } }
+    if(zoneId==='wancai'){ if(hr>=15.2&&hr<17){ GM.spawnNPC('sis',C.sis,4,-5,{yaw:Math.PI,talk:n=>talkSis(GM,n)}); } if(isThu(G)&&hr>=15.2&&hr<16.2){ GM.spawnNPC('prof',PROF,-5,1.2,{yaw:0,talk:n=>talkProf(GM,n)}); } if(G.weekday===3&&hr>=18.8&&hr<21){ GM.spawnNPC('sis',C.sis,-3,3.6,{yaw:Math.PI,talk:n=>talkSis(GM,n)}); }
+      /* 萬才館室內兩層樓（第三階段，D42）的背景路人：一個照路線上下樓（一樓大廳 → 樓梯 → 二樓門廳 → 走廊的研討室門口 → 走回一樓），一個在二樓走廊靠著欄杆往下看。不是劇情人物、沒有對話 */
+      if(E.levels&&hr>=8&&hr<21.5){ GM.spawnExtra(extraSpec(xi++),[[3,4.6,0],[-6.2,5.4,1],[1.5,-6.0,1],[-6.2,5.4,1],[2.5,5.0,0]],{});
+        const o=CHAR.build(extraSpec(xi++)); o.position.set(2.6,0,-2.35); o.rotation.y=0; E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,lv:1}); } }
     GM_ref=GM; if(G.social){ try{ populateSchedule(zoneId,GM); }catch(e){ console.warn('schedule populate failed',e); } }
   };
   // ---------- 資料驅動的 NPC 日程（CHARACTERS[*].daily_schedule）與不熟同學 pool ----------
