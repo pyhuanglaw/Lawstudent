@@ -27,8 +27,10 @@ run p0_movement           python3 tests/p0_movement.py "$URL"
 run touch_flow_wenzhou    python3 tests/touch_flow_wenzhou.py "$URL"
 run flow_class_real       python3 tests/flow_class_real.py "$URL" "$OUT/flow_class_real"
 run flow_linze_floors     python3 tests/flow_linze_floors.py "$URL" "$OUT/flow_linze_floors"
-run flow_library_floors   python3 tests/flow_library_floors.py "$URL" "$OUT/flow_library_floors"   # 總圖（D43）
-run flow_library_scene    python3 tests/flow_library_scene.py "$URL" "$OUT/flow_library_scene"
+run flow_wancai_stairs    python3 tests/flow_wancai_stairs.py "$URL" "$OUT/flow_wancai_stairs"     # 萬才館大樓梯（D41）
+run flow_wancai_floors    python3 tests/flow_wancai_floors.py "$URL" "$OUT/flow_wancai_floors"     # 萬才館室內兩層樓（D42）
+run flow_library_floors   python3 tests/flow_library_floors.py "$URL" "$OUT/flow_library_floors"   # 總圖大廳（D43）
+run flow_library_scene    python3 tests/flow_library_scene.py "$URL" "$OUT/flow_library_scene"     # 小安「總圖的下午」在二樓自習區
 run flow_dorm_hall        python3 tests/flow_dorm_hall.py "$URL" "$OUT/flow_dorm_hall"         # 宿舍走廊（D44）
 run flow_main_day12      python3 tests/flow_main_day12.py "$URL" "$OUT/flow_main_day12"   # TESTING.md 第五節第 6 項（第一、二天主線，20–40 分鐘）：2026-10-11 才補進來，之前的發布都沒跑
 [ -n "$V7" ]   && run save_compat_v7   python3 tests/save_compat_v7.py "$V7" "$URL"
