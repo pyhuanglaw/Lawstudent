@@ -66,6 +66,9 @@ VIEWS = [('gate_avenue', (-110, 1.7, 0.5), (100, 8, 0)),     # 進校門往東�
 async def check(pg, run, formal):
     run.setup('讀檔到椰林大道 (74,2) 17:30，關掉條件事件' + ('' if formal else '；進校園前先把 manifest 裡地標的 key 拿掉（＝改之前）'))
     if not formal: await pg.evaluate("(()=>{ for(const k of %s) delete ASSETS.manifest[k]; })()" % json.dumps([v[0] for v in TAGS.values()]))
+    # 建校園之前也要等：開機預載的街道道具（路燈、腳踏車）在「建校園的那一刻」有沒有載好，決定那一輪用正式模型還是合併過的套件（W3.lampPost()／W3.bike() 是同步建立的），
+    # 之後再等也換不回來。2026-10-11 行政大樓那一輪：「改之前」建的時候還沒載好（套件版、draw call 297）、「一般」已經載好（358），比的不是同一種路燈
+    await pg.evaluate(SETTLED)
     await PL.load_state(pg, {'zone': 'campus', 'hour': 17.5, 'pos': {'x': 74, 'z': 2, 'yaw': 1.5708}}, quiet_events=True)
     # AI-1 的霖澤館、萬才館外觀（兩輪都有）也是非同步載入：先等它們接好再數「沒有標記的群組」，不然兩輪接好的時間不同，數字會差
     await pg.evaluate("(async()=>{ const ks=['bldg.linze_exterior','bldg.wancai_exterior'].filter(k=>ASSETS.manifest[k]); await Promise.all(ks.map(k=>ASSETS.loadOne(k).catch(()=>null))); await new Promise(r=>setTimeout(r,1500)); })()")
@@ -76,6 +79,8 @@ async def check(pg, run, formal):
         run.check('改之前：沒有載入正式模型', not await pg.evaluate("GAME.E.zone.group.children.some(o=>/^campus_.*_glb$/.test(o.name))"))
     run.check(('一般' if formal else '改之前') + '：所有延遲載入的模型都載完（量 draw call 之前）', (await pg.evaluate(SETTLED)) >= 0)
     await pg.wait_for_timeout(1500)
+    street = await pg.evaluate("(()=>{ let n=0; GAME.E.zone.group.traverse(o=>{ if(o.userData&&o.userData.formal==='prop.street') n++; }); return n; })()")
+    run.check(('一般' if formal else '改之前') + '：校園的路燈、腳踏車、長椅是街道道具的正式模型（建校園之前就載好；兩輪才是同一種）', street > 0, json.dumps(street))
     info = await pg.evaluate("""(()=>{ const z=GAME.E.zone; const bs=z.group.children.filter(o=>o.userData&&o.userData.ckTag); const per={};
         for(const b of bs) per[b.userData.ckTag]={formal:!!b.userData.formal, dyn:!!b.userData.dyn, kitVisible:b.children.filter(o=>(o.isMesh||o.isSprite)&&o.visible).length, kitMeshes:b.children.filter(o=>o.isMesh||o.isSprite).length};
         return per; })()""")
@@ -131,7 +136,7 @@ async def check(pg, run, formal):
         await run.shot(pg, name + '_' + ('formal' if formal else 'before'))
     await pg.evaluate("GAME.E.endCinematic()")
     run.note(('一般網址' if formal else '改之前') + '：同一個鏡頭（藏起路人）的 draw call／三角形 ' + json.dumps(draws))
-    res = (await pg.evaluate(NAV_HASH), await pg.evaluate(STATE), others, draws, lamps)
+    res = (await pg.evaluate(NAV_HASH), await pg.evaluate(STATE), others, draws, lamps, street)
     if formal:   # 夜裡才進校園：模型在路燈已經開著的時候才載入，光暈要直接是亮的（校園的夜間只在路燈開關時切換）
         await PL.load_state(pg, {'zone': 'campus', 'hour': 20.5, 'pos': {'x': -38, 'z': 6, 'yaw': 3.1416}}, quiet_events=True)
         ok = await pg.evaluate(WAIT_FORMAL % 'campus_bell_glb'); bl = await pg.evaluate(BELL_NIGHT + '(null)')
@@ -155,6 +160,7 @@ async def main():
     run.check('互動點（位置、半徑、名稱）：完全相同', res[True][1]['it'] == res[False][1]['it'], '%d vs %d 個' % (len(res[True][1]['it']), len(res[False][1]['it'])))
     run.check('沒有標記的群組（樹、路燈、其他建築、背景…）沒有多藏任何一個', res[True][2] == res[False][2], json.dumps([res[True][2], res[False][2]]))
     run.check('20:30 開著的路燈數和改之前一樣', res[True][4] == res[False][4], json.dumps([res[True][4], res[False][4]]))
+    run.check('兩輪的街道道具正式模型一樣多（效能比的是同一種路燈、腳踏車）', res[True][5] == res[False][5], json.dumps([res[True][5], res[False][5]]))
     f, n = res[True][3], res[False][3]
     run.check('效能：每個鏡頭的三角形 ≤ 改之前、draw call ≤ 改之前的 1.1 倍（含陰影那一輪、含玩家；LAWWW 23:26Z 的條件）',
               all(f[k]['tris'] <= n[k]['tris'] and f[k]['calls'] <= 1.1 * n[k]['calls'] for k in f),

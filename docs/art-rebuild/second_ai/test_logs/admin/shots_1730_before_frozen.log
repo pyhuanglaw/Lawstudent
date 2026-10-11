@@ -1,0 +1,5 @@
+shot docs/art-rebuild/second_ai/shots/admin_before_bell_axis_1730.png {'zone': 'campus', 'hour': 17.5, 'hud': '週三 17:30', 'player': [-38, 2], 'cam': [-38, 1.7, 2], 'mode': 'cinematic'} errors: []
+shot docs/art-rebuild/second_ai/shots/admin_before_front_1730.png {'zone': 'campus', 'hour': 17.5, 'hud': '週三 17:30', 'player': [-30, 14], 'cam': [-30, 1.7, 14], 'mode': 'cinematic'} errors: []
+shot docs/art-rebuild/second_ai/shots/admin_before_porch_1730.png {'zone': 'campus', 'hour': 17.5, 'hud': '週三 17:30', 'player': [-34.5, 19.5], 'cam': [-34.5, 1.7, 19.5], 'mode': 'cinematic'} errors: []
+shot docs/art-rebuild/second_ai/shots/admin_before_arcade_1730.png {'zone': 'campus', 'hour': 17.5, 'hud': '週三 17:30', 'player': [-58, 26.4], 'cam': [-58.6, 1.6, 26.4], 'mode': 'cinematic'} errors: []
+shot docs/art-rebuild/second_ai/shots/admin_before_follow_1730.png {'zone': 'campus', 'hour': 17.5, 'hud': '週三 17:30', 'player': [-31, 19], 'cam': [-28.97, 2.61, 13.44], 'mode': 'follow'} errors: []
