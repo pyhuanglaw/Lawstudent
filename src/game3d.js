@@ -124,7 +124,7 @@ const GAME = (function(){
     if(n) console.info('upgraded character models:',n); return n; };
   // ---------- 區域進入 ----------
   let entering=false;
-  async function enter(zoneId,spawn,opts){ opts=opts||{}; if(entering) return; entering=true; let z; try{ if(!opts.noFade) await fade(true); GM.npc={}; GM.extras=[]; z=E.loadZone(Z3.ZONES[zoneId],spawn); G.zone=zoneId; G.visited[zoneId]=true; E.player.path=null; E.player.pose='idle'; E.player.frozen=false; E.player.seat=null; E.player.idlePose='idle'; if(STORY.populate) STORY.populate(zoneId,GM); buildMinimap(); if(typeof GUIDE!=='undefined') GUIDE.zoneChanged(); updateHUD(); A3.setScene(zoneId,G.hour,G.weather); E.update(0.016); E.render(); if(!opts.noFade){ await fade(false); } } finally { entering=false; /* 區域建立失敗時錯誤照樣丟出去，但不能讓 entering 永遠是 true（之後就再也換不了區域）*/ } if(STORY.onEnter&&!opts.deferStory) STORY.onEnter(zoneId,GM,opts); if(!opts.noAutosave) autosave(); return z; }   /* deferStory／noAutosave：搭電梯換區域（總圖），走出車廂之後才觸發劇情、存檔 */
+  async function enter(zoneId,spawn,opts){ opts=opts||{}; if(entering) return; entering=true; let z; try{ if(!opts.noFade) await fade(true); GM.npc={}; GM.extras=[]; if(W3.releaseViews) W3.releaseViews();   /* 窗景照片只留新區域要用的（v9.5 審查：16 張 1024×512 一直留著，iPhone 長時間玩可能被系統關掉分頁）*/ z=E.loadZone(Z3.ZONES[zoneId],spawn); G.zone=zoneId; G.visited[zoneId]=true; E.player.path=null; E.player.pose='idle'; E.player.frozen=false; E.player.seat=null; E.player.idlePose='idle'; if(STORY.populate) STORY.populate(zoneId,GM); buildMinimap(); if(typeof GUIDE!=='undefined') GUIDE.zoneChanged(); if(opts.onLoaded) opts.onLoaded(z); updateHUD(); A3.setScene(zoneId,G.hour,G.weather); E.update(0.016); E.render(); if(!opts.noFade){ await fade(false); } } finally { entering=false; /* 區域建立失敗時錯誤照樣丟出去，但不能讓 entering 永遠是 true（之後就再也換不了區域）*/ } if(STORY.onEnter&&!opts.deferStory) STORY.onEnter(zoneId,GM,opts); if(!opts.noAutosave) autosave(); return z; }   /* deferStory／noAutosave：搭電梯換區域（總圖），走出車廂之後才觸發劇情、存檔 */
   GM.isEntering=()=>entering;
   GM.enter=enter;
   // ---------- 小地圖 ----------
@@ -157,8 +157,10 @@ const GAME = (function(){
       for(;;){ i=await choose(opts); if(i<el.floors.length){ const f=el.floors[i]; if(!f.open){ toast(f.toast||'這一層整修中，按鈕按不亮'); continue; } const lk=lockOf(f); if(lk){ toast(lk.toast); continue; } if(cur(f)){ toast('你已經在這一層了'); continue; } } break; }
       const f=i<el.floors.length?el.floors[i]:null;
       if(f&&f.zone){ await el.close(); caption('','電梯往'+((f.num||0)>here+base?'上':'下')+'……',2000); await el.leave(f.num,P,track); arrived=f;
-        await enter(f.zone,Object.assign({},f.spawn),{deferStory:true,noAutosave:true});
-        const e2=E.zone&&E.zone.elev; if(e2){ const tr2=(y)=>{ E.cinematic(V(e2.cx-3.4,y+2.6,e2.cz+4.2),V(e2.cx,y+1.2,e2.cz)); }; tr2(e2.y); face(P,e2.cx,e2.outZ); A3.blip&&A3.blip('ok'); await e2.open(); E.endCinematic(); await walkTo(P,e2.cx,e2.outZ,{lv:P.lv|0}); await e2.close(); } }
+        /* 新區域建好、淡入之前就把運鏡放到新區域的電梯前（v9.5 審查：原本淡入那 0.5 秒鏡頭往舊區域座標的運鏡位置飛，掃過閱覽室天花板上方或大廳地板下面）*/
+        const tr2=(y)=>{ const e2=E.zone&&E.zone.elev; if(e2) E.cinematic(V(e2.cx-3.4,y+2.6,e2.cz+4.2),V(e2.cx,y+1.2,e2.cz)); };
+        await enter(f.zone,Object.assign({},f.spawn),{deferStory:true,noAutosave:true,onLoaded:()=>{ const e2=E.zone&&E.zone.elev; if(e2){ tr2(e2.y); E.snapCinematic(); } }});
+        const e2=E.zone&&E.zone.elev; if(e2){ tr2(e2.y); face(P,e2.cx,e2.outZ); A3.blip&&A3.blip('ok'); await e2.open(); E.endCinematic(); await walkTo(P,e2.cx,e2.outZ,{lv:P.lv|0}); await e2.close(); } }
       else { if(f){ const to=f.lv; await el.close(); await el.travel(to,P,track); E.setLv(P,to); P.obj.position.y=el.y; A3.blip&&A3.blip('ok'); await el.open(); }
         E.endCinematic(); await walkTo(P,el.cx,el.outZ,{lv:P.lv|0}); await el.close(); }
     } finally { E.endCinematic(); sceneEnd(); }

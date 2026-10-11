@@ -10,16 +10,20 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
-- **時間**：2026-10-11 08:48 UTC｜**分支**：`claude/confident-ritchie-8rwh7t`｜**最新 checkpoint**：`fecaeeb`（之後的 commit 看 `git log`）
+值班登記：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜分支 claude/confident-ritchie-8rwh7t｜接班基準（制度建立時）`13e53b2`｜2026-10-11 09:50 UTC
+上一班：還沒換過班。跨帳號接班（帳號 A ⇄ B）的總入口：`docs/AI_SESSION_HANDOFF.md`（D49）。
+
+- **時間**：2026-10-11 09:55 UTC｜**分支**：`claude/confident-ritchie-8rwh7t`｜**最新 checkpoint**：看 `git log -1 origin/claude/confident-ritchie-8rwh7t`（這一節寫的時候是 `13e53b2` 之後的文件 commit）
 - **線上版本**：v9.4.2（main＝`dfd2618`，07:02:57 UTC）。下一次發布最早 10:02:57 UTC。
-- **v9.5（使用者實機回報修正）**——WORK_IN_PROGRESS／CHECKPOINT_SAVED，**還不能發布**：
-  - 做完、有測試或實測：室友轉圈（`tests/seated_look_unit.js`）、假騎士拿掉、店員、吃麵目標（含 20:30 沒去的情況）、開放時間（`src/data/places.js`）、導航＋大地圖＋入口名牌＋人物線索＋快速前往（`src/guide3d.js`；`tests/guide_unit.js`、`tests/guide_flow.py`）、移動速度 1.8／4.8 m/s、換樓層看到天空（`tests/levels_no_sky.py`：47.5% → 0%）、窗景照片＋視差（`W3.windowMat`、`tools/shots/window_views.py`；VISUAL_REVIEW 第 22 節）。
-  - 正在跑：①完整回歸（乾淨工作樹 `scratchpad/wt_v95`＝`01145ae`、server 8803、結果 `scratchpad/reg_v95a/`）——`indoor_cam_occlusion` 失敗是測試對整個場景做射線碰到入口名牌（已修 `f68f97a`，要重跑）；②多代理審查（workflow `wf_a090db9c-43e`：正確性、手機介面效能、劇情目標，每個發現再驗證）。
-  - 還沒做：Café／便利商店／麵店／書店的窗景照片（派給 LAWWW2，07:30Z DELIVERED、還沒 ACK；看板有備援紀錄）。
-  - 發布步驟：審查確認的問題修好 → 在最新 commit 的乾淨工作樹重跑完整回歸（`tests/release_suite.sh` 已加 seated_look_unit、guide_unit、guide_flow、levels_no_sky）＋整合測試 → 快轉 main → 確認 Pages → RELEASES.md。
+- **v9.5（使用者實機回報修正）**——CHECKPOINT_SAVED，**還不能發布**（最新 commit 還沒跑完整回歸）：
+  - 做完、有單元測試：室友轉圈、假騎士拿掉、店員、吃麵目標、開放時間、導航＋大地圖＋入口名牌＋人物線索、移動速度、換樓層天空、窗景照片＋視差；生活費（每月 1 日 25,000、開局 22,000，`848005b`，D48）。
+  - 程式審查（工作流程 wamn5x3bg，驗證 09:19 之後沒動靜，背景裡）找到的問題，LAWWW 逐一對照程式碼確認後修好：第一批 `a46f944`（樓梯上、電梯裡的人被上一層樓板擋住；總圖二樓樓板挖出電梯井，Blender 重新匯出）、第二批 `13e53b2`（人物線索和實際一致、閉館／吉他社導航、大地圖手勢與北、之後的週四目標、同伴樓層、跨區域電梯鏡頭、窗景照片釋放）。新測試：`stairs_cam_slab_unit`、`schedule_refresh_unit`、`allowance_unit`（都已加進 `tests/release_suite.sh`，修改前會失敗）。**瀏覽器測試還沒對這些修改跑**。
+  - 背景：舊候選 `01145ae` 的完整回歸 `scratchpad/reg_v95a/`（只當參考；到 flow_wancai_stairs 都 PASS，indoor_cam_occlusion 已修）。出遊規劃工作流程 wkwxjx8gk（v9.5 之後的規劃）。
+  - 還沒做：Café／便利商店／麵店／書店的窗景照片（派給 LAWWW2，沒 ACK）。
+  - 發布步驟：在最新 commit 的乾淨工作樹跑完整回歸（`tests/release_suite.sh`＋整合測試）→ 看總圖樓梯、電梯、萬才館樓梯的截圖 → 快轉 main → 確認 Pages → RELEASES.md。
 - **本機分支的半成品**：宿舍走廊 `wip/dorm-hall`（`bf750b4`）→ `wip_backup/dorm-hall.bundle`；WIP，不可合併進要發布的版本。
-- **等使用者決定**：課表草案的 4 個問題（`docs/proposals/SCHEDULE_PROPOSAL.md`）；主線（要不要讀 AA／BB 的討論紀錄）。
-- **v9.5 之後**：手機＋主動邀約（#61）、課表（#57，等決定）、騎腳踏車（#59，Blender 腳踏車 ⑫ 派給 LAWWW2）。
+- **等使用者決定**：課表草案的 4 個問題（`docs/proposals/SCHEDULE_PROPOSAL.md`）；主線（要不要讀 AA／BB 的討論紀錄）。AA 待確認：第一天的日期（生活費先假設 9/17）。
+- **v9.5 之後**：手機＋主動邀約（#61）、課表（#57，等決定）、騎腳踏車（#59，Blender 腳踏車 ⑫ 派給 LAWWW2）、出遊場景規劃（工作流程 wkwxjx8gk）。
 
 ## CURRENTLY WORKING ON — 現在正在修改什麼
 
