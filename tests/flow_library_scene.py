@@ -38,8 +38,10 @@ async def main():
         an = await pg.evaluate("(()=>{ const n=GAME.npc&&GAME.npc.an; return n?{beh:n.beh}:null; })()")
         run.check('[前置] 小安跟在旁邊（follow）', bool(an) and an['beh'] == 'follow', json.dumps(an))
         door = await L.find_it(pg, '進入總圖書館')
-        ok = await L.go_to(pg, cdp, run, door['x'] - 1.2, door['z'], 1.0, '總圖門口')
+        # 小安跟在旁邊（約 1 m）：人比門近的時候按鈕是「和小安說話」（E.nearestInteractable：人優先 0.5 m），所以要走到門口正前方
+        ok = await L.go_to(pg, cdp, run, door['x'] - 0.3, door['z'], 0.4, '總圖門口（門口正前方）')
         s = await L.state(pg)
+        run.check('走到總圖門口：按鈕是「進入總圖書館」（不是和小安說話）', s['interact'].startswith('進入總圖書館'), s['interact'])
         if s['interact'].startswith('進入總圖書館'): await L.tap(pg, cdp, '#interact')
         s = await L.advance_dialogs(pg, cdp, run, until=lambda q: q['zone'] == 'library_hall' and not q['busy'] and not q['dlg'], max_steps=60)
         await pg.wait_for_timeout(3000); s = await L.state(pg); await run.shot(pg, 'hall')
@@ -47,6 +49,8 @@ async def main():
         run.check('進入總圖大廳；目標提示「上二樓的自習區」；小安跟著進來', s['zone'] == 'library_hall' and '二樓' in goal and bool(an) and an['beh'] == 'follow', f'目標「{goal}」；小安 {json.dumps(an)}')
         # 2. 電梯：3F 先不能去
         call = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.elevator&&i.lv===0); return it?{x:it.x,z:it.z}:null; })()")
+        if not call:
+            run.check('（沒進到總圖大廳，後面無法繼續）', False); await b.close(); sys.exit(run.finish())
         ok = await L.go_to(pg, cdp, run, call['x'], call['z'], 0.6, '一樓電梯門口', lv=0)
         await L.tap(pg, cdp, '#interact'); t0 = time.time(); toast = ''; hint = ''
         while time.time() - t0 < 90:

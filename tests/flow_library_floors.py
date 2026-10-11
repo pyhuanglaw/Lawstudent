@@ -156,12 +156,12 @@ async def main():
         run.check('讀檔之後走得動（走到連廊，還在二樓）', ok and s['lv'] == 1 and abs(s['y'] - Y1) < 0.05, json.dumps(s, ensure_ascii=False))
         # 7. 路人跨樓層
         t0 = time.time(); npc_y = await pg.evaluate("GAME.E.npcs.filter(n=>n.isExtra&&n.beh==='route').map(n=>n.obj.position.y)"); spans = [[y, y] for y in npc_y]
-        while time.time() - t0 < 150 and npc_y:
+        while time.time() - t0 < 240 and npc_y:   # 總圖大樓梯一上一下 5 m、路線比萬才館長；SwiftShader 遊戲時間只有真實時間的 0.2～0.4 倍
             await pg.wait_for_timeout(2000)
             cur = await pg.evaluate("GAME.E.npcs.filter(n=>n.isExtra&&n.beh==='route').map(n=>n.obj.position.y)")
             for i, y in enumerate(cur[:len(spans)]): spans[i][0] = min(spans[i][0], y); spans[i][1] = max(spans[i][1], y)
             if any(b2 - a2 >= 2.0 for a2, b2 in spans): break
-        run.check('路人走大樓梯上下樓（150 秒內高度變化 ≥ 2 m）', any(b2 - a2 >= 2.0 for a2, b2 in spans), json.dumps(spans) + '  %.0f 秒' % (time.time() - t0))
+        run.check('路人走大樓梯上下樓（240 秒內高度變化 ≥ 2 m）', any(b2 - a2 >= 2.0 for a2, b2 in spans), json.dumps(spans) + '  %.0f 秒' % (time.time() - t0))
         # 8. 大樓梯下一樓 → 離開總圖
         ex = await L.find_it(pg, '離開總圖')
         ys.clear()
