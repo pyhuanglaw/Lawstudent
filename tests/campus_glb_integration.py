@@ -1,5 +1,5 @@
 """校園地標的正式模型（第二個 AI：Blender GLB）整合檢查——第二層「系統整合」測試（docs/TESTING.md），不是真實玩家流程。
-  LAWWW 2026-10-10 23:26Z 分派的順序：①總圖書館 bldg.campus_library（campus_library.py）②傅鐘 bldg.campus_bell（campus_bell.py）③行政大樓 ④文學院、校史館。
+  LAWWW 2026-10-10 23:26Z 分派的順序：①總圖書館 bldg.campus_library（campus_library.py）②傅鐘 bldg.campus_bell（campus_bell.py）③行政大樓 bldg.campus_admin（campus_hall.py --set admin）④文學院、校史館。
   新的地標加進 TAGS 就好（標記、外框、匾額、效能的檢查都照 TAGS 跑）。
 
 比較的對象＝「改之前」：同一版遊戲、開機後把 manifest 裡這些地標的 key 拿掉再進校園（套件照舊參加整區靜態合併，和這次修改之前一模一樣；
@@ -8,7 +8,7 @@
   1. 校園裡有 ckTag 的只有 TAGS 這幾個，都接上正式模型、套件外觀全部藏起來；沒有標記的東西（樹、路燈、其他建築、背景）沒有多藏任何一個。
   2. 位置、尺寸、朝向照套件：正式模型的外框和套件的外框差 ≤ 1.5 m（屋簷、簷口出挑的差別）。
   3. 導航格、鏡頭碰撞方塊、互動點和「改之前」完全相同。
-  4. 匾額（總圖「總圖書館」、傅鐘石碑「傅鐘」）：石材匾額，canvas 字、貼圖比例＝板面比例。
+  4. 匾額（總圖「總圖書館」、傅鐘石碑「傅鐘」、行政大樓門廊檐部「行政大樓」）：石材匾額，canvas 字、貼圖比例＝板面比例。
   5. 夜間：總圖 20:30 窗戶亮、11:00 不亮；傅鐘的地燈燈罩、柱面暖光、光暈 20:30 亮、11:00 不亮，套件的光暈晚上不會跑回來（藏起來的套件光暈
      會被 TK.setNight 重新打開——這一項在沒修的版本會失敗）、夜裡才進校園（模型在晚上才載入）光暈也是亮的；20:30 路燈開著，開燈數和改之前一樣。
   6. 陰影：大面（牆、屋頂、石材）投影；窗框、窗洞、玻璃、門、燈罩、暖光片不投影。
@@ -26,8 +26,12 @@ URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'art-rebuild', 'second_ai', 'test_shots', 'campus_glb_integration')
 # ckTag → (manifest key, 正式模型的節點名稱, 匾額板面的名稱)
 TAGS = {'library': ('bldg.campus_library', 'campus_library_glb', 'PLATE_FACE_LIB'),
-        'bell': ('bldg.campus_bell', 'campus_bell_glb', 'PLATE_FACE_BELL')}
+        'bell': ('bldg.campus_bell', 'campus_bell_glb', 'PLATE_FACE_BELL'),
+        'admin': ('bldg.campus_admin', 'campus_admin_glb', 'PLATE_FACE_ADMIN')}
 WAIT_FORMAL = "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='%s')) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()"
+# 等所有延遲載入的模型（建築、道具、人物）都載完或失敗：「改之前」原本只等 3 秒，路燈、腳踏車等正式模型還沒載完、畫面還是合併過的套件版，
+# 校門鏡頭的 draw call 偏少（2026-10-11 AI-1 整合時：同一版本「改之前」一次 297、等全部載完是 341，每次開遊戲都一樣；LAWWW2 自己的紀錄也有 297／331／341）
+SETTLED = "(async()=>{ for(let i=0;i<480;i++){ const A=ASSETS; const n=Object.keys(A.status).filter(k=>!A.cache[k]&&!A.errors.some(e=>e.startsWith(k+':'))).length; if(!n) return i; await new Promise(r=>setTimeout(r,250)); } return -1; })()"
 NAV_HASH = "(()=>{ const n=GAME.E.nav; let h=0; for(let i=0;i<n.b.length;i++){ h=(h*31+n.b[i]+i%7)>>>0; } return [n.cols,n.rows,h, n.b.reduce((a,v)=>a+(v?1:0),0)]; })()"
 STATE = """(()=>{ const E=GAME.E; const r=v=>Math.round(v*100)/100;
     const col=E.colliders.map(c=>[r(c.position.x),r(c.position.y),r(c.position.z),r(c.geometry.parameters.width),r(c.geometry.parameters.height),r(c.geometry.parameters.depth)]).sort();
@@ -54,12 +58,17 @@ VIEWS = [('gate_avenue', (-110, 1.7, 0.5), (100, 8, 0)),     # 進校門往東�
          ('porch', (78, 1.7, 5.5), (88, 5.5, -1)),            # 門廊近看
          ('arcade', (88.6, 1.6, -22), (88.6, 2.4, 10)),       # 一樓拱廊裡
          ('bell_avenue', (-38, 1.7, 4), (-38, 3.0, 16.5)),    # 從大道看傅鐘（石碑那一面）
-         ('bell_close', (-35.6, 1.6, 12.4), (-38, 2.8, 16.5))]  # 傅鐘近看（斜前方）
+         ('bell_close', (-35.6, 1.6, 12.4), (-38, 2.8, 16.5)),  # 傅鐘近看（斜前方）
+         ('admin_front', (-30, 1.7, 14), (-38, 6, 28)),       # 行政大樓：傅鐘廣場東側斜看正面（門廊、拱廊、陽台欄杆）
+         ('admin_arcade', (-58.6, 1.6, 26.4), (-20, 2.4, 26.4))]   # 行政大樓一樓拱廊裡往東
 
 
 async def check(pg, run, formal):
     run.setup('讀檔到椰林大道 (74,2) 17:30，關掉條件事件' + ('' if formal else '；進校園前先把 manifest 裡地標的 key 拿掉（＝改之前）'))
     if not formal: await pg.evaluate("(()=>{ for(const k of %s) delete ASSETS.manifest[k]; })()" % json.dumps([v[0] for v in TAGS.values()]))
+    # 建校園之前也要等：開機預載的街道道具（路燈、腳踏車）在「建校園的那一刻」有沒有載好，決定那一輪用正式模型還是合併過的套件（W3.lampPost()／W3.bike() 是同步建立的），
+    # 之後再等也換不回來。2026-10-11 行政大樓那一輪：「改之前」建的時候還沒載好（套件版、draw call 297）、「一般」已經載好（358），比的不是同一種路燈
+    await pg.evaluate(SETTLED)
     await PL.load_state(pg, {'zone': 'campus', 'hour': 17.5, 'pos': {'x': 74, 'z': 2, 'yaw': 1.5708}}, quiet_events=True)
     # AI-1 的霖澤館、萬才館外觀（兩輪都有）也是非同步載入：先等它們接好再數「沒有標記的群組」，不然兩輪接好的時間不同，數字會差
     await pg.evaluate("(async()=>{ const ks=['bldg.linze_exterior','bldg.wancai_exterior'].filter(k=>ASSETS.manifest[k]); await Promise.all(ks.map(k=>ASSETS.loadOne(k).catch(()=>null))); await new Promise(r=>setTimeout(r,1500)); })()")
@@ -68,6 +77,10 @@ async def check(pg, run, formal):
     else:
         await pg.wait_for_timeout(3000)
         run.check('改之前：沒有載入正式模型', not await pg.evaluate("GAME.E.zone.group.children.some(o=>/^campus_.*_glb$/.test(o.name))"))
+    run.check(('一般' if formal else '改之前') + '：所有延遲載入的模型都載完（量 draw call 之前）', (await pg.evaluate(SETTLED)) >= 0)
+    await pg.wait_for_timeout(1500)
+    street = await pg.evaluate("(()=>{ let n=0; GAME.E.zone.group.traverse(o=>{ if(o.userData&&o.userData.formal==='prop.street') n++; }); return n; })()")
+    run.check(('一般' if formal else '改之前') + '：校園的路燈、腳踏車、長椅是街道道具的正式模型（建校園之前就載好；兩輪才是同一種）', street > 0, json.dumps(street))
     info = await pg.evaluate("""(()=>{ const z=GAME.E.zone; const bs=z.group.children.filter(o=>o.userData&&o.userData.ckTag); const per={};
         for(const b of bs) per[b.userData.ckTag]={formal:!!b.userData.formal, dyn:!!b.userData.dyn, kitVisible:b.children.filter(o=>(o.isMesh||o.isSprite)&&o.visible).length, kitMeshes:b.children.filter(o=>o.isMesh||o.isSprite).length};
         return per; })()""")
@@ -123,7 +136,7 @@ async def check(pg, run, formal):
         await run.shot(pg, name + '_' + ('formal' if formal else 'before'))
     await pg.evaluate("GAME.E.endCinematic()")
     run.note(('一般網址' if formal else '改之前') + '：同一個鏡頭（藏起路人）的 draw call／三角形 ' + json.dumps(draws))
-    res = (await pg.evaluate(NAV_HASH), await pg.evaluate(STATE), others, draws, lamps)
+    res = (await pg.evaluate(NAV_HASH), await pg.evaluate(STATE), others, draws, lamps, street)
     if formal:   # 夜裡才進校園：模型在路燈已經開著的時候才載入，光暈要直接是亮的（校園的夜間只在路燈開關時切換）
         await PL.load_state(pg, {'zone': 'campus', 'hour': 20.5, 'pos': {'x': -38, 'z': 6, 'yaw': 3.1416}}, quiet_events=True)
         ok = await pg.evaluate(WAIT_FORMAL % 'campus_bell_glb'); bl = await pg.evaluate(BELL_NIGHT + '(null)')
@@ -147,6 +160,7 @@ async def main():
     run.check('互動點（位置、半徑、名稱）：完全相同', res[True][1]['it'] == res[False][1]['it'], '%d vs %d 個' % (len(res[True][1]['it']), len(res[False][1]['it'])))
     run.check('沒有標記的群組（樹、路燈、其他建築、背景…）沒有多藏任何一個', res[True][2] == res[False][2], json.dumps([res[True][2], res[False][2]]))
     run.check('20:30 開著的路燈數和改之前一樣', res[True][4] == res[False][4], json.dumps([res[True][4], res[False][4]]))
+    run.check('兩輪的街道道具正式模型一樣多（效能比的是同一種路燈、腳踏車）', res[True][5] == res[False][5], json.dumps([res[True][5], res[False][5]]))
     f, n = res[True][3], res[False][3]
     run.check('效能：每個鏡頭的三角形 ≤ 改之前、draw call ≤ 改之前的 1.1 倍（含陰影那一輪、含玩家；LAWWW 23:26Z 的條件）',
               all(f[k]['tris'] <= n[k]['tris'] and f[k]['calls'] <= 1.1 * n[k]['calls'] for k in f),
