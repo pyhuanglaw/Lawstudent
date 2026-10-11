@@ -1,0 +1,32 @@
+PASS 一般網址：遊戲載入
+  [前置／捷徑] 讀檔到椰林大道 (74,2) 17:30，關掉條件事件
+PASS library 的正式模型接上（campus_library_glb）
+PASS 有 ckTag 的套件建築＝library  {"library": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 11}}
+PASS 都接上正式模型（userData.formal）、不參加整區靜態合併（dyn）  {"library": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 11}}
+PASS 套件外觀全部藏起來  {"library": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 11}}
+PASS 一般：20:30 路燈都開著  {"on": 46, "n": 46}
+PASS 位置、尺寸、朝向照套件：外框（x、y、z 的最小最大值）差 ≤ 1.5 m  {"kit": [81.9, -0.0, -30.8, 113.8, 30.6, 30.8], "glb": [81.9, 0, -30.8, 113.8, 30.52, 30.8]} 最大差 0.08 m
+PASS 招牌「總圖書館」：一張 canvas 字（石材匾額）、貼圖比例＝板面比例（±8%）  {"visible": true, "canvas": true, "n": 1, "names": ["PLATE_FACE_LIB"], "ratio": [1], "emissive": 0}
+FAIL 窗：20:30 亮燈的窗發光、11:00 不發光；沒亮燈的窗晚上也不發光；亮燈的窗有自發光貼圖（由上往下漸暗，不是一片平的光）  {"day": {"lit": 0, "dark": 0, "ceil": 0.15}, "n2030": {"lit": 1, "dark": 0, "ceil": 0.3}, "shadow": {"ck_stone_base": true, "ck_ceiling": true, "ck_door": false, "ck_frame": false, "ck_glass": false, "ck_glass_lit": false, "ck_roof": true, "ck_trim": true, "ck_trim_win": false, "ck_wall": true, "ck_board": false}, "litMap": false}
+FAIL 拱廊、門廊、屋簷底下的天花板：晚上比白天暗（白天的補光是陽光的反射；第一版晚上反而更亮，沒有燈的拱廊整片發亮）  {"day": {"lit": 0, "dark": 0, "ceil": 0.15}, "n2030": {"lit": 1, "dark": 0, "ceil": 0.3}, "shadow": {"ck_stone_base": true, "ck_ceiling": true, "ck_door": false, "ck_frame": false, "ck_glass": false, "ck_glass_lit": false, "ck_roof": true, "ck_trim": true, "ck_trim_win": false, "ck_wall": true, "ck_board": false}, "litMap": false}
+PASS 陰影：牆、屋頂、石材投影；窗框、窗洞、玻璃、門不投影  {"ck_stone_base": true, "ck_ceiling": true, "ck_door": false, "ck_frame": false, "ck_glass": false, "ck_glass_lit": false, "ck_roof": true, "ck_trim": true, "ck_trim_win": false, "ck_wall": true, "ck_board": false}
+PASS （自我檢查）故意打開一個套件網格時，會被數到  1
+PASS 中午太陽在南邊（方位角在正南 ±45° 內）  {"azimuth": 150, "sunYaw": 0}
+  [  80.0s] 一般網址：同一個鏡頭（藏起路人）的 draw call／三角形 {"gate_avenue": {"calls": 297, "tris": 950916}, "avenue": {"calls": 165, "tris": 761630}, "plaza": {"calls": 157, "tris": 745640}, "porch": {"calls": 151, "tris": 728264}, "arcade": {"calls": 156, "tris": 746408}}
+PASS 一般網址：沒有 JS 錯誤
+PASS 改之前：遊戲載入
+  [前置／捷徑] 讀檔到椰林大道 (74,2) 17:30，關掉條件事件；進校園前先把 manifest 的 bldg.campus_library 拿掉（＝改之前）
+PASS 改之前：沒有載入正式模型
+PASS 有 ckTag 的套件建築＝library  {"library": {"formal": false, "dyn": false, "kitVisible": 4, "kitMeshes": 4}}
+PASS 改之前：套件照舊參加整區靜態合併（不是 dyn、沒有接正式模型）  {"library": {"formal": false, "dyn": false, "kitVisible": 4, "kitMeshes": 4}}
+PASS 改之前：20:30 路燈都開著  {"on": 46, "n": 46}
+PASS 中午太陽在南邊（方位角在正南 ±45° 內）  {"azimuth": 150, "sunYaw": 0}
+  [ 162.1s] 改之前：同一個鏡頭（藏起路人）的 draw call／三角形 {"gate_avenue": {"calls": 331, "tris": 962190}, "avenue": {"calls": 156, "tris": 772582}, "plaza": {"calls": 149, "tris": 756604}, "porch": {"calls": 143, "tris": 739228}, "arcade": {"calls": 148, "tris": 757372}}
+PASS 改之前：沒有 JS 錯誤
+PASS 導航格：正式模型和改之前完全相同  [[520, 434, 1636410564, 86128], [520, 434, 1636410564, 86128]]
+PASS 鏡頭碰撞方塊：完全相同  31 vs 31 個
+PASS 互動點（位置、半徑、名稱）：完全相同  26 vs 26 個
+PASS 沒有標記的群組（樹、路燈、其他建築、背景…）沒有多藏任何一個  [{"n": 247, "empty": 225}, {"n": 247, "empty": 225}]
+PASS 20:30 開著的路燈數和改之前一樣  [{"on": 46, "n": 46}, {"on": 46, "n": 46}]
+PASS 效能：每個鏡頭的三角形 ≤ 改之前、draw call ≤ 改之前的 1.1 倍（含陰影那一輪、含玩家；LAWWW 23:26Z 的條件）  {"gate_avenue": {"calls": [331, 297, 0.897], "tris": [962190, 950916, 0.988]}, "avenue": {"calls": [156, 165, 1.058], "tris": [772582, 761630, 0.986]}, "plaza": {"calls": [149, 157, 1.054], "tris": [756604, 745640, 0.986]}, "porch": {"calls": [143, 151, 1.056], "tris": [739228, 728264, 0.985]}, "arcade": {"calls": [148, 156, 1.054], "tris": [757372, 746408, 0.986]}}
+FAILED: 窗：20:30 亮燈的窗發光、11:00 不發光；沒亮燈的窗晚上也不發光；亮燈的窗有自發光貼圖（由上往下漸暗，不是一片平的光）, 拱廊、門廊、屋簷底下的天花板：晚上比白天暗（白天的補光是陽光的反射；第一版晚上反而更亮，沒有燈的拱廊整片發亮）
