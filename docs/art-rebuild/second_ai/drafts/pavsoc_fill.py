@@ -3,13 +3,14 @@ import glob, json, os, re
 from PIL import Image
 HERE = os.path.dirname(os.path.abspath(__file__))
 R = '/home/user/pav_wt'; D = R + '/docs/art-rebuild/second_ai'
+HERE = D + '/drafts'
 n = 0
 for f in sorted(glob.glob(D + '/shots/pavsoc_*.png') + glob.glob(D + '/test_shots/pavsoc/**/*.png', recursive=True) + glob.glob(D + '/test_shots/campus_glb_integration/*.png')):
     Image.open(f).convert('RGB').save(f[:-4] + '.webp', 'WEBP', quality=82, method=6); os.remove(f); n += 1
 print('converted', n)
 info = {k: json.load(open(f'{R}/assets/models/env/second_ai/campus_{k}.json')) for k in ('pavilion', 'modern')}
 L = D + '/test_logs/pavsoc'
-names = ['campus_glb_integration', 'wz_street_integration', 'gongguan_glb_integration', 'campus_layout_nav', 'see_through', 'p0_movement', 'reachability_all', 'zone_transitions']
+names = ['campus_glb_integration', 'wz_street_integration', 'gongguan_glb_integration', 'campus_layout_nav', 'see_through', 'p0_movement', 'reachability_all', 'zone_transitions']   # campus_glb_integration＝第三輪
 res = {}
 for nm in names:
     t = open(f'{L}/{nm}.log').read(); res[nm] = (len(re.findall(r'^PASS', t, re.M)), len(re.findall(r'^FAIL ', t, re.M)), 'ALL PASS' in t)
@@ -49,17 +50,17 @@ rest = f"""### 13.2 驗收狀態
 - Blender 5.2 `bpy`：{spec('pavilion', '洞洞館', 'pavilion')}；{spec('modern', '社科院', 'soc')}；貼圖 512 px（WebP）、校園世界座標。
 - 洞洞館的材質：`ck_pav_conc`（結構：柱、樓板邊、屋簷、牆、台階）、`ck_pav_screen`（鏤空牆：RGBA 貼圖 512×512＝2.4 m×2.4 m、6×6 個洞，alphaMode MASK，兩面都畫）、`ck_pav_dark`（二樓內牆、窗框、門框、屋頂防水層：自發光貼圖左半黑、右半暖光，每 2.4 m 一段照「房間」亮或不亮，約七成）、`ck_glass`（和總圖同名＝遊戲端同一套夜間設定）、匾額。社科院：`ck_soc_wall`、`ck_soc_metal`、`ck_glass`、匾額。
 - 遊戲端：`ck_pav_dark` 加進 WZ_NIGHT（晚上 0.9）、WZ_NO_SHADOW、和 `ck_glass` 一樣自發光貼圖不用 mipmap；`ck_soc_metal` 不投影。
-- 遊戲端（共用）：字牌合成 atlas 的 `wzAtlasFaces`（溫州街、公館的招牌、校園地標的匾額都用它）——空白處填所有字牌的平均顏色、每一格往外多畫 2 px，縮小取樣（mipmap）時不會混到黑色；最寬的字牌只比 2 的次方寬一點點（≤ 12%）時全部等比例縮小，atlas 寬度少一半（社科院的匾額原本是 2048 寬、右半邊全空）。
+- 遊戲端（共用）：字牌合成 atlas 的 `wzAtlasFaces`（溫州街、公館的招牌、校園地標的匾額都用它）——空白處填所有字牌的平均顏色、每一格往外多畫 2 px，縮小取樣（mipmap）時不會混到黑色；最寬的字牌只比 2 的次方寬一點點（≤ 12%）時全部等比例縮小，atlas 寬度少一半。
 
 ### 13.4 測試結果
 
 測試都是 Playwright 手機模擬（不是 iPhone 實機）；log 在 `docs/art-rebuild/second_ai/test_logs/pavsoc/`。
 
-**第一輪截圖檢查發現兩個問題，改完重跑**（第一輪的 log 在 `test_logs/pavsoc/round1/`，測試本身第一輪也都通過——這兩個問題測試抓不到，是看截圖發現的）：
-1. 洞洞館入口正中間有一根柱子，擋住門和匾額中間兩個字（套件也有這根柱子，只是套件的匾額比較大、比較前面，只擋掉一個字）→ 入口正前方不放柱子。
-2. 社科院的匾額在遊戲裡是一條黑帶：字牌 atlas 只有左上角一格有字（1029×96），其他是黑色的空白，遠一點看（mipmap）整面混成黑色 → 改 `wzAtlasFaces`（見 13.3）。
+**截圖檢查發現兩個問題，改完重跑**（測試本身每一輪都通過——這兩個問題測試抓不到，是看截圖發現的；第一輪的 log 在 `test_logs/pavsoc/round1/`）：
+1. 洞洞館入口正中間有一根柱子，擋住門和匾額中間兩個字（套件也有這根柱子，只是套件的匾額比較大、比較前面，只擋掉一個字）→ 入口正前方不放柱子（第二輪）。
+2. 社科院的匾額在遊戲裡是一條黑帶。第二輪先以為是字牌 atlas 只有一角有字、其他是黑色空白、縮小取樣（mipmap）混成黑色 → 改了 `wzAtlasFaces`（見 13.3；這個改法本身是對的，遠看的字牌不會再混到黑色，所以留著），**但重拍還是黑的**；第三輪正面拍近照才查到真正原因：社科院的匾額用的是「門牌」樣式，外框寬度照板面「寬度」的 4% 算，6 m 寬的匾額外框粗到把整塊蓋成深色 → 改成和洞洞館、總圖一樣的石材匾額樣式（`serif`，細的內框），重新匯出 `campus_modern.glb`。
 
-第二輪（改完）重跑會受影響的：`campus_glb_integration`、`wz_street_integration`、`gongguan_glb_integration`（atlas 是共用的）、前後截圖；導航相關的（`campus_layout_nav`、`see_through`、`p0_movement`、`reachability_all`、`zone_transitions`）是第一輪的結果——兩個修正都只改畫面（模型的一根柱子、字牌貼圖），導航格、碰撞、互動點不變（`campus_glb_integration` 第二輪也檢查了兩棟的導航、碰撞、互動點和改之前完全相同）。
+重跑：第二輪 `campus_glb_integration`、`wz_street_integration`、`gongguan_glb_integration`（atlas 是共用的）、全部前後截圖；第三輪 `campus_glb_integration`、社科院的「修改後」截圖。導航相關的（`campus_layout_nav`、`see_through`、`p0_movement`、`reachability_all`、`zone_transitions`）是第一輪的結果——三個修正都只改畫面（模型的一根柱子、字牌貼圖、匾額樣式），導航格、碰撞、互動點不變（`campus_glb_integration` 每一輪都檢查兩棟的導航、碰撞、互動點和改之前完全相同）；合併 AI-1 最新開發分支之後，和 ⑥ 一起再跑一次完整回歸（見第 14 節）。
 
 """ + '、'.join(f'`{k}` {v[0]}' for k, v in res.items()) + """：**全部通過**。`campus_glb_integration` 新加的檢查：洞洞館鏤空牆是 alphaTest（不是半透明）、兩面都畫、會投影；鏤空牆後面的房間 20:30 透出暖光、11:00 不發光、不投影；兩棟的玻璃和總圖同一套（約七成亮燈）。外框檢查：洞洞館 """ + bb['pavilion'][bb['pavilion'].index('{'):].strip() + '；社科院 ' + bb['soc'][bb['soc'].index('{'):].strip() + """。
 
