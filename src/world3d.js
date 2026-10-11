@@ -151,7 +151,9 @@ const W3 = (function(){
        鏡頭移動時窗框和窗外有前後關係，斜著看看得到旁邊的景，不是貼在玻璃上的一張畫。平面本身只要夠大、蓋住所有看出去的方向（窗戶、玻璃帷幕外的大平面都可以用）。
        平面的中心高度＝照片的地平線（拍照的鏡頭高度）。照片還沒載入時退回原本的貼圖、照一般方式貼（photo=0）。 */
   const VIEW_URL='assets/models/env/views/', viewCache={};
-  function viewPhoto(kind,night){ if(!kind) return null; const k=kind+(night?'_night':'_day'); if(!(k in viewCache)){ viewCache[k]=null; try{ new THREE.TextureLoader().load(VIEW_URL+k+'.webp',t=>{ t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=4; t.wrapS=t.wrapT=THREE.ClampToEdgeWrapping; viewCache[k]=t; },undefined,()=>{ viewCache[k]=false; }); }catch(e){ viewCache[k]=false; } } return viewCache[k]||null; }
+  /* base：別的資料夾（總圖大廳的 library_view_*）。換區域時 releaseViews 把快取全部釋放（game3d.js 的 enter；新區域要用的再載一次，瀏覽器有快取）*/
+  function viewPhoto(kind,night,base){ if(!kind) return null; const k=(base||VIEW_URL)+kind+(night?'_night':'_day'); if(!(k in viewCache)){ viewCache[k]=null; try{ new THREE.TextureLoader().load(k+'.webp',t=>{ if(!(k in viewCache)){ t.dispose(); return; }   /* 載完之前已經換區域了 */ t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=4; t.wrapS=t.wrapT=THREE.ClampToEdgeWrapping; viewCache[k]=t; },undefined,()=>{ viewCache[k]=false; }); }catch(e){ viewCache[k]=false; } } return viewCache[k]||null; }
+  function releaseViews(){ for(const k of Object.keys(viewCache)){ const t=viewCache[k]; if(t&&t.dispose) t.dispose(); delete viewCache[k]; } }
   function windowMat(depth){ return new THREE.ShaderMaterial({ uniforms:{ map:{value:null}, tint:{value:new THREE.Color(1,1,1)}, depth:{value:depth||20}, photo:{value:0}, sxy:{value:new THREE.Vector2(1,1)} },
     vertexShader:'varying vec3 vP; varying vec3 vC; varying vec2 vUv; void main(){ vP=position; vUv=uv; vC=(inverse(modelMatrix)*vec4(cameraPosition,1.0)).xyz; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
     fragmentShader:'uniform sampler2D map; uniform vec3 tint; uniform float depth; uniform float photo; uniform vec2 sxy; varying vec3 vP; varying vec3 vC; varying vec2 vUv;\n'+
@@ -162,5 +164,5 @@ const W3 = (function(){
   function setWindowView(m,kind,night,fallback,tint){ const u=m.uniforms; if(!u) return; const ph=viewPhoto(kind,night); const want=ph||fallback; if(u.map.value!==want){ u.map.value=want; } u.photo.value=ph?1:0; if(tint!=null) u.tint.value.set(tint); return !!ph; }
   // 白天的照片隨時段調色（照片是 11:00 拍的）：清晨偏冷、傍晚偏暖、黃昏暗下來；晚上換夜景照片，不調色
   function photoTint(h,rain){ h=((h%24)+24)%24; if(h<5.5||h>=19.4) return 0xffffff; if(h<6.5) return 0xb8c2d6; if(h<8) return rain?0xc8ccd2:0xe8eef8; if(h<16) return rain?0xc9cfd6:0xffffff; if(h<17.6) return rain?0xc2c4c8:0xfff0dc; if(h<18.4) return rain?0x9a9ca4:0xffcfa0; return 0x8a8aa8; }
-  return {viewPhoto,windowMat,setWindowView,photoTint,mergeGroup,canvasTex,grassTex,pathTex,asphaltTex,brickTex,stoneTex,facadeTex,signPlane,signTex,building,setNight,palm,banyan,bush,hedge,bench,formalBench,lampPost,bike,bikeRack,bulletin,planter,bell,vending,scooter,foodCart,gate,mrtEntrance,awning,updateWind,foliageMat};
+  return {viewPhoto,releaseViews,windowMat,setWindowView,photoTint,mergeGroup,canvasTex,grassTex,pathTex,asphaltTex,brickTex,stoneTex,facadeTex,signPlane,signTex,building,setNight,palm,banyan,bush,hedge,bench,formalBench,lampPost,bike,bikeRack,bulletin,planter,bell,vending,scooter,foodCart,gate,mrtEntrance,awning,updateWind,foliageMat};
 })();
