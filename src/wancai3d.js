@@ -63,7 +63,7 @@ const WC3=(function(){
       wall((-W/2+FG.x0)/2,D/2,FG.x0+W/2,h,y,0,new THREE.Vector3(0,0,-1),wallM,grp); }
     { const gw=FG.x1-FG.x0, gh=RY-0.3, cx=(FG.x0+FG.x1)/2; const gp=new THREE.Mesh(new THREE.PlaneGeometry(gw,gh),MAT.glass()); gp.position.set(cx,gh/2,D/2); gp.rotation.y=Math.PI; lv0.add(gp);
       for(let x=FG.x0;x<=FG.x1+0.01;x+=gw/7) b0.add(MAT.frame(),TK.boxG(0.12,gh,0.14),x,gh/2,D/2-0.05); for(const y of [2.9,Y1,Y1+2.9]) b0.add(MAT.frame(),TK.boxG(gw,0.12,0.14),cx,y,D/2-0.05);
-      const out=new THREE.Mesh(new THREE.PlaneGeometry(gw+10,RY+2),new THREE.MeshBasicMaterial({map:B3.outsideTex('south',false)})); out.position.set(cx,RY/2,D/2+3.0); out.rotation.y=Math.PI; out.userData.outside='south'; lv0.add(out); }
+      B3.outView('south','wancai_south',gw+44,20,cx,2.6,D/2+3.0,Math.PI,20,lv0); }   /* 窗外的景：遊戲裡拍的大台階前廣場往南（社科院、黑森林），視差材質；見 building3d.js 的 outView */
     // 二樓的門（西南門廳，通到外面的平台）：玻璃門＋門框
     { const UD=L.upperDoor; b1.add(MAT.frame(),TK.boxG(1.7,2.6,0.12),UD.x,Y1+1.3,D/2-0.12); const gd=new THREE.Mesh(new THREE.PlaneGeometry(1.5,2.4),MAT.glass()); gd.position.set(UD.x,Y1+1.2,D/2-0.2); gd.rotation.y=Math.PI; lv1.add(gd); }
     // 天花板：二樓走廊、迴廊、門廳的頂（8.4 m）＋燈；一樓的天花板就是二樓樓板的底面
@@ -99,7 +99,7 @@ const WC3=(function(){
       const S=L.stair, sx=(S.x0+S.x1)/2, ldz=(S.landing.z0+S.landing.z1)/2; if(s===ss.f1) m.userData.stairEnds=[{x:sx,z:S.flight1.z0-0.6,lv:0},{x:sx,z:ldz,lv:0}]; if(s===ss.f2) m.userData.stairEnds=[{x:sx,z:ldz,lv:0},{x:sx,z:S.flight2.z1+0.6,lv:1}]; } }
     const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,spawn:{x:0,z:6,yaw:Math.PI,lv:0},bounds:{w:W,d:D},camMaxY:3.4,
       fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
-      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); g.traverse(o=>{ if(o.userData&&o.userData.outside){ const want=B3.outsideTex(o.userData.outside,night); if(o.material.map!==want){ o.material.map=want; o.material.needsUpdate=true; } } }); },
+      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); g.traverse(o=>{ if(o.userData&&o.userData.outside) B3.setOutView(o,h,weather,night); }); },
       onLamps(on){ light.intensity=on?18:11; } };
     zone.elev=B3.buildElevator(L,g,nav0,nav1,zone);
     zone.update=function(dt){ zone.elev.update(dt); };

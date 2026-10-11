@@ -101,7 +101,7 @@ const GUIDE=(function(){
   function fitMarker(m){ const cam=E.camera, vh=(E.h||window.innerHeight||400); const tanH=Math.tan((cam&&cam.fov?cam.fov:50)*Math.PI/360); const px=(m.indoor?0.33:0.38)*(m.gold?1.12:1); const sy=m.h*px/vh*2*tanH; m.spr.scale.set(sy*m.w/m.h,sy,1); m.vh=vh; }
   let goldIt=null; function markGold(it){ goldIt=on()?(it||null):null; for(const m of st.markers) setLabel(m,m.it===goldIt); }
   function updateMarkers(dt){ if(st.markerZone!==E.zone) buildMarkers(); const p=P(), py=p.y; st.hT=(st.hT||0)-dt; const refresh=st.hT<=0; if(refresh) st.hT=5;
-    for(const m of st.markers){ const lim=m.it===goldIt?60:(m.indoor?12:26); const d=Math.hypot(m.it.x-p.x,m.it.z-p.z); const vis=d<lim&&(m.indoor&&E.levels?(m.it.lv|0)===PLV():Math.abs(m.y0-py)<6)&&!(E.player.busy&&E.cam.mode!=='follow'); m.spr.visible=vis; if(vis){ if(m.vh!==(E.h||window.innerHeight)) fitMarker(m); m.spr.material.opacity=Math.min(1,(lim-d)/4); if(m.it===goldIt) m.spr.position.y=m.y0+(m.indoor?2.05:2.6)+Math.sin(performance.now()/380)*0.08; }
+    for(const m of st.markers){ const lim=m.it===goldIt?60:(m.indoor?12:26); const d=Math.hypot(m.it.x-p.x,m.it.z-p.z); const vis=d<lim&&d>(m.it.radius||1.2)+0.8&&(m.indoor&&E.levels?(m.it.lv|0)===PLV():Math.abs(m.y0-py)<6)&&!(E.player.busy&&E.cam.mode!=='follow'); m.spr.visible=vis; if(vis){ if(m.vh!==(E.h||window.innerHeight)) fitMarker(m); m.spr.material.opacity=Math.min(1,(lim-d)/4); if(m.it===goldIt) m.spr.position.y=m.y0+(m.indoor?2.05:2.6)+Math.sin(performance.now()/380)*0.08; }
       if(refresh&&m.it.exit&&PLACES.hours[m.it.exit.to]){ const s=hoursLine(m.it.exit.to); if(s!==m.sub){ m.sub=s; const g=m.gold; m.gold=null; setLabel(m,g); } } } }
 
   /* ---------- 人物線索（2026-10-11 使用者：自由的那天不知道其他人在哪）---------- */

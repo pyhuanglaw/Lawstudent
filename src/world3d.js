@@ -144,5 +144,23 @@ const W3 = (function(){
     return g; }
   function mrtEntrance(name){ const g=new THREE.Group(); const roof=new THREE.Mesh(new THREE.BoxGeometry(3.2,0.15,2.6),mat('#4a5058')); roof.position.y=2.6; g.add(roof); for(const [x,z] of [[-1.5,-1.2],[1.5,-1.2],[-1.5,1.2],[1.5,1.2]]){ const p=new THREE.Mesh(new THREE.CylinderGeometry(0.06,0.06,2.6,8),mat('#8f9399')); p.position.set(x,1.3,z); g.add(p); } const stairs=new THREE.Mesh(new THREE.BoxGeometry(2.6,0.1,2.2),mat('#3a3f46')); stairs.position.y=0.05; g.add(stairs); const rail=new THREE.Mesh(new THREE.BoxGeometry(2.8,0.9,0.05),mat('#8f9399')); rail.position.set(0,0.5,-1.15); g.add(rail); const sign=new THREE.Mesh(new THREE.BoxGeometry(2.6,0.6,0.15),mat('#2f5d50')); sign.position.set(0,3.1,0); g.add(sign); const sp=signPlane(name||'捷運 公館站',2.4,0.5,{color:'#ffffff'}); sp.position.set(0,3.1,0.09); g.add(sp); return g; }
   function awning(w,color){ const g=new THREE.Group(); const m=new THREE.Mesh(new THREE.BoxGeometry(w,0.08,1.2),mat(color||'#8c3b47')); m.position.set(0,0,0.6); m.rotation.x=0.25; g.add(m); const tex=canvasTex('awn'+color,128,32,(x,ww,hh)=>{ x.fillStyle=color||'#8c3b47'; x.fillRect(0,0,ww,hh); x.fillStyle='rgba(255,255,255,0.7)'; for(let i=0;i<ww;i+=32) x.fillRect(i,0,16,hh); }); tex.repeat.set(w/1.2,1); m.material=toonMap(tex); return g; }
-  return {mergeGroup,canvasTex,grassTex,pathTex,asphaltTex,brickTex,stoneTex,facadeTex,signPlane,signTex,building,setNight,palm,banyan,bush,hedge,bench,formalBench,lampPost,bike,bikeRack,bulletin,planter,bell,vending,scooter,foodCart,gate,mrtEntrance,awning,updateWind,foliageMat};
+  /* ---------- 窗外的景（2026-10-11 使用者實機回報「窗景都很假」：原本是 canvas 畫的方塊大樓＋綠色圓點，直接貼在玻璃上）----------
+     照片＝在遊戲裡的戶外區域拍的畫面（tools/shots/window_views.py；1024×512、水平視角 90°、垂直約 53°）：assets/models/env/views/<名稱>_day.webp、_night.webp。
+     viewPhoto(名稱, 夜晚)：載入中或沒有檔案＝null（呼叫的地方用原本程序化的畫面）。
+     windowMat(景深)：視差材質——照片當成玻璃後面「景深」公尺遠的一面景（大小＝在平面中心用 90° 水平視角看到的範圍），每個像素用「鏡頭 → 這個像素」的射線打到那面景上取色：
+       鏡頭移動時窗框和窗外有前後關係，斜著看看得到旁邊的景，不是貼在玻璃上的一張畫。平面本身只要夠大、蓋住所有看出去的方向（窗戶、玻璃帷幕外的大平面都可以用）。
+       平面的中心高度＝照片的地平線（拍照的鏡頭高度）。照片還沒載入時退回原本的貼圖、照一般方式貼（photo=0）。 */
+  const VIEW_URL='assets/models/env/views/', viewCache={};
+  function viewPhoto(kind,night){ if(!kind) return null; const k=kind+(night?'_night':'_day'); if(!(k in viewCache)){ viewCache[k]=null; try{ new THREE.TextureLoader().load(VIEW_URL+k+'.webp',t=>{ t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=4; t.wrapS=t.wrapT=THREE.ClampToEdgeWrapping; viewCache[k]=t; },undefined,()=>{ viewCache[k]=false; }); }catch(e){ viewCache[k]=false; } } return viewCache[k]||null; }
+  function windowMat(depth){ return new THREE.ShaderMaterial({ uniforms:{ map:{value:null}, tint:{value:new THREE.Color(1,1,1)}, depth:{value:depth||20}, photo:{value:0}, sxy:{value:new THREE.Vector2(1,1)} },
+    vertexShader:'varying vec3 vP; varying vec3 vC; varying vec2 vUv; void main(){ vP=position; vUv=uv; vC=(inverse(modelMatrix)*vec4(cameraPosition,1.0)).xyz; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
+    fragmentShader:'uniform sampler2D map; uniform vec3 tint; uniform float depth; uniform float photo; uniform vec2 sxy; varying vec3 vP; varying vec3 vC; varying vec2 vUv;\n'+
+      'void main(){ vec2 uv=vUv; if(photo>0.5){ vec3 d=vP-vC; float t=(depth+vC.z)/max(0.001,vC.z); vec2 h=(vC.xy+d.xy*t)*sxy; uv=clamp(vec2(h.x/(2.0*depth)+0.5,h.y/depth+0.5),vec2(0.002),vec2(0.998)); }\n'+
+      ' vec4 c=texture2D(map,uv); gl_FragColor=vec4(c.rgb*tint,1.0);\n #include <colorspace_fragment>\n}',
+    toneMapped:false, fog:false }); }
+  // 換貼圖（白天／晚上、照片或退回的程序化貼圖）＋色調
+  function setWindowView(m,kind,night,fallback,tint){ const u=m.uniforms; if(!u) return; const ph=viewPhoto(kind,night); const want=ph||fallback; if(u.map.value!==want){ u.map.value=want; } u.photo.value=ph?1:0; if(tint!=null) u.tint.value.set(tint); return !!ph; }
+  // 白天的照片隨時段調色（照片是 11:00 拍的）：清晨偏冷、傍晚偏暖、黃昏暗下來；晚上換夜景照片，不調色
+  function photoTint(h,rain){ h=((h%24)+24)%24; if(h<5.5||h>=19.4) return 0xffffff; if(h<6.5) return 0xb8c2d6; if(h<8) return rain?0xc8ccd2:0xe8eef8; if(h<16) return rain?0xc9cfd6:0xffffff; if(h<17.6) return rain?0xc2c4c8:0xfff0dc; if(h<18.4) return rain?0x9a9ca4:0xffcfa0; return 0x8a8aa8; }
+  return {viewPhoto,windowMat,setWindowView,photoTint,mergeGroup,canvasTex,grassTex,pathTex,asphaltTex,brickTex,stoneTex,facadeTex,signPlane,signTex,building,setNight,palm,banyan,bush,hedge,bench,formalBench,lampPost,bike,bikeRack,bulletin,planter,bell,vending,scooter,foodCart,gate,mrtEntrance,awning,updateWind,foliageMat};
 })();
