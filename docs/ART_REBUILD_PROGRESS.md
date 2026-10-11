@@ -10,15 +10,16 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
-- **時間**：2026-10-11 07:50 UTC｜**分支**：`claude/confident-ritchie-8rwh7t`｜**最新 checkpoint**：見 `git log -1`（這一節和 checkpoint 一起 commit）
+- **時間**：2026-10-11 08:48 UTC｜**分支**：`claude/confident-ritchie-8rwh7t`｜**最新 checkpoint**：`fecaeeb`（之後的 commit 看 `git log`）
 - **線上版本**：v9.4.2（main＝`dfd2618`，07:02:57 UTC）。下一次發布最早 10:02:57 UTC。
-- **正在做：v9.5（使用者實機回報修正）**——狀態 WORK_IN_PROGRESS／CHECKPOINT_SAVED，**沒有跑完整回歸，不可發布**：
-  - 已完成並實測：室友在椅子上轉圈（`tests/seated_look_unit.js`）、拿掉假的騎腳踏車路人、三家店加店員、吃完麵的目標、開放時間（`src/data/places.js`）、導航＋大地圖＋入口名牌（`src/guide3d.js`；瀏覽器實測 ALL PASS，腳本在工作階段暫存區，之後要整理成 `tests/guide_flow.py`）。
-  - 還沒做：①窗景（room() 的 `view:` 選項＋視差 shader；霖澤館 east/south、萬才館 south、201、閱覽室、宿舍房間的照片我拍；Café／便利商店／麵店／書店的照片已派給 LAWWW2，07:30Z DELIVERED、還沒 ACK）②霖澤館換樓層看到天空（分析用的工作流程在跑）③自由日不知道人在哪：大地圖＋人物頁顯示認識的人現在在哪 ④走路太慢：調速度、搖桿推到底跑步、大地圖快速前往 ⑤第一二天所有目標的稽核（工作流程在跑）。
-  - 做完後：發布前全套＋整合測試（含 gongguan_glb_integration：LAWWW2 的 ⑧ 公館機車 merge 後還沒跑）→ 多代理審查 → 發布。
-- **本機分支的半成品**：宿舍走廊 `wip/dorm-hall`（`bf750b4`）→ 已備份 `wip_backup/dorm-hall.bundle`（還原方法在 `wip_backup/README.md`）；WIP，不可合併進要發布的版本。
-- **v9.5 之後（使用者要求，等 v9.5 發布後依序做）**：手機＋主動邀約（#61）、課表（先給草案，#57）、騎腳踏車（Blender 腳踏車模型派 LAWWW2、騎車動作我做，#59）、主線（**等使用者決定**，我問了要不要讀 AA／BB 的討論紀錄，#62）。
-- **需要協助**：LAWWW2——店家窗景照片（cafe、cvs、noodle、bookstore）。
+- **v9.5（使用者實機回報修正）**——WORK_IN_PROGRESS／CHECKPOINT_SAVED，**還不能發布**：
+  - 做完、有測試或實測：室友轉圈（`tests/seated_look_unit.js`）、假騎士拿掉、店員、吃麵目標（含 20:30 沒去的情況）、開放時間（`src/data/places.js`）、導航＋大地圖＋入口名牌＋人物線索＋快速前往（`src/guide3d.js`；`tests/guide_unit.js`、`tests/guide_flow.py`）、移動速度 1.8／4.8 m/s、換樓層看到天空（`tests/levels_no_sky.py`：47.5% → 0%）、窗景照片＋視差（`W3.windowMat`、`tools/shots/window_views.py`；VISUAL_REVIEW 第 22 節）。
+  - 正在跑：①完整回歸（乾淨工作樹 `scratchpad/wt_v95`＝`01145ae`、server 8803、結果 `scratchpad/reg_v95a/`）——`indoor_cam_occlusion` 失敗是測試對整個場景做射線碰到入口名牌（已修 `f68f97a`，要重跑）；②多代理審查（workflow `wf_a090db9c-43e`：正確性、手機介面效能、劇情目標，每個發現再驗證）。
+  - 還沒做：Café／便利商店／麵店／書店的窗景照片（派給 LAWWW2，07:30Z DELIVERED、還沒 ACK；看板有備援紀錄）。
+  - 發布步驟：審查確認的問題修好 → 在最新 commit 的乾淨工作樹重跑完整回歸（`tests/release_suite.sh` 已加 seated_look_unit、guide_unit、guide_flow、levels_no_sky）＋整合測試 → 快轉 main → 確認 Pages → RELEASES.md。
+- **本機分支的半成品**：宿舍走廊 `wip/dorm-hall`（`bf750b4`）→ `wip_backup/dorm-hall.bundle`；WIP，不可合併進要發布的版本。
+- **等使用者決定**：課表草案的 4 個問題（`docs/proposals/SCHEDULE_PROPOSAL.md`）；主線（要不要讀 AA／BB 的討論紀錄）。
+- **v9.5 之後**：手機＋主動邀約（#61）、課表（#57，等決定）、騎腳踏車（#59，Blender 腳踏車 ⑫ 派給 LAWWW2）。
 
 ## CURRENTLY WORKING ON — 現在正在修改什麼
 

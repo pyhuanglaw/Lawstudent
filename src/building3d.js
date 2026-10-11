@@ -32,6 +32,11 @@ const B3=(function(){
   const outsideTex=(kind,night)=>W3.canvasTex('b3out_'+kind+(night?'N':''),512,256,(x,w,h)=>{ const g=x.createLinearGradient(0,0,0,h); if(night){ g.addColorStop(0,'#0e1528'); g.addColorStop(1,'#2a3350'); } else { g.addColorStop(0,'#9cc2e0'); g.addColorStop(1,'#e2ecef'); } x.fillStyle=g; x.fillRect(0,0,w,h);
     if(kind==='south'){ x.fillStyle=night?'#1b2a22':'#5f8a55'; for(let i=0;i<9;i++){ const cx=i*60+20, r=40+((i*37)%25); x.beginPath(); x.arc(cx,h*0.52,r,0,Math.PI*2); x.fill(); } x.fillStyle=night?'#3a3c40':'#b9b6ae'; x.fillRect(0,h*0.68,w,h*0.32); if(night){ x.fillStyle='rgba(255,214,150,0.8)'; for(const lx of [80,250,420]) x.fillRect(lx,h*0.55,4,4); } }
     else { x.fillStyle=night?'#2c2d30':'#a4a29d'; x.fillRect(0,h*0.08,w,h*0.92); x.fillStyle=night?'#3b3d42':'#8e8c88'; for(const cx of [60,250,440]) x.fillRect(cx,h*0.08,46,h*0.92); x.fillStyle=night?'rgba(255,220,170,0.5)':'rgba(190,210,218,0.8)'; x.fillRect(120,h*0.3,110,h*0.6); x.fillRect(310,h*0.3,110,h*0.6); } });
+  /* 玻璃帷幕外的景（2026-10-11 使用者「窗景都很假」）：遊戲裡校園的畫面（W3.viewPhoto，tools/shots/window_views.py）＋視差材質（W3.windowMat）；
+     平面放大（往下蓋過地面、往上蓋過屋頂、左右多 20 m）：原本斜著看或從樓梯往下看，會從平面邊緣和玻璃底下的縫看到天空。
+     平面中心高度＝拍照的鏡頭高度（照片的地平線）；照片還沒載入就用原本程序化的 outsideTex。萬才館（src/wancai3d.js）也用這兩個函式 */
+  function outView(kind,photo,w,h,x,yc,z,ry,depth,grp){ const m=W3.windowMat(depth); const p=new THREE.Mesh(new THREE.PlaneGeometry(w,h),m); p.position.set(x,yc,z); p.rotation.y=ry; p.userData.outside=kind; p.userData.photo=photo; setOutView(p,11,'sunny',false); grp.add(p); return p; }
+  function setOutView(o,h,weather,night){ const ph=W3.viewPhoto(o.userData.photo,night); W3.setWindowView(o.material,o.userData.photo,night,outsideTex(o.userData.outside,night),ph?W3.photoTint(h,weather==='rain'):0xffffff); }
 
   // ---- 樓梯的高度：從最下面那一階的邊緣（和地面／平台同高）連續斜上到最上面那一階踏面的中心（接縫沒有落差；
   //      踏面邊緣和斜面最多差半階 8.4 cm，腳的高度之後用 IK 補）。第一版的斜面在接縫有 8.4 cm 落差，加上坡度超過人物允許的高低差，走到樓梯底就卡住（tests/nav_buildings_unit.js 抓到）----
@@ -42,7 +47,7 @@ const B3=(function(){
       top:{x0:S.x0,x1:S.x1,z0:F2.z0,z1:F2.z0+t/2,y:LD.y+n2*r} }; }
 
   // ---- 程序化備用模型（正式模型載入前／失敗時）----
-  function buildFallback(L,lv0,lv1,walls,walkMeshes){ const W=L.W, D=L.D, Y1=L.floors[1].y, RY=L.roofY, T=L.wallT, S=L.stair, G=L.gallery;
+  function buildFallback(L,lv0,lv1,walls,walkMeshes,slabs){ const W=L.W, D=L.D, Y1=L.floors[1].y, RY=L.roofY, T=L.wallT, S=L.stair, G=L.gallery;
     const b0=new TK.Bin(), b1=new TK.Bin();
     // 1F 地板
     { const fm=MAT.floor(); const t=fm.map; t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(W/2.4,D/2.4); const f=new THREE.Mesh(new THREE.PlaneGeometry(W,D),fm); f.rotation.x=-Math.PI/2; f.receiveShadow=true; f.userData.walkLv=0; lv0.add(f); walkMeshes.push(f); }
@@ -57,7 +62,7 @@ const B3=(function(){
         /* 點在一跑樓梯上＝走完這一跑（engine3d.js；任務 #42）：[下面那一端, 上面那一端]；樓梯往北爬 */
         const S=L.stair, sx=(S.x0+S.x1)/2, ldz=(S.landing.z0+S.landing.z1)/2; if(s===surf.f1) m.userData.stairEnds=[{x:sx,z:S.flight1.z1+0.6,lv:0},{x:sx,z:ldz,lv:0}]; if(s===surf.f2) m.userData.stairEnds=[{x:sx,z:ldz,lv:0},{x:sx,z:S.flight2.z0-0.8,lv:1}]; } }
     // 二樓迴廊樓板（下面是一樓北側的天花板）、地板、玻璃欄杆
-    b1.add(MAT.plaster(),TK.boxG(W,G.slabT,G.z1-(-D/2),1.2),0,Y1-G.slabT/2,(G.z1+(-D/2))/2);
+    b1.add(MAT.plaster(),TK.boxG(W,G.slabT,G.z1-(-D/2),1.2),0,Y1-G.slabT/2,(G.z1+(-D/2))/2); if(slabs) slabs.push(...slabPieces({x0:-W/2,x1:W/2,z0:-D/2,z1:G.z1},[L.elevator],{lv:1,y:Y1,t:G.slabT}));   /* 鏡頭不穿過樓板（engine3d.js 的 slabClip） */
     { const fm=MAT.floor(); const f=new THREE.Mesh(new THREE.PlaneGeometry(W,G.z1+D/2),fm.clone()); f.material.map=fm.map.clone(); f.material.map.needsUpdate=true; f.material.map.repeat.set(W/2.4,(G.z1+D/2)/2.4); f.rotation.x=-Math.PI/2; f.position.set(0,Y1+0.004,(G.z1-D/2)/2); f.receiveShadow=true; f.userData.walkLv=1; lv1.add(f); walkMeshes.push(f); }
     const EL=L.elevator; for(const [x0,x1] of [[S.x1+0.1,EL.x0-0.05],[EL.x1+0.05,W/2]]){ const len=x1-x0; if(len<=0.1) continue; const gp=new THREE.Mesh(new THREE.PlaneGeometry(len,1.0),MAT.glass()); gp.position.set((x0+x1)/2,Y1+0.55,G.railZ); lv1.add(gp); b1.add(MAT.steel(),new THREE.BoxGeometry(len,0.06,0.08),(x0+x1)/2,Y1+1.06,G.railZ); b1.add(MAT.steel(),new THREE.BoxGeometry(len,0.12,0.06),(x0+x1)/2,Y1+0.06,G.railZ); }
     // 外牆：北（花崗石，兩層高）、西（白牆＋木作踢腳）、東（一樓玻璃門面＋上面花崗石）、南（兩層樓高的玻璃帷幕＋直櫺）
@@ -67,10 +72,10 @@ const B3=(function(){
     wall(W/2,0,D,RY-Y1,Y1,Math.PI/2,new THREE.Vector3(-1,0,0),MAT.granite(),lv1);
     // 東面一樓：玻璃＋入口自動門（z 2.6–5.4）＋直櫺；窗外是穿堂
     { const gh=Y1-0.3; const gp=new THREE.Mesh(new THREE.PlaneGeometry(D,gh),MAT.glass()); gp.position.set(W/2,gh/2,0); gp.rotation.y=-Math.PI/2; lv0.add(gp); for(let z=-D/2;z<=D/2+0.01;z+=1.75) b0.add(MAT.frame(),TK.boxG(0.1,gh,0.12),W/2-0.04,gh/2,z); b0.add(MAT.frame(),TK.boxG(0.12,0.12,D),W/2-0.04,2.9,0); b0.add(MAT.granite(),TK.boxG(0.3,0.3,D),W/2,gh+0.15,0);
-      const out=new THREE.Mesh(new THREE.PlaneGeometry(D+6,Y1+2),new THREE.MeshBasicMaterial({map:outsideTex('east',false)})); out.position.set(W/2+2.2,Y1/2,0); out.rotation.y=-Math.PI/2; out.userData.outside='east'; lv0.add(out); }
+      outView('east','linze_east',D+40,18,W/2+2.2,2.1,0,-Math.PI/2,20,lv0); }
     // 南面：兩層樓高的玻璃帷幕（照片「左邊兩層樓高的玻璃大廳」）
     { const gh=RY-0.4; const gp=new THREE.Mesh(new THREE.PlaneGeometry(W,gh),MAT.glass()); gp.position.set(0,gh/2,D/2); gp.rotation.y=Math.PI; lv0.add(gp); for(let x=-W/2;x<=W/2+0.01;x+=W/8) b0.add(MAT.frame(),TK.boxG(0.12,gh,0.14),x,gh/2,D/2-0.05); for(const y of [2.9,Y1,Y1+2.9]) b0.add(MAT.frame(),TK.boxG(W,0.12,0.14),0,y,D/2-0.05);
-      const out=new THREE.Mesh(new THREE.PlaneGeometry(W+10,RY+2),new THREE.MeshBasicMaterial({map:outsideTex('south',false)})); out.position.set(0,RY/2,D/2+3.0); out.rotation.y=Math.PI; out.userData.outside='south'; lv0.add(out); }
+      outView('south','linze_south',W+40,20,0,2.3,D/2+3.0,Math.PI,25,lv0); }
     // 天花板（單面朝下：鏡頭在上面時看不到，剖面視角）＋燈板
     { const c=new THREE.Mesh(new THREE.PlaneGeometry(W,D),MAT.ceil()); c.rotation.x=Math.PI/2; c.position.y=RY; lv1.add(c); for(let i=0;i<4;i++) for(let j=0;j<3;j++){ const p=new THREE.Mesh(new THREE.PlaneGeometry(1.2,0.6),MAT.lightPanel()); p.rotation.x=Math.PI/2; p.position.set(-6+i*4,RY-0.01,-4+j*4.6); lv1.add(p); }
       for(let i=0;i<5;i++) for(const z of [-6.0,-4.2]){ const p=new THREE.Mesh(new THREE.CircleGeometry(0.12,12),MAT.lightPanel()); p.rotation.x=Math.PI/2; p.position.set(-6+i*3,Y1-G.slabT-0.005,z); lv1.add(p); } }
@@ -143,12 +148,12 @@ const B3=(function(){
     nav1.blockRect(S.railX,(S.flight2.z0+S.flight2.z1)/2+0.2,0.2,S.flight2.z1-S.flight2.z0,0);
     for(const n of [nav0]){ n.blockRect(EL.x0-0.1,(EL.z0+EL.z1)/2,0.2,EL.z1-EL.z0+0.2,0); n.blockRect(EL.x1+0.1,(EL.z0+EL.z1)/2,0.2,EL.z1-EL.z0+0.2,0); n.blockRect((EL.x0+EL.x1)/2,EL.z1+0.1,EL.x1-EL.x0+0.4,0.2,0); }   // 井道玻璃（東、西、南）
     // 畫面（程序化備用）
-    const walls=[], walkMeshes=[]; const fb=new THREE.Group(); fb.name='fallback'; const fb0=new THREE.Group(), fb1=new THREE.Group(); fb0.userData.dyn=true; fb1.userData.dyn=true; lv0.add(fb0); lv1.add(fb1);
-    buildFallback(L,fb0,fb1,walls,walkMeshes); buildDoors(L,fb0,fb1,lv0,lv1); buildFurniture(L,fb0,fb1,nav0,nav1,lv0);
+    const walls=[], walkMeshes=[], slabs=[]; const fb=new THREE.Group(); fb.name='fallback'; const fb0=new THREE.Group(), fb1=new THREE.Group(); fb0.userData.dyn=true; fb1.userData.dyn=true; lv0.add(fb0); lv1.add(fb1);
+    buildFallback(L,fb0,fb1,walls,walkMeshes,slabs); buildDoors(L,fb0,fb1,lv0,lv1); buildFurniture(L,fb0,fb1,nav0,nav1,lv0);
     for(const o of fb0.children.slice()) if(o.userData&&o.userData.outside){ fb0.remove(o); lv0.add(o); }   /* 窗外的景一直顯示 */
-    const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},camMaxY:3.4,cool:true,
+    const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,slabs,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},camMaxY:3.4,cool:true,
       fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
-      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); g.traverse(o=>{ if(o.userData&&o.userData.outside){ const want=outsideTex(o.userData.outside,night); if(o.material.map!==want){ o.material.map=want; o.material.needsUpdate=true; } } }); },
+      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); g.traverse(o=>{ if(o.userData&&o.userData.outside) setOutView(o,h,weather,night); }); },
       onLamps(on){} };
     zone.elev=buildElevator(L,g,nav0,nav1,zone);
     zone.update=function(dt){ zone.elev.update(dt); };
@@ -174,6 +179,10 @@ const B3=(function(){
     for(const m of walkMeshes){ let p=m.parent; while(p&&p!==fb0&&p!==fb1) p=p.parent; if(!p) continue; if(!m.material||m.material.visible!==false) m.material=hid; m.userData.dyn=true; (p===fb0?lv0:lv1).attach(m); }
     fb0.visible=false; fb1.visible=false; walls.length=0; for(const w of nw) walls.push(w);
     zone.formal=true; zone.formalInfo={walls:nw.length}; }
-  return {linze,stairSurfs,CAMPUS_DOOR,MAT,outsideTex,buildDoors,buildElevator,attachFormal};   /* 萬才館室內（src/wancai3d.js）共用：材質、窗外的景、門、電梯、正式模型的接法 */
+  /* 給鏡頭用的樓板範圍（engine3d.js 的 slabClip）：一塊長方形扣掉電梯井（電梯車廂穿過樓板，鏡頭看車廂裡的人時不能把井當成樓板）。只是資料，畫面不變 */
+  function slabPieces(r,holes,extra){ let parts=[{x0:r.x0,x1:r.x1,z0:r.z0,z1:r.z1}]; for(const h of holes||[]){ if(!h) continue; const next=[]; for(const q of parts){ if(h.x1<=q.x0||h.x0>=q.x1||h.z1<=q.z0||h.z0>=q.z1){ next.push(q); continue; }
+      if(h.z0>q.z0) next.push({x0:q.x0,x1:q.x1,z0:q.z0,z1:h.z0}); if(h.z1<q.z1) next.push({x0:q.x0,x1:q.x1,z0:h.z1,z1:q.z1}); const z0=Math.max(q.z0,h.z0), z1=Math.min(q.z1,h.z1); if(h.x0>q.x0) next.push({x0:q.x0,x1:h.x0,z0,z1}); if(h.x1<q.x1) next.push({x0:h.x1,x1:q.x1,z0,z1}); } parts=next; }
+    return parts.map(q=>Object.assign({},extra,q)); }
+  return {linze,stairSurfs,CAMPUS_DOOR,MAT,outsideTex,outView,setOutView,buildDoors,buildElevator,attachFormal,slabPieces};   /* 萬才館室內（src/wancai3d.js）共用：材質、窗外的景、門、電梯、正式模型的接法 */
 })();
 Z3.ZONES.linze=B3.linze;

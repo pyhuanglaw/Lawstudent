@@ -11,9 +11,13 @@ run() { local name="$1"; shift; local t0=$(date +%s); "$@" > "$OUT/$name.log" 2>
   printf '%-28s %s  (%ss)  %s\n' "$name" "$([ $rc -eq 0 ] && echo PASS || echo "FAIL(rc=$rc)")" "$dt" "$tail1" | tee -a "$SUM"; }
 run nav_levels_unit       node tests/nav_levels_unit.js
 run nav_buildings_unit    node tests/nav_buildings_unit.js
+run stairs_cam_slab_unit  node tests/stairs_cam_slab_unit.js    # 樓梯上、電梯裡的人不被上一層的樓板擋住（2026-10-11 v9.5 審查）
 for c in char.yuting char.heroine_01 char.heroine_02 char.heroine_03 char.heroine_04 char.heroine_05; do run "stairs_feet_${c#char.}" node tests/stairs_feet_unit.js "$c"; done
 run sim_hair              node tools/dev_scratch/spring_sim/sim_hair.js
 run sit_feet_unit         node tests/sit_feet_unit.js
+run seated_look_unit      node tests/seated_look_unit.js        # 坐著的人看著玩家時上半身不轉圈（2026-10-11 室友轉圈）
+run guide_unit            node tests/guide_unit.js              # 目標文字 → 導航目的地、開放時間
+run allowance_unit        node tests/allowance_unit.js          # 生活費：每月 1 日 25,000、開局 22,000、舊存檔補一次（D48）
 run deploy_check          python3 tests/deploy_check.py "$URL" $VER
 run model_upgrade         python3 tests/model_upgrade.py "$URL" "$OUT/model_upgrade"
 run zone_transitions      python3 tests/zone_transitions.py "$URL"
@@ -31,6 +35,8 @@ run flow_wancai_stairs    python3 tests/flow_wancai_stairs.py "$URL" "$OUT/flow_
 run flow_wancai_floors    python3 tests/flow_wancai_floors.py "$URL" "$OUT/flow_wancai_floors"     # 萬才館室內兩層樓（D42）
 run flow_library_floors   python3 tests/flow_library_floors.py "$URL" "$OUT/flow_library_floors"   # 總圖大廳（D43）
 run flow_library_scene    python3 tests/flow_library_scene.py "$URL" "$OUT/flow_library_scene"     # 小安「總圖的下午」在二樓自習區
+run guide_flow            python3 tests/guide_flow.py "$URL?turbo" "$OUT/guide_flow"           # 導航、大地圖、入口名牌、開放時間（2026-10-11 使用者回報）
+run levels_no_sky         python3 tests/levels_no_sky.py "$URL?turbo" "$OUT/levels_no_sky"     # 霖澤館上下樓梯、搭電梯不看到大片天空（2026-10-11）
 run flow_main_day12      python3 tests/flow_main_day12.py "$URL" "$OUT/flow_main_day12"   # TESTING.md 第五節第 6 項（第一、二天主線，20–40 分鐘）：2026-10-11 才補進來，之前的發布都沒跑
 [ -n "$V7" ]   && run save_compat_v7   python3 tests/save_compat_v7.py "$V7" "$URL"
 [ -n "$LIVE" ] && run save_compat_live python3 tests/save_compat_v7.py "$LIVE" "$URL"

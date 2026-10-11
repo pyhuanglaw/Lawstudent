@@ -35,12 +35,12 @@ const WC3=(function(){
     nav0._cm=null; nav1._cm=null; return {nav0,nav1,ss}; }
 
   // ---- 程序化備用模型 ----
-  function buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes){ const W=L.W, D=L.D, Y1=L.floors[1].y, RY=L.roofY, T=L.wallT, S=L.stair, U=L.upper, F1=S.flight1, F2=S.flight2, LD=S.landing, MAT=B3.MAT;
+  function buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,slabs){ const W=L.W, D=L.D, Y1=L.floors[1].y, RY=L.roofY, T=L.wallT, S=L.stair, U=L.upper, F1=S.flight1, F2=S.flight2, LD=S.landing, MAT=B3.MAT;
     const b0=new TK.Bin(), b1=new TK.Bin();
     const floorM=(w,d)=>{ const t=W3.stoneTex('#e6dccb').clone(); t.needsUpdate=true; t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(w/2,d/2); return new THREE.MeshStandardMaterial({map:t,roughness:0.7}); };   /* 和 v9.3 的大廳同一種石材地板（貼圖複製一份：快取的貼圖別的區域也在用）*/
     // 地板：一樓（點地面也打這一片）、二樓（走廊、迴廊、門廳）
     { const f=new THREE.Mesh(new THREE.PlaneGeometry(W,D),floorM(W,D)); f.rotation.x=-Math.PI/2; f.receiveShadow=true; f.userData.walkLv=0; fb0.add(f); walkMeshes.push(f); }
-    const slab=(x0,z0,x1,z1)=>{ b1.add(MAT.plaster(),TK.boxG(x1-x0,U.slabT,z1-z0,1.2),(x0+x1)/2,Y1-U.slabT/2,(z0+z1)/2);
+    const slab=(x0,z0,x1,z1)=>{ b1.add(MAT.plaster(),TK.boxG(x1-x0,U.slabT,z1-z0,1.2),(x0+x1)/2,Y1-U.slabT/2,(z0+z1)/2); if(slabs) slabs.push(...B3.slabPieces({x0,x1,z0,z1},[L.elevator],{lv:1,y:Y1,t:U.slabT}));   /* 鏡頭不穿過樓板（engine3d.js 的 slabClip） */
       const f=new THREE.Mesh(new THREE.PlaneGeometry(x1-x0,z1-z0),floorM(x1-x0,z1-z0)); f.rotation.x=-Math.PI/2; f.position.set((x0+x1)/2,Y1+0.004,(z0+z1)/2); f.receiveShadow=true; f.userData.walkLv=1; fb1.add(f); walkMeshes.push(f); };
     slab(-W/2,-D/2,W/2,U.slabEdge); slab(S.railX,U.slabEdge,U.railX,F2.z1); slab(-W/2,F2.z1,U.railX,D/2);
     // 柱子（一樓，撐著二樓樓板）
@@ -63,7 +63,7 @@ const WC3=(function(){
       wall((-W/2+FG.x0)/2,D/2,FG.x0+W/2,h,y,0,new THREE.Vector3(0,0,-1),wallM,grp); }
     { const gw=FG.x1-FG.x0, gh=RY-0.3, cx=(FG.x0+FG.x1)/2; const gp=new THREE.Mesh(new THREE.PlaneGeometry(gw,gh),MAT.glass()); gp.position.set(cx,gh/2,D/2); gp.rotation.y=Math.PI; lv0.add(gp);
       for(let x=FG.x0;x<=FG.x1+0.01;x+=gw/7) b0.add(MAT.frame(),TK.boxG(0.12,gh,0.14),x,gh/2,D/2-0.05); for(const y of [2.9,Y1,Y1+2.9]) b0.add(MAT.frame(),TK.boxG(gw,0.12,0.14),cx,y,D/2-0.05);
-      const out=new THREE.Mesh(new THREE.PlaneGeometry(gw+10,RY+2),new THREE.MeshBasicMaterial({map:B3.outsideTex('south',false)})); out.position.set(cx,RY/2,D/2+3.0); out.rotation.y=Math.PI; out.userData.outside='south'; lv0.add(out); }
+      B3.outView('south','wancai_south',gw+44,20,cx,2.6,D/2+3.0,Math.PI,20,lv0); }   /* 窗外的景：遊戲裡拍的大台階前廣場往南（社科院、黑森林），視差材質；見 building3d.js 的 outView */
     // 二樓的門（西南門廳，通到外面的平台）：玻璃門＋門框
     { const UD=L.upperDoor; b1.add(MAT.frame(),TK.boxG(1.7,2.6,0.12),UD.x,Y1+1.3,D/2-0.12); const gd=new THREE.Mesh(new THREE.PlaneGeometry(1.5,2.4),MAT.glass()); gd.position.set(UD.x,Y1+1.2,D/2-0.2); gd.rotation.y=Math.PI; lv1.add(gd); }
     // 天花板：二樓走廊、迴廊、門廳的頂（8.4 m）＋燈；一樓的天花板就是二樓樓板的底面
@@ -91,15 +91,15 @@ const WC3=(function(){
   const wancai={ id:'wancai', name:'萬才館 大廳', indoor:true, camDist:4.6, build(E){ const L=LAYOUT(), W=L.W, D=L.D, Y1=L.floors[1].y, EL=L.elevator;
     const g=new THREE.Group(); const lv0=new THREE.Group(), lv1=new THREE.Group(); lv0.name='L0'; lv1.name='L1'; lv0.userData.dyn=true; lv1.userData.dyn=true; g.add(lv0); g.add(lv1);
     const {nav0,nav1}=buildNav(L);
-    const walls=[], walkMeshes=[]; const fb0=new THREE.Group(), fb1=new THREE.Group(); fb0.name='fallback0'; fb1.name='fallback1'; fb0.userData.dyn=true; fb1.userData.dyn=true; lv0.add(fb0); lv1.add(fb1);
-    buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes); B3.buildDoors(L,fb0,fb1,lv0,lv1); buildFurniture(E,L,lv0,lv1,fb0,fb1,nav0,nav1);
+    const walls=[], walkMeshes=[], slabs=[]; const fb0=new THREE.Group(), fb1=new THREE.Group(); fb0.name='fallback0'; fb1.name='fallback1'; fb0.userData.dyn=true; fb1.userData.dyn=true; lv0.add(fb0); lv1.add(fb1);
+    buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,slabs); B3.buildDoors(L,fb0,fb1,lv0,lv1); buildFurniture(E,L,lv0,lv1,fb0,fb1,nav0,nav1);
     // 樓梯可以點的面（點地面移動；一直在，正式模型載入後也用這幾片）
     { const ss=stairSurfs(L); for(const s of [ss.f1,ss.ld,ss.f2,ss.top]){ const w=s.x1-s.x0, d=s.z1-s.z0; const ya=s.y!==undefined?s.y:s.ya, yb=s.y!==undefined?s.y:s.yb; const m=new THREE.Mesh(new THREE.PlaneGeometry(w,Math.hypot(d,yb-ya)),new THREE.MeshBasicMaterial({visible:false})); m.position.set((s.x0+s.x1)/2,(ya+yb)/2+0.01,(s.z0+s.z1)/2); m.rotation.x=-Math.PI/2-Math.atan2(yb-ya,d); m.userData.walkLv=(s===ss.f2||s===ss.top)?1:0; m.userData.dyn=true; lv0.add(m); walkMeshes.push(m);
       /* 點在一跑樓梯上＝走完這一跑（engine3d.js；任務 #42）：[下面那一端, 上面那一端]；樓梯往南爬 */
       const S=L.stair, sx=(S.x0+S.x1)/2, ldz=(S.landing.z0+S.landing.z1)/2; if(s===ss.f1) m.userData.stairEnds=[{x:sx,z:S.flight1.z0-0.6,lv:0},{x:sx,z:ldz,lv:0}]; if(s===ss.f2) m.userData.stairEnds=[{x:sx,z:ldz,lv:0},{x:sx,z:S.flight2.z1+0.6,lv:1}]; } }
-    const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,spawn:{x:0,z:6,yaw:Math.PI,lv:0},bounds:{w:W,d:D},camMaxY:3.4,
+    const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,slabs,spawn:{x:0,z:6,yaw:Math.PI,lv:0},bounds:{w:W,d:D},camMaxY:3.4,
       fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
-      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); g.traverse(o=>{ if(o.userData&&o.userData.outside){ const want=B3.outsideTex(o.userData.outside,night); if(o.material.map!==want){ o.material.map=want; o.material.needsUpdate=true; } } }); },
+      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); g.traverse(o=>{ if(o.userData&&o.userData.outside) B3.setOutView(o,h,weather,night); }); },
       onLamps(on){ light.intensity=on?18:11; } };
     zone.elev=B3.buildElevator(L,g,nav0,nav1,zone);
     zone.update=function(dt){ zone.elev.update(dt); };

@@ -305,7 +305,7 @@ const E3 = (function(){
     renderer.getDrawingBufferSize(_stS); _stB.set(o.x,o.y+1.75,o.z).project(camera); const top=_stB.y; _stB.set(o.x,o.y+0.05,o.z).project(camera); const ph=Math.abs(top-_stB.y)*0.5*_stS.y; // 玩家在畫面上的高度（像素）
     ST.uSeeP.value.set((_stA.x*0.5+0.5)*_stS.x,(_stA.y*0.5+0.5)*_stS.y,_stA.z*0.5+0.5); ST.uSeeR.value=Math.max(20,ph*0.62); }
   E.seeThrough=ST;
-  function updateCamera(dt){ const C=E.cam; const P=E.player; if(C.mode==='cinematic'&&C.cine){ const s=C.cine; camera.position.lerp(s.pos,Math.min(1,dt*4)); C.look=C.look||new THREE.Vector3(); C.look.lerp(s.look,Math.min(1,dt*4)); camera.lookAt(C.look); if(E.zone&&E.zone.fadeWalls) E.zone.fadeWalls(camera,P.obj.position); updateLevelVis(); ST.uSeeR.value=0; return; }
+  function updateCamera(dt){ const C=E.cam; const P=E.player; if(C.mode==='cinematic'&&C.cine){ const s=C.cine; camera.position.lerp(s.pos,Math.min(1,dt*4)); C.look=C.look||new THREE.Vector3(); C.look.lerp(s.look,Math.min(1,dt*4)); slabClip(C.look,camera.position,0.9); camera.lookAt(C.look); if(E.zone&&E.zone.fadeWalls) E.zone.fadeWalls(camera,P.obj.position); updateLevelVis(); ST.uSeeR.value=0; return; }
     C.dist+=(C.distTarget-C.dist)*Math.min(1,dt*4); if(C.manualT>0) C.manualT-=dt; C.target.lerp(tmpV2.copy(P.obj.position).add(tmpV3.set(0,1.45,0)),Math.min(1,dt*7));
     /* 往下走樓梯時鏡頭抬高（戶外：萬才館大樓梯；萬才館第二階段的真實玩家測試抓到）：鏡頭在玩家背後 2.7 m 高，往下走的時候平台邊緣擋住下面的台階，
        畫面上看不到要走去的地方（點下面的台階會點到平台、又走回去）。前方 3～5.5 m 的地面比腳下低超過 0.4 m 時，俯角最多加 0.32（約 18°），平順地變化；室內維持原本的鏡頭 */
@@ -314,11 +314,28 @@ const E3 = (function(){
     const desired=tmpV.set(Math.sin(C.yaw)*C.dist*Math.cos(pitch),Math.sin(pitch)*C.dist+0.2,Math.cos(C.yaw)*C.dist*Math.cos(pitch)).add(C.target);
     // 鏡頭碰撞：對建築碰撞盒
     let dist=C.dist; if(E.colliders.length){ const dir=tmpV3.copy(desired).sub(C.target); const len=dir.length(); dir.normalize(); E.ray.set(C.target,dir); E.ray.far=len; const hits=E.ray.intersectObjects(E.colliders,false); if(hits.length){ dist=Math.max(0.7,hits[0].distance-0.35); desired.copy(C.target).addScaledVector(dir,dist); } }
-    const fy=P.obj.position.y; if(desired.y<fy+0.6) desired.y=fy+0.6; camera.position.lerp(desired,Math.min(1,dt*(C.manualT>0?18:7))); camera.lookAt(C.target.x,C.target.y-0.15,C.target.z); if(E.zone&&E.zone.fadeWalls) E.zone.fadeWalls(camera,P.obj.position); updateLevelVis(); camera.updateMatrixWorld(); updateSeeThrough(); }
+    const fy=P.obj.position.y; if(desired.y<fy+0.6) desired.y=fy+0.6; slabClip(C.target,desired,1.15); camera.position.lerp(desired,Math.min(1,dt*(C.manualT>0?18:7))); slabClip(C.target,camera.position,1.15); camera.lookAt(C.target.x,C.target.y-0.15,C.target.z); if(E.zone&&E.zone.fadeWalls) E.zone.fadeWalls(camera,P.obj.position); updateLevelVis(); camera.updateMatrixWorld(); updateSeeThrough(); }
   // 多樓層的剖面視角（v9.4）：zone.levelGroups＝[{group,y}]（每一層的模型、那一層地板的高度）。玩家所在的那一層和下面的層一定畫；
   // 上面的層只有在鏡頭比那一層的地板低的時候才畫（從下面看得到上面的天花板、走廊欄杆；鏡頭拉高到上一層地板以上時藏起來，才看得到玩家）。
   // 「玩家所在的層」用腳的高度判斷（離上一層地板 0.8 m 以內就算上去了：快走完樓梯時上一層先出現）
-  function updateLevelVis(){ const z=E.zone; if(!z||!z.levelGroups) return; const LG=z.levelGroups, py=E.player.obj.position.y; let dl=0; for(let k=0;k<LG.length;k++){ if(LG[k].y<=py+0.8||(k>0&&py>=LG[k-1].y+0.5&&py<LG[k].y)) dl=k; }   /* 人一離開下一層的地板（在樓梯上、電梯裡）就顯示上一層（2026-10-11 使用者：霖澤館上下樓梯、搭電梯會出現天空——原本要到上一層地板下 0.8 m 才顯示，爬第二跑時上一層整層不見）。樓梯都在挑高的大廳或樓梯間裡，上一層的樓板不會擋住樓梯上的人 */ const cy=camera.position.y; let hide=Infinity; for(let k=0;k<LG.length;k++){ const vis=k<=dl||cy<LG[k].y-0.15; if(LG[k].group.visible!==vis) LG[k].group.visible=vis; if(!vis&&LG[k].y<hide) hide=LG[k].y; } z.displayLv=dl; z.hideAbove=hide===Infinity?undefined:hide; }
+  function displayLv(LG,py){ let dl=0; for(let k=0;k<LG.length;k++){ if(LG[k].y<=py+0.8||(k>0&&py>=LG[k-1].y+0.5&&py<LG[k].y)) dl=k; } return dl; }
+  E.displayLv=displayLv;
+  /* 上一層的樓板擋在鏡頭和人中間（2026-10-11 v9.5 審查）：人在樓梯上、電梯裡時上一層會顯示（下面的 updateLevelVis），鏡頭比上一層的地板高的時候，
+     總圖大廳的連廊與兩翼、萬才館北側走廊的樓板會擋住樓梯上的人（電梯運鏡也會）。做法和牆的鏡頭碰撞一樣：鏡頭沿著視線拉近到看得到頭和腳的地方（最近 0.7 m）。
+     樓板的範圍來自各區域的配置（zone.slabs：{lv,x0,x1,z0,z1,y＝那一層地板的高度,t＝樓板厚度}，和模型、導航格同一份資料）。只看「現在會畫出來」的那一層：
+     人在下一層、鏡頭拉高到上一層地板以上時，上一層照舊整層藏起來（剖面視角），不拉近。測試：node tests/stairs_cam_slab_unit.js */
+  function segSlab(ax,ay,az,bx,by,bz,s){ const m=0.15, lo=[s.x0-m,s.y-s.t-m,s.z0-m], hi=[s.x1+m,s.y+m,s.z1+m], A=[ax,ay,az], D=[bx-ax,by-ay,bz-az];
+    if(ax>lo[0]&&ax<hi[0]&&ay>lo[1]&&ay<hi[1]&&az>lo[2]&&az<hi[2]) return false;   /* 起點就在樓板邊上（樓梯最上面一階）：這一塊不算 */
+    let t0=0, t1=1; for(let i=0;i<3;i++){ const o=A[i], d=D[i]; if(Math.abs(d)<1e-9){ if(o<lo[i]||o>hi[i]) return false; continue; } let a=(lo[i]-o)/d, b=(hi[i]-o)/d; if(a>b){ const q=a; a=b; b=q; } if(a>t0) t0=a; if(b<t1) t1=b; if(t0>t1) return false; } return true; }
+  function slabClip(from,to,down){ const z=E.zone, SL=z&&z.slabs; if(!SL||!SL.length||E.noSlabClip) return false; const LG=z.levelGroups; const dl=LG?displayLv(LG,E.player.obj.position.y):0;
+    const dx=to.x-from.x, dy=to.y-from.y, dz=to.z-from.z, len=Math.hypot(dx,dy,dz); if(len<0.75) return false; const fy=from.y-(down||0);
+    /* 看兩條線：鏡頭 → 頭（from）、鏡頭 → 腳（from 往下 down）：人在樓梯上半段時頭已經高過上一層的地板、腳還在下面，只看頭的線會讓地板邊擋住腳 */
+    const blocked=(k)=>{ const cx=from.x+dx*k, cy=from.y+dy*k, cz=from.z+dz*k; for(const s of SL){ if(LG&&LG[s.lv]&&!(s.lv<=dl||cy<LG[s.lv].y-0.15)) continue;
+        if(segSlab(from.x,from.y,from.z,cx,cy,cz,s)||(down&&segSlab(from.x,fy,from.z,cx,cy,cz,s))) return true; } return false; };
+    if(!blocked(1)) return false; let lo=Math.min(1,0.7/len), hi=1; if(!blocked(lo)){ for(let it=0;it<12;it++){ const mid=(lo+hi)/2; if(blocked(mid)) hi=mid; else lo=mid; } }
+    to.set(from.x+dx*lo,from.y+dy*lo,from.z+dz*lo); return true; }
+  E.slabClip=slabClip;
+  function updateLevelVis(){ const z=E.zone; if(!z||!z.levelGroups) return; const LG=z.levelGroups, py=E.player.obj.position.y; const dl=displayLv(LG,py);   /* 人一離開下一層的地板（在樓梯上、電梯裡）就顯示上一層（2026-10-11 使用者：霖澤館上下樓梯、搭電梯會出現天空——原本要到上一層地板下 0.8 m 才顯示，爬第二跑時上一層整層不見）。鏡頭高過上一層地板時，上一層的樓板可能擋住樓梯上的人（總圖大廳、萬才館）：slabClip 把鏡頭拉近到樓板下面 */ const cy=camera.position.y; let hide=Infinity; for(let k=0;k<LG.length;k++){ const vis=k<=dl||cy<LG[k].y-0.15; if(LG[k].group.visible!==vis) LG[k].group.visible=vis; if(!vis&&LG[k].y<hide) hide=LG[k].y; } z.displayLv=dl; z.hideAbove=hide===Infinity?undefined:hide; }
   E.updateLevelVis=updateLevelVis;
   E.cinematic=function(pos,look){ if(E.cam.mode!=='cinematic'||!E.cam.look){ /* 從目前的視線方向開始平滑轉過去（舊版注視點從世界原點出發，第一次運鏡會甩頭） */ const fwd=new THREE.Vector3(); camera.getWorldDirection(fwd); E.cam.look=camera.position.clone().addScaledVector(fwd,Math.max(1,camera.position.distanceTo(look))); } E.cam.mode='cinematic'; E.cam.cine={pos:pos.clone(),look:look.clone()}; };
   E.endCinematic=function(){ E.cam.mode='follow'; E.cam.cine=null; };
