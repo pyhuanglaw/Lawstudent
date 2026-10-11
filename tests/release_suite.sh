@@ -16,6 +16,7 @@ run sim_hair              node tools/dev_scratch/spring_sim/sim_hair.js
 run sit_feet_unit         node tests/sit_feet_unit.js
 run seated_look_unit      node tests/seated_look_unit.js        # 坐著的人看著玩家時上半身不轉圈（2026-10-11 室友轉圈）
 run guide_unit            node tests/guide_unit.js              # 目標文字 → 導航目的地、開放時間
+run allowance_unit        node tests/allowance_unit.js          # 生活費：每月 1 日 25,000、開局 22,000、舊存檔補一次（D48）
 run deploy_check          python3 tests/deploy_check.py "$URL" $VER
 run model_upgrade         python3 tests/model_upgrade.py "$URL" "$OUT/model_upgrade"
 run zone_transitions      python3 tests/zone_transitions.py "$URL"

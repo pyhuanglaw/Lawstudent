@@ -7,7 +7,7 @@ const GAME = (function(){
   let E=null; let G=null; let S={quality:'medium',joystick:true,volume:0.6,textSpeed:2,fps:false,guide:true};
   const GM={E:null,G:null,S,npc:{},extras:[],running:false,hourRate:1/150,lastAuto:0};
   // ---------- 狀態 ----------
-  function defaults(name){ return {v:SAVE_VER,name:name||'祐廷',day:1,weekday:3,hour:21.2,energy:72,money:1800,zone:'dorm',pos:null,weather:'clear',flags:{},rel:{an:6,zhe:12,sis:2,kai:8,yu:3},notes:[],memo:[],visited:{dorm:true},stats:{steps:0,classes:0,study:0},choices:{},social:null,events:null,legal:null,cg:{unlocked:[]},savedAt:0}; }
+  function defaults(name){ return {v:SAVE_VER,name:name||'祐廷',day:1,weekday:3,hour:21.2,energy:72,money:22000,zone:'dorm',pos:null,weather:'clear',flags:{},rel:{an:6,zhe:12,sis:2,kai:8,yu:3},notes:[],memo:[],visited:{dorm:true},stats:{steps:0,classes:0,study:0},choices:{},social:null,events:null,legal:null,cg:{unlocked:[]},savedAt:0}; }
   function bindSystems(){ SOCIAL.bind(G); EVENTS.bind(GM); LEGAL.bind(G,GM); if(!G.cg) G.cg={unlocked:[]}; }
   GM.bindSystems=bindSystems;
   GM.defaults=defaults;
