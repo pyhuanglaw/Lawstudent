@@ -22,7 +22,7 @@
 | `CK.modern` 社會科學院、背景系館 | 校園東側 | ④（社科院）／② | BLOCKOUT | 第三階段 |
 | `CK.pavilion` 農業陳列館（洞洞館） | 校園西側 | ④ | BLOCKOUT | 第三階段 |
 | `CK.gate` 校門 | 校園西端、公館 | ④ | BLOCKOUT | 第三階段（地標） |
-| `CK.bell` 傅鐘 | 椰林大道南側 | ④ | BLOCKOUT | 第三階段（地標） |
+| `CK.bell` 傅鐘 | 椰林大道南側 | ⑤＋③（套件留作導航阻擋與載入失敗的備用） | LAWWW2 Blender `campus_bell.glb`（126 KB、1,562 個三角形；切石台基與柱子、瓦屋頂、銅鐘三道鐘帶、石碑匾額、夜間地燈／柱面暖光／光暈），導航、互動不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 9 節） | 有照片的話照照片改比例與細節 |
 | `CK.tileTex`、各套件的 canvas 貼圖（面磚、花崗石、紅磚） | 全部校園建築 | ④ | BLOCKOUT（canvas 隨機斑點） | 換 Poly Haven PBR（紅磚、花崗石、混凝土） |
 
 ## 二、台北街景（`src/townkit3d.js`，`TK`）
