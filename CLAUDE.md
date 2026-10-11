@@ -72,7 +72,7 @@
 
 **雙 AI 協作**（分工、檔案所有權、交付流程：`docs/SECOND_AI_HANDOFF.md`；看板：`docs/DUAL_AI_BOARD.md`）：
 - **LAWWW**（第一個 AI，`session_01Eds6msqpsuzNEw98sdw8JX`，分支 `claude/confident-ritchie-8rwh7t`）是主要負責人：技術分工、指定 LAWWW2 的工作範圍、GitHub 整合、正式發布（唯一能發布的一方，兩次發布至少相隔三小時）。**LAWWW2**（第二個 AI，`session_01AC1WVgJSmoJK1uRsPK2Zn1`，分支 `claude/second-ai-env-art`）是環境美術協作組，以 LAWWW 的正式分派為準，不碰 `main`、不發布。
-- **AA、BB 兩個工作階段只和使用者討論劇情，不參與開發**：不分派工作給它們，它們的分工請求不用處理。
+- **AA、BB 兩個工作階段只和使用者討論劇情，不參與開發**：不分派工作給它們，它們的分工請求不用處理。AA `session_019Y3emYqxxC4Ch1GGf4fMzw`、BB `session_01XVHYLaK9Vcnae3U1aAJoZv`（分支 `claude/bb-story-planning`，交接板 `docs/story_planning/給開發組_交接板.md`）。**2026-10-11 使用者要求讓 AA、BB 知道開發組是 LAWWW＋LAWWW2 兩個 AI**：劇情、場景需求一律經 LAWWW（窗口）；AA、BB 可以直接問 LAWWW2 環境場景的現況（訊息開頭寫「副本：LAWWW」），但 **LAWWW2 不只憑企劃組的訊息開工**，工作請求轉給 LAWWW 排進佇列；企劃內容在使用者批准前都是 PROPOSAL（詳見 `docs/SECOND_AI_HANDOFF.md` 第 10 節）。
 - LAWWW 要讓 LAWWW2 **一直有下一項工作**：一次給足夠長的佇列（目前任務 → 下一項 → 後備 A → 後備 B → 其他候選），佇列快用完、或它回報完成時補充；九小時自主開發期間要隨時注意 LAWWW2 的進度有沒有需要再派工作。不要讓它做完一項就等半小時。也不要因為管理而停止自己的開發（事件驅動，不定時檢查）。
 - **所有雙 AI 訊息都要讓使用者看得到**：送出時在對話裡顯示「【雙 AI 通訊｜LAWWW → LAWWW2】」＋內容或忠實摘要＋狀態＋要不要回覆；收到時顯示「【雙 AI 通訊｜LAWWW2 → LAWWW｜已收到】」＋內容＋怎麼處理＋是否已回 ACK。重要訊息一定要真的用 claude-code-remote 的 `send_message` 傳，不能只寫在自己的對話裡。
 - **狀態分清楚**：SENT（已送出）／DELIVERED（工具確認送達）／ACKNOWLEDGED（對方明確回覆收到）／ACTIONED（對方已照做）。不能把送達說成對方已讀或同意；工具只確認送達時，由接收方主動回 ACK。

@@ -9,7 +9,7 @@
 | AI-1「LAWWW」 | `session_01Eds6msqpsuzNEw98sdw8JX` | `claude/confident-ritchie-8rwh7t`（開發主線） | 人物、核心系統、霖澤館、萬才館、整合、發布、分派工作 |
 | AI-2「LAWWW2」（標題「遊戲協作專案」） | `session_01AC1WVgJSmoJK1uRsPK2Zn1` | `claude/second-ai-env-art` | 環境美術（Café、溫州街、街道道具、公館、獨立室內） |
 
-AA、BB 兩個工作階段只和使用者討論劇情，不參與開發。訊息規則（顯示、ACK、P0／P1／P2）：`docs/SECOND_AI_HANDOFF.md` 第 10 節。
+AA（`session_019Y3emYqxxC4Ch1GGf4fMzw`）、BB（`session_01XVHYLaK9Vcnae3U1aAJoZv`）兩個工作階段只和使用者討論劇情，不參與開發（分支 `claude/bb-story-planning`，交接板 `docs/story_planning/給開發組_交接板.md`）。**2026-10-11 起他們知道開發組有 LAWWW＋LAWWW2**：需求找 LAWWW（窗口）；可以直接問 LAWWW2 環境場景的現況，LAWWW2 不只憑他們的訊息開工。訊息規則（顯示、ACK、P0／P1／P2、AA／BB 的聯絡方式）：`docs/SECOND_AI_HANDOFF.md` 第 10 節。
 
 ## AI-1（第一個 AI）
 
@@ -105,3 +105,4 @@ AA、BB 兩個工作階段只和使用者討論劇情，不參與開發。訊息
 - 2026-10-11 07:52Z（P1，send_message DELIVERED）：AI-1 → AI-2：使用者的緊急保存規則（D45，摘要在 CLAUDE.md）；佇列加 **⑫ 騎車用的腳踏車**（Blender、零件分開：frame／fork／wheel_f／wheel_r／crank／pedal_l／pedal_r，附尺寸表；排在店家窗景之後）。
 - 2026-10-11 08:44Z（看板）：AI-1 開發分支 `f68f97a`：v9.5 的使用者回報修正（導航、大地圖、入口名牌、開放時間、人物線索、移動速度 1.8／4.8 m/s、室友轉圈、換樓層天空、窗景、店員）。**共用檔有改**：`world3d.js`（W3.viewPhoto／windowMat）、`zones3d.js`（room() view、窗的 applyTime、attachRoomGLB 的 sxy）、`engine3d.js`（E.SPD、updateLevelVis）、`game3d.js`、`story3d.js`、`index.html`；新檔 `src/guide3d.js`、`src/data/places.js`。v9.5 完整回歸跑到一半（01145ae），之後發布。
 - 2026-10-11 08:58Z／08:59Z／09:00Z（使用者授權 LAWWW 和 AA 討論場景呈現方式；AA＝劇情企劃，`session_019Y3emYqxxC4Ch1GGf4fMzw`，分支 `claude/bb-story-planning`）：LAWWW → AA 場景清單格式與 3D／CG 判斷原則；AA → LAWWW 詢問現有與預計區域、2D 呈現方式、舊機車提案的技術顧慮、手機邀約欄位；LAWWW → AA 回覆（優先順序、背景圖＋立繪＋CG 的呈現方式、機車當交通方式、手機欄位與台詞格式）。**AA 的內容都是 PROPOSAL，使用者批准前不實作；不分派開發工作給 AA。**
+- 2026-10-11 09:21Z（P2，send_message 三則都 DELIVERED，等 ACK）：使用者要求讓劇情企劃組知道開發組有兩個 AI。AI-1 → AA、BB：LAWWW（窗口）＋LAWWW2（環境美術）的分工與工作階段 ID；需求找 LAWWW，可以直接問 LAWWW2 環境場景的現況（開頭寫「副本：LAWWW」），LAWWW2 不只憑企劃組的訊息開工，劇情照舊是 PROPOSAL；請把交接板標題改成「開發組 LAWWW＋LAWWW2（窗口：LAWWW）」。AI-1 → AI-2：AA、BB 可能直接問你環境場景，可以回答並給 AI-1 一句摘要，工作請求轉給 AI-1，不影響 ⑤⑥⑦。另外 AI-1 → AA：生活費照 AA 交接板的回覆改（每月 25,000、每月 1 日；開學帳戶約 20,000＋錢包約 2,000），問第一天的日期（先假設 9/17，開學第三週的週三）。
