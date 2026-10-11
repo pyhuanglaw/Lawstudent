@@ -210,7 +210,10 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
 
 - **正式發布**（合併到 main、GitHub Pages）：只有值班中的 LAWWW 或 LAWWW-B。三小時規則跨帳號照算；沒測完的不因為額度快用完就搶著發布（D45）。
 - **LAWWW2／LAWWW2-B**：只 push 自己的分支，不碰 main、不發布，成果交給值班的 LAWWW 整合。
-- **AA／AA-B、BB／BB-B**：只改 `docs/story_planning/`（自己的分支）。內容都是 PROPOSAL，不分派開發工作。
+- **AA／AA-B、BB／BB-B**：只改 `docs/story_planning/`（自己的分支），不分派開發工作。內容在使用者批准前都是 PROPOSAL。已批准進入實作的劇情（大一上 v1，D50）照三級修改：
+  1. 潤飾、錯字、事件條件小修正：AA、BB 自行審稿，LAWWW 直接同步。
+  2. 一般日常事件：AA、BB 達成共識後整合。
+  3. 人物性格、重大關係、主線結局、關鍵事件：要使用者確認，LAWWW 直接問使用者。
 - ART_APPROVED、STORY_APPROVED：只有使用者能批准。
 - 所有工作階段：
   - 不 force push、不建第二個 repo、不改職責。
