@@ -12,6 +12,7 @@
 - 沒有 LAWWW 明確分派前，不做：人物 VRM／骨架／動畫、沈以安與其他核心人物、霖澤館與萬才館、`main`、正式發布、LAWWW 的 Blender 工作檔、共用引擎重構、劇情／人物關係／玩法。
 - 使用者要求（2026-10-10 16:43）：LAWWW2 認為自己適合做的事，**仍要和 LAWWW 做最後確認**，確定不會和它的工作衝突，才動共用檔。
 - AA、BB 兩個工作階段只和使用者討論劇情、不參與開發：不分派工作給它們，它們的分工請求不處理。
+- **更新（使用者 2026-10-11）**：AA、BB（寫故事的兩個 AI）可以用同一套 `send_message` 直接聯絡 LAWWW；LAWWW2 要不要聯絡她們，**先和 LAWWW 討論、兩邊一起決定**。在決定之前 LAWWW2 不主動聯絡 AA、BB。不管怎麼決定都不變的是：AA、BB 的故事在使用者批准前一律是 `PROPOSAL`，LAWWW2 不照她們的提案改場景、不接她們的實作需求；故事需要新場景時，由使用者批准、LAWWW 分派。
 
 ## 2. 通訊
 
@@ -45,3 +46,12 @@
 | GLB → 遊戲 | WebP 貼圖、`EXT_mesh_gpu_instancing`；遊戲端 `ASSETS` 的 `type:'building'`、`lazy:true`、`?nobldg` 看程序化備用 |
 | glTF Transform／Meshopt／KTX2 | npm 連得到（`@gltf-transform/cli` 4.5.1，還沒裝）。遊戲的 `lib/three.jsm.bundle.js` 有 GLTFLoader 的掛勾，但沒有 Meshopt 解碼器、KTX2 轉碼器本體——要用就得改共用的載入器（LAWWW 的檔案），先不做；目前每個 GLB 都在交接文件的大小目標內 |
 | Playwright | `/opt/pw-browsers/chromium`（SwiftShader，1–4 fps）；跑移動類測試時不同時跑其他瀏覽器工作 |
+
+## 6. 定期保存到 GitHub（使用者 2026-10-11 訂定，永久；Claude 每週額度快用完時的緊急協作規則）
+
+- **工作階段隨時可能因額度中斷**：大約每 30 分鐘、或每完成一個重要階段，檢查一次：哪些成果做好了還沒 commit、哪些檔案正在改、哪些只在本機（Blender 腳本、GLB、貼圖、截圖、文件、決策）、能不能只靠 GitHub 接回來。有重要成果沒保存就馬上 checkpoint commit＋push。沒有真正的背景計時器：在每個可以控制的工作節點、長工作（渲染、回歸測試）的安全節點檢查；不硬切斷不能中斷的操作，也不為了湊時間而 commit。
+- **保存不是核准、也不是發布**。狀態分開寫：`WORK_IN_PROGRESS`（還在做，可以存、標 WIP）→ `CHECKPOINT_SAVED`（已 commit＋push，只代表安全備份）→ `READY_FOR_REVIEW`（有可以檢查的成果，等整合或使用者審核）→ `APPROVED_FOR_INTEGRATION`（取得授權、可以交給 LAWWW 整合）→ `RELEASED`／`ART_APPROVED`（只有 LAWWW 發布、只有使用者批准美術；上傳 GitHub 不會讓它們自動成立）。
+- **LAWWW2 的保存方式**：交付用的分支照舊是 `claude/second-ai-env-art`（LAWWW 依交付訊息裡的 commit 整合）；還在做的工作放在自己的 WIP 分支 `claude/second-ai-env-art-wip-<工作名>`（每個工作目錄一個，例如 `-wip-pavsoc`、`-wip-props6`、`-wip-trees`），commit 訊息開頭寫「WIP（checkpoint…）」並寫明不能整合。不 force push、不合併 main、不改 LAWWW 的檔案、不發布。
+- **每次 checkpoint**：確認分支與 worktree → `git status` → 只 add 自己負責、要保存的檔案（不用 `git add .`；暫存的渲染圖、還在拍的截圖、不需要的大檔不進 repo；Poly Haven 原圖照慣例縮成 512 px 再存）→ 看得懂的 commit 訊息 → push 到自己的遠端分支 → `git fetch` 確認遠端的 SHA → 記錄。GLB、貼圖、Blender 腳本都在 git 裡（這個 repo 不用 LFS）；Blender 是用腳本產生，不存 .blend（腳本＋貼圖＝原始檔）。
+- **交接紀錄**：`docs/art-rebuild/second_ai/HANDOFF.md`（簡短、隨時更新：每個工作的分支、最新 SHA、做完／沒做完／沒測的、下一步、哪些不能整合）。額度快用完時先存成果、更新它、push，再停。
+- 重要成果保存後，只有影響對方工作或要交接時才通知 LAWWW（工作名稱、分支、SHA、檔案範圍、狀態、能不能整合、測試結果）；分清楚「已保存」「已交付」「已整合」。保存完馬上繼續原本的工作。

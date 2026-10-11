@@ -24,6 +24,10 @@ AA（`session_019Y3emYqxxC4Ch1GGf4fMzw`）、BB（`session_01XVHYLaK9Vcnae3U1aAJ
 
 ## AI-2（第二個 AI）
 
+**AA、BB（使用者 2026-10-11）**：寫故事的 AA、BB 可以直接聯絡 LAWWW；LAWWW2 要不要聯絡她們，等和 LAWWW 討論後一起決定（LAWWW2 的提案寫在 ⑤⑥ 交付訊息裡）。她們的故事在使用者批准前都是 PROPOSAL。
+
+**緊急保存（使用者 2026-10-11 10:05Z「週使用量 98%」；遠端 SHA 已用 `git ls-remote` 逐條確認，本機沒有沒推的東西）**：交付分支 `claude/second-ai-env-art`＝`f0bab8c`（店家窗景 8 張＋景深，可整合，訊息另外傳）；WIP（**都還不能整合**）：`-wip-pavsoc`＝`8c6f1fe`（⑤驗收完成）、`-wip-props6`＝`8fe7a21`（⑤⑥＋AI-1 `8afdece`，合併後的回歸還沒跑；⑥販賣機改亮、截圖、log 都在）、`-wip-trees`＝`d7916da`（⑦已合併 ⑤⑥，驗收還沒跑）、`-wip-soclib`＝`030ce51`（⑬配置產生器草稿＋平面草圖）；`-wip-props`＝推錯名字的重複分支（`fa626b9`，忽略）。⑫、⑭ 還沒開工。接手從 `docs/art-rebuild/second_ai/HANDOFF.md`（交付分支上）開始。
+
 | # | 工作 | 狀態 | 主要檔案 | 最新 commit | 測試 | 已整合 | 等美術驗收 |
 |---|---|---|---|---|---|---|---|
 | 1 | 兩點半 Café（外觀＋室內） | **`READY_FOR_ART_REVIEW`**（功能 `FUNCTIONAL_VERIFIED`）；**AI-1 已整合**（16:16Z merge `384c612`，回歸全部通過），排在下一次發布；等使用者看美術 | `tools/blender/env_second/`（`cafe_layout.py`）、`assets/models/env/second_ai/cafe_*.glb`、`zones3d.js` 的 `cafe`／`wenzhou` 區塊、`assets3d.js` 標記區、`tests/cafe_glb_integration.py` | `2ffd7d5`、`e9d8d80` | `cafe_glb_integration` 62 項等全部 ALL PASS（Playwright 手機模擬，不是實機） | 是（`384c612`） | 是 |
