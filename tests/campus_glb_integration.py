@@ -61,6 +61,8 @@ async def check(pg, run, formal):
     run.setup('讀檔到椰林大道 (74,2) 17:30，關掉條件事件' + ('' if formal else '；進校園前先把 manifest 裡地標的 key 拿掉（＝改之前）'))
     if not formal: await pg.evaluate("(()=>{ for(const k of %s) delete ASSETS.manifest[k]; })()" % json.dumps([v[0] for v in TAGS.values()]))
     await PL.load_state(pg, {'zone': 'campus', 'hour': 17.5, 'pos': {'x': 74, 'z': 2, 'yaw': 1.5708}}, quiet_events=True)
+    # AI-1 的霖澤館、萬才館外觀（兩輪都有）也是非同步載入：先等它們接好再數「沒有標記的群組」，不然兩輪接好的時間不同，數字會差
+    await pg.evaluate("(async()=>{ const ks=['bldg.linze_exterior','bldg.wancai_exterior'].filter(k=>ASSETS.manifest[k]); await Promise.all(ks.map(k=>ASSETS.loadOne(k).catch(()=>null))); await new Promise(r=>setTimeout(r,1500)); })()")
     if formal:
         for tag, (key, glb, _) in TAGS.items(): run.check('%s 的正式模型接上（%s）' % (tag, glb), await pg.evaluate(WAIT_FORMAL % glb))
     else:
