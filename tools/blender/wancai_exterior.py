@@ -208,34 +208,39 @@ def PANE(mat, f, t0, t1, y0, y1, n, tag='g'):
     return B.quad(nm(tag), MAT[mat], [fpt(f, t0, y0, n), fpt(f, t1, y0, n), fpt(f, t1, y1, n), fpt(f, t0, y1, n)], root)
 ROT = {'S': 0.0, 'N': math.pi, 'E': math.pi / 2, 'W': -math.pi / 2}
 
-WINS = {}   # 窗的種類 → [(面, t, 窗台高)]：同一種窗只做一個網格，其他用 GPU instancing
+WINS = {}   # (窗的種類, 部件) → [(面, t, 窗台高, 寬, 高)]：同一種窗的同一個部件只做一個網格，其他用 GPU instancing（EXT_mesh_gpu_instancing）擺上去
+# 原型的大小：每一扇窗用 instance 的縮放對到實際的寬高（四～八樓：寬 0.95／1.07 m（正背面／側面）＝±7%；一二樓：高 2.9／2.0 m ＝±18%）。
+# 部件分開：窗框與混凝土窗框不管亮不亮燈都是同一組；玻璃分亮燈／沒亮燈兩組（晚上發光的材質不同）。
+# 第一版每一種大小 × 亮不亮燈各自一組（36 個 InstancedMesh），同一個鏡頭多 70 次 draw call（tests/wancai_glb_integration.py 量到）→ 8 個
+PROTO = {'box': (1.0, 2.03), 'base': (0.58, 2.45)}
 def window(f, c, ww, wh, ys, kind):
     x, _, z = fpt(f, c, ys, 0)
-    key = (round(ww, 3), round(wh, 3), kind, lit(x, ys, z))
-    WINS.setdefault(key, []).append((f, c, ys))
+    WINS.setdefault((kind, 'frame'), []).append((f, c, ys, ww, wh))
+    WINS.setdefault((kind, 'glass_lit' if lit(x, ys, z) else 'glass_dark'), []).append((f, c, ys, ww, wh))
 
-def win_proto(key, k):
-    """一扇窗（正面朝 +z、原點在窗洞下緣中間、z＝0 是建築本體的牆面）。
-    kind＝'box'（四～八樓：玻璃退在紅磚面後面 0.3 m，四周凸出的混凝土窗框：窗楣、窗台、兩側）；'base'（一二樓：花崗石窗台＋細鋁框）；'pair'（凸出量體）"""
-    ww, wh, kind, on = key; grp = B.group(f'winproto_{k}')
-    g = MAT['glass_lit' if on else 'glass_dark']
-    B.quad('glass', g, [(-ww / 2, 0.0, 0.02), (ww / 2, 0.0, 0.02), (ww / 2, wh, 0.02), (-ww / 2, wh, 0.02)], grp)
-    B.box('fr', MAT['frame'], -ww / 2, ww / 2, wh * 0.68, wh * 0.68 + 0.05, 0.02, 0.07, grp)   # 橫框
-    for sx in (-1, 1): B.box('fr', MAT['frame'], sx * ww / 2 - 0.03, sx * ww / 2 + 0.03, 0.0, wh, 0.02, 0.08, grp)
-    if kind == 'box':
-        cm = MAT['concrete']
-        B.box('hd', cm, -ww / 2 - 0.15, ww / 2 + 0.15, wh, wh + 0.13, 0.16, 0.6, grp)              # 窗楣
-        B.box('sl', cm, -ww / 2 - 0.15, ww / 2 + 0.15, -0.13, 0.0, 0.16, 0.6, grp)                # 窗台
-        for sx in (-1, 1): B.box('jb', cm, sx * (ww / 2 + 0.075) - 0.065, sx * (ww / 2 + 0.075) + 0.065, 0.0, wh, 0.16, 0.6, grp)   # 兩側
+def win_proto(kind, part, k):
+    """一扇窗的一個部件（正面朝 +z、原點在窗洞下緣中間、z＝0 是建築本體的牆面；大小＝PROTO）。
+    kind＝'box'（四～八樓：玻璃退在紅磚面後面 0.3 m，四周凸出的混凝土窗框：窗楣、窗台、兩側）；'base'（一二樓：花崗石窗台＋細鋁框）"""
+    ww, wh = PROTO[kind]; grp = B.group(f'winproto_{k}')
+    if part.startswith('glass'):
+        B.quad('glass', MAT[part], [(-ww / 2, 0.0, 0.02), (ww / 2, 0.0, 0.02), (ww / 2, wh, 0.02), (-ww / 2, wh, 0.02)], grp)
     else:
-        B.box('sl', MAT['graniteD'], -ww / 2 - 0.12, ww / 2 + 0.12, -0.14, 0.0, 0.0, 0.2, grp)
+        B.box('fr', MAT['frame'], -ww / 2, ww / 2, wh * 0.68, wh * 0.68 + 0.05, 0.02, 0.07, grp)   # 橫框
+        for sx in (-1, 1): B.box('fr', MAT['frame'], sx * ww / 2 - 0.03, sx * ww / 2 + 0.03, 0.0, wh, 0.02, 0.08, grp)
+        if kind == 'box':
+            cm = MAT['concrete']
+            B.box('hd', cm, -ww / 2 - 0.15, ww / 2 + 0.15, wh, wh + 0.13, 0.16, 0.6, grp)              # 窗楣
+            B.box('sl', cm, -ww / 2 - 0.15, ww / 2 + 0.15, -0.13, 0.0, 0.16, 0.6, grp)                # 窗台
+            for sx in (-1, 1): B.box('jb', cm, sx * (ww / 2 + 0.075) - 0.065, sx * (ww / 2 + 0.075) + 0.065, 0.0, wh, 0.16, 0.6, grp)   # 兩側
+        else:
+            B.box('sl', MAT['graniteD'], -ww / 2 - 0.12, ww / 2 + 0.12, -0.14, 0.0, 0.0, 0.2, grp)
     me = B.join_children(grp, f'win_{k}'); B.remove(grp); return me
 
 def build_windows():
-    for k, (key, items) in enumerate(sorted(WINS.items(), key=lambda kv: str(kv[0]))):
-        me = win_proto(key, k); par = B.group(f'WINS_{k}', root)
-        for j, (f, c, ys) in enumerate(items):
-            x, y, z = fpt(f, c, ys, 0); B.instance(me, f'w{k}_{j}', x, y, z, par, ROT[f])
+    for k, ((kind, part), items) in enumerate(sorted(WINS.items())):
+        me = win_proto(kind, part, k); par = B.group(f'WINS_{k}', root); pw, ph = PROTO[kind]
+        for j, (f, c, ys, ww, wh) in enumerate(items):
+            x, y, z = fpt(f, c, ys, 0); ob = B.instance(me, f'w{k}_{j}', x, y, z, par, ROT[f]); ob.scale = (ww / pw, 1.0, wh / ph)   # Blender 的 z＝遊戲的高
 
 # ---------------- 建築本體（花崗石；窗、紅磚、窗框都貼在外面，和套件一樣：鏡頭碰撞就是這個方塊）----------------
 B.box('core', MAT['granite'], -w / 2, w / 2, 0, H, -d / 2, d / 2, root)
@@ -371,7 +376,7 @@ for fl in range(3):
 build_windows()
 B.join_by_material(root, 'EXT')
 st = B.export(OUT, ROOT, gpu_instances=True)
-print('window kinds', {str(k): len(v) for k, v in WINS.items()})
+print('window parts', {str(k): len(v) for k, v in WINS.items()})
 if RENDER:
     B.render_views(RENDER, 'wancai_ext', [('front', (4.0, 6.0, 58.0), (0.0, 15.0, 0.0)), ('stairs', (-1.0, 1.7, 26.0), (-1.0, 3.0, 10.0)), ('balcony', (7.0, 5.3, 12.6), (-6.0, 4.0, 15.0)), ('corner', (30.0, 3.0, 34.0), (0.0, 12.0, 0.0))],
                    lights=[(5.8, 2.6, 11.4, 300)], lens=20)
