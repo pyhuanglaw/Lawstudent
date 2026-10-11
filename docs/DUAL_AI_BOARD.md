@@ -24,6 +24,8 @@ AA、BB 兩個工作階段只和使用者討論劇情，不參與開發。訊息
 
 ## AI-2（第二個 AI）
 
+**保存規則（使用者 2026-10-11）**：還在做的工作 checkpoint 在 `claude/second-ai-env-art-wip-pavsoc`（⑤，`68fa926`）、`-wip-props6`（⑥，`62bfa41`）、`-wip-trees`（⑦，`7a28254`）——**都是 WORK_IN_PROGRESS，不是交付，不要整合**；交付照舊是 `claude/second-ai-env-art` 上的 merge commit＋訊息。交接紀錄：`docs/art-rebuild/second_ai/HANDOFF.md`。
+
 | # | 工作 | 狀態 | 主要檔案 | 最新 commit | 測試 | 已整合 | 等美術驗收 |
 |---|---|---|---|---|---|---|---|
 | 1 | 兩點半 Café（外觀＋室內） | **`READY_FOR_ART_REVIEW`**（功能 `FUNCTIONAL_VERIFIED`）；**AI-1 已整合**（16:16Z merge `384c612`，回歸全部通過），排在下一次發布；等使用者看美術 | `tools/blender/env_second/`（`cafe_layout.py`）、`assets/models/env/second_ai/cafe_*.glb`、`zones3d.js` 的 `cafe`／`wenzhou` 區塊、`assets3d.js` 標記區、`tests/cafe_glb_integration.py` | `2ffd7d5`、`e9d8d80` | `cafe_glb_integration` 62 項等全部 ALL PASS（Playwright 手機模擬，不是實機） | 是（`384c612`） | 是 |
