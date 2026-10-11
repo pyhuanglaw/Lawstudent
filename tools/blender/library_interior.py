@@ -8,7 +8,7 @@
 用法：/opt/blenv/bin/python tools/blender/library_interior.py [--out assets/models/env/library_interior.glb] [--tex 512] [--render 輸出資料夾] [--views a,b]
 """
 import bpy, bmesh, json, math, os, re, sys, random
-from mathutils import Vector
+from mathutils import Vector, Matrix
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 TEX = os.path.join(ROOT, 'tools', 'blender', 'textures')
@@ -45,7 +45,18 @@ def img(path):
         _imgs[path] = im
     return _imgs[path]
 
-def pbr(name, pid=None, tile=1.0, tint=None, rough=None, metal=0.0, alpha=None, emit=None, normal=0.8, target=None, sat=1.0, base_dir=None):
+def rough_img(path, rmin):
+    """粗糙度貼圖整體調粗：r' = rmin + (1−rmin)·r（遊戲裡點光源照在亮面木地板上的反光太亮、像打蠟）"""
+    import numpy as np
+    key = (path, 'rmin', rmin)
+    if key not in _imgs:
+        src = img(path); w, h = src.size; px = np.empty(w * h * 4, dtype=np.float32); src.pixels.foreach_get(px); px = px.reshape(-1, 4)
+        px[:, :3] = rmin + (1 - rmin) * px[:, :3]
+        im = bpy.data.images.new(os.path.basename(path)[:-4] + f'_rmin{rmin:g}', w, h, alpha=False); im.pixels.foreach_set(np.clip(px, 0, 1).ravel()); im.colorspace_settings.name = 'Non-Color'
+        _imgs[key] = im
+    return _imgs[key]
+
+def pbr(name, pid=None, tile=1.0, tint=None, rough=None, metal=0.0, alpha=None, emit=None, normal=0.8, target=None, sat=1.0, base_dir=None, rough_min=None):
     m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N = nt.nodes; Lk = nt.links
     bsdf = N['Principled BSDF']; bsdf.inputs['Metallic'].default_value = min(metal, B.MAX_METAL)
     m['tile'] = tile
@@ -54,7 +65,7 @@ def pbr(name, pid=None, tile=1.0, tint=None, rough=None, metal=0.0, alpha=None, 
         tc = N.new('ShaderNodeTexImage'); tc.image = B.img_adj(base + '_diff_1k.jpg', sat, 1.0, target) if target else img(base + '_diff_1k.jpg')
         Lk.new(tc.outputs['Color'], bsdf.inputs['Base Color'])
         if os.path.exists(base + '_rough_1k.jpg'):
-            tr = N.new('ShaderNodeTexImage'); tr.image = img(base + '_rough_1k.jpg'); tr.image.colorspace_settings.name = 'Non-Color'
+            tr = N.new('ShaderNodeTexImage'); tr.image = rough_img(base + '_rough_1k.jpg', rough_min) if rough_min else img(base + '_rough_1k.jpg'); tr.image.colorspace_settings.name = 'Non-Color'
             Lk.new(tr.outputs['Color'], bsdf.inputs['Roughness'])
         if os.path.exists(base + '_nor_gl_1k.jpg'):
             tn = N.new('ShaderNodeTexImage'); tn.image = img(base + '_nor_gl_1k.jpg'); tn.image.colorspace_settings.name = 'Non-Color'
@@ -77,7 +88,7 @@ def srgb(h):
 
 MAT = {
     'floor':   pbr('lb_terrazzo', 'terrazzo_tiles', tile=1.6, sat=0.5, target='#d6cdbd', base_dir=TEX2),          # 一樓大廳、連廊：米色磨石子
-    'parquet': pbr('lb_parquet', 'herringbone_parquet', tile=1.8, sat=0.8, target='#a07a55', base_dir=TEX2),     # 二樓兩翼（自習區）：人字拼木地板
+    'parquet': pbr('lb_parquet', 'herringbone_parquet', tile=1.8, sat=0.8, target='#a07a55', base_dir=TEX2, rough_min=0.7),     # 二樓兩翼（自習區）：人字拼木地板
     'granite': pbr('lb_granite', 'granite_tile_03', tile=1.8, sat=0.4, target='#b9b2a6'),                        # 柱子、樓板邊收邊、閘門台座
     'step':    pbr('lb_step', 'granite_tile_03', tile=0.9, sat=0.35, target='#aaa49b'),                          # 樓梯踏面、平台
     'plaster': pbr('lb_plaster', 'painted_plaster_wall', tile=2.5, target='#ece4d6'),
@@ -94,12 +105,30 @@ MAT = {
     'glass':   pbr('lb_glass', None, tint=srgb('#c4d6dc'), rough=0.05, alpha=0.22),
     'light':   pbr('lb_light_panel', None, tint=srgb('#fff6e4'), rough=0.9, emit=srgb('#fff4dc')),
     'sky':     pbr('lb_skylight', None, tint=srgb('#e6f0f6'), rough=0.9, emit=srgb('#e8f2f8')),
-    'plant':   pbr('lb_plant', None, tint=srgb('#4f7a46'), rough=0.85),
     'soil':    pbr('lb_soil', None, tint=srgb('#3b2d22'), rough=0.95),
     'paper':   pbr('lb_paper', None, tint=srgb('#ece6d8'), rough=0.9),
 }
 BOOKC = ['#2f5d50', '#8c3b47', '#c9a24f', '#4a6c8c', '#7b6a5a', '#b5643f', '#d9d3c6', '#3e4a5c', '#6e2f2f', '#5d7a4a']
 for i, c in enumerate(BOOKC): MAT[f'book{i}'] = pbr(f'lb_book_{i}', None, tint=srgb(c), rough=0.75)
+
+# 植物的葉片卡：葉片貼圖是第二個 AI 的 tools/blender/env_second/gen_leaves.py 程式產生的（本作，不是外部素材；兩點半 Café、溫州街小公園用同一套）。
+# 透明度用 alpha clip（Round 節點 → glTF alphaMode MASK）、雙面。第一版是多面體圓球（看起來像玩具），2026-10-11 換掉
+GEN = os.path.join(TEX2, 'gen')
+def leaf_mat(name, png, rough=0.7):
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N = nt.nodes; Lk = nt.links
+    bsdf = N['Principled BSDF']; bsdf.inputs['Roughness'].default_value = rough
+    tx = N.new('ShaderNodeTexImage'); tx.image = img(os.path.join(GEN, png))
+    Lk.new(tx.outputs['Color'], bsdf.inputs['Base Color'])
+    rnd = N.new('ShaderNodeMath'); rnd.operation = 'ROUND'; Lk.new(tx.outputs['Alpha'], rnd.inputs[0]); Lk.new(rnd.outputs[0], bsdf.inputs['Alpha'])
+    try: m.surface_render_method = 'DITHERED'
+    except Exception: pass
+    m.use_backface_culling = False; m['tile'] = 1.0
+    return m
+MAT['leaf_small'] = leaf_mat('lb_leaf_small', 'olive_leaves.png')    # 室內樹（垂榕一類的小葉）
+MAT['leaf_fern'] = leaf_mat('lb_leaf_fern', 'fern_leaves.png')       # 花台前緣的低矮植栽（蕨類）
+MAT['bark'] = pbr('lb_bark', None, tint=srgb('#6a5644'), rough=0.9)
+for k_, c_ in (('leaf_dark', '#2f5130'), ('leaf_mid', '#3f6a3a')):   # 模型葉子（大葉盆栽）：深綠、帶一點光澤、雙面
+    MAT[k_] = pbr('lb_' + k_, None, tint=srgb(c_), rough=0.42); MAT[k_].use_backface_culling = False
 
 # ---------------- 幾何（和萬才館室內同一套小工具）----------------
 def box_uv(bm, tile):
@@ -152,6 +181,86 @@ def prism(name, mat, pts, x0, x1, parent=None):
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces); bm.normal_update(); box_uv(bm, mat.get('tile', 1.0))
     return mesh_obj(name, bm, mat, parent)
 
+# ---------------- 植物（葉片卡）----------------
+def leaf_cards(name, mat, cards, parent):
+    """一組葉片卡（一張＝一個四邊形）：cards＝[(cx,cy,cz,寬,高,繞 y 轉,往前傾,(u0,v0,u1,v1))]，遊戲座標"""
+    bm = bmesh.new(); uvl = bm.loops.layers.uv.verify()
+    for (cx, cy, cz, w, h, ry, rx, uv) in cards:
+        rot = Matrix.Rotation(ry, 3, 'Y') @ Matrix.Rotation(rx, 3, 'X'); c = Vector((cx, cy, cz))
+        vs = [bm.verts.new(g2b(*(c + rot @ Vector(q)))) for q in ((-w / 2, -h / 2, 0), (w / 2, -h / 2, 0), (w / 2, h / 2, 0), (-w / 2, h / 2, 0))]
+        f = bm.faces.new(vs); u0, v0, u1, v1 = uv
+        for lp, (u, v) in zip(f.loops, ((u0, v0), (u1, v0), (u1, v1), (u0, v1))): lp[uvl].uv = (u, v)
+    bm.normal_update()
+    return mesh_obj(name, bm, mat, parent)
+
+def _uv(rnd, span):
+    u = rnd.uniform(0, 1 - span); v = rnd.uniform(0, 1 - span); return (u, v, u + span, v + span)
+
+def indoor_tree(pre, parent, x, y0, z, h, r, seed):
+    """室內樹（垂榕一類）：三根細樹幹扭在一起往上、頂端分出幾根枝條，樹冠是一團小葉的葉片卡（橢球殼上隨機擺放、隨機朝向）"""
+    rnd = random.Random(seed); top = y0 + h - r * 1.35
+    for k in range(3):
+        a = k * 2.09 + rnd.uniform(-0.3, 0.3); dx, dz = math.cos(a) * 0.045, math.sin(a) * 0.045
+        mid = (x - dz * 0.8, (y0 + top) / 2, z + dx * 0.8)   # 中段往旁邊扭一點（三根交纏的樣子）
+        cyl(f'{pre}_trunk_{k}a', MAT['bark'], (x + dx, y0, z + dz), mid, 0.03, parent, seg=6, r2=0.025)
+        cyl(f'{pre}_trunk_{k}b', MAT['bark'], mid, (x - dx * 0.4, top, z - dz * 0.4), 0.025, parent, seg=6, r2=0.018)
+    cy = top + r * 0.75
+    for k in range(5):
+        a = k * 1.256 + rnd.uniform(-0.3, 0.3); L_ = r * rnd.uniform(0.55, 0.8)
+        cyl(f'{pre}_branch_{k}', MAT['bark'], (x, top - 0.05, z), (x + math.cos(a) * L_, cy + rnd.uniform(-0.1, 0.3), z + math.sin(a) * L_), 0.014, parent, seg=5, r2=0.008)
+    cards = []
+    n = int(52 * (r / 0.75) ** 2) + 14
+    for i in range(n):
+        a = rnd.uniform(0, 2 * math.pi); e = math.asin(rnd.uniform(-0.7, 1.0)); rr = r * rnd.uniform(0.6, 1.0)
+        px, pz, py = x + math.cos(a) * rr * math.cos(e), z + math.sin(a) * rr * math.cos(e), cy + math.sin(e) * rr * 0.85
+        s_ = r * rnd.uniform(0.6, 0.85)
+        cards.append((px, py, pz, s_, s_, a + rnd.uniform(-0.6, 0.6), rnd.uniform(-1.0, 1.0), _uv(rnd, 0.5)))
+    leaf_cards(f'{pre}_leaves', MAT['leaf_small'], cards, parent)
+
+def leaf_mesh(bm, base, yaw, pitch, Lf, Wf, droop, fold=0.18, n=6):
+    """一片模型葉子（不是葉片卡）：沿主脈 n 段、每段左緣／主脈／右緣三點，主脈稍微隆起、兩側往下彎、葉尖往下垂。
+    base＝葉柄端（遊戲座標）；yaw＝葉子朝哪個方向（繞 y）、pitch＝往上翹（正）或往下（負）"""
+    rot = Matrix.Rotation(yaw, 3, 'Y') @ Matrix.Rotation(pitch, 3, 'Z'); b = Vector(base); rows = []
+    for i in range(n + 1):
+        t = i / n; w = Wf * (math.sin(math.pi * min(1.0, t * 1.08)) ** 0.75) if i < n else 0.0
+        y_ = -droop * t * t                         # 葉尖往下垂
+        row = []
+        for side in (-1, 0, 1):
+            q = Vector((t * Lf, y_ + (fold * Wf if side == 0 else -0.25 * w * abs(side)), side * w))
+            row.append(bm.verts.new(g2b(*(b + rot @ q))))
+        rows.append(row)
+    for i in range(n):
+        a, c = rows[i], rows[i + 1]
+        if i < n - 1:
+            bm.faces.new((a[0], a[1], c[1], c[0])); bm.faces.new((a[1], a[2], c[2], c[1]))
+        else:
+            bm.faces.new((a[0], a[1], c[1])); bm.faces.new((a[1], a[2], c[1]))
+
+def broad_plant(pre, parent, x, y0, z, h, r, seed):
+    """大葉盆栽（橡膠樹、琴葉榕一類）：幾根莖從盆裡往上、往外，莖的上半段交錯長出一片一片的模型葉子（深綠、帶一點光澤）。
+    第一版是大葉貼圖的葉片卡：方形卡把葉子切出直邊，近看像剪紙（2026-10-11 換成模型葉子）"""
+    rnd = random.Random(seed); bms = [bmesh.new(), bmesh.new()]
+    for k in range(5):
+        a = k * 1.256 + rnd.uniform(-0.35, 0.35); lean = rnd.uniform(0.08, 0.28); hh = h * rnd.uniform(0.65, 1.0)
+        tx, tz = x + math.cos(a) * hh * lean, z + math.sin(a) * hh * lean
+        cyl(f'{pre}_stem_{k}', MAT['bark'], (x + math.cos(a) * 0.03, y0, z + math.sin(a) * 0.03), (tx, y0 + hh, tz), 0.014, parent, seg=5, r2=0.008)
+        nl = rnd.randint(6, 9)
+        for j in range(nl):
+            t = 0.3 + 0.7 * (j + 1) / nl; px, py, pz = x + (tx - x) * t, y0 + hh * t, z + (tz - z) * t
+            ya = a + (j % 2 - 0.5) * 2.2 + rnd.uniform(-0.5, 0.5)          # 互生：左右交錯
+            Lf = r * rnd.uniform(0.42, 0.62) * (0.75 + 0.35 * (1 - t)); Wf = Lf * rnd.uniform(0.36, 0.46)
+            leaf_mesh(bms[rnd.random() < 0.4], (px, py, pz), -ya, rnd.uniform(-0.1, 0.55) + (0.35 if j == nl - 1 else 0), Lf, Wf, droop=Lf * rnd.uniform(0.15, 0.4))
+    for bm, mk in zip(bms, ('leaf_dark', 'leaf_mid')):
+        bm.normal_update(); box_uv(bm, 1.0); mesh_obj(f'{pre}_{mk}', bm, MAT[mk], parent)
+
+def fern_bush(pre, parent, x, y0, z, r, seed, n=7):
+    """低矮的蕨類：一叢葉片卡，往外傾、往下垂"""
+    rnd = random.Random(seed); cards = []
+    for i in range(n):
+        a = rnd.uniform(0, 2 * math.pi); s_ = r * rnd.uniform(1.0, 1.4)
+        cards.append((x + math.cos(a) * r * 0.35, y0 + s_ * 0.3, z + math.sin(a) * r * 0.35, s_, s_, a + math.pi / 2, rnd.uniform(-1.2, -0.4), _uv(rnd, 0.5)))
+    leaf_cards(f'{pre}_leaves', MAT['leaf_fern'], cards, parent)
+
 def group(name, parent=None, props=None):
     ob = bpy.data.objects.new(name, None); scene.collection.objects.link(ob)
     if parent: ob.parent = parent
@@ -181,13 +290,13 @@ def window(prefix, parent, axis, at, a, b, ya, yb, inward, fade=None):
         for (za, zb, y_a, y_b) in ((a, a + f, ya, yb), (b - f, b, ya, yb), (a, b, ya, ya + f), (a, b, yb - f, yb), ((a + b) / 2 - 0.03, (a + b) / 2 + 0.03, ya, yb)):
             box(f'{prefix}_win_{a:.1f}_{za:.2f}_{y_a:.1f}', MAT['frame'], at + o - 0.04, at + o + 0.04, y_a, y_b, za, zb, parent, props=FP)
         box(f'{prefix}_sill_{a:.1f}_{ya:.1f}', MAT['walnut'], at + inward * T / 2 - (0.0 if inward > 0 else 0.16), at + inward * T / 2 + (0.16 if inward > 0 else 0.0), ya - 0.05, ya, a - 0.05, b + 0.05, parent, props=FP)
-        quad(f'{prefix}_wglass_{a:.1f}_{ya:.1f}', MAT['glass'], [(at, ya, a), (at, ya, b), (at, yb, b), (at, yb, a)], parent, tile=1.0, props=FP)
+        quad(f'{prefix}_wglass_{a:.1f}_{ya:.1f}', MAT['glass'], [(at, ya, a), (at, ya, b), (at, yb, b), (at, yb, a)], parent, tile=1.0)   # 玻璃不放進淡出群組：遊戲的 fadeWalls 把整組的不透明度設成 1，玻璃會變成一片不透明的灰藍色、看不到窗外（2026-10-11 截圖）
     else:
         for (xa, xb, y_a, y_b) in ((a, a + f, ya, yb), (b - f, b, ya, yb), (a, b, ya, ya + f), (a, b, yb - f, yb)):
             box(f'{prefix}_win_{a:.1f}_{xa:.2f}_{y_a:.1f}', MAT['frame'], xa, xb, y_a, y_b, at + o - 0.04, at + o + 0.04, parent, props=FP)
         n = max(1, round((b - a) / 1.4))
         for i in range(1, n): xm = a + (b - a) * i / n; box(f'{prefix}_wm_{a:.1f}_{i}_{ya:.1f}', MAT['frame'], xm - 0.04, xm + 0.04, ya, yb, at + o - 0.04, at + o + 0.04, parent, props=FP)
-        quad(f'{prefix}_wglass_{a:.1f}_{ya:.1f}', MAT['glass'], [(a, ya, at), (b, ya, at), (b, yb, at), (a, yb, at)], parent, tile=1.0, props=FP)
+        quad(f'{prefix}_wglass_{a:.1f}_{ya:.1f}', MAT['glass'], [(a, ya, at), (b, ya, at), (b, yb, at), (a, yb, at)], parent, tile=1.0)   # 同上
 
 def door(prefix, parent, axis, at, c, y0, inward, w=1.5, h=2.5, mat=None, fade=None):
     """門框＋門板＋門把（門關著：遊戲裡是看得懂的說明）"""
@@ -319,17 +428,13 @@ for si, sd in enumerate(S['sides']):
     box(f'L0_s{si}_planter_front', MAT['granite'], xa, xb, 0, 0.8, SD['z1'] - 0.75, SD['z1'] - 0.05, L0, bevel=0.015)
     box(f'L0_s{si}_planter_bed', MAT['granite'], xa, xb, 0, 0.45, SD['z0'] + 0.05, SD['z1'] - 0.75, L0)
     box(f'L0_s{si}_soil', MAT['soil'], xa + 0.05, xb - 0.05, 0.45, 0.47, SD['z0'] + 0.1, SD['z1'] - 0.8, L0)
-    for (pz, ph, pr) in ((SD['z1'] - 1.4, 2.6, 0.75), (SD['z0'] + 1.6, 1.5, 0.55)):
-        px = (xa + xb) / 2
-        cyl(f'L0_s{si}_tree_trunk_{pz:.1f}', MAT['walnut'], (px, 0.45, pz), (px, 0.45 + ph * 0.7, pz), 0.05, L0, seg=8)
-        bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=2, radius=pr)
-        for v in bm.verts: v.co.z *= 0.85; v.co += Vector((math.sin(v.co.x * 7 + pz) * 0.06, math.cos(v.co.y * 6) * 0.06, math.sin(v.co.z * 5) * 0.04))
-        bmesh.ops.translate(bm, verts=bm.verts, vec=g2b(px, 0.45 + ph * 0.7 + pr * 0.5, pz)); bm.normal_update(); box_uv(bm, 1.0); mesh_obj(f'L0_s{si}_tree_{pz:.1f}', bm, MAT['plant'], L0)
-    for j in range(5):   # 前緣花台裡的低矮植栽
-        px = xa + 0.25 + j * (xb - xa - 0.5) / 4
-        bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=1, radius=0.26)
-        for v in bm.verts: v.co.z *= 0.7
-        bmesh.ops.translate(bm, verts=bm.verts, vec=g2b(px, 0.95, SD['z1'] - 0.4)); bm.normal_update(); box_uv(bm, 1.0); mesh_obj(f'L0_s{si}_shrub_{j}', bm, MAT['plant'], L0)
+    for ti, (pz, ph, pr) in enumerate(((SD['z1'] - 1.4, 2.85, 0.72), (SD['z0'] + 1.6, 1.85, 0.5))):   # 兩棵室內樹：樹頂在樓梯板底下（樓梯板底面 z=-2.0 處約 3.85 m、z=-3.2 處約 3.1 m）
+        indoor_tree(f'L0_s{si}_tree{ti}', L0, (xa + xb) / 2 + (0.12 if ti else -0.1) * (1 if si else -1), 0.45, pz, ph, pr, seed=17 + si * 7 + ti)
+    for j in range(6):   # 前緣花台裡的低矮植栽（蕨類），沿著花台排、垂到石材前緣外面一點
+        px = xa + 0.22 + j * (xb - xa - 0.44) / 5
+        fern_bush(f'L0_s{si}_fern{j}', L0, px, 0.8, SD['z1'] - 0.42, 0.3, seed=101 + si * 13 + j)
+    for j in range(3):   # 花台裡、樹底下的大葉植栽
+        broad_plant(f'L0_s{si}_bed{j}', L0, xa + 0.4 + j * (xb - xa - 0.8) / 2, 0.47, SD['z0'] + 0.9 + j * 1.1, 0.55, 0.32, seed=211 + si * 11 + j)
 # 中間那一跑和兩側那一跑之間：兩道玻璃欄板（中間那一跑的兩側、兩側那一跑靠中間那一側），中間空著（看得到樓梯底下的植栽）
 for sx in (-1, 1):
     xc = sx * (C['x1'] + 0.03); xs = sx * (S['sides'][1]['x0'] - 0.03)
@@ -487,9 +592,8 @@ for i, f in enumerate(L['furniture']):
     elif t == 'planter':
         bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=20, radius1=f['r'] * 0.88, radius2=f['r'], depth=0.6)
         bmesh.ops.translate(bm, verts=bm.verts, vec=g2b(f['x'], y + 0.3, f['z'])); bm.normal_update(); box_uv(bm, 1.0); mesh_obj(f'{pre}_planter_{i}', bm, MAT['granite'], P)
-        bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=2, radius=f['r'] * 1.25)
-        for v in bm.verts: v.co.z *= 0.8; v.co += Vector((math.sin(v.co.x * 9) * 0.05, math.cos(v.co.y * 7) * 0.05, 0))
-        bmesh.ops.translate(bm, verts=bm.verts, vec=g2b(f['x'], y + 1.1, f['z'])); bm.normal_update(); box_uv(bm, 1.0); mesh_obj(f'{pre}_plant_{i}', bm, MAT['plant'], P)
+        box(f'{pre}_planter_soil_{i}', MAT['soil'], f['x'] - f['r'] * 0.66, f['x'] + f['r'] * 0.66, y + 0.56, y + 0.58, f['z'] - f['r'] * 0.66, f['z'] + f['r'] * 0.66, P)
+        broad_plant(f'{pre}_plant_{i}', P, f['x'], y + 0.57, f['z'], 1.35, f['r'] * 1.15, seed=307 + i * 5 + (100 if pre == 'L1' else 0))   # 大葉盆栽（琴葉榕一類）
     elif t == 'studyTable': study_table(f'{pre}_st_{i}', P, f, y)
 # 樓層簡介的框（字是遊戲的 canvas）
 box('L0_board_frame', MAT['frame'], -3.2 - 0.95, -3.2 + 0.95, 1.6 - 0.5, 1.6 + 0.5, -0.56, -0.5, L0)
@@ -529,7 +633,8 @@ for r, pre in ((L0, 'L0'), (L1, 'L1')): flatten(r); join_by_material(r, pre)
 # ---------------- 匯出 ----------------
 for ob in scene.objects:
     if ob.type == 'MESH':
-        for p in ob.data.polygons: p.use_smooth = False
+        sm = ob.data.materials[0].name.startswith('lb_leaf_')   # 模型葉子用平滑著色（看起來是彎的葉面，匯出的頂點也少一半以上）；其他維持平面著色
+        for p in ob.data.polygons: p.use_smooth = sm
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 tris = sum(sum(len(p.vertices) - 2 for p in ob.data.polygons) for ob in scene.objects if ob.type == 'MESH')
 bpy.ops.export_scene.gltf(filepath=OUT, export_format='GLB', export_image_format='WEBP', export_image_quality=82, export_yup=True, export_apply=True,
