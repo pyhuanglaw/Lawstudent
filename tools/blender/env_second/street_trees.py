@@ -391,10 +391,10 @@ if '--preview' in A:   # 驗收用的 Blender 渲染（匯出之後才把四款�
     w = bpy.data.worlds.new('pw'); sc.world = w; w.use_nodes = True; nt = w.node_tree; sky = nt.nodes.new('ShaderNodeTexSky')
     try: sky.sky_type = 'NISHITA'; sky.sun_elevation = math.radians(32); sky.sun_rotation = math.radians(230)
     except Exception: pass
-    nt.links.new(sky.outputs['Color'], nt.nodes['Background'].inputs['Color']); nt.nodes['Background'].inputs['Strength'].default_value = 0.6
+    nt.links.new(sky.outputs['Color'], nt.nodes['Background'].inputs['Color']); nt.nodes['Background'].inputs['Strength'].default_value = 0.32; sc.view_settings.exposure = -0.35
     sun = bpy.data.objects.new('psun', bpy.data.lights.new('psun', 'SUN')); sc.collection.objects.link(sun); sun.data.energy = 3.5; sun.data.angle = math.radians(3); sun.rotation_euler = (math.radians(58), 0, math.radians(-125))
     bpy.ops.mesh.primitive_plane_add(size=400, location=(0, 0, -0.01)); gp = bpy.context.active_object; gm = bpy.data.materials.new('pground'); gm.use_nodes = True
-    gm.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value = (0.2, 0.27, 0.12, 1); gm.node_tree.nodes['Principled BSDF'].inputs['Roughness'].default_value = 0.95; gp.data.materials.append(gm)
+    gm.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value = (0.09, 0.14, 0.05, 1); gm.node_tree.nodes['Principled BSDF'].inputs['Roughness'].default_value = 0.95; gp.data.materials.append(gm)
     card.hide_render = True; XS = {'camphor_a': -17.0, 'camphor_b': 0.0, 'banyan_a': 18.0, 'palm_a': 34.0}
     for name, (grp, bark, leaf) in MODELS.items(): grp.location.x = XS[name]
     cam = bpy.data.objects.new('pcam', bpy.data.cameras.new('pcam')); sc.collection.objects.link(cam); sc.camera = cam
