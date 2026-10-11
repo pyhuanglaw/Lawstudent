@@ -1,0 +1,373 @@
+[
+ {
+  "out": "docs/art-rebuild/second_ai/shots/ggsc_before_north_row_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "gongguan",
+   "hour": 11,
+   "pos": {
+    "x": -36,
+    "z": -27,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -35.5,
+    1.6,
+    -28.6
+   ],
+   "look": [
+    -42,
+    0.7,
+    -32.2
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/ggsc_before_north_row_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "gongguan",
+   "hour": 17.5,
+   "pos": {
+    "x": -36,
+    "z": -27,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -35.5,
+    1.6,
+    -28.6
+   ],
+   "look": [
+    -42,
+    0.7,
+    -32.2
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/ggsc_before_north_row_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "gongguan",
+   "hour": 20.5,
+   "pos": {
+    "x": -36,
+    "z": -27,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -35.5,
+    1.6,
+    -28.6
+   ],
+   "look": [
+    -42,
+    0.7,
+    -32.2
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/ggsc_before_south_row_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "gongguan",
+   "hour": 11,
+   "pos": {
+    "x": -40,
+    "z": 10,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -39.5,
+    1.6,
+    10.2
+   ],
+   "look": [
+    -46.5,
+    0.7,
+    6.8
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/ggsc_before_south_row_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "gongguan",
+   "hour": 17.5,
+   "pos": {
+    "x": -40,
+    "z": 10,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -39.5,
+    1.6,
+    10.2
+   ],
+   "look": [
+    -46.5,
+    0.7,
+    6.8
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/ggsc_before_south_row_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "gongguan",
+   "hour": 20.5,
+   "pos": {
+    "x": -40,
+    "z": 10,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -39.5,
+    1.6,
+    10.2
+   ],
+   "look": [
+    -46.5,
+    0.7,
+    6.8
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/ggsc_before_street_west_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "gongguan",
+   "hour": 11,
+   "pos": {
+    "x": -22,
+    "z": 11,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -22,
+    1.7,
+    11
+   ],
+   "look": [
+    -62,
+    4.5,
+    19
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/ggsc_before_street_west_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "gongguan",
+   "hour": 17.5,
+   "pos": {
+    "x": -22,
+    "z": 11,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -22,
+    1.7,
+    11
+   ],
+   "look": [
+    -62,
+    4.5,
+    19
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/ggsc_before_street_west_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "gongguan",
+   "hour": 20.5,
+   "pos": {
+    "x": -22,
+    "z": 11,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -22,
+    1.7,
+    11
+   ],
+   "look": [
+    -62,
+    4.5,
+    19
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/ggsc_before_from_gate_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "gongguan",
+   "hour": 11,
+   "pos": {
+    "x": 2,
+    "z": -36,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    2,
+    1.7,
+    -36
+   ],
+   "look": [
+    -4,
+    7,
+    19
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/ggsc_before_from_gate_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "gongguan",
+   "hour": 17.5,
+   "pos": {
+    "x": 2,
+    "z": -36,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    2,
+    1.7,
+    -36
+   ],
+   "look": [
+    -4,
+    7,
+    19
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/ggsc_before_from_gate_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "gongguan",
+   "hour": 20.5,
+   "pos": {
+    "x": 2,
+    "z": -36,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    2,
+    1.7,
+    -36
+   ],
+   "look": [
+    -4,
+    7,
+    19
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/ggsc_before_follow_1730.png",
+  "w": 390,
+  "h": 844,
+  "mobile": true,
+  "hud": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "gongguan",
+   "hour": 17.5,
+   "pos": {
+    "x": -42,
+    "z": 9.2,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "yaw": -1.0707963267948966,
+   "pitch": 0.2,
+   "dist": 5.5
+  },
+  "wait": 3500
+ }
+]
