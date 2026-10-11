@@ -356,7 +356,7 @@ for i, f in enumerate(L['furniture']):
             box(f'{pre}_frame_{za:.2f}_{ya:.2f}', MAT['frame'], x0 - T / 2 - 0.01, x0 - T / 2 + 0.05, ya, yb, za, zb, P)
         quad(pre + '_glass', MAT['glass'], [(x0 - T / 2 + 0.02, 1.4, z0 - 0.74), (x0 - T / 2 + 0.02, 1.4, z0 + 0.74), (x0 - T / 2 + 0.02, 1.99, z0 + 0.74), (x0 - T / 2 + 0.02, 1.99, z0 - 0.74)], P, tile=1.0)
         box(pre + '_ledge', MAT['wood'], x0 - T / 2, x0 + 0.28, 1.02, 1.07, z0 - 0.8, z0 + 0.8, P)
-        box(pre + '_desk', MAT['wood'], x0 - 1.2, x0 - T / 2 - 0.02, 0.0, 0.76, z0 - 0.9, z0 + 0.9, P)
+        box(pre + '_desk', MAT['wood'], x0 - 0.9, x0 - T / 2 - 0.02, 0.0, 0.76, z0 - 0.9, z0 + 0.9, P)   # 窗口裡面的桌子（值班的工讀生坐在後面：story3d.js）
         box(pre + '_log', MAT['paper'], x0 + 0.02, x0 + 0.25, 1.07, 1.075, z0 - 0.35, z0 - 0.05, P)
     elif t == 'mailboxes':   # 信箱：灰色鐵櫃、一格一格的小門（號碼由遊戲不畫：太小）
         g = group(pre, P); g.location = g2b(f['x'], y, f['z']); g.rotation_euler = (0, 0, ry)

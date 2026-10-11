@@ -71,6 +71,7 @@ const STORY = (function(){
       if(F.companion==='an') spawnCompanion(GM); }
     if(zoneId==='dorm_hall'&&typeof DORM_LAYOUT!=='undefined'){ const L=DORM_LAYOUT; const boy=()=>{ if(xi%2===0) xi++; return extraSpec(xi++); };   /* 男生宿舍：路人都是男生（extraSpec 奇數＝男）*/
       const mk=(x,z,lv,yaw,pose,seat)=>{ const o=CHAR.build(boy()); o.position.set(x,0,z); o.rotation.y=yaw||0; return E.addNPC({obj:o,name:'',beh:'idle',pose:pose||'idle',idlePose:pose||'idle',frozen:true,isExtra:true,lv:lv|0,seat}); };
+      if(hr>=7&&hr<23){ const ww=L.furniture.find(f=>f.type==='wardenWindow'); if(ww) mk(ww.x-1.25,ww.z,0,Math.PI/2,'read',{x:ww.x-1.25,z:ww.z,yaw:Math.PI/2,lv:0}); }   /* 舍監室窗口裡值班的工讀生（隔著玻璃看得到）*/
       if(hr>=7&&hr<24){ GM.spawnExtra(boy(),[[0,4.6,0],[-0.8,0,0],[0,-5.2,0],[1.4,0.2,1],[-9.5,0.2,1],[9.5,-0.2,1],[1.4,0.2,1],[0,-5.2,0],[-0.8,0,0]],{});   /* 走樓梯上下樓的人：門廳 ⇄ 二樓走廊 */
         GM.spawnExtra(boy(),[[-12.4,0,0],[12.4,0,0]],{});   /* 一樓走廊來回 */
         if(hr>=12){ const st=E.zone.seats[1]; if(st) mk(st.x,st.z,0,st.yaw,'read',{x:st.x,z:st.z,yaw:st.yaw,lv:0}); }
