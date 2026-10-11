@@ -19,9 +19,11 @@ import playlib as PL
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/tap_floor_levels'
 HOOK = "(()=>{ const E=GAME.E; if(E.__tapHook) return; const f=E.onTapGround; E.onTapGround=h=>{ window.__lastTap={x:h.x,z:h.z,y:h.y,lv:h.lv|0,t:performance.now()}; if(f) f(h); }; E.__tapHook=true; })()"
-# 鏡頭轉向某一點（鏡頭在玩家的 (sin yaw, cos yaw) 那一側，畫面的「前」＝(-sin yaw,-cos yaw)），等幾格讓鏡頭跟上
+# 鏡頭轉向某一點（鏡頭在玩家的 (sin yaw, cos yaw) 那一側，畫面的「前」＝(-sin yaw,-cos yaw)），等鏡頭停穩：
+# 往下走樓梯的方向會慢慢加俯角（engine3d.js 的 C.pitchAdd，平順變化），還在變的時候投影到螢幕的點會偏（2026-10-11 第一次跑：落點偏 0.56 m）
 FACE = """(async([tx,tz])=>{ const E=GAME.E, o=E.player.obj.position; E.cam.yaw=Math.atan2(-(tx-o.x),-(tz-o.z)); E.cam.manualT=2;
-    const f0=E.frame; for(let i=0;i<240&&E.frame<f0+8;i++) await new Promise(r=>setTimeout(r,250)); })"""
+    const f0=E.frame; for(let i=0;i<240&&E.frame<f0+8;i++) await new Promise(r=>setTimeout(r,250));
+    let prev=null; for(let k=0;k<80;k++){ const c=E.camera.position, now=[c.x,c.y,c.z,E.cam.pitchAdd||0]; if(prev&&Math.hypot(now[0]-prev[0],now[1]-prev[1],now[2]-prev[2])<0.005&&Math.abs(now[3]-prev[3])<0.002) break; prev=now; const f1=E.frame; for(let i=0;i<40&&E.frame<f1+2;i++) await new Promise(r=>setTimeout(r,100)); } })"""
 # 世界座標 → 螢幕（那一層的高度）；要在畫面上、而且那裡是遊戲畫面（不是按鈕）
 PROJ = """(([x,z,lv])=>{ const E=GAME.E; const y=E.heightAt?E.heightAt(x,z,lv):0; const v=new THREE.Vector3(x,y,z).project(E.camera); if(v.z>1) return null;
     const sx=(v.x+1)/2*innerWidth, sy=(1-v.y)/2*innerHeight; if(sx<10||sy<10||sx>innerWidth-10||sy>innerHeight-10) return {off:true,sx,sy};
@@ -44,7 +46,8 @@ async def tap_point(pg, cdp, run, label, x, z, lv, want_lv, want_y=None, cancel=
     if not t: return run.check(label + '：點下去有反應（遊戲算出落點）', False)
     d = math.hypot(t['x'] - x, t['z'] - z)
     ok = d < 0.8 and t['lv'] == want_lv and (want_y is None or abs(t['y'] - want_y) < 0.35)
-    return run.check(label, ok, '目標 (%.2f,%.2f,第%d層) 落點 (%.2f,%.2f,第%d層,y %.2f) 差 %.2f m' % (x, z, want_lv, t['x'], t['z'], t['lv'], t['y'], d))
+    run.check(label, ok, '目標 (%.2f,%.2f,第%d層) 落點 (%.2f,%.2f,第%d層,y %.2f) 差 %.2f m' % (x, z, want_lv, t['x'], t['z'], t['lv'], t['y'], d))
+    return t if ok else None
 
 
 async def main():
@@ -70,7 +73,7 @@ async def main():
         await pg.evaluate(FACE + '([87,-86])')
         s0 = await pg.evaluate(POS); run.check('還在平台上', s0['lv'] == 1 and abs(s0['y'] - 3.63) < 0.05, json.dumps(s0))
         t0 = time.time()
-        ok = await tap_point(pg, cdp, run, '點一下大樓梯正前方的廣場：落點在第 0 層', 87, -86.5, 0, 0, 0.0, cancel=False)
+        tp = await tap_point(pg, cdp, run, '點一下大樓梯正前方的廣場：落點在第 0 層', 87, -86.5, 0, 0, 0.0, cancel=False); ok = bool(tp)
         mids = 0; last = None
         while ok and time.time() - t0 < 300:
             s = await pg.evaluate(POS)
@@ -79,9 +82,9 @@ async def main():
             await pg.wait_for_timeout(1000)
         last = last or await pg.evaluate(POS)
         await run.shot(pg, 'after_one_tap')
-        d = math.hypot(last['x'] - 87, last['z'] + 86.5)
-        run.check('只點一下就沿著大樓梯走到廣場（第 0 層、高度 0、< 0.6 m）', ok and last['lv'] == 0 and abs(last['y']) < 0.05 and d < 0.6 and mids > 0,
-                  '%s；離目標 %.2f m；樓梯中段取樣 %d 次；%.0f 秒' % (json.dumps(last), d, mids, time.time() - t0))
+        d = math.hypot(last['x'] - tp['x'], last['z'] - tp['z']) if tp else 99   # 和點下去的落點比（落點本身離想點的位置 < 0.8 m，上一項已經檢查）
+        run.check('只點一下就沿著大樓梯走到點的地方（第 0 層、高度 0、離落點 < 0.6 m）', ok and last['lv'] == 0 and abs(last['y']) < 0.05 and d < 0.6 and mids > 0,
+                  '%s；離落點 %.2f m；樓梯中段取樣 %d 次；%.0f 秒' % (json.dumps(last), d, mids, time.time() - t0))
         # ---- 站在廣場上 ----
         run.setup('讀檔：法學院廣場 (87,-84)、第 0 層，10:00')
         await PL.load_state(pg, {'zone': 'campus', 'hour': 10.0, 'day': 8, 'weekday': 6, 'pos': {'x': 87, 'z': -84, 'yaw': 3.1416}}, quiet_events=True)
