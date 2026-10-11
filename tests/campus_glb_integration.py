@@ -1,5 +1,5 @@
 """校園地標的正式模型（第二個 AI：Blender GLB）整合檢查——第二層「系統整合」測試（docs/TESTING.md），不是真實玩家流程。
-  LAWWW 2026-10-10 23:26Z 分派的順序：①總圖書館 bldg.campus_library（campus_library.py）②傅鐘 bldg.campus_bell（campus_bell.py）③行政大樓 ④文學院、校史館。
+  LAWWW 2026-10-10 23:26Z 分派的順序：①總圖書館 bldg.campus_library（campus_library.py）②傅鐘 bldg.campus_bell（campus_bell.py）③行政大樓 bldg.campus_admin（campus_hall.py --set admin）④文學院、校史館。
   新的地標加進 TAGS 就好（標記、外框、匾額、效能的檢查都照 TAGS 跑）。
 
 比較的對象＝「改之前」：同一版遊戲、開機後把 manifest 裡這些地標的 key 拿掉再進校園（套件照舊參加整區靜態合併，和這次修改之前一模一樣；
@@ -8,7 +8,7 @@
   1. 校園裡有 ckTag 的只有 TAGS 這幾個，都接上正式模型、套件外觀全部藏起來；沒有標記的東西（樹、路燈、其他建築、背景）沒有多藏任何一個。
   2. 位置、尺寸、朝向照套件：正式模型的外框和套件的外框差 ≤ 1.5 m（屋簷、簷口出挑的差別）。
   3. 導航格、鏡頭碰撞方塊、互動點和「改之前」完全相同。
-  4. 匾額（總圖「總圖書館」、傅鐘石碑「傅鐘」）：石材匾額，canvas 字、貼圖比例＝板面比例。
+  4. 匾額（總圖「總圖書館」、傅鐘石碑「傅鐘」、行政大樓門廊檐部「行政大樓」）：石材匾額，canvas 字、貼圖比例＝板面比例。
   5. 夜間：總圖 20:30 窗戶亮、11:00 不亮；傅鐘的地燈燈罩、柱面暖光、光暈 20:30 亮、11:00 不亮，套件的光暈晚上不會跑回來（藏起來的套件光暈
      會被 TK.setNight 重新打開——這一項在沒修的版本會失敗）、夜裡才進校園（模型在晚上才載入）光暈也是亮的；20:30 路燈開著，開燈數和改之前一樣。
   6. 陰影：大面（牆、屋頂、石材）投影；窗框、窗洞、玻璃、門、燈罩、暖光片不投影。
@@ -26,7 +26,8 @@ URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'art-rebuild', 'second_ai', 'test_shots', 'campus_glb_integration')
 # ckTag → (manifest key, 正式模型的節點名稱, 匾額板面的名稱)
 TAGS = {'library': ('bldg.campus_library', 'campus_library_glb', 'PLATE_FACE_LIB'),
-        'bell': ('bldg.campus_bell', 'campus_bell_glb', 'PLATE_FACE_BELL')}
+        'bell': ('bldg.campus_bell', 'campus_bell_glb', 'PLATE_FACE_BELL'),
+        'admin': ('bldg.campus_admin', 'campus_admin_glb', 'PLATE_FACE_ADMIN')}
 WAIT_FORMAL = "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='%s')) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()"
 NAV_HASH = "(()=>{ const n=GAME.E.nav; let h=0; for(let i=0;i<n.b.length;i++){ h=(h*31+n.b[i]+i%7)>>>0; } return [n.cols,n.rows,h, n.b.reduce((a,v)=>a+(v?1:0),0)]; })()"
 STATE = """(()=>{ const E=GAME.E; const r=v=>Math.round(v*100)/100;
@@ -54,7 +55,9 @@ VIEWS = [('gate_avenue', (-110, 1.7, 0.5), (100, 8, 0)),     # 進校門往東�
          ('porch', (78, 1.7, 5.5), (88, 5.5, -1)),            # 門廊近看
          ('arcade', (88.6, 1.6, -22), (88.6, 2.4, 10)),       # 一樓拱廊裡
          ('bell_avenue', (-38, 1.7, 4), (-38, 3.0, 16.5)),    # 從大道看傅鐘（石碑那一面）
-         ('bell_close', (-35.6, 1.6, 12.4), (-38, 2.8, 16.5))]  # 傅鐘近看（斜前方）
+         ('bell_close', (-35.6, 1.6, 12.4), (-38, 2.8, 16.5)),  # 傅鐘近看（斜前方）
+         ('admin_front', (-30, 1.7, 14), (-38, 6, 28)),       # 行政大樓：傅鐘廣場東側斜看正面（門廊、拱廊、陽台欄杆）
+         ('admin_arcade', (-58.6, 1.6, 26.4), (-20, 2.4, 26.4))]   # 行政大樓一樓拱廊裡往東
 
 
 async def check(pg, run, formal):
