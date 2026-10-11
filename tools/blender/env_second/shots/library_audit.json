@@ -1,0 +1,4 @@
+[{"name": "總圖門口", "zone": "campus", "x": 80.5, "z": 0, "hour": 11},
+ {"name": "總圖前廣場南側", "zone": "campus", "x": 70, "z": 14, "hour": 11},
+ {"name": "椰林大道東段", "zone": "campus", "x": 50, "z": -4, "hour": 11},
+ {"name": "社科院前", "zone": "campus", "x": 90, "z": -60, "hour": 11}]

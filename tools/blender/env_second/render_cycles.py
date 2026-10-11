@@ -1,6 +1,6 @@
 """Blender 模型渲染圖（驗收用，D38 第 12.8 節的⑤；不是遊戲截圖）：匯入 GLB → Cycles（CPU、低取樣＋降噪）→ PNG。
 這個沙盒的 EEVEE 要用軟體 OpenGL，一張圖十幾分鐘還出不來，所以用 Cycles。
-用法：/opt/blenv/bin/python tools/blender/env_second/render_cycles.py -- <glb[,glb…]> <輸出資料夾> <前綴> <views.json> [--res 960x600] [--samples 24] [--night] [--ground] [--threads N] [--tint 材質=#色碼]... [--exposure EV] [--point x,y,z,W]...
+用法：/opt/blenv/bin/python tools/blender/env_second/render_cycles.py -- <glb[,glb…]> <輸出資料夾> <前綴> <views.json> [--res 960x600] [--samples 24] [--night] [--ground] [--threads N] [--tint 材質=#色碼]... [--exposure EV] [--view Standard] [--hide 名稱]... [--point x,y,z,W]...
 views.json：[["名稱", [眼睛 x,y,z], [看的點 x,y,z], 鏡頭焦距mm], ...]（遊戲座標）"""
 import json, math, os, sys
 import bpy
@@ -16,7 +16,7 @@ for one in glb.split(','): bpy.ops.import_scene.gltf(filepath=os.path.abspath(on
 sc = bpy.context.scene; sc.render.engine = 'CYCLES'; sc.cycles.device = 'CPU'; sc.cycles.samples = samples
 try: sc.cycles.use_denoising = True; sc.cycles.denoiser = 'OPENIMAGEDENOISE'
 except Exception: pass
-sc.render.resolution_x, sc.render.resolution_y = RW, RH; sc.view_settings.view_transform = 'AgX'
+sc.render.resolution_x, sc.render.resolution_y = RW, RH; sc.view_settings.view_transform = A[A.index('--view') + 1] if '--view' in A else 'AgX'   # --view Standard：顏色比較接近遊戲（AgX 在強光下把飽和的磚紅洗成粉紅）
 sc.cycles.max_bounces = 4
 if '--threads' in A: sc.render.threads_mode = 'FIXED'; sc.render.threads = int(A[A.index('--threads') + 1])   # 和瀏覽器測試同時跑時只用一個核心
 w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; nt = w.node_tree
@@ -42,6 +42,9 @@ for t in [A[i + 1] for i, x in enumerate(A) if x == '--point']:   # 室內預覽
     x, y, z, e = map(float, t.split(',')); lt = bpy.data.objects.new('pt', bpy.data.lights.new('pt', 'POINT')); lt.data.energy = e; lt.data.color = (1.0, 0.95, 0.88); lt.data.shadow_soft_size = 0.4
     lt.location = g2b(x, y, z); sc.collection.objects.link(lt)
 if '--exposure' in A: sc.view_settings.exposure = float(A[A.index('--exposure') + 1])
+for pat in [A[i + 1] for i, x in enumerate(A) if x == '--hide']:   # --hide 名稱：不渲染這個物件（例如傅鐘柱面的夜間暖光片：遊戲裡白天是加法混合的黑色＝看不到，渲染器會畫成不透明的漸層）
+    for ob in bpy.data.objects:
+        if pat in ob.name: ob.hide_render = True
 if '--ground' in A:   # 小道具：加一塊灰色地面（看得到影子）
     bpy.ops.mesh.primitive_plane_add(size=600, location=(0, 0, -0.01)); gp = bpy.context.active_object; gm = bpy.data.materials.new('ground'); gm.use_nodes = True
     gm.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value = (0.32, 0.32, 0.31, 1); gm.node_tree.nodes['Principled BSDF'].inputs['Roughness'].default_value = 0.9; gp.data.materials.append(gm)
