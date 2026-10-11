@@ -241,5 +241,14 @@ const STORY = (function(){
   async function talkKai(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('kai')) return; GM.sceneBegin({adv:'kai'}); SOCIAL.talkedTo('kai'); GM.cine('two',E.player.obj,n.obj); if(G.day===1){ await GM.say(n,'案例讀了沒？我等一下要開麥，會很吵。',{expr:'smile'}); } else if(F.afternoonDone&&!F.kaiAsked){ F.kaiAsked=true; await GM.say(n,'今天這麼晚。跟誰出去？'); const i=await GM.choose([{t:'同學。寫報告。'},{t:'沒有啊。'}]); await GM.say(n,i===0?'「寫報告」。好，你們法律系的都很會用這個詞。':'喔。',{expr:'laugh'}); } else { const l=['所以那個賣家可以告嗎？……不能？那法律系在幹嘛。','我明天早八，你走的時候小聲一點。','宿舍網路又斷了，我要去投訴。你們有教這個嗎？']; await GM.say(n,l[(Math.random()*l.length)|0],{expr:'smile'}); } GM.sceneEnd(); }
   async function talkYu(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('yu')) return; GM.sceneBegin({adv:'yu'}); SOCIAL.talkedTo('yu'); GM.cine('two',E.player.obj,n.obj); if(!F.met_yu){ F.met_yu=true; await GM.say(n,'你是周老師點的那個！我是小語，坐你前面右邊。',{expr:'smile'}); await GM.say(n,'我參加了三個社團，法服、辯論、還有吉他社。你要不要來吉他社？不用會彈。'); GM.rel('yu',2); } else { const l=['傅鐘旁邊這張椅子早上曬不到太陽，是全校最好的位子。','辯論社下週辯「網拍標錯價要不要出貨」，你要來看嗎？','溫州街的貓你有看到嗎？咖啡廳門口那隻。']; await GM.say(n,l[(Math.random()*l.length)|0],{expr:'smile'}); } GM.sceneEnd(); }
   async function talkProf(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('prof_zhou')) return; GM.sceneBegin({adv:'prof_zhou'}); SOCIAL.talkedTo('prof_zhou'); GM.cine('two',E.player.obj,n.obj); if(F.classAnswer==='good') await GM.say(n,G.name+'。今天回答得不錯。下週的錯誤與撤銷，先看八十八和九十一。'); else if(F.classAnswer==='none') await GM.say(n,G.name+'。案例要讀。下週我還會點你，這不是威脅，是預告。'); else await GM.say(n,'有問題就來研究室。法律不是背的，是想的。'); GM.sceneEnd(); }
+  // ---------- 認識的人現在大概在哪（2026-10-11 使用者：「自由那天根本不知道其他 NPC 在哪，至少給我線索吧」）----------
+  // 用角色資料的 daily_schedule——和 populateSchedule 生人物用的是同一份，地圖上寫的和走過去看到的一致。
+  // 第一二天主線還在安排的人（LEGACY_IDS，下午的劇情結束前、上課中）不猜：那時候劇情會帶玩家去找他們。
+  const ACT={read:'看書',class:'上課',barista:'打工',wander:'走走',help:'幫忙',sit:'坐著',club:'社團',eat:'吃飯',wait:'等人',desk:'在書桌前',ta:'助教課'};
+  S.whereIs=function(GM,id){ const G=GM.G, F=G.flags, hr=h(G), wd=G.weekday; const c=(typeof CHARACTERS!=='undefined')&&CHARACTERS[id]; if(!c) return null;
+    if(LEGACY_IDS.includes(id)&&(!F.afternoonDone||F.classNow)) return null;
+    for(const ent of (c.daily_schedule||[])){ if(!ent.days.includes(wd)) continue; const to=ent.to; const inR=to<=24?(hr>=ent.from&&hr<to):(hr>=ent.from||hr<to-24); if(!inR) continue;
+      const end=to%24, hh=Math.floor(end), mm=Math.round((end-hh)*60); return {zone:ent.zone, act:ACT[ent.act]||'', until:String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0')}; }
+    return null; };
   return S;
 })();

@@ -70,7 +70,7 @@ const GUIDE=(function(){
     st.info=info; updateMarkers(dt);
     if(st.uiT>0) return; st.uiT=0.2; drawBar(t,info); }
   function fmtDist(m){ if(m<8) return '就在附近'; if(m<100) return '約 '+(Math.round(m/5)*5)+' m'; return '約 '+(Math.round(m/10)*10)+' m'; }
-  function drawBar(t,info){ const el=$('guide'); if(!el) return; if(!t){ el.classList.add('hide'); return; }
+  function drawBar(t,info){ const el=$('guide'); if(!el) return; if(!t){ if(on()&&/自由/.test(GM.G.goal||'')&&!GM.E.indoor&&people().length){ el.classList.remove('hide'); $('guideText').textContent='點右上角的小地圖：看認識的人現在在哪'; $('guideArrow').style.opacity=0; } else el.classList.add('hide'); return; }
     const p=P(); const near=Math.hypot(t.x-p.x,t.z-p.z)<(t.r||1.5)+0.6&&(t.lv|0)===PLV(); el.classList.remove('hide');
     let txt=t.it&&t.it.exit?(near?'按「'+t.it.label+'」':t.it.label):(t.text||'目的地'); if(t.via&&!near){ const gd=GM.G.goalDest; if(gd&&gd.zone!==t.via) txt+='（往'+(PLACES.names[gd.zone]||'')+'）'; }
     if(!near&&info) txt+=' · '+fmtDist(info.rem);
@@ -104,6 +104,8 @@ const GUIDE=(function(){
     for(const m of st.markers){ const lim=m.it===goldIt?60:(m.indoor?12:26); const d=Math.hypot(m.it.x-p.x,m.it.z-p.z); const vis=d<lim&&(m.indoor&&E.levels?(m.it.lv|0)===PLV():Math.abs(m.y0-py)<6)&&!(E.player.busy&&E.cam.mode!=='follow'); m.spr.visible=vis; if(vis){ if(m.vh!==(E.h||window.innerHeight)) fitMarker(m); m.spr.material.opacity=Math.min(1,(lim-d)/4); if(m.it===goldIt) m.spr.position.y=m.y0+(m.indoor?2.05:2.6)+Math.sin(performance.now()/380)*0.08; }
       if(refresh&&m.it.exit&&PLACES.hours[m.it.exit.to]){ const s=hoursLine(m.it.exit.to); if(s!==m.sub){ m.sub=s; const g=m.gold; m.gold=null; setLabel(m,g); } } } }
 
+  /* ---------- 人物線索（2026-10-11 使用者：自由的那天不知道其他人在哪）---------- */
+  function people(){ if(!GM.knownIds||typeof STORY==='undefined'||!STORY.whereIs) return []; const out=[]; for(const id of GM.knownIds()){ const w=STORY.whereIs(GM,id); if(!w) continue; out.push({id,name:SOCIAL.displayName(id),w,text:GM.whereText(id)}); } return out; }
   /* ---------- 大地圖 ---------- */
   function navImage(nav){ const c=document.createElement('canvas'); c.width=nav.cols; c.height=nav.rows; const x=c.getContext('2d'); const img=x.createImageData(nav.cols,nav.rows);
     for(let i=0;i<nav.cols*nav.rows;i++){ const b=nav.b[i]; img.data[i*4]=b?58:196; img.data[i*4+1]=b?64:204; img.data[i*4+2]=b?74:184; img.data[i*4+3]=b?255:255; } x.putImageData(img,0,0); return c; }
@@ -114,25 +116,27 @@ const GUIDE=(function(){
     const fit=Math.min(W/ex,H/ez)*0.94; const p=P(); st.view={cx:nav.ox+wW/2,cz:nav.oz+wH/2,k:fit,fit,th,lv,img:navImage(nav),nav};
     if(!E.indoor&&fit<2.2){ st.view.k=Math.min(3.2,fit*2.2); st.view.cx=p.x; st.view.cz=p.z; }   // 校園很大：先放大到玩家附近，用「－」看全圖
     const zn=PLACES.names[GM.G.zone]||(E.zone.def&&E.zone.def.name)||''; $('bmTitle').textContent=zn+(E.levels?'　'+(lv+1)+'F':''); const d=GM.G.goalDest; $('bmSub').textContent=GM.G.goal?('目標：'+GM.G.goal):'';
-    drawMap(); }
+    if($('bmPeople')){ renderPeoplePanel(); $('bmPeople').classList.toggle('hide',!(/自由/.test(GM.G.goal||'')||!GM.G.goalDest)); } drawMap(); }
+  function renderPeoplePanel(){ const el=$('bmPeople'); if(!el) return; const ppl=people(); el.innerHTML='<b>認識的人現在大概在</b>'+(ppl.length?ppl.map(q=>'<div>'+q.name+'：'+q.text+'</div>').join(''):'<div class="muted">還沒有線索（第一二天劇情進行中，或還沒認識人）</div>'); }
   function closeMap(){ $('bigmap').classList.add('hide'); st.open=false; E.paused=!!st.wasPaused; }
   function toScreen(v,W,H,wx,wz){ const dx=wx-v.cx, dz=wz-v.cz, c=Math.cos(v.th), s=Math.sin(v.th); return [W/2+(dx*c-dz*s)*v.k, H/2+(dx*s+dz*c)*v.k]; }
   function drawMap(){ const v=st.view; if(!v) return; const cv=$('bmCanvas'); const dpr=Math.min(2,window.devicePixelRatio||1); const W=cv.clientWidth, H=cv.clientHeight; if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){ cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr); }
     const x=cv.getContext('2d'); x.setTransform(dpr,0,0,dpr,0,0); x.fillStyle='#1d2127'; x.fillRect(0,0,W,H); const nav=v.nav;
     x.save(); x.translate(W/2,H/2); x.scale(v.k,v.k); x.rotate(v.th); x.translate(-v.cx,-v.cz); x.imageSmoothingEnabled=v.k<4; x.drawImage(v.img,nav.ox,nav.oz,nav.cols*nav.cell,nav.rows*nav.cell); x.restore();
-    const S=(wx,wz)=>toScreen(v,W,H,wx,wz); const R=st.route;
+    const S=(wx,wz)=>toScreen(v,W,H,wx,wz); const R=st.route; const ppl=people();
     if(R&&R.length>1&&on()){ x.strokeStyle='rgba(255,190,70,0.95)'; x.lineWidth=4; x.lineJoin='round'; x.lineCap='round'; x.beginPath(); R.forEach((q,i)=>{ if((q[2]|0)!==v.lv&&E.levels) return; const [u,w]=S(q[0],q[1]); if(i) x.lineTo(u,w); else x.moveTo(u,w); }); x.stroke(); }
     x.textAlign='center'; x.textBaseline='middle'; const boxes=[]; const free=(u,w,tw,th)=>{ const b=[u-tw/2-2,w-th/2-1,u+tw/2+2,w+th/2+1]; for(const q of boxes){ if(b[0]<q[2]&&b[2]>q[0]&&b[1]<q[3]&&b[3]>q[1]) return false; } boxes.push(b); return true; };
     // 入口（青色門牌；目的地的入口金色）
     x.font='12px "Noto Sans TC","PingFang TC",sans-serif'; for(const it of E.interactables){ if(!it.exit&&!it.elevator) continue; if(E.levels&&(it.lv|0)!==v.lv) continue; const [u,w]=S(it.x,it.z); const gold=st.tgt&&st.tgt.it===it&&on(); x.fillStyle=gold?'#ffc85a':'#7fd0d6'; x.strokeStyle='rgba(20,22,26,0.9)'; x.lineWidth=1.5; x.beginPath(); x.rect(u-5,w-5,10,10); x.fill(); x.stroke();
-      const nm=exitName(it), hl=it.exit?hoursLine(it.exit.to):''; if(!free(u,w-14,x.measureText(nm).width,15)&&!gold) continue; x.lineWidth=3; x.strokeStyle='rgba(20,22,26,0.85)'; x.strokeText(nm,u,w-14); x.fillStyle=gold?'#ffd88a':'#cdeff2'; x.fillText(nm,u,w-14); if(hl&&v.k>1.2){ x.font='11px sans-serif'; x.strokeText(hl,u,w+15); x.fillStyle=/閉館/.test(hl)?'#ffb4a0':'#c9c2b4'; x.fillText(hl,u,w+15); x.font='12px "Noto Sans TC","PingFang TC",sans-serif'; } }
+      const nm=exitName(it), hl=it.exit?hoursLine(it.exit.to):''; const who=it.exit?(ppl.filter(q=>q.w.zone!==GM.G.zone&&(q.w.zone===it.exit.to||nextZone(GM.G.zone,q.w.zone)===it.exit.to)).map(q=>q.name)):[]; if(!free(u,w-14,x.measureText(nm).width,15)&&!gold&&!who.length) continue;
+      if(who.length){ x.font='600 12px "Noto Sans TC","PingFang TC",sans-serif'; const wt='👤 '+who.slice(0,3).join('、')+(who.length>3?'…':''); x.lineWidth=3; x.strokeStyle='rgba(20,22,26,0.9)'; x.strokeText(wt,u,w-30); x.fillStyle='#ffd88a'; x.fillText(wt,u,w-30); x.font='12px "Noto Sans TC","PingFang TC",sans-serif'; } x.lineWidth=3; x.strokeStyle='rgba(20,22,26,0.85)'; x.strokeText(nm,u,w-14); x.fillStyle=gold?'#ffd88a':'#cdeff2'; x.fillText(nm,u,w-14); if(hl&&v.k>1.2){ x.font='11px sans-serif'; x.strokeText(hl,u,w+15); x.fillStyle=/閉館/.test(hl)?'#ffb4a0':'#c9c2b4'; x.fillText(hl,u,w+15); x.font='12px "Noto Sans TC","PingFang TC",sans-serif'; } }
     // 地名（入口畫完之後才畫：和別的字重疊、或和附近入口同名的就不畫）
     x.font='600 13px "Noto Sans TC","PingFang TC",sans-serif'; const exitNames=E.interactables.filter(it=>it.exit).map(it=>[exitName(it),it.x,it.z]);
     for(const [n,lx,lz] of (E.indoor?[]:(PLACES.landmarks[GM.G.zone]||[]))){ if(exitNames.some(([en,ex,ez])=>en.indexOf(n)>=0&&Math.hypot(ex-lx,ez-lz)<40)) continue; const [u,w]=S(lx,lz); if(u<-40||u>W+40||w<-20||w>H+20) continue; if(!free(u,w,x.measureText(n).width,16)) continue; x.lineWidth=3.5; x.strokeStyle='rgba(20,22,26,0.85)'; x.strokeText(n,u,w); x.fillStyle='#f3eadb'; x.fillText(n,u,w); }
     // 目的地（同一區域、有位置）
     if(st.tgt&&!st.tgt.it&&on()){ const [u,w]=S(st.tgt.x,st.tgt.z); x.fillStyle='#ffc85a'; x.beginPath(); x.arc(u,w,7,0,7); x.fill(); x.lineWidth=2; x.strokeStyle='#1d2127'; x.stroke(); }
     // 認識的人（黃點）
-    for(const n of E.npcs){ if(n.isExtra||!n.obj) continue; if(E.levels&&(n.lv|0)!==v.lv) continue; const [u,w]=S(n.obj.position.x,n.obj.position.z); x.fillStyle='#e9b96a'; x.beginPath(); x.arc(u,w,4,0,7); x.fill(); }
+    for(const n of E.npcs){ if(n.isExtra||!n.obj) continue; if(E.levels&&(n.lv|0)!==v.lv) continue; const [u,w]=S(n.obj.position.x,n.obj.position.z); x.fillStyle='#e9b96a'; x.beginPath(); x.arc(u,w,4.5,0,7); x.fill(); if(n.name){ x.font='600 12px "Noto Sans TC","PingFang TC",sans-serif'; x.textAlign='left'; x.lineWidth=3; x.strokeStyle='rgba(20,22,26,0.9)'; x.strokeText(n.name,u+7,w); x.fillStyle='#ffe2a8'; x.fillText(n.name,u+7,w); x.textAlign='center'; } }
     // 玩家：位置＋面向（世界的面向 (sin ry, cos ry) 轉到地圖上）
     if(!E.levels||PLV()===v.lv){ const p=P(); const [u,w]=S(p.x,p.z); const ry=E.player.obj.rotation.y; const fx=Math.sin(ry), fz=Math.cos(ry); const c=Math.cos(v.th), s=Math.sin(v.th); const a=Math.atan2(fx*c-fz*s,-(fx*s+fz*c));
       x.save(); x.translate(u,w); x.fillStyle='rgba(255,255,255,0.18)'; x.beginPath(); x.arc(0,0,16,0,7); x.fill(); x.rotate(a); x.fillStyle='#ffffff'; x.strokeStyle='#d0533f'; x.lineWidth=2; x.beginPath(); x.moveTo(0,-11); x.lineTo(8,8); x.lineTo(0,4); x.lineTo(-8,8); x.closePath(); x.fill(); x.stroke(); x.restore();
@@ -146,7 +150,7 @@ const GUIDE=(function(){
     cv.addEventListener('pointerup',()=>{ drag=null; }); cv.addEventListener('pointercancel',()=>{ drag=null; });
     const zoom=f=>{ const v=st.view; if(!v) return; v.k=Math.max(v.fit*0.9,Math.min(12,v.k*f)); drawMap(); };
     $('bmIn').onclick=()=>zoom(1.6); $('bmOut').onclick=()=>zoom(1/1.6); $('bmMe').onclick=()=>{ const v=st.view; if(!v) return; const p=P(); v.cx=p.x; v.cz=p.z; if(v.k<2.2) v.k=Math.min(3.2,Math.max(v.k,2.2)); drawMap(); };
-    $('bmClose').onclick=closeMap; $('minimap').addEventListener('click',()=>openMap()); window.addEventListener('resize',()=>{ if(st.open) drawMap(); }); }
+    $('bmClose').onclick=closeMap; if($('bmWho')) $('bmWho').onclick=()=>{ const el=$('bmPeople'); renderPeoplePanel(); el.classList.toggle('hide'); }; if($('bmTravel')) $('bmTravel').onclick=()=>{ closeMap(); if(GM.openMenu) GM.openMenu('map'); }; $('minimap').addEventListener('click',()=>openMap()); window.addEventListener('resize',()=>{ if(st.open) drawMap(); }); }
 
   function init(gm){ GM=gm; E=gm.E; bindMap(); }
   function zoneChanged(){ st.routeKey='~'; st.route=null; clearMarkers(); st.markerZone=null; }
