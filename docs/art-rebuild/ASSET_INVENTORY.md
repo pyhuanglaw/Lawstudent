@@ -18,7 +18,7 @@
 | 霖澤館室內（`src/building3d.js` 程序化備用） | 霖澤館大廳、樓梯、二樓迴廊（`linze` 區域） | ③（備用；點地面用的透明地板也在這裡，正式模型載入後搬出來繼續用） | 正式模型 **INTEGRATED**：`tools/blender/linze_interior.py` → `linze_interior.glb`（1.95 MB）；遊戲化設計（D37，沒有照片）；比較圖 VISUAL_REVIEW 17.2 | 三樓以上、更多家具與標示 |
 | 玻璃電梯（`building3d.js` 程序化，要動） | 霖澤館中庭 | ④ | BLOCKOUT | Blender 車廂與井道模型（車廂、門分開的節點，遊戲照樣控制開關與上下） |
 | `CK.lawhall` 萬才館 | 校園：法學院廣場東側 | ⑤＋③（套件留作導航、鏡頭碰撞、載入失敗的備用） | **INTEGRATED**（2026-10-11，D41）：外觀換成 Blender `wancai_exterior.glb`（`tools/blender/wancai_exterior.py`）；弧形大樓梯**可以走**（兩層共用的台階高度，平台與陽台在校園第 1 層）；二樓入口這一版關著；`READY_FOR_ART_REVIEW` | 室內兩層（二樓入口接陽台）；兩側張開的窄台階目前不能走 |
-| `CK.hall` 總圖、行政大樓、文學院、校史館、男一舍、無名系館 | 校園 | ④（總圖、行政大樓、文學院：主要地標）／②（無名系館、遠的）；總圖、行政大樓：⑤＋③ | **總圖**：LAWWW2 Blender `campus_library.glb`（1.47 MB、22,816 個三角形；拱窗是真的窗洞、切石、面磚、屋瓦 PBR），導航、碰撞、互動點不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 8 節）；**行政大樓**：LAWWW2 Blender `campus_admin.glb`（0.92 MB、13,453 個三角形，套件 20,443；米黃面磚、拱窗窗洞、三拱門廊＋三面陽台欄杆、檐部匾額），`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 10 節）；其他：BLOCKOUT | 第三階段：地標逐棟 Blender（LAWWW 23:26Z 順序：總圖 → 傅鐘 → 行政大樓 → 文學院、校史館）；背景系館可保留程序化 |
+| `CK.hall` 總圖、行政大樓、文學院、校史館、男一舍、無名系館 | 校園 | ④（總圖、行政大樓、文學院：主要地標）／②（無名系館、遠的）；總圖、行政大樓、文學院、校史館：⑤＋③ | **總圖**：LAWWW2 Blender `campus_library.glb`（1.47 MB、22,816 個三角形；拱窗是真的窗洞、切石、面磚、屋瓦 PBR），導航、碰撞、互動點不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 8 節）；**行政大樓**：LAWWW2 Blender `campus_admin.glb`（0.92 MB、13,453 個三角形，套件 20,443；米黃面磚、拱窗窗洞、三拱門廊＋三面陽台欄杆、檐部匾額），`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 10 節）；**文學院、校史館**：LAWWW2 Blender `campus_arts.glb`（0.65 MB、8,776 個三角形）、`campus_hist.glb`（0.51 MB、6,354 個三角形；門廊圓石柱）；紅褐面磚、拱窗窗洞、拱廊、山牆＋牛眼窗、石材匾額，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 11 節）；其他（男一舍、無名系館）：BLOCKOUT | 第三階段：地標逐棟 Blender（LAWWW 23:26Z 順序：總圖 → 傅鐘 → 行政大樓 → 文學院、校史館）；背景系館可保留程序化 |
 | `CK.modern` 社會科學院、背景系館 | 校園東側 | ④（社科院）／② | BLOCKOUT | 第三階段 |
 | `CK.pavilion` 農業陳列館（洞洞館） | 校園西側 | ④ | BLOCKOUT | 第三階段 |
 | `CK.gate` 校門 | 校園西端、公館 | ④ | BLOCKOUT | 第三階段（地標） |
@@ -54,7 +54,8 @@
 
 | 資產 | 用在哪裡 | 分類 | 狀態 | 升級做法 |
 |---|---|---|---|---|
-| `room()` 牆、地板、天花板、窗 | 萬才館大廳、總圖、Café、便利商店、麵店、書店、宿舍 | Café、便利商店、麵店、書店、宿舍：⑤＋③；萬才館大廳、總圖：④＋③ | **Café**：`cafe_interior.glb`（v9.4.1 已上線）；**便利商店、麵店、書店、宿舍**：LAWWW2 Blender GLB（`cvs_interior`、`noodle_interior`、`bookstore_interior`、`dorm_interior`），導航格與程序化版完全相同，`READY_FOR_ART_REVIEW`（v9.4.2 候選）；**萬才館大廳、總圖**：BLOCKOUT | 萬才館、總圖：逐間 Blender 室內 |
+| `room()` 牆、地板、天花板、窗 | 總圖、Café、便利商店、麵店、書店、宿舍（萬才館改用 `src/wancai3d.js`） | Café、便利商店、麵店、書店、宿舍：⑤＋③；總圖：④＋③ | **Café**：`cafe_interior.glb`（v9.4.1 已上線）；**便利商店、麵店、書店、宿舍**：LAWWW2 Blender GLB（`cvs_interior`、`noodle_interior`、`bookstore_interior`、`dorm_interior`），導航格與程序化版完全相同，`READY_FOR_ART_REVIEW`（v9.4.2 候選）；**總圖閱覽室**：BLOCKOUT | 總圖：Blender 室內（閱讀區、自習區，需求 21） |
+| 萬才館室內兩層樓（`src/wancai3d.js`＋`src/data/wancai_layout.js`；D42） | `wancai` 區域 | ⑤＋③（程序化備用留作導航與載入失敗時） | **INTEGRATED**（2026-10-11）：Blender `tools/blender/wancai_interior.py` → `wancai_interior.glb`（2.36 MB、4,954 個三角形）；一樓大廳座標和 v9.3 相同（劇情、社團、舊存檔照舊）、二樓走廊／迴廊／門廳、樓梯、玻璃電梯、二樓門通到外面平台；遊戲化設計（不是實測）；`READY_FOR_ART_REVIEW`（使用者還沒看過） | 磨石子地在燈光下偏白、近處玻璃欄杆偏霧；樓梯下方是實心石材；房間都關著（演講廳、研討室） |
 | 201 階梯教室（v9.4：平台、走道台階、長桌、木翻椅） | `classroom` 區域 | ③（程序化版本留作導航與備用） | 正式模型 **INTEGRATED**：`tools/blender/classroom_201.py` → `classroom_201.glb`（1.57 MB；深色長桌、木翻椅 48 張 instancing、木講桌、投影幕、方格天花板＋日光燈，照使用者的教室照片）；48 個座位導航 FUNCTIONAL（Node 模擬）；瀏覽器真實流程見 TESTING 第八節 | 黑板／投影內容、窗外景、使用者看過才能標 ART_APPROVED |
 | `desk()`、`chair()`、`shelfWall()`、`goodsWall()`、床、沙發、Café 家具 | 各室內 | ④ | BLOCKOUT | Blender 家具組（GLB，同一款重用） |
 

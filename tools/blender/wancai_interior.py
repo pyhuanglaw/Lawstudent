@@ -1,0 +1,340 @@
+"""萬才館室內（一樓大廳＋二樓走廊、迴廊、門廳；直跑樓梯）正式模型：Blender 5.2 bpy 無介面執行 → GLB（WebP 貼圖）。萬才館第三階段（D42）。
+配置讀 src/data/wancai_layout.js（遊戲的導航、互動點讀同一份，兩邊一定對得上）。貼圖：Poly Haven CC0（tools/blender/textures/、tools/blender/env_second/textures/）。
+節點命名約定和霖澤館室內一樣（src/building3d.js 的 attachFormal）：
+  L0_*：一樓；L1_*：二樓（玩家在一樓、鏡頭高過二樓地板時藏起來）；名字含 WALL_ 的是外牆（擋住鏡頭時淡出），自訂屬性 dir＝往室內的法線（遊戲座標）。
+  不做：電梯（遊戲裡程序化、要動）、門牌／樓層簡介／演講廳指標的字與公告欄（遊戲用 canvas 畫，中文字型）、窗外的景、點地面用的透明地板。
+真實性：室內沒有照片或平面圖，是遊戲化設計（D42）；材質方向：台灣大學系館常見的磨石子地、米色粉光牆、花崗石牆腳與樓梯、木門。
+座標：遊戲 (x 東, y 上, z 南) ＝ Blender (x, -z, y)（glTF 匯出 +Y up 會轉回去）。
+用法：/opt/blenv/bin/python tools/blender/wancai_interior.py [--out assets/models/env/wancai_interior.glb] [--tex 512] [--render 輸出資料夾]
+"""
+import bpy, bmesh, json, math, os, re, sys
+from mathutils import Vector
+
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+TEX = os.path.join(ROOT, 'tools', 'blender', 'textures')
+TEX2 = os.path.join(ROOT, 'tools', 'blender', 'env_second', 'textures')   # 第二個 AI 下載的 Poly Haven CC0（只讀使用）：磨石子
+argv = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else sys.argv[1:]
+def arg(name, default=None):
+    return argv[argv.index(name) + 1] if name in argv else default
+OUT = os.path.join(ROOT, arg('--out', 'assets/models/env/wancai_interior.glb'))
+TEXRES = int(arg('--tex', '512'))
+RENDER = arg('--render')
+
+src = open(os.path.join(ROOT, 'src/data/wancai_layout.js'), encoding='utf8').read()
+L = json.loads(re.search(r'=\s*(\{.*\})\s*;?\s*$', src, re.S).group(1))
+W, D, Y1, RY, T = L['W'], L['D'], L['floors'][1]['y'], L['roofY'], L['wallT']
+S, U, EL, FG = L['stair'], L['upper'], L['elevator'], L['frontGlass']
+F1, LD, F2 = S['flight1'], S['landing'], S['flight2']
+
+bpy.ops.wm.read_factory_settings(use_empty=True)
+scene = bpy.context.scene
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import b3lib as B   # 貼圖平均顏色校正（img_adj target）
+B._S['texres'] = TEXRES; B._S['imgs'] = {}
+
+def g2b(x, y, z): return Vector((x, -z, y))
+
+# ---------------- 材質 ----------------
+_imgs = {}
+def img(path):
+    if path not in _imgs:
+        im = bpy.data.images.load(path)
+        if TEXRES and max(im.size) > TEXRES: im.scale(TEXRES, TEXRES)
+        _imgs[path] = im
+    return _imgs[path]
+
+def pbr(name, pid=None, tile=1.0, tint=None, rough=None, metal=0.0, alpha=None, emit=None, normal=0.8, target=None, sat=1.0, base_dir=None):
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N = nt.nodes; Lk = nt.links
+    bsdf = N['Principled BSDF']; bsdf.inputs['Metallic'].default_value = metal
+    m['tile'] = tile
+    if pid:
+        base = os.path.join(base_dir or TEX, pid, pid)
+        tc = N.new('ShaderNodeTexImage'); tc.image = B.img_adj(base + '_diff_1k.jpg', sat, 1.0, target) if target else img(base + '_diff_1k.jpg')
+        if target: tint = None
+        if tint:
+            mix = N.new('ShaderNodeMix'); mix.data_type = 'RGBA'; mix.blend_type = 'MULTIPLY'; mix.inputs['Factor'].default_value = 1.0
+            Lk.new(tc.outputs['Color'], mix.inputs[6]); mix.inputs[7].default_value = (*tint, 1.0); Lk.new(mix.outputs[2], bsdf.inputs['Base Color'])
+        else:
+            Lk.new(tc.outputs['Color'], bsdf.inputs['Base Color'])
+        if os.path.exists(base + '_rough_1k.jpg'):
+            tr = N.new('ShaderNodeTexImage'); tr.image = img(base + '_rough_1k.jpg'); tr.image.colorspace_settings.name = 'Non-Color'
+            Lk.new(tr.outputs['Color'], bsdf.inputs['Roughness'])
+        if os.path.exists(base + '_nor_gl_1k.jpg'):
+            tn = N.new('ShaderNodeTexImage'); tn.image = img(base + '_nor_gl_1k.jpg'); tn.image.colorspace_settings.name = 'Non-Color'
+            nm = N.new('ShaderNodeNormalMap'); nm.inputs['Strength'].default_value = normal
+            Lk.new(tn.outputs['Color'], nm.inputs['Color']); Lk.new(nm.outputs['Normal'], bsdf.inputs['Normal'])
+    else:
+        bsdf.inputs['Base Color'].default_value = (*(tint or (0.8, 0.8, 0.8)), 1.0)
+    if rough is not None and not pid: bsdf.inputs['Roughness'].default_value = rough
+    if alpha is not None:
+        bsdf.inputs['Alpha'].default_value = alpha
+        try: m.surface_render_method = 'BLENDED'
+        except Exception: pass
+    if emit:
+        bsdf.inputs['Emission Color'].default_value = (*emit, 1.0); bsdf.inputs['Emission Strength'].default_value = 1.0
+    return m
+
+def srgb(h):
+    h = h.lstrip('#'); c = [int(h[i:i + 2], 16) / 255 for i in (0, 2, 4)]
+    return tuple(((v + 0.055) / 1.055) ** 2.4 if v > 0.04045 else v / 12.92 for v in c)
+
+MAT = {
+    'floor':   pbr('wc_terrazzo', 'terrazzo_tiles', tile=1.6, sat=0.55, target='#d8d0c2', base_dir=TEX2),       # 一二樓：米色磨石子地（v9.3 大廳的米色石材地板 #e6dccb，稍微暗一點：室內燈光下會亮）
+    'granite': pbr('wc_granite', 'granite_tile_03', tile=1.8, sat=0.4, target='#b9b2a6'),                     # 牆腳 1.2 m、柱子、樓板邊收邊
+    'step':    pbr('wc_step', 'granite_tile_03', tile=0.9, sat=0.35, target='#a8a39b'),                       # 樓梯踏面與平台（深一點的花崗石）
+    'plaster': pbr('wc_plaster', 'painted_plaster_wall', tile=2.5, target='#eae1d3'),                          # v9.3 大廳的牆色（米色粉光）
+    'slab':    pbr('wc_slab', 'painted_plaster_wall', tile=2.5, target='#efebe4'),                             # 二樓樓板底面（一樓的天花板）
+    'ceiling': pbr('wc_ceiling', 'ceiling_interior', tile=2.0, sat=0.2, target='#efeeea', normal=0.3),
+    'woodD':   pbr('wc_wood_dark', 'fine_grained_wood', tile=1.6, target='#6e5848'),                           # 門
+    'wood':    pbr('wc_wood', 'fine_grained_wood', tile=1.6, target='#a77d57'),                                # 長椅
+    'table':   pbr('wc_table', 'wood_table_001', tile=1.0, target='#c9a57a'),                                  # 圓桌（v9.3 #c9a57a）
+    'sofa':    pbr('wc_sofa', 'fabric_leather_02', tile=1.0, sat=0.4, target='#36574a'),                       # 深綠色沙發（v9.3 #2f5d50／#3e5a48）
+    'steel':   pbr('wc_steel', None, tint=srgb('#c9ccd0'), rough=0.28, metal=0.45),   # 遊戲沒有環境貼圖：金屬度上限 0.45（b3lib.MAX_METAL）
+    'frame':   pbr('wc_frame', None, tint=srgb('#3a3d40'), rough=0.45, metal=0.35),
+    'glass':   pbr('wc_glass', None, tint=srgb('#c4d6dc'), rough=0.05, alpha=0.22),
+    'light':   pbr('wc_light_panel', None, tint=srgb('#fff6e4'), rough=0.9, emit=srgb('#fff4dc')),
+    'plant':   pbr('wc_plant', None, tint=srgb('#4f7a46'), rough=0.85),
+}
+
+# ---------------- 幾何（和霖澤館室內同一套小工具）----------------
+def box_uv(bm, tile):
+    uv = bm.loops.layers.uv.verify()
+    for f in bm.faces:
+        n = f.normal; ax = max(range(3), key=lambda i: abs(n[i]))
+        for lp in f.loops:
+            co = lp.vert.co
+            if ax == 0: u, v = co.y, co.z
+            elif ax == 1: u, v = co.x, co.z
+            else: u, v = co.x, co.y
+            lp[uv].uv = (u / tile, v / tile)
+
+def mesh_obj(name, bm, mat, parent=None, props=None):
+    me = bpy.data.meshes.new(name); bm.to_mesh(me); bm.free()
+    me.materials.append(mat)
+    ob = bpy.data.objects.new(name, me); scene.collection.objects.link(ob)
+    if parent: ob.parent = parent
+    for k, v in (props or {}).items(): ob[k] = v
+    return ob
+
+def box(name, mat, x0, x1, y0, y1, z0, z1, parent=None, bevel=0.0, props=None):
+    bm = bmesh.new()
+    a, b = g2b(min(x0, x1), min(y0, y1), max(z0, z1)), g2b(max(x0, x1), max(y0, y1), min(z0, z1))
+    bmesh.ops.create_cube(bm, size=1.0)
+    for v in bm.verts:
+        v.co = Vector((a.x if v.co.x < 0 else b.x, a.y if v.co.y < 0 else b.y, a.z if v.co.z < 0 else b.z))
+    if bevel > 0: bmesh.ops.bevel(bm, geom=list(bm.edges), offset=bevel, segments=1, affect='EDGES')
+    bm.normal_update(); box_uv(bm, mat['tile'] if 'tile' in mat else 1.0)
+    return mesh_obj(name, bm, mat, parent, props)
+
+def quad(name, mat, pts, parent=None, tile=None, props=None):
+    bm = bmesh.new(); vs = [bm.verts.new(g2b(*p)) for p in pts]; bm.faces.new(vs); bm.normal_update(); box_uv(bm, tile or mat.get('tile', 1.0))
+    return mesh_obj(name, bm, mat, parent, props)
+
+def cyl(name, mat, a, b, r, parent=None, seg=10, props=None):
+    pa, pb = g2b(*a), g2b(*b); d = pb - pa; L_ = d.length
+    bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=seg, radius1=r, radius2=r, depth=L_)
+    rot = Vector((0, 0, 1)).rotation_difference(d.normalized())
+    bmesh.ops.rotate(bm, verts=bm.verts, cent=(0, 0, 0), matrix=rot.to_matrix()); bmesh.ops.translate(bm, verts=bm.verts, vec=(pa + pb) / 2)
+    bm.normal_update(); box_uv(bm, 1.0)
+    return mesh_obj(name, bm, mat, parent, props)
+
+def group(name, parent=None, props=None):
+    ob = bpy.data.objects.new(name, None); scene.collection.objects.link(ob)
+    if parent: ob.parent = parent
+    for k, v in (props or {}).items(): ob[k] = v
+    return ob
+
+root = group('WancaiInterior')
+L0 = group('L0_root', root); L1 = group('L1_root', root)
+SE, RZ, RXU = U['slabEdge'], U['railZ'], U['railX']
+
+# ---------------- 地板、二樓樓板、天花板 ----------------
+box('L0_floor', MAT['floor'], -W / 2, W / 2, -0.25, 0.0, -D / 2, D / 2, L0)
+SLABS = (('corr', -W / 2, W / 2, -D / 2, SE), ('gall', S['railX'], RXU, SE, F2['z1']), ('foyer', -W / 2, RXU, F2['z1'], D / 2))
+for nm, x0, x1, z0, z1 in SLABS:
+    box(f'L1_slab_{nm}', MAT['slab'], x0, x1, Y1 - U['slabT'], Y1 - 0.02, z0, z1, L1)
+    box(f'L1_floor_{nm}', MAT['floor'], x0, x1, Y1 - 0.02, Y1, z0, z1, L1)
+# 樓板邊的石材收邊（面向中庭、樓梯井的邊）
+box('L1_edge_corr', MAT['granite'], -W / 2, W / 2, Y1 - U['slabT'] - 0.06, Y1 + 0.02, SE - 0.02, SE + 0.06, L1, bevel=0.01)
+box('L1_edge_gall_E', MAT['granite'], RXU - 0.06, RXU + 0.02, Y1 - U['slabT'] - 0.06, Y1 + 0.02, SE, D / 2, L1, bevel=0.01)
+box('L1_edge_gall_W', MAT['granite'], S['railX'] - 0.02, S['railX'] + 0.06, Y1 - U['slabT'] - 0.06, Y1 + 0.02, SE, F2['z1'], L1, bevel=0.01)
+# 天花板（中庭頂、二樓天花板）：單面朝下＋燈板；一樓樓板底下的嵌燈
+quad('L1_ceiling', MAT['ceiling'], [(-W / 2, RY, -D / 2), (W / 2, RY, -D / 2), (W / 2, RY, D / 2), (-W / 2, RY, D / 2)], L1)
+for i in range(4):
+    for j in range(3):
+        cx, cz = -6 + i * 4, -4.5 + j * 4.6
+        quad(f'L1_light_{i}_{j}', MAT['light'], [(cx - 0.6, RY - 0.01, cz - 0.3), (cx + 0.6, RY - 0.01, cz - 0.3), (cx + 0.6, RY - 0.01, cz + 0.3), (cx - 0.6, RY - 0.01, cz + 0.3)], L1)
+yb = Y1 - U['slabT'] - 0.005
+for i in range(6):
+    for z in (-5.6, -3.4):
+        x = -7.5 + i * 3
+        quad(f'L0_downlight_{i}_{z}', MAT['light'], [(x - 0.14, yb, z - 0.14), (x + 0.14, yb, z - 0.14), (x + 0.14, yb, z + 0.14), (x - 0.14, yb, z + 0.14)], L0)
+for z in (0.0, 2.6):   # 迴廊底下
+    x = (S['railX'] + RXU) / 2
+    quad(f'L0_downlight_g_{z}', MAT['light'], [(x - 0.14, yb, z - 0.14), (x + 0.14, yb, z - 0.14), (x + 0.14, yb, z + 0.14), (x - 0.14, yb, z + 0.14)], L0)
+
+# ---------------- 柱子（一樓，撐著二樓樓板）：花崗石方柱＋柱頭 ----------------
+for k, (x, z, r) in enumerate(L['columns']):
+    h = Y1 - U['slabT']
+    box(f'L0_column_{k}', MAT['granite'], x - r, x + r, 0, h, z - r, z + r, L0, bevel=0.02)
+    box(f'L0_column_base_{k}', MAT['step'], x - r - 0.03, x + r + 0.03, 0, 0.12, z - r - 0.03, z + r + 0.03, L0, bevel=0.01)
+
+# ---------------- 外牆：北（門洞）、西、東、南（西段實牆＋二樓的門，東段兩層樓高的玻璃帷幕）----------------
+def wall_with_doors(prefix, parent, z, y0, y1, doors, lvl):
+    """北牆一段（y0..y1），門洞寬 1.5 高 2.6；牆下段 1.2 m 花崗石、上面粉光"""
+    xs = sorted(d['x'] for d in doors if d['lv'] == lvl)
+    segs = []; x = -W / 2
+    for dx in xs: segs.append((x, dx - 0.75)); x = dx + 0.75
+    segs.append((x, W / 2))
+    for k, (a, b) in enumerate(segs):
+        if b - a < 0.05: continue
+        box(f'{prefix}_WALL_N_{k}', MAT['granite'], a, b, y0, y0 + 1.2, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]})
+        box(f'{prefix}_WALL_Nu_{k}', MAT['plaster'], a, b, y0 + 1.2, y1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]})
+    for dx in xs:   # 門楣、門框、門板、門把（跟著北牆淡出）
+        box(f'{prefix}_WALL_Nd_{dx}', MAT['plaster'], dx - 0.75, dx + 0.75, y0 + 2.6, y1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]})
+        FN = {'fadegrp': 'Ndoor', 'fadedir': [0, 0, 1]}
+        box(f'{prefix}_doorframe_{dx}', MAT['frame'], dx - 0.8, dx + 0.8, y0, y0 + 2.7, z + T / 2 - 0.02, z + T / 2 + 0.05, parent, props=FN)
+        box(f'{prefix}_door_{dx}', MAT['woodD'], dx - 0.68, dx + 0.68, y0, y0 + 2.5, z + T / 2 + 0.05, z + T / 2 + 0.09, parent, props=FN)
+        h_ = cyl(f'{prefix}_doorhandle_{dx}', MAT['steel'], (dx + 0.45, y0 + 0.9, z + T / 2 + 0.14), (dx + 0.45, y0 + 1.3, z + T / 2 + 0.14), 0.018, parent)
+        for k_, v_ in FN.items(): h_[k_] = v_
+
+wall_with_doors('L0', L0, -D / 2, 0, Y1, L['doors'], 0)
+wall_with_doors('L1', L1, -D / 2, Y1, RY, L['doors'], 1)
+for pre, P, y0, y1 in (('L0', L0, 0, Y1), ('L1', L1, Y1, RY)):
+    box(f'{pre}_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, y0, y1, -D / 2, D / 2, P, props={'dir': [1, 0, 0]})
+    box(f'{pre}_WALL_E', MAT['plaster'], W / 2 - T / 2, W / 2 + T / 2, y0 + 1.2, y1, -D / 2, D / 2, P, props={'dir': [-1, 0, 0]})
+    box(f'{pre}_WALL_Eb', MAT['granite'], W / 2 - T / 2, W / 2 + T / 2, y0, y0 + 1.2, -D / 2, D / 2, P, props={'dir': [-1, 0, 0]})
+    box(f'{pre}_wallbase_W', MAT['woodD'], -W / 2 + T / 2, -W / 2 + T / 2 + 0.02, y0, y0 + 0.12, -D / 2, D / 2, P)
+# 南面西段（x -9 ~ 玻璃帷幕的西端）：一樓實牆；二樓實牆＋通到外面平台的玻璃門（門洞寬 1.7 高 2.6）
+UD = L['upperDoor']; ux0, ux1 = UD['x'] - 0.85, UD['x'] + 0.85
+box('L0_WALL_S', MAT['plaster'], -W / 2, FG['x0'], 1.2, Y1, D / 2 - T / 2, D / 2 + T / 2, L0, props={'dir': [0, 0, -1]})
+box('L0_WALL_Sb', MAT['granite'], -W / 2, FG['x0'], 0, 1.2, D / 2 - T / 2, D / 2 + T / 2, L0, props={'dir': [0, 0, -1]})
+for k, (a, b) in enumerate(((-W / 2, ux0), (ux1, FG['x0']))):
+    box(f'L1_WALL_S_{k}', MAT['plaster'], a, b, Y1, RY, D / 2 - T / 2, D / 2 + T / 2, L1, props={'dir': [0, 0, -1]})
+box('L1_WALL_Sd', MAT['plaster'], ux0, ux1, Y1 + 2.6, RY, D / 2 - T / 2, D / 2 + T / 2, L1, props={'dir': [0, 0, -1]})
+FD = {'fadegrp': 'Sdoor', 'fadedir': [0, 0, -1]}
+box('L1_updoor_frame_t', MAT['frame'], ux0, ux1, Y1 + 2.52, Y1 + 2.62, D / 2 - T / 2 - 0.04, D / 2 + T / 2, L1, props=FD)
+for k, x in enumerate((ux0, UD['x'] - 0.02, ux1 - 0.08)):
+    box(f'L1_updoor_frame_{k}', MAT['frame'], x, x + 0.1 if k != 1 else x + 0.04, Y1, Y1 + 2.6, D / 2 - T / 2 - 0.04, D / 2 + T / 2, L1, props=FD)
+quad('L1_updoor_glass', MAT['glass'], [(ux1, Y1, D / 2), (ux0, Y1, D / 2), (ux0, Y1 + 2.52, D / 2), (ux1, Y1 + 2.52, D / 2)], L1, tile=1.0)
+cyl('L1_updoor_handle_a', MAT['steel'], (UD['x'] - 0.12, Y1 + 0.8, D / 2 - T / 2 - 0.1), (UD['x'] - 0.12, Y1 + 1.5, D / 2 - T / 2 - 0.1), 0.02, L1, props=FD)
+cyl('L1_updoor_handle_b', MAT['steel'], (UD['x'] + 0.12, Y1 + 0.8, D / 2 - T / 2 - 0.1), (UD['x'] + 0.12, Y1 + 1.5, D / 2 - T / 2 - 0.1), 0.02, L1, props=FD)
+# 南面東段：兩層樓高的玻璃帷幕＋直櫺＋三道橫櫺；一樓入口兩扇玻璃自動門的框（x 0 ± 1.2）
+gh2 = RY - 0.4; gx0, gx1 = FG['x0'], FG['x1']
+FS = {'fadegrp': 'Sfacade', 'fadedir': [0, 0, -1]}
+quad('L0_glass_S', MAT['glass'], [(gx0, 0, D / 2), (gx1, 0, D / 2), (gx1, gh2, D / 2), (gx0, gh2, D / 2)], L0)
+n = 7
+for i in range(n + 1):
+    x = gx0 + i * (gx1 - gx0) / n
+    box(f'L0_mullion_S_{i}', MAT['frame'], x - 0.06, x + 0.06, 0, gh2, D / 2 - 0.14, D / 2, L0, props=FS)
+for k, yy in enumerate((2.9, Y1, Y1 + 2.9)):
+    box(f'L0_transom_S_{k}', MAT['frame'], gx0, gx1, yy - 0.06, yy + 0.06, D / 2 - 0.14, D / 2, L0, props=FS)
+box('L0_glass_top_S', MAT['granite'], gx0, gx1, gh2, RY, D / 2 - T / 2, D / 2 + T / 2, L0, props={'dir': [0, 0, -1]})
+EX = L['entrance']['x']
+for k, (a, b) in enumerate(((EX - 1.2, EX - 0.02), (EX + 0.02, EX + 1.2))):
+    box(f'L0_autodoor_{k}', MAT['frame'], a, b, 2.55, 2.62, D / 2 - 0.2, D / 2 - 0.14, L0, props=FS)
+    box(f'L0_autodoor_side_{k}', MAT['frame'], a if k == 0 else b - 0.05, a + 0.05 if k == 0 else b, 0, 2.6, D / 2 - 0.2, D / 2 - 0.14, L0, props=FS)
+box('L0_entrance_mat', MAT['frame'], EX - 1.3, EX + 1.3, 0.0, 0.012, D / 2 - 1.6, D / 2 - 0.2, L0)   # 入口地墊
+
+# ---------------- 樓梯（往南爬）：每一階一塊石材（實心到地面）＋止滑條、平台；東側玻璃欄板＋不鏽鋼扶手、西牆扶手 ----------------
+def flight(prefix, z0, base, n):
+    for k in range(n):
+        top = base + (k + 1) * S['rise']; za = z0 + k * S['tread']; zb = za + S['tread']
+        box(f'{prefix}_step_{k}', MAT['step'], S['x0'], S['x1'], 0, top, za, zb, L0, bevel=0.012)
+        box(f'{prefix}_nosing_{k}', MAT['frame'], S['x0'], S['x1'], top - 0.012, top + 0.003, za, za + 0.045, L0)   # 止滑條（踏面前緣＝北邊）
+flight('L0_f1', F1['z0'], 0.0, F1['risers'])
+box('L0_landing', MAT['step'], S['x0'], S['x1'], 0, LD['y'], LD['z0'], LD['z1'], L0, bevel=0.012)
+flight('L0_f2', F2['z0'], LD['y'], F2['risers'])
+rx = S['railX'] + 0.02
+pts = [(S['railZ0'], 0.0), (F1['z1'], LD['y']), (LD['z1'], LD['y']), (F2['z1'], Y1)]
+for i in range(len(pts) - 1):
+    (za, ya), (zb, yb2) = pts[i], pts[i + 1]
+    quad(f'L0_stair_glass_{i}', MAT['glass'], [(rx, ya + 0.08, za), (rx, yb2 + 0.08, zb), (rx, yb2 + 1.0, zb), (rx, ya + 1.0, za)], L0, tile=1.0)
+    cyl(f'L0_stair_rail_{i}', MAT['steel'], (rx, ya + 1.02, za), (rx, yb2 + 1.02, zb), 0.03, L0)
+    cyl(f'L0_wall_rail_{i}', MAT['steel'], (S['x0'] + 0.06, ya + 0.9, za), (S['x0'] + 0.06, yb2 + 0.9, zb), 0.022, L0)
+box('L0_stair_post', MAT['steel'], rx - 0.03, rx + 0.03, 0, 1.05, S['railZ0'] - 0.03, S['railZ0'] + 0.03, L0)
+
+# ---------------- 二樓的玻璃欄杆：樓梯井北邊、迴廊兩側、走廊南邊（電梯門口留開口）----------------
+def glass_rail(name, a, b, y, parent):
+    (x0, z0), (x1, z1) = a, b
+    quad(f'{name}_glass', MAT['glass'], [(x0, y + 0.05, z0), (x1, y + 0.05, z1), (x1, y + 1.0, z1), (x0, y + 1.0, z0)], parent, tile=1.0)
+    cyl(f'{name}_rail', MAT['steel'], (x0, y + 1.04, z0), (x1, y + 1.04, z1), 0.03, parent)
+    if abs(x1 - x0) > abs(z1 - z0): box(f'{name}_shoe', MAT['steel'], min(x0, x1), max(x0, x1), y, y + 0.1, z0 - 0.04, z0 + 0.04, parent)
+    else: box(f'{name}_shoe', MAT['steel'], x0 - 0.04, x0 + 0.04, y, y + 0.1, min(z0, z1), max(z0, z1), parent)
+glass_rail('L1_rail_well_N', (-W / 2 + T / 2, RZ), (S['railX'], RZ), Y1, L1)
+glass_rail('L1_rail_gall_W', (S['railX'], SE), (S['railX'], F2['z1']), Y1, L1)
+glass_rail('L1_rail_gall_E', (RXU, SE), (RXU, D / 2 - T / 2), Y1, L1)
+glass_rail('L1_rail_corr_0', (RXU, RZ), (EL['doorX0'] - 0.1, RZ), Y1, L1)
+glass_rail('L1_rail_corr_1', (EL['doorX1'] + 0.1, RZ), (W / 2 - T / 2, RZ), Y1, L1)
+
+# ---------------- 家具：沙發（v9.3 的深綠色兩人座）、圓桌、樓層簡介的框、花台、二樓長椅 ----------------
+for i, f in enumerate(L['furniture']):
+    P = L1 if f['lv'] else L0; y = Y1 if f['lv'] else 0.0; pre = 'L1' if f['lv'] else 'L0'
+    if f['type'] == 'sofa':   # ry=0：坐的那一面朝南（+z），靠背在北邊
+        x0, x1, z0, z1 = f['x'] - 1.1, f['x'] + 1.1, f['z'] - 0.43, f['z'] + 0.43
+        box(f'{pre}_sofa_base_{i}', MAT['sofa'], x0, x1, y + 0.08, y + 0.30, z0, z1, P, bevel=0.03)
+        for sx in (-0.49, 0.49):
+            box(f'{pre}_sofa_cushion_{i}_{sx}', MAT['sofa'], f['x'] + sx - 0.48, f['x'] + sx + 0.48, y + 0.30, y + 0.44, z0 + 0.12, z1, P, bevel=0.04)
+        box(f'{pre}_sofa_back_{i}', MAT['sofa'], f['x'] - 1.0, f['x'] + 1.0, y + 0.30, y + 0.84, z0, z0 + 0.2, P, bevel=0.05)
+        for sx in (-1, 1): box(f'{pre}_sofa_arm_{i}_{sx}', MAT['sofa'], f['x'] + sx * 1.02 - 0.08, f['x'] + sx * 1.02 + 0.08, y + 0.26, y + 0.60, z0, z1, P, bevel=0.03)
+        for (lx, lz) in ((x0 + 0.1, z0 + 0.08), (x1 - 0.1, z0 + 0.08), (x0 + 0.1, z1 - 0.08), (x1 - 0.1, z1 - 0.08)):
+            box(f'{pre}_sofa_leg_{i}_{lx:.1f}{lz:.1f}', MAT['woodD'], lx - 0.03, lx + 0.03, y, y + 0.08, lz - 0.03, lz + 0.03, P)
+    elif f['type'] == 'table':
+        bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=28, radius1=f['r'], radius2=f['r'], depth=0.05)
+        bmesh.ops.translate(bm, verts=bm.verts, vec=g2b(f['x'], y + 0.505, f['z'])); bm.normal_update(); box_uv(bm, 1.0); mesh_obj(f'{pre}_table_top_{i}', bm, MAT['table'], P)
+        cyl(f'{pre}_table_stem_{i}', MAT['frame'], (f['x'], y + 0.03, f['z']), (f['x'], y + 0.48, f['z']), 0.05, P)
+        bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=20, radius1=0.32, radius2=0.28, depth=0.03)
+        bmesh.ops.translate(bm, verts=bm.verts, vec=g2b(f['x'], y + 0.015, f['z'])); bm.normal_update(); box_uv(bm, 1.0); mesh_obj(f'{pre}_table_base_{i}', bm, MAT['frame'], P)
+    elif f['type'] == 'board':
+        box(f'{pre}_board_frame', MAT['frame'], f['x'] - f['w'] / 2 - 0.05, f['x'] + f['w'] / 2 + 0.05, y + 1.65 - f['w'] / 4 - 0.05, y + 1.65 + f['w'] / 4 + 0.05, f['z'] - 0.05, f['z'] - 0.01, P)
+    elif f['type'] == 'planter':
+        bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=20, radius1=f['r'] * 0.88, radius2=f['r'], depth=0.6)
+        bmesh.ops.translate(bm, verts=bm.verts, vec=g2b(f['x'], y + 0.3, f['z'])); bm.normal_update(); box_uv(bm, 1.0); mesh_obj(f'{pre}_planter_{i}', bm, MAT['granite'], P)
+        bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=2, radius=f['r'] * 1.25)
+        for v in bm.verts: v.co.z *= 0.8; v.co += Vector((math.sin(v.co.x * 9) * 0.05, math.cos(v.co.y * 7) * 0.05, 0))
+        bmesh.ops.translate(bm, verts=bm.verts, vec=g2b(f['x'], y + 1.1, f['z'])); bm.normal_update(); box_uv(bm, 1.0); mesh_obj(f'{pre}_plant_{i}', bm, MAT['plant'], P)
+    elif f['type'] == 'bench':
+        box(f'{pre}_bench_seat_{i}', MAT['wood'], f['x'] - f['w'] / 2, f['x'] + f['w'] / 2, y + 0.42, y + 0.47, f['z'] - f['d'] / 2, f['z'] + f['d'] / 2, P, bevel=0.01)
+        for sx in (-1, 1): box(f'{pre}_bench_leg_{i}_{sx}', MAT['steel'], f['x'] + sx * (f['w'] / 2 - 0.12) - 0.03, f['x'] + sx * (f['w'] / 2 - 0.12) + 0.03, y, y + 0.42, f['z'] - f['d'] * 0.45, f['z'] + f['d'] * 0.45, P)
+    # bulletin（公告欄）：遊戲裡的 W3.bulletin()（canvas 的招募海報），不在模型裡
+
+# ---------------- 同一層、同材質的物件合併（減少 draw call；外牆不合併：要各自淡出）----------------
+def join_by_material(level_root, prefix):
+    groups = {}
+    for ob in list(level_root.children):
+        if ob.type != 'MESH' or 'WALL_' in ob.name: continue
+        groups.setdefault((ob.get('fadegrp'), ob.data.materials[0].name), []).append(ob)
+    for (fg, mname), obs in groups.items():
+        if len(obs) < 2 and not fg: continue
+        dirv = list(obs[0]['fadedir']) if fg else None
+        bm = bmesh.new()
+        for ob in obs: bm.from_mesh(ob.data)
+        mat = obs[0].data.materials[0]
+        for ob in obs: bpy.data.meshes.remove(ob.data)
+        mesh_obj(f'{prefix}_WALL_{fg}_{mname}' if fg else f'{prefix}_{mname}', bm, mat, level_root, props={'dir': dirv} if fg else None)
+for r, pre in ((L0, 'L0'), (L1, 'L1')): join_by_material(r, pre)
+
+# ---------------- 匯出 ----------------
+for ob in scene.objects:
+    if ob.type == 'MESH':
+        for p in ob.data.polygons: p.use_smooth = False
+os.makedirs(os.path.dirname(OUT), exist_ok=True)
+tris = sum(sum(len(p.vertices) - 2 for p in ob.data.polygons) for ob in scene.objects if ob.type == 'MESH')
+bpy.ops.export_scene.gltf(filepath=OUT, export_format='GLB', export_image_format='WEBP', export_image_quality=82, export_yup=True, export_apply=True,
+                          export_extras=True, export_materials='EXPORT', export_texcoords=True, export_normals=True, export_lights=False, export_cameras=False)
+print(json.dumps({'out': os.path.relpath(OUT, ROOT), 'bytes': os.path.getsize(OUT), 'objects': sum(1 for o in scene.objects if o.type == 'MESH'), 'tris': tris, 'materials': len(bpy.data.materials), 'texres': TEXRES}, ensure_ascii=False))
+
+# ---------------- 渲染預覽（Blender 的模型渲染圖，給驗收報告用）----------------
+if RENDER:
+    os.makedirs(RENDER, exist_ok=True)
+    scene.render.engine = 'BLENDER_EEVEE'; scene.render.resolution_x, scene.render.resolution_y = 1280, 800
+    scene.view_settings.view_transform = 'AgX'
+    world = bpy.data.worlds.new('w'); scene.world = world; world.use_nodes = True; world.node_tree.nodes['Background'].inputs['Color'].default_value = (0.75, 0.8, 0.86, 1); world.node_tree.nodes['Background'].inputs['Strength'].default_value = 0.6
+    sun = bpy.data.objects.new('sun', bpy.data.lights.new('sun', 'SUN')); scene.collection.objects.link(sun); sun.data.energy = 3.0; sun.rotation_euler = (math.radians(50), 0, math.radians(20))
+    for (x, y, z, e) in ((0, 6.4, 0.5, 1100), (0, 3.2, -4.5, 350), (-6, 6.5, 3, 400)):
+        lt = bpy.data.objects.new('pt', bpy.data.lights.new('pt', 'POINT')); lt.data.energy = e; lt.location = g2b(x, y, z); scene.collection.objects.link(lt)
+    cam = bpy.data.objects.new('cam', bpy.data.cameras.new('cam')); scene.collection.objects.link(cam); scene.camera = cam; cam.data.lens = 18
+    for name, eye, look in (('lobby_from_entrance', (2.5, 1.7, 6.2), (-5, 2.6, -3.0)), ('stair_from_north', (-3.0, 1.8, -6.0), (-8.0, 2.2, 2.0)),
+                            ('gallery_2f', (6.0, 5.9, -5.8), (-6.0, 4.6, 3.0)), ('foyer_2f', (-5.6, 5.9, -1.0), (-7.0, 4.8, 6.6))):
+        cam.location = g2b(*eye); d = g2b(*look) - g2b(*eye); cam.rotation_euler = d.to_track_quat('-Z', 'Y').to_euler()
+        scene.render.filepath = os.path.join(RENDER, f'blender_wancai_{name}.png'); bpy.ops.render.render(write_still=True); print('render', scene.render.filepath)

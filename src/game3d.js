@@ -151,8 +151,8 @@ const GAME = (function(){
       const track=(y)=>{ E.cinematic(V(el.cx-3.4,y+2.6,el.cz+4.2),V(el.cx,y+1.2,el.cz)); };
       track(el.y); if(el.lv!==here){ caption('','電梯從 '+(el.lv+1)+' 樓'+(el.lv>here?'下來':'上來')+'……',2200); await el.travel(here,null,track); }
       A3.blip&&A3.blip('ok'); await el.open(); await walkTo(P,el.cx,el.inZ,{lv:here}); face(P,el.cx,el.outZ); track(el.y);
-      const opts=el.floors.map(f=>({t:f.label,hint:!f.open?'整修中，暫停開放':(f.lv===here?'現在在這一層':''),dim:!f.open||f.lv===here})); opts.push({t:'不搭了，出去'}); let i;
-      for(;;){ i=await choose(opts); if(i<el.floors.length&&!el.floors[i].open){ toast('這一層整修中，按鈕按不亮'); continue; } if(i<el.floors.length&&el.floors[i].lv===here){ toast('你已經在這一層了'); continue; } break; }
+      const opts=el.floors.map(f=>({t:f.label,hint:!f.open?(f.why||'整修中，暫停開放'):(f.lv===here?'現在在這一層':''),dim:!f.open||f.lv===here})); opts.push({t:'不搭了，出去'}); let i;
+      for(;;){ i=await choose(opts); if(i<el.floors.length&&!el.floors[i].open){ toast(el.floors[i].toast||'這一層整修中，按鈕按不亮'); continue; } if(i<el.floors.length&&el.floors[i].lv===here){ toast('你已經在這一層了'); continue; } break; }
       if(i<el.floors.length){ const to=el.floors[i].lv; await el.close(); await el.travel(to,P,track); E.setLv(P,to); P.obj.position.y=el.y; A3.blip&&A3.blip('ok'); await el.open(); }
       E.endCinematic(); await walkTo(P,el.cx,el.outZ,{lv:P.lv|0}); await el.close();
     } finally { E.endCinematic(); sceneEnd(); } }
