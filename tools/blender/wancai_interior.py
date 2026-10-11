@@ -30,6 +30,7 @@ bpy.ops.wm.read_factory_settings(use_empty=True)
 scene = bpy.context.scene
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import b3lib as B   # 貼圖平均顏色校正（img_adj target）
+import plants as PL   # 盆栽（模型葉子；2026-10-11 換掉多面體圓球）
 B._S['texres'] = TEXRES; B._S['imgs'] = {}
 
 def g2b(x, y, z): return Vector((x, -z, y))
@@ -97,6 +98,8 @@ MAT = {
 }
 
 # ---------------- 幾何（和霖澤館室內同一套小工具）----------------
+PM = PL.materials('wc_')   # 盆栽的材質（樹皮、土、葉子）
+
 def box_uv(bm, tile):
     uv = bm.loops.layers.uv.verify()
     for f in bm.faces:
@@ -290,9 +293,7 @@ for i, f in enumerate(L['furniture']):
     elif f['type'] == 'planter':
         bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=20, radius1=f['r'] * 0.88, radius2=f['r'], depth=0.6)
         bmesh.ops.translate(bm, verts=bm.verts, vec=g2b(f['x'], y + 0.3, f['z'])); bm.normal_update(); box_uv(bm, 1.0); mesh_obj(f'{pre}_planter_{i}', bm, MAT['granite'], P)
-        bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=2, radius=f['r'] * 1.25)
-        for v in bm.verts: v.co.z *= 0.8; v.co += Vector((math.sin(v.co.x * 9) * 0.05, math.cos(v.co.y * 7) * 0.05, 0))
-        bmesh.ops.translate(bm, verts=bm.verts, vec=g2b(f['x'], y + 1.1, f['z'])); bm.normal_update(); box_uv(bm, 1.0); mesh_obj(f'{pre}_plant_{i}', bm, MAT['plant'], P)
+        PL.potted(mesh_obj, PM, f'{pre}_plant_{i}', P, f['x'], y + 0.6, f['z'], f['r'], seed=501 + i * 7 + (100 if pre == 'L1' else 0))   # 大葉盆栽（模型葉子）；原本是多面體圓球
     elif f['type'] == 'bench':
         box(f'{pre}_bench_seat_{i}', MAT['wood'], f['x'] - f['w'] / 2, f['x'] + f['w'] / 2, y + 0.42, y + 0.47, f['z'] - f['d'] / 2, f['z'] + f['d'] / 2, P, bevel=0.01)
         for sx in (-1, 1): box(f'{pre}_bench_leg_{i}_{sx}', MAT['steel'], f['x'] + sx * (f['w'] / 2 - 0.12) - 0.03, f['x'] + sx * (f['w'] / 2 - 0.12) + 0.03, y, y + 0.42, f['z'] - f['d'] * 0.45, f['z'] + f['d'] * 0.45, P)
@@ -317,7 +318,8 @@ for r, pre in ((L0, 'L0'), (L1, 'L1')): join_by_material(r, pre)
 # ---------------- 匯出 ----------------
 for ob in scene.objects:
     if ob.type == 'MESH':
-        for p in ob.data.polygons: p.use_smooth = False
+        sm = ob.data.materials[0].name.startswith(('wc_leaf_dark', 'wc_leaf_mid'))   # 模型葉子用平滑著色
+        for p in ob.data.polygons: p.use_smooth = sm
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 tris = sum(sum(len(p.vertices) - 2 for p in ob.data.polygons) for ob in scene.objects if ob.type == 'MESH')
 bpy.ops.export_scene.gltf(filepath=OUT, export_format='GLB', export_image_format='WEBP', export_image_quality=82, export_yup=True, export_apply=True,

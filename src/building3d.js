@@ -53,7 +53,9 @@ const B3=(function(){
         const gp=new THREE.Mesh(new THREE.PlaneGeometry(len,0.95),MAT.glass()); gp.position.set(rx,(ya+yb)/2+0.55,(za+zb)/2); gp.rotation.set(0,Math.PI/2,0); gp.rotateZ(ang); gp.userData.noMerge=true; lv0.add(gp);
         const hr=new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.03,len,8),MAT.steel()); hr.position.set(rx,(ya+yb)/2+1.02,(za+zb)/2); hr.rotation.x=Math.PI/2+(za>zb?-1:1)*0; hr.lookAt(rx,yb+1.02,zb); hr.rotateX(Math.PI/2); lv0.add(hr); } }
     // 樓梯可以點的面（點地面移動）
-    { const surf=stairSurfs(L); for(const s of [surf.f1,surf.ld,surf.f2,surf.top]){ const w=s.x1-s.x0, d=s.z1-s.z0; const ya=s.y!==undefined?s.y:s.ya, yb=s.y!==undefined?s.y:s.yb; const g=new THREE.PlaneGeometry(w,Math.hypot(d,ya-yb)); const m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({visible:false})); m.position.set((s.x0+s.x1)/2,(ya+yb)/2+0.01,(s.z0+s.z1)/2); m.rotation.x=-Math.PI/2+Math.atan2(ya-yb,d); m.userData.walkLv=s===surf.f2||s===surf.top?1:0; lv0.add(m); walkMeshes.push(m); } }
+    { const surf=stairSurfs(L); for(const s of [surf.f1,surf.ld,surf.f2,surf.top]){ const w=s.x1-s.x0, d=s.z1-s.z0; const ya=s.y!==undefined?s.y:s.ya, yb=s.y!==undefined?s.y:s.yb; const g=new THREE.PlaneGeometry(w,Math.hypot(d,ya-yb)); const m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({visible:false})); m.position.set((s.x0+s.x1)/2,(ya+yb)/2+0.01,(s.z0+s.z1)/2); m.rotation.x=-Math.PI/2+Math.atan2(ya-yb,d); m.userData.walkLv=s===surf.f2||s===surf.top?1:0; lv0.add(m); walkMeshes.push(m);
+        /* 點在一跑樓梯上＝走完這一跑（engine3d.js；任務 #42）：[下面那一端, 上面那一端]；樓梯往北爬 */
+        const S=L.stair, sx=(S.x0+S.x1)/2, ldz=(S.landing.z0+S.landing.z1)/2; if(s===surf.f1) m.userData.stairEnds=[{x:sx,z:S.flight1.z1+0.6,lv:0},{x:sx,z:ldz,lv:0}]; if(s===surf.f2) m.userData.stairEnds=[{x:sx,z:ldz,lv:0},{x:sx,z:S.flight2.z0-0.8,lv:1}]; } }
     // 二樓迴廊樓板（下面是一樓北側的天花板）、地板、玻璃欄杆
     b1.add(MAT.plaster(),TK.boxG(W,G.slabT,G.z1-(-D/2),1.2),0,Y1-G.slabT/2,(G.z1+(-D/2))/2);
     { const fm=MAT.floor(); const f=new THREE.Mesh(new THREE.PlaneGeometry(W,G.z1+D/2),fm.clone()); f.material.map=fm.map.clone(); f.material.map.needsUpdate=true; f.material.map.repeat.set(W/2.4,(G.z1+D/2)/2.4); f.rotation.x=-Math.PI/2; f.position.set(0,Y1+0.004,(G.z1-D/2)/2); f.receiveShadow=true; f.userData.walkLv=1; lv1.add(f); walkMeshes.push(f); }
@@ -92,7 +94,7 @@ const B3=(function(){
   const g0=(lv0,lv1,k)=>k?lv1:lv0;
 
   // ---- 玻璃電梯（中庭裡）：井道、車廂、車門＋各層的層門、樓層燈號 ----
-  function buildElevator(L,g,nav0,nav1,zone){ const EL=L.elevator, Y=L.floors.map(f=>f.y), RY=L.roofY;
+  function buildElevator(L,g,nav0,nav1,zone){ const EL=L.elevator, Y=L.floors.map(f=>f.y), RY=L.roofY, base=EL.base||1;   /* base：第 0 層是幾樓（總圖閱覽室的電梯在 3F）；nav1 可以沒有（只有一層的區域）*/
     const grp=new THREE.Group(); grp.userData.dyn=true; grp.name='elevator'; g.add(grp);
     const cx=(EL.x0+EL.x1)/2, cz=(EL.z0+EL.z1)/2, w=EL.x1-EL.x0, d=EL.z1-EL.z0;
     // 井道：四根不鏽鋼角柱、東西南三面玻璃、頂上機房
@@ -101,7 +103,7 @@ const B3=(function(){
     for(const [x,z,ry,len] of [[EL.x0-0.08,cz,Math.PI/2,d],[EL.x1+0.08,cz,Math.PI/2,d],[cx,EL.z1+0.08,0,w]]){ const gp=new THREE.Mesh(new THREE.PlaneGeometry(len,RY-0.5),MAT.glass()); gp.position.set(x,(RY-0.5)/2,z); gp.rotation.y=ry; grp.add(gp); }
     // 車廂
     const car=new THREE.Group(); car.name='ELEV_CAR'; grp.add(car); const cb=new TK.Bin();
-    cb.add(MAT.graniteD(),TK.boxG(w-0.1,0.12,d-0.1),cx,-0.06,cz); cb.add(MAT.frame(),TK.boxG(w-0.1,0.1,d-0.1),cx,2.55,cz); cb.add(MAT.steel(),TK.boxG(w-0.2,0.04,0.04),cx,0.95,EL.z1-0.12); for(const sx of [-1,1]) cb.add(MAT.steel(),TK.boxG(0.04,0.04,d-0.3),cx+sx*(w/2-0.12),0.95,cz);
+    cb.add(MAT.graniteD(),TK.boxG(w-0.1,0.12,d-0.1),cx,-0.06,cz); for(const [bw,bd,bx,bz] of [[w-0.1,0.08,cx,EL.z0+0.09],[w-0.1,0.08,cx,EL.z1-0.09],[0.08,d-0.1,EL.x0+0.09,cz],[0.08,d-0.1,EL.x1-0.09,cz]]) cb.add(MAT.frame(),TK.boxG(bw,0.1,bd),bx,2.55,bz);   /* 車廂頂只有四邊的框（玻璃電梯；原本一整塊深色頂板：鏡頭在車廂上方時整塊擋住玩家，總圖大廳從電梯走出來的那一刻）*/ cb.add(MAT.steel(),TK.boxG(w-0.2,0.04,0.04),cx,0.95,EL.z1-0.12); for(const sx of [-1,1]) cb.add(MAT.steel(),TK.boxG(0.04,0.04,d-0.3),cx+sx*(w/2-0.12),0.95,cz);
     for(const [x,z] of [[EL.x0+0.03,EL.z0+0.03],[EL.x1-0.03,EL.z0+0.03],[EL.x0+0.03,EL.z1-0.03],[EL.x1-0.03,EL.z1-0.03]]) cb.add(MAT.frame(),TK.boxG(0.06,2.5,0.06),x,1.25,z); cb.build(car);
     const lp=new THREE.Mesh(new THREE.PlaneGeometry(w-0.5,d-0.6),MAT.lightPanel()); lp.rotation.x=Math.PI/2; lp.position.set(cx,2.49,cz); car.add(lp);
     // 車門（兩扇，往兩側滑開）＋每一層的層門
@@ -113,16 +115,20 @@ const B3=(function(){
     const drawInd=(n)=>{ for(const {c,t} of ind){ const x=c.getContext('2d'); x.fillStyle='#101418'; x.fillRect(0,0,64,32); x.fillStyle='#ffb347'; x.font='bold 24px sans-serif'; x.textAlign='center'; x.fillText(n+'F',32,25); t.needsUpdate=true; } };
     // 車廂裡的導航格（動態）：車廂在這一層而且門開著才能走
     const cells=[]; for(let cz2=0;cz2<nav0.rows;cz2++) for(let cx2=0;cx2<nav0.cols;cx2++){ const [x,z]=nav0.toWorld(cx2,cz2); if(x>EL.x0+0.1&&x<EL.x1-0.1&&z>EL.z0+0.1&&z<EL.z1-0.05) cells.push(nav0.idx(cx2,cz2)); }
-    const navs=[nav0,nav1];
-    const el={lv:0,y:Y[0],isOpen:false,cx,cz:cz,inZ:cz-0.15,outZ:EL.callZ,floors:EL.floors,floorY:Y,tweens:[],car};
+    const navs=[nav0,nav1].filter(Boolean);
+    const el={lv:0,y:Y[0],isOpen:false,cx,cz:cz,inZ:cz-0.15,outZ:EL.callZ,floors:EL.floors,floorY:Y,tweens:[],car,base};
     el.setCells=()=>{ navs.forEach((n,k)=>{ const free=el.isOpen&&el.lv===k; for(const i of cells) n.b[i]=free?0:1; n._cm=null; }); };
     const setDoor=(k)=>{ for(const p of carDoors) p.m.position.x=cx+p.sx*(doorW/2+k*doorW*0.92); landDoors.forEach((ds,f)=>{ const kk=f===el.lv?k:0; for(const p of ds) p.m.position.x=cx+p.sx*(doorW/2+kk*doorW*0.92); }); };
     const tween=(dur,fn)=>new Promise(res=>el.tweens.push({t:0,dur,fn,res}));
     el.open=()=>tween(0.9,k=>setDoor(k)).then(()=>{ el.isOpen=true; el.setCells(); });
     el.close=()=>{ el.isOpen=false; el.setCells(); return tween(0.9,k=>setDoor(1-k)); };
-    el.travel=(lv,rider,onStep)=>{ const y0=el.y, y1=Y[lv]; const dur=2.4+Math.abs(y1-y0)*0.4; return tween(dur,k=>{ const e=k<0.5?2*k*k:1-Math.pow(-2*k+2,2)/2; const y=y0+(y1-y0)*e; el.y=y; car.position.y=y-Y[0]; if(rider) rider.obj.position.y=y; drawInd(y>=(Y[0]+Y[1])/2?2:1); if(onStep) onStep(y); }).then(()=>{ el.lv=lv; el.y=y1; el.setCells(); drawInd(lv+1); }); };
+    el.travel=(lv,rider,onStep)=>{ const y0=el.y, y1=Y[lv]; const dur=2.4+Math.abs(y1-y0)*0.4; return tween(dur,k=>{ const e=k<0.5?2*k*k:1-Math.pow(-2*k+2,2)/2; const y=y0+(y1-y0)*e; el.y=y; car.position.y=y-Y[0]; if(rider) rider.obj.position.y=y; let fk=0; for(let i=1;i<Y.length;i++) if(y>=(Y[i-1]+Y[i])/2) fk=i; drawInd(base+fk); if(onStep) onStep(y); }).then(()=>{ el.lv=lv; el.y=y1; el.setCells(); drawInd(lv+base); }); };
+    /* 往「別的區域」的樓層（總圖：大廳 ⇄ 3F 閱覽區）：車廂往上／往下走一段、燈號一層一層跳到那一層，之後換區域（game3d.js 的 elevatorRide）*/
+    el.leave=(num,rider,onStep)=>{ const n0=el.lv+base, dir=num>n0?1:-1, y0=el.y, dy=dir*Math.min(3.0,1.5*Math.abs(num-n0)); const dur=2.6+Math.abs(num-n0)*0.5; return tween(dur,k=>{ const e=k*k; const y=y0+dy*e; car.position.y=y-Y[0]; if(rider) rider.obj.position.y=y; drawInd(n0+Math.round((num-n0)*Math.min(1,k*1.15))); if(onStep) onStep(y); }); };
+    /* 換區域之後：車廂停在玩家那一層、人在車廂裡；hold＝先讓車廂的格子可以走（出生點在車廂裡，門之後才打開）*/
+    el.placeAt=(lv,hold)=>{ el.lv=lv; el.y=Y[lv]; car.position.y=Y[lv]-Y[0]; drawInd(lv+base); if(hold){ el.isOpen=true; } el.setCells(); };
     el.update=(dt)=>{ for(const tw of el.tweens.slice()){ tw.t+=dt; const k=Math.min(1,tw.t/tw.dur); tw.fn(k); if(k>=1){ el.tweens.splice(el.tweens.indexOf(tw),1); tw.res(); } } };
-    setDoor(0); drawInd(1); el.setCells(); return el; }
+    setDoor(0); drawInd(base); el.setCells(); return el; }
 
   // ---- 區域 ----
   const CAMPUS_DOOR={x:30.0,z:-107.4,yaw:Math.PI/2};   // 校園：從大廳走出來站在穿堂裡（西側玻璃門往東 2 m，面向東；離門的互動點 2 m，不會一出來就跳出「進入霖澤館」）
