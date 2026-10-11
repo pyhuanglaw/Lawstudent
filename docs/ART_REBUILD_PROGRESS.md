@@ -8,6 +8,18 @@
 
 ---
 
+## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
+
+- **時間**：2026-10-11 07:50 UTC｜**分支**：`claude/confident-ritchie-8rwh7t`｜**最新 checkpoint**：見 `git log -1`（這一節和 checkpoint 一起 commit）
+- **線上版本**：v9.4.2（main＝`dfd2618`，07:02:57 UTC）。下一次發布最早 10:02:57 UTC。
+- **正在做：v9.5（使用者實機回報修正）**——狀態 WORK_IN_PROGRESS／CHECKPOINT_SAVED，**沒有跑完整回歸，不可發布**：
+  - 已完成並實測：室友在椅子上轉圈（`tests/seated_look_unit.js`）、拿掉假的騎腳踏車路人、三家店加店員、吃完麵的目標、開放時間（`src/data/places.js`）、導航＋大地圖＋入口名牌（`src/guide3d.js`；瀏覽器實測 ALL PASS，腳本在工作階段暫存區，之後要整理成 `tests/guide_flow.py`）。
+  - 還沒做：①窗景（room() 的 `view:` 選項＋視差 shader；霖澤館 east/south、萬才館 south、201、閱覽室、宿舍房間的照片我拍；Café／便利商店／麵店／書店的照片已派給 LAWWW2，07:30Z DELIVERED、還沒 ACK）②霖澤館換樓層看到天空（分析用的工作流程在跑）③自由日不知道人在哪：大地圖＋人物頁顯示認識的人現在在哪 ④走路太慢：調速度、搖桿推到底跑步、大地圖快速前往 ⑤第一二天所有目標的稽核（工作流程在跑）。
+  - 做完後：發布前全套＋整合測試（含 gongguan_glb_integration：LAWWW2 的 ⑧ 公館機車 merge 後還沒跑）→ 多代理審查 → 發布。
+- **本機分支的半成品**：宿舍走廊 `wip/dorm-hall`（`bf750b4`）→ 已備份 `wip_backup/dorm-hall.bundle`（還原方法在 `wip_backup/README.md`）；WIP，不可合併進要發布的版本。
+- **v9.5 之後（使用者要求，等 v9.5 發布後依序做）**：手機＋主動邀約（#61）、課表（先給草案，#57）、騎腳踏車（Blender 腳踏車模型派 LAWWW2、騎車動作我做，#59）、主線（**等使用者決定**，我問了要不要讀 AA／BB 的討論紀錄，#62）。
+- **需要協助**：LAWWW2——店家窗景照片（cafe、cvs、noodle、bookstore）。
+
 ## CURRENTLY WORKING ON — 現在正在修改什麼
 
 - **最近更新**：2026-10-11 07:12（UTC）：使用者 07:00 起床、授權先發布做好的東西 → **v9.4.2 已發布**（main 快轉到 `dfd2618`，Pages 07:02:57 UTC；下一次最早 10:02:57 UTC）。v9.5 候選準備中：開發分支 merge ⑧公館機車（`6ff3cbd`）、版本字樣 v9.5／script 9.5-1、release_suite 加萬才館兩個＋總圖兩個真實流程（`e6bae94`）、發布說明草稿（`3c9e02f`）；`6a1db1b` 的完整回歸到 flow_linze_floors 為止 24/24 PASS（兩天主線、存檔相容還在跑）；多代理程式審查（5 個面向＋對抗式驗證）進行中；宿舍走廊（`wip/dorm-hall`）已跟上開發分支（`bf750b4`），排在 v9.5 之後。

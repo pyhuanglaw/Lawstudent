@@ -79,6 +79,17 @@
 - **優先級**：P0 立即處理（使用者要求先回覆或決策、另一方發現會破壞成果的衝突、要緊急暫停合併或發布、線上版本嚴重錯誤）；P1 在最近的安全工作節點回覆（對方正式開工、分工與檔案所有權、交付可整合的成果、要改共用檔、發布前整合確認）；P2 一般進度可以累積再處理。不要重送同一則訊息催對方。
 - 直接通訊不可用時，改用 `docs/DUAL_AI_BOARD.md`（push 到自己的分支）當備援通道，並寫明；不要因為通訊不通就停工。
 
+## 緊急保存規則（2026-10-11 使用者訂定，永久，D45；適用 LAWWW、LAWWW2、AA、BB）
+
+使用者的 Claude 每週額度可能隨時用完、工作階段隨時中斷：**即使下一分鐘就停止，也要能從 GitHub 找回大部分做好的工作並無縫接續。**
+1. **約每 30 分鐘、或每完成一個重要階段**檢查：哪些成果完成但沒 commit、哪些檔案在改、哪些只在本機（含本機分支、worktree、scratchpad）、Blender 原始檔／GLB／腳本／圖片／企劃有沒有保存、已討論完但沒寫進 GitHub 的決策或草稿、現在的工作能不能從 GitHub 恢復。有重要成果沒保存就立刻 checkpoint commit＋push。沒有真正的背景計時器——在每個可控制的工作節點檢查，不假裝定時；不中斷不能安全中斷的操作（匯出、Git、完整回歸跑到一半）。
+2. **狀態分清楚**：`WORK_IN_PROGRESS`（還在做，可以保存、標 WIP）→ `CHECKPOINT_SAVED`（已 commit＋push，只是備份）→ `READY_FOR_REVIEW` → `APPROVED_FOR_INTEGRATION` → `RELEASED`／`ART_APPROVED`／`STORY_APPROVED`（後三者只有正式發布或使用者批准才成立）。**commit、push 只是保存，不是核准、不是發布。**
+3. **權限不變**：LAWWW 照舊負責開發分支、整合、發布；**沒測完的功能不因額度快用完而搶著發布**；沒批准的劇情不寫進正式遊戲；不標 ART_APPROVED。LAWWW2 只 push 自己的分支、不碰 main、不改 LAWWW 的檔案、不發布。AA、BB 只在自己的企劃分支保存，故事都標 `PROPOSAL`，保存企劃不代表可以叫 LAWWW／LAWWW2 實作。
+4. **Git 安全**：確認分支與 worktree → `git status` → 只加這次要存、自己負責的檔案（**不要無條件 `git add .`**）→ 看得懂的 commit 訊息 → push 到自己的遠端分支 → 確認成功、記下 SHA → 確認原始素材真的被追蹤。不 force push、不為了保存合併 main、不覆寫其他 AI 的工作、不提交密鑰或授權不明的素材。push 不了的檔案（太大、LFS 問題）要明確寫「沒有遠端備份」。
+5. **只在本機分支上的半成品**（工作階段只能 push 自己的開發分支）：用 `git bundle` 備份到開發分支的 `wip_backup/`（還原方法見 `wip_backup/README.md`）；遊戲不讀這個資料夾。
+6. **交接紀錄**：`docs/ART_REBUILD_PROGRESS.md` 最上面的「交接（最新）」一節隨時更新：最新 SHA、分支、已完成／未完成／沒測過、下一步、需要誰協助、哪些不能合併或發布。
+7. **不要為了保存停下實際工作**：保存完立刻繼續；不要整個工作階段只剩寫日誌和 commit。只有影響對方工作或要交接時才通知其他 AI（寫明工作名稱、分支、SHA、檔案範圍、完成狀態、能不能整合、測試結果；分清楚「已保存」「已交付」「已整合」）。
+
 ## AI 長期合作、溝通與開發工作規範（2026-10-09 使用者訂定，持續有效）
 
 這一節補充上面的規則，**不取代**上面的安全、授權、法律題庫與測試規範。長期設計決策記在 `docs/PROJECT_DECISIONS.md`，目前工作進度記在 `docs/ART_REBUILD_PROGRESS.md`，回歸測試清單在 `docs/REGRESSION_CHECKLIST.md`，畫面驗收在 `docs/art-rebuild/VISUAL_REVIEW.md`。
