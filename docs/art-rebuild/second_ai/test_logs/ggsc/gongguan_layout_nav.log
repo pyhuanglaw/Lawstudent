@@ -1,0 +1,47 @@
+PASS 校門口（回校園）（0, -44.5）站得住且走得到  {"stand": true, "ok": true, "len": 2, "end": [0, -44.5]}
+PASS 校門開口正中間（回校園的互動點）（0, -48）站得住且走得到  {"stand": true, "ok": true, "len": 2, "end": [0, -48]}
+PASS 捷運站入口前（-35.2, 11）站得住且走得到  {"stand": true, "ok": true, "len": 2, "end": [-35.2, 11]}
+PASS 往溫州街（巷口）（-71, 20.2）站得住且走得到  {"stand": true, "ok": true, "len": 1, "end": [-71, 20.2]}
+PASS 南側人行道（東）（60, 12）站得住且走得到  {"stand": true, "ok": true, "len": 1, "end": [60, 12]}
+PASS 街尾（東）騎樓外（70, 16.5）站得住且走得到  {"stand": true, "ok": true, "len": 1, "end": [70, 16.5]}
+PASS 麵店門口（騎樓裡）（-63, 21）站得住且走得到  {"stand": true, "ok": true, "len": 2, "end": [-63, 21]}
+PASS 茶行門口（-52.8, 21）站得住且走得到  {"stand": true, "ok": true, "len": 2, "end": [-52.8, 21]}
+PASS 書店門口（-41.6, 21）站得住且走得到  {"stand": true, "ok": true, "len": 3, "end": [-41.6, 21]}
+PASS 便利商店門口（-29.4, 21）站得住且走得到  {"stand": true, "ok": true, "len": 1, "end": [-29.4, 21]}
+PASS 東段騎樓（60, 20.5）站得住且走得到  {"stand": true, "ok": true, "len": 2, "end": [60, 20.5]}
+PASS 離開麵店（-63, 18）站得住且走得到  {"stand": true, "ok": true, "len": 2, "end": [-63, 18]}
+PASS 離開書店（-42, 18）站得住且走得到  {"stand": true, "ok": true, "len": 3, "end": [-42, 18]}
+PASS 離開便利商店（-29.4, 18）站得住且走得到  {"stand": true, "ok": true, "len": 1, "end": [-29.4, 18]}
+PASS 溫州街 → 公館（巷口）（-71, 16.5）站得住且走得到  {"stand": true, "ok": true, "len": 1, "end": [-71, 16.5]}
+PASS 校園 → 公館（-2.5, -29）站得住且走得到  {"stand": true, "ok": true, "len": 1, "end": [-2.5, -29]}
+PASS 騎樓整排連續可以走（x −67 → 77、z 20.5）
+PASS 騎樓柱子（店與店的分界）不能走  [[-68, false], [-56.8, false], [-47.6, false], [-34.4, false], [-23.2, false], [-14, false], [-4.8, false], [5.4, false], [15.6, false], [23.6, false], [32.6, false], [41.6, false], [51.6, false], [59.6, false], [68.6, false], [77.6, false]]
+PASS 校門門柱（西）（-4.9, -46）不能走
+PASS 校門門柱（東）（4.9, -46）不能走
+PASS 轉角公寓（巷口西側）（-76, 20.5）不能走
+PASS 麵店裡面（-63, 23.5）不能走
+PASS 便利商店裡面（-29.4, 24）不能走
+PASS 東段店裡面（50, 25）不能走
+PASS 捷運出口本體（-40, 11）不能走
+PASS 圓環花台（22, 11.5）不能走
+PASS 互動點「進入阿鳳麵店」在（-63.0, 21.0）（x 和改版前相同）  [{"label": "進入阿鳳麵店", "x": -63, "z": 21}]
+PASS 互動點「買一杯飲料」在（-52.8, 21.0）（x 和改版前相同）  [{"label": "買一杯飲料", "x": -52.8, "z": 21}]
+PASS 互動點「進入舊路書房」在（-41.6, 21.0）（x 和改版前相同）  [{"label": "進入舊路書房", "x": -41.6, "z": 21}]
+PASS 互動點「進入便利商店」在（-29.4, 21.0）（x 和改版前相同）  [{"label": "進入便利商店", "x": -29.4, "z": 21}]
+PASS 站在店門口出現「進入阿鳳麵店」  進入阿鳳麵店
+PASS 站在店門口出現「買一杯飲料」  買一杯飲料
+PASS 站在店門口出現「進入舊路書房」  進入舊路書房
+PASS 站在店門口出現「進入便利商店」  進入便利商店
+PASS 舊存檔：站在新騎樓柱子的位置 → 讀檔後移到可走、走得到的地方  {"x": -57.25, "z": 18.75, "stand": true, "reach": true}
+PASS 舊存檔：舊版麵店門口（改版後在店後面） → 讀檔後移到可走、走得到的地方  {"x": -73.25, "z": 20.75, "stand": true, "reach": true}
+PASS 舊存檔：舊版捷運入口前（改版後在店後面） → 讀檔後移到可走、走得到的地方  {"x": -47.75, "z": 20.75, "stand": true, "reach": true}
+PASS 麵店門口出現互動按鈕「進入阿鳳麵店」  {"hidden": false, "label": "進入阿鳳麵店"}
+PASS 按下後進到麵店  noodle
+PASS 麵店門口出現「離開麵店」  {"hidden": false, "label": "離開麵店"}
+PASS 離開麵店回到公館：站在麵店前、站得住、走得到  {"zone": "gongguan", "x": -63, "z": 18, "stand": true, "reach": true}
+PASS （測試前置）讀檔後人在巷口  [-71, 19.6]
+PASS 巷口出現「往溫州街」  {"hidden": false, "label": "往溫州街"}
+PASS 按下後到溫州街  wenzhou
+PASS 從溫州街回公館：站在巷口、站得住、走得到  {"zone": "gongguan", "x": -71, "z": 16.5, "stand": true, "reach": true}
+PASS 沒有 JS 例外  []
+ALL PASS
