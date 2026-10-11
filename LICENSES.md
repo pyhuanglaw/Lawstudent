@@ -98,7 +98,7 @@
 | Poly Haven `painted_metal_shutter`（Charlotte Baglioni、Dario Barresi、Rico Cilliers） | https://polyhaven.com/a/painted_metal_shutter | CC0 | 溫州街公寓一樓的鐵捲門 |
 | Poly Haven `square_brick_paving`（Dimitrios Savva） | https://polyhaven.com/a/square_brick_paving | CC0 | 溫州街騎樓地坪、小公園的步道與圓形廣場 |
 | Poly Haven `brick_pavement_04`（Charlotte Baglioni） | https://polyhaven.com/a/brick_pavement_04 | CC0 | 溫州街 Café 門前的紅磚人行道 |
-| Poly Haven `grey_roof_tiles`（Rob Tuytel） | https://polyhaven.com/a/grey_roof_tiles | CC0 | 已下載，沒有用（日式宿舍的黑瓦改用本作程式產生的貼圖） |
+| Poly Haven `grey_roof_tiles`（Rob Tuytel） | https://polyhaven.com/a/grey_roof_tiles | CC0 | 總圖書館的四坡屋頂（校正成深褐灰）。日式宿舍的黑瓦沒有用它（改用本作程式產生的貼圖） |
 | 溫州街日式宿舍＋院牆 `assets/models/env/second_ai/wz_jphouse.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_jphouse.py` | 本作 | 溫州街 A 側的日式宿舍（取代套件 `TK.japaneseHouse`、`TK.wall` 的外觀） |
 | 溫州街電線桿、反光鏡、路名牌、Café 門前紅磚道 `assets/models/env/second_ai/wz_props.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_props.py` | 本作 | 溫州街主巷與東端路口 |
 | 溫州街小公園 `assets/models/env/second_ai/wz_park.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_park.py` | 本作 | 溫州街 A 側的小公園（草地、鋪面、路緣、樹穴、樹圍座椅、單槓、名牌） |
@@ -115,4 +115,7 @@
 | 阿鳳麵店室內 `assets/models/env/second_ai/noodle_interior.glb` | 本作 Blender 腳本 `tools/blender/env_second/noodle_interior.py`（店名、菜單、價目是遊戲裡的 canvas 字，不在模型裡） | 本作 | `noodle` 室內區域。貼圖：`terrazzo_tiles`（地板）、`rounded_square_tiled_wall`（牆下半的小方磚）、`dark_wood`（木作），都是上面列過的 Poly Haven CC0 |
 | 舊路書房室內 `assets/models/env/second_ai/bookstore_interior.glb` | 本作 Blender 腳本 `tools/blender/env_second/bookstore_interior.py` | 本作 | `bookstore` 室內區域。貼圖：`dark_wood`、`white_plaster_02`、`black_walnut_veneer_01`、`walnut_veneer`（上面列過的 Poly Haven CC0） |
 | 宿舍雙人房室內 `assets/models/env/second_ai/dorm_interior.glb` | 本作 Blender 腳本 `tools/blender/env_second/dorm_interior.py` | 本作 | `dorm` 室內區域。貼圖：`terrazzo_tiles`（地板、窗台）、`walnut_veneer`（家具、門）（上面列過的 Poly Haven CC0）、`painted_plaster_wall`（牆；第一個 AI 已下載到 `tools/blender/textures/`，只讀使用） |
+| 公館店面街 `assets/models/env/second_ai/gongguan_shops.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_street.py --set gongguan`（店名、招牌字是遊戲裡的 canvas 字，不仿真實店家） | 本作 | 公館羅斯福路南側 15 棟騎樓店面＋往溫州街的巷口轉角。貼圖和溫州街公寓相同（上面列過的 Poly Haven CC0） |
+| 總圖書館外觀 `assets/models/env/second_ai/campus_library.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_library.py`（位置、尺寸、樓層、開間照套件 `CK.hall`；匾額「總圖書館」是遊戲裡的 canvas 字） | 本作 | 校園椰林大道東端的總圖（取代套件 `CK.hall` 的外觀）。貼圖：`exterior_wall_cladding_02`（面磚）、`sandstone_blocks_08`（切石）、`grey_roof_tiles`（屋瓦）、`dark_wood`（大門），以及 `granite_tile_03`（勒腳、地坪；第一個 AI 已下載到 `tools/blender/textures/`，只讀使用） |
+| Poly Haven `sandstone_blocks_08`（Rob Tuytel） | https://polyhaven.com/a/sandstone_blocks_08 | CC0 | 總圖的石材：拱廊柱頭柱腳、拱圈、門廊、樓層腰帶、簷口、窗框窗台（降低彩度、校正成淺米灰） |
 
