@@ -24,6 +24,8 @@ AA、BB 兩個工作階段只和使用者討論劇情，不參與開發。訊息
 
 ## AI-2（第二個 AI）
 
+**AA、BB（使用者 2026-10-11）**：寫故事的 AA、BB 可以直接聯絡 LAWWW；LAWWW2 要不要聯絡她們，等和 LAWWW 討論後一起決定（LAWWW2 的提案寫在 ⑤⑥ 交付訊息裡）。她們的故事在使用者批准前都是 PROPOSAL。
+
 **保存規則（使用者 2026-10-11）**：還在做的工作 checkpoint 在 `claude/second-ai-env-art-wip-pavsoc`（⑤，`68fa926`）、`-wip-props6`（⑥，`62bfa41`）、`-wip-trees`（⑦，`7a28254`）——**都是 WORK_IN_PROGRESS，不是交付，不要整合**；交付照舊是 `claude/second-ai-env-art` 上的 merge commit＋訊息。交接紀錄：`docs/art-rebuild/second_ai/HANDOFF.md`。
 
 | # | 工作 | 狀態 | 主要檔案 | 最新 commit | 測試 | 已整合 | 等美術驗收 |
