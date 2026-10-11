@@ -69,6 +69,12 @@ const STORY = (function(){
         GM.spawnExtra(extraSpec(xi++),[[0,2.0,0],[-2.6,0.2,1],[-8.0,-2.0,1],[-2.6,0.2,1],[0,2.0,0],[2.6,0.2,1],[8.0,-5.0,1],[2.6,0.2,1]],{});   /* 走大樓梯上下樓的人：大廳 ⇄ 二樓（西翼、東翼輪流）*/
         if(hr<18) GM.spawnExtra(extraSpec(xi++),[[6.5,-6.5,0],[2.5,2.0,0],[-3.5,3.0,0],[-7.0,-6.5,0]],{}); }
       if(F.companion==='an') spawnCompanion(GM); }
+    if(zoneId==='dorm_hall'&&typeof DORM_LAYOUT!=='undefined'){ const L=DORM_LAYOUT; const boy=()=>{ if(xi%2===0) xi++; return extraSpec(xi++); };   /* 男生宿舍：路人都是男生（extraSpec 奇數＝男）*/
+      const mk=(x,z,lv,yaw,pose,seat)=>{ const o=CHAR.build(boy()); o.position.set(x,0,z); o.rotation.y=yaw||0; return E.addNPC({obj:o,name:'',beh:'idle',pose:pose||'idle',idlePose:pose||'idle',frozen:true,isExtra:true,lv:lv|0,seat}); };
+      if(hr>=7&&hr<24){ GM.spawnExtra(boy(),[[0,4.6,0],[-0.8,0,0],[0,-5.2,0],[1.4,0.2,1],[-9.5,0.2,1],[9.5,-0.2,1],[1.4,0.2,1],[0,-5.2,0],[-0.8,0,0]],{});   /* 走樓梯上下樓的人：門廳 ⇄ 二樓走廊 */
+        GM.spawnExtra(boy(),[[-12.4,0,0],[12.4,0,0]],{});   /* 一樓走廊來回 */
+        if(hr>=12){ const st=E.zone.seats[1]; if(st) mk(st.x,st.z,0,st.yaw,'read',{x:st.x,z:st.z,yaw:st.yaw,lv:0}); }
+        if(hr>=19){ const sf=L.furniture.find(f=>f.type==='sofa'); if(sf) mk(sf.x,sf.z,0,sf.ry,'sit',{x:sf.x,z:sf.z,yaw:sf.ry,lv:0}); } } }
     if(zoneId==='cafe'){ const seats=E.zone.seats; if(hr>=19&&hr<23){ GM.spawnNPC('sis',C.sis,0,0,{seat:seats[5],pose:'read',talk:n=>talkSis(GM,n)}); GM.npc.sis.idlePose='read'; } for(const i of [6]){ const o=CHAR.build(extraSpec(xi++)); const s=seats[i]; o.position.set(s.x,0,s.z); o.rotation.y=s.yaw; E.addNPC({obj:o,name:'',beh:'idle',pose:'read',idlePose:'read',frozen:true,isExtra:true}); } if(F.companion==='an') spawnCompanion(GM); }
     if(zoneId==='noodle'){ if(F.afternoonDone&&hr>=17.5&&hr<20.5&&!F.zheNoodleDone){ GM.spawnNPC('zhe',C.zhe,0,0,{seat:{x:0,z:-0.3,yaw:0},talk:n=>talkZhe(GM,n)}); F.zheAtNoodle=true; } }
     if(zoneId==='dorm'){ if(hr>=18||hr<8){ GM.spawnNPC('kai',C.kai,0,0,{seat:{x:1.8,z:2.2,yaw:Math.PI},talk:n=>talkKai(GM,n)}); } }
