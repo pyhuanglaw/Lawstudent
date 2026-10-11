@@ -26,7 +26,7 @@ AA（`session_019Y3emYqxxC4Ch1GGf4fMzw`）、BB（`session_01XVHYLaK9Vcnae3U1aAJ
 
 **AA、BB（使用者 2026-10-11）**：寫故事的 AA、BB 可以直接聯絡 LAWWW；LAWWW2 要不要聯絡她們，等和 LAWWW 討論後一起決定（LAWWW2 的提案寫在 ⑤⑥ 交付訊息裡）。她們的故事在使用者批准前都是 PROPOSAL。
 
-**緊急保存（使用者 2026-10-11 10:05Z「週使用量 98%」；遠端 SHA 已用 `git ls-remote` 逐條確認，本機沒有沒推的東西）**：交付分支 `claude/second-ai-env-art`＝`f0bab8c`（店家窗景 8 張＋景深，可整合，訊息另外傳）；WIP（**都還不能整合**）：`-wip-pavsoc`＝`8c6f1fe`（⑤驗收完成）、`-wip-props6`＝`8fe7a21`（⑤⑥＋AI-1 `8afdece`，合併後的回歸還沒跑；⑥販賣機改亮、截圖、log 都在）、`-wip-trees`＝`d7916da`（⑦已合併 ⑤⑥，驗收還沒跑）、`-wip-soclib`＝`030ce51`（⑬配置產生器草稿＋平面草圖）；`-wip-props`＝推錯名字的重複分支（`fa626b9`，忽略）。⑫、⑭ 還沒開工。接手從 `docs/art-rebuild/second_ai/HANDOFF.md`（交付分支上）開始。
+**交班（使用者 2026-10-11 10:13Z 要求換班；帳號 A 的 LAWWW2 正常交班，之後不再寫入，直到使用者叫回來）**：遠端 SHA 都用 `git ls-remote` 確認過、本機沒有沒推的東西：交付分支 `claude/second-ai-env-art`（店家窗景 `f0bab8c` 可整合，10:07Z 已傳 P0 訊息、等 ACK）；WIP（**都還不能整合**）：`-wip-pavsoc`＝`8c6f1fe`（⑤驗收完成）、`-wip-props6`＝`f2fe6ae`（⑤⑥＋`8afdece`，回歸只跑了 street_props_integration PASS，其他要重跑）、`-wip-trees`＝`d7916da`（⑦驗收沒跑）、`-wip-soclib`＝`3b4b201`（⑬配置＋Blender 腳本初稿，沒執行過）；`-wip-props`（`fa626b9`）推錯名字，忽略。⑫、⑭ 沒開工。接班（LAWWW2-B）從 `claude/second-ai-env-art` 的 `docs/art-rebuild/second_ai/HANDOFF.md` 開始。
 
 | # | 工作 | 狀態 | 主要檔案 | 最新 commit | 測試 | 已整合 | 等美術驗收 |
 |---|---|---|---|---|---|---|---|
