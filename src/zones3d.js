@@ -69,6 +69,9 @@ const Z3 = (function(){
       const m=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({visible:false})); m.userData.walkLv=0; m.userData.dyn=true; g.add(m); walk.push(m); }
     { const sh=new THREE.Shape(); sh.moveTo(W.LX0,-W.d/2); sh.lineTo(W.LX0,-W.z0); sh.lineTo(W.BX0,-W.z0); for(let i=1;i<=24;i++){ const x=W.BX0+(W.BX1-W.BX0)*i/24; sh.lineTo(x,-W.bzf(x)); } sh.lineTo(W.LX0,-W.d/2);
       const geo=new THREE.ShapeGeometry(sh); geo.rotateX(-Math.PI/2); const m=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({visible:false})); m.position.set(bx,W.PF+0.01,bz); m.userData.walkLv=1; m.userData.dyn=true; g.add(m); walk.push(m); }
+    /* 校園的地面（第 0 層、y=0）也要打得到：站在平台或樓梯上（第 1 層）點廣場時，原本打不到「有高度的地面」就用玩家那一層的基本高度（3.63 m）的平面，
+       目的地算在離玩家很近、平台外面走不到的地方（真實玩家流程：從平台走下大樓梯點了 7 次）。正面朝上；在地面那一層時和原本的平面是同一個點（霖澤館室內的一樓地板也是這樣） */
+    { const geo=new THREE.PlaneGeometry(nav.w,nav.h); geo.rotateX(-Math.PI/2); const m=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({visible:false})); m.position.set(nav.ox+nav.w/2,0,nav.oz+nav.h/2); m.name='campus_ground_tap'; m.userData.walkLv=0; m.userData.dyn=true; g.add(m); walk.push(m); }
     E.interactables.push({x:bx+W.SX,z:bz+W.d/2+0.8,radius:1.4,lv:1,y:W.PF,label:'萬才館二樓入口',look:'二樓入口的玻璃門關著。門上貼著：「本學期二樓以上整修中，請由陽台下方的一樓入口進出。」'});
     return nav1; }
   const campus={ id:'campus', name:'台大校園', indoor:false, cityLight:0.25, size:[260,170], viewFar:260, fogNear:100, build(E){   /* 第二十批：邊界外有背景了，視距拉遠（照片裡椰林大道盡頭的總圖看得清楚；從校門口看總圖約 205 m）*/
