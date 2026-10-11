@@ -17,11 +17,11 @@
 
 ## 1. 值班表（換班時由值班的 LAWWW／LAWWW-B 更新；各職位的登記以自己進度檔裡的「值班登記」為準）
 
-| 職位 | 職責 | 帳號 A | 帳號 B | 現在值班 | 分支（2026-10-11 09:50 UTC 的最新 commit） | 進度檔（在各自的分支上） |
+| 職位 | 職責 | 帳號 A | 帳號 B | 現在值班 | 分支（2026-10-11 10:06 UTC 的最新 commit） | 進度檔（在各自的分支上） |
 |---|---|---|---|---|---|---|
-| **LAWWW** | 開發負責人：核心系統、人物、建築室內、整合、測試、**正式發布**、分派 LAWWW2 | LAWWW `session_01Eds6msqpsuzNEw98sdw8JX` | LAWWW-B：未建立 | **A** | `claude/confident-ritchie-8rwh7t`（`13e53b2`）；本機半成品備份在 `wip_backup/`（git bundle） | `docs/ART_REBUILD_PROGRESS.md` 最上面「交接（最新）」 |
-| **LAWWW2** | 環境美術：Blender、3D 場景（Café、溫州街、公館、街道道具、校園地標、行道樹、獨立室內） | LAWWW2 `session_01AC1WVgJSmoJK1uRsPK2Zn1` | LAWWW2-B：未建立 | **A** | `claude/second-ai-env-art`（`5cf1b4d`）＋半成品分支 `claude/second-ai-env-art-wip-pavsoc`（`8c6f1fe`）、`-wip-props6`（`18e9906`）、`-wip-trees`（`879d983`） | `docs/art-rebuild/second_ai/HANDOFF.md` |
-| **AA** | 劇情企劃：四年故事架構、主線、系統與劇情規劃 | AA `session_019Y3emYqxxC4Ch1GGf4fMzw` | AA-B：未建立 | **A** | `claude/bb-story-planning`（`dc4c8e8`，和 BB 共用） | `docs/story_planning/AA_交接紀錄.md` |
+| **LAWWW** | 開發負責人：核心系統、人物、建築室內、整合、測試、**正式發布**、分派 LAWWW2 | LAWWW `session_01Eds6msqpsuzNEw98sdw8JX` | LAWWW-B：未建立 | **A** | `claude/confident-ritchie-8rwh7t`（`e747724`）；本機半成品備份在 `wip_backup/`（git bundle：dorm-hall、wancai-stairs） | `docs/ART_REBUILD_PROGRESS.md` 最上面「交接（最新）」 |
+| **LAWWW2** | 環境美術：Blender、3D 場景（Café、溫州街、公館、街道道具、校園地標、行道樹、獨立室內） | LAWWW2 `session_01AC1WVgJSmoJK1uRsPK2Zn1` | LAWWW2-B：未建立 | **A** | `claude/second-ai-env-art`（`ae94b8e`）＋半成品分支 `claude/second-ai-env-art-wip-pavsoc`（`8c6f1fe`）、`-wip-props6`（`fa626b9`）、`-wip-trees`（`d7916da`） | `docs/art-rebuild/second_ai/HANDOFF.md` |
+| **AA** | 劇情企劃：四年故事架構、主線、系統與劇情規劃 | AA `session_019Y3emYqxxC4Ch1GGf4fMzw` | AA-B：未建立 | **A** | `claude/bb-story-planning`（`1892599`，和 BB 共用） | `docs/story_planning/AA_交接紀錄.md` |
 | **BB** | 劇情企劃：角色、人物關係、事件、對話與支線 | BB `session_01XVHYLaK9Vcnae3U1aAJoZv` | BB-B：未建立 | **A** | `claude/bb-story-planning`（同上） | `docs/story_planning/BB_00_協作規範與交接紀錄.md` |
 
 - 表上的 SHA 只是更新當時的值，**真正的最新以遠端為準**：`git fetch origin --prune` 後跑 `git log -1 --format='%h %ci %s' origin/<分支>`。

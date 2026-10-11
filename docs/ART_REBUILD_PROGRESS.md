@@ -13,17 +13,17 @@
 值班登記：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜分支 claude/confident-ritchie-8rwh7t｜接班基準（制度建立時）`13e53b2`｜2026-10-11 09:50 UTC
 上一班：還沒換過班。跨帳號接班（帳號 A ⇄ B）的總入口：`docs/AI_SESSION_HANDOFF.md`（D49）。
 
-- **時間**：2026-10-11 09:55 UTC｜**分支**：`claude/confident-ritchie-8rwh7t`｜**最新 checkpoint**：看 `git log -1 origin/claude/confident-ritchie-8rwh7t`（這一節寫的時候是 `13e53b2` 之後的文件 commit）
-- **線上版本**：v9.4.2（main＝`dfd2618`，07:02:57 UTC）。下一次發布最早 10:02:57 UTC。
-- **v9.5（使用者實機回報修正）**——CHECKPOINT_SAVED，**還不能發布**（最新 commit 還沒跑完整回歸）：
-  - 做完、有單元測試：室友轉圈、假騎士拿掉、店員、吃麵目標、開放時間、導航＋大地圖＋入口名牌＋人物線索、移動速度、換樓層天空、窗景照片＋視差；生活費（每月 1 日 25,000、開局 22,000，`848005b`，D48）。
-  - 程式審查（工作流程 wamn5x3bg，驗證 09:19 之後沒動靜，背景裡）找到的問題，LAWWW 逐一對照程式碼確認後修好：第一批 `a46f944`（樓梯上、電梯裡的人被上一層樓板擋住；總圖二樓樓板挖出電梯井，Blender 重新匯出）、第二批 `13e53b2`（人物線索和實際一致、閉館／吉他社導航、大地圖手勢與北、之後的週四目標、同伴樓層、跨區域電梯鏡頭、窗景照片釋放）。新測試：`stairs_cam_slab_unit`、`schedule_refresh_unit`、`allowance_unit`（都已加進 `tests/release_suite.sh`，修改前會失敗）。**瀏覽器測試還沒對這些修改跑**。
-  - 背景：舊候選 `01145ae` 的完整回歸 `scratchpad/reg_v95a/`（只當參考；到 flow_wancai_stairs 都 PASS，indoor_cam_occlusion 已修）。出遊規劃工作流程 wkwxjx8gk（v9.5 之後的規劃）。
-  - 還沒做：Café／便利商店／麵店／書店的窗景照片（派給 LAWWW2，沒 ACK）。
-  - 發布步驟：在最新 commit 的乾淨工作樹跑完整回歸（`tests/release_suite.sh`＋整合測試）→ 看總圖樓梯、電梯、萬才館樓梯的截圖 → 快轉 main → 確認 Pages → RELEASES.md。
-- **本機分支的半成品**：宿舍走廊 `wip/dorm-hall`（`bf750b4`）→ `wip_backup/dorm-hall.bundle`；WIP，不可合併進要發布的版本。
-- **等使用者決定**：課表草案的 4 個問題（`docs/proposals/SCHEDULE_PROPOSAL.md`）；主線（要不要讀 AA／BB 的討論紀錄）。AA 待確認：第一天的日期（生活費先假設 9/17）。
-- **v9.5 之後**：手機＋主動邀約（#61）、課表（#57，等決定）、騎腳踏車（#59，Blender 腳踏車 ⑫ 派給 LAWWW2）、出遊場景規劃（工作流程 wkwxjx8gk）。
+- **時間**：2026-10-11 10:06 UTC（**緊急保存：使用者週用量 98%**）｜**分支**：`claude/confident-ritchie-8rwh7t`｜**最新**：`git log -1 origin/claude/confident-ritchie-8rwh7t`（這次保存是 `e747724` 之後的文件 commit）。本機工作目錄乾淨，沒有未推送的檔案。
+- **線上版本**：v9.4.2（main＝`dfd2618`）。**v9.5 還沒發布**（最早 10:02:57 UTC 起可以，但要先跑完下面的測試）。
+- **v9.5 候選＝開發分支最新**（CHECKPOINT_SAVED，不能直接發布）：
+  - 單元測試全部 PASS：`node` 跑 `tests/release_suite.sh` 前段的 *_unit（含新的 stairs_cam_slab_unit、schedule_refresh_unit、allowance_unit、guide_unit）。
+  - **還沒做**：①在最新 commit 的乾淨工作樹跑完整 `tests/release_suite.sh`（瀏覽器，約 75 分鐘）＋ `tests/see_through.py`、`tests/tap_floor_levels.py`、`tests/movement_regression.py`；②`tests/stairs_cam_browser.py`（新寫，還沒跑過，可能要修）；③審查工作流程（wcxaihpvm，01145ae..HEAD 的修改）的結果——在 LAWWW 的工作階段裡，沒有寫進 GitHub，工作階段停了就要重跑審查；④通過後快轉 main、確認 Pages、更新 RELEASES.md。
+  - 舊候選 `01145ae` 的回歸（只當參考）：release_suite 到 flow_main_day12 全部 PASS（indoor_cam_occlusion 失敗已修 `f68f97a`），save_compat 兩項跑到一半——結果在本機 scratchpad，不在 GitHub。
+- **本機分支的半成品**（都有 git bundle 在 `wip_backup/`，還原方法見 `wip_backup/README.md`）：宿舍走廊 `wip/dorm-hall`（`bf750b4`，WIP，還沒在瀏覽器實測）；`wip/wancai-stairs`（`8b08c61`，已被開發分支取代，只是備份）。其餘 `wip/*` 本機分支都已包含在開發分支裡。
+- **進行中的規劃**（在工作階段裡，沒有寫進 GitHub；停了就重跑）：出遊場景規劃工作流程 w0pqyjodd（v9.5 之後；需求：溫州街散步、公館吃飯街區、校園夜景、河堤，排名＋規格，見對話與 RELEASES 草稿）；接班總入口的檢查 wmo10jb55。
+- **等使用者決定**：課表草案的 4 個問題（`docs/proposals/SCHEDULE_PROPOSAL.md`）。
+- **已批准、排在 v9.5 之後**：大一上 v1 劇情實作（D50，三級修改權限）；手機＋邀約（#61）、騎腳踏車（#59，LAWWW2 ⑫）、118 巷（#65，配置 `src/data/lane118_layout.js`、LAWWW2 ⑭）、法律學院圖書館（#66，配置 `src/data/lawlib_layout.js`）＋辜振甫圖書館（LAWWW2 ⑬）。
+- **LAWWW2**（10:05Z 緊急保存要求已送出＋看板）：遠端分支 `claude/second-ai-env-art`（`ae94b8e`）、`-wip-pavsoc`（`8c6f1fe`）、`-wip-props6`（`fa626b9`）、`-wip-trees`（`d7916da`）；進度檔 `docs/art-rebuild/second_ai/HANDOFF.md`（在它的分支）。
 
 ## CURRENTLY WORKING ON — 現在正在修改什麼
 
