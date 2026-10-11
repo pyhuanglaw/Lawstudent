@@ -1,10 +1,10 @@
 {
  "objects": 5,
  "unique_meshes": 5,
- "tris": 976,
- "tris_drawn": 976,
+ "tris": 968,
+ "tris_drawn": 968,
  "materials": 5,
  "out": "assets/models/env/second_ai/campus_pavilion.glb",
- "bytes": 141524,
+ "bytes": 140964,
  "texres": 512
 }

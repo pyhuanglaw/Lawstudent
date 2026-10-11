@@ -137,7 +137,9 @@ def build(out=None):
     nc = max(3, round(W / 4))
     col_x = [-W / 2 + 0.3 + (W - 0.6) * i / nc for i in range(nc + 1)]
     for x in col_x:
-        for zs in (1, -1): box(cm, x - 0.25, x + 0.25, 0.1, GFH - 0.175, zs * (D / 2 - 0.3) - 0.25, zs * (D / 2 - 0.3) + 0.25, skip=('bottom', 'top'))
+        for zs in (1, -1):
+            if zs > 0 and abs(x) < 1.6: continue   # 入口正前方不放柱子（套件在門口正中間有一根，擋住門和匾額；整棟的佔地都是導航阻擋，拿掉不影響走路）
+            box(cm, x - 0.25, x + 0.25, 0.1, GFH - 0.175, zs * (D / 2 - 0.3) - 0.25, zs * (D / 2 - 0.3) + 0.25, skip=('bottom', 'top'))
     for xs in (1, -1): box(cm, xs * (W / 2 - 0.3) - 0.25, xs * (W / 2 - 0.3) + 0.25, 0.1, GFH - 0.175, -0.25, 0.25, skip=('bottom', 'top'))
     box(cm, -W / 2, W / 2, 0.0, 0.1, -D / 2, D / 2, skip=('bottom',))                     # 地坪（比地面高 10 cm）
     box(cm, -2.0, 2.0, 0.0, 0.15, D / 2, D / 2 + 1.0, skip=('bottom', 'back'))           # 入口台階（套件 4.0×0.15×1.6，從牆面算起）
