@@ -611,7 +611,7 @@ const Z3 = (function(){
       { const t=paverT().clone(); t.needsUpdate=true; t.repeat.set(2.7,2.7); const m=new THREE.Mesh(new THREE.CircleGeometry(2.75,28),new THREE.MeshStandardMaterial({map:t,roughness:0.9})); m.rotation.x=-Math.PI/2; m.position.set(26,0.017,13.2); m.receiveShadow=true; g.add(m); pkTag(m); }
       const pb=new TK.Bin(), pbH=new TK.Bin(); const curbP=TK.paint('#c9c2b4');   /* pbH＝鋪面以外的硬體（路緣、樹圍座椅、單槓）：正式模型載入後藏起來；pb＝灌木（留著） */
       for(const sx of [-1,1]) pbH.add(curbP,TK.boxG(0.12,0.08,5.6),26+sx*1.16,0.04,7.9,0);
-      { const big=TK.tree(10.5,7); place(g,big,26,13.2,0.6); nav.blockCircle(26,13.2,1.3);
+      { const big=TK.tree(10.5,7,{sp:'banyan'}); place(g,big,26,13.2,0.6);   /* 小公園中間的大樹：正式模型是榕樹（台北的公園常見；程序化的樹不受影響）*/ nav.blockCircle(26,13.2,1.3);
         const wood=TK.paint('#8a6a4a'), legP=TK.paint('#5a5550'); for(let i=0;i<8;i++){ const a=i/8*Math.PI*2; const cx=26+Math.sin(a)*1.15, cz=13.2+Math.cos(a)*1.15; pbH.add(wood,TK.boxG(0.98,0.06,0.36),cx,0.44,cz,a); pbH.add(legP,TK.boxG(0.06,0.42,0.3),cx+Math.sin(a+Math.PI/2)*0.42,0.21,cz+Math.cos(a+Math.PI/2)*0.42,a); }
         E.interactables.push({x:26,z:11.5,radius:1.3,label:'坐在大樹下的圓椅',seat:{x:26,z:11.82,yaw:Math.PI}}); }
       for(const [tx,tz,sc] of [[21.6,12.8,1.0],[30.6,12.6,0.95],[30.8,6.4,0.8]]){ const t=TK.tree(7.5*sc); place(g,t,tx,tz,0); nav.blockCircle(tx,tz,0.5); }

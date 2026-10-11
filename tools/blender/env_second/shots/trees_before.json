@@ -1,0 +1,431 @@
+[
+ {
+  "out": "docs/art-rebuild/second_ai/shots/trees_before_gate_avenue_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11,
+   "pos": {
+    "x": -100,
+    "z": 4,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    -110,
+    1.7,
+    0.5
+   ],
+   "look": [
+    100,
+    8,
+    0
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/trees_before_gate_avenue_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -100,
+    "z": 4,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    -110,
+    1.7,
+    0.5
+   ],
+   "look": [
+    100,
+    8,
+    0
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/trees_before_gate_avenue_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": -100,
+    "z": 4,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    -110,
+    1.7,
+    0.5
+   ],
+   "look": [
+    100,
+    8,
+    0
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/trees_before_avenue_row_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11,
+   "pos": {
+    "x": -100,
+    "z": 4,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    -62,
+    1.7,
+    13.5
+   ],
+   "look": [
+    -20,
+    6,
+    18
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/trees_before_avenue_row_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -100,
+    "z": 4,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    -62,
+    1.7,
+    13.5
+   ],
+   "look": [
+    -20,
+    6,
+    18
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/trees_before_avenue_row_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": -100,
+    "z": 4,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    -62,
+    1.7,
+    13.5
+   ],
+   "look": [
+    -20,
+    6,
+    18
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/trees_before_black_forest_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11,
+   "pos": {
+    "x": -100,
+    "z": 4,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    70,
+    1.7,
+    -56
+   ],
+   "look": [
+    72,
+    5,
+    -72
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/trees_before_black_forest_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -100,
+    "z": 4,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    70,
+    1.7,
+    -56
+   ],
+   "look": [
+    72,
+    5,
+    -72
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/trees_before_black_forest_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": -100,
+    "z": 4,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    70,
+    1.7,
+    -56
+   ],
+   "look": [
+    72,
+    5,
+    -72
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/trees_before_wz_park_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 11,
+   "pos": {
+    "x": 26,
+    "z": 2,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    26,
+    1.7,
+    1.5
+   ],
+   "look": [
+    26,
+    5,
+    13
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/trees_before_wz_park_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 17.5,
+   "pos": {
+    "x": 26,
+    "z": 2,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    26,
+    1.7,
+    1.5
+   ],
+   "look": [
+    26,
+    5,
+    13
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/trees_before_wz_park_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 20.5,
+   "pos": {
+    "x": 26,
+    "z": 2,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    26,
+    1.7,
+    1.5
+   ],
+   "look": [
+    26,
+    5,
+    13
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/trees_before_small_palms_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11,
+   "pos": {
+    "x": -100,
+    "z": 4,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    30,
+    1.7,
+    -6
+   ],
+   "look": [
+    30,
+    6,
+    -60
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/trees_before_to_campus_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "gongguan",
+   "hour": 11,
+   "pos": {
+    "x": -30,
+    "z": 14,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    0,
+    1.7,
+    -40
+   ],
+   "look": [
+    0,
+    6,
+    -120
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/trees_before_follow_1730.png",
+  "w": 390,
+  "h": 844,
+  "mobile": true,
+  "hud": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -64,
+    "z": 15.5,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "yaw": -0.8,
+   "pitch": 0.16,
+   "dist": 6.0
+  },
+  "wait": 3500
+ }
+]

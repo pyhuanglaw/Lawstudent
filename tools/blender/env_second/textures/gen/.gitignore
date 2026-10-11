@@ -1,0 +1,2 @@
+# tree_atlas.py、street_trees.py 渲染時的暫存圖（每次重新渲染；拼好的 tree_leaves.png、tree_cards.png 才進 repo）
+_atlas_tmp/
