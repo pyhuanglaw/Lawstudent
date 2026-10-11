@@ -46,9 +46,16 @@ const Z3 = (function(){
     // 碰撞、找路用的連續高度（和霖澤館的台階一樣：最上面一階踏面中心 3.63 m 連續斜下到最下面一階的邊緣 0）；兩側往外張開的地方往外漸漸降到地面——
     // 張開的那幾階每一階只露出 10～30 cm 寬，照一階一階算的話人物半徑裡高低差超過 25 cm、站不住（走到樓梯下面往旁邊走會卡住，nav_buildings_unit 抓到）；高的地方（石牆盡頭旁邊）照樣是走不下去的邊
     const hsAt=zp=>Math.max(0,Math.min(W.PF,W.PF*(W.L-zp)/(W.L-W.TR/2)));
-    const fn=(x,z)=>{ const zp=z-bz-W.z0; if(zp<0||zp>=W.L) return null; const dx=Math.abs(x-bx-W.SX), i=at(zp), o=OUT[i]; if(dx>o) return null; const c=CORE[i], h=hsAt(zp); return dx<=c?h:h*(o-dx)/Math.max(1e-3,o-c); };
+    const coreW=zp=>W.hw(Math.min(1,zp/W.L))+0.1, bottomRow=zp=>zp>=W.L-W.TR;   /* 主樓梯的寬度（兩道石牆之間那條曲線，一路延伸到最下面）；最下面一階整排都算 */
+    const fn=(x,z)=>{ const zp=z-bz-W.z0; if(zp<0||zp>=W.L) return null; const dx=Math.abs(x-bx-W.SX), i=at(zp), o=OUT[i]; if(dx>o) return null; const h=hsAt(zp), c=coreW(zp); return (dx<=c||bottomRow(zp))?h:h*(o-dx)/Math.max(1e-3,o-c); };
     const stair={x0:bx+W.SX-hwMax-0.01,x1:bx+W.SX+hwMax+0.01,z0:bz+W.z0,z1:bz+W.z0+W.L,fn,vfn,wancai:true};
     nav.addSurf(stair);
+    /* 樓梯兩側往外張開的部分（石牆盡頭到最下面一階之間）不能走、也不能從側面跨下去：那裡是一層一層疊起來的窄台階（每階只露出 10～30 cm），
+       連續高度往外降得很陡，A* 的格子中心站得住、人物稍微偏一點就站不住（reachability_all：從萬才館一樓出來走回霖澤館前，卡在石牆盡頭旁邊；
+       只擋「太陡」的格子之後，換成卡在西側張開的地方）→ 主樓梯寬度（兩道石牆之間那條曲線，延伸到最下面）以外、外緣往外 0.25 m 以內整圈擋起來（最下面一階整排不擋）。
+       可以走的是主樓梯（一路到最下面）和最下面一階，經過樓梯底下的路會沿著最下面一階或地面走 */
+    { const [c0,r0]=nav.toCell(stair.x0-0.6,stair.z0), [c1,r1]=nav.toCell(stair.x1+0.6,stair.z1); for(let cz=r0;cz<=r1;cz++) for(let cx=c0;cx<=c1;cx++){ const i=nav.idx(cx,cz); if(nav.b[i]) continue; const [x,z]=nav.toWorld(cx,cz), zp=z-bz-W.z0;
+        if(zp<0||bottomRow(zp)) continue; const k=at(Math.min(zp,W.L-1e-6)), dx=Math.abs(x-bx-W.SX); if(dx>coreW(zp)&&dx<=OUT[k]+0.25) nav.b[i]=1; } nav._cm=null; }
     const nav1=new E3.NavGrid(nav.w,nav.h,nav.cell,nav.ox,nav.oz).fillBlocked().setFloor(W.PF); nav1.addSurf(stair);
     { const [c0,r0]=nav.toCell(stair.x0,stair.z0), [c1,r1]=nav.toCell(stair.x1,stair.z1); for(let cz=r0;cz<=r1;cz++) for(let cx=c0;cx<=c1;cx++){ const i=nav.idx(cx,cz); if(nav.b[i]) continue; const [x,z]=nav.toWorld(cx,cz); if(fn(x,z)!=null) nav1.b[i]=0; } }   // 樓梯（石牆、端塊在第 0 層已經擋住）
     nav1.freeRect(bx+W.LX0+W.CT+0.02,bz+W.d/2+0.12,bx+W.LX1,bz+W.z0);   // 樓梯頂端的平台（西側是石牆、北側是二樓玻璃）
@@ -153,7 +160,7 @@ const Z3 = (function(){
     //   紅磚段是偏橘的淺紅磚、每扇窗有凸出的混凝土窗框、屋頂上有鏤空的大框架。原本西側的方形低樓（推測）拿掉
     // v9.4（D38、使用者照片）：十層樓（四樓、七樓灰色帶窗層，十樓開放層＋大屋頂板）、穿堂前排中柱；正式外觀是 Blender 模型（ASSETS 'bldg.linze_exterior'），套件的外觀是備用
     const linze=CK.lawhall({w:40,d:18,floors:10,centerCol:true}); ckPlace(linze,34,-112,0); buildings.push(linze); linze.userData.dyn=true;   /* 不參加整個區域的靜態合併：正式模型載入後要能把套件的外觀藏起來 */
-    const wancai=CK.lawhall({entry:'stairs',w:30,d:20,floors:9,entryX:-1,brick:'#b06a4a',winBox:true,roofFrame:true}); ckPlace(wancai,88,-112,0); buildings.push(wancai);   /* 一樓入口（陽台下）：x=88+doorX≈93.8、z=-112+doorZ≈-100.75；弧形量體 x 70.5–83.5、z -102–-95.5；樓梯 x 約 83–91、z -98–-90.5 */
+    const wancai=CK.lawhall({entry:'stairs',w:30,d:20,floors:9,entryX:-1,brick:'#b06a4a',winBox:true,roofFrame:true}); ckPlace(wancai,88,-112,0); buildings.push(wancai); wancai.userData.dyn=true;   /* 萬才館第二階段：正式外觀（Blender）載入後要能把套件的外觀藏起來，不參加整區靜態合併 */   /* 一樓入口（陽台下）：x=88+doorX≈93.8、z=-112+doorZ≈-100.75；弧形量體 x 70.5–83.5、z -102–-95.5；樓梯 x 約 83–91、z -98–-90.5 */
     // 社會科學院：現代白色系館（白色粉光牆、每層橫向長窗、一樓玻璃大廳＋薄雨遮）；佔地和舊版相同，門前的白色樹狀柱保留
     const soc=CK.modern({w:56,d:22,floors:4,gfh:4.4,fh:3.85,sign:'社會科學院'}); ckPlace(soc,110,-70,-Math.PI/2); buildings.push(soc);
     // 社科院前的樹狀白柱意象（圖書館的柱）
@@ -308,6 +315,7 @@ const Z3 = (function(){
       onLamps(on){ for(const b of buildings) W3.setNight(b,on); CK.setNight(on); },   // 校園套件的窗戶晚上透出暖光
       update(dt,E){ updateLake(lakeU,E); },
     };
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wancai_exterior']) ASSETS.loadOne('bldg.wancai_exterior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachExterior(wancai,c.scene.clone(true)); }).catch(e=>console.warn('萬才館外觀正式模型載入失敗，用套件的外觀',e));   // 萬才館第二階段：大樓梯、平台、陽台、弧形量體、立面（tools/blender/wancai_exterior.py）
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.linze_exterior']) ASSETS.loadOne('bldg.linze_exterior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachExterior(linze,c.scene.clone(true)); }).catch(e=>console.warn('霖澤館外觀正式模型載入失敗，用套件的外觀',e));
     return zone; } };
   // 建築外觀的正式模型（Blender GLB，建築自己的座標）接到套件的建築上：套件的外觀藏起來（招牌 keepWithFormal 留著）；導航、走路高度、鏡頭碰撞照舊由套件給。

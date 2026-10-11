@@ -55,6 +55,7 @@ const fmt=(r)=>JSON.stringify(r).slice(0,220);
     check('二樓入口在第 1 層（看得懂的告示、這一版關著）；一樓入口在地面那一層',!!d2&&d2.lv===1&&!!d2.look&&!!d1&&d1.lv===0,d2&&d2.look);
     r=both(plaza,[d2.x,d2.z+0.3,1]); check('二樓入口走得到（平台）',r.ok&&r.lv===1,fmt(r));
     r=both(top,[93.8,-98.6,0]); check('陽台 → 下樓梯 → 繞到陽台下面的一樓入口',r.ok&&r.lv===0&&Math.abs(r.y)<0.05,fmt(r));
+    r=both([93.8,-98.4,0],[34,-98,0]); check('從萬才館一樓出來（陽台前）走回霖澤館前：路線經過大樓梯下面往外張開的地方，不會卡在石牆盡頭旁邊（reachability_all 抓到的）',r.ok&&Math.abs(r.y)<0.05,fmt(r));
     const walk=(z.walkMeshes||[]).filter(m=>m.userData.walkLv===1); check('平台＋陽台的地面可以點（點地面移動，第 1 層）',walk.length>=1,`${walk.length} 片`);
     // 找路的時間（兩層之後每次找路的格子數加倍；暫存陣列重用）：校門 → 霖澤館、宿舍 → 萬才館一樓入口，各 20 次
     const t1=Date.now(); let okN=0; for(let i=0;i<20;i++){ if(E.pathTo(-120,0,0,34,-98,0)) okN++; if(E.pathTo(20,56,0,93.8,-98.6,0)) okN++; } const ms=(Date.now()-t1)/40;

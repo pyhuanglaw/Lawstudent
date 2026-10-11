@@ -427,7 +427,7 @@ const CK=(function(){ 'use strict';
     const nameT=TK.signTex(name.split('').join('\u3000'),{bg:'rgba(0,0,0,0)',color:'#d6b25a',serif:true,size:96}), nameM=new THREE.MeshStandardMaterial({map:nameT,roughness:0.45,metalness:0.45,transparent:true,alphaTest:0.3,depthWrite:false});
     if(portal){ const nm=new THREE.Mesh(new THREE.PlaneGeometry(10.4,2.6),nameM); nm.position.set(0,PH+0.62+1.1,d/2+0.41); nm.userData.keepWithFormal=true; g.add(nm);   /* keepWithFormal：Blender 正式外觀載入後，套件的外觀藏起來，招牌留著 */
       const lawT=TK.signTex('法律學院',{vertical:true,bg:'#e2711f',color:'#2b1b10',size:88}); const lm=new THREE.Mesh(new THREE.PlaneGeometry(0.42,1.68),new THREE.MeshStandardMaterial({map:lawT,roughness:0.7})); lm.position.set(PW/2+3.2,PF+2.0,d/2+0.011); lm.userData.keepWithFormal=true; g.add(lm); }
-    else { const nm=new THREE.Mesh(new THREE.PlaneGeometry(3.6,0.66),nameM); nm.position.set((WC.LX0+WC.BX1)/2,PF+3.5+0.35,d/2+0.51); g.add(nm); }   // 萬才館：二樓玻璃上面的石材帶（位置是推測：照片看不到館名）
+    else { const nm=new THREE.Mesh(new THREE.PlaneGeometry(3.6,0.66),nameM); nm.position.set((WC.LX0+WC.BX1)/2,PF+3.5+0.35,d/2+0.51); nm.userData.keepWithFormal=true; g.add(nm); }   // 萬才館：二樓玻璃上面的石材帶（位置是推測：照片看不到館名）
     g.traverse(m=>{ if(m.isMesh) m.castShadow=m.castShadow!==false; });
     g.userData.ck={w,d,H,gfh,ad:0,blocks,doorZ,doorX,cols,surfs,lobby,PF,wancai}; return g; }
   // 傅鐘（v9.3 第十六批）：原本是 LEVEL_BLOCKOUT 的小鐘亭（圓台、四根細圓柱、綠色四角錐）。改成校園套件同一套語彙的鐘亭：

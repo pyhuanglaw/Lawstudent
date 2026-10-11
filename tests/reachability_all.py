@@ -22,17 +22,18 @@ ZONES = ['campus', 'gongguan', 'wenzhou', 'classroom', 'wancai', 'library', 'caf
 if '--zones' in sys.argv: ZONES = sys.argv[sys.argv.index('--zones') + 1].split(',')   # 只測某幾個區域（開發時用；發布前要全測）
 FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'lawclub': True, 'wenzhouLine': True}
 
-SCAN = r"""(()=>{ const E=GAME.E, R=0.32; const P=E.player.obj.position; const start=[P.x,P.z]; const zone=GAME.G.zone; const out={zone, start:[+start[0].toFixed(2),+start[1].toFixed(2)], startStand:E.canStand(start[0],start[1],R), items:[], arrivals:[]};
-  const walk=(x,z)=>{ const a=E.simWalk(start[0],start[1],x,z,{dt:1/30}); if(!a.ok) return a; const b=E.simWalk(start[0],start[1],x,z,{dt:0.1}); return b.ok?a:Object.assign({lowfps:true},b); };
+SCAN = r"""(()=>{ const E=GAME.E, R=0.32; const P=E.player.obj.position; const start=[P.x,P.z]; const zone=GAME.G.zone; const slv=E.player.lv|0;   /* 多樓層（校園：萬才館陽台在第 1 層）：互動點有 lv 的照它的樓層找站位、模擬走路 */ const out={zone, start:[+start[0].toFixed(2),+start[1].toFixed(2)], startStand:E.canStand(start[0],start[1],R), items:[], arrivals:[]};
+  const walk=(x,z,lv)=>{ lv=lv===undefined?slv:lv; const a=E.simWalk(start[0],start[1],x,z,{dt:1/30,lv0:slv,lv1:lv}); if(!a.ok) return a; const b=E.simWalk(start[0],start[1],x,z,{dt:0.1,lv0:slv,lv1:lv}); return b.ok?a:Object.assign({lowfps:true},b); };
   const items=E.interactables.slice();
   const occupiedBy=(st)=>{ const n=E.npcs.find(n=>n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.35); return n?(n.name||n.charId||'路人'):null; };   // 和 E.nearestInteractable 同一條規則：有人坐的位子不能坐
   for(const it of items){ const r=(it.radius||1.5)-0.05; const lab=it.label||'?'; const rec={label:lab, kind:it.exit?'exit':(it.seat?'seat':'other'), x:+it.x.toFixed(2), z:+it.z.toFixed(2), r:+r.toFixed(2)};
     if(it.seat){ const who=occupiedBy(it.seat); if(who){ rec.ok=true; rec.info='這個時段有人坐在這個位子（'+who+'）：設計上不能坐，靠近時不會出現「坐下」'; out.items.push(rec); continue; } }
     // 互動範圍內站得住、而且「最近的互動」就是它的位置（照距離排）
-    const cands=[]; for(let dz=-r;dz<=r+1e-6;dz+=0.2) for(let dx=-r;dx<=r+1e-6;dx+=0.2){ const d=Math.hypot(dx,dz); if(d>r) continue; const x=it.x+dx, z=it.z+dz; if(E.canStand(x,z,R)) cands.push([d,x,z]); }
+    const ilv=(E.levels&&it.lv!==undefined)?(it.lv|0):slv; if(E.levels) E.setLv(E.player,ilv);
+    const cands=[]; for(let dz=-r;dz<=r+1e-6;dz+=0.2) for(let dx=-r;dx<=r+1e-6;dx+=0.2){ const d=Math.hypot(dx,dz); if(d>r) continue; const x=it.x+dx, z=it.z+dz; if(E.canStand(x,z,R,ilv)) cands.push([d,x,z]); }
     cands.sort((a,b)=>a[0]-b[0]); let ok=null, tried=0, standButOther=0, npcBlock=0, npcName='', lastFail=null;
-    for(const [d,x,z] of cands){ P.set(x,E.heightAt(x,z,E.player.lv|0),z); /* 站在那一格的地板高度（階梯教室每一排不一樣高；舊版一律 y=0，最上排 1.5 m 的座位被當成「別層」而算失敗）*/ const near=E.nearestInteractable(); if(near!==it){ if(near&&near.obj){ npcBlock++; npcName=near.name||near.charId||'NPC'; } else standButOther++; continue; } if(++tried>6) break; const w=walk(x,z); if(w.ok){ ok={x:+x.toFixed(2),z:+z.toFixed(2),d:+d.toFixed(2)}; break; } lastFail=Object.assign({at:[+x.toFixed(2),+z.toFixed(2)]},w); }
-    P.set(start[0],E.heightAt(start[0],start[1],E.player.lv|0),start[1]);
+    for(const [d,x,z] of cands){ P.set(x,E.heightAt(x,z,E.player.lv|0),z); /* 站在那一格的地板高度（階梯教室每一排不一樣高；舊版一律 y=0，最上排 1.5 m 的座位被當成「別層」而算失敗）*/ const near=E.nearestInteractable(); if(near!==it){ if(near&&near.obj){ npcBlock++; npcName=near.name||near.charId||'NPC'; } else standButOther++; continue; } if(++tried>6) break; const w=walk(x,z,ilv); if(w.ok){ ok={x:+x.toFixed(2),z:+z.toFixed(2),d:+d.toFixed(2)}; break; } lastFail=Object.assign({at:[+x.toFixed(2),+z.toFixed(2)]},w); }
+    if(E.levels) E.setLv(E.player,slv); P.set(start[0],E.heightAt(start[0],start[1],slv),start[1]);
     rec.standable=cands.length; rec.ok=!!ok; rec.at=ok; if(!ok){ rec.why=!cands.length?'互動範圍內沒有站得住的位置':(tried===0?(standButOther?'站得住的位置都被別的互動點搶走（按鈕不會出現）':'被 NPC 佔用（'+npcName+'在這裡，靠近時出現的是和他說話）'):'走不到'); rec.fail=lastFail;
       /* 座位被這個時段的 NPC 坐著：設計如此（人優先於物件），列為說明、不算失敗；出入口等其他互動點被 NPC 擋住仍然算失敗 */ if(tried===0&&!standButOther&&npcBlock&&it.seat){ rec.ok=true; rec.info=rec.why; } }
     if(it.seat&&GAME.seatApproach){ const ap=GAME.seatApproach(it.seat); const w=walk(ap[0],ap[1]); rec.seatApproach={at:[+ap[0].toFixed(2),+ap[1].toFixed(2)], ok:w.ok, fail:w.ok?null:w}; }
