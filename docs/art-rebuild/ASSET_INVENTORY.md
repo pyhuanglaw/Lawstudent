@@ -47,7 +47,8 @@
 | `W3.lampPost` 路燈 | 校園、公館、溫州街 | ④ | BLOCKOUT；LAWWW2 的 `street_props.glb`（路燈、腳踏車、長椅）`MODEL_READY`、整合驗收中 | Blender 路燈（燈頭位置 (0,3.95,0.75) 不變，夜間光暈照舊） |
 | `W3.bike`、`W3.bikeRack` | 校園（含霖澤館後面的小廣場） | ④ | BLOCKOUT | Blender 腳踏車＋Instancing |
 | `W3.bench`（`ASSETS 'prop.bench'`，CC0 GLB） | 校園長椅 | ①（待使用者確認） | INTEGRATED | 保留；風格不合再換 |
-| `W3.palm`、`W3.banyan`、`W3.bush`、`W3.hedge`、`W3.bulletin`、`W3.planter`、`W3.vending`、`W3.foodCart`、`W3.gate`、`W3.mrtEntrance`、`W3.awning` | 舊版 fallback／零星 | ③／⑤ | 舊 placeholder | 不再當正式畫面 |
+| `W3.palm`、`W3.banyan`、`W3.bush`、`W3.hedge`、`W3.foodCart`、`W3.gate`、`W3.mrtEntrance`、`W3.awning` | 舊版 fallback／零星 | ③／⑤ | 舊 placeholder | 不再當正式畫面 |
+| `W3.planter` 花台、`W3.bulletin` 公告欄、`W3.vending` 販賣機 | 法學院前庭、椰林大道北側、霖澤館西側、萬才館一樓（`wancai3d.js` 的公告欄） | ⑤＋③ | LAWWW2 Blender（`street_props.glb` 的 `planter_box`、`bulletin_board`、`vending_machine`：水泥花槽＋灌木葉片卡＋小花、木框軟木板＋雨遮＋公告紙、紅色飲料販賣機＋展示窗＋背光），尺寸照程序化版本、導航不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 14 節）；`?nobldg`、載入失敗照舊程序化 | 公告紙上的字、飲料瓶細節、展示窗玻璃 |
 | `W3.grassTex`、`W3.pathTex`、`W3.stoneTex`、`W3.brickTex`、`W3.facadeTex`（canvas） | 地面、室內地板 | ④ | BLOCKOUT | Poly Haven PBR |
 
 ## 四、室內（`src/zones3d.js`）

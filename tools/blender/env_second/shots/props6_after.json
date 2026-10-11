@@ -261,6 +261,93 @@
   "wait": 3500
  },
  {
+  "out": "docs/art-rebuild/second_ai/shots/props6_after_vending_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11,
+   "pos": {
+    "x": 9.5,
+    "z": -106,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    9.4,
+    1.6,
+    -105.6
+   ],
+   "look": [
+    13.5,
+    1.0,
+    -107.5
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/props6_after_vending_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": 9.5,
+    "z": -106,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    9.4,
+    1.6,
+    -105.6
+   ],
+   "look": [
+    13.5,
+    1.0,
+    -107.5
+   ]
+  },
+  "wait": 3500
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/props6_after_vending_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": 9.5,
+    "z": -106,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    9.4,
+    1.6,
+    -105.6
+   ],
+   "look": [
+    13.5,
+    1.0,
+    -107.5
+   ]
+  },
+  "wait": 3500
+ },
+ {
   "out": "docs/art-rebuild/second_ai/shots/props6_after_follow_1730.png",
   "w": 390,
   "h": 844,

@@ -7,7 +7,7 @@
   bench_park：公園長椅（鑄鐵椅腳＋扶手、木條座面與椅背），寬 1.35 m、座面高 0.45 m（和 prop.bench 縮放後一樣）；正面朝 +z。
   ⑥（2026-10-11，LAWWW 佇列）法學院廣場等地的近景小物，尺寸照 W3 的程序化版本（導航阻擋在 zones3d.js，不變）：
   planter_box：花台（水泥花槽 1.2×0.48×0.5＋壓頂、土、交叉葉片卡的灌木、五瓣小花）；bulletin_board：公告欄（木柱、木框、軟木板、小雨遮、九張公告紙＋字行）；
-  vending_machine：飲料販賣機（紅色機身、展示窗裡四層罐裝與寶特瓶、背光、價格牌與按鈕、投幣與紙鈔口、取物口；1.1×1.9×0.8、正面朝 +z）。
+  vending_machine：飲料販賣機（紅色烤漆機身、展示窗裡四層罐裝與寶特瓶、背光、頂上燈條、價格牌與按鈕、灰色投幣面板＋金額顯示、紙鈔與投幣口、找零口、廣告面板、取物口；1.1×1.9×0.8、正面朝 +z）。
 用法：/opt/blenv/bin/python tools/blender/env_second/street_props.py [-- --out assets/models/env/second_ai/street_props.glb]
 """
 import math, os, sys
@@ -68,7 +68,7 @@ M = {
     'leaf': tex_material('planter_leaf', os.path.join(TEXD, 'ivy_leaves.png'), rough=0.7, metal=0.0),   # 小葉子比較密（像校園花台的杜鵑、月橘）
     'vc': L.vc_material('prop_vc', rough=0.6),                               # 花、公告紙、飲料瓶、按鈕：頂點色（一個材質）
     'cork': L.flat('board_cork', '#b58a58', rough=0.9),
-    'vbody': L.flat('vend_body', '#c23b36', rough=0.35, metal=0.3),
+    'vbody': L.flat('vend_body', '#d23a32', rough=0.5),                     # 烤漆鋼板（不用金屬度：遊戲沒有環境貼圖，金屬會整台變黑）
     'vlight': L.flat('vend_light', '#f4f7fb', rough=0.4, emit=B.srgb('#e8f0ff')),   # 販賣機展示窗的背光（日夜都亮）
 }
 
@@ -391,13 +391,13 @@ def vending_machine():
     fin(vb, parts)
     dk = Mesh('vend_dark', M['dark'])
     dk.box(-W / 2 + 0.02, W / 2 - 0.02, 0.0, 0.08, -Dv / 2 + 0.02, zf - 0.02)                    # 底座
-    dk.box(-W / 2 + 0.05, 0.18, 0.12, 0.62, zf, zf + 0.01)                                        # 下面整塊深色（取物口那一區）
-    dk.box(-0.4, 0.05, 0.2, 0.4, zf - 0.03, zf + 0.005)                                           # 取物口的門
-    dk.box(0.26, W / 2 - 0.05, 0.12, 1.82, zf, zf + 0.01)                                         # 投幣面板
-    dk.box(0.3, 0.5, 1.05, 1.3, zf - 0.01, zf + 0.01); dk.box(0.32, 0.48, 0.85, 0.9, zf - 0.01, zf + 0.012)   # 紙鈔口、投幣口
-    dk.box(0.3, 0.5, 0.25, 0.42, zf - 0.01, zf + 0.02)                                            # 找零口
+    dk.box(-0.4, 0.05, 0.16, 0.38, zf - 0.03, zf + 0.005)                                         # 取物口的門（下面是紅色機身，只有門是深色）
+    dk.box(0.3, 0.5, 1.05, 1.28, zf + 0.01, zf + 0.02); dk.box(0.33, 0.47, 0.86, 0.9, zf + 0.01, zf + 0.022)  # 紙鈔口、投幣口
+    dk.box(0.31, 0.49, 0.24, 0.4, zf + 0.01, zf + 0.025)                                          # 找零口
     fin(dk, parts)
-    lt = Mesh('vend_light', M['vlight']); lt.box(DX0, DX1, DY0, DY1, ZB, ZB + 0.02); fin(lt, parts)   # 展示窗的背光板（凹槽的底）
+    lt = Mesh('vend_light', M['vlight']); lt.box(DX0, DX1, DY0, DY1, ZB, ZB + 0.02)               # 展示窗的背光板（凹槽的底）
+    lt.box(-W / 2 + 0.05, W / 2 - 0.05, 1.835, 1.885, zf - 0.005, zf + 0.004)                     # 頂上的燈條（晚上也亮）
+    lt.box(0.31, 0.49, 1.36, 1.44, zf + 0.01, zf + 0.016); fin(lt, parts)                          # 投幣面板的金額顯示
     it = L.CMesh('vend_items', M['vc'])
     cols = ['#d23b33', '#2a7ac0', '#f2c230', '#3d9a5a', '#f4f4f0', '#e5762a', '#6a3d8f', '#24282a']
     for r in range(4):                                                                           # 四層、每層五種飲料（罐裝、寶特瓶）＋價格牌＋按鈕
@@ -413,7 +413,9 @@ def vending_machine():
             vcbox(it, x - 0.03, x + 0.03, y0 - 0.04, y0 - 0.016, zf - 0.02, zf - 0.005, '#2b2b2b' if (r + c) % 3 else '#c23b36')   # 按鈕（在層板前緣的白條上）
         vcbox(it, DX0, DX1, y0 - 0.002, y0 + 0.012, ZB, zf - 0.03, '#eeeeee')                     # 層板
         vcbox(it, DX0, DX1, y0 - 0.05, y0 - 0.002, zf - 0.04, zf - 0.02, '#e9e9e6')               # 層板前緣的白條（價格、按鈕）
-    vcbox(it, -W / 2 + 0.05, 0.18, 1.83, 1.88, zf - 0.005, zf + 0.002, '#f4f4f0')                 # 頂上的白色燈條
+    vcbox(it, 0.24, W / 2 - 0.04, 0.12, 1.8, zf, zf + 0.01, '#565a60')                             # 投幣面板（深灰烤漆）
+    vcbox(it, DX0 + 0.02, DX1 - 0.02, 0.46, 0.66, zf, zf + 0.006, '#f2f2ee')                       # 取物口上面的廣告面板（白底藍帶）
+    vcbox(it, DX0 + 0.02, DX1 - 0.02, 0.53, 0.59, zf + 0.006, zf + 0.008, '#2a6fb8')
     fin(it, parts)
     gl = Mesh('vend_glass', M['metal'])                                                         # 展示窗玻璃的鋁框（玻璃本身不做：看得到裡面的飲料）
     gl.box(-W / 2 + 0.05, 0.18, 1.8, 1.82, zf - 0.04, zf); gl.box(-W / 2 + 0.05, 0.18, 0.72, 0.74, zf - 0.04, zf)
