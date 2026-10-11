@@ -490,7 +490,8 @@ const Z3 = (function(){
        模型載入後整組藏起來、換成 InstancedMesh——**分組**（grp：北側 5 組、南側 3 組，每組 6～9 台）：InstancedMesh 是整組一起剔除的，60 台一組的話不管看不看得到都整組畫，
        同鏡頭三角形會超過 42 萬（2026-10-11 量過）；分組之後看不到的那一組整組不畫。?nobldg、載入失敗照舊是套件 */
     const ggScGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.wz_scooter']; const ggScG=new THREE.Group(); ggScG.userData.dyn=true; ggScG.name='gg_kit_scooters'; const ggScList=[]; if(ggScGLB) g.add(ggScG);
-    const scRow=(xc,z,n,ry,grp)=>{ for(let k=0;k<n;k++){ const c=scC[((k*3+Math.round(xc*7))%7+7)%7], s=TK.scooter(c); s.position.set(xc+(k-(n-1)/2)*0.85,0,z+((k*7)%3-1)*0.06); s.rotation.y=ry+((k*5)%3-1)*0.05; s.userData.ggScooter=grp; if(ggScGLB){ ggScG.add(s); ggScList.push({o:s,color:c,grp}); } else g.add(s); } nav.blockRect(xc,z-0.04,n*0.85+0.5,1.7,0); };
+    let scIdx=0;   /* 車殼顏色依序輪流用 7 種（原本 scC[((k*3+Math.round(xc*7))%7+7)%7]：每排的 x 都是整數，round(x*7)%7 永遠是 0，整條街只有白、藍、灰藍 3 種）*/
+    const scRow=(xc,z,n,ry,grp)=>{ for(let k=0;k<n;k++){ const c=scC[(scIdx++*5+3)%7], s=TK.scooter(c); s.position.set(xc+(k-(n-1)/2)*0.85,0,z+((k*7)%3-1)*0.06); s.rotation.y=ry+((k*5)%3-1)*0.05; s.userData.ggScooter=grp; if(ggScGLB){ ggScG.add(s); ggScList.push({o:s,color:c,grp}); } else g.add(s); } nav.blockRect(xc,z-0.04,n*0.85+0.5,1.7,0); };
     for(let i=0;i<14;i++){ const x=-70+i*10; scRow(x,-32,Math.abs(x)<12?1:3,0,'N'+(x<-55?0:x<-35?1:x<5?2:x<35?3:4)); }
     for(let i=0;i<8;i++){ const x=-60+i*14; scRow(x,6.8,3,Math.PI,'S'+(x<-40?0:x<0?1:2)); }
     for(let i=0;i<9;i++){ const l=W3.lampPost(); place(g,l,-63+i*18,-31.4,0); lamps.push(l); nav.blockCircle(-63+i*18,-31.4,0.25); /* 北側路燈原本在 z=-24（馬路的車道上），移到人行道邊 */ const l2=W3.lampPost(); place(g,l2,-63+i*18,5,Math.PI); lamps.push(l2); nav.blockCircle(-63+i*18,5,0.25); }
