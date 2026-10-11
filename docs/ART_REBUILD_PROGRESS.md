@@ -10,6 +10,11 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**交班（最新）：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜2026-10-11 10:13 UTC｜正常交班｜最後 commit＝訊息開頭「LAWWW（帳號 A）交班」的那一個（`git log -1 --grep="LAWWW（帳號 A）交班" origin/claude/confident-ritchie-8rwh7t`）。之後帳號 A 的 LAWWW 不再寫入，直到使用者說「我回來了，請同步 GitHub 最新進度，接續工作。」**
+- 交班時停掉的背景工作（結果都只在 LAWWW 的工作階段裡，**不在 GitHub，接班的人要重做**）：①v9.5 最終回歸——對最新 commit 的那一輪還沒開始；舊候選 `01145ae` 的 `release_suite.sh` 全部 PASS（含 save_compat 兩項；當時唯一失敗的 indoor_cam_occlusion 已在 `f68f97a` 修好）；②對 `01145ae..HEAD` 的修改審查（沒有結果）；③接班總入口檢查（沒有結果）；④出遊場景規劃（沒有結果）。
+- **LAWWW-B 第一件事**：在最新 commit 的乾淨工作樹（`git worktree add --detach <資料夾> origin/<最新分支>`、在那裡開 `python3 -m http.server`）跑 `tests/release_suite.sh`＋`tests/see_through.py`、`tests/tap_floor_levels.py`、`tests/stairs_cam_browser.py`（新寫、還沒跑過，可能要修）、`tests/movement_regression.py`；有空就重跑修改審查；**全部通過才發布 v9.5**（三小時規則已滿足：上一次發布 07:02:57 UTC）。發布步驟見 `docs/RELEASES.md` v9.5 草稿與 `docs/TESTING.md` 第五節。
+- 等待中：LAWWW2 的 ⑤⑥ 交付（它的 `-wip-props6`，合併後回歸還沒跑）；大一上 v1 劇情實作（D50，v9.5 之後）。
+
 值班登記：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜分支 claude/confident-ritchie-8rwh7t｜接班基準（制度建立時）`13e53b2`｜2026-10-11 09:50 UTC
 上一班：還沒換過班。跨帳號接班（帳號 A ⇄ B）的總入口：`docs/AI_SESSION_HANDOFF.md`（D49）。
 

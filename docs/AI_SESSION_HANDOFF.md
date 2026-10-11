@@ -19,7 +19,7 @@
 
 | 職位 | 職責 | 帳號 A | 帳號 B | 現在值班 | 分支（2026-10-11 10:06 UTC 的最新 commit） | 進度檔（在各自的分支上） |
 |---|---|---|---|---|---|---|
-| **LAWWW** | 開發負責人：核心系統、人物、建築室內、整合、測試、**正式發布**、分派 LAWWW2 | LAWWW `session_01Eds6msqpsuzNEw98sdw8JX` | LAWWW-B：未建立 | **A** | `claude/confident-ritchie-8rwh7t`（`e747724`）；本機半成品備份在 `wip_backup/`（git bundle：dorm-hall、wancai-stairs） | `docs/ART_REBUILD_PROGRESS.md` 最上面「交接（最新）」 |
+| **LAWWW** | 開發負責人：核心系統、人物、建築室內、整合、測試、**正式發布**、分派 LAWWW2 | LAWWW `session_01Eds6msqpsuzNEw98sdw8JX`（**10:13Z 已交班**，最後 commit＝「LAWWW（帳號 A）交班」） | LAWWW-B：未建立 | **A（已交班，等 LAWWW-B）** | `claude/confident-ritchie-8rwh7t`（`e747724`）；本機半成品備份在 `wip_backup/`（git bundle：dorm-hall、wancai-stairs） | `docs/ART_REBUILD_PROGRESS.md` 最上面「交接（最新）」 |
 | **LAWWW2** | 環境美術：Blender、3D 場景（Café、溫州街、公館、街道道具、校園地標、行道樹、獨立室內） | LAWWW2 `session_01AC1WVgJSmoJK1uRsPK2Zn1` | LAWWW2-B：未建立 | **A** | `claude/second-ai-env-art`（`afbf7ec`，含店家窗景）＋半成品分支 `-wip-pavsoc`（`8c6f1fe`，⑤）、`-wip-props6`（`8fe7a21`，⑤⑥）、`-wip-trees`（`d7916da`，⑦）、`-wip-soclib`（`030ce51`，⑬ 草稿）；`-wip-props` 是重複分支，忽略（LAWWW2 10:07Z 緊急保存回報） | `docs/art-rebuild/second_ai/HANDOFF.md` |
 | **AA** | 劇情企劃：四年故事架構、主線、系統與劇情規劃 | AA `session_019Y3emYqxxC4Ch1GGf4fMzw`（**10:10Z 已交班**，最後 commit `7721b72`） | AA-B：未建立 | **A（已交班，等 AA-B）** | `claude/bb-story-planning`（`1892599`，和 BB 共用） | `docs/story_planning/AA_交接紀錄.md` |
 | **BB** | 劇情企劃：角色、人物關係、事件、對話與支線 | BB `session_01XVHYLaK9Vcnae3U1aAJoZv`（**10:11Z 已交班**，最後 commit `e28aa3d`） | BB-B：未建立 | **A（已交班，等 BB-B）** | `claude/bb-story-planning`（同上） | `docs/story_planning/BB_00_協作規範與交接紀錄.md` |
@@ -243,6 +243,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
 
 | 時間（UTC） | 從 → 到 | 職位 | 接班基準 commit | 備註 |
 |---|---|---|---|---|
+| 2026-10-11 10:13 | LAWWW（帳號 A）交班 | LAWWW | 「LAWWW（帳號 A）交班」那個 commit（`claude/confident-ritchie-8rwh7t`） | 使用者說要換班；正常交班。背景的最終回歸、修改審查、接班檢查、出遊規劃都停了，結果不在 GitHub，LAWWW-B 要重跑（進度檔「交班（最新）」） |
 | 2026-10-11 10:11 | BB（帳號 A）交班 | BB | `e28aa3d`（`claude/bb-story-planning`） | 使用者說要換班；BB 正常交班，BB_00 最上面有交班紀錄 |
 | 2026-10-11 10:10 | AA（帳號 A）交班 | AA | `7721b72`（`claude/bb-story-planning`） | 使用者說要換班；AA 正常交班，交接紀錄最上面「交班（最新）」 |
 | 2026-10-11 09:50 | （建立制度） | 四個 | LAWWW `13e53b2`、LAWWW2 `5cf1b4d`、AA／BB `dc4c8e8` | 帳號 A 值班，還沒換過班；帳號 B 未建立 |
