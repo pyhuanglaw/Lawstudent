@@ -154,7 +154,7 @@ def build(out=None):
     face(plate, [(-3.0, sy - 0.28, D / 2 + 0.085), (3.0, sy - 0.28, D / 2 + 0.085), (3.0, sy + 0.28, D / 2 + 0.085), (-3.0, sy + 0.28, D / 2 + 0.085)], (0, 0, 1))
 
     for k, m in accs.items(): m.finish(root, uv=(k == 'wall'))
-    uv01(plate.finish(root, uv=True, props={'text': '社會科學院', 'bg': '#f4f2ec', 'color': '#3b3b3b', 'fs': 0.62}))
+    uv01(plate.finish(root, uv=True, props={'text': '社會科學院', 'bg': '#f4f2ec', 'color': '#3b3b3b', 'serif': 1, 'fs': 0.62}))   # serif＝石材匾額樣式（細的內框）：門牌樣式的外框寬度照板面寬度的 4% 算，6 m 寬的匾額整塊被外框蓋成深色（2026-10-11 截圖）
     L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
     info = L.export(out, gpu_instances=False)
     L.write_json(out[:-4] + '.json', info)
