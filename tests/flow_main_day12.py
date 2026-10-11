@@ -81,6 +81,20 @@ async def main():
         if ok:
             await pg.wait_for_timeout(800)
             run.check('門口出現「進入霖澤館」', await use_interact(pg, cdp, run, '進入霖澤館'))
+            # v9.4 起霖澤館是真的大樓：201 階梯教室在二樓（劇情：「民法總則在二樓的 201 階梯教室」、目標「上二樓，到 201 教室上課」），
+            # 玩家自己走樓梯上去、按「進入 201 階梯教室」，上課劇情才開始（2026-10-11 修正：這個測試寫於 v9.3，一進霖澤館就直接到教室，v9.4 之後一直在這裡失敗）
+            s = await wait_story(pg, cdp, run, "GAME.G.zone==='linze'")
+            for _ in range(20):   # 劇情進到大廳 0.7 秒後才出提示、換目標
+                g = await goal(pg)
+                if '201' in g: break
+                await pg.wait_for_timeout(500)
+            run.check('進到霖澤館大廳、目標是上二樓到 201 教室', s['zone'] == 'linze' and '201' in g, f'goal={g}')
+            c201 = await L.find_it(pg, '進入 201')
+            ok = bool(c201) and await L.go_to(pg, cdp, run, c201['x'], c201['z'] + 0.3, 0.9, '201 教室門口（二樓）', lv=1)
+            run.check('走樓梯上二樓、走到 201 教室門口（點地面／搖桿）', ok)
+            if ok:
+                await pg.wait_for_timeout(800)
+                run.check('門口出現「進入 201 階梯教室」', await use_interact(pg, cdp, run, '進入 201'))
             t0 = time.time(); reached = False
             while time.time() - t0 < 300:
                 s = await L.state(pg)
@@ -98,6 +112,14 @@ async def main():
             if ok:
                 await pg.wait_for_timeout(800)
                 run.check('後門出現「離開教室」', await use_interact(pg, cdp, run, '離開教室'))
+                s = await wait_story(pg, cdp, run, "GAME.G.zone==='linze'")   # v9.4：離開教室回到霖澤館二樓的走廊
+                run.check('離開教室 → 霖澤館二樓（第 1 層）', s['zone'] == 'linze' and s.get('lv') == 1, json.dumps(s, ensure_ascii=False))
+                ex2 = await L.find_it(pg, '走出霖澤館')
+                ok = bool(ex2) and await L.go_to(pg, cdp, run, ex2['x'] - 0.3, ex2['z'], 0.9, '霖澤館大廳出口（走樓梯下一樓）', lv=0)
+                run.check('走樓梯下一樓、走到「走出霖澤館」', ok)
+                if ok:
+                    await pg.wait_for_timeout(800)
+                    run.check('出口出現「走出霖澤館」', await use_interact(pg, cdp, run, '走出霖澤館'))
                 s = await wait_story(pg, cdp, run, "GAME.G.zone==='campus'")   # 走出霖澤館、回到校園
                 g = await goal(pg); await run.shot(pg, 'after_class_campus')
                 run.check('走出霖澤館、回到校園、恢復控制', s['zone'] == 'campus' and not s['busy'] and s['stand'], f'goal={g} ' + json.dumps(s, ensure_ascii=False))
