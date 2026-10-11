@@ -1,0 +1,386 @@
+[
+ {
+  "out": "docs/art-rebuild/second_ai/shots/admin_after_bell_axis_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11,
+   "pos": {
+    "x": -38,
+    "z": 2,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -38,
+    1.7,
+    2
+   ],
+   "look": [
+    -38,
+    7,
+    30
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='campus_admin_glb')) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/admin_after_bell_axis_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -38,
+    "z": 2,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -38,
+    1.7,
+    2
+   ],
+   "look": [
+    -38,
+    7,
+    30
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='campus_admin_glb')) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/admin_after_bell_axis_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": -38,
+    "z": 2,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -38,
+    1.7,
+    2
+   ],
+   "look": [
+    -38,
+    7,
+    30
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='campus_admin_glb')) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/admin_after_front_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11,
+   "pos": {
+    "x": -30,
+    "z": 14,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -30,
+    1.7,
+    14
+   ],
+   "look": [
+    -38,
+    6,
+    28
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='campus_admin_glb')) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/admin_after_front_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -30,
+    "z": 14,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -30,
+    1.7,
+    14
+   ],
+   "look": [
+    -38,
+    6,
+    28
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='campus_admin_glb')) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/admin_after_front_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": -30,
+    "z": 14,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -30,
+    1.7,
+    14
+   ],
+   "look": [
+    -38,
+    6,
+    28
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='campus_admin_glb')) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/admin_after_porch_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11,
+   "pos": {
+    "x": -34.5,
+    "z": 19.5,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -34.5,
+    1.7,
+    19.5
+   ],
+   "look": [
+    -38,
+    4.4,
+    24
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='campus_admin_glb')) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/admin_after_porch_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -34.5,
+    "z": 19.5,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -34.5,
+    1.7,
+    19.5
+   ],
+   "look": [
+    -38,
+    4.4,
+    24
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='campus_admin_glb')) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/admin_after_porch_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": -34.5,
+    "z": 19.5,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -34.5,
+    1.7,
+    19.5
+   ],
+   "look": [
+    -38,
+    4.4,
+    24
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='campus_admin_glb')) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/admin_after_arcade_1100.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 11,
+   "pos": {
+    "x": -58,
+    "z": 26.4,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    -58.6,
+    1.6,
+    26.4
+   ],
+   "look": [
+    -20,
+    2.4,
+    26.4
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='campus_admin_glb')) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/admin_after_arcade_1730.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -58,
+    "z": 26.4,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    -58.6,
+    1.6,
+    26.4
+   ],
+   "look": [
+    -20,
+    2.4,
+    26.4
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='campus_admin_glb')) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/admin_after_arcade_2030.png",
+  "w": 1280,
+  "h": 720,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "state": {
+   "zone": "campus",
+   "hour": 20.5,
+   "pos": {
+    "x": -58,
+    "z": 26.4,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "pos": [
+    -58.6,
+    1.6,
+    26.4
+   ],
+   "look": [
+    -20,
+    2.4,
+    26.4
+   ]
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='campus_admin_glb')) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ },
+ {
+  "out": "docs/art-rebuild/second_ai/shots/admin_after_follow_1730.png",
+  "w": 390,
+  "h": 844,
+  "mobile": true,
+  "hud": true,
+  "hideNPCs": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -31,
+    "z": 19,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "yaw": 2.791592653589793,
+   "pitch": 0.16,
+   "dist": 6.0
+  },
+  "wait": 3500,
+  "js": "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='campus_admin_glb')) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
+ }
+]

@@ -1,0 +1,10 @@
+{
+ "objects": 8,
+ "unique_meshes": 8,
+ "tris": 1562,
+ "tris_drawn": 1562,
+ "materials": 8,
+ "out": "assets/models/env/second_ai/campus_bell.glb",
+ "bytes": 126128,
+ "texres": 512
+}

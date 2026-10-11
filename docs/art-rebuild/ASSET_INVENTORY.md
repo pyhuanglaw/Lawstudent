@@ -18,11 +18,11 @@
 | 霖澤館室內（`src/building3d.js` 程序化備用） | 霖澤館大廳、樓梯、二樓迴廊（`linze` 區域） | ③（備用；點地面用的透明地板也在這裡，正式模型載入後搬出來繼續用） | 正式模型 **INTEGRATED**：`tools/blender/linze_interior.py` → `linze_interior.glb`（1.95 MB）；遊戲化設計（D37，沒有照片）；比較圖 VISUAL_REVIEW 17.2 | 三樓以上、更多家具與標示 |
 | 玻璃電梯（`building3d.js` 程序化，要動） | 霖澤館中庭 | ④ | BLOCKOUT | Blender 車廂與井道模型（車廂、門分開的節點，遊戲照樣控制開關與上下） |
 | `CK.lawhall` 萬才館 | 校園：法學院廣場東側 | ⑤＋③（套件留作導航、鏡頭碰撞、載入失敗的備用） | **INTEGRATED**（2026-10-11，D41）：外觀換成 Blender `wancai_exterior.glb`（`tools/blender/wancai_exterior.py`）；弧形大樓梯**可以走**（兩層共用的台階高度，平台與陽台在校園第 1 層）；二樓入口這一版關著；`READY_FOR_ART_REVIEW` | 室內兩層（二樓入口接陽台）；兩側張開的窄台階目前不能走 |
-| `CK.hall` 總圖、行政大樓、文學院、校史館、男一舍、無名系館 | 校園 | ④（總圖、行政大樓、文學院：主要地標）／②（無名系館、遠的）；總圖：⑤＋③ | **總圖**：LAWWW2 Blender `campus_library.glb`（1.47 MB、22,816 個三角形；拱窗是真的窗洞、切石、面磚、屋瓦 PBR），導航、碰撞、互動點不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 8 節）；其他：BLOCKOUT | 第三階段：地標逐棟 Blender（LAWWW 23:26Z 順序：總圖 → 傅鐘 → 行政大樓 → 文學院、校史館）；背景系館可保留程序化 |
+| `CK.hall` 總圖、行政大樓、文學院、校史館、男一舍、無名系館 | 校園 | ④（總圖、行政大樓、文學院：主要地標）／②（無名系館、遠的）；總圖、行政大樓：⑤＋③ | **總圖**：LAWWW2 Blender `campus_library.glb`（1.47 MB、22,816 個三角形；拱窗是真的窗洞、切石、面磚、屋瓦 PBR），導航、碰撞、互動點不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 8 節）；**行政大樓**：LAWWW2 Blender `campus_admin.glb`（0.92 MB、13,453 個三角形，套件 20,443；米黃面磚、拱窗窗洞、三拱門廊＋三面陽台欄杆、檐部匾額），`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 10 節）；其他：BLOCKOUT | 第三階段：地標逐棟 Blender（LAWWW 23:26Z 順序：總圖 → 傅鐘 → 行政大樓 → 文學院、校史館）；背景系館可保留程序化 |
 | `CK.modern` 社會科學院、背景系館 | 校園東側 | ④（社科院）／② | BLOCKOUT | 第三階段 |
 | `CK.pavilion` 農業陳列館（洞洞館） | 校園西側 | ④ | BLOCKOUT | 第三階段 |
 | `CK.gate` 校門 | 校園西端、公館 | ④ | BLOCKOUT | 第三階段（地標） |
-| `CK.bell` 傅鐘 | 椰林大道南側 | ④ | BLOCKOUT | 第三階段（地標） |
+| `CK.bell` 傅鐘 | 椰林大道南側 | ⑤＋③（套件留作導航阻擋與載入失敗的備用） | LAWWW2 Blender `campus_bell.glb`（126 KB、1,562 個三角形；切石台基與柱子、瓦屋頂、銅鐘三道鐘帶、石碑匾額、夜間地燈／柱面暖光／光暈），導航、互動不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 9 節） | 有照片的話照照片改比例與細節 |
 | `CK.tileTex`、各套件的 canvas 貼圖（面磚、花崗石、紅磚） | 全部校園建築 | ④ | BLOCKOUT（canvas 隨機斑點） | 換 Poly Haven PBR（紅磚、花崗石、混凝土） |
 
 ## 二、台北街景（`src/townkit3d.js`，`TK`）
