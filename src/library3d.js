@@ -54,7 +54,7 @@ const LB3=(function(){
     x.fillStyle=night?'#2a2c30':'#bcb8ae'; x.fillRect(0,h*0.74,w,h*0.26); if(night){ x.fillStyle='rgba(255,214,150,0.85)'; for(const lx of [60,230,400]) x.fillRect(lx,h*0.6,4,4); } });
 
   /* 窗外的景（正式）：遊戲裡校園實際的畫面——從總圖門口往西拍椰林大道（avenue，正面玻璃）、從總圖南側拍草地與系館（lawn，側窗、平台的大窗）；
-     白天 11:00、晚上 20:30，1024×512（tools/blender/env_second/shots/fast_shots.py，設定在 tools/shots/library_views.json）。
+     白天 11:00、晚上 20:30，1024×512（tools/shots/library_views.py 用 fast_shots.py 拍；改了總圖附近或椰林大道可以重拍）。
      已經是調過色的畫面：不再做一次色調映射（toneMapped=false）。載不到（例如 claude.ai artifact 版沒有這些檔案）就用上面程序化畫的 */
   const VIEW_URL='assets/models/env/library_view_', viewTex={};
   function viewOf(kind,night){ const k=kind+(night?'_night':'_day'); if(!(k in viewTex)){ viewTex[k]=null; try{ new THREE.TextureLoader().load(VIEW_URL+k+'.webp',t=>{ t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=4; viewTex[k]=t; },undefined,()=>{ viewTex[k]=false; }); }catch(e){ viewTex[k]=false; } } return viewTex[k]||null; }
