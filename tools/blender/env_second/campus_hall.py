@@ -40,7 +40,7 @@ SETS = {
                   w=46.0, d=16.0, floors=3, gfh=4.2, fh=3.4, arcDepth=None, roofH=4.2,
                   porch=dict(bays=3, depth=3.0, pediment=False), tower=None,
                   wall='#cdb48e', wall_sat=0.3, trim='#e2dac9', roof='#4a3a33',
-                  plate=dict(name='PLATE_FACE_ADMIN', text='行政大樓', where='frieze', w=4.4, h=0.36), expect=dict(nb=13, nbs=4)),
+                  plate=dict(name='PLATE_FACE_ADMIN', text='行政大樓', where='frieze', w=5.2, h=0.42, fs=0.72), expect=dict(nb=13, nbs=4)),   # 第一版 4.4×0.36、字 0.6 倍：字只有 0.22 m 高，比套件的招牌小很多、遠看讀不出來
 }
 
 
@@ -409,7 +409,7 @@ def build(c, out=None):
     for k, m in accs.items():
         if k.startswith('glass'): m.finish(root, uv=False)
         else: m.finish(root, uv=True)
-    uv01(plate.finish(root, uv=True, props={'text': pl['text'], 'bg': '#d8d0c0', 'color': '#3b2a1e', 'serif': 1}))
+    uv01(plate.finish(root, uv=True, props=dict({'text': pl['text'], 'bg': '#d8d0c0', 'color': '#3b2a1e', 'serif': 1}, **({'fs': pl['fs']} if pl.get('fs') else {}))))   # fs：字高是板面高的幾倍（遊戲的 wzPlateTex；沒給＝0.6）
     L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
     info = L.export(out, gpu_instances=False)
     L.write_json(out[:-4] + '.json', info)
