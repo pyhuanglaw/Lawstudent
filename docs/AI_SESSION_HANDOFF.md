@@ -95,6 +95,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
    - 在自己的進度檔最上面寫「值班登記」，commit＋push。
    - LAWWW／LAWWW-B 另外更新這份檔案的值班表和第 12 節交班紀錄。
    - 其他職位登記完通知值班的 LAWWW：同一個帳號用 `send_message`，不通就靠 GitHub，LAWWW 下次同步時抄進值班表。
+   - **找對方的 session ID**：①值班表；②對方進度檔最上面的值班登記；③同一個帳號內用 claude-code-remote 的 `list_sessions`，看工作階段標題（LAWWW-B、LAWWW2-B、AA-B、BB-B）。找到之後傳一則「我上線了＋我的 session ID」，對方回 ACK 才算連上；沒回就寫看板。
 9. **回報使用者「接班確認」**（第 6 節的格式），然後接著做進度檔寫的下一步，不用使用者再說「繼續」。
 
 ## 5. 交班程序（原工作階段還能操作的時候）
