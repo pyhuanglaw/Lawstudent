@@ -37,7 +37,7 @@ SCAN = r"""(()=>{ const E=GAME.E, R=0.32; const P=E.player.obj.position; const s
     rec.standable=cands.length; rec.ok=!!ok; rec.at=ok; if(!ok){ rec.why=!cands.length?'互動範圍內沒有站得住的位置':(tried===0?(standButOther?'站得住的位置都被別的互動點搶走（按鈕不會出現）':'被 NPC 佔用（'+npcName+'在這裡，靠近時出現的是和他說話）'):'走不到'); rec.fail=lastFail;
       /* 座位被這個時段的 NPC 坐著：設計如此（人優先於物件），列為說明、不算失敗；出入口等其他互動點被 NPC 擋住仍然算失敗 */ if(tried===0&&!standButOther&&npcBlock&&it.seat){ rec.ok=true; rec.info=rec.why; } }
     if(it.seat&&GAME.seatApproach){ const ap=GAME.seatApproach(it.seat); const w=walk(ap[0],ap[1]); rec.seatApproach={at:[+ap[0].toFixed(2),+ap[1].toFixed(2)], ok:w.ok, fail:w.ok?null:w}; }
-    if(it.exit&&it.exit.spawn) out.arrivals.push({to:it.exit.to, x:it.exit.spawn.x, z:it.exit.spawn.z, from:zone, label:lab});
+    if(it.exit&&it.exit.spawn) out.arrivals.push({to:it.exit.to, x:it.exit.spawn.x, z:it.exit.spawn.z, lv:it.exit.spawn.lv|0, from:zone, label:lab});   /* 到達點的樓層（萬才館二樓的門：校園第 1 層的平台、萬才館二樓門廳）*/
     out.items.push(rec); }
   // 劇情自動走路的目的地（和 story3d.js／events3d.js 的 walkTo 相同）
   const story=[]; const S=E.zone.seats||[];
@@ -80,9 +80,9 @@ async def main():
             if not arr: continue
             await L.load_state(pg, {'zone': z, 'hour': 11.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': None, 'flags': FLAGS}, quiet_events=True)
             await pg.wait_for_timeout(1200)
-            res = await pg.evaluate("""(arr=>{ const E=GAME.E, P=E.player.obj.position; const s=[P.x,P.z]; return arr.map(a=>{ const st=E.canStand(a.x,a.z,0.32); const w=E.simWalk(a.x,a.z,s[0],s[1],{dt:1/30}); return Object.assign({},a,{stand:st,ok:w.ok,fail:w.ok?null:w}); }); })(%s)""" % json.dumps(arr))
+            res = await pg.evaluate("""(arr=>{ const E=GAME.E, P=E.player.obj.position; const s=[P.x,P.z]; return arr.map(a=>{ const st=E.canStand(a.x,a.z,0.32,a.lv|0); const w=E.simWalk(a.x,a.z,s[0],s[1],{dt:1/30,lv0:a.lv|0,lv1:E.player.lv|0}); return Object.assign({},a,{stand:st,ok:w.ok,fail:w.ok?null:w}); }); })(%s)""" % json.dumps(arr))
             bad = [a for a in res if not a['stand'] or not a['ok']]
-            run.check(f'{z}：從別區進來的 {len(res)} 個到達點站得住、走得到出生點', not bad, '\n      ' + '\n      '.join(f"從 {a['from']}「{a['label']}」到 ({a['x']},{a['z']}) 站得住={a['stand']} {json.dumps(a['fail'], ensure_ascii=False)[:160]}" for a in bad))
+            run.check(f'{z}：從別區進來的 {len(res)} 個到達點站得住、走得到出生點', not bad, '\n      ' + '\n      '.join(f"從 {a['from']}「{a['label']}」到 ({a['x']},{a['z']},第{a['lv']}層) 站得住={a['stand']} {json.dumps(a['fail'], ensure_ascii=False)[:160]}" for a in bad))
         tot = sum(len(r['items']) for r in results.values()); st = sum(len(r['story']) for r in results.values())
         print(f'統計：{len(results)} 個區域、{tot} 個互動點、{st} 個劇情走路目的地、{len(arrivals)} 個出入口到達點', flush=True)
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
