@@ -10,7 +10,7 @@
   - 拱廊與門廊的拱有拱腹（拱的內側面），拱圈石材收邊；簷口是三段線腳；屋簷底下有簷底板。
   - 門廊頂：山牆（pediment）或陽台欄杆（三面、欄杆柱＋扶手＋底座；套件只有正面一排）。山牆可以有牛眼窗（oculus：石材圓框＋深色玻璃＋十字窗櫺）。
   - 門廊正面的柱子：方柱（套件）或圓石柱（cols='round'：方形柱礎、圓柱身、喇叭形柱頭，上面照舊是方形的拱墩；校史館，套件的註解「圓石柱」）。
-  - 面磚（exterior_wall_cladding_02，真實比例）、切石（sandstone_blocks_08）、屋瓦（grey_roof_tiles）、花崗石（granite_tile_03）、木門（dark_wood）都是 Poly Haven CC0 PBR。
+  - 面磚（exterior_wall_cladding_02，真實比例）、切石（sandstone_blocks_08）、屋瓦（grey_roof_tiles）、花崗石（granite_tile_03）、木門與木窗框（dark_wood）都是 Poly Haven CC0 PBR。
 不用 instancing：全部合成每個材質一個網格（draw call 少）；窗框、窗台、窗洞內側用另一個材質（ck_trim_win），遊戲端不投影。
 招牌：PLATE_FACE_*（遊戲用 canvas 畫字：石材匾額樣式，晚上不發光）。
 """
@@ -90,22 +90,25 @@ def build(c, out=None):
         'trimw': L.pbr('ck_trim_win', 'sandstone_blocks_08', tile=3.0, sat=0.45, target=c['trim'], maps=('diff',), res=512, rough_value=0.8),   # 同一張顏色貼圖（GLB 裡只存一份）
         'base': L.pbr('ck_stone_base', 'granite_tile_03', tile=1.2, target='#9a948a', maps=('diff',), res=256, rough_value=0.7),
         'roof': L.pbr('ck_roof', 'grey_roof_tiles', tile=3.0, target=c['roof'], normal=0.8, maps=('diff', 'nor'), rough_value=0.82),   # 實際 3 m 一張
-        'door': L.pbr('ck_door', 'dark_wood', tile=1.0, target='#4a3426', maps=('diff',), res=256, rough_value=0.6),
         'ceil': L.flat('ck_ceiling', '#e2dccf', rough=0.95),
-        'frame': L.flat('ck_frame', '#3a2e28', rough=0.55),
+        # 深色木作：窗框、直櫺、大門、門把、屋脊（同一個材質＝一次 draw call；2026-10-11 文學院、校史館：原本大門自己一個材質只有 2 個三角形，窗框是純色，
+        # 校門鏡頭五個地標加起來 draw call 超過 +10%）。窗框改成深色木紋（台大舊校舍的木窗框），大門照舊有木紋
+        'frame': L.pbr('ck_frame', 'dark_wood', tile=1.0, target='#3c2d23', maps=('diff',), res=256, rough_value=0.58),
         'glass': L.vc_material('ck_glass', rough=0.12),
-        'glass_lit': L.vc_material('ck_glass_lit', rough=0.12),
         'board': L.flat('ck_board', '#d8d0c0', rough=0.8),
     }
-    # 亮燈的窗：室內的光由上往下漸暗（天花板燈）——自發光貼圖（glTF emissiveTexture），遊戲端晚上照 WZ_NIGHT 乘上暖色、白天強度 0。
-    # 總圖第一版是一片平均的自發光：近看（拱廊裡）像一塊發亮的平板
-    lit = bpy.data.images.new('win_lit_grad', 4, 64, alpha=False); px = []
+    # 玻璃：亮燈的窗、沒亮燈的窗是同一個材質（一次 draw call）。自發光貼圖（glTF emissiveTexture）64×64：左半（u<0.5）全黑＝沒亮燈的窗，
+    # 右半＝亮燈的窗（室內的光由上往下漸暗，天花板燈；總圖第一版是一片平均的自發光，近看像一塊發亮的平板）；每扇窗的 UV：沒亮燈 u=0.125、亮燈 u=0.875，v＝窗洞內的高度
+    # （取樣點離黑白交界 24 個像素：GLB 裡的貼圖是有損 WebP，交界兩側幾個像素會有壓縮的漣漪）。
+    # 遊戲端晚上照 WZ_NIGHT 乘上暖色、白天強度 0，這張貼圖不用 mipmap（縮小時左右兩半不會混在一起，沒亮燈的窗不會在遠處發光）。
+    # 2026-10-11 以前是兩個材質（ck_glass、ck_glass_lit）：文學院、校史館加進來後，進校門鏡頭五個地標的 draw call 超過 +10%
+    lit = bpy.data.images.new('win_lit_grad', 64, 64, alpha=False); px = []
     for j in range(64):
         t = j / 63; k = [(0.50, 0.36, 0.22), (0.86, 0.70, 0.48), (1.0, 0.92, 0.76)]
         a, b, u = (k[0], k[1], t / 0.6) if t < 0.6 else (k[1], k[2], (t - 0.6) / 0.4)
-        px += [a[i] + (b[i] - a[i]) * u for i in range(3)] + [1.0]
-    lit.pixels.foreach_set([v for j in range(64) for _ in range(4) for v in px[j * 4:j * 4 + 4]]); lit.pack()   # 每一列 4 個像素一樣
-    nt = M['glass_lit'].node_tree; tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = lit
+        px += [0.0, 0.0, 0.0, 1.0] * 32 + ([a[i] + (b[i] - a[i]) * u for i in range(3)] + [1.0]) * 32   # 一列：左 32 個黑、右 32 個是這個高度的燈光顏色
+    lit.pixels.foreach_set(px); lit.pack()
+    nt = M['glass'].node_tree; tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = lit; tx.extension = 'EXTEND'
     nt.links.new(tx.outputs['Color'], nt.nodes['Principled BSDF'].inputs['Emission Color']); nt.nodes['Principled BSDF'].inputs['Emission Strength'].default_value = 1.0
     accs = {}
 
@@ -171,9 +174,9 @@ def build(c, out=None):
         if u1 > cur + 1e-4: rect(m, fr, cur, u1, v0, v1)
 
     def glass_face(fr, pts_uv, d, lit_, vb, vt):
-        u0, u1 = min(p[0] for p in pts_uv), max(p[0] for p in pts_uv)   # 亮燈的窗：每扇窗自己的 UV（0–1），自發光貼圖由下往上
-        uvs = [((u - u0) / max(1e-6, u1 - u0), (v - vb) / max(1e-6, vt - vb)) for u, v in pts_uv] if lit_ else None
-        m = acc('glass_lit' if lit_ else 'glass'); f = face(m, [fr.p(u, v, d) for u, v in pts_uv], fr.N, uvs)
+        uc = 0.875 if lit_ else 0.125              # 自發光貼圖：右半＝亮燈（由下往上的燈光）、左半＝黑
+        uvs = [(uc, max(0.0, min(1.0, (v - vb) / max(1e-6, vt - vb)))) for u, v in pts_uv]
+        m = acc('glass'); f = face(m, [fr.p(u, v, d) for u, v in pts_uv], fr.N, uvs)
         for lp in f.loops:
             t = max(0.0, min(1.0, ((lp.vert.co.z) - vb) / max(1e-6, vt - vb)))   # Blender z＝遊戲 y（高度）
             lp[m.col] = [GL_BOT[i] + (GL_TOP[i] - GL_BOT[i]) * t for i in range(3)] + [1.0]
@@ -270,8 +273,8 @@ def build(c, out=None):
     for i, x in enumerate(bay_x):
         if abs(i - (NB - 1) / 2) < 0.6:   # 中央：大門（雙開木門＋石材門框＋門楣）
             holes.append(window(ARC_BACK, x, 0.0, 1.8, 2.9, 0.15, False, rect_=True, dep=0.15, door=True))
-            dm = acc('door'); rect(dm, ARC_BACK, x - 0.9, x + 0.9, 0.0, 2.9, -0.15)
-            fm = acc('frame'); rect(fm, ARC_BACK, x - 0.025, x + 0.025, 0.0, 2.9, -0.14)
+            fm = acc('frame'); rect(fm, ARC_BACK, x - 0.9, x + 0.9, 0.0, 2.9, -0.15)   # 木門（和窗框同一個深色木作材質）
+            rect(fm, ARC_BACK, x - 0.025, x + 0.025, 0.0, 2.9, -0.14)
             for sx in (-1, 1): rect(fm, ARC_BACK, x + sx * 0.12 - 0.02, x + sx * 0.12 + 0.02, 1.0, 1.35, -0.12)   # 門把
             box(acc('trimw'), x - 1.2, x + 1.2, 3.05, 3.25, D / 2 - AD, D / 2 - AD + 0.18, skip=('back',))          # 門楣
         else:
@@ -412,7 +415,7 @@ def build(c, out=None):
                 face(tw, [(I[k][0], I[k][1], pz1 + 0.07), (I[k1][0], I[k1][1], pz1 + 0.07), (O[k1][0], O[k1][1], pz1 + 0.07), (O[k][0], O[k][1], pz1 + 0.07)], (0, 0, 1))
                 face(tw, [(O[k][0], O[k][1], pz1), (O[k1][0], O[k1][1], pz1), (O[k1][0], O[k1][1], pz1 + 0.07), (O[k][0], O[k][1], pz1 + 0.07)], (math.cos(am), math.sin(am), 0))
                 face(tw, [(I[k][0], I[k][1], pz1 + 0.012), (I[k1][0], I[k1][1], pz1 + 0.012), (I[k1][0], I[k1][1], pz1 + 0.07), (I[k][0], I[k][1], pz1 + 0.07)], (-math.cos(am), -math.sin(am), 0))
-            gm = acc('glass'); f = face(gm, [(x_, y_, pz1 + 0.012) for x_, y_ in I], (0, 0, 1))
+            gm = acc('glass'); f = face(gm, [(x_, y_, pz1 + 0.012) for x_, y_ in I], (0, 0, 1), [(0.125, 0.5)] * n)   # 牛眼窗不亮燈（自發光貼圖的黑色那半邊）
             for lp in f.loops:
                 t = max(0.0, min(1.0, (lp.vert.co.z - (cy - R)) / (2 * R)))
                 lp[gm.col] = [GL_BOT[i] + (GL_TOP[i] - GL_BOT[i]) * t for i in range(3)] + [1.0]

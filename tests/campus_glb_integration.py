@@ -10,7 +10,7 @@
   2. 位置、尺寸、朝向照套件：正式模型的外框和套件的外框差 ≤ 1.5 m（屋簷、簷口出挑的差別）。
   3. 導航格、鏡頭碰撞方塊、互動點和「改之前」完全相同。
   4. 匾額（總圖「總圖書館」、傅鐘石碑「傅鐘」、行政大樓門廊檐部「行政大樓」、文學院門廊檐部「文學院」、校史館中央拱上方「校史館」）：石材匾額，canvas 字、貼圖比例＝板面比例。
-  5. 夜間：總圖、行政大樓、文學院、校史館 20:30 窗戶亮、11:00 不亮；傅鐘的地燈燈罩、柱面暖光、光暈 20:30 亮、11:00 不亮，套件的光暈晚上不會跑回來（藏起來的套件光暈
+  5. 夜間：總圖、行政大樓、文學院、校史館 20:30 窗戶亮、11:00 不亮（亮燈、沒亮燈的窗同一個材質：自發光貼圖左半黑、右半燈光，UV 決定亮不亮）；傅鐘的地燈燈罩、柱面暖光、光暈 20:30 亮、11:00 不亮，套件的光暈晚上不會跑回來（藏起來的套件光暈
      會被 TK.setNight 重新打開——這一項在沒修的版本會失敗）、夜裡才進校園（模型在晚上才載入）光暈也是亮的；20:30 路燈開著，開燈數和改之前一樣。
   6. 陰影：大面（牆、屋頂、石材）投影；窗框、窗洞、玻璃、門、燈罩、暖光片不投影。
   7. 太陽：中午在南邊（校園 x 往東、−z 往北，沒有 sunYaw）。
@@ -41,9 +41,11 @@ STATE = """(()=>{ const E=GAME.E; const r=v=>Math.round(v*100)/100;
     const col=E.colliders.map(c=>[r(c.position.x),r(c.position.y),r(c.position.z),r(c.geometry.parameters.width),r(c.geometry.parameters.height),r(c.geometry.parameters.depth)]).sort();
     const it=E.interactables.map(i=>[i.label||'',r(i.x),r(i.z),r(i.radius||0)]).sort();
     return {col, it}; })()"""
-# 沒有標記的群組：數「底下沒有任何看得到的網格／sprite」的群組，正式模型和改之前必須一樣多（多了＝藏錯東西）。路燈的光暈（E.lampGlows）照時鐘開關，不算
+# 沒有標記的群組：數「底下有網格／sprite、但一個都看不到」的群組（＝被藏起來），正式模型和改之前必須一樣多（多了＝藏錯東西）。路燈的光暈（E.lampGlows）照時鐘開關，不算。
+# 整區靜態合併把網格搬走、變成空的群組不算「藏起來」：地標有正式模型時不參加合併（dyn），別的建築和地標共用的材質可能只剩一個網格、不合併，
+# 空群組的數目兩輪會差 1（2026-10-11 文學院、校史館：(2,33) 的無名系館，改之前 225 個、一般 224 個；看得到的網格兩邊都畫）
 OTHERS = """(()=>{ const z=GAME.E.zone; let n=0, empty=0; const skip=new Set(GAME.E.lampGlows||[]); const shown=m=>{ for(let p=m;p&&p!==z.group;p=p.parent) if(!p.visible) return false; return true; };
-    for(const o of z.group.children){ if(!o.isGroup||(o.userData&&o.userData.ckTag)||/_glb$/.test(o.name)) continue; n++; let vis=false; o.traverse(m=>{ if(!vis&&(m.isMesh||m.isSprite)&&!skip.has(m)&&shown(m)) vis=true; }); if(!vis) empty++; }
+    for(const o of z.group.children){ if(!o.isGroup||(o.userData&&o.userData.ckTag)||/_glb$/.test(o.name)) continue; n++; let has=false, vis=false; o.traverse(m=>{ if((m.isMesh||m.isSprite)&&!skip.has(m)){ has=true; if(!vis&&shown(m)) vis=true; } }); if(has&&!vis) empty++; }
     return {n, empty}; })()"""
 DRAW = """(async(e,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
     const hid=E.npcs.map(n=>[n.obj,n.obj.parent]).concat((E.extras||[]).filter(x=>x.rider).map(x=>[x.obj,x.obj.parent])).filter(a=>a[1]); hid.forEach(a=>a[1].remove(a[0]));   /* 路人、騎腳踏車的路人每次的位置不同（量測雜訊）：量的時候暫時移出場景，只比場景 */
@@ -78,6 +80,10 @@ async def check(pg, run, formal):
     # 之後再等也換不回來。2026-10-11 行政大樓那一輪：「改之前」建的時候還沒載好（套件版、draw call 297）、「一般」已經載好（358），比的不是同一種路燈
     await pg.evaluate(SETTLED)
     await PL.load_state(pg, {'zone': 'campus', 'hour': 17.5, 'pos': {'x': 74, 'z': 2, 'yaw': 1.5708}}, quiet_events=True)
+    # 凍結遊戲時鐘在 17:30（玩家 busy 時時鐘不走）：17:30 剛好是路燈開關的門檻（時段表的值＝0.5，> 0.5 才開），引擎每 5 格才套用一次時段，
+    # 時鐘在跑的話量的那一刻路燈可能開也可能關——22 盞路燈的光暈＋地面光圈＝44 次 draw call（2026-10-11：「改之前」連量兩次都是 341，
+    # 整合測試裡同一個鏡頭卻是 297；之前 297／331／341 的另一半原因）。凍結後兩輪都是「路燈剛好還沒開」的同一個狀態
+    await pg.evaluate("(()=>{ const E=GAME.E; E.player.busy=true; GAME.G.hour=17.5; E.hour=17.5; E.applyTime(17.5); })()")
     # AI-1 的霖澤館、萬才館外觀（兩輪都有）也是非同步載入：先等它們接好再數「沒有標記的群組」，不然兩輪接好的時間不同，數字會差
     await pg.evaluate("(async()=>{ const ks=['bldg.linze_exterior','bldg.wancai_exterior'].filter(k=>ASSETS.manifest[k]); await Promise.all(ks.map(k=>ASSETS.loadOne(k).catch(()=>null))); await new Promise(r=>setTimeout(r,1500)); })()")
     if formal:
@@ -116,15 +122,24 @@ async def check(pg, run, formal):
         shadow = await pg.evaluate("""(()=>{ const out={}; for(const o of GAME.E.zone.group.children) if(/^campus_.*_glb$/.test(o.name)) o.traverse(m=>{ if(m.isMesh) out[m.material.name]=m.castShadow; }); return out; })()""")
         tri = await pg.evaluate("""(()=>{ const out={}; for(const o of GAME.E.zone.group.children) if(/^campus_.*_glb$/.test(o.name)){ let t=0,c=0; o.traverse(m=>{ if(!m.isMesh) return; const g=m.geometry; const n=(g.index?g.index.count:g.attributes.position.count)/3; t+=n; if(m.castShadow) c+=n; }); out[o.name]={tris:t, castTris:c}; } return out; })()""")
         run.note('正式模型的三角形（全部／會投影的）：' + json.dumps(tri))
-        run.check('陰影：大面（牆、屋頂、石材）投影；窗框、窗洞、玻璃、門、地燈燈罩、柱面暖光片不投影',
-                  all(shadow.get(k) for k in ('ck_wall', 'ck_roof', 'ck_trim', 'ck_bell_stone', 'ck_bell_roof')) and not any(shadow.get(k) for k in ('ck_trim_win', 'ck_glass', 'ck_glass_lit', 'ck_frame', 'ck_door', 'ck_bell_lens', 'ck_bell_wash')), json.dumps(shadow))
-        for hall in HALLS:
-            night = await pg.evaluate("""(name=>{ const E=GAME.E, root=E.zone.group.children.find(o=>o.name===name); const mats={};
-                root.traverse(o=>{ if(o.isMesh) mats[o.material.name]=o.material; });
-                const read=()=>({lit:+(mats.ck_glass_lit?mats.ck_glass_lit.emissiveIntensity:-1).toFixed(2), dark:+(mats.ck_glass&&mats.ck_glass.emissive?mats.ck_glass.emissiveIntensity*mats.ck_glass.emissive.getHSL({}).l:0).toFixed(2), ceil:+(mats.ck_ceiling?mats.ck_ceiling.emissiveIntensity:-1).toFixed(2)});
-                E.applyTime(11); const day=read(); E.applyTime(20.5); const n2030=read(); E.applyTime(17.5); return {day, n2030, litMap:!!(mats.ck_glass_lit&&mats.ck_glass_lit.emissiveMap)}; })""" + "(%s)" % json.dumps(hall))
+        run.check('陰影：大面（牆、屋頂、石材）投影；窗框、窗洞、玻璃、深色木作（窗框、門）、拱廊天花板、勒腳、地燈燈罩、柱面暖光片不投影',
+                  all(shadow.get(k) for k in ('ck_wall', 'ck_roof', 'ck_trim', 'ck_bell_stone', 'ck_bell_roof')) and not any(shadow.get(k) for k in ('ck_trim_win', 'ck_glass', 'ck_frame', 'ck_ceiling', 'ck_stone_base', 'ck_bell_lens', 'ck_bell_wash')), json.dumps(shadow))
+        for hall in HALLS:   # 亮燈的窗、沒亮燈的窗是同一個材質 ck_glass（2026-10-11）：自發光貼圖左半黑、右半燈光，每扇窗的 UV 決定亮不亮
+            night = await pg.evaluate("""(name=>{ const E=GAME.E, root=E.zone.group.children.find(o=>o.name===name); const mats={}; let glass=null;
+                root.traverse(o=>{ if(o.isMesh){ mats[o.material.name]=o.material; if(o.material.name==='ck_glass') glass=o; } });
+                const read=()=>({glass:+(mats.ck_glass?mats.ck_glass.emissiveIntensity:-1).toFixed(2), ceil:+(mats.ck_ceiling?mats.ck_ceiling.emissiveIntensity:-1).toFixed(2)});
+                E.applyTime(11); const day=read(); E.applyTime(20.5); const n2030=read(); E.applyTime(17.5);
+                const m=mats.ck_glass, t=m&&m.emissiveMap, img=t&&t.image; let left=-1, right=-1, grad=0;
+                if(img){ const c=document.createElement('canvas'); c.width=img.width; c.height=img.height; const x=c.getContext('2d'); x.drawImage(img,0,0); const d=x.getImageData(0,0,c.width,c.height).data;
+                  left=0; right=0; for(let j=0;j<c.height;j++) for(let i=0;i<c.width;i++){ const k=(j*c.width+i)*4, v=Math.max(d[k],d[k+1],d[k+2]); if(i<c.width/4) left=Math.max(left,v); else if(i>=3*c.width/4) right=Math.max(right,v); }   /* 取樣點附近（u=0.125、0.875）：交界兩側有 WebP 壓縮的漣漪，不看 */
+                  const top=(r)=>{ const k=(r*c.width+c.width-1)*4; return d[k]+d[k+1]+d[k+2]; }; grad=top(0)-top(c.height-1); }
+                let lit=0, dark=0, bad=0; if(glass){ const uv=glass.geometry.attributes.uv; if(uv) for(let i=0;i<uv.count;i++){ const u=uv.getX(i); if(Math.abs(u-0.875)<0.01) lit++; else if(Math.abs(u-0.125)<0.01) dark++; else bad++; } else bad=-1; }
+                return {day, n2030, map:!!t, mip:t?t.generateMipmaps:null, minLinear:t?t.minFilter===THREE.LinearFilter:null, tex:img?[img.width,img.height]:null, leftMax:left, rightMax:right, grad, uv:{lit, dark, bad},
+                  oldLitMat:!!mats.ck_glass_lit}; })""" + "(%s)" % json.dumps(hall))
             nm = hall[len('campus_'):-len('_glb')]
-            run.check('%s 的窗：20:30 亮燈的窗發光、11:00 不發光；沒亮燈的窗晚上也不發光；亮燈的窗有自發光貼圖（由上往下漸暗，不是一片平的光）' % nm, night['n2030']['lit'] > 0.5 and night['day']['lit'] < 0.05 and night['n2030']['dark'] < 0.05 and night['litMap'], json.dumps(night))
+            run.check('%s 的窗：同一個玻璃材質；20:30 發光、11:00 不發光；自發光貼圖左邊全黑（沒亮燈的窗取樣的地方）、右邊是由上往下漸暗的燈光；每扇窗的 UV 不是亮就是暗（約七成亮燈）；貼圖不用 mipmap（遠處不會混色）' % nm,
+                      night['map'] and not night['oldLitMat'] and night['n2030']['glass'] > 0.5 and night['day']['glass'] < 0.05 and night['leftMax'] <= 3 and night['rightMax'] > 150 and night['grad'] != 0
+                      and night['uv']['bad'] == 0 and 0.55 < night['uv']['lit'] / max(1, night['uv']['lit'] + night['uv']['dark']) < 0.85 and night['mip'] is False and night['minLinear'], json.dumps(night))
             run.check('%s 的拱廊、門廊、屋簷底下的天花板：晚上比白天暗（白天的補光是陽光的反射；總圖第一版晚上反而更亮，沒有燈的拱廊整片發亮）' % nm, 0 <= night['n2030']['ceil'] < night['day']['ceil'], json.dumps(night))
         bd = await pg.evaluate(BELL_NIGHT + '(11)'); bn = await pg.evaluate(BELL_NIGHT + '(20.5)'); await pg.evaluate('GAME.E.applyTime(17.5)')
         run.check('傅鐘的地燈燈罩、柱面暖光：20:30 發光、11:00 不發光；暖光片是加法混合（白天看不到）',
@@ -135,6 +150,10 @@ async def check(pg, run, formal):
             const saved=sp.map(s=>[s.userData.nightO,s.userData.dayO]); sp.forEach(s=>{ s.userData.nightO=0.55; s.userData.dayO=0; });   /* 模擬沒修的版本：藏起來的套件光暈還是照時段開關 */
             E.applyTime(11); E.applyTime(20.5); const n=sp.filter(s=>s.visible).length; sp.forEach((s,i)=>{ s.userData.nightO=saved[i][0]; s.userData.dayO=saved[i][1]; }); E.applyTime(11); E.applyTime(17.5); return n; })()""")
         run.check('（自我檢查）套件光暈照舊開關的話（沒修的版本），晚上會被數到', neg2 > 0, json.dumps(neg2))
+        neg3 = await pg.evaluate("""(()=>{ const z=GAME.E.zone; const skip=new Set(GAME.E.lampGlows||[]); const vis=o=>{ const out=[]; o.traverse(m=>{ if((m.isMesh||m.isSprite)&&m.visible&&!skip.has(m)) out.push(m); }); return out; };
+            const g=z.group.children.find(o=>o.isGroup&&o.visible&&!(o.userData&&o.userData.ckTag)&&!/_glb$/.test(o.name)&&vis(o).length); if(!g) return null;
+            const ms=vis(g); ms.forEach(m=>m.visible=false); const r=%s; ms.forEach(m=>m.visible=true); return r; })()""" % OTHERS.strip())
+        run.check('（自我檢查）故意把一個沒有標記的群組藏起來時，「被藏起來的群組」會多一個', bool(neg3) and neg3['empty'] == others['empty'] + 1, json.dumps([others, neg3]))
         neg = await pg.evaluate("""(()=>{ const b=GAME.E.zone.group.children.find(o=>o.userData&&o.userData.ckTag==='library'); const m=b.children.find(o=>o.isMesh); m.visible=true;
             const n=b.children.filter(o=>(o.isMesh||o.isSprite)&&o.visible).length; m.visible=false; return n; })()""")
         run.check('（自我檢查）故意打開一個套件網格時，會被數到', neg > 0, json.dumps(neg))

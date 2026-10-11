@@ -126,4 +126,5 @@
 | Poly Haven `sandstone_blocks_08`（Rob Tuytel） | https://polyhaven.com/a/sandstone_blocks_08 | CC0 | 總圖的石材：拱廊柱頭柱腳、拱圈、門廊、樓層腰帶、簷口、窗框窗台（降低彩度、校正成淺米灰）；傅鐘的台基、柱子、梁、石碑 |
 | 傅鐘 `assets/models/env/second_ai/campus_bell.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_bell.py`（尺寸照套件 `CK.bell`；石碑的「傅鐘」是遊戲裡的 canvas 字；柱面暖光的漸層貼圖本作程式產生） | 本作 | 校園傅鐘廣場（取代套件 `CK.bell` 的外觀）。貼圖：`sandstone_blocks_08`（切石）、`grey_roof_tiles`（屋瓦）、`dark_wood`（木橫梁），上面列過的 Poly Haven CC0 |
 | 行政大樓外觀 `assets/models/env/second_ai/campus_admin.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_hall.py --set admin`（和總圖同一支腳本；位置、尺寸、樓層、開間照套件 `CK.hall`；匾額「行政大樓」是遊戲裡的 canvas 字） | 本作 | 校園椰林大道南側的行政大樓（取代套件 `CK.hall` 的外觀）。貼圖和總圖相同（上面列過的 Poly Haven CC0：面磚降低彩度後校正成米黃） |
+| 文學院、校史館外觀 `assets/models/env/second_ai/campus_arts.glb`、`campus_hist.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_hall.py --set arts／hist`（和總圖、行政大樓同一支腳本；位置、尺寸、樓層、開間照套件 `CK.hall`；匾額「文學院」「校史館」是遊戲裡的 canvas 字） | 本作 | 校園椰林大道北側的文學院、校史館（取代套件 `CK.hall` 的外觀）。貼圖和總圖相同（上面列過的 Poly Haven CC0） |
 
