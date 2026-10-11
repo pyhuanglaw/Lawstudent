@@ -101,6 +101,8 @@ const fmt=(r)=>JSON.stringify(r).slice(0,220);
   let r=both([0,5,0],[US.x,US.z,1]); check('一樓入口 → 大廳 → 樓梯 → 二樓門廳（模擬走路，不瞬移）',r.ok&&r.lv===1&&Math.abs(r.y-Y1)<0.05,fmt(r));
   const p=E.pathTo(0,5,0,US.x,US.z,1); check('這條路經過樓梯（第一跑、平台、第二跑），在樓梯上換到二樓',!!p&&p.some(q=>q[0]<-7.1&&q[1]>-3.4&&q[1]<5)&&p[p.length-1][2]===1,JSON.stringify(p&&p.map(q=>q.map(v=>+(+v).toFixed(1)))));
   r=both([US.x,US.z,1],[0,6,0]); check('二樓門廳 → 樓梯往下 → 一樓出口',r.ok&&r.lv===0&&Math.abs(r.y)<0.05,fmt(r));
+  r=run([0,5,0],[US.x,US.z,1]); check('跑步＋低幀率（4.1 m/s、dt 0.1）：一樓入口 → 樓梯 → 二樓門廳',r.ok,fmt(r));
+  r=run([US.x,US.z,1],[0,6,0]); check('跑步＋低幀率：二樓門廳 → 樓梯往下 → 一樓出口',r.ok,fmt(r));
   r=both([US.x,US.z,1],[ex2.x,ex2.z-0.3,1]); check('二樓「走出去」的門口走得到',r.ok&&r.lv===1,fmt(r));
   for(const d of L.doors){ const it=IT.find(i=>i.label===d.label); const rr=it&&both([0,5,0],[it.x,it.z+0.2,d.lv]); check(`門「${d.label}」（${d.lv+1}F）走得到、按下去是看得懂的說明`,!!rr&&rr.ok&&!!it.look&&it.lv===d.lv,fmt(rr)); }
   const bb=IT.find(i=>i.notice==='lawclub'); r=bb&&both([0,5,0],[bb.x,bb.z,0]); check('公告欄（法律服務社招募）還在一樓 (6,-5.6)、走得到',!!bb&&bb.x===6&&Math.abs(bb.z+5.6)<1e-9&&bb.lv===0&&r.ok,fmt(r));
