@@ -3,6 +3,7 @@ W3.lampPost／W3.bike（含 W3.bikeRack）／長椅 BENCH() 換成正式模型�
   1. 路燈：燈頭位置 (0, 3.95, 0.75) 不變——發光面中心在 (0, ~3.985, 0.8)、朝下；userData.lamp 是發光面網格（材質是套件原本的 MeshBasicMaterial）、userData.lightPos＝(0,3.9,0.75)。
   2. 腳踏車：沿 z 建模（車頭 +z）、外層 rotation.y＝π/2；兩輪在 z＝±0.47、輪心高 0.30；車架顏色照參數（頂點色）；停車架照舊能合併。
   3. 長椅：userData.seat.y＝0.45；寬約 1.35 m、深度在導航阻擋（1.4×0.7）裡；正面朝 +z。
+  3b. ⑥（2026-10-11）花台 W3.planter、公告欄 W3.bulletin、販賣機 W3.vending：是正式模型、外框在程序化版本的範圍（導航阻擋）裡、著地；校園畫面上有它們的材質。
   4. 一般網址與 ?nobldg（關掉正式模型）的導航格、互動點、座位完全相同（校園、溫州街、公館）。
   5. 載入失敗（把 street_props.glb 的請求擋掉）：照舊程序化，沒有 JS 例外、沒有空位。
   6. 記錄同一個鏡頭（藏起路人）的 draw call／三角形（校園：腳踏車、路燈最多的地方；資訊，不判定）。
@@ -27,11 +28,13 @@ CONTRACT = """(()=>{ const r=v=>Math.round(v*1000)/1000; const out={};
   const b2=W3.bike('#3070d0'); let f2=null; b2.traverse(o=>{ if(o.isMesh&&o.material.name==='bike_frame') f2=o; }); out.bike.sharedMat=!!(frame&&f2&&frame.material===f2.material);
   const rack=W3.bikeRack(7); let rm=0; rack.traverse(o=>{ if(o.isMesh) rm++; }); out.rack={meshes:rm};
   const z3=Z3; const be=(typeof ASSETS!=='undefined')?W3.formalBench():null; if(be){ be.updateMatrixWorld(true); const eb=new THREE.Box3().setFromObject(be); out.bench={formal:be.userData.formal||null, seatY:be.userData.seat&&be.userData.seat.y, box:[r(eb.min.x),r(eb.max.x),r(eb.min.y),r(eb.max.y),r(eb.min.z),r(eb.max.z)]}; } else out.bench=null;
+  for(const [k,fn] of [['planter',()=>W3.planter()],['bulletin',()=>W3.bulletin()],['vending',()=>W3.vending()]]){ const o=fn(); o.updateMatrixWorld(true); const bx=new THREE.Box3().setFromObject(o);
+    out[k]={formal:o.userData.formal||null, box:[r(bx.min.x),r(bx.max.x),r(bx.min.y),r(bx.max.y),r(bx.min.z),r(bx.max.z)]}; }
   return out; })()"""
 NAV_HASH = "(()=>{ const n=GAME.E.nav; let h=0; for(let i=0;i<n.b.length;i++){ h=(h*31+n.b[i]+i%7)>>>0; } return [n.cols,n.rows,h]; })()"
 STATE = """(()=>{ const E=GAME.E, z=E.zone; const r=v=>Math.round(v*100)/100; const it=E.interactables.map(i=>[i.label||'',r(i.x),r(i.z),r(i.radius||0)]).sort();
   const seats=(z.seats||[]).map(s=>[r(s.x),r(s.z),r(s.yaw||0)]).sort(); const mats={}; z.group.traverse(o=>{ if(o.isMesh&&o.visible){ const ms=Array.isArray(o.material)?o.material:[o.material]; for(const m of ms) if(m&&m.name) mats[m.name]=(mats[m.name]||0)+1; } });
-  return {it, seats, formalMats:['lamp_paint','bike_frame','bike_dark','bench_wood','bench_iron'].filter(k=>mats[k]).length}; })()"""
+  return {it, seats, formalMats:['lamp_paint','bike_frame','bike_dark','bench_wood','bench_iron'].filter(k=>mats[k]).length, props6:['planter_conc','board_cork','vend_body'].filter(k=>mats[k])}; })()"""
 DRAW = """(async(e,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
     const hid=E.npcs.map(n=>[n.obj,n.obj.parent]).filter(a=>a[1]); hid.forEach(a=>a[1].remove(a[0]));
     const f0=E.frame; for(let i=0;i<240&&E.frame<f0+4;i++) await new Promise(r=>setTimeout(r,250)); const ri=E.renderer.info.render; const out={calls:ri.calls, tris:ri.triangles}; hid.forEach(a=>a[1].add(a[0])); E.endCinematic(); return out; })"""
@@ -64,6 +67,12 @@ async def run_mode(p, run, mode):
         run.check('長椅：是正式模型、userData.seat.y＝0.45', E and E['formal'] == 'prop.street' and E['seatY'] == 0.45, json.dumps(E))
         eb = E['box'] if E else [0] * 6
         run.check('長椅：寬約 1.35 m、深度在導航阻擋（±0.35）裡、著地', E and 1.3 < eb[1] - eb[0] < 1.42 and eb[4] > -0.36 and eb[5] < 0.36 and abs(eb[2]) < 0.03, json.dumps(eb))
+        P6 = {k: c[k] for k in ('planter', 'bulletin', 'vending')}
+        run.check('⑥花台、公告欄、販賣機：是正式模型', all(v['formal'] == 'prop.street' for v in P6.values()), json.dumps(P6))
+        pb, bb_, vb = P6['planter']['box'], P6['bulletin']['box'], P6['vending']['box']
+        run.check('⑥花台：在導航阻擋（1.2×0.5）裡、著地（葉子可以稍微超出）', -0.66 <= pb[0] and pb[1] <= 0.66 and -0.3 <= pb[4] and pb[5] <= 0.3 and abs(pb[2]) < 0.03, json.dumps(pb))
+        run.check('⑥公告欄：柱子、板子在 x ±1.25 內、著地、正面朝 +z（雨遮在 2.3 m 以上可以往前伸）', -1.35 <= bb_[0] and bb_[1] <= 1.35 and abs(bb_[2]) < 0.03 and 2.3 < bb_[3] < 2.7, json.dumps(bb_))
+        run.check('⑥販賣機：1.1×1.9×0.8 的範圍裡（導航阻擋 0.9×1.2 轉 90°）、著地', -0.56 <= vb[0] and vb[1] <= 0.56 and abs(vb[2]) < 0.03 and 1.85 < vb[3] < 1.95 and -0.41 <= vb[4] and vb[5] <= 0.43, json.dumps(vb))
     res['zones'] = {}
     for zid, pos, views in ZONES:
         run.setup(f'{mode}：讀檔到 {zid} ({pos["x"]},{pos["z"]}) 11:00，關掉條件事件')
@@ -86,6 +95,8 @@ async def main():
         run.check(f'{zid}：導航格，正式模型＝?nobldg＝載入失敗', f['nav'] == n['nav'] == k['nav'], json.dumps([f['nav'], n['nav'], k['nav']]))
         run.check(f'{zid}：互動點、座位，正式模型＝?nobldg', f['it'] == n['it'] and f['seats'] == n['seats'], json.dumps([len(f['it']), len(n['it']), len(f['seats']), len(n['seats'])]))
         run.check(f'{zid}：正式模型的材質出現在畫面上；?nobldg、載入失敗時沒有（照舊程序化）', f['formalMats'] > 0 and n['formalMats'] == 0 and k['formalMats'] == 0, json.dumps([f['formalMats'], n['formalMats'], k['formalMats']]))
+        if zid == 'campus':
+            run.check('campus：⑥花台、公告欄、販賣機的正式模型在畫面上（法學院廣場、椰林大道的花台）；?nobldg、載入失敗時沒有', sorted(f['props6']) == ['board_cork', 'planter_conc', 'vend_body'] and not n['props6'] and not k['props6'], json.dumps([f['props6'], n['props6'], k['props6']]))
         run.note(f'{zid}：同一個鏡頭（藏起路人）的 draw call／三角形，正式 {json.dumps(f["draw"])}｜?nobldg {json.dumps(n["draw"])}')
     sys.exit(run.finish())
 
