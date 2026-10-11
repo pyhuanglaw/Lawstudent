@@ -104,6 +104,10 @@ async def check(pg, run, formal):
                   bn['lens'] > 1.0 and bd['lens'] < 0.05 and bn['wash'] > 0.5 and bd['wash'] < 0.05 and bn['washAdditive'], json.dumps({'11:00': bd, '20:30': bn}))
         run.check('傅鐘的光暈：兩個（GLOW_* 空節點），20:30 亮、11:00 不亮', bn['glows'] == 2 and bn['glowsOn'] == 2 and bd['glowsOn'] == 0, json.dumps({'11:00': bd, '20:30': bn}))
         run.check('傅鐘：藏起來的套件光暈晚上不會跑回來（TK.setNight 會重設 visible）', bn['kitSpritesOn'] == 0 and bd['kitSpritesOn'] == 0, json.dumps({'11:00': bd, '20:30': bn}))
+        neg2 = await pg.evaluate("""(()=>{ const E=GAME.E, kit=E.zone.group.children.find(o=>o.userData&&o.userData.ckTag==='bell'); const sp=kit.children.filter(o=>o.isSprite);
+            const saved=sp.map(s=>[s.userData.nightO,s.userData.dayO]); sp.forEach(s=>{ s.userData.nightO=0.55; s.userData.dayO=0; });   /* 模擬沒修的版本：藏起來的套件光暈還是照時段開關 */
+            E.applyTime(11); E.applyTime(20.5); const n=sp.filter(s=>s.visible).length; sp.forEach((s,i)=>{ s.userData.nightO=saved[i][0]; s.userData.dayO=saved[i][1]; }); E.applyTime(11); E.applyTime(17.5); return n; })()""")
+        run.check('（自我檢查）套件光暈照舊開關的話（沒修的版本），晚上會被數到', neg2 > 0, json.dumps(neg2))
         neg = await pg.evaluate("""(()=>{ const b=GAME.E.zone.group.children.find(o=>o.userData&&o.userData.ckTag==='library'); const m=b.children.find(o=>o.isMesh); m.visible=true;
             const n=b.children.filter(o=>(o.isMesh||o.isSprite)&&o.visible).length; m.visible=false; return n; })()""")
         run.check('（自我檢查）故意打開一個套件網格時，會被數到', neg > 0, json.dumps(neg))

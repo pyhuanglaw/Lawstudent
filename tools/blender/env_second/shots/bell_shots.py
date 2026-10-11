@@ -7,7 +7,7 @@ OUT = 'docs/art-rebuild/second_ai/shots/'
 # 校園座標：x 往東、−z 往北；傅鐘在 (−38,16.5)、石碑朝北（z=13.45）對著椰林大道（z=0）；行政大樓在後面（南邊）
 VIEWS = [('avenue', {'x': -38, 'z': 3, 'yaw': math.pi}, [-38, 1.7, 3.5], [-38, 3.2, 16.5]),          # 從椰林大道看傅鐘（後面是行政大樓）
          ('close', {'x': -35.5, 'z': 12, 'yaw': math.pi}, [-35.6, 1.6, 12.4], [-38, 2.8, 16.5]),     # 斜前方近看（銅鐘、柱子、石碑）
-         ('under', {'x': -36.6, 'z': 15, 'yaw': math.pi}, [-36.7, 1.5, 15.2], [-38, 3.1, 16.5])]     # 站在鐘亭邊抬頭看鐘
+         ('side', {'x': -34.6, 'z': 16.3, 'yaw': -math.pi / 2}, [-34.6, 1.6, 16.3], [-38, 2.9, 16.5])]   # 台基東邊外面、兩根柱子中間抬頭看鐘（台基整個不能走：鏡頭不放在鐘亭裡；斜角看會被轉角的柱子擋住）
 TIMES = [(11, '1100'), (17.5, '1730'), (20.5, '2030')]
 WAIT = "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='campus_bell_glb')) return 'formal'; await new Promise(r=>setTimeout(r,250)); } return 'timeout'; })()"
 quick = '--quick' in sys.argv
