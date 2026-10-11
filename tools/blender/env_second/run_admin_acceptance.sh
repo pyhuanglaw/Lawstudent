@@ -5,7 +5,7 @@
 # 三時段前後比較圖（修改前＝只擋掉 campus_admin.glb）。模擬器（SwiftShader）一次只跑一個瀏覽器工作。
 # 用法：bash tools/blender/env_second/run_admin_acceptance.sh [log 資料夾] [tests|shots|audit|all] [網址]
 cd "$(dirname "$0")/../../.."
-LOG=${1:-docs/art-rebuild/second_ai/test_logs/admin}; WHAT=${2:-all}; U=${3:-http://127.0.0.1:8774/index.html}; mkdir -p "$LOG"
+LOG=${1:-docs/art-rebuild/second_ai/test_logs/admin}; WHAT=${2:-all}; U=${3:-http://127.0.0.1:8776/index.html}; mkdir -p "$LOG"
 keep(){ local d=docs/art-rebuild/second_ai/test_shots/admin/$1; mkdir -p "$d"; git status --porcelain -- screenshots docs/art-rebuild/screenshots | sed 's/^...//' | while read -r f; do [ -f "$f" ] && cp "$f" "$d/"; done; git checkout -q -- screenshots docs/art-rebuild/screenshots 2>/dev/null; }
 run(){ local name=$1; shift; echo "=== $name $(date -u +%H:%M:%S)"; timeout 3600 "$@" > "$LOG/$name.log" 2>&1; echo "exit $? $(date -u +%H:%M:%S)"; grep -E "^(ALL PASS|FAILED|RESULT)" "$LOG/$name.log" | tail -2; keep "$name"; }
 if [ "$WHAT" = tests ] || [ "$WHAT" = all ]; then
