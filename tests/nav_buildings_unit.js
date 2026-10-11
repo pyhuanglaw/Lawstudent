@@ -3,6 +3,7 @@
 //   校園：廣場 → 前台階 → 穿堂 → 大廳門口；穿堂 → 後台階 → 後面的小廣場；穿堂裡站得住、高度 0.9
 //   霖澤館：入口 → 大廳 → 樓梯 → 二樓 → 201 教室門；二樓 → 樓梯 → 入口；電梯門關著不能走進車廂、門開著可以
 //   201 教室：門口（最上面）→ 每一個座位（48 個）「坐下」走到的位置（GAME.seatApproach 的規則：椅子後面 0.6 m、同一排的平台）→ 回到門口
+//   萬才館室內（第三階段，D42）：一樓大廳的舊座標（劇情、社團、助教、舊存檔）站得住、走得到；入口 → 樓梯（往南爬）→ 二樓門廳；二樓 → 一樓；電梯；二樓的邊不能跳下去
 // 這是模擬（證明路走得通、高度對），不是真實玩家流程；真實流程在 tests/flow_linze_floors.py。
 // 用法：node tests/nav_buildings_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -11,7 +12,7 @@ global.window=global; global.self=global;
 const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
 global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
 global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
-const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js'];
+const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js'];
 for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
 const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
@@ -51,8 +52,9 @@ const fmt=(r)=>JSON.stringify(r).slice(0,220);
     const p=E.pathTo(plaza[0],plaza[1],0,top[0],top[1],1); check('這條路經過大樓梯、在樓梯上換到第 1 層',!!p&&p.some(q=>q[1]>Z0&&q[1]<Z0+W.L&&Math.abs(q[0]-SX)<W.hw(1))&&p[p.length-1][2]===1,JSON.stringify(p&&p.map(q=>q.map(v=>+(+v).toFixed(1)))));
     r=both(top,plaza); check('陽台 → 平台 → 大樓梯往下 → 廣場（回到地面那一層、高 0）',r.ok&&r.lv===0&&Math.abs(r.y)<0.05,fmt(r));
     r=both([SX,Z0+W.L/2,0],top); check('從樓梯中間（地面那一層）往上走到陽台',r.ok&&r.lv===1,fmt(r));
-    const d2=E.interactables.find(i=>i.label==='萬才館二樓入口'), d1=E.interactables.find(i=>i.label==='進入萬才館');
-    check('二樓入口在第 1 層（看得懂的告示、這一版關著）；一樓入口在地面那一層',!!d2&&d2.lv===1&&!!d2.look&&!!d1&&d1.lv===0,d2&&d2.look);
+    const d2=E.interactables.find(i=>i.exit&&i.exit.to==='wancai'&&i.lv===1), d1=E.interactables.find(i=>i.label==='進入萬才館');
+    check('二樓入口在第 1 層、進到萬才館室內二樓（第三階段，D42）；一樓入口在地面那一層',!!d2&&d2.exit.spawn.lv===1&&!!d1&&d1.lv===0&&d1.exit.spawn.lv===undefined,d2&&JSON.stringify(d2.exit));
+    const back=WC3.CAMPUS_2F; check('從萬才館二樓出來的位置（平台，第 1 層）站得住、離二樓入口 ≥ 半徑＋0.3（不會一出來就又跳出進門按鈕）',E.canStand(back.x,back.z,0.32,1)&&Math.hypot(back.x-d2.x,back.z-d2.z)>=d2.radius+0.3,`(${back.x},${back.z}) 距離 ${Math.hypot(back.x-d2.x,back.z-d2.z).toFixed(2)}`);
     r=both(plaza,[d2.x,d2.z+0.3,1]); check('二樓入口走得到（平台）',r.ok&&r.lv===1,fmt(r));
     r=both(top,[93.8,-98.6,0]); check('陽台 → 下樓梯 → 繞到陽台下面的一樓入口',r.ok&&r.lv===0&&Math.abs(r.y)<0.05,fmt(r));
     r=both([93.8,-98.4,0],[34,-98,0]); check('從萬才館一樓出來（陽台前）走回霖澤館前：路線經過大樓梯下面往外張開的地方，不會卡在石牆盡頭旁邊（reachability_all 抓到的）',r.ok&&Math.abs(r.y)<0.05,fmt(r));
@@ -78,6 +80,34 @@ const fmt=(r)=>JSON.stringify(r).slice(0,220);
   el.isOpen=false; el.lv=0; el.setCells();
   check('二樓迴廊邊（中庭）不能直接跳下一樓',!E.canStand(0,-2.6,0.32,1));
   for(const f of L.furniture){ if(f.type==='board') continue; } }
+// ---------- 萬才館室內（第三階段：兩層樓，D42）----------
+{ const z=loadZone('wancai'); const L=WANCAI_LAYOUT, Y1=L.floors[1].y, IT=E.interactables, H0=(x,zz)=>z.levels[0].heightAt(x,zz);
+  check('萬才館：兩層導航格、二樓地板 4.2',z.levels.length===2&&z.levels[1].y0===Y1);
+  // 一樓沿用 v9.3 的大廳：舊的座標都還站得住、在地面、從入口走得到（src/story3d.js 的劇情站位、CLUB_SPOTS、TA_SPOT；舊存檔）
+  const OLD=[[0,6,'出生點'],[0,5,'從校園進來'],[4,-5,'溫學姊（下午）'],[-5,1.2,'教授'],[-3,3.6,'社團／溫學姊（週三）'],[3,3.6,'社團'],[0,4.6,'社團'],[-6,0.5,'社團'],[6,0.5,'社團'],[-1.5,-2.5,'社團'],[2.6,-4.5,'助教']];
+  let bad=OLD.filter(([x,zz])=>!E.canStand(x,zz,0.32,0)||H0(x,zz)!==0); check('一樓：v9.3 大廳的座標都還站得住、在地面（劇情、社團、助教、舊存檔）',!bad.length,bad.map(o=>o[2]+'('+o[0]+','+o[1]+')').join('、'));
+  bad=[]; for(const [x,zz,n] of OLD){ const r=both([0,5,0],[x,zz,0]); if(!r.ok) bad.push(n+' '+fmt(r)); } check('一樓：從入口走得到這些位置',!bad.length,bad.slice(0,3).join(' | '));
+  const ex1=IT.find(i=>i.exit&&i.exit.to==='campus'&&i.lv===0), ex2=IT.find(i=>i.exit&&i.exit.to==='campus'&&i.lv===1);
+  check('一樓「離開萬才館」（回到陽台下的一樓入口前面，和 v9.3 一樣）、二樓「走出去」（回到大樓梯頂端的平台，校園第 1 層）',!!ex1&&!!ex2&&ex1.x===0&&Math.abs(ex1.z-6.6)<1e-9&&ex1.exit.spawn.x===93.8&&ex1.exit.spawn.z===-98.4&&ex2.exit.spawn.lv===1,JSON.stringify([ex1&&ex1.exit.spawn,ex2&&ex2.exit.spawn]));
+  const US=L.upperDoor.spawn; check('從平台進來的位置（二樓門廳）站得住、離「走出去」≥ 半徑＋0.3',E.canStand(US.x,US.z,0.32,1)&&Math.hypot(US.x-ex2.x,US.z-ex2.z)>=ex2.radius+0.3,`距離 ${Math.hypot(US.x-ex2.x,US.z-ex2.z).toFixed(2)}`);
+  check('樓梯（往南爬）：最下面在北邊 0 m、中間平台 2.18 m、最上面 4.2 m',Math.abs(H0(-8,-3.39))<0.02&&Math.abs(H0(-8,1.0)-2.184)<1e-6&&Math.abs(H0(-8,4.95)-Y1)<1e-6,`${H0(-8,-3.39).toFixed(3)} / ${H0(-8,1.0)} / ${H0(-8,4.95)}`);
+  let r=both([0,5,0],[US.x,US.z,1]); check('一樓入口 → 大廳 → 樓梯 → 二樓門廳（模擬走路，不瞬移）',r.ok&&r.lv===1&&Math.abs(r.y-Y1)<0.05,fmt(r));
+  const p=E.pathTo(0,5,0,US.x,US.z,1); check('這條路經過樓梯（第一跑、平台、第二跑），在樓梯上換到二樓',!!p&&p.some(q=>q[0]<-7.1&&q[1]>-3.4&&q[1]<5)&&p[p.length-1][2]===1,JSON.stringify(p&&p.map(q=>q.map(v=>+(+v).toFixed(1)))));
+  r=both([US.x,US.z,1],[0,6,0]); check('二樓門廳 → 樓梯往下 → 一樓出口',r.ok&&r.lv===0&&Math.abs(r.y)<0.05,fmt(r));
+  r=both([US.x,US.z,1],[ex2.x,ex2.z-0.3,1]); check('二樓「走出去」的門口走得到',r.ok&&r.lv===1,fmt(r));
+  for(const d of L.doors){ const it=IT.find(i=>i.label===d.label); const rr=it&&both([0,5,0],[it.x,it.z+0.2,d.lv]); check(`門「${d.label}」（${d.lv+1}F）走得到、按下去是看得懂的說明`,!!rr&&rr.ok&&!!it.look&&it.lv===d.lv,fmt(rr)); }
+  const bb=IT.find(i=>i.notice==='lawclub'); r=bb&&both([0,5,0],[bb.x,bb.z,0]); check('公告欄（法律服務社招募）還在一樓 (6,-5.6)、走得到',!!bb&&bb.x===6&&Math.abs(bb.z+5.6)<1e-9&&bb.lv===0&&r.ok,fmt(r));
+  const seats=IT.filter(i=>i.seat); check('兩張沙發都能坐（一樓，位置和 v9.3 一樣）',seats.length===2&&seats.every(s=>s.lv===0)&&seats.some(s=>s.seat.x===-5&&s.seat.z===2)&&seats.some(s=>s.seat.x===5&&s.seat.z===2));
+  const el=z.elev; const inside=[el.cx,el.inZ];
+  check('電梯：門關著時車廂裡站不住（一樓、二樓都是）',!E.canStand(inside[0],inside[1],0.3,0)&&!E.canStand(inside[0],inside[1],0.3,1));
+  el.isOpen=true; el.lv=0; el.setCells(); r=both([el.cx,el.outZ,0],[inside[0],inside[1],0]); check('電梯在一樓、門開著：從大廳走得進車廂',r.ok&&r.lv===0,fmt(r)); check('（同時二樓那邊還是進不去）',!E.canStand(inside[0],inside[1],0.3,1));
+  el.lv=1; el.setCells(); r=both([inside[0],inside[1],1],[el.cx,el.outZ,1]); check('電梯到二樓、門開著：從車廂走得出去到二樓走廊',r.ok&&r.lv===1&&Math.abs(r.y-Y1)<0.05,fmt(r));
+  el.isOpen=false; el.lv=0; el.setCells();
+  r=both([el.cx,el.outZ,1],[US.x,US.z,1]); check('二樓走廊 → 西側迴廊 → 門廳（不用下樓）',r.ok&&r.lv===1,fmt(r));
+  const calls=IT.filter(i=>i.elevator); check('兩層都有「搭電梯」',calls.length===2&&calls.some(c=>c.lv===0)&&calls.some(c=>c.lv===1));
+  check('二樓走廊邊（中庭）、迴廊邊（中庭）、樓梯井邊不能直接跳下一樓',!E.canStand(0,-1.4,0.3,1)&&!E.canStand(-4.7,2,0.3,1)&&!E.canStand(-7.8,-1.0,0.3,1));
+  check('一樓：樓梯東側有欄杆，不能從側面跨上樓梯；樓梯頂端後面的角落進不去',!E.canStand(-7.0,1.0,0.3,0)&&!E.canStand(-8.0,6.0,0.3,0));
+  check('點地面：一樓地板、二樓地板、樓梯都打得到',['0','1'].every(lv=>z.walkMeshes.some(m=>String(m.userData.walkLv|0)===lv))&&z.walkMeshes.length>=8,`${z.walkMeshes.length} 片`); }
 // ---------- 201 階梯教室 ----------
 { const z=loadZone('classroom'); const sp=z.spawn; const S=z.seats; const IT=E.interactables;
   check('階梯教室：6 排 × 8 個座位、每排高 30 cm',S.length===48&&S.every(s=>Math.abs(s.y-0.3*(s.row+1))<1e-6),`${S.length} 個座位`);
