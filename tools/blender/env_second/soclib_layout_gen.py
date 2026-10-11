@@ -78,15 +78,27 @@ def clear_of_furniture(x, z):
         if t == 'readingTable' and abs(x - f['x']) < f['w'] / 2 + 0.9 and abs(z - f['z']) < f['d'] / 2 + 1.4: return False
         if t == 'lounge' and abs(x - f['x']) < 2.2 and abs(z - f['z']) < 1.6: return False
     return True
-for j, z in enumerate([-7.0, -3.0, 1.0, 4.8]):
-    for i, x in enumerate([-11.6, -7.2, -2.8, 1.6, 6.0, 10.4]):
-        xx = x + (1.1 if j % 2 else 0.0) + rng.uniform(-0.45, 0.45); zz = z + rng.uniform(-0.4, 0.4)
+for j, z in enumerate([-7.6, -4.3, -1.0, 2.3, 5.4]):
+    for i, x in enumerate([-12.0, -8.4, -4.8, -1.2, 2.4, 6.0, 9.6, 13.2]):
+        xx = x + (1.8 if j % 2 else 0.0) + rng.uniform(-0.5, 0.5); zz = z + rng.uniform(-0.4, 0.4)
         if zz > 3.8 and xx < -2.5: continue                                  # 入口、閘門、服務台那一帶不放柱子
         if xx > X1 - 1.8 or xx < X0 + 2.0: continue
         if not clear_of_furniture(xx, zz): continue
-        if any(math.hypot(xx - c['x'], zz - c['z']) < 3.2 for c in cols): continue
+        if any(math.hypot(xx - c['x'], zz - c['z']) < 2.7 for c in cols): continue
         cols.append({'x': round(xx, 2), 'z': round(zz, 2), 'r': round(rng.uniform(0.15, 0.21), 3), 'cap': round(rng.uniform(1.7, 2.3), 2)})
+for c in cols: c['capY'] = round(rng.uniform(4.75, 5.25), 2)            # 柱頂（荷葉）的高度不一樣：一片一片錯開，像樹冠
 L['columns'] = cols
+# 天窗：屋頂上圓形的開口（底下是短短的光井、頂上是天空色的面板）；放在荷葉柱頂之間的空隙
+sky = []
+for z in [Z0 + 1.6 + k * 1.55 for k in range(13)]:
+    for x in [X0 + 1.6 + k * 1.55 for k in range(18)]:
+        xx, zz = x + rng.uniform(-0.35, 0.35), z + rng.uniform(-0.35, 0.35)
+        if not (X0 + 1.2 < xx < X1 - 1.2 and Z0 + 1.2 < zz < Z1 - 1.6): continue
+        r = round(rng.uniform(0.45, 0.8), 2)
+        if any(math.hypot(xx - c['x'], zz - c['z']) < c['cap'] + r + 0.15 for c in cols): continue
+        if any(math.hypot(xx - u['x'], zz - u['z']) < r + u['r'] + 0.5 for u in sky): continue
+        sky.append({'x': round(xx, 2), 'z': round(zz, 2), 'r': r})
+L['skylights'] = sky
 L['furniture'] = F
 L['seats'] = SEATS
 L['signs'] = [{'text': '社會科學院圖書館', 'x': -2.0, 'z': Z1 - WT / 2 - 0.02, 'y': 3.6, 'ry': round(math.pi, 4), 'w': 3.6}]
