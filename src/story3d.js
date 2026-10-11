@@ -212,7 +212,7 @@ const STORY = (function(){
     GM.standUp(P); GM.sceneEnd(); }
   async function bedScene(GM){ const G=GM.G, F=G.flags; GM.sceneBegin(); if(G.day===1&&!F.readCase){ const i=await GM.choose([{t:'還沒讀案例，先睡了'},{t:'等等，先去看一下'}]); if(i===1){ GM.sceneEnd(); return; } F.readCase='none'; GM.memo('沒有讀案例就睡了'); } const i=await GM.choose([{t:'睡覺',hint:'明天早上醒來'},{t:'再撐一下'}]); GM.sceneEnd(); if(i===0) await sleepNow(GM); }
   /* 生活費（D48；2026-10-11 使用者＋AA 的企劃：每月 25,000 元，只用在生活——宿舍、學費、手機家裡另外付；每月 1 日匯進帳戶；額外收入只有過年紅包和可選的打工）。
-     遊戲畫面沒有日期：第一天是「開學第三週的週三」（AA 的企劃），先假設是 9/17（9/1 開學），只用來算「每月 1 日」；企劃組給了日期就改 CAL0。
+     遊戲畫面沒有日期：第一天是「開學第三週的週三」＝9/17（9/1 週一開學；AA 2026-10-11 09:28Z 確認），只用來算「每月 1 日」；企劃的週曆改了就改 CAL0。
      開局：帳戶約 20,000＋錢包約 2,000（game3d.js defaults 的 money 22000；S.newGame 設 fundsV2）。舊存檔（沒有 fundsV2）：下一個早上補帳戶裡的 20,000 元一次——
      讀檔本身不改錢（tests/save_compat_v7.py 檢查讀檔前後金錢一樣）。睡覺一次只過一天，所以「換月份的第一個早上」就是 1 日。測試：node tests/allowance_unit.js */
   const CAL0={m:9,d:17}, MDAYS=[31,28,31,30,31,30,31,31,30,31,30,31];

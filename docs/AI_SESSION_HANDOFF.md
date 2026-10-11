@@ -198,11 +198,11 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
   - LAWWW-B 第一次上線時測兩件事：用 `list_sessions` 看不看得到帳號 A 的工作階段；對 LAWWW 的 session ID 傳一則測試訊息（例如「跨帳號通訊測試，不用回覆」）。
   - 把結果寫進下表。
   - 不通就全部靠 GitHub：進度檔、這份總入口、交接板、看板。
-- 只要有一則重要訊息不能確定對方收到，就同時寫進 GitHub（自己的進度檔或看板），不能只存在對話裡。
+- **重要訊息一律同時寫進 GitHub**（自己的進度檔或看板），不能只存在對話裡。同一個帳號內的 `send_message` 顯示 DELIVERED，對方也可能沒看到（2026-10-11 實際發生）。對方 30 分鐘內沒 ACK，就再傳一次並寫在看板。
 
 | 測試 | 結果 | 日期 | 測試者 |
 |---|---|---|---|
-| 帳號 A 內部：LAWWW ⇄ LAWWW2、LAWWW → AA、BB | DELIVERED（紀錄在 `docs/DUAL_AI_BOARD.md`） | 2026-10-10～11 | LAWWW |
+| 帳號 A 內部：LAWWW ⇄ LAWWW2、LAWWW → AA、BB | 工具大多回 DELIVERED，紀錄在 `docs/DUAL_AI_BOARD.md`。**但送達不保證對方看到**：2026-10-11 LAWWW → LAWWW2 有三則顯示 DELIVERED、對方的對話裡沒有，它是讀看板才知道的 | 2026-10-10～11 | LAWWW、LAWWW2 |
 | 帳號 B → 帳號 A（`list_sessions`、`send_message`） | 未實測 | — | LAWWW-B 第一次上線時 |
 | 帳號 A → 帳號 B | 未實測 | — | 回到帳號 A 時的 LAWWW |
 
