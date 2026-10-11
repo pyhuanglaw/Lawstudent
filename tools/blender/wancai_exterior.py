@@ -105,7 +105,7 @@ def prism(tag, mat, pts, y0, y1, top=True, bottom=False, parent=None, side_mat=N
     def build(do_top, do_sides, m):
         bm = bmesh.new(); vb = [bm.verts.new(B.g2b(x, y0, z)) for (x, z) in pts]; vt = [bm.verts.new(B.g2b(x, y1, z)) for (x, z) in pts]
         if do_top and top: bm.faces.new(vt)
-        if do_top and bottom: bm.faces.new(vb[::-1])
+        if do_sides and bottom: bm.faces.new(vb[::-1])   # 底面跟著側面的材質（陽台底下是混凝土，不是踏面的石材）
         if do_sides:
             for i in range(n): j = (i + 1) % n; bm.faces.new((vb[i], vb[j], vt[j], vt[i]))
         bm.normal_update(); B.box_uv(bm, m['tile'] if 'tile' in m else 1.0)
@@ -373,5 +373,5 @@ B.join_by_material(root, 'EXT')
 st = B.export(OUT, ROOT, gpu_instances=True)
 print('window kinds', {str(k): len(v) for k, v in WINS.items()})
 if RENDER:
-    B.render_views(RENDER, 'wancai_ext', [('front', (4.0, 2.2, 46.0), (0.0, 9.0, 0.0)), ('stairs', (-1.0, 1.7, 26.0), (-1.0, 3.0, 10.0)), ('balcony', (7.0, 5.3, 12.6), (-6.0, 4.0, 15.0)), ('corner', (30.0, 3.0, 34.0), (0.0, 12.0, 0.0))],
+    B.render_views(RENDER, 'wancai_ext', [('front', (4.0, 6.0, 58.0), (0.0, 15.0, 0.0)), ('stairs', (-1.0, 1.7, 26.0), (-1.0, 3.0, 10.0)), ('balcony', (7.0, 5.3, 12.6), (-6.0, 4.0, 15.0)), ('corner', (30.0, 3.0, 34.0), (0.0, 12.0, 0.0))],
                    lights=[(5.8, 2.6, 11.4, 300)], lens=20)
