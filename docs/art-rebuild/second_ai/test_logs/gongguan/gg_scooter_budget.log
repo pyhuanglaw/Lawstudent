@@ -1,0 +1,51 @@
+{
+ "scooters": 60,
+ "kit_each": {
+  "count": 60,
+  "trisEach": 1050,
+  "shadowTrisEach": 880
+ },
+ "formal_each": {
+  "scooter_a": {
+   "tris": 1388,
+   "meshes": 3
+  },
+  "scooter_b": {
+   "tris": 1664,
+   "meshes": 3
+  }
+ },
+ "formal_total_tris": 88920,
+ "views": {
+  "street_west": {
+   "now_tris": 369494,
+   "now_calls": 171,
+   "kit_scooter_tris_in_view": 27930,
+   "estimate_tris_with_formal": 430484,
+   "limit": 420000
+  },
+  "from_gate": {
+   "now_tris": 369592,
+   "now_calls": 180,
+   "kit_scooter_tris_in_view": 38390,
+   "estimate_tris_with_formal": 420122,
+   "limit": 420000
+  },
+  "arcade": {
+   "now_tris": 369480,
+   "now_calls": 171,
+   "kit_scooter_tris_in_view": 26716,
+   "estimate_tris_with_formal": 431684,
+   "limit": 420000
+  },
+  "lane": {
+   "now_tris": 365126,
+   "now_calls": 145,
+   "kit_scooter_tris_in_view": 18480,
+   "estimate_tris_with_formal": 435566,
+   "limit": 420000
+  }
+ },
+ "fits": false,
+ "errors": []
+}

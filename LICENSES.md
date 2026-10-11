@@ -121,5 +121,6 @@
 | 宿舍雙人房室內 `assets/models/env/second_ai/dorm_interior.glb` | 本作 Blender 腳本 `tools/blender/env_second/dorm_interior.py` | 本作 | `dorm` 室內區域。貼圖：`terrazzo_tiles`（地板、窗台）、`walnut_veneer`（家具、門）（上面列過的 Poly Haven CC0）、`painted_plaster_wall`（牆；第一個 AI 已下載到 `tools/blender/textures/`，只讀使用） |
 | 公館店面街 `assets/models/env/second_ai/gongguan_shops.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_street.py --set gongguan`（店名、招牌字是遊戲裡的 canvas 字，不仿真實店家） | 本作 | 公館羅斯福路南側 15 棟騎樓店面＋往溫州街的巷口轉角。貼圖和溫州街公寓相同（上面列過的 Poly Haven CC0） |
 | 總圖書館外觀 `assets/models/env/second_ai/campus_library.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_library.py`（位置、尺寸、樓層、開間照套件 `CK.hall`；匾額「總圖書館」是遊戲裡的 canvas 字） | 本作 | 校園椰林大道東端的總圖（取代套件 `CK.hall` 的外觀）。貼圖：`exterior_wall_cladding_02`（面磚）、`sandstone_blocks_08`（切石）、`grey_roof_tiles`（屋瓦）、`dark_wood`（大門），以及 `granite_tile_03`（勒腳、地坪；第一個 AI 已下載到 `tools/blender/textures/`，只讀使用） |
-| Poly Haven `sandstone_blocks_08`（Rob Tuytel） | https://polyhaven.com/a/sandstone_blocks_08 | CC0 | 總圖的石材：拱廊柱頭柱腳、拱圈、門廊、樓層腰帶、簷口、窗框窗台（降低彩度、校正成淺米灰） |
+| Poly Haven `sandstone_blocks_08`（Rob Tuytel） | https://polyhaven.com/a/sandstone_blocks_08 | CC0 | 總圖的石材：拱廊柱頭柱腳、拱圈、門廊、樓層腰帶、簷口、窗框窗台（降低彩度、校正成淺米灰）；傅鐘的台基、柱子、梁、石碑 |
+| 傅鐘 `assets/models/env/second_ai/campus_bell.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_bell.py`（尺寸照套件 `CK.bell`；石碑的「傅鐘」是遊戲裡的 canvas 字；柱面暖光的漸層貼圖本作程式產生） | 本作 | 校園傅鐘廣場（取代套件 `CK.bell` 的外觀）。貼圖：`sandstone_blocks_08`（切石）、`grey_roof_tiles`（屋瓦）、`dark_wood`（木橫梁），上面列過的 Poly Haven CC0 |
 
