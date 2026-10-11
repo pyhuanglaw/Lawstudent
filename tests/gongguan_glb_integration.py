@@ -10,6 +10,8 @@
   5. 太陽方向：中午太陽在南邊（公館的區域座標 +x＝南，sunYaw＝π/2）。
   6. 效能：同一個鏡頭（藏起路人；含陰影那一輪、含玩家）draw call ≤ ?nobldg 的 1.3 倍、三角形 ≤ 42 萬。
   7. ?nobldg：沒有載入正式模型，套件店面照舊參加整區靜態合併（不是 dyn）。
+  8. 機車（LAWWW 2026-10-11 03:47Z ⑧）：60 台套件機車整組藏起來、換成正式模型（bldg.wz_scooter 兩款）的 InstancedMesh，**分組**（北側 5 組、南側 3 組，每組 6～9 台；
+     每組各自一套 InstancedMesh，看不到的那一組整組被剔除）；台數、每台的車殼顏色和套件相同；每個鏡頭至少有一組在畫面外（分組有用）。?nobldg：機車照舊直接放在區域裡。
 [前置／捷徑]：用遊戲自己的讀檔把玩家放到公館（GAME.applySave），關掉條件事件；直接設鏡頭位置截圖與量 draw call。
 用法：python3 tests/gongguan_glb_integration.py http://127.0.0.1:8765/index.html
 """
@@ -26,6 +28,13 @@ TENANT = ['G01', 'G04', 'G06', 'G07', 'G08', 'G10', 'G12', 'G14']      # 樓上�
 SIGN2F = ['G02', 'G05', 'G09', 'G11', 'G13']                          # 二樓整面大招牌
 ROOF = ['G07']                                                        # 屋頂看板
 GLB = 'gongguan_shops_glb'
+SETTLED = "(async()=>{ for(let i=0;i<480;i++){ const A=ASSETS; const n=Object.keys(A.status).filter(k=>!A.cache[k]&&!A.errors.some(e=>e.startsWith(k+':'))).length; if(!n) return i; await new Promise(r=>setTimeout(r,250)); } return -1; })()"
+# 機車的分組（zones3d.js gongguan 區塊的 scRow）：北側 N0–N4、南側 S0–S2
+SC_GROUPS = {'N0': 6, 'N1': 6, 'N2': 8, 'N3': 7, 'N4': 9, 'S0': 6, 'S1': 9, 'S2': 9}
+SC_VIS = """(()=>{ const E=GAME.E, cam=E.camera; cam.updateMatrixWorld(); const fr=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse));
+    const out=E.zone.group.children.find(o=>o.name==='gg_scooters_glb'); if(!out) return null; const seen=new Set(), all=new Set(); const sp=new THREE.Sphere();
+    out.children.forEach(m=>{ if(!m.isInstancedMesh||!m.userData.scGroup) return; all.add(m.userData.scGroup); m.updateMatrixWorld(); sp.copy(m.boundingSphere).applyMatrix4(m.matrixWorld); if(fr.intersectsSphere(sp)) seen.add(m.userData.scGroup); });
+    return {seen:[...seen].sort(), all:all.size}; })()"""
 WAIT_FORMAL = "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='%s')) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()" % GLB
 NAV_HASH = "(()=>{ const n=GAME.E.nav; let h=0; for(let i=0;i<n.b.length;i++){ h=(h*31+n.b[i]+i%7)>>>0; } return [n.cols,n.rows,h, n.b.reduce((a,v)=>a+(v?1:0),0)]; })()"
 STATE = """(()=>{ const E=GAME.E; const r=v=>Math.round(v*100)/100;
@@ -33,9 +42,10 @@ STATE = """(()=>{ const E=GAME.E; const r=v=>Math.round(v*100)/100;
     const it=E.interactables.map(i=>[i.label||'',r(i.x),r(i.z),r(i.radius||0)]).sort();
     return {col, it}; })()"""
 # 沒有標記的群組（捷運出口、校門、路燈、立牌、背景…）：數「底下沒有任何看得到的網格／sprite」的群組，正式模型和 ?nobldg 必須一樣多（多了＝藏錯東西）。
+# 機車（userData.ggScooter；有正式模型時在 gg_kit_scooters 裡）另外檢查（第 8 項）：?nobldg 的套件機車直接放在區域裡、合併後是空的群組，兩邊的數法不同
 # 路燈的光暈與地面光圈（E.lampGlows）不算：遊戲時鐘在跑，兩輪量的時候一個還沒開燈、一個已經開燈（第一次跑就因為這樣差了 18 個＝18 盞路燈）
 OTHERS = """(()=>{ const z=GAME.E.zone; let n=0, empty=0; const skip=new Set(GAME.E.lampGlows||[]); const shown=m=>{ for(let p=m;p&&p!==z.group;p=p.parent) if(!p.visible) return false; return true; };
-    for(const o of z.group.children){ if(!o.isGroup||(o.userData&&o.userData.ggShop)||/_glb$/.test(o.name)) continue; n++; let vis=false; o.traverse(m=>{ if(!vis&&(m.isMesh||m.isSprite)&&!skip.has(m)&&shown(m)) vis=true; }); if(!vis) empty++; }
+    for(const o of z.group.children){ if(!o.isGroup||(o.userData&&(o.userData.ggShop||o.userData.ggScooter))||/_glb$/.test(o.name)||o.name==='gg_kit_scooters') continue; n++; let vis=false; o.traverse(m=>{ if(!vis&&(m.isMesh||m.isSprite)&&!skip.has(m)&&shown(m)) vis=true; }); if(!vis) empty++; }
     return {n, empty}; })()"""
 DRAW = """(async(e,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
     const hid=E.npcs.map(n=>[n.obj,n.obj.parent]).filter(a=>a[1]); hid.forEach(a=>a[1].remove(a[0]));   /* 路人每次的位置不同（量測雜訊）：量的時候暫時移出場景，只比場景 */
@@ -49,6 +59,7 @@ VIEWS = [('street_west', (-22, 1.7, 11), (-62, 4.5, 19)),     # 人行道往西�
 
 async def check(pg, run, formal):
     run.setup('讀檔到公館人行道 (−30,14) 17:30，關掉條件事件')
+    await pg.evaluate(SETTLED)   # 開機預載的街道道具（路燈、腳踏車）要在建公館之前載好（W3.lampPost()／W3.bike() 是同步建立的；校園 2026-10-11 的教訓）
     await PL.load_state(pg, {'zone': 'gongguan', 'hour': 17.5, 'pos': {'x': -30, 'z': 14, 'yaw': 1.5708}}, quiet_events=True)
     if formal: run.check('公館店面的正式模型接上', await pg.evaluate(WAIT_FORMAL))
     else:
@@ -112,6 +123,17 @@ async def check(pg, run, formal):
         run.check('頂點色合併的網格（不是 instancing）會投影、instancing 的不投影', all(v == (not k.endswith('[inst]')) for k, v in vc['vc'].items()), json.dumps(vc['vc'], ensure_ascii=False))
         wn = vc['win']; st_, li_, da_ = wn.get('wz_stain', {}), wn.get('wz_room_lit', {}), wn.get('cafe_room_dark', {})
         run.check('窗戶：所有的窗共用一個窗框原型，窗內只有亮燈／沒亮燈兩個原型，扇數對得上', st_.get('meshes') == 1 and li_.get('meshes') == 1 and da_.get('meshes') == 1 and st_.get('count', 0) > 100 and st_.get('count') == li_.get('count', 0) + da_.get('count', 0), json.dumps(wn))
+        await pg.evaluate("(async()=>{ for(let i=0;i<240;i++){ if(GAME.E.zone.group.children.some(o=>o.name==='gg_scooters_glb')) return; await new Promise(r=>setTimeout(r,250)); } })()")
+        sc = await pg.evaluate("""(()=>{ const z=GAME.E.zone; const kit=z.group.children.find(o=>o.name==='gg_kit_scooters'); const out=z.group.children.find(o=>o.name==='gg_scooters_glb');
+            const n=kit?kit.children.filter(o=>o.isGroup).length:-1; const ims=out?out.children.filter(o=>o.isInstancedMesh):[];
+            const paint=ims.filter(m=>m.material.name==='scooter_paint'); const per={}; for(const m of paint){ const k=m.userData.scGroup||'?'; per[k]=(per[k]||0)+m.count; }
+            const glbCols=[], c=new THREE.Color(); for(const m of paint) for(let i=0;i<m.count;i++){ m.getColorAt(i,c); glbCols.push(c.getHexString()); }
+            const rad={}; for(const m of ims){ if(m.userData.scGroup) rad[m.userData.scGroup]=Math.max(rad[m.userData.scGroup]||0,+m.boundingSphere.radius.toFixed(1)); }
+            return {kitScooters:n, kitHidden:kit?!kit.visible:null, instanced:ims.length, paintInstances:paint.reduce((a,m)=>a+m.count,0), perGroup:per, radius:rad,
+              colors:new Set(glbCols).size, hasColor:paint.every(m=>!!m.instanceColor), castShadow:ims.some(m=>m.castShadow&&m.name!=='wz_scooter_shadows')}; })()""")
+        run.check('機車：60 台套件機車整組藏起來、換成正式模型的 InstancedMesh（台數相同、車殼有每台的顏色、不進陰影那一輪）',
+                  sc['kitHidden'] is True and sc['kitScooters'] == 60 and sc['paintInstances'] == 60 and sc['hasColor'] and sc['colors'] >= 5 and not sc['castShadow'], json.dumps(sc))
+        run.check('機車分組：北側 N0–N4、南側 S0–S2，每組 6～9 台（每組各自一套 InstancedMesh）', sc['perGroup'] == SC_GROUPS, json.dumps({'perGroup': sc['perGroup'], 'radius': sc['radius']}))
         neg = await pg.evaluate("""(()=>{ const b=GAME.E.zone.group.children.find(o=>o.userData&&o.userData.ggShop==='G07'); const m=b.children.find(o=>o.isMesh); m.visible=true;
             const n=b.children.filter(o=>(o.isMesh||o.isSprite)&&o.visible).length; m.visible=false; return n; })()""")
         run.check('（自我檢查）故意打開 G07 的套件外觀時，會被數到', neg > 0, json.dumps(neg))
@@ -120,10 +142,15 @@ async def check(pg, run, formal):
     sun = await pg.evaluate("""(()=>{ const E=GAME.E; E.applyTime(12); const d=E.sun.position.clone().sub(E.player.obj.position); const h=Math.hypot(d.x,d.z);
         let az=Math.atan2(-d.z,-d.x)*180/Math.PI; if(az<0) az+=360; const out={x:+(d.x/h).toFixed(3), z:+(d.z/h).toFixed(3), azimuth:+az.toFixed(1), sunYaw:E.zone.def.sunYaw}; E.applyTime(17.5); return out; })()""")
     run.check('中午太陽在南邊（公館 +x＝南；sunYaw π/2；方位角在正南 ±45° 內）', 135 <= sun['azimuth'] <= 225 and abs(sun['sunYaw'] - 1.5708) < 1e-3, json.dumps(sun))
-    draws = {}
+    if not formal:
+        run.check('?nobldg：機車照舊直接放在區域裡（沒有另外分組、沒有正式模型）', not await pg.evaluate("GAME.E.zone.group.children.some(o=>o.name==='gg_kit_scooters'||o.name==='gg_scooters_glb')"))
+    draws, vis = {}, {}
     for name, eye, look in VIEWS:
         draws[name] = await pg.evaluate(DRAW + '(%s,%s)' % (json.dumps(eye), json.dumps(look)))
+        if formal: vis[name] = await pg.evaluate(SC_VIS)
         await run.shot(pg, name + '_' + ('formal' if formal else 'nobldg'))
+    if formal:
+        run.check('機車分組有用：每個鏡頭都至少有一組機車在畫面外（整組不畫）', all(v and len(v['seen']) < v['all'] for v in vis.values()), json.dumps(vis))
     await pg.evaluate("GAME.E.endCinematic()")
     run.note(('一般網址' if formal else '?nobldg') + '：同一個鏡頭（藏起路人）的 draw call／三角形 ' + json.dumps(draws))
     return await pg.evaluate(NAV_HASH), await pg.evaluate(STATE), others, draws

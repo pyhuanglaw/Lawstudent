@@ -1097,3 +1097,83 @@ LAWWW 2026-10-10 23:26Z 分派的第四項（兩棟一起交，條件和總圖�
 4. 窗裡面是一片深色玻璃（亮燈時是由上往下漸暗的暖光），沒有窗簾或室內的景深。
 5. 沒有 iPhone 實機驗證；效能用 `renderer.info` 量（見 11.4）。
 
+---
+
+## 12. 公館機車：換成 Blender 正式模型（分組 InstancedMesh，⑧）
+
+LAWWW 2026-10-11 03:47Z 排進佇列的 ⑧：公館 60 台機車換成溫州街已經在用的 Blender 正式模型（`bldg.wz_scooter`：現代款、復古款），**每 6～9 台一組各自一套 InstancedMesh**，看不到的那一組整組不畫；目標同一個鏡頭三角形 ≤ 42 萬。校門外背景（校園那一側看出去的公館，`campusBackdrop`）照樣是套件。
+
+### 12.1 玩家會看到什麼不同
+
+| | 修改前（套件 `TK.scooter`） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 機車 | 擠出的車殼＋方塊座墊、圓環輪胎 | 溫州街同兩款 125cc 速克達（現代款、復古款，三台裡一台復古款）：車殼曲面、座墊、腳踏板、後照鏡、車燈；車殼顏色每台不同 |
+| 顏色 | 只有白、藍、灰藍 3 種（套件的配色公式 `round(x*7)%7` 每排都是 0） | 7 種顏色輪流（白、黑、酒紅、藍、奶茶、米白、灰藍；套件和正式模型讀同一個配色，`?nobldg` 也一起變） |
+| 影子 | 每台車進陰影那一輪 | 不進陰影那一輪（60 台×1.4–1.7k 個三角形要再畫一次），每台車底下一片柔和的影子貼片（和溫州街相同） |
+
+**沒有改的東西**：每台車的位置、方向、台數、導航阻擋（`nav.blockRect` 照舊）、路燈、行道樹、店面。
+
+### 12.2 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 公館機車（`bldg.wz_scooter` 分組 InstancedMesh） | 完成 | `FUNCTIONAL_VERIFIED`（見 12.4） | `READY_FOR_ART_REVIEW`（模型本身和溫州街相同，溫州街那邊已經是 READY_FOR_ART_REVIEW） |
+
+### 12.3 做法
+
+- `zones3d.js` gongguan 區塊：有模型時套件機車先放進 `gg_kit_scooters` 群組、自己合併（載入前 draw call 少）；載入後整組藏起來，換成 `attachWzScooters(..., 'gg_scooters_glb')`。每台車記下所屬的組（`grp`：北側人行道 N0–N4、南側店面街 S0–S2，照 x 分段，每組 6～9 台）。
+- `attachWzScooters`：list 裡有 `grp` 時每一組各自建一套 InstancedMesh（兩款×3 個零件），每一組自己的外框球（`computeBoundingSphere`），three.js 的視錐剔除就會整組不畫；溫州街沒有 `grp`＝全部一組，和分組之前完全相同。
+- 每組最多 6 次 draw call（兩款×3 個零件），影子貼片全部一次。
+
+### 12.4 測試結果
+
+測試都是 Playwright 手機模擬（不是 iPhone 實機）；log 在 `docs/art-rebuild/second_ai/test_logs/ggsc/`。
+
+`gongguan_glb_integration` 39、`gongguan_layout_nav` 46、`wz_street_integration` 42、`p0_movement` 34、`reachability_all` 48、`zone_transitions` 37、`ggsc_perf`（修改前後的效能，見下表）：**全部通過**（`wz_street_integration`：溫州街的機車也走同一個函式，沒有分組時和之前一樣）。
+
+機車檢查（`gongguan_glb_integration`）：{"kitScooters": 60, "kitHidden": true, "paintInstances": 60, "perGroup": {"N0": 6, "N1": 6, "N2": 8, "N3": 7, "N4": 9, "S0": 6, "S1": 9, "S2": 9}, "colors": 7, "castShadow": false}。第一次跑的時候「車殼至少 5 種顏色」FAIL（`gongguan_glb_integration_fail_round1.log`：只有 3 種）——查到是套件原本的配色公式只會算出 3 種，改成 7 種輪流後 PASS。
+
+**效能：修改前 → 修改後（`tools/blender/env_second/shots/ggsc_perf.py`：修改前＝上一版的遊戲，機車是套件、併進整區合併；兩邊都在建公館之前等資產全部載完，藏起路人與騎腳踏車的路人、含陰影那一輪、含玩家）**：
+
+| 鏡頭（17:30） | draw call：修改前 → 修改後（倍數） | 三角形：修改前 → 修改後（倍數） | 這個鏡頭畫到的機車組 |
+|---|---|---|---|
+| 人行道往西看整排店面 | 171 → 174（×1.018） | 369,494 → 276,014（×0.747） | S0、S1（共 8 組） |
+| 校門口往南看過羅斯福路 | 180 → 191（×1.061） | 369,592 → 297,500（×0.805） | N2、S0、S1、S2（共 8 組） |
+| 騎樓裡往西 | 171 → 174（×1.018） | 369,480 → 276,000（×0.747） | S0、S1（共 8 組） |
+| 往溫州街的巷口 | 145 → 135（×0.931） | 365,126 → 249,326（×0.683） | 一組都沒有（共 8 組） |
+| 北側人行道邊的一排機車（近看） | 148 → 150（×1.014） | 389,008 → 290,828（×0.748） | — |
+| 店面街人行道上的一排機車（近看） | 145 → 147（×1.014） | 365,084 → 266,904（×0.731） | — |
+
+和 `?nobldg`（全部程序化）比（`gongguan_glb_integration`，LAWWW 21:21Z 的條件：draw call ≤ 1.3 倍、三角形 ≤ 42 萬）：
+
+| 鏡頭（17:30） | draw call：`?nobldg` → 一般 | 三角形（一般，≤ 42 萬） |
+|---|---|---|
+| 人行道往西看整排店面 | 183 → 197（×1.077） | 309,248 |
+| 校門口往南看過羅斯福路 | 192 → 213（×1.109） | 329,300 |
+| 騎樓裡往西 | 183 → 202（×1.104） | 309,286 |
+| 往溫州街的巷口 | 150 → 157（×1.047） | 281,126 |
+
+### 12.5 遊戲內截圖（修改前｜修改後；修改前＝同一版遊戲、只擋掉 `scooter.glb`：機車是套件，顏色已經是新的 7 種）
+
+| 鏡頭 | 修改前（套件機車） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 北側人行道邊的機車（近看） 11:00 | ![修改前](shots/ggsc_before_north_row_1100.webp) | ![修改後](shots/ggsc_after_north_row_1100.webp) |
+| 北側人行道邊的機車（近看） 17:30 | ![修改前](shots/ggsc_before_north_row_1730.webp) | ![修改後](shots/ggsc_after_north_row_1730.webp) |
+| 北側人行道邊的機車（近看） 20:30 | ![修改前](shots/ggsc_before_north_row_2030.webp) | ![修改後](shots/ggsc_after_north_row_2030.webp) |
+| 店面街人行道上的機車（近看） 11:00 | ![修改前](shots/ggsc_before_south_row_1100.webp) | ![修改後](shots/ggsc_after_south_row_1100.webp) |
+| 店面街人行道上的機車（近看） 17:30 | ![修改前](shots/ggsc_before_south_row_1730.webp) | ![修改後](shots/ggsc_after_south_row_1730.webp) |
+| 店面街人行道上的機車（近看） 20:30 | ![修改前](shots/ggsc_before_south_row_2030.webp) | ![修改後](shots/ggsc_after_south_row_2030.webp) |
+| 人行道往西看整排店面 11:00 | ![修改前](shots/ggsc_before_street_west_1100.webp) | ![修改後](shots/ggsc_after_street_west_1100.webp) |
+| 人行道往西看整排店面 17:30 | ![修改前](shots/ggsc_before_street_west_1730.webp) | ![修改後](shots/ggsc_after_street_west_1730.webp) |
+| 人行道往西看整排店面 20:30 | ![修改前](shots/ggsc_before_street_west_2030.webp) | ![修改後](shots/ggsc_after_street_west_2030.webp) |
+| 校門口往南看過羅斯福路 11:00 | ![修改前](shots/ggsc_before_from_gate_1100.webp) | ![修改後](shots/ggsc_after_from_gate_1100.webp) |
+| 校門口往南看過羅斯福路 17:30 | ![修改前](shots/ggsc_before_from_gate_1730.webp) | ![修改後](shots/ggsc_after_from_gate_1730.webp) |
+| 校門口往南看過羅斯福路 20:30 | ![修改前](shots/ggsc_before_from_gate_2030.webp) | ![修改後](shots/ggsc_after_from_gate_2030.webp) |
+| 玩家鏡頭（手機直向） 17:30 | ![修改前](shots/ggsc_before_follow_1730.webp) | ![修改後](shots/ggsc_after_follow_1730.webp) |
+
+### 12.6 還沒達到參考品質的地方
+
+1. 只有兩款車（溫州街同一套），真實的公館還有檔車、外送箱、安全帽掛在車上、雨衣；60 台看久了會發現重複。
+2. 每台車的擺放和角度照套件（三台一排、規律的間距），真實的騎樓前停車更亂、更擠。
+3. 校門外背景（`campusBackdrop`）的機車還是套件（LAWWW 03:47Z：照樣用套件）。
+4. 沒有 iPhone 實機驗證；效能用 `renderer.info` 量。

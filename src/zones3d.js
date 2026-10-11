@@ -486,9 +486,14 @@ const Z3 = (function(){
     // 機車、路燈、行道樹
     // 機車（townkit，和溫州街同一套）：人行道邊三台一排；校門正前方只停一台，留出走路的空間
     const scC=['#e8e8e8','#2b2b2b','#8c3b47','#3a6fb0','#c9b48a','#f2f0ea','#5a5a7a'];
-    const scRow=(xc,z,n,ry)=>{ for(let k=0;k<n;k++){ const s=TK.scooter(scC[((k*3+Math.round(xc*7))%7+7)%7]); s.position.set(xc+(k-(n-1)/2)*0.85,0,z+((k*7)%3-1)*0.06); s.rotation.y=ry+((k*5)%3-1)*0.05; g.add(s); } nav.blockRect(xc,z-0.04,n*0.85+0.5,1.7,0); };
-    for(let i=0;i<14;i++){ const x=-70+i*10; scRow(x,-32,Math.abs(x)<12?1:3,0); }
-    for(let i=0;i<8;i++) scRow(-60+i*14,6.8,3,Math.PI);
+    /* 機車的 Blender 正式模型（bldg.wz_scooter，和溫州街同兩款；第二個 AI，LAWWW 03:47Z ⑧）：有模型時套件機車先放進 ggScG、自己合併（載入前 draw call 少），
+       模型載入後整組藏起來、換成 InstancedMesh——**分組**（grp：北側 5 組、南側 3 組，每組 6～9 台）：InstancedMesh 是整組一起剔除的，60 台一組的話不管看不看得到都整組畫，
+       同鏡頭三角形會超過 42 萬（2026-10-11 量過）；分組之後看不到的那一組整組不畫。?nobldg、載入失敗照舊是套件 */
+    const ggScGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.wz_scooter']; const ggScG=new THREE.Group(); ggScG.userData.dyn=true; ggScG.name='gg_kit_scooters'; const ggScList=[]; if(ggScGLB) g.add(ggScG);
+    let scIdx=0;   /* 車殼顏色依序輪流用 7 種（原本 scC[((k*3+Math.round(xc*7))%7+7)%7]：每排的 x 都是整數，round(x*7)%7 永遠是 0，整條街只有白、藍、灰藍 3 種）*/
+    const scRow=(xc,z,n,ry,grp)=>{ for(let k=0;k<n;k++){ const c=scC[(scIdx++*5+3)%7], s=TK.scooter(c); s.position.set(xc+(k-(n-1)/2)*0.85,0,z+((k*7)%3-1)*0.06); s.rotation.y=ry+((k*5)%3-1)*0.05; s.userData.ggScooter=grp; if(ggScGLB){ ggScG.add(s); ggScList.push({o:s,color:c,grp}); } else g.add(s); } nav.blockRect(xc,z-0.04,n*0.85+0.5,1.7,0); };
+    for(let i=0;i<14;i++){ const x=-70+i*10; scRow(x,-32,Math.abs(x)<12?1:3,0,'N'+(x<-55?0:x<-35?1:x<5?2:x<35?3:4)); }
+    for(let i=0;i<8;i++){ const x=-60+i*14; scRow(x,6.8,3,Math.PI,'S'+(x<-40?0:x<0?1:2)); }
     for(let i=0;i<9;i++){ const l=W3.lampPost(); place(g,l,-63+i*18,-31.4,0); lamps.push(l); nav.blockCircle(-63+i*18,-31.4,0.25); /* 北側路燈原本在 z=-24（馬路的車道上），移到人行道邊 */ const l2=W3.lampPost(); place(g,l2,-63+i*18,5,Math.PI); lamps.push(l2); nav.blockCircle(-63+i*18,5,0.25); }
     for(let i=0;i<6;i++){ const t=TREE(0.9); place(g,t,-65+i*26,-36,0); nav.blockCircle(-65+i*26,-36,0.7); }
     // 集合點：公館圓環意象（小廣場）
@@ -505,6 +510,7 @@ const Z3 = (function(){
     const zone={group:g,nav,spawn:{x:0,z:-30,yaw:Math.PI},lamps,buildings,applyTimeOutdoor:zoneTime,onLamps(on){}};
     // 店面街的 Blender 正式模型（第二個 AI）：載入後藏起套件外觀（和溫州街同一套接法；招牌、直立招牌合成一張 atlas，晚上照 TK.setNight 發光）；失敗或 ?nobldg 時維持套件
     if(ggGLB) ASSETS.loadOne('bldg.gongguan_shops').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ggShop','gongguan_shops_glb'); }).catch(e=>console.warn('公館店面正式模型載入失敗，用套件的外觀',e));
+    if(ggScGLB){ P3.mergeStatic(ggScG); ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const n=attachWzScooters(g,ggScG,ggScList,c.scene,'gg_scooters_glb'); if(!n) console.warn('機車正式模型沒有 scooter_a／scooter_b，用套件的機車'); }).catch(e=>console.warn('機車正式模型載入失敗，用套件的機車',e)); }
     return zone; } };
   // ---------- 溫州街 ----------
   // ---------- 溫州街（v9 重建：台北巷弄＋日式宿舍；TK 街景套件）----------
@@ -737,13 +743,14 @@ const Z3 = (function(){
       const t=d.sign||''; let fs=Math.round(h*(d.sub?0.5:0.58)); x.font='bold '+fs+'px '+font; while(x.measureText(t).width>w*0.7&&fs>20){ fs-=4; x.font='bold '+fs+'px '+font; }
       x.fillText(t,w/2,h*(band?0.4:(d.sub?0.42:0.52))); if(d.sub){ x.font='500 '+Math.round(h*0.15)+'px '+font; x.globalAlpha=0.85; x.fillText(d.sub,w/2,band?h*0.9:h*0.82); x.globalAlpha=1; } }); }
   /* 機車（tools/blender/env_second/scooter.py：scooter_a 現代款、scooter_b 復古款；車頭朝 +x）→ 每一款每一個零件一個 InstancedMesh，擺在套件機車的位置（套件車頭朝 +z）；
-     車殼（scooter_paint，白色）乘上每台的顏色（instanceColor）。三台裡一台是復古款 */
-  function attachWzScooters(g,scG,list,root){ const vars={a:root.getObjectByName('scooter_a'),b:root.getObjectByName('scooter_b')}; if(!vars.a||!vars.b||!list.length) return 0;
-    const fix=new THREE.Matrix4().makeRotationY(-Math.PI/2), out=new THREE.Group(); out.name='wz_scooters_glb'; const by={a:[],b:[]}; list.forEach((s,i)=>by[i%3===2?'b':'a'].push(s)); root.updateMatrixWorld(true);
-    for(const k of ['a','b']){ const node=vars[k], L=by[k]; if(!L.length) continue; const inv=new THREE.Matrix4().copy(node.matrixWorld).invert(); const meshes=[]; node.traverse(o=>{ if(o.isMesh) meshes.push(o); });
+     車殼（scooter_paint，白色）乘上每台的顏色（instanceColor）。三台裡一台是復古款。
+     list 的 grp（公館）：每一組各自一套 InstancedMesh（看不到的那一組整組被剔除）；溫州街沒有 grp＝全部一組（和分組之前一樣） */
+  function attachWzScooters(g,scG,list,root,name){ const vars={a:root.getObjectByName('scooter_a'),b:root.getObjectByName('scooter_b')}; if(!vars.a||!vars.b||!list.length) return 0;
+    const fix=new THREE.Matrix4().makeRotationY(-Math.PI/2), out=new THREE.Group(); out.name=name||'wz_scooters_glb'; const grps=new Map(); list.forEach((s,i)=>{ const gk=s.grp||''; if(!grps.has(gk)) grps.set(gk,{a:[],b:[]}); grps.get(gk)[i%3===2?'b':'a'].push(s); }); root.updateMatrixWorld(true);
+    for(const [gk,by] of grps) for(const k of ['a','b']){ const node=vars[k], L=by[k]; if(!L.length) continue; const inv=new THREE.Matrix4().copy(node.matrixWorld).invert(); const meshes=[]; node.traverse(o=>{ if(o.isMesh) meshes.push(o); });
       for(const m of meshes){ const local=new THREE.Matrix4().multiplyMatrices(inv,m.matrixWorld); const im=new THREE.InstancedMesh(m.geometry,m.material,L.length); const paint=m.material.name==='scooter_paint'; const M4=new THREE.Matrix4();
         L.forEach((s,i)=>{ s.o.updateMatrixWorld(true); M4.multiplyMatrices(s.o.matrixWorld,fix).multiply(local); im.setMatrixAt(i,M4); if(paint) im.setColorAt(i,new THREE.Color(s.color)); });
-        im.instanceMatrix.needsUpdate=true; if(im.instanceColor) im.instanceColor.needsUpdate=true; im.castShadow=false; im.receiveShadow=true; im.computeBoundingSphere(); out.add(im); } }
+        im.instanceMatrix.needsUpdate=true; if(im.instanceColor) im.instanceColor.needsUpdate=true; im.castShadow=false; im.receiveShadow=true; im.computeBoundingSphere(); if(gk) im.userData.scGroup=gk; out.add(im); } }
     /* 影子：機車不進陰影那一輪（39 台×1.5k 個三角形要再畫一次），改成每台車底下一片柔和的影子貼片（全部一個 InstancedMesh、一次 draw call） */
     { const tex=W3.canvasTex('wzScooterBlob',64,64,(x,w,h)=>{ const gr=x.createRadialGradient(w/2,h/2,1,w/2,h/2,w/2); gr.addColorStop(0,'rgba(0,0,0,0.6)'); gr.addColorStop(0.55,'rgba(0,0,0,0.35)'); gr.addColorStop(1,'rgba(0,0,0,0)'); x.clearRect(0,0,w,h); x.fillStyle=gr; x.fillRect(0,0,w,h); });
       const geo=new THREE.PlaneGeometry(2.05,0.8); geo.rotateX(-Math.PI/2); geo.translate(0,0.012,0); const bl=new THREE.InstancedMesh(geo,new THREE.MeshBasicMaterial({map:tex,color:0x000000,transparent:true,depthWrite:false}),list.length); const M4=new THREE.Matrix4();

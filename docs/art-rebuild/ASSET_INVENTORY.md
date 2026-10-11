@@ -33,7 +33,7 @@
 | `TK.japaneseHouse` 日式老屋 | 溫州街 | ⑤＋③ | 被 `wz_jphouse.glb`（日式宿舍＋院牆，LAWWW2 Blender）取代；`READY_FOR_ART_REVIEW`（v9.4.2 候選） | — |
 | `TK.mrtExit` 捷運出口 | 公館 | ④ | BLOCKOUT | Blender（地標） |
 | `TK.utilityPole`、`TK.wires`、`TK.trafficMirror`、`TK.mailbox`、`TK.aBoard`、`TK.pots` | 溫州街、公館 | 溫州街：⑤＋③；公館：④ | 溫州街：被 `wz_props.glb`（電線桿、反光鏡、路名牌、Café 門前紅磚道）取代，`READY_FOR_ART_REVIEW`；公館：BLOCKOUT | 公館跟著公館近景一起換 |
-| `TK.scooter`（`W3.scooter` 舊版） | 公館、溫州街、校門外背景 | 溫州街：⑤＋③；其他：④／② | 溫州街：`scooter.glb`（兩款，LAWWW2 Blender）`READY_FOR_ART_REVIEW`；公館、校門外背景：BLOCKOUT | 公館換成同一個 GLB；背景維持套件 |
+| `TK.scooter`（`W3.scooter` 舊版） | 公館、溫州街、校門外背景 | 溫州街、公館：⑤＋③；校門外背景：② | 溫州街：`scooter.glb`（兩款，LAWWW2 Blender）`READY_FOR_ART_REVIEW`；**公館：同一個 GLB，分組 InstancedMesh（北側 5 組、南側 3 組，看不到的那組整組不畫），`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 12 節）**；校門外背景：維持套件 | 更多車款（檔車、外送箱、安全帽） |
 | `TK.road`、`W3.asphaltTex`、人行道磚 | 全部戶外 | ④ | BLOCKOUT（canvas） | Poly Haven 柏油／鋪面 PBR，**維持淺灰（D30）**、入夜變暗的標記保留 |
 | `TK.tree`、`TK.royalPalm`、`TK.plantClump` | 全部戶外 | ④（近景）／②（遠景） | BLOCKOUT（葉片卡） | Blender 樹（大王椰子、樟樹、榕樹）＋Instancing＋遠景卡片 LOD |
 | `TK.bgCity`、`E3` 天際線剪影 | 地圖邊界外 | ② | 保留（背景） | 不升級（背景） |
