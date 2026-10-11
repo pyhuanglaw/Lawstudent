@@ -11,6 +11,7 @@ run() { local name="$1"; shift; local t0=$(date +%s); "$@" > "$OUT/$name.log" 2>
   printf '%-28s %s  (%ss)  %s\n' "$name" "$([ $rc -eq 0 ] && echo PASS || echo "FAIL(rc=$rc)")" "$dt" "$tail1" | tee -a "$SUM"; }
 run nav_levels_unit       node tests/nav_levels_unit.js
 run nav_buildings_unit    node tests/nav_buildings_unit.js
+run stairs_cam_slab_unit  node tests/stairs_cam_slab_unit.js    # 樓梯上、電梯裡的人不被上一層的樓板擋住（2026-10-11 v9.5 審查）
 for c in char.yuting char.heroine_01 char.heroine_02 char.heroine_03 char.heroine_04 char.heroine_05; do run "stairs_feet_${c#char.}" node tests/stairs_feet_unit.js "$c"; done
 run sim_hair              node tools/dev_scratch/spring_sim/sim_hair.js
 run sit_feet_unit         node tests/sit_feet_unit.js

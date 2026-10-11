@@ -62,13 +62,17 @@ const LB3=(function(){
   function cropUV(geo,a,fx){ const uv=geo.attributes.uv; let uw=1, vh=1; if(a<2) uw=a/2; else vh=2/a; const u0=(1-uw)*fx, v0=(1-vh)*0.5; for(let i=0;i<uv.count;i++) uv.setXY(i,u0+uv.getX(i)*uw,v0+uv.getY(i)*vh); uv.needsUpdate=true; }
 
   // ---- 程序化備用模型 ----
-  function buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,outs){ const W=L.W, D=L.D, Y1=L.floors[1].y, RY=L.roofY, T=L.wallT, ST=L.slabT, S=L.stair, C=S.center, SD=S.side, LD=S.landing, CO=L.core, U=L.upper, V=L.vestibule, MAT=B3.MAT, r=riseOf(L), t=S.tread;
+  function buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,outs,slabs){ const W=L.W, D=L.D, Y1=L.floors[1].y, RY=L.roofY, T=L.wallT, ST=L.slabT, S=L.stair, C=S.center, SD=S.side, LD=S.landing, CO=L.core, U=L.upper, V=L.vestibule, MAT=B3.MAT, r=riseOf(L), t=S.tread;
     const b0=new TK.Bin(), b1=new TK.Bin();
     const floorM=(w,d)=>{ const tx=W3.stoneTex('#e3d9c6').clone(); tx.needsUpdate=true; tx.wrapS=tx.wrapT=THREE.RepeatWrapping; tx.repeat.set(w/2,d/2); return new THREE.MeshStandardMaterial({map:tx,roughness:0.65}); };
     { const f=new THREE.Mesh(new THREE.PlaneGeometry(W,D),floorM(W,D)); f.rotation.x=-Math.PI/2; f.receiveShadow=true; f.userData.walkLv=0; fb0.add(f); walkMeshes.push(f); }
     // 二樓樓板（連廊、兩翼）：板子的底面就是一樓的天花板
-    const slab=(a)=>{ b1.add(MAT.plaster(),TK.boxG(a.x1-a.x0,ST,a.z1-a.z0,1.2),(a.x0+a.x1)/2,Y1-ST/2,(a.z0+a.z1)/2);
-      const f=new THREE.Mesh(new THREE.PlaneGeometry(a.x1-a.x0,a.z1-a.z0),floorM(a.x1-a.x0,a.z1-a.z0)); f.rotation.x=-Math.PI/2; f.position.set((a.x0+a.x1)/2,Y1+0.004,(a.z0+a.z1)/2); f.receiveShadow=true; f.userData.walkLv=1; fb1.add(f); walkMeshes.push(f); };
+    /* 東翼的樓板讓出電梯井（玻璃井道，車廂上下穿過二樓；2026-10-11 v9.5 審查：原本樓板整塊蓋住井口——車廂上下時被樓板擋住，車廂不在二樓時井口像一片走不過去的地板）。
+       Blender 正式模型（tools/blender/library_interior.py）用同一個規則挖洞；鏡頭用的樓板範圍（slabs）也一樣 */
+    const slab=(a)=>{ for(const q of B3.slabPieces(a,[L.elevator])){ b1.add(MAT.plaster(),TK.boxG(q.x1-q.x0,ST,q.z1-q.z0,1.2),(q.x0+q.x1)/2,Y1-ST/2,(q.z0+q.z1)/2);
+        const f=new THREE.Mesh(new THREE.PlaneGeometry(q.x1-q.x0,q.z1-q.z0),floorM(q.x1-q.x0,q.z1-q.z0)); f.rotation.x=-Math.PI/2; f.position.set((q.x0+q.x1)/2,Y1+0.004,(q.z0+q.z1)/2); f.receiveShadow=true; f.userData.walkLv=1; fb1.add(f); walkMeshes.push(f); }
+      if(slabs) slabs.push(...B3.slabPieces(a,[L.elevator],{lv:1,y:Y1,t:ST})); };   /* 鏡頭不穿過樓板（engine3d.js 的 slabClip） */
+    { const EL=L.elevator; const f=new THREE.Mesh(new THREE.PlaneGeometry(EL.x1-EL.x0,EL.z1-EL.z0),new THREE.MeshBasicMaterial({visible:false})); f.rotation.x=-Math.PI/2; f.position.set((EL.x0+EL.x1)/2,Y1+0.004,(EL.z0+EL.z1)/2); f.userData.walkLv=1; f.userData.dyn=true; lv1.add(f); walkMeshes.push(f); }   /* 井口：點地面用（不畫）；車廂在二樓、門開著才走得進去（導航決定） */
     slab(U.band); for(const a of U.wings){ const b=Object.assign({},a); if(b.z0<U.band.z0&&b.z1>U.band.z0-0.01&&Math.abs(b.x1)<CO.x1+0.01) b.z1=U.band.z0; slab(b); }
     // 樓梯：每一階一塊石材（實心到地面）、平台（實心）、兩側那一跑和中間那一跑之間的矮牆（一階一階）、外側的實心核心（一樓）
     const stone=MAT.graniteD();
@@ -173,12 +177,12 @@ const LB3=(function(){
   const library_hall={ id:'library_hall', name:'總圖書館 大廳', indoor:true, camDist:4.8, build(E){ const L=LAYOUT(), W=L.W, D=L.D, Y1=L.floors[1].y, EL=L.elevator;
     const g=new THREE.Group(); const lv0=new THREE.Group(), lv1=new THREE.Group(); lv0.name='L0'; lv1.name='L1'; lv0.userData.dyn=true; lv1.userData.dyn=true; g.add(lv0); g.add(lv1);
     const {nav0,nav1,ss}=buildNav(L);
-    const walls=[], walkMeshes=[], outs=[]; const fb0=new THREE.Group(), fb1=new THREE.Group(); fb0.name='fallback0'; fb1.name='fallback1'; fb0.userData.dyn=true; fb1.userData.dyn=true; lv0.add(fb0); lv1.add(fb1);
-    const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},camMaxY:3.6,
+    const walls=[], walkMeshes=[], outs=[], slabs=[]; const fb0=new THREE.Group(), fb1=new THREE.Group(); fb0.name='fallback0'; fb1.name='fallback1'; fb0.userData.dyn=true; fb1.userData.dyn=true; lv0.add(fb0); lv1.add(fb1);
+    const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,slabs,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},camMaxY:3.6,
       fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
       applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); for(const o of outs){ const v=viewOf(o.userData.view,night), want=v||outsideTex(night); if(o.material.map!==want){ o.material.map=want; o.material.toneMapped=!v; o.material.needsUpdate=true; } } },
       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; } };
-    buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,outs); buildFurniture(E,L,lv0,lv1,fb0,fb1,nav0,nav1,zone);
+    buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,outs,slabs); buildFurniture(E,L,lv0,lv1,fb0,fb1,nav0,nav1,zone);
     // 劇情：小安「總圖的下午」坐的那一桌（二樓西側、靠窗的那一張長桌，面對面的兩個座位）
     { const s=zone.seats, T=L.furniture.find(f=>f.type==='studyTable'&&f.z>0); const row=(zz)=>s.filter(q=>Math.abs(q.z-zz)<0.05).sort((p,q)=>p.x-q.x)[0];
       const a=T&&row(T.z-0.8), b2=T&&row(T.z+0.8); if(a&&b2){ s.splice(s.indexOf(a),1); s.splice(s.indexOf(b2),1); s.unshift(a,b2); } }   /* seats[0]：玩家（−z 那一側，面向 +z）、seats[1]：小安（對面）；和閱覽室 seats 的排法一樣 */

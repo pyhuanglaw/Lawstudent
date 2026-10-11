@@ -316,9 +316,23 @@ def door(prefix, parent, axis, at, c, y0, inward, w=1.5, h=2.5, mat=None, fade=N
 box('L0_floor', MAT['floor'], -W / 2, W / 2, -0.25, 0.0, -D / 2, D / 2, L0)
 box('L1_band_slab', MAT['slab'], U['band']['x0'], U['band']['x1'], Y1 - ST, Y1 - 0.02, U['band']['z0'], U['band']['z1'], L1)
 box('L1_band_floor', MAT['floor'], U['band']['x0'], U['band']['x1'], Y1 - 0.02, Y1, U['band']['z0'], U['band']['z1'], L1)
+# 東翼的樓板讓出電梯井（玻璃井道，車廂上下穿過二樓；遊戲 src/library3d.js 的 slab()／src/building3d.js 的 slabPieces 用同一個規則）。
+# 2026-10-11 v9.5 審查：原本樓板整塊蓋住井口——車廂上下時被樓板擋住、車廂不在二樓時井口像一片走不過去的地板
+def slab_pieces(a, h):
+    if h['x1'] <= a['x0'] or h['x0'] >= a['x1'] or h['z1'] <= a['z0'] or h['z0'] >= a['z1']:
+        return [(a['x0'], a['x1'], a['z0'], a['z1'])]
+    out = []
+    if h['z0'] > a['z0']: out.append((a['x0'], a['x1'], a['z0'], h['z0']))
+    if h['z1'] < a['z1']: out.append((a['x0'], a['x1'], h['z1'], a['z1']))
+    z0, z1 = max(a['z0'], h['z0']), min(a['z1'], h['z1'])
+    if h['x0'] > a['x0']: out.append((a['x0'], h['x0'], z0, z1))
+    if h['x1'] < a['x1']: out.append((h['x1'], a['x1'], z0, z1))
+    return out
 for k, a in enumerate(U['wings']):
-    box(f'L1_wing_slab_{k}', MAT['slab'], a['x0'], a['x1'], Y1 - ST, Y1 - 0.02, a['z0'], a['z1'], L1)
-    box(f'L1_wing_floor_{k}', MAT['parquet'], a['x0'], a['x1'], Y1 - 0.02, Y1, a['z0'], a['z1'], L1)
+    for j, (x0, x1, z0, z1) in enumerate(slab_pieces(a, L['elevator'])):
+        sfx = f'{k}' if j == 0 else f'{k}_{j}'
+        box(f'L1_wing_slab_{sfx}', MAT['slab'], x0, x1, Y1 - ST, Y1 - 0.02, z0, z1, L1)
+        box(f'L1_wing_floor_{sfx}', MAT['parquet'], x0, x1, Y1 - 0.02, Y1, z0, z1, L1)
 # 樓板邊的石材收邊（面向中庭、樓梯的邊）
 EDGE = [('x', -S['railX'], CO['z0'], SD['z1']), ('x', S['railX'], CO['z0'], SD['z1']), ('x', -U['band']['x1'], U['band']['z1'], D / 2), ('x', U['band']['x1'], U['band']['z1'], D / 2),
         ('z', U['band']['z1'], -U['band']['x1'], U['band']['x1']), ('z', SD['z1'], -S['sides'][1]['x0'], S['sides'][1]['x0'])]
