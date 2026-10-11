@@ -1,6 +1,6 @@
 """實際遊戲截圖（和 tools/shots/scene_shot.py 同一種 JSON），但同一種畫面大小只載入一次遊戲、連拍多張（SwiftShader 每次載入要一兩分鐘）。
 同一個區域內換鏡頭只改：時段（GAME.G.hour＋E.applyTime）、玩家位置、鏡頭；換區域才重新讀檔（GAME.applySave）。
-支援的欄位：out、w、h、mobile、hud、hidePlayer、hideNPCs、state{zone,hour,pos,flags}、cam{pos,look}|{yaw,pitch,dist}、js、wait（毫秒，另外至少等引擎畫 6 格）。
+支援的欄位：out、w、h、mobile、hud、hidePlayer、hideNPCs、state{zone,hour,pos,flags}、cam{pos,look}|{yaw,pitch,dist}、js、wait（毫秒，另外至少等引擎畫 6 格）、post（拍完之後執行的 JS，結果印成「post <out> <JSON>」一行）。
 不支援 scene_shot 的 companion／player／spawn／walk（要拍人物站位時用 scene_shot.py）。
 用法：python3 tools/blender/env_second/shots/fast_shots.py <URL> <shots.json> [--block=檔名]（--block：擋掉那個檔案的下載，例如 street_props.glb，只關掉那一個正式模型）"""
 import asyncio, json, sys
@@ -62,6 +62,7 @@ async def main():
                 await frames(pg, 2)
                 info = await pg.evaluate("(()=>{ const E=GAME.E, P=E.player.obj.position, C=E.camera.position, t=document.getElementById('clockT'); return {zone:GAME.G.zone, hour:+GAME.G.hour.toFixed(2), hud:t?t.textContent:null, player:[+P.x.toFixed(2),+P.z.toFixed(2)], cam:[+C.x.toFixed(2),+C.y.toFixed(2),+C.z.toFixed(2)], mode:E.cam.mode}; })()")
                 await pg.screenshot(path=s['out']); print('shot', s['out'], info, 'errors:', errs[:3], flush=True)
+                if s.get('post'): print('post', s['out'], json.dumps(await pg.evaluate(s['post']), ensure_ascii=False), flush=True)   # 拍完之後在同一個畫面量東西（例如窗景的景深），結果印成一行 JSON
                 await pg.evaluate("GAME.E.player.busy=false")
             await ctx.close()
         await b.close()
