@@ -20,7 +20,7 @@
 | 職位 | 職責 | 帳號 A | 帳號 B | 現在值班 | 分支（2026-10-11 10:06 UTC 的最新 commit） | 進度檔（在各自的分支上） |
 |---|---|---|---|---|---|---|
 | **LAWWW** | 開發負責人：核心系統、人物、建築室內、整合、測試、**正式發布**、分派 LAWWW2 | LAWWW `session_01Eds6msqpsuzNEw98sdw8JX` | LAWWW-B：未建立 | **A** | `claude/confident-ritchie-8rwh7t`（`e747724`）；本機半成品備份在 `wip_backup/`（git bundle：dorm-hall、wancai-stairs） | `docs/ART_REBUILD_PROGRESS.md` 最上面「交接（最新）」 |
-| **LAWWW2** | 環境美術：Blender、3D 場景（Café、溫州街、公館、街道道具、校園地標、行道樹、獨立室內） | LAWWW2 `session_01AC1WVgJSmoJK1uRsPK2Zn1` | LAWWW2-B：未建立 | **A** | `claude/second-ai-env-art`（`ae94b8e`）＋半成品分支 `claude/second-ai-env-art-wip-pavsoc`（`8c6f1fe`）、`-wip-props6`（`fa626b9`）、`-wip-trees`（`d7916da`） | `docs/art-rebuild/second_ai/HANDOFF.md` |
+| **LAWWW2** | 環境美術：Blender、3D 場景（Café、溫州街、公館、街道道具、校園地標、行道樹、獨立室內） | LAWWW2 `session_01AC1WVgJSmoJK1uRsPK2Zn1` | LAWWW2-B：未建立 | **A** | `claude/second-ai-env-art`（`afbf7ec`，含店家窗景）＋半成品分支 `-wip-pavsoc`（`8c6f1fe`，⑤）、`-wip-props6`（`8fe7a21`，⑤⑥）、`-wip-trees`（`d7916da`，⑦）、`-wip-soclib`（`030ce51`，⑬ 草稿）；`-wip-props` 是重複分支，忽略（LAWWW2 10:07Z 緊急保存回報） | `docs/art-rebuild/second_ai/HANDOFF.md` |
 | **AA** | 劇情企劃：四年故事架構、主線、系統與劇情規劃 | AA `session_019Y3emYqxxC4Ch1GGf4fMzw` | AA-B：未建立 | **A** | `claude/bb-story-planning`（`1892599`，和 BB 共用） | `docs/story_planning/AA_交接紀錄.md` |
 | **BB** | 劇情企劃：角色、人物關係、事件、對話與支線 | BB `session_01XVHYLaK9Vcnae3U1aAJoZv` | BB-B：未建立 | **A** | `claude/bb-story-planning`（同上） | `docs/story_planning/BB_00_協作規範與交接紀錄.md` |
 
