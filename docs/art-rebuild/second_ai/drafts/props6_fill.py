@@ -61,7 +61,7 @@ LAWWW 佇列的 ⑥（法學院廣場的花台、公告欄、販賣機等近景�
 
 測試都是 Playwright 手機模擬（不是 iPhone 實機）；log 在 `docs/art-rebuild/second_ai/test_logs/props6/`。
 
-**這一輪是 ⑤（洞洞館、社科院）和 ⑥ 一起、合併 AI-1 開發分支 `8afdece` 之後的完整回歸**（合併 `5b21aa0` 時已經整套跑過一次、全部通過；修改前的截圖＝⑤＋AI-1 `5b21aa0` 那一版，只差 ⑥）。第一次跑 `street_props_integration` 時「花台在導航阻擋裡」**FAIL**（`street_props_integration_round1.log`：葉片卡最外到 x=0.74，比 1.2 m 的花台、導航阻擋多出 0.14 m——後排的葉片卡往右偏了 8 cm）→ 改模型（葉片卡最外到 |x|≤0.64 m）、重新匯出、重跑 PASS；其他測試第一次就通過。
+**這一輪是 ⑤（洞洞館、社科院）和 ⑥ 一起、合併 AI-1 開發分支 `cb399ea` 之後的完整回歸**（2026-10-13；合併 `5b21aa0` 時已經整套跑過一次、全部通過，log 在 `test_logs/props6_5b21aa0/`；合併 `8afdece` 那一輪因為交班只跑完第一項，見 `test_logs/props6_8afdece_partial/`。修改前的截圖＝⑤＋AI-1 `5b21aa0` 那一版，只差 ⑥）。第一次跑 `street_props_integration` 時「花台在導航阻擋裡」**FAIL**（`street_props_integration_round1.log`：葉片卡最外到 x=0.74，比 1.2 m 的花台、導航阻擋多出 0.14 m——後排的葉片卡往右偏了 8 cm）→ 改模型（葉片卡最外到 |x|≤0.64 m）、重新匯出、重跑 PASS；其他測試第一次就通過。
 
 """ + '、'.join(f'`{k}` {v[0]}' for k, v in res.items()) + """：**全部通過**。`street_props_integration` 新加的檢查：三樣都是正式模型、外框在導航阻擋的範圍裡、著地（""" + '；'.join(boxes[k][boxes[k].index('['):].strip() if '[' in boxes[k] else k for k in boxes) + """）；校園畫面上有它們的材質，`?nobldg`、載入失敗時沒有（照舊程序化）；導航格、互動點、座位和 `?nobldg` 完全相同。`wancai_glb_integration`（AI-1 的萬才館）照舊通過。
 

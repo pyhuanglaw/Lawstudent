@@ -24,7 +24,7 @@ PASS 機車分組：北側 N0–N4、南側 S0–S2，每組 6～9 台（每組�
 PASS （自我檢查）故意打開 G07 的套件外觀時，會被數到  1
 PASS 中午太陽在南邊（公館 +x＝南；sunYaw π/2；方位角在正南 ±45° 內）  {"x": 0.866, "z": -0.5, "azimuth": 150, "sunYaw": 1.5707963267948966}
 PASS 機車分組有用：每個鏡頭都至少有一組機車在畫面外（整組不畫）  {"street_west": {"seen": ["S0", "S1"], "all": 8}, "from_gate": {"seen": ["N2", "S0", "S1", "S2"], "all": 8}, "arcade": {"seen": ["S0", "S1"], "all": 8}, "lane": {"seen": [], "all": 8}}
-  [  78.2s] 一般網址：同一個鏡頭（藏起路人）的 draw call／三角形 {"street_west": {"calls": 176, "tris": 276018}, "from_gate": {"calls": 193, "tris": 297504}, "arcade": {"calls": 176, "tris": 276004}, "lane": {"calls": 135, "tris": 249326}}
+  [  77.5s] 一般網址：同一個鏡頭（藏起路人）的 draw call／三角形 {"street_west": {"calls": 176, "tris": 276018}, "from_gate": {"calls": 193, "tris": 297504}, "arcade": {"calls": 176, "tris": 276004}, "lane": {"calls": 135, "tris": 249326}}
 PASS 一般網址：沒有 JS 錯誤
 PASS ?nobldg：遊戲載入
   [前置／捷徑] 讀檔到公館人行道 (−30,14) 17:30，關掉條件事件
@@ -34,7 +34,7 @@ PASS ?nobldg：套件店面照舊參加靜態合併（不是 dyn、沒有接正�
 PASS ?nobldg：整區有合併過的網格（套件外觀在裡面）  42
 PASS 中午太陽在南邊（公館 +x＝南；sunYaw π/2；方位角在正南 ±45° 內）  {"x": 0.866, "z": -0.5, "azimuth": 150, "sunYaw": 1.5707963267948966}
 PASS ?nobldg：機車照舊直接放在區域裡（沒有另外分組、沒有正式模型）
-  [ 123.2s] ?nobldg：同一個鏡頭（藏起路人）的 draw call／三角形 {"street_west": {"calls": 157, "tris": 302490}, "from_gate": {"calls": 172, "tris": 302694}, "arcade": {"calls": 157, "tris": 302486}, "lane": {"calls": 128, "tris": 301318}}
+  [ 123.6s] ?nobldg：同一個鏡頭（藏起路人）的 draw call／三角形 {"street_west": {"calls": 157, "tris": 302490}, "from_gate": {"calls": 172, "tris": 302694}, "arcade": {"calls": 157, "tris": 302486}, "lane": {"calls": 128, "tris": 301318}}
 PASS ?nobldg：沒有 JS 錯誤
 PASS 導航格：正式模型和程序化版完全相同  [[320, 220, 1729380926, 29485], [320, 220, 1729380926, 29485]]
 PASS 鏡頭碰撞方塊：完全相同  33 vs 33 個
