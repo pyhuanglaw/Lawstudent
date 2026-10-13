@@ -106,8 +106,8 @@ def arc_slab(m, cx, cz, r0, r1, a0, a1, y0, y1, n):
     for k in range(n):
         a, b = ring[k], ring[k + 1]
         for i in range(4):
-            j = (i + 1) % 4; bm.faces.new((a[i], b[i], b[j], a[j]))
-    bm.faces.new(ring[0]); bm.faces.new(ring[-1][::-1])
+            j = (i + 1) % 4; bm.faces.new((a[i], a[j], b[j], b[i]))                     # 角度增加＝Blender 裡順時針：這個順序法線朝外
+    bm.faces.new(ring[0][::-1]); bm.faces.new(ring[-1])
 
 
 walls = {'front': [], 'back': [], 'left': [], 'right': []}
@@ -119,7 +119,6 @@ def wm(side, key):
 
 # ---------- 地板、天花板 ----------
 Mesh('soclib_floor', M['floor']).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(root)
-ce = Mesh('soclib_ceiling', M['ceil']); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(root, uv=False)
 
 # ---------- 天窗：圓形光井（井壁＋天光面板），從下面看是一圈一圈亮的圓 ----------
 sk = Mesh('soclib_skylights', M['sky']); wl = Mesh('soclib_lightwells', M['well'])
@@ -133,9 +132,7 @@ for s in J['skylights']:
     for k in range(n):
         j = (k + 1) % n; wl.bm.faces.new((vr[k], vr[j], vi[j], vi[k]))                   # 井口的收邊（比天花板低一點點，擋住天花板和井的接縫）
 sk.finish(root, uv=False); wl.finish(root, uv=False)
-# 天花板在天窗的地方要挖洞：用「蓋在天花板下面一點點」的井口收邊＋井壁遮住；天花板本身照舊是一整片（從下面看不出來，因為井口收邊在它下面 2.5 cm、天光面板在井的頂上）
-# → 為了真的看到井裡，天花板要有洞：改用三角化的有洞平面
-bpy.data.objects.remove(bpy.data.objects['soclib_ceiling'], do_unlink=True)
+# 天花板：在天窗的位置挖圓洞（外框＋每個天窗一圈邊，用 triangle_fill 三角化；裡面的圈是洞）——從下面看得到光井裡面
 bm = bmesh.new(); edges = []
 def loop(pts):
     vs = [bm.verts.new(g2b(x, H, z)) for (x, z) in pts]
@@ -145,9 +142,12 @@ for s in J['skylights']:
     n = 20 if s['r'] > 0.6 else 16
     loop([(s['x'] + s['r'] * math.cos(2 * math.pi * k / n), s['z'] + s['r'] * math.sin(2 * math.pi * k / n)) for k in range(n)])
 bmesh.ops.triangle_fill(bm, use_beauty=True, use_dissolve=False, edges=edges)
+bm.normal_update()
 for f in bm.faces:
     if f.normal.z > 0: f.normal_flip()                                                     # 天花板朝下（從室內看）
 bm.normal_update()
+_holes = sum(1 for s_ in J['skylights'] for f in bm.faces if (f.calc_center_median() - g2b(s_['x'], H, s_['z'])).length < s_['r'] * 0.5)
+print('天花板三角形', len(bm.faces), '落在天窗洞裡的', _holes)                             # 應該是 0（洞真的挖出來了）
 B.mesh_obj('soclib_ceiling', bm, M['ceil'], root, None)
 
 # ---------- 牆：南牆（入口）、東牆實牆；北牆、西牆玻璃帷幕 ----------
@@ -213,8 +213,8 @@ for f in J['furniture']:
     face_in = f.get('books', 'in') == 'in'
     rb = r + d / 2 if face_in else r - d / 2                                             # 背板在書的另一邊
     n = max(6, int((a1 - a0) * r / 0.25))
-    arc_strip(shelf, cx, cz, rb, a0, a1, 0.0, h, n, outward=face_in)
-    arc_strip(shelf, cx, cz, rb + (0.02 if face_in else -0.02), a0, a1, 0.0, h, n, outward=not face_in)
+    arc_strip(shelf, cx, cz, rb, a0, a1, 0.0, h, n, outward=not face_in)                 # 背板靠書的那一面（朝書）
+    arc_strip(shelf, cx, cz, rb + (0.02 if face_in else -0.02), a0, a1, 0.0, h, n, outward=face_in)   # 背板的另一面（朝外）
     arc_slab(shelfD, cx, cz, r - d / 2, r + d / 2, a0, a1, 0.0, 0.08, n)                  # 踢腳
     arc_slab(shelf, cx, cz, r - d / 2 - 0.01, r + d / 2 + 0.01, a0, a1, h - 0.03, h, n)   # 頂板
     lv = LEVELS(h)

@@ -22,8 +22,8 @@ L = {'version': 1, 'W': W, 'D': D, 'H': H, 'wallT': WT, 'cell': 0.4,
      'walls': {'north': 'glass', 'west': 'glass', 'east': 'solid', 'south': 'solid'},
      'entrance': {'x': -9.0, 'w': 2.4, 'exitZ': 10.2, 'spawn': {'x': -9.0, 'z': 9.3, 'yaw': round(math.pi, 4)}},
      'gates': {'z': 8.0, 'posts': [-11.4, -9.8, -8.2, -6.6], 'postW': 0.3, 'postD': 1.0,
-               'rails': [[X0 + WT / 2, -11.55], [-6.45, -4.4]]},          # 閘門兩邊的矮玻璃欄杆（看得到，不是隱形牆）
-     'desk': {'x0': -4.4, 'x1': 0.6, 'z0': 7.4, 'z1': 8.2, 'staff': {'z0': 8.2, 'z1': Z1 - WT / 2}},   # 服務台（借還書）；後面是館員區（矮隔板圍起來）
+               'rails': [[X0 + WT, -11.55], [-6.45, -4.4]]},          # 閘門兩邊的矮玻璃欄杆（看得到，不是隱形牆）
+     'desk': {'x0': -4.4, 'x1': 0.6, 'z0': 7.4, 'z1': 8.2, 'staff': {'z0': 8.2, 'z1': Z1 - WT}},   # 服務台（借還書）；後面是館員區（矮隔板圍起來）
      }
 
 # ---------- 家具 ----------
@@ -38,16 +38,16 @@ def table(x, z, w=3.6, d=1.1, n=3):
 for (x, z) in [(-8.8, -5.1), (-8.8, -0.9), (-3.4, -5.1), (-3.4, -0.9)]:
     table(x, z)
 # 窗邊座位：北牆（面向北）、西牆（面向西）的長吧台＋椅子
-nc = {'type': 'windowCounter', 'x0': -13.2, 'x1': 13.2, 'z': Z0 + WT / 2 + 0.35, 'd': 0.55, 'side': 'north'}
+nc = {'type': 'windowCounter', 'x0': -13.2, 'x1': 13.2, 'z': round(Z0 + WT + 0.02 + 0.275, 3), 'd': 0.55, 'side': 'north'}
 F.append(nc)
 for i in range(int((nc['x1'] - nc['x0']) / 1.2)):
     SEATS.append({'x': round(nc['x0'] + 0.6 + i * 1.2, 3), 'z': round(nc['z'] + 0.75, 3), 'yaw': round(math.pi, 4), 'kind': 'window'})
-wc = {'type': 'windowCounter', 'z0': -8.8, 'z1': 4.4, 'x': X0 + WT / 2 + 0.35, 'd': 0.55, 'side': 'west'}
+wc = {'type': 'windowCounter', 'z0': -8.8, 'z1': 4.4, 'x': round(X0 + WT + 0.02 + 0.275, 3), 'd': 0.55, 'side': 'west'}
 F.append(wc)
 for i in range(int((wc['z1'] - wc['z0']) / 1.2)):
     SEATS.append({'x': round(wc['x'] + 0.75, 3), 'z': round(wc['z0'] + 0.6 + i * 1.2, 3), 'yaw': round(-math.pi / 2, 4), 'kind': 'window'})
 # 東牆靠牆書架（2.4 m）
-F.append({'type': 'wallShelf', 'x': X1 - WT / 2 - 0.25, 'z0': -10.2, 'z1': 6.2, 'd': 0.5, 'h': 2.4, 'side': 'east'})
+F.append({'type': 'wallShelf', 'x': round(X1 - WT - 0.01 - 0.25, 3), 'z0': -10.2, 'z1': 6.2, 'd': 0.5, 'h': 2.4, 'side': 'east'})
 # 弧形矮書架（竹製）：東半邊四個「林間書房」——弧形書架圍出一個小空間、中間站著一支樹狀柱，開口朝走道；
 # 第一個外面再一道矮弧（錯開開口，像繞進去的小書房）。手排的位置：兩座書架之間至少 1.1 m（人走得過去），導航另外用格子檢查
 def arcf(cx, cz, r, open_deg, span_deg, h=1.5):
@@ -67,7 +67,7 @@ for lx in (7.4, 11.2):
 F.append({'type': 'display', 'x': -12.4, 'z': 5.2, 'w': 2.2, 'd': 0.9})
 F.append({'type': 'opac', 'x': -6.0, 'z': 5.6, 'n': 2})
 F.append({'type': 'returnBox', 'x': -12.9, 'z': 9.9, 'ry': round(math.pi / 2, 4)})
-F.append({'type': 'periodicals', 'x0': 2.0, 'x1': 12.0, 'z': Z1 - WT / 2 - 0.3, 'd': 0.5, 'h': 1.6})
+F.append({'type': 'periodicals', 'x0': 2.0, 'x1': 12.0, 'z': round(Z1 - WT - 0.01 - 0.25, 3), 'd': 0.5, 'h': 1.6})
 # ---------- 柱子（樹狀柱：細白柱、柱頂像荷葉散開成圓盤；圓盤之間是天窗）：先排家具再排柱子 ----------
 rng = random.Random(1311)
 cols = [{'x': g[0], 'z': g[1], 'r': 0.19, 'cap': 2.2} for g in GROVES]
@@ -101,7 +101,7 @@ for z in [Z0 + 1.6 + k * 1.55 for k in range(13)]:
 L['skylights'] = sky
 L['furniture'] = F
 L['seats'] = SEATS
-L['signs'] = [{'text': '社會科學院圖書館', 'x': -2.0, 'z': Z1 - WT / 2 - 0.02, 'y': 3.6, 'ry': round(math.pi, 4), 'w': 3.6}]
+L['signs'] = [{'text': '社會科學院圖書館', 'x': -2.0, 'z': round(Z1 - WT - 0.02, 3), 'y': 3.6, 'ry': round(math.pi, 4), 'w': 3.6}]
 
 # ---------- 導航阻擋（給遊戲端直接用：rects＝[x,z,w,d,ry]、circles＝[x,z,r]）＋檢查 ----------
 rects, circles = [], []
