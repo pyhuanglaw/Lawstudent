@@ -240,13 +240,14 @@ const CLS=(function(){
   /* 人在有開放時間的地方、已經在閉館前 10 分鐘以內（或已經過了閉館時間）：不能跳過閉館，先離開（不然停在閉館前 10 分鐘之後再按一次，就會跳到閉館後還待在館裡）*/
   S.closingBlock=function(G,h1){ if(typeof PLACES==='undefined'||!PLACES.hours[G.zone]) return ''; const o=PLACES.hours[G.zone], h0=hr(G); const c=o.rules?(PLACES.windowOf(G.zone,G.day)||[0,0])[1]:(o.close!=null&&o.close<=24?o.close:null);
     if(!c||h1<=c) return ''; if(h0>=c-1/6-1e-6) return (PLACES.names&&PLACES.names[G.zone]||'這裡')+(h0>=c?'已經':'快要')+'閉館了（'+hhmm(c)+'），先離開再跳過時間。'; return ''; };
-  S.skipTo=async function(GM,h1){ const G=GM.G, why=S.canSkip(GM); if(why){ GM.toast(why,3000); return false; } const h0=hr(G); if(h1<=h0+0.05) return false; if(h1>23.99) h1=23.99;
+  /* o.nap：在床上小睡（story3d.js 的 S.bedOptions）——一樣的停點與確認；醒來體力每小時 +8（最多 +40），旁白寫「醒來」*/
+  S.skipTo=async function(GM,h1,o){ o=o||{}; const G=GM.G, why=S.canSkip(GM); if(why){ GM.toast(why,3000); return false; } const h0=hr(G); if(h1<=h0+0.05) return false; if(h1>23.99) h1=23.99;
     const cb=S.closingBlock(G,h1); if(cb){ GM.toast(cb,4000); return false; }
     const stops=S.skipStops(GM,h1); const stop=stops[0]; const target=stop?stop.h:h1;
     const passed=S.dayItems(G).filter(it=>S.status(G,it)!=='done'&&it.t0+WIN1>h0&&it.t0+WIN1<=target&&!S.storyClass(G,it));
     if(passed.length){ GM.sceneBegin(); let i=0; try{ i=await GM.choose([{t:'照樣跳過',hint:'會錯過：'+passed.map(it=>hhmm(it.t0)+' '+it.c.name).join('、')},{t:'先不要'}]); } finally { GM.sceneEnd(); } if(i!==0) return false; }
-    GM.sceneBegin(); try{ await GM.fade(true); GM.advance(target-h0); await GM.sleep(300); await GM.fade(false); } finally { GM.sceneEnd(); }
-    const zn=(typeof Z3!=='undefined'&&Z3.ZONES[G.zone])?Z3.ZONES[G.zone].name:''; GM.caption('',(stop?'（'+stop.why+'）':'')+'你在'+zn+'待到 '+hhmm(hr(G))+'。',3200);
+    GM.sceneBegin(); try{ await GM.fade(true); GM.advance(target-h0); if(o.nap&&GM.energy) GM.energy(Math.min(40,Math.round((target-h0)*8))); await GM.sleep(300); await GM.fade(false); } finally { GM.sceneEnd(); }
+    const zn=(typeof Z3!=='undefined'&&Z3.ZONES[G.zone])?Z3.ZONES[G.zone].name:''; GM.caption('',(stop?'（'+stop.why+'）':'')+(o.nap?'你睡了一下，醒來是 '+hhmm(hr(G))+'。':'你在'+zn+'待到 '+hhmm(hr(G))+'。'),3200);
     S.refreshGoal(GM); if(GM.autosave) GM.autosave(); return true; };
   // ---------- 手機的「今天」「課表」----------
   const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);

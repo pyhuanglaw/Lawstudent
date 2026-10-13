@@ -282,7 +282,14 @@ const STORY = (function(){
       GM.setGoal('睡覺（明天 13:20 民法總則）'); }
     else { const opts=[{t:'讀書（1 小時）',hint:'體力 −8'},{t:'整理今天的筆記（30 分鐘）',hint:'體力 −3'},{t:'起身'}]; const i=await GM.choose(opts); if(i===0){ P.pose='read'; P.idlePose='read'; await GM.studySession(); } else if(i===1){ P.pose='read'; await GM.fade(true); GM.advance(0.5); GM.energy(-3); await GM.fade(false); await GM.say(null,'你把筆記重看一遍。有些地方當時覺得懂，現在看又不太確定。'); } }
     GM.standUp(P); GM.sceneEnd(); }
-  async function bedScene(GM){ const G=GM.G, F=G.flags; GM.sceneBegin(); if(G.day===1&&!F.readCase){ const i=await GM.choose([{t:'還沒讀案例，先睡了'},{t:'等等，先去看一下'}]); if(i===1){ GM.sceneEnd(); return; } F.readCase='none'; GM.memo('沒有讀案例就睡了'); } const i=await GM.choose([{t:'睡覺',hint:'明天早上醒來'},{t:'再撐一下'}]); GM.sceneEnd(); if(i===0) await sleepNow(GM); }
+  async function bedScene(GM){ const G=GM.G, F=G.flags; GM.sceneBegin(); if(G.day===1&&!F.readCase){ const i=await GM.choose([{t:'還沒讀案例，先睡了'},{t:'等等，先去看一下'}]); if(i===1){ GM.sceneEnd(); return; } F.readCase='none'; GM.memo('沒有讀案例就睡了'); } const opts=S.bedOptions(G); const i=await GM.choose(opts.map(o=>({t:o.t,hint:o.hint}))); GM.sceneEnd(); const o=opts[i]; if(!o||o.kind==='stay') return; if(o.kind==='sleep') await sleepNow(GM); else if(typeof CLS!=='undefined'&&CLS.skipTo) await CLS.skipTo(GM,o.to,{nap:true}); }
+  /* 床的選項（2026-10-13 使用者試玩：「睡覺只能隔天醒來？應該要有小睡一下的選項」「早上睡覺醒來變成下午、下午睡覺起來變成晚上」）：
+     早上（05:00–12:30）可以小睡到下午 13:00；白天（17:30 以前）可以睡到傍晚 18:00；晚上（17:30 以後、過午夜）睡到明天早上。
+     小睡用手機「跳過時間」同一套（CLS.skipTo：中間有特殊課堂、約好的時間、劇情會先叫醒你；會錯過課先問一次），醒來體力回一點。第一、二天照劇情只有「睡覺」 */
+  S.bedOptions=function(G){ const out=[]; const hh=h(G), late=G.hour>=24, night=late||hh>=17.5||hh<5;
+    if(G.day>=3&&!late&&hh>=5){ if(hh<12.5) out.push({kind:'nap',to:13,t:'小睡一下',hint:'睡到下午 13:00'}); if(hh<17.5) out.push({kind:'nap',to:18,t:hh<12.5?'睡到傍晚':'小睡一下',hint:'睡到傍晚 18:00'}); }
+    if(night||G.day<3) out.push({kind:'sleep',t:'睡覺',hint:'明天早上醒來'});
+    out.push({kind:'stay',t:'再撐一下'}); return out; };
   /* 生活費（D48；2026-10-11 使用者＋AA 的企劃：每月 25,000 元，只用在生活——宿舍、學費、手機家裡另外付；每月 1 日匯進帳戶；額外收入只有過年紅包和可選的打工）。
      遊戲畫面沒有日期：第一天是「開學第三週的週三」＝9/17（9/1 週一開學；AA 2026-10-11 09:28Z 確認），只用來算「每月 1 日」；企劃的週曆改了就改 CAL0。
      開局：帳戶約 20,000＋錢包約 2,000（game3d.js defaults 的 money 22000；S.newGame 設 fundsV2）。舊存檔（沒有 fundsV2）：下一個早上補帳戶裡的 20,000 元一次——
