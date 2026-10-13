@@ -62,7 +62,12 @@ const quiet=async fn=>{ const ce=console.error; console.error=()=>{}; try{ retur
     G.choices.whyLaw='family'; check('3 之前的選擇（choice）',P3({choice:{whyLaw:'family'}})&&!P3({choice:{whyLaw:'hero'}}));
     check('3 已經發生的事件（events／notEvents）：t_once 演過',P3({events:['t_once']})&&!P3({notEvents:['t_once']}));
     G.courses={done:{},attend:{econ_principles_1:1},prep:{},electives:{},grades:{},note:{}}; check('3 上課出席（course）：重修經濟學原理上過 1 次 → 「至少 1 次」成立、「至少 3 次」不成立',P3({course:{econ_principles_1:{min:1}}})&&!P3({course:{econ_principles_1:{min:3}}}));
-    G.courses.attend={}; check('3 上課出席：一次都沒上過 → 「至少 1 次」不成立',!P3({course:{econ_principles_1:{min:1}}})); }
+    G.courses.attend={}; check('3 上課出席：一次都沒上過 → 「至少 1 次」不成立',!P3({course:{econ_principles_1:{min:1}}}));
+    /* 玩家缺席的故事條件（ChatGPT 審查第七點）：翹課的版本用 max——一次都沒去（max:0）成立；去過一次以後不成立；「去過但不常去」{min:1,max:2} */
+    check('3 缺席：一次都沒去 → 「沒去過」（max:0）成立',P3({course:{econ_principles_1:{max:0}}}));
+    G.courses.attend={econ_principles_1:1}; check('3 缺席：去過一次以後「沒去過」不成立、「去過但不常去」（min:1,max:2）成立',!P3({course:{econ_principles_1:{max:0}}})&&P3({course:{econ_principles_1:{min:1,max:2}}}));
+    G.courses.attend={econ_principles_1:5}; check('3 缺席：去了 5 次「不常去」不成立',!P3({course:{econ_principles_1:{min:1,max:2}}}));
+    delete G.courses; check('3 缺席：舊存檔沒有課表紀錄 → 「沒去過」成立、「至少 1 次」不成立（不會出錯）',P3({course:{econ_principles_1:{max:0}}})&&!P3({course:{econ_principles_1:{min:1}}})); }
   // ---------- 4. 跳過時間、快速前往 ----------
   { const d=firstDayOf('Y1S1',7); G.day=d; G.zone='boya'; room='study'; G.hour=11;
     const win=ev({id:'t_win',location:'boya',time:[12,13],once:true}); STORY_EVENTS.length=0; STORY_EVENTS.push(win);
