@@ -79,6 +79,9 @@ const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
     const G2=Object.assign(mkG(T,18),{zone:'dorm',invites:[{day:T,h:19.5,accepted:true,label:'讀書會'}]}); said.length=0; await CLS.skipTo(mkGM(G2,0),22);
     check('跳到一半遇到邀約：停在 19:20、字幕寫原因、沒有經過課就不問',Math.abs(G2.hour-(19.5-1/6))<1e-9&&said.some(t=>/約好的時間：讀書會/.test(t))&&!said.some(t=>/^choose/.test(t)),said.join(' | '));
     const G3=Object.assign(mkG(T,23.5),{zone:'dorm'}); await CLS.skipTo(mkGM(G3,0),26); check('不跳過午夜（隔天＝睡覺）',G3.hour<24,String(G3.hour));
+    const G4=Object.assign(mkG(T,21+5/6),{zone:'library_hall'}); said.length=0; const r4=await CLS.skipTo(mkGM(G4,0),23);
+    check('在總圖、已經在閉館前 10 分鐘以內：不能跳過閉館（先離開），時間不動',r4===false&&G4.hour===21+5/6&&said.some(t=>/總圖書館快要閉館了（22:00）/.test(t)),said.join(' | '));
+    const G5=Object.assign(mkG(T,21+5/6),{zone:'library_hall'}); const r5=await CLS.skipTo(mkGM(G5,0),21.95); check('閉館前（21:57）還可以跳',r5===true&&Math.abs(G5.hour-21.95)<1e-9,String(G5.hour));
     afterSkip(); })(); }
 function afterSkip(){
 // ---------- 成績單、自學 ----------
