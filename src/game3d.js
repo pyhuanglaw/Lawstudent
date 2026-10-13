@@ -240,7 +240,7 @@ const GAME = (function(){
   // ---------- 啟動 ----------
   // ---------- 手機（D54 的順序第 4 步：今天、課表；訊息、朋友之後）----------
   let phoneOpen=false, phoneTab='today';
-  function renderPhone(){ if(!phoneOpen||typeof CLS==='undefined'||!G) return; const body=$('phoneBody'); body.innerHTML=phoneTab==='week'?CLS.weekHTML(G):(phoneTab==='places'?placesHTML():(phoneTab==='friends'?friendsHTML():CLS.todayHTML(G)));
+  function renderPhone(){ if(!phoneOpen||typeof CLS==='undefined'||!G) return; const body=$('phoneBody'); body.innerHTML=phoneTab==='week'?CLS.weekHTML(G):(phoneTab==='places'?placesHTML():(phoneTab==='friends'?friendsHTML():(phoneTab==='events'?eventsHTML():CLS.todayHTML(G))));
     body.querySelectorAll('[data-skip]').forEach(b=>b.onclick=async()=>{ closePhone(); await CLS.skipTo(GM,+b.dataset.skip); });
     body.querySelectorAll('[data-place]').forEach(b=>b.onclick=async()=>{ const pl=PLACE_LIST().find(q=>q[0]+'|'+q[1]===b.dataset.place); if(pl) await quickGo(pl); });
     document.querySelectorAll('#phoneTabs button').forEach(b=>b.classList.toggle('on',b.dataset.ptab===phoneTab));
@@ -255,6 +255,15 @@ const GAME = (function(){
   function placesHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); let h='<div class="item muted">知道的地方可以直接過去，依距離花時間；想看看路上的人和風景，也可以自己走。</div>';
     for(const pl of PLACE_LIST()){ const st=placeState(pl); const ht=typeof PLACES!=='undefined'&&PLACES.hours[pl[0]]?(PLACES.hours[pl[0]].rules?PLACES.todayText(pl[0],G.day):(PLACES.hours[pl[0]].open!=null?PLACES.hours[pl[0]].text:'')):'';
       h+='<div class="item phrow"><div>'+esc(pl[1])+'<div class="muted">'+(!st.known?'還沒去過':(st.here?'你在這裡':'約 '+st.mins+' 分鐘'))+(ht?'・'+esc(ht):'')+'</div></div>'+(st.here||!st.known?'':'<button class="btn'+(st.open?' pri':'')+'" data-place="'+esc(pl[0]+'|'+pl[1])+'">'+(st.open?'前往':'已閉館')+'</button>')+'</div>'; }   /* 已閉館的按鈕按了會說幾點開、可以改去哪裡 */
+    return h; }
+  /* 手機「活動」（D55，使用者 2026-10-13「手機查詢：朋友位置、課表、活動」）：這幾天的演講與活動（src/data/activities.js，內容等 AA、BB；目前是空的）。
+     地點有快速前往的，旁邊有「前往」（照樣花時間、照開放時間）；校園上還沒有門的建築（博雅）只寫地點 */
+  function eventsHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); const up=typeof ACTIVITIES!=='undefined'?ACTIVITIES.upcoming(G,7):[];
+    if(!up.length) return '<div class="item muted">目前沒有公告的演講或活動。看到海報、公告欄的活動，會列在這裡。</div>';
+    const W=['日','一','二','三','四','五','六'], PL=PLACE_LIST(); let h='';
+    for(const {a,k} of up){ const d=CALENDAR.dateOf(G.day+k); const when=(k===0?'今天':k===1?'明天':d.m+'/'+d.d+'（'+W[d.wd%7]+'）')+' '+ACTIVITIES.hhmm(a.t0)+'–'+ACTIVITIES.hhmm(a.t1);
+      const where=a.roomName||(PLACES.names&&PLACES.names[a.zone])||''; const pl=PL.find(q=>q[0]===a.zone)||PL.find(q=>q[0]==='campus'&&q[1]===(PLACES.names&&PLACES.names[a.zone]));
+      h+='<div class="item phrow"><div>'+esc(a.title)+'<div class="muted">'+esc(when)+(where?'・'+esc(where):'')+'</div></div>'+(pl&&!(k===0&&G.hour%24>=a.t1)?'<button class="btn" data-place="'+esc(pl[0]+'|'+pl[1])+'">前往</button>':'')+'</div>'; }
     return h; }
   /* 手機「朋友」（D54 ④：手機資訊是協助找人，不是任務標記）：認識的人現在大概在哪（照作息，和大地圖的人物線索同一份）；在別的地方的，可以快速前往那個地方（照樣花時間）*/
   function friendsHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); const ids=knownIds(); const PL=PLACE_LIST();
