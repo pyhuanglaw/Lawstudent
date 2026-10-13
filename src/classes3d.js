@@ -306,7 +306,7 @@ const CLS=(function(){
   S.tick=function(GM){ const G=GM.G; if(!G||!G.flags) return; const R=S.rec(G), h=hr(G);
     for(const it of S.dayItems(G)){ if(S.storyClass(G,it)) continue; const k='rem_'+it.key; if(R.note[k]) continue; if(h>=it.t0-WIN0&&h<it.t0&&!R.done[it.key]){ R.note[k]=1; if(!GM.S||GM.S.classRemind!==false) GM.toast('30 分鐘後上課：'+S.itemText(it),4200); } }
     const sig=G.day+':'+Math.floor(h*4); if(sig!==lastT){ lastT=sig; S.skipNotes(GM); S.refreshGoal(GM); if(G.zone==='classroom'||(GM.E.zone&&GM.E.zone.layout)) S.syncRoom(GM); }
-    S.updateHUD(GM); };
+    S.figTick(GM); S.updateHUD(GM); };
   /* 霖澤館 201：上課時間座位上有同學（背景人物，坐著）；下課後離開。教授由 story3d.js 的作息（schedFor → CLS.profWhere）處理 */
   /* 建築裡的教室（共同教學館…）：正在上課的每一間坐一半左右的同學（位子照課程與日期固定：出去再進來是同一批人）；下課的那一間的人離開 */
   /* 建築裡的教室（共同、博雅…）：上課的時候坐一部分同學；演講、活動（src/data/activities.js，有 zone、room 的）開始前 15 分鐘到結束也一樣（人數照活動的 crowd.n）*/
@@ -317,15 +317,44 @@ const CLS=(function(){
   function walkOut(GM,n){ const E=GM.E, L=E.zone&&E.zone.layout; if(!L||typeof CROWD==='undefined'||!CROWD.seatSide) return false; const st=n.seat, ap=st&&CROWD.seatSide(E,st); if(!ap) return false; const lv=st.lv|0;
     n.obj.position.set(ap[0],E.heightAt(ap[0],ap[1],lv),ap[1]); n.lv=lv; n.seat=null; n.clsStudent=false; n.frozen=false; n.pose='walk'; n.idlePose='idle'; n.leaving=true; n.arrived=false; n.crowd='cls';
     const ex=L.entrance.exit; return E.moveTo(n,ex.x,ex.z-0.7,()=>{ n.arrived=true; },0); }
+  // ---------- 遠處座位的替身（LAWWW2 167fc2d：assets/models/env/second_ai/seated_figures.glb）----------
+  /* 使用者 2026-10-13（經 LAWWW2 轉達）：「101 要有遠處座位的低成本坐姿人物、近處少量 NPC；不要先做 400 個完整 3D NPC」。
+     大的階梯教室（40 個位子以上）上課、演講時：完整人物照舊最多 16 個，其餘要坐的位子用替身——路人底模 4 種×聽講／抄筆記／滑手機×2 配色；
+     每種外型一個 InstancedMesh；離玩家 7 m 內用 LOD0（約 1,500 個三角形）、更遠用 LOD1（約 350）。替身的原點＝座位地面中心、+z 朝講台（和座位 yaw 同一個方向）。
+     替身坐的位子標 taken（玩家、其他人不坐）。下課：整組在畫面外才拿掉（不在玩家眼前消失）；換區域、時間跳過直接拿掉。不是有名字的人，不能對話 */
+  const FIG={on:new Map(),zone:null}, FIG_KEY='prop.seated_figures';
+  const figFree=(E,st)=>!st.taken&&!E.npcs.some(n=>(n.seat||n.seatTarget)&&Math.hypot((n.seat||n.seatTarget).x-st.x,(n.seat||n.seatTarget).z-st.z)<0.35)&&!(E.player&&E.player.seat&&Math.hypot(E.player.seat.x-st.x,E.player.seat.z-st.z)<0.35);
+  S.figPlace=function(GM,key,seats){ const E=GM.E; if(typeof ASSETS==='undefined'||!ASSETS.manifest[FIG_KEY]||typeof THREE==='undefined'||!E.zone) return 0;
+    if(FIG.zone!==E.zone){ FIG.on.clear(); FIG.zone=E.zone; } if(FIG.on.has(key)) return 0; seats=seats.filter(st=>figFree(E,st)); if(!seats.length) return 0;
+    const rec={key,seats,group:null,leaving:false,zone:E.zone}; FIG.on.set(key,rec); for(const st of seats) st.taken=key;
+    ASSETS.loadOne(FIG_KEY).then(c=>{ if(FIG.on.get(key)!==rec||GM.E.zone!==rec.zone) return; const vars={}; c.scene.traverse(o=>{ if(o.isMesh&&/^fig_/.test(o.name)) vars[o.name]=o; });
+      const names=Object.keys(vars).filter(n=>!/_lod1$/.test(n)).sort(); if(!names.length) return; let h=0; for(const ch of key) h=(h*31+ch.charCodeAt(0))>>>0;
+      const P=GM.E.player&&GM.E.player.obj.position, by=new Map();
+      rec.seats.forEach((st,i)=>{ const nm=names[(h+i*7)%names.length], k=(P&&Math.hypot(st.x-P.x,st.z-P.z)<7)?nm:nm+'_lod1'; const kk=vars[k]?k:nm; if(!by.has(kk)) by.set(kk,[]); by.get(kk).push(st); });
+      const g=new THREE.Group(); g.name='seated_figures:'+key; const M=new THREE.Matrix4(), Q=new THREE.Quaternion(), UP=new THREE.Vector3(0,1,0), ONE=new THREE.Vector3(1,1,1), V=new THREE.Vector3();
+      for(const [k,L] of by){ const im=new THREE.InstancedMesh(vars[k].geometry,vars[k].material,L.length); L.forEach((st,i)=>{ Q.setFromAxisAngle(UP,st.yaw||0); V.set(st.x,st.y||0,st.z); M.compose(V,Q,ONE); im.setMatrixAt(i,M); });
+        im.instanceMatrix.needsUpdate=true; im.castShadow=false; im.receiveShadow=true; im.computeBoundingSphere(); g.add(im); }
+      const LG=rec.zone.levelGroups, lg=LG&&LG[rec.seats[0].lv|0]; (lg&&lg.group||rec.zone.group||GM.E.scene).add(g); rec.group=g; }).catch(e=>{ console.warn('seated_figures',e); });   /* 放進那一層的群組：上下樓時跟著那一層顯示／隱藏 */
+    return seats.length; };
+  const figGone=rec=>{ if(rec.group&&rec.group.parent) rec.group.parent.remove(rec.group); for(const st of rec.seats) if(st.taken===rec.key) st.taken=null; FIG.on.delete(rec.key); };
+  S.figRemove=function(GM,key,instant){ const rec=FIG.on.get(key); if(!rec) return; if(instant||!rec.group||GM.E.zone!==rec.zone) figGone(rec); else rec.leaving=true; };
+  let figFr=null;
+  S.figTick=function(GM){ if(!FIG.on.size) return; const E=GM.E; for(const rec of [...FIG.on.values()]){ if(E.zone!==rec.zone){ FIG.on.delete(rec.key); continue; } if(!rec.leaving||!rec.group) continue;
+      const cam=E.camera; let seen=false; if(cam&&THREE.Frustum){ figFr=figFr||new THREE.Frustum(); figFr.setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse));
+        for(const im of rec.group.children){ if(!im.boundingSphere) continue; const sp=im.boundingSphere.clone().applyMatrix4(im.matrixWorld); if(figFr.intersectsSphere(sp)){ seen=true; break; } } }
+      if(!seen) figGone(rec); } };
+  S.figState=()=>[...FIG.on.values()].map(r=>({key:r.key,n:r.seats.length,leaving:r.leaving,loaded:!!r.group}));   /* 測試用 */
   S.syncRooms=function(GM,opt){ const G=GM.G, E=GM.E; if(!E.zone||!E.zone.seats||!E.zone.layout) return; const live=S.liveIn(G,G.zone).filter(it=>it.room.room);
     const instant=(opt&&opt.instant)||!lastSync||lastSync.zone!==G.zone||Math.abs(G.hour-lastSync.h)>0.6; lastSync={zone:G.zone,h:G.hour};
     if(typeof ACTIVITIES!=='undefined') for(const a of ACTIVITIES.active(G,{before:0.25})) if(a.zone===G.zone&&a.room) live.push({key:'act:'+a.id+':'+G.day,room:{room:a.room},n:a.crowd&&a.crowd.n});
     const keys=new Set(live.map(it=>it.key));
     for(const n of E.npcs.slice()){ if(n.clsStudent&&!keys.has(n.clsKey)){ if(instant||!walkOut(GM,n)) E.removeNPC(n); } }
+    for(const k of [...FIG.on.keys()]) if(!keys.has(k)) S.figRemove(GM,k,instant);   /* 下課：替身整組在畫面外才拿掉 */
     for(const it of live){ if(E.npcs.some(n=>n.clsStudent&&n.clsKey===it.key)) continue; const seats=E.zone.seats.filter(q=>q.room===it.room.room&&(q.kind==='class'||q.kind==='lecture')); let h=0; for(const ch of it.key) h=(h*31+ch.charCodeAt(0))>>>0;
       /* 一半的位子（照種子洗牌：同一堂課同一些位子），留一半給玩家 */ let sd=h%2147483646+1; const rnd=()=>{ sd=(sd*16807)%2147483647; return (sd-1)/2147483646; }; const idx=seats.map((q,i)=>i); for(let i=idx.length-1;i>0;i--){ const j=Math.floor(rnd()*(i+1)); [idx[i],idx[j]]=[idx[j],idx[i]]; }
-      for(const i of idx.slice(0,Math.min(16,it.n||Math.round(seats.length*0.5)))){   /* 最多 16 人（和霖澤館 201 一樣；階梯教室 40 個位子不會一次載 20 個人物）*/ const st=seats[i]; if(E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.35)) continue; const o=CHAR.build(STORY.extraSpec(200+((h+i*7)%97))); o.position.set(st.x,st.y||0,st.z); o.rotation.y=st.yaw;   /* 階梯教室：座位的高度（addNPC 也照 seat.y 放）*/
-        E.addNPC({obj:o,name:'',beh:'idle',pose:'sit',idlePose:'sit',frozen:true,isExtra:true,seat:st,lv:st.lv|0,clsStudent:true,clsKey:it.key}); } } };
+      for(const i of idx.slice(0,Math.min(16,it.n||Math.round(seats.length*0.5)))){   /* 最多 16 人（和霖澤館 201 一樣；階梯教室 40 個位子不會一次載 20 個人物）*/ const st=seats[i]; if(st.taken||E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.35)) continue; const o=CHAR.build(STORY.extraSpec(200+((h+i*7)%97))); o.position.set(st.x,st.y||0,st.z); o.rotation.y=st.yaw;   /* 階梯教室：座位的高度（addNPC 也照 seat.y 放）*/
+        E.addNPC({obj:o,name:'',beh:'idle',pose:'sit',idlePose:'sit',frozen:true,isExtra:true,seat:st,lv:st.lv|0,clsStudent:true,clsKey:it.key}); }
+      const want=Math.min(seats.length,it.n||Math.round(seats.length*0.5)); if(seats.length>=40&&want>16) S.figPlace(GM,it.key,idx.slice(16,want).map(i=>seats[i]));   /* 其餘的位子：替身 */ } };
   S.syncRoom=function(GM){ const G=GM.G, E=GM.E; if(E.zone&&E.zone.layout) return S.syncRooms(GM); if(!E.zone||!E.zone.seats) return; const live=S.liveIn(G,'classroom'); const key=live.length?live[0].key:null;
     const mine=E.npcs.filter(n=>n.clsStudent); if(mine.length&&mine[0].clsKey!==key){ for(const n of mine){ if(n.obj&&n.obj.parent) n.obj.parent.remove(n.obj); } E.npcs=E.npcs.filter(n=>!n.clsStudent); }
     if(!key||E.npcs.some(n=>n.clsStudent)) return; const seats=E.zone.seats; let i=0; const cells=[[0,0],[0,2],[0,5],[1,1],[1,6],[2,0],[2,2],[2,4],[2,7],[3,1],[3,3],[3,6],[4,0],[4,5],[5,2],[5,7]];
