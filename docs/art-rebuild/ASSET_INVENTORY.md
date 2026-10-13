@@ -72,6 +72,8 @@
 | 教學館家具模組（LAWWW2 正式模型 `assets/models/env/second_ai/furniture_study.glb`：自習雙人桌、自習椅、圓桌、講堂椅（座面放下／收起）、排尾側板、連續桌板＋簡化版；教室門：門框、門片開／關、門牌——VISUAL_REVIEW 第 25 節） | 博雅 101 講堂、教學館自習區、教室門口（取代模板的方塊桌椅、牆上的門洞；座位配置、入座、LOD 由 LAWWW 做） | ⑤（新做） | `MODEL_READY`（LAWWW2；還沒接）：VISUAL_REVIEW 第 23 節 | 一個材質（顏色＋法線＋粗糙度／金屬度）、每種一個網格，給 `InstancedMesh` |
 | 坐著的聽眾替身（LAWWW2 正式模型 `assets/models/env/second_ai/seated_figures.glb`：路人底模 4 種×3 姿勢×2 配色＝24 種外型，LOD0 約 1,500／LOD1 約 350 三角形，一個材質） | 博雅 101 講堂、教學館自習區的遠處人群（近處用真的 VRM 人物；放法、數量、LOD 由 LAWWW 做） | ⑤（新做） | `MODEL_READY`（LAWWW2；還沒接）：VISUAL_REVIEW 第 24 節 | 和講堂椅同一個原點，直接用同一個 instance 矩陣 |
 | 桌上小物（LAWWW2 正式模型 `assets/models/env/second_ai/desk_props.glb`：17 種單件＋15 組（講堂 `lset`／自習桌 `tset`／圓桌 `rset`／手上 `hold`）×2 LOD，一個材質，螢幕自發光——VISUAL_REVIEW 第 27 節） | 博雅 101 講堂、教學館自習區（配坐姿替身或真的 NPC；放法、配哪一組由 LAWWW 做） | ⑤（新做） | `MODEL_READY`（LAWWW2；還沒接）：VISUAL_REVIEW 第 27 節 | 講堂組、手上的東西和講堂椅、替身同一個原點，直接用同一個 instance 矩陣 |
+| 社團博覽會攤位（LAWWW2 正式模型 `assets/models/env/second_ai/club_fair.glb`：九個攤位，每攤一個網格、一個材質——VISUAL_REVIEW 第 28 節） | 椰林大道南側草地（9/30、10/1；服務台換掉 (−13.5, 14.6) 的公告欄、法服換掉 (−18, 14.5) 的招生攤位） | ⑤（新做；取代那兩天的公告欄與方盒招生攤位） | `MODEL_READY`（LAWWW2；配置是 PROPOSAL，還沒接）：VISUAL_REVIEW 第 28 節 | 顯示日期、導航（每頂帳篷 3×3 m）、互動、藏起原本的公告欄與招生攤位由 LAWWW 做 |
+| 系籃半場（LAWWW2 正式模型 `assets/models/env/second_ai/bball_court.glb`：鋪面＋場線、籃架、長椅三個網格——`docs/art-rebuild/second_ai/research/系籃球場_位置提案.md`） | 校園（提案 A：醉月湖東側 (−4, −113)；B：男一舍與體育館之間 (48.5, 67)；**位置等使用者確認**） | ⑤（新做；現在系籃練球只是體育館門口的一個點） | `MODEL_READY`（LAWWW2；位置是 PROPOSAL，還沒接） | 導航只擋籃架柱子與長椅；活動點搬到長椅前面 |
 | `desk()`、`chair()`、`shelfWall()`、`goodsWall()`、床、沙發、Café 家具 | 各室內 | ④ | BLOCKOUT | Blender 家具組（GLB，同一款重用） |
 
 ## 五、人物（`src/character3d.js`、`assets/models/char/`）
