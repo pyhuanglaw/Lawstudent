@@ -19,6 +19,15 @@ run seated_look_unit      node tests/seated_look_unit.js        # 坐著的人�
 run guide_unit            node tests/guide_unit.js              # 目標文字 → 導航目的地、開放時間
 run schedule_refresh_unit node tests/schedule_refresh_unit.js     # 待在區域裡，照行程該出現的人會出現、時段結束的人離開（人物線索和實際一致；v9.5 審查）
 run allowance_unit        node tests/allowance_unit.js          # 生活費：每月 1 日 25,000、開局 22,000、舊存檔補一次（D48）
+run nav_lawlib_unit       node tests/nav_lawlib_unit.js         # 法律學院圖書館：兩層導航、U 形樓梯、座位、萬才館大廳的門（D46）
+run calendar_hours_unit   node tests/calendar_hours_unit.js     # 日曆（學期、寒暑假、國定假日）＋法圖開放時間（D53）
+run classes_unit          node tests/classes_unit.js            # 課表（AA_103／AA_104，D52）：資料、撞課、狀態、教授位置、考試週、成績單、門口上課點
+run quick_travel_unit     node tests/quick_travel_unit.js       # 快速前往的落點都站得住、走得出去；時間照距離（D54）
+run campus_public_unit    node tests/campus_public_unit.js      # 公共場景（共同教學館、大一女舍）：入口站得住、從校門與霖澤館前走得到、建築走不進去（D55）
+run crowd_unit            node tests/crowd_unit.js              # 人流：共同教學館門口上課前後、大一女舍門口早晚；同一時段進出看到同一批人；跳過時間重排（D55）
+run nav_teach_unit        node tests/nav_teach_unit.js          # 公共教學館模板（共同教學館室內）：座位、樓梯、出口、關著的房間、小孤島（D55）
+run teach_class_unit      node tests/teach_class_unit.js        # 建築裡的教室上課（共同教學館 101）：坐下的上課選項、目標導航、同學、門（D55）
+run activities_unit      node tests/activities_unit.js         # 活動與演講（資料格式、海報、進行中）＋事件的 room／activity／npcHere 條件（D55）
 run deploy_check          python3 tests/deploy_check.py "$URL" $VER
 run model_upgrade         python3 tests/model_upgrade.py "$URL" "$OUT/model_upgrade"
 run zone_transitions      python3 tests/zone_transitions.py "$URL"
@@ -36,6 +45,8 @@ run flow_wancai_stairs    python3 tests/flow_wancai_stairs.py "$URL" "$OUT/flow_
 run flow_wancai_floors    python3 tests/flow_wancai_floors.py "$URL" "$OUT/flow_wancai_floors"     # 萬才館室內兩層樓（D42）
 run flow_library_floors   python3 tests/flow_library_floors.py "$URL" "$OUT/flow_library_floors"   # 總圖大廳（D43）
 run flow_library_scene    python3 tests/flow_library_scene.py "$URL" "$OUT/flow_library_scene"     # 小安「總圖的下午」在二樓自習區
+run flow_classes          python3 tests/flow_classes.py "$URL" "$OUT/flow_classes"                 # 課表、手機、快速前往、跳過時間（D52、D54）
+run flow_teaching_bldgs   python3 tests/flow_teaching_buildings.py "$URL" "$OUT/flow_teaching_buildings"   # 公共教學館（D55）：走到正門、大地圖、手機快速前往、舊存檔
 run guide_flow            python3 tests/guide_flow.py "$URL?turbo" "$OUT/guide_flow"           # 導航、大地圖、入口名牌、開放時間（2026-10-11 使用者回報）
 run levels_no_sky         python3 tests/levels_no_sky.py "$URL?turbo" "$OUT/levels_no_sky"     # 霖澤館上下樓梯、搭電梯不看到大片天空（2026-10-11）
 run flow_main_day12      python3 tests/flow_main_day12.py "$URL" "$OUT/flow_main_day12"   # TESTING.md 第五節第 6 項（第一、二天主線，20–40 分鐘）：2026-10-11 才補進來，之前的發布都沒跑

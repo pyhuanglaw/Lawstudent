@@ -139,6 +139,30 @@ const Z3 = (function(){
     // ---- 行政大樓（大道南側、傅鐘後面）：大圓柱、對稱，正面朝北對著椰林大道 ----
     // v9.3：台大日治時期建築語彙（src/campuskit3d.js）：面磚、一樓拱廊、拱窗、石材腰帶與簷口、寄棟屋頂、中央門廊（佔地不變；門廊的柱墩與側牆另外加碰撞）
     const admin=CK.hall({w:46,d:16,floors:3,gfh:4.2,fh:3.4,wall:'#cdb48e',trim:'#e8e0cf',roof:'#4a3a33',roofH:4.2,arcade:true,porch:{bays:3,depth:3.0,pediment:false},sign:'行政大樓'}); ckPlace(admin,-38,33,Math.PI); buildings.push(admin);
+    /* 共同教學館（使用者 2026-10-13：普通、共同、博雅三棟公共教學館；docs/campus/TEACHING_BUILDINGS_PLAN.md）：真實位置在行政大樓東邊（中間隔木造走廊）、南臨舟山路——
+       正好是第十八批補的「大道南側、行政大樓東邊」那棟無名系館的位置，換成有名字的建築，位置與大小不變（舊存檔、導航不受影響）。
+       外觀是校園套件的方盒（BLOCKOUT），等 LAWWW2 的 Blender 正式模型；正門在北面中間，門口的互動點在 classes3d.js 的 DOORS.common */
+    const gongtong=CK.hall({w:24,d:14,floors:3,gfh:4.2,fh:3.6,wall:'#9b5a42',trim:'#d8cfbd',roof:'#43342e',roofH:3.6,arcade:true,porch:{bays:1,depth:2.4,pediment:true,pedH:1.4},sign:'共同教學館'}); ckPlace(gongtong,2,33,Math.PI); buildings.push(gongtong);
+    /* 大一女舍（使用者 2026-10-13：四棟跨學年公共場景之一；查證見 docs/campus/TEACHING_BUILDINGS_PLAN.md 3b）：學務處官方簡介——在校園內、鄰近公館捷運站 2、3 號出口，
+       A、B 兩棟、各 5 層；學生整理的住宿資料：兩棟 2 樓有天橋、傳達室在 A 棟、B 棟靠舟山路、B 棟大門刷學生證。不是女一舍、不是水源 BOT。
+       校園西南角、舟山路西段南側（靠校門與公館那一側），取代第二十批的無名系館 (-92,66)。外觀是校園套件（BLOCKOUT），等 LAWWW2 的模型；
+       主角是男生：大門「男賓止步」，可以在門口的長椅等人，不能進去（第一階段沒有室內）*/
+    { const FD={w:24,d:12,floors:5,gfh:3.6,fh:3.1,wall:'#d9cfc2',trim:'#efe9dd',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4}};
+      const fdA=CK.hall(Object.assign({},FD,{sign:'大一女舍 A'})); ckPlace(fdA,-108,68,Math.PI); buildings.push(fdA);
+      const fdB=CK.hall(Object.assign({},FD,{sign:'大一女舍 B'})); ckPlace(fdB,-78,66,Math.PI); buildings.push(fdB);
+      // 2 樓天橋：A 棟東牆 (x=-96) 到 B 棟西牆 (x=-90)；下面可以走（不擋導航），鏡頭碰撞照建築
+      const br=new THREE.Group(); const bw=6.2, by0=3.7, bh=2.7;
+      const deck=new THREE.Mesh(new THREE.BoxGeometry(bw,0.3,3.2),M('#cfc6b8')); deck.position.set(0,by0,0); br.add(deck);
+      const roofB=new THREE.Mesh(new THREE.BoxGeometry(bw,0.25,3.4),M('#bdb3a4')); roofB.position.set(0,by0+bh,0); br.add(roofB);
+      for(const sz of [-1.5,1.5]){ const wall=new THREE.Mesh(new THREE.BoxGeometry(bw,0.9,0.12),M('#d9cfc2')); wall.position.set(0,by0+0.6,sz); br.add(wall);
+        const gl=new THREE.Mesh(new THREE.BoxGeometry(bw,bh-1.2,0.05),new THREE.MeshStandardMaterial({color:'#9fb4c2',roughness:0.15,metalness:0.2,transparent:true,opacity:0.55})); gl.position.set(0,by0+0.95+(bh-1.2)/2,sz); br.add(gl); }
+      br.position.set(-93,0,67); g.add(br);
+      const bc=new THREE.Mesh(new THREE.BoxGeometry(bw,bh+0.3,3.4),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); bc.position.set(-93,by0+bh/2,67); g.add(bc); E.colliders.push(bc);
+      // 門口：等人用的長椅（面向兩棟的大門）、B 棟門口的腳踏車架
+      { const b=BENCH(); place(g,b,-93,54.2,0); nav.blockRect(-93,54.2,1.4,0.7,0); seats.push({x:-93,z:54.26,yaw:0,label:'坐在大一女舍門口的長椅（等人）'}); }
+      { const r=W3.bikeRack(7); place(g,r,-66,55.4,0); nav.blockRect(-66,55.4,5,1.4,0); }
+      E.interactables.push({x:-108,z:59.2,radius:1.6,lv:0,label:'大一女舍 A 棟（傳達室）',mark:true,look:'大一女舍 A 棟。傳達室在這一棟。女生宿舍，男賓止步——要找人，可以在門口的長椅等。'});
+      E.interactables.push({x:-78,z:57.2,radius:1.6,lv:0,label:'大一女舍 B 棟',mark:true,look:'大一女舍 B 棟。大門要刷住宿生的學生證。女生宿舍，男賓止步。'}); }
     const admGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_admin']; admin.userData.ckTag='admin'; if(admGLB) admin.userData.dyn=true;   /* 行政大樓的 Blender 正式模型（第二個 AI：campus_hall.py --set admin → bldg.campus_admin）：和總圖同一套接法；導航、鏡頭碰撞、門口照舊是套件的（ckPlace） */
     // ---- 文學院（大道北側，正對行政大樓）：仿羅馬式拱窗 ----
     const arts=CK.hall({w:40,d:18,floors:2,gfh:4.8,fh:4.4,wall:'#9b5a42',trim:'#d8cfbd',roof:'#43342e',roofH:4.8,arcade:true,porch:{bays:3,depth:3.0,pediment:true,pedH:1.8},sign:'文學院'}); ckPlace(arts,-38,-34,0); buildings.push(arts); strip(g,-38,-8,-38,-24,4,W3.pathTex(),4);
@@ -198,11 +222,10 @@ const Z3 = (function(){
     { const fill=[
         [CK.hall({w:26,d:14,floors:3,gfh:4.4,fh:3.8,wall:'#c8a27c',trim:'#e6dfd0',roof:'#4a3a33',roofH:3.8,arcade:true,porch:{bays:1,depth:2.4,pediment:false}}),7,-28,0],          // 大道北側、文學院東邊
         [CK.hall({w:28,d:16,floors:4,gfh:4.4,fh:3.6,wall:'#a35c48',trim:'#ddd5c6',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'}}),57,-34,0],   // 大道北側、小椰林道東邊
-        [CK.hall({w:24,d:14,floors:3,gfh:4.2,fh:3.6,wall:'#9b5a42',trim:'#d8cfbd',roof:'#43342e',roofH:3.6,arcade:true,porch:{bays:1,depth:2.4,pediment:true,pedH:1.4}}),2,33,Math.PI],   // 大道南側、行政大樓東邊
         [CK.hall({w:34,d:14,floors:4,gfh:4.2,fh:3.5,wall:'#d2c3a5',trim:'#ebe4d6',roofType:'flat',win:'rect',arcade:true,porch:{bays:3,depth:2.6,style:'flat'}}),45,33,Math.PI],   // 大道南側、往宿舍的路東邊
         [CK.hall({w:30,d:13,floors:5,gfh:3.6,fh:3.1,wall:'#bfb5a3',trim:'#e4ddd0',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4}}),-34,68,Math.PI],   // 舟山路南側、宿舍區
         [CK.hall({w:30,d:13,floors:5,gfh:3.6,fh:3.1,wall:'#c9b49a',trim:'#e8e2d6',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4}}),74,68,Math.PI],
-        [CK.hall({w:34,d:13,floors:4,gfh:3.8,fh:3.3,wall:'#c4b29a',trim:'#e6dfd0',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4}}),-92,66,Math.PI]];   // 第二十批：舟山路西段南側（360° 盤點：這裡往南看是一整片空草地）
+];   // 第二十批的「舟山路西段南側」(-92,66) 2026-10-13 換成大一女舍（見行政大樓後面的大一女舍那一段）
       for(const [b,x,z,ry] of fill){ ckPlace(b,x,z,ry); buildings.push(b); }
       // 系館前的樹列、大道外側的樹、宿舍區與校園邊緣的樹帶（擋住草地直接接到遠景的盡頭）
       const rows=[
