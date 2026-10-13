@@ -7,7 +7,7 @@ n = 0
 for f in sorted(glob.glob(D + '/shots/trees_*.png') + glob.glob(D + '/test_shots/trees/**/*.png', recursive=True) + glob.glob(D + '/test_shots/street_trees_integration/*.png')):
     Image.open(f).convert('RGB').save(f[:-4] + '.webp', 'WEBP', quality=82, method=6); os.remove(f); n += 1
 print('converted', n)
-L = D + '/test_logs/trees'
+L = D + '/test_logs/' + (os.environ.get('TREES_LOG') or 'trees')   # 2026-10-13：在 LAWWW 469ae8c 重新驗收的 log 在 test_logs/trees_469ae8c
 names = ['street_trees_unit', 'street_trees_integration', 'campus_glb_integration', 'gongguan_glb_integration', 'wz_street_integration', 'street_props_integration',
          'see_through', 'campus_layout_nav', 'p0_movement', 'reachability_all', 'zone_transitions']
 res = {}
@@ -41,4 +41,5 @@ doc = doc.replace('{{TESTS}}', '、'.join(f'`{k}` {v[0]}' for k, v in res.items(
 assert '{{' not in doc
 p = D + '/VISUAL_REVIEW.md'; v = open(p).read()
 assert '## 15. 行道樹' not in v
-open(p, 'w').write(v.rstrip('\n') + '\n' + doc); print('doc ok', res)
+k = v.index('\n## 16. ')   # 第 15 節放在第 14、16 節中間（照編號）
+open(p, 'w').write(v[:k].rstrip('\n') + '\n' + doc.rstrip('\n') + '\n' + v[k:]); print('doc ok', res)

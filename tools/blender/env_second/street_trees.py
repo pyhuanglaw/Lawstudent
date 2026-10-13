@@ -158,7 +158,7 @@ def camphor(name, seed, H=12.0, cells=('camphor_a', 'camphor_b')):
         d = Vector((math.cos(az) * math.cos(el), math.sin(az) * math.cos(el), math.sin(el)))
         pts = curve(top, d, rng.uniform(0.36, 0.44) * H, 6, bend=Vector((0, 0, 0.5)), rng=rng, wob=0.08)
         pts = pts[:2] + [pull_in(p, C, Rh, Rv, 0.9) for p in pts[2:]]   # 起點（樹幹分岔處）在樹冠底下，不能拉
-        tube(bm, pts, [(0.17 - 0.1 * i / 6) * s for i in range(7)], 7)
+        tube(bm, pts, [(0.17 - 0.1 * i / 6) * s for i in range(7)], 6)   # 2026-10-13：7→6 邊（溫州街三角形）
         anchors.append(pts[-1])
         for f in (0.45, 0.62, 0.8):
             for _ in range(rng.randint(1, 2)):
@@ -167,7 +167,7 @@ def camphor(name, seed, H=12.0, cells=('camphor_a', 'camphor_b')):
                 bd = Vector((math.cos(sa) * math.cos(se), math.sin(sa) * math.cos(se), math.sin(se)))
                 bp = curve(b0, bd, rng.uniform(0.16, 0.26) * H, 4, bend=Vector((0, 0, 0.35)), rng=rng, wob=0.12)
                 bp = bp[:1] + [pull_in(p, C, Rh, Rv, 0.93) for p in bp[1:]]
-                tube(bm, bp, [(0.075 - 0.012 * i) * s for i in range(5)], 5)
+                tube(bm, [bp[0], bp[1], bp[3], bp[4]], [(0.075 - 0.016 * i) * s for i in range(4)], 4)   # 2026-10-13：側枝的管 4 段 5 邊 → 3 段 4 邊（大多在樹冠裡面；溫州街三角形）；曲線、亂數、葉叢位置照舊（遠景卡片不用重拍）
                 anchors += [bp[-1], bp[2]]
     bark = bark_obj(name + '_bark', bm, M['bark_c'], grp)
     cd = Cards()
@@ -208,14 +208,14 @@ def banyan(name, seed, H=10.0):
             d = Vector((math.cos(az) * math.cos(el), math.sin(az) * math.cos(el), math.sin(el)))
             pts = curve(top, d, rng.uniform(0.45, 0.58) * H, 6, bend=Vector((0, 0, 0.25)), rng=rng, wob=0.1)
             pts = pts[:2] + [pull_in(p, C, Rh, Rv, 0.9) for p in pts[2:]]
-            tube(bm, pts, [(0.15 - 0.09 * i / 6) * s for i in range(7)], 7); anchors.append(pts[-1])
+            tube(bm, pts, [(0.15 - 0.09 * i / 6) * s for i in range(7)], 6); anchors.append(pts[-1])   # 7→6 邊
             roots_at += [pts[2], pts[3], pts[4]]
             for f in (0.4, 0.6, 0.8):
                 i0 = int(f * 6); sa = az + rng.choice([-1, 1]) * rng.uniform(0.5, 1.2); se = math.radians(rng.uniform(5, 40))
                 bd = Vector((math.cos(sa) * math.cos(se), math.sin(sa) * math.cos(se), math.sin(se)))
                 bp = curve(pts[i0], bd, rng.uniform(0.18, 0.28) * H, 4, bend=Vector((0, 0, 0.3)), rng=rng, wob=0.12)
                 bp = bp[:1] + [pull_in(p, C, Rh, Rv, 0.93) for p in bp[1:]]
-                tube(bm, bp, [(0.07 - 0.012 * i) * s for i in range(5)], 5); anchors += [bp[-1], bp[2]]
+                tube(bm, [bp[0], bp[1], bp[3], bp[4]], [(0.07 - 0.016 * i) * s for i in range(4)], 4); anchors += [bp[-1], bp[2]]   # 側枝的管 4 段 5 邊 → 3 段 4 邊（曲線、亂數照舊）
     bark = bark_obj(name + '_bark', bm, M['bark_b'], grp)
     cd = Cards()
     for a in anchors:
