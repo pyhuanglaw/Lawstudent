@@ -1,16 +1,19 @@
 {
- "objects": 4,
- "unique_meshes": 4,
- "tris": 2604,
- "tris_drawn": 2604,
- "materials": 9,
+ "objects": 7,
+ "unique_meshes": 7,
+ "tris": 3994,
+ "tris_drawn": 3994,
+ "materials": 16,
  "out": "assets/models/env/second_ai/street_props.glb",
- "bytes": 169068,
+ "bytes": 430888,
  "texres": 256,
  "tris_per_prop": {
   "bench_park": 524,
   "bike_city": 1484,
+  "bulletin_board": 204,
   "lamp_post": 584,
-  "lamp_post_lens": 12
+  "lamp_post_lens": 12,
+  "planter_box": 314,
+  "vending_machine": 872
  }
 }
