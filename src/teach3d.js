@@ -98,7 +98,9 @@ const TB3=(function(){
     wall(0,D/2,W,RY-Y1,Y1,0,new THREE.Vector3(0,0,-1),outer,fb1);
     for(const [a,b] of [[-W/2,EN.a0],[EN.a1,W/2]]) wall((a+b)/2,D/2,b-a,Y1,0,0,new THREE.Vector3(0,0,-1),outer,fb0);
     wall((EN.a0+EN.a1)/2,D/2,EN.a1-EN.a0,Y1-2.6,2.6,0,new THREE.Vector3(0,0,-1),outer,fb0);
-    for(const x of [EN.a0,EN.a1]) b0.add(MAT.frame(),TK.boxG(0.1,2.65,0.16),x,1.325,D/2-0.12); b0.add(MAT.frame(),TK.boxG(EN.a1-EN.a0,0.1,0.16),(EN.a0+EN.a1)/2,2.6,D/2-0.12);
+    /* 入口門框跟著南牆淡出（2026-10-13 LAWWW2 審查：剛進門時鏡頭在南牆外、牆淡出了、門框沒有，前景一大條黑色）*/
+    { const fm=MAT.frame(); const fr=(w,h,x,y)=>{ const ms=new THREE.Mesh(TK.boxG(w,h,0.16),fm.clone()); ms.material.transparent=true; ms.position.set(x,y,D/2-0.12); ms.userData.dir=new THREE.Vector3(0,0,-1); ms.userData.noMerge=true; fb0.add(ms); walls.push(ms); };
+      for(const x of [EN.a0,EN.a1]) fr(0.1,2.65,x,1.325); fr(EN.a1-EN.a0,0.1,(EN.a0+EN.a1)/2,2.6); }
     // 窗框（景在牆的內側）
     for(const w of L.windows){ const bb=bins[w.lv], n=w.n, len=w.a1-w.a0, zz=w.wall==='S'?D/2-T/2-0.06:-D/2+T/2+0.06; for(let i=0;i<=n;i++) bb.add(MAT.frame(),TK.boxG(0.06,w.y1-w.y0,0.06),w.a0+len*i/n,(w.y0+w.y1)/2,zz); for(const y of [w.y0,w.y1]) bb.add(MAT.frame(),TK.boxG(len,0.08,0.08),(w.a0+w.a1)/2,y,zz); }
     // 天花板
@@ -106,6 +108,12 @@ const TB3=(function(){
       const c1=new THREE.Mesh(new THREE.PlaneGeometry(W,D),MAT.ceil()); c1.rotation.x=Math.PI/2; c1.position.y=RY; fb1.add(c1);
       const LP=L.lightPanels||{xs:[-9.6,-6.0,-1.2,1.2,6.0,9.6],zs:[-5.2,-2.0,1.0,4.6]}; for(const [lv,y] of [[0,L.ceil0],[1,RY]]) for(const x of LP.xs) for(const z of LP.zs){ const p=new THREE.Mesh(new THREE.PlaneGeometry(1.2,0.3),MAT.lightPanel()); p.rotation.x=Math.PI/2; p.position.set(x,y-0.01,z); (lv?fb1:fb0).add(p); } }
     b0.build(fb0); b1.build(fb1); }
+  /* 鏡頭碰撞用的隔間牆（engine3d.js 的 followCam，只看玩家那一層）：看不見的盒子，和導航、模型同一份 L.walls——門洞不擋，門楣（2.4 m 以上）擋 */
+  function camColliders(L,g){ const Y1=L.floors[1].y, RY=L.roofY, inv=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}), out=[[],[]];
+    const box=(lv,horiz,a,b,c,y0,y1)=>{ a-=0.06; b+=0.06;   /* 兩端各多 6 cm：視線剛好擦過牆的端點時照樣擋得到（只差一點點就算沒打到）*/ const m=new THREE.Mesh(new THREE.BoxGeometry(horiz?b-a:0.24,y1-y0,horiz?0.24:b-a),inv); m.position.set(horiz?(a+b)/2:c,(y0+y1)/2,horiz?c:(a+b)/2); m.userData.noMerge=true; g.add(m); (out[lv]=out[lv]||[]).push(m); };
+    for(const w of L.walls){ const lv=w.lv|0, y=lv?Y1:0, h=(lv?RY-Y1:L.ceil0); const {horiz,segs}=wallSegs(w); const c=horiz?w.z0:w.x0;
+      for(const [a,b] of segs){ if(b-a>=0.05) box(lv,horiz,a,b,c,y,y+h); } if(h>2.4) for(const [g0,g1] of (w.gaps||[])) box(lv,horiz,Math.min(g0,g1),Math.max(g0,g1),c,y+2.4,y+h); }
+    return out; }
   // ---- 家具（備用）＋互動點 ----
   function buildFurniture(E,L,lv0,lv1,fb0,fb1,zone){ const Y1=L.floors[1].y, MAT=B3.MAT, IT=E.interactables; const b0=new TK.Bin(), b1=new TK.Bin(); const bins=[b0,b1];
     const up1=new THREE.Group(); up1.position.y=Y1; fb1.add(up1); const grpOf=lv=>lv?up1:fb0; const dummy={blockRect(){}};
@@ -189,6 +197,7 @@ const TB3=(function(){
       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; },
       roomAt(x,z,lv){ for(const r of L.rooms){ if((r.lv|0)!==(lv|0)) continue; if(x>r.x0&&x<r.x1&&z>r.z0&&z<r.z1) return r.id; } for(const a of (L.areas||[])){ if((a.lv|0)===(lv|0)&&x>a.x0&&x<a.x1&&z>a.z0&&z<a.z1) return a.id; } return 'hall'; } };   /* 房間 → 範圍（areas）→ 大廳 */
     buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,slabs,innerM); buildFurniture(E,L,lv0,lv1,fb0,fb1,zone); windowViews(L,lv0,lv1,outs);
+    zone.camCols=camColliders(L,g);   /* 跟隨鏡頭撞到隔間牆就拉近（LAWWW2 審查 P1）*/
     // 樓梯可以點的面（點一跑樓梯＝走完那一跑，engine3d.js 任務 #42）
     for(const s of [ss.a,ss.ld,ss.b,ss.top]){ const w=s.x1-s.x0, d=s.z1-s.z0; const ya=s.y!==undefined?s.y:s.ya, yb=s.y!==undefined?s.y:s.yb; const m=new THREE.Mesh(new THREE.PlaneGeometry(w,Math.hypot(d,yb-ya)),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set((s.x0+s.x1)/2,(ya+yb)/2+0.01,(s.z0+s.z1)/2); m.rotation.x=-Math.PI/2-Math.atan2(yb-ya,d); m.userData.walkLv=(s===ss.b||s===ss.top)?1:0; m.userData.dyn=true; lv0.add(m); walkMeshes.push(m);
       const ax=(S.A.x0+S.A.x1)/2, bx=(S.B.x0+S.B.x1)/2, ldz=(S.landing.z0+S.landing.z1)/2; if(s===ss.a) m.userData.stairEnds=[{x:ax,z:S.A.z1+0.5,lv:0},{x:ax,z:ldz,lv:0}]; if(s===ss.b) m.userData.stairEnds=[{x:bx,z:ldz,lv:0},{x:bx,z:S.B.z1+0.6,lv:1}]; }

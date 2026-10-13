@@ -305,15 +305,29 @@ const E3 = (function(){
     renderer.getDrawingBufferSize(_stS); _stB.set(o.x,o.y+1.75,o.z).project(camera); const top=_stB.y; _stB.set(o.x,o.y+0.05,o.z).project(camera); const ph=Math.abs(top-_stB.y)*0.5*_stS.y; // 玩家在畫面上的高度（像素）
     ST.uSeeP.value.set((_stA.x*0.5+0.5)*_stS.x,(_stA.y*0.5+0.5)*_stS.y,_stA.z*0.5+0.5); ST.uSeeR.value=Math.max(20,ph*0.62); }
   E.seeThrough=ST;
+  /* 跟隨鏡頭的位置：從 target（頭）往 (yaw, pitch) 退 dist0。擋到建築碰撞盒（E.colliders）或玩家那一層的隔間牆（zone.camCols[lv]：教學館，
+     2026-10-13 LAWWW2 審查——原本室內沒有鏡頭碰撞，鏡頭跑到隔間牆後面時整個畫面是那面牆）就拉近到牆前 0.35 m（最近 0.7 m）；
+     被隔間牆拉近時鏡頭抬高（拉得越近抬越多、最多 1.1 m：看得到腳下，不是只看到後腦）。out＝鏡頭位置；回傳 {dist, inner}。測試：node tests/teach_cam_walls_unit.js */
+  const fcDir=new THREE.Vector3();
+  function followCam(target,yaw,pitch,dist0,lv,out){ out.set(Math.sin(yaw)*dist0*Math.cos(pitch),Math.sin(pitch)*dist0+0.2,Math.cos(yaw)*dist0*Math.cos(pitch)).add(target);
+    let dist=dist0, inner=false; const LC=E.zone&&E.zone.camCols?E.zone.camCols[lv|0]:null;
+    if(E.colliders.length||(LC&&LC.length)){ fcDir.copy(out).sub(target); const len=fcDir.length(); fcDir.normalize(); E.ray.set(target,fcDir); E.ray.far=len; let hd=Infinity;
+      if(E.colliders.length){ const hits=E.ray.intersectObjects(E.colliders,false); if(hits.length) hd=hits[0].distance; }
+      if(LC&&LC.length){ const h2=E.ray.intersectObjects(LC,false); if(h2.length&&h2[0].distance<hd){ hd=h2[0].distance; inner=true; } }
+      if(hd<Infinity){ if(!inner) dist=Math.max(0.7,hd-0.35);   /* 建築碰撞盒（戶外）：和以前一樣 */
+        else dist=hd-0.35>=0.7?hd-0.35:Math.max(0.12,hd-0.15);   /* 隔間牆：人可以貼著牆站（離牆中線 0.42 m），最近 0.7 m 的規則會把鏡頭放到牆後面——貼牆時鏡頭留在牆前、拉高從上面看 */
+        out.copy(target).addScaledVector(fcDir,dist);
+        if(inner){ out.y+=Math.min(1.1,(1-dist/dist0)*1.2);   /* 抬高之後再看一次頭 → 鏡頭：抬高可能抬進門楣（鏡頭剛好在門洞的平面上）、或從門洞看出去時被門楣擋住——擋到就沿著新的線拉近 */
+          fcDir.copy(out).sub(target); const l2=fcDir.length(); fcDir.normalize(); E.ray.set(target,fcDir); E.ray.far=l2; const h3=E.ray.intersectObjects(LC,false); if(h3.length){ out.copy(target).addScaledVector(fcDir,Math.max(0.12,h3[0].distance-0.15)); } } } }
+    return {dist,inner}; }
+  E.followCam=followCam;
   function updateCamera(dt){ const C=E.cam; const P=E.player; if(C.mode==='cinematic'&&C.cine){ const s=C.cine; camera.position.lerp(s.pos,Math.min(1,dt*4)); C.look=C.look||new THREE.Vector3(); C.look.lerp(s.look,Math.min(1,dt*4)); slabClip(C.look,camera.position,0.9); camera.lookAt(C.look); if(E.zone&&E.zone.fadeWalls) E.zone.fadeWalls(camera,P.obj.position); updateLevelVis(); ST.uSeeR.value=0; return; }
     C.dist+=(C.distTarget-C.dist)*Math.min(1,dt*4); if(C.manualT>0) C.manualT-=dt; C.target.lerp(tmpV2.copy(P.obj.position).add(tmpV3.set(0,1.45,0)),Math.min(1,dt*7));
     /* 往下走樓梯時鏡頭抬高（戶外：萬才館大樓梯；萬才館第二階段的真實玩家測試抓到）：鏡頭在玩家背後 2.7 m 高，往下走的時候平台邊緣擋住下面的台階，
        畫面上看不到要走去的地方（點下面的台階會點到平台、又走回去）。前方 3～5.5 m 的地面比腳下低超過 0.4 m 時，俯角最多加 0.32（約 18°），平順地變化；室內維持原本的鏡頭 */
     let pa=0; const nv=!E.indoor&&navOf(P.lv|0); if(nv&&nv.surf){ const fx=-Math.sin(C.yaw), fz=-Math.cos(C.yaw), po=P.obj.position, drop=po.y-Math.min(nv.heightAt(po.x+fx*3,po.z+fz*3),nv.heightAt(po.x+fx*5.5,po.z+fz*5.5)); if(drop>0.4) pa=Math.min(0.32,(drop-0.4)*0.16); }
     C.pitchAdd=(C.pitchAdd||0)+(pa-(C.pitchAdd||0))*Math.min(1,dt*2.5); const pitch=C.pitch+C.pitchAdd;
-    const desired=tmpV.set(Math.sin(C.yaw)*C.dist*Math.cos(pitch),Math.sin(pitch)*C.dist+0.2,Math.cos(C.yaw)*C.dist*Math.cos(pitch)).add(C.target);
-    // 鏡頭碰撞：對建築碰撞盒
-    let dist=C.dist; if(E.colliders.length){ const dir=tmpV3.copy(desired).sub(C.target); const len=dir.length(); dir.normalize(); E.ray.set(C.target,dir); E.ray.far=len; const hits=E.ray.intersectObjects(E.colliders,false); if(hits.length){ dist=Math.max(0.7,hits[0].distance-0.35); desired.copy(C.target).addScaledVector(dir,dist); } }
+    const desired=tmpV; followCam(C.target,C.yaw,pitch,C.dist,P.lv,desired);   /* 鏡頭碰撞：建築碰撞盒＋玩家那一層的隔間牆 */
     const fy=P.obj.position.y; if(desired.y<fy+0.6) desired.y=fy+0.6; slabClip(C.target,desired,1.15); camera.position.lerp(desired,Math.min(1,dt*(C.manualT>0?18:7))); slabClip(C.target,camera.position,1.15); camera.lookAt(C.target.x,C.target.y-0.15,C.target.z); if(E.zone&&E.zone.fadeWalls) E.zone.fadeWalls(camera,P.obj.position); updateLevelVis(); camera.updateMatrixWorld(); updateSeeThrough(); }
   // 多樓層的剖面視角（v9.4）：zone.levelGroups＝[{group,y}]（每一層的模型、那一層地板的高度）。玩家所在的那一層和下面的層一定畫；
   // 上面的層只有在鏡頭比那一層的地板低的時候才畫（從下面看得到上面的天花板、走廊欄杆；鏡頭拉高到上一層地板以上時藏起來，才看得到玩家）。
