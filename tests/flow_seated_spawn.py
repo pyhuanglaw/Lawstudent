@@ -121,10 +121,15 @@ async def main():
         await run.shot(pg, 'D_after_skip')
         report(run, 'D 跳時間', await pg.evaluate(RESET))
         # ---------- E：換正式模型（晚到的模型換上去的那一幀）----------
+        run.setup('鏡頭轉向聽眾（像玩家拖鏡頭；D 結束時鏡頭貼著 101 的門、往下看著玩家，畫面裡沒有聽眾）')
+        await pg.evaluate("""(()=>{ const E=GAME.E, P=E.player.obj.position; const cs=E.npcs.filter(m=>m.clsStudent); if(!cs.length) return; let cx=0,cz=0; for(const m of cs){ cx+=m.obj.position.x; cz+=m.obj.position.z; } cx/=cs.length; cz/=cs.length;
+          E.cam.yaw=Math.atan2(P.x-cx,P.z-cz); E.cam.pitch=0.2; E.cam.manualT=3; })()""")
+        await frames(pg, 8)
         run.setup('畫面裡 4 位坐著的聽眾標成「正式模型晚到」：換成另一個已載入的路人模型（GM.upgradeModels 每 1.5 秒在畫面之前換）')
         k = await pg.evaluate("""(()=>{ const E=GAME.E, M=ASSETS.manifest, keys=Object.keys(M).filter(k=>M[k].type==='vrm'&&!M[k].lazy&&ASSETS.has(k)&&M[k].ambient); window.__upg=[];
           const F=new THREE.Frustum(), Mx=new THREE.Matrix4(), V=new THREE.Vector3(); E.camera.updateMatrixWorld(); Mx.multiplyMatrices(E.camera.projectionMatrix,E.camera.matrixWorldInverse); F.setFromProjectionMatrix(Mx);
-          for(const m of E.npcs){ if(window.__upg.length>=4||!m.clsStudent) continue; const u=m.obj.userData; if(u.driver!=='vrm') continue; V.set(m.obj.position.x,m.obj.position.y+0.6,m.obj.position.z); if(!F.containsPoint(V)) continue;
+          for(const m of E.npcs){ if(window.__upg.length>=4||!m.clsStudent) continue; const u=m.obj.userData; if(u.driver!=='vrm') continue; 
+            const nd=u.vrm&&u.vrm.humanoid.getRawBoneNode('hips'); if(nd){ nd.getWorldPosition(V); if(!F.containsPoint(V)) continue; }
             const alt=keys.find(q=>q!==u.key); if(!alt) continue; u.buildSpec=Object.assign({},u.buildSpec,{model:alt}); u.wantModel=alt; m.__alt=alt; window.__upg.push(m); } return window.__upg.length; })()""")
         await pg.evaluate(RESET)
         t0 = time.time(); done = 0
