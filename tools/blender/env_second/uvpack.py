@@ -26,7 +26,9 @@ def islands(bm, uvl, eps=1e-6):
     return list(groups.values())
 
 
-def pack(me, margin=0.004):
+def pack(me, margin=0.004, rect=(0.0, 0.0, 1.0, 1.0)):
+    """rect＝(x0, y0, 寬, 高)：打包到貼圖的這一塊（例如 LOD0 用上面四分之三、LOD1 用下面四分之一）"""
+    RX, RY, RW, RH = rect
     bm = bmesh.new(); bm.from_mesh(me); uvl = bm.loops.layers.uv.active
     isl = islands(bm, uvl); boxes = []
     for faces in isl:
@@ -46,10 +48,10 @@ def pack(me, margin=0.004):
         x = y = rowh = 0.0; pos = {}
         for i in order:
             b = boxes[i]; w, h = b['w'] * k + margin, b['h'] * k + margin
-            if x + w > 1.0: x = 0.0; y += rowh; rowh = 0.0
-            if w > 1.0: return None
+            if x + w > RW: x = 0.0; y += rowh; rowh = 0.0
+            if w > RW: return None
             pos[i] = (x, y); x += w; rowh = max(rowh, h)
-        return pos if y + rowh <= 1.0 else None
+        return pos if y + rowh <= RH else None
     lo, hi = 0.0, 1e6
     for _ in range(60):
         mid = (lo + hi) / 2
@@ -61,7 +63,7 @@ def pack(me, margin=0.004):
         for f in b['faces']:
             for l in f.loops:
                 rx, ry = b['rotpts'][j]; j += 1
-                l[uvl].uv = (px + margin / 2 + (rx - b['x0']) * k, py + margin / 2 + (ry - b['y0']) * k)
+                l[uvl].uv = (RX + px + margin / 2 + (rx - b['x0']) * k, RY + py + margin / 2 + (ry - b['y0']) * k)
     bm.to_mesh(me); bm.free()
     area = 0.0
     uv = me.uv_layers.active

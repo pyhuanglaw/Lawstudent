@@ -1,11 +1,11 @@
 {
- "objects": 9,
- "unique_meshes": 9,
- "tris": 4672,
- "tris_drawn": 4672,
+ "objects": 13,
+ "unique_meshes": 13,
+ "tris": 5752,
+ "tris_drawn": 5752,
  "materials": 1,
  "out": "assets/models/env/second_ai/furniture_study.glb",
- "bytes": 219232,
+ "bytes": 272204,
  "texres": 1024,
  "modules": {
   "study_table2": {
@@ -164,6 +164,42 @@
    ],
    "offset": "和講堂椅同一個 x、同一個原點（桌板在 z 0.30–0.64）；排距 1.0 m、每排升高 0.16 m 時，桌板前緣離前一排的椅背約 3 cm（排距小於 0.98 m 會碰到）",
    "tris": 84
+  },
+  "door_frame": {
+   "size": [
+    1.33,
+    2.465,
+    0.23
+   ],
+   "note": "門洞 1.2×2.4、牆厚 0.2；放在門洞中心的地面，z 軸垂直於牆；不擋導航（全部在牆的範圍裡＋兩面各凸 1.5 cm）",
+   "tris": 372
+  },
+  "door_leaf_open": {
+   "size": [
+    1.1,
+    2.34,
+    0.045
+   ],
+   "note": "門片在門洞左邊（x −1.72～−0.62）貼著走廊那一面的牆（z 0.117～0.162）；凸出牆面 6 cm",
+   "tris": 336
+  },
+  "door_leaf_closed": {
+   "size": [
+    1.13,
+    2.34,
+    0.045
+   ],
+   "note": "門洞裡、牆的中心面",
+   "tris": 316
+  },
+  "door_plate": {
+   "size": [
+    0.3,
+    0.15,
+    0.014
+   ],
+   "note": "字：中心 (0.89, 1.625, 0.115)、寬 0.25、高 0.11、面向 +z（走廊）；例如「博雅 101」",
+   "tris": 56
   }
  },
  "atlas": "tools/blender/env_second/textures/gen/study_furn_atlas.png",

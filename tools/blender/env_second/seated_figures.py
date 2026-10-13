@@ -26,6 +26,7 @@ TMP = os.path.join(HERE, 'textures', 'gen', 'seated')
 REG = 512                       # 每種配色的貼圖格子
 LOD0_TRIS, LOD1_TRIS = 1500, 350
 SEAT_Y, BACK_Z = 0.47, -0.17    # 座墊（坐下陷 1 cm）、椅背前緣
+EMIT = 0.3                      # 自發光強度（貼圖顏色×0.3）
 BASES = ['npc_f1', 'npc_f2', 'npc_m1', 'npc_m2']
 TINT_BASE = {'hair': '#8a6a52', 'top': '#e6e3de', 'bottom': '#cfcbc4'}   # src/assets3d.js 的 tintBase（四個路人底模相同）
 TINT_PAT = {'hair': 'HAIR', 'top': 'Tops', 'bottom': 'Bottoms'}
@@ -78,17 +79,32 @@ def import_base(name):
     bad = {i for i, m in enumerate(high.data.materials) if m and ('EyeHighlight' in m.name or 'EyeExtra' in m.name)}
     bmesh.ops.delete(bm, geom=[f for f in bm.faces if f.material_index in bad], context='FACES')
     bm.to_mesh(high.data); bm.free()
-    # 烤顏色用的材質：貼圖 ×（配色）→ 自發光（不受光）
+    # 烤顏色用的材質：貼圖（透明的地方換成底下該有的顏色）×（配色）→ 自發光（不受光）
+    import numpy as np
+
+    def avg_opaque(img):
+        if not img: return (0.6, 0.6, 0.6)
+        w, h = img.size; a = np.empty(w * h * 4, np.float32); img.pixels.foreach_get(a); a = a.reshape(-1, 4)
+        m = a[:, 3] > 0.5; c = a[m, :3].mean(axis=0) if m.any() else a[:, :3].mean(axis=0)
+        return tuple(float(v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4) for v in c)   # sRGB → 線性（節點是線性）
+    imgs = {}
+    for m in high.data.materials:
+        if m and m.use_nodes:
+            t = next((n for n in m.node_tree.nodes if n.type == 'TEX_IMAGE'), None); imgs[m.name] = t.image if t else None
+    skin = next((imgs[k] for k in imgs if 'Face_00_SKIN' in k), None); white = next((imgs[k] for k in imgs if 'EyeWhite' in k), None)
     for m in high.data.materials:
         if not m or not m.use_nodes: continue
-        nt = m.node_tree; tex = next((n for n in nt.nodes if n.type == 'TEX_IMAGE'), None)
-        img = tex.image if tex else None
+        nt = m.node_tree; img = imgs.get(m.name)
+        under = skin if any(k in m.name for k in ('FaceEyeline', 'FaceEyelash', 'FaceBrow')) else (white if 'EyeIris' in m.name else img)   # 臉上疊的線條：底下是皮膚；虹膜：底下是眼白
+        base = avg_opaque(under)
         for n in list(nt.nodes): nt.nodes.remove(n)
         out = nt.nodes.new('ShaderNodeOutputMaterial'); em = nt.nodes.new('ShaderNodeEmission'); nt.links.new(em.outputs['Emission'], out.inputs['Surface'])
         mul = nt.nodes.new('ShaderNodeMix'); mul.data_type = 'RGBA'; mul.blend_type = 'MULTIPLY'; mul.inputs['Factor'].default_value = 1.0; mul.name = 'TINT'
         mul.inputs[7].default_value = (1, 1, 1, 1); nt.links.new(mul.outputs[2], em.inputs['Color'])
         if img:
-            t = nt.nodes.new('ShaderNodeTexImage'); t.image = img; nt.links.new(t.outputs['Color'], mul.inputs[6])
+            t = nt.nodes.new('ShaderNodeTexImage'); t.image = img
+            mx = nt.nodes.new('ShaderNodeMix'); mx.data_type = 'RGBA'; mx.blend_type = 'MIX'; mx.inputs[6].default_value = (*base, 1)
+            nt.links.new(t.outputs['Alpha'], mx.inputs['Factor']); nt.links.new(t.outputs['Color'], mx.inputs[7]); nt.links.new(mx.outputs[2], mul.inputs[6])
         else: mul.inputs[6].default_value = (0.8, 0.8, 0.8, 1)
     return arm, high
 
@@ -108,7 +124,7 @@ def add_armature(ob, arm):
     md = ob.modifiers.new('arm', 'ARMATURE'); md.object = arm; return md
 
 
-def smart_uv(ob):
+def smart_uv(ob, rect=(0.0, 0.0, 1.0, 1.0)):
     for l in list(ob.data.uv_layers): ob.data.uv_layers.remove(l)
     ob.data.uv_layers.new(name='bake'); ob.data.uv_layers.active_index = 0
     with ctx(ob, [ob]):
@@ -116,7 +132,7 @@ def smart_uv(ob):
         bpy.ops.uv.smart_project(angle_limit=math.radians(80), island_margin=0.01, area_weight=0.0, correct_aspect=True, scale_to_bounds=True)
         bpy.ops.object.mode_set(mode='OBJECT')
     import uvpack   # 背景模式的打包只用到 1–8% 的貼圖；自己排（約三成）
-    n, area = uvpack.pack(ob.data, margin=0.004); print('  uv islands', n, 'area', round(area, 3))
+    n, area = uvpack.pack(ob.data, margin=0.004, rect=rect); print('  uv islands', n, 'area', round(area, 3), 'rect', rect)
 
 
 def bake_target(ob, img):
@@ -127,13 +143,13 @@ def bake_target(ob, img):
     ob.data.materials.append(m)
 
 
-def bake(high, low, img):
+def bake(high, low, img, clear=True):
     sc = bpy.context.scene; sc.render.engine = 'CYCLES'; sc.cycles.device = 'CPU'; sc.cycles.samples = 4
-    sc.render.bake.use_selected_to_active = True; sc.render.bake.cage_extrusion = 0.02; sc.render.bake.max_ray_distance = 0.08; sc.render.bake.margin = 4
+    sc.render.bake.use_selected_to_active = True; sc.render.bake.cage_extrusion = 0.02; sc.render.bake.max_ray_distance = 0.08; sc.render.bake.margin = 2
     for o in sc.objects: o.select_set(False)
     high.select_set(True); low.select_set(True); bpy.context.view_layer.objects.active = low
     for m in low.data.materials: m.node_tree.nodes.active = next(n for n in m.node_tree.nodes if n.type == 'TEX_IMAGE')
-    with ctx(low, [high, low]): bpy.ops.object.bake(type='EMIT', use_selected_to_active=True, margin=4, use_clear=True)
+    with ctx(low, [high, low]): bpy.ops.object.bake(type='EMIT', use_selected_to_active=True, margin=2, use_clear=clear)
 
 
 # ---------------- 姿勢 ----------------
@@ -241,8 +257,9 @@ def build():
     for bi, base in enumerate(bases):
         arm, high = import_base(base)
         th = tris_of(high)
-        low0 = decimated(high, LOD0_TRIS, 'LOW0'); smart_uv(low0)
-        low1 = decimated(low0, LOD1_TRIS, 'LOW1')
+        # 一格貼圖：上面四分之三給 LOD0、下面四分之一給 LOD1（LOD1 從 LOD0 減面的話 UV 會跨島拉扯，所以 LOD1 自己展 UV、自己烤）
+        low0 = decimated(high, LOD0_TRIS, 'LOW0'); smart_uv(low0, (0.0, 0.25, 1.0, 0.75))
+        low1 = decimated(high, LOD1_TRIS, 'LOW1'); smart_uv(low1, (0.0, 0.0, 1.0, 0.25))
         add_armature(low0, arm); add_armature(low1, arm)
         for ci, col in enumerate(COLORS[base]):
             for m in high.data.materials:
@@ -252,7 +269,7 @@ def build():
                     if pat.lower() in m.name.lower(): fac = tint_factor(k, col[k]); break
                 m.node_tree.nodes['TINT'].inputs[7].default_value = (*fac, 1)
             img = bpy.data.images.new(f'{base}_c{ci}', REG, REG, alpha=False)
-            bake_target(low0, img); bake(high, low0, img)
+            bake_target(low0, img); bake_target(low1, img); bake(high, low0, img, clear=True); bake(high, low1, img, clear=False)
             img.filepath_raw = os.path.join(TMP, f'{base}_c{ci}.png'); img.file_format = 'PNG'; img.save()
         pose_reset(arm)
         for pose in POSES:
@@ -277,6 +294,7 @@ def build():
     mat = bpy.data.materials.new('seated_fig'); mat.use_nodes = True; nt = mat.node_tree; bsdf = nt.nodes['Principled BSDF']
     t = nt.nodes.new('ShaderNodeTexImage'); t.image = bpy.data.images.load(apath); t.image.pack()
     nt.links.new(t.outputs['Color'], bsdf.inputs['Base Color']); bsdf.inputs['Roughness'].default_value = 0.85
+    nt.links.new(t.outputs['Color'], bsdf.inputs['Emission Color']); bsdf.inputs['Emission Strength'].default_value = EMIT   # 遊戲的 VRM 人物是 MToon（暗部有固定的亮度）；替身用一般材質，在暗的教室裡會比真人物暗——加一點自發光補
     root = bpy.data.objects.new('seated_figures', None); bpy.context.scene.collection.objects.link(root)
     k = 0
     for bi, base in enumerate(bases):

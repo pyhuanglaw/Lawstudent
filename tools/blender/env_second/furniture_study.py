@@ -11,6 +11,10 @@
   lecture_seat_lod1 講堂椅的簡化版（遠處的排）
   lecture_standard  排尾側板（最左邊座位的左邊）
   lecture_desk      前方連續桌板的一段（一個座位寬）
+  door_frame        教室的門框（門洞 1.2×2.4、牆厚 0.2）
+  door_leaf_open    門片：開著、貼在走廊那一面的牆上（上課時）
+  door_leaf_closed  門片：關著
+  door_plate        門牌（字由遊戲畫）
 約定（照 LAWWW）：原點在地面中心、+z 朝前（椅子：坐的人面向 +z）、地面 y=0、公尺。尺寸表在 GLB 旁邊的 .json（modules）。
 造型：Blender 的倒角（Bevel）、厚度（Solidify）、曲線圓管（Curve bevel），烤成網格；貼圖集 textures/gen/study_furn_atlas.png（木紋：Poly Haven walnut_veneer CC0 改色；金屬、布面、塑膠：程式畫的雜訊）。
 """
@@ -297,6 +301,62 @@ def lecture_desk():
     return P, {'size': [0.52, 0.75, 0.34], 'offset': '和講堂椅同一個 x、同一個原點（桌板在 z 0.30–0.64）；排距 1.0 m、每排升高 0.16 m 時，桌板前緣離前一排的椅背約 3 cm（排距小於 0.98 m 會碰到）'}
 
 
+# ---------------- 教室的門（LAWWW 20:02Z：門框、上課時開著靠牆的門片、門牌；門片不擋門口的導航和鏡頭）----------------
+# 約定：原點＝門洞中心的地面；x 沿著牆、z＝0 是牆的中心面、+z＝走廊那一側；牆厚 0.2（教學館模板 wallT）、門洞 1.2×2.4（模板 gaps 1.2、2.4 m 以上是門楣）
+DW, DH, WT = 1.2, 2.4, 0.2
+
+
+def door_frame():
+    """門框：門洞裡的框（三面）＋兩面的門框飾條（深灰鋁）"""
+    P = []
+    hw = DW / 2
+    P.append((rbox('jl', -hw, -hw + 0.03, 0.0, DH, -WT / 2, WT / 2, bevel=0.003, seg=1), 'metal'))
+    P.append((rbox('jr', hw - 0.03, hw, 0.0, DH, -WT / 2, WT / 2, bevel=0.003, seg=1), 'metal'))
+    P.append((rbox('jh', -hw, hw, DH - 0.03, DH, -WT / 2, WT / 2, bevel=0.003, seg=1), 'metal'))
+    for sz in (-1, 1):
+        z0, z1 = sorted((sz * WT / 2, sz * (WT / 2 + 0.015)))
+        P.append((rbox('cl', -hw - 0.065, -hw + 0.015, 0.0, DH + 0.065, z0, z1, bevel=0.004, seg=1), 'metal'))
+        P.append((rbox('cr', hw - 0.015, hw + 0.065, 0.0, DH + 0.065, z0, z1, bevel=0.004, seg=1), 'metal'))
+        P.append((rbox('ch', -hw - 0.065, hw + 0.065, DH - 0.015, DH + 0.065, z0, z1, bevel=0.004, seg=1), 'metal'))
+    return P, {'size': [DW + 0.13, DH + 0.065, WT + 0.03], 'note': '門洞 1.2×2.4、牆厚 0.2；放在門洞中心的地面，z 軸垂直於牆；不擋導航（全部在牆的範圍裡＋兩面各凸 1.5 cm）'}
+
+
+def _leaf(x0, x1, z0, z1, latch_x, closed):
+    """門片（淺橡木）＋直條觀景窗（深色玻璃）＋拉桿把手＋踢腳板；x0..x1、z0..z1 是門片的範圍（遊戲座標）"""
+    P = [(rbox('leaf', x0, x1, 0.012, DH - 0.06, z0, z1, bevel=0.004, seg=1), 'oak')]
+    wx0, wx1 = sorted((latch_x - 0.2 * (1 if latch_x > (x0 + x1) / 2 else -1), latch_x - 0.08 * (1 if latch_x > (x0 + x1) / 2 else -1)))
+    for zz, sgn in ((z0, -1), (z1, 1)):   # 兩面
+        P.append((rbox('vis', wx0, wx1, 1.05, 1.85, min(zz, zz + sgn * 0.002), max(zz, zz + sgn * 0.002)), 'metal'))
+        P.append((rbox('kick', x0 + 0.02, x1 - 0.02, 0.02, 0.24, min(zz, zz + sgn * 0.0015), max(zz, zz + sgn * 0.0015)), 'metal'))
+        hx = latch_x - 0.07 * (1 if latch_x > (x0 + x1) / 2 else -1); hz = zz + sgn * 0.06
+        P.append((tube('rose', [(hx, 1.0, zz), (hx, 1.0, zz + sgn * 0.012)], 0.03, res=1), 'metal'))
+        P.append((tube('lever', bent([(hx, 1.0, zz), (hx, 1.0, hz), (hx + (-0.12 if latch_x > (x0 + x1) / 2 else 0.12), 1.0, hz)], 0.02), 0.009), 'metal'))
+    return P
+
+
+def door_leaf_open():
+    """開著、整片貼在走廊那一面的牆上（鉸鏈在左邊的門框、轉 180°）——上課時的樣子；不擋門口、不擋鏡頭"""
+    hw = DW / 2; z0 = WT / 2 + 0.017; z1 = z0 + 0.045
+    P = _leaf(-hw - 1.12, -hw - 0.02, z0, z1, latch_x=-hw - 1.12 + 0.02, closed=False)
+    P.append((tube('stop', [(-hw - 1.0, 0.0, WT / 2), (-hw - 1.0, 0.0, z1 + 0.01)], 0.015, res=1), 'metal'))   # 地上的門檔（擋住門片）
+    return P, {'size': [1.1, DH - 0.06, 0.045], 'note': '門片在門洞左邊（x −1.72～−0.62）貼著走廊那一面的牆（z 0.117～0.162）；凸出牆面 6 cm'}
+
+
+def door_leaf_closed():
+    """關著（關著的房間、還沒開放的教室）：門片在門洞中間"""
+    hw = DW / 2
+    P = _leaf(-hw + 0.035, hw - 0.035, -0.0225, 0.0225, latch_x=hw - 0.035, closed=True)
+    return P, {'size': [DW - 0.07, DH - 0.06, 0.045], 'note': '門洞裡、牆的中心面'}
+
+
+def door_plate():
+    """門牌：走廊那一面、門的右邊，白底＋深灰框；字由遊戲畫（text 中心與大小見 note）"""
+    x0, x1, y0, y1, z = 0.74, 1.04, 1.55, 1.70, WT / 2
+    P = [(rbox('pframe', x0, x1, y0, y1, z, z + 0.012, bevel=0.003, seg=1), 'metal'),
+         (rbox('pface', x0 + 0.012, x1 - 0.012, y0 + 0.012, y1 - 0.012, z + 0.012, z + 0.014), 'plastic')]
+    return P, {'size': [0.3, 0.15, 0.014], 'note': '字：中心 (0.89, 1.625, 0.115)、寬 0.25、高 0.11、面向 +z（走廊）；例如「博雅 101」'}
+
+
 def build():
     make_atlas()
     out = os.path.join(L.ROOT, OUT)
@@ -313,7 +373,8 @@ def build():
     nt.links.new(tn.outputs['Color'], nm.inputs['Color']); nt.links.new(nm.outputs['Normal'], bsdf.inputs['Normal'])
     mods = {}
     for name, fn in (('study_table2', study_table2), ('study_chair', study_chair), ('study_chair_lod1', lambda: study_chair(1)), ('round_table', round_table),
-                     ('lecture_seat', lecture_seat), ('lecture_seat_up', lambda: lecture_seat(0, True)), ('lecture_seat_lod1', lambda: lecture_seat(1)), ('lecture_standard', lecture_standard), ('lecture_desk', lecture_desk)):
+                     ('lecture_seat', lecture_seat), ('lecture_seat_up', lambda: lecture_seat(0, True)), ('lecture_seat_lod1', lambda: lecture_seat(1)), ('lecture_standard', lecture_standard), ('lecture_desk', lecture_desk),
+                     ('door_frame', door_frame), ('door_leaf_open', door_leaf_open), ('door_leaf_closed', door_leaf_closed), ('door_plate', door_plate)):
         parts, info = fn()
         me = bake(parts, name); me.materials.append(mat)
         for p in me.polygons: p.use_smooth = True
