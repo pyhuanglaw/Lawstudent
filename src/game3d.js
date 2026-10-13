@@ -157,7 +157,7 @@ const GAME = (function(){
   // ---------- 互動 ----------
   let nearIt=null;
   function updateInteract(){ const btn=$('interact'); if(E.player.busy||D.active||menuOpen){ btn.classList.add('hide'); nearIt=null; return; } const it=E.nearestInteractable(); if(it&&it!==nearIt){ $('interactLabel').textContent=it.label||'互動'; } nearIt=it; btn.classList.toggle('hide',!it); }
-  async function doInteract(){ updateInteract(); const it=nearIt; if(!it) return; if(it.onInteract){ it.onInteract(it); return; } if(STORY.interact&&await STORY.interact(it,GM)) return; if(it.look){ caption('',it.look,4600); return; } if(it.exit){ if(it.exit.locked){ toast(it.exit.locked); return; } await enter(it.exit.to,it.exit.spawn); return; } if(it.elevator){ await elevatorRide(it); return; } if(it.seat){ await seatMenu(it); return; } toast('（這裡現在沒有事可做）'); }
+  async function doInteract(){ updateInteract(); const it=nearIt; if(!it) return; if(it.onInteract){ if(it.npc) foundPerson(it.npc); it.onInteract(it); return; } if(STORY.interact&&await STORY.interact(it,GM)) return; if(it.look){ caption('',it.look,4600); return; } if(it.exit){ if(it.exit.locked){ toast(it.exit.locked); return; } await enter(it.exit.to,it.exit.spawn); return; } if(it.elevator){ await elevatorRide(it); return; } if(it.seat){ await seatMenu(it); return; } toast('（這裡現在沒有事可做）'); }
   GM.doInteract=doInteract; GM.updateInteract=updateInteract; GM.snapshot=snapshot;
   // 坐下前要先走到椅子旁邊：原本固定走到椅子正前方 0.5 m，但教室的椅子正前方就是桌子（人站不住）→ 走過去卡在桌邊（v9.3 第二十五批，線上回報「找不到地方坐下」）。
   // 改成在前、後、左、右挑「站得住、走得到、路最短」的點
@@ -244,6 +244,15 @@ const GAME = (function(){
   GM.knownIds=knownIds;   // 認識的人（人物頁、大地圖的人物線索共用）
   function whereText(id){ const w=STORY.whereIs&&STORY.whereIs(GM,id); if(!w) return ''; if(w.away) return w.away; return (typeof PLACES!=='undefined'&&PLACES.names[w.zone]||w.zone)+(w.act?'（'+w.act+'，到 '+w.until+'）':''); }
   GM.whereText=whereText;
+  /* 帶我去找某人（大地圖 👥、手機「朋友」的「帶我去」；2026-10-13 使用者：「說可以找朋友但朋友在哪啊」）：目標改成「去找…」，地圖畫路線、方向提示指過去
+     （src/guide3d.js 的 target：d.npc 照他現在的作息決定往哪一區、在同一區就指到他身上）；跟他說上話後恢復原本的目標（story3d.js talkCharacter）*/
+  function findPerson(id){ const w=STORY.whereIs&&STORY.whereIs(GM,id); const nm=(typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(id):((CHARACTERS[id]||{}).name||id);
+    if(!w||!w.zone){ toast(nm+(w&&w.away?'：'+w.away:'現在沒有固定的行程，不知道在哪'),3200); return false; }
+    G.flags.findWho=id; setGoal('去找'+nm+'（'+whereText(id)+'）',{zone:w.zone,npc:id,name:'去找'+nm}); toast('目標：去找'+nm+'。地圖上有路線',2600); return true; }
+  GM.findPerson=findPerson;
+  /* 「帶我去」找到人了（和他說話）：恢復原本的目標（今天的課表；沒有課表系統就自由行動）*/
+  function foundPerson(n){ const w=G.flags.findWho; if(!w||!n) return; if(n.charId!==w&&n.id!==w&&CID[n.id]!==w) return; G.flags.findWho=null; if(typeof CLS!=='undefined'&&CLS.setGoal&&typeof CALENDAR!=='undefined') CLS.setGoal(GM); else setGoal('自由行動',null); }
+  GM.foundPerson=foundPerson;
   function renderPeople(){ const box=$('peopleList'); box.innerHTML=''; const ids=knownIds(); if(!ids.length){ box.innerHTML='<div class="muted">還沒認識任何人。</div>'; }
     const order={D:0,A:1,C:2,F:3,E:4,B:5}; ids.sort((a,b)=>(order[CHARACTERS[a].social_layer]??9)-(order[CHARACTERS[b].social_layer]??9)); for(const id of ids){ const c=CHARACTERS[id]; const d=document.createElement('div'); d.className='item'; const name=SOCIAL.displayName(id); const tag=(c.department||'')+(c.year?'・'+(typeof c.year==='number'?['','一','二','三','四'][c.year]+'年級':c.year):'')+(c.course?'・'+c.course:''); const mems=SOCIAL.memories(id).slice(-5).map(m=>'<span class="muted">· 第 '+m.day+' 天 '+(SOCIAL.MEMORY_LABEL[m.tag]||m.tag)+(m.note?'（'+m.note+'）':'')+'</span>').join('<br>'); const rv=SOCIAL.reveal(id); const desc=(c.social_layer==='B'&&rv!=='FRIEND')?(rv==='ACQUAINTANCE'?(c.facts?c.facts[0]:''):''):(c.personality||''); const wt=whereText(id); d.innerHTML='<b>'+name+'</b> <span class="muted">'+tag+'</span>'+(wt?'<div style="color:#ffd88a">現在大概在：'+wt+'</div>':'')+'<div>'+desc+'</div><div>'+SOCIAL.describe(id)+'</div>'+(mems?'<div style="margin-top:4px">'+mems+'</div>':''); box.appendChild(d); } }
   function renderLegal(){ const box=$('legalList'); if(!box) return; box.innerHTML=''; const sm=LEGAL.summary(); for(const sec in sm.bySec){ const b=sm.bySec[sec]; const d=document.createElement('div'); d.className='item'; d.innerHTML='<b>刑事訴訟法・'+sec+'</b><div class="muted">還沒遇到 '+b.unseen+' · 聽過 '+b.seen+' · 混淆 '+b.confused+' · 學到 '+b.learned+' · 理解 '+b.understood+' · 熟練 '+b.mastered+'（共 '+b.total+' 個爭點）</div>'; box.appendChild(d); } if(sm.misc.length){ const d=document.createElement('div'); d.className='item'; d.innerHTML='<b>你容易混淆的地方</b>'+sm.misc.map(m=>'<div>· '+m.label+'（'+m.n+' 次）</div>').join(''); box.appendChild(d); } const d2=document.createElement('div'); d2.className='item muted'; d2.textContent='這些爭點會在上課、讀書會、同學討論裡自然出現；讀書可以把混淆的地方讀懂。'; box.appendChild(d2); }
@@ -279,6 +288,7 @@ const GAME = (function(){
     body.querySelectorAll('[data-ans]').forEach(b=>b.onclick=()=>{ const [iv,a]=b.dataset.ans.split('|'); const r=a.startsWith('c:')?INV.answerChange(G,iv,a.slice(2)):INV.answer(G,iv,a); if(r&&r.res==='later'){ const v=INV.byId(G,iv); if(v){ closePhone(); sceneBegin(); INV.flow(GM,v.who,null,false).finally(()=>{ sceneEnd(); openPhone('msg'); }); return; } } renderPhone(); });   /* 對方約你／改約的回覆 */
     body.querySelectorAll('[data-skip]').forEach(b=>b.onclick=async()=>{ closePhone(); await CLS.skipTo(GM,+b.dataset.skip); });
     body.querySelectorAll('[data-place]').forEach(b=>b.onclick=async()=>{ const pl=PLACE_LIST().find(q=>q[0]+'|'+q[1]===b.dataset.place); if(pl) await quickGo(pl); });
+    body.querySelectorAll('[data-find]').forEach(b=>b.onclick=()=>{ if(findPerson(b.dataset.find)) closePhone(); });
     document.querySelectorAll('#phoneTabs button').forEach(b=>b.classList.toggle('on',b.dataset.ptab===phoneTab));
     body.querySelectorAll('[data-go]').forEach(b=>b.onclick=async()=>{ const it=CLS.dayItems(G).find(q=>q.key===b.dataset.go); if(!it) return; if(E.player.busy){ toast('現在不能移動'); return; } closePhone(); const zn=it.room.zone; if(G.zone===zn){ toast('你已經在'+(zn==='classroom'?'教室':it.room.name.replace(/ \S+$/,''))+'了。'+(zn==='classroom'?'':'教室是 '+it.room.name+'，')+'找個位子坐下就可以上課。',4200); return; }
       const mins=zn==='classroom'&&G.zone==='linze'?3:CLS.travelMinutes(G,G.zone,zn,E.player.obj.position); advance(mins/60); energy(-2); await enter(zn); toast((zn==='classroom'?'':'走了 '+mins+' 分鐘。教室是 '+it.room.name+'，')+(it.room.door?'到「'+(it.room.label||it.room.name)+'」門口就可以上課':'找個位子坐下就可以上課')+'（'+CLS.hhmm(it.t0)+' 開始）',4200); }); }   /* 2026-10-13：建築裡的教室（共同教學館…）也可以；時間照距離 */
@@ -309,7 +319,7 @@ const GAME = (function(){
     for(const id of ids){ const w=STORY.whereIs&&STORY.whereIs(GM,id); const nm=(typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(id):((CHARACTERS[id]||{}).name||id);
       const pl=w&&w.zone!=='campus'&&w.zone!==G.zone?PL.find(q=>q[0]===w.zone):null; const st=pl?placeState(pl):null;
       const canInv=typeof INV!=='undefined'&&INV.hasContact(G,id)&&INV.canInvite(G,id);   /* 有聯絡方式的才能用手機約（使用者第 2 點：認識的朋友才有聯絡方式）*/
-      h+='<div class="item phrow"><div>'+esc(nm)+'<div class="muted">'+(w?esc(whereText(id))+(w.zone===G.zone?'・就在這裡':''):'現在沒有固定的行程')+'</div></div><div class="row2" style="gap:6px">'+(pl&&st&&st.known?'<button class="btn" data-place="'+esc(pl[0]+'|'+pl[1])+'">過去（約 '+st.mins+' 分鐘）</button>':'')+(canInv?'<button class="btn pri" data-inv="'+esc(id)+'">約</button>':'')+'</div></div>'; }
+      h+='<div class="item phrow"><div>'+esc(nm)+'<div class="muted">'+(w?esc(whereText(id))+(w.zone===G.zone?'・就在這裡':''):'現在沒有固定的行程')+'</div></div><div class="row2" style="gap:6px">'+(pl&&st&&st.known?'<button class="btn" data-place="'+esc(pl[0]+'|'+pl[1])+'">過去（約 '+st.mins+' 分鐘）</button>':'')+(w&&w.zone&&!w.away?'<button class="btn" data-find="'+esc(id)+'">帶我去</button>':'')+(canInv?'<button class="btn pri" data-inv="'+esc(id)+'">約</button>':'')+'</div></div>'; }
     return h; }
   /* 手機「訊息」（D54 ⑥）：約人、對方的回答、沒赴約……最新的在上面；對方約你、改約的有回覆的按鈕（src/invites3d.js）*/
   function msgHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); if(typeof INV==='undefined') return ''; INV.rec(G); const M=G.msgs.slice(-40).reverse();

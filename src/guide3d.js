@@ -50,6 +50,9 @@ const GUIDE=(function(){
   const P=()=>E.player.obj.position, PLV=()=>(E.player.lv|0);
   // 這個區域裡現在要去的點：{x,z,lv,r,text,exit(互動點)}；null＝已經到了或不用指路
   function target(d){ const G=GM.G, zone=G.zone; if(!d||!zone) return null;
+    /* 找人（d.npc，2026-10-13 使用者：「說可以找朋友但朋友在哪啊」）：照他現在的作息決定往哪一區走；在同一區、人在場就指到他身上（他走動也跟著）*/
+    if(d.npc&&typeof STORY!=='undefined'&&STORY.whereIs){ const w=STORY.whereIs(GM,d.npc); if(w&&w.zone&&w.zone!==d.zone) d=Object.assign({},d,{zone:w.zone});
+      if(zone===d.zone&&typeof EVENTS!=='undefined'&&EVENTS.npcOf){ const n=EVENTS.npcOf(d.npc); if(n&&n.obj&&E.npcs.includes(n)) return {x:n.obj.position.x,z:n.obj.position.z,lv:n.lv|0,r:2.2,text:d.name||''}; } }
     if(zone===d.zone){ if(d.label){ const it=E.interactables.find(i=>i.label&&i.label.indexOf(d.label)===0); if(it) return {x:it.x,z:it.z,lv:it.lv|0,r:Math.max(1.0,(it.radius||1.2)),text:d.name||it.label,it}; }
       if(d.x!=null) return {x:d.x,z:d.z,lv:d.lv|0,r:d.r||2.5,text:d.name||''}; return null; }
     const nz=nextZone(zone,d.zone); if(!nz) return null; let ex=exitsTo(nz); let elev=false;
@@ -129,7 +132,7 @@ const GUIDE=(function(){
     if(!E.indoor&&fit<2.2){ st.view.k=Math.min(3.2,fit*2.2); st.view.cx=p.x; st.view.cz=p.z; }   // 校園很大：先放大到玩家附近，用「－」看全圖
     const zn=PLACES.names[GM.G.zone]||(E.zone.def&&E.zone.def.name)||''; $('bmTitle').textContent=zn+(perLv?'　'+(lv+1)+'F':''); if($('bmNorth')) $('bmNorth').classList.toggle('hide',!!E.indoor); const d=GM.G.goalDest; $('bmSub').textContent=GM.G.goal?('目標：'+GM.G.goal):'';
     if($('bmPeople')){ renderPeoplePanel(); $('bmPeople').classList.toggle('hide',!(/自由/.test(GM.G.goal||'')||!GM.G.goalDest)); } drawMap(); }
-  function renderPeoplePanel(){ const el=$('bmPeople'); if(!el) return; const ppl=people(); el.innerHTML='<b>認識的人現在大概在</b>'+(ppl.length?ppl.map(q=>'<div>'+q.name+'：'+q.text+'</div>').join(''):'<div class="muted">'+(GM.G.day<=2&&!GM.G.flags.afternoonDone?'第一、二天的劇情還在進行，大家的行程還沒開始':'現在沒有人有固定的行程。去總圖、公館、溫州街走走，說不定會遇到')+'</div>'); }
+  function renderPeoplePanel(){ const el=$('bmPeople'); if(!el) return; const ppl=people(); el.innerHTML='<b>認識的人現在大概在</b>'+(ppl.length?ppl.map(q=>'<div class="row2" style="justify-content:space-between;gap:6px"><span>'+q.name+'：'+q.text+'</span><button class="btn" data-find="'+q.id+'">帶我去</button></div>').join(''):'<div class="muted">'+(GM.G.day<=2&&!GM.G.flags.afternoonDone?'第一、二天的劇情還在進行，大家的行程還沒開始':'現在沒有人有固定的行程。去總圖、公館、溫州街走走，說不定會遇到')+'</div>'); el.querySelectorAll('[data-find]').forEach(b=>b.onclick=()=>{ if(GM.findPerson&&GM.findPerson(b.dataset.find)){ st.routeKey='~'; drawMap(); } }); }
   function closeMap(){ $('bigmap').classList.add('hide'); st.open=false; E.paused=!!st.wasPaused; }
   function toScreen(v,W,H,wx,wz){ const dx=wx-v.cx, dz=wz-v.cz, c=Math.cos(v.th), s=Math.sin(v.th); return [W/2+(dx*c-dz*s)*v.k, H/2+(dx*s+dz*c)*v.k]; }
   function drawMap(){ const v=st.view; if(!v) return; const cv=$('bmCanvas'); const dpr=Math.min(2,window.devicePixelRatio||1); const W=cv.clientWidth, H=cv.clientHeight; if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){ cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr); }
