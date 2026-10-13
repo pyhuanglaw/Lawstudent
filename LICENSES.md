@@ -103,6 +103,7 @@
 | Poly Haven `fine_grained_wood`（Rob Tuytel；第一個 AI 已下載到 `tools/blender/textures/`，只讀使用） | https://polyhaven.com/a/fine_grained_wood | CC0 | Café 店面門窗框、招牌框、窗下木板 |
 | 溫州街主巷兩側 14 棟公寓近景 `assets/models/env/second_ai/wenzhou_street.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_street.py`（和 Café 共用 `cafe_layout.py` 的材質與零件） | 本作 | 溫州街主巷 A1–A5、B1–B7 與 Café 南北兩側的公寓 |
 | 和平東路二段 118 巷兩側街景 `assets/models/env/second_ai/lane118_street.glb`（⑭） | 本作 Blender 腳本 `tools/blender/env_second/wz_street.py --set lane118`（讀 `src/data/lane118_layout.js`；和溫州街、公館店面街同一套公寓零件與材質；店名是配置裡的虛構店名，字由遊戲畫） | 本作 | 118 巷（區域由 LAWWW 做） |
+| 騎車用的腳踏車 `assets/models/env/bike_ride.glb`＋尺寸表 `bike_ride.json`（⑫） | 本作 Blender 腳本 `tools/blender/env_second/bike_ride.py`（和街上停的淑女車同一款，零件分開：車架、前叉、前後輪、曲柄、左右踏板）；鋼絲與前籃的透明貼圖是程式產生的 `textures/gen/bike_alpha.png` | 本作 | 玩家騎腳踏車、路上的騎士（騎乘由 LAWWW 做） |
 | Poly Haven `long_white_tiles`（Jenelle van Heerden、Sergej Majboroda） | https://polyhaven.com/a/long_white_tiles | CC0 | 溫州街公寓的長條磁磚外牆、騎樓柱子 |
 | Poly Haven `rounded_square_tiled_wall`（Charlotte Baglioni） | https://polyhaven.com/a/rounded_square_tiled_wall | CC0 | 溫州街公寓的小方塊馬賽克外牆 |
 | Poly Haven `painted_metal_shutter`（Charlotte Baglioni、Dario Barresi、Rico Cilliers） | https://polyhaven.com/a/painted_metal_shutter | CC0 | 溫州街公寓一樓的鐵捲門 |
