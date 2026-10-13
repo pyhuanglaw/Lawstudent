@@ -27,6 +27,20 @@ const C=CALENDAR, P=PLACES;
   const mid=C.termOf(dayOf('2025-10-20')), fin=C.termOf(dayOf('2025-12-22')); check('第 8～9 週期中、第 17～18 週期末',mid&&mid.exam==='mid'&&mid.week===8&&fin&&fin.exam==='final'&&fin.week===17,JSON.stringify([mid,fin]));
   check('寒假（2026-01-12）不在學期裡；大一下 2026-02-23 是第 1 週',!C.termOf(dayOf('2026-01-12'))&&C.termOf(dayOf('2026-02-23')).id==='Y1S2'&&C.termOf(dayOf('2026-02-23')).week===1);
   check('kind：學期間／寒暑假／假日',C.kind(dayOf('2025-10-07'))==='term'&&C.kind(dayOf('2026-01-12'))==='break'&&C.kind(dayOf('2025-10-10'))==='holiday'&&C.kind(dayOf('2026-07-15'))==='break'); }
+// 五年日曆（使用者 2026-10-13，D56：經濟系大一 2024 學年＋法律系四年，同一個世界連續運作）：2024-08 到 2029-07 每一天都算得出日期、星期、學期、假日；
+// 學期依序、不重疊、每學期 1～18 週連續、學期之間有寒暑假；法律系的第 1 天不變（舊存檔不受影響）。修改前（只有法律系四年）經濟系那兩學期不存在、2024 的農曆節日沒有，這一段會失敗
+{ const d0=dayOf('2024-08-01'), d1=dayOf('2029-07-31'); const seq=[], bad=[]; let prevKey=null, prevT=null, gap=true;
+  for(let day=d0; day<=d1; day++){ let dt, t, h; try{ dt=C.dateOf(day); t=C.termOf(day); h=C.holiday(day); }catch(e){ bad.push(day+' 例外 '+e.message); continue; }
+    if(prevKey&&Date.parse(dt.key)-Date.parse(prevKey)!==DAY) bad.push(dt.key+' 日期不連續');
+    if(t){ if(!prevT||prevT.id!==t.id){ if(!gap) bad.push(dt.key+' 學期之間沒有假期'); seq.push(t.id); if(t.week!==1) bad.push(t.id+' 不是從第 1 週開始'); } else if(t.week!==prevT.week&&t.week!==prevT.week+1) bad.push(dt.key+' 週次跳號'); gap=false; } else gap=true;
+    prevKey=dt.key; prevT=t; }
+  check('五年日曆（2024-08～2029-07，'+(d1-d0+1)+' 天）：每一天都算得出日期、學期、假日，日期連續、週次連續、學期之間有寒暑假',!bad.length,bad.slice(0,4).join(' | '));
+  check('學期的順序：經濟系大一上、下 → 法律系大一上 … 大四下（十個學期）',seq.join(',')==='Y0S1,Y0S2,Y1S1,Y1S2,Y2S1,Y2S2,Y3S1,Y3S2,Y4S1,Y4S2',seq.join(','));
+  const e1=C.termOf(dayOf('2024-09-02')), e2=C.termOf(dayOf('2025-02-17')); check('經濟系大一上 2024-09-02 開學、大一下 2025-02-17 開學（AA_106，需查證）',e1&&e1.id==='Y0S1'&&e1.week===1&&e2&&e2.id==='Y0S2'&&e2.week===1,JSON.stringify([e1,e2]));
+  check('經濟系大一下結束後（2025-07-15 重考的暑假）不在學期裡；法律系第 1 天照舊是 2025-09-17、大一上第 3 週',!C.termOf(dayOf('2025-07-15'))&&C.dateOf(1).key==='2025-09-17'&&C.termOf(1).id==='Y1S1'&&C.termOf(1).week===3);
+  const want={'2024-09-17':'中秋節','2024-09-27':'教師節（補假）','2024-10-10':'國慶日','2024-10-25':'臺灣光復節','2024-12-25':'行憲紀念日','2025-01-01':'開國紀念日','2025-01-27':'除夕前一日','2025-01-28':'除夕','2025-01-29':'春節','2025-02-28':'和平紀念日','2025-04-03':'兒童節','2025-04-04':'民族掃墓節','2025-05-30':'端午節（補假）'};
+  const b2=[]; for(const [k,n] of Object.entries(want)){ const got=C.holiday(dayOf(k)); if(got!==n) b2.push(k+'：'+got+'≠'+n); }
+  check('經濟系那一年的國定假日（農曆節日 2024 的日期；放假規則照 2025 年修正後的，平行世界）',!b2.length,b2.slice(0,4).join(' | ')); }
 // 法律學院圖書館的開放時間
 { const T=dayOf('2025-10-07'), SAT=dayOf('2025-10-11'), HOL=dayOf('2025-10-10'), BRK=dayOf('2026-01-13'), BRKSAT=dayOf('2026-01-17');
   const o=(day,h)=>P.isOpen('lawlib',h,day);

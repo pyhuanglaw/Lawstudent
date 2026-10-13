@@ -112,4 +112,7 @@ function finish(){
     R.grades.Y1S1.const_1==='很好'&&R.grades.Y1S1.civ_general==='過了'&&R.electives.Y1S2_ls==='none'&&R.electives.Y1S1_ls===undefined&&R.note['rem_7:chinese_y1:am']===1&&R.note.exam_Y1S1_mid===1&&R.idv===2;
   check('舊存檔：上課紀錄、出席、準備、成績、提醒換成新代號（英美法併進法學英文、次數相加）；選了經濟學原理的＝不修法律與社會（下）',ok,JSON.stringify(R).slice(0,300));
   const before=JSON.stringify(R); CLS.rec(G); check('轉換只做一次（再讀一次不變）',JSON.stringify(CLS.rec(G))===before); }
+// 五年日曆（D56）：經濟系那一年的日期標示（畫面只寫學年、學期、日期、星期，不寫西元年份）
+{ const lab=CLS.dayLabel(mkG(1,8),dayOf('2024-09-18')), lab2=CLS.dayLabel(mkG(1,8),dayOf('2025-07-15'));
+  check('經濟系那一年：「9/18 週三・經濟系大一上 第 3 週」；重考的暑假寫「暑假」；都不寫西元年份',lab==='9/18 週三・經濟系大一上 第 3 週'&&lab2.endsWith('・暑假')&&!/20\d\d/.test(lab+lab2),lab+'｜'+lab2); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); }
