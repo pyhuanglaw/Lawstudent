@@ -212,20 +212,27 @@ def apply_pose(arm, high, pose):
     zone = [v for v in vs if abs(v.x) < 0.22 and hip.y - 0.3 < v.y < knee.y - 0.12 and v.z < hip.z + 0.05]
     bottom = min(v.z for v in zone); rear = min(v.y for v in zone if v.z < bottom + 0.12)
     T = Vector((0.0, BACK_Z + P.get('slide', 0.0) - rear, SEAT_Y - bottom))
-    # 腳：鞋底不能低於地面。先讓小腿往前伸（最多離垂直 15°：再多腳會伸到前一排的桌板下、碰到擋板），不夠再把大腿抬高（膝蓋往上）——個子高的人坐矮椅子就是這樣
+    # 腳：鞋底不能低於地面。個子高的人坐矮椅子：膝蓋抬高、小腿維持原本的角度（腳在膝蓋下面）；抬到 34° 還不夠才讓小腿往前（最多離垂直 15°：再多腳會伸到前一排的桌板下）
+    # 2026-10-13 修正：①原本抬大腿是負轉（大腿往下轉），個子高的三個底模（f2、m1、m2）連轉 16 次後腿直直往下、穿過地板；
+    # ②原本先把小腿往前推（腳只抬高一點、卻往前 12 cm），m1 的腳伸到座位前方 0.83 m。現在先抬膝蓋。
     def sole(s): return H(arm, S + s + '_Foot').z + T.z - foot_h
     for s in ('L', 'R'):
-        for _ in range(16):
+        raised = 0.0
+        for _ in range(40):
             if sole(s) >= 0.004: break
-            k = H(arm, S + s + '_LowerLeg'); ank = H(arm, S + s + '_Foot'); Ls = (ank - k).length
-            cur_phi = math.atan2(ank.y - k.y, k.z - ank.z)
-            if cur_phi < math.radians(15) - 1e-3:   # 1. 小腿往前（繞 +X 正轉：往下的小腿，下端往前）
-                want = (k.z + T.z - foot_h - 0.006) / Ls; phi = min(math.radians(15), math.acos(max(-1.0, min(1.0, want))))
-                rot_bone(arm, S + s + '_LowerLeg', Quaternion((1, 0, 0), max(0.0, phi - cur_phi)))
-            else:                                   # 2. 大腿抬高（繞 +X 負轉：往前的大腿，前端往上），小腿跟著抬
-                hip_ = H(arm, S + s + '_UpperLeg'); Lt = (k - hip_).length; need = 0.006 - sole(s)
-                rot_bone(arm, S + s + '_UpperLeg', Quaternion((1, 0, 0), -min(0.25, need / Lt)))
+            k = H(arm, S + s + '_LowerLeg')
+            if raised < 0.6:   # 1. 大腿抬高（繞 +X 正轉：往前的大腿 (0,1,0) 轉 +θ → (0, cos θ, sin θ)，前端往上）、小腿轉回原本的角度
+                d = min(0.05, 0.6 - raised); raised += d
+                rot_bone(arm, S + s + '_UpperLeg', Quaternion((1, 0, 0), d)); rot_bone(arm, S + s + '_LowerLeg', Quaternion((1, 0, 0), -d))
+            else:              # 2. 小腿往前（繞 +X 正轉：往下的小腿 (0,0,−1) 轉 +θ → (0, sin θ, −cos θ)，下端往前），最多離垂直 15°
+                ank = H(arm, S + s + '_Foot'); cur_phi = math.atan2(ank.y - k.y, k.z - ank.z)
+                if cur_phi >= math.radians(15) - 1e-3: break
+                rot_bone(arm, S + s + '_LowerLeg', Quaternion((1, 0, 0), min(0.05, math.radians(15) - cur_phi)))
         aim(arm, S + s + '_Foot', S + s + '_ToeBase', (0.0, 1.0, -0.59))
+        # 檢查：膝蓋在屁股前面（坐著）、鞋底沒有穿過地面——不對就停下來（不要再交出站著的腿）
+        hip_, kn = H(arm, S + s + '_UpperLeg'), H(arm, S + s + '_LowerLeg')
+        assert kn.y - hip_.y > 0.2 and kn.z > hip_.z - 0.12, f'{pose} {s}：大腿沒有往前（膝蓋 {tuple(round(v, 3) for v in kn)}、髖 {tuple(round(v, 3) for v in hip_)}）'
+        assert sole(s) > -0.012, f'{pose} {s}：鞋底在地面下 {sole(s):.3f} m'
     # 手臂：兩段 IK，手腕到指定的位置（手肘往外、往後下）
     for s, sx, key in (('L', -1, 'wrist_l'), ('R', 1, 'wrist_r')):
         Sh = H(arm, S + s + '_UpperArm'); El = H(arm, S + s + '_LowerArm'); Wr = H(arm, S + s + '_Hand')

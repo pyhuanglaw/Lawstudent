@@ -1,0 +1,748 @@
+{
+ "objects": 46,
+ "unique_meshes": 46,
+ "tris": 5334,
+ "tris_drawn": 5334,
+ "materials": 1,
+ "out": "assets/models/env/second_ai/desk_props.glb",
+ "bytes": 341716,
+ "texres": 1024,
+ "modules": {
+  "item_notebook_open": {
+   "tris": 88,
+   "min": [
+    -0.184,
+    0.0,
+    -0.1305
+   ],
+   "max": [
+    0.184,
+    0.0041,
+    0.1305
+   ]
+  },
+  "item_notebook_closed": {
+   "tris": 44,
+   "min": [
+    -0.091,
+    0.0,
+    -0.1285
+   ],
+   "max": [
+    0.091,
+    0.0055,
+    0.1285
+   ]
+  },
+  "item_notebook_closed_b": {
+   "tris": 44,
+   "min": [
+    -0.091,
+    0.0,
+    -0.1285
+   ],
+   "max": [
+    0.091,
+    0.0055,
+    0.1285
+   ]
+  },
+  "item_code_book": {
+   "tris": 28,
+   "min": [
+    -0.0775,
+    0.0,
+    -0.1075
+   ],
+   "max": [
+    0.0775,
+    0.055,
+    0.1075
+   ]
+  },
+  "item_code_open": {
+   "tris": 100,
+   "min": [
+    -0.155,
+    0.0,
+    -0.1105
+   ],
+   "max": [
+    0.155,
+    0.0253,
+    0.1105
+   ]
+  },
+  "item_textbook": {
+   "tris": 28,
+   "min": [
+    -0.085,
+    0.0,
+    -0.12
+   ],
+   "max": [
+    0.085,
+    0.028,
+    0.12
+   ]
+  },
+  "item_laptop_open": {
+   "tris": 164,
+   "min": [
+    -0.152,
+    0.0,
+    -0.106
+   ],
+   "max": [
+    0.152,
+    0.2081,
+    0.1816
+   ]
+  },
+  "item_laptop_closed": {
+   "tris": 164,
+   "min": [
+    -0.152,
+    0.0,
+    -0.106
+   ],
+   "max": [
+    0.152,
+    0.02,
+    0.106
+   ]
+  },
+  "item_phone_on": {
+   "tris": 92,
+   "min": [
+    -0.0357,
+    0.0,
+    -0.0732
+   ],
+   "max": [
+    0.0357,
+    0.0078,
+    0.0732
+   ]
+  },
+  "item_phone_off": {
+   "tris": 92,
+   "min": [
+    -0.0357,
+    0.0,
+    -0.0732
+   ],
+   "max": [
+    0.0357,
+    0.0078,
+    0.0732
+   ]
+  },
+  "item_pen": {
+   "tris": 62,
+   "min": [
+    -0.071,
+    0.0007,
+    -0.0052
+   ],
+   "max": [
+    0.071,
+    0.0126,
+    0.0052
+   ]
+  },
+  "item_highlighter": {
+   "tris": 28,
+   "min": [
+    -0.051,
+    -0.0,
+    -0.0085
+   ],
+   "max": [
+    0.071,
+    0.0122,
+    0.0085
+   ]
+  },
+  "item_highlighter_pink": {
+   "tris": 28,
+   "min": [
+    -0.051,
+    -0.0,
+    -0.0085
+   ],
+   "max": [
+    0.071,
+    0.0122,
+    0.0085
+   ]
+  },
+  "item_pencil_case": {
+   "tris": 76,
+   "min": [
+    -0.1,
+    0.0,
+    -0.0304
+   ],
+   "max": [
+    0.1,
+    0.0496,
+    0.0304
+   ]
+  },
+  "item_cup": {
+   "tris": 196,
+   "min": [
+    -0.0468,
+    0.0,
+    -0.0445
+   ],
+   "max": [
+    0.0468,
+    0.123,
+    0.0445
+   ]
+  },
+  "item_thermos_sage": {
+   "tris": 164,
+   "min": [
+    -0.034,
+    0.0,
+    -0.034
+   ],
+   "max": [
+    0.034,
+    0.232,
+    0.034
+   ]
+  },
+  "item_thermos_navy": {
+   "tris": 164,
+   "min": [
+    -0.034,
+    0.0,
+    -0.034
+   ],
+   "max": [
+    0.034,
+    0.232,
+    0.034
+   ]
+  },
+  "lset_write": {
+   "tris": 150,
+   "min": [
+    -0.1435,
+    0.75,
+    0.318
+   ],
+   "max": [
+    0.2535,
+    0.8161,
+    0.622
+   ],
+   "items": [
+    "notebook_open",
+    "pen"
+   ]
+  },
+  "lset_write_lod1": {
+   "tris": 2,
+   "min": [
+    -0.1413,
+    0.754,
+    0.3203
+   ],
+   "max": [
+    0.2513,
+    0.754,
+    0.6197
+   ],
+   "items": [
+    "notebook_open"
+   ]
+  },
+  "lset_phone": {
+   "tris": 198,
+   "min": [
+    -0.0416,
+    0.75,
+    0.2492
+   ],
+   "max": [
+    0.1616,
+    0.949,
+    0.6057
+   ],
+   "items": [
+    "phone",
+    "notebook_closed",
+    "pen"
+   ]
+  },
+  "lset_phone_lod1": {
+   "tris": 8,
+   "min": [
+    -0.0419,
+    0.75,
+    0.2485
+   ],
+   "max": [
+    0.1619,
+    0.9497,
+    0.6059
+   ],
+   "items": [
+    "phone",
+    "notebook_closed"
+   ]
+  },
+  "lset_laptop": {
+   "tris": 256,
+   "min": [
+    -0.152,
+    0.75,
+    0.309
+   ],
+   "max": [
+    0.2451,
+    0.9581,
+    0.5966
+   ],
+   "items": [
+    "laptop",
+    "phone"
+   ]
+  },
+  "lset_laptop_lod1": {
+   "tris": 12,
+   "min": [
+    -0.152,
+    0.75,
+    0.309
+   ],
+   "max": [
+    0.2458,
+    0.9581,
+    0.5966
+   ],
+   "items": [
+    "laptop",
+    "phone"
+   ]
+  },
+  "lset_book": {
+   "tris": 298,
+   "min": [
+    -0.239,
+    0.75,
+    0.313
+   ],
+   "max": [
+    0.1536,
+    0.982,
+    0.594
+   ],
+   "items": [
+    "book_closed",
+    "notebook_closed",
+    "pen",
+    "thermos"
+   ]
+  },
+  "lset_book_lod1": {
+   "tris": 30,
+   "min": [
+    -0.239,
+    0.75,
+    0.3127
+   ],
+   "max": [
+    0.1539,
+    0.982,
+    0.5894
+   ],
+   "items": [
+    "book_closed",
+    "notebook_closed",
+    "thermos"
+   ]
+  },
+  "lset_code": {
+   "tris": 252,
+   "min": [
+    -0.2468,
+    0.75,
+    0.331
+   ],
+   "max": [
+    0.103,
+    0.873,
+    0.6145
+   ],
+   "items": [
+    "book_closed",
+    "highlighter",
+    "cup"
+   ]
+  },
+  "lset_code_lod1": {
+   "tris": 26,
+   "min": [
+    -0.2465,
+    0.75,
+    0.3486
+   ],
+   "max": [
+    0.103,
+    0.868,
+    0.6103
+   ],
+   "items": [
+    "book_closed",
+    "cup"
+   ]
+  },
+  "hold_phone": {
+   "tris": 92,
+   "min": [
+    -0.0357,
+    0.866,
+    0.2492
+   ],
+   "max": [
+    0.0359,
+    0.949,
+    0.3763
+   ],
+   "items": [
+    "phone"
+   ]
+  },
+  "hold_phone_lod1": {
+   "tris": 4,
+   "min": [
+    -0.0357,
+    0.8654,
+    0.2485
+   ],
+   "max": [
+    0.0359,
+    0.9497,
+    0.377
+   ],
+   "items": [
+    "phone"
+   ]
+  },
+  "hold_pen": {
+   "tris": 62,
+   "min": [
+    0.0024,
+    0.7543,
+    0.4427
+   ],
+   "max": [
+    0.0208,
+    0.8161,
+    0.5735
+   ],
+   "items": [
+    "pen"
+   ]
+  },
+  "tset_notes": {
+   "tris": 422,
+   "min": [
+    -0.3468,
+    0.0,
+    -0.0095
+   ],
+   "max": [
+    0.3781,
+    0.123,
+    0.2722
+   ],
+   "items": [
+    "notebook_open",
+    "pen",
+    "pencil_case",
+    "cup"
+   ]
+  },
+  "tset_notes_lod1": {
+   "tris": 28,
+   "min": [
+    -0.3465,
+    0.0,
+    -0.0075
+   ],
+   "max": [
+    0.3801,
+    0.118,
+    0.2741
+   ],
+   "items": [
+    "notebook_open",
+    "pencil_case",
+    "cup"
+   ]
+  },
+  "tset_laptop": {
+   "tris": 420,
+   "min": [
+    -0.344,
+    0.0,
+    -0.001
+   ],
+   "max": [
+    0.3183,
+    0.232,
+    0.2965
+   ],
+   "items": [
+    "laptop",
+    "phone",
+    "thermos"
+   ]
+  },
+  "tset_laptop_lod1": {
+   "tris": 28,
+   "min": [
+    -0.344,
+    0.0,
+    -0.0012
+   ],
+   "max": [
+    0.3202,
+    0.232,
+    0.2968
+   ],
+   "items": [
+    "laptop",
+    "phone",
+    "thermos"
+   ]
+  },
+  "tset_book": {
+   "tris": 234,
+   "min": [
+    -0.2654,
+    -0.0,
+    0.009
+   ],
+   "max": [
+    0.417,
+    0.0253,
+    0.2536
+   ],
+   "items": [
+    "book_open",
+    "highlighter",
+    "notebook_closed",
+    "pen"
+   ]
+  },
+  "tset_book_lod1": {
+   "tris": 12,
+   "min": [
+    -0.1891,
+    0.0,
+    0.0122
+   ],
+   "max": [
+    0.4173,
+    0.0225,
+    0.2539
+   ],
+   "items": [
+    "book_open",
+    "notebook_closed"
+   ]
+  },
+  "tset_away": {
+   "tris": 480,
+   "min": [
+    -0.3512,
+    0.0,
+    -0.0043
+   ],
+   "max": [
+    0.3468,
+    0.123,
+    0.2534
+   ],
+   "items": [
+    "laptop",
+    "book_closed",
+    "cup",
+    "phone"
+   ]
+  },
+  "tset_away_lod1": {
+   "tris": 38,
+   "min": [
+    -0.3535,
+    0.0,
+    -0.0043
+   ],
+   "max": [
+    0.3465,
+    0.118,
+    0.2538
+   ],
+   "items": [
+    "laptop",
+    "book_closed",
+    "cup",
+    "phone"
+   ]
+  },
+  "rset_notes": {
+   "tris": 150,
+   "min": [
+    -0.1727,
+    0.0,
+    0.022
+   ],
+   "max": [
+    0.2127,
+    0.0167,
+    0.308
+   ],
+   "items": [
+    "notebook_open",
+    "pen"
+   ]
+  },
+  "rset_notes_lod1": {
+   "tris": 2,
+   "min": [
+    -0.1705,
+    0.004,
+    0.0241
+   ],
+   "max": [
+    0.2105,
+    0.004,
+    0.3059
+   ],
+   "items": [
+    "notebook_open"
+   ]
+  },
+  "rset_laptop": {
+   "tris": 164,
+   "min": [
+    -0.152,
+    0.0,
+    0.034
+   ],
+   "max": [
+    0.152,
+    0.2081,
+    0.3216
+   ],
+   "items": [
+    "laptop"
+   ]
+  },
+  "rset_laptop_lod1": {
+   "tris": 8,
+   "min": [
+    -0.152,
+    0.0,
+    0.034
+   ],
+   "max": [
+    0.152,
+    0.2081,
+    0.3216
+   ],
+   "items": [
+    "laptop"
+   ]
+  },
+  "rset_book": {
+   "tris": 128,
+   "min": [
+    -0.1715,
+    -0.0,
+    0.0415
+   ],
+   "max": [
+    0.1606,
+    0.0253,
+    0.3214
+   ],
+   "items": [
+    "book_open",
+    "highlighter"
+   ]
+  },
+  "rset_book_lod1": {
+   "tris": 8,
+   "min": [
+    -0.1574,
+    0.0025,
+    0.0447
+   ],
+   "max": [
+    0.1574,
+    0.0225,
+    0.2753
+   ],
+   "items": [
+    "book_open"
+   ]
+  },
+  "rset_cup": {
+   "tris": 240,
+   "min": [
+    -0.1776,
+    0.0,
+    0.0305
+   ],
+   "max": [
+    0.1468,
+    0.123,
+    0.3095
+   ],
+   "items": [
+    "cup",
+    "notebook_closed"
+   ]
+  },
+  "rset_cup_lod1": {
+   "tris": 20,
+   "min": [
+    -0.178,
+    0.0,
+    0.0301
+   ],
+   "max": [
+    0.1465,
+    0.118,
+    0.3099
+   ],
+   "items": [
+    "cup",
+    "notebook_closed"
+   ]
+  }
+ },
+ "atlas": [
+  "tools/blender/env_second/textures/gen/desk_props_atlas.png",
+  "tools/blender/env_second/textures/gen/desk_props_orm.png",
+  "tools/blender/env_second/textures/gen/desk_props_emit.png"
+ ],
+ "origins": {
+  "item_*": "底面中心、y=0＝放的那個面、+z＝離開坐的人的方向（螢幕、封面朝 −z 那一側的人）",
+  "tset_*": "自習雙人桌：坐的人正前方的桌緣、y=0＝桌面、+z＝往桌子裡面；一個人的範圍 x −0.42～0.42、z 0～0.3（對面的人用自己的那一組）",
+  "rset_*": "圓桌（Ø1.0）：坐的人正前方的桌緣（離桌心 0.5）、y=0＝桌面、+z＝往桌心",
+  "lset_*": "講堂：座位的地面中心（＝講堂椅、坐姿替身的原點），桌板 y 0.75、z 0.30–0.64；lset_write／lset_phone 配替身的抄筆記／滑手機",
+  "hold_*": "座位座標（和替身同一個矩陣）：hold_phone＝滑手機的手機；hold_pen＝抄筆記的筆（筆尖在座位座標 y≈0.754）"
+ },
+ "placement_check": "ok",
+ "note": "一個材質 desk_props（底色 1024＋粗糙度／金屬度 256＋自發光 512：只有螢幕）；每個網格一個 InstancedMesh；_lod1 是遠處用的（筆、螢光筆省略）。GLB 裡的物件位置只是排開給人看"
+}

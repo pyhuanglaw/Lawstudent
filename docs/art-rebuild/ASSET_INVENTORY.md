@@ -72,6 +72,7 @@
 | 新社科院外觀（LAWWW2 正式模型；取代套件 `CK.modern` 社科院、門前 7 根白柱、⑤ `campus_modern.glb`（白色原型）當預設畫面） | 校園 x 95–125：圖書館 z −92～−70、中庭 z −70～−58、大樓 z −58～−42 | ⑤（新做；舊的 `CK.modern` 社科院與 ⑤ GLB 變成 ⑤ 已被取代） | `MODEL_READY`（LAWWW2）：`campus_socsci.py` → `assets/models/env/second_ai/campus_socsci.glb`（玻璃帷幕、從外面看得到的樹狀柱與天窗、植栽屋頂、8 層清水混凝土、一樓玻璃大廳、中庭；遊戲化南北對調） | LAWWW 接線（VISUAL_REVIEW second_ai 22.5：導航、鏡頭碰撞、門的位置要換成新形狀）；照片查證 |
 | 教學館家具模組（LAWWW2 正式模型 `assets/models/env/second_ai/furniture_study.glb`：自習雙人桌、自習椅、圓桌、講堂椅（座面放下／收起）、排尾側板、連續桌板＋簡化版；教室門：門框、門片開／關、門牌——VISUAL_REVIEW 第 25 節） | 博雅 101 講堂、教學館自習區、教室門口（取代模板的方塊桌椅、牆上的門洞；座位配置、入座、LOD 由 LAWWW 做） | ⑤（新做） | `MODEL_READY`（LAWWW2；還沒接）：VISUAL_REVIEW 第 23 節 | 一個材質（顏色＋法線＋粗糙度／金屬度）、每種一個網格，給 `InstancedMesh` |
 | 坐著的聽眾替身（LAWWW2 正式模型 `assets/models/env/second_ai/seated_figures.glb`：路人底模 4 種×3 姿勢×2 配色＝24 種外型，LOD0 約 1,500／LOD1 約 350 三角形，一個材質） | 博雅 101 講堂、教學館自習區的遠處人群（近處用真的 VRM 人物；放法、數量、LOD 由 LAWWW 做） | ⑤（新做） | `MODEL_READY`（LAWWW2；還沒接）：VISUAL_REVIEW 第 24 節 | 和講堂椅同一個原點，直接用同一個 instance 矩陣 |
+| 桌上小物（LAWWW2 正式模型 `assets/models/env/second_ai/desk_props.glb`：17 種單件＋15 組（講堂 `lset`／自習桌 `tset`／圓桌 `rset`／手上 `hold`）×2 LOD，一個材質，螢幕自發光——VISUAL_REVIEW 第 27 節） | 博雅 101 講堂、教學館自習區（配坐姿替身或真的 NPC；放法、配哪一組由 LAWWW 做） | ⑤（新做） | `MODEL_READY`（LAWWW2；還沒接）：VISUAL_REVIEW 第 27 節 | 講堂組、手上的東西和講堂椅、替身同一個原點，直接用同一個 instance 矩陣 |
 | `desk()`、`chair()`、`shelfWall()`、`goodsWall()`、床、沙發、Café 家具 | 各室內 | ④ | BLOCKOUT | Blender 家具組（GLB，同一款重用） |
 
 ## 五、人物（`src/character3d.js`、`assets/models/char/`）
