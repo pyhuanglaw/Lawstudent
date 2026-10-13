@@ -144,6 +144,8 @@ const TB3=(function(){
       const label=st.kind==='class'||st.kind==='lecture'?'坐下':(st.label||(st.kind==='study'?'坐下讀書（自習區）':(st.kind==='lounge'?'坐下（休息區）':'坐下')));
       /* 階梯教室：互動點在椅子後面 0.35 m（玩家站在那一排椅子後面的走道上；半徑小一點，旁邊的位子不會搶），帶高度（別排的不算）*/
       if(st.kind==='lecture'){ IT.push({x:st.x-Math.sin(st.yaw)*0.35,z:st.z-Math.cos(st.yaw)*0.35,y:st.y,radius:0.62,lv:st.lv,label,seat:st,study:true}); continue; }
+      /* 沙發：從正前方走過去坐（前面 0.5 m 還在沙發的範圍裡，站得住的地方在前面 0.8 m 左右）——互動點往前 0.4 m，站在沙發前就出現「坐在沙發上」*/
+      if(st.kind==='sofa'){ IT.push({x:st.x+Math.sin(st.yaw)*0.4,z:st.z+Math.cos(st.yaw)*0.4,radius:0.75,lv:st.lv,label,seat:st,study:true}); continue; }
       IT.push({x:st.x,z:st.z,radius:0.8,lv:st.lv,label,seat:st,study:st.kind!=='bench'}); }
     b0.build(fb0); b1.build(fb1); return seats; }
   // ---- 階梯教室（備用模型）：每排的平台、兩側走道的台階（每排兩階）、前緣收邊、長桌、椅子、講桌、黑板、投影幕；門口的「看看」；點地面用的平面 ----

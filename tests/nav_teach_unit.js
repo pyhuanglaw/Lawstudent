@@ -36,6 +36,12 @@ function runZone(id,L,minSeats){ tag='['+L.name+'] '; const z=loadZone(id); cons
         const r=walk([SP.x,SP.z,0],[x,zz,lv]); if(r.ok){ ok=true; break; } why=r.reason||'走不到'; }
       if(ok) n++; else bad.push((st.room||st.kind)+'('+st.x+','+st.z+(lv?',2F':'')+')：'+why); }
     check('每一個座位旁邊站得住、從大門走得到（'+n+'/'+z.seats.length+'）',!bad.length,bad.slice(0,5).join(' | ')); }
+  // 坐下按鈕：每個座位，站在它的互動範圍裡、站得住、走得到的地方，最近的互動點就是它（不會被旁邊的位子、別的互動點搶走）——真的玩家看到按鈕才坐得下
+  { const bad=[]; const P=E.player; for(const it of E.interactables.filter(i=>i.seat)){ const lv=it.lv|0; let ok=false;
+      for(let rr=0;rr<it.radius-0.02&&!ok;rr+=0.1) for(let a=0;a<16&&!ok;a++){ const x=it.x+Math.cos(a/16*Math.PI*2)*rr, zz=it.z+Math.sin(a/16*Math.PI*2)*rr; if(!E.canStand(x,zz,0.3,lv)) continue;
+        P.obj.position.set(x,E.heightAt(x,zz,lv),zz); P.lv=lv; if(E.nearestInteractable()!==it) continue; const p=E.pathTo(SP.x,SP.z,0,x,zz,lv); if(p&&p.length) ok=true; }
+      if(!ok) bad.push(it.label+'('+it.seat.x+','+it.seat.z+(lv?',2F':'')+')'); }
+    P.obj.position.set(0,0,0); P.lv=0; check('每個座位：站在旁邊會出現它的「坐下」按鈕（不會被旁邊的位子或別的互動點搶走）',!bad.length,bad.length+' 個：'+bad.slice(0,5).join(' | ')); }
   // 樓梯
   { const H=(x,zz,lv)=>E.levels[lv].heightAt(x,zz); const S=L.stair, A=S.A, B=S.B, LD=S.landing, bx=(B.x0+B.x1)/2;
     check('樓梯的高度：A 跑底 0、平台 '+LD.y+'、B 跑頂 '+Y1+'（兩層共用）',Math.abs(H((A.x0+A.x1)/2,A.z1-0.05,0))<0.05&&Math.abs(H((A.x0+A.x1)/2,(LD.z0+LD.z1)/2,0)-LD.y)<0.02&&Math.abs(H(bx,B.z1-0.05,1)-Y1)<0.05,
