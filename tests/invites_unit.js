@@ -12,7 +12,7 @@ global.CHAR={build:()=>mkObj(),setExpr(){}}; global.location={search:''}; global
 const STAGE={heroine_02:'FAMILIAR',zhe:'CLOSE_FRIEND',kai:'FRIEND',yu:'FRIEND',heroine_01:'FRIEND',classmate_bohan:'ACQUAINTANCE',heroine_04:'STRANGER'};
 const MEM=[], ADJ=[];
 global.SOCIAL={STAGES:['STRANGER','ACQUAINTANCE','FAMILIAR','FRIEND','CLOSE_FRIEND','POSSIBLE_ROMANTIC_INTEREST','ROMANTIC_TENSION','RELATIONSHIP'],stage:id=>STAGE[id]||'STRANGER',
-  displayName:id=>(CHARACTERS[id]&&(CHARACTERS[id].nickname||CHARACTERS[id].name))||id,remember:(id,tag,note)=>MEM.push([id,tag,note]),adjust:(id,d)=>ADJ.push([id,d]),noticed(){},reveal:()=>'ACQUAINTANCE',has:()=>true};
+  displayName:id=>(CHARACTERS[id]&&(CHARACTERS[id].nickname||CHARACTERS[id].name))||id,remember:(id,tag,note)=>MEM.push([id,tag,note]),memories:id=>MEM.filter(m=>m[0]===id).map(m=>({tag:m[1],note:m[2]})),adjust:(id,d)=>ADJ.push([id,d]),noticed(){},reveal:()=>'ACQUAINTANCE',has:()=>true};
 let GM=null; const ALIAS={heroine_01:'an',heroine_05:'sis',prof_zhou:'prof'}; const HAB=[];
 global.EVENTS={npcOf:id=>GM.npc[id]||GM.npc[ALIAS[id]]||null,onEnter(){},tick(){},habit:k=>HAB.push(k)};
 for(const f of ['src/data/characters.js','src/data/places.js','src/data/calendar.js','src/data/courses.js','src/story3d.js','src/classes3d.js','src/data/invites.js','src/invites3d.js'])
@@ -40,6 +40,13 @@ const D2=fri('Y1S2',5);   // 大一下第 5 週的週五（芷若週五 11–15 
   check('旁白照實說（沒有替人物編台詞）',/打工/.test(INV.reply(G,'heroine_02','cafe',r1))&&/15:00|15:30/.test(INV.reply(G,'heroine_02','cafe',r1)),INV.reply(G,'heroine_02','cafe',r1));
   const r2=INV.decide(G,'heroine_02','wenzhou',D2,16);
   check('關係還不到朋友（芷若「熟悉」）：散步這種沒有理由的不答應；喝咖啡可以',r2.res==='decline'&&r2.why==='rel'&&INV.decide(G,'heroine_02','cafe',D2,16).res==='accept',JSON.stringify(r2));
+  { const saved=MEM.splice(0); SOCIAL.remember('heroine_02','WALKED_TOGETHER','（測試）');
+    const r2b=INV.decide(G,'heroine_02','wenzhou',D2,16); check('一起散步過（WALKED_TOGETHER）：再約散步不會因為「還不太熟」拒絕（關係這一關過了，接著照作息）',!(r2b.res==='decline'&&r2b.why==='rel'),JSON.stringify(r2b));
+    /* 新遊戲的阿哲：舊版 rel 12 → 「認識」（2026-10-13 批次 3：第三天約吃飯說「還不太熟」，可是第一天就一起吃過麵）*/
+    MEM.splice(0); const keep=STAGE.zhe; STAGE.zhe='ACQUAINTANCE';
+    const a=INV.decide(G,'zhe','noodle',D2,19); SOCIAL.remember('zhe','SHARED_MEAL','阿鳳麵店'); const b=INV.decide(G,'zhe','noodle',D2,19);
+    check('阿哲「認識」、沒一起吃過飯：吃飯「還不太熟」；第一天一起吃過麵（SHARED_MEAL，story3d.js 記下的）：答應',a.res==='decline'&&a.why==='rel'&&b.res==='accept',JSON.stringify([a,b]));
+    STAGE.zhe=keep; MEM.splice(0); MEM.push(...saved); }
   const r3=INV.decide(G,'zhe','noodle',D2,19); check('阿哲週五 19:00 去麵店：答應',r3.res==='accept',JSON.stringify(r3));
   const iv=INV.accept(G,'zhe','noodle',D2,19);
   check('約好：G.invites 一筆（accepted、給「跳過時間」停的 accepted:true）、訊息一則',iv&&iv.state==='accepted'&&iv.accepted===true&&G.invites.length===1&&/約好了/.test(G.msgs[G.msgs.length-1].text));

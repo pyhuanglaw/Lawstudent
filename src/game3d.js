@@ -24,7 +24,9 @@ const GAME = (function(){
   GM.addNote=addNote; GM.hasNote=id=>!!G.notes.find(n=>n.id===id);
   function memo(text){ G.memo.push({day:G.day,t:text}); }
   GM.memo=memo;
-  function rel(id,d){ G.rel[id]=Math.max(0,Math.min(100,(G.rel[id]||0)+d)); if(d>0) toast('❤ 和'+(NPCNAME[id]||id)+'的關係 +'+d); }
+  /* 第一、二天的劇情（story3d.js）用舊版的 G.rel 加關係；新版的關係（SOCIAL）只在第一次綁定時從 G.rel 搬一次，之後加的都沒進去
+     （2026-10-13 批次 3：第一天和阿哲吃麵 +3，第三天約他吃飯還是「認識」）→ 兩邊一起加（熟悉度 d、信任 0.6d，和搬家的換算一樣）*/
+  function rel(id,d){ G.rel[id]=Math.max(0,Math.min(100,(G.rel[id]||0)+d)); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&G.social&&d) SOCIAL.adjust(CID[id]||id,{fam:d,trust:Math.round(d*0.6)}); if(d>0) toast('❤ 和'+(NPCNAME[id]||id)+'的關係 +'+d); }
   GM.rel=rel;
   const NPCNAME={an:'小安',zhe:'阿哲',sis:'溫學姊',kai:'阿凱',yu:'小語',prof:'周教授'}; GM.NPCNAME=NPCNAME;
   function energy(d){ G.energy=Math.max(0,Math.min(100,G.energy+d)); updateHUD(); }

@@ -1,5 +1,6 @@
 """真實玩家流程：用手機約朋友吃飯、赴約（D54 ⑥；src/invites3d.js）。不用 ?turbo。
-[前置／捷徑] 讀檔：第 3 天（9/19 週五）17:00 宿舍房間、去過阿鳳麵店（快速前往的清單才有它）；關掉條件事件（這個測試不測劇情，避免其他事件插進來）。
+[前置／捷徑] 讀檔：第 3 天（9/19 週五）17:00 宿舍房間、去過阿鳳麵店（快速前往的清單才有它）；第一、二天和阿哲的關係照劇情
+  （舊版 rel 12＋7、第一天在阿鳳麵店一起吃過麵＝SHARED_MEAL 記憶，story3d.js 記的）；關掉條件事件（這個測試不測劇情，避免其他事件插進來）。
 A. 手機「朋友」→ 阿哲「約」→ 選「去公館吃飯（阿鳳麵店）」→「今天 19:00」→ 旁白「阿哲答應了」；手機「今天」列出約好的；「訊息」有一則。
 B. 手機「跳過時間」選「等到晚上」→ 在約好的時間前 10 分鐘停下來（18:50）。
 C. 手機「地點」→ 阿鳳麵店（快速前往）→ 阿哲已經坐在店裡等 → 自己走過去、按「和阿哲說話」→ 見面：時間過了 45 分鐘、邀約變成見到了、訊息「和阿哲在阿鳳麵店」。
@@ -42,8 +43,10 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
-        run.setup('讀檔：第 3 天（9/19 週五）17:00 宿舍、去過阿鳳麵店；關掉條件事件')
+        run.setup('讀檔：第 3 天（9/19 週五）17:00 宿舍、去過阿鳳麵店；和阿哲的關係照第一、二天的劇情（第一天一起吃過麵）；關掉條件事件')
+        social = {'rel': {}, 'mem': {'zhe': [{'tag': 'SHARED_MEAL', 'day': 1, 'note': '阿鳳麵店'}]}, 'reveal': {}, 'prof': {}, 'grad': {'interest': 'NONE', 'field': None, 'prep': 0}}
         await L.load_state(pg, {'zone': 'dorm', 'hour': 17.0, 'day': 3, 'weekday': 5, 'weather': 'sunny', 'pos': {'x': 0, 'z': 2.4, 'yaw': 3.14}, 'flags': BASE_FLAGS,
+                                'rel': {'an': 22, 'zhe': 19, 'sis': 5, 'kai': 10, 'yu': 5}, 'social': social,
                                 'visited': {'dorm': True, 'noodle': True, 'campus': True, 'gongguan': True, 'wenzhou': True}}, quiet_events=True)
         await pg.wait_for_timeout(3500)
         # ---------- A：手機約阿哲 ----------
