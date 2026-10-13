@@ -10,6 +10,19 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-13 14:42 UTC 補充（最新 `cdfccad`）**：
+- 開發分支新增（單元測試都通過，**瀏覽器流程還沒跑**）：
+  - 共同教學館室內第一版（`src/teach3d.js`＋`src/data/gongtong_layout.js`：大廳、走廊、四間教室、樓梯、休息區、自習區；課在 101 的 3D 教室上）；
+  - 大一女舍（A、B＋天橋、門口長椅、男賓止步）；
+  - 門口人流（`src/crowd3d.js`）；
+  - 手機「朋友」分頁；
+  - 事件介面（room／activity／npcHere）＋活動格式（`src/data/activities.js`，空的）；
+  - 自習區、休息區的椅子擋路。
+- v9.5 回歸：
+  - 32 項通過。
+  - **3 項看起來是機器太忙的時間問題**：flow_linze_floors 坐下、flow_library_scene 坐下等不到 120 秒、guide_flow 導航條還沒出現。都要在安靜時單獨重跑。
+  - 還沒跑完：flow_main_day12、save_compat 兩項、see_through、tap_floor_levels、movement_regression。
+
 **2026-10-13 14:15 UTC 狀態（LAWWW，帳號 A，`claude/confident-ritchie-8rwh7t`，最新 `e59c1ad` 之後）**：
 - **線上**：v9.4.2（main＝`dfd2618`）。**v9.5 候選＝`a4f2760`**（只含到萬才館兩階段、總圖大廳等；**不是**開發分支最新）。回歸在本機跑（結果在 scratchpad，不在 GitHub）：
   - 已通過 29 項：單元測試、deploy_check、model_upgrade、zone_transitions、校園／公館導航、reachability_all、鏡頭遮擋、小地圖、搖桿、p0_movement、touch_flow_wenzhou、flow_class_real、stairs_cam_browser、萬才館兩項。
