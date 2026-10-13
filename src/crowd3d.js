@@ -1,5 +1,5 @@
 /* ===== 人流：公共場景隨時間改變（D55，使用者 2026-10-13；設計：docs/campus/PUBLIC_BUILDINGS_DESIGN.md 第 3 節）=====
-   第一步：校園上公共建築的門口。
+   第一步：校園上公共建築的門口。第二步（2026-10-13）：教學館室內（共同、博雅、普通）每一間教室門口。
    - 共同教學館：上課前在門口等，開始時走進去；下課後從門口走出來，在門口聊一下，再走向椰林大道。
    - 大一女舍：早上出門、傍晚回來的人；晚上有人在門口等人或講電話；深夜沒有人。
    規則（使用者：「不要讓 NPC 隨玩家進出而任意生成和消失」「不要為了每個場景都熱鬧，而讓相同 NPC 同時出現在多個地方」）：
@@ -8,7 +8,9 @@
    - 時段開始：玩家看得到那裡 → 從門口（from）走出來；看不到 → 直接在那裡。
    - 時段結束：走向 to（走進門口或走上大路），走到了而且不在玩家眼前才移除。
    - 時間突然跳了（跳過時間、睡覺、讀檔、快速前往）：直接照新的時間重排，不慢慢走。
-   - 路人沒有名字，不會是有名字的角色（有名字的人只照作息出現，見 story3d.js）。 */
+   - 路人沒有名字，不會是有名字的角色（有名字的人只照作息出現，見 story3d.js）。
+   - 教學館室內：時段照那一間教室今天的課（CLS.dayItems）和演講（ACTIVITIES）。上課前 20 分鐘在門口等，開始時走進教室、找空位坐下
+     （變成那堂課的同學，下課時和大家一起走出去，classes3d.js syncRooms）；下課後 10 分鐘有人從教室出來、在門口聊一下，再走向出口。 */
 'use strict';
 const CROWD=(function(){
   const S={};
@@ -28,6 +30,19 @@ const CROWD=(function(){
       slots(G){ if(!schoolDay(G)) return []; const wk=typeof CALENDAR!=='undefined'&&CALENDAR.weekend(G.day);
         return wk?[{key:'wkday',t0:10.5,t1:17.5,n:[1,2],pose:'idle',talk:0.3,enter:'door',leave:'road'},{key:'wkeve',t0:19.5,t1:22,n:[1,3],pose:'talk',talk:0.6,enter:'road',leave:'door'}]
                  :[{key:'am',t0:7+40/60,t1:8+50/60,n:[2,4],pose:'idle',talk:0.3,enter:'door',leave:'road'},{key:'eve',t0:17+20/60,t1:19,n:[2,5],pose:'talk',talk:0.6,enter:'road',leave:'door'},{key:'night',t0:20,t1:22.5,n:[1,3],pose:'read',talk:0.2,enter:'door',leave:'door'}]; } } ];
+  /* 教學館室內的等候點（layout 的 waitSpots）：door＝教室門裡面一點（下課的人從這裡出來）、road＝建築出口（從這裡進來、走出去）、seatRoom＝走進去坐的那一間 */
+  function insideDoor(r){ if(r.kind==='lecture'&&r.door){ const d=r.door, m=(d.a0+d.a1)/2; return d.wall==='W'?[d.x+0.9,m]:(d.wall==='E'?[d.x-0.9,m]:[m,d.z]); }
+    if(r.doorFront){ const dz=r.doorZ!=null?r.doorZ:-0.4, ins=(r.z0+r.z1)/2<dz?-1:1; return [(r.doorFront[0]+r.doorFront[1])/2,dz+ins*0.9]; } return [(r.x0+r.x1)/2,(r.z0+r.z1)/2]; }
+  S.indoorSpots=function(){ const out=[]; const Ls=[typeof GONGTONG_LAYOUT!=='undefined'?GONGTONG_LAYOUT:null,typeof BOYA_LAYOUT!=='undefined'?BOYA_LAYOUT:null,typeof PUTONG_LAYOUT!=='undefined'?PUTONG_LAYOUT:null].filter(Boolean);
+    for(const L of Ls) for(const w of (L.waitSpots||[])){ const r=L.rooms.find(q=>q.id===w.room); if(!r) continue; const ex=L.entrance.exit;
+      out.push({ id:L.id+'_'+w.room, zone:L.id, lv:w.lv|0, label:L.name+' '+w.room+' 門口', c:[w.x,w.z], spread:[1.0,0.45], door:insideDoor(r), doorLv:r.lv|0, road:[ex.x,ex.z-0.7], roadLv:0, seatRoom:w.room, mix:true,
+        slots(G){ const o=[]; if(typeof CLS!=='undefined') for(const it of CLS.dayItems(G)){ if(it.room.zone!==this.zone||it.room.room!==this.seatRoom) continue;
+            o.push({key:'pre|'+it.key,cls:it.key,t0:it.t0-1/3,t1:it.t0,n:[2,4],pose:'idle',talk:0.5,enter:'road',leave:'seat'}); o.push({key:'post|'+it.key,t0:it.t1,t1:it.t1+1/6,n:[2,4],pose:'talk',talk:0.8,enter:'door',leave:'road'}); }
+          if(typeof ACTIVITIES!=='undefined') for(const a of ACTIVITIES.list){ if(a.zone!==this.zone||a.room!==this.seatRoom||!ACTIVITIES.on(a,G.day)) continue; const k='act:'+a.id+':'+G.day;
+            o.push({key:'pre|'+k,cls:k,t0:a.t0-0.25,t1:a.t0,n:[3,6],pose:'talk',talk:0.6,enter:'road',leave:'seat'}); o.push({key:'post|'+k,t0:a.t1,t1:a.t1+0.25,n:[3,6],pose:'talk',talk:0.8,enter:'door',leave:'road'}); }
+          return o.sort((p,q)=>p.t0-q.t0); } }); }
+    return out; };
+  S.SPOTS.push(...S.indoorSpots());
   S.slotAt=function(G,spot,h){ h=h==null?hr(G):h; return spot.slots(G).find(s=>h>=s.t0-1e-6&&h<s.t1)||null; };
   /* 這一天、這個時段的那一群人：人數、位置、朝向、姿勢、外觀（路人編號）都由種子決定 */
   S.group=function(G,spot,slot){ const r=prng(hash(spot.id+'|'+slot.key+'|'+G.day)); const n=slot.n[0]+Math.floor(r()*(slot.n[1]-slot.n[0]+1)); const out=[]; const base=1000+Math.floor(r()*500);
@@ -41,20 +56,29 @@ const CROWD=(function(){
   const live={};   // spot.id → {slotKey, npcs:[...]}
   let lastH=null, tAcc=0, zoneNow=null;
   function inView(E,p){ const cam=E.camera; if(!cam||!THREE.Vector3.prototype.project) return true; const v=new THREE.Vector3(p.x,(p.y||0)+1.0,p.z).project(cam); return v.z<1&&Math.abs(v.x)<1.05&&Math.abs(v.y)<1.05; }
-  function spawnGroup(GM,spot,slot,fromDoor){ const E=GM.E; const grp=S.group(GM.G,spot,slot); const npcs=[];
-    for(const p of grp){ if(!E.canStand(p.x,p.z,0.3,0)) continue; const o=CHAR.build(STORY.extraSpec(p.spec)); const start=fromDoor?(slot.enter==='door'?(spot.door2&&p.x>spot.c[0]?spot.door2:spot.door):spot.road):[p.x,p.z];
-      o.position.set(start[0],0,start[1]); o.rotation.y=p.yaw; const n=E.addNPC({obj:o,name:'',beh:'idle',pose:p.pose,idlePose:p.pose,isExtra:true,crowd:spot.id,frozen:!fromDoor,walkSpeed:1.25});
-      if(fromDoor){ n.frozen=false; n.pose='walk'; E.moveTo(n,p.x,p.z,()=>{ n.frozen=true; n.pose=p.pose; n.idlePose=p.pose; n.obj.rotation.y=p.yaw; }); }
+  function spawnGroup(GM,spot,slot,fromDoor){ const E=GM.E; const grp=S.group(GM.G,spot,slot); const npcs=[]; const lv=spot.lv|0;
+    for(const p of grp){ if(!E.canStand(p.x,p.z,0.3,lv)) continue; const o=CHAR.build(STORY.extraSpec(p.spec)); const byDoor=slot.enter==='door'; const start=fromDoor?(byDoor?(spot.door2&&p.x>spot.c[0]?spot.door2:spot.door):spot.road):[p.x,p.z];
+      const slv=fromDoor?(byDoor?(spot.doorLv|0):(spot.roadLv!=null?spot.roadLv:lv)):lv;   /* 室內：從教室門口（教室那一層）或建築出口（一樓）出來 */
+      o.position.set(start[0],0,start[1]); o.rotation.y=p.yaw; const n=E.addNPC({obj:o,name:'',beh:'idle',pose:p.pose,idlePose:p.pose,isExtra:true,crowd:spot.id,frozen:!fromDoor,walkSpeed:1.25,lv:slv});
+      if(fromDoor){ n.frozen=false; n.pose='walk'; E.moveTo(n,p.x,p.z,()=>{ n.frozen=true; n.pose=p.pose; n.idlePose=p.pose; n.obj.rotation.y=p.yaw; },lv); }
       npcs.push(n); }
     live[spot.id]={slotKey:slot.key,npcs}; }
-  function leaveGroup(GM,spot,instant){ const E=GM.E, L=live[spot.id]; if(!L) return; delete live[spot.id];
+  /* 走進教室、找空位坐下（室內的「上課前在門口等」）：坐下以後就是那堂課的同學（clsStudent），下課時 classes3d.js 讓大家一起走出去 */
+  function freeSeat(E,room,used){ const seats=(E.zone&&E.zone.seats||[]).filter(q=>q.room===room&&(q.kind==='class'||q.kind==='lecture'));
+    for(const q of seats){ if(used.has(q)) continue; if(E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-q.x,n.seat.z-q.z)<0.35)) continue; const P=E.player; if(P&&P.seat&&Math.hypot(P.seat.x-q.x,P.seat.z-q.z)<0.35) continue; return q; } return null; }
+  S.seatSide=function(E,st){ const yaw=st.yaw||0, fx=Math.sin(yaw), fz=Math.cos(yaw), lv=st.lv|0;   /* 坐下前站的位置（和 GAME.seatApproach 同一組候選，不看玩家的位置）*/
+    for(const [dx,dz] of [[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[fx*0.5,fz*0.5],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]]){ const x=st.x+dx, z=st.z+dz; if(!E.canStand(x,z,0.3,lv)) continue; if(st.y!=null&&Math.abs(E.heightAt(x,z,lv)-st.y)>0.2) continue; return [x,z]; } return null; };
+  function sitDown(n,st){ const o=n.obj.position; o.set(st.x,st.y!=null?st.y:o.y,st.z); n.obj.rotation.y=st.yaw||0; n.seat=st; n.pose='sit'; n.idlePose='sit'; n.frozen=true; n.path=null; }
+  function leaveGroup(GM,spot,instant){ const E=GM.E, L=live[spot.id]; if(!L) return; delete live[spot.id]; const used=new Set();
     for(const n of L.npcs){ if(!E.npcs.includes(n)) continue; if(instant){ E.removeNPC(n); continue; }
-      const tgt=(L.leave==='road'?spot.road:(spot.door2&&n.obj.position.x>spot.c[0]?spot.door2:spot.door)); n.frozen=false; n.leaving=true; n.pose='walk';
-      if(!E.moveTo(n,tgt[0],tgt[1],()=>{ n.arrived=true; })) n.arrived=true; } }
+      if(L.leave==='seat'){ const st=freeSeat(E,spot.seatRoom,used), ap=st&&S.seatSide(E,st); if(st&&ap){ used.add(st); n.frozen=false; n.pose='walk'; n.crowd=null; n.clsStudent=true; n.clsKey=L.cls; n.seat=st;
+          if(E.moveTo(n,ap[0],ap[1],()=>sitDown(n,st),st.lv|0)) continue; n.seat=null; } }   /* 沒有空位或走不到：照舊走進教室門口 */
+      const tgt=(L.leave==='road'?spot.road:(spot.door2&&n.obj.position.x>spot.c[0]?spot.door2:spot.door)), tlv=L.leave==='road'?(spot.roadLv!=null?spot.roadLv:(spot.lv|0)):(spot.doorLv!=null?spot.doorLv:(spot.lv|0)); n.frozen=false; n.leaving=true; n.pose='walk'; n.clsStudent=false;
+      if(!E.moveTo(n,tgt[0],tgt[1],()=>{ n.arrived=true; },tlv)) n.arrived=true; } }
   /* 走到門口或馬路的人：不在玩家眼前就移除（走進建築、走遠了）*/
   function sweep(GM){ const E=GM.E; for(const n of E.npcs.slice()){ if(!n.leaving||!n.arrived) continue; if(!inView(E,n.obj.position)||Math.hypot(n.obj.position.x-E.player.obj.position.x,n.obj.position.z-E.player.obj.position.z)>40) E.removeNPC(n); } }
   function sync(GM,instant){ const G=GM.G, E=GM.E; for(const spot of S.SPOTS){ if(spot.zone!==G.zone) continue; const slot=S.slotAt(G,spot); const L=live[spot.id];
-      if(L&&(!slot||slot.key!==L.slotKey)){ L.leave=(S.SPOTS.find(q=>q.id===spot.id).slots(G).find(s=>s.key===L.slotKey)||{}).leave||'road'; leaveGroup(GM,spot,instant); }
+      if(L&&(!slot||slot.key!==L.slotKey)){ const old=spot.slots(G).find(s=>s.key===L.slotKey)||{}; L.leave=old.leave||'road'; L.cls=old.cls; leaveGroup(GM,spot,instant); }
       if(slot&&!live[spot.id]){ const vis=!instant&&inView(E,{x:spot.c[0],z:spot.c[1]})&&Math.hypot(spot.c[0]-E.player.obj.position.x,spot.c[1]-E.player.obj.position.z)<45; spawnGroup(GM,spot,slot,vis); } } }
   /* 進到區域（story3d.js 的 populate 最後呼叫）：照現在的時間直接排好 */
   S.enter=function(GM,zoneId){ for(const k in live) delete live[k]; zoneNow=zoneId; lastH=GM.G.hour; sync(GM,true); };
