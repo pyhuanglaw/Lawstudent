@@ -16,7 +16,13 @@
   personality, speech_pattern, humor, strengths[], weaknesses[], contradictions, family_context, academic_status, career_goal, romantic_style, social_circle[],
   academic_strength, favorite_subjects[], weak_subjects[], study_habits, social_style, current_concerns,
   height_range, visual_identity, hair, eyes, clothing_style, accessories[],   // Character Bible 摘要（完整見 CHARACTER_ART_SPEC.md）
-  daily_schedule:[ {days:[1,2,3,4,5], from:9, to:12, zone:'library', act:'read'|'class'|'wander'|'sit'|'barista'|'help'|'ta'|'club'|'eat'|'desk'|'wait', seat:[row,col]|'bell', note} ],
+  daily_schedule:[ {days:[1,2,3,4,5], from:9, to:12, zone:'library', act:'read'|'class'|'wander'|'sit'|'barista'|'help'|'ta'|'club'|'eat'|'desk'|'wait', seat:[row,col]|'bell', note,
+                    room:'101',             // 建築裡的哪一間（走進那棟時坐那一間；人物線索、事件的 npcRoom 也看這個）
+                    terms:['Y1S1'],         // 只在這幾個學期的上課期間（寒暑假不算），而且比沒寫的優先（例：芷若大一上的週五，AA_110 5-7）
+                    noHoliday:true,         // 國定假日、寒暑假不算（act:'class' 本來就是）
+                    zone:null, away:'在小福吃午餐' } ],   // 不在遊戲的場景裡：不生出來，人物線索寫 away
+  // 一個人同一時間只有一筆（story3d.js 的 schedEnt）：寫了 terms 的先看，再照順序看其他筆，第一筆符合星期、時間的就是；時間重疊的後面那筆不算。
+  presence:{from:'Y1S1', until:'Y2S1', absent:['Y3S2'], away:{...}},   // 哪幾個學期在學校（AA_110 第 3 節；見 STORY_EVENT_SCHEMA.md）
   story_arc:[…], possible_endings:[…],
   // 教授專用
   course:'刑事訴訟法', weekday:2, time:[10.2,12.1], field:'刑事訴訟法', teaching_style, exam_style, temperament, grad_mentor:true,
