@@ -1666,3 +1666,197 @@ LAWWW 已經做好配置 `src/data/lawlib_layout.js`、區域 `src/lawlib3d.js`�
 3. 煞車線、變速線沒有做；握把是直的圓柱（真的淑女車握把稍微往後彎）。
 4. 輪胎沒有胎紋；鋼絲是透明貼圖（從正側面看是平的）。
 5. 沒有 iPhone 實機驗證。
+
+---
+
+## 20. 共同教學館外觀＋西側木造走廊＋北側蒲葵（四棟清單第一棟；Blender 正式模型；**依文字資料的遊戲化設計，沒有照片**）
+
+使用者 2026-10-13「台大四大生活場景」要求（原文 `requests/2026-10-13_四棟教學館與宿舍.md`）＋LAWWW 13:54Z 規格（中心 (2,33)、正面朝北、24×14、3–4 層、北面中間正門、西側 5 m 有頂木造走廊、玩家從走廊下走過、型別同行政大樓）＋LAWWW 15:38Z 決定（北側蒲葵做在同一個 GLB、三松不放、戶外樓梯不做、附鏡頭碰撞）。
+腳本 `tools/blender/env_second/campus_gongtong.py` → `assets/models/env/second_ai/campus_gongtong.glb`（校園世界座標，和行政大樓一樣直接放）；`src/assets3d.js` 第二個 AI 區塊加了 `bldg.campus_gongtong`（lazy）。
+
+### 20.1 根據（哪些查證過、哪些是推測）
+
+查證資料都是搜尋摘要（`research/四棟教學館與宿舍_參考資料.md` 第 1 節），**沒有任何照片**：
+
+| 做在模型裡的 | 根據 | 確認程度 |
+|---|---|---|
+| 土黃色十三溝面磚 | 維基（簡體）、校史館〈臺灣大學校園建築變遷互動地圖簡史〉 | B（十三條溝太細，遊戲距離看不到，沒做） |
+| 每層樓板的位置磚豎貼（一條直紋帶） | 同上 | B |
+| 開口用洗石子收邊、拱窗 | 同上 | B |
+| 山牆頂三塊青瓷花磚排成磬形 | 同上 | B（花磚的圖案、顏色是推測） |
+| 一二樓在前、三四樓在後逐層退縮 | 維基 | B（「前」是哪一面是推測：南面有走廊、面向三松 → 南面低、往北退） |
+| L 形 | 維基 | B（遊戲佔地是 24×14 的長方形；L 形做在上面：東半部三四樓＋西翼的屋頂） |
+| 南側走廊多處開口 | 維基 | B（做在三、四樓南面：一樓南牆到舟山路只有 2.5 m） |
+| 西邊隔著木造走廊和行政大樓相鄰 | 維基、法律系學生會 | B（走廊的樣子、方向是推測：照 LAWWW 規格做成東西向、連接兩棟的有頂走廊） |
+| 北側蒲葵樹列 | 校史館 | B（株數、位置、樹高是遊戲化的） |
+| 4 層 | LAWWW 的教室編號到 4xx＋維基「三四樓」 | B |
+| 一樓北面拱廊、中央門廊 | **遊戲的套件**（導航阻擋照它） | 遊戲設計（不是查證） |
+
+**沒做的**：西側階梯教室的戶外樓梯（走不上去的裝飾樓梯不能做，D38 第 4 條）、南側三棵琉球松（共同三松；遊戲裡南牆到舟山路只有 2.5 m，LAWWW：等照片）。
+
+### 20.2 做法
+
+- 量體：一二樓滿版（北面一樓 7 開間拱廊＋中央門廊，柱子、門廊側牆的位置和套件一樣）；東半部（x −12..5.14，本地座標）三樓往北退 3.5 m、四樓退 7 m，東西向雙坡屋頂；西翼（共 101 階梯教室那一側）兩層＋南北向雙坡屋頂 → 從上面看是 L 形，南面是兩段紅色隔熱磚的露台。
+- 立面：土黃色面磚（`exterior_wall_cladding_02` 降低彩度校正）；每層樓板一條 0.33 m 的豎貼面磚帶（同一張貼圖轉 90°、外凸 2.5 cm）；二到四樓的教室是**雙拱窗**（兩扇 1 m 寬拱窗、洗石子窗框在中間相接、共用窗台）；兩端是單拱窗；三、四樓南面是開放走廊（拱形開口＋矮牆＋洗石子壓頂、走廊天花板的吸頂燈、教室那一側的木門與窗）。
+- 山牆四面（東、西半部四樓兩端、西翼南北兩端）＋門廊山牆都有**三塊青瓷花磚排成倒 V（磬形）**：菱形擺、釉面、深一點的凹框、中間白釉小花（頂點色）。
+- 門廊：面磚側牆＋洗石子勒腳、起拱線腰帶、拱圈、拱腹；檐部；山牆面磚；兩坡屋瓦小屋頂；匾額「共同教學館」（遊戲用 canvas 畫字）。
+- 一樓拱廊：面磚柱墩＋洗石子柱頭柱腳、拱圈；花崗石地坪；吸頂燈 7 盞；玻璃雙開門（古銅色鋁框、上面氣窗；晚上門廳的燈從玻璃透出來）；門兩側各一個公告欄。
+- 西側木造走廊：x 12..17（世界 x −10..−15）、z ±1.0（世界 32..34）；四根柱子（石礎、托木）、桁、梁、束、脊桁、椽、望板、屋瓦；中間吊一盞燈；兩端各一扇關著的木門，共同這一側的門上有「側門　請由正門出入」。
+- 北側蒲葵 6 棵：真的幾何（樹幹 8 面＋圓柱 UV、樹冠基部、16 片掌狀葉，每片 22 條裂片：內半段有摺、外半段裂開、尖端下垂，老葉尖端枯黃；平滑著色＋頂點色，一個材質）。
+- 其他：西翼西簷的簷溝＋落水管、南面與東面的落水管、露台上的冷氣室外機。
+
+### 20.3 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 共同教學館外觀＋木造走廊＋蒲葵（`bldg.campus_gongtong`） | 完成 | **還沒接進遊戲**（LAWWW 整合；我用本機、沒有 commit 的兩行接線拍了遊戲截圖） | `MODEL_READY`（遊戲畫面拍過；接線後才是 `INTEGRATED`） |
+
+### 20.4 規格
+
+- GLB **1.71 MB**、三角形 **28,627**（建築約 1.47 萬＋蒲葵 1.36 萬＋樹幹 0.04 萬；沒有 instancing）、網格（≈ draw call）18、材質 17、貼圖 {'256×256': 5, '64×64': 1, '512×512': 6}（共 296 KB，WebP）。
+- 材質名稱沿用校園地標的約定：`ck_glass`（窗：自發光貼圖左黑右亮，晚上約七成亮燈）、`ck_ceiling`、`ck_trim_win`、`ck_frame`、`ck_stone_base`、`wz_lamp_lens`（燈罩晚上發光）；新的：`gt_wall`、`gt_wash`、`gt_roof`、`gt_terrace`、`gt_wood`、`gt_plaster`、`gt_celadon`、`gt_misc`、`gt_palm`、`gt_palm_bark`。
+- Poly Haven CC0：`exterior_wall_cladding_02`（面磚）、`granular_concrete`（洗石子）、`granite_tile_03`、`grey_roof_tiles`、`square_brick_paving`、`dark_wood`、`palm_tree_bark`。
+
+### 20.5 給 LAWWW 的接線說明（`src/zones3d.js` 是你的，我沒有改；下面是我本機測試用的寫法）
+
+1. 載入（和行政大樓同一套）：
+   - `ckPlace(gongtong,2,33,Math.PI); buildings.push(gongtong);` 後面加：`const gtGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_gongtong']; gongtong.userData.ckTag='gongtong'; if(gtGLB) gongtong.userData.dyn=true;`
+   - 區塊最後（和 `admGLB` 那幾行一起）：`if(gtGLB) ASSETS.loadOne('bldg.campus_gongtong').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_gongtong_glb','gongtong'); }).catch(e=>console.warn('共同教學館正式模型載入失敗，用套件的外觀',e));`
+2. **導航不用改**：一樓本體範圍、7 開間拱廊的 8 根柱子、門廊兩側牆的位置都和 `CK.hall` 一樣；門口互動點 `DOORS.common` (2,22.8) 不動。木造走廊的四根柱子（世界 (−10.17, 32.25／33.75)、(−14.83, 32.25／33.75)）在兩棟導航外擴（0.3 m）裡面，不用另外擋。
+3. **蒲葵和大道南側的大樹牆**：蒲葵 6 棵在大樹牆那一條線上（世界座標 (−10.5,19.2)、(−6.5,18.8)、(−2.5,19.1)、(6.5,19.0)、(10.5,18.9)、(14.5,19.2)）。大樹牆在共同前面有 4 棵（x≈−10、−4.7、9.4、14.7），樹冠會和蒲葵插在一起 → 建議有 GLB 時把南側的略過範圍 `[-2,6]` 改成 `[-12,16]`（我本機測試就是這樣），並加 `nav.blockCircle(x,z,0.35)` 擋 6 棵蒲葵的樹幹。不想換的話，把 `gt_palm`、`gt_palm_bark` 兩個網格藏起來就好（其他不受影響）。
+4. **鏡頭碰撞**（建議；套件預設只到 11.4 m，西翼上面是空的）：有 GLB 時在 `ckPlace` 前設 `gongtong.userData.ck.cols=[[0,-1.3,24,11.4,0,7.8],[0,5.7,24,2.6,3.85,7.8],[-3.43,1.75,17.14,10.5,7.8,11.4],[-3.43,3.5,17.14,7,11.4,15.0],[8.57,0,6.86,14,7.8,10.0],[14.5,0,5,2.0,2.8,4.1]]`（本地座標 [x,z,寬,深,y0,y1]；最後一個是木造走廊的屋頂：玩家從底下走過時鏡頭留在屋頂下面）。
+5. 可以加（你決定）：蒲葵的網點透空（`gt_palm_bark`、`gt_palm` 照 `wz_pillar_tile` 那一行加 `seeThrough`）；木造走廊兩端的門加「看一看」互動（「側門關著，請由正門出入」）。
+6. 測試：Playwright＋SwiftShader 截圖 沒有 JavaScript 錯誤；**沒跑** `campus_layout_nav`、`reachability_all`、`see_through`（導航沒有改；蒲葵和大樹牆的調整是你的）。
+
+### 20.6 遊戲內截圖（左＝現在的套件方盒｜右＝正式模型；本機接線＋大樹牆前 4 棵換成蒲葵；Playwright＋SwiftShader，**不是 iPhone**）
+
+| 鏡頭 | 修改前 draw call／三角形 | 修改後 | 倍數 |
+|---|---|---|---|
+| 從椰林大道往南看正門（11:00） | 116／654,983 | 124／664,174 | ×1.07／×1.01 |
+| 東北邊（11:00） | 130／719,163 | 140／736,456 | ×1.08／×1.02 |
+| 西北邊：西翼山牆、行政大樓（11:00） | 123／675,278 | 131／684,469 | ×1.07／×1.01 |
+| 門廊近看（11:00） | 122／659,981 | 133／677,276 | ×1.09／×1.03 |
+| 一樓拱廊裡（11:00） | 185／732,031 | 196／749,336 | ×1.06／×1.02 |
+| 西側：兩棟中間的木造走廊（11:00） | 111／650,463 | 122／659,680 | ×1.10／×1.01 |
+| 舟山路那一側（南面：退縮的露台、開放走廊）（11:00） | 247／791,763 | 252／797,530 | ×1.02／×1.01 |
+| 空拍（11:00） | 240／801,779 | 257／819,148 | ×1.07／×1.02 |
+| 東北邊 17:30 | 137／726,704 | 147／743,997 | ×1.07／×1.02 |
+| 從椰林大道往南看正門 20:00 | 124／662,769 | 132／671,960 | ×1.06／×1.01 |
+| 跟隨鏡頭：玩家在正門前（11:00） | 155／728,141 | 164／737,344 | ×1.06／×1.01 |
+| 手機直向 390×844：正門前 | 137／710,428 | 151／719,183 | ×1.10／×1.01 |
+
+| 鏡頭 | 修改前 | 修改後 |
+|---|---|---|
+| 從椰林大道往南看正門（11:00） | ![](shots/gongtong_before_front_axis.webp) | ![](shots/gongtong_after_front_axis.webp) |
+| 東北邊（11:00） | ![](shots/gongtong_before_front_ne.webp) | ![](shots/gongtong_after_front_ne.webp) |
+| 西北邊：西翼山牆、行政大樓（11:00） | ![](shots/gongtong_before_front_nw.webp) | ![](shots/gongtong_after_front_nw.webp) |
+| 門廊近看（11:00） | ![](shots/gongtong_before_porch.webp) | ![](shots/gongtong_after_porch.webp) |
+| 一樓拱廊裡（11:00） | ![](shots/gongtong_before_arcade.webp) | ![](shots/gongtong_after_arcade.webp) |
+| 西側：兩棟中間的木造走廊（11:00） | ![](shots/gongtong_before_corridor.webp) | ![](shots/gongtong_after_corridor.webp) |
+| 舟山路那一側（南面：退縮的露台、開放走廊）（11:00） | ![](shots/gongtong_before_south.webp) | ![](shots/gongtong_after_south.webp) |
+| 空拍（11:00） | ![](shots/gongtong_before_aerial.webp) | ![](shots/gongtong_after_aerial.webp) |
+| 東北邊 17:30 | ![](shots/gongtong_before_ne_1730.webp) | ![](shots/gongtong_after_ne_1730.webp) |
+| 從椰林大道往南看正門 20:00 | ![](shots/gongtong_before_axis_2000.webp) | ![](shots/gongtong_after_axis_2000.webp) |
+| 跟隨鏡頭：玩家在正門前（11:00） | ![](shots/gongtong_before_follow.webp) | ![](shots/gongtong_after_follow.webp) |
+| 手機直向 390×844：正門前 | ![](shots/gongtong_before_mobile.webp) | ![](shots/gongtong_after_mobile.webp) |
+
+### 20.7 Blender 渲染圖（Cycles，曝光 −0.8；**不是遊戲畫面**；匾額的字是遊戲畫的，這裡空白；旁邊是行政大樓的正式模型）
+
+![](blender_renders/gongtong_front.webp)
+![](blender_renders/gongtong_porch.webp)
+![](blender_renders/gongtong_gable.webp)
+![](blender_renders/gongtong_arcade.webp)
+![](blender_renders/gongtong_front_nw.webp)
+![](blender_renders/gongtong_corridor.webp)
+![](blender_renders/gongtong_palms.webp)
+![](blender_renders/gongtong_south.webp)
+![](blender_renders/gongtong_loggia.webp)
+![](blender_renders/gongtong_front_ne.webp)
+![](blender_renders/gongtong_aerial.webp)
+
+### 20.8 還沒達到參考品質的地方
+
+1. **沒有照片**：面磚顏色、窗的形式（雙拱窗）、退縮的方向、山牆的位置、花磚的樣子、木造走廊的樣子都是依文字描述推測的。有照片要重新對。
+2. 十三溝面磚的溝、面磚的真實尺寸沒做（遊戲距離看不到）；面磚是 Poly Haven 的通用面磚改色。
+3. 南側的「共同三松」沒有放（舟山路太近）；西側階梯教室的戶外樓梯沒做。
+4. 室內（教室、走廊）不在這個 GLB 裡：遊戲的室內是 LAWWW 的 `teach3d.js` 模板；窗裡面是暗的玻璃（晚上亮燈）。
+5. 蒲葵的株數、位置、高度是遊戲化的；和大道大樹牆的關係要 LAWWW 決定。
+
+---
+
+## 21. 大一女舍 A、B 棟外觀＋二樓天橋＋門口（四棟清單；Blender 正式模型；**依文字資料的遊戲化設計，沒有照片**）
+
+LAWWW 14:09Z 規格：A 棟中心 (−108,68)、B 棟 (−78,66)，各 24×12×5 層，二樓天橋（兩棟中間 6 m，下面可以走），第一階段只做外部＋門禁（男賓止步），不做室內。
+腳本 `tools/blender/env_second/campus_freshman.py` → `assets/models/env/second_ai/campus_freshman.glb`（校園世界座標）；立面工具抽成 `tools/blender/env_second/archkit.py`（之後普通、博雅、社科院共用；共同教學館的腳本不動）。`src/assets3d.js` 加了 `bldg.campus_freshman`（lazy）。
+
+### 21.1 根據
+
+查證過的只有（住宿組大一女舍頁、暑期營隊租用宿舍簡介、臺大訪客中心地圖的搜尋摘要）：A、B 兩棟、地上 5 層（B 棟另有地下 1 層）、**沒有電梯**、**二樓天橋連通**、A 棟一樓入口有服務台＋24 小時傳達室、1991 年落成、2008 年整修、四人房、在舟山路一帶。**外觀沒查到**。
+下面這些是**台灣 1990 年代大學宿舍常見的樣子**（遊戲化設計），不是照片還原：米色二丁掛面磚、一樓花崗石勒腳、每層樓板一條灰白混凝土線、寢室鋁框推拉窗＋窗上的混凝土遮陽板、部分窗下的窗型冷氣、一樓窗的鐵窗；正面中間是樓梯間（白色粉刷的直條、每個樓梯平台一扇窗、出屋頂）、兩側浴室與洗衣間的小窗；屋頂女兒牆、不鏽鋼水塔、太陽能熱水器、冷氣室外機；背面（南）寢室窗外的曬衣架與衣服。
+
+### 21.2 做法
+
+- 門口（套件門廊的位置：側牆 x=±2、深 2 m）：平頂雨遮、面磚側牆＋花崗石勒腳、門口地坪、鋁框玻璃雙開門（上面氣窗，晚上透出門廳的燈）、吸頂燈；名牌「大一女舍　A 棟／B 棟」、門廊左牆「男賓止步」（紅字）。
+  - **A 棟**：門廊右牆的傳達室小窗（鋁框、檯面）＋名牌「傳達室」；門左邊的信箱（3×4 格）。
+  - **B 棟**：門廊右牆的刷卡機（綠燈）；門左邊的公告欄。
+- 二樓天橋：A 棟東牆（世界 x=−96）到 B 棟西牆（x=−90），z 65.4..68.6；地板底面離地 3.25 m（下面可以走）、面磚矮牆、帶狀鋁窗（晚上亮）、平屋頂與天花板燈；兩棟二樓各一扇通天橋的門（關著的鋁門）。
+- 門口的盆栽沒有做：放在門廊外面會在導航阻擋外面，玩家會穿過去——要的話請 LAWWW 加阻擋再放。
+
+### 21.3 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 大一女舍外觀＋天橋＋門口（`bldg.campus_freshman`） | 完成 | **還沒接進遊戲**（LAWWW 整合；本機接線拍了截圖） | `MODEL_READY` |
+
+### 21.4 規格
+
+- GLB **1.19 MB**、三角形 **15,970**、網格（≈ draw call）16、材質 12、貼圖 {'256×256': 4, '64×64': 1, '512×512': 2}（共 71 KB）。
+- 材質：`fd_wall`（面磚）、`fd_paint`（粉刷、樓板線、雨遮）、`fd_roof`（屋頂隔熱磚）、`fd_misc`（頂點色：冷氣、水塔、太陽能板、鐵窗、刷卡機、信箱、曬衣架）、`fd_cloth`（頂點色：衣服）＋校園地標約定的 `ck_glass`、`ck_frame`（銀色鋁框）、`ck_trim_win`、`ck_stone_base`、`ck_ceiling`、`wz_lamp_lens`。
+- Poly Haven CC0：`exterior_wall_cladding_02`、`painted_plaster_wall`、`granite_tile_03`、`square_brick_paving`。
+
+### 21.5 給 LAWWW 的接線說明
+
+1. 大一女舍那個區塊（`fdA`、`fdB`、天橋 `br` 都在同一個 `{}` 裡）：`br.position.set(-93,0,67); g.add(br);` 後面加 `const fdGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_freshman']; for(const o of [fdA,fdB,br]){ o.userData.ckTag='freshman'; if(fdGLB) o.userData.dyn=true; }`（天橋也要標，正式模型載入後你的天橋才會藏起來）。
+2. 區塊最後：`if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.campus_freshman']) ASSETS.loadOne('bldg.campus_freshman').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_freshman_glb','freshman'); }).catch(e=>console.warn('大一女舍正式模型載入失敗',e));`
+3. **導航、門口互動點、長椅、車架都不用改**：本體與門廊側牆的位置和套件一樣；天橋在 3.25 m 以上；你的天橋鏡頭碰撞（`bc`）照舊（正式模型的天橋在同一個範圍裡，地板底面比你的低 0.3 m）。
+4. 測試：Playwright＋SwiftShader 截圖 沒有 JavaScript 錯誤。
+
+### 21.6 遊戲內截圖（左＝現在的套件方盒｜右＝正式模型；本機接線；Playwright＋SwiftShader，**不是 iPhone**）
+
+| 鏡頭 | 修改前 draw call／三角形 | 修改後 | 倍數 |
+|---|---|---|---|
+| 從舟山路看兩棟與天橋（11:00） | 68／446,878 | 63／418,322 | ×0.93／×0.94 |
+| 東北邊（11:00） | 94／685,492 | 91／672,181 | ×0.97／×0.98 |
+| A 棟門口：傳達室小窗、信箱、男賓止步（11:00） | 60／344,474 | 59／315,988 | ×0.98／×0.92 |
+| 二樓天橋底下（11:00） | 69／417,174 | 64／388,618 | ×0.93／×0.93 |
+| 跟隨鏡頭：玩家在門口長椅旁（11:00） | 113／493,886 | 108／465,330 | ×0.96／×0.94 |
+| 手機直向 390×844：門口長椅旁 | 125／695,346 | 120／666,790 | ×0.96／×0.96 |
+
+（晚上 20:00 那張不列：修改前、修改後是兩次不同的載入，路燈開關、路人的狀態不一樣，draw call 不能比。）
+
+| 鏡頭 | 修改前 | 修改後 |
+|---|---|---|
+| 從舟山路看兩棟與天橋（11:00） | ![](shots/freshman_before_fd_street.webp) | ![](shots/freshman_after_fd_street.webp) |
+| 東北邊（11:00） | ![](shots/freshman_before_fd_ne.webp) | ![](shots/freshman_after_fd_ne.webp) |
+| A 棟門口：傳達室小窗、信箱、男賓止步（11:00） | ![](shots/freshman_before_fd_entrance_a.webp) | ![](shots/freshman_after_fd_entrance_a.webp) |
+| 二樓天橋底下（11:00） | ![](shots/freshman_before_fd_bridge.webp) | ![](shots/freshman_after_fd_bridge.webp) |
+| 跟隨鏡頭：玩家在門口長椅旁（11:00） | ![](shots/freshman_before_fd_follow.webp) | ![](shots/freshman_after_fd_follow.webp) |
+| 從舟山路看 20:00 | ![](shots/freshman_before_fd_street_2000.webp) | ![](shots/freshman_after_fd_street_2000.webp) |
+| 手機直向 390×844：門口長椅旁 | ![](shots/freshman_before_fd_mobile.webp) | ![](shots/freshman_after_fd_mobile.webp) |
+
+### 21.7 Blender 渲染圖（Cycles，曝光 −0.8；**不是遊戲畫面**；名牌的字是遊戲畫的）
+
+![](blender_renders/freshman_front.webp)
+![](blender_renders/freshman_entrance_a.webp)
+![](blender_renders/freshman_entrance_b.webp)
+![](blender_renders/freshman_bridge.webp)
+![](blender_renders/freshman_ne.webp)
+![](blender_renders/freshman_back.webp)
+![](blender_renders/freshman_aerial.webp)
+
+### 21.8 還沒達到參考品質的地方
+
+1. **沒有照片**：外觀全部是「台灣 1990 年代大學宿舍」的通用樣子；真實的大一女舍面磚顏色、窗型、樓梯間位置、天橋的樣子都可能不一樣。
+2. 背面（曬衣）在遊戲裡幾乎看不到（靠地圖南邊界）。
+3. 沒有室內；門是關著的（照規格：男賓止步）。
+4. 兩棟用同一套設計（只差門口的傳達室／刷卡機、信箱／公告欄）。

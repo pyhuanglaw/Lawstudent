@@ -66,6 +66,8 @@
 | 和平東路二段 118 巷兩側街景（⑭；配置 `src/data/lane118_layout.js`：LAWWW） | 新區域（還沒接進遊戲；區域、導航、店門互動由 LAWWW 做） | ⑤（新做） | `MODEL_READY`（LAWWW2）：`wz_street.py --set lane118` → `assets/models/env/second_ai/lane118_street.glb`（9 間店＋補空檔的住家、樓梯間、一般小店；字牌板面照溫州街的做法由遊戲畫字） | 接進遊戲後：遊戲內截圖、夜間燈光、照片查證 |
 | 騎車用的腳踏車（⑫） | 新資產（還沒接進遊戲；騎乘姿勢、IK、操作由 LAWWW 做） | ⑤（新做） | `MODEL_READY`（LAWWW2）：`bike_ride.py` → `assets/models/env/bike_ride.glb`（235 KB；節點 frame／fork／wheel_f／wheel_r／crank／pedal_l／pedal_r，樞紐自我檢查）＋從模型量的尺寸表 `bike_ride.json` | 接上人物後：遊戲內截圖、踩踏動作 |
 | 萬才館 法律學院圖書館（配置 `src/data/lawlib_layout.js`、區域 `src/lawlib3d.js`：LAWWW） | 程序化備用模型（LAWWW）→ 正式模型載入後藏起來 | ③（備用）／新做 | `READY_FOR_ART_REVIEW`（LAWWW2）：`tools/blender/lawlib_interior.py` → `assets/models/env/lawlib_interior.glb`（一樓櫃台、閱覽桌、閱覽隔間、玻璃討論室、影印室、U 形樓梯、二樓書架＋書模組 instancing、期刊架）；萬才館西牆的門（`wancai_interior.py`）；窗景 `lawlib_*` | LAWWW 整合測試；配置的問題 1～7（VISUAL_REVIEW second_ai 17.8）；使用者看美術 |
+| 共同教學館外觀（LAWWW2 正式模型；套件 `CK.hall` 留作③導航阻擋與備用） | 校園 (2,33)：取代套件方盒的畫面；導航、門口不變 | ⑤（新做） | `MODEL_READY`（LAWWW2）：`campus_gongtong.py` → `assets/models/env/second_ai/campus_gongtong.glb`（土黃面磚、樓板豎貼帶、洗石子雙拱窗、山牆青瓷花磚、三四樓退縮＋南側開放走廊、西側木造走廊、北側蒲葵 6 棵；依文字資料的遊戲化設計） | LAWWW 接線（VISUAL_REVIEW second_ai 20.5：大道南側大樹牆前 4 棵換蒲葵、蒲葵樹幹導航、鏡頭碰撞）；照片查證 |
+| 大一女舍外觀（LAWWW2 正式模型；套件 `CK.hall`×2＋天橋方盒留作③） | 校園 A (−108,68)、B (−78,66)、天橋 (−93,67)：取代套件的畫面；導航、門口、長椅、車架不變 | ⑤（新做） | `MODEL_READY`（LAWWW2）：`campus_freshman.py` → `assets/models/env/second_ai/campus_freshman.glb`（米色二丁掛、樓梯間、窗型冷氣、鐵窗、屋頂水塔與太陽能熱水器、背面曬衣、A 棟傳達室小窗與信箱、B 棟刷卡機、男賓止步；依文字資料的遊戲化設計） | LAWWW 接線（VISUAL_REVIEW second_ai 21.5：fdA、fdB、天橋標 ckTag）；照片查證 |
 | `desk()`、`chair()`、`shelfWall()`、`goodsWall()`、床、沙發、Café 家具 | 各室內 | ④ | BLOCKOUT | Blender 家具組（GLB，同一款重用） |
 
 ## 五、人物（`src/character3d.js`、`assets/models/char/`）

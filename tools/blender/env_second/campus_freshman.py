@@ -32,7 +32,7 @@ SC = 1.6                                        # 樓梯間半寬（正面中間
 BUILDINGS = [dict(key='A', place=(-108.0, 68.0, math.pi), bridge=-1, office=True),    # A 棟：傳達室；天橋在本地 −x（世界的東邊）
              dict(key='B', place=(-78.0, 66.0, math.pi), bridge=1, office=False)]     # B 棟：刷卡機；天橋在本地 +x（世界的西邊）
 BR = dict(x0=-96.0, x1=-90.0, z0=65.4, z1=68.6, y0=3.25, yf=3.65)                    # 天橋（世界座標）
-WALL, WALL1, PAINT = '#cdbfa6', '#9a948a', '#e8e5de'
+WALL, WALL1, PAINT = '#dcd0bb', '#9a948a', '#ebe7df'   # 第二版：遊戲裡比 Cycles 暗，面磚調亮；粉刷改平整的漆面（plaster_grey_04 的污漬在遊戲裡像髒的混凝土）
 
 
 def build():
@@ -41,8 +41,8 @@ def build():
     root = B.group('campus_freshman', props={'kind': 'campus_freshman'})
     M = {
         'wall': L.pbr('fd_wall', 'exterior_wall_cladding_02', tile=2.0, target=WALL, sat=0.25, normal=0.7, maps=('diff', 'nor'), rough_value=0.88),
-        'paint': L.pbr('fd_paint', 'plaster_grey_04', tile=2.5, target=PAINT, sat=0.3, maps=('diff',), res=256, rough_value=0.9),     # 樓梯間、樓板線、雨遮、女兒牆壓頂
-        'trimw': L.pbr('ck_trim_win', 'plaster_grey_04', tile=2.5, target='#dcd8cf', sat=0.3, maps=('diff',), res=256, rough_value=0.9),   # 窗台、窗洞內側（不投影）
+        'paint': L.pbr('fd_paint', 'painted_plaster_wall', tile=2.5, target=PAINT, sat=0.3, maps=('diff',), res=256, rough_value=0.9),     # 樓梯間、樓板線、雨遮、女兒牆壓頂（平整的漆面）
+        'trimw': L.pbr('ck_trim_win', 'painted_plaster_wall', tile=2.5, target='#e2ded6', sat=0.3, maps=('diff',), res=256, rough_value=0.9),   # 窗台、窗洞內側（不投影）
         'base': L.pbr('ck_stone_base', 'granite_tile_03', tile=1.2, target=WALL1, maps=('diff',), res=256, rough_value=0.7),
         'ceil': L.flat('ck_ceiling', '#e2dccf', rough=0.95),
         'frame': L.flat('ck_frame', '#9a9d9f', rough=0.4, metal=0.35),            # 銀色鋁框

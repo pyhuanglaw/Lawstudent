@@ -5,6 +5,8 @@
 交班紀錄：2026-10-11 10:13 UTC 交班（`1f20126`）→ 2026-10-13 回到帳號 A。
 使用者 2026-10-13：帳號 B 暫時沒有開，從上次停下來的地方接著做。
 
+**2026-10-13 16:5xZ（最新）**：**共同教學館外觀＋大一女舍外觀已交付**（VISUAL_REVIEW 第 20、21 節；接線說明 20.5、21.5；LAWWW 接）。新社科院（使用者 2026-10-13：現代台大平行校園）：需求原文 `requests/2026-10-13_新社科院.md`、參考資料與一頁規劃 `research/新社科院_參考資料與規劃.md`（PROPOSAL，等 LAWWW 回可不可以整合、等使用者看）。下一步：LAWWW 回覆社科院規劃 → 社科院圖書館外觀＋大樓外觀（照 LAWWW 16:19Z 的方案：圖書館 x 95–125、z −92～−70；大樓 x 99–123、z −62～−42）→ 普通、博雅外觀（LAWWW 照方案 A 放位置）→ 教學館室內（讀 LAWWW 的 gongtong／putong／boya 配置，教室排距 2.0 m）→ ⑦⑨⑩⑪。本機：`/home/user/gt_wt`（臨時工作目錄，zones3d.js 有本機接線＋大樹牆略過，**不要 commit**；伺服器 8792）。每次 checkpoint 都要 ReadNotifications。
+
 **2026-10-13 接班後的進度（最新在這裡；下面的表是交班時的狀態）**：⑤⑥ 已交付（`451d032`）；⑬ 已交付（`f3212c0`）；**法律學院圖書館已交付**（15:1xZ，merge `a9a227a`：GLB 2.77 MB、萬才館的門、窗景、VISUAL_REVIEW 17；READY_FOR_ART_REVIEW，等 LAWWW 整合、使用者看）；四棟參考研究第一、二輪（`7129157`）。**下一步**：⑭ 118 巷（`/home/user/lane_wt`，已合併交付分支，`lane118_fill.py` 改成第 18 節）→ ⑫ 腳踏車（`/home/user/bike_wt`，第 19 節）→ **共同教學館外觀**（LAWWW 規格：中心 (2,33)、ry=π、24×14、北面正門、西側 5 m 木造迴廊；**沒有照片**，已請使用者提供）→ 大一女舍外部（A (-108,68)、B (-78,66)、各 24×12×5 層、2 樓天橋）→ 普通、博雅（等使用者選 A／B）→ ⑦⑨⑩⑪。LAWWW 的訊息會「顯示送達但沒出現在對話裡」——**每次 checkpoint 都要 `ReadNotifications`**（2026-10-13 漏讀 4 則）。
 
 規則見 `WORK_RULES.md` 第 6 節。分工、佇列以 LAWWW 的 `docs/SECOND_AI_HANDOFF.md`、`docs/DUAL_AI_BOARD.md` 為準；跨帳號接班照 `docs/AI_SESSION_HANDOFF.md`（D49）。**LAWWW 的訊息可能「顯示送達、但沒出現在對話裡」**：每次 checkpoint、每次交付前都 `git fetch` LAWWW 的開發分支讀看板。
