@@ -1,13 +1,13 @@
 # AA 交接紀錄（劇情企劃組・故事架構）
 
-值班登記：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜分支 claude/bb-story-planning｜接班基準 e28aa3d｜2026-10-13 12:34 UTC
+值班登記：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜分支 claude/story-planning（2026-10-13 起；原本是 claude/bb-story-planning）｜接班基準 e28aa3d｜2026-10-13 12:34 UTC
 上一班：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜最後 commit 7721b72｜正常交班（2026-10-11 10:10 UTC）；離開期間沒有 AA-B（帳號 B 沒有建立），企劃線只多了 BB 的交班 commit
 
 ## 上一次交班（2026-10-11；已由帳號 A 的 AA 接回，見最上面的值班登記）
 
-**交班**：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜2026-10-11 10:05 UTC｜正常交班｜最後 commit：見本段的 commit（`git log -1 origin/claude/bb-story-planning -- docs/story_planning/AA_交接紀錄.md`）。**交班之後帳號 A 的 AA 不再寫入**，直到使用者說「我回來了……」。
+**交班**：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜2026-10-11 10:05 UTC｜正常交班｜最後 commit：見本段的 commit（舊企劃分支的紀錄；2026-10-13 換新分支後，查 `git log origin/claude/story-planning -- docs/story_planning/AA_交接紀錄.md`）。**交班之後帳號 A 的 AA 不再寫入**，直到使用者說「我回來了……」。
 
-**接班的人先做**（`docs/AI_SESSION_HANDOFF.md` 第 4 節，開發分支）：`git fetch origin --prune` → 把 `origin/claude/bb-story-planning` 合併進自己的分支（不 rebase、不 force push）→ 在本檔最上面寫自己的值班登記並 push → 通知 BB（企劃線由 AA 先合併、BB 再拉）→ 回報使用者「接班確認」。
+**接班的人先做**（`docs/AI_SESSION_HANDOFF.md` 第 4 節，開發分支）：`git fetch origin --prune` → 把 `origin/claude/story-planning` 合併進自己的分支（2026-10-13 起；舊的 `claude/bb-story-planning` 停用，不要合併它）（不 rebase、不 force push）→ 在本檔最上面寫自己的值班登記並 push → 通知 BB（企劃線由 AA 先合併、BB 再拉）→ 回報使用者「接班確認」。
 
 **現在的狀態（一眼看懂）**
 
@@ -25,7 +25,7 @@
 2. v2 定稿 → 交接板寫「已交出」→ 請使用者批准實作（使用者原則：一包一包交，不必等四年全部定稿）。
 3. 有空時：把骨架 v3–v5 裡「【待考證】」的時程（推甄、國考、交換、校曆）整理成一張清單給使用者或開發組。
 
-**等使用者決定**（不急）：兵役要不要寫進畢業後篇（`AA_97`）；git 歷史：使用者 2026-10-13 定「先整理方案、不擅自改寫」（方案只在對話裡）；香港朋友的性別（暫定同性）與個人背景（科系、家人，目前刻意不寫）。
+**等使用者決定**（不急）：兵役要不要寫進畢業後篇（`AA_97`）；git 歷史：使用者 2026-10-13 晚決定換成新的企劃分支（已執行，見第 2a 節）；香港朋友的性別（暫定同性）與個人背景（科系、家人，目前刻意不寫）。
 
 **沒做完／沒推送**：沒有。所有成果都已 push。
 
@@ -40,15 +40,15 @@
 |---|---|
 | 工作階段 | AA（`session_019Y3emYqxxC4Ch1GGf4fMzw`） |
 | 夥伴 | BB（`session_01XVHYLaK9Vcnae3U1aAJoZv`），用 claude-code-remote 的 `send_message` 聯絡 |
-| 分支 | `claude/bb-story-planning`（AA、BB 共用；只改 `docs/story_planning/`） |
-| 同步方式 | commit → `git fetch origin claude/bb-story-planning && git merge --no-edit origin/claude/bb-story-planning` → `git push -u origin claude/bb-story-planning`；**不 rebase、不 force push、不碰 main 與開發分支** |
+| 分支 | `claude/story-planning`（AA、BB 共用；只改 `docs/story_planning/`；2026-10-13 起，原本是 `claude/bb-story-planning`） |
+| 同步方式 | commit → `git fetch origin claude/story-planning && git merge --no-edit origin/claude/story-planning` → `git push -u origin claude/story-planning`；**不 rebase、不 force push、不碰 main 與開發分支** |
 | 不可以做 | 修改 `src/`、正式 Character Bible、遊戲系統、存檔、模型；發包美術；指示 LAWWW2 開工（LAWWW 是開發組窗口）。**可以**直接聯絡 LAWWW（使用者 2026-10-11：「LAWWW 負責主要的遊戲開發，你負責主要的故事開發」）；問 LAWWW2 場景現況時開頭寫「副本：LAWWW」 |
 
 ## 1. 永久保存規則（使用者 2026-10-11 訂定，AA 適用的部分）
 
 1. **每約 30 分鐘、或每完成一個重要階段**，檢查：哪些成果還沒 commit、哪些檔案正在改、有沒有只存在本機的草稿、有沒有討論完但沒寫進 GitHub 的決策、目前的工作能不能只靠 GitHub 恢復。有就立刻 checkpoint commit＋push。沒有真正的背景計時器，就在每個工作段落結束時檢查；不假裝有計時器。
 2. **狀態分清楚**：`WORK_IN_PROGRESS` → `CHECKPOINT_SAVED`（已 push）→ `READY_FOR_REVIEW` → `APPROVED_FOR_INTEGRATION` → `STORY_APPROVED`。**最後兩個只有使用者能給**；上傳 GitHub 不代表任何核准。劇情一律標 PROPOSAL，直到使用者批准（`APPROVED_FOR_HANDOFF`）。
-3. **每次 checkpoint**：確認分支與 worktree → `git status` → 只加自己負責的檔案（不用 `git add .`）→ 能辨識內容的 commit message → push 到 `claude/bb-story-planning` → 確認成功、記下 SHA。
+3. **每次 checkpoint**：確認分支與 worktree → `git status` → 只加自己負責的檔案（不用 `git add .`）→ 能辨識內容的 commit message → push 到 `claude/story-planning` → 確認成功、記下 SHA。
 4. **不要**：force push、為了保存合併 main、把未完成的提案說成定稿、覆寫 BB 的檔案、提交密鑰或授權不明的素材。
 5. **額度快用完時**：保存、commit、push、記 SHA、在本檔寫「已完成／未完成／下一步／需要 BB 的部分」。
 6. **不要只做保存**：保存完立刻回到企劃工作。只有影響 BB 的工作時才傳訊息給 BB（附檔名、SHA、狀態）。
@@ -56,13 +56,19 @@
 
 ## 2a. 2026-10-13 晚的狀態（最新；這一段優先於下面的舊狀態）
 
+- **2026-10-13 深夜：企劃分支換新（使用者決定）**
+  - 新分支 `claude/story-planning`：從乾淨的基底建立，`docs/story_planning/` 沿用 AA、BB 在舊分支的最後版本（BB 先暫停推送，確認沒有遺漏）。
+  - 舊分支 `claude/bb-story-planning`：停用；BB 切換、試推成功後刪除。
+  - `main`、開發分支、GitHub Pages 都沒有動。
+  - 文件裡的舊企劃分支 commit 編號只是歷史標記，已經不在任何分支上。
+
 - **2026-10-13 深夜（最新）**：
   - **BB 的以安 14 週課堂**：AA 審完（`AA_119` 第 7 節），BB 照改（`7bc3701`）。AA 自己的錯：刑事判決研討第 10 週排了以安（她選公法那一門，同一時段），已更正；「四年前」改「大一」。
   - **AA、BB 共同決定**（使用者授權，BB 轉達；全部【暫定】）：`BB_114`。以安家在台中、芯慈改成連鎖補習班的聯合模考；可昕、CG、參考圖、課堂比例、三個設計問題照推薦。
   - **以安新版的交叉修正**：AA 的檔大致改完，清單見 `AA_113` 9-3 的「2026-10-13 進度」。
   - **標示**：AA 的檔【】只剩五種狀態；格式記號改括號（`BB_114` 第 7 節）；說明文字改成只講遊戲設定；`AA_80` 檔名改成「香港朋友與同班圈群戲」。
   - **給 LAWWW**：`AA_110` 6-8（社團四問：吉他社初遇、讀書會去重、博覽會、系籃、旁白）；`AA_120` 7-5 第 5 項（第二天以安三句、家庭欄）。
-  - **等使用者**：Git 歷史的處理方案（1 照舊／2 換成新分支）；祐廷第二天「分數到了」那組選項要不要交 LAWWW 換掉。
+  - **使用者 2026-10-13 晚決定**：①換新企劃分支（已執行）；②祐廷第二天「分數到了」那組選項交 LAWWW 換掉；③以安三項小修正交 LAWWW（停用書記官事件、第二天拿掉書記官與「一年後」、人物資料改成母親是法官、家在台中）。②③的規格見 `AA_12` 0-4、`AA_120` 7-5。
   - **等 LAWWW**：AA_120 那包的實作回報（六項）。
 
 - **世界觀**：`00_世界觀基準_現代台大平行校園.md` 是四個 AI 共用的唯一基準。內容包括：社科院從經濟系大一起就在霖澤館對面、不做徐州路、去政大預設自己開車。已通知 BB、LAWWW、LAWWW2。
