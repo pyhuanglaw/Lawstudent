@@ -10,6 +10,30 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-13 17:35 UTC（開發分支最新 `4eb34ce`；線上 v9.5＝`a4f2760`）**：
+- **v9.5 已發布**：
+  - main 快轉到 `a4f2760`，GitHub Pages #14 在 16:54:06 UTC success。
+  - 下一次發布最早 19:54:06 UTC。
+  - 發布紀錄在 `docs/RELEASES.md`。
+- **開發分支新增**（都是 WIP，瀏覽器回歸還沒跑完，不可發布）：
+  - LAWWW2 五批合併進來：法圖正式模型、⑤⑥、⑬、⑭ 118 巷素材、⑫ 腳踏車素材。
+  - 社科院第①步 `0e08733`：新區域 soclib（`src/soclib3d.js`），校園社科院正面有門。開放時間沒查證，門不擋。
+  - 程式審查 16 項的修正：每項都有修改前失敗的測試。
+  - 方案 A 的前後比較：VISUAL_REVIEW 第 23 節，已給使用者，**等使用者決定 A／B**。
+  - BB 課表內容重新匯入、特殊課堂週次對齊、活動四個時段（`4eb34ce`）。
+- **瀏覽器批次 1 跑到一半**：腳本 `scratchpad/run_b1.sh`，結果寫在 `scratchpad/b1/B1.txt`，不在 GitHub，**中斷了要重跑**。
+  - 社科院窗景已拍好，在主工作樹，還沒 commit。
+  - 接下來：flow_soclib、flow_study_legal、flow_boya_interior、flow_teaching_buildings、campus_glb_integration、reachability_all、campus_layout_nav、zone_transitions。
+- **接下來**：
+  1. 接 LAWWW2 `55fbedb`（共同、大一女舍外觀；接線照它 VISUAL_REVIEW 20.5、21.5）。
+  2. AA_110 第 5 節剩下的一般系統（任務 #87）。
+  3. 下次發布前：script 版本號改成 9.6-x，跑完整回歸。
+- **等待**：
+  - 使用者：方案 A／B；社科院斜對面可以嗎（南北對調已告訴 LAWWW2 是遊戲化）；社科院圖書館開放時間。
+  - LAWWW2：社科院新外觀開工時回 ACK。
+- **注意**：審查第 15 項（寫死的人物生成不看 presence）在填 presence 資料時要一起做，見 `docs/STORY_EVENT_SCHEMA.md`。
+
+
 **2026-10-13 16:30 UTC 補充（最新 `a8a49e5`）**：
 - **v9.5 候選 `a4f2760` 的重跑**：
   - flow_main_day12、guide_flow、flow_linze_floors 在安靜環境重跑**都通過**。
