@@ -270,7 +270,9 @@ const GAME = (function(){
   // ---------- 啟動 ----------
   // ---------- 手機（D54 的順序第 4 步：今天、課表；訊息、朋友之後）----------
   let phoneOpen=false, phoneTab='today';
-  function renderPhone(){ if(!phoneOpen||typeof CLS==='undefined'||!G) return; const body=$('phoneBody'); body.innerHTML=phoneTab==='week'?CLS.weekHTML(G):(phoneTab==='places'?placesHTML():(phoneTab==='friends'?friendsHTML():(phoneTab==='events'?eventsHTML():CLS.todayHTML(G))));
+  function renderPhone(){ if(!phoneOpen||typeof CLS==='undefined'||!G) return; const body=$('phoneBody'); body.innerHTML=phoneTab==='week'?CLS.weekHTML(G):(phoneTab==='places'?placesHTML():(phoneTab==='friends'?friendsHTML():(phoneTab==='events'?eventsHTML():(phoneTab==='msg'?msgHTML():invTodayHTML()+CLS.todayHTML(G)))));
+    body.querySelectorAll('[data-inv]').forEach(b=>b.onclick=async()=>{ if(E.player.busy){ toast('現在不能約人'); return; } closePhone(); sceneBegin(); try{ await INV.flow(GM,b.dataset.inv,null,false); } finally { sceneEnd(); } openPhone('msg'); });   /* 手機約人（使用者第 3 點）*/
+    body.querySelectorAll('[data-ans]').forEach(b=>b.onclick=()=>{ const [iv,a]=b.dataset.ans.split('|'); const r=a.startsWith('c:')?INV.answerChange(G,iv,a.slice(2)):INV.answer(G,iv,a); if(r&&r.res==='later'){ const v=INV.byId(G,iv); if(v){ closePhone(); sceneBegin(); INV.flow(GM,v.who,null,false).finally(()=>{ sceneEnd(); openPhone('msg'); }); return; } } renderPhone(); });   /* 對方約你／改約的回覆 */
     body.querySelectorAll('[data-skip]').forEach(b=>b.onclick=async()=>{ closePhone(); await CLS.skipTo(GM,+b.dataset.skip); });
     body.querySelectorAll('[data-place]').forEach(b=>b.onclick=async()=>{ const pl=PLACE_LIST().find(q=>q[0]+'|'+q[1]===b.dataset.place); if(pl) await quickGo(pl); });
     document.querySelectorAll('#phoneTabs button').forEach(b=>b.classList.toggle('on',b.dataset.ptab===phoneTab));
@@ -302,8 +304,18 @@ const GAME = (function(){
     let h='<div class="item muted">大家照自己的作息在校園裡生活；這裡寫的是「大概在哪」，去了不一定剛好遇到。</div>';
     for(const id of ids){ const w=STORY.whereIs&&STORY.whereIs(GM,id); const nm=(typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(id):((CHARACTERS[id]||{}).name||id);
       const pl=w&&w.zone!=='campus'&&w.zone!==G.zone?PL.find(q=>q[0]===w.zone):null; const st=pl?placeState(pl):null;
-      h+='<div class="item phrow"><div>'+esc(nm)+'<div class="muted">'+(w?esc(whereText(id))+(w.zone===G.zone?'・就在這裡':''):'現在沒有固定的行程')+'</div></div>'+(pl&&st&&st.known?'<button class="btn" data-place="'+esc(pl[0]+'|'+pl[1])+'">過去（約 '+st.mins+' 分鐘）</button>':'')+'</div>'; }
+      const canInv=typeof INV!=='undefined'&&INV.hasContact(G,id)&&INV.canInvite(G,id);   /* 有聯絡方式的才能用手機約（使用者第 2 點：認識的朋友才有聯絡方式）*/
+      h+='<div class="item phrow"><div>'+esc(nm)+'<div class="muted">'+(w?esc(whereText(id))+(w.zone===G.zone?'・就在這裡':''):'現在沒有固定的行程')+'</div></div><div class="row2" style="gap:6px">'+(pl&&st&&st.known?'<button class="btn" data-place="'+esc(pl[0]+'|'+pl[1])+'">過去（約 '+st.mins+' 分鐘）</button>':'')+(canInv?'<button class="btn pri" data-inv="'+esc(id)+'">約</button>':'')+'</div></div>'; }
     return h; }
+  /* 手機「訊息」（D54 ⑥）：約人、對方的回答、沒赴約……最新的在上面；對方約你、改約的有回覆的按鈕（src/invites3d.js）*/
+  function msgHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); if(typeof INV==='undefined') return ''; INV.rec(G); const M=G.msgs.slice(-40).reverse();
+    let h='<div class="item muted">有聯絡方式的朋友，在「朋友」按「約」就可以約；當面遇到也可以約。</div>'; if(!M.length) return h+'<div class="item muted">還沒有訊息。</div>';
+    for(const m of M){ const iv=m.iv?INV.byId(G,m.iv):null; let btn='';
+      if(iv&&iv.state==='offered'&&m===M.find(q=>q.iv===iv.id)) btn='<div class="row2" style="gap:6px;margin-top:6px"><button class="btn pri" data-ans="'+iv.id+'|yes">答應</button><button class="btn" data-ans="'+iv.id+'|later">改天</button><button class="btn" data-ans="'+iv.id+'|no">不了</button></div>';
+      else if(iv&&iv.state==='changed'&&m===M.find(q=>q.iv===iv.id)) btn='<div class="row2" style="gap:6px;margin-top:6px"><button class="btn pri" data-ans="'+iv.id+'|c:ok">'+(iv.to?'好':'好，下次')+'</button><button class="btn" data-ans="'+iv.id+'|c:next">那就下次</button><button class="btn" data-ans="'+iv.id+'|c:alone">沒關係，我自己去</button></div>';
+      const d=m.day===G.day?'今天':(m.day===G.day-1?'昨天':(CALENDAR.dateOf(m.day).m+'/'+CALENDAR.dateOf(m.day).d)); h+='<div class="item"><div class="muted">'+d+' '+INV.hhmm(m.h)+'</div>'+esc(m.text)+btn+'</div>'; }
+    return h; }
+  function invTodayHTML(){ if(typeof INV==='undefined') return ''; const L=INV.todayLines(G); if(!L.length) return ''; return '<div class="item"><b>今天約好的</b>'+L.map(t=>'<div>'+t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[c])+'</div>').join('')+'</div>'; }
   function openPhone(tab){ if(!G||GM.titleIdle) return; if(menuOpen) closeMenu(); phoneOpen=true; if(tab) phoneTab=tab; E.paused=true; $('phone').classList.remove('hide'); renderPhone(); }
   function closePhone(){ phoneOpen=false; $('phone').classList.add('hide'); E.paused=false; }
   GM.openPhone=openPhone; GM.closePhone=closePhone;

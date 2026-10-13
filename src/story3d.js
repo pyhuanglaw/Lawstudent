@@ -111,7 +111,8 @@ const STORY = (function(){
      ・寫了 terms 的只在那幾個學期的上課期間（寒暑假不算），而且比沒寫的優先（AA_110 5-7 芷若大一上的週五）；
      ・上課（act:'class'）和 noHoliday 的只在上課期間、國定假日不算（和課表一樣停課）；
      ・zone:null＝不在遊戲的場景裡（away 是人物線索的文字，例如「在小福吃午餐」）*/
-  function schedEnt(c,G){ const hr=h(G), wd=G.weekday; const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, hol=!!(typeof CALENDAR!=='undefined'&&CALENDAR.holiday(G.day));
+  function schedEnt(c,G){ if(typeof INV!=='undefined'&&INV.entryFor&&c&&c.id){ const iv=INV.entryFor(G,c.id); if(iv) return iv; }   /* 約好的時間人在那裡、一起走過去的人跟著你（src/invites3d.js）*/
+    const hr=h(G), wd=G.weekday; const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, hol=!!(typeof CALENDAR!=='undefined'&&CALENDAR.holiday(G.day));
     const hit=ent=>{ if(!ent.days.includes(wd)) return false; if((ent.act==='class'||ent.noHoliday)&&(!T||hol)) return false; const to=ent.to; return to<=24?(hr>=ent.from&&hr<to):(hr>=ent.from||hr<to-24); };
     const L=c.daily_schedule||[]; for(const ent of L) if(ent.terms&&T&&ent.terms.includes(T.id)&&hit(ent)) return ent; for(const ent of L) if(!ent.terms&&hit(ent)) return ent; return null; }
   S.schedEnt=schedEnt;
@@ -133,6 +134,8 @@ const STORY = (function(){
       else if(act==='ta'){ n=GM.spawnCharacter(id,TA_SPOT[0],TA_SPOT[1],{yaw:0,pose:'idle'}); if(n) n.frozen=true; }
       else if(act==='club'){ const sp=CLUB_SPOTS[clubI++%CLUB_SPOTS.length]; n=GM.spawnCharacter(id,sp[0],sp[1],{yaw:Math.atan2(-sp[0],-sp[1]),pose:'idle',pockets:true}); if(n) n.frozen=true; }
       else if(act==='desk'){ /* legacy kai */ }
+      else if(act==='follow'){ const P=E.player.obj; n=GM.spawnCharacter(id,P.position.x-Math.sin(P.rotation.y)*1.2+0.5,P.position.z-Math.cos(P.rotation.y)*1.2,{beh:'follow',lv:E.player.lv|0}); if(n) n.followOff=1.1; }   /* 和你一起走過去的人（邀約「現在一起過去」）*/
+      else if(act==='wait'&&ent.invite){ const sp=E.zone.spawn||{x:0,z:0}; let x=sp.x+1.6, z=sp.z+1.2; if(E.canStand&&!E.canStand(x,z,0.32,0)){ x=sp.x; z=sp.z+1.6; } n=GM.spawnCharacter(id,x,z,{pose:'idle'}); if(n){ n.frozen=true; if(GM.face) GM.face(n,sp.x,sp.z); } }   /* 約在路上碰面（溫州街）：在入口附近等 */
       else { const rs=walkRoutes[zoneId]||[]; if(!rs.length){ n=GM.spawnCharacter(id,0,0,{}); return n; } const r=rs[(routeI++)%rs.length]; let wp=r[(Math.random()*r.length)|0];
         if(refresh){ const P=E.player.obj.position; for(const q of r) if(Math.hypot(q[0]-P.x,q[1]-P.z)>Math.hypot(wp[0]-P.x,wp[1]-P.z)) wp=q; }   /* 待在區域裡補人：從路線上離玩家最遠的點走出來，不在眼前憑空出現 */
         n=GM.spawnCharacter(id,wp[0],wp[1],{beh:'wander',waypoints:r}); } return n; };
@@ -162,15 +165,18 @@ const STORY = (function(){
   S.pairUp=pairUp;
   // 與資料驅動人物對話：先看事件，再閒聊；名字依揭露階段
   S.talkCharacter=async function(id,n){ const G=GM_ref.G; SOCIAL.talkedTo(id); const first=!SOCIAL.has(id,'FIRST_MET'); if(EVENTS.onInteract(id)){ n.name=SOCIAL.displayName(id); n.talkLabel='和'+n.name+'說話'; return; }
+    if(typeof INV!=='undefined'){ const iv=INV.meetable(G,id); if(iv){ await INV.meet(GM_ref,iv,n); n.name=SOCIAL.displayName(id); n.talkLabel='和'+n.name+'說話'; return; } }   /* 約好的時間在約好的地方：見面 */
     const GM=GM_ref; GM.sceneBegin({adv:id}); const E=GM.E; if(!n.seat) GM.face(n,E.player.obj.position.x,E.player.obj.position.z); GM.cine('two',E.player.obj,n.obj); const c=CHARACTERS[id]; const who={name:SOCIAL.displayName(id),obj:n.obj,charId:id,pose:n.pose};
     if(first){ SOCIAL.meet(id,G.zone); if(c.social_layer==='B'){ await GM.say(who,['「……嗯？喔，你是我們班的吧。」','「你好。……我們是不是修同一堂民總？」','「欸，你是周老師點過的那個。」'][(Math.random()*3)|0]); await GM.say(who,'「我是'+c.name+'。」'); if(c.facts&&c.facts[0]) await GM.say(who,'「'+c.facts[0]+'。……你呢？」'); } else { await GM.say(who,'「你好，我是'+c.name+'。'+(c.department||'')+'的。」',{expr:'smile'}); if(c.personality) await GM.say(null,c.personality.split('；')[0]+'。'); } SOCIAL.adjust(id,{fam:3}); }
     else { const lines=SMALLTALK[id]||(c.facts?c.facts.map(f=>'「'+f+'。」'):['「嗨。」']); const rv=SOCIAL.reveal(id); if(c.social_layer==='B'&&rv==='ACQUAINTANCE'&&c.facts&&c.facts[1]&&SOCIAL.rel(id).talked>=3&&!SOCIAL.has(id,'SHARED_SECRET')){ await GM.say(who,'「其實……'+c.facts[1]+'。沒跟很多人講過。」'); SOCIAL.remember(id,'SHARED_SECRET',c.facts[1]); SOCIAL.adjust(id,{fam:4,trust:4}); } else { await GM.say(who,lines[(Math.random()*lines.length)|0],{expr:'smile'}); SOCIAL.adjust(id,{fam:1}); } }
+    if(!first&&typeof INV!=='undefined'&&INV.canInvite(G,id)&&!(G.invites||[]).some(v=>v.who===id&&v.state==='going')){ const k=await GM.choose([{t:'約'+(c.gender==='f'?'她':'他')+'去…',hint:'Café、總圖、吃飯、散步'},{t:'就這樣'}]); if(k===0) await INV.flow(GM,id,n,true); }   /* 當面約（使用者第 3 點；src/invites3d.js）*/
     n.name=SOCIAL.displayName(id); n.talkLabel='和'+n.name+'說話'; GM.sceneEnd(); };
   let GM_ref=null; let libSceneOn=false;
   function spawnCompanion(GM){ const E=GM.E; const P=E.player.obj; const lv=E.player.lv|0; const n=GM.spawnNPC('an',AN,P.position.x-Math.sin(P.rotation.y)*1.2+0.6,P.position.z-Math.cos(P.rotation.y)*1.2,{lv,beh:'follow',greet:false,talk:n=>talkAn(GM,n),talkLabel:'和小安說話'}); n.followOff=1.1;
     if(E.unstick) E.unstick(n,6); return n; }   /* 和玩家同一層、站得住的地方（v9.5 審查：從萬才館二樓的門出來是校園第 1 層的平台，原本放在第 0 層，生在平台的石頭裡）。一起走的人不會每隔一段時間對你揮手 */  // 一起走的人不會每隔一段時間對你揮手
   // ---------- 進入區域時 ----------
   S.onEnter=async function(zoneId,GM,opts){ opts=opts||{}; const G=GM.G, F=G.flags, E=GM.E; if(G.day===1&&zoneId==='dorm'&&!F.introDone){ await introDorm(GM); return; }
+    if(typeof INV!=='undefined'&&!opts.fromLoad&&await INV.arrive(GM,zoneId)) return;   /* 一起走過去的人到了約好的地方：見面 */
     if(zoneId==='campus'&&G.day===2&&!F.classDone&&!F.campusIntro){ F.campusIntro=true; await campusMorning(GM); return; }
     if(zoneId==='classroom'&&isThu(G)&&!F.classDone&&h(G)>=12.5&&h(G)<15.2){ await classScene(GM); return; }
     if(zoneId==='linze'&&isThu(G)&&!F.classDone&&h(G)>=12.5&&h(G)<15.2&&!opts.fromLoad){ await GM.sleep(700); GM.caption('','民法總則在二樓的 201 階梯教室。樓梯在大廳西側，電梯在中庭。',4200); GM.setGoal('上二樓，到 201 教室上課'); }   /* v9.4：霖澤館改成真的大樓（大廳、樓梯、二樓），教室在二樓 */
@@ -197,6 +203,7 @@ const STORY = (function(){
     schedT-=dt; if(schedT<=0){ schedT=3; refreshSchedule(GM); }
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ CLS.tick(GM); }catch(e){ console.warn('CLS.tick',e); } }   /* 課表（D52）*/
     if(typeof CROWD!=='undefined'){ try{ CROWD.tick(GM,dt); }catch(e){ console.warn('CROWD.tick',e); } }   /* 公共場景的人流（D55）*/
+    if(typeof INV!=='undefined'){ try{ INV.tick(GM); }catch(e){ console.warn('INV.tick',e); } }   /* 邀約：過了時間沒見到＝沒赴約 */
     /* 法律學院圖書館閉館（D53，使用者 2026-10-13）：閉館前 10 分鐘廣播；過了閉館時間人還在館裡，館員請你離館（回到萬才館大廳的門口），
        並告訴你下次幾點開、可以改去總圖或回宿舍。不讓法圖變成 24 小時開放（讀檔回到閉館後的館裡也一樣）*/
     if(G.zone==='lawlib'&&typeof PLACES!=='undefined'&&PLACES.hours.lawlib&&typeof LL3!=='undefined'){ const hr=h(G), w=PLACES.windowOf('lawlib',G.day);
@@ -315,7 +322,7 @@ const STORY = (function(){
   // ---------- 認識的人現在大概在哪（2026-10-11 使用者：「自由那天根本不知道其他 NPC 在哪，至少給我線索吧」）----------
   // 用角色資料的 daily_schedule——和 populateSchedule 生人物用的是同一份，地圖上寫的和走過去看到的一致。
   // 第一二天主線還在安排的人（LEGACY_IDS，下午的劇情結束前、上課中）不猜：那時候劇情會帶玩家去找他們。
-  const ACT={read:'看書',class:'上課',barista:'打工',wander:'走走',help:'幫忙',sit:'坐著',club:'社團',eat:'吃飯',wait:'等人',desk:'在書桌前',ta:'助教課'};
+  const ACT={read:'看書',class:'上課',barista:'打工',wander:'走走',help:'幫忙',sit:'坐著',club:'社團',eat:'吃飯',wait:'等人',desk:'在書桌前',ta:'助教課',follow:'和你在一起'};
   /* 人物在不在學校（AA_110 第 3 節：跨學年的出場條件）：CHARACTERS[id].presence＝{from:'Y1S1', until:'Y2S1', absent:['Y3S2'], away:{Y3S2:'在日本交換', after:'在別的學校念書'}}。
      學期照日曆（寒暑假算前一個學期）；不在的時候不生人物、人物線索寫 away 的文字、課堂沒有她的反應句、事件的 npcHere 不成立。
      沒有 presence 的人物照舊（現在的資料都還沒填：內容要 AA 確認、使用者批准，見 docs/STORY_EVENT_SCHEMA.md）。 */

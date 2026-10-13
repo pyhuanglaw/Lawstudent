@@ -66,6 +66,11 @@
   - `seat:區域:那一間或那一區`（建築裡的教室 `seat:putong:101`、社科院圖書館 `seat:soclib:window`；沒有的寫座標 `seat:campus:@95,-70`）、`table:區域:桌子`（`table:soclib:rt2`、法圖 `table:lawlib:T1`）、`seat:區域:with:人物`（坐下時 2.5 m 內、同一層，或帶著的同伴）：坐下時記。
   - `meal:店`、`meal:店:with:人物`（店＝`noodle` 麵店、`cafe` 兩點半 Café、`cvs` 便利商店）：在店裡坐下時記。
   - 用法（AA_110 5-4）：一句話的回應、少數幾次在學期末被提起；一個習慣最多被提起一次（用 `once` 或 `notEvents`），**不能變成懲罰**（沒有習慣的玩家不會少任何東西）。
+- **邀約的一般規則**（D54 ⑥；使用者 2026-10-11 的七點；`src/invites3d.js`，`tests/invites_unit.js`）：當面（和人說話時「約他／她去…」）或手機（「朋友」的「約」，要有聯絡方式）約去四個地方，選時間（現在一起過去／今天幾點／明天）。
+  對方答不答應：這學期在不在學校 → 關係（Café、總圖剛認識就可以；吃飯要「熟悉」；散步要「朋友」）→ 下雨（散步改 Café）→ 開沒開 → 你或對方那時候已經約了 → 那時候的作息（上課、打工、社團、幫忙、助教）。
+  「改天」一定附一個具體的時間，玩家可以答應。約好的時間人在那個地方（作息被覆寫，人物線索、npcZone 一樣）；走過去和對方說話＝見面（一起待一段時間、一筆小記憶、熟一點點，不推進戀愛）；
+  過了 45 分鐘沒去＝沒赴約（不扣分，留一筆「放過鴿子」）。**每個人的個性**（答應、拒絕的方式，見面時說什麼）放在 `INVITE_DATA.people[人物]`：
+  `{reply:{busy:'…', rel:'…', booked:'…', accept:'…'}, scene:{cafe:['…','…']}}`——使用者批准後才填；沒填的人用旁白（不替人物編台詞）。
 - **出錯**：事件演到一半出錯（例如資料寫錯）不記成演過，這次遊戲不再重試（`EVENTS.failed`，不存檔），不會每半秒重演。
 
 ## Condition（prereq / line.if / choice.if）
@@ -117,11 +122,16 @@
   grad:{bump:'原因', field:'公法'} | grad:{set:'CONSIDERING', field:'…'},
   energy:-6, money:-150, advance:0.5(小時), memo:'日誌文字', note:{id,title,body},
   knowledge:{qid,state} | {study:'章節'}, goal:'目標列文字', cg:'cg_id' }
+// 手機與邀約（D54 ⑥，src/invites3d.js；人物的內容由 AA、BB 寫、使用者批准後才放）：
+{ contact:'heroine_02' | ['heroine_02','zhe'],                        // 拿到聯絡方式（使用者第 2 點：認識的人才有；開場有阿哲、阿凱）
+  invite:{who:'zhe', place:'noodle', day:0, h:19, text:'手機上那則訊息'},   // 對方約你（day＝幾天後，0＝今天）：手機「訊息」有答應／改天／不了
+  inviteChange:{who:'zhe', to:{day:1, h:19}|null, text:'…'} }           // 對方臨時改約（to:null＝這次取消）：好／那就下次／沒關係，我自己去
+// place：cafe（兩點半 Café）、library（總圖）、noodle（公館吃飯：阿鳳麵店）、wenzhou（溫州街散步）——src/data/invites.js
 ```
 
 ## 存檔
 
-`G.events = {done:{id:count}, last:{id:day}, count, cap:{day, n, major:{'學期|區域':事件id}}}`（cap＝tier 的上限紀錄）；`G.acts.att = {'活動id@第幾天': {h, end:'full'|'left'|'in', lh}}`（演講、活動出席：h＝開始聽的時間、end＝聽完／中途離開／還在聽（查詢時算中途離開）、lh＝離開的時間；舊存檔的 `{h}`＝聽完、沒有紀錄＝沒去）；`G.habits = {鍵: {n, first, last, days}}`（習慣記憶：做過幾天、第一次、最近一次、最近 60 次是哪幾天；舊存檔沒有＝都還沒有）；`G.social`（關係／記憶）與 `G.legal`（知識）另見各自 schema。
+`G.events = {done:{id:count}, last:{id:day}, count, cap:{day, n, major:{'學期|區域':事件id}}}`（cap＝tier 的上限紀錄）；`G.acts.att = {'活動id@第幾天': {h, end:'full'|'left'|'in', lh}}`（演講、活動出席：h＝開始聽的時間、end＝聽完／中途離開／還在聽（查詢時算中途離開）、lh＝離開的時間；舊存檔的 `{h}`＝聽完、沒有紀錄＝沒去）；`G.habits = {鍵: {n, first, last, days}}`（習慣記憶：做過幾天、第一次、最近一次、最近 60 次是哪幾天；舊存檔沒有＝都還沒有）；`G.invites`（邀約：who、place、day、h、state＝offered／accepted／going／done／missed／declined／cancelled／changed）、`G.msgs`（手機訊息，最多 200 則）、`G.contacts`（聯絡方式：人物 → 第幾天拿到）——舊存檔沒有＝空的；`G.social`（關係／記憶）與 `G.legal`（知識）另見各自 schema。
 
 ## 設計原則（來自需求）
 
