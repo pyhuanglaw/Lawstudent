@@ -1,6 +1,6 @@
 """真實玩家流程：使用者 2026-10-13 試玩回報的問題（不用 ?turbo）。單元測試在 smalltalk_unit、schedule_leave_unit、bed_nap_unit、find_person_unit，這裡看遊戲畫面裡真的發生什麼。
-A. 林芷若講完話就消失：週二 11:46 在傅鐘附近，自己走到林芷若旁邊、和她說話；12:00 她的時段結束——人還在、往最近的出口走（不是直接不見），走到了才離開。
-B. 高子晴第一次聊天就說「期末成發你要來」：週二下午在校園找到她、第一次說話——不能出現吉他社以後才有的三句；同一天再說一次＝旁白「打了個招呼」，不重複。
+A. 林芷若講完話就消失：週二 11:46 在傅鐘附近，自己走到林芷若旁邊、和她說話（走近時她可能先開口：通識分組＝第一次見面）；12:00 她的時段結束——人還在、往最近的出口走（不是直接不見），走到了才離開。
+B. 高子晴第一次聊天就說「期末成發你要來」：週二下午在校園找到她（還不認識）——她只點頭（旁白），不自我介紹、沒有吉他社以後才有的三句；第一次見面留給吉他社（AA_120 3-1）。
 C. 小睡：週二 10:00 宿舍，床的選項有「小睡一下（13:00）」「睡到傍晚」、沒有「睡覺」；小睡到 13:00；13:00 再小睡會經過 13:20 的課＝先問，選「先不要」時間不動。
 D. 朋友在哪：週五 16:30 在霖澤館前，手機「朋友」→ 阿哲「帶我去」→ 目標變成「去找阿哲」→ 自己走過去、和他說話 → 目標恢復。
 E. 總圖可以快速前往：手機「地點」有「總圖書館（大廳）」，點了就到。
@@ -44,6 +44,21 @@ async def talk_through(pg, cdp, run, max_steps=40):
     return lines
 
 
+async def dialog_through(pg, cdp, run, max_steps=40):
+    """已經開始的對話（例如走近時自動開始的事件）：點完；回傳對話文字"""
+    lines = []
+    for _ in range(max_steps):
+        q = await L.state(pg)
+        t = await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''")
+        if t and (not lines or lines[-1] != t): lines.append(t)
+        if q['choices']:
+            await choose(pg, cdp, (await pg.evaluate("(document.querySelector('#choices button')||{}).textContent||''"))[:3]); continue
+        if not q['dlg'] and not q['busy']: break
+        if q['dlg']: await L.tap(pg, cdp, '#dlg')
+        await pg.wait_for_timeout(900)
+    return lines
+
+
 async def chase(pg, cdp, run, cid, label, rounds=4):
     """像玩家一樣走到那個人旁邊（點地面；人在走動，所以分幾次重新瞄準）；回傳最後的距離"""
     for _ in range(rounds):
@@ -70,10 +85,14 @@ async def main():
         if z0:
             d = await chase(pg, cdp, run, 'heroine_02', '林芷若旁邊')
             s = await L.state(pg)
-            run.check('A 自己走到林芷若旁邊、出現「和…說話」', d is not None and d <= 2.6 and '說話' in s['interact'], f"d={d} interact={s['interact']}")
-            if '說話' in s['interact']:
-                lines = await talk_through(pg, cdp, run)
-                run.note('對話：' + ' / '.join(t[:40] for t in lines[:8]))
+            if s['dlg'] or s['choices'] or s['busy']:   # 走近時她先開口（ev_zhiruo_ge_group：週二、四上午走到她 5 m 內，可以是第一次見面，BB 6-1）
+                lines = await dialog_through(pg, cdp, run)
+                run.check('A 自己走到林芷若附近：她先開口（通識分組，第一次見面）', any('林芷若' in t or '法律系' in t for t in lines), ' / '.join(t[:30] for t in lines[:4]))
+            else:
+                run.check('A 自己走到林芷若旁邊、出現「和…說話」', d is not None and d <= 2.6 and '說話' in s['interact'], f"d={d} interact={s['interact']}")
+                if '說話' in s['interact']:
+                    lines = await talk_through(pg, cdp, run)
+                    run.note('對話：' + ' / '.join(t[:40] for t in lines[:8]))
             await run.shot(pg, 'A_after_talk')
             # 等到 12:00（不跳時間，站在原地看著她）
             t0 = time.time()
@@ -104,13 +123,15 @@ async def main():
             run.check('B 自己走到高子晴旁邊、出現「和…說話」', d is not None and d <= 2.6 and '說話' in s['interact'], f"d={d} interact={s['interact']}")
             if '說話' in s['interact']:
                 l1 = await talk_through(pg, cdp, run)
-                run.check('B 第一次說話：沒有吉他社以後才有的三句（「期末成發你要來」等）', l1 and not any(g in t for t in l1 for g in GATED), json.dumps(l1, ensure_ascii=False))
+                met = await pg.evaluate("SOCIAL.has('heroine_04','FIRST_MET')")
+                run.check('B 還不認識子晴時在校園搭話：她只點頭（旁白），不自我介紹、沒有吉他社以後的三句、不記成見過面（她的第一次見面留給吉他社，AA_120 3-1）',
+                          bool(l1) and all(t.startswith('（') for t in l1) and not any(g in t for t in l1 for g in GATED) and not met, json.dumps(l1, ensure_ascii=False) + f' met={met}')
                 await pg.wait_for_timeout(1500)
                 s = await L.state(pg)
                 if '說話' not in s['interact']: await chase(pg, cdp, run, 'heroine_04', '高子晴旁邊', rounds=2)
                 s = await L.state(pg)
                 l2 = await talk_through(pg, cdp, run) if '說話' in s['interact'] else []
-                run.check('B 同一天再說一次：旁白「打了個招呼，又忙自己的事」（不重複同一句）', any('打了個招呼' in t for t in l2), json.dumps(l2, ensure_ascii=False))
+                run.check('B 再搭話一次：還是旁白（不會變成一般的自我介紹）', bool(l2) and all(t.startswith('（') for t in l2) and not any('我是' in t for t in l2), json.dumps(l2, ensure_ascii=False))
         # ---------- C：小睡 ----------
         run.setup('讀檔：第 7 天（9/23 週二）10:00，宿舍房間；今天 09:10 國文已經錯過、13:20 通識')
         await L.load_state(pg, {'zone': 'dorm', 'hour': 10.0, 'day': 7, 'weekday': 2, 'weather': 'clear', 'pos': {'x': 0, 'z': 1.0, 'yaw': 3.14}, 'flags': BASE_FLAGS, 'energy': 40}, quiet_events=True)
