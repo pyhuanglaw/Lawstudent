@@ -26,6 +26,7 @@ AA（`session_019Y3emYqxxC4Ch1GGf4fMzw`）、BB（`session_01XVHYLaK9Vcnae3U1aAJ
 
 **AA、BB（使用者 2026-10-11）**：寫故事的 AA、BB 可以直接聯絡 LAWWW；LAWWW2 要不要聯絡她們，等和 LAWWW 討論後一起決定（LAWWW2 的提案寫在 ⑤⑥ 交付訊息裡）。她們的故事在使用者批准前都是 PROPOSAL。
 
+**⑤⑥ 交付（2026-10-13 13:05Z，可整合）**：merge `451d032`（`claude/second-ai-env-art`，已含 AI-1 `cb399ea`）——⑤洞洞館／社科院（VISUAL_REVIEW 13）＋⑥花台、公告欄、販賣機（VISUAL_REVIEW 14）；合併 `cb399ea` 之後的完整回歸 13 項全部通過（Playwright 手機模擬）；遊戲檔案和測過的那一版完全相同。訊息另外傳。
 **接班（2026-10-13 12:35Z，帳號 A 的 LAWWW2 回來值班；使用者：「我回來了，請同步 GitHub 最新進度，接續工作。」）**：接班基準 `1f20126`＋合併 LAWWW `cb399ea`；離開期間沒有人接 LAWWW2 的班。佇列照舊：⑤⑥（合併 LAWWW 最新版後重跑回歸）→ 交付 → ⑬ → ⑭ → ⑫ → ⑦ → ⑨ → ⑩ → ⑪。下面是交班時的紀錄：
 **交班（使用者 2026-10-11 10:13Z 要求換班；帳號 A 的 LAWWW2 正常交班，之後不再寫入，直到使用者叫回來）**：遠端 SHA 都用 `git ls-remote` 確認過、本機沒有沒推的東西：交付分支 `claude/second-ai-env-art`（店家窗景 `f0bab8c` 可整合，10:07Z 已傳 P0 訊息、等 ACK）；WIP（**都還不能整合**）：`-wip-pavsoc`＝`8c6f1fe`（⑤驗收完成）、`-wip-props6`＝`f2fe6ae`（⑤⑥＋`8afdece`，回歸只跑了 street_props_integration PASS，其他要重跑）、`-wip-trees`＝`d7916da`（⑦驗收沒跑）、`-wip-soclib`＝`3b4b201`（⑬配置＋Blender 腳本初稿，沒執行過）；`-wip-props`（`fa626b9`）推錯名字，忽略。⑫、⑭ 沒開工。接班（LAWWW2-B）從 `claude/second-ai-env-art` 的 `docs/art-rebuild/second_ai/HANDOFF.md` 開始。
 
