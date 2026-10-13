@@ -51,12 +51,43 @@ const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
   const g=CLS.goalFor(mkG(T,8)); check('起床時的目標：今天的課＋往下一堂教室的導航（不是「自由的一天」）',/今天的課：09:10 大一英文、13:20 民法總則/.test(g.text)&&g.dest&&g.dest.label==='共同課程教室',JSON.stringify(g));
   const g2=CLS.goalFor(mkG(T,10)); check('英文開始超過 30 分鐘：目標導航改指 201（民法總則）',g2.dest&&g2.dest.zone==='classroom',JSON.stringify(g2.dest));
   const g3=CLS.goalFor(mkG(dayOf('2025-09-27'),8)); check('週六：今天沒有課、自由活動（不指路）',/今天沒有課/.test(g3.text)&&!g3.dest,JSON.stringify(g3)); }
+// ---------- 快速前往的時間、時間跳轉（D54 ①③）----------
+{ const G=mkG(3,10); const tm=(a,b,pos,to)=>CLS.travelMinutes(G,a,b,pos,to);
+  check('快速前往的時間：同一個地方 0；宿舍→霖澤館 15、宿舍→總圖 10、霖澤館→萬才館 5、霖澤館→Café 20 分鐘（照真實步行，最少 5 分鐘）',
+    tm('lawlib','lawlib')===0&&tm('dorm','linze')===15&&tm('dorm','library_hall')===10&&tm('linze','wancai')===5&&tm('linze','cafe')===20,
+    [tm('lawlib','lawlib'),tm('dorm','linze'),tm('dorm','library_hall'),tm('linze','wancai'),tm('linze','cafe')].join(','));
+  check('校園裡的兩個地點：在附近（12 m 內）＝0、校門口→霖澤館前 ≥10 分鐘',tm('campus','campus',{x:-37,z:5},{x:-38,z:6})===0&&tm('campus','campus',{x:-112,z:0},{x:34,z:-98})>=10,
+    [tm('campus','campus',{x:-37,z:5},{x:-38,z:6}),tm('campus','campus',{x:-112,z:0},{x:34,z:-98})].join(',')); }
+{ const T=dayOf('2025-10-07');   /* 週二（學期間）：09:10 大一國文、13:20 通識 */
+  const said=[]; const mkGM=(G,pick)=>({G,D:{active:false},E:{player:{busy:false}},toast:t=>said.push('toast:'+t),sceneBegin(){},sceneEnd(){},choose:async o=>{ said.push('choose:'+o.map(q=>q.t).join('/')); return pick; },
+    fade:async()=>{},advance(hh){ G.hour+=hh; },sleep:async()=>{},caption:(w,t)=>said.push('caption:'+t),autosave(){ said.push('autosave'); },setGoal(){} });
+  check('第一、二天不能跳（跟著主線）；對話中、劇情中不能跳；第三天可以',!!CLS.canSkip(mkGM(mkG(2,10)))&&!!CLS.canSkip(Object.assign(mkGM(mkG(5,10)),{D:{active:true}}))&&!!CLS.canSkip(Object.assign(mkGM(mkG(5,10)),{E:{player:{busy:true}}}))&&CLS.canSkip(mkGM(mkG(5,10)))==='');
+  const at=(G,h1)=>CLS.skipStops(mkGM(G),h1).map(q=>CLS.hhmm(q.h)+' '+q.why);
+  const L=Object.assign(mkG(T,20),{zone:'lawlib'}); check('人在法圖（學期間平日 21:45 閉館）從 20:00 跳到 23:00：21:35 停',at(L,23)[0]==='21:35 法律學院圖書館快關門了',at(L,23).join(' | '));
+  const B=Object.assign(mkG(T,20),{zone:'library_hall'}); check('人在總圖（22:00 閉館）：21:50 停；人在 Café（02:30 才關）不停',at(B,23)[0]==='21:50 總圖書館快關門了'&&!at(Object.assign(mkG(T,20),{zone:'cafe'}),23).length,at(B,23).join(' | ')+' / '+at(Object.assign(mkG(T,20),{zone:'cafe'}),23).join(' | '));
+  const I=Object.assign(mkG(T,10.5),{zone:'dorm',invites:[{day:T,h:15,accepted:true,label:'和朋友在 Café'},{day:T,h:12,accepted:false,label:'沒答應的'}]}); check('已接受的邀約前 10 分鐘停（沒答應的不算）',at(I,17)[0]==='14:50 約好的時間：和朋友在 Café'&&at(I,17).length===1,at(I,17).join(' | '));
+  const c=CLS.dayItems(mkG(T,8)).find(it=>it.t0>12); const sp={w:c.week,title:'測試',content:true}; c.c.specials=(c.c.specials||[]).concat([sp]);
+  check('特殊課堂（有內容的那一週）開始前 10 分鐘停；普通課堂不停',at(Object.assign(mkG(T,10.5),{zone:'dorm'}),17)[0]==='13:10 特殊課堂：'+c.c.name,at(Object.assign(mkG(T,10.5),{zone:'dorm'}),17).join(' | '));
+  c.c.specials=c.c.specials.filter(q=>q!==sp);
+  global.STORY_EVENTS=[{id:'t',trigger:'auto',title:'測試事件'},{id:'r',trigger:'auto',random_weight:3,title:'隨機的'}]; let GG=null; global.EVENTS={check:e=>e.id==='t'&&GG.hour%24>=16};
+  GG=Object.assign(mkG(T,10.5),{zone:'dorm'}); check('會自動發生的劇情事件條件成立就停（隨機的日常不停）；檢查完時間還原',at(GG,18).some(q=>q==='16:00 測試事件')&&GG.hour===10.5,at(GG,18).join(' | '));
+  delete global.STORY_EVENTS; delete global.EVENTS;
+  (async()=>{ const G1=Object.assign(mkG(T,10.5),{zone:'dorm'}); said.length=0; const r1=await CLS.skipTo(mkGM(G1,1),17.5);
+    check('中間會經過普通課（13:20 通識）：先問一次；選「先不要」＝時間不動',r1===false&&G1.hour===10.5&&said.some(t=>/^choose:照樣跳過\/先不要/.test(t)),said.join(' | '));
+    said.length=0; const r2=await CLS.skipTo(mkGM(G1,0),17.5);
+    check('選「照樣跳過」：跳到 17:30、經過的課＝沒去、存檔',r2===true&&Math.abs(G1.hour-17.5)<1e-9&&CLS.status(G1,CLS.dayItems(G1).find(it=>it.t0>12))==='missed'&&said.includes('autosave'),CLS.hhmm(G1.hour)+' '+said.join(' | '));
+    const G2=Object.assign(mkG(T,18),{zone:'dorm',invites:[{day:T,h:19.5,accepted:true,label:'讀書會'}]}); said.length=0; await CLS.skipTo(mkGM(G2,0),22);
+    check('跳到一半遇到邀約：停在 19:20、字幕寫原因、沒有經過課就不問',Math.abs(G2.hour-(19.5-1/6))<1e-9&&said.some(t=>/約好的時間：讀書會/.test(t))&&!said.some(t=>/^choose/.test(t)),said.join(' | '));
+    const G3=Object.assign(mkG(T,23.5),{zone:'dorm'}); await CLS.skipTo(mkGM(G3,0),26); check('不跳過午夜（隔天＝睡覺）',G3.hour<24,String(G3.hour));
+    afterSkip(); })(); }
+function afterSkip(){
 // ---------- 成績單、自學 ----------
 { const R={prep:{con_law1:12,crim_gen1:6,civ_general:2}}; const G=Object.assign(mkG(dayOf('2026-01-05'),7.5),{courses:R}); const rep=CLS.reportFor(G,'Y1S1');
   check('成績（文字）：準備 ≥10 很好、≥5 不錯、其他 過了（沒有「沒過」）',rep.con_law1==='很好'&&rep.crim_gen1==='不錯'&&rep.civ_general==='過了'&&Object.values(rep).every(v=>['很好','不錯','過了'].includes(v)),JSON.stringify(rep));
   const said=[]; const GM={G,sceneBegin(){},sceneEnd(){},say:async(n,t)=>{ said.push(t); },toast(t){ said.push('toast:'+t); }};
   (async()=>{ await CLS.morning(GM); const n1=said.length; await CLS.morning(GM); check('學期結束的第一個早上發成績單一次（第二次不再發）',n1>=2&&said.length===n1&&!!G.courses.grades.Y1S1,said.slice(0,2).join(' | '));
     finish(); })(); }
+}
 // ---------- 校園的門口上課點 ----------
 function finish(){
   const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js'];
