@@ -25,7 +25,8 @@ const WC3=(function(){
     nav0.blockOutside(-W/2+0.4,-D/2+0.4,W/2-0.4,D/2-0.4);   // 和 v9.3 的大廳（room）一樣
     const ss=stairSurfs(L); for(const s of [ss.f1,ss.ld,ss.f2,ss.top]) nav0.addSurf(Object.assign({},s));
     nav0.blockRect(S.railX,(S.railZ0+F2.z1)/2,0.2,F2.z1-S.railZ0,0);                  // 樓梯東側欄杆（最下面留開口）
-    nav0.blockRect((S.x0+S.railX)/2-0.1,(F2.z1+0.2+D/2)/2,S.railX-S.x0+0.4,D/2-F2.z1-0.2,0);   // 樓梯頂端後面、二樓門廳底下的角落（樓梯最上面一階 4.2 m 高的邊，不讓人走進去；最上面一階那一排不擋：第 0 層走到那裡換到第 1 層）
+    /* 樓梯頂端後面、二樓門廳底下的角落：v9.5 以前整塊擋起來；2026-10-13 起是法律學院圖書館的門前（lawlibDoor），打開。
+       樓梯最上面一階（第 0 層 4.2 m）和這裡的地面（0 m）高度接不上，找路、碰撞（NavGrid.clear 看高度）本來就不會從樓梯頂端走下來；tests/nav_lawlib_unit.js 檢查 */
     for(const [x,z,r] of L.columns) nav0.blockCircle(x,z,r+0.1);
     nav0.blockRect(EL.x0-0.1,(EL.z0+EL.z1)/2,0.2,EL.z1-EL.z0+0.2,0); nav0.blockRect(EL.x1+0.1,(EL.z0+EL.z1)/2,0.2,EL.z1-EL.z0+0.2,0); nav0.blockRect((EL.x0+EL.x1)/2,EL.z1+0.1,EL.x1-EL.x0+0.4,0.2,0);   // 電梯井道玻璃（東、西、南）
     // 二樓：先整層擋起來，再開出走廊、迴廊、門廳、樓梯第二跑、電梯門口
@@ -59,11 +60,16 @@ const WC3=(function(){
     // 外牆：北、西、東（兩層，一層一塊：剖面視角藏二樓時一起藏）；南面＝西段實牆（二樓門）＋東段兩層樓高的玻璃帷幕
     const wall=(x,z,w,h,y,ry,dir,m,grp)=>{ const ms=new THREE.Mesh(TK.boxG(w,h,T,2.4),m.clone()); ms.material.transparent=true; ms.position.set(x,y+h/2,z); ms.rotation.y=ry; ms.userData.dir=dir; ms.userData.noMerge=true; grp.add(ms); walls.push(ms); return ms; };
     const wallM=M('#eae1d3'); const FG=L.frontGlass;
-    for(const [grp,y,h] of [[fb0,0,Y1],[fb1,Y1,RY-Y1]]){ wall(0,-D/2,W,h,y,0,new THREE.Vector3(0,0,1),wallM,grp); wall(-W/2,0,D,h,y,Math.PI/2,new THREE.Vector3(1,0,0),wallM,grp); wall(W/2,0,D,h,y,Math.PI/2,new THREE.Vector3(-1,0,0),wallM,grp);
+    const LLD=L.lawlibDoor, lz0=LLD.z-LLD.w/2, lz1=LLD.z+LLD.w/2;
+    for(const [grp,y,h] of [[fb0,0,Y1],[fb1,Y1,RY-Y1]]){ wall(0,-D/2,W,h,y,0,new THREE.Vector3(0,0,1),wallM,grp); if(grp===fb1) wall(-W/2,0,D,h,y,Math.PI/2,new THREE.Vector3(1,0,0),wallM,grp); else { wall(-W/2,(-D/2+lz0)/2,lz0+D/2,h,y,Math.PI/2,new THREE.Vector3(1,0,0),wallM,grp); wall(-W/2,(lz1+D/2)/2,D/2-lz1,h,y,Math.PI/2,new THREE.Vector3(1,0,0),wallM,grp); wall(-W/2,LLD.z,LLD.w,h-LLD.h,y+LLD.h,Math.PI/2,new THREE.Vector3(1,0,0),wallM,grp); } wall(W/2,0,D,h,y,Math.PI/2,new THREE.Vector3(-1,0,0),wallM,grp);
       wall((-W/2+FG.x0)/2,D/2,FG.x0+W/2,h,y,0,new THREE.Vector3(0,0,-1),wallM,grp); }
     { const gw=FG.x1-FG.x0, gh=RY-0.3, cx=(FG.x0+FG.x1)/2; const gp=new THREE.Mesh(new THREE.PlaneGeometry(gw,gh),MAT.glass()); gp.position.set(cx,gh/2,D/2); gp.rotation.y=Math.PI; lv0.add(gp);
       for(let x=FG.x0;x<=FG.x1+0.01;x+=gw/7) b0.add(MAT.frame(),TK.boxG(0.12,gh,0.14),x,gh/2,D/2-0.05); for(const y of [2.9,Y1,Y1+2.9]) b0.add(MAT.frame(),TK.boxG(gw,0.12,0.14),cx,y,D/2-0.05);
       B3.outView('south','wancai_south',gw+44,20,cx,2.6,D/2+3.0,Math.PI,20,lv0); }   /* 窗外的景：遊戲裡拍的大台階前廣場往南（社科院、黑森林），視差材質；見 building3d.js 的 outView */
+    // 法律學院圖書館的門（一樓西牆南段）：門框、兩扇玻璃門、門上的木作名牌（字是遊戲裡畫的，正式模型一樣）
+    { const LD=L.lawlibDoor, x=-W/2+0.12; b0.add(MAT.frame(),TK.boxG(0.14,LD.h+0.1,0.1),x,(LD.h+0.1)/2,LD.z-LD.w/2-0.05); b0.add(MAT.frame(),TK.boxG(0.14,LD.h+0.1,0.1),x,(LD.h+0.1)/2,LD.z+LD.w/2+0.05); b0.add(MAT.frame(),TK.boxG(0.14,0.1,LD.w+0.2),x,LD.h+0.05,LD.z);
+      for(const sz of [-1,1]){ const gd=new THREE.Mesh(new THREE.PlaneGeometry(LD.w/2-0.04,LD.h-0.08),MAT.glass()); gd.position.set(x,(LD.h-0.08)/2+0.02,LD.z+sz*LD.w/4); gd.rotation.y=Math.PI/2; gd.userData.noMerge=true; lv0.add(gd); }
+      b0.add(MAT.woodD(),TK.boxG(0.05,0.42,LD.w+0.9),-W/2+0.13,LD.h+0.42,LD.z); }
     // 二樓的門（西南門廳，通到外面的平台）：玻璃門＋門框
     { const UD=L.upperDoor; b1.add(MAT.frame(),TK.boxG(1.7,2.6,0.12),UD.x,Y1+1.3,D/2-0.12); const gd=new THREE.Mesh(new THREE.PlaneGeometry(1.5,2.4),MAT.glass()); gd.position.set(UD.x,Y1+1.2,D/2-0.2); gd.rotation.y=Math.PI; lv1.add(gd); }
     // 天花板：二樓走廊、迴廊、門廳的頂（8.4 m）＋燈；一樓的天花板就是二樓樓板的底面
@@ -79,9 +85,9 @@ const WC3=(function(){
         nav.blockRect(f.x,f.z,2.2,0.9,ry,0.1); if(f.seat) IT.push({x:f.x+Math.sin(ry)*0.7,z:f.z+Math.cos(ry)*0.7,radius:1.2,lv:f.lv,label:'坐在沙發上',seat:{x:f.x,z:f.z,yaw:ry}}); }
       else if(f.type==='table'){ b.add(M('#c9a57a'),new THREE.CylinderGeometry(f.r,f.r,0.06,24),f.x,y+0.5,f.z); b.add(M('#4a4f55',{rough:0.45}),new THREE.CylinderGeometry(0.05,0.06,0.47,10),f.x,y+0.235,f.z); b.add(M('#4a4f55',{rough:0.45}),new THREE.CylinderGeometry(0.3,0.32,0.03,20),f.x,y+0.015,f.z); nav.blockCircle(f.x,f.z,f.r+0.05); }
       else if(f.type==='bulletin'){ const bb=W3.bulletin(); bb.position.set(f.x,y,f.z); lv0.add(bb); nav.blockRect(f.x,f.z,f.w,0.4,0); IT.push({x:f.x,z:f.z+1.0,radius:1.6,lv:f.lv,label:'看公告：法律服務社招募',notice:'lawclub'}); }
-      else if(f.type==='board'){ const tx=W3.canvasTex('wc3board',512,256,(x,w,h)=>{ x.fillStyle='#24303a'; x.fillRect(0,0,w,h); x.fillStyle='#f3efe4'; x.font='bold 34px "Noto Sans TC",sans-serif'; x.fillText('萬才館 樓層簡介',24,52); x.font='24px "Noto Sans TC",sans-serif'; x.fillText('1F　大廳｜演講廳｜多功能教室',24,104); x.fillText('2F　研討室 A、B｜往外面的平台',24,146); x.fillText('3F–9F　研究室（刷學院識別證）',24,188); x.fillStyle='#d6a425'; x.fillText('↑ 樓梯在大廳西側　電梯在大廳東側',24,232); });
+      else if(f.type==='board'){ const tx=W3.canvasTex('wc3board',512,256,(x,w,h)=>{ x.fillStyle='#24303a'; x.fillRect(0,0,w,h); x.fillStyle='#f3efe4'; x.font='bold 34px "Noto Sans TC",sans-serif'; x.fillText('萬才館 樓層簡介',24,50); x.font='22px "Noto Sans TC",sans-serif'; x.fillText('1F　大廳｜演講廳｜多功能教室',24,90); x.fillText('1F　法律學院圖書館（大廳西南角）',24,124); x.fillText('2F　研討室 A、B｜往外面的平台',24,158); x.fillText('3F–9F　研究室（刷學院識別證）',24,192); x.fillStyle='#d6a425'; x.fillText('↑ 樓梯在大廳西側　電梯在大廳東側',24,234); });
         const bd=new THREE.Mesh(new THREE.PlaneGeometry(f.w,f.w/2),new THREE.MeshBasicMaterial({map:tx})); bd.position.set(f.x,y+1.65,f.z+0.01); (f.lv?lv1:lv0).add(bd); b.add(MAT.frame(),TK.boxG(f.w+0.1,f.w/2+0.1,0.04),f.x,y+1.65,f.z-0.03);
-        IT.push({x:f.x,z:f.z+0.9,radius:1.0,lv:f.lv,label:'看樓層簡介',look:'萬才館 樓層簡介：1F 大廳、演講廳、多功能教室；2F 研討室 A、B，西南角的門通到外面大樓梯頂端的平台；3F–9F 研究室（要刷學院識別證）。樓梯在大廳西側，電梯在大廳東側。'}); }
+        IT.push({x:f.x,z:f.z+0.9,radius:1.0,lv:f.lv,label:'看樓層簡介',look:'萬才館 樓層簡介：1F 大廳、演講廳、多功能教室，西南角（進門左手邊）是法律學院圖書館；2F 研討室 A、B，西南角的門通到外面大樓梯頂端的平台；3F–9F 研究室（要刷學院識別證）。樓梯在大廳西側，電梯在大廳東側。'}); }
       else if(f.type==='planter'){ b.add(MAT.graniteD(),new THREE.CylinderGeometry(f.r,f.r*0.9,0.6,16),f.x,y+0.3,f.z); b.add(MAT.plant(),new THREE.IcosahedronGeometry(f.r*1.25,1),f.x,y+1.15,f.z); nav.blockCircle(f.x,f.z,f.r+0.1); }
       else if(f.type==='bench'){ b.add(MAT.wood(),TK.boxG(f.w,0.06,f.d),f.x,y+0.45,f.z); for(const sx of [-1,1]) b.add(MAT.steel(),TK.boxG(0.06,0.43,f.d*0.9),f.x+sx*(f.w/2-0.12),y+0.215,f.z); nav.blockRect(f.x,f.z,f.w,f.d,0,0.05); } }
     b0.build(fb0); b1.build(fb1);
@@ -108,7 +114,11 @@ const WC3=(function(){
     const IT=E.interactables, EN=L.entrance, UD=L.upperDoor;
     IT.push({x:EN.x,z:EN.exitZ,radius:1.6,lv:0,label:'離開萬才館',exit:{to:'campus',spawn:Object.assign({},CAMPUS_1F)}});
     IT.push({x:UD.x,z:UD.z,radius:1.0,lv:1,label:'走出去（大樓梯平台）',exit:{to:'campus',spawn:Object.assign({},CAMPUS_2F)}});
-    for(const d of L.doors) IT.push({x:d.x,z:-D/2+0.75,radius:1.15,lv:d.lv,label:d.label,look:d.closed});
+    if(typeof LAWLIB_LAYOUT!=='undefined'){ const LD=L.lawlibDoor; IT.push({x:LD.it.x,z:LD.it.z,radius:LD.it.r,lv:0,label:LD.label,exit:{to:'lawlib',spawn:Object.assign({},LAWLIB_LAYOUT.entrance.spawn)}});   /* 法律學院圖書館（D46）：開放時間在 places.js，關門時 story3d.js 擋 */
+      const sp=W3.signPlane('法律學院圖書館',1.9,0.36,{color:'#3b2a1e'}); sp.position.set(-W/2+0.17,LD.h+0.42,LD.z); sp.rotation.y=Math.PI/2; lv0.add(sp); }
+    for(const d of L.doors){ const sem=d.id==='seminarA'&&typeof CLS!=='undefined'&&CLS.DOORS&&CLS.DOORS.wancai_seminar;   /* 研討室 A：大四的研討課在這裡上（門口上課：classes3d.js 的 doorInteract；沒有課時照舊是說明）*/
+      const act=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list.some(a=>a.zone==='wancai'&&a.room===d.id);   /* 社課在這一間（多功能教室：吉他社；研討室 A：法服讀書會——AA_110 6-8）：門口參加（classes3d.js 的 roomDoor）*/
+      IT.push(Object.assign({x:d.x,z:-D/2+0.75,radius:1.15,lv:d.lv,label:d.label,look:d.closed},sem?{door:'wancai_seminar'}:{},(sem||act)?{onInteract:()=>CLS.roomDoor(GAME,'wancai',d.id,{look:d.closed,door:sem?'wancai_seminar':null})}:{})); }
     for(const f of EL.floors) if(f.lv!==undefined) IT.push({x:zone.elev.cx,z:EL.callZ,radius:1.0,lv:f.lv,label:'搭電梯',elevator:true});
     // 正式模型（GLB）：載入成功就藏起程序化備用模型（導航、互動點不變）
     zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wancai_interior']){ ASSETS.loadOne('bldg.wancai_interior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; B3.attachFormal(zone,c.scene.clone(true),fb0,fb1,lv0,lv1,walls,walkMeshes); }).catch(e=>console.warn('萬才館室內正式模型載入失敗，用程序化備用模型',e)); }

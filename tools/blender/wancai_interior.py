@@ -95,6 +95,10 @@ MAT = {
     'glass':   pbr('wc_glass', None, tint=srgb('#c4d6dc'), rough=0.05, alpha=0.22),
     'light':   pbr('wc_light_panel', None, tint=srgb('#fff6e4'), rough=0.9, emit=srgb('#fff4dc')),
     'plant':   pbr('wc_plant', None, tint=srgb('#4f7a46'), rough=0.85),
+    'plaque':  pbr('wc_plaque', 'fine_grained_wood', tile=1.6, target='#c9a77a'),                          # 法律學院圖書館的名牌（淺色木板：遊戲畫的字是深咖啡色）
+    'llfloor': pbr('wc_lawlib_floor', None, tint=srgb('#c4bdb1'), rough=0.45),               # 門後看得到的一小段圖書館：和 lawlib_interior.glb 一樓地磚同色（只從玻璃門看得到，用純色：GLB 少 0.2 MB）
+    'llwhite': pbr('wc_lawlib_white', None, tint=srgb('#f2f1ec'), rough=0.4),
+    'llglow':  pbr('wc_lawlib_glow', None, tint=srgb('#f6f1e6'), rough=0.9, emit=srgb('#efe6d4')),
 }
 
 # ---------------- 幾何（和霖澤館室內同一套小工具）----------------
@@ -203,11 +207,49 @@ def wall_with_doors(prefix, parent, z, y0, y1, doors, lvl):
 
 wall_with_doors('L0', L0, -D / 2, 0, Y1, L['doors'], 0)
 wall_with_doors('L1', L1, -D / 2, Y1, RY, L['doors'], 1)
+LLD = L['lawlibDoor']; LZ0, LZ1 = LLD['z'] - LLD['w'] / 2, LLD['z'] + LLD['w'] / 2   # 法律學院圖書館的門洞（一樓西牆南段）
 for pre, P, y0, y1 in (('L0', L0, 0, Y1), ('L1', L1, Y1, RY)):
-    box(f'{pre}_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, y0, y1, -D / 2, D / 2, P, props={'dir': [1, 0, 0]})
+    if pre == 'L0':   # 門洞兩側、門楣上面三塊（第二 AI 2026-10-13，LAWWW 授權只改門洞、門、名牌）
+        for k, (za, zb, ya, yb) in enumerate(((-D / 2, LZ0, y0, y1), (LZ1, D / 2, y0, y1), (LZ0, LZ1, LLD['h'], y1))):
+            box(f'{pre}_WALL_W_{k}', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, ya, yb, za, zb, P, props={'dir': [1, 0, 0]})
+    else: box(f'{pre}_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, y0, y1, -D / 2, D / 2, P, props={'dir': [1, 0, 0]})
     box(f'{pre}_WALL_E', MAT['plaster'], W / 2 - T / 2, W / 2 + T / 2, y0 + 1.2, y1, -D / 2, D / 2, P, props={'dir': [-1, 0, 0]})
     box(f'{pre}_WALL_Eb', MAT['granite'], W / 2 - T / 2, W / 2 + T / 2, y0, y0 + 1.2, -D / 2, D / 2, P, props={'dir': [-1, 0, 0]})
-    box(f'{pre}_wallbase_W', MAT['woodD'], -W / 2 + T / 2, -W / 2 + T / 2 + 0.02, y0, y0 + 0.12, -D / 2, D / 2, P)
+    for k, (za, zb) in enumerate(((-D / 2, LZ0), (LZ1, D / 2)) if pre == 'L0' else ((-D / 2, D / 2),)):
+        box(f'{pre}_wallbase_W_{k}', MAT['woodD'], -W / 2 + T / 2, -W / 2 + T / 2 + 0.02, y0, y0 + 0.12, za, zb, P)
+# ---------------- 法律學院圖書館的門（一樓西牆南段；第二 AI 2026-10-13 做，LAWWW 授權只改門洞、門、名牌、盆栽位置）----------------
+# 鋁框、兩扇玻璃門（關著：進去是遊戲的互動點，lawlib 區域）、直把手；門上的木作名牌（淺色木板＋胡桃木框；字是遊戲畫的 W3.signPlane，深咖啡色）。
+# 門後補一小段圖書館（地磚、白牆、天花板、防盜感應門柱、亮的牆）：從大廳看進玻璃門不是空的。門框、名牌跟著西牆淡出（fadegrp）；玻璃不放進淡出群組（會被設成不透明）。
+xw = -W / 2; FP = {'fadegrp': 'Wdoor', 'fadedir': [1, 0, 0]}; zc = LLD['z']; hD = LLD['h']
+for k, (za, zb) in enumerate(((LZ0, LZ0 + 0.05), (LZ1 - 0.05, LZ1))): box(f'L0_lldoor_jamb_{k}', MAT['frame'], xw - T / 2, xw + T / 2 + 0.02, 0, hD, za, zb, L0, props=FP)
+box('L0_lldoor_head', MAT['frame'], xw - T / 2, xw + T / 2 + 0.02, hD - 0.05, hD, LZ0, LZ1, L0, props=FP)
+for k, (za, zb) in enumerate(((LZ0 + 0.05, zc - 0.004), (zc + 0.004, LZ1 - 0.05))):
+    for (a, b) in ((za, za + 0.05), (zb - 0.05, zb)): box(f'L0_lldoor_stile_{k}_{a:.2f}', MAT['frame'], xw - 0.025, xw + 0.025, 0.0, hD - 0.06, a, b, L0, props=FP)
+    box(f'L0_lldoor_rail_t_{k}', MAT['frame'], xw - 0.025, xw + 0.025, hD - 0.11, hD - 0.06, za, zb, L0, props=FP)
+    box(f'L0_lldoor_rail_b_{k}', MAT['frame'], xw - 0.025, xw + 0.025, 0.0, 0.14, za, zb, L0, props=FP)
+    quad(f'L0_lldoor_glass_{k}', MAT['glass'], [(xw, 0.14, za + 0.05), (xw, 0.14, zb - 0.05), (xw, hD - 0.11, zb - 0.05), (xw, hD - 0.11, za + 0.05)], L0, tile=1.0)
+for k, zz in enumerate((zc - 0.08, zc + 0.08)):   # 直把手（大廳那一側）
+    h_ = cyl(f'L0_lldoor_handle_{k}', MAT['steel'], (xw + 0.075, 0.8, zz), (xw + 0.075, 1.4, zz), 0.014, L0)
+    for k_, v_ in FP.items(): h_[k_] = v_
+    for yy in (0.85, 1.35):
+        h_ = cyl(f'L0_lldoor_standoff_{k}_{yy}', MAT['steel'], (xw + 0.025, yy, zz), (xw + 0.075, yy, zz), 0.008, L0)
+        for k_, v_ in FP.items(): h_[k_] = v_
+pw = LLD['w'] + 0.9; xi = xw + T / 2                                                    # 名牌：中心 y＝門高＋0.42（遊戲的字在 x＝−W/2＋0.17）
+box('L0_lldoor_plaque', MAT['plaque'], xi, xi + 0.05, hD + 0.21, hD + 0.63, zc - pw / 2, zc + pw / 2, L0, props=FP)
+for k, (ya, yb, za, zb) in enumerate(((hD + 0.18, hD + 0.21, zc - pw / 2 - 0.03, zc + pw / 2 + 0.03), (hD + 0.63, hD + 0.66, zc - pw / 2 - 0.03, zc + pw / 2 + 0.03),
+                                       (hD + 0.21, hD + 0.63, zc - pw / 2 - 0.03, zc - pw / 2), (hD + 0.21, hD + 0.63, zc + pw / 2, zc + pw / 2 + 0.03))):
+    box(f'L0_lldoor_plaque_frame_{k}', MAT['woodD'], xi, xi + 0.06, ya, yb, za, zb, L0, props=FP)
+# 門後：圖書館入口的一小段（x −9.1 往西 2.8 m）
+bx0, bx1, bz0, bz1 = xw - 2.9, xw - T / 2, LZ0 - 1.2, LZ1 + 1.2
+box('L0_lldoor_beyond_floor', MAT['llfloor'], bx0, bx1, -0.05, 0.0, bz0, bz1, L0)
+quad('L0_lldoor_beyond_ceiling', MAT['llwhite'], [(bx0, 3.6, bz0), (bx1, 3.6, bz0), (bx1, 3.6, bz1), (bx0, 3.6, bz1)], L0, tile=1.0)
+quad('L0_lldoor_beyond_wallN', MAT['llwhite'], [(bx1, 0, bz0), (bx0, 0, bz0), (bx0, 3.6, bz0), (bx1, 3.6, bz0)], L0, tile=1.0)
+quad('L0_lldoor_beyond_wallS', MAT['llwhite'], [(bx0, 0, bz1), (bx1, 0, bz1), (bx1, 3.6, bz1), (bx0, 3.6, bz1)], L0, tile=1.0)
+quad('L0_lldoor_beyond_glow', MAT['llglow'], [(bx0, 0, bz0), (bx0, 0, bz1), (bx0, 3.6, bz1), (bx0, 3.6, bz0)], L0, tile=1.0)
+for k, zz in enumerate((LZ0 - 0.25, LZ1 + 0.25)):   # 防盜感應門柱（圖書館裡面那一對，和 lawlib_interior.glb 一樣）
+    box(f'L0_lldoor_gate_{k}', MAT['llwhite'], xw - 1.25, xw - 1.2, 0.06, 1.5, zz - 0.25, zz + 0.25, L0)
+    box(f'L0_lldoor_gatebase_{k}', MAT['frame'], xw - 1.29, xw - 1.16, 0.0, 0.06, zz - 0.28, zz + 0.28, L0)
+
 # 南面西段（x -9 ~ 玻璃帷幕的西端）：一樓實牆；二樓實牆＋通到外面平台的玻璃門（門洞寬 1.7 高 2.6）
 UD = L['upperDoor']; ux0, ux1 = UD['x'] - 0.85, UD['x'] + 0.85
 box('L0_WALL_S', MAT['plaster'], -W / 2, FG['x0'], 1.2, Y1, D / 2 - T / 2, D / 2 + T / 2, L0, props={'dir': [0, 0, -1]})

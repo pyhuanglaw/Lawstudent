@@ -1,6 +1,7 @@
 """室內鏡頭遮擋（v9.4 #16）：玩家站在已知的位置、鏡頭在背後（一般跟隨鏡頭），從鏡頭到人物的頭、胸口、腰（各左中右）打 9 條射線，
 3 條以上不能有「看得到、不透明」的東西（淡出到 0.5 以下的牆、玻璃、點地面用的隱形地板不算）。
-曾經的 bug：霖澤館大廳剛進門時兩扇深色自動門擋住人物；201 最上排鏡頭在後牆外、後門擋住人物（門與框合併進一般材質，不會跟著牆淡出）。
+曾經的 bug：霖澤館大廳剛進門時兩扇深色自動門擋住人物；201 最上排鏡頭在後牆外、後門擋住人物（門與框合併進一般材質，不會跟著牆淡出）；
+教學館（博雅、普通、共同）鏡頭跑到隔間牆後面、剛進門時入口門框擋住（2026-10-13 LAWWW2 審查，修在 engine3d.js 的 followCam、teach3d.js 的 camColliders）。
 [前置] 用讀檔把玩家放到位置（不是測走路）。
 用法：python3 tests/indoor_camera_occlusion.py URL
 舊版重現：GLB_SWAP="assets/models/env/linze_interior.glb=舊檔;assets/models/env/classroom_201.glb=舊檔" python3 tests/indoor_camera_occlusion.py URL"""
@@ -15,7 +16,13 @@ CASES = [('霖澤館大廳：剛進門（面向大廳，鏡頭在入口外）', 
          ('霖澤館大廳：靠南面帷幕、面向北', 'linze', 0.0, 5.6, 0, 3.14159),
          ('霖澤館二樓迴廊：201 門口、面向南（鏡頭在北牆外）', 'linze', -2.0, -5.6, 1, 0.0),
          ('201：從後門進來（面向講台，鏡頭在後牆外）', 'classroom', 0.0, 7.0, 0, 3.14159),
-         ('201：最上排西側走道', 'classroom', -5.25, 7.3, 0, 3.14159)]
+         ('201：最上排西側走道', 'classroom', -5.25, 7.3, 0, 3.14159),
+         # 教學館（2026-10-13 LAWWW2 審查 P1：原本室內沒有鏡頭碰撞，鏡頭跑到隔間牆後面時整個畫面是牆；剛進門時南牆淡出了、門框沒有）
+         ('博雅：自習小桌旁、面向東北（鏡頭會跑到 101 東牆後面）', 'boya', -3.2, 1.6, 0, 1.2),   # 2026-10-13 自習區第二版：兩列雙人小桌中間的走道
+         ('博雅：大廳 101 門邊、鏡頭朝 101（隔間牆）', 'boya', -4.9, 6.1, 0, 0.785),
+         ('博雅：剛進門（鏡頭在南牆外、入口門框）', 'boya', 0.0, 6.8, 0, 3.14159),
+         ('普通：走廊、鏡頭朝教室（隔間牆）', 'putong', -6.4, 0.1, 0, 3.927),
+         ('共同：走廊、鏡頭朝教室（隔間牆）', 'gongtong', -6.4, 1.6, 0, 5.498)]
 PROBE = r"""(()=>{ const E=GAME.E, P=E.player; const cam=E.camera; cam.updateMatrixWorld(true); E.scene.updateMatrixWorld(true);
   const vis=(o)=>{ for(let p=o;p;p=p.parent) if(p.visible===false) return false; return true; };
   const isPlayer=(o)=>{ for(let p=o;p;p=p.parent) if(p===P.obj) return true; return false; };

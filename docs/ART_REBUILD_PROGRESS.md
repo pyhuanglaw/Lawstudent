@@ -10,16 +10,250 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
-- **時間**：2026-10-11 08:48 UTC｜**分支**：`claude/confident-ritchie-8rwh7t`｜**最新 checkpoint**：`fecaeeb`（之後的 commit 看 `git log`）
-- **線上版本**：v9.4.2（main＝`dfd2618`，07:02:57 UTC）。下一次發布最早 10:02:57 UTC。
-- **v9.5（使用者實機回報修正）**——WORK_IN_PROGRESS／CHECKPOINT_SAVED，**還不能發布**：
-  - 做完、有測試或實測：室友轉圈（`tests/seated_look_unit.js`）、假騎士拿掉、店員、吃麵目標（含 20:30 沒去的情況）、開放時間（`src/data/places.js`）、導航＋大地圖＋入口名牌＋人物線索＋快速前往（`src/guide3d.js`；`tests/guide_unit.js`、`tests/guide_flow.py`）、移動速度 1.8／4.8 m/s、換樓層看到天空（`tests/levels_no_sky.py`：47.5% → 0%）、窗景照片＋視差（`W3.windowMat`、`tools/shots/window_views.py`；VISUAL_REVIEW 第 22 節）。
-  - 正在跑：①完整回歸（乾淨工作樹 `scratchpad/wt_v95`＝`01145ae`、server 8803、結果 `scratchpad/reg_v95a/`）——`indoor_cam_occlusion` 失敗是測試對整個場景做射線碰到入口名牌（已修 `f68f97a`，要重跑）；②多代理審查（workflow `wf_a090db9c-43e`：正確性、手機介面效能、劇情目標，每個發現再驗證）。
-  - 還沒做：Café／便利商店／麵店／書店的窗景照片（派給 LAWWW2，07:30Z DELIVERED、還沒 ACK；看板有備援紀錄）。
-  - 發布步驟：審查確認的問題修好 → 在最新 commit 的乾淨工作樹重跑完整回歸（`tests/release_suite.sh` 已加 seated_look_unit、guide_unit、guide_flow、levels_no_sky）＋整合測試 → 快轉 main → 確認 Pages → RELEASES.md。
-- **本機分支的半成品**：宿舍走廊 `wip/dorm-hall`（`bf750b4`）→ `wip_backup/dorm-hall.bundle`；WIP，不可合併進要發布的版本。
-- **等使用者決定**：課表草案的 4 個問題（`docs/proposals/SCHEDULE_PROPOSAL.md`）；主線（要不要讀 AA／BB 的討論紀錄）。
-- **v9.5 之後**：手機＋主動邀約（#61）、課表（#57，等決定）、騎腳踏車（#59，Blender 腳踏車 ⑫ 派給 LAWWW2）。
+**2026-10-13 22:50 UTC（開發分支最新 `775dfc6`；線上 v9.5＝`a4f2760`，main 沒動）**：
+- **v9.6 候選版換成第三個 `a6c3d1a`**（在 `scratchpad/wt_rel`，備份 `wip_backup/v96-rc3.bundle`；開發分支同一個修正 `2a7c611`）。
+  - 候選 2 的 `flow_class_real` 第二次失敗。用瀏覽器逐格記錄（`scratchpad/diag/diag_class_exit.py`）找到原因：
+    - 第二天的劇情課期間，玩家一直在劇情裡，作息補人沒有跑。
+    - 15:11 下課後一補，同學在座位上憑空出現；15:12 時段結束，起身走向唯一的後門，和玩家同時到。
+  - 改法：要離開的人不擋出口按鈕；補人時，時段剩不到 15 分鐘的不補。
+  - 「開始以後很久才補人＝座位上憑空出現」（v9.5 就有）留在開發分支另外修。
+  - 回歸 37 項從頭跑（22:48 UTC 起，`flow_class_real` 第一）。
+- **`flow_linze_floors`** 在 v9.5 和候選 `5f66b67` 都在同一步失敗：停在座位旁 0.67 m，「坐下」沒出現。原因是測試點到的地面偏了，遊戲沒錯。`5bcd40d` 修了 `playlib.go_to`（停得不夠近用搖桿推一下），候選 3 的回歸用開發分支的測試工具跑這一項。
+- **整合 LAWWW2 `c15a648`**（`046dc50`）：博雅窗外景接上。坐姿替身、門模組、新社科院外觀的檔案也一起帶進來，但還沒接進遊戲。
+- `449cc4a`：新瀏覽器測試 `flow_first_meet.py`（還沒跑）。`4ee94d8`：「在她附近」的開放空間（spaceAt）。
+- v9.6 發布紀錄的草稿在 `scratchpad/rel_v96_entry.md`（發布後寫進 RELEASES.md）。
+
+**2026-10-13 22:25 UTC（開發分支最新 `f99f664`；線上 v9.5＝`a4f2760`，main 沒動）**：
+- **v9.6 候選版換成 `93877e9`**（＝`5f66b67`＋docs-only `f9b9017`＋互動按鈕修正）。在 `scratchpad/wt_rel`，還沒 push 到任何遠端分支；開發分支有同一個修正 `0bd4333`。
+  - 起因：發布回歸 `flow_class_real` 在 `5f66b67` 失敗。下課時同學停在後門旁邊，「離開教室」被「和郭沛珊說話」蓋掉。
+  - 原因：`a77f1f9` 讓走路的人在玩家走近時停下，加上 `E.nearestInteractable` 原本讓人對所有互動點先讓 0.5 m。
+  - 改法：人只優先於旁邊的椅子，門口、出口照距離。新測試 `tests/interact_priority_unit.js`，改之前會失敗。
+  - 在 `93877e9` 上：44 個 Node 檢查全過（`scratchpad/q/rc_node2.txt`）。
+  - 瀏覽器回歸 37 項從頭重跑：`q/FF` 快轉 wt_dev，`flow_class_real` 排第一，之前在 `5f66b67` 過的 9 項排在最後。
+  - `flow_linze_floors` 在舊版 `5f66b67` 失敗了一項（走到第 2 排座位時還在走、沒出現「坐下」）。那時我同時在跑 Node 測試，可能是搶 CPU；新版會重跑，結果再看。
+  - 全部通過才 fast-forward 到 main。
+- **AA 回報的初遇問題已修（`f99f664`，開發分支，不在 v9.6）**：
+  - P1-1：還沒認識的女主角，搭話不算認識（不加熟悉度、不揭露名字）。
+  - P1-2：傅鐘事件要先認識芷若。
+  - P1-3：芷若週五 12:10–12:40 在普通 101 門口的走廊（新作息 `linger`，起身走過去，不瞬移）。「在她附近」的自動事件要同一層、同一空間。
+  - P2：阿凱的目標寫第 5 週起、多功能教室。沒有社課的日子，門口寫社課時間。
+  - 已回覆 AA（DELIVERED）。瀏覽器初遇流程排在發布回歸之後。
+- 以下 22:00 的項目照舊。
+
+**2026-10-13 22:00 UTC（開發分支最新 `5ebb19e`；線上 v9.5＝`a4f2760`，main 沒動）**：
+- **v9.6 發布進行中**（使用者 10-13「有可以先玩的可以先放進遊戲發布」）：
+  - 候選版 `5f66b67`＝開發分支 `1847ed5`＋標題畫面「版本 v9.6（2026-10-14）」＋script 版本號 9.6-1。
+  - 不含 `1e8b90f` 以後的東西：睡覺與小睡改版、課堂討論、社團、AA_120 第 7 節。
+  - 乾淨 checkout（`scratchpad/wt_dev`，port 8768）跑發布前回歸（27 項）。目前通過：
+    - deploy_check、p0_movement、joystick_direction、save_compat_v7（v7 server：`scratchpad/wt_v7` port 8791）
+    - save_compat_v95：`1539797` 修測試等待時間，不是遊戲的問題
+    - zone_transitions
+  - touch_flow_wenzhou 在跑。
+  - 佇列執行器到 2 小時會被停，停了就把那一項重排、再啟動 `run_q.sh`。
+  - 全部通過後：合併到 main（不 force）＋docs-only 的 `5ebb19e` 一起進去（拿掉 D56 一句不屬於遊戲設定的話）→ 確認 Pages 部署 → RELEASES.md。
+- **開發分支新增（不在 v9.6；Node 測試全過、瀏覽器還沒跑）**：
+  - `6ba24c2`：BB 課程大綱 00b4ec3、討論型 B 課堂（AA_119：看法、同學回應、教授收尾、記錄、回想、理解）、翹課的群組轉述（`discuss_unit`）。
+  - `e3e5811`：社團（AA_110 6-8）。吉他社、法服讀書會在萬才館門口參加；社團博覽會在椰林大道的公告欄；系籃在體育館門口；社課旁白（`clubs_aa110_unit`）。
+  - `96c0e73`：AA_120 第 7 節。五處改字、20 位不熟同學 60 句、年級跟著遊戲、學長姊畢業、舊存檔女主角初遇遷移（先備份）（`aa120_s7_unit`）。
+  - `5ebb19e`：決策 D57（公開文件標示與隱私）、D58（以安新版，AA 轉述）。
+- **等使用者**：
+  - 以安三處要不要改（母親法官：ev_an_mother、第二天三句、家庭欄；D50 第③級）。
+  - 舊存檔初遇遷移要不要放進正式版。
+  - Git 歷史裡 D56 舊寫法的處理方式（不擅自重寫歷史）。
+  - 方案 A（已預設放進 v9.6，除非使用者說不要）。
+  - 其他之前的待決定事項（社科院位置、黃昏調色、博雅平面圖）。
+- **等其他 AI**：AA 核對 AA_120 第 7 節、社團回報；LAWWW2 重拍鏡頭案例、坐姿替身＋門模組（`167fc2d`）等第三階段一起接。
+
+**2026-10-13 21:05 UTC（開發分支最新 `a77f1f9`；線上 v9.5＝`a4f2760`，main 沒動；以下都是 WIP、不可發布）**：
+- **第一階段（使用者經 LAWWW2 轉達：鏡頭穿牆是最優先的共用技術問題）**：
+  - `068f671` 室內鏡頭：貼牆時自動轉開（autoSwing）、往前看、抬高變少；公告欄加進鏡頭碰撞。`teach_cam_walls_unit` 重現 LAWWW2 的 10 個案例（數字一樣），修改前 14 項失敗、修改後全過。瀏覽器截圖 `tools/shots/cam_swing_shots.py` 在佇列。
+  - `8234015`＋`a77f1f9` 座位上的人先套好坐姿再畫（E.prePose：addNPC、sitAt、spawnNPC、換正式模型）。新瀏覽器測試 `flow_seated_spawn.py`（包住 E.render，每一幀檢查；進教室、演講開始、讀檔、跳時間）——佇列先在舊版跑（要失敗）、再在新版跑。
+  - 已請 LAWWW2 在相同位置重拍（DELIVERED，等 ACK）。
+- **使用者試玩修正（續）**：
+  - `c772bab` 第一次見面的兩個錯（事件引擎先記 FIRST_MET；女主角沒見過時被一般自我介紹搶走）＋手機分頁橫向會捲走。
+  - `0d7d7f4` 閒聊條件照 AA_120（只加條件、不改字）；不熟同學資料修正。
+  - `a77f1f9` 走走的人玩家走近 2.8 m 就停下來（追著按「說話」很難）；`flow_playtest_fixes` 上一輪失敗是測試等太短（SwiftShader 0.5–1 fps），已改。
+- **佇列（`scratchpad/q/queue.txt`，不在 GitHub）**：flow_seated_spawn（舊版）→ 快轉 `a77f1f9` → flow_seated_spawn → cam_swing_shots → indoor_camera_occlusion → flow_playtest_fixes → flow_invite_phone → save_compat_v95 → flow_course_choice → 其他回歸（main_day12、classes、soclib、teaching_buildings、study_legal、campus_glb、campus_layout_nav、zone_transitions、see_through、p0、touch_flow_wenzhou、minimap、class_real、reachability_all、boya_interior）。
+- **接下來**：佇列結果逐項看、修；LAWWW2 重拍結果；AA_110 第 6 節（#99）、BB syllabus（#100）；v9.6 要等使用者確認方案 A＋完整回歸。
+- **等待**：使用者（方案 A、社科院位置與圖書館時間、黃昏調色、博雅官方平面圖、LAWWW2 轉達的決定請使用者確認）；LAWWW2 ACK。
+
+**2026-10-13 20:00 UTC（開發分支最新 `439de48`；線上 v9.5＝`a4f2760`，main 沒動）**：
+- **使用者試玩回報的修正**（單元測試過；瀏覽器流程 `flow_playtest_fixes.py` 在佇列）：
+  - `6bd4072` 閒聊看情境、不重複：高子晴三句要吉他社之後；B 層同學改旁白。
+  - `2e964bb` 林芷若時段結束先走到出口才離開。
+  - `c829d1d` 跟著人走時被牆擋住改找路。
+  - `566f60c` 小睡。
+  - `3ed2286`「帶我去」找朋友。
+- **ChatGPT 審查**：
+  - `cd11ae7` **選課結果**（AA_104 第 2 節原本沒做）：開學前一天早上選選修，大一下的法律與社會可以不修；`course_select_unit` 17 項。
+  - `cd11ae7` 五年日曆評估第二版（`docs/TIMELINE_COMPAT_AUDIT.md`：6 處程式＋6 個事件的風險、遷移步驟；沒改程式）。
+  - `6ffafc0` 連續多週模擬（173 天）、缺席條件；`docs/TESTING.md` 第九節（模擬／瀏覽器／iPhone 對照、多週瀏覽器方案）。
+  - `439de48` 方案 A 驗收資料（`docs/campus/TEACHING_BUILDINGS_PLAN.md` 第 6 節：導航資料畫的俯視圖、影響範圍、路線、替代方案 A～E、舊湖邊存檔）。
+  - 新的瀏覽器測試：`flow_course_choice.py`、`save_compat_v95.py`（要 v9.5 的 server：`scratchpad/wt_main` port 8769）。
+  - `b5518b8` 社科院圖書館招牌寫「辜先生紀念圖書館」。
+- **瀏覽器測試改成佇列**：
+  - 腳本 `scratchpad/run_q.sh`；佇列 `scratchpad/q/queue.txt`，結果 `scratchpad/q/Q.txt`；`q/FF` 寫 commit＝下一個測試前快轉 `wt_dev`。這些都不在 GitHub。
+  - 批次 3 停掉了（跑的是少了試玩修正的舊版）。批次 3 跑完的：flow_lecture_attend、indoor_camera_occlusion **ALL PASS**；flow_soclib 在舊版失敗（座位停止距離，`6bd4072` 已改測試）。
+  - 佇列結果：flow_invite_phone 在 `cd11ae7` 失敗＝**測試按錯按鈕**（「等到晚上」的值是 `20.000`），`4806aeb` 修好、重排。
+  - 還在跑：flow_boya_interior → flow_invite_phone → flow_course_choice → flow_playtest_fixes → save_compat_v95。
+- **接下來**：
+  1. 佇列結果。
+  2. 剩下的回歸：soclib、campus_glb、see_through、campus_layout_nav、teaching_buildings、study_legal、zone_transitions、p0、touch_flow_wenzhou、reachability_all。
+  3. 看板 55fbedb ACTIONED、通知 LAWWW2。
+  4. 回報使用者方案 A 的驗收資料。
+  5. v9.6 準備：版本號、完整回歸；方案 A 要使用者先確認。
+- **等待**：
+  - 使用者：方案 A、社科院斜對面、社科院圖書館開放時間。
+  - AA：每週必修、閒聊條件。
+  - LAWWW2：ACK。
+
+**2026-10-13 19:05 UTC（開發分支最新 `6b0e711`；線上 v9.5＝`a4f2760`）**：
+- **開發分支新增**（都是 WIP，不可發布；方案 A、社科院等使用者驗收）：
+  - `b6fffb1` 手機訊息與邀約（D54 ⑥，一般系統；人物的個性、台詞等 AA、BB 的內容批准後才放）；`dae1da3` 新測試 flow_invite_phone。
+  - `4e2db1f` 博雅一樓自習區第二版：雙人小桌兩列 × 六張（面對面，24 席）、圓桌兩張、南面窗下沙發（LAWWW2 審查 c5e2170 第 3 節；審查提案的 16 張要等大廳改版）；
+    seatApproach 的遠備用位置（前 0.8、後 0.9）要路短 0.5 m 以上才選。
+  - `cffc97e` playlib：**批次 1、2 的博雅「卡死」查明是測試誤點**——點地面時點到左上角的「下一堂課」（點了打開手機、遊戲暫停；批次 1 的截圖就是開著的手機）。
+    現在點之前檢查那一點和四周 14 px 都是遊戲畫面；走路途中發現手機／選單／地圖開著就關掉並記下。瀏覽器同一條路線 700 秒沒有停住（每秒約 2.3 格）。
+  - `6b0e711` 邀約：一起做過的事（一起吃過飯、散步過）算關係夠；**第一、二天劇情加的關係（舊版 G.rel）原本沒進 SOCIAL**（阿哲 +7、小安約 +16 不見了）——
+    現在 GM.rel 兩邊一起加，舊存檔讀檔時補一次（`_relSync`）。新測試 social_rel_sync_unit（修改前 6 項失敗）。
+  - node 單元測試 29 個全過。
+- **瀏覽器批次 2**（`29c54cd`＋`d617ad1`）跑到 campus_glb_integration 就停了（剩下的改在批次 3 用最新的程式跑）：
+  - campus_glb_integration：實質檢查（導航格、鏡頭碰撞、互動點、效能、陰影、窗）全過；失敗的 4 項是測試的 TAGS 沒有共同、大一女舍（`4e2db1f` 補上）。
+  - flow_boya_interior：201 的「坐下」沒出現（seatApproach 選到椅子後面 0.9 m）＋誤點手機；flow_soclib、flow_lecture_attend 是已經修好的舊問題。
+- **瀏覽器批次 3 正在跑**（工作樹 `scratchpad/wt_dev`，port 8768；腳本 `scratchpad/run_b3.sh`，結果 `scratchpad/b3/B3.txt`，不在 GitHub）：
+  前兩項（flow_invite_phone、flow_boya_interior）是 `cffc97e`，之後的是 `6b0e711`。flow_invite_phone 在 `cffc97e` 失敗（阿哲說還不太熟）＝`6b0e711` 修的問題，批次 3 跑完要重跑。
+  批次跑的時候不要改 `wt_dev`（伺服器直接讀工作樹）；要改的在 `scratchpad/wt_next`（分支 int/next）。
+- **接下來**：批次 3 結果 → 重跑 flow_invite_phone → 看板 55fbedb 標 ACTIONED、通知 LAWWW2（博雅自習區第二版的桌椅位置也要告訴它：它在做桌椅模組）；
+  查「聽眾剛出現時站著」（瀏覽器）；博雅大廳新舊截圖給使用者；v9.6 發布前：script 版本號、完整回歸、方案 A 與社科院要使用者先驗收。
+- **等待**：使用者（方案 A／B、社科院斜對面、社科院圖書館開放時間）；LAWWW2（社科院新外觀進行中；18:0xZ 的 a–d 回覆等 ACK）。
+
+**2026-10-13 18:25 UTC（開發分支最新 `77deeab`；線上 v9.5＝`a4f2760`）**：
+- **開發分支新增**（都是 WIP，不可發布；方案 A、社科院等使用者驗收）：
+  - `defd65c` AA_110 第 5 節一般系統：出席三態（聽完／中途離開／沒去，`src/game3d.js` 的 actTrack＋`ACTIVITIES.track`）、人物在場四級（npcZone／npcRoom／npcPresent／npcNear）、習慣記憶（`EVENTS.habit`、G.habits）；
+    55fbedb（共同、大一女舍外觀）的接線也在這裡（c747b45、f3a18d6）。
+  - `29c54cd` 一週兩格的第二格（BB second_slot_lines）與國定假日、人物作息「一個時間只有一筆」（story3d.js 的 schedEnt）、2025 年入學這一屆 presence from Y1S1、芷若大一上的週五。
+  - `d617ad1` BB 3bd5238 課堂內容、經原（下）改總體經濟（AA）；`8c2fa01`、`b6fa24e` 教學館鏡頭不再跑到隔間牆後面＋入口門框淡出（LAWWW2 審查 P1）；
+    `5aaa306` 教學館桌椅合併（網格數博雅 623→176）；`77deeab` 社科院天窗調暗兩次的 bug。
+  - 單元測試 28 個全部通過（新的：aa110_systems_unit、teach_cam_walls_unit、teach_perf_unit）。
+- **瀏覽器批次 2**（整合工作樹 `scratchpad/wt_int`＝`29c54cd`＋`d617ad1`，port 8767；腳本 `scratchpad/run_b2.sh`、結果 `scratchpad/b2/B2.txt`，不在 GitHub）：
+  - flow_soclib：上一版的兩個失敗（手機清單沒滑、手機開著遊戲暫停）修好通過；新失敗是測試停的位置差 2 cm 在互動半徑外——已改用 GAME.seatApproach（`77deeab`，要重跑）。
+  - flow_lecture_attend：第一次是測試本身的 Python 格式字串錯（已修，要重跑）。
+  - 其他還在跑：博雅、校園 GLB（55fbedb）、see_through、campus_layout_nav、教學館、讀書、zone_transitions、p0、reachability。
+  - 批次 1 的博雅流程卡在 101 門口（時間停了），在乾淨環境重現不出來；批次 2 重跑看看。
+- **接下來**：批次 2 結果 → 對 `77deeab` 跑批次 3（flow_soclib、flow_lecture_attend、indoor_camera_occlusion 的教學館五個情境、看博雅畫面）→ 看板把 55fbedb 標 ACTIONED、通知 LAWWW2；
+  查 LAWWW2 說的「聽眾剛出現時站著」（它的 probe 讀的是骨架，可能包含畫面外沒更新的人，要在瀏覽器確認）；之後：手機訊息與邀約（D54 ⑥）。
+- **等待**：使用者（方案 A／B、社科院斜對面、社科院圖書館開放時間）；LAWWW2（社科院新外觀；18:0xZ 的 a–d 回覆等 ACK）。
+
+**2026-10-13 17:35 UTC（開發分支最新 `4eb34ce`；線上 v9.5＝`a4f2760`）**：
+- **v9.5 已發布**：
+  - main 快轉到 `a4f2760`，GitHub Pages #14 在 16:54:06 UTC success。
+  - 下一次發布最早 19:54:06 UTC。
+  - 發布紀錄在 `docs/RELEASES.md`。
+- **開發分支新增**（都是 WIP，瀏覽器回歸還沒跑完，不可發布）：
+  - LAWWW2 五批合併進來：法圖正式模型、⑤⑥、⑬、⑭ 118 巷素材、⑫ 腳踏車素材。
+  - 社科院第①步 `0e08733`：新區域 soclib（`src/soclib3d.js`），校園社科院正面有門。開放時間沒查證，門不擋。
+  - 程式審查 16 項的修正：每項都有修改前失敗的測試。
+  - 方案 A 的前後比較：VISUAL_REVIEW 第 23 節，已給使用者，**等使用者決定 A／B**。
+  - BB 課表內容重新匯入、特殊課堂週次對齊、活動四個時段（`4eb34ce`）。
+- **瀏覽器批次 1 跑到一半**：腳本 `scratchpad/run_b1.sh`，結果寫在 `scratchpad/b1/B1.txt`，不在 GitHub，**中斷了要重跑**。
+  - 社科院窗景已拍好，在主工作樹，還沒 commit。
+  - 接下來：flow_soclib、flow_study_legal、flow_boya_interior、flow_teaching_buildings、campus_glb_integration、reachability_all、campus_layout_nav、zone_transitions。
+- **接下來**：
+  1. 接 LAWWW2 `55fbedb`（共同、大一女舍外觀；接線照它 VISUAL_REVIEW 20.5、21.5）。
+  2. AA_110 第 5 節剩下的一般系統（任務 #87）。
+  3. 下次發布前：script 版本號改成 9.6-x，跑完整回歸。
+- **等待**：
+  - 使用者：方案 A／B；社科院斜對面可以嗎（南北對調已告訴 LAWWW2 是遊戲化）；社科院圖書館開放時間。
+  - LAWWW2：社科院新外觀開工時回 ACK。
+- **注意**：審查第 15 項（寫死的人物生成不看 presence）在填 presence 資料時要一起做，見 `docs/STORY_EVENT_SCHEMA.md`。
+
+
+**2026-10-13 16:30 UTC 補充（最新 `a8a49e5`）**：
+- **v9.5 候選 `a4f2760` 的重跑**：
+  - flow_main_day12、guide_flow、flow_linze_floors 在安靜環境重跑**都通過**。
+  - flow_library_scene 兩次都失敗，**原因是測試的等待時間，不是遊戲**。除錯紀錄：SwiftShader 在總圖大廳只剩約 1 fps，兩個人要 146 秒實際時間才走到座位；最後都坐在劇情座位、二樓 5.0 m，沒用到走路保險。原本等 120 秒就截止。
+  - 測試已改（24e7770）：上限 10 分鐘，判斷標準不變。
+  - **還要重跑**：flow_library_scene（新測試、對候選）、movement_regression（A5）。腳本 `scratchpad/run_v95_rerun3.sh`。**全部通過才發布**。
+- **開發分支新增**：
+  - 課表同步企劃（5fc20ee）：54 門課的代號、BB 的每週課堂內容、舊存檔遷移。
+  - 事件介面五種狀況（1f21f67）：旗標的值、演講到場、上課出席、事件層次上限、出錯不重試、坐著上完課同學走出去。
+  - 五年日曆＋世界觀定案 D56（24e7770）：經濟系大一 Y0S1、Y0S2。
+  - 人物在不在學校的機制（a8a49e5）：資料等 AA 確認。
+- **使用者 2026-10-13 世界觀定案（D56）**：現代台大；新社科院在霖澤館對面、從經濟系大一第一天就存在；取消徐州路。
+  - 社科院盤點與最小方案寫在 `docs/campus/SOCSCI_PLAN.md`，截圖拍攝中；原地沿用，外觀交給 LAWWW2 做 Blender。
+  - 已通知 AA、BB、LAWWW2（DELIVERED）。
+- **等待**：
+  - 使用者：普通、博雅的方案 A／B；社科院方案。
+  - AA：人物出場條件三題、芷若週五行程、修改徐州路設定。
+  - LAWWW2：社科院規劃。
+
+**2026-10-13 15:30 UTC 補充（最新 `cb47e3d`）**：
+- **v9.5 候選 `a4f2760` 回歸：37 項中 33 項通過、4 項失敗；另外 movement_regression 42 項中 41 項通過**。
+  - flow_main_day12 失敗是**測試的競態**：狀態和劇情旗標分兩次讀，讀到「剛進校園、阿哲的劇情還沒開始」那一刻；截圖顯示劇情接著正常開始。已修測試（735c620）。
+  - flow_linze_floors、flow_library_scene、guide_flow、movement_regression A5 看起來是 CPU 被搶的時間問題（A5 那時同時在跑 Node 測試）。
+  - 在安靜環境下一項一項重跑（腳本 `scratchpad/run_v95_rerun.sh`、`run_v95_rerun2.sh`；結果只在本機）。**全部通過才發布；沒通過就照實回報、不發布**。
+- **開發分支新增（單元測試都通過，瀏覽器流程還沒跑）**：
+  - 共同教學館：修正牆在導航上擋不住（導航格原點；可以直接穿牆進教室）、共 101 改成階梯教室（735c620）、洗手間門口說明放錯邊（0b957de）。
+  - 博雅教學館室內第一版（cb47e3d）：101、102 階梯教室、沙發區、自習小桌、討論桌、講座資訊螢幕、2F 討論教室；**校園上還沒有門**（位置等使用者決定方案 A／B）。
+  - 講座人潮：活動資料有 zone、room 的演講會讓大教室坐滿聽眾（測試資料驗證；遊戲裡的活動清單是空的，等 AA、BB）。
+- **等待**：使用者（普通、博雅的位置 A／B）；AA（課程地點、日文上下學期、日曆三題）；LAWWW2（共同配置變更、博雅配置的 ACK）。
+
+**2026-10-13 14:42 UTC 補充（最新 `cdfccad`）**：
+- 開發分支新增（單元測試都通過，**瀏覽器流程還沒跑**）：
+  - 共同教學館室內第一版（`src/teach3d.js`＋`src/data/gongtong_layout.js`：大廳、走廊、四間教室、樓梯、休息區、自習區；課在 101 的 3D 教室上）；
+  - 大一女舍（A、B＋天橋、門口長椅、男賓止步）；
+  - 門口人流（`src/crowd3d.js`）；
+  - 手機「朋友」分頁；
+  - 事件介面（room／activity／npcHere）＋活動格式（`src/data/activities.js`，空的）；
+  - 自習區、休息區的椅子擋路。
+- v9.5 回歸：
+  - 32 項通過。
+  - **3 項看起來是機器太忙的時間問題**：flow_linze_floors 坐下、flow_library_scene 坐下等不到 120 秒、guide_flow 導航條還沒出現。都要在安靜時單獨重跑。
+  - 還沒跑完：flow_main_day12、save_compat 兩項、see_through、tap_floor_levels、movement_regression。
+
+**2026-10-13 14:15 UTC 狀態（LAWWW，帳號 A，`claude/confident-ritchie-8rwh7t`，最新 `e59c1ad` 之後）**：
+- **線上**：v9.4.2（main＝`dfd2618`）。**v9.5 候選＝`a4f2760`**（只含到萬才館兩階段、總圖大廳等；**不是**開發分支最新）。回歸在本機跑（結果在 scratchpad，不在 GitHub）：
+  - 已通過 29 項：單元測試、deploy_check、model_upgrade、zone_transitions、校園／公館導航、reachability_all、鏡頭遮擋、小地圖、搖桿、p0_movement、touch_flow_wenzhou、flow_class_real、stairs_cam_browser、萬才館兩項。
+  - **flow_linze_floors 失敗 1 項**：201 走到第 2 排第 5 個座位旁，人物一直「走路中」、「坐下」晚出現；一分鐘只移動 0.5 m，疑似模擬被拖慢，要安靜時單獨重跑確認，**沒確認前不發布**。
+  - 剩下：flow_library_floors、flow_library_scene、guide_flow、levels_no_sky、flow_main_day12、save_compat_v7、save_compat_live、see_through、tap_floor_levels、movement_regression。
+- **開發分支（沒發布，WIP）**：法律學院圖書館（D46、D53 開放時間）、日曆、八學期課表（D52）、手機（今天、課表、地點）、快速前往與時間跳轉（D54）、共同教學館與大一女舍（D55，外觀 BLOCKOUT）。單元測試全部通過；**瀏覽器的玩家流程（`tests/flow_classes.py`、`tests/flow_teaching_buildings.py`）還沒跑**。
+- **等待**：
+  - 使用者：普通、博雅的位置（方案 A／B，`docs/campus/TEACHING_BUILDINGS_PLAN.md`）。
+  - AA：課程地點衝突（法律系經濟學原理改普通教學館、日文上下在共同）、日曆三題、經濟系時間線。
+  - LAWWW2：三棟＋大一女舍分派的 ACK 與法圖進度。
+- **文件**：
+  - `docs/campus/TEACHING_BUILDINGS_PLAN.md`：位置查證、方案。
+  - `docs/campus/PUBLIC_BUILDINGS_DESIGN.md`：通用系統設計。
+  - `docs/TIMELINE_COMPAT_AUDIT.md`：經濟系時間線相容性。
+  - D55。
+
+
+**值班登記（最新）：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜分支 claude/confident-ritchie-8rwh7t｜接班基準 `cb399ea`｜2026-10-13 UTC｜使用者說「我回來了，請同步 GitHub 最新進度，接續工作。」；交班之後（10-11 10:16 之後）所有遠端分支都沒有新 commit，也沒有帳號 B 的分支——沒有要合併的東西。使用者隨後說明：**帳號 B 這次沒有開**，各職位從上次停下的地方接續。**
+**使用者 2026-10-13 測試回報的問題與解法（LAWWW 列給使用者的清單，之後照這個做）**：
+- v9.5 已修：導航與教學、入口名牌、開放時間、大地圖、朋友在哪、走路速度與快速前往、室友轉圈、假騎士拿掉、樓梯看到天空／樓板擋人、窗景、店員、吃麵後目標、生活費。
+- 待做（v9.6 起）：①主要地點從第一天就能「快速前往」（總圖、霖澤館、萬才館、法圖、宿舍、公館、溫州街、Café；花遊戲時間；關門寫幾點開）＋課表「直接去上課」；②「跳過時間」（到下一堂課前／下午／晚上／明天早上，遇到課、約定、事件會停）＋普通課堂快轉＋沒事的日子一鍵跳過；③手機朋友頁＋大地圖標朋友位置與在做什麼，可觸發事件的人顯示提示（只寫地點時間）；④遊戲內手機：今天、課表、訊息（班群、麵店群、個人）、朋友（邀約：人＋地點＋時間）、地圖——先做外框＋今天＋課表（和課表系統一起），再做訊息與邀約（台詞 AA／BB）；⑤課表系統照 AA_103／AA_104（D52）；⑥人物 bug：陳語彤領口蝴蝶結（要圓領上衣模型）、Blender 新版只在 ?blchar（等使用者看）、人穿過椅子（座位區擋椅子）、店家老闆用學生模型（要中年模型）、路人重複、騎車沒踩踏板、2D 立繪只有一種。
+**使用者 2026-10-13：課表交給 AA 規劃，LAWWW 寫進遊戲前先跟 AA 確認（D51）；同一天改成直接執行（D52）：AA 完成八學期課表、交接給 LAWWW，LAWWW 直接做完整課表與每日上課系統（上課／翹課／自學），不用再等使用者批准，完成後回報。**
+**使用者 2026-10-13：「劇情部分還要修改，我會再跟 AA 討論，你先做好場景」**——大一上 v1 劇情實作暫緩（D50），LAWWW 先做場景：①v9.5 最終回歸＋發布；②場景（萬才館法律學院圖書館、118 巷、總圖擴充、宿舍走廊、出遊場景）。
+
+**交班（上一次）：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜2026-10-11 10:13 UTC｜正常交班｜最後 commit＝訊息開頭「LAWWW（帳號 A）交班」的那一個（`git log -1 --grep="LAWWW（帳號 A）交班" origin/claude/confident-ritchie-8rwh7t`）。之後帳號 A 的 LAWWW 不再寫入，直到使用者說「我回來了，請同步 GitHub 最新進度，接續工作。」**
+- 交班時停掉的背景工作（結果都只在 LAWWW 的工作階段裡，**不在 GitHub，接班的人要重做**）：①v9.5 最終回歸——對最新 commit 的那一輪還沒開始；舊候選 `01145ae` 的 `release_suite.sh` 全部 PASS（含 save_compat 兩項；當時唯一失敗的 indoor_cam_occlusion 已在 `f68f97a` 修好）；②對 `01145ae..HEAD` 的修改審查（沒有結果）；③接班總入口檢查（沒有結果）；④出遊場景規劃（沒有結果）。
+- **LAWWW-B 第一件事**：在最新 commit 的乾淨工作樹（`git worktree add --detach <資料夾> origin/<最新分支>`、在那裡開 `python3 -m http.server`）跑 `tests/release_suite.sh`＋`tests/see_through.py`、`tests/tap_floor_levels.py`、`tests/stairs_cam_browser.py`（新寫、還沒跑過，可能要修）、`tests/movement_regression.py`；有空就重跑修改審查；**全部通過才發布 v9.5**（三小時規則已滿足：上一次發布 07:02:57 UTC）。發布步驟見 `docs/RELEASES.md` v9.5 草稿與 `docs/TESTING.md` 第五節。
+- 等待中：LAWWW2 的 ⑤⑥ 交付（它的 `-wip-props6`，合併後回歸還沒跑）；大一上 v1 劇情實作（D50，v9.5 之後）。
+
+值班登記：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜分支 claude/confident-ritchie-8rwh7t｜接班基準（制度建立時）`13e53b2`｜2026-10-11 09:50 UTC
+上一班：還沒換過班。跨帳號接班（帳號 A ⇄ B）的總入口：`docs/AI_SESSION_HANDOFF.md`（D49）。
+
+- **時間**：2026-10-11 10:06 UTC（**緊急保存：使用者週用量 98%**）｜**分支**：`claude/confident-ritchie-8rwh7t`｜**最新**：`git log -1 origin/claude/confident-ritchie-8rwh7t`（這次保存是 `e747724` 之後的文件 commit）。本機工作目錄乾淨，沒有未推送的檔案。
+- **線上版本**：v9.4.2（main＝`dfd2618`）。**v9.5 還沒發布**（最早 10:02:57 UTC 起可以，但要先跑完下面的測試）。
+- **v9.5 候選＝開發分支最新**（CHECKPOINT_SAVED，不能直接發布）：
+  - 單元測試全部 PASS：`node` 跑 `tests/release_suite.sh` 前段的 *_unit（含新的 stairs_cam_slab_unit、schedule_refresh_unit、allowance_unit、guide_unit）。
+  - **還沒做**：①在最新 commit 的乾淨工作樹跑完整 `tests/release_suite.sh`（瀏覽器，約 75 分鐘）＋ `tests/see_through.py`、`tests/tap_floor_levels.py`、`tests/movement_regression.py`；②`tests/stairs_cam_browser.py`（新寫，還沒跑過，可能要修）；③審查工作流程（wcxaihpvm，01145ae..HEAD 的修改）的結果——在 LAWWW 的工作階段裡，沒有寫進 GitHub，工作階段停了就要重跑審查；④通過後快轉 main、確認 Pages、更新 RELEASES.md。
+  - 舊候選 `01145ae` 的回歸（只當參考）：release_suite 到 flow_main_day12 全部 PASS（indoor_cam_occlusion 失敗已修 `f68f97a`），save_compat 兩項跑到一半——結果在本機 scratchpad，不在 GitHub。
+- **本機分支的半成品**（都有 git bundle 在 `wip_backup/`，還原方法見 `wip_backup/README.md`）：宿舍走廊 `wip/dorm-hall`（`bf750b4`，WIP，還沒在瀏覽器實測）；`wip/wancai-stairs`（`8b08c61`，已被開發分支取代，只是備份）。其餘 `wip/*` 本機分支都已包含在開發分支裡。
+- **進行中的規劃**（在工作階段裡，沒有寫進 GitHub；停了就重跑）：出遊場景規劃工作流程 w0pqyjodd（v9.5 之後；需求：溫州街散步、公館吃飯街區、校園夜景、河堤，排名＋規格，見對話與 RELEASES 草稿）；接班總入口的檢查 wmo10jb55。
+- **等使用者決定**：課表草案的 4 個問題（`docs/proposals/SCHEDULE_PROPOSAL.md`）。
+- **已批准、排在 v9.5 之後**：大一上 v1 劇情實作（D50，三級修改權限）；手機＋邀約（#61）、騎腳踏車（#59，LAWWW2 ⑫）、118 巷（#65，配置 `src/data/lane118_layout.js`、LAWWW2 ⑭）、法律學院圖書館（#66，配置 `src/data/lawlib_layout.js`）＋辜先生紀念圖書館（LAWWW2 ⑬）。
+- **LAWWW2**（10:05Z 緊急保存要求已送出＋看板）：遠端分支 `claude/second-ai-env-art`（`ae94b8e`）、`-wip-pavsoc`（`8c6f1fe`）、`-wip-props6`（`fa626b9`）、`-wip-trees`（`d7916da`）；進度檔 `docs/art-rebuild/second_ai/HANDOFF.md`（在它的分支）。
 
 ## CURRENTLY WORKING ON — 現在正在修改什麼
 

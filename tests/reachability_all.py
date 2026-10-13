@@ -18,7 +18,7 @@ import playlib as L
 
 URL = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith('--') else 'http://127.0.0.1:8765/index.html'
 LEGACY = '--legacy' in sys.argv
-ZONES = ['campus', 'gongguan', 'wenzhou', 'classroom', 'wancai', 'library_hall', 'library', 'cafe', 'cvs', 'noodle', 'bookstore', 'dorm']
+ZONES = ['campus', 'gongguan', 'wenzhou', 'classroom', 'wancai', 'library_hall', 'library', 'cafe', 'cvs', 'noodle', 'bookstore', 'dorm', 'lawlib', 'gongtong', 'boya', 'putong', 'soclib']   # 2026-10-13：法圖、三棟教學館（博雅、普通校園上的門等方案 A／B，讀檔進去測）
 if '--zones' in sys.argv: ZONES = sys.argv[sys.argv.index('--zones') + 1].split(',')   # 只測某幾個區域（開發時用；發布前要全測）
 FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'lawclub': True, 'wenzhouLine': True}
 

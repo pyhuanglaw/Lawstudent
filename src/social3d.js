@@ -7,7 +7,9 @@ const SOCIAL = (function(){
   const DIMS=['fam','trust','aff','resp','comf','rom'];
   S.STAGES=['STRANGER','ACQUAINTANCE','FAMILIAR','FRIEND','CLOSE_FRIEND','POSSIBLE_ROMANTIC_INTEREST','ROMANTIC_TENSION','RELATIONSHIP'];
   S.bind=function(g){ G=g; if(!G.social) G.social={rel:{},mem:{},reveal:{},prof:{},grad:{interest:'NONE',field:null,prep:0}}; // 舊版 G.rel（單一數字）→ familiarity
-    if(G.rel){ for(const id in G.rel){ const map={an:'heroine_01',sis:'heroine_05'}; const cid=map[id]||id; const r=S.rel(cid); if(!r._migrated){ r.fam=Math.max(r.fam,G.rel[id]); r.trust=Math.max(r.trust,Math.round(G.rel[id]*0.6)); r._migrated=true; } } } return G.social; };
+    if(G.rel){ for(const id in G.rel){ const map={an:'heroine_01',sis:'heroine_05'}; const cid=map[id]||id; const r=S.rel(cid); if(!r._migrated){ r.fam=Math.max(r.fam,G.rel[id]); r.trust=Math.max(r.trust,Math.round(G.rel[id]*0.6)); r._migrated=true; } }
+      /* 2026-10-13 之前的存檔：第一、二天劇情加在 G.rel 的關係沒有進來（game3d.js 的 rel 現在兩邊一起加）——補一次（只補一次：之後關係變淡不會又被拉回來）*/
+      if(!G.social._relSync){ for(const id in G.rel){ const map={an:'heroine_01',sis:'heroine_05'}; const r=S.rel(map[id]||id); r.fam=Math.max(r.fam,G.rel[id]); r.trust=Math.max(r.trust,Math.round(G.rel[id]*0.6)); } G.social._relSync=1; } } return G.social; };
   S.rel=function(id){ const R=G.social.rel; if(!R[id]) R[id]={fam:0,trust:0,aff:0,resp:0,comf:0,rom:0,npcRom:0,seen:0,talked:0}; return R[id]; };
   // 調整維度：delta 物件 {fam:+3,trust:+2,...}；不顯示數字給玩家
   S.adjust=function(id,delta,why){ const r=S.rel(id); for(const k in delta){ if(k in r||DIMS.includes(k)||k==='npcRom'){ r[k]=Math.max(0,Math.min(100,(r[k]||0)+delta[k])); } } if(why) S.remember(id,'ADJUST',why); return r; };
@@ -22,7 +24,10 @@ const SOCIAL = (function(){
   S.noticed=function(id){ const r=S.rel(id); r.seen++; if(S.reveal(id)==='UNKNOWN'&&r.seen>=3) G.social.reveal[id]='RECOGNIZABLE'; };
   S.talkedTo=function(id){ const r=S.rel(id); r.talked++; if(['UNKNOWN','RECOGNIZABLE'].includes(S.reveal(id))) G.social.reveal[id]='ACQUAINTANCE'; if(r.fam<5) r.fam=5; const st=S.stage(id); if(st==='FRIEND'||st==='CLOSE_FRIEND') G.social.reveal[id]='FRIEND'; };
   // 顯示名稱：依揭露階段
-  S.displayName=function(id){ const c=CHARACTERS[id]; if(!c) return id; const rv=S.reveal(id); if(c.social_layer==='B'){ if(rv==='UNKNOWN') return (c.year? '法律系'+['','一','二','三','四'][c.year]+'年級的'+(c.gender==='f'?'女生':'男生') : '法律系學生'); if(rv==='RECOGNIZABLE') return c.descriptor; return c.name; } if(c.social_layer==='D'&&rv==='UNKNOWN'&&!S.has(id,'FIRST_MET')) return c.gender==='f'?'不認識的女生':'不認識的男生'; return c.name; };
+  /* 不熟同學（pool_*）顯示的年級跟著遊戲走（AA_120 7-3）：資料上的 year 是玩家大一時的年級，玩家每升一年他們也升一年（大四封頂）；放假期間照上一個學期算 */
+  S.playerYear=function(){ const t=typeof STORY!=='undefined'&&STORY.termAt?STORY.termAt(G.day):(typeof CALENDAR!=='undefined'&&CALENDAR.termOf(G.day)?CALENDAR.termOf(G.day).id:null); const m=/^Y([1-4])/.exec(t||''); return m?+m[1]:1; };
+  S.yearOf=function(id){ const c=CHARACTERS[id]; if(!c||!c.year) return 0; if(!/^pool_/.test(id)) return c.year; return Math.min(4,c.year+S.playerYear()-1); };
+  S.displayName=function(id){ const c=CHARACTERS[id]; if(!c) return id; const rv=S.reveal(id); if(c.social_layer==='B'){ if(rv==='UNKNOWN') return (c.year? '法律系'+['','一','二','三','四'][S.yearOf(id)]+'年級的'+(c.gender==='f'?'女生':'男生') : '法律系學生'); if(rv==='RECOGNIZABLE') return c.descriptor; return c.name; } if(c.social_layer==='D'&&rv==='UNKNOWN'&&!S.has(id,'FIRST_MET')) return c.gender==='f'?'不認識的女生':'不認識的男生'; return c.name; };
   S.meet=function(id,where){ if(!S.has(id,'FIRST_MET')){ S.remember(id,'FIRST_MET',where||''); G.social.reveal[id]=G.social.reveal[id]==='UNKNOWN'?'ACQUAINTANCE':G.social.reveal[id]; if(G.flags) G.flags['met_'+id]=true; } S.talkedTo(id); };
   // ---- 教授 ----
   S.prof=function(id){ const P=G.social.prof; if(!P[id]) P[id]={perf:0,part:0,office:0,research:0,rep:0,notes:[]}; return P[id]; };
@@ -37,7 +42,7 @@ const SOCIAL = (function(){
   S.gradSet=function(stage,field){ const g=G.social.grad; g.interest=stage; if(field) g.field=field; };
   // ---- 玩家可讀的摘要（人物面板用；不顯示數字）----
   S.describe=function(id){ const c=CHARACTERS[id]; if(!c) return ''; const st=S.stage(id); const label={STRANGER:'還不認識',ACQUAINTANCE:'認識',FAMILIAR:'有點熟',FRIEND:'朋友',CLOSE_FRIEND:'好朋友',POSSIBLE_ROMANTIC_INTEREST:'……有點在意',ROMANTIC_TENSION:'說不清楚的關係',RELATIONSHIP:'在一起'}[st]; const mems=S.memories(id).slice(-4).map(m=>MEMORY_LABEL[m.tag]?MEMORY_LABEL[m.tag]+(m.note?'（'+m.note+'）':''):null).filter(Boolean); return label+(mems.length?' · '+mems.join('、'):''); };
-  const MEMORY_LABEL={FIRST_MET:'第一次見面',SHARED_CLASS:'一起上課',SHARED_MEAL:'一起吃飯',STUDIED_TOGETHER:'一起讀書',HELPED:'幫過忙',REFUSED_HELP:'你拒絕過',ARGUED:'吵過',APOLOGIZED:'道過歉',SHARED_SECRET:'說過秘密',SHARED_UMBRELLA:'共撐一把傘',MISSED_DINNER:'放過鴿子',HELPED_WITH_REPORT:'幫她寫報告',STUDIED_ALL_NIGHT:'一起熬夜',ARGUED_ABOUT_CAREER:'為未來吵過',GRAD_SCHOOL_DISCUSSION:'聊過研究所',BAR_EXAM_DISCUSSION:'聊過國考',WALKED_TOGETHER:'一起走過校園',CAFE_AFTERNOON:'咖啡廳的下午',LIBRARY_AFTERNOON:'總圖的下午',DECLINED_INVITE:'你拒絕過邀約',CLASS_ANSWER_GOOD:'看過你答得很好',CLASS_ANSWER_BAD:'看過你被電',LENT_NOTES:'借過筆記',INVITED_CLUB:'邀你進社團',TALKED_FAMILY:'聊過家裡的事',RAIN_LIBRARY:'雨天圖書館門口',LATE_NIGHT_TALK:'深夜聊過',PLAYER_ASKED_QUESTION:'你問過她問題',CONFESSION:'告白',DATING:'交往',BREAKUP:'分手',EXAM_RESULT:'考試結果',GRAD_SCHOOL_RESULT:'放榜',IMPORTANT_CONVERSATION:'重要的對話'};
+  const MEMORY_LABEL={FIRST_MET:'第一次見面',GREETED:'打過招呼',SHARED_CLASS:'一起上課',SHARED_MEAL:'一起吃飯',STUDIED_TOGETHER:'一起讀書',HELPED:'幫過忙',REFUSED_HELP:'你拒絕過',ARGUED:'吵過',APOLOGIZED:'道過歉',SHARED_SECRET:'說過秘密',SHARED_UMBRELLA:'共撐一把傘',MISSED_DINNER:'放過鴿子',HELPED_WITH_REPORT:'幫她寫報告',STUDIED_ALL_NIGHT:'一起熬夜',ARGUED_ABOUT_CAREER:'為未來吵過',GRAD_SCHOOL_DISCUSSION:'聊過研究所',BAR_EXAM_DISCUSSION:'聊過國考',WALKED_TOGETHER:'一起走過校園',CAFE_AFTERNOON:'咖啡廳的下午',LIBRARY_AFTERNOON:'總圖的下午',DECLINED_INVITE:'你拒絕過邀約',CLASS_ANSWER_GOOD:'看過你答得很好',CLASS_ANSWER_BAD:'看過你被電',LENT_NOTES:'借過筆記',INVITED_CLUB:'邀你進社團',TALKED_FAMILY:'聊過家裡的事',RAIN_LIBRARY:'雨天圖書館門口',LATE_NIGHT_TALK:'深夜聊過',PLAYER_ASKED_QUESTION:'你問過她問題',CONFESSION:'告白',DATING:'交往',BREAKUP:'分手',EXAM_RESULT:'考試結果',GRAD_SCHOOL_RESULT:'放榜',IMPORTANT_CONVERSATION:'重要的對話'};
   S.MEMORY_LABEL=MEMORY_LABEL;
   return S;
 })();

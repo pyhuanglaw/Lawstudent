@@ -76,14 +76,19 @@ async def main():
             await pg.wait_for_timeout(1500)
         run.note(f'從平台點地面 {taps} 次')
         run.check('走上二樓就開始「總圖的下午」', bool(started), json.dumps(started, ensure_ascii=False))
-        t0 = time.time(); sat = None
-        while time.time() - t0 < 120:
-            info = await pg.evaluate("(()=>{ const P=GAME.E.player, n=GAME.npc.an, z=GAME.E.zone; const sA=z.seats[0], sB=z.seats[1]; return {pp:P.pose, py:+P.obj.position.y.toFixed(2), plv:P.lv|0, px:+P.obj.position.x.toFixed(2), pz:+P.obj.position.z.toFixed(2), ap:n&&n.pose, ay:n&&+n.obj.position.y.toFixed(2), ax:n&&+n.obj.position.x.toFixed(2), az:n&&+n.obj.position.z.toFixed(2), sA, sB, dlg:!!GAME.D.active}; })()")
+        # 兩個人走到座位：小安這時通常還在樓梯上（跟在後面），要走約 14 m（遊戲時間約 10 秒）。
+        # 2026-10-13：總圖大廳加了盆栽、自習區的人之後，SwiftShader 只剩 1 fps 左右，這段要 3 分鐘左右的實際時間（原本等 120 秒不夠，兩次都在走到之前就截止）。
+        # 等待上限放寬到 10 分鐘，判斷標準不變：兩個人都要自己走到、坐在劇情的兩個座位（高度 5.0 m）；走路卡住的保險只要用過一次（walkFallbacks）就算失敗，不會因為等久而放水。
+        t0 = time.time(); sat = None; info = None
+        while time.time() - t0 < 600:
+            info = await pg.evaluate("(()=>{ const P=GAME.E.player, n=GAME.npc.an, z=GAME.E.zone; const sA=z.seats[0], sB=z.seats[1]; return {pp:P.pose, py:+P.obj.position.y.toFixed(2), plv:P.lv|0, px:+P.obj.position.x.toFixed(2), pz:+P.obj.position.z.toFixed(2), ap:n&&n.pose, ay:n&&+n.obj.position.y.toFixed(2), ax:n&&+n.obj.position.x.toFixed(2), az:n&&+n.obj.position.z.toFixed(2), sA, sB, dlg:!!GAME.D.active, fb:GAME.walkFallbacks||0, done:!!GAME.G.flags.afternoonDone}; })()")
             if info['pp'] == 'sit' and info['ap'] == 'sit': sat = info; break
+            if info['fb'] or info['done']: break
             await pg.wait_for_timeout(500)
+        run.note(f'走到座位、坐下花了 {round(time.time() - t0)} 秒（實際時間）；走路保險 {info and info["fb"]} 次')
         await run.shot(pg, 'scene_seated')
         ok_seat = bool(sat) and abs(sat['px'] - sat['sA']['x']) < 0.05 and abs(sat['pz'] - sat['sA']['z']) < 0.05 and abs(sat['ax'] - sat['sB']['x']) < 0.05 and abs(sat['az'] - sat['sB']['z']) < 0.05 and abs(sat['py'] - Y1) < 0.3 and abs(sat['ay'] - Y1) < 0.3
-        run.check('兩個人走到二樓西側靠窗的長桌、面對面坐下（劇情的兩個座位、二樓 5.0 m）', ok_seat, json.dumps(sat, ensure_ascii=False))
+        run.check('兩個人走到二樓西側靠窗的長桌、面對面坐下（劇情的兩個座位、二樓 5.0 m）', ok_seat, json.dumps(sat or info, ensure_ascii=False))
         s = await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['busy'] and not q['dlg'] and not q['choices'], max_steps=120)
         await pg.wait_for_timeout(1500); s = await L.state(pg); await run.shot(pg, 'scene_end')
         fl = await pg.evaluate("(()=>{ const F=GAME.G.flags; return {afternoonDone:!!F.afternoonDone, companion:F.companion||null, goal:GAME.G.goal, hour:GAME.G.hour}; })()")

@@ -1299,3 +1299,992 @@ LAWWW 23:26Z 佇列的後備 ⑤（兩棟一起交，條件和總圖相同）。
 3. 社科院的一樓大廳裡面沒有東西（玻璃是深色反光，看不進去）；帶狀長窗裡也沒有窗簾或室內。
 4. 沒有 iPhone 實機驗證；效能用 `renderer.info` 量（見 13.4）。
 
+---
+
+## 14. 法學院廣場的近景小物：花台、公告欄、販賣機（⑥）
+
+LAWWW 佇列的 ⑥（法學院廣場的花台、公告欄、販賣機等近景小物）。三樣都加進街道道具的 GLB（`street_props.glb`，開機預載），`W3.planter()`、`W3.bulletin()`、`W3.vending()` 開頭換成正式模型（和路燈、腳踏車、長椅同一套接法；`?nobldg`、載入失敗照舊是程序化版本）。用到的地方：法學院前庭的花台 4 個、椰林大道北側的花台 2 個、霖澤館西側的公告欄與販賣機；AI-1 萬才館一樓的公告欄（`wancai3d.js` 也呼叫 `W3.bulletin()`）也一起換成正式模型（尺寸相同）。
+
+### 14.1 玩家會看到什麼不同
+
+| | 修改前（程序化） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 花台 | 一個灰色方塊＋一片綠色方塊＋幾顆彩色小球 | 水泥花槽（Poly Haven `concrete_wall_006`，壓頂外凸 2 cm、土比槽口低 8 cm）、茂密的小葉灌木（交叉的葉片卡＋頂上一層，本作程式產生的 `ivy_leaves` 葉片貼圖）、葉叢表面開著紅、黃、白、粉紅的五瓣小花 |
+| 公告欄 | 兩根柱子＋一塊板＋幾張純色方塊 | 木柱、木框（Poly Haven `dark_wood`）、軟木板、往前斜的小雨遮、九張 A4／A3 公告（稍微歪著貼、紅／藍標題＋灰色字行） |
+| 販賣機 | 紅色方塊＋一片淺藍色平面 | 台灣常見的飲料販賣機：紅色烤漆機身、往內 34 cm 的展示窗（背光日夜都亮、四層層板、罐裝與寶特瓶、層板前緣的按鈕條）、頂上的燈條、深灰投幣面板（會亮的金額顯示、紙鈔口、投幣口、找零口）、白底藍帶的廣告面板、取物口、底座 |
+
+**沒有改的東西**：每樣東西的位置、方向、尺寸範圍（花台 1.2×0.5、公告欄柱距 2.2 m、販賣機 1.1×1.9×0.8）、導航阻擋、互動點。
+
+### 14.2 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 花台、公告欄、販賣機（`prop.street`） | 完成 | `FUNCTIONAL_VERIFIED`（見 14.4） | `READY_FOR_ART_REVIEW` |
+
+### 14.3 規格
+
+- Blender 5.2 `bpy`：`tools/blender/env_second/street_props.py`（加 `planter_box()`、`bulletin_board()`、`vending_machine()`）→ `street_props.glb`：431 KB（原本 169 KB）；三角形：花台 314、公告欄 204、販賣機 872（腳踏車、路燈、長椅不變）。
+- 材質：花槽 `planter_conc`、土 `planter_soil`、葉片 `planter_leaf`（alphaMode MASK）、花／公告紙／飲料瓶／按鈕一個頂點色材質 `prop_vc`、軟木 `board_cork`、機身 `vend_body`、展示窗背光 `vend_light`（自發光）；木頭、深色鐵件和長椅、腳踏車共用。這些道具在區域裡和其他靜態物件一起合併（`P3.mergeStatic`），材質相同的合成一個網格。
+- 遊戲端：`world3d.js` 加 `formalProp(name)`，花、公告紙、飲料瓶、背光不投影。
+- 截圖檢查抓到、已修：販賣機第一版在陰影裡幾乎全黑——機身用了金屬度 0.3（遊戲沒有環境貼圖，金屬的部分只剩很暗的漫射光），取物口那一區和投幣面板又整塊塗成近黑色。改成不帶金屬的紅色烤漆、下半部只有取物口是深色（上面加白底藍帶的廣告面板）、投幣面板改深灰並加會亮的金額顯示、頂上燈條改自發光（三角形 848 → 872），重拍販賣機的兩組鏡頭、重跑 `street_props_integration`。
+- 中間遇到的問題：花台的葉片一開始幾乎看不見——葉片卡的 UV 層用 `new('UVMap')` 建，和其他零件的盒狀 UV 層（`verify()`）名稱不同，合併成一個網格時變成第二層，匯出的葉片 UV 全是 0（取到貼圖透明的角落）。改用 `verify()` 後正常（Blender 渲染確認）。
+
+### 14.4 測試結果
+
+測試都是 Playwright 手機模擬（不是 iPhone 實機）；log 在 `docs/art-rebuild/second_ai/test_logs/props6/`。
+
+**這一輪是 ⑤（洞洞館、社科院）和 ⑥ 一起、合併 AI-1 開發分支 `cb399ea` 之後的完整回歸**（2026-10-13；合併 `5b21aa0` 時已經整套跑過一次、全部通過，log 在 `test_logs/props6_5b21aa0/`；合併 `8afdece` 那一輪因為交班只跑完第一項，見 `test_logs/props6_8afdece_partial/`。修改前的截圖＝⑤＋AI-1 `5b21aa0` 那一版，只差 ⑥）。第一次跑 `street_props_integration` 時「花台在導航阻擋裡」**FAIL**（`street_props_integration_round1.log`：葉片卡最外到 x=0.74，比 1.2 m 的花台、導航阻擋多出 0.14 m——後排的葉片卡往右偏了 8 cm）→ 改模型（葉片卡最外到 |x|≤0.64 m）、重新匯出、重跑 PASS；其他測試第一次就通過。
+
+`street_props_integration` 31、`campus_glb_integration` 66、`campus_layout_nav` 67、`p0_movement` 34、`reachability_all` 53、`zone_transitions` 37、`wancai_glb_integration` 13、`see_through` 11、`gongguan_glb_integration` 39、`wz_street_integration` 42、`nav_buildings_unit` 126、`nav_levels_unit` 13、`kit_nav_check` 0：**全部通過**。`street_props_integration` 新加的檢查：三樣都是正式模型、外框在導航阻擋的範圍裡、著地（[-0.62, 0.637, 0, 0.81, -0.27, 0.27]}, "bulletin": {"formal": "prop.street", "box": [-1.32, 1.32, 0, 2.6, -0.12, 0.296]}, "vending": {"formal": "prop.street", "box": [-0.55, 0.55, 0, 1.9, -0.4, 0.425]}}；[-1.32, 1.32, 0, 2.6, -0.12, 0.296]；[-0.55, 0.55, 0, 1.9, -0.4, 0.425]）；校園畫面上有它們的材質，`?nobldg`、載入失敗時沒有（照舊程序化）；導航格、互動點、座位和 `?nobldg` 完全相同。`wancai_glb_integration`（AI-1 的萬才館）照舊通過。
+
+校園地標的效能（`campus_glb_integration`，道具在兩輪都是正式模型）：gate_avenue ×1.092、avenue ×1.033、plaza ×1.025、porch ×1.027…（全部 ≤ 1.1、三角形都比改之前少）。
+
+### 14.5 遊戲內截圖（修改前｜修改後；修改前＝上一版的遊戲：這三樣是程序化版本；17:30 凍結遊戲時鐘）
+
+| 鏡頭 | 修改前（程序化） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 法學院前庭：長椅旁看花台 11:00 | ![修改前](shots/props6_before_plaza_planters_1100.webp) | ![修改後](shots/props6_after_plaza_planters_1100.webp) |
+| 法學院前庭：長椅旁看花台 17:30 | ![修改前](shots/props6_before_plaza_planters_1730.webp) | ![修改後](shots/props6_after_plaza_planters_1730.webp) |
+| 法學院前庭：長椅旁看花台 20:30 | ![修改前](shots/props6_before_plaza_planters_2030.webp) | ![修改後](shots/props6_after_plaza_planters_2030.webp) |
+| 霖澤館西側：公告欄 11:00 | ![修改前](shots/props6_before_board_vending_1100.webp) | ![修改後](shots/props6_after_board_vending_1100.webp) |
+| 霖澤館西側：公告欄 17:30 | ![修改前](shots/props6_before_board_vending_1730.webp) | ![修改後](shots/props6_after_board_vending_1730.webp) |
+| 霖澤館西側：公告欄 20:30 | ![修改前](shots/props6_before_board_vending_2030.webp) | ![修改後](shots/props6_after_board_vending_2030.webp) |
+| 椰林大道北側的花台 11:00 | ![修改前](shots/props6_before_avenue_planter_1100.webp) | ![修改後](shots/props6_after_avenue_planter_1100.webp) |
+| 椰林大道北側的花台 17:30 | ![修改前](shots/props6_before_avenue_planter_1730.webp) | ![修改後](shots/props6_after_avenue_planter_1730.webp) |
+| 椰林大道北側的花台 20:30 | ![修改前](shots/props6_before_avenue_planter_2030.webp) | ![修改後](shots/props6_after_avenue_planter_2030.webp) |
+| 霖澤館西側：販賣機（正面） 11:00 | ![修改前](shots/props6_before_vending_1100.webp) | ![修改後](shots/props6_after_vending_1100.webp) |
+| 霖澤館西側：販賣機（正面） 17:30 | ![修改前](shots/props6_before_vending_1730.webp) | ![修改後](shots/props6_after_vending_1730.webp) |
+| 霖澤館西側：販賣機（正面） 20:30 | ![修改前](shots/props6_before_vending_2030.webp) | ![修改後](shots/props6_after_vending_2030.webp) |
+| 玩家鏡頭（手機直向）：公告欄前 17:30 | ![修改前](shots/props6_before_follow_1730.webp) | ![修改後](shots/props6_after_follow_1730.webp) |
+
+### 14.6 Blender 渲染圖（Cycles）
+
+![花台、公告欄、販賣機](blender_renders/props6_sheet.webp)
+
+### 14.7 還沒達到參考品質的地方
+
+1. 公告紙上沒有真的字（紅／藍標題＋灰色字行）；遠看像公告，近看讀不到內容。
+2. 販賣機的飲料是簡單的圓柱（沒有瓶蓋、標籤細節），展示窗前面沒有玻璃（看得到裡面）；沒有品牌標誌（不仿特定品牌）。
+3. 花台的灌木是葉片卡，從正上方往下看會看到卡片的交叉。
+4. 只有這三樣；法學院廣場的其他小物（垃圾桶、指標、腳踏車停車架以外的設施）還是程序化或沒有。
+5. 沒有 iPhone 實機驗證。
+
+---
+
+## 16. 社會科學院 辜先生紀念圖書館：一樓開架閱覽室（⑬，Blender 正式模型＋配置）
+
+LAWWW 佇列的 ⑬（使用者 D46：法律系學生念書會去「新社科院的辜先生紀念圖書館」）。交付**配置 `src/data/soclib_layout.js`＋Blender GLB**；區域程式、導航、校園入口的接線由 LAWWW 做，所以這一節只有 Blender 渲染，**還沒有遊戲內截圖**。
+
+參考（公開報導；臺大圖書館的介紹頁從沙盒連不到）：一樓開架閱覽室挑高將近 6 m，屋頂由 88 支白色樹狀柱撐起，柱頂像荷葉一樣散開，中間有 130 個形狀不一的天窗；配合竹製書架與閱覽家具，白天陽光從天窗灑下，像在林蔭間閱讀（[天下雜誌](https://www.cw.com.tw/article/5140431)、[蕃薯藤旅遊](https://travel.yam.com/article/120519)、[Bella 儂儂](https://www.bella.tw/articles/design&gadget/59150/toyo-ito-architecture-landmarks-taiwan)、[中央社](https://www.cna.com.tw/news/acn/201702220326.aspx)）。**平面配置、柱子數量、書架排法是遊戲化設計（推估），不是實測。**
+
+### 16.1 玩家會看到什麼
+
+| | 內容 |
+|---|---|
+| 樹狀柱 | 白色細柱，上面一段像喇叭一樣張開成荷葉（20 支；柱頂高度 4.75–5.25 m 錯開，一片一片像樹冠） |
+| 天窗 | 荷葉之間的天花板上 40 個圓形光井（白色井壁＋頂上的天光面板，自發光） |
+| 玻璃帷幕 | 北牆、西牆整面玻璃（白色直框每 1.5 m）；前面是窗邊長桌＋竹椅 |
+| 林間書房 | 東半邊 4 組竹集成材的弧形**雙面**書架圍著一支樹狀柱，開口朝走道；其中一組外面再一道矮弧 |
+| 閱覽長桌 | 4 張長桌（竹色桌面、中間一排小檯燈、板狀桌腳），每張 6 個座位 |
+| 入口 | 南牆的雙開玻璃門 → 門口地墊、還書箱 → 閘門（玻璃翼板）與玻璃欄杆 → 服務台（借還書感應板、兩台螢幕）、館員區矮隔板；查詢電腦、新書展示台 |
+| 其他 | 東牆 2.4 m 靠牆書架、南牆期刊架、東南角閱報區（兩組單人沙發＋圓矮桌）、招牌板面（字由遊戲畫） |
+
+### 16.2 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 社科院圖書館一樓（`soclib_interior.glb`＋`soclib_layout.js`） | 完成（模型、配置） | **還沒接進遊戲**（LAWWW 接線；配置的導航格檢查：65 個座位都走得到） | `MODEL_READY`（使用者還沒看過） |
+
+### 16.3 規格
+
+- 房間 30×22 m、天花板 5.6 m、牆厚 0.2 m；座標 x 往東、z 往南（+z＝南牆：入口），地板 y=0。
+- `soclib_interior.glb`：**5.53 MB、85,540 個三角形、20 個材質、29 個物件**（三角形最多的：soclib_books 44,362、soclib_columns 20,120、soclib_bamboo 12,144、soclib_lightwells 2,912、soclib_bamboo_dark 1,760、soclib_ceiling 810）。
+- 貼圖：Poly Haven CC0 `terrazzo_tiles`（地板）、`walnut_veneer`（調成淺色直紋當竹集成材）；其他是純色材質。遊戲沒有環境貼圖：金屬度都在 0.45 以下。
+- Blender 5.2 `bpy`：`tools/blender/env_second/soclib_interior.py`（讀配置）；配置由 `tools/blender/env_second/soclib_layout_gen.py` 產生（先排家具、再在空的地方排柱子；用 0.2 m 格子＋人物半徑 0.33 m 檢查每個座位都走得到、沒有走不到的孤島）。
+
+### 16.4 給 LAWWW 的接線說明
+
+- 配置 `SOCLIB_LAYOUT`：`entrance`（門在南牆 x=-9.0、寬 2.4 m；出生點 (-9.0, 9.3)、yaw π 面向館內；離開的互動點 z=10.2）、`gates`、`desk`、`columns`、`skylights`、`furniture`、`seats`（65 個：長桌 24、窗邊 33、閱報區沙發 8；`yaw`＝坐下時面向的方向，和 library_layout.js 一樣）、`signs`、**`nav`**（`rects`＝[中心 x, 中心 z, 寬, 深, ry]、`circles`＝[x, z, r]：家具、書架、柱子的導航阻擋，直接 blockRect／blockCircle 就好；牆和門洞照 W×D、wallT、entrance）。
+- GLB 的命名照其他室內（attachRoomGLB）：會淡出的牆 `WALL_<side>_*`（自訂屬性 `dir`＝往室內的法線；front＝南牆、back＝北牆玻璃帷幕、left＝西牆玻璃帷幕、right＝東牆）；招牌 `WALL_front_SIGN_FACE_0`（自訂屬性 `sign`＝「社會科學院圖書館」，字由遊戲畫；全名要不要寫上辜先生紀念圖書館由你決定）。
+- 自發光材質：`soclib_skylight`（天窗；晚上可以調暗或換成夜空色）、`soclib_lamp`（檯燈）、`soclib_screen`（螢幕）。天花板 `soclib_ceiling` 有天窗的洞（單面朝下）。
+- 北牆、西牆的玻璃帷幕外面需要窗景：可以照店家窗景的做法拍兩張（北、西），等你決定圖書館在校園裡的位置（社科院 `CK.modern` 在 (110, −70)）之後我來拍。
+
+### 16.5 Blender 渲染圖（Cycles，曝光 −1；**不是遊戲畫面**）
+
+| 入口往裡看 | 往上看：樹狀柱、荷葉柱頂、天窗 |
+|---|---|
+| ![](blender_renders/soclib_entrance.webp) | ![](blender_renders/soclib_up.webp) |
+| **林間書房（弧形雙面書架圍著樹狀柱）** | **另一組林間書房** |
+| ![](blender_renders/soclib_grove.webp) | ![](blender_renders/soclib_grove1.webp) |
+| **閱覽長桌** | **北側玻璃帷幕前的窗邊座位** |
+| ![](blender_renders/soclib_tables.webp) | ![](blender_renders/soclib_window.webp) |
+
+平面草圖（綠＝走得到的地方、棕＝導航阻擋、深灰圓點＝柱子、淡紫圓圈＝荷葉柱頂、紅點＝長桌座位、藍點＝窗邊與沙發座位、綠圓點＝出生點）：
+
+![](drafts/soclib_plan_draft.webp)
+
+### 16.6 還沒達到參考品質的地方
+
+1. **還沒接進遊戲**：沒有遊戲內截圖、沒有跑整合測試；手機上的效能（85,540 個三角形，一整間大多同時看得到）要接線後量。
+2. 規模縮小：真的閱覽室有 88 支柱子、地下一樓到二樓；遊戲版一層、20 支柱子。
+3. 柱頂是平的圓盤；真的荷葉是很薄、邊緣起伏的殼，天窗形狀也不一樣（這裡都是圓的）。
+4. 竹材是木紋貼圖調色（沒有竹節）；書是一本一本的盒子、沒有書名；期刊是色塊。
+5. 玻璃帷幕外面還沒有景（Blender 渲染裡是天空色）。
+6. 沒有 iPhone 實機驗證。
+
+---
+
+## 17. 萬才館 法律學院圖書館（LAWWW 2026-10-13 13:16Z 分派、使用者指定；Blender 正式模型＋萬才館的門＋窗景）
+
+使用者 2026-10-11：「萬才館一樓進去左手邊就是法律系圖書館，裡面自己有樓梯，有兩層樓；1 樓主要是櫃檯、自習區、影印室、兩間可以借用的討論室（小的）；2 樓比較多是藏書。」
+LAWWW 已經做好配置 `src/data/lawlib_layout.js`、區域 `src/lawlib3d.js`（導航、互動點、程序化備用模型）；這一節是第二個 AI 做的**正式模型**：`tools/blender/lawlib_interior.py` → `assets/models/env/lawlib_interior.glb`（讀同一份配置，兩邊的牆、樓梯、家具位置一致），加上萬才館大廳那一側的門、三個方向的窗景。
+
+### 17.1 做法與內容
+
+- 工具：Blender 5.2 `bpy`（無介面）；共用小工具 `tools/blender/env_second/lib2.py`、植物 `tools/blender/plants.py`（只讀使用）。材質：Poly Haven CC0——一樓 `granite_tile`（調成淺色、60 cm 地磚）、二樓與討論室 `dirty_carpet`（去彩度調成灰藍地毯）、樓梯 `granite_tile_03`、木作 `walnut_veneer`、輕鋼架天花板 `ceiling_interior`；其他是純色材質；金屬度都在 0.45 以下。
+- **書**：一層書架的一個開間做成一個「書模組」（一本一本的書：書背、書口、露出來的側面；寬、高、深、顏色不一，偶爾有空隙和書擋），共 19 種（法律教科書 8、外文書 3、博碩士論文 3、期刊合訂本 5），每一格放一個 → **663 個 GPU instancing**（glTF `EXT_mesh_gpu_instancing`；遊戲的 GLTFLoader 會變成 InstancedMesh）。
+  書背是程式畫的圖集 `tools/blender/env_second/textures/gen/lawlib_books.png`（`lawlib_atlas.py`）：書名只寫科目（民法總則、刑事訴訟法…）、版次、圖書館的索書號標籤（中國圖書分類法 58x）；論文是深色精裝燙金、期刊合訂本同一種期刊同一個顏色＋卷號、年份；**沒有真實的作者、出版社、期刊名稱**。字用系統字型文泉驛正黑畫成點陣圖（GLB 裡沒有字型）。期刊封面、新書封面是另一張 `lawlib_covers.png`（虛構的刊名與專題）。
+- **一樓**：入口（東牆，雙開玻璃門、出口標示燈、地墊；門外補一小段萬才館大廳，從館內看出去不是空的）、防盜感應門柱（半透明壓克力板）、櫃台（胡桃木面板、花崗石檯面、還書口、館員那一側的工作檯、兩台螢幕）、館員工作區（分類書架、隔板、辦公椅、書車）、兩張長閱覽桌（中間一排綠色玻璃燈罩的桌燈、插座）、靠南窗的四個閱覽隔間、參考書書架、現期期刊架、新書展示台、兩台館藏查詢機；北側玻璃隔間的討論室 A、B（拉門推開、霧面腰帶、桌子、四張會議椅、白板、牆上的螢幕）、影印室（兩台影印機、加值機、回收紙箱）、館員辦公室（木門關著）；輕鋼架天花板＋燈＋偵煙器。
+- **U 形樓梯**：A 跑（往南，13 階）、平台、B 跑（往北，12 階；和二樓共用）；花崗石踏面＋止滑條、兩跑中間的牆（頂上胡桃木扶手）、B 跑東側的木格柵牆（大廳那一面；「法律學院圖書館」牌子在上面）、牆上的不鏽鋼扶手、南牆的樓梯高窗、二樓樓梯井的玻璃欄杆。台階的位置和遊戲的 `stairSurfs`（一階一階的畫面高度）完全一致。
+- **二樓**：灰藍地毯；10 座雙面書架（鐵灰色鋼架、胡桃木端板＋頂板、端板上的索書號卡座）、外文書／博碩士論文／期刊合訂本三面靠牆書架、現期期刊展示架、閱覽桌 5 張、書車、踏凳、盆栽、安全梯的門（關著、出口標示燈）；北、西高窗、南面大窗；長條燈在書架之間的走道上方。
+- 吊牌：遊戲用 canvas 畫字的吊牌（櫃台、樓梯口、二樓）做了深色背板＋吊線；貼牆的牌子（房間名稱、「法律學院圖書館」）不用。
+- **萬才館那一側的門**（`tools/blender/wancai_interior.py`，LAWWW 授權只改門洞、門、名牌、盆栽位置；盆栽配置裡已經搬到 (−8.2, −6.2)，模型照配置）：一樓西牆南段開門洞（`lawlibDoor`：z 5.35–6.55、高 2.4 m）、鋁框、兩扇玻璃門（關著）、直把手、門上淺色木作名牌＋胡桃木框（字是遊戲畫的深咖啡色字，所以用淺色木板）、門後一小段館內（地磚、白牆、天花板、感應門柱、亮的牆）。`wancai_interior.glb` 2.51 MB（原本 2.40 MB）。
+- **窗景**（`tools/shots/window_views.py` 加三筆，遊戲裡拍的實際畫面，1024×512、水平 90°、白天 11:00／晚上 20:30）：`lawlib_south`（弧形量體前面往南看法學院前的廣場與樹林）、`lawlib_north`（萬才館背面往北）、`lawlib_west`（西牆外二樓高度往西：國青中心、霖澤館）。
+
+### 17.2 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 法圖室內 `lawlib_interior.glb` | 完成 | 載入、接上 `B3.attachFormal`、遊戲內截圖（17.6）；**整合測試（走路、坐下、上下樓）由 LAWWW 跑** | `READY_FOR_ART_REVIEW`（使用者還沒看過） |
+| 萬才館西牆的門 | 完成 | 遊戲內還沒截圖（LAWWW 整合後） | `MODEL_READY` |
+| 窗景 3 張×2 時段 | 完成 | 檔名照 `lawlib_layout.js` 的 `photo` | — |
+
+### 17.3 規格
+
+- `lawlib_interior.glb`：**2.77 MB**；靜態三角形 27,366；書 663 個 instancing（19 種模組、不重複的三角形 2,924），**畫出來的書 97,422 個三角形**；合計畫出來 124,788；材質 47 個。
+- 節點：`L0_root`（一樓＋整座樓梯＋入口外那一小段）、`L1_root`（二樓）；書的 instancing 在 `L0_books`、`L1_books` 底下。外牆和貼在外牆上的東西名字含 `WALL_`（自訂屬性 `dir`）；玻璃不放進 `WALL_`。
+- 網點透空的材質：`ll_shelf_steel`、`ll_book_atlas`、`ll_endpanel`、`ll_journal_covers`（`lawlib3d.js` 的 `/^ll_(shelf|book|endpanel|journal)/`）。天花板材質名有 `ceiling`（`attachFormal` 會加地面反光）。
+- `src/assets3d.js` 的第二個 AI 區塊加了 `bldg.lawlib_interior`（lazy）。
+
+### 17.4 遊戲內效能（Playwright＋SwiftShader，1280×800；手機直向 390×844；`renderer.info`：draw call／三角形；「擋掉 GLB」＝程序化備用模型）
+
+| 鏡頭 | 擋掉 GLB | 正式模型 | 正式模型接上了 |
+|---|---|---|---|
+| `g_entrance` | 521／22,034 | 365／125,628 | 是 |
+| `g_reading` | 459／20,982 | 320／125,162 | 是 |
+| `g_stairs` | 230／14,944 | 149／96,994 | 是 |
+| `g_rooms` | 302／16,972 | 201／113,304 | 是 |
+| `g_stacks` | 410／17,314 | 312／122,998 | 是 |
+| `g_upper` | 347／16,708 | 257／104,158 | 是 |
+| `g_follow_1f` | 386／95,270 | 280／201,450 | 是 |
+| `g_follow_2f` | 386／93,384 | 294／194,652 | 是 |
+| `g_follow_stairB` | 496／97,614 | 356／194,530 | 是 |
+| `m_follow_1f` | 333／92,612 | 235／180,434 | 是 |
+| `m_follow_2f` | 336／91,726 | 245／187,906 | 是 |
+| `g_night_1f` | 521／22,034 | 365／125,628 | 是 |
+
+遊戲內 console 錯誤：沒有。**這是模擬，不是 iPhone 實機**；效能要 LAWWW 在手機上量。
+
+### 17.5 Blender 渲染圖（Cycles；**不是遊戲畫面**；吊牌、房間名稱的字是遊戲畫的，這裡沒有）
+
+| 入口往館內看 | 閱覽長桌、玻璃討論室 |
+|---|---|
+| ![](blender_renders/lawlib_entrance.webp) | ![](blender_renders/lawlib_reading.webp) |
+| **一樓往樓梯看** | **閱覽桌的綠色桌燈、北側的房間** |
+| ![](blender_renders/lawlib_stairs.webp) | ![](blender_renders/lawlib_rooms.webp) |
+| **櫃台** | **二樓書架走道** |
+| ![](blender_renders/lawlib_counter.webp) | ![](blender_renders/lawlib_stacks.webp) |
+| **二樓：書架、東牆外文書** | **二樓往東南閱覽區** |
+| ![](blender_renders/lawlib_stacks2.webp) | ![](blender_renders/lawlib_upper.webp) |
+| **樓梯平台往上看 B 跑** | **二樓往下看樓梯井** |
+| ![](blender_renders/lawlib_landing.webp) | ![](blender_renders/lawlib_well.webp) |
+| **討論室 A（白板在西牆、螢幕在東牆）** | **入口：雙開玻璃門、感應門柱** |
+| ![](blender_renders/lawlib_disc.webp) | ![](blender_renders/lawlib_door.webp) |
+| **二樓：期刊合訂本、現期期刊架** | **書背（索書號標籤）** |
+| ![](blender_renders/lawlib_journals.webp) | ![](blender_renders/lawlib_thesis.webp) |
+| **萬才館大廳：圖書館的門** | **萬才館大廳：遠一點** |
+| ![](blender_renders/wancai_lldoor.webp) | ![](blender_renders/wancai_lldoor_far.webp) |
+
+### 17.6 遊戲內截圖（修改前＝擋掉 GLB 的程序化備用模型｜修改後＝正式模型；11:00，晚上那張 20:30）
+
+| 鏡頭 | 修改前（程序化） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 入口往館內看（一樓） | ![](shots/lawlib_before_g_entrance.webp) | ![](shots/lawlib_after_g_entrance.webp) |
+| 閱覽長桌、玻璃討論室 | ![](shots/lawlib_before_g_reading.webp) | ![](shots/lawlib_after_g_reading.webp) |
+| 一樓往樓梯看 | ![](shots/lawlib_before_g_stairs.webp) | ![](shots/lawlib_after_g_stairs.webp) |
+| 北側的討論室、影印室 | ![](shots/lawlib_before_g_rooms.webp) | ![](shots/lawlib_after_g_rooms.webp) |
+| 二樓書架走道 | ![](shots/lawlib_before_g_stacks.webp) | ![](shots/lawlib_after_g_stacks.webp) |
+| 二樓往東南閱覽區 | ![](shots/lawlib_before_g_upper.webp) | ![](shots/lawlib_after_g_upper.webp) |
+| 跟隨鏡頭：一樓 | ![](shots/lawlib_before_g_follow_1f.webp) | ![](shots/lawlib_after_g_follow_1f.webp) |
+| 跟隨鏡頭：二樓書架之間（書架網點透空） | ![](shots/lawlib_before_g_follow_2f.webp) | ![](shots/lawlib_after_g_follow_2f.webp) |
+| 跟隨鏡頭：B 跑樓梯上（南牆淡出） | ![](shots/lawlib_before_g_follow_stairB.webp) | ![](shots/lawlib_after_g_follow_stairB.webp) |
+| 手機直向 390×844：一樓 | ![](shots/lawlib_before_m_follow_1f.webp) | ![](shots/lawlib_after_m_follow_1f.webp) |
+| 手機直向 390×844：二樓書架之間 | ![](shots/lawlib_before_m_follow_2f.webp) | ![](shots/lawlib_after_m_follow_2f.webp) |
+| 晚上 20:30：入口往館內看 | ![](shots/lawlib_before_g_night_1f.webp) | ![](shots/lawlib_after_g_night_1f.webp) |
+
+萬才館大廳那一側的門（左：程序化備用模型，深色木牌＋深色字看不清、玻璃門後面是空的；右：正式模型，淺色木牌＋門後一小段館內）：
+
+| 鏡頭 | 修改前（程序化） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 大廳往圖書館的門 | ![](shots/wancai_lldoor_before_door.webp) | ![](shots/wancai_lldoor_after_door.webp) |
+| 手機直向：跟隨鏡頭 | ![](shots/wancai_lldoor_before_door_follow.webp) | ![](shots/wancai_lldoor_after_door_follow.webp) |
+
+### 17.7 窗景（遊戲畫面，1024×512）
+
+| 南（白天／晚上） | 北（白天／晚上） | 西（白天／晚上） |
+|---|---|---|
+| ![](../../../assets/models/env/views/lawlib_south_day.webp) | ![](../../../assets/models/env/views/lawlib_north_day.webp) | ![](../../../assets/models/env/views/lawlib_west_day.webp) |
+| ![](../../../assets/models/env/views/lawlib_south_night.webp) | ![](../../../assets/models/env/views/lawlib_north_night.webp) | ![](../../../assets/models/env/views/lawlib_west_night.webp) |
+
+### 17.8 配置的問題（傳給 LAWWW；配置是 LAWWW 的，我不改）
+
+1. ~~兩間討論室的白板擋在北窗前面~~ → **LAWWW 已修（`20301c3`：白板在側牆，`face`）**；GLB 照新配置，螢幕在對面的牆。
+2. ~~一樓盆栽壓在第四個閱覽隔間的桌子上~~ → **已修（(2.95, 7.45)）**；GLB 照新配置。
+3. ~~書架標示牌太寬、互相重疊~~ → **已修（range 的 `signW` 1.3 m）**；GLB 在每塊標示牌後面加了深色背板（坐在書架頂板上）。
+4. 「法律學院圖書館」牌子在**備用模型**裡被牆蓋住（GLB 的牆面做在牌子後面，看得到）——備用模型的事，還沒改。
+5. 二樓 B 跑最上面一階和樓板邊之間 22 cm 的縫：GLB 補成樓板（備用模型照舊）。
+6. 同一道門兩側大小不一樣（法圖 1.6×2.5 m、萬才館 1.2×2.4 m）——等 LAWWW 決定。
+7. **新的**：二樓兩塊吊牌的 `y`（6.9、6.4）像是絕對高度，遊戲會再加 4.2 m（變成 11.1、10.6，在屋頂上面，看不到）；建議改成 2.7、2.2。GLB 的吊牌背板照遊戲的算法放，在天花板上面的就不做（改了配置重新匯出就會出現）。
+
+### 17.9 還沒達到參考品質的地方
+
+1. **沒有照片參考**：室內是照使用者的描述做的遊戲化設計，不是還原真實館舍（材質、家具、書架排法、櫃台位置都是推估）。
+2. 書是程式畫的書背：近看是真的書名、索書號，但每一種模組重複出現（663 格只有 19 種）；沒有斜放、平放的書。
+3. 討論室的門是「推開的拉門」，不會動；入口玻璃門關著（出去是互動點）。
+4. 吊牌、房間名稱的字要靠遊戲畫；二樓兩塊吊牌的高度要等配置改（17.8 第 7 點）。
+5. **遊戲裡斜著看書架時書背的字糊掉**（17.6 二樓那幾張只看得到顏色）：書背圖集 1024×1024，正面近看有字；斜看時 three.js 預設沒有各向異性過濾，選到很小的 mipmap。遊戲端可以只對 `ll_book_atlas` 的貼圖設 `anisotropy`（`renderer.capabilities.getMaxAnisotropy()`）——這是遊戲程式，LAWWW 決定。
+6. 窗景北面那張左半邊是很近的建築牆面（萬才館背面那一帶的套件建築）。
+7. 沒有 iPhone 實機驗證；整合測試（走路、坐下、上下樓、鏡頭、存讀檔）由 LAWWW 跑。
+
+---
+
+## 18. 和平東路二段 118 巷街景（⑭，Blender 正式模型；遊戲區域由 LAWWW 做）
+
+使用者 D46：法律系學生吃飯常去台大後門（辛亥復興校門）外的 118 巷。LAWWW 先出配置 `src/data/lane118_layout.js`（巷寬、兩側店面、門、和辛亥路／和平東路的接口），我照同一份配置做兩側的街景；**遊戲區域、導航、店門互動由 LAWWW 做**，所以這一節只有 Blender 渲染。
+
+### 18.1 做法與內容
+
+- 工具：和溫州街、公館店面街同一支腳本 `tools/blender/env_second/wz_street.py`，加一組 `--set lane118`（讀配置）→ `assets/models/env/second_ai/lane118_street.glb`。同一套台北老公寓零件、材質、窗戶原型（長條磁磚／馬賽克／水泥漆外牆、鋁窗＋窗簾、外凸鐵窗、浪板雨遮、冷氣與排水管、陽台盆栽、頂樓水塔與加蓋）。
+- 配置裡的 9 間店照 z0～z1 蓋（店門在中間）：滇香小館（西側 z 22～28）、好家自助餐（西側 z 14～21）、一一八茶飲（西側 z 10～13）、巷口家常菜（西側 z -6～2）、慢讀咖啡（西側 z -16～-9）、Pasta 118（東側 z 20～28）、韓食小廚（東側 z 12～19）、蛋包飯研究所（東側 z -2～5）、六張犁麵舖（東側 z -14～-7）；店名是配置裡的虛構店名，招牌配色照店的類型，有的有帆布遮雨棚。
+- 店與店之間的空檔補上沒有互動的樓房：寬度不到 2.6 m 的是住家樓梯間（紅／綠鐵門、信箱、門燈），其他是住家、鐵捲門、一般小店（早餐店、影印、自助洗衣、水果行…）；兩條小巷（配置的 alleys）不蓋，靠小巷、靠和平東路／辛亥路的那一面開側窗。
+- 中文字不放在 GLB：招牌 `SIGN_FACE_<棟>`、直立招牌 `VSIGN_FACE_<棟>`、店內景深卡 `INTERIOR_FACE_<棟>` 是空白板面（自訂屬性帶店名、顏色、店種），**和溫州街、公館同一套**，遊戲用 `wzAtlasFaces`（TK.signTex／TK.interiorTex）畫字——Blender 渲染裡是空白的咖啡色板子。每棟的編號：西側 `W00`…、東側 `E00`…（由北往南；字牌板面的名字帶這個編號，`lane118_street.json` 的 `buildings` 有完整清單）；牆、窗這些依材質合併成整條街一個網格（和溫州街一樣）。
+
+### 18.2 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 118 巷兩側街景（`lane118_street.glb`） | 完成 | **還沒接進遊戲**（LAWWW 做區域） | `MODEL_READY` |
+
+### 18.3 規格
+
+- `lane118_street.glb`：**2.01 MB**；不重複的三角形 21,763、畫出來的三角形 110,155（鐵窗、冷氣、水塔、窗戶是 instancing）；兩側 27 棟。
+- 座標＝配置的座標（x 往東、z 往南）；西側立面在 x=-5.2、東側 x=5.2；一樓高 3.6 m、樓高 3.2 m（配置的 groundH／floorH）。
+
+### 18.4 給 LAWWW 的接線說明
+
+- GLB 只有兩側的建築（照 wenzhou_street.glb 的接法：載入後加進區域、字牌用 `wzAtlasFaces` 畫、夜間發光照 `WZ_NIGHT`）；巷子的路面、人行道、機車格、辛亥路／和平東路與後門、背景由區域做。
+- 機車：可以用溫州街的機車 InstancedMesh（`scooter.glb`），停在配置的 `scooters.zRanges`。
+- 導航阻擋：兩側建築從立面往外都不能走（x &lt; -5.2、x &gt; 5.2）；小巷口要用看得懂的方式擋（例如機車、花盆），不要隱形牆。
+
+### 18.5 Blender 渲染圖（Cycles；**不是遊戲畫面**；招牌的字是遊戲畫的，這裡是空白）
+
+| 從辛亥路那一端往北看 | 中段往南看（小巷口、住家樓梯間） |
+|---|---|
+| ![](blender_renders/lane118_south_end.webp) | ![](blender_renders/lane118_middle.webp) |
+| **巷口家常菜（西側）** | **蛋包飯研究所（東側）** |
+| ![](blender_renders/lane118_shop_home.webp) | ![](blender_renders/lane118_shop_omu.webp) |
+
+![從上空看整條巷子](blender_renders/lane118_aerial.webp)
+
+### 18.6 還沒達到參考品質的地方
+
+1. **沒有照片參考**：118 巷真實的樣子（店面寬度、騎樓有沒有、招牌密度）沒有查證，照台北巷弄的一般樣子做；店名、店家都是虛構的。
+2. 還沒接進遊戲：沒有遊戲內截圖、招牌的字還沒畫上去、晚上的燈光沒看過。
+3. 和溫州街、公館共用同一套公寓零件：細看會覺得像（同一種窗、鐵窗、雨遮）。
+4. 小吃店的特色（菜單看板、蒸籠、冰箱、外帶窗口、桌椅擺到騎樓）還沒有做。
+5. 沒有 iPhone 實機驗證。
+
+---
+
+## 19. 騎車用的腳踏車（⑫，Blender 正式模型＋尺寸表；人物騎乘由 LAWWW 做）
+
+使用者要求「我應該要可以騎腳踏車」、路上的騎士要真的踩踏板（LAWWW 07:52Z 分派）。交付 `assets/models/env/bike_ride.glb`（**235 KB**）＋尺寸表 `assets/models/env/bike_ride.json`（**從模型量出來的**）＋腳本 `tools/blender/env_second/bike_ride.py`。
+造型和街上停的淑女車（`street_props.glb` 的 `bike_city`）同一款：彎下管的低跨車架、前籃、前燈、擋泥板、後貨架、鍊條蓋、環形鎖、彈簧座墊、後掠把手、車鈴；放大成成人騎的 26 吋。車架顏色是灰綠色烤漆（材質 `ride_frame`，遊戲可以改色）。
+
+### 19.1 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 騎車用的腳踏車（`bike_ride.glb`） | 完成（零件分開、樞紐自我檢查通過） | **還沒接進遊戲**（騎乘姿勢、IK、操作由 LAWWW 做） | `MODEL_READY` |
+
+### 19.2 尺寸表（遊戲座標，公尺；車頭朝 +z、地面 y=0、中心線 x=0；**騎士的左手邊＝+x**、右手邊＝−x，鍊條在右邊）
+
+| 量 | 值 |
+|---|---|
+| 座墊頂 | (+0.000, 0.935, -0.310)（座墊最高的那一點（坐骨的位置在它後面約 3–5 cm）） |
+| 把手握點（左，+x） | (+0.290, 1.060, +0.083) |
+| 把手握點（右，−x） | (-0.290, 1.060, +0.083) |
+| 五通中心 | (+0.000, 0.285, -0.045) |
+| 曲柄長 | 0.165 m |
+| 踏板中心（靜止姿勢：右曲柄朝前、左曲柄朝後） | 右 (-0.115, 0.285, +0.120)、左 (+0.115, 0.285, -0.210) |
+| 輪徑（輪胎外徑） | 0.666 m |
+| 前輪軸／後輪軸 | (+0.000, 0.333, +0.560)／(+0.000, 0.333, -0.500) |
+| 軸距 | 1.06 m |
+| 轉向軸 | 通過 (+0.000, 0.700, +0.373)、方向（往上）(+0.000, 0.940, -0.342)、頭管角 70.0° |
+
+### 19.3 節點與怎麼動（glTF 的節點名稱固定）
+
+| 節點 | 父節點 | 原點（樞紐） | 怎麼動 | 三角形 |
+|---|---|---|---|---|
+| `frame` | （根） | 地面 (0,0,0) | 不動：車架、座管＋座墊、後貨架、後擋泥板、鍊條蓋、鍊條、環形鎖、中柱（收起） | 1,340 |
+| `fork` | frame | 轉向軸和頭管下緣的交點 | **本地 +Y＝轉向軸**（往上、往後傾 20°）：轉把手＝繞本地 Y 轉；前叉、龍頭、把手、握把、煞車把、車鈴、前籃、前擋泥板、前燈一起轉 | 946 |
+| `wheel_f` | fork | 前輪軸心 | 繞本地 X 轉（跟著把手轉向） | 984 |
+| `wheel_r` | frame | 後輪軸心 | 繞本地 X 轉 | 984 |
+| `crank` | frame | 五通中心 | 繞本地 X 轉（齒盤＋兩根曲柄） | 248 |
+| `pedal_r`／`pedal_l` | crank | 右／左踏板軸（曲柄末端） | 繞本地 X 轉：每格轉「負的曲柄角度」，踏板保持水平 | 136／136 |
+
+腳本最後有自我檢查：fork 的本地 +Z（Blender；glTF 匯出後是本地 +Y）和轉向軸一致、每個節點的世界位置等於樞紐點（誤差 < 0.1 mm），不符合就匯出失敗。
+輪子往前滾 1 m 轉 1/(π×0.666) 圈；曲柄的轉速照遊戲的齒比自己決定（建議：輪子轉 1 圈、曲柄轉 0.4–0.5 圈）。
+
+### 19.4 規格
+
+- 材質：車架 `ride_frame`（灰綠烤漆）、黑色零件 `ride_dark`、輪胎與握把 `ride_rubber`、金屬 `ride_metal`（金屬度 0.45 以下）、座墊 `ride_saddle`、反光片 `ride_reflector`／`ride_reflector_amber`、前燈 `ride_lamp_lens`（自發光）、鋼絲與前籃鐵絲網 `ride_alpha`（透明貼圖 `textures/gen/bike_alpha.png`，alphaMode MASK，和停著的淑女車同一張）。
+- 三角形合計 4,774。
+
+### 19.5 Blender 渲染圖（Cycles；**不是遊戲畫面**）
+
+| 側面 | 45° |
+|---|---|
+| ![](blender_renders/bike_ride_side.webp) | ![](blender_renders/bike_ride_q45.webp) |
+| **正面** | **把手區（從後上方往下看）** |
+| ![](blender_renders/bike_ride_front.webp) | ![](blender_renders/bike_ride_top_cockpit.webp) |
+
+### 19.6 還沒達到參考品質的地方
+
+1. 還沒有人騎（騎乘姿勢、手腳貼合握把和踏板要 LAWWW 接上才看得到）；沒有遊戲內截圖。
+2. 鍊條是靜態的一圈（不會跟著齒盤動）；齒盤是實心圓盤、沒有齒。
+3. 煞車線、變速線沒有做；握把是直的圓柱（真的淑女車握把稍微往後彎）。
+4. 輪胎沒有胎紋；鋼絲是透明貼圖（從正側面看是平的）。
+5. 沒有 iPhone 實機驗證。
+
+---
+
+## 20. 共同教學館外觀＋西側木造走廊＋北側蒲葵（四棟清單第一棟；Blender 正式模型；**依文字資料的遊戲化設計，沒有照片**）
+
+使用者 2026-10-13「台大四大生活場景」要求（原文 `requests/2026-10-13_四棟教學館與宿舍.md`）＋LAWWW 13:54Z 規格（中心 (2,33)、正面朝北、24×14、3–4 層、北面中間正門、西側 5 m 有頂木造走廊、玩家從走廊下走過、型別同行政大樓）＋LAWWW 15:38Z 決定（北側蒲葵做在同一個 GLB、三松不放、戶外樓梯不做、附鏡頭碰撞）。
+腳本 `tools/blender/env_second/campus_gongtong.py` → `assets/models/env/second_ai/campus_gongtong.glb`（校園世界座標，和行政大樓一樣直接放）；`src/assets3d.js` 第二個 AI 區塊加了 `bldg.campus_gongtong`（lazy）。
+
+### 20.1 根據（哪些查證過、哪些是推測）
+
+查證資料都是搜尋摘要（`research/四棟教學館與宿舍_參考資料.md` 第 1 節），**沒有任何照片**：
+
+| 做在模型裡的 | 根據 | 確認程度 |
+|---|---|---|
+| 土黃色十三溝面磚 | 維基（簡體）、校史館〈臺灣大學校園建築變遷互動地圖簡史〉 | B（十三條溝太細，遊戲距離看不到，沒做） |
+| 每層樓板的位置磚豎貼（一條直紋帶） | 同上 | B |
+| 開口用洗石子收邊、拱窗 | 同上 | B |
+| 山牆頂三塊青瓷花磚排成磬形 | 同上 | B（花磚的圖案、顏色是推測） |
+| 一二樓在前、三四樓在後逐層退縮 | 維基 | B（「前」是哪一面是推測：南面有走廊、面向三松 → 南面低、往北退） |
+| L 形 | 維基 | B（遊戲佔地是 24×14 的長方形；L 形做在上面：東半部三四樓＋西翼的屋頂） |
+| 南側走廊多處開口 | 維基 | B（做在三、四樓南面：一樓南牆到舟山路只有 2.5 m） |
+| 西邊隔著木造走廊和行政大樓相鄰 | 維基、法律系學生會 | B（走廊的樣子、方向是推測：照 LAWWW 規格做成東西向、連接兩棟的有頂走廊） |
+| 北側蒲葵樹列 | 校史館 | B（株數、位置、樹高是遊戲化的） |
+| 4 層 | LAWWW 的教室編號到 4xx＋維基「三四樓」 | B |
+| 一樓北面拱廊、中央門廊 | **遊戲的套件**（導航阻擋照它） | 遊戲設計（不是查證） |
+
+**沒做的**：西側階梯教室的戶外樓梯（走不上去的裝飾樓梯不能做，D38 第 4 條）、南側三棵琉球松（共同三松；遊戲裡南牆到舟山路只有 2.5 m，LAWWW：等照片）。
+
+### 20.2 做法
+
+- 量體：一二樓滿版（北面一樓 7 開間拱廊＋中央門廊，柱子、門廊側牆的位置和套件一樣）；東半部（x −12..5.14，本地座標）三樓往北退 3.5 m、四樓退 7 m，東西向雙坡屋頂；西翼（共 101 階梯教室那一側）兩層＋南北向雙坡屋頂 → 從上面看是 L 形，南面是兩段紅色隔熱磚的露台。
+- 立面：土黃色面磚（`exterior_wall_cladding_02` 降低彩度校正）；每層樓板一條 0.33 m 的豎貼面磚帶（同一張貼圖轉 90°、外凸 2.5 cm）；二到四樓的教室是**雙拱窗**（兩扇 1 m 寬拱窗、洗石子窗框在中間相接、共用窗台）；兩端是單拱窗；三、四樓南面是開放走廊（拱形開口＋矮牆＋洗石子壓頂、走廊天花板的吸頂燈、教室那一側的木門與窗）。
+- 山牆四面（東、西半部四樓兩端、西翼南北兩端）＋門廊山牆都有**三塊青瓷花磚排成倒 V（磬形）**：菱形擺、釉面、深一點的凹框、中間白釉小花（頂點色）。
+- 門廊：面磚側牆＋洗石子勒腳、起拱線腰帶、拱圈、拱腹；檐部；山牆面磚；兩坡屋瓦小屋頂；匾額「共同教學館」（遊戲用 canvas 畫字）。
+- 一樓拱廊：面磚柱墩＋洗石子柱頭柱腳、拱圈；花崗石地坪；吸頂燈 7 盞；玻璃雙開門（古銅色鋁框、上面氣窗；晚上門廳的燈從玻璃透出來）；門兩側各一個公告欄。
+- 西側木造走廊：x 12..17（世界 x −10..−15）、z ±1.0（世界 32..34）；四根柱子（石礎、托木）、桁、梁、束、脊桁、椽、望板、屋瓦；中間吊一盞燈；兩端各一扇關著的木門，共同這一側的門上有「側門　請由正門出入」。
+- 北側蒲葵 6 棵：真的幾何（樹幹 8 面＋圓柱 UV、樹冠基部、16 片掌狀葉，每片 22 條裂片：內半段有摺、外半段裂開、尖端下垂，老葉尖端枯黃；平滑著色＋頂點色，一個材質）。
+- 其他：西翼西簷的簷溝＋落水管、南面與東面的落水管、露台上的冷氣室外機。
+
+### 20.3 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 共同教學館外觀＋木造走廊＋蒲葵（`bldg.campus_gongtong`） | 完成 | **還沒接進遊戲**（LAWWW 整合；我用本機、沒有 commit 的兩行接線拍了遊戲截圖） | `MODEL_READY`（遊戲畫面拍過；接線後才是 `INTEGRATED`） |
+
+### 20.4 規格
+
+- GLB **1.71 MB**、三角形 **28,627**（建築約 1.47 萬＋蒲葵 1.36 萬＋樹幹 0.04 萬；沒有 instancing）、網格（≈ draw call）18、材質 17、貼圖 {'256×256': 5, '64×64': 1, '512×512': 6}（共 296 KB，WebP）。
+- 材質名稱沿用校園地標的約定：`ck_glass`（窗：自發光貼圖左黑右亮，晚上約七成亮燈）、`ck_ceiling`、`ck_trim_win`、`ck_frame`、`ck_stone_base`、`wz_lamp_lens`（燈罩晚上發光）；新的：`gt_wall`、`gt_wash`、`gt_roof`、`gt_terrace`、`gt_wood`、`gt_plaster`、`gt_celadon`、`gt_misc`、`gt_palm`、`gt_palm_bark`。
+- Poly Haven CC0：`exterior_wall_cladding_02`（面磚）、`granular_concrete`（洗石子）、`granite_tile_03`、`grey_roof_tiles`、`square_brick_paving`、`dark_wood`、`palm_tree_bark`。
+
+### 20.5 給 LAWWW 的接線說明（`src/zones3d.js` 是你的，我沒有改；下面是我本機測試用的寫法）
+
+1. 載入（和行政大樓同一套）：
+   - `ckPlace(gongtong,2,33,Math.PI); buildings.push(gongtong);` 後面加：`const gtGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_gongtong']; gongtong.userData.ckTag='gongtong'; if(gtGLB) gongtong.userData.dyn=true;`
+   - 區塊最後（和 `admGLB` 那幾行一起）：`if(gtGLB) ASSETS.loadOne('bldg.campus_gongtong').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_gongtong_glb','gongtong'); }).catch(e=>console.warn('共同教學館正式模型載入失敗，用套件的外觀',e));`
+2. **導航不用改**：一樓本體範圍、7 開間拱廊的 8 根柱子、門廊兩側牆的位置都和 `CK.hall` 一樣；門口互動點 `DOORS.common` (2,22.8) 不動。木造走廊的四根柱子（世界 (−10.17, 32.25／33.75)、(−14.83, 32.25／33.75)）在兩棟導航外擴（0.3 m）裡面，不用另外擋。
+3. **蒲葵和大道南側的大樹牆**：蒲葵 6 棵在大樹牆那一條線上（世界座標 (−10.5,19.2)、(−6.5,18.8)、(−2.5,19.1)、(6.5,19.0)、(10.5,18.9)、(14.5,19.2)）。大樹牆在共同前面有 4 棵（x≈−10、−4.7、9.4、14.7），樹冠會和蒲葵插在一起 → 建議有 GLB 時把南側的略過範圍 `[-2,6]` 改成 `[-12,16]`（我本機測試就是這樣），並加 `nav.blockCircle(x,z,0.35)` 擋 6 棵蒲葵的樹幹。不想換的話，把 `gt_palm`、`gt_palm_bark` 兩個網格藏起來就好（其他不受影響）。
+4. **鏡頭碰撞**（建議；套件預設只到 11.4 m，西翼上面是空的）：有 GLB 時在 `ckPlace` 前設 `gongtong.userData.ck.cols=[[0,-1.3,24,11.4,0,7.8],[0,5.7,24,2.6,3.85,7.8],[-3.43,1.75,17.14,10.5,7.8,11.4],[-3.43,3.5,17.14,7,11.4,15.0],[8.57,0,6.86,14,7.8,10.0],[14.5,0,5,2.0,2.8,4.1]]`（本地座標 [x,z,寬,深,y0,y1]；最後一個是木造走廊的屋頂：玩家從底下走過時鏡頭留在屋頂下面）。
+5. 可以加（你決定）：蒲葵的網點透空（`gt_palm_bark`、`gt_palm` 照 `wz_pillar_tile` 那一行加 `seeThrough`）；木造走廊兩端的門加「看一看」互動（「側門關著，請由正門出入」）。
+6. 測試：Playwright＋SwiftShader 截圖 沒有 JavaScript 錯誤；**沒跑** `campus_layout_nav`、`reachability_all`、`see_through`（導航沒有改；蒲葵和大樹牆的調整是你的）。
+
+### 20.6 遊戲內截圖（左＝現在的套件方盒｜右＝正式模型；本機接線＋大樹牆前 4 棵換成蒲葵；Playwright＋SwiftShader，**不是 iPhone**）
+
+| 鏡頭 | 修改前 draw call／三角形 | 修改後 | 倍數 |
+|---|---|---|---|
+| 從椰林大道往南看正門（11:00） | 116／654,983 | 124／664,174 | ×1.07／×1.01 |
+| 東北邊（11:00） | 130／719,163 | 140／736,456 | ×1.08／×1.02 |
+| 西北邊：西翼山牆、行政大樓（11:00） | 123／675,278 | 131／684,469 | ×1.07／×1.01 |
+| 門廊近看（11:00） | 122／659,981 | 133／677,276 | ×1.09／×1.03 |
+| 一樓拱廊裡（11:00） | 185／732,031 | 196／749,336 | ×1.06／×1.02 |
+| 西側：兩棟中間的木造走廊（11:00） | 111／650,463 | 122／659,680 | ×1.10／×1.01 |
+| 舟山路那一側（南面：退縮的露台、開放走廊）（11:00） | 247／791,763 | 252／797,530 | ×1.02／×1.01 |
+| 空拍（11:00） | 240／801,779 | 257／819,148 | ×1.07／×1.02 |
+| 東北邊 17:30 | 137／726,704 | 147／743,997 | ×1.07／×1.02 |
+| 從椰林大道往南看正門 20:00 | 124／662,769 | 132／671,960 | ×1.06／×1.01 |
+| 跟隨鏡頭：玩家在正門前（11:00） | 155／728,141 | 164／737,344 | ×1.06／×1.01 |
+| 手機直向 390×844：正門前 | 137／710,428 | 151／719,183 | ×1.10／×1.01 |
+
+| 鏡頭 | 修改前 | 修改後 |
+|---|---|---|
+| 從椰林大道往南看正門（11:00） | ![](shots/gongtong_before_front_axis.webp) | ![](shots/gongtong_after_front_axis.webp) |
+| 東北邊（11:00） | ![](shots/gongtong_before_front_ne.webp) | ![](shots/gongtong_after_front_ne.webp) |
+| 西北邊：西翼山牆、行政大樓（11:00） | ![](shots/gongtong_before_front_nw.webp) | ![](shots/gongtong_after_front_nw.webp) |
+| 門廊近看（11:00） | ![](shots/gongtong_before_porch.webp) | ![](shots/gongtong_after_porch.webp) |
+| 一樓拱廊裡（11:00） | ![](shots/gongtong_before_arcade.webp) | ![](shots/gongtong_after_arcade.webp) |
+| 西側：兩棟中間的木造走廊（11:00） | ![](shots/gongtong_before_corridor.webp) | ![](shots/gongtong_after_corridor.webp) |
+| 舟山路那一側（南面：退縮的露台、開放走廊）（11:00） | ![](shots/gongtong_before_south.webp) | ![](shots/gongtong_after_south.webp) |
+| 空拍（11:00） | ![](shots/gongtong_before_aerial.webp) | ![](shots/gongtong_after_aerial.webp) |
+| 東北邊 17:30 | ![](shots/gongtong_before_ne_1730.webp) | ![](shots/gongtong_after_ne_1730.webp) |
+| 從椰林大道往南看正門 20:00 | ![](shots/gongtong_before_axis_2000.webp) | ![](shots/gongtong_after_axis_2000.webp) |
+| 跟隨鏡頭：玩家在正門前（11:00） | ![](shots/gongtong_before_follow.webp) | ![](shots/gongtong_after_follow.webp) |
+| 手機直向 390×844：正門前 | ![](shots/gongtong_before_mobile.webp) | ![](shots/gongtong_after_mobile.webp) |
+
+### 20.7 Blender 渲染圖（Cycles，曝光 −0.8；**不是遊戲畫面**；匾額的字是遊戲畫的，這裡空白；旁邊是行政大樓的正式模型）
+
+![](blender_renders/gongtong_front.webp)
+![](blender_renders/gongtong_porch.webp)
+![](blender_renders/gongtong_gable.webp)
+![](blender_renders/gongtong_arcade.webp)
+![](blender_renders/gongtong_front_nw.webp)
+![](blender_renders/gongtong_corridor.webp)
+![](blender_renders/gongtong_palms.webp)
+![](blender_renders/gongtong_south.webp)
+![](blender_renders/gongtong_loggia.webp)
+![](blender_renders/gongtong_front_ne.webp)
+![](blender_renders/gongtong_aerial.webp)
+
+### 20.8 還沒達到參考品質的地方
+
+1. **沒有照片**：面磚顏色、窗的形式（雙拱窗）、退縮的方向、山牆的位置、花磚的樣子、木造走廊的樣子都是依文字描述推測的。有照片要重新對。
+2. 十三溝面磚的溝、面磚的真實尺寸沒做（遊戲距離看不到）；面磚是 Poly Haven 的通用面磚改色。
+3. 南側的「共同三松」沒有放（舟山路太近）；西側階梯教室的戶外樓梯沒做。
+4. 室內（教室、走廊）不在這個 GLB 裡：遊戲的室內是 LAWWW 的 `teach3d.js` 模板；窗裡面是暗的玻璃（晚上亮燈）。
+5. 蒲葵的株數、位置、高度是遊戲化的；和大道大樹牆的關係要 LAWWW 決定。
+
+---
+
+## 21. 大一女舍 A、B 棟外觀＋二樓天橋＋門口（四棟清單；Blender 正式模型；**依文字資料的遊戲化設計，沒有照片**）
+
+LAWWW 14:09Z 規格：A 棟中心 (−108,68)、B 棟 (−78,66)，各 24×12×5 層，二樓天橋（兩棟中間 6 m，下面可以走），第一階段只做外部＋門禁（男賓止步），不做室內。
+腳本 `tools/blender/env_second/campus_freshman.py` → `assets/models/env/second_ai/campus_freshman.glb`（校園世界座標）；立面工具抽成 `tools/blender/env_second/archkit.py`（之後普通、博雅、社科院共用；共同教學館的腳本不動）。`src/assets3d.js` 加了 `bldg.campus_freshman`（lazy）。
+
+### 21.1 根據
+
+查證過的只有（住宿組大一女舍頁、暑期營隊租用宿舍簡介、臺大訪客中心地圖的搜尋摘要）：A、B 兩棟、地上 5 層（B 棟另有地下 1 層）、**沒有電梯**、**二樓天橋連通**、A 棟一樓入口有服務台＋24 小時傳達室、1991 年落成、2008 年整修、四人房、在舟山路一帶。**外觀沒查到**。
+下面這些是**台灣 1990 年代大學宿舍常見的樣子**（遊戲化設計），不是照片還原：米色二丁掛面磚、一樓花崗石勒腳、每層樓板一條灰白混凝土線、寢室鋁框推拉窗＋窗上的混凝土遮陽板、部分窗下的窗型冷氣、一樓窗的鐵窗；正面中間是樓梯間（白色粉刷的直條、每個樓梯平台一扇窗、出屋頂）、兩側浴室與洗衣間的小窗；屋頂女兒牆、不鏽鋼水塔、太陽能熱水器、冷氣室外機；背面（南）寢室窗外的曬衣架與衣服。
+
+### 21.2 做法
+
+- 門口（套件門廊的位置：側牆 x=±2、深 2 m）：平頂雨遮、面磚側牆＋花崗石勒腳、門口地坪、鋁框玻璃雙開門（上面氣窗，晚上透出門廳的燈）、吸頂燈；名牌「大一女舍　A 棟／B 棟」、門廊左牆「男賓止步」（紅字）。
+  - **A 棟**：門廊右牆的傳達室小窗（鋁框、檯面）＋名牌「傳達室」；門左邊的信箱（3×4 格）。
+  - **B 棟**：門廊右牆的刷卡機（綠燈）；門左邊的公告欄。
+- 二樓天橋：A 棟東牆（世界 x=−96）到 B 棟西牆（x=−90），z 65.4..68.6；地板底面離地 3.25 m（下面可以走）、面磚矮牆、帶狀鋁窗（晚上亮）、平屋頂與天花板燈；兩棟二樓各一扇通天橋的門（關著的鋁門）。
+- 門口的盆栽沒有做：放在門廊外面會在導航阻擋外面，玩家會穿過去——要的話請 LAWWW 加阻擋再放。
+
+### 21.3 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 大一女舍外觀＋天橋＋門口（`bldg.campus_freshman`） | 完成 | **還沒接進遊戲**（LAWWW 整合；本機接線拍了截圖） | `MODEL_READY` |
+
+### 21.4 規格
+
+- GLB **1.19 MB**、三角形 **15,970**、網格（≈ draw call）16、材質 12、貼圖 {'256×256': 4, '64×64': 1, '512×512': 2}（共 71 KB）。
+- 材質：`fd_wall`（面磚）、`fd_paint`（粉刷、樓板線、雨遮）、`fd_roof`（屋頂隔熱磚）、`fd_misc`（頂點色：冷氣、水塔、太陽能板、鐵窗、刷卡機、信箱、曬衣架）、`fd_cloth`（頂點色：衣服）＋校園地標約定的 `ck_glass`、`ck_frame`（銀色鋁框）、`ck_trim_win`、`ck_stone_base`、`ck_ceiling`、`wz_lamp_lens`。
+- Poly Haven CC0：`exterior_wall_cladding_02`、`painted_plaster_wall`、`granite_tile_03`、`square_brick_paving`。
+
+### 21.5 給 LAWWW 的接線說明
+
+1. 大一女舍那個區塊（`fdA`、`fdB`、天橋 `br` 都在同一個 `{}` 裡）：`br.position.set(-93,0,67); g.add(br);` 後面加 `const fdGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_freshman']; for(const o of [fdA,fdB,br]){ o.userData.ckTag='freshman'; if(fdGLB) o.userData.dyn=true; }`（天橋也要標，正式模型載入後你的天橋才會藏起來）。
+2. 區塊最後：`if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.campus_freshman']) ASSETS.loadOne('bldg.campus_freshman').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_freshman_glb','freshman'); }).catch(e=>console.warn('大一女舍正式模型載入失敗',e));`
+3. **導航、門口互動點、長椅、車架都不用改**：本體與門廊側牆的位置和套件一樣；天橋在 3.25 m 以上；你的天橋鏡頭碰撞（`bc`）照舊（正式模型的天橋在同一個範圍裡，地板底面比你的低 0.3 m）。
+4. 測試：Playwright＋SwiftShader 截圖 沒有 JavaScript 錯誤。
+
+### 21.6 遊戲內截圖（左＝現在的套件方盒｜右＝正式模型；本機接線；Playwright＋SwiftShader，**不是 iPhone**）
+
+| 鏡頭 | 修改前 draw call／三角形 | 修改後 | 倍數 |
+|---|---|---|---|
+| 從舟山路看兩棟與天橋（11:00） | 68／446,878 | 63／418,322 | ×0.93／×0.94 |
+| 東北邊（11:00） | 94／685,492 | 91／672,181 | ×0.97／×0.98 |
+| A 棟門口：傳達室小窗、信箱、男賓止步（11:00） | 60／344,474 | 59／315,988 | ×0.98／×0.92 |
+| 二樓天橋底下（11:00） | 69／417,174 | 64／388,618 | ×0.93／×0.93 |
+| 跟隨鏡頭：玩家在門口長椅旁（11:00） | 113／493,886 | 108／465,330 | ×0.96／×0.94 |
+| 手機直向 390×844：門口長椅旁 | 125／695,346 | 120／666,790 | ×0.96／×0.96 |
+
+（晚上 20:00 那張不列：修改前、修改後是兩次不同的載入，路燈開關、路人的狀態不一樣，draw call 不能比。）
+
+| 鏡頭 | 修改前 | 修改後 |
+|---|---|---|
+| 從舟山路看兩棟與天橋（11:00） | ![](shots/freshman_before_fd_street.webp) | ![](shots/freshman_after_fd_street.webp) |
+| 東北邊（11:00） | ![](shots/freshman_before_fd_ne.webp) | ![](shots/freshman_after_fd_ne.webp) |
+| A 棟門口：傳達室小窗、信箱、男賓止步（11:00） | ![](shots/freshman_before_fd_entrance_a.webp) | ![](shots/freshman_after_fd_entrance_a.webp) |
+| 二樓天橋底下（11:00） | ![](shots/freshman_before_fd_bridge.webp) | ![](shots/freshman_after_fd_bridge.webp) |
+| 跟隨鏡頭：玩家在門口長椅旁（11:00） | ![](shots/freshman_before_fd_follow.webp) | ![](shots/freshman_after_fd_follow.webp) |
+| 從舟山路看 20:00 | ![](shots/freshman_before_fd_street_2000.webp) | ![](shots/freshman_after_fd_street_2000.webp) |
+| 手機直向 390×844：門口長椅旁 | ![](shots/freshman_before_fd_mobile.webp) | ![](shots/freshman_after_fd_mobile.webp) |
+
+### 21.7 Blender 渲染圖（Cycles，曝光 −0.8；**不是遊戲畫面**；名牌的字是遊戲畫的）
+
+![](blender_renders/freshman_front.webp)
+![](blender_renders/freshman_entrance_a.webp)
+![](blender_renders/freshman_entrance_b.webp)
+![](blender_renders/freshman_bridge.webp)
+![](blender_renders/freshman_ne.webp)
+![](blender_renders/freshman_back.webp)
+![](blender_renders/freshman_aerial.webp)
+
+### 21.8 還沒達到參考品質的地方
+
+1. **沒有照片**：外觀全部是「台灣 1990 年代大學宿舍」的通用樣子；真實的大一女舍面磚顏色、窗型、樓梯間位置、天橋的樣子都可能不一樣。
+2. 背面（曬衣）在遊戲裡幾乎看不到（靠地圖南邊界）。
+3. 沒有室內；門是關著的（照規格：男賓止步）。
+4. 兩棟用同一套設計（只差門口的傳達室／刷卡機、信箱／公告欄）。
+
+---
+
+## 22. 新社科院外觀：辜先生紀念圖書館＋社會科學院大樓＋中庭（D56；Blender 正式模型；**遊戲化：南北對調**；**沒有照片**）
+
+LAWWW 2026-10-13 17:20Z 指定（照 `docs/campus/SOCSCI_PLAN.md` 第 3 節的位置與分工）：圖書館 x 95–125、z −92～−70；大樓 30×16、8 層、x 95–125、z −58～−42；中庭 z −70～−58。腳本 `tools/blender/env_second/campus_socsci.py` → `assets/models/env/second_ai/campus_socsci.glb`；清水混凝土貼圖 `gen_socsci_textures.py`（Poly Haven `concrete_wall_006` CC0 改作）。
+
+### 22.1 根據（哪些查證過、哪些是推測）
+
+| 項目 | 做法 | 根據 |
+|---|---|---|
+| 圖書館：單層、玻璃帷幕、白色樹狀柱＋荷葉柱頂、上百個天窗、屋頂綠化 | 照做：北、西兩面整片玻璃＋白色細框；從玻璃看得到 20 支樹狀柱、40 個天窗（和 ⑬ 室內同一份 `soclib_layout.js`，位置一致）；屋頂植栽＋天窗的深色玻璃頂 | 公開文字資料（`research/新社科院_參考資料與規劃.md`；LAWWW `SOCSCI_PLAN.md` 第 1 節）。真實約 51×45 m、88 支柱，遊戲照校園的壓縮比例做 30×22、20 支 |
+| 圖書館的南牆、東牆是實牆、入口在南牆 | 照 ⑬ 室內（南牆：服務台、館員區；入口在室內 x=−9 → 世界 x≈101） | ⑬ 的配置（遊戲化） |
+| 大樓：清水混凝土、8 層 | 照做；模板分割線 1.8×0.9 m、每片 6 個螺栓孔 | 「後面是清水混凝土的教學大樓」（LAWWW 查證）；樓層數照 LAWWW 17:20Z |
+| 大樓的立面分割（每個開間一扇深窗洞）、一樓往內退的玻璃大廳＋柱子、入口位置 | **推測**（C）：查不到立面資料 | — |
+| 圖書館在北、大樓在南 | **遊戲化**：真實是大樓靠辛亥路（北）、圖書館在南；這裡對調，讓圖書館面向法學院廣場、從霖澤館看得到（AA 的世界觀基準：從霖澤館台階看得到、走路約一分鐘） | LAWWW 17:20Z |
+| 系所（經濟系、政治系、社會系、社工系） | 大廳後牆的指標牌（字由遊戲畫）；系辦的位置「需查證」 | 社科院的系所是公開資料；系辦在幾樓沒查到 |
+
+### 22.2 做法
+
+- **圖書館**：玻璃是透明材質（`soc_glass_clear`，遊戲端透明、不投影），後面有室內的地板（水磨石）、天花板與樹狀柱（`ck_glass_lit`：白天是白色，晚上遊戲讓它亮——晚上從外面看是一整個亮著的玻璃盒子、白色的柱子是亮的）、南牆與東牆內側、樹狀柱（白色細柱＋往上張開的荷葉柱頂）、天花板上的圓形天窗、窗邊長桌、閱覽桌——**從外面看得到裡面**，不是貼一張圖。屋簷是白色薄板（北、西兩面外挑 0.6 m 遮陽），屋頂是植栽＋天窗。南面入口：玻璃自動門、白色薄雨遮＋兩盞燈、招牌「社會科學院圖書館」＋小字「辜先生紀念圖書館」（清水混凝土上的字）。
+- **大樓**：清水混凝土（`soc_concrete`：模板分割線＋螺栓孔，近看得到）；2–8 樓每個開間（3 m）一扇 2.3×2.2 m 的深窗洞（窗洞內側也是混凝土、深灰鋁框、中間一支直櫺；約七成的窗晚上亮燈）；一樓西面、北面往內退 2.4 m 的玻璃大廳＋外側一排 0.6 m 的柱子（上面的樓層懸挑），西面主入口上方的匾額「社會科學院」；大廳裡面看得到服務台、沙發、公告欄、大螢幕、系所指標；屋頂女兒牆、機房、冷氣室外機。
+- **中庭**：花崗石鋪面（從中庭一路鋪進一樓的柱廊）、中間一塊淺色石材的長方形（集合、典禮、迎新的位置，留空）、清水混凝土長椅 4 張、樹穴 1 個（可以種樹）。
+- 材質名稱照校園地標的約定；招牌是 `PLATE_FACE_SOC_*`（字和顏色在 GLB 的 extras 裡，遊戲畫）；光暈 `GLOW_soc_*`（圖書館門口、大樓兩個入口）。
+
+### 22.3 驗收狀態
+
+| 項目 | 模型 | 整合 | 狀態 |
+|---|---|---|---|
+| 新社科院外觀（`bldg.campus_socsci`） | 完成 | **還沒接進遊戲**（LAWWW；我用本機、沒有 commit 的接線拍了遊戲截圖） | `MODEL_READY`（導航、鏡頭碰撞、門的位置要 LAWWW 換成新的形狀之後才是 `INTEGRATED`） |
+
+### 22.4 規格
+
+- GLB **1.00 MB**、三角形 **14,014**、網格（≈ draw call）15、材質 12、貼圖 {'512×512': 4, '64×64': 1, '256×256': 1}（共 114 KB，WebP）。
+
+### 22.5 給 LAWWW 的接線說明（`src/zones3d.js` 是你的，我沒有改；下面是我本機測試的寫法）
+
+1. `src/assets3d.js`（第二個 AI 區塊）：`'bldg.campus_socsci':{url:'assets/models/env/second_ai/campus_socsci.glb', type:'building', lazy:true, ...}`（我的分支已有）。
+2. campus 區塊：有 `bldg.campus_socsci` 時，用它取代 ⑤ `campus_modern`（同一個 ckTag `'soc'`、同一套 `attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_socsci_glb','soc')`）；**門前 7 根白色圓柱拿掉**（它們在新圖書館裡面）。
+3. **導航要換**（現在是舊的 `CK.modern` 56×22 方盒：x 99–121 全擋、中庭也擋；新圖書館的 x 95–99、121–125 沒擋，路人會走進圖書館——下面的截圖看得到）：
+   - 阻擋（中心 x, z、寬 w（x）、深 d（z））：
+     - 圖書館：(110.00, -81.00)、30.00×22.00
+     - 大樓一樓的柱子：(95.30, -57.70)、0.60×0.60
+     - 大樓一樓的柱子：(95.30, -54.50)、0.60×0.60
+     - 大樓一樓的柱子：(95.30, -51.50)、0.60×0.60
+     - 大樓一樓的柱子：(95.30, -48.50)、0.60×0.60
+     - 大樓一樓的柱子：(95.30, -45.50)、0.60×0.60
+     - 大樓一樓的柱子：(98.00, -57.70)、0.60×0.60
+     - 大樓一樓的柱子：(101.00, -57.70)、0.60×0.60
+     - 大樓一樓的柱子：(104.00, -57.70)、0.60×0.60
+     - 大樓一樓的柱子：(107.00, -57.70)、0.60×0.60
+     - 大樓一樓的柱子：(110.00, -57.70)、0.60×0.60
+     - 大樓一樓的柱子：(113.00, -57.70)、0.60×0.60
+     - 大樓一樓的柱子：(116.00, -57.70)、0.60×0.60
+     - 大樓一樓的柱子：(119.00, -57.70)、0.60×0.60
+     - 大樓一樓的柱子：(122.00, -57.70)、0.60×0.60
+     - 大樓（一樓大廳的玻璃線以內）：(111.20, -48.80)、27.60×13.60
+     - 大樓西南角實牆：(96.20, -42.50)、2.40×1.00
+     - 大樓東北角實牆：(124.50, -56.80)、1.00×2.40
+     - 中庭長椅：(108.00, -67.90)、2.40×0.45（可以坐：長椅）
+     - 中庭長椅：(117.00, -67.90)、2.40×0.45（可以坐：長椅）
+     - 中庭長椅：(122.60, -64.60)、0.45×2.40（可以坐：長椅）
+     - 中庭長椅：(122.60, -60.60)、0.45×2.40（可以坐：長椅）
+   - 圓形：樹穴（可以在中間種樹） (122.8, -68.6) 半徑 1.25
+   - 舊的 `CK.modern` 社科院（`ckPlace(soc,110,-70,-π/2)`）的導航阻擋要拿掉；中庭（x 95–125、z −70～−58）、大樓一樓的柱廊（西面 x 95–97.4、北面 z −58～−55.6）走得到。
+4. **鏡頭碰撞要換**（舊方盒的碰撞還在：手機截圖在中庭時鏡頭被看不見的舊牆擋住）：
+   - 圖書館：x 95.0–125.0、y 0.0–6.15、z -92.0–-70.0
+   - 大樓（懸挑以上）：x 95.0–125.0、y 4.5–30.68、z -58.0–-42.0
+   - 大樓一樓：x 97.4–125.0、y 0.0–4.50、z -55.6–-42.0
+5. **門**：
+   - 圖書館入口（往 soclib 區域）：互動點建議 (101.0, -69.3)；門在南牆 x 99.8–102.2；互動點建議 (101, −69.3)，半徑 1.2；出來站在 (101, −67.6) 面向南
+   - 大樓西面主入口：互動點建議 (96.6, -50.0)；玻璃門 z −51.25～−48.75（x=97.4）；外面是 2.4 m 寬、有柱子的走廊
+   - 大樓北面入口（中庭）：互動點建議 (110.0, -56.4)；玻璃門 x 108.75–111.25（z=−55.6）
+   - 圖書館的門現在是 `SL3.DOOR`（舊外觀的西面 (97.9,−70)）：換成新外觀後改到南面 (101, −69.3)、出來站在 (101, −67.6) 面向南（中庭）。大樓的兩個門：室內第一階段做好之前先關著或做成看得懂的告示。
+6. `?nobldg`／載入失敗的備用：現在的備用是舊的白色方盒（形狀不一樣）。建議把套件換成和新形狀一樣的兩個方盒（圖書館 30×22×6.2、大樓 30×16×30.7），導航和鏡頭碰撞照套件算（D38 分類 ③）。
+7. 窗景：⑬ 的窗景（`soclib_north`／`soclib_west`）是從舊外觀旁邊拍的；換外觀後重拍（`tools/shots/window_views.py`）。
+8. 測試：Playwright＋SwiftShader 截圖，**沒有 JavaScript 錯誤**：沒有。**沒跑** `campus_layout_nav`、`reachability_all`、`see_through`（導航是你要換的）。
+
+### 22.6 遊戲內截圖（左＝LAWWW `babb8c8` 現在的樣子：⑤ 白色原型＋7 根白柱｜右＝新外觀，本機接線；Playwright＋SwiftShader，**不是 iPhone**）
+
+| 鏡頭 | 修改前（`babb8c8`） | 修改後 |
+|---|---|---|
+| 從霖澤館門口往東看（11:00） | ![](shots/socsci_before_from_linze.webp) | ![](shots/socsci_after_from_linze.webp) |
+| 法學院廣場往東看（11:00） | ![](shots/socsci_before_plaza.webp) | ![](shots/socsci_after_plaza.webp) |
+| 圖書館西面：小路上往東南看（11:00） | ![](shots/socsci_before_lib_w.webp) | ![](shots/socsci_after_lib_w.webp) |
+| 萬才館陽台的高度往東南看：屋頂（11:00） | ![](shots/socsci_before_wancai_balcony.webp) | ![](shots/socsci_after_wancai_balcony.webp) |
+| 中庭：從西邊的入口往東看（11:00） | ![](shots/socsci_before_courtyard.webp) | ![](shots/socsci_after_courtyard.webp) |
+| 圖書館入口：中庭往北看（11:00） | ![](shots/socsci_before_lib_door.webp) | ![](shots/socsci_after_lib_door.webp) |
+| 大樓西面主入口（11:00） | ![](shots/socsci_before_bld_west.webp) | ![](shots/socsci_after_bld_west.webp) |
+| 空拍：西邊高處（11:00） | ![](shots/socsci_before_aerial2.webp) | ![](shots/socsci_after_aerial2.webp) |
+| 法學院廣場往東看 17:30 | ![](shots/socsci_before_plaza_1730.webp) | ![](shots/socsci_after_plaza_1730.webp) |
+| 法學院廣場往東看 20:00 | ![](shots/socsci_before_plaza_2000.webp) | ![](shots/socsci_after_plaza_2000.webp) |
+| 圖書館西面 20:00 | ![](shots/socsci_before_lib_w_2000.webp) | ![](shots/socsci_after_lib_w_2000.webp) |
+| 中庭 20:00 | ![](shots/socsci_before_courtyard_2000.webp) | ![](shots/socsci_after_courtyard_2000.webp) |
+| 手機直向 390×844：玩家在法學院廣場往東看（跟隨鏡頭） | ![](shots/socsci_before_mobile2.webp) | ![](shots/socsci_after_mobile2.webp) |
+
+效能（同一個鏡頭；整個校園一起畫）：
+
+| 鏡頭 | 修改前 draw call／三角形 | 修改後 | 倍數 |
+|---|---|---|---|
+| 從霖澤館門口往東看（11:00） | 269／930,051 | 280／948,031 | ×1.04／×1.02 |
+| 法學院廣場往東看（11:00） | 163／720,399 | 154／687,801 | ×0.94／×0.95 |
+| 圖書館西面：小路上往東南看（11:00） | 119／604,979 | 130／622,959 | ×1.09／×1.03 |
+| 萬才館陽台的高度往東南看：屋頂（11:00） | 143／649,169 | 154／667,149 | ×1.08／×1.03 |
+| 中庭：從西邊的入口往東看（11:00） | 117／619,661 | 128／637,641 | ×1.09／×1.03 |
+| 圖書館入口：中庭往北看（11:00） | 176／712,601 | 167／680,003 | ×0.95／×0.95 |
+| 大樓西面主入口（11:00） | 128／689,483 | 140／707,465 | ×1.09／×1.03 |
+| 空拍：西邊高處（11:00） | 182／786,409 | 216／836,191 | ×1.19／×1.06 |
+| 法學院廣場往東看 17:30 | 170／725,170 | 182／743,152 | ×1.07／×1.02 |
+| 法學院廣場往東看 20:00 | 177／723,928 | 191／741,914 | ×1.08／×1.02 |
+| 圖書館西面 20:00 | 132／608,492 | 143／626,472 | ×1.08／×1.03 |
+| 中庭 20:00 | 130／623,174 | 143／641,158 | ×1.10／×1.03 |
+| 手機直向 390×844：玩家在法學院廣場往東看（跟隨鏡頭） | 156／742,509 | 166／760,037 | ×1.06／×1.02 |
+
+### 22.7 Blender 渲染圖（Cycles；**不是遊戲畫面**；招牌的字是遊戲畫的，這裡空白）
+
+![](blender_renders/socsci_lib_north.webp)
+![](blender_renders/socsci_lib_nw.webp)
+![](blender_renders/socsci_lib_door.webp)
+![](blender_renders/socsci_courtyard.webp)
+![](blender_renders/socsci_bld_nw.webp)
+![](blender_renders/socsci_aerial.webp)
+
+### 22.8 還沒達到參考品質的地方（自評）
+
+1. **沒有照片**：圖書館是照文字資料做的（玻璃、樹狀柱、荷葉柱頂、天窗、屋頂綠化），柱子的形狀、天窗的排法、玻璃框的分割都是我的詮釋；大樓的立面完全是推測。需要使用者的照片（圖書館外觀、入口、大樓正面、中庭）。
+2. **南北對調**是遊戲化（LAWWW 決定、使用者要改再改）。
+3. 圖書館的樹狀柱是簡化的（直柱＋圓錐柱頂），真實的柱子更細、柱頂和天花板連成一片；遊戲距離看起來接近，近看會差。
+4. 大樓只有外觀（一樓大廳看得到一點）；室內第一階段（大廳、系辦走廊、活動教室）用 LAWWW 的教學館模板，之後再看要不要正式模型。
+5. 中庭的樹要 LAWWW 用遊戲的樹放（樹穴已經留好）。
+6. 晚上圖書館的天花板和柱子整片均勻地亮（`ck_glass_lit`）——比真實的燈光平均、沒有燈具的光點；要更好看需要分區亮燈的貼圖或燈具。
+7. 大樓的立面是一格一格相同的深窗洞，讀起來像一般的辦公大樓；有照片之後要照真實的分割（遮陽板、樓梯間、頂樓）重做。
+
+---
+
+## 23. 教學館家具模組：自習桌椅、圓桌、講堂椅（博雅 101、自習區；Blender 正式模型；**還沒接進遊戲**）
+
+LAWWW 2026-10-13 18:05Z 分派、使用者同一天晚上確認的分工：「LAWWW2 製作可重複使用的講堂座椅與低成本坐姿人物；LAWWW 負責座位配置、坐下邏輯、鏡頭、LOD 與效能」。腳本 `tools/blender/env_second/furniture_study.py` → `assets/models/env/second_ai/furniture_study.glb`（＋`.json` 尺寸表）；預覽場景 `tools/blender/env_second/shots/furniture_preview.py`。
+
+### 23.1 根據
+
+| 項目 | 做法 | 根據 |
+|---|---|---|
+| 講堂椅 | 固定式：兩側的側板支撐（隔壁共用一片）、圓邊布面座墊與椅背、胡桃木椅背殼、扶手；座面沒人坐時彈起來（`lecture_seat_up`） | 一般大學講堂的固定座椅（**不是博雅 101 的實物**：照片在使用者給的 ntuinfo 頁，沙盒打不開；**沒確認是哪一間教室的照片前不標成 101**） |
+| 前方連續桌板 | 一個座位一段、接起來看不到縫；裝在後一排的地面上，緊貼前一排的椅背 | 同上；排距 1.0 m、每排升高 0.16 m（檢查報告第 2.2 節、R2 修正版） |
+| 自習雙人桌 | 0.9×0.6 m、兩張椅子面對面；桌面中間一個插座盒（自習區要充電） | 檢查報告第 3.2 節（LAWWW 同意照提案改配置） |
+| 自習椅 | 彎管椅架＋有弧度與厚度的夾板座面、椅背 | 一般大學公共空間的椅子 |
+| 圓桌 | Ø1.0 m、中柱＋圓盤底座、四張椅子 | 官方名稱「中央大廳圓桌區」（博雅藝文空間借用規定） |
+
+### 23.2 做法（D38：Blender 建模，不是方塊）
+
+- 造型都是 Blender 的修改器烤成網格：倒角（Bevel：桌面、軟墊、側板、扶手的圓邊）、厚度（Solidify：夾板座面、椅背殼）、曲線圓管（Curve bevel，8 邊：椅腳、桌腳，轉角是彎管不是直角）。
+- **一個材質、一張貼圖集**（`study_furn`）：顏色（木紋：Poly Haven `walnut_veneer` CC0 改色成淺橡木、胡桃木；金屬、布、塑膠：程式畫的雜訊）＋法線（木紋區）＋粗糙度／金屬度（木 0.45–0.5、烤漆鋼管 0.38／0.25、布 0.92；遊戲沒有環境貼圖，金屬度不能高）。每一件家具一個網格 → **遊戲端每種一個 `InstancedMesh`**。
+- 原點在地面中心、+z 朝前（椅子：坐的人面向 +z）；尺寸、座位點、導航大小在 `.json` 的 `modules`。
+
+### 23.3 規格
+
+GLB **219 KB**、三角形（9 種合計）**4,672**、網格 9（每種一個）、材質 1、貼圖 3 張：顏色 1024×1024、法線 512×512、粗糙度／金屬度 128×128（共 48 KB，WebP）。
+
+| 模組 | 三角形 | 尺寸（寬×高×深） | 座位點／接法 |
+|---|---|---|---|
+| 自習雙人桌（`study_table2`） | 756 | 0.9×0.75×0.6 | 2 個座位點（見 .json）；桌子 0.9×0.6；兩張椅子各 0.46×0.46，中心離桌子中心 0.55 m（照 LAWWW 博雅自習區第二版 4e2db1f：桌子長邊南北向、椅子在東西兩側——放的時候整組轉 90°） |
+| 自習椅（`study_chair`） | 1,020 | 0.45×0.85×0.46 | 座位點 (0, 0.45, 0.0)；0.46×0.46 |
+| 自習椅（簡化版，遠處）（`study_chair_lod1`） | 72 | 0.45×0.85×0.46 | 座位點 (0, 0.45, 0.0)；0.46×0.46 |
+| 圓桌（`round_table`） | 912 | 1×0.75×1 | 4 個座位點（見 .json）；圓：半徑 0.5（椅子 4 張在東南西北、中心離桌心 0.8 m、面向桌心：照 LAWWW 4e2db1f） |
+| 講堂椅（座面放下：有人坐）（`lecture_seat`） | 788 | 0.52×1×0.6 | 座位點 (0, 0.47, 0.03)；座位間距 0.52 m；整排不能走（從走道側身進去） |
+| 講堂椅（座面收起：空位）（`lecture_seat_up`） | 788 | 0.52×1×0.6 | 座位點 (0, 0.47, 0.03)；座位間距 0.52 m；空位：座面收起（約 83°）；有人坐的位子換成 lecture_seat；整排不能走（從走道側身進去） |
+| 講堂椅（簡化版，遠處的排）（`lecture_seat_lod1`） | 36 | 0.52×1×0.6 | 座位點 (0, 0.47, 0.03)；座位間距 0.52 m；整排不能走（從走道側身進去） |
+| 排尾側板（`lecture_standard`） | 216 | 0.041×0.69×0.58 | 排尾（最左邊座位的左邊）：放在 x＝座位中心 −0.2525 |
+| 前方連續桌板（一個座位一段）（`lecture_desk`） | 84 | 0.52×0.75×0.34 | 和講堂椅同一個 x、同一個原點（桌板在 z 0.30–0.64）；排距 1.0 m、每排升高 0.16 m 時，桌板前緣離前一排的椅背約 3 cm（排距小於 0.98 m 會碰到） |
+
+**101 的量**（R2 修正版 12 排×16＝192 席，估算，還沒在遊戲量）：近的 5 排用 `lecture_seat`／`lecture_seat_up`（80 席×788＝6.3 萬個三角形）、遠的 7 排用 `lecture_seat_lod1`（112×36＝4 千）、桌板 192×84＝1.6 萬、排尾 12×216＝2.6 千 → **約 8.6 萬個三角形、5–6 次 draw call**（instancing：每種一次）。
+
+### 23.4 遊戲內原型（**本機注入、不是整合**：在 LAWWW `dae1da3` 的博雅讀檔後，用遊戲的 GLTFLoader 載入、`InstancedMesh` 放在大廳中間與 101 最後一排後面的平台；Playwright＋SwiftShader，**不是 iPhone**）
+
+**博雅大廳：兩張自習雙人桌、一張圓桌（後面是原本的單人小桌、討論桌）**
+
+![](shots/furniture_game_lobby.webp)
+
+**博雅大廳近看**
+
+![](shots/furniture_game_lobby_close.webp)
+
+**博雅 101 最後一排後面的平台：新的講堂椅一排（3 張放下、3 張收起）＋桌板；前面是原本的活動椅**
+
+![](shots/furniture_game_101_back.webp)
+
+**手機直向 390×844（跟隨鏡頭，有 HUD）**
+
+![](shots/furniture_game_mobile.webp)
+
+
+### 23.5 Blender 渲染（Cycles；**不是遊戲畫面**；地面、階梯是預覽用的灰色方塊）
+
+**全部：講堂 4 排（排距 1.0、每排高 0.16；藍灰色座面收起的是空位）、自習雙人桌、圓桌**
+
+![](blender_renders/furniture_overview.webp)
+
+**自習雙人桌＋面對面兩張椅子**
+
+![](blender_renders/furniture_study.webp)
+
+**圓桌＋四張椅子**
+
+![](blender_renders/furniture_round.webp)
+
+**講堂：從講台往座位看（前方連續桌板）**
+
+![](blender_renders/furniture_lecture_stage.webp)
+
+**講堂：側面（側板、扶手、桌板、座面收起）**
+
+![](blender_renders/furniture_lecture_side.webp)
+
+**自習椅近看（彎管、夾板的弧度與厚度）**
+
+![](blender_renders/furniture_chair_detail.webp)
+
+
+### 23.6 驗收狀態
+
+| 項目 | 模型 | 整合 | 狀態 |
+|---|---|---|---|
+| `furniture_study.glb`（9 種家具） | 完成 | **還沒接**（座位配置、入座、LOD 是 LAWWW 的） | `MODEL_READY` |
+
+### 23.7 還沒達到參考品質的地方（自評）
+
+1. **沒有對照照片**：博雅 101 的座椅、自習區的桌椅是照「一般大學」做的；拿到照片後要改顏色、布料、桌板形狀（有些講堂是每個座位一塊可以翻的寫字板，不是連續桌板）。
+2. 布面是程式畫的織紋，近看偏平；座墊沒有縫線。
+3. 金屬是深灰烤漆（遊戲沒有環境貼圖，做不出亮面不鏽鋼）。
+4. 講堂椅的簡化版（`lod1`）只有三個方塊（36 個三角形），只適合 8 m 以外；中距離可能需要一個 150–250 三角形的中間版本，等 LAWWW 在遊戲裡看過再決定。
+5. 排號牌、座位號碼、扶手上的寫字板沒有做。
+
+---
+
+## 24. 坐著的聽眾替身（博雅 101、自習區的人群；Blender 正式模型；**還沒接進遊戲**）
+
+使用者 2026-10-13：「101 要有遠處座位的低成本坐姿人物、近處少量 NPC；不要先做 400 個完整 3D NPC」「LAWWW2 製作…低成本坐姿人物」。LAWWW 20:02Z：配色用「預先烤好幾種、每種一個網格」。腳本 `tools/blender/env_second/seated_figures.py` → `assets/models/env/second_ai/seated_figures.glb`（＋`.json`）；後處理 `glb_share_geometry.py`；預覽場景 `tools/blender/env_second/shots/seated_preview.py`。
+
+### 24.1 根據與限制
+
+| 項目 | 做法 |
+|---|---|
+| 人物來源 | 遊戲的**路人底模**（`assets/models/char/vroid_npc_{f1,f2,m1,m2}.vrm`，VRoid CC0 樣本改作，`tools/vroid_build.py`）。**不用主角、五位女主角、阿哲的模型**——重要角色的臉不能出現在路人群裡（CLAUDE.md：角色是完整的人） |
+| 配色 | 照遊戲路人的上色方式（`character3d.js` 的 `applyTint`：材質名 HAIR／Tops／Bottoms 乘上「目標色÷底色」，線性值、最多 1.35 倍）；每個底模兩種大學生常見的穿著 |
+| 姿勢 | 和遊戲坐下一致的骨架做法（大腿往前、膝蓋彎、腳掌貼地；`SIT_VRM`）＋三種上身：**聽講**（手放大腿、看講台）、**抄筆記**（坐到椅子前半、身體前傾、手在桌上）、**滑手機**（兩手在胸前、低頭） |
+| 座位約定 | 和 `furniture_study.glb` 的講堂椅同一個原點（座位地面中心、+z 朝講台）：**直接用同一個 instance 矩陣**；屁股在座墊 y≈0.47、背貼椅背 z≈−0.17；手腕在桌板（z 0.30–0.64、高 0.75）上 |
+
+### 24.2 做法
+
+1. 匯入 VRM → 清掉表情 → 拿掉遊戲也不畫的眼睛高光（EyeHighlight、EyeExtra）→ 合成一個網格（約 2.2–3.8 萬個三角形，保留骨架權重）。
+2. 減面：LOD0 約 1,500、LOD1 約 350 個三角形（Blender 的 Decimate，權重跟著減）；LOD0 重新展 UV（智慧投影）。
+3. 每種配色：站姿下把原模型的顏色烤到 LOD0（Cycles，選取對作用中物件；形狀幾乎一樣，烤得準）。
+4. 每個姿勢：骨架在世界座標轉（腿、上身、頭）＋手臂兩段 IK（手腕放到指定位置、手肘往外後）＋腳掌不穿地（小腿自動往前伸）→ 套到 LOD0、LOD1 → 搬到座位 → 轉成面向 +z。
+5. 8 種配色排成一張 2048×1024 貼圖集（每格 512×512）；兩種配色的網格形狀相同，後處理讓它們共用頂點與索引（只有 UV 不同），檔案 3.2 → 2.1 MB。
+
+### 24.3 規格
+
+GLB **2.30 MB**（貼圖集 2048×1024 WebP 242 KB）、網格 48、材質 1。三角形：`npc_f1` 原模型 29,549 → LOD0 1,500／LOD1 350、`npc_f2` 原模型 24,258 → LOD0 1,499／LOD1 350、`npc_m1` 原模型 38,458 → LOD0 1,500／LOD1 350、`npc_m2` 原模型 22,164 → LOD0 1,499／LOD1 350。
+
+| 網格名稱 | 說明 |
+|---|---|
+| `fig_<底模>_<姿勢>_c<配色>` | LOD0（約 1,500 個三角形）；底模＝`npc_f1`／`npc_f2`／`npc_m1`／`npc_m2`，姿勢＝`listen`／`write`／`phone`，配色＝0／1 |
+| `fig_<底模>_<姿勢>_c<配色>_lod1` | LOD1（約 350 個三角形），同一格貼圖 |
+
+共 **24 種外型**（4 底模×3 姿勢×2 配色）×2 個 LOD＝48 個網格、**一個材質**（`seated_fig`）。遊戲端：每種外型一個 `InstancedMesh`（實際用幾種由 LAWWW 決定；全用是 24 次 draw call，近的用 LOD0、遠的用 LOD1）。
+
+**101 的量**（估算，R2 修正版 192 席、坐六成＝約 115 人）：近的 3 排（約 30 人）LOD0＝4.5 萬、其他約 85 人 LOD1＝3 萬 → **約 7.5 萬個三角形**；現在 16 個完整 VRM 人物約 62 萬個三角形（檢查報告第 6 節）。
+
+### 24.4 遊戲內原型（**本機注入、不是整合**：LAWWW `dae1da3` 的博雅讀檔後，用遊戲的 GLTFLoader 載入、`InstancedMesh` 放在 101 最後一排後面的平台與大廳的自習桌；Playwright＋SwiftShader，**不是 iPhone**）
+
+**博雅 101 最後一排後面的平台：新的講堂椅一排，坐 4 個替身（聽講×2、抄筆記、滑手機），2 張空位收起**
+
+![](shots/seated_game_101.webp)
+
+**同一排，側面**
+
+![](shots/seated_game_101_side.webp)
+
+**博雅大廳：自習桌坐 3 個替身（抄筆記×2、滑手機）、圓桌 2 個（聽講、抄筆記）；後面是原本的桌椅**
+
+![](shots/seated_game_lobby.webp)
+
+**手機直向 390×844（跟隨鏡頭，有 HUD）**
+
+![](shots/seated_game_mobile.webp)
+
+
+### 24.5 Blender 渲染（Cycles；**不是遊戲畫面**；講堂椅、桌板是第 23 節的模組）
+
+**4 排×6 人：24 種外型（每排一個底模：聽講、滑手機、抄筆記×兩種配色），LOD0**
+
+![](blender_renders/seated_fig_front.webp)
+
+**近看（LOD0）**
+
+![](blender_renders/seated_fig_close.webp)
+
+**側面：屁股在座墊、背貼椅背、腳踩地、手在大腿／胸前／桌上（LOD0）**
+
+![](blender_renders/seated_fig_side.webp)
+
+**從後面看（LOD0）**
+
+![](blender_renders/seated_fig_back.webp)
+
+**同一個鏡頭，LOD1（約 350 個三角形，遠處用）**
+
+![](blender_renders/seated_lod1_front.webp)
+
+**近看 LOD1（只用在遠處：近看的樣子）**
+
+![](blender_renders/seated_lod1_close.webp)
+
+
+### 24.6 驗收狀態
+
+| 項目 | 模型 | 整合 | 狀態 |
+|---|---|---|---|
+| `seated_figures.glb`（24 種外型×2 LOD） | 完成 | **還沒接**（放在哪些座位、多少人、LOD 切換、和真人物的交接由 LAWWW 做） | `MODEL_READY` |
+
+### 24.7 還沒達到參考品質的地方（自評）
+
+1. **近看是低面數**：LOD0 只有 1,500 個三角形，頭髮是幾片大面、臉的五官是烤上去的；設計上只用在玩家前後兩排以外。玩家旁邊的人要用真的 VRM 人物（使用者：「近處少量 NPC」）。
+2. **四個底模的臉、髮型一樣**（同一個底模只換衣服顏色）；120 人的講堂裡會看到重複。要更多變化需要更多路人底模（`tools/vroid_build.py`，LAWWW 那邊）。
+3. 姿勢是靜態的，沒有呼吸、寫字的小動作；需要的話 LAWWW 可以在頂點著色器加很小的晃動（檢查報告第 2.2 節的提案）。
+4. 手指沒有彎（拿手機、拿筆的手是張開的），遠看看不出來，近看會怪。
+5. 抄筆記的桌上沒有筆記本、筆；滑手機的手裡沒有手機——可以做成另外的小物（給 LAWWW 用 instancing 放），還沒做。
+6. 坐在自習椅、圓桌椅時，座位高度差 2 cm、椅背位置不同：原型是手動把替身往下 2 cm、往後 3 cm；正式接的時候要 LAWWW 用自習椅的座位點算。
+
+---
+
+## 25. 教室門模組：門框、門片（開著／關著）、門牌（Blender 正式模型；**還沒接進遊戲**）
+
+鏡頭穿牆檢查（`CAMERA_WALLS.md` 第 4 節）發現教室門口只是牆上的洞、沒有門框和門片；LAWWW 20:02Z 排進佇列：「門框、上課時開著 90° 的門片、門牌；門片靠牆，不能擋門口的導航和鏡頭」。做在 `furniture_study.glb` 裡（和桌椅同一個材質、同一張貼圖集），腳本 `tools/blender/env_second/furniture_study.py` 的 `door_*`；預覽場景 `tools/blender/env_second/shots/door_preview.py`。
+
+### 25.1 做法與約定
+
+- **原點＝門洞中心的地面**；x 沿著牆、z＝0 是牆的中心面、**+z＝走廊那一側**（教學館模板：牆厚 0.2、門洞 1.2×2.4）。牆在 x 方向（例如博雅二樓 201 的門 z=−0.4）用 yaw 0；牆在 z 方向（例如博雅 101 的門 x=−6、大廳在 +x）用 yaw ±π/2。
+- `door_frame`：門洞裡的框（三面）＋兩面的門框飾條，深灰鋁（全部在牆的厚度裡，兩面各凸出 1.5 cm）。
+- `door_leaf_open`：上課時的門：**開到底、整片貼在走廊那一面的牆上**（鉸鏈在門洞左邊，門片在 x −1.72～−0.62），凸出牆面 6 cm，**不擋門口、不擋鏡頭**；地上一個門檔。
+- 門片要開在門洞右邊（例如左邊有長椅、柱子）：同一個網格用 `scale.x = −1`（材質是雙面的）。原型截圖的 101 門片開在長椅後面——正式接的時候可以換邊。
+- `door_leaf_closed`：關著的門（還沒開放的教室、下課鎖門）：門片在門洞中間。
+- 門片：淺橡木、直條觀景窗（深色玻璃）、拉桿把手（兩面）、踢腳板（金屬）。
+- `door_plate`：門牌，走廊那一面、門的右邊 1.55–1.70 m；白底＋深灰框；**字由遊戲畫**（中心 (0.89, 1.625, 0.115)、寬 0.25、高 0.11、面向 +z），例如「博雅 101」。
+
+### 25.2 規格
+
+四個模組都在 `furniture_study.glb`（和桌椅同一個材質 `study_furn`、同一張貼圖集）：
+
+| 模組 | 三角形 | 尺寸（寬×高×深） | 說明 |
+|---|---|---|---|
+| 門框（`door_frame`） | 372 | 1.33×2.465×0.23 | 門洞 1.2×2.4、牆厚 0.2；放在門洞中心的地面，z 軸垂直於牆；不擋導航（全部在牆的範圍裡＋兩面各凸 1.5 cm） |
+| 門片（開著、貼牆）（`door_leaf_open`） | 336 | 1.1×2.34×0.045 | 門片在門洞左邊（x −1.72～−0.62）貼著走廊那一面的牆（z 0.117～0.162）；凸出牆面 6 cm |
+| 門片（關著）（`door_leaf_closed`） | 316 | 1.13×2.34×0.045 | 門洞裡、牆的中心面 |
+| 門牌（`door_plate`） | 56 | 0.3×0.15×0.014 | 字：中心 (0.89, 1.625, 0.115)、寬 0.25、高 0.11、面向 +z（走廊）；例如「博雅 101」 |
+
+### 25.3 遊戲內原型（本機注入、不是整合：LAWWW `dae1da3` 博雅，101 的門開著、102 的門關著；Playwright＋SwiftShader，**不是 iPhone**）
+
+**博雅 101 的門（從大廳看；開著，門片貼在大廳那一面的牆上）**
+
+![](shots/door_game_door101.webp)
+
+**博雅 102 的門（關著）**
+
+![](shots/door_game_door102.webp)
+
+
+### 25.4 Blender 渲染（Cycles；**不是遊戲畫面**；牆是預覽用的方塊）
+
+**走廊那一面：門開著（門片貼牆）、門框、門牌**
+
+![](blender_renders/door_corridor.webp)
+
+**關著的門**
+
+![](blender_renders/door_closed.webp)
+
+**教室那一面**
+
+![](blender_renders/door_inside.webp)
+
+**把手、觀景窗近看**
+
+![](blender_renders/door_detail.webp)
+
+
+### 25.5 驗收狀態與自評
+
+| 項目 | 模型 | 整合 | 狀態 |
+|---|---|---|---|
+| `door_frame`、`door_leaf_open`、`door_leaf_closed`、`door_plate`（在 `furniture_study.glb`） | 完成 | **還沒接**（放在哪些門、開或關、門牌的字由 LAWWW 做） | `MODEL_READY` |
+
+1. 博雅、普通、共同的門**沒有照片**：做成一般現代教學大樓的門（鋁框＋木門片＋觀景窗）；有照片後再改顏色、門片的分割。
+2. 真實的教室門常常是雙開或子母門；門洞 1.2 m 做成單片 1.1 m 的大門片。
+3. 門片開著是「整片貼牆（轉 180°）」，不是轉 90°：轉 90° 的門片會凸到走廊 1.1 m，擋路也擋鏡頭（LAWWW 的條件是不能擋）。
+4. 門片沒有動畫（開門、關門）；要的話把門片的鉸鏈點（門洞左邊、走廊那一面）給 LAWWW 用。
+
+---
+
+## 26. 博雅教學館的窗外景＋一樓北面窗建議（遊戲畫面當窗景；**還沒接**）
+
+LAWWW 佇列：「博雅窗景／北面窗建議」。檢查報告第 4 節：博雅一樓只有南牆兩扇窗、窗外是程序化的景（`photo: null`）；北面醉月湖那一側一樓沒有窗。
+工具：`tools/blender/env_second/shots/boya_views.py`（規格和 LAWWW 的 `tools/shots/window_views.py` 一樣：1024×512、水平 90°、白天 11:00、晚上 20:30、藏起路人與玩家）→ `assets/models/env/views/boya_*_{day,night}.webp`。在 LAWWW `9884d29`（方案 A：博雅在校園 (−38, −83)、醉月湖往北搬到 (−36, −112)）的遊戲畫面拍，**不是照片**；Playwright＋SwiftShader。
+
+### 26.1 窗外景
+
+| 名稱 | 給哪一扇窗 | 白天 | 晚上 |
+|---|---|---|---|
+| `boya_south` | 一樓南面兩扇窗（入口兩旁） | ![](shots/boya_south_day.webp) | ![](shots/boya_south_night.webp) |
+| `boya_2f_south` | 二樓南面窗 | ![](shots/boya_2f_south_day.webp) | ![](shots/boya_2f_south_night.webp) |
+| `boya_2f_north` | 二樓北面窗（201、202） | ![](shots/boya_2f_north_day.webp) | ![](shots/boya_2f_north_night.webp) |
+| `boya_north` | **建議的**一樓北面窗（大廳北牆） | ![](shots/boya_north_day.webp) | ![](shots/boya_north_night.webp) |
+
+### 26.2 接法（`tools/layout/boya_layout_gen.py` 是 LAWWW 的；下面是建議值）
+
+- 現在的窗：一樓南面兩扇 `photo: 'boya_south'`；二樓南面 `photo: 'boya_2f_south'`；二樓北面兩扇（201、202）`photo: 'boya_2f_north'`。
+- **建議加一樓北面窗**（大廳北牆，看得到湖南岸步道、湖、湖心亭）：`{lv:0, wall:'N', a0:-5.4, a1:-1.6, y0:0.9, y1:3.4, n:2, photo:'boya_north'}`——在講座資訊螢幕、公告欄（x −1.2～2）的西邊。
+  - 現在那一段牆後面是關著的 103（x −6～−1.2、z −8.9～−5.2）；**R2 修正版把 103 搬走之後**，那一角變成大廳的一部分（第 U2 節），窗邊放沙發或圓桌（「北面看醉月湖的窗邊座位」）。現在的配置先不加（窗會開在 103 裡面）。
+  - 東半邊（x 2.4～5.6）在樓梯平台後面（平台 z −6.6～−4.92、高 2.4 m），從大廳看得到一點；要的話也可以開，`photo` 一樣用 `boya_north`。
+- `B3.outView` 的 kind：北面窗現在走 `'east'` 的程序化景（`w.wall==='S'?'south':'east'`）；有 `photo` 之後用照片，kind 不影響。
+
+### 26.3 自評
+
+1. 窗景是遊戲裡的校園畫面，所以會跟著校園改：普通教學館、湖邊的建築換成正式模型之後要重拍（`boya_views.py` 一行指令）。
+2. **南面的窗景整片是普通教學館的北面外牆**（方案 A 兩棟只隔一小塊草地；二樓的南面窗右邊還看得到空橋）——這是配置的真實結果，但窗景不好看：南面窗可以考慮用毛玻璃或百葉窗簾擋一部分（LAWWW 決定）。普通的外觀換成正式模型之後要重拍。
+3. 北面（醉月湖）的窗景很好看：湖面、湖心亭、木棧道、對岸的樹與城市天際線；晚上有對岸的燈。
+4. 沒有照片可以核對真實的博雅從窗戶看出去的樣子。

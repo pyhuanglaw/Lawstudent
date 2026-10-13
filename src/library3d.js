@@ -56,8 +56,8 @@ const LB3=(function(){
   /* 窗外的景（正式）：遊戲裡校園實際的畫面——從總圖門口往西拍椰林大道（avenue，正面玻璃）、從總圖南側拍草地與系館（lawn，側窗、平台的大窗）；
      白天 11:00、晚上 20:30，1024×512（tools/shots/library_views.py 用 fast_shots.py 拍；改了總圖附近或椰林大道可以重拍）。
      已經是調過色的畫面：不再做一次色調映射（toneMapped=false）。載不到（例如 claude.ai artifact 版沒有這些檔案）就用上面程序化畫的 */
-  const VIEW_URL='assets/models/env/library_view_', viewTex={};
-  function viewOf(kind,night){ const k=kind+(night?'_night':'_day'); if(!(k in viewTex)){ viewTex[k]=null; try{ new THREE.TextureLoader().load(VIEW_URL+k+'.webp',t=>{ t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=4; viewTex[k]=t; },undefined,()=>{ viewTex[k]=false; }); }catch(e){ viewTex[k]=false; } } return viewTex[k]||null; }
+  const VIEW_URL='assets/models/env/library_view_';
+  function viewOf(kind,night){ return W3.viewPhoto(kind,night,VIEW_URL); }   /* 和其他窗景同一個快取（W3.viewPhoto；換區域時釋放）*/
   /* 窗的長寬比和景（2:1）不一樣：在平面的 UV 上裁一塊（不拉長）；fx＝橫向裁哪裡（0 左、1 右），一排側窗依序往右，合起來像一張全景 */
   function cropUV(geo,a,fx){ const uv=geo.attributes.uv; let uw=1, vh=1; if(a<2) uw=a/2; else vh=2/a; const u0=(1-uw)*fx, v0=(1-vh)*0.5; for(let i=0;i<uv.count;i++) uv.setXY(i,u0+uv.getX(i)*uw,v0+uv.getY(i)*vh); uv.needsUpdate=true; }
 
