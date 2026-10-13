@@ -103,7 +103,8 @@ const TB3=(function(){
     const up1=new THREE.Group(); up1.position.y=Y1; fb1.add(up1); const grpOf=lv=>lv?up1:fb0; const dummy={blockRect(){}};
     // 教室：黑板、講桌、學生桌；互動：看教室（門口）
     for(const r of L.rooms){ const y=r.lv?Y1:0, bb=bins[r.lv];
-      if(r.kind==='closed'){ const dz=r.z0; const dx=(r.door[0]+r.door[1])/2; bb.add(MAT.woodD(),TK.boxG(r.door[1]-r.door[0]-0.1,2.3,0.06),dx,y+1.15,dz-0.13); IT.push({x:dx,z:dz-0.9,radius:1.0,lv:r.lv,label:r.label,look:r.look}); continue; }
+      /* 關著的房間：門板在 doorZ 那一道牆的外側（走廊那一側），門口的說明在牆外 0.9 m（原本一律放在 z0 那一側：洗手間的門口說明跑到建築外面、走不到）*/
+      if(r.kind==='closed'){ const dz=r.doorZ!=null?r.doorZ:r.z0, out=Math.abs(dz-r.z1)<1e-6?1:-1; const dx=(r.door[0]+r.door[1])/2; bb.add(MAT.woodD(),TK.boxG(r.door[1]-r.door[0]-0.1,2.3,0.06),dx,y+1.15,dz+out*0.13); IT.push({x:dx,z:dz+out*0.9,radius:1.0,lv:r.lv,label:r.label,look:r.look}); continue; }
       if(r.kind==='lecture'){ buildLecture(L,r,grpOf(r.lv),bb,IT,r.lv?lv1:lv0,zone); continue; }
       if(r.kind!=='classroom') continue;
       const s=r.board==='W'?1:-1; bb.add(M('#2f4a3a',{rough:0.6}),TK.boxG(0.04,1.2,r.blackboard.len),r.blackboard.x,y+1.6,r.blackboard.z); bb.add(MAT.frame(),TK.boxG(0.06,0.08,r.blackboard.len+0.1),r.blackboard.x+s*0.02,y+0.98,r.blackboard.z);

@@ -44,7 +44,8 @@ check('進門的位置站得住、離出口 > 出口半徑（不會一進來就�
 // 椅子（使用者 2026-10-13 驗收：「自習桌不會讓玩家穿過椅子」）：自習區、休息區的椅子站不上去（走不過去），但每個位子都坐得到（上面的座位檢查）
 { const ch=z.seats.filter(q=>q.kind==='study'||q.kind==='lounge'); const thru=ch.filter(q=>E.canStand(q.x,q.z,0.32,q.lv|0)); check('自習區、休息區的 '+ch.length+' 張椅子走不過去（不能穿過椅子）',ch.length>=10&&!thru.length,thru.map(q=>q.kind+'('+q.x+','+q.z+')').join(' ')); }
 // 關著的房間、教室
-{ const closed=L.rooms.filter(r=>r.kind==='closed'); const bad=closed.filter(r=>E.canStand((r.x0+r.x1)/2,(r.z0+r.z1)/2,0.32,r.lv)); check('關著的房間（203、洗手間）走不進去；門口有看得懂的說明',!bad.length&&closed.every(r=>E.interactables.some(i=>i.label===r.label&&i.look)),bad.map(r=>r.id).join(','));
+{ const closed=L.rooms.filter(r=>r.kind==='closed'); const bad=closed.filter(r=>E.canStand((r.x0+r.x1)/2,(r.z0+r.z1)/2,0.32,r.lv)); const far=closed.filter(r=>{ const it=E.interactables.find(i=>i.label===r.label&&i.look&&(i.lv|0)===r.lv&&Math.abs(i.x-(r.door[0]+r.door[1])/2)<0.01); if(!it) return true; let ok=false; for(let a=0;a<16&&!ok;a++) for(const rr of [0,0.3,0.6]){ const x=it.x+Math.cos(a/16*Math.PI*2)*rr, zz=it.z+Math.sin(a/16*Math.PI*2)*rr; if(E.canStand(x,zz,0.3,r.lv)&&walk([SP.x,SP.z,0],[x,zz,r.lv]).ok){ ok=true; break; } } return !ok; });
+  check('關著的房間（203、洗手間）走不進去；門口有看得懂的說明、走得到（在走廊那一側，不在建築外面）',!bad.length&&!far.length,bad.map(r=>r.id).join(',')+' 走不到說明：'+far.map(r=>r.id).join(','));
   for(const id of ['102','201','202']){ const r=L.rooms.find(q=>q.id===id); const p=[(r.x0+r.x1)/2,-4.0,r.lv]; const w=walk([SP.x,SP.z,0],p); check('教室 '+id+'：從大門走得進去（走到中間的走道）',w.ok,JSON.stringify(w).slice(0,140)); } }
 // 牆擋得住：每一道牆（門洞以外、離牆端 0.3 m 以內不算）上站不住；走廊 → 教室的路一定繞門（不是直線穿牆）
 { const bad=[]; for(const w of L.walls){ const horiz=Math.abs(w.z0-w.z1)<1e-6, a0=horiz?Math.min(w.x0,w.x1):Math.min(w.z0,w.z1), a1=horiz?Math.max(w.x0,w.x1):Math.max(w.z0,w.z1);
