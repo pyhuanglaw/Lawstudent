@@ -109,7 +109,8 @@ STATE_JS = """(()=>{ const E=GAME.E, P=E.player, o=P.obj.position, D=GAME.D; con
   return {zone:GAME.G.zone, x:+o.x.toFixed(2), z:+o.z.toFixed(2), ry:+P.obj.rotation.y.toFixed(2), busy:!!P.busy, pose:P.pose, path:P.path?P.path.length:0,
     dlg:!!(D&&D.active), dtext:((document.getElementById('dlgText')||{}).textContent||'').slice(0,60), choices:(ch&&!ch.classList.contains('hide'))?ch.querySelectorAll('button').length:0,
     interact:(it&&!it.classList.contains('hide')&&getComputedStyle(it).display!=='none')?(it.textContent||'').trim().slice(0,20):'', hour:+GAME.G.hour.toFixed(2),
-    stand:E.canStand?E.canStand(o.x,o.z,0.3):true, camYaw:+E.cam.yaw.toFixed(3), fallbacks:GAME.walkFallbacks||0, y:+o.y.toFixed(2), lv:P.lv|0}; })()"""   # y、lv：v9.4 多樓層（人物的高度、在第幾層）
+    stand:E.canStand?E.canStand(o.x,o.z,0.3):true, camYaw:+E.cam.yaw.toFixed(3), fallbacks:GAME.walkFallbacks||0, y:+o.y.toFixed(2), lv:P.lv|0,
+    frame:E.frame|0, paused:!!E.paused}; })()"""   # y、lv：v9.4 多樓層（人物的高度、在第幾層）；frame、paused：遊戲主迴圈有沒有在跑（2026-10-13 博雅「卡住」：查走不動是不是整個遊戲停了）
 
 
 async def state(pg):
@@ -186,9 +187,10 @@ async def turn_camera_to(pg, cdp, tx, tz, tries=4):
 async def go_to(pg, cdp, run, tx, tz, near, label, max_s=420, lv=None):
     """像玩家一樣走到 (tx,tz) 附近：先點地面（遠的話點中途的點），走不動才改用搖桿朝目標推。回傳是否到達。
     lv（v9.4 多樓層）：目標在第幾層；到達要在那一層（不能只是在正下方／正上方）"""
-    t0 = time.time(); last = None; last_prog = time.time(); taps = 0; joys = 0; turns = 0
+    t0 = time.time(); last = None; last_prog = time.time(); taps = 0; joys = 0; turns = 0; f0 = None
     while time.time() - t0 < max_s:
         s = await state(pg)
+        if f0 is None: f0 = (s.get('frame', 0), s['hour'], time.time())
         d = math.hypot(tx - s['x'], tz - s['z'])
         if d <= near and (lv is None or s.get('lv', 0) == lv):
             # 還在走（路線還沒走完）：真人會等人物停下來再看按鈕、按按鈕。不等的話，人物經過座位旁那一瞬間按鈕是「坐下」
@@ -229,7 +231,11 @@ async def go_to(pg, cdp, run, tx, tz, near, label, max_s=420, lv=None):
         await joystick(pg, cdp, int(40 * (ux * rx + uz * rz)), int(-40 * (ux * fx + uz * fz)), 1200); joys += 1
         await pg.wait_for_timeout(300)
     s = await state(pg)
-    run.note(f'走不到「{label}」：最後位置 ({s["x"]},{s["z"]})，目標 ({tx},{tz})；點地面 {taps} 次、轉鏡頭 {turns} 次、搖桿 {joys} 次'); return False
+    run.note(f'走不到「{label}」：最後位置 ({s["x"]},{s["z"]})，目標 ({tx},{tz})；點地面 {taps} 次、轉鏡頭 {turns} 次、搖桿 {joys} 次')
+    if f0:   # 遊戲主迴圈有沒有在跑：畫了幾格、遊戲時間走了多少、是不是暫停、哪些面板開著（2026-10-13 博雅：走不動時遊戲時間幾乎停住）
+        ov = await pg.evaluate("['phone','menu','bigmap','dlg','choices','titleScreen','loading'].filter(id=>{ const e=document.getElementById(id); return e&&!e.classList.contains('hide')&&getComputedStyle(e).display!=='none'; })")
+        run.note(f'  這段時間：畫面 {s.get("frame", 0) - f0[0]} 格／{time.time() - f0[2]:.0f} 秒、遊戲時間 {f0[1]:.2f}→{s["hour"]:.2f}、paused={s.get("paused")}、開著的面板 {ov}')
+    return False
 
 
 PICK_TAP_JS = """(([tx,tz,tlv])=>{ const E=GAME.E, P=E.player, o=P.obj.position, plv=P.lv|0; if(!E.pathTo||!E.screenToFloor) return null;

@@ -135,8 +135,8 @@ const TB3=(function(){
     // 公共空間（備用模型）：長桌／小桌（木頭）、小圓桌、椅子、沙發（坐墊＋靠背＋扶手）
     for(const g of (L.groups||[])){ const grp=grpOf(g.lv), bb=bins[g.lv], y0=g.lv?Y1:0;
       for(const t of (g.tables||[])){ if(t.shape==='round'){ const h=t.h||0.74; const top=new THREE.Mesh(new THREE.CylinderGeometry(t.r,t.r,0.04,18),M('#d9cdb8',{rough:0.5})); top.position.set(t.x,h,t.z); top.userData.furn=true; grp.add(top); const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.04,0.16,h-0.02,10),M('#3a3f46')); leg.position.set(t.x,(h-0.02)/2,t.z); leg.userData.furn=true; grp.add(leg); }
-        else Z3.desk(grp,dummy,t.x,t.z,0,t.w,t.d,g.id==='discuss'?'#c9b48f':'#b08a62','wood');
-        for(const st of t.seats) Z3.chair(grp,st.x,st.z,st.yaw,g.id==='discuss'?'#5a6470':'#8a6a4a'); }
+        else Z3.desk(grp,dummy,t.x,t.z,0,t.w,t.d,g.deskColor||(g.id==='discuss'?'#c9b48f':'#b08a62'),'wood');
+        for(const st of t.seats) Z3.chair(grp,st.x,st.z,st.yaw,g.chairColor||(g.id==='discuss'?'#5a6470':'#8a6a4a')); }   /* chairColor／deskColor：配置可以指定（博雅的圓桌區用灰藍色椅子）*/
       for(const so of (g.sofas||[])){ const c=Math.cos(so.ry), sn=Math.sin(so.ry), at=(ox,oz)=>[so.x+ox*c+oz*sn,so.z-ox*sn+oz*c], sm=MAT.sofa();
         { const [x,z]=at(0,0.05); bb.add(sm,TK.boxG(so.len,0.42,0.7),x,y0+0.21,z,so.ry); } { const [x,z]=at(0,-0.3); bb.add(sm,TK.boxG(so.len,0.8,0.2),x,y0+0.4,z,so.ry); }
         for(const sx of [-1,1]){ const [x,z]=at(sx*(so.len/2+0.08),-0.02); bb.add(sm,TK.boxG(0.16,0.6,0.76),x,y0+0.3,z,so.ry); } } }

@@ -89,9 +89,18 @@ if(!only||only==='gongtong'){ runZone('gongtong',GONGTONG_LAYOUT,70);
   const r=walk([0,1.0,1],[-8.0,4.4,1]); check('二樓走廊 → 自習區（兩排桌子中間的走道）',r.ok,JSON.stringify(r).slice(0,160)); }
 if(!only||only==='boya'){ const z=runZone('boya',BOYA_LAYOUT,150); const L=BOYA_LAYOUT;
   // 博雅一樓的三處公共空間（查證：沙發、桌椅，供學生自習與討論）
-  const byRoom=k=>z.seats.filter(q=>q.room===k); check('一樓三處公共空間都有位子：沙發區、自習小桌、討論桌',byRoom('sofa').length>=4&&byRoom('study').length>=6&&byRoom('discuss').length>=8,['sofa','study','discuss'].map(k=>k+' '+byRoom(k).length).join('、'));
-  check('roomAt：沙發區、自習小桌、討論桌、講座資訊角、二樓走廊、101、201 認得出來',z.roomAt(-4.8,-3.9,0)==='sofa'&&z.roomAt(-4.6,0.8,0)==='study'&&z.roomAt(3.8,2.8,0)==='discuss'&&z.roomAt(0.4,-7.6,0)==='info'&&z.roomAt(-10,1,1)==='corridor'&&z.roomAt(-10,0,0)==='101'&&z.roomAt(-10,-5,1)==='201',
-    [z.roomAt(-4.8,-3.9,0),z.roomAt(-4.6,0.8,0),z.roomAt(3.8,2.8,0),z.roomAt(0.4,-7.6,0),z.roomAt(-10,1,1),z.roomAt(-10,0,0),z.roomAt(-10,-5,1)].join(','));
+  // 2026-10-13 第二版（LAWWW2 審查 c5e2170 第 3 節）：101 旁桌椅區＝雙人小桌兩列 × 六張、圓桌區兩張、窗邊沙發兩張
+  const byRoom=k=>z.seats.filter(q=>q.room===k); check('一樓三處公共空間都有位子：自習區（雙人小桌）24、圓桌區 8、窗邊沙發 4',byRoom('study').length>=24&&byRoom('round').length>=8&&byRoom('sofa').length>=4,['study','round','sofa'].map(k=>k+' '+byRoom(k).length).join('、'));
+  { const T={}; for(const q of z.seats.filter(q=>q.lv===0&&(q.room==='study'||q.room==='round'))){ (T[q.table]=T[q.table]||[]).push(q); }
+    const bad=Object.entries(T).filter(([id,ss])=>{ if(id==='undefined') return true; if(id[0]==='d') return !(ss.length===2&&Math.abs(Math.abs(ss[0].yaw-ss[1].yaw)-Math.PI)<0.01&&Math.abs(ss[0].z-ss[1].z)<1e-6);   /* 雙人小桌：兩張椅子面對面 */
+      if(id[0]==='r'){ if(ss.length!==4) return true; const t=BOYA_LAYOUT.groups.find(g=>g.id==='round').tables.find(q=>q.id===id); return !ss.every(q=>Math.abs(Math.atan2(t.x-q.x,t.z-q.z)-Math.atan2(Math.sin(q.yaw),Math.cos(q.yaw)))<0.01||Math.abs(Math.abs(Math.atan2(t.x-q.x,t.z-q.z)-Math.atan2(Math.sin(q.yaw),Math.cos(q.yaw)))-2*Math.PI)<0.01); }   /* 圓桌：四張椅子都面向桌子中心 */
+      return true; });
+    check('同一張桌子的座位有同一個 table（坐在一起＝npcNear、習慣記憶 table:）：雙人小桌兩張面對面、圓桌四張面向桌子中心',!bad.length&&Object.keys(T).length===14,Object.keys(T).length+' 張桌子；不對的：'+bad.map(b=>b[0]).join(',')); }
+  check('roomAt：窗邊沙發、自習區、圓桌區、講座資訊角、二樓走廊、101、201 認得出來',z.roomAt(-3.7,8.0,0)==='sofa'&&z.roomAt(-2.4,0.0,0)==='study'&&z.roomAt(3.6,2.6,0)==='round'&&z.roomAt(0.4,-7.6,0)==='info'&&z.roomAt(-10,1,1)==='corridor'&&z.roomAt(-10,0,0)==='101'&&z.roomAt(-10,-5,1)==='201',
+    [z.roomAt(-3.7,8.0,0),z.roomAt(-2.4,0.0,0),z.roomAt(3.6,2.6,0),z.roomAt(0.4,-7.6,0),z.roomAt(-10,1,1),z.roomAt(-10,0,0),z.roomAt(-10,-5,1)].join(','));
+  // 動線：大門 → 講座資訊角、樓梯口、101／102 的門，路線都走得通（桌椅沒有擋住中間的走道）
+  { const SP=L.entrance.spawn; const tgt=[[0.4,-7.4,0,'講座資訊角'],[2.9,-0.6,0,'樓梯口'],[-5.2,6.0,0,'101 門口'],[5.2,6.0,0,'102 門口']]; const bad=tgt.filter(t=>!walk([SP.x,SP.z,0],[t[0],t[1],t[2]]).ok).map(t=>t[3]);
+    check('大門 → 講座資訊角、樓梯口、101／102 門口都走得到（桌椅沒有擋住走道）',!bad.length,bad.join('、')); }
   const scr=E.interactables.find(i=>i.board&&/講座資訊/.test(i.label)); check('講座資訊螢幕：有互動、走得到',!!scr&&walk([L.entrance.spawn.x,L.entrance.spawn.z,0],[scr.x,scr.z,0]).ok,scr&&scr.label); }
 if(!only||only==='putong'){ const z=runZone('putong',PUTONG_LAYOUT,110);
   check('roomAt：走廊、門廳、101、103、201 認得出來',z.roomAt(0,0.2,0)==='corridor'&&z.roomAt(0,5,0)==='lobby'&&z.roomAt(-10,-4,0)==='101'&&z.roomAt(-10,4,0)==='103'&&z.roomAt(-10,-4,1)==='201',[z.roomAt(0,0.2,0),z.roomAt(0,5,0),z.roomAt(-10,-4,0),z.roomAt(-10,4,0),z.roomAt(-10,-4,1)].join(','));

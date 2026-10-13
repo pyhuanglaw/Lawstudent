@@ -3,8 +3,8 @@
 （觸控點地面、互動按鈕、選項）。
 A. 從大廳走到博雅 101 的門口（講台那一端）→「看看博雅 101 階梯教室」；走進去、走側邊台階上到第 3 排的座位後面（那一排的高度 0.9 m）→ 坐下 → 起身。
    A2. [前置／捷徑] 放一場測試演講（遊戲裡的活動清單是空的）→ 同一個位子坐下 →「聽演講」→ 記下到場、快轉到結束 → 聽眾站起來往外走。
-B. 自習小桌（使用者記得的）：走到一張小桌旁 → 坐下 →「讀書（1 小時）」→ 時間過了、起身站得住。
-C. 沙發區：坐在沙發上 → 坐一下 → 起身；討論桌：走到椅子後面出現「坐下（討論桌）」。
+B. 自習區（101 旁桌椅區，使用者記得的「很多小桌子」；2026-10-13 第二版：雙人小桌兩列）：走到一張小桌旁 → 坐下 →「讀書（1 小時）」→ 時間過了、起身站得住。
+C. 窗邊沙發：坐在沙發上 → 坐一下 → 起身；圓桌區：走到椅子後面出現「坐下（圓桌）」。
 D. 資訊角：看講座資訊螢幕（沒有活動時寫「目前沒有」）、看公告欄。
 E. 走樓梯到二樓走廊、走進 201 討論教室坐下、起身；走下樓、走到出口按「走出博雅教學館」→ 回到校園、站得住。
 用法：python3 tests/flow_boya_interior.py URL [輸出資料夾]"""
@@ -80,7 +80,7 @@ async def main():
         run.check('演講結束：聽眾站起來往外走（不是一起消失）', lv >= 1, f'{lv} 人在往外走')
         await run.shot(pg, 'A2_lecture_end')
         # ---------- B：自習小桌 ----------
-        seat = await seat_of(pg, "q=>q.room==='study'&&Math.abs(q.z-0.8)<0.01")
+        seat = await seat_of(pg, "q=>q.room==='study'&&Math.abs(q.z-0.8)<0.01&&q.x>-1")   # 東列、中間走道那一側的位子
         ok = await L.go_to(pg, cdp, run, seat['ax'], seat['az'], 0.3, '自習小桌的椅子後面', lv=0)
         s = await L.state(pg)
         run.check('走出 101、走到自習小桌、出現「坐下讀書（自習小桌）」', ok and '自習小桌' in s['interact'], json.dumps(s, ensure_ascii=False))
@@ -90,18 +90,18 @@ async def main():
         run.check('坐下（姿勢 sit）、選「讀書（1 小時）」', pose == 'sit' and any('讀書' in o for o in opts), f'pose={pose} ' + json.dumps(opts, ensure_ascii=False))
         run.check('讀完：時間過了約 1 小時、起身站得住', s['hour'] >= h0 + 0.9 and s['stand'], f"{h0} → {s['hour']}")
         # ---------- C：沙發區、討論桌 ----------
-        seat = await seat_of(pg, "q=>q.kind==='sofa'&&q.z<-4")
+        seat = await seat_of(pg, "q=>q.kind==='sofa'&&q.x<0")   # 西邊那扇窗下的沙發
         ok = await L.go_to(pg, cdp, run, seat['ax'], seat['az'], 0.3, '沙發前面', lv=0)
         s = await L.state(pg)
         run.check('走到沙發前、出現「坐在沙發上」', ok and '沙發' in s['interact'], json.dumps(s, ensure_ascii=False))
         pose, opts, s = await sit_and_choose(pg, cdp, run, '坐一下')
         run.check('坐在沙發上（姿勢 sit）、坐一下、起身站得住', pose == 'sit' and s['stand'], f'pose={pose} ' + json.dumps(s, ensure_ascii=False))
         await run.shot(pg, 'C_sofa')
-        seat = await seat_of(pg, "q=>q.room==='discuss'&&q.z<1")
-        ok = await L.go_to(pg, cdp, run, seat['ax'], seat['az'], 0.3, '討論桌的椅子後面', lv=0)
+        seat = await seat_of(pg, "q=>q.room==='round'&&q.z<1")   # 北邊那張圓桌、北側的椅子
+        ok = await L.go_to(pg, cdp, run, seat['ax'], seat['az'], 0.3, '圓桌的椅子後面', lv=0)
         s = await L.state(pg)
-        run.check('走到討論桌、出現「坐下（討論桌）」', ok and '討論桌' in s['interact'], json.dumps(s, ensure_ascii=False))
-        await run.shot(pg, 'C_discuss')
+        run.check('走到圓桌、出現「坐下（圓桌）」', ok and '圓桌' in s['interact'], json.dumps(s, ensure_ascii=False))
+        await run.shot(pg, 'C_round')
         # ---------- D：資訊角 ----------
         it = await L.find_it(pg, '看講座資訊')
         ok = await L.go_to(pg, cdp, run, it['x'], it['z'], 0.7, '講座資訊螢幕', lv=0)

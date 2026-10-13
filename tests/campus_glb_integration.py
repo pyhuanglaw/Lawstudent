@@ -32,7 +32,10 @@ TAGS = {'library': ('bldg.campus_library', 'campus_library_glb', 'PLATE_FACE_LIB
         'arts': ('bldg.campus_arts', 'campus_arts_glb', 'PLATE_FACE_ARTS'),
         'hist': ('bldg.campus_hist', 'campus_hist_glb', 'PLATE_FACE_HIST'),
         'pavilion': ('bldg.campus_pavilion', 'campus_pavilion_glb', 'PLATE_FACE_PAV'),
-        'soc': ('bldg.campus_modern', 'campus_modern_glb', 'PLATE_FACE_SOC')}
+        'soc': ('bldg.campus_modern', 'campus_modern_glb', 'PLATE_FACE_SOC'),
+        # 2026-10-13 接上 LAWWW2 55fbedb（共同教學館、大一女舍外觀）：沒有匾額（plate=None 不檢查匾額）
+        'gongtong': ('bldg.campus_gongtong', 'campus_gongtong_glb', None),
+        'freshman': ('bldg.campus_freshman', 'campus_freshman_glb', None)}
 HALLS = ['campus_library_glb', 'campus_admin_glb', 'campus_arts_glb', 'campus_hist_glb']   # campus_hall.py 做的（有窗、拱廊、門廊、天花板）
 GLASS_ONLY = ['campus_pavilion_glb', 'campus_modern_glb']   # 玻璃和總圖同一套（ck_glass），沒有拱廊天花板
 WAIT_FORMAL = "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='%s')) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()"
@@ -123,6 +126,7 @@ async def check(pg, run, formal):
                 return {kit:r(bk), glb:r(bg)}; })""" + "(%s)" % json.dumps([tag, glb]))
             d = max(abs(a - b) for a, b in zip(g['kit'], g['glb']))
             run.check('%s：位置、尺寸、朝向照套件（外框 x、y、z 的最小最大值差 ≤ 1.5 m）' % tag, d <= 1.5, json.dumps(g) + ' 最大差 %.2f m' % d)
+            if plate is None: continue   # 沒有匾額的（共同教學館、大一女舍）
             pl = await pg.evaluate("""(glbName=>{ const root=GAME.E.zone.group.children.find(o=>o.name===glbName); const at=root.getObjectByName('wz_plates_atlas'); if(!at) return null;
                 const m=at.material.map, img=m&&m.image, it=at.userData.atlas.items; return {visible:at.visible, canvas:!!(m&&(m.isCanvasTexture||(img&&img.getContext))), n:it.length, names:it.map(i=>i.name), ratio:it.map(i=>+((i.w/i.h)/i.board).toFixed(3))}; })""" + "(%s)" % json.dumps(glb))
             run.check('%s：匾額 %s 是 canvas 字（石材匾額）、貼圖比例＝板面比例（±8%%）' % (tag, plate), bool(pl) and pl['visible'] and pl['canvas'] and pl['names'] == [plate] and all(0.92 < r < 1.08 for r in pl['ratio']), json.dumps(pl))
