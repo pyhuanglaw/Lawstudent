@@ -5,7 +5,9 @@
   2. 之後（--cases 檔案）：照固定案例拍。
   每個案例：讀檔把玩家放到那個位置與樓層（[前置／捷徑]）→ 跟隨鏡頭轉到指定方向（C.yaw）→ 等畫面穩定 → 手機橫向 844×390（有 HUD）截圖。
   另外每棟拍一張剛進門（出生點、預設鏡頭）的畫面（黑色門框）。
-用法：python3 tools/blender/env_second/shots/cam_cases_shots.py <URL> <輸出資料夾> (--pick N --cands 候選.json | --cases 案例.json)"""
+用法：python3 tools/blender/env_second/shots/cam_cases_shots.py <URL> <輸出資料夾> (--pick N --cands 候選.json | --cases 案例.json) [--swing]
+--swing（LAWWW 068f671 之後）：每個案例多拍一張「放開鏡頭 3 秒（遊戲時間）之後」<id>_swing.png——manualT=999 等於玩家剛拖過鏡頭、不會自動轉開；放開（manualT=0）之後引擎的 autoSwing 會轉開。
+  等待用遊戲時間（GAME.E.time），不用牆上的時間（SwiftShader 很慢）。"""
 import asyncio, json, os, sys
 from playwright.async_api import async_playwright
 UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1'
@@ -16,6 +18,7 @@ A = sys.argv[3:]
 PICK = int(A[A.index('--pick') + 1]) if '--pick' in A else 0
 CANDS = A[A.index('--cands') + 1] if '--cands' in A else None
 CASES = A[A.index('--cases') + 1] if '--cases' in A else None
+SWING = '--swing' in A
 os.makedirs(OUT, exist_ok=True)
 
 STAND = """((x,z,lv)=>{ const E=GAME.E, nav=(E.zone.levels&&E.zone.levels[lv])||E.zone.nav; if(!nav) return false; const r=0.33;
@@ -34,6 +37,10 @@ INFO = "(()=>{ const r=GAME.E.renderer.info.render; return {calls:r.calls,tris:r
 
 async def frames(pg, n=6):
     await pg.evaluate("(async n=>{ const f0=GAME.E.frame; for(let i=0;i<480&&GAME.E.frame<f0+n;i++) await new Promise(r=>setTimeout(r,250)); })(%d)" % n)
+
+
+async def game_time(pg, t):
+    await pg.evaluate("(async t=>{ const t0=GAME.E.time; for(let i=0;i<900&&GAME.E.time<t0+t;i++) await new Promise(r=>setTimeout(r,200)); })(%f)" % t)
 
 
 async def load(pg, zone, x, z, lv, yaw=3.1416):
@@ -81,10 +88,16 @@ async def main():
             await pg.screenshot(path=f'{OUT}/{zone}_spawn.png'); log.write('case ' + json.dumps(r, ensure_ascii=False) + '\n'); log.flush(); print(r['id'], r['behindWall'], flush=True)
         for c in cases:
             await load(pg, c['zone'], c['x'], c['z'], c['lv'], c['yaw'] + 3.1416)   # 玩家面向鏡頭的反方向（背對鏡頭，像走路時）
-            await pg.evaluate("(y=>{ const C=GAME.E.cam; C.mode='follow'; C.yaw=y; C.manualT=999; })(%f)" % c['yaw'])
-            await pg.wait_for_timeout(2500); await frames(pg, 8)
+            await pg.evaluate("(y=>{ const C=GAME.E.cam; C.mode='follow'; C.yaw=y; C.manualT=999; C.dragging=false; C.swing=0; })(%f)" % c['yaw'])
+            if SWING: await game_time(pg, 2.5)
+            else: await pg.wait_for_timeout(2500)
+            await frames(pg, 8)
             r = await pg.evaluate(CHECK); r.update(await pg.evaluate(INFO)); r['id'] = c['id']; r['area'] = c.get('area')
             await pg.screenshot(path=f"{OUT}/{c['id']}.png"); log.write('case ' + json.dumps(r, ensure_ascii=False) + '\n'); log.flush(); print(r['id'], r['behindWall'], r['horizDist'], flush=True)
+            if SWING:   # 放開鏡頭，等遊戲時間 3 秒（自動轉開）
+                await pg.evaluate("(()=>{ GAME.E.cam.manualT=0; })()"); await game_time(pg, 3.0); await frames(pg, 2)
+                r = await pg.evaluate(CHECK); r.update(await pg.evaluate(INFO)); r['id'] = c['id'] + '_swing'; r['area'] = c.get('area')
+                await pg.screenshot(path=f"{OUT}/{c['id']}_swing.png"); log.write('case ' + json.dumps(r, ensure_ascii=False) + '\n'); log.flush(); print(r['id'], r['behindWall'], r['horizDist'], flush=True)
         log.write('errors ' + json.dumps(errs[:5], ensure_ascii=False) + '\n')
         await b.close()
     log.close()
