@@ -21,8 +21,8 @@
 | `CK.hall` 總圖、行政大樓、文學院、校史館、男一舍、無名系館 | 校園 | ④（總圖、行政大樓、文學院：主要地標）／②（無名系館、遠的）；總圖、行政大樓、文學院、校史館：⑤＋③ | **總圖**：LAWWW2 Blender `campus_library.glb`（1.47 MB、22,816 個三角形；拱窗是真的窗洞、切石、面磚、屋瓦 PBR），導航、碰撞、互動點不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 8 節）；**行政大樓**：LAWWW2 Blender `campus_admin.glb`（0.92 MB、13,453 個三角形，套件 20,443；米黃面磚、拱窗窗洞、三拱門廊＋三面陽台欄杆、檐部匾額），`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 10 節）；**文學院、校史館**：LAWWW2 Blender `campus_arts.glb`（0.65 MB、8,776 個三角形）、`campus_hist.glb`（0.51 MB、6,354 個三角形；門廊圓石柱）；紅褐面磚、拱窗窗洞、拱廊、山牆＋牛眼窗、石材匾額，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 11 節）；其他（男一舍、無名系館）：BLOCKOUT | 第三階段：地標逐棟 Blender（LAWWW 23:26Z 順序：總圖 → 傅鐘 → 行政大樓 → 文學院、校史館）；背景系館可保留程序化 |
 | `CK.hall` 共同教學館（外觀，2026-10-13 D55） | 校園：大道南側、行政大樓東邊（真實位置；取代原本的無名系館，同尺寸） | ④（近景、必須升級）；套件留作③導航阻擋與備用 | **BLOCKOUT**（掛館名牌；門口有入口名牌） | LAWWW2 Blender 外觀 GLB（已分派，排在法圖之後）；真實外觀照片查證 |
 | `CK.hall`×2＋天橋 大一女舍 A、B 棟（外觀，2026-10-13 D55） | 校園：西南角、舟山路西段南側（學務處官方：近公館捷運站 2、3 號出口；取代無名系館 (-92,66)） | ④；套件留作③ | **BLOCKOUT**（A 棟傳達室、B 棟刷卡門；門口長椅、腳踏車架；2 樓天橋是程序化方盒＋玻璃） | LAWWW2 Blender 外觀（A、B、天橋、門口等候區、生活細節）；照片查證 |
-| `CK.modern` 社會科學院、背景系館 | 校園東側 | ④（社科院）／② | BLOCKOUT | 第三階段 |
-| `CK.pavilion` 農業陳列館（洞洞館） | 校園西側 | ④ | BLOCKOUT | 第三階段 |
+| `CK.modern` 社會科學院、背景系館 | 校園東側 | ④（社科院）／②；社科院：⑤＋③ | **社科院**：LAWWW2 Blender `campus_modern.glb`（0.17 MB、1,968 個三角形，套件 5,392；帶狀長窗是真的窗洞、外凸的樓板邊、薄簷＋女兒牆、往內退 1.2 m 的玻璃大廳、雨遮、匾額），導航、碰撞、互動點不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 13 節）；國青中心（AI-1）、背景系館：BLOCKOUT | 有照片時照照片改社科院（現在照套件的量體做） |
+| `CK.pavilion` 農業陳列館（洞洞館） | 校園西側 | ⑤＋③ | LAWWW2 Blender `campus_pavilion.glb`（0.14 MB、968 個三角形，套件 378；鏤空牆是貼圖透明度挖的圓洞（前後兩層）、二樓內牆晚上照房間透出暖光、往內退的玻璃帷幕、入口石材門框＋匾額；入口正前方不放柱子），導航、碰撞、互動點不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 13 節） | 有照片時照照片改（真實的洞洞館是綠釉陶管砌的鏤空牆） |
 | `CK.gate` 校門 | 校園西端、公館 | ④ | BLOCKOUT | 第三階段（地標） |
 | `CK.bell` 傅鐘 | 椰林大道南側 | ⑤＋③（套件留作導航阻擋與載入失敗的備用） | LAWWW2 Blender `campus_bell.glb`（126 KB、1,562 個三角形；切石台基與柱子、瓦屋頂、銅鐘三道鐘帶、石碑匾額、夜間地燈／柱面暖光／光暈），導航、互動不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 9 節） | 有照片的話照照片改比例與細節 |
 | `CK.tileTex`、各套件的 canvas 貼圖（面磚、花崗石、紅磚） | 全部校園建築 | ④ | BLOCKOUT（canvas 隨機斑點） | 換 Poly Haven PBR（紅磚、花崗石、混凝土） |
@@ -49,7 +49,8 @@
 | `W3.lampPost` 路燈 | 校園、公館、溫州街 | ④ | BLOCKOUT；LAWWW2 的 `street_props.glb`（路燈、腳踏車、長椅）`MODEL_READY`、整合驗收中 | Blender 路燈（燈頭位置 (0,3.95,0.75) 不變，夜間光暈照舊） |
 | `W3.bike`、`W3.bikeRack` | 校園（含霖澤館後面的小廣場） | ④ | BLOCKOUT | Blender 腳踏車＋Instancing |
 | `W3.bench`（`ASSETS 'prop.bench'`，CC0 GLB） | 校園長椅 | ①（待使用者確認） | INTEGRATED | 保留；風格不合再換 |
-| `W3.palm`、`W3.banyan`、`W3.bush`、`W3.hedge`、`W3.bulletin`、`W3.planter`、`W3.vending`、`W3.foodCart`、`W3.gate`、`W3.mrtEntrance`、`W3.awning` | 舊版 fallback／零星 | ③／⑤ | 舊 placeholder | 不再當正式畫面 |
+| `W3.palm`、`W3.banyan`、`W3.bush`、`W3.hedge`、`W3.foodCart`、`W3.gate`、`W3.mrtEntrance`、`W3.awning` | 舊版 fallback／零星 | ③／⑤ | 舊 placeholder | 不再當正式畫面 |
+| `W3.planter` 花台、`W3.bulletin` 公告欄、`W3.vending` 販賣機 | 法學院前庭、椰林大道北側、霖澤館西側、萬才館一樓（`wancai3d.js` 的公告欄） | ⑤＋③ | LAWWW2 Blender（`street_props.glb` 的 `planter_box`、`bulletin_board`、`vending_machine`：水泥花槽＋灌木葉片卡＋小花、木框軟木板＋雨遮＋公告紙、紅色飲料販賣機＋展示窗＋背光），尺寸照程序化版本、導航不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 14 節）；`?nobldg`、載入失敗照舊程序化 | 公告紙上的字、飲料瓶細節、展示窗玻璃 |
 | `W3.grassTex`、`W3.pathTex`、`W3.stoneTex`、`W3.brickTex`、`W3.facadeTex`（canvas） | 地面、室內地板 | ④ | BLOCKOUT | Poly Haven PBR |
 
 ## 四、室內（`src/zones3d.js`）
@@ -62,6 +63,8 @@
 | 公共教學館模板（`src/teach3d.js`＋`src/data/gongtong_layout.js`；2026-10-13 D55 第二階段） | `gongtong` 區域（共同教學館室內：大廳、走廊、101／102／201／202 普通教室、U 形樓梯、休息區、自習區、長椅、公告欄；管理室、203、洗手間關著） | ④（近景；程序化版本之後留作③導航與備用） | **BLOCKOUT**（室內未查證＝可替換的模板；功能：導航、77 個座位、教室上課——單元測試通過、瀏覽器還沒跑） | LAWWW2 照同一份 layout 建 Blender 室內（使用者優先順序第 4 項：普通、共同的可重用教室）；之後普通、博雅用同一套模板 |
 | 博雅教學館、普通教學館室內（`src/teach3d.js`＋`src/data/boya_layout.js`、`putong_layout.js`；2026-10-13 D55） | `boya`、`putong` 區域（校園上的門等方案 A／B） | ④（玩家常停留的近景，必須升級）；程序化留作③導航與載入失敗的備用 | **BLOCKOUT**（備用模型：方盒牆、程序化家具；正式模型由 LAWWW2 照同一份配置做） |
 | 201 階梯教室（v9.4：平台、走道台階、長桌、木翻椅） | `classroom` 區域 | ③（程序化版本留作導航與備用） | 正式模型 **INTEGRATED**：`tools/blender/classroom_201.py` → `classroom_201.glb`（1.57 MB；深色長桌、木翻椅 48 張 instancing、木講桌、投影幕、方格天花板＋日光燈，照使用者的教室照片）；48 個座位導航 FUNCTIONAL（Node 模擬）；瀏覽器真實流程見 TESTING 第八節 | 黑板／投影內容、窗外景、使用者看過才能標 ART_APPROVED |
+| 社會科學院 辜振甫先生紀念圖書館 一樓開架閱覽室（⑬；配置 `src/data/soclib_layout.js`，由 `tools/blender/env_second/soclib_layout_gen.py` 產生） | 新區域（還沒接進遊戲；區域程式、導航、校園入口由 LAWWW 做） | ⑤（新做） | `MODEL_READY`（LAWWW2）：`tools/blender/env_second/soclib_interior.py` → `assets/models/env/second_ai/soclib_interior.glb`（白色樹狀柱＋荷葉柱頂、圓形天窗光井、竹集成材的弧形雙面書架與靠牆書架、閱覽長桌＋檯燈、竹椅、北／西玻璃帷幕前的窗邊長桌、服務台、閘門、查詢電腦、閱報區）；配置含導航阻擋（rects／circles）與 65 個座位 | 接進遊戲後：窗外照片（北、西玻璃帷幕）、整合測試、遊戲內截圖 |
+| 萬才館 法律學院圖書館（配置 `src/data/lawlib_layout.js`、區域 `src/lawlib3d.js`：LAWWW） | 程序化備用模型（LAWWW）→ 正式模型載入後藏起來 | ③（備用）／新做 | `READY_FOR_ART_REVIEW`（LAWWW2）：`tools/blender/lawlib_interior.py` → `assets/models/env/lawlib_interior.glb`（一樓櫃台、閱覽桌、閱覽隔間、玻璃討論室、影印室、U 形樓梯、二樓書架＋書模組 instancing、期刊架）；萬才館西牆的門（`wancai_interior.py`）；窗景 `lawlib_*` | LAWWW 整合測試；配置的問題 1～7（VISUAL_REVIEW second_ai 17.8）；使用者看美術 |
 | `desk()`、`chair()`、`shelfWall()`、`goodsWall()`、床、沙發、Café 家具 | 各室內 | ④ | BLOCKOUT | Blender 家具組（GLB，同一款重用） |
 
 ## 五、人物（`src/character3d.js`、`assets/models/char/`）

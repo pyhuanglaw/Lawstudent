@@ -1,0 +1,10 @@
+{
+ "objects": 4,
+ "unique_meshes": 4,
+ "tris": 1968,
+ "tris_drawn": 1968,
+ "materials": 4,
+ "out": "assets/models/env/second_ai/campus_modern.glb",
+ "bytes": 165152,
+ "texres": 512
+}
