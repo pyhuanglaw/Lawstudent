@@ -13,20 +13,21 @@
 | v9.4 | `6b9c0dc`（遊戲檔案和測試過的候選 `f10b387` 完全相同，見下面） | 2026-10-10 14:47:16 | `cd52bab` |
 | v9.4.1 | `e4ded6a`（遊戲檔案和測試過的候選 `f2f1c03` 完全相同） | 2026-10-10 18:59:10 | `6b9c0dc` |
 | v9.4.2 | `dfd2618`（就是測試過的候選本身） | 2026-10-11 07:02:57 | `e4ded6a` |
+| v9.5 | `a4f2760`（就是測試過的候選本身） | 2026-10-13 16:54:06 | `dfd2618` |
 
 ---
 
-**下一次正式發布最早：2026-10-11 10:02:57 UTC（台灣 18:02:57）**（三小時規則；緊急回復不受限制）。
+**下一次正式發布最早：2026-10-13 19:54:06 UTC（台灣 10-14 03:54:06）**（三小時規則；緊急回復不受限制）。
 
 **緊急回復（不用 force push）**：做一個「內容＝上一個穩定版、父節點＝目前 main」的新 commit，再快轉推上去：
 ```bash
 git fetch origin main
-C=$(git commit-tree 6b9c0dc^{tree} -p origin/main -m "緊急回復到 v9.4（6b9c0dc）")
+C=$(git commit-tree dfd2618^{tree} -p origin/main -m "緊急回復到 v9.4.2（dfd2618）")
 git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub Actions 的 pages build and deployment 確認部署
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.5（候選，準備中；最早 2026-10-11 10:02:57 UTC）
+## v9.5（2026-10-13 16:54:06 UTC 發布 `a4f2760`）
 
 **玩家會看到的改變**（v9.4.2 之後）
 
@@ -64,7 +65,20 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 
 **不在這一版（留在開發分支）**：宿舍走廊（D44，`wip/dorm-hall`：還沒在瀏覽器實測；備份在 `wip_backup/`）；LAWWW2 的⑤社科院／洞洞館（製作中）；課表（草案 `docs/proposals/SCHEDULE_PROPOSAL.md` 等使用者決定）；手機、主動邀約、騎腳踏車（v9.5 之後）。
 
-**發布前測試**：（候選定案後在乾淨 worktree 跑 `tests/release_suite.sh`＋公館／校園／萬才館整合測試；結果寫在這裡）
+**發布**：main 從 `dfd2618` 快轉到 `a4f2760`（測試過的候選本身，沒有強制推送）；GitHub Pages 第 14 次部署 2026-10-13 16:54:06 UTC success。使用者的發布順序（D54）第一步就是 v9.5。
+這個沙盒連不到 `*.github.io`：用 GitHub Actions 的部署紀錄確認，遊戲本身是在本機對同一個 commit 測的。
+
+**發布前測試**（乾淨 worktree `a4f2760`，Playwright 手機模擬＋SwiftShader，**不是 iPhone 實機**）：
+- `tests/release_suite.sh` 第一輪（12:41–15:18 UTC）：37 項中 33 項通過。另外 `stairs_cam_browser`、`see_through`、`tap_floor_levels` 通過，`movement_regression` 42 項中 41 項通過（A5「撞牆後仍在合法位置」失敗一次）。
+- 第一輪失敗的 4 項在同一個 commit 重跑（15:18–16:09 UTC）：`flow_main_day12`、`guide_flow`、`flow_linze_floors` 都通過；第一輪為什麼失敗沒有查到（記在下面的已知問題）。
+- `flow_library_scene`（小安「總圖的下午」）兩次都失敗，**原因是測試的等待時間，不是遊戲**：
+  - 每秒記錄位置的除錯顯示，SwiftShader 在總圖大廳只剩約 1 fps，兩個人要 146 秒實際時間才走到座位；最後都坐在劇情的兩個座位（二樓 5.0 m），沒有用到走路保險（`walkFallbacks` 0）。
+  - 測試原本只等 120 秒。開發分支 `24e7770` 把上限改成 10 分鐘，判斷標準不變。
+- 第三輪（16:31–16:51 UTC，遊戲檔案 `a4f2760`）：`flow_library_scene` 全部通過（684 秒），`movement_regression` 42/42 通過（484 秒）。
+
+**已知問題**：
+- 第一輪有 3 項玩家流程測試和 movement A5 失敗一次，重跑都通過，原因沒有查到。下一次完整回歸要特別看這幾項：再失敗就當成真的問題查，不再重跑了事。
+- iPhone 實機沒有驗證。
 
 ## v9.4.2（2026-10-11 07:02:57 UTC 發布 `dfd2618`）
 
