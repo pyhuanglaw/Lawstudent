@@ -5,7 +5,9 @@
 交班紀錄：2026-10-11 10:13 UTC 交班（`1f20126`）→ 2026-10-13 回到帳號 A。
 使用者 2026-10-13：帳號 B 暫時沒有開，從上次停下來的地方接著做。
 
-**2026-10-13 17:2xZ（最新）**：使用者轉來 ChatGPT 審查（重點：真實辨識度、室內比例、實際遊玩；第 1–6 點）。做了：在 LAWWW `93b93b5` 的乾淨 checkout（`/home/user/dev_wt`，伺服器 8793，**不要 commit**）實際截圖＋效能＋鏡頭穿牆掃描＋聽眾坐姿檢查＋平面比較圖 → `FOUR_BUILDINGS_REVIEW.md`（PROPOSAL）；整合狀態核對（只有 `f0bab8c` 進了開發分支；我的分支整個合進去沒有衝突）；共同、大一女舍接線 patch `patches/gongtong_freshman_wiring_93b93b5.patch`（`/home/user/patch_wt`＝93b93b5＋patch＋兩個 GLB，伺服器 8794，**不要 commit**）。已傳 LAWWW 兩則 P1（整合順序；檢查結果＋問題 a–d），等回覆。**下一步看 LAWWW 回覆**：它同意整合路徑之前不開新的外觀（使用者第 5 點：避免模型累積沒進可玩場景）；可以做的是講堂椅、自習桌椅 instancing 模組、聽眾坐姿替身（要 LAWWW 同意）。
+**2026-10-13 18:4xZ（最新）**：**新社科院外觀交付**（VISUAL_REVIEW 第 22 節；`campus_socsci.py`；本機測試目錄 `/home/user/soc_wt`＝LAWWW `babb8c8`＋接線，伺服器 8795，**不要 commit**）。LAWWW 18:05Z 回覆檢查報告 a–d：共同＋大一女舍已接（`f3a18d6`）；鏡頭穿牆、門框、椅子 instancing、聽眾坐好才顯示由 LAWWW 修；101 先維持（R2／R1 等方案 A 驗收）；自習區照提案改配置。**我的佇列**：自習雙人桌＋椅、圓桌＋椅、講堂椅模組（`furniture_study.py` 第一版太像方塊，正在改成真的造型：彎管椅腳、有弧度的夾板、圓角）→ 聽眾坐姿替身（LAWWW 的 VRoid 人物、6–8 種）→ 博雅窗景／北面窗建議。普通、博雅新外觀等方案 A。
+
+**2026-10-13 17:2xZ**：使用者轉來 ChatGPT 審查（重點：真實辨識度、室內比例、實際遊玩；第 1–6 點）。做了：在 LAWWW `93b93b5` 的乾淨 checkout（`/home/user/dev_wt`，伺服器 8793，**不要 commit**）實際截圖＋效能＋鏡頭穿牆掃描＋聽眾坐姿檢查＋平面比較圖 → `FOUR_BUILDINGS_REVIEW.md`（PROPOSAL）；整合狀態核對（只有 `f0bab8c` 進了開發分支；我的分支整個合進去沒有衝突）；共同、大一女舍接線 patch `patches/gongtong_freshman_wiring_93b93b5.patch`（`/home/user/patch_wt`＝93b93b5＋patch＋兩個 GLB，伺服器 8794，**不要 commit**）。已傳 LAWWW 兩則 P1（整合順序；檢查結果＋問題 a–d），等回覆。**下一步看 LAWWW 回覆**：它同意整合路徑之前不開新的外觀（使用者第 5 點：避免模型累積沒進可玩場景）；可以做的是講堂椅、自習桌椅 instancing 模組、聽眾坐姿替身（要 LAWWW 同意）。
 
 **2026-10-13 16:5xZ**：**共同教學館外觀＋大一女舍外觀已交付**（VISUAL_REVIEW 第 20、21 節；接線說明 20.5、21.5；LAWWW 接）。新社科院（使用者 2026-10-13：現代台大平行校園）：需求原文 `requests/2026-10-13_新社科院.md`、參考資料與一頁規劃 `research/新社科院_參考資料與規劃.md`（PROPOSAL，等 LAWWW 回可不可以整合、等使用者看）。下一步：LAWWW 回覆社科院規劃 → 社科院圖書館外觀＋大樓外觀（照 LAWWW 16:19Z 的方案：圖書館 x 95–125、z −92～−70；大樓 x 99–123、z −62～−42）→ 普通、博雅外觀（LAWWW 照方案 A 放位置）→ 教學館室內（讀 LAWWW 的 gongtong／putong／boya 配置，教室排距 2.0 m）→ ⑦⑨⑩⑪。本機：`/home/user/gt_wt`（臨時工作目錄，zones3d.js 有本機接線＋大樹牆略過，**不要 commit**；伺服器 8792）。每次 checkpoint 都要 ReadNotifications。
 

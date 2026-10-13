@@ -51,26 +51,19 @@ def build():
     M = {
         'conc': L.pbr('soc_concrete', 'socsci_formwork', tile=1.8, normal=0.6, maps=('diff', 'nor'), rough_value=0.82),
         'white': L.flat('soc_white', '#eeede8', rough=0.55),                 # 圖書館屋簷、雨遮、女兒牆壓頂（白色烤漆）
-        'col': L.flat('soc_column', '#f3f2ee', rough=0.45),                  # 樹狀柱＋荷葉柱頂（從玻璃看進去）
         'gclear': L.flat('soc_glass_clear', '#9fb5bd', rough=0.06, alpha=0.3),
-        'mull': L.flat('ck_trim_win', '#dfe1e0', rough=0.35, metal=0.3),     # 圖書館帷幕的白色細框（不投影）
         'frame': L.flat('ck_frame', '#4b5056', rough=0.42, metal=0.3),       # 大樓的深灰鋁框、門框
         'glass': L.vc_material('ck_glass', rough=0.12),
-        'ceilL': L.flat('ck_glass_lit', '#f1efe9', rough=0.9),               # 圖書館、大廳的天花板（遊戲：晚上亮）
+        'ceilL': L.flat('ck_glass_lit', '#f2f1ec', rough=0.7),               # 圖書館、大廳的天花板＋樹狀柱（遊戲：晚上亮）
         'ceil': L.flat('ck_ceiling', '#e7eaeb', rough=0.9),                  # 屋簷底下、天花板上的圓形天窗
-        'floorL': L.pbr('soc_lib_floor', 'terrazzo_tiles', tile=1.6, target='#d4d0c7', maps=('diff',), res=256, rough_value=0.45),
         'green': L.pbr('soc_green_roof', 'leafy_grass', tile=2.2, target='#5f7b47', maps=('diff',), res=256, rough_value=0.95),
-        'skyg': L.flat('soc_sky_glass', '#b4c9d2', rough=0.08),
-        'bamboo': L.flat('soc_bamboo', '#c8a66b', rough=0.6),
-        'plaster': L.flat('soc_plaster', '#ecebe6', rough=0.85),
-        'roof': L.flat('soc_roofing', '#8b8d8c', rough=0.95),
         'pave': L.pbr('soc_paving', 'granite_tile', tile=1.2, target='#b8b3a9', normal=0.4, maps=('diff', 'nor'), rough_value=0.8),
-        'misc': L.vc_material('soc_misc', rough=0.6),
+        'misc': L.vc_material('soc_misc', rough=0.7),                       # 頂點色：閱覽桌、窗邊長桌、門、屋頂防水層、天窗玻璃、室內白牆、櫃台、沙發…（draw call 少）
         'lamp': L.flat('wz_lamp_lens', '#f3ead6', rough=0.4),
-        'dark': L.flat('soc_dark', '#3a3d40', rough=0.5),
         'board': L.flat('ck_board', '#cfccc4', rough=0.8),
     }
     K.setup_glass(M['glass'])
+    BAMBOO, DARK, ROOFC, SKYC, PLASTER = '#c8a66b', '#3a3d40', '#8b8d8c', '#506672', '#ecebe6'
     accs = {}
     VC = ('glass', 'misc')
     kit = K.Kit(M, accs, 'soc_', place=(0.0, 0.0, 0.0), vc=VC)
@@ -81,13 +74,14 @@ def build():
     def plate(name, fr, u0, u1, v0, v1, d, props):
         m = Mesh(name, M['board']); kit.face(m, [fr.p(u0, v0, d), fr.p(u1, v0, d), fr.p(u1, v1, d), fr.p(u0, v1, d)], fr.N); plates.append((m, props))
 
-    def hquad(m, x0, x1, z0, z1, y, up=True):
-        kit.face(m, [(x0, y, z0), (x1, y, z0), (x1, y, z1), (x0, y, z1)], (0, 1 if up else -1, 0))
+    def hquad(m, x0, x1, z0, z1, y, up=True, col=None):
+        f = kit.face(m, [(x0, y, z0), (x1, y, z0), (x1, y, z1), (x0, y, z1)], (0, 1 if up else -1, 0))
+        if col: m.paint([f], col)
 
     def disc(m, cx, cz, r, y, n=14, up=True, col=None):
         pts = [(cx + r * math.cos(2 * math.pi * k / n), y, cz + r * math.sin(2 * math.pi * k / n)) for k in range(n)]
         f = kit.face(m, pts, (0, 1 if up else -1, 0))
-        if col: A('misc').paint([f], col)
+        if col: m.paint([f], col)
 
     def ring(m, cx, cz, r0, y0, r1, y1, n=14, outward=True):
         for k in range(n):
@@ -107,14 +101,14 @@ def build():
         """玻璃帷幕：一整片透明玻璃＋白色細框（直框每 step 公尺、一道橫框、上下框）＋深色基座"""
         y0 = 0.12
         kit.rect(A('gclear'), fr, -half, half, y0, HIN, 0.0)
-        kit.fbox('dark', fr, -half, half, 0.0, y0, -0.12, 0.06, skip=('in', 'bottom'))
+        kit.fbox('misc', fr, -half, half, 0.0, y0, -0.12, 0.06, skip=('in', 'bottom'), col=DARK)
         n = int(round(2 * half / step))
         for i in range(n + 1):
             u = -half + 2 * half * i / n
-            kit.fbox('mull', fr, u - 0.035, u + 0.035, y0, HIN, -0.14, 0.07, skip=('bottom', 'top', 'in'))
+            kit.fbox('white', fr, u - 0.035, u + 0.035, y0, HIN, -0.14, 0.07, skip=('bottom', 'top', 'in'))
         for v in (3.0,):
-            kit.fbox('mull', fr, -half, half, v - 0.03, v + 0.03, -0.1, 0.05, skip=('l', 'r', 'in'))
-        kit.fbox('mull', fr, -half, half, HIN - 0.08, HIN, -0.12, 0.06, skip=('l', 'r', 'in', 'top'))
+            kit.fbox('white', fr, -half, half, v - 0.03, v + 0.03, -0.1, 0.05, skip=('l', 'r', 'in'))
+        kit.fbox('white', fr, -half, half, HIN - 0.08, HIN, -0.12, 0.06, skip=('l', 'r', 'in', 'top'))
 
     curtain(NORTH, 15.0, 1.5)
     curtain(WEST, 11.0, 22.0 / 14)
@@ -142,7 +136,7 @@ def build():
     # 東牆：實牆＋服務門
     sd = {'u': -(-75.4 - LCZ), 'a': 0.6, 'vb': 0.0, 'vs': 2.4, 'arch': False, 'vt': 2.4}
     kit.wall_strip(EAST, -11.0, 11.0, 0.0, HF0, [sd], mk='conc')
-    kit.rect(A('dark'), EAST, sd['u'] - 0.6, sd['u'] + 0.6, 0.0, 2.4, -0.12)
+    kit.cface(A('misc'), [EAST.p(sd['u'] - 0.6, 0.0, -0.12), EAST.p(sd['u'] + 0.6, 0.0, -0.12), EAST.p(sd['u'] + 0.6, 2.4, -0.12), EAST.p(sd['u'] - 0.6, 2.4, -0.12)], EAST.N, DARK)
     for s in (-1, 1): kit.strip(A('conc'), EAST, (sd['u'] + s * 0.6, 0.0), (sd['u'] + s * 0.6, 2.4), 0.0, -0.12, (-s, 0, 0))
     kit.strip(A('conc'), EAST, (sd['u'] - 0.6, 2.4), (sd['u'] + 0.6, 2.4), 0.0, -0.12, (0, -1, 0))
     # 屋簷（白色）：北、西兩面外挑 OVN（玻璃上面遮陽），南、東兩面 0.3
@@ -160,35 +154,36 @@ def build():
     hquad(A('green'), ex0 + PI_, ex1 - PI_, ez0 + PI_, ez1 - PI_, HF1 - 0.15)
     for s in J['skylights']:
         x, z, r = LCX + s['x'], LCZ + s['z'], s['r']
-        ring(A('white'), x, z, r + 0.08, HF1 - 0.15, r + 0.08, HF1 + 0.22, n=14)
-        hquad_r = r + 0.08
-        disc(A('skyg'), x, z, hquad_r, HF1 + 0.22, n=14, up=True)
+        ring(A('white'), x, z, r + 0.06, HF1 - 0.15, r + 0.06, HF1 - 0.03, n=14)   # 天窗的白色矮框（離植栽 12 cm）
+        ring(A('white'), x, z, r + 0.06, HF1 - 0.03, r, HF1 - 0.03, n=14)
+        disc(A('misc'), x, z, r, HF1 - 0.035, n=14, up=True, col=SKYC)            # 深色的玻璃頂
         disc(A('ceil'), x, z, r, HIN - 0.012, n=14, up=False)        # 室內天花板上的圓形天窗（從玻璃看進去）
     # 室內（從玻璃看進去）：地板、天花板、南牆與東牆的內側、樹狀柱＋荷葉柱頂、窗邊長桌、閱覽桌
-    hquad(A('floorL'), LX0 + 0.05, LX1 - 0.2, LZ0 + 0.05, LZ1 - 0.2, 0.006)
+    hquad(A('pave'), LX0 + 0.05, LX1 - 0.2, LZ0 + 0.05, LZ1 - 0.2, 0.006)
     hquad(A('ceilL'), LX0 + 0.05, LX1 - 0.2, LZ0 + 0.05, LZ1 - 0.2, HIN, up=False)
     zi = LZ1 - 0.2; dx0, dx1 = DOOR_LIB - 1.25, DOOR_LIB + 1.25   # 南牆內側（門的地方挖空：從門外看得到裡面）
     for (a0, a1, y0, y1) in ((LX0 + 0.05, dx0, 0.0, HIN), (dx1, LX1 - 0.2, 0.0, HIN), (dx0, dx1, 2.9, HIN)):
-        kit.face(A('plaster'), [(a0, y0, zi), (a1, y0, zi), (a1, y1, zi), (a0, y1, zi)], (0, 0, -1))
-    for s_ in (dx0, dx1): kit.face(A('plaster'), [(s_, 0.0, LZ1), (s_, 0.0, zi), (s_, 2.9, zi), (s_, 2.9, LZ1)], (1 if s_ == dx0 else -1, 0, 0))
-    kit.face(A('plaster'), [(LX1 - 0.2, 0, LZ0 + 0.05), (LX1 - 0.2, 0, LZ1 - 0.2), (LX1 - 0.2, HIN, LZ1 - 0.2), (LX1 - 0.2, HIN, LZ0 + 0.05)], (-1, 0, 0))
+        kit.cface(A('misc'), [(a0, y0, zi), (a1, y0, zi), (a1, y1, zi), (a0, y1, zi)], (0, 0, -1), PLASTER)
+    for s_ in (dx0, dx1): kit.cface(A('misc'), [(s_, 0.0, LZ1), (s_, 0.0, zi), (s_, 2.9, zi), (s_, 2.9, LZ1)], (1 if s_ == dx0 else -1, 0, 0), PLASTER)
+    kit.cface(A('misc'), [(LX1 - 0.2, 0, LZ0 + 0.05), (LX1 - 0.2, 0, LZ1 - 0.2), (LX1 - 0.2, HIN, LZ1 - 0.2), (LX1 - 0.2, HIN, LZ0 + 0.05)], (-1, 0, 0), PLASTER)
     for c in J['columns']:
         x, z, r, cap, cy = LCX + c['x'], LCZ + c['z'], c['r'], c['cap'], c['capY']
-        ring(A('col'), x, z, r * 1.12, 0.0, r, cy - 0.6, n=10)
-        ring(A('col'), x, z, r, cy - 0.6, cap, cy, n=24)
-        ring(A('col'), x, z, cap, cy, cap, cy + 0.05, n=24)
-        disc(A('col'), x, z, cap, cy + 0.05, n=24, up=True)
+        # 柱子、荷葉柱頂和天花板同一個材質（ck_glass_lit：白天是白色，晚上遊戲讓它亮——晚上從外面看，白色的樹狀柱是亮的；柱頂不亮會擋住大半個天花板）
+        ring(A('ceilL'), x, z, r * 1.12, 0.0, r, cy - 0.6, n=10)
+        ring(A('ceilL'), x, z, r, cy - 0.6, cap, cy, n=24)
+        ring(A('ceilL'), x, z, cap, cy, cap, cy + 0.05, n=24)
+        disc(A('ceilL'), x, z, cap, cy + 0.05, n=24, up=True)
     for f in J['furniture']:
         if f['type'] == 'windowCounter':
             if f['side'] == 'north': x0, x1, z0, z1 = LCX + f['x0'], LCX + f['x1'], LCZ + f['z'] - f['d'] / 2, LCZ + f['z'] + f['d'] / 2
             else: x0, x1, z0, z1 = LCX + f['x'] - f['d'] / 2, LCX + f['x'] + f['d'] / 2, LCZ + f['z0'], LCZ + f['z1']
-            kit.box('bamboo', x0, x1, 0.72, 0.77, z0, z1, skip=('bottom',))
-            if f['side'] == 'north': kit.box('bamboo', x0, x1, 0.0, 0.72, z0, z0 + 0.04, skip=('top', 'bottom'))
-            else: kit.box('bamboo', x0, x0 + 0.04, 0.0, 0.72, z0, z1, skip=('top', 'bottom'))
+            kit.box('misc', x0, x1, 0.72, 0.77, z0, z1, skip=('bottom',), col=BAMBOO)
+            if f['side'] == 'north': kit.box('misc', x0, x1, 0.0, 0.72, z0, z0 + 0.04, skip=('top', 'bottom'), col=BAMBOO)
+            else: kit.box('misc', x0, x0 + 0.04, 0.0, 0.72, z0, z1, skip=('top', 'bottom'), col=BAMBOO)
         elif f['type'] == 'readingTable':
             x, z, w, d = LCX + f['x'], LCZ + f['z'], f['w'], f['d']
-            kit.box('bamboo', x - w / 2, x + w / 2, 0.72, 0.77, z - d / 2, z + d / 2, skip=('bottom',))
-            for s in (-1, 1): kit.box('bamboo', x + s * (w / 2 - 0.3) - 0.03, x + s * (w / 2 - 0.3) + 0.03, 0.0, 0.72, z - d / 2 + 0.1, z + d / 2 - 0.1, skip=('top', 'bottom'))
+            kit.box('misc', x - w / 2, x + w / 2, 0.72, 0.77, z - d / 2, z + d / 2, skip=('bottom',), col=BAMBOO)
+            for s in (-1, 1): kit.box('misc', x + s * (w / 2 - 0.3) - 0.03, x + s * (w / 2 - 0.3) + 0.03, 0.0, 0.72, z - d / 2 + 0.1, z + d / 2 - 0.1, skip=('top', 'bottom'), col=BAMBOO)
     info_blocks['rects'].append({'what': '圖書館', 'x': LCX, 'z': LCZ, 'w': LX1 - LX0, 'd': LZ1 - LZ0})
     info_blocks['cam'].append({'what': '圖書館', 'box': [LX0, 0.0, LZ0, LX1, HF1, LZ1]})
 
@@ -229,7 +224,7 @@ def build():
         kit.face(A('conc'), [(a0, YR, b0), (a1, YR, b0), (a1, YR + 0.9, b1), (a0, YR + 0.9, b1)], n)
     for (a0, b0, b1, n) in ((BX0 + t, BZ0 + t, BZ1 - t, (1, 0, 0)), (BX1 - t, BZ0 + t, BZ1 - t, (-1, 0, 0))):
         kit.face(A('conc'), [(a0, YR, b0), (a0, YR, b1), (a0, YR + 0.9, b1), (a0, YR + 0.9, b0)], n)
-    hquad(A('roof'), BX0 + t, BX1 - t, BZ0 + t, BZ1 - t, YR + 0.01)
+    hquad(A('misc'), BX0 + t, BX1 - t, BZ0 + t, BZ1 - t, YR + 0.01, col=ROOFC)
     kit.box('conc', 104.0, 112.0, YR, YR + 3.6, -52.0, -47.0, skip=('bottom',))          # 樓梯、電梯的機房
     for (x, z) in ((98.5, -55.0), (101.0, -55.0), (98.5, -45.0), (101.0, -45.0), (118.0, -55.0), (120.5, -55.0)):
         kit.box('misc', x - 0.8, x + 0.8, YR, YR + 1.1, z - 0.6, z + 0.6, skip=('bottom',), col='#b9bcbd')   # 冷氣室外機
@@ -271,10 +266,10 @@ def build():
     for (a0, a1, b0, b1) in ((RECW, 103.4, RECN, -43.0), (103.4, BX1 - 1.0, RECN, -49.6)):
         hquad(A('pave'), a0, a1, b0, b1, 0.012)
         hquad(A('ceilL'), a0, a1, b0, b1, 4.3, up=False)
-    kit.face(A('plaster'), [(103.4, 0, -49.6), (103.4, 0, -43.0), (103.4, 4.3, -43.0), (103.4, 4.3, -49.6)], (-1, 0, 0))
-    kit.face(A('plaster'), [(103.4, 0, -49.6), (BX1 - 1.0, 0, -49.6), (BX1 - 1.0, 4.3, -49.6), (103.4, 4.3, -49.6)], (0, 0, -1))
-    kit.face(A('plaster'), [(RECW, 0, -43.0), (103.4, 0, -43.0), (103.4, 4.3, -43.0), (RECW, 4.3, -43.0)], (0, 0, -1))
-    kit.face(A('plaster'), [(BX1 - 1.0, 0, RECN), (BX1 - 1.0, 0, -49.6), (BX1 - 1.0, 4.3, -49.6), (BX1 - 1.0, 4.3, RECN)], (-1, 0, 0))
+    kit.cface(A('misc'), [(103.4, 0, -49.6), (103.4, 0, -43.0), (103.4, 4.3, -43.0), (103.4, 4.3, -49.6)], (-1, 0, 0), PLASTER)
+    kit.cface(A('misc'), [(103.4, 0, -49.6), (BX1 - 1.0, 0, -49.6), (BX1 - 1.0, 4.3, -49.6), (103.4, 4.3, -49.6)], (0, 0, -1), PLASTER)
+    kit.cface(A('misc'), [(RECW, 0, -43.0), (103.4, 0, -43.0), (103.4, 4.3, -43.0), (RECW, 4.3, -43.0)], (0, 0, -1), PLASTER)
+    kit.cface(A('misc'), [(BX1 - 1.0, 0, RECN), (BX1 - 1.0, 0, -49.6), (BX1 - 1.0, 4.3, -49.6), (BX1 - 1.0, 4.3, RECN)], (-1, 0, 0), PLASTER)
     kit.box('misc', 101.4, 102.3, 0.0, 1.05, -53.6, -50.9, skip=('bottom',), col='#6b5b4a')       # 服務台
     for x in (113.5, 119.0):
         kit.box('misc', x - 1.0, x + 1.0, 0.0, 0.45, -54.9, -54.1, skip=('bottom',), col='#4f5559')   # 沙發
@@ -308,7 +303,7 @@ def build():
         w, d = (2.4, 0.45) if along_x else (0.45, 2.4)
         kit.box('conc', x - w / 2, x + w / 2, 0.0, 0.45, z - d / 2, z + d / 2, skip=('bottom',))
         info_blocks['rects'].append({'what': '中庭長椅', 'x': x, 'z': z, 'w': w, 'd': d, 'seat': True})
-    for (x, z) in ((122.8, -68.6), (97.6, -59.6)):
+    for (x, z) in ((122.8, -68.6),):   # 西邊（往小路的入口）、中間（集合）都留空
         ring(A('conc'), x, z, 1.2, 0.0, 1.2, 0.45, n=18); ring(A('conc'), x, z, 1.05, 0.45, 1.05, 0.0, n=18, outward=False)
         ring(A('conc'), x, z, 1.05, 0.45, 1.2, 0.45, n=18)
         disc(A('green'), x, z, 1.05, 0.38, n=18, up=True)
