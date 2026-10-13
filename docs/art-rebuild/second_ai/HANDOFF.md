@@ -1,8 +1,8 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-值班登記：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜分支 claude/second-ai-env-art｜接班基準 —（從頭值班）｜2026-10-10 15:39 UTC
-上一班：無（帳號 B 還沒建立；跨帳號接班制度 D49，總入口在 LAWWW 分支的 `docs/AI_SESSION_HANDOFF.md`）
-**交班：2026-10-11 10:13 UTC｜帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜正常交班（使用者要求換班）｜最後 commit：見下面「交班時的遠端 SHA」**——之後帳號 A 的 LAWWW2 不再寫入這個範圍，直到使用者叫回來。接班的人（LAWWW2-B）把上面的「值班登記」改成自己、把這一行改成「上一班」。
+值班登記：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜分支 claude/second-ai-env-art｜接班基準 `1f20126`（＋合併 LAWWW `cb399ea`）｜2026-10-13 12:35 UTC（使用者：「我回來了，請同步 GitHub 最新進度，接續工作。」）
+上一班：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜最後 commit `1f20126`（2026-10-11 10:14 UTC）｜正常交班；中間沒有人接班（LAWWW2-B 沒有建立，遠端沒有別的 LAWWW2 分支）
+交班紀錄：2026-10-11 10:13 UTC 交班（`1f20126`）→ 2026-10-13 回到帳號 A。
 
 規則見 `WORK_RULES.md` 第 6 節。分工、佇列以 LAWWW 的 `docs/SECOND_AI_HANDOFF.md`、`docs/DUAL_AI_BOARD.md` 為準；跨帳號接班照 `docs/AI_SESSION_HANDOFF.md`（D49）。**LAWWW 的訊息可能「顯示送達、但沒出現在對話裡」**：每次 checkpoint、每次交付前都 `git fetch` LAWWW 的開發分支讀看板。
 
