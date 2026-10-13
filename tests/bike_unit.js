@@ -96,7 +96,9 @@ const step=(dist,turn,n)=>{ for(let i=0;i<n;i++){ P.obj.rotation.y+=turn/n; P.ob
     Object.keys(G).forEach(k=>delete G[k]); Object.assign(G,saved); await enter('campus',{x:P.obj.position.x,z:P.obj.position.z,yaw:0},{fromLoad:true});
     check('12 讀檔：還在騎（只有一台車掛在玩家底下、區域裡沒有停著的車）',P.riding&&P.obj.children.filter(o=>o.name==='bike_ride').length===1&&!parkedObj()&&!btn.cls.has('hide'));
     delete G.bike; BIKE.dismount(GM); delete G.bike; await enter('campus',{x:0,z:0,yaw:0},{fromLoad:true});
-    check('12 舊存檔（沒有 bike）：車在宿舍門口、沒在騎',!P.riding&&G.bike&&G.bike.zone==='campus'&&!G.bike.riding&&Math.abs(G.bike.x-25)<1e-6); }
+    check('12 舊存檔（沒有 bike）：車在宿舍門口、沒在騎',!P.riding&&G.bike&&G.bike.zone==='campus'&&!G.bike.riding&&Math.abs(G.bike.x-25)<1e-6);
+    const pa=BIKE.parkedAt(G), pOld=BIKE.parkedAt({day:3}); P.obj.position.set(G.bike.x,0,G.bike.z); BIKE.mount(GM); const pRide=BIKE.parkedAt(G); BIKE.dismount(GM);
+    check('12 地圖的綠點（BIKE.parkedAt）：停著＝車的位置；舊存檔＝宿舍門口；騎著＝沒有',!!pa&&pa.zone==='campus'&&Math.abs(pa.x-G.bike.x)<1.0&&!!pOld&&pOld.x===25&&pOld.zone==='campus'&&pRide===null,JSON.stringify({pa,pOld,pRide})); }
   // ---- 13 路上騎腳踏車的人（game3d.js 的 spawnRider → BIKE.rider）----
   { const calls=[]; global.CHAR={animate:(o,dt,st)=>calls.push(st)}; const route=[[0,0],[10,0],[10,10]], rd=new THREE.Object3D();
     const r=BIKE.rider(rd,route,'#8c3b47',1.60); const k=BIKE.scaleFor(1.60); let maxTurn=0, prevYaw=null, maxOff=0; const dt=1/30;

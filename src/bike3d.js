@@ -117,6 +117,8 @@ const BIKE=(function(){
         pose(this.bike.userData.parts,this.wheel,this.crank,this.steer);
         if(typeof CHAR!=='undefined'&&CHAR.animate) CHAR.animate(rd,dt,{pose:'ride',speed:0,ride:{crank:this.crank,grips:grips(this.steer,k),scale:k}}); } }; };
   B.riding=()=>!!ride;
+  /* 車停在哪（小地圖、大地圖的綠點）：沒在騎才有；舊存檔沒有 G.bike＝宿舍門口 */
+  B.parkedAt=G=>{ if(!G) return null; const s=G.bike||HOME; return s.riding?null:{zone:s.zone,x:s.x,z:s.z}; };
   B.debug=()=>ride?{wheel:ride.wheel,crank:ride.crank,steer:ride.steer,lean:ride.lean,k:ride.k}:null;   /* 測試用（tests/bike_unit.js）*/
   /* 下車按鈕 */
   B.bindUI=function(GM){ const b=btn(); if(b) b.onclick=()=>{ if(ride&&!GM.E.player.busy) B.dismount(GM); }; };

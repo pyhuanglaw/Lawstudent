@@ -152,6 +152,9 @@ const GUIDE=(function(){
     if(st.tgt&&!st.tgt.it&&on()){ const [u,w]=S(st.tgt.x,st.tgt.z); x.fillStyle='#ffc85a'; x.beginPath(); x.arc(u,w,7,0,7); x.fill(); x.lineWidth=2; x.strokeStyle='#1d2127'; x.stroke(); }
     // 認識的人（黃點）
     for(const n of E.npcs){ if(n.isExtra||!n.obj) continue; if(v.perLv&&(n.lv|0)!==v.lv) continue; const [u,w]=S(n.obj.position.x,n.obj.position.z); x.fillStyle='#e9b96a'; x.beginPath(); x.arc(u,w,4.5,0,7); x.fill(); if(n.name){ x.font='600 12px "Noto Sans TC","PingFang TC",sans-serif'; x.textAlign='left'; x.lineWidth=3; x.strokeStyle='rgba(20,22,26,0.9)'; x.strokeText(n.name,u+7,w); x.fillStyle='#ffe2a8'; x.fillText(n.name,u+7,w); x.textAlign='center'; } }
+    // 自己的腳踏車（停在這一區時；src/bike3d.js）：下車走開以後找得到車
+    { const bk=typeof BIKE!=='undefined'&&BIKE.parkedAt(GM.G); if(bk&&bk.zone===GM.G.zone&&(!v.perLv||v.lv===0)){ const [u,w]=S(bk.x,bk.z); x.fillStyle='#8fd18a'; x.strokeStyle='rgba(20,22,26,0.9)'; x.lineWidth=1.5; x.beginPath(); x.arc(u,w,6,0,7); x.fill(); x.stroke();
+      x.font='600 12px "Noto Sans TC","PingFang TC",sans-serif'; x.lineWidth=3; x.strokeText('🚲 你的腳踏車',u,w-14); x.fillStyle='#d6f5d2'; x.fillText('🚲 你的腳踏車',u,w-14); } }
     // 玩家：位置＋面向（世界的面向 (sin ry, cos ry) 轉到地圖上）
     if(!v.perLv||PLV()===v.lv){ const p=P(); const [u,w]=S(p.x,p.z); const ry=E.player.obj.rotation.y; const fx=Math.sin(ry), fz=Math.cos(ry); const c=Math.cos(v.th), s=Math.sin(v.th); const a=Math.atan2(fx*c-fz*s,-(fx*s+fz*c));
       x.save(); x.translate(u,w); x.fillStyle='rgba(255,255,255,0.18)'; x.beginPath(); x.arc(0,0,16,0,7); x.fill(); x.rotate(a); x.fillStyle='#ffffff'; x.strokeStyle='#d0533f'; x.lineWidth=2; x.beginPath(); x.moveTo(0,-11); x.lineTo(8,8); x.lineTo(0,4); x.lineTo(-8,8); x.closePath(); x.fill(); x.stroke(); x.restore();
