@@ -105,6 +105,13 @@ async def drag(pg, cdp, x0, y0, x1, y1, steps=10):
     await cdp.send('Input.dispatchTouchEvent', {'type': 'touchEnd', 'touchPoints': []})
 
 
+# 點地面前的檢查：那一點和上下左右 14 px 都是遊戲畫面（id 'c'）——抬頭顯示（左上角的「下一堂課」，點了會打開手機）的寬度會隨文字變，
+# 只檢查那一點的話，檢查完到手指點下去之間字變長，就點到它（2026-10-13：批次 1、2 的 flow_boya_interior 都因此打開手機、遊戲暫停，看起來像卡死）
+CANVAS_OK_JS = "const canvasOK=(x,y)=>[[0,0],[14,0],[-14,0],[0,14],[0,-14]].every(([dx,dy])=>{ const e=document.elementFromPoint(x+dx,y+dy); return !!e&&e.id==='c'; });"
+OVERLAYS_JS = "['phone','menu','bigmap'].filter(id=>{ const e=document.getElementById(id); return e&&!e.classList.contains('hide')&&getComputedStyle(e).display!=='none'; })"
+CLOSE_OF = {'phone': '#btnPhoneClose', 'menu': '#btnClose', 'bigmap': '#bmClose'}
+
+
 STATE_JS = """(()=>{ const E=GAME.E, P=E.player, o=P.obj.position, D=GAME.D; const ch=document.getElementById('choices'); const it=document.getElementById('interact');
   return {zone:GAME.G.zone, x:+o.x.toFixed(2), z:+o.z.toFixed(2), ry:+P.obj.rotation.y.toFixed(2), busy:!!P.busy, pose:P.pose, path:P.path?P.path.length:0,
     dlg:!!(D&&D.active), dtext:((document.getElementById('dlgText')||{}).textContent||'').slice(0,60), choices:(ch&&!ch.classList.contains('hide'))?ch.querySelectorAll('button').length:0,
@@ -157,9 +164,9 @@ async def tap_ground(pg, cdp, x, z, lv=None, verify=False):
     v9.4 多樓層：lv＝那一點在第幾層（投影用那一層地板的高度；點下去遊戲會打到那一層看得到的地板）。
     verify：先用遊戲自己的 E.screenToFloor 確認點下去會落在那一點附近（水平 1 m、高度 0.35 m 內）才點（像玩家看著畫面點，不會點到別層的地板）。
     回傳 dict（螢幕座標、點下去會落在哪裡）或 None"""
-    pt = await pg.evaluate("""(([x,z,lv])=>{ const E=GAME.E; const y=!E.heightAt?0:((lv===null||lv===undefined)?E.heightAt(x,z,E.player.lv|0):E.heightAt(x,z,lv)); const v=new THREE.Vector3(x,y,z).project(E.camera); if(v.z>1) return null; const sx=(v.x+1)/2*innerWidth, sy=(1-v.y)/2*innerHeight;
+    pt = await pg.evaluate("""(([x,z,lv])=>{ """ + CANVAS_OK_JS + """ const E=GAME.E; const y=!E.heightAt?0:((lv===null||lv===undefined)?E.heightAt(x,z,E.player.lv|0):E.heightAt(x,z,lv)); const v=new THREE.Vector3(x,y,z).project(E.camera); if(v.z>1) return null; const sx=(v.x+1)/2*innerWidth, sy=(1-v.y)/2*innerHeight;
         if(sx<10||sy<10||sx>innerWidth-10||sy>innerHeight-10) return null; const el=document.elementFromPoint(sx,sy); const h=E.screenToFloor?E.screenToFloor(sx,sy):null;
-        return {sx,sy,y,ok:!!el&&el.id==='c',hit:h?[+h.x.toFixed(2),+h.z.toFixed(2),h.lv|0,+h.y.toFixed(2)]:null}; })(%s)""" % json.dumps([x, z, lv]))
+        return {sx,sy,y,ok:!!el&&el.id==='c'&&canvasOK(sx,sy),hit:h?[+h.x.toFixed(2),+h.z.toFixed(2),h.lv|0,+h.y.toFixed(2)]:null}; })(%s)""" % json.dumps([x, z, lv]))
     if not pt or not pt['ok']: return None
     if verify:
         h = pt['hit']   # 落點和目標的 3D 距離（樓梯兩層共用，不比層）
@@ -200,6 +207,10 @@ async def go_to(pg, cdp, run, tx, tz, near, label, max_s=420, lv=None):
                 await pg.wait_for_timeout(500); s = await state(pg)
             d = math.hypot(tx - s['x'], tz - s['z'])
             run.note(f'到達「{label}」附近（{d:.2f} m）：點地面 {taps} 次、轉鏡頭 {turns} 次、搖桿 {joys} 次，{time.time()-t0:.0f} 秒'); return True
+        if s.get('paused'):   # 手機、選單、地圖開著（遊戲暫停，人走不動）：玩家會先把它關掉
+            ov = await pg.evaluate(OVERLAYS_JS)
+            if ov:
+                run.note(f'「{label}」途中：{"、".join(ov)} 開著（遊戲暫停），先關掉'); await tap(pg, cdp, CLOSE_OF[ov[0]]); await pg.wait_for_timeout(800); continue
         if last is None or math.hypot(s['x'] - last[0], s['z'] - last[1]) > 0.3: last = (s['x'], s['z']); last_prog = time.time()
         if s['busy'] or s['dlg'] or s['choices']:
             await advance_dialogs(pg, cdp, run, until=lambda q: not q['dlg'] and not q['choices'] and not q['busy'], max_steps=40); continue
@@ -238,13 +249,13 @@ async def go_to(pg, cdp, run, tx, tz, near, label, max_s=420, lv=None):
     return False
 
 
-PICK_TAP_JS = """(([tx,tz,tlv])=>{ const E=GAME.E, P=E.player, o=P.obj.position, plv=P.lv|0; if(!E.pathTo||!E.screenToFloor) return null;
+PICK_TAP_JS = """(([tx,tz,tlv])=>{ """ + CANVAS_OK_JS + """ const E=GAME.E, P=E.player, o=P.obj.position, plv=P.lv|0; if(!E.pathTo||!E.screenToFloor) return null;
   const glv=(tlv===null||tlv===undefined)?plv:tlv; const p=E.pathTo(o.x,o.z,plv,tx,tz,glv); if(!p||!p.length) return {why:'沒有路'};
   // 路線上每 0.75 m 一個點（含層）：從最遠的往回找第一個「畫面上看得到、點下去遊戲真的會打到那一點」的
   const pts=[]; let ax=o.x, az=o.z, al=plv;
   for(const q of p){ const bl=q.length>2?q[2]|0:al, L=Math.hypot(q[0]-ax,q[1]-az), n=Math.max(1,Math.ceil(L/0.75)); for(let i=1;i<=n;i++) pts.push([ax+(q[0]-ax)*i/n, az+(q[1]-az)*i/n, i<n?al:bl]); ax=q[0]; az=q[1]; al=bl; }
   for(let i=pts.length-1;i>=0;i--){ const [x,z,l]=pts[i]; const y=E.heightAt?E.heightAt(x,z,l):0; const v=new THREE.Vector3(x,y,z).project(E.camera); if(v.z>1) continue;
-    const sx=(v.x+1)/2*innerWidth, sy=(1-v.y)/2*innerHeight; if(sx<10||sy<10||sx>innerWidth-10||sy>innerHeight-10) continue; const el=document.elementFromPoint(sx,sy); if(!el||el.id!=='c') continue;
+    const sx=(v.x+1)/2*innerWidth, sy=(1-v.y)/2*innerHeight; if(sx<10||sy<10||sx>innerWidth-10||sy>innerHeight-10) continue; if(!canvasOK(sx,sy)) continue;
     const h=E.screenToFloor(sx,sy); if(!h||Math.hypot(h.x-x,h.z-z)>0.8||Math.abs(h.y-y)>0.35) continue;   /* 比 3D 位置不比層：樓梯兩層共用，第二跑的透明地板標第 1 層 */
     return {sx,sy,x,z,lv:l,k:i,n:pts.length}; }
   return {why:'路線上沒有看得到的點',n:pts.length}; })(%s)"""
