@@ -104,6 +104,7 @@ if(!only||only==='boya'){ const z=runZone('boya',BOYA_LAYOUT,150); const L=BOYA_
   const scr=E.interactables.find(i=>i.board&&/講座資訊/.test(i.label)); check('講座資訊螢幕：有互動、走得到',!!scr&&walk([L.entrance.spawn.x,L.entrance.spawn.z,0],[scr.x,scr.z,0]).ok,scr&&scr.label); }
 if(!only||only==='putong'){ const z=runZone('putong',PUTONG_LAYOUT,110);
   check('roomAt：走廊、門廳、101、103、201 認得出來',z.roomAt(0,0.2,0)==='corridor'&&z.roomAt(0,5,0)==='lobby'&&z.roomAt(-10,-4,0)==='101'&&z.roomAt(-10,4,0)==='103'&&z.roomAt(-10,-4,1)==='201',[z.roomAt(0,0.2,0),z.roomAt(0,5,0),z.roomAt(-10,-4,0),z.roomAt(-10,4,0),z.roomAt(-10,-4,1)].join(','));
+  check('spaceAt（「在她附近」用）：走廊、門廳是同一個開放空間，101、103 各自一間',z.spaceAt(0,0.2,0)==='public'&&z.spaceAt(0,5,0)==='public'&&z.spaceAt(-10,-4,0)==='101'&&z.spaceAt(-10,4,0)==='103',[z.spaceAt(0,0.2,0),z.spaceAt(0,5,0),z.spaceAt(-10,-4,0),z.spaceAt(-10,4,0)].join(','));
   const br=E.interactables.find(i=>/空橋/.test(i.label||'')); const sp=br&&br.exit&&br.exit.spawn;
   check('往博雅的空橋（方案 A）：二樓門口「走空橋到博雅教學館」→ 落在博雅二樓',!!br&&br.lv===1&&br.exit&&br.exit.to==='boya'&&sp&&sp.lv===1,br&&br.label+' '+JSON.stringify(br.exit));
   check('空橋門口從一樓大廳走得到（上樓梯、二樓走廊）',!!br&&walk([PUTONG_LAYOUT.entrance.spawn.x,PUTONG_LAYOUT.entrance.spawn.z,0],[br.x,br.z,1]).ok);

@@ -204,7 +204,8 @@ const TB3=(function(){
       fadeWalls(cam){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
       applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); for(const o of outs) B3.setOutView(o,h,weather,night); },
       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; },
-      roomAt(x,z,lv){ for(const r of L.rooms){ if((r.lv|0)!==(lv|0)) continue; if(x>r.x0&&x<r.x1&&z>r.z0&&z<r.z1) return r.id; } for(const a of (L.areas||[])){ if((a.lv|0)===(lv|0)&&x>a.x0&&x<a.x1&&z>a.z0&&z<a.z1) return a.id; } return 'hall'; } };   /* 房間 → 範圍（areas）→ 大廳 */
+      roomAt(x,z,lv){ for(const r of L.rooms){ if((r.lv|0)!==(lv|0)) continue; if(x>r.x0&&x<r.x1&&z>r.z0&&z<r.z1) return r.id; } for(const a of (L.areas||[])){ if((a.lv|0)===(lv|0)&&x>a.x0&&x<a.x1&&z>a.z0&&z<a.z1) return a.id; } return 'hall'; },   /* 房間 → 範圍（areas）→ 大廳 */
+      spaceAt(x,z,lv){ for(const r of L.rooms){ if((r.lv|0)!==(lv|0)) continue; if(x>r.x0&&x<r.x1&&z>r.z0&&z<r.z1) return r.id; } return 'public'; } };   /* 同一個空間嗎：關起來的房間各自一間，走廊、門廳、自習區這些開放的地方算同一個（events3d.js「在她附近」用）*/
     buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,slabs,innerM); buildFurniture(E,L,lv0,lv1,fb0,fb1,zone); windowViews(L,lv0,lv1,outs);
     zone.camCols=camColliders(L,g);   /* 跟隨鏡頭撞到隔間牆就拉近（LAWWW2 審查 P1）*/
     // 樓梯可以點的面（點一跑樓梯＝走完那一跑，engine3d.js 任務 #42）

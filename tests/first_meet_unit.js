@@ -70,11 +70,12 @@ const has=(id,tag)=>SOCIAL.has(id,tag);
     fresh(); G.zone='campus'; SOCIAL.meet('heroine_02','cafe'); said=[]; const ok=EVENTS.onInteract('heroine_02'); await new Promise(r=>setTimeout(r,20));   /* X.run 是非同步的：等對話演完 */
     check('③ P1-2 認識以後：「傅鐘旁邊」照常',ok&&!!G.events.done.ev_zhiruo_bell,JSON.stringify({ok,said:said[0]})); }
   { fresh(); Object.assign(G,{zone:'putong',day:10,weekday:5,hour:12.25}); const tried=[]; EVENTS.run=async ev=>{ tried.push(ev.id); };
-    const P=GM.E.player; GM.E.zone={seats:[],roomAt:(x,z,lv)=>z<-1.2&&x<-4.4?'101':(z<1.6?'corridor':'lobby')};
+    const P=GM.E.player; GM.E.zone={seats:[],roomAt:(x,z,lv)=>z<-1.2&&x<-4.4?'101':(z<1.6?'corridor':'lobby'),spaceAt:(x,z,lv)=>z<-1.2&&x<-4.4?'101':'public'};
     GM.npc.heroine_02={id:'heroine_02',charId:'heroine_02',obj:{position:{x:-4.8,z:0.9}},lv:0};
     P.obj.position.x=-5.6; P.obj.position.z=-2.0; EVENTS.tick(0.016); const inRoom=tried.includes('ev_zhiruo_ge_group');
     tried.length=0; P.obj.position.x=-7.0; P.obj.position.z=0.2; EVENTS.tick(0.016); const inHall=tried.includes('ev_zhiruo_ge_group');
-    check('③ P1-3 經原分組（在她 5 m 內）：她在 101 門口的走廊、玩家還在 101 裡（隔著牆 3 m）不觸發；走出 101 到走廊才觸發',!inRoom&&inHall,JSON.stringify({inRoom,inHall,tried}));
+    tried.length=0; P.obj.position.x=-2.5; P.obj.position.z=3.4; EVENTS.tick(0.016); const inLobby=tried.includes('ev_zhiruo_ge_group');
+    check('③ P1-3 經原分組（在她 5 m 內）：她在 101 門口的走廊、玩家還在 101 裡（隔著牆 3 m）不觸發；走出 101 到走廊、或在旁邊開放的門廳（3.4 m）才觸發',!inRoom&&inHall&&inLobby,JSON.stringify({inRoom,inHall,inLobby,tried}));
     GM.npc={}; P.obj.position.x=0; P.obj.position.z=0; GM.E.zone={roomAt:()=>null,seats:[]}; }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
