@@ -61,22 +61,28 @@ async def dialog_through(pg, cdp, run, max_steps=40):
     return lines
 
 
-async def chase(pg, cdp, run, cid, label, rounds=14):
-    """像玩家一樣走到那個人旁邊（點地面；人在走動，所以常常重新瞄準：每 30 秒看一次她現在在哪、再點一次）；回傳最後的距離。
-    v9.6 發布回歸（候選 3）：原本每輪最多等 150 秒、走到她「剛才」的位置——SwiftShader 一秒不到一格，她早就走遠了，
-    4 輪用完已經 12:00、她開始離開（c772bab 也是這樣失敗）。判斷標準不變（2.8 m 內停下、出現「說話」）。"""
-    running = False
+async def chase(pg, cdp, run, cid, label, rounds=30):
+    """像玩家一樣追上走動中的人：看她現在在哪、點那裡（遠的話點往那個方向的地面；超過 16 m 遊戲自己會用跑的），
+    每 15 秒（近了 6 秒）看一次、再點一次；她先開口就停；回傳最後的距離。
+    v9.6 發布回歸（候選 3）：原本用 go_to 走到她「剛才」的位置——go_to 在人物還在走上一條路線時不會重新點，
+    一直走到舊的目標才換，她出現在 60 m 外、還在往遠處走時追不上（c772bab、a6c3d1a 兩次都在這裡失敗）。
+    判斷標準不變（2.8 m 內停下、出現「說話」）。"""
+    taps = 0; t0 = time.time()
     for _ in range(rounds):
         n = await npc(pg, cid)
-        if not n: break
-        if n['d'] <= 2.3: break
-        far = n['d'] > 12   # 離很遠：像真人一樣按「跑」追過去（她出現的位置是照路線隨機挑的，可能在 60 m 外、還在往遠處走）；近了再用走的
-        if far != running: await L.tap(pg, cdp, '#btnRun'); running = far; await pg.wait_for_timeout(300)
-        await L.go_to(pg, cdp, run, n['x'], n['z'], 1.8, label, max_s=30)
-    if running: await L.tap(pg, cdp, '#btnRun')
+        if not n or n['d'] <= 2.3: break
+        s = await L.state(pg)
+        if s['busy'] or s['dlg'] or s['choices']: break   # 走近時她先開口（相遇事件）
+        if await L._tap_toward(pg, cdp, s, n['x'], n['z'], n['d'], None): taps += 1
+        await pg.wait_for_timeout(15000 if n['d'] > 6 else 6000)
+    t1 = time.time()
+    while time.time() - t1 < 30:   # 等人物停下來（真人會等走完再看按鈕）
+        s = await L.state(pg)
+        if not s['path'] or s['busy'] or s['dlg'] or s['choices']: break
+        await pg.wait_for_timeout(1000)
     n = await npc(pg, cid)
+    run.note(f'追「{label}」：點地面 {taps} 次、{time.time() - t0:.0f} 秒，最後距離 {n["d"] if n else None}')
     return n and n['d']
-
 
 async def main():
     run = L.Run('flow_playtest_fixes', OUT)
