@@ -6,6 +6,8 @@ A. 進教室：[前置／捷徑] 讀檔在博雅大廳、演講已經開始 20 �
 B. 演講開始：[前置／捷徑] 讀檔在 101 裡、離演講開始 15 分鐘前還有半分鐘 → 站著等（遊戲時間自己走）→ 聽眾在 15 分鐘前進場坐好
 C. 讀檔：演講中用選單存檔（欄位 1）→ 選單讀取欄位 1（在遊戲裡讀；重新整理的話測試活動會不見）
 D. 跳時間：[前置／捷徑] 讀檔在 101 裡 12:50（14:00 有演講）→ 手機「跳過時間」→「等到下午」
+E. 換正式模型：[前置／捷徑] 把畫面裡 4 位聽眾標成「正式模型晚到」（換成另一個已載入的模型）——手機網路慢、模型 180 秒內沒下載完時，
+   遊戲每 1.5 秒（GM.upgradeModels，在 E.update 之後、畫面之前）把晚到的模型換上去；換上去的那一幀（修改前）是站姿。A～D 在這個環境裡模型都已載入，所以 E 另外做。
 每一段：看得到座位上的人的幀數 > 0、站著被畫出來 0 次；截圖。
 用法：python3 tests/flow_seated_spawn.py URL [輸出資料夾]"""
 import asyncio, json, sys, time
@@ -118,6 +120,22 @@ async def main():
         run.check('D 跳到 14:00：之前沒有聽眾、之後坐好', n0 == 0 and n1 >= 8 and h >= 13.95, f'跳之前 {n0} 人、之後 {n1} 人、{h:.3f}')
         await run.shot(pg, 'D_after_skip')
         report(run, 'D 跳時間', await pg.evaluate(RESET))
+        # ---------- E：換正式模型（晚到的模型換上去的那一幀）----------
+        run.setup('畫面裡 4 位坐著的聽眾標成「正式模型晚到」：換成另一個已載入的路人模型（GM.upgradeModels 每 1.5 秒在畫面之前換）')
+        k = await pg.evaluate("""(()=>{ const E=GAME.E, M=ASSETS.manifest, keys=Object.keys(M).filter(k=>M[k].type==='vrm'&&!M[k].lazy&&ASSETS.has(k)&&M[k].ambient); window.__upg=[];
+          const F=new THREE.Frustum(), Mx=new THREE.Matrix4(), V=new THREE.Vector3(); E.camera.updateMatrixWorld(); Mx.multiplyMatrices(E.camera.projectionMatrix,E.camera.matrixWorldInverse); F.setFromProjectionMatrix(Mx);
+          for(const m of E.npcs){ if(window.__upg.length>=4||!m.clsStudent) continue; const u=m.obj.userData; if(u.driver!=='vrm') continue; V.set(m.obj.position.x,m.obj.position.y+0.6,m.obj.position.z); if(!F.containsPoint(V)) continue;
+            const alt=keys.find(q=>q!==u.key); if(!alt) continue; u.buildSpec=Object.assign({},u.buildSpec,{model:alt}); u.wantModel=alt; m.__alt=alt; window.__upg.push(m); } return window.__upg.length; })()""")
+        await pg.evaluate(RESET)
+        t0 = time.time(); done = 0
+        while time.time() - t0 < 90:
+            await pg.wait_for_timeout(2000)
+            done = await pg.evaluate("(window.__upg||[]).filter(m=>m.obj.userData.key===m.__alt).length")
+            if k and done >= k: break
+        await frames(pg, 6)
+        run.check('E 畫面裡的聽眾換上「晚到的模型」（這一段真的有換）', k >= 1 and done == k, f'標了 {k} 位、換好 {done} 位')
+        await run.shot(pg, 'E_after_upgrade')
+        report(run, 'E 換正式模型', await pg.evaluate(RESET))
         run.check('沒有頁面錯誤', not errs, json.dumps(errs[:3], ensure_ascii=False))
         await b.close()
     sys.exit(run.finish())
