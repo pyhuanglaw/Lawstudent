@@ -1,4 +1,4 @@
-"""社科院（新社科院＋辜振甫先生紀念圖書館）的位置規劃圖（不開瀏覽器；資料照 src/zones3d.js 校園區域手抄，改校園後要一起改）。
+"""社科院（新社科院＋辜先生紀念圖書館）的位置規劃圖（不開瀏覽器；資料照 src/zones3d.js 校園區域手抄，改校園後要一起改）。
 輸出 docs/campus/socsci/plan_now.png（現況）、plan_min.png（最小修改方案）：上＝北（-z）、右＝東（+x），1 m = 4 px。
 步行距離是用遊戲的導航格算的（scratchpad 的 socsci_routes.js，2026-10-13）。
 用法：python3 tools/dev_scratch/socsci_plan_diagram.py"""
@@ -73,7 +73,7 @@ def now():
     rect(d, 99, -98, 121, -42, fill='#f2f0ea', outline='#333', width=2)
     label(d, 110, -82, '社會科學院', font=f); label(d, 110, -75, '（現有）', font=fs); label(d, 110, -69, '白色四層', font=fs); label(d, 110, -63, '程式產生', font=fs); label(d, 110, -57, '沒有入口', font=fs)
     for i in range(7): ellipse(d, 96, -90 + i * 6, 0.9, 0.9, fill='#ffffff', outline='#333')
-    label(d, 66, -74, '門前白色圓柱 7 根（代表辜振甫圖書館，原型）→', font=fs)
+    label(d, 66, -74, '門前白色圓柱 7 根（代表社科院圖書館，原型）→', font=fs)
     s = (97.5, -70)
     route(d, [s, (92.5, -64), (92.5, -40), (86, -30), (86, 0)], '#c0392b', '到總圖 74 m・約 41 秒', at=(74, -46))
     route(d, [s, (92.5, -84), (60, -94), (28, -101)], '#1f6fb2', '到霖澤館 80 m・約 44 秒', at=(58, -99))
@@ -85,12 +85,12 @@ def now():
 
 def minimal():
     im, d = base('社科院：最小修改方案（原地沿用；外觀換成 Blender 正式模型）')
-    # 辜振甫圖書館：一層樓入口建築（LAWWW2 ⑬ 的室內 30×22 m；玻璃牆朝北、朝西＝朝廣場與霖澤館）
+    # 社科院圖書館：一層樓入口建築（LAWWW2 ⑬ 的室內 30×22 m；玻璃牆朝北、朝西＝朝廣場與霖澤館）
     rect(d, 95, -92, 125, -70, fill='#e9f3f7', outline='#1b6f8f', width=3)
     d.line([P(95, -92), P(95, -70)], fill='#38a3c9', width=7); d.line([P(95, -92), P(125, -92)], fill='#38a3c9', width=7)
     for i in range(5):
         for j in range(3): ellipse(d, 99 + i * 6, -88 + j * 7, 1.1, 1.1, fill='#ffffff', outline='#777')
-    label(d, 110, -85, '辜振甫圖書館', font=f); label(d, 110, -79.5, '一層・入口建築', font=fs); label(d, 110, -74.5, '室內已完成（⑬）', font=fs)
+    label(d, 110, -85, '社科院圖書館', font=f); label(d, 110, -79.5, '一層・入口建築', font=fs); label(d, 110, -74.5, '室內已完成（⑬）', font=fs)
     label(d, 78, -92, '玻璃牆朝廣場、朝霖澤館 →', font=fs, col='#1b6f8f')
     rect(d, 99, -62, 123, -42, fill='#b7b5b0', outline='#333', width=3)
     label(d, 111, -54, '社科院大樓', font=f); label(d, 111, -48, '清水混凝土・多層', font=fs)
