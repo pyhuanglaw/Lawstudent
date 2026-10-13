@@ -65,7 +65,7 @@ async def main():
         # 坐下前站的位置用遊戲自己算的（GAME.seatApproach，和按「坐下」時走過去的是同一個點）；原本自己算「椅子後面 0.6 m」、允許 0.35 m，停的地方可能在互動半徑 0.8 m 外（2026-10-13 批次 2：差 2 cm）
         seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.filter(q=>q.kind==='table')[3]; if(!s) return null; const ap=GAME.seatApproach(s)||[s.x,s.z]; return {x:s.x,z:s.z,yaw:s.yaw,ax:ap[0],az:ap[1]}; })()")
         ax, az = seat['ax'], seat['az']
-        ok = await L.go_to(pg, cdp, run, ax, az, 0.3, '閱覽長桌的座位旁')
+        ok = await L.go_to(pg, cdp, run, ax, az, 0.15, '閱覽長桌的座位旁')   # 按鈕範圍 0.8 m、站的位置在椅子後面 0.6 m：停在 0.3 m 外可能看不到按鈕（flow_boya_interior 同一個問題）
         s = await L.state(pg)
         run.check('自己走過閘門、走到閱覽長桌的座位旁、出現「坐下讀書」', ok and s['interact'].startswith('坐下讀書') and s['z'] < 7.5, json.dumps(s, ensure_ascii=False))
         await sit_and_stand(pg, cdp, run, 'B_table')
@@ -82,7 +82,7 @@ async def main():
         # ---------- D：窗邊座位 ----------
         seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.filter(q=>q.kind==='window')[8]; if(!s) return null; const ap=GAME.seatApproach(s)||[s.x,s.z]; return {x:s.x,z:s.z,yaw:s.yaw,ax:ap[0],az:ap[1]}; })()")
         ax, az = seat['ax'], seat['az']
-        ok = await L.go_to(pg, cdp, run, ax, az, 0.3, '北面窗邊的座位旁')
+        ok = await L.go_to(pg, cdp, run, ax, az, 0.15, '北面窗邊的座位旁')   # 按鈕範圍 0.8 m、站的位置在椅子後面 0.6 m：停在 0.3 m 外可能看不到按鈕（flow_boya_interior 同一個問題）
         s = await L.state(pg)
         run.check('走到北面玻璃帷幕前的窗邊座位、出現「坐下讀書（窗邊）」', ok and s['interact'].startswith('坐下讀書（窗邊）'), json.dumps(s, ensure_ascii=False))
         await sit_and_stand(pg, cdp, run, 'D_window')

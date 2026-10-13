@@ -98,11 +98,11 @@ const STORY_EVENTS=[
   { id:'ev_an_report_followup', title:'報告的結論', participants:['heroine_01'], location:'library', trigger:'interact', priority:9, once:true, prereq:{flags:['afternoonDone']}, day_min:3, background:'blur',
     dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'（小聲）報告我寫完了。'},{if:{choice:{cafeView:'C'}},speaker:'heroine_01',expression:'smile',text:'（小聲）結論用了那天你說的「無過失」。周老師如果打槍我，我就說是你的主意。'},{if:{choice:{cafeView:'B'}},speaker:'heroine_01',expression:'thinking',text:'（小聲）我把你說的「後果自己承擔」寫進反方。寫的時候一直想到你那天的表情。'},{if:{choice:{cafeView:'A'}},speaker:'heroine_01',expression:'smile',text:'（小聲）「不能讓人因為一個手誤賠十倍」——我放在結論。'},{unless:{choice:{cafeView:'C'}},speaker:'heroine_01',expression:'neutral',text:'（小聲）……謝謝你那天陪我。'},{choice:[{text:'「妳寫得出來，我只是坐在旁邊。」',consequences:{rel:{heroine_01:{comf:4,aff:2}},mem:[{npc:'heroine_01',tag:'HELPED_WITH_REPORT'}]}},{text:'「下次換我請。」',consequences:{rel:{heroine_01:{fam:3,aff:3}},mem:[{npc:'heroine_01',tag:'IMPORTANT_CONVERSATION',note:'你說下次換你請'}]}}]},{speaker:'heroine_01',expression:'smile',text:'（小聲）好。'} ] },
 ];
-// 同一人物的一般閒聊（沒有事件可觸發時）
+// 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 const SMALLTALK={
   heroine_02:['「今天的豆子很酸，我不推。」','「你有看過《東京物語》嗎？沒有？那我們沒得聊了——開玩笑。」','「外文系的期中是報告，法律系呢？……我聽說你們要寫到手斷掉。」'],
   heroine_03:['「……嗯。」','「三樓靠窗的燈壞了，你知道嗎。」','「我阿姨說你上次的麵沒吃完。」'],
-  heroine_04:['「欸不是，你手指好了沒？」','「阿凱昨天又通宵，你室友要看好他。」','「期末成發你要來。這不是問句。」'],
+  heroine_04:[{t:'「欸不是，你手指好了沒？」',if:{events:['ev_ziqing_club']}},{t:'「阿凱昨天又通宵，你室友要看好他。」',if:{events:['ev_ziqing_club']}},{t:'「期末成發你要來。這不是問句。」',if:{events:['ev_ziqing_club']}}],   /* 三句都是去過吉他社之後才會說的（2026-10-13 使用者試玩：第一次在校園聊天就說「期末成發你要來」）*/
   heroine_05:['「判決要看事實，不要只背結論。」','「法服週三晚上。來不來都可以，先來看一次。」','「……我沒事。只是沒睡。」'],
   classmate_bohan:['「你有看今天的判決嗎？」','「我算過了，期中前還有二十一天。」'],
   classmate_xinci:['「筆記我還你了，你有收到嗎？」','「經濟系那邊的課比較輕鬆，你要不要一起修？」'],

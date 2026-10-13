@@ -163,12 +163,26 @@ const STORY = (function(){
       if(a.beh==='wander'&&Math.random()<0.5){ b.beh='buddy'; b.buddy=a; b.side=Math.random()<0.5?1:-1; b.followOff=0.9; b.waypoints=null; b.path=null; const bx=ax+b.side*0.9, bz=az; if(standable(bx,bz)) b.obj.position.set(bx,0,bz); else b.obj.position.set(ax,0,az+0.9); b.obj.rotation.y=a.obj.rotation.y; a.timer=0.5; }
       else { const yaw=Math.random()*Math.PI*2; const bx=ax+Math.sin(yaw)*1.15, bz=az+Math.cos(yaw)*1.15; if(!standable(bx,bz)){ a.paired=null; b.paired=null; continue; } b.obj.position.set(bx,0,bz); b.path=null; a.path=null; a.obj.rotation.y=yaw; b.obj.rotation.y=yaw+Math.PI; a.beh='chat'; b.beh='chat'; a.chatWith=b; b.chatWith=a; a.chatLead=true; a.pose='talk'; a.idlePose='talk'; b.pose='idle'; b.idlePose='idle'; b.pockets=Math.random()<0.6; a.timer=1+Math.random()*2; a.frozen=true; b.frozen=true; a.lookAt=b.obj.position; b.lookAt=a.obj.position; } } }
   S.pairUp=pairUp;
+  /* 閒聊（2026-10-13 使用者試玩：洪珮瑜一直說「喜歡聽 podcast」、高子晴第一次聊天就說「期末成發你要來」）：
+     ① SMALLTALK 的一句可以帶條件 {t,if}（EVENTS.cond；例如吉他社那幾句要在 ev_ziqing_club 之後）；
+     ② 輪流說、說完一輪才重來（不會連續兩次同一句）；③ 一天只聊一句新的（熟悉度 +1 也只有這一次），同一天再找他就是打個招呼（旁白）；
+     ④ 不太熟的同學（社會圖 B 層）沒有閒聊台詞：用旁白記一件聊到的事（facts），不把「喜歡聽 podcast」當成台詞一直講。
+     記在 G.social.small[id]＝{day, used:[已經說過的句子], last}（新欄位，舊存檔沒有就從頭開始）*/
+  S.smallTalk=function(G,id){ const c=CHARACTERS[id]||{}, nm=SOCIAL.displayName(id); const R=G.social.small||(G.social.small={}), r=R[id]||(R[id]={day:0,used:[],last:null});
+    if(r.day===G.day) return {narr:'（'+nm+'跟你打了個招呼，又忙自己的事。）',fresh:false};
+    const ok=e=>typeof e==='string'||!e.if||(typeof EVENTS!=='undefined'&&EVENTS.cond&&EVENTS.cond(e.if));
+    let cands=(SMALLTALK[id]||[]).filter(ok).map(e=>({key:typeof e==='string'?e:e.t,say:typeof e==='string'?e:e.t}));
+    if(!cands.length&&c.facts&&c.facts.length) cands=c.facts.map(f=>({key:'fact:'+f,narr:'（你們聊了幾句。'+nm+'：'+f+'。）'}));
+    if(!cands.length){ r.day=G.day; return {narr:'（'+nm+'跟你打了個招呼，聊了兩句天氣。）',fresh:true}; }
+    let pick=cands.find(q=>!r.used.includes(q.key)); if(!pick){ r.used=[]; pick=cands.find(q=>q.key!==r.last)||cands[0]; }
+    r.used.push(pick.key); r.last=pick.key; r.day=G.day; return Object.assign({fresh:true},pick); };
   // 與資料驅動人物對話：先看事件，再閒聊；名字依揭露階段
   S.talkCharacter=async function(id,n){ const G=GM_ref.G; SOCIAL.talkedTo(id); const first=!SOCIAL.has(id,'FIRST_MET'); if(EVENTS.onInteract(id)){ n.name=SOCIAL.displayName(id); n.talkLabel='和'+n.name+'說話'; return; }
     if(typeof INV!=='undefined'){ const iv=INV.meetable(G,id); if(iv){ await INV.meet(GM_ref,iv,n); n.name=SOCIAL.displayName(id); n.talkLabel='和'+n.name+'說話'; return; } }   /* 約好的時間在約好的地方：見面 */
     const GM=GM_ref; GM.sceneBegin({adv:id}); const E=GM.E; if(!n.seat) GM.face(n,E.player.obj.position.x,E.player.obj.position.z); GM.cine('two',E.player.obj,n.obj); const c=CHARACTERS[id]; const who={name:SOCIAL.displayName(id),obj:n.obj,charId:id,pose:n.pose};
     if(first){ SOCIAL.meet(id,G.zone); if(c.social_layer==='B'){ await GM.say(who,['「……嗯？喔，你是我們班的吧。」','「你好。……我們是不是修同一堂民總？」','「欸，你是周老師點過的那個。」'][(Math.random()*3)|0]); await GM.say(who,'「我是'+c.name+'。」'); if(c.facts&&c.facts[0]) await GM.say(who,'「'+c.facts[0]+'。……你呢？」'); } else { await GM.say(who,'「你好，我是'+c.name+'。'+(c.department||'')+'的。」',{expr:'smile'}); if(c.personality) await GM.say(null,c.personality.split('；')[0]+'。'); } SOCIAL.adjust(id,{fam:3}); }
-    else { const lines=SMALLTALK[id]||(c.facts?c.facts.map(f=>'「'+f+'。」'):['「嗨。」']); const rv=SOCIAL.reveal(id); if(c.social_layer==='B'&&rv==='ACQUAINTANCE'&&c.facts&&c.facts[1]&&SOCIAL.rel(id).talked>=3&&!SOCIAL.has(id,'SHARED_SECRET')){ await GM.say(who,'「其實……'+c.facts[1]+'。沒跟很多人講過。」'); SOCIAL.remember(id,'SHARED_SECRET',c.facts[1]); SOCIAL.adjust(id,{fam:4,trust:4}); } else { await GM.say(who,lines[(Math.random()*lines.length)|0],{expr:'smile'}); SOCIAL.adjust(id,{fam:1}); } }
+    else { const rv=SOCIAL.reveal(id); if(c.social_layer==='B'&&rv==='ACQUAINTANCE'&&c.facts&&c.facts[1]&&SOCIAL.rel(id).talked>=3&&!SOCIAL.has(id,'SHARED_SECRET')){ await GM.say(who,'「其實……'+c.facts[1]+'。沒跟很多人講過。」'); SOCIAL.remember(id,'SHARED_SECRET',c.facts[1]); SOCIAL.adjust(id,{fam:4,trust:4}); }
+      else { const L=S.smallTalk(G,id); if(L.say) await GM.say(who,L.say,{expr:'smile'}); else await GM.say(null,L.narr); if(L.fresh) SOCIAL.adjust(id,{fam:1}); } }
     if(!first&&typeof INV!=='undefined'&&INV.canInvite(G,id)&&!(G.invites||[]).some(v=>v.who===id&&v.state==='going')){ const k=await GM.choose([{t:'約'+(c.gender==='f'?'她':'他')+'去…',hint:'Café、總圖、吃飯、散步'},{t:'就這樣'}]); if(k===0) await INV.flow(GM,id,n,true); }   /* 當面約（使用者第 3 點；src/invites3d.js）*/
     n.name=SOCIAL.displayName(id); n.talkLabel='和'+n.name+'說話'; GM.sceneEnd(); };
   let GM_ref=null; let libSceneOn=false;

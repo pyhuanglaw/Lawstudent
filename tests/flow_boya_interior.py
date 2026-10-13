@@ -19,6 +19,8 @@ DAY_FRI = 3   # 9/19 週五（學期中、沒有博雅的課）
 BASE_FLAGS = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True}
 
 
+# 椅子的「坐下」按鈕範圍 0.8 m（以座位為中心），坐下前站的位置在椅子後面 0.6 m：走到離那一點 0.3 m 就停的話，可能在按鈕範圍外（2026-10-13 批次 3：201 停在 0.81 m）。
+# 桌椅的座位用 0.15 m；階梯教室（按鈕在椅子後面 0.35 m、範圍 0.62 m）、沙發（按鈕在前面 0.4 m）照舊 0.3 m
 async def seat_of(pg, js_filter):
     """座位資料＋遊戲自己算的「坐下前站的位置」（GAME.seatApproach：站得住、高度對、路最短的那一個）"""
     return await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.find(%s); if(!s) return null; const ap=GAME.seatApproach(s)||[s.x,s.z]; return {x:s.x,z:s.z,yaw:s.yaw,y:(s.y==null?null:s.y),lv:s.lv|0,kind:s.kind,room:s.room,ax:ap[0],az:ap[1]}; })()" % js_filter)
@@ -81,7 +83,7 @@ async def main():
         await run.shot(pg, 'A2_lecture_end')
         # ---------- B：自習小桌 ----------
         seat = await seat_of(pg, "q=>q.room==='study'&&Math.abs(q.z-0.8)<0.01&&q.x>-1")   # 東列、中間走道那一側的位子
-        ok = await L.go_to(pg, cdp, run, seat['ax'], seat['az'], 0.3, '自習小桌的椅子後面', lv=0)
+        ok = await L.go_to(pg, cdp, run, seat['ax'], seat['az'], 0.15, '自習小桌的椅子後面', lv=0)
         s = await L.state(pg)
         run.check('走出 101、走到自習小桌、出現「坐下讀書（自習小桌）」', ok and '自習小桌' in s['interact'], json.dumps(s, ensure_ascii=False))
         await run.shot(pg, 'B_study_desk')
@@ -98,7 +100,7 @@ async def main():
         run.check('坐在沙發上（姿勢 sit）、坐一下、起身站得住', pose == 'sit' and s['stand'], f'pose={pose} ' + json.dumps(s, ensure_ascii=False))
         await run.shot(pg, 'C_sofa')
         seat = await seat_of(pg, "q=>q.room==='round'&&q.z<1")   # 北邊那張圓桌、北側的椅子
-        ok = await L.go_to(pg, cdp, run, seat['ax'], seat['az'], 0.3, '圓桌的椅子後面', lv=0)
+        ok = await L.go_to(pg, cdp, run, seat['ax'], seat['az'], 0.15, '圓桌的椅子後面', lv=0)
         s = await L.state(pg)
         run.check('走到圓桌、出現「坐下（圓桌）」', ok and '圓桌' in s['interact'], json.dumps(s, ensure_ascii=False))
         await run.shot(pg, 'C_round')
@@ -118,7 +120,7 @@ async def main():
         run.check('自己走樓梯到二樓（第 1 層、4.8 m）', ok and s['lv'] == 1 and abs(s['y'] - 4.8) < 0.1, json.dumps(s, ensure_ascii=False))
         await run.shot(pg, 'E_2f')
         seat = await seat_of(pg, "q=>q.room==='201'&&q.row===1&&q.col===1")
-        ok = await L.go_to(pg, cdp, run, seat['ax'], seat['az'], 0.3, '201 的座位旁', lv=1)
+        ok = await L.go_to(pg, cdp, run, seat['ax'], seat['az'], 0.15, '201 的座位旁', lv=1)
         s = await L.state(pg)
         run.check('走進 201 討論教室、出現「坐下」', ok and s['interact'].startswith('坐下'), json.dumps(s, ensure_ascii=False))
         pose, opts, s = await sit_and_choose(pg, cdp, run, '坐一下')

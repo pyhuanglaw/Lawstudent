@@ -69,4 +69,12 @@ const walkTo=(n,x,z,lv)=>E.simWalk(n.obj.position.x,n.obj.position.z,x,z,{lv0:n.
   const n0=E.npcs.filter(n=>n.clsStudent).length; const it=CLS.dayItems(G).find(q=>q.c.id==='chinese_y1'); await CLS.attend(GM,it,{inScene:true});
   CLS.syncRooms(GM); const walking=E.npcs.filter(n=>n.crowd==='cls').length; CROWD.tick(GM,2); const after=E.npcs.filter(n=>n.crowd==='cls').length;
   check('坐著上完大一國文（快轉到 12:10）：同學站起來走出去；下一次人流更新（CROWD.tick）他們還在走，不是一起消失',n0>=5&&walking>=n0-1&&after===walking,`上課 ${n0} 人、走出去 ${walking}、下一次更新後 ${after}`);
+  // 演講開始前幾分鐘坐下選「聽演講」，人流還沒排（每 15 分鐘一次）：快轉前聽眾先坐好，散場時站起來走出去（2026-10-13 批次 3 flow_boya_interior：0 人往外走）
+  { for(const n of E.npcs.slice()) E.removeNPC(n); const z2=load('boya'); const LD=dayOf('2025-10-22'); G.day=LD; G.hour=18.4; G.weekday=3;
+    const a={id:'t_late',title:'測試演講',kind:'lecture',zone:'boya',room:'101',roomName:'博雅 101',dates:['2025-10-22'],t0:18.5,t1:20.5,crowd:{n:10}}; ACTIVITIES.list=[a];   /* 加了活動、還沒同步（像 18:15 排過一次之後才開放的位子）*/
+    const before=E.npcs.filter(n=>n.clsStudent).length; let seatedAtFF=-1; const adv=GM.advance; GM.advance=h=>{ seatedAtFF=E.npcs.filter(n=>n.clsStudent&&n.pose==='sit').length; adv(h); };
+    await CLS.attendActivity(GM,a,{inScene:true}); GM.advance=adv;
+    CLS.syncRooms(GM); const out=E.npcs.filter(n=>n.leaving&&n.crowd==='cls').length;
+    check('演講開始前坐下選「聽演講」（聽眾還沒排進來）：快轉前聽眾已經坐好；散場時站起來往外走（不是沒有人）',before===0&&seatedAtFF>=5&&out>=5,`坐下時 ${before} 人、快轉前坐好 ${seatedAtFF} 人、散場往外走 ${out} 人`);
+    ACTIVITIES.list=[]; }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })();
