@@ -14,6 +14,7 @@ LAWWW 2026-10-13 20:02Z：配色用「預先烤好幾種、每種一個網格」
 座位約定和 furniture_study.glb 的講堂椅一樣：原點在座位的地面中心、+z 朝前（講台）、y=0 是那一排的地面；桌板（lecture_desk）在 z 0.30–0.64、高 0.75。
 """
 import json, math, os, shutil, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import bpy, bmesh
 from mathutils import Vector, Matrix, Quaternion
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -114,6 +115,8 @@ def smart_uv(ob):
         bpy.ops.object.mode_set(mode='EDIT'); bpy.ops.mesh.select_all(action='SELECT')
         bpy.ops.uv.smart_project(angle_limit=math.radians(80), island_margin=0.01, area_weight=0.0, correct_aspect=True, scale_to_bounds=True)
         bpy.ops.object.mode_set(mode='OBJECT')
+    import uvpack   # 背景模式的打包只用到 1–8% 的貼圖；自己排（約三成）
+    n, area = uvpack.pack(ob.data, margin=0.004); print('  uv islands', n, 'area', round(area, 3))
 
 
 def bake_target(ob, img):
@@ -126,11 +129,11 @@ def bake_target(ob, img):
 
 def bake(high, low, img):
     sc = bpy.context.scene; sc.render.engine = 'CYCLES'; sc.cycles.device = 'CPU'; sc.cycles.samples = 4
-    sc.render.bake.use_selected_to_active = True; sc.render.bake.cage_extrusion = 0.02; sc.render.bake.max_ray_distance = 0.08; sc.render.bake.margin = 8
+    sc.render.bake.use_selected_to_active = True; sc.render.bake.cage_extrusion = 0.02; sc.render.bake.max_ray_distance = 0.08; sc.render.bake.margin = 4
     for o in sc.objects: o.select_set(False)
     high.select_set(True); low.select_set(True); bpy.context.view_layer.objects.active = low
     for m in low.data.materials: m.node_tree.nodes.active = next(n for n in m.node_tree.nodes if n.type == 'TEX_IMAGE')
-    with ctx(low, [high, low]): bpy.ops.object.bake(type='EMIT', use_selected_to_active=True, margin=8, use_clear=True)
+    with ctx(low, [high, low]): bpy.ops.object.bake(type='EMIT', use_selected_to_active=True, margin=4, use_clear=True)
 
 
 # ---------------- 姿勢 ----------------
@@ -193,14 +196,19 @@ def apply_pose(arm, high, pose):
     zone = [v for v in vs if abs(v.x) < 0.22 and hip.y - 0.3 < v.y < knee.y - 0.12 and v.z < hip.z + 0.05]
     bottom = min(v.z for v in zone); rear = min(v.y for v in zone if v.z < bottom + 0.12)
     T = Vector((0.0, BACK_Z + P.get('slide', 0.0) - rear, SEAT_Y - bottom))
-    # 腳：鞋底不能低於地面（小腿往前伸）；離地太高就讓腳尖往下（坐高的椅子腳懸空一點點可以接受）
+    # 腳：鞋底不能低於地面。先讓小腿往前伸（最多離垂直 15°：再多腳會伸到前一排的桌板下、碰到擋板），不夠再把大腿抬高（膝蓋往上）——個子高的人坐矮椅子就是這樣
+    def sole(s): return H(arm, S + s + '_Foot').z + T.z - foot_h
     for s in ('L', 'R'):
-        for _ in range(12):
-            ank = H(arm, S + s + '_Foot'); sole = ank.z + T.z - foot_h
-            if sole >= 0.004: break
-            k = H(arm, S + s + '_LowerLeg'); Ls = (ank - k).length
-            want = min(1.0, (k.z + T.z - foot_h - 0.006) / Ls); cur_phi = math.acos(max(-1, min(1, (k.z - ank.z) / Ls)))
-            phi = math.acos(max(0.17, want)); rot_bone(arm, S + s + '_LowerLeg', Quaternion((1, 0, 0), phi - cur_phi))   # 繞 +X 正轉：往下的小腿，下端往前（+Y）
+        for _ in range(16):
+            if sole(s) >= 0.004: break
+            k = H(arm, S + s + '_LowerLeg'); ank = H(arm, S + s + '_Foot'); Ls = (ank - k).length
+            cur_phi = math.atan2(ank.y - k.y, k.z - ank.z)
+            if cur_phi < math.radians(15) - 1e-3:   # 1. 小腿往前（繞 +X 正轉：往下的小腿，下端往前）
+                want = (k.z + T.z - foot_h - 0.006) / Ls; phi = min(math.radians(15), math.acos(max(-1.0, min(1.0, want))))
+                rot_bone(arm, S + s + '_LowerLeg', Quaternion((1, 0, 0), max(0.0, phi - cur_phi)))
+            else:                                   # 2. 大腿抬高（繞 +X 負轉：往前的大腿，前端往上），小腿跟著抬
+                hip_ = H(arm, S + s + '_UpperLeg'); Lt = (k - hip_).length; need = 0.006 - sole(s)
+                rot_bone(arm, S + s + '_UpperLeg', Quaternion((1, 0, 0), -min(0.25, need / Lt)))
         aim(arm, S + s + '_Foot', S + s + '_ToeBase', (0.0, 1.0, -0.59))
     # 手臂：兩段 IK，手腕到指定的位置（手肘往外、往後下）
     for s, sx, key in (('L', -1, 'wrist_l'), ('R', 1, 'wrist_r')):
