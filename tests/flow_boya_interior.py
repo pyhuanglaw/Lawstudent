@@ -2,6 +2,7 @@
 校園上還沒有博雅的門（位置等使用者決定方案 A／B），所以一開始讀檔站在博雅的大廳——這一步是 [前置／捷徑]，之後在館裡的操作都走真的介面
 （觸控點地面、互動按鈕、選項）。
 A. 從大廳走到博雅 101 的門口（講台那一端）→「看看博雅 101 階梯教室」；走進去、走側邊台階上到第 3 排的座位後面（那一排的高度 0.9 m）→ 坐下 → 起身。
+   A2. [前置／捷徑] 放一場測試演講（遊戲裡的活動清單是空的）→ 同一個位子坐下 →「聽演講」→ 記下到場、快轉到結束 → 聽眾站起來往外走。
 B. 自習小桌（使用者記得的）：走到一張小桌旁 → 坐下 →「讀書（1 小時）」→ 時間過了、起身站得住。
 C. 沙發區：坐在沙發上 → 坐一下 → 起身；討論桌：走到椅子後面出現「坐下（討論桌）」。
 D. 資訊角：看講座資訊螢幕（沒有活動時寫「目前沒有」）、看公告欄。
@@ -62,6 +63,18 @@ async def main():
         run.check('坐在 101 第 3 排（姿勢 sit；沒有課：坐一下、讀書可以選）', pose == 'sit' and any('坐一下' in o for o in opts), f'pose={pose} ' + json.dumps(opts, ensure_ascii=False))
         pose = await pg.evaluate("GAME.E.player.pose")
         run.check('起身後站在那一排的平台上（站得住）', pose != 'sit' and s['stand'] and abs(s['y'] - 0.9) < 0.1, f'pose={pose} ' + json.dumps(s, ensure_ascii=False))
+        # ---------- A2：演講到場（AA_107 第 10-1 節第 5 項；遊戲裡沒有活動資料，這一步用測試資料）----------
+        run.setup('放一場測試演講到活動清單：今天、博雅 101、現在＋5 分鐘開始、兩小時（遊戲裡的活動清單是空的，內容等 AA、BB）')
+        await pg.evaluate("(()=>{ const G=GAME.G, d=CALENDAR.dateOf(G.day); const h=G.hour%24; ACTIVITIES.list.push({id:'t_flow_lec',title:'測試演講（流程測試）',kind:'lecture',zone:'boya',room:'101',roomName:'博雅 101',dates:[d.key],t0:h+1/12,t1:h+1/12+2,crowd:{n:12}}); })()")
+        await pg.wait_for_timeout(1500)
+        s = await L.state(pg); h0 = s['hour']
+        pose, opts, s = await sit_and_choose(pg, cdp, run, '聽演講')
+        att = await pg.evaluate("(()=>{ const A=(GAME.G.acts&&GAME.G.acts.att)||{}; return Object.keys(A); })()")
+        run.check('同一個位子再坐下：第一個選項是「聽演講：測試演講」；選了之後記下到場、時間到演講結束（約 2 小時後）', any(o.startswith('聽演講：') for o in opts) and any(k.startswith('t_flow_lec@') for k in att) and s['hour'] >= h0 + 1.9, json.dumps(opts, ensure_ascii=False) + ' ' + json.dumps(att) + f" {h0}→{s['hour']}")
+        await pg.wait_for_timeout(3000)
+        lv = await pg.evaluate("GAME.E.npcs.filter(n=>n.leaving).length")
+        run.check('演講結束：聽眾站起來往外走（不是一起消失）', lv >= 1, f'{lv} 人在往外走')
+        await run.shot(pg, 'A2_lecture_end')
         # ---------- B：自習小桌 ----------
         seat = await seat_of(pg, "q=>q.room==='study'&&Math.abs(q.z-0.8)<0.01")
         ok = await L.go_to(pg, cdp, run, seat['ax'], seat['az'], 0.3, '自習小桌的椅子後面', lv=0)
