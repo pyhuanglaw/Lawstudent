@@ -10,6 +10,23 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-13 14:15 UTC 狀態（LAWWW，帳號 A，`claude/confident-ritchie-8rwh7t`，最新 `e59c1ad` 之後）**：
+- **線上**：v9.4.2（main＝`dfd2618`）。**v9.5 候選＝`a4f2760`**（只含到萬才館兩階段、總圖大廳等；**不是**開發分支最新）。回歸在本機跑（結果在 scratchpad，不在 GitHub）：
+  - 已通過 29 項：單元測試、deploy_check、model_upgrade、zone_transitions、校園／公館導航、reachability_all、鏡頭遮擋、小地圖、搖桿、p0_movement、touch_flow_wenzhou、flow_class_real、stairs_cam_browser、萬才館兩項。
+  - **flow_linze_floors 失敗 1 項**：201 走到第 2 排第 5 個座位旁，人物一直「走路中」、「坐下」晚出現；一分鐘只移動 0.5 m，疑似模擬被拖慢，要安靜時單獨重跑確認，**沒確認前不發布**。
+  - 剩下：flow_library_floors、flow_library_scene、guide_flow、levels_no_sky、flow_main_day12、save_compat_v7、save_compat_live、see_through、tap_floor_levels、movement_regression。
+- **開發分支（沒發布，WIP）**：法律學院圖書館（D46、D53 開放時間）、日曆、八學期課表（D52）、手機（今天、課表、地點）、快速前往與時間跳轉（D54）、共同教學館與大一女舍（D55，外觀 BLOCKOUT）。單元測試全部通過；**瀏覽器的玩家流程（`tests/flow_classes.py`、`tests/flow_teaching_buildings.py`）還沒跑**。
+- **等待**：
+  - 使用者：普通、博雅的位置（方案 A／B，`docs/campus/TEACHING_BUILDINGS_PLAN.md`）。
+  - AA：課程地點衝突（法律系經濟學原理改普通教學館、日文上下在共同）、日曆三題、經濟系時間線。
+  - LAWWW2：三棟＋大一女舍分派的 ACK 與法圖進度。
+- **文件**：
+  - `docs/campus/TEACHING_BUILDINGS_PLAN.md`：位置查證、方案。
+  - `docs/campus/PUBLIC_BUILDINGS_DESIGN.md`：通用系統設計。
+  - `docs/TIMELINE_COMPAT_AUDIT.md`：經濟系時間線相容性。
+  - D55。
+
+
 **值班登記（最新）：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜分支 claude/confident-ritchie-8rwh7t｜接班基準 `cb399ea`｜2026-10-13 UTC｜使用者說「我回來了，請同步 GitHub 最新進度，接續工作。」；交班之後（10-11 10:16 之後）所有遠端分支都沒有新 commit，也沒有帳號 B 的分支——沒有要合併的東西。使用者隨後說明：**帳號 B 這次沒有開**，各職位從上次停下的地方接續。**
 **使用者 2026-10-13 測試回報的問題與解法（LAWWW 列給使用者的清單，之後照這個做）**：
 - v9.5 已修：導航與教學、入口名牌、開放時間、大地圖、朋友在哪、走路速度與快速前往、室友轉圈、假騎士拿掉、樓梯看到天空／樓板擋人、窗景、店員、吃麵後目標、生活費。
