@@ -3,7 +3,7 @@
 A. 正常走路：週五 12:55 在霖澤館二樓 201 門口 → 點「進入 201」→ 教授在講台 → 走到座位 → 坐下選「上課：法律與社會」→ 點對話 → 快轉到 15:10 下課
    → 起身 → 走到後門 → 離開教室（回到霖澤館二樓）；下課後教授離開教室。
 B. 手機快速前往：週一 08:50 在校門口 → 點 📱 → 「今天」有 09:10 憲法 → 點「去教室」→ 到 201、時間有過（15 分鐘）→ 坐下上課 → 下課 12:10。
-C. 門口上課：週二 08:50 在校園 → 走到「共同教學館」門口 → 點互動 → 「進去上課：大一國文」→ 下課 12:10；之後 14:00 打開手機：13:20 通識寫「沒去」。
+C. 共同教學館 101：週二 08:50 在椰林大道 → 走到共同教學館門口 → 按門進館 → 自己走進 101 → 坐下「上課：大一國文」→ 下課 12:10；之後 14:00 打開手機：13:20 通識寫「沒去」。
 D. 存讀檔：重新整理頁面 → 標題畫面「讀取」→ 自動存檔 → 課表紀錄還在（上過的課、出席次數），手機寫「上過了」。
 E. 手機在直向、橫向的顯示（截圖）。
 用法：python3 tests/flow_classes.py URL [輸出資料夾]"""
@@ -87,18 +87,28 @@ async def main():
         run.check('到 201、時間過了約 15 分鐘（不是瞬間）', s['zone'] == 'classroom' and 9.0 <= s['hour'] < 9.3, json.dumps(s, ensure_ascii=False))
         h0, s = await sit_and_attend(pg, cdp, run, '憲法', (1, 4))
         run.check('憲法下課：12:10', s['hour'] >= 12.15 and s['hour'] < 12.6, f"{h0} → {s['hour']}")
-        # ---------- C：門口上課（共同教學館）＋翹掉的課 ----------
-        run.setup('讀檔：第 7 天（9/23 週二）08:50，校園（共同教學館前 12 m）')
-        await L.load_state(pg, {'zone': 'campus', 'hour': 8.83, 'day': DAY1_TUE, 'weekday': 2, 'weather': 'sunny', 'pos': {'x': 45, 'z': 10, 'yaw': 3.14}, 'flags': BASE_FLAGS})
+        # ---------- C：共同教學館 101 上課（館內的 3D 教室，D55 第二階段）＋翹掉的課 ----------
+        run.setup('讀檔：第 7 天（9/23 週二）08:50，椰林大道上、共同教學館前 (2,10)')
+        await L.load_state(pg, {'zone': 'campus', 'hour': 8.83, 'day': DAY1_TUE, 'weekday': 2, 'weather': 'sunny', 'pos': {'x': 2, 'z': 10, 'yaw': 0}, 'flags': BASE_FLAGS})
         await pg.wait_for_timeout(3500)
         d = await L.find_it(pg, '共同教學館')
         run.check('校園有「共同教學館」的門口', bool(d), json.dumps(d, ensure_ascii=False))
         ok = await L.go_to(pg, cdp, run, d['x'], d['z'], 1.2, '共同教學館')
         s = await L.state(pg)
         run.check('走到門口、出現「共同教學館」按鈕', ok and s['interact'].startswith('共同教學館'), s['interact'])
-        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2000)
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(5000)
+        s = await L.state(pg)
+        run.check('按門：走進共同教學館（課在館內的 101，不是門口的 2D 畫面）', s['zone'] == 'gongtong' and s['stand'], json.dumps(s, ensure_ascii=False))
+        await run.shot(pg, 'C_gongtong_lobby')
+        seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.find(q=>q.room==='101'&&q.row===1&&q.col===1); return s?{x:s.x,z:s.z}:null; })()")
+        ok = await L.go_to(pg, cdp, run, seat['x'], seat['z'] + 0.55, 0.5, '101 的座位旁')
+        s = await L.state(pg)
+        run.check('自己走進 101、走到座位旁、出現「坐下」', ok and s['interact'].startswith('坐下'), json.dumps(s, ensure_ascii=False))
+        studs = await pg.evaluate("GAME.E.npcs.filter(n=>n.clsStudent).length")
+        run.check('101 上課前已經有同學坐著（同一間、一半左右的位子）', studs >= 4, str(studs))
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
         first = await pg.evaluate("(()=>{ const b=document.querySelector('#choices button'); return b?b.textContent:''; })()")
-        run.check('選項「進去上課：大一國文」', first.startswith('進去上課：大一國文'), first)
+        run.check('坐下後第一個選項「上課：大一國文」', first.startswith('上課：大一國文'), first)
         s = await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['busy'] and not q['dlg'] and not q['choices'], pick=0)
         run.check('大一國文下課：12:10', s['hour'] >= 12.15 and s['hour'] < 12.6, str(s['hour']))
         await run.shot(pg, 'C_after_door_class')

@@ -17,7 +17,7 @@ const COURSES={
     L201:{name:'霖澤館 201',zone:'classroom'},
     LINZE:{name:'霖澤館 201',zone:'classroom'},
     WSEM:{name:'萬才館研討室',door:'wancai_seminar'},
-    COMMON:{name:'共同教學館',door:'common'},   /* AA_103 的「共同課程教室」：真實的共同教學館原名就是「共同科目教室」（2010 年改名）；2026-10-13 校園蓋了共同教學館 */
+    COMMON:{name:'共同教學館 101',zone:'gongtong',room:'101',door:'common'},   /* 2026-10-13 起在館內的 3D 教室上（src/teach3d.js）；door：校園上那扇門（按了進館）。哪一門課在哪一間，等 AA 給（目前都在 101）*/   /* AA_103 的「共同課程教室」：真實的共同教學館原名就是「共同科目教室」（2010 年改名）；2026-10-13 校園蓋了共同教學館 */
     GYM:{name:'體育館',door:'gym'},
     OFF:{name:'校外（事務所或法扶）',offsite:true}
   },
