@@ -10,7 +10,7 @@
 - 竹色弧形矮書架（圍出「林間書房」）、東牆靠牆書架、期刊架：書是一本一本的（頂點色，一個材質）。
 - 閱覽長桌（竹色桌面、中間一排小檯燈）、竹椅；北牆、西牆的玻璃帷幕前是窗邊長桌＋椅子；服務台、館員區矮隔板、入口閘門與玻璃欄杆、查詢電腦、新書展示台、還書箱、閱報區沙發。
 會淡出的牆：WALL_<front|back|left|right>_*（自訂屬性 dir＝往室內的法線；front＝南牆、back＝北牆、left＝西牆、right＝東牆）。字（招牌）用 canvas：SIGN_FACE_*。
-貼圖：Poly Haven CC0（terrazzo_tiles、painted_plaster_wall、fine_grained_wood）。"""
+貼圖：Poly Haven CC0（terrazzo_tiles、walnut_veneer：淺色直紋當竹集成材）。"""
 import json, math, os, sys, random
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -33,13 +33,13 @@ root = B.group('soclib_interior', props={'kind': 'soclib_interior', 'w': W, 'd':
 
 M = {
     'floor': L.pbr('soclib_floor', 'terrazzo_tiles', tile=1.6, target='#d8d5ce', normal=0.3, maps=('diff', 'nor'), rough_value=0.4),
-    'wall': L.pbr('soclib_wall', 'painted_plaster_wall', tile=2.5, target='#f1efe9', maps=('diff',), res=256, rough_value=0.85),
+    'wall': L.flat('soclib_wall', '#efeee9', rough=0.85),                    # 白色烤漆牆（粉光牆的貼圖在 5 m 高的大牆上一塊一塊的，像髒汙）
     'ceil': L.flat('soclib_ceiling', '#f4f4f1', rough=0.9, cull=True),
     'col': L.flat('soclib_column', '#f2f2ef', rough=0.45),
     'sky': L.flat('soclib_skylight', '#eef4fb', rough=0.5, emit=B.srgb('#f2f7ff')),
     'well': L.flat('soclib_lightwell', '#fbfbf9', rough=0.8),
-    'bamboo': L.pbr('soclib_bamboo', 'fine_grained_wood', tile=0.9, target='#cfae76', maps=('diff',), res=512, rough_value=0.5),
-    'bambooD': L.pbr('soclib_bamboo_dark', 'fine_grained_wood', tile=0.9, target='#a8875a', maps=('diff',), res=256, rough_value=0.55),
+    'bamboo': L.pbr('soclib_bamboo', 'walnut_veneer', tile=1.2, target='#d4b27a', maps=('diff',), res=512, rough_value=0.45),     # 竹集成材：直紋、淺蜂蜜色
+    'bambooD': L.pbr('soclib_bamboo_dark', 'walnut_veneer', tile=1.2, target='#a7865a', maps=('diff',), res=256, rough_value=0.5),
     'books': L.vc_material('soclib_books', rough=0.6),
     'glass': L.flat('soclib_glass', '#dfe9ec', rough=0.05, alpha=0.16),
     'mull': L.flat('soclib_mullion', '#e8e9e8', rough=0.4, metal=0.2),
@@ -77,7 +77,7 @@ def rbox(m, cx, cz, yaw, lx0, lx1, y0, y1, lz0, lz1, col=None, faces='all'):
     quads = {'-x': [(0, 0, 0), (0, 0, 1), (0, 1, 1), (0, 1, 0)], '+x': [(1, 0, 1), (1, 0, 0), (1, 1, 0), (1, 1, 1)],
              '-y': [(0, 0, 0), (1, 0, 0), (1, 0, 1), (0, 0, 1)], '+y': [(0, 1, 1), (1, 1, 1), (1, 1, 0), (0, 1, 0)],
              '-z': [(1, 0, 0), (0, 0, 0), (0, 1, 0), (1, 1, 0)], '+z': [(0, 0, 1), (1, 0, 1), (1, 1, 1), (0, 1, 1)]}
-    use = quads.keys() if faces == 'all' else ['+z', '+y', '-x', '+x']
+    use = quads.keys() if faces == 'all' else (['+z', '+y'] if faces == 'ft' else ['+z', '+y', '-x', '+x'])   # 'ft'：只做前、頂（書：側面夾在書和書之間看不到）
     fs = [bm.faces.new([V[q] for q in quads[k]]) for k in use]
     if col is not None:
         cc = lin(col) + [1.0]
@@ -190,7 +190,7 @@ for c in J['columns']:
     for k in range(1, 9):                                                                 # 喇叭：r → R，越上面張得越快（像荷葉的梗接到葉子）
         t = k / 8; prof.append((r + (R - r) * t ** 2.6, flare0 + (top - flare0) * (1 - (1 - t) ** 1.4)))
     prof += [(R, top + 0.07), (R - 0.05, top + 0.1), (0.0, top + 0.1)]
-    bmc = L.lathe(prof, seg=28)
+    bmc = L.lathe(prof, seg=36)                                                           # 36 段：荷葉的邊緣從下面看不會一折一折
     colm.add_bm(bmc, Matrix.Translation(g2b(c['x'], 0, c['z']))); bmc.free()
 ob = colm.finish(root, uv=False)
 L.smooth_mesh(ob, angle=1.2)
@@ -202,19 +202,16 @@ def fill_books_line(cx, cz, yaw, length, y0, y1, depth):
     x = -length / 2 + 0.03
     while x < length / 2 - 0.05:
         if random.random() < 0.06: x += random.uniform(0.06, 0.18); continue              # 有些地方空著
-        w = random.uniform(0.022, 0.05); h = min(y1 - y0 - 0.03, random.uniform(0.17, 0.3)); dd = min(depth, random.uniform(0.15, 0.22))
-        lean = 0.0
-        rbox(books, cx, cz, yaw, x, x + w, y0, y0 + h, -depth / 2, -depth / 2 + dd, col=random.choice(BOOK), faces='front')
-        x += w + random.uniform(0.0, 0.006)
+        w = random.uniform(0.028, 0.065); h = min(y1 - y0 - 0.03, random.uniform(0.17, 0.3)); dd = min(depth, random.uniform(0.15, 0.22))
+        rbox(books, cx, cz, yaw, x, x + w, y0, y0 + h, -depth / 2, -depth / 2 + dd, col=random.choice(BOOK), faces='front')   # 前、頂、兩側（只做前和頂的話，斜看時高的書會缺側面）
+        x += w + random.uniform(0.0, 0.004)
 LEVELS = lambda h: [0.08] + [0.08 + k * (h - 0.12) / (round(h / 0.36)) for k in range(1, round(h / 0.36))]
 for f in J['furniture']:
     if f['type'] != 'arcShelf': continue
     cx, cz, r, a0, a1, d, h = f['cx'], f['cz'], f['r'], f['a0'], f['a1'], f['d'], f['h']
-    face_in = f.get('books', 'in') == 'in'
-    rb = r + d / 2 if face_in else r - d / 2                                             # 背板在書的另一邊
     n = max(6, int((a1 - a0) * r / 0.25))
-    arc_strip(shelf, cx, cz, rb, a0, a1, 0.0, h, n, outward=not face_in)                 # 背板靠書的那一面（朝書）
-    arc_strip(shelf, cx, cz, rb + (0.02 if face_in else -0.02), a0, a1, 0.0, h, n, outward=face_in)   # 背板的另一面（朝外）
+    arc_strip(shelf, cx, cz, r - 0.012, a0, a1, 0.08, h - 0.03, n, outward=False)             # 中間的隔板（雙面書架：兩面都放書）
+    arc_strip(shelf, cx, cz, r + 0.012, a0, a1, 0.08, h - 0.03, n, outward=True)
     arc_slab(shelfD, cx, cz, r - d / 2, r + d / 2, a0, a1, 0.0, 0.08, n)                  # 踢腳
     arc_slab(shelf, cx, cz, r - d / 2 - 0.01, r + d / 2 + 0.01, a0, a1, h - 0.03, h, n)   # 頂板
     lv = LEVELS(h)
@@ -224,12 +221,13 @@ for f in J['furniture']:
     seg = max(2, round((a1 - a0) * r / 0.9))                                              # 每 0.9 m 一片隔板
     for k in range(1, seg):
         a = a0 + (a1 - a0) * k / seg; x, z = cx + r * math.cos(a), cz + r * math.sin(a); rbox(shelf, x, z, -a + math.pi / 2, -0.01, 0.01, 0.08, h - 0.03, -d / 2, d / 2)
-    nb = max(4, int((a1 - a0) * r / 0.45))                                               # 書：沿弧切成短直線段，書脊朝書房裡（或外）
+    nb = max(4, int((a1 - a0) * r / 0.45))                                               # 書：沿弧切成短直線段；內外兩面各一排，書背靠中間的隔板
     for k in range(nb):
         a = a0 + (a1 - a0) * (k + 0.5) / nb; L_ = (a1 - a0) * r / nb - 0.02
-        x, z = cx + r * math.cos(a), cz + r * math.sin(a)
-        yaw = math.atan2(-math.cos(a), -math.sin(a)) if face_in else math.atan2(math.cos(a), math.sin(a))
-        for y0, y1 in zip(lv, lv[1:] + [h - 0.03]): fill_books_line(x, z, yaw, L_, y0, y1, d - 0.06)
+        for side in (-1, 1):                                                              # −1＝內側（書脊朝書房裡）、+1＝外側
+            rr = r + side * d / 4; x, z = cx + rr * math.cos(a), cz + rr * math.sin(a)
+            yaw = math.atan2(-math.cos(a), -math.sin(a)) if side < 0 else math.atan2(math.cos(a), math.sin(a))
+            for y0, y1 in zip(lv, lv[1:] + [h - 0.03]): fill_books_line(x, z, yaw, L_ * (rr / r), y0, y1, d / 2 - 0.03)
 # 東牆靠牆書架（2.4 m）、期刊架
 for f in J['furniture']:
     if f['type'] == 'wallShelf':
@@ -364,6 +362,6 @@ print('tris total', sum(tris.values()))
 
 if arg('--preview'):
     os.makedirs(arg('--preview'), exist_ok=True)
-    views = [['entrance', [-9.0, 1.6, 9.0], [-2, 2.6, -6], 32], ['grove', [1.2, 1.6, -1.0], [8, 1.8, -4], 28], ['tables', [-13.5, 1.7, 3.5], [-4, 1.3, -4], 28],
-             ['up', [0.0, 1.5, -1.0], [2, 6, -3], 18], ['window', [6.0, 1.6, -7.5], [-2, 1.4, -10.6], 30]]
+    views = [['entrance', [-9.0, 1.6, 9.0], [-2, 2.6, -6], 32], ['grove', [3.6, 1.55, -0.8], [6.0, 1.0, 1.6], 26], ['grove1', [2.2, 1.6, -5.4], [5.3, 1.1, -5.6], 26],
+             ['tables', [-12.6, 1.7, 4.2], [-4, 1.3, -4], 28], ['up', [0.0, 1.5, -1.0], [2, 6, -3], 18], ['window', [8.0, 1.75, -7.6], [-4.0, 0.9, -10.2], 30]]
     json.dump(views, open(os.path.join(arg('--preview'), 'views.json'), 'w'))
