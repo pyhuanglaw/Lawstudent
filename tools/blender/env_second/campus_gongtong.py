@@ -75,7 +75,7 @@ def build():
         'misc': L.vc_material('gt_misc', rough=0.6),                               # 冷氣室外機、落水管、公告欄、燈座
         'lamp': L.flat('wz_lamp_lens', '#f3ead6', rough=0.4),                      # 燈罩（晚上發光：WZ_NIGHT）
         'board': L.flat('ck_board', '#d8d0c0', rough=0.8),
-        'bark': L.pbr('gt_palm_bark', 'palm_tree_bark', tile=1.0, target='#8b8478', sat=0.35, maps=('diff', 'nor'), res=256, rough_value=0.88, normal=0.9),   # 蒲葵樹幹
+        'bark': L.pbr('gt_palm_bark', 'palm_tree_bark', tile=1.0, target='#71685c', sat=0.35, maps=('diff', 'nor'), res=256, rough_value=0.88, normal=0.9),   # 蒲葵樹幹
         'palm': L.vc_material('gt_palm', rough=0.62),                              # 蒲葵的葉片、葉柄、樹冠基部（頂點色）
     }
     # 玻璃：亮燈、沒亮燈的窗同一個材質（自發光貼圖 64×64：左半黑＝沒亮燈；右半＝由上往下漸暗的室內燈光；campus_hall.py 同一套）
@@ -615,7 +615,9 @@ def build():
     # 外半段裂成一條一條、尖端下垂（蒲葵的特徵）、葉片有摺（脊、谷）；新葉往上、老葉往下垂，最老幾片的尖端枯黃。
     # 真的幾何（每片葉 22 條裂片），不是貼圖卡片；顏色是頂點色（一個材質＝一次 draw call）。位置照真實的「北側蒲葵樹列」（校史館資料，B 級），
     # 遊戲裡排在正門北邊 z=20.5 一排、門口那一段（x 0..4）空出來；排列、株數、樹高是遊戲化的（沒有照片）
-    PALMS = [(-8.0, 20.5, 6.6), (-4.5, 20.5, 7.4), (-1.0, 20.5, 7.0), (5.0, 20.5, 7.2), (8.5, 20.5, 6.8), (12.0, 20.5, 7.6)]   # 世界座標 x、z、樹高
+    # 位置：椰林大道南側大樹牆的那一條線上（z≈19），正門前（x −1..5）空出來。大樹牆在共同前面的四棵（x≈−10、−4.7、9.4、14.7）要換成這排蒲葵
+    # （LAWWW 決定；不換的話樹冠會插在一起——那就把 gt_palm／gt_palm_bark 兩個網格藏起來）
+    PALMS = [(-10.5, 19.2, 7.0), (-6.5, 18.8, 7.8), (-2.5, 19.1, 7.3), (6.5, 19.0, 7.5), (10.5, 18.9, 6.9), (14.5, 19.2, 7.7)]   # 世界座標 x、z、樹高
     def lin(h):
         return [(v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4) for v in (int(h[i:i + 2], 16) / 255 for i in (1, 3, 5))] + [1.0]
     def mix(a, b, t): return [a[i] + (b[i] - a[i]) * t for i in range(3)] + [1.0]
@@ -667,7 +669,7 @@ def build():
                 pts = [pr[0][0] + (s_ * math.cos(a0) + b_ * math.sin(a0)) * pr[0][1], pr[0][0] + (s_ * math.cos(a1) + b_ * math.sin(a1)) * pr[0][1],
                        pr[1][0] + (s_ * math.cos(a1) + b_ * math.sin(a1)) * pr[1][1], pr[1][0] + (s_ * math.cos(a0) + b_ * math.sin(a0)) * pr[1][1]]
                 vface(pts, [STALK] * 4)
-            R = 0.7 + r.uniform(-0.06, 0.08); ri = 0.5 * R; NSG = 22; th0 = math.radians(-150); dth = math.radians(300) / NSG
+            R = 0.7 + r.uniform(-0.06, 0.08); ri = 0.44 * R; NSG = 22; th0 = math.radians(-150); dth = math.radians(300) / NSG
             droop = (0.2 + 0.4 * age) * R
             def bp(rad, th, off, P=P, d=d, s_=s_, n_=n_, R=R, ri=ri, droop=droop):
                 q = P + (d * math.cos(th) + s_ * math.sin(th)) * rad + n_ * off
@@ -677,12 +679,12 @@ def build():
             for j in range(NSG):
                 ta, tb = th0 + j * dth, th0 + (j + 1) * dth; tm = (ta + tb) / 2
                 B0, B1, Mj = bp(ri, ta, -0.02), bp(ri, tb, -0.02), bp(ri, tm, 0.03)       # 摺：裂片的邊是谷、中間是脊
-                cin, cmid = G_MID, mix(G_DARK, G_MID, 0.45)
-                vface([P, B0, Mj], [cin, cmid, cmid]); vface([P, Mj, B1], [cin, cmid, cmid])
+                cin, cval, crid = G_MID, mix(G_DARK, G_MID, 0.25), mix(G_MID, G_LIGHT, 0.55)   # 摺：谷（裂片的邊）暗、脊（中間）亮——平滑著色時摺還看得出來
+                vface([P, B0, Mj], [cin, cval, crid]); vface([P, Mj, B1], [cin, crid, cval])
                 w = dth * 0.3
                 Ql, Qr, T = bp(0.8 * R, tm - w, 0.012), bp(0.8 * R, tm + w, 0.012), bp(R, tm, 0.0)
-                cq = mix(G_DARK, G_LIGHT, 0.6); ct = mix(G_TIP, DEAD, 0.75) if dead else G_TIP
-                vface([B0, Mj, Ql], [cmid, cmid, cq]); vface([Mj, B1, Qr], [cmid, cmid, cq]); vface([Mj, Qr, Ql], [cmid, cq, cq]); vface([Ql, Qr, T], [cq, cq, ct])
+                cq = mix(G_MID, G_LIGHT, 0.45); ct = mix(G_TIP, DEAD, 0.75) if dead else G_TIP
+                vface([B0, Mj, Ql], [cval, crid, cq]); vface([Mj, B1, Qr], [crid, cval, cq]); vface([Mj, Qr, Ql], [crid, cq, cq]); vface([Ql, Qr, T], [cq, cq, ct])
 
     # ======================= 完成 =======================
     # 豎貼面磚帶的 UV：盒狀投影但 u、v 對調（直的磚）
