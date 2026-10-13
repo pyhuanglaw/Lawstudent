@@ -5,6 +5,9 @@
 // 照引擎的跟隨鏡頭（室內 camDist 4.6、俯角 0.38）算鏡頭位置，看「頭 → 鏡頭」有沒有穿過同一層的隔間牆（門洞不算；門洞上面 2.4 m 以上的門楣算）。
 // 同一個測試也用修改前的公式（沒有隔間牆碰撞）跑一次：三棟一定要量得到被擋住的方向（證明這個測試抓得到這個 bug）。
 // 另外檢查：入口的門框跟著南牆淡出（在淡出清單 zone.walls 裡）；戶外的鏡頭碰撞照舊（建築碰撞盒，最近 0.7 m）。
+// 第二輪（LAWWW2 CAMERA_WALLS §1，claude/second-ai-env-art；使用者轉達「鏡頭穿牆是最優先的共用技術問題」）：不穿牆之後，貼牆時鏡頭停在頭頂上方、畫面只剩頭頂和地板（10 個案例）；
+//   普通 1F 門廳的公告欄不在鏡頭碰撞裡，鏡頭停在它的雨遮上方 0.22 m（畫面一大塊深色）。檢查 LAWWW2 的 10 個位置與方向：修改前的鏡頭真的貼在頭頂上方（測試重現得到）；
+//   修改後沒在拖鏡頭時 3 秒內自動轉開（水平離頭 1.2 m 以上、不穿牆）、不會左右來回；拖著鏡頭、剛放開、坐著時不轉；推著搖桿時人的方向不跟著轉；公告欄擋鏡頭、轉開後鏡頭離公告欄 0.5 m 以上。
 // 用法：node tests/teach_cam_walls_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -50,6 +53,37 @@ for(const id of ['boya','putong','gongtong']){ const z=loadZone(id), L=z.layout;
     const pOld=+(100*badOld/Math.max(1,n)).toFixed(1), pNew=+(100*bad/Math.max(1,n)).toFixed(1); REPORT[id][fl.name]={samples:n,before:pOld+'%',after:pNew+'%',closeUp:(100*near/Math.max(1,n)).toFixed(1)+'%'};
     check(fl.name+'：修改前的公式量得到被牆擋住的方向（測試抓得到這個 bug）',badOld>0,`${pOld}%（${badOld}/${n}）`);
     check(fl.name+'：跟隨鏡頭不會跑到隔間牆後面（頭 → 鏡頭沒有穿過牆或門楣）',bad===0,`${pNew}%（${bad}/${n}）`+(ex?' 例：'+JSON.stringify(ex):'')); } }
+/* ---- 第二輪：貼牆時自動轉開（LAWWW2 的 10 個案例）＋公告欄 ---- */
+{ const CASES=[['boya',1,16.1,1.6,0.7854,'boya_2F_1'],['boya',1,-5.4,-1.4,3.927,'boya_2F_2'],['boya',1,5.1,8.1,0.7854,'boya_2F_4'],['gongtong',1,11.1,1.6,0,'gongtong_2F_2'],['gongtong',1,4.1,0.1,3.927,'gongtong_2F_3'],
+    ['gongtong',1,-4.4,0.1,3.927,'gongtong_2F_4'],['putong',0,16.1,1.1,0.7854,'putong_1F_1'],['putong',0,-3.4,7.1,3.927,'putong_1F_2'],['putong',1,-3.4,7.1,3.927,'putong_2F_1'],['putong',1,3.1,7.1,1.5708,'putong_2F_4']];
+  const PITCH=0.38, DIST=4.6, DT=1/30;
+  const hz=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z);
+  /* 跑 n 幀：每一幀照引擎的 updateCamera 算跟隨鏡頭、再讓 autoSwing 轉（修改前沒有 autoSwing：鏡頭不動）*/
+  function sim(lv,x,zz,yaw,o){ o=o||{}; const P=E.player; P.lv=lv; const fy=E.heightAt(x,zz,lv); P.obj.position.set(x,fy,zz); P.obj.rotation.y=o.face!=null?o.face:yaw+Math.PI; P.seat=o.seat||null; P.pose=o.seat?'sit':'idle';
+    const C=E.cam={yaw,pitch:PITCH,dist:DIST,distTarget:DIST,target:new THREE.Vector3(x,fy+1.45,zz),mode:'follow',manualT:o.manualT||0,dragging:!!o.dragging,ctl:!!o.ctl,swing:0,swingAcc:0};
+    const cam=new THREE.Vector3(), r0=E.followCam(C.target,C.yaw,PITCH,DIST,lv,cam), cam0=cam.clone(); let flips=0, lastSt=0;
+    for(let i=0;i<(o.frames!=null?o.frames:90);i++){ const r=E.followCam(C.target,C.yaw,PITCH,DIST,lv,cam); if(o.manualT) C.manualT=o.manualT; const st=E.autoSwing?E.autoSwing(C,P,PITCH,r,DT):0; if(st&&lastSt&&Math.sign(st)!==Math.sign(lastSt)) flips++; if(st) lastSt=st; }
+    const r1=E.followCam(C.target,C.yaw,PITCH,DIST,lv,cam); return {d0:r0.dist,h0:hz(cam0,C.target),up0:cam0.y-C.target.y,d1:r1.dist,h1:hz(cam,C.target),up1:cam.y-C.target.y,cam:cam.clone(),tgt:C.target.clone(),fy,yaw0:yaw,yaw1:C.yaw,acc:C.swingAcc||0,flips}; }
+  check('引擎有 E.autoSwing（貼牆時鏡頭自動轉開）',typeof E.autoSwing==='function');
+  const R2={};
+  for(const id of ['boya','gongtong','putong']){ const z=loadZone(id), L=z.layout; tag='['+L.name+'] ';
+    for(const c of CASES.filter(c=>c[0]===id)){ const [ , lv,x,zz,yaw,name]=c, W=wallLines(L,lv), r=sim(lv,x,zz,yaw);
+      R2[name]={before:{horiz:+r.h0.toFixed(2),up:+r.up0.toFixed(2)},after:{horiz:+r.h1.toFixed(2),up:+r.up1.toFixed(2),turned:+((r.yaw1-r.yaw0)*180/Math.PI).toFixed(0)}};
+      check(name+'：沒轉開時鏡頭貼在頭頂上方（水平離頭 < 1.2 m；LAWWW2 量到 0.40–0.92 m）——測試重現得到',r.h0<1.2,`水平 ${r.h0.toFixed(2)} m、比頭高 ${r.up0.toFixed(2)} m`);
+      check(name+'：3 秒內自動轉開——水平離頭 ≥ 1.2 m、頭 → 鏡頭沒有穿牆、沒有左右來回',r.h1>=1.2&&!blocked(r.tgt,r.cam,W,r.fy)&&r.flips===0,`水平 ${r.h1.toFixed(2)} m、比頭高 ${r.up1.toFixed(2)} m、轉了 ${((r.yaw1-r.yaw0)*180/Math.PI).toFixed(0)}°、來回 ${r.flips} 次`); }
+    if(id==='putong'){ const c=CASES.find(q=>q[5]==='putong_1F_2'), [ , lv,x,zz,yaw]=c;
+      const dr=sim(lv,x,zz,yaw,{dragging:true}); check('拖著鏡頭時不自動轉（putong_1F_2）',Math.abs(dr.yaw1-yaw)<1e-9,`轉了 ${((dr.yaw1-yaw)*180/Math.PI).toFixed(1)}°`);
+      const mr=sim(lv,x,zz,yaw,{manualT:1.2}); check('剛放開鏡頭（1.5 秒內）不自動轉',Math.abs(mr.yaw1-yaw)<1e-9,`轉了 ${((mr.yaw1-yaw)*180/Math.PI).toFixed(1)}°`);
+      const sr=sim(lv,x,zz,yaw,{seat:{x,z:zz}}); check('坐著時不自動轉',Math.abs(sr.yaw1-yaw)<1e-9,`轉了 ${((sr.yaw1-yaw)*180/Math.PI).toFixed(1)}°`);
+      const cr=sim(lv,x,zz,yaw,{ctl:true}); check('推著搖桿時：鏡頭照樣轉開，但搖桿用的方向（yaw − swingAcc）不變——人不會被轉去撞牆',Math.abs(cr.yaw1-yaw)>0.3&&Math.abs((cr.yaw1-cr.acc)-yaw)<1e-9,`鏡頭轉了 ${((cr.yaw1-yaw)*180/Math.PI).toFixed(0)}°、搖桿方向差 ${(((cr.yaw1-cr.acc)-yaw)*180/Math.PI).toFixed(2)}°`);
+      /* 公告欄（§1(2)）：照配置算公告欄的範圍（和模型同尺寸：寬 2.6、高 2.5、雨遮往前 0.35 m），修改前後用同一個範圍量 */
+      const bd=L.boards.find(b=>b.style!=='screen'&&(b.lv|0)===lv), bc=new THREE.Vector3(bd.x+Math.sin(bd.ry)*0.1,(lv?L.floors[1].y:0)+1.25,bd.z+Math.cos(bd.ry)*0.1);
+      const boxDist=p=>{ const dx=p.x-bc.x, dz=p.z-bc.z, c=Math.cos(bd.ry), s=Math.sin(bd.ry), lx=dx*c-dz*s, lz=dx*s+dz*c, ly=p.y-bc.y; const ex=Math.max(0,Math.abs(lx)-1.3), ey=Math.max(0,Math.abs(ly)-1.25), ez=Math.max(0,Math.abs(lz)-0.25); return Math.hypot(ex,ey,ez); };
+      check('公告欄在鏡頭碰撞裡（zone.camCols，和隔間牆同一層）',(z.camCols[lv]||[]).some(m=>m.userData.camFurn==='bulletin'));
+      const r0=sim(lv,x,zz,yaw,{frames:0}), r1=sim(lv,x,zz,yaw);
+      check('putong_1F_2：修改前的鏡頭貼著公告欄（< 0.5 m）——測試重現得到（之後轉開）',boxDist(r0.cam)<0.5||!E.autoSwing,`離公告欄 ${boxDist(r0.cam).toFixed(2)} m`);
+      check('putong_1F_2：轉開之後鏡頭離公告欄 ≥ 0.5 m',boxDist(r1.cam)>=0.5,`離公告欄 ${boxDist(r1.cam).toFixed(2)} m`); } }
+  console.log(JSON.stringify(R2)); }
 /* 戶外照舊：建築碰撞盒（E.colliders）最近 0.7 m、不抬高 */
 { tag='[戶外] '; E.zone={}; E.colliders=[]; const box=new THREE.Mesh(new THREE.BoxGeometry(2,6,2),new THREE.MeshBasicMaterial()); box.position.set(0,3,3); box.updateMatrixWorld(true); E.colliders.push(box);
   const tgt=new THREE.Vector3(0,1.45,0), cam=new THREE.Vector3(); const r=E.followCam(tgt,0,0.22,6,0,cam);

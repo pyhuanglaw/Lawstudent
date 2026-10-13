@@ -113,6 +113,10 @@ const TB3=(function(){
     const box=(lv,horiz,a,b,c,y0,y1)=>{ a-=0.06; b+=0.06;   /* 兩端各多 6 cm：視線剛好擦過牆的端點時照樣擋得到（只差一點點就算沒打到）*/ const m=new THREE.Mesh(new THREE.BoxGeometry(horiz?b-a:0.24,y1-y0,horiz?0.24:b-a),inv); m.position.set(horiz?(a+b)/2:c,(y0+y1)/2,horiz?c:(a+b)/2); m.userData.noMerge=true; g.add(m); (out[lv]=out[lv]||[]).push(m); };
     for(const w of L.walls){ const lv=w.lv|0, y=lv?Y1:0, h=(lv?RY-Y1:L.ceil0); const {horiz,segs}=wallSegs(w); const c=horiz?w.z0:w.x0;
       for(const [a,b] of segs){ if(b-a>=0.05) box(lv,horiz,a,b,c,y,y+h); } if(h>2.4) for(const [g0,g1] of (w.gaps||[])) box(lv,horiz,Math.min(g0,g1),Math.max(g0,g1),c,y+2.4,y+h); }
+    /* 高的家具也擋鏡頭（LAWWW2 CAMERA_WALLS §1(2)：普通 1F 門廳，鏡頭被牆拉近、抬高後停在公告欄的雨遮正上方 0.22 m，畫面一大塊深色）：
+       公告欄（W3.bulletin 和正式模型同尺寸：寬 2.6、高 2.5、雨遮往前凸 0.35 m）；講座資訊螢幕貼在牆上（牆已經擋），不另外加 */
+    for(const bd of (L.boards||[])){ if(bd.style==='screen') continue; const lv=bd.lv|0, m=new THREE.Mesh(new THREE.BoxGeometry(2.6,2.5,0.5),inv);
+      m.position.set(bd.x+Math.sin(bd.ry)*0.1,(lv?Y1:0)+1.25,bd.z+Math.cos(bd.ry)*0.1); m.rotation.y=bd.ry; m.userData.noMerge=true; m.userData.camFurn='bulletin'; g.add(m); (out[lv]=out[lv]||[]).push(m); }
     return out; }
   // ---- 家具（備用）＋互動點 ----
   function buildFurniture(E,L,lv0,lv1,fb0,fb1,zone){ const Y1=L.floors[1].y, MAT=B3.MAT, IT=E.interactables; const b0=new TK.Bin(), b1=new TK.Bin(); const bins=[b0,b1];
