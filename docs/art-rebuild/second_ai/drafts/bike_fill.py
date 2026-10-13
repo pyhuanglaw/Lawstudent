@@ -1,4 +1,4 @@
-"""bike_wt：VISUAL_REVIEW 第 18 節（⑫ 騎車用的腳踏車）：尺寸表、節點與樞紐、規格、Blender 渲染、缺點。
+"""bike_wt：VISUAL_REVIEW 第 19 節（⑫ 騎車用的腳踏車）：尺寸表、節點與樞紐、規格、Blender 渲染、缺點。
 用法：python3 docs/art-rebuild/second_ai/drafts/bike_fill.py <渲染圖資料夾>"""
 import json, os, sys
 from PIL import Image
@@ -17,24 +17,24 @@ tris = S['tris']
 doc = f"""
 ---
 
-## 18. 騎車用的腳踏車（⑫，Blender 正式模型＋尺寸表；人物騎乘由 LAWWW 做）
+## 19. 騎車用的腳踏車（⑫，Blender 正式模型＋尺寸表；人物騎乘由 LAWWW 做）
 
 使用者要求「我應該要可以騎腳踏車」、路上的騎士要真的踩踏板（LAWWW 07:52Z 分派）。交付 `assets/models/env/bike_ride.glb`（**{S['bytes'] / 1e3:.0f} KB**）＋尺寸表 `assets/models/env/bike_ride.json`（**從模型量出來的**）＋腳本 `tools/blender/env_second/bike_ride.py`。
 造型和街上停的淑女車（`street_props.glb` 的 `bike_city`）同一款：彎下管的低跨車架、前籃、前燈、擋泥板、後貨架、鍊條蓋、環形鎖、彈簧座墊、後掠把手、車鈴；放大成成人騎的 26 吋。車架顏色是灰綠色烤漆（材質 `ride_frame`，遊戲可以改色）。
 
-### 18.1 驗收狀態
+### 19.1 驗收狀態
 
 | 項目 | 技術（A） | 功能（B） | 美術（C） |
 |---|---|---|---|
 | 騎車用的腳踏車（`bike_ride.glb`） | 完成（零件分開、樞紐自我檢查通過） | **還沒接進遊戲**（騎乘姿勢、IK、操作由 LAWWW 做） | `MODEL_READY` |
 
-### 18.2 尺寸表（遊戲座標，公尺；車頭朝 +z、地面 y=0、中心線 x=0；**騎士的左手邊＝+x**、右手邊＝−x，鍊條在右邊）
+### 19.2 尺寸表（遊戲座標，公尺；車頭朝 +z、地面 y=0、中心線 x=0；**騎士的左手邊＝+x**、右手邊＝−x，鍊條在右邊）
 
 | 量 | 值 |
 |---|---|
 """ + '\n'.join(f'| {a} | {b} |' for a, b in rows) + f"""
 
-### 18.3 節點與怎麼動（glTF 的節點名稱固定）
+### 19.3 節點與怎麼動（glTF 的節點名稱固定）
 
 | 節點 | 父節點 | 原點（樞紐） | 怎麼動 | 三角形 |
 |---|---|---|---|---|
@@ -48,12 +48,12 @@ doc = f"""
 腳本最後有自我檢查：fork 的本地 +Z（Blender；glTF 匯出後是本地 +Y）和轉向軸一致、每個節點的世界位置等於樞紐點（誤差 < 0.1 mm），不符合就匯出失敗。
 輪子往前滾 1 m 轉 1/(π×{S['輪徑']}) 圈；曲柄的轉速照遊戲的齒比自己決定（建議：輪子轉 1 圈、曲柄轉 0.4–0.5 圈）。
 
-### 18.4 規格
+### 19.4 規格
 
 - 材質：車架 `ride_frame`（灰綠烤漆）、黑色零件 `ride_dark`、輪胎與握把 `ride_rubber`、金屬 `ride_metal`（金屬度 0.45 以下）、座墊 `ride_saddle`、反光片 `ride_reflector`／`ride_reflector_amber`、前燈 `ride_lamp_lens`（自發光）、鋼絲與前籃鐵絲網 `ride_alpha`（透明貼圖 `textures/gen/bike_alpha.png`，alphaMode MASK，和停著的淑女車同一張）。
 - 三角形合計 {sum(tris.values()):,}。
 
-### 18.5 Blender 渲染圖（Cycles；**不是遊戲畫面**）
+### 19.5 Blender 渲染圖（Cycles；**不是遊戲畫面**）
 
 | 側面 | 45° |
 |---|---|
@@ -61,7 +61,7 @@ doc = f"""
 | **正面** | **把手區（從後上方往下看）** |
 | ![](blender_renders/bike_ride_front.webp) | ![](blender_renders/bike_ride_top_cockpit.webp) |
 
-### 18.6 還沒達到參考品質的地方
+### 19.6 還沒達到參考品質的地方
 
 1. 還沒有人騎（騎乘姿勢、手腳貼合握把和踏板要 LAWWW 接上才看得到）；沒有遊戲內截圖。
 2. 鍊條是靜態的一圈（不會跟著齒盤動）；齒盤是實心圓盤、沒有齒。
@@ -70,5 +70,5 @@ doc = f"""
 5. 沒有 iPhone 實機驗證。
 """
 p = D + '/VISUAL_REVIEW.md'; v = open(p).read()
-assert '## 18. 騎車用的腳踏車' not in v
+assert '## 19. 騎車用的腳踏車' not in v
 open(p, 'w').write(v.rstrip('\n') + '\n' + doc); print('doc ok')
