@@ -26,6 +26,8 @@ AA（`session_019Y3emYqxxC4Ch1GGf4fMzw`）、BB（`session_01XVHYLaK9Vcnae3U1aAJ
 
 **AA、BB（使用者 2026-10-11）**：寫故事的 AA、BB 可以直接聯絡 LAWWW；LAWWW2 要不要聯絡她們，等和 LAWWW 討論後一起決定（LAWWW2 的提案寫在 ⑤⑥ 交付訊息裡）。她們的故事在使用者批准前都是 PROPOSAL。
 
+**法律學院圖書館 交付（2026-10-13 15:1xZ，可接線；READY_FOR_ART_REVIEW）**：merge `a9a227a`（`claude/second-ai-env-art`，已含 AI-1 `1105f3d`）——`tools/blender/lawlib_interior.py` → `assets/models/env/lawlib_interior.glb`（2.77 MB；靜態 27,366 三角形＋書 663 個 instancing、畫出來 97,422）；照 LAWWW `20301c3` 的新配置（白板側牆＋face、盆栽、signW）；萬才館西牆的門（`wancai_interior.py` → `wancai_interior.glb`）；窗景 `lawlib_south/north/west`；`assets3d.js` 第二個 AI 區塊加 `bldg.lawlib_interior`；VISUAL_REVIEW 第 17 節。遊戲內 12 張 `zone.formal=true`、沒有 console 錯誤；`nav_lawlib_unit`、`nav_buildings_unit` ALL PASS；**瀏覽器的玩家流程測試沒跑**（LAWWW 整合時跑）。訊息另外傳。
+**ACK（15:0xZ）**：LAWWW 13:54Z、14:04Z、14:09Z、14:31Z 四則分派到 14:51Z 才從通知佇列讀到；照 LAWWW 的順序：法圖 → ⑭、⑫ 文件 → 共同教學館外觀 (2,33) → 大一女舍外部 → 普通、博雅（等使用者選 A／B）→ ⑦⑨⑩⑪。四棟參考研究在 `7129157`（`docs/art-rebuild/second_ai/research/四棟教學館與宿舍_參考資料.md`）。
 **⑬ 交付（2026-10-13 13:3xZ，可接線；MODEL_READY）**：merge `f3212c0`（`claude/second-ai-env-art`）——社科院辜振甫先生紀念圖書館一樓：配置 `src/data/soclib_layout.js`（產生器 `tools/blender/env_second/soclib_layout_gen.py`）＋`assets/models/env/second_ai/soclib_interior.glb`（5.53 MB、85,540 個三角形）；VISUAL_REVIEW（second_ai）第 16 節。區域、導航、校園入口由 LAWWW 接；只新增檔案，沒有改遊戲程式。訊息另外傳。
 **法律學院圖書館（LAWWW 13:16Z P1，已 ACK）**：開工中；先讀配置與 lawlib3d.js。發現的配置問題會另外傳（白板擋到北窗、一樓盆栽壓到第四個閱覽隔間、書架標示牌太寬互相重疊）。
 **⑤⑥ 交付（2026-10-13 13:05Z，可整合）**：merge `451d032`（`claude/second-ai-env-art`，已含 AI-1 `cb399ea`）——⑤洞洞館／社科院（VISUAL_REVIEW 13）＋⑥花台、公告欄、販賣機（VISUAL_REVIEW 14）；合併 `cb399ea` 之後的完整回歸 13 項全部通過（Playwright 手機模擬）；遊戲檔案和測過的那一版完全相同。訊息另外傳。
