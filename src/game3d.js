@@ -157,7 +157,7 @@ const GAME = (function(){
   // ---------- 互動 ----------
   let nearIt=null;
   function updateInteract(){ const btn=$('interact'); if(E.player.busy||D.active||menuOpen){ btn.classList.add('hide'); nearIt=null; return; } const it=E.nearestInteractable(); if(it&&it!==nearIt){ $('interactLabel').textContent=it.label||'互動'; } nearIt=it; btn.classList.toggle('hide',!it); }
-  async function doInteract(){ updateInteract(); const it=nearIt; if(!it) return; if(it.onInteract){ if(it.npc) foundPerson(it.npc); it.onInteract(it); return; } if(STORY.interact&&await STORY.interact(it,GM)) return; if(it.look){ caption('',it.look,4600); return; } if(it.exit){ if(it.exit.locked){ toast(it.exit.locked); return; } await enter(it.exit.to,it.exit.spawn); return; } if(it.elevator){ await elevatorRide(it); return; } if(it.seat){ await seatMenu(it); return; } toast('（這裡現在沒有事可做）'); }
+  async function doInteract(){ updateInteract(); const it=nearIt; if(!it) return; if(it.onInteract){ if(it.npc) foundPerson(it.npc); it.onInteract(it); return; } if(STORY.interact&&await STORY.interact(it,GM)) return; if(it.look){ if(it.flag&&G&&G.flags) G.flags[it.flag]=true; caption('',it.look,4600); return; }   /* flag：看過就記下（例：法律學院圖書館的指定參考書＝開學待辦的「教科書」，AA_110 6-4）*/ if(it.exit){ if(it.exit.locked){ toast(it.exit.locked); return; } await enter(it.exit.to,it.exit.spawn); return; } if(it.elevator){ await elevatorRide(it); return; } if(it.seat){ await seatMenu(it); return; } toast('（這裡現在沒有事可做）'); }
   GM.doInteract=doInteract; GM.updateInteract=updateInteract; GM.snapshot=snapshot;
   // 坐下前要先走到椅子旁邊：原本固定走到椅子正前方 0.5 m，但教室的椅子正前方就是桌子（人站不住）→ 走過去卡在桌邊（v9.3 第二十五批，線上回報「找不到地方坐下」）。
   // 改成在前、後、左、右挑「站得住、走得到、路最短」的點

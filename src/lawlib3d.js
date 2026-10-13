@@ -130,7 +130,7 @@ const LL3=(function(){
       if(s.sign){ const sp=new THREE.Mesh(s.signW?new THREE.PlaneGeometry(s.signW,s.signW/4):new THREE.PlaneGeometry(Math.max(1.0,s.sign.length*0.17),0.22),   /* signW：書架端的分類牌固定寬（書架間距 1.6 m，照字數算會互相重疊；字由 signTex 自動縮）*/ new THREE.MeshBasicMaterial({map:TK.signTex(s.sign,{bg:'#24303a',color:'#f3efe4'})}));
         if(s.kind==='range'){ sp.position.set(s.x,y+s.h+0.16,s.z1+0.03); } else { const ry={E:Math.PI/2,W:-Math.PI/2,S:0,N:Math.PI}[s.face]; const off=((s.face==='E'||s.face==='W')?(s.x1-s.x0):(s.z1-s.z0))/2+0.02; sp.position.set((s.x0+s.x1)/2+(s.face==='E'?off:s.face==='W'?-off:0),y+s.h+0.16,(s.z0+s.z1)/2+(s.face==='S'?off:s.face==='N'?-off:0)); sp.rotation.y=ry; }
         grp.add(sp); }
-      if(s.it) IT.push({x:s.it.x,z:s.it.z,radius:1.1,lv:s.lv,label:'看書架：'+(s.sign||''),look:s.look}); }
+      if(s.it) IT.push(Object.assign({x:s.it.x,z:s.it.z,radius:1.1,lv:s.lv,label:'看書架：'+(s.sign||''),look:s.look},s.sign==='參考書'?{flag:'readReserve'}:{})); }   /* 看過指定參考書＝開學待辦的「教科書」那一項（AA_110 6-4：或在法律學院圖書館看指定參考書）*/
     // 桌子、椅子、座位
     const seats=zone.seats=seatsOf(L);
     for(const tb of L.tables){ const g=tb.lv?up1:fb0; Z3.desk(g,dummy,tb.x,tb.z,0,tb.w,tb.d,'#b08a62','wood');
