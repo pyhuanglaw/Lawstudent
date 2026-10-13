@@ -13,7 +13,7 @@ const GUIDE=(function(){
   const $=id=>document.getElementById(id);
   let GM=null, E=null;
   // 區域之間怎麼走（只有名字；第一步一定用當下區域真正的出口）。宿舍走廊（dorm_hall）還在開發分支外，存在時才會用到
-  const LINKS={ dorm:['campus','dorm_hall'], dorm_hall:['campus','dorm'], campus:['gongguan','linze','wancai','library_hall','dorm','dorm_hall','gongtong'], gongtong:['campus'],
+  const LINKS={ dorm:['campus','dorm_hall'], dorm_hall:['campus','dorm'], campus:['gongguan','linze','wancai','library_hall','dorm','dorm_hall','gongtong'], gongtong:['campus'], boya:['campus'],   /* 博雅：校園上還沒有門（位置等使用者決定），只連出去 */
     gongguan:['campus','wenzhou','cvs','noodle','bookstore'], wenzhou:['gongguan','cafe'], cafe:['wenzhou'], cvs:['gongguan'], noodle:['gongguan'], bookstore:['gongguan'],
     linze:['campus','classroom'], classroom:['linze'], wancai:['campus','lawlib'], lawlib:['wancai'], library_hall:['campus','library'], library:['library_hall'] };
   const ELEV={ library:['library_hall'], library_hall:['library'] };   // 搭電梯可以到的別的區域（總圖：閱覽室 ⇄ 大廳）

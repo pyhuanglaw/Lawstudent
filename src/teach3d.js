@@ -1,6 +1,8 @@
 /* ===== 公共教學館模板（D55 第二階段；設計：docs/campus/PUBLIC_BUILDINGS_DESIGN.md 第 2 節）=====
-   一個模組蓋所有的教學館（第一棟：共同教學館；之後普通、博雅用同一套），配置寫在 layout JSON（src/data/gongtong_layout.js，
-   產生器 tools/layout/gongtong_layout_gen.py）；LAWWW2 的 Blender 正式模型讀同一份，兩邊的位置一定一致。
+   一個模組蓋所有的教學館（共同教學館、博雅教學館；之後普通用同一套），配置寫在 layout JSON（src/data/gongtong_layout.js、boya_layout.js，
+   產生器 tools/layout/*_gen.py）；LAWWW2 的 Blender 正式模型讀同一份，兩邊的位置一定一致。
+   配置的元件：rooms（classroom 平面教室、lecture 階梯教室、closed 關著的房間）、groups（公共空間：桌子、椅子、沙發）、areas（roomAt 用的範圍）、
+   lounge／study（共同教學館的舊寫法，照樣支援）、benches、boards（style:'screen'＝講座資訊螢幕）、signs、windows、lights、stair。
    **室內沒有查證**：大廳、走廊、普通教室、樓梯、休息區、自習區是可替換的模板，不宣稱和真實建築相同。
    - 兩層（1F、2F）；U 形樓梯（A 跑從走廊往北爬到平台，B 跑往南爬回二樓走廊；B 跑與最上面一階兩層共用，D36）。
    - 房間在同一個區域裡（不是各自一個區域）：看得到人從走廊走進教室、下課走出來。
@@ -9,7 +11,7 @@
 'use strict';
 const TB3=(function(){
   const M=(c,o)=>P3.M(c,Object.assign({rough:0.9},o||{}));
-  const LAYOUTS={ gongtong:()=>GONGTONG_LAYOUT };
+  const LAYOUTS={ gongtong:()=>GONGTONG_LAYOUT, boya:()=>BOYA_LAYOUT };
   // ---- 樓梯的高度（法圖 lawlib3d.js 的做法；這裡 A 跑往北爬：最下面一階在南邊 z1）----
   function stairSurfs(L){ const S=L.stair, r=S.rise, t=S.tread, A=S.A, B=S.B, LD=S.landing;
     if(S.dir==='N') return { a:{x0:A.x0,x1:A.x1,z0:A.z0+t/2,z1:A.z1,axis:'z',ya:A.risers*r,yb:0,tread:t,rise:r,low:'z1'},
@@ -22,6 +24,9 @@ const TB3=(function(){
     for(const s of (L.lounge?L.lounge.seats:[])) out.push(Object.assign({kind:'lounge'},s));
     for(const t of (L.study?L.study.tables:[])) for(const s of t.seats) out.push(Object.assign({kind:'study'},s));
     for(const b of (L.benches||[])) out.push({x:b.x+Math.sin(b.ry)*0.06,z:b.z+Math.cos(b.ry)*0.06,yaw:b.ry,lv:b.lv,kind:'bench',label:b.label,room:'hall'});
+    /* 公共空間（博雅一樓的沙發區、自習小桌、討論桌）：桌子的椅子＋沙發上的位子 */
+    for(const g of (L.groups||[])){ for(const t of (g.tables||[])) for(const st of t.seats) out.push(Object.assign({kind:g.kind,label:g.seatLabel,room:g.id,lv:g.lv},st));
+      for(const so of (g.sofas||[])) for(let i=0;i<so.seats;i++){ const ox=-so.len/2+so.len*(i+0.5)/so.seats, oz=0.08, c=Math.cos(so.ry), sn=Math.sin(so.ry); out.push({x:+(so.x+ox*c+oz*sn).toFixed(3),z:+(so.z-ox*sn+oz*c).toFixed(3),yaw:so.ry,lv:g.lv,kind:'sofa',label:g.seatLabel,room:g.id}); } }
     return out; }
   const wallSegs=w=>{ const horiz=Math.abs(w.z0-w.z1)<1e-6, a0=horiz?Math.min(w.x0,w.x1):Math.min(w.z0,w.z1), a1=horiz?Math.max(w.x0,w.x1):Math.max(w.z0,w.z1); const gs=(w.gaps||[]).slice().sort((p,q)=>p[0]-q[0]); const out=[]; let a=a0; for(const [g0,g1] of gs){ if(g0>a) out.push([a,g0]); a=Math.max(a,g1); } if(a<a1) out.push([a,a1]); return {horiz,segs:out}; };
   // ---- 導航：兩層 ----
@@ -49,6 +54,8 @@ const TB3=(function(){
     /* 自習區、休息區的椅子也擋（使用者 2026-10-13 驗收：「自習桌不會讓玩家穿過椅子」）：坐的時候從旁邊走到椅子邊（GAME.seatApproach）再坐上去；
        教室的椅子還不擋（排距 1.6 m，擋了以後椅子那一條比人窄），之後換正式模型時一起處理 */
     for(const st of [...(L.lounge?L.lounge.seats:[]),...(L.study?L.study.tables.flatMap(t=>t.seats):[])]) navs[st.lv|0].blockRect(st.x,st.z,0.46,0.46,0,0);
+    for(const g of (L.groups||[])){ const nav=navs[g.lv]; for(const t of (g.tables||[])){ if(t.shape==='round') nav.blockCircle(t.x,t.z,t.r+0.08); else nav.blockRect(t.x,t.z,t.w,t.d,0,0.02); for(const st of t.seats) nav.blockRect(st.x,st.z,0.46,0.46,0,0); }
+      for(const so of (g.sofas||[])) nav.blockRect(so.x,so.z,so.len,0.8,so.ry,0); }   /* 公共空間的桌子、椅子、沙發都擋（不能穿過椅子）*/
     /* 階梯教室（共 101…）：每排一個平台（座位區）；兩側走道每排前半是兩階（連續的斜面給碰撞、找路，畫面上一階一階）、後半是平的；長桌、椅子、講桌擋住。
        排與排的高低差 0.3 m（大於人物半徑內允許的 0.25 m）：只能從兩側走道上下，不能跨過桌椅；椅子後面那一條（前緣往後 1.6 m）是走道 */
     for(const r of L.rooms){ if(r.kind!=='lecture') continue; const nav=navs[r.lv], Y=L.floors[r.lv].y, up=r.stage==='S'?-1:1;
@@ -96,7 +103,7 @@ const TB3=(function(){
     // 天花板
     { const c0=new THREE.Mesh(new THREE.PlaneGeometry(W,D),MAT.ceil()); c0.rotation.x=Math.PI/2; c0.position.y=L.ceil0; fb0.add(c0);
       const c1=new THREE.Mesh(new THREE.PlaneGeometry(W,D),MAT.ceil()); c1.rotation.x=Math.PI/2; c1.position.y=RY; fb1.add(c1);
-      for(const [lv,y] of [[0,L.ceil0],[1,RY]]) for(const x of [-9.6,-6.0,-1.2,1.2,6.0,9.6]) for(const z of [-5.2,-2.0,1.0,4.6]){ const p=new THREE.Mesh(new THREE.PlaneGeometry(1.2,0.3),MAT.lightPanel()); p.rotation.x=Math.PI/2; p.position.set(x,y-0.01,z); (lv?fb1:fb0).add(p); } }
+      const LP=L.lightPanels||{xs:[-9.6,-6.0,-1.2,1.2,6.0,9.6],zs:[-5.2,-2.0,1.0,4.6]}; for(const [lv,y] of [[0,L.ceil0],[1,RY]]) for(const x of LP.xs) for(const z of LP.zs){ const p=new THREE.Mesh(new THREE.PlaneGeometry(1.2,0.3),MAT.lightPanel()); p.rotation.x=Math.PI/2; p.position.set(x,y-0.01,z); (lv?fb1:fb0).add(p); } }
     b0.build(fb0); b1.build(fb1); }
   // ---- 家具（備用）＋互動點 ----
   function buildFurniture(E,L,lv0,lv1,fb0,fb1,zone){ const Y1=L.floors[1].y, MAT=B3.MAT, IT=E.interactables; const b0=new TK.Bin(), b1=new TK.Bin(); const bins=[b0,b1];
@@ -110,20 +117,31 @@ const TB3=(function(){
       const s=r.board==='W'?1:-1; bb.add(M('#2f4a3a',{rough:0.6}),TK.boxG(0.04,1.2,r.blackboard.len),r.blackboard.x,y+1.6,r.blackboard.z); bb.add(MAT.frame(),TK.boxG(0.06,0.08,r.blackboard.len+0.1),r.blackboard.x+s*0.02,y+0.98,r.blackboard.z);
       bb.add(MAT.woodD(),TK.boxG(r.teacher.w,0.95,r.teacher.d),r.teacher.x,y+0.475,r.teacher.z);
       for(const d of r.desks) Z3.desk(grpOf(r.lv),dummy,d.x,d.z,Math.PI/2,d.d,d.w,'#c9b48f');
-      const door=r.doorFront; IT.push({x:(door[0]+door[1])/2,z:-0.95,radius:0.9,lv:r.lv,label:'看看'+r.label+' 教室',room:r.id,look:'共同 '+r.id+'：一般教室，黑板、講桌、兩人一張的桌子。門邊的課表每學期換一次。'}); }
+      const door=r.doorFront, dz=r.doorZ!=null?r.doorZ:-0.4; IT.push({x:(door[0]+door[1])/2,z:dz-0.55,radius:0.9,lv:r.lv,label:r.lookLabel||('看看'+r.label+' 教室'),room:r.id,look:r.look||('共同 '+r.id+'：一般教室，黑板、講桌、兩人一張的桌子。門邊的課表每學期換一次。')}); }
     // 休息區：小圓桌；自習區：小桌子
     if(L.lounge) for(const t of L.lounge.tables){ const g=grpOf(L.lounge.lv); const top=new THREE.Mesh(new THREE.CylinderGeometry(t.r,t.r,0.04,18),M('#d9cdb8',{rough:0.5})); top.position.set(t.x,0.74,t.z); g.add(top); const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.04,0.18,0.72,10),M('#3a3f46')); leg.position.set(t.x,0.36,t.z); g.add(leg); }
     if(L.study) for(const t of L.study.tables) Z3.desk(grpOf(L.study.lv),dummy,t.x,t.z,0,t.w,t.d,'#b08a62','wood');
+    // 公共空間（備用模型）：長桌／小桌（木頭）、小圓桌、椅子、沙發（坐墊＋靠背＋扶手）
+    for(const g of (L.groups||[])){ const grp=grpOf(g.lv), bb=bins[g.lv], y0=g.lv?Y1:0;
+      for(const t of (g.tables||[])){ if(t.shape==='round'){ const h=t.h||0.74; const top=new THREE.Mesh(new THREE.CylinderGeometry(t.r,t.r,0.04,18),M('#d9cdb8',{rough:0.5})); top.position.set(t.x,h,t.z); grp.add(top); const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.04,0.16,h-0.02,10),M('#3a3f46')); leg.position.set(t.x,(h-0.02)/2,t.z); grp.add(leg); }
+        else Z3.desk(grp,dummy,t.x,t.z,0,t.w,t.d,g.id==='discuss'?'#c9b48f':'#b08a62','wood');
+        for(const st of t.seats) Z3.chair(grp,st.x,st.z,st.yaw,g.id==='discuss'?'#5a6470':'#8a6a4a'); }
+      for(const so of (g.sofas||[])){ const c=Math.cos(so.ry), sn=Math.sin(so.ry), at=(ox,oz)=>[so.x+ox*c+oz*sn,so.z-ox*sn+oz*c], sm=MAT.sofa();
+        { const [x,z]=at(0,0.05); bb.add(sm,TK.boxG(so.len,0.42,0.7),x,y0+0.21,z,so.ry); } { const [x,z]=at(0,-0.3); bb.add(sm,TK.boxG(so.len,0.8,0.2),x,y0+0.4,z,so.ry); }
+        for(const sx of [-1,1]){ const [x,z]=at(sx*(so.len/2+0.08),-0.02); bb.add(sm,TK.boxG(0.16,0.6,0.76),x,y0+0.3,z,so.ry); } } }
     // 長椅、公告欄、指標
     for(const b of (L.benches||[])){ const bench=W3.formalBench?W3.formalBench():null; if(bench){ bench.position.set(b.x,0,b.z); bench.rotation.y=b.ry; grpOf(b.lv).add(bench); } else bins[b.lv].add(MAT.wood(),TK.boxG(1.5,0.45,0.45),b.x,(b.lv?Y1:0)+0.225,b.z,b.ry); }
-    for(const bd of (L.boards||[])){ const bb=W3.bulletin(); bb.position.set(bd.x,0,bd.z); bb.rotation.y=bd.ry; grpOf(bd.lv).add(bb); IT.push({x:bd.x+Math.sin(bd.ry)*0.9,z:bd.z+Math.cos(bd.ry)*0.9,radius:1.0,lv:bd.lv,label:bd.label,board:true,get look(){ return bd.look+(typeof ACTIVITIES!=='undefined'&&typeof GAME!=='undefined'&&GAME.G?'　'+ACTIVITIES.posterText(GAME.G):''); }}); }   /* 公告欄：照活動資料（src/data/activities.js；內容等 AA、BB）列出這幾天的演講與活動 */
+    for(const bd of (L.boards||[])){ if(bd.style==='screen'){ const sw=bd.w, sh=bd.w*0.6, y0=(bd.lv?Y1:0)+1.25; bins[bd.lv].add(MAT.frame(),TK.boxG(sw+0.08,sh+0.08,0.06),bd.x,y0+sh/2,bd.z,bd.ry);   /* 講座資訊螢幕：深色面板＋發光的字 */
+        const sp=new THREE.Mesh(new THREE.PlaneGeometry(sw,sh),new THREE.MeshBasicMaterial({map:TK.signTex('講座資訊　LECTURES & EVENTS',{bg:'#10213a',color:'#e8f0ff'})})); sp.position.set(bd.x+Math.sin(bd.ry)*0.035,(bd.lv?Y1:0)+1.25+sh/2,bd.z+Math.cos(bd.ry)*0.035); sp.rotation.y=bd.ry; (bd.lv?lv1:lv0).add(sp); }
+      else { const bb=W3.bulletin(); bb.position.set(bd.x,0,bd.z); bb.rotation.y=bd.ry; grpOf(bd.lv).add(bb); }
+      IT.push({x:bd.x+Math.sin(bd.ry)*0.9,z:bd.z+Math.cos(bd.ry)*0.9,radius:1.0,lv:bd.lv,label:bd.label,board:true,get look(){ return bd.look+(typeof ACTIVITIES!=='undefined'&&typeof GAME!=='undefined'&&GAME.G?'　'+ACTIVITIES.posterText(GAME.G,bd.zoneFilter?L.id:undefined):''); }}); }   /* 公告欄：照活動資料（src/data/activities.js；內容等 AA、BB）列出這幾天的演講與活動；zoneFilter＝只列這棟的 */   /* 公告欄：照活動資料（src/data/activities.js；內容等 AA、BB）列出這幾天的演講與活動 */
     for(const sg of (L.signs||[])){ const sp=new THREE.Mesh(new THREE.PlaneGeometry(sg.w,sg.w*0.16),new THREE.MeshBasicMaterial({map:TK.signTex(sg.text,{bg:'#24303a',color:'#f3efe4'})})); sp.position.set(sg.x,sg.y,sg.z); sp.rotation.y=sg.ry||0; (sg.lv?lv1:lv0).add(sp); }
     { const S=L.stair; const sp=new THREE.Mesh(new THREE.PlaneGeometry(2.4,0.38),new THREE.MeshBasicMaterial({map:TK.signTex(S.sign,{bg:'#5a2a22',color:'#f3efe4'})})); sp.position.set((S.B.x0+S.B.x1)/2,Y1+2.3,S.B.z1+0.02); lv1.add(sp);
       IT.push({x:(S.B.x0+S.B.x1)/2,z:S.B.z1+0.5,radius:0.8,lv:1,label:'往 3F',look:'往 3F 的樓梯口拉著一條鍊子：「整修中，暫停開放」。'}); }
     // 座位
     const seats=zone.seats=seatsOf(L);
-    for(const st of seats){ if(st.kind==='class'||st.kind==='lounge'||st.kind==='study') Z3.chair(grpOf(st.lv),st.x,st.z,st.yaw,st.kind==='class'?'#5a6470':'#8a6a4a');
-      const label=st.kind==='class'||st.kind==='lecture'?'坐下':(st.kind==='study'?'坐下讀書（自習區）':(st.kind==='lounge'?'坐下（休息區）':(st.label||'坐下')));
+    for(const st of seats){ if((st.kind==='class'||st.kind==='lounge'||st.kind==='study')&&!(L.groups||[]).some(g=>g.id===st.room)) Z3.chair(grpOf(st.lv),st.x,st.z,st.yaw,st.kind==='class'?'#5a6470':'#8a6a4a');
+      const label=st.kind==='class'||st.kind==='lecture'?'坐下':(st.label||(st.kind==='study'?'坐下讀書（自習區）':(st.kind==='lounge'?'坐下（休息區）':'坐下')));
       /* 階梯教室：互動點在椅子後面 0.35 m（玩家站在那一排椅子後面的走道上；半徑小一點，旁邊的位子不會搶），帶高度（別排的不算）*/
       if(st.kind==='lecture'){ IT.push({x:st.x-Math.sin(st.yaw)*0.35,z:st.z-Math.cos(st.yaw)*0.35,y:st.y,radius:0.62,lv:st.lv,label,seat:st,study:true}); continue; }
       IT.push({x:st.x,z:st.z,radius:0.8,lv:st.lv,label,seat:st,study:st.kind!=='bench'}); }
@@ -164,15 +182,15 @@ const TB3=(function(){
       fadeWalls(cam){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
       applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); for(const o of outs) B3.setOutView(o,h,weather,night); },
       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; },
-      roomAt(x,z,lv){ for(const r of L.rooms){ if((r.lv|0)!==(lv|0)) continue; if(x>r.x0&&x<r.x1&&z>r.z0&&z<r.z1) return r.id; } if(L.study&&(lv|0)===L.study.lv&&z>2.4&&x<-3.6) return 'study'; if(L.lounge&&(lv|0)===L.lounge.lv&&z>2.4&&x<-3.6) return 'lounge'; return z>-0.4&&z<2.4?'corridor':'hall'; } };
+      roomAt(x,z,lv){ for(const r of L.rooms){ if((r.lv|0)!==(lv|0)) continue; if(x>r.x0&&x<r.x1&&z>r.z0&&z<r.z1) return r.id; } for(const a of (L.areas||[])){ if((a.lv|0)===(lv|0)&&x>a.x0&&x<a.x1&&z>a.z0&&z<a.z1) return a.id; } return 'hall'; } };   /* 房間 → 範圍（areas）→ 大廳 */
     buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,slabs,innerM); buildFurniture(E,L,lv0,lv1,fb0,fb1,zone); windowViews(L,lv0,lv1,outs);
     // 樓梯可以點的面（點一跑樓梯＝走完那一跑，engine3d.js 任務 #42）
     for(const s of [ss.a,ss.ld,ss.b,ss.top]){ const w=s.x1-s.x0, d=s.z1-s.z0; const ya=s.y!==undefined?s.y:s.ya, yb=s.y!==undefined?s.y:s.yb; const m=new THREE.Mesh(new THREE.PlaneGeometry(w,Math.hypot(d,yb-ya)),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set((s.x0+s.x1)/2,(ya+yb)/2+0.01,(s.z0+s.z1)/2); m.rotation.x=-Math.PI/2-Math.atan2(yb-ya,d); m.userData.walkLv=(s===ss.b||s===ss.top)?1:0; m.userData.dyn=true; lv0.add(m); walkMeshes.push(m);
       const ax=(S.A.x0+S.A.x1)/2, bx=(S.B.x0+S.B.x1)/2, ldz=(S.landing.z0+S.landing.z1)/2; if(s===ss.a) m.userData.stairEnds=[{x:ax,z:S.A.z1+0.5,lv:0},{x:ax,z:ldz,lv:0}]; if(s===ss.b) m.userData.stairEnds=[{x:bx,z:ldz,lv:0},{x:bx,z:S.B.z1+0.6,lv:1}]; }
     const lights=[]; for(const [x,y,z,on,off] of L.lights){ const l=new THREE.PointLight(0xfff4e6,off,16,2); l.position.set(x,y,z); l.userData.on=on; l.userData.off=off; g.add(l); lights.push(l); }
-    const EN=L.entrance; E.interactables.push({x:EN.exit.x,z:EN.exit.z,radius:EN.exit.r,lv:0,label:'走出'+L.name,exit:{to:'campus',spawn:Object.assign({},EN.campus)}});
+    const EN=L.entrance; E.interactables.push({x:EN.exit.x,z:EN.exit.z,radius:EN.exit.r,lv:0,label:'走出'+L.name,exit:{to:'campus',spawn:EN.campus?Object.assign({},EN.campus):undefined}});   /* campus 還沒定（博雅：校園的位置等使用者決定）＝校園的預設出生點 */
     return zone; } }; }
-  const ZONES={ gongtong:makeZone('gongtong') };
+  const ZONES={ gongtong:makeZone('gongtong') }; if(typeof BOYA_LAYOUT!=='undefined') ZONES.boya=makeZone('boya');
   return {ZONES,stairSurfs,buildNav,seatsOf,LAYOUTS};
 })();
 for(const k in TB3.ZONES) Z3.ZONES[k]=TB3.ZONES[k];

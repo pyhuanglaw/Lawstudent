@@ -25,8 +25,9 @@ run classes_unit          node tests/classes_unit.js            # 課表（AA_10
 run quick_travel_unit     node tests/quick_travel_unit.js       # 快速前往的落點都站得住、走得出去；時間照距離（D54）
 run campus_public_unit    node tests/campus_public_unit.js      # 公共場景（共同教學館、大一女舍）：入口站得住、從校門與霖澤館前走得到、建築走不進去（D55）
 run crowd_unit            node tests/crowd_unit.js              # 人流：共同教學館門口上課前後、大一女舍門口早晚；同一時段進出看到同一批人；跳過時間重排（D55）
-run nav_teach_unit        node tests/nav_teach_unit.js          # 公共教學館模板（共同教學館室內）：座位、樓梯、出口、關著的房間、小孤島（D55）
+run nav_teach_unit        node tests/nav_teach_unit.js          # 公共教學館模板（共同、博雅室內）：座位、樓梯、出口、牆、階梯教室、關著的房間、小孤島（D55）
 run teach_class_unit      node tests/teach_class_unit.js        # 建築裡的教室上課（共同教學館 101）：坐下的上課選項、目標導航、同學、門（D55）
+run boya_lecture_unit     node tests/boya_lecture_unit.js       # 博雅的講座人潮（測試資料）：開始前 15 分鐘坐滿、結束離開、講座資訊螢幕（D55）
 run activities_unit      node tests/activities_unit.js         # 活動與演講（資料格式、海報、進行中）＋事件的 room／activity／npcHere 條件（D55）
 run deploy_check          python3 tests/deploy_check.py "$URL" $VER
 run model_upgrade         python3 tests/model_upgrade.py "$URL" "$OUT/model_upgrade"
