@@ -97,13 +97,15 @@ const CLS=(function(){
   /* 座位（霖澤館 201）：這堂課現在可以上 → 坐下時的第一個選項（game3d.js 的 seatMenu）*/
   S.seatClass=function(G){ if(!G||G.zone!=='classroom') return null; return S.liveIn(G,'classroom').find(it=>S.status(G,it)==='open')||null; };
   // ---------- 門口上課（共同教學館、體育館、萬才館研討室）：校園的互動點 ----------
-  const DOORS={ common:{zone:'campus',x:2,z:22.8,radius:1.6,label:'共同教學館',mark:true,look:'共同教學館：大一國文、大一英文、通識在這裡上課（館內之後開放，現在上課用門口的課堂畫面）。'},   /* 2026-10-13：原本在 (45,22.6) 一棟無名系館門口；共同教學館蓋在真實位置（行政大樓東邊）後搬到它的正門 */
+  const DOORS={ common:{zone:'campus',x:2,z:22.8,radius:1.6,label:'共同教學館',mark:true,enter:'gongtong',look:'共同教學館：大一國文、大一英文、通識在這裡上課。'},   /* enter：館內（src/teach3d.js，D55 第二階段）；沒有課時按門就進館，有課時多一個「進去上課」 */   /* 2026-10-13：原本在 (45,22.6) 一棟無名系館門口；共同教學館蓋在真實位置（行政大樓東邊）後搬到它的正門 */
                 gym:{zone:'campus',x:74,z:59.4,radius:1.6,label:'體育館',look:'體育館：體育課在這裡上。'} };
   S.DOORS=DOORS;
   S.addDoors=function(GM,zoneId){ const E=GM.E; for(const k in DOORS){ const d=DOORS[k]; if(d.zone!==zoneId) continue;
-      E.interactables.push({x:d.x,z:d.z,radius:d.radius,lv:0,label:d.label,door:k,mark:!!d.mark,onInteract:()=>S.doorInteract(GM,k)}); } };
+      E.interactables.push(Object.assign({x:d.x,z:d.z,radius:d.radius,lv:0,label:d.label,door:k,mark:!!d.mark,onInteract:()=>S.doorInteract(GM,k)},d.enter&&typeof Z3!=='undefined'&&Z3.ZONES[d.enter]?{exit:{to:d.enter}}:{})); } };   /* exit：讓目標導航知道這個門通到館裡（按下去照樣走 onInteract）*/
   S.doorInteract=async function(GM,k){ const G=GM.G, d=DOORS[k]; const it=S.liveDoor(G,k);
-    if(it&&S.status(G,it)==='open'){ const ch=await (async()=>{ GM.sceneBegin(); try{ return await GM.choose([{t:'進去上課：'+it.c.name,hint:hhmm(it.t0)+'–'+hhmm(it.t1)+'（點對話可以略過）'},{t:'不上了'}]); } finally { GM.sceneEnd(); } })(); if(ch===0) await S.attend(GM,it,{door:true}); return; }
+    if(it&&S.status(G,it)==='open'){ const opts=[{t:'進去上課：'+it.c.name,hint:hhmm(it.t0)+'–'+hhmm(it.t1)+'（點對話可以略過）'}]; if(d.enter&&Z3.ZONES[d.enter]) opts.push({t:'進館裡逛逛（不上課）'}); opts.push({t:'不上了'});
+      const ch=await (async()=>{ GM.sceneBegin(); try{ return await GM.choose(opts); } finally { GM.sceneEnd(); } })(); if(ch===0) await S.attend(GM,it,{door:true}); else if(d.enter&&opts[ch].t.startsWith('進館')) await GM.enter(d.enter); return; }
+    if(d.enter&&typeof Z3!=='undefined'&&Z3.ZONES[d.enter]){ await GM.enter(d.enter); return; }   /* 沒有課：公共空間照常可以進（使用者 2026-10-13：「不必每次進入都觸發故事」）*/
     const today=S.dayItems(G).filter(q=>q.room.door===k); const s=today.length?'今天在這裡的課：'+today.map(q=>hhmm(q.t0)+' '+q.c.name+'（'+({done:'上過了',missed:'沒去',open:'可以進去',upcoming:'還沒開始'})[S.status(G,q)]+'）').join('、'):'今天沒有你在這裡的課。'; GM.caption('',d.look+s,4800); };
   // ---------- 自學：選一門課（AA_104 4-3：和上課累積同一個「準備」）----------
   S.studyPick=async function(GM){ const G=GM.G; const t=CALENDAR.termOf(G.day); if(!t) return null; const cs=S.termCourses(G,t.id).filter(c=>c.kind!=='general'||c.id.startsWith('gened')); if(!cs.length) return null;
@@ -140,7 +142,7 @@ const CLS=(function(){
   /* 各區域在校園座標裡大概的位置（公館、溫州街照 zones3d.js 的換算：公館 (gx,gz) → 校園 (x=-170-gz, z=gx)；溫州街和公館在巷口 (-71,16.5) 相接）。只用來估時間。
      遊戲的校園比真的小（校門到霖澤館 160 m，真的大約 1 km）：時間照真實步行算——遊戲距離 ×6、每分鐘 80 m，加 2 分鐘進出建築，四捨五入到 5 分鐘、最少 5 分鐘
      （宿舍→霖澤館約 15 分鐘、霖澤館→溫州街 Café 約 20 分鐘）*/
-  const ANCHOR={ linze:[34,-112], classroom:[34,-112], wancai:[93.8,-100], lawlib:[85,-102], library_hall:[80,0], library:[80,0], dorm:[20,68], dorm_hall:[20,68],
+  const ANCHOR={ linze:[34,-112], classroom:[34,-112], gongtong:[2,33], wancai:[93.8,-100], lawlib:[85,-102], library_hall:[80,0], library:[80,0], dorm:[20,68], dorm_hall:[20,68],
                  gongguan:[-140,0], cvs:[-188,-29], bookstore:[-188,-42], noodle:[-188,-63], wenzhou:[-200,-95], cafe:[-192,-75] };
   S.travelMinutes=function(G,fromZone,toZone,pos,toPos){ if(fromZone===toZone&&toZone!=='campus') return 0;
     const a=fromZone==='campus'&&pos?[pos.x,pos.z]:ANCHOR[fromZone], b=toZone==='campus'?(toPos?[toPos.x,toPos.z]:[-38,6]):ANCHOR[toZone]; if(!a||!b) return 15;

@@ -5,7 +5,7 @@
    - 地名座標：區域座標（x 往東、−z 往北；公館的區域座標轉過方向，大地圖照 zones3d.js 的 sunYaw 轉成北朝上），
      和 zones3d.js 擺建築的位置相同；搬建築時這裡一起改。入口不用寫在這裡：大地圖和入口標記直接讀區域的出口互動點。 */
 const PLACES={
-  names:{ campus:'台大校園', gongguan:'公館', wenzhou:'溫州街', cafe:'兩點半 Café', cvs:'全日便利商店', noodle:'阿鳳麵店', bookstore:'舊路書房',
+  names:{ gongtong:'共同教學館', campus:'台大校園', gongguan:'公館', wenzhou:'溫州街', cafe:'兩點半 Café', cvs:'全日便利商店', noodle:'阿鳳麵店', bookstore:'舊路書房',
     linze:'霖澤館', classroom:'霖澤館 201 教室', wancai:'萬才館', library_hall:'總圖書館', library:'總圖 3F 閱覽區', lawlib:'法律學院圖書館', dorm:'宿舍房間', dorm_hall:'男生宿舍' },
   // open／close：小時（close 超過 24＝隔天凌晨）；text：畫面上寫的時間
   hours:{ cafe:{open:11,close:26.5,text:'11:00–02:30'}, library_hall:{open:8,close:22,text:'08:00–22:00'}, library:{open:8,close:22,text:'08:00–22:00'}, lawlib:{ rules:{ term:{wd:[8+10/60,21.75],we:[9+10/60,17]}, break:{wd:[9+10/60,17],we:null}, holiday:null },

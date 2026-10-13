@@ -1,7 +1,8 @@
 """真實玩家流程：台大總校區的公共教學館（使用者 2026-10-13；docs/campus/TEACHING_BUILDINGS_PLAN.md）。不用 ?turbo。
 第一階段：共同教學館（普通、博雅等使用者決定位置後加進來）。
 玩家操作一律走真的介面（觸控點地面、互動按鈕、手機按鈕、小地圖）；前置條件（讀檔到某天某時某地）用 [前置／捷徑] 標示。
-A. 從椰林大道（傅鐘東邊）點地面走到共同教學館正門：不瞬移；到門口出現「共同教學館」按鈕；按下去說明今天有沒有課、館內之後開放。
+A. 從椰林大道（傅鐘東邊）點地面走到共同教學館正門：不瞬移；到門口出現「共同教學館」按鈕；今天沒有課——按下去就進館；
+   自己走進 101 教室坐下、起身；走上樓梯到二樓走廊、自習區；走下樓、走出去回到正門前（D55 第二階段的室內）。
 B. 大地圖：地名「共同教學館」在建築的位置（地名資料＋點小地圖打開大地圖的截圖）。
 C. 手機「地點」快速前往：從宿舍 → 共同教學館：到校園、站在門口前（站得住、不在建築裡）、時間有過（照距離約 5 分鐘）、出現「共同教學館」按鈕；
    再自己走回椰林大道（不會卡在門口）。
@@ -44,10 +45,39 @@ async def main():
         run.check('自己走到正門（點地面，沒有瞬移）、出現「共同教學館」按鈕', ok and s['interact'].startswith('共同教學館'), json.dumps(s, ensure_ascii=False))
         run.check('站在建築外面（不在牆裡）', s['stand'] and not inside_foot(s['x'], s['z']), json.dumps(s, ensure_ascii=False))
         await run.shot(pg, 'A_at_door')
-        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
-        cap = await pg.evaluate("(document.getElementById('caption')||{}).textContent||''")
-        run.check('按「共同教學館」：寫在這裡上的課、今天沒有課、館內之後開放', '共同教學館' in cap and '今天沒有你在這裡的課' in cap and '館內之後開放' in cap, cap)
-        await run.shot(pg, 'A_door_caption')
+        # A2：沒有課——按門就進館（D55 第二階段：公共空間照常可以進，不觸發故事）
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(5000)
+        s = await L.state(pg)
+        run.check('按「共同教學館」（今天這裡沒有課）：直接走進館裡（大廳、站得住）', s['zone'] == 'gongtong' and s['stand'] and s['lv'] == 0, json.dumps(s, ensure_ascii=False))
+        await run.shot(pg, 'A_lobby')
+        seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.find(q=>q.room==='101'&&q.row===1&&q.col===1); return s?{x:s.x,z:s.z,yaw:s.yaw}:null; })()")
+        run.check('101 教室的座位資料', bool(seat), json.dumps(seat))
+        ok = await L.go_to(pg, cdp, run, seat['x'], seat['z'] + 0.55, 0.5, '101 教室的座位旁')
+        s = await L.state(pg)
+        run.check('自己走進 101 教室、走到座位旁、出現「坐下」', ok and s['interact'].startswith('坐下'), json.dumps(s, ensure_ascii=False))
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
+        opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
+        pose = await pg.evaluate("GAME.E.player.pose")
+        run.check('坐在 101 的座位上（沒有課：坐一下、讀書可以選）', pose == 'sit' and any('坐一下' in o for o in opts), f'pose={pose} ' + json.dumps(opts, ensure_ascii=False))
+        await run.shot(pg, 'A_seated_101')
+        idx = next((i for i, o in enumerate(opts) if '坐一下' in o), 0)
+        s = await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['busy'] and not q['dlg'] and not q['choices'], pick=idx)
+        pose = await pg.evaluate("GAME.E.player.pose")
+        run.check('起身後站在教室裡（站得住，不在桌子裡）', pose != 'sit' and s['stand'], f'pose={pose} ' + json.dumps(s, ensure_ascii=False))
+        ok = await L.go_to(pg, cdp, run, 0, 1.0, 0.8, '二樓走廊', lv=1)
+        s = await L.state(pg)
+        run.check('自己走上樓梯到二樓走廊（第 1 層、4.2 m）', ok and s['lv'] == 1 and abs(s['y'] - 4.2) < 0.1, json.dumps(s, ensure_ascii=False))
+        ok = await L.go_to(pg, cdp, run, -8.0, 4.4, 0.9, '二樓自習區', lv=1)
+        s = await L.state(pg)
+        run.check('走到二樓自習區、出現「坐下讀書（自習區）」', ok and '自習區' in s['interact'], json.dumps(s, ensure_ascii=False))
+        await run.shot(pg, 'A_study_2f')
+        ex = await L.find_it(pg, '走出共同教學館')
+        ok = await L.go_to(pg, cdp, run, ex['x'], ex['z'], 0.9, '一樓出口', lv=0)
+        s = await L.state(pg)
+        run.check('自己走下樓、走到出口（出現「走出共同教學館」）', ok and s['interact'].startswith('走出共同教學館'), json.dumps(s, ensure_ascii=False))
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(5000)
+        s = await L.state(pg)
+        run.check('走出去：回到校園共同教學館的正門前、面向椰林大道、不會一出來就跳出「共同教學館」', s['zone'] == 'campus' and s['stand'] and math.hypot(s['x'] - 2, s['z'] - 20.6) < 1.0 and not s['interact'].startswith('共同教學館'), json.dumps(s, ensure_ascii=False))
         # ---------- B：大地圖 ----------
         lm = await pg.evaluate("(PLACES.landmarks.campus||[]).find(q=>q[0]==='共同教學館')||null")
         run.check('大地圖的地名「共同教學館」在建築的位置 (2,33)', bool(lm) and lm[1] == 2 and lm[2] == 33, json.dumps(lm, ensure_ascii=False))
