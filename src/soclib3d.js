@@ -112,7 +112,8 @@ const SL3=(function(){
     z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.soclib_interior']){ ASSETS.loadOne('bldg.soclib_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
       Z3.attachRoomGLB(z,g0,fb,root);
       root.traverse(o=>{ if(o.isMesh&&/SIGN_FACE/.test(o.name)) paintSign(o);
-        if(o.isMesh&&o.material&&/^soclib_skylight/.test(o.material.name||'')&&!skyMats.includes(o.material)){ o.material.userData.slBase=o.material.emissiveIntensity||1; skyMats.push(o.material); } });   /* 引擎每 5 格呼叫 applyTime，天窗的亮度下一次就跟上時段 */
+        if(o.isMesh&&o.material&&/^soclib_skylight/.test(o.material.name||'')&&!skyMats.includes(o.material)){ if(o.material.userData.slBase==null) o.material.userData.slBase=o.material.emissiveIntensity||1; skyMats.push(o.material); } });   /* 引擎每 5 格呼叫 applyTime，天窗的亮度下一次就跟上時段。
+        原本的亮度只記第一次：clone 出來的模型共用快取的材質，第二次進館時材質已經被調暗過（2026-10-13 批次 2：晚上量到 0.0064＝0.08×0.08）*/
       for(const o of outs){ o.position.copy(o.userData.fpos); const [fw,fh]=o.userData.fsize; o.scale.set(fw/o.geometry.parameters.width,fh/o.geometry.parameters.height,1); } }).catch(e=>console.warn('社科院圖書館正式模型載入失敗，用程序化備用模型',e)); }
     return z; } };
   return {soclib,DOOR,CAMPUS,buildNav,seatsOf,groves};

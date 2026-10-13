@@ -62,9 +62,10 @@ async def main():
         await pg.wait_for_timeout(2500)
         await run.shot(pg, 'A_entrance')
         # ---------- B：走過閘門、坐在閱覽長桌 ----------
-        seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.filter(q=>q.kind==='table')[3]; return s?{x:s.x,z:s.z,yaw:s.yaw}:null; })()")
-        ax, az = seat['x'] - math.sin(seat['yaw']) * 0.6, seat['z'] - math.cos(seat['yaw']) * 0.6   # 椅子後面
-        ok = await L.go_to(pg, cdp, run, ax, az, 0.35, '閱覽長桌的座位後面')
+        # 坐下前站的位置用遊戲自己算的（GAME.seatApproach，和按「坐下」時走過去的是同一個點）；原本自己算「椅子後面 0.6 m」、允許 0.35 m，停的地方可能在互動半徑 0.8 m 外（2026-10-13 批次 2：差 2 cm）
+        seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.filter(q=>q.kind==='table')[3]; if(!s) return null; const ap=GAME.seatApproach(s)||[s.x,s.z]; return {x:s.x,z:s.z,yaw:s.yaw,ax:ap[0],az:ap[1]}; })()")
+        ax, az = seat['ax'], seat['az']
+        ok = await L.go_to(pg, cdp, run, ax, az, 0.3, '閱覽長桌的座位旁')
         s = await L.state(pg)
         run.check('自己走過閘門、走到閱覽長桌的座位旁、出現「坐下讀書」', ok and s['interact'].startswith('坐下讀書') and s['z'] < 7.5, json.dumps(s, ensure_ascii=False))
         await sit_and_stand(pg, cdp, run, 'B_table')
@@ -79,9 +80,9 @@ async def main():
         await run.shot(pg, 'C_grove')
         await pg.wait_for_timeout(4000)
         # ---------- D：窗邊座位 ----------
-        seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.filter(q=>q.kind==='window')[8]; return s?{x:s.x,z:s.z,yaw:s.yaw}:null; })()")
-        ax, az = seat['x'] - math.sin(seat['yaw']) * 0.6, seat['z'] - math.cos(seat['yaw']) * 0.6
-        ok = await L.go_to(pg, cdp, run, ax, az, 0.35, '北面窗邊的座位後面')
+        seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.filter(q=>q.kind==='window')[8]; if(!s) return null; const ap=GAME.seatApproach(s)||[s.x,s.z]; return {x:s.x,z:s.z,yaw:s.yaw,ax:ap[0],az:ap[1]}; })()")
+        ax, az = seat['ax'], seat['az']
+        ok = await L.go_to(pg, cdp, run, ax, az, 0.3, '北面窗邊的座位旁')
         s = await L.state(pg)
         run.check('走到北面玻璃帷幕前的窗邊座位、出現「坐下讀書（窗邊）」', ok and s['interact'].startswith('坐下讀書（窗邊）'), json.dumps(s, ensure_ascii=False))
         await sit_and_stand(pg, cdp, run, 'D_window')
@@ -122,7 +123,7 @@ async def main():
         await pg.wait_for_timeout(3500)
         await wait_formal(pg, 60); await pg.wait_for_timeout(2500)
         night_sky = await pg.evaluate(SKY)
-        run.check('晚上天窗變暗（自發光比白天低）', day_sky is not None and night_sky is not None and night_sky < day_sky * 0.5, f'白天 {day_sky}、晚上 {night_sky}')
+        run.check('晚上天窗變暗（自發光比白天低），而且是白天的 8%（不是調暗兩次：clone 的模型共用材質，2026-10-13 批次 2 量到 0.0064）', day_sky is not None and night_sky is not None and abs(night_sky - day_sky * 0.08) < day_sky * 0.02, f'白天 {day_sky}、晚上 {night_sky}')
         await run.shot(pg, 'G_night')
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
         await b.close()
