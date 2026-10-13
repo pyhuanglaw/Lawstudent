@@ -32,7 +32,7 @@ const GUIDE=(function(){
     [/走出霖澤館/, {zone:'campus',name:'霖澤館外面'}],
     [/霖澤館/, {zone:'linze',name:'霖澤館'}],
     [/法律學院圖書館|法圖/, {zone:'lawlib',name:'法律學院圖書館'}],
-    [/社科院圖書館|辜振甫/, {zone:'soclib',name:'社科院圖書館'}],
+    [/社科院圖書館|辜先生/, {zone:'soclib',name:'社科院圖書館'}],
     [/萬才館/, {zone:'wancai',name:'萬才館'}],
     [/共同教學館/, {zone:'campus',label:'共同教學館',name:'共同教學館'}],
     [/大一女舍|女舍/, {zone:'campus',label:'大一女舍 A 棟（傳達室）',name:'大一女舍'}],

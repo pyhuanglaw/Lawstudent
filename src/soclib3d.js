@@ -1,5 +1,5 @@
-/* ===== 社會科學院 辜振甫先生紀念圖書館：一樓開架閱覽室（D56 社科院第①步；2026-10-13）=====
-   使用者 D46：法律系學生念書也會去「新社科院的辜振甫先生紀念圖書館」；D56：社科院在霖澤館對面，經濟系大一那年就在。
+/* ===== 社會科學院 辜先生紀念圖書館：一樓開架閱覽室（D56 社科院第①步；2026-10-13）=====
+   使用者 D46：法律系學生念書也會去「新社科院的辜先生紀念圖書館」；D56：社科院在霖澤館對面，經濟系大一那年就在。
    配置：src/data/soclib_layout.js（LAWWW2 的 tools/blender/env_second/soclib_layout_gen.py 產生；Blender 正式模型 soclib_interior.py 讀同一份，兩邊的位置一定一致）。
    座標：x 往東、z 往南（+z＝南牆：入口、服務台）；一層，地板 y=0。室內的方向和校園一樣（不轉向）：圖書館將來在社科院這一塊靠廣場的那一半
          （校園 x 95–125、z −92～−70，docs/campus/SOCSCI_PLAN.md 第 3 節），北面、西面的玻璃帷幕朝萬才館、法學院廣場。
@@ -72,10 +72,10 @@ const SL3=(function(){
     // 招牌（南牆內側，入口上方）
     for(const s of L.signs){ const sp=new THREE.Mesh(new THREE.PlaneGeometry(s.w,s.w*0.17),new THREE.MeshBasicMaterial({map:signTex(s.text,false)})); sp.position.set(s.x,s.y,s.z); sp.rotation.y=s.ry||0; fb.add(sp); } }
 
-  // ---- 招牌的字：「社會科學院圖書館」＋小字「辜振甫先生紀念圖書館」（glTF 的板面 flipY=false）----
+  // ---- 招牌的字：「社會科學院圖書館」＋小字「辜先生紀念圖書館」（glTF 的板面 flipY=false）----
   function signTex(text,gltf){ const c=document.createElement('canvas'); c.width=1024; c.height=174; const x=c.getContext('2d'); x.fillStyle='#f7f6f2'; x.fillRect(0,0,1024,174);
     x.fillStyle='#2f3338'; x.textAlign='center'; x.textBaseline='middle'; x.font='600 84px "Noto Sans TC","PingFang TC","Noto Sans CJK TC","Microsoft JhengHei",sans-serif'; x.fillText(text||'社會科學院圖書館',512,70);
-    x.font='34px "Noto Sans TC","PingFang TC","Noto Sans CJK TC","Microsoft JhengHei",sans-serif'; x.fillStyle='#6b7076'; x.fillText('辜振甫先生紀念圖書館',512,138);
+    x.font='34px "Noto Sans TC","PingFang TC","Noto Sans CJK TC","Microsoft JhengHei",sans-serif'; x.fillStyle='#6b7076'; x.fillText('辜先生紀念圖書館',512,138);
     const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=4; if(gltf) t.flipY=false; return t; }
   /* 正式模型的招牌板面（WALL_front_SIGN_FACE_*）：沒有 UV 的話照板面的寬高補一組（u 沿著板面、v 往下），再換上畫好字的貼圖；板面跟著南牆淡出（還在 z.walls 裡）*/
   function paintSign(o){ const g=o.geometry; if(!g.attributes.uv){ g.computeBoundingBox(); const bb=g.boundingBox, p=g.attributes.position, uv=new Float32Array(p.count*2), wx=bb.max.x-bb.min.x, wz=bb.max.z-bb.min.z, h=bb.max.y-bb.min.y||1, alongX=wx>=wz;

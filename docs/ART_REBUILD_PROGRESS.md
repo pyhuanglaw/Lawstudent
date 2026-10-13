@@ -155,7 +155,7 @@
 - **本機分支的半成品**（都有 git bundle 在 `wip_backup/`，還原方法見 `wip_backup/README.md`）：宿舍走廊 `wip/dorm-hall`（`bf750b4`，WIP，還沒在瀏覽器實測）；`wip/wancai-stairs`（`8b08c61`，已被開發分支取代，只是備份）。其餘 `wip/*` 本機分支都已包含在開發分支裡。
 - **進行中的規劃**（在工作階段裡，沒有寫進 GitHub；停了就重跑）：出遊場景規劃工作流程 w0pqyjodd（v9.5 之後；需求：溫州街散步、公館吃飯街區、校園夜景、河堤，排名＋規格，見對話與 RELEASES 草稿）；接班總入口的檢查 wmo10jb55。
 - **等使用者決定**：課表草案的 4 個問題（`docs/proposals/SCHEDULE_PROPOSAL.md`）。
-- **已批准、排在 v9.5 之後**：大一上 v1 劇情實作（D50，三級修改權限）；手機＋邀約（#61）、騎腳踏車（#59，LAWWW2 ⑫）、118 巷（#65，配置 `src/data/lane118_layout.js`、LAWWW2 ⑭）、法律學院圖書館（#66，配置 `src/data/lawlib_layout.js`）＋辜振甫圖書館（LAWWW2 ⑬）。
+- **已批准、排在 v9.5 之後**：大一上 v1 劇情實作（D50，三級修改權限）；手機＋邀約（#61）、騎腳踏車（#59，LAWWW2 ⑫）、118 巷（#65，配置 `src/data/lane118_layout.js`、LAWWW2 ⑭）、法律學院圖書館（#66，配置 `src/data/lawlib_layout.js`）＋辜先生紀念圖書館（LAWWW2 ⑬）。
 - **LAWWW2**（10:05Z 緊急保存要求已送出＋看板）：遠端分支 `claude/second-ai-env-art`（`ae94b8e`）、`-wip-pavsoc`（`8c6f1fe`）、`-wip-props6`（`fa626b9`）、`-wip-trees`（`d7916da`）；進度檔 `docs/art-rebuild/second_ai/HANDOFF.md`（在它的分支）。
 
 ## CURRENTLY WORKING ON — 現在正在修改什麼
