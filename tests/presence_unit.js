@@ -32,8 +32,12 @@ const fri=(term,week)=>{ for(let d=1;d<2000;d++){ const t=CALENDAR.termOf(d); if
 const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/DAY)+1; };
 /* 遊戲資料（AA_110 5-7 寫「可以」的那一列）：2025 年入學的這一屆 from:'Y1S1'——經濟系那一年（Y0S1、Y0S2）還不在。其他人（交換、休學）等 AA 確認、使用者批准 */
 const COHORT=['heroine_01','heroine_03','zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxuan','classmate_youchen','classmate_peishan','kai','npc_huangxh'];
-{ const has=Object.keys(CHARACTERS).filter(id=>CHARACTERS[id].presence); const bad=has.filter(id=>!COHORT.includes(id)||JSON.stringify(CHARACTERS[id].presence)!=='{"from":"Y1S1"}');
-  check('遊戲資料的 presence 只有 2025 年入學的這一屆（11 人，from Y1S1），沒有別人、沒有別的設定',has.length===COHORT.length&&!bad.length,bad.join(',')||has.length+' 人');
+{ const has=Object.keys(CHARACTERS).filter(id=>CHARACTERS[id].presence); const POOLP={1:'{"from":"Y1S1"}',2:'{"from":"Y1S1","until":"Y3S2"}',3:'{"from":"Y1S1","until":"Y2S2"}'};   /* 不熟同學（AA_120 7-3）：三年級的到玩家大二結束、二年級的到大三結束 */
+  const bad=has.filter(id=>/^pool_/.test(id)?JSON.stringify(CHARACTERS[id].presence)!==POOLP[CHARACTERS[id].year]:(!COHORT.includes(id)||JSON.stringify(CHARACTERS[id].presence)!=='{"from":"Y1S1"}'));
+  check('遊戲資料的 presence：2025 年入學的這一屆（11 人，from Y1S1）＋不熟同學 20 人（照年級畢業），沒有別人、沒有別的設定',has.length===COHORT.length+20&&!bad.length,bad.join(',')||has.length+' 人');
+  const dOf=(term,w)=>{ for(let d=1;d<2000;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===w) return d; } return null; };
+  const p3=Object.keys(CHARACTERS).filter(id=>/^pool_/.test(id)&&CHARACTERS[id].year===3), p2=Object.keys(CHARACTERS).filter(id=>/^pool_/.test(id)&&CHARACTERS[id].year===2), p1=Object.keys(CHARACTERS).filter(id=>/^pool_/.test(id)&&CHARACTERS[id].year===1);
+  check('不熟同學：三年級的大二下還在、大三上不在；二年級的大三下還在、大四上不在；一年級的大四下還在',p3.every(id=>STORY.present(id,{day:dOf('Y2S2',5)})&&!STORY.present(id,{day:dOf('Y3S1',5)}))&&p2.every(id=>STORY.present(id,{day:dOf('Y3S2',5)})&&!STORY.present(id,{day:dOf('Y4S1',5)}))&&p1.every(id=>STORY.present(id,{day:dOf('Y4S2',5)})),[p3.length,p2.length,p1.length].join('/'));
   const y0=dayOf('2024-10-18'), y0b=dayOf('2025-04-11'), d1={day:1};
   check('經濟系大一上、下（2024-10、2025-04）：這一屆的人都還不在；法律系第 1 天（2025-09-17）都在',COHORT.every(id=>!STORY.present(id,{day:y0})&&!STORY.present(id,{day:y0b})&&STORY.present(id,d1)));
   check('沒有 presence 的人（芷若、子晴、溫書瑀）在經濟系那一年照舊算在',['heroine_02','heroine_04','heroine_05'].every(id=>STORY.present(id,{day:y0}))); }

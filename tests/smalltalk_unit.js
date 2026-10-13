@@ -2,7 +2,7 @@
 //   洪珮瑜（不太熟的同學）一直重複「喜歡聽 podcast」；高子晴第一次在校園聊天就說「期末成發你要來。這不是問句。」（那時候還不熟，也還沒去吉他社）。
 // 檢查（第一版）：一天只聊一句新的、同一天再找是打招呼；熟的人輪流不重複（說完一輪才重來、不會連續兩次同一句）。
 // 檢查（AA_120，2026-10-13 晚）：
-//   - 不熟的同學（B 層）：旁白只用 facts[0]（facts[1] 是心事）；說完就只點頭，每個新學期換一輪。
+//   - 不熟的同學（B 層，AA_120 7-2 定稿）：三句各只說一次、第 3 句要說過心事；說完只點頭或短招呼（開學、期中、期末，同學期同一句一次）；換學期不從頭重播。
 //   - 每一句的條件：子晴三句（學過和弦／去過吉他社／熟了＋大一下、大二下第 10～13 週）、地點（豆子在 Café、宿舍網路在宿舍）、
 //     時間（宥辰早上）、週次（芷若期中前後）、一次（芯慈的筆記）、每學期一次（方奕廷溪頭）、unless。
 //   - 舊存檔沒有 G.social.small 照常。
@@ -29,13 +29,17 @@ if(fails){ console.log('FAILED '+fails); process.exit(1); }
 const W=dayOf('2025-10-01');   // 大一上第 5 週週三
 let GG={day:W,hour:15,zone:'campus',weekday:3,energy:70,social:{rel:{},mem:{}},flags:{}}; const G=GG;
 const talk=id=>STORY.smallTalk(G,id), txt=L=>L.say||L.narr;
-// ---------- 不熟的同學（洪珮瑜，pool_9：facts＝喜歡聽 podcast、想出國）----------
-{ const id=Object.keys(CHARACTERS).find(k=>CHARACTERS[k].name==='洪珮瑜'); const out=[]; for(let d=0;d<4;d++){ G.day=W+d; out.push(talk(id)); out.push(talk(id)); }
+// ---------- 不熟的同學（洪珮瑜，pool_9；AA_120 7-2 定稿：三句各只說一次、第 3 句要說過心事、說完只點頭或短招呼、換學期不從頭重播）----------
+{ const id=Object.keys(CHARACTERS).find(k=>CHARACTERS[k].name==='洪珮瑜'); const L9=SMALLTALK[id].map(e=>e.t); const out=[]; for(let d=0;d<4;d++){ G.day=W+d; out.push(talk(id)); out.push(talk(id)); }
   check('洪珮瑜：一天只聊一句新的，同一天再找他是打招呼（旁白）',out.every((L,i)=>i%2===0||(!L.fresh&&/打了個招呼/.test(L.narr))),out.map(txt).slice(0,2).join(' / '));
-  check('洪珮瑜：第一天用旁白聊到 podcast（facts[0]），不是她開口說「喜歡聽 podcast。」',out[0].fresh&&/^（你們聊了幾句。.*podcast/.test(out[0].narr)&&!out.some(L=>L.say),txt(out[0]));
-  check('洪珮瑜：說完就只點頭（不會隔天又講 podcast、也不會把心事「想出國」當閒聊）',[2,4,6].every(i=>/點點頭/.test(txt(out[i]))&&!out[i].fresh)&&!out.some(L=>/出國/.test(txt(L))),[2,4,6].map(i=>txt(out[i])).join(' / '));
+  check('洪珮瑜：第一天、第二天各說一句她自己的（7-2 的第 1、2 句），不是一直講「喜歡聽 podcast」',out[0].say===L9[0]&&out[2].say===L9[1]&&out[0].fresh&&out[2].fresh,txt(out[0])+' / '+txt(out[2]));
+  check('洪珮瑜：還沒說過心事，第 3 句不出現；兩句說完就只點頭（不會把心事「想出國」當閒聊）',[4,6].every(i=>!out[i].fresh&&!out[i].say)&&!out.some(L=>/出國|研究所/.test(txt(L))),[4,6].map(i=>txt(out[i])).join(' / '));
+  MEM[id+':SHARED_SECRET']=1; G.day=W+5; const L3=talk(id); check('說過心事以後：第 3 句（只說一次）',L3.say===L9[2]&&L3.fresh,txt(L3));
+  G.day=W+6; const L4=talk(id); G.day=W+7; const L5=talk(id); check('三句都說完：只點頭（第 5 週不是開學、期中、期末，沒有短招呼）',!L4.fresh&&!L5.fresh&&!L4.say&&!L5.say,txt(L4)+' / '+txt(L5));
   G.day=dayOf('2026-02-25'); const L=talk(id);
-  check('洪珮瑜：新的學期（大一下）換一輪：又會聊一句',L.fresh&&/podcast/.test(txt(L)),txt(L)); }
+  check('新的學期（大一下）不從頭重播三句：只點頭，或開學的短招呼',!L.fresh&&!L9.includes(L.say||'')&&(/^（.*）$/.test(L.narr||'')||['「開學了。」','「這學期修了什麼？」'].includes(L.say)),txt(L));
+  const G2=[]; delete MEM[id+':SHARED_SECRET']; for(let d=0;d<21;d++){ G.day=dayOf('2026-02-23')+d; G2.push(talk(id)); }
+  const says=G2.filter(q=>q.say).map(q=>q.say); check('開學三週每天找她：短招呼最多兩句、同一句只說一次，其他天只有旁白',says.length<=2&&new Set(says).size===says.length&&G2.filter(q=>q.narr).length>=19,says.join(' / ')); }
 // ---------- 高子晴 ----------
 { const id='heroine_04'; delete G.social.small; const say=[]; for(let d=0;d<3;d++){ G.day=W+10+d; say.push(txt(talk(id))); }
   check('高子晴：還沒去吉他社，不會說「期末成發你要來」「手指好了沒」「阿凱昨天又通宵」',!say.some(t=>/成發|手指|通宵/.test(t)),say.join(' / '));
