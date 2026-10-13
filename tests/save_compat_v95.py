@@ -128,7 +128,11 @@ async def main():
         run.check('方案 A：v9.5 在舊湖邊的存檔（新版是普通教學館裡面）讀得進來、移到旁邊站得住的地方（15 m 內）、走得到普通的門口', r == 'ok' and s['zone'] == 'campus' and s['stand'] and moved < 15 and walk, f"r={r} 位置 ({s['x']},{s['z']})、移了 {moved:.1f} m、walk={walk}")
         await run.shot(pg, 'lake_save_unstuck')
         await pg.evaluate("(async(s)=>{ await GAME.applySave(s); })(%s)" % saves['slot3']); await pg.wait_for_timeout(3000)
-        # 存檔、再讀檔
+        # 存檔、再讀檔。課表紀錄（courses）是課表系統第一次用到時才建（classes3d.js 的 rec；每 30 幀的 tick）：真機 60 fps 讀檔後半秒就有，
+        # 這台 SwiftShader 約 1 fps，3 秒只過了幾幀——等它真的建起來（最多 90 秒）再存，不是放寬條件（2026-10-13 v9.6 回歸：3 秒時還沒建，誤判）
+        for _ in range(90):
+            if await pg.evaluate("!!(GAME.G&&GAME.G.courses)"): break
+            await pg.wait_for_timeout(1000)
         await pg.evaluate("GAME.autosave()")
         sv = await pg.evaluate("JSON.parse(localStorage.getItem('fatiao3d_auto'))")
         run.check('新版存檔：有 courses、v 是新版、v9.5 的欄位都還在', bool(sv) and 'courses' in sv and all(k in sv for k in a0.keys()), ','.join(sorted(set(a0.keys()) - set(sv.keys()))) if sv else '無')
