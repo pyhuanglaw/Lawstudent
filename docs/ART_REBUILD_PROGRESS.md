@@ -10,6 +10,26 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-13 19:05 UTC（開發分支最新 `6b0e711`；線上 v9.5＝`a4f2760`）**：
+- **開發分支新增**（都是 WIP，不可發布；方案 A、社科院等使用者驗收）：
+  - `b6fffb1` 手機訊息與邀約（D54 ⑥，一般系統；人物的個性、台詞等 AA、BB 的內容批准後才放）；`dae1da3` 新測試 flow_invite_phone。
+  - `4e2db1f` 博雅一樓自習區第二版：雙人小桌兩列 × 六張（面對面，24 席）、圓桌兩張、南面窗下沙發（LAWWW2 審查 c5e2170 第 3 節；審查提案的 16 張要等大廳改版）；
+    seatApproach 的遠備用位置（前 0.8、後 0.9）要路短 0.5 m 以上才選。
+  - `cffc97e` playlib：**批次 1、2 的博雅「卡死」查明是測試誤點**——點地面時點到左上角的「下一堂課」（點了打開手機、遊戲暫停；批次 1 的截圖就是開著的手機）。
+    現在點之前檢查那一點和四周 14 px 都是遊戲畫面；走路途中發現手機／選單／地圖開著就關掉並記下。瀏覽器同一條路線 700 秒沒有停住（每秒約 2.3 格）。
+  - `6b0e711` 邀約：一起做過的事（一起吃過飯、散步過）算關係夠；**第一、二天劇情加的關係（舊版 G.rel）原本沒進 SOCIAL**（阿哲 +7、小安約 +16 不見了）——
+    現在 GM.rel 兩邊一起加，舊存檔讀檔時補一次（`_relSync`）。新測試 social_rel_sync_unit（修改前 6 項失敗）。
+  - node 單元測試 29 個全過。
+- **瀏覽器批次 2**（`29c54cd`＋`d617ad1`）跑到 campus_glb_integration 就停了（剩下的改在批次 3 用最新的程式跑）：
+  - campus_glb_integration：實質檢查（導航格、鏡頭碰撞、互動點、效能、陰影、窗）全過；失敗的 4 項是測試的 TAGS 沒有共同、大一女舍（`4e2db1f` 補上）。
+  - flow_boya_interior：201 的「坐下」沒出現（seatApproach 選到椅子後面 0.9 m）＋誤點手機；flow_soclib、flow_lecture_attend 是已經修好的舊問題。
+- **瀏覽器批次 3 正在跑**（工作樹 `scratchpad/wt_dev`，port 8768；腳本 `scratchpad/run_b3.sh`，結果 `scratchpad/b3/B3.txt`，不在 GitHub）：
+  前兩項（flow_invite_phone、flow_boya_interior）是 `cffc97e`，之後的是 `6b0e711`。flow_invite_phone 在 `cffc97e` 失敗（阿哲說還不太熟）＝`6b0e711` 修的問題，批次 3 跑完要重跑。
+  批次跑的時候不要改 `wt_dev`（伺服器直接讀工作樹）；要改的在 `scratchpad/wt_next`（分支 int/next）。
+- **接下來**：批次 3 結果 → 重跑 flow_invite_phone → 看板 55fbedb 標 ACTIONED、通知 LAWWW2（博雅自習區第二版的桌椅位置也要告訴它：它在做桌椅模組）；
+  查「聽眾剛出現時站著」（瀏覽器）；博雅大廳新舊截圖給使用者；v9.6 發布前：script 版本號、完整回歸、方案 A 與社科院要使用者先驗收。
+- **等待**：使用者（方案 A／B、社科院斜對面、社科院圖書館開放時間）；LAWWW2（社科院新外觀進行中；18:0xZ 的 a–d 回覆等 ACK）。
+
 **2026-10-13 18:25 UTC（開發分支最新 `77deeab`；線上 v9.5＝`a4f2760`）**：
 - **開發分支新增**（都是 WIP，不可發布；方案 A、社科院等使用者驗收）：
   - `defd65c` AA_110 第 5 節一般系統：出席三態（聽完／中途離開／沒去，`src/game3d.js` 的 actTrack＋`ACTIVITIES.track`）、人物在場四級（npcZone／npcRoom／npcPresent／npcNear）、習慣記憶（`EVENTS.habit`、G.habits）；
