@@ -5,6 +5,9 @@
   lamp_post：路燈。燈頭位置和 W3.lampPost 一樣：燈罩中心 (0, 3.99, 0.8)、發光面 (0, 3.985, 0.8) 朝下、光源 (0, 3.9, 0.75)。
      發光面另外一個物件 lamp_post_lens（遊戲端換成套件原本的發光材質，入夜的光暈照舊）。
   bench_park：公園長椅（鑄鐵椅腳＋扶手、木條座面與椅背），寬 1.35 m、座面高 0.45 m（和 prop.bench 縮放後一樣）；正面朝 +z。
+  ⑥（2026-10-11，LAWWW 佇列）法學院廣場等地的近景小物，尺寸照 W3 的程序化版本（導航阻擋在 zones3d.js，不變）：
+  planter_box：花台（水泥花槽 1.2×0.48×0.5＋壓頂、土、交叉葉片卡的灌木、五瓣小花）；bulletin_board：公告欄（木柱、木框、軟木板、小雨遮、九張公告紙＋字行）；
+  vending_machine：飲料販賣機（紅色烤漆機身、展示窗裡四層罐裝與寶特瓶、背光、頂上燈條、價格牌與按鈕、灰色投幣面板＋金額顯示、紙鈔與投幣口、找零口、廣告面板、取物口；1.1×1.9×0.8、正面朝 +z）。
 用法：/opt/blenv/bin/python tools/blender/env_second/street_props.py [-- --out assets/models/env/second_ai/street_props.glb]
 """
 import math, os, sys
@@ -59,6 +62,14 @@ M = {
     'lens': L.flat('lamp_lens', '#fff2c8', rough=0.2, emit=B.srgb('#fff2c8')),
     'wood': L.pbr('bench_wood', 'dark_wood', tile=1.0, target='#74482a', maps=('diff',), res=256, rough_value=0.6),
     'iron': L.flat('bench_iron', '#24282a', rough=0.5, metal=0.4),
+    # ⑥ 法學院廣場的近景小物（2026-10-11）：花台、公告欄、販賣機
+    'pconc': L.pbr('planter_conc', 'concrete_wall_006', tile=1.0, target='#a39a8c', sat=0.4, maps=('diff',), res=256, rough_value=0.85),
+    'soil': L.flat('planter_soil', '#3f3226', rough=0.95),
+    'leaf': tex_material('planter_leaf', os.path.join(TEXD, 'ivy_leaves.png'), rough=0.7, metal=0.0),   # 小葉子比較密（像校園花台的杜鵑、月橘）
+    'vc': L.vc_material('prop_vc', rough=0.6),                               # 花、公告紙、飲料瓶、按鈕：頂點色（一個材質）
+    'cork': L.flat('board_cork', '#b58a58', rough=0.9),
+    'vbody': L.flat('vend_body', '#d23a32', rough=0.5),                     # 烤漆鋼板（不用金屬度：遊戲沒有環境貼圖，金屬會整台變黑）
+    'vlight': L.flat('vend_light', '#f4f7fb', rough=0.4, emit=B.srgb('#e8f0ff')),   # 販賣機展示窗的背光（日夜都亮）
 }
 
 
@@ -289,7 +300,131 @@ def bench_park():
     return ob
 
 
-bike(); lamp_post(); bench_park()
+# ---------- 花台（W3.planter：1.2×0.5×0.5，底在 y=0、置中）----------
+def vcbox(m, x0, x1, y0, y1, z0, z1, col):
+    """頂點色方塊（prop_vc）：一個顏色"""
+    f = L.bm_box(m.bm, x0, x1, y0, y1, z0, z1)
+    for fc in f:
+        for lp in fc.loops: lp[m.col] = list(B.srgb(col)) + [1.0]
+
+
+def planter_box():
+    parts = []; W, Dp, Hh, t = 1.2, 0.5, 0.48, 0.06
+    pc = Mesh('planter_shell', M['pconc'], tile=1.0)
+    pc.box(-W / 2, W / 2, 0.0, Hh - 0.04, Dp / 2 - t, Dp / 2); pc.box(-W / 2, W / 2, 0.0, Hh - 0.04, -Dp / 2, -Dp / 2 + t)           # 前後牆
+    pc.box(-W / 2, -W / 2 + t, 0.0, Hh - 0.04, -Dp / 2 + t, Dp / 2 - t); pc.box(W / 2 - t, W / 2, 0.0, Hh - 0.04, -Dp / 2 + t, Dp / 2 - t)
+    for (x0, x1, z0, z1) in ((-W / 2 - 0.02, W / 2 + 0.02, Dp / 2 - t, Dp / 2 + 0.02), (-W / 2 - 0.02, W / 2 + 0.02, -Dp / 2 - 0.02, -Dp / 2 + t),
+                             (-W / 2 - 0.02, -W / 2 + t, -Dp / 2 + t, Dp / 2 - t), (W / 2 - t, W / 2 + 0.02, -Dp / 2 + t, Dp / 2 - t)):
+        pc.box(x0, x1, Hh - 0.04, Hh, z0, z1)                                                    # 壓頂（外凸 2 cm）
+    fin(pc, parts, uv=True)
+    so = Mesh('planter_soil', M['soil']); so.box(-W / 2 + t, W / 2 - t, 0.3, 0.4, -Dp / 2 + t, Dp / 2 - t); fin(so, parts)
+    lf = Mesh('planter_leaf', M['leaf'])                                                         # 灌木：兩排交叉的葉片卡＋頂上一層（ivy_leaves.png，本作程式產生的葉片貼圖）
+    lay = lf.bm.loops.layers.uv.verify()   # 和其他零件的盒狀 UV 同一層（預設名稱）：用 new('UVMap') 的話合併時變成第二層，匯出的葉片 UV 全是 0
+    def card(pts, uvs=((0, 0), (1, 0), (1, 1), (0, 1))):
+        fc = lf.bm.faces.new([lf.bm.verts.new(g2b(*p)) for p in pts])
+        for lp, uv in zip(fc.loops, uvs): lp[lay].uv = uv
+    for row, zr in enumerate((-0.09, 0.09)):
+        for i in range(5):
+            x = (-0.4 + i * 0.2) if row == 0 else (-0.36 + i * 0.18); h = 0.36 + ((i + row) % 3) * 0.04; w_ = 0.24   # 葉片卡最外到 |x|≤0.64（花台 1.2 m、導航阻擋同寬；原本後排往右偏 8 cm，葉子超出 0.14 m）
+            for a in (0.5 + i * 0.7 + row, 0.5 + i * 0.7 + row + math.pi / 2):
+                ca, sa = math.cos(a) * w_, math.sin(a) * w_ * 0.6
+                card([(x - ca, 0.37, zr - sa), (x + ca, 0.37, zr + sa), (x + ca, 0.37 + h, zr + sa), (x - ca, 0.37 + h, zr - sa)])
+    for i in range(3):                                                                           # 頂上一層（從上面看是滿的）
+        x0, x1 = -0.56 + i * 0.37, -0.56 + (i + 1) * 0.37 + 0.02; y = 0.7 + (i % 2) * 0.03
+        card([(x0, y, -0.22), (x1, y, -0.22), (x1, y + 0.02, 0.22), (x0, y + 0.02, 0.22)])
+    fin(lf, parts)
+    fl = L.CMesh('planter_flower', M['vc']); cols = ['#e07a7a', '#f2c14e', '#f7f7f4', '#c46a9a']
+    for i in range(16):                                                                          # 花：五瓣的小花，開在葉叢表面（朝上、稍微往外）
+        x = -0.5 + (i % 8) * 0.14 + (0.06 if i >= 8 else 0); z = (0.12 if i % 2 else -0.1) * (1 if i < 8 else -0.6); y = 0.73 + ((i * 7) % 5) * 0.012
+        c = list(B.srgb(cols[i % 4])) + [1.0]; ctr = fl.bm.verts.new(g2b(x, y + 0.012, z)); ring = []
+        for k in range(10):
+            r = 0.045 if k % 2 == 0 else 0.02; a = 2 * math.pi * k / 10
+            ring.append(fl.bm.verts.new(g2b(x + r * math.cos(a), y, z + r * math.sin(a))))
+        for k in range(10):
+            fc = fl.bm.faces.new([ctr, ring[k], ring[(k + 1) % 10]])
+            for lp in fc.loops: lp[fl.col] = c
+    fin(fl, parts)
+    me = combine(parts, 'planter_box'); ob = bpy.data.objects.new('planter_box', me); bpy.context.scene.collection.objects.link(ob); ob.parent = root; place(ob, 8.0)
+    return ob
+
+
+# ---------- 公告欄（W3.bulletin：兩根柱子在 x=±1.1、板子 2.4×1.5 中心 y=1.65、正面朝 +z）----------
+def bulletin_board():
+    parts = []
+    wd = Mesh('board_wood', M['wood'], tile=1.0)
+    for sx in (-1.1, 1.1): wd.box(sx - 0.06, sx + 0.06, 0.0, 2.45, -0.06, 0.06)                 # 柱子
+    wd.box(-1.2, 1.2, 2.33, 2.43, -0.06, 0.06); wd.box(-1.2, 1.2, 0.87, 0.95, -0.06, 0.06)       # 上下框
+    wd.box(-1.2, -1.12, 0.87, 2.43, -0.06, 0.06); wd.box(1.12, 1.2, 0.87, 2.43, -0.06, 0.06)    # 左右框
+    fin(wd, parts, uv=True)
+    ck = Mesh('board_cork', M['cork']); ck.box(-1.12, 1.12, 0.95, 2.33, -0.03, 0.02); fin(ck, parts)
+    rf = Mesh('board_roof', M['iron'])                                                           # 小雨遮（往前斜）
+    bm = bmesh.new(); L.bm_box(bm, -1.32, 1.32, -0.015, 0.015, -0.12, 0.3); rf.add_bm(bm, Matrix.Translation(g2b(0, 2.52, 0.0)) @ Matrix.Rotation(-0.22, 4, 'X')); bm.free()
+    fin(rf, parts)
+    pp = L.CMesh('board_paper', M['vc']); papers = ['#fbfaf4', '#f6dfa8', '#cfe3ea', '#f4b8a8', '#d7e3ce', '#fbfaf4', '#f2f0ea']
+    for i in range(9):                                                                           # 公告：A4／A3 的紙（稍微歪），上面幾條灰色的「字行」
+        w_, h_ = (0.3, 0.42) if i % 3 == 0 else (0.21, 0.3)
+        cx = -0.88 + (i % 5) * 0.44 + (0.06 if i >= 5 else 0); cy = 1.95 - (0 if i < 5 else 0.62) + ((i * 3) % 4) * 0.03; rot = ((i * 37) % 11 - 5) * 0.012
+        c, s_ = math.cos(rot), math.sin(rot)
+        def P(u, v, d=0.0): return g2b(cx + u * c - v * s_, cy + u * s_ + v * c, 0.024 + d)
+        col = list(B.srgb(papers[i % len(papers)])) + [1.0]
+        fc = pp.bm.faces.new([pp.bm.verts.new(P(-w_ / 2, -h_ / 2)), pp.bm.verts.new(P(w_ / 2, -h_ / 2)), pp.bm.verts.new(P(w_ / 2, h_ / 2)), pp.bm.verts.new(P(-w_ / 2, h_ / 2))])
+        for lp in fc.loops: lp[pp.col] = col
+        ink = list(B.srgb('#7d7a74')) + [1.0]; ttl = list(B.srgb('#b03a32' if i % 2 else '#2f4f7a')) + [1.0]
+        for k in range(5):                                                                       # 標題一條（紅／藍）＋內文四條（灰）
+            y0 = h_ / 2 - 0.05 - k * (h_ - 0.1) / 5; ln = (w_ - 0.06) * (0.9 if k else 0.7) * (1 - 0.15 * (k % 2))
+            fc = pp.bm.faces.new([pp.bm.verts.new(P(-w_ / 2 + 0.03, y0 - (0.018 if k == 0 else 0.008), 0.001)), pp.bm.verts.new(P(-w_ / 2 + 0.03 + ln, y0 - (0.018 if k == 0 else 0.008), 0.001)),
+                                  pp.bm.verts.new(P(-w_ / 2 + 0.03 + ln, y0, 0.001)), pp.bm.verts.new(P(-w_ / 2 + 0.03, y0, 0.001))])
+            for lp in fc.loops: lp[pp.col] = ttl if k == 0 else ink
+    fin(pp, parts)
+    me = combine(parts, 'bulletin_board'); ob = bpy.data.objects.new('bulletin_board', me); bpy.context.scene.collection.objects.link(ob); ob.parent = root; place(ob, 10.0)
+    return ob
+
+
+# ---------- 飲料販賣機（W3.vending：1.1×1.9×0.8、底在 y=0、置中、正面朝 +z）----------
+def vending_machine():
+    parts = []; W, H, Dv = 1.1, 1.9, 0.8; zf = Dv / 2
+    vb = Mesh('vend_cab', M['vbody'])
+    DX0, DX1, DY0, DY1, ZB = -W / 2 + 0.05, 0.18, 0.72, 1.82, zf - 0.34                          # 展示窗（往內 34 cm 的凹槽：背光、層板、飲料都在裡面）
+    vb.box(-W / 2, W / 2, 0.08, H, -Dv / 2, ZB)                                                   # 機身後半
+    vb.box(-W / 2, DX0, 0.08, H, ZB, zf); vb.box(DX1, W / 2, 0.08, H, ZB, zf)                    # 展示窗左右（右邊是投幣面板那一側）
+    vb.box(DX0, DX1, DY1, H, ZB, zf); vb.box(DX0, DX1, 0.08, DY0, ZB, zf)                        # 展示窗上下
+    fin(vb, parts)
+    dk = Mesh('vend_dark', M['dark'])
+    dk.box(-W / 2 + 0.02, W / 2 - 0.02, 0.0, 0.08, -Dv / 2 + 0.02, zf - 0.02)                    # 底座
+    dk.box(-0.4, 0.05, 0.16, 0.38, zf - 0.03, zf + 0.005)                                         # 取物口的門（下面是紅色機身，只有門是深色）
+    dk.box(0.3, 0.5, 1.05, 1.28, zf + 0.01, zf + 0.02); dk.box(0.33, 0.47, 0.86, 0.9, zf + 0.01, zf + 0.022)  # 紙鈔口、投幣口
+    dk.box(0.31, 0.49, 0.24, 0.4, zf + 0.01, zf + 0.025)                                          # 找零口
+    fin(dk, parts)
+    lt = Mesh('vend_light', M['vlight']); lt.box(DX0, DX1, DY0, DY1, ZB, ZB + 0.02)               # 展示窗的背光板（凹槽的底）
+    lt.box(-W / 2 + 0.05, W / 2 - 0.05, 1.835, 1.885, zf - 0.005, zf + 0.004)                     # 頂上的燈條（晚上也亮）
+    lt.box(0.31, 0.49, 1.36, 1.44, zf + 0.01, zf + 0.016); fin(lt, parts)                          # 投幣面板的金額顯示
+    it = L.CMesh('vend_items', M['vc'])
+    cols = ['#d23b33', '#2a7ac0', '#f2c230', '#3d9a5a', '#f4f4f0', '#e5762a', '#6a3d8f', '#24282a']
+    for r in range(4):                                                                           # 四層、每層五種飲料（罐裝、寶特瓶）＋價格牌＋按鈕
+        y0 = 0.76 + r * 0.265
+        for c in range(5):
+            x = -0.43 + c * 0.13; col = cols[(r * 3 + c * 5) % len(cols)]; can = (r + c) % 2 == 0
+            hh, rr = (0.13, 0.034) if can else (0.18, 0.03)
+            for k in range(8):                                                                   # 瓶身（八角柱，只做前半圈＋頂）
+                a0, a1 = math.pi * k / 8, math.pi * (k + 1) / 8
+                P = lambda a, y: g2b(x + rr * math.cos(a), y, zf - 0.2 + rr * math.sin(a))
+                fc = it.bm.faces.new([it.bm.verts.new(P(a0, y0 + 0.02)), it.bm.verts.new(P(a1, y0 + 0.02)), it.bm.verts.new(P(a1, y0 + 0.02 + hh)), it.bm.verts.new(P(a0, y0 + 0.02 + hh))])
+                for lp in fc.loops: lp[it.col] = list(B.srgb(col)) + [1.0]
+            vcbox(it, x - 0.03, x + 0.03, y0 - 0.04, y0 - 0.016, zf - 0.02, zf - 0.005, '#2b2b2b' if (r + c) % 3 else '#c23b36')   # 按鈕（在層板前緣的白條上）
+        vcbox(it, DX0, DX1, y0 - 0.002, y0 + 0.012, ZB, zf - 0.03, '#eeeeee')                     # 層板
+        vcbox(it, DX0, DX1, y0 - 0.05, y0 - 0.002, zf - 0.04, zf - 0.02, '#e9e9e6')               # 層板前緣的白條（價格、按鈕）
+    vcbox(it, 0.24, W / 2 - 0.04, 0.12, 1.8, zf, zf + 0.01, '#565a60')                             # 投幣面板（深灰烤漆）
+    vcbox(it, DX0 + 0.02, DX1 - 0.02, 0.46, 0.66, zf, zf + 0.006, '#f2f2ee')                       # 取物口上面的廣告面板（白底藍帶）
+    vcbox(it, DX0 + 0.02, DX1 - 0.02, 0.53, 0.59, zf + 0.006, zf + 0.008, '#2a6fb8')
+    fin(it, parts)
+    gl = Mesh('vend_glass', M['metal'])                                                         # 展示窗玻璃的鋁框（玻璃本身不做：看得到裡面的飲料）
+    gl.box(-W / 2 + 0.05, 0.18, 1.8, 1.82, zf - 0.04, zf); gl.box(-W / 2 + 0.05, 0.18, 0.72, 0.74, zf - 0.04, zf)
+    fin(gl, parts)
+    me = combine(parts, 'vending_machine'); ob = bpy.data.objects.new('vending_machine', me); bpy.context.scene.collection.objects.link(ob); ob.parent = root; place(ob, 12.0)
+    return ob
+
+
+bike(); lamp_post(); bench_park(); planter_box(); bulletin_board(); vending_machine()
 tris = {}
 for ob in root.children:
     if ob.type != 'MESH': continue

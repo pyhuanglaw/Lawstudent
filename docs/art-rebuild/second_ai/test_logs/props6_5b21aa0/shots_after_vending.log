@@ -1,0 +1,3 @@
+shot docs/art-rebuild/second_ai/shots/props6_after_vending_1100.png {'zone': 'campus', 'hour': 11, 'hud': '週三 11:00', 'player': [9.5, -106], 'cam': [9.4, 1.6, -105.6], 'mode': 'cinematic'} errors: []
+shot docs/art-rebuild/second_ai/shots/props6_after_vending_1730.png {'zone': 'campus', 'hour': 17.5, 'hud': '週三 17:30', 'player': [9.5, -106], 'cam': [9.4, 1.6, -105.6], 'mode': 'cinematic'} errors: []
+shot docs/art-rebuild/second_ai/shots/props6_after_vending_2030.png {'zone': 'campus', 'hour': 20.5, 'hud': '週三 20:30', 'player': [9.5, -106], 'cam': [9.4, 1.6, -105.6], 'mode': 'cinematic'} errors: []

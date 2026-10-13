@@ -1177,3 +1177,194 @@ LAWWW 2026-10-11 03:47Z 排進佇列的 ⑧：公館 60 台機車換成溫州街
 2. 每台車的擺放和角度照套件（三台一排、規律的間距），真實的騎樓前停車更亂、更擠。
 3. 校門外背景（`campusBackdrop`）的機車還是套件（LAWWW 03:47Z：照樣用套件）。
 4. 沒有 iPhone 實機驗證；效能用 `renderer.info` 量。
+
+---
+
+## 13. 校園⑤：農業陳列館（洞洞館）、社會科學院
+
+LAWWW 23:26Z 佇列的後備 ⑤（兩棟一起交，條件和總圖相同）。兩棟都是新的 Blender 腳本：`campus_pavilion.py`（洞洞館，套件 `CK.pavilion`）、`campus_modern.py`（社科院，套件 `CK.modern`）。**材質壓到最少**：進校門鏡頭五個地標加起來已經是改之前的 1.088 倍（上限 1.1）。
+
+### 13.1 玩家會看到什麼不同
+
+| | 修改前（程序化套件） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 洞洞館的鏤空牆 | 一張畫了深色圓點的貼圖貼在方塊上 | **真的鏤空**：圓洞用貼圖的透明度挖掉（洞的直徑 0.24 m、間距 0.4 m，四面共約 2,000 個洞），前後兩層相隔 0.12 m（斜看時前後兩層的洞錯開，看得出筒狀的厚度）；洞的後面是二樓的牆（深色），白天從洞裡看進去是暗的、晚上照房間透出暖光；陽光穿過洞口，影子一點一點的 |
+| 洞洞館一樓 | 牆上貼玻璃片、方柱；**入口正中間有一根柱子**，擋住門和匾額（套件的柱距公式剛好算出 x=0 一根） | 往內退的玻璃帷幕（每格 1.57 m、深色直櫺與橫框、亮燈的窗晚上由上往下漸暗）、方柱（入口正前方那一根拿掉：整棟的佔地本來就是導航阻擋，走路不受影響）、石材門框＋玻璃雙開門＋匾額「農業陳列館」 |
+| 社科院的長窗 | 貼在牆面上的玻璃片＋框 | 牆上真的開出的帶狀長窗（內凹 25 cm、看得到窗洞內側）、深灰鋁框分格（約 1.4 m） |
+| 社科院的量體 | 方塊＋白線 | 外凸 15 cm 的樓板邊（白色水平線）、外挑 0.6 m 的薄簷＋女兒牆、往內退 1.2 m 的玻璃大廳（看得到大廳的天花板與兩端的實牆）、玻璃雙開門、薄雨遮、匾額「社會科學院」（石材匾額樣式：細的內框、刻字一樣的大字，和洞洞館、總圖同一種） |
+| 牆面 | 程序化粉刷貼圖 | Poly Haven `painted_plaster_wall`（平整的漆面粉刷，降低彩度、校正成套件的米白；`white_plaster_02` 試過，斑駁太重、白牆看起來髒） |
+
+**沒有改的東西**：位置、尺寸、朝向、樓層（`CK.pavilion({w:22,d:14,gfh:4.0,h:9})`／`ckPlace(hole,-104,-30,0)`、`CK.modern({w:56,d:22,floors:4,gfh:4.4,fh:3.85})`／`ckPlace(soc,110,-70,-π/2)`）、導航阻擋（兩棟都是整個佔地）、鏡頭碰撞、社科院門前的白色樹狀柱（AI-1 的）、校門外背景裡的洞洞館（`campusBackdrop`，維持套件）。`zones3d.js` campus 區塊只加了兩棟的 `ckTag`（`pavilion`、`soc`）、有模型時 `dyn`、區塊最後載入模型。
+
+### 13.2 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 洞洞館外觀（`bldg.campus_pavilion`） | 完成 | `FUNCTIONAL_VERIFIED`（見 13.4） | `READY_FOR_ART_REVIEW` |
+| 社科院外觀（`bldg.campus_modern`） | 完成 | `FUNCTIONAL_VERIFIED`（見 13.4） | `READY_FOR_ART_REVIEW` |
+
+### 13.3 製作方式與規格
+
+- 參考：ART_DIRECTION、D23／D25（洞洞館在校門東北、椰林大道北側；社科院在法學院廣場東側、正面朝西）、套件 `CK.pavilion`、`CK.modern` 的參數與註解。**沒有使用者提供的洞洞館、社科院照片**；是照套件的量體做的，不是照真實建築一比一重建（真實的洞洞館是張肇康設計的陶管鏤空牆，真實的社科院不是這個樣子）。
+- Blender 5.2 `bpy`：`assets/models/env/second_ai/campus_pavilion.glb`（洞洞館）：**0.14 MB**、5 個網格（每個材質一個）、**三角形 968**（套件 378；會投影的：套件 300、正式模型 334）；`assets/models/env/second_ai/campus_modern.glb`（社科院）：**0.17 MB**、4 個網格（每個材質一個）、**三角形 1,968**（套件 5,392；會投影的：套件 180、正式模型 412）；貼圖 512 px（WebP）、校園世界座標。
+- 洞洞館的材質：`ck_pav_conc`（結構：柱、樓板邊、屋簷、牆、台階）、`ck_pav_screen`（鏤空牆：RGBA 貼圖 512×512＝2.4 m×2.4 m、6×6 個洞，alphaMode MASK，兩面都畫）、`ck_pav_dark`（二樓內牆、窗框、門框、屋頂防水層：自發光貼圖左半黑、右半暖光，每 2.4 m 一段照「房間」亮或不亮，約七成）、`ck_glass`（和總圖同名＝遊戲端同一套夜間設定）、匾額。社科院：`ck_soc_wall`、`ck_soc_metal`、`ck_glass`、匾額。
+- 遊戲端：`ck_pav_dark` 加進 WZ_NIGHT（晚上 0.9）、WZ_NO_SHADOW、和 `ck_glass` 一樣自發光貼圖不用 mipmap；`ck_soc_metal` 不投影。
+- 遊戲端（共用）：字牌合成 atlas 的 `wzAtlasFaces`（溫州街、公館的招牌、校園地標的匾額都用它）——空白處填所有字牌的平均顏色、每一格往外多畫 2 px，縮小取樣（mipmap）時不會混到黑色；最寬的字牌只比 2 的次方寬一點點（≤ 12%）時全部等比例縮小，atlas 寬度少一半。
+
+### 13.4 測試結果
+
+測試都是 Playwright 手機模擬（不是 iPhone 實機）；log 在 `docs/art-rebuild/second_ai/test_logs/pavsoc/`。
+
+**截圖檢查發現兩個問題，改完重跑**（測試本身每一輪都通過——這兩個問題測試抓不到，是看截圖發現的；第一輪的 log 在 `test_logs/pavsoc/round1/`）：
+1. 洞洞館入口正中間有一根柱子，擋住門和匾額中間兩個字（套件也有這根柱子，只是套件的匾額比較大、比較前面，只擋掉一個字）→ 入口正前方不放柱子（第二輪）。
+2. 社科院的匾額在遊戲裡是一條黑帶。第二輪先以為是字牌 atlas 只有一角有字、其他是黑色空白、縮小取樣（mipmap）混成黑色 → 改了 `wzAtlasFaces`（見 13.3；這個改法本身是對的，遠看的字牌不會再混到黑色，所以留著），**但重拍還是黑的**；第三輪正面拍近照才查到真正原因：社科院的匾額用的是「門牌」樣式，外框寬度照板面「寬度」的 4% 算，6 m 寬的匾額外框粗到把整塊蓋成深色 → 改成和洞洞館、總圖一樣的石材匾額樣式（`serif`，細的內框），重新匯出 `campus_modern.glb`。
+
+重跑：第二輪 `campus_glb_integration`、`wz_street_integration`、`gongguan_glb_integration`（atlas 是共用的）、全部前後截圖；第三輪 `campus_glb_integration`、社科院的「修改後」截圖。導航相關的（`campus_layout_nav`、`see_through`、`p0_movement`、`reachability_all`、`zone_transitions`）是第一輪的結果——三個修正都只改畫面（模型的一根柱子、字牌貼圖、匾額樣式），導航格、碰撞、互動點不變（`campus_glb_integration` 每一輪都檢查兩棟的導航、碰撞、互動點和改之前完全相同）；合併 AI-1 最新開發分支之後，和 ⑥ 一起再跑一次完整回歸（見第 14 節）。
+
+`campus_glb_integration` 66、`wz_street_integration` 42、`gongguan_glb_integration` 39、`campus_layout_nav` 67、`see_through` 11、`p0_movement` 34、`reachability_all` 48、`zone_transitions` 37：**全部通過**。`campus_glb_integration` 新加的檢查：洞洞館鏤空牆是 alphaTest（不是半透明）、兩面都畫、會投影；鏤空牆後面的房間 20:30 透出暖光、11:00 不發光、不投影；兩棟的玻璃和總圖同一套（約七成亮燈）。外框檢查：洞洞館 {"kit": [-116.1, -0.0, -38.1, -91.9, 9.44, -21.9], "glb": [-116.1, 0, -38.1, -91.9, 9.4, -21.9]} 最大差 0.04 m；社科院 {"kit": [96.7, -0.0, -98.6, 121.6, 16.85, -41.4], "glb": [96.7, 0, -98.6, 121.6, 16.8, -41.4]} 最大差 0.05 m。
+
+`tools/dev_scratch/view_audit.py`（360° 盤點：洞洞館前、洞洞館與校史館之間、社科院前）：正式模型 `shots/pavsoc_audit/`、改之前（`?nobldg`）`shots/pavsoc_audit_nobldg/`，沒有 JS 錯誤（例：洞洞館前）：
+
+![洞洞館前 360°](shots/pavsoc_audit/洞洞館前（柱廊外）.jpg)
+
+**效能（同一個鏡頭三角形不能比現在多、draw call ≤ 現在的 +10%；17:30 凍結時鐘、藏起路人與騎腳踏車的路人、含陰影那一輪、含玩家）**：「改之前」＝進校園前把七個地標（總圖、傅鐘、行政大樓、文學院、校史館、洞洞館、社科院）的 key 都從 manifest 拿掉。
+
+| 鏡頭（17:30） | draw call：改之前 → 正式模型（倍數） | 三角形：改之前 → 正式模型（倍數） |
+|---|---|---|
+| 進校門往東看椰林大道 | 297 → 324（×1.091） | 971,222 → 937,508（×0.965） |
+| 椰林大道後段往東（總圖） | 152 → 157（×1.033） | 771,700 → 740,217（×0.959） |
+| 總圖前廣場 | 157 → 161（×1.025） | 768,936 → 737,429（×0.959） |
+| 總圖門廊近看 | 148 → 152（×1.027） | 748,546 → 717,039（×0.958） |
+| 總圖一樓拱廊裡 | 148 → 152（×1.027） | 756,526 → 731,957（×0.968） |
+| 從椰林大道看傅鐘 | 159 → 164（×1.031） | 772,858 → 732,300（×0.948） |
+| 傅鐘近看 | 162 → 165（×1.019） | 825,682 → 784,420（×0.95） |
+| 行政大樓正面 | 160 → 164（×1.025） | 825,654 → 784,416（×0.95） |
+| 行政大樓一樓拱廊裡 | 220 → 231（×1.05） | 862,676 → 810,256（×0.939） |
+| 文學院正面 | 167 → 180（×1.078） | 806,174 → 782,815（×0.971） |
+| 文學院一樓拱廊裡 | 241 → 256（×1.062） | 884,038 → 847,443（×0.959） |
+| 校史館正面 | 152 → 163（×1.072） | 804,136 → 780,288（×0.97） |
+| 校史館門廊近看 | 151 → 156（×1.033） | 804,134 → 772,001（×0.96） |
+| 洞洞館：從椰林大道北側斜看 | 150 → 158（×1.053） | 800,956 → 770,647（×0.962） |
+| 洞洞館近看鏤空牆 | 142 → 142（×1.0） | 799,542 → 763,489（×0.955） |
+| 社科院：法學院那邊斜看正面 | 153 → 151（×0.987） | 730,854 → 704,181（×0.964） |
+| 社科院玻璃大廳近看 | 144 → 143（×0.993） | 680,748 → 636,339（×0.935） |
+
+### 13.5 遊戲內截圖（修改前｜修改後；修改前＝同一版遊戲、只擋掉 `campus_pavilion.glb`、`campus_modern.glb`；17:30 凍結遊戲時鐘）
+
+| 鏡頭 | 修改前（程序化套件） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 洞洞館：從椰林大道往北看 11:00 | ![修改前](shots/pavsoc_before_pav_avenue_1100.webp) | ![修改後](shots/pavsoc_after_pav_avenue_1100.webp) |
+| 洞洞館：從椰林大道往北看 17:30 | ![修改前](shots/pavsoc_before_pav_avenue_1730.webp) | ![修改後](shots/pavsoc_after_pav_avenue_1730.webp) |
+| 洞洞館：從椰林大道往北看 20:30 | ![修改前](shots/pavsoc_before_pav_avenue_2030.webp) | ![修改後](shots/pavsoc_after_pav_avenue_2030.webp) |
+| 洞洞館：斜看正面 11:00 | ![修改前](shots/pavsoc_before_pav_front_1100.webp) | ![修改後](shots/pavsoc_after_pav_front_1100.webp) |
+| 洞洞館：斜看正面 17:30 | ![修改前](shots/pavsoc_before_pav_front_1730.webp) | ![修改後](shots/pavsoc_after_pav_front_1730.webp) |
+| 洞洞館：斜看正面 20:30 | ![修改前](shots/pavsoc_before_pav_front_2030.webp) | ![修改後](shots/pavsoc_after_pav_front_2030.webp) |
+| 洞洞館：近看鏤空牆 11:00 | ![修改前](shots/pavsoc_before_pav_close_1100.webp) | ![修改後](shots/pavsoc_after_pav_close_1100.webp) |
+| 洞洞館：近看鏤空牆 17:30 | ![修改前](shots/pavsoc_before_pav_close_1730.webp) | ![修改後](shots/pavsoc_after_pav_close_1730.webp) |
+| 洞洞館：近看鏤空牆 20:30 | ![修改前](shots/pavsoc_before_pav_close_2030.webp) | ![修改後](shots/pavsoc_after_pav_close_2030.webp) |
+| 社科院：斜看正面 11:00 | ![修改前](shots/pavsoc_before_soc_front_1100.webp) | ![修改後](shots/pavsoc_after_soc_front_1100.webp) |
+| 社科院：斜看正面 17:30 | ![修改前](shots/pavsoc_before_soc_front_1730.webp) | ![修改後](shots/pavsoc_after_soc_front_1730.webp) |
+| 社科院：斜看正面 20:30 | ![修改前](shots/pavsoc_before_soc_front_2030.webp) | ![修改後](shots/pavsoc_after_soc_front_2030.webp) |
+| 社科院：玻璃大廳、雨遮 11:00 | ![修改前](shots/pavsoc_before_soc_lobby_1100.webp) | ![修改後](shots/pavsoc_after_soc_lobby_1100.webp) |
+| 社科院：玻璃大廳、雨遮 17:30 | ![修改前](shots/pavsoc_before_soc_lobby_1730.webp) | ![修改後](shots/pavsoc_after_soc_lobby_1730.webp) |
+| 社科院：玻璃大廳、雨遮 20:30 | ![修改前](shots/pavsoc_before_soc_lobby_2030.webp) | ![修改後](shots/pavsoc_after_soc_lobby_2030.webp) |
+| 洞洞館：玩家鏡頭（手機直向） 17:30 | ![修改前](shots/pavsoc_before_pav_follow_1730.webp) | ![修改後](shots/pavsoc_after_pav_follow_1730.webp) |
+
+### 13.6 Blender 渲染圖（Cycles；匾額的字是遊戲裡用 canvas 畫的，所以這裡是空白板面；亮燈的窗只有遊戲的夜間才亮，這裡關掉自發光）
+
+洞洞館：
+
+| 正面 | 斜看 | 近看鏤空牆 |
+|---|---|---|
+| ![](blender_renders/pav_front.webp) | ![](blender_renders/pav_three_q.webp) | ![](blender_renders/pav_screen.webp) |
+
+| 一樓柱廊、入口 | 背面 |
+|---|---|
+| ![](blender_renders/pav_ground.webp) | ![](blender_renders/pav_back.webp) |
+
+社科院：
+
+| 正面 | 斜看 | 玻璃大廳、雨遮 |
+|---|---|---|
+| ![](blender_renders/soc_front.webp) | ![](blender_renders/soc_three_q.webp) | ![](blender_renders/soc_lobby.webp) |
+
+| 帶狀長窗近看 | 背面 |
+|---|---|
+| ![](blender_renders/soc_ribbon.webp) | ![](blender_renders/soc_back.webp) |
+
+### 13.7 還沒達到參考品質的地方
+
+1. **不是照真實建築重建**：沒有照片。真實的洞洞館（1963，張肇康）是綠釉陶管砌成的鏤空牆、屋頂和柱子的比例也不同；真實的社科院不是這個量體。有照片可以照照片改（位置、導航不用動）。
+2. 洞洞館的洞是貼圖透明度挖的（不是一根一根的陶管模型）：正面看很像，貼著牆往上看時看得出是兩片板（四面約 2,000 個洞，做成真的陶管模型會多 6 萬個三角形，超過預算）。
+3. 社科院的一樓大廳裡面沒有東西（玻璃是深色反光，看不進去）；帶狀長窗裡也沒有窗簾或室內。
+4. 沒有 iPhone 實機驗證；效能用 `renderer.info` 量（見 13.4）。
+
+---
+
+## 14. 法學院廣場的近景小物：花台、公告欄、販賣機（⑥）
+
+LAWWW 佇列的 ⑥（法學院廣場的花台、公告欄、販賣機等近景小物）。三樣都加進街道道具的 GLB（`street_props.glb`，開機預載），`W3.planter()`、`W3.bulletin()`、`W3.vending()` 開頭換成正式模型（和路燈、腳踏車、長椅同一套接法；`?nobldg`、載入失敗照舊是程序化版本）。用到的地方：法學院前庭的花台 4 個、椰林大道北側的花台 2 個、霖澤館西側的公告欄與販賣機；AI-1 萬才館一樓的公告欄（`wancai3d.js` 也呼叫 `W3.bulletin()`）也一起換成正式模型（尺寸相同）。
+
+### 14.1 玩家會看到什麼不同
+
+| | 修改前（程序化） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 花台 | 一個灰色方塊＋一片綠色方塊＋幾顆彩色小球 | 水泥花槽（Poly Haven `concrete_wall_006`，壓頂外凸 2 cm、土比槽口低 8 cm）、茂密的小葉灌木（交叉的葉片卡＋頂上一層，本作程式產生的 `ivy_leaves` 葉片貼圖）、葉叢表面開著紅、黃、白、粉紅的五瓣小花 |
+| 公告欄 | 兩根柱子＋一塊板＋幾張純色方塊 | 木柱、木框（Poly Haven `dark_wood`）、軟木板、往前斜的小雨遮、九張 A4／A3 公告（稍微歪著貼、紅／藍標題＋灰色字行） |
+| 販賣機 | 紅色方塊＋一片淺藍色平面 | 台灣常見的飲料販賣機：紅色烤漆機身、往內 34 cm 的展示窗（背光日夜都亮、四層層板、罐裝與寶特瓶、層板前緣的按鈕條）、頂上的燈條、深灰投幣面板（會亮的金額顯示、紙鈔口、投幣口、找零口）、白底藍帶的廣告面板、取物口、底座 |
+
+**沒有改的東西**：每樣東西的位置、方向、尺寸範圍（花台 1.2×0.5、公告欄柱距 2.2 m、販賣機 1.1×1.9×0.8）、導航阻擋、互動點。
+
+### 14.2 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 花台、公告欄、販賣機（`prop.street`） | 完成 | `FUNCTIONAL_VERIFIED`（見 14.4） | `READY_FOR_ART_REVIEW` |
+
+### 14.3 規格
+
+- Blender 5.2 `bpy`：`tools/blender/env_second/street_props.py`（加 `planter_box()`、`bulletin_board()`、`vending_machine()`）→ `street_props.glb`：431 KB（原本 169 KB）；三角形：花台 314、公告欄 204、販賣機 872（腳踏車、路燈、長椅不變）。
+- 材質：花槽 `planter_conc`、土 `planter_soil`、葉片 `planter_leaf`（alphaMode MASK）、花／公告紙／飲料瓶／按鈕一個頂點色材質 `prop_vc`、軟木 `board_cork`、機身 `vend_body`、展示窗背光 `vend_light`（自發光）；木頭、深色鐵件和長椅、腳踏車共用。這些道具在區域裡和其他靜態物件一起合併（`P3.mergeStatic`），材質相同的合成一個網格。
+- 遊戲端：`world3d.js` 加 `formalProp(name)`，花、公告紙、飲料瓶、背光不投影。
+- 截圖檢查抓到、已修：販賣機第一版在陰影裡幾乎全黑——機身用了金屬度 0.3（遊戲沒有環境貼圖，金屬的部分只剩很暗的漫射光），取物口那一區和投幣面板又整塊塗成近黑色。改成不帶金屬的紅色烤漆、下半部只有取物口是深色（上面加白底藍帶的廣告面板）、投幣面板改深灰並加會亮的金額顯示、頂上燈條改自發光（三角形 848 → 872），重拍販賣機的兩組鏡頭、重跑 `street_props_integration`。
+- 中間遇到的問題：花台的葉片一開始幾乎看不見——葉片卡的 UV 層用 `new('UVMap')` 建，和其他零件的盒狀 UV 層（`verify()`）名稱不同，合併成一個網格時變成第二層，匯出的葉片 UV 全是 0（取到貼圖透明的角落）。改用 `verify()` 後正常（Blender 渲染確認）。
+
+### 14.4 測試結果
+
+測試都是 Playwright 手機模擬（不是 iPhone 實機）；log 在 `docs/art-rebuild/second_ai/test_logs/props6/`。
+
+**這一輪是 ⑤（洞洞館、社科院）和 ⑥ 一起、合併 AI-1 開發分支 `cb399ea` 之後的完整回歸**（2026-10-13；合併 `5b21aa0` 時已經整套跑過一次、全部通過，log 在 `test_logs/props6_5b21aa0/`；合併 `8afdece` 那一輪因為交班只跑完第一項，見 `test_logs/props6_8afdece_partial/`。修改前的截圖＝⑤＋AI-1 `5b21aa0` 那一版，只差 ⑥）。第一次跑 `street_props_integration` 時「花台在導航阻擋裡」**FAIL**（`street_props_integration_round1.log`：葉片卡最外到 x=0.74，比 1.2 m 的花台、導航阻擋多出 0.14 m——後排的葉片卡往右偏了 8 cm）→ 改模型（葉片卡最外到 |x|≤0.64 m）、重新匯出、重跑 PASS；其他測試第一次就通過。
+
+`street_props_integration` 31、`campus_glb_integration` 66、`campus_layout_nav` 67、`p0_movement` 34、`reachability_all` 53、`zone_transitions` 37、`wancai_glb_integration` 13、`see_through` 11、`gongguan_glb_integration` 39、`wz_street_integration` 42、`nav_buildings_unit` 126、`nav_levels_unit` 13、`kit_nav_check` 0：**全部通過**。`street_props_integration` 新加的檢查：三樣都是正式模型、外框在導航阻擋的範圍裡、著地（[-0.62, 0.637, 0, 0.81, -0.27, 0.27]}, "bulletin": {"formal": "prop.street", "box": [-1.32, 1.32, 0, 2.6, -0.12, 0.296]}, "vending": {"formal": "prop.street", "box": [-0.55, 0.55, 0, 1.9, -0.4, 0.425]}}；[-1.32, 1.32, 0, 2.6, -0.12, 0.296]；[-0.55, 0.55, 0, 1.9, -0.4, 0.425]）；校園畫面上有它們的材質，`?nobldg`、載入失敗時沒有（照舊程序化）；導航格、互動點、座位和 `?nobldg` 完全相同。`wancai_glb_integration`（AI-1 的萬才館）照舊通過。
+
+校園地標的效能（`campus_glb_integration`，道具在兩輪都是正式模型）：gate_avenue ×1.092、avenue ×1.033、plaza ×1.025、porch ×1.027…（全部 ≤ 1.1、三角形都比改之前少）。
+
+### 14.5 遊戲內截圖（修改前｜修改後；修改前＝上一版的遊戲：這三樣是程序化版本；17:30 凍結遊戲時鐘）
+
+| 鏡頭 | 修改前（程序化） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 法學院前庭：長椅旁看花台 11:00 | ![修改前](shots/props6_before_plaza_planters_1100.webp) | ![修改後](shots/props6_after_plaza_planters_1100.webp) |
+| 法學院前庭：長椅旁看花台 17:30 | ![修改前](shots/props6_before_plaza_planters_1730.webp) | ![修改後](shots/props6_after_plaza_planters_1730.webp) |
+| 法學院前庭：長椅旁看花台 20:30 | ![修改前](shots/props6_before_plaza_planters_2030.webp) | ![修改後](shots/props6_after_plaza_planters_2030.webp) |
+| 霖澤館西側：公告欄 11:00 | ![修改前](shots/props6_before_board_vending_1100.webp) | ![修改後](shots/props6_after_board_vending_1100.webp) |
+| 霖澤館西側：公告欄 17:30 | ![修改前](shots/props6_before_board_vending_1730.webp) | ![修改後](shots/props6_after_board_vending_1730.webp) |
+| 霖澤館西側：公告欄 20:30 | ![修改前](shots/props6_before_board_vending_2030.webp) | ![修改後](shots/props6_after_board_vending_2030.webp) |
+| 椰林大道北側的花台 11:00 | ![修改前](shots/props6_before_avenue_planter_1100.webp) | ![修改後](shots/props6_after_avenue_planter_1100.webp) |
+| 椰林大道北側的花台 17:30 | ![修改前](shots/props6_before_avenue_planter_1730.webp) | ![修改後](shots/props6_after_avenue_planter_1730.webp) |
+| 椰林大道北側的花台 20:30 | ![修改前](shots/props6_before_avenue_planter_2030.webp) | ![修改後](shots/props6_after_avenue_planter_2030.webp) |
+| 霖澤館西側：販賣機（正面） 11:00 | ![修改前](shots/props6_before_vending_1100.webp) | ![修改後](shots/props6_after_vending_1100.webp) |
+| 霖澤館西側：販賣機（正面） 17:30 | ![修改前](shots/props6_before_vending_1730.webp) | ![修改後](shots/props6_after_vending_1730.webp) |
+| 霖澤館西側：販賣機（正面） 20:30 | ![修改前](shots/props6_before_vending_2030.webp) | ![修改後](shots/props6_after_vending_2030.webp) |
+| 玩家鏡頭（手機直向）：公告欄前 17:30 | ![修改前](shots/props6_before_follow_1730.webp) | ![修改後](shots/props6_after_follow_1730.webp) |
+
+### 14.6 Blender 渲染圖（Cycles）
+
+![花台、公告欄、販賣機](blender_renders/props6_sheet.webp)
+
+### 14.7 還沒達到參考品質的地方
+
+1. 公告紙上沒有真的字（紅／藍標題＋灰色字行）；遠看像公告，近看讀不到內容。
+2. 販賣機的飲料是簡單的圓柱（沒有瓶蓋、標籤細節），展示窗前面沒有玻璃（看得到裡面）；沒有品牌標誌（不仿特定品牌）。
+3. 花台的灌木是葉片卡，從正上方往下看會看到卡片的交叉。
+4. 只有這三樣；法學院廣場的其他小物（垃圾桶、指標、腳踏車停車架以外的設施）還是程序化或沒有。
+5. 沒有 iPhone 實機驗證。
