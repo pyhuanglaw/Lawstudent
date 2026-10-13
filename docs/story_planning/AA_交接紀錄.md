@@ -59,7 +59,10 @@
 - **2026-10-13 深夜：企劃分支換新（使用者決定）**
   - 新分支 `claude/story-planning`：從乾淨的基底建立，`docs/story_planning/` 沿用 AA、BB 在舊分支的最後版本（BB 先暫停推送，確認沒有遺漏）。
   - 舊分支 `claude/bb-story-planning`：停用。BB 已切換到新分支並推送成功；BB 在凍結前後補推到舊分支的兩筆（`BB_116`）已帶到新分支。
-  - 刪除舊分支：AA 這個工作階段沒有刪除分支的權限（GitHub 拒絕），**請使用者在 GitHub 網頁刪除**（Branches 頁面，`claude/bb-story-planning` 旁的垃圾桶）；刪除後 AA 確認。
+  - **舊分支已刪除**：使用者 2026-10-13 在 GitHub 網頁刪除，AA 確認遠端已經沒有 `claude/bb-story-planning`；AA 本機的舊分支也刪了。
+  - 新分支仍然乾淨：舊分支的 commit 一個都不是新分支的祖先（刪除後再查一次）。
+  - **不要再用 `claude/bb-story-planning` 這個名字推送**：推一次，舊歷史就回到 GitHub 上。各工作階段請 `git fetch --prune origin`，本機如果還有這個分支就刪掉。
+  - 刪除分支不等於資料消失：知道 commit 編號的人仍然打得開，要等 GitHub Support 清除（使用者決定是否申請；申請內容只寫在對話裡，不寫進 repo）。
   - 舊分支刪除前後都**不要再推送或合併它**。
   - `main`、開發分支、GitHub Pages 都沒有動。
   - 文件裡的舊企劃分支 commit 編號只是歷史標記，已經不在任何分支上。
