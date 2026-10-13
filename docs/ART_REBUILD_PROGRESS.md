@@ -10,6 +10,23 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-13 18:25 UTC（開發分支最新 `77deeab`；線上 v9.5＝`a4f2760`）**：
+- **開發分支新增**（都是 WIP，不可發布；方案 A、社科院等使用者驗收）：
+  - `defd65c` AA_110 第 5 節一般系統：出席三態（聽完／中途離開／沒去，`src/game3d.js` 的 actTrack＋`ACTIVITIES.track`）、人物在場四級（npcZone／npcRoom／npcPresent／npcNear）、習慣記憶（`EVENTS.habit`、G.habits）；
+    55fbedb（共同、大一女舍外觀）的接線也在這裡（c747b45、f3a18d6）。
+  - `29c54cd` 一週兩格的第二格（BB second_slot_lines）與國定假日、人物作息「一個時間只有一筆」（story3d.js 的 schedEnt）、2025 年入學這一屆 presence from Y1S1、芷若大一上的週五。
+  - `d617ad1` BB 3bd5238 課堂內容、經原（下）改總體經濟（AA）；`8c2fa01`、`b6fa24e` 教學館鏡頭不再跑到隔間牆後面＋入口門框淡出（LAWWW2 審查 P1）；
+    `5aaa306` 教學館桌椅合併（網格數博雅 623→176）；`77deeab` 社科院天窗調暗兩次的 bug。
+  - 單元測試 28 個全部通過（新的：aa110_systems_unit、teach_cam_walls_unit、teach_perf_unit）。
+- **瀏覽器批次 2**（整合工作樹 `scratchpad/wt_int`＝`29c54cd`＋`d617ad1`，port 8767；腳本 `scratchpad/run_b2.sh`、結果 `scratchpad/b2/B2.txt`，不在 GitHub）：
+  - flow_soclib：上一版的兩個失敗（手機清單沒滑、手機開著遊戲暫停）修好通過；新失敗是測試停的位置差 2 cm 在互動半徑外——已改用 GAME.seatApproach（`77deeab`，要重跑）。
+  - flow_lecture_attend：第一次是測試本身的 Python 格式字串錯（已修，要重跑）。
+  - 其他還在跑：博雅、校園 GLB（55fbedb）、see_through、campus_layout_nav、教學館、讀書、zone_transitions、p0、reachability。
+  - 批次 1 的博雅流程卡在 101 門口（時間停了），在乾淨環境重現不出來；批次 2 重跑看看。
+- **接下來**：批次 2 結果 → 對 `77deeab` 跑批次 3（flow_soclib、flow_lecture_attend、indoor_camera_occlusion 的教學館五個情境、看博雅畫面）→ 看板把 55fbedb 標 ACTIONED、通知 LAWWW2；
+  查 LAWWW2 說的「聽眾剛出現時站著」（它的 probe 讀的是骨架，可能包含畫面外沒更新的人，要在瀏覽器確認）；之後：手機訊息與邀約（D54 ⑥）。
+- **等待**：使用者（方案 A／B、社科院斜對面、社科院圖書館開放時間）；LAWWW2（社科院新外觀；18:0xZ 的 a–d 回覆等 ACK）。
+
 **2026-10-13 17:35 UTC（開發分支最新 `4eb34ce`；線上 v9.5＝`a4f2760`）**：
 - **v9.5 已發布**：
   - main 快轉到 `a4f2760`，GitHub Pages #14 在 16:54:06 UTC success。
