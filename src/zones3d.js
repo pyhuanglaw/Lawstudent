@@ -913,7 +913,7 @@ const Z3 = (function(){
     bin.add(M(col,{rough:0.6}),new THREE.BoxGeometry(w,0.05,d),0,0.745,0); bin.add(M(P3.shade(col,0.38),{rough:0.6}),new THREE.BoxGeometry(w+0.012,0.026,d+0.012),0,0.728,0);
     const wood=legs==='wood', lm=wood?M('#5c3a21',{rough:0.7}):M('#4a4f55',{rough:0.45}); const n=Math.max(2,Math.ceil(w/2.0)+1);   /* legs='wood'：閱覽室的木頭長桌 */
     for(let i=0;i<n;i++){ const lx=-w/2+0.08+(w-0.16)*i/(n-1); for(const sz of [-1,1]) bin.add(lm,wood?new THREE.BoxGeometry(0.06,0.715,0.06):new THREE.CylinderGeometry(0.018,0.018,0.715,8),lx,0.3575,sz*(d/2-0.08)); bin.add(lm,new THREE.BoxGeometry(0.03,0.03,Math.max(0.1,d-0.16)),lx,0.12,0); }
-    bin.build(grp); nav.blockRect(x,z,w,d,rot||0,0.1); return grp; }
+    bin.build(grp); grp.userData.furn=true; nav.blockRect(x,z,w,d,rot||0,0.1); return grp; }   /* furn：教學館把整層的桌椅合成幾個網格（teach3d.js 的 mergeFurniture）*/
   // 椅子（v9.3 第十七批：原本是方板＋方棒）：有厚度的椅面、微彎的靠背板＋兩根背柱、金屬圓管腳；佔地不變（約 0.46 m 見方），+z 是前面
   function chair(g,x,z,rot,color){ const c=new THREE.Group(); const bin=new TK.Bin(); const col=color||'#8b5e3c', cm=M(col,{rough:0.7});
     /* 木頭色的椅子（Café、閱覽室）用同色系的木腳；其他（教室、宿舍、麵店）用金屬圓管腳 */ const hsl=new THREE.Color(col).getHSL({}); const woody=hsl.h>0.03&&hsl.h<0.13&&hsl.s>0.25; const lm=woody?M(P3.shade(col,0.25),{rough:0.75}):M('#4a4f55',{rough:0.45});
@@ -922,7 +922,7 @@ const Z3 = (function(){
     const back=new THREE.BoxGeometry(0.42,0.26,0.035,6,1,1); { const p=back.attributes.position; for(let i=0;i<p.count;i++){ const px=p.getX(i)/0.21; p.setZ(i,p.getZ(i)+0.05*px*px); } back.computeVertexNormals(); } bin.add(cm,back,0,0.8,-0.2,0,{rx:-0.08});
     for(const sx of [-1,1]) bin.add(lm,leg(0.44),sx*0.19,0.7,-0.2);
     for(const [sx,sz] of [[-1,-1],[1,-1],[-1,1],[1,1]]) bin.add(lm,leg(0.45),sx*0.19,0.225,sz*0.18);
-    bin.build(c); c.position.set(x,0,z); c.rotation.y=rot||0; g.add(c); return c; }
+    bin.build(c); c.position.set(x,0,z); c.rotation.y=rot||0; c.userData.furn=true; g.add(c); return c; }
   // 書櫃（v9.3 第十七批：原本是一個方塊、正面貼一張書的圖）：側板＋約每 1 m 一片直隔板、頂板、底座、四層層板、背板；每一層的書是一張去背貼圖，
   // 高矮不一、露出後面的背板，看得出深度。尺寸（長 × 2.4 m 高 × 0.4 m 深）與導航阻擋不變
   const bookRowTex=()=>W3.canvasTex('bookRow',512,96,(c,w,h)=>{ c.clearRect(0,0,w,h); const cols=['#2f5d50','#8c3b47','#e0b95b','#4a6c8c','#7b6a5a','#c46a4a','#3e5a48','#d9d3c6','#6b4a7a','#b8a27a']; let s=7; const r=()=>{ s=(s*16807)%2147483647; return s/2147483647; }; let xx=2;
