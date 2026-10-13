@@ -35,6 +35,23 @@
 }
 ```
 
+### 公共場景、跨學年用的欄位（D52、D55；2026-10-13 事件介面檢查，`tests/events_interface_unit.js`）
+
+```js
+{
+  term: ['Y1S1','Y2S1'],             // 學期（CALENDAR.termOf）：同一間教室依學期觸發不同事件；寒暑假（null）都不觸發
+  room: '101' | ['study','corridor'],// 玩家在建築裡的哪一間（區域的 roomAt）；「走進某一間時」用 trigger:'auto'＋room
+  activity: 'lec_xxx', activityJustEnded: true,   // 活動進行中（justEnded：結束後 20 分鐘內也算，例：演講散場的走廊）
+  npcHere: 'heroine_02',             // 這個人照作息現在在同一個區域
+  tier: 'short' | 'major',           // 層次（BB_105 第 1 節，AA_107 第 9 節第 5 項）：short＝同一棟一次進入最多一個、同一天全校最多兩個；
+                                     // major＝同一棟一學期最多一個（寒暑假算前一個學期的假期）。不寫＝不受限（現有事件都不寫）
+  building: 'dorm_f1',               // tier 的「同一棟」：預設是玩家所在的區域；校園上的門口事件可以另外指定
+}
+```
+
+- **跳過時間、快速前往**：條件一律用「現在」的時間與地點判斷，跳過去的時間窗就是錯過（不補演）；快速前往先走完路程的時間再進區域，到的時候時間窗已經過了就不觸發。手機的「跳過時間」會在第一個符合的 `auto` 事件（沒有 `random_weight`、沒有 `near`）停下來（`CLS.skipStops`）。同時符合好幾個事件時，靠 `tier` 不會一次全部演完。
+- **出錯**：事件演到一半出錯（例如資料寫錯）不記成演過，這次遊戲不再重試（`EVENTS.failed`，不存檔），不會每半秒重演。
+
 ## Condition（prereq / line.if / choice.if）
 
 ```js
@@ -48,6 +65,9 @@
   grad: {min:'CURIOUS'},                                               // 研究所志向階段
   energy: {min:20}, money: {min:150},
   choice: {cafeView:'C'},                                              // 玩家過去的選擇（G.choices）
+  flagIs: {ECON_PAST_SHARED:['full','half']},                          // 旗標的值（flags 只看有沒有設）；值可以是一個或陣列
+  attended: ['lec_xxx'], notAttended: [...], missed: ['lec_xxx'],      // 演講、活動到場（坐下選「聽演講」才算）：聽過任何一場／一場都沒聽過／最近結束的那一場沒去
+  course: {econ_principles_1: {min:1}},                                // 上課出席次數（G.courses.attend）
   custom: (G, GM) => boolean                                           // 程式 hook（資料包可省略）
 }
 ```
@@ -81,7 +101,7 @@
 
 ## 存檔
 
-`G.events = {done:{id:count}, last:{id:day}, count}`；`G.social`（關係／記憶）與 `G.legal`（知識）另見各自 schema。
+`G.events = {done:{id:count}, last:{id:day}, count, cap:{day, n, major:{'學期|區域':事件id}}}`（cap＝tier 的上限紀錄）；`G.acts.att = {'活動id@第幾天': {h}}`（演講、活動到場；舊存檔沒有＝都沒去過）；`G.social`（關係／記憶）與 `G.legal`（知識）另見各自 schema。
 
 ## 設計原則（來自需求）
 

@@ -9,7 +9,19 @@ const EVENTS = (function(){
   X.charOf=function(npc){ if(!npc) return null; if(npc.charId) return npc.charId; for(const k in ALIAS) if(ALIAS[k]===npc.id) return k; return npc.id; };
   const h=()=>G.hour%24;
   // ---- 條件評估 ----
-  X.check=function(ev,ctx){ ctx=ctx||{}; const F=G.flags||{}; if(ev.once&&G.events.done[ev.id]) return false; if(ev.cooldown_days&&G.events.last[ev.id]!==undefined&&G.day-G.events.last[ev.id]<ev.cooldown_days) return false; if(ev.max_times&&(G.events.done[ev.id]||0)>=ev.max_times) return false;
+  /* 一次性與冷卻（AA_107 第 10-1 節第 1 項）：once（只演一次）、cooldown_days（隔幾天才能再演）、max_times（最多幾次）——都記在 G.events（存檔裡）。
+     事件演到一半出錯（X.run 的 catch）：這次遊戲先不再試（X.failed，不存檔），不會每半秒重演一次同一個壞掉的事件。 */
+  X.failed={};
+  /* 事件的層次（BB_105 第 1 節；AA_107 第 9 節第 5 項，AA 照 BB 的建議定）：tier:'short' 短篇——同一棟一次進入最多一個、同一天全校最多兩個；
+     tier:'major' 重要——同一棟一學期最多一個（寒暑假算前一個學期的假期）。沒寫 tier 的事件（現有的第一二天劇情、日常小事）不受限制。
+     「同一棟」＝玩家所在的區域；校園上的門口事件可以寫 building（例如 'dorm_f1'）。跳過時間、快速前往之後同時符合好幾個事件時，也是靠這個不會一次全部演完（第 4 項）。 */
+  X.visitShort=0; X.zoneChanged=function(){ X.visitShort=0; };   // 換區域（game3d.js 的 enter）時歸零；讀檔也算重新進入
+  const capRec=()=>{ const E=G.events; if(!E.cap||typeof E.cap!=='object') E.cap={day:-1,n:0,major:{}}; if(!E.cap.major||typeof E.cap.major!=='object') E.cap.major={}; return E.cap; };
+  const termKey=()=>{ if(typeof CALENDAR==='undefined') return 'all'; const t=CALENDAR.termOf(G.day); if(t) return t.id; for(let d=G.day-1; d>=1&&d>G.day-200; d--){ const u=CALENDAR.termOf(d); if(u) return u.id+'_break'; } return 'pre'; };
+  const bldOf=ev=>ev.building||G.zone;
+  X.tierOK=function(ev){ if(!ev.tier) return true; const C=capRec(); if(ev.tier==='short'){ if(X.visitShort>=1) return false; if(C.day===G.day&&C.n>=2) return false; } else if(ev.tier==='major'){ if(C.major[termKey()+'|'+bldOf(ev)]) return false; } return true; };
+  X.noteTier=function(ev){ if(!ev.tier) return; const C=capRec(); if(ev.tier==='short'){ X.visitShort++; if(C.day!==G.day){ C.day=G.day; C.n=0; } C.n++; } else if(ev.tier==='major') C.major[termKey()+'|'+bldOf(ev)]=ev.id; };
+  X.check=function(ev,ctx){ ctx=ctx||{}; const F=G.flags||{}; if(X.failed[ev.id]) return false; if(ev.once&&G.events.done[ev.id]) return false; if(ev.cooldown_days&&G.events.last[ev.id]!==undefined&&G.day-G.events.last[ev.id]<ev.cooldown_days) return false; if(ev.max_times&&(G.events.done[ev.id]||0)>=ev.max_times) return false;
     if(ev.location&&ev.location!=='any'){ const locs=Array.isArray(ev.location)?ev.location:[ev.location]; if(!locs.includes(G.zone)) return false; }
     if(ev.time){ const hh=h(); const [a,b]=ev.time; if(b<=24){ if(hh<a||hh>=b) return false; } else { if(!(hh>=a||hh<b-24)) return false; } }
     if(ev.weekday&&!ev.weekday.includes(G.weekday)) return false; if(ev.term&&typeof CALENDAR!=='undefined'){ const t=CALENDAR.termOf(G.day); if(!t||!ev.term.includes(t.id)) return false; }   /* 學期（課表，D52）：例如林教授的刑訴在大三上（AA_104 第 8 節）*/ if(ev.day_min&&G.day<ev.day_min) return false; if(ev.day_max&&G.day>ev.day_max) return false; if(ev.weather&&G.weather!==ev.weather) return false; if(ev.not_weather&&G.weather===ev.not_weather) return false;
@@ -19,8 +31,15 @@ const EVENTS = (function(){
     if(ev.room){ const z=GM&&GM.E&&GM.E.zone, P=GM&&GM.E&&GM.E.player; const rid=z&&z.roomAt&&P?z.roomAt(P.obj.position.x,P.obj.position.z,P.lv|0):null; const rs=Array.isArray(ev.room)?ev.room:[ev.room]; if(!rid||!rs.includes(rid)) return false; }
     if(ev.activity){ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.isActive(G,ev.activity,{justEnded:!!ev.activityJustEnded})) return false; }
     if(ev.npcHere){ const ids=Array.isArray(ev.npcHere)?ev.npcHere:[ev.npcHere]; for(const id of ids){ const w=typeof STORY!=='undefined'&&STORY.whereIs?STORY.whereIs(GM,id):null; if(!w||w.zone!==G.zone) return false; } }
+    if(!X.tierOK(ev)) return false;
     return X.cond(ev.prereq,ctx); };
-  X.cond=function(c,ctx){ if(!c) return true; const F=G.flags||{}; if(c.flags&&!c.flags.every(f=>F[f])) return false; if(c.notFlags&&c.notFlags.some(f=>F[f])) return false; if(c.memory&&!c.memory.every(m=>SOCIAL.has(m.npc,m.tag))) return false; if(c.notMemory&&c.notMemory.some(m=>SOCIAL.has(m.npc,m.tag))) return false;
+  X.cond=function(c,ctx){ if(!c) return true; const F=G.flags||{}; if(c.flags&&!c.flags.every(f=>F[f])) return false; if(c.notFlags&&c.notFlags.some(f=>F[f])) return false;
+    /* 旗標的值（AA_107 第 10-1 節第 3 項）：例如 BB_105 P4 的 ECON_PAST_SHARED 是 'full'／'half'／'none'——flagIs:{ECON_PAST_SHARED:['full','half']} */
+    if(c.flagIs){ for(const k in c.flagIs){ const w=c.flagIs[k], v=F[k]; if(Array.isArray(w)?!w.includes(v):v!==w) return false; } }
+    /* 演講、活動到場（第 5 項；src/data/activities.js 的到場紀錄）：attended 聽過、notAttended 一場都沒聽過、missed 最近結束的那一場沒去 */
+    if(c.attended||c.notAttended||c.missed){ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.attended) return false; if(c.attended&&!c.attended.every(id=>ACTIVITIES.attended(G,id))) return false; if(c.notAttended&&c.notAttended.some(id=>ACTIVITIES.attended(G,id))) return false; if(c.missed&&!c.missed.every(id=>ACTIVITIES.missed(G,id))) return false; }
+    /* 上課出席（課表系統的 G.courses.attend）：course:{econ_principles_1:{min:1}}＝這門課至少上過一次 */
+    if(c.course){ const R=typeof CLS!=='undefined'&&CLS.rec?CLS.rec(G):(G.courses||{}); const A=(R&&R.attend)||{}; for(const id in c.course){ const n=A[id]||0, q=c.course[id]; if(q.min!==undefined&&n<q.min) return false; if(q.max!==undefined&&n>q.max) return false; } } if(c.memory&&!c.memory.every(m=>SOCIAL.has(m.npc,m.tag))) return false; if(c.notMemory&&c.notMemory.some(m=>SOCIAL.has(m.npc,m.tag))) return false;
     if(c.stage){ const st=SOCIAL.STAGES.indexOf(SOCIAL.stage(c.stage.npc)); if(c.stage.min&&st<SOCIAL.STAGES.indexOf(c.stage.min)) return false; if(c.stage.max&&st>SOCIAL.STAGES.indexOf(c.stage.max)) return false; }
     if(c.rel){ for(const id in c.rel){ const r=SOCIAL.rel(id); for(const dim in c.rel[id]){ const rng=c.rel[id][dim]; if(rng.min!==undefined&&r[dim]<rng.min) return false; if(rng.max!==undefined&&r[dim]>rng.max) return false; } } }
     if(c.events&&!c.events.every(e=>G.events.done[e])) return false; if(c.notEvents&&c.notEvents.some(e=>G.events.done[e])) return false;
@@ -43,8 +62,8 @@ const EVENTS = (function(){
       if(ev.player_seat&&GM.E.zone.seats){ const st=GM.E.zone.seats.find(x=>x.row===ev.player_seat[0]&&x.col===ev.player_seat[1])||GM.E.zone.seats[0]; if(st){ await GM.walkTo(P,st.x,st.z+0.6); GM.sitAt(P,st); X._playerSeated=true; } }
       const parts=(ev.participants||[]).filter(id=>CHARACTERS[id]); const advOpts={background:ev.background||'blur',mainSide:ev.mainSide||'right'}; if(parts[0]) advOpts.right={charId:parts[0],expression:'neutral'}; if(parts[1]) advOpts.left={charId:parts[1],expression:'neutral'}; if(ev.cg_id) advOpts.cg=ev.cg_id; ADV.preload(parts); ADV.begin(advOpts); if(ev.title&&!opts.noTitle) GM.caption('',ev.title,1500); await GM.sleep(350);
       for(const pid of parts){ SOCIAL.meet(pid,ev.location&&ev.location!=='any'?(Array.isArray(ev.location)?ev.location[0]:ev.location):G.zone); }
-      await X.runLines(ev.dialogue||[],ev); X.applyConsequences(ev.consequences); G.events.done[ev.id]=(G.events.done[ev.id]||0)+1; G.events.last[ev.id]=G.day; G.events.count++; GM.memo(ev.title||ev.id);
-      ADV.end(); if(X._playerSeated){ GM.standUp(P); X._playerSeated=false; } GM.sceneEnd(); for(const n of npcs){ n.lookAt=null; } if(ev.after&&typeof ev.after==='function') ev.after(G,GM,npcs); if(ev.despawn&&npcs[0]&&GM.despawnLater) GM.despawnLater(npcs[0],ev.despawn); GM.autosave(); if(ev.next_event){ const nx=STORY_EVENTS.find(e=>e.id===ev.next_event); if(nx&&X.check(nx)){ X.running=null; return X.run(nx,{noTitle:true}); } } }catch(e){ console.error('event error',ev.id,e); ADV.end(); GM.sceneEnd(); } finally{ X.running=null; } };
+      await X.runLines(ev.dialogue||[],ev); X.applyConsequences(ev.consequences); G.events.done[ev.id]=(G.events.done[ev.id]||0)+1; G.events.last[ev.id]=G.day; G.events.count++; X.noteTier(ev); GM.memo(ev.title||ev.id);
+      ADV.end(); if(X._playerSeated){ GM.standUp(P); X._playerSeated=false; } GM.sceneEnd(); for(const n of npcs){ n.lookAt=null; } if(ev.after&&typeof ev.after==='function') ev.after(G,GM,npcs); if(ev.despawn&&npcs[0]&&GM.despawnLater) GM.despawnLater(npcs[0],ev.despawn); GM.autosave(); if(ev.next_event){ const nx=STORY_EVENTS.find(e=>e.id===ev.next_event); if(nx&&X.check(nx)){ X.running=null; return X.run(nx,{noTitle:true}); } } }catch(e){ console.error('event error',ev.id,e); X.failed[ev.id]=true; ADV.end(); GM.sceneEnd(); } finally{ X.running=null; } };
   X.runLines=async function(lines,ev){ const labels={}; lines.forEach((l,i)=>{ if(l.label) labels[l.label]=i; }); let i=0; let guard=0; while(i<lines.length&&guard++<500){ const l=lines[i]; i++; if(l.if&&!X.cond(l.if)) continue; if(l.unless&&X.cond(l.unless)) continue; if(l.goto!==undefined&&l.text===undefined&&!l.choice){ i=labels[l.goto]!==undefined?labels[l.goto]:i; continue; } if(l.end) break;
       if(l.consequences) X.applyConsequences(l.consequences); if(l.set) for(const k in l.set) G.flags[k]=l.set[k]; if(l.mem) for(const m of l.mem) SOCIAL.remember(m.npc,m.tag,m.note); if(l.rel) for(const id in l.rel) SOCIAL.adjust(id,l.rel[id]); if(l.note) GM.addNote(l.note.id,l.note.title,l.note.body); if(l.knowledge&&typeof LEGAL!=='undefined') LEGAL.apply(l.knowledge); if(l.advance) GM.advance(l.advance); if(l.cine&&!ADV.active){ const n=X.npcOf(l.cine.npc||(ev.participants||[])[0]); GM.cine(l.cine.shot||l.cine,GM.E.player.obj,n&&n.obj); }
       if(l.expression&&l.speaker&&l.text===undefined){ ADV.speaker(l.speaker,l.expression,l.outfit); continue; }

@@ -38,4 +38,11 @@ const s101=z.seats.find(q=>q.room==='101'), s102=z.seats.find(q=>q.room==='102')
   GM.G.hour=12.4; CLS.syncRooms(GM); check('下課後（12:24）：同學離開',!E.npcs.some(n=>n.clsStudent),E.npcs.filter(n=>n.clsStudent).length+' 人'); }
 (async()=>{ const G=Object.assign(mkG(8.95),{zone:'campus'}); let entered=null; const toasts=[]; const GM={G,E,enter:async zid=>{ entered=zid; },toast:t=>toasts.push(t),sceneBegin(){},sceneEnd(){},choose:async()=>0};
   await CLS.doorInteract(GM,'common'); check('08:57 在校園按共同教學館的門：直接進館（不上門口的 2D 課）、提示教室在 101',entered==='gongtong'&&toasts.some(t=>/共同教學館 101/.test(t)),entered+' '+toasts.join('|'));
+  /* 玩家坐著上完課（快轉到下課）：同學站起來走出去，不是在黑畫面裡一起消失（keepCrowd）。修改前：時間一跳超過 0.6 小時就當成「跳過時間」直接移除 */
+  { global.CROWD={seatSide:(E,st)=>[st.x,st.z+(Math.cos(st.yaw||0)>0?-0.6:0.6)]};   // 座位旁站得起來的位置（測試用；遊戲裡是 crowd3d.js）
+    E.npcs=[]; const G2=mkG(9.2); const GM2={G:G2,E,say:async()=>{},choose:async()=>0,fade:async()=>{},advance:h=>{ G2.hour+=h; },energy(){},caption(){},sceneBegin(){},sceneEnd(){},autosave(){},setGoal(){},toast(){}};
+    CLS.syncRooms(GM2); const n0=E.npcs.filter(n=>n.clsStudent).length; const it=CLS.dayItems(G2).find(q=>q.c.id==='chinese_y1');
+    await CLS.attend(GM2,it,{inScene:true}); CLS.syncRooms(GM2); const out=E.npcs.filter(n=>n.leaving), left=E.npcs.filter(n=>n.clsStudent);
+    check('坐著上完大一國文（09:12 → 12:10）：同學站起來往出口走（不是一起消失）',n0>=5&&out.length>=n0-1&&!left.length&&out.every(n=>n.path&&n.path.length),`上課 ${n0} 人、走出去 ${out.length} 人、還坐著 ${left.length} 人`);
+    E.npcs=[]; G2.hour=9.2; CLS.syncRooms(GM2); G2.hour=12.4; CLS.syncRooms(GM2); check('跳過時間（不是坐著上完課）：照舊直接移除，不從遠處走回來',!E.npcs.length,E.npcs.length+' 人'); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })();
