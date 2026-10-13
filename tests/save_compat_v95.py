@@ -26,6 +26,8 @@ STATES = [
     ('slot1', {'zone': 'campus', 'day': 3, 'weekday': 5, 'hour': 10.5, 'pos': {'x': -38, 'z': 6, 'yaw': 0}, 'flags': FLAGS12, 'rel': {'an': 22, 'zhe': 19, 'sis': 5, 'kai': 10, 'yu': 5}, 'money': 19300}),
     ('slot2', {'zone': 'gongguan', 'day': 9, 'weekday': 4, 'hour': 12.4, 'pos': None, 'flags': FLAGS12, 'rel': {'an': 25, 'zhe': 24, 'sis': 9, 'kai': 14, 'yu': 8}, 'money': 16850}),
     ('slot3', {'zone': 'cafe', 'day': 23, 'weekday': 4, 'hour': 20.2, 'pos': None, 'flags': FLAGS12, 'rel': {'an': 30, 'zhe': 28, 'sis': 12, 'kai': 18, 'yu': 11}, 'money': 9400}),
+    # 方案 A（D55）把醉月湖往北搬、原本的湖南岸蓋了普通教學館：v9.5 玩家站在舊湖邊存檔，新版這個位置在普通教學館裡面
+    ('lake', {'zone': 'campus', 'day': 5, 'weekday': 0, 'hour': 16.0, 'pos': {'x': -30, 'z': -53.5, 'yaw': 3.14}, 'flags': FLAGS12, 'rel': {'an': 22, 'zhe': 19, 'sis': 5, 'kai': 10, 'yu': 5}, 'money': 18000}),
 ]
 
 
@@ -58,7 +60,9 @@ async def main():
             await pg.wait_for_timeout(2500)
             await pg.evaluate("GAME.autosave()")
             saves[key] = await pg.evaluate("localStorage.getItem('fatiao3d_auto')")
-        run.check('v9.5 做出三個存檔（v9.5 自己寫的格式）', all(saves.get(k) for k, _ in STATES), ', '.join(f"{k}: 第 {json.loads(saves[k])['day']} 天 {json.loads(saves[k])['zone']}" for k, _ in STATES if saves.get(k)))
+        lk = json.loads(saves['lake']) if saves.get('lake') else {}
+        run.check('v9.5 舊湖邊（-30,-53.5）是 v9.5 走得到的地方', bool(lk) and abs((lk.get('pos') or {}).get('x', 0) + 30) < 1.5 and abs((lk.get('pos') or {}).get('z', 0) + 53.5) < 1.5, json.dumps(lk.get('pos')))
+        run.check('v9.5 做出四個存檔（v9.5 自己寫的格式）', all(saves.get(k) for k, _ in STATES), ', '.join(f"{k}: 第 {json.loads(saves[k])['day']} 天 {json.loads(saves[k])['zone']}" for k, _ in STATES if saves.get(k)))
         run.check('v9.5 沒有 JS 例外', not e95, json.dumps(e95[:3], ensure_ascii=False))
         await b.close()
         # ---- 2. 新版：同一個網址升級 ----
@@ -89,7 +93,7 @@ async def main():
         run.check('按「繼續（自動存檔）」：名字、天數、時間、地點、金錢、旗標、舊版關係和 v9.5 存檔一樣、站得住', same(g, a0) and s['stand'], json.dumps({k: g[k] for k in ['name', 'day', 'hour', 'zone', 'money', 'v']}, ensure_ascii=False))
         await run.shot(pg, 'auto_day1')
         # 欄位 1～3：從標題畫面的「讀取」選單（真的按鈕）
-        for idx, (key, st) in enumerate(STATES, start=1):
+        for idx, (key, st) in enumerate(STATES[:3], start=1):
             a = json.loads(saves[key])
             await pg.reload(); await L.wait_loaded(pg); await pg.wait_for_timeout(1500)
             await L.tap(pg, cdp, '#btnLoadMenu'); await pg.wait_for_timeout(1200)
@@ -115,6 +119,15 @@ async def main():
             await run.shot(pg, f'slot{idx}_phone_today')
             run.check(f'欄位 {idx}：手機「今天」照日曆列課（週{"一二三四五六日"[a["weekday"] - 1] if a["weekday"] else "日"}）', ('09:10' in td or '13:20' in td or '今天沒有課' in td), td[:160])
             await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(600)
+        # 方案 A：v9.5 在舊湖邊的存檔（新版是普通教學館裡面）→ 讀檔時移到最近站得住的地方、走得到普通的門口
+        r = await pg.evaluate("(async(s)=>{ try{ await GAME.applySave(s); return 'ok'; }catch(e){ return String(e); } })(%s)" % saves['lake'])
+        await pg.wait_for_timeout(3500)
+        s = await L.state(pg)
+        walk = await pg.evaluate("(()=>{ const N=GAME.E.nav, o=GAME.E.player.obj.position; const p=N.path(o.x,o.z,-38,-48.6); return !!(p&&p.length); })()")
+        moved = ((s['x'] + 30) ** 2 + (s['z'] + 53.5) ** 2) ** 0.5
+        run.check('方案 A：v9.5 在舊湖邊的存檔（新版是普通教學館裡面）讀得進來、移到旁邊站得住的地方（15 m 內）、走得到普通的門口', r == 'ok' and s['zone'] == 'campus' and s['stand'] and moved < 15 and walk, f"r={r} 位置 ({s['x']},{s['z']})、移了 {moved:.1f} m、walk={walk}")
+        await run.shot(pg, 'lake_save_unstuck')
+        await pg.evaluate("(async(s)=>{ await GAME.applySave(s); })(%s)" % saves['slot3']); await pg.wait_for_timeout(3000)
         # 存檔、再讀檔
         await pg.evaluate("GAME.autosave()")
         sv = await pg.evaluate("JSON.parse(localStorage.getItem('fatiao3d_auto'))")
