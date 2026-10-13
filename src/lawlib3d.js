@@ -127,7 +127,7 @@ const LL3=(function(){
         for(let k=0;k<n;k++){ const yy=y+0.12+k*(s.h-0.2)/n; const p=new THREE.Mesh(new THREE.PlaneGeometry(along-0.06,(s.h-0.2)/n-0.04),s.kind==='display'?M(['#e8e2d4','#c9b48a','#9fb3c4'][k%3]):bookM); const off=0.01+((s.face==='E'||s.face==='W')?w:d)/2;
           p.position.set(cx+(s.face==='E'?off:s.face==='W'?-off:0),yy+((s.h-0.2)/n)/2,cz+(s.face==='S'?off:s.face==='N'?-off:0)); p.rotation.y=ry; g.add(p); } }
       sb.build(g);
-      if(s.sign){ const sp=new THREE.Mesh(new THREE.PlaneGeometry(Math.max(1.0,s.sign.length*0.17),0.22),new THREE.MeshBasicMaterial({map:TK.signTex(s.sign,{bg:'#24303a',color:'#f3efe4'})}));
+      if(s.sign){ const sp=new THREE.Mesh(s.signW?new THREE.PlaneGeometry(s.signW,s.signW/4):new THREE.PlaneGeometry(Math.max(1.0,s.sign.length*0.17),0.22),   /* signW：書架端的分類牌固定寬（書架間距 1.6 m，照字數算會互相重疊；字由 signTex 自動縮）*/ new THREE.MeshBasicMaterial({map:TK.signTex(s.sign,{bg:'#24303a',color:'#f3efe4'})}));
         if(s.kind==='range'){ sp.position.set(s.x,y+s.h+0.16,s.z1+0.03); } else { const ry={E:Math.PI/2,W:-Math.PI/2,S:0,N:Math.PI}[s.face]; const off=((s.face==='E'||s.face==='W')?(s.x1-s.x0):(s.z1-s.z0))/2+0.02; sp.position.set((s.x0+s.x1)/2+(s.face==='E'?off:s.face==='W'?-off:0),y+s.h+0.16,(s.z0+s.z1)/2+(s.face==='S'?off:s.face==='N'?-off:0)); sp.rotation.y=ry; }
         grp.add(sp); }
       if(s.it) IT.push({x:s.it.x,z:s.it.z,radius:1.1,lv:s.lv,label:'看書架：'+(s.sign||''),look:s.look}); }
@@ -150,7 +150,7 @@ const LL3=(function(){
     for(const rm of L.rooms){ if(rm.copiers){ for(const cx of rm.copiers){ b0.add(M('#e6e4de',{rough:0.5}),TK.boxG(0.65,1.0,0.6),cx,0.5,-D/2+0.45); b0.add(M('#3a3d40',{rough:0.5}),TK.boxG(0.6,0.12,0.5),cx,1.06,-D/2+0.45); } IT.push({x:rm.it.x,z:rm.it.z,radius:rm.it.r,lv:0,label:'影印',look:rm.look}); }
       if(rm.kind==='office') IT.push({x:(rm.door[0]+rm.door[1])/2,z:L.frontZ+0.75,radius:1.0,lv:0,label:rm.label,look:rm.look}); }
     for(const f of L.furniture){ const b=f.lv?b1:b0, y=f.lv?Y1:0;
-      if(f.type==='whiteboard'){ b.add(M('#f4f4f0',{rough:0.3}),TK.boxG(f.w,1.0,0.04),f.x,y+1.5,f.z); const rm=L.rooms.find(q=>q.id===f.room); if(rm) IT.push({x:(rm.door[0]+rm.door[1])/2,z:L.frontZ-0.6,radius:0.6,lv:0,label:'看看'+rm.label,look:rm.look}); }   /* 看房間的互動點在門進來的地方（白板在北牆、桌子南北向擺，走到白板前要繞過桌子）*/
+      if(f.type==='whiteboard'){ b.add(M('#f4f4f0',{rough:0.3}),(f.face==='E'||f.face==='W')?TK.boxG(0.04,1.0,f.w):TK.boxG(f.w,1.0,0.04),f.x,y+1.5,f.z); const rm=L.rooms.find(q=>q.id===f.room); if(rm) IT.push({x:(rm.door[0]+rm.door[1])/2,z:L.frontZ-0.6,radius:0.6,lv:0,label:'看看'+rm.label,look:rm.look}); }   /* 看房間的互動點在門進來的地方（桌子南北向擺；白板在側牆——2026-10-13 LAWWW2 回報原本在北牆會擋到北窗）*/
       else if(f.type==='newbooks'){ b.add(MAT.woodD(),TK.boxG(f.w,0.85,f.d),f.x,y+0.425,f.z); for(let i=0;i<6;i++) b.add(M(['#5a1f24','#1f3350','#d9d3c6','#2f4a3a','#c9a24f','#8c3b47'][i]),TK.boxG(0.17,0.24,0.03),f.x-f.w/2+0.2+i*0.28,y+0.97,f.z+(i%2?0.15:-0.1),0.15*(i-2.5)); IT.push({x:f.x,z:f.z+f.d/2+0.7,radius:1.1,lv:f.lv,label:'看新書展示',look:f.look}); }
       else if(f.type==='opac'){ b.add(M('#3a3d40',{rough:0.5}),TK.boxG(0.4,1.05,0.35),f.x,y+0.525,f.z); b.add(M('#20262c',{rough:0.3}),TK.boxG(0.42,0.3,0.05),f.x,y+1.25,f.z-0.12,0,{rx:-0.3}); IT.push({x:f.x,z:f.z-0.75,radius:0.75,lv:f.lv,label:'館藏查詢',look:L.opacLook}); }
       else if(f.type==='notice'){ const bb=W3.bulletin(); bb.position.set(f.x,y,f.z+0.06); lv0.add(bb); IT.push({x:f.x,z:f.z+0.9,radius:1.0,lv:f.lv,label:'看公告',look:f.look}); }

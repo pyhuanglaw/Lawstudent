@@ -12,7 +12,13 @@ const EVENTS = (function(){
   X.check=function(ev,ctx){ ctx=ctx||{}; const F=G.flags||{}; if(ev.once&&G.events.done[ev.id]) return false; if(ev.cooldown_days&&G.events.last[ev.id]!==undefined&&G.day-G.events.last[ev.id]<ev.cooldown_days) return false; if(ev.max_times&&(G.events.done[ev.id]||0)>=ev.max_times) return false;
     if(ev.location&&ev.location!=='any'){ const locs=Array.isArray(ev.location)?ev.location:[ev.location]; if(!locs.includes(G.zone)) return false; }
     if(ev.time){ const hh=h(); const [a,b]=ev.time; if(b<=24){ if(hh<a||hh>=b) return false; } else { if(!(hh>=a||hh<b-24)) return false; } }
-    if(ev.weekday&&!ev.weekday.includes(G.weekday)) return false; if(ev.day_min&&G.day<ev.day_min) return false; if(ev.day_max&&G.day>ev.day_max) return false; if(ev.weather&&G.weather!==ev.weather) return false; if(ev.not_weather&&G.weather===ev.not_weather) return false;
+    if(ev.weekday&&!ev.weekday.includes(G.weekday)) return false; if(ev.term&&typeof CALENDAR!=='undefined'){ const t=CALENDAR.termOf(G.day); if(!t||!ev.term.includes(t.id)) return false; }   /* 學期（課表，D52）：例如林教授的刑訴在大三上（AA_104 第 8 節）*/ if(ev.day_min&&G.day<ev.day_min) return false; if(ev.day_max&&G.day>ev.day_max) return false; if(ev.weather&&G.weather!==ev.weather) return false; if(ev.not_weather&&G.weather===ev.not_weather) return false;
+    /* 公共場景的事件介面（D55，給 AA、BB 之後放事件資料用；docs/campus/PUBLIC_BUILDINGS_DESIGN.md 第 5 節）：
+       room：玩家在建築裡的哪一間（例如 '101'、'study'、'corridor'；由區域的 roomAt 判斷）；activity：某個活動進行中（或剛結束 20 分鐘內）；
+       npcHere：某個角色現在照作息在同一個區域 */
+    if(ev.room){ const z=GM&&GM.E&&GM.E.zone, P=GM&&GM.E&&GM.E.player; const rid=z&&z.roomAt&&P?z.roomAt(P.obj.position.x,P.obj.position.z,P.lv|0):null; const rs=Array.isArray(ev.room)?ev.room:[ev.room]; if(!rid||!rs.includes(rid)) return false; }
+    if(ev.activity){ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.isActive(G,ev.activity,{justEnded:!!ev.activityJustEnded})) return false; }
+    if(ev.npcHere){ const ids=Array.isArray(ev.npcHere)?ev.npcHere:[ev.npcHere]; for(const id of ids){ const w=typeof STORY!=='undefined'&&STORY.whereIs?STORY.whereIs(GM,id):null; if(!w||w.zone!==G.zone) return false; } }
     return X.cond(ev.prereq,ctx); };
   X.cond=function(c,ctx){ if(!c) return true; const F=G.flags||{}; if(c.flags&&!c.flags.every(f=>F[f])) return false; if(c.notFlags&&c.notFlags.some(f=>F[f])) return false; if(c.memory&&!c.memory.every(m=>SOCIAL.has(m.npc,m.tag))) return false; if(c.notMemory&&c.notMemory.some(m=>SOCIAL.has(m.npc,m.tag))) return false;
     if(c.stage){ const st=SOCIAL.STAGES.indexOf(SOCIAL.stage(c.stage.npc)); if(c.stage.min&&st<SOCIAL.STAGES.indexOf(c.stage.min)) return false; if(c.stage.max&&st>SOCIAL.STAGES.indexOf(c.stage.max)) return false; }

@@ -44,6 +44,7 @@ AA（`session_019Y3emYqxxC4Ch1GGf4fMzw`）、BB（`session_01XVHYLaK9Vcnae3U1aAJ
 ## 訊息紀錄（重要的才記；送不到對方時寫在這裡）
 
 - **2026-10-13 13:2xZ｜LAWWW → LAWWW2｜P1 新分派（DELIVERED）**：使用者指定「LAWWW2 接手法律學院圖書館的 Blender 3D 模型及相關場景製作；LAWWW 負責課表系統、場景整合、遊戲功能、測試及 v9.5 發布」。已完成的交給 LAWWW2（開發分支 `363ee13`）：配置 `src/data/lawlib_layout.js`（唯一的資料來源）、區域 `src/lawlib3d.js`、`tests/nav_lawlib_unit.js`（全部通過）。交付物：`tools/blender/lawlib_interior.py` → `assets/models/env/lawlib_interior.glb`（L0_root／L1_root、WALL_*＋dir、牆有窗洞；書＝一格書模組＋GPU instancing＋書背圖集；書與書架材質名 `ll_book`／`ll_shelf`／`ll_endpanel`／`ll_journal` 開頭＝擋住鏡頭時網點透空）、萬才館大廳西牆南段的門洞（`wancai_interior.py`，授權只改門洞、門、名牌、盆栽位置）、窗景 `lawlib_south`／`lawlib_north`／`lawlib_west`、驗收材料。不要改 `src/lawlib3d.js`、兩份配置、`src/wancai3d.js`（要改位置告訴 LAWWW）。等 ACK。
+- **2026-10-13 14:0xZ｜LAWWW → LAWWW2｜P1 新分派：三棟公共教學館（DELIVERED，等 ACK）**：使用者決定先擴充台大總校區，新增普通、共同、博雅三棟公共教學館（整個遊戲反覆使用，不是經濟系劇情場景；經濟系劇情等 AA、BB 企劃＋使用者確認）。LAWWW2：外觀查證、照片與建築參考（照片不放 repo）、Blender 模型、GLB、入口／窗／樓梯／門牌；**法律學院圖書館照原安排繼續**，三棟逐棟交付。佇列：①法圖（進行中）②三棟參考研究 ③共同教學館 GLB（位置確定：中心 (2,33)、ry=π 正面朝北，取代行政大樓東邊的無名系館，footprint 24×14，西側 5 m 做木造迴廊）④普通 ⑤博雅（含空橋；位置等使用者在方案 A／B 之間決定）⑥之後：可重複使用的教學館室內模板。LAWWW：座標、整合、導航、入口、地圖、快速前往、測試。真實位置的依據見 `docs/campus/TEACHING_BUILDINGS_PLAN.md`。
 - **2026-10-13 13:2xZ｜LAWWW → AA（DELIVERED）**：收到 AA_103、AA_104（企劃分支 `42d1337`），開始實作課表與每日上課系統（D52）。問 AA 三件日曆的事：①下學期開學 2/16 是 2026 年除夕，建議 2026-02-23；②之後幾年的開學日暫定 2026-09-07／2027-02-22／2027-09-06／2028-02-14／2028-09-04／2029-02-19（各 18 週）；③校定假日清單（國定假日照人事行政總處的規則做）。也轉告使用者查證的法律學院圖書館開放時間。
 
 - 2026-10-10 12:46Z、12:53Z：AI-2 → AI-1，招呼＋通道確認（已送達）。
