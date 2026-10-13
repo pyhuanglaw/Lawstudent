@@ -10,7 +10,44 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
-**交班（最新）：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜2026-10-11 10:13 UTC｜正常交班｜最後 commit＝訊息開頭「LAWWW（帳號 A）交班」的那一個（`git log -1 --grep="LAWWW（帳號 A）交班" origin/claude/confident-ritchie-8rwh7t`）。之後帳號 A 的 LAWWW 不再寫入，直到使用者說「我回來了，請同步 GitHub 最新進度，接續工作。」**
+**2026-10-13 14:42 UTC 補充（最新 `cdfccad`）**：
+- 開發分支新增（單元測試都通過，**瀏覽器流程還沒跑**）：
+  - 共同教學館室內第一版（`src/teach3d.js`＋`src/data/gongtong_layout.js`：大廳、走廊、四間教室、樓梯、休息區、自習區；課在 101 的 3D 教室上）；
+  - 大一女舍（A、B＋天橋、門口長椅、男賓止步）；
+  - 門口人流（`src/crowd3d.js`）；
+  - 手機「朋友」分頁；
+  - 事件介面（room／activity／npcHere）＋活動格式（`src/data/activities.js`，空的）；
+  - 自習區、休息區的椅子擋路。
+- v9.5 回歸：
+  - 32 項通過。
+  - **3 項看起來是機器太忙的時間問題**：flow_linze_floors 坐下、flow_library_scene 坐下等不到 120 秒、guide_flow 導航條還沒出現。都要在安靜時單獨重跑。
+  - 還沒跑完：flow_main_day12、save_compat 兩項、see_through、tap_floor_levels、movement_regression。
+
+**2026-10-13 14:15 UTC 狀態（LAWWW，帳號 A，`claude/confident-ritchie-8rwh7t`，最新 `e59c1ad` 之後）**：
+- **線上**：v9.4.2（main＝`dfd2618`）。**v9.5 候選＝`a4f2760`**（只含到萬才館兩階段、總圖大廳等；**不是**開發分支最新）。回歸在本機跑（結果在 scratchpad，不在 GitHub）：
+  - 已通過 29 項：單元測試、deploy_check、model_upgrade、zone_transitions、校園／公館導航、reachability_all、鏡頭遮擋、小地圖、搖桿、p0_movement、touch_flow_wenzhou、flow_class_real、stairs_cam_browser、萬才館兩項。
+  - **flow_linze_floors 失敗 1 項**：201 走到第 2 排第 5 個座位旁，人物一直「走路中」、「坐下」晚出現；一分鐘只移動 0.5 m，疑似模擬被拖慢，要安靜時單獨重跑確認，**沒確認前不發布**。
+  - 剩下：flow_library_floors、flow_library_scene、guide_flow、levels_no_sky、flow_main_day12、save_compat_v7、save_compat_live、see_through、tap_floor_levels、movement_regression。
+- **開發分支（沒發布，WIP）**：法律學院圖書館（D46、D53 開放時間）、日曆、八學期課表（D52）、手機（今天、課表、地點）、快速前往與時間跳轉（D54）、共同教學館與大一女舍（D55，外觀 BLOCKOUT）。單元測試全部通過；**瀏覽器的玩家流程（`tests/flow_classes.py`、`tests/flow_teaching_buildings.py`）還沒跑**。
+- **等待**：
+  - 使用者：普通、博雅的位置（方案 A／B，`docs/campus/TEACHING_BUILDINGS_PLAN.md`）。
+  - AA：課程地點衝突（法律系經濟學原理改普通教學館、日文上下在共同）、日曆三題、經濟系時間線。
+  - LAWWW2：三棟＋大一女舍分派的 ACK 與法圖進度。
+- **文件**：
+  - `docs/campus/TEACHING_BUILDINGS_PLAN.md`：位置查證、方案。
+  - `docs/campus/PUBLIC_BUILDINGS_DESIGN.md`：通用系統設計。
+  - `docs/TIMELINE_COMPAT_AUDIT.md`：經濟系時間線相容性。
+  - D55。
+
+
+**值班登記（最新）：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜分支 claude/confident-ritchie-8rwh7t｜接班基準 `cb399ea`｜2026-10-13 UTC｜使用者說「我回來了，請同步 GitHub 最新進度，接續工作。」；交班之後（10-11 10:16 之後）所有遠端分支都沒有新 commit，也沒有帳號 B 的分支——沒有要合併的東西。使用者隨後說明：**帳號 B 這次沒有開**，各職位從上次停下的地方接續。**
+**使用者 2026-10-13 測試回報的問題與解法（LAWWW 列給使用者的清單，之後照這個做）**：
+- v9.5 已修：導航與教學、入口名牌、開放時間、大地圖、朋友在哪、走路速度與快速前往、室友轉圈、假騎士拿掉、樓梯看到天空／樓板擋人、窗景、店員、吃麵後目標、生活費。
+- 待做（v9.6 起）：①主要地點從第一天就能「快速前往」（總圖、霖澤館、萬才館、法圖、宿舍、公館、溫州街、Café；花遊戲時間；關門寫幾點開）＋課表「直接去上課」；②「跳過時間」（到下一堂課前／下午／晚上／明天早上，遇到課、約定、事件會停）＋普通課堂快轉＋沒事的日子一鍵跳過；③手機朋友頁＋大地圖標朋友位置與在做什麼，可觸發事件的人顯示提示（只寫地點時間）；④遊戲內手機：今天、課表、訊息（班群、麵店群、個人）、朋友（邀約：人＋地點＋時間）、地圖——先做外框＋今天＋課表（和課表系統一起），再做訊息與邀約（台詞 AA／BB）；⑤課表系統照 AA_103／AA_104（D52）；⑥人物 bug：陳語彤領口蝴蝶結（要圓領上衣模型）、Blender 新版只在 ?blchar（等使用者看）、人穿過椅子（座位區擋椅子）、店家老闆用學生模型（要中年模型）、路人重複、騎車沒踩踏板、2D 立繪只有一種。
+**使用者 2026-10-13：課表交給 AA 規劃，LAWWW 寫進遊戲前先跟 AA 確認（D51）；同一天改成直接執行（D52）：AA 完成八學期課表、交接給 LAWWW，LAWWW 直接做完整課表與每日上課系統（上課／翹課／自學），不用再等使用者批准，完成後回報。**
+**使用者 2026-10-13：「劇情部分還要修改，我會再跟 AA 討論，你先做好場景」**——大一上 v1 劇情實作暫緩（D50），LAWWW 先做場景：①v9.5 最終回歸＋發布；②場景（萬才館法律學院圖書館、118 巷、總圖擴充、宿舍走廊、出遊場景）。
+
+**交班（上一次）：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜2026-10-11 10:13 UTC｜正常交班｜最後 commit＝訊息開頭「LAWWW（帳號 A）交班」的那一個（`git log -1 --grep="LAWWW（帳號 A）交班" origin/claude/confident-ritchie-8rwh7t`）。之後帳號 A 的 LAWWW 不再寫入，直到使用者說「我回來了，請同步 GitHub 最新進度，接續工作。」**
 - 交班時停掉的背景工作（結果都只在 LAWWW 的工作階段裡，**不在 GitHub，接班的人要重做**）：①v9.5 最終回歸——對最新 commit 的那一輪還沒開始；舊候選 `01145ae` 的 `release_suite.sh` 全部 PASS（含 save_compat 兩項；當時唯一失敗的 indoor_cam_occlusion 已在 `f68f97a` 修好）；②對 `01145ae..HEAD` 的修改審查（沒有結果）；③接班總入口檢查（沒有結果）；④出遊場景規劃（沒有結果）。
 - **LAWWW-B 第一件事**：在最新 commit 的乾淨工作樹（`git worktree add --detach <資料夾> origin/<最新分支>`、在那裡開 `python3 -m http.server`）跑 `tests/release_suite.sh`＋`tests/see_through.py`、`tests/tap_floor_levels.py`、`tests/stairs_cam_browser.py`（新寫、還沒跑過，可能要修）、`tests/movement_regression.py`；有空就重跑修改審查；**全部通過才發布 v9.5**（三小時規則已滿足：上一次發布 07:02:57 UTC）。發布步驟見 `docs/RELEASES.md` v9.5 草稿與 `docs/TESTING.md` 第五節。
 - 等待中：LAWWW2 的 ⑤⑥ 交付（它的 `-wip-props6`，合併後回歸還沒跑）；大一上 v1 劇情實作（D50，v9.5 之後）。
