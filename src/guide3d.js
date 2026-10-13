@@ -33,6 +33,7 @@ const GUIDE=(function(){
     [/霖澤館/, {zone:'linze',name:'霖澤館'}],
     [/法律學院圖書館|法圖/, {zone:'lawlib',name:'法律學院圖書館'}],
     [/萬才館/, {zone:'wancai',name:'萬才館'}],
+    [/共同教學館/, {zone:'campus',label:'共同教學館',name:'共同教學館'}],
     [/溫州街|兩點半|Café|咖啡廳/, {zone:'cafe',name:'兩點半 Café'}],
     [/自習區|總圖/, LIB2F],
     [/麵店/, {zone:'noodle',name:'阿鳳麵店'}],
@@ -101,7 +102,7 @@ const GUIDE=(function(){
     const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=2; return {tex,w:c.width,h:c.height}; }
   function clearMarkers(){ for(const m of st.markers){ if(m.spr.parent) m.spr.parent.remove(m.spr); m.spr.material.map.dispose(); m.spr.material.dispose(); } st.markers=[]; }
   function buildMarkers(){ clearMarkers(); st.markerZone=E.zone; if(!E.zone||!E.zone.group) return; const indoor=!!E.indoor;
-    for(const it of E.interactables){ if(!it.exit&&!it.elevator) continue; if(it.elevator&&!(ELEV[GM.G.zone])) continue; const m={it,gold:null,txt:exitName(it),sub:(it.exit&&!indoor)?hoursLine(it.exit.to):'',spr:null,indoor}; setLabel(m,m.it===goldIt); st.markers.push(m); } }
+    for(const it of E.interactables){ if(!it.exit&&!it.elevator&&!it.mark) continue;   /* mark：沒有室內、但要讓玩家認得的入口（共同教學館，2026-10-13）*/ if(it.elevator&&!(ELEV[GM.G.zone])) continue; const m={it,gold:null,txt:exitName(it),sub:(it.exit&&!indoor)?hoursLine(it.exit.to):'',spr:null,indoor}; setLabel(m,m.it===goldIt); st.markers.push(m); } }
   function setLabel(m,gold){ if(m.gold===gold&&m.spr) return; const L=label(m.txt,m.sub,gold);     if(!m.spr){ const mat=new THREE.SpriteMaterial({map:L.tex,transparent:true,depthWrite:false,toneMapped:false,fog:false,sizeAttenuation:false}); const s=new THREE.Sprite(mat); s.center.set(0.5,0); s.renderOrder=20; s.raycast=()=>{};   /* 純介面：不參加射線檢測（Sprite 的 raycast 需要 raycaster.camera，對整個場景做射線時會丟例外——tests/indoor_camera_occlusion.py 抓到）*/ const it=m.it; const nv=E.navOf?E.navOf(it.lv|0):E.nav; const y0=it.y!=null?it.y:(nv?nv.heightAt(it.x,it.z):0); s.position.set(it.x,y0+(m.indoor?2.05:2.6),it.z); s.userData.dyn=true; E.zone.group.add(s); m.spr=s; m.y0=y0; }
     else { m.spr.material.map.dispose(); m.spr.material.map=L.tex; m.spr.material.needsUpdate=true; }
     m.w=L.w; m.h=L.h; m.gold=gold; fitMarker(m); }
@@ -136,7 +137,7 @@ const GUIDE=(function(){
     if(R&&R.length>1&&on()){ x.strokeStyle='rgba(255,190,70,0.95)'; x.lineWidth=4; x.lineJoin='round'; x.lineCap='round'; x.beginPath(); R.forEach((q,i)=>{ if(v.perLv&&(q[2]|0)!==v.lv) return; const [u,w]=S(q[0],q[1]); if(i) x.lineTo(u,w); else x.moveTo(u,w); }); x.stroke(); }
     x.textAlign='center'; x.textBaseline='middle'; const boxes=[]; const free=(u,w,tw,th)=>{ const b=[u-tw/2-2,w-th/2-1,u+tw/2+2,w+th/2+1]; for(const q of boxes){ if(b[0]<q[2]&&b[2]>q[0]&&b[1]<q[3]&&b[3]>q[1]) return false; } boxes.push(b); return true; };
     // 入口（青色門牌；目的地的入口金色）
-    x.font='12px "Noto Sans TC","PingFang TC",sans-serif'; for(const it of E.interactables){ if(!it.exit&&!it.elevator) continue; if(v.perLv&&(it.lv|0)!==v.lv) continue; const [u,w]=S(it.x,it.z); const gold=st.tgt&&st.tgt.it===it&&on(); x.fillStyle=gold?'#ffc85a':'#7fd0d6'; x.strokeStyle='rgba(20,22,26,0.9)'; x.lineWidth=1.5; x.beginPath(); x.rect(u-5,w-5,10,10); x.fill(); x.stroke();
+    x.font='12px "Noto Sans TC","PingFang TC",sans-serif'; for(const it of E.interactables){ if(!it.exit&&!it.elevator&&!it.mark) continue;   /* mark：沒有室內、但要讓玩家認得的入口（共同教學館，2026-10-13）*/ if(v.perLv&&(it.lv|0)!==v.lv) continue; const [u,w]=S(it.x,it.z); const gold=st.tgt&&st.tgt.it===it&&on(); x.fillStyle=gold?'#ffc85a':'#7fd0d6'; x.strokeStyle='rgba(20,22,26,0.9)'; x.lineWidth=1.5; x.beginPath(); x.rect(u-5,w-5,10,10); x.fill(); x.stroke();
       const nm=exitName(it), hl=(it.exit&&!E.indoor)?hoursLine(it.exit.to):''; const who=it.exit?(ppl.filter(q=>q.w.zone!==GM.G.zone&&(q.w.zone===it.exit.to||nextZone(GM.G.zone,q.w.zone)===it.exit.to)).map(q=>q.name)):[]; if(!free(u,w-14,x.measureText(nm).width,15)&&!gold&&!who.length) continue;
       if(who.length){ x.font='600 12px "Noto Sans TC","PingFang TC",sans-serif'; const wt='👤 '+who.slice(0,3).join('、')+(who.length>3?'…':''); x.lineWidth=3; x.strokeStyle='rgba(20,22,26,0.9)'; x.strokeText(wt,u,w-30); x.fillStyle='#ffd88a'; x.fillText(wt,u,w-30); x.font='12px "Noto Sans TC","PingFang TC",sans-serif'; } x.lineWidth=3; x.strokeStyle='rgba(20,22,26,0.85)'; x.strokeText(nm,u,w-14); x.fillStyle=gold?'#ffd88a':'#cdeff2'; x.fillText(nm,u,w-14); if(hl&&v.k>1.2){ x.font='11px sans-serif'; x.strokeText(hl,u,w+15); x.fillStyle=/閉館/.test(hl)?'#ffb4a0':'#c9c2b4'; x.fillText(hl,u,w+15); x.font='12px "Noto Sans TC","PingFang TC",sans-serif'; } }
     // 地名（入口畫完之後才畫：和別的字重疊、或和附近入口同名的就不畫）

@@ -2,7 +2,7 @@
 // 資料：每一門課的學期、星期、時段、地點、教授都對得上（教授在 characters.js、地點在 rooms）；同一學期（選修照預設）沒有撞課；AA_103 第 4 節的課表抽查；
 // 日曆：第 1 天（週三，大一上第 3 週）的課、第二天（週四）民法總則是劇情課、週末與國定假日沒有課、考試週；
 // 狀態：開始前 30 分鐘可以進教室、開始後 30 分鐘還沒來＝沒來、上過的＝done；教授上課時在教室、下課後在萬才館；
-// 成績單：學期結束的第一個早上發一次（文字，不是分數）；校園的門口上課點（共同課程教室、體育館）站得住、從校門走得到。
+// 成績單：學期結束的第一個早上發一次（文字，不是分數）；校園的門口上課點（共同教學館、體育館）站得住、從校門走得到。
 // 用法：node tests/classes_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -25,7 +25,7 @@ const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
   check('同一學期（選修照預設）沒有撞課',!clash.length,clash.join(' | '));
   for(const t of terms){ const n=CLS.termCourses(G,t).filter(c=>c.kind==='required').length; if(n<1) bad.push(t); } check('八個學期都有必修',terms.every(t=>CLS.termCourses(G,t).some(c=>c.kind==='required')));
   const cell=(t,wd,b)=>{ const c=CLS.termCourses(G,t).find(q=>q.slots.some(s=>s.wd===wd&&s.block===b)); return c?c.name+'｜'+(CLS.roomName(c)):'—'; };
-  const want=[['Y1S1',1,'am','憲法｜霖澤館 201'],['Y1S1',1,'pm2','體育｜體育館'],['Y1S1',2,'am','大一國文｜共同課程教室'],['Y1S1',3,'am','刑法總則（一）｜霖澤館 201'],['Y1S1',4,'pm1','民法總則｜霖澤館 201'],['Y1S1',5,'pm1','法律與社會｜霖澤館 201'],
+  const want=[['Y1S1',1,'am','憲法｜霖澤館 201'],['Y1S1',1,'pm2','體育｜體育館'],['Y1S1',2,'am','大一國文｜共同教學館'],['Y1S1',3,'am','刑法總則（一）｜霖澤館 201'],['Y1S1',4,'pm1','民法總則｜霖澤館 201'],['Y1S1',5,'pm1','法律與社會｜霖澤館 201'],
     ['Y2S1',2,'pm1','民法物權｜霖澤館 201'],['Y3S1',1,'am','民事訴訟法甲上｜霖澤館 201'],['Y3S1',4,'am','民事訴訟法甲上｜霖澤館 201'],['Y3S1',2,'am','刑事訴訟法｜霖澤館 201'],['Y3S1',5,'am','刑事訴訟法｜霖澤館 201'],['Y4S1',2,'pm1','法律倫理｜萬才館研討室']];
   const wbad=want.filter(([t,wd,b,w])=>cell(t,wd,b)!==w).map(([t,wd,b,w])=>t+CLS.WD[wd]+b+'：'+cell(t,wd,b)+'≠'+w); check('AA_103 第 4 節的課表抽查（12 格）',!wbad.length,wbad.join(' | '));
   const ex=CLS.termCourses(G,'Y1S2').map(c=>c.name); check('選修二選一照預設（大一下：法律與社會，不是經濟學原理）',ex.includes('法律與社會')&&!ex.includes('經濟學原理'),ex.join('、'));
@@ -48,7 +48,7 @@ const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
   const T=dayOf('2025-10-02');   /* 週四第 5 週：民法總則 */ const pw=h=>JSON.stringify(CLS.profWhere(mkG(T,h),'prof_zhou'));
   check('周教授：上課時（13:00～15:10）在 201、下課後 1.5 小時在萬才館、其他時間不在這兩個地方',pw(13)==='{"zone":"classroom","act":"class"}'&&pw(15.5)==='{"zone":"wancai","act":"office"}'&&pw(17)==='null'&&pw(10)==='null',[pw(10),pw(13),pw(15.5),pw(17)].join(' '));
   check('林教授（刑訴在大三）大一不會出現在教室',JSON.stringify(CLS.profWhere(mkG(dayOf('2025-09-23'),10.5),'prof_lin'))==='null');
-  const g=CLS.goalFor(mkG(T,8)); check('起床時的目標：今天的課＋往下一堂教室的導航（不是「自由的一天」）',/今天的課：09:10 大一英文、13:20 民法總則/.test(g.text)&&g.dest&&g.dest.label==='共同課程教室',JSON.stringify(g));
+  const g=CLS.goalFor(mkG(T,8)); check('起床時的目標：今天的課＋往下一堂教室的導航（不是「自由的一天」）',/今天的課：09:10 大一英文、13:20 民法總則/.test(g.text)&&g.dest&&g.dest.label==='共同教學館',JSON.stringify(g));
   const g2=CLS.goalFor(mkG(T,10)); check('英文開始超過 30 分鐘：目標導航改指 201（民法總則）',g2.dest&&g2.dest.zone==='classroom',JSON.stringify(g2.dest));
   const g3=CLS.goalFor(mkG(dayOf('2025-09-27'),8)); check('週六：今天沒有課、自由活動（不指路）',/今天沒有課/.test(g3.text)&&!g3.dest,JSON.stringify(g3)); }
 // ---------- 快速前往的時間、時間跳轉（D54 ①③）----------
@@ -94,7 +94,7 @@ function finish(){
   for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
   const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES.campus.build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0};
   const GM={E}; CLS.addDoors(GM,'campus'); const doors=E.interactables.filter(i=>i.door);
-  check('校園有兩個門口上課點（共同課程教室、體育館）',doors.length===2,doors.map(d=>d.label).join('、'));
+  check('校園有兩個門口上課點（共同教學館、體育館）',doors.length===2,doors.map(d=>d.label).join('、'));
   for(const d of doors){ let st=null; for(let r=0;r<=1.2&&!st;r+=0.2) for(let a=0;a<12&&!st;a++){ const x=d.x+Math.cos(a/12*Math.PI*2)*r, zz=d.z+Math.sin(a/12*Math.PI*2)*r; if(E.canStand(x,zz,0.32,0)) st=[x,zz]; }
     check(d.label+'的門口（'+d.x+','+d.z+'）旁邊站得住',!!st,JSON.stringify(st)); if(!st) continue;
     const r=E.simWalk(-112,0,st[0],st[1],{lv0:0,lv1:0,dt:0.1,speed:4.8}); check(d.label+'從校門跑得到（模擬走路）',r.ok,JSON.stringify(r).slice(0,160)); }

@@ -3,7 +3,7 @@
 A. 正常走路：週五 12:55 在霖澤館二樓 201 門口 → 點「進入 201」→ 教授在講台 → 走到座位 → 坐下選「上課：法律與社會」→ 點對話 → 快轉到 15:10 下課
    → 起身 → 走到後門 → 離開教室（回到霖澤館二樓）；下課後教授離開教室。
 B. 手機快速前往：週一 08:50 在校門口 → 點 📱 → 「今天」有 09:10 憲法 → 點「去教室」→ 到 201、時間有過（15 分鐘）→ 坐下上課 → 下課 12:10。
-C. 門口上課：週二 08:50 在校園 → 走到「共同課程教室」門口 → 點互動 → 「進去上課：大一國文」→ 下課 12:10；之後 14:00 打開手機：13:20 通識寫「沒去」。
+C. 門口上課：週二 08:50 在校園 → 走到「共同教學館」門口 → 點互動 → 「進去上課：大一國文」→ 下課 12:10；之後 14:00 打開手機：13:20 通識寫「沒去」。
 D. 存讀檔：重新整理頁面 → 標題畫面「讀取」→ 自動存檔 → 課表紀錄還在（上過的課、出席次數），手機寫「上過了」。
 E. 手機在直向、橫向的顯示（截圖）。
 用法：python3 tests/flow_classes.py URL [輸出資料夾]"""
@@ -87,15 +87,15 @@ async def main():
         run.check('到 201、時間過了約 15 分鐘（不是瞬間）', s['zone'] == 'classroom' and 9.0 <= s['hour'] < 9.3, json.dumps(s, ensure_ascii=False))
         h0, s = await sit_and_attend(pg, cdp, run, '憲法', (1, 4))
         run.check('憲法下課：12:10', s['hour'] >= 12.15 and s['hour'] < 12.6, f"{h0} → {s['hour']}")
-        # ---------- C：門口上課（共同課程教室）＋翹掉的課 ----------
-        run.setup('讀檔：第 7 天（9/23 週二）08:50，校園（共同課程教室前 12 m）')
+        # ---------- C：門口上課（共同教學館）＋翹掉的課 ----------
+        run.setup('讀檔：第 7 天（9/23 週二）08:50，校園（共同教學館前 12 m）')
         await L.load_state(pg, {'zone': 'campus', 'hour': 8.83, 'day': DAY1_TUE, 'weekday': 2, 'weather': 'sunny', 'pos': {'x': 45, 'z': 10, 'yaw': 3.14}, 'flags': BASE_FLAGS})
         await pg.wait_for_timeout(3500)
-        d = await L.find_it(pg, '共同課程教室')
-        run.check('校園有「共同課程教室」的門口', bool(d), json.dumps(d, ensure_ascii=False))
-        ok = await L.go_to(pg, cdp, run, d['x'], d['z'], 1.2, '共同課程教室')
+        d = await L.find_it(pg, '共同教學館')
+        run.check('校園有「共同教學館」的門口', bool(d), json.dumps(d, ensure_ascii=False))
+        ok = await L.go_to(pg, cdp, run, d['x'], d['z'], 1.2, '共同教學館')
         s = await L.state(pg)
-        run.check('走到門口、出現「共同課程教室」按鈕', ok and s['interact'].startswith('共同課程教室'), s['interact'])
+        run.check('走到門口、出現「共同教學館」按鈕', ok and s['interact'].startswith('共同教學館'), s['interact'])
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2000)
         first = await pg.evaluate("(()=>{ const b=document.querySelector('#choices button'); return b?b.textContent:''; })()")
         run.check('選項「進去上課：大一國文」', first.startswith('進去上課：大一國文'), first)

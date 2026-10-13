@@ -2,7 +2,7 @@
    課程資料：src/data/courses.js；日曆（學期、週次、寒暑假、國定假日）：src/data/calendar.js。
    玩家怎麼知道今天有什麼課（AA_104 第 3 節）：起床時的目標寫今天的課、HUD 的「下一堂」、手機的「今天」「課表」（index.html #phone）、開始前 30 分鐘的提醒。
    上課（AA_104 4-1）：開始前 30 分鐘到開始後 30 分鐘走進教室、坐下 → 上課（黑板三行 → 教授一句 → 同學一句 → 時間快轉到下課；可以點過去）。
-     霖澤館 201（3D）：坐下時選「上課」；共同課程教室、體育館、萬才館研討室：走到門口（2D 課堂畫面）；校外實習：之後做。
+     霖澤館 201（3D）：坐下時選「上課」；共同教學館、體育館、萬才館研討室：走到門口（2D 課堂畫面）；校外實習：之後做。
    翹課（4-2）：不用操作，開始後 30 分鐘還沒來就算沒來；不警告、不扣分（只記「來了幾次」）。
    自學（4-3）：在宿舍、圖書館、Café 讀書時選一門課，累積同一個「準備」。
    考試週（第 8～9、17～18 週）：那一週的課變成考試；學期結束的第一個早上看到成績單（文字，不是分數，不會「沒過」：AA_104 第 10 節）。
@@ -96,12 +96,12 @@ const CLS=(function(){
     S.refreshGoal(GM); if(GM.autosave) GM.autosave(); return true; };
   /* 座位（霖澤館 201）：這堂課現在可以上 → 坐下時的第一個選項（game3d.js 的 seatMenu）*/
   S.seatClass=function(G){ if(!G||G.zone!=='classroom') return null; return S.liveIn(G,'classroom').find(it=>S.status(G,it)==='open')||null; };
-  // ---------- 門口上課（共同課程教室、體育館、萬才館研討室）：校園的互動點 ----------
-  const DOORS={ common:{zone:'campus',x:45,z:22.6,radius:1.6,label:'共同課程教室',look:'共同課程教室：大一國文、大一英文、通識在這裡上課。'},
+  // ---------- 門口上課（共同教學館、體育館、萬才館研討室）：校園的互動點 ----------
+  const DOORS={ common:{zone:'campus',x:2,z:22.8,radius:1.6,label:'共同教學館',mark:true,look:'共同教學館：大一國文、大一英文、通識在這裡上課（館內之後開放，現在上課用門口的課堂畫面）。'},   /* 2026-10-13：原本在 (45,22.6) 一棟無名系館門口；共同教學館蓋在真實位置（行政大樓東邊）後搬到它的正門 */
                 gym:{zone:'campus',x:74,z:59.4,radius:1.6,label:'體育館',look:'體育館：體育課在這裡上。'} };
   S.DOORS=DOORS;
   S.addDoors=function(GM,zoneId){ const E=GM.E; for(const k in DOORS){ const d=DOORS[k]; if(d.zone!==zoneId) continue;
-      E.interactables.push({x:d.x,z:d.z,radius:d.radius,lv:0,label:d.label,door:k,onInteract:()=>S.doorInteract(GM,k)}); } };
+      E.interactables.push({x:d.x,z:d.z,radius:d.radius,lv:0,label:d.label,door:k,mark:!!d.mark,onInteract:()=>S.doorInteract(GM,k)}); } };
   S.doorInteract=async function(GM,k){ const G=GM.G, d=DOORS[k]; const it=S.liveDoor(G,k);
     if(it&&S.status(G,it)==='open'){ const ch=await (async()=>{ GM.sceneBegin(); try{ return await GM.choose([{t:'進去上課：'+it.c.name,hint:hhmm(it.t0)+'–'+hhmm(it.t1)+'（點對話可以略過）'},{t:'不上了'}]); } finally { GM.sceneEnd(); } })(); if(ch===0) await S.attend(GM,it,{door:true}); return; }
     const today=S.dayItems(G).filter(q=>q.room.door===k); const s=today.length?'今天在這裡的課：'+today.map(q=>hhmm(q.t0)+' '+q.c.name+'（'+({done:'上過了',missed:'沒去',open:'可以進去',upcoming:'還沒開始'})[S.status(G,q)]+'）').join('、'):'今天沒有你在這裡的課。'; GM.caption('',d.look+s,4800); };
