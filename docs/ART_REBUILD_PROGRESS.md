@@ -10,6 +10,19 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-13 21:05 UTC（開發分支最新 `a77f1f9`；線上 v9.5＝`a4f2760`，main 沒動；以下都是 WIP、不可發布）**：
+- **第一階段（使用者經 LAWWW2 轉達：鏡頭穿牆是最優先的共用技術問題）**：
+  - `068f671` 室內鏡頭：貼牆時自動轉開（autoSwing）、往前看、抬高變少；公告欄加進鏡頭碰撞。`teach_cam_walls_unit` 重現 LAWWW2 的 10 個案例（數字一樣），修改前 14 項失敗、修改後全過。瀏覽器截圖 `tools/shots/cam_swing_shots.py` 在佇列。
+  - `8234015`＋`a77f1f9` 座位上的人先套好坐姿再畫（E.prePose：addNPC、sitAt、spawnNPC、換正式模型）。新瀏覽器測試 `flow_seated_spawn.py`（包住 E.render，每一幀檢查；進教室、演講開始、讀檔、跳時間）——佇列先在舊版跑（要失敗）、再在新版跑。
+  - 已請 LAWWW2 在相同位置重拍（DELIVERED，等 ACK）。
+- **使用者試玩修正（續）**：
+  - `c772bab` 第一次見面的兩個錯（事件引擎先記 FIRST_MET；女主角沒見過時被一般自我介紹搶走）＋手機分頁橫向會捲走。
+  - `0d7d7f4` 閒聊條件照 AA_120（只加條件、不改字）；不熟同學資料修正。
+  - `a77f1f9` 走走的人玩家走近 2.8 m 就停下來（追著按「說話」很難）；`flow_playtest_fixes` 上一輪失敗是測試等太短（SwiftShader 0.5–1 fps），已改。
+- **佇列（`scratchpad/q/queue.txt`，不在 GitHub）**：flow_seated_spawn（舊版）→ 快轉 `a77f1f9` → flow_seated_spawn → cam_swing_shots → indoor_camera_occlusion → flow_playtest_fixes → flow_invite_phone → save_compat_v95 → flow_course_choice → 其他回歸（main_day12、classes、soclib、teaching_buildings、study_legal、campus_glb、campus_layout_nav、zone_transitions、see_through、p0、touch_flow_wenzhou、minimap、class_real、reachability_all、boya_interior）。
+- **接下來**：佇列結果逐項看、修；LAWWW2 重拍結果；AA_110 第 6 節（#99）、BB syllabus（#100）；v9.6 要等使用者確認方案 A＋完整回歸。
+- **等待**：使用者（方案 A、社科院位置與圖書館時間、黃昏調色、博雅官方平面圖、LAWWW2 轉達的決定請使用者確認）；LAWWW2 ACK。
+
 **2026-10-13 20:00 UTC（開發分支最新 `439de48`；線上 v9.5＝`a4f2760`，main 沒動）**：
 - **使用者試玩回報的修正**（單元測試過；瀏覽器流程 `flow_playtest_fixes.py` 在佇列）：
   - `6bd4072` 閒聊看情境、不重複：高子晴三句要吉他社之後；B 層同學改旁白。
