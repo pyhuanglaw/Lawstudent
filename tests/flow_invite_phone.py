@@ -74,7 +74,7 @@ async def main():
         run.check('手機「訊息」有「約好了」', '約好了' in txt, txt[:200])
         # ---------- B：跳過時間，在約好的時間前停下來 ----------
         await L.tap(pg, cdp, '#phoneTabs button[data-ptab="today"]'); await pg.wait_for_timeout(700)
-        ok = await tap_sel(pg, cdp, '#phoneBody [data-skip="20"]')
+        ok = await tap_sel(pg, cdp, '#phoneBody [data-skip="20.000"]')   # 按鈕的值是 toFixed(3)（classes3d.js 的 todayHTML）；原本寫 "20" 一直沒按到（2026-10-13 佇列測試）
         await pg.wait_for_timeout(5000)
         for _ in range(10):
             q = await L.state(pg)
