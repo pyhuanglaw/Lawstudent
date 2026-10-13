@@ -116,7 +116,9 @@ const fmt=(r)=>JSON.stringify(r).slice(0,220);
   r=both([el.cx,el.outZ,1],[US.x,US.z,1]); check('二樓走廊 → 西側迴廊 → 門廳（不用下樓）',r.ok&&r.lv===1,fmt(r));
   const calls=IT.filter(i=>i.elevator); check('兩層都有「搭電梯」',calls.length===2&&calls.some(c=>c.lv===0)&&calls.some(c=>c.lv===1));
   check('二樓走廊邊（中庭）、迴廊邊（中庭）、樓梯井邊不能直接跳下一樓',!E.canStand(0,-1.4,0.3,1)&&!E.canStand(-4.7,2,0.3,1)&&!E.canStand(-7.8,-1.0,0.3,1));
-  check('一樓：樓梯東側有欄杆，不能從側面跨上樓梯；樓梯頂端後面的角落進不去',!E.canStand(-7.0,1.0,0.3,0)&&!E.canStand(-8.0,6.0,0.3,0));
+  /* 樓梯頂端後面、二樓門廳底下的角落：v9.5 以前整塊擋起來（進不去）；2026-10-13 起是法律學院圖書館的門前（D46，使用者「萬才館一樓進去左手邊就是法律系圖書館」），
+     要走得進去。還是要成立的：人不會貼進樓梯最上面一階的端面（0.3 m 內站不住）、不能從樓梯頂端直接走下去（tests/nav_lawlib_unit.js 檢查路要繞樓梯）*/
+  check('一樓：樓梯東側有欄杆，不能從側面跨上樓梯；樓梯頂端後面的角落（法律學院圖書館門前）站得住，但離樓梯端面 0.3 m 內站不住',!E.canStand(-7.0,1.0,0.3,0)&&!E.canStand(-8.0,5.2,0.3,0)&&E.canStand(-8.0,5.9,0.3,0));
   check('點地面：一樓地板、二樓地板、樓梯都打得到',['0','1'].every(lv=>z.walkMeshes.some(m=>String(m.userData.walkLv|0)===lv))&&z.walkMeshes.length>=8,`${z.walkMeshes.length} 片`); }
 // ---------- 總圖大廳（總圖第一階段：大廳＋大樓梯＋二樓自習區，D43）----------
 { const z=loadZone('library_hall'); const L=LIBRARY_LAYOUT, Y1=L.floors[1].y, IT=E.interactables, H0=(x,zz)=>z.levels[0].heightAt(x,zz), H1=(x,zz)=>z.levels[1].heightAt(x,zz);

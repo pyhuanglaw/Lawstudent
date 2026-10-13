@@ -6,9 +6,9 @@
      和 zones3d.js 擺建築的位置相同；搬建築時這裡一起改。入口不用寫在這裡：大地圖和入口標記直接讀區域的出口互動點。 */
 const PLACES={
   names:{ campus:'台大校園', gongguan:'公館', wenzhou:'溫州街', cafe:'兩點半 Café', cvs:'全日便利商店', noodle:'阿鳳麵店', bookstore:'舊路書房',
-    linze:'霖澤館', classroom:'霖澤館 201 教室', wancai:'萬才館', library_hall:'總圖書館', library:'總圖 3F 閱覽區', dorm:'宿舍房間', dorm_hall:'男生宿舍' },
+    linze:'霖澤館', classroom:'霖澤館 201 教室', wancai:'萬才館', library_hall:'總圖書館', library:'總圖 3F 閱覽區', lawlib:'法律學院圖書館', dorm:'宿舍房間', dorm_hall:'男生宿舍' },
   // open／close：小時（close 超過 24＝隔天凌晨）；text：畫面上寫的時間
-  hours:{ cafe:{open:11,close:26.5,text:'11:00–02:30'}, library_hall:{open:8,close:22,text:'08:00–22:00'}, library:{open:8,close:22,text:'08:00–22:00'}, cvs:{text:'24 小時'} },
+  hours:{ cafe:{open:11,close:26.5,text:'11:00–02:30'}, library_hall:{open:8,close:22,text:'08:00–22:00'}, library:{open:8,close:22,text:'08:00–22:00'}, lawlib:{open:8.5,close:21.5,text:'08:30–21:30'}, cvs:{text:'24 小時'} },   /* 法律學院圖書館的時間是推估（D46，使用者知道實際時間再改）*/
   isOpen(zone,h){ const o=PLACES.hours[zone]; if(!o||o.open==null) return true; h=((h%24)+24)%24; return o.close>24?(h>=o.open||h<o.close-24):(h>=o.open&&h<o.close); },
   // 閉館時的說明：開放時間＋幾點開（今天還是明天）
   closedText(zone,h){ const o=PLACES.hours[zone], nm=PLACES.names[zone]||zone; if(!o||o.open==null) return nm; h=((h%24)+24)%24; const hh=String(Math.floor(o.open)).padStart(2,'0')+':'+String(Math.round((o.open%1)*60)).padStart(2,'0');
