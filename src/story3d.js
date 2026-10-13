@@ -69,6 +69,13 @@ const STORY = (function(){
         GM.spawnExtra(extraSpec(xi++),[[0,2.0,0],[-2.6,0.2,1],[-8.0,-2.0,1],[-2.6,0.2,1],[0,2.0,0],[2.6,0.2,1],[8.0,-5.0,1],[2.6,0.2,1]],{});   /* 走大樓梯上下樓的人：大廳 ⇄ 二樓（西翼、東翼輪流）*/
         if(hr<18) GM.spawnExtra(extraSpec(xi++),[[6.5,-6.5,0],[2.5,2.0,0],[-3.5,3.0,0],[-7.0,-6.5,0]],{}); }
       if(F.companion==='an') spawnCompanion(GM); }
+    /* 法律學院圖書館（D46，2026-10-13）的背景人物：櫃台的館員、一樓自習區和二樓讀書的人、走樓梯上下樓的人。不是劇情人物、沒有對話 */
+    if(zoneId==='lawlib'&&typeof LAWLIB_LAYOUT!=='undefined'){ const L=LAWLIB_LAYOUT; const mk=(x,z,lv,yaw,pose,seat)=>{ const o=CHAR.build(extraSpec(xi++)); o.position.set(x,0,z); o.rotation.y=yaw||0; return E.addNPC({obj:o,name:'',beh:'idle',pose:pose||'idle',idlePose:pose||'idle',frozen:true,isExtra:true,lv:lv|0,seat}); };
+      if(hr>=8.5&&hr<21.5){ const C=L.counter; mk(C.staff.x,C.staff.z,0,C.staff.yaw,'idle');
+        const ss=E.zone.seats||[]; const pick=(tb,k)=>ss.filter(q=>q.table===tb)[k]; const busy=hr<18?[['T1',1],['T1',6],['T2',3],['carrel',2],['T6',1],['T3',0]]:[['T1',2],['carrel',0],['T5',3]];
+        for(const [tb,k] of busy){ const st=pick(tb,k); if(st) mk(st.x,st.z,st.lv,st.yaw,'read',{x:st.x,z:st.z,yaw:st.yaw,lv:st.lv}); }
+        GM.spawnExtra(extraSpec(xi++),[[2.0,4.6,0],[-6.2,1.6,0],[-4.2,1.6,1],[1.6,-1.8,1],[-4.2,1.6,1],[-6.2,1.6,0],[3.0,5.6,0]],{}); }   /* 一樓 → A 跑 → 平台 → B 跑 → 二樓書庫 → 走回一樓 */
+      if(F.companion==='an') spawnCompanion(GM); }
     if(zoneId==='cafe'){ const seats=E.zone.seats; if(hr>=19&&hr<23){ GM.spawnNPC('sis',C.sis,0,0,{seat:seats[5],pose:'read',talk:n=>talkSis(GM,n)}); GM.npc.sis.idlePose='read'; tm('sis',23); } for(const i of [6]){ const o=CHAR.build(extraSpec(xi++)); const s=seats[i]; o.position.set(s.x,0,s.z); o.rotation.y=s.yaw; E.addNPC({obj:o,name:'',beh:'idle',pose:'read',idlePose:'read',frozen:true,isExtra:true}); } if(F.companion==='an') spawnCompanion(GM); }
     /* 店員（2026-10-11 使用者回報：便利商店、麵店、書店都沒有人顧店）：站在櫃台後面、工作台前；只是讓店有人在顧，不加對話和劇情（結帳還是櫃台的互動點）。
        外觀用路人模型（extraSpec：偶數＝女性、奇數＝男性）；年紀比較大的老闆娘、老闆要等有中年人物模型（MISSING_EXTERNAL_ART）*/
@@ -197,6 +204,7 @@ const STORY = (function(){
     if(it.exit&&it.exit.to==='classroom'&&!isThu(G)&&!F.classNow&&!(G.weekday===2&&h(G)>=9.9&&h(G)<12.1)){ GM.sceneBegin(); await GM.say(null,'霖澤館。今天'+(G.weekday===2?'的刑訴已經下課了':'沒有民法總則')+'。教室裡只有幾個在自習的人。'); GM.sceneEnd(); await GM.enter('classroom',it.exit.spawn); return true; }
     if(it.exit&&it.exit.to==='classroom'&&isThu(G)&&h(G)>=15.2&&!F.classDone){ F.classDone=true; GM.toast('你錯過了今天的民法總則'); G.flags.classAnswer='absent'; return false; }
     if(it.exit&&it.exit.to==='cafe'&&!PLACES.isOpen('cafe',h(G))){ GM.toast(PLACES.closedText('cafe',h(G)),4500); return true; }   /* 開放時間在 src/data/places.js（入口標記、大地圖讀同一份）*/
+    if(it.exit&&it.exit.to==='lawlib'&&G.zone==='wancai'&&!PLACES.isOpen('lawlib',h(G))){ GM.toast(PLACES.closedText('lawlib',h(G)),4500); return true; }   /* 法律學院圖書館（D46）：只擋從大廳進去；人在館裡照樣走得出來 */
     if(it.exit&&(it.exit.to==='library'||it.exit.to==='library_hall')&&G.zone==='campus'&&!PLACES.isOpen('library_hall',h(G))){ GM.toast(PLACES.closedText('library_hall',h(G)),4500); return true; }   /* 2026-10-11 使用者回報：只寫「閉館了」不知道幾點開 */   /* 只擋從校園進去；人在館裡（大廳、閱覽室）之間照樣走得通，不會被關在裡面 */
     return false; };
   async function counter(GM,shop,items){ const G=GM.G; GM.sceneBegin(); const opts=items.map(([n,p,e])=>({t:n+'　'+p+' 元',hint:'體力 +'+e,dim:G.money<p})); opts.push({t:'不用了'}); const i=await GM.choose(opts); if(i<items.length){ const [n,p,e]=items[i]; if(G.money<p){ GM.toast('錢不夠'); } else { GM.money(-p); GM.energy(e); GM.advance(0.15); await GM.say(null,'你買了'+n+'。'+(shop==='兩點半 Café'?'店員把杯子放在你面前的時候，杯底和木桌碰出一聲很小的響。':'')); } } GM.sceneEnd(); }

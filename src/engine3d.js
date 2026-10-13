@@ -300,7 +300,7 @@ const E3 = (function(){
     m.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); sh.uniforms.uSeeP=ST.uSeeP; sh.uniforms.uSeeR=ST.uSeeR; sh.fragmentShader=sh.fragmentShader.replace('void main() {',ST_GLSL); };
     const pk=m.customProgramCacheKey; m.customProgramCacheKey=function(){ return (pk?pk.call(this):'')+'|seeThrough1'; }; m.needsUpdate=true; }
   E.patchSeeThrough=patchSeeThrough;
-  function updateSeeThrough(){ const P=E.player; if(!P||E.cam.mode!=='follow'||E.indoor){ ST.uSeeR.value=0; return; }
+  function updateSeeThrough(){ const P=E.player; if(!P||E.cam.mode!=='follow'||(E.indoor&&!(E.zone&&E.zone.seeThru))){ ST.uSeeR.value=0; return; }   /* 室內：區域有 seeThru 才用（法律學院圖書館的書架，走道很窄）*/
     const o=P.obj.position; _stA.set(o.x,o.y+0.9,o.z).project(camera); if(_stA.z>1||_stA.z<-1){ ST.uSeeR.value=0; return; }
     renderer.getDrawingBufferSize(_stS); _stB.set(o.x,o.y+1.75,o.z).project(camera); const top=_stB.y; _stB.set(o.x,o.y+0.05,o.z).project(camera); const ph=Math.abs(top-_stB.y)*0.5*_stS.y; // 玩家在畫面上的高度（像素）
     ST.uSeeP.value.set((_stA.x*0.5+0.5)*_stS.x,(_stA.y*0.5+0.5)*_stS.y,_stA.z*0.5+0.5); ST.uSeeR.value=Math.max(20,ph*0.62); }
