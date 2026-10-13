@@ -99,23 +99,27 @@ const STORY_EVENTS=[
     dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'（小聲）報告我寫完了。'},{if:{choice:{cafeView:'C'}},speaker:'heroine_01',expression:'smile',text:'（小聲）結論用了那天你說的「無過失」。周老師如果打槍我，我就說是你的主意。'},{if:{choice:{cafeView:'B'}},speaker:'heroine_01',expression:'thinking',text:'（小聲）我把你說的「後果自己承擔」寫進反方。寫的時候一直想到你那天的表情。'},{if:{choice:{cafeView:'A'}},speaker:'heroine_01',expression:'smile',text:'（小聲）「不能讓人因為一個手誤賠十倍」——我放在結論。'},{unless:{choice:{cafeView:'C'}},speaker:'heroine_01',expression:'neutral',text:'（小聲）……謝謝你那天陪我。'},{choice:[{text:'「妳寫得出來，我只是坐在旁邊。」',consequences:{rel:{heroine_01:{comf:4,aff:2}},mem:[{npc:'heroine_01',tag:'HELPED_WITH_REPORT'}]}},{text:'「下次換我請。」',consequences:{rel:{heroine_01:{fam:3,aff:3}},mem:[{npc:'heroine_01',tag:'IMPORTANT_CONVERSATION',note:'你說下次換你請'}]}}]},{speaker:'heroine_01',expression:'smile',text:'（小聲）好。'} ] },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
+/* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、
+   location（區域）、time:[a,b]、weekday、once（true＝一輩子一次；'term'＝每學期一次）。條件照 AA_120 第 1、2 節（第①級：只加條件、不改字）；
+   改字（第 5 節：柏翰「二十一天」、芯慈「經濟系」、黃教授「電影」、小語的內層引號）等使用者批准，字先不動。 */
 const SMALLTALK={
-  heroine_02:['「今天的豆子很酸，我不推。」','「你有看過《東京物語》嗎？沒有？那我們沒得聊了——開玩笑。」','「外文系的期中是報告，法律系呢？……我聽說你們要寫到手斷掉。」'],
-  heroine_03:['「……嗯。」','「三樓靠窗的燈壞了，你知道嗎。」','「我阿姨說你上次的麵沒吃完。」'],
-  heroine_04:[{t:'「欸不是，你手指好了沒？」',if:{events:['ev_ziqing_club']}},{t:'「阿凱昨天又通宵，你室友要看好他。」',if:{events:['ev_ziqing_club']}},{t:'「期末成發你要來。這不是問句。」',if:{events:['ev_ziqing_club']}}],   /* 三句都是去過吉他社之後才會說的（2026-10-13 使用者試玩：第一次在校園聊天就說「期末成發你要來」）*/
-  heroine_05:['「判決要看事實，不要只背結論。」','「法服週三晚上。來不來都可以，先來看一次。」','「……我沒事。只是沒睡。」'],
+  heroine_02:[{t:'「今天的豆子很酸，我不推。」',location:'cafe'},'「你有看過《東京物語》嗎？沒有？那我們沒得聊了——開玩笑。」',{t:'「外文系的期中是報告，法律系呢？……我聽說你們要寫到手斷掉。」',week:[6,9]}],
+  heroine_03:['「……嗯。」',{t:'「三樓靠窗的燈壞了，你知道嗎。」',location:'library'},{t:'「我阿姨說你上次的麵沒吃完。」',if:{events:['ev_noodle_yutong']}}],
+  heroine_04:[{t:'「欸不是，你手指好了沒？」',if:{memory:[{npc:'heroine_04',tag:'INVITED_CLUB'}]}},{t:'「阿凱昨天又通宵，你室友要看好他。」',if:{events:['ev_ziqing_club']}},
+              {t:'「期末成發你要來。這不是問句。」',if:{memory:[{npc:'heroine_04',tag:'INVITED_CLUB'}],stage:{npc:'heroine_04',min:'FAMILIAR'}},term:['Y1S2','Y2S2'],week:[10,13]}],   /* 手指痛＝學過和弦；成發在大一下、大二下第 14 週（AA_120 第 1 節、BB_96 4-4）*/
+  heroine_05:['「判決要看事實，不要只背結論。」',{t:'「法服週三晚上。來不來都可以，先來看一次。」',if:{notFlags:['lawclub']}},{t:'「……我沒事。只是沒睡。」',if:{stage:{npc:'heroine_05',min:'FAMILIAR'}}}],
   classmate_bohan:['「你有看今天的判決嗎？」','「我算過了，期中前還有二十一天。」'],
-  classmate_xinci:['「筆記我還你了，你有收到嗎？」','「經濟系那邊的課比較輕鬆，你要不要一起修？」'],
-  classmate_mingxuan:['「阿哲說週五練球。」','「你看起來很累。睡飽比較重要。」'],
-  classmate_youchen:['「……現在幾點？我昨天四點才睡。」','「公館那間 bar 週五我放歌，來嗎？」'],
-  classmate_peishan:['「我今天旁聽了倫理學。」','「讀書會週三，萬才館。」'],
-  npc_fangyt:['「森林系的野外實習，下週去溪頭。」','「芷若跟你講過我嗎？她高中就這樣，什麼都不講。」'],
-  npc_huangxh:['「心理系的統計比你們的民法可怕。」','「語彤最近很累，你有注意到嗎？」'],
-  npc_ta_chen:['「論文寫到第三章。……別問我第四章。」','「林老師的考題，看判決就對了。」'],
-  prof_zhou:['「有問題就來研究室。法律不是背的，是想的。」'],prof_lin:['「判決要整個讀，不要只讀結論。」'],prof_zhang:['「講義第三十頁，自己回去看。」'],prof_wu:['「這個概念我們下週再講兩小時。」'],prof_huang:['「這週的電影是《正義：一場思辨之旅》，看過的舉手。」'],prof_xu:['「行政法大二再說。先把民總讀好。」'],prof_tsai:['「民訴的題目很長，因為人生很長。」'],prof_chen:['「國際法的 seminar 隨時歡迎旁聽。」'],
-  kai:['「所以那個賣家可以告嗎？……不能？那法律系在幹嘛。」','「宿舍網路又斷了。你們有教這個嗎？」'],
-  zhe:['「系籃週五練球，來坐也可以。」','「公館那家滷味晚上十點後半價。」'],
-  yu:['「辯論社下週辯「網拍標錯價要不要出貨」。」','「溫州街的貓你有看到嗎？」'],
+  classmate_xinci:[{t:'「筆記我還你了，你有收到嗎？」',if:{memory:[{npc:'classmate_xinci',tag:'LENT_NOTES'}]},once:true},'「經濟系那邊的課比較輕鬆，你要不要一起修？」'],
+  classmate_mingxuan:['「阿哲說週五練球。」',{t:'「你看起來很累。睡飽比較重要。」',if:{energy:{max:40}}}],
+  classmate_youchen:[{t:'「……現在幾點？我昨天四點才睡。」',time:[8,13]},{t:'「公館那間 bar 週五我放歌，來嗎？」',if:{notEvents:['ev_youchen_dj']}}],
+  classmate_peishan:['「我今天旁聽了倫理學。」',{t:'「讀書會週三，萬才館。」',if:{notFlags:['lawclub']}}],
+  npc_fangyt:[{t:'「森林系的野外實習，下週去溪頭。」',once:'term'},{t:'「芷若跟你講過我嗎？她高中就這樣，什麼都不講。」',if:{events:['ev_fangyt_z6']}}],   /* 第二句在 Z6（BB_96 3-6，大一下）之後才說；Z6 還沒做，先不說（BB 2026-10-13）*/
+  npc_huangxh:['「心理系的統計比你們的民法可怕。」',{t:'「語彤最近很累，你有注意到嗎？」',if:{memory:[{npc:'heroine_03',tag:'FIRST_MET'}]}}],
+  npc_ta_chen:['「論文寫到第三章。……別問我第四章。」',{t:'「林老師的考題，看判決就對了。」',term:['Y2S2','Y3S1']}],
+  prof_zhou:['「有問題就來研究室。法律不是背的，是想的。」'],prof_lin:['「判決要整個讀，不要只讀結論。」'],prof_zhang:[{t:'「講義第三十頁，自己回去看。」',if:{course:{const_1:{min:1}}}}],prof_wu:[{t:'「這個概念我們下週再講兩小時。」',if:{course:{crim_gen1:{min:1}}},term:['Y1S1','Y1S2','Y2S1']}],prof_huang:['「這週的電影是《正義：一場思辨之旅》，看過的舉手。」'],prof_xu:[{t:'「行政法大二再說。先把民總讀好。」',if:{course:{admin_law:{max:0}}}}],prof_tsai:['「民訴的題目很長，因為人生很長。」'],prof_chen:['「國際法的 seminar 隨時歡迎旁聽。」'],
+  kai:[{t:'「所以那個賣家可以告嗎？……不能？那法律系在幹嘛。」',if:{flags:['classDone']}},{t:'「宿舍網路又斷了。你們有教這個嗎？」',location:'dorm'}],
+  zhe:[{t:'「系籃週五練球，來坐也可以。」',if:{notFlags:['ball_invite']}},'「公館那家滷味晚上十點後半價。」'],
+  yu:[{t:'「辯論社下週辯「網拍標錯價要不要出貨」。」',term:['Y1S1'],once:true,if:{flags:['classDone']}},'「溫州街的貓你有看到嗎？」'],
 };
 
 // ══════════════════════════════════════ 事件包 v1.1：女主角 arc、教授、同學、生活小事、考試、研究所

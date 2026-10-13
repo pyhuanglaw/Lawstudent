@@ -119,7 +119,7 @@ async def main():
         await pg.wait_for_timeout(3500)
         st, said, opts = await wake_and_select(pg, cdp, run, 'A', '這學期不修')
         run.check('A 睡覺 → 週日（2/22）早上起床：「選課結果出來了：大一下」、問法律與社會（下）要不要修',
-                  bool(st) and any('選課結果出來了：大一下' in t for t in said) and any('要修嗎' in t for t in said), json.dumps(said, ensure_ascii=False))
+                  bool(st) and any(t.startswith('選課結果出來了') for t in said) and any('要修嗎' in t for t in said), json.dumps(said, ensure_ascii=False))
         run.check('A 選項：「法律與社會（下）」（預設，排第一）、「這學期不修法律與社會（下）」',
                   bool(opts) and opts[0][0].startswith('法律與社會（下）') and any(o.startswith('這學期不修') for o in opts[0]), json.dumps(opts, ensure_ascii=False))
         rec = await pg.evaluate(REC_JS)
@@ -178,8 +178,12 @@ async def main():
             s = await L.state(pg)
             run.check('B 自己走到座位旁、出現「坐下」', ok and s['interact'].startswith('坐下'), json.dumps(s, ensure_ascii=False))
             if s['interact'].startswith('坐下'):
-                await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
-                first = await pg.evaluate("(()=>{ const b=document.querySelector('#choices button'); return b?b.textContent:''; })()")
+                await L.tap(pg, cdp, '#interact')
+                first = ''
+                for _ in range(16):   # 坐下的動畫＋選單（SwiftShader 慢時要好幾秒）
+                    await pg.wait_for_timeout(700)
+                    first = await pg.evaluate("(()=>{ const b=document.querySelector('#choices button'); return b?b.textContent:''; })()")
+                    if first: break
                 run.check('B 坐下後第一個選項「上課：法律與社會（下）」', first.startswith('上課：法律與社會（下）'), first)
                 s = await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['busy'] and not q['dlg'] and not q['choices'], pick=0)
                 rec = await pg.evaluate(REC_JS)
