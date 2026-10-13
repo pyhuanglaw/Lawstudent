@@ -2,7 +2,7 @@
 // 使用者 2026-10-13 試玩：「沒事做的時間太長了」「我第一週上課完完全沒事做一整週」——AA：空的是下課以後、晚上和週末（活動清單是空的）。
 // 檢查：日期／星期／週次對（考試週、放假不辦）；導覽在總圖大廳的集合點參加（今天有才放互動點；時間到了才能參加，還沒到寫幾點集合）；
 //   講習在法律學院圖書館討論室 A 坐下時可以參加；社課在博雅 201、普通 201 坐下時可以參加；第一次去社課記下 CLUB_<id>；
-//   「去一次就好」的（導覽、講習）參加過一場，其他場不再列、公告欄不再貼。吉他社、法服讀書會、社團博覽會、系籃等 AA 回覆（沒有放進清單）。
+//   「去一次就好」的（導覽、講習）參加過一場，其他場不再列、公告欄不再貼。吉他社、法服讀書會、社團博覽會、系籃（6-8）在 tests/clubs_aa110_unit.js。
 // 用法：node tests/activities_aa110_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -18,7 +18,7 @@ const GM={G,E:{zone:null,interactables:[],player:{busy:false,obj:{position:{x:0,
   choose:async o=>{ chose.push(o.map(q=>q.t)); return answer; },fade:async()=>{},sleep:async()=>{},advance(h){ G.hour+=h; },energy(){},money(){}};
 const A=id=>ACTIVITIES.list.find(a=>a.id===id);
 const ids=['lib_tour_y1s1','lawlib_intro_y1s1','club_debate','club_hiking'];
-check('活動清單有 AA_110 6-3 的四筆（都是 story:false）；吉他社、法服讀書會、博覽會、系籃還沒放（等 AA）',ids.every(i=>A(i)&&A(i).story===false)&&!['club_guitar','lawclub_study','club_expo_y1s1','dept_basketball'].some(i=>A(i)),ACTIVITIES.list.map(a=>a.id).join(','));
+check('活動清單有 AA_110 6-3 的四筆＋6-8 的吉他社、法服讀書會、博覽會、系籃（全部 story:false；6-8 的細節在 clubs_aa110_unit.js）',ids.concat(['club_guitar','lawclub_study','club_expo_y1s1','dept_basketball']).every(i=>A(i)&&A(i).story===false),ACTIVITIES.list.map(a=>a.id).join(','));
 /* 導覽 */
 const tourDays=['2025-09-19','2025-09-23','2025-09-25','2025-09-26'].map(dayOf);
 check('總圖新生導覽：9/19、9/23、9/25、9/26 有，其他天沒有',tourDays.every(d=>ACTIVITIES.on(A('lib_tour_y1s1'),d))&&!ACTIVITIES.on(A('lib_tour_y1s1'),dayOf('2025-09-24'))&&!ACTIVITIES.on(A('lib_tour_y1s1'),dayOf('2025-09-20')));
