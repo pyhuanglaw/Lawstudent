@@ -18,7 +18,7 @@ const TB3=(function(){
       top:{x0:B.x0,x1:B.x1,z0:B.z1-t/2,z1:B.z1,y:LD.y+B.risers*r} };
     return LL3.stairSurfs(L); }
   // ---- 座位：教室、休息區、自習區、長椅 ----
-  function seatsOf(L){ const out=[]; for(const r of L.rooms) for(const s of (r.seats||[])) out.push(Object.assign({kind:'class'},s));
+  function seatsOf(L){ const out=[]; for(const r of L.rooms) for(const s of (r.seats||[])) out.push(Object.assign({kind:r.kind==='lecture'?'lecture':'class'},s,s.y!=null?{y:s.y+L.floors[s.lv|0].y}:{}));   /* 階梯教室的座位有高度（那一排的平台，絕對高度）*/
     for(const s of (L.lounge?L.lounge.seats:[])) out.push(Object.assign({kind:'lounge'},s));
     for(const t of (L.study?L.study.tables:[])) for(const s of t.seats) out.push(Object.assign({kind:'study'},s));
     for(const b of (L.benches||[])) out.push({x:b.x+Math.sin(b.ry)*0.06,z:b.z+Math.cos(b.ry)*0.06,yaw:b.ry,lv:b.lv,kind:'bench',label:b.label,room:'hall'});
@@ -26,7 +26,8 @@ const TB3=(function(){
   const wallSegs=w=>{ const horiz=Math.abs(w.z0-w.z1)<1e-6, a0=horiz?Math.min(w.x0,w.x1):Math.min(w.z0,w.z1), a1=horiz?Math.max(w.x0,w.x1):Math.max(w.z0,w.z1); const gs=(w.gaps||[]).slice().sort((p,q)=>p[0]-q[0]); const out=[]; let a=a0; for(const [g0,g1] of gs){ if(g0>a) out.push([a,g0]); a=Math.max(a,g1); } if(a<a1) out.push([a,a1]); return {horiz,segs:out}; };
   // ---- 導航：兩層 ----
   function buildNav(L){ const W=L.W, D=L.D, Y1=L.floors[1].y, S=L.stair, A=S.A, B=S.B, LD=S.landing; const ss=stairSurfs(L);
-    const mk=()=>new E3.NavGrid(W+2,D+2,L.cell,-W/2-1,-D/2-1); const nav0=mk(), nav1=mk().setFloor(Y1); const navs=[nav0,nav1];
+    /* 格子中心要落在格子大小的倍數上（配置裡的牆都在 0.4 的倍數）：原本 z 方向的格子中心在 0.4k+0.2，橫的牆（走廊牆 z=-0.4、2.4）壓在格子邊界上、一格都擋不到，人可以直接穿牆走進教室（2026-10-13 發現，tests/nav_teach_unit.js「牆擋得住」）*/
+    const c=L.cell, al=v=>(Math.floor(v/c+1e-9)-0.5)*c; const mk=()=>new E3.NavGrid(W+3,D+3,c,al(-W/2-1),al(-D/2-1)); const nav0=mk(), nav1=mk().setFloor(Y1); const navs=[nav0,nav1];
     nav0.blockOutside(-W/2+0.3,-D/2+0.3,W/2-0.3,D/2-0.3);
     nav1.fillBlocked();
     // 二樓走得到的地方：整層，扣掉樓梯井（A 跑、平台、兩跑中間的牆）；B 跑最上面接到走廊
@@ -48,6 +49,15 @@ const TB3=(function(){
     /* 自習區、休息區的椅子也擋（使用者 2026-10-13 驗收：「自習桌不會讓玩家穿過椅子」）：坐的時候從旁邊走到椅子邊（GAME.seatApproach）再坐上去；
        教室的椅子還不擋（排距 1.6 m，擋了以後椅子那一條比人窄），之後換正式模型時一起處理 */
     for(const st of [...(L.lounge?L.lounge.seats:[]),...(L.study?L.study.tables.flatMap(t=>t.seats):[])]) navs[st.lv|0].blockRect(st.x,st.z,0.46,0.46,0,0);
+    /* 階梯教室（共 101…）：每排一個平台（座位區）；兩側走道每排前半是兩階（連續的斜面給碰撞、找路，畫面上一階一階）、後半是平的；長桌、椅子、講桌擋住。
+       排與排的高低差 0.3 m（大於人物半徑內允許的 0.25 m）：只能從兩側走道上下，不能跨過桌椅；椅子後面那一條（前緣往後 1.6 m）是走道 */
+    for(const r of L.rooms){ if(r.kind!=='lecture') continue; const nav=navs[r.lv], Y=L.floors[r.lv].y, up=r.stage==='S'?-1:1;
+      for(const q of r.rowsData){ const za=Math.min(q.front,q.back), zb=Math.max(q.front,q.back), sa=Math.min(q.front,q.stepEnd), sb=Math.max(q.front,q.stepEnd), fa=Math.min(q.stepEnd,q.back), fb=Math.max(q.stepEnd,q.back), half=(q.y-q.yPrev)/2;
+        nav.addSurf({x0:r.seatX0,x1:r.seatX1,z0:za,z1:zb,y:Y+q.y});
+        for(const [a0,a1] of r.aisles){ nav.addSurf(up<0?{x0:a0,x1:a1,z0:sa,z1:sb,axis:'z',ya:Y+q.y,yb:Y+q.yPrev,tread:r.stepD,rise:half,low:'z1'}:{x0:a0,x1:a1,z0:sa,z1:sb,axis:'z',ya:Y+q.yPrev,yb:Y+q.y,tread:r.stepD,rise:half,low:'z0'}); nav.addSurf({x0:a0,x1:a1,z0:fa,z1:fb,y:Y+q.y}); }
+        nav.blockRect((r.seatX0+r.seatX1)/2,q.deskZ,r.seatX1-r.seatX0,r.deskD,0,0.02); }
+      for(const st of r.seats) nav.blockRect(st.x,st.z,0.46,0.46,0,0);
+      if(r.lectern) nav.blockRect(r.lectern.x,r.lectern.z,r.lectern.w,r.lectern.d,0,0.05); }
     for(const b of (L.benches||[])) navs[b.lv].blockRect(b.x,b.z,Math.abs(Math.sin(b.ry))>0.5?0.6:1.5,Math.abs(Math.sin(b.ry))>0.5?1.5:0.6,0,0);
     for(const b of (L.boards||[])) navs[b.lv].blockRect(b.x,b.z,Math.abs(Math.sin(b.ry))>0.5?0.2:b.w,Math.abs(Math.sin(b.ry))>0.5?b.w:0.2,0,0);
     nav0._cm=null; nav1._cm=null; return {nav0,nav1,ss}; }
@@ -93,7 +103,9 @@ const TB3=(function(){
     const up1=new THREE.Group(); up1.position.y=Y1; fb1.add(up1); const grpOf=lv=>lv?up1:fb0; const dummy={blockRect(){}};
     // 教室：黑板、講桌、學生桌；互動：看教室（門口）
     for(const r of L.rooms){ const y=r.lv?Y1:0, bb=bins[r.lv];
-      if(r.kind==='closed'){ const dz=r.z0; const dx=(r.door[0]+r.door[1])/2; bb.add(MAT.woodD(),TK.boxG(r.door[1]-r.door[0]-0.1,2.3,0.06),dx,y+1.15,dz-0.13); IT.push({x:dx,z:dz-0.9,radius:1.0,lv:r.lv,label:r.label,look:r.look}); continue; }
+      /* 關著的房間：門板在 doorZ 那一道牆的外側（走廊那一側），門口的說明在牆外 0.9 m（原本一律放在 z0 那一側：洗手間的門口說明跑到建築外面、走不到）*/
+      if(r.kind==='closed'){ const dz=r.doorZ!=null?r.doorZ:r.z0, out=Math.abs(dz-r.z1)<1e-6?1:-1; const dx=(r.door[0]+r.door[1])/2; bb.add(MAT.woodD(),TK.boxG(r.door[1]-r.door[0]-0.1,2.3,0.06),dx,y+1.15,dz+out*0.13); IT.push({x:dx,z:dz+out*0.9,radius:1.0,lv:r.lv,label:r.label,look:r.look}); continue; }
+      if(r.kind==='lecture'){ buildLecture(L,r,grpOf(r.lv),bb,IT,r.lv?lv1:lv0,zone); continue; }
       if(r.kind!=='classroom') continue;
       const s=r.board==='W'?1:-1; bb.add(M('#2f4a3a',{rough:0.6}),TK.boxG(0.04,1.2,r.blackboard.len),r.blackboard.x,y+1.6,r.blackboard.z); bb.add(MAT.frame(),TK.boxG(0.06,0.08,r.blackboard.len+0.1),r.blackboard.x+s*0.02,y+0.98,r.blackboard.z);
       bb.add(MAT.woodD(),TK.boxG(r.teacher.w,0.95,r.teacher.d),r.teacher.x,y+0.475,r.teacher.z);
@@ -111,9 +123,33 @@ const TB3=(function(){
     // 座位
     const seats=zone.seats=seatsOf(L);
     for(const st of seats){ if(st.kind==='class'||st.kind==='lounge'||st.kind==='study') Z3.chair(grpOf(st.lv),st.x,st.z,st.yaw,st.kind==='class'?'#5a6470':'#8a6a4a');
-      const label=st.kind==='class'?'坐下':(st.kind==='study'?'坐下讀書（自習區）':(st.kind==='lounge'?'坐下（休息區）':(st.label||'坐下')));
+      const label=st.kind==='class'||st.kind==='lecture'?'坐下':(st.kind==='study'?'坐下讀書（自習區）':(st.kind==='lounge'?'坐下（休息區）':(st.label||'坐下')));
+      /* 階梯教室：互動點在椅子後面 0.35 m（玩家站在那一排椅子後面的走道上；半徑小一點，旁邊的位子不會搶），帶高度（別排的不算）*/
+      if(st.kind==='lecture'){ IT.push({x:st.x-Math.sin(st.yaw)*0.35,z:st.z-Math.cos(st.yaw)*0.35,y:st.y,radius:0.62,lv:st.lv,label,seat:st,study:true}); continue; }
       IT.push({x:st.x,z:st.z,radius:0.8,lv:st.lv,label,seat:st,study:st.kind!=='bench'}); }
     b0.build(fb0); b1.build(fb1); return seats; }
+  // ---- 階梯教室（備用模型）：每排的平台、兩側走道的台階（每排兩階）、前緣收邊、長桌、椅子、講桌、黑板、投影幕；門口的「看看」；點地面用的平面 ----
+  function buildLecture(L,r,grp,bb,IT,lvGrp,zone){ const MAT=B3.MAT, Y=L.floors[r.lv].y, up=r.stage==='S'?-1:1, dummy={blockRect(){}};
+    const platM=TK.std({map:W3.stoneTex('#c4c2bd'),roughness:0.8}), riserM=TK.std({color:0x8f8b84,roughness:0.85}), noseM=TK.std({color:0x55595e,roughness:0.6}), stepM=TK.std({color:0xd8d2c4,roughness:0.7});
+    const sw=r.seatX1-r.seatX0, sx=(r.seatX0+r.seatX1)/2, wx0=Math.min(...r.aisles.map(a=>a[0])), wx1=Math.max(...r.aisles.map(a=>a[1]));
+    for(const q of r.rowsData){ const za=Math.min(q.front,q.back), zb=Math.max(q.front,q.back), half=(q.y-q.yPrev)/2;
+      bb.add(platM,TK.boxG(sw,q.y,zb-za,2.4),sx,Y+q.y/2,(za+zb)/2);                                    // 座位區的平台
+      bb.add(riserM,TK.boxG(sw,q.y-q.yPrev,0.02),sx,Y+(q.y+q.yPrev)/2,q.front-up*0.011);               // 前緣的豎板（深一點，看得出一階）
+      bb.add(noseM,TK.boxG(wx1-wx0,0.035,0.05),(wx0+wx1)/2,Y+q.y-0.0175,q.front+up*0.025);             // 前緣收邊
+      for(const [a0,a1] of r.aisles){ const aw=a1-a0, ac=(a0+a1)/2, z1=q.front+up*r.stepD, fa=Math.min(q.stepEnd,q.back), fb=Math.max(q.stepEnd,q.back);   // 走道：兩階＋平的一段
+        bb.add(platM,TK.boxG(aw,q.yPrev+half,r.stepD,2.4),ac,Y+(q.yPrev+half)/2,q.front+up*r.stepD/2);
+        bb.add(platM,TK.boxG(aw,q.y,r.stepD,2.4),ac,Y+q.y/2,q.front+up*r.stepD*1.5);
+        bb.add(platM,TK.boxG(aw,q.y,fb-fa,2.4),ac,Y+q.y/2,(fa+fb)/2);
+        for(const [zz,yy] of [[q.front,q.yPrev+half],[z1,q.y]]) bb.add(stepM,TK.boxG(aw,0.02,0.06),ac,Y+yy+0.005,zz+up*0.03); }   // 每一階前緣的止滑條
+      { const dk=Z3.desk(grp,dummy,sx,q.deskZ,0,sw,r.deskD,'#3b3330'); dk.position.y=q.y; }
+      const wp=new THREE.Mesh(new THREE.PlaneGeometry(wx1-wx0,zb-za),new THREE.MeshBasicMaterial({visible:false})); wp.rotation.x=-Math.PI/2; wp.position.set((wx0+wx1)/2,Y+q.y+0.01,(za+zb)/2); wp.userData.walkLv=r.lv; wp.userData.dyn=true; lvGrp.add(wp); zone.walkMeshes.push(wp); }
+    for(const st of r.seats){ const c=Z3.chair(grp,st.x,st.z,st.yaw,'#8a5f3c'); c.position.y=st.y; }
+    if(r.lectern){ const lc=r.lectern; bb.add(MAT.wood(),TK.boxG(lc.w,1.05,lc.d),lc.x,Y+0.525,lc.z); bb.add(MAT.woodD(),TK.boxG(lc.w+0.1,0.05,lc.d+0.1),lc.x,Y+1.075,lc.z); }
+    const wz=up<0?r.z1:r.z0;   // 講台那一面牆
+    if(r.board){ const b=r.board; bb.add(TK.std({color:0x2f4a3a,roughness:0.6}),TK.boxG(b.w,b.y1-b.y0,0.04),b.x,Y+(b.y0+b.y1)/2,wz+up*0.03); bb.add(MAT.frame(),TK.boxG(b.w+0.1,0.05,0.09),b.x,Y+b.y0-0.02,wz+up*0.06); }
+    if(r.screen){ const sc=r.screen; const p=new THREE.Mesh(new THREE.PlaneGeometry(sc.w,sc.y1-sc.y0),new THREE.MeshBasicMaterial({color:0xf2f0ea})); p.position.set(sc.x,(sc.y0+sc.y1)/2,wz+up*0.12); p.rotation.y=up<0?Math.PI:0; grp.add(p); bb.add(MAT.frame(),TK.boxG(sc.w+0.2,0.1,0.12),sc.x,Y+sc.y1+0.05,wz+up*0.12); }
+    if(r.door){ const d=r.door, mid=(d.a0+d.a1)/2, o={W:[-0.6,0],E:[0.6,0],N:[0,-0.6],S:[0,0.6]}[d.wall]||[0,0], vert=d.wall==='W'||d.wall==='E';   // 門外（走廊、大廳那一側）
+      IT.push({x:(vert?d.x:mid)+o[0],z:(vert?mid:d.z)+o[1],radius:0.9,lv:r.lv,label:r.lookLabel,room:r.id,look:r.look}); } }
   // ---- 窗外的景（B3.outView；照片還沒拍的用程序化的景）----
   function windowViews(L,lv0,lv1,outs){ const W=L.W, D=L.D, T=L.wallT;
     for(const w of L.windows){ const grp=w.lv?lv1:lv0, a=(w.a0+w.a1)/2, len=w.a1-w.a0, h=w.y1-w.y0, yc=(w.y0+w.y1)/2-(w.lv?L.floors[1].y:0);

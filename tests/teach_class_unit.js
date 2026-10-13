@@ -1,7 +1,7 @@
-// 建築裡的教室上課（D55 第二階段：共同教學館 101；課表 COMMON＝共同教學館 101）——不需要瀏覽器。
+// 建築裡的教室上課（D55 第二階段：共同教學館 101；課表 COMMON＝共同教學館 101，2026-10-13 起是階梯教室）——不需要瀏覽器。
 // 檢查：坐在 101 的座位、課開始前後 30 分鐘內 → 坐下的第一個選項是這堂課；坐在 102 → 不是；
 //       起床的目標導航指到「看看共同 101 教室」（館裡找得到這個互動點）；
-//       上課時 101 坐了一部分同學（位子照課程與日期固定，再算一次一樣）、102 沒有；下課後同學離開；
+//       上課時 101 坐了一部分同學（位子照課程與日期固定，再算一次一樣；坐在那一排的高度）、102 沒有；下課後同學離開；
 //       校園上共同教學館的門：課在館內的教室 → 按門就進館（不上門口的 2D 課），提示教室在哪。
 // 用法：node tests/teach_class_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -31,7 +31,8 @@ const s101=z.seats.find(q=>q.room==='101'), s102=z.seats.find(q=>q.room==='102')
 { const g=CLS.goalFor(mkG(8.0)); const it=E.interactables.find(i=>g.dest&&(i.label||'').startsWith(g.dest.label));
   check('起床的目標：導航指到共同教學館 101（館裡有「看看共同 101 教室」這個互動點）',g.dest&&g.dest.zone==='gongtong'&&!!it,JSON.stringify(g.dest)+' → '+(it&&it.label)); }
 { const GM={G:mkG(9.25),E}; CLS.syncRooms(GM); const a=E.npcs.filter(n=>n.clsStudent).map(n=>n.seat.room+':'+n.seat.x+','+n.seat.z);
-  check('上課時（09:15）：101 坐了一部分同學（5～12 人）、102 沒有',a.length>=5&&a.length<=12&&a.every(q=>q.startsWith('101:')),a.length+' 人');
+  check('上課時（09:15）：101 坐了一部分同學（5～16 人）、102 沒有',a.length>=5&&a.length<=16&&a.every(q=>q.startsWith('101:')),a.length+' 人');
+  const st=E.npcs.filter(n=>n.clsStudent); check('同學坐在那一排的高度（階梯教室：0.3～1.5 m，和座位一樣）',st.length&&st.every(n=>n.seat.kind==='lecture'&&Math.abs(n.obj.position.y-n.seat.y)<0.001&&n.seat.y>0.29),st.map(n=>n.obj.position.y.toFixed(1)).join(' '));
   E.npcs=[]; CLS.syncRooms(GM); const b=E.npcs.filter(n=>n.clsStudent).map(n=>n.seat.room+':'+n.seat.x+','+n.seat.z);
   check('出去再進來（同一堂課）：同一些位子',JSON.stringify(a)===JSON.stringify(b));
   GM.G.hour=12.4; CLS.syncRooms(GM); check('下課後（12:24）：同學離開',!E.npcs.some(n=>n.clsStudent),E.npcs.filter(n=>n.clsStudent).length+' 人'); }

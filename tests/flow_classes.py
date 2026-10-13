@@ -3,7 +3,7 @@
 A. 正常走路：週五 12:55 在霖澤館二樓 201 門口 → 點「進入 201」→ 教授在講台 → 走到座位 → 坐下選「上課：法律與社會」→ 點對話 → 快轉到 15:10 下課
    → 起身 → 走到後門 → 離開教室（回到霖澤館二樓）；下課後教授離開教室。
 B. 手機快速前往：週一 08:50 在校門口 → 點 📱 → 「今天」有 09:10 憲法 → 點「去教室」→ 到 201、時間有過（15 分鐘）→ 坐下上課 → 下課 12:10。
-C. 共同教學館 101：週二 08:50 在椰林大道 → 走到共同教學館門口 → 按門進館 → 自己走進 101 → 坐下「上課：大一國文」→ 下課 12:10；之後 14:00 打開手機：13:20 通識寫「沒去」。
+C. 共同教學館 101：週二 08:50 在椰林大道 → 走到共同教學館門口 → 按門進館 → 自己走進 101（階梯教室，走側邊台階上到第 2 排）→ 坐下「上課：大一國文」→ 下課 12:10；之後 14:00 打開手機：13:20 通識寫「沒去」。
 D. 存讀檔：重新整理頁面 → 標題畫面「讀取」→ 自動存檔 → 課表紀錄還在（上過的課、出席次數），手機寫「上過了」。
 E. 手機在直向、橫向的顯示（截圖）。
 用法：python3 tests/flow_classes.py URL [輸出資料夾]"""
@@ -100,10 +100,11 @@ async def main():
         s = await L.state(pg)
         run.check('按門：走進共同教學館（課在館內的 101，不是門口的 2D 畫面）', s['zone'] == 'gongtong' and s['stand'], json.dumps(s, ensure_ascii=False))
         await run.shot(pg, 'C_gongtong_lobby')
-        seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.find(q=>q.room==='101'&&q.row===1&&q.col===1); return s?{x:s.x,z:s.z}:null; })()")
-        ok = await L.go_to(pg, cdp, run, seat['x'], seat['z'] + 0.55, 0.5, '101 的座位旁')
+        seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.find(q=>q.room==='101'&&q.row===1&&q.col===1); return s?{x:s.x,z:s.z,yaw:s.yaw,y:s.y}:null; })()")
+        ax, az = seat['x'] - math.sin(seat['yaw']) * 0.6, seat['z'] - math.cos(seat['yaw']) * 0.6   # 共 101 是階梯教室：椅子後面的走道（第 2 排的平台）
+        ok = await L.go_to(pg, cdp, run, ax, az, 0.3, '共 101 第 2 排的座位後面', lv=0)
         s = await L.state(pg)
-        run.check('自己走進 101、走到座位旁、出現「坐下」', ok and s['interact'].startswith('坐下'), json.dumps(s, ensure_ascii=False))
+        run.check('自己走進共 101（階梯教室：從講台那一端的門進去、走側邊的台階上到第 2 排）、站在那一排的平台上、出現「坐下」', ok and s['interact'].startswith('坐下') and abs(s['y'] - seat['y']) < 0.08, json.dumps(s, ensure_ascii=False))
         studs = await pg.evaluate("GAME.E.npcs.filter(n=>n.clsStudent).length")
         run.check('101 上課前已經有同學坐著（同一間、一半左右的位子）', studs >= 4, str(studs))
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)

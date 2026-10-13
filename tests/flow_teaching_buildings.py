@@ -2,7 +2,7 @@
 第一階段：共同教學館（普通、博雅等使用者決定位置後加進來）。
 玩家操作一律走真的介面（觸控點地面、互動按鈕、手機按鈕、小地圖）；前置條件（讀檔到某天某時某地）用 [前置／捷徑] 標示。
 A. 從椰林大道（傅鐘東邊）點地面走到共同教學館正門：不瞬移；到門口出現「共同教學館」按鈕；今天沒有課——按下去就進館；
-   自己走進 101 教室坐下、起身；走上樓梯到二樓走廊、自習區；走下樓、走出去回到正門前（D55 第二階段的室內）。
+   自己走進共 101 階梯教室（側邊台階上到第 2 排）坐下、起身；走上樓梯到二樓走廊、自習區；走下樓、走出去回到正門前（D55 第二階段的室內）。
 B. 大地圖：地名「共同教學館」在建築的位置（地名資料＋點小地圖打開大地圖的截圖）。
 C. 手機「地點」快速前往：從宿舍 → 共同教學館：到校園、站在門口前（站得住、不在建築裡）、時間有過（照距離約 5 分鐘）、出現「共同教學館」按鈕；
    再自己走回椰林大道（不會卡在門口）。
@@ -50,11 +50,14 @@ async def main():
         s = await L.state(pg)
         run.check('按「共同教學館」（今天這裡沒有課）：直接走進館裡（大廳、站得住）', s['zone'] == 'gongtong' and s['stand'] and s['lv'] == 0, json.dumps(s, ensure_ascii=False))
         await run.shot(pg, 'A_lobby')
-        seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.find(q=>q.room==='101'&&q.row===1&&q.col===1); return s?{x:s.x,z:s.z,yaw:s.yaw}:null; })()")
-        run.check('101 教室的座位資料', bool(seat), json.dumps(seat))
-        ok = await L.go_to(pg, cdp, run, seat['x'], seat['z'] + 0.55, 0.5, '101 教室的座位旁')
+        seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.find(q=>q.room==='101'&&q.row===1&&q.col===1); return s?{x:s.x,z:s.z,yaw:s.yaw,y:s.y,kind:s.kind}:null; })()")
+        run.check('共 101 是階梯教室：座位資料（第 2 排、高 0.6 m）', bool(seat) and seat['kind'] == 'lecture' and abs(seat['y'] - 0.6) < 0.01, json.dumps(seat))
+        await run.shot(pg, 'A_lecture_door')
+        ax, az = seat['x'] - math.sin(seat['yaw']) * 0.6, seat['z'] - math.cos(seat['yaw']) * 0.6   # 椅子後面的走道
+        ok = await L.go_to(pg, cdp, run, ax, az, 0.3, '共 101 第 2 排的座位後面', lv=0)
         s = await L.state(pg)
-        run.check('自己走進 101 教室、走到座位旁、出現「坐下」', ok and s['interact'].startswith('坐下'), json.dumps(s, ensure_ascii=False))
+        run.check('自己走進共 101（講台那一端的門、側邊台階）、站在第 2 排的平台上、出現「坐下」', ok and s['interact'].startswith('坐下') and abs(s['y'] - seat['y']) < 0.08, json.dumps(s, ensure_ascii=False))
+        await run.shot(pg, 'A_lecture_row2')
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
         opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
         pose = await pg.evaluate("GAME.E.player.pose")
@@ -67,7 +70,7 @@ async def main():
         ok = await L.go_to(pg, cdp, run, 0, 1.0, 0.8, '二樓走廊', lv=1)
         s = await L.state(pg)
         run.check('自己走上樓梯到二樓走廊（第 1 層、4.2 m）', ok and s['lv'] == 1 and abs(s['y'] - 4.2) < 0.1, json.dumps(s, ensure_ascii=False))
-        ok = await L.go_to(pg, cdp, run, -8.7, 4.4, 0.5, '二樓自習區（桌子旁）', lv=1)
+        ok = await L.go_to(pg, cdp, run, -8.0, 4.35, 0.4, '二樓自習區（兩排桌子中間的走道）', lv=1)
         s = await L.state(pg)
         run.check('走到二樓自習區、出現「坐下讀書（自習區）」', ok and '自習區' in s['interact'], json.dumps(s, ensure_ascii=False))
         await run.shot(pg, 'A_study_2f')

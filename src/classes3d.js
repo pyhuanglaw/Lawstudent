@@ -135,9 +135,9 @@ const CLS=(function(){
   /* 建築裡的教室（共同教學館…）：正在上課的每一間坐一半左右的同學（位子照課程與日期固定：出去再進來是同一批人）；下課的那一間的人離開 */
   S.syncRooms=function(GM){ const G=GM.G, E=GM.E; if(!E.zone||!E.zone.seats||!E.zone.layout) return; const live=S.liveIn(G,G.zone).filter(it=>it.room.room); const keys=new Set(live.map(it=>it.key));
     for(const n of E.npcs.slice()){ if(n.clsStudent&&!keys.has(n.clsKey)){ E.removeNPC(n); } }
-    for(const it of live){ if(E.npcs.some(n=>n.clsStudent&&n.clsKey===it.key)) continue; const seats=E.zone.seats.filter(q=>q.room===it.room.room&&q.kind==='class'); let h=0; for(const ch of it.key) h=(h*31+ch.charCodeAt(0))>>>0;
+    for(const it of live){ if(E.npcs.some(n=>n.clsStudent&&n.clsKey===it.key)) continue; const seats=E.zone.seats.filter(q=>q.room===it.room.room&&(q.kind==='class'||q.kind==='lecture')); let h=0; for(const ch of it.key) h=(h*31+ch.charCodeAt(0))>>>0;
       /* 一半的位子（照種子洗牌：同一堂課同一些位子），留一半給玩家 */ let sd=h%2147483646+1; const rnd=()=>{ sd=(sd*16807)%2147483647; return (sd-1)/2147483646; }; const idx=seats.map((q,i)=>i); for(let i=idx.length-1;i>0;i--){ const j=Math.floor(rnd()*(i+1)); [idx[i],idx[j]]=[idx[j],idx[i]]; }
-      for(const i of idx.slice(0,Math.round(seats.length*0.5))){ const st=seats[i]; if(E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.35)) continue; const o=CHAR.build(STORY.extraSpec(200+((h+i*7)%97))); o.position.set(st.x,0,st.z); o.rotation.y=st.yaw;
+      for(const i of idx.slice(0,Math.min(16,Math.round(seats.length*0.5)))){   /* 最多 16 人（和霖澤館 201 一樣；階梯教室 40 個位子不會一次載 20 個人物）*/ const st=seats[i]; if(E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.35)) continue; const o=CHAR.build(STORY.extraSpec(200+((h+i*7)%97))); o.position.set(st.x,st.y||0,st.z); o.rotation.y=st.yaw;   /* 階梯教室：座位的高度（addNPC 也照 seat.y 放）*/
         E.addNPC({obj:o,name:'',beh:'idle',pose:'sit',idlePose:'sit',frozen:true,isExtra:true,seat:st,lv:st.lv|0,clsStudent:true,clsKey:it.key}); } } };
   S.syncRoom=function(GM){ const G=GM.G, E=GM.E; if(E.zone&&E.zone.layout) return S.syncRooms(GM); if(!E.zone||!E.zone.seats) return; const live=S.liveIn(G,'classroom'); const key=live.length?live[0].key:null;
     const mine=E.npcs.filter(n=>n.clsStudent); if(mine.length&&mine[0].clsKey!==key){ for(const n of mine){ if(n.obj&&n.obj.parent) n.obj.parent.remove(n.obj); } E.npcs=E.npcs.filter(n=>!n.clsStudent); }
