@@ -7,7 +7,25 @@
    用到的地方：公告欄（看公告：今天、這幾天的活動）、手機「今天」、條件事件的 activity／attended／missed 條件（src/events3d.js）、大教室的人流（坐到指定人數）、
    坐下時的「聽演講」（src/game3d.js 的 seatMenu → classes3d.js 的 attendActivity，記下到場）。 */
 const ACTIVITIES={
-  list:[],
+  /* AA_110 第 6-3 節的活動清單（AA 暫定，全部 story:false；2026-10-13）。吉他社、法服讀書會和遊戲裡已有的人物事件（ev_ziqing_club、ev_studygroup_wed）重疊、
+     社團博覽會要攤位、系籃要球場——這四筆等 AA 回覆再放。desc＝AA 表上的「內容」（手機、公告欄上的說明）。
+     spot：沒有座位的活動在這一點集合（classes3d.js 的 addActSpots）；once：去一次就好（任何一場聽過，其他場不再列）。 */
+  list:[
+    {id:'lib_tour_y1s1',title:'總圖新生導覽',kind:'tour',zone:'library_hall',roomName:'總圖大廳',spot:{x:-3.0,z:2.8,lv:0,label:'新生導覽集合點'},dates:['2025-09-19','2025-09-23','2025-09-25','2025-09-26'],t0:15.5,t1:16+20/60,once:true,
+     desc:'館員帶看閱覽室、借還書、自習座位。去一次就好。',story:false},
+    {id:'lawlib_intro_y1s1',title:'法律資料怎麼查',kind:'lecture',zone:'lawlib',room:'discA',roomName:'法律學院圖書館 討論室 A',dates:['2025-09-24','2025-10-01'],t0:15.5,t1:16.5,once:true,
+     desc:'法規要查最新版、判決怎麼找、指定參考書放哪裡（只講方法）。',story:false},
+    {id:'club_debate',title:'辯論社社課',kind:'club',zone:'boya',room:'201',roomName:'博雅 201',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15,16],weekday:2,t0:19,t1:21,crowd:{n:8},
+     desc:'正反方練習、計時；題目用生活題（例：「大學該不該點名」）。',story:false},
+    {id:'club_hiking',title:'登山社行前會',kind:'club',zone:'putong',room:'201',roomName:'普通 201',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15,16],weekday:4,t0:19.5,t1:21,crowd:{n:8},
+     desc:'裝備、天氣、路線。出隊是週末的另一個活動，之後再排。',story:false}
+  ],
+  /* once 的活動：任何一場聽過（或中途離開）就算去過了 */
+  onceDone(G,a){ return !!(a&&a.once&&ACTIVITIES.stateOf(G,a.id)); },
+  /* 這個區域今天有集合點的活動 */
+  spotsIn(G,zone){ return ACTIVITIES.list.filter(a=>a.spot&&a.zone===zone&&ACTIVITIES.on(a,G.day)); },
+  /* 現在可以參加（開始前 15 分鐘起、過了一半以前；今天這一場聽過的、once 已經去過的不列）*/
+  canJoin(G,a){ const h=G.hour%24; return !!a&&ACTIVITIES.on(a,G.day)&&h>=a.t0-0.25&&h<(a.t0+a.t1)/2&&!ACTIVITIES.attended(G,a.id,G.day)&&!ACTIVITIES.onceDone(G,a); },
   /* 第 day 天有沒有這個活動（學期、週次或日期、星期都對得上）*/
   on(a,day){ if(typeof CALENDAR==='undefined') return false; const d=CALENDAR.dateOf(day);
     if(a.dates) return a.dates.includes(d.key);
@@ -19,7 +37,7 @@ const ACTIVITIES={
   active(G,opt){ opt=opt||{}; const h=G.hour%24; return ACTIVITIES.list.filter(a=>ACTIVITIES.on(a,G.day)&&(opt.justEnded?(h>=a.t1&&h<a.t1+1/3):(h>=a.t0-(opt.before||0)&&h<a.t1))); },
   isActive(G,id,opt){ return ACTIVITIES.active(G,opt).some(a=>a.id===id); },
   /* 公告欄、手機：今天起 n 天內的活動（照海報貼出的天數）*/
-  upcoming(G,n){ const out=[]; for(let k=0;k<(n||7);k++){ for(const a of ACTIVITIES.list){ if(!ACTIVITIES.on(a,G.day+k)) continue; const pd=(a.poster&&a.poster.daysBefore!=null)?a.poster.daysBefore:3; if(k>pd) continue; if(k===0&&G.hour%24>=a.t1) continue; out.push({a,k}); } } return out; },
+  upcoming(G,n){ const out=[]; for(let k=0;k<(n||7);k++){ for(const a of ACTIVITIES.list){ if(!ACTIVITIES.on(a,G.day+k)||ACTIVITIES.onceDone(G,a)) continue; const pd=(a.poster&&a.poster.daysBefore!=null)?a.poster.daysBefore:3; if(k>pd) continue; if(k===0&&G.hour%24>=a.t1) continue; out.push({a,k}); } } return out; },
   hhmm(h){ const m=Math.round(h*60); return String(Math.floor(m/60)%24).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); },
   /* 到場紀錄（AA_107 第 10-1 節第 5 項：沒去演講，就不能觸發聽完才合理的後續）：G.acts.att['活動id@第幾天']={h:坐下來聽的時間}。
      玩家坐在活動的那一間、選「聽演講」才算到場（src/classes3d.js 的 attendActivity）；只是路過、站在門口不算。
@@ -55,7 +73,7 @@ const ACTIVITIES={
     let v=null; for(let d=G.day; d>=1; d--){ if(d===G.day&&h<a.t1) continue; if(ACTIVITIES.on(a,d)){ v=d; break; } } a._last={k,v}; return v; },
   missed(G,id){ const d=ACTIVITIES.lastEnded(G,id); return d!=null&&!ACTIVITIES.attendedAny(G,id,d); },   /* 中途離開不算沒去 */
   /* 坐在這一間的位子上，現在可以聽的活動：開始前 15 分鐘起、過了一半以前（之後進去不算聽過）；今天這一場已經聽過的不再列 */
-  atSeat(G,zone,room){ if(!room) return null; const h=G.hour%24; return ACTIVITIES.list.find(a=>a.zone===zone&&a.room===room&&ACTIVITIES.on(a,G.day)&&h>=a.t0-0.25&&h<(a.t0+a.t1)/2&&!ACTIVITIES.attended(G,a.id,G.day))||null; },
+  atSeat(G,zone,room){ if(!room) return null; return ACTIVITIES.list.find(a=>a.zone===zone&&a.room===room&&ACTIVITIES.canJoin(G,a))||null; },
   /* 公告欄的文字（沒有活動時寫清楚「目前沒有」，不留空）*/
   posterText(G,zone){ const up=ACTIVITIES.upcoming(G,7).filter(q=>!zone||q.a.zone===zone); if(!up.length) return '目前沒有公告的演講或活動。';
     const W=['日','一','二','三','四','五','六']; return up.map(({a,k})=>{ const d=CALENDAR.dateOf(G.day+k); return (k===0?'今天':k===1?'明天':d.m+'/'+d.d+'（'+W[d.wd%7]+'）')+' '+ACTIVITIES.hhmm(a.t0)+'–'+ACTIVITIES.hhmm(a.t1)+'　'+a.title+(a.roomName?'（'+a.roomName+'）':''); }).join('；'); }

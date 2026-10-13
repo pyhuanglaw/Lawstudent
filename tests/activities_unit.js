@@ -8,7 +8,8 @@ const ROOT=path.resolve(__dirname,'..'); global.window=global;
 for(const f of ['src/data/calendar.js','src/data/activities.js','src/events3d.js']) vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (CALENDAR|ACTIVITIES|EVENTS)\s*=/m,'global.$1='),{filename:f});
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/DAY)+1; };
-check('遊戲裡的活動清單是空的（內容等 AA、BB）；公告欄寫「目前沒有」',ACTIVITIES.list.length===0&&/目前沒有/.test(ACTIVITIES.posterText({day:5,hour:10})));
+/* 2026-10-13 起遊戲裡有 AA_110 第 6-3 節的一般活動（AA 暫定）：全部 story:false（牽涉人物劇情的要使用者批准才放）；沒有活動的日子公告欄寫「目前沒有」 */
+check('遊戲裡的活動都是一般活動（story:false，AA_110 6-3）；沒有活動的那幾天公告欄寫「目前沒有」',ACTIVITIES.list.length>0&&ACTIVITIES.list.every(a=>a.story===false)&&/目前沒有/.test(ACTIVITIES.posterText({day:120,hour:10})),ACTIVITIES.list.map(a=>a.id).join(','));
 ACTIVITIES.list=[{id:'t_lecture',title:'測試演講',kind:'lecture',zone:'gongtong',room:'101',roomName:'共同 101',dates:['2025-10-21'],t0:18.5,t1:20.5,poster:{daysBefore:5}},
                  {id:'t_club',title:'測試社團',kind:'club',zone:'wancai',term:['Y1S1'],weeks:[4,5,6,7],weekday:3,t0:19,t1:21,poster:{daysBefore:2}}];
 const L=dayOf('2025-10-21'), W4=dayOf('2025-09-24'), W3=dayOf('2025-09-17'), W8=dayOf('2025-10-22');

@@ -21,7 +21,7 @@ const LL3=(function(){
   // ---- 座位：每張桌子兩側各 n 個（北側面向南 yaw 0、南側面向北 yaw π；離桌邊 0.35 m）；閱覽隔間面向南邊的窗 ----
   function seatsOf(L){ const out=[];
     for(const t of L.tables){ for(let i=0;i<t.n;i++){ const x=t.x-t.w/2+t.w*(i+0.5)/t.n; for(const s of [-1,1]) out.push({x:+x.toFixed(3),z:+(t.z+s*(t.d/2+0.35)).toFixed(3),yaw:s<0?0:Math.PI,lv:t.lv,table:t.id}); } }
-    for(const r of L.rooms){ if(r.kind!=='discussion') continue; const T=r.table; for(const z of r.seatZ) for(const s of [-1,1]) out.push({x:+(T.x+s*(T.w/2+0.35)).toFixed(3),z,yaw:s<0?Math.PI/2:-Math.PI/2,lv:0,table:r.id}); }   /* 討論室的桌子南北向：西側面向東、東側面向西 */
+    for(const r of L.rooms){ if(r.kind!=='discussion') continue; const T=r.table; for(const z of r.seatZ) for(const s of [-1,1]) out.push({x:+(T.x+s*(T.w/2+0.35)).toFixed(3),z,yaw:s<0?Math.PI/2:-Math.PI/2,lv:0,table:r.id,room:r.id}); }   /* room：討論室裡的活動（法律資料怎麼查，AA_110 6-3）坐下時可以參加 */   /* 討論室的桌子南北向：西側面向東、東側面向西 */
     const C=L.carrels, cw=(C.x1-C.x0)/C.n; for(let i=0;i<C.n;i++) out.push({x:+(C.x0+cw*(i+0.5)).toFixed(3),z:C.chairZ,yaw:0,lv:C.lv,table:'carrel',carrel:true});
     return out; }
 
