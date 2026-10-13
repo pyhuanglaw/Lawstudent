@@ -77,7 +77,7 @@ def rbox(m, cx, cz, yaw, lx0, lx1, y0, y1, lz0, lz1, col=None, faces='all'):
     quads = {'-x': [(0, 0, 0), (0, 0, 1), (0, 1, 1), (0, 1, 0)], '+x': [(1, 0, 1), (1, 0, 0), (1, 1, 0), (1, 1, 1)],
              '-y': [(0, 0, 0), (1, 0, 0), (1, 0, 1), (0, 0, 1)], '+y': [(0, 1, 1), (1, 1, 1), (1, 1, 0), (0, 1, 0)],
              '-z': [(1, 0, 0), (0, 0, 0), (0, 1, 0), (1, 1, 0)], '+z': [(0, 0, 1), (1, 0, 1), (1, 1, 1), (0, 1, 1)]}
-    use = quads.keys() if faces == 'all' else (['+z', '+y'] if faces == 'ft' else ['+z', '+y', '-x', '+x'])   # 'ft'：只做前、頂（書：側面夾在書和書之間看不到）
+    use = (quads.keys() if faces == 'all' else (['+z', '+y'] if faces == 'ft' else ['+z', '+y', '-x', '+x'])) if isinstance(faces, str) else faces   # 'ft'：只做前、頂；也可以直接給面的清單
     fs = [bm.faces.new([V[q] for q in quads[k]]) for k in use]
     if col is not None:
         cc = lin(col) + [1.0]
@@ -198,13 +198,19 @@ L.smooth_mesh(ob, angle=1.2)
 # ---------- 書架、書 ----------
 shelf = Mesh('soclib_shelves', M['bamboo']); shelfD = Mesh('soclib_shelves_dark', M['bambooD']); books = CM('soclib_books', M['books'])
 def fill_books_line(cx, cz, yaw, length, y0, y1, depth):
-    """沿一條線放書：中心 (cx,cz)、方向 yaw（書脊朝 yaw 的「前」）、長度 length；y0＝層板頂、y1＝上一層底"""
-    x = -length / 2 + 0.03
+    """沿一條線放書：中心 (cx,cz)、方向 yaw（書脊朝 yaw 的「前」）、長度 length；y0＝層板頂、y1＝上一層底。
+    每本做前面、頂面；側面只在露得出來的時候做（比旁邊那本高或深、或旁邊是空的）——夾在兩本書中間的側面看不到，省三角形"""
+    bk = []; x = -length / 2 + 0.03
     while x < length / 2 - 0.05:
         if random.random() < 0.06: x += random.uniform(0.06, 0.18); continue              # 有些地方空著
-        w = random.uniform(0.028, 0.065); h = min(y1 - y0 - 0.03, random.uniform(0.17, 0.3)); dd = min(depth, random.uniform(0.15, 0.22))
-        rbox(books, cx, cz, yaw, x, x + w, y0, y0 + h, -depth / 2, -depth / 2 + dd, col=random.choice(BOOK), faces='front')   # 前、頂、兩側（只做前和頂的話，斜看時高的書會缺側面）
-        x += w + random.uniform(0.0, 0.004)
+        w = random.uniform(0.032, 0.07); h = min(y1 - y0 - 0.03, random.uniform(0.17, 0.3)); dd = min(depth, random.uniform(0.15, 0.22))
+        bk.append([x, x + w, h, dd, random.choice(BOOK)]); x += w + random.uniform(0.0, 0.004)
+    for i, (xa, xb, h, dd, col) in enumerate(bk):
+        fs = ['+z', '+y']
+        L_ = bk[i - 1] if i > 0 else None; R_ = bk[i + 1] if i + 1 < len(bk) else None
+        if L_ is None or xa - L_[1] > 0.002 or h > L_[2] + 0.004 or dd > L_[3] + 0.004: fs.append('-x')
+        if R_ is None or R_[0] - xb > 0.002 or h > R_[2] + 0.004 or dd > R_[3] + 0.004: fs.append('+x')
+        rbox(books, cx, cz, yaw, xa, xb, y0, y0 + h, -depth / 2, -depth / 2 + dd, col=col, faces=fs)
 LEVELS = lambda h: [0.08] + [0.08 + k * (h - 0.12) / (round(h / 0.36)) for k in range(1, round(h / 0.36))]
 for f in J['furniture']:
     if f['type'] != 'arcShelf': continue
