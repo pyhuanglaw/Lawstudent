@@ -20,6 +20,8 @@ const COURSES={
     GONGTONG:{name:'共同教學館 102',zone:'gongtong',room:'102',door:'common'},  /* gongtong_hall：英文、日文（AA_107：共同教學館是小班的語言教室）*/
     PUTONG:{name:'普通教學館 101',zone:'putong',room:'101',door:'putong'},   /* putong_hall（方案 A，D55）：文學院正後方；重修經濟學原理（AA 2026-10-13）*/
     BOYA:{name:'博雅教學館 101',zone:'boya',room:'101',door:'boya'},           /* boya_hall（方案 A）：普通北邊；經濟系大一的經濟學原理（D56，劇情做好之前不會排到）*/
+    LAWLIB_DESK:{name:'法律學院圖書館 櫃台',door:'lawlib_desk',zone:'lawlib'},     /* 服務學習（一）：在櫃台報到，和門口上課一樣用 2D 帶過（AA_110 6-1）*/
+    CAMPUS_SVC:{name:'傅鐘旁的服務學習集合點',door:'campus_service'},                /* 服務學習（二）：椰林大道、醉月湖的校園環境（大二上；內容 AA 大二前再補）*/
     GYM:{name:'體育館',door:'gym'},                                             /* field：企劃寫操場、程式寫體育館，兩個都可以（AA_110）*/
     OFF:{name:'校外（事務所或法扶）',offsite:true}                               /* offsite */
   },
@@ -36,6 +38,12 @@ const COURSES={
     {id:'ge_film_y1s1',name:'通識：電影與敘事',kind:'general',term:'Y1S1',prof:null,profName:'通識老師',room:'PUTONG',slots:[{wd:2,block:'pm1'}],topics:['課程導論','分組討論','期末報告準備']},
     {id:'crim_gen1',name:'刑法總則（一）',kind:'required',term:'Y1S1',prof:'prof_wu',room:'L201',slots:[{wd:3,block:'am'}],
      topics:['刑法的基本原則：罪刑法定','構成要件','故意與過失'],specials:[{w:5,title:'吳教授「一個概念講兩週」'}]},
+    /* 服務學習（一）（AA_110 第 6-1 節，AA 暫定；AA_103 第 4、8 節已同步）：0 學分、不進成績單、只記次數；第 4～7、10～14 週共 9 次（18 小時），缺的可以在第 15、16 週同一時段補。
+       2D 每次一句（不帶人物）：第 n 次報到用第 n 句（classes3d.js 的 attend）。 */
+    {id:'service_1',name:'服務學習（一）',kind:'service',term:'Y1S1',prof:null,profName:'館員',room:'LAWLIB_DESK',slots:[{wd:3,block:'pm1'}],weeks:[4,5,6,7,10,11,12,13,14],makeupWeeks:[15,16],
+     serviceLines:['第一次報到。館員給你一張分類號的表：「先記前面三碼就好。」','還書車推到第三排。同一本教科書有四個版本，最新的那本被借走了。','新書到了。拆箱、貼條碼、蓋館藏章。蓋歪了一個，館員說：「沒關係，書不會介意。」',
+       '下雨。你在門口放傘架，進來的人都在甩傘。這兩個小時很像一份真正的工作。','有人問你影印室在哪裡。你指給他，才想到自己也是前幾週才知道的。','最上層的書要踩小凳子。站上去，整個閱覽室的人都低著頭，像一片很安靜的田。',
+       '館員請你把「請勿飲食」的牌子擦乾淨。牌子很乾淨。你還是擦了。','整理期刊。你順手翻了一本，看不懂，放回去，排得比原來還整齊。','最後一次。館員在服務紀錄上簽名：「十八小時。辛苦了。」順手給你一張圖書館的書籤。']},
     {id:'english_y1',name:'大一英文（上）',kind:'general',term:'Y1S1',prof:null,profName:'英文老師',room:'GONGTONG',slots:[{wd:4,block:'am'}],topics:['閱讀','聽力','口頭報告']},
     {id:'civ_general',name:'民法總則',kind:'required',term:'Y1S1',prof:'prof_zhou',room:'L201',slots:[{wd:4,block:'pm1'}],
      topics:['民法的結構','權利主體：權利能力','權利主體：行為能力','物','法律行為','意思表示','代理','時效'],
@@ -57,6 +65,8 @@ const COURSES={
     {id:'admin_law',name:'行政法',kind:'required',term:'Y2S1',prof:'prof_xu',room:'L201',slots:[{wd:1,block:'am'}],topics:['行政行為','行政處分','行政契約','依法行政'],specials:[{w:11,title:'國家賠償'}]},
     {id:'japanese_1',name:'日文（上）',kind:'elective',term:'Y2S1',prof:null,profName:'日文老師',room:'GONGTONG',slots:[{wd:1,block:'pm1'}],topics:['五十音','打招呼','自我介紹']},   /* 遊戲安排（使用者 2026-10-13：大二上下是遊戲安排的候選，不是真實修課年份）*/
     {id:'pe_y2s1',name:'體育',kind:'general',term:'Y2S1',prof:null,room:'GYM',slots:[{wd:1,block:'pm2'}],topics:['桌球','籃球','體適能']},
+    /* 服務學習（二）（AA_110 6-1，AA 暫定）：週三下午二（下午一是法理學），椰林大道、醉月湖的校園環境；每次的一句 AA 大二前再補（現在用一般句子）*/
+    {id:'service_2',name:'服務學習（二）',kind:'service',term:'Y2S1',prof:null,profName:'服務學習老師',room:'CAMPUS_SVC',slots:[{wd:3,block:'pm2'}],weeks:[4,5,6,7,10,11,12,13,14],makeupWeeks:[15,16]},
     {id:'crim_spec',name:'刑法分則',kind:'required',term:'Y2S1',prof:'prof_wu',room:'L201',slots:[{wd:2,block:'am'}],topics:['生命法益','身體法益','自由法益','財產法益','侵占與背信的差別'],specials:[{w:12,title:'幫社團管錢，侵占還是背信'}]},
     {id:'property',name:'民法物權',kind:'required',term:'Y2S1',prof:'prof_zheng',room:'L201',slots:[{wd:2,block:'pm1'}],topics:['物權概念','所有權','占有','登記','共有','用益物權'],specials:[{w:10,title:'買了房子，卻沒有房子下面那塊地'}]},
     {id:'juris',name:'法理學',kind:'required',term:'Y2S1',prof:'prof_huang',room:'LINZE',slots:[{wd:3,block:'pm1'}],topics:['法律是什麼','法律與道德','法律解釋'],specials:[{w:6,title:'法律能要求一個人的內心嗎'}]},

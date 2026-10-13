@@ -63,7 +63,10 @@ const sizes=[];
     check('出席次數＝上過的堂數（考試不算出席）',!diff.length,diff.map(id=>id+' '+(R().attend[id]||0)+'≠'+(exp[id]||0)).join(', '));
     const fri=Object.keys(R().done).filter(k=>{ const it=keyMap[k]; return it&&!it.exam&&wd(it.day)===5&&termOf(it.day).week%2===1; });
     check('翹掉的課（奇數週週五）沒有記成上過',!fri.length,fri.slice(0,3).join(','));
-    check('大一上的每一門課都上過好幾次（模擬真的在上課）',CLS.termCourses(G,'Y1S1').filter(c=>c.kind!=='general'||true).every(c=>(R().attend[c.id]||0)>=3||c.id==='civ_general'),JSON.stringify(R().attend)); }
+    check('大一上的每一門課都上過好幾次（模擬真的在上課）',CLS.termCourses(G,'Y1S1').filter(c=>c.kind!=='service').every(c=>(R().attend[c.id]||0)>=3||c.id==='civ_general'),JSON.stringify(R().attend));
+    /* 服務學習（一）在週三下午一：這個模擬的玩家週三下午都翹掉——一次都沒去，所以第 15、16 週有補做（也翹掉）、成績單不列（AA_110 6-1）*/
+    const svcItems=Object.values(keyMap).filter(it=>it.c.id==='service_1');
+    check('服務學習（一）：週三下午都翹掉＝0 次；排了 9 次＋第 15、16 週補做 2 次；成績單不列',(R().attend.service_1||0)===0&&svcItems.length===11&&svcItems.filter(it=>it.week>=15).length===2,svcItems.map(it=>it.week).join(',')); }
   { const g=log.say.filter(s=>/大一上的成績出來了/.test(s)); const d0=dayOf('2026-01-05');
     check('大一上的成績單：只發一次、在學期結束後的第一個早上（2026-01-05）',g.length===1&&g[0].startsWith(d0+':'),g.join(' | '));
     const rep=R().grades.Y1S1||{}; const okv=Object.keys(rep).every(id=>rep[id]===CLS.gradeOf(R().prep[id]||0));

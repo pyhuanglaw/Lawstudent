@@ -143,7 +143,8 @@ const LL3=(function(){
     { const C=L.counter, SA=L.staffArea; b0.add(MAT.wood(),TK.boxG(C.x1-C.x0,1.05,C.z1-C.z0),(C.x0+C.x1)/2,0.525,(C.z0+C.z1)/2); b0.add(MAT.granite(),TK.boxG(C.x1-C.x0+0.06,0.05,C.z1-C.z0+0.08),(C.x0+C.x1)/2,1.075,(C.z0+C.z1)/2);
       b0.add(MAT.woodD(),TK.boxG(SA.x1-SA.x0,1.2,SA.sortZ1-SA.sortZ0),(SA.x0+SA.x1)/2,0.6,(SA.sortZ0+SA.sortZ1)/2); b0.add(MAT.woodD(),TK.boxG(0.2,1.1,SA.z1-SA.sortZ1),SA.x0+0.1,0.55,(SA.sortZ1+SA.z1)/2);
       b0.add(M('#2b2f33',{rough:0.4}),TK.boxG(0.5,0.32,0.04),C.x0+1.4,1.32,C.z0+0.2); b0.add(M('#2b2f33',{rough:0.4}),TK.boxG(0.5,0.32,0.04),C.x0+2.6,1.32,C.z0+0.2);
-      IT.push({x:C.it.x,z:C.it.z,radius:C.it.r,lv:0,label:'櫃台',look:'櫃台：借書、還書、借討論室都在這裡辦。館員正把一疊還回來的書一本一本掃條碼，抬頭說：「還書放旁邊的還書口就好。」'}); }
+      { const look='櫃台：借書、還書、借討論室都在這裡辦。館員正把一疊還回來的書一本一本掃條碼，抬頭說：「還書放旁邊的還書口就好。」';   /* 服務學習（一）在這裡報到（AA_110 6-1；classes3d.js 的 DOORS.lawlib_desk）：有報到時段時多一個「報到」，沒有時照舊是說明 */
+        IT.push(Object.assign({x:C.it.x,z:C.it.z,radius:C.it.r,lv:0,label:'櫃台',look},typeof CLS!=='undefined'&&CLS.DOORS&&CLS.DOORS.lawlib_desk?{door:'lawlib_desk',onInteract:()=>CLS.doorInteract(GAME,'lawlib_desk',{look})}:{})); } }
     // 防盜感應門柱
     for(const [x,z] of L.gates){ b0.add(M('#c9ccd0',{rough:0.35}),TK.boxG(0.08,1.55,0.5),x,0.775,z); }
     // 房間：影印機、白板、看房間的互動點

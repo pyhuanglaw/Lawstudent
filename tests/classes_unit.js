@@ -18,7 +18,7 @@ const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
 // ---------- 資料 ----------
 { const L=COURSES.list, terms=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
   const bad=[]; for(const c of L){ if(!terms.includes(c.term)) bad.push(c.id+' 學期'); if(!COURSES.rooms[c.room]) bad.push(c.id+' 地點 '+c.room); if(c.prof&&!CHARACTERS[c.prof]) bad.push(c.id+' 教授 '+c.prof); if(c.prof&&!COURSES.profs[c.prof]) bad.push(c.id+' 教授名字');
-    for(const s of c.slots){ if(!(s.wd>=1&&s.wd<=5)) bad.push(c.id+' 星期'); if(!COURSES.blocks[s.block]) bad.push(c.id+' 時段'); } if(!c.topics||!c.topics.length) bad.push(c.id+' 進度'); }
+    for(const s of c.slots){ if(!(s.wd>=1&&s.wd<=5)) bad.push(c.id+' 星期'); if(!COURSES.blocks[s.block]) bad.push(c.id+' 時段'); } if(c.kind!=='service'&&(!c.topics||!c.topics.length)) bad.push(c.id+' 進度'); }   /* 服務學習沒有進度（只記次數，AA_110 6-1）*/
   check('每一門課的學期、星期、時段、地點、教授、進度都對得上（教授在 characters.js）',!bad.length,bad.slice(0,5).join(', '));
   const ids=L.map(c=>c.id); check('課程代號不重複（'+ids.length+' 門）',new Set(ids).size===ids.length&&ids.length>=45,ids.length+' 門');
   const G=mkG(1,8); const clash=[]; for(const t of terms){ const cs=CLS.termCourses(G,t); const used={}; for(const c of cs) for(const s of c.slots){ const k=s.wd+s.block; if(used[k]) clash.push(t+' '+CLS.WD[s.wd]+s.block+'：'+used[k]+'／'+c.name); used[k]=c.name; } }
