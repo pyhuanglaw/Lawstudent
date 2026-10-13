@@ -90,7 +90,7 @@
 - `activity`：某個活動進行中、剛結束（例如演講結束後的走廊）。
 - `npcHere`：某個角色現在照作息在同一棟、同一間。
 
-加一種觸發 `trigger:'room'`（進到某個房間時）。
+「進到某個房間時」不用新的觸發：用現有的 `trigger:'auto'` 加 `room` 條件（走進那一間就成立；配合 `once`、`cooldown_days`）。**2026-10-13 已實作**（`src/events3d.js`），測試 `tests/activities_unit.js`。
 
 活動資料格式（`src/data/activities.js`，內容由 AA、BB 提供）：
 
@@ -99,7 +99,7 @@
   poster:{ daysBefore, text }, crowd:{ n }, story:false }
 ```
 
-`story:true` 的活動等使用者批准才放。系統先用測試資料驗證，**遊戲裡先不放任何活動內容**。
+`story:true` 的活動等使用者批准才放。系統先用測試資料驗證，**遊戲裡先不放任何活動內容**。2026-10-13 已實作 `src/data/activities.js`（清單是空的；公告欄寫「目前沒有公告的演講或活動」）。
 
 ## 6. 存檔相容
 

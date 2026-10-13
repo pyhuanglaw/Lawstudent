@@ -27,6 +27,7 @@ run campus_public_unit    node tests/campus_public_unit.js      # 公共場景�
 run crowd_unit            node tests/crowd_unit.js              # 人流：共同教學館門口上課前後、大一女舍門口早晚；同一時段進出看到同一批人；跳過時間重排（D55）
 run nav_teach_unit        node tests/nav_teach_unit.js          # 公共教學館模板（共同教學館室內）：座位、樓梯、出口、關著的房間、小孤島（D55）
 run teach_class_unit      node tests/teach_class_unit.js        # 建築裡的教室上課（共同教學館 101）：坐下的上課選項、目標導航、同學、門（D55）
+run activities_unit      node tests/activities_unit.js         # 活動與演講（資料格式、海報、進行中）＋事件的 room／activity／npcHere 條件（D55）
 run deploy_check          python3 tests/deploy_check.py "$URL" $VER
 run model_upgrade         python3 tests/model_upgrade.py "$URL" "$OUT/model_upgrade"
 run zone_transitions      python3 tests/zone_transitions.py "$URL"

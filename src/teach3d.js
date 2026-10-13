@@ -104,7 +104,7 @@ const TB3=(function(){
     if(L.study) for(const t of L.study.tables) Z3.desk(grpOf(L.study.lv),dummy,t.x,t.z,0,t.w,t.d,'#b08a62','wood');
     // 長椅、公告欄、指標
     for(const b of (L.benches||[])){ const bench=W3.formalBench?W3.formalBench():null; if(bench){ bench.position.set(b.x,0,b.z); bench.rotation.y=b.ry; grpOf(b.lv).add(bench); } else bins[b.lv].add(MAT.wood(),TK.boxG(1.5,0.45,0.45),b.x,(b.lv?Y1:0)+0.225,b.z,b.ry); }
-    for(const bd of (L.boards||[])){ const bb=W3.bulletin(); bb.position.set(bd.x,0,bd.z); bb.rotation.y=bd.ry; grpOf(bd.lv).add(bb); IT.push({x:bd.x+Math.sin(bd.ry)*0.9,z:bd.z+Math.cos(bd.ry)*0.9,radius:1.0,lv:bd.lv,label:bd.label,look:bd.look,board:true}); }
+    for(const bd of (L.boards||[])){ const bb=W3.bulletin(); bb.position.set(bd.x,0,bd.z); bb.rotation.y=bd.ry; grpOf(bd.lv).add(bb); IT.push({x:bd.x+Math.sin(bd.ry)*0.9,z:bd.z+Math.cos(bd.ry)*0.9,radius:1.0,lv:bd.lv,label:bd.label,board:true,get look(){ return bd.look+(typeof ACTIVITIES!=='undefined'&&typeof GAME!=='undefined'&&GAME.G?'　'+ACTIVITIES.posterText(GAME.G):''); }}); }   /* 公告欄：照活動資料（src/data/activities.js；內容等 AA、BB）列出這幾天的演講與活動 */
     for(const sg of (L.signs||[])){ const sp=new THREE.Mesh(new THREE.PlaneGeometry(sg.w,sg.w*0.16),new THREE.MeshBasicMaterial({map:TK.signTex(sg.text,{bg:'#24303a',color:'#f3efe4'})})); sp.position.set(sg.x,sg.y,sg.z); sp.rotation.y=sg.ry||0; (sg.lv?lv1:lv0).add(sp); }
     { const S=L.stair; const sp=new THREE.Mesh(new THREE.PlaneGeometry(2.4,0.38),new THREE.MeshBasicMaterial({map:TK.signTex(S.sign,{bg:'#5a2a22',color:'#f3efe4'})})); sp.position.set((S.B.x0+S.B.x1)/2,Y1+2.3,S.B.z1+0.02); lv1.add(sp);
       IT.push({x:(S.B.x0+S.B.x1)/2,z:S.B.z1+0.5,radius:0.8,lv:1,label:'往 3F',look:'往 3F 的樓梯口拉著一條鍊子：「整修中，暫停開放」。'}); }
