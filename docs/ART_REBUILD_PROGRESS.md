@@ -10,7 +10,7 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
-**值班登記（最新）：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜分支 claude/confident-ritchie-8rwh7t｜接班基準 `cb399ea`｜2026-10-13 UTC｜使用者說「我回來了，請同步 GitHub 最新進度，接續工作。」；B 班期間（10-11 10:16 之後）所有遠端分支都沒有新 commit，也沒有帳號 B 的分支——沒有要合併的東西。**
+**值班登記（最新）：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜分支 claude/confident-ritchie-8rwh7t｜接班基準 `cb399ea`｜2026-10-13 UTC｜使用者說「我回來了，請同步 GitHub 最新進度，接續工作。」；交班之後（10-11 10:16 之後）所有遠端分支都沒有新 commit，也沒有帳號 B 的分支——沒有要合併的東西。使用者隨後說明：**帳號 B 這次沒有開**，各職位從上次停下的地方接續。**
 **使用者 2026-10-13：「劇情部分還要修改，我會再跟 AA 討論，你先做好場景」**——大一上 v1 劇情實作暫緩（D50），LAWWW 先做場景：①v9.5 最終回歸＋發布；②場景（萬才館法律學院圖書館、118 巷、總圖擴充、宿舍走廊、出遊場景）。
 
 **交班（上一次）：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜2026-10-11 10:13 UTC｜正常交班｜最後 commit＝訊息開頭「LAWWW（帳號 A）交班」的那一個（`git log -1 --grep="LAWWW（帳號 A）交班" origin/claude/confident-ritchie-8rwh7t`）。之後帳號 A 的 LAWWW 不再寫入，直到使用者說「我回來了，請同步 GitHub 最新進度，接續工作。」**
