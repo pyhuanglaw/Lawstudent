@@ -47,7 +47,7 @@ def make_atlas():
     met = np.clip(met + rng.normal(0, 0.008, (512, 512, 1)).astype(np.float32), 0, 1)
     y, x = np.mgrid[0:384, 0:512].astype(np.float32)
     weave = 0.5 + 0.5 * np.sin(x * 1.6) * np.sin(y * 1.6)
-    fab = np.stack([0.17 + 0.02 * weave, 0.22 + 0.02 * weave, 0.33 + 0.03 * weave], axis=2) + rng.normal(0, 0.012, (384, 512, 1))
+    fab = np.stack([0.24 + 0.025 * weave, 0.30 + 0.025 * weave, 0.44 + 0.03 * weave], axis=2) + rng.normal(0, 0.012, (384, 512, 1))   # 藍灰布（遊戲的光線下比 Blender 暗，底色調亮一點）
     pla = np.full((128, 512, 3), (0.90, 0.89, 0.87), np.float32) + rng.normal(0, 0.006, (128, 512, 1))
     img = np.zeros((N, N, 3), np.float32)
     img[0:512, 0:512] = oak; img[0:512, 512:1024] = wal
@@ -214,8 +214,8 @@ def study_table2():
     P.append((tube('rail', [(-W / 2 + 0.06, H - 0.07, 0.0), (W / 2 - 0.06, H - 0.07, 0.0)], 0.012), 'metal'))
     P.append((rbox('outlet', -0.07, 0.07, H, H + 0.034, -0.045, 0.045, bevel=0.008, seg=2), 'plastic'))
     for z in (-0.046, 0.046): P.append((rbox('sock', -0.028, 0.028, H + 0.008, H + 0.026, z - 0.002, z + 0.002), 'metal'))
-    return P, {'size': [W, H, D], 'seats': [{'x': 0, 'y': 0.45, 'z': 0.65, 'yaw': round(math.pi, 4), 'note': '+z 那一側的椅子（面向 −z）'}, {'x': 0, 'y': 0.45, 'z': -0.65, 'yaw': 0, 'note': '−z 那一側（面向 +z）'}],
-               'nav': '桌子 0.9×0.6；兩張椅子各 0.46×0.46（中心 z=±0.65）'}
+    return P, {'size': [W, H, D], 'seats': [{'x': 0, 'y': 0.45, 'z': 0.55, 'yaw': round(math.pi, 4), 'note': '+z 那一側的椅子（面向 −z）'}, {'x': 0, 'y': 0.45, 'z': -0.55, 'yaw': 0, 'note': '−z 那一側（面向 +z）'}],
+               'nav': '桌子 0.9×0.6；兩張椅子各 0.46×0.46，中心離桌子中心 0.55 m（照 LAWWW 博雅自習區第二版 4e2db1f：桌子長邊南北向、椅子在東西兩側——放的時候整組轉 90°）'}
 
 
 def study_chair(lod=0):
@@ -245,8 +245,8 @@ def round_table():
     P.append((tube('col', [(0.0, 0.03, 0.0), (0.0, H - 0.028, 0.0)], 0.035, res=2), 'metal'))
     P.append((disc_slab('base', 0.25, 0.0, 0.025, n=28, bevel=0.008), 'metal'))
     P.append((disc_slab('plate', 0.12, H - 0.05, H - 0.028, n=20, bevel=0.0), 'metal'))
-    return P, {'size': [1.0, H, 1.0], 'seats': [{'x': round(0.85 * math.sin(a), 3), 'y': 0.45, 'z': round(0.85 * math.cos(a), 3), 'yaw': round((a + math.pi) % (2 * math.pi), 4)} for a in (math.pi / 4, 3 * math.pi / 4, 5 * math.pi / 4, 7 * math.pi / 4)],
-               'nav': '圓：半徑 0.5（椅子 4 張，中心離桌心 0.85）'}
+    return P, {'size': [1.0, H, 1.0], 'seats': [{'x': round(0.8 * math.sin(a), 3), 'y': 0.45, 'z': round(0.8 * math.cos(a), 3), 'yaw': round((a + math.pi) % (2 * math.pi), 4)} for a in (0.0, math.pi / 2, math.pi, 1.5 * math.pi)],
+               'nav': '圓：半徑 0.5（椅子 4 張在東南西北、中心離桌心 0.8 m、面向桌心：照 LAWWW 4e2db1f）'}
 
 
 def rot_x(ob, ang, pivot):
@@ -265,7 +265,7 @@ def lecture_seat(lod=0, up=False):
     if lod == 0:
         P.append((rbox('std', 0.243, 0.262, 0.0, 0.655, -0.27, 0.27, bevel=0.006, seg=2), 'walnut'))          # 右側板
         P.append((rbox('arm', 0.232, 0.273, 0.655, 0.69, -0.2, 0.31, bevel=0.012, seg=2), 'walnut'))        # 扶手（圓邊）
-        seat = [(rbox('pan', -0.236, 0.236, SH - 0.085, SH - 0.06, -0.17, 0.24), 'metal'),
+        seat = [(rbox('pan', -0.236, 0.236, SH - 0.085, SH - 0.06, -0.17, 0.24), 'walnut'),   # 座面底板：木（收起時看得到這一面；金屬色在遊戲裡幾乎是黑的）
                 (cushion('seatc', -0.232, 0.232, SH - 0.06, SH + 0.012, -0.17, 0.245, round_=0.028), 'fabric'),
                 (rbox('hinge', -0.243, 0.243, SH - 0.075, SH - 0.045, -0.15, -0.11), 'metal')]   # 轉軸（左右接到側板）
         if up:

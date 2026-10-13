@@ -1,0 +1,242 @@
+[
+ {
+  "id": "boya_1F_1",
+  "zone": "boya",
+  "lv": 0,
+  "x": -5.9,
+  "z": 6.1,
+  "yaw": 3.927,
+  "area": "大廳／走廊",
+  "pub": 1
+ },
+ {
+  "id": "boya_1F_2",
+  "zone": "boya",
+  "lv": 0,
+  "x": 10.1,
+  "z": 8.1,
+  "yaw": 4.7124,
+  "area": "102",
+  "pub": 0
+ },
+ {
+  "id": "boya_1F_3",
+  "zone": "boya",
+  "lv": 0,
+  "x": 0.1,
+  "z": -3.4,
+  "yaw": 0.7854,
+  "area": "自習小桌",
+  "pub": 1
+ },
+ {
+  "id": "boya_1F_4",
+  "zone": "boya",
+  "lv": 0,
+  "x": 2.6,
+  "z": 4.6,
+  "yaw": 1.5708,
+  "area": "討論桌",
+  "pub": 1
+ },
+ {
+  "id": "boya_2F_1",
+  "zone": "boya",
+  "lv": 1,
+  "x": 16.1,
+  "z": 1.6,
+  "yaw": 0.7854,
+  "area": "二樓走廊",
+  "pub": 1
+ },
+ {
+  "id": "boya_2F_2",
+  "zone": "boya",
+  "lv": 1,
+  "x": -5.4,
+  "z": -1.4,
+  "yaw": 3.927,
+  "area": "大廳／走廊",
+  "pub": 1
+ },
+ {
+  "id": "boya_2F_3",
+  "zone": "boya",
+  "lv": 1,
+  "x": 5.6,
+  "z": 1.1,
+  "yaw": 0,
+  "area": "二樓走廊",
+  "pub": 1
+ },
+ {
+  "id": "boya_2F_4",
+  "zone": "boya",
+  "lv": 1,
+  "x": 5.1,
+  "z": 8.1,
+  "yaw": 0.7854,
+  "area": "大廳／走廊",
+  "pub": 1
+ },
+ {
+  "id": "putong_1F_1",
+  "zone": "putong",
+  "lv": 0,
+  "x": 16.1,
+  "z": 1.1,
+  "yaw": 0.7854,
+  "area": "走廊",
+  "pub": 1
+ },
+ {
+  "id": "putong_1F_2",
+  "zone": "putong",
+  "lv": 0,
+  "x": -3.4,
+  "z": 7.1,
+  "yaw": 3.927,
+  "area": "門廳",
+  "pub": 1
+ },
+ {
+  "id": "putong_1F_3",
+  "zone": "putong",
+  "lv": 0,
+  "x": 5.6,
+  "z": 1.6,
+  "yaw": 2.3562,
+  "area": "走廊",
+  "pub": 1
+ },
+ {
+  "id": "putong_1F_4",
+  "zone": "putong",
+  "lv": 0,
+  "x": -7.4,
+  "z": -0.4,
+  "yaw": 0.7854,
+  "area": "走廊",
+  "pub": 1
+ },
+ {
+  "id": "putong_2F_1",
+  "zone": "putong",
+  "lv": 1,
+  "x": -3.4,
+  "z": 7.1,
+  "yaw": 3.927,
+  "area": "二樓門廳",
+  "pub": 1
+ },
+ {
+  "id": "putong_2F_2",
+  "zone": "putong",
+  "lv": 1,
+  "x": -7.4,
+  "z": -0.4,
+  "yaw": 0.7854,
+  "area": "走廊",
+  "pub": 1
+ },
+ {
+  "id": "putong_2F_3",
+  "zone": "putong",
+  "lv": 1,
+  "x": -0.4,
+  "z": -0.4,
+  "yaw": 2.3562,
+  "area": "走廊",
+  "pub": 1
+ },
+ {
+  "id": "putong_2F_4",
+  "zone": "putong",
+  "lv": 1,
+  "x": 3.1,
+  "z": 7.1,
+  "yaw": 1.5708,
+  "area": "二樓門廳",
+  "pub": 1
+ },
+ {
+  "id": "gongtong_1F_1",
+  "zone": "gongtong",
+  "lv": 0,
+  "x": -11.4,
+  "z": 0.6,
+  "yaw": 2.3562,
+  "area": "走廊",
+  "pub": 1
+ },
+ {
+  "id": "gongtong_1F_2",
+  "zone": "gongtong",
+  "lv": 0,
+  "x": 1.6,
+  "z": 6.1,
+  "yaw": 1.5708,
+  "area": "大廳／走廊",
+  "pub": 1
+ },
+ {
+  "id": "gongtong_1F_3",
+  "zone": "gongtong",
+  "lv": 0,
+  "x": -4.4,
+  "z": 2.1,
+  "yaw": 3.927,
+  "area": "走廊",
+  "pub": 1
+ },
+ {
+  "id": "gongtong_1F_4",
+  "zone": "gongtong",
+  "lv": 0,
+  "x": -8.4,
+  "z": 3.6,
+  "yaw": 3.1416,
+  "area": "休息區",
+  "pub": 1
+ },
+ {
+  "id": "gongtong_2F_1",
+  "zone": "gongtong",
+  "lv": 1,
+  "x": -11.4,
+  "z": 0.6,
+  "yaw": 2.3562,
+  "area": "走廊",
+  "pub": 1
+ },
+ {
+  "id": "gongtong_2F_2",
+  "zone": "gongtong",
+  "lv": 1,
+  "x": 11.1,
+  "z": 1.6,
+  "yaw": 0,
+  "area": "走廊",
+  "pub": 1
+ },
+ {
+  "id": "gongtong_2F_3",
+  "zone": "gongtong",
+  "lv": 1,
+  "x": 4.1,
+  "z": 0.1,
+  "yaw": 3.927,
+  "area": "走廊",
+  "pub": 1
+ },
+ {
+  "id": "gongtong_2F_4",
+  "zone": "gongtong",
+  "lv": 1,
+  "x": -4.4,
+  "z": 0.1,
+  "yaw": 3.927,
+  "area": "走廊",
+  "pub": 1
+ }
+]

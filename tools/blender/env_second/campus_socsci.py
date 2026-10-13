@@ -2,7 +2,7 @@
   /opt/blenv/bin/python tools/blender/env_second/campus_socsci.py [-- --out 輸出.glb]
 
 三個部分（位置照 LAWWW 的 docs/campus/SOCSCI_PLAN.md 第 3 節＋17:20Z 的回覆）：
-  ① 辜振甫先生紀念圖書館（社會科學院圖書館）：x 95–125、z −92～−70（30×22、一層、不轉向）。室內是 ⑬（src/data/soclib_layout.js，區域 soclib）：
+  ① 辜先生紀念圖書館（社會科學院圖書館）：x 95–125、z −92～−70（30×22、一層、不轉向）。室內是 ⑬（src/data/soclib_layout.js，區域 soclib）：
      北、西兩面玻璃帷幕（朝萬才館、法學院廣場），南、東兩面實牆；入口在南牆、室內座標 x=−9（世界 x≈101），面向中庭。
      從玻璃看得到室內：白色樹狀柱＋荷葉柱頂（照 ⑬ 的 20 支柱子）、天花板的圓形天窗（照 ⑬ 的 40 個）、窗邊的長桌、閱覽桌；屋頂是植栽屋頂＋天窗的玻璃頂。
   ② 社會科學院大樓：x 95–125、z −58～−42（30×16、8 層），清水混凝土（模板分割線＋螺栓孔，gen_socsci_textures.py），每層一排深窗洞；
@@ -131,7 +131,7 @@ def build():
         hquad(A('lamp'), x - 0.18, x + 0.18, LZ1 + 0.7, LZ1 + 1.06, 3.045, up=False)
     g = B.group('GLOW_soc_lib_door', root, props={'glow': 'rgba(255,226,180,1)', 'size': 1.6, 'day': 0, 'night': 0.6}); g.location = g2b(DOOR_LIB, 2.95, LZ1 + 0.9)
     plate('PLATE_FACE_SOC_LIB', SOUTH, u + 3.0, u + 9.6, 3.55, 4.25, 0.012, {'text': '社會科學院圖書館', 'bg': '#b8b5ae', 'color': '#2b2824', 'serif': 1, 'fs': 0.7})
-    plate('PLATE_FACE_SOC_LIB_SUB', SOUTH, u + 3.6, u + 9.0, 3.1, 3.42, 0.012, {'text': '辜振甫先生紀念圖書館', 'bg': '#b8b5ae', 'color': '#2b2824', 'serif': 1, 'fs': 0.62})
+    plate('PLATE_FACE_SOC_LIB_SUB', SOUTH, u + 3.6, u + 9.0, 3.1, 3.42, 0.012, {'text': '辜先生紀念圖書館', 'bg': '#b8b5ae', 'color': '#2b2824', 'serif': 1, 'fs': 0.62})
     info_blocks['doors'].append({'what': '圖書館入口（往 soclib 區域）', 'x': DOOR_LIB, 'z': LZ1 + 0.7, 'note': '門在南牆 x 99.8–102.2；互動點建議 (101, −69.3)，半徑 1.2；出來站在 (101, −67.6) 面向南'})
     # 東牆：實牆＋服務門
     sd = {'u': -(-75.4 - LCZ), 'a': 0.6, 'vb': 0.0, 'vs': 2.4, 'arch': False, 'vt': 2.4}
