@@ -1,4 +1,4 @@
-"""社會科學院 辜振甫先生紀念圖書館（⑬）的室內配置 → src/data/soclib_layout.js（const SOCLIB_LAYOUT= 後面接純 JSON）。
+"""社會科學院 辜先生紀念圖書館（⑬）的室內配置 → src/data/soclib_layout.js（const SOCLIB_LAYOUT= 後面接純 JSON）。
 遊戲（LAWWW 的區域程式：導航格、座位、互動點）和 Blender（tools/blender/env_second/soclib_interior.py）讀同一份，兩邊一定對得上。
 用法：python3 tools/blender/env_second/soclib_layout_gen.py [--check]（--check：只檢查、不寫檔）
 
@@ -174,6 +174,6 @@ bad, reach, tot = check()
 if bad: print('走不到的座位：', bad[:6])
 if '--check' not in sys.argv:
     head = __doc__.split('用法')[0].strip()
-    txt = '/* ===== 社會科學院 辜振甫先生紀念圖書館（⑬）室內配置：tools/blender/env_second/soclib_layout_gen.py 產生，不要手改 =====\n   ' + \
+    txt = '/* ===== 社會科學院 辜先生紀念圖書館（⑬）室內配置：tools/blender/env_second/soclib_layout_gen.py 產生，不要手改 =====\n   ' + \
           head.replace('\n', '\n   ') + ' */\nconst SOCLIB_LAYOUT=' + json.dumps(L, ensure_ascii=False, separators=(',', ':')) + ';\n'
     open(OUT, 'w', encoding='utf8').write(txt); print('wrote', OUT, len(txt))

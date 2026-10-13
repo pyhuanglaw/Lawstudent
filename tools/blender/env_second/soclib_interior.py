@@ -1,4 +1,4 @@
-"""社會科學院 辜振甫先生紀念圖書館（⑬，一樓開架閱覽室）室內 → GLB。第二 AI 工作階段（環境美術）製作；Blender 5.2（bpy，無介面）：
+"""社會科學院 辜先生紀念圖書館（⑬，一樓開架閱覽室）室內 → GLB。第二 AI 工作階段（環境美術）製作；Blender 5.2（bpy，無介面）：
   /opt/blenv/bin/python tools/blender/env_second/soclib_interior.py [-- --out assets/models/env/second_ai/soclib_interior.glb] [--preview 資料夾]
 
 配置讀 src/data/soclib_layout.js（tools/blender/env_second/soclib_layout_gen.py 產生；遊戲的導航、座位、互動點讀同一份，兩邊一定對得上）。

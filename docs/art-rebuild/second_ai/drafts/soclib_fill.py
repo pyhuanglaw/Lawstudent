@@ -1,4 +1,4 @@
-"""soclib_wt：VISUAL_REVIEW 第 16 節（⑬ 社會科學院 辜振甫先生紀念圖書館室內）：規格、配置、Blender 渲染、交給 LAWWW 的接線說明、缺點。
+"""soclib_wt：VISUAL_REVIEW 第 16 節（⑬ 社會科學院 辜先生紀念圖書館室內）：規格、配置、Blender 渲染、交給 LAWWW 的接線說明、缺點。
 用法（Blender 渲染跑完之後）：python3 docs/art-rebuild/second_ai/drafts/soclib_fill.py <渲染圖資料夾>"""
 import json, math, os, sys
 from PIL import Image
@@ -14,9 +14,9 @@ top = list(info['tris_by_object'].items())[:6]
 doc = f"""
 ---
 
-## 16. 社會科學院 辜振甫先生紀念圖書館：一樓開架閱覽室（⑬，Blender 正式模型＋配置）
+## 16. 社會科學院 辜先生紀念圖書館：一樓開架閱覽室（⑬，Blender 正式模型＋配置）
 
-LAWWW 佇列的 ⑬（使用者 D46：法律系學生念書會去「新社科院的辜振甫先生紀念圖書館」）。交付**配置 `src/data/soclib_layout.js`＋Blender GLB**；區域程式、導航、校園入口的接線由 LAWWW 做，所以這一節只有 Blender 渲染，**還沒有遊戲內截圖**。
+LAWWW 佇列的 ⑬（使用者 D46：法律系學生念書會去「新社科院的辜先生紀念圖書館」）。交付**配置 `src/data/soclib_layout.js`＋Blender GLB**；區域程式、導航、校園入口的接線由 LAWWW 做，所以這一節只有 Blender 渲染，**還沒有遊戲內截圖**。
 
 參考（公開報導；臺大圖書館的介紹頁從沙盒連不到）：一樓開架閱覽室挑高將近 6 m，屋頂由 88 支白色樹狀柱撐起，柱頂像荷葉一樣散開，中間有 130 個形狀不一的天窗；配合竹製書架與閱覽家具，白天陽光從天窗灑下，像在林蔭間閱讀（[天下雜誌](https://www.cw.com.tw/article/5140431)、[蕃薯藤旅遊](https://travel.yam.com/article/120519)、[Bella 儂儂](https://www.bella.tw/articles/design&gadget/59150/toyo-ito-architecture-landmarks-taiwan)、[中央社](https://www.cna.com.tw/news/acn/201702220326.aspx)）。**平面配置、柱子數量、書架排法是遊戲化設計（推估），不是實測。**
 
@@ -36,7 +36,7 @@ LAWWW 佇列的 ⑬（使用者 D46：法律系學生念書會去「新社科院
 
 | 項目 | 技術（A） | 功能（B） | 美術（C） |
 |---|---|---|---|
-| 辜振甫圖書館一樓（`soclib_interior.glb`＋`soclib_layout.js`） | 完成（模型、配置） | **還沒接進遊戲**（LAWWW 接線；配置的導航格檢查：{len(seats)} 個座位都走得到） | `MODEL_READY`（使用者還沒看過） |
+| 社科院圖書館一樓（`soclib_interior.glb`＋`soclib_layout.js`） | 完成（模型、配置） | **還沒接進遊戲**（LAWWW 接線；配置的導航格檢查：{len(seats)} 個座位都走得到） | `MODEL_READY`（使用者還沒看過） |
 
 ### 16.3 規格
 
@@ -48,7 +48,7 @@ LAWWW 佇列的 ⑬（使用者 D46：法律系學生念書會去「新社科院
 ### 16.4 給 LAWWW 的接線說明
 
 - 配置 `SOCLIB_LAYOUT`：`entrance`（門在南牆 x={J['entrance']['x']}、寬 {J['entrance']['w']} m；出生點 ({J['entrance']['spawn']['x']}, {J['entrance']['spawn']['z']})、yaw π 面向館內；離開的互動點 z={J['entrance']['exitZ']}）、`gates`、`desk`、`columns`、`skylights`、`furniture`、`seats`（{len(seats)} 個：長桌 {kinds['table']}、窗邊 {kinds['window']}、閱報區沙發 {kinds['lounge']}；`yaw`＝坐下時面向的方向，和 library_layout.js 一樣）、`signs`、**`nav`**（`rects`＝[中心 x, 中心 z, 寬, 深, ry]、`circles`＝[x, z, r]：家具、書架、柱子的導航阻擋，直接 blockRect／blockCircle 就好；牆和門洞照 W×D、wallT、entrance）。
-- GLB 的命名照其他室內（attachRoomGLB）：會淡出的牆 `WALL_<side>_*`（自訂屬性 `dir`＝往室內的法線；front＝南牆、back＝北牆玻璃帷幕、left＝西牆玻璃帷幕、right＝東牆）；招牌 `WALL_front_SIGN_FACE_0`（自訂屬性 `sign`＝「社會科學院圖書館」，字由遊戲畫；全名要不要寫上辜振甫先生紀念圖書館由你決定）。
+- GLB 的命名照其他室內（attachRoomGLB）：會淡出的牆 `WALL_<side>_*`（自訂屬性 `dir`＝往室內的法線；front＝南牆、back＝北牆玻璃帷幕、left＝西牆玻璃帷幕、right＝東牆）；招牌 `WALL_front_SIGN_FACE_0`（自訂屬性 `sign`＝「社會科學院圖書館」，字由遊戲畫；全名要不要寫上辜先生紀念圖書館由你決定）。
 - 自發光材質：`soclib_skylight`（天窗；晚上可以調暗或換成夜空色）、`soclib_lamp`（檯燈）、`soclib_screen`（螢幕）。天花板 `soclib_ceiling` 有天窗的洞（單面朝下）。
 - 北牆、西牆的玻璃帷幕外面需要窗景：可以照店家窗景的做法拍兩張（北、西），等你決定圖書館在校園裡的位置（社科院 `CK.modern` 在 (110, −70)）之後我來拍。
 

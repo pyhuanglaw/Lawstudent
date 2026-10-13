@@ -1,0 +1,6 @@
+[
+ {"out": "/tmp/patch_gtfd_test/gt_front.png", "w": 1280, "h": 720, "state": {"zone": "campus", "hour": 11.0, "pos": {"x": 2, "z": 16, "yaw": 0}}, "hidePlayer": true, "cam": {"pos": [6, 3.2, 13], "look": [2, 6, 33]}, "wait": 6000,
+  "post": "(()=>{ const r=GAME.E.renderer.info.render; const names=[]; GAME.E.zone.group.traverse(o=>{ if(/campus_(gongtong|freshman)_glb/.test(o.name||'')) names.push(o.name); }); const kitHidden={gt:null,fd:null}; GAME.E.zone.group.traverse(o=>{ const t=o.userData&&o.userData.ckTag; if(t==='gongtong') kitHidden.gt=!o.visible; if(t==='freshman') kitHidden.fd=!o.visible; }); return {calls:r.calls,tris:r.triangles,glb:[...new Set(names)],kitHidden}; })()"},
+ {"out": "/tmp/patch_gtfd_test/fd_street.png", "w": 1280, "h": 720, "state": {"zone": "campus", "hour": 11.0, "pos": {"x": 2, "z": 16, "yaw": 0}}, "hidePlayer": true, "cam": {"pos": [-93, 3.4, 48], "look": [-93, 6, 68]}, "wait": 3000,
+  "post": "(()=>{ const r=GAME.E.renderer.info.render; return {calls:r.calls,tris:r.triangles}; })()"}
+]
