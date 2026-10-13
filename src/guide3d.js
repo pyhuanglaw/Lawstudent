@@ -115,7 +115,7 @@ const GUIDE=(function(){
       if(refresh&&!m.indoor&&m.it.exit&&PLACES.hours[m.it.exit.to]){ const s=hoursLine(m.it.exit.to); if(s!==m.sub){ m.sub=s; const g=m.gold; m.gold=null; setLabel(m,g); } } } }
 
   /* ---------- 人物線索（2026-10-11 使用者：自由的那天不知道其他人在哪）---------- */
-  function people(){ if(!GM.knownIds||typeof STORY==='undefined'||!STORY.whereIs) return []; const out=[]; for(const id of GM.knownIds()){ const w=STORY.whereIs(GM,id); if(!w) continue; out.push({id,name:SOCIAL.displayName(id),w,text:GM.whereText(id)}); } return out; }
+  function people(){ if(!GM.knownIds||typeof STORY==='undefined'||!STORY.whereIs) return []; const out=[]; for(const id of GM.knownIds()){ const w=STORY.whereIs(GM,id); if(!w||!w.zone) continue; out.push({id,name:SOCIAL.displayName(id),w,text:GM.whereText(id)}); } return out; }
   /* ---------- 大地圖 ---------- */
   function navImage(nav){ const c=document.createElement('canvas'); c.width=nav.cols; c.height=nav.rows; const x=c.getContext('2d'); const img=x.createImageData(nav.cols,nav.rows);
     for(let i=0;i<nav.cols*nav.rows;i++){ const b=nav.b[i]; img.data[i*4]=b?58:196; img.data[i*4+1]=b?64:204; img.data[i*4+2]=b?74:184; img.data[i*4+3]=b?255:255; } x.putImageData(img,0,0); return c; }

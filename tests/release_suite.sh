@@ -18,6 +18,7 @@ run sit_feet_unit         node tests/sit_feet_unit.js
 run seated_look_unit      node tests/seated_look_unit.js        # 坐著的人看著玩家時上半身不轉圈（2026-10-11 室友轉圈）
 run guide_unit            node tests/guide_unit.js              # 目標文字 → 導航目的地、開放時間
 run schedule_refresh_unit node tests/schedule_refresh_unit.js     # 待在區域裡，照行程該出現的人會出現、時段結束的人離開（人物線索和實際一致；v9.5 審查）
+run presence_unit       node tests/presence_unit.js           # 人物在不在學校（AA_110 第 3 節）：某學期不在（交換）、之後不在（休學）、寒暑假算前一學期；不在時不生出來、線索寫原因、沒有課堂反應句
 run allowance_unit        node tests/allowance_unit.js          # 生活費：每月 1 日 25,000、開局 22,000、舊存檔補一次（D48）
 run nav_lawlib_unit       node tests/nav_lawlib_unit.js         # 法律學院圖書館：兩層導航、U 形樓梯、座位、萬才館大廳的門（D46）
 run calendar_hours_unit   node tests/calendar_hours_unit.js     # 日曆（學期、寒暑假、國定假日）＋法圖開放時間（D53）
