@@ -33,7 +33,12 @@ async def wait_story(pg, cdp, run, js_done, pick=0, max_s=300):
     t0 = time.time()
     while time.time() - t0 < max_s:
         s = await wait_control(pg, cdp, run, pick=pick)
-        if not s['busy'] and not s['dlg'] and not s['choices'] and await pg.evaluate(js_done): return s
+        if not s['busy'] and not s['dlg'] and not s['choices'] and await pg.evaluate(js_done):
+            # 旗標成立之後再讀一次狀態：上面的狀態和旗標是兩次讀取，中間劇情可能剛好開始
+            # （2026-10-13 v9.5 回歸：狀態在「進到校園、劇情還沒開始」那一刻讀到，下一刻 campusIntro 才成立，
+            #   截圖是阿哲正在說「祐廷！」——遊戲正常，是測試讀太早）
+            s2 = await L.state(pg)
+            if not s2['busy'] and not s2['dlg'] and not s2['choices']: return s2
         await pg.wait_for_timeout(800)
     return await L.state(pg)
 
