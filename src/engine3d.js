@@ -293,6 +293,11 @@ const E3 = (function(){
     return moving; }
   E.followStep=followStep;
   function updateNPC(n,dt){ const o=n.obj; n.timer-=dt; let moving=false;
+    /* 可以搭話的人在走走（wander）時，玩家走到 2.8 m 內就停下來、轉頭看玩家；玩家離開 3.5 m 以外才繼續走；正在和玩家說話時不走（2026-10-13 使用者試玩：
+       林芷若、高子晴走來走去，追著按「說話」很難；走近時才開始的事件——芷若的通識分組「5 m 內」——每 30 幀才檢查一次，人一直走開就不會發生）。時段結束要離開的人（leaving）不停 */
+    if(n.beh==='wander'&&(n.talk||n.talkLabel)&&!n.leaving&&E.player&&(n.lv|0)===(E.player.lv|0)){ const pp=E.player.obj.position, dd=Math.hypot(pp.x-o.position.x,pp.z-o.position.z);
+      if((dd<(n.held?3.5:2.8)&&!E.player.busy)||(n.held&&E.player.busy)){ if(n.path){ n.path=null; n.onArrive=null; } n.timer=Math.max(n.timer,1.5); if(!n.held){ n.held=true; if(!n.lookAt) n.lookAt=pp; } }
+      else if(n.held){ n.held=false; if(n.lookAt===pp) n.lookAt=null; } }
     if(n.beh==='chat'&&n.chatWith){ if(!(E.player&&E.player.busy)){ const c=n.chatWith.obj; const ty=Math.atan2(c.position.x-o.position.x,c.position.z-o.position.z); let dd=ty-o.rotation.y; dd=Math.atan2(Math.sin(dd),Math.cos(dd)); if(Math.abs(dd)>0.05) o.rotation.y+=dd*Math.min(1,dt*3); if(!n.lookAt||n.lookAt!==c.position) n.lookAt=c.position; } if(n.chatLead&&!(E.player&&E.player.busy)&&n.timer<=0){ const b=n.chatWith; const aTalks=n.pose!=='talk'; n.pose=aTalks?'talk':'idle'; n.idlePose=n.pose; b.pose=aTalks?'idle':'talk'; b.idlePose=b.pose; n.timer=1.8+Math.random()*3.5; } }
     else if((n.beh==='follow'&&E.player)||(n.beh==='buddy'&&n.buddy)){ if(followStep(n,dt)) moving=true; }
     else if(n.path){ const t=n.path[0]; const dx=t[0]-o.position.x, dz=t[1]-o.position.z; const d=Math.hypot(dx,dz); if(wpReached(n,d,0.3,dt)){ n.path.shift(); if(!n.path.length){ n.path=null; if(n.onArrive){ const f=n.onArrive; n.onArrive=null; f(n); } } } else { const sp=n.run?4.0:(n.walkSpeed||1.35); stepEntity(n,dx/d,dz/d,stepSp(sp,d,dt),dt); moving=true; n.pose=n.run?'run':'walk'; n.speed=sp; } }

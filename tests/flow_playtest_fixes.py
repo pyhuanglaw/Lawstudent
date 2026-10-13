@@ -1,5 +1,6 @@
 """真實玩家流程：使用者 2026-10-13 試玩回報的問題（不用 ?turbo）。單元測試在 smalltalk_unit、schedule_leave_unit、bed_nap_unit、find_person_unit，這裡看遊戲畫面裡真的發生什麼。
-A. 林芷若講完話就消失：週二 11:46 在傅鐘附近，自己走到林芷若旁邊、和她說話（走近時她可能先開口：通識分組＝第一次見面）；12:00 她的時段結束——人還在、往最近的出口走（不是直接不見），走到了才離開。
+A. 林芷若講完話就消失：週二 11:46 在傅鐘附近，自己走到林芷若旁邊（走近 2.8 m 她就停下來）、和她說話（走近時她可能先開口：通識分組＝第一次見面）；12:00 她的時段結束——人還在、往最近的出口走（不是直接不見），走到了才離開。
+   時間：SwiftShader 只有 0.5–1 fps、每幀最多算 0.1 秒，人走得很慢（手機 30–60 fps 時 50 m 約 40 秒）；等「開始往外走」最多 120 秒、等「走到了才離開」最多 900 秒（看遊戲裡的時間 E.time）。
 B. 高子晴第一次聊天就說「期末成發你要來」：週二下午在校園找到她（還不認識）——她只點頭（旁白），不自我介紹、沒有吉他社以後才有的三句；第一次見面留給吉他社（AA_120 3-1）。
 C. 小睡：週二 10:00 宿舍，床的選項有「小睡一下（13:00）」「睡到傍晚」、沒有「睡覺」；小睡到 13:00；13:00 再小睡會經過 13:20 的課＝先問，選「先不要」時間不動。
 D. 朋友在哪：週五 16:30 在霖澤館前，手機「朋友」→ 阿哲「帶我去」→ 目標變成「去找阿哲」→ 自己走過去、和他說話 → 目標恢復。
@@ -14,7 +15,7 @@ import playlib as L
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_playtest_fixes'
 BASE_FLAGS = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True, 'fundsV2': 1, 'allowanceMonth': 9}
-NPC_JS = "(id=>{ const n=GAME.E.npcs.find(q=>q.charId===id||q.id===id); if(!n) return null; const o=n.obj.position, P=GAME.E.player.obj.position; return {x:+o.x.toFixed(2), z:+o.z.toFixed(2), d:+Math.hypot(o.x-P.x,o.z-P.z).toFixed(2), beh:n.beh||null, pose:n.pose||null, leaving:!!n.leaving, arrived:!!n.arrived}; })(%s)"
+NPC_JS = "(id=>{ const n=GAME.E.npcs.find(q=>q.charId===id||q.id===id); if(!n) return null; const o=n.obj.position, P=GAME.E.player.obj.position; return {x:+o.x.toFixed(2), z:+o.z.toFixed(2), d:+Math.hypot(o.x-P.x,o.z-P.z).toFixed(2), beh:n.beh||null, pose:n.pose||null, leaving:!!n.leaving, arrived:!!n.arrived, held:!!n.held, path:n.path?n.path.length:0, t:+GAME.E.time.toFixed(1)}; })(%s)"
 GATED = ('「欸不是，你手指好了沒？」', '「阿凱昨天又通宵，你室友要看好他。」', '「期末成發你要來。這不是問句。」')
 
 
@@ -84,7 +85,9 @@ async def main():
         run.check('A 林芷若在校園（作息：週二 10–12 傅鐘附近）', bool(z0), json.dumps(z0))
         if z0:
             d = await chase(pg, cdp, run, 'heroine_02', '林芷若旁邊')
-            s = await L.state(pg)
+            s = await L.state(pg); zn = await npc(pg, 'heroine_02')
+            if not (s['dlg'] or s['choices'] or s['busy']):
+                run.check('A 走到她旁邊時她停下來（走走的人玩家走近 2.8 m 就停、看著玩家）', bool(zn) and zn['d'] <= 2.8 and zn['held'] and zn['path'] == 0, json.dumps(zn))
             if s['dlg'] or s['choices'] or s['busy']:   # 走近時她先開口（ev_zhiruo_ge_group：週二、四上午走到她 5 m 內，可以是第一次見面，BB 6-1）
                 lines = await dialog_through(pg, cdp, run)
                 run.check('A 自己走到林芷若附近：她先開口（通識分組，第一次見面）', any('林芷若' in t or '法律系' in t for t in lines), ' / '.join(t[:30] for t in lines[:4]))
@@ -97,17 +100,23 @@ async def main():
             # 等到 12:00（不跳時間，站在原地看著她）
             t0 = time.time()
             while time.time() - t0 < 300 and await pg.evaluate("GAME.G.hour") < 12.0: await pg.wait_for_timeout(2000)
-            await pg.wait_for_timeout(2500)
-            n1 = await npc(pg, 'heroine_02'); h1 = await pg.evaluate("GAME.G.hour")
+            n1 = None; t1 = time.time()
+            while time.time() - t1 < 120:   # 行程每 3 秒（遊戲時間）檢查一次：SwiftShader 要 30–60 秒
+                n1 = await npc(pg, 'heroine_02')
+                if not n1 or n1['leaving']: break
+                await pg.wait_for_timeout(2000)
+            h1 = await pg.evaluate("GAME.G.hour")
             run.check('A 12:00 她的時段結束：人還在、正在往出口走（不是直接不見）', bool(n1) and n1['leaving'] and h1 >= 12.0, f"hour={h1:.3f} {json.dumps(n1)}")
             await run.shot(pg, 'A_leaving')
             track, gone_at = [], None
             t0 = time.time()
-            while time.time() - t0 < 240:
+            g0 = await pg.evaluate("GAME.E.time")
+            while time.time() - t0 < 900:
                 n2 = await npc(pg, 'heroine_02')
                 if not n2: gone_at = time.time() - t0; break
                 track.append((n2['x'], n2['z'], n2['arrived']))
                 await pg.wait_for_timeout(3000)
+            run.note(f'等她離開：真實 {time.time() - t0:.0f} 秒、遊戲裡 {await pg.evaluate("GAME.E.time") - g0:.1f} 秒')
             moved = math.hypot(track[-1][0] - track[0][0], track[-1][1] - track[0][1]) if len(track) >= 2 else 0
             run.note(f'她走過的位置：' + ' → '.join(f'({x:.0f},{z:.0f})' for x, z, _ in track[::3]))
             run.check('A 她真的走了一段（≥ 3 m），走到出口或走遠、看不到了才離開', (moved >= 3 or (track and track[-1][2])) and gone_at is not None, f'moved={moved:.1f} m, 離開於 {gone_at}')
