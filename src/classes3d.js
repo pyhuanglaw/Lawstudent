@@ -257,14 +257,18 @@ const CLS=(function(){
     if(o.door&&S.liveDoor(G,o.door)) return S.doorInteract(GM,o.door);
     const later=acts.find(q=>h<q.t0-0.25&&!ACTIVITIES.attended(G,q.id,G.day)), went=acts.find(q=>ACTIVITIES.attended(G,q.id,G.day));
     if(later||went){ GM.caption('',later?later.title+'：今天 '+hhmm(later.t0)+' 在這裡（開始前 15 分鐘可以進去）。':'今天的「'+went.title+'」你參加過了。',3600); return; }
-    if(o.door) return S.doorInteract(GM,o.door);
-    GM.caption('',o.look||'',3600); };
+    /* 這學期這一間有社課、今天沒有（AA 2026-10-13 P2：吉他社在多功能教室，週二去門口只看到「門鎖著」，不知道什麼時候來）：寫社課的時間＋「今天沒有社課。」；研討室 A 的課照舊接在後面 */
+    const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, club=T&&typeof ACTIVITIES!=='undefined'?ACTIVITIES.list.find(q=>q.zone===zone&&q.room===room&&q.kind==='club'&&(!q.term||q.term.includes(T.id))):null;
+    const td=acts.find(q=>h>=(q.t0+q.t1)/2);   /* 今天有、但已經過了一半（canJoin 到一半為止）或結束了：不能說「今天沒有社課」*/
+    const note=club?club.title+'：'+S.clubWhen(club)+'。'+(td?(h<td.t1?'今天的社課已經過了一半，下次再來。':'今天的社課已經結束了。'):'今天沒有社課。'):'';
+    if(o.door) return S.doorInteract(GM,o.door,note?{pre:note}:undefined);
+    GM.caption('',note||o.look||'',note?4200:3600); };
   S.doorInteract=async function(GM,k,o){ o=o||{}; const G=GM.G, d=DOORS[k]; const it=S.liveDoor(G,k);
     if(d.enter&&typeof Z3!=='undefined'&&Z3.ZONES[d.enter]&&(!it||it.room.zone===d.enter)){ await GM.enter(d.enter); if(it&&S.status(G,it)!=='done') GM.toast(S.status(G,it)==='open'?'上課的教室：'+it.room.name+'（找個位子坐下）':it.c.name+'已經開始超過 30 分鐘了（'+it.room.name+'），現在進去不算出席',4200); return; }   /* liveDoor 只會是 open 或 missed（2026-10-13 審查：遲到時原本寫「等一下的課在」）*/   /* 課在館內的教室上（2026-10-13）*/
     if(it&&S.status(G,it)==='open'){ const opts=[{t:(d.verb||'進去上課')+'：'+it.c.name,hint:hhmm(it.t0)+'–'+hhmm(it.t1)+'（點對話可以略過）'}]; if(d.enter&&Z3.ZONES[d.enter]) opts.push({t:'進館裡逛逛（不上課）'}); opts.push({t:'不上了'});
       const ch=await (async()=>{ GM.sceneBegin(); try{ return await GM.choose(opts); } finally { GM.sceneEnd(); } })(); if(ch===0) await S.attend(GM,it,{door:true}); else if(d.enter&&opts[ch].t.startsWith('進館')) await GM.enter(d.enter); return; }
     if(d.enter&&typeof Z3!=='undefined'&&Z3.ZONES[d.enter]){ await GM.enter(d.enter); return; }   /* 沒有課：公共空間照常可以進（使用者 2026-10-13：「不必每次進入都觸發故事」）*/
-    const today=S.dayItems(G).filter(q=>q.room.door===k); if(d.noToday&&!today.length){ GM.caption('',o.look||d.look,4800); return; } const s=today.length?'今天在這裡的課：'+today.map(q=>hhmm(q.t0)+' '+q.c.name+'（'+({done:'上過了',missed:'沒去',open:'可以進去',upcoming:'還沒開始'})[S.status(G,q)]+'）').join('、'):'今天沒有你在這裡的課。'; GM.caption('',(o.look||d.look)+s,4800); };
+    const today=S.dayItems(G).filter(q=>q.room.door===k); if(d.noToday&&!today.length){ GM.caption('',o.look||d.look,4800); return; } const s=today.length?'今天在這裡的課：'+today.map(q=>hhmm(q.t0)+' '+q.c.name+'（'+({done:'上過了',missed:'沒去',open:'可以進去',upcoming:'還沒開始'})[S.status(G,q)]+'）').join('、'):'今天沒有你在這裡的課。'; GM.caption('',(o.pre?o.pre:'')+(o.look||d.look)+s,o.pre?6000:4800); };
   // ---------- 自學：選一門課（AA_104 4-3：和上課累積同一個「準備」）----------
   /* 回傳：null＝沒有給選單（放假、沒有課）；{course}＝選了一科；{notes:true}＝整理這週的筆記（不挑一科）；{extra:i}＝選了 extra 的第 i 項（game3d.js：研究所準備）*/
   S.studyPick=async function(GM,extra){ const G=GM.G; const t=CALENDAR.termOf(G.day); if(!t) return null; const cs=S.termCourses(G,t.id).filter(c=>c.kind!=='service'&&(c.kind!=='general'||c.id.startsWith('ge_'))); if(!cs.length) return null;   /* 通識（ge_*）可以自學；國文、英文、體育不列 */

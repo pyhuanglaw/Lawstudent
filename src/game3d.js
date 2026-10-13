@@ -222,7 +222,7 @@ const GAME = (function(){
      這筆 FIRST_MET 改標成「一般招呼」（GREETED），相遇事件就當還沒見過（不會永久錯過）；熟悉度、其他紀錄都不動。
      只動「除了這筆初遇什麼都還沒發生」的人（她的任何事件播過、或有別的記憶，就照舊）；以安（劇情裡認識）、溫學姊（talkSis）不在內。
      只做一次（social.fm120），改之前把讀進來的原始存檔備份到 fatiao3d_backup */
-  const MEET_EVENTS={heroine_02:['ev_cafe_barista_zhiruo','ev_zhiruo_ge_group','ev_zhiruo_bell'],heroine_03:['ev_library_door_phone','ev_rain_library_door'],heroine_04:['ev_ziqing_club']};
+  const MEET_EVENTS={heroine_02:['ev_cafe_barista_zhiruo','ev_zhiruo_ge_group'],heroine_03:['ev_library_door_phone','ev_rain_library_door'],heroine_04:['ev_ziqing_club']};
   function relabelFirstMet(s){ const so=s.social; if(!so||typeof so!=='object'||!so.mem||so.fm120) return []; const done=(s.events&&s.events.done)||{}, out=[];
     for(const id in MEET_EVENTS){ const M=so.mem[id]; if(!Array.isArray(M)||!M.some(m=>m.tag==='FIRST_MET')) continue;
       if(MEET_EVENTS[id].some(e=>done[e])) continue; if(typeof STORY_EVENTS!=='undefined'&&STORY_EVENTS.some(e=>(e.participants||[]).includes(id)&&done[e.id])) continue;

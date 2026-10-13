@@ -41,8 +41,20 @@ const W=[5,6,7,10,11,12,13,14,15,16];
   /* B：多功能教室的門口 */
   fresh(monOK,18.5); await CLS.roomDoor(GM,'wancai','multi',{look:'多功能教室。這個時段沒有排課，門鎖著。'});
   check('週一 18:30 按多功能教室的門：「吉他社社課：今天 19:00 在這裡」，不能參加',!chose.length&&/吉他社社課：今天 19:00 在這裡/.test(caps[0]||''),caps[0]);
-  fresh(monOK+1,19.1); await CLS.roomDoor(GM,'wancai','multi',{look:'多功能教室。這個時段沒有排課，門鎖著。'});
-  check('週二按多功能教室的門：照舊是門鎖著',!chose.length&&caps[0]==='多功能教室。這個時段沒有排課，門鎖著。',caps[0]);
+  /* AA 2026-10-13 P2：沒有社課的日子按多功能教室的門，寫社課的時間＋「今天沒有社課。」（原本只寫「門鎖著」，玩家不知道什麼時候來）*/
+  const LOOK='多功能教室。這個時段沒有排課，門鎖著。', WHEN='吉他社社課：每週一、三 19:00–21:00，萬才館 多功能教室（第 5 週起）。';
+  fresh(monOK+1,19.1); await CLS.roomDoor(GM,'wancai','multi',{look:LOOK});
+  check('週二按多功能教室的門：「吉他社社課：每週一、三 19:00–21:00，萬才館 多功能教室（第 5 週起）。今天沒有社課。」',!chose.length&&caps[0]===WHEN+'今天沒有社課。',caps[0]);
+  fresh(monOK,20.5); await CLS.roomDoor(GM,'wancai','multi',{look:LOOK});
+  check('週一 20:30（社課過了一半、不能再參加）：不說「今天沒有社課」，說「已經過了一半」',!chose.length&&caps[0]===WHEN+'今天的社課已經過了一半，下次再來。',caps[0]);
+  fresh(monOK,21.5); await CLS.roomDoor(GM,'wancai','multi',{look:LOOK});
+  check('週一 21:30（結束了）：「今天的社課已經結束了。」',!chose.length&&caps[0]===WHEN+'今天的社課已經結束了。',caps[0]);
+  fresh(dayOf('2026-02-10'),19.1); await CLS.roomDoor(GM,'wancai','multi',{look:LOOK});
+  check('寒假（不是吉他社的學期）：照舊是門鎖著',!chose.length&&caps[0]===LOOK,caps[0]);
+  fresh(monOK+1,19.1); await CLS.roomDoor(GM,'wancai','seminarA',{door:'wancai_seminar'});
+  check('週二按研討室 A 的門：先寫法服讀書會的時間＋今天沒有社課，後面照舊是研討室的說明和今天的課',!chose.length&&/^法服讀書會：每週三 19:00–21:00，萬才館 研討室 A（第 5 週起）。今天沒有社課。研討室 A：/.test(caps[0]||''),caps[0]);
+  { const ev=STORY_EVENTS.find(e=>e.id==='ev_kai_mentions_ziqing'), g=ev&&ev.dialogue.find(d=>d.choice).choice[0].consequences.goal;
+    check('阿凱轉述子晴、問「什麼時候？」的目標：「吉他社：第 5 週起，週一、週三 19:00，萬才館一樓多功能教室」（AA P2；原本「萬才館」沒寫哪一間、沒寫第 5 週起）',g==='吉他社：第 5 週起，週一、週三 19:00，萬才館一樓多功能教室',g); }
   /* C：吉他社——還沒認識子晴：第一次自動播初遇、不播旁白 */
   fresh(monOK,19.1); delete MEM.heroine_04; ran.length=0; await CLS.roomDoor(GM,'wancai','multi',{});
   check('19:06 按門：「參加：吉他社社課」→ 參加',(chose[0]||[])[0]==='參加：吉他社社課'&&ACTIVITIES.attended(G,'club_guitar',G.day),JSON.stringify(chose[0]));

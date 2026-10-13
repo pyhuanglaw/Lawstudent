@@ -62,15 +62,25 @@ const seats=Array.from({length:12},(_,i)=>({x:i,z:0,yaw:0,row:0,col:i}));
 { const c={id:'t_course',name:'測試課',prof:null,profName:'老師',topics:['測試'],syllabus:[{w:5,tpl:'A',board:['測試','',''],line:'老師說的話',react:[{who:'heroine_02',text:'林芷若的反應'}]}]};
   const inT=CLS.content({c,week:5,day:fri('Y3S1',5)}), outT=CLS.content({c,week:5,day:fri('Y3S2',5)});
   check('課堂反應句：大三上有林芷若的反應、大三下（不在）沒有',/林芷若的反應/.test(inT.react||'')&&!outT.react,JSON.stringify([inT.react,outT.react])); }
-// 芷若大一上的週五（AA_110 5-7）：09:10–12:10 普通 101 上重修經原、12:10–13:00 在小福吃午餐（不在場景裡）、13:00–17:00 Café；其他學期、國定假日、寒假照原本的作息
+// 芷若大一上的週五（AA_110 5-7；AA 2026-10-13 P1-3）：09:10–12:10 普通 101 上重修經原、12:10–12:40 在 101 門口的走廊（經原分組的時間）、12:40–13:00 在小福吃午餐（不在場景裡）、13:00–17:00 Café；其他學期、國定假日、寒假照原本的作息
 { delete CHARACTERS.heroine_02.presence;   // 上面的測試資料拿掉（遊戲資料裡芷若沒有 presence）
   const room=[...Array.from({length:6},(_,i)=>({x:i,z:0,yaw:0,room:'102'})),...Array.from({length:6},(_,i)=>({x:i,z:5,yaw:0,room:'101'}))];
   const at=(day,hour,zone,sts)=>{ GM=newGM(zone,day,hour,F0,sts||seats); STORY.populate(zone,GM); return {w:STORY.whereIs(GM,'heroine_02'),n:GM.npc.heroine_02}; };
   const f5=fri('Y1S1',5), hol=dayOf('2025-10-10'), win=dayOf('2026-01-30'), s2=fri('Y1S2',5), y2=fri('Y2S1',6);
   const a=at(f5,10,'putong',room);
   check('大一上週五 10:00：在普通 101 上課（人物線索寫普通、101；走進普通看得到她坐在 101）',a.w&&a.w.zone==='putong'&&a.w.room==='101'&&a.w.act==='上課'&&!!a.n&&a.n.seat&&a.n.seat.room==='101',JSON.stringify(a.w)+' seat='+JSON.stringify(a.n&&a.n.seat));
-  const b=at(f5,12.5,'cafe'), b2=at(f5,12.5,'campus');
-  check('大一上週五 12:30：在小福吃午餐（不在任何場景裡；人物線索寫「在小福吃午餐」）',b.w&&b.w.zone===null&&b.w.away==='在小福吃午餐'&&!b.n&&!b2.n,JSON.stringify(b.w));
+  const l=at(f5,12.25,'putong',room);
+  check('大一上週五 12:15：在普通 101 門口的走廊（人物線索寫普通、「剛下課，在 101 門口」；走進普通看得到她站在門口，不是坐在教室裡）',l.w&&l.w.zone==='putong'&&l.w.act==='剛下課，在 101 門口'&&!!l.n&&!l.n.seat&&Math.hypot(l.n.obj.position.x+4.8,l.n.obj.position.z-0.9)<0.01,JSON.stringify(l.w)+' at='+(l.n&&[l.n.obj.position.x,l.n.obj.position.z]));
+  { /* 和她一起上完經原（她坐在 101）：12:10 下課後起身走到門口（不瞬移），12:40 走到出口離開 */
+    GM=newGM('putong',f5,12.0,F0,room); STORY.populate('putong',GM); const n=GM.npc.heroine_02, sat=!!(n&&n.seat); const moves=[];
+    GM.E.moveTo=(m,x,z,cb,lv)=>{ moves.push([m.charId,+x.toFixed(2),+z.toFixed(2),lv|0]); m.obj.position.set(x,0,z); if(cb) cb(); return true; }; GM.standUp=m=>{ m.seat=null; m.pose='idle'; };
+    GM.E.interactables=[{exit:true,x:0,z:7.2,lv:0,label:'走出普通教學館'}];
+    GM.G.hour=12.2; STORY.refreshSchedule(GM); const at1=n&&[n.obj.position.x,n.obj.position.z], up=n&&!n.seat, still=GM.npc.heroine_02===n;
+    check('一起上完經原：12:12 起身、走到 101 門口的走廊（同一個人，不是重新生出來）',sat&&up&&still&&moves.some(q=>q[0]==='heroine_02'&&q[1]===-4.8&&q[2]===0.9),JSON.stringify({sat,up,still,moves}));
+    moves.length=0; GM.G.hour=12.7; STORY.refreshSchedule(GM);
+    check('12:42：走到出口才離開（去吃午餐）',!!n.leaving&&moves.some(q=>q[0]==='heroine_02'&&q[1]===0&&q[2]===7.2),JSON.stringify(moves)); }
+  const b=at(f5,12.75,'cafe'), b2=at(f5,12.75,'campus');
+  check('大一上週五 12:45：在小福吃午餐（不在任何場景裡；人物線索寫「在小福吃午餐」）',b.w&&b.w.zone===null&&b.w.away==='在小福吃午餐'&&!b.n&&!b2.n,JSON.stringify(b.w));
   const c=at(f5,14.5,'cafe'), c2=at(f5,14.5,'campus');
   check('大一上週五 14:30：在 Café 打工（13:00–17:00）；校園那一筆（14–16 和子晴）這一天不算，不會同時出現在校園',c.w&&c.w.zone==='cafe'&&!!c.n&&!c2.n,JSON.stringify(c.w));
   const d=at(f5,16.5,'cafe'); check('大一上週五 16:30：還在 Café（原本 15 點下班）',!!d.n&&d.w.zone==='cafe');

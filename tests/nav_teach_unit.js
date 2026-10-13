@@ -113,4 +113,14 @@ if(!only||only==='putong'){ const z=runZone('putong',PUTONG_LAYOUT,110);
     check('落在博雅二樓：站得住；回普通的空橋門口、博雅一樓出口都走得到',E.canStand(sp.x,sp.z,0.32,1)&&!!back&&walk([sp.x,sp.z,1],[back.x,back.z,1]).ok&&walk([sp.x,sp.z,1],[BOYA_LAYOUT.entrance.exit.x,BOYA_LAYOUT.entrance.exit.z-0.6,0]).ok,JSON.stringify(sp));
     const bs=back&&back.exit.spawn; loadZone('putong'); { const br2=E.interactables.find(i=>i.exit&&i.exit.to==='boya'); check('從博雅走回來：落點離普通的空橋門口 ≥ 半徑＋0.2 m',!!bs&&!!br2&&Math.hypot(bs.x-br2.x,bs.z-br2.z)>=br2.radius+0.2,bs&&br2?`距離 ${Math.hypot(bs.x-br2.x,bs.z-br2.z).toFixed(2)}`:''); }
     check('從博雅走回來：落在普通二樓走廊、站得住、走得到普通一樓出口',!!bs&&bs.lv===1&&E.canStand(bs.x,bs.z,0.32,1)&&walk([bs.x,bs.z,1],[PUTONG_LAYOUT.entrance.exit.x,PUTONG_LAYOUT.entrance.exit.z-0.6,0]).ok,JSON.stringify(bs)); } }
+/* 日程寫的站位（act:'linger' 的 at；AA 2026-10-13 P1-3：芷若經原 12:10 下課後在普通 101 門口的走廊）：站得住、不在教室裡、從大門走得到、從前一個時段的教室座位旁走得到 */
+{ vm.runInThisContext(fs.readFileSync(path.join(ROOT,'src/data/characters.js'),'utf8').replace(/^const (CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS)\s*=/mg,'globalThis.$1='),{filename:'src/data/characters.js'});
+  const LS={gongtong:GONGTONG_LAYOUT,boya:BOYA_LAYOUT,putong:PUTONG_LAYOUT}; let nSpots=0;
+  for(const cid in CHARACTERS){ const sch=CHARACTERS[cid].daily_schedule||[]; for(const e of sch){ if(e.act!=='linger'||!LS[e.zone]||(only&&only!==e.zone)) continue; nSpots++;
+    const z=loadZone(e.zone); tag='['+LS[e.zone].name+'] '; const [x,zz,,lv0]=e.at, lv=lv0|0, SP=LS[e.zone].entrance.spawn, rid=z.roomAt(x,zz,lv);
+    check(cid+' 的站位 ('+x+','+zz+')：站得住、在公共空間（'+rid+'）、從大門走得到',E.canStand(x,zz,0.32,lv)&&['corridor','lobby','hall','lobby2'].includes(rid)&&walk([SP.x,SP.z,0],[x,zz,lv]).ok,rid);
+    const prev=sch.find(q=>q.zone===e.zone&&q.room&&Math.abs(q.to-e.from)<1e-6&&q.days.some(d=>e.days.includes(d)));
+    if(prev){ const bad=[]; let n=0; for(const st of (z.seats||[]).filter(q=>q.room===prev.room)){ const yaw=st.yaw||0, fx=Math.sin(yaw), fz=Math.cos(yaw), sl=st.lv|0; const ap=[[fx*0.5,fz*0.5],[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55]].map(([dx,dz])=>[st.x+dx,st.z+dz]).find(([ax,az])=>E.canStand(ax,az,0.3,sl)); if(!ap) continue; n++; if(!walk([ap[0],ap[1],sl],[x,zz,lv]).ok) bad.push('('+st.x+','+st.z+')'); }
+      check(cid+'：前一個時段（'+prev.room+'）的座位起身後都走得到站位（'+(n-bad.length)+'/'+n+'）',n>0&&!bad.length,bad.slice(0,5).join(' ')); } } }
+  if(!only||only==='putong') check('至少有一個日程站位被檢查（芷若在普通）',nSpots>=1,String(nSpots)); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
