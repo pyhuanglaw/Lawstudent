@@ -1,9 +1,9 @@
 """lawlib_wt：VISUAL_REVIEW 第 17 節（萬才館 法律學院圖書館：Blender 正式模型＋萬才館的門＋窗景）。
-用法：python3 docs/art-rebuild/second_ai/drafts/lawlib_fill.py <Blender 渲染資料夾（法圖）> <Blender 渲染資料夾（法圖補拍）> <萬才館渲染資料夾> <遊戲截圖資料夾（有 GLB）> <遊戲截圖資料夾（擋掉 GLB）> <遊戲截圖 log（有 GLB）> <log（擋掉）>"""
+用法：python3 docs/art-rebuild/second_ai/drafts/lawlib_fill.py <Blender 渲染資料夾（法圖）> <Blender 渲染資料夾（法圖補拍）> <萬才館渲染資料夾> <遊戲截圖資料夾（有 GLB）> <遊戲截圖資料夾（擋掉 GLB）> <遊戲截圖 log（有 GLB）> <log（擋掉）> <萬才館門的遊戲截圖資料夾>"""
 import json, os, re, sys
 from PIL import Image
 R = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..')); D = R + '/docs/art-rebuild/second_ai'
-bl1, bl2, wcd, g_new, g_old, log_new, log_old = sys.argv[1:8]
+bl1, bl2, wcd, g_new, g_old, log_new, log_old, wcg = sys.argv[1:9]
 def webp(src, dst, w=None, q=84):
     im = Image.open(src).convert('RGB')
     if w and im.size[0] > w: im = im.resize((w, round(im.size[1] * w / im.size[0])), Image.LANCZOS)
@@ -15,6 +15,8 @@ GN = ['g_entrance', 'g_reading', 'g_stairs', 'g_rooms', 'g_stacks', 'g_upper', '
 for n in GN:
     webp(f'{g_new}/{n}.png', f'{D}/shots/lawlib_after_{n}.webp', w=1100)
     if os.path.exists(f'{g_old}/{n}.png'): webp(f'{g_old}/{n}.png', f'{D}/shots/lawlib_before_{n}.webp', w=1100)
+for t in ('before', 'after'):
+    for n in ('door', 'door_follow'): webp(f'{wcg}/{t}_{n}.png', f'{D}/shots/wancai_lldoor_{t}_{n}.webp', w=1100)
 def posts(path):
     out = {}
     for line in open(path, encoding='utf8'):
@@ -101,6 +103,13 @@ LAWWW 已經做好配置 `src/data/lawlib_layout.js`、區域 `src/lawlib3d.js`�
 |---|---|---|
 {shot_rows}
 
+萬才館大廳那一側的門（左：程序化備用模型，深色木牌＋深色字看不清、玻璃門後面是空的；右：正式模型，淺色木牌＋門後一小段館內）：
+
+| 鏡頭 | 修改前（程序化） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 大廳往圖書館的門 | ![](shots/wancai_lldoor_before_door.webp) | ![](shots/wancai_lldoor_after_door.webp) |
+| 手機直向：跟隨鏡頭 | ![](shots/wancai_lldoor_before_door_follow.webp) | ![](shots/wancai_lldoor_after_door_follow.webp) |
+
 ### 17.7 窗景（遊戲畫面，1024×512）
 
 | 南（白天／晚上） | 北（白天／晚上） | 西（白天／晚上） |
@@ -108,24 +117,25 @@ LAWWW 已經做好配置 `src/data/lawlib_layout.js`、區域 `src/lawlib3d.js`�
 | ![](../../../assets/models/env/views/lawlib_south_day.webp) | ![](../../../assets/models/env/views/lawlib_north_day.webp) | ![](../../../assets/models/env/views/lawlib_west_day.webp) |
 | ![](../../../assets/models/env/views/lawlib_south_night.webp) | ![](../../../assets/models/env/views/lawlib_north_night.webp) | ![](../../../assets/models/env/views/lawlib_west_night.webp) |
 
-### 17.8 配置的問題（已經傳給 LAWWW；配置是 LAWWW 的，我不改）
+### 17.8 配置的問題（傳給 LAWWW；配置是 LAWWW 的，我不改）
 
-1. 兩間討論室的白板（配置在北牆）擋在北窗前面 → GLB 先放在西側的牆；建議配置改西牆＋`ry`。
-2. 一樓盆栽 (2.2, 7.1) 壓在第四個閱覽隔間的桌子上 → GLB 照配置放（會看到盆子和桌子重疊）；建議改 (2.9, 7.3)。
-3. 書架標示牌太寬、相鄰兩塊重疊（r1s／r2s、r4s／r5s 同一個平面會閃）。
-4. 「法律學院圖書館」牌子在備用模型裡被牆蓋住（GLB 的牆面做在牌子後面，看得到）。
-5. 二樓 B 跑最上面一階和樓板邊之間 22 cm 的縫（GLB 補成樓板）。
-6. 同一道門兩側大小不一樣（法圖 1.6×2.5 m、萬才館 1.2×2.4 m）。
-7. 二樓兩塊吊牌的 `y`（6.9、6.4）看起來是絕對高度，遊戲會再加 4.2 m（變成 11.1、10.6，在屋頂上面）→ GLB 的背板照絕對高度放；建議配置改成 2.7、2.2。
+1. ~~兩間討論室的白板擋在北窗前面~~ → **LAWWW 已修（`20301c3`：白板在側牆，`face`）**；GLB 照新配置，螢幕在對面的牆。
+2. ~~一樓盆栽壓在第四個閱覽隔間的桌子上~~ → **已修（(2.95, 7.45)）**；GLB 照新配置。
+3. ~~書架標示牌太寬、互相重疊~~ → **已修（range 的 `signW` 1.3 m）**；GLB 在每塊標示牌後面加了深色背板（坐在書架頂板上）。
+4. 「法律學院圖書館」牌子在**備用模型**裡被牆蓋住（GLB 的牆面做在牌子後面，看得到）——備用模型的事，還沒改。
+5. 二樓 B 跑最上面一階和樓板邊之間 22 cm 的縫：GLB 補成樓板（備用模型照舊）。
+6. 同一道門兩側大小不一樣（法圖 1.6×2.5 m、萬才館 1.2×2.4 m）——等 LAWWW 決定。
+7. **新的**：二樓兩塊吊牌的 `y`（6.9、6.4）像是絕對高度，遊戲會再加 4.2 m（變成 11.1、10.6，在屋頂上面，看不到）；建議改成 2.7、2.2。GLB 的吊牌背板照遊戲的算法放，在天花板上面的就不做（改了配置重新匯出就會出現）。
 
 ### 17.9 還沒達到參考品質的地方
 
 1. **沒有照片參考**：室內是照使用者的描述做的遊戲化設計，不是還原真實館舍（材質、家具、書架排法、櫃台位置都是推估）。
 2. 書是程式畫的書背：近看是真的書名、索書號，但每一種模組重複出現（{info['book_instances']} 格只有 {info['book_modules']} 種）；沒有斜放、平放的書。
 3. 討論室的門是「推開的拉門」，不會動；入口玻璃門關著（出去是互動點）。
-4. 吊牌、房間名稱的字要靠遊戲畫；標示牌重疊的問題（17.8 第 3 點）要改遊戲的程式。
-5. 窗景北面那張左半邊是很近的建築牆面（萬才館背面那一帶的套件建築）。
-6. 沒有 iPhone 實機驗證；整合測試（走路、坐下、上下樓、鏡頭、存讀檔）由 LAWWW 跑。
+4. 吊牌、房間名稱的字要靠遊戲畫；二樓兩塊吊牌的高度要等配置改（17.8 第 7 點）。
+5. **遊戲裡斜著看書架時書背的字糊掉**（17.6 二樓那幾張只看得到顏色）：書背圖集 1024×1024，正面近看有字；斜看時 three.js 預設沒有各向異性過濾，選到很小的 mipmap。遊戲端可以只對 `ll_book_atlas` 的貼圖設 `anisotropy`（`renderer.capabilities.getMaxAnisotropy()`）——這是遊戲程式，LAWWW 決定。
+6. 窗景北面那張左半邊是很近的建築牆面（萬才館背面那一帶的套件建築）。
+7. 沒有 iPhone 實機驗證；整合測試（走路、坐下、上下樓、鏡頭、存讀檔）由 LAWWW 跑。
 """
 p = D + '/VISUAL_REVIEW.md'; v = open(p).read()
 assert '## 17. 萬才館 法律學院圖書館' not in v

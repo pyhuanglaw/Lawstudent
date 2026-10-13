@@ -489,12 +489,28 @@ def display_rack(s, rnd):
         if along_x: ep.box(min(aa, aa + sg2 * 0.025), max(aa, aa + sg2 * 0.025), y, y + h - 0.035, p0, p1)
         else: ep.box(p0, p1, y, y + h - 0.035, min(aa, aa + sg2 * 0.025), max(aa, aa + sg2 * 0.025))
 
+def shelf_sign_holder(s):
+    """書架標示牌的背板（字是遊戲畫的平面，位置照 lawlib3d.js：書架頂上 0.16 m；range 在南端 z1+0.03、朝南；靠牆／期刊架在正面前 0.02 m）。
+    背板在字的平面後面 0.5～2.5 cm，下緣坐在書架頂板上——從背面看是一塊深色的牌子，不是浮在空中的字"""
+    if not s.get('sign'): return
+    lv = s['lv']; y = Y1 if lv else 0.0; h = s['h']
+    sw = s.get('signW') or max(1.0, len(s['sign']) * 0.17); sh = (sw / 4) if s.get('signW') else 0.22; cy = y + h + 0.16
+    yb, yt = y + h + 0.0, cy + sh / 2 + 0.02; m = mk(lv, 'signback')
+    if s['kind'] == 'range':
+        m.box(s['x'] - sw / 2 - 0.02, s['x'] + sw / 2 + 0.02, yb, yt, s['z1'] + 0.005, s['z1'] + 0.025); return
+    f = s['face']; off = ((s['x1'] - s['x0']) if f in 'EW' else (s['z1'] - s['z0'])) / 2 + 0.02; cx, cz = (s['x0'] + s['x1']) / 2, (s['z0'] + s['z1']) / 2
+    if f in 'EW':
+        sg = 1 if f == 'E' else -1; a_, b_ = sorted((cx + sg * (off - 0.025), cx + sg * (off - 0.005))); m.box(a_, b_, yb, yt, cz - sw / 2 - 0.02, cz + sw / 2 + 0.02)
+    else:
+        sg = 1 if f == 'S' else -1; a_, b_ = sorted((cz + sg * (off - 0.025), cz + sg * (off - 0.005))); m.box(cx - sw / 2 - 0.02, cx + sw / 2 + 0.02, yb, yt, a_, b_)
+
 rnd = random.Random(7)
 JN = next(s for s in J['shelves'] if s['id'] == 'jn')
 for s in J['shelves']:
     if s['kind'] == 'range': range_shelf(s, rnd)
     elif s['kind'] == 'wall': wall_shelf(s, rnd, z0_clip=(JN['z1'] if s['id'] == 'jw' else None))
     elif s['kind'] == 'display': display_rack(s, rnd)
+    shelf_sign_holder(s)
 
 # ================= 桌子、椅子 =================
 def seats_of():
@@ -630,14 +646,25 @@ for (x, z) in J['gates']:                                                       
 # ================= 房間裡：討論室（白板、牆上的螢幕）、影印室（兩台影印機、加值機、紙箱）=================
 for rm in J['rooms']:
     if rm['kind'] == 'discussion':
-        wx = rm['x0'] + 0.02; tz = rm['table']['z']                                         # 白板在西側的牆（北牆是窗，見給 LAWWW 的訊息）
-        mkw = (lambda k: wm(0, 'W', k)) if abs(rm['x0'] - XI0) < 0.01 else (lambda k: mk(0, k))   # 貼在外牆上的跟著牆淡出
-        mkw('white').box(wx, wx + 0.03, 0.9, 2.0, tz - 0.8, tz + 0.8); mkw('steel').box(wx, wx + 0.04, 0.88, 0.9, tz - 0.8, tz + 0.8)
-        for zz in (tz - 0.8, tz + 0.8): mkw('steel').box(wx, wx + 0.035, 0.88, 2.02, zz - 0.012, zz + 0.012)
-        mkw('steel').box(wx, wx + 0.035, 2.0, 2.02, tz - 0.8, tz + 0.8); mkw('grey').box(wx + 0.03, wx + 0.1, 0.9, 0.93, tz - 0.4, tz + 0.4)
-        for k, c in enumerate(('black', 'red', 'fabric')): mkw(c).cyl((wx + 0.06, 0.94, tz - 0.2 + k * 0.08), (wx + 0.06, 0.94, tz - 0.08 + k * 0.08), 0.01, seg=6)
-        ex = rm['x1'] - 0.02
-        mk(0, 'black').box(ex - 0.06, ex, 1.2, 1.85, tz - 0.55, tz + 0.55); mk(0, 'tv').box(ex - 0.062, ex - 0.06, 1.23, 1.82, tz - 0.52, tz + 0.52)
+        # 白板照配置（LAWWW 20301c3：側牆、face＝白板朝哪個方向，寬 w、中心高 1.5、高 1.0）；look 文字說的「牆上一台螢幕」放在對面的牆
+        wb = next((f for f in J['furniture'] if f['type'] == 'whiteboard' and f.get('room') == rm['id']), None)
+        if wb is None: continue
+        sg = 1 if wb.get('face', 'E') == 'E' else -1; bz, hw = wb['z'], wb['w'] / 2
+        wall_x = rm['x0'] if sg > 0 else rm['x1']                                           # 白板貼的那一面牆（房間的內面）
+        onext = lambda x_: abs(x_ - XI0) < 0.01 or abs(x_ - XI1) < 0.01
+        mkw = (lambda k, s_='W' if sg > 0 else 'E': wm(0, s_, k)) if onext(wall_x) else (lambda k: mk(0, k))   # 貼在外牆上的跟著牆淡出
+        X = lambda d: wall_x + sg * d                                                        # 從牆面往房間裡 d 公尺
+        bx = lambda d0, d1: (min(X(d0), X(d1)), max(X(d0), X(d1)))
+        mkw('white').box(*bx(0.0, 0.03), 1.0, 2.0, bz - hw, bz + hw)
+        mkw('steel').box(*bx(0.0, 0.04), 0.98, 1.0, bz - hw, bz + hw); mkw('steel').box(*bx(0.0, 0.035), 2.0, 2.02, bz - hw, bz + hw)
+        for zz in (bz - hw, bz + hw): mkw('steel').box(*bx(0.0, 0.035), 0.98, 2.02, zz - 0.012, zz + 0.012)
+        mkw('grey').box(*bx(0.03, 0.1), 0.98, 1.01, bz - hw / 2, bz + hw / 2)                # 板擦、筆槽
+        for k, c in enumerate(('black', 'red', 'fabric')): mkw(c).cyl((X(0.06), 1.02, bz - 0.2 + k * 0.08), (X(0.06), 1.02, bz - 0.08 + k * 0.08), 0.01, seg=6)
+        tv_x = rm['x1'] if sg > 0 else rm['x0']; tz = rm['table']['z']                      # 螢幕：對面的牆
+        mkt = (lambda k, s_='E' if sg > 0 else 'W': wm(0, s_, k)) if onext(tv_x) else (lambda k: mk(0, k))
+        T_ = lambda d: tv_x - sg * d
+        mkt('black').box(min(T_(0.0), T_(0.06)), max(T_(0.0), T_(0.06)), 1.2, 1.85, tz - 0.55, tz + 0.55)
+        mkt('tv').box(min(T_(0.06), T_(0.062)), max(T_(0.06), T_(0.062)), 1.23, 1.82, tz - 0.52, tz + 0.52)
     elif rm['kind'] == 'copy':
         for cx in rm['copiers']:
             cz = Z0 + 0.45 + 0.0; F = xf(cx, 0.0, cz, 0.0); wt, bk, gy = mk(0, 'white'), mk(0, 'black'), mk(0, 'grey')
