@@ -1,0 +1,139 @@
+{
+ "objects": 147,
+ "unique_meshes": 73,
+ "tris": 15552,
+ "tris_drawn": 25014,
+ "materials": 32,
+ "out": "assets/models/env/second_ai/library_3f.glb",
+ "bytes": 1475480,
+ "texres": 512,
+ "tris_static": 13210,
+ "book_instances": 93,
+ "book_modules": 19,
+ "book_tris_drawn": 11804,
+ "seats": 36,
+ "layout": {
+  "room": [
+   22.0,
+   16.0,
+   4.0
+  ],
+  "windows_back_x": [
+   -8.25,
+   -2.75,
+   2.75,
+   8.25
+  ],
+  "window_hole": {
+   "half_w": 1.1,
+   "y0": 1.05,
+   "y1": 3.05
+  },
+  "door_front": {
+   "x": [
+    -0.95,
+    0.95
+   ],
+   "h": 2.4
+  },
+  "elevator_keepout": [
+   8.6,
+   10.9,
+   -2.2,
+   1.4
+  ],
+  "tables": [
+   [
+    -4,
+    -3.0
+   ],
+   [
+    4,
+    -3.0
+   ],
+   [
+    -4,
+    0.6000000000000001
+   ],
+   [
+    4,
+    0.6000000000000001
+   ],
+   [
+    -4,
+    4.2
+   ],
+   [
+    4,
+    4.2
+   ]
+  ],
+  "table": [
+   5.0,
+   1.2,
+   0.77
+  ],
+  "bookcases": [
+   [
+    "back",
+    -10.9,
+    -4.0,
+    0.95,
+    0.45,
+    2,
+    "low"
+   ],
+   [
+    "back",
+    4.0,
+    10.9,
+    0.95,
+    0.45,
+    2,
+    "low"
+   ],
+   [
+    "left",
+    -6.0,
+    6.0,
+    2.4,
+    0.4,
+    5,
+    "tall"
+   ]
+  ],
+  "nav_note": "家具都在 zones3d.js 原本的導航阻擋範圍裡（desk、shelfWall）；椅子照舊不擋"
+ },
+ "tris_by_object": {
+  "l3_chairwood": 4320,
+  "l3_brass": 1944,
+  "l3_walnut": 1092,
+  "l3_tbar": 972,
+  "l3_shade": 684,
+  "l3_seat": 432,
+  "WALL_front_walnut": 396,
+  "WALL_back_frame": 336,
+  "l3_paper": 256,
+  "l3_grille": 240,
+  "l3_white": 220,
+  "WALL_right_walnut": 168,
+  "WALL_back_plaster": 156,
+  "l3_black": 144,
+  "l3_steel": 144,
+  "WALL_back_walnut": 144,
+  "l3_bc0": 132,
+  "WALL_front_steel": 128,
+  "WALL_front_black": 120,
+  "WALL_front_white": 116,
+  "l3_bc2": 108,
+  "WALL_back_cornice": 96,
+  "l3_bc1": 84,
+  "l3_top": 72,
+  "WALL_front_cornice": 72,
+  "WALL_left_walnut": 72,
+  "WALL_right_cornice": 72,
+  "l3_bc3": 60,
+  "WALL_back_blind": 56,
+  "l3_base": 36
+ }
+}
