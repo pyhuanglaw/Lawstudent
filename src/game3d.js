@@ -137,8 +137,8 @@ const GAME = (function(){
   // 正式人物模型晚到（手機網速慢、預載逾時）：已經用程序化備用人物（或借用路人底模）建立的主角、NPC、騎車的人，模型一到就原地換上。
   // 位置、朝向、姿勢、表情、坐的位子、劇情狀態都不變（只換 obj）。2026-10-10 線上實玩回報「人物又變得非常醜」的原因：逾時後整場都是備用人物
   GM.upgradeModels=function(){ if(!E||!E.player) return 0; let n=0;
-    if(CHAR.needsUpgrade(E.player.obj)){ const old=E.player.obj, nh=CHAR.upgrade(old); if(nh){ E.player.obj=nh; GM.heroDriver=nh.userData.driver; for(const m of E.npcs) if(m.lookAt===old.position) m.lookAt=nh.position; n++; } }
-    for(const m of E.npcs){ if(CHAR.needsUpgrade(m.obj)){ const nh=CHAR.upgrade(m.obj); if(nh){ m.obj=nh; n++; } } }
+    if(CHAR.needsUpgrade(E.player.obj)){ const old=E.player.obj, nh=CHAR.upgrade(old); if(nh){ E.player.obj=nh; GM.heroDriver=nh.userData.driver; for(const m of E.npcs) if(m.lookAt===old.position) m.lookAt=nh.position; n++; if(E.prePose) E.prePose(E.player); } }
+    for(const m of E.npcs){ if(CHAR.needsUpgrade(m.obj)){ const nh=CHAR.upgrade(m.obj); if(nh){ m.obj=nh; n++; if(E.prePose) E.prePose(m); } } }   /* 新的骨架先套好姿勢（坐著的人不會先站一幀）*/
     for(const x of (GM.extras||[])){ if(x.rider&&CHAR.needsUpgrade(x.rider)){ const nh=CHAR.upgrade(x.rider); if(nh){ x.rider=nh; n++; } } }
     if(n) console.info('upgraded character models:',n); return n; };
   // ---------- 區域進入 ----------

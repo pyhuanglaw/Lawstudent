@@ -171,7 +171,13 @@ const E3 = (function(){
   function disposeGroup(g){ g.traverse(o=>{ if(o.geometry&&!o.geometry.userData.shared) o.geometry.dispose(); }); }
   // ---------- 實體 ----------
   E.setPlayer=function(obj){ if(E.player) scene.remove(E.player.obj); E.player={obj,speed:0,path:null,target:null,pose:'idle',run:false,busy:false,radius:0.32,lv:0}; scene.add(obj); };
-  E.addNPC=function(n){ n.path=null; n.speed=0; n.pose=n.pose||'idle'; n.radius=0.32; n.timer=0; n.lodPhase=E.npcs.length; n.lv=n.lv|0; /* 多樓層：坐著的放在座位的高度、其他的放在所在那一層的地板上 */ { const o=n.obj.position; if(n.seat&&n.seat.y!=null) o.y=n.seat.y; else { const nv=navOf(n.lv); if(nv&&(nv.surf||nv.y0)) o.y=nv.heightAt(o.x,o.z); } } scene.add(n.obj); E.npcs.push(n); return n; };
+  E.addNPC=function(n){ n.path=null; n.speed=0; n.pose=n.pose||'idle'; n.radius=0.32; n.timer=0; n.lodPhase=E.npcs.length; n.lv=n.lv|0; /* 多樓層：坐著的放在座位的高度、其他的放在所在那一層的地板上 */ { const o=n.obj.position; if(n.seat&&n.seat.y!=null) o.y=n.seat.y; else { const nv=navOf(n.lv); if(nv&&(nv.surf||nv.y0)) o.y=nv.heightAt(o.x,o.z); } } scene.add(n.obj); E.npcs.push(n); if(n.pose==='sit'||n.pose==='read') prePose(n); return n; };
+  /* 先套好姿勢再畫（2026-10-13 LAWWW2 審查：博雅 101 的聽眾出現後的前幾秒有一半是站姿、站在椅子和桌板中間）：人物建好時骨架是站姿，
+     要等引擎的 updateNPC 跑過一次 CHAR.animate 才坐下——但 ① 課堂、人流、劇情加人物是在 E.update 之後、畫面之前（game3d 的每幀 tick），那一幀是站的；
+     ② 在畫面外的人不跑動畫（LOD），一直是站姿；③ 晚到的正式模型換上去時（GM.upgradeModels）新的骨架也是站姿。坐著（sit／read）的人一加進來就套一次姿勢（dt 0）；
+     換模型之後也套一次。測試：tests/flow_seated_spawn.py（每一幀畫之前檢查看得到的座位上的人）*/
+  function prePose(n){ n.obj.updateMatrixWorld(true); CHAR.animate(n.obj,0,{pose:n.pose,speed:0,ground:groundFn(n)}); }
+  E.prePose=prePose;
   E.addExtra=function(x){ scene.add(x.obj); E.extras.push(x); };
   E.removeNPC=function(n){ scene.remove(n.obj); if(CHAR.release) CHAR.release(n.obj); E.npcs=E.npcs.filter(m=>m!==n); };
   // ---------- 輸入 ----------
