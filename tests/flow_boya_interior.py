@@ -71,8 +71,12 @@ async def main():
         pose, opts, s = await sit_and_choose(pg, cdp, run, '聽演講')
         att = await pg.evaluate("(()=>{ const A=(GAME.G.acts&&GAME.G.acts.att)||{}; return Object.keys(A); })()")
         run.check('同一個位子再坐下：第一個選項是「聽演講：測試演講」；選了之後記下到場、時間到演講結束（約 2 小時後）', any(o.startswith('聽演講：') for o in opts) and any(k.startswith('t_flow_lec@') for k in att) and s['hour'] >= h0 + 1.9, json.dumps(opts, ensure_ascii=False) + ' ' + json.dumps(att) + f" {h0}→{s['hour']}")
-        await pg.wait_for_timeout(3000)
-        lv = await pg.evaluate("GAME.E.npcs.filter(n=>n.leaving).length")
+        # 下課的人流在課表的 tick 裡排（每 30 格一次，SwiftShader 1–3 fps 要 10–20 秒；手機 30–60 fps 不到 1 秒）：最多等 30 秒（2026-10-13 批次 2：等 3 秒太短）
+        lv = 0
+        for _ in range(15):
+            await pg.wait_for_timeout(2000)
+            lv = await pg.evaluate("GAME.E.npcs.filter(n=>n.leaving).length")
+            if lv >= 1: break
         run.check('演講結束：聽眾站起來往外走（不是一起消失）', lv >= 1, f'{lv} 人在往外走')
         await run.shot(pg, 'A2_lecture_end')
         # ---------- B：自習小桌 ----------
