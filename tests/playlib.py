@@ -203,9 +203,19 @@ async def go_to(pg, cdp, run, tx, tz, near, label, max_s=420, lv=None):
             # 還在走（路線還沒走完）：真人會等人物停下來再看按鈕、按按鈕。不等的話，人物經過座位旁那一瞬間按鈕是「坐下」
             # （2026-10-10：flow_linze_floors 在 201 往後門走、離目標 0.67 m 時就檢查，按鈕還是最上排座位的「坐下」，停下來後才是「離開教室」）
             t1 = time.time()
-            while s['path'] and time.time() - t1 < 12:
+            while s['path'] and time.time() - t1 < 30:   # SwiftShader 0.5–1 fps：12 秒只有 6–12 格，最後半公尺常常還沒走完（2026-10-13 改 30 秒）
                 await pg.wait_for_timeout(500); s = await state(pg)
             d = math.hypot(tx - s['x'], tz - s['z'])
+            if d > near and not s['path']:
+                # 走過頭：點下去的地面和目標差了一點（tap_ground 的驗證容許 1 m），人經過目標旁邊、停在 near 以外——真人看按鈕沒出現會用搖桿往目標推一下。
+                # （2026-10-13：flow_linze_floors 在 v9.5 和 v9.6 候選版都在這裡失敗過一次——停在第 2 排第 5 個座位旁 0.67 m，「坐下」還沒出現；遊戲本身沒錯，是點到的地面偏了）
+                run.note(f'「{label}」：停在離目標 {d:.2f} m（點到的地面偏了），用搖桿往目標推一下')
+                for _ in range(6):
+                    yaw = s['camYaw']; fx, fz = -math.sin(yaw), -math.cos(yaw); rx, rz = -fz, fx
+                    ux, uz = (tx - s['x']) / max(d, 0.01), (tz - s['z']) / max(d, 0.01)
+                    await joystick(pg, cdp, int(25 * (ux * rx + uz * rz)), int(-25 * (ux * fx + uz * fz)), 500); joys += 1
+                    await pg.wait_for_timeout(700); s = await state(pg); d = math.hypot(tx - s['x'], tz - s['z'])
+                    if d <= near: break
             run.note(f'到達「{label}」附近（{d:.2f} m）：點地面 {taps} 次、轉鏡頭 {turns} 次、搖桿 {joys} 次，{time.time()-t0:.0f} 秒'); return True
         if s.get('paused'):   # 手機、選單、地圖開著（遊戲暫停，人走不動）：玩家會先把它關掉
             ov = await pg.evaluate(OVERLAYS_JS)
