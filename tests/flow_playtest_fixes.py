@@ -61,13 +61,15 @@ async def dialog_through(pg, cdp, run, max_steps=40):
     return lines
 
 
-async def chase(pg, cdp, run, cid, label, rounds=4):
-    """像玩家一樣走到那個人旁邊（點地面；人在走動，所以分幾次重新瞄準）；回傳最後的距離"""
+async def chase(pg, cdp, run, cid, label, rounds=14):
+    """像玩家一樣走到那個人旁邊（點地面；人在走動，所以常常重新瞄準：每 30 秒看一次她現在在哪、再點一次）；回傳最後的距離。
+    v9.6 發布回歸（候選 3）：原本每輪最多等 150 秒、走到她「剛才」的位置——SwiftShader 一秒不到一格，她早就走遠了，
+    4 輪用完已經 12:00、她開始離開（c772bab 也是這樣失敗）。判斷標準不變（2.8 m 內停下、出現「說話」）。"""
     for _ in range(rounds):
         n = await npc(pg, cid)
         if not n: return None
         if n['d'] <= 2.3: break
-        await L.go_to(pg, cdp, run, n['x'], n['z'], 1.8, label, max_s=150)
+        await L.go_to(pg, cdp, run, n['x'], n['z'], 1.8, label, max_s=30)
     n = await npc(pg, cid)
     return n and n['d']
 

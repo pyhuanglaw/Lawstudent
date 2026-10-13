@@ -114,7 +114,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
   <canvas id="minimap" width="224" height="160" aria-label="小地圖（點一下看整張地圖）"></canvas>
   <div id="bigmap" class="hide"><div class="bmHead"><b id="bmTitle">地圖</b><span id="bmNorth" class="hide" aria-label="地圖上方是北">↑ 北</span><span id="bmSub"></span><button class="ibtn" id="bmClose" aria-label="關閉地圖">✕</button></div><canvas id="bmCanvas"></canvas><div class="bmTools"><button class="ibtn" id="bmWho" aria-label="認識的人在哪">👥</button><button class="ibtn" id="bmTravel" aria-label="快速前往">🚶</button><button class="ibtn" id="bmIn" aria-label="放大">＋</button><button class="ibtn" id="bmOut" aria-label="縮小">－</button><button class="ibtn" id="bmMe" aria-label="回到我的位置">◎</button></div><div id="bmInfo" class="hide"></div><div id="bmPeople" class="hide"></div></div>
   <div id="joy"><i></i></div>
-  <div id="ctlR"><button id="interact" class="hide"><span id="interactLabel">互動</span></button><div class="row"><button class="ibtn" id="btnRun" aria-label="跑步">跑</button><button class="ibtn" id="btnCenter" aria-label="鏡頭回正">◎</button></div></div>
+  <div id="ctlR"><button id="interact" class="hide"><span id="interactLabel">互動</span></button><div class="row"><button class="ibtn hide" id="btnBike" aria-label="下車">下車</button><button class="ibtn" id="btnRun" aria-label="跑步">跑</button><button class="ibtn" id="btnCenter" aria-label="鏡頭回正">◎</button></div></div>
   <div id="caption" class="hide"></div>
   <div id="choices" class="hide"></div>
   <div id="dlg" class="hide"><div id="dlgName"></div><div id="dlgText"></div><div id="dlgNext">▼ 點一下繼續</div></div>
@@ -218,5 +218,6 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
 <script src="src/data/syllabus.js?v=9.6-1"></script>
 <script src="src/classes3d.js?v=9.6-1"></script>
 <script src="src/crowd3d.js?v=9.6-1"></script>
+<script src="src/bike3d.js?v=9.6-1"></script>
 <script>GAME.boot();</script>
 </body></html>

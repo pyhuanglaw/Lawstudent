@@ -208,10 +208,10 @@ const E3 = (function(){
     let mv=tmpV.set(0,0,0); if(!P.busy&&E.cam.mode==='follow'){ if(input.keys['w']||input.keys['arrowup']) mv.z-=1; if(input.keys['s']||input.keys['arrowdown']) mv.z+=1; if(input.keys['a']||input.keys['arrowleft']) mv.x-=1; if(input.keys['d']||input.keys['arrowright']) mv.x+=1; if(input.joy.active){ mv.x+=input.joy.x; mv.z+=input.joy.y; } }
     const spdWalk=E.SPD.walk, spdRun=E.SPD.run; let moving=false;
     E.cam.ctl=mv.lengthSq()>0.02; if(!E.cam.ctl) E.cam.swingAcc=0;   /* 推著搖桿時鏡頭自動轉開的角度（swingAcc）不算進方向：放開再推才照新的鏡頭方向 */
-    if(E.cam.ctl){ mv.normalize(); const ang=E.cam.yaw-(E.cam.swingAcc||0); /* 搖桿／鍵盤的方向換成世界方向（v9.3 第二十五批修正，2026-10-10 線上回報「霖澤館外面跑的方向相反」）：鏡頭在玩家的 (sin yaw, cos yaw) 那一側，畫面的「前」是 (-sin yaw,-cos yaw)、「右」是 (cos yaw,-sin yaw)；推 (x,y)（y 往下為正）＝ x·右 − y·前。原本旋轉方向寫反：只有鏡頭朝正北／正南時對，鏡頭轉 45° 時偏 90°、轉到側面時整個相反（往鏡頭這邊跑）*/ const dx=mv.x*Math.cos(ang)+mv.z*Math.sin(ang); const dz=-mv.x*Math.sin(ang)+mv.z*Math.cos(ang); const run=input.runToggle||input.joy.run||P.runHold; const sp=run?spdRun:spdWalk; P.path=null; P.target=null; stepEntity(P,dx,dz,sp,dt); moving=true; P.pose=run?'run':'walk'; P.speed=sp; }
-    else if(P.path){ const t=P.path[0]; const dx=t[0]-P.obj.position.x, dz=t[1]-P.obj.position.z; const d=Math.hypot(dx,dz); if(wpReached(P,d,0.25,dt)){ P.path.shift(); if(!P.path.length){ P.path=null; if(P.onArrive){ const f=P.onArrive; P.onArrive=null; f(); } } } else { const sp=P.run?spdRun:spdWalk; stepEntity(P,dx/d,dz/d,stepSp(sp,d,dt),dt); moving=true; P.pose=P.run?'run':'walk'; P.speed=sp; } }
+    if(E.cam.ctl){ mv.normalize(); const ang=E.cam.yaw-(E.cam.swingAcc||0); /* 搖桿／鍵盤的方向換成世界方向（v9.3 第二十五批修正，2026-10-10 線上回報「霖澤館外面跑的方向相反」）：鏡頭在玩家的 (sin yaw, cos yaw) 那一側，畫面的「前」是 (-sin yaw,-cos yaw)、「右」是 (cos yaw,-sin yaw)；推 (x,y)（y 往下為正）＝ x·右 − y·前。原本旋轉方向寫反：只有鏡頭朝正北／正南時對，鏡頭轉 45° 時偏 90°、轉到側面時整個相反（往鏡頭這邊跑）*/ const dx=mv.x*Math.cos(ang)+mv.z*Math.sin(ang); const dz=-mv.x*Math.sin(ang)+mv.z*Math.cos(ang); const run=input.runToggle||input.joy.run||P.runHold; const sp=P.riding?E.SPD.bike:(run?spdRun:spdWalk); P.path=null; P.target=null; stepEntity(P,dx,dz,sp,dt); moving=true; P.pose=P.riding?'ride':(run?'run':'walk'); P.speed=sp; }   /* P.riding：騎腳踏車（src/bike3d.js）*/
+    else if(P.path){ const t=P.path[0]; const dx=t[0]-P.obj.position.x, dz=t[1]-P.obj.position.z; const d=Math.hypot(dx,dz); if(wpReached(P,d,0.25,dt)){ P.path.shift(); if(!P.path.length){ P.path=null; if(P.onArrive){ const f=P.onArrive; P.onArrive=null; f(); } } } else { const sp=P.riding?E.SPD.bike:(P.run?spdRun:spdWalk); stepEntity(P,dx/d,dz/d,stepSp(sp,d,dt),dt); moving=true; P.pose=P.riding?'ride':(P.run?'run':'walk'); P.speed=sp; } }
     if(!moving){ if(P.pose==='walk'||P.pose==='run'){ P.pose='idle'; } P.speed=0; }
-    CHAR.animate(P.obj,dt,{pose:P.busy?P.pose:(P.pose),speed:P.speed,handsPockets:P.pocketsIdle&&P.pose==='idle',lookAt:P.lookAt,ground:groundFn(P)});
+    CHAR.animate(P.obj,dt,{pose:P.busy?P.pose:(P.pose),speed:P.speed,handsPockets:P.pocketsIdle&&P.pose==='idle',lookAt:P.lookAt,ground:groundFn(P),ride:P.ride});
     // NPC
     camera.updateMatrixWorld(); _frM.multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse); _fr.setFromProjectionMatrix(_frM); for(const n of E.npcs){ updateNPC(n,dt); }
     for(const x of E.extras){ if(x.update) x.update(dt); }
@@ -262,7 +262,7 @@ const E3 = (function(){
   // 目前位置本身就不合法（起身位置太靠近桌子、舊存檔、資料錯誤）時：允許「不會變更糟」的移動，讓玩家走出來；不允許穿牆（分數變低的方向仍擋）
   function escapeOK(ent,nx,nz,r){ const o=ent.obj.position; return stuckIn(ent)&&freeScore(nx,nz,r,ent.lv|0)>=freeScore(o.x,o.z,r,ent.lv|0); }
   E.canStand=canStand; E.freeScore=freeScore; E.navOf=navOf; E.setLv=setLv; E.settleY=settleY;
-  E.SPD={walk:1.8,run:4.8};   /* 玩家走路／跑步速度（m/s）。2026-10-11 使用者：「走路又很慢完全不想玩遊戲」——原本 1.45／4.1（真實步行速度），校園一頭到另一頭要走兩三分鐘；動畫播放速度跟著速度調整（character3d.js：速度／1.45），不會滑步 */
+  E.SPD={walk:1.8,run:4.8,bike:6.2};   /* 玩家走路／跑步／騎腳踏車速度（m/s）。2026-10-11 使用者：「走路又很慢完全不想玩遊戲」——原本 1.45／4.1（真實步行速度），校園一頭到另一頭要走兩三分鐘；動畫播放速度跟著速度調整（character3d.js：速度／1.45），不會滑步 */
   E.heightAt=function(x,z,lv){ const n=navOf(lv===undefined?(E.player?E.player.lv|0:0):lv); return n?n.heightAt(x,z):0; };
   // 把人物放到某一層的 (x,z)，高度照地板（劇情、讀檔、坐下、電梯用）
   E.placeAt=function(ent,x,z,lv){ if(lv!==undefined&&lv!==null) setLv(ent,lv|0); const o=ent.obj.position; o.x=x; o.z=z; const n=navOf(ent.lv|0); o.y=n?n.heightAt(x,z):0; };
