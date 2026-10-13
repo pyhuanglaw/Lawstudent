@@ -144,7 +144,12 @@ const Z3 = (function(){
     /* 共同教學館（使用者 2026-10-13：普通、共同、博雅三棟公共教學館；docs/campus/TEACHING_BUILDINGS_PLAN.md）：真實位置在行政大樓東邊（中間隔木造走廊）、南臨舟山路——
        正好是第十八批補的「大道南側、行政大樓東邊」那棟無名系館的位置，換成有名字的建築，位置與大小不變（舊存檔、導航不受影響）。
        外觀是校園套件的方盒（BLOCKOUT），等 LAWWW2 的 Blender 正式模型；正門在北面中間，門口的互動點在 classes3d.js 的 DOORS.common */
-    const gongtong=CK.hall({w:24,d:14,floors:3,gfh:4.2,fh:3.6,wall:'#9b5a42',trim:'#d8cfbd',roof:'#43342e',roofH:3.6,arcade:true,porch:{bays:1,depth:2.4,pediment:true,pedH:1.4},sign:'共同教學館'}); ckPlace(gongtong,2,33,Math.PI); buildings.push(gongtong);
+    const gongtong=CK.hall({w:24,d:14,floors:3,gfh:4.2,fh:3.6,wall:'#9b5a42',trim:'#d8cfbd',roof:'#43342e',roofH:3.6,arcade:true,porch:{bays:1,depth:2.4,pediment:true,pedH:1.4},sign:'共同教學館'});
+    /* 共同教學館的 Blender 正式模型（LAWWW2 55fbedb：campus_gongtong.py → bldg.campus_gongtong；VISUAL_REVIEW 第 20.5 節）：本體、拱廊柱、門廊和套件一樣（導航、DOORS.common 不變）；
+       有模型時：鏡頭碰撞照模型（西側木造走廊的屋頂、西翼上方）、大道南側大樹牆在共同前面的 4 棵換成模型裡的 6 棵蒲葵（樹幹的導航阻擋在模型載入後才加：載入失敗不會留下看不見的樹幹）*/
+    const gtGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_gongtong']; if(gtGLB) gongtong.userData.ck.cols=[[0,-1.3,24,11.4,0,7.8],[0,5.7,24,2.6,3.85,7.8],[-3.43,1.75,17.14,10.5,7.8,11.4],[-3.43,3.5,17.14,7,11.4,15.0],[8.57,0,6.86,14,7.8,10.0],[14.5,0,5,2.0,2.8,4.1]];
+    ckPlace(gongtong,2,33,Math.PI); buildings.push(gongtong); gongtong.userData.ckTag='gongtong'; if(gtGLB) gongtong.userData.dyn=true;
+    const GT_PALMS=[[-10.5,19.2],[-6.5,18.8],[-2.5,19.1],[6.5,19.0],[10.5,18.9],[14.5,19.2]];
     /* 大一女舍（使用者 2026-10-13：四棟跨學年公共場景之一；查證見 docs/campus/TEACHING_BUILDINGS_PLAN.md 3b）：學務處官方簡介——在校園內、鄰近公館捷運站 2、3 號出口，
        A、B 兩棟、各 5 層；學生整理的住宿資料：兩棟 2 樓有天橋、傳達室在 A 棟、B 棟靠舟山路、B 棟大門刷學生證。不是女一舍、不是水源 BOT。
        校園西南角、舟山路西段南側（靠校門與公館那一側），取代第二十批的無名系館 (-92,66)。外觀是校園套件（BLOCKOUT），等 LAWWW2 的模型；
@@ -159,6 +164,7 @@ const Z3 = (function(){
       for(const sz of [-1.5,1.5]){ const wall=new THREE.Mesh(new THREE.BoxGeometry(bw,0.9,0.12),M('#d9cfc2')); wall.position.set(0,by0+0.6,sz); br.add(wall);
         const gl=new THREE.Mesh(new THREE.BoxGeometry(bw,bh-1.2,0.05),new THREE.MeshStandardMaterial({color:'#9fb4c2',roughness:0.15,metalness:0.2,transparent:true,opacity:0.55})); gl.position.set(0,by0+0.95+(bh-1.2)/2,sz); br.add(gl); }
       br.position.set(-93,0,67); g.add(br);
+      const fdGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_freshman']; for(const o of [fdA,fdB,br]){ o.userData.ckTag='freshman'; if(fdGLB) o.userData.dyn=true; }   /* 大一女舍的 Blender 正式模型（LAWWW2 55fbedb，第 21.5 節）：A、B、天橋一起換；導航、門口、長椅、車架不變 */
       const bc=new THREE.Mesh(new THREE.BoxGeometry(bw,bh+0.3,3.4),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); bc.position.set(-93,by0+bh/2,67); g.add(bc); E.colliders.push(bc);
       // 門口：等人用的長椅（面向兩棟的大門）、B 棟門口的腳踏車架
       { const b=BENCH(); place(g,b,-93,54.2,0); nav.blockRect(-93,54.2,1.4,0.7,0); seats.push({x:-93,z:54.26,yaw:0,label:'坐在大一女舍門口的長椅（等人）'}); }
@@ -245,7 +251,7 @@ const Z3 = (function(){
       for(const [x,z] of rows){ const t=TREE(1+((Math.abs(x*3+z))%4)*0.12); place(g,t,x,z,(x+z)*0.37); nav.blockCircle(x,z,0.8); }
       // 大道兩側的大樹牆：椰子樹列後面（z=±17.5），約 6 m 一棵、高 11–13 m（樹冠相連）；路口、門口、停車架、傅鐘廣場、社團攤位留空。整排合成一個網格（一側 2 個 draw call）
       // 第二十三批（照片：椰子樹後面是一整片連在一起的深綠樹冠，幾乎看不到後面的系館）：樹冠加寬、葉色調深（AVE_TREE）；樹幹位置不動，地面的路口、車架、系館門口照樣看得到、走得到
-      for(const side of [-1,1]){ const skip=side<0?[[-116,-111],[-84,-70],[-85,-79],[-53,-47],[-46,-30],[-21,-15],[-15,-9],[-7,2],[2,12],[11,17],[23,37],[37,43],[43,50.5],[50,64]]:[[-116,-111],[-53,-23],[-22,-14],[-2,6],[16,24],[39,51]];
+      for(const side of [-1,1]){ const skip=side<0?[[-116,-111],[-84,-70],[-85,-79],[-53,-47],[-46,-30],[-21,-15],[-15,-9],[-7,2],[2,12],[11,17],[23,37],[37,43],[43,50.5],[50,64]]:[[-116,-111],[-53,-23],[-22,-14],gtGLB?[-12,16]:[-2,6],[16,24],[39,51]];   /* 共同教學館有正式模型時，前面的 4 棵換成模型裡的蒲葵 */
         const rowG=new THREE.Group(); let k=0; for(let x=-108;x<=66;x+=6){ const jx=x+((x*13)%5)*0.35; if(skip.some(([a,b])=>jx>a&&jx<b)) continue; k++; const t=TK.tree(6.4*(1.75+((k*7)%4)*0.1),k+(side>0?50:0),AVE_TREE); t.position.set(jx,0,side*(17.5+((k*5)%3)*0.5)); t.rotation.y=k*1.3; rowG.add(t); nav.blockCircle(t.position.x,t.position.z,0.8); }
         g.add(W3.mergeGroup(rowG)); }   /* 北側 [43,50.5]：(49.4,-17.8) 那棵和停車架 (46,-16) 東端之間會留一道比人窄的縫（nav_islands 的孤島，第二十批拿掉）*/
       // 系館門口的腳踏車架（台大的系館前面一定停滿腳踏車）
@@ -368,6 +374,8 @@ const Z3 = (function(){
     // 總圖的 Blender 正式模型（第二個 AI）：和溫州街、公館同一套接法（只藏 ckTag==='library' 的套件；窗晚上亮、招牌是石材底色的 canvas 字）
     if(libGLB) ASSETS.loadOne('bldg.campus_library').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_library_glb','library'); }).catch(e=>console.warn('總圖正式模型載入失敗，用套件的外觀',e));
     if(bellGLB) ASSETS.loadOne('bldg.campus_bell').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_bell_glb','bell'); }).catch(e=>console.warn('傅鐘正式模型載入失敗，用套件的外觀',e));
+    if(gtGLB) ASSETS.loadOne('bldg.campus_gongtong').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_gongtong_glb','gongtong'); for(const [px,pz] of GT_PALMS) nav.blockCircle(px,pz,0.35); nav._cm=null; }).catch(e=>console.warn('共同教學館正式模型載入失敗，用套件的外觀',e));
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.campus_freshman']) ASSETS.loadOne('bldg.campus_freshman').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_freshman_glb','freshman'); }).catch(e=>console.warn('大一女舍正式模型載入失敗，用套件的外觀',e));
     if(admGLB) ASSETS.loadOne('bldg.campus_admin').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_admin_glb','admin'); }).catch(e=>console.warn('行政大樓正式模型載入失敗，用套件的外觀',e));
     if(artsGLB) ASSETS.loadOne('bldg.campus_arts').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_arts_glb','arts'); }).catch(e=>console.warn('文學院正式模型載入失敗，用套件的外觀',e));
     if(histGLB) ASSETS.loadOne('bldg.campus_hist').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_hist_glb','hist'); }).catch(e=>console.warn('校史館正式模型載入失敗，用套件的外觀',e));
@@ -816,7 +824,7 @@ const Z3 = (function(){
       const nn=WZ_NIGHT[nm]; if(nn){ mt.emissive=new THREE.Color(nn[0]); TK.addNight(mt,nn[1],nn[2]); }
       if((nm==='ck_glass'||nm==='ck_pav_dark')&&mt.emissiveMap){ const t=mt.emissiveMap; t.generateMipmaps=false; t.minFilter=THREE.LinearFilter; t.needsUpdate=true; }   /* 校園地標的玻璃：亮燈、沒亮燈的窗同一個材質，自發光貼圖左半黑、右半燈光（campus_hall.py）；不用 mipmap，遠處左右兩半才不會混在一起（沒亮燈的窗發光） */
       if(nm==='jp_shoji'){ mt.emissiveMap=mt.map; }   /* 紙拉門：亮燈時整片紙發光、木格比較暗 */
-      if((nm==='wz_pillar_tile'||nm==='wz_pole_concrete')&&E.patchSeeThrough){ mt.userData.seeThrough=true; E.patchSeeThrough(mt); }   /* 騎樓柱子：擋住玩家時網點透空（和套件的柱子一樣） */
+      if((nm==='wz_pillar_tile'||nm==='wz_pole_concrete'||nm==='gt_palm_bark'||nm==='gt_palm')&&E.patchSeeThrough){ mt.userData.seeThrough=true; E.patchSeeThrough(mt); }   /* 騎樓柱子、共同教學館前的蒲葵：擋住玩家時網點透空（和套件的柱子、樹一樣） */
       if(nm&&nm.indexOf('cafe_leaf_')===0){ mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; }
       if(nm==='ck_bell_wash'){ mt.emissive=new THREE.Color(0xffffff); mt.emissiveMap=mt.map; mt.map=null; mt.color=new THREE.Color(0x000000); mt.roughness=1; mt.metalness=0; mt.transparent=true; mt.depthWrite=false; mt.blending=THREE.AdditiveBlending; TK.addNight(mt,0.75,0); mt.needsUpdate=true; } });   /* 傅鐘柱面的暖光（和套件一樣）：黑色底＋由下往上淡出的自發光、加法混合——白天看不到，晚上像地燈往上打的光 */
     /* 招牌（橫、直立）、門牌告示牌：每一面原本各自一張 canvas、各自一次 draw call（整條巷子 29 面）→ 合成一張 atlas、一個網格 */
