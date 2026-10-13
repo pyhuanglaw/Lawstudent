@@ -26,7 +26,10 @@ const BIKE=(function(){
       src=s; return s; }).catch(e=>{ console.warn('腳踏車模型載入失敗',e); loading=null; return null; });
     return loading; }
   B.load=load;
-  function make(){ if(!src) return null; const o=src.clone(true); const parts={}; o.traverse(n=>{ if(/^(frame|fork|wheel_f|wheel_r|crank|pedal_r|pedal_l)$/.test(n.name)&&!parts[n.name]){ parts[n.name]=n; n.userData.q0=n.quaternion.clone(); } }); o.userData.parts=parts; o.name='bike_ride'; return o; }
+  /* color：車架改色（路上的騎士每台不同色；材質 ride_frame 複製一份再改，原本的共用材質不動）*/
+  function make(color){ if(!src) return null; const o=src.clone(true); const parts={}; let frameMat=null; o.traverse(n=>{ if(/^(frame|fork|wheel_f|wheel_r|crank|pedal_r|pedal_l)$/.test(n.name)&&!parts[n.name]){ parts[n.name]=n; n.userData.q0=n.quaternion.clone(); }
+      if(color&&n.isMesh&&n.material&&n.material.name==='ride_frame'){ if(!frameMat){ frameMat=n.material.clone(); frameMat.color.set(color); } n.material=frameMat; } });
+    o.userData.parts=parts; o.name='bike_ride'; return o; }
   B.make=make;
   const QA=new THREE.Quaternion(), XA=new THREE.Vector3(1,0,0), YA=new THREE.Vector3(0,1,0);
   /* 姿勢：輪子角度、曲柄角度、把手角度（都繞零件自己的軸；原本的旋轉 q0 保留）*/
@@ -83,6 +86,7 @@ const BIKE=(function(){
     if(src) go(); else if(s.riding||s.zone===G.zone) load().then(go); };
   /* 每一幀（E.update 之後）*/
   B.tick=function(GM,dt){ const E=GM.E, G=GM.G; if(!G||!E||!E.player) return; const P=E.player, s=st(G); if(!ride) return; const o=P.obj;
+    if(ride.obj.parent!==o){ o.add(ride.obj); ride.obj.position.set(0,0,0); ride.obj.rotation.set(0,0,0); }   /* 正式人物模型晚到時玩家的 obj 會換新（game3d.js 的 upgradeModels）：車跟著換過去 */
     // 自動下車
     const follow=E.npcs.some(n=>n.beh==='follow');
     if(P.busy||follow||P.seat||(P.pose!=='ride'&&P.pose!=='idle'&&P.pose!=='walk'&&P.pose!=='run')){ B.dismount(GM); return; }
@@ -98,6 +102,20 @@ const BIKE=(function(){
     pose(ride.parts,ride.wheel,ride.crank,ride.steer); o.rotation.z=ride.lean;
     P.ride=P.ride||{}; P.ride.crank=ride.crank; P.ride.grips=grips(ride.steer,ride.k); P.ride.scale=ride.k;
     if(P.pose!=='ride') P.pose='ride'; };
+  /* 路上騎腳踏車的人（game3d.js 的 spawnRider）：一個群組＝人＋車（同一個座標，和玩家一樣）；照路線一段一段騎，轉角不瞬間轉向（每秒最多轉 2 rad）；
+     輪子、曲柄照距離轉，轉彎時把手轉、車身往內側傾；人物用 pose 'ride'（rideIK）。車的模型還沒載好時人先不顯示。
+     o＝CHAR.build 出來的人（模型晚到時 upgradeModels 會換掉 x.rider，所以每一幀用 this.rider）*/
+  B.rider=function(o,route,color,height){ const g=new THREE.Group(); g.add(o); g.position.set(route[0][0],0,route[0][1]); const k=B.scaleFor(height);
+    return {obj:g,rider:o,route,ri:0,seg:0,speed:4.2+Math.random()*1.2,bike:null,wheel:0,crank:0,steer:0,lean:0,yaw:null,k,
+      update(dt){ const rd=this.rider; if(!this.bike){ const b=make(color); if(!b){ load(); rd.visible=false; return; } b.scale.setScalar(k); g.add(b); this.bike=b; rd.visible=true; }
+        const step=this.speed*dt; let a=route[this.ri], c=route[(this.ri+1)%route.length], len=Math.hypot(c[0]-a[0],c[1]-a[1])||1; this.seg+=step;
+        if(this.seg>=len){ this.seg-=len; this.ri=(this.ri+1)%route.length; a=route[this.ri]; c=route[(this.ri+1)%route.length]; len=Math.hypot(c[0]-a[0],c[1]-a[1])||1; this.seg=Math.min(this.seg,len); }
+        const ex=(c[0]-a[0])/len, ez=(c[1]-a[1])/len; g.position.set(a[0]+ex*this.seg,0,a[1]+ez*this.seg);
+        const want=Math.atan2(ex,ez); if(this.yaw==null) this.yaw=want; const dy=Math.atan2(Math.sin(want-this.yaw),Math.cos(want-this.yaw)), turn=Math.max(-2*dt,Math.min(2*dt,dy)); this.yaw+=turn; g.rotation.y=this.yaw;
+        const w=dt>0?turn/dt:0, v=this.speed, kk=Math.min(1,dt*6); this.wheel+=step/(WHEEL_R*k); this.crank+=step/(WHEEL_R*k)*GEAR;
+        this.steer+=(Math.max(-STEER_MAX,Math.min(STEER_MAX,Math.atan(WHEELBASE*k*w/Math.max(v,1))))-this.steer)*kk; this.lean+=(Math.max(-0.2,Math.min(0.2,-Math.atan(v*w/9.8)))-this.lean)*kk; g.rotation.z=this.lean;
+        pose(this.bike.userData.parts,this.wheel,this.crank,this.steer);
+        if(typeof CHAR!=='undefined'&&CHAR.animate) CHAR.animate(rd,dt,{pose:'ride',speed:0,ride:{crank:this.crank,grips:grips(this.steer,k),scale:k}}); } }; };
   B.riding=()=>!!ride;
   B.debug=()=>ride?{wheel:ride.wheel,crank:ride.crank,steer:ride.steer,lean:ride.lean,k:ride.k}:null;   /* 測試用（tests/bike_unit.js）*/
   /* 下車按鈕 */

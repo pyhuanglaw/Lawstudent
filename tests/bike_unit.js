@@ -20,6 +20,7 @@ const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
 const glb=fs.readFileSync(path.join(ROOT,'assets/models/env/bike_ride.glb')); const J=JSON.parse(glb.slice(20,20+glb.readUInt32LE(12)).toString());
 const objs=J.nodes.map(n=>{ const o=new THREE.Object3D(); o.name=n.name; if(n.translation) o.position.fromArray(n.translation); if(n.rotation) o.quaternion.fromArray(n.rotation); return o; });
 J.nodes.forEach((n,i)=>{ for(const c of n.children||[]) objs[i].add(objs[c]); }); const bikeScene=new THREE.Group(); for(const i of J.scenes[0].nodes) bikeScene.add(objs[i]);
+const frameMat=new THREE.MeshStandardMaterial({color:'#7a8f7e'}); frameMat.name='ride_frame'; objs.find(o=>o.name==='frame').add(new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),frameMat));   /* 車架的材質（GLB 裡的名稱 ride_frame）：路上的騎士改色用 */
 { const nm=n=>J.nodes.findIndex(q=>q.name===n), kids=n=>(J.nodes[nm(n)].children||[]).map(i=>J.nodes[i].name).sort().join(',');
   check('1 GLB 的節點：frame 底下 crank、fork、wheel_r；fork 底下 wheel_f；crank 底下兩個踏板',kids('frame')==='crank,fork,wheel_r'&&kids('fork')==='wheel_f'&&kids('crank')==='pedal_l,pedal_r',J.nodes.map(n=>n.name).join(',')); }
 ASSETS.loadOne=k=>k==='prop.bike_ride'?Promise.resolve({scene:bikeScene}):Promise.reject(new Error('no '+k));
@@ -96,5 +97,15 @@ const step=(dist,turn,n)=>{ for(let i=0;i<n;i++){ P.obj.rotation.y+=turn/n; P.ob
     check('12 讀檔：還在騎（只有一台車掛在玩家底下、區域裡沒有停著的車）',P.riding&&P.obj.children.filter(o=>o.name==='bike_ride').length===1&&!parkedObj()&&!btn.cls.has('hide'));
     delete G.bike; BIKE.dismount(GM); delete G.bike; await enter('campus',{x:0,z:0,yaw:0},{fromLoad:true});
     check('12 舊存檔（沒有 bike）：車在宿舍門口、沒在騎',!P.riding&&G.bike&&G.bike.zone==='campus'&&!G.bike.riding&&Math.abs(G.bike.x-25)<1e-6); }
+  // ---- 13 路上騎腳踏車的人（game3d.js 的 spawnRider → BIKE.rider）----
+  { const calls=[]; global.CHAR={animate:(o,dt,st)=>calls.push(st)}; const route=[[0,0],[10,0],[10,10]], rd=new THREE.Object3D();
+    const r=BIKE.rider(rd,route,'#8c3b47',1.60); const k=BIKE.scaleFor(1.60); let maxTurn=0, prevYaw=null, maxOff=0; const dt=1/30;
+    const segD=(p,a,b)=>{ const vx=b[0]-a[0], vz=b[1]-a[1], t=Math.max(0,Math.min(1,((p.x-a[0])*vx+(p.z-a[1])*vz)/(vx*vx+vz*vz))); return Math.hypot(p.x-(a[0]+vx*t),p.z-(a[1]+vz*t)); };
+    for(let i=0;i<150;i++){ r.update(dt); const p=r.obj.position; maxOff=Math.max(maxOff,Math.min(segD(p,route[0],route[1]),segD(p,route[1],route[2]),segD(p,route[2],route[0]))); if(prevYaw!=null) maxTurn=Math.max(maxTurn,Math.abs(Math.atan2(Math.sin(r.obj.rotation.y-prevYaw),Math.cos(r.obj.rotation.y-prevYaw)))/dt); prevYaw=r.obj.rotation.y; }
+    const bk=r.obj.children.find(o=>o.name==='bike_ride'); let col=null; if(bk) bk.traverse(o=>{ if(o.isMesh&&o.material.name==='ride_frame') col='#'+o.material.color.getHexString(); });
+    check('13 路人騎士：車掛在同一個群組（尺寸照身高 '+k.toFixed(2)+' 倍）、人看得到；車架改成指定的顏色、原本的共用材質不變',!!bk&&Math.abs(bk.scale.x-k)<1e-9&&rd.visible&&col==='#8c3b47'&&('#'+frameMat.color.getHexString())==='#7a8f7e',col);
+    const last=calls[calls.length-1]; check('13 人物用 pose ride、給曲柄角度、握點、車的尺寸（rideIK）',!!last&&last.pose==='ride'&&Math.abs(last.ride.crank-r.crank)<1e-9&&last.ride.grips.length===2&&last.ride.scale===k);
+    check('13 照路線騎（離路線 < 1 cm）、轉角不瞬間轉向（每秒最多 2 rad）',maxOff<0.01&&maxTurn<=2.0001,`離路線 ${(maxOff*100).toFixed(2)} cm、最快 ${maxTurn.toFixed(2)} rad/s`);
+    check('13 輪子照騎的距離轉',Math.abs(r.wheel-r.speed*dt*150/(0.333*k))<1e-6&&Math.abs(r.crank-r.wheel*0.45)<1e-6); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
