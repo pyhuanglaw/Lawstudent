@@ -19,7 +19,7 @@ R, T = 0.168, 0.28   # 一層 4.2 m＝25 階（13＋12），和共同教學館�
 L = {'version': 1, 'id': 'putong', 'name': '普通教學館', 'W': W, 'D': D, 'cell': 0.4, 'wallT': 0.2,
      'floors': [{'lv': 0, 'y': 0.0, 'name': '1F'}, {'lv': 1, 'y': Y1, 'name': '2F'}], 'roofY': 7.8, 'ceil0': 3.6, 'slabT': 0.3,
      'note': '教室多、大教室多是查證過的方向；房間形狀、大小、座位數是模板（docs/campus/TEACHING_BUILDINGS_PLAN.md）'}
-L['entrance'] = {'wall': 'S', 'a0': -1.8, 'a1': 1.8, 'exit': {'x': 0.0, 'z': 7.2, 'r': 1.1}, 'spawn': {'x': 0.0, 'z': 5.8, 'lv': 0, 'yaw': 3.1416}, 'campus': None}   # 校園上的位置等使用者決定（方案 A／B）
+L['entrance'] = {'wall': 'S', 'a0': -1.8, 'a1': 1.8, 'exit': {'x': 0.0, 'z': 7.2, 'r': 1.1}, 'spawn': {'x': 0.0, 'z': 5.8, 'lv': 0, 'yaw': 3.1416}, 'campus': {'x': -38.0, 'z': -47.4, 'yaw': 0.0}}   # 校園上的位置等使用者決定（方案 A／B）
 CZN, CZS = -1.2, 1.6   # 走廊（東西向，整棟寬）
 # 樓梯（U 形，走廊北邊中間：A 跑從走廊往北爬到平台，B 跑往南回到二樓走廊）
 A = {'x0': -1.9, 'x1': -0.15, 'z1': CZN, 'risers': 13}; A['z0'] = round(A['z1'] - A['risers'] * T, 3)

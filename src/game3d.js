@@ -258,7 +258,7 @@ const GAME = (function(){
       h+='<div class="item phrow"><div>'+esc(pl[1])+'<div class="muted">'+(!st.known?'還沒去過':(st.here?'你在這裡':'約 '+st.mins+' 分鐘'))+(ht?'・'+esc(ht):'')+'</div></div>'+(st.here||!st.known?'':'<button class="btn'+(st.open?' pri':'')+'" data-place="'+esc(pl[0]+'|'+pl[1])+'">'+(st.open?'前往':'已閉館')+'</button>')+'</div>'; }   /* 已閉館的按鈕按了會說幾點開、可以改去哪裡 */
     return h; }
   /* 手機「活動」（D55，使用者 2026-10-13「手機查詢：朋友位置、課表、活動」）：這幾天的演講與活動（src/data/activities.js，內容等 AA、BB；目前是空的）。
-     地點有快速前往的，旁邊有「前往」（照樣花時間、照開放時間）；校園上還沒有門的建築（博雅）只寫地點 */
+     地點有快速前往的，旁邊有「前往」（照樣花時間、照開放時間） */
   function eventsHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); const up=typeof ACTIVITIES!=='undefined'?ACTIVITIES.upcoming(G,7):[];
     if(!up.length) return '<div class="item muted">目前沒有公告的演講或活動。看到海報、公告欄的活動，會列在這裡。</div>';
     const W=['日','一','二','三','四','五','六'], PL=PLACE_LIST(); let h='';

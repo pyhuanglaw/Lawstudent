@@ -18,8 +18,8 @@ const COURSES={
     LINZE:{name:'霖澤館 201',zone:'classroom'},                                 /* linze_class（霖澤館其他教室）：遊戲裡還是 201（AA_103 第 1 節）*/
     WSEM:{name:'萬才館研討室',door:'wancai_seminar'},                           /* wancai_sem：門口上課（2D）*/
     GONGTONG:{name:'共同教學館 102',zone:'gongtong',room:'102',door:'common'},  /* gongtong_hall：英文、日文（AA_107：共同教學館是小班的語言教室）*/
-    PUTONG:{name:'共同教學館 101',zone:'gongtong',room:'101',door:'common',planned:'putong'},   /* putong_hall：普通教學館的門還沒做好前，暫時在共同教學館 101（AA 2026-10-13）*/
-    BOYA:{name:'共同教學館 101',zone:'gongtong',room:'101',door:'common',planned:'boya'},       /* boya_hall：博雅教學館的門還沒做好前，暫時在共同教學館 101（AA 2026-10-13）*/
+    PUTONG:{name:'普通教學館 101',zone:'putong',room:'101',door:'putong'},   /* putong_hall（方案 A，D55）：文學院正後方；重修經濟學原理（AA 2026-10-13）*/
+    BOYA:{name:'博雅教學館 101',zone:'boya',room:'101',door:'boya'},           /* boya_hall（方案 A）：普通北邊；經濟系大一的經濟學原理（D56，劇情做好之前不會排到）*/
     GYM:{name:'體育館',door:'gym'},                                             /* field：企劃寫操場、程式寫體育館，兩個都可以（AA_110）*/
     OFF:{name:'校外（事務所或法扶）',offsite:true}                               /* offsite */
   },
