@@ -89,7 +89,8 @@ const STORY = (function(){
       /* 萬才館室內兩層樓（第三階段，D42）的背景路人：一個照路線上下樓（一樓大廳 → 樓梯 → 二樓門廳 → 走廊的研討室門口 → 走回一樓），一個在二樓走廊靠著欄杆往下看。不是劇情人物、沒有對話 */
       if(E.levels&&hr>=8&&hr<21.5){ GM.spawnExtra(extraSpec(xi++),[[3,4.6,0],[-6.2,5.4,1],[1.5,-6.0,1],[-6.2,5.4,1],[2.5,5.0,0]],{});
         const o=CHAR.build(extraSpec(xi++)); o.position.set(2.6,0,-2.35); o.rotation.y=0; E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,lv:1}); } }
-    if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ if(zoneId==='campus') CLS.addDoors(GM,'campus'); if(zoneId==='classroom'&&!F.classNow&&!(isThu(G)&&!F.classDone)) CLS.syncRoom(GM); }catch(e){ console.warn('CLS populate',e); } }   /* 課表（D52）：共同課程教室、體育館的門口；201 上課時的同學 */
+    if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ if(zoneId==='campus') CLS.addDoors(GM,'campus'); if(zoneId==='classroom'&&!F.classNow&&!(isThu(G)&&!F.classDone)) CLS.syncRoom(GM); }catch(e){ console.warn('CLS populate',e); } }   /* 課表（D52）：共同教學館、體育館的門口；201 上課時的同學 */
+    if(typeof CROWD!=='undefined'){ try{ CROWD.enter(GM,zoneId); }catch(e){ console.warn('CROWD.enter',e); } }   /* 公共場景的人流（D55）：照現在的時間直接排好；同一天同一時段進出看到同一批人 */
     GM_ref=GM; if(G.social){ try{ populateSchedule(zoneId,GM); }catch(e){ console.warn('schedule populate failed',e); } }
   };
   // ---------- 資料驅動的 NPC 日程（CHARACTERS[*].daily_schedule）與不熟同學 pool ----------
@@ -178,6 +179,7 @@ const STORY = (function(){
   S.tick=function(GM,dt){ const G=GM.G, F=G.flags, E=GM.E; if(E.player.busy||GM.D.active) return; const P=E.player.obj.position;
     schedT-=dt; if(schedT<=0){ schedT=3; refreshSchedule(GM); }
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ CLS.tick(GM); }catch(e){ console.warn('CLS.tick',e); } }   /* 課表（D52）*/
+    if(typeof CROWD!=='undefined'){ try{ CROWD.tick(GM,dt); }catch(e){ console.warn('CROWD.tick',e); } }   /* 公共場景的人流（D55）*/
     /* 法律學院圖書館閉館（D53，使用者 2026-10-13）：閉館前 10 分鐘廣播；過了閉館時間人還在館裡，館員請你離館（回到萬才館大廳的門口），
        並告訴你下次幾點開、可以改去總圖或回宿舍。不讓法圖變成 24 小時開放（讀檔回到閉館後的館裡也一樣）*/
     if(G.zone==='lawlib'&&typeof PLACES!=='undefined'&&PLACES.hours.lawlib&&typeof LL3!=='undefined'){ const hr=h(G), w=PLACES.windowOf('lawlib',G.day);

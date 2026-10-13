@@ -24,6 +24,7 @@ run calendar_hours_unit   node tests/calendar_hours_unit.js     # 日曆（學�
 run classes_unit          node tests/classes_unit.js            # 課表（AA_103／AA_104，D52）：資料、撞課、狀態、教授位置、考試週、成績單、門口上課點
 run quick_travel_unit     node tests/quick_travel_unit.js       # 快速前往的落點都站得住、走得出去；時間照距離（D54）
 run campus_public_unit    node tests/campus_public_unit.js      # 公共場景（共同教學館、大一女舍）：入口站得住、從校門與霖澤館前走得到、建築走不進去（D55）
+run crowd_unit            node tests/crowd_unit.js              # 人流：共同教學館門口上課前後、大一女舍門口早晚；同一時段進出看到同一批人；跳過時間重排（D55）
 run deploy_check          python3 tests/deploy_check.py "$URL" $VER
 run model_upgrade         python3 tests/model_upgrade.py "$URL" "$OUT/model_upgrade"
 run zone_transitions      python3 tests/zone_transitions.py "$URL"
