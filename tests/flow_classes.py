@@ -121,7 +121,7 @@ async def main():
         run.check('標題畫面「讀取」→ 自動存檔', ok)
         await pg.wait_for_timeout(6000)
         rec = await pg.evaluate(REC_JS)
-        run.check('讀檔後：第 7 天、大一國文、憲法、法律與社會都是「上過了」', rec['day'] == DAY1_TUE and all(any(':%s:' % c in k for k in rec['done']) for c in ('chinese1', 'con_law1', 'law_society')), json.dumps(rec, ensure_ascii=False))
+        run.check('讀檔後：第 7 天、大一國文、憲法、法律與社會都是「上過了」', rec['day'] == DAY1_TUE and all(any(':%s:' % c in k for k in rec['done']) for c in ('chinese_y1', 'const_1', 'law_society')), json.dumps(rec, ensure_ascii=False))
         await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1200)
         txt = await pg.evaluate("(document.getElementById('phoneBody')||{}).textContent||''")
         run.check('讀檔後手機：大一國文「上過了」、13:20 通識「還沒開始」或「現在可以進教室」', '上過了' in txt and '通識' in txt, txt[:200])

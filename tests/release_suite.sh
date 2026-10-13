@@ -29,6 +29,7 @@ run nav_teach_unit        node tests/nav_teach_unit.js          # 公共教學�
 run teach_class_unit      node tests/teach_class_unit.js        # 建築裡的教室上課（共同教學館 101）：坐下的上課選項、目標導航、同學、門（D55）
 run boya_lecture_unit     node tests/boya_lecture_unit.js       # 博雅的講座人潮（測試資料）：開始前 15 分鐘坐滿、結束離開、講座資訊螢幕（D55）
 run indoor_crowd_unit     node tests/indoor_crowd_unit.js       # 教學館室內的人流：上課前門口等、走進去坐空位、下課走出去（不是瞬間消失）、跳過時間直接移除（D55）
+run syllabus_unit         node tests/syllabus_unit.js           # BB 的普通課堂內容（AA_104 syllabus）＋課程代號同步（AA_110）：每門課都有內容、字數、不講案號、B／C 樣板
 run activities_unit      node tests/activities_unit.js         # 活動與演講（資料格式、海報、進行中）＋事件的 room／activity／npcHere 條件（D55）
 run deploy_check          python3 tests/deploy_check.py "$URL" $VER
 run model_upgrade         python3 tests/model_upgrade.py "$URL" "$OUT/model_upgrade"

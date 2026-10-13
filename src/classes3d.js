@@ -20,7 +20,20 @@ const CLS=(function(){
   const WD=['','週一','週二','週三','週四','週五','週六','週日'];
   S.WD=WD;
   // ---------- 紀錄（存檔 G.courses；舊存檔沒有＝空的，全部有預設值：AA_104 第 9 節）----------
-  S.rec=function(G){ const R=G.courses&&typeof G.courses==='object'?G.courses:(G.courses={}); for(const k of ['done','attend','prep','electives','grades','note']) if(!R[k]||typeof R[k]!=='object') R[k]={}; return R; };
+  /* 課程代號 2026-10-13 照 AA_103 第 8 節改了（AA_110 差異表）：舊存檔的出席、準備、成績、提醒、選修照這張表換成新代號（不會讓玩家的紀錄消失）*/
+  const OLD_IDS={chinese1:'chinese_y1',con_law1:'const_1',english1:'english_y1',gened1:'ge_film_y1s1',pe1:'pe_y1s1',chinese2:'chinese_y1_2',civ_obl1:'oblig_gen1',con_law2:'const_2',econ:'econ_principles_2',
+    english2:'english_y1_2',gened2:'ge_y1s2',law_society2:'law_society_2',pe2:'pe_y1s2',civ_obl2:'oblig_gen2',civ_property:'property',gened3:'ge_y2s1',jurisprudence:'juris',pe3:'pe_y2s1',civ_obl_spec:'oblig_spec',
+    gened4:'ge_y2s2',civ_proc1:'civpro_1',crim_proc:'crimpro',civ_proc2:'civpro_2',pil:'conflict_laws',case_seminar:'crim_judgment_sem',ethics:'legal_ethics',practicum:'legal_practice',anglo_law:'legal_english'};
+  S.OLD_IDS=OLD_IDS;
+  function migrateIds(R){ if(R.idv===2) return; const ren=id=>OLD_IDS[id]||id; const rkey=k=>{ const p=String(k).split(':'); if(p.length===3) p[1]=ren(p[1]); return p.join(':'); };   /* 上課紀錄的 key＝天:課程:時段 */
+    const merge=(o,f)=>{ const n={}; for(const k in o){ const nk=f(k); n[nk]=(typeof o[k]==='number'&&typeof n[nk]==='number')?n[nk]+o[k]:o[k]; } return n; };   /* 英美法併進法學英文：次數相加 */
+    R.done=merge(R.done,rkey); R.attend=merge(R.attend,ren); R.prep=merge(R.prep,ren);
+    for(const t in R.grades) if(R.grades[t]&&typeof R.grades[t]==='object') R.grades[t]=merge(R.grades[t],ren);
+    R.note=merge(R.note,k=>k.indexOf('rem_')===0?'rem_'+rkey(k.slice(4)):k);
+    const EL=R.electives; if(EL.Y1S2_elec!==undefined){ EL.Y1S2_ls=EL.Y1S2_elec==='econ'?'none':'law_society_2'; delete EL.Y1S2_elec; }   /* 大一下：經濟學原理改成必修（重修），法律與社會可選可不選 */
+    delete EL.Y1S1_ls; delete EL.Y4S2_elec;   /* 大一上的法律與社會算已選；大四下法學英文／英美法是一門 */
+    R.idv=2; }
+  S.rec=function(G){ const R=G.courses&&typeof G.courses==='object'?G.courses:(G.courses={}); for(const k of ['done','attend','prep','electives','grades','note']) if(!R[k]||typeof R[k]!=='object') R[k]={}; migrateIds(R); return R; };
   S.byId=id=>COURSES.list.find(c=>c.id===id)||null;
   S.enrolled=function(G,c){ if(!c.choice) return true; const pick=S.rec(G).electives[c.choice.group]; const cur=pick===undefined?c.choice.default:pick; return cur===c.id; };
   S.termCourses=(G,termId)=>COURSES.list.filter(c=>c.term===termId&&S.enrolled(G,c));
@@ -79,8 +92,17 @@ const CLS=(function(){
     prof_jian:t=>['「出事了——假設你是保險公司。今天談'+t+'。」','有人小聲說：「每次都是出事了。」'],
   };
   const GENERAL=t=>['老師今天上'+t+'。','旁邊的人打了一個呵欠，又趕快坐直。'];
-  S.content=function(it){ const c=it.c, t=S.topic(c,it.week)||c.name; const sy=c.syllabus&&c.syllabus.find(q=>q.w===it.week);   /* BB 的內容（AA_104：{w, board:[三行], line, react:[…]}）*/
-    if(sy) return {board:sy.board||[c.name+'：'+t,'',''],line:sy.line,react:(sy.react&&sy.react.length)?sy.react[(it.day+it.week)%sy.react.length]:''};
+  /* BB 的普通課堂內容（src/data/syllabus.js，AA_104 的 syllabus 格式）：每週 {w, tpl A／B／C, board 三行, line 教授一句, react 同學反應[{who,text}], obs 觀察小選擇, call 被點到}；
+     國文、英文、體育、實習是台詞池（pools：每週一句）。同學反應只用遊戲裡已經有的人物（heroine_06、日文班等新人物的設定還沒確認：略過），'class'＝不具名同學 */
+  let sylDone=false; function attachSyllabus(){ if(sylDone||typeof SYLLABUS==='undefined'||typeof COURSES==='undefined') return; sylDone=true;
+    for(const c of COURSES.list){ if(SYLLABUS.courses[c.id]) c.syllabus=SYLLABUS.courses[c.id]; if(SYLLABUS.pools[c.id]) c.pool=SYLLABUS.pools[c.id]; if(SYLLABUS.skip[c.id]) c.skipLines=SYLLABUS.skip[c.id]; } }
+  const reactOK=r=>r&&r.text&&(r.who==='class'||(r.who!=='heroine_06'&&typeof CHARACTERS!=='undefined'&&!!CHARACTERS[r.who]));
+  S.reactLine=function(r){ if(!r) return ''; const act=/^（.*）$/.test(r.text); if(r.who==='class') return act?r.text:'同學：「'+r.text+'」';
+    const nm=(typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(r.who):((CHARACTERS[r.who]||{}).name||'同學'); return act?nm+r.text:nm+'：「'+r.text+'」'; };
+  const pickReact=(arr,it)=>{ const ok=(arr||[]).filter(reactOK); return ok.length?S.reactLine(ok[(it.day+it.week)%ok.length]):''; };
+  S.content=function(it){ attachSyllabus(); const c=it.c, t=S.topic(c,it.week)||c.name; const sy=c.syllabus&&c.syllabus.find(q=>q.w===it.week);
+    if(sy) return {board:sy.board||[c.name+'：'+t,'',''],line:sy.line,react:pickReact(sy.react,it),tpl:sy.tpl,obs:sy.obs,call:sy.call};
+    if(c.pool&&c.pool.lines&&c.pool.lines.length){ const L=c.pool.lines; return {board:[c.name+'：'+t,'本週：'+t,''],line:L[(it.day+it.week)%L.length],react:pickReact(c.pool.react,it),prof:c.pool.prof_label}; }
     const f=(c.prof&&STYLE[c.prof])||GENERAL; const [line,react]=f(t); const ti=(TEACH.indexOf(it.week)); const nt=ti>=0&&ti<TEACH.length-1?S.topic(c,TEACH[ti+1]):'';
     return {board:[c.name+'：'+t,'本週：'+t,nt&&nt!==t?'下週：'+nt:(it.week<8?'第 8～9 週期中考':'第 17～18 週期末考')],line,react}; };
   // ---------- 上課（普通課堂；考試週＝考試）----------
@@ -91,7 +113,10 @@ const CLS=(function(){
       if(!door&&E.zone&&E.zone.setBoard) E.zone.setBoard(exam?c.name+'：'+(exam==='mid'?'期中考':'期末考'):ct.board[0],exam?'不可以翻書':ct.board[1],exam?'鈴響請停筆':ct.board[2]);
       if(exam){ const p=R.prep[c.id]||0; await GM.say(null,'考卷發下來。'+c.name+(exam==='mid'?'期中考':'期末考')+'。');
         await GM.say(null,p>=8?'題目你都見過——上課講過、自己也讀過。你寫得很順。':p>=4?'有幾題你有印象，有一題你只記得老師在黑板上畫過圖。':'你認得題目裡的每一個字，合起來就不太認得了。'); }
-      else { await GM.say(prof||null,(prof?'':S.profName(c)+'：')+ct.line); if(ct.react) await GM.say(null,ct.react); }
+      else { await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+ct.line); if(ct.react) await GM.say(null,ct.react);
+        /* B：觀察的小選擇（只顯示一行結果，不影響數值）；C：被點到（三個選項共用收尾）——BB 的 syllabus（AA_104）*/
+        if(ct.tpl==='B'&&ct.obs&&ct.obs.options&&ct.obs.options.length){ if(ct.obs.prompt) await GM.say(null,ct.obs.prompt); const i=await GM.choose(ct.obs.options.map(o=>({t:o.text}))); const r=ct.obs.options[i]&&ct.obs.options[i].result; if(r) await GM.say(null,r); }
+        else if(ct.tpl==='C'&&ct.call&&ct.call.options&&ct.call.options.length){ await GM.say(null,(c.prof?S.profName(c):'老師')+'點到你。'); await GM.choose(ct.call.options.map(o=>({t:'「'+o+'」'}))); for(const f of (ct.call.follow||[])) await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+f); } }
       await GM.fade(true); const h=hr(G); if(h<it.t1) GM.advance(it.t1-h); R.done[it.key]=1; if(!exam){ R.attend[c.id]=(R.attend[c.id]||0)+1; R.prep[c.id]=(R.prep[c.id]||0)+1; } GM.energy(exam?-10:-6); await GM.fade(false);
       GM.caption('',exam?'考完了。':'下課了。'+(c.prof?S.profName(c)+'收起講義。':''),2400);
     } finally { if(!o.inScene) GM.sceneEnd(); }

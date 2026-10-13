@@ -24,7 +24,7 @@ const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Ma
 const TUE=dayOf('2025-09-23');   /* 週二：09:10 大一國文（共同教學館 101）、13:20 通識（同一間）*/
 const mkG=h=>({day:TUE,hour:h,zone:'gongtong',flags:{},weekday:2});
 const s101=z.seats.find(q=>q.room==='101'), s102=z.seats.find(q=>q.room==='102');
-{ const it=CLS.seatClass(mkG(9.0),s101); check('09:00 坐在 101：第一個選項是「大一國文」（課在共同教學館 101）',it&&it.c.id==='chinese1'&&it.room.name==='共同教學館 101',it?it.c.name+'／'+it.room.name:'null');
+{ const it=CLS.seatClass(mkG(9.0),s101); check('09:00 坐在 101：第一個選項是「大一國文」（課在共同教學館 101）',it&&it.c.id==='chinese_y1'&&it.room.name==='共同教學館 101',it?it.c.name+'／'+it.room.name:'null');
   check('09:00 坐在 102：沒有課',!CLS.seatClass(mkG(9.0),s102));
   check('坐在休息區、自習區：不是上課的位子',!CLS.seatClass(mkG(9.0),z.seats.find(q=>q.kind==='lounge'))&&!CLS.seatClass(mkG(9.0),z.seats.find(q=>q.kind==='study')));
   check('09:50（開始超過 30 分鐘）坐在 101：已經算沒來，不能上',!CLS.seatClass(mkG(9.84),s101)); }
