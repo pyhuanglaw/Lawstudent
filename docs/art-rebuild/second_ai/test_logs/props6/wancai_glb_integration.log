@@ -1,0 +1,18 @@
+PASS 正式模型：遊戲載入
+  [前置／捷徑] 讀檔到法學院廣場 (87,-84) 17:30，關掉條件事件
+PASS 正式模型：萬才館的正式模型接上
+PASS 正式模型：套件外觀全部藏起來、館名（金色字）留著  {"formal": true, "kitVisible": 0, "keepVisible": [true], "root": true, "inst": 8, "instN": 1068}
+PASS 正式模型：窗用 GPU instancing（每種窗一個 InstancedMesh）  {"formal": true, "kitVisible": 0, "keepVisible": [true], "root": true, "inst": 8, "instN": 1068}
+PASS 正式模型：會亮的窗、入口玻璃、陽台下的嵌燈 20:30 比 11:00 亮  {"day": {"ext_glass_lit": 0, "ext_glass_lobby": 0, "ext_downlight": 0.25}, "night": {"ext_glass_lit": 0.75, "ext_glass_lobby": 0.8, "ext_downlight": 1.4}}
+  [  68.0s] 正式模型：同一個鏡頭（藏起路人）的 draw call／三角形 {"front": {"calls": 232, "tris": 771064}, "stairs": {"calls": 216, "tris": 752468}, "balcony": {"calls": 399, "tris": 969547}, "corner": {"calls": 260, "tris": 836302}}
+PASS 正式模型：沒有 JS 錯誤
+PASS 擋掉 GLB：遊戲載入
+  [前置／捷徑] 讀檔到法學院廣場 (87,-84) 17:30，關掉條件事件
+PASS 擋掉 GLB：沒有正式模型、套件外觀照舊顯示（載入失敗的樣子）  {"formal": false, "kitVisible": 17, "keepVisible": [true], "root": false, "inst": 0, "instN": 0}
+  [ 189.6s] 擋掉 GLB：同一個鏡頭（藏起路人）的 draw call／三角形 {"front": {"calls": 211, "tris": 731724}, "stairs": {"calls": 190, "tris": 712994}, "balcony": {"calls": 372, "tris": 930061}, "corner": {"calls": 234, "tris": 796828}}
+PASS 擋掉 GLB：沒有 JS 錯誤
+PASS 導航格（第 0 層、第 1 層）：正式模型和套件完全相同  [[[520, 434, 2216202052, 85968], [520, 434, 3833763780, 225364]], [[520, 434, 2216202052, 85968], [520, 434, 3833763780, 225364]]]
+PASS 鏡頭碰撞方塊：完全相同  31 vs 31 個
+PASS 互動點（位置、半徑、名稱、樓層）：完全相同  27 vs 27 個
+PASS 效能：每個鏡頭 draw call ≤ 套件版的 1.15 倍＋6、三角形 ≤ 套件版＋6 萬（含陰影那一輪）  {"front": [211, 232, 731724, 771064], "stairs": [190, 216, 712994, 752468], "balcony": [372, 399, 930061, 969547], "corner": [234, 260, 796828, 836302]}
+ALL PASS

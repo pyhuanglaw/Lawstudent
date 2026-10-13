@@ -1,0 +1,47 @@
+PASS formal：遊戲載入
+  [  31.3s] formal：從開網頁到載入完成 23.1 秒（SwiftShader 模擬，只能相對比較）
+PASS 正式模型 prop.street 載入（開機預載）
+PASS 路燈：是正式模型  {"formal": "prop.street", "lens": [0, 3.985, 0.8], "lensNormalY": -1, "lensBasic": true, "lensSide": 0, "lightPos": [0, 3.9, 0.75], "h": 4.23}
+PASS 路燈：發光面中心在 (0, 3.985±0.02, 0.8±0.02)（燈頭位置不變）  [0, 3.985, 0.8]
+PASS 路燈：發光面朝下、材質是套件原本的發光材質（MeshBasicMaterial）  {"formal": "prop.street", "lens": [0, 3.985, 0.8], "lensNormalY": -1, "lensBasic": true, "lensSide": 0, "lightPos": [0, 3.9, 0.75], "h": 4.23}
+PASS 路燈：userData.lightPos＝(0, 3.9, 0.75)  [0, 3.9, 0.75]
+PASS 腳踏車：是正式模型、外層 rotation.y＝π/2  {"formal": "prop.street", "rotY": 1.571, "box": [-0.309, 0.31, 0, 0.967, -0.802, 0.802], "frameColor": [0.631, 0.03, 0.03], "vertexColors": true, "want": [0.631, 0.03, 0.03], "sharedMat": true}
+PASS 腳踏車：沿 z 建模（長在 z、寬在 x）、輪子著地、兩輪在 z＝±0.47（車長約 ±0.8）  [-0.309, 0.31, 0, 0.967, -0.802, 0.802]
+PASS 腳踏車：車架顏色照參數（頂點色）、所有顏色共用一個材質（停車架可以合併）  {"formal": "prop.street", "rotY": 1.571, "box": [-0.309, 0.31, 0, 0.967, -0.802, 0.802], "frameColor": [0.631, 0.03, 0.03], "vertexColors": true, "want": [0.631, 0.03, 0.03], "sharedMat": true}
+PASS 停車架：整排合併（網格數少，不是每台各自一組）  {"meshes": 6}
+PASS 長椅：是正式模型、userData.seat.y＝0.45  {"formal": "prop.street", "seatY": 0.45, "box": [-0.675, 0.675, -0.003, 0.926, -0.301, 0.25]}
+PASS 長椅：寬約 1.35 m、深度在導航阻擋（±0.35）裡、著地  [-0.675, 0.675, -0.003, 0.926, -0.301, 0.25]
+PASS ⑥花台、公告欄、販賣機：是正式模型  {"planter": {"formal": "prop.street", "box": [-0.62, 0.637, 0, 0.81, -0.27, 0.27]}, "bulletin": {"formal": "prop.street", "box": [-1.32, 1.32, 0, 2.6, -0.12, 0.296]}, "vending": {"formal": "prop.street", "box": [-0.55, 0.55, 0, 1.9, -0.4, 0.425]}}
+PASS ⑥花台：在導航阻擋（1.2×0.5）裡、著地（葉子可以稍微超出）  [-0.62, 0.637, 0, 0.81, -0.27, 0.27]
+PASS ⑥公告欄：柱子、板子在 x ±1.25 內、著地、正面朝 +z（雨遮在 2.3 m 以上可以往前伸）  [-1.32, 1.32, 0, 2.6, -0.12, 0.296]
+PASS ⑥販賣機：1.1×1.9×0.8 的範圍裡（導航阻擋 0.9×1.2 轉 90°）、著地  [-0.55, 0.55, 0, 1.9, -0.4, 0.425]
+  [前置／捷徑] formal：讀檔到 campus (-40,-5) 11:00，關掉條件事件
+  [前置／捷徑] formal：讀檔到 wenzhou (30,-1) 11:00，關掉條件事件
+  [前置／捷徑] formal：讀檔到 gongguan (-40,10) 11:00，關掉條件事件
+PASS formal：沒有 JS 例外
+PASS nobldg：遊戲載入
+  [  97.7s] nobldg：從開網頁到載入完成 6.1 秒（SwiftShader 模擬，只能相對比較）
+  [前置／捷徑] nobldg：讀檔到 campus (-40,-5) 11:00，關掉條件事件
+  [前置／捷徑] nobldg：讀檔到 wenzhou (30,-1) 11:00，關掉條件事件
+  [前置／捷徑] nobldg：讀檔到 gongguan (-40,10) 11:00，關掉條件事件
+PASS nobldg：沒有 JS 例外
+PASS broken：遊戲載入
+  [ 149.2s] broken：從開網頁到載入完成 9.2 秒（SwiftShader 模擬，只能相對比較）
+  [前置／捷徑] broken：讀檔到 campus (-40,-5) 11:00，關掉條件事件
+  [前置／捷徑] broken：讀檔到 wenzhou (30,-1) 11:00，關掉條件事件
+  [前置／捷徑] broken：讀檔到 gongguan (-40,10) 11:00，關掉條件事件
+PASS broken：沒有 JS 例外
+PASS campus：導航格，正式模型＝?nobldg＝載入失敗  [[520, 434, 2216202052], [520, 434, 2216202052], [520, 434, 2216202052]]
+PASS campus：互動點、座位，正式模型＝?nobldg  [27, 27, 20, 20]
+PASS campus：正式模型的材質出現在畫面上；?nobldg、載入失敗時沒有（照舊程序化）  [5, 0, 0]
+PASS campus：⑥花台、公告欄、販賣機的正式模型在畫面上（法學院廣場、椰林大道的花台）；?nobldg、載入失敗時沒有  [["planter_conc", "board_cork", "vend_body"], [], []]
+  [ 211.4s] campus：同一個鏡頭（藏起路人）的 draw call／三角形，正式 {"avenue": {"calls": 183, "tris": 778864}, "racks": {"calls": 164, "tris": 746852}}｜?nobldg {"avenue": {"calls": 174, "tris": 812778}, "racks": {"calls": 163, "tris": 807042}}
+PASS wenzhou：導航格，正式模型＝?nobldg＝載入失敗  [[236, 120, 1511241931], [236, 120, 1511241931], [236, 120, 1511241931]]
+PASS wenzhou：互動點、座位，正式模型＝?nobldg  [11, 11, 0, 0]
+PASS wenzhou：正式模型的材質出現在畫面上；?nobldg、載入失敗時沒有（照舊程序化）  [5, 0, 0]
+  [ 211.4s] wenzhou：同一個鏡頭（藏起路人）的 draw call／三角形，正式 {"park": {"calls": 165, "tris": 317662}}｜?nobldg {"park": {"calls": 139, "tris": 208754}}
+PASS gongguan：導航格，正式模型＝?nobldg＝載入失敗  [[320, 220, 1729380926], [320, 220, 1729380926], [320, 220, 1729380926]]
+PASS gongguan：互動點、座位，正式模型＝?nobldg  [7, 7, 0, 0]
+PASS gongguan：正式模型的材質出現在畫面上；?nobldg、載入失敗時沒有（照舊程序化）  [1, 0, 0]
+  [ 211.4s] gongguan：同一個鏡頭（藏起路人）的 draw call／三角形，正式 {"street": {"calls": 180, "tris": 304010}}｜?nobldg {"street": {"calls": 154, "tris": 300790}}
+ALL PASS

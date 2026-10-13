@@ -19,8 +19,8 @@
 | 玻璃電梯（`building3d.js` 程序化，要動） | 霖澤館中庭 | ④ | BLOCKOUT | Blender 車廂與井道模型（車廂、門分開的節點，遊戲照樣控制開關與上下） |
 | `CK.lawhall` 萬才館 | 校園：法學院廣場東側 | ⑤＋③（套件留作導航、鏡頭碰撞、載入失敗的備用） | **INTEGRATED**（2026-10-11，D41）：外觀換成 Blender `wancai_exterior.glb`（`tools/blender/wancai_exterior.py`）；弧形大樓梯**可以走**（兩層共用的台階高度，平台與陽台在校園第 1 層）；二樓入口這一版關著；`READY_FOR_ART_REVIEW` | 室內兩層（二樓入口接陽台）；兩側張開的窄台階目前不能走 |
 | `CK.hall` 總圖、行政大樓、文學院、校史館、男一舍、無名系館 | 校園 | ④（總圖、行政大樓、文學院：主要地標）／②（無名系館、遠的）；總圖、行政大樓、文學院、校史館：⑤＋③ | **總圖**：LAWWW2 Blender `campus_library.glb`（1.47 MB、22,816 個三角形；拱窗是真的窗洞、切石、面磚、屋瓦 PBR），導航、碰撞、互動點不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 8 節）；**行政大樓**：LAWWW2 Blender `campus_admin.glb`（0.92 MB、13,453 個三角形，套件 20,443；米黃面磚、拱窗窗洞、三拱門廊＋三面陽台欄杆、檐部匾額），`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 10 節）；**文學院、校史館**：LAWWW2 Blender `campus_arts.glb`（0.65 MB、8,776 個三角形）、`campus_hist.glb`（0.51 MB、6,354 個三角形；門廊圓石柱）；紅褐面磚、拱窗窗洞、拱廊、山牆＋牛眼窗、石材匾額，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 11 節）；其他（男一舍、無名系館）：BLOCKOUT | 第三階段：地標逐棟 Blender（LAWWW 23:26Z 順序：總圖 → 傅鐘 → 行政大樓 → 文學院、校史館）；背景系館可保留程序化 |
-| `CK.modern` 社會科學院、背景系館 | 校園東側 | ④（社科院）／② | BLOCKOUT | 第三階段 |
-| `CK.pavilion` 農業陳列館（洞洞館） | 校園西側 | ④ | BLOCKOUT | 第三階段 |
+| `CK.modern` 社會科學院、背景系館 | 校園東側 | ④（社科院）／②；社科院：⑤＋③ | **社科院**：LAWWW2 Blender `campus_modern.glb`（0.17 MB、1,968 個三角形，套件 5,392；帶狀長窗是真的窗洞、外凸的樓板邊、薄簷＋女兒牆、往內退 1.2 m 的玻璃大廳、雨遮、匾額），導航、碰撞、互動點不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 13 節）；國青中心（AI-1）、背景系館：BLOCKOUT | 有照片時照照片改社科院（現在照套件的量體做） |
+| `CK.pavilion` 農業陳列館（洞洞館） | 校園西側 | ⑤＋③ | LAWWW2 Blender `campus_pavilion.glb`（0.14 MB、968 個三角形，套件 378；鏤空牆是貼圖透明度挖的圓洞（前後兩層）、二樓內牆晚上照房間透出暖光、往內退的玻璃帷幕、入口石材門框＋匾額；入口正前方不放柱子），導航、碰撞、互動點不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 13 節） | 有照片時照照片改（真實的洞洞館是綠釉陶管砌的鏤空牆） |
 | `CK.gate` 校門 | 校園西端、公館 | ④ | BLOCKOUT | 第三階段（地標） |
 | `CK.bell` 傅鐘 | 椰林大道南側 | ⑤＋③（套件留作導航阻擋與載入失敗的備用） | LAWWW2 Blender `campus_bell.glb`（126 KB、1,562 個三角形；切石台基與柱子、瓦屋頂、銅鐘三道鐘帶、石碑匾額、夜間地燈／柱面暖光／光暈），導航、互動不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 9 節） | 有照片的話照照片改比例與細節 |
 | `CK.tileTex`、各套件的 canvas 貼圖（面磚、花崗石、紅磚） | 全部校園建築 | ④ | BLOCKOUT（canvas 隨機斑點） | 換 Poly Haven PBR（紅磚、花崗石、混凝土） |
@@ -47,7 +47,8 @@
 | `W3.lampPost` 路燈 | 校園、公館、溫州街 | ④ | BLOCKOUT；LAWWW2 的 `street_props.glb`（路燈、腳踏車、長椅）`MODEL_READY`、整合驗收中 | Blender 路燈（燈頭位置 (0,3.95,0.75) 不變，夜間光暈照舊） |
 | `W3.bike`、`W3.bikeRack` | 校園（含霖澤館後面的小廣場） | ④ | BLOCKOUT | Blender 腳踏車＋Instancing |
 | `W3.bench`（`ASSETS 'prop.bench'`，CC0 GLB） | 校園長椅 | ①（待使用者確認） | INTEGRATED | 保留；風格不合再換 |
-| `W3.palm`、`W3.banyan`、`W3.bush`、`W3.hedge`、`W3.bulletin`、`W3.planter`、`W3.vending`、`W3.foodCart`、`W3.gate`、`W3.mrtEntrance`、`W3.awning` | 舊版 fallback／零星 | ③／⑤ | 舊 placeholder | 不再當正式畫面 |
+| `W3.palm`、`W3.banyan`、`W3.bush`、`W3.hedge`、`W3.foodCart`、`W3.gate`、`W3.mrtEntrance`、`W3.awning` | 舊版 fallback／零星 | ③／⑤ | 舊 placeholder | 不再當正式畫面 |
+| `W3.planter` 花台、`W3.bulletin` 公告欄、`W3.vending` 販賣機 | 法學院前庭、椰林大道北側、霖澤館西側、萬才館一樓（`wancai3d.js` 的公告欄） | ⑤＋③ | LAWWW2 Blender（`street_props.glb` 的 `planter_box`、`bulletin_board`、`vending_machine`：水泥花槽＋灌木葉片卡＋小花、木框軟木板＋雨遮＋公告紙、紅色飲料販賣機＋展示窗＋背光），尺寸照程序化版本、導航不變，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 14 節）；`?nobldg`、載入失敗照舊程序化 | 公告紙上的字、飲料瓶細節、展示窗玻璃 |
 | `W3.grassTex`、`W3.pathTex`、`W3.stoneTex`、`W3.brickTex`、`W3.facadeTex`（canvas） | 地面、室內地板 | ④ | BLOCKOUT | Poly Haven PBR |
 
 ## 四、室內（`src/zones3d.js`）
