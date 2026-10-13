@@ -5,7 +5,7 @@
 交班紀錄：2026-10-11 10:13 UTC 交班（`1f20126`）→ 2026-10-13 回到帳號 A。
 使用者 2026-10-13：帳號 B 暫時沒有開，從上次停下來的地方接著做。
 
-**2026-10-13 接班後的進度（最新在這裡；下面的表是交班時的狀態）**：**⑤⑥ 已交付**（13:05Z，merge `451d032`，完整回歸 13 項全部通過；等 LAWWW 整合）；⑤⑥ 合併 LAWWW `cb399ea`（`c706321`，`-wip-props6`）、完整回歸重跑中；⑬ 配置修正（靠牆的家具不插進牆）＋Blender 腳本修正（`df83038`，`-wip-soclib`，還沒執行）；⑭ `wz_street.py --set lane118` 初稿（`10a6570`，新分支 `claude/second-ai-env-art-wip-lane118`，還沒執行）；⑫ `bike_ride.py` 初稿（`52c658d`，新分支 `claude/second-ai-env-art-wip-bike`，還沒執行）。新的工作目錄：⑭ `/home/user/lane_wt`、⑫ `/home/user/bike_wt`。
+**2026-10-13 接班後的進度（最新在這裡；下面的表是交班時的狀態）**：**⑤⑥ 已交付**（13:05Z，merge `451d032`）；**⑬ 已交付**（13:3xZ，merge `f3212c0`：`soclib_layout.js`＋`soclib_interior.glb` 5.53 MB／85,540 三角形＋VISUAL_REVIEW 16；MODEL_READY，等 LAWWW 接線）；⑭ 118 巷街景 GLB 已出、Blender 渲染 5 張（`-wip-lane118` `e66213b`；剩 `lane118_fill.py` 寫第 17 節→交付）；⑫ 騎車腳踏車 GLB＋尺寸表已出（`-wip-bike` `6e3a109`；剩 `bike_fill.py` 寫第 18 節→交付）；**現在：法律學院圖書館（LAWWW 13:16Z 新 P1，使用者指定，排在最前面）**——工作目錄 `/home/user/lawlib_wt`（本機分支 `second-ai-lawlib-tmp`，已合併 LAWWW `a1813e6`），WIP 推到 `claude/second-ai-env-art-wip-lawlib`；要做：`tools/blender/lawlib_interior.py`→`assets/models/env/lawlib_interior.glb`（讀 `src/data/lawlib_layout.js`）、萬才館大廳西牆南段的門（`wancai_interior.py` 只改門洞、門、名牌、盆栽位置）、窗景 `lawlib_south/north/west`、驗收材料。之後：⑭、⑫ 文件→⑦ 驗收→⑨→⑩→⑪。
 
 規則見 `WORK_RULES.md` 第 6 節。分工、佇列以 LAWWW 的 `docs/SECOND_AI_HANDOFF.md`、`docs/DUAL_AI_BOARD.md` 為準；跨帳號接班照 `docs/AI_SESSION_HANDOFF.md`（D49）。**LAWWW 的訊息可能「顯示送達、但沒出現在對話裡」**：每次 checkpoint、每次交付前都 `git fetch` LAWWW 的開發分支讀看板。
 
