@@ -80,5 +80,7 @@ const attendAt=async(it,ans)=>{ G.day=it.day; G.hour=it.t0; said.length=0; chose
   fresh(); { const ex=itemOf('Y1S1',8,'civ_general'); G.day=ex.day; G.hour=ex.t1+1; CLS.skipNotes(GM); check('考試週：不發',!G.msgs.length&&!!ex.exam); }
   fresh(); { const sv=itemOf('Y1S1',4,'service_1'); G.day=sv.day; G.hour=sv.t1+1; const before=G.msgs.length; CLS.skipNotes(GM); check('服務學習：不發',!G.msgs.slice(before).some(m=>/服務/.test(m.text))&&!G.msgs.length||G.msgs.every(m=>!/服務學習/.test(m.text))); }
   fresh(); { const d2=CLS.dayItems(G,2).find(q=>q.c.id==='civ_general'); if(d2){ G.day=3; G.hour=8; CLS.skipNotes(GM); check('第二天的民總（劇情課）：隔天不發',!G.msgs.length); } else check('第二天的民總（劇情課）：那天沒有排課',true); }
+  fresh(); { G.day=1; G.hour=21.5; const n1=CLS.dayItems(G,1).length; CLS.skipNotes(GM); const a1=G.msgs.length; G.day=2; G.hour=22; const n2=CLS.dayItems(G,2).length; CLS.skipNotes(GM); G.day=3; G.hour=7.5; CLS.skipNotes(GM);
+    check('第一、二天（劇情）的課：不算翹課、不發（第一天晚上才到宿舍）',!a1&&!G.msgs.length,'第一天 '+n1+' 堂、第二天 '+n2+' 堂'); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
