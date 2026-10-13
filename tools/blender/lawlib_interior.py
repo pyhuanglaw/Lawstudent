@@ -56,7 +56,7 @@ M = {
     'tbar': L.flat('ll_ceiling_grid', '#dcdcd8', rough=0.5),
     'light': L.flat('ll_light_panel', '#fff6e4', rough=0.9, emit=B.srgb('#fff4dc')),
     'walnut': L.pbr('ll_walnut', 'walnut_veneer', tile=1.2, target='#6b4a33', maps=('diff',), res=512, rough_value=0.5),
-    'endpanel': L.pbr('ll_endpanel', 'walnut_veneer', tile=1.0, target='#6b4a33', maps=('diff',), res=256, rough_value=0.45),
+    'endpanel': L.pbr('ll_endpanel', 'walnut_veneer', tile=1.2, target='#6e4c34', maps=('diff',), res=512, rough_value=0.45),
     'top': L.pbr('ll_tabletop', 'walnut_veneer', tile=1.4, target='#b08a62', maps=('diff',), res=512, rough_value=0.42),
     'chairwood': L.pbr('ll_chair_wood', 'walnut_veneer', tile=0.8, target='#8a6a4a', maps=('diff',), res=256, rough_value=0.55),
     'shelf': L.flat('ll_shelf_steel', '#a8adb2', rough=0.45, metal=0.2),
@@ -72,7 +72,7 @@ M = {
     'fabric': L.flat('ll_fabric_navy', '#3e4a5c', rough=0.9),
     'laminate': L.flat('ll_laminate', '#d8d2c4', rough=0.45),
     'brass': L.flat('ll_brass', '#b8913f', rough=0.35, metal=0.45),
-    'shade': L.flat('ll_lampshade_green', '#2f5d50', rough=0.25),
+    'shade': L.flat('ll_lampshade_green', '#1d6a45', rough=0.25),
     'glow': L.flat('ll_lamp_glow', '#fff1d6', rough=0.5, emit=B.srgb('#ffe9c4')),
     'white': L.flat('ll_white', '#f2f1ec', rough=0.4),
     'black': L.flat('ll_black', '#222428', rough=0.4),
@@ -620,11 +620,12 @@ def book_cart(lv, x, z, yaw, rnd):
 book_cart(0, 6.55, 3.05, math.pi / 2 + 0.1, rnd)
 
 # ================= 入口的防盜感應門柱 =================
-for (x, z) in J['gates']:
+for (x, z) in J['gates']:                                                                  # 半透明的壓克力感應板＋鋁框、底座、頂上的燈條
     mk(0, 'black').box(x - 0.07, x + 0.07, 0.0, 0.06, z - 0.28, z + 0.28)
-    mk(0, 'white').box(x - 0.025, x + 0.025, 0.06, 1.5, z - 0.25, z + 0.25)
-    mk(0, 'grey').box(x - 0.04, x + 0.04, 0.06, 1.5, z - 0.27, z - 0.24); mk(0, 'grey').box(x - 0.04, x + 0.04, 0.06, 1.5, z + 0.24, z + 0.27)
-    mk(0, 'ledblue').box(x - 0.04, x + 0.04, 1.5, 1.55, z - 0.27, z + 0.27)
+    vquad_x(mk(0, 'frost'), x, z - 0.24, z + 0.24, 0.06, 1.5, 1)
+    mk(0, 'grey').box(x - 0.03, x + 0.03, 0.06, 1.5, z - 0.27, z - 0.24); mk(0, 'grey').box(x - 0.03, x + 0.03, 0.06, 1.5, z + 0.24, z + 0.27)
+    mk(0, 'grey').box(x - 0.03, x + 0.03, 0.06, 0.16, z - 0.24, z + 0.24); mk(0, 'grey').box(x - 0.03, x + 0.03, 1.44, 1.5, z - 0.24, z + 0.24)
+    mk(0, 'ledblue').box(x - 0.035, x + 0.035, 1.5, 1.53, z - 0.27, z + 0.27)
 
 # ================= 房間裡：討論室（白板、牆上的螢幕）、影印室（兩台影印機、加值機、紙箱）=================
 for rm in J['rooms']:
@@ -743,7 +744,9 @@ print('tris static', sum(tris.values()), 'book instances', NBOOK['n'], 'book tri
 
 if arg('--preview'):
     os.makedirs(arg('--preview'), exist_ok=True)
-    views = [['entrance', [6.4, 1.6, 6.6], [-2.0, 1.4, 0.5], 22], ['reading', [3.0, 1.6, 5.6], [-2.0, 0.9, -2.0], 24], ['stairs', [-1.6, 1.6, -0.6], [-6.0, 2.4, 4.6], 22],
+    views = [['landing', [-6.3, 3.75, 7.4], [-4.2, 3.6, 2.6], 20], ['well', [-2.95, 6.3, 2.3], [-5.8, 2.6, 6.2], 18], ['disc', [-4.3, 1.55, -4.9], [-6.6, 1.1, -7.2], 18],
+             ['door', [3.4, 1.6, 6.4], [7.2, 1.3, 6.6], 20], ['journals', [-2.8, 5.85, -2.0], [-7.0, 5.0, -6.6], 20], ['thesis', [0.0, 5.85, -4.6], [3.0, 5.0, -7.9], 22]] if arg('--views') == 'more' else \
+            [['entrance', [6.4, 1.6, 6.6], [-2.0, 1.4, 0.5], 22], ['reading', [3.0, 1.6, 5.6], [-2.0, 0.9, -2.0], 24], ['stairs', [-1.6, 1.6, -0.6], [-6.0, 2.4, 4.6], 22],
              ['rooms', [1.8, 1.6, -0.8], [-2.0, 1.4, -6.0], 24], ['counter', [3.6, 1.55, 7.0], [5.2, 1.0, 3.6], 26],
              ['stacks', [-1.6, 5.8, 3.2], [-1.6, 5.0, -6.0], 24], ['stacks2', [5.6, 5.8, -6.8], [-3.0, 5.0, -1.0], 22], ['upper', [-2.0, 5.9, -1.6], [4.0, 5.2, 6.8], 22]]
     json.dump(views, open(os.path.join(arg('--preview'), 'views.json'), 'w'))
