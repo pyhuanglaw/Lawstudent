@@ -54,5 +54,16 @@ const fmt=h=>String(Math.floor(h)).padStart(2,'0')+':'+String(Math.round((h%1)*6
   GM=newGM('library',2,4,18.85,F0,seats); STORY.refreshSchedule(GM); const late=here('classmate_peishan');
   GM=newGM('library',2,4,16.2,F0,seats); STORY.refreshSchedule(GM); const early=here('classmate_peishan');
   check('待在總圖時補人：郭沛珊（週四 16–19 在總圖）18:51 不補（剩 9 分鐘）、16:12 照舊補',!late&&early,JSON.stringify({late,early})); }
+// 待在區域裡補人（室內）：從門口走進來、走到位子才坐下，不在座位上憑空出現（開發分支；v9.6 回歸 flow_class_real 看到同學在座位上冒出來）
+{ const seats=Array.from({length:20},(_,i)=>({x:i,z:0,yaw:0})); const mv=[];
+  GM=newGM('library',2,4,16.2,F0,seats); GM.E.zone.spawn={x:0,z:9,lv:0};
+  GM.E.moveTo=(n,x,z,cb,lv)=>{ mv.push([n.charId,x,z]); n._arrive=cb; return true; }; GM.sitAt=(n,st)=>{ n.seat=st; n.pose='sit'; n.obj.position.set(st.x,0,st.z); }; GM.seatApproach=st=>[st.x,st.z+0.6];
+  STORY.refreshSchedule(GM); const n=EVENTS.npcOf('classmate_peishan');
+  const atDoor=!!n&&!n.seat&&n.obj.position.x===0&&n.obj.position.z===9&&!!n.seatTarget&&mv.some(m=>m[0]==='classmate_peishan'&&m[2]===n.seatTarget.z+0.6);
+  if(n&&n._arrive) n._arrive(n); const sat=!!n&&!!n.seat&&n.pose==='read'&&!n.seatTarget;
+  check('待在總圖、16:12 補人：郭沛珊從門口（0,9）走進來、走到位子才坐下（看書）',atDoor&&sat,JSON.stringify({atDoor,sat,mv}));
+  GM=newGM('library',2,4,16.2,F0,seats); GM.E.zone.spawn={x:0,z:9,lv:0}; GM.E.moveTo=()=>true; GM.sitAt=(n,st)=>{ n.seat=st; };
+  STORY.populate('library',GM); const m=EVENTS.npcOf('classmate_peishan');
+  check('剛走進總圖（不是補人）：照舊已經坐在位子上',!!m&&!!m.seat&&!m.seatTarget,JSON.stringify(m&&{x:m.obj.position.x,z:m.obj.position.z})); }
 console.log(fails?('FAILED '+fails):'ALL PASS');
 process.exit(fails?1:0);
