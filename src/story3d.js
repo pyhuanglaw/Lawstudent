@@ -76,6 +76,14 @@ const STORY = (function(){
         for(const [tb,k] of busy){ const st=pick(tb,k); if(st) mk(st.x,st.z,st.lv,st.yaw,'read',{x:st.x,z:st.z,yaw:st.yaw,lv:st.lv}); }
         GM.spawnExtra(extraSpec(xi++),[[2.0,4.6,0],[-6.2,1.6,0],[-4.2,1.6,1],[1.6,-1.8,1],[-4.2,1.6,1],[-6.2,1.6,0],[3.0,5.6,0]],{}); }   /* 一樓 → A 跑 → 平台 → B 跑 → 二樓書庫 → 走回一樓 */
       if(F.companion==='an') spawnCompanion(GM); }
+    /* 社科院圖書館（D56 社科院第①步，2026-10-13）的背景人物：服務台的館員、閱覽長桌和窗邊讀書的人、在書架之間走的人。不是劇情人物、沒有對話。
+       開放時間還沒查證、門不擋：人只在白天到晚上九點出現（查到的平日時間，需查證），其他時間閱覽室是空的 */
+    if(zoneId==='soclib'&&typeof SOCLIB_LAYOUT!=='undefined'){ const L=SOCLIB_LAYOUT; const mk=(x,z,yaw,pose,seat)=>{ const o=CHAR.build(extraSpec(xi++)); o.position.set(x,0,z); o.rotation.y=yaw||0; return E.addNPC({obj:o,name:'',beh:'idle',pose:pose||'idle',idlePose:pose||'idle',frozen:true,isExtra:true,lv:0,seat}); };
+      if(hr>=8+20/60&&hr<21){ const dk=L.desk; mk((dk.x0+dk.x1)/2-0.8,(dk.z1+dk.staff.z1)/2-0.6,Math.PI,'idle');
+        const ss=E.zone.seats||[]; const pick=(kind,k)=>ss.filter(q=>q.kind===kind)[k]; const busy=hr<18?[['table',1],['table',8],['table',14],['table',21],['window',4],['window',12],['window',27],['lounge',2]]:[['table',6],['window',9],['window',20]];
+        for(const [kind,k] of busy){ const st=pick(kind,k); if(st) mk(st.x,st.z,st.yaw,'read',{x:st.x,z:st.z,yaw:st.yaw,lv:0}); }
+        GM.spawnExtra(extraSpec(xi++),[[-9,6.6,0],[-6,3.6,0],[0.5,1.0,0],[9,-2.5,0],[7,-9,0],[-6,-9,0],[-12.5,-3,0],[-11.5,3.5,0]],{}); }   /* 閘門內 → 長桌南邊 → 林間書房之間 → 北邊窗前的走道 → 西邊窗前 → 回到入口（tests/nav_soclib_unit.js 檢查每一段走得到）*/
+      if(F.companion==='an') spawnCompanion(GM); }
     if(zoneId==='cafe'){ const seats=E.zone.seats; if(hr>=19&&hr<23){ GM.spawnNPC('sis',C.sis,0,0,{seat:seats[5],pose:'read',talk:n=>talkSis(GM,n)}); GM.npc.sis.idlePose='read'; tm('sis',23); } for(const i of [6]){ const o=CHAR.build(extraSpec(xi++)); const s=seats[i]; o.position.set(s.x,0,s.z); o.rotation.y=s.yaw; E.addNPC({obj:o,name:'',beh:'idle',pose:'read',idlePose:'read',frozen:true,isExtra:true}); } if(F.companion==='an') spawnCompanion(GM); }
     /* 店員（2026-10-11 使用者回報：便利商店、麵店、書店都沒有人顧店）：站在櫃台後面、工作台前；只是讓店有人在顧，不加對話和劇情（結帳還是櫃台的互動點）。
        外觀用路人模型（extraSpec：偶數＝女性、奇數＝男性）；年紀比較大的老闆娘、老闆要等有中年人物模型（MISSING_EXTERNAL_ART）*/
@@ -199,7 +207,8 @@ const STORY = (function(){
   };
   // 電梯：和小安約好在總圖二樓自習區時，3F 閱覽區先不去（game3d.js 的 elevatorRide 問這裡）
   S.elevatorLock=function(f,GM){ const F=GM.G.flags; if(f.zone==='library'&&F.companion==='an'&&F.plan==='library') return {hint:'和小安約好在二樓自習區',toast:'和小安約好在二樓的自習區讀書，先到二樓。'}; return null; };
-  S.forceHome=async function(GM){ const G=GM.G; if(G.flags._forcing) return; G.flags._forcing=true; GM.sceneBegin(); await GM.say(null,'已經凌晨了。你的腳自己往宿舍走。'); GM.sceneEnd(); G.flags.companion=null; await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await sleepNow(GM); G.flags._forcing=false; };
+  /* 凌晨 2:30 還沒睡：在外面就走回宿舍睡；已經在宿舍（房間、走廊）就直接睡著（2026-10-13 審查：原本在宿舍可以一直不睡，G.day 不換、隔天的課變成「還沒開始」）*/
+  S.forceHome=async function(GM){ const G=GM.G; if(G.flags._forcing) return; G.flags._forcing=true; try{ const home=G.zone==='dorm'; GM.sceneBegin(); await GM.say(null,home?'已經凌晨了。你撐不住，躺上床就睡著了。':'已經凌晨了。你的腳自己往宿舍走。'); GM.sceneEnd(); G.flags.companion=null; if(!home) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await sleepNow(GM); } finally { G.flags._forcing=false; } };
   // ---------- 互動 ----------
   S.interact=async function(it,GM){ const G=GM.G, F=G.flags, E=GM.E;
     if(it.deskStudy){ await deskScene(GM,it); return true; }

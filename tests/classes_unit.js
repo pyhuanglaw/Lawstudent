@@ -55,8 +55,24 @@ const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
   const g=CLS.goalFor(mkG(T,8)); check('起床時的目標：今天的課＋往下一堂教室的導航（不是「自由的一天」）',/今天的課：09:10 大一英文（上）、13:20 民法總則/.test(g.text)&&g.dest&&g.dest.zone==='gongtong'&&g.dest.label==='看看共同 102',JSON.stringify(g));
   const g2=CLS.goalFor(mkG(T,10)); check('英文開始超過 30 分鐘：目標導航改指 201（民法總則）',g2.dest&&g2.dest.zone==='classroom',JSON.stringify(g2.dest));
   const g3=CLS.goalFor(mkG(dayOf('2025-09-27'),8)); check('週六：今天沒有課、自由活動（不指路）',/今天沒有課/.test(g3.text)&&!g3.dest,JSON.stringify(g3)); }
+/* 遊戲實際用的 refreshGoal（不是只測 goalFor）：週二 08:30 目標指 09:10 國文（博雅 101）；12:30 國文已經過了——目的地要換成 13:20 通識的教室（普通 101）。
+   今天的課那一行整天都一樣，修改前只比文字，目的地一直停在博雅（2026-10-13 審查第 3 項） */
+{ const T=dayOf('2025-10-07'); const G=Object.assign(mkG(T,8.5),{flags:{}}); const GM={G,setGoal(t,d){ G.goal=t; G.goalDest=d===undefined?null:d; }};
+  CLS.setGoal(GM); const d0=G.goalDest&&G.goalDest.zone; G.hour=12.5; CLS.refreshGoal(GM); const d1=G.goalDest&&G.goalDest.zone;
+  check('上完（或錯過）早上的課：導航的目的地換成下一堂的教室（博雅 101 → 普通 101），目標文字照舊',d0==='boya'&&d1==='putong'&&CLS.isClsGoal(G),`${d0} → ${d1}：${JSON.stringify(G.goalDest)}`); }
+/* 大四的研討課（萬才館研討室 A）：有門、導航指那扇門、上課時間門口可以上課（2026-10-13 審查第 9 項：原本沒有 wancai_seminar 這個門）*/
+{ let D=null; for(let d=1;d<2000&&!D;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y4S1'&&CALENDAR.dateOf(d).wd===2&&!CALENDAR.holiday(d)&&CLS.dayItems(mkG(d,8)).some(it=>it.c.id==='legal_ethics')) D=d; }
+  const G=mkG(D,13.0), g=CLS.goalFor(G), it=CLS.dayItems(G).find(q=>q.c.id==='legal_ethics');
+  check('大四上週二 13:00：法律倫理在萬才館研討室 A——導航指萬才館的「研討室 A」、門口上課點存在（萬才館自己建門）',!!CLS.DOORS.wancai_seminar&&CLS.DOORS.wancai_seminar.zone==='wancai'&&g.dest&&g.dest.zone==='wancai'&&g.dest.label==='研討室 A'&&CLS.status(G,it)==='open',JSON.stringify(g.dest));
+  G.hour=13.5; check('13:30：門口找得到正在上的課（liveDoor）',!!CLS.liveDoor(G,'wancai_seminar')&&CLS.liveDoor(G,'wancai_seminar').c.id==='legal_ethics'); }
+/* 自學的科目清單：通識（代號 ge_*）要在清單上；國文、英文、體育不列（2026-10-13 審查第 6 項：代號從 gened 改名後通識被濾掉）*/
+{ const G=Object.assign(mkG(dayOf('2025-10-07'),15),{flags:{}}); let opts=null; const GM={G,choose:async o=>{ opts=o.map(q=>q.t); return o.length-1; }};
+  (async()=>{ const r=await CLS.studyPick(GM); check('自學清單有通識（電影與敘事）、沒有國文、英文、體育；最後一項「整理這週的筆記」回傳 {notes:true}',!!opts&&opts.some(t=>/通識/.test(t))&&!opts.some(t=>/國文|英文|體育/.test(t))&&r&&r.notes===true,(opts||[]).join('、'));
+    let o2=null; const GM2={G,choose:async o=>{ o2=o.map(q=>q.t); return 0; }}; const r2=await CLS.studyPick(GM2,[{t:'讀學姊給的那篇文章'}]); check('選單最上面可以多放一項（研究所準備）：選了回傳 {extra:0}',!!o2&&o2[0]==='讀學姊給的那篇文章'&&r2&&r2.extra===0,JSON.stringify(r2)); })(); }
 // ---------- 快速前往的時間、時間跳轉（D54 ①③）----------
 { const G=mkG(3,10); const tm=(a,b,pos,to)=>CLS.travelMinutes(G,a,b,pos,to);
+  check('博雅 ⇄ 普通（隔一條路）5 分鐘、博雅 → 霖澤館比宿舍 → 霖澤館近（博雅、普通有位置，不是一律 15 分鐘）',tm('boya','putong')===5&&tm('boya','linze')<tm('dorm','linze'),[tm('boya','putong'),tm('boya','linze'),tm('dorm','linze')].join(','));
+  check('九月開學前（2026-09-03，大二上 9/7 開學）寫「暑假」，不是寒假',/暑假/.test(CLS.dayLabel(mkG(dayOf('2026-09-03'),10)))&&!/寒假/.test(CLS.dayLabel(mkG(dayOf('2026-09-03'),10))),CLS.dayLabel(mkG(dayOf('2026-09-03'),10)));
   check('快速前往的時間：同一個地方 0；宿舍→霖澤館 15、宿舍→總圖 10、霖澤館→萬才館 5、霖澤館→Café 20 分鐘（照真實步行，最少 5 分鐘）',
     tm('lawlib','lawlib')===0&&tm('dorm','linze')===15&&tm('dorm','library_hall')===10&&tm('linze','wancai')===5&&tm('linze','cafe')===20,
     [tm('lawlib','lawlib'),tm('dorm','linze'),tm('dorm','library_hall'),tm('linze','wancai'),tm('linze','cafe')].join(','));
@@ -83,6 +99,12 @@ const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
     const G2=Object.assign(mkG(T,18),{zone:'dorm',invites:[{day:T,h:19.5,accepted:true,label:'讀書會'}]}); said.length=0; await CLS.skipTo(mkGM(G2,0),22);
     check('跳到一半遇到邀約：停在 19:20、字幕寫原因、沒有經過課就不問',Math.abs(G2.hour-(19.5-1/6))<1e-9&&said.some(t=>/約好的時間：讀書會/.test(t))&&!said.some(t=>/^choose/.test(t)),said.join(' | '));
     const G3=Object.assign(mkG(T,23.5),{zone:'dorm'}); await CLS.skipTo(mkGM(G3,0),26); check('不跳過午夜（隔天＝睡覺）',G3.hour<24,String(G3.hour));
+    /* 過了午夜還沒睡（G.hour 24.5，G.day 還是同一天；2026-10-13 審查第 1 項）：今天 09:10 的國文已經過了——不能變回「還沒開始」、HUD 不能寫「下一堂」、
+       手機沒有「等到下一堂課前」、跳過時間不能跳回同一天的早上再上一次。修改前：狀態是 upcoming、跳到 G.hour 32.67 後變成 open */
+    const G6=Object.assign(mkG(T,24.5),{zone:'cafe'}); const ch=CLS.dayItems(G6).find(it=>it.t0<12);
+    check('00:30（還沒睡）：今天早上的課算沒去（不是「還沒開始」）、沒有「下一堂」、不在上課',CLS.status(G6,ch)==='missed'&&!CLS.next(G6)&&!CLS.live(G6,ch),CLS.status(G6,ch)+' next='+(CLS.next(G6)&&CLS.next(G6).c.name));
+    const html=CLS.todayHTML(G6); said.length=0; const r6=await CLS.skipTo(mkGM(G6,0),8.67);
+    check('00:30：手機沒有「跳過時間」的按鈕；硬按也不能跳（要先回宿舍睡覺），時間不動',!/data-skip=/.test(html)&&r6===false&&G6.hour===24.5&&said.some(t=>/過午夜/.test(t)),said.join(' | '));
     const G4=Object.assign(mkG(T,21+5/6),{zone:'library_hall'}); said.length=0; const r4=await CLS.skipTo(mkGM(G4,0),23);
     check('在總圖、已經在閉館前 10 分鐘以內：不能跳過閉館（先離開），時間不動',r4===false&&G4.hour===21+5/6&&said.some(t=>/總圖書館快要閉館了（22:00）/.test(t)),said.join(' | '));
     const G5=Object.assign(mkG(T,21+5/6),{zone:'library_hall'}); const r5=await CLS.skipTo(mkGM(G5,0),21.95); check('閉館前（21:57）還可以跳',r5===true&&Math.abs(G5.hour-21.95)<1e-9,String(G5.hour));

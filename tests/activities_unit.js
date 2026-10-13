@@ -29,4 +29,8 @@ check('進行中：19:00 有演講、18:00 還沒、20:40 沒有，但「剛結�
   G.hour=18; check('活動還沒開始（activity）：不觸發',!EVENTS.check(ev)); G.hour=19;
   where={zone:'campus'}; check('那個人照作息不在這裡（npcHere）：不觸發',!EVENTS.check(ev)); where={zone:'gongtong'};
   G.hour=20.6; check('演講剛結束：activityJustEnded 的事件觸發、一般的不觸發',EVENTS.check(Object.assign({},ev,{activityJustEnded:true}))&&!EVENTS.check(ev)); }
+/* 照學期、星期排的活動：國定假日不辦（課表那天也停課）；用 dates 指定日期的照辦（2026-10-13 審查第 13 項）*/
+{ const DAY=86400000, dOf=q=>{ const [y,m,d]=q.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/DAY)+1; };
+  const wk={id:'t_weekly',title:'每週五的社課',kind:'club',term:['Y1S1'],weekday:5,t0:19,t1:21}, dt={id:'t_dated',title:'國慶日特別活動',kind:'lecture',dates:['2025-10-10'],t0:19,t1:21};
+  check('每週五的活動：一般的週五有、國慶日（10/10 週五）沒有；用 dates 指定國慶日的照辦',ACTIVITIES.on(wk,dOf('2025-10-03'))&&!ACTIVITIES.on(wk,dOf('2025-10-10'))&&ACTIVITIES.on(dt,dOf('2025-10-10'))); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

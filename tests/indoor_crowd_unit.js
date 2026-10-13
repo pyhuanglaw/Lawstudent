@@ -61,4 +61,12 @@ const walkTo=(n,x,z,lv)=>E.simWalk(n.obj.position.x,n.obj.position.z,x,z,{lv0:n.
   const bad=[]; for(const n of g){ const st=n.seat, ap=CROWD.seatSide(E,st); const r=walkTo(n,ap[0],ap[1],st.lv|0); if(!r.ok||Math.abs(r.y-st.y)>0.05) bad.push(JSON.stringify(r).slice(0,80)); }
   check('走側邊台階到座位那一排（移動模擬、高度對）',!bad.length,bad.join(' | '));
   ACTIVITIES.list=[]; }
-console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
+// ---------- 坐著上完課（CLS.attend 快轉到下課）之後，下一次 CROWD.tick 不會把走出去的同學一起拿掉（2026-10-13 審查第 2 項）----------
+/* 修改前：classes3d.js 的 keepCrowd 只更新自己的時間，crowd3d.js 的 tick 看到時間跳了 3 小時就把 n.crowd 的人（包括正在走出去的同學）全部移除 */
+(async()=>{ const z=load('boya'); const G={day:TUE,hour:9.2,zone:'boya',flags:{},weekday:2};
+  const GM={G,E,say:async()=>{},choose:async()=>0,fade:async()=>{},advance:h=>{ G.hour+=h; },energy(){},caption(){},sceneBegin(){},sceneEnd(){},autosave(){},setGoal(){},toast(){}};
+  CLS.syncRooms(GM,{instant:true}); CROWD.enter(GM,'boya'); CROWD.tick(GM,2);
+  const n0=E.npcs.filter(n=>n.clsStudent).length; const it=CLS.dayItems(G).find(q=>q.c.id==='chinese_y1'); await CLS.attend(GM,it,{inScene:true});
+  CLS.syncRooms(GM); const walking=E.npcs.filter(n=>n.crowd==='cls').length; CROWD.tick(GM,2); const after=E.npcs.filter(n=>n.crowd==='cls').length;
+  check('坐著上完大一國文（快轉到 12:10）：同學站起來走出去；下一次人流更新（CROWD.tick）他們還在走，不是一起消失',n0>=5&&walking>=n0-1&&after===walking,`上課 ${n0} 人、走出去 ${walking}、下一次更新後 ${after}`);
+  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })();

@@ -11,6 +11,7 @@ const ACTIVITIES={
   /* 第 day 天有沒有這個活動（學期、週次或日期、星期都對得上）*/
   on(a,day){ if(typeof CALENDAR==='undefined') return false; const d=CALENDAR.dateOf(day);
     if(a.dates) return a.dates.includes(d.key);
+    if(CALENDAR.holiday(day)&&!a.holidays) return false;   /* 照學期、週次、星期排的活動：放假那天不辦（2026-10-13 審查；真的要在假日辦的寫 holidays:true 或用 dates）*/
     if(a.weekday&&d.wd!==a.weekday) return false; const t=CALENDAR.termOf(day); if(a.term&&(!t||!a.term.includes(t.id))) return false; if(a.weeks&&(!t||!a.weeks.includes(t.week))) return false; return !!(a.term||a.weeks||a.weekday); },
   /* 現在進行中（justEnded：結束後 20 分鐘內也算，給「演講結束後的走廊」用）*/
   active(G,opt){ opt=opt||{}; const h=G.hour%24; return ACTIVITIES.list.filter(a=>ACTIVITIES.on(a,G.day)&&h>=a.t0-(opt.before||0)&&h<a.t1+(opt.justEnded?1/3:0)); },

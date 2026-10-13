@@ -10,7 +10,7 @@ from playwright.async_api import async_playwright
 
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 WANT_VER = sys.argv[2] if len(sys.argv) > 2 else None
-ZONES = ['campus', 'gongguan', 'wenzhou', 'classroom', 'wancai', 'library_hall', 'library', 'cafe', 'cvs', 'noodle', 'bookstore', 'dorm', 'lawlib', 'gongtong', 'boya', 'putong']   # 2026-10-13：法圖、三棟教學館（博雅、普通校園上的門等方案 A／B，讀檔進去測）
+ZONES = ['campus', 'gongguan', 'wenzhou', 'classroom', 'wancai', 'library_hall', 'library', 'cafe', 'cvs', 'noodle', 'bookstore', 'dorm', 'lawlib', 'gongtong', 'boya', 'putong', 'soclib']   # 2026-10-13：法圖、三棟教學館（博雅、普通校園上的門等方案 A／B，讀檔進去測）
 FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'lawclub': True, 'wenzhouLine': True}
 
 

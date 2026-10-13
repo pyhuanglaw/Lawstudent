@@ -16,7 +16,7 @@ const COURSES={
   rooms:{
     L201:{name:'霖澤館 201',zone:'classroom'},                                  /* AA_103 第 8 節 linze_201 */
     LINZE:{name:'霖澤館 201',zone:'classroom'},                                 /* linze_class（霖澤館其他教室）：遊戲裡還是 201（AA_103 第 1 節）*/
-    WSEM:{name:'萬才館研討室',door:'wancai_seminar'},                           /* wancai_sem：門口上課（2D）*/
+    WSEM:{name:'萬才館研討室',door:'wancai_seminar',zone:'wancai',label:'研討室 A',lv:1},   /* 萬才館二樓的研討室 A：門口上課（classes3d.js 的 DOORS.wancai_seminar，門在 wancai3d.js）；2026-10-13 審查：原本沒有這個門，大四的研討課上不了 */                           /* wancai_sem：門口上課（2D）*/
     GONGTONG:{name:'共同教學館 102',zone:'gongtong',room:'102',door:'common'},  /* gongtong_hall：英文、日文（AA_107：共同教學館是小班的語言教室）*/
     PUTONG:{name:'普通教學館 101',zone:'putong',room:'101',door:'putong'},   /* putong_hall（方案 A，D55）：文學院正後方；重修經濟學原理（AA 2026-10-13）*/
     BOYA:{name:'博雅教學館 101',zone:'boya',room:'101',door:'boya'},           /* boya_hall（方案 A）：普通北邊；經濟系大一的經濟學原理（D56，劇情做好之前不會排到）*/

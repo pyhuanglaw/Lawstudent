@@ -70,6 +70,7 @@ const ASSETS = (function(){
     'bldg.dorm_interior':{url:'assets/models/env/second_ai/dorm_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/dorm_interior.py（宿舍雙人房室內；配置照 zones3d.js dorm 區塊；書與雜物的顏色是頂點色；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
     'prop.street':{url:'assets/models/env/second_ai/street_props.glb', type:'building', source:'本作 Blender 腳本 tools/blender/env_second/street_props.py（淑女車、路燈、公園長椅：W3.bike／W3.lampPost／長椅的正式模型；開機時預載，W3 的函式同步複製；鐵絲網與鋼絲貼圖本作程式產生、長椅木頭貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},   /* 這個不是 lazy（W3.lampPost()、W3.bike() 是同步建立的）；?nobldg 一樣會關掉 */
     'bldg.lawlib_interior':{url:'assets/models/env/lawlib_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/lawlib_interior.py（萬才館 法律學院圖書館：一樓櫃台、自習區、討論室、影印室、U 形樓梯、二樓藏書；配置讀 src/data/lawlib_layout.js；書＝一格書模組＋GPU instancing，書背圖集 tools/blender/env_second/lawlib_atlas.py；第二個 AI 製作）', license:'本作；貼圖 Poly Haven CC0；書背的字用文泉驛正黑畫成點陣圖'},
+    'bldg.soclib_interior':{url:'assets/models/env/second_ai/soclib_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/soclib_interior.py（社會科學院 辜振甫先生紀念圖書館一樓開架閱覽室：樹狀柱、天窗、竹製弧形書架、閱覽長桌、窗邊座位、服務台、閘門；配置讀 src/data/soclib_layout.js；第二個 AI 製作 ⑬）', license:'本作；貼圖 Poly Haven CC0'},
     // ==== 第二個 AI 區塊結束 ====
     'char.mixamo_clips':{url:'assets/models/char/mixamo_clips.glb', type:'clips', source:'three.js examples (Xbot.glb, Mixamo)', license:'Mixamo 動畫（Adobe 條款：可用於專案，不可單獨再散布）'},
   };

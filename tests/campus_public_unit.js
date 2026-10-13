@@ -17,6 +17,7 @@ const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','
 for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|GONGTONG_LAYOUT|BOYA_LAYOUT|PUTONG_LAYOUT|TB3|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
+const TREES=[]; { const orig=TK.tree; TK.tree=(...a)=>{ const t=orig(...a); TREES.push(t); return t; }; }   /* 記下校園上每一棵闊葉樹（檢查方案 A 留下的樹）*/
 const z=Z3.ZONES.campus.build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0};
 CLS.addDoors({E},'campus');
 const stand=(x,zz)=>E.canStand(x,zz,0.32,0);
@@ -31,6 +32,9 @@ for(const [label,lm,foots] of [['共同教學館','共同教學館',[[2,33,24,14
   r=walk(LINZE,p); check(label+'：從霖澤館前走得到',r.ok,JSON.stringify(r).slice(0,180));
   for(const [cx,cz,w,d] of foots){ const inside=[[cx,cz],[cx-w/2+1.5,cz],[cx+w/2-1.5,cz],[cx,cz-d/2+3.6],[cx,cz+d/2-1.2]].filter(q=>stand(q[0],q[1]));   /* 正面一樓的拱廊（套件 arcade，約 2.4–3 m 深）走得進去，是設計；量拱廊後面 */ check(label+'：建築本體走不進去（不會穿牆）',!inside.length,JSON.stringify(inside)); }
   check(label+'：大地圖有地名「'+lm+'」',LM.some(q=>q[0]===lm)); }
+{ /* 走出教學館的落點離門口的互動點 ≥ 半徑＋0.2 m：一出來不會又跳出「共同教學館」「博雅教學館」（2026-10-13 審查：博雅原本 1.4 m）*/
+  const bad=[]; for(const [k,LAY] of [['common',GONGTONG_LAYOUT],['putong',PUTONG_LAYOUT],['boya',BOYA_LAYOUT]]){ const d=CLS.DOORS[k], c=LAY.entrance.campus; const dist=Math.hypot(c.x-d.x,c.z-d.z); if(dist<d.radius+0.2||!stand(c.x,c.z)) bad.push(k+' '+dist.toFixed(2)+' m'); }
+  check('走出共同、普通、博雅：落點站得住、離門口的互動點 ≥ 半徑＋0.2 m',!bad.length,bad.join(' | ')); }
 check('大一女舍：A、B 兩棟之間（2 樓天橋下）走得過去',stand(-93,67)&&walk([-93,57],[-93,78]).ok,JSON.stringify(walk([-93,57],[-93,78])).slice(0,160));
 { const s=(z.seats||E.seats||[]).find(q=>/大一女舍門口的長椅/.test(q.label||'')); check('大一女舍門口有等人用的長椅（坐得到：長椅前站得住、從校門走得到）',!!s&&stand(s.x,s.z+0.75)&&walk(GATE,[s.x,s.z+0.75]).ok,JSON.stringify(s)); }
 { const bad=QL.filter(q=>q[0]==='campus'&&/共同教學館|大一女舍/.test(q[1])).filter(q=>!stand(q[2].x,q[2].z)); check('快速前往的落點（共同教學館、大一女舍）在門口前、站得住',QL.some(q=>/大一女舍/.test(q[1]))&&!bad.length,JSON.stringify(bad)); }
@@ -43,4 +47,10 @@ check('大一女舍：A、B 兩棟之間（2 樓天橋下）走得過去',stand(
   const r2=walk([B.x,B.z+1.4],[-39,-111.4]); check('博雅門口 → 醉月湖湖心亭（新的湖南岸步道＋木棧道）走得到',r2.ok,JSON.stringify(r2).slice(0,160));
   const bad=QL.filter(q=>q[0]==='campus'&&/普通教學館|博雅教學館/.test(q[1])).filter(q=>!stand(q[2].x,q[2].z)); check('快速前往：普通、博雅的落點在門口前、站得住',QL.filter(q=>/普通教學館|博雅教學館/.test(q[1])).length===2&&!bad.length,JSON.stringify(bad));
   check('大地圖：醉月湖的地名跟著湖搬到北邊',LM.some(q=>q[0]==='醉月湖'&&q[2]<-100)); }
+// 方案 A 留下的樹（2026-10-13 審查第 5 項）：原本「湖北邊」那一排樹在博雅建築裡、往湖的小路上（沒有導航阻擋，人會穿過樹幹）
+{ const ps=TREES.map(t=>{ const v=new THREE.Vector3(); t.getWorldPosition(v); return [+v.x.toFixed(1),+v.z.toFixed(1)]; });
+  const inBoya=ps.filter(([x,zz])=>x>-55.5&&x<-20.5&&zz>-92.5&&zz<-73.5), onPath=ps.filter(([x,zz])=>x>-15&&x<-9&&zz>-97&&zz<-46), loose=ps.filter(([x,zz])=>x>-62&&x<-5&&zz>-92&&zz<-80&&stand(x,zz));
+  check('湖北邊那排樹拿掉了：博雅裡面、x=-12 往湖的小路上沒有樹，博雅附近站得住的地方沒有穿得過去的樹幹',TREES.length>20&&!inBoya.length&&!onPath.length&&!loose.length,JSON.stringify({inBoya,onPath,loose})); }
+// 萬才館研討室 A：大四研討課的門（2026-10-13 審查第 9 項）
+{ E.interactables=[]; const wz=Z3.ZONES.wancai.build(E); const sem=E.interactables.find(i=>i.door==='wancai_seminar'); check('萬才館二樓的研討室 A 是上課的門（門口上課：大四的法律倫理、判決研討）',!!sem&&sem.lv===1&&sem.label==='研討室 A'&&typeof sem.onInteract==='function',sem?`${sem.label} lv${sem.lv}`:'沒有'); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

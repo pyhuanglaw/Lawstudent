@@ -90,6 +90,12 @@ const quiet=async fn=>{ const ce=console.error; console.error=()=>{}; try{ retur
     await runEv(mj[0]); check('4 重要事件：同一棟（博雅）同一學期演過一個之後，另一個要等下學期',!EVENTS.check(mj[1]));
     const mo=ev({id:'t_major_other',tier:'major',location:'putong',once:true}); G.zone='putong'; check('4 重要事件：別棟（普通）不受博雅的限制',EVENTS.check(mo)); G.zone='boya';
     G.day=firstDayOf('Y2S1',2); check('4 重要事件：下一個學期就可以',EVENTS.check(mj[1]));
+    // 續篇（next_event）：前一段演完接著演，不受層次上限、不另外占一個名額；校園上不同建築門口的短篇各算各的（2026-10-13 審查第 14 項）
+    { G.day=firstDayOf('Y2S2',3); G.hour=15; G.zone='boya'; zc('boya'); const b=ev({id:'t_seq_b',tier:'short',location:'boya',once:true,trigger:'none'}); const a=ev({id:'t_seq_a',tier:'short',location:'boya',once:true,next_event:'t_seq_b'}); STORY_EVENTS.length=0; STORY_EVENTS.push(a,b);
+      await runEv(a); check('4 短篇的續篇（next_event）：前一段演完就接著演（不會被「一次進入一個」擋掉）',G.events.done.t_seq_a===1&&G.events.done.t_seq_b===1,JSON.stringify([G.events.done.t_seq_a,G.events.done.t_seq_b]));
+      check('4 續篇不另外占名額：同一天另一棟還可以演一個短篇',(()=>{ const o=ev({id:'t_other_bldg',tier:'short',location:'boya',building:'putong_door',once:true}); return EVENTS.check(o); })());
+      zc('campus'); G.zone='campus'; const c1=ev({id:'t_door1',tier:'short',location:'campus',building:'gongtong',once:true}), c2=ev({id:'t_door2',tier:'short',location:'campus',building:'boya',once:true}); STORY_EVENTS.length=0; STORY_EVENTS.push(c1,c2); G.day+=1;
+      await runEv(c1); check('4 校園上：共同教學館門口演過短篇，博雅門口的短篇照樣可以（每一棟各算）',EVENTS.check(c2)); G.zone='boya'; zc('boya'); }
     const save=JSON.parse(JSON.stringify(G)); check('4 上限的紀錄在 G.events.cap（跟著存檔）',!!(save.events.cap&&save.events.cap.major&&Object.values(save.events.cap.major).includes('t_major1'))); }
   // ---------- 5. 演講到場 ----------
   { ACTIVITIES.list=[{id:'t_lec',title:'政府可以為了大家，限制一個人嗎？（測試）',kind:'lecture',zone:'boya',room:'101',roomName:'博雅 101',dates:['2026-04-23'],t0:18.5,t1:20.5}];

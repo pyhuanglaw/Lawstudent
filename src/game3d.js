@@ -172,8 +172,20 @@ const GAME = (function(){
   async function gradReadingSession(){ const g=G.social.grad; g.prep=(g.prep||0)+1; const n=g.prep; if(n===1) await say(null,'你翻開學姊給的那篇文章。前十頁在講一個你以為自己懂的概念，讀到第三次才發現原來不懂。你照她說的，用鉛筆在旁邊寫「不同意」。');
     else if(n===2) await say(null,'第二次讀。中段的論證繞了一大圈，你開始看得出作者在哪裡「跳」過去。鉛筆字變多了。');
     else { await say(null,'第三次。你讀完最後一頁，合上文章，發現自己已經在想「如果是我會怎麼寫」。這大概就是學姊說的那個時刻。'); G.flags.grad_read_done=true; if(SOCIAL.GRAD.indexOf(g.interest)<SOCIAL.GRAD.indexOf('PREPARING')) SOCIAL.gradSet('PREPARING',g.field||'公法'); toast('研究所路線：開始準備'); GM.memo('讀完學姊給的文章'); } }
-  async function studySession(cafe){ const before=G.hour; let course=null; if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ course=await CLS.studyPick(GM); }catch(e){ console.warn('studyPick',e); } } await fade(true); advance(1); if(!cafe) energy(-8); G.stats.study++; if(course){ await fade(false); await say(null,'你讀了一小時的'+course.name+'——'+(CLS.topic(course,(CALENDAR.termOf(G.day)||{}).week)||'這週的進度')+'。'); if(G.energy<20) toast('你有點累了'); return; }
-    if(G.flags.grad_reading&&!G.flags.grad_read_done&&G.social){ await fade(false); const k=await choose([{t:'讀學姊給的那篇文章',hint:'研究所準備（'+((G.social.grad.prep||0))+'/3）'},{t:'讀這週的進度'}]); if(k===0){ await gradReadingSession(); if(G.energy<20) toast('你有點累了'); return; } await fade(true); } const topics=STORY.studyTopics?STORY.studyTopics(GM):[]; const t=topics.find(x=>!GM.hasNote(x.id)); await fade(false); const studied=(typeof LEGAL!=='undefined'&&G.legal)?LEGAL.study():[]; if(studied.length){ for(const q of studied){ await say(null,'你回頭看了讀書會／上課時卡住的地方：「'+q.q.replace(/。$/,'')+'」——'+(q.core?q.core:'答案是「'+(q.type==='tf'?q.answer:q.answer+'、'+q.options[q.answer])+'」')+'。這次應該懂了。'); } } else if(t){ addNote(t.id,t.title,t.body); await say(null,t.read||('你花了一小時讀'+t.title+'。'+t.body)); } else { await say(null,'你把這週的筆記重新整理了一遍。沒有新的東西，但腦袋清楚了一些。'); } if(G.energy<20) toast('你有點累了'); }
+  /* 讀書一小時：學期間先選一科（CLS.studyPick，AA_104 4-3）。不管選哪一科，讀書會／上課卡住的題目照樣會在這時候想通（LEGAL.study，全遊戲只有這裡）、法條筆記照樣會記下來；
+     研究所準備（學姊給的文章）在選單最上面（2026-10-13 審查第 4 項：選了科目之後原本直接結束，這些只剩「整理這週的筆記」走得到）*/
+  async function studySession(cafe){ const before=G.hour; let course=null, asked=false, gradPick=false; const grad=!!(G.flags.grad_reading&&!G.flags.grad_read_done&&G.social);
+    if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ const r=await CLS.studyPick(GM,grad?[{t:'讀學姊給的那篇文章',hint:'研究所準備（'+((G.social.grad.prep||0))+'/3）'}]:null); if(r){ asked=true; if(r.extra!==undefined) gradPick=true; else if(r.course) course=r.course; } }catch(e){ console.warn('studyPick',e); } }
+    await fade(true); advance(1); if(!cafe) energy(-8); G.stats.study++;
+    if(gradPick){ await fade(false); await gradReadingSession(); if(G.energy<20) toast('你有點累了'); return; }
+    if(course){ await fade(false); await say(null,'你讀了一小時的'+course.name+'——'+(CLS.topic(course,(CALENDAR.termOf(G.day)||{}).week)||'這週的進度')+'。'); }
+    else if(grad&&!asked){ await fade(false); const k=await choose([{t:'讀學姊給的那篇文章',hint:'研究所準備（'+((G.social.grad.prep||0))+'/3）'},{t:'讀這週的進度'}]); if(k===0){ await gradReadingSession(); if(G.energy<20) toast('你有點累了'); return; } await fade(true); }
+    const topics=STORY.studyTopics?STORY.studyTopics(GM):[]; const t=topics.find(x=>!GM.hasNote(x.id)); if(!course) await fade(false);
+    const studied=(typeof LEGAL!=='undefined'&&G.legal)?LEGAL.study():[];
+    if(studied.length){ for(const q of studied){ await say(null,'你回頭看了讀書會／上課時卡住的地方：「'+q.q.replace(/。$/,'')+'」——'+(q.core?q.core:'答案是「'+(q.type==='tf'?q.answer:q.answer+'、'+q.options[q.answer])+'」')+'。這次應該懂了。'); } }
+    else if(t){ addNote(t.id,t.title,t.body); await say(null,t.read||('你花了一小時讀'+t.title+'。'+t.body)); }
+    else if(!course){ await say(null,'你把這週的筆記重新整理了一遍。沒有新的東西，但腦袋清楚了一些。'); }
+    if(G.energy<20) toast('你有點累了'); }
   GM.studySession=studySession;
   // ---------- 存檔 ----------
   function snapshot(){ const P=E.player.obj.position; return Object.assign({},G,{pos:{x:+P.x.toFixed(2),z:+P.z.toFixed(2),yaw:+E.player.obj.rotation.y.toFixed(3),lv:E.player.lv|0,y:+P.y.toFixed(2)},hour:+G.hour.toFixed(3),savedAt:Date.now(),v:SAVE_VER}); }
@@ -234,7 +246,7 @@ const GAME = (function(){
     // 腳步聲
     const P=E.player; if(P.pose==='walk'||P.pose==='run'){ stepAcc+=dt*(P.pose==='run'?3.2:1.9); if(stepAcc>=1){ stepAcc=0; A3.step(P.pose==='run',E.indoor); G.stats.steps++; } if(G.stats.steps%400===0&&G.stats.steps>0) {} }
     if(E.frame%3===0&&$('mdbg').style.display!=='none') movementTelemetry(realDt*3);
-    updateInteract(); if(typeof GUIDE!=='undefined') GUIDE.tick(realDt); if(E.frame%2===0) drawMinimap(); if(E.frame%30===0){ updateHUD(); if(STORY.tick) STORY.tick(GM,dt*30); if(typeof EVENTS!=='undefined'&&EVENTS.tick&&G.social) EVENTS.tick(dt*30); if(G.hour%24>=2.5&&G.hour%24<5&&!E.player.busy&&G.zone!=='dorm'&&STORY.forceHome) STORY.forceHome(GM); }
+    updateInteract(); if(typeof GUIDE!=='undefined') GUIDE.tick(realDt); if(E.frame%2===0) drawMinimap(); if(E.frame%30===0){ updateHUD(); if(STORY.tick) STORY.tick(GM,dt*30); if(typeof EVENTS!=='undefined'&&EVENTS.tick&&G.social) EVENTS.tick(dt*30); if(G.hour>=24+2.5&&!E.player.busy&&STORY.forceHome) STORY.forceHome(GM); }
     if(E.frame%120===0) A3.setScene(G.zone,G.hour,G.weather);
     if(performance.now()-GM.lastAuto>45000) autosave();
     E.render(); fpsN++; fpsAcc+=realDt; if(fpsAcc>=1){ GM.fps=fpsN/fpsAcc; fpsN=0; fpsAcc=0; if(S.fps) $('fps').textContent=GM.fps.toFixed(0)+' fps · '+E.renderer.info.render.calls+' calls · '+E.renderer.info.render.triangles+' tris'; } }
@@ -246,7 +258,7 @@ const GAME = (function(){
     body.querySelectorAll('[data-place]').forEach(b=>b.onclick=async()=>{ const pl=PLACE_LIST().find(q=>q[0]+'|'+q[1]===b.dataset.place); if(pl) await quickGo(pl); });
     document.querySelectorAll('#phoneTabs button').forEach(b=>b.classList.toggle('on',b.dataset.ptab===phoneTab));
     body.querySelectorAll('[data-go]').forEach(b=>b.onclick=async()=>{ const it=CLS.dayItems(G).find(q=>q.key===b.dataset.go); if(!it) return; if(E.player.busy){ toast('現在不能移動'); return; } closePhone(); const zn=it.room.zone; if(G.zone===zn){ toast('你已經在'+(zn==='classroom'?'教室':it.room.name.replace(/ \S+$/,''))+'了。'+(zn==='classroom'?'':'教室是 '+it.room.name+'，')+'找個位子坐下就可以上課。',4200); return; }
-      const mins=zn==='classroom'&&G.zone==='linze'?3:CLS.travelMinutes(G,G.zone,zn,E.player.obj.position); advance(mins/60); energy(-2); await enter(zn); toast((zn==='classroom'?'':'走了 '+mins+' 分鐘。教室是 '+it.room.name+'，')+'找個位子坐下就可以上課（'+CLS.hhmm(it.t0)+' 開始）',4200); }); }   /* 2026-10-13：建築裡的教室（共同教學館…）也可以；時間照距離 */
+      const mins=zn==='classroom'&&G.zone==='linze'?3:CLS.travelMinutes(G,G.zone,zn,E.player.obj.position); advance(mins/60); energy(-2); await enter(zn); toast((zn==='classroom'?'':'走了 '+mins+' 分鐘。教室是 '+it.room.name+'，')+(it.room.door?'到「'+(it.room.label||it.room.name)+'」門口就可以上課':'找個位子坐下就可以上課')+'（'+CLS.hhmm(it.t0)+' 開始）',4200); }); }   /* 2026-10-13：建築裡的教室（共同教學館…）也可以；時間照距離 */
   /* 快速前往（D54 ①）：主要地點從第一天就知道（第 1 天是開學第三週）；依距離花遊戲時間（CLS.travelMinutes）；關門的地方寫幾點開 */
   function PLACE_LIST(){ return PLACES.quickList().filter(p=>p&&Z3.ZONES[p[0]]); }   /* 清單在 src/data/places.js（tests/quick_travel_unit.js 逐一檢查落點站得住、走得出去）*/
   function placeState(pl){ const [z,,sp]=pl; const known=!!(PLACES.known0[z]||(G.visited&&G.visited[z])); const open=typeof PLACES==='undefined'||PLACES.isOpen(z,G.hour,G.day); const mins=typeof CLS!=='undefined'?CLS.travelMinutes(G,G.zone,z,E.player.obj.position,sp):15; const here=G.zone===z&&(z!=='campus'||mins===0); return {known,open,here,mins}; }

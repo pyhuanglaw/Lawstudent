@@ -82,6 +82,8 @@ const CROWD=(function(){
       if(slot&&!live[spot.id]){ const vis=!instant&&inView(E,{x:spot.c[0],z:spot.c[1]})&&Math.hypot(spot.c[0]-E.player.obj.position.x,spot.c[1]-E.player.obj.position.z)<45; spawnGroup(GM,spot,slot,vis); } } }
   /* 進到區域（story3d.js 的 populate 最後呼叫）：照現在的時間直接排好 */
   S.enter=function(GM,zoneId){ for(const k in live) delete live[k]; zoneNow=zoneId; lastH=GM.G.hour; sync(GM,true); };
+  /* 玩家坐著上完課、聽完演講（classes3d.js 的 keepCrowd）：時間是待在這裡過完的，不算「時間跳了」——正在走出去的同學照樣走完（2026-10-13 審查：原本下一次 tick 會把他們一起拿掉）*/
+  S.keep=function(G){ lastH=G.hour; };
   S.tick=function(GM,dt){ const G=GM.G; if(!G||G.zone!==zoneNow) return; tAcc+=dt; if(tAcc<1.5) return; tAcc=0;
     const jump=lastH!=null&&Math.abs(G.hour-lastH)>0.2; lastH=G.hour;   /* 時間突然跳了：直接重排 */
     if(jump){ const E=GM.E; for(const n of E.npcs.slice()) if(n.crowd) E.removeNPC(n); for(const k in live) delete live[k]; sync(GM,true); }   /* 正在走開的人也一起拿掉（玩家沒有看到中間那段時間）*/

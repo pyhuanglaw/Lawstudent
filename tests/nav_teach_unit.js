@@ -100,6 +100,8 @@ if(!only||only==='putong'){ const z=runZone('putong',PUTONG_LAYOUT,110);
   check('空橋門口從一樓大廳走得到（上樓梯、二樓走廊）',!!br&&walk([PUTONG_LAYOUT.entrance.spawn.x,PUTONG_LAYOUT.entrance.spawn.z,0],[br.x,br.z,1]).ok);
   /* 對面（博雅二樓）的落點：站得住，而且走得到博雅那邊回普通的空橋門口、一樓出口 */
   if(sp){ loadZone('boya'); const back=E.interactables.find(i=>i.exit&&i.exit.to==='putong');
+    check('落在博雅二樓：離回普通的空橋門口 ≥ 半徑＋0.2 m（一走過來不會又跳出「走空橋到普通教學館」，2026-10-13 審查）',!!back&&Math.hypot(sp.x-back.x,sp.z-back.z)>=back.radius+0.2,back?`距離 ${Math.hypot(sp.x-back.x,sp.z-back.z).toFixed(2)}`:'');
     check('落在博雅二樓：站得住；回普通的空橋門口、博雅一樓出口都走得到',E.canStand(sp.x,sp.z,0.32,1)&&!!back&&walk([sp.x,sp.z,1],[back.x,back.z,1]).ok&&walk([sp.x,sp.z,1],[BOYA_LAYOUT.entrance.exit.x,BOYA_LAYOUT.entrance.exit.z-0.6,0]).ok,JSON.stringify(sp));
-    const bs=back&&back.exit.spawn; loadZone('putong'); check('從博雅走回來：落在普通二樓走廊、站得住、走得到普通一樓出口',!!bs&&bs.lv===1&&E.canStand(bs.x,bs.z,0.32,1)&&walk([bs.x,bs.z,1],[PUTONG_LAYOUT.entrance.exit.x,PUTONG_LAYOUT.entrance.exit.z-0.6,0]).ok,JSON.stringify(bs)); } }
+    const bs=back&&back.exit.spawn; loadZone('putong'); { const br2=E.interactables.find(i=>i.exit&&i.exit.to==='boya'); check('從博雅走回來：落點離普通的空橋門口 ≥ 半徑＋0.2 m',!!bs&&!!br2&&Math.hypot(bs.x-br2.x,bs.z-br2.z)>=br2.radius+0.2,bs&&br2?`距離 ${Math.hypot(bs.x-br2.x,bs.z-br2.z).toFixed(2)}`:''); }
+    check('從博雅走回來：落在普通二樓走廊、站得住、走得到普通一樓出口',!!bs&&bs.lv===1&&E.canStand(bs.x,bs.z,0.32,1)&&walk([bs.x,bs.z,1],[PUTONG_LAYOUT.entrance.exit.x,PUTONG_LAYOUT.entrance.exit.z-0.6,0]).ok,JSON.stringify(bs)); } }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
