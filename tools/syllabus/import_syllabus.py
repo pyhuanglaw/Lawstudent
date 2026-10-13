@@ -13,6 +13,8 @@ for t in TERMS:
     d = json.loads(subprocess.check_output(['git', '-C', ROOT, 'show', f'{REF}:docs/story_planning/syllabus/{t}.json'], text=True))
     for c in d.get('courses', []):
         weeks = [{k: w[k] for k in KEEP if k in w} for w in c.get('syllabus', [])]
+        for w in weeks:
+            if isinstance(w.get('obs'), dict) and 'echo' in w['obs']: w['obs'] = {k: v for k, v in w['obs'].items() if k != 'echo'}   # echo 只是企劃備註（AA_119：回聲改用 recall）
         if weeks: out['courses'][c['id']] = weeks
         if c.get('skip'): out['skip'][c['id']] = c['skip']
         if c.get('second_slot_lines'): out['second'][c['id']] = c['second_slot_lines']   # 一週兩格的課：第二格的短片段（課程層級的欄位；2026-10-13 以前漏了，沒匯入）

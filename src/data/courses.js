@@ -73,7 +73,7 @@ const COURSES={
     {id:'oblig_gen2',name:'民法債編總論（二）',kind:'required',term:'Y2S1',prof:'prof_zhou',room:'L201',slots:[{wd:4,block:'am'}],topics:['債務不履行','債的效力','多數債務人','時效']},
     {id:'ge_y2s1',name:'通識',kind:'general',term:'Y2S1',prof:null,profName:'通識老師',room:'BOYA',slots:[{wd:5,block:'am'}],topics:['課程導論','分組討論','期末報告準備']},
     // ---- 大二下（2027 春）----
-    {id:'oblig_spec',name:'民法債編各論',kind:'required',term:'Y2S2',prof:'prof_ye',room:'L201',slots:[{wd:1,block:'am'}],topics:['買賣','租賃：買賣不破租賃','承攬','委任','消費者保護入門'],specials:[{w:5,title:'租到會被拆的房子'},{w:11,title:'直播點數能不能退'}]},
+    {id:'oblig_spec',name:'民法債編各論',kind:'required',term:'Y2S2',prof:'prof_ye',room:'L201',slots:[{wd:1,block:'am'}],topics:['買賣','租賃：買賣不破租賃','承攬','委任','消費者保護入門'],specials:[{w:5,title:'租到會被拆的房子'},{w:6,title:'買賣不破租賃',story:true},{w:11,title:'直播點數能不能退'}]},   /* 第 6 週：語彤事件 8（AA 2026-10-13 排在大二下第 6 週；人物劇情，story） */
     {id:'japanese_2',name:'日文（下）',kind:'elective',term:'Y2S2',prof:null,profName:'日文老師',room:'GONGTONG',slots:[{wd:1,block:'pm1'}],topics:['敬語入門','短文閱讀','會話練習'],specials:[{w:10,title:'「大丈夫」不一定是沒事'}]},
     {id:'family_law',name:'民法身分法',kind:'required',term:'Y2S2',prof:'prof_zheng',room:'L201',slots:[{wd:2,block:'am'}],topics:['婚姻','親子','繼承','遺囑','特留分'],specials:[{w:14,title:'遺囑能不能排除一個繼承人'}]},
     {id:'ge_y2s2',name:'通識',kind:'general',term:'Y2S2',prof:null,profName:'通識老師',room:'PUTONG',slots:[{wd:2,block:'pm1'}],topics:['課程導論','分組討論','期末報告準備']},

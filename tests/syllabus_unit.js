@@ -19,6 +19,8 @@ const extra=[...Object.keys(SYLLABUS.courses),...Object.keys(SYLLABUS.pools)].fi
 const itOf=(day,cid)=>CLS.dayItems({day,hour:8,flags:{}}).find(it=>it.c.id===cid);
 { const it=itOf(dayOf('2025-09-18'),'civ_general');   /* 第 3 週週四 */ const ct=CLS.content(it);
   check('民法總則第 3 週：BB 的黑板三行、周教授一句',it.week===3&&ct.board[1]==='案例：網拍相機 1,000 元'&&/直覺/.test(ct.line),JSON.stringify(ct).slice(0,200));
+  check('民法總則第 3 週沒有同學發言（BB 2026-10-13：A 類課堂最多四成有同學發言）',ct.react==='',ct.react); }
+{ const it=itOf(dayOf('2025-10-02'),'civ_general'); const ct=CLS.content(it);   /* 第 5 週：C，小語、阿哲各一句（顯示其中一句）*/
   check('同學反應照人物顯示名字（阿哲／小語／不認識的同學照揭露規則）、用引號',/^.+：「.+」$/.test(ct.react)||/^.+（.+）$/.test(ct.react),ct.react); }
 { const it=itOf(dayOf('2025-11-13'),'civ_general');   /* 第 11 週（11/10 那一週）的週四：B 觀察 */ const ct=CLS.content(it); check('民法總則第 11 週是 B：有觀察的三個選項、每個有一行結果',ct.tpl==='B'&&ct.obs.options.length===3&&ct.obs.options.every(o=>o.result),JSON.stringify(ct.obs).slice(0,160)); }
 { const it=itOf(dayOf('2025-10-02'),'civ_general');   /* 第 5 週：C 被點到 */ const ct=CLS.content(it); check('民法總則第 5 週是 C：被點到的三個選項＋共用收尾',ct.tpl==='C'&&ct.call.options.length===3&&ct.call.follow.length>=1,JSON.stringify(ct.call).slice(0,160)); }
