@@ -117,7 +117,7 @@
 | Poly Haven `dark_planks`（Rob Tuytel） | https://polyhaven.com/a/dark_planks | CC0 | 日式宿舍的雨淋板（下見板） |
 | Poly Haven `concrete_wall_006`（Charlotte Baglioni、Dario Barresi） | https://polyhaven.com/a/concrete_wall_006 | CC0 | 日式宿舍的院牆、基座；電線桿；小公園的花崗石路緣 |
 | Poly Haven `leafy_grass`（Charlotte Baglioni） | https://polyhaven.com/a/leafy_grass | CC0 | 小公園的草地 |
-| 街道道具 `assets/models/env/second_ai/street_props.glb`（淑女車、路燈、公園長椅） | 本作 Blender 腳本 `tools/blender/env_second/street_props.py`（不仿特定品牌） | 本作 | 全遊戲的 `W3.bike`（含停車架、騎車的路人）、`W3.lampPost`、長椅 `BENCH()`。長椅木條貼圖 `dark_wood`（上面列過的 Poly Haven CC0） |
+| 街道道具 `assets/models/env/second_ai/street_props.glb`（淑女車、路燈、公園長椅、花台、公告欄、販賣機） | 本作 Blender 腳本 `tools/blender/env_second/street_props.py`（不仿特定品牌；販賣機沒有品牌標誌） | 本作 | 全遊戲的 `W3.bike`（含停車架、騎車的路人）、`W3.lampPost`、長椅 `BENCH()`、`W3.planter`、`W3.bulletin`、`W3.vending`。貼圖：長椅、公告欄木框 `dark_wood`、花槽 `concrete_wall_006`（上面列過的 Poly Haven CC0）；花台的葉片貼圖 `ivy_leaves.png` 本作程式產生（`gen_leaves.py`） |
 | 腳踏車輪圈鋼絲、前籃鐵絲網的透明貼圖 `tools/blender/env_second/textures/gen/bike_alpha.png` | 本作程式產生（`street_props.py` 裡的 `alpha_atlas()`） | 本作 | 淑女車 |
 | 全日便利商店室內 `assets/models/env/second_ai/cvs_interior.glb` | 本作 Blender 腳本 `tools/blender/env_second/cvs_interior.py`（不仿特定連鎖品牌：店名、配色、牌子都是本作自訂） | 本作 | `cvs` 室內區域（貨架、商品、飲料櫃、櫃檯、香菸櫃、咖啡機、關東煮、包子蒸櫃、自動門、窗） |
 | Poly Haven `large_floor_tiles_02`、`granite_tile_03`（第一個 AI 已下載到 `tools/blender/textures/`，只讀使用；作者與授權見上面「Poly Haven 貼圖」一節） | https://polyhaven.com/a/large_floor_tiles_02 、https://polyhaven.com/a/granite_tile_03 | CC0 | 便利商店的白色大地磚（調成米白）、櫃檯石材檯面 |
@@ -131,4 +131,6 @@
 | 傅鐘 `assets/models/env/second_ai/campus_bell.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_bell.py`（尺寸照套件 `CK.bell`；石碑的「傅鐘」是遊戲裡的 canvas 字；柱面暖光的漸層貼圖本作程式產生） | 本作 | 校園傅鐘廣場（取代套件 `CK.bell` 的外觀）。貼圖：`sandstone_blocks_08`（切石）、`grey_roof_tiles`（屋瓦）、`dark_wood`（木橫梁），上面列過的 Poly Haven CC0 |
 | 行政大樓外觀 `assets/models/env/second_ai/campus_admin.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_hall.py --set admin`（和總圖同一支腳本；位置、尺寸、樓層、開間照套件 `CK.hall`；匾額「行政大樓」是遊戲裡的 canvas 字） | 本作 | 校園椰林大道南側的行政大樓（取代套件 `CK.hall` 的外觀）。貼圖和總圖相同（上面列過的 Poly Haven CC0：面磚降低彩度後校正成米黃） |
 | 文學院、校史館外觀 `assets/models/env/second_ai/campus_arts.glb`、`campus_hist.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_hall.py --set arts／hist`（和總圖、行政大樓同一支腳本；位置、尺寸、樓層、開間照套件 `CK.hall`；匾額「文學院」「校史館」是遊戲裡的 canvas 字） | 本作 | 校園椰林大道北側的文學院、校史館（取代套件 `CK.hall` 的外觀）。貼圖和總圖相同（上面列過的 Poly Haven CC0） |
+| 農業陳列館（洞洞館）外觀 `assets/models/env/second_ai/campus_pavilion.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_pavilion.py`（位置、尺寸、樓層照套件 `CK.pavilion`；鏤空牆的透明貼圖 `textures/gen/pav_screen.png` 本作程式產生（Poly Haven `painted_plaster_wall` 的顏色＋程式挖的圓洞）；匾額「農業陳列館」是遊戲裡的 canvas 字） | 本作 | 校園洞洞館（取代套件 `CK.pavilion` 的外觀）。貼圖：`painted_plaster_wall`（第一個 AI 已下載到 `tools/blender/textures/`，只讀使用，Poly Haven CC0） |
+| 社會科學院外觀 `assets/models/env/second_ai/campus_modern.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_modern.py`（位置、尺寸、樓層、長窗照套件 `CK.modern`；匾額「社會科學院」是遊戲裡的 canvas 字） | 本作 | 校園社會科學院（取代套件 `CK.modern` 的外觀）。貼圖：`painted_plaster_wall`（同上，Poly Haven CC0） |
 

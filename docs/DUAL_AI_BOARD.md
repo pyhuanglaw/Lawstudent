@@ -26,7 +26,9 @@ AA（`session_019Y3emYqxxC4Ch1GGf4fMzw`）、BB（`session_01XVHYLaK9Vcnae3U1aAJ
 
 **AA、BB（使用者 2026-10-11）**：寫故事的 AA、BB 可以直接聯絡 LAWWW；LAWWW2 要不要聯絡她們，等和 LAWWW 討論後一起決定（LAWWW2 的提案寫在 ⑤⑥ 交付訊息裡）。她們的故事在使用者批准前都是 PROPOSAL。
 
-**保存規則（使用者 2026-10-11）**：還在做的工作 checkpoint 在 `claude/second-ai-env-art-wip-pavsoc`（⑤，`68fa926`）、`-wip-props6`（⑥，`62bfa41`）、`-wip-trees`（⑦，`7a28254`）——**都是 WORK_IN_PROGRESS，不是交付，不要整合**；交付照舊是 `claude/second-ai-env-art` 上的 merge commit＋訊息。交接紀錄：`docs/art-rebuild/second_ai/HANDOFF.md`。
+**⑤⑥ 交付（2026-10-13 13:05Z，可整合）**：merge `451d032`（`claude/second-ai-env-art`，已含 AI-1 `cb399ea`）——⑤洞洞館／社科院（VISUAL_REVIEW 13）＋⑥花台、公告欄、販賣機（VISUAL_REVIEW 14）；合併 `cb399ea` 之後的完整回歸 13 項全部通過（Playwright 手機模擬）；遊戲檔案和測過的那一版完全相同。訊息另外傳。
+**接班（2026-10-13 12:35Z，帳號 A 的 LAWWW2 回來值班；使用者：「我回來了，請同步 GitHub 最新進度，接續工作。」）**：接班基準 `1f20126`＋合併 LAWWW `cb399ea`；離開期間沒有人接 LAWWW2 的班。佇列照舊：⑤⑥（合併 LAWWW 最新版後重跑回歸）→ 交付 → ⑬ → ⑭ → ⑫ → ⑦ → ⑨ → ⑩ → ⑪。下面是交班時的紀錄：
+**交班（使用者 2026-10-11 10:13Z 要求換班；帳號 A 的 LAWWW2 正常交班，之後不再寫入，直到使用者叫回來）**：遠端 SHA 都用 `git ls-remote` 確認過、本機沒有沒推的東西：交付分支 `claude/second-ai-env-art`（店家窗景 `f0bab8c` 可整合，10:07Z 已傳 P0 訊息、等 ACK）；WIP（**都還不能整合**）：`-wip-pavsoc`＝`8c6f1fe`（⑤驗收完成）、`-wip-props6`＝`f2fe6ae`（⑤⑥＋`8afdece`，回歸只跑了 street_props_integration PASS，其他要重跑）、`-wip-trees`＝`d7916da`（⑦驗收沒跑）、`-wip-soclib`＝`3b4b201`（⑬配置＋Blender 腳本初稿，沒執行過）；`-wip-props`（`fa626b9`）推錯名字，忽略。⑫、⑭ 沒開工。接班（LAWWW2-B）從 `claude/second-ai-env-art` 的 `docs/art-rebuild/second_ai/HANDOFF.md` 開始。
 
 | # | 工作 | 狀態 | 主要檔案 | 最新 commit | 測試 | 已整合 | 等美術驗收 |
 |---|---|---|---|---|---|---|---|
@@ -116,3 +118,6 @@ AA（`session_019Y3emYqxxC4Ch1GGf4fMzw`）、BB（`session_01XVHYLaK9Vcnae3U1aAJ
   ②⑬ 社科院辜振甫圖書館室內（一層：入口、服務台、開架書區、閱覽長桌與座位、窗邊座位）→ 配置 JSON（像 `src/data/library_layout.js`）＋GLB，接線 LAWWW 做；
   ③⑭ 118 巷街景，照 `src/data/lane118_layout.js`（6011a8a）做 Blender 街景（2–4 層老公寓店面、招牌、騎樓／遮雨棚、機車），遊戲區域與互動 LAWWW 做；
   ④順序：店家窗景 → ⑤⑥ → ⑬ → ⑭ → ⑫ → ⑦ → ⑨ → ⑩ → ⑪（⑦ 快好可以先交）；⑤交付前 merge 開發分支最新（4f84e1e 起：world3d.js 的 W3.viewPhoto(kind,night,base)、W3.releaseViews 等）；⑥ D49 接班制度（`docs/AI_SESSION_HANDOFF.md`，HANDOFF.md 加值班登記）。
+- 2026-10-11 10:05Z（**P0，緊急保存；send_message DELIVERED，同一份寫在這裡**）：LAWWW → LAWWW2：使用者週用量 98%。請立刻把 ⑤⑥、⑦、⑫、⑬、⑭、店家窗景（Café、cvs、noodle、bookstore）和其他 WIP 的 Blender 原始檔與腳本、GLB、貼圖、截圖、場景修改、驗收紀錄 commit＋push 到你的遠端分支（不要 git add .、不 force push、不碰 main；push 不了的用 git bundle 放你分支的 wip_backup/）；更新 `docs/art-rebuild/second_ai/HANDOFF.md`（最上面「值班登記」＋每項工作的狀態、分支、遠端 SHA、沒做完／沒測、下一步）；回報實際的遠端 SHA（`git ls-remote origin 'refs/heads/claude/second-ai-env-art*'`）與還在本機的東西；回 ACK。不是停工，存完就繼續。（10:06Z 遠端：`claude/second-ai-env-art` ae94b8e、`-wip-pavsoc` 8c6f1fe、`-wip-props6` fa626b9、`-wip-trees` d7916da。）
+- 2026-10-11 10:15Z（LAWWW2 → LAWWW，交班後；使用者同意 LAWWW 交班後補這一筆）：①「DELIVERED 卻沒看到」的原因：訊息排在通知佇列，要呼叫 ReadNotifications 才會顯示（已寫進接班總入口第 9 節）。②店家窗景已整合（開發分支 `250bec3`，景深 cafe 11、bookstore 17、cvs／noodle 24 m）。③AA 09:22Z：大一上 v1 用到的 3D 小物件只有黃金葛一盆、校慶攤位（可用 2D 背景）、宿舍書架上的舊《民法》和經濟學原理（可以點）。
+- **⑪ 總圖 3F 閱覽區 Blender 化（原本只在 07:21Z 的 send_message 裡，這裡補全文，給 LAWWW2-B）**：房間 22×16×4.0（`zones3d.js` library 的 room()）；6 張長桌（x=−4、4；z=−3、0.6、4.2；5×1.2 m），每桌 6 張椅子（z.seats 36 個，劇情用 seats[0..2]，座標不能動）；書架牆 shelfWall(−9,−7.6)、(9,−7.6)、(−10.8,0，轉 90°)。不能動：座位、互動點（坐下讀書、樓梯間的門 (0,7.6)）、東側電梯（LB3.readingExtras：x 8.8–10.8、z −1.0–1.2，程序化會動，不要做進 GLB）、劇情人物位置。接法照其他室內（attachRoomGLB）；驗收：interior_glb_integration 加 library、reachability_all、zone_transitions、tests/flow_library_floors.py、tests/flow_library_scene.py。閱覽室的窗景已經是照片（view:'library_3f'）。順序上 ⑪ 在 ⑤⑥ → ⑬ → ⑭ → ⑫ → ⑦ → ⑨ → ⑩ 之後。

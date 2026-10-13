@@ -1,0 +1,6 @@
+shot docs/art-rebuild/second_ai/shots/pavsoc_after_soc_front_1100.png {'zone': 'campus', 'hour': 11, 'hud': '週三 11:00', 'player': [78, -60], 'cam': [78, 1.7, -60], 'mode': 'cinematic'} errors: []
+shot docs/art-rebuild/second_ai/shots/pavsoc_after_soc_front_1730.png {'zone': 'campus', 'hour': 17.5, 'hud': '週三 17:30', 'player': [78, -60], 'cam': [78, 1.7, -60], 'mode': 'cinematic'} errors: []
+shot docs/art-rebuild/second_ai/shots/pavsoc_after_soc_front_2030.png {'zone': 'campus', 'hour': 20.5, 'hud': '週三 20:30', 'player': [78, -60], 'cam': [78, 1.7, -60], 'mode': 'cinematic'} errors: []
+shot docs/art-rebuild/second_ai/shots/pavsoc_after_soc_lobby_1100.png {'zone': 'campus', 'hour': 11, 'hud': '週三 11:00', 'player': [92.5, -65], 'cam': [92.5, 1.7, -65], 'mode': 'cinematic'} errors: []
+shot docs/art-rebuild/second_ai/shots/pavsoc_after_soc_lobby_1730.png {'zone': 'campus', 'hour': 17.5, 'hud': '週三 17:30', 'player': [92.5, -65], 'cam': [92.5, 1.7, -65], 'mode': 'cinematic'} errors: []
+shot docs/art-rebuild/second_ai/shots/pavsoc_after_soc_lobby_2030.png {'zone': 'campus', 'hour': 20.5, 'hud': '週三 20:30', 'player': [92.5, -65], 'cam': [92.5, 1.7, -65], 'mode': 'cinematic'} errors: []

@@ -13,3 +13,6 @@
 git fetch wip_backup/dorm-hall.bundle wip/dorm-hall:wip/dorm-hall   # 需要的前置 commit（79e1fed、3c9e02f）都在 origin 的開發分支上
 git worktree add <資料夾> wip/dorm-hall
 ```
+
+- `wancai-stairs.bundle`（2026-10-11 10:04 UTC 緊急保存）：本機分支 `wip/wancai-stairs`（`8b08c61`，萬才館第二階段早期版本；內容已用其他 commit 整合進開發分支，這裡只是備份）。還原：`git fetch wip_backup/wancai-stairs.bundle wip/wancai-stairs:wip/wancai-stairs`。
+- `dorm-hall.bundle` 10:04 UTC 重新建立（同樣是 `bf750b4`，宿舍走廊 WIP，還沒在瀏覽器實測，不可合併進要發布的版本）。
