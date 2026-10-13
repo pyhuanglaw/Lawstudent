@@ -25,7 +25,12 @@ const SL3=(function(){
   function buildNav(L,nav){ const c=L.cell||0.4; for(const [x,z,w,d,ry] of L.nav.rects){ const t=Math.min(w,d); nav.blockRect(x,z,w,d,-(ry||0),t<c?c/2-t/2+0.01:0); } for(const [x,z,r] of L.nav.circles) nav.blockCircle(x,z,Math.max(r,0.36)); nav._cm=null; }
 
   // ---- 座位：配置的 65 個（長桌 24、窗邊 33、閱報區沙發 8）；yaw＝坐下時面向的方向 ----
-  function seatsOf(L){ return L.seats.map((s,i)=>({x:s.x,z:s.z,yaw:s.yaw,lv:0,kind:s.kind,table:s.kind+'_'+i})); }
+  /* 座位：table＝同一張桌子（AA_110 5-3 的 npcNear「坐同一張桌子」、5-4 的習慣記憶 table:soclib:…）——長桌 rt0～rt3（最近的那張）、閱報區 lounge0／lounge1；
+     窗邊的長檯面每 3 個相鄰的位子算一張（wn0…北面、ww0…西面）*/
+  function seatsOf(L){ const near=(arr,s)=>{ let bi=0,bd=1e9; arr.forEach((f,i)=>{ const d=Math.hypot(f.x-s.x,f.z-s.z); if(d<bd){ bd=d; bi=i; } }); return bi; };
+    const rt=L.furniture.filter(f=>f.type==='readingTable'), lg=L.furniture.filter(f=>f.type==='lounge'); const win={};
+    for(const side of ['n','w']){ const ws=L.seats.filter(s=>s.kind==='window'&&(side==='n'?Math.abs(s.yaw)<0.8||Math.abs(Math.abs(s.yaw)-Math.PI)<0.8:!(Math.abs(s.yaw)<0.8||Math.abs(Math.abs(s.yaw)-Math.PI)<0.8))).sort((a,b)=>side==='n'?a.x-b.x:a.z-b.z); ws.forEach((s,k)=>{ win[L.seats.indexOf(s)]='w'+side+Math.floor(k/3); }); }
+    return L.seats.map((s,i)=>({x:s.x,z:s.z,yaw:s.yaw,lv:0,kind:s.kind,table:s.kind==='table'&&rt.length?'rt'+near(rt,s):(s.kind==='lounge'&&lg.length?'lounge'+near(lg,s):(win[i]||s.kind+'_'+i))})); }
   const seatLabel=s=>s.kind==='window'?'坐下讀書（窗邊）':(s.kind==='lounge'?'坐下（閱報區）':'坐下讀書');
 
   // ---- 林間書房（弧形書架圍著一支樹狀柱）：缺口的方向＝弧的反方向；看書架的互動點在缺口裡面、柱子旁邊 ----

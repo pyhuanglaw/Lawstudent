@@ -103,13 +103,20 @@ async def main():
         await L.tap(pg, cdp, '#phoneTabs button[data-ptab="places"]'); await pg.wait_for_timeout(800)
         txt = await pg.evaluate("(document.getElementById('phoneBody')||{}).textContent||''")
         run.check('手機「地點」有社科院圖書館', '社科院圖書館' in txt, txt[:200])
-        ok = await L.tap(pg, cdp, '#phoneBody [data-place="soclib|社科院圖書館"]')
-        run.check('點「前往」', ok)
+        # 清單很長（橫向畫面只看得到前三列）：像玩家一樣先把清單滑到「社科院圖書館」那一列，再點「前往」（2026-10-13 第一次跑：沒有滑、點到畫面外，沒有出發）
+        sel = '#phoneBody [data-place="soclib|社科院圖書館"]'
+        await pg.evaluate("(s=>{ const e=document.querySelector(s); if(e) e.scrollIntoView({block:'center'}); })(%s)" % json.dumps(sel)); await pg.wait_for_timeout(600)
+        vis = await pg.evaluate("(s=>{ const e=document.querySelector(s); if(!e) return false; const r=e.getBoundingClientRect(); return r.top>=0&&r.bottom<=innerHeight&&document.elementFromPoint(r.left+r.width/2,r.top+r.height/2)===e; })(%s)" % json.dumps(sel))
+        ok = await L.tap(pg, cdp, sel)
+        run.check('滑到那一列、點「前往」（按鈕在畫面上、沒有被蓋住）', ok and vis, f'vis={vis}')
         await pg.wait_for_timeout(7000)
         s = await L.state(pg)
-        run.check('到社科院圖書館入口、站得住、時間有過', s['zone'] == 'soclib' and s['stand'] and s['hour'] > h0, json.dumps(s, ensure_ascii=False))
+        toast = await pg.evaluate("(document.getElementById('toast')||{}).textContent||''")
+        run.check('到社科院圖書館入口、站得住、時間有過', s['zone'] == 'soclib' and s['stand'] and s['hour'] > h0, json.dumps(s, ensure_ascii=False) + ' toast=' + toast)
         # ---------- G：晚上 ----------
         day_sky = await pg.evaluate(SKY) if await wait_formal(pg, 60) else None
+        if await pg.evaluate("!!(document.getElementById('phone')&&!document.getElementById('phone').classList.contains('hide'))"):   # 手機開著時遊戲暫停（openPhone：E.paused），天窗的亮度不會更新
+            await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(600)
         run.setup('讀檔：第 3 天 20:30，社科院圖書館入口')
         await L.load_state(pg, {'zone': 'soclib', 'hour': 20.5, 'day': DAY_FRI, 'weekday': 5, 'weather': 'sunny', 'pos': {'x': -9, 'z': 9.3, 'yaw': 3.14}, 'flags': BASE_FLAGS})
         await pg.wait_for_timeout(3500)

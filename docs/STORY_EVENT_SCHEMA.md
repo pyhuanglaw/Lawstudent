@@ -41,8 +41,14 @@
 {
   term: ['Y1S1','Y2S1'],             // 學期（CALENDAR.termOf）：同一間教室依學期觸發不同事件；寒暑假（null）都不觸發
   room: '101' | ['study','corridor'],// 玩家在建築裡的哪一間（區域的 roomAt）；「走進某一間時」用 trigger:'auto'＋room
-  activity: 'lec_xxx', activityJustEnded: true,   // 活動進行中（justEnded：結束後 20 分鐘內也算，例：演講散場的走廊）
-  npcHere: 'heroine_02',             // 這個人照作息現在在同一個區域
+  activity: 'lec_xxx', activityPhase: 'justEnded', // 活動的時段（AA_110 5-1）：before（今天還沒開始）／during（進行中，不寫就是這個）／
+                                     // justEnded（結束後 20 分鐘內，例：演講散場的走廊）／after（更晚）。舊的 activityJustEnded:true＝justEnded
+  // 人物在場的四個等級（AA_110 5-3；台詞寫「旁邊、對面、同一張桌子」的一定要用 npcNear）：
+  npcZone: 'heroine_02',             // 照作息和玩家在同一個區域（舊的 npcHere 是同一件事）——可以寫「我也在博雅」的訊息、「可能」的偶遇
+  npcRoom: 'heroine_02',             // 在同一間（教室、自習區、走廊；區域的 roomAt）：人物在場景裡看實際位置，不在就看作息的 room——「她也在自習區」
+  npcPresent: 'yu',                  // 人物真的放在場景裡、玩家看得到——「你看到她」（要聊天還要走過去）
+  npcNear: 'yu', nearDist: 2.5,      // 在互動距離內（預設 2.5 m、同一層），或和玩家坐同一張桌子（座位的 table）——對話、並肩坐著、遞東西
+                                     // 以上都可以寫一個 id 或陣列（陣列＝每一個人都要成立）
   tier: 'short' | 'major',           // 層次（BB_105 第 1 節，AA_107 第 9 節第 5 項）：short＝同一棟一次進入最多一個、同一天全校最多兩個；
                                      // major＝同一棟一學期最多一個（寒暑假算前一個學期的假期）。不寫＝不受限（現有事件都不寫）
   building: 'dorm_f1',               // tier 的「同一棟」：預設是玩家所在的區域；校園上的門口事件可以另外指定
@@ -54,6 +60,12 @@
   不在的學期（寒暑假算前一個學期）：不會照行程生出來、人物線索寫 away 的文字、課堂沒有反應句、`npcHere` 不成立。**遊戲資料目前沒有填**：每一筆要 AA 確認、使用者批准（人物的重大設定，D50 第③級）。
   **填資料之前要一起處理（2026-10-13 審查第 15 項）**：`story3d.js` 有些人物是寫死在區域裡生出來的，不經過行程（例如 Café 19–23 點的溫書瑀 `'sis'`、總圖閱覽室、萬才館的 `'sis'`，第一二天的劇情人物、跟著走的小安 `spawnCompanion`）。這些地方還沒有看 presence；第一次填某個人的 presence 時，要把她寫死的生成一起加上 `STORY.present` 的判斷，並加測試。
 - **事件層次上限**：短篇（short）每一棟每次進入一個（`ev.building`，沒寫就是區域；校園上不同門口各算）、全校一天兩個；重要（major）每一棟每學期一個。**續篇（next_event）**接著前一段演，不受上限、也不另外算一次（2026-10-13 審查第 14 項）。
+- **出席怎麼算**（AA_110 5-2；`src/data/activities.js` 的 `track`，`tests/aa110_systems_unit.js`）：活動進行中、過一半以前坐在那一間＝開始記；結束的時候還在那一間（坐著、站著都算）＝聽完；結束前走出那一間、或快速前往別處＝中途離開；座位上「坐一下」「讀書」跳過的時間＝一直坐在那裡（開始前坐下、一路跳到結束以後＝聽完）；從別處跳過活動時段、只是站在門口＝沒去。選「聽演講」＝坐著快轉到結束＝聽完（已經中途離開過的那一場，回來再聽照樣是中途離開）。
+- **習慣記憶的鍵**（AA_110 5-4；`src/game3d.js` 記、`src/events3d.js` 存）：一天最多算一次；人物一律寫 character_id。
+  - `place:區域:時段`（morning 5–11、noon 11–14、afternoon 14–17、evening 17–19、night 19–5）、`place:區域:with:人物`（走進去時帶著的同伴）：走進一個區域時記，讀檔不算。
+  - `seat:區域:那一間或那一區`（建築裡的教室 `seat:putong:101`、社科院圖書館 `seat:soclib:window`；沒有的寫座標 `seat:campus:@95,-70`）、`table:區域:桌子`（`table:soclib:rt2`、法圖 `table:lawlib:T1`）、`seat:區域:with:人物`（坐下時 2.5 m 內、同一層，或帶著的同伴）：坐下時記。
+  - `meal:店`、`meal:店:with:人物`（店＝`noodle` 麵店、`cafe` 兩點半 Café、`cvs` 便利商店）：在店裡坐下時記。
+  - 用法（AA_110 5-4）：一句話的回應、少數幾次在學期末被提起；一個習慣最多被提起一次（用 `once` 或 `notEvents`），**不能變成懲罰**（沒有習慣的玩家不會少任何東西）。
 - **出錯**：事件演到一半出錯（例如資料寫錯）不記成演過，這次遊戲不再重試（`EVENTS.failed`，不存檔），不會每半秒重演。
 
 ## Condition（prereq / line.if / choice.if）
@@ -70,7 +82,11 @@
   energy: {min:20}, money: {min:150},
   choice: {cafeView:'C'},                                              // 玩家過去的選擇（G.choices）
   flagIs: {ECON_PAST_SHARED:['full','half']},                          // 旗標的值（flags 只看有沒有設）；值可以是一個或陣列
-  attended: ['lec_xxx'], notAttended: [...], missed: ['lec_xxx'],      // 演講、活動到場（坐下選「聽演講」才算）：聽過任何一場／一場都沒聽過／最近結束的那一場沒去
+  attended: ['lec_xxx'], notAttended: [...], missed: ['lec_xxx'],      // 演講、活動出席（AA_110 5-2）：attended＝聽完過（full）；notAttended＝一場都沒聽完；
+                                                                       // missed＝最近結束的那一場沒去（中途離開不算沒去）
+  attendedAny: ['lec_xxx'],                                            // 聽完或中途離開（partial）都算
+  attendedWithin: {lec_xxx: 1},                                        // 最近一次聽完是 N 天內（「隔天的版本」：今天或昨天＝1）；散場後的事件用 attended＋activityPhase:'justEnded'
+  habit: {key:'table:boya:rt2', min:4, withinDays:21},                 // 習慣記憶（AA_110 5-4）：最近 withinDays 天裡做過 min 天（一天最多算一次；不寫 withinDays＝全部）；可以寫陣列
   course: {econ_principles_1: {min:1}},                                // 上課出席次數（G.courses.attend）
   custom: (G, GM) => boolean                                           // 程式 hook（資料包可省略）
 }
@@ -105,7 +121,7 @@
 
 ## 存檔
 
-`G.events = {done:{id:count}, last:{id:day}, count, cap:{day, n, major:{'學期|區域':事件id}}}`（cap＝tier 的上限紀錄）；`G.acts.att = {'活動id@第幾天': {h}}`（演講、活動到場；舊存檔沒有＝都沒去過）；`G.social`（關係／記憶）與 `G.legal`（知識）另見各自 schema。
+`G.events = {done:{id:count}, last:{id:day}, count, cap:{day, n, major:{'學期|區域':事件id}}}`（cap＝tier 的上限紀錄）；`G.acts.att = {'活動id@第幾天': {h, end:'full'|'left'|'in', lh}}`（演講、活動出席：h＝開始聽的時間、end＝聽完／中途離開／還在聽（查詢時算中途離開）、lh＝離開的時間；舊存檔的 `{h}`＝聽完、沒有紀錄＝沒去）；`G.habits = {鍵: {n, first, last, days}}`（習慣記憶：做過幾天、第一次、最近一次、最近 60 次是哪幾天；舊存檔沒有＝都還沒有）；`G.social`（關係／記憶）與 `G.legal`（知識）另見各自 schema。
 
 ## 設計原則（來自需求）
 

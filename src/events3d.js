@@ -21,6 +21,21 @@ const EVENTS = (function(){
   const bldOf=ev=>ev.building||G.zone;
   X.tierOK=function(ev){ if(!ev.tier) return true; const C=capRec(); if(ev.tier==='short'){ if((X.visitShort[bldOf(ev)]||0)>=1) return false; if(C.day===G.day&&C.n>=2) return false; } else if(ev.tier==='major'){ if(C.major[termKey()+'|'+bldOf(ev)]) return false; } return true; };
   X.noteTier=function(ev){ if(!ev.tier) return; const C=capRec(); if(ev.tier==='short'){ const k=bldOf(ev); X.visitShort[k]=(X.visitShort[k]||0)+1; if(C.day!==G.day){ C.day=G.day; C.n=0; } C.n++; } else if(ev.tier==='major') C.major[termKey()+'|'+bldOf(ev)]=ev.id; };
+  const ids_=v=>Array.isArray(v)?v:[v];
+  X.npcLevels=function(ev){ const E=GM&&GM.E; const zoneIds=ev.npcZone||ev.npcHere;
+    if(zoneIds){ for(const id of ids_(zoneIds)){ const w=typeof STORY!=='undefined'&&STORY.whereIs?STORY.whereIs(GM,id):null; if(!w||w.zone!==G.zone) return false; } }
+    const P=E&&E.player, z=E&&E.zone; const roomOf=(x,zz,lv)=>z&&z.roomAt?z.roomAt(x,zz,lv|0):null; const live=id=>{ const n=X.npcOf(id); return n&&E&&E.npcs.includes(n)?n:null; };
+    if(ev.npcRoom){ const pr=P?((P.seat&&P.seat.room)||roomOf(P.obj.position.x,P.obj.position.z,P.lv)):null; if(!pr) return false;
+      for(const id of ids_(ev.npcRoom)){ const n=live(id); let r=null; if(n) r=(n.seat&&n.seat.room)||roomOf(n.obj.position.x,n.obj.position.z,n.lv); else { const w=typeof STORY!=='undefined'&&STORY.whereIs?STORY.whereIs(GM,id):null; r=w&&w.zone===G.zone?w.room||null:null; } if(r!==pr) return false; } }
+    if(ev.npcPresent){ for(const id of ids_(ev.npcPresent)) if(!live(id)) return false; }
+    if(ev.npcNear){ if(!P) return false; for(const id of ids_(ev.npcNear)){ const n=live(id); if(!n) return false; const d=Math.hypot(n.obj.position.x-P.obj.position.x,n.obj.position.z-P.obj.position.z);
+        const sameTable=!!(P.seat&&n.seat&&P.seat.table&&P.seat.table===n.seat.table); if(!sameTable&&!(d<=(ev.nearDist||2.5)&&(n.lv|0)===(P.lv|0))) return false; } }
+    return true; };
+  /* 習慣記憶（AA_110 5-4）：G.habits[鍵]={n:做過幾天, first:第一次是第幾天, last:最近一次, days:[最近 60 次是哪幾天]}；一天最多算一次；舊存檔沒有就從 0 開始（第一次記的時候才建）。
+     src/game3d.js 在走進區域、坐下時記（鍵怎麼組在那裡，寫法見 docs/STORY_EVENT_SCHEMA.md）。條件 habit:{key,min,withinDays}：withinDays＝只算最近幾天 */
+  X.habit=function(key){ if(!key||!G) return; if(!G.habits||typeof G.habits!=='object') G.habits={}; const r=G.habits[key]||(G.habits[key]={n:0,first:G.day,last:null,days:[]}); if(r.last===G.day) return;
+    r.n=(r.n|0)+1; r.last=G.day; if(!Array.isArray(r.days)) r.days=[]; r.days.push(G.day); if(r.days.length>60) r.days.splice(0,r.days.length-60); };
+  X.habitCount=function(q){ const H=G.habits&&G.habits[q.key]; if(!H) return 0; if(!q.withinDays) return H.n|0; const d0=G.day-q.withinDays+1; return (H.days||[]).filter(d=>d>=d0&&d<=G.day).length; };
   X.check=function(ev,ctx){ ctx=ctx||{}; const F=G.flags||{}; if(X.failed[ev.id]) return false; if(ev.once&&G.events.done[ev.id]) return false; if(ev.cooldown_days&&G.events.last[ev.id]!==undefined&&G.day-G.events.last[ev.id]<ev.cooldown_days) return false; if(ev.max_times&&(G.events.done[ev.id]||0)>=ev.max_times) return false;
     if(ev.location&&ev.location!=='any'){ const locs=Array.isArray(ev.location)?ev.location:[ev.location]; if(!locs.includes(G.zone)) return false; }
     if(ev.time){ const hh=h(); const [a,b]=ev.time; if(b<=24){ if(hh<a||hh>=b) return false; } else { if(!(hh>=a||hh<b-24)) return false; } }
@@ -30,13 +45,18 @@ const EVENTS = (function(){
        npcHere：某個角色現在照作息在同一個區域 */
     if(ev.room){ const z=GM&&GM.E&&GM.E.zone, P=GM&&GM.E&&GM.E.player; const rid=z&&z.roomAt&&P?z.roomAt(P.obj.position.x,P.obj.position.z,P.lv|0):null; const rs=Array.isArray(ev.room)?ev.room:[ev.room]; if(!rid||!rs.includes(rid)) return false; }
     if(ev.activity){ if(typeof ACTIVITIES==='undefined') return false; const want=ev.activityPhase||(ev.activityJustEnded?'justEnded':'during'); if(ACTIVITIES.phaseOf(G,ev.activity)!==want) return false; }   /* activityPhase：before／during／justEnded／after（AA_110 第 5 節）；舊的 activityJustEnded:true＝justEnded */
-    if(ev.npcHere){ const ids=Array.isArray(ev.npcHere)?ev.npcHere:[ev.npcHere]; for(const id of ids){ const w=typeof STORY!=='undefined'&&STORY.whereIs?STORY.whereIs(GM,id):null; if(!w||w.zone!==G.zone) return false; } }
+    /* 人物在場的四個等級（AA_110 5-3）：npcZone＝照作息和玩家在同一個區域（舊的 npcHere 是它的別名）；npcRoom＝在同一間（人物在場景裡就看位置，不在就看作息的 room）；
+       npcPresent＝人物真的放在場景裡；npcNear＝在互動距離內（預設 2.5 m、同一層），或和玩家坐同一張桌子。台詞寫「旁邊、對面、同一張桌子」的一定要用 npcNear */
+    if(!X.npcLevels(ev)) return false;
     if(!ctx.chain&&!X.tierOK(ev)) return false;   /* 續篇（next_event，ctx.chain）是同一段故事接著演：不受層次上限（2026-10-13 審查第 14 項：原本前一段 noteTier 之後，續篇就被上限擋掉）*/
     return X.cond(ev.prereq,ctx); };
   X.cond=function(c,ctx){ if(!c) return true; const F=G.flags||{}; if(c.flags&&!c.flags.every(f=>F[f])) return false; if(c.notFlags&&c.notFlags.some(f=>F[f])) return false;
     /* 旗標的值（AA_107 第 10-1 節第 3 項）：例如 BB_105 P4 的 ECON_PAST_SHARED 是 'full'／'half'／'none'——flagIs:{ECON_PAST_SHARED:['full','half']} */
     if(c.flagIs){ for(const k in c.flagIs){ const w=c.flagIs[k], v=F[k]; if(Array.isArray(w)?!w.includes(v):v!==w) return false; } }
     /* 演講、活動到場（第 5 項；src/data/activities.js 的到場紀錄）：attended 聽過、notAttended 一場都沒聽過、missed 最近結束的那一場沒去 */
+    if(c.attendedAny&&(typeof ACTIVITIES==='undefined'||!c.attendedAny.every(id=>ACTIVITIES.attendedAny(G,id)))) return false;   /* 聽完或中途離開（AA_110 5-2）；attended 只算聽完 */
+    if(c.attendedWithin){ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.lastAttendedDay) return false; for(const id in c.attendedWithin){ const d=ACTIVITIES.lastAttendedDay(G,id,false); if(d==null||G.day-d>c.attendedWithin[id]) return false; } }   /* 「隔天的版本」：attendedWithin:{B4:1}＝最近一次聽完是今天或昨天（持久紀錄，不靠散場 20 分鐘的時窗）*/
+    if(c.habit){ const hs=Array.isArray(c.habit)?c.habit:[c.habit]; for(const q of hs){ if(X.habitCount(q)<(q.min||1)) return false; } }   /* 習慣記憶（AA_110 5-4）：habit:{key, min, withinDays} */
     if(c.attended||c.notAttended||c.missed){ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.attended) return false; if(c.attended&&!c.attended.every(id=>ACTIVITIES.attended(G,id))) return false; if(c.notAttended&&c.notAttended.some(id=>ACTIVITIES.attended(G,id))) return false; if(c.missed&&!c.missed.every(id=>ACTIVITIES.missed(G,id))) return false; }
     /* 上課出席（課表系統的 G.courses.attend）：course:{econ_principles_1:{min:1}}＝這門課至少上過一次 */
     if(c.course){ const R=typeof CLS!=='undefined'&&CLS.rec?CLS.rec(G):(G.courses||{}); const A=(R&&R.attend)||{}; for(const id in c.course){ const n=A[id]||0, q=c.course[id]; if(q.min!==undefined&&n<q.min) return false; if(q.max!==undefined&&n>q.max) return false; } } if(c.memory&&!c.memory.every(m=>SOCIAL.has(m.npc,m.tag))) return false; if(c.notMemory&&c.notMemory.some(m=>SOCIAL.has(m.npc,m.tag))) return false;
