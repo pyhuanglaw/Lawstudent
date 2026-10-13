@@ -49,5 +49,10 @@ const fmt=h=>String(Math.floor(h)).padStart(2,'0')+':'+String(Math.round((h%1)*6
   const w=where('heroine_01'); check('17:45 進校園、待到 '+fmt(GM.G.hour)+'：小安（行程：'+(w?w.zone:'—')+'）出現',!was&&!!w&&w.zone==='campus'&&here('heroine_01'),'一開始 '+was+'、之後 '+here('heroine_01')); }
 // 6) 補人不會重複：同一個人只有一個
 { GM=newGM('campus',3,5,14.5,F0); STORY.populate('campus',GM); flow(16.0); const ids=GM.E.npcs.filter(n=>!n.isExtra).map(n=>n.charId); const dup=ids.filter((x,i)=>ids.indexOf(x)!==i); check('待很久也不會生出兩個同一個人',dup.length===0,dup.join(',')); }
+// 待在區域裡補人：時段剩不到 15 分鐘的不補（v9.6 回歸 flow_class_real 第二次：第二天的劇情課擋住補人，下課後同學在座位上憑空出現、一分鐘後又起身走到後門）
+{ const seats=Array.from({length:8},(_,i)=>({x:i,z:0,yaw:0}));
+  GM=newGM('library',2,4,18.85,F0,seats); STORY.refreshSchedule(GM); const late=here('classmate_peishan');
+  GM=newGM('library',2,4,16.2,F0,seats); STORY.refreshSchedule(GM); const early=here('classmate_peishan');
+  check('待在總圖時補人：郭沛珊（週四 16–19 在總圖）18:51 不補（剩 9 分鐘）、16:12 照舊補',!late&&early,JSON.stringify({late,early})); }
 console.log(fails?('FAILED '+fails):'ALL PASS');
 process.exit(fails?1:0);
