@@ -698,10 +698,10 @@ mk(0, 'red').box(-4.9, -4.1, 0.3, 1.9, SB['z0'] - 0.08, SB['z0'] - 0.06); mk(0, 
 
 # ================= 吊牌（字是遊戲畫的）：背板＋吊線；貼牆的牌子不用 =================
 for s in J['signs']:
-    lv = s['lv']; y0 = Y1 if lv else 0.0; ceil_y = (RY if lv else C0); w = s['w']; h = w * 0.16; cy = y0 + s['y'] if y0 + s['y'] < ceil_y else s['y']   # 二樓的 y 寫成絕對高度的話照絕對高度（見給 LAWWW 的訊息）
+    lv = s['lv']; y0 = Y1 if lv else 0.0; ceil_y = (RY if lv else C0); w = s['w']; h = w * 0.16; cy = y0 + s['y']   # 和遊戲同一個算法（lawlib3d.js：(lv?Y1:0)+y）
     ry = s.get('ry', 0.0); fx, fz = math.sin(ry), math.cos(ry)
     near_wall = abs(s['z'] - (FZ + 0.12)) < 0.05 or abs(s['x'] - FWX) < 0.03
-    if near_wall: continue
+    if near_wall or cy + h / 2 > ceil_y: continue   # 貼牆的不用；在天花板上面的（配置的 y 寫錯時）也不做，免得出現一塊沒有字的黑板
     bx, bz = s['x'] - fx * 0.012, s['z'] - fz * 0.012
     F = xf(bx, cy, bz, ry); tbox(mk(lv, 'signback'), F, -w / 2 - 0.03, w / 2 + 0.03, -h / 2 - 0.03, h / 2 + 0.03, -0.02, 0.0)
     for sx in (-1, 1):
