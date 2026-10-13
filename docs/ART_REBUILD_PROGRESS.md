@@ -10,6 +10,36 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-13 20:00 UTC（開發分支最新 `439de48`；線上 v9.5＝`a4f2760`，main 沒動）**：
+- **使用者試玩回報的修正**（單元測試過；瀏覽器流程 `flow_playtest_fixes.py` 在佇列）：
+  - `6bd4072` 閒聊看情境、不重複：高子晴三句要吉他社之後；B 層同學改旁白。
+  - `2e964bb` 林芷若時段結束先走到出口才離開。
+  - `c829d1d` 跟著人走時被牆擋住改找路。
+  - `566f60c` 小睡。
+  - `3ed2286`「帶我去」找朋友。
+- **ChatGPT 審查**：
+  - `cd11ae7` **選課結果**（AA_104 第 2 節原本沒做）：開學前一天早上選選修，大一下的法律與社會可以不修；`course_select_unit` 17 項。
+  - `cd11ae7` 五年日曆評估第二版（`docs/TIMELINE_COMPAT_AUDIT.md`：6 處程式＋6 個事件的風險、遷移步驟；沒改程式）。
+  - `6ffafc0` 連續多週模擬（173 天）、缺席條件；`docs/TESTING.md` 第九節（模擬／瀏覽器／iPhone 對照、多週瀏覽器方案）。
+  - `439de48` 方案 A 驗收資料（`docs/campus/TEACHING_BUILDINGS_PLAN.md` 第 6 節：導航資料畫的俯視圖、影響範圍、路線、替代方案 A～E、舊湖邊存檔）。
+  - 新的瀏覽器測試：`flow_course_choice.py`、`save_compat_v95.py`（要 v9.5 的 server：`scratchpad/wt_main` port 8769）。
+  - `b5518b8` 社科院圖書館招牌寫「辜先生紀念圖書館」。
+- **瀏覽器測試改成佇列**：
+  - 腳本 `scratchpad/run_q.sh`；佇列 `scratchpad/q/queue.txt`，結果 `scratchpad/q/Q.txt`；`q/FF` 寫 commit＝下一個測試前快轉 `wt_dev`。這些都不在 GitHub。
+  - 批次 3 停掉了（跑的是少了試玩修正的舊版）。批次 3 跑完的：flow_lecture_attend、indoor_camera_occlusion **ALL PASS**；flow_soclib 在舊版失敗（座位停止距離，`6bd4072` 已改測試）。
+  - 佇列結果：flow_invite_phone 在 `cd11ae7` 失敗＝**測試按錯按鈕**（「等到晚上」的值是 `20.000`），`4806aeb` 修好、重排。
+  - 還在跑：flow_boya_interior → flow_invite_phone → flow_course_choice → flow_playtest_fixes → save_compat_v95。
+- **接下來**：
+  1. 佇列結果。
+  2. 剩下的回歸：soclib、campus_glb、see_through、campus_layout_nav、teaching_buildings、study_legal、zone_transitions、p0、touch_flow_wenzhou、reachability_all。
+  3. 看板 55fbedb ACTIONED、通知 LAWWW2。
+  4. 回報使用者方案 A 的驗收資料。
+  5. v9.6 準備：版本號、完整回歸；方案 A 要使用者先確認。
+- **等待**：
+  - 使用者：方案 A、社科院斜對面、社科院圖書館開放時間。
+  - AA：每週必修、閒聊條件。
+  - LAWWW2：ACK。
+
 **2026-10-13 19:05 UTC（開發分支最新 `6b0e711`；線上 v9.5＝`a4f2760`）**：
 - **開發分支新增**（都是 WIP，不可發布；方案 A、社科院等使用者驗收）：
   - `b6fffb1` 手機訊息與邀約（D54 ⑥，一般系統；人物的個性、台詞等 AA、BB 的內容批准後才放）；`dae1da3` 新測試 flow_invite_phone。
