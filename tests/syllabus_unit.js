@@ -37,5 +37,5 @@ const itOf=(day,cid)=>CLS.dayItems({day,hour:8,flags:{}}).find(it=>it.c.id===cid
   check('刑訴第 4 週：週二（教師節）停課，主要內容（搜索）改在週五播',!tu4&&!!cf4&&!cf4.second&&cf4.line===wk('crimpro',4).line&&/搜索/.test(JSON.stringify(wk('crimpro',4).board)),(cf4&&cf4.line)+' '+JSON.stringify(wk('crimpro',4).board)); }
 // 特殊課堂的週次：courses.js 的 specials 和 BB 的課堂內容（syllabus 的 special）一致（BB 2026-10-13：「週次以課堂內容所在的週為準」）
 { const bad=[]; for(const c of COURSES.list){ const a=(c.specials||[]).map(s=>s.w).sort((x,y)=>x-y), ws=(SYLLABUS.courses[c.id]||[]).filter(w=>w.special).map(w=>w.w).sort((x,y)=>x-y); if(JSON.stringify(a)!==JSON.stringify(ws)) bad.push(c.id+' '+JSON.stringify(a)+'≠'+JSON.stringify(ws)); }
-  check('每一門課的特殊課堂週次＝BB 課堂內容標 special 的週次（經原第 4 週分組、法理學第 6 週、國際公法第 15 週、智財第 5 週、專題研究第 10 週）',!bad.length,bad.join(' | ')); }
+  check('每一門課的特殊課堂週次＝BB 課堂內容標 special 的週次（經原第 3 週第一次走進這門課、第 4 週分組、法理學第 6 週、國際公法第 15 週、智財第 5 週、專題研究第 10 週）',!bad.length,bad.join(' | ')); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

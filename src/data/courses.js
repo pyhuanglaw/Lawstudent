@@ -41,7 +41,8 @@ const COURSES={
      topics:['民法的結構','權利主體：權利能力','權利主體：行為能力','物','法律行為','意思表示','代理','時效'],
      specials:[{w:3,title:'網拍相機',story:true,storyDay2:true},{w:12,title:'兩個人都簽了，為什麼還可能無效'},{w:14,title:'周教授的正反辯論',story:true}]},
     {id:'law_society',name:'法律與社會',kind:'elective',term:'Y1S1',prof:'prof_huang',room:'LINZE',slots:[{wd:5,block:'pm1'}],topics:['法律與電影','法律與新聞','法律與社會']},   /* 大一上沒有選課事件：算已選（AA_103 第 8 節）*/
-    {id:'econ_principles_1',name:'經濟學原理（上）',kind:'required',retake:true,term:'Y1S1',prof:null,profName:'經濟系老師',room:'PUTONG',slots:[{wd:5,block:'am'}],topics:['供給與需求','市場與價格','彈性'],specials:[{w:4,title:'價格管制（分組）'}]},   /* 重修（使用者 2026-10-13：經濟系休學沒拿到學分）；遊戲暫定上下兩學期 */
+    {id:'econ_principles_1',name:'經濟學原理（上）',kind:'required',retake:true,term:'Y1S1',prof:null,profName:'經濟系老師',room:'PUTONG',slots:[{wd:5,block:'am'}],topics:['供給與需求','市場與價格','彈性'],specials:[{w:3,title:'第一次走進這門課',story:true},{w:4,title:'價格管制（分組）'}]},   /* 重修（使用者 2026-10-13：經濟系休學沒拿到學分）；上下兩學期（使用者定案，AA_107 1-2a）。
+       第 3 週＝BB_105 P4「第二次大一」的那一堂（BB 3bd5238 標 special）：事件要使用者批准才做，現在照 BB 的備用內容上普通的課 */
     // ---- 大一下（2026 春）----
     {id:'const_2',name:'憲法（下）',kind:'required',term:'Y1S2',prof:'prof_zhang',room:'L201',slots:[{wd:1,block:'am'}],topics:['基本權（續）','權力分立（續）','憲法訴訟入門']},
     {id:'ge_y1s2',name:'通識',kind:'general',term:'Y1S2',prof:null,profName:'通識老師',room:'PUTONG',slots:[{wd:1,block:'pm1'}],topics:['課程導論','分組討論','期末報告準備']},
@@ -51,7 +52,7 @@ const COURSES={
     {id:'crim_gen2',name:'刑法總則（二）',kind:'required',term:'Y1S2',prof:'prof_wu',room:'L201',slots:[{wd:3,block:'am'}],topics:['違法性：正當防衛','罪責','未遂','共犯'],specials:[{w:5,title:'為了保護朋友而動手'}]},
     {id:'english_y1_2',name:'大一英文（下）',kind:'general',term:'Y1S2',prof:null,profName:'英文老師',room:'GONGTONG',slots:[{wd:4,block:'am'}],topics:['閱讀','寫作','口頭報告']},
     {id:'oblig_gen1',name:'民法債編總論（一）',kind:'required',term:'Y1S2',prof:'prof_zhou',room:'L201',slots:[{wd:4,block:'pm1'}],topics:['債的發生：契約成立（要約與承諾）','無因管理','不當得利概論'],specials:[{w:3,title:'網拍相機的回聲'}]},
-    {id:'econ_principles_2',name:'經濟學原理（下）',kind:'required',retake:true,term:'Y1S2',prof:null,profName:'經濟系老師',room:'PUTONG',slots:[{wd:5,block:'am'}],topics:['消費與生產','市場結構','外部性']},
+    {id:'econ_principles_2',name:'經濟學原理（下）',kind:'required',retake:true,term:'Y1S2',prof:null,profName:'經濟系老師',room:'PUTONG',slots:[{wd:5,block:'am'}],topics:['國民所得','物價與失業','成長與利率','貨幣與央行','開放經濟','景氣與政策']},   /* 下學期是總體經濟（AA 2026-10-13：原本的個體經濟題目和 BB 的大一下課堂內容對不上）；上下兩學期是使用者定案 */
     // ---- 大二上（2026 秋）----
     {id:'admin_law',name:'行政法',kind:'required',term:'Y2S1',prof:'prof_xu',room:'L201',slots:[{wd:1,block:'am'}],topics:['行政行為','行政處分','行政契約','依法行政'],specials:[{w:11,title:'國家賠償'}]},
     {id:'japanese_1',name:'日文（上）',kind:'elective',term:'Y2S1',prof:null,profName:'日文老師',room:'GONGTONG',slots:[{wd:1,block:'pm1'}],topics:['五十音','打招呼','自我介紹']},   /* 遊戲安排（使用者 2026-10-13：大二上下是遊戲安排的候選，不是真實修課年份）*/
