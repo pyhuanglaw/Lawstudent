@@ -45,21 +45,22 @@ for grp, (b, a1, a2) in (('一般', ('before', 'after', 'r2')), ('門口', ('doo
             r2s_img = f'![](shots/cam1013/r2s_{k}.webp)' if os.path.exists(f'{CC}/{a2}/{k}_swing.png') else '—'
             pics.append(f"| `{k}` | ![](shots/cam1013/before_{k}.webp) | ![](shots/cam1013/after_{k}.webp) | ![](shots/cam1013/r2_{k}.webp) | {r2s_img} |")
 # 聽眾
-sp = {}
+sp, spf = {}, {}
 for k in ('before', 'after'):
     p = f'{SPR}/{k}.json'
-    if os.path.exists(p): sp[k] = json.load(open(p, encoding='utf8'))['summary']
+    if os.path.exists(p): j = json.load(open(p, encoding='utf8')); sp[k] = j['summary']; spf[k] = j.get('frames') or []
 for k in ('before', 'after'):
     for t in ('t0', 't5'):
         src = f'{SPR}/{k}_{t}.png'
         if os.path.exists(src): webp(src, f'{D}/shots/cam1013/seat_{k}_{t}.webp')
 
 
-def srow(name, s):
+def srow(name, s, frames):
     if not s: return f'| {name} | 沒跑 | | | |'
-    f = s.get('frames', {})
-    return (f"| {name} | {s['t0']['standing(>0.75)']}／{s['t0']['measured']}（載入中 {s['t0']['pending']}） | {s['t1']['standing(>0.75)']}／{s['t1']['measured']} | {s['t5']['standing(>0.75)']}／{s['t5']['measured']} | "
-            f"{f.get('frames_with_standing', '—')}／{f.get('checked', '—')}（最多 {f.get('max_standing', '—')} 人） |")
+    f = s.get('frames', {}); f0 = frames[0] if frames else None
+    first = f"{f0['standing']} 人站著、{f0['seated']} 人坐著" if f0 else '—'
+    return (f"| {name} | **{f.get('frames_with_standing', '—')}／{f.get('checked', '—')}**（最多 {f.get('max_standing', '—')} 人） | {first} | "
+            f"{s['t1']['standing(>0.75)']}／{s['t1']['measured']} 站著 | {s['t5']['standing(>0.75)']}／{s['t5']['measured']} 站著 |")
 
 
 txt = f"""
@@ -89,12 +90,15 @@ LAWWW `068f671`：被隔間牆拉近到 1.5 m 以內、沒有在拖鏡頭時，�
 
 ### 6.3 聽眾剛出現時是不是坐好了（`8234015`；`boya_seat_probe2.py`）
 
-[前置／捷徑] 讀檔進博雅大廳、鏡頭看著 101 的座位，加一場測試演講（16 人，`CLS.syncRooms` 立刻生出來）；量臀部離座位地面的高度（站著 0.75 以上算站），另外包住畫面，在聽眾出現後的前 60 個畫面每一幀都數一次站著的人（模型還在載入的不算）。
+[前置／捷徑] 讀檔進博雅大廳、鏡頭看著 101 的座位，加一場測試演講（16 人）；在 `E.render` 的開頭呼叫 `CLS.syncRooms`（＝遊戲的課堂、人流加人物的時間點：E.update 之後、畫面之前），然後每一個畫面都數畫出來的聽眾裡有幾個是站著的（臀部離座位地面 0.75 m 以上；模型還在載入的不算）。
 
-| 版本 | 出現後第一個畫面：站著／量到 | 1 秒 | 5 秒 | 前 60 個畫面裡有站著的人的畫面數 |
+| 版本 | 前 60 個畫面裡，畫出站著的聽眾的畫面數 | 第一個畫面 | 1 秒後 | 5 秒後 |
 |---|---|---|---|---|
-{srow('修改前（`dae1da3`）', sp.get('before'))}
-{srow(f'修改後（`{COMMIT}`）', sp.get('after'))}
+{srow('修改前（`dae1da3`）', sp.get('before'), spf.get('before'))}
+{srow(f'修改後（`{COMMIT}`）', sp.get('after'), spf.get('after'))}
+
+**結論**：修改前，聽眾在「E.update 之後、畫面之前」加進來的那一個畫面，16 個人**全部是站姿**（下一個畫面才坐下：手機 60 fps 是閃一下，低幀率的手機看得到）；修改後第一個畫面就坐好了。這個測試在修改前失敗、修改後通過。
+（第一版的檢查報告寫「前十幾秒有一半是站姿」：那是讀了畫面外的人的骨架——畫面外不跑動畫——LAWWW 指出後改成只數畫面上畫出來的人。）
 
 | 版本 | 出現後第一個畫面 | 5 秒 |
 |---|---|---|
