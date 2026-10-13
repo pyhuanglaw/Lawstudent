@@ -7,6 +7,7 @@ C. 手機「地點」快速前往：從宿舍 → 共同教學館：到校園、
    再自己走回椰林大道（不會卡在門口）。
 D. 手機「地點」→ 總圖書館：到總圖大廳、站得住。
 E. 舊存檔站在共同教學館的位置（建築裡）：讀檔後移到站得住的地方。
+F. 大一女舍：從校門點地面走到 A 棟門口（傳達室）→「男賓止步」；走過 A、B 之間的天橋下；坐門口的長椅「坐一下」（等人）；手機「地點」→ 大一女舍（門口）站得住。
 用法：python3 tests/flow_teaching_buildings.py URL [輸出資料夾]"""
 import asyncio, json, sys, math
 from playwright.async_api import async_playwright
@@ -92,6 +93,44 @@ async def main():
         await pg.wait_for_timeout(3500)
         s = await L.state(pg)
         run.check('讀檔後移到建築外面站得住的地方', s['zone'] == 'campus' and s['stand'] and not inside_foot(s['x'], s['z']), json.dumps(s, ensure_ascii=False))
+        # ---------- F：大一女舍 ----------
+        run.setup('讀檔：第 3 天 17:30，校門口 (-112,0)')
+        await L.load_state(pg, {'zone': 'campus', 'hour': 17.5, 'day': DAY_FRI, 'weekday': 5, 'weather': 'sunny', 'pos': {'x': -112, 'z': 0, 'yaw': 3.14}, 'flags': BASE_FLAGS})
+        await pg.wait_for_timeout(3500)
+        a = await L.find_it(pg, '大一女舍 A 棟')
+        run.check('校園有大一女舍 A 棟（傳達室）的門口', bool(a), json.dumps(a, ensure_ascii=False))
+        ok = await L.go_to(pg, cdp, run, a['x'], a['z'], 1.2, '大一女舍 A 棟門口')
+        s = await L.state(pg)
+        run.check('從校門自己走到大一女舍 A 棟門口、出現按鈕', ok and s['interact'].startswith('大一女舍 A 棟'), json.dumps(s, ensure_ascii=False))
+        await run.shot(pg, 'F_dorm_door')
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+        cap = await pg.evaluate("(document.getElementById('caption')||{}).textContent||''")
+        run.check('按門口：寫「男賓止步」、傳達室在 A 棟、可以在門口的長椅等', '男賓止步' in cap and '傳達室' in cap, cap)
+        ok = await L.go_to(pg, cdp, run, -93, 74, 1.0, '天橋下（A、B 之間）')
+        s = await L.state(pg)
+        run.check('走過 A、B 兩棟之間（2 樓天橋下面）', ok and s['stand'] and -96 < s['x'] < -90, json.dumps(s, ensure_ascii=False))
+        await run.shot(pg, 'F_under_bridge')
+        ok = await L.go_to(pg, cdp, run, -93, 55.0, 0.6, '門口的長椅前')
+        s = await L.state(pg)
+        run.check('走到門口的長椅、出現「坐在大一女舍門口的長椅（等人）」', ok and '大一女舍門口的長椅' in s['interact'], s['interact'])
+        h0 = s['hour']
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
+        opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
+        run.check('坐下後有「坐一下」可以等', any('坐一下' in o for o in opts), json.dumps(opts, ensure_ascii=False))
+        idx = next((i for i, o in enumerate(opts) if '坐一下' in o), 0)
+        s = await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['busy'] and not q['dlg'] and not q['choices'], pick=idx)
+        run.check('等了一段時間（時間有過）、起身後站得住', s['hour'] > h0 + 0.1 and s['stand'], f"{h0} → {s['hour']}")
+        await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1000)
+        await L.tap(pg, cdp, '#phoneTabs button[data-ptab="places"]'); await pg.wait_for_timeout(800)
+        ok = await L.tap(pg, cdp, '#phoneBody [data-place="campus|共同教學館"]')
+        await pg.wait_for_timeout(6000)
+        await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1000)
+        await L.tap(pg, cdp, '#phoneTabs button[data-ptab="places"]'); await pg.wait_for_timeout(800)
+        ok = await L.tap(pg, cdp, '#phoneBody [data-place="campus|大一女舍（門口）"]')
+        run.check('手機「地點」→ 大一女舍（門口）', ok)
+        await pg.wait_for_timeout(6000)
+        s = await L.state(pg)
+        run.check('到大一女舍門口前、站得住、不在建築裡', s['zone'] == 'campus' and s['stand'] and math.hypot(s['x'] + 93, s['z'] - 56) < 1.5, json.dumps(s, ensure_ascii=False))
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
         await b.close()
     return run.finish()

@@ -31,7 +31,7 @@ const PLACES={
   /* 快速前往的地點（D54 ①；手機「地點」與大地圖用同一份）：[區域, 名稱, 落點 {x,z,yaw}（null＝區域預設的出生點）]。
      落點都要站得住、走得出去（tests/quick_travel_unit.js）。建築的落點照 layout 的入口（layout 檔在 places.js 之前載入）*/
   quickList(){ const sp=(L)=>typeof L!=='undefined'?Object.assign({},L.entrance.spawn):null; const L1=typeof LINZE_LAYOUT!=='undefined'?sp(LINZE_LAYOUT):null, LB=typeof LIBRARY_LAYOUT!=='undefined'?sp(LIBRARY_LAYOUT):null, LL=typeof LAWLIB_LAYOUT!=='undefined'?sp(LAWLIB_LAYOUT):null;
-    return [['campus','台大校園（霖澤館前）',{x:34,z:-98,yaw:0}],['campus','椰林大道・傅鐘',{x:-38,z:6,yaw:0}],['campus','校門口',{x:-112,z:0,yaw:-Math.PI/2}],['campus','共同教學館',{x:2,z:21.4,yaw:0}],
+    return [['campus','台大校園（霖澤館前）',{x:34,z:-98,yaw:0}],['campus','椰林大道・傅鐘',{x:-38,z:6,yaw:0}],['campus','校門口',{x:-112,z:0,yaw:-Math.PI/2}],['campus','共同教學館',{x:2,z:21.4,yaw:0}],['campus','大一女舍（門口）',{x:-93,z:56,yaw:0}],
       L1&&['linze','霖澤館（大廳）',L1],['classroom','霖澤館 201 教室',null],['wancai','萬才館（大廳）',{x:0,z:5,yaw:Math.PI}],LL&&['lawlib','法律學院圖書館',LL],LB&&['library_hall','總圖書館（大廳）',LB],
       ['gongguan','公館商圈',{x:0,z:-30,yaw:Math.PI}],['noodle','阿鳳麵店',{x:0,z:3.4,yaw:Math.PI}],['cvs','全日便利商店',{x:0,z:3.4,yaw:Math.PI}],['bookstore','舊路書房',{x:0,z:4,yaw:Math.PI}],
       ['wenzhou','溫州街',{x:20,z:0,yaw:-Math.PI/2}],['cafe','兩點半 Café',{x:0,z:5,yaw:Math.PI}],['dorm','宿舍',{x:0,z:2.5,yaw:Math.PI}]].filter(Boolean); },
@@ -40,7 +40,7 @@ const PLACES={
   known0:{campus:1,linze:1,classroom:1,wancai:1,lawlib:1,library_hall:1,library:1,gongguan:1,cvs:1,wenzhou:1,dorm:1,dorm_hall:1},
   // 大地圖上的地名（沒有入口、或想讓玩家認得的地標）
   landmarks:{
-    campus:[ ['校門',-120,0], ['椰林大道',-60,0], ['傅鐘',-38,16.5], ['行政大樓',-38,33], ['共同教學館',2,33], ['文學院',-38,-34], ['農業陳列館',-104,-30], ['校史館',-77,-29],
+    campus:[ ['校門',-120,0], ['椰林大道',-60,0], ['傅鐘',-38,16.5], ['行政大樓',-38,33], ['共同教學館',2,33], ['大一女舍',-93,67], ['文學院',-38,-34], ['農業陳列館',-104,-30], ['校史館',-77,-29],
       ['醉月湖',-30,-66], ['總圖書館',100,0], ['霖澤館',34,-112], ['萬才館',88,-112], ['社會科學院',110,-70], ['小椰林道',30,-40], ['男生宿舍',20,68] ],
     gongguan:[ ['捷運公館站',-36.6,11], ['羅斯福路',20,-6], ['往溫州街',-71,20], ['台大校門',0,-46] ],
     wenzhou:[ ['兩點半 Café',54.2,0], ['小公園',26,6], ['往公館',51.3,-13.4] ]
