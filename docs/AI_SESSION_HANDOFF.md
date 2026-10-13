@@ -20,9 +20,9 @@
 | 職位 | 職責 | 帳號 A | 帳號 B | 現在值班 | 分支（2026-10-11 10:06 UTC 的最新 commit） | 進度檔（在各自的分支上） |
 |---|---|---|---|---|---|---|
 | **LAWWW** | 開發負責人：核心系統、人物、建築室內、整合、測試、**正式發布**、分派 LAWWW2 | LAWWW `session_01Eds6msqpsuzNEw98sdw8JX`（**2026-10-13 回到值班**，接班基準 `cb399ea`）交班」） | LAWWW-B：未建立 | **A（值班中）** | `claude/confident-ritchie-8rwh7t`（`e747724`）；本機半成品備份在 `wip_backup/`（git bundle：dorm-hall、wancai-stairs） | `docs/ART_REBUILD_PROGRESS.md` 最上面「交接（最新）」 |
-| **LAWWW2** | 環境美術：Blender、3D 場景（Café、溫州街、公館、街道道具、校園地標、行道樹、獨立室內） | LAWWW2 `session_01AC1WVgJSmoJK1uRsPK2Zn1`（**10:14Z 已交班**，最後 commit `1f20126`） | LAWWW2-B：未建立 | **A（已交班，等 LAWWW2-B）** | `claude/second-ai-env-art`（`1f20126`）＋半成品分支 `-wip-pavsoc`（`8c6f1fe`，⑤驗收完成）、`-wip-props6`（`f2fe6ae`，⑤⑥：合併後回歸只跑完 street_props_integration，要重跑才交付）、`-wip-trees`（`d7916da`，⑦驗收沒跑）、`-wip-soclib`（`3b4b201`，⑬配置＋Blender 腳本初稿，還沒執行）；`-wip-props` 是重複分支，忽略 | `docs/art-rebuild/second_ai/HANDOFF.md` |
-| **AA** | 劇情企劃：四年故事架構、主線、系統與劇情規劃 | AA `session_019Y3emYqxxC4Ch1GGf4fMzw`（**10:10Z 已交班**，最後 commit `7721b72`） | AA-B：未建立 | **A（已交班，等 AA-B）** | `claude/bb-story-planning`（`1892599`，和 BB 共用） | `docs/story_planning/AA_交接紀錄.md` |
-| **BB** | 劇情企劃：角色、人物關係、事件、對話與支線 | BB `session_01XVHYLaK9Vcnae3U1aAJoZv`（**10:11Z 已交班**，最後 commit `e28aa3d`） | BB-B：未建立 | **A（已交班，等 BB-B）** | `claude/bb-story-planning`（同上） | `docs/story_planning/BB_00_協作規範與交接紀錄.md` |
+| **LAWWW2** | 環境美術：Blender、3D 場景（Café、溫州街、公館、街道道具、校園地標、行道樹、獨立室內） | LAWWW2 `session_01AC1WVgJSmoJK1uRsPK2Zn1`（**2026-10-13 12:35Z 回到值班**，接班基準 `1f20126`，值班登記 `8876a23`） | LAWWW2-B：未建立 | **A 值班中** | `claude/second-ai-env-art`（`1f20126`）＋半成品分支 `-wip-pavsoc`（`8c6f1fe`，⑤驗收完成）、`-wip-props6`（`f2fe6ae`，⑤⑥：合併後回歸只跑完 street_props_integration，要重跑才交付）、`-wip-trees`（`d7916da`，⑦驗收沒跑）、`-wip-soclib`（`3b4b201`，⑬配置＋Blender 腳本初稿，還沒執行）；`-wip-props` 是重複分支，忽略 | `docs/art-rebuild/second_ai/HANDOFF.md` |
+| **AA** | 劇情企劃：四年故事架構、主線、系統與劇情規劃 | AA `session_019Y3emYqxxC4Ch1GGf4fMzw`（**2026-10-13 12:34Z 回到值班**，接班基準 `e28aa3d`，值班登記 `ed374c4`） | AA-B：未建立 | **A 值班中** | `claude/bb-story-planning`（`1892599`，和 BB 共用） | `docs/story_planning/AA_交接紀錄.md` |
+| **BB** | 劇情企劃：角色、人物關係、事件、對話與支線 | BB `session_01XVHYLaK9Vcnae3U1aAJoZv`（**2026-10-13 12:34Z 回到值班**，接班基準 `e28aa3d`，值班登記 `83d64b9`） | BB-B：未建立 | **A 值班中** | `claude/bb-story-planning`（同上） | `docs/story_planning/BB_00_協作規範與交接紀錄.md` |
 
 - 表上的 SHA 只是更新當時的值，**真正的最新以遠端為準**：`git fetch origin --prune` 後跑 `git log -1 --format='%h %ci %s' origin/<分支>`。
 - 帳號 B 的工作階段由系統指定分支名稱，那也沒關係：接班時把最新的進度合併進去，再登記在這張表。
