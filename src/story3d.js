@@ -71,7 +71,7 @@ const STORY = (function(){
       if(F.companion==='an') spawnCompanion(GM); }
     /* 法律學院圖書館（D46，2026-10-13）的背景人物：櫃台的館員、一樓自習區和二樓讀書的人、走樓梯上下樓的人。不是劇情人物、沒有對話 */
     if(zoneId==='lawlib'&&typeof LAWLIB_LAYOUT!=='undefined'){ const L=LAWLIB_LAYOUT; const mk=(x,z,lv,yaw,pose,seat)=>{ const o=CHAR.build(extraSpec(xi++)); o.position.set(x,0,z); o.rotation.y=yaw||0; return E.addNPC({obj:o,name:'',beh:'idle',pose:pose||'idle',idlePose:pose||'idle',frozen:true,isExtra:true,lv:lv|0,seat}); };
-      if(hr>=8.5&&hr<21.5){ const C=L.counter; mk(C.staff.x,C.staff.z,0,C.staff.yaw,'idle');
+      if(PLACES.isOpen('lawlib',hr,G.day)){ const C=L.counter; mk(C.staff.x,C.staff.z,0,C.staff.yaw,'idle');
         const ss=E.zone.seats||[]; const pick=(tb,k)=>ss.filter(q=>q.table===tb)[k]; const busy=hr<18?[['T1',1],['T1',6],['T2',3],['carrel',2],['T6',1],['T3',0]]:[['T1',2],['carrel',0],['T5',3]];
         for(const [tb,k] of busy){ const st=pick(tb,k); if(st) mk(st.x,st.z,st.lv,st.yaw,'read',{x:st.x,z:st.z,yaw:st.yaw,lv:st.lv}); }
         GM.spawnExtra(extraSpec(xi++),[[2.0,4.6,0],[-6.2,1.6,0],[-4.2,1.6,1],[1.6,-1.8,1],[-4.2,1.6,1],[-6.2,1.6,0],[3.0,5.6,0]],{}); }   /* 一樓 → A 跑 → 平台 → B 跑 → 二樓書庫 → 走回一樓 */
@@ -175,6 +175,11 @@ const STORY = (function(){
   S.refreshSchedule=refreshSchedule;
   S.tick=function(GM,dt){ const G=GM.G, F=G.flags, E=GM.E; if(E.player.busy||GM.D.active) return; const P=E.player.obj.position;
     schedT-=dt; if(schedT<=0){ schedT=3; refreshSchedule(GM); }
+    /* 法律學院圖書館閉館（D53，使用者 2026-10-13）：閉館前 10 分鐘廣播；過了閉館時間人還在館裡，館員請你離館（回到萬才館大廳的門口），
+       並告訴你下次幾點開、可以改去總圖或回宿舍。不讓法圖變成 24 小時開放（讀檔回到閉館後的館裡也一樣）*/
+    if(G.zone==='lawlib'&&typeof PLACES!=='undefined'&&PLACES.hours.lawlib&&typeof LL3!=='undefined'){ const hr=h(G), w=PLACES.windowOf('lawlib',G.day);
+      if(w&&hr>=w[1]-1/6&&hr<w[1]&&F.lawlibWarn!==G.day){ F.lawlibWarn=G.day; GM.toast('廣播：「本館將於 '+PLACES.hhmm(w[1])+' 閉館，請準備離館。」',5000); }
+      if(!PLACES.isOpen('lawlib',hr,G.day)&&!S._llOut){ S._llOut=true; (async()=>{ try{ GM.sceneBegin(); await GM.say(null,'館員：「同學，我們閉館了喔。」你收好東西，走出圖書館。'); GM.sceneEnd(); await GM.enter('wancai',Object.assign({},LL3.HALL)); GM.toast(PLACES.closedText('lawlib',h(G),G.day),6000); } finally { S._llOut=false; } })(); return; } }
     /* 之後的週四：13:20 民法總則的目標，下課以後換成自由活動（v9.5 審查：F.classDone 第二天之後一直是 true，不會再有上課劇情來換目標，導航整晚指著空的 201）*/
     if(G.weekday===4&&F.classDone&&h(G)>=15.2&&G.goal==='13:20 民法總則（霖澤館）') GM.setGoal('下課後自由活動。去圖書館、公館，或找人聊天');
     /* 阿哲約的麵：20:30 以後阿哲就不在麵店了（populate 只在 17:30–20:30 放他），目標不能一直停在「阿鳳麵店」（2026-10-11 使用者：吃完麵目標沒更新、不知道接下來要幹嘛）*/
@@ -204,7 +209,7 @@ const STORY = (function(){
     if(it.exit&&it.exit.to==='classroom'&&!isThu(G)&&!F.classNow&&!(G.weekday===2&&h(G)>=9.9&&h(G)<12.1)){ GM.sceneBegin(); await GM.say(null,'霖澤館。今天'+(G.weekday===2?'的刑訴已經下課了':'沒有民法總則')+'。教室裡只有幾個在自習的人。'); GM.sceneEnd(); await GM.enter('classroom',it.exit.spawn); return true; }
     if(it.exit&&it.exit.to==='classroom'&&isThu(G)&&h(G)>=15.2&&!F.classDone){ F.classDone=true; GM.toast('你錯過了今天的民法總則'); G.flags.classAnswer='absent'; return false; }
     if(it.exit&&it.exit.to==='cafe'&&!PLACES.isOpen('cafe',h(G))){ GM.toast(PLACES.closedText('cafe',h(G)),4500); return true; }   /* 開放時間在 src/data/places.js（入口標記、大地圖讀同一份）*/
-    if(it.exit&&it.exit.to==='lawlib'&&G.zone==='wancai'&&!PLACES.isOpen('lawlib',h(G))){ GM.toast(PLACES.closedText('lawlib',h(G)),4500); return true; }   /* 法律學院圖書館（D46）：只擋從大廳進去；人在館裡照樣走得出來 */
+    if(it.exit&&it.exit.to==='lawlib'&&G.zone==='wancai'&&!PLACES.isOpen('lawlib',h(G),G.day)){ GM.toast(PLACES.closedText('lawlib',h(G),G.day),5500); return true; }   /* 法律學院圖書館（D46）：只擋從大廳進去；人在館裡照樣走得出來 */
     if(it.exit&&(it.exit.to==='library'||it.exit.to==='library_hall')&&G.zone==='campus'&&!PLACES.isOpen('library_hall',h(G))){ GM.toast(PLACES.closedText('library_hall',h(G)),4500); return true; }   /* 2026-10-11 使用者回報：只寫「閉館了」不知道幾點開 */   /* 只擋從校園進去；人在館裡（大廳、閱覽室）之間照樣走得通，不會被關在裡面 */
     return false; };
   async function counter(GM,shop,items){ const G=GM.G; GM.sceneBegin(); const opts=items.map(([n,p,e])=>({t:n+'　'+p+' 元',hint:'體力 +'+e,dim:G.money<p})); opts.push({t:'不用了'}); const i=await GM.choose(opts); if(i<items.length){ const [n,p,e]=items[i]; if(G.money<p){ GM.toast('錢不夠'); } else { GM.money(-p); GM.energy(e); GM.advance(0.15); await GM.say(null,'你買了'+n+'。'+(shop==='兩點半 Café'?'店員把杯子放在你面前的時候，杯底和木桌碰出一聲很小的響。':'')); } } GM.sceneEnd(); }
