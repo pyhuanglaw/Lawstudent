@@ -5,7 +5,7 @@
 交班紀錄：2026-10-11 10:13 UTC 交班（`1f20126`）→ 2026-10-13 回到帳號 A。
 使用者 2026-10-13：帳號 B 暫時沒有開，從上次停下來的地方接著做。
 
-**2026-10-13 接班後的進度（最新在這裡；下面的表是交班時的狀態）**：**⑤⑥ 已交付**（13:05Z，merge `451d032`）；**⑬ 已交付**（13:3xZ，merge `f3212c0`：`soclib_layout.js`＋`soclib_interior.glb` 5.53 MB／85,540 三角形＋VISUAL_REVIEW 16；MODEL_READY，等 LAWWW 接線）；⑭ 118 巷街景 GLB 已出、Blender 渲染 5 張（`-wip-lane118` `e66213b`；剩 `lane118_fill.py` 寫第 17 節→交付）；⑫ 騎車腳踏車 GLB＋尺寸表已出（`-wip-bike` `6e3a109`；剩 `bike_fill.py` 寫第 18 節→交付）；**現在：法律學院圖書館（LAWWW 13:16Z 新 P1，使用者指定，排在最前面）**——工作目錄 `/home/user/lawlib_wt`（本機分支 `second-ai-lawlib-tmp`，已合併 LAWWW `a1813e6`），WIP 推到 `claude/second-ai-env-art-wip-lawlib`；要做：`tools/blender/lawlib_interior.py`→`assets/models/env/lawlib_interior.glb`（讀 `src/data/lawlib_layout.js`）、萬才館大廳西牆南段的門（`wancai_interior.py` 只改門洞、門、名牌、盆栽位置）、窗景 `lawlib_south/north/west`、驗收材料。之後：⑭、⑫ 文件→⑦ 驗收→⑨→⑩→⑪。
+**2026-10-13 接班後的進度（最新在這裡；下面的表是交班時的狀態）**：⑤⑥ 已交付（`451d032`）；⑬ 已交付（`f3212c0`）；**法律學院圖書館已交付**（15:1xZ，merge `a9a227a`：GLB 2.77 MB、萬才館的門、窗景、VISUAL_REVIEW 17；READY_FOR_ART_REVIEW，等 LAWWW 整合、使用者看）；四棟參考研究第一、二輪（`7129157`）。**下一步**：⑭ 118 巷（`/home/user/lane_wt`，已合併交付分支，`lane118_fill.py` 改成第 18 節）→ ⑫ 腳踏車（`/home/user/bike_wt`，第 19 節）→ **共同教學館外觀**（LAWWW 規格：中心 (2,33)、ry=π、24×14、北面正門、西側 5 m 木造迴廊；**沒有照片**，已請使用者提供）→ 大一女舍外部（A (-108,68)、B (-78,66)、各 24×12×5 層、2 樓天橋）→ 普通、博雅（等使用者選 A／B）→ ⑦⑨⑩⑪。LAWWW 的訊息會「顯示送達但沒出現在對話裡」——**每次 checkpoint 都要 `ReadNotifications`**（2026-10-13 漏讀 4 則）。
 
 規則見 `WORK_RULES.md` 第 6 節。分工、佇列以 LAWWW 的 `docs/SECOND_AI_HANDOFF.md`、`docs/DUAL_AI_BOARD.md` 為準；跨帳號接班照 `docs/AI_SESSION_HANDOFF.md`（D49）。**LAWWW 的訊息可能「顯示送達、但沒出現在對話裡」**：每次 checkpoint、每次交付前都 `git fetch` LAWWW 的開發分支讀看板。
 
