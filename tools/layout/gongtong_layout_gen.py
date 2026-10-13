@@ -41,7 +41,9 @@ def classroom(rid, lv, x0, x1, board):
     # 黑板在西牆（board W：學生面向西）或東牆（E）；4 排、每排兩張雙人桌，中間走道
     s = 1 if board == 'W' else -1   # 往後（離黑板）的方向：W 黑板 → +x
     front = x0 if board == 'W' else x1
-    rows = [round(front + s * d, 2) for d in (2.0, 3.6, 5.2, 6.8)]   # 排距 1.6 m：椅子那一條 1.1 m 寬（1.5 m 時北邊的座位走不過去，tests/nav_teach_unit.js）
+    # 排距 2.0 m：椅子也擋住（不能穿過椅子），椅子後面還有一條三格寬、站得住的走道（1.6 m 時擋了椅子一半的位子走不到）；
+    # 第一排離黑板 1.8 m：椅子的 x 落在格子中心上（擋一格，不是兩格），tests/nav_teach_unit.js
+    rows = [round(front + s * d, 2) for d in (1.8, 3.8, 5.8)]
     desks, seats = [], []
     for ri, dx in enumerate(rows):
         for zc in (-5.3, -2.3):

@@ -63,10 +63,10 @@ def lecture(rid, lv, x0, x1, z0, z1, stage, edge, rows, depth, rise, aisles, sx0
     return out
 
 def classroom(rid, lv, x0, x1, z0, z1, board, label, doors):
-    """平面的討論教室：黑板在西牆（W）或東牆（E）；五排、每排兩張雙人桌（中間走道）。排距 1.6 m（椅子那一條 1.1 m 寬）"""
+    """平面的討論教室：黑板在西牆（W）或東牆（E）；四排、每排兩張雙人桌（中間走道）。排距 2.0 m（椅子也擋住）"""
     s = 1 if board == 'W' else -1
     front = x0 if board == 'W' else x1
-    rows = [round(front + s * d, 2) for d in (2.0, 3.6, 5.2, 6.8, 8.4)]
+    rows = [round(front + s * d, 2) for d in (2.0, 4.0, 6.0, 8.0)]   # 排距 2.0 m：椅子也擋住（不能穿過椅子）
     desks, seats = [], []
     for ri, dx in enumerate(rows):
         for zc in (-6.4, -3.2):

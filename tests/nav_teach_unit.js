@@ -1,4 +1,4 @@
-// 公共教學館模板（src/teach3d.js；D55）的導航——不需要瀏覽器。共同教學館（src/data/gongtong_layout.js）、博雅教學館（src/data/boya_layout.js）用同一套檢查。
+// 公共教學館模板（src/teach3d.js；D55）的導航——不需要瀏覽器。共同、博雅、普通教學館（src/data/*_layout.js）用同一套檢查。
 // 用引擎真正的找路＋移動碰撞（走路 30 fps、跑步＋低幀率）檢查：
 //   進門的位置站得住、離出口夠遠（不會一進來就跳出「走出」）；走得到出口；
 //   每一個座位（教室、階梯教室、休息區、自習區、沙發、討論桌、長椅）的「坐下」位置（GAME.seatApproach 的規則：站得住、高度對）站得住、從大門走得到；
@@ -8,7 +8,7 @@
 //   階梯教室：平台一排比一排高 0.3 m、兩側走道每排兩階（畫面一階一階）；從大門走得到每一排的走道（高度對）；
 //   從講台到座位一定經過兩側走道（不能跨過桌子、前緣的高低差站不上去）；座位的高度＝那一排的平台；門是唯一的入口；
 //   沒有「只有一點站得住」的小孤島（滑進去就出不來，v9.3 #31）。
-// 用法：node tests/nav_teach_unit.js [gongtong|boya]
+// 用法：node tests/nav_teach_unit.js [gongtong|boya|putong]
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global;
@@ -17,8 +17,8 @@ global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createE
 global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
 process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
 const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js',
-  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/teach3d.js'];
-for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|LL3|TB3|LINZE_LAYOUT|CLASSROOM_LAYOUT|LAWLIB_LAYOUT|GONGTONG_LAYOUT|BOYA_LAYOUT|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
+  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/data/putong_layout.js','src/teach3d.js'];
+for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|LL3|TB3|LINZE_LAYOUT|CLASSROOM_LAYOUT|LAWLIB_LAYOUT|GONGTONG_LAYOUT|BOYA_LAYOUT|PUTONG_LAYOUT|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
 let fails=0; let tag=''; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+tag+name+(info?'　'+info:'')); if(!ok) fails++; };
 const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
 function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; return z; }
@@ -50,7 +50,7 @@ function runZone(id,L,minSeats){ tag='['+L.name+'] '; const z=loadZone(id); cons
     r=walk(top,[SP.x,SP.z,0]); check('二樓 → 樓梯 → 一樓大廳',r.ok,JSON.stringify(r).slice(0,180));
     check('二樓的樓梯井掉不下去（A 跑上方、平台上方站不住）',!E.canStand((A.x0+A.x1)/2,(A.z0+A.z1)/2,0.32,1)&&!E.canStand((A.x0+LD.x1)/2,(LD.z0+LD.z1)/2,0.32,1)); }
   // 椅子、沙發（使用者 2026-10-13 驗收：「自習桌不會讓玩家穿過椅子」）：站不上去，但每個位子都坐得到（上面的座位檢查）
-  { const ch=z.seats.filter(q=>q.kind!=='bench'&&q.kind!=='class'); const thru=ch.filter(q=>E.canStand(q.x,q.z,0.32,q.lv|0)); check('自習區、休息區、沙發、討論桌、階梯教室的 '+ch.length+' 個位子走不過去（不能穿過椅子）',ch.length>=10&&!thru.length,thru.slice(0,6).map(q=>q.kind+'('+q.x+','+q.z+')').join(' ')); }
+  { const ch=z.seats.filter(q=>q.kind!=='bench'); const thru=ch.filter(q=>E.canStand(q.x,q.z,0.32,q.lv|0)); check('教室、自習區、休息區、沙發、討論桌、階梯教室的 '+ch.length+' 張椅子都走不過去（不能穿過椅子）',ch.length>=10&&!thru.length,thru.slice(0,6).map(q=>q.kind+'('+q.x+','+q.z+')').join(' ')); }
   // 關著的房間：走不進去；門口的說明在走廊那一側、走得到
   { const closed=L.rooms.filter(r=>r.kind==='closed'); const bad=closed.filter(r=>E.canStand((r.x0+r.x1)/2,(r.z0+r.z1)/2,0.32,r.lv));
     const far=closed.filter(r=>{ const it=E.interactables.find(i=>i.label===r.label&&i.look&&(i.lv|0)===r.lv&&Math.abs(i.x-(r.door[0]+r.door[1])/2)<0.01); if(!it) return true; let ok=false; for(let a=0;a<16&&!ok;a++) for(const rr of [0,0.3,0.6]){ const x=it.x+Math.cos(a/16*Math.PI*2)*rr, zz=it.z+Math.sin(a/16*Math.PI*2)*rr; if(E.canStand(x,zz,0.3,r.lv)&&walk([SP.x,SP.z,0],[x,zz,r.lv]).ok){ ok=true; break; } } return !ok; });
@@ -93,4 +93,7 @@ if(!only||only==='boya'){ const z=runZone('boya',BOYA_LAYOUT,150); const L=BOYA_
   check('roomAt：沙發區、自習小桌、討論桌、講座資訊角、二樓走廊、101、201 認得出來',z.roomAt(-4.8,-3.9,0)==='sofa'&&z.roomAt(-4.6,0.8,0)==='study'&&z.roomAt(3.8,2.8,0)==='discuss'&&z.roomAt(0.4,-7.6,0)==='info'&&z.roomAt(-10,1,1)==='corridor'&&z.roomAt(-10,0,0)==='101'&&z.roomAt(-10,-5,1)==='201',
     [z.roomAt(-4.8,-3.9,0),z.roomAt(-4.6,0.8,0),z.roomAt(3.8,2.8,0),z.roomAt(0.4,-7.6,0),z.roomAt(-10,1,1),z.roomAt(-10,0,0),z.roomAt(-10,-5,1)].join(','));
   const scr=E.interactables.find(i=>i.board&&/講座資訊/.test(i.label)); check('講座資訊螢幕：有互動、走得到',!!scr&&walk([L.entrance.spawn.x,L.entrance.spawn.z,0],[scr.x,scr.z,0]).ok,scr&&scr.label); }
+if(!only||only==='putong'){ const z=runZone('putong',PUTONG_LAYOUT,110);
+  check('roomAt：走廊、門廳、101、103、201 認得出來',z.roomAt(0,0.2,0)==='corridor'&&z.roomAt(0,5,0)==='lobby'&&z.roomAt(-10,-4,0)==='101'&&z.roomAt(-10,4,0)==='103'&&z.roomAt(-10,-4,1)==='201',[z.roomAt(0,0.2,0),z.roomAt(0,5,0),z.roomAt(-10,-4,0),z.roomAt(-10,4,0),z.roomAt(-10,-4,1)].join(','));
+  const br=E.interactables.find(i=>/空橋/.test(i.label||'')); check('往博雅的空橋：關著、寫清楚之後開放（二樓）',!!br&&br.lv===1&&/之後開放/.test(br.look||''),br&&br.label); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
