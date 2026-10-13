@@ -2,7 +2,8 @@
 A. 林芷若講完話就消失：週二 11:46 在傅鐘附近，自己走到林芷若旁邊（走近 2.8 m 她就停下來）、和她說話（走近時她可能先開口：通識分組＝第一次見面）；12:00 她的時段結束——人還在、往最近的出口走（不是直接不見），走到了才離開。
    時間：SwiftShader 只有 0.5–1 fps、每幀最多算 0.1 秒，人走得很慢（手機 30–60 fps 時 50 m 約 40 秒）；等「開始往外走」最多 120 秒、等「走到了才離開」最多 900 秒（看遊戲裡的時間 E.time）。
 B. 高子晴第一次聊天就說「期末成發你要來」：週二下午在校園找到她（還不認識）——她只點頭（旁白），不自我介紹、沒有吉他社以後才有的三句；第一次見面留給吉他社（AA_120 3-1）。
-C. 小睡：週二 10:00 宿舍，床的選項有「小睡一下（13:00）」「睡到傍晚」、沒有「睡覺」；小睡到 13:00；13:00 再小睡會經過 13:20 的課＝先問，選「先不要」時間不動。
+C. 小睡（AA_110 6-5）：週二 10:00 宿舍，床的選項有「小睡 30 分鐘／1 小時／2 小時」「睡到傍晚（不設鬧鐘）」（寫會錯過 13:20 通識）、沒有「睡覺」；小睡 2 小時到 12:00；
+   12:00 再「睡到傍晚」會經過 13:20 的課＝先問，選「先不要」時間不動。
 D. 朋友在哪：週五 16:30 在霖澤館前，手機「朋友」→ 阿哲「帶我去」→ 目標變成「去找阿哲」→ 自己走過去、和他說話 → 目標恢復。
 E. 總圖可以快速前往：手機「地點」有「總圖書館（大廳）」，點了就到。
 [前置／捷徑] 每一段開始時讀檔到那個時間地點（標示在輸出）；第一、二天主線已過。
@@ -152,23 +153,23 @@ async def main():
         if s['interact'].startswith('睡覺'):
             await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
             opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
-            run.check('C 早上 10:00 床的選項：小睡一下（13:00）、睡到傍晚、再撐一下；沒有「睡覺」', any(o.startswith('小睡一下') and '13:00' in o for o in opts) and any(o.startswith('睡到傍晚') for o in opts) and not any(o.startswith('睡覺') for o in opts), json.dumps(opts, ensure_ascii=False))
+            run.check('C 早上 10:00 床的選項：小睡 30 分鐘／1 小時／2 小時、睡到傍晚（不設鬧鐘，寫會錯過 13:20 通識）、再撐一下；沒有「睡覺」', all(any(o.startswith(k) for o in opts) for k in ('小睡 30 分鐘', '小睡 1 小時', '小睡 2 小時')) and any(o.startswith('睡到傍晚') and '13:20' in o for o in opts) and not any(o.startswith('睡覺') for o in opts), json.dumps(opts, ensure_ascii=False))
             e0 = await pg.evaluate("GAME.G.energy")
-            await choose(pg, cdp, '小睡一下'); await pg.wait_for_timeout(4000)
+            await choose(pg, cdp, '小睡 2 小時'); await pg.wait_for_timeout(4000)
             q = await pg.evaluate("({hour:GAME.G.hour, day:GAME.G.day, energy:GAME.G.energy, cap:(document.getElementById('caption')||{}).textContent||''})")
-            run.check('C 小睡到 13:00、還是同一天、體力有回', abs(q['hour'] - 13.0) < 0.05 and q['day'] == 7 and q['energy'] > e0, json.dumps(q, ensure_ascii=False))
+            run.check('C 小睡 2 小時到 12:00、還是同一天、體力有回', abs(q['hour'] - 12.0) < 0.05 and q['day'] == 7 and q['energy'] > e0, json.dumps(q, ensure_ascii=False))
             await run.shot(pg, 'C_after_nap')
             await pg.wait_for_timeout(2000)
             s = await L.state(pg)
             if s['interact'].startswith('睡覺'):
                 await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
                 opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
-                await choose(pg, cdp, '小睡一下'); await pg.wait_for_timeout(1500)
+                await choose(pg, cdp, '睡到傍晚'); await pg.wait_for_timeout(1500)
                 opts2 = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
-                run.check('C 13:00 再小睡（到 18:00）會經過 13:20 的課：先問「照樣跳過／先不要」', any(o.startswith('照樣跳過') and '13:20' in o for o in opts2), json.dumps([opts, opts2], ensure_ascii=False))
+                run.check('C 12:00 再「睡到傍晚」（不設鬧鐘）會經過 13:20 的課：先問「照樣跳過／先不要」', any(o.startswith('照樣跳過') and '13:20' in o for o in opts2), json.dumps([opts, opts2], ensure_ascii=False))
                 await choose(pg, cdp, '先不要'); await pg.wait_for_timeout(1500)
                 h = await pg.evaluate("GAME.G.hour")
-                run.check('C 選「先不要」：時間不動（還是 13:00）', abs(h - 13.0) < 0.05, str(h))
+                run.check('C 選「先不要」：時間不動（還是 12:00）', abs(h - 12.0) < 0.05, str(h))
         # ---------- D：帶我去找阿哲 ----------
         run.setup('讀檔：第 3 天（9/19 週五）16:30，霖澤館前 (34,-98)；阿哲 15:30–17:30 在校園走走')
         await L.load_state(pg, {'zone': 'campus', 'hour': 16.5, 'day': 3, 'weekday': 5, 'weather': 'clear', 'pos': {'x': 34, 'z': -98, 'yaw': 0}, 'flags': BASE_FLAGS}, quiet_events=True)
