@@ -29,7 +29,7 @@ const EVENTS = (function(){
        room：玩家在建築裡的哪一間（例如 '101'、'study'、'corridor'；由區域的 roomAt 判斷）；activity：某個活動進行中（或剛結束 20 分鐘內）；
        npcHere：某個角色現在照作息在同一個區域 */
     if(ev.room){ const z=GM&&GM.E&&GM.E.zone, P=GM&&GM.E&&GM.E.player; const rid=z&&z.roomAt&&P?z.roomAt(P.obj.position.x,P.obj.position.z,P.lv|0):null; const rs=Array.isArray(ev.room)?ev.room:[ev.room]; if(!rid||!rs.includes(rid)) return false; }
-    if(ev.activity){ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.isActive(G,ev.activity,{justEnded:!!ev.activityJustEnded})) return false; }
+    if(ev.activity){ if(typeof ACTIVITIES==='undefined') return false; const want=ev.activityPhase||(ev.activityJustEnded?'justEnded':'during'); if(ACTIVITIES.phaseOf(G,ev.activity)!==want) return false; }   /* activityPhase：before／during／justEnded／after（AA_110 第 5 節）；舊的 activityJustEnded:true＝justEnded */
     if(ev.npcHere){ const ids=Array.isArray(ev.npcHere)?ev.npcHere:[ev.npcHere]; for(const id of ids){ const w=typeof STORY!=='undefined'&&STORY.whereIs?STORY.whereIs(GM,id):null; if(!w||w.zone!==G.zone) return false; } }
     if(!ctx.chain&&!X.tierOK(ev)) return false;   /* 續篇（next_event，ctx.chain）是同一段故事接著演：不受層次上限（2026-10-13 審查第 14 項：原本前一段 noteTier 之後，續篇就被上限擋掉）*/
     return X.cond(ev.prereq,ctx); };

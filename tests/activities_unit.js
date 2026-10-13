@@ -28,7 +28,12 @@ check('進行中：19:00 有演講、18:00 還沒、20:40 沒有，但「剛結�
   room='102'; check('人不在那一間（room）：不觸發',!EVENTS.check(ev)); room='101';
   G.hour=18; check('活動還沒開始（activity）：不觸發',!EVENTS.check(ev)); G.hour=19;
   where={zone:'campus'}; check('那個人照作息不在這裡（npcHere）：不觸發',!EVENTS.check(ev)); where={zone:'gongtong'};
-  G.hour=20.6; check('演講剛結束：activityJustEnded 的事件觸發、一般的不觸發',EVENTS.check(Object.assign({},ev,{activityJustEnded:true}))&&!EVENTS.check(ev)); }
+  G.hour=20.6; check('演講剛結束：activityJustEnded 的事件觸發、一般的不觸發',EVENTS.check(Object.assign({},ev,{activityJustEnded:true}))&&!EVENTS.check(ev));
+  /* 2026-10-13 ChatGPT 審查：「散場後」的事件在演講進行中不能觸發（修改前從開始就成立）；四個時段（AA_110 第 5 節）*/
+  G.hour=19.5; const je=Object.assign({},ev,{activityJustEnded:true}); check('演講進行中（19:30）：「散場後」（activityJustEnded）的事件不觸發',!EVENTS.check(je)&&EVENTS.check(ev));
+  G.hour=21.2; check('結束 40 分鐘後：「散場後」也不觸發（只有結束後 20 分鐘內）',!EVENTS.check(je));
+  const ph=h=>{ G.hour=h; return ACTIVITIES.phaseOf(G,ev.activity); }; check('時段：18:00 before、19:30 during、20:40 justEnded、21:30 after',ph(18)==='before'&&ph(19.5)==='during'&&ph(20+2/3)==='justEnded'&&ph(21.5)==='after',[ph(18),ph(19.5),ph(20+2/3),ph(21.5)].join(','));
+  G.hour=21.5; check('activityPhase:\'after\'（演講結束以後的事件）在 21:30 觸發、19:30 不觸發',EVENTS.check(Object.assign({},ev,{activityPhase:'after'}))&&(G.hour=19.5,!EVENTS.check(Object.assign({},ev,{activityPhase:'after'})))); }
 /* 照學期、星期排的活動：國定假日不辦（課表那天也停課）；用 dates 指定日期的照辦（2026-10-13 審查第 13 項）*/
 { const DAY=86400000, dOf=q=>{ const [y,m,d]=q.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/DAY)+1; };
   const wk={id:'t_weekly',title:'每週五的社課',kind:'club',term:['Y1S1'],weekday:5,t0:19,t1:21}, dt={id:'t_dated',title:'國慶日特別活動',kind:'lecture',dates:['2025-10-10'],t0:19,t1:21};
