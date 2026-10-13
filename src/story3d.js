@@ -211,7 +211,22 @@ const STORY = (function(){
   function refreshSchedule(GM){ const E=GM.E, G=GM.G; if(!G.social||!E.zone||!E.player) return; const zoneId=G.zone;
     try{ populateSchedule(zoneId,GM,true); }catch(e){ console.warn('schedule refresh failed',e); }
     const P=E.player.obj.position, hr=h(G); for(const id of Object.keys(GM.npc)){ const n=GM.npc[id]; if(!n) continue; const gone=(n.sched&&n.charId===id&&!schedFor(id,zoneId,G))||(n.until!=null&&hr>=n.until); if(!gone) continue;
-      if(G.flags.companion&&id===G.flags.companion) continue; const o=n.obj.position; if(Math.hypot(o.x-P.x,o.z-P.z)<12&&inView(E,o)) continue; GM.removeNPC(id); } }
+      if(G.flags.companion&&id===G.flags.companion) continue; const o=n.obj.position, d=Math.hypot(o.x-P.x,o.z-P.z), vis=inView(E,o);
+      /* 2026-10-13 使用者試玩：「林芷若第一次講完話直接消失在校園，本來在我前面」——時段結束時只要鏡頭沒對著她就拿掉（玩家一轉頭人就不見了）。
+         改成：還在附近的人先走到最近的門口／出口，走到了才離開（進了那棟樓、走出這一區）；已經在遠處又看不到的照舊直接離開 */
+      if(n.leaving){ if(n.arrived||(d>=30&&!vis)) GM.removeNPC(id); continue; }
+      if(d>=12&&!vis){ GM.removeNPC(id); continue; }
+      if(walkAway(GM,n)) continue;
+      if(d<12&&vis) continue; GM.removeNPC(id); } }
+  /* 時段結束：走到最近的出口（區域的出口、建築入口）——走得到才走；坐著的先起身；聊天的對象回到原本的樣子 */
+  function walkAway(GM,n){ const E=GM.E; const o=n.obj.position, lv=n.lv|0; let best=null, bd=1e9;
+    for(const it of (E.interactables||[])){ if(!it.exit&&!it.enter) continue; if((it.lv|0)!==lv) continue; const dd=Math.hypot(it.x-o.x,it.z-o.z); if(dd<bd){ bd=dd; best=it; } }
+    if(!best) return false;
+    if(n.seat&&GM.standUp) GM.standUp(n); if(n.paired){ const b=n.paired; b.paired=null; if(b.beh==='chat'){ b.beh='idle'; b.chatWith=null; b.pose=b.idlePose='idle'; } n.paired=null; } n.chatWith=null;
+    n.beh='leave'; n.frozen=false; n.waypoints=null; n.leaving=true; n.arrived=false;
+    if(!E.moveTo(n,best.x,best.z,()=>{ n.arrived=true; },lv)){ n.leaving=false; return false; }
+    return true; }
+  S.walkAway=walkAway;
   S.refreshSchedule=refreshSchedule;
   S.tick=function(GM,dt){ const G=GM.G, F=G.flags, E=GM.E; if(E.player.busy||GM.D.active) return; const P=E.player.obj.position;
     schedT-=dt; if(schedT<=0){ schedT=3; refreshSchedule(GM); }
