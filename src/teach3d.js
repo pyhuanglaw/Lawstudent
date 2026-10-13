@@ -45,6 +45,9 @@ const TB3=(function(){
       for(const d of (r.desks||[])) nav.blockRect(d.x,d.z,d.w,d.d,0,0.02); }
     for(const t of (L.lounge?L.lounge.tables:[])) navs[L.lounge.lv].blockCircle(t.x,t.z,t.r+0.08);
     for(const t of (L.study?L.study.tables:[])) navs[L.study.lv].blockRect(t.x,t.z,t.w,t.d,0,0.02);
+    /* 自習區、休息區的椅子也擋（使用者 2026-10-13 驗收：「自習桌不會讓玩家穿過椅子」）：坐的時候從旁邊走到椅子邊（GAME.seatApproach）再坐上去；
+       教室的椅子還不擋（排距 1.6 m，擋了以後椅子那一條比人窄），之後換正式模型時一起處理 */
+    for(const st of [...(L.lounge?L.lounge.seats:[]),...(L.study?L.study.tables.flatMap(t=>t.seats):[])]) navs[st.lv|0].blockRect(st.x,st.z,0.46,0.46,0,0);
     for(const b of (L.benches||[])) navs[b.lv].blockRect(b.x,b.z,Math.abs(Math.sin(b.ry))>0.5?0.6:1.5,Math.abs(Math.sin(b.ry))>0.5?1.5:0.6,0,0);
     for(const b of (L.boards||[])) navs[b.lv].blockRect(b.x,b.z,Math.abs(Math.sin(b.ry))>0.5?0.2:b.w,Math.abs(Math.sin(b.ry))>0.5?b.w:0.2,0,0);
     nav0._cm=null; nav1._cm=null; return {nav0,nav1,ss}; }

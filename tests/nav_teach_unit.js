@@ -36,8 +36,10 @@ check('進門的位置站得住、離出口 > 出口半徑（不會一進來就�
     [H((A.x0+A.x1)/2,A.z1-0.05,0).toFixed(2),H((A.x0+A.x1)/2,(S.landing.z0+S.landing.z1)/2,0).toFixed(2),H((B.x0+B.x1)/2,B.z1-0.05,1).toFixed(2)].join(' / '));
   let r=walk([SP.x,SP.z,0],[0,1.0,1]); check('大廳 → A 跑 → 平台 → B 跑 → 二樓走廊（第 1 層、4.2 m）',r.ok,JSON.stringify(r).slice(0,180));
   r=walk([-7.6,1.0,1],[SP.x,SP.z,0]); check('二樓走廊 → 樓梯 → 一樓大廳',r.ok,JSON.stringify(r).slice(0,180));
-  r=walk([0,1.0,1],[-8.0,4.2,1]); check('二樓走廊 → 自習區',r.ok,JSON.stringify(r).slice(0,160));
+  r=walk([0,1.0,1],[-8.7,4.4,1]); check('二樓走廊 → 自習區（桌子和椅子之間的走道）',r.ok,JSON.stringify(r).slice(0,160));
   check('二樓的樓梯井掉不下去（A 跑上方、平台上方站不住）',!E.canStand((A.x0+A.x1)/2,-2.4,0.32,1)&&!E.canStand(-1.6,(S.landing.z0+S.landing.z1)/2,0.32,1)); }
+// 椅子（使用者 2026-10-13 驗收：「自習桌不會讓玩家穿過椅子」）：自習區、休息區的椅子站不上去（走不過去），但每個位子都坐得到（上面的座位檢查）
+{ const ch=z.seats.filter(q=>q.kind==='study'||q.kind==='lounge'); const thru=ch.filter(q=>E.canStand(q.x,q.z,0.32,q.lv|0)); check('自習區、休息區的 '+ch.length+' 張椅子走不過去（不能穿過椅子）',ch.length>=10&&!thru.length,thru.map(q=>q.kind+'('+q.x+','+q.z+')').join(' ')); }
 // 關著的房間、教室
 { const closed=L.rooms.filter(r=>r.kind==='closed'); const bad=closed.filter(r=>E.canStand((r.x0+r.x1)/2,(r.z0+r.z1)/2,0.32,r.lv)); check('關著的房間（管理室、203、洗手間）走不進去；門口有看得懂的說明',!bad.length&&closed.every(r=>E.interactables.some(i=>i.label===r.label&&i.look)),bad.map(r=>r.id).join(','));
   for(const id of ['101','102','201','202']){ const r=L.rooms.find(q=>q.id===id); const p=[(r.x0+r.x1)/2,-4.0,r.lv]; const w=walk([SP.x,SP.z,0],p); check('教室 '+id+'：從大門走得進去（走到中間的走道）',w.ok,JSON.stringify(w).slice(0,140)); } }

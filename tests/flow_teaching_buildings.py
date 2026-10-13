@@ -67,7 +67,7 @@ async def main():
         ok = await L.go_to(pg, cdp, run, 0, 1.0, 0.8, '二樓走廊', lv=1)
         s = await L.state(pg)
         run.check('自己走上樓梯到二樓走廊（第 1 層、4.2 m）', ok and s['lv'] == 1 and abs(s['y'] - 4.2) < 0.1, json.dumps(s, ensure_ascii=False))
-        ok = await L.go_to(pg, cdp, run, -8.0, 4.4, 0.9, '二樓自習區', lv=1)
+        ok = await L.go_to(pg, cdp, run, -8.7, 4.4, 0.5, '二樓自習區（桌子旁）', lv=1)
         s = await L.state(pg)
         run.check('走到二樓自習區、出現「坐下讀書（自習區）」', ok and '自習區' in s['interact'], json.dumps(s, ensure_ascii=False))
         await run.shot(pg, 'A_study_2f')
