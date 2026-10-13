@@ -53,7 +53,7 @@ function runZone(id,L,minSeats){ tag='['+L.name+'] '; const z=loadZone(id); cons
   { const ch=z.seats.filter(q=>q.kind!=='bench'); const thru=ch.filter(q=>E.canStand(q.x,q.z,0.32,q.lv|0)); check('教室、自習區、休息區、沙發、討論桌、階梯教室的 '+ch.length+' 張椅子都走不過去（不能穿過椅子）',ch.length>=10&&!thru.length,thru.slice(0,6).map(q=>q.kind+'('+q.x+','+q.z+')').join(' ')); }
   // 關著的房間：走不進去；門口的說明在走廊那一側、走得到
   { const closed=L.rooms.filter(r=>r.kind==='closed'); const bad=closed.filter(r=>E.canStand((r.x0+r.x1)/2,(r.z0+r.z1)/2,0.32,r.lv));
-    const far=closed.filter(r=>{ const it=E.interactables.find(i=>i.label===r.label&&i.look&&(i.lv|0)===r.lv&&Math.abs(i.x-(r.door[0]+r.door[1])/2)<0.01); if(!it) return true; let ok=false; for(let a=0;a<16&&!ok;a++) for(const rr of [0,0.3,0.6]){ const x=it.x+Math.cos(a/16*Math.PI*2)*rr, zz=it.z+Math.sin(a/16*Math.PI*2)*rr; if(E.canStand(x,zz,0.3,r.lv)&&walk([SP.x,SP.z,0],[x,zz,r.lv]).ok){ ok=true; break; } } return !ok; });
+    const far=closed.filter(r=>{ const it=E.interactables.find(i=>(r.link?(i.exit&&i.label===r.link.label):(i.label===r.label&&i.look))&&(i.lv|0)===r.lv&&Math.abs(i.x-(r.door[0]+r.door[1])/2)<0.01);   /* 空橋（link）：門口是走過去的互動點 */ if(!it) return true; let ok=false; for(let a=0;a<16&&!ok;a++) for(const rr of [0,0.3,0.6]){ const x=it.x+Math.cos(a/16*Math.PI*2)*rr, zz=it.z+Math.sin(a/16*Math.PI*2)*rr; if(E.canStand(x,zz,0.3,r.lv)&&walk([SP.x,SP.z,0],[x,zz,r.lv]).ok){ ok=true; break; } } return !ok; });
     check('關著的房間（'+closed.map(r=>r.id).join('、')+'）走不進去；門口有看得懂的說明、走得到（不在建築外面）',!bad.length&&!far.length,bad.map(r=>r.id).join(',')+' 走不到說明：'+far.map(r=>r.id).join(',')); }
   // 平面教室：走得進去（中間的走道）；從走廊進去的路一定繞門
   for(const r of L.rooms.filter(q=>q.kind==='classroom')){ const cx=(r.x0+r.x1)/2, dz=r.doorZ!=null?r.doorZ:-0.4; const dzs=[...new Set(r.desks.map(d=>d.z))].sort((a,b)=>a-b); const p=[cx,(dzs[0]+dzs[dzs.length-1])/2,r.lv];   /* 兩排桌子中間的走道 */ const w=walk([SP.x,SP.z,0],p); check('教室 '+r.id+'：從大門走得進去（走到中間的走道）',w.ok,JSON.stringify(w).slice(0,140));
@@ -95,5 +95,11 @@ if(!only||only==='boya'){ const z=runZone('boya',BOYA_LAYOUT,150); const L=BOYA_
   const scr=E.interactables.find(i=>i.board&&/講座資訊/.test(i.label)); check('講座資訊螢幕：有互動、走得到',!!scr&&walk([L.entrance.spawn.x,L.entrance.spawn.z,0],[scr.x,scr.z,0]).ok,scr&&scr.label); }
 if(!only||only==='putong'){ const z=runZone('putong',PUTONG_LAYOUT,110);
   check('roomAt：走廊、門廳、101、103、201 認得出來',z.roomAt(0,0.2,0)==='corridor'&&z.roomAt(0,5,0)==='lobby'&&z.roomAt(-10,-4,0)==='101'&&z.roomAt(-10,4,0)==='103'&&z.roomAt(-10,-4,1)==='201',[z.roomAt(0,0.2,0),z.roomAt(0,5,0),z.roomAt(-10,-4,0),z.roomAt(-10,4,0),z.roomAt(-10,-4,1)].join(','));
-  const br=E.interactables.find(i=>/空橋/.test(i.label||'')); check('往博雅的空橋：關著、寫清楚之後開放（二樓）',!!br&&br.lv===1&&/之後開放/.test(br.look||''),br&&br.label); }
+  const br=E.interactables.find(i=>/空橋/.test(i.label||'')); const sp=br&&br.exit&&br.exit.spawn;
+  check('往博雅的空橋（方案 A）：二樓門口「走空橋到博雅教學館」→ 落在博雅二樓',!!br&&br.lv===1&&br.exit&&br.exit.to==='boya'&&sp&&sp.lv===1,br&&br.label+' '+JSON.stringify(br.exit));
+  check('空橋門口從一樓大廳走得到（上樓梯、二樓走廊）',!!br&&walk([PUTONG_LAYOUT.entrance.spawn.x,PUTONG_LAYOUT.entrance.spawn.z,0],[br.x,br.z,1]).ok);
+  /* 對面（博雅二樓）的落點：站得住，而且走得到博雅那邊回普通的空橋門口、一樓出口 */
+  if(sp){ loadZone('boya'); const back=E.interactables.find(i=>i.exit&&i.exit.to==='putong');
+    check('落在博雅二樓：站得住；回普通的空橋門口、博雅一樓出口都走得到',E.canStand(sp.x,sp.z,0.32,1)&&!!back&&walk([sp.x,sp.z,1],[back.x,back.z,1]).ok&&walk([sp.x,sp.z,1],[BOYA_LAYOUT.entrance.exit.x,BOYA_LAYOUT.entrance.exit.z-0.6,0]).ok,JSON.stringify(sp));
+    const bs=back&&back.exit.spawn; loadZone('putong'); check('從博雅走回來：落在普通二樓走廊、站得住、走得到普通一樓出口',!!bs&&bs.lv===1&&E.canStand(bs.x,bs.z,0.32,1)&&walk([bs.x,bs.z,1],[PUTONG_LAYOUT.entrance.exit.x,PUTONG_LAYOUT.entrance.exit.z-0.6,0]).ok,JSON.stringify(bs)); } }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
