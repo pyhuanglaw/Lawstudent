@@ -1,0 +1,31 @@
+{"vc_consolidate": {"meshes": 5, "faces": 4771, "materials": ["ck_ceiling", "ck_frame", "fd_cloth", "fd_misc", "fd_roof"]}}
+{"merge_by_material": {"objects_in": 11, "merged_into": 2}}
+ERROR Draco is not available because library could not be found at /opt/blenv/lib/python3.13/site-packages/bpy/lib/libbf_intern_draco_bridge.so
+ERROR MeshOptimizer is not available because library could not be found at /opt/blenv/lib/python3.13/site-packages/bpy/lib/libbf_intern_meshopt_bridge.so
+06:02:29 | INFO: Starting glTF 2.0 export
+06:02:29 | INFO: Extracting primitive: fd_base
+06:02:29 | INFO: Primitives created: 1
+06:02:29 | INFO: Extracting primitive: fd_glass
+06:02:29 | INFO: Primitives created: 1
+06:02:29 | INFO: Extracting primitive: fd_lamp
+06:02:29 | INFO: Primitives created: 1
+06:02:29 | INFO: Extracting primitive: fd_paint.001
+06:02:29 | INFO: Primitives created: 1
+06:02:29 | INFO: Extracting primitive: fd_wall
+06:02:29 | INFO: Primitives created: 1
+06:02:29 | INFO: Extracting primitive: PLATE_FACE_FD_A
+06:02:29 | INFO: Primitives created: 1
+06:02:29 | INFO: Extracting primitive: PLATE_FACE_FD_A_NO
+06:02:29 | INFO: Primitives created: 1
+06:02:29 | INFO: Extracting primitive: PLATE_FACE_FD_A_OFFICE
+06:02:29 | INFO: Primitives created: 1
+06:02:29 | INFO: Extracting primitive: PLATE_FACE_FD_B
+06:02:29 | INFO: Primitives created: 1
+06:02:29 | INFO: Extracting primitive: PLATE_FACE_FD_B_NO
+06:02:29 | INFO: Primitives created: 1
+06:02:29 | INFO: Extracting primitive: wz_vc_fd
+06:02:29 | INFO: Primitives created: 1
+06:02:29 | INFO: Finished glTF 2.0 export in 0.18343234062194824 s
+
+{"objects": 11, "unique_meshes": 11, "tris": 15970, "tris_drawn": 15970, "materials": 12, "out": "assets/models/env/second_ai/campus_freshman.glb", "bytes": 1332856, "texres": 512}
+exit 0

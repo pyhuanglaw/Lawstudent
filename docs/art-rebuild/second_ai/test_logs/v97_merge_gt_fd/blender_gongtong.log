@@ -1,0 +1,27 @@
+{"vc_consolidate": {"meshes": 9, "faces": 15708, "materials": ["ck_ceiling", "ck_frame", "gt_celadon", "gt_misc", "gt_palm", "gt_palm_bark", "gt_plaster", "gt_terrace", "gt_wood"]}}
+{"merge_by_material": {"objects_in": 17, "merged_into": 3}}
+ERROR Draco is not available because library could not be found at /opt/blenv/lib/python3.13/site-packages/bpy/lib/libbf_intern_draco_bridge.so
+ERROR MeshOptimizer is not available because library could not be found at /opt/blenv/lib/python3.13/site-packages/bpy/lib/libbf_intern_meshopt_bridge.so
+06:02:27 | INFO: Starting glTF 2.0 export
+06:02:27 | INFO: Extracting primitive: gt_base
+06:02:27 | INFO: Primitives created: 1
+06:02:27 | INFO: Extracting primitive: gt_glass
+06:02:27 | INFO: Primitives created: 1
+06:02:27 | INFO: Extracting primitive: gt_lamp
+06:02:27 | INFO: Primitives created: 1
+06:02:27 | INFO: Extracting primitive: gt_roof
+06:02:27 | INFO: Primitives created: 1
+06:02:27 | INFO: Extracting primitive: gt_wall.001
+06:02:27 | INFO: Primitives created: 1
+06:02:27 | INFO: Extracting primitive: gt_wash.001
+06:02:27 | INFO: Primitives created: 1
+06:02:27 | INFO: Extracting primitive: PLATE_FACE_GONGTONG
+06:02:27 | INFO: Primitives created: 1
+06:02:27 | INFO: Extracting primitive: PLATE_FACE_GT_SIDE
+06:02:27 | INFO: Primitives created: 1
+06:02:27 | INFO: Extracting primitive: wz_vc_gt
+06:02:27 | INFO: Primitives created: 1
+06:02:27 | INFO: Finished glTF 2.0 export in 0.32082104682922363 s
+
+{"objects": 9, "unique_meshes": 9, "tris": 28627, "tris_drawn": 28627, "materials": 17, "out": "assets/models/env/second_ai/campus_gongtong.glb", "bytes": 2125540, "texres": 512}
+exit 0
