@@ -56,7 +56,8 @@ const seats=Array.from({length:12},(_,i)=>({x:i,z:0,yaw:0,row:0,col:i}));
 { GM=newGM('cafe',fri('Y3S2',5),19.5,F0,seats); check('沒有 presence 的人物照舊（子晴、溫書瑀在任何學期都算在）；from Y1S1 的阿哲、小安大三下也在',STORY.present('heroine_04',GM.G)&&STORY.present('heroine_05',GM.G)&&STORY.present('zhe',GM.G)&&STORY.present('heroine_01',GM.G)); }
 // 課堂的同學反應句：那學期不在的人沒有反應句
 { const c={id:'t_course',name:'測試課',prof:null,profName:'老師',topics:['測試'],syllabus:[{w:5,tpl:'A',board:['測試','',''],line:'老師說的話',react:[{who:'heroine_02',text:'林芷若的反應'}]}]};
-  const inT=CLS.content({c,week:5,day:fri('Y3S1',5)}), outT=CLS.content({c,week:5,day:fri('Y3S2',5)});
+  const sy0=global.SYLLABUS; global.SYLLABUS={courses:{},pools:{},skip:{},reviewed:['t_course|5']};   /* 審查過的週才用課堂內容（法律審查，AA_122 第 0a 節）：測試課當作審查過 */
+  const inT=CLS.content({c,week:5,day:fri('Y3S1',5)}), outT=CLS.content({c,week:5,day:fri('Y3S2',5)}); global.SYLLABUS=sy0;
   check('課堂反應句：大三上有林芷若的反應、大三下（不在）沒有',/林芷若的反應/.test(inT.react||'')&&!outT.react,JSON.stringify([inT.react,outT.react])); }
 // 芷若大一上的週五（AA_110 5-7）：09:10–12:10 普通 101 上重修經原、12:10–13:00 在小福吃午餐（不在場景裡）、13:00–17:00 Café；其他學期、國定假日、寒假照原本的作息
 { delete CHARACTERS.heroine_02.presence;   // 上面的測試資料拿掉（遊戲資料裡芷若沒有 presence）

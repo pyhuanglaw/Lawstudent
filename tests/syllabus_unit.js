@@ -17,6 +17,13 @@ const extra=[...Object.keys(SYLLABUS.courses),...Object.keys(SYLLABUS.pools)].fi
   check('黑板與台詞不講案號（AA_103 第 5 節）',!caseNo.length,caseNo.slice(0,3).join('；')); }
 // 上課時的內容
 const itOf=(day,cid)=>CLS.dayItems({day,hour:8,flags:{}}).find(it=>it.c.id===cid);
+// 法律審查（AA_122 第 0a 節，使用者 2026-10-14 同意）：還沒審查的週不用 BB 的內容。v9.6 的 syllabus.js 是審查之前的版本、沒有 reviewed＝法律系的課全部用只寫主題的一般句子
+{ const allKeys=[]; for(const id in SYLLABUS.courses) for(const w of SYLLABUS.courses[id]) allKeys.push(id+'|'+w.w);
+  check('v9.6 的課堂內容沒有審查紀錄（SYLLABUS.reviewed 不存在或是空的）',!(SYLLABUS.reviewed&&SYLLABUS.reviewed.length));
+  const shown=[]; let n=0; for(let d=1;d<1500;d++){ for(const it of CLS.dayItems({day:d,hour:8,flags:{}})){ if(it.exam||it.c.kind==='service') continue; const sy=(SYLLABUS.courses[it.c.id]||[]).find(q=>q.w===it.week); if(!sy) continue; const ct=CLS.content(it); if(ct.second) continue; n++;
+      if(ct.line===sy.line||(sy.board||[]).slice(1).some(b=>b&&ct.board.includes(b))||ct.tpl||ct.obs||ct.call) shown.push(d+' '+it.c.id+' W'+it.week); } }
+  check('沒審查過的週：黑板、教授一句、觀察／點名都不用 BB 的內容（大一到大四 '+n+' 堂）',n>500&&!shown.length,shown.slice(0,4).join(' | '));
+  SYLLABUS.reviewed=allKeys; }   /* 下面檢查「審查過的週」怎麼顯示（之後的版本照 BB_115 的審查結果一週一週開）：先當作全部審查過 */
 { const it=itOf(dayOf('2025-09-18'),'civ_general');   /* 第 3 週週四 */ const ct=CLS.content(it);
   check('民法總則第 3 週：BB 的黑板三行、周教授一句',it.week===3&&ct.board[1]==='案例：網拍相機 1,000 元'&&/直覺/.test(ct.line),JSON.stringify(ct).slice(0,200));
   check('同學反應照人物顯示名字（阿哲／小語／不認識的同學照揭露規則）、用引號',/^.+：「.+」$/.test(ct.react)||/^.+（.+）$/.test(ct.react),ct.react); }
