@@ -29,7 +29,15 @@ async def main():
         await pg.wait_for_timeout(5000)
         ob = await pg.evaluate("(()=>{ const w=SYLLABUS.courses.civ_general.find(q=>q.w===14); return w&&w.obs; })()")
         run.check('A 第 14 週是討論型 B（四個選項、兩到三位同學、教授收尾）', bool(ob) and ob.get('kind') == 'discuss' and len(ob['options']) == 4 and 2 <= len(ob['replies']) <= 3 and bool(ob['close']))
-        seat = await pg.evaluate("(()=>{ const S=GAME.E.zone.seats||[]; const s=S.find(q=>q.row===3&&q.col===3)||S[Math.floor(S.length/2)]; const ap=GAME.seatApproach(s)||[s.x,s.z]; return {x:s.x,z:s.z,lv:s.lv|0,ax:ap[0],az:ap[1]}; })()")
+        # 上課時 201 有 16 位同學坐固定的位子（classes3d.js syncRoom 的 cells，第 4 排第 4 個就是其中之一）：真的玩家看到有人坐的位子不會去坐——
+        # 等同學坐好，挑離第 4 排第 4 個最近的空位（v9.7 回歸：寫死的那個位子有同學、模型還沒載入看起來是空的，「坐下」不出現）
+        for _ in range(60):
+            if await pg.evaluate("GAME.E.npcs.filter(n=>n.clsStudent&&n.seat).length") > 0: break
+            await pg.wait_for_timeout(1000)
+        seat = await pg.evaluate("""(()=>{ const E=GAME.E, S=E.zone.seats||[]; const occ=q=>q.taken||E.npcs.some(n=>(n.seat||n.seatTarget)&&Math.hypot((n.seat||n.seatTarget).x-q.x,(n.seat||n.seatTarget).z-q.z)<0.35);
+          const L=S.filter(q=>!occ(q)).sort((a,b)=>(Math.abs(a.row-3)*3+Math.abs(a.col-3))-(Math.abs(b.row-3)*3+Math.abs(b.col-3))); const s=L[0]; if(!s) return null;
+          const ap=GAME.seatApproach(s)||[s.x,s.z]; return {x:s.x,z:s.z,lv:s.lv|0,row:s.row,col:s.col,ax:ap[0],az:ap[1]}; })()""")
+        run.note(f"空位：第 {seat['row'] + 1} 排第 {seat['col'] + 1} 個" if seat else '201 沒有空位')
         ok = await L.go_to(pg, cdp, run, seat['ax'], seat['az'], 0.3, '201 的座位', lv=seat['lv'])
         s = await L.state(pg)
         run.check('A 自己走到座位旁、出現「坐下」', ok and s['interact'].startswith('坐下'), json.dumps(s, ensure_ascii=False))
