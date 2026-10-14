@@ -54,7 +54,10 @@ const Y1S1=dayIn('Y1S1'), Y1S2=dayIn('Y1S2');
   /* ---------- A7 ---------- */
   for(const id of ['ev_yutong_absent','ev_yutong_thanks']){ const e=ev(id);
     const setup=day=>{ fresh(day,18,id==='ev_yutong_absent'?'noodle':'library'); while(![2,4].includes(G.weekday)){ G.day++; G.weekday=wdOf(G.day); } SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','TALKED_FAMILY','x'); G.flags.yutong_hospital=true; };
-    setup(Y1S1+14); const a=EVENTS.check(e); setup(Y1S2+14); const b=EVENTS.check(e);
+    /* 語彤 4 從交接包 v2 起放在期中這兩週（第 8～9 週，AA_11 事件 4）：大一上、下都用第 8 週比 */
+    const wk=(term,w)=>{ for(let d=1;d<2000;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===w) return d; } return null; };
+    const dA=id==='ev_yutong_absent'?wk('Y1S1',8):Y1S1+14, dB=id==='ev_yutong_absent'?wk('Y1S2',8):Y1S2+14;
+    setup(dA); const a=EVENTS.check(e); setup(dB); const b=EVENTS.check(e);
     check('A7 '+id+'：大一上條件都成立也不觸發，大一下才會',a===false&&b===true,JSON.stringify({Y1S1:a,Y1S2:b})); }
   /* ---------- A8 ---------- */
   { const e=ev('ev_course_selection'); fresh(Y1S1+3,8,'dorm'); picks=[1]; await EVENTS.run(e); const L=lines(), o=opts[0]||[];
