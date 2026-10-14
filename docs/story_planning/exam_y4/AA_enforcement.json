@@ -4,7 +4,7 @@
  "term": "Y4S1",
  "author": "AA",
  "count": 8,
- "crossReviewed": 7,
+ "crossReviewed": 8,
  "questions": [
   {
    "id": "Y4_ENF_01",
@@ -128,8 +128,8 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "強制執行法 §53：「尚未發表之發明或著作」"
    ]

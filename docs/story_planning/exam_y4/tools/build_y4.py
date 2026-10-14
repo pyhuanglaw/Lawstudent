@@ -34,7 +34,9 @@ APPLIED = {'Y4_CJS_02', 'Y4_CJS_05', 'Y4_CJS_06', 'Y4_CJS_07', 'Y4_ENF_01', 'Y4_
 OWN = {'enforcement', 'legal_ethics', 'crim_judgment_sem', 'public_judgment_sem'}
 
 # BB 交叉審（BB 0e30ba4，2026-10-14 16:5x）：64 題全部通過。交叉審以後改過字的題目，要 BB 再看一次才算通過
-REREVIEW = {'Y4_ENF_05': '照 BB 的建議改字（集保股票實務上是發扣押命令，不叫查封 → 換成跑車；「出版」改「發表」），等 BB 再確認'}
+REREVIEW = {}  # 目前沒有等 BB 再看的題目
+# 交叉審以後改過字、BB 再確認過的題目（只記在 REVIEW.md）
+RECHECKED = {'Y4_ENF_05': '照 BB 的建議改字（集保股票實務上是發扣押命令，不叫查封 → 換成跑車；「出版」改「發表」）；BB 2026-10-14 16:58 再確認通過（§53 I ⑥、跑車可以查封、答案 B 唯一）'}
 
 # BB 的四門課以 BB 的題為主：AA 的補充題和 BB 考同一個點、或會互相洩題的，拿掉（../AA_交叉審_BB.md 第 3 節）
 DROPPED = {
@@ -368,7 +370,7 @@ def main():
             a = snap.get(f'{p}:{n}')
             if not a: err.append(f'{t}：快照沒有 {p} §{n}'); continue
             if norm(ph) not in norm(a['text']): err.append(f'{t}：「{ph}」不在 {LAWS[p]} §{n} 的現行條文裡')
-    for x in list(DROPPED) + list(REREVIEW):
+    for x in list(DROPPED) + list(REREVIEW) + list(RECHECKED):
         if x not in ids: err.append(f'{x}：DROPPED／REREVIEW 裡的題號不存在')
     for q in QS:
         if q['id'] not in REREVIEW:  # BB 0e30ba4：64 題全部通過
@@ -410,6 +412,7 @@ def main():
               f'- 結論：AA 的 {len(QS)} 題全部通過，沒有法律錯誤（BB 用自己重新抓的現行條文逐題核對）。通過的題目 `status` 改成 `Y4_CROSS_REVIEWED`、`crossReviewedBy: BB`。',
               '- BB 的兩個建議都採用：']
     lines += [f'  - `{k}`：{v}（這題先維持 `Y4_SELF_REVIEWED`）' for k, v in REREVIEW.items()]
+    lines += [f'  - `{k}`：{v}' for k, v in RECHECKED.items()]
     lines += ['  - `Y4_LSO_04` 選項 D 只寫了半句：這題和 BB 的 `Y4LSO_07` 題幹相同，直接拿掉（見下）。', '',
               f'## 拿掉的題目（{len(DROPPED)} 題：BB 的課以 BB 的題為主，同一個點只留一題，會互相洩題的也拿掉）', '',
               '| 題號 | 原因 |', '|---|---|']
