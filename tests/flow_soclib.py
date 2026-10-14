@@ -8,7 +8,7 @@ E. 自己走到出口：「離開圖書館（回社科院前）」→ 回到校�
 F. 手機「地點」→ 社科院圖書館：到圖書館入口、站得住、時間有過。
 G. [前置] 晚上 20:30 在館裡：天窗變暗（自發光比白天低）、窗外換夜景。
 用法：python3 tests/flow_soclib.py URL [輸出資料夾]"""
-import asyncio, json, sys, math
+import asyncio, json, sys, math, time
 from playwright.async_api import async_playwright
 sys.path.insert(0, __import__('os').path.dirname(__file__))
 import playlib as L
@@ -37,6 +37,21 @@ async def sit_and_stand(pg, cdp, run, label):
     s = await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['busy'] and not q['dlg'] and not q['choices'], pick=idx)
     pose = await pg.evaluate("GAME.E.player.pose")
     run.check(label + '：起身後站得住（不在桌子、書架裡）', pose != 'sit' and s['stand'], f'pose={pose} ' + json.dumps(s, ensure_ascii=False))
+
+
+async def until_button(pg, cdp, run, x, z, prefix, label, max_s=300):
+    """像玩家一樣往 (x,z) 點地面，看到按鈕（人物停下來、按鈕字是 prefix 開頭）就停；回傳按鈕有沒有出現"""
+    t0 = time.time(); taps = 0
+    while time.time() - t0 < max_s:
+        s = await L.state(pg)
+        if s['interact'].startswith(prefix) and not s['path']:
+            run.note(f'{label}：「{s["interact"]}」出現（點地面 {taps} 次，{time.time() - t0:.0f} 秒；離那一點 {math.hypot(x - s["x"], z - s["z"]):.2f} m）')
+            return True
+        if not s['path']:
+            await L.tap_ground(pg, cdp, x, z); taps += 1
+        await pg.wait_for_timeout(3000)
+    run.note(f'{label}：{max_s} 秒內按鈕沒有出現（點地面 {taps} 次）')
+    return False
 
 
 async def main():
@@ -74,7 +89,9 @@ async def main():
             d = math.hypot(ax - seat['x'], az - seat['z'])
             run.note(f'遊戲算的站位離椅子 {d:.2f} m（按鈕範圍 0.8 m），看不到「坐下讀書」：再往椅子走一步')
             bx, bz = seat['x'] + (ax - seat['x']) / d * 0.7, seat['z'] + (az - seat['z']) / d * 0.7
-            ok = await L.go_to(pg, cdp, run, bx, bz, 0.08, '再往椅子走一步（椅子正後方 0.7 m）')
+            # 2026-10-14 候選 10：要求停在那一點 0.08 m 內，人物停在 0.22 m 外（站得住的邊緣），按鈕早就出現了，測試還在點（71 次）、最後判失敗。
+            # 玩家看到按鈕就會停下來按：往那一點點地面，按鈕出現（人物停下來）就停
+            ok = await until_button(pg, cdp, run, bx, bz, '坐下讀書', '再往椅子走一步（椅子正後方 0.7 m）')
             s = await L.state(pg)
         run.check('自己走過閘門、走到閱覽長桌的座位旁、出現「坐下讀書」', ok and s['interact'].startswith('坐下讀書') and s['z'] < 7.5, json.dumps(s, ensure_ascii=False))
         await sit_and_stand(pg, cdp, run, 'B_table')
