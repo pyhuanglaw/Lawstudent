@@ -67,6 +67,15 @@ async def main():
         ax, az = seat['ax'], seat['az']
         ok = await L.go_to(pg, cdp, run, ax, az, 0.15, '閱覽長桌的座位旁')   # 按鈕範圍 0.8 m、站的位置在椅子後面 0.6 m：停在 0.3 m 外可能看不到按鈕（flow_boya_interior 同一個問題）
         s = await L.state(pg)
+        if ok and not s['interact'].startswith('坐下讀書'):
+            # 2026-10-14 v9.6 回歸：這張（北側、面向南）椅子後面 0.6 m 那一點碰到椅背（半徑 0.3 m 站不下），遊戲算的站位改成 0.9 m，比按鈕範圍 0.8 m 遠，
+            # 停在那裡看不到按鈕。玩家這時會再往椅子走一步——走到椅子正後方 0.7 m（椅背擋住以前），按鈕就出現（診斷：椅子後面 0.65～0.8 m 都站得住）。
+            # 遊戲的站位（GAME.seatApproach 少了 0.65～0.75 m 的候選）記在已知問題，開發分支修；這裡照玩家的做法驗「走到椅子旁邊、按鈕出現」
+            d = math.hypot(ax - seat['x'], az - seat['z'])
+            run.note(f'遊戲算的站位離椅子 {d:.2f} m（按鈕範圍 0.8 m），看不到「坐下讀書」：再往椅子走一步')
+            bx, bz = seat['x'] + (ax - seat['x']) / d * 0.7, seat['z'] + (az - seat['z']) / d * 0.7
+            ok = await L.go_to(pg, cdp, run, bx, bz, 0.08, '再往椅子走一步（椅子正後方 0.7 m）')
+            s = await L.state(pg)
         run.check('自己走過閘門、走到閱覽長桌的座位旁、出現「坐下讀書」', ok and s['interact'].startswith('坐下讀書') and s['z'] < 7.5, json.dumps(s, ensure_ascii=False))
         await sit_and_stand(pg, cdp, run, 'B_table')
         # ---------- C：林間書房 ----------
