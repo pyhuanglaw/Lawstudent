@@ -18,7 +18,24 @@
 交班紀錄：2026-10-11 10:13 UTC 交班（`1f20126`）→ 2026-10-13 回到帳號 A。
 使用者 2026-10-13：帳號 B 暫時沒有開，從上次停下來的地方接著做。
 
-**2026-10-14 12:41Z（最新；使用者用量約 12:50 UTC 用完，下一個工作階段從這裡接）**：
+**2026-10-14 17:00Z（最新）**：
+- **LAWWW 16:00Z 佇列**：
+  - ① 2D 背景 noodle_table：**v2 已交**。
+    - 檔案：`assets/bg/noodle_table.webp`，備用 `noodle_table_window.webp`。commit dcc4cf7；腳本 `tools/blender/env_second/bg_noodle_table.py`、`noodle_interior.py --layout longtable`。
+    - 遊戲內 ADV 截圖、LICENSES 一列、接法、自評都在 `test_shots/bg_noodle_table/README.md`。
+    - 狀態 READY_FOR_ART_REVIEW。
+  - ② C13 兩個晚上場景：**已交**（ce301b6，`test_shots/c13_night/README.md`）。不自然處都在 LAWWW 的檔案：
+    - 博雅後牆方形光斑。
+    - 長椅附近沒有燈。
+    - 女舍門口路人坐在空中。
+    - 女舍門燈罩（我的 GLB）可以加大，等 LAWWW 決定。
+  - ③ 汽車／約會美術：等 AA、BB 交接後 LAWWW 正式分派。
+- **已問 LAWWW 下一項**（17:00Z）：女舍門燈罩加大，或便利商店商品（09:53Z 舊佇列，使用者抱怨過「便利商店貨架像模板複製貼上」）。
+- **路人底模**：LAWWW 已整合進開發分支 26c6553，只在 `?npcnew` 下、只給沒名字的路人用；美術 READY_FOR_ART_REVIEW。
+- **給 LAWWW 的遊戲問題**：麵店價目板的字被切掉（zones3d.js attachNoodleInterior 沒有縮字）。
+- **本機 worktree**（都不 commit）：`/home/user/bg_wt`（e6ca3e2＋outings3d.js 一行，伺服器 8820）、`/home/user/npc_wt`（伺服器 8817）。
+
+**2026-10-14 12:41Z（使用者用量約 12:50 UTC 用完，下一個工作階段從這裡接）**：
 - **v9.7 發布測試，我跑的全部 ALL PASS**（log＋截圖在 `test_logs/`）：
 
   | 測試 | 基準 | 結果 | 秒數 | commit |
