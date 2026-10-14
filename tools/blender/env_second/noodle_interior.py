@@ -195,6 +195,41 @@ if LAYOUT == 'longtable':
     tissue.box(0.6, 0.82, 0.77, 0.85, 0.15, 0.27)
     for m in (cup, tea, plate): m.finish(root)
     tfood.finish(root, uv=False)
+    # 背景版才有的雜物（v2，讓店裡有生活感；遊戲的配置不受影響）：右牆的玻璃門飲料冰箱、後牆的時鐘、左牆的月曆、疊起來的紅色塑膠椅
+    fz0, fz1, fb0, ff0 = -1.3, -0.5, X0 + 0.04, X0 + 0.74     # 左牆：冰箱背面貼牆（x＝fb0）、玻璃門朝店裡（x＝ff0）
+    fb = Mesh('ndl_fridge_body', L.flat('ndl_fridge_white', '#e9e9e6', rough=0.4))   # 中空的櫃體：背板、兩側、頂、底（飲料從玻璃門看得到）
+    fb.box(fb0, fb0 + 0.04, 0.0, 1.95, fz0, fz1); fb.box(fb0, ff0, 0.0, 1.95, fz0, fz0 + 0.04); fb.box(fb0, ff0, 0.0, 1.95, fz1 - 0.04, fz1)
+    fb.box(fb0, ff0, 0.0, 0.1, fz0, fz1); fb.box(fb0, ff0, 1.78, 1.95, fz0, fz1)
+    fl = Mesh('ndl_fridge_light', L.flat('ndl_fridge_inside', '#f3f7fb', rough=0.5, emit=B.srgb('#dfe8f5'))); fl.box(fb0 + 0.04, fb0 + 0.05, 0.12, 1.76, fz0 + 0.05, fz1 - 0.05)   # 背板的燈
+    fg = Mesh('ndl_fridge_glass', M['glass']); fg.quad([(ff0 + 0.03, 0.1, fz1 - 0.03), (ff0 + 0.03, 0.1, fz0 + 0.03), (ff0 + 0.03, 1.8, fz0 + 0.03), (ff0 + 0.03, 1.8, fz1 - 0.03)])
+    ff = Mesh('ndl_fridge_frame', M['frame'])
+    for zz in (fz0 + 0.03, fz1 - 0.03): ff.box(ff0, ff0 + 0.04, 0.1, 1.8, zz - 0.025, zz + 0.025)
+    for yy in (0.1, 1.8): ff.box(ff0, ff0 + 0.04, yy - 0.025, yy + 0.025, fz0 + 0.03, fz1 - 0.03)
+    sign = Mesh('ndl_fridge_top', M['red']); sign.box(fb0, ff0 + 0.005, 1.8, 1.95, fz0, fz1)
+    bot = L.CMesh('ndl_fridge_drinks', M['food'])
+    for sy in (0.25, 0.65, 1.05, 1.45):
+        ff.box(fb0 + 0.05, ff0 - 0.02, sy - 0.015, sy, fz0 + 0.05, fz1 - 0.05)
+        for k in range(7):
+            zz = fz0 + 0.1 + k * 0.085; col = random.choice(['#c8332a', '#2f6db0', '#f2c230', '#3a8a3a', '#f0f0ea', '#7a3a1a', '#e07a20'])
+            bot.cbox(ff0 - 0.12, ff0 - 0.06, sy, sy + random.choice((0.2, 0.24, 0.13)), zz - 0.03, zz + 0.03, col)
+    for m in (fb, fl, fg, ff, sign): m.finish(root)
+    bot.finish(root, uv=False)
+    clk = Mesh('ndl_clock', M['bowl']); clk.cyl((-2.35, 2.55, Z0 + 0.12), (-2.35, 2.55, Z0 + 0.16), 0.16, seg=20)
+    rim = Mesh('ndl_clock_rim', M['black']); rim.cyl((-2.35, 2.55, Z0 + 0.115), (-2.35, 2.55, Z0 + 0.155), 0.175, seg=20)
+    rim.box(-2.355, -2.345, 2.55, 2.66, Z0 + 0.16, Z0 + 0.168); rim.box(-2.35, -2.27, 2.545, 2.555, Z0 + 0.16, Z0 + 0.168)   # 七點：時針、分針
+    clk.finish(root); rim.finish(root)
+    cal = Mesh('ndl_calendar', M['bowl']); cal.quad([(-4.4, 1.35, Z0 + 0.125), (-3.95, 1.35, Z0 + 0.125), (-3.95, 1.97, Z0 + 0.125), (-4.4, 1.97, Z0 + 0.125)])   # 月曆：後牆左邊
+    calh = Mesh('ndl_calendar_head', M['red']); calh.quad([(-4.4, 1.85, Z0 + 0.13), (-3.95, 1.85, Z0 + 0.13), (-3.95, 1.97, Z0 + 0.13), (-4.4, 1.97, Z0 + 0.13)])
+    calg = Mesh('ndl_calendar_grid', M['black'])
+    for r in range(5):
+        for c in range(7): calg.box(-4.37 + c * 0.06, -4.355 + c * 0.06, 1.42 + r * 0.08, 1.44 + r * 0.08, Z0 + 0.128, Z0 + 0.132)
+    for m in (cal, calh, calg): m.finish(root)
+    stool = Mesh('ndl_stools', L.flat('ndl_stool_red', '#c0392b', rough=0.5))
+    for k in range(4):
+        y = k * 0.06; stool.box(-4.55, -4.2, 0.4 + y, 0.44 + y, -2.95, -2.6)
+        for sx in (-4.53, -4.22):
+            for sz in (-2.93, -2.62): stool.box(sx - 0.015, sx + 0.015, y, 0.4 + y, sz - 0.015, sz + 0.015)
+    stool.finish(root)
 for m in (tt, te, ch, lg, cond, blk, tissue): m.finish(root)
 bw.finish(root, uv=False, smooth=True); nd.finish(root, uv=False, smooth=True); sp2.finish(root, uv=False)
 st.finish(root); sd.finish(root)

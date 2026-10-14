@@ -29,7 +29,7 @@ sc = bpy.context.scene; sc.render.engine = 'CYCLES'; sc.cycles.device = 'CPU'; s
 try: sc.cycles.use_denoising = True; sc.cycles.denoiser = 'OPENIMAGEDENOISE'
 except Exception: pass
 sc.render.resolution_x, sc.render.resolution_y = RW, RH; sc.view_settings.view_transform = 'AgX'; sc.view_settings.exposure = float(opt('--exposure', '0.0'))
-try: sc.view_settings.look = opt('--look', 'AgX - Medium High Contrast')
+try: sc.view_settings.look = opt('--look', 'AgX - Punchy')
 except Exception: pass
 sc.cycles.max_bounces = 6; sc.cycles.transparent_max_bounces = 32
 
@@ -85,15 +85,46 @@ for cx, w, y0, y1 in ((0.0, 2.6, 0.0, 2.7), (-3.0, 2.8, 0.9, 3.1), (3.0, 2.8, 0.
     for k, (u, v) in enumerate(((0, 0), (1, 0), (1, 1), (0, 1))): uv[k].uv = (u, v)
     ob = bpy.data.objects.new('night_view', me); ob.data.materials.append(vm); sc.collection.objects.link(ob)
 
+# ---- 湯鍋的熱氣（v2）：三片交叉的面，透明度從中間往兩邊、往上淡掉，乘上雜訊；只有背景版有
+def steam_mat():
+    mt = bpy.data.materials.new('steam'); mt.use_nodes = True; nt = mt.node_tree; nt.nodes.clear(); N = nt.nodes.new; K = nt.links.new
+    tc = N('ShaderNodeTexCoord'); sep = N('ShaderNodeSeparateXYZ'); K(tc.outputs['UV'], sep.inputs[0])
+    def math(op, a, b=None, v=None):
+        m = N('ShaderNodeMath'); m.operation = op
+        if isinstance(a, (int, float)): m.inputs[0].default_value = a
+        else: K(a, m.inputs[0])
+        if b is not None:
+            if isinstance(b, (int, float)): m.inputs[1].default_value = b
+            else: K(b, m.inputs[1])
+        if v is not None: m.inputs[2].default_value = v
+        return m.outputs[0]
+    side = math('SUBTRACT', 1.0, math('ABSOLUTE', math('MULTIPLY_ADD', sep.outputs['X'], 2.0, -1.0)))   # 中間 1、兩邊 0
+    up = math('MULTIPLY', math('SUBTRACT', 1.0, sep.outputs['Y']), math('MINIMUM', math('MULTIPLY', sep.outputs['Y'], 6.0), 1.0))   # 底下一點點淡入、往上淡出
+    nz = N('ShaderNodeTexNoise'); nz.inputs['Scale'].default_value = 3.5; nz.inputs['Detail'].default_value = 4.0; K(tc.outputs['Object'], nz.inputs['Vector'])
+    fac = math('MULTIPLY', math('MULTIPLY', side, up), math('MULTIPLY', math('MAXIMUM', math('SUBTRACT', nz.outputs['Fac'], 0.28), 0.0), 3.2))
+    fac = math('MINIMUM', math('MULTIPLY', fac, 1.1), 0.8)
+    tr = N('ShaderNodeBsdfTransparent'); em = N('ShaderNodeEmission'); em.inputs['Color'].default_value = (1.0, 0.98, 0.95, 1); em.inputs['Strength'].default_value = 1.4
+    mx = N('ShaderNodeMixShader'); K(fac, mx.inputs['Fac']); K(tr.outputs[0], mx.inputs[1]); K(em.outputs[0], mx.inputs[2])
+    out = N('ShaderNodeOutputMaterial'); K(mx.outputs[0], out.inputs['Surface'])
+    return mt
+sm = steam_mat()
+for k, ang in enumerate((0.0, 1.05, 2.1)):
+    cx, cz, w, y0, y1 = -2.0, -3.8, 0.75, 1.42, 2.45
+    dx, dz = math.cos(ang) * w / 2, math.sin(ang) * w / 2
+    me = bpy.data.meshes.new('steam'); me.from_pydata([g2b(cx - dx, y0, cz - dz), g2b(cx + dx, y0, cz + dz), g2b(cx + dx, y1, cz + dz), g2b(cx - dx, y1, cz - dz)], [], [(0, 1, 2, 3)])
+    me.uv_layers.new(); uv = me.uv_layers[0].data
+    for i, (u, v) in enumerate(((0, 0), (1, 0), (1, 1), (0, 1))): uv[i].uv = (u, v)
+    ob = bpy.data.objects.new('steam', me); ob.data.materials.append(sm); sc.collection.objects.link(ob)
+
 # ---- 燈：日光燈管六支（面光）、煮麵台上方暖色燈；外面是晚上（天空很暗）
 w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; w.node_tree.nodes['Background'].inputs['Color'].default_value = (0.02, 0.025, 0.045, 1); w.node_tree.nodes['Background'].inputs['Strength'].default_value = 0.4
 for z in (-2.6, 0.5, 3.0):
     for x in (-2.5, 2.5):
-        L = bpy.data.lights.new('tube', 'AREA'); L.shape = 'RECTANGLE'; L.size = 1.2; L.size_y = 0.12; L.energy = 70; L.color = (1.0, 0.96, 0.9)
+        L = bpy.data.lights.new('tube', 'AREA'); L.shape = 'RECTANGLE'; L.size = 1.2; L.size_y = 0.12; L.energy = 60; L.color = (1.0, 0.93, 0.85)
         ob = bpy.data.objects.new('tube', L); ob.location = g2b(x, 3.2 - 0.16, z); ob.rotation_euler = (0, 0, 0); sc.collection.objects.link(ob)
-L = bpy.data.lights.new('kitchen', 'POINT'); L.energy = 90; L.color = (1.0, 0.82, 0.6); L.shadow_soft_size = 0.4
+L = bpy.data.lights.new('kitchen', 'POINT'); L.energy = 120; L.color = (1.0, 0.82, 0.6); L.shadow_soft_size = 0.4
 ob = bpy.data.objects.new('kitchen', L); ob.location = g2b(-1.0, 2.5, -3.5); sc.collection.objects.link(ob)
-L = bpy.data.lights.new('fill', 'AREA'); L.size = 3.0; L.energy = 18; L.color = (1.0, 0.95, 0.88)
+L = bpy.data.lights.new('fill', 'AREA'); L.size = 3.0; L.energy = 6; L.color = (1.0, 0.95, 0.88)
 ob = bpy.data.objects.new('fill', L); ob.location = g2b(VIEWS[VIEW][0][0], 2.6, VIEWS[VIEW][0][2]); sc.collection.objects.link(ob)
 ob.rotation_euler = (g2b(0.7, 0.8, 0.5) - ob.location).to_track_quat('-Z', 'Y').to_euler()
 
