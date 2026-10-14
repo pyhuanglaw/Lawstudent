@@ -27,7 +27,8 @@
   "fare": "祐廷自己的來回交通費；開車＝油錢加過路費，載她不另外算",
   "combo": "可以排在同一趟的地點；整趟仍然只算一次",
   "admission": "祐廷自己的一張門票，抵達時扣；0＝免費或不用買票。遊戲用的固定值，實際票價實作前再確認",
-  "fixed": "固定段落（例：看電影）：抵達後先演，照 minutes 推進時間、扣 cost；不算互動點，散場後再選互動點（AA_128 5-1）"
+  "fixed": "固定段落（例：看電影）：抵達後先演，照 minutes 推進時間、扣 cost；不算互動點，散場後再選互動點（AA_128 5-1）",
+  "fromChiayi": "祐廷回嘉義的期間（過年、暑假那兩週，AA_128 11-1）從嘉義出發的交通；null＝那段期間不能約這個地點（「從嘉義過去太遠了」）。目前只有 D26 臺中：以安、芷若過年和暑假那兩週在臺中（AA_128 11-2）"
  },
  "version": 1,
  "updated": "2026-10-14",
@@ -59,6 +60,7 @@
      "fare": 60
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": true,
@@ -84,6 +86,7 @@
      "fare": 60
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -110,6 +113,7 @@
      "fare": 60
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": true,
@@ -136,6 +140,7 @@
      "fare": 50
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": {
     "label": "看電影",
@@ -166,6 +171,7 @@
      "fare": 50
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": {
     "label": "看電影",
@@ -195,6 +201,7 @@
      "fare": 60
     }
    ],
+   "fromChiayi": null,
    "admission": 30,
    "fixed": null,
    "batch1": true,
@@ -220,6 +227,7 @@
      "fare": 50
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": true,
@@ -245,6 +253,7 @@
      "fare": 60
     }
    ],
+   "fromChiayi": null,
    "admission": 60,
    "fixed": null,
    "batch1": false,
@@ -276,6 +285,7 @@
      "fare": 100
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": true,
@@ -301,6 +311,7 @@
      "fare": 50
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -326,6 +337,7 @@
      "fare": 80
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -351,6 +363,7 @@
      "fare": 60
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -376,6 +389,7 @@
      "fare": 100
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": true,
@@ -404,6 +418,7 @@
      "fare": 120
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -431,6 +446,7 @@
      "fare": 150
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": true,
@@ -456,6 +472,7 @@
      "fare": 300
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -488,6 +505,7 @@
      "fare": 300
     }
    ],
+   "fromChiayi": null,
    "admission": 120,
    "fixed": null,
    "batch1": false,
@@ -521,6 +539,7 @@
      "fare": 300
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": true,
@@ -553,6 +572,7 @@
      "fare": 300
     }
    ],
+   "fromChiayi": null,
    "admission": 80,
    "fixed": null,
    "batch1": false,
@@ -585,6 +605,7 @@
      "fare": 200
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -615,6 +636,7 @@
      "fare": 200
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -640,6 +662,7 @@
      "fare": 300
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -665,6 +688,7 @@
      "fare": 300
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -695,6 +719,7 @@
      "fare": 400
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -727,6 +752,7 @@
      "fare": 400
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": true,
@@ -760,6 +786,18 @@
      "fare": 900
     }
    ],
+   "fromChiayi": [
+    {
+     "mode": "car",
+     "minutes": 60,
+     "fare": 300
+    },
+    {
+     "mode": "hsr",
+     "minutes": 70,
+     "fare": 800
+    }
+   ],
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -791,6 +829,7 @@
      "fare": 1000
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -821,6 +860,7 @@
      "fare": 1400
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -851,6 +891,7 @@
      "fare": 1500
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -881,6 +922,7 @@
      "fare": 1000
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -911,6 +953,7 @@
      "fare": 1000
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -938,6 +981,7 @@
      "fare": 1200
     }
    ],
+   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
