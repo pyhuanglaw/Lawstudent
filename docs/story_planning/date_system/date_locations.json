@@ -25,7 +25,9 @@
   },
   "minutes": "從臺大單程的遊戲固定值",
   "fare": "祐廷自己的來回交通費；開車＝油錢加過路費，載她不另外算",
-  "combo": "可以排在同一趟的地點；整趟仍然只算一次"
+  "combo": "可以排在同一趟的地點；整趟仍然只算一次",
+  "admission": "祐廷自己的一張門票，抵達時扣；0＝免費或不用買票。遊戲用的固定值，實際票價實作前再確認",
+  "fixed": "固定段落（例：看電影）：抵達後先演，照 minutes 推進時間、扣 cost；不算互動點，散場後再選互動點（AA_128 5-1）"
  },
  "version": 1,
  "updated": "2026-10-14",
@@ -57,6 +59,8 @@
      "fare": 60
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": true,
    "wishOf": null,
    "closed": null,
@@ -80,6 +84,8 @@
      "fare": 60
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": null,
@@ -104,6 +110,8 @@
      "fare": 60
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": true,
    "wishOf": "heroine_04",
    "closed": null,
@@ -128,6 +136,12 @@
      "fare": 50
     }
    ],
+   "admission": 0,
+   "fixed": {
+    "label": "看電影",
+    "minutes": 120,
+    "cost": 300
+   },
    "batch1": false,
    "wishOf": null,
    "closed": null,
@@ -152,6 +166,12 @@
      "fare": 50
     }
    ],
+   "admission": 0,
+   "fixed": {
+    "label": "看電影",
+    "minutes": 120,
+    "cost": 260
+   },
    "batch1": true,
    "wishOf": "heroine_02",
    "closed": null,
@@ -175,6 +195,8 @@
      "fare": 60
     }
    ],
+   "admission": 30,
+   "fixed": null,
    "batch1": true,
    "wishOf": "classmate_peishan",
    "closed": "mon",
@@ -198,6 +220,8 @@
      "fare": 50
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": true,
    "wishOf": "heroine_01",
    "closed": "mon",
@@ -221,6 +245,8 @@
      "fare": 60
     }
    ],
+   "admission": 60,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": null,
@@ -250,6 +276,8 @@
      "fare": 100
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": true,
    "wishOf": null,
    "closed": "mon_maybe",
@@ -273,6 +301,8 @@
      "fare": 50
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": null,
@@ -296,6 +326,8 @@
      "fare": 80
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": "mon_museum",
@@ -319,6 +351,8 @@
      "fare": 60
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": null,
@@ -342,6 +376,8 @@
      "fare": 100
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": true,
    "wishOf": "heroine_03",
    "closed": null,
@@ -368,6 +404,8 @@
      "fare": 120
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": null,
@@ -393,6 +431,8 @@
      "fare": 150
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": true,
    "wishOf": "heroine_05",
    "closed": null,
@@ -416,6 +456,8 @@
      "fare": 300
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": null,
@@ -446,6 +488,8 @@
      "fare": 300
     }
    ],
+   "admission": 120,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": null,
@@ -477,6 +521,8 @@
      "fare": 300
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": true,
    "wishOf": null,
    "closed": null,
@@ -507,6 +553,8 @@
      "fare": 300
     }
    ],
+   "admission": 80,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": "mon1_museum",
@@ -537,6 +585,8 @@
      "fare": 200
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": null,
@@ -565,6 +615,8 @@
      "fare": 200
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": null,
@@ -588,6 +640,8 @@
      "fare": 300
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": null,
@@ -611,6 +665,8 @@
      "fare": 300
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": null,
@@ -639,6 +695,8 @@
      "fare": 400
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": null,
@@ -669,6 +727,8 @@
      "fare": 400
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": true,
    "wishOf": "kexin",
    "closed": null,
@@ -700,6 +760,8 @@
      "fare": 900
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": "mon_museum",
@@ -729,6 +791,8 @@
      "fare": 1000
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": null,
@@ -757,6 +821,8 @@
      "fare": 1400
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": "mon_museum",
@@ -785,6 +851,8 @@
      "fare": 1500
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": null,
@@ -813,6 +881,8 @@
      "fare": 1000
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": null,
@@ -841,6 +911,8 @@
      "fare": 1000
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": null,
@@ -866,6 +938,8 @@
      "fare": 1200
     }
    ],
+   "admission": 0,
+   "fixed": null,
    "batch1": false,
    "wishOf": null,
    "closed": null,
