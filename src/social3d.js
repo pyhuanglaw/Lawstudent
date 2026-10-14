@@ -12,7 +12,17 @@ const SOCIAL = (function(){
       if(!G.social._relSync){ for(const id in G.rel){ const map={an:'heroine_01',sis:'heroine_05'}; const r=S.rel(map[id]||id); r.fam=Math.max(r.fam,G.rel[id]); r.trust=Math.max(r.trust,Math.round(G.rel[id]*0.6)); } G.social._relSync=1; } } return G.social; };
   S.rel=function(id){ const R=G.social.rel; if(!R[id]) R[id]={fam:0,trust:0,aff:0,resp:0,comf:0,rom:0,npcRom:0,seen:0,talked:0}; return R[id]; };
   // 調整維度：delta 物件 {fam:+3,trust:+2,...}；不顯示數字給玩家
-  S.adjust=function(id,delta,why){ const r=S.rel(id); for(const k in delta){ if(k in r||DIMS.includes(k)||k==='npcRom'){ r[k]=Math.max(0,Math.min(100,(r[k]||0)+delta[k])); } } if(why) S.remember(id,'ADJUST',why); return r; };
+  S.adjust=function(id,delta,why){ const r=S.rel(id); for(const k in delta){ if(k in r||DIMS.includes(k)||k==='npcRom'){ const v0=r[k]||0; r[k]=Math.max(0,Math.min(100,v0+delta[k])); if(S.feelOn&&r[k]>v0&&FEEL_TEXT[k]){ const P=S.feel[id]||(S.feel[id]={}); P[k]=(P[k]||0)+(r[k]-v0); } } } if(why) S.remember(id,'ADJUST',why); return r; };
+  /* 關係有前進時的畫面提示（2026-10-14 使用者試玩 v9.6：「約了朋友…是不是沒有增加好感？在咖啡廳遇到溫學姊跟他講話好像也沒有增進什麼感情」——數值有加，但畫面上什麼都沒有）。
+     只在劇情／對話進行中（GAME 的 sceneBegin～sceneEnd，feelOn）記下增加的部分，對話結束時（takeFeel）每人一句，一次最多兩人；
+     戀愛（rom）不顯示（她們不是攻略對象，CLAUDE.md 第 9 條）；還不知道名字的人不顯示。加多少由企劃訂（AA），這裡只負責讓玩家看得到。*/
+  const FEEL_TEXT={trust:n=>n+'好像比較信任你了。',comf:n=>'和'+n+'相處更自在了。',aff:n=>n+'對你的印象更好了。',resp:n=>n+'比較看重你了。',fam:n=>'和'+n+'熟了一點。'};
+  const FEEL_ORDER=['trust','comf','aff','resp','fam'];
+  S.feel={}; S.feelOn=false;
+  S.takeFeel=function(max){ const out=[]; for(const id of Object.keys(S.feel)){ const P=S.feel[id]; if(!CHARACTERS[id]) continue;
+      const heroine=/^heroine_0[1-5]$/.test(id), known=S.has(id,'FIRST_MET')||(!heroine&&S.reveal(id)!=='UNKNOWN'); if(!known) continue;   /* 還沒認識的人（女主角要正式見過）不顯示 */
+      const k=FEEL_ORDER.find(q=>(P[q]||0)>0); if(k) out.push({text:FEEL_TEXT[k](heroine&&CHARACTERS[id].nickname||S.displayName(id)),sum:FEEL_ORDER.reduce((a,q)=>a+(P[q]||0),0)}); }
+    S.feel={}; out.sort((a,b)=>b.sum-a.sum); return out.slice(0,max||2).map(o=>o.text); };
   S.stage=function(id){ const r=S.rel(id); const flags=G.flags||{}; if(flags['dating_'+id]) return 'RELATIONSHIP'; if(r.rom>=55&&r.npcRom>=45&&r.fam>=55) return 'ROMANTIC_TENSION'; if((r.rom>=30||r.npcRom>=30)&&r.fam>=45&&r.trust>=30) return 'POSSIBLE_ROMANTIC_INTEREST'; if(r.fam>=60&&r.trust>=45&&r.comf>=40) return 'CLOSE_FRIEND'; if(r.fam>=40&&r.trust>=25) return 'FRIEND'; if(r.fam>=20) return 'FAMILIAR'; if(r.fam>=5) return 'ACQUAINTANCE'; return 'STRANGER'; };
   // ---- NPC 記憶 ----
   S.remember=function(id,tag,note){ const M=G.social.mem; if(!M[id]) M[id]=[]; if(tag!=='ADJUST'&&M[id].some(m=>m.tag===tag&&m.day===G.day)) return; M[id].push({tag,day:G.day,note:note||''}); if(M[id].length>80) M[id].splice(0,M[id].length-80); };

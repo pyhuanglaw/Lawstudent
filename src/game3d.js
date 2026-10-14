@@ -26,7 +26,7 @@ const GAME = (function(){
   GM.memo=memo;
   /* 第一、二天的劇情（story3d.js）用舊版的 G.rel 加關係；新版的關係（SOCIAL）只在第一次綁定時從 G.rel 搬一次，之後加的都沒進去
      （2026-10-13 批次 3：第一天和阿哲吃麵 +3，第三天約他吃飯還是「認識」）→ 兩邊一起加（熟悉度 d、信任 0.6d，和搬家的換算一樣）*/
-  function rel(id,d){ G.rel[id]=Math.max(0,Math.min(100,(G.rel[id]||0)+d)); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&G.social&&d) SOCIAL.adjust(CID[id]||id,{fam:d,trust:Math.round(d*0.6)}); if(d>0) toast('❤ 和'+(NPCNAME[id]||id)+'的關係 +'+d); }
+  function rel(id,d){ G.rel[id]=Math.max(0,Math.min(100,(G.rel[id]||0)+d)); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&G.social&&d){ SOCIAL.adjust(CID[id]||id,{fam:d,trust:Math.round(d*0.6)}); if(SOCIAL.feel) delete SOCIAL.feel[CID[id]||id]; }   /* 這裡自己有提示：對話結束的「熟了一點」不再重複 */ if(d>0) toast('❤ 和'+(NPCNAME[id]||id)+'的關係 +'+d); }
   GM.rel=rel;
   const NPCNAME={an:'小安',zhe:'阿哲',sis:'溫學姊',kai:'阿凱',yu:'小語',prof:'周教授'}; GM.NPCNAME=NPCNAME;
   function energy(d){ G.energy=Math.max(0,Math.min(100,G.energy+d)); updateHUD(); }
@@ -83,8 +83,8 @@ const GAME = (function(){
   function caption(who,text,ms){ const el=$('caption'); el.innerHTML=(who?'<b>'+who+'</b>':'')+subst(text); el.classList.remove('hide'); el.style.opacity=1; clearTimeout(caption.t); caption.t=setTimeout(()=>{ el.style.opacity=0; setTimeout(()=>el.classList.add('hide'),300); },ms||3200); }
   GM.caption=caption;
   // 場景開始／結束：鎖住玩家
-  function sceneBegin(opts){ D.busyDepth++; E.player.busy=true; E.player.path=null; E.player.target=null; hideHUD(true); $('interact').classList.add('hide'); if(opts&&opts.adv&&typeof ADV!=='undefined'){ ADV.begin({background:opts.background||'blur',right:opts.adv,left:opts.advLeft}); } }
-  function sceneEnd(){ D.busyDepth=Math.max(0,D.busyDepth-1); if(D.busyDepth===0){ E.player.busy=false; hideHUD(false); E.endCinematic(); letterbox(false); if(E.player.pose==='talk') E.player.pose='idle'; for(const n of E.npcs){ if(n._sayLook){ if(n.lookAt===E.player.obj.position) n.lookAt=null; n._sayLook=false; } }   /* 講完話就不再一直盯著玩家轉頭（2026-10-11：室友講完話後頭一直跟著玩家轉）*/ if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); } }
+  function sceneBegin(opts){ if(D.busyDepth===0&&typeof SOCIAL!=='undefined'&&SOCIAL.feel){ SOCIAL.feel={}; SOCIAL.feelOn=true; }   /* 關係有前進的提示：這一段對話裡加的才算（SOCIAL.takeFeel）*/ D.busyDepth++; E.player.busy=true; E.player.path=null; E.player.target=null; hideHUD(true); $('interact').classList.add('hide'); if(opts&&opts.adv&&typeof ADV!=='undefined'){ ADV.begin({background:opts.background||'blur',right:opts.adv,left:opts.advLeft}); } }
+  function sceneEnd(){ D.busyDepth=Math.max(0,D.busyDepth-1); if(D.busyDepth===0){ if(typeof SOCIAL!=='undefined'&&SOCIAL.takeFeel){ SOCIAL.feelOn=false; const L=SOCIAL.takeFeel(2); if(L.length) setTimeout(()=>toast(L.join('　'),3200),350); } E.player.busy=false; hideHUD(false); E.endCinematic(); letterbox(false); if(E.player.pose==='talk') E.player.pose='idle'; for(const n of E.npcs){ if(n._sayLook){ if(n.lookAt===E.player.obj.position) n.lookAt=null; n._sayLook=false; } }   /* 講完話就不再一直盯著玩家轉頭（2026-10-11：室友講完話後頭一直跟著玩家轉）*/ if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); } }
   GM.sceneBegin=sceneBegin; GM.sceneEnd=sceneEnd;
   // ---------- 運鏡 ----------
   const V=(x,y,z)=>new THREE.Vector3(x,y,z);
