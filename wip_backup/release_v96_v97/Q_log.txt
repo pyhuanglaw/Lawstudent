@@ -121,3 +121,20 @@ deploy_check rc=0 (140s) @ba435d5 ALL PASS
 zone_transitions rc=0 (111s) @ba435d5 ALL PASS
 flow_classes rc=1 (1220s) @ba435d5 FAILED: 坐下後第一個選項是「上課：法律與社會」, 坐下後第一個選項是「上課：憲法」
 排序：06:42:56 v9.6 的 flow_soclib、flow_teaching_buildings、flow_main_day12 交給 LAWWW2（候選 13，遊戲程式＝候選 14；flow_main_day12 已 ALL PASS），本機佇列拿掉，flow_classes（候選 14）之後直接換 v9.7 候選 2
+flow_linze_floors rc=1 (1455s) @ba435d5 FAILED: 走到第 2 排第 5 個座位旁（出現「坐下」）, 坐在座位上（姿勢 sit、高度＝第 2 排平台 0.9 m）
+ff 要求：候選 14 4ba8c8b（只改 flow_classes：等選項出現再讀；遊戲程式和候選 13 相同）
+setff_rc14 rc=0 (0s) @ba435d5 
+ff → 4ba8c8b 07:03:19
+flow_classes rc=0 (1024s) @4ba8c8b ALL PASS
+ff 要求：候選 15 e88bda5（測試工具 go_to 等人物真的走完；遊戲程式和候選 13、14 相同）
+setff_rc15 rc=0 (0s) @4ba8c8b 
+ff → e88bda5 07:20:23
+flow_linze_floors rc=0 (1483s) @e88bda5 ALL PASS
+ff 要求：v9.7 候選 4 6ad0923（＝候選 1＋flow_classes 測試修正；v9.6 必跑項目跑完；之後是 v9.7 必跑前半段＋其他回歸）
+setff_v97 rc=0 (0s) @e88bda5 
+ff → 6ad0923 07:45:06
+deploy_check_v97 rc=0 (134s) @6ad0923 ALL PASS
+hold：執行器重啟（07:48:23；reachability_all_v97 跑完就換新的執行器，避開 08:10 的兩小時上限）
+node_rc_v97 rc=0 (85s) @6ad0923 NODE ALL PASS
+runner restart 07:48:50（實際是 node_rc_v97 跑完才換；佇列接著從 reachability_all_v97 開始）
+start 2026-10-14T07:48:50Z 6ad0923

@@ -3,7 +3,7 @@ LAST＝候選 13、14（發布的是候選 14；兩者遊戲程式相同）；FI
 EARLIER＝候選 4～8（和候選 9～12 只差 src/assets3d.js 的兩行：共同教學館、大一女舍的正式外觀）"""
 import re
 S='/tmp/claude-0/-home-user-Lawstudent/a98cd672-cd93-5881-9adc-d5e86cb59d66/scratchpad'
-LAST={'ba435d5':'候選 13','4ba8c8b':'候選 14'}   # 候選 14＝候選 13＋只改 tests/flow_classes.py（遊戲程式相同）
+LAST={'ba435d5':'候選 13','4ba8c8b':'候選 14','e88bda5':'候選 15'}   # 候選 14＝候選 13＋只改 tests/flow_classes.py（遊戲程式相同）
 FINAL={'781e292':'候選 9','2f138a5':'候選 10','f87f71b':'候選 11','a9c2b69':'候選 12'}
 EARLIER={'1c62e0a':'候選 4','709eb53':'候選 5','83ff81b':'候選 6','e2c4f10':'候選 7','6c2d6e9':'候選 8'}
 last={}; fin={}; ear={}
@@ -15,18 +15,21 @@ for line in open(S+'/q/Q.txt',encoding='utf8',errors='replace'):
     if sha in LAST: last[name]=(int(rc),int(sec),sha,rest)
     elif sha in FINAL: fin[name]=(int(rc),int(sec),sha,rest)
     elif sha in EARLIER: ear[name]=(int(rc),int(sec),sha,rest)
-print('**發布的版本（候選 14；遊戲程式和候選 13 相同，只差 flow_classes 測試）上跑的**（最後一次的結果為準）：')
+print('**發布的版本（候選 15；遊戲程式和候選 13、14 相同，只差測試）上跑的**（最後一次的結果為準）：')
 for n,v in sorted(last.items(), key=lambda kv:(kv[1][0]!=0, kv[0])):
     tag=LAST[v[2]]
     if v[0]==0: print(f'- `{n}`：ALL PASS（{tag} `{v[2]}`，{v[1]} 秒）')
     else: print(f'- `{n}`：**失敗** rc={v[0]}（{tag} `{v[2]}`）{v[3][:200]}')
-fin={n:v for n,v in fin.items() if n not in last}
+import os as _os
+_lp=S+'/q/lawww2_results.txt'
+_l2=set(l.split(' ',1)[0] for l in open(_lp,encoding='utf8') if l.strip() and not l.startswith('#')) if _os.path.exists(_lp) else set()
+fin={n:v for n,v in fin.items() if n not in last and n not in _l2}
 print('\n**只在候選 9～12 上跑的**（遊戲程式和候選 13 只差座位的「坐下」範圍——5 棟新建築：法圖、社科院圖書館、共同、博雅、普通——和測試用的 E.simWalk；這些測試不經過那些座位）：')
 for n,v in sorted(fin.items(), key=lambda kv:(kv[1][0]!=0, kv[0])):
     tag=FINAL[v[2]]
     if v[0]==0: print(f'- `{n}`：ALL PASS（{tag} `{v[2]}`，{v[1]} 秒）')
     else: print(f'- `{n}`：**失敗** rc={v[0]}（{tag} `{v[2]}`）{v[3][:200]}')
-rest=[(n,v) for n,v in ear.items() if n not in fin and n not in last]
+rest=[(n,v) for n,v in ear.items() if n not in fin and n not in last and n not in _l2]
 if rest:
     print('\n**只在候選 4～8 上跑過的**（和最後的候選只差共同教學館、大一女舍的外觀兩行）：')
     for n,v in sorted(rest):

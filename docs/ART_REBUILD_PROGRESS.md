@@ -10,6 +10,18 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-14 07:55 UTC（開發分支最新：這一筆交接的 commit；線上 v9.6＝`e88bda5`；v9.7 候選 4 `6ad0923` 兩台機器平行跑回歸，全過就發——D71 不受三小時限制）**：
+- **v9.6 已發布**：main 從 `a4f2760` 快轉到候選 15 `e88bda5`（07:45:17 推送，沒有強制推送），GitHub Pages 第 15 次部署 07:46:55 UTC success（標題「版本 v9.6（2026-10-14）」；沙盒連不到 Pages 網址，以部署紀錄的 head_sha 確認）。
+  發布紀錄 `e6bce5c`（RELEASES.md 版本表、v9.6 說明、發布前測試 21 項 0 失敗含 LAWWW2 三項、緊急回復改回 v9.5、v9.7 依 D71 不受三小時限制）。已通知 LAWWW2、AA、BB（DELIVERED）。
+- **v9.7 候選鏈**（本機分支 `rel/v97-rc1..rc4`，在 `scratchpad/wt_rc97`；bundle 在 `wip_backup/v97-rc*.bundle`，前置 `22c597c`）：候選 1 `5adef66`＝開發分支 `22c597c`－共同教學館／大一女舍 manifest 兩行＋版本字樣 v9.7；候選 2 `06f2b64`、候選 3 `8ac75f6`＝合併 v9.6 候選 14、15（只改測試）；
+  候選 4 `6ad0923`＝LAWWW2 的兩個測試 patch（讀檔時關掉直向提示 #rotate、flow_typhoon 床的選項與醒來對話）。**候選 2～4 遊戲程式＝候選 1。**
+- **v9.7 回歸**：本機（佇列 `scratchpad/q`、wt_dev 8768，執行器 `bv9tndc3b` 07:48:50 起，**09:48 前要換**，提醒 09:30）：deploy_check（v9.7 字樣）ALL PASS、Node 全部 ALL PASS；接著 reachability_all → zone_transitions → minimap → save_compat_v7 → p0 → touch_flow_wenzhou → 初遇存檔遷移 → save_compat_v95 → evtest → 選課 → 法律讀書 → 坐姿 → 試玩修正 → 社團 → 博雅 → 總圖兩項 → 腳踏車 → 手機邀約 → 其他回歸。
+  LAWWW2（它的機器）：flow_typhoon、cg_rain_shots（patch 後重跑）→ flow_first_meet → flow_invite_phone → flow_lecture_attend → flow_discuss_class → adv_cg_layout → flow_main_day12 → 後半段（flow_class_real、flow_classes、flow_linze_floors、flow_teaching_buildings、flow_soclib、campus_layout_nav、joystick、campus_glb_integration）。結果抄進 `scratchpad/q/lawww2_results_v97.txt`。
+  發布工具：`scratchpad/collect_results_v97.py`（結果整理）、`finish_release_v97.py`（RELEASES.md、CLAUDE.md；已乾跑）、`rel_v97_entry.md`（說明草稿）；備份在 `wip_backup/release_v96_v97/`。
+- **開發分支有、v9.7 不放**：讀檔時劇情還在演就擋下（`3d7f068`，v9.5 起的已知問題，下一版放）、共同教學館與大一女舍合併材質 GLB（校門 ×1.097）、杜可昕 Blender 人物（`char.kexin`）。
+- **等使用者**：AA 轉達的 v6「大學四年不只跟一個女生交往」（D50 第③級，要使用者直接確認）；iPhone 實機沒測。
+- **下一步**：v9.7 全過 → 快轉 main 到候選 4（或之後的候選）→ 確認 Pages → collect_results_v97.py＋finish_release_v97.py → 回報使用者、通知三位 AI → 開發分支的瀏覽器驗證（讀檔防護、合併材質 GLB、可昕截圖給 BB）。
+
 **2026-10-14 06:30 UTC（開發分支最新：這一筆交接的 commit；線上 v9.5＝`a4f2760`，main 沒動；v9.6 候選 13 `ba435d5` 在跑發布回歸，預估 07:45–08:15 UTC 發布；v9.7 候選 1 `5adef66` 平行測試中）**：
 - **使用者 06:05**：「還有多久可以上新版本 把這些有CG劇情都加進去 還差多少東西 適量分配給LAWWW2 加快腳步」——回答：v9.6 先發（沒有新劇情），CG 劇情版＝v9.7（大一上 v1＋4 張 CG），三小時規則最早 v9.6＋3h；
   BB 通過的 41 張 CG 裡故事已經在遊戲裡的只有 4 張（CG-1、BCG-18、CG-14、CG-15，都接上了），其他要等那些劇情批准、實作。LAWWW2 分到 v9.7 的瀏覽器回歸（它的機器上平行跑）。

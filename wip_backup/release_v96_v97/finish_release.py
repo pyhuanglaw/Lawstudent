@@ -1,6 +1,6 @@
 """發布後：把 v9.6 寫進 docs/RELEASES.md、CLAUDE.md（開發分支）。用法：python3 finish_release.py REPO MAIN_SHA 'YYYY-MM-DD HH:MM:SS' PAGES_N RESULTS_FILE [候選名稱，預設「候選 12」]"""
 import sys, re, datetime
-repo, sha, dt, pn, resf = sys.argv[1:6]; RC = sys.argv[6] if len(sys.argv) > 6 else '候選 14'
+repo, sha, dt, pn, resf = sys.argv[1:6]; RC = sys.argv[6] if len(sys.argv) > 6 else '候選 15'
 S='/tmp/claude-0/-home-user-Lawstudent/a98cd672-cd93-5881-9adc-d5e86cb59d66/scratchpad'
 entry=open(S+'/rel_v96_entry.md',encoding='utf8').read()
 res=open(resf,encoding='utf8').read().strip()
