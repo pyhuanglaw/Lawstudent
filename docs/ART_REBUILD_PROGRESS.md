@@ -10,6 +10,17 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-14 14:05 UTC（開發分支最新：這一筆交接的 commit；線上＝v9.7 `313d620`，下一次發布最早 15:32:31 UTC）**：
+- **v2 大一下，12:35 以後新增（開發分支，都還沒發布、瀏覽器還沒看畫面）**：`0aa1a4c` C14 以安新 7（吵架＋公法讀書會；法律台詞 `legal_review:'REQUIRED'`，BB 已查核「無誤」，見交付清單）；
+  `1380f39` C21 第一個畫面（第 4 週法服讀書會結束後沛珊和柏翰；新增活動結束後的事件 `afterActivity`＝`CLS.afterActEvent`；法服讀書會大一下也有 `termWeeks`）；
+  `419431f` C18 小語語 2（三個徵兆：傅鐘早餐 auto＋near、麵店日的一句旁白、社課後／騎樓的問題；吉他社大一下也開）；`753cb8a` C20 重訪日 1 可昕的版本（6/28 18:00 Café，選項只出經歷過的事）。
+- **等 AA 回覆（已問，DELIVERED）**：①C11＋C21 第二個畫面（大一下期中的宵夜在麵店長桌：揪人的台詞、宵夜內容要不要和大一上一樣、G1 大一下版）；②C20 麵店團併桌／單身的版本（誰揪、最親近的人怎麼選）；
+  ③C18 騎樓版小語「調弦」的動作；④法服、吉他社大一下的週次（目前 2～7、10～16／5～7、10～16）。
+- **開發分支瀏覽器回歸**（`scratchpad/run_q.sh`，wt_dev，port 8768；結果 `scratchpad/q/Q.txt`）：13e2344 上 p0_movement、flow_main_day12 ALL PASS；deploy_check 的宿舍窗外景 404 已補拍（e8b8f31）；
+  flow_tap_stall_201 是測試的錯（0604058 已修）。佇列接著跑 first_meet、invite_phone、zone_transitions、reachability_all、存檔相容、wenzhou、clubs、playtest_fixes、evtest，然後快轉到 1380f39 跑 wancai_floors、tap_stall、deploy_check。
+- **接下來**：C9 春假三選一（BB_96 9-5 的 K8＋交接包 v2 第 3 節）→ C2 嘉義 → C13 可玩切片 → BB_96 其他（照週次）；AA 回覆後補 C11／C21 第二個畫面、C20 其他版本。
+- **輕量 Node 測試清單**：`scratchpad/light_js.txt`（71 個，全部通過）；新的 v2 測試：`tests/v2_c14_unit.js`、`v2_c18_unit.js`、`v2_c20_unit.js`。
+
 **2026-10-14 12:35 UTC：v9.7 已發布**——main 從 v9.6 `e88bda5` 快轉到 **`313d620`（候選 19 本身，沒有強制推送）**；GitHub Pages 第 16 次部署 2026-10-14 12:32:31 UTC success。發布紀錄 `docs/RELEASES.md` 的 v9.7 一節；下一次最早 15:32:31 UTC（三小時規則）。
 - 候選 19 已併回開發分支（`3679126`）。flow_boya_interior 在候選 19（＝發布版）重跑 ALL PASS（LAWWW2 `d7ffa8c`，12:35），已補進 RELEASES.md——發布版的每一項發布前測試都有結果了。
 - **LAWWW2 路人底模（WIP，使用者 10-14「NPC 不要都是一張臉換衣服」）12:40 交付**：8 個路人 VRM（`claude/second-ai-env-art` 的 `assets/models/char/second_ai/bl_npc_{nm1..nm4,nf1..nf4}.vrm`，各 2.4–2.7 MB）、接法 patch `docs/art-rebuild/second_ai/patches/npc_ambient_1ca527d.patch`（127d36d：assets3d.js 加 8 筆 ambient、AMB＝新 8＋舊 4）、遊戲內對照圖 `docs/art-rebuild/second_ai/shots/npc_ingame_g1305_old_vs_new.webp`（9c50fdd：共同教學館門口同一批 5 人，舊的 2 種模型、新的 5 種）。已知缺點：四個女生都是空氣瀏海、nm3 側臉有脫離的髮片、nm2 頭髮偏厚、8 個一起預載多約 20 MB。狀態 MODEL_READY 前的 WIP——下一個工作階段看完對照圖再決定要 LAWWW2 改什麼，接進開發分支前跑人物相關回歸（model_upgrade、p0、效能）。
