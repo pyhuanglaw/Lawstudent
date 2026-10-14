@@ -42,7 +42,7 @@ const CHARACTERS = {
     height_range:'171–173', visual_identity:'低馬尾、乾淨白襯衫＋卡其長褲＋樂福鞋；隨身一本判決節錄', hair:'深棕、低馬尾', eyes:'銳利、疲倦時會泛紅', clothing_style:'俐落、像已經在上班', accessories:['判決節錄','保溫瓶','名牌識別證（法服）'],
     personality:'語速快、效率高、對學弟妹嚴格但會照顧', speech_pattern:'條列式說話、常說「重點是」', humor:'諷刺但不傷人', strengths:['公法','組織'], weaknesses:['不會休息','不承認累'],
     contradictions:'看起來是最清楚自己要什麼的人（法研所公法組），其實已經開始懷疑要不要繼續念法律；社長身分讓她不能說', family_context:'父母都是公務員，期待她考司法官', academic_status:'前 5%', career_goal:'對外說法研所，私下在考慮出國念別的', romantic_style:'把感情排在計畫之後，直到計畫崩了', social_circle:['heroine_03','npc_ta_chen','prof_xu'],
-    daily_schedule:[{days:[1,2,3,4,5],from:9,to:17,zone:'library',act:'read'},{days:[3],from:19,to:21,zone:'wancai',act:'club'},{days:[1,2,4],from:19,to:22,zone:'cafe',act:'read'},{days:[5],from:18.5,to:20.5,zone:'gongguan',act:'wander',note:'和陳助教吃飯'},{days:[6],from:10,to:12,zone:'campus',act:'wander'}],
+    daily_schedule:[{days:[1,2,3,4,5],from:9,to:17,zone:'library',act:'read'},{days:[3],from:19,to:21,zone:'wancai',act:'club'},{days:[1,2,4],from:19,to:22,zone:'cafe',act:'read'},{days:[5],from:18.5,to:20.5,zone:'gongguan',act:'wander',note:'和陳助教吃飯'},{days:[6],from:10,to:12,zone:'campus',act:'linger',at:[-17.8,13.0,Math.PI],terms:['Y1S1'],weeks:[11],note:'校慶：法服的法律問答攤（BB_95 3-7）'},{days:[6],from:10,to:12,zone:'campus',act:'wander'}],
     story_arc:['法服招募→讀書會→她的研究計畫→她崩潰的那天→你知道她的秘密'], possible_endings:['她考上法研所','她出國','她休息一年'],
     char3d:{spec:'sis',model:'char.heroine_05',height:1.72}, portrait:'heroine_05' },
   // ---------- A. 法律系熟同學（Tier 2）----------
