@@ -23,7 +23,9 @@
    "basis": "憲法訴訟法 §59 II",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "憲法訴訟法 §59：「應自用盡審級救濟之最終裁判送達後翌日起之六個月不變期間內為之」"
    ]
@@ -46,7 +48,9 @@
    "basis": "憲法訴訟法 §59 I",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "憲法訴訟法 §59：「經依法定程序用盡審級救濟程序」"
    ]
@@ -69,7 +73,9 @@
    "basis": "憲法訴訟法 §35",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "憲法訴訟法 §35：「得提出協同意見書」"
    ]
@@ -92,7 +98,9 @@
    "basis": "國家賠償法 §2 II",
    "level": "應用",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "國家賠償法 §2：「公務員怠於執行職務，致人民自由或權利遭受損害者亦同」"
    ]
@@ -115,7 +123,9 @@
    "basis": "國家賠償法 §10 I、§3 I",
    "level": "應用",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "國家賠償法 §10：「應先以書面向賠償義務機關請求之」",
     "國家賠償法 §3：「公共設施因設置或管理有欠缺」"
@@ -139,7 +149,9 @@
    "basis": "行政程序法 §7",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "行政程序法 §7：「應選擇對人民權益損害最少者」",
     "行政程序法 §7：「採取之方法所造成之損害不得與欲達成目的之利益顯失均衡」"
@@ -163,7 +175,9 @@
    "basis": "行政訴訟法 §5 II",
    "level": "應用",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "行政訴訟法 §5：「予以駁回，認為其權利或法律上利益受違法損害者」"
    ]
@@ -186,7 +200,9 @@
    "basis": "行政訴訟法 §4 I",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "行政訴訟法 §4：「經依訴願法提起訴願而不服其決定」"
    ]

@@ -23,7 +23,9 @@
    "basis": "海商法 §1",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "海商法 §1：「在海上航行，或在與海相通之水面或水中航行之船舶」"
    ]
@@ -46,7 +48,9 @@
    "basis": "海商法 §33",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "海商法 §33：「船舶抵押權之設定，應以書面為之」"
    ]
@@ -69,7 +73,9 @@
    "basis": "海商法 §33、§36",
    "level": "應用",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "海商法 §36：「非經登記，不得對抗第三人」",
     "海商法 §33：「船舶抵押權之設定，應以書面為之」"
@@ -93,7 +99,9 @@
    "basis": "海商法 §53",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "海商法 §53：「運送人或船長於貨物裝載後，因託運人之請求，應發給載貨證券」"
    ]
@@ -116,7 +124,9 @@
    "basis": "海商法 §110",
    "level": "應用",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "海商法 §110：「為求共同危險中全體財產之安全所為故意及合理處分」"
    ]
@@ -139,7 +149,9 @@
    "basis": "海商法 §103 I",
    "level": "應用",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "海商法 §103：「得按其效果請求相當之報酬」"
    ]
@@ -162,7 +174,9 @@
    "basis": "中華民國領海及鄰接區法 §3",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "中華民國領海及鄰接區法 §3：「自基線起至其外側十二浬間之海域」"
    ]
@@ -185,7 +199,9 @@
    "basis": "中華民國領海及鄰接區法 §14",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "中華民國領海及鄰接區法 §14：「鄰接其領海外側至距離基線二十四浬間之海域」"
    ]
