@@ -30,7 +30,8 @@ const MON=dayW(1), TUE=dayW(2), THU=dayW(4), SAT=dayW(6);
 // 1 以安吃飯
 fresh(MON,9); rel('heroine_01',25,10,5);
 let r=ask('heroine_01','noodle',MON,12+10/60); check('1. 以安「有點熟」約吃飯：「……好。但我只吃一碗。」（答應）',r.res==='accept'&&L(r)==='「……好。但我只吃一碗。」',r.res+' '+L(r));
-rel('heroine_01',45,30,10); r=ask('heroine_01','noodle',MON,12+10/60); check('1. 以安「朋友」約吃飯：（她答應了，而且會先查好要點什麼。）',r.res==='accept'&&L(r)==='（她答應了，而且會先查好要點什麼。）',L(r));
+rel('heroine_01',45,30,10); r=ask('heroine_01','noodle',MON,12+10/60); check('1. 以安「朋友」約吃飯：「好。乾麵。理由：我查過了。」（AA 2026-10-14 改成她自己說的話）',r.res==='accept'&&L(r)==='「好。乾麵。理由：我查過了。」',L(r));
+r=ask('heroine_01','cafe',MON,19); rel('heroine_01',25,10,5); r=ask('heroine_01','cafe',MON,19); check('1. 以安「有點熟」約 Café：「可以。條件：我會帶東西來寫。」',r.res==='accept'&&L(r)==='「可以。條件：我會帶東西來寫。」',L(r)); rel('heroine_01',45,30,10);
 // 2 就在那裡
 r=ask('heroine_01','library',MON,10); check('2. 以安平日上午本來就在總圖：「我本來就在總圖。二樓靠窗。」（就在那裡，不問改天）',r.res==='here'&&L(r)==='「我本來就在總圖。二樓靠窗。」'&&!r.alt,r.res+' '+L(r));
 r=ask('heroine_01','library',MON,19); check('2. 以安晚上（不在總圖）：照常答應、沒有那一句',r.res==='accept'&&!/本來就在總圖/.test(L(r)),r.res+' '+L(r));

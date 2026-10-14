@@ -790,6 +790,14 @@ const STORY = (function(){
     const A=P.away||{}; if(P.from&&i<TERM_ORDER.indexOf(P.from)) return {here:false,away:A.before||'',kind:'before'}; if(P.until&&i>TERM_ORDER.indexOf(P.until)) return {here:false,away:A[t]||A.after||'',kind:'after'};
     if(P.absent&&P.absent.includes(t)) return {here:false,away:A[t]||'',kind:'absent'}; return {here:true}; };   /* kind：手機「約不了的原因」（AA_125 第 1 節：交換＝國外、until 過了＝畢業）*/
   /* 現在的學期在不在 {from, until} 裡（例：人物有伴侶的那幾個學期，invites3d.js 的 partnerBlock）*/
+  /* 伴侶期間（AA 2026-10-14：照劇情事件，不照整學期；事件還沒發生、或玩家沒看到時，照日期當保底）：
+     {from, until}＝學期（舊格式照舊）；fromWeek／untilWeek＝{term, week}（untilWeek 那一週結束算分開）；startEvent／endEvent＝事件 id（演過就開始／結束；那些事件做好時填）*/
+  S.partnerOn=function(G,p){ if(!p) return false; const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; if(!T) return false;
+    const done=id=>!!(id&&G.events&&G.events.done&&G.events.done[id]); const ti=id=>TERM_ORDER.indexOf(id), cur=[ti(T.id),T.week|0];
+    const ge=(a,b)=>a[0]>b[0]||(a[0]===b[0]&&a[1]>=b[1]), gt=(a,b)=>a[0]>b[0]||(a[0]===b[0]&&a[1]>b[1]);
+    const started=done(p.startEvent)||(p.fromWeek?ge(cur,[ti(p.fromWeek.term),p.fromWeek.week]):(p.startEvent&&!p.from?false:(!p.from||cur[0]>=ti(p.from))));
+    const ended=done(p.endEvent)||(p.untilWeek?gt(cur,[ti(p.untilWeek.term),p.untilWeek.week]):(!!p.until&&cur[0]>ti(p.until)));
+    return started&&!ended; };
   S.inTerms=function(G,r){ if(!r) return false; const t=S.termAt(G.day); if(!t) return false; const i=TERM_ORDER.indexOf(t); return i>=0&&(!r.from||i>=TERM_ORDER.indexOf(r.from))&&(!r.until||i<=TERM_ORDER.indexOf(r.until)); };
   S.present=(id,G)=>S.presence(id,G).here;
   S.whereIs=function(GM,id){ const G=GM.G, F=G.flags, hr=h(G), wd=G.weekday; const c=(typeof CHARACTERS!=='undefined')&&CHARACTERS[id]; if(!c) return null;

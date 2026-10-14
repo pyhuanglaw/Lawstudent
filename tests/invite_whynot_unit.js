@@ -52,17 +52,17 @@ check('8. 芷若「有點熟」、單身：吃飯可以、散步「散步要等�
 SOCIAL.rel('heroine_03').fam=8;
 check('8. 語彤「認識」：吃飯「再熟一點，才約得出去吃飯。」',I.placeWhy(G,'heroine_03',P('noodle'))==='再熟一點，才約得出去吃飯。',I.placeWhy(G,'heroine_03',P('noodle')));
 G.flags.dating_kexin=true;
-check('8. 祐廷和可昕交往中：芷若吃飯、散步「兩個人單獨出去不太好。找大家一起吧。」；Café、總圖照常',I.placeWhy(G,'heroine_02',P('noodle'))===W.partner&&I.placeWhy(G,'heroine_02',P('wenzhou'))===W.partner&&I.placeWhy(G,'heroine_02',P('cafe'))===''&&I.placeWhy(G,'heroine_02',P('library'))==='',
+check('8. 祐廷和可昕交往中：芷若吃飯「兩個人單獨去吃飯不太好。約在 Café 或總圖吧。」、散步「……散步不太好……」（AA 2026-10-14 換句話）；Café、總圖照常',W.partnerMeal==='兩個人單獨去吃飯不太好。約在 Café 或總圖吧。'&&W.partnerWalk==='兩個人單獨去散步不太好。約在 Café 或總圖吧。'&&I.placeWhy(G,'heroine_02',P('noodle'))===W.partnerMeal&&I.placeWhy(G,'heroine_02',P('wenzhou'))===W.partnerWalk&&I.placeWhy(G,'heroine_02',P('cafe'))===''&&I.placeWhy(G,'heroine_02',P('library'))==='',
   [I.placeWhy(G,'heroine_02',P('noodle')),I.placeWhy(G,'heroine_02',P('library'))].join('｜'));
 const r=I.decide(G,'heroine_02','noodle',21,12+10/60);
-check('8. decide 回 partner、旁白是同一句',r.res==='decline'&&r.why==='partner'&&I.reply(G,'heroine_02','noodle',r)===W.partner,JSON.stringify(r)+' '+I.reply(G,'heroine_02','noodle',r));
+check('8. decide 回 partner、旁白是同一句',r.res==='decline'&&r.why==='partner'&&I.reply(G,'heroine_02','noodle',r)===W.partnerMeal,JSON.stringify(r)+' '+I.reply(G,'heroine_02','noodle',r));
 check('8. 阿哲（男生）照常吃飯',I.placeWhy(G,'zhe',P('noodle'))==='',I.placeWhy(G,'zhe',P('noodle')));
 G.flags.dating_kexin=false; G.flags.dating_heroine_02=true;
 check('8. 約交往的對象本人照常（和芷若交往中：約芷若吃飯可以）',I.placeWhy(G,'heroine_02',P('noodle'))==='',I.placeWhy(G,'heroine_02',P('noodle')));
-check('8. 和芷若交往中：約語彤吃飯「兩個人單獨出去不太好」',I.placeWhy(G,'heroine_03',P('noodle'))===W.partner,I.placeWhy(G,'heroine_03',P('noodle')));
+check('8. 和芷若交往中：約語彤吃飯「兩個人單獨去吃飯不太好」',I.placeWhy(G,'heroine_03',P('noodle'))===W.partnerMeal,I.placeWhy(G,'heroine_03',P('noodle')));
 G.flags.dating_heroine_02=false; SOCIAL.rel('heroine_05').fam=25;
 global.STORY={inTerms:(GG,rr)=>rr.from==='Y1S1',presence:()=>({here:true}),present:()=>true};
-check('8. 祐廷單身、學姊這學期有伴侶（characters.js partner）：學姊吃飯「兩個人單獨出去不太好」',I.placeWhy(G,'heroine_05',P('noodle'))===W.partner,I.placeWhy(G,'heroine_05',P('noodle')));
+check('8. 祐廷單身、學姊這學期有伴侶（characters.js partner）：學姊吃飯「兩個人單獨去吃飯不太好」',I.placeWhy(G,'heroine_05',P('noodle'))===W.partnerMeal,I.placeWhy(G,'heroine_05',P('noodle')));
 check('8. 沛珊（大一下才有伴侶）：大一上照常（吃飯只看熟不熟）',I.partnerBlock(G,'classmate_peishan',P('noodle'))===false);
 delete global.STORY;
 check('8. 選地點時寫原因、選了約不到的地方先說原因再選一次（invites3d.js flow）',/hint:S\.placeWhy\(G,id,Q\)/.test(fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8')));

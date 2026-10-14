@@ -57,9 +57,9 @@ const INV=(function(){
   S.partnerBlock=function(G,id,P){ if(!P||!(D().soloKinds||[]).includes(P.kind)) return false; const F=G.flags||{}; if(F['dating_'+id]) return false;
     const c=(typeof CHARACTERS!=='undefined'&&CHARACTERS[id])||{}; if(c.gender!=='f') return false;
     if(Object.keys(F).some(k=>k.indexOf('dating_')===0&&F[k])) return true;
-    return !!(c.partner&&typeof STORY!=='undefined'&&STORY.inTerms&&STORY.inTerms(G,c.partner)); };
+    return !!(c.partner&&typeof STORY!=='undefined'&&(STORY.partnerOn?STORY.partnerOn(G,c.partner):(STORY.inTerms&&STORY.inTerms(G,c.partner)))); };
   /* 這個地方約不約得到、為什麼（選地點時的說明；可以就空字串）*/
-  S.placeWhy=function(G,id,P){ const W=D().why||{}; if(S.partnerBlock(G,id,P)) return W.partner||'';
+  S.placeWhy=function(G,id,P){ const W=D().why||{}; if(S.partnerBlock(G,id,P)) return (P.kind==='meal'?W.partnerMeal:(P.kind==='walk'?W.partnerWalk:null))||W.partner||'';   /* AA 2026-10-14：照吃飯／散步分開說、告訴玩家可以怎麼約 */
     if(!placeOk(id,P)) return (P.kind==='meal'?W.meal:(P.kind==='walk'?W.walk:W.stranger))||'還不太熟'; return ''; };
   /* 某一天某個時間，這個人照作息在做什麼（STORY.schedEnt，不含邀約本身）*/
   const entAt=(G,id,day,h)=>{ if(typeof STORY==='undefined'||!STORY.schedEnt) return null; const c=CHARACTERS[id]; if(!c) return null; return STORY.schedEnt(c,{day,hour:h,weekday:wdOf(G,day),flags:G.flags||{},noInvite:true}); };
