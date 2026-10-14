@@ -8,7 +8,8 @@
   "answer": true,
   "core": "罪刑法定：行為時沒有明文，就不能罰。",
   "basis": "刑法第 1 條",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "crim_gen1_02",
@@ -19,7 +20,8 @@
   "answer": false,
   "core": "第 1 條後段：拘束人身自由之保安處分，亦同。",
   "basis": "刑法第 1 條",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "crim_gen1_03",
@@ -35,7 +37,8 @@
   "answer": 1,
   "core": "處罰以行為時的法律有明文為限。",
   "basis": "刑法第 1 條",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "crim_gen1_04",
@@ -46,7 +49,8 @@
   "answer": false,
   "core": "原則適用行為時之法律；新法有利於行為人，才適用最有利的。",
   "basis": "刑法第 2 條第 1 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "crim_gen1_05",
@@ -62,7 +66,8 @@
   "answer": 1,
   "core": "第 2 條第 1 項但書：適用最有利於行為人之法律。",
   "basis": "刑法第 2 條第 1 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "crim_gen1_06",
@@ -73,7 +78,8 @@
   "answer": true,
   "core": "第 2 條第 2 項：沒收適用裁判時之法律。",
   "basis": "刑法第 2 條第 2 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "crim_gen1_07",
@@ -89,7 +95,8 @@
   "answer": 0,
   "core": "不作為犯：法律上有防止義務，能防止而不防止。",
   "basis": "刑法第 15 條第 1 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "crim_gen1_08",
@@ -100,7 +107,8 @@
   "answer": true,
   "core": "第 15 條第 2 項：危險前行為產生防止義務。",
   "basis": "刑法第 15 條第 2 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "crim_gen1_09",
@@ -116,7 +124,8 @@
   "answer": 1,
   "core": "沒有故意也沒有過失，不罰。",
   "basis": "刑法第 12 條第 1 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "crim_gen1_10",
@@ -127,7 +136,8 @@
   "answer": true,
   "core": "這是間接故意（第 13 條第 2 項）。",
   "basis": "刑法第 13 條第 2 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "crim_gen1_11",
@@ -138,7 +148,8 @@
   "answer": false,
   "core": "過失行為之處罰，以有特別規定者為限。",
   "basis": "刑法第 12 條第 2 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "crim_gen1_12",
@@ -154,7 +165,8 @@
   "answer": 1,
   "core": "過失：按其情節應注意、能注意而不注意。",
   "basis": "刑法第 14 條第 1 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "crim_gen1_13",
@@ -170,7 +182,8 @@
   "answer": 1,
   "core": "有認識的過失（第 14 條第 2 項）。",
   "basis": "刑法第 14 條第 2 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "crim_gen1_14",
@@ -186,7 +199,8 @@
   "answer": 0,
   "core": "其發生並不違背本意，以故意論（間接故意）。",
   "basis": "刑法第 13 條第 2 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "crim_gen1_15",
@@ -197,7 +211,8 @@
   "answer": true,
   "core": "第 17 條：不能預見其發生時，不適用。",
   "basis": "刑法第 17 條",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "crim_gen1_16",
@@ -208,7 +223,8 @@
   "answer": true,
   "core": "第 4 條：行為地或結果地有一在國內即可。",
   "basis": "刑法第 4 條",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "crim_gen1_17",
@@ -219,7 +235,8 @@
   "answer": true,
   "core": "第 3 條後段（旗國主義）。",
   "basis": "刑法第 3 條",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "crim_gen1_18",
@@ -235,6 +252,7 @@
   "answer": 1,
   "core": "第 7 條：最輕本刑三年以上；犯罪地法律不罰者除外。",
   "basis": "刑法第 7 條",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  }
 ]
