@@ -227,3 +227,9 @@ ff 要求：v9.7 候選 17 402f2b5（＝候選 16＋flow_clubs A 段換日子：
 setff_v97rc17 rc=0 (0s) @52f288e 
 ff → 402f2b5 11:55:28
 判讀 12:04:06：flow_clubs_v97b（候選 17）A 段「初遇」1 項 FAIL＝測試寫死舊版台詞「你就是阿凱的室友？」（只給聽阿凱轉述過的玩家；這個存檔沒有 guitar_invite，遊戲照 v1 Q2 改寫說「新人？……法律系的？」，後面「我高子晴。資工二。」、FIRST_MET、加入都過）；A 其他項與 B 全過。候選 18 9c057a4 改檢查，排在這一輪後面重跑
+判讀 12:14:05：flow_clubs_v97b C 段 FAIL＝遊戲的問題（不是測試）：橫向 844×390 社團博覽會，旁白剛講完就出 6 個選項，game3d.js choose 把選單墊高到對話框上面（bottom +102px）但 max-height 沒扣，選單上緣 −76 px、第一個「吉他社」看不到也捲不到（量過＋截圖 fairprobe/fair_landscape.png）。候選 19 313d620 修（max-height 一起扣）：量過上緣 26 px、第一個點得到、可以捲。候選 18 不跑了；候選 19 跑 deploy_check、flow_clubs、Node
+node_rc_v97d rc=0 (95s) @313d620 NODE ALL PASS（76 項；候選 19，在 wt_rc97 跑）
+flow_clubs_v97b rc=143 (1223s) @402f2b5 
+ff 要求：v9.7 候選 19 313d620（＝候選 18＋game3d.js choose：選單墊高到對話框上面時 max-height 一起扣掉——博覽會 6 個選項橫向時第一個被推出畫面）；deploy_check、flow_clubs
+setff_v97rc19 rc=0 (0s) @402f2b5 
+ff → 313d620 12:15:51

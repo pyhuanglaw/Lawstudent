@@ -22,3 +22,4 @@ flow_lecture_attend rc=0 (836s) @fd46e14 ALL PASS（11 項；同上 patch：照�
 see_through rc=0 (58s) @52f288e ALL PASS（12 項；LAWWW2 5576908）
 flow_library_scene rc=0 (528s) @52f288e ALL PASS（13 項；LAWWW2 60c2e48、1764ab4）
 flow_library_floors rc=0 (899s) @52f288e ALL PASS（27 項；LAWWW2 bef3d7c）
+flow_boya_interior rc=0 (1114s) @52f288e ALL PASS（24 項，不用 turbo；LAWWW2 4985b0a）
