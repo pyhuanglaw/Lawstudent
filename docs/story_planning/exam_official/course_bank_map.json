@@ -35,8 +35,8 @@
    "kind": "required",
    "exam": "mc5",
    "sources": [],
-   "confirmed": 0,
-   "status": "INSUFFICIENT",
+   "confirmed": 9,
+   "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
   {
@@ -48,8 +48,8 @@
    "sources": [
     "exam_official/civil_20_2026-10-14.json"
    ],
-   "confirmed": 3,
-   "status": "INSUFFICIENT",
+   "confirmed": 14,
+   "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
   {
@@ -70,8 +70,8 @@
    "kind": "required",
    "exam": "mc5",
    "sources": [],
-   "confirmed": 0,
-   "status": "INSUFFICIENT",
+   "confirmed": 21,
+   "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
   {
@@ -83,8 +83,8 @@
    "sources": [
     "exam_official/civil_20_2026-10-14.json"
    ],
-   "confirmed": 3,
-   "status": "INSUFFICIENT",
+   "confirmed": 10,
+   "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
   {
@@ -94,8 +94,8 @@
    "kind": "required",
    "exam": "mc5",
    "sources": [],
-   "confirmed": 0,
-   "status": "INSUFFICIENT",
+   "confirmed": 16,
+   "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
   {
@@ -105,8 +105,8 @@
    "kind": "required",
    "exam": "mc5",
    "sources": [],
-   "confirmed": 0,
-   "status": "INSUFFICIENT",
+   "confirmed": 15,
+   "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
   {
@@ -118,8 +118,8 @@
    "sources": [
     "exam_official/civil_20_2026-10-14.json"
    ],
-   "confirmed": 4,
-   "status": "INSUFFICIENT",
+   "confirmed": 14,
+   "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
   {
@@ -131,8 +131,8 @@
    "sources": [
     "exam_official/civil_20_2026-10-14.json"
    ],
-   "confirmed": 2,
-   "status": "INSUFFICIENT",
+   "confirmed": 15,
+   "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
   {
@@ -144,8 +144,8 @@
    "sources": [
     "exam_official/civil_20_2026-10-14.json"
    ],
-   "confirmed": 3,
-   "status": "INSUFFICIENT",
+   "confirmed": 13,
+   "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
   {
@@ -157,7 +157,7 @@
    "sources": [
     "exam_official/civil_20_2026-10-14.json"
    ],
-   "confirmed": 5,
+   "confirmed": 14,
    "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
@@ -168,7 +168,7 @@
    "kind": "required",
    "exam": "mc5",
    "sources": [],
-   "confirmed": 0,
+   "confirmed": 4,
    "status": "INSUFFICIENT",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
@@ -225,8 +225,8 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [],
-   "confirmed": 0,
-   "status": "INSUFFICIENT",
+   "confirmed": 40,
+   "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
   {

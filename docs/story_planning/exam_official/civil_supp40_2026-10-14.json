@@ -1,0 +1,860 @@
+{
+ "_comment": "使用者提供的正式題目（A 類）。只做格式轉換：題幹、選項、答案、考點一字不改（convert_answer_only.py 逐字核對）；這一批沒有解析。course／term／scopeWeek／basis／flags 是 BB 加的對應資料（AA 交叉檢查），不是題目內容。",
+ "source": "民法_六門課程補充40題_2026-10-14.md",
+ "sourceSha256_16": "8fb993f4981753bf",
+ "count": 40,
+ "questions": [
+  {
+   "id": "CIVS_01",
+   "course": "civ_general",
+   "term": "Y1S1",
+   "scopeWeek": 5,
+   "type": "mc",
+   "q": "依民法規定，下列何者為完全行為能力人？",
+   "options": {
+    "A": "滿十五歲之未成年人",
+    "B": "滿十八歲之成年人",
+    "C": "所有已滿七歲之未成年人",
+    "D": "所有受輔助宣告之人均無行為能力"
+   },
+   "answer": "B",
+   "core": "行為能力",
+   "explanation": "",
+   "basis": "民法 §12、§13",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 1 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_02",
+   "course": "civ_general",
+   "term": "Y1S1",
+   "scopeWeek": 5,
+   "type": "mc",
+   "q": "十六歲的甲未經法定代理人允許，購買價值十萬元的機車，且不屬於日常生活所必需。關於該買賣契約，下列何者正確？",
+   "options": {
+    "A": "當然有效",
+    "B": "當然無效",
+    "C": "原則上須經法定代理人承認，始生效力",
+    "D": "甲須負刑事責任，契約始生效力"
+   },
+   "answer": "C",
+   "core": "限制行為能力人",
+   "explanation": "",
+   "basis": "民法 §79",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 2 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_03",
+   "course": "civ_general",
+   "term": "Y1S1",
+   "scopeWeek": 13,
+   "type": "mc",
+   "q": "甲以書面向乙為解除契約的意思表示。依民法第95條第1項，非對話意思表示原則上於何時發生效力？",
+   "options": {
+    "A": "意思表示到達相對人時",
+    "B": "甲寫完信件時",
+    "C": "甲產生解除意思時",
+    "D": "乙實際閱讀並同意時"
+   },
+   "answer": "A",
+   "core": "意思表示到達",
+   "explanation": "",
+   "basis": "民法 §95 I",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 3 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_04",
+   "course": "civ_general",
+   "term": "Y1S1",
+   "scopeWeek": 15,
+   "type": "mc",
+   "q": "依民法第167條，代理權的授與，下列何者正確？",
+   "options": {
+    "A": "一律須經法院許可",
+    "B": "一律須以公證書為之",
+    "C": "僅得向第三人為之",
+    "D": "得向代理人或代理人對之為代理行為的第三人，以意思表示為之"
+   },
+   "answer": "D",
+   "core": "代理權授與",
+   "explanation": "",
+   "basis": "民法 §167",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 4 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_05",
+   "course": "civ_general",
+   "term": "Y1S1",
+   "scopeWeek": 11,
+   "type": "mc",
+   "q": "甲承諾乙：「如果乙通過考試，就給乙獎金。」甲為避免支付獎金，以不正當行為阻止條件成就。依民法第101條第1項，下列何者正確？",
+   "options": {
+    "A": "條件永久不可能成就",
+    "B": "視為條件已成就",
+    "C": "約定當然無效",
+    "D": "乙只能請求精神慰撫金"
+   },
+   "answer": "B",
+   "core": "條件成就的妨害",
+   "explanation": "",
+   "basis": "民法 §101 I",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 5 題",
+   "status": "USER_CONFIRMED",
+   "flags": [
+    "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 11 週（民法總則沒有講條件那一週，最接近的是第 11 週「法律行為」）。"
+   ]
+  },
+  {
+   "id": "CIVS_06",
+   "course": "civ_general",
+   "term": "Y1S1",
+   "scopeWeek": 16,
+   "type": "mc",
+   "q": "依民法第129條，下列何者原則上屬於消滅時效中斷事由？",
+   "options": {
+    "A": "債權人單純忘記請求",
+    "B": "債務人搬家",
+    "C": "債權人依法起訴請求",
+    "D": "債權人與第三人討論債務"
+   },
+   "answer": "C",
+   "core": "消滅時效的中斷",
+   "explanation": "",
+   "basis": "民法 §129",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 6 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_07",
+   "course": "civ_general",
+   "term": "Y1S1",
+   "scopeWeek": 12,
+   "type": "mc",
+   "q": "依民法第71條，法律行為違反強制或禁止規定時，原則上其效力如何？",
+   "options": {
+    "A": "無效，但法律另有規定者不在此限",
+    "B": "一律有效",
+    "C": "僅得由行政機關撤銷",
+    "D": "須經雙方當事人同意始無效"
+   },
+   "answer": "A",
+   "core": "法律行為的無效",
+   "explanation": "",
+   "basis": "民法 §71",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 7 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_08",
+   "course": "oblig_gen1",
+   "term": "Y1S2",
+   "scopeWeek": 2,
+   "type": "mc",
+   "q": "甲向乙表示願以十萬元出售自己的電腦，乙對價格及標的物完全同意。依民法第153條，原則上發生何種效果？",
+   "options": {
+    "A": "必須經法院公證始成立",
+    "B": "必須實際交付電腦始成立買賣契約",
+    "C": "必須先支付價金始成立契約",
+    "D": "雙方意思表示一致，契約即成立"
+   },
+   "answer": "D",
+   "core": "契約成立",
+   "explanation": "",
+   "basis": "民法 §153 I",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 8 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_09",
+   "course": "oblig_gen1",
+   "term": "Y1S2",
+   "scopeWeek": 5,
+   "type": "mc",
+   "q": "甲公開表示：「找到我遺失的狗並送回者，給付一萬元。」乙依廣告完成指定行為。依民法第164條，原則上甲應如何？",
+   "options": {
+    "A": "得任意拒絕給付",
+    "B": "對完成指定行為之人負給付報酬義務",
+    "C": "只有乙事先書面承諾才須給付",
+    "D": "僅須支付乙的交通費"
+   },
+   "answer": "B",
+   "core": "懸賞廣告",
+   "explanation": "",
+   "basis": "民法 §164 I",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 9 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_10",
+   "course": "oblig_gen1",
+   "term": "Y1S2",
+   "scopeWeek": 14,
+   "type": "mc",
+   "q": "依民法第184條第1項前段，一般侵權行為的成立要件包括下列何者？",
+   "options": {
+    "A": "行為人須與被害人具有契約關係",
+    "B": "行為人須具有犯罪前科",
+    "C": "故意或過失不法侵害他人權利",
+    "D": "被害人須先向主管機關申訴"
+   },
+   "answer": "C",
+   "core": "侵權行為",
+   "explanation": "",
+   "basis": "民法 §184 I",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 10 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_11",
+   "course": "oblig_gen1",
+   "term": "Y1S2",
+   "scopeWeek": 15,
+   "type": "mc",
+   "q": "甲為乙公司的受僱人，執行職務時因過失不法侵害丙的權利。依民法第188條第1項，下列何者正確？",
+   "options": {
+    "A": "僱用人原則上與行為人連帶負損害賠償責任，但法律設有免責規定",
+    "B": "僱用人永遠不負責任",
+    "C": "僅由公司股東負責",
+    "D": "丙不得請求任何損害賠償"
+   },
+   "answer": "A",
+   "core": "僱用人責任",
+   "explanation": "",
+   "basis": "民法 §188 I",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 11 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_12",
+   "course": "oblig_gen1",
+   "term": "Y1S2",
+   "scopeWeek": 10,
+   "type": "mc",
+   "q": "甲未受乙委任，也沒有法律上的義務，為避免乙的房屋漏水造成重大損害，主動進行必要修繕。此行為可能構成何種法律關係？",
+   "options": {
+    "A": "消費借貸",
+    "B": "買賣",
+    "C": "保證",
+    "D": "無因管理"
+   },
+   "answer": "D",
+   "core": "無因管理",
+   "explanation": "",
+   "basis": "民法 §172",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 12 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_13",
+   "course": "oblig_gen1",
+   "term": "Y1S2",
+   "scopeWeek": 12,
+   "type": "mc",
+   "q": "依民法第179條，不當得利返還請求權的基本要件包括何者？",
+   "options": {
+    "A": "雙方必須具有書面契約",
+    "B": "無法律上原因受利益，致他人受損害",
+    "C": "受益人必須具有詐欺故意",
+    "D": "受益人必須受到刑事有罪判決"
+   },
+   "answer": "B",
+   "core": "不當得利",
+   "explanation": "",
+   "basis": "民法 §179",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 13 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_14",
+   "course": "oblig_gen1",
+   "term": "Y1S2",
+   "scopeWeek": 16,
+   "type": "mc",
+   "q": "依民法第249條，契約因可歸責於付定金當事人的事由致不能履行時，除另有訂定外，定金應如何處理？",
+   "options": {
+    "A": "加倍返還",
+    "B": "全數返還",
+    "C": "不得請求返還",
+    "D": "自動轉為違約金以外的精神慰撫金"
+   },
+   "answer": "C",
+   "core": "定金",
+   "explanation": "",
+   "basis": "民法 §249 ②",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 14 題",
+   "status": "USER_CONFIRMED",
+   "flags": [
+    "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 16 週（債總（一）沒有講定金那一週，放第 16 週）。"
+   ]
+  },
+  {
+   "id": "CIVS_15",
+   "course": "oblig_gen2",
+   "term": "Y2S1",
+   "scopeWeek": 3,
+   "type": "mc",
+   "q": "給付有確定期限者，依民法第229條第1項，債務人原則上自何時起負遲延責任？",
+   "options": {
+    "A": "期限屆滿時",
+    "B": "債權人提起訴訟後一年",
+    "C": "法院判決確定時",
+    "D": "債權人第一次催告後六個月"
+   },
+   "answer": "A",
+   "core": "給付遲延",
+   "explanation": "",
+   "basis": "民法 §229 I",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 15 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_16",
+   "course": "oblig_gen2",
+   "term": "Y2S1",
+   "scopeWeek": 3,
+   "type": "mc",
+   "q": "依民法第231條第2項，債務人遲延中，因不可抗力而生損害時，原則上應如何？",
+   "options": {
+    "A": "債務人一律免責",
+    "B": "債權人一律自行負擔",
+    "C": "由法院任意分配",
+    "D": "債務人仍應負責，但能證明縱不遲延仍不免發生損害者，不在此限"
+   },
+   "answer": "D",
+   "core": "遲延中的不可抗力",
+   "explanation": "",
+   "basis": "民法 §231 II",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 16 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_17",
+   "course": "oblig_gen2",
+   "term": "Y2S1",
+   "scopeWeek": 5,
+   "type": "mc",
+   "q": "依民法第227條，因可歸責於債務人的事由，致為不完全給付者，債權人得依其情形行使何種權利？",
+   "options": {
+    "A": "一律直接取得債務人全部財產",
+    "B": "依給付遲延或給付不能的規定行使權利",
+    "C": "一律請求三倍懲罰性賠償",
+    "D": "自動取得債務人的繼承權"
+   },
+   "answer": "B",
+   "core": "不完全給付",
+   "explanation": "",
+   "basis": "民法 §227 I",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 17 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_18",
+   "course": "oblig_gen2",
+   "term": "Y2S1",
+   "scopeWeek": 11,
+   "type": "mc",
+   "q": "甲與乙訂立買賣契約，甲應交付貨物，乙應支付價金，雙方均無先為給付義務。依民法第264條，甲原則上得如何？",
+   "options": {
+    "A": "永久拒絕交付貨物",
+    "B": "直接解除所有其他契約",
+    "C": "於乙未為對待給付前，拒絕自己的給付",
+    "D": "要求乙先支付雙倍價金"
+   },
+   "answer": "C",
+   "core": "同時履行抗辯權",
+   "explanation": "",
+   "basis": "民法 §264 I",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 18 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_19",
+   "course": "oblig_gen2",
+   "term": "Y2S1",
+   "scopeWeek": 13,
+   "type": "mc",
+   "q": "依民法第297條第1項，債權讓與未經讓與人或受讓人通知債務人時，原則上對債務人有何效果？",
+   "options": {
+    "A": "對債務人不生效力",
+    "B": "債權讓與當然無效",
+    "C": "債務人因此免除全部債務",
+    "D": "債務人自動成為債權人"
+   },
+   "answer": "A",
+   "core": "債權讓與",
+   "explanation": "",
+   "basis": "民法 §297 I",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 19 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_20",
+   "course": "oblig_gen2",
+   "term": "Y2S1",
+   "scopeWeek": 13,
+   "type": "mc",
+   "q": "甲積欠乙十萬元，丙與乙訂立契約，約定由丙承擔甲的債務。依民法第300條，下列何者正確？",
+   "options": {
+    "A": "必須經甲書面同意始成立",
+    "B": "只能由法院命令成立",
+    "C": "丙只能成為保證人",
+    "D": "第三人得與債權人訂立契約承擔債務"
+   },
+   "answer": "D",
+   "core": "債務承擔",
+   "explanation": "",
+   "basis": "民法 §300",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 20 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_21",
+   "course": "oblig_gen2",
+   "term": "Y2S1",
+   "scopeWeek": 14,
+   "type": "mc",
+   "q": "依民法第334條第1項，二人互負債務，給付種類相同，且均屆清償期者，原則上得如何？",
+   "options": {
+    "A": "當然使兩個契約全部無效",
+    "B": "各以其債務與他方債務互為抵銷",
+    "C": "僅得聲請刑事法院處理",
+    "D": "必須先經公證始得抵銷"
+   },
+   "answer": "B",
+   "core": "抵銷",
+   "explanation": "",
+   "basis": "民法 §334 I",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 21 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_22",
+   "course": "oblig_gen2",
+   "term": "Y2S1",
+   "scopeWeek": 14,
+   "type": "mc",
+   "q": "依民法第343條，債權人向債務人表示免除債務的意思時，原則上發生何種效果？",
+   "options": {
+    "A": "債務轉由國家承擔",
+    "B": "債務自動加倍",
+    "C": "債之關係消滅",
+    "D": "債權轉讓給第三人"
+   },
+   "answer": "C",
+   "core": "債務免除",
+   "explanation": "",
+   "basis": "民法 §343",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 22 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_23",
+   "course": "oblig_spec",
+   "term": "Y2S2",
+   "scopeWeek": 3,
+   "type": "mc",
+   "q": "依民法第345條，買賣契約的基本內容為何？",
+   "options": {
+    "A": "一方移轉財產權於他方，他方支付價金",
+    "B": "一方無償提供勞務，他方表示感謝",
+    "C": "一方提供擔保，他方不負任何義務",
+    "D": "一方交付財產，他方必須返還同一物"
+   },
+   "answer": "A",
+   "core": "買賣契約",
+   "explanation": "",
+   "basis": "民法 §345 I",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 23 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_24",
+   "course": "oblig_spec",
+   "term": "Y2S2",
+   "scopeWeek": 3,
+   "type": "mc",
+   "q": "依民法第359條，買賣標的物具有出賣人應負擔保責任的瑕疵時，買受人原則上得主張何種權利？",
+   "options": {
+    "A": "一律請求三倍價金",
+    "B": "直接取得出賣人其他財產",
+    "C": "請求法院宣告出賣人破產",
+    "D": "解除契約或請求減少價金，但解除契約顯失公平者僅得請求減少價金"
+   },
+   "answer": "D",
+   "core": "物之瑕疵擔保",
+   "explanation": "",
+   "basis": "民法 §359",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 24 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_25",
+   "course": "oblig_spec",
+   "term": "Y2S2",
+   "scopeWeek": 4,
+   "type": "mc",
+   "q": "依民法第421條，租賃契約的基本內容為何？",
+   "options": {
+    "A": "一方移轉所有權，他方支付價金",
+    "B": "一方以物租與他方使用、收益，他方支付租金",
+    "C": "一方為他方完成工作，他方支付報酬",
+    "D": "一方無償交付金錢，他方返還同額金錢"
+   },
+   "answer": "B",
+   "core": "租賃契約",
+   "explanation": "",
+   "basis": "民法 §421 I",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 25 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_26",
+   "course": "oblig_spec",
+   "term": "Y2S2",
+   "scopeWeek": 15,
+   "type": "mc",
+   "q": "依民法第490條，承攬契約的基本特徵為何？",
+   "options": {
+    "A": "承攬人必須永久受定作人指揮監督",
+    "B": "承攬人只要提供勞務時間，即當然取得全部報酬",
+    "C": "承攬人約定完成一定工作，定作人俟工作完成給付報酬",
+    "D": "承攬人必須將自己的財產無償贈與定作人"
+   },
+   "answer": "C",
+   "core": "承攬契約",
+   "explanation": "",
+   "basis": "民法 §490 I",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 26 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_27",
+   "course": "oblig_spec",
+   "term": "Y2S2",
+   "scopeWeek": 10,
+   "type": "mc",
+   "q": "依民法第528條，委任契約的基本內容為何？",
+   "options": {
+    "A": "一方委託他方處理事務，他方允為處理",
+    "B": "一方必須移轉土地所有權",
+    "C": "一方交付金錢，他方必須支付利息",
+    "D": "一方保證他人債務必定清償"
+   },
+   "answer": "A",
+   "core": "委任契約",
+   "explanation": "",
+   "basis": "民法 §528",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 27 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_28",
+   "course": "oblig_spec",
+   "term": "Y2S2",
+   "scopeWeek": 14,
+   "type": "mc",
+   "q": "依民法第408條第1項，贈與物的權利尚未移轉前，贈與人原則上得如何？",
+   "options": {
+    "A": "一律不得撤銷贈與",
+    "B": "必須經受贈人同意始得撤銷",
+    "C": "必須取得法院判決始得撤銷",
+    "D": "得撤銷贈與，但法律另有例外規定"
+   },
+   "answer": "D",
+   "core": "贈與撤銷",
+   "explanation": "",
+   "basis": "民法 §408 I",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 28 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_29",
+   "course": "oblig_spec",
+   "term": "Y2S2",
+   "scopeWeek": 16,
+   "type": "mc",
+   "q": "依民法第589條，寄託契約的基本內容為何？",
+   "options": {
+    "A": "一方移轉所有權，他方支付價金",
+    "B": "一方以物交付他方保管，他方允為保管",
+    "C": "一方為他方完成一定工作",
+    "D": "一方承擔他人的債務"
+   },
+   "answer": "B",
+   "core": "寄託契約",
+   "explanation": "",
+   "basis": "民法 §589 I",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 29 題",
+   "status": "USER_CONFIRMED",
+   "flags": [
+    "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 16 週（民法債編各論沒有講寄託那一週，放回顧週）。"
+   ]
+  },
+  {
+   "id": "CIVS_30",
+   "course": "property",
+   "term": "Y2S1",
+   "scopeWeek": 2,
+   "type": "mc",
+   "q": "依民法第757條，物權除依法律或習慣外，原則上不得如何？",
+   "options": {
+    "A": "移轉",
+    "B": "登記",
+    "C": "創設",
+    "D": "繼承"
+   },
+   "answer": "C",
+   "core": "物權法定原則",
+   "explanation": "",
+   "basis": "民法 §757",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 30 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_31",
+   "course": "property",
+   "term": "Y2S1",
+   "scopeWeek": 4,
+   "type": "mc",
+   "q": "依民法第761條第1項，動產物權的讓與，原則上非將動產如何，不生效力？",
+   "options": {
+    "A": "交付",
+    "B": "公證",
+    "C": "登記於土地登記簿",
+    "D": "經法院判決"
+   },
+   "answer": "A",
+   "core": "動產所有權移轉",
+   "explanation": "",
+   "basis": "民法 §761 I",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 31 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_32",
+   "course": "property",
+   "term": "Y2S1",
+   "scopeWeek": 7,
+   "type": "mc",
+   "q": "依民法第823條第1項，各共有人原則上得如何？",
+   "options": {
+    "A": "永久禁止其他共有人使用共有物",
+    "B": "單獨出售整個共有物而不受限制",
+    "C": "無條件取得其他共有人的應有部分",
+    "D": "隨時請求分割共有物，但法律另有規定或因物的使用目的不能分割者除外"
+   },
+   "answer": "D",
+   "core": "共有物分割",
+   "explanation": "",
+   "basis": "民法 §823 I",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 32 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_33",
+   "course": "property",
+   "term": "Y2S1",
+   "scopeWeek": 11,
+   "type": "mc",
+   "q": "依民法第832條，普通地上權的主要內容為何？",
+   "options": {
+    "A": "對他人土地享有永久所有權",
+    "B": "以在他人土地上下有建築物或其他工作物為目的而使用其土地",
+    "C": "對他人土地享有任意出售權",
+    "D": "對他人土地上的所有動產享有抵押權"
+   },
+   "answer": "B",
+   "core": "普通地上權",
+   "explanation": "",
+   "basis": "民法 §832",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 33 題",
+   "status": "USER_CONFIRMED",
+   "flags": [
+    "和《民法 40 題》第 36 題考同一個點（§832 普通地上權的意義），兩題都在民法物權。要不要兩題都留，請使用者決定。"
+   ]
+  },
+  {
+   "id": "CIVS_34",
+   "course": "property",
+   "term": "Y2S1",
+   "scopeWeek": 12,
+   "type": "mc",
+   "q": "依民法第860條，普通抵押權的特徵為何？",
+   "options": {
+    "A": "必須將抵押物交付抵押權人占有",
+    "B": "抵押權人當然取得抵押物所有權",
+    "C": "不移轉占有，以不動產供債權擔保並得就賣得價金優先受償",
+    "D": "抵押權人得無條件使用抵押物"
+   },
+   "answer": "C",
+   "core": "普通抵押權",
+   "explanation": "",
+   "basis": "民法 §860",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 34 題",
+   "status": "USER_CONFIRMED",
+   "flags": [
+    "和《民法 40 題》第 34 題考同一個點（§860 普通抵押權的意義），兩題都在民法物權。要不要兩題都留，請使用者決定。"
+   ]
+  },
+  {
+   "id": "CIVS_35",
+   "course": "property",
+   "term": "Y2S1",
+   "scopeWeek": 13,
+   "type": "mc",
+   "q": "依民法第884條，動產質權的基本特徵為何？",
+   "options": {
+    "A": "債權人占有債務人或第三人移交的動產，以擔保債權",
+    "B": "債權人必須取得土地所有權",
+    "C": "質權人不須占有質物，且一律不得交付",
+    "D": "質權僅能設定於不動產"
+   },
+   "answer": "A",
+   "core": "質權",
+   "explanation": "",
+   "basis": "民法 §884",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 35 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_36",
+   "course": "family_law",
+   "term": "Y2S2",
+   "scopeWeek": 2,
+   "type": "mc",
+   "q": "依民法第968條，甲與其親生兄弟乙之間，屬於幾親等的旁系血親？",
+   "options": {
+    "A": "一親等",
+    "B": "三親等",
+    "C": "四親等",
+    "D": "二親等"
+   },
+   "answer": "D",
+   "core": "親等計算",
+   "explanation": "",
+   "basis": "民法 §968",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 36 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_37",
+   "course": "family_law",
+   "term": "Y2S2",
+   "scopeWeek": 4,
+   "type": "mc",
+   "q": "依民法第982條，結婚應具備下列何種形式要件？",
+   "options": {
+    "A": "僅須雙方口頭同意",
+    "B": "書面、有二人以上證人簽名，並由雙方當事人向戶政機關為結婚登記",
+    "C": "必須先舉行婚宴",
+    "D": "必須經法院判決許可"
+   },
+   "answer": "B",
+   "core": "婚姻成立",
+   "explanation": "",
+   "basis": "民法 §982",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 37 題",
+   "status": "USER_CONFIRMED",
+   "flags": [
+    "和《民法 40 題》第 37 題考同一個點（§982 結婚的形式要件），兩題都在民法身分法。要不要兩題都留，請使用者決定。"
+   ]
+  },
+  {
+   "id": "CIVS_38",
+   "course": "family_law",
+   "term": "Y2S2",
+   "scopeWeek": 6,
+   "type": "mc",
+   "q": "依民法第1050條，夫妻兩願離婚原則上應如何辦理？",
+   "options": {
+    "A": "僅須一方寄發存證信函",
+    "B": "僅須分居滿一年",
+    "C": "以書面為之，有二人以上證人簽名，並向戶政機關為離婚登記",
+    "D": "必須經法院判決始得離婚"
+   },
+   "answer": "C",
+   "core": "兩願離婚",
+   "explanation": "",
+   "basis": "民法 §1050",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 38 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_39",
+   "course": "family_law",
+   "term": "Y2S2",
+   "scopeWeek": 13,
+   "type": "mc",
+   "q": "依民法第1147條，繼承因何種事實而開始？",
+   "options": {
+    "A": "被繼承人死亡",
+    "B": "被繼承人退休",
+    "C": "被繼承人訂立遺囑",
+    "D": "被繼承人出售不動產"
+   },
+   "answer": "A",
+   "core": "繼承開始",
+   "explanation": "",
+   "basis": "民法 §1147",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 39 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  },
+  {
+   "id": "CIVS_40",
+   "course": "family_law",
+   "term": "Y2S2",
+   "scopeWeek": 15,
+   "type": "mc",
+   "q": "依民法第1174條，繼承人拋棄繼承，原則上應於知悉其得繼承之時起多久內，以書面向法院為之？",
+   "options": {
+    "A": "一個月",
+    "B": "六個月",
+    "C": "一年",
+    "D": "三個月"
+   },
+   "answer": "D",
+   "core": "拋棄繼承",
+   "explanation": "",
+   "basis": "民法 §1174 II",
+   "source": "民法_六門課程補充40題_2026-10-14.md 第 40 題",
+   "status": "USER_CONFIRMED",
+   "flags": []
+  }
+ ]
+}

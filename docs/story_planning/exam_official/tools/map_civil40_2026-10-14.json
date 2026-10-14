@@ -1,0 +1,336 @@
+{
+ "_comment": "使用者民法 40 題（2026-10-14 約 16:50）對到遊戲課程的方式。第 1～20 題就是 民法_20題 那 20 題：課程、週次沿用 map_civil20（AA），解析沿用舊版（carryExplanation）；第 5、14、16 題原本的「依先前整理的」flags 已因使用者改字而解決，第 7、10 題的 flags 照留。",
+ "1": {
+  "id": "CIV40_01",
+  "course": "civ_general",
+  "term": "Y1S1",
+  "scopeWeek": 14,
+  "basis": "民法 §92",
+  "carryExplanation": true
+ },
+ "2": {
+  "id": "CIV40_02",
+  "course": "civ_general",
+  "term": "Y1S1",
+  "scopeWeek": 16,
+  "basis": "民法 §144 I",
+  "carryExplanation": true
+ },
+ "3": {
+  "id": "CIV40_03",
+  "course": "civ_general",
+  "term": "Y1S1",
+  "scopeWeek": 15,
+  "basis": "民法 §170 I",
+  "carryExplanation": true
+ },
+ "4": {
+  "id": "CIV40_04",
+  "course": "oblig_gen1",
+  "term": "Y1S2",
+  "scopeWeek": 15,
+  "basis": "民法 §184 I",
+  "carryExplanation": true
+ },
+ "5": {
+  "id": "CIV40_05",
+  "course": "oblig_gen1",
+  "term": "Y1S2",
+  "scopeWeek": 14,
+  "basis": "民法 §184、§28",
+  "carryExplanation": true
+ },
+ "6": {
+  "id": "CIV40_06",
+  "course": "oblig_gen2",
+  "term": "Y2S1",
+  "scopeWeek": 5,
+  "basis": "民法 §227",
+  "carryExplanation": true
+ },
+ "7": {
+  "id": "CIV40_07",
+  "course": "oblig_gen2",
+  "term": "Y2S1",
+  "scopeWeek": 16,
+  "basis": "民法 §144、§148 II",
+  "flags": [
+   "考點是消滅時效與誠信原則：遊戲裡消滅時效在民法總則（大一上）第 16 週教；使用者分在債總。AA 照使用者的分類放債總（二）（遊戲課程資料的主題列有「時效」），請使用者確認要放民總還是債總。"
+  ],
+  "carryExplanation": true
+ },
+ "8": {
+  "id": "CIV40_08",
+  "course": "oblig_gen1",
+  "term": "Y1S2",
+  "scopeWeek": 12,
+  "basis": "民法 §179",
+  "carryExplanation": true
+ },
+ "9": {
+  "id": "CIV40_09",
+  "course": "oblig_spec",
+  "term": "Y2S2",
+  "scopeWeek": 15,
+  "basis": "民法 §493 I",
+  "carryExplanation": true
+ },
+ "10": {
+  "id": "CIV40_10",
+  "course": "oblig_spec",
+  "term": "Y2S2",
+  "scopeWeek": 16,
+  "basis": "民法 §474、§478",
+  "flags": [
+   "消費借貸是債各的有名契約，但遊戲的債各沒有排消費借貸那一週（債總（二）第 7 週講借錢不還的 §478）。AA 照使用者的分類放債各、範圍算到第 16 週回顧，請使用者確認。"
+  ],
+  "carryExplanation": true
+ },
+ "11": {
+  "id": "CIV40_11",
+  "course": "oblig_spec",
+  "term": "Y2S2",
+  "scopeWeek": 4,
+  "basis": "民法 §423",
+  "carryExplanation": true
+ },
+ "12": {
+  "id": "CIV40_12",
+  "course": "property",
+  "term": "Y2S1",
+  "scopeWeek": 5,
+  "basis": "民法 §767 I",
+  "carryExplanation": true
+ },
+ "13": {
+  "id": "CIV40_13",
+  "course": "property",
+  "term": "Y2S1",
+  "scopeWeek": 4,
+  "basis": "民法 §801、§948",
+  "carryExplanation": true
+ },
+ "14": {
+  "id": "CIV40_14",
+  "course": "property",
+  "term": "Y2S1",
+  "scopeWeek": 12,
+  "basis": "（非典型擔保；民法沒有明文）",
+  "carryExplanation": true
+ },
+ "15": {
+  "id": "CIV40_15",
+  "course": "property",
+  "term": "Y2S1",
+  "scopeWeek": 7,
+  "basis": "民法 §827",
+  "carryExplanation": true
+ },
+ "16": {
+  "id": "CIV40_16",
+  "course": "family_law",
+  "term": "Y2S2",
+  "scopeWeek": 12,
+  "basis": "民法 §1079（74 年 6 月 3 日修正前）",
+  "carryExplanation": true
+ },
+ "17": {
+  "id": "CIV40_17",
+  "course": "family_law",
+  "term": "Y2S2",
+  "scopeWeek": 7,
+  "basis": "民法 §1030-1 I",
+  "carryExplanation": true
+ },
+ "18": {
+  "id": "CIV40_18",
+  "course": "family_law",
+  "term": "Y2S2",
+  "scopeWeek": 7,
+  "basis": "民法 §1030-1 I ①",
+  "carryExplanation": true
+ },
+ "19": {
+  "id": "CIV40_19",
+  "course": "family_law",
+  "term": "Y2S2",
+  "scopeWeek": 13,
+  "basis": "民法 §1138",
+  "carryExplanation": true
+ },
+ "20": {
+  "id": "CIV40_20",
+  "course": "family_law",
+  "term": "Y2S2",
+  "scopeWeek": 13,
+  "basis": "民法 §1144 ①",
+  "carryExplanation": true
+ },
+ "21": {
+  "id": "CIV40_21",
+  "course": "civ_general",
+  "term": "Y1S1",
+  "scopeWeek": 14,
+  "basis": "民法 §87 I",
+  "flags": [
+   "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 14 週（民法總則沒有專講通謀虛偽意思表示，最接近的是第 14 週「意思表示的瑕疵」）。"
+  ]
+ },
+ "22": {
+  "id": "CIV40_22",
+  "course": "civ_general",
+  "term": "Y1S1",
+  "scopeWeek": 14,
+  "basis": "民法 §88 I"
+ },
+ "23": {
+  "id": "CIV40_23",
+  "course": "civ_general",
+  "term": "Y1S1",
+  "scopeWeek": 11,
+  "basis": "民法 §99",
+  "flags": [
+   "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 11 週（民法總則沒有講條件那一週，最接近的是第 11 週「法律行為」）。"
+  ]
+ },
+ "24": {
+  "id": "CIV40_24",
+  "course": "civ_general",
+  "term": "Y1S1",
+  "scopeWeek": 16,
+  "basis": "民法 §148 I",
+  "flags": [
+   "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 16 週（民法總則沒有講權利濫用禁止那一週，放回顧週）。"
+  ]
+ },
+ "25": {
+  "id": "CIV40_25",
+  "course": "oblig_gen2",
+  "term": "Y2S1",
+  "scopeWeek": 2,
+  "basis": "民法 §226 I"
+ },
+ "26": {
+  "id": "CIV40_26",
+  "course": "oblig_gen2",
+  "term": "Y2S1",
+  "scopeWeek": 3,
+  "basis": "民法 §229 I"
+ },
+ "27": {
+  "id": "CIV40_27",
+  "course": "oblig_gen2",
+  "term": "Y2S1",
+  "scopeWeek": 16,
+  "basis": "民法 §242",
+  "flags": [
+   "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 16 週（債總兩學期都沒有排債的保全（代位權、撤銷權），放債總（二）的回顧週）。"
+  ]
+ },
+ "28": {
+  "id": "CIV40_28",
+  "course": "oblig_gen2",
+  "term": "Y2S1",
+  "scopeWeek": 16,
+  "basis": "民法 §244 I",
+  "flags": [
+   "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 16 週（同第 27 題）。"
+  ]
+ },
+ "29": {
+  "id": "CIV40_29",
+  "course": "oblig_gen2",
+  "term": "Y2S1",
+  "scopeWeek": 12,
+  "basis": "民法 §273 I"
+ },
+ "30": {
+  "id": "CIV40_30",
+  "course": "oblig_spec",
+  "term": "Y2S2",
+  "scopeWeek": 3,
+  "basis": "民法 §354 I"
+ },
+ "31": {
+  "id": "CIV40_31",
+  "course": "oblig_spec",
+  "term": "Y2S2",
+  "scopeWeek": 10,
+  "basis": "民法 §549 I"
+ },
+ "32": {
+  "id": "CIV40_32",
+  "course": "oblig_spec",
+  "term": "Y2S2",
+  "scopeWeek": 13,
+  "basis": "民法 §745"
+ },
+ "33": {
+  "id": "CIV40_33",
+  "course": "property",
+  "term": "Y2S1",
+  "scopeWeek": 3,
+  "basis": "民法 §758 I"
+ },
+ "34": {
+  "id": "CIV40_34",
+  "course": "property",
+  "term": "Y2S1",
+  "scopeWeek": 12,
+  "basis": "民法 §860",
+  "flags": [
+   "和《民法六門課程補充 40 題》第 34 題考同一個點（§860 普通抵押權的意義），兩題都在民法物權，同一份考卷可能抽到兩題很像的題目。要不要兩題都留，請使用者決定。"
+  ]
+ },
+ "35": {
+  "id": "CIV40_35",
+  "course": "property",
+  "term": "Y2S1",
+  "scopeWeek": 14,
+  "basis": "民法 §769",
+  "flags": [
+   "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 14 週（民法物權沒有講取得時效那一週，最接近的是第 14 週「占有」）。"
+  ]
+ },
+ "36": {
+  "id": "CIV40_36",
+  "course": "property",
+  "term": "Y2S1",
+  "scopeWeek": 11,
+  "basis": "民法 §832",
+  "flags": [
+   "和《民法六門課程補充 40 題》第 33 題考同一個點（§832 普通地上權的意義），兩題都在民法物權，同一份考卷可能抽到兩題很像的題目。要不要兩題都留，請使用者決定。"
+  ]
+ },
+ "37": {
+  "id": "CIV40_37",
+  "course": "family_law",
+  "term": "Y2S2",
+  "scopeWeek": 4,
+  "basis": "民法 §982",
+  "flags": [
+   "和《民法六門課程補充 40 題》第 37 題考同一個點（§982 結婚的形式要件），兩題都在民法身分法，同一份考卷可能抽到兩題很像的題目。要不要兩題都留，請使用者決定。"
+  ]
+ },
+ "38": {
+  "id": "CIV40_38",
+  "course": "family_law",
+  "term": "Y2S2",
+  "scopeWeek": 11,
+  "basis": "民法 §1089 I"
+ },
+ "39": {
+  "id": "CIV40_39",
+  "course": "family_law",
+  "term": "Y2S2",
+  "scopeWeek": 15,
+  "basis": "民法 §1148 II"
+ },
+ "40": {
+  "id": "CIV40_40",
+  "course": "family_law",
+  "term": "Y2S2",
+  "scopeWeek": 14,
+  "basis": "民法 §1223 ②"
+ }
+}
