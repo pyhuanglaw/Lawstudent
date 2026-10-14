@@ -1,0 +1,32 @@
+diff --git a/src/assets3d.js b/src/assets3d.js
+index eb57986..cfc90eb 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -43,6 +43,14 @@ const ASSETS = (function(){
+     'char.npc_f2':     {url:'assets/models/char/vroid_npc_f2.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.64,ambient:true,sex:'f',tintBase:{hair:'#8a6a52',top:'#e6e3de',bottom:'#cfcbc4'},source:'VRoid CC0 樣本「Victoria Rubin」＋上衣、長褲（pixiv）',license:'CC0'},
+     'char.npc_m1':     {url:'assets/models/char/vroid_npc_m1.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.74,ambient:true,sex:'m',tintBase:{hair:'#8a6a52',top:'#e6e3de',bottom:'#cfcbc4'},source:'VRoid CC0 樣本「Sakurada Fumiriya」＋連帽上衣（pixiv）',license:'CC0'},
+     'char.npc_m2':     {url:'assets/models/char/vroid_npc_m2.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.74,ambient:true,sex:'m',tintBase:{hair:'#8a6a52',top:'#e6e3de',bottom:'#cfcbc4'},source:'VRoid CC0 樣本「HairSample_Male」＋襯衫背心（pixiv）',license:'CC0'},
++    // 路人底模（LAWWW2 Blender：每個人自己的臉、眼睛、髮型、衣服、身高；沒有 tintBase＝不跟著人物資料換顏色，照模型本身的穿搭）
++    'char.npc_nm1':    {url:'assets/models/char/second_ai/bl_npc_nm1.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.7,ambient:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Male」：深棕短髮、深藍 T、卡其褲',license:'CC0'},
++    'char.npc_nm2':    {url:'assets/models/char/second_ai/bl_npc_nm2.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.8,ambient:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Sakurada_Fumiriya」：黑色蓬鬆短髮、灰針織衫、黑長褲',license:'CC0'},
++    'char.npc_nm4':    {url:'assets/models/char/second_ai/bl_npc_nm4.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.73,ambient:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Sakurada_Fumiriya」：黑色側分瀏海、白 T、橄欖綠長褲',license:'CC0'},
++    'char.npc_nf1':    {url:'assets/models/char/second_ai/bl_npc_nf1.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.62,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Victoria_Rubin」：棕色及肩髮、淺綠 T、白寬褲',license:'CC0'},
++    'char.npc_nf2':    {url:'assets/models/char/second_ai/bl_npc_nf2.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.58,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Female」：黑色鮑伯頭、白 V 領、深藍牛仔褲',license:'CC0'},
++    'char.npc_nf3':    {url:'assets/models/char/second_ai/bl_npc_nf3.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.66,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Victoria_Rubin」：灰棕長髮、深藍針織衫、淺色牛仔褲',license:'CC0'},
++    'char.npc_nf4':    {url:'assets/models/char/second_ai/bl_npc_nf4.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.6,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Female」：紅棕長髮、珊瑚色 T、米色寬褲',license:'CC0'},
+     // 舊人物模型：不再預載（v8 以前的玩家／小安；保留檔案與授權紀錄）
+     'char.rpm_sample':{url:'assets/models/char/rpm_sample.glb', type:'character', lazy:true, role:'TEMP_PLAYER_DEV_MODEL（v8 以前；已停用）', anims:'char.mixamo_clips', hide:['Beard','Headwear'], source:'three.js examples (readyplayer.me.glb)', license:'Ready Player Me sample — 原型測試用', height:1.8},
+     'char.vrm_player':{url:'assets/models/char/vrm_player.vrm',type:'vrm',lazy:true,anims:'char.mixamo_clips',height:1.75,hide:['robo_arm','wear_2','wear_3','wear_5','wear_6','wear_7','wear_8','wear_9','wear_10','wear_11','wear_12'],source:'Seed-san（VirtualCast, Inc.）— v8 以前的玩家模型（已停用）',license:'VRM Public License 1.0（creditNotation: required → 「Seed-san by VirtualCast, Inc.」）'},
+diff --git a/src/character3d.js b/src/character3d.js
+index 7203eea..056d456 100644
+--- a/src/character3d.js
++++ b/src/character3d.js
+@@ -230,7 +230,7 @@ const CHAR = (function(){
+   /* 角色 → 正式 3D 模型（VRoid CC0 改作）。主要角色各自一個模型；其他人（含路人、教授、不熟同學）用路人底模，
+      顏色沿用各自原本的穿搭設定（髮色、上衣、褲裙），用材質顏色相乘。這裡只決定「外觀」，不影響移動、碰撞、存檔。 */
+   C.CAST={hero_m:{model:'char.yuting'},an:{model:'char.heroine_01'},hero_f:{model:'char.heroine_01'},heroine_01:{model:'char.heroine_01'},zhe:{model:'char.zhe'},heroine_02:{model:'char.heroine_02'},heroine_03:{model:'char.heroine_03'},heroine_04:{model:'char.heroine_04'},heroine_05:{model:'char.heroine_05'},sis:{model:'char.heroine_05'},classmate_xinci:{model:'char.classmate_xinci'},classmate_bohan:{model:'char.classmate_bohan'},kexin:{model:'char.kexin'}};   /* 芯慈：manifest 有才用（?blchar，blOnly）*/
+-  const AMB={f:['char.npc_f1','char.npc_f2'],m:['char.npc_m1','char.npc_m2']};
++  const AMB={f:['char.npc_nf1','char.npc_nf2','char.npc_nf3','char.npc_nf4','char.npc_f1','char.npc_f2'],m:['char.npc_nm1','char.npc_nm2','char.npc_nm4','char.npc_m1','char.npc_m2']};   /* 路人底模：LAWWW2 的 7 個（各自的臉與穿搭）＋原本 4 個（照人物資料換顏色）*/
+   function hashId(s){ let h=7; for(const ch of String(s)) h=(h*31+ch.charCodeAt(0))>>>0; return h; }
+   C.resolveModel=function(spec){ if(!spec||C.useModels===false) return spec; if(spec.model&&ASSETS.has(spec.model)) return spec; const cast=C.CAST[spec.id]; if(cast&&ASSETS.has(cast.model)) return Object.assign({},spec,cast); const sex=spec.sex==='f'?'f':'m'; const list=AMB[sex].filter(k=>ASSETS.has(k)); if(!list.length) return spec; const key=spec.ambientModel&&ASSETS.has(spec.ambientModel)?spec.ambientModel:list[hashId(spec.id||spec.name||'x')%list.length]; const o=spec.outfit||{}; const tint={hair:spec.hair&&spec.hair.color,top:o.top&&o.top.color,bottom:o.bottom&&o.bottom.color}; return Object.assign({},spec,{model:key,tint}); };
+   C.failures=[];
