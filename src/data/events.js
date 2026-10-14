@@ -587,6 +587,17 @@ const STORY_EVENTS=[
       {label:'ask'},{speaker:null,text:'（她停住，把這句抄進理由欄的第一行。）'},{speaker:'heroine_01',expression:'neutral',text:'先問。……對，要先問。'},{goto:'end'},
       {label:'listen'},{speaker:'heroine_01',expression:'neutral',text:'好，我先說。說完你一定要反駁。'},
       {label:'end'} ] },
+  /* 以安「四年，四張」的第一張（交接包 v2 C7；AA_71 2-9「大一的台詞」）：大一下第 3 週週六上午，椰林大道的杜鵑開了（她那個上午在椰林大道：characters.js 的作息）。
+     和她有點熟以上＝她請你拍；還不熟＝她請小語拍、你在旁邊看到。芷若、子晴那兩句只給兩個人都認識的玩家（AA：和祐廷無關的一句）。
+     旁白只用 AA 的字（「椰林大道的杜鵑開了」「拿著手機」「她把手機遞給你」「拍完她看了一下」「她請小語拍」「芷若拿著手機在拍花」）。之後三年照 AA_71 2-9（大三、大四以後做）*/
+  { id:'ev_an_azalea_y1', title:'四年，四張', participants:['heroine_01'], location:'campus', trigger:'interact', priority:8, once:true, term:['Y1S2'], weeks:[3], weekday:[6], time:[10,12], prereq:{stage:{npc:'heroine_01',min:'ACQUAINTANCE'}}, background:'blur',
+    dialogue:[ {speaker:null,text:'（椰林大道的杜鵑開了。以安拿著手機。）'},{speaker:'heroine_01',expression:'neutral',text:'每年同一個位置拍一張。四年，四張。'},
+      {unless:{stage:{npc:'heroine_01',min:'FAMILIAR'}},goto:'yu'},
+      {speaker:null,text:'（她把手機遞給你。）'},{speaker:'heroine_01',expression:'neutral',text:'你幫我拍。……不要叫我笑。'},{speaker:null,text:'（拍完她看了一下。）'},{speaker:'heroine_01',expression:'smile',text:'可以。理由：杜鵑在畫面裡，我也在。'},{set:{AZALEA_Y1:'player'}},{goto:'flowers'},
+      {label:'yu'},{speaker:null,text:'（她請小語拍。）'},{speaker:'yu',expression:'smile',text:'笑一個嘛！'},{speaker:'heroine_01',expression:'neutral',text:'不要。'},{set:{AZALEA_Y1:'yu'}},
+      {label:'flowers'},{unless:{memory:[{npc:'heroine_02',tag:'FIRST_MET'},{npc:'heroine_04',tag:'FIRST_MET'}]},goto:'end'},
+      {speaker:null,text:'（芷若拿著手機在拍花。）'},{speaker:'heroine_04',expression:'smile',text:'妳拍花？妳平常不是都在看人嗎？'},{speaker:'heroine_02',expression:'neutral',text:'花不會點餐。今天想休息。'},
+      {label:'end'} ] },
   { id:'ev_an_dorm_appeal_result', title:'申訴的結果', participants:['heroine_01'], location:'library', trigger:'interact', priority:9, once:true, term:['Y1S2'], weeks:[7], prereq:{events:['ev_an_dorm_appeal'],custom:G=>!G.flags.AN_APPEAL_RESULT}, background:'blur',
     dialogue:[ {speaker:'heroine_01',expression:'smile',text:'點數減了一點。宿舍說，以後記點以前會先問。'},{speaker:'heroine_01',expression:'neutral',text:'我本來想證明規定是錯的。後來發現規定沒錯，是它沒想到這種情況。'},
       {if:{flagIs:{AN_APPEAL:'ask'}},speaker:'heroine_01',expression:'smile',text:'你說的那一句，我放在第一段。'},{set:{AN_APPEAL_RESULT:'met'}} ] },

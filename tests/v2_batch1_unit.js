@@ -130,6 +130,24 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       const ch=e.dialogue.find(l=>l.choice).choice.map(c=>JSON.stringify(c.consequences.rel));
       check('阿凱 K2：好感數字（BB b6b21d6）：fam2 trust2／trust4 comf2／fam3 comf3',JSON.stringify(ch)===JSON.stringify(['{"kai":{"fam":2,"trust":2}}','{"kai":{"trust":4,"comf":2}}','{"kai":{"fam":3,"comf":3}}']),JSON.stringify(ch));
       check('阿凱 K2：只一次',!EVENTS.check(e)); } }
+  /* ---------- C7 以安「四年，四張」的第一張（AA_71 2-9）---------- */
+  { const e=ev('ev_an_azalea_y1'); check('C7 杜鵑花季：事件在',!!e);
+    if(e){ const R1=fam=>{ const r=SOCIAL.rel('heroine_01'); r.fam=fam; };
+      const at=(w,wd,h,fam,zone)=>{ fresh(wk('Y1S2',w,wd),h,zone||'campus'); SOCIAL.meet('heroine_01','campus'); R1(fam==null?10:fam); return EVENTS.check(e); };
+      const r={ok:at(3,6,10.5),w2:at(2,6,10.5),w4:at(4,6,10.5),sun:at(3,7,10.5),pm:at(3,6,13),lib:at(3,6,10.5,10,'library')};
+      check('C7：大一下第 3 週週六 10～12、校園（第 2／4 週、週日、13:00、總圖都沒有）',r.ok&&!r.w2&&!r.w4&&!r.sun&&!r.pm&&!r.lib,JSON.stringify(r));
+      const sch=CHARACTERS.heroine_01.daily_schedule.find(x=>x.terms&&x.terms.includes('Y1S2')&&x.weeks&&x.weeks.includes(3)&&x.days.includes(6));
+      check('C7：以安那個上午在校園（作息：大一下第 3 週週六 10～12）',!!sch&&sch.zone==='campus'&&sch.from===10&&sch.to===12,JSON.stringify(sch));
+      const play=async(fam,both)=>{ fresh(wk('Y1S2',3,6),10.5,'campus'); SOCIAL.meet('heroine_01','campus'); R1(fam); if(both){ SOCIAL.meet('heroine_02','cafe'); SOCIAL.meet('heroine_04','wancai'); } await EVENTS.run(e); return lines(); };
+      let L=await play(25,false);
+      check('C7（有點熟）：「每年同一個位置拍一張。四年，四張。」→（她把手機遞給你。）「你幫我拍。……不要叫我笑。」→（拍完她看了一下。）「可以。理由：杜鵑在畫面裡，我也在。」',
+        L[0]==='（椰林大道的杜鵑開了。以安拿著手機。）'&&/每年同一個位置拍一張。四年，四張。$/.test(L[1])&&L.includes('（她把手機遞給你。）')&&L.some(t=>/你幫我拍。……不要叫我笑。$/.test(t))&&L.includes('（拍完她看了一下。）')&&L.some(t=>/可以。理由：杜鵑在畫面裡，我也在。$/.test(t))&&!L.some(t=>/小語/.test(t))&&G.flags.AZALEA_Y1==='player',JSON.stringify(L));
+      check('C7：沒有兩個人都認識＝沒有芷若、子晴那兩句',!L.some(t=>/花不會點餐/.test(t)));
+      L=await play(10,false);
+      check('C7（還不熟）：（她請小語拍。）小語「笑一個嘛！」以安「不要。」；沒有「你幫我拍」',L.includes('（她請小語拍。）')&&L.includes('小語：笑一個嘛！')&&L.some(t=>/不要。$/.test(t))&&!L.some(t=>/你幫我拍/.test(t))&&G.flags.AZALEA_Y1==='yu',JSON.stringify(L));
+      L=await play(25,true);
+      check('C7（芷若、子晴都認識）：（芷若拿著手機在拍花。）子晴「妳拍花？妳平常不是都在看人嗎？」芷若「花不會點餐。今天想休息。」',L.includes('（芷若拿著手機在拍花。）')&&L.includes('高子晴：妳拍花？妳平常不是都在看人嗎？')&&L.includes('林芷若：花不會點餐。今天想休息。'),JSON.stringify(L.slice(-3)));
+      check('C7：只一次',!EVENTS.check(e)); } }
   /* ---------- 人物面板：每一種記憶都有中文名稱（沒有的話面板直接顯示英文代號）---------- */
   { const src=fs.readdirSync(path.join(ROOT,'src')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src',f),'utf8')).join('\n')+fs.readdirSync(path.join(ROOT,'src/data')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src/data',f),'utf8')).join('\n');
     const used=new Set(); for(const m of src.matchAll(/tag:'([A-Z_0-9]+)'/g)) used.add(m[1]); for(const m of src.matchAll(/remember\([^,()]+,'([A-Z_0-9]+)'/g)) used.add(m[1]); used.delete('ADJUST');
