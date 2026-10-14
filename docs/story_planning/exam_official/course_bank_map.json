@@ -1,0 +1,403 @@
+{
+ "_comment": "每門現行法律課的期末考題庫狀態（AA 2026-10-14）。刪掉的 7 門課沒有題庫位置（AA_103 第 9 節）。status：ENABLED＝已確認題目 ≥5，可以考；INSUFFICIENT＝不足 5 題，不開考、不補題（顯示 EXAM_BANK_INSUFFICIENT）；PENDING_AA_REVIEW＝大四題庫還沒審完；NO_EXAM＝報告或實務課。",
+ "updated": "2026-10-14",
+ "deletedCourses": [
+  "law_society",
+  "law_society_2",
+  "juris",
+  "intl_public",
+  "legal_history",
+  "fair_trade",
+  "conflict_laws"
+ ],
+ "moved": {
+  "legal_english": {
+   "from": "Y4S2",
+   "to": "Y2S2"
+  }
+ },
+ "courses": [
+  {
+   "term": "Y1S1",
+   "course": "const_1",
+   "name": "憲法（上）",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [],
+   "confirmed": 0,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y1S1",
+   "course": "crim_gen1",
+   "name": "刑法總則（一）",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [],
+   "confirmed": 0,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y1S1",
+   "course": "civ_general",
+   "name": "民法總則",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [
+    "exam_official/civil_20_2026-10-14.json"
+   ],
+   "confirmed": 3,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y1S2",
+   "course": "const_2",
+   "name": "憲法（下）",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [],
+   "confirmed": 0,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y1S2",
+   "course": "crim_gen2",
+   "name": "刑法總則（二）",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [],
+   "confirmed": 0,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y1S2",
+   "course": "oblig_gen1",
+   "name": "民法債編總論（一）",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [
+    "exam_official/civil_20_2026-10-14.json"
+   ],
+   "confirmed": 3,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y2S1",
+   "course": "admin_law",
+   "name": "行政法",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [],
+   "confirmed": 0,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y2S1",
+   "course": "crim_spec",
+   "name": "刑法分則",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [],
+   "confirmed": 0,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y2S1",
+   "course": "property",
+   "name": "民法物權",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [
+    "exam_official/civil_20_2026-10-14.json"
+   ],
+   "confirmed": 4,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y2S1",
+   "course": "oblig_gen2",
+   "name": "民法債編總論（二）",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [
+    "exam_official/civil_20_2026-10-14.json"
+   ],
+   "confirmed": 2,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y2S2",
+   "course": "oblig_spec",
+   "name": "民法債編各論",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [
+    "exam_official/civil_20_2026-10-14.json"
+   ],
+   "confirmed": 3,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y2S2",
+   "course": "family_law",
+   "name": "民法身分法",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [
+    "exam_official/civil_20_2026-10-14.json"
+   ],
+   "confirmed": 5,
+   "status": "ENABLED",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y2S2",
+   "course": "admin_remedy",
+   "name": "行政救濟法",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [],
+   "confirmed": 0,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y2S2",
+   "course": "legal_english",
+   "name": "法學英文／英美法",
+   "kind": "elective",
+   "exam": "mc5",
+   "sources": [],
+   "confirmed": 0,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y3S1",
+   "course": "civpro_1",
+   "name": "民事訴訟法甲上",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [],
+   "confirmed": 0,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y3S1",
+   "course": "crimpro",
+   "name": "刑事訴訟法",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [
+    "QBANK（src/data/legal_qbank.js）Q001–Q084；Q085 原檔截斷，不用"
+   ],
+   "confirmed": 84,
+   "status": "ENABLED",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y3S1",
+   "course": "company_law",
+   "name": "商事法總論及公司法",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [],
+   "confirmed": 0,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y3S1",
+   "course": "securities",
+   "name": "證券交易法",
+   "kind": "elective",
+   "exam": "mc5",
+   "sources": [],
+   "confirmed": 0,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y3S2",
+   "course": "civpro_2",
+   "name": "民事訴訟法甲下",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [],
+   "confirmed": 0,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y3S2",
+   "course": "insurance",
+   "name": "保險法",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [],
+   "confirmed": 0,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y3S2",
+   "course": "negotiable",
+   "name": "票據及支付工具法",
+   "kind": "elective",
+   "exam": "mc5",
+   "sources": [],
+   "confirmed": 0,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y3S2",
+   "course": "labor_law",
+   "name": "勞動法",
+   "kind": "elective",
+   "exam": "mc5",
+   "sources": [],
+   "confirmed": 0,
+   "status": "INSUFFICIENT",
+   "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
+  },
+  {
+   "term": "Y4S1",
+   "course": "enforcement",
+   "name": "強制執行法",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [
+    "exam_y4/enforcement.json（AA 出題自審）"
+   ],
+   "confirmed": 0,
+   "status": "PENDING_AA_REVIEW",
+   "rule": "大四：AA 出題自審，至少 5 題、審核完成才啟用"
+  },
+  {
+   "term": "Y4S1",
+   "course": "legal_ethics",
+   "name": "法律倫理",
+   "kind": "required",
+   "exam": "mc5",
+   "sources": [
+    "exam_y4/legal_ethics.json（AA 出題自審）"
+   ],
+   "confirmed": 0,
+   "status": "PENDING_AA_REVIEW",
+   "rule": "大四：AA 出題自審，至少 5 題、審核完成才啟用"
+  },
+  {
+   "term": "Y4S1",
+   "course": "ip_law",
+   "name": "智慧財產權法",
+   "kind": "elective",
+   "exam": "mc5",
+   "sources": [
+    "exam_y4/ip_law.json（AA 出題自審）"
+   ],
+   "confirmed": 0,
+   "status": "PENDING_AA_REVIEW",
+   "rule": "大四：AA 出題自審，至少 5 題、審核完成才啟用"
+  },
+  {
+   "term": "Y4S1",
+   "course": "labor_social",
+   "name": "勞動社會法",
+   "kind": "elective",
+   "exam": "mc5",
+   "sources": [
+    "exam_y4/labor_social.json（AA 出題自審）"
+   ],
+   "confirmed": 0,
+   "status": "PENDING_AA_REVIEW",
+   "rule": "大四：AA 出題自審，至少 5 題、審核完成才啟用"
+  },
+  {
+   "term": "Y4S1",
+   "course": "tax_law",
+   "name": "財稅法",
+   "kind": "elective",
+   "exam": "mc5",
+   "sources": [
+    "exam_y4/tax_law.json（AA 出題自審）"
+   ],
+   "confirmed": 0,
+   "status": "PENDING_AA_REVIEW",
+   "rule": "大四：AA 出題自審，至少 5 題、審核完成才啟用"
+  },
+  {
+   "term": "Y4S1",
+   "course": "crim_judgment_sem",
+   "name": "刑事判決研討",
+   "kind": "elective",
+   "exam": "mc5",
+   "sources": [
+    "exam_y4/crim_judgment_sem.json（AA 出題自審）"
+   ],
+   "confirmed": 0,
+   "status": "PENDING_AA_REVIEW",
+   "rule": "大四：AA 出題自審，至少 5 題、審核完成才啟用"
+  },
+  {
+   "term": "Y4S1",
+   "course": "public_judgment_sem",
+   "name": "公法判決研討",
+   "kind": "elective",
+   "exam": "mc5",
+   "sources": [
+    "exam_y4/public_judgment_sem.json（AA 出題自審）"
+   ],
+   "confirmed": 0,
+   "status": "PENDING_AA_REVIEW",
+   "rule": "大四：AA 出題自審，至少 5 題、審核完成才啟用"
+  },
+  {
+   "term": "Y4S2",
+   "course": "legal_research",
+   "name": "法律專題研究",
+   "kind": "required",
+   "exam": "none",
+   "reason": "報告或實務課，不考選擇題（AA_126 1-5 B；使用者可改）",
+   "sources": [],
+   "confirmed": 0,
+   "status": "NO_EXAM"
+  },
+  {
+   "term": "Y4S2",
+   "course": "legal_practice",
+   "name": "法律實習或法律扶助實務",
+   "kind": "required",
+   "exam": "none",
+   "reason": "報告或實務課，不考選擇題（AA_126 1-5 B；使用者可改）",
+   "sources": [],
+   "confirmed": 0,
+   "status": "NO_EXAM"
+  },
+  {
+   "term": "Y4S2",
+   "course": "maritime",
+   "name": "海商法與海洋法",
+   "kind": "elective",
+   "exam": "mc5",
+   "sources": [
+    "exam_y4/maritime.json（AA 出題自審）"
+   ],
+   "confirmed": 0,
+   "status": "PENDING_AA_REVIEW",
+   "rule": "大四：AA 出題自審，至少 5 題、審核完成才啟用"
+  }
+ ]
+}
