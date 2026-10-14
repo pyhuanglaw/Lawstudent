@@ -66,14 +66,17 @@ async def chase(pg, cdp, run, cid, label, rounds=30):
     每 15 秒（近了 6 秒）看一次、再點一次；她先開口就停；回傳最後的距離。
     v9.6 發布回歸（候選 3）：原本用 go_to 走到她「剛才」的位置——go_to 在人物還在走上一條路線時不會重新點，
     一直走到舊的目標才換，她出現在 60 m 外、還在往遠處走時追不上（c772bab、a6c3d1a 兩次都在這裡失敗）。
-    判斷標準不變（2.8 m 內停下、出現「說話」）。"""
+    判斷標準不變（2.8 m 內停下、出現「說話」）。
+    v9.6 發布回歸（候選 3 第二次，11:30 版）還是追不上：SwiftShader 每秒約 1 格，遊戲時間只有真實的十分之一；鏡頭沒朝她，畫面上看得到的路線只有近的一段，
+    點下去不到 16 m、一直用走的（1.8 m/s，她走走 1.2 m/s）。真人會先把鏡頭轉向她、點遠一點的地面跑過去：遠的時候先滑鏡頭（第三次 A 段全過：點 10 次、追到 3.4 m）。"""
     taps = 0; t0 = time.time()
     for _ in range(rounds):
         n = await npc(pg, cid)
         if not n or n['d'] <= 2.3: break
         s = await L.state(pg)
         if s['busy'] or s['dlg'] or s['choices']: break   # 走近時她先開口（相遇事件）
-        if await L._tap_toward(pg, cdp, s, n['x'], n['z'], n['d'], None): taps += 1
+        if n['d'] > 16: await L.turn_camera_to(pg, cdp, n['x'], n['z'])   # 遠的時候先用手指滑鏡頭朝她，畫面上才看得到遠處的路（點超過 16 m 遊戲會用跑的）
+        if await L._tap_toward(pg, cdp, await L.state(pg), n['x'], n['z'], n['d'], None): taps += 1
         await pg.wait_for_timeout(15000 if n['d'] > 6 else 6000)
     t1 = time.time()
     while time.time() - t1 < 30:   # 等人物停下來（真人會等走完再看按鈕）
