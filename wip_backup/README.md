@@ -36,3 +36,4 @@ git worktree add <資料夾> wip/dorm-hall
 - `v97-rc9.bundle`／`v97-rc10.bundle`／`v97-rc11.bundle`（2026-10-14 09:06～09:38 UTC）：v9.7 發布候選 9～11（`64792d3`、`11bdf50`、`836a1f6`），只改測試（flow_lecture_attend、flow_bike、flow_course_choice）；遊戲程式＝候選 8 `3e5201d`。每一包的前置是前一個候選。
 - `v97-rc13.bundle`（2026-10-14 10:21 UTC）：v9.7 發布候選 12 `b223a31`（flow_bike 先轉正再量、失敗結束碼 1）＋候選 13 `69a6cdc`（index.html 的 script 版本號 9.6-1 → 9.7-1），本機分支 `rel/v97-rc13`。前置 commit `836a1f6`（候選 11）。還原：`git fetch wip_backup/v97-rc13.bundle rel/v97-rc13:rel/v97-rc13`（先照順序 fetch 前面的包）。
 - `v97-rc14.bundle`（2026-10-14 10:40 UTC）：v9.7 發布候選 14 `fd46e14`＝候選 13＋flow_bike 的量法（一直按住搖桿、車停下來再量腳、上車站離店門遠的那邊；只改測試），本機分支 `rel/v97-rc14`。前置 `69a6cdc`（候選 13）。
+- `v97-rc15.bundle`（2026-10-14 10:50 UTC）：v9.7 發布候選 15 `d8aca4d`＝候選 14＋flow_bike 量速度只量真的在騎的那一段（按住 10 秒、第 3 秒開始量、放開前 1.5 秒量完；只改測試），本機分支 `rel/v97-rc15`。前置 `fd46e14`（候選 14）。還原：`git fetch wip_backup/v97-rc15.bundle rel/v97-rc15:rel/v97-rc15`
