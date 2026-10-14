@@ -69,5 +69,18 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       check('語彤 6（認識）：問 →「房東想把整棟賣掉。還沒確定。……你吃你的。」、記 RENT_RUMOR',JSON.stringify(opts[0])==='["（問語彤）","（不問）"]'&&L.some(t=>/房東想把整棟賣掉。還沒確定。……你吃你的。$/.test(t))&&SOCIAL.has('heroine_03','RENT_RUMOR'),JSON.stringify(L.slice(-2)));
       fresh(wk('Y1S2',10,2),18.5,'noodle'); SOCIAL.meet('heroine_03','campus'); picks=[1]; await EVENTS.run(e);
       check('語彤 6（認識）：不問就不記 RENT_RUMOR、只演一次',!SOCIAL.has('heroine_03','RENT_RUMOR')&&!EVENTS.check(e)); } }
+  /* ---------- 學姊 W4 空的保溫瓶（BB_96 2-5）---------- */
+  { const e=ev('ev_sis_empty_flask'); check('學姊 W4：事件在',!!e);
+    if(e){ const R5=(fam,trust)=>{ const r=SOCIAL.rel('heroine_05'); r.fam=fam; r.trust=trust||0; };
+      const at=(term,w,wd,h,fam,zone)=>{ fresh(wk(term,w,wd),h,zone||'library'); SOCIAL.meet('heroine_05','campus'); R5(fam); return EVENTS.check(e); };
+      const r={ok:at('Y1S2',8,2,15,25),w9:at('Y1S2',9,4,16,25),w7:at('Y1S2',7,2,15,25),eve:at('Y1S2',8,2,18,25),acq:at('Y1S2',8,2,15,10),cafe:at('Y1S2',8,2,15,25,'cafe'),y1s1:at('Y1S1',8,2,15,25)};
+      check('學姊 W4：大一下第 8～9 週、總圖、平日 14～17、有點熟以上（第 7 週、18:00、只是認識、Café、大一上都沒有）',r.ok&&r.w9&&!r.w7&&!r.eve&&!r.acq&&!r.cafe&&!r.y1s1,JSON.stringify(r));
+      const play=async k=>{ fresh(wk('Y1S2',8,2),15,'library'); SOCIAL.meet('heroine_05','campus'); R5(25); picks=[k]; await EVENTS.run(e); return lines(); };
+      let L=await play(0);
+      check('學姊 W4：旁白兩句；三個選項（原文）',L[0]==='她在讀判決，左手拿著保溫瓶，喝了一口。又喝了一口。'&&L[1]==='保溫瓶是空的。她已經對著空瓶喝了三次。'&&JSON.stringify(opts[0])==='["「學姊，妳的保溫瓶是空的。」","（去 Café 買一杯黑咖啡，放在她桌上）","（什麼都不說）"]',JSON.stringify([L.slice(0,2),opts[0]]));
+      check('學姊 W4 選 1：「……喔。」「我早上九點裝的。我以為我還沒喝完。」（她笑出來。）「這件事很蠢。你看到了，就算了。」、NOTICED_HER',L.some(t=>/……喔。$/.test(t))&&L.some(t=>/我早上九點裝的。我以為我還沒喝完。$/.test(t))&&L.includes('（她笑出來。）')&&L.some(t=>/這件事很蠢。你看到了，就算了。$/.test(t))&&SOCIAL.has('heroine_05','NOTICED_HER')&&!L.some(t=>/不要跟/.test(t)),JSON.stringify(L.slice(2)));
+      L=await play(1); check('學姊 W4 選 2：「……你翹課？」你「下課了。」「……好。」（她把咖啡倒進保溫瓶。）、HELPED',L.some(t=>/……你翹課？$/.test(t))&&L.includes('祐廷：下課了。')&&L.includes('（她把咖啡倒進保溫瓶。）')&&SOCIAL.has('heroine_05','HELPED'),JSON.stringify(L.slice(2)));
+      L=await play(2); check('學姊 W4 選 3：她自己發現去裝水；「你看到了吧。」你「……沒有。」「說謊的時候，不要看別的地方。」、NOTICED_HER',L.includes('（她自己發現，起身去裝水。）')&&L.some(t=>/你看到了吧。$/.test(t))&&L.includes('祐廷：……沒有。')&&L.some(t=>/說謊的時候，不要看別的地方。$/.test(t))&&SOCIAL.has('heroine_05','NOTICED_HER'),JSON.stringify(L.slice(2)));
+      check('學姊 W4：只一次',!EVENTS.check(e)); } }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });
