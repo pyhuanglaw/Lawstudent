@@ -74,5 +74,19 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     let other=null; for(let d=termDay(8,1);d<=termDay(9,7)&&!other;d++){ const it=CLS.dayItems(G,d).find(x=>x.c.id!=='civ_general'&&x.exam==='mid'&&x.c.kind!=='service'); if(it) other=it; }
     fresh(other.day,other.t0,'classroom',{readCase:'full'}); picks=[]; await CLS.attend(GM,other); check('G1：別科（'+other.c.name+'）的期中考考完不會演',!lines().includes('……有第二題？'));
     const W4THU=termDay(4,4); fresh(W4THU,13.2,'classroom',{readCase:'full'}); picks=[]; await CLS.attend(GM,CLS.dayItems(G,W4THU).find(x=>x.c.id==='civ_general')); check('G1：一般的民總下課不會演',!lines().includes('……有第二題？')); }
+  /* ---------- A19 以安的邀約（期末前的總圖）---------- */
+  { const W16=termDay(16,1); const knowAn=()=>{ meet('heroine_01'); SOCIAL.talkedTo('heroine_01'); };   /* 認識以上（AA_70 2-1）：說過話 */
+    fresh(3,20,'campus',{afternoonDone:true}); STORY.phoneRules(GM); check('A19 前提：第二天下午和以安一起過的玩家有她的聯絡方式（舊存檔也補；不跳通知）',INV.hasContact(G,'heroine_01')&&!(G.msgs||[]).some(m=>/沈以安的聯絡方式/.test(m.text||'')));
+    fresh(3,20,'campus'); STORY.phoneRules(GM); check('A19 前提：沒有第二天下午的玩家沒有她的聯絡方式',!INV.hasContact(G,'heroine_01'));
+    const at=(day,hour,flags,setup)=>{ fresh(day,hour,'campus',Object.assign({afternoonDone:true},flags||{})); knowAn(); if(setup) setup(); STORY.phoneRules(GM); return (G.invites||[]).find(iv=>iv.who==='heroine_01')||null; };
+    const a=at(W16,20), b=at(W16,18), c=at(W16-1,20), d=at(W16+4,20), e=at(W16,20,{afternoonDone:false});
+    check('A19：第 16 週週一 20:00（認識以上）：以安約隔天 8:00 總圖（邀約系統，等你回）；18:00、第 15 週、週五、沒有她的聯絡方式：不約',!!a&&a.place==='library'&&a.day===W16+1&&a.h===8&&a.state==='offered'&&a.by==='npc'&&!b&&!c&&!d&&!e,JSON.stringify({a,b:!!b,c:!!c,d:!!d,e:!!e}));
+    fresh(W16,20,'campus',{afternoonDone:true}); meet('heroine_01'); STORY.phoneRules(GM); check('A19：還不認識（STRANGER）不約',!(G.invites||[]).some(iv=>iv.who==='heroine_01'));
+    fresh(W16,20,'campus',{afternoonDone:true}); knowAn(); STORY.phoneRules(GM); const t=(G.msgs||[]).filter(x=>x.who==='heroine_01').map(x=>x.text);
+    check('A19：訊息原文「明天 8:00 總圖。周老師那題，我寫了反方的理由。你來反駁。」',t.includes('明天 8:00 總圖。周老師那題，我寫了反方的理由。你來反駁。'),JSON.stringify(t));
+    STORY.phoneRules(GM); G.hour=21; STORY.phoneRules(GM); check('A19：只約一次',(G.invites||[]).filter(iv=>iv.who==='heroine_01').length===1);
+    const iv=G.invites.find(x=>x.who==='heroine_01'); const r=INV.answer(G,iv.id,'yes'); check('A19：答應＝約好了（之後照邀約系統見面）',r&&r.res==='accept'&&iv.state==='accepted');
+    fresh(W16,20,'campus',{afternoonDone:true}); knowAn(); STORY.phoneRules(GM); const iv2=G.invites.find(x=>x.who==='heroine_01'); const r2=INV.answer(G,iv2.id,'later'); const r3=(fresh(W16,20,'campus',{afternoonDone:true}),knowAn(),STORY.phoneRules(GM),INV.answer(G,G.invites.find(x=>x.who==='heroine_01').id,'no'));
+    const fam0=SOCIAL.rel('heroine_01').fam; check('A19：改天、不了都可以（不扣分：關係數值不變）',r2&&r2.res==='later'&&r3&&r3.res==='no'&&fam0===5,JSON.stringify({r2,r3,fam0})); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
