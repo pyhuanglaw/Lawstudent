@@ -33,3 +33,5 @@ git worktree add <資料夾> wip/dorm-hall
 - `v96-rc15.bundle`（2026-10-14 07:08 UTC）：v9.6 發布候選 15，本機分支 `rel/v96-rc15`（`e88bda5`）＝候選 14＋測試工具 go_to 等人物真的走完（只改測試）。前置 `5f66b67`。還原：`git fetch wip_backup/v96-rc15.bundle rel/v96-rc15:rel/v96-rc15`
 - `v97-rc3.bundle`（2026-10-14 07:08 UTC）：v9.7 發布候選 3，本機分支 `rel/v97-rc3`（`8ac75f6`）＝v9.7 候選 2 `06f2b64` 合併 v9.6 候選 15（遊戲程式和候選 1、2 相同）。前置 `22c597c`。還原：`git fetch wip_backup/v97-rc3.bundle rel/v97-rc3:rel/v97-rc3`
 - `v97-rc4.bundle`（2026-10-14 07:30 UTC）：v9.7 發布候選 4，本機分支 `rel/v97-rc4`（`6ad0923`）＝候選 3＋測試工具讀檔時關掉直向提示、flow_typhoon 跟上（LAWWW2 的 patch；只改測試，遊戲程式和候選 1～3 相同）。前置 `22c597c`。還原：`git fetch wip_backup/v97-rc4.bundle rel/v97-rc4:rel/v97-rc4`
+- `v97-rc9.bundle`／`v97-rc10.bundle`／`v97-rc11.bundle`（2026-10-14 09:06～09:38 UTC）：v9.7 發布候選 9～11（`64792d3`、`11bdf50`、`836a1f6`），只改測試（flow_lecture_attend、flow_bike、flow_course_choice）；遊戲程式＝候選 8 `3e5201d`。每一包的前置是前一個候選。
+- `v97-rc13.bundle`（2026-10-14 10:21 UTC）：v9.7 發布候選 12 `b223a31`（flow_bike 先轉正再量、失敗結束碼 1）＋候選 13 `69a6cdc`（index.html 的 script 版本號 9.6-1 → 9.7-1），本機分支 `rel/v97-rc13`。前置 commit `836a1f6`（候選 11）。還原：`git fetch wip_backup/v97-rc13.bundle rel/v97-rc13:rel/v97-rc13`（先照順序 fetch 前面的包）。
