@@ -10,7 +10,7 @@ const CHARACTERS = {
   heroine_01:{ id:'heroine_01', presence:{from:'Y1S1'}, name:'沈以安', nickname:'小安', age:19, height_cm:166, zodiac:'處女座', gender:'f', department:'法律系', year:1, social_layer:'D', visual_tier:3,
     height_range:'165–168', visual_identity:'自然長髮綁成馬尾、額前與側邊碎髮；針織上衣＋寬褲＋樂福鞋；帆布托特包', hair:'深棕、長髮馬尾', eyes:'細長、有神', clothing_style:'乾淨、中性偏知性', accessories:['托特包','簡單手錶'],
     personality:'講話直接，做事有規劃，不擅長表達脆弱', speech_pattern:'短句、少用語助詞；緊張時會突然很客氣', humor:'冷面吐槽', strengths:['筆記整理','抓爭點快'], weaknesses:['不會拒絕','壓力大時失眠'],
-    contradictions:'看起來對人生極有規劃，其實不確定自己想不想走法律；家裡是書記官，反而想知道法院「另一邊」在幹嘛', family_context:'母親是地方法院書記官，單親', academic_status:'成績前段，民法最強', career_goal:'還在猶豫：律師或不走法律', romantic_style:'慢熱，需要長時間信任；討厭被當攻略對象', social_circle:['zhe','yu','classmate_xinci'],
+    contradictions:'看起來對人生極有規劃，其實不確定自己想不想走法律；媽媽是法官，她不想被當成「法官的女兒」', family_context:'母親是法官，單親；家在台中',   /* D60（使用者 2026-10-14；AA_113）：母親是法官。剛認識時她不主動提媽媽的工作 */ academic_status:'成績前段，民法最強', career_goal:'還在猶豫：律師或不走法律', romantic_style:'慢熱，需要長時間信任；討厭被當攻略對象', social_circle:['zhe','yu','classmate_xinci'],
     daily_schedule:[{days:[1,2,3,4,5],from:8,to:12,zone:'library',act:'read'},{days:[4],from:13.1,to:15.2,zone:'classroom',act:'class'},{days:[1,2,3,4,5],from:16,to:18,zone:'cafe',act:'read'},{days:[0,6],from:14,to:17,zone:'cafe',act:'read'},{days:[1,2,3,4,5],from:18,to:20.5,zone:'campus',act:'wander'}],
     story_arc:['同班同學→一起讀書→報告搭檔→知道彼此的家庭→她開始猶豫要不要走法律→大三分岔'], possible_endings:['一起準備國考','她轉向法研所（民法）','她離開法律去做別的、仍是朋友','淡掉'],
     char3d:{spec:'hero_f',model:'char.heroine_01',height:1.66}, portrait:'heroine_01' },
