@@ -107,12 +107,12 @@ async function await0(){}
   const gmW={G,npc:{heroine_02:{obj:npcObj}},E:{player:{obj:{position:{x:0,z:0}}}},caption:(w,t)=>caps.push((w||'旁白')+'：'+t)};
   fresh(MON,10); gmW.G=G; rel('heroine_02',45,30,10); G.invites.push({id:'w1',who:'heroine_02',place:'noodle',zone:'noodle',day:MON,h:10,state:'going'});
   INV.walkChat(gmW,5); check('12. 一起走 5 秒：還沒說',caps.length===0,caps.join('｜'));
-  INV.walkChat(gmW,1.5); check('12. 一起走 6 秒以後：芷若說去公館的那句（影印店），寫在字幕、名字是她',caps.length===1&&/林芷若：「我每次經過那家影印店/.test(caps[0])&&G.invites[0].chat===true,caps.join('｜'));
-  INV.walkChat(gmW,10); check('12. 一趟只說一句',caps.length===1,caps.join('｜'));
+  INV.walkChat(gmW,1.5); check('12. 一起走 6 秒以後：芷若說去公館的那句（影印店；BB 2b4d4da 在停頓處拆成兩句＝兩個字幕），寫在字幕、名字是她',caps.length===2&&/林芷若：「我每次經過那家影印店/.test(caps[0])&&caps[1]==='林芷若：「……我媽一張一塊，這家一張一塊半。」'&&G.invites[0].chat===true,caps.join('｜'));
+  INV.walkChat(gmW,10); check('12. 一趟只說一句（一段）',caps.length===2,caps.join('｜'));
   G.invites.push({id:'w2',who:'heroine_02',place:'noodle',zone:'noodle',day:MON,h:12,state:'going'}); INV.walkChat(gmW,7);
-  check('12. 下一趟：換下一句（她看到電影海報：旁白＋她的話，兩個字幕）',caps.length===3&&caps[1]==='旁白：（她看到騎樓下的電影海報。）'&&/林芷若：「這部不要看/.test(caps[2]),caps.join('｜'));
+  check('12. 下一趟：換下一句（她看到電影海報：旁白＋她的話，兩個字幕）',caps.length===4&&caps[2]==='旁白：（她看到騎樓下的電影海報。）'&&/林芷若：「這部不要看/.test(caps[3]),caps.join('｜'));
   npcObj.position.x=9; G.invites.push({id:'w3',who:'heroine_02',place:'noodle',zone:'noodle',day:MON,h:14,state:'going'}); INV.walkChat(gmW,8);
-  check('12. 跟著的人不在旁邊（9 m）：先不說',caps.length===3&&!G.invites[2].chat,caps.join('｜'));
+  check('12. 跟著的人不在旁邊（9 m）：先不說',caps.length===4&&!G.invites[2].chat,caps.join('｜'));
   const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('12. STORY.tick 每一幀叫 INV.walkChat(GM,dt)',/INV\.walkChat\(GM,dt\)/.test(st));
   // 13 選項句（BB_120 1-7c：走到目的地、見面開始前選，不在路上打斷）：芷若去溫州街猜電影、阿凱大一去吃飯「機車擋騎樓可以告嗎」
   fresh(SAT,15); gmW.G=G; caps.length=0; npcObj.position.x=1; rel('heroine_02',45,30,10); G.invites.push({id:'w4',who:'heroine_02',place:'wenzhou',zone:'wenzhou',day:SAT,h:15,state:'going'});
@@ -126,6 +126,25 @@ async function await0(){}
   { const e=INV.walkEntry('kai','KAI_SCOOTER_ASK'); check('13. 阿凱的三個選項與回答（BB_70 4-5）',!!e&&e.ch.map(c=>c.t+'→'+c.r[0]).join('／')==='可以檢舉，不一定是告→「所以告跟檢舉不一樣 好 我學到一個字」／你想告誰→「沒有 我只是想知道我有沒有這個能力」／先讓我吃完→「好 你吃 ……吃完了嗎」'); }
   G.flags.walkChatN={}; pk2=INV.walkPick(G,'kai','cafe'); check('13. 阿凱去 Café：不是吃飯，不問機車那題',!!pk2&&!pk2.ask,pk2&&JSON.stringify(pk2));
   const y2d=(()=>{ for(let d=300;d<800;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y2S1') return d; } return null; })(); fresh(y2d,18); rel('kai',25); pk2=INV.walkPick(G,'kai','noodle'); check('13. 大二：不問（大一上的題目）',!pk2||!pk2.ask,pk2&&JSON.stringify(pk2));
+  /* 子晴「你為什麼換」（BB_70 2-5、BB 2fdef19）：有點熟以上、還沒有 TOLD_HER_CHANGE；說了記憶 TOLD_HER_CHANGE，「下次再講」不記 */
+  const meetAsk=async(who,pid,pick)=>{ const said=[], opts=[]; G.invites.push({id:'m'+who+pid,who,place:pid,zone:pid,day:G.day,h:G.hour,state:'going'}); const iv=G.invites[G.invites.length-1];
+    const pk=INV.walkPick(G,who,pid); if(pk&&pk.ask){ pk.next(); iv.ask=pk.ask; }
+    const gmM={G,E:{player:{obj:{position:{x:0,z:0}}}},npc:{},sceneBegin(){},sceneEnd(){},say:async(w,t)=>{ said.push((w?(w.name||w):'旁白')+'：'+t); },choose:async o=>{ opts.push(o.map(x=>x.t).join('/')); return pick; },fade:async()=>{},advance(){},caption(){},sleep:async()=>{},autosave(){},toast(){},updateHUD(){}};
+    await INV.meet(gmM,iv,{obj:npcObj}); return {said,opts,ask:pk&&pk.ask}; };
+  fresh(MON,10); rel('heroine_04',25); G.flags.walkChatN={walk:0}; G.flags.walkChatN.heroine_04=2;   /* 輪到 any 的第二個（前面：去公館的兩句、松鼠）*/
+  { let pk=null; for(let n=0;n<6&&!(pk&&pk.ask);n++){ G.flags.walkChatN.heroine_04=n; pk=INV.walkPick(G,'heroine_04','cafe'); }
+    check('13. 子晴有點熟、去 Café 的路上：輪得到「欸不是，阿凱說你念過經濟？那你為什麼換？」（選項句）',!!pk&&pk.ask==='ZQ_CHANGE_ASK',pk&&JSON.stringify(pk)); }
+  { G.flags.walkChatN.heroine_04=0; let r=null; for(let n=0;n<6;n++){ G.flags.walkChatN.heroine_04=n; const pk=INV.walkPick(G,'heroine_04','cafe'); if(pk&&pk.ask){ r=await meetAsk('heroine_04','cafe',0); break; } }
+    check('13. 子晴：「（說換方向的事）」→ 你說換方向、她問家裡、（她走了好幾步沒說話。）→「……好。我記住了。這不是問句。」→ 記憶 TOLD_HER_CHANGE',!!r&&r.opts[0]==='（說換方向的事）/下次再講。'&&r.said[0]==='高子晴：「欸不是，阿凱說你念過經濟？那你為什麼換？」'&&r.said[1]==='祐廷：「念了一年經濟，後來換到法律。換的時候很怕，換完就不怕了。」'&&r.said.includes('旁白：（她走了好幾步沒說話。）')&&r.said.includes('高子晴：「……好。我記住了。這不是問句。」')&&SOCIAL.has('heroine_04','TOLD_HER_CHANGE'),r&&r.said.slice(0,8).join('｜'));
+    let again=false; for(let n=0;n<6;n++){ G.flags.walkChatN.heroine_04=n; const pk=INV.walkPick(G,'heroine_04','cafe'); if(pk&&pk.ask) again=true; } check('13. 子晴：說過以後不再問',!again); }
+  fresh(MON,10); rel('heroine_04',25); { let r=null; for(let n=0;n<6;n++){ G.flags.walkChatN={heroine_04:n}; const pk=INV.walkPick(G,'heroine_04','cafe'); if(pk&&pk.ask){ r=await meetAsk('heroine_04','cafe',1); break; } }
+    check('13. 子晴：「下次再講。」→「好。那你欠我一次。」、不記 TOLD_HER_CHANGE、這句不再問（一次）',!!r&&r.said[1]==='高子晴：「好。那你欠我一次。」'&&!SOCIAL.has('heroine_04','TOLD_HER_CHANGE')&&G.flags.ZQ_CHANGE_ASK===true,r&&r.said.slice(0,3).join('｜')); }
+  fresh(MON,10); rel('heroine_04',10); { let any=false; for(let n=0;n<6;n++){ G.flags.walkChatN={heroine_04:n}; const pk=INV.walkPick(G,'heroine_04','cafe'); if(pk&&pk.ask) any=true; } check('13. 子晴只是「認識」：不問',!any); }
+  /* 沛珊「大家都不遵守的法律」（BB_70 6-5、BB 2fdef19）：三個選項都是學生的看法；最後一句大一上問讀書會、大一下起問課輔班 */
+  fresh(MON,10); rel('classmate_peishan',25); { const r=await meetAsk('classmate_peishan','cafe',2);
+    check('13. 沛珊：「如果一條法律大家都不遵守，它還是法律嗎？」三個選項 → 選「要看大家為什麼不守。」→「……對。不想守，和守不起，是兩件事。」→ 大一上「…問讀書會的人…」',r.ask==='PS_LAW_ASK'&&r.opts[0]==='還是法律，只是沒人守。/那它可能該改了。/要看大家為什麼不守。'&&r.said[0]==='郭沛珊：「如果一條法律大家都不遵守，它還是法律嗎？」'&&r.said[1]==='郭沛珊：「……對。不想守，和守不起，是兩件事。」'&&r.said[2]==='郭沛珊：「好。我要拿這題去問讀書會的人，看看他們怎麼說。」',r.said.slice(0,4).join('｜')); }
+  { const y1s2=(()=>{ for(let d=100;d<500;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y1S2') return d; } return null; })(); fresh(y1s2,10); rel('classmate_peishan',25); const r=await meetAsk('classmate_peishan','cafe',0);
+    check('13. 沛珊大一下起：選「還是法律，只是沒人守。」→ 兩句 →「好。我要拿這題去問課輔班的小孩，看看他們怎麼說。」',r.said[1]==='郭沛珊：「所以寫下來的那一刻就算數。」'&&r.said[2]==='郭沛珊：「……那寫下來的人責任好大。」'&&r.said[3]==='郭沛珊：「好。我要拿這題去問課輔班的小孩，看看他們怎麼說。」',r.said.slice(0,4).join('｜')); }
   { const iv={id:'z',who:'heroine_02',ask:'NOPE'}; const r=await INV.walkAsk({G,say:async()=>{},choose:async()=>0},iv,{name:'x'}); check('13. 找不到的選項句（資料改過）：不演、不出錯',r===false&&iv.ask===null); }
   const s3=fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8'); check('INV.flow 用 INV.personal（decide 之後）',/S\.personal\(G,id,P,W\.day,W\.h,S\.decide\(/.test(s3));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

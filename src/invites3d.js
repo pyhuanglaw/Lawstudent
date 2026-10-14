@@ -162,8 +162,8 @@ const INV=(function(){
       else if((iv.state==='offered'||iv.state==='changed')&&past(iv)) iv.state='cancelled'; } };
   /* 一起走過去的路上聊一句（AA_70 第 2 節、BB_70 各人的「一起走路時聊什麼」，照 BB_121：照目的地對應，對不上的放 any；下雨先用 rain）：
      一起走 6 秒以後、跟著的人在旁邊（6 m 內）才說；字幕，不打斷走路；一趟一句，同一個人輪流換（G.flags.walkChatN）。
-     要選項的那幾句（{once, l, ch:[{t, r}], after}：芷若猜電影、阿凱「機車擋騎樓可以告嗎」）照 BB_120 1-7c：路上不打斷，走到目的地、見面開始前選（S.walkAsk）；
-     每句一次（G.flags[once]）。子晴「你為什麼換」、沛珊「大家都不遵守的法律」等 BB 給玩家選項的原文 */
+     要選項的那幾句（{once, l, ch:[{t, r, mem}], after}：芷若猜電影、阿凱「機車擋騎樓可以告嗎」、子晴「你為什麼換」、沛珊「大家都不遵守的法律」）照 BB_120 1-7c：路上不打斷，走到目的地、見面開始前選（S.walkAsk）；
+     每句一次（G.flags[once]）。after 可以是好幾個版本（[{if, l}]，取第一個成立的）*/
   const oneW=v=>v==null?[]:(Array.isArray(v)&&v.length&&typeof v[0]==='string'?[v]:[].concat(v));   /* ['一句'] 是一個元素；[['一句'],['另一句']] 是兩個 */
   const walkT={};
   S._later=(f,ms)=>setTimeout(f,ms);
@@ -177,7 +177,10 @@ const INV=(function(){
   S.walkEntry=function(id,key){ const w=((D().people||{})[id]||{}).walk||{}; for(const k of Object.keys(w)) for(const e of oneW(w[k])) if(e&&!Array.isArray(e)&&typeof e==='object'&&e.once===key) return e; return null; };
   /* 見面開始前（S.meet 一開始）：路上抽到的選項句——她先說、你選、她回（芷若：三個都會聽到她的答案）*/
   S.walkAsk=async function(GM,iv,who){ const G=GM.G, F=G.flags||(G.flags={}), key=iv.ask; iv.ask=null; const e=key?S.walkEntry(iv.who,key):null; if(!e||F[key]) return false; F[key]=true;
-    await S.playLines(GM,who,e.l); const k=await GM.choose(e.ch.map(c=>({t:c.t}))); const c=e.ch[k]||e.ch[0]; if(c.r) await S.playLines(GM,who,c.r); if(e.after) await S.playLines(GM,who,e.after); return true; };
+    await S.playLines(GM,who,e.l); const k=await GM.choose(e.ch.map(c=>({t:c.t}))); const c=e.ch[k]||e.ch[0]; if(c.r) await S.playLines(GM,who,c.r);
+    if(c.mem&&typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember(iv.who,c.mem,'');   /* 子晴「說換方向的事」→ TOLD_HER_CHANGE（前置鏈第 5 環）*/
+    const af=e.after&&e.after.length&&typeof e.after[0]==='object'&&!Array.isArray(e.after[0])?((e.after.find(v=>!v.if||v.if(G))||{}).l||[]):e.after;   /* 好幾個版本取第一個成立的（沛珊：大一上問讀書會、大一下起問課輔班）*/
+    if(af&&af.length) await S.playLines(GM,who,af); return true; };
   S.walkChat=function(GM,dt){ const G=GM.G; if(!G||!Array.isArray(G.invites)) return; for(const iv of G.invites){ if(iv.state!=='going'||iv.chat) continue;
       walkT[iv.id]=(walkT[iv.id]||0)+(dt||0); if(walkT[iv.id]<6) continue;
       const n=GM.npc&&GM.npc[iv.who], P=GM.E&&GM.E.player&&GM.E.player.obj; if(!n||!n.obj||!P) continue;

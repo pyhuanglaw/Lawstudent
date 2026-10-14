@@ -38,7 +38,7 @@ const termDay=(term,w,wd)=>STORY.termDay(term,w,wd);
 const W5TUE=termDay('Y1S1',5,2), W5WED=termDay('Y1S1',5,3), W6THU=termDay('Y1S1',6,4), W17MON=termDay('Y1S1',17,1), W13MON=termDay('Y1S1',13,1), W12MON=termDay('Y1S1',12,1);
 (async()=>{
   check('日曆：大一上第 5 週週二是社課（週一、三）的前一天、第 17 週是期末考',ACTIVITIES.on(ACTIVITIES.list.find(a=>a.id==='club_guitar'),W5WED)&&CALENDAR.termOf(W17MON).exam==='final',JSON.stringify({W5TUE,W5WED,W17MON}));
-  check('每天的手機小事有 BB_120 1-7c 的 15 則',['zq_a1','zq_a2','zq_f1','zq_f2','zq_r1','zq_c1','zq_c2','ps_a','ps_f','ps_r','ps_c','fy_tree','fy_pothos','fy_cold','kai_sheet'].every(D)&&STORY.DAILY_PHONE.length>=24);
+  check('每天的手機小事有 BB_120 1-7c 的 14 則（方奕廷寒流前那則是定時的，不在池子裡）',['zq_a1','zq_a2','zq_f1','zq_f2','zq_r1','zq_c1','zq_c2','ps_a','ps_f','ps_r','ps_c','fy_tree','fy_pothos','kai_sheet'].every(D)&&!D('fy_cold')&&STORY.DAILY_PHONE.length>=23);
   if(!D('zq_a1')){ console.log('FAILED '+fails); process.exit(1); }
   /* ---------- A 子晴 ---------- */
   { fresh(W5TUE,8,'dorm'); PHONE.join(G,'guitar','吉他社'); R('heroine_04',...LV.ACQ);
@@ -77,9 +77,12 @@ const W5TUE=termDay('Y1S1',5,2), W5WED=termDay('Y1S1',5,3), W6THU=termDay('Y1S1'
     check('C 九、十月：「學弟好。舟山路的台灣欒樹開花了。」＋學名照片＋「很漂亮。」（20:30）',D('fy_tree').ok(G,oct)&&D('fy_tree').h(G)===20.5&&txt('fy_tree').map(s=>s.split('｜')[1]).join('/')==='學弟好。舟山路的台灣欒樹開花了。/📷 Koelreuteria elegans。秋天先開黃花，再結粉紅色的果。/很漂亮。',txt('fy_tree').join('/'));
     check('C 十月：欒樹那則還沒傳，黃金葛那則先不傳；傳過以後才傳',CALENDAR.dateOf(oct).m===10&&!D('fy_pothos').ok(G,oct)&&(G.flags.dpN={fy_tree:1},D('fy_pothos').ok(G,oct)),'第 '+oct+' 天＝'+CALENDAR.dateOf(oct).m+' 月');
     G.flags.dpN={}; check('C 十一月：黃金葛「學弟好。你的黃金葛葉子，最近有沒有變黃？」…「拍給我看。」；欒樹不傳了',CALENDAR.dateOf(nov).m===11&&D('fy_pothos').ok(G,nov)&&!D('fy_tree').ok(G,nov)&&txt('fy_pothos').map(s=>s.split('｜')[1]).join('/')==='學弟好。你的黃金葛葉子，最近有沒有變黃？/變黃通常是水太多。不是你的錯，是它比較挑。/拍給我看。','第 '+nov+' 天＝'+CALENDAR.dateOf(nov).m+' 月');
-    check('C 寒流前（第 13～15 週）：「學弟好。下週寒流。黃金葛不要放窗邊。」「它怕冷。我也是。」；第 12 週不傳',D('fy_cold').ok(G,W13MON)&&!D('fy_cold').ok(G,W12MON)&&txt('fy_cold').map(s=>s.split('｜')[1]).join('/')==='學弟好。下週寒流。黃金葛不要放窗邊。/它怕冷。我也是。');
+    { const cold=STORY.firstColdDay(), F0=Object.assign({},G.flags,{POTHOS:true}), C0=Object.assign({},G.contacts); fresh(cold-1,8,'dorm',F0); G.contacts=C0; R('npc_fangyt',...LV.ACQ); run(8,21); const M=G.msgs.filter(m=>m.tag==='fy_cold'||(m.th==='p:npc_fangyt'&&/寒流|怕冷/.test(m.text)));
+      check('C 寒流前（BB 2fdef19）：第一波寒流（大一上第 15 週週一）的前一晚 20:30「學弟好。明天寒流。黃金葛不要放窗邊。」「它怕冷。我也是。」',cold===termDay('Y1S1',15,1)&&M.map(m=>m.text).join('/')==='學弟好。明天寒流。黃金葛不要放窗邊。/它怕冷。我也是。'&&CALENDAR.dateOf(cold-1).wd===7,JSON.stringify(M.map(m=>m.text)));
+      fresh(cold-1,8,'dorm',F0); G.contacts=C0; R('npc_fangyt',...LV.FAM); run(8,21); check('C 寒流前：有點熟以後不說「學弟好」，不傳',!G.msgs.some(m=>/寒流/.test(m.text||'')));
+      fresh(oct,8,'dorm',{POTHOS:true}); G.contacts.npc_fangyt=oct-5; R('npc_fangyt',...LV.ACQ); }
     if(sep) check('C 九月：只有欒樹那則',D('fy_tree').ok(G,sep)&&!D('fy_pothos').ok(G,sep),'第 '+sep+' 天');
-    R('npc_fangyt',...LV.FAM); check('C 有點熟以後不說「學弟好」：三則都不傳',!D('fy_tree').ok(G,oct)&&!D('fy_pothos').ok(G,nov)&&!D('fy_cold').ok(G,W13MON));
+    R('npc_fangyt',...LV.FAM); check('C 有點熟以後不說「學弟好」：兩則都不傳',!D('fy_tree').ok(G,oct)&&!D('fy_pothos').ok(G,nov));
     R('npc_fangyt',...LV.ACQ); delete G.contacts.npc_fangyt; check('C 沒有他的聯絡方式（沒收到黃金葛）不傳',!D('fy_tree').ok(G,oct)); }
   /* ---------- D 阿凱的泡麵評鑑表 ---------- */
   { fresh(W5TUE,20,'dorm'); R('kai',...LV.FAM); const L=STORY.roomItemList(G), it=L.find(r=>r[0]==='阿凱的泡麵評鑑表');
