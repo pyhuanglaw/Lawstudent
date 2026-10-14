@@ -25,7 +25,7 @@ LAWWW 佇列的 ⑦（行道樹：樟樹／榕樹／大王椰子的 Blender 版�
 |---|---|---|---|
 | 行道樹（`prop.trees`：樟樹兩款、榕樹、大王椰子＋遠景卡片） | 完成 | 功能檢查通過；**效能有一項沒過**：溫州街的三角形比程序化的樹多 3–4%（見 15.4；要不要接受由 LAWWW／使用者決定） | `READY_FOR_ART_REVIEW` |
 
-**還沒接進遊戲**：`src/` 的改動（`townkit3d.js` 的記號＋TreeField、`assets3d.js` 一行、`zones3d.js` 一行）照現在的分工由 LAWWW 整合，做成 patch：`patches/street_trees_469ae8c.patch`（在 LAWWW `469ae8c` 上 `git apply` 沒有衝突）；測試是在「`469ae8c`＋這個 patch＋GLB」的工作目錄跑的（`claude/second-ai-env-art-wip-trees`）。
+**還沒接進遊戲**：`src/` 的改動（`townkit3d.js` 的記號＋TreeField、`assets3d.js` 一行、`zones3d.js` 一行）照現在的分工由 LAWWW 整合，做成 patch：`patches/street_trees_469ae8c.patch`（在 LAWWW `469ae8c` 和 2026-10-14 的開發分支 `3f3d56a` 上 `git apply --check` 都沒有衝突）；測試是在「`469ae8c`＋這個 patch＋GLB」的工作目錄跑的（備份在 `claude/second-ai-env-art-wip-trees`）。
 
 ### 15.3 製作方式與規格
 
@@ -33,7 +33,7 @@ LAWWW 佇列的 ⑦（行道樹：樟樹／榕樹／大王椰子的 Blender 版�
 - **模型**（`street_trees.py`）：樹幹、枝條是沿曲線的多邊形管（平行移動的座標系）、往樹冠外側長；葉叢卡片放在枝端附近＋樹冠外層（橢球），法線＝卡片法線和樹冠外側方向的混合（自訂法線匯出到 glTF）。{{SPEC}}。
 - **遠景卡片**：每款樹從側面正交渲染（透明背景、天空光為主；Cycles 的透明層數拉到 128——預設 8 層時樹冠裡面一塊一塊黑的）→ `tree_cards.png`。
 - **遊戲端**（`src/townkit3d.js`）：
-  - 記號：一個看不見的小三角形（三個頂點＝原點、x 軸、y 軸；樹種、高度、樹冠參數放在 UV），跟著呼叫端的擺放、`W3.mergeGroup`、整區的 `mergeStatic` 一起合併；第一格解出每一棵樹的位置、方向、縮放，記號拿掉。
+  - 記號：一個看不見的小三角形（三個頂點＝原點、x 軸、y 軸；樹種、高度、樹冠參數放在 UV），跟著呼叫端的擺放（`W3.mergeGroup` 合併的樹列烘在合併後的幾何裡）；材質 `visible=false`：不畫，整區的 `mergeStatic` 也不合併它（2026-10-14 公館測試後改的，見 15.4）；第一格解出每一棵樹的位置、方向、縮放，記號拿掉，只裝記號的群組一起拿掉。
   - 共用亂數 `rnd()`：程序化的樹會抽亂數（後面其他物件的形狀跟著這個序列）；記號版本照樣抽一樣的次數，其他物件完全不變（`tests/street_trees_unit.js` 驗證）。
   - TreeField（`E.addExtra`）：每一格（鏡頭沒動時跳過）依距離分成「模型」（42 m 進、46 m 出，不會在邊界閃）與「卡片」，用視錐剔除畫面外的；離玩家 30 m 內的樹即使在畫面外也畫模型（影子還在畫面裡）。每款樹 2 個 InstancedMesh（樹幹、葉）、卡片 1 個。
   - 材質：樹皮加樹幹透視；葉片的法線正反面不翻、側面的卡片提高透明門檻（淡出）、上半部隨風晃；卡片在頂點著色器轉向鏡頭（只繞垂直軸）、每棵樹取貼圖上自己那一格。
@@ -44,6 +44,8 @@ LAWWW 佇列的 ⑦（行道樹：樟樹／榕樹／大王椰子的 Blender 版�
 測試都是 Playwright 手機模擬（不是 iPhone 實機）；log 在 `docs/art-rebuild/second_ai/test_logs/trees_469ae8c/`（「LAWWW `469ae8c`＋patch＋GLB」的工作目錄跑的）。
 
 {{TESTS}}
+
+**公館那一項第一次沒過，查到原因修好了**：`gongguan_glb_integration` 比對正式模型和 `?nobldg` 的「沒有標記的群組」數目（防止正式模型多藏東西；乾淨的 `469ae8c` 這一項通過）。加了 ⑦ 之後正式模型多一個空群組（群組 38／空的 27，`?nobldg` 37／26）：公館看進校門的大王椰子＋樹牆是先用 `W3.mergeGroup` 合成一個群組（`?nobldg` 那邊裡面有 3 個網格）；有正式模型時裡面只剩樹的位置記號，整區合併（`P3.mergeStatic`）又把記號搬到區域最外層，那個群組就變成空殼。第一次改（TreeField 拿掉記號時，順便拿掉因此變空的父群組）沒用：記號在 TreeField 之前就被整區合併搬走了，重跑同樣沒過（`gongguan_glb_integration_before_emptygroup_fix.log`、`gongguan_glb_integration_rerun1_emptygroup_only.log`）。第二次改：記號的材質設 `visible=false`（記號本來就看不見；`P3.mergeStatic` 不合併看不見的材質，記號留在原本的群組），TreeField 拿掉記號後，只裝記號的群組（沒有子物件、沒有 userData）一起拿掉。重跑通過（`gongguan_glb_integration.log`）；單元測試、行道樹整合、校園整合也在這個版本重跑（下表）。沒有改測試標準。
 
 **效能（`tests/street_trees_integration.py`：同一個鏡頭、17:30 凍結時鐘、藏起路人、含陰影那一輪、含玩家；改之前＝擋掉 `street_trees.glb`＝程序化的樹，其他正式模型兩邊一樣；條件：draw call ≤ 改之前 ×1.1、三角形 ≤ 改之前）**：
 

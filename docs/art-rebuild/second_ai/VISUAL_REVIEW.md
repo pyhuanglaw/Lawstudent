@@ -1371,6 +1371,131 @@ LAWWW 佇列的 ⑥（法學院廣場的花台、公告欄、販賣機等近景�
 
 ---
 
+---
+
+## 15. 行道樹：樟樹、榕樹、大王椰子（Blender 正式模型＋遠景卡片＋InstancedMesh，⑦）
+
+LAWWW 佇列的 ⑦（行道樹：樟樹／榕樹／大王椰子的 Blender 版＋instancing＋遠景卡片）。全遊戲的樹（校園 326 棵、公館 98 棵、溫州街 12 棵）都換：
+`TK.tree()`、`TK.royalPalm()` 在正式模型載入後不建幾何、改回傳「樹的位置記號」，區域建好後整區的樹用 InstancedMesh 畫——
+**鏡頭附近（42 m 內）畫模型（會投影），遠的畫一片面向鏡頭的卡片，畫面外的不畫**。呼叫端（區域的擺放、導航阻擋）完全沒改。
+
+### 15.1 玩家會看到什麼不同
+
+| | 修改前（程序化的葉片卡樹） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 樹冠 | 一團交叉的綠色面片，貼圖是隨機畫的橢圓色塊 | **葉叢卡片的貼圖是 Blender 用真的葉片幾何渲染的**（樟樹：卵形、先端漸尖、有光澤、混一點黃綠新葉；榕樹：倒卵形、深綠、比較小比較密）；卡片的法線往樹冠外側，整個樹冠像一團有體積的枝葉（向陽面亮、背面暗）；側面對著鏡頭的卡片會淡出，不會變成一條一條拉長的葉子；上半部隨風輕輕晃 |
+| 樹幹、枝條 | 三節圓柱＋幾根細棍 | 樟樹：粗短的灰褐色樹幹在 2.6–3 m 分成 4–5 根往斜上長的主枝、再分側枝（Poly Haven `japanese_camphor_bark`）；榕樹：板根狀的基部、2–3 根光滑淺灰的樹幹、往外平伸的主枝、主枝下垂下氣根（`chinese_hackberry_bark`；氣根停在離地 2.5 m 以上，不擋人走）；樹幹透視照舊（擋住玩家時網點透空） |
+| 大王椰子 | 灰白圓柱＋程序化葉片 | 灰白樹幹（基部略寬、中段微鼓、橫向環紋，Poly Haven `palm_tree_bark`）、光滑的綠色葉鞘、15 片拱形羽狀葉（每片兩條葉片帶成 V 字形，小葉也是 Blender 渲染的；下面的老葉垂得多、上面的新葉挺）、中間一支直立的新葉 |
+| 遠處的樹 | 和近處一樣的面片（整區合成一個網格，不管看不看得到都畫） | 每款樹從側面渲染的卡片，永遠面向鏡頭（一個 draw call 畫全部遠的樹）；畫面外的不畫 |
+| 樹種 | 一種闊葉樹＋大王椰子 | 樟樹兩款（隨機）、榕樹（黑森林、溫州街小公園中間的大樹）、大王椰子（椰林大道、小椰林道、公館看出去的校園背景）；每棵樹的葉色有一點不同（深色參數照套件的 `dark`） |
+
+**沒有改的東西**：每棵樹的位置、方向、高度、樹冠寬度的參數（照呼叫端給 `TK.tree` 的值）、導航阻擋（呼叫端加的 `blockCircle`）、其他所有物件（單元測試證明：換成正式模型之後，樹以外的網格、導航格、共用亂數的序列都完全相同）。
+
+### 15.2 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 行道樹（`prop.trees`：樟樹兩款、榕樹、大王椰子＋遠景卡片） | 完成 | 功能檢查通過；**效能有一項沒過**：溫州街的三角形比程序化的樹多 3–4%（見 15.4；要不要接受由 LAWWW／使用者決定） | `READY_FOR_ART_REVIEW` |
+
+**還沒接進遊戲**：`src/` 的改動（`townkit3d.js` 的記號＋TreeField、`assets3d.js` 一行、`zones3d.js` 一行）照現在的分工由 LAWWW 整合，做成 patch：`patches/street_trees_469ae8c.patch`（在 LAWWW `469ae8c` 和 2026-10-14 的開發分支 `3f3d56a` 上 `git apply --check` 都沒有衝突）；測試是在「`469ae8c`＋這個 patch＋GLB」的工作目錄跑的（備份在 `claude/second-ai-env-art-wip-trees`）。
+
+### 15.3 製作方式與規格
+
+- **葉片貼圖**（`tools/blender/env_second/tree_atlas.py`）：Blender 裡一片一片的葉子（照葉形參數化：樟樹卵形漸尖、榕樹倒卵形、大王椰子線形小葉；沿中肋對折、沿長度下彎、扭轉）沿小枝互生排成葉叢 → 正上方正交、透明背景、Cycles 渲染（天空光為主）→ 拼成 1024×1024：樟樹兩格、榕樹一格、大王椰子羽片、氣根、葉鞘；透明像素的顏色往外擴（縮圖時葉緣不會有黑邊）。
+- **模型**（`street_trees.py`）：樹幹、枝條是沿曲線的多邊形管（平行移動的座標系）、往樹冠外側長；葉叢卡片放在枝端附近＋樹冠外層（橢球），法線＝卡片法線和樹冠外側方向的混合（自訂法線匯出到 glTF）。`street_trees.glb` **0.95 MB**；三角形：樟樹 A 1,488（樹幹枝條 972＋葉 516）、樟樹 B 1,232（樹幹枝條 780＋葉 452）、榕樹 1,648（樹幹枝條 1,056＋葉 592）、大王椰子 1,592（樹幹枝條 192＋葉 1,400）；遠景卡片 2 個三角形。
+- **遠景卡片**：每款樹從側面正交渲染（透明背景、天空光為主；Cycles 的透明層數拉到 128——預設 8 層時樹冠裡面一塊一塊黑的）→ `tree_cards.png`。
+- **遊戲端**（`src/townkit3d.js`）：
+  - 記號：一個看不見的小三角形（三個頂點＝原點、x 軸、y 軸；樹種、高度、樹冠參數放在 UV），跟著呼叫端的擺放（`W3.mergeGroup` 合併的樹列烘在合併後的幾何裡）；材質 `visible=false`：不畫，整區的 `mergeStatic` 也不合併它（2026-10-14 公館測試後改的，見 15.4）；第一格解出每一棵樹的位置、方向、縮放，記號拿掉，只裝記號的群組一起拿掉。
+  - 共用亂數 `rnd()`：程序化的樹會抽亂數（後面其他物件的形狀跟著這個序列）；記號版本照樣抽一樣的次數，其他物件完全不變（`tests/street_trees_unit.js` 驗證）。
+  - TreeField（`E.addExtra`）：每一格（鏡頭沒動時跳過）依距離分成「模型」（42 m 進、46 m 出，不會在邊界閃）與「卡片」，用視錐剔除畫面外的；離玩家 30 m 內的樹即使在畫面外也畫模型（影子還在畫面裡）。每款樹 2 個 InstancedMesh（樹幹、葉）、卡片 1 個。
+  - 材質：樹皮加樹幹透視；葉片的法線正反面不翻、側面的卡片提高透明門檻（淡出）、上半部隨風晃；卡片在頂點著色器轉向鏡頭（只繞垂直軸）、每棵樹取貼圖上自己那一格。
+  - `prop.trees` 開機預載（和路燈、腳踏車一樣，`TK.tree()` 是同步建立的）：多下載約 1 MB；`?nobldg`、載入失敗、還沒載完時照舊是程序化的樹。
+
+### 15.4 測試結果
+
+測試都是 Playwright 手機模擬（不是 iPhone 實機）；log 在 `docs/art-rebuild/second_ai/test_logs/trees_469ae8c/`（「LAWWW `469ae8c`＋patch＋GLB」的工作目錄跑的）。
+
+`street_trees_unit` 18 PASS、`street_trees_integration` 35 PASS／**1 FAIL**、`campus_glb_integration` 65 PASS／**5 FAIL**、`gongguan_glb_integration` 39 PASS、`wz_street_integration` 41 PASS／**1 FAIL**、`street_props_integration` 29 PASS／**2 FAIL**、`see_through` 11 PASS、`campus_layout_nav` 76 PASS／**1 FAIL**、`p0_movement` 34 PASS、`reachability_all` 68 PASS／**4 FAIL**、`zone_transitions` 37 PASS：除了 `street_trees_integration`、`campus_glb_integration`、`wz_street_integration`、`street_props_integration`、`campus_layout_nav`、`reachability_all` 以外都通過。**沒過的**：wenzhou：效能——每個鏡頭的 draw call ≤ 改之前 ×1.1、三角形 ≤ 改之前（含陰影那一輪）；gongtong：位置、尺寸、朝向照套件（外框 x、y、z 的最小最大值差 ≤ 1.5 m）；freshman：位置、尺寸、朝向照套件（外框 x、y、z 的最小最大值差 ≤ 1.5 m）；導航格：正式模型和改之前完全相同；鏡頭碰撞方塊：完全相同；效能：每個鏡頭的三角形 ≤ 改之前、draw call ≤ 改之前的 1.1 倍（含陰影那一輪、含玩家；LAWWW 23:26Z 的條件）；導航格：正式模型和程序化版完全相同；campus：導航格，正式模型＝?nobldg＝載入失敗；wenzhou：導航格，正式模型＝?nobldg＝載入失敗；新系館（舟山路西段南側）內 不能走；lawlib：70 個互動點都站得到、按鈕會出現、走得到；lawlib：「坐下」走到椅子旁邊的點都走得到；putong：138 個互動點都站得到、按鈕會出現、走得到；soclib：76 個互動點都站得到、按鈕會出現、走得到。
+
+**沒過的項目逐項對照**（同一批測試在乾淨的 LAWWW `469ae8c` 再跑一次；log 在 `test_logs/trees_469ae8c/base_469ae8c/`）：
+
+| 測試 | 沒過的項目 | 乾淨的 `469ae8c`（沒有 ⑦） | 說明 |
+|---|---|---|---|
+| `street_trees_integration` | wenzhou：效能——每個鏡頭的 draw call ≤ 改之前 ×1.1、三角形 ≤ 改之前（含陰影那一輪） | —（⑦ 自己的測試，乾淨版沒有行道樹） | 見下面的效能說明（三角形多 3–4%） |
+| `campus_glb_integration` | gongtong：位置、尺寸、朝向照套件（外框 x、y、z 的最小最大值差 ≤ 1.5 m） | **也沒過**（不是 ⑦ 造成的） | 數字和乾淨版完全一樣（正式模型的外框比套件大 5.67 m）；和行道樹無關 |
+| `campus_glb_integration` | freshman：位置、尺寸、朝向照套件（外框 x、y、z 的最小最大值差 ≤ 1.5 m） | **也沒過**（不是 ⑦ 造成的） | 數字和乾淨版完全一樣（正式模型的外框 x −120.2～−65.8 包含 A、B 兩棟，套件的外框只有 −120.35～−95.65）；和行道樹無關 |
+| `campus_glb_integration` | 導航格：正式模型和改之前完全相同 | **也沒過**（不是 ⑦ 造成的） | 和乾淨版同一組雜湊（正式 80,968 格擋住、?nobldg 80,982 格）；行道樹本身的導航兩輪完全相同（`street_trees_integration`） |
+| `campus_glb_integration` | 鏡頭碰撞方塊：完全相同 | **也沒過**（不是 ⑦ 造成的） | 和乾淨版一樣是 39 對 35 個 |
+| `campus_glb_integration` | 效能：每個鏡頭的三角形 ≤ 改之前、draw call ≤ 改之前的 1.1 倍（含陰影那一輪、含玩家；LAWWW 23:26Z 的條件） | **也沒過**（不是 ⑦ 造成的） | draw call 的倍數和乾淨版完全一樣（進校門 ×1.137、文學院拱廊 ×1.104 超過 1.1）；三角形加了 ⑦ 反而比乾淨版少 22–31% |
+| `wz_street_integration` | 導航格：正式模型和程序化版完全相同 | **也沒過**（不是 ⑦ 造成的） | 和乾淨版同一組雜湊（程序化 22,876 格擋住、正式 22,870 格）；和行道樹無關 |
+| `street_props_integration` | campus：導航格，正式模型＝?nobldg＝載入失敗 | **也沒過**（不是 ⑦ 造成的） | 和乾淨版同一組雜湊：正式模型＝載入失敗，只有 ?nobldg 不一樣（多 14 格擋住；和 `campus_glb_integration` 的導航格是同一件事）；和行道樹無關 |
+| `street_props_integration` | wenzhou：導航格，正式模型＝?nobldg＝載入失敗 | **也沒過**（不是 ⑦ 造成的） | 和乾淨版同一組雜湊：正式模型＝載入失敗，只有 ?nobldg 不一樣（和 `wz_street_integration` 的導航格是同一件事）；和行道樹無關 |
+| `campus_layout_nav` | 新系館（舟山路西段南側）內 不能走 | **也沒過**（不是 ⑦ 造成的） | 乾淨版一樣沒過；和行道樹無關 |
+| `reachability_all` | lawlib：70 個互動點都站得到、按鈕會出現、走得到 | **也沒過**（不是 ⑦ 造成的） | 乾淨版一樣沒過、同樣 4 個點（法律學院圖書館：「坐下讀書」(4.9, 6.65)、(5.9, 6.65) 走不到；「坐下讀書（靠窗）」(−2.15, 6.6)、(−0.85, 6.6) 附近沒有站得住的位置）；室內，和行道樹無關 |
+| `reachability_all` | lawlib：「坐下」走到椅子旁邊的點都走得到 | **也沒過**（不是 ⑦ 造成的） | 乾淨版一樣沒過（同上兩個座位）；和行道樹無關 |
+| `reachability_all` | putong：138 個互動點都站得到、按鈕會出現、走得到 | **也沒過**（不是 ⑦ 造成的） | 乾淨版一樣沒過（普通教學館「坐在二樓的長椅」(0, 7.39) 附近沒有站得住的位置）；和行道樹無關 |
+| `reachability_all` | soclib：76 個互動點都站得到、按鈕會出現、走得到 | **也沒過**（不是 ⑦ 造成的） | 乾淨版一樣沒過、同樣 4 個座位（社科院圖書館 (−10, −1.7)、(−4.6, −1.7)、(−3.4, −1.7)、閱報區 (6.4, 6.45)）；和行道樹無關 |
+
+**公館那一項第一次沒過，查到原因修好了**：`gongguan_glb_integration` 比對正式模型和 `?nobldg` 的「沒有標記的群組」數目（防止正式模型多藏東西；乾淨的 `469ae8c` 這一項通過）。加了 ⑦ 之後正式模型多一個空群組（群組 38／空的 27，`?nobldg` 37／26）：公館看進校門的大王椰子＋樹牆是先用 `W3.mergeGroup` 合成一個群組（`?nobldg` 那邊裡面有 3 個網格）；有正式模型時裡面只剩樹的位置記號，整區合併（`P3.mergeStatic`）又把記號搬到區域最外層，那個群組就變成空殼。第一次改（TreeField 拿掉記號時，順便拿掉因此變空的父群組）沒用：記號在 TreeField 之前就被整區合併搬走了，重跑同樣沒過（`gongguan_glb_integration_before_emptygroup_fix.log`、`gongguan_glb_integration_rerun1_emptygroup_only.log`）。第二次改：記號的材質設 `visible=false`（記號本來就看不見；`P3.mergeStatic` 不合併看不見的材質，記號留在原本的群組），TreeField 拿掉記號後，只裝記號的群組（沒有子物件、沒有 userData）一起拿掉。重跑通過（`gongguan_glb_integration.log`）；單元測試、行道樹整合、校園整合也在這個版本重跑（下表）。沒有改測試標準。
+
+**效能（`tests/street_trees_integration.py`：同一個鏡頭、17:30 凍結時鐘、藏起路人、含陰影那一輪、含玩家；改之前＝擋掉 `street_trees.glb`＝程序化的樹，其他正式模型兩邊一樣；條件：draw call ≤ 改之前 ×1.1、三角形 ≤ 改之前）**：
+
+| 區域／鏡頭（17:30） | draw call：改之前 → 正式（倍數） | 三角形：改之前 → 正式（倍數） | 畫模型的樹／畫卡片的樹 |
+|---|---|---|---|
+| 校園：進校門往東看椰林大道 | 334 → 334（×1.0） | 939,433 → 749,891（×0.798） | 29／173 |
+| 校園：大道南側人行道，沿著樹列 | 257 → 257（×1.0） | 820,743 → 638,941（×0.778） | 31／139 |
+| 校園：小椰林道 | 251 → 247（×0.984） | 774,955 → 556,179（×0.718） | 18／76 |
+| 校園：黑森林（榕樹） | 207 → 207（×1.0） | 751,857 → 521,259（×0.693） | 14／21 |
+| 公館：公館：校門口往南看 | 179 → 174（×0.972） | 297,378 → 254,976（×0.857） | 0／1 |
+| 公館：公館：往校門看（背景的椰林大道） | 149 → 152（×1.02） | 274,540 → 242,856（×0.885） | 12／64 |
+| 溫州街：溫州街小公園的大樹 | 173 → 182（×1.052） | 325,089 → 337,007（×1.037） | 8／1 |
+| 溫州街：溫州街巷子裡的行道樹 | 225 → 234（×1.04） | 358,445 → 370,363（×1.033） | 8／1 |
+
+**溫州街沒過「三角形 ≤ 改之前」**：正式模型每棵 1,230–1,650 個三角形（樹皮已經減過一次：主枝 7→6 邊、側枝 3 段 4 邊，看不出差別），比程序化的葉片卡樹多；校園、公館靠「遠的畫卡片、畫面外的不畫」反而少了，溫州街的樹少（12 棵）而且都在 40 m 內，省不到遠處的卡片，所以多了 3–4%。數字仍在 LAWWW 2026-10-10 訂的溫州街上限內（同一個鏡頭三角形 ≤ 42 萬、draw call ≤ 約 310）。可以選：①接受；②溫州街近的模型距離縮短（遠一點的樹改用卡片）；③溫州街照舊用程序化的樹。我沒有改測試標準。
+
+### 15.5 遊戲內截圖（修改前｜修改後；修改前＝同一版遊戲、只擋掉 `street_trees.glb`）
+
+| 鏡頭 | 修改前（程序化的葉片卡樹） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 進校門往東看椰林大道 11:00 | ![修改前](shots/trees_before_gate_avenue_1100.webp) | ![修改後](shots/trees_after_gate_avenue_1100.webp) |
+| 進校門往東看椰林大道 17:30 | ![修改前](shots/trees_before_gate_avenue_1730.webp) | ![修改後](shots/trees_after_gate_avenue_1730.webp) |
+| 進校門往東看椰林大道 20:30 | ![修改前](shots/trees_before_gate_avenue_2030.webp) | ![修改後](shots/trees_after_gate_avenue_2030.webp) |
+| 大道南側人行道，沿著樹列 11:00 | ![修改前](shots/trees_before_avenue_row_1100.webp) | ![修改後](shots/trees_after_avenue_row_1100.webp) |
+| 大道南側人行道，沿著樹列 17:30 | ![修改前](shots/trees_before_avenue_row_1730.webp) | ![修改後](shots/trees_after_avenue_row_1730.webp) |
+| 大道南側人行道，沿著樹列 20:30 | ![修改前](shots/trees_before_avenue_row_2030.webp) | ![修改後](shots/trees_after_avenue_row_2030.webp) |
+| 黑森林（榕樹） 11:00 | ![修改前](shots/trees_before_black_forest_1100.webp) | ![修改後](shots/trees_after_black_forest_1100.webp) |
+| 黑森林（榕樹） 17:30 | ![修改前](shots/trees_before_black_forest_1730.webp) | ![修改後](shots/trees_after_black_forest_1730.webp) |
+| 黑森林（榕樹） 20:30 | ![修改前](shots/trees_before_black_forest_2030.webp) | ![修改後](shots/trees_after_black_forest_2030.webp) |
+| 溫州街小公園的大樹（榕樹） 11:00 | ![修改前](shots/trees_before_wz_park_1100.webp) | ![修改後](shots/trees_after_wz_park_1100.webp) |
+| 溫州街小公園的大樹（榕樹） 17:30 | ![修改前](shots/trees_before_wz_park_1730.webp) | ![修改後](shots/trees_after_wz_park_1730.webp) |
+| 溫州街小公園的大樹（榕樹） 20:30 | ![修改前](shots/trees_before_wz_park_2030.webp) | ![修改後](shots/trees_after_wz_park_2030.webp) |
+| 小椰林道 11:00 | ![修改前](shots/trees_before_small_palms_1100.webp) | ![修改後](shots/trees_after_small_palms_1100.webp) |
+| 公館往校門看 11:00 | ![修改前](shots/trees_before_to_campus_1100.webp) | ![修改後](shots/trees_after_to_campus_1100.webp) |
+| 玩家鏡頭（手機直向）：大道旁的大樹下 17:30 | ![修改前](shots/trees_before_follow_1730.webp) | ![修改後](shots/trees_after_follow_1730.webp) |
+
+### 15.6 Blender 渲染圖（Cycles）
+
+![四款並排：樟樹 A、樟樹 B、榕樹、大王椰子](blender_renders/trees_all.webp)
+
+| 站在樟樹下往上看 | 榕樹（氣根、板根） | 大王椰子的樹冠、葉鞘 |
+|---|---|---|
+| ![](blender_renders/trees_camphor_under.webp) | ![](blender_renders/trees_banyan.webp) | ![](blender_renders/trees_palm_top.webp) |
+
+葉片貼圖、遠景卡片：
+
+| 葉片貼圖（1024²） | 遠景卡片（1024²） |
+|---|---|
+| ![](blender_renders/trees_leaf_atlas.webp) | ![](blender_renders/trees_cards.webp) |
+
+### 15.7 還沒達到參考品質的地方
+
+1. **沒有照片參考**：樹種、樹形照台大校園常見的樹（椰林大道的大王椰子、樟樹、榕樹）的一般印象做的；哪一排是什麼樹（例如大道兩側的大樹列是樟樹還是別的樹）沒有查證。黑森林用榕樹也是推測。
+2. 樹冠是葉叢卡片：從樹冠下面往上看、或貼近時看得出是一片一片的卡片；樹冠邊緣的卡片淡出後，邊緣比真的樹稀。
+3. 遠景卡片只有一個角度（每款樹一張），所以遠處同一款樹看起來一樣；從高處往下看（遊戲裡很少）卡片會變薄。近／遠交界（42–46 m）換的那一刻看得出跳一下。
+4. 只有四款模型：同一款樹靠縮放、旋轉、葉色差異來變化，排成一列時看久了會發現重複。
+5. 影子：遠景卡片不投影（本來就在影子範圍外）；風吹的晃動只在畫面上，影子不晃。
+6. 沒有 iPhone 實機驗證（效能用 `renderer.info` 量）。
+
 ## 16. 社會科學院 辜先生紀念圖書館：一樓開架閱覽室（⑬，Blender 正式模型＋配置）
 
 LAWWW 佇列的 ⑬（使用者 D46：法律系學生念書會去「新社科院的辜先生紀念圖書館」）。交付**配置 `src/data/soclib_layout.js`＋Blender GLB**；區域程式、導航、校園入口的接線由 LAWWW 做，所以這一節只有 Blender 渲染，**還沒有遊戲內截圖**。
