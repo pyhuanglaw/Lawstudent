@@ -78,6 +78,8 @@ async def main():
         # 鏡頭先轉向最空的方向（像玩家一樣用手指滑鏡頭）：上車時鏡頭對著男一舍的牆，直接推搖桿「往前」會騎去撞牆、2.3 m 就停住（v9.7 回歸第一次跑：1.15 m/s）
         op = await pg.evaluate(OPEN_JS)
         await L.turn_camera_to(pg, cdp, op['tx'], op['tz'])
+        # 先推一下讓車頭轉到鏡頭的方向（車頭不是瞬間轉向），再量直線騎的速度：v9.7 回歸第二次跑，量的那一段包含從對著牆轉向空的方向，位移 5.6 m／遊戲 1.72 秒＝3.25 m/s（SwiftShader 1～2 fps）
+        await ride_forward(pg, cdp, 4)
         d, dt = await ride_forward(pg, cdp, 9)
         k = await bike(pg)
         sp = d / dt if dt > 0 else 0
@@ -140,6 +142,7 @@ async def main():
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
         await b.close()
     print('ALL PASS' if not run.fails else 'FAILED: ' + ', '.join(run.fails))
+    return 1 if run.fails else 0
 
 
-asyncio.run(main())
+sys.exit(asyncio.run(main()))   # 失敗時結束碼 1（v9.7 回歸：原本印 FAILED 但結束碼 0，佇列記成 rc=0）
