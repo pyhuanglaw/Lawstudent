@@ -33,11 +33,22 @@ async def rec(pg, lid):
 
 
 async def sit_and_choose(pg, cdp, run, want, pick_after=0):
-    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
-    opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
+    """坐下 → 照選項文字選（LAWWW 10:31Z）：等選單出來（最多 30 秒）、把選項印進 log、點開頭是 want 的那一個；找不到就不點（寫進 log，後面的檢查會失敗），
+    不照位置選、不退回最後一個。v9.7 回歸（候選 9）：第二場坐下 2.5 秒時選單還沒出來（選項是空的），後面點對話時選了第一個「聽演講」，
+    時間跳 3.8 小時、記成聽完（full）"""
+    await L.tap(pg, cdp, '#interact')
+    opts = []
+    for _ in range(30):
+        await pg.wait_for_timeout(1000)
+        opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
+        if opts: break
     pose = await pg.evaluate("GAME.E.player.pose")
-    idx = next((i for i, o in enumerate(opts) if want in o), len(opts) - 1)
+    run.note(f'坐下（pose {pose}）的選項：' + json.dumps(opts, ensure_ascii=False))
+    idx = next((i for i, o in enumerate(opts) if o.startswith(want)), None)
+    if idx is None:
+        run.note(f'選項裡沒有開頭是「{want}」的，不點'); return pose, opts, await L.state(pg)
     await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (idx + 1)); await pg.wait_for_timeout(1500)
+    run.note(f'選了第 {idx + 1} 個：{opts[idx]}')
     s = await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['busy'] and not q['dlg'] and not q['choices'], pick=pick_after)
     return pose, opts, s
 
@@ -59,6 +70,10 @@ async def to_seat(pg, cdp, run, label):
     run.note(f"{label}：空位 第 {seat['row'] + 1} 排第 {seat['col'] + 1} 個")
     ok = await L.go_to(pg, cdp, run, seat['ax'], seat['az'], 0.3, label, lv=0)
     s = await L.state(pg)
+    for _ in range(60):   # 真的走到了再看按鈕：路線走完、停下來（最多 60 秒）
+        if not s['path'] and s['pose'] == 'idle': break
+        await pg.wait_for_timeout(1000); s = await L.state(pg)
+    await pg.wait_for_timeout(1000); s = await L.state(pg)
     return ok and s['interact'].startswith('坐下'), s
 
 
@@ -100,7 +115,7 @@ async def main():
         ok, s = await to_seat(pg, cdp, run, '再走回 101 第 3 排附近的空位')
         pose, opts, s = await sit_and_choose(pg, cdp, run, '坐一下')
         r = await rec(pg, 't_quick')
-        run.check('B 走回 101、坐下「坐一下」→ 第二場開始記（in）', ok and r and r.get('end') == 'in', json.dumps(r))
+        run.check('B 走回 101、坐下「坐一下」→ 第二場開始記（in）', ok and any(o.startswith('坐一下') for o in opts) and r and r.get('end') == 'in', json.dumps(opts, ensure_ascii=False) + ' ' + json.dumps(r))
         h_dep = (await L.state(pg))['hour']
         ok = await phone_place(pg, cdp, run, 'campus|台大校園（霖澤館前）')
         s = await L.state(pg); r = await rec(pg, 't_quick')

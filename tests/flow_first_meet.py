@@ -20,7 +20,7 @@ import playlib as L
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_first_meet'
 BASE_FLAGS = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True}
-NPC_JS = "(id=>{ const n=GAME.E.npcs.find(q=>q.charId===id||q.id===id); if(!n) return null; const o=n.obj.position, P=GAME.E.player.obj.position; return {x:+o.x.toFixed(2), z:+o.z.toFixed(2), d:+Math.hypot(o.x-P.x,o.z-P.z).toFixed(2), seat:!!n.seat, pose:n.pose||null, path:n.path?n.path.length:0, leaving:!!n.leaving, name:n.name||''}; })(%s)"
+NPC_JS = "(id=>{ const n=GAME.E.npcs.find(q=>q.charId===id||q.id===id); if(!n) return null; const o=n.obj.position, P=GAME.E.player.obj.position; return {x:+o.x.toFixed(2), z:+o.z.toFixed(2), d:+Math.hypot(o.x-P.x,o.z-P.z).toFixed(2), seat:!!n.seat, pose:n.pose||null, path:n.path?n.path.length:0, leaving:!!n.leaving, name:n.name||'', beh:n.beh||null, tgt:(()=>{ const t=n.path&&n.path.length?n.path[n.path.length-1]:null; return t?(Array.isArray(t)?[+(+t[0]).toFixed(1),+(+t[1]).toFixed(1)]:[+(+t.x).toFixed(1),+(+t.z).toFixed(1)]):null; })()}; })(%s)"
 WHO_JS = "(id=>({met:SOCIAL.has(id,'FIRST_MET'), fam:SOCIAL.rel(id).fam, name:SOCIAL.displayName(id), done:Object.keys(GAME.G.events.done||{}).filter(k=>GAME.G.events.done[k])}))(%s)"
 SPOT = (-4.8, 0.9)   # 芷若經原下課後站的位置（src/data/characters.js）
 
@@ -28,6 +28,8 @@ SPOT = (-4.8, 0.9)   # 芷若經原下課後站的位置（src/data/characters.j
 async def npc(pg, cid): return await pg.evaluate(NPC_JS % json.dumps(cid))
 async def who(pg, cid): return await pg.evaluate(WHO_JS % json.dumps(cid))
 async def dtext(pg): return await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''")
+# 整句台詞：對話框有打字機效果，畫面上的字可能只打到一半（v9.7 回歸 B2 記到「林芷若」「剛剛分」）；讀遊戲正在說的那一整句（GAME.D.full），沒有對話時退回畫面上的字
+async def dline(pg): return await pg.evaluate("(GAME.D&&GAME.D.active&&GAME.D.full)?GAME.D.full:((document.getElementById('dlgText')||{}).textContent||'')")
 async def menu(pg): return await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
 
 
@@ -36,7 +38,7 @@ async def play_dialog(pg, cdp, start_tap=False, max_steps=60):
     lines, menus = [], []
     if start_tap: await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1800)
     for _ in range(max_steps):
-        q = await L.state(pg); t = await dtext(pg)
+        q = await L.state(pg); t = await dline(pg)
         if t and (not lines or lines[-1] != t): lines.append(t)
         if q['choices']:
             menus.append(await menu(pg)); await L.tap(pg, cdp, '#choices button:nth-child(1)'); await pg.wait_for_timeout(1500); continue
@@ -46,22 +48,32 @@ async def play_dialog(pg, cdp, start_tap=False, max_steps=60):
     return lines, menus
 
 
-async def chase(pg, cdp, run, cid, label, max_s=240):
-    """追走路中的人：像玩家一樣邊看她在哪邊追——遠的時候點她附近的地面（遊戲找路），近了（12 m 內）用搖桿朝她目前的位置推；
-    玩家走到 2.8 m 內她就會停下來（engine3d.js updateNPC）。v9.7 回歸：原本每次走到她「原本的位置」才看下一步，SwiftShader 太慢，她每次都走開了"""
-    t0 = time.time()
-    while time.time() - t0 < max_s:
+async def chase(pg, cdp, run, cid, label, max_s=420, tries=90):
+    """追走路中的人：像玩家一樣先按「跑」，每 2 秒重新看她現在在哪、重新瞄準——遠的時候點她附近的地面（遊戲找路），近了（6 m 內）用搖桿朝她推；
+    玩家走到 2.8 m 內她就會停下來（engine3d.js updateNPC）。不瞬移。最多 tries 次；追不到就把她的位置、走去哪、行為寫進 log。
+    v9.7 回歸：原本走路去追、每次走到她「原本的位置」才看下一步，SwiftShader 太慢，最後 d=30.9 m"""
+    on = await pg.evaluate("!!(GAME.E.player&&GAME.E.player.runHold)")
+    if not on: await L.tap(pg, cdp, '#btnRun'); await pg.wait_for_timeout(300)
+    t0 = time.time(); k = 0; best = 1e9; n = None
+    while time.time() - t0 < max_s and k < tries:
         n = await npc(pg, cid)
-        if not n: return None
+        if not n: break
+        best = min(best, n['d'])
         if n['d'] <= 2.0: break
-        q = await L.state(pg)
-        if n['d'] > 12:
-            await L._tap_toward(pg, cdp, q, n['x'], n['z'], n['d'], None); await pg.wait_for_timeout(2500)
+        q = await L.state(pg); k += 1
+        if n['d'] > 6:
+            await L._tap_toward(pg, cdp, q, n['x'], n['z'], n['d'], None)
         else:
             yaw = q['camYaw']; fx, fz = -math.sin(yaw), -math.cos(yaw); rx, rz = -fz, fx
             ux, uz = (n['x'] - q['x']) / max(n['d'], 0.01), (n['z'] - q['z']) / max(n['d'], 0.01)
-            await L.joystick(pg, cdp, int(28 * (ux * rx + uz * rz)), int(-28 * (ux * fx + uz * fz)), 700)
+            await L.joystick(pg, cdp, int(28 * (ux * rx + uz * rz)), int(-28 * (ux * fx + uz * fz)), 600)
+        await pg.wait_for_timeout(2000)
+    if not on and await pg.evaluate("!!(GAME.E.player&&GAME.E.player.runHold)"): await L.tap(pg, cdp, '#btnRun'); await pg.wait_for_timeout(300)
     n = await npc(pg, cid)
+    if n and n['d'] > 2.0:
+        q = await L.state(pg)
+        run.note(f"{label}：追了 {k} 次（{int(time.time() - t0)} 秒、用跑的）沒追到——最近 {best:.1f} m、最後 {n['d']:.1f} m；她在 ({n['x']},{n['z']})、pose {n['pose']}、path {n['path']} 段、"
+                 f"要走去 {n.get('tgt')}、行為 {n.get('beh')}、leaving {n['leaving']}；遊戲時間 {q['hour']:.2f}（作息：週二 10–12 在傅鐘附近）")
     return n and n['d']
 
 

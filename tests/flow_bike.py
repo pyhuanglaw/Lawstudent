@@ -44,11 +44,21 @@ async def wait_until(pg, js, secs):
     return False
 
 
-async def ride_forward(pg, cdp, secs):
-    """搖桿往前推 secs 秒（真人按住搖桿）；回傳 (距離, 遊戲裡經過的秒數)"""
+async def ride_forward(pg, cdp, secs, settle=0.0):
+    """搖桿往前推 secs 秒（真人按住搖桿）；回傳 (距離, 遊戲裡經過的秒數)。
+    settle>0：按住以後先等 settle 秒（已經在騎）才開始量、放開之前就量完——只量真的在騎的那一段（候選 15：
+    候選 14 從按下前量到放開後，SwiftShader 每幀 0.1 秒時，按下、放開的那幾幀（約 0.4 秒）也算進去：11.2 m／2.2 秒＝5.07 m/s）"""
+    hold = asyncio.ensure_future(L.joystick(pg, cdp, 0, -45, int(secs * 1000)))   # 一直按住（候選 14：原本每 1.5 秒放開再按）
+    if settle > 0:
+        await pg.wait_for_timeout(int(settle * 1000))
     b0 = await bike(pg)
-    await L.joystick(pg, cdp, 0, -45, int(secs * 1000))   # 一直按住（候選 14：原本每 1.5 秒放開再按，SwiftShader 1～2 fps 時放開的那幾幀也算進遊戲時間——位移 6.2 m＝遊戲裡騎了 1 秒，卻量成 1.8 秒）
-    b1 = await bike(pg)
+    if settle > 0:
+        await pg.wait_for_timeout(int(max(0.5, secs - settle - 1.5) * 1000))
+        b1 = await bike(pg)
+        await hold
+    else:
+        await hold
+        b1 = await bike(pg)
     return math.hypot(b1['x'] - b0['x'], b1['z'] - b0['z']), b1['t'] - b0['t']
 
 
@@ -78,7 +88,7 @@ async def main():
         await L.turn_camera_to(pg, cdp, op['tx'], op['tz'])
         # 先推一下讓車頭轉到鏡頭的方向（車頭不是瞬間轉向），再量直線騎的速度：v9.7 回歸第二次跑，量的那一段包含從對著牆轉向空的方向，位移 5.6 m／遊戲 1.72 秒＝3.25 m/s（SwiftShader 1～2 fps）
         await ride_forward(pg, cdp, 4)
-        d, dt = await ride_forward(pg, cdp, 9)
+        d, dt = await ride_forward(pg, cdp, 10, settle=3)   # 按住 10 秒：第 3 秒開始量、放開前 1.5 秒量完
         k = await bike(pg)
         sp = d / dt if dt > 0 else 0
         run.check('B 搖桿往前：騎車速度（5.5 m/s 以上；跑步 4.8）、輪子和曲柄有轉', sp >= 5.5 and k['dbg'] and k['dbg']['wheel'] > 1 and k['dbg']['crank'] > 0.4, f'{d:.1f} m / {dt:.2f} s = {sp:.2f} m/s；{json.dumps(k["dbg"])}')

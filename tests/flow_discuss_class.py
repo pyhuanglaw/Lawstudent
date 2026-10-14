@@ -5,7 +5,7 @@ A. 12/4 週四 13:05 霖澤館 201（民法總則第 14 週：網拍標錯價）
 B. 11/10 週一 12:30 在校園（早上的憲法第 11 週沒去）：手機「訊息」多一行那一堂的轉述（那一週的 skip_line）。
 全程沒有 JS 例外。
 用法：python3 tests/flow_discuss_class.py URL [輸出資料夾]"""
-import asyncio, json, sys, time
+import asyncio, json, math, sys, time
 from playwright.async_api import async_playwright
 sys.path.insert(0, __import__('os').path.dirname(__file__))
 import playlib as L
@@ -15,6 +15,34 @@ OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_discuss_class'
 BASE_FLAGS = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True}
 D_THU14 = 79   # 2025-12-04 週四（大一上第 14 週）
 D_MON11 = 55   # 2025-11-10 週一（大一上第 11 週）
+# 卡住時記下：剩下的路線、旁邊 1.5 m 內的人（給 LAWWW 判斷是不是遊戲的問題）
+STUCK_JS = """(()=>{ const E=GAME.E, P=E.player, o=P.obj.position; return {path:(P.path||[]).map(t=>[+(+t[0]).toFixed(2),+(+t[1]).toFixed(2)]),
+  near:E.npcs.filter(n=>Math.hypot(n.obj.position.x-o.x,n.obj.position.z-o.z)<1.5).map(n=>({id:n.charId||n.id, x:+n.obj.position.x.toFixed(2), z:+n.obj.position.z.toFixed(2), seat:!!n.seat, pose:n.pose||null}))}; })()"""
+
+
+async def settle(pg, cdp, run, tx, tz, near, label, max_s=150):
+    """真的走到了再看按鈕（LAWWW 10:31Z）：路線走完（path 0）、人停下來（pose idle）、在目標 near 以內。還在前進就等。
+    v9.7 回歸（候選 8）：go_to 回來時人還在走（path 2、pose walk、離目標 0.41 m），「坐下」還沒出現就檢查了。
+    路線沒走完卻 12 秒沒有前進（卡住）、或停下來但離目標太遠：寫進 log（位置、剩下的路線、旁邊的人），再像玩家一樣用搖桿往目標推 0.5 秒
+    （推搖桿會放掉點地面的路線，engine3d.js），最多 6 次。不瞬移"""
+    t0 = time.time(); s = await L.state(pg); px, pz = s['x'], s['z']; moved = time.time(); pushes = 0
+    while time.time() - t0 < max_s:
+        d = math.hypot(tx - s['x'], tz - s['z'])
+        if not s['path'] and s['pose'] == 'idle' and (d <= near or pushes >= 6): break
+        stuck = bool(s['path']) and time.time() - moved > 12
+        short = not s['path'] and s['pose'] == 'idle' and d > near
+        if (stuck or short) and pushes < 6:
+            if stuck: run.note(f"「{label}」：路線還有 {s['path']} 段、12 秒沒有前進（{s['x']},{s['z']}，pose {s['pose']}），離目標 {d:.2f} m；{json.dumps(await pg.evaluate(STUCK_JS), ensure_ascii=False)}——用搖桿往目標推一下")
+            else: run.note(f"「{label}」：停在離目標 {d:.2f} m，用搖桿往目標推一下")
+            yaw = s['camYaw']; fx, fz = -math.sin(yaw), -math.cos(yaw); rx, rz = -fz, fx
+            ux, uz = (tx - s['x']) / max(d, 0.01), (tz - s['z']) / max(d, 0.01)
+            await L.joystick(pg, cdp, int(25 * (ux * rx + uz * rz)), int(-25 * (ux * fx + uz * fz)), 500); pushes += 1; moved = time.time()
+        await pg.wait_for_timeout(700); s = await L.state(pg)
+        if math.hypot(s['x'] - px, s['z'] - pz) > 0.05: px, pz = s['x'], s['z']; moved = time.time()
+    await pg.wait_for_timeout(1200)   # 互動按鈕每幀更新：停下來以後等一下再看
+    s = await L.state(pg)
+    run.note(f"「{label}」停下來：離目標 {math.hypot(tx - s['x'], tz - s['z']):.2f} m、path {s['path']}、pose {s['pose']}、按鈕「{s['interact']}」、推搖桿 {pushes} 次、等了 {time.time() - t0:.0f} 秒")
+    return s
 
 
 async def main():
@@ -39,8 +67,8 @@ async def main():
           const ap=GAME.seatApproach(s)||[s.x,s.z]; return {x:s.x,z:s.z,lv:s.lv|0,row:s.row,col:s.col,ax:ap[0],az:ap[1]}; })()""")
         run.note(f"空位：第 {seat['row'] + 1} 排第 {seat['col'] + 1} 個" if seat else '201 沒有空位')
         ok = await L.go_to(pg, cdp, run, seat['ax'], seat['az'], 0.3, '201 的座位', lv=seat['lv'])
-        s = await L.state(pg)
-        run.check('A 自己走到座位旁、出現「坐下」', ok and s['interact'].startswith('坐下'), json.dumps(s, ensure_ascii=False))
+        s = await settle(pg, cdp, run, seat['ax'], seat['az'], 0.3, '201 的座位')
+        run.check('A 自己走到座位旁（路線走完、停下來）、出現「坐下」', ok and not s['path'] and s['interact'].startswith('坐下'), json.dumps(s, ensure_ascii=False))
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
         opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
         idx = next((i for i, o in enumerate(opts) if o.startswith('上課：民法總則')), None)
@@ -67,12 +95,28 @@ async def main():
         run.setup('讀檔：11/10 週一 12:30，校園（早上 09:10 的憲法第 11 週沒去）')
         await L.load_state(pg, {'zone': 'campus', 'hour': 12.5, 'day': D_MON11, 'weekday': 1, 'weather': 'sunny', 'pos': {'x': 0, 'z': 6, 'yaw': 3.14, 'lv': 0}, 'flags': BASE_FLAGS})
         await pg.wait_for_timeout(8000)
+        # 轉述是下課以後、遊戲每 15 分鐘檢查一次時補進訊息（classes3d.js 的 skipNotes，S.tick）：遊戲要真的跑過才會有。
+        # v9.7 回歸（候選 8）：讀檔 8 秒就打開手機，校園還沒載完、遊戲時間沒有走（手機開著遊戲暫停），訊息是空的「還沒有訊息。」——
+        # 像玩家一樣先在校園待一下：等遊戲時間走過 2 分鐘（最多 180 秒）再打開手機
+        t0 = time.time()
+        while time.time() - t0 < 180:
+            if (await L.state(pg))['hour'] >= 12.5 + 2 / 60: break
+            await pg.wait_for_timeout(1000)
+        run.note(f"讀檔後在校園待到遊戲時間走過 2 分鐘：{time.time() - t0 + 8:.0f} 秒（遊戲時間 {(await L.state(pg))['hour']:.2f}）")
         sl = await pg.evaluate("(()=>{ const w=SYLLABUS.courses.const_1.find(q=>q.w===11); return w&&w.obs&&w.obs.skip_line; })()")
+        who = await pg.evaluate("(id=>SOCIAL.displayName?SOCIAL.displayName(id):((CHARACTERS[id]||{}).name||''))(%s)" % json.dumps(sl['who'])) if sl else ''
         await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1000)
         await L.tap(pg, cdp, '#phoneTabs button[data-ptab="msg"]'); await pg.wait_for_timeout(1200)
-        body = await pg.evaluate("(document.getElementById('phoneBody')||{}).textContent||''")
+        items = await pg.evaluate("[...document.querySelectorAll('#phoneBody .item')].map(e=>e.textContent)")
+        run.note('手機「訊息」：' + ' ｜ '.join(items[:6])[:500])
         await run.shot(pg, 'B_phone_msgs')
-        run.check('B 手機「訊息」有那一堂的轉述（skip_line，「（群組）名字：…」）', bool(sl) and sl['text'][:14] in body and '（群組）' in body, (sl and sl['text'][:30] or '') + ' ｜ ' + body[:200])
+        # 照手機現在顯示的樣子比對（LAWWW 10:31Z）：同一則訊息裡有那一句轉述（skip_line 的內容）和說話的人——
+        # 不只認「（群組）名字：」這個前綴（群組對話串的訊息在清單上是「【群組名】名字：…」）
+        hit = next((t for t in items if sl and sl['text'][:14] in t), None)
+        run.check('B 手機「訊息」有那一堂的轉述（skip_line 的內容＋說話的人）', bool(hit) and bool(who) and who in hit, f"{who}：{(sl or {}).get('text', '')[:30]} ｜ " + (hit or ' ｜ '.join(items[:3]))[:200])
+        if not hit:   # 診斷（不影響判定）：訊息、今天的課、記過的轉述
+            run.note('沒有轉述：' + json.dumps(await pg.evaluate("""(()=>{ const G=GAME.G; let it=null, nt=null; try{ it=CLS.dayItems(G,G.day).map(i=>i.key+' '+i.t0+'-'+i.t1); nt=Object.keys(CLS.rec(G).note||{}).filter(k=>k.startsWith('skip')); }catch(e){ it=String(e); }
+              return {hour:+(G.hour%24).toFixed(2), msgs:(G.msgs||[]).slice(-5), items:it, note:nt}; })()"""), ensure_ascii=False)[:700])
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
         await b.close()
     print('ALL PASS' if not run.fails else 'FAILED: ' + ', '.join(run.fails))
