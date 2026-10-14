@@ -50,6 +50,9 @@ law_classroom_day / law_classroom_evening / library_day / library_night / cafe_d
 | `nccu_park` | 政大・停車場 | K1、K1b |
 | `car` | 車上 | 開車的轉場（還沒用到） |
 | `riverside` | 河濱（和子晴的河堤夜景共用） | 中秋烤肉（A13、K3） |
+| `gongguan_luwei` | 公館・滷味攤（公館有 3D 區域，滷味攤還沒有） | 考完的宵夜（A15） |
+| `dorm_roof` | 宿舍頂樓 | 跨年（A21） |
+| `video` | 視訊（可昕的房間） | 可昕的期末成績（BB_95 9-8） |
 政大的四個背景依 `AA_112` 第 11 節先用一般化的（不指定真實店家）。
 
 ### Event CG

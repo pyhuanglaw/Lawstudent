@@ -54,7 +54,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   { const e=ev('ev_midterm_walkout'); check('G1 事件存在（民總期中考考完）',!!e&&e.afterClass==='civ_general'&&e.afterExam==='mid');
     let midDay=null; for(let d=termDay(8,1);d<=termDay(9,7);d++){ const it=CLS.dayItems(G,d).find(x=>x.c.id==='civ_general'&&x.exam==='mid'); if(it){ midDay=d; break; } }
     check('G1：民總期中考在第 8～9 週（第 '+midDay+' 天）',!!midDay);
-    const exam=async(flags,setup,pk)=>{ fresh(midDay,13.2,'classroom',Object.assign({readCase:'full'},flags||{})); if(setup) setup(); picks=pk||[]; const it=CLS.dayItems(G,midDay).find(x=>x.c.id==='civ_general'); await CLS.attend(GM,it); return lines(); };
+    const exam=async(flags,setup,pk)=>{ fresh(midDay,13.2,'classroom',Object.assign({readCase:'full'},flags||{})); PHONE.join(G,'noodle_team','麵店團'); /* 有麵店團群組：G1 最後不當面問宵夜（第 9 批 A15，v1_batch9_unit 檢查沒有群組的）*/ if(setup) setup(); picks=pk||[]; const it=CLS.dayItems(G,midDay).find(x=>x.c.id==='civ_general'); await CLS.attend(GM,it); return lines(); };
     let L=await exam({},null,['引誘']);
     check('G1：考完接著演：走廊的旁白；柏翰沒見過＝「有人在問：第二題，……」旁白；阿哲「……有第二題？」；小語、芯慈、明軒、以安沒見過都不在',L.includes('走廊上一群人。有人在翻課本，有人已經在滑手機。')&&L.includes('有人在問：第二題，是寫要約之引誘還是要約？')&&L.includes('……有第二題？')&&!L.some(t=>/我寫要約。我覺得|反對意見|不要對了啦|對答案沒有用/.test(t)),JSON.stringify(L.slice(-8)));
     check('G1：讀過案例：三個選項都在',JSON.stringify(opts[opts.length-1])===JSON.stringify(['「我寫引誘，第二天那個案子就是這個。」','「我寫要約。」','「去吃飯。」']),JSON.stringify(opts[opts.length-1]));
