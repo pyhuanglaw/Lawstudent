@@ -77,7 +77,9 @@ R('heroine_01',25);
   const said=[]; const GMm={G,sceneBegin(){},sceneEnd(){},say:async(w,t)=>{ said.push(t); },choose:async()=>0,fade:async()=>{},advance(dh){ G.hour+=dh; },caption(){},autosave(){}};
   await INV.meet(GMm,iv,null);
   check('6. 約好的見面：門檻台詞（有點熟）→ Café 的旁白（有點熟）→ 見面結束的一句',said[0]==='「欸不是。……好，你過了新手教學。」'&&said[1]==='她寫程式，你念書。她偶爾念出一行錯誤訊息。'&&said[said.length-1]==='「好。掰。」',said.join('｜'));
-  const titleR=()=>PHONE.title(G,'p:heroine_04'); R('heroine_04',25); const t1=titleR(); R('heroine_04',45,30); const t2=titleR();
+  const titleR=()=>PHONE.title(G,'p:heroine_04'); G.social.mem.heroine_04=[]; R('heroine_04',25); const t0=titleR();
+  check('6. 還沒見過（沒有 FIRST_MET）：手機上照舊「不認識的女生」，聯絡人名稱不提前露出名字',t0==='不認識的女生',t0);
+  SOCIAL.remember('heroine_04','FIRST_MET','x'); const t1=titleR(); R('heroine_04',45,30); const t2=titleR();
   check('6. 手機的對話標題（聯絡人）：有點熟「高子晴（吉他社）」→ 朋友「子晴」',t1==='高子晴（吉他社）'&&t2==='子晴',t1+' → '+t2);
   check('6. 沒有資料的人照舊（可昕：phoneName「可昕」）',PHONE.title(G,'p:kexin')==='可昕',PHONE.title(G,'p:kexin'));
   // ---------- 7. 接線 ----------
