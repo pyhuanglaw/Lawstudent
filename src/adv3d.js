@@ -14,6 +14,7 @@ const ADV = (function(){
 #adv.blur #advBg{backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);background:rgba(10,12,18,.38)}
 #adv.image #advBg{background-size:cover;background-position:center}
 #adv.freeze #advBg{background:rgba(0,0,0,0)}
+#adv.dark #advBg{background:#15171d;backdrop-filter:none;-webkit-backdrop-filter:none}   /* 出遊（離開 3D 地圖的地方）：2D 背景還沒有圖時的深色底（MISSING_EXTERNAL_ART）*/
 #advCg{position:absolute;inset:0;display:none;background-repeat:no-repeat;background-position:center;background-size:cover}
 #adv.cg #advCg{display:block}
 #adv.cg #advBg{filter:blur(18px) brightness(.6);transform:scale(1.1)}
@@ -70,6 +71,10 @@ const ADV = (function(){
   // Event CG：稀有；不存在時自動退回一般 ADV
   /* 手機直向（BB 2026-10-14 同意）：整張 CG 縮小放進畫面（contain），人物不會被裁；上下的空白是同一張 CG 放大模糊（#advBg）。橫向照舊 cover。
      CG 一律 16:9（docs/CHARACTER_ART_SPEC.md）；直向時圖放在畫面 40% 的高度，下面留給對話框與選項 */
+  /* 演到一半換背景（出遊的場景，src/outings3d.js）：mode＝'blur'／'freeze'／'dark'／{image}；圖載不到就用深色底 */
+  A.setBg=function(mode){ if(!A.active) return; mode=mode||'blur'; A.bgMode=mode; for(const c of ['blur','freeze','dark','image']) A.root.classList.remove(c);
+    if(typeof mode==='object'&&mode.image){ A.root.classList.add('image'); A.bg.style.backgroundImage='url('+mode.image+')'; loadImage(mode.image).catch(()=>{ A.root.classList.remove('image'); A.root.classList.add('dark'); A.bg.style.backgroundImage=''; }); }
+    else { A.root.classList.add(typeof mode==='object'?'dark':mode); A.bg.style.backgroundImage=''; } };
   A.cg=function(cgId){ const reg=(typeof CG_REGISTRY!=='undefined')?CG_REGISTRY[cgId]:null; if(!reg) return false; loadImage(reg.file).then(()=>{ A.root.className='on image cg'; A.bg.style.backgroundImage='url('+reg.file+')'; A.cgEl.style.backgroundImage='url('+reg.file+')'; A.L.classList.remove('show'); A.R.classList.remove('show'); if(window.GAME&&GAME.G){ GAME.G.cg=GAME.G.cg||{unlocked:[]}; if(!GAME.G.cg.unlocked.includes(cgId)) GAME.G.cg.unlocked.push(cgId); } }).catch(()=>{ /* fallback：維持一般 ADV */ }); return true; };
   return A;
 })();

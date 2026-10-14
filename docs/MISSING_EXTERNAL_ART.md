@@ -39,6 +39,19 @@
 law_classroom_day / law_classroom_evening / library_day / library_night / cafe_day / cafe_evening / cafe_rain / dorm_night / campus_sunset / campus_rain / royal_palm_road_day / gate_night / noodle_shop_night / gongguan_night / wenzhou_alley_dusk
 （目前事件用 3D freeze／blur 當背景；提供圖片後在事件把 `background` 改為 `{image:'assets/backgrounds/<bg_id>.webp'}`）
 
+### 出遊的 2D 背景（離開 3D 地圖的地方；src/outings3d.js 的 `OUT.BG`，交接包 v1 第 7 批，2026-10-14）
+沒有圖時是深色底＋地點字幕（ADV 的 `dark`）。有圖以後在 `OUT.BG[id].image` 填路徑（例：`assets/backgrounds/nccu_gate.webp`），事件不用改。
+| id | 地點 | 用在 |
+|---|---|---|
+| `nccu_gate` | 政大・校門口 | 可昕 K1 導遊、K1b |
+| `nccu_food` | 政大・山下的小吃街 | K1、K1b |
+| `nccu_river` | 政大・河堤 | K1b |
+| `nccu_lib` | 政大・圖書館 | K1b |
+| `nccu_park` | 政大・停車場 | K1、K1b |
+| `car` | 車上 | 開車的轉場（還沒用到） |
+| `riverside` | 河濱（和子晴的河堤夜景共用） | 中秋烤肉（A13、K3） |
+政大的四個背景依 `AA_112` 第 11 節先用一般化的（不指定真實店家）。
+
 ### Event CG
 - cg_library_rain_heroine03、cg_cafe_dusk_heroine01（登錄在 `CG_REGISTRY`，檔案不存在時自動退回一般 ADV）
 

@@ -305,6 +305,7 @@ const STORY = (function(){
     if(G.zone==='dorm') S.dormItems(GM);   /* 房間裡跟著劇情出現的東西（黃金葛、阿凱的鍵盤盒子）*/
     if(typeof CROWD!=='undefined'){ try{ CROWD.tick(GM,dt); }catch(e){ console.warn('CROWD.tick',e); } }   /* 公共場景的人流（D55）*/
     if(typeof INV!=='undefined'){ try{ INV.tick(GM); }catch(e){ console.warn('INV.tick',e); } }   /* 邀約：過了時間沒見到＝沒赴約 */
+    if(typeof OUT!=='undefined'){ try{ const p=OUT.tick(GM); if(p&&p.catch) p.catch(e=>console.warn('OUT.tick',e)); }catch(e){ console.warn('OUT.tick',e); } }   /* 出遊（離開 3D 地圖的約）：時間到了問「出發」*/
     /* 法律學院圖書館閉館（D53，使用者 2026-10-13）：閉館前 10 分鐘廣播；過了閉館時間人還在館裡，館員請你離館（回到萬才館大廳的門口），
        並告訴你下次幾點開、可以改去總圖或回宿舍。不讓法圖變成 24 小時開放（讀檔回到閉館後的館裡也一樣）*/
     if(G.zone==='lawlib'&&typeof PLACES!=='undefined'&&PLACES.hours.lawlib&&typeof LL3!=='undefined'){ const hr=h(G), w=PLACES.windowOf('lawlib',G.day);
@@ -413,6 +414,11 @@ const STORY = (function(){
     /* 麵店團（AA_70 2-3、AA_40 哲 1）：哲 1 那天阿哲建的群組；之後每個上課週的週二、週四 17:30 他在群組裡揪（「不用回，去就有人」）。tag rt_＝例行訊息（每天的手機小事不把它當成劇情訊息）*/
     if(F.noodleTableDay!=null&&typeof CALENDAR!=='undefined'){ if(!PHONE.inGroup(G,'noodle_team')){ PHONE.join(G,'noodle_team','麵店團'); PHONE.post(G,{th:'g:noodle_team',text:'阿哲建立了群組「麵店團」，把你加了進來。',tag:'noodle_team_new'}); }
       const wd=CALENDAR.dateOf(G.day).wd; if(G.day>F.noodleTableDay&&(wd===2||wd===4)&&CALENDAR.kind(G.day)==='term') PHONE.at(G,G.day,17.5,[{th:'g:noodle_team',from:'zhe',text:'麵店。我揪了。'}],'rt_zhe_ndl_'+G.day); }
+    /* 可昕 K1 導遊（BB_95 9-1）：第 3 週週五 19:30 她傳「週末來政大？我當導遊。」——答應就排週六下午 14:00 去政大（出遊，src/outings3d.js）；
+       答應得晚（過了那個週六下午）就排下一個週六。不行：之後第一次「開車去政大」才有導遊（那個功能還沒做）。回覆的兩句是 LAWWW 寫的（等 BB）*/
+    if(F.dating_kexin&&!PHONE.sent(G,'kx_tour_ask')){ const fri=termDay('Y1S1',3,5); if(fri) PHONE.at(G,fri,19.5,[{th:'p:kexin',from:'kexin',text:'週末來政大？我當導遊。',ask:{opts:[{t:'好，週六下午過去。',set:{KX_TOUR_YES:true}},{t:'這週末不行。',set:{KX_TOUR_NO:true}}]}}],'kx_tour_ask'); }
+    if(F.KX_TOUR_YES&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_tour')&&!(G.events&&G.events.done&&G.events.done.ev_kexin_tour_nccu)&&typeof CALENDAR!=='undefined'){ let d=G.day; while(CALENDAR.dateOf(d).wd!==6||(d===G.day&&G.hour>13.5)) d++;
+      OUT.plan(G,{id:'kx_tour',ev:'ev_kexin_tour_nccu',day:d,h:14,place:'政大',title:'去政大找可昕',travel:'開車約 30 分鐘',travelH:0.5}); }
     dailyPhone(GM); };
   /* 每天的手機小事（BB_95 4-4）：摘要日（AA_90 第 10 節「週曆＋精華日」）還沒做，照 BB「沒有摘要日的話放進每天的手機小事」——大一上第 4 週起，一天最多一則；
      那天已經有排好時間的劇情訊息就不加。每天第一次（或讀檔後第一次）決定今天是哪一則：照順序輪流，挑條件成立、時間還沒到的；時間到了再確認一次
