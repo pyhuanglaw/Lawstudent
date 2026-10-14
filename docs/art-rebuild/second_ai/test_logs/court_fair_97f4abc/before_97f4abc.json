@@ -1,0 +1,33 @@
+{
+ "fb": {
+  "visible": false,
+  "children": 2,
+  "dyn": false
+ },
+ "benchBoxes": [
+  {
+   "name": "(merged)",
+   "merged": true,
+   "vertsNearBenches": 72,
+   "parent": ""
+  }
+ ],
+ "glbMeshes": 0,
+ "fair_day": 14,
+ "fair": {
+  "fb": {
+   "visible": false,
+   "children": 9,
+   "dyn": false
+  },
+  "glbBooths": 9,
+  "procRoofs": [
+   {
+    "merged": true,
+    "verts": 216,
+    "parent": ""
+   }
+  ]
+ },
+ "errors": []
+}

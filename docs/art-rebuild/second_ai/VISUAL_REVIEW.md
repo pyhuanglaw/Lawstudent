@@ -2730,6 +2730,23 @@ LAWWW 2026-10-13 22:01Z 分派②（系籃練球 `dept_basketball`，AA 暫定�
 
 自評（還沒達到參考品質的地方）：沒有照片可以核對臺大的球場；鋪面沒有磨損與球印；籃網是線框；只有半場；四周沒有圍網與路燈（見提案第 3 節）。
 
+### 29.1 接進 LAWWW 開發分支後的檢查（2026-10-14）：簡單版的長椅、帳篷沒藏起來（bug＋2 行修正）
+
+LAWWW 在 `0b34442` 把球場（本節）和博覽會帳篷（第 28 節）接進校園：正式模型載入後 `court_fallback`／`fair_fallback` 設 `visible=false`。
+但這兩個群組**沒有 `userData.dyn`**，進校園時整區靜態合併（`P3.mergeStatic`）把共用 `P3.M` 材質的網格（兩張長椅、9 頂帳篷的屋頂／柱子／桌子）搬到區域最外層的合併網格裡——群組藏起來也藏不到它們，**簡單版和正式模型疊在一起**（玩家看到的是兩塊實心的棕色方塊，不是正式模型的木條長椅）。
+
+檢查：`tools/blender/env_second/shots/court_fallback_check.py`（讀檔到球場旁、博覽會那天的攤位前〔前置〕，等正式模型接上，數「看得到、在長椅／帳篷屋頂位置、顏色是簡單版材質」的網格頂點）。Playwright＋SwiftShader，不是 iPhone。
+
+| | LAWWW `97f4abc`（現在） | 套 `patches/court_fair_fallback_dyn_97f4abc.patch` |
+|---|---|---|
+| 正式模型載入、fallback 群組 `visible=false` | 是 | 是 |
+| 還看得到的簡單版長椅（#6b5038，合併網格裡的頂點） | **72** | 0 |
+| 還看得到的簡單版帳篷屋頂（#e8e4da） | **216** | 0 |
+| 球場邊 | ![修正前](shots/courtfb_before_benches.webp) | ![修正後](shots/courtfb_after_benches.webp) |
+| 博覽會（2025-09-30） | ![修正前](shots/fairfb_before_booths.webp) | ![修正後](shots/fairfb_after_booths.webp) |
+
+修正（`src/zones3d.js`，LAWWW 的檔案，我只給 patch）：`clubFair()`、`bballCourt()` 建 `fb` 之後各加一行 `fb.userData.dyn=true;`（和湖的 `lake_fallback`、總圖等建築的做法一樣）。patch 在 `97f4abc` 上 `git apply --check` 沒有衝突（`3f3d56a` 套不上：旁邊那行 `isFairDay` 在 `97f4abc` 改過）。`3f3d56a` 上也量到同樣的 72／216。紀錄：`test_logs/court_fair_97f4abc/`。
+
 ## 30. 總圖書館 3F 閱覽區（⑪，Blender 正式模型；**還沒接進遊戲**）
 
 LAWWW 佇列的 ⑪（原文在 `docs/DUAL_AI_BOARD.md`：「總圖 3F 閱覽區 Blender 化」）：房間 22×16×4.0（`zones3d.js` library 區塊的 room()）；6 張長桌、36 張椅子（`z.seats`，劇情用 seats[0..2]，座標不能動）、三面書架牆；**不能動**：座位、互動點（坐下讀書、樓梯間的門 (0,7.6)）、東側電梯（程序化、會動，不做進 GLB）、劇情人物的位置。
@@ -2894,3 +2911,42 @@ LAWWW 佇列的 ⑩（醉月湖：湖心亭＋木棧道＋湖岸）。腳本 `to
 2. 湖心亭沒有欄杆、座椅（美人靠）：遊戲的導航讓人走到平台邊上，加了會穿過去。
 3. 石頭是低多邊形（每顆 128 個三角形、平滑著色）＋貼圖，近看輪廓有稜角；湖岸沒有苔蘚、水線的污漬。
 4. 屋頂的瓦是貼圖（不是一片一片的瓦）；天花下的椽子只有六根（真的亭子是一整排）。
+
+### 31.7 接進 LAWWW 最新開發分支的實測（2026-10-14，使用者把「醉月湖、湖心亭的導航及穿模」排在第一）
+
+在 LAWWW `3f3d56a` 上套 `patches/lake_integration_3f3d56a.patch`（**完整的接法，LAWWW 直接 `git apply`**；在 `3f3d56a` 和最新的 `97f4abc` 上 `git apply --check` 都沒有衝突）＋`campus_lake.glb`，
+用 `tools/blender/env_second/shots/lake_integration_check.py` 實際操作（點地面移動，和玩家一樣；不瞬移、不用 ?turbo）：南岸步道 → 木棧道 → 亭子中間 → 往六根柱子、六個邊走 → 回亭子中間 → 回南岸。
+同一條路線也在現在的遊戲（程序化的湖）跑一次對照。Playwright＋SwiftShader 手機模擬，**不是 iPhone 實機**。
+
+patch 的內容（只動 `src/zones3d.js` 的 `lake()`、校園載入的地方，和 `src/assets3d.js` 一行）：
+1. 湖岸、湖心亭、木棧道的程序化網格放進 `lake_fallback`（`userData.dyn`：不被整區合併），正式模型載入後整組藏起來；載入失敗、`?nobldg` 照舊是程序化的。
+2. 導航：亭子走得到的範圍從中心 2.35 m 改成 **2.0 m**，六根柱子所在的格子擋起來（31.2 第 4 點的量測）。
+3. **地板高度**：亭子和木棧道的地板頂面在 y 0.05（水面 0.035 之上）——`nav.addSurf` 三塊（亭子、木棧道、接岸 45 cm 斜坡），人站在木板上，腳不再沉進去 5 cm（現在的遊戲也是沉 5 cm）。
+4. `attachLakeGLB`：放在湖中心；亭子的屋頂、橫梁、柱子加「樹幹透視」（擋住鏡頭和人時網點透空，和行道樹樹幹同一套）；湖岸、置石不投影。
+5. `ASSETS.manifest` 加 `bldg.campus_lake`（lazy）。
+
+| 量測（同一套點地移動的路線） | 現在的遊戲（程序化） | 接上正式模型＋建議的導航 |
+|---|---|---|
+| 16 個路線點都走到 0.4 m 內 | 是 | 否：to_edge2（見表下說明） |
+| 往六根柱子、六個邊走：最後停在離亭子中心多遠 | 1.77–1.96 m | 1.63–1.89 m |
+| 身體離柱子最近（負的＝穿進柱子；柱身半徑 0.105、身體 0.33） | 0.018 m（程序化的柱子在半徑 2.4） | −0.007 m（正式模型的柱子在半徑 2.3；最多穿進 7 mm，看不出來） |
+| 身體超出平台邊緣最多（正的＝超出；南邊接木棧道不算） | -0.079 m | -0.175 m |
+| 木棧道上身體離中線最遠／欄杆內側 | 0.51／0.77 m | 0.38／1.055 m |
+| 腳的高度（地板頂面 0.05；最低–最高） | 亭子 0–0、木棧道 0–0（腳沉進木板 5 cm） | 亭子 0.05–0.05、木棧道 0.023–0.05（0.023 是接岸的斜坡上） |
+| 人在亭子中間：鏡頭看得到人嗎 | 看得到 | 看得到 |
+| 走到柱子旁：鏡頭看得到人嗎 | 被擋住（#8e3a2c） | 看得到 |
+| 手機直向、亭子裡：鏡頭看得到人嗎 | 看得到 | 看得到 |
+
+**to_edge2（往西南西的邊）**：點地面 5 次＋搖桿 28 次之後停在離目標 0.46 m（門檻 0.4 m），但它停的位置離亭子中心 1.76 m，和其他方向（1.63–1.89 m）一樣遠——只是停的角度偏了一點，不是走不進去。
+代價：亭子裡走得到的範圍比現在的遊戲小約 15 cm（現在 1.77–1.96 m），換來身體不穿進柱子、不超出平台邊緣（31.2 第 4 點）。
+
+`tests/campus_layout_nav.py`：套了 patch 的版本 FAILED：新系館（舟山路西段南側）內 不能走；**沒套 patch 的 `3f3d56a` 一樣是 FAILED：新系館（舟山路西段南側）內 不能走**——那一點在 (−92, 68)，現在是大一女舍 A、B 棟之間的天橋下（同一個測試的「大一女舍天橋下 站得住」通過），是測試清單沒跟著大一女舍更新，和醉月湖無關；醉月湖的四項（南岸步道、木棧道、湖心亭、湖畔長椅）都通過。`node tests/campus_public_unit.js`、`node tests/nav_buildings_unit.js`（套了 patch 的版本）：ALL PASS（湖心亭走得到、從博雅門口走到湖心亭）。紀錄：`test_logs/lake_3f3d56a/`。
+
+| 鏡頭 | 現在的遊戲 | 接上正式模型＋建議的導航 |
+|---|---|---|
+| 木棧道中間（橫向） | ![現在](shots/lakeint_proc_boardwalk_mid.webp) | ![正式模型](shots/lakeint_final_boardwalk_mid.webp) |
+| 亭子中間（橫向） | ![現在](shots/lakeint_proc_pav_center.webp) | ![正式模型](shots/lakeint_final_pav_center.webp) |
+| 走到東南的柱子旁（橫向） | ![現在](shots/lakeint_proc_to_col1.webp) | ![正式模型](shots/lakeint_final_to_col1.webp) |
+| 亭子裡（手機直向 390×844） | （這一張被「請把手機轉成橫向」的提示蓋住：跑現在的遊戲那一輪時，測試腳本還沒先點掉提示；鏡頭量測在提示底下照樣做了） | ![正式模型](shots/lakeint_final_portrait_pav.webp) |
+
+**還沒做／沒測**：iPhone 實機；晚上的燈光（亭子沒有燈，湖邊是原本的路燈）；NPC 走上木棧道（目前湖邊沒有排 NPC 的路線）。
