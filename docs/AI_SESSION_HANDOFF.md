@@ -37,7 +37,7 @@
 | 已批准的決策 | `docs/PROJECT_DECISIONS.md`（D 編號，只有使用者明確說過的才算） |
 | 還沒批准的提案 | `docs/proposals/*.md`（PROPOSAL）；`docs/story_planning/`（劇情，全部是 PROPOSAL，使用者批准前不寫進遊戲） |
 | 上次交班之後的重要變更 | 第 12 節「交班紀錄」＋ `git log <上一班的最後 commit>..<分支>`＋各進度檔的最新一節 |
-| 美術驗收狀態 | `docs/art-rebuild/VISUAL_REVIEW.md`、`docs/art-rebuild/ASSET_INVENTORY.md`（只有使用者能標 ART_APPROVED） |
+| 美術驗收狀態 | `docs/art-rebuild/VISUAL_REVIEW.md`、`docs/art-rebuild/ASSET_INVENTORY.md`（角色美術由 BB 標 ART_APPROVED（D59）；建築、場景只有使用者能標） |
 
 **值班登記**：每個職位的進度檔最上面放這兩行，換班時更新：
 ```
@@ -228,7 +228,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
   1. 潤飾、錯字、事件條件小修正：AA、BB 自行審稿，LAWWW 直接同步。
   2. 一般日常事件：AA、BB 達成共識後整合。
   3. 人物性格、重大關係、主線結局、關鍵事件：要使用者確認，LAWWW 直接問使用者。
-- ART_APPROVED、STORY_APPROVED：只有使用者能批准。
+- ART_APPROVED：角色美術由 BB 驗收、可以標（D59，2026-10-14）；建築、場景只有使用者能批准。STORY_APPROVED：只有使用者能批准。
 - 所有工作階段：
   - 不 force push、不建第二個 repo、不改職責。
   - 不提交密鑰、帳密或授權不明的素材。

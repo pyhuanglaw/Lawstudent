@@ -34,7 +34,7 @@
   - 發布候選 `47b2043`：發布前測試做到一半。
 - **美術規範（強制）**：`CLAUDE.md` 的「MANDATORY 3D ART PRODUCTION RULES」（D38）、[`docs/art-rebuild/ART_DIRECTION.md`](art-rebuild/ART_DIRECTION.md) 第 12 節。
   - 正式近景用 Blender＋合法 PBR＋GLB。three.js 方盒、canvas 隨機貼圖只能當碰撞、導航、遠景、備用。
-  - 驗收狀態依序：`BLOCKOUT` → `MODEL_READY` → `INTEGRATED` → `FUNCTIONAL_VERIFIED` → `READY_FOR_ART_REVIEW`。`ART_APPROVED` 只有使用者能給。
+  - 驗收狀態依序：`BLOCKOUT` → `MODEL_READY` → `INTEGRATED` → `FUNCTIONAL_VERIFIED` → `READY_FOR_ART_REVIEW`。`ART_APPROVED`：**角色美術**（角色參考圖、3D 人物和參考圖的一致性）由 BB 驗收、BB 可以給（D59，2026-10-14）；建築、場景照舊只有使用者能給。LAWWW2 不標。**角色模型的分工（D59）**：BB 通過的參考圖，由 LAWWW2 調整 Blender／VRM 角色模型（照 LAWWW 排的佇列與檔案範圍），LAWWW 接進遊戲、負責效能、動畫與回歸測試。
 - **資產盤點**：[`docs/art-rebuild/ASSET_INVENTORY.md`](art-rebuild/ASSET_INVENTORY.md)，列出每個程序化資產的分類與升級做法。
 - **劇情暫停**：使用者之後會大幅重寫四年主線、人物關係、事件與部分玩法。
   - 現在不改、不擴充、不刪除劇情。
