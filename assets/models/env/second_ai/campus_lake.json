@@ -5,7 +5,7 @@
  "tris_drawn": 8448,
  "materials": 11,
  "out": "assets/models/env/second_ai/campus_lake.glb",
- "bytes": 1097876,
+ "bytes": 875696,
  "texres": 512,
  "tris_by_object": {
   "lake_rim_stone": 622,
@@ -39,8 +39,8 @@
  },
  "boardwalk": {
   "x": [
-   -3.85,
-   -2.15
+   -4.15,
+   -1.85
   ],
   "z": [
    2.9000000000000004,

@@ -4,7 +4,7 @@
 外形照 src/zones3d.js 的 lake()，兩邊一定對得上：
   湖岸：橢圓 A 16.5、B 9.2、80 點、rad(t)=1+0.10 sin(3t+0.6)+0.05 cos(5t+1.3)，法線照遊戲的算法；木棧道經過的南岸留缺口（|x−PX|<BW/2+0.5、z>0 的那幾段）。
   湖心亭：中心 (PX, PZ)=(−3, 0.6)、半徑 2.7（遊戲的導航：中心 2.35 m 內走得到）——六角形平台的平邊朝南北（南邊的平邊接木棧道）。
-  木棧道：x PX±0.85、z 2.9～13.4（接南岸步道）。
+  木棧道：x PX±1.15（欄杆 ±1.10；遊戲走得到的格子 ±0.9，人的身體最多到 ±1.03，碰不到欄杆）、z 2.9～13.4（接南岸步道）。
 平台、木棧道的頂面：y 0.05（和遊戲原本的一樣；要比水面 y 0.035 高，不然會被水面蓋住）。
 不做（遊戲的 lake() 照舊）：水面（shader）、睡蓮、岸邊的草叢、樹、長椅、路燈；導航不變。
 真實性：沒有照片可以核對（沙盒打不開臺大網站）；湖心亭、木棧道、石砌湖岸是一般台灣校園湖景的遊戲化設計，顏色照遊戲原本的（紅柱、深色瓦頂）。"""
@@ -32,6 +32,7 @@ for i, p in enumerate(P):
     NR.append((nx, nz))
 PX, PZ, PR, BW = -3.0, 0.6, 2.7, 1.7
 BZ0, BZ1 = PZ + PR - 0.4, 13.4
+DECK_HW = 1.15   # 木棧道半寬（欄杆在 ±1.10）：遊戲走得到的是 |x−PX|≤BW/2+0.05＝0.9（格子中心），人的身體最多到 ±1.03——第一版照 BW 做成 ±0.85、欄杆在 ±0.8，人走到邊上會穿過欄杆。BW 只用來留湖岸缺口（和遊戲一樣 ±1.35）
 def in_gap(i):
     a, b = P[i % N], P[(i + 1) % N]; mx, mz = (a[0] + b[0]) / 2, (a[1] + b[1]) / 2
     return abs(mx - PX) < BW / 2 + 0.5 and mz > 0
@@ -94,7 +95,9 @@ for i in range(N):
 
 # ================= 岸邊的大石頭（置石：一半在水裡、一半在岸上） =================
 def rock_mesh(sub, cx, cz, r, h, seed, yaw):
-    """低多邊形的石頭：細分的八面體 → 依雜訊推擠、底部壓平；UV 用球面投影"""
+    """低多邊形的石頭：細分的八面體 → 依雜訊推擠、底部壓平。
+    頂點共用（平滑著色，不是一面一面的）；UV 每一面照法線最接近的軸投影（公尺 ÷ 1.2）——
+    第一版用球面投影，atan2 接縫兩邊的面 UV 從 −1 跳到 +1，整面拉成條紋"""
     rr = random.Random(seed)
     V = [np.array(v, float) for v in ((1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (0, 0, 1), (0, 0, -1))]
     F = [(0, 2, 4), (4, 2, 1), (1, 2, 5), (5, 2, 0), (4, 3, 0), (1, 3, 4), (5, 3, 1), (0, 3, 5)]
@@ -113,10 +116,12 @@ def rock_mesh(sub, cx, cz, r, h, seed, yaw):
         v = v / np.linalg.norm(v); s = 1.0 + sum(k * max(0.0, float(np.dot(v, d / np.linalg.norm(d)))) ** 3 for d, k in bumps)
         p = v * s; p = np.array((p[0] * r, max(p[1], -0.25) * h, p[2] * r * rr.uniform(0.8, 1.0)))
         c, s_ = math.cos(yaw), math.sin(yaw); W.append(np.array((cx + p[0] * c + p[2] * s_, p[1], cz - p[0] * s_ + p[2] * c)))
+    ids = [sub.vid(tuple(w)) for w in W]
     for (a, b, c) in F:
         pts = [W[a], W[b], W[c]]; ctr = sum(pts) / 3
-        uvs = [(math.atan2(V[k][2], V[k][0]) / math.pi * 1.2 * r + 0.5, V[k][1] * h * 0.8) for k in (a, b, c)]
-        sub.face([sub.vid(tuple(p)) for p in pts], uvs, tuple(ctr - np.array((cx, -0.1, cz))))
+        ax = int(np.argmax(np.abs(np.cross(pts[1] - pts[0], pts[2] - pts[0]))))
+        uvs = [((p[2] if ax == 0 else p[0]) / 1.2, (p[2] if ax == 1 else p[1]) / 1.2) for p in pts]
+        sub.face([ids[a], ids[b], ids[c]], uvs, tuple(ctr - np.array((cx, -0.1, cz))))
 rocks = pm('rocks', 'rock')
 cand = [i for i in range(N) if not in_gap(i) and not in_gap(i - 1) and not in_gap(i + 1)]
 rng.shuffle(cand)
@@ -141,7 +146,7 @@ def hexband(sub, r0, y0, r1, y1, fn, want_out=True, cx=PX, cz=PZ):
         k2 = (k + 1) % 6; mid = ((HEX[k][0] + HEX[k2][0]) / 2, (HEX[k][1] + HEX[k2][1]) / 2)
         q = [a[k], a[k2], b[k2], b[k]]; w = (mid[0], 0, mid[1]) if want_out else (0, 1 if y1 >= y0 else -1, 0)
         sub.face([sub.vid(x) for x in q], [fn(x) for x in q], w)
-# 平台：花崗石，頂面 y 0.02，側面一直到水下
+# 平台：花崗石，頂面 y DECK_Y（0.05），側面一直到水下
 gr = pm('pavilion', 'granite')
 plat = lambda p: ((p[0] + p[2]) / 1.5, p[1] / 1.5)
 hexband(gr, PR, -0.5, PR, DECK_Y - 0.03, plat)
@@ -217,18 +222,18 @@ lathe(gold, [(0.16, YA - 0.02, 0.2, YA + 0.06, lambda u, v: (u, v), 'out'), (0.2
 
 # ================= 木棧道 =================
 plank, pile = pm('boardwalk', 'plank'), pm('boardwalk', 'pile')
-HW = BW / 2
+HW = DECK_HW
 z = BZ0
 while z < BZ1 - 0.005:
     z1 = min(z + 0.14, BZ1); jit = 0.008 * nz(z, 7)
     box(plank, PX - HW + jit, PX + HW + jit, DECK_Y - 0.04, DECK_Y, z, z1 - 0.012, {'t': lambda p: (p[0] / 1.2, p[2] / 1.2), '*': lambda p: (p[0] / 1.2, p[1] / 1.2)}, faces='tfkrl')
     z = z1
-for sx in (-0.62, 0.62):                                                                             # 縱向的托梁
+for sx in (-0.85, 0.85):                                                                             # 縱向的托梁
     box(pile, PX + sx - 0.05, PX + sx + 0.05, -0.2, DECK_Y - 0.04, BZ0, BZ1, {'*': lambda p: (p[2], p[1])}, faces='bfkrl')
 zp = BZ0 + 0.9
 while zp < BZ1 - 0.6:                                                                                # 橫梁＋水裡的木樁
     box(pile, PX - HW + 0.05, PX + HW - 0.05, -0.28, -0.2, zp - 0.06, zp + 0.06, {'*': lambda p: (p[0], p[1])})
-    for sx in (-0.72, 0.72): lathe(pile, [(0.09, -0.8, 0.09, -0.06, lambda u, v: (u, v), 'out')], 8, caps=[(0.09, -0.06, lambda a, b: (a, b), 'up')], M=T(PX + sx, 0, zp))
+    for sx in (-0.95, 0.95): lathe(pile, [(0.09, -0.8, 0.09, -0.06, lambda u, v: (u, v), 'out')], 8, caps=[(0.09, -0.06, lambda a, b: (a, b), 'up')], M=T(PX + sx, 0, zp))
     zp += 2.1
 # 欄杆：柱子每 1.6 m、扶手、中間一道橫桿（亭子那一端、岸邊那一端開口）
 RX = HW - 0.05

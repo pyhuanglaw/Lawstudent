@@ -1,0 +1,44 @@
+PASS 一般網址：遊戲載入
+  [前置／捷徑] 讀檔到公館人行道 (−30,14) 17:30，關掉條件事件
+PASS 公館店面的正式模型接上
+PASS 16 棟套件店面都有棟號（G00–G14 店面街、G15 巷口轉角）  ["G00", "G01", "G02", "G03", "G04", "G05", "G06", "G07", "G08", "G09", "G10", "G11", "G12", "G13", "G14", "G15"]
+PASS 16 棟都接上正式模型（userData.formal）  {"G00": true, "G01": true, "G02": true, "G03": true, "G04": true, "G05": true, "G06": true, "G07": true, "G08": true, "G09": true, "G10": true, "G11": true, "G12": true, "G13": true, "G14": true, "G15": true}
+PASS 套件店面的外觀全部藏起來  {}
+PASS 招牌合成一張 atlas、一個網格（50 面＝店的橫招牌 16＋二樓大招牌 5＋屋頂看板 1＋直立招牌 14 塊×2 面）  {"visible": true, "w": 2048, "h": 2048, "n": 50, "tris": 100}
+PASS 招牌 atlas 不超過 2048×2048  {"visible": true, "w": 2048, "h": 2048, "n": 50, "tris": 100}
+PASS 直立招牌的兩面共用 atlas 的同一格（14 塊；不同內容的板面各自一格：36 格）  {"cells": 36, "pairs": 14}
+PASS 橫招牌（店 16、二樓 5、屋頂 1）都有 canvas 字  ["SIGN_FACE_G00", "SIGN_FACE_G01", "SIGN_FACE_G02", "SIGN_FACE_G02_2F", "SIGN_FACE_G03", "SIGN_FACE_G04", "SIGN_FACE_G05", "SIGN_FACE_G05_2F", "SIGN_FACE_G06", "SIGN_FACE_G07", "SIGN_FACE_G07_roof", "SIGN_FACE_G08", "SIGN_FACE_G09", "SIGN_FACE_G09_2F", "SIGN_FACE_G10", "SIGN_FACE_G11", "SIGN_FACE_G11_2F", "SIGN_FACE_G12", "SIGN_FACE_G13", "SIGN_FACE_G13_2F", "SIGN_FACE_G14", "SIGN_FACE_G15"]
+PASS 直立招牌（店 6 塊、樓上住戶 8 塊）兩面都有 canvas 字  ["VSIGN_FACE_G00_a", "VSIGN_FACE_G00_b", "VSIGN_FACE_G01_t_a", "VSIGN_FACE_G01_t_b", "VSIGN_FACE_G02_a", "VSIGN_FACE_G02_b", "VSIGN_FACE_G04_a", "VSIGN_FACE_G04_b", "VSIGN_FACE_G04_t_a", "VSIGN_FACE_G04_t_b", "VSIGN_FACE_G06_a", "VSIGN_FACE_G06_b", "VSIGN_FACE_G06_t_a", "VSIGN_FACE_G06_t_b", "VSIGN_FACE_G07_t_a", "VSIGN_FACE_G07_t_b", "VSIGN_FACE_G08_t_a", "VSIGN_FACE_G08_t_b", "VSIGN_FACE_G10_a", "VSIGN_FACE_G10_b", "VSIGN_FACE_G10_t_a", "VSIGN_FACE_G10_t_b", "VSIGN_FACE_G11_a", "VSIGN_FACE_G11_b", "VSIGN_FACE_G12_t_a", "VSIGN_FACE_G12_t_b", "VSIGN_FACE_G14_t_a", "VSIGN_FACE_G14_t_b"]
+PASS 16 棟的店內景深卡都有貼圖  ["INTERIOR_FACE_G00", "INTERIOR_FACE_G01", "INTERIOR_FACE_G02", "INTERIOR_FACE_G03", "INTERIOR_FACE_G04", "INTERIOR_FACE_G05", "INTERIOR_FACE_G06", "INTERIOR_FACE_G07", "INTERIOR_FACE_G08", "INTERIOR_FACE_G09", "INTERIOR_FACE_G10", "INTERIOR_FACE_G11", "INTERIOR_FACE_G12", "INTERIOR_FACE_G13", "INTERIOR_FACE_G14", "INTERIOR_FACE_G15"]
+PASS 招牌貼圖比例＝板面比例（±8%，字不被拉寬）  {}
+PASS （自我檢查）套件原本 512×128 的招牌貼圖，比例檢查會失敗  [0.39, 0.39, 0.39, 0.39, 0.39, 0.39, 0.39, 0.39, 0.39, 0.39, 0.39, 0.39, 0.39, 0.39, 0.39, 0.39]
+PASS 亮燈的窗：20:30 發光、11:00 不發光  {"day": {"lit": 0, "tube": 0.2, "sign": 0}, "n2030": {"lit": 1.9, "tube": 1.3, "sign": 0.95}, "pillarSeeThrough": true}
+PASS 騎樓日光燈：20:30 比 11:00 亮  {"day": {"lit": 0, "tube": 0.2, "sign": 0}, "n2030": {"lit": 1.9, "tube": 1.3, "sign": 0.95}, "pillarSeeThrough": true}
+PASS 招牌：20:30 是亮的（比 11:00 亮）  {"day": {"lit": 0, "tube": 0.2, "sign": 0}, "n2030": {"lit": 1.9, "tube": 1.3, "sign": 0.95}, "pillarSeeThrough": true}
+PASS 騎樓柱子有樹幹透視（擋住玩家時網點透空）  {"day": {"lit": 0, "tube": 0.2, "sign": 0}, "n2030": {"lit": 1.9, "tube": 1.3, "sign": 0.95}, "pillarSeeThrough": true}
+PASS 純色零件都合成頂點色材質（門框、鋁件、鐵件、窗簾、冷氣…沒有剩下原本的單獨材質）  {"old": [], "vc": {"wz_vc_matte": true, "wz_vc_metal": true, "wz_vc_matte[inst]": false, "wz_vc_metal[inst]": false}, "win": {"cafe_room_dark": {"meshes": 1, "count": 130}, "wz_room_lit": {"meshes": 1, "count": 79}, "wz_stain": {"meshes": 1, "count": 209}}}
+PASS 頂點色合併的網格（不是 instancing）會投影、instancing 的不投影  {"wz_vc_matte": true, "wz_vc_metal": true, "wz_vc_matte[inst]": false, "wz_vc_metal[inst]": false}
+PASS 窗戶：所有的窗共用一個窗框原型，窗內只有亮燈／沒亮燈兩個原型，扇數對得上  {"cafe_room_dark": {"meshes": 1, "count": 130}, "wz_room_lit": {"meshes": 1, "count": 79}, "wz_stain": {"meshes": 1, "count": 209}}
+PASS 機車：60 台套件機車整組藏起來、換成正式模型的 InstancedMesh（台數相同、車殼有每台的顏色、不進陰影那一輪）  {"kitScooters": 60, "kitHidden": true, "instanced": 49, "paintInstances": 60, "perGroup": {"N0": 6, "N1": 6, "N2": 8, "N3": 7, "N4": 9, "S0": 6, "S1": 9, "S2": 9}, "radius": {"N0": 6.6, "N1": 6.6, "N2": 16.6, "N3": 11.5, "N4": 11.6, "S0": 8.6, "S1": 15.6, "S2": 15.6}, "colors": 7, "hasColor": true, "castShadow": false}
+PASS 機車分組：北側 N0–N4、南側 S0–S2，每組 6～9 台（每組各自一套 InstancedMesh）  {"perGroup": {"N0": 6, "N1": 6, "N2": 8, "N3": 7, "N4": 9, "S0": 6, "S1": 9, "S2": 9}, "radius": {"N0": 6.6, "N1": 6.6, "N2": 16.6, "N3": 11.5, "N4": 11.6, "S0": 8.6, "S1": 15.6, "S2": 15.6}}
+PASS （自我檢查）故意打開 G07 的套件外觀時，會被數到  1
+PASS 中午太陽在南邊（公館 +x＝南；sunYaw π/2；方位角在正南 ±45° 內）  {"x": 0.866, "z": -0.5, "azimuth": 150, "sunYaw": 1.5707963267948966}
+PASS 機車分組有用：每個鏡頭都至少有一組機車在畫面外（整組不畫）  {"street_west": {"seen": ["S0", "S1"], "all": 8}, "from_gate": {"seen": ["N2", "S0", "S1", "S2"], "all": 8}, "arcade": {"seen": ["S0", "S1"], "all": 8}, "lane": {"seen": [], "all": 8}}
+  [  77.3s] 一般網址：同一個鏡頭（藏起路人）的 draw call／三角形 {"street_west": {"calls": 171, "tris": 275966}, "from_gate": {"calls": 193, "tris": 297504}, "arcade": {"calls": 176, "tris": 276004}, "lane": {"calls": 135, "tris": 249326}}
+PASS 一般網址：沒有 JS 錯誤
+PASS ?nobldg：遊戲載入
+  [前置／捷徑] 讀檔到公館人行道 (−30,14) 17:30，關掉條件事件
+PASS ?nobldg：沒有載入正式模型
+PASS 16 棟套件店面都有棟號（G00–G14 店面街、G15 巷口轉角）  ["G00", "G01", "G02", "G03", "G04", "G05", "G06", "G07", "G08", "G09", "G10", "G11", "G12", "G13", "G14", "G15"]
+PASS ?nobldg：套件店面照舊參加靜態合併（不是 dyn、沒有接正式模型）  {"G00": {"formal": false, "dyn": false, "kitVisible": 3}, "G01": {"formal": false, "dyn": false, "kitVisible": 2}, "G02": {"formal": false, "dyn": false, "kitVisible": 2}, "G03": {"formal": false, "dyn": false, "kitVisible": 1}, "G04": {"formal": false, "dyn": false, "kitVisible": 2}, "G05": {"formal": false, "dyn": false, "kitVisible": 1}, "G06": {"formal": false, "dyn": false, "kitVisible": 2}, "G07": {"formal": false, "dyn": false, "kitVisible": 1}, "G08": {"formal": false, "dyn": false, "kitVisible": 2}, "G09": {"formal": false, "dyn": false, "kitVisible": 2}, "G10": {"formal": false, "dyn": false, "kitVisible": 2}, "G11": {"formal": false, "dyn": false, "kitVisible": 2}, "G12": {"formal": false, "dyn": false, "kitVisible": 1}, "G13": {"formal": false, "dyn": false, "kitVisible": 1}, "G14": {"formal": false, "dyn": false, "kitVisible": 1}, "G15": {"formal": false, "dyn": false, "kitVisible": 1}}
+PASS ?nobldg：整區有合併過的網格（套件外觀在裡面）  42
+PASS 中午太陽在南邊（公館 +x＝南；sunYaw π/2；方位角在正南 ±45° 內）  {"x": 0.866, "z": -0.5, "azimuth": 150, "sunYaw": 1.5707963267948966}
+PASS ?nobldg：機車照舊直接放在區域裡（沒有另外分組、沒有正式模型）
+  [ 123.4s] ?nobldg：同一個鏡頭（藏起路人）的 draw call／三角形 {"street_west": {"calls": 157, "tris": 300594}, "from_gate": {"calls": 172, "tris": 300798}, "arcade": {"calls": 157, "tris": 300590}, "lane": {"calls": 128, "tris": 299422}}
+PASS ?nobldg：沒有 JS 錯誤
+PASS 導航格：正式模型和程序化版完全相同  [[320, 220, 1729380926, 29485], [320, 220, 1729380926, 29485]]
+PASS 鏡頭碰撞方塊：完全相同  33 vs 33 個
+PASS 互動點（位置、半徑、名稱）：完全相同  7 vs 7 個
+PASS 沒有標記的群組（捷運出口、校門、路燈、背景…）沒有多藏任何一個  [{"n": 37, "empty": 26}, {"n": 37, "empty": 26}]
+PASS 效能：每個鏡頭的 draw call ≤ ?nobldg 的 1.3 倍、三角形 ≤ 42 萬（含陰影那一輪、含玩家；LAWWW 21:21Z 的條件）  {"street_west": [157, 171, 1.089, 300594, 275966], "from_gate": [172, 193, 1.122, 300798, 297504], "arcade": [157, 176, 1.121, 300590, 276004], "lane": [128, 135, 1.055, 299422, 249326]}
+ALL PASS

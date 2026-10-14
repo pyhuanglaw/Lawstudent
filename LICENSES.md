@@ -29,7 +29,7 @@
 | 人物配件（後背包、托特包、細框眼鏡、銀耳環、咖啡廳圍裙、吉他袋、判決節錄資料夾、髮圈） | `src/props3d.js` | three.js 幾何＋Canvas 布紋貼圖，本作自己寫的程式，無外部素材 |
 | 天空（程序雲、星星）與遠方天際線（台北市區剪影、山稜線、台北 101 剪影） | `src/engine3d.js`（`makeSky`、`makeSkyline`） | Shader 雜訊與 Canvas 繪製，本作自己寫的程式；台北 101 只是遠景剪影（公共地標外形），沒有使用任何照片或商標圖 |
 | 兩點半 Café 店面與室內（窗框、吊燈、書架、黑板菜單、桌椅、爬藤、盆栽） | `src/townkit3d.js`（`cafeFront`、`plantClump`） | 本作自己寫的程式；葉片貼圖為 Canvas 程序繪製 |
-| 大王椰子（椰林大道、小椰林道）、闊葉行道樹 | `src/townkit3d.js`（`royalPalm`、`tree`） | 本作自己寫的程式；樹幹、羽狀葉、葉片貼圖都是 Canvas 程序繪製。取代原本的 Kenney CC0 椰子樹與方塊葉樹（那些 GLB 檔案仍保留，只在 TK 不存在時當 fallback） |
+| 大王椰子（椰林大道、小椰林道）、闊葉行道樹 | `src/townkit3d.js`（`royalPalm`、`tree`） | 本作自己寫的程式；樹幹、羽狀葉、葉片貼圖都是 Canvas 程序繪製。取代原本的 Kenney CC0 椰子樹與方塊葉樹（那些 GLB 檔案仍保留，只在 TK 不存在時當 fallback）。2026-10-11 起是 `street_trees.glb`（下面）載入失敗、`?nobldg` 時的備用 |
 | 醉月湖（水面 shader、石砌湖岸、湖心亭、木棧道、睡蓮葉）、椰林大道杜鵑叢 | `src/zones3d.js`（`lake`、校園） | 本作自己寫的程式，無外部素材 |
 | 校園建築外觀（行政大樓、文學院、校史館、總圖：面磚／紅磚、拱窗、一樓拱廊、石材門廊、四坡屋頂、塔樓） | `src/campuskit3d.js`（`CK.hall`） | 本作自己寫的程式；面磚、石材、屋瓦、玻璃貼圖都是 Canvas 程序繪製。依台大老建築常見的特徵做概略外觀，沒有使用照片、圖面或任何外部模型 |
 | 校園配置 | `src/zones3d.js`（校園） | 地標相對位置參考臺大校總區平面圖（使用者 2026-10-09 提供，官方網址 https://map.ntu.edu.tw ）。**地圖本身沒有放進 repo，也沒有當貼圖或背景使用**；遊戲裡的建築、道路都是程式產生 |
@@ -134,6 +134,8 @@
 | Poly Haven `leafy_grass`（Charlotte Baglioni） | https://polyhaven.com/a/leafy_grass | CC0 | 小公園的草地 |
 | 街道道具 `assets/models/env/second_ai/street_props.glb`（淑女車、路燈、公園長椅、花台、公告欄、販賣機） | 本作 Blender 腳本 `tools/blender/env_second/street_props.py`（不仿特定品牌；販賣機沒有品牌標誌） | 本作 | 全遊戲的 `W3.bike`（含停車架、騎車的路人）、`W3.lampPost`、長椅 `BENCH()`、`W3.planter`、`W3.bulletin`、`W3.vending`。貼圖：長椅、公告欄木框 `dark_wood`、花槽 `concrete_wall_006`（上面列過的 Poly Haven CC0）；花台的葉片貼圖 `ivy_leaves.png` 本作程式產生（`gen_leaves.py`） |
 | 腳踏車輪圈鋼絲、前籃鐵絲網的透明貼圖 `tools/blender/env_second/textures/gen/bike_alpha.png` | 本作程式產生（`street_props.py` 裡的 `alpha_atlas()`） | 本作 | 淑女車 |
+| 行道樹 `assets/models/env/second_ai/street_trees.glb`（樟樹兩款、榕樹、大王椰子＋遠景卡片） | 本作 Blender 腳本 `tools/blender/env_second/street_trees.py`（樹形照台大校園常見樹種的一般印象，沒有照特定一棵樹）；樹皮貼圖 Poly Haven `japanese_camphor_bark`（樟樹，校正成灰褐色）、`chinese_hackberry_bark`（榕樹，校正成淺灰）、`palm_tree_bark`（大王椰子）（**CC0**，`tools/blender/env_second/textures/<id>/`，縮成 512 px 匯出） | 本作（模型）＋CC0（樹皮貼圖） | 全遊戲的 `TK.tree`、`TK.royalPalm`（校園、公館、溫州街；`src/townkit3d.js` 的 TreeField 用 InstancedMesh 畫） |
+| 行道樹的葉叢、羽狀葉、氣根、葉鞘貼圖 `tools/blender/env_second/textures/gen/tree_leaves.png`、遠景卡片 `tree_cards.png`（＋`tree_cards.json`） | 本作 Blender 腳本 `tools/blender/env_second/tree_atlas.py`（Blender 裡用參數化的葉片幾何排成葉叢再渲染）、`street_trees.py --cards`（每款樹側面正交渲染） | 本作 | 行道樹 |
 | 全日便利商店室內 `assets/models/env/second_ai/cvs_interior.glb` | 本作 Blender 腳本 `tools/blender/env_second/cvs_interior.py`（不仿特定連鎖品牌：店名、配色、牌子都是本作自訂） | 本作 | `cvs` 室內區域（貨架、商品、飲料櫃、櫃檯、香菸櫃、咖啡機、關東煮、包子蒸櫃、自動門、窗） |
 | Poly Haven `large_floor_tiles_02`、`granite_tile_03`（第一個 AI 已下載到 `tools/blender/textures/`，只讀使用；作者與授權見上面「Poly Haven 貼圖」一節） | https://polyhaven.com/a/large_floor_tiles_02 、https://polyhaven.com/a/granite_tile_03 | CC0 | 便利商店的白色大地磚（調成米白）、櫃檯石材檯面 |
 | 阿鳳麵店室內 `assets/models/env/second_ai/noodle_interior.glb` | 本作 Blender 腳本 `tools/blender/env_second/noodle_interior.py`（店名、菜單、價目是遊戲裡的 canvas 字，不在模型裡） | 本作 | `noodle` 室內區域。貼圖：`terrazzo_tiles`（地板）、`rounded_square_tiled_wall`（牆下半的小方磚）、`dark_wood`（木作），都是上面列過的 Poly Haven CC0 |

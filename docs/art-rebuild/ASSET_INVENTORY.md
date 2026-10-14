@@ -37,7 +37,7 @@
 | `TK.utilityPole`、`TK.wires`、`TK.trafficMirror`、`TK.mailbox`、`TK.aBoard`、`TK.pots` | 溫州街、公館 | 溫州街：⑤＋③；公館：④ | 溫州街：被 `wz_props.glb`（電線桿、反光鏡、路名牌、Café 門前紅磚道）取代，`READY_FOR_ART_REVIEW`；公館：BLOCKOUT | 公館跟著公館近景一起換 |
 | `TK.scooter`（`W3.scooter` 舊版） | 公館、溫州街、校門外背景 | 溫州街、公館：⑤＋③；校門外背景：② | 溫州街：`scooter.glb`（兩款，LAWWW2 Blender）`READY_FOR_ART_REVIEW`；**公館：同一個 GLB，分組 InstancedMesh（北側 5 組、南側 3 組，看不到的那組整組不畫），`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 12 節）**；校門外背景：維持套件 | 更多車款（檔車、外送箱、安全帽） |
 | `TK.road`、`W3.asphaltTex`、人行道磚 | 全部戶外 | ④ | BLOCKOUT（canvas） | Poly Haven 柏油／鋪面 PBR，**維持淺灰（D30）**、入夜變暗的標記保留 |
-| `TK.tree`、`TK.royalPalm`、`TK.plantClump` | 全部戶外 | ④（近景）／②（遠景） | BLOCKOUT（葉片卡） | Blender 樹（大王椰子、樟樹、榕樹）＋Instancing＋遠景卡片 LOD |
+| `TK.tree`、`TK.royalPalm`、`TK.plantClump` | 全部戶外 | ④（近景）／②（遠景）；套件＝③（`street_trees.glb` 載入失敗、`?nobldg` 時的備用） | `TK.tree`、`TK.royalPalm`：LAWWW2 Blender（`street_trees.glb`：樟樹兩款、榕樹、大王椰子的模型＋遠景卡片；`TK.tree`／`TK.royalPalm` 載入後回傳樹的位置記號，整區 InstancedMesh：42 m 內畫模型、遠的畫面向鏡頭的卡片、畫面外不畫），位置、高度、樹冠參數、導航阻擋照呼叫端，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 15 節）；`TK.plantClump` 還是 BLOCKOUT（葉片卡） | 樹種、樹形沒有照片參考；遠景卡片只有一個角度；`plantClump`（灌木叢） |
 | `TK.bgCity`、`E3` 天際線剪影 | 地圖邊界外 | ② | 保留（背景） | 不升級（背景） |
 | `TK.lightPool`、`TK.glowSprite`、夜間發光材質 | 路燈光圈、窗光 | ① | 保留（效果，不是模型） | — |
 
