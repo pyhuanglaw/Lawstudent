@@ -327,14 +327,14 @@ const STORY = (function(){
     if(G.day>=3&&!late&&hh>=5){ if(hh<12.5) out.push({kind:'nap',to:13,t:'小睡一下',hint:'睡到下午 13:00'}); if(hh<17.5) out.push({kind:'nap',to:18,t:hh<12.5?'睡到傍晚':'小睡一下',hint:'睡到傍晚 18:00'}); }
     if(night||G.day<3) out.push({kind:'sleep',t:'睡覺',hint:'明天早上醒來'});
     out.push({kind:'stay',t:'再撐一下'}); return out; };
-  /* 生活費（D48；2026-10-11 使用者＋AA 的企劃：每月 25,000 元，只用在生活——宿舍、學費、手機家裡另外付；每月 1 日匯進帳戶；額外收入只有過年紅包和可選的打工）。
+  /* 生活費（D48；企劃 AA_72 5b-1：每月 30,000 元，只用在生活——宿舍、學費、手機家裡另外付；每月 1 日匯進帳戶；額外收入只有過年紅包和可選的打工）。
      遊戲畫面沒有日期：第一天是「開學第三週的週三」＝9/17（9/1 週一開學；AA 2026-10-11 09:28Z 確認），只用來算「每月 1 日」；企劃的週曆改了就改 CAL0。
      開局：帳戶約 20,000＋錢包約 2,000（game3d.js defaults 的 money 22000；S.newGame 設 fundsV2）。舊存檔（沒有 fundsV2）：下一個早上補帳戶裡的 20,000 元一次——
      讀檔本身不改錢（tests/save_compat_v7.py 檢查讀檔前後金錢一樣）。睡覺一次只過一天，所以「換月份的第一個早上」就是 1 日。測試：node tests/allowance_unit.js */
   const CAL0={m:9,d:17}, MDAYS=[31,28,31,30,31,30,31,31,30,31,30,31];
   S.dateOf=function(day){ let m=CAL0.m, d=CAL0.d+(day-1); while(d>MDAYS[m-1]){ d-=MDAYS[m-1]; m=m%12+1; } return {m,d}; };
   S.monthlyFunds=function(G){ const F=G.flags, mo=S.dateOf(G.day).m; if(F.fundsV2!==1){ F.fundsV2=1; F.allowanceMonth=mo; return {amount:20000,text:'帳戶裡還有這個月的生活費：20,000 元'}; }
-    if(F.allowanceMonth!==mo){ F.allowanceMonth=mo; return {amount:25000,text:'家裡匯來這個月的生活費：25,000 元'}; } return null; };
+    if(F.allowanceMonth!==mo){ F.allowanceMonth=mo; return {amount:30000,text:'家裡匯來這個月的生活費：30,000 元'}; } return null; };
   async function sleepNow(GM){ const G=GM.G, F=G.flags, E=GM.E; GM.sceneBegin(); await GM.fade(true); await GM.sleep(400); G.day++; G.weekday=(G.weekday+1)%7; G.energy=Math.min(100,G.energy+65); G.weather=Math.random()<0.7?'clear':(Math.random()<0.7?'cloudy':'rain'); E.setWeather(G.weather); F.companion=null; F.nightKai=false;
     if(G.day===2){ G.hour=13.05; E.hour=G.hour; GM.sceneEnd(); await GM.titleCard('第二天','週四 13:05 · 霖澤館前',2400); await GM.enter('campus',{x:26,z:-90,yaw:Math.PI}); return; }
     G.hour=7.5; E.hour=G.hour; F.morningLine=false; if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined') CLS.setGoal(GM); else GM.setGoal(isThu(G)?'13:20 民法總則（霖澤館）':'自由的一天。去圖書館、公館，或找人聊天'); GM.sceneEnd(); await GM.titleCard('第 '+G.day+' 天',['週日','週一','週二','週三','週四','週五','週六'][G.weekday]+' 07:30',2200); await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); { const f=S.monthlyFunds(G); if(f){ GM.money(f.amount); GM.toast(f.text,3800); } }   /* 生活費（D48）：S.monthlyFunds */ if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ await CLS.morning(GM); }catch(e){ console.warn('CLS.morning',e); } } GM.autosave(); }

@@ -1,8 +1,8 @@
-// 生活費（D48；2026-10-11 使用者＋AA 的企劃：每月 25,000 元、每月 1 日匯入；開學時帳戶約 20,000＋錢包約 2,000）。
+// 生活費（D48；企劃 AA_72 5b-1：每月 30,000 元、每月 1 日匯入；開學時帳戶約 20,000＋錢包約 2,000）。
 // 不需要瀏覽器：載入 src/story3d.js，模擬每天睡覺（sleepNow 一次只過一天，醒來呼叫 STORY.monthlyFunds）。
-// 檢查：第一天的日期假設（9/17、週三）、每月 1 日剛好匯一次 25,000、新遊戲開局 22,000 不重複補、
+// 檢查：第一天的日期假設（9/17、週三）、每月 1 日剛好匯一次 30,000、新遊戲開局 22,000 不重複補、
 //       舊存檔（沒有 fundsV2）下一個早上補帳戶裡的 20,000 一次、讀檔本身不改錢（monthlyFunds 只在睡醒時呼叫）。
-// 修改前（每週一 3,500 元，一個月約 14,000）這個測試會失敗：沒有 monthlyFunds，月收入也不到 25,000。
+// 修改前（每週一 3,500 元，一個月約 14,000）這個測試會失敗：沒有 monthlyFunds，月收入也不到 30,000。
 // 用法：node tests/allowance_unit.js
 const fs=require('fs'), path=require('path'), vm=require('vm');
 const ROOT=path.resolve(__dirname,'..');
@@ -22,17 +22,17 @@ for(const [day,want] of [[14,'9/30'],[15,'10/1'],[45,'10/31'],[46,'11/1'],[76,'1
 function run(G,toDay){ const pays=[]; while(G.day<toDay){ G.day++; const f=STORY.monthlyFunds(G); if(f){ G.money+=f.amount; pays.push([G.day,f.amount,f.text]); } } return pays; }
 { const G={day:1,money:22000,flags:{fundsV2:1,allowanceMonth:STORY.dateOf(1).m}}; const pays=run(G,170);
   const days=pays.map(p=>p[0]).join(','); check('新遊戲：每月 1 日匯一次（第 15、46、76、107、138、166 天）',days==='15,46,76,107,138,166',days);
-  check('新遊戲：每次 25,000',pays.every(p=>p[1]===25000),JSON.stringify(pays.map(p=>p[1])));
+  check('新遊戲：每次 30,000',pays.every(p=>p[1]===30000),JSON.stringify(pays.map(p=>p[1])));
   check('新遊戲：前兩週不會多補（開局已經有 22,000）',!pays.some(p=>p[0]<15));
-  check('匯款訊息',pays[0]&&pays[0][2]==='家裡匯來這個月的生活費：25,000 元',pays[0]&&pays[0][2]);
-  const perMonth=25000; check('一個月的收入 ≥ 25,000（使用者：「一個月至少有 25,000」）',perMonth>=25000); }
+  check('匯款訊息',pays[0]&&pays[0][2]==='家裡匯來這個月的生活費：30,000 元',pays[0]&&pays[0][2]);
+  const oct=pays.filter(p=>p[0]>=15&&p[0]<=45).reduce((s,p)=>s+p[1],0); check('一個月的收入 ≥ 30,000（10 月）',oct>=30000,String(oct)); }
 // 舊存檔（v9.4 以前：開局 1,800、沒有 fundsV2）：讀檔不改錢；下一個早上補帳戶裡的 20,000 一次；之後照每月 1 日
 { const G={day:8,money:300,flags:{metAn:true}}; const before=G.money; check('舊存檔讀進來時不改錢（monthlyFunds 只在睡醒時呼叫）',G.money===before);
   const pays=run(G,50); check('舊存檔：第 9 天早上補 20,000 一次',pays.length>=1&&pays[0][0]===9&&pays[0][1]===20000,JSON.stringify(pays[0]));
-  check('舊存檔：之後不會再補 20,000',pays.slice(1).every(p=>p[1]===25000),JSON.stringify(pays.slice(1).map(p=>p[0]+':'+p[1])));
-  check('舊存檔：之後每月 1 日 25,000（第 15、46 天）',pays.slice(1).map(p=>p[0]).join(',')==='15,46',pays.slice(1).map(p=>p[0]).join(',')); }
+  check('舊存檔：之後不會再補 20,000',pays.slice(1).every(p=>p[1]===30000),JSON.stringify(pays.slice(1).map(p=>p[0]+':'+p[1])));
+  check('舊存檔：之後每月 1 日 30,000（第 15、46 天）',pays.slice(1).map(p=>p[0]).join(',')==='15,46',pays.slice(1).map(p=>p[0]).join(',')); }
 // 舊存檔剛好在月底：補 20,000 的那天如果是 1 日，當月不再另外匯（避免一個早上拿兩筆）
-{ const G={day:14,money:0,flags:{}}; const pays=run(G,16); check('舊存檔在 9/30：10/1 早上只拿一筆（補 20,000），不會同一天再匯 25,000',pays.length===1&&pays[0][1]===20000,JSON.stringify(pays)); }
+{ const G={day:14,money:0,flags:{}}; const pays=run(G,16); check('舊存檔在 9/30：10/1 早上只拿一筆（補 20,000），不會同一天再匯 30,000',pays.length===1&&pays[0][1]===20000,JSON.stringify(pays)); }
 // 同一天重複呼叫（例如睡覺流程被中斷重來）不會重複匯款
 { const G={day:14,money:0,flags:{fundsV2:1,allowanceMonth:9}}; G.day=15; const a=STORY.monthlyFunds(G), b=STORY.monthlyFunds(G); check('同一天呼叫兩次只匯一次',!!a&&b===null); }
 console.log(fails?('FAILED '+fails):'ALL PASS');
