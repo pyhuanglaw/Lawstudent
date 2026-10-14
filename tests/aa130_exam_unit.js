@@ -39,6 +39,10 @@ function mkGM(G,answer){ const log=[]; return {G,log,D:{active:false},E:{player:
     check('6. 沒有任何補題（沒有出現選項）',!GM.log.some(t=>t.startsWith('choose:')));
     const rep=CLS.reportFor(G,'Y2S2'); check('6. 成績單：行政救濟法「未開考（題庫不足）」（不算被當）',rep.admin_remedy==='未開考（題庫不足）',JSON.stringify(rep));
     const G0=mkG(dayOf('2025-12-22'),9); const r0=CLS.drawExam(G0,'const_1','Y1S1','final'); check('6. 憲法（上）沒有正式題目：不開考',r0.ok===false&&r0.n===0); }
+  // 6. ?dev 的除錯面板列出這學期不開考的課（game3d.js 的 devAssetReport 讀 CLS.examShort）
+  { const G=mkG(dayOf('2027-06-20'),9); const sh=typeof CLS.examShort==='function'?CLS.examShort(G,'Y2S2'):null;
+    check('6. ?dev 清單（CLS.examShort）：大二下有行政救濟法（不到 5 題）、沒有民法身分法（夠 5 題）',!!sh&&sh.some(e=>e.id==='admin_remedy'&&e.n<5)&&!sh.some(e=>e.id==='family_law'),JSON.stringify(sh));
+    const sh2=typeof CLS.examShort==='function'?CLS.examShort(G):null; check('6. 不給學期就用今天的學期（2027-06-20＝大二下）',JSON.stringify(sh2)===JSON.stringify(sh)); }
   // 7. 一門課一學期只考一次；民法總則補考日
   { const G=mkG(dayOf('2025-12-22'),8); const d=CLS.examDay(G,CLS.byId('civ_general'),'Y1S1','final'); const dt=d&&CALENDAR.dateOf(d.day);
     check('7. 大一上民法總則（週四 12/25、1/1 都放假）：期末考排在 1/2 週五下午一',!!d&&d.makeup&&dt.m===1&&dt.d===2&&d.block==='pm1',JSON.stringify({d,dt}));
