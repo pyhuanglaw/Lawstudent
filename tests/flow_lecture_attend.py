@@ -94,7 +94,9 @@ async def main():
         r = await rec(pg, 't_partial'); s = await L.state(pg)
         run.check('A 起身、自己走出 101 到大廳 → 中途離開（left）、離開的時間在散場前', ok and r and r.get('end') == 'left' and r.get('lh', 99) < a['t1'], json.dumps(r) + f" t1={a['t1']:.2f} 現在 {s['hour']:.2f}")
         # ---------- B：快速前往 ----------
-        a = await add_lecture(pg, run, 't_quick', -0.05, 1.5)
+        # 第二場 4 小時：SwiftShader 走回 101 要約 4 分鐘，遊戲時間照走（約 90 遊戲分鐘），1.5 小時的演講坐下時已經快結束、記成聽完（v9.7 回歸，LAWWW2）。
+        # 要測的是「坐下記 in → 快速前往記 left」，演講長一點不影響判斷
+        a = await add_lecture(pg, run, 't_quick', -0.05, 4.0)
         ok, s = await to_seat(pg, cdp, run, '再走回 101 第 3 排附近的空位')
         pose, opts, s = await sit_and_choose(pg, cdp, run, '坐一下')
         r = await rec(pg, 't_quick')
