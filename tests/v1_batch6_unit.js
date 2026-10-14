@@ -88,7 +88,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const attend=async(flags,setup,pk)=>{ fresh(W4SAT,14,'campus',flags||{}); if(setup) setup(); picks=pk||[]; const ok=await CLS.attendActivity(GM,a); return ok; };
     const ok=await attend({},()=>{ meet('heroine_01'); },['大一歲','還在找']); const L=lines();
     check('A11 參加：演迎新（開場→輪到你→阿哲「那我們叫你哥？」→你「不要。」→大地遊戲→沛珊→「好。那我們兩個都還在找。」）、演完到 17:00',ok&&L[0]==='傅鐘前面，法律系的迎新。學長姊帶隊，大家先輪流自我介紹。'&&L.includes('輪到你。')&&L.includes('那我們叫你哥？')&&L.includes('不要。')&&L.includes('我可以問一個奇怪的問題嗎。……如果答不出來，可以算過關嗎？')&&L.includes('好。那我們兩個都還在找。')&&Math.abs(G.hour-17)<0.01,JSON.stringify({L,h:G.hour}));
-    check('A11 自我介紹三個選項（AA_71 2-1）＋沛珊兩個選項（BB_95 3-3）',JSON.stringify(opts[0])===JSON.stringify(['「我叫祐廷，嘉義人。」','「我比大家大一歲。」','「我二十歲。念過一年經濟。」'])&&JSON.stringify(opts[1])===JSON.stringify(['（替她答）「她想知道法律外面還有什麼。」','「我也還在找。」']),JSON.stringify(opts));
+    check('A11 自我介紹三個選項（AA_71 2-1）＋沛珊兩個選項（BB_95 3-3）',JSON.stringify(opts[0])===JSON.stringify(['「我叫祐廷，臺北人。」','「我比大家大一歲。」','「我二十歲。念過一年經濟。」'])&&JSON.stringify(opts[1])===JSON.stringify(['（替她答）「她想知道法律外面還有什麼。」','「我也還在找。」']),JSON.stringify(opts));
     check('A11 「大一歲」不設 ECON_PAST_SHARED、以安不記 KNOWS_ECON_YEAR',G.flags.ECON_PAST_SHARED===undefined&&!SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'));
     check('A11 沛珊：FIRST_MET、拿到她的聯絡方式；只一次（活動去過、事件演過）',SOCIAL.has('classmate_peishan','FIRST_MET')&&INV.hasContact(G,'classmate_peishan')&&!EVENTS.check(e,{chain:true})&&ACTIVITIES.onceDone(G,a));
     check('A11 沒見過小語、柏翰：兩句都跳過（只有認識的人在場）',!L.some(t=>/小語自我介紹|她剛剛講了四個/.test(t)));
@@ -96,9 +96,9 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A11 「念過一年經濟」：全場「喔——」、阿哲「哥！」、ECON_PAST_SHARED=full、以安（見過）記 KNOWS_ECON_YEAR',L2.includes('全場「喔——」。')&&L2.includes('哥！')&&G.flags.ECON_PAST_SHARED==='full'&&SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'),JSON.stringify(L2));
     check('A11 替她答：「她看了你一眼。」「……你怎麼知道。」「關主讓你們過了。」',L2.includes('她看了你一眼。')&&L2.includes('……你怎麼知道。')&&L2.includes('關主讓你們過了。'));
     await attend({},null,['念過一年經濟']); check('A11 以安沒見過（不在場）：不記 KNOWS_ECON_YEAR，但同學知道（full）',G.flags.ECON_PAST_SHARED==='full'&&!SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'));
-    await attend({ECON_PAST_SHARED:'half'},null,['嘉義人']); const h1=G.flags.ECON_PAST_SHARED; await attend({ECON_PAST_SHARED:'full'},null,['大一歲']); const f1=G.flags.ECON_PAST_SHARED;
+    await attend({ECON_PAST_SHARED:'half'},null,['臺北人']); const h1=G.flags.ECON_PAST_SHARED; await attend({ECON_PAST_SHARED:'full'},null,['大一歲']); const f1=G.flags.ECON_PAST_SHARED;
     check('A11 說過的事不會變成沒說過：重修經原說過 half 的照舊 half、full 照舊 full',h1==='half'&&f1==='full',JSON.stringify({h1,f1}));
-    await attend({met_yu:true},null,['嘉義人']); const L3=lines(); await attend({met_yu:true},()=>meet('classmate_bohan'),['嘉義人']); const L4=lines();
+    await attend({met_yu:true},null,['臺北人']); const L3=lines(); await attend({met_yu:true},()=>meet('classmate_bohan'),['臺北人']); const L4=lines();
     check('A11 見過小語：「小語自我介紹講了三分鐘她的三個社團。」；也見過柏翰才有「（小聲）她剛剛講了四個。」',L3.includes('小語自我介紹講了三分鐘她的三個社團。')&&!L3.includes('（小聲）她剛剛講了四個。')&&L4.includes('（小聲）她剛剛講了四個。'),JSON.stringify({L3:L3.slice(0,3),L4:L4.slice(0,3)}));
     fresh(W4SAT,14,'campus'); check('A11 活動前 15 分鐘起可以參加、過了一半（15:30）以後不行',(G.hour=13.75,ACTIVITIES.canJoin(G,a))&&(G.hour=15.6,!ACTIVITIES.canJoin(G,a))); }
   /* ---------- A12 以安的報告分工 ---------- */

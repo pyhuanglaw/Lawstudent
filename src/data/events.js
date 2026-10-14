@@ -41,10 +41,10 @@ const W5_REST=[ {speaker:null,text:'會後你回萬才館拿忘記的東西，�
     {speaker:null,text:'她看了很久。'},{speaker:'heroine_05',expression:'smile',text:'……你學得很快。'},{goto:'end'},
   {label:'t'},{speaker:'heroine_05',expression:'neutral',text:'嗯。下學期見。'},
   {label:'end'} ];
-/* 主線 2 親戚的土地資料（一）（交接包 v2 C2；AA_12 主線 2）：除夕在嘉義老家（2D）。台詞照原文；流程的描述（一桌親戚、拿出謄本、全桌安靜、姊姊憋笑）寫成旁白；
+/* 主線 2 親戚的土地資料（一）（交接包 v2 C2；AA_12 主線 2）：除夕在臺北家裡（2D；2026-10-14 使用者：祐廷是臺北人，原本是嘉義老家）。台詞照原文；流程的描述（一桌親戚、拿出謄本、全桌安靜、姊姊憋笑）寫成旁白；
    「祐廷（旁白）」那一句是他心裡的話＝旁白。不寫真實地號或任何真實資料；共有土地怎麼處理不給答案（法律審查：祐廷大一什麼都不說也可以） */
-const LAND_Y1=[ {scene:'嘉義・老家的客廳',bg:'chiayi_living'},
-  {speaker:null,text:'除夕。嘉義老家的客廳，一桌親戚。'},
+const LAND_Y1=[ {scene:'臺北・家裡的客廳',bg:'home_living'},
+  {speaker:null,text:'除夕。臺北家裡的客廳，一桌親戚。'},
   {speaker:null,text:'大伯從公事包裡拿出一疊影印的土地謄本。'},
   {speaker:'大伯',text:'{name}念台大法律喔？你不是從小就在看法律？來來來，你幫大伯看一下這個。'},
   {speaker:null,text:'全桌安靜，看著你。'},
@@ -58,7 +58,7 @@ const LAND_Y1=[ {scene:'嘉義・老家的客廳',bg:'chiayi_living'},
   {choice:[{text:'「大伯，我回去問老師。」',set:{FAMILY_LAND_Y1:'teacher'},goto:'t'},{text:'「我現在還看不懂。可是我知道要先問哪幾件事。」',set:{FAMILY_LAND_Y1:'ask'},goto:'a'},{text:'「這要找律師。」',set:{FAMILY_LAND_Y1:'lawyer'},goto:'l'}]},
   {label:'t'},{speaker:null,text:'大伯很高興。'},{speaker:'大伯',text:'好好好，台大的老師！'},{goto:'end'},
   {label:'a'},{speaker:null,text:'你問了三個問題：誰的、什麼關係、大家想要什麼。'},{speaker:null,text:'大伯答到一半，自己說：'},{speaker:'大伯',text:'……原來我們家連誰想賣都沒講清楚。'},{speaker:null,text:'全桌笑。'},
-  {scene:'嘉義・老家的陽台',bg:'chiayi_balcony'},{speaker:'姊姊',text:'你從小遇到事情就去翻那本書。現在你會問問題了。'},{goto:'end'},
+  {scene:'臺北・家裡的陽台',bg:'home_balcony'},{speaker:'姊姊',text:'你從小遇到事情就去翻那本書。現在你會問問題了。'},{goto:'end'},
   {label:'l'},{speaker:'大伯',text:'找律師要錢啊，你不就是嗎？'},
   {label:'end'} ];
 const REVISIT_Y1_CHOICE=(pre)=>({choice:REVISIT_Y1_OPTS.map(o=>({text:o.t,if:{custom:G=>REVISIT_Y1_SHOWN(G).includes(o.k)},set:{REVISIT_Y1_PICK:o.k},goto:pre+o.k}))
@@ -363,7 +363,7 @@ const STORY_EVENTS=[
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:null,text:'小語自我介紹講了三分鐘她的三個社團。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)&&STORY.knows('classmate_bohan',G)},speaker:'classmate_bohan',expression:'neutral',text:'（小聲）她剛剛講了四個。'},
       {speaker:null,text:'輪到你。'},
-      {choice:[{text:'「我叫{name}，嘉義人。」',goto:'game'},{text:'「我比大家大一歲。」',goto:'older'},{text:'「我二十歲。念過一年經濟。」',goto:'econ'}]},
+      {choice:[{text:'「我叫{name}，臺北人。」',goto:'game'},{text:'「我比大家大一歲。」',goto:'older'},{text:'「我二十歲。念過一年經濟。」',goto:'econ'}]},
       {label:'older'},{speaker:'zhe',expression:'laugh',text:'那我們叫你哥？'},{speaker:'player',text:'不要。'},{goto:'game'},
       {label:'econ'},{set:{ECON_PAST_SHARED:'full'}},{if:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_01','FIRST_MET')},mem:[{npc:'heroine_01',tag:'KNOWS_ECON_YEAR',note:'迎新的自我介紹：你說念過一年經濟'}]},
       {speaker:null,text:'全場「喔——」。'},{speaker:'zhe',expression:'laugh',text:'哥！'},
@@ -827,8 +827,8 @@ const STORY_EVENTS=[
      還沒認識沛珊的玩家沒有。第二個畫面（期中的麵店長桌）跟大一下期中的宵夜一起做 */
   { id:'ev_peishan_bohan_w4', title:'走出萬才館', participants:['classmate_peishan','classmate_bohan'], location:'wancai', trigger:'activity', afterActivity:'lawclub_study', term:['Y1S2'], weeks:[4], once:true, prereq:{memory:[{npc:'classmate_peishan',tag:'FIRST_MET'}]}, background:'blur',
     dialogue:[ {speaker:null,text:'（讀書會結束。沛珊和柏翰一起走出萬才館，一路在爭下週誰報告哪一題。）'},{speaker:null,text:'（你在後面收白板。）'} ] },
-  /* 主線 2（交接包 v2 C2）：除夕（STORY.lunarNewYear 的前一天，2026-02-16）。固定節點：除夕 12:00 以後、人有空就演（auto，在哪裡都可以——3D 只有台北，嘉義用 2D）；
-     如果除夕還沒演就上床，睡覺時演（sleep）。演完時間往後 2 小時。記全域旗標 FAMILY_LAND_Y1（teacher／ask／lawyer；大三主線 9、大二上物權第 7 週的回想讀它）*/
+  /* 主線 2（交接包 v2 C2）：除夕（STORY.lunarNewYear 的前一天，2026-02-16）。固定節點：除夕 12:00 以後、人有空就演（auto，在哪裡都可以——家裡用 2D）；
+     如果除夕還沒演就上床，睡覺時演（sleep）。事件 id 照舊是 ev_chiayi_*（存檔的 events.done 記這個 id，改名會讓舊存檔再演一次）。事件 id 照舊是 ev_chiayi_*（存檔的 events.done 記這個 id，改名會讓舊存檔再演一次）。演完時間往後 2 小時。記全域旗標 FAMILY_LAND_Y1（teacher／ask／lawyer；大三主線 9、大二上物權第 7 週的回想讀它）*/
   { id:'ev_chiayi_land_y1', title:'親戚的土地資料', participants:[], location:'any', trigger:'auto', priority:9, time:[12,24], once:true, background:'dark',
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.lunarNewYear&&STORY.lunarNewYear()!=null&&G.day===STORY.lunarNewYear()-1&&!G.flags.FAMILY_LAND_Y1},
     dialogue:LAND_Y1, consequences:{advance:2} },

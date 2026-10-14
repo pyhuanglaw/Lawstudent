@@ -13,7 +13,7 @@ const OUT=(function(){
     nccu_lib:{label:'政大・圖書館',image:null}, nccu_park:{label:'政大・停車場',image:null}, riverside:{label:'河濱',image:null}, dorm_roof:{label:'宿舍頂樓',image:null}, video:{label:'視訊',image:null}, gongguan_luwei:{label:'公館・滷味攤',image:null},
     ntu_soc:{label:'台大・社科院門口',image:null}, ntu_linze:{label:'台大・霖澤館前',image:null}, ntu_avenue:{label:'台大・椰林大道',image:null},
     trip_sea:{label:'海邊',image:null}, trip_oldtown:{label:'老街',image:null}, trip_mountain:{label:'山上',image:null},
-    chiayi_living:{label:'嘉義・老家的客廳',image:null}, chiayi_balcony:{label:'嘉義・老家的陽台',image:null},
+    home_living:{label:'臺北・家裡的客廳',image:null}, home_balcony:{label:'臺北・家裡的陽台',image:null},
     wenzhou_tutoring:{label:'溫州街・課輔班門口',image:null}, yongkang_curry:{label:'永康街・咖哩店',image:null},
     gongguan_cinema:{label:'公館・二輪戲院',image:null}, soymilk_shop:{label:'豆漿店',image:null},
     noodle_table:{label:'阿鳳麵店・長桌',image:null}, seaside_town:{label:'春假・海邊的小鎮',image:null} };   /* 期中考完的晚餐（交接包 v2 C11、C21）：麵店有 3D 區域，長桌這一幕先用 2D 底 */   /* 春假 K8 的三個目的地（BB_96 9-5；交接包 v2 C9）、嘉義老家（AA_12 主線 2；C2）：圖還沒有＝深色底＋地點字幕 */   /* K2 可昕來台大（BB_95 9-3 的最小版本：依序換 2D 背景；之後可以換成遊戲校園的畫面）*/

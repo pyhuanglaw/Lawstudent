@@ -619,12 +619,12 @@ const STORY = (function(){
       if(wed&&G.day>=wed-1&&G.day<=wed&&!done('ev_an_dorm_appeal')&&!PHONE.sent(G,'an_appeal_heard')&&PHONE.inGroup(G,'noodle_team')&&S.knows('heroine_01',G)){
         PHONE.at(G,wed,21.5,[{th:'g:noodle_team',from:'heroine_01',text:'我室友的申訴過了一半。'}],'an_appeal_heard'); if(typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!SOCIAL.has('heroine_01','HEARD_ABOUT')) SOCIAL.remember('heroine_01','HEARD_ABOUT','聽說她室友的申訴過了一半'); } }
     /* 寒假拜年（交接包 v2 C3；AA_71 2-8「大一的台詞」，芷若、方奕廷兩則 BB 7451e42 改字）：大一上和大一下之間的春節（S.lunarNewYear＝初一）。只有認識的人：
-       麵店團群組初一 11:00 阿哲、以安各一張照片＋拜年，可以回姊姊帶你去吃的火雞肉飯或「新年快樂」的貼圖（不回就只是沒回，AA_70 1-9）；
+       麵店團群組初一 11:00 阿哲、以安各一張照片＋拜年，可以回姊姊帶你去吃的牛肉麵（2026-10-14 祐廷改成臺北人，原本是火雞肉飯）或「新年快樂」的貼圖（不回就只是沒回，AA_70 1-9）；
        芷若有點熟以上、有聯絡方式：初一 15:30 私訊（朋友以上多「……我家的。」）；方奕廷有點熟以上、有聯絡方式：初三 15:00 才到（山上沒有訊號），朋友以上隔天公布答案 */
     { const ny=S.lunarNewYear(); if(ny!=null&&G.day>=ny-1&&G.day<=ny+4){ const LV=['STRANGER','ACQUAINTANCE','FAMILIAR','FRIEND','CLOSE_FRIEND'], atL=(id,lv)=>LV.indexOf(fl(id))>=LV.indexOf(lv);
       if(PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'cny_noodle')){ const th='g:noodle_team';
         PHONE.at(G,ny,11,[{th,from:'zhe',text:'📷（高雄的夜市，人擠人）'},{th,from:'zhe',text:'新年快樂！高雄沒有冬天'},{th,from:'zhe',text:'你們那邊冷嗎'},{th,from:'heroine_01',text:'📷（台中的老街，一整排紅燈籠）'},
-          {th,from:'heroine_01',text:'新年快樂。人太多，只走到第三個路口就回家了。',ask:{id:'cny_noodle_reply',opts:[{t:'（傳姊姊帶你去吃的火雞肉飯）',post:'📷（姊姊帶你去吃的火雞肉飯）',say:[{from:'zhe',text:'火雞肉飯！！回來的時候帶'},{from:'heroine_01',text:'嘉義。記下來了。'}]},
+          {th,from:'heroine_01',text:'新年快樂。人太多，只走到第三個路口就回家了。',ask:{id:'cny_noodle_reply',opts:[{t:'（傳姊姊帶你去吃的牛肉麵）',post:'📷（姊姊帶你去吃的牛肉麵）',say:[{from:'zhe',text:'牛肉麵！！開學帶我們去'},{from:'heroine_01',text:'哪一家？……記下來了。'}]},
             {t:'（傳一張「新年快樂」的貼圖）',post:'（貼圖：新年快樂）',say:[{from:'zhe',text:'（貼圖：新年快樂）'}]}]}}],'cny_noodle'); }
       if(atL('heroine_02','FAMILIAR')&&gotBefore(G,'heroine_02')&&!PHONE.sent(G,'cny_zhiruo')){ const th='p:heroine_02';
         PHONE.at(G,ny,15.5,[{th,from:'heroine_02',text:'📷（台中，高中旁邊的影印店，鐵門拉下來，貼著紅紙「初一至初三休息」）'},{th,from:'heroine_02',text:'新年快樂。'},{th,from:'heroine_02',text:atL('heroine_02','FRIEND')?'店休三天。……我家的。':'店休三天。'}],'cny_zhiruo'); }
