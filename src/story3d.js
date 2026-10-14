@@ -281,6 +281,9 @@ const STORY = (function(){
      上課日（不是放假）才有；同一天同一批人（日期當種子：出去再進來看到同樣的人坐同樣的位子）；坐在東西兩張桌子北側先坐（中間那張留給玩家和阿哲，
      玩家的「坐下吃麵」坐南側）；進店時已經在吃（先套好坐姿）；19:00 起身走到門口才離開；路人沒有名字（有名字的人照各自的日程）。 */
   const NDL_SEATS=[[-3,-0.3,0],[3,-0.3,0],[-3,1.3,Math.PI],[3,1.3,Math.PI]];
+  /* 麵店日：上課週（不是考試週、不是國定假日）的週二、週四 */
+  S.noodleDay=function(day){ if(typeof CALENDAR==='undefined') return false; const wd=CALENDAR.dateOf(day).wd, t=CALENDAR.termOf(day); return (wd===2||wd===4)&&CALENDAR.kind(day)==='term'&&!!t&&!t.exam; };
+  const NDL_PINGS=['麵店。我揪了。','麵店。我先到。','今天阿姨有滷蛋。','麵店。不用回。'];
   S.noodleOn=function(G){ if(typeof CALENDAR==='undefined') return false; const h=G.hour%24, wd=CALENDAR.dateOf(G.day).wd; return (wd===2||wd===4)&&CALENDAR.kind(G.day)==='term'&&h>=17.5&&h<19; };
   S.noodleCount=G=>{ let sd=(G.day*7919+13)%2147483646+1; sd=(sd*16807)%2147483647; return 2+Math.floor(((sd-1)/2147483646)*3); };
   let ndlLastH=null;
@@ -422,9 +425,15 @@ const STORY = (function(){
     if(G.msgs&&G.msgs.some(m=>m.tag==='sis_yutong')&&!F.yutongFwd){ F.yutongFwd=true;
       if(typeof INV!=='undefined'&&INV.hasContact(G,'heroine_03')){ PHONE.post(G,{th:'p:heroine_03',from:'player',who:null,text:'（把學姊的回覆截圖傳給語彤）',tag:'yutong_fwd_q'}); PHONE.at(G,G.day,G.hour+0.1,[{th:'p:heroine_03',from:'heroine_03',text:'……法服是什麼？'}],'yutong_fwd'); }
       else F.yutongFwdInPerson=true; }
-    /* 麵店團（AA_70 2-3、AA_40 哲 1）：哲 1 那天阿哲建的群組；之後每個上課週的週二、週四 17:30 他在群組裡揪（「不用回，去就有人」）。tag rt_＝例行訊息（每天的手機小事不把它當成劇情訊息）*/
+    /* 麵店團（AA_70 2-3、AA_40 哲 1）：哲 1 那天阿哲建的群組。麵店日＝上課週的週二、週四（考試週、國定假日、出國期間沒有）。
+       阿哲 17:30 在群組裡揪，只在你上一個麵店日沒來的時候（AA 2026-10-14：一直有來的玩家，群組是安靜的）；四句輪流。tag rt_＝例行訊息（每天的手機小事不把它當成劇情訊息）。
+       有沒有來：麵店日 17:00–21:00 在麵店（ndlDays，最近 12 個）；開始記以前（ndlTrack0：舊存檔）的麵店日當作有來 */
     if(F.noodleTableDay!=null&&typeof CALENDAR!=='undefined'){ if(!PHONE.inGroup(G,'noodle_team')){ PHONE.join(G,'noodle_team','麵店團'); PHONE.post(G,{th:'g:noodle_team',text:'阿哲建立了群組「麵店團」，把你加了進來。',tag:'noodle_team_new'}); }
-      const wd=CALENDAR.dateOf(G.day).wd; if(G.day>F.noodleTableDay&&(wd===2||wd===4)&&CALENDAR.kind(G.day)==='term') PHONE.at(G,G.day,17.5,[{th:'g:noodle_team',from:'zhe',text:'麵店。我揪了。'}],'rt_zhe_ndl_'+G.day); }
+      if(F.ndlTrack0==null) F.ndlTrack0=G.day;
+      if(G.zone==='noodle'&&S.noodleDay(G.day)&&G.hour>=17&&G.hour<21){ const L=F.ndlDays||(F.ndlDays=[]); if(L[L.length-1]!==G.day){ L.push(G.day); if(L.length>12) L.shift(); } }
+      if(G.day>F.noodleTableDay&&S.noodleDay(G.day)&&!F.abroad&&!PHONE.sent(G,'rt_zhe_ndl_'+G.day)){ let p=null; for(let d=G.day-1;d>=F.noodleTableDay;d--) if(S.noodleDay(d)){ p=d; break; }   /* abroad：之後的交換系統設 */
+        const came=p==null||p<F.ndlTrack0||(F.ndlDays||[]).includes(p);
+        if(!came){ const k=(F.ndlPingN|0)%NDL_PINGS.length; if(PHONE.at(G,G.day,17.5,[{th:'g:noodle_team',from:'zhe',text:NDL_PINGS[k]}],'rt_zhe_ndl_'+G.day)) F.ndlPingN=(F.ndlPingN|0)+1; } } }
     /* 可昕 K1 導遊（BB_95 9-1）：第 3 週週五 19:30 她傳「週末來政大？我當導遊。」——答應就排週六下午 14:00 去政大（出遊，src/outings3d.js）；
        答應得晚（過了那個週六下午）就排下一個週六。不行：之後第一次「開車去政大」才有導遊（那個功能還沒做）。回覆的兩句是 LAWWW 寫的（等 BB）*/
     if(F.dating_kexin&&!PHONE.sent(G,'kx_tour_ask')){ const fri=termDay('Y1S1',3,5); if(fri) PHONE.at(G,fri,19.5,[{th:'p:kexin',from:'kexin',text:'週末來政大？我當導遊。',ask:{opts:[{t:'好，週六下午過去。',set:{KX_TOUR_YES:true}},{t:'這週末不行。',set:{KX_TOUR_NO:true}}]}}],'kx_tour_ask'); }

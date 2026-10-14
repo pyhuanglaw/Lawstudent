@@ -1,8 +1,8 @@
 // 交接包 v1（大一上）第 6 批：AA 的新事件 A9～A12——不需要瀏覽器。
 // 檢查（修改前都會失敗：事件、迎新活動、下課後的事件、麵店團群組都不存在）：
 //   A9 哲 1（AA_40）：第 4 週週四起、週二週四 17:30–20:30 在麵店、阿哲在旁邊才觸發（第 4 週週二、週一、16:00、宿舍都不會）；錯過週四的順延到下一次；只一次；
-//     台詞照原文（「（對祐廷）」改成「（對你）」）；之後加入「麵店團」群組（一則系統訊息），之後上課週的週二、週四 17:30 阿哲揪「麵店。我揪了。」
-//     （哲 1 那天、週一三五、放假不揪；一天一次）；這個例行訊息不擋每天的手機小事。
+//     台詞照原文（「（對祐廷）」改成「（對你）」）；之後加入「麵店團」群組（一則系統訊息）；上一個麵店日沒來，下一個麵店日 17:30 阿哲在群組揪（四句輪流，AA 2026-10-14；
+//     哲 1 那天、週一三五、放假不揪；一天一次；一直有來＝安靜，第 9 批 v1_batch9_unit 有更多情況）；這個例行訊息不擋每天的手機小事。
 //   A10 語 1（AA_40）：第 3～5 週早上在校園、認識小語之後的另一天（自我介紹那天不會、第 6 週不會、下午不會）；三個選項的反應照原文；
 //     「坐下來一起吃」記憶 BREAKFAST_YU；只一次；第一次說話（talkYu）記下 metYuDay。
 //   A11 迎新（AA_71 2-1＋BB_95 3-3）：活動在第 4 週週六 14–17 傅鐘前；參加就演、演完到 17:00；自我介紹三個選項（只有「念過一年經濟」設 ECON_PAST_SHARED='full'，
@@ -61,7 +61,8 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     for(;day<=W4THU+14;day++){ keepOn(day,7.5,'campus'); run(7.5,23.5,0.1); }
     const ps=G.msgs.filter(m=>m.th==='g:noodle_team'&&m.from==='zhe'&&m.tag&&m.tag.startsWith('rt_zhe_ndl_'));   /* 例行的揪（群組裡阿哲的其他訊息，例如第 5 週的中秋烤肉，不算）*/
     const wds=ps.map(m=>CALENDAR.dateOf(m.day).wd), days=ps.map(m=>m.day);
-    check('A9 之後兩週：每個週二、週四 17:30 阿哲在群組揪「麵店。我揪了。」（週一三五六日沒有、一天一次）',ps.length>=3&&ps.every(m=>m.text==='麵店。我揪了。'&&Math.abs(m.h-17.5)<0.11)&&wds.every(w=>w===2||w===4)&&new Set(days).size===days.length,JSON.stringify(ps.map(m=>[m.day,CALENDAR.dateOf(m.day).wd,m.h])));
+    const firstNdl=(()=>{ for(let d=W4THU+1;;d++) if(STORY.noodleDay(d)) return d; })();
+    check('A9 之後兩週都沒去：第一個麵店日不揪（上一次是哲 1，有來）；之後每個週二、週四 17:30 阿哲在群組揪，四句輪流（AA 2026-10-14）（週一三五六日沒有、一天一次）',ps.length>=3&&!days.includes(firstNdl)&&ps.every((m,i)=>m.text===['麵店。我揪了。','麵店。我先到。','今天阿姨有滷蛋。','麵店。不用回。'][i%4]&&Math.abs(m.h-17.5)<0.11)&&wds.every(w=>w===2||w===4)&&new Set(days).size===days.length,JSON.stringify(ps.map(m=>[m.day,CALENDAR.dateOf(m.day).wd,m.h,m.text])));
     const holTT=[]; for(let d=W4THU+1;d<=W4THU+14;d++){ const w=CALENDAR.dateOf(d).wd; if((w===2||w===4)&&CALENDAR.holiday(d)) holTT.push(d); }
     check('A9 放假的週二、週四不揪'+(holTT.length?'（'+holTT.map(d=>CALENDAR.dateOf(d).key).join('、')+'）':'（這兩週沒有放假的週二四：只檢查上課日）'),holTT.every(d=>!days.includes(d))&&ps.every(m=>CALENDAR.kind(m.day)==='term'));
     /* 每天的手機小事不被例行訊息擋住 */

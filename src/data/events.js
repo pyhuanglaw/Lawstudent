@@ -184,7 +184,7 @@ const STORY_EVENTS=[
       {speaker:'阿嬤',text:'少年仔，隔壁的樹長到我家這邊，我可以自己剪嗎？'},
       {choice:[{text:'「阿嬤，我幫妳問學姊。」',consequences:{rel:{heroine_05:{fam:2}}},goto:'ask'},{text:'（翻民總的筆記）',consequences:{rel:{heroine_05:{fam:2}}},goto:'notes'},{text:'「我也還不會，我們一起查。」',consequences:{rel:{heroine_05:{fam:3,resp:2}},mem:[{npc:'heroine_05',tag:'HELPED',note:'一起幫阿嬤查'}]},goto:'search'}]},
       {label:'ask'},{speaker:'heroine_05',expression:'neutral',text:'阿嬤，先跟鄰居講，請他剪。講了一直沒剪，週三晚上來萬才館，我們一起看。'},{goto:'side'},
-      {label:'notes'},{speaker:null,text:'翻了半天找不到。學姊探頭。'},{speaker:'heroine_05',expression:'neutral',text:'那是物權。你們下學期才上。'},{speaker:'阿嬤',text:'物權是什麼？'},{speaker:'heroine_05',expression:'neutral',text:'……阿嬤，週三晚上來。'},{speaker:null,text:'原來法律是分科的。'},{goto:'side'},
+      {label:'notes'},{speaker:null,text:'翻了半天找不到。學姊探頭。'},{speaker:'heroine_05',expression:'neutral',text:'那是物權。你們大二才上。'},{speaker:'阿嬤',text:'物權是什麼？'},{speaker:'heroine_05',expression:'neutral',text:'……阿嬤，週三晚上來。'},{speaker:null,text:'原來法律是分科的。'},{goto:'side'},
       {label:'search'},{speaker:null,text:'你和阿嬤用手機一起查。學姊在旁邊看完。'},{speaker:'heroine_05',expression:'smile',text:'……還可以。'},
       {label:'side'},
       {if:{memory:[{npc:'heroine_02',tag:'FIRST_MET'}],stage:{npc:'heroine_02',min:'FAMILIAR'},custom:G=>typeof INV!=='undefined'&&INV.hasContact(G,'heroine_02')},phone:'heroine_02',text:'聽說你在顧法律問答攤。問一題：電影裡偷看別人的信，算犯罪嗎。'},
@@ -310,12 +310,15 @@ const STORY_EVENTS=[
   /* 中秋烤肉（交付清單 A13：AA_71 2-2、AA_109 7-3）＋可昕 K3 第一次見麵店團（BB_95 9-4）：大一上第 5 週週六 15:00 河濱（出遊；阿哲在麵店團群組、沒有群組的私訊揪，story3d.js）。
      只有認識的人在場（交付清單第 0 節第 1 點）：AA 的「小事」每一句看那個人認識了沒；語彤不在就沒有阿姨醃的肉那一段。可昕：前一天她問，回「來我們這邊」才來（KX_BBQ_COME）。
      介紹她三選一（BB 2026-10-14）：只有第三個、而且原本不是 full 才把 ECON_PAST_SHARED 升成 full（以安在場加 KNOWS_ECON_YEAR）；之後阿哲和她比冷笑話，玩家選誰贏。
-     AA 的「小事」是條列，旁白照條列的字寫成句子（等 AA 看）*/
+     AA 的「小事」是條列，旁白照條列的字寫成句子。AA 2026-10-14：沒有麵店團群組的玩家第一句是「大家借了」；加「你被分到顧火。火一直熄。」；
+     只記 MIDAUTUMN_Y1，不加數值、不記 SHARED_MEAL */
   { id:'ev_mid_autumn_bbq', title:'中秋烤肉', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
     dialogue:[ {scene:'河濱',bg:'riverside'},
-      {speaker:null,text:'中秋節前的河濱。麵店團借了一個烤肉架。'},
+      {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},speaker:null,text:'中秋節前的河濱。麵店團借了一個烤肉架。'},
+      {unless:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},speaker:null,text:'中秋節前的河濱。大家借了一個烤肉架。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:null,text:'阿哲負責烤，小語負責吃。'},
       {unless:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:null,text:'阿哲負責烤。'},
+      {speaker:null,text:'你被分到顧火。火一直熄。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_01',G)},speaker:null,text:'以安帶了一張「烤肉時間表」。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:null,text:'語彤帶了阿姨醃的肉。全場最好吃。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('classmate_bohan',G)},speaker:null,text:'柏翰帶了考古題，被沒收了。'},
@@ -337,7 +340,7 @@ const STORY_EVENTS=[
       {choice:[{text:'（阿哲贏）',set:{KX_JOKE:'zhe'},goto:'zw'},{text:'（可昕贏）',set:{KX_JOKE:'kexin'},goto:'end'}]},
       {label:'zw'},{speaker:'kexin',expression:'smile',text:'好，我回去練。'},
       {label:'end'} ],
-    consequences:{stamp:['bbqDay'],memo:'中秋烤肉（河濱）'},
+    consequences:{flags:{MIDAUTUMN_Y1:true},stamp:['bbqDay'],memo:'中秋烤肉（河濱）'},
     after:(G)=>{ if(G.flags.KX_BBQ_COME) G.flags.KX_MET_NOODLE_TEAM=true; } },
   /* 以安新 3 宿舍的規則（交付清單 A14；交接包_v1 第 3 節、AA_113 事件 3）：祐廷不在，轉述。麵店團群組的訊息在 story3d.js 的 phoneRules（第 7 週週二晚上）；
      沒有加入麵店團群組的玩家，改成沛珊當面說同樣的內容（第 7 週起找她說話；要認識她）。只記旗標 AN_DORM_RULES（聽說，不寫成玩家在場）*/
