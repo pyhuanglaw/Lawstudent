@@ -1,9 +1,10 @@
 {
- "_comment": "大四期末考題庫（AA 出題並自審；使用者 2026-10-14 16:15 授權，只限大四）。四選一、唯一答案；verified 列出逐字核對過的現行條文（basis_2026-10-14.json）。",
+ "_comment": "大四期末考題庫（AA 出題並自審；使用者 2026-10-14 16:15 授權，只限大四）。四選一、唯一答案；verified 列出逐字核對過的現行條文（basis_2026-10-14.json）。status：Y4_SELF_REVIEWED＝AA 自審完、還不抽；Y4_CROSS_REVIEWED＝BB 交叉審通過、才抽（AA_130 3-2）。",
  "course": "maritime",
  "term": "Y4S2",
- "status": "AA_REVIEWED",
+ "author": "AA",
  "count": 8,
+ "crossReviewed": 0,
  "questions": [
   {
    "id": "Y4_MAR_01",
@@ -24,7 +25,7 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "海商法 §1：「在海上航行，或在與海相通之水面或水中航行之船舶」"
@@ -49,7 +50,7 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "海商法 §33：「船舶抵押權之設定，應以書面為之」"
@@ -74,7 +75,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "海商法 §36：「非經登記，不得對抗第三人」",
@@ -100,7 +101,7 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "海商法 §53：「運送人或船長於貨物裝載後，因託運人之請求，應發給載貨證券」"
@@ -125,7 +126,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "海商法 §110：「為求共同危險中全體財產之安全所為故意及合理處分」"
@@ -150,7 +151,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "海商法 §103：「得按其效果請求相當之報酬」"
@@ -175,7 +176,7 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "中華民國領海及鄰接區法 §3：「自基線起至其外側十二浬間之海域」"
@@ -200,7 +201,7 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "中華民國領海及鄰接區法 §14：「鄰接其領海外側至距離基線二十四浬間之海域」"

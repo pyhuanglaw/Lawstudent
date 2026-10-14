@@ -1,9 +1,10 @@
 {
- "_comment": "大四期末考題庫（AA 出題並自審；使用者 2026-10-14 16:15 授權，只限大四）。四選一、唯一答案；verified 列出逐字核對過的現行條文（basis_2026-10-14.json）。",
+ "_comment": "大四期末考題庫（AA 出題並自審；使用者 2026-10-14 16:15 授權，只限大四）。四選一、唯一答案；verified 列出逐字核對過的現行條文（basis_2026-10-14.json）。status：Y4_SELF_REVIEWED＝AA 自審完、還不抽；Y4_CROSS_REVIEWED＝BB 交叉審通過、才抽（AA_130 3-2）。",
  "course": "enforcement",
  "term": "Y4S1",
- "status": "AA_REVIEWED",
+ "author": "AA",
  "count": 8,
+ "crossReviewed": 0,
  "questions": [
   {
    "id": "Y4_ENF_01",
@@ -24,7 +25,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "強制執行法 §4：「確定之終局判決」",
@@ -52,7 +53,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "強制執行法 §15：「第三人就執行標的物有足以排除強制執行之權利者」"
@@ -77,7 +78,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "強制執行法 §14：「如有消滅或妨礙債權人請求之事由發生」"
@@ -102,7 +103,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "強制執行法 §115-1：「不得逾各期給付數額三分之一」"
@@ -127,7 +128,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "強制執行法 §53：「尚未發表之發明或著作」"
@@ -152,7 +153,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "民事訴訟法 §522：「欲保全強制執行者，得聲請假扣押」",
@@ -178,7 +179,7 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "強制執行法 §1：「於地方法院及其分院設民事執行處辦理之」",
@@ -204,7 +205,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "強制執行法 §127：「執行法院得以債務人之費用，命第三人代為履行」",

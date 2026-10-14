@@ -1,9 +1,10 @@
 {
- "_comment": "大四期末考題庫（AA 出題並自審；使用者 2026-10-14 16:15 授權，只限大四）。四選一、唯一答案；verified 列出逐字核對過的現行條文（basis_2026-10-14.json）。",
+ "_comment": "大四期末考題庫（AA 出題並自審；使用者 2026-10-14 16:15 授權，只限大四）。四選一、唯一答案；verified 列出逐字核對過的現行條文（basis_2026-10-14.json）。status：Y4_SELF_REVIEWED＝AA 自審完、還不抽；Y4_CROSS_REVIEWED＝BB 交叉審通過、才抽（AA_130 3-2）。",
  "course": "labor_social",
  "term": "Y4S1",
- "status": "AA_REVIEWED",
+ "author": "AA",
  "count": 8,
+ "crossReviewed": 0,
  "questions": [
   {
    "id": "Y4_LSO_01",
@@ -24,7 +25,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "勞工保險條例 §6：「受僱於僱用五人以上公司、行號之員工」"
@@ -49,7 +50,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "勞工職業災害保險及保護法 §6：「受僱於領有執業證照、依法已辦理登記、設有稅籍或經中央主管機關依法核發聘僱許可之雇主」"
@@ -74,7 +75,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "勞工保險條例 §11：「其保險效力之開始或停止，均自應為通知之當日起算」"
@@ -99,7 +100,7 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "就業保險法 §11：「非自願離職辦理退保當日前三年內，保險年資合計滿一年以上」"
@@ -124,7 +125,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "就業保險法 §16：「平均月投保薪資百分之六十按月發給」"
@@ -149,7 +150,7 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "社會救助法 §4：「每人可支配所得中位數百分之六十定之」"
@@ -174,7 +175,7 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "全民健康保險法 §1：「本保險為強制性之社會保險」"
@@ -199,7 +200,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "勞工職業災害保險及保護法 §7：「無一定雇主或自營作業而參加職業工會之會員」"

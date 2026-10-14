@@ -1,9 +1,10 @@
 {
- "_comment": "大四期末考題庫（AA 出題並自審；使用者 2026-10-14 16:15 授權，只限大四）。四選一、唯一答案；verified 列出逐字核對過的現行條文（basis_2026-10-14.json）。",
+ "_comment": "大四期末考題庫（AA 出題並自審；使用者 2026-10-14 16:15 授權，只限大四）。四選一、唯一答案；verified 列出逐字核對過的現行條文（basis_2026-10-14.json）。status：Y4_SELF_REVIEWED＝AA 自審完、還不抽；Y4_CROSS_REVIEWED＝BB 交叉審通過、才抽（AA_130 3-2）。",
  "course": "legal_ethics",
  "term": "Y4S1",
- "status": "AA_REVIEWED",
+ "author": "AA",
  "count": 8,
+ "crossReviewed": 0,
  "questions": [
   {
    "id": "Y4_ETH_01",
@@ -24,7 +25,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "律師法 §36：「律師有保守其職務上所知悉秘密之權利及義務」"
@@ -49,7 +50,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "律師法 §34：「本人或同一律師事務所之律師曾受委任人之相對人之委任」",
@@ -75,7 +76,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "刑事訴訟法 §2：「應於被告有利及不利之情形，一律注意」"
@@ -100,7 +101,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "刑事訴訟法 §17：「法官為被害人者」"
@@ -125,7 +126,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "刑事訴訟法 §245：「辯護人、告訴代理人或其他於偵查程序依法執行職務之人員」",
@@ -151,7 +152,7 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "律師法 §37：「律師應參與法律扶助、平民法律服務或其他社會公益活動」"
@@ -176,7 +177,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "律師法 §40：「律師不得挑唆訴訟，或以誇大不實、不正當之方法推展業務」"
@@ -201,7 +202,7 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "律師法 §47：「律師應向委任人明示其收取酬金之計算方法及數額」"

@@ -1,9 +1,10 @@
 {
- "_comment": "大四期末考題庫（AA 出題並自審；使用者 2026-10-14 16:15 授權，只限大四）。四選一、唯一答案；verified 列出逐字核對過的現行條文（basis_2026-10-14.json）。",
+ "_comment": "大四期末考題庫（AA 出題並自審；使用者 2026-10-14 16:15 授權，只限大四）。四選一、唯一答案；verified 列出逐字核對過的現行條文（basis_2026-10-14.json）。status：Y4_SELF_REVIEWED＝AA 自審完、還不抽；Y4_CROSS_REVIEWED＝BB 交叉審通過、才抽（AA_130 3-2）。",
  "course": "ip_law",
  "term": "Y4S1",
- "status": "AA_REVIEWED",
+ "author": "AA",
  "count": 8,
+ "crossReviewed": 0,
  "questions": [
   {
    "id": "Y4_IP_01",
@@ -24,7 +25,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "著作權法 §10：「著作人於著作完成時享有著作權」"
@@ -49,7 +50,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "著作權法 §10-1：「其保護僅及於該著作之表達」"
@@ -74,7 +75,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "著作權法 §21：「著作人格權專屬於著作人本身，不得讓與或繼承」",
@@ -100,7 +101,7 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "著作權法 §65：「利用之目的及性質」",
@@ -126,7 +127,7 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "專利法 §22：「依申請前之先前技術所能輕易完成時，仍不得取得發明專利」"
@@ -151,7 +152,7 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "專利法 §52：「發明專利權期限，自申請日起算二十年屆滿」"
@@ -176,7 +177,7 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "商標法 §33：「商標權期間為十年」",
@@ -202,7 +203,7 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "AA_REVIEWED",
+   "status": "Y4_SELF_REVIEWED",
    "crossReviewedBy": null,
    "verified": [
     "營業秘密法 §2：「非一般涉及該類資訊之人所知者」",

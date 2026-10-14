@@ -9,7 +9,7 @@
   1. 每題的 verify：(法規代碼, 條號, 一段文字) → 這段文字必須逐字出現在全國法規資料庫的現行條文裡（空白不計）。
   2. 格式：四選一（A～D）、選項不重複、答案在選項裡、題幹不重複、課程是大四的課。
   3. 每一門課 8 題，正確答案 A、B、C、D 各 2 題（不固定規律）。
-  4. 輸出 ../AA_<課程 id>.json（author：AA、status：AA_REVIEWED）與 ../REVIEW.md（自審紀錄）。BB 寫的放 ../BB_<課程 id>.json，兩邊不互相覆蓋。
+  4. 輸出 ../AA_<課程 id>.json（author：AA；status：自審完＝Y4_SELF_REVIEWED，BB 交叉審通過（CROSS_PASSED）＝Y4_CROSS_REVIEWED，只有後者會被抽）與 ../REVIEW.md（自審紀錄）。BB 寫的放 ../BB_<課程 id>.json，兩邊不互相覆蓋；全部的檔再用 check_y4.py 檢查。
 任何一項不符就停止，不輸出。
 """
 import json, os, re, sys
@@ -30,13 +30,17 @@ LAWS = {
 
 APPLIED = {'Y4_CJS_02', 'Y4_CJS_05', 'Y4_CJS_06', 'Y4_CJS_07', 'Y4_ENF_01', 'Y4_ENF_02', 'Y4_ENF_03', 'Y4_ENF_04', 'Y4_ENF_05', 'Y4_ENF_06', 'Y4_ENF_08', 'Y4_ETH_01', 'Y4_ETH_02', 'Y4_ETH_03', 'Y4_ETH_04', 'Y4_ETH_05', 'Y4_ETH_07', 'Y4_IP_01', 'Y4_IP_02', 'Y4_IP_03', 'Y4_IP_05', 'Y4_LSO_01', 'Y4_LSO_02', 'Y4_LSO_03', 'Y4_LSO_05', 'Y4_LSO_08', 'Y4_MAR_03', 'Y4_MAR_05', 'Y4_MAR_06', 'Y4_PJS_04', 'Y4_PJS_05', 'Y4_PJS_07', 'Y4_TAX_02', 'Y4_TAX_05', 'Y4_TAX_07'}
 
+# BB 交叉審通過的題號（BB 的審查結果在 ../BB_交叉審_AA.md；通過一題加一題）
+CROSS_PASSED = set()
+
 TERM = {'enforcement': 'Y4S1', 'legal_ethics': 'Y4S1', 'ip_law': 'Y4S1', 'labor_social': 'Y4S1', 'tax_law': 'Y4S1',
         'crim_judgment_sem': 'Y4S1', 'public_judgment_sem': 'Y4S1', 'maritime': 'Y4S2'}
 
 def Q(id, course, week, q, A, B, C, D, ans, why, basis, verify, level=None):
     return dict(id=id, course=course, term=TERM[course], scopeWeek=week, type='mc', q=q,
                 options=dict(A=A, B=B, C=C, D=D), answer=ans, core=why, basis=basis,
-                verify=verify, level=level or ('應用' if id in APPLIED else '記憶'), source='AA_Y4', author='AA', status='AA_REVIEWED', crossReviewedBy=None)
+                verify=verify, level=level or ('應用' if id in APPLIED else '記憶'), source='AA_Y4', author='AA',
+                status='Y4_CROSS_REVIEWED' if id in CROSS_PASSED else 'Y4_SELF_REVIEWED', crossReviewedBy='BB' if id in CROSS_PASSED else None)
 
 QS = [
  # ───── 強制執行法（大四上）─────
@@ -355,8 +359,8 @@ def main():
         print('\n'.join('! ' + e for e in err)); sys.exit(1)
     for c, qs in by.items():
         out = [{k: v for k, v in q.items() if k != 'verify'} | {'verified': [f'{LAWS[p]} §{n}：「{ph}」' for p, n, ph in q['verify']]} for q in qs]
-        json.dump(dict(_comment='大四期末考題庫（AA 出題並自審；使用者 2026-10-14 16:15 授權，只限大四）。四選一、唯一答案；verified 列出逐字核對過的現行條文（basis_2026-10-14.json）。',
-                       course=c, term=TERM[c], status='AA_REVIEWED', count=len(out), questions=out),
+        json.dump(dict(_comment='大四期末考題庫（AA 出題並自審；使用者 2026-10-14 16:15 授權，只限大四）。四選一、唯一答案；verified 列出逐字核對過的現行條文（basis_2026-10-14.json）。status：Y4_SELF_REVIEWED＝AA 自審完、還不抽；Y4_CROSS_REVIEWED＝BB 交叉審通過、才抽（AA_130 3-2）。',
+                       course=c, term=TERM[c], author='AA', count=len(out), crossReviewed=sum(1 for q in out if q['status'] == 'Y4_CROSS_REVIEWED'), questions=out),
                   open(os.path.join(ROOT, f'AA_{c}.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     lines = ['# 大四期末考題庫：AA 自審紀錄（2026-10-14）', '',
              '> 使用者 2026-10-14 16:15：大四法律課由 AI 出題並自審（不擴張到大一～大三）。AA、BB 分科（AA：強制執行法、法律倫理、刑事判決研討、公法判決研討；BB：智慧財產權法、勞動社會法、財稅法、海商法與海洋法），兩邊互相交叉審一次。AA 在 BB 的四科也各寫了 8 題（分科前寫的），保留成那一科的補充題，BB 交叉審。本檔只記 AA 寫的 `AA_<課程>.json`，由 `tools/build_y4.py` 產生；BB 的題目在 `BB_<課程>.json` 和 BB 的 md。', '',
