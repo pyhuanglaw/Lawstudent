@@ -70,6 +70,10 @@ const CLS=(function(){
     const R0=G.courses&&typeof G.courses==='object'?G.courses:null;
     for(const c of S.termCourses(G,t.id)){ if(c.weeks&&!c.weeks.includes(t.week)){ const att=R0&&R0.attend?(R0.attend[c.id]||0):0; if(!(c.makeupWeeks&&c.makeupWeeks.includes(t.week)&&att<c.weeks.length)) continue; }   /* 只有某幾週的課（服務學習：AA_110 6-1）；次數不夠時補做週也排 */
      for(const s of c.slots){ if(s.wd!==wd) continue; const b=B(s.block); out.push({c,slot:s,t0:b.t0,t1:b.t1,day,key:day+':'+c.id+':'+s.block,room:COURSES.rooms[c.room]||{},week:t.week,exam:c.kind==='service'?null:t.exam,term:t.id}); } }
+    if(t.exam&&S.isExamCourse){   /* 考五題的法律課：考試週只考一次（AA_130 第 3-2 節第 2 點）——那門課在考試週的第一堂不是假日的課；兩週都放假就補一堂（S.examDay）*/
+      for(let i=out.length-1;i>=0;i--){ const it=out[i]; if(!it.exam||!S.isExamCourse(it.c)) continue; const d=S.examDay(G,it.c,t.id,t.exam); if(d&&d.day===day&&d.block===it.slot.block) it.examMain=true; else out.splice(i,1); }
+      for(const c of S.termCourses(G,t.id)){ if(!S.isExamCourse(c)||out.some(it=>it.c===c)) continue; const d=S.examDay(G,c,t.id,t.exam); if(!d||!d.makeup||d.day!==day) continue; const b=B(d.block);
+        out.push({c,slot:{wd,block:d.block},t0:b.t0,t1:b.t1,day,key:day+':'+c.id+':'+d.block,room:COURSES.rooms[c.room]||{},week:t.week,exam:t.exam,term:t.id,examMain:true,makeup:true}); } }
     out.sort((a,b)=>a.t0-b.t0);
     /* 同一門課同一天連著兩格（大四下的實習整天）：合併成一格 */
     for(let i=out.length-1;i>0;i--){ if(out[i].c===out[i-1].c){ out[i-1].t1=out[i].t1; out.splice(i,1); } }
@@ -190,7 +194,8 @@ const CLS=(function(){
         GM.caption('',c.name+'：第 '+(n+1)+' 次'+(need?'（'+Math.min(n+1,need)+'／'+need+'）':'')+(need&&n+1>=need?'，時數滿了。':'。'),2800); }
       else {
       if(!door&&E.zone&&E.zone.setBoard) E.zone.setBoard(exam?c.name+'：'+(exam==='mid'?'期中考':'期末考'):ct.board[0],exam?'不可以翻書':ct.board[1],exam?'鈴響請停筆':ct.board[2]);
-      if(exam){ const p=R.prep[c.id]||0; await GM.say(null,'考卷發下來。'+c.name+(exam==='mid'?'期中考':'期末考')+'。');
+      if(exam&&S.isExamCourse(c)) await S.runExam(GM,it);   /* 考五題的法律課（AA_130 第 3 節）*/
+      else if(exam){ const p=R.prep[c.id]||0; await GM.say(null,'考卷發下來。'+c.name+(exam==='mid'?'期中考':'期末考')+'。');
         await GM.say(null,p>=8?'題目你都見過——上課講過、自己也讀過。你寫得很順。':p>=4?'有幾題你有印象，有一題你只記得老師在黑板上畫過圖。':'你認得題目裡的每一個字，合起來就不太認得了。'); }
       else { await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+ct.line); if(ct.react) await GM.say(null,ct.react);
         /* B：觀察的小選擇（只顯示一行結果，不影響數值）；C：被點到（三個選項共用收尾）——BB 的 syllabus（AA_104）*/
@@ -315,9 +320,64 @@ const CLS=(function(){
     const ex=extra||[], opts=ex.concat(cs.slice(0,6).map(c=>({t:c.name,hint:'這週：'+(S.topic(c,t.week)||'')}))); opts.push({t:'整理這週的筆記（不挑一科）'}); const i=await GM.choose(opts);
     if(i<ex.length) return {extra:i}; if(i>=ex.length+cs.slice(0,6).length) return {notes:true};
     const c=cs[i-ex.length]; const R=S.rec(G); R.prep[c.id]=(R.prep[c.id]||0)+1; R.lastStudy={day:G.day,id:c.id,name:c.name}; return {course:c}; };   /* lastStudy：今天念了哪一科（Café 的學姊問「今天念了什麼？」，BB_120 1-1）*/
+  // ---------- 期末考（使用者 2026-10-14 16:15、17:10；企劃分支 AA_126 1-5、AA_130 第 3 節）----------
+  /* 考五題的課＝題庫對照表（EXAM_BANK.courseMap）寫 exam:'mc5' 的法律課；非法律課照出席、不考五題（AA_126 1-4）；法律專題研究、實習是 NO_EXAM。
+     題目：大一～大三＝使用者確認的正式題目（exam_official/，status USER_CONFIRMED）＋刑訴 QBANK；大四＝交叉審通過的題目（Y4_CROSS_REVIEWED）。AI 不出題、不補題、不改寫。
+     兩堆：課堂題（askedIn＝這學期這門課在課堂上問過，或 source:'CLASS_DISC'）優先，不夠才從題庫題補（EXAM_MIX）。兩堆加起來不到 5 題＝不開考。
+     抽到的題號存進存檔：讀檔再考是同一份。選項不洗牌、答案不動。 */
+  S.EXAM_MIX='class_first';   /* 'class_first'（預設：課堂題最多 5 題，不夠才補）／'3_2'（課堂 3＋題庫 2，任一邊不夠由另一邊補）——使用者選了再改 */
+  S.EXAM_WEEKS={mid:[8,9],final:[17,18]};
+  S.isExamCourse=c=>!!c&&typeof EXAM_BANK!=='undefined'&&!!EXAM_BANK.courseMap[c.id]&&EXAM_BANK.courseMap[c.id].exam==='mc5';
+  const examDayMemo={};
+  /* 這門課這個考試的日子：考試週裡那門課第一堂不是假日的課；都放假（例：大一上民法總則 12/25、1/1）＝放假那一堂之後，第二週第一個同一時段空著的平日（1/2 週五下午一）*/
+  S.examDay=function(G,c,termId,kind){ if(typeof CALENDAR==='undefined') return null; const el=JSON.stringify((G.courses&&G.courses.electives)||{}); const mk=c.id+'|'+termId+'|'+kind+'|'+el; if(mk in examDayMemo) return examDayMemo[mk];
+    const wk=S.EXAM_WEEKS[kind]||[]; const days=[]; let d0=null; for(let d=1;d<1600;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===termId){ if(d0==null) d0=d; if(wk.includes(t.week)) days.push(d); } else if(d0!=null&&d>d0+200) break; }
+    let res=null, lastMiss=null;
+    for(const d of days){ const wd=CALENDAR.dateOf(d).wd; const s0=c.slots.find(s=>s.wd===wd); if(!s0) continue; if(CALENDAR.holiday(d)){ lastMiss=d; continue; } res={day:d,block:s0.block}; break; }
+    if(!res&&lastMiss!=null){ const busy=(d,b)=>S.termCourses(G,termId).some(x=>x!==c&&x.slots.some(s=>s.wd===CALENDAR.dateOf(d).wd&&s.block===b));
+      const lastWeek=days.filter(d=>CALENDAR.termOf(d).week===wk[wk.length-1]); const cand=lastWeek.filter(d=>d>lastMiss).concat(lastWeek.filter(d=>d<=lastMiss));
+      for(const d of cand){ const wd=CALENDAR.dateOf(d).wd; if(wd>5||CALENDAR.holiday(d)) continue; for(const s of c.slots){ if(!busy(d,s.block)){ res={day:d,block:s.block,makeup:true}; break; } } if(res) break; } }
+    return examDayMemo[mk]=res; };
+  S.examQuestions=function(courseId,termId){ const out=[]; if(typeof EXAM_BANK!=='undefined') for(const q of EXAM_BANK.questions) if(q.course===courseId&&q.term===termId) out.push(q);
+    if(courseId==='crimpro'&&termId==='Y3S1'&&typeof QBANK!=='undefined') for(const q of QBANK) if(q.complete!==false) out.push(Object.assign({},q,{course:'crimpro',term:'Y3S1',status:'USER_CONFIRMED'}));   /* 刑訴：使用者的 QBANK（沒有週次＝全部）*/
+    return out; };
+  const okStatus=(q,termId)=>termId==='Y4S1'||termId==='Y4S2'?q.status==='Y4_CROSS_REVIEWED':q.status==='USER_CONFIRMED';
+  S.examPool=function(courseId,termId,kind){ const maxW=kind==='mid'?7:18; const cls=[], bank=[];
+    for(const q of S.examQuestions(courseId,termId)){ if(!okStatus(q,termId)) continue; if(q.scopeWeek!=null&&q.scopeWeek>maxW) continue; const asked=(q.askedIn&&(q.askedIn.course||courseId)===courseId&&(!q.askedIn.term||q.askedIn.term===termId))||q.source==='CLASS_DISC'; (asked?cls:bank).push(q); }
+    return {cls,bank}; };
+  const hashStr=str=>{ let h=2166136261>>>0; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619)>>>0; } return h>>>0; };
+  const rng=seed=>()=>{ seed|=0; seed=seed+0x6D2B79F5|0; let t=Math.imul(seed^seed>>>15,1|seed); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; };
+  const shuffled=(arr,r)=>{ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); const x=a[i]; a[i]=a[j]; a[j]=x; } return a; };
+  /* 抽 5 題（同一份存檔、同一門課、同一學期、同一種考試＝同一份）；不足 5 題＝{ok:false,n} */
+  S.drawExam=function(G,courseId,termId,kind){ const R=S.rec(G); R.exam=R.exam&&typeof R.exam==='object'?R.exam:{}; const key=termId+':'+courseId+':'+kind;
+    const pool=S.examPool(courseId,termId,kind), n=pool.cls.length+pool.bank.length; if(n<5) return {ok:false,n,key};
+    if(R.exam[key]&&Array.isArray(R.exam[key].qs)&&R.exam[key].qs.length===5){ const all=pool.cls.concat(pool.bank); const qs=R.exam[key].qs.map(id=>all.find(q=>q.id===id)).filter(Boolean); if(qs.length===5) return {ok:true,n,key,qs,saved:R.exam[key]}; }
+    if(!G.flags) G.flags={}; if(G.flags.examSeed==null) G.flags.examSeed=Math.floor(Math.random()*1e9);   /* 這份存檔的亂數種子（存在存檔裡）*/
+    const r=rng(hashStr(G.flags.examSeed+'|'+key)); const cls=shuffled(pool.cls,r), bank=shuffled(pool.bank,r); let pick=[];
+    if(S.EXAM_MIX==='3_2'){ pick=cls.slice(0,3).concat(bank.slice(0,2)); const restC=cls.slice(3), restB=bank.slice(2); while(pick.length<5&&(restC.length||restB.length)) pick.push(restC.length?restC.shift():restB.shift()); }
+    else { pick=cls.slice(0,5); for(const q of bank){ if(pick.length>=5) break; pick.push(q); } }
+    /* 期末不排除期中用過的題，除非排除以後仍有 5 題以上 */
+    if(kind==='final'){ const used=new Set(((R.exam[termId+':'+courseId+':mid']||{}).qs)||[]); if(used.size){ const fresh=cls.concat(bank).filter(q=>!used.has(q.id)); if(fresh.length>=5){ const fc=cls.filter(q=>!used.has(q.id)), fb=bank.filter(q=>!used.has(q.id)); pick=S.EXAM_MIX==='3_2'?fc.slice(0,3).concat(fb.slice(0,2)):fc.slice(0,5); for(const q of fc.slice(3).concat(fb)) { if(pick.length>=5) break; if(!pick.includes(q)) pick.push(q); } } } }
+    pick=pick.slice(0,5); R.exam[key]={qs:pick.map(q=>q.id)}; return {ok:true,n,key,qs:pick}; };
+  S.scoreOf=k=>[0,60,70,80,90,100][Math.max(0,Math.min(5,k|0))];   /* 答對 0～5 題＝0、60、70、80、90、100（AA_126 1-2）；0 題＝被當（重修等使用者確認）*/
+  const optList=q=>q.type==='tf'||!q.options?['對','錯'].map(t=>({t,v:t})):Object.keys(q.options).map(k=>({t:'（'+k+'）'+q.options[k],v:k}));
+  /* 考試那一堂：五題答完才交卷；交卷後，答錯的題目顯示使用者給的考點、解析、法條 */
+  S.runExam=async function(GM,it){ const G=GM.G, R=S.rec(G), c=it.c, kind=it.exam, termId=it.term; const nm=kind==='mid'?'期中練習':'期末考';
+    const r=S.drawExam(G,c.id,termId,kind);
+    if(!r.ok){ console.error('EXAM_BANK_INSUFFICIENT',c.id,r.n); R.exam=R.exam||{}; R.exam[r.key]={status:'insufficient',n:r.n};
+      await GM.say(null,'這一科的'+nm+'題庫還沒準備好（正式題目 '+r.n+'／5）。'+(kind==='mid'?'這次不舉行。':'這學期不舉行期末考。')); return {held:false,n:r.n}; }
+    await GM.say(null,'考卷發下來。'+c.name+nm+(kind==='mid'?'（不算成績）':'')+'。五題。'); const ans=[]; let k=0;
+    for(let i=0;i<5;i++){ const q=r.qs[i]; await GM.say(null,(i+1)+'／5　'+q.q); const opts=optList(q); const j=await GM.choose(opts.map(o=>({t:o.t}))); const v=(opts[j]||opts[0]).v; ans.push(v); if(String(v)===String(q.answer)) k++; }
+    const score=S.scoreOf(k); R.exam[r.key]=Object.assign({},R.exam[r.key]||{},{qs:r.qs.map(q=>q.id),ans,correct:k,score,status:'done'});
+    await GM.say(null,'交卷。答對 '+k+'／5'+(kind==='final'?'，'+score+' 分。':'。'));
+    for(let i=0;i<5;i++){ const q=r.qs[i]; if(String(ans[i])===String(q.answer)) continue; const a=q.type==='tf'||!q.options?q.answer:'（'+q.answer+'）'+q.options[q.answer];
+      await GM.say(null,'第 '+(i+1)+' 題的答案：'+a+(q.core?'。考點：'+q.core:'')+(q.explanation?'。'+q.explanation:'')+(q.basis?'（'+q.basis+'）':'')); }
+    return {held:true,correct:k,score}; };
   // ---------- 學期結束的成績單（AA_104 第 5、10 節：文字，不顯示分數與排名，不會沒過）----------
   S.gradeOf=p=>p>=10?'很好':(p>=5?'不錯':'過了');
-  S.reportFor=function(G,termId){ const R=S.rec(G); const g={}; for(const c of S.termCourses(G,termId)){ if(c.kind==='service') continue; g[c.id]=S.gradeOf(R.prep[c.id]||0); } return g; };   /* 服務學習只記次數，不進成績單（AA_110 6-1）*/
+  S.reportFor=function(G,termId){ const R=S.rec(G); const g={}; for(const c of S.termCourses(G,termId)){ if(c.kind==='service') continue;
+      if(S.isExamCourse(c)){ const e=(R.exam||{})[termId+':'+c.id+':final']; g[c.id]=e&&e.status==='done'?e.score+' 分':e&&e.status==='insufficient'?'未開考（題庫不足）':(S.examPool(c.id,termId,'final').cls.length+S.examPool(c.id,termId,'final').bank.length<5?'未開考（題庫不足）':'缺考'); continue; }   /* 未開考：不算不及格、不算進書卷獎、不擋畢業（AA_130 第 3-2 節第 4 點）*/
+      g[c.id]=S.gradeOf(R.prep[c.id]||0); } return g; };   /* 服務學習只記次數，不進成績單（AA_110 6-1）*/
   // ---------- 選課結果（AA_104 第 2 節、AA_110 第 4 點）----------
   /* 新學期第一週的前一天早上，讓玩家選這學期的選修：同一組二選一；choice.none＝可以不修（大一下的法律與社會）。預設的那一門排第一。
      錯過前一天（開學頭兩週才第一次起床）就在那時候問；第三週以後才第一次起床（舊存檔）＝照預設，不再問。大一上沒有選課（遊戲從第 3 週開始，AA_103）。 */
