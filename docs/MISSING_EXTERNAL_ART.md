@@ -51,6 +51,7 @@ law_classroom_day / law_classroom_evening / library_day / library_night / cafe_d
 | `car` | 車上 | 開車的轉場（還沒用到） |
 | `riverside` | 河濱（和子晴的河堤夜景共用） | 中秋烤肉（A13、K3） |
 | `gongguan_luwei` | 公館・滷味攤（公館有 3D 區域，滷味攤還沒有） | 考完的宵夜（A15） |
+| `noodle_table` | 阿鳳麵店的長桌（兩張桌子併起來，晚上；麵店有 3D 區域，這一幕先用 2D） | 大一下期中考完的晚餐（交接包 v2 C11、C21） |
 | `trip_sea`、`trip_oldtown`、`trip_mountain` | 海邊、別的城市的老街、山上（虛構或一般化的地點，不指定真實店家） | 春假：可昕 K8 開車旅行（交接包 v2 C9） |
 | `chiayi_living`、`chiayi_balcony` | 嘉義老家的客廳（年菜、圓桌）、陽台；道具：一疊土地謄本（不寫真實地號） | 主線 2 親戚的土地資料（交接包 v2 C2） |
 | `dorm_roof` | 宿舍頂樓 | 跨年（A21） |
