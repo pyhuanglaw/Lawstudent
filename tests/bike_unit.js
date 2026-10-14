@@ -40,6 +40,8 @@ const step=(dist,turn,n)=>{ for(let i=0;i<n;i++){ P.obj.rotation.y+=turn/n; P.ob
   const s=G.bike, door=E.interactables.find(i=>i.exit&&i.exit.to==='dorm');
   check('2 舊存檔／新遊戲沒有 G.bike：車停在宿舍門口（站得住、和「回宿舍」的範圍不重疊）',!!s&&s.zone==='campus'&&!s.riding&&E.canStand(s.x,s.z,0.45,0)&&!!door&&Math.hypot(s.x-door.x,s.z-door.z)>door.radius+1.3,JSON.stringify(s));
   check('2 停著的車擺在校園、有「騎腳踏車」',!!parkedObj()&&!!parkedIt()&&parkedIt().label==='騎腳踏車'&&Math.hypot(parkedObj().position.x-s.x,parkedObj().position.z-s.z)<1e-6);
+  await new Promise(r=>setTimeout(r,1700));
+  check('2b 第一次看到自己的車（第三天以後）：告訴玩家車在宿舍門口、怎麼騎（使用者 10-14「我還是不能騎腳踏車」；只說一次）',toasts.some(t=>/宿舍門口東邊停著你的腳踏車/.test(t))&&G.flags.BIKE_TIP===true,toasts.join('／'));
   // ---- 3 上車：先走過去 ----
   P.obj.position.set(s.x-1.0,0,s.z-0.6);
   const r1=BIKE.mount(GM);

@@ -49,7 +49,9 @@ const BIKE=(function(){
   function placeParked(GM){ const E=GM.E, G=GM.G, s=st(G); removeParked(E); if(s.riding||s.zone!==G.zone||!E.zone||!src) return;
     const o=make(); if(!o) return; pose(o.userData.parts,0,0,0); o.position.set(s.x,0,s.z); o.rotation.y=s.yaw; E.zone.group.add(o);
     const it={x:s.x,z:s.z,radius:1.3,lv:0,y:0,label:'騎腳踏車',bike:true,onInteract:()=>B.mount(GM)};
-    E.interactables.push(it); parked={obj:o,it,zone:G.zone}; }
+    E.interactables.push(it); parked={obj:o,it,zone:G.zone};
+    /* 第一次看到自己的車（第三天以後，避開第一二天的劇情）告訴玩家在哪裡、怎麼騎：2026-10-14 使用者試玩 v9.6「我還是不能騎腳踏車」——v9.7 才有騎車，車停在宿舍門口，沒有人說 */
+    const F=G.flags||(G.flags={}); if(!F.BIKE_TIP&&G.day>=3&&GM.toast){ F.BIKE_TIP=true; const home=s.zone===HOME.zone&&Math.hypot(s.x-HOME.x,s.z-HOME.z)<3; setTimeout(()=>GM.toast((home?'宿舍門口東邊停著你的腳踏車':'這附近停著你的腳踏車')+'：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。',5200),1500); } }
   /* 找一個站得住的地方（車停的位置：原本的位置不行就往外找；都不行就用原本的）*/
   function spotNear(E,x,z,yaw){ if(!E.canStand||E.canStand(x,z,0.45,0)) return [x,z]; for(const r of [0.5,1,1.5,2,2.5,3]) for(let k=0;k<12;k++){ const a=yaw+k*Math.PI/6, px=x+Math.sin(a)*r, pz=z+Math.cos(a)*r; if(E.canStand(px,pz,0.45,0)) return [px,pz]; } return [x,z]; }
   B.mount=function(GM){ const E=GM.E, G=GM.G, P=E.player, s=st(G); if(s.riding||P.busy||!B.ok(G.zone)) return false;
