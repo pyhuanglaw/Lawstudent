@@ -23,6 +23,23 @@ const REVISIT_Y1_OPTS=[
   {k:'lecture',t:'「那場演講。」',ok:G=>!!G.flags.B4_ATTENDED},
   {k:'show',t:'「成發那天，我負責拍手。」',ok:G=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_04','CLAPPED')} ];
 const REVISIT_Y1_SHOWN=G=>REVISIT_Y1_OPTS.filter(o=>o.ok(G)).slice(0,3).map(o=>o.k);
+/* 學姊 W5（BB_96 2-6）：法服讀書會去過 3 次以上、還沒演過（兩個版本共用一次）；後半段兩個版本相同 */
+const W5_OK=G=>{ const A=G.acts&&G.acts.att||{}; const n=Object.keys(A).filter(k=>k.indexOf('lawclub_study@')===0).length; const D=G.events&&G.events.done||{}; return n>=3&&!D.ev_sis_sticky_notes&&!D.ev_sis_sticky_notes_late; };
+const W5_REST=[ {speaker:null,text:'會後你回萬才館拿忘記的東西，看到她一個人坐著，在每份書狀上貼便條。'},
+  {speaker:null,text:'（你的書狀上：「第三段的事實整理很好。我剛剛沒說。」）'},
+  {speaker:'heroine_05',expression:'serious',text:'（沒有抬頭）檢討會上講缺點，便條上講優點。'},
+  {speaker:'heroine_05',expression:'neutral',text:'缺點要在大家面前講，大家才會改。'},
+  {speaker:'heroine_05',expression:'neutral',text:'優點要私下講，才不會被當成客套。'},
+  {speaker:'heroine_05',expression:'thinking',text:'……我以前的學姊也是這樣對我。'},
+  {choice:[{text:'「學姊，有沒有人給妳便條？」',goto:'q'},{text:'（撕一張她的便條紙，寫了貼在她的筆記本上）',goto:'w'},{text:'「謝謝學姊。」（拿了書狀就走）',goto:'t'}]},
+  {label:'q'},{speaker:null,text:'她停下筆。'},{speaker:'heroine_05',expression:'neutral',text:'……社長沒有人改。'},{speaker:null,text:'她笑了一下。'},{speaker:'heroine_05',expression:'smile',text:'重點是，這樣比較快。'},
+    {mem:[{npc:'heroine_05',tag:'NOTICED_HER',note:'問她有沒有人給她便條'}]},{goto:'end'},
+  {label:'w'},{choice:[{text:'「今天的檢討很清楚。我剛剛沒說。」',set:{W5_NOTE:'clear'},mem:[{npc:'heroine_05',tag:'GAVE_HER_NOTE',note:'便條：今天的檢討很清楚。我剛剛沒說。'}]},
+      {text:'「學姊辛苦了。」',set:{W5_NOTE:'thanks'},mem:[{npc:'heroine_05',tag:'GAVE_HER_NOTE',note:'便條：學姊辛苦了。'}]},
+      {text:'（畫一個笑臉）',set:{W5_NOTE:'smile'},mem:[{npc:'heroine_05',tag:'GAVE_HER_NOTE',note:'便條：畫了一個笑臉'}]}]},
+    {speaker:null,text:'她看了很久。'},{speaker:'heroine_05',expression:'smile',text:'……你學得很快。'},{goto:'end'},
+  {label:'t'},{speaker:'heroine_05',expression:'neutral',text:'嗯。下學期見。'},
+  {label:'end'} ];
 /* 主線 2 親戚的土地資料（一）（交接包 v2 C2；AA_12 主線 2）：除夕在嘉義老家（2D）。台詞照原文；流程的描述（一桌親戚、拿出謄本、全桌安靜、姊姊憋笑）寫成旁白；
    「祐廷（旁白）」那一句是他心裡的話＝旁白。不寫真實地號或任何真實資料；共有土地怎麼處理不給答案（法律審查：祐廷大一什麼都不說也可以） */
 const LAND_Y1=[ {scene:'嘉義・老家的客廳',bg:'chiayi_living'},
@@ -716,6 +733,15 @@ const STORY_EVENTS=[
       {if:{flags:['KX_K6_EXAM']},speaker:'kexin',expression:'teasing',text:'結果我們吵最多的，是考古題。'},
       {unless:{flags:['KX_K6_EXAM']},speaker:'kexin',expression:'teasing',text:'結果我們吵最多的，是假設題的答案。'} ],
     after:G=>{ G.flags.REVISIT_Y1={who:'kexin',pick:G.flags.REVISIT_Y1_PICK||'daily'}; } },
+  /* 學姊 W5「她改的便條」（BB_96 2-6；交接包 v2）：大一下第 17 週週三的法服學期檢討會（activities.js 的 lawclub_review_y1s2）之後；前置 lawclub、法服讀書會去過 3 次以上、只一次。
+     去了檢討會：會後接著演（afterActivity）；沒去的社員：那天晚上 21:00 以後走進萬才館，第一句旁白換成「聽說今天的檢討會很安靜。」其他照舊。流程的描述寫成旁白。
+     記 NOTICED_HER（W8 的伏筆）／GAVE_HER_NOTE（寫了什麼記在備註；回收見 BB_108）*/
+  { id:'ev_sis_sticky_notes', title:'她改的便條', participants:['heroine_05'], location:'wancai', trigger:'activity', afterActivity:'lawclub_review_y1s2', term:['Y1S2'], weeks:[17], once:true, background:'blur',
+    prereq:{flags:['lawclub'],custom:G=>W5_OK(G)},
+    dialogue:[ {speaker:null,text:'檢討會上，學姊對一年級的書狀列了十二條缺點，大家臉都很僵。'}].concat(W5_REST) },
+  { id:'ev_sis_sticky_notes_late', title:'她改的便條', participants:['heroine_05'], location:'wancai', trigger:'enter', term:['Y1S2'], weeks:[17], weekday:[3], time:[21,23.5], once:true, background:'blur',
+    prereq:{flags:['lawclub'],custom:G=>W5_OK(G)&&!(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.attended(G,'lawclub_review_y1s2',G.day))},
+    dialogue:[ {speaker:null,text:'聽說今天的檢討會很安靜。'}].concat(W5_REST) },
   /* 子晴 Q5「你負責拍手」（BB_96 4-4、AA_13 G3；交接包 v2）：大一下第 14 週週三的吉他社成發（activities.js 的 guitar_show_y1s2，去看就演）；認識子晴才有。
      演出中三選一（介面的動作）：拍手＝CLAPPED（她下台說的那句＋插座貓貼紙：雙方都單身、和她朋友以上＝直接貼在你的手機殼上，其他＝遞給你）／坐著聽完＝她點頭「你有來。」／先走＝隔天手機「你看到一半。後半比較好。」。
      沒去（收到邀請或是吉他社的人）：隔天手機「你沒來」（沒有標點）。記 ZQ_SHOW（clap／came／half／absent；大二 Q9 讀它）。BCG-11（舞台上她按錯和弦後對著麥克風笑）還沒有圖 */
@@ -1150,14 +1176,15 @@ const STORY_EVENTS_V11=[
   // ── 研究所：說明會 ──
   { id:'ev_grad_info_session', title:'法研所說明會', participants:['npc_ta_chen','heroine_05'], location:'wancai', trigger:'enter', weekday:[5], time:[14.8,16.2], day_min:5, once:true, background:'blur',
     dialogue:[ {speaker:null,text:'萬才館大廳擺了二十張椅子。海報：「法律學研究所 招生說明會」。坐了七個人，大部分是大三。'},{speaker:'npc_ta_chen',expression:'neutral',text:'「我是碩二的陳冠廷，刑事法組。先講結論：研究所不是延長大學，是換一種讀法。」'},{speaker:'heroine_05',expression:'serious',text:'「一年級的也可以留下來聽，不會有人趕你。」'},{speaker:'npc_ta_chen',expression:'thinking',text:'「筆試考申論，口試問你的研究計畫。最常被問倒的問題是：你為什麼要研究這個？」'},{choice:[{text:'留下來聽完',consequences:{grad:{bump:'聽了法研所說明會'},advance:1,energy:-4,mem:[{npc:'npc_ta_chen',tag:'FIRST_MET'},{npc:'heroine_05',tag:'GRAD_SCHOOL_DISCUSSION',note:'說明會'}],memo:'聽了法研所說明會'}},{text:'聽十分鐘就走',consequences:{advance:0.2}}]} ] },
-  { id:'ev_grad_reading', title:'學姊給的文章', participants:['heroine_05'], location:['library','wancai','cafe'], trigger:'interact', priority:7, once:true, prereq:{grad:{min:'CONSIDERING'}}, background:'blur',
+  /* W3（BB_96 2-3，交接包 v2）：落在大一下第 5 週以後（她會在讀書會後給）；台詞、選項照舊；debate 的三個選項多記 W3_STANCE（no／diff／unsure；W3b 第一次的開頭用）*/
+  { id:'ev_grad_reading', title:'學姊給的文章', participants:['heroine_05'], location:['library','wancai','cafe'], trigger:'interact', priority:7, once:true, prereq:{grad:{min:'CONSIDERING'},custom:G=>typeof STORY!=='undefined'&&!!STORY.termDay&&G.day>=STORY.termDay('Y1S2',5,1)}, background:'blur',
     dialogue:[ {speaker:'heroine_05',expression:'neutral',text:'你真的在想研究所？……好。這篇。三十頁。讀完再來找我，我們吵一次。'},{set:{grad_reading:true},note:{id:'grad_reading',title:'學姊給的文章','body':'一篇公法的期刊論文。三十頁。讀書時可以選「讀研究所準備的文章」，讀三次才算讀完。'}},{speaker:'heroine_05',expression:'smile',text:'不要用螢光筆。用鉛筆，寫你不同意的地方。'} ], consequences:{mem:[{npc:'heroine_05',tag:'GRAD_SCHOOL_DISCUSSION',note:'給你一篇文章'}]} },
   { id:'ev_grad_debate', title:'和溫學姊吵一次', participants:['heroine_05'], location:['library','wancai','cafe'], trigger:'interact', priority:9, once:true, prereq:{flags:['grad_read_done']}, background:'blur',
     dialogue:[ {speaker:'heroine_05',expression:'serious',text:'讀完了？好。第二節，作者說比例原則在這個案型「只能」這樣用。你同意嗎？'},
       {choice:[
-        {text:'「不同意。他把『必要性』直接跳過了。」',hint:'你的鉛筆字',rel:{heroine_05:{resp:6,fam:3}},mem:[{npc:'heroine_05',tag:'GRAD_SCHOOL_DISCUSSION',note:'跟她吵了必要性審查'}],goto:'agree_no'},
-        {text:'「同意，但理由跟他寫的不一樣。」',rel:{heroine_05:{resp:4,fam:3}},mem:[{npc:'heroine_05',tag:'GRAD_SCHOOL_DISCUSSION',note:'同意結論、不同意理由'}],goto:'agree_diff'},
-        {text:'「老實說，我不確定我讀懂了。」',rel:{heroine_05:{trust:4,fam:2}},mem:[{npc:'heroine_05',tag:'GRAD_SCHOOL_DISCUSSION',note:'承認沒讀懂'}],goto:'unsure'} ]},
+        {text:'「不同意。他把『必要性』直接跳過了。」',hint:'你的鉛筆字',set:{W3_STANCE:'no'},rel:{heroine_05:{resp:6,fam:3}},mem:[{npc:'heroine_05',tag:'GRAD_SCHOOL_DISCUSSION',note:'跟她吵了必要性審查'}],goto:'agree_no'},
+        {text:'「同意，但理由跟他寫的不一樣。」',set:{W3_STANCE:'diff'},rel:{heroine_05:{resp:4,fam:3}},mem:[{npc:'heroine_05',tag:'GRAD_SCHOOL_DISCUSSION',note:'同意結論、不同意理由'}],goto:'agree_diff'},
+        {text:'「老實說，我不確定我讀懂了。」',set:{W3_STANCE:'unsure'},rel:{heroine_05:{trust:4,fam:2}},mem:[{npc:'heroine_05',tag:'GRAD_SCHOOL_DISCUSSION',note:'承認沒讀懂'}],goto:'unsure'} ]},
       {label:'agree_no'},{speaker:'heroine_05',expression:'smile',text:'……對。他跳過了。我第一次讀的時候沒看出來，是許老師指出來的。'},{speaker:'heroine_05',expression:'serious',text:'研究所就是這樣：找作者跳過的那一步，然後自己補。你可以。'},{consequences:{prof:{prof_xu:{kind:'research',delta:1,note:'學姊提到你讀了那篇文章'}}}},{goto:'end'},
       {label:'agree_diff'},{speaker:'heroine_05',expression:'thinking',text:'講你的理由。'},{speaker:'player',text:'（你講了十分鐘。她中間打斷你三次。）'},{speaker:'heroine_05',expression:'smile',text:'三次裡有一次你是對的。第一年能這樣就夠了。'},{goto:'end'},
       {label:'unsure'},{speaker:'heroine_05',expression:'neutral',text:'那你比大部分人誠實。大部分人會假裝懂，然後在口試的時候被問倒。'},{speaker:'heroine_05',expression:'smile',text:'再讀一次。這次我陪你讀第二節。'},{consequences:{advance:1}},
