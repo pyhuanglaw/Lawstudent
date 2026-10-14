@@ -10,6 +10,21 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-14 11:20 UTC（段落存檔；開發分支最新：這一筆交接的 commit；線上 v9.6＝`e88bda5`；v9.7 最後的候選＝候選 16 `52f288e`）**：
+- **v9.7 候選 15 `d8aca4d`、候選 16 `52f288e`**（本機分支 `rel/v97-rc15`、`rel/v97-rc16`，在 `scratchpad/wt_rc97`；bundle `wip_backup/v97-rc15.bundle`〔前置 fd46e14〕、`v97-rc16.bundle`〔前置 d8aca4d〕）：
+  只改測試，遊戲程式＝候選 8 `3e5201d`（候選 13 起多 script 版本號 9.7-1，`git diff 3e5201d 52f288e -- . ':!tests'` 只有 index.html）。
+  候選 15＝flow_bike 只量真的在騎的那一段（候選 14 把按下、放開搖桿的幾幀算進去，5.07 m/s；候選 15 量到 6.20 m/s＝設定值）；候選 16＝LAWWW2 的 patch `v97_tests_fd46e14`（first_meet、discuss_class、lecture_attend，判定變嚴、不是放寬）。
+- **已過**：第五節核心 8 項；flow_bike（候選 15 ALL PASS：腳 0 cm、校門、公館、便利商店、下車、存讀檔）；flow_study_legal、flow_seated_spawn（候選 14）；evtest；flow_course_choice；
+  LAWWW2：flow_first_meet、flow_discuss_class（候選 14＋patch，ALL PASS）、adv_cg_layout、flow_main_day12、flow_typhoon、cg_rain_shots、flow_invite_phone、teaching_buildings、soclib、campus_glb_integration。
+- **跑中／還沒跑**：我這台 flow_playtest_fixes（跑中）→ 換執行器（自動：`run_q_handover.sh`，舊的 25229 跑完這一項看到佇列空＋STOP 就結束，新的把 `q/queue.hold` 接回）→
+  候選 16 → flow_clubs → flow_boya_interior → flow_library_floors → flow_library_scene → see_through；LAWWW2 從另一頭：flow_lecture_attend → see_through → flow_library_scene → flow_library_floors。誰先過哪一項就算數。
+- **全過以後發布**：`git push origin 52f288e:refs/heads/main`（快轉、不 force）→ 確認 Pages → `scratchpad/collect_results_v97.py`（RCS 已有候選 15、16）→ `finish_release_v97.py REPO MAIN_SHA 'YYYY-MM-DD HH:MM:SS' PAGES_N 結果檔 候選 16 later_rc_v97.txt`
+  （這幾個檔在 `wip_backup/release_v96_v97/` 有備份）→ 告訴使用者（`v97_user_summary.md`）、LAWWW2、AA、BB → 候選 16 併回開發分支。D71：v9.7 不受三小時限制。
+- **開發分支（下一版，瀏覽器都還沒看）**：`15fd793` BB_120 1-7c 固定的改變（子晴、沛珊照熟度的訊息，方奕廷「學弟好」三則與上山那一週的澆水，阿凱的泡麵評鑑表；`tests/bb120_fixed_unit.js`）；
+  `67953ae` 一起走路的選項句走到目的地、見面前選（芷若猜電影、阿凱機車擋騎樓）；`7247f1a` 點地面點到人過不去的地方不再原地一直走（LAWWW2 回報的 201；`tests/tap_stall_unit.js`）；`d9c7c89` AA、BB 10:23～10:36 的回覆。Node 82/82。
+- **問 BB 中**：方奕廷「寒流前」放哪一週（先放大一上第 13～15 週）；子晴「你為什麼換」、沛珊「大家都不遵守的法律」的玩家選項原文。
+- **等使用者**：AA 的五個問題（會不會被當、讀書的影響、健身房 A/B/C、節日邀約與生日、節日 CG 七張）；v6「不只跟一個女生交往」（第③級）。
+
 **2026-10-14 10:40 UTC 補充**：v9.7 最後的候選改成**候選 14 `fd46e14`**（＝候選 13＋flow_bike 量法：一直按住搖桿量速度、車停下來再量腳和踏板、上車站在離店門遠的那邊；
 只改測試；bundle `wip_backup/v97-rc14.bundle`，前置 `69a6cdc`）。候選 14 已過：deploy_check、p0；flow_bike 跑中，之後照佇列。LAWWW2（10:35 P1）修三支測試
 （flow_first_meet 打字機半句＋追人、flow_discuss_class 還在走就檢查＋轉述格式、flow_lecture_attend 選「坐一下」），在候選 14 上重跑，修改併進候選 15（只改測試）。
