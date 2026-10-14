@@ -41,7 +41,7 @@ const txt=(th)=>TH(th).map(m=>(m.name||m.from||'')+':'+m.text);
     check('C17：只一次',!EVENTS.check(e)); }
   { fresh(gd,8,'dorm'); PHONE.join(G,'lawclub_study','法服讀書會'); PHONE.join(G,'family_law','法律系直屬家族'); run(8,14);
     const A=txt('g:lawclub_study').slice(-2), B=txt('g:family_law').slice(-2);
-    check('C17 法服群組（12:30）：合照＋「恭喜學長姊！法服永遠歡迎回來值班！」',JSON.stringify(A)===JSON.stringify(['法服的同學:📷（學長姊穿學士服、抱著花的合照）','法服的同學:恭喜學長姊！法服永遠歡迎回來值班！'])&&TH('g:lawclub_study').slice(-2).every(m=>m.day===gd&&Math.abs(m.h-12.5)<0.05),JSON.stringify(A));
+    check('C17 法服群組（12:30）：法服社長（AA：法三的學長姊、不具名）傳合照＋「恭喜學長姊！法服永遠歡迎回來值班！」',JSON.stringify(A)===JSON.stringify(['法服社長:📷（學長姊穿學士服、抱著花的合照）','法服社長:恭喜學長姊！法服永遠歡迎回來值班！'])&&TH('g:lawclub_study').slice(-2).every(m=>m.day===gd&&Math.abs(m.h-12.5)<0.05),JSON.stringify(A));
     check('C17 家族群組（13:00）：Kevin 傳畢業照、學姊「恭喜。」',JSON.stringify(B)===JSON.stringify(['Kevin:📷（學長姊的畢業照）','溫學姊:恭喜。']),JSON.stringify(B));
     run(14,23.9); check('C17：只送一次',TH('g:family_law').filter(m=>m.text==='恭喜。').length===1);
     fresh(gd,8,'dorm'); run(8,14); check('C17：不在群組（沒加入法服、沒有直屬家族）就沒有',!TH('g:lawclub_study').length&&!TH('g:family_law').length);
