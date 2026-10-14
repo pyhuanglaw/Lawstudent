@@ -570,7 +570,22 @@ const STORY = (function(){
         PHONE.at(G,fri,21,[P1('heroine_01','點數減了一點。宿舍說，以後記點以前會先問。'),P1('heroine_01','我本來想證明規定是錯的。後來發現規定沒錯，是它沒想到這種情況。')].concat(F.AN_APPEAL==='ask'?[P1('heroine_01','你說的那一句，我放在第一段。')]:[]).map(x=>{ const y=Object.assign({},x); delete y.dt; return y; }),'an_appeal_result'); }
       if(wed&&G.day>=wed-1&&G.day<=wed&&!done('ev_an_dorm_appeal')&&!PHONE.sent(G,'an_appeal_heard')&&PHONE.inGroup(G,'noodle_team')&&S.knows('heroine_01',G)){
         PHONE.at(G,wed,21.5,[{th:'g:noodle_team',from:'heroine_01',text:'我室友的申訴過了一半。'}],'an_appeal_heard'); if(typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!SOCIAL.has('heroine_01','HEARD_ABOUT')) SOCIAL.remember('heroine_01','HEARD_ABOUT','聽說她室友的申訴過了一半'); } }
+    /* 寒假拜年（交接包 v2 C3；AA_71 2-8「大一的台詞」，芷若、方奕廷兩則 BB 7451e42 改字）：大一上和大一下之間的春節（S.lunarNewYear＝初一）。只有認識的人：
+       麵店團群組初一 11:00 阿哲、以安各一張照片＋拜年，可以回姊姊帶你去吃的火雞肉飯或「新年快樂」的貼圖（不回就只是沒回，AA_70 1-9）；
+       芷若有點熟以上、有聯絡方式：初一 15:30 私訊（朋友以上多「……我家的。」）；方奕廷有點熟以上、有聯絡方式：初三 15:00 才到（山上沒有訊號），朋友以上隔天公布答案 */
+    { const ny=S.lunarNewYear(); if(ny!=null&&G.day>=ny-1&&G.day<=ny+4){ const LV=['STRANGER','ACQUAINTANCE','FAMILIAR','FRIEND','CLOSE_FRIEND'], atL=(id,lv)=>LV.indexOf(fl(id))>=LV.indexOf(lv);
+      if(PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'cny_noodle')){ const th='g:noodle_team';
+        PHONE.at(G,ny,11,[{th,from:'zhe',text:'📷（高雄的夜市，人擠人）'},{th,from:'zhe',text:'新年快樂！高雄沒有冬天'},{th,from:'zhe',text:'你們那邊冷嗎'},{th,from:'heroine_01',text:'📷（台中的老街，一整排紅燈籠）'},
+          {th,from:'heroine_01',text:'新年快樂。人太多，只走到第三個路口就回家了。',ask:{id:'cny_noodle_reply',opts:[{t:'（傳姊姊帶你去吃的火雞肉飯）',post:'📷（姊姊帶你去吃的火雞肉飯）',say:[{from:'zhe',text:'火雞肉飯！！回來的時候帶'},{from:'heroine_01',text:'嘉義。記下來了。'}]},
+            {t:'（傳一張「新年快樂」的貼圖）',post:'（貼圖：新年快樂）',say:[{from:'zhe',text:'（貼圖：新年快樂）'}]}]}}],'cny_noodle'); }
+      if(atL('heroine_02','FAMILIAR')&&gotBefore(G,'heroine_02')&&!PHONE.sent(G,'cny_zhiruo')){ const th='p:heroine_02';
+        PHONE.at(G,ny,15.5,[{th,from:'heroine_02',text:'📷（台中，高中旁邊的影印店，鐵門拉下來，貼著紅紙「初一至初三休息」）'},{th,from:'heroine_02',text:'新年快樂。'},{th,from:'heroine_02',text:atL('heroine_02','FRIEND')?'店休三天。……我家的。':'店休三天。'}],'cny_zhiruo'); }
+      if(atL('npc_fangyt','FAMILIAR')&&gotBefore(G,'npc_fangyt')&&!PHONE.sent(G,'cny_fangyt')){ const th='p:npc_fangyt', fr=atL('npc_fangyt','FRIEND'), Y=t=>({th,from:'npc_fangyt',text:t});
+        PHONE.at(G,ny+2,15,[Y('📷（山上的雲海和一棵松樹）'),Y('新年快樂。初一拍的，山上沒有訊號。')].concat(fr?[Y('這棵你猜。')]:[Y('台灣二葉松，Pinus taiwanensis。針葉兩根一束。'),Y('山上聽不到鞭炮。很好。')]),'cny_fangyt');
+        if(fr) PHONE.at(G,ny+3,10,[Y('答案：台灣二葉松。針葉兩根一束，名字就是提示。')],'cny_fangyt_answer'); } } }
     dailyPhone(GM); };
+  /* 大一的春節初一（遊戲第一個「春節」、前一天是「除夕」：2026-02-17）；寒假拜年（C3）用 */
+  let lunarNY; S.lunarNewYear=function(){ if(lunarNY!==undefined) return lunarNY; lunarNY=null; if(typeof CALENDAR==='undefined'||!CALENDAR.holiday) return null; for(let d=2;d<500;d++){ if(CALENDAR.holiday(d)==='春節'&&CALENDAR.holiday(d-1)==='除夕'){ lunarNY=d; break; } } return lunarNY; };
   S.firstColdDay=()=>termDay('Y1S1',15,1);   /* 第一波寒流（AA_71 十二月；阿哲的薑母鴨、AA_12 紙箱旁白也用這一天，之後接）*/
   /* 成績單先等一下（classes3d.js 的 morning 呼叫；回傳 true＝先不發，晚上視訊一起打開）：只有大一上、和可昕約好的玩家問一次 */
   S.holdGrades=async function(GM,termId){ const G=GM.G, F=G.flags; if(termId!=='Y1S1'||!F.KX_GRADES_PACT_SET||F.KX_GRADES_PACT||typeof OUT==='undefined') return false;
