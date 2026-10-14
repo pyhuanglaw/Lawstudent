@@ -197,6 +197,7 @@ const Z3 = (function(){
     for(let z=-14;z>=-70;z-=8){ for(const x of [24.2,35.8]){ if(x>30&&z>-66&&z<-54) continue; const p=PALM(7+((-z*3)%2)); place(g,p,x,z,(-z*0.7)%6.28); nav.blockCircle(x,z,0.45); } }
     // ---- 醉月湖（文學院北邊）----
     const lakeU=lake(g,nav,-36,-112,seats,lamps);   /* 方案 A：原本 (-30,-66)，整組往北搬（湖面、湖岸、湖心亭、木棧道、長椅、路燈、樹叢一起，形狀不變）*/
+    const courtGLB=bballCourt(E,g,nav,lamps);   /* 系籃球場（LAWWW2 9428f9f，位置 A 醉月湖東側；2026-10-14）：場地、碰撞、路燈現在放；正式模型等 zone 建好再載（courtGLB(zone)）*/
     ground(g,124,44,W3.grassTex(),[31,11],-70,-106,-0.003);   // 湖北邊的地面（方案 A 之前那裡走不到、種了一排樹遮住地面盡頭；湖搬過來之後樹會長在博雅裡面、小路上，2026-10-13 審查拿掉）
     { const hb=new TK.Bin(); for(let x=-61.5;x<=4.5;x+=1.15) TK.plantClump(hb,x,0,-124.35+((x*7)%2)*0.08,0.9+Math.abs((x*13)%3)*0.06,5,[0.7,0.9,0.66]); hb.build(g); }   /* 方案 A 打開的西北角：北邊界 z=-124 原本只是草地中間一道看不見的牆，種一排矮灌木收邊（導航照舊是 blockOutside）*/
     // ---- 法學院區（東北上方）：霖澤館 ＋ 萬才館 ＋ 社科院 ----
@@ -376,6 +377,7 @@ const Z3 = (function(){
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.linze_exterior']) ASSETS.loadOne('bldg.linze_exterior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachExterior(linze,c.scene.clone(true)); }).catch(e=>console.warn('霖澤館外觀正式模型載入失敗，用套件的外觀',e));
     // 總圖的 Blender 正式模型（第二個 AI）：和溫州街、公館同一套接法（只藏 ckTag==='library' 的套件；窗晚上亮、招牌是石材底色的 canvas 字）
     if(libGLB) ASSETS.loadOne('bldg.campus_library').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_library_glb','library'); }).catch(e=>console.warn('總圖正式模型載入失敗，用套件的外觀',e));
+    courtGLB(zone);   /* 系籃球場的正式模型（bballCourt）*/
     if(bellGLB) ASSETS.loadOne('bldg.campus_bell').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_bell_glb','bell'); }).catch(e=>console.warn('傅鐘正式模型載入失敗，用套件的外觀',e));
     if(gtGLB) ASSETS.loadOne('bldg.campus_gongtong').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_gongtong_glb','gongtong'); for(const [px,pz] of GT_PALMS) nav.blockCircle(px,pz,0.35); nav._cm=null; }).catch(e=>console.warn('共同教學館正式模型載入失敗，用套件的外觀',e));
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.campus_freshman']) ASSETS.loadOne('bldg.campus_freshman').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_freshman_glb','freshman'); }).catch(e=>console.warn('大一女舍正式模型載入失敗，用套件的外觀',e));
@@ -391,6 +393,21 @@ const Z3 = (function(){
     const NIGHT={ext_glass_lit:[0xffd9a0,0.75,0],ext_glass_lobby:[0xffdcae,0.8,0],ext_downlight:[0xfff3dc,1.4,0.25]};
     root.traverse(o=>{ if(!o.isMesh) return; o.castShadow=true; o.receiveShadow=true; const mt=o.material, nn=mt&&NIGHT[mt.name]; if(nn&&!mt.userData.nightReg){ mt.userData.nightReg=true; mt.emissive=new THREE.Color(nn[0]); TK.addNight(mt,nn[1],nn[2]); } if(mt&&mt.name==='ext_ceiling') TK.bounce(mt,0.32,0.5); });   /* 穿堂天花板：地面反射上來的光（套件的穿堂天花板也是這樣做）*/
     b.add(root); b.userData.formal=true; }
+  /* ---- 系籃球場（LAWWW2 9428f9f：bball_court.glb；位置 A 醉月湖東側 (-4,-113)、rotation.y=0，LAWWW 2026-10-14 採用，美術待使用者驗收）----
+     場地可以走（鋪面 2 cm）；只擋籃架柱子（0.32×0.32，(-4,-120.85)）和兩張長椅（2.0×0.36，長邊沿 z，(4.05,-115.2)／(4.05,-110.2)）。
+     活動點（AA_110 系籃練球，src/data/activities.js 的 dept_basketball）在兩張長椅中間、面向場內 (3.3,-112.7)。晚上 17:30–19:00 練球：四個角各一盞路燈。
+     正式模型載入前／載入失敗：簡單的場地、柱子、長椅（D38 分類 ③），碰撞看得到，不是隱形牆。改位置要跑 tests/campus_public_unit.js */
+  const COURT={x:-4,z:-113,ry:0};
+  function bballCourt(E,g,nav,lamps){ const cx=COURT.x, cz=COURT.z; const fb=new THREE.Group(); fb.name='court_fallback';
+    const surf=new THREE.Mesh(new THREE.PlaneGeometry(15,14),P3.M('#8c5f4c',{rough:0.92})); surf.rotation.x=-Math.PI/2; surf.position.set(cx,0.012,cz); surf.receiveShadow=true; fb.add(surf);
+    const pole=new THREE.Mesh(new THREE.BoxGeometry(0.32,3.95,0.32),P3.M('#3d4a56',{rough:0.6})); pole.position.set(cx,1.975,cz-7.85); pole.castShadow=true; fb.add(pole);
+    for(const bz of [-2.2,2.8]){ const b=new THREE.Mesh(new THREE.BoxGeometry(0.36,0.45,2.0),P3.M('#6b5038',{rough:0.85})); b.position.set(cx+8.05,0.225,cz+bz); b.castShadow=true; fb.add(b); }
+    g.add(fb);
+    nav.blockRect(cx,cz-7.85,0.32,0.32,0,0.15);   // 籃架柱子（含防護墊）；pad 0.15：比 0.5 m 的格子細的東西不加寬會一格都擋不到（格子中心不在框裡）
+    for(const bz of [-2.2,2.8]) nav.blockRect(cx+8.05,cz+bz,0.36,2.0,0,0.15);   // 場邊長椅（長邊沿 z）
+    for(const [dx,dz] of [[-9,-8.6],[9,-8.6],[-9,8.6],[9,8.6]]){ const lx=cx+dx, lz=cz+dz; const l=W3.lampPost(); place(g,l,lx,lz,dz<0?0:Math.PI); lamps.push(l); nav.blockCircle(lx,lz,0.25); }   /* 燈臂朝場內 */
+    return zone=>{ if(typeof ASSETS==='undefined'||!ASSETS.manifest['bldg.bball_court']) return; ASSETS.loadOne('bldg.bball_court').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const m=c.scene.clone(true); m.position.set(cx,0,cz); m.rotation.y=COURT.ry;
+      m.traverse(o=>{ if(o.isMesh){ o.receiveShadow=true; o.castShadow=!/court/i.test(o.name); } }); g.add(m); fb.visible=false; }).catch(e=>console.warn('系籃球場正式模型載入失敗，用簡單的場地',e)); }; }
   // ---- 醉月湖：不規則湖面（反射天空顏色＋細碎波紋＋太陽反光）、石砌湖岸、湖心亭＋木棧道（可以走上去）、湖邊樹叢與蘆葦、長椅、路燈 ----
   function lake(g,nav,cx,cz,seats,lamps){
     const A=16.5, B=9.2, N=80; const rad=t=>1+0.10*Math.sin(3*t+0.6)+0.05*Math.cos(5*t+1.3);

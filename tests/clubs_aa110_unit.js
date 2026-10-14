@@ -3,7 +3,7 @@
 // 檢查：日期、星期、週次（考試週、放假不辦）；萬才館多功能教室、研討室 A 的門口參加（還沒開始寫幾點、參加過寫參加過、平常照舊是門鎖著）；
 //   同一場社課只播一個：吉他社還沒認識子晴的第一次自動播 ev_ziqing_club 的初遇，之後播旁白；法服讀書會第一次播 ev_studygroup_wed 整段、之後旁白＋題庫兩三題（學姊問）；
 //   旁白同一學期照順序、每句最多一次，用完只顯示「社課結束了。」；週三晚上兩個只能選一個；博覽會（9/30、10/1 11:00–17:00）選社團就加入、已加入的寫已加入；
-//   系籃在體育館門口「去練球」→ 轉暗 → 19:00 → 旁白；子晴的作息只有第 5～7、10～16 週的週一、三 19–21 在萬才館；
+//   系籃在球場（醉月湖東側，2026-10-14 從體育館門口搬過去）「去練球」→ 轉暗 → 19:00 → 旁白；子晴的作息只有第 5～7、10～16 週的週一、三 19–21 在萬才館；
 //   ev_ziqing_club 冷卻 7 天、「阿凱說妳系上第一名」整個存檔只出現一次；ev_studygroup_wed 不會因為走進萬才館就自己開始（trigger 'activity'）。
 // 用法：node tests/clubs_aa110_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -89,7 +89,7 @@ const W=[5,6,7,10,11,12,13,14,15,16];
   /* H：系籃 */
   const friDay=W.map(w=>dOf(w,5)).find(d=>d&&!CALENDAR.holiday(d)); fresh(friDay,17.6); G.zone='campus'; answers=[0]; await CLS.spotInteract(GM,b);
   { const iF=log.indexOf('〔轉暗〕'), iN=log.indexOf(b.narr[0]);
-    check('系籃：體育館門口「去練球：系籃練球」→ 沒有入座的句子、直接轉暗 → 19:00 → 旁白 → 社課結束了',(chose[0]||[])[0]==='去練球：系籃練球'&&iF===0&&iN>iF&&Math.abs(G.hour-19)<0.01&&caps[caps.length-1]==='社課結束了。'&&G.flags.CLUB_dept_basketball===true,JSON.stringify(log)); }
+    check('系籃：球場（醉月湖東側）「去練球：系籃練球」→ 沒有入座的句子、直接轉暗 → 19:00 → 旁白 → 社課結束了',(chose[0]||[])[0]==='去練球：系籃練球'&&iF===0&&iN>iF&&Math.abs(G.hour-19)<0.01&&caps[caps.length-1]==='社課結束了。'&&G.flags.CLUB_dept_basketball===true,JSON.stringify(log)); }
   /* I：事件的條件 */
   const ez=STORY_EVENTS.find(e=>e.id==='ev_ziqing_club'), es=STORY_EVENTS.find(e=>e.id==='ev_studygroup_wed');
   const why=ez.dialogue.find(d=>d.choice).choice.find(c=>/系上第一名/.test(c.text));

@@ -39,8 +39,8 @@ const ACTIVITIES={
     {id:'club_expo_y1s1',title:'社團博覽會',kind:'fair',zone:'campus',roomName:'椰林大道',spot:{x:-13.5,z:13.6,lv:0,label:'社團博覽會',r:1.3},dates:['2025-09-30','2025-10-01'],t0:11,t1:17,
      clubs:['club_guitar','lawclub_study','club_debate','club_hiking','dept_basketball'],
      desc:'攤位：吉他社、法服、辯論社、登山社、系籃（系學會）。在攤位填表＝加入。',story:false},
-    /* 6-8 (c)：系籃——先放在體育館門口（體育課那一棟）；球場做好以後搬過去，id 不變 */
-    {id:'dept_basketball',title:'系籃練球',clubName:'系籃（系學會）',kind:'club',zone:'campus',roomName:'體育館門口',spot:{x:69.8,z:59.0,lv:0,label:'系籃練球'},verb:'去練球',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15,16],weekday:5,t0:17.5,t1:19,
+    /* 6-8 (c)：系籃——2026-10-14 搬到球場（LAWWW2 9428f9f，醉月湖東側；zones3d.js 的 bballCourt）：活動點在場邊兩張長椅中間、面向場內；id 不變（原本先放在體育館門口）*/
+    {id:'dept_basketball',title:'系籃練球',clubName:'系籃（系學會）',kind:'club',zone:'campus',roomName:'籃球場（醉月湖東側）',spot:{x:3.3,z:-112.7,lv:0,label:'系籃練球'},verb:'去練球',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15,16],weekday:5,t0:17.5,t1:19,
      desc:'投籃、分隊打半場；也可以在場邊記分、送水。',story:false,
      narr:['（投籃練習，每人二十球。進幾球沒有人在算——除了學長。）','（分隊打半場。你在場邊記分，記錯一次，被兩隊同時糾正。）','（今天練防守腳步。十分鐘後，大家的腿都在發抖。）',
            '（今天在體育館走廊練運球。球聲在走廊裡很大聲。）','（練完，大家坐在場邊喝水。有人說民總的作業還沒寫，全場安靜了一下。）']}

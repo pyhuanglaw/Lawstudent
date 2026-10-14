@@ -199,7 +199,7 @@ async def main():
             g = await goal(pg); ph = await pg.evaluate("document.getElementById('phone').classList.contains('hide')")
             run.check('D 點「帶我去」：手機關起來、目標變成「去找阿哲」', ph and '去找阿哲' in g, g)
             await run.shot(pg, 'D_find_goal')
-            d = await chase(pg, cdp, run, 'zhe', '阿哲旁邊', rounds=6)
+            d = await chase(pg, cdp, run, 'zhe', '阿哲旁邊', rounds=30)   # v9.6 候選 3 第三次：6 次（每次 15 秒）追不到 78 m 外的阿哲（舊版每次 go_to 最多 150 秒）；判斷標準不變
             s = await L.state(pg)
             run.check('D 自己走到阿哲旁邊、出現「和阿哲說話」', d is not None and d <= 2.6 and '阿哲' in s['interact'], f"d={d} {s['interact']}")
             if '阿哲' in s['interact']:

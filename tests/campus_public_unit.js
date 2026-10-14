@@ -51,6 +51,14 @@ check('大一女舍：A、B 兩棟之間（2 樓天橋下）走得過去',stand(
 { const ps=TREES.map(t=>{ const v=new THREE.Vector3(); t.getWorldPosition(v); return [+v.x.toFixed(1),+v.z.toFixed(1)]; });
   const inBoya=ps.filter(([x,zz])=>x>-55.5&&x<-20.5&&zz>-92.5&&zz<-73.5), onPath=ps.filter(([x,zz])=>x>-15&&x<-9&&zz>-97&&zz<-46), loose=ps.filter(([x,zz])=>x>-62&&x<-5&&zz>-92&&zz<-80&&stand(x,zz));
   check('湖北邊那排樹拿掉了：博雅裡面、x=-12 往湖的小路上沒有樹，博雅附近站得住的地方沒有穿得過去的樹幹',TREES.length>20&&!inBoya.length&&!onPath.length&&!loose.length,JSON.stringify({inBoya,onPath,loose})); }
+// 系籃球場（LAWWW2 9428f9f，位置 A 醉月湖東側 (-4,-113)，2026-10-14；zones3d.js 的 bballCourt）：場地可以走，只擋籃架柱子和兩張長椅；活動點從校門、霖澤館前走得到
+{ const S=[3.3,-112.7]; const inC=[[-4,-113],[-10,-118],[2,-108],[-4,-106.5],[-11.5,-110]].filter(q=>stand(q[0],q[1]));
+  check('系籃球場：場地中間和四周都站得住（鋪面可以走）',inC.length===5,JSON.stringify(inC));
+  check('系籃球場：籃架柱子、兩張長椅擋住（站不上去）',!stand(-4,-120.85)&&!stand(4.05,-115.2)&&!stand(4.05,-110.2));
+  let r=walk(GATE,S); check('系籃球場：活動點（兩張長椅中間）站得住、從校門走得到（走路、跑步＋低幀率）',stand(S[0],S[1])&&r.ok,JSON.stringify(r).slice(0,180));
+  r=walk(LINZE,S); check('系籃球場：活動點從霖澤館前走得到',r.ok,JSON.stringify(r).slice(0,180));
+  r=walk(S,[-4,-117]); check('系籃球場：從活動點走到籃框前（場內走得通）',r.ok,JSON.stringify(r).slice(0,180));
+  const lamps=(z.lamps||[]).filter(l=>Math.abs(l.position.x+4)<9.5&&Math.abs(l.position.z+113)<9.5); check('系籃球場：四個角各一盞路燈（晚上練球）',lamps.length===4,String(lamps.length)); }
 // 萬才館研討室 A：大四研討課的門（2026-10-13 審查第 9 項）
 { E.interactables=[]; const wz=Z3.ZONES.wancai.build(E); const sem=E.interactables.find(i=>i.door==='wancai_seminar'); check('萬才館二樓的研討室 A 是上課的門（門口上課：大四的法律倫理、判決研討）',!!sem&&sem.lv===1&&sem.label==='研討室 A'&&typeof sem.onInteract==='function',sem?`${sem.label} lv${sem.lv}`:'沒有'); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
