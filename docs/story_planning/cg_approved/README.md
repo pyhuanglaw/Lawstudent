@@ -11,5 +11,5 @@
 
 | 檔案 | CG | 遊戲 key | 事件 | 檢查 | 備註 |
 |---|---|---|---|---|---|
-| `cg_library_rain_heroine03.webp` | CG-1 雨天的總圖門口（語彤） | `cg_library_rain_heroine03`（已登錄，現有路徑 `assets/cg/heroine_03/event_rain_library.webp`） | `ev_rain_library_door`（已在遊戲裡） | **通過**（BB 2026-10-14，`ART_APPROVED`） | 1672×941，要放大到 1920×1080。語彤手腕的髮圈這張沒有，CG-6 再加 |
+| `cg_library_rain_heroine03.webp` | CG-1 雨天的總圖門口（語彤） | `cg_library_rain_heroine03`（已登錄，現有路徑 `assets/cg/heroine_03/event_rain_library.webp`） | `ev_rain_library_door`（已在遊戲裡） | ~~通過~~ → **要重生成一次（先不要整合）**（BB 2026-10-14，AA 發現） | 人物、畫風都好，但她站在台階前的廣場上，身邊有雨絲、腳邊有水花、T 恤上有雨點，看起來像「站在雨裡淋雨」。這和使用者親寫的旁白不合：旁白是「屋簷下站著一個人」，她接著說「……我沒帶傘」。第二版提示詞把位置寫死：在屋簷下、身上是乾的、雨只在屋簷外。這個檔案先留著，第二版通過後換掉 |
 | `cg_own_drink_heroine02.webp` | BCG-04 妳自己喝什麼（芷若） | `cg_own_drink_heroine02`（LAWWW 可以改名） | Z3 `ev_zhiruo_own_drink`（交接包 v2，**還沒批准實作**，先放著） | **通過**（BB 2026-10-14，`ART_APPROVED`） | 1672×941。抹布是拿在手上，不是停在吧檯上，沒關係。手機直拿時，對話框會蓋到手和抹布，臉看得到 |
