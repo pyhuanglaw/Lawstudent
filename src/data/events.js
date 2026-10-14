@@ -780,10 +780,11 @@ const STORY_EVENTS_V11=[
   /* 子晴 Q6「測試我的遊戲。現在。」（BB_96 4-2 改門檻與台詞，交接包 v2）：原本前置要 FRIEND，沒有事件會讓她到朋友，永遠走不到 →
      Q4（CONTEST_DAY）或 Q5（CLAPPED）任一發生過＋有點熟以上；大一下第 11 週以後、週一三晚上吉他社的時段（萬才館；交往中的玩家也是社課時段，旁邊還有社員）。
      Q4 沒遇到的玩家，Q5（第 14 週成發）之後才會有。記 PLAYTESTED（新）；第三個選項 FIRST_BUG（第 5 節「插座修好了」）。表情 serious → laugh（第一次 embarrassed 留給 Q5）。
-     id 不改：舊存檔演過的不再演。好感數字：前兩個選項照舊版，第三個（新）用舊版刪掉的「交出去」那一個（trust 6、resp 5）——BB 沒寫，已問 */
+     id 不改：舊存檔演過的不再演。好感數字、所有玩家都在社課時段、找插座的三句旁白：BB b395706（2026-10-14 補）*/
   { id:'ev_ziqing_secret_game', title:'她在做的東西', participants:['heroine_04'], location:'wancai', trigger:'interact', priority:9, once:true, term:['Y1S2'], weeks:[11,12,13,14,15,16,17,18], weekday:[1,3], time:[19,21],
     prereq:{stage:{npc:'heroine_04',min:'FAMILIAR'},custom:G=>typeof SOCIAL!=='undefined'&&(SOCIAL.has('heroine_04','CONTEST_DAY')||SOCIAL.has('heroine_04','CLAPPED'))}, background:'blur',
     dialogue:[ {speaker:'heroine_04',expression:'serious',text:'（把筆電轉過來）測試我的遊戲。現在。'},{speaker:'heroine_04',expression:'serious',text:'一隻在校園裡找插座的貓。做了半年。'},{speaker:'heroine_04',expression:'neutral',text:'沒有人知道。……除了阿凱。他是工程師，不算。'},
+      {speaker:null,text:'（你接過筆電。一隻灰白色的小貓，脖子掛著一支沒電的手機。）'},{speaker:null,text:'（你點了三個地方：文學院的走廊、霖澤館的穿堂、總圖二樓靠窗那排。）'},{speaker:null,text:'（最後一個插座，貓坐下來，手機上的電池滿了。剛好三十秒。）'},
       {choice:[{text:'「貓為什麼要找插座？」',consequences:{rel:{heroine_04:{fam:5,comf:5,aff:3}},mem:[{npc:'heroine_04',tag:'PLAYTESTED',note:'測試她做的遊戲'}]},goto:'cat'},
         {text:'「這比比賽有用多了。」',if:{custom:G=>typeof SOCIAL!=='undefined'&&(SOCIAL.has('heroine_04','ARGUED_ABOUT_CAREER')||SOCIAL.has('heroine_04','CONTEST_DAY'))},consequences:{rel:{heroine_04:{trust:5,aff:4}},mem:[{npc:'heroine_04',tag:'PLAYTESTED',note:'測試她做的遊戲'}]},goto:'better'},
         {text:'「這比我想的好玩。」',unless:{custom:G=>typeof SOCIAL!=='undefined'&&(SOCIAL.has('heroine_04','ARGUED_ABOUT_CAREER')||SOCIAL.has('heroine_04','CONTEST_DAY'))},consequences:{rel:{heroine_04:{trust:5,aff:4}},mem:[{npc:'heroine_04',tag:'PLAYTESTED',note:'測試她做的遊戲'}]},goto:'better'},
@@ -806,17 +807,17 @@ const STORY_EVENTS_V11=[
       {label:'end'} ] },
   /* 子晴 Q4 比賽那天（BB_96 4-1 改寫，交接包 v2）：她週六的作息在公館（13–16），原本放在 Café 走不到 → 公館騎樓的長椅、只在比賽那一個週六（大一下第 8 週的週六，
      第 8～9 週之間）、前置 v1 Q2 問過比賽（ARGUED_ABOUT_CAREER）；三個選項都沒有正解（刪掉「有一點。但明年還有。」comf −2）；記 CONTEST_DAY（Q6 的前置之一）。
-     id 不改：舊存檔在 Café 演過的不再演。錢照舊版 −120（BB 沒寫，已問）*/
+     id 不改：舊存檔在 Café 演過的不再演。錢（BB 382e9e2）：便利商店的罐裝咖啡一罐 −35（舊版 Café 的第四杯 −120）；選「陪她喝第四罐」的玩家自己也喝了一罐，再 −35 */
   { id:'ev_ziqing_contest_day', title:'比賽那天', participants:['heroine_04'], location:'gongguan', trigger:'interact', priority:9, once:true, term:['Y1S2'], weeks:[8], weekday:[6], time:[13,16], prereq:{memory:[{npc:'heroine_04',tag:'ARGUED_ABOUT_CAREER'}]}, background:'blur',
     dialogue:[ {speaker:null,text:'（她坐在騎樓的長椅，旁邊三個空的咖啡罐。）'},
       {speaker:'heroine_04',expression:'tired',text:'……今天是那個比賽。系上的人現在都在會場。'},{speaker:'heroine_04',expression:'tired',text:'我在這裡喝第三罐咖啡。'},{speaker:'heroine_04',expression:'neutral',text:'你說，我是不是很爛。'},
       {choice:[{text:'「妳不想去，就不是爛。」',consequences:{rel:{heroine_04:{trust:8,comf:4}},mem:[{npc:'heroine_04',tag:'CONTEST_DAY',note:'比賽那天，公館騎樓'}]},goto:'brave'},
         {text:'「現在去還來得及嗎？」',consequences:{rel:{heroine_04:{resp:4,trust:3}},mem:[{npc:'heroine_04',tag:'CONTEST_DAY',note:'比賽那天，公館騎樓'}]},goto:'late'},
-        {text:'（陪她喝第四罐）',consequences:{rel:{heroine_04:{comf:7}},mem:[{npc:'heroine_04',tag:'CONTEST_DAY',note:'比賽那天，公館騎樓'}]},goto:'drink'}]},
+        {text:'（陪她喝第四罐）',consequences:{rel:{heroine_04:{comf:7}},mem:[{npc:'heroine_04',tag:'CONTEST_DAY',note:'比賽那天，公館騎樓'}],money:-35},goto:'drink'}]},
       {label:'brave'},{speaker:'heroine_04',expression:'smile',text:'……你這樣講，好像我很勇敢。'},{speaker:null,text:'（她笑。）'},{speaker:'heroine_04',expression:'laugh',text:'我只是怕輸。'},{goto:'end'},
       {label:'late'},{speaker:'heroine_04',expression:'tired',text:'來不及了。第一輪已經結束了。'},{speaker:null,text:'（她把手機蓋在長椅上。）'},{speaker:'heroine_04',expression:'laugh',text:'……好爽。好爛。兩個都有。'},{goto:'end'},
       {label:'drink'},{speaker:'heroine_04',expression:'smile',text:'欸不是，你也喝？'},{speaker:'player',text:'嗯。'},{speaker:'heroine_04',expression:'smile',text:'……你很奇怪。'},{speaker:null,text:'（她第一次沒有吐槽下去。）'},
-      {label:'end'},{speaker:'heroine_04',expression:'smile',text:'……第四罐。你請。'} ], consequences:{money:-120} },
+      {label:'end'},{speaker:'heroine_04',expression:'smile',text:'……第四罐。你請。'} ], consequences:{money:-35} },
   // ── 溫學姊 arc ──
   { id:'ev_sis_collapse', title:'她撐不住的那天', off:'交接包 v1 關閉（改寫版在之後的交接包）', participants:['heroine_05'], location:'cafe', trigger:'interact', priority:10, once:true, time:[20,24], prereq:{stage:{npc:'heroine_05',min:'FRIEND'},memory:[{npc:'heroine_05',tag:'IMPORTANT_CONVERSATION'}]}, background:'blur',
     dialogue:[ {speaker:'heroine_05',expression:'tired',text:'……你來得剛好。或者剛不好。'},{speaker:'heroine_05',expression:'sad',text:'研究計畫被退回來。許老師說「你自己不相信這個題目」。他說對了。'},{speaker:'heroine_05',expression:'serious',text:'我做了三年法服、社長、公法組……然後我今天在這裡想，我是不是根本不想念法律。'},{choice:[{text:'「那妳想做什麼？」',consequences:{rel:{heroine_05:{trust:9,aff:4,comf:5}},mem:[{npc:'heroine_05',tag:'SHARED_SECRET',note:'她不確定要不要繼續念法律'}]},goto:'what'},{text:'「休息一天再想。」',consequences:{rel:{heroine_05:{comf:6,trust:4}},mem:[{npc:'heroine_05',tag:'SHARED_SECRET',note:'她不確定要不要繼續念法律'}]},goto:'rest'},{text:'「學姊，妳只是累了。」',consequences:{rel:{heroine_05:{comf:-3,trust:2}},mem:[{npc:'heroine_05',tag:'SHARED_SECRET',note:'你說她只是累了'}]},goto:'tired'}]},{label:'what'},{speaker:'heroine_05',expression:'thinking',text:'……我不知道。這是三年來第一次有人問我這個，而不是問我「下一步」。'},{goto:'end'},{label:'rest'},{speaker:'heroine_05',expression:'tired',text:'我不會休息。……好吧，一天。'},{goto:'end'},{label:'tired'},{speaker:'heroine_05',expression:'annoyed',text:'每個人都這樣說。'},{speaker:'heroine_05',expression:'sad',text:'……對不起。你沒有錯。'},{label:'end'},{speaker:'heroine_05',expression:'neutral',text:'不要跟法服的人講。我明天還是社長。'} ] },

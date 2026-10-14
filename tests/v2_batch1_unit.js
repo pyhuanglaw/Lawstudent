@@ -95,7 +95,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       L=await play(1); check('子晴 Q4 選 2：「來不及了。第一輪已經結束了。」（她把手機蓋在長椅上。）「……好爽。好爛。兩個都有。」→ 第四罐、CONTEST_DAY',L.some(t=>/來不及了。第一輪已經結束了。$/.test(t))&&L.includes('（她把手機蓋在長椅上。）')&&L.some(t=>/……好爽。好爛。兩個都有。$/.test(t))&&/……第四罐。你請。$/.test(L[L.length-1])&&SOCIAL.has('heroine_04','CONTEST_DAY')&&!L.some(t=>/勇敢|你也喝/.test(t)),JSON.stringify(L.slice(4)));
       L=await play(2); check('子晴 Q4 選 3：「欸不是，你也喝？」你「嗯。」「……你很奇怪。」（她第一次沒有吐槽下去。）→ 第四罐、CONTEST_DAY',L.some(t=>/欸不是，你也喝？$/.test(t))&&L.includes('祐廷：嗯。')&&L.some(t=>/……你很奇怪。$/.test(t))&&L.includes('（她第一次沒有吐槽下去。）')&&/……第四罐。你請。$/.test(L[L.length-1])&&SOCIAL.has('heroine_04','CONTEST_DAY')&&!L.some(t=>/勇敢|來不及/.test(t)),JSON.stringify(L.slice(4)));
       const T=JSON.stringify(e.dialogue);
-      check('子晴 Q4：舊版刪掉的選項「有一點。但明年還有。」與舊的 IMPORTANT_CONVERSATION 備註都不在；錢照舊 −120',!/有一點。但明年還有。/.test(T)&&!/IMPORTANT_CONVERSATION/.test(T)&&e.consequences&&e.consequences.money===-120);
+      check('子晴 Q4：舊版刪掉的選項「有一點。但明年還有。」與舊的 IMPORTANT_CONVERSATION 備註都不在；錢：罐裝咖啡 −35，「陪她喝第四罐」再 −35（BB 382e9e2）',!/有一點。但明年還有。/.test(T)&&!/IMPORTANT_CONVERSATION/.test(T)&&e.consequences&&e.consequences.money===-35&&e.dialogue.find(l=>l.choice).choice[2].consequences.money===-35&&!e.dialogue.find(l=>l.choice).choice[0].consequences.money);
       check('子晴 Q4：只一次',!EVENTS.check(e)); } }
   /* ---------- 子晴 Q6 測試我的遊戲。現在。（BB_96 4-2 改門檻）---------- */
   { const e=ev('ev_ziqing_secret_game'); check('子晴 Q6：事件在',!!e);
@@ -107,6 +107,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       const play=async(k,opt)=>{ opt=opt||{}; fresh(wk('Y1S2',11,1),19.5,'wancai',opt.flags||{}); SOCIAL.meet('heroine_04','campus'); Z4(25); for(const t of (opt.mem||['ARGUED_ABOUT_CAREER','CONTEST_DAY'])) SOCIAL.remember('heroine_04',t,'x'); picks=[k]; await EVENTS.run(e); return lines(); };
       let L=await play(0,{flags:{}});
       check('子晴 Q6：三句（原文）；知道比賽的玩家三個選項是「貓為什麼要找插座？」「這比比賽有用多了。」「總圖二樓靠窗那排的插座是壞的。」',/（把筆電轉過來）測試我的遊戲。現在。$/.test(L[0])&&/一隻在校園裡找插座的貓。做了半年。$/.test(L[1])&&/沒有人知道。……除了阿凱。他是工程師，不算。$/.test(L[2])&&JSON.stringify(opts[0])==='["「貓為什麼要找插座？」","「這比比賽有用多了。」","「總圖二樓靠窗那排的插座是壞的。」"]',JSON.stringify([L.slice(0,3),opts[0]]));
+      check('子晴 Q6：三句之後是找插座的三句旁白（BB b395706）、然後才選',L[3]==='（你接過筆電。一隻灰白色的小貓，脖子掛著一支沒電的手機。）'&&L[4]==='（你點了三個地方：文學院的走廊、霖澤館的穿堂、總圖二樓靠窗那排。）'&&L[5]==='（最後一個插座，貓坐下來，手機上的電池滿了。剛好三十秒。）',JSON.stringify(L.slice(3,6)));
       check('子晴 Q6 選 1：「因為牠的手機沒電了。」（她說得很認真，然後自己笑到趴在桌上。）、PLAYTESTED、沒有 FIRST_BUG',L.some(t=>/因為牠的手機沒電了。$/.test(t))&&L.includes('（她說得很認真，然後自己笑到趴在桌上。）')&&SOCIAL.has('heroine_04','PLAYTESTED')&&!G.flags.FIRST_BUG,JSON.stringify(L.slice(3)));
       L=await play(1,{flags:{}}); check('子晴 Q6 選 2（單身）：「你不要突然講這種話，我會當真。」',L.some(t=>/你不要突然講這種話，我會當真。$/.test(t))&&!L.some(t=>/把它做完/.test(t))&&SOCIAL.has('heroine_04','PLAYTESTED'),JSON.stringify(L.slice(3)));
       L=await play(1,{flags:{dating_kexin:true}}); check('子晴 Q6 選 2（交往中，AA_112 8-1）：「你不要突然講這種話。我會真的把它做完。」',L.some(t=>/你不要突然講這種話。我會真的把它做完。$/.test(t))&&!L.some(t=>/我會當真/.test(t)),JSON.stringify(L.slice(3)));
