@@ -91,8 +91,8 @@ async def main():
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
         # ---------- A：林芷若時段結束 ----------
-        run.setup('讀檔：第 7 天（9/23 週二）11:46，校園傅鐘附近 (-38,6)；林芷若週二 10–12 在傅鐘附近')
-        await L.load_state(pg, {'zone': 'campus', 'hour': 11.77, 'day': 7, 'weekday': 2, 'weather': 'clear', 'pos': {'x': -38, 'z': 6, 'yaw': 0}, 'flags': BASE_FLAGS})
+        run.setup('讀檔：第 7 天（9/23 週二）11:30，校園傅鐘附近 (-38,6)；林芷若週二 10–12 在校園走走（v9.6 發布回歸：原本 11:46，她出現的位置照路線隨機挑、可能在 100 m 外，14 分鐘追不到；改早讓追人和對話有足夠的遊戲時間，判斷標準不變）')
+        await L.load_state(pg, {'zone': 'campus', 'hour': 11.5, 'day': 7, 'weekday': 2, 'weather': 'clear', 'pos': {'x': -38, 'z': 6, 'yaw': 0}, 'flags': BASE_FLAGS})
         await pg.wait_for_timeout(4000)
         z0 = await npc(pg, 'heroine_02')
         run.check('A 林芷若在校園（作息：週二 10–12 傅鐘附近）', bool(z0), json.dumps(z0))
@@ -112,7 +112,7 @@ async def main():
             await run.shot(pg, 'A_after_talk')
             # 等到 12:00（不跳時間，站在原地看著她）
             t0 = time.time()
-            while time.time() - t0 < 300 and await pg.evaluate("GAME.G.hour") < 12.0: await pg.wait_for_timeout(2000)
+            while time.time() - t0 < 1500 and await pg.evaluate("GAME.G.hour") < 12.0: await pg.wait_for_timeout(2000)
             n1 = None; t1 = time.time()
             while time.time() - t1 < 120:   # 行程每 3 秒（遊戲時間）檢查一次：SwiftShader 要 30–60 秒
                 n1 = await npc(pg, 'heroine_02')
