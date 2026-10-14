@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-"""檢查正式題庫（大一～大三）。用法：python3 check_official.py [QBANK 路徑]"""
+"""檢查正式題庫（大一～大三）。
+用法：python3 check_official.py [QBANK 路徑]          # 檢查
+      python3 check_official.py --sync [QBANK 路徑]   # 先照實際題數更新 course_bank_map.json 大一～大三各課的 confirmed／status，再檢查
+"""
 import json, glob, os, re, sys
 here = os.path.dirname(os.path.abspath(__file__)); root = os.path.dirname(here)
 m = json.load(open(os.path.join(root, 'course_bank_map.json'), encoding='utf-8'))
@@ -33,13 +36,23 @@ for f in sorted(glob.glob(os.path.join(root, '*.json'))):
         if not (1 <= int(q['scopeWeek']) <= 18): err.append(f'{tag}：scopeWeek 超出 1～18')
         for fl in q.get('flags', []): warn.append(f'{tag}：{fl}')
         count[c] = count.get(c, 0) + 1
-qpath = sys.argv[1] if len(sys.argv) > 1 else os.path.join(root, '..', '..', '..', 'src', 'data', 'legal_qbank.js')
+args = [a for a in sys.argv[1:] if a != '--sync']
+qpath = args[0] if args else os.path.join(root, '..', '..', '..', 'src', 'data', 'legal_qbank.js')
 if os.path.exists(qpath):
     src = open(qpath, encoding='utf-8').read()
     n = len(re.findall(r'"id":\s*"Q\d{3}"', src))
     count['crimpro'] = count.get('crimpro', 0) + n
 else:
     warn.append(f'找不到 QBANK（{qpath}），刑訴的題數沒算')
+if '--sync' in sys.argv:
+    if not os.path.exists(qpath):
+        sys.exit('找不到 QBANK，不能 --sync（刑訴的題數會算錯）')
+    for e in m['courses']:
+        if e['exam'] == 'mc5' and not e['term'].startswith('Y4'):
+            e['confirmed'] = count.get(e['course'], 0)
+            e['status'] = 'ENABLED' if e['confirmed'] >= 5 else 'INSUFFICIENT'
+    open(os.path.join(root, 'course_bank_map.json'), 'w', encoding='utf-8').write(json.dumps(m, ensure_ascii=False, indent=1) + '\n')
+    current = {c['course']: c for c in m['courses']}
 for c, e in current.items():
     if e['exam'] != 'mc5' or c in ('',) or e['term'].startswith('Y4'):
         continue
