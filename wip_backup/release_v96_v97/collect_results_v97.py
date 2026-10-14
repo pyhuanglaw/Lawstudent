@@ -11,13 +11,13 @@ for line in open(S+'/q/Q.txt',encoding='utf8',errors='replace'):
     name,rc,sec,sha,rest=m.groups()
     if name.startswith(('diag_','setff')) or sha not in RCS: continue
     rc=int(rc) or (1 if 'FAILED' in rest else 0)   # 有的測試印 FAILED 但結束碼 0（flow_bike 候選 11 以前）：看最後一行
-    mine[re.sub(r'_v97[bcd]?$','',name)]=(rc,int(sec),sha,rest)
+    mine[re.sub(r'_v97[b-z]?$','',name)]=(rc,int(sec),sha,rest)
 lp=S+'/q/lawww2_results_v97.txt'; theirs={}
 if os.path.exists(lp):
     for l in open(lp,encoding='utf8'):
         m=re.match(PAT,l.strip())
         if m and not l.startswith('#'):
-            name,rc,sec,sha,rest=m.groups(); theirs[re.sub(r'_v97[bcd]?$','',name)]=(int(rc) or (1 if 'FAILED' in rest else 0),int(sec),sha,rest)
+            name,rc,sec,sha,rest=m.groups(); theirs[re.sub(r'_v97[b-z]?$','',name)]=(int(rc) or (1 if 'FAILED' in rest else 0),int(sec),sha,rest)
 def show(d):
     for n,v in sorted(d.items(), key=lambda kv:(kv[1][0]!=0, kv[0])):
         tag=RCS.get(v[2],v[2])

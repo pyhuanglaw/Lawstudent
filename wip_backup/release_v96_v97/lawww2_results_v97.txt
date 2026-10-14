@@ -16,3 +16,8 @@ campus_glb_integration rc=0 (254s) @3e5201d ALL PASS（70；gate_avenue draw cal
 flow_first_meet rc=1 (909s) @3e5201d FAILED: 18 PASS／2 FAIL——A 追不到（d=30.9）、B2 抓到打字機打到一半的字（FIRST_MET 有記，事件正常）；LAWWW2 修測試中（10:35 P1）
 flow_discuss_class rc=1 (201s) @3e5201d FAILED: 3 PASS／6 FAIL——A 檢查「坐下」時人還在走（path 2）連帶後面；B 轉述訊息有、比對的格式舊；LAWWW2 修測試中
 flow_lecture_attend rc=1 (872s) @64792d3 FAILED: 8 PASS／3 FAIL——第二場坐下選到「聽演講」不是「坐一下」（時間跳 3.8 小時記成 full）；LAWWW2 修測試中
+flow_first_meet rc=0 (901s) @fd46e14 ALL PASS（20 項；候選 14＋LAWWW2 的測試 patch v97_tests_fd46e14＝候選 16 的測試；LAWWW2 d22d317）
+flow_discuss_class rc=0 (352s) @fd46e14 ALL PASS（9 項；同上 patch；A 段在 201 第 4 排原地走路、推一下搖桿才到＝遊戲的問題，不是 v9.7 新的，開發分支 7247f1a 修；LAWWW2 57e89fe）
+flow_lecture_attend rc=0 (836s) @fd46e14 ALL PASS（11 項；同上 patch：照文字選「坐一下」；LAWWW2 推的 log）
+see_through rc=0 (58s) @52f288e ALL PASS（12 項；LAWWW2 5576908）
+flow_library_scene rc=0 (528s) @52f288e ALL PASS（13 項；LAWWW2 60c2e48、1764ab4）
