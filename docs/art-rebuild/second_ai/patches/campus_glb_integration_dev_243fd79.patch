@@ -1,5 +1,5 @@
 diff --git a/tests/campus_glb_integration.py b/tests/campus_glb_integration.py
-index 654f29e..f7898e2 100644
+index 654f29e..37593db 100644
 --- a/tests/campus_glb_integration.py
 +++ b/tests/campus_glb_integration.py
 @@ -7,8 +7,9 @@
@@ -9,12 +9,12 @@ index 654f29e..f7898e2 100644
 -  2. 位置、尺寸、朝向照套件：正式模型的外框和套件的外框差 ≤ 1.5 m（屋簷、簷口出挑的差別）。
 -  3. 導航格、鏡頭碰撞方塊、互動點和「改之前」完全相同。
 +  2. 位置、尺寸、朝向照套件：正式模型的外框和套件的外框差 ≤ 1.5 m（屋簷、簷口出挑的差別）；同一個標記的套件物件取聯集（大一女舍 A、B、天橋）；
-+     共同教學館的設計差異（四樓、西側木造走廊、前庭蒲葵）照 BBOX_TOL、BBOX_SKIP，蒲葵樹幹另外檢查＝導航的 GT_PALMS。
++     共同教學館的設計差異（四樓、西側木造走廊、前庭蒲葵）照 BBOX_TOL、BBOX_REGION，蒲葵樹幹另外檢查＝導航的 GT_PALMS。
 +  3. 互動點和「改之前」完全相同；導航格、鏡頭碰撞方塊只准差在共同教學館宣告過的地方（大樹牆拿掉的樹、蒲葵樹幹；ck.cols 取代套件預設的方塊），其他完全相同（2026-10-14 補）。
    4. 匾額（總圖「總圖書館」、傅鐘石碑「傅鐘」、行政大樓門廊檐部「行政大樓」、文學院門廊檐部「文學院」、校史館中央拱上方「校史館」）：石材匾額，canvas 字、貼圖比例＝板面比例。
    5. 夜間：總圖、行政大樓、文學院、校史館 20:30 窗戶亮、11:00 不亮（亮燈、沒亮燈的窗同一個材質：自發光貼圖左半黑、右半燈光，UV 決定亮不亮）；傅鐘的地燈燈罩、柱面暖光、光暈 20:30 亮、11:00 不亮，套件的光暈晚上不會跑回來（藏起來的套件光暈
       會被 TK.setNight 重新打開——這一項在沒修的版本會失敗）、夜裡才進校園（模型在晚上才載入）光暈也是亮的；20:30 路燈開著，開燈數和改之前一樣。
-@@ -32,21 +33,38 @@ TAGS = {'library': ('bldg.campus_library', 'campus_library_glb', 'PLATE_FACE_LIB
+@@ -32,21 +33,39 @@ TAGS = {'library': ('bldg.campus_library', 'campus_library_glb', 'PLATE_FACE_LIB
          'arts': ('bldg.campus_arts', 'campus_arts_glb', 'PLATE_FACE_ARTS'),
          'hist': ('bldg.campus_hist', 'campus_hist_glb', 'PLATE_FACE_HIST'),
          'pavilion': ('bldg.campus_pavilion', 'campus_pavilion_glb', 'PLATE_FACE_PAV'),
@@ -29,10 +29,11 @@ index 654f29e..f7898e2 100644
 +# 正式模型和套件「設計上就不同」的地方（LAWWW 2026-10-13 整合時已經照模型改了鏡頭碰撞、導航；2026-10-14 LAWWW2 補進測試清單）——只有這些地方可以不同，其他照舊要完全相同：
 +#   （共同教學館、大一女舍沒有正式模型的版本（v9.6）：TAGS 裡沒有它們，導航格、鏡頭碰撞照舊要完全相同）
 +#   共同教學館（LAWWW2 55fbedb；zones3d.js 的 gtGLB）：模型照真的共同教學館——四樓（屋頂 17.69 m；套件是三樓、15.61 m）、西側 5 m 木造走廊（x 到 −15；套件到 −10.8）；
-+#     前庭 6 棵蒲葵（GLB 節點 gt_palm、gt_palm_bark：外框不算，另外檢查樹幹位置＝導航的 GT_PALMS）；大道南側大樹牆在共同前面拿掉 3 棵（skip [-2,6] → [-12,16]）；
++#     前庭 6 棵蒲葵（z 17–21：外框不算，另外檢查樹幹位置＝導航的 GT_PALMS；v9.7 合併材質後蒲葵和別的零件在同一個網格，用位置判斷、不用節點名稱）；大道南側大樹牆在共同前面拿掉 3 棵（skip [-2,6] → [-12,16]）；
 +#     鏡頭碰撞照模型（userData.ck.cols 6 個方塊，取代套件預設的 2 個）。
 +#   大一女舍（LAWWW2 55fbedb）：A、B 兩棟＋天橋三個套件物件都標 freshman，外框取三個的聯集（原本只取第一個＝A 棟，差 29.85 m）。
-+BBOX_SKIP = {'gongtong': ['gt_palm', 'gt_palm_bark']}
++BBOX_REGION = {'gongtong': {'zmin': 21.5}}   # 外框只算這個範圍的頂點（共同教學館：前庭的蒲葵在 z 17–21，本體從 z 22.7 開始）
++PALM_ZONE = (17.5, 21.0)   # 蒲葵樹幹底部（y ≤ 0.5）的 z 範圍
 +BBOX_TOL = {'gongtong': {0: 4.5, 4: 2.4}}   # 外框 [x0,y0,z0,x1,y1,z1] 的第幾個 → 容許差：x0 西側木造走廊（實際 4.2 m）、y1 四樓屋頂（實際 2.08 m）；其他照 1.5 m
 +GT_PALMS = [(-10.5, 19.2), (-6.5, 18.8), (-2.5, 19.1), (6.5, 19.0), (10.5, 18.9), (14.5, 19.2)]   # 和 zones3d.js 的 GT_PALMS 相同（模型載入後 nav.blockCircle）
 +GT_PALM_NAV = 0.6   # 蒲葵的導航阻擋只能在樹幹中心 0.6 m 以內（blockCircle 的半徑可以調，不綁死）；每棵樹幹中心所在的那一格一定要擋住（不然走得進樹幹）
@@ -58,7 +59,7 @@ index 654f29e..f7898e2 100644
  # 沒有標記的群組：數「底下有網格／sprite、但一個都看不到」的群組（＝被藏起來），正式模型和改之前必須一樣多（多了＝藏錯東西）。路燈的光暈（E.lampGlows）照時鐘開關，不算。
  # 整區靜態合併把網格搬走、變成空的群組不算「藏起來」：地標有正式模型時不參加合併（dyn），別的建築和地標共用的材質可能只剩一個網格、不合併，
  # 空群組的數目兩輪會差 1（2026-10-11 文學院、校史館：(2,33) 的無名系館，改之前 225 個、一般 224 個；看得到的網格兩邊都畫）
-@@ -100,7 +118,8 @@ async def check(pg, run, formal):
+@@ -100,7 +119,8 @@ async def check(pg, run, formal):
          for tag, (key, glb, _) in TAGS.items(): run.check('%s 的正式模型接上（%s）' % (tag, glb), await pg.evaluate(WAIT_FORMAL % glb))
      else:
          await pg.wait_for_timeout(3000)
@@ -68,7 +69,7 @@ index 654f29e..f7898e2 100644
      run.check(('一般' if formal else '改之前') + '：所有延遲載入的模型都載完（量 draw call 之前）', (await pg.evaluate(SETTLED)) >= 0)
      await pg.wait_for_timeout(1500)
      street = await pg.evaluate("(()=>{ let n=0; GAME.E.zone.group.traverse(o=>{ if(o.userData&&o.userData.formal==='prop.street') n++; }); return n; })()")
-@@ -108,10 +127,13 @@ async def check(pg, run, formal):
+@@ -108,10 +128,13 @@ async def check(pg, run, formal):
      info = await pg.evaluate("""(()=>{ const z=GAME.E.zone; const bs=z.group.children.filter(o=>o.userData&&o.userData.ckTag); const per={};
          for(const b of bs) per[b.userData.ckTag]={formal:!!b.userData.formal, dyn:!!b.userData.dyn, kitVisible:b.children.filter(o=>(o.isMesh||o.isSprite)&&o.visible).length, kitMeshes:b.children.filter(o=>o.isMesh||o.isSprite).length};
          return per; })()""")
@@ -85,12 +86,12 @@ index 654f29e..f7898e2 100644
      else:
          run.check('改之前：套件照舊參加整區靜態合併（不是 dyn、沒有接正式模型）', all(not v['dyn'] and not v['formal'] for v in info.values()), json.dumps(info))
      others = await pg.evaluate(OTHERS)
-@@ -119,17 +141,27 @@ async def check(pg, run, formal):
+@@ -119,17 +142,30 @@ async def check(pg, run, formal):
      run.check(('一般' if formal else '改之前') + '：20:30 路燈都開著', lamps['n'] > 0 and lamps['on'] == lamps['n'], json.dumps(lamps))
      if formal:
          for tag, (key, glb, plate) in TAGS.items():
 -            g = await pg.evaluate("""(([tag,glbName])=>{ const z=GAME.E.zone; const kit=z.group.children.find(o=>o.userData&&o.userData.ckTag===tag), glb=z.group.children.find(o=>o.name===glbName);
-+            g = await pg.evaluate("""(([tag,glbName,skip])=>{ const z=GAME.E.zone; const kits=z.group.children.filter(o=>o.userData&&o.userData.ckTag===tag), kit=kits[0], glb=z.group.children.find(o=>o.name===glbName);   /* 同一個標記可能有好幾個部分（大一女舍 A、B、天橋）：外框要全部算（2026-10-14：原本只拿第一個）*/
++            g = await pg.evaluate("""(([tag,glbName,reg])=>{ const z=GAME.E.zone; const kits=z.group.children.filter(o=>o.userData&&o.userData.ckTag===tag), kit=kits[0], glb=z.group.children.find(o=>o.name===glbName);   /* 同一個標記可能有好幾個部分（大一女舍 A、B、天橋）：外框要全部算（2026-10-14：原本只拿第一個）*/
                  z.group.updateMatrixWorld(true); const r=b=>[b.min.x,b.min.y,b.min.z,b.max.x,b.max.y,b.max.z].map(v=>Math.round(v*100)/100);
 -                const bk=new THREE.Box3(), bg=new THREE.Box3(); kit.traverse(o=>{ if(o.isMesh){ o.geometry.computeBoundingBox(); bk.union(o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld)); } });
 -                glb.traverse(o=>{ if(o.isMesh){ o.geometry.computeBoundingBox(); bg.union(o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld)); } });
@@ -98,28 +99,31 @@ index 654f29e..f7898e2 100644
 -            d = max(abs(a - b) for a, b in zip(g['kit'], g['glb']))
 -            run.check('%s：位置、尺寸、朝向照套件（外框 x、y、z 的最小最大值差 ≤ 1.5 m）' % tag, d <= 1.5, json.dumps(g) + ' 最大差 %.2f m' % d)
 +                const bk=new THREE.Box3(), bg=new THREE.Box3(); for(const k of kits) k.traverse(o=>{ if(o.isMesh){ o.geometry.computeBoundingBox(); bk.union(o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld)); } });
-+                let skipped=0; glb.traverse(o=>{ if(!o.isMesh) return; if(skip.includes(o.name)){ skipped++; return; } o.geometry.computeBoundingBox(); bg.union(o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld)); });
-+                return {kit:r(bk), glb:r(bg), kits:kits.length, skipped}; })""" + "(%s)" % json.dumps([tag, glb, BBOX_SKIP.get(tag, [])]))
++                let skipped=0; const v=new THREE.Vector3();
++                glb.traverse(o=>{ if(!o.isMesh) return; if(!reg){ o.geometry.computeBoundingBox(); bg.union(o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld)); return; }
++                  const p=o.geometry.attributes.position; for(let i=0;i<p.count;i++){ v.fromBufferAttribute(p,i).applyMatrix4(o.matrixWorld); if(v.z<reg.zmin){ skipped++; continue; } bg.expandByPoint(v); } });   /* 只算 reg 範圍的頂點（v9.7 合併材質後不能用節點名稱） */
++                return {kit:r(bk), glb:r(bg), kits:kits.length, skipped}; })""" + "(%s)" % json.dumps([tag, glb, BBOX_REGION.get(tag)]))
 +            tol = [BBOX_TOL.get(tag, {}).get(i, 1.5) for i in range(6)]
 +            dd = [abs(a - b) for a, b in zip(g['kit'], g['glb'])]
-+            run.check('%s：位置、尺寸、朝向照套件（外框 x、y、z 的最小最大值差 ≤ 1.5 m%s）' % (tag, '；宣告過的設計差異另計，見 BBOX_TOL／BBOX_SKIP' if tag in BBOX_TOL or tag in BBOX_SKIP else ''),
-+                      all(x <= t for x, t in zip(dd, tol)) and g['skipped'] == len(BBOX_SKIP.get(tag, [])), json.dumps(g) + ' 差 %s 容許 %s' % ([round(x, 2) for x in dd], tol))
++            run.check('%s：位置、尺寸、朝向照套件（外框 x、y、z 的最小最大值差 ≤ 1.5 m%s）' % (tag, '；宣告過的設計差異另計，見 BBOX_TOL／BBOX_REGION' if tag in BBOX_TOL or tag in BBOX_REGION else ''),
++                      all(x <= t for x, t in zip(dd, tol)) and (g['skipped'] > 0) == (tag in BBOX_REGION), json.dumps(g) + ' 差 %s 容許 %s' % ([round(x, 2) for x in dd], tol))
              if plate is None: continue   # 沒有匾額的（共同教學館、大一女舍）
              pl = await pg.evaluate("""(glbName=>{ const root=GAME.E.zone.group.children.find(o=>o.name===glbName); const at=root.getObjectByName('wz_plates_atlas'); if(!at) return null;
                  const m=at.material.map, img=m&&m.image, it=at.userData.atlas.items; return {visible:at.visible, canvas:!!(m&&(m.isCanvasTexture||(img&&img.getContext))), n:it.length, names:it.map(i=>i.name), ratio:it.map(i=>+((i.w/i.h)/i.board).toFixed(3))}; })""" + "(%s)" % json.dumps(glb))
              run.check('%s：匾額 %s 是 canvas 字（石材匾額）、貼圖比例＝板面比例（±8%%）' % (tag, plate), bool(pl) and pl['visible'] and pl['canvas'] and pl['names'] == [plate] and all(0.92 < r < 1.08 for r in pl['ratio']), json.dumps(pl))
 +        if 'gongtong' in TAGS:   # 前庭蒲葵：樹幹底部（y ≤ 0.5 m 的頂點）一群一群的中心＝GT_PALMS（導航擋住的地方），沒有別的樹幹
-+            palms = await pg.evaluate("""(pts=>{ const root=GAME.E.zone.group.children.find(o=>o.name==='campus_gongtong_glb'); const bark=root&&root.getObjectByName('gt_palm_bark'); if(!bark) return null;
-+                bark.updateMatrixWorld(true); const p=bark.geometry.attributes.position, v=new THREE.Vector3(); const acc=pts.map(()=>[0,0,0]); let stray=0, low=0;
-+                for(let i=0;i<p.count;i++){ v.fromBufferAttribute(p,i).applyMatrix4(bark.matrixWorld); if(v.y>0.5) continue; low++; let best=-1, bd=1e9; pts.forEach((q,k)=>{ const d=Math.hypot(v.x-q[0],v.z-q[1]); if(d<bd){ bd=d; best=k; } });
-+                  if(bd>0.6){ stray++; continue; } acc[best][0]+=v.x; acc[best][1]+=v.z; acc[best][2]++; }
-+                return {low, stray, palms:acc.map((a,k)=>a[2]?{n:a[2], off:+Math.hypot(a[0]/a[2]-pts[k][0],a[1]/a[2]-pts[k][1]).toFixed(3)}:{n:0, off:null})}; })""" + "(%s)" % json.dumps(GT_PALMS))
++            palms = await pg.evaluate("""(([pts,zr])=>{ const root=GAME.E.zone.group.children.find(o=>o.name==='campus_gongtong_glb'); if(!root) return null; root.updateMatrixWorld(true);
++                const v=new THREE.Vector3(); const acc=pts.map(()=>[0,0,0]); let stray=0, low=0;
++                root.traverse(o=>{ if(!o.isMesh) return; const p=o.geometry.attributes.position;   /* 前庭地面附近（y ≤ 0.5、z 在 zr 範圍）的頂點＝樹幹底部（v9.7 合併材質後樹幹和別的零件在同一個網格） */
++                  for(let i=0;i<p.count;i++){ v.fromBufferAttribute(p,i).applyMatrix4(o.matrixWorld); if(v.y>0.5||v.z<zr[0]||v.z>zr[1]) continue; low++; let best=-1, bd=1e9; pts.forEach((q,k)=>{ const d=Math.hypot(v.x-q[0],v.z-q[1]); if(d<bd){ bd=d; best=k; } });
++                    if(bd>0.6){ stray++; continue; } acc[best][0]+=v.x; acc[best][1]+=v.z; acc[best][2]++; } });
++                return {low, stray, palms:acc.map((a,k)=>a[2]?{n:a[2], off:+Math.hypot(a[0]/a[2]-pts[k][0],a[1]/a[2]-pts[k][1]).toFixed(3)}:{n:0, off:null})}; })""" + "(%s)" % json.dumps([GT_PALMS, PALM_ZONE]))
 +            run.check('共同教學館：模型裡 6 棵蒲葵的樹幹就在導航擋住的地方（GT_PALMS；樹幹底部的中心差 ≤ 0.15 m、沒有別的樹幹）',
 +                      bool(palms) and palms['stray'] == 0 and all(q['n'] >= 3 and q['off'] is not None and q['off'] <= 0.15 for q in palms['palms']), json.dumps(palms))
          shadow = await pg.evaluate("""(()=>{ const out={}; for(const o of GAME.E.zone.group.children) if(/^campus_.*_glb$/.test(o.name)) o.traverse(m=>{ if(m.isMesh) out[m.material.name]=m.castShadow; }); return out; })()""")
          tri = await pg.evaluate("""(()=>{ const out={}; for(const o of GAME.E.zone.group.children) if(/^campus_.*_glb$/.test(o.name)){ let t=0,c=0; o.traverse(m=>{ if(!m.isMesh) return; const g=m.geometry; const n=(g.index?g.index.count:g.attributes.position.count)/3; t+=n; if(m.castShadow) c+=n; }); out[o.name]={tris:t, castTris:c}; } return out; })()""")
          run.note('正式模型的三角形（全部／會投影的）：' + json.dumps(tri))
-@@ -201,7 +233,7 @@ async def check(pg, run, formal):
+@@ -201,7 +237,7 @@ async def check(pg, run, formal):
          await run.shot(pg, name + '_' + ('formal' if formal else 'before'))
      await pg.evaluate("GAME.E.endCinematic()")
      run.note(('一般網址' if formal else '改之前') + '：同一個鏡頭（藏起路人）的 draw call／三角形 ' + json.dumps(draws))
@@ -128,7 +132,7 @@ index 654f29e..f7898e2 100644
      if formal:   # 夜裡才進校園：模型在路燈已經開著的時候才載入，光暈要直接是亮的（校園的夜間只在路燈開關時切換）
          await PL.load_state(pg, {'zone': 'campus', 'hour': 20.5, 'pos': {'x': -38, 'z': 6, 'yaw': 3.1416}}, quiet_events=True)
          ok = await pg.evaluate(WAIT_FORMAL % 'campus_bell_glb'); bl = await pg.evaluate(BELL_NIGHT + '(null)')
-@@ -210,6 +242,40 @@ async def check(pg, run, formal):
+@@ -210,6 +246,40 @@ async def check(pg, run, formal):
      return res
  
  
@@ -169,7 +173,7 @@ index 654f29e..f7898e2 100644
  async def main():
      run = PL.Run('campus_glb_integration', OUT)
      res = {}
-@@ -220,8 +286,16 @@ async def main():
+@@ -220,8 +290,16 @@ async def main():
              res[formal] = await check(pg, run, formal)
              run.check(('一般網址' if formal else '改之前') + '：沒有 JS 錯誤', not errs, '; '.join(errs[:3]))
              await b.close()
