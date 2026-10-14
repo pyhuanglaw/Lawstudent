@@ -47,7 +47,13 @@ const PROPS = (function(){
     const strap=mat('totes',shadeHex(base,0.86)); for(const dz of [-0.022,0.022]) g.add(strapBand([[0.12+dz*0.4,-0.34,0.04+dz],[0.135,-0.16,0.02+dz*0.8],[0.145,0.04,0.0+dz*0.6],[0.135,0.155,0.01+dz*0.4],[0.11,0.17,0.035]],0.009,strap));
     return g; }
   // ---- 細框眼鏡（林芷若）：參考圖是細的橢圓金屬框（舊版是粗的深色圓角方框，像黑框眼鏡）----
-  function glasses(o){ o=o||{}; const g=new THREE.Group(); const m=mat('gl',o.color||'#7d6a5c',null); const lw=0.05, lh=0.035, t=0.0016;
+  // 正式模型（LAWWW2 Blender：tools/blender/char_second/glasses_zhiruo.py → ASSETS 'prop.glasses_zhiruo'；D59 參考圖 06：淺色（霧面玫瑰金）細金屬圓框、鼻托、鉸鏈）：
+  // 先掛下面程式產生的版本，GLB 載好就換上（GLB 的原點也是兩個鏡片中心的中點、前方 −z，不用轉 180°）；載入失敗照舊用程式產生的。o.glb=false：不用正式模型
+  function glassesGLB(scene){ const gl=scene.clone(true); gl.name='glasses_glb';
+    gl.traverse(m=>{ if(!m.isMesh) return; const src=m.material;   // 鏡框改成和人物一樣的卡通明暗（顏色照 GLB；遊戲沒有環境貼圖，PBR 金屬會變暗）；鏡片、鼻托照舊是幾乎透明的 Basic 材質
+      m.material=/lens/i.test(m.name+' '+(src.name||''))?new THREE.MeshBasicMaterial({color:src.color.clone(),transparent:true,opacity:src.opacity<1?src.opacity:0.12,depthWrite:false}):mat('glglb','#'+src.color.getHexString(),null); });
+    return gl; }
+  function glasses(o){ o=o||{}; const out=new THREE.Group(); const g=new THREE.Group(); out.add(g); const m=mat('gl',o.color||'#7d6a5c',null); const lw=0.05, lh=0.035, t=0.0016;
     function ring(cx){ const s=new THREE.Shape(); s.absellipse(cx,0,lw/2,lh/2,0,Math.PI*2,false,0); const hole=new THREE.Path(); hole.absellipse(cx,0,lw/2-t,lh/2-t,0,Math.PI*2,true,0); s.holes.push(hole); return new THREE.Mesh(new THREE.ExtrudeGeometry(s,{depth:0.0016,bevelEnabled:false,curveSegments:28}),m); }
     const sep=o.ipd||0.084; g.add(ring(-sep/2)); g.add(ring(sep/2));
     const bridge=tube([[-sep/2+lw/2-0.001,0.005,0.001],[0,0.009,-0.003],[sep/2-lw/2+0.001,0.005,0.001]],0.0011,m); g.add(bridge);
@@ -55,7 +61,10 @@ const PROPS = (function(){
     for(const s of [-1,1]) g.add(tube([[s*(sep/2+lw/2-0.001),0.004,-0.001],[s*(sep/2+lw/2+0.005),0.006,-0.03],[s*(sep/2+lw/2+0.004),-0.002,-0.1]],0.0011,m));
     const lens=new THREE.MeshBasicMaterial({color:0xdde8ef,transparent:true,opacity:0.10,depthWrite:false}); for(const cx of [-sep/2,sep/2]){ const p=new THREE.Mesh(new THREE.CircleGeometry(1,28),lens); p.scale.set(lw/2-t,lh/2-t,1); p.position.set(cx,0,0.001); g.add(p); }
     g.rotation.y=Math.PI; // 模型檔空間前方是 -z：鏡片正面朝 -z
-    return g; }
+    const key=o.glb===undefined?'prop.glasses_zhiruo':o.glb;
+    if(key&&typeof ASSETS!=='undefined'&&ASSETS.manifest[key]) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene) return; const gl=glassesGLB(c.scene); let sh=false; g.traverse(x=>{ if(x.isMesh&&x.castShadow) sh=true; });
+      gl.traverse(x=>{ if(x.isMesh){ x.castShadow=sh; x.frustumCulled=false; } }); g.visible=false; out.add(gl); }).catch(e=>console.warn('glasses glb',e));   // 陰影、frustumCulled 照 attach 對程式產生版本的設定
+    return out; }
   // ---- 銀色小耳環 ----
   function earrings(o){ const g=new THREE.Group(); const m=new THREE.MeshStandardMaterial({color:0xd9dde2,metalness:0.9,roughness:0.25}); for(const s of [-1,1]){ const hoop=new THREE.Mesh(new THREE.TorusGeometry(0.006,0.0013,6,14),m); hoop.position.set(s*(o.dx||0.074),-0.012,0); hoop.rotation.y=Math.PI/2; g.add(hoop); const stud=new THREE.Mesh(new THREE.SphereGeometry(0.0025,8,6),m); stud.position.set(s*(o.dx||0.074),-0.004,0); g.add(stud); } return g; }
   // ---- 咖啡廳圍裙（林芷若工作時）----

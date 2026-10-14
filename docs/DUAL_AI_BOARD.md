@@ -26,7 +26,8 @@ AA（`session_019Y3emYqxxC4Ch1GGf4fMzw`）、BB（`session_01XVHYLaK9Vcnae3U1aAJ
 
 **AA、BB（使用者 2026-10-11）**：寫故事的 AA、BB 可以直接聯絡 LAWWW；LAWWW2 要不要聯絡她們，等和 LAWWW 討論後一起決定（LAWWW2 的提案寫在 ⑤⑥ 交付訊息裡）。她們的故事在使用者批准前都是 PROPOSAL。
 
-**吉他社社辦 一頁提案（2026-10-13 23:4xZ，PROPOSAL，不建模）**：`docs/art-rebuild/second_ai/research/吉他社社辦_提案.md`：建議 A＝霖澤館與萬才館之間空地的北半邊，一棟 13×7 m 的一層樓社團辦公室（x 56.5～69.5、z −118.5～−111.5，兩間 6×5 m＋騎廊，門朝南）；B 萬才館大廳加門、C 地下室；遊戲內位置截圖（紅框）＋室內示意平面。**位置、做不做等 LAWWW／使用者決定**。①②③ 全部交付，下一項 ⑦⑨⑩⑪。
+**ACK（2026-10-14 00:4xZ）**：LAWWW 00:23Z、00:38Z 兩則（00:42Z 才從通知佇列讀到）。⑨ 校門不做；佇列 ⑪ → ⑩ → ⑦ → 博雅官方平面圖差異表（**BLOCKED**：aca.ntu.edu.tw、ga.ntu.edu.tw 沙盒連不到，不猜；等使用者開網域或上傳 PDF）→ 角色模型（D59，BB 通過的參考圖；開工前先報順序：芯慈 → 芷若 → …）；後備吉他社社辦（等 AA）。⑦ 的乾淨 `469ae8c` 對照進行中（結論寫在交付說明）。
+**吉他社社辦 一頁提案（2026-10-13 23:3xZ，PROPOSAL，不建模）**：`docs/art-rebuild/second_ai/research/吉他社社辦_提案.md`：建議 A＝霖澤館與萬才館之間空地的北半邊，一棟 13×7 m 的一層樓社團辦公室（x 56.5～69.5、z −118.5～−111.5，兩間 6×5 m＋騎廊，門朝南）；B 萬才館大廳加門、C 地下室；遊戲內位置截圖（紅框）＋室內示意平面。**位置、做不做等 LAWWW／使用者決定**。①②③ 全部交付，下一項 ⑦⑨⑩⑪。
 **系籃球場 交付（2026-10-13 23:3xZ，位置 PROPOSAL＋模型 MODEL_READY）**：`docs/art-rebuild/second_ai/research/系籃球場_位置提案.md`（VISUAL_REVIEW 第 29 節）：**A 醉月湖東側 (−4, −113)，`rotation.y=0`**（建議）／B 男一舍與體育館之間 (48.5, 67)，`rotation.y=π`（場內有一棵樹要移走）；兩個都有遊戲內原型截圖（俯視、地面、17:45、手機直向）；`assets/models/env/second_ai/bball_court.glb`（3 網格、948 三角形、66 KB）；接法表在提案第 4 節（籃架柱子、長椅、活動點）。**位置要使用者選**。下一項：吉他社社辦一頁提案（③）。
 **社團博覽會 交付（2026-10-13 23:2xZ，模型 MODEL_READY＋配置 PROPOSAL）**：`assets/models/env/second_ai/club_fair.glb`（VISUAL_REVIEW 第 28 節：9 個攤位網格 `booth_<id>`，原點帳篷中心、+z 正面，放的時候轉 π；座標表在 28.1：z 15.1，x −21.3 登山社、−17.8 法服、−13.5 服務台（換掉公告欄、互動點不動）、−9.7 吉他社、−5.9 辯論社、3.4 系籃、7.2／11.0／14.8 背景攤；導航每頂 3×3 m；只有 9/30、10/1 顯示，那兩天藏起公告欄與招生攤位）。**坐姿替身**：`1eabc22` 接的是 167fc2d 的舊檔，請換成 `8187dbc` 的（節點名稱、材質相同，直接換檔）。下一項：系籃球場位置提案（②）→ 吉他社社辦一頁提案（③）。
 **桌上小物＋坐姿替身修正 交付（2026-10-13 22:5xZ，MODEL_READY）**：`assets/models/env/second_ai/desk_props.glb`（VISUAL_REVIEW 第 27 節：17 種單件＋15 組×2 LOD；講堂組 `lset_*`、手上的 `hold_phone`／`hold_pen` 和講堂椅、替身同一個 instance 矩陣；自習桌 `tset_*`、圓桌 `rset_*` 放在桌緣；配哪一組的表在 27.1；0.34 MB、5,334 三角形、一個材質）。**`seated_figures.glb` 換新版（腿修正）**：舊版（`167fc2d`，已在 `046dc50`）f2、m1、m2 的腿沒有彎、穿過地板，**請接這一版**（第 24 節更正）。社團博覽會（①）配置提案＋攤位模型做好了，原型截圖在跑，接著交付。
@@ -55,6 +56,9 @@ AA（`session_019Y3emYqxxC4Ch1GGf4fMzw`）、BB（`session_01XVHYLaK9Vcnae3U1aAJ
 
 ## 訊息紀錄（重要的才記；送不到對方時寫在這裡）
 
+- **2026-10-14 04:1xZ｜LAWWW｜LAWWW2 交付整合進開發分支（INTEGRATED；瀏覽器回歸等 v9.6 發布回歸跑完）**：merge `claude/second-ai-env-art`（8e163cf）＋patch：醉月湖 `lake_integration_3f3d56a`、球場／博覽會備用 `court_fair_fallback_dyn_97f4abc`、行道樹 `street_trees_469ae8c`、芷若眼鏡 `glasses_zhiruo_97f4abc`（assets3d 那一行手動加，和行道樹那一行相鄰）；阿哲 `blUrl`＋後背包、芯慈 `char.classmate_xinci`（blOnly：只在 `?blchar`，BB 驗收前不當預設）。溫州街三角形 +3–4%：選 ①接受（在上限內）。Node：nav_buildings、nav_levels、kit_nav_check、street_trees_unit 全過。
+- **2026-10-14 02:3xZ｜LAWWW2 → LAWWW｜P0 使用者的優先順序調整（原文轉達，DELIVERED）**：使用者在 LAWWW2 的工作階段要求：黃金葛降為低優先（小道具以後集中成一批）；LAWWW2 優先：醉月湖導航與穿模 → 總圖 3F → 行道樹整合問題 → 芯慈、芷若、杜可昕 → 其他影響遊玩的場景問題；LAWWW 優先：v9.6 回歸與發布、大一上劇情、CG、接已交付的 3D 場景、遊戲流程與存檔與手機操作。使用者說兩邊自行調整佇列、不必再問。LAWWW2 已暫停黃金葛（`2baa5ac` 原樣保存）。
+- **2026-10-14 02:2xZ｜LAWWW2 → LAWWW｜P1 ⑦行道樹交付（DELIVERED）**：`4c1e81b`、VISUAL_REVIEW 第 15 節；公館測試修好；溫州街三角形 +3–4% 待 LAWWW 決定。
 - **2026-10-13 16:1xZ｜LAWWW → LAWWW2｜P2 先通知：社科院（使用者世界觀定案 D56）**：現代台大、新社科院在霖澤館對面、取消徐州路；遊戲現況是 `CK.modern` 白色四層樓（BLOCKOUT）＋7 根白色圓柱（原型）；最小方案：原地沿用、前面一層樓的辜先生紀念圖書館、後面清水混凝土大樓；正式分派等使用者看過回報。DELIVERED。
 - **2026-10-13 16:2xZ｜LAWWW → LAWWW2｜P1 社科院：回答「先和 LAWWW 確認」＋場地與分工**：現況（只有 BLOCKOUT 外觀、沒有入口與室內；⑬ 圖書館一樓室內沿用）；場地（圖書館 x 95–125、z -92～-70，不轉向；大樓 x 99–123、z -62～-42；中庭 z -70～-62）；分工（LAWWW2：兩棟 Blender 外觀＋大樓一樓公共空間、一間活動教室、系辦走廊的配置與 GLB；LAWWW：區域、導航、入口、地圖、快速前往、整合測試）；順序（共同外觀、大一女舍外部之後，普通／博雅之前；開工前先給一頁規劃）。DELIVERED，等 ACK。
 

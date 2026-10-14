@@ -1371,6 +1371,131 @@ LAWWW 佇列的 ⑥（法學院廣場的花台、公告欄、販賣機等近景�
 
 ---
 
+---
+
+## 15. 行道樹：樟樹、榕樹、大王椰子（Blender 正式模型＋遠景卡片＋InstancedMesh，⑦）
+
+LAWWW 佇列的 ⑦（行道樹：樟樹／榕樹／大王椰子的 Blender 版＋instancing＋遠景卡片）。全遊戲的樹（校園 326 棵、公館 98 棵、溫州街 12 棵）都換：
+`TK.tree()`、`TK.royalPalm()` 在正式模型載入後不建幾何、改回傳「樹的位置記號」，區域建好後整區的樹用 InstancedMesh 畫——
+**鏡頭附近（42 m 內）畫模型（會投影），遠的畫一片面向鏡頭的卡片，畫面外的不畫**。呼叫端（區域的擺放、導航阻擋）完全沒改。
+
+### 15.1 玩家會看到什麼不同
+
+| | 修改前（程序化的葉片卡樹） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 樹冠 | 一團交叉的綠色面片，貼圖是隨機畫的橢圓色塊 | **葉叢卡片的貼圖是 Blender 用真的葉片幾何渲染的**（樟樹：卵形、先端漸尖、有光澤、混一點黃綠新葉；榕樹：倒卵形、深綠、比較小比較密）；卡片的法線往樹冠外側，整個樹冠像一團有體積的枝葉（向陽面亮、背面暗）；側面對著鏡頭的卡片會淡出，不會變成一條一條拉長的葉子；上半部隨風輕輕晃 |
+| 樹幹、枝條 | 三節圓柱＋幾根細棍 | 樟樹：粗短的灰褐色樹幹在 2.6–3 m 分成 4–5 根往斜上長的主枝、再分側枝（Poly Haven `japanese_camphor_bark`）；榕樹：板根狀的基部、2–3 根光滑淺灰的樹幹、往外平伸的主枝、主枝下垂下氣根（`chinese_hackberry_bark`；氣根停在離地 2.5 m 以上，不擋人走）；樹幹透視照舊（擋住玩家時網點透空） |
+| 大王椰子 | 灰白圓柱＋程序化葉片 | 灰白樹幹（基部略寬、中段微鼓、橫向環紋，Poly Haven `palm_tree_bark`）、光滑的綠色葉鞘、15 片拱形羽狀葉（每片兩條葉片帶成 V 字形，小葉也是 Blender 渲染的；下面的老葉垂得多、上面的新葉挺）、中間一支直立的新葉 |
+| 遠處的樹 | 和近處一樣的面片（整區合成一個網格，不管看不看得到都畫） | 每款樹從側面渲染的卡片，永遠面向鏡頭（一個 draw call 畫全部遠的樹）；畫面外的不畫 |
+| 樹種 | 一種闊葉樹＋大王椰子 | 樟樹兩款（隨機）、榕樹（黑森林、溫州街小公園中間的大樹）、大王椰子（椰林大道、小椰林道、公館看出去的校園背景）；每棵樹的葉色有一點不同（深色參數照套件的 `dark`） |
+
+**沒有改的東西**：每棵樹的位置、方向、高度、樹冠寬度的參數（照呼叫端給 `TK.tree` 的值）、導航阻擋（呼叫端加的 `blockCircle`）、其他所有物件（單元測試證明：換成正式模型之後，樹以外的網格、導航格、共用亂數的序列都完全相同）。
+
+### 15.2 驗收狀態
+
+| 項目 | 技術（A） | 功能（B） | 美術（C） |
+|---|---|---|---|
+| 行道樹（`prop.trees`：樟樹兩款、榕樹、大王椰子＋遠景卡片） | 完成 | 功能檢查通過；**效能有一項沒過**：溫州街的三角形比程序化的樹多 3–4%（見 15.4；要不要接受由 LAWWW／使用者決定） | `READY_FOR_ART_REVIEW` |
+
+**還沒接進遊戲**：`src/` 的改動（`townkit3d.js` 的記號＋TreeField、`assets3d.js` 一行、`zones3d.js` 一行）照現在的分工由 LAWWW 整合，做成 patch：`patches/street_trees_469ae8c.patch`（在 LAWWW `469ae8c` 和 2026-10-14 的開發分支 `3f3d56a` 上 `git apply --check` 都沒有衝突）；測試是在「`469ae8c`＋這個 patch＋GLB」的工作目錄跑的（備份在 `claude/second-ai-env-art-wip-trees`）。
+
+### 15.3 製作方式與規格
+
+- **葉片貼圖**（`tools/blender/env_second/tree_atlas.py`）：Blender 裡一片一片的葉子（照葉形參數化：樟樹卵形漸尖、榕樹倒卵形、大王椰子線形小葉；沿中肋對折、沿長度下彎、扭轉）沿小枝互生排成葉叢 → 正上方正交、透明背景、Cycles 渲染（天空光為主）→ 拼成 1024×1024：樟樹兩格、榕樹一格、大王椰子羽片、氣根、葉鞘；透明像素的顏色往外擴（縮圖時葉緣不會有黑邊）。
+- **模型**（`street_trees.py`）：樹幹、枝條是沿曲線的多邊形管（平行移動的座標系）、往樹冠外側長；葉叢卡片放在枝端附近＋樹冠外層（橢球），法線＝卡片法線和樹冠外側方向的混合（自訂法線匯出到 glTF）。`street_trees.glb` **0.95 MB**；三角形：樟樹 A 1,488（樹幹枝條 972＋葉 516）、樟樹 B 1,232（樹幹枝條 780＋葉 452）、榕樹 1,648（樹幹枝條 1,056＋葉 592）、大王椰子 1,592（樹幹枝條 192＋葉 1,400）；遠景卡片 2 個三角形。
+- **遠景卡片**：每款樹從側面正交渲染（透明背景、天空光為主；Cycles 的透明層數拉到 128——預設 8 層時樹冠裡面一塊一塊黑的）→ `tree_cards.png`。
+- **遊戲端**（`src/townkit3d.js`）：
+  - 記號：一個看不見的小三角形（三個頂點＝原點、x 軸、y 軸；樹種、高度、樹冠參數放在 UV），跟著呼叫端的擺放（`W3.mergeGroup` 合併的樹列烘在合併後的幾何裡）；材質 `visible=false`：不畫，整區的 `mergeStatic` 也不合併它（2026-10-14 公館測試後改的，見 15.4）；第一格解出每一棵樹的位置、方向、縮放，記號拿掉，只裝記號的群組一起拿掉。
+  - 共用亂數 `rnd()`：程序化的樹會抽亂數（後面其他物件的形狀跟著這個序列）；記號版本照樣抽一樣的次數，其他物件完全不變（`tests/street_trees_unit.js` 驗證）。
+  - TreeField（`E.addExtra`）：每一格（鏡頭沒動時跳過）依距離分成「模型」（42 m 進、46 m 出，不會在邊界閃）與「卡片」，用視錐剔除畫面外的；離玩家 30 m 內的樹即使在畫面外也畫模型（影子還在畫面裡）。每款樹 2 個 InstancedMesh（樹幹、葉）、卡片 1 個。
+  - 材質：樹皮加樹幹透視；葉片的法線正反面不翻、側面的卡片提高透明門檻（淡出）、上半部隨風晃；卡片在頂點著色器轉向鏡頭（只繞垂直軸）、每棵樹取貼圖上自己那一格。
+  - `prop.trees` 開機預載（和路燈、腳踏車一樣，`TK.tree()` 是同步建立的）：多下載約 1 MB；`?nobldg`、載入失敗、還沒載完時照舊是程序化的樹。
+
+### 15.4 測試結果
+
+測試都是 Playwright 手機模擬（不是 iPhone 實機）；log 在 `docs/art-rebuild/second_ai/test_logs/trees_469ae8c/`（「LAWWW `469ae8c`＋patch＋GLB」的工作目錄跑的）。
+
+`street_trees_unit` 18 PASS、`street_trees_integration` 35 PASS／**1 FAIL**、`campus_glb_integration` 65 PASS／**5 FAIL**、`gongguan_glb_integration` 39 PASS、`wz_street_integration` 41 PASS／**1 FAIL**、`street_props_integration` 29 PASS／**2 FAIL**、`see_through` 11 PASS、`campus_layout_nav` 76 PASS／**1 FAIL**、`p0_movement` 34 PASS、`reachability_all` 68 PASS／**4 FAIL**、`zone_transitions` 37 PASS：除了 `street_trees_integration`、`campus_glb_integration`、`wz_street_integration`、`street_props_integration`、`campus_layout_nav`、`reachability_all` 以外都通過。**沒過的**：wenzhou：效能——每個鏡頭的 draw call ≤ 改之前 ×1.1、三角形 ≤ 改之前（含陰影那一輪）；gongtong：位置、尺寸、朝向照套件（外框 x、y、z 的最小最大值差 ≤ 1.5 m）；freshman：位置、尺寸、朝向照套件（外框 x、y、z 的最小最大值差 ≤ 1.5 m）；導航格：正式模型和改之前完全相同；鏡頭碰撞方塊：完全相同；效能：每個鏡頭的三角形 ≤ 改之前、draw call ≤ 改之前的 1.1 倍（含陰影那一輪、含玩家；LAWWW 23:26Z 的條件）；導航格：正式模型和程序化版完全相同；campus：導航格，正式模型＝?nobldg＝載入失敗；wenzhou：導航格，正式模型＝?nobldg＝載入失敗；新系館（舟山路西段南側）內 不能走；lawlib：70 個互動點都站得到、按鈕會出現、走得到；lawlib：「坐下」走到椅子旁邊的點都走得到；putong：138 個互動點都站得到、按鈕會出現、走得到；soclib：76 個互動點都站得到、按鈕會出現、走得到。
+
+**沒過的項目逐項對照**（同一批測試在乾淨的 LAWWW `469ae8c` 再跑一次；log 在 `test_logs/trees_469ae8c/base_469ae8c/`）：
+
+| 測試 | 沒過的項目 | 乾淨的 `469ae8c`（沒有 ⑦） | 說明 |
+|---|---|---|---|
+| `street_trees_integration` | wenzhou：效能——每個鏡頭的 draw call ≤ 改之前 ×1.1、三角形 ≤ 改之前（含陰影那一輪） | —（⑦ 自己的測試，乾淨版沒有行道樹） | 見下面的效能說明（三角形多 3–4%） |
+| `campus_glb_integration` | gongtong：位置、尺寸、朝向照套件（外框 x、y、z 的最小最大值差 ≤ 1.5 m） | **也沒過**（不是 ⑦ 造成的） | 數字和乾淨版完全一樣（正式模型的外框比套件大 5.67 m）；和行道樹無關 |
+| `campus_glb_integration` | freshman：位置、尺寸、朝向照套件（外框 x、y、z 的最小最大值差 ≤ 1.5 m） | **也沒過**（不是 ⑦ 造成的） | 數字和乾淨版完全一樣（正式模型的外框 x −120.2～−65.8 包含 A、B 兩棟，套件的外框只有 −120.35～−95.65）；和行道樹無關 |
+| `campus_glb_integration` | 導航格：正式模型和改之前完全相同 | **也沒過**（不是 ⑦ 造成的） | 和乾淨版同一組雜湊（正式 80,968 格擋住、?nobldg 80,982 格）；行道樹本身的導航兩輪完全相同（`street_trees_integration`） |
+| `campus_glb_integration` | 鏡頭碰撞方塊：完全相同 | **也沒過**（不是 ⑦ 造成的） | 和乾淨版一樣是 39 對 35 個 |
+| `campus_glb_integration` | 效能：每個鏡頭的三角形 ≤ 改之前、draw call ≤ 改之前的 1.1 倍（含陰影那一輪、含玩家；LAWWW 23:26Z 的條件） | **也沒過**（不是 ⑦ 造成的） | draw call 的倍數和乾淨版完全一樣（進校門 ×1.137、文學院拱廊 ×1.104 超過 1.1）；三角形加了 ⑦ 反而比乾淨版少 22–31% |
+| `wz_street_integration` | 導航格：正式模型和程序化版完全相同 | **也沒過**（不是 ⑦ 造成的） | 和乾淨版同一組雜湊（程序化 22,876 格擋住、正式 22,870 格）；和行道樹無關 |
+| `street_props_integration` | campus：導航格，正式模型＝?nobldg＝載入失敗 | **也沒過**（不是 ⑦ 造成的） | 和乾淨版同一組雜湊：正式模型＝載入失敗，只有 ?nobldg 不一樣（多 14 格擋住；和 `campus_glb_integration` 的導航格是同一件事）；和行道樹無關 |
+| `street_props_integration` | wenzhou：導航格，正式模型＝?nobldg＝載入失敗 | **也沒過**（不是 ⑦ 造成的） | 和乾淨版同一組雜湊：正式模型＝載入失敗，只有 ?nobldg 不一樣（和 `wz_street_integration` 的導航格是同一件事）；和行道樹無關 |
+| `campus_layout_nav` | 新系館（舟山路西段南側）內 不能走 | **也沒過**（不是 ⑦ 造成的） | 乾淨版一樣沒過；和行道樹無關 |
+| `reachability_all` | lawlib：70 個互動點都站得到、按鈕會出現、走得到 | **也沒過**（不是 ⑦ 造成的） | 乾淨版一樣沒過、同樣 4 個點（法律學院圖書館：「坐下讀書」(4.9, 6.65)、(5.9, 6.65) 走不到；「坐下讀書（靠窗）」(−2.15, 6.6)、(−0.85, 6.6) 附近沒有站得住的位置）；室內，和行道樹無關 |
+| `reachability_all` | lawlib：「坐下」走到椅子旁邊的點都走得到 | **也沒過**（不是 ⑦ 造成的） | 乾淨版一樣沒過（同上兩個座位）；和行道樹無關 |
+| `reachability_all` | putong：138 個互動點都站得到、按鈕會出現、走得到 | **也沒過**（不是 ⑦ 造成的） | 乾淨版一樣沒過（普通教學館「坐在二樓的長椅」(0, 7.39) 附近沒有站得住的位置）；和行道樹無關 |
+| `reachability_all` | soclib：76 個互動點都站得到、按鈕會出現、走得到 | **也沒過**（不是 ⑦ 造成的） | 乾淨版一樣沒過、同樣 4 個座位（社科院圖書館 (−10, −1.7)、(−4.6, −1.7)、(−3.4, −1.7)、閱報區 (6.4, 6.45)）；和行道樹無關 |
+
+**公館那一項第一次沒過，查到原因修好了**：`gongguan_glb_integration` 比對正式模型和 `?nobldg` 的「沒有標記的群組」數目（防止正式模型多藏東西；乾淨的 `469ae8c` 這一項通過）。加了 ⑦ 之後正式模型多一個空群組（群組 38／空的 27，`?nobldg` 37／26）：公館看進校門的大王椰子＋樹牆是先用 `W3.mergeGroup` 合成一個群組（`?nobldg` 那邊裡面有 3 個網格）；有正式模型時裡面只剩樹的位置記號，整區合併（`P3.mergeStatic`）又把記號搬到區域最外層，那個群組就變成空殼。第一次改（TreeField 拿掉記號時，順便拿掉因此變空的父群組）沒用：記號在 TreeField 之前就被整區合併搬走了，重跑同樣沒過（`gongguan_glb_integration_before_emptygroup_fix.log`、`gongguan_glb_integration_rerun1_emptygroup_only.log`）。第二次改：記號的材質設 `visible=false`（記號本來就看不見；`P3.mergeStatic` 不合併看不見的材質，記號留在原本的群組），TreeField 拿掉記號後，只裝記號的群組（沒有子物件、沒有 userData）一起拿掉。重跑通過（`gongguan_glb_integration.log`）；單元測試、行道樹整合、校園整合也在這個版本重跑（下表）。沒有改測試標準。
+
+**效能（`tests/street_trees_integration.py`：同一個鏡頭、17:30 凍結時鐘、藏起路人、含陰影那一輪、含玩家；改之前＝擋掉 `street_trees.glb`＝程序化的樹，其他正式模型兩邊一樣；條件：draw call ≤ 改之前 ×1.1、三角形 ≤ 改之前）**：
+
+| 區域／鏡頭（17:30） | draw call：改之前 → 正式（倍數） | 三角形：改之前 → 正式（倍數） | 畫模型的樹／畫卡片的樹 |
+|---|---|---|---|
+| 校園：進校門往東看椰林大道 | 334 → 334（×1.0） | 939,433 → 749,891（×0.798） | 29／173 |
+| 校園：大道南側人行道，沿著樹列 | 257 → 257（×1.0） | 820,743 → 638,941（×0.778） | 31／139 |
+| 校園：小椰林道 | 251 → 247（×0.984） | 774,955 → 556,179（×0.718） | 18／76 |
+| 校園：黑森林（榕樹） | 207 → 207（×1.0） | 751,857 → 521,259（×0.693） | 14／21 |
+| 公館：公館：校門口往南看 | 179 → 174（×0.972） | 297,378 → 254,976（×0.857） | 0／1 |
+| 公館：公館：往校門看（背景的椰林大道） | 149 → 152（×1.02） | 274,540 → 242,856（×0.885） | 12／64 |
+| 溫州街：溫州街小公園的大樹 | 173 → 182（×1.052） | 325,089 → 337,007（×1.037） | 8／1 |
+| 溫州街：溫州街巷子裡的行道樹 | 225 → 234（×1.04） | 358,445 → 370,363（×1.033） | 8／1 |
+
+**溫州街沒過「三角形 ≤ 改之前」**：正式模型每棵 1,230–1,650 個三角形（樹皮已經減過一次：主枝 7→6 邊、側枝 3 段 4 邊，看不出差別），比程序化的葉片卡樹多；校園、公館靠「遠的畫卡片、畫面外的不畫」反而少了，溫州街的樹少（12 棵）而且都在 40 m 內，省不到遠處的卡片，所以多了 3–4%。數字仍在 LAWWW 2026-10-10 訂的溫州街上限內（同一個鏡頭三角形 ≤ 42 萬、draw call ≤ 約 310）。可以選：①接受；②溫州街近的模型距離縮短（遠一點的樹改用卡片）；③溫州街照舊用程序化的樹。我沒有改測試標準。
+
+### 15.5 遊戲內截圖（修改前｜修改後；修改前＝同一版遊戲、只擋掉 `street_trees.glb`）
+
+| 鏡頭 | 修改前（程序化的葉片卡樹） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 進校門往東看椰林大道 11:00 | ![修改前](shots/trees_before_gate_avenue_1100.webp) | ![修改後](shots/trees_after_gate_avenue_1100.webp) |
+| 進校門往東看椰林大道 17:30 | ![修改前](shots/trees_before_gate_avenue_1730.webp) | ![修改後](shots/trees_after_gate_avenue_1730.webp) |
+| 進校門往東看椰林大道 20:30 | ![修改前](shots/trees_before_gate_avenue_2030.webp) | ![修改後](shots/trees_after_gate_avenue_2030.webp) |
+| 大道南側人行道，沿著樹列 11:00 | ![修改前](shots/trees_before_avenue_row_1100.webp) | ![修改後](shots/trees_after_avenue_row_1100.webp) |
+| 大道南側人行道，沿著樹列 17:30 | ![修改前](shots/trees_before_avenue_row_1730.webp) | ![修改後](shots/trees_after_avenue_row_1730.webp) |
+| 大道南側人行道，沿著樹列 20:30 | ![修改前](shots/trees_before_avenue_row_2030.webp) | ![修改後](shots/trees_after_avenue_row_2030.webp) |
+| 黑森林（榕樹） 11:00 | ![修改前](shots/trees_before_black_forest_1100.webp) | ![修改後](shots/trees_after_black_forest_1100.webp) |
+| 黑森林（榕樹） 17:30 | ![修改前](shots/trees_before_black_forest_1730.webp) | ![修改後](shots/trees_after_black_forest_1730.webp) |
+| 黑森林（榕樹） 20:30 | ![修改前](shots/trees_before_black_forest_2030.webp) | ![修改後](shots/trees_after_black_forest_2030.webp) |
+| 溫州街小公園的大樹（榕樹） 11:00 | ![修改前](shots/trees_before_wz_park_1100.webp) | ![修改後](shots/trees_after_wz_park_1100.webp) |
+| 溫州街小公園的大樹（榕樹） 17:30 | ![修改前](shots/trees_before_wz_park_1730.webp) | ![修改後](shots/trees_after_wz_park_1730.webp) |
+| 溫州街小公園的大樹（榕樹） 20:30 | ![修改前](shots/trees_before_wz_park_2030.webp) | ![修改後](shots/trees_after_wz_park_2030.webp) |
+| 小椰林道 11:00 | ![修改前](shots/trees_before_small_palms_1100.webp) | ![修改後](shots/trees_after_small_palms_1100.webp) |
+| 公館往校門看 11:00 | ![修改前](shots/trees_before_to_campus_1100.webp) | ![修改後](shots/trees_after_to_campus_1100.webp) |
+| 玩家鏡頭（手機直向）：大道旁的大樹下 17:30 | ![修改前](shots/trees_before_follow_1730.webp) | ![修改後](shots/trees_after_follow_1730.webp) |
+
+### 15.6 Blender 渲染圖（Cycles）
+
+![四款並排：樟樹 A、樟樹 B、榕樹、大王椰子](blender_renders/trees_all.webp)
+
+| 站在樟樹下往上看 | 榕樹（氣根、板根） | 大王椰子的樹冠、葉鞘 |
+|---|---|---|
+| ![](blender_renders/trees_camphor_under.webp) | ![](blender_renders/trees_banyan.webp) | ![](blender_renders/trees_palm_top.webp) |
+
+葉片貼圖、遠景卡片：
+
+| 葉片貼圖（1024²） | 遠景卡片（1024²） |
+|---|---|
+| ![](blender_renders/trees_leaf_atlas.webp) | ![](blender_renders/trees_cards.webp) |
+
+### 15.7 還沒達到參考品質的地方
+
+1. **沒有照片參考**：樹種、樹形照台大校園常見的樹（椰林大道的大王椰子、樟樹、榕樹）的一般印象做的；哪一排是什麼樹（例如大道兩側的大樹列是樟樹還是別的樹）沒有查證。黑森林用榕樹也是推測。
+2. 樹冠是葉叢卡片：從樹冠下面往上看、或貼近時看得出是一片一片的卡片；樹冠邊緣的卡片淡出後，邊緣比真的樹稀。
+3. 遠景卡片只有一個角度（每款樹一張），所以遠處同一款樹看起來一樣；從高處往下看（遊戲裡很少）卡片會變薄。近／遠交界（42–46 m）換的那一刻看得出跳一下。
+4. 只有四款模型：同一款樹靠縮放、旋轉、葉色差異來變化，排成一列時看久了會發現重複。
+5. 影子：遠景卡片不投影（本來就在影子範圍外）；風吹的晃動只在畫面上，影子不晃。
+6. 沒有 iPhone 實機驗證（效能用 `renderer.info` 量）。
+
 ## 16. 社會科學院 辜先生紀念圖書館：一樓開架閱覽室（⑬，Blender 正式模型＋配置）
 
 LAWWW 佇列的 ⑬（使用者 D46：法律系學生念書會去「新社科院的辜先生紀念圖書館」）。交付**配置 `src/data/soclib_layout.js`＋Blender GLB**；區域程式、導航、校園入口的接線由 LAWWW 做，所以這一節只有 Blender 渲染，**還沒有遊戲內截圖**。
@@ -2604,3 +2729,346 @@ LAWWW 2026-10-13 22:01Z 分派②（系籃練球 `dept_basketball`，AA 暫定�
 | `bball_court.glb` | 完成 | **還沒接**（位置、導航、活動點由 LAWWW 做） | `MODEL_READY` |
 
 自評（還沒達到參考品質的地方）：沒有照片可以核對臺大的球場；鋪面沒有磨損與球印；籃網是線框；只有半場；四周沒有圍網與路燈（見提案第 3 節）。
+
+### 29.1 接進 LAWWW 開發分支後的檢查（2026-10-14）：簡單版的長椅、帳篷沒藏起來（bug＋2 行修正）
+
+LAWWW 在 `0b34442` 把球場（本節）和博覽會帳篷（第 28 節）接進校園：正式模型載入後 `court_fallback`／`fair_fallback` 設 `visible=false`。
+但這兩個群組**沒有 `userData.dyn`**，進校園時整區靜態合併（`P3.mergeStatic`）把共用 `P3.M` 材質的網格（兩張長椅、9 頂帳篷的屋頂／柱子／桌子）搬到區域最外層的合併網格裡——群組藏起來也藏不到它們，**簡單版和正式模型疊在一起**（玩家看到的是兩塊實心的棕色方塊，不是正式模型的木條長椅）。
+
+檢查：`tools/blender/env_second/shots/court_fallback_check.py`（讀檔到球場旁、博覽會那天的攤位前〔前置〕，等正式模型接上，數「看得到、在長椅／帳篷屋頂位置、顏色是簡單版材質」的網格頂點）。Playwright＋SwiftShader，不是 iPhone。
+
+| | LAWWW `97f4abc`（現在） | 套 `patches/court_fair_fallback_dyn_97f4abc.patch` |
+|---|---|---|
+| 正式模型載入、fallback 群組 `visible=false` | 是 | 是 |
+| 還看得到的簡單版長椅（#6b5038，合併網格裡的頂點） | **72** | 0 |
+| 還看得到的簡單版帳篷屋頂（#e8e4da） | **216** | 0 |
+| 球場邊 | ![修正前](shots/courtfb_before_benches.webp) | ![修正後](shots/courtfb_after_benches.webp) |
+| 博覽會（2025-09-30） | ![修正前](shots/fairfb_before_booths.webp) | ![修正後](shots/fairfb_after_booths.webp) |
+
+修正（`src/zones3d.js`，LAWWW 的檔案，我只給 patch）：`clubFair()`、`bballCourt()` 建 `fb` 之後各加一行 `fb.userData.dyn=true;`（和湖的 `lake_fallback`、總圖等建築的做法一樣）。patch 在 `97f4abc` 上 `git apply --check` 沒有衝突（`3f3d56a` 套不上：旁邊那行 `isFairDay` 在 `97f4abc` 改過）。`3f3d56a` 上也量到同樣的 72／216。紀錄：`test_logs/court_fair_97f4abc/`。
+
+## 30. 總圖書館 3F 閱覽區（⑪，Blender 正式模型；**還沒接進遊戲**）
+
+LAWWW 佇列的 ⑪（原文在 `docs/DUAL_AI_BOARD.md`：「總圖 3F 閱覽區 Blender 化」）：房間 22×16×4.0（`zones3d.js` library 區塊的 room()）；6 張長桌、36 張椅子（`z.seats`，劇情用 seats[0..2]，座標不能動）、三面書架牆；**不能動**：座位、互動點（坐下讀書、樓梯間的門 (0,7.6)）、東側電梯（程序化、會動，不做進 GLB）、劇情人物的位置。
+腳本 `tools/blender/env_second/library_3f.py` → `assets/models/env/second_ai/library_3f.glb`（＋`.json`）；書背與牌子 `lib3f_atlas.py`。
+
+### 30.1 做了什麼（玩家會看到什麼不同）
+
+| | 現在（程序化） | 正式模型 |
+|---|---|---|
+| 地板、牆、天花板 | 單色石材地板、單色牆、方格天花板 | **人字拼木地板**、米色粉光牆＋**胡桃木牆裙**（直條、腰帶、深色踢腳板）、壁柱、上緣兩段線腳、**礦纖天花板＋輕鋼架**、每張長桌正上方一條長燈、走道的方燈、冷氣出風口、偵煙器（和 LAWWW 的總圖大廳同一套材質） |
+| 窗 | 牆上的四片窗景（後兩扇被書架擋住） | **四扇窗都看得到**：深古銅色鋁框、中間直櫺、上面一道橫櫺（氣窗）、拉到橫櫺的捲簾、木窗台；窗外照舊是遊戲的 `library_3f` 窗景照片 |
+| 後牆的書架 | 2.4 m 高、伸出房間外 3 m、擋住兩扇窗 | **窗下的胡桃木矮書櫃**（0.95 m，兩層書、上面幾疊書）——導航範圍和原本一樣（x ±4～±11） |
+| 西牆的書架 | 一排書背貼圖 | **整面 2.4 m 的胡桃木書架**（13 個開間 × 5 層，一本一本的書：一般書、參考書（百科全書、辭典、地圖集、統計年鑑）、期刊合訂本）＋上面「參考書」的牌子 |
+| 長桌 | 一塊板＋圓管腳 | 胡桃木桌面＋封邊、牙板、**兩端的實木端板＋腳座**、下面的橫撐；桌子中線每 1.6 m 一盞**黃銅檯燈＋綠燈罩**（晚上燈罩下發光）、兩個插座盒；有些桌子的一端放著一疊書 |
+| 椅子 | 程序化的木椅 | 實木閱覽椅：深綠布坐墊、微彎的靠背（坐面 0.47 m，和遊戲的椅子一樣） |
+| 前牆 | 一個互動點 | **樓梯間的雙開門**（上半霧面玻璃、下半木板、推桿、踢板、門框）、門上的出口標示燈、「樓梯間」「請保持安靜」的牌子、時鐘、滅火器箱 |
+| 東牆 | — | 「閱覽須知」的板子；電梯（程序化）旁邊留空 |
+
+### 30.2 接法（LAWWW 整合；照 Café／便利商店的做法）
+
+1. `ASSETS.manifest` 加 `'bldg.library_3f':{url:'assets/models/env/second_ai/library_3f.glb', type:'building', lazy:true, …}`。
+2. `zones3d.js` 的 library 區塊：room() 之後、`LB3.readingExtras` **之前**，把程序化的東西搬進 `fallback` 群組（和 cafe 一樣：燈留著）；載入後 `attachRoomGLB(z, g0, fb, root)`。電梯是 `readingExtras` 之後才加的，不會被藏起來。
+3. 不用改：導航（家具都在原本 `desk`、`shelfWall` 的阻擋範圍裡）、座位、互動點、出口、窗（room() 的四扇窗位置和窗洞對得上：窗景會放到玻璃外面）。
+4. 注意：桌上的 `PROP`（水瓶、包包、杯子）在程序化的群組裡；要留著的話放到 fallback 外面。
+
+規格：GLB **1.46 MB**、網格 147（不重複 73）、材質 32、三角形 24,990（靜態 13,186＋書 11,804：19 個書模組、93 個 instance）；座位 36 張（和 z.seats 一樣）。
+
+### 30.3 遊戲內原型（**本機注入、不是整合**：LAWWW `9884d29`（閱覽室、`library3d.js`、配置和 `469ae8c` 完全一樣），讀檔到 library、用遊戲的 GLTFLoader 載入、把程序化的東西搬進 fallback、呼叫遊戲的 `Z3.attachRoomGLB`；Playwright＋SwiftShader，**不是 iPhone**）
+
+| 鏡頭 | 修改前（程序化） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 從樓梯間的門口往裡看（13:00） | ![修改前](shots/lib3f_before_entrance_1300.webp) | ![修改後](shots/lib3f_after_entrance_1300.webp) |
+| 長桌與西牆書架（13:00） | ![修改前](shots/lib3f_before_tables_1300.webp) | ![修改後](shots/lib3f_after_tables_1300.webp) |
+| 後牆的窗與窗下矮書櫃（13:00） | ![修改前](shots/lib3f_before_windows_1300.webp) | ![修改後](shots/lib3f_after_windows_1300.webp) |
+| 西牆整面書架（13:00） | ![修改前](shots/lib3f_before_westshelf_1300.webp) | ![修改後](shots/lib3f_after_westshelf_1300.webp) |
+| 桌燈、插座（13:00） | ![修改前](shots/lib3f_before_lamp_1300.webp) | ![修改後](shots/lib3f_after_lamp_1300.webp) |
+| 樓梯間的門（13:00） | ![修改前](shots/lib3f_before_door_1300.webp) | ![修改後](shots/lib3f_after_door_1300.webp) |
+| 晚上 20:30 | ![修改前](shots/lib3f_before_entrance_2050.webp) | ![修改後](shots/lib3f_after_entrance_2050.webp) |
+| 晚上 20:30 | ![修改前](shots/lib3f_before_tables_2050.webp) | ![修改後](shots/lib3f_after_tables_2050.webp) |
+| 晚上 20:30 | ![修改前](shots/lib3f_before_windows_2050.webp) | ![修改後](shots/lib3f_after_windows_2050.webp) |
+| 手機直向 390×844（跟隨鏡頭、有 HUD） | ![修改前](shots/lib3f_before_mobile_1300.webp) | ![修改後](shots/lib3f_after_mobile_1300.webp) |
+
+### 30.4 Blender 渲染（Cycles；**不是遊戲畫面**；室內打了點光源）
+
+**從門口往裡看**
+
+![](blender_renders/lib3f_entrance.webp)
+
+**長桌、檯燈、椅子、西牆書架**
+
+![](blender_renders/lib3f_tables.webp)
+
+**後牆的窗、窗下矮書櫃**
+
+![](blender_renders/lib3f_windows.webp)
+
+**西牆書架（參考書、期刊合訂本）**
+
+![](blender_renders/lib3f_westshelf.webp)
+
+**檯燈近看**
+
+![](blender_renders/lib3f_lamp.webp)
+
+**樓梯間的門、出口標示燈、時鐘**
+
+![](blender_renders/lib3f_door.webp)
+
+
+### 30.5 驗收狀態
+
+| 項目 | 模型 | 整合 | 狀態 |
+|---|---|---|---|
+| `library_3f.glb` | 完成 | **還沒接**（接法見 30.2，由 LAWWW 做） | `MODEL_READY` |
+
+### 30.6 還沒達到參考品質的地方（自評）
+
+1. **沒有照片或平面圖**：臺大總圖 3F 實際的樣子（天花板、窗、書架、桌椅）沒有查證，是照遊戲現有的配置做的遊戲化設計（D43），材質跟 LAWWW 做的大廳一致。
+2. 窗只有後牆四扇（照 room() 的窗）；真的閱覽室大概有更多窗。
+3. 書是書背圖集（程式畫），近看看得出是平面；書的排列是亂數。
+4. 牌子的字是點陣圖（文泉驛正黑）。
+5. 沒有人：讀書的人由 LAWWW 的 NPC 或坐姿替身放。
+
+## 31. 醉月湖：石砌湖岸、置石、湖心亭、木棧道（⑩，Blender 正式模型；**還沒接進遊戲**）
+
+LAWWW 佇列的 ⑩（醉月湖：湖心亭＋木棧道＋湖岸）。腳本 `tools/blender/env_second/campus_lake.py` → `assets/models/env/second_ai/campus_lake.glb`（＋`.json`）；預覽場景 `shots/lake_preview.py`。
+座標是**湖的本地座標**（原點＝湖中心）：遊戲裡整組放在 `lake(g,nav,cx,cz,…)` 的 `(cx, 0, cz)`（方案 A 是 (−36, −112)），湖再搬家也跟著走。外形照 `zones3d.js` 的 `lake()`（同一個公式），兩邊對得上。
+
+### 31.1 做了什麼（玩家會看到什麼不同）
+
+| | 現在（程序化） | 正式模型 |
+|---|---|---|
+| 湖岸 | 一條 0.75 m 寬、0.2 m 高的石頭色帶子 | **石砌湖岸**：湖這一側的石牆從水下 0.35 m 砌到壓頂石（往上稍微內收、每一點前後差一點），壓頂石 0.7 m 寬、高低差一點；Poly Haven `japanese_stone_wall`；木棧道經過的南岸照遊戲留缺口，缺口兩端有石牆的端面 |
+| 置石 | — | 岸邊 18 組大石頭（一半在水裡、一半在岸上；有的旁邊一顆小的；Poly Haven `mossy_rock` 調淡；頂點共用＝平滑著色，貼圖每一面照法線投影——第一版用球面投影，接縫兩邊的面拉成條紋） |
+| 湖心亭 | 六角柱體平台＋6 根圓柱＋圓錐屋頂＋圓球 | **六角亭**：花崗石平台（平邊朝南北，南邊接木棧道；頂面 y 0.05，和遊戲原本的一樣、比水面高）、花崗石柱珠＋紅漆圓柱、紅漆額枋＋青綠彩畫、雀替（金邊）、**凹曲面的攢尖屋頂**（屋簷平緩、越往上越陡）、**翼角起翹**、六條垂脊（尾端翹起）、深色瓦（本作程式產生的 `jp_kawara` 瓦片貼圖）、木板天花＋紅色的椽子（每一面中間一根，共六根）、金色葫蘆寶頂 |
+| 木棧道 | 一塊長板＋細欄杆 | **2.3 m 寬**（遊戲原本 1.7 m；理由見 31.2 第 3 點）、一片一片的木板（Poly Haven `dark_planks`，板縫）、兩條托梁、橫梁、**水裡的木樁**、欄杆（柱子每 1.6 m、扶手、中間一道橫桿；亭子和岸邊兩端開口） |
+
+**沒有改的**：水面（遊戲的 shader）、睡蓮、岸邊的草叢、樹、長椅、路燈、導航。
+
+### 31.2 接法（LAWWW 整合）
+
+1. `lake()` 裡把**湖岸、湖心亭、木棧道**的網格放進一個 `lake_fallback` 群組（`userData.dyn=true`：不被 `mergeStatic` 合併），正式模型載入後整組藏起來——做法見 `patches/lake_fallback_9884d29.patch`（我本機原型的改法：只把那 12 個 `g.add(` 改成 `lfb.add(`，導航沒動）。
+2. `ASSETS.manifest` 加 `'bldg.campus_lake'`，載入後放在 `(cx, 0, cz)`。
+3. **木棧道不用改導航**：遊戲現在走得到的格子是 `|x−PX|≤BW/2+0.05`（`onBoard`，格子中心 ±0.9），用遊戲的 `E.canStand` 量，人的身體最遠到中線 ±1.01 m；所以模型做成 2.3 m 寬、欄杆內側在 ±1.055，人碰不到欄杆。（第一版照 `BW` 做成 1.7 m 寬、欄杆在 ±0.8，人走到邊上身體會穿過欄杆；程序化的版本也一樣。）湖岸的缺口照遊戲（±1.35），木棧道放得進去。
+4. **建議改導航（湖心亭，要不要改由 LAWWW 決定）**：遊戲現在讓人走到亭子中心 2.35 m 內（`Math.hypot(wx-PX,wz-PZ)<PR-0.35`，算格子中心），柱子不擋。用遊戲的 `E.canStand`（人物半徑）在 2 cm 的格點上找出所有站得住的位置，量身體（半徑 0.33 m）和柱子（柱身半徑 0.105 m）、平台邊緣（平邊朝南北的六角形，邊心距 2.338 m；南邊接木棧道不算）的距離；再用 `E.simWalk` 走一遍：
+
+| 做法 | 身體穿進柱子 | 身體超出平台邊緣 | 走路模擬（南岸 ↔ 亭子中間；亭子中間 → 五個方向的邊上） |
+|---|---|---|---|
+| 現在（中心 2.35 m 內、柱子不擋） | 31.5 cm | 17.4 cm | 往北的邊上走不到（走路模擬停在半路） |
+| 2.1 m＋柱子的格子擋起來 | 25.9 cm | 不會（離邊緣最近 0.9 cm） | 全部走得到 |
+| **2.0 m＋柱子的格子擋起來（建議）** | 不會（離柱子最近 0.3 cm） | 不會（離邊緣最近 16.9 cm） | 全部走得到 |
+| 1.9 m＋柱子的格子擋起來 | 不會（離柱子最近 3.5 cm） | 不會（離邊緣最近 24.8 cm） | 往東北、往西北的邊上走不到（走路模擬停在半路） |
+
+建議第三種：`PR-0.35` 改成 `PR-0.7`（＝2.0 m），再把六根柱子（半徑 2.3 的六個頂點）所在的格子擋起來——兩行，patch 在 `patches/lake_nav_9884d29.patch`（在 `469ae8c` 上也 `git apply` 得上）。**這只是建議，我沒有改 `zones3d.js`**；要不要改由 LAWWW 決定。程序化備用的柱子在半徑 2.4，離走得到的範圍更遠。量測腳本 `tools/blender/env_second/shots/lake_nav_check.py`（只改亭子附近的格子、算法和 `lake()` 一樣，同一頁裡換做法，不用重新載入）；結果 `test_logs/lake/nav_check.json`。
+
+規格：GLB **0.88 MB**、網格 10（不重複 10）、材質 11、三角形 8,448（lake_rim_stone 622、lake_rocks_rock 3,200、lake_pavilion_granite 376、lake_pavilion_red 744、lake_pavilion_teal 24、lake_pavilion_gold 168、lake_pavilion_tile 1,392、lake_pavilion_soffit 672、lake_boardwalk_plank 774、lake_boardwalk_pile 476）。
+
+### 31.3 遊戲內原型（**本機注入、不是整合**：LAWWW `9884d29`（方案 A 的校園；湖的程式和 `469ae8c` 完全一樣）＋上面 1. 的本機改法，讀檔到校園、用遊戲的 GLTFLoader 載入、藏起 `lake_fallback`；Playwright＋SwiftShader，**不是 iPhone**）
+
+| 鏡頭 | 修改前（程序化） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 從上面看（13:00） | ![修改前](shots/lake_before_aerial_1300.webp) | ![修改後](shots/lake_after_aerial_1300.webp) |
+| 從南岸步道看湖心亭（13:00） | ![修改前](shots/lake_before_pavilion_1300.webp) | ![修改後](shots/lake_after_pavilion_1300.webp) |
+| 站在木棧道起點（13:00） | ![修改前](shots/lake_before_boardwalk_1300.webp) | ![修改後](shots/lake_after_boardwalk_1300.webp) |
+| 從東岸看湖岸與置石（13:00） | ![修改前](shots/lake_before_shore_1300.webp) | ![修改後](shots/lake_after_shore_1300.webp) |
+| 在亭子裡往上看（13:00） | ![修改前](shots/lake_before_roof_1300.webp) | ![修改後](shots/lake_after_roof_1300.webp) |
+| 傍晚 17:45 | ![修改前](shots/lake_before_pavilion_1775.webp) | ![修改後](shots/lake_after_pavilion_1775.webp) |
+| 手機直向 390×844（站在木棧道上） | ![修改前](shots/lake_before_mobile_1300.webp) | ![修改後](shots/lake_after_mobile_1300.webp) |
+
+### 31.4 Blender 渲染（Cycles；**不是遊戲畫面**；水面、草地、步道是預覽用的示意）
+
+**整體**
+
+![](blender_renders/lake_overview.webp)
+
+**湖心亭**
+
+![](blender_renders/lake_pavilion.webp)
+
+**木棧道**
+
+![](blender_renders/lake_boardwalk.webp)
+
+**湖岸與置石**
+
+![](blender_renders/lake_rim.webp)
+
+**亭子的天花、橫梁、雀替**
+
+![](blender_renders/lake_roof.webp)
+
+
+### 31.5 驗收狀態
+
+| 項目 | 模型 | 整合 | 狀態 |
+|---|---|---|---|
+| `campus_lake.glb` | 完成 | **還沒接**（接法見 31.2，由 LAWWW 做） | `MODEL_READY` |
+
+### 31.6 還沒達到參考品質的地方（自評）
+
+1. **沒有照片可以核對**真實的醉月湖（湖岸的做法、湖心亭的樣子、木棧道）：沙盒打不開臺大網站；是一般台灣校園湖景的遊戲化設計，顏色照遊戲原本的（紅柱、深色瓦頂）。
+2. 湖心亭沒有欄杆、座椅（美人靠）：遊戲的導航讓人走到平台邊上，加了會穿過去。
+3. 石頭是低多邊形（每顆 128 個三角形、平滑著色）＋貼圖，近看輪廓有稜角；湖岸沒有苔蘚、水線的污漬。
+4. 屋頂的瓦是貼圖（不是一片一片的瓦）；天花下的椽子只有六根（真的亭子是一整排）。
+
+### 31.7 接進 LAWWW 最新開發分支的實測（2026-10-14，使用者把「醉月湖、湖心亭的導航及穿模」排在第一）
+
+在 LAWWW `3f3d56a` 上套 `patches/lake_integration_3f3d56a.patch`（**完整的接法，LAWWW 直接 `git apply`**；在 `3f3d56a` 和最新的 `97f4abc` 上 `git apply --check` 都沒有衝突）＋`campus_lake.glb`，
+用 `tools/blender/env_second/shots/lake_integration_check.py` 實際操作（點地面移動，和玩家一樣；不瞬移、不用 ?turbo）：南岸步道 → 木棧道 → 亭子中間 → 往六根柱子、六個邊走 → 回亭子中間 → 回南岸。
+同一條路線也在現在的遊戲（程序化的湖）跑一次對照。Playwright＋SwiftShader 手機模擬，**不是 iPhone 實機**。
+
+patch 的內容（只動 `src/zones3d.js` 的 `lake()`、校園載入的地方，和 `src/assets3d.js` 一行）：
+1. 湖岸、湖心亭、木棧道的程序化網格放進 `lake_fallback`（`userData.dyn`：不被整區合併），正式模型載入後整組藏起來；載入失敗、`?nobldg` 照舊是程序化的。
+2. 導航：亭子走得到的範圍從中心 2.35 m 改成 **2.0 m**，六根柱子所在的格子擋起來（31.2 第 4 點的量測）。
+3. **地板高度**：亭子和木棧道的地板頂面在 y 0.05（水面 0.035 之上）——`nav.addSurf` 三塊（亭子、木棧道、接岸 45 cm 斜坡），人站在木板上，腳不再沉進去 5 cm（現在的遊戲也是沉 5 cm）。
+4. `attachLakeGLB`：放在湖中心；亭子的屋頂、橫梁、柱子加「樹幹透視」（擋住鏡頭和人時網點透空，和行道樹樹幹同一套）；湖岸、置石不投影。
+5. `ASSETS.manifest` 加 `bldg.campus_lake`（lazy）。
+
+| 量測（同一套點地移動的路線） | 現在的遊戲（程序化） | 接上正式模型＋建議的導航 |
+|---|---|---|
+| 16 個路線點都走到 0.4 m 內 | 是 | 否：to_edge2（見表下說明） |
+| 往六根柱子、六個邊走：最後停在離亭子中心多遠 | 1.77–1.96 m | 1.63–1.89 m |
+| 身體離柱子最近（負的＝穿進柱子；柱身半徑 0.105、身體 0.33） | 0.018 m（程序化的柱子在半徑 2.4） | −0.007 m（正式模型的柱子在半徑 2.3；最多穿進 7 mm，看不出來） |
+| 身體超出平台邊緣最多（正的＝超出；南邊接木棧道不算） | -0.079 m | -0.175 m |
+| 木棧道上身體離中線最遠／欄杆內側 | 0.51／0.77 m | 0.38／1.055 m |
+| 腳的高度（地板頂面 0.05；最低–最高） | 亭子 0–0、木棧道 0–0（腳沉進木板 5 cm） | 亭子 0.05–0.05、木棧道 0.023–0.05（0.023 是接岸的斜坡上） |
+| 人在亭子中間：鏡頭看得到人嗎 | 看得到 | 看得到 |
+| 走到柱子旁：鏡頭看得到人嗎 | 被擋住（#8e3a2c） | 看得到 |
+| 手機直向、亭子裡：鏡頭看得到人嗎 | 看得到 | 看得到 |
+
+**to_edge2（往西南西的邊）**：點地面 5 次＋搖桿 28 次之後停在離目標 0.46 m（門檻 0.4 m），但它停的位置離亭子中心 1.76 m，和其他方向（1.63–1.89 m）一樣遠——只是停的角度偏了一點，不是走不進去。
+代價：亭子裡走得到的範圍比現在的遊戲小約 15 cm（現在 1.77–1.96 m），換來身體不穿進柱子、不超出平台邊緣（31.2 第 4 點）。
+
+`tests/campus_layout_nav.py`：套了 patch 的版本 FAILED：新系館（舟山路西段南側）內 不能走；**沒套 patch 的 `3f3d56a` 一樣是 FAILED：新系館（舟山路西段南側）內 不能走**——那一點在 (−92, 68)，現在是大一女舍 A、B 棟之間的天橋下（同一個測試的「大一女舍天橋下 站得住」通過），是測試清單沒跟著大一女舍更新，和醉月湖無關；醉月湖的四項（南岸步道、木棧道、湖心亭、湖畔長椅）都通過。`node tests/campus_public_unit.js`、`node tests/nav_buildings_unit.js`（套了 patch 的版本）：ALL PASS（湖心亭走得到、從博雅門口走到湖心亭）。紀錄：`test_logs/lake_3f3d56a/`。
+
+| 鏡頭 | 現在的遊戲 | 接上正式模型＋建議的導航 |
+|---|---|---|
+| 木棧道中間（橫向） | ![現在](shots/lakeint_proc_boardwalk_mid.webp) | ![正式模型](shots/lakeint_final_boardwalk_mid.webp) |
+| 亭子中間（橫向） | ![現在](shots/lakeint_proc_pav_center.webp) | ![正式模型](shots/lakeint_final_pav_center.webp) |
+| 走到東南的柱子旁（橫向） | ![現在](shots/lakeint_proc_to_col1.webp) | ![正式模型](shots/lakeint_final_to_col1.webp) |
+| 亭子裡（手機直向 390×844） | （這一張被「請把手機轉成橫向」的提示蓋住：跑現在的遊戲那一輪時，測試腳本還沒先點掉提示；鏡頭量測在提示底下照樣做了） | ![正式模型](shots/lakeint_final_portrait_pav.webp) |
+
+**還沒做／沒測**：iPhone 實機；晚上的燈光（亭子沒有燈，湖邊是原本的路燈）；NPC 走上木棧道（目前湖邊沒有排 NPC 的路線）。
+
+## 32. 人物（D59）：吳芯慈、林芷若的眼鏡、阿哲（Blender／VRM；**還沒接進遊戲**；角色美術由 BB 驗收）
+
+D59：角色美術改由 BB 驗收；LAWWW2 照 BB 通過的參考圖改 Blender／VRM，**遊戲內截圖由 LAWWW 接進遊戲後拍給 BB**。下面的「遊戲渲染器」是 LAWWW 的 `test_charlook.html`（遊戲本身的 `ASSETS`＋`CHAR.build`＋`PROPS`、白天的光線、待機／走路動畫、坐姿）——**不是遊戲內截圖**；Playwright＋SwiftShader，不是 iPhone。
+
+### 32.1 吳芯慈（`classmate_xinci`，法律系一年級，160 cm）
+
+**參考圖**：BB 通過的 `classmate_xinci.webp`（`claude/story-planning` 分支 `docs/story_planning/art_reference/`，README：「整齊的低髮髻【已定案】（現有 3D 是長直髮，要改）」）——整齊的低髮髻、透得到額頭的空氣瀏海、臉旁細碎髮、淺紫色開襟衫（敞開）＋白色圓領 T、深藍色及膝 A 字裙、棕色樂福鞋。
+
+**做法**：`tools/blender/char_second/classmate_xinci.py`（`x_xinci_face.py`、`x_xinci_clothes.py`、`x_xinci_hair.py`），沿用 LAWWW 的人物生產線 `tools/blender/char/`（`common.py`、`h01_*`、`p00_*`、`vrm_finish.py`）。底模：VRoid β 版 CC0 樣本「Darkness Shibu」（VRM meta `licenseName: CC0`；`tools/fetch_vroid_src.sh` 取得）；頭髮、衣服、鞋的網格與貼圖由腳本產生。
+完整流程（無介面 Blender 5.2）：`/opt/blenv/bin/python tools/blender/char_second/classmate_xinci.py -- x.vrm --stages stage0,face,clothes,hair` → `VRM_BASE=Darkness_Shibu python3 tools/blender/char/vrm_finish.py x.vrm assets/models/char/second_ai/bl_classmate_xinci.vrm 吳芯慈 '#3a2a22'`。
+
+**檔案**：`assets/models/char/second_ai/bl_classmate_xinci.vrm`（**3.17 MB**；三角形 34,270＝臉 5,138、身體 4,344、衣服 12,604〔開襟衫 6,072、裙子 2,208、樂福鞋 1,648、白 T 2,676〕、頭髮 12,184；14 個材質、20 張貼圖；彈簧骨 2 組：胸、臉旁碎髮）。
+
+**這一輪改了什麼（第六 → 第十版）**：
+1. 白 T 整件重做（領口在脖子根部、紮進裙子），身體皮膚收進 T 恤裡（第五版胸口有兩塊粉紅色穿模）。
+2. 瀏海：第六版一根根細針、額頭空很多（像梳齒）→ 第八版每片髮束下段分成 3 小撮＋第二排交錯的髮束，正面看是一片透得到額頭的空氣瀏海；頭頂與兩側加蓬 2–3.5 mm（第七版像往後梳的油頭）；往後梳的髮片拱起變小、起點收進底下（頭頂剪影的城牆狀凹凸）；太陽穴碎髮縮短（頭頂剪影外多一條細線）；臉旁兩綹變細。
+3. **坐姿的裙子**（遊戲渲染器才發現）：第八版裙子跟著 VRoid 連身裙的裙擺彈簧骨，坐下時（大腿往前 83°）被腿的碰撞體往外擠，**整條裙子炸成一個圓盤**；第九版改成整圈跟大腿 → 前面立起一個大圓盤；**第十版**：拿掉裙擺彈簧骨，裙子只綁腰臀＋大腿，前面 76%、兩側 43%、後面 13% 跟大腿（坐下時蓋在腿上、兩側往下垂；走路時跟著腿擺）。
+
+| | |
+|---|---|
+| Blender 渲染：第六版、第八版、參考圖（臉部特寫；第十版只改裙子權重，T 姿勢和第八版一樣） | ![第六版 → 第八版 → 參考圖](shots/xinci_v6_v8_ref.webp) |
+| 坐姿（遊戲渲染器）：第八版（正面、45°）→ 第十版（正面、45°） | ![坐姿 第八版 → 第十版](shots/xinci_sit_v8_v10.webp) |
+
+Blender 渲染（第八版 T 姿勢；Eevee；**不是遊戲畫面**）：
+
+| 臉 正面 | 臉 45° | 臉 側面 | 全身 |
+|---|---|---|---|
+| ![](shots/xinci_blender_face_front.webp) | ![](shots/xinci_blender_face_q45.webp) | ![](shots/xinci_blender_face_side.webp) | ![](shots/xinci_blender_body_front.webp) |
+
+遊戲渲染器（第十版＝交付版；`tools/blender/char_second/xinci_lookdev.py`：Playwright 攔截 `test_charlook.html`，加一個 manifest 項目〔照陳語彤的設定、換成這個 VRM、身高 1.60、沒有配件〕，不改任何檔案）：
+
+| 臉 正面 | 臉 45° | 臉 側面 |
+|---|---|---|
+| ![](shots/xinci_look_face_front.webp) | ![](shots/xinci_look_face_q45.webp) | ![](shots/xinci_look_face_side.webp) |
+| **全身 正面（待機）** | **全身 45°** | **全身 背面** |
+| ![](shots/xinci_look_body_front.webp) | ![](shots/xinci_look_body_q45.webp) | ![](shots/xinci_look_body_back.webp) |
+| **走路 45°** | **走路 側面** | **坐下 正面** |
+| ![](shots/xinci_look_body_q45_walk.webp) | ![](shots/xinci_look_body_side_walk.webp) | ![](shots/xinci_look_body_front_sit.webp) |
+| **坐下 45°** | **坐下 側面** | |
+| ![](shots/xinci_look_body_q45_sit.webp) | ![](shots/xinci_look_body_side_sit.webp) | |
+
+**接法（LAWWW 決定）**：`ASSETS.manifest` 加 `'char.classmate_xinci':{url:'assets/models/char/second_ai/bl_classmate_xinci.vrm', type:'vrm', anims:'char.mixamo_clips', height:1.60, source:'…', license:'CC0 底模＋本作'}`，`CHARACTERS.classmate_xinci.char3d` 加 `model:'char.classmate_xinci'`（現在是程序化 spec，`hair:'longStraight'`）。托特包、手錶、四色筆還沒做（參考圖的配件；之後可以用 `src/props3d.js` 的 `tote` 或另外做）。
+
+**驗收狀態**：`MODEL_READY`（還沒接進遊戲）→ LAWWW 接進遊戲、拍遊戲內截圖給 BB → `READY_FOR_ART_REVIEW`。**不標 `ART_APPROVED`**。
+
+**還沒達到參考品質的地方（自評）**：
+- 瀏海還是比參考圖細、短（參考圖的瀏海蓋到眼皮、更蓬）；頭頂剪影還有幾個小凹凸；45° 看頭頂有一兩根翹起的細髮片。
+- 開襟衫後領立在脖子後面（參考圖是平貼的圓領），肩膀看起來比參考圖蓬。
+- 坐下時裙子兩側往下垂得比真實布料長（沒有布料模擬；坐在課桌後面時大多被擋住）；坐下正面膝蓋上緣有一點點穿出裙子。走路時兩腿之間的裙子會被拉開一點。
+- 臉是 VRoid 底模加調整，臉型、五官沒有逐項對參考圖重做。
+- 遊戲內（實際場景光線、距離）還沒看過；iPhone 實機沒測。
+
+### 32.2 林芷若的眼鏡（`heroine_02`；D59「淺色細金屬圓框眼鏡，在 Café 工作時也戴」）
+
+`tools/blender/char_second/glasses_zhiruo.py` → `assets/models/char/second_ai/glasses_zhiruo.glb`（**32 KB**、1,348 三角形：鏡框 1,252、鏡片＋鼻托 96）：圓框（直徑 4.4 cm）、**霧面玫瑰金** `#a68b80`、金屬線 1.7 mm、鼻托、鉸鏈、鏡腳（往後 10 cm、尾端往下彎掛耳朵）、鏡片幾乎透明。原點＝兩個鏡片中心的中點、前方 −z（和 `props3d.js` 的眼鏡座標相同，不用再轉 180°）。
+第一版是淺香檳金 `#d6c49c`、1.5 mm：遊戲渲染器裡比皮膚還淺、幾乎看不見；參考圖 06 的鏡框比皮膚深、比頭髮淺，偏玫瑰金／灰褐，所以改色。
+
+**接法**：`patches/glasses_zhiruo_97f4abc.patch`（`97f4abc` 上 `git apply --check` 沒有衝突）——`src/props3d.js` 的 `glasses()` 先掛原本程式產生的眼鏡，GLB 載好就換上（鏡框改成和人物一樣的卡通明暗 `MeshToonMaterial`、顏色照 GLB；鏡片照舊是 `MeshBasicMaterial` 透明 0.12；陰影、`frustumCulled` 照程式產生版本的設定）；載入失敗照舊用程式產生的；`o.glb=false` 可以不用正式模型。`src/assets3d.js` 在第二個 AI 的區塊加 `prop.glasses_zhiruo`（lazy）。
+檢查（`tools/blender/char_second/glasses_lookdev.py`）：VRoid 版、Blender 版（`?blchar`）都掛上 GLB（`glasses_glb`）、程式產生的那副藏起來、1,348 三角形、材質 `MeshToonMaterial #a68b80`＋`MeshBasicMaterial 0.12`、沒有 JS 錯誤（每一輪都有一個 404，修改前也有，和眼鏡無關）。
+
+| 遊戲渲染器（正面、眼睛附近放大）：修改前（程式產生：深棕橢圓）→ 修改後（GLB） | |
+|---|---|
+| VRoid 版芷若（預設） | ![](shots/glasses_zhiruo_look_vroid.webp) |
+| Blender 版芷若（`?blchar`） | ![](shots/glasses_zhiruo_look_bl.webp) |
+| 45°：修改前 → 修改後 | ![](shots/glasses_zhiruo_before_q45.webp) ![](shots/glasses_zhiruo_after_q45.webp) |
+| Blender 渲染（Cycles；正面、45°、側面、上方；**不是遊戲畫面**） | ![](shots/glasses_zhiruo_blender.webp) |
+
+**驗收狀態**：`MODEL_READY`（接法是 patch，LAWWW 整合）。**還沒做**：Café 工作時的樣子（圍裙＋眼鏡）在遊戲內場景的截圖；iPhone 實機。
+
+### 32.3 阿哲（張哲維，`zhe`；法律系一年級、178 cm）
+
+**參考圖**：BB 通過的 `zhe.webp`（`claude/story-planning` 分支 `docs/story_planning/art_reference/`）——小麥色皮膚、蓬亂有層次的棕色短髮、總是笑著；
+深藍運動外套（敞開、袖子外側一條米白色拼接、白色拉鍊邊、羅紋袖口與下擺）＋芥末黃圓領 T＋淺藍寬直筒牛仔褲＋深藍帆布球鞋（白鞋底）＋深色後背包；另有籃球服（之後另外做）。
+杜可昕在他前面，但參考圖在企劃分支標「待使用者重傳完整版」、repo 裡沒有 → BLOCKED，先做阿哲。
+
+**做法**：`tools/blender/char_second/zhe.py`（`zhe_face.py`、`zhe_clothes.py`、`zhe_hair.py`）＋LAWWW 的人物生產線 `tools/blender/char/`。
+底模：VRoid β 版 CC0 樣本「Sakurada Fumiriya」（現在遊戲裡的阿哲用的同一個樣本；和祐廷的 HairSample_Male 不同，約 8 頭身）。
+- 臉：`h01_face`（`p00_face.run`）＋祐廷的男生參數（嘴窄一點、唇色淡、直的濃眉）；**小麥色**＝皮膚材質的 MToon 底色係數 ×(0.86, 0.70, 0.56)、陰影色 ×(0.92, 0.80, 0.70)（不改貼圖）。
+- 衣服：牛仔褲＝`h01_clothes` 的褲子（denim）；外套＝`h01_clothes` 的上衣＋芯慈的「前面敞開」（`x_xinci_clothes.build_cardigan_open`，±24°）；袖子外側 ±38° 從肩膀到袖口羅紋換成米白色材質；兩條前襟外側各一條 8 mm 的拉鍊布條；T 恤＝`tee_full`，**只留前面 ±72°**（兩側、背後被外套蓋住；留著的話手放下來時從腋下後方穿出來）。
+- 頭髮：從祐廷的 `p00_hair.py` 複製改寫（棕色、頭頂更蓬、外層髮片更多更亂、瀏海一撮一撮、髮尾在眉毛上方 1.2 cm）；全部綁頭骨，沒有彈簧骨。
+- VRM 收尾：`tools/blender/char_second/vrm_finish2.py`（LAWWW 的 `vrm_finish.py` 同一套步驟；男生眼型改用 `VRM_MALE=1` 判斷——原本只認 `HairSample_Male`）。
+
+**檔案**：`assets/models/char/second_ai/bl_zhe.vrm`（**2.83 MB**；三角形 31,922＝臉 5,526、身體 3,406、衣服 12,382〔外套 5,824、牛仔褲 3,870、球鞋 1,184、T 恤 992、拼接 384、拉鍊 128〕、頭髮 10,608；16 個材質、24 張貼圖；沒有彈簧骨）。
+
+**這一輪的版本（都在遊戲渲染器看過）**：第一版——米白拼接是上臂一半（手放下來像兩塊肩章）、牛仔褲從臀部直落太寬（像喇叭褲）、外套太短、眼睛太圓太大（像國中生）、嘴又寬又深、瀏海一整片像碗蓋、頭頂一根根細的觸角；第二版改拼接成沿手臂外側的一條、褲管收窄、外套到胯骨、眼型照祐廷、膚色加深；頭頂的高光在遊戲強光下曬成一圈白色→第三版高光調暗、瀏海變少變短（露出眉毛）；側面看外套腋下後方露出一塊芥末黃→第五版 T 恤只留前面。
+
+| | |
+|---|---|
+| 遊戲渲染器：上排＝現在遊戲裡的阿哲（`vroid_zhe.vrm`，沒有配件）、下排＝新版（背後包是 `props3d.js` 的 `backpack`） | ![修改前 → 修改後](shots/zhe_before_after.webp) |
+| 參考圖（正面）→ 新版（遊戲渲染器） | ![參考圖 → 新版](shots/zhe_ref_vs_look.webp) |
+
+遊戲渲染器（交付版；`tools/blender/char_second/char_lookdev.py --base char.zhe --height 1.78 --props backpack`）：
+
+| 臉 正面 | 臉 45° | 臉 側面 |
+|---|---|---|
+| ![](shots/zhe_look_face_front.webp) | ![](shots/zhe_look_face_q45.webp) | ![](shots/zhe_look_face_side.webp) |
+| **全身 正面** | **全身 45°** | **全身 背面** |
+| ![](shots/zhe_look_body_front.webp) | ![](shots/zhe_look_body_q45.webp) | ![](shots/zhe_look_body_back.webp) |
+| **走路 45°** | **走路 側面** | **坐下 正面** |
+| ![](shots/zhe_look_body_q45_walk.webp) | ![](shots/zhe_look_body_side_walk.webp) | ![](shots/zhe_look_body_front_sit.webp) |
+| **坐下 45°** | **坐下 側面** | |
+| ![](shots/zhe_look_body_q45_sit.webp) | ![](shots/zhe_look_body_side_sit.webp) | |
+
+Blender 渲染（T 姿勢；Eevee；**不是遊戲畫面**）：
+
+| 臉 正面 | 臉 45° | 臉 側面 |
+|---|---|---|
+| ![](shots/zhe_blender_face_front.webp) | ![](shots/zhe_blender_face_q45.webp) | ![](shots/zhe_blender_face_side.webp) |
+| **全身 正面** | **全身 45°** | **全身 背面** |
+| ![](shots/zhe_blender_body_front.webp) | ![](shots/zhe_blender_body_q45.webp) | ![](shots/zhe_blender_body_back.webp) |
+
+**接法（LAWWW 決定）**：`ASSETS.manifest['char.zhe']` 加 `blUrl:'assets/models/char/second_ai/bl_zhe.vrm'`（和五位女主角一樣先只在 `?blchar` 用），或直接把 `url` 換掉；`C.MODEL_PROPS['char.zhe']=['backpack']`（參考圖有深色後背包；現在阿哲沒有配件）。身高照舊 1.78。
+
+**驗收狀態**：`MODEL_READY`（還沒接進遊戲）→ LAWWW 接進遊戲、拍遊戲內截圖給 BB → `READY_FOR_ART_REVIEW`。**不標 `ART_APPROVED`**。
+
+**還沒達到參考品質的地方（自評）**：
+- 頭髮比參考圖整齊、像一頂安全帽（參考圖頭頂一撮一撮往不同方向翹）；臉旁、後腦的層次少。
+- 臉：預設表情是不笑的（參考圖幾乎都在笑；遊戲的表情由 LAWWW 的系統控制），五官仍偏 VRoid 的少年感，沒有逐項對參考圖重做下顎與鼻樑。
+- 外套是圓領敞開（參考圖是立領）；T 恤紮在牛仔褲裡（參考圖沒有紮、蓋住褲頭）。
+- 腿很長（Sakurada Fumiriya 樣本本來的比例），牛仔褲在褲腳附近看起來有點寬。
+- 手機殼、籃球服沒做；iPhone 實機、遊戲內實際場景光線都沒看過。

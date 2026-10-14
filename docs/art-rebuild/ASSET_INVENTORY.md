@@ -37,7 +37,7 @@
 | `TK.utilityPole`、`TK.wires`、`TK.trafficMirror`、`TK.mailbox`、`TK.aBoard`、`TK.pots` | 溫州街、公館 | 溫州街：⑤＋③；公館：④ | 溫州街：被 `wz_props.glb`（電線桿、反光鏡、路名牌、Café 門前紅磚道）取代，`READY_FOR_ART_REVIEW`；公館：BLOCKOUT | 公館跟著公館近景一起換 |
 | `TK.scooter`（`W3.scooter` 舊版） | 公館、溫州街、校門外背景 | 溫州街、公館：⑤＋③；校門外背景：② | 溫州街：`scooter.glb`（兩款，LAWWW2 Blender）`READY_FOR_ART_REVIEW`；**公館：同一個 GLB，分組 InstancedMesh（北側 5 組、南側 3 組，看不到的那組整組不畫），`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 12 節）**；校門外背景：維持套件 | 更多車款（檔車、外送箱、安全帽） |
 | `TK.road`、`W3.asphaltTex`、人行道磚 | 全部戶外 | ④ | BLOCKOUT（canvas） | Poly Haven 柏油／鋪面 PBR，**維持淺灰（D30）**、入夜變暗的標記保留 |
-| `TK.tree`、`TK.royalPalm`、`TK.plantClump` | 全部戶外 | ④（近景）／②（遠景） | BLOCKOUT（葉片卡） | Blender 樹（大王椰子、樟樹、榕樹）＋Instancing＋遠景卡片 LOD |
+| `TK.tree`、`TK.royalPalm`、`TK.plantClump` | 全部戶外 | ④（近景）／②（遠景）；套件＝③（`street_trees.glb` 載入失敗、`?nobldg` 時的備用） | `TK.tree`、`TK.royalPalm`：LAWWW2 Blender（`street_trees.glb`：樟樹兩款、榕樹、大王椰子的模型＋遠景卡片；`TK.tree`／`TK.royalPalm` 載入後回傳樹的位置記號，整區 InstancedMesh：42 m 內畫模型、遠的畫面向鏡頭的卡片、畫面外不畫），位置、高度、樹冠參數、導航阻擋照呼叫端，`READY_FOR_ART_REVIEW`（second_ai/VISUAL_REVIEW 第 15 節）；`TK.plantClump` 還是 BLOCKOUT（葉片卡） | 樹種、樹形沒有照片參考；遠景卡片只有一個角度；`plantClump`（灌木叢） |
 | `TK.bgCity`、`E3` 天際線剪影 | 地圖邊界外 | ② | 保留（背景） | 不升級（背景） |
 | `TK.lightPool`、`TK.glowSprite`、夜間發光材質 | 路燈光圈、窗光 | ① | 保留（效果，不是模型） | — |
 
@@ -75,6 +75,8 @@
 | 桌上小物（LAWWW2 正式模型 `assets/models/env/second_ai/desk_props.glb`：17 種單件＋15 組（講堂 `lset`／自習桌 `tset`／圓桌 `rset`／手上 `hold`）×2 LOD，一個材質，螢幕自發光——VISUAL_REVIEW 第 27 節） | 博雅 101 講堂、教學館自習區（配坐姿替身或真的 NPC；放法、配哪一組由 LAWWW 做） | ⑤（新做） | `MODEL_READY`（LAWWW2；還沒接）：VISUAL_REVIEW 第 27 節 | 講堂組、手上的東西和講堂椅、替身同一個原點，直接用同一個 instance 矩陣 |
 | 社團博覽會攤位（LAWWW2 正式模型 `assets/models/env/second_ai/club_fair.glb`：九個攤位，每攤一個網格、一個材質——VISUAL_REVIEW 第 28 節） | 椰林大道南側草地（9/30、10/1；服務台換掉 (−13.5, 14.6) 的公告欄、法服換掉 (−18, 14.5) 的招生攤位） | ⑤（新做；取代那兩天的公告欄與方盒招生攤位） | `MODEL_READY`（LAWWW2；配置是 PROPOSAL，還沒接）：VISUAL_REVIEW 第 28 節 | 顯示日期、導航（每頂帳篷 3×3 m）、互動、藏起原本的公告欄與招生攤位由 LAWWW 做 |
 | 系籃半場（LAWWW2 正式模型 `assets/models/env/second_ai/bball_court.glb`：鋪面＋場線、籃架、長椅三個網格——`docs/art-rebuild/second_ai/research/系籃球場_位置提案.md`） | 校園（提案 A：醉月湖東側 (−4, −113)；B：男一舍與體育館之間 (48.5, 67)；**位置等使用者確認**） | ⑤（新做；現在系籃練球只是體育館門口的一個點） | `MODEL_READY`（LAWWW2；位置是 PROPOSAL，還沒接） | 導航只擋籃架柱子與長椅；活動點搬到長椅前面 |
+| 總圖書館 3F 閱覽區（LAWWW2 正式模型 `assets/models/env/second_ai/library_3f.glb`——VISUAL_REVIEW 第 30 節） | library 區域（room() 22×16×4.0） | ④→⑤（取代程序化的牆、地板、桌椅、書架；程序化留作載入失敗的備用） | `MODEL_READY`（LAWWW2；還沒接） | 家具都在原本的導航阻擋範圍裡；電梯（library3d.js）不在 GLB 裡 |
+| 醉月湖：湖岸、置石、湖心亭、木棧道（LAWWW2 正式模型 `assets/models/env/second_ai/campus_lake.glb`——VISUAL_REVIEW 第 31 節） | 校園 lake()（湖的本地座標，放在 (cx,0,cz)） | ④→⑤（取代程序化的湖岸帶子、柱體亭子、木板；水面 shader、睡蓮、草叢照舊） | `MODEL_READY`（LAWWW2；還沒接） | 程序化的湖岸／亭／木棧道要先放進 `lake_fallback` 群組（patches/lake_fallback_9884d29.patch）；導航不變 |
 | `desk()`、`chair()`、`shelfWall()`、`goodsWall()`、床、沙發、Café 家具 | 各室內 | ④ | BLOCKOUT | Blender 家具組（GLB，同一款重用） |
 
 ## 五、人物（`src/character3d.js`、`assets/models/char/`）

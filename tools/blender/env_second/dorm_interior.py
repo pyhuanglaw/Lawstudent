@@ -279,8 +279,8 @@ def add_painted(bm_src, matrix, hexcol):
     it.bm.faces.ensure_lookup_table(); n0 = len(it.bm.faces); it.add_bm(bm_src, matrix); bm_src.free()
     it.bm.faces.ensure_lookup_table(); it.paint([it.bm.faces[i] for i in range(n0, len(it.bm.faces))], hexcol)
 add_painted(L.lathe([(0.0, 0.0), (0.04, 0.0), (0.042, 0.1), (0.036, 0.1), (0.034, 0.012), (0.0, 0.012)], seg=14), Matrix.Translation(g2b(2.25, Y, -2.35)), '#2f6d8a')   # 馬克杯
-add_painted(L.lathe([(0.0, 0.0), (0.035, 0.0), (0.035, 0.1), (0.03, 0.1), (0.03, 0.01), (0.0, 0.01)], seg=10), Matrix.Translation(g2b(1.12, Y, -2.32)), '#3a3f46')    # 筆筒
-for k in range(4): it.cbox(1.11 + k * 0.006, 1.115 + k * 0.006, Y + 0.08, Y + 0.17, -2.325, -2.32, ['#c23f35', '#2f6db0', '#202225', '#e0b95b'][k])
+add_painted(L.lathe([(0.0, 0.0), (0.035, 0.0), (0.035, 0.1), (0.03, 0.1), (0.03, 0.01), (0.0, 0.01)], seg=10), Matrix.Translation(g2b(1.43, Y, -2.74)), '#3a3f46')    # 筆筒（2026-10-14：從左前角 (1.12,−2.32) 移到書堆和筆電中間，左前角放黃金葛 prop_pothos.glb）
+for k in range(4): it.cbox(1.42 + k * 0.006, 1.425 + k * 0.006, Y + 0.08, Y + 0.17, -2.745, -2.74, ['#c23f35', '#2f6db0', '#202225', '#e0b95b'][k])
 it.cbox(2.0, 2.075, Y, Y + 0.008, -2.33, -2.18, '#16181b')                                         # 手機
 
 # 室友的書桌上：兩台螢幕、鍵盤、滑鼠、耳機、零食、飲料

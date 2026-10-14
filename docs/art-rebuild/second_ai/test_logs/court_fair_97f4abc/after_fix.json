@@ -1,0 +1,20 @@
+{
+ "fb": {
+  "visible": false,
+  "children": 4,
+  "dyn": true
+ },
+ "benchBoxes": [],
+ "glbMeshes": 0,
+ "fair_day": 14,
+ "fair": {
+  "fb": {
+   "visible": false,
+   "children": 9,
+   "dyn": true
+  },
+  "glbBooths": 9,
+  "procRoofs": []
+ },
+ "errors": []
+}

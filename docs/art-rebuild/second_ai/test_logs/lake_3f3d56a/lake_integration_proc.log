@@ -1,0 +1,34 @@
+note 到達「boardwalk_mid」附近（0.18 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，84 秒
+{"name": "boardwalk_mid", "target": [-39.0, -103.85], "reached": true, "at": [-39, -103.67], "s": 84}
+note 到達「boardwalk_end」附近（0.15 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，13 秒
+{"name": "boardwalk_end", "target": [-39.0, -108.5], "reached": true, "at": [-39, -108.35], "s": 13}
+note 到達「pav_center」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，10 秒
+{"name": "pav_center", "target": [-39.0, -111.4], "reached": true, "at": [-39, -111.23], "s": 10}
+note 到達「to_col0」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+{"name": "to_col0", "target": [-37.0, -111.4], "reached": true, "at": [-37.21, -111.38], "s": 6}
+note 到達「to_edge0」附近（0.15 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，12 秒
+{"name": "to_edge0", "target": [-37.22, -110.38], "reached": true, "at": [-37.37, -110.37], "s": 12}
+note 到達「to_col1」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，12 秒
+{"name": "to_col1", "target": [-38.0, -109.67], "reached": true, "at": [-37.87, -109.87], "s": 12}
+note 到達「to_col2」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，14 秒
+{"name": "to_col2", "target": [-40.0, -109.67], "reached": true, "at": [-40.13, -109.87], "s": 14}
+note 到達「to_edge2」附近（0.15 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+{"name": "to_edge2", "target": [-40.78, -110.38], "reached": true, "at": [-40.63, -110.37], "s": 11}
+note 到達「to_col3」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+{"name": "to_col3", "target": [-41.0, -111.4], "reached": true, "at": [-40.93, -111.22], "s": 4}
+note 到達「to_edge3」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，13 秒
+{"name": "to_edge3", "target": [-40.78, -112.43], "reached": true, "at": [-40.68, -112.28], "s": 13}
+note 到達「to_col4」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+{"name": "to_col4", "target": [-40.0, -113.13], "reached": true, "at": [-40.07, -112.93], "s": 5}
+note 到達「to_edge4」附近（0.28 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，36 秒
+{"name": "to_edge4", "target": [-39.0, -113.45], "reached": true, "at": [-39, -113.17], "s": 36}
+note 到達「to_col5」附近（0.10 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，25 秒
+{"name": "to_col5", "target": [-38.0, -113.13], "reached": true, "at": [-38.1, -113.14], "s": 25}
+note 到達「to_edge5」附近（0.17 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，12 秒
+{"name": "to_edge5", "target": [-37.22, -112.43], "reached": true, "at": [-37.39, -112.37], "s": 12}
+note 到達「pav_center2」附近（0.27 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+{"name": "pav_center2", "target": [-39.0, -111.4], "reached": true, "at": [-38.78, -111.55], "s": 5}
+note 到達「shore」附近（0.11 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，129 秒
+{"name": "shore", "target": [-39.0, -97.4], "reached": true, "at": [-39, -97.51], "s": 129}
+{"stats": {"samples": 746, "pavilion": {"n": 508, "col_gap_min_m": 0.018, "edge_overhang_max_m": -0.079, "feet_y": [0, 0]}, "boardwalk": {"n": 135, "body_from_center_max_m": 0.508, "rail_inner_m": 0.77, "feet_y": [0, 0]}}, "occlusion": {"boardwalk_mid": {"head": null, "chest": null, "cam": [-39, 2.96, -97.81], "player": [-39, 0, -103.67]}, "pav_center": {"head": null, "chest": null, "cam": [-39, 2.96, -105.37], "player": [-39, 0, -111.23]}, "to_col1": {"head": {"by": "#8e3a2c", "at": 5.38, "of": 6.02, "st": false}, "chest": {"by": "#8e3a2c", "at": 5.48, "of": 6.13, "st": false}, "cam": [-37.87, 2.96, -104.01], "player": [-37.87, 0, -109.87]}, "to_edge3": {"head": null, "chest": null, "cam": [-40.68, 2.96, -106.42], "player": [-40.68, 0, -112.28]}, "pav_center2": {"head": null, "chest": null, "cam": [-38.78, 2.96, -105.69], "player": [-38.78, 0, -111.55]}, "portrait_pav": {"head": null, "chest": null, "cam": [-39, 2.89, -116.46], "player": [-39, 0, -110.6]}}, "errors": []}
+exit 0

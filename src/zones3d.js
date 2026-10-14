@@ -381,6 +381,7 @@ const Z3 = (function(){
     // 總圖的 Blender 正式模型（第二個 AI）：和溫州街、公館同一套接法（只藏 ckTag==='library' 的套件；窗晚上亮、招牌是石材底色的 canvas 字）
     if(libGLB) ASSETS.loadOne('bldg.campus_library').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_library_glb','library'); }).catch(e=>console.warn('總圖正式模型載入失敗，用套件的外觀',e));
     courtGLB(zone);   /* 系籃球場的正式模型（bballCourt）*/
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.campus_lake']) ASSETS.loadOne('bldg.campus_lake').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachLakeGLB(E,g,lakeU,c.scene.clone(true)); }).catch(e=>console.warn('醉月湖正式模型載入失敗，用程序化的湖岸、湖心亭',e));   /* 醉月湖（LAWWW2 ⑩）*/
     if(fairGLB) fairGLB(zone);   /* 社團博覽會的帳篷（clubFair）*/
     if(bellGLB) ASSETS.loadOne('bldg.campus_bell').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_bell_glb','bell'); }).catch(e=>console.warn('傅鐘正式模型載入失敗，用套件的外觀',e));
     if(gtGLB) ASSETS.loadOne('bldg.campus_gongtong').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_gongtong_glb','gongtong'); for(const [px,pz] of GT_PALMS) nav.blockCircle(px,pz,0.35); nav._cm=null; }).catch(e=>console.warn('共同教學館正式模型載入失敗，用套件的外觀',e));
@@ -402,7 +403,7 @@ const Z3 = (function(){
      每頂帳篷整個擋起來（3×3 m）；人站在帳篷前面 z 12.5–13.5；傅鐘廣場（x≤−24）和長椅前面留空。正式模型載入前／失敗：簡單的帳篷（D38 分類 ③）*/
   const FAIR_Z=15.1, FAIR=[['booth_hiking',-21.3],['booth_lawclub',-17.8],['booth_info',-13.5],['booth_guitar',-9.7],['booth_debate',-5.9],['booth_basketball',3.4],['booth_bg1',7.2],['booth_bg2',11.0],['booth_bg3',14.8]];
   function isFairDay(){ try{ const A=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list&&ACTIVITIES.list.find(a=>a.id==='club_expo_y1s1'); const G=typeof GAME!=='undefined'&&GAME.G; if(!A||!G||typeof CALENDAR==='undefined') return false; const dd=CALENDAR.dateOf(G.day); if(dd.m===11&&dd.d===15) return true;   /* 校慶（11/15，日期需查證）的園遊會：同一排帳篷，法服的法律問答攤（BB_95 3-7）*/ return (A.dates||[]).includes(dd.key); }catch(e){ console.warn('isFairDay',e); return false; } }
-  function clubFair(E,g,nav){ const fb=new THREE.Group(); fb.name='fair_fallback'; const roof=P3.M('#e8e4da',{rough:0.9}), pole=P3.M('#9aa0a6',{rough:0.5}), table=P3.M('#3f6b8a',{rough:0.8});
+  function clubFair(E,g,nav){ const fb=new THREE.Group(); fb.name='fair_fallback'; fb.userData.dyn=true;   /* 不參加整區靜態合併（帳篷共用 P3.M 材質，沒有這行會被合併搬走，正式模型載入後 fb.visible=false 藏不到，兩套帳篷疊在一起）*/ const roof=P3.M('#e8e4da',{rough:0.9}), pole=P3.M('#9aa0a6',{rough:0.5}), table=P3.M('#3f6b8a',{rough:0.8});
     for(const [,x] of FAIR){ const t=new THREE.Group(); const r=new THREE.Mesh(new THREE.ConeGeometry(2.15,0.85,4,1),roof); r.rotation.y=Math.PI/4; r.position.y=2.47; t.add(r);
       for(const [px,pz] of [[-1.48,-1.48],[1.48,-1.48],[-1.48,1.48],[1.48,1.48]]){ const p=new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.03,2.05,6),pole); p.position.set(px,1.025,pz); t.add(p); }
       const tb=new THREE.Mesh(new THREE.BoxGeometry(1.8,0.75,0.6),table); tb.position.set(0,0.375,1.0); t.add(tb); t.position.set(x,0,FAIR_Z); t.rotation.y=Math.PI; fb.add(t);
@@ -416,7 +417,7 @@ const Z3 = (function(){
      活動點（AA_110 系籃練球，src/data/activities.js 的 dept_basketball）在兩張長椅中間、面向場內 (3.3,-112.7)。晚上 17:30–19:00 練球：四個角各一盞路燈。
      正式模型載入前／載入失敗：簡單的場地、柱子、長椅（D38 分類 ③），碰撞看得到，不是隱形牆。改位置要跑 tests/campus_public_unit.js */
   const COURT={x:-4,z:-113,ry:0};
-  function bballCourt(E,g,nav,lamps){ const cx=COURT.x, cz=COURT.z; const fb=new THREE.Group(); fb.name='court_fallback';
+  function bballCourt(E,g,nav,lamps){ const cx=COURT.x, cz=COURT.z; const fb=new THREE.Group(); fb.name='court_fallback'; fb.userData.dyn=true;   /* 同上：兩張長椅共用材質，會被合併搬走 */
     const surf=new THREE.Mesh(new THREE.PlaneGeometry(15,14),P3.M('#8c5f4c',{rough:0.92})); surf.rotation.x=-Math.PI/2; surf.position.set(cx,0.012,cz); surf.receiveShadow=true; fb.add(surf);
     const pole=new THREE.Mesh(new THREE.BoxGeometry(0.32,3.95,0.32),P3.M('#3d4a56',{rough:0.6})); pole.position.set(cx,1.975,cz-7.85); pole.castShadow=true; fb.add(pole);
     for(const bz of [-2.2,2.8]){ const b=new THREE.Mesh(new THREE.BoxGeometry(0.36,0.45,2.0),P3.M('#6b5038',{rough:0.85})); b.position.set(cx+8.05,0.225,cz+bz); b.castShadow=true; fb.add(b); }
@@ -449,25 +450,28 @@ const Z3 = (function(){
         '  float sp=pow(max(dot(r,normalize(sunDir)),0.0),220.0); c+=sunCol*sp*1.4;',
         '  gl_FragColor=vec4(c,1.0);','#include <fog_fragment>','}'].join('\n')});
     const water=new THREE.Mesh(new THREE.ShapeGeometry(sh,1),wmat); water.rotation.x=-Math.PI/2; water.position.set(cx,0.035,cz); water.userData.dyn=true; g.add(water);
+    const lfb=new THREE.Group(); lfb.name='lake_fallback'; lfb.userData.dyn=true; g.add(lfb);   /* 湖岸、湖心亭、木棧道的程序化版本放進 lake_fallback（dyn：不被 mergeStatic 合併）；正式模型（LAWWW2 campus_lake.glb）載入後整組藏起來（attachLakeGLB）*/
     // 石砌湖岸（內側立面、頂面、外側立面三條帶，木棧道經過的地方留缺口）
     { const st=W3.stoneTex('#b7ad9c').clone(); st.needsUpdate=true; st.wrapS=st.wrapT=THREE.RepeatWrapping; st.repeat.set(0.6,0.6); const rimM=new THREE.MeshStandardMaterial({map:st,roughness:0.95});
       const pos=[], uv=[], idx=[]; const H=0.2, W=0.75; let L=0; const lens=[0]; for(let i=1;i<=N;i++){ const a=P[i-1], b=P[i%N]; L+=Math.hypot(b[0]-a[0],b[1]-a[1]); lens.push(L); }
       const band=(f)=>{ const base=pos.length/3; for(let i=0;i<=N;i++){ const k=i%N, p=P[k], n=NR[k]; for(const [o,y,v] of f){ pos.push(p[0]+n[0]*o,y,p[1]+n[1]*o); uv.push(lens[i],v); } } for(let i=0;i<N;i++){ const a=P[i], b=P[(i+1)%N]; const mx=(a[0]+b[0])/2, mz=(a[1]+b[1])/2; if(Math.abs(mx-PX)<BW/2+0.5&&mz>cz) continue; const r0=base+i*2, r1=base+(i+1)*2; idx.push(r0,r1,r0+1, r1,r1+1,r0+1); } };
       band([[-0.05,0.0,0],[-0.05,H,H]]); band([[-0.05,H,0],[W,H,W]]); band([[W,H,0],[W,0.0,H]]);
       const geo=new THREE.BufferGeometry(); geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3)); geo.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2)); geo.setIndex(idx); geo.computeVertexNormals();
-      const rim=new THREE.Mesh(geo,rimM); rim.receiveShadow=true; rim.castShadow=false; rim.material.side=THREE.DoubleSide; g.add(rim); }
+      const rim=new THREE.Mesh(geo,rimM); rim.receiveShadow=true; rim.castShadow=false; rim.material.side=THREE.DoubleSide; lfb.add(rim); }
     // 導航：湖面＋湖岸不能走（外擴 0.5 m），木棧道與湖心亭可以走
     { const out=P.map((p,i)=>[p[0]+NR[i][0]*1.25,p[1]+NR[i][1]*1.25]); const inside=(x,z)=>{ let c=false; for(let i=0,j=out.length-1;i<out.length;j=i++){ const a=out[i], b=out[j]; if(((a[1]>z)!==(b[1]>z))&&(x<(b[0]-a[0])*(z-a[1])/(b[1]-a[1])+a[0])) c=!c; } return c; };
-      for(let z=cz-B*1.3-1;z<=cz+B*1.3+1;z+=nav.cell) for(let x=cx-A*1.3-1;x<=cx+A*1.3+1;x+=nav.cell){ const [ix,iz]=nav.toCell(x,z); if(ix<0||iz<0||ix>=nav.cols||iz>=nav.rows) continue; const [wx,wz]=nav.toWorld(ix,iz); const free=onBoard(wx,wz)||Math.hypot(wx-PX,wz-PZ)<PR-0.35; if(inside(wx,wz)&&!free) nav.b[nav.idx(ix,iz)]=1; } }
+      for(let z=cz-B*1.3-1;z<=cz+B*1.3+1;z+=nav.cell) for(let x=cx-A*1.3-1;x<=cx+A*1.3+1;x+=nav.cell){ const [ix,iz]=nav.toCell(x,z); if(ix<0||iz<0||ix>=nav.cols||iz>=nav.rows) continue; const [wx,wz]=nav.toWorld(ix,iz); const free=onBoard(wx,wz)||Math.hypot(wx-PX,wz-PZ)<PR-0.7; if(inside(wx,wz)&&!free) nav.b[nav.idx(ix,iz)]=1; }   /* 湖心亭走得到的範圍：格子中心離亭子中心 2.0 m 內（原本 PR-0.35＝2.35：人的身體會穿過柱子 31 cm、超出平台邊緣 17 cm；LAWWW2 lake_nav_check.py 量的）*/
+      for(let k=0;k<6;k++){ const [ix,iz]=nav.toCell(PX+Math.cos(k*Math.PI/3)*2.3,PZ+Math.sin(k*Math.PI/3)*2.3); nav.b[nav.idx(ix,iz)]=1; } }   /* 六根柱子（半徑 2.3 的六個頂點）所在的格子擋起來：人不會穿過柱子 */
+      nav.addSurf({x0:PX-2.45,x1:PX+2.45,z0:PZ-2.45,z1:PZ+2.45,y:0.05}); nav.addSurf({x0:PX-1.2,x1:PX+1.2,z0:PZ+2.0,z1:bwZ1-0.3,y:0.05}); nav.addSurf({x0:PX-1.2,x1:PX+1.2,z0:bwZ1-0.3,z1:bwZ1+0.15,axis:'z',ya:0.05,yb:0.0});   /* 亭子、木棧道的地板頂面在 y 0.05（水面 0.035 之上；正式模型與程序化版本都是）：人站在上面腳不沉進木板；接岸的地方 45 cm 斜坡 */
     // 湖心亭：六角平台、紅柱、深色瓦頂；木棧道
-    { const wood=new THREE.MeshStandardMaterial({color:0x7a5a3e,roughness:0.85}); const deck=new THREE.Mesh(new THREE.CylinderGeometry(PR,PR,0.16,6),new THREE.MeshStandardMaterial({color:0x9a8b74,roughness:0.9})); deck.position.set(PX,-0.03,PZ); deck.rotation.y=Math.PI/6; deck.receiveShadow=true; g.add(deck);
-      const colM=new THREE.MeshStandardMaterial({color:0x8e3a2c,roughness:0.7}); const roofM=new THREE.MeshStandardMaterial({color:0x3f4a46,roughness:0.8}); for(let i=0;i<6;i++){ const a=i/6*Math.PI*2; const c=new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.11,2.7,8),colM); c.position.set(PX+Math.cos(a)*(PR-0.3),1.35,PZ+Math.sin(a)*(PR-0.3)); c.castShadow=true; g.add(c); if(i!==1){ const rail=new THREE.Mesh(new THREE.BoxGeometry(0.08,0.45,(PR-0.3)*0.95),wood); const a2=a+Math.PI/6; rail.position.set(PX+Math.cos(a2)*(PR-0.3)*0.86,0.35,PZ+Math.sin(a2)*(PR-0.3)*0.86); rail.rotation.y=-a2; g.add(rail); } }
-      const beam=new THREE.Mesh(new THREE.CylinderGeometry(PR-0.15,PR-0.15,0.22,6,1,true),colM); beam.position.set(PX,2.72,PZ); beam.rotation.y=Math.PI/6; g.add(beam);
-      const roof=new THREE.Mesh(new THREE.ConeGeometry(PR+0.75,1.5,6),roofM); roof.position.set(PX,3.55,PZ); roof.rotation.y=Math.PI/6; roof.castShadow=true; g.add(roof); const eave=new THREE.Mesh(new THREE.CylinderGeometry(PR+0.78,PR+0.7,0.12,6),roofM); eave.position.set(PX,2.82,PZ); eave.rotation.y=Math.PI/6; g.add(eave);
-      const fin=new THREE.Mesh(new THREE.SphereGeometry(0.16,8,6),new THREE.MeshStandardMaterial({color:0xb08a3a,roughness:0.5,metalness:0.4})); fin.position.set(PX,4.38,PZ); g.add(fin);
-      const len=bwZ1-bwZ0; const bw=new THREE.Mesh(new THREE.BoxGeometry(BW,0.14,len),wood); bw.position.set(PX,-0.02,(bwZ0+bwZ1)/2); bw.receiveShadow=true; g.add(bw);
-      for(const s of [-1,1]){ const rail=new THREE.Mesh(new THREE.BoxGeometry(0.06,0.06,len-0.4),wood); rail.position.set(PX+s*(BW/2-0.04),0.62,(bwZ0+bwZ1)/2); g.add(rail); for(let z=bwZ0+0.3;z<=bwZ1-0.2;z+=1.6){ const post=new THREE.Mesh(new THREE.BoxGeometry(0.08,0.62,0.08),wood); post.position.set(PX+s*(BW/2-0.04),0.31,z); g.add(post); } }
-      for(let z=bwZ0+1.2;z<=bwZ1-1.8;z+=2.4){ for(const s of [-1,1]){ const pile=new THREE.Mesh(new THREE.CylinderGeometry(0.09,0.09,0.4,6),wood); pile.position.set(PX+s*(BW/2-0.1),-0.1,z); g.add(pile); } } }
+    { const wood=new THREE.MeshStandardMaterial({color:0x7a5a3e,roughness:0.85}); const deck=new THREE.Mesh(new THREE.CylinderGeometry(PR,PR,0.16,6),new THREE.MeshStandardMaterial({color:0x9a8b74,roughness:0.9})); deck.position.set(PX,-0.03,PZ); deck.rotation.y=Math.PI/6; deck.receiveShadow=true; lfb.add(deck);
+      const colM=new THREE.MeshStandardMaterial({color:0x8e3a2c,roughness:0.7}); const roofM=new THREE.MeshStandardMaterial({color:0x3f4a46,roughness:0.8}); for(let i=0;i<6;i++){ const a=i/6*Math.PI*2; const c=new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.11,2.7,8),colM); c.position.set(PX+Math.cos(a)*(PR-0.3),1.35,PZ+Math.sin(a)*(PR-0.3)); c.castShadow=true; lfb.add(c); if(i!==1){ const rail=new THREE.Mesh(new THREE.BoxGeometry(0.08,0.45,(PR-0.3)*0.95),wood); const a2=a+Math.PI/6; rail.position.set(PX+Math.cos(a2)*(PR-0.3)*0.86,0.35,PZ+Math.sin(a2)*(PR-0.3)*0.86); rail.rotation.y=-a2; lfb.add(rail); } }
+      const beam=new THREE.Mesh(new THREE.CylinderGeometry(PR-0.15,PR-0.15,0.22,6,1,true),colM); beam.position.set(PX,2.72,PZ); beam.rotation.y=Math.PI/6; lfb.add(beam);
+      const roof=new THREE.Mesh(new THREE.ConeGeometry(PR+0.75,1.5,6),roofM); roof.position.set(PX,3.55,PZ); roof.rotation.y=Math.PI/6; roof.castShadow=true; lfb.add(roof); const eave=new THREE.Mesh(new THREE.CylinderGeometry(PR+0.78,PR+0.7,0.12,6),roofM); eave.position.set(PX,2.82,PZ); eave.rotation.y=Math.PI/6; lfb.add(eave);
+      const fin=new THREE.Mesh(new THREE.SphereGeometry(0.16,8,6),new THREE.MeshStandardMaterial({color:0xb08a3a,roughness:0.5,metalness:0.4})); fin.position.set(PX,4.38,PZ); lfb.add(fin);
+      const len=bwZ1-bwZ0; const bw=new THREE.Mesh(new THREE.BoxGeometry(BW,0.14,len),wood); bw.position.set(PX,-0.02,(bwZ0+bwZ1)/2); bw.receiveShadow=true; lfb.add(bw);
+      for(const s of [-1,1]){ const rail=new THREE.Mesh(new THREE.BoxGeometry(0.06,0.06,len-0.4),wood); rail.position.set(PX+s*(BW/2-0.04),0.62,(bwZ0+bwZ1)/2); lfb.add(rail); for(let z=bwZ0+0.3;z<=bwZ1-0.2;z+=1.6){ const post=new THREE.Mesh(new THREE.BoxGeometry(0.08,0.62,0.08),wood); post.position.set(PX+s*(BW/2-0.04),0.31,z); lfb.add(post); } }
+      for(let z=bwZ0+1.2;z<=bwZ1-1.8;z+=2.4){ for(const s of [-1,1]){ const pile=new THREE.Mesh(new THREE.CylinderGeometry(0.09,0.09,0.4,6),wood); pile.position.set(PX+s*(BW/2-0.1),-0.1,z); lfb.add(pile); } } }
     // 湖邊植物：靠岸的睡蓮葉（平貼水面）、北岸與東西兩側岸上的樹叢、樹
     { const bin=new TK.Bin(); const pad=TK.paint('#5a8a48',{side:THREE.DoubleSide,roughness:0.55}); const pad2=TK.paint('#6f9a52',{side:THREE.DoubleSide,roughness:0.55}); const R=(k)=>{ const v=Math.sin(k*12.9898)*43758.5453; return v-Math.floor(v); };
       for(let i=0;i<N;i++){ const p=P[i], n=NR[i]; if(p[1]>cz+1.5) continue; if(R(i)<0.45) continue; const m=3+((R(i+7)*4)|0); for(let k=0;k<m;k++){ const d=0.8+R(i*3+k)*2.8, sd=(R(i*5+k)-0.5)*2.0; const x=p[0]-n[0]*d+n[1]*sd, z=p[1]-n[1]*d-n[0]*sd; const rr=0.3+R(i*7+k)*0.3; const gpad=new THREE.CircleGeometry(rr,10,0.4,Math.PI*2-0.5); bin.add(R(i+k)<0.5?pad:pad2,gpad,x,0.045,z,R(i*11+k)*6.28,{rx:-Math.PI/2,noShadow:true}); } }
@@ -477,8 +481,14 @@ const Z3 = (function(){
     // 南岸步道旁：面向湖的長椅、路燈
     { const bz=cz+12.1, lz=cz+17.4; for(const x of [cx-11,cx+7]){ const b=BENCH(); place(g,b,x,bz,Math.PI); nav.blockRect(x,bz,1.4,0.7,0); seats.push({x,z:bz-0.06,yaw:Math.PI,label:'坐在醉月湖畔的長椅'}); }
       for(const x of [cx-16,cx+12]){ const l=W3.lampPost(); place(g,l,x,lz,Math.PI); lamps.push(l); nav.blockCircle(x,lz,0.25); } }
-    return {mat:wmat};
+    return {mat:wmat,fb:lfb,cx,cz};
   }
+  /* 醉月湖的正式模型（LAWWW2 tools/blender/env_second/campus_lake.py → campus_lake.glb，湖的本地座標＝原點在湖中心）：石砌湖岸、置石、湖心亭、2.3 m 寬的木棧道。
+     亭子屋頂、橫梁加「樹幹透視」（鏡頭在亭子外面、人在亭子裡時網點透空）；湖岸、置石不投影。導航不變（lake() 裡已經照正式模型：亭子 2.0 m＋擋柱子、地板 0.05）*/
+  function attachLakeGLB(E,g,lakeU,m){ m.name='campus_lake_glb'; m.position.set(lakeU.cx,0,lakeU.cz);
+    m.traverse(o=>{ if(!o.isMesh) return; const nm=o.name+'|'+((o.material&&o.material.name)||''); o.receiveShadow=true; o.castShadow=!/lake_rim|lake_rocks/.test(nm);   /* 網格名（Blender 物件名）：lake_rim_stone、lake_rocks_rock、lake_pavilion_*、lake_boardwalk_* */
+      if(/lake_pavilion_(tile|soffit|gold|teal|red)/.test(nm)&&E.patchSeeThrough){ o.material.userData.seeThrough=true; E.patchSeeThrough(o.material); } });
+    g.add(m); if(lakeU.fb) lakeU.fb.visible=false; }
   function updateLake(L,E){ if(!L||!E.sky) return; const U=L.mat.uniforms, S=E.sky.material.uniforms; U.time.value=E.time||0; U.skyLo.value.copy(S.bot.value).lerp(S.mid.value,0.25); U.skyHi.value.copy(S.mid.value).lerp(S.top.value,0.5); U.sunDir.value.copy(S.sunDir.value); U.sunCol.value.copy(E.sun.color).multiplyScalar(Math.min(1.6,E.sun.intensity)); }
   function glowTex(){ return W3.canvasTex('glow',64,64,(x,w,h)=>{ const g=x.createRadialGradient(32,32,2,32,32,32); g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(0.4,'rgba(255,255,255,0.35)'); g.addColorStop(1,'rgba(255,255,255,0)'); x.fillStyle=g; x.fillRect(0,0,w,h); }); }
   // ---------- 公館商圈 ----------
@@ -695,7 +705,7 @@ const Z3 = (function(){
       { const t=paverT().clone(); t.needsUpdate=true; t.repeat.set(2.7,2.7); const m=new THREE.Mesh(new THREE.CircleGeometry(2.75,28),new THREE.MeshStandardMaterial({map:t,roughness:0.9})); m.rotation.x=-Math.PI/2; m.position.set(26,0.017,13.2); m.receiveShadow=true; g.add(m); pkTag(m); }
       const pb=new TK.Bin(), pbH=new TK.Bin(); const curbP=TK.paint('#c9c2b4');   /* pbH＝鋪面以外的硬體（路緣、樹圍座椅、單槓）：正式模型載入後藏起來；pb＝灌木（留著） */
       for(const sx of [-1,1]) pbH.add(curbP,TK.boxG(0.12,0.08,5.6),26+sx*1.16,0.04,7.9,0);
-      { const big=TK.tree(10.5,7); place(g,big,26,13.2,0.6); nav.blockCircle(26,13.2,1.3);
+      { const big=TK.tree(10.5,7,{sp:'banyan'}); place(g,big,26,13.2,0.6);   /* 小公園中間的大樹：正式模型是榕樹（台北的公園常見；程序化的樹不受影響）*/ nav.blockCircle(26,13.2,1.3);
         const wood=TK.paint('#8a6a4a'), legP=TK.paint('#5a5550'); for(let i=0;i<8;i++){ const a=i/8*Math.PI*2; const cx=26+Math.sin(a)*1.15, cz=13.2+Math.cos(a)*1.15; pbH.add(wood,TK.boxG(0.98,0.06,0.36),cx,0.44,cz,a); pbH.add(legP,TK.boxG(0.06,0.42,0.3),cx+Math.sin(a+Math.PI/2)*0.42,0.21,cz+Math.cos(a+Math.PI/2)*0.42,a); }
         E.interactables.push({x:26,z:11.5,radius:1.3,label:'坐在大樹下的圓椅',seat:{x:26,z:11.82,yaw:Math.PI}}); }
       for(const [tx,tz,sc] of [[21.6,12.8,1.0],[30.6,12.6,0.95],[30.8,6.4,0.8]]){ const t=TK.tree(7.5*sc); place(g,t,tx,tz,0); nav.blockCircle(tx,tz,0.5); }

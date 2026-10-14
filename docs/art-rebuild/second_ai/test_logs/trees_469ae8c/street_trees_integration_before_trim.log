@@ -1,0 +1,37 @@
+PASS 正式：遊戲載入
+PASS 正式／campus：登記一個 TreeField、讀到的樹＝TK.tree／TK.royalPalm 的呼叫次數（292 棵）  {"st": {"ready": true, "trees": 292, "models": {"camphor_b": 111, "camphor_a": 105, "palm_a": 65, "banyan_a": 11}, "near": {"camphor_b": 8, "camphor_a": 8, "palm_a": 13, "banyan_a": 0}, "cards": 167}, "calls": 292, "extras": 1}
+PASS 正式／campus：樹的位置記號都拿掉了（區域裡沒有記號網格）  {"seeds": 0, "inScene": [true]}
+PASS 正式／campus：樹皮有樹幹透視、葉片材質改過法線；近的模型會投影、遠景卡片不投影  {"trees_camphor_b_leaf": {"count": 8, "cap": 111, "cast": true, "st": false, "leaf": true}, "trees_camphor_b_bark": {"count": 8, "cap": 111, "cast": true, "st": true, "leaf": false}, "trees_camphor_a_leaf": {"count": 8, "cap": 105, "cast": true, "st": false, "leaf": true}, "trees_camphor_a_bark": {"count": 8, "cap": 105, "cast": true, "st": true, "leaf": false}, "trees_palm_a_leaf": {"count": 13, "cap": 65, "cast": true, "st": false, "leaf": true}, "trees_palm_a_bark": {"count": 13, "cap": 65, "cast": true, "st": true, "leaf": false}, "trees_banyan_a_leaf": {"count": 0, "cap": 11, "cast": true, "st": false, "leaf": true}, "trees_banyan_a_bark": {"count": 0, "cap": 11, "cast": true, "st": true, "leaf": false}, "trees_cards": {"count": 167, "cap": 292, "cast": false, "st": false, "leaf": false}}
+PASS 正式／campus／gate_avenue：近的模型都在鏡頭 46 m 內（29 棵）  {"n": 29, "max": 45.9}
+PASS 正式／campus／avenue_row：近的模型都在鏡頭 46 m 內（31 棵）  {"n": 31, "max": 42.5}
+PASS 正式／campus／small_palms：近的模型都在鏡頭 46 m 內（18 棵）  {"n": 18, "max": 40.4}
+PASS 正式／campus／black_forest：近的模型都在鏡頭 46 m 內（14 棵）  {"n": 14, "max": 28.8}
+PASS 正式／campus：鏡頭轉 180° 畫的樹不一樣（畫面外的真的不畫；遠景卡片 ≥ 1）  {"front": {"near": {"camphor_b": 8, "camphor_a": 8, "palm_a": 12, "banyan_a": 0}, "cards": 174, "trees": 292}, "back": {"near": {"camphor_b": 8, "camphor_a": 8, "palm_a": 11, "banyan_a": 0}, "cards": 0}}
+PASS 正式／gongguan：登記一個 TreeField、讀到的樹＝TK.tree／TK.royalPalm 的呼叫次數（98 棵）  {"st": {"ready": true, "trees": 98, "models": {"palm_a": 36, "camphor_a": 47, "camphor_b": 15}, "near": {"palm_a": 0, "camphor_a": 0, "camphor_b": 0}, "cards": 6}, "calls": 98, "extras": 1}
+PASS 正式／gongguan：樹的位置記號都拿掉了（區域裡沒有記號網格）  {"seeds": 0, "inScene": [true]}
+PASS 正式／gongguan：樹皮有樹幹透視、葉片材質改過法線；近的模型會投影、遠景卡片不投影  {"trees_palm_a_leaf": {"count": 0, "cap": 36, "cast": true, "st": false, "leaf": true}, "trees_palm_a_bark": {"count": 0, "cap": 36, "cast": true, "st": true, "leaf": false}, "trees_camphor_a_leaf": {"count": 0, "cap": 47, "cast": true, "st": false, "leaf": true}, "trees_camphor_a_bark": {"count": 0, "cap": 47, "cast": true, "st": true, "leaf": false}, "trees_camphor_b_leaf": {"count": 0, "cap": 15, "cast": true, "st": false, "leaf": true}, "trees_camphor_b_bark": {"count": 0, "cap": 15, "cast": true, "st": true, "leaf": false}, "trees_cards": {"count": 6, "cap": 98, "cast": false, "st": false, "leaf": false}}
+PASS 正式／gongguan／from_gate：近的模型都在鏡頭 46 m 內（0 棵）  {"n": 0, "max": 0}
+PASS 正式／gongguan／to_campus：近的模型都在鏡頭 46 m 內（12 棵）  {"n": 12, "max": 41.6}
+PASS 正式／wenzhou：登記一個 TreeField、讀到的樹＝TK.tree／TK.royalPalm 的呼叫次數（12 棵）  {"st": {"ready": true, "trees": 12, "models": {"camphor_a": 6, "camphor_b": 5, "banyan_a": 1}, "near": {"camphor_a": 4, "camphor_b": 2, "banyan_a": 1}, "cards": 2}, "calls": 12, "extras": 1}
+PASS 正式／wenzhou：樹的位置記號都拿掉了（區域裡沒有記號網格）  {"seeds": 0, "inScene": [true]}
+PASS 正式／wenzhou：樹皮有樹幹透視、葉片材質改過法線；近的模型會投影、遠景卡片不投影  {"trees_camphor_a_leaf": {"count": 4, "cap": 6, "cast": true, "st": false, "leaf": true}, "trees_camphor_a_bark": {"count": 4, "cap": 6, "cast": true, "st": true, "leaf": false}, "trees_camphor_b_leaf": {"count": 2, "cap": 5, "cast": true, "st": false, "leaf": true}, "trees_camphor_b_bark": {"count": 2, "cap": 5, "cast": true, "st": true, "leaf": false}, "trees_banyan_a_leaf": {"count": 1, "cap": 1, "cast": true, "st": false, "leaf": true}, "trees_banyan_a_bark": {"count": 1, "cap": 1, "cast": true, "st": true, "leaf": false}, "trees_cards": {"count": 2, "cap": 12, "cast": false, "st": false, "leaf": false}}
+PASS 正式／wenzhou／park：近的模型都在鏡頭 46 m 內（8 棵）  {"n": 8, "max": 39.4}
+PASS 正式／wenzhou／street：近的模型都在鏡頭 46 m 內（8 棵）  {"n": 8, "max": 35.2}
+PASS 正式：換區域（校園 → 公館 → 溫州街 → 校園）後照樣只有一個 TreeField、樹的數目一樣、只在目前的區域裡  {"st": {"ready": true, "trees": 292, "models": {"camphor_b": 111, "camphor_a": 105, "palm_a": 65, "banyan_a": 11}, "near": {"camphor_b": 8, "camphor_a": 8, "palm_a": 13, "banyan_a": 0}, "cards": 167}, "extras": 1, "inScene": [true], "calls": 292}
+PASS 正式：沒有 JS 錯誤
+PASS 改之前（擋掉 street_trees.glb）：遊戲載入
+PASS 改之前／campus：沒有 TreeField（照舊是程序化的樹）  {"st": null, "calls": 292}
+PASS 改之前／gongguan：沒有 TreeField（照舊是程序化的樹）  {"st": null, "calls": 98}
+PASS 改之前／wenzhou：沒有 TreeField（照舊是程序化的樹）  {"st": null, "calls": 12}
+PASS 改之前：沒有 JS 錯誤
+PASS ?nobldg：沒有 TreeField、manifest 裡沒有 prop.trees（照舊是程序化的樹）  {"st": null, "manifest": false}
+PASS campus：導航格兩輪完全相同  [[520, 434, 2548885828, 80968], [520, 434, 2548885828, 80968]]
+PASS campus：鏡頭碰撞方塊、互動點兩輪完全相同  39/35 vs 39/35 個
+PASS campus：效能——每個鏡頭的 draw call ≤ 改之前 ×1.1、三角形 ≤ 改之前（含陰影那一輪）  {"gate_avenue": {"calls": [334, 334, 1.0], "tris": [939433, 762115, 0.811], "near": 29, "cards": 173}, "avenue_row": {"calls": [257, 257, 1.0], "tris": [820743, 649821, 0.792], "near": 31, "cards": 139}, "small_palms": {"calls": [251, 247, 0.984], "tris": [774955, 557523, 0.719], "near": 18, "cards": 76}, "black_forest": {"calls": [207, 207, 1.0], "tris": [751857, 531379, 0.707], "near": 14, "cards": 21}}
+PASS gongguan：導航格兩輪完全相同  [[320, 220, 1729380926, 29485], [320, 220, 1729380926, 29485]]
+PASS gongguan：鏡頭碰撞方塊、互動點兩輪完全相同  33/7 vs 33/7 個
+PASS gongguan：效能——每個鏡頭的 draw call ≤ 改之前 ×1.1、三角形 ≤ 改之前（含陰影那一輪）  {"from_gate": {"calls": [179, 174, 0.972], "tris": [297378, 254976, 0.857], "near": 0, "cards": 1}, "to_campus": {"calls": [149, 152, 1.02], "tris": [274540, 247808, 0.903], "near": 12, "cards": 64}}
+PASS wenzhou：導航格兩輪完全相同  [[236, 120, 1683732461, 22870], [236, 120, 1683732461, 22870]]
+PASS wenzhou：鏡頭碰撞方塊、互動點兩輪完全相同  28/11 vs 28/11 個
+FAIL wenzhou：效能——每個鏡頭的 draw call ≤ 改之前 ×1.1、三角形 ≤ 改之前（含陰影那一輪）  {"park": {"calls": [173, 182, 1.052], "tris": [325089, 343167, 1.056], "near": 8, "cards": 1}, "street": {"calls": [225, 234, 1.04], "tris": [358445, 376523, 1.05], "near": 8, "cards": 1}}
+FAILED: wenzhou：效能——每個鏡頭的 draw call ≤ 改之前 ×1.1、三角形 ≤ 改之前（含陰影那一輪）

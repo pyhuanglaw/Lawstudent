@@ -1,0 +1,130 @@
+{
+ "url": "http://127.0.0.1:8797/index.html",
+ "results": [
+  {
+   "variant": "current",
+   "R": 2.35,
+   "cols": false,
+   "standable_pts": 55666,
+   "col_gap_min": -0.315,
+   "col_gap_at": [
+    -41.18,
+    -111.4
+   ],
+   "edge_overhang_max": 0.174,
+   "edge_at": [
+    -41,
+    -110.5
+   ],
+   "board_body_max": 1.01,
+   "board_at": [
+    -39.68,
+    -109.06
+   ],
+   "free_cells_near_pavilion": 74,
+   "walks": {
+    "shore_to_center": "ok",
+    "center_to_shore": "ok",
+    "center_to_N": "stuck",
+    "center_to_NE": "ok",
+    "center_to_SE": "ok",
+    "center_to_SW": "ok",
+    "center_to_NW": "ok"
+   }
+  },
+  {
+   "variant": "R2.1+柱",
+   "R": 2.1,
+   "cols": true,
+   "standable_pts": 50504,
+   "col_gap_min": -0.259,
+   "col_gap_at": [
+    -40,
+    -109.5
+   ],
+   "edge_overhang_max": -0.009,
+   "edge_at": [
+    -40.5,
+    -110
+   ],
+   "board_body_max": 1.01,
+   "board_at": [
+    -39.68,
+    -109.06
+   ],
+   "free_cells_near_pavilion": 64,
+   "walks": {
+    "shore_to_center": "ok",
+    "center_to_shore": "ok",
+    "center_to_N": "ok",
+    "center_to_NE": "ok",
+    "center_to_SE": "ok",
+    "center_to_SW": "ok",
+    "center_to_NW": "ok"
+   }
+  },
+  {
+   "variant": "R2.0+柱",
+   "R": 2,
+   "cols": true,
+   "standable_pts": 48004,
+   "col_gap_min": 0.003,
+   "col_gap_at": [
+    -40,
+    -112.98
+   ],
+   "edge_overhang_max": -0.169,
+   "edge_at": [
+    -40.5,
+    -112.48
+   ],
+   "board_body_max": 1.01,
+   "board_at": [
+    -39.68,
+    -109.06
+   ],
+   "free_cells_near_pavilion": 60,
+   "walks": {
+    "shore_to_center": "ok",
+    "center_to_shore": "ok",
+    "center_to_N": "ok",
+    "center_to_NE": "ok",
+    "center_to_SE": "ok",
+    "center_to_SW": "ok",
+    "center_to_NW": "ok"
+   }
+  },
+  {
+   "variant": "R1.9+柱",
+   "R": 1.9,
+   "cols": true,
+   "standable_pts": 45504,
+   "col_gap_min": 0.035,
+   "col_gap_at": [
+    -39.68,
+    -109.4
+   ],
+   "edge_overhang_max": -0.248,
+   "edge_at": [
+    -39.18,
+    -113.16
+   ],
+   "board_body_max": 1.01,
+   "board_at": [
+    -39.68,
+    -109.06
+   ],
+   "free_cells_near_pavilion": 56,
+   "walks": {
+    "shore_to_center": "ok",
+    "center_to_shore": "ok",
+    "center_to_N": "ok",
+    "center_to_NE": "stuck",
+    "center_to_SE": "ok",
+    "center_to_SW": "ok",
+    "center_to_NW": "stuck"
+   }
+  }
+ ],
+ "errors": []
+}

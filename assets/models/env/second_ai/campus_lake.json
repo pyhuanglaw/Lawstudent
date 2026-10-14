@@ -1,0 +1,54 @@
+{
+ "objects": 10,
+ "unique_meshes": 10,
+ "tris": 8448,
+ "tris_drawn": 8448,
+ "materials": 11,
+ "out": "assets/models/env/second_ai/campus_lake.glb",
+ "bytes": 875696,
+ "texres": 512,
+ "tris_by_object": {
+  "lake_rim_stone": 622,
+  "lake_rocks_rock": 3200,
+  "lake_pavilion_granite": 376,
+  "lake_pavilion_red": 744,
+  "lake_pavilion_teal": 24,
+  "lake_pavilion_gold": 168,
+  "lake_pavilion_tile": 1392,
+  "lake_pavilion_soffit": 672,
+  "lake_boardwalk_plank": 774,
+  "lake_boardwalk_pile": 476
+ },
+ "origin": "湖中心（遊戲 lake() 的 cx, cz）；x 東、z 南",
+ "outline": {
+  "A": 16.5,
+  "B": 9.2,
+  "N": 80,
+  "rad": "1+0.10 sin(3t+0.6)+0.05 cos(5t+1.3)"
+ },
+ "pavilion": {
+  "center": [
+   -3.0,
+   0.6
+  ],
+  "r": 2.7,
+  "deck_y": 0.05,
+  "col_r": 2.3,
+  "eave_r": 3.45,
+  "apex_y": 4.7299999999999995
+ },
+ "boardwalk": {
+  "x": [
+   -4.15,
+   -1.85
+  ],
+  "z": [
+   2.9000000000000004,
+   13.4
+  ],
+  "deck_y": 0.05
+ },
+ "rocks": 17,
+ "hide_in_game": "lake() 的程序化湖岸（rim）、湖心亭（deck、6 根柱、beam、roof、eave、fin）、木棧道（bw、兩條 rail、posts、piles）；水面、睡蓮、草叢、樹、長椅、路燈留著",
+ "nav_note": "導航不變；木棧道走得到的寬度是 |x−PX|≤0.9（遊戲 onBoard），欄杆在 ±0.8：人走到邊上身體會穿過欄杆——建議接的時候把木棧道的可走寬度縮到 |x−PX|≤0.45"
+}

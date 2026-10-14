@@ -5,7 +5,28 @@
 交班紀錄：2026-10-11 10:13 UTC 交班（`1f20126`）→ 2026-10-13 回到帳號 A。
 使用者 2026-10-13：帳號 B 暫時沒有開，從上次停下來的地方接著做。
 
-**2026-10-13 23:4xZ（最新）**：③**吉他社社辦一頁提案交付**（PROPOSAL、不建模；`research/吉他社社辦_提案.md`）：萬才館東邊整塊走不到；建議 A＝霖澤館與萬才館之間的空地（x 54.5～72、z −118.6～−102.5）北半邊放一棟 13×7 m 的一層樓社團辦公室（兩間 6×5 m＋騎廊，門朝南；北牆貼走不到的範圍、不留窄縫）；B 萬才館大廳加一扇門、C 地下室；遊戲內位置截圖（紅框，不是模型）、室內示意平面（吉他牆、圍成一圈 7 張椅子、木箱鼓、沙發、白板、長桌）。**LAWWW 22:01Z 的 ①②③ 全部交付**；接著 ⑦⑨⑩⑪（R2 還在等平面圖／照片）。
+**2026-10-14 03:2xZ（最新）**：①**醉月湖接進最新版本的實測完成**（VISUAL_REVIEW 31.7；`patches/lake_integration_3f3d56a.patch` 在 `3f3d56a`、`97f4abc` 都套得上）：腳在木板上、柱子網點透空、六個方向都走到離亭子中心 1.63–1.89 m（to_edge2 超出 0.4 m 門檻但距離和其他方向一樣）；campus_layout_nav 的舟山路那一項失敗在乾淨的 `3f3d56a` 也一樣（測試清單沒跟著大一女舍更新，和湖無關）。②**球場／博覽會簡單版沒藏起來＝bug**（VISUAL_REVIEW 29.1；`patches/court_fair_fallback_dyn_97f4abc.patch` 2 行：`fb.userData.dyn=true`；修正前 72／216 個頂點還看得到，修正後 0）。③芷若眼鏡：玫瑰金 #a68b80、1.7 mm（香檳金在遊戲裡比皮膚淺、看不見）；`patches/glasses_zhiruo_97f4abc.patch`。④**芯慈第十版交付**（VISUAL_REVIEW 32.1，`assets/models/char/second_ai/bl_classmate_xinci.vrm` 3.17 MB、34,270 三角形）：瀏海兩排、頭頂加蓬；遊戲渲染器發現**坐下時裙子炸開**→裙子改綁腰臀＋大腿（前 76%、側 43%、後 13%）、拿掉裙擺彈簧骨。芷若眼鏡交付（32.2）。杜可昕 BLOCKED（沒有參考圖）。⑤**阿哲交付**（VISUAL_REVIEW 32.3，`assets/models/char/second_ai/bl_zhe.vrm` 2.83 MB、31,922 三角形；底模 Sakurada Fumiriya；工作檔 `scratchpad/char/zhe/z_final_work.blend`，腳本可以重建）。下一個照我的順序：柏翰 → 周教授 → 小語 → 阿凱 → 林教授 → 明軒 → 黃教授 → 沛珊大三版 → 宥辰 → 筱涵 → 方奕廷。工作檔：`scratchpad/char/xinci/x_v10_work.blend`（腳本可以重建，沒放進 repo）。
+
+**2026-10-14 02:3xZ：使用者調整優先順序（原文已轉給 LAWWW，P0）**——黃金葛降為低優先（不再精修；小道具以後集中成一批）。LAWWW2 的佇列：①醉月湖、湖心亭的導航與穿模 → ②總圖 3F 閱覽區 → ③行道樹已確認的整合問題 → ④BB 驗收通過的主要角色 3D（芯慈、芷若、杜可昕）→ ⑤其他影響遊玩的場景問題。
+- **⑦行道樹交付** `4c1e81b`（VISUAL_REVIEW 第 15 節；patch 在 469ae8c、3f3d56a 都 apply 得上）：公館「沒有標記的群組」修好（記號材質 visible=false、拿掉只裝記號的群組）；溫州街三角形 +3–4% 還是照實寫，選項給 LAWWW。WIP 備份 `claude/second-ai-env-art-wip-trees` `22ff594`。
+- **黃金葛暫停** `2baa5ac`：`prop_pothos.glb` 2,538 三角形、Blender 渲染；遊戲內截圖沒做完。宿舍 `dorm_interior.glb` 筆筒移到書堆和筆電中間（放盆栽時一起換）。
+- **芯慈 WIP** `eadec42`：開襟衫敞開＋整件白 T、髮髻往下、髮色調亮；之後：白 T 領口降到脖子根部（已改程式、還沒算圖）、瀏海改 bangA／B（已改程式、還沒算圖）。工作檔 `scratchpad/char/xinci/x_face.blend`（`--from-blend` 只重做衣服、頭髮）。
+- **醉月湖實測**（進行中）：`tools/blender/env_second/shots/lake_integration_check.py`，在 LAWWW `3f3d56a`（`/home/user/lawwwtip_wt`、伺服器 8790）用 Playwright 攔截換上 `scratchpad/lake_proto/src/zones3d.js`（fallback＋亭子 2.0 m＋擋柱子＋地板高度 0.05）與 campus_lake.glb；不改任何工作目錄的 src。
+- 杜可昕：art_reference README 寫「待使用者重傳完整版」，repo 裡沒有參考圖 → 到她的時候還沒有就告訴 LAWWW，不猜。
+
+**2026-10-14 00:5xZ**：LAWWW 00:23Z、00:38Z 兩則（P1）**在通知佇列裡，00:42Z 才讀到**（又漏讀一次：每個 checkpoint 一定要 `ReadNotifications`）；00:4xZ 已回 ACK（DELIVERED）。決定：
+- **⑨ 校門不做**（算在使用者暫停的「新建築外觀」）。佇列：⑪ → ⑩ → ⑦ → 博雅官方平面圖對照（只寫差異表，不改模型）→ **角色模型（D59：角色美術改由 BB 驗收；我照 BB 通過的參考圖改 Blender／VRM；第一位芯慈（整齊低髮髻）、第二位芷若（淺色細金屬圓框眼鏡），開工前先把順序告訴 LAWWW；清單 `origin/claude/story-planning:docs/story_planning/art_reference/README.md`，用 git show 拿、不 merge）**；後備：吉他社社辦（等 AA）。
+- **博雅官方平面圖 BLOCKED**：使用者給的 aca.ntu.edu.tw、ga.ntu.edu.tw 兩個網址沙盒連不到（curl 403、WebFetch ENOTFOUND），已回報 LAWWW、已請使用者加 Allowed domains 或直接上傳 PDF；**不猜**。
+- **⑦**：src patch 等 v9.6 之後才接；溫州街三角形 +3–4% 照實寫。乾淨 `469ae8c` 對照（`test_logs/trees_469ae8c/base_469ae8c/`）：campus_glb（5 項）、wz_street（導航）、street_props（兩區導航）、campus_layout_nav（新系館）**乾淨版一樣沒過、數字相同→不是 ⑦**；gongguan_glb **乾淨版全過→⑦ 造成**（正式模型那一輪少一個空群組，`scratchpad/gg_groups.py` 查是哪一個）；reachability_all 乾淨版在跑。模型、腳本、貼圖、測試已搬進交付分支（`6fc622d`），src 只交 patch。
+- **⑩**：石頭貼圖拉成條紋（球面 UV 接縫）→ 共用頂點＋每面投影；木棧道加寬到 2.3 m（欄杆內側 ±1.055，遊戲走得到的身體最多 ±1.03，不用改導航）；亭子的導航建議用 `shots/lake_nav_check.py`（遊戲的 canStand／simWalk）量。Blender 渲染重出了（scratchpad `lake/`）。
+- 背景鏈 `scratchpad/after_base.sh`（**跑的時候不要改這個檔**）：乾淨版 reachability → ⑪ 原型 → 湖的導航量測 → ⑩ 原型 → ⑦ 前後截圖 → gg_groups。
+
+**2026-10-14 00:1xZ**：①②③ 交付後照佇列做 ⑦⑪⑩（⑨ 要先問 LAWWW 算不算使用者暫停的「建築外觀」）。BB 23:28Z 直接要「角色 3D 對照清單」→ 照第 10 節轉給 LAWWW（P1，沒有開工），等它決定。
+- **⑦行道樹**（`claude/second-ai-env-art-wip-trees` `141fe09`＝LAWWW `469ae8c`＋⑦；本機 `/home/user/trees_wt`、伺服器 8782）：重新驗收中。樹皮減面（看不出差別）；`street_trees_integration` 35 PASS／1 FAIL（**溫州街三角形 +3.3–3.7%**，draw call 通過；校園 −20～−31%、公館 −11～−14%）——**不改測試標準**，交付時照實寫、請 LAWWW／使用者選。其他回歸跑中（`scratchpad/trees_rest.sh`）：`campus_glb_integration` FAIL（共同／大一女舍外框、導航、鏡頭碰撞、效能——看起來和樹無關）、`gongguan_glb_integration` FAIL（多一個空群組：大概是 ⑦ 的 `street_trees_field`，要在遊戲裡確認）、`wz_street_integration` FAIL（導航多 6 格——樹的測試裡兩輪相同，看起來和樹無關）→ 跑完後在乾淨的 `469ae8c`（`/home/user/base_wt`、`scratchpad/base_tests.sh`、伺服器 8783）跑同樣的測試分清楚。src 的 patch：`docs/art-rebuild/second_ai/patches/street_trees_469ae8c.patch`（還沒 commit）。VISUAL_REVIEW 第 15 節的草稿與填寫腳本在 trees_wt 的 `drafts/`（會照實寫沒過的項目）。
+- **⑪總圖 3F 閱覽區**：`library_3f.py`＋`lib3f_atlas.py` → `library_3f.glb`（`856467d` 是第一版；之後改了：牆的粉光貼圖（原圖像水漬，變化只留 22%：`textures/gen/l3_plaster.png`）、椅子木紋、後牆中間的壁柱拿掉（擋到「3F 閱覽區」）；還沒 commit）。Blender 渲染在跑；遊戲內原型（`scratchpad/lib3f/g/before.json`、`after.json`，在 fix2_wt `9884d29`＝閱覽室和 `469ae8c` 一樣）等回歸跑完再拍；第 30 節草稿 `drafts/lib3f_review.md`。
+- **⑩醉月湖**：`campus_lake.py` → `campus_lake.glb`（1.1 MB、8,448 三角形：石砌湖岸（照 lake() 的外形、木棧道缺口）、18 顆置石、六角湖心亭（凹曲面屋頂、翼角起翹、寶頂）、木棧道＋欄杆＋木樁；湖的本地座標）；預覽場景 `shots/lake_preview.py`；渲染排在 ⑪ 之後。**還沒 commit**。
+
+**2026-10-13 23:3xZ**：③**吉他社社辦一頁提案交付**（PROPOSAL、不建模；`research/吉他社社辦_提案.md`）：萬才館東邊整塊走不到；建議 A＝霖澤館與萬才館之間的空地（x 54.5～72、z −118.6～−102.5）北半邊放一棟 13×7 m 的一層樓社團辦公室（兩間 6×5 m＋騎廊，門朝南；北牆貼走不到的範圍、不留窄縫）；B 萬才館大廳加一扇門、C 地下室；遊戲內位置截圖（紅框，不是模型）、室內示意平面（吉他牆、圍成一圈 7 張椅子、木箱鼓、沙發、白板、長桌）。**LAWWW 22:01Z 的 ①②③ 全部交付**；接著 ⑦⑨⑩⑪（R2 還在等平面圖／照片）。
 
 **2026-10-13 23:3xZ**：②**系籃球場交付**（位置 PROPOSAL＋`bball_court.glb` `MODEL_READY`；`research/系籃球場_位置提案.md`、VISUAL_REVIEW 第 29 節）：兩個候選都在 LAWWW `9884d29` 本機注入拍了原型（俯視、地面、17:45、手機直向）——**A 醉月湖東側 (−4, −113)**（建議：範圍內什麼都沒有、方向和真實一樣、霖澤館走 30 m）、B 男一舍與體育館之間 (48.5, 67)（場內有一棵樹要移走、夾在兩棟樓中間）；接法表（籃架柱子、長椅、活動點的世界座標）在提案第 4 節；**位置要使用者選**。`nav_map.py` 加 `--raw`／`--from-raw`（存一次導航格，之後不開遊戲再畫）、`--label`、`--fs`；方案 A 校園的格子存在 scratchpad `campus_nav_9884d29.json`（沒有 commit）。**接著**：③吉他社社辦一頁提案（霖澤館與萬才館之間的空地 x 54.5～72、z −118.6～−102.5；候選平房 13×7 m；遊戲內位置截圖在跑）→ ⑦⑨⑩⑪。
 

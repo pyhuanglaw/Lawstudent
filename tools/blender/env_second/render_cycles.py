@@ -18,6 +18,7 @@ try: sc.cycles.use_denoising = True; sc.cycles.denoiser = 'OPENIMAGEDENOISE'
 except Exception: pass
 sc.render.resolution_x, sc.render.resolution_y = RW, RH; sc.view_settings.view_transform = A[A.index('--view') + 1] if '--view' in A else 'AgX'   # --view Standard：顏色比較接近遊戲（AgX 在強光下把飽和的磚紅洗成粉紅）
 sc.cycles.max_bounces = 4
+sc.cycles.transparent_max_bounces = 128   # 透明貼圖疊很多層（樹冠的葉片卡）：預設 8 次就停、會變黑
 if '--threads' in A: sc.render.threads_mode = 'FIXED'; sc.render.threads = int(A[A.index('--threads') + 1])   # 和瀏覽器測試同時跑時只用一個核心
 w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; nt = w.node_tree
 sky = nt.nodes.new('ShaderNodeTexSky')
