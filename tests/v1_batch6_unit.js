@@ -77,7 +77,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const r={next:at(W4TUE+1,10),w3:at(3,10,{metYuDay:2}),w5:at(W5THU,11.5),w6:at(W6MON,10),pm:at(W4TUE+1,13),notmet:at(W4TUE+1,10,{met_yu:false}),oldsave:at(W4TUE+1,10,{metYuDay:undefined}),lib:at(W4TUE+1,10,{},'library')};
     check('A10 第 3～5 週的早上在校園：有（隔天、第 3 週、第 5 週 11:30；舊存檔沒有 metYuDay 也算）；第 6 週、下午、沒認識、在總圖：沒有',r.next&&r.w3&&r.w5&&r.oldsave&&!r.w6&&!r.pm&&!r.notmet&&!r.lib,JSON.stringify(r));
     const intro=['欸，你要不要坐？','我一個人吃很怪。……不是怪，是很安靜。我不喜歡安靜。','對了，你有參加社團嗎？我有三個。你要不要加一個？吉他社缺人，辯論社也缺人，系學會永遠缺人。'];
-    for(const [pick,after,mem] of [['坐下來',['她講了十五分鐘，關於三個社團。','明天你也會經過嗎？'],true],['要遲到',['喔，好！','她揮手。等你走遠，她把耳機戴上。'],false],['不會累',['累啊。','可是累就不會想東想西。'],false]]){
+    for(const [pick,after,mem] of [['坐下來',['她講了十五分鐘，關於三個社團。','欸你有沒有群組？沒有？我拉你。','明天你也會經過嗎？'],true],['要遲到',['喔，好！','她揮手。等你走遠，她把耳機戴上。'],false],['不會累',['累啊。','可是累就不會想東想西。'],false]]){
       fresh(W4TUE+1,10,'campus',{met_yu:true,metYuDay:W4TUE}); npc('yu',0,1); const h0=G.hour; picks=[pick]; await EVENTS.run(e); const L=lines();
       check('A10 選「'+pick+'」：開場三句＋'+JSON.stringify(after)+(mem?'、記憶 BREAKFAST_YU、過了 15 分鐘':'、沒有 BREAKFAST_YU'),JSON.stringify(L)===JSON.stringify(intro.concat(after))&&SOCIAL.has('yu','BREAKFAST_YU')===mem&&(mem?Math.abs(G.hour-h0-0.25)<0.01:G.hour===h0),JSON.stringify({L,h:G.hour})); }
     check('A10 三個選項（AA_40 原文；第二個 AA 2026-10-14 改成「我上課要遲到了。」）',JSON.stringify(opts[0])===JSON.stringify(['（坐下來一起吃）','「我上課要遲到了。」','「三個社團不會累嗎？」']),JSON.stringify(opts[0]));
