@@ -1,5 +1,5 @@
 {
- "_comment": "使用者提供的正式題目（A 類）。只做格式轉換：題幹、選項、答案、考點一字不改（convert_answer_only.py 逐字核對）；這一批沒有解析。course／term／scopeWeek／basis／flags 是 BB 加的對應資料（AA 交叉檢查），不是題目內容。",
+ "_comment": "使用者提供的正式題目（A 類）。只做格式轉換：題幹、選項、答案、考點一字不改（convert_answer_only.py 逐字核對）；這一批沒有解析。course／term／scopeWeek／mapBasis／flags 是 BB 加的對應資料（mapBasis＝AI 標的法條，只用來對週次，遊戲不顯示；askedIn 由 sync_asked.py 從 syllabus 同步）（AA 交叉檢查），不是題目內容。",
  "source": "刑法_45題_2026-10-14.md",
  "sourceSha256_16": "9ba9991c6dd6b67d",
  "count": 45,
@@ -25,7 +25,7 @@
    "answer": "C",
    "core": "法律變更與從舊從輕",
    "explanation": "",
-   "basis": "刑法 §2 I",
+   "mapBasis": "刑法 §2 I",
    "source": "刑法_45題_2026-10-14.md 第 1 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -51,7 +51,7 @@
    "answer": "A",
    "core": "犯罪地的認定",
    "explanation": "",
-   "basis": "刑法 §4",
+   "mapBasis": "刑法 §4",
    "source": "刑法_45題_2026-10-14.md 第 2 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -77,7 +77,7 @@
    "answer": "D",
    "core": "間接故意與有認識過失",
    "explanation": "",
-   "basis": "刑法 §13 II",
+   "mapBasis": "刑法 §13 II",
    "source": "刑法_45題_2026-10-14.md 第 3 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -98,7 +98,7 @@
    "answer": "B",
    "core": "不作為犯與保證人地位",
    "explanation": "",
-   "basis": "刑法 §15",
+   "mapBasis": "刑法 §15",
    "source": "刑法_45題_2026-10-14.md 第 4 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -124,7 +124,7 @@
    "answer": "C",
    "core": "禁止錯誤",
    "explanation": "",
-   "basis": "刑法 §16",
+   "mapBasis": "刑法 §16",
    "source": "刑法_45題_2026-10-14.md 第 5 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -150,7 +150,7 @@
    "answer": "A",
    "core": "責任能力",
    "explanation": "",
-   "basis": "刑法 §19 I",
+   "mapBasis": "刑法 §19 I",
    "source": "刑法_45題_2026-10-14.md 第 6 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -173,7 +173,7 @@
    "answer": "D",
    "core": "正當防衛",
    "explanation": "",
-   "basis": "刑法 §23",
+   "mapBasis": "刑法 §23",
    "source": "刑法_45題_2026-10-14.md 第 7 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -199,7 +199,7 @@
    "answer": "B",
    "core": "緊急避難",
    "explanation": "",
-   "basis": "刑法 §24 I",
+   "mapBasis": "刑法 §24 I",
    "source": "刑法_45題_2026-10-14.md 第 8 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -220,7 +220,7 @@
    "answer": "C",
    "core": "不能犯",
    "explanation": "",
-   "basis": "刑法 §26",
+   "mapBasis": "刑法 §26",
    "source": "刑法_45題_2026-10-14.md 第 9 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -241,7 +241,7 @@
    "answer": "A",
    "core": "中止未遂",
    "explanation": "",
-   "basis": "刑法 §27 I",
+   "mapBasis": "刑法 §27 I",
    "source": "刑法_45題_2026-10-14.md 第 10 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -267,7 +267,7 @@
    "answer": "D",
    "core": "共同正犯",
    "explanation": "",
-   "basis": "刑法 §28",
+   "mapBasis": "刑法 §28",
    "source": "刑法_45題_2026-10-14.md 第 11 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -288,7 +288,7 @@
    "answer": "B",
    "core": "教唆犯",
    "explanation": "",
-   "basis": "刑法 §29",
+   "mapBasis": "刑法 §29",
    "source": "刑法_45題_2026-10-14.md 第 12 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -309,7 +309,7 @@
    "answer": "C",
    "core": "幫助犯",
    "explanation": "",
-   "basis": "刑法 §30 I",
+   "mapBasis": "刑法 §30 I",
    "source": "刑法_45題_2026-10-14.md 第 13 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -330,7 +330,7 @@
    "answer": "A",
    "core": "身分犯",
    "explanation": "",
-   "basis": "刑法 §31 I",
+   "mapBasis": "刑法 §31 I",
    "source": "刑法_45題_2026-10-14.md 第 14 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -356,7 +356,7 @@
    "answer": "D",
    "core": "想像競合",
    "explanation": "",
-   "basis": "刑法 §55",
+   "mapBasis": "刑法 §55",
    "source": "刑法_45題_2026-10-14.md 第 15 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -377,7 +377,7 @@
    "answer": "B",
    "core": "殺人罪與傷害致死罪",
    "explanation": "",
-   "basis": "刑法 §277 II",
+   "mapBasis": "刑法 §277 II",
    "source": "刑法_45題_2026-10-14.md 第 16 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -403,7 +403,7 @@
    "answer": "C",
    "core": "殺人未遂",
    "explanation": "",
-   "basis": "刑法 §271 II",
+   "mapBasis": "刑法 §271 II",
    "source": "刑法_45題_2026-10-14.md 第 17 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -429,7 +429,7 @@
    "answer": "A",
    "core": "重傷害罪",
    "explanation": "",
-   "basis": "刑法 §10 IV ①、§278",
+   "mapBasis": "刑法 §10 IV ①、§278",
    "source": "刑法_45題_2026-10-14.md 第 18 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -450,7 +450,7 @@
    "answer": "D",
    "core": "過失致死罪",
    "explanation": "",
-   "basis": "刑法 §276",
+   "mapBasis": "刑法 §276",
    "source": "刑法_45題_2026-10-14.md 第 19 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -471,7 +471,7 @@
    "answer": "B",
    "core": "剝奪行動自由",
    "explanation": "",
-   "basis": "刑法 §302",
+   "mapBasis": "刑法 §302",
    "source": "刑法_45題_2026-10-14.md 第 20 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -497,7 +497,7 @@
    "answer": "C",
    "core": "強制罪",
    "explanation": "",
-   "basis": "刑法 §304",
+   "mapBasis": "刑法 §304",
    "source": "刑法_45題_2026-10-14.md 第 21 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -518,7 +518,7 @@
    "answer": "A",
    "core": "恐嚇危害安全",
    "explanation": "",
-   "basis": "刑法 §305",
+   "mapBasis": "刑法 §305",
    "source": "刑法_45題_2026-10-14.md 第 22 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -539,7 +539,7 @@
    "answer": "D",
    "core": "侵入住宅",
    "explanation": "",
-   "basis": "刑法 §306",
+   "mapBasis": "刑法 §306",
    "source": "刑法_45題_2026-10-14.md 第 23 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -562,7 +562,7 @@
    "answer": "B",
    "core": "誹謗罪",
    "explanation": "",
-   "basis": "刑法 §310",
+   "mapBasis": "刑法 §310",
    "source": "刑法_45題_2026-10-14.md 第 24 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -588,7 +588,7 @@
    "answer": "C",
    "core": "偽造私文書",
    "explanation": "",
-   "basis": "刑法 §210",
+   "mapBasis": "刑法 §210",
    "source": "刑法_45題_2026-10-14.md 第 25 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -609,7 +609,7 @@
    "answer": "A",
    "core": "使公務員登載不實",
    "explanation": "",
-   "basis": "刑法 §214",
+   "mapBasis": "刑法 §214",
    "source": "刑法_45題_2026-10-14.md 第 26 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -630,7 +630,7 @@
    "answer": "D",
    "core": "竊盜罪",
    "explanation": "",
-   "basis": "刑法 §320",
+   "mapBasis": "刑法 §320",
    "source": "刑法_45題_2026-10-14.md 第 27 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -656,7 +656,7 @@
    "answer": "B",
    "core": "侵占罪",
    "explanation": "",
-   "basis": "刑法 §335",
+   "mapBasis": "刑法 §335",
    "source": "刑法_45題_2026-10-14.md 第 28 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -682,7 +682,7 @@
    "answer": "C",
    "core": "詐欺取財罪",
    "explanation": "",
-   "basis": "刑法 §339",
+   "mapBasis": "刑法 §339",
    "source": "刑法_45題_2026-10-14.md 第 29 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -705,7 +705,7 @@
    "answer": "A",
    "core": "恐嚇取財罪",
    "explanation": "",
-   "basis": "刑法 §346",
+   "mapBasis": "刑法 §346",
    "source": "刑法_45題_2026-10-14.md 第 30 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -733,7 +733,7 @@
    "answer": "D",
    "core": "罪刑法定原則",
    "explanation": "",
-   "basis": "刑法 §1",
+   "mapBasis": "刑法 §1",
    "source": "刑法_45題_2026-10-14.md 第 31 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -754,7 +754,7 @@
    "answer": "B",
    "core": "刑法上的責任能力",
    "explanation": "",
-   "basis": "刑法 §19 I",
+   "mapBasis": "刑法 §19 I",
    "source": "刑法_45題_2026-10-14.md 第 32 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -777,7 +777,7 @@
    "answer": "C",
    "core": "構成要件錯誤",
    "explanation": "",
-   "basis": "",
+   "mapBasis": "",
    "source": "刑法_45題_2026-10-14.md 第 33 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -803,7 +803,7 @@
    "answer": "B",
    "core": "客觀歸責・風險實現",
    "explanation": "",
-   "basis": "",
+   "mapBasis": "",
    "source": "刑法_45題_2026-10-14.md 第 34 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -824,7 +824,7 @@
    "answer": "D",
    "core": "因果歷程錯誤",
    "explanation": "",
-   "basis": "",
+   "mapBasis": "",
    "source": "刑法_45題_2026-10-14.md 第 35 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -845,7 +845,7 @@
    "answer": "A",
    "core": "誤想防衛",
    "explanation": "",
-   "basis": "",
+   "mapBasis": "",
    "source": "刑法_45題_2026-10-14.md 第 36 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -866,7 +866,7 @@
    "answer": "C",
    "core": "防衛過當",
    "explanation": "",
-   "basis": "刑法 §23",
+   "mapBasis": "刑法 §23",
    "source": "刑法_45題_2026-10-14.md 第 37 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -892,7 +892,7 @@
    "answer": "B",
    "core": "預備犯",
    "explanation": "",
-   "basis": "刑法 §25、§271 III",
+   "mapBasis": "刑法 §25、§271 III",
    "source": "刑法_45題_2026-10-14.md 第 38 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -913,7 +913,7 @@
    "answer": "D",
    "core": "未遂犯的處罰",
    "explanation": "",
-   "basis": "刑法 §25 II",
+   "mapBasis": "刑法 §25 II",
    "source": "刑法_45題_2026-10-14.md 第 39 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -939,7 +939,7 @@
    "answer": "A",
    "core": "加重結果犯",
    "explanation": "",
-   "basis": "刑法 §17",
+   "mapBasis": "刑法 §17",
    "source": "刑法_45題_2026-10-14.md 第 40 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -960,7 +960,7 @@
    "answer": "C",
    "core": "共同正犯・犯意聯絡",
    "explanation": "",
-   "basis": "刑法 §28",
+   "mapBasis": "刑法 §28",
    "source": "刑法_45題_2026-10-14.md 第 41 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -981,7 +981,7 @@
    "answer": "B",
    "core": "教唆未遂",
    "explanation": "",
-   "basis": "刑法 §29",
+   "mapBasis": "刑法 §29",
    "source": "刑法_45題_2026-10-14.md 第 42 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -1002,7 +1002,7 @@
    "answer": "D",
    "core": "累犯",
    "explanation": "",
-   "basis": "刑法 §47 I；司法院釋字第 775 號解釋",
+   "mapBasis": "刑法 §47 I；司法院釋字第 775 號解釋",
    "source": "刑法_45題_2026-10-14.md 第 43 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -1025,7 +1025,7 @@
    "answer": "A",
    "core": "自首",
    "explanation": "",
-   "basis": "刑法 §62",
+   "mapBasis": "刑法 §62",
    "source": "刑法_45題_2026-10-14.md 第 44 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -1048,7 +1048,7 @@
    "answer": "C",
    "core": "緩刑",
    "explanation": "",
-   "basis": "刑法 §74 I",
+   "mapBasis": "刑法 §74 I",
    "source": "刑法_45題_2026-10-14.md 第 45 題",
    "status": "USER_CONFIRMED",
    "flags": [

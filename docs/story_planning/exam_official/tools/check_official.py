@@ -9,7 +9,6 @@ m = json.load(open(os.path.join(root, 'course_bank_map.json'), encoding='utf-8')
 current = {c['course']: c for c in m['courses']}
 deleted = set(m['deletedCourses'])
 err, warn = [], []
-basis_left = []
 count = {}
 seen = {}
 for f in sorted(glob.glob(os.path.join(root, '*.json'))):
@@ -36,8 +35,8 @@ for f in sorted(glob.glob(os.path.join(root, '*.json'))):
         seen[key] = tag
         if not (1 <= int(q['scopeWeek']) <= 18): err.append(f'{tag}：scopeWeek 超出 1～18')
         for fl in q.get('flags', []): warn.append(f'{tag}：{fl}')
-        # basis（法條）是 AA／BB 為了對週次標的，不是使用者給的；遊戲不能顯示。USER_CONFIRMED 的題目改用 mapBasis（2026-10-14 AA；BB 下次重產時改名，先只警告）
-        if q.get('basis'): basis_left.append(tag)
+        # basis（法條）是 AA／BB 為了對週次標的，不是使用者給的；遊戲不能顯示。USER_CONFIRMED 的題目只能用 mapBasis（2026-10-14；BB 已改名，改成錯誤）
+        if q.get('basis'): err.append(f'{tag}：USER_CONFIRMED 不能有 basis（AI 標的法條會被遊戲顯示），請改名 mapBasis')
         count[c] = count.get(c, 0) + 1
 args = [a for a in sys.argv[1:] if a != '--sync']
 qpath = args[0] if args else os.path.join(root, '..', '..', '..', 'src', 'data', 'legal_qbank.js')
@@ -67,8 +66,6 @@ print('== 題數（大一～大三）')
 for c, e in current.items():
     if not e['term'].startswith('Y4'):
         print(f"  {e['term']} {c:14s} {count.get(c, 0):3d} 題  {e['status']}")
-if basis_left:
-    print(f'== 注意：{len(basis_left)} 題 USER_CONFIRMED 還有 basis 欄位（AI 標的法條，遊戲不能顯示；請改名 mapBasis）')
 print(f'== 回報使用者的問題：{len(warn)}')
 for w in warn: print('  - ' + w)
 print(f'== 錯誤：{len(err)}')
