@@ -44,6 +44,12 @@ const has=(G,term,id)=>CLS.termCourses(G,term).some(c=>c.id===id);
     check('選「修」：週二 13:20 法律與社會（下）（霖澤館 201）在今天的課',G.courses.electives.Y1S2_ls==='law_society_2'&&items.includes('13:20 法律與社會（下）'),items.join('、'));
     const GM2=mkGM(G2,[1]); const r=await CLS.skipTo(GM2,17.5);
     check('修：週二 12:30 跳到 17:30 先問「會錯過 13:20 法律與社會（下）」',r===false&&GM2.log.some(t=>/^choose:照樣跳過〔會錯過：13:20 法律與社會（下）〕/.test(t)),GM2.log.join(' | ')); }
+  // ---------- 2b. 大一下的通識（交接包 v2 第 3 節第 1 週）：接 v1 的選課結果 ----------
+  { const G=mkG(SUN,7.5), GM=mkGM(G,[0]); await CLS.morning(GM); const L=GM.log.filter(t=>t.startsWith('say:'));
+    check('大一下：v1 選「下學期再選」（或沒遇到）的玩家：「「城市與散步」——備取三。差一點。」「選上的是「天文與我們」。」',L[1]==='say:「城市與散步」——備取三。差一點。'&&L[2]==='say:選上的是「天文與我們」。',L.join(' | '));
+    const G2=mkG(SUN,7.5); G2.flags.ge_walk_waitlist=true; const GM2=mkGM(G2,[0]); await CLS.morning(GM2); const L2=GM2.log.filter(t=>t.startsWith('say:'));
+    check('大一下：v1 選加簽的玩家：「上學期加簽沒成功的「城市與散步」，這學期——備取三。」',L2[1]==='say:上學期加簽沒成功的「城市與散步」，這學期——備取三。'&&L2[2]==='say:選上的是「天文與我們」。',L2.join(' | '));
+    const D=dayOf('2028-09-03'), G3=mkG(D,7.5), GM3=mkGM(G3,[0,0]); await CLS.morning(GM3); check('其他學期沒有這兩句',!GM3.log.some(t=>/城市與散步|天文與我們/.test(t))); }
   // ---------- 3. 大四上：兩組二選一 ----------
   { const T0=CALENDAR.termOf(dayOf('2028-09-04')), D=dayOf('2028-09-03'); const G=mkG(D,7.5), GM=mkGM(G,[1,1]); await CLS.morning(GM);
     const chs=GM.log.filter(t=>t.startsWith('choose:'));
