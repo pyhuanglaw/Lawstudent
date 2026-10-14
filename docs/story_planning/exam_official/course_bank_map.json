@@ -1,5 +1,5 @@
 {
- "_comment": "每門現行法律課的期末考題庫狀態（AA 2026-10-14）。刪掉的 7 門課沒有題庫位置（AA_103 第 9 節）。status：ENABLED＝已確認題目 ≥5，可以考；INSUFFICIENT＝不足 5 題，不開考、不補題（顯示 EXAM_BANK_INSUFFICIENT）；PENDING_AA_REVIEW＝大四題庫還沒審完；NO_EXAM＝報告或實務課。",
+ "_comment": "每門現行法律課的期末考題庫狀態（AA 2026-10-14）。刪掉的 7 門課沒有題庫位置（AA_103 第 9 節）。status：ENABLED＝已確認題目 ≥5，可以考；INSUFFICIENT＝不足 5 題，不開考、不補題（顯示 EXAM_BANK_INSUFFICIENT）；PENDING_AA_REVIEW＝大四題庫還沒審完（2026-10-14 已全部審完，現在大四都是 ENABLED）；NO_EXAM＝報告或實務課。",
  "updated": "2026-10-14",
  "deletedCourses": [
   "law_society",
@@ -280,11 +280,12 @@
    "kind": "required",
    "exam": "mc5",
    "sources": [
-    "exam_y4/enforcement.json（AA 出題自審）"
+    "exam_y4/enforcement.json（AA 出題自審，8 題）"
    ],
    "confirmed": 0,
-   "status": "PENDING_AA_REVIEW",
-   "rule": "大四：AA 出題自審，至少 5 題、審核完成才啟用"
+   "status": "ENABLED",
+   "rule": "大四：AA 出題並自審（exam_y4/REVIEW.md）；每題 status＝AA_REVIEWED",
+   "reviewed": 8
   },
   {
    "term": "Y4S1",
@@ -293,11 +294,12 @@
    "kind": "required",
    "exam": "mc5",
    "sources": [
-    "exam_y4/legal_ethics.json（AA 出題自審）"
+    "exam_y4/legal_ethics.json（AA 出題自審，8 題）"
    ],
    "confirmed": 0,
-   "status": "PENDING_AA_REVIEW",
-   "rule": "大四：AA 出題自審，至少 5 題、審核完成才啟用"
+   "status": "ENABLED",
+   "rule": "大四：AA 出題並自審（exam_y4/REVIEW.md）；每題 status＝AA_REVIEWED",
+   "reviewed": 8
   },
   {
    "term": "Y4S1",
@@ -306,11 +308,12 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [
-    "exam_y4/ip_law.json（AA 出題自審）"
+    "exam_y4/ip_law.json（AA 出題自審，8 題）"
    ],
    "confirmed": 0,
-   "status": "PENDING_AA_REVIEW",
-   "rule": "大四：AA 出題自審，至少 5 題、審核完成才啟用"
+   "status": "ENABLED",
+   "rule": "大四：AA 出題並自審（exam_y4/REVIEW.md）；每題 status＝AA_REVIEWED",
+   "reviewed": 8
   },
   {
    "term": "Y4S1",
@@ -319,11 +322,12 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [
-    "exam_y4/labor_social.json（AA 出題自審）"
+    "exam_y4/labor_social.json（AA 出題自審，8 題）"
    ],
    "confirmed": 0,
-   "status": "PENDING_AA_REVIEW",
-   "rule": "大四：AA 出題自審，至少 5 題、審核完成才啟用"
+   "status": "ENABLED",
+   "rule": "大四：AA 出題並自審（exam_y4/REVIEW.md）；每題 status＝AA_REVIEWED",
+   "reviewed": 8
   },
   {
    "term": "Y4S1",
@@ -332,11 +336,12 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [
-    "exam_y4/tax_law.json（AA 出題自審）"
+    "exam_y4/tax_law.json（AA 出題自審，8 題）"
    ],
    "confirmed": 0,
-   "status": "PENDING_AA_REVIEW",
-   "rule": "大四：AA 出題自審，至少 5 題、審核完成才啟用"
+   "status": "ENABLED",
+   "rule": "大四：AA 出題並自審（exam_y4/REVIEW.md）；每題 status＝AA_REVIEWED",
+   "reviewed": 8
   },
   {
    "term": "Y4S1",
@@ -345,11 +350,12 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [
-    "exam_y4/crim_judgment_sem.json（AA 出題自審）"
+    "exam_y4/crim_judgment_sem.json（AA 出題自審，8 題）"
    ],
    "confirmed": 0,
-   "status": "PENDING_AA_REVIEW",
-   "rule": "大四：AA 出題自審，至少 5 題、審核完成才啟用"
+   "status": "ENABLED",
+   "rule": "大四：AA 出題並自審（exam_y4/REVIEW.md）；每題 status＝AA_REVIEWED",
+   "reviewed": 8
   },
   {
    "term": "Y4S1",
@@ -358,11 +364,12 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [
-    "exam_y4/public_judgment_sem.json（AA 出題自審）"
+    "exam_y4/public_judgment_sem.json（AA 出題自審，8 題）"
    ],
    "confirmed": 0,
-   "status": "PENDING_AA_REVIEW",
-   "rule": "大四：AA 出題自審，至少 5 題、審核完成才啟用"
+   "status": "ENABLED",
+   "rule": "大四：AA 出題並自審（exam_y4/REVIEW.md）；每題 status＝AA_REVIEWED",
+   "reviewed": 8
   },
   {
    "term": "Y4S2",
@@ -393,11 +400,12 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [
-    "exam_y4/maritime.json（AA 出題自審）"
+    "exam_y4/maritime.json（AA 出題自審，8 題）"
    ],
    "confirmed": 0,
-   "status": "PENDING_AA_REVIEW",
-   "rule": "大四：AA 出題自審，至少 5 題、審核完成才啟用"
+   "status": "ENABLED",
+   "rule": "大四：AA 出題並自審（exam_y4/REVIEW.md）；每題 status＝AA_REVIEWED",
+   "reviewed": 8
   }
  ]
 }
