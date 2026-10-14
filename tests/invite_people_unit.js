@@ -114,6 +114,19 @@ async function await0(){}
   npcObj.position.x=9; G.invites.push({id:'w3',who:'heroine_02',place:'noodle',zone:'noodle',day:MON,h:14,state:'going'}); INV.walkChat(gmW,8);
   check('12. 跟著的人不在旁邊（9 m）：先不說',caps.length===3&&!G.invites[2].chat,caps.join('｜'));
   const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('12. STORY.tick 每一幀叫 INV.walkChat(GM,dt)',/INV\.walkChat\(GM,dt\)/.test(st));
+  // 13 選項句（BB_120 1-7c：走到目的地、見面開始前選，不在路上打斷）：芷若去溫州街猜電影、阿凱大一去吃飯「機車擋騎樓可以告嗎」
+  fresh(SAT,15); gmW.G=G; caps.length=0; npcObj.position.x=1; rel('heroine_02',45,30,10); G.invites.push({id:'w4',who:'heroine_02',place:'wenzhou',zone:'wenzhou',day:SAT,h:15,state:'going'});
+  INV.walkChat(gmW,7); check('13. 芷若去溫州街的路上：抽到猜電影（選項句）——路上不出字幕、記在邀約上（iv.ask）',caps.length===0&&G.invites[0].chat===true&&G.invites[0].ask==='ZR_FILM_ASK',JSON.stringify({caps,ask:G.invites[0].ask}));
+  { const said=[], opts=[]; const gmM={G,E:{player:{obj:{position:{x:0,z:0}}}},npc:{},sceneBegin(){},sceneEnd(){},say:async(w,t)=>{ said.push((w?(w.name||w):'旁白')+'：'+t); },choose:async o=>{ opts.push(o.map(x=>x.t).join('/')); return 2; },fade:async()=>{},advance(){},caption(){},sleep:async()=>{},autosave(){},toast(){},updateHUD(){}};
+    await INV.meet(gmM,G.invites[0],{obj:npcObj});
+    check('13. 到了、見面開始前：她先問 → 三個選項 → 選「什麼都沒發生的片。」→「……你偷看我的筆記本？」→ 她的答案，之後才是見面',said[0]==='林芷若：「我覺得這條巷子很適合拍電影。你覺得要拍什麼？……猜錯三次我就說我的答案。」'&&opts[0]==='愛情片。/恐怖片。/什麼都沒發生的片。'&&said[1]==='林芷若：「……你偷看我的筆記本？」'&&said[2]==='林芷若：「一個人每天走這條巷子去上班。什麼都沒發生。只是每天的光不一樣。」'&&said.length>3,said.join('｜'));
+    check('13. 每句一次：問過以後不再抽到',G.flags.ZR_FILM_ASK===true&&!G.invites[0].ask&&(()=>{ const pk=INV.walkPick(G,'heroine_02','wenzhou'); return !!pk&&!pk.ask; })()); }
+  fresh(TUE,18); rel('kai',25); G.flags.walkChatN={}; let pk2=INV.walkPick(G,'kai','noodle');
+  check('13. 阿凱大一去吃飯的路上：「所以你們法律系的，路邊的機車擋住騎樓可以告嗎」（選項句）',!!pk2&&pk2.ask==='KAI_SCOOTER_ASK'&&pk2.lines[0]==='「所以你們法律系的，路邊的機車擋住騎樓可以告嗎」',pk2&&JSON.stringify(pk2));
+  { const e=INV.walkEntry('kai','KAI_SCOOTER_ASK'); check('13. 阿凱的三個選項與回答（BB_70 4-5）',!!e&&e.ch.map(c=>c.t+'→'+c.r[0]).join('／')==='可以檢舉，不一定是告→「所以告跟檢舉不一樣 好 我學到一個字」／你想告誰→「沒有 我只是想知道我有沒有這個能力」／先讓我吃完→「好 你吃 ……吃完了嗎」'); }
+  G.flags.walkChatN={}; pk2=INV.walkPick(G,'kai','cafe'); check('13. 阿凱去 Café：不是吃飯，不問機車那題',!!pk2&&!pk2.ask,pk2&&JSON.stringify(pk2));
+  const y2d=(()=>{ for(let d=300;d<800;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y2S1') return d; } return null; })(); fresh(y2d,18); rel('kai',25); pk2=INV.walkPick(G,'kai','noodle'); check('13. 大二：不問（大一上的題目）',!pk2||!pk2.ask,pk2&&JSON.stringify(pk2));
+  { const iv={id:'z',who:'heroine_02',ask:'NOPE'}; const r=await INV.walkAsk({G,say:async()=>{},choose:async()=>0},iv,{name:'x'}); check('13. 找不到的選項句（資料改過）：不演、不出錯',r===false&&iv.ask===null); }
   const s3=fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8'); check('INV.flow 用 INV.personal（decide 之後）',/S\.personal\(G,id,P,W\.day,W\.h,S\.decide\(/.test(s3));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

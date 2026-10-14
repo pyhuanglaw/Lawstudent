@@ -143,6 +143,7 @@ const INV=(function(){
   /* 見面：一起待一段時間（旁白）、時間過去、留一筆小記憶、熟一點點（不推進戀愛：使用者第 7 點）、習慣記憶 */
   S.meet=async function(GM,iv,n){ const G=GM.G, P=S.place(iv.place), nm=nameOf(iv.who); if(!P) return;
     iv.state='done'; GM.sceneBegin({adv:iv.who}); try{ const lines=((D().people[iv.who]||{}).scene||{})[P.id], who={name:nm,obj:n&&n.obj,charId:iv.who}, SO=typeof SOCIAL!=='undefined'?SOCIAL:{};
+      if(iv.ask) await S.walkAsk(GM,iv,who);   /* 一起走路時抽到的選項句：走到了、見面開始前選（BB_120 1-7c） */
       if(SO.playUp) await SO.playUp(GM,who,iv.who);   /* 升階以後的下一次見面：先說門檻台詞（AA_124 1-6、BB_120 第 1 節） */
       const ml=SO.meetLine?SO.meetLine(iv.who,P.id):null;   /* 見面時的旁白：地點×階段（BB_120 第 1 節；沒有那一格照舊） */
       if(lines&&lines.length){ for(const t of lines) await GM.say(who,t); } else if(ml) await GM.say(/^「/.test(ml)?who:null,ml); else await GM.say(null,'你和'+nm+P.verb.replace(/^去/,'在')+'。');
@@ -160,7 +161,10 @@ const INV=(function(){
       else if(iv.state==='going'&&(iv.day<G.day||h>=iv.h+2)){ iv.state='cancelled'; S.msg(G,iv.who,'和'+nameOf(iv.who)+'一起去'+((S.place(iv.place)||{}).name||'')+'的事，後來作罷了。',iv); const n=GM.npc&&GM.npc[iv.who]; if(n){ n.beh='idle'; } }
       else if((iv.state==='offered'||iv.state==='changed')&&past(iv)) iv.state='cancelled'; } };
   /* 一起走過去的路上聊一句（AA_70 第 2 節、BB_70 各人的「一起走路時聊什麼」，照 BB_121：照目的地對應，對不上的放 any；下雨先用 rain）：
-     一起走 6 秒以後、跟著的人在旁邊（6 m 內）才說；字幕，不打斷走路；一趟一句，同一個人輪流換（G.flags.walkChatN）。要選項的那幾句（芷若猜電影、子晴問你為什麼換方向）還沒做 */
+     一起走 6 秒以後、跟著的人在旁邊（6 m 內）才說；字幕，不打斷走路；一趟一句，同一個人輪流換（G.flags.walkChatN）。
+     要選項的那幾句（{once, l, ch:[{t, r}], after}：芷若猜電影、阿凱「機車擋騎樓可以告嗎」）照 BB_120 1-7c：路上不打斷，走到目的地、見面開始前選（S.walkAsk）；
+     每句一次（G.flags[once]）。子晴「你為什麼換」、沛珊「大家都不遵守的法律」等 BB 給玩家選項的原文 */
+  const oneW=v=>v==null?[]:(Array.isArray(v)&&v.length&&typeof v[0]==='string'?[v]:[].concat(v));   /* ['一句'] 是一個元素；[['一句'],['另一句']] 是兩個 */
   const walkT={};
   S._later=(f,ms)=>setTimeout(f,ms);
   S.walkPick=function(G,id,pid){ const p=(D().people||{})[id], w=p&&p.walk; if(!w) return null; const F=G.flags||(G.flags={});
@@ -168,14 +172,17 @@ const INV=(function(){
     const c={year:t?(+String(t.id).charAt(1)||1):1,w8:typeof EVENTS!=='undefined'&&!!EVENTS.cond&&!!EVENTS.cond({events:['ev_sis_collapse']})};
     if(G.weather==='rain'&&w.rain) return {lines:w.rain,next(){}};
     const norm=e=>typeof e==='string'?{l:[e]}:(Array.isArray(e)?{l:e}:e);
-    const one=v=>v==null?[]:(Array.isArray(v)&&v.length&&typeof v[0]==='string'?[v]:[].concat(v));   /* ['一句'] 是一個元素；[['一句'],['另一句']] 是兩個 */
-    const L=one(w[pid]).concat(one(w.any)).map(norm).filter(e=>e&&e.l&&(!e.if||e.if(G,c))); if(!L.length) return null;
-    const N=F.walkChatN||(F.walkChatN={}), n=N[id]|0; return {lines:L[n%L.length].l,next(){ N[id]=n+1; }}; };
+    const L=oneW(w[pid]).concat(oneW(w.any)).map(norm).filter(e=>e&&e.l&&(!e.if||e.if(G,c))&&!(e.once&&F[e.once])); if(!L.length) return null;
+    const N=F.walkChatN||(F.walkChatN={}), n=N[id]|0, e=L[n%L.length]; return {lines:e.l,ask:e.ch?e.once:null,next(){ N[id]=n+1; }}; };
+  S.walkEntry=function(id,key){ const w=((D().people||{})[id]||{}).walk||{}; for(const k of Object.keys(w)) for(const e of oneW(w[k])) if(e&&!Array.isArray(e)&&typeof e==='object'&&e.once===key) return e; return null; };
+  /* 見面開始前（S.meet 一開始）：路上抽到的選項句——她先說、你選、她回（芷若：三個都會聽到她的答案）*/
+  S.walkAsk=async function(GM,iv,who){ const G=GM.G, F=G.flags||(G.flags={}), key=iv.ask; iv.ask=null; const e=key?S.walkEntry(iv.who,key):null; if(!e||F[key]) return false; F[key]=true;
+    await S.playLines(GM,who,e.l); const k=await GM.choose(e.ch.map(c=>({t:c.t}))); const c=e.ch[k]||e.ch[0]; if(c.r) await S.playLines(GM,who,c.r); if(e.after) await S.playLines(GM,who,e.after); return true; };
   S.walkChat=function(GM,dt){ const G=GM.G; if(!G||!Array.isArray(G.invites)) return; for(const iv of G.invites){ if(iv.state!=='going'||iv.chat) continue;
       walkT[iv.id]=(walkT[iv.id]||0)+(dt||0); if(walkT[iv.id]<6) continue;
       const n=GM.npc&&GM.npc[iv.who], P=GM.E&&GM.E.player&&GM.E.player.obj; if(!n||!n.obj||!P) continue;
       if(Math.hypot(n.obj.position.x-P.position.x,n.obj.position.z-P.position.z)>6) continue;
-      iv.chat=true; const pk=S.walkPick(G,iv.who,iv.place); if(!pk) continue; pk.next(); const nm=nameOf(iv.who);
+      iv.chat=true; const pk=S.walkPick(G,iv.who,iv.place); if(!pk) continue; pk.next(); if(pk.ask){ iv.ask=pk.ask; continue; } const nm=nameOf(iv.who);
       pk.lines.forEach((t,k)=>{ const show=()=>GM.caption(/^（/.test(t)?'':nm,t,3400); if(k===0) show(); else S._later(show,k*3600); }); } };
   /* 走進一個區域：一起走過去的人到了目的地 → 見面 */
   S.arrive=async function(GM,zoneId){ const G=GM.G; for(const iv of (G.invites||[])){ if(iv.state!=='going'||iv.zone!==zoneId) continue; await GM.sleep(900); const n=GM.npc&&GM.npc[iv.who]; iv.state='accepted'; await S.meet(GM,iv,n); return true; } return false; };
