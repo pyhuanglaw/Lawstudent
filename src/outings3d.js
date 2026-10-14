@@ -10,7 +10,7 @@ const OUT=(function(){
   const S={};
   /* 2D 背景（AA_112 3-1：政大四個＋停車場；河濱和子晴的河堤夜景共用）：image 是圖片路徑，還沒有圖＝null（深色底＋地點字幕）*/
   S.BG={ car:{label:'車上',image:null}, nccu_gate:{label:'政大・校門口',image:null}, nccu_food:{label:'政大・山下的小吃街',image:null}, nccu_river:{label:'政大・河堤',image:null},
-    nccu_lib:{label:'政大・圖書館',image:null}, nccu_park:{label:'政大・停車場',image:null}, riverside:{label:'河濱',image:null}, dorm_roof:{label:'宿舍頂樓',image:null} };
+    nccu_lib:{label:'政大・圖書館',image:null}, nccu_park:{label:'政大・停車場',image:null}, riverside:{label:'河濱',image:null}, dorm_roof:{label:'宿舍頂樓',image:null}, video:{label:'視訊',image:null} };
   S.bg=id=>{ const b=S.BG[id]; return b&&b.image?{image:b.image}:'dark'; };
   S.rec=G=>{ if(!Array.isArray(G.outings)) G.outings=[]; return G.outings; };
   S.get=(G,id)=>S.rec(G).find(q=>q.id===id)||null;
@@ -29,7 +29,7 @@ const OUT=(function(){
     const q=S.due(G); if(!q) return null; busy=true; return S.prompt(GM,q).finally(()=>{ busy=false; }); };
   const hm=h=>typeof INV!=='undefined'&&INV.hhmm?INV.hhmm(h):String(h);
   S.prompt=async function(GM,q){ const G=GM.G; let k=1; GM.sceneBegin();
-    try{ k=await GM.choose([{t:'出發：'+q.title,hint:q.place+'　'+hm(q.h)+(q.travel?'　'+q.travel:'')},{t:'晚一點（20 分鐘後再提醒）'},{t:'不去了'}]); } finally { GM.sceneEnd(); }
+    try{ k=await GM.choose([{t:(q.verb||'出發')+'：'+q.title,hint:q.place+'　'+hm(q.h)+(q.travel?'　'+q.travel:'')},{t:'晚一點（20 分鐘後再提醒）'},{t:q.no||'不去了'}]); } finally { GM.sceneEnd(); }   /* verb：視訊是「接起來」；no：「不去了」以外的說法 */
     if(k===1){ q.ask=t(G.day,G.hour)+1/3; return 'later'; }
     if(k!==0){ q.state='missed'; S.onMissed(GM,q); return 'no'; }
     await S.go(GM,q); return 'go'; };
@@ -38,7 +38,7 @@ const OUT=(function(){
     await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title,q.travel||'',2400);
     const arrive=Math.max(t(G.day,G.hour)+(q.travelH||0), t(q.day,q.h)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.updateHUD) GM.updateHUD();
     if(typeof ADV!=='undefined'){ ADV.begin({background:ev.background||'dark'}); }
-    await GM.fade(false); await EVENTS.run(ev);
+    await GM.fade(false); await EVENTS.run(ev); if(typeof ev.afterOuting==='function') await ev.afterOuting(G,GM,q);   /* 演完以後在同一個畫面接著做的事（例：可昕的視訊之後發成績單）*/
     await GM.fade(true); GM.advance(ev.hours||2); await GM.fade(false); if(GM.caption) GM.caption('',q.back||'回到台大。',2400);
     if(GM.autosave) GM.autosave(); return true; };
   return S;

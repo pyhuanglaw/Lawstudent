@@ -304,10 +304,16 @@ const CLS=(function(){
         const i=await GM.choose(opts.map(o=>({t:o.t,hint:o.hint}))); R.electives[g.group]=(opts[i]||opts[0]).id; }
       await GM.say(null,'這學期的課表在手機的「課表」。'); } finally { GM.sceneEnd(); }
     return true; };
+  /* 發成績單（文字；服務學習只寫次數，AA_110 6-1）：opts.inScene＝在別的場景裡（例如可昕的視訊）接著顯示 */
+  S.showGrades=async function(GM,termId,opts){ opts=opts||{}; const G=GM.G, R=S.rec(G); if(!R.grades[termId]) R.grades[termId]=S.reportFor(G,termId);
+    const lines=S.termCourses(G,termId).map(c=>c.name+'：'+(c.kind==='service'?(R.attend[c.id]||0)+'／'+(c.weeks||[]).length+' 次':R.grades[termId][c.id]));
+    if(!opts.inScene) GM.sceneBegin(); try{ await GM.say(null,S.termName(termId)+'的成績出來了。'); await GM.say(null,lines.join('　')); } finally { if(!opts.inScene) GM.sceneEnd(); } return true; };
   /* 起床時呼叫：前一個學期剛結束（今天不在那個學期、成績還沒發）→ 發成績單；新學期的前一天（或開學頭兩週）→ 選課結果 */
   S.morning=async function(GM){ const G=GM.G, R=S.rec(G); const prev=CALENDAR.termOf(G.day-1), now=CALENDAR.termOf(G.day);
-    if(prev&&(!now||now.id!==prev.id)&&!R.grades[prev.id]){ R.grades[prev.id]=S.reportFor(G,prev.id); const lines=S.termCourses(G,prev.id).map(c=>c.name+'：'+(c.kind==='service'?(R.attend[c.id]||0)+'／'+(c.weeks||[]).length+' 次':R.grades[prev.id][c.id]));   /* 服務學習只寫次數（AA_110 6-1）*/
-      GM.sceneBegin(); try{ await GM.say(null,S.termName(prev.id)+'的成績出來了。'); await GM.say(null,lines.join('　')); } finally { GM.sceneEnd(); } }
+    if(prev&&(!now||now.id!==prev.id)&&!R.grades[prev.id]){
+      const hold=typeof STORY!=='undefined'&&STORY.holdGrades?await STORY.holdGrades(GM,prev.id):false;   /* 可昕的約定（BB_95 9-8）：等晚上一起打開 */
+      if(!hold) await S.showGrades(GM,prev.id); }
+    if(R.note.gradesDue&&!R.grades[R.note.gradesDue]){ const t=R.note.gradesDue; delete R.note.gradesDue; await S.showGrades(GM,t); }   /* 先等的成績單、那晚沒有一起打開：隔天早上照常發 */
     const tmr=CALENDAR.termOf(G.day+1), selT=tmr&&tmr.week===1&&(!now||now.id!==tmr.id)?tmr:(now&&now.week<=2?now:null);
     if(selT&&!R.note['sel_'+selT.id]) await S.selectTerm(GM,selT.id);
     else if(now&&!R.note['sel_'+now.id]) R.note['sel_'+now.id]=1;

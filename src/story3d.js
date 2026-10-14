@@ -457,7 +457,20 @@ const STORY = (function(){
         if(pick==='river') OUT.plan(G,{id:'nye',ev:'ev_nye_river',day:nye,h:23.5,place:'河堤',title:'跨年：和可昕去河堤',travel:'開車約 30 分鐘',travelH:0.5});
         else if(pick==='roof'||PHONE.inGroup(G,'noodle_team')) OUT.plan(G,{id:'nye',ev:'ev_nye_roof',day:nye,h:23.75,place:'宿舍頂樓',title:'跨年：宿舍頂樓',travel:'',travelH:0,back:'回到房間。'}); }
       if(F.NYE_DONE==='river'&&nye&&PHONE.inGroup(G,'noodle_team')) PHONE.at(G,nye,24.2,[{th:'g:noodle_team',from:'zhe',text:'📷（宿舍頂樓，遠遠的煙火）'},{th:'g:noodle_team',from:'zhe',text:'我們就說有看到。'}],'nye_roof_photo'); }
+    /* 期末成績的約定（BB_95 9-8、BB_107 第 13 節）：期末考週最後一個上課日（1/2 週五）21:00 她傳；兩個回覆都算約好（KX_GRADES_PACT_SET）。
+       成績出來那天（寒假第一天的早上，classes3d.js 的 morning）先問「要不要先看自己的成績？」（S.holdGrades）；那天 21:00 視訊一起打開（出遊系統，「接起來」）；
+       先看的玩家那天晚上她先傳「你偷看了吧。……」，視訊照樣一起打開。記 KX_GRADES_PACT:'kept'|'peeked'。遊戲不顯示分數（成績單是文字）*/
+    { const last=termDay('Y1S1',18,5);
+      if(last&&F.dating_kexin&&!PHONE.sent(G,'kx_grades_ask')&&G.day<=last+2&&G.day>=last-1) PHONE.at(G,last,21,[{th:'p:kexin',from:'kexin',text:'成績出來先不要給對方看。寒假第一天一起打開。',ask:{opts:[{t:'好。',set:{KX_GRADES_PACT_SET:true}},{t:'我會忍不住。',set:{KX_GRADES_PACT_SET:true},say:[{from:'kexin',text:'那你偷看的時候，表情不要寫在訊息裡。'}]}]}}],'kx_grades_ask');
+      if(F.KX_GRADES_PACT==='peeked'&&F.kxGradesDay!=null) PHONE.at(G,F.kxGradesDay,21,[{th:'p:kexin',from:'kexin',text:'你偷看了吧。你的表情寫在訊息的標點符號上。'}],'kx_grades_peek'); }
     dailyPhone(GM); };
+  /* 成績單先等一下（classes3d.js 的 morning 呼叫；回傳 true＝先不發，晚上視訊一起打開）：只有大一上、和可昕約好的玩家問一次 */
+  S.holdGrades=async function(GM,termId){ const G=GM.G, F=G.flags; if(termId!=='Y1S1'||!F.KX_GRADES_PACT_SET||F.KX_GRADES_PACT||typeof OUT==='undefined') return false;
+    F.kxGradesDay=G.day; GM.sceneBegin(); let k=0; try{ await GM.say(null,'大一上的成績出來了。'); k=await GM.choose([{t:'先看。'},{t:'等寒假第一天。'}]); } finally { GM.sceneEnd(); }
+    F.KX_GRADES_PACT=k===0?'peeked':'kept';
+    OUT.plan(G,{id:'kx_grades',ev:'ev_kexin_grades_open',day:G.day,h:21,place:'視訊',title:'可昕的視訊：一起打開成績',verb:'接起來',no:'今天先不要',travel:'',travelH:0,back:'視訊掛掉了。'});
+    if(k===0) return false;   /* 先看：照常發成績單 */
+    return true; };
   /* 每天的手機小事（BB_95 4-4）：摘要日（AA_90 第 10 節「週曆＋精華日」）還沒做，照 BB「沒有摘要日的話放進每天的手機小事」——大一上第 4 週起，一天最多一則；
      那天已經有排好時間的劇情訊息就不加。每天第一次（或讀檔後第一次）決定今天是哪一則：照順序輪流，挑條件成立、時間還沒到的；時間到了再確認一次
      （阿凱：你醒著待在宿舍或便利商店時，不會收到「我已經在便利商店了」——那天就不傳，改天）；睡覺、跳過時間跨過去的照原本的時間補進去。

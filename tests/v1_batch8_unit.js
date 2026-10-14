@@ -118,5 +118,23 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A22：最後一科考完以後傍晚進麵店才有（考完前一天、沒有麵店團、不是麵店、22:00 以後：沒有；隔天還有）',r.after&&!r.before&&!r.noTeam&&!r.cafe&&r.later&&!r.late,JSON.stringify(r));
     fresh(le.day,18,'noodle',{noodleTableDay:9}); await EVENTS.run(e);
     check('A22：旁白＋阿姨「考完了，吃好一點。」（AA_71 2-13 原文）；只一次',JSON.stringify(lines())===JSON.stringify(['期末最後一科考完。麵店團一定吃一頓。','阿姨多送了一盤小菜。','考完了，吃好一點。'])&&said[2].who==='阿姨'&&!EVENTS.check(e),JSON.stringify(said)); }
+  /* ---------- 可昕：期末成績寒假第一天一起打開（BB_95 9-8）---------- */
+  { const LAST=termDay(18,5); let BRK=LAST; while(CALENDAR.termOf(BRK)) BRK++;
+    check('期末成績：期末考週最後一個上課日＝'+CALENDAR.dateOf(LAST).key+'、寒假第一天＝'+CALENDAR.dateOf(BRK).key,CALENDAR.dateOf(LAST).key==='2026-01-02'&&!CALENDAR.termOf(BRK)&&CALENDAR.termOf(BRK-1));
+    const ask=(pick)=>{ fresh(LAST,20,'dorm',{dating_kexin:true}); run(20,21.2); const m=G.msgs.find(x=>x.tag==='kx_grades_ask'); if(pick!=null) PHONE.answer(G,m.ask.id,pick); return m; };
+    const m=ask(null); check('期末成績：1/2 21:00 她傳「成績出來先不要給對方看。寒假第一天一起打開。」、兩個回覆（原文）',!!m&&m.text==='成績出來先不要給對方看。寒假第一天一起打開。'&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["好。","我會忍不住。"]');
+    ask(1); check('期末成績：「我會忍不住。」→「那你偷看的時候，表情不要寫在訊息裡。」（約定照樣成立）',G.msgs.some(x=>x.text==='那你偷看的時候，表情不要寫在訊息裡。')&&G.flags.KX_GRADES_PACT_SET===true);
+    const morning=async(flags,pk)=>{ fresh(BRK,7.5,'dorm',Object.assign({dating_kexin:true},flags||{})); picks=pk||[]; await CLS.morning(GM); return lines(); };
+    let L=await morning({},[]); check('期末成績：沒有約定的玩家：寒假第一天早上直接發成績單',L[0]==='大一上的成績出來了。'&&!!CLS.rec(G).grades.Y1S1&&!opts.some(o=>o.includes('先看。')),JSON.stringify(L));
+    L=await morning({KX_GRADES_PACT_SET:true},['等寒假']);
+    check('期末成績（等）：早上先問「先看。／等寒假第一天。」，選等＝早上不發、KX_GRADES_PACT=kept、排 21:00「接起來：可昕的視訊」',JSON.stringify(opts[0])==='["先看。","等寒假第一天。"]'&&!CLS.rec(G).grades.Y1S1&&G.flags.KX_GRADES_PACT==='kept'&&OUT.get(G,'kx_grades')&&OUT.get(G,'kx_grades').verb==='接起來',JSON.stringify({L,o:opts}));
+    said=[]; opts=[]; G.hour=20.8; picks=['接起來']; await OUT.tick(GM); L=lines();
+    check('期末成績（等）：21:00 視訊「三、二、一——」「……都過了。好，寒假開始。」，接著發成績單',opts[0][0]==='接起來：可昕的視訊：一起打開成績'&&L[0]==='三、二、一——'&&L[1]==='……都過了。好，寒假開始。'&&L[2]==='大一上的成績出來了。'&&!!CLS.rec(G).grades.Y1S1,JSON.stringify({o:opts[0],L}));
+    L=await morning({KX_GRADES_PACT_SET:true},['先看']);
+    check('期末成績（先看）：早上照常發成績單、KX_GRADES_PACT=peeked、晚上照樣一起打開（不吵）',L.includes('大一上的成績出來了。')&&!!CLS.rec(G).grades.Y1S1&&G.flags.KX_GRADES_PACT==='peeked'&&!!OUT.get(G,'kx_grades'));
+    run(7.6,21.1); const pk=G.msgs.filter(x=>x.tag==='kx_grades_peek').map(x=>x.text);
+    check('期末成績（先看）：那天 21:00 她傳「你偷看了吧。你的表情寫在訊息的標點符號上。」',JSON.stringify(pk)==='["你偷看了吧。你的表情寫在訊息的標點符號上。"]',JSON.stringify(pk));
+    await morning({KX_GRADES_PACT_SET:true},['等寒假']); G.hour=22; await OUT.tick(GM); const missed=OUT.get(G,'kx_grades').state; const F0=Object.assign({},G.flags), C0=G.courses, O0=G.outings; fresh(BRK+1,7.5,'dorm',F0); G.courses=C0; G.outings=O0; picks=[]; await CLS.morning(GM); L=lines();
+    check('期末成績（等，但那晚沒接）：隔天早上照常發成績單',missed==='missed'&&L.includes('大一上的成績出來了。')&&!!CLS.rec(G).grades.Y1S1,JSON.stringify({missed,L})); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
