@@ -599,6 +599,12 @@ const STORY = (function(){
     { const gd=termDay('Y1S2',15,6); if(gd&&G.day>=gd-1&&G.day<=gd+1){
       if(PHONE.inGroup(G,'lawclub_study')&&!PHONE.sent(G,'grad_lawclub')){ const th='g:lawclub_study'; PHONE.at(G,gd,12.5,[{th,from:'npc_lawclub_pres',name:'法服社長',text:'📷（學長姊穿學士服、抱著花的合照）'},{th,from:'npc_lawclub_pres',name:'法服社長',text:'恭喜學長姊！法服永遠歡迎回來值班！'}],'grad_lawclub'); }
       if(PHONE.inGroup(G,'family_law')&&!PHONE.sent(G,'grad_family')){ const th='g:family_law'; PHONE.at(G,gd,13,[{th,from:'kevin',name:'Kevin',text:'📷（學長姊的畢業照）'},{th,from:'heroine_05',name:'溫學姊',text:'恭喜。'}],'grad_family'); } } }
+    /* 芷若 Z5（BB_96 3-5；交接包 v2）：週五答應（zhiruoFilmDay）＝隔天週六 10:00 的早場（出遊 ev_zhiruo_early_show）；「下次妳挑」的回聲：兩天後 21:00 她傳一張很長的片單
+       （單身＝私訊；交往中＝三個人的群組，方奕廷回「這張表要看到明年」）*/
+    if(F.zhiruo_film_date&&F.zhiruoFilmDay!=null&&typeof OUT!=='undefined'&&!OUT.get(G,'zr_early_show')&&G.day<=F.zhiruoFilmDay+1) OUT.plan(G,{id:'zr_early_show',ev:'ev_zhiruo_early_show',day:F.zhiruoFilmDay+1,h:10,place:'公館的二輪戲院',title:'東京物語的早場',travel:'走過去約 15 分鐘',travelH:0.25});
+    if(F.Z5_NEXT==='hers'&&F.zhiruoFilmSeenDay!=null&&!PHONE.sent(G,'zr_film_list')){ const d=F.zhiruoFilmSeenDay+2;
+      if(F.dating_kexin){ if(!PHONE.inGroup(G,'zr_film')) PHONE.join(G,'zr_film','東京物語'); PHONE.at(G,d,21,[{th:'g:zr_film',from:'heroine_02',text:'📄（一張很長的片單）'},{th:'g:zr_film',from:'npc_fangyt',text:'這張表要看到明年'}],'zr_film_list'); }
+      else PHONE.at(G,d,21,[{th:'p:heroine_02',from:'heroine_02',text:'📄（一張很長的片單）'}],'zr_film_list'); }
     /* 子晴 Q5 成發（BB_96 4-4；交接包 v2）：第 13 週週三 21:30 吉他社群組「期末成發你要來。這不是問句。」（伏筆）；成發隔天 10:00：先走的「你看到一半。後半比較好。」、
        收到邀請或是吉他社的人卻沒去＝「你沒來」（ZQ_SHOW absent；之後一週她不約他：zqColdUntil）*/
     { const dInv=termDay('Y1S2',13,3), dShow=termDay('Y1S2',14,3);
