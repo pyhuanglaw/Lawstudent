@@ -1,0 +1,315 @@
+[
+ {
+  "id": "crim_gen2_01",
+  "course": "crim_gen2",
+  "week": 2,
+  "type": "tf",
+  "q": "依法令之行為，不罰。",
+  "answer": true,
+  "core": "第 21 條第 1 項：依法令之行為阻卻違法。",
+  "basis": "刑法第 21 條第 1 項",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_02",
+  "course": "crim_gen2",
+  "week": 2,
+  "type": "mc",
+  "q": "依上級公務員命令的職務上行為，原則不罰。下列何者例外？",
+  "options": [
+   "明知命令違法",
+   "命令是口頭下達",
+   "上級在同一單位"
+  ],
+  "answer": 0,
+  "core": "第 21 條第 2 項但書：明知命令違法者，不在此限。",
+  "basis": "刑法第 21 條第 2 項",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_03",
+  "course": "crim_gen2",
+  "week": 2,
+  "type": "tf",
+  "q": "業務上之正當行為，不罰。",
+  "answer": true,
+  "core": "第 22 條（例如醫師依醫療常規開刀）。",
+  "basis": "刑法第 22 條",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_04",
+  "course": "crim_gen2",
+  "week": 3,
+  "type": "mc",
+  "q": "正當防衛（第 23 條）要對抗的是哪一種侵害？",
+  "options": [
+   "過去的不法侵害",
+   "現在不法之侵害",
+   "將來可能的侵害"
+  ],
+  "answer": 1,
+  "core": "正當防衛以「現在不法之侵害」為前提。",
+  "basis": "刑法第 23 條",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_05",
+  "course": "crim_gen2",
+  "week": 3,
+  "type": "mc",
+  "q": "防衛行為過當者，依第 23 條但書：",
+  "options": [
+   "仍然不罰",
+   "得減輕或免除其刑",
+   "加重其刑"
+  ],
+  "answer": 1,
+  "core": "防衛過當：得減輕或免除其刑。",
+  "basis": "刑法第 23 條",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_06",
+  "course": "crim_gen2",
+  "week": 3,
+  "type": "tf",
+  "q": "正當防衛只能防衛自己的權利，不能為了別人。",
+  "answer": false,
+  "core": "條文是「防衛自己或他人權利」。",
+  "basis": "刑法第 23 條",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_07",
+  "course": "crim_gen2",
+  "week": 4,
+  "type": "tf",
+  "q": "緊急避難保護的，包括自己或他人的生命、身體、自由、財產。",
+  "answer": true,
+  "core": "第 24 條第 1 項列了這四種法益。",
+  "basis": "刑法第 24 條第 1 項",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_08",
+  "course": "crim_gen2",
+  "week": 4,
+  "type": "mc",
+  "q": "公務上或業務上有特別義務的人，能不能為避免「自己」的危難主張緊急避難？",
+  "options": [
+   "可以",
+   "不適用避免自己危難的規定",
+   "只能減輕其刑"
+  ],
+  "answer": 1,
+  "core": "第 24 條第 2 項：有特別義務者，不適用。",
+  "basis": "刑法第 24 條第 2 項",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_09",
+  "course": "crim_gen2",
+  "week": 4,
+  "type": "tf",
+  "q": "避難行為過當者，得減輕或免除其刑。",
+  "answer": true,
+  "core": "第 24 條第 1 項但書。",
+  "basis": "刑法第 24 條第 1 項",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_10",
+  "course": "crim_gen2",
+  "week": 7,
+  "type": "mc",
+  "q": "未滿十四歲人之行為：",
+  "options": [
+   "得減輕其刑",
+   "不罰",
+   "減輕其刑"
+  ],
+  "answer": 1,
+  "core": "第 18 條第 1 項：未滿十四歲人之行為，不罰。",
+  "basis": "刑法第 18 條第 1 項",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_11",
+  "course": "crim_gen2",
+  "week": 7,
+  "type": "mc",
+  "q": "十四歲以上未滿十八歲人之行為：",
+  "options": [
+   "不罰",
+   "得減輕其刑",
+   "應加重其刑"
+  ],
+  "answer": 1,
+  "core": "第 18 條第 2 項：得減輕其刑。",
+  "basis": "刑法第 18 條第 2 項",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_12",
+  "course": "crim_gen2",
+  "week": 7,
+  "type": "tf",
+  "q": "因精神障礙不能辨識行為違法者不罰；但這是故意或過失自行招致的，不適用。",
+  "answer": true,
+  "core": "第 19 條第 1 項、第 3 項（原因自由行為）。",
+  "basis": "刑法第 19 條",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_13",
+  "course": "crim_gen2",
+  "week": 10,
+  "type": "mc",
+  "q": "依刑法第 16 條，不知道法律的人：",
+  "options": [
+   "一律免除刑事責任",
+   "除有正當理由而無法避免者外，不得免責；得減輕其刑",
+   "一律加重其刑"
+  ],
+  "answer": 1,
+  "core": "原則不能因不知法律而免責；無法避免才免責，情節可減輕。",
+  "basis": "刑法第 16 條",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_14",
+  "course": "crim_gen2",
+  "week": 11,
+  "type": "tf",
+  "q": "未遂犯，一律處罰。",
+  "answer": false,
+  "core": "未遂犯之處罰，以有特別規定者為限。",
+  "basis": "刑法第 25 條第 2 項",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_15",
+  "course": "crim_gen2",
+  "week": 11,
+  "type": "mc",
+  "q": "處罰未遂犯時，依第 25 條第 2 項：",
+  "options": [
+   "必須按既遂犯之刑減輕",
+   "得按既遂犯之刑減輕之",
+   "一律免刑"
+  ],
+  "answer": 1,
+  "core": "未遂犯「得」減輕，不是「必」減。",
+  "basis": "刑法第 25 條第 2 項",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_16",
+  "course": "crim_gen2",
+  "week": 12,
+  "type": "mc",
+  "q": "行為不能發生犯罪之結果，又無危險者（不能未遂）：",
+  "options": [
+   "不罰",
+   "得減輕其刑",
+   "和既遂一樣處罰"
+  ],
+  "answer": 0,
+  "core": "第 26 條：不能未遂，不罰。",
+  "basis": "刑法第 26 條",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_17",
+  "course": "crim_gen2",
+  "week": 12,
+  "type": "mc",
+  "q": "已著手實行，因己意中止或防止結果發生（中止未遂）：",
+  "options": [
+   "不罰",
+   "減輕或免除其刑",
+   "得減輕其刑"
+  ],
+  "answer": 1,
+  "core": "第 27 條：減輕或免除其刑。",
+  "basis": "刑法第 27 條第 1 項",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_18",
+  "course": "crim_gen2",
+  "week": 13,
+  "type": "tf",
+  "q": "二人以上共同實行犯罪之行為者，皆為正犯。",
+  "answer": true,
+  "core": "第 28 條：共同正犯。",
+  "basis": "刑法第 28 條",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_19",
+  "course": "crim_gen2",
+  "week": 14,
+  "type": "mc",
+  "q": "教唆犯依什麼處罰？",
+  "options": [
+   "依其所教唆之罪處罰",
+   "一律減輕",
+   "不罰"
+  ],
+  "answer": 0,
+  "core": "第 29 條第 2 項：依其所教唆之罪處罰之。",
+  "basis": "刑法第 29 條第 2 項",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_20",
+  "course": "crim_gen2",
+  "week": 14,
+  "type": "tf",
+  "q": "幫助犯之處罰，得按正犯之刑減輕之。",
+  "answer": true,
+  "core": "第 30 條第 2 項。",
+  "basis": "刑法第 30 條第 2 項",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_21",
+  "course": "crim_gen2",
+  "week": 14,
+  "type": "tf",
+  "q": "被幫助的人不知道有人幫他，就不成立幫助犯。",
+  "answer": false,
+  "core": "第 30 條第 1 項：雖他人不知幫助之情者，亦同。",
+  "basis": "刑法第 30 條第 1 項",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_22",
+  "course": "crim_gen2",
+  "week": 15,
+  "type": "mc",
+  "q": "一行為而觸犯數罪名者，依第 55 條：",
+  "options": [
+   "數罪併罰",
+   "從一重處斷，但不得科以較輕罪名最輕本刑以下之刑",
+   "從輕處斷"
+  ],
+  "answer": 1,
+  "core": "想像競合：從一重處斷，有輕罪最輕本刑的封鎖。",
+  "basis": "刑法第 55 條",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ },
+ {
+  "id": "crim_gen2_23",
+  "course": "crim_gen2",
+  "week": 15,
+  "type": "tf",
+  "q": "裁判確定前犯數罪者，原則上併合處罰之。",
+  "answer": true,
+  "core": "第 50 條第 1 項本文：數罪併罰（但書有例外）。",
+  "basis": "刑法第 50 條第 1 項",
+  "status": "LEGAL_REVIEW_REQUIRED"
+ }
+]
