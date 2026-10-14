@@ -1,0 +1,301 @@
+{
+ "_comment": "使用者《民法六門課程補充 40 題》（2026-10-14 約 16:50）對到遊戲課程的方式：課程照使用者自己分的（民總 1～7、債總（一）8～14、債總（二）15～22、債各 23～29、物權 30～35、身分法 36～40），週次 BB 依黑板定。",
+ "1": {
+  "id": "CIVS_01",
+  "course": "civ_general",
+  "term": "Y1S1",
+  "scopeWeek": 5,
+  "basis": "民法 §12、§13"
+ },
+ "2": {
+  "id": "CIVS_02",
+  "course": "civ_general",
+  "term": "Y1S1",
+  "scopeWeek": 5,
+  "basis": "民法 §79"
+ },
+ "3": {
+  "id": "CIVS_03",
+  "course": "civ_general",
+  "term": "Y1S1",
+  "scopeWeek": 13,
+  "basis": "民法 §95 I"
+ },
+ "4": {
+  "id": "CIVS_04",
+  "course": "civ_general",
+  "term": "Y1S1",
+  "scopeWeek": 15,
+  "basis": "民法 §167"
+ },
+ "5": {
+  "id": "CIVS_05",
+  "course": "civ_general",
+  "term": "Y1S1",
+  "scopeWeek": 11,
+  "basis": "民法 §101 I",
+  "flags": [
+   "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 11 週（民法總則沒有講條件那一週，最接近的是第 11 週「法律行為」）。"
+  ]
+ },
+ "6": {
+  "id": "CIVS_06",
+  "course": "civ_general",
+  "term": "Y1S1",
+  "scopeWeek": 16,
+  "basis": "民法 §129"
+ },
+ "7": {
+  "id": "CIVS_07",
+  "course": "civ_general",
+  "term": "Y1S1",
+  "scopeWeek": 12,
+  "basis": "民法 §71"
+ },
+ "8": {
+  "id": "CIVS_08",
+  "course": "oblig_gen1",
+  "term": "Y1S2",
+  "scopeWeek": 2,
+  "basis": "民法 §153 I"
+ },
+ "9": {
+  "id": "CIVS_09",
+  "course": "oblig_gen1",
+  "term": "Y1S2",
+  "scopeWeek": 5,
+  "basis": "民法 §164 I"
+ },
+ "10": {
+  "id": "CIVS_10",
+  "course": "oblig_gen1",
+  "term": "Y1S2",
+  "scopeWeek": 14,
+  "basis": "民法 §184 I"
+ },
+ "11": {
+  "id": "CIVS_11",
+  "course": "oblig_gen1",
+  "term": "Y1S2",
+  "scopeWeek": 15,
+  "basis": "民法 §188 I"
+ },
+ "12": {
+  "id": "CIVS_12",
+  "course": "oblig_gen1",
+  "term": "Y1S2",
+  "scopeWeek": 10,
+  "basis": "民法 §172"
+ },
+ "13": {
+  "id": "CIVS_13",
+  "course": "oblig_gen1",
+  "term": "Y1S2",
+  "scopeWeek": 12,
+  "basis": "民法 §179"
+ },
+ "14": {
+  "id": "CIVS_14",
+  "course": "oblig_gen1",
+  "term": "Y1S2",
+  "scopeWeek": 16,
+  "basis": "民法 §249 ②",
+  "flags": [
+   "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 16 週（債總（一）沒有講定金那一週，放第 16 週）。"
+  ]
+ },
+ "15": {
+  "id": "CIVS_15",
+  "course": "oblig_gen2",
+  "term": "Y2S1",
+  "scopeWeek": 3,
+  "basis": "民法 §229 I"
+ },
+ "16": {
+  "id": "CIVS_16",
+  "course": "oblig_gen2",
+  "term": "Y2S1",
+  "scopeWeek": 3,
+  "basis": "民法 §231 II"
+ },
+ "17": {
+  "id": "CIVS_17",
+  "course": "oblig_gen2",
+  "term": "Y2S1",
+  "scopeWeek": 5,
+  "basis": "民法 §227 I"
+ },
+ "18": {
+  "id": "CIVS_18",
+  "course": "oblig_gen2",
+  "term": "Y2S1",
+  "scopeWeek": 11,
+  "basis": "民法 §264 I"
+ },
+ "19": {
+  "id": "CIVS_19",
+  "course": "oblig_gen2",
+  "term": "Y2S1",
+  "scopeWeek": 13,
+  "basis": "民法 §297 I"
+ },
+ "20": {
+  "id": "CIVS_20",
+  "course": "oblig_gen2",
+  "term": "Y2S1",
+  "scopeWeek": 13,
+  "basis": "民法 §300"
+ },
+ "21": {
+  "id": "CIVS_21",
+  "course": "oblig_gen2",
+  "term": "Y2S1",
+  "scopeWeek": 14,
+  "basis": "民法 §334 I"
+ },
+ "22": {
+  "id": "CIVS_22",
+  "course": "oblig_gen2",
+  "term": "Y2S1",
+  "scopeWeek": 14,
+  "basis": "民法 §343"
+ },
+ "23": {
+  "id": "CIVS_23",
+  "course": "oblig_spec",
+  "term": "Y2S2",
+  "scopeWeek": 3,
+  "basis": "民法 §345 I"
+ },
+ "24": {
+  "id": "CIVS_24",
+  "course": "oblig_spec",
+  "term": "Y2S2",
+  "scopeWeek": 3,
+  "basis": "民法 §359"
+ },
+ "25": {
+  "id": "CIVS_25",
+  "course": "oblig_spec",
+  "term": "Y2S2",
+  "scopeWeek": 4,
+  "basis": "民法 §421 I"
+ },
+ "26": {
+  "id": "CIVS_26",
+  "course": "oblig_spec",
+  "term": "Y2S2",
+  "scopeWeek": 15,
+  "basis": "民法 §490 I"
+ },
+ "27": {
+  "id": "CIVS_27",
+  "course": "oblig_spec",
+  "term": "Y2S2",
+  "scopeWeek": 10,
+  "basis": "民法 §528"
+ },
+ "28": {
+  "id": "CIVS_28",
+  "course": "oblig_spec",
+  "term": "Y2S2",
+  "scopeWeek": 14,
+  "basis": "民法 §408 I"
+ },
+ "29": {
+  "id": "CIVS_29",
+  "course": "oblig_spec",
+  "term": "Y2S2",
+  "scopeWeek": 16,
+  "basis": "民法 §589 I",
+  "flags": [
+   "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 16 週（民法債編各論沒有講寄託那一週，放回顧週）。"
+  ]
+ },
+ "30": {
+  "id": "CIVS_30",
+  "course": "property",
+  "term": "Y2S1",
+  "scopeWeek": 2,
+  "basis": "民法 §757"
+ },
+ "31": {
+  "id": "CIVS_31",
+  "course": "property",
+  "term": "Y2S1",
+  "scopeWeek": 4,
+  "basis": "民法 §761 I"
+ },
+ "32": {
+  "id": "CIVS_32",
+  "course": "property",
+  "term": "Y2S1",
+  "scopeWeek": 7,
+  "basis": "民法 §823 I"
+ },
+ "33": {
+  "id": "CIVS_33",
+  "course": "property",
+  "term": "Y2S1",
+  "scopeWeek": 11,
+  "basis": "民法 §832",
+  "flags": [
+   "和《民法 40 題》第 36 題考同一個點（§832 普通地上權的意義），兩題都在民法物權。要不要兩題都留，請使用者決定。"
+  ]
+ },
+ "34": {
+  "id": "CIVS_34",
+  "course": "property",
+  "term": "Y2S1",
+  "scopeWeek": 12,
+  "basis": "民法 §860",
+  "flags": [
+   "和《民法 40 題》第 34 題考同一個點（§860 普通抵押權的意義），兩題都在民法物權。要不要兩題都留，請使用者決定。"
+  ]
+ },
+ "35": {
+  "id": "CIVS_35",
+  "course": "property",
+  "term": "Y2S1",
+  "scopeWeek": 13,
+  "basis": "民法 §884"
+ },
+ "36": {
+  "id": "CIVS_36",
+  "course": "family_law",
+  "term": "Y2S2",
+  "scopeWeek": 2,
+  "basis": "民法 §968"
+ },
+ "37": {
+  "id": "CIVS_37",
+  "course": "family_law",
+  "term": "Y2S2",
+  "scopeWeek": 4,
+  "basis": "民法 §982",
+  "flags": [
+   "和《民法 40 題》第 37 題考同一個點（§982 結婚的形式要件），兩題都在民法身分法。要不要兩題都留，請使用者決定。"
+  ]
+ },
+ "38": {
+  "id": "CIVS_38",
+  "course": "family_law",
+  "term": "Y2S2",
+  "scopeWeek": 6,
+  "basis": "民法 §1050"
+ },
+ "39": {
+  "id": "CIVS_39",
+  "course": "family_law",
+  "term": "Y2S2",
+  "scopeWeek": 13,
+  "basis": "民法 §1147"
+ },
+ "40": {
+  "id": "CIVS_40",
+  "course": "family_law",
+  "term": "Y2S2",
+  "scopeWeek": 15,
+  "basis": "民法 §1174 II"
+ }
+}
