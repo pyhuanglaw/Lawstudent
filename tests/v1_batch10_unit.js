@@ -3,7 +3,8 @@
 //   A20 聖誕交換禮物（AA_71 2-6「大一的實作」，AA 2026-10-14）：麵店團群組在第 17 週週一 12/22 21:00 收到阿哲「聖誕交換禮物，週三中午，霖澤館一樓。一百五以內。」
 //     （沒有群組＝沒有；週二才加入＝加入時收到；週三 12:20 以後不再傳）；12/24 週三 12:20～13:10 在霖澤館一樓、有群組才會開始（二樓、13:10 以後、別週、沒有群組都不會）；
 //     祐廷選三種禮物之一；抽到他禮物的人、他抽到誰的從在場（認識）的人裡挑，七個人三種禮物的反應照 AA 原文（21 句）；語彤抽到筆記本記 GIFT_NOTEBOOK_YT；
-//     明軒和小語都在＝明軒抽到小語的玩偶（旁白），祐廷不會抽到小語的；柏翰的考古題：以安在才有「沒收。」；只認識阿哲＝兩個都是阿哲；只一次。
+//     明軒和小語都在、抽到祐廷禮物的不是明軒＝明軒抽到小語的玩偶（旁白），祐廷不會抽到小語的；柏翰的考古題：以安在才有「沒收。」，旁白的「又」只給中秋烤肉看過沒收的玩家（AA）；
+//     明軒的禮物（BB_95 3-6b）：三色螢光筆，祐廷抽到時三種台詞（沒有／SAW_HIM_STUDY／綠色螢光筆），別人抽到＝阿哲、明軒各一句，明軒不在就沒有；只認識阿哲＝兩個都是阿哲；只一次。
 // 用法：node tests/v1_batch10_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -34,9 +35,9 @@ const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.t
 const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
 const WHO=['heroine_01','heroine_03','zhe','classmate_bohan','classmate_xinci','yu','classmate_mingxuan'];
 let rnd=[]; const R0=Math.random; Math.random=()=>rnd.length?rnd.shift():R0();
-/* 一次跑一場：known＝認識的人；gift＝選哪一種；toIdx／fromIdx＝在場名單（照 XMAS_WHO 的順序）裡第幾個 */
-const runX=async(known,gift,toIdx,fromIdx)=>{ const WED=termDay(17,3); fresh(WED,12.5,'linze',{}); PHONE.join(G,'noodle_team','麵店團'); for(const id of known) meet(id); E.player.lv=0;
-  const here=XMAS_HERE(G); rnd=[]; if(toIdx!=null) rnd.push((toIdx+0.5)/here.length); if(fromIdx!=null) rnd.push(fromIdx); picks=[gift]; await EVENTS.run(ev('ev_xmas_exchange')); rnd=[]; return {here,F:G.flags,L:lines()}; };
+/* 一次跑一場：known＝認識的人；gift＝選哪一種；toIdx＝在場名單（照 XMAS_WHO 的順序）裡第幾個或人物代號；fromIdx＝抽禮物那一次的亂數值 */
+const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3); fresh(WED,12.5,'linze',flags||{}); PHONE.join(G,'noodle_team','麵店團'); for(const id of known) meet(id); if(setup) setup(); E.player.lv=0;
+  const here=XMAS_HERE(G); rnd=[]; if(typeof toIdx==='string') toIdx=here.indexOf(toIdx); if(toIdx!=null) rnd.push((toIdx+0.5)/here.length); if(fromIdx!=null) rnd.push(fromIdx); picks=[gift]; await EVENTS.run(ev('ev_xmas_exchange')); rnd=[]; return {here,F:G.flags,L:lines()}; };
 (async()=>{
   const MON=termDay(17,1), TUE=MON+1, WED=MON+2;
   /* ---------- 群組的揪 ---------- */
@@ -72,8 +73,8 @@ const runX=async(known,gift,toIdx,fromIdx)=>{ const WED=termDay(17,3); fresh(WED
     check('A20：只認識阿哲＝抽到祐廷禮物的、祐廷抽到的都是阿哲（滷味：「冷掉了，但很好吃。」）',JSON.stringify(r.here)==='["zhe"]'&&r.F.XMAS_TO==='zhe'&&r.F.XMAS_FROM==='zhe'&&r.L.includes('你抽到阿哲的禮物：一盒滷味。')&&r.L.includes('冷掉了，但很好吃。'),JSON.stringify(r.L));
     check('A20：只認識阿哲＝沒有別人的句子（以安沒收、明軒的玩偶、其他人的反應）',!r.L.some(t=>/以安|明軒|小語|柏翰|芯慈|語彤/.test(t)),JSON.stringify(r.L));
     const all=WHO.filter(x=>x!=='zhe'); const seen={}; let yuFrom=0, same=0;
-    for(let n=0;n<80;n++){ const r2=await runX(all,'一張手寫卡片',null,null); seen[r2.F.XMAS_FROM]=1; if(r2.F.XMAS_FROM==='yu') yuFrom++; if(r2.F.XMAS_FROM===r2.F.XMAS_TO) same++; }
-    check('A20：明軒和小語都在＝祐廷不會抽到小語的玩偶（是明軒抽到）、也不會抽到明軒的（AA 沒寫明軒的禮物）',yuFrom===0&&!seen.classmate_mingxuan,JSON.stringify(seen));
+    for(let n=0;n<80;n++){ const r2=await runX(all,'一張手寫卡片',null,null); seen[r2.F.XMAS_FROM]=1; if(r2.F.XMAS_FROM==='yu'&&r2.F.XMAS_TO!=='classmate_mingxuan') yuFrom++; if(r2.F.XMAS_FROM===r2.F.XMAS_TO) same++; }
+    check('A20：明軒和小語都在、抽到祐廷禮物的不是明軒＝祐廷不會抽到小語的玩偶（是明軒抽到）；明軒的螢光筆抽得到（BB_95 3-6b）',yuFrom===0&&!!seen.classmate_mingxuan,JSON.stringify(seen));
     check('A20：在場有兩個人以上＝祐廷抽到的和抽到祐廷禮物的不是同一個人',same===0);
     r=await runX(all,'一張手寫卡片',0,0.0); check('A20：明軒和小語都在＝旁白「明軒抽到小語的巨大玩偶，揹著它去搭公車。」',r.L.includes('明軒抽到小語的巨大玩偶，揹著它去搭公車。'));
     r=await runX(all.filter(x=>x!=='classmate_mingxuan'),'一張手寫卡片',0,null); let tries=0; while(r.F.XMAS_FROM!=='yu'&&tries++<60) r=await runX(all.filter(x=>x!=='classmate_mingxuan'),'一張手寫卡片',0,null);
@@ -83,7 +84,23 @@ const runX=async(known,gift,toIdx,fromIdx)=>{ const WED=termDay(17,3); fresh(WED
     check('A20：祐廷抽到柏翰的考古題、以安在＝以安「沒收。」',r.F.XMAS_FROM==='classmate_bohan'&&i1>=0&&r.L[i1+1]==='沒收。'&&said[i1+1].who!==null,JSON.stringify(r.L.slice(-3)));
     r=await withBohan(['classmate_bohan','heroine_03']); check('A20：以安不在＝沒有「沒收。」',r.F.XMAS_FROM==='classmate_bohan'&&!r.L.includes('沒收。')&&!r.L.some(t=>/以安/.test(t)),JSON.stringify(r.L.slice(-3)));
     let r4=null; for(let n=0;n<80;n++){ r4=await runX(['heroine_01','classmate_bohan','heroine_03'],'一張手寫卡片',null,null); if(r4.F.XMAS_FROM!=='classmate_bohan') break; }
-    check('A20：柏翰、以安都在、祐廷沒抽到考古題＝旁白「柏翰送的考古題，又被以安沒收了。」',r4.F.XMAS_FROM!=='classmate_bohan'&&r4.L.includes('柏翰送的考古題，又被以安沒收了。'));
+    check('A20：柏翰、以安都在、祐廷沒抽到考古題、中秋沒看到沒收＝旁白「柏翰送的考古題，被以安沒收了。」（沒有「又」）',r4.F.XMAS_FROM!=='classmate_bohan'&&r4.L.includes('柏翰送的考古題，被以安沒收了。')&&!r4.L.includes('柏翰送的考古題，又被以安沒收了。'),JSON.stringify(r4.L.slice(-3)));
+    const notBohan=async(flags)=>{ let r5=null; for(let n=0;n<80;n++){ r5=await runX(['heroine_01','classmate_bohan','heroine_03'],'一張手寫卡片',null,null,flags); if(r5.F.XMAS_FROM!=='classmate_bohan') break; } return r5; };
+    r4=await notBohan({MIDAUTUMN_Y1:true,BBQ_BOHAN_SEIZED:true}); check('A20：中秋烤肉看過柏翰的考古題被沒收（MIDAUTUMN_Y1＋那一句有出現）＝「柏翰送的考古題，又被以安沒收了。」（AA 交付清單 A20）',r4.L.includes('柏翰送的考古題，又被以安沒收了。')&&!r4.L.includes('柏翰送的考古題，被以安沒收了。'),JSON.stringify(r4.L.slice(-3)));
+    r4=await notBohan({MIDAUTUMN_Y1:true}); check('A20：去了中秋烤肉、但那時還不認識柏翰（沒看到沒收）＝沒有「又」',r4.L.includes('柏翰送的考古題，被以安沒收了。')&&!r4.L.includes('柏翰送的考古題，又被以安沒收了。'));
+    /* A13 中秋烤肉：認識柏翰才有「柏翰帶了考古題，被沒收了。」，同時記 BBQ_BOHAN_SEIZED（A20 的「又」）*/
+    const bbq=async(knowBohan)=>{ fresh(termDay(5,6),15,'campus',{}); PHONE.join(G,'noodle_team','麵店團'); if(knowBohan) meet('classmate_bohan'); picks=[]; await EVENTS.runLines(ev('ev_mid_autumn_bbq').dialogue,ev('ev_mid_autumn_bbq')); return {L:lines(),F:G.flags}; };
+    let b1=await bbq(true), b0=await bbq(false); check('A13：認識柏翰＝「柏翰帶了考古題，被沒收了。」＋記 BBQ_BOHAN_SEIZED；不認識＝兩個都沒有',b1.L.includes('柏翰帶了考古題，被沒收了。')&&b1.F.BBQ_BOHAN_SEIZED===true&&!b0.L.includes('柏翰帶了考古題，被沒收了。')&&!b0.F.BBQ_BOHAN_SEIZED,JSON.stringify({b1:b1.F.BBQ_BOHAN_SEIZED,b0:b0.F.BBQ_BOHAN_SEIZED}));
+    /* 明軒的聖誕禮物（BB_95 3-6b，BB 2026-10-14）：一組三色螢光筆；祐廷抽到時三種台詞；別人抽到＝阿哲一句、明軒一句；明軒不在＝抽不到 */
+    const MXL='多買的。……我用不到啦。', MX_SAW='……你什麼都沒看到。', MX_GREEN='上次那支綠的還在嗎？……這樣你有四種了。';
+    const mxGift=async(setup,flags)=>runX(['zhe','classmate_mingxuan'],'一包咖啡豆',0,0,flags,setup);
+    r=await mxGift(null,null); check('A20 明軒的禮物：祐廷抽到（沒看過他念書）＝「你抽到明軒的禮物：一組三色螢光筆，黃、粉紅、藍。」「多買的。……我用不到啦。」、沒有另外兩句；記 XMAS_HL3（道具）',r.F.XMAS_FROM==='classmate_mingxuan'&&r.L.includes('你抽到明軒的禮物：一組三色螢光筆，黃、粉紅、藍。')&&r.L.includes(MXL)&&!r.L.includes(MX_SAW)&&!r.L.includes(MX_GREEN)&&r.F.XMAS_HL3===true,JSON.stringify(r.L.slice(-4)));
+    r=await mxGift(()=>SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY',''),null); check('A20 明軒的禮物：有 SAW_HIM_STUDY（M1）＝多一句「……你什麼都沒看到。」',r.L.includes(MXL)&&r.L.indexOf(MX_SAW)===r.L.indexOf(MXL)+1&&!r.L.includes(MX_GREEN),JSON.stringify(r.L.slice(-4)));
+    r=await mxGift(()=>SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY',''),{GREEN_HIGHLIGHTER:true}); check('A20 明軒的禮物：有綠色螢光筆（M1 坐到他旁邊）＝那一句換成「上次那支綠的還在嗎？……這樣你有四種了。」',r.L.includes(MXL)&&r.L.indexOf(MX_GREEN)===r.L.indexOf(MXL)+1&&!r.L.includes(MX_SAW),JSON.stringify(r.L.slice(-4)));
+    check('A20 明軒的禮物：祐廷抽到的時候沒有「你送螢光筆？你？」（那是別人抽到時）',!r.L.includes('你送螢光筆？你？'));
+    r=await runX(['zhe','classmate_mingxuan'],'一包咖啡豆',1,0); check('A20 明軒的禮物：別人抽到（祐廷抽到阿哲的）＝阿哲「你送螢光筆？你？」明軒「多買的啦。」、沒有祐廷抽到時的句子、不記道具',r.F.XMAS_TO==='classmate_mingxuan'&&r.F.XMAS_FROM==='zhe'&&r.L.indexOf('多買的啦。')===r.L.indexOf('你送螢光筆？你？')+1&&r.L.includes('你送螢光筆？你？')&&!r.L.includes(MXL)&&!r.F.XMAS_HL3,JSON.stringify(r.L.slice(-4)));
+    { const noMx=WHO.filter(x=>x!=='classmate_mingxuan'); let mxSeen=0, hl=0; for(let n=0;n<60;n++){ const r6=await runX(noMx,'一張手寫卡片',null,null); if(r6.F.XMAS_FROM==='classmate_mingxuan'||r6.L.some(t=>/螢光筆/.test(t))) mxSeen++; } check('A20 明軒的禮物：明軒不在＝抽不到他的、也沒有螢光筆的句子（60 次）',mxSeen===0,String(mxSeen)); }
+    r=await runX(['yu','classmate_mingxuan'],'一張手寫卡片','classmate_mingxuan',0.99); check('A20：抽到祐廷禮物的是明軒（小語也在）＝明軒抽的是祐廷的，沒有「明軒抽到小語的巨大玩偶」；祐廷抽得到小語的玩偶',r.F.XMAS_TO==='classmate_mingxuan'&&r.F.XMAS_FROM==='yu'&&r.L.includes('你抽到小語的禮物：一個巨大的玩偶。')&&!r.L.includes('明軒抽到小語的巨大玩偶，揹著它去搭公車。'),JSON.stringify(r.L.slice(-3)));
     r=await runX(['heroine_01'],'一張手寫卡片',0,0); const F=G.flags; check('A20：只一次（演完再檢查不會開始）；記 XMAS_Y1',F.XMAS_Y1===true&&!EVENTS.check(ev('ev_xmas_exchange'))); }
   /* ---------- 可昕 K2 她第一次來台大（BB_95 9-3）---------- */
   { const FRI=termDay(6,5), SAT=FRI+1;
