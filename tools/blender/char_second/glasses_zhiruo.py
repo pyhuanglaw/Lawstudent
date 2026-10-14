@@ -1,8 +1,9 @@
 """林芷若的眼鏡（D59：BB 通過的參考圖 06——淺色細金屬圓框眼鏡，在 Café 工作時也戴）→ GLB。LAWWW2；Blender 5.2（bpy，無介面）：
   /opt/blenv/bin/python tools/blender/char_second/glasses_zhiruo.py [-- --out assets/models/char/second_ai/glasses_zhiruo.glb]
 
-現在遊戲裡的眼鏡是 src/props3d.js 的 glasses()（three.js 程式產生：深棕色 #7d6a5c、橢圓 5×3.5 cm）；這個 GLB 照參考圖改成淺香檳金、圓框（直徑 4.4 cm）、
-細金屬線（1.5 mm）、鼻托、鉸鏈、鏡腳（往後 10 cm、尾端往下彎掛耳朵），鏡片幾乎透明（一點點藍灰）。
+現在遊戲裡的眼鏡是 src/props3d.js 的 glasses()（three.js 程式產生：深棕色 #7d6a5c、橢圓 5×3.5 cm）；這個 GLB 照參考圖改成霧面玫瑰金（淺色金屬）、圓框（直徑 4.4 cm）、
+細金屬線（1.7 mm）、鼻托、鉸鏈、鏡腳（往後 10 cm、尾端往下彎掛耳朵），鏡片幾乎透明（一點點藍灰）。
+第一版是淺香檳金 #d6c49c、1.5 mm：在遊戲渲染器裡比皮膚還淺，幾乎看不見（參考圖 06 的鏡框比皮膚深、比頭髮淺，偏玫瑰金／灰褐）。
 座標＝props3d.js 的眼鏡座標（模型空間，three.js）：原點在兩個鏡片中心的中點、鏡片在 xy 平面、**前方是 −z**、鏡腳往 +z（後腦）。
 兩個鏡片中心相距 8.4 cm（和 props3d 的 ipd 0.084 一樣：VRoid 的眼睛間距比真人寬），props3d 照眼睛骨頭的位置、骨頭縮放放上去（attach 的 eyes:true），
 所以 GLB 直接取代 glasses() 回傳的 Group 就好，不用再轉 180°（舊的程式產生版本是畫成前方 +z、最後轉 π）。
@@ -15,9 +16,9 @@ from lib2 import B, Mesh, g2b, bpy, bmesh, Vector   # noqa: E402
 
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 OUT = os.path.join(L.ROOT, ARGS[ARGS.index('--out') + 1] if '--out' in ARGS else 'assets/models/char/second_ai/glasses_zhiruo.glb')
-SEP, R_RIM, WIRE = 0.084, 0.022, 0.00075          # 鏡片中心距、鏡框半徑（中心線）、金屬線半徑
+SEP, R_RIM, WIRE = 0.084, 0.022, 0.00085          # 鏡片中心距、鏡框半徑（中心線）、金屬線半徑
 B.reset(texres=256)
-M = {'frame': L.flat('glasses_frame', '#d6c49c', rough=0.28, metal=0.45),
+M = {'frame': L.flat('glasses_frame', '#a68b80', rough=0.32, metal=0.45),
      'lens': L.flat('glasses_lens', '#dfe8ee', rough=0.05, alpha=0.12)}
 root = B.group('glasses_zhiruo', props={'kind': 'prop_glasses', 'owner': 'heroine_02', 'ipd': SEP, 'front': '-z'})
 fr = Mesh('glasses_frame', M['frame']); ln = Mesh('glasses_lens', M['lens'])

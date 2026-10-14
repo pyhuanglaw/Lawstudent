@@ -76,22 +76,26 @@ def build_skirt(skin, arm, mb, S):
 
 
 def skirt_weights(skin, mb, wsrc, arm):
-    """裙頭、臀部：身體最近點；往下：原本連身裙裙擺的權重（裙擺骨頭）；裙擺再混同一側的大腿"""
-    V = np.array(mb.V); tags = np.array(mb.tag); m = tags == 'skirt'; Q = V[m]
+    """芯慈第九版：裙子只綁腰臀＋大腿，不用 VRoid 連身裙的裙擺骨頭（彈簧骨）——
+    第八版在遊戲裡坐下（大腿往前 83°）時，裙擺骨頭被腿的碰撞體往外擠，整條裙子炸成一個圓盤。
+    裙頭、臀部（髖關節以上）：身體最近點；髖關節以下：同一側的大腿（胯部 70%、裙擺 90%）＋其餘給臀部；
+    兩腿之間左右平滑混合。坐下時裙子順著大腿蓋在腿上；走路時跟著大腿前後擺（兩腿之間的布會被拉開一點）。wsrc 不再使用"""
+    V = np.array(mb.V); tags = np.array(mb.tag); m = tags == 'skirt'; Q = V[m]; n = len(Q)
     near = skin.nearest_weights(Q)
     bust = [skin.col(b) for b in K.BUST if skin.col(b) is not None]; near[:, bust] = 0
-    src = K.Skin(wsrc); Ws = src.nearest_weights(Q)
-    Wsk = np.zeros_like(near); col = {n: j for j, n in enumerate(skin.names)}
-    for j, n in enumerate(src.names):
-        if n in col: Wsk[:, col[n]] += Ws[:, j]
-    print('  skirt weight source: bones', sorted({n for j, n in enumerate(src.names) if Ws[:, j].max() > 0.05})[:12])
-    a = K.sstep(0.95, 0.80, Q[:, 2])[:, None]                         # 0＝裙頭、1＝胯部以下
-    W = (1 - a) * near + a * Wsk
-    knee = C.bone_head(arm, 'J_Bip_L_LowerLeg')[2]
-    f = 0.28 * K.sstep(0.85, knee, Q[:, 2])                          # 往下越多跟著大腿
-    sideL = K.sstep(-0.03, 0.03, Q[:, 0])                            # +x＝人物左邊
-    Wleg = K.axis_weights(skin, len(Q), [('J_Bip_L_UpperLeg', sideL), ('J_Bip_R_UpperLeg', 1 - sideL)])
-    W = W * (1 - f)[:, None] + Wleg * f[:, None]
+    zj = 0.5 * (C.bone_head(arm, 'J_Bip_L_UpperLeg')[2] + C.bone_head(arm, 'J_Bip_R_UpperLeg')[2])   # 髖關節高度
+    zm = float(Q[:, 2].min())
+    a = K.sstep(zj + 0.04, zj - 0.10, Q[:, 2])[:, None]                # 0＝髖關節以上、1＝胯部以下
+    # 跟大腿的比例看位置：前面 0.9（坐下時蓋在腿上）、兩側 0.5（斜斜垂下）、後面 0.15（留在臀部下面）；胯部再少一點
+    # （第九版整圈 0.7–0.9：A 字裙擺整圈跟著大腿往前轉 83°，坐下時前面立起一個大圓盤）
+    cy = C.bone_head(arm, 'J_Bip_C_Hips')[1]
+    dxy = np.stack([Q[:, 0], Q[:, 1] - cy], -1); front = -dxy[:, 1] / np.maximum(np.linalg.norm(dxy, axis=1), 1e-6)   # 1＝正前方（-y）、-1＝正後方
+    k = np.where(front >= 0, 0.5 + 0.4 * front, 0.5 + 0.35 * front) * (0.8 + 0.2 * K.sstep(zj - 0.10, zm, Q[:, 2]))
+    sideL = K.sstep(-0.035, 0.035, Q[:, 0])                            # +x＝人物左邊
+    Wleg = K.axis_weights(skin, n, [('J_Bip_L_UpperLeg', sideL * k), ('J_Bip_R_UpperLeg', (1 - sideL) * k), ('J_Bip_C_Hips', 1 - k)])
+    W = (1 - a) * near + a * Wleg
+    W = W / np.maximum(W.sum(1, keepdims=True), 1e-9)
+    print('  skirt weights: hips/thighs only (no skirt spring bones); hip joint z %.3f, hem z %.3f; thigh share front %.2f side %.2f back %.2f' % (zj, zm, k[front > 0.95].mean() if (front > 0.95).any() else -1, k[np.abs(front) < 0.1].mean() if (np.abs(front) < 0.1).any() else -1, k[front < -0.95].mean() if (front < -0.95).any() else -1))
     return m, W
 
 

@@ -2950,3 +2950,72 @@ patch 的內容（只動 `src/zones3d.js` 的 `lake()`、校園載入的地方�
 | 亭子裡（手機直向 390×844） | （這一張被「請把手機轉成橫向」的提示蓋住：跑現在的遊戲那一輪時，測試腳本還沒先點掉提示；鏡頭量測在提示底下照樣做了） | ![正式模型](shots/lakeint_final_portrait_pav.webp) |
 
 **還沒做／沒測**：iPhone 實機；晚上的燈光（亭子沒有燈，湖邊是原本的路燈）；NPC 走上木棧道（目前湖邊沒有排 NPC 的路線）。
+
+## 32. 人物（D59）：吳芯慈、林芷若的眼鏡（Blender／VRM；**還沒接進遊戲**；角色美術由 BB 驗收）
+
+D59：角色美術改由 BB 驗收；LAWWW2 照 BB 通過的參考圖改 Blender／VRM，**遊戲內截圖由 LAWWW 接進遊戲後拍給 BB**。下面的「遊戲渲染器」是 LAWWW 的 `test_charlook.html`（遊戲本身的 `ASSETS`＋`CHAR.build`＋`PROPS`、白天的光線、待機／走路動畫、坐姿）——**不是遊戲內截圖**；Playwright＋SwiftShader，不是 iPhone。
+
+### 32.1 吳芯慈（`classmate_xinci`，法律系一年級，160 cm）
+
+**參考圖**：BB 通過的 `classmate_xinci.webp`（`claude/story-planning` 分支 `docs/story_planning/art_reference/`，README：「整齊的低髮髻【已定案】（現有 3D 是長直髮，要改）」）——整齊的低髮髻、透得到額頭的空氣瀏海、臉旁細碎髮、淺紫色開襟衫（敞開）＋白色圓領 T、深藍色及膝 A 字裙、棕色樂福鞋。
+
+**做法**：`tools/blender/char_second/classmate_xinci.py`（`x_xinci_face.py`、`x_xinci_clothes.py`、`x_xinci_hair.py`），沿用 LAWWW 的人物生產線 `tools/blender/char/`（`common.py`、`h01_*`、`p00_*`、`vrm_finish.py`）。底模：VRoid β 版 CC0 樣本「Darkness Shibu」（VRM meta `licenseName: CC0`；`tools/fetch_vroid_src.sh` 取得）；頭髮、衣服、鞋的網格與貼圖由腳本產生。
+完整流程（無介面 Blender 5.2）：`/opt/blenv/bin/python tools/blender/char_second/classmate_xinci.py -- x.vrm --stages stage0,face,clothes,hair` → `VRM_BASE=Darkness_Shibu python3 tools/blender/char/vrm_finish.py x.vrm assets/models/char/second_ai/bl_classmate_xinci.vrm 吳芯慈 '#3a2a22'`。
+
+**檔案**：`assets/models/char/second_ai/bl_classmate_xinci.vrm`（**3.17 MB**；三角形 34,270＝臉 5,138、身體 4,344、衣服 12,604〔開襟衫 6,072、裙子 2,208、樂福鞋 1,648、白 T 2,676〕、頭髮 12,184；14 個材質、20 張貼圖；彈簧骨 2 組：胸、臉旁碎髮）。
+
+**這一輪改了什麼（第六 → 第十版）**：
+1. 白 T 整件重做（領口在脖子根部、紮進裙子），身體皮膚收進 T 恤裡（第五版胸口有兩塊粉紅色穿模）。
+2. 瀏海：第六版一根根細針、額頭空很多（像梳齒）→ 第八版每片髮束下段分成 3 小撮＋第二排交錯的髮束，正面看是一片透得到額頭的空氣瀏海；頭頂與兩側加蓬 2–3.5 mm（第七版像往後梳的油頭）；往後梳的髮片拱起變小、起點收進底下（頭頂剪影的城牆狀凹凸）；太陽穴碎髮縮短（頭頂剪影外多一條細線）；臉旁兩綹變細。
+3. **坐姿的裙子**（遊戲渲染器才發現）：第八版裙子跟著 VRoid 連身裙的裙擺彈簧骨，坐下時（大腿往前 83°）被腿的碰撞體往外擠，**整條裙子炸成一個圓盤**；第九版改成整圈跟大腿 → 前面立起一個大圓盤；**第十版**：拿掉裙擺彈簧骨，裙子只綁腰臀＋大腿，前面 76%、兩側 43%、後面 13% 跟大腿（坐下時蓋在腿上、兩側往下垂；走路時跟著腿擺）。
+
+| | |
+|---|---|
+| Blender 渲染：第六版、第八版、參考圖（臉部特寫；第十版只改裙子權重，T 姿勢和第八版一樣） | ![第六版 → 第八版 → 參考圖](shots/xinci_v6_v8_ref.webp) |
+| 坐姿（遊戲渲染器）：第八版（正面、45°）→ 第十版（正面、45°） | ![坐姿 第八版 → 第十版](shots/xinci_sit_v8_v10.webp) |
+
+Blender 渲染（第八版 T 姿勢；Eevee；**不是遊戲畫面**）：
+
+| 臉 正面 | 臉 45° | 臉 側面 | 全身 |
+|---|---|---|---|
+| ![](shots/xinci_blender_face_front.webp) | ![](shots/xinci_blender_face_q45.webp) | ![](shots/xinci_blender_face_side.webp) | ![](shots/xinci_blender_body_front.webp) |
+
+遊戲渲染器（第十版＝交付版；`tools/blender/char_second/xinci_lookdev.py`：Playwright 攔截 `test_charlook.html`，加一個 manifest 項目〔照陳語彤的設定、換成這個 VRM、身高 1.60、沒有配件〕，不改任何檔案）：
+
+| 臉 正面 | 臉 45° | 臉 側面 |
+|---|---|---|
+| ![](shots/xinci_look_face_front.webp) | ![](shots/xinci_look_face_q45.webp) | ![](shots/xinci_look_face_side.webp) |
+| **全身 正面（待機）** | **全身 45°** | **全身 背面** |
+| ![](shots/xinci_look_body_front.webp) | ![](shots/xinci_look_body_q45.webp) | ![](shots/xinci_look_body_back.webp) |
+| **走路 45°** | **走路 側面** | **坐下 正面** |
+| ![](shots/xinci_look_body_q45_walk.webp) | ![](shots/xinci_look_body_side_walk.webp) | ![](shots/xinci_look_body_front_sit.webp) |
+| **坐下 45°** | **坐下 側面** | |
+| ![](shots/xinci_look_body_q45_sit.webp) | ![](shots/xinci_look_body_side_sit.webp) | |
+
+**接法（LAWWW 決定）**：`ASSETS.manifest` 加 `'char.classmate_xinci':{url:'assets/models/char/second_ai/bl_classmate_xinci.vrm', type:'vrm', anims:'char.mixamo_clips', height:1.60, source:'…', license:'CC0 底模＋本作'}`，`CHARACTERS.classmate_xinci.char3d` 加 `model:'char.classmate_xinci'`（現在是程序化 spec，`hair:'longStraight'`）。托特包、手錶、四色筆還沒做（參考圖的配件；之後可以用 `src/props3d.js` 的 `tote` 或另外做）。
+
+**驗收狀態**：`MODEL_READY`（還沒接進遊戲）→ LAWWW 接進遊戲、拍遊戲內截圖給 BB → `READY_FOR_ART_REVIEW`。**不標 `ART_APPROVED`**。
+
+**還沒達到參考品質的地方（自評）**：
+- 瀏海還是比參考圖細、短（參考圖的瀏海蓋到眼皮、更蓬）；頭頂剪影還有幾個小凹凸；45° 看頭頂有一兩根翹起的細髮片。
+- 開襟衫後領立在脖子後面（參考圖是平貼的圓領），肩膀看起來比參考圖蓬。
+- 坐下時裙子兩側往下垂得比真實布料長（沒有布料模擬；坐在課桌後面時大多被擋住）；坐下正面膝蓋上緣有一點點穿出裙子。走路時兩腿之間的裙子會被拉開一點。
+- 臉是 VRoid 底模加調整，臉型、五官沒有逐項對參考圖重做。
+- 遊戲內（實際場景光線、距離）還沒看過；iPhone 實機沒測。
+
+### 32.2 林芷若的眼鏡（`heroine_02`；D59「淺色細金屬圓框眼鏡，在 Café 工作時也戴」）
+
+`tools/blender/char_second/glasses_zhiruo.py` → `assets/models/char/second_ai/glasses_zhiruo.glb`（**32 KB**、1,348 三角形：鏡框 1,252、鏡片＋鼻托 96）：圓框（直徑 4.4 cm）、**霧面玫瑰金** `#a68b80`、金屬線 1.7 mm、鼻托、鉸鏈、鏡腳（往後 10 cm、尾端往下彎掛耳朵）、鏡片幾乎透明。原點＝兩個鏡片中心的中點、前方 −z（和 `props3d.js` 的眼鏡座標相同，不用再轉 180°）。
+第一版是淺香檳金 `#d6c49c`、1.5 mm：遊戲渲染器裡比皮膚還淺、幾乎看不見；參考圖 06 的鏡框比皮膚深、比頭髮淺，偏玫瑰金／灰褐，所以改色。
+
+**接法**：`patches/glasses_zhiruo_97f4abc.patch`（`97f4abc` 上 `git apply --check` 沒有衝突）——`src/props3d.js` 的 `glasses()` 先掛原本程式產生的眼鏡，GLB 載好就換上（鏡框改成和人物一樣的卡通明暗 `MeshToonMaterial`、顏色照 GLB；鏡片照舊是 `MeshBasicMaterial` 透明 0.12；陰影、`frustumCulled` 照程式產生版本的設定）；載入失敗照舊用程式產生的；`o.glb=false` 可以不用正式模型。`src/assets3d.js` 在第二個 AI 的區塊加 `prop.glasses_zhiruo`（lazy）。
+檢查（`tools/blender/char_second/glasses_lookdev.py`）：VRoid 版、Blender 版（`?blchar`）都掛上 GLB（`glasses_glb`）、程式產生的那副藏起來、1,348 三角形、材質 `MeshToonMaterial #a68b80`＋`MeshBasicMaterial 0.12`、沒有 JS 錯誤（每一輪都有一個 404，修改前也有，和眼鏡無關）。
+
+| 遊戲渲染器（正面、眼睛附近放大）：修改前（程式產生：深棕橢圓）→ 修改後（GLB） | |
+|---|---|
+| VRoid 版芷若（預設） | ![](shots/glasses_zhiruo_look_vroid.webp) |
+| Blender 版芷若（`?blchar`） | ![](shots/glasses_zhiruo_look_bl.webp) |
+| 45°：修改前 → 修改後 | ![](shots/glasses_zhiruo_before_q45.webp) ![](shots/glasses_zhiruo_after_q45.webp) |
+| Blender 渲染（Cycles；正面、45°、側面、上方；**不是遊戲畫面**） | ![](shots/glasses_zhiruo_blender.webp) |
+
+**驗收狀態**：`MODEL_READY`（接法是 patch，LAWWW 整合）。**還沒做**：Café 工作時的樣子（圍裙＋眼鏡）在遊戲內場景的截圖；iPhone 實機。

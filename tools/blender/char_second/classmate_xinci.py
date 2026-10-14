@@ -19,7 +19,7 @@ import numpy as np, bpy
 BASE = 'Darkness_Shibu'
 HEAD_SCALE = 0.91    # 頭縮小（約 7.3 頭身；160 cm，比林芷若（161、0.92）稍微成熟一點的比例）
 NECK_SLIM = 0.95
-KEEP_SEC = ('Bust', 'Skirt')     # 留下的次要骨頭：胸、裙擺（新的中長裙用）
+KEEP_SEC = ('Bust',)     # 留下的次要骨頭：胸（第九版拿掉裙擺彈簧骨：坐下時裙子炸開；裙子改綁腰臀＋大腿，見 x_xinci_clothes.skirt_weights）
 
 
 def bare_legs(obj, pat='Body_00_SKIN', name='X01_Body_skin', r=40):

@@ -326,7 +326,7 @@ def apply(m):
     def vol(a):     # 髮殼加厚：頭頂／前額蓬、兩側貼、後腦中等
         a = abs(((a + 180) % 360) - 180); ca = math.cos(math.radians(a))
         sa = abs(math.sin(math.radians(a)))
-        return 0.0080 + 0.0045 * max(ca, 0) ** 1.2 + 0.0030 * sa ** 2 + 0.0010 * max(-ca, 0)   # 低馬尾：往後梳整齊，頭頂、兩側比沈以安服貼   # 前額頭頂蓬、兩側耳上也有蓬度（參考圖頭髮離頭皮約 2 cm）
+        return 0.0102 + 0.0045 * max(ca, 0) ** 1.2 + 0.0045 * sa ** 2 + 0.0012 * max(-ca, 0)   # 芯慈第八版：整體加蓬 2 mm、兩側再加 1.5 mm（第七版頭頂、耳上太服貼，像往後梳的油頭）   # 低馬尾：往後梳整齊，頭頂、兩側比沈以安服貼   # 前額頭頂蓬、兩側耳上也有蓬度（參考圖頭髮離頭皮約 2 cm）
 
     def off_shell(a, v):
         return 0.0022 + vol(a) * float(sstep(0.0, 0.42, v)) * (1 - 0.35 * float(sstep(0.72, 0.95, v))) + 0.0065 * float(sstep(0.82, 1.0, v))
@@ -369,7 +369,8 @@ def apply(m):
         da = 360.0 / 52
         for v in vv:
             f = (v - vstart) / max(1e-3, vstop - vstart)
-            p, d = surf(a, v, layer_off * (float(sstep(0.0, ramp, f)) if ramp > 0 else 1.0) + bulge * math.sin(math.pi * f))   # ramp：起點貼在髮殼上（收進第一層底下），慢慢浮起
+            lo = (0.0003 + (layer_off - 0.0003) * float(sstep(0.0, ramp, f))) if ramp > 0 else layer_off
+            p, d = surf(a, v, lo + bulge * math.sin(math.pi * f))   # ramp：起點貼近髮殼（收進第一層底下、前面有瀏海蓋住），慢慢浮起
             q, _ = surf(a + da, v, layer_off); P.append(p); D.append(d); Wd.append(np.linalg.norm(q - p))
         P = np.array(P); D = np.array(D); Tn = tangents(P)
         side = _unit(np.cross(D, Tn)); width = np.maximum(np.array(Wd) * wfac, 0.005)
@@ -378,7 +379,7 @@ def apply(m):
 
     for k in range(52):
         a = -180 + 360 * (k + 0.5) / 52 + rng.uniform(-1.5, 1.5)
-        swept(a, v_bang(a) + (rng.uniform(0.0, 0.03) if v_bang(a) < 0.01 else 0.02), v_end(a), 0.0010 + 0.0006 * rng.random(), 1.75, 'swept', arch=0.04)   # 芯慈第六版：貼近髮殼（正面看頭的輪廓外面有一條條細線）
+        swept(a, v_bang(a) + (rng.uniform(0.0, 0.03) if v_bang(a) < 0.01 else 0.02), v_end(a), 0.0010 + 0.0006 * rng.random(), 1.75, 'swept', arch=0.04, ramp=0.10)   # 芯慈第六版：貼近髮殼（正面看頭的輪廓外面有一條條細線）
     for k in range(30):
         a = -180 + 360 * (k + rng.uniform(0.2, 0.8)) / 30
         vb = v_bang(a); vst = vb + (0.03 if vb > 0.01 else 0.0) + rng.uniform(0.0, 0.10)
@@ -413,6 +414,9 @@ def apply(m):
              (-21, -24, -0.006, 0.019, 'bangA'), (22, 25, -0.003, 0.019, 'bangB'), (-29, -34, -0.016, 0.018, 'bangB'), (30, 35, -0.013, 0.018, 'bangA'),
              (-37, -44, -0.032, 0.016, 'lock'), (38, 45, -0.030, 0.016, 'lock'),
              (-8, -9, 0.008, 0.007, 'wisp'), (9, 10, 0.005, 0.007, 'wisp')]
+    # 芯慈第八版：第二排（在第一排的空隙、離額頭近 2 mm、髮尾高 4–6 mm）——第七版正面看一根根分開、額頭空很多，參考圖是一片蓬鬆、透得到額頭的瀏海
+    bangs2 = [(0, 0, 0.010, 0.017, 'bangB'), (-8, -10, 0.006, 0.017, 'bangA'), (9, 11, 0.008, 0.017, 'bangB'), (-17, -19, 0.004, 0.017, 'bangB'),
+              (18, 20, 0.005, 0.017, 'bangA'), (-25, -29, -0.004, 0.017, 'bangA'), (26, 30, -0.002, 0.017, 'bangB')]
 
     def beta_at_z(a, z_tip):
         bt = 0.0
@@ -420,15 +424,15 @@ def apply(m):
             d = sph(a, bt); r = H.R(d, True); bt += (z_tip - (c[2] + d[2] * r)) / max(0.03, r) * 57.3 * 0.8
         return bt
 
-    for ah, at, zt, w0, reg in bangs:
-        ar = PART + (ah - PART) * 0.55; vr = 0.33
+    for row, (ah, at, zt, w0, reg) in [(0, b) for b in bangs] + [(1, b) for b in bangs2]:
+        ar = PART + (ah - PART) * 0.55; vr = 0.33 - 0.03 * row
         dr = line_dir(ar, vr); p_root = c + dr * (H.R(dr) + off_shell(ar, vr) + 0.0042)
-        bh = hairline_beta(ah) + 2.0; dh = sph(ah, bh); p_h = c + dh * (H.R(dh, True) + 0.0125)
+        bh = hairline_beta(ah) + 2.0; dh = sph(ah, bh); p_h = c + dh * (H.R(dh, True) + 0.0125 - 0.002 * row)
         bt = beta_at_z(at, H.brow_z + zt + rng.uniform(-0.002, 0.002))
-        am = ah + (at - ah) * 0.5; bm = bh + (bt - bh) * 0.5; dm = sph(am, bm); p_m = c + dm * (H.R(dm, True) + 0.0088)
-        dt_ = sph(at, bt); p_t = c + dt_ * (H.R(dt_, True) + 0.0052)
+        am = ah + (at - ah) * 0.5; bm = bh + (bt - bh) * 0.5; dm = sph(am, bm); p_m = c + dm * (H.R(dm, True) + 0.0088 - 0.0018 * row)
+        dt_ = sph(at, bt); p_t = c + dt_ * (H.R(dt_, True) + 0.0052 - 0.0012 * row)
         P = catmull(np.array([p_root, p_h, p_m, p_t]), 10); P, sl = resample(P, 15); n = len(P)
-        P = H.push(P, np.linspace(0.009, 0.0045, n)); P[1:-1] = P[1:-1] * 0.6 + (P[:-2] + P[2:]) * 0.2; P = H.push(P, np.linspace(0.009, 0.0045, n))
+        P = H.push(P, np.linspace(0.009, 0.0045, n) - 0.0012 * row); P[1:-1] = P[1:-1] * 0.6 + (P[:-2] + P[2:]) * 0.2; P = H.push(P, np.linspace(0.009, 0.0045, n) - 0.0012 * row)
         D = _unit(P - c); Tn = tangents(P)
         side = _unit(np.cross(D, Tn)); tl = np.linspace(0, 1, n); width = w0 * (0.6 + 0.4 * sstep(0.0, 0.15, tl)) * (1 - (0.45 if reg in ('lock', 'wisp') else 0.2) * sstep(0.45, 1.0, tl))   # 根部收進髮殼、髮尾收細（bangA／B 貼圖本身已經分絲變細）
         if os.environ.get('HAIR_DEBUG'): print('   bang', ah, at, 'root', np.round(p_root, 3), 'hl', np.round(p_h, 3), 'tip', np.round(P[-1], 3), 'w', np.round(width[[0, n // 2, -1]], 3), 'side', np.round(side[n // 2], 2))
@@ -461,7 +465,7 @@ def apply(m):
             P = H.push(P, marg); P[1:-1] = P[1:-1] * 0.6 + (P[:-2] + P[2:]) * 0.2
         Tn = tangents(P)
         out = _unit(np.column_stack([P[:, 0], -0.5 + 0.6 * P[:, 1], np.zeros(len(P))]))   # 髮片正面朝外、略朝前
-        for rot, wfac, reg, dx in ((0.0, 0.48, 'lock', 0.0), (0.5 * sgn, 0.30, 'wisp', 0.003)):    # 芯慈：細細的兩綹（第一版 0.70／0.45：像兩條黑色緞帶）    # 溫書瑀：臉旁一束細的（第一版三束：正面看像鮑伯頭的兩塊）   # 主髮束＋兩旁各一小束（轉個角度，側面看有厚度、正面看比較蓬）
+        for rot, wfac, reg, dx in ((0.0, 0.36, 'lock', 0.0), (0.5 * sgn, 0.26, 'wisp', 0.003)):   # 芯慈第八版：0.48／0.30 → 0.36／0.26（正面看像兩條深色緞帶）    # 芯慈：細細的兩綹（第一版 0.70／0.45：像兩條黑色緞帶）    # 溫書瑀：臉旁一束細的（第一版三束：正面看像鮑伯頭的兩塊）   # 主髮束＋兩旁各一小束（轉個角度，側面看有厚度、正面看比較蓬）
             nrm = _unit(out - Tn * np.sum(out * Tn, 1)[:, None])
             sd = _unit(np.cross(nrm, Tn))
             twist = np.linspace(0, 0.5 * sgn, len(P))[:, None]
