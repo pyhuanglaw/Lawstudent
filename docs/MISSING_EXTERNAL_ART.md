@@ -56,7 +56,9 @@ law_classroom_day / law_classroom_evening / library_day / library_night / cafe_d
 政大的四個背景依 `AA_112` 第 11 節先用一般化的（不指定真實店家）。
 
 ### Event CG
-- cg_library_rain_heroine03、cg_cafe_dusk_heroine01（登錄在 `CG_REGISTRY`，檔案不存在時自動退回一般 ADV）
+- cg_cafe_dusk_heroine01（登錄在 `CG_REGISTRY`，檔案不存在時自動退回一般 ADV）
+- ~~cg_library_rain_heroine03~~：2026-10-14 已補（使用者用 AI 生成、BB 檢查通過的第二版，`assets/cg/heroine_03/event_rain_library.webp`）
+- 其他 BB 檢查通過的 CG（企劃分支 `docs/story_planning/cg_approved/`）：事件還沒批准實作，先留在企劃分支，事件批准後再接
 
 ### 3D
 - **玩家正式模型**：目前用 Seed-san（VirtualCast, Inc.；VRM Public License 1.0，須標示出處）改色版：黑短髮、墨綠 T-shirt、炭灰長褲；**赤腳、褲長七分、胸口有原貼圖徽章**。要一個「有球鞋、後背包」的台灣大學生男性 VRM。RPM 範例（棕西裝光頭）已降級為 `TEMP_PLAYER_DEV_MODEL`，只在 VRM 載入失敗時出現。

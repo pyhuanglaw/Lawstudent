@@ -15,8 +15,8 @@ import shutil
 for sub in ['models/env','models/env/second_ai','models/char']:   # models/env/second_ai：第二個 AI（環境美術）的 GLB（docs/SECOND_AI_HANDOFF.md）
     d=root/'build'/'assets'/sub; d.mkdir(parents=True,exist_ok=True)
     for f in list((root/'assets'/sub).glob('*.glb'))+list((root/'assets'/sub).glob('*.vrm'))+list((root/'assets'/sub).glob('*.webp')): shutil.copy2(f,d/f.name)   # *.webp：總圖大廳窗外的景（tools/shots/library_views.py）
-# 正式立繪（webp）
-for p in (root/'assets'/'portraits').rglob('*.webp'):
+# 正式立繪、事件 CG（webp）
+for p in list((root/'assets'/'portraits').rglob('*.webp'))+list((root/'assets'/'cg').rglob('*.webp')):
     rel=p.relative_to(root); d=(root/'build'/rel).parent; d.mkdir(parents=True,exist_ok=True); shutil.copy2(p,root/'build'/rel)
 import base64
 for p in list((root/'build'/'assets').rglob('*.glb'))+list((root/'build'/'assets').rglob('*.vrm')):
