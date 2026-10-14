@@ -42,8 +42,21 @@ async def sit_and_choose(pg, cdp, run, want, pick_after=0):
     return pose, opts, s
 
 
+# 演講時一半的位子有人（16 個完整人物＋其餘坐姿替身，照種子洗牌；classes3d.js syncRooms），另一半留給玩家——
+# 真的玩家走進去看到有人坐的位子不會去坐：等聽眾坐好，挑離第 3 排第 6 個位子最近的空位（v9.7 回歸：寫死的那個位子被替身坐走，「坐下」不出現）
+CROWD_JS = "GAME.E.zone.seats.filter(q=>q.room==='101'&&q.taken).length+GAME.E.npcs.filter(n=>n.clsStudent&&n.seat&&n.seat.room==='101').length"
+FREE_SEAT_JS = """(()=>{ const E=GAME.E; const occ=q=>q.taken||E.npcs.some(n=>(n.seat||n.seatTarget)&&Math.hypot((n.seat||n.seatTarget).x-q.x,(n.seat||n.seatTarget).z-q.z)<0.35);
+  const L=E.zone.seats.filter(q=>q.room==='101'&&!occ(q)).sort((a,b)=>(Math.abs(a.row-2)*3+Math.abs(a.col-5))-(Math.abs(b.row-2)*3+Math.abs(b.col-5)));
+  const s=L[0]; if(!s) return null; const ap=GAME.seatApproach(s)||[s.x,s.z]; return {x:s.x,z:s.z,yaw:s.yaw,y:(s.y==null?null:s.y),lv:s.lv|0,room:s.room,row:s.row,col:s.col,ax:ap[0],az:ap[1]}; })()"""
+
+
 async def to_seat(pg, cdp, run, label):
-    seat = await seat_of(pg, SEAT)
+    for _ in range(90):
+        if await pg.evaluate(CROWD_JS) > 0: break
+        await pg.wait_for_timeout(1000)
+    seat = await pg.evaluate(FREE_SEAT_JS)
+    if not seat: run.note(f'{label}：101 沒有空位'); return False, await L.state(pg)
+    run.note(f"{label}：空位 第 {seat['row'] + 1} 排第 {seat['col'] + 1} 個")
     ok = await L.go_to(pg, cdp, run, seat['ax'], seat['az'], 0.3, label, lv=0)
     s = await L.state(pg)
     return ok and s['interact'].startswith('坐下'), s
@@ -70,8 +83,8 @@ async def main():
         await pg.wait_for_timeout(4000)
         # ---------- A：中途離開 ----------
         a = await add_lecture(pg, run, 't_partial', -0.05, 1.5)
-        ok, s = await to_seat(pg, cdp, run, '101 第 3 排的座位後面')
-        run.check('A 自己走進 101、走到第 3 排的座位旁（演講已經開始）', ok, json.dumps(s, ensure_ascii=False))
+        ok, s = await to_seat(pg, cdp, run, '101 第 3 排附近的空位後面')
+        run.check('A 自己走進 101、走到第 3 排附近的空位旁（演講已經開始）', ok, json.dumps(s, ensure_ascii=False))
         pose, opts, s = await sit_and_choose(pg, cdp, run, '坐一下')
         r = await rec(pg, 't_partial')
         run.check('A 坐下（有「聽演講」可以選，這次選「坐一下」20 分鐘）→ 開始記（in）', pose == 'sit' and any(o.startswith('聽演講：') for o in opts) and r and r.get('end') == 'in', json.dumps(opts, ensure_ascii=False) + ' ' + json.dumps(r))
@@ -82,7 +95,7 @@ async def main():
         run.check('A 起身、自己走出 101 到大廳 → 中途離開（left）、離開的時間在散場前', ok and r and r.get('end') == 'left' and r.get('lh', 99) < a['t1'], json.dumps(r) + f" t1={a['t1']:.2f} 現在 {s['hour']:.2f}")
         # ---------- B：快速前往 ----------
         a = await add_lecture(pg, run, 't_quick', -0.05, 1.5)
-        ok, s = await to_seat(pg, cdp, run, '再走回 101 第 3 排')
+        ok, s = await to_seat(pg, cdp, run, '再走回 101 第 3 排附近的空位')
         pose, opts, s = await sit_and_choose(pg, cdp, run, '坐一下')
         r = await rec(pg, 't_quick')
         run.check('B 走回 101、坐下「坐一下」→ 第二場開始記（in）', ok and r and r.get('end') == 'in', json.dumps(r))
@@ -97,7 +110,7 @@ async def main():
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(5000)
         s = await L.state(pg)
         run.check('C 按下去走進博雅教學館（沒有課：直接進去）', s['zone'] == 'boya' and s['stand'], json.dumps(s, ensure_ascii=False))
-        ok, s = await to_seat(pg, cdp, run, '101 第 3 排')
+        ok, s = await to_seat(pg, cdp, run, '101 第 3 排附近的空位')
         a = await add_lecture(pg, run, 't_skip', 0.15, 0.6)
         pose, opts, s = await sit_and_choose(pg, cdp, run, '讀書', pick_after=0)
         r = await rec(pg, 't_skip')
