@@ -4,7 +4,16 @@ const Z3 = (function(){
   const M=(c,o)=>P3.M(c,Object.assign({rough:0.95},o||{}));
   const texMat=(t,rep,o)=>{ const m=new THREE.MeshStandardMaterial(Object.assign({map:t,roughness:0.95,metalness:0},o||{})); return m; };
   function ground(g,w,d,tex,rep,x,z,y){ const t=tex.clone(); t.needsUpdate=true; t.repeat.set(rep[0],rep[1]); const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),texMat(t)); m.rotation.x=-Math.PI/2; m.position.set(x||0,y||0,z||0); m.receiveShadow=true; g.add(m); return m; }
-  function strip(g,x0,z0,x1,z1,w,tex,rep){ const dx=x1-x0, dz=z1-z0; const len=Math.hypot(dx,dz); const t=tex.clone(); t.needsUpdate=true; t.repeat.set(w/rep,len/rep); const m=new THREE.Mesh(new THREE.PlaneGeometry(w,len),texMat(t)); m.rotation.x=-Math.PI/2; m.rotation.z=-Math.atan2(dx,dz); m.position.set((x0+x1)/2,0.02,(z0+z1)/2); m.receiveShadow=true; g.add(m); return m; }
+  /* 步道、路面（strip）都在 0.02 m：交叉的地方兩片疊在同一個高度，畫面一直閃（2026-10-14 使用者回報「男一舍前面的地板一直閃爍」：男一舍的步道和東西向的柏油路在 (20,47) 交叉；校園共 11 處）。
+     交叉的路面分層（polygonOffset，層數只在真的重疊時加，通常 0～2 層）：柏油路在步道上面，其他照建立的先後（後蓋的在上面）。高度不變（導航、點地面、腳步都不受影響）*/
+  const stripOf=new WeakMap();
+  function stripLayer(m,L){ m.userData.stripLayer=L; const mt=m.material; if(L>0){ mt.polygonOffset=true; mt.polygonOffsetFactor=-L; mt.polygonOffsetUnits=-2*L; } else { mt.polygonOffset=false; mt.polygonOffsetFactor=0; mt.polygonOffsetUnits=0; } mt.needsUpdate=true; }
+  function strip(g,x0,z0,x1,z1,w,tex,rep){ const dx=x1-x0, dz=z1-z0; const len=Math.hypot(dx,dz); const t=tex.clone(); t.needsUpdate=true; t.repeat.set(w/rep,len/rep); const m=new THREE.Mesh(new THREE.PlaneGeometry(w,len),texMat(t)); m.rotation.x=-Math.PI/2; m.rotation.z=-Math.atan2(dx,dz); m.position.set((x0+x1)/2,0.02,(z0+z1)/2); m.receiveShadow=true; g.add(m);
+    const ux=dx/(len||1), uz=dz/(len||1), hx=Math.abs(uz)*w/2, hz=Math.abs(ux)*w/2; const box={x0:Math.min(x0,x1)-hx,x1:Math.max(x0,x1)+hx,z0:Math.min(z0,z1)-hz,z1:Math.max(z0,z1)+hz,road:!!(t.userData&&t.userData.asphalt),m};
+    let list=stripOf.get(g); if(!list){ list=[]; stripOf.set(g,list); } const hit=list.filter(b=>Math.min(b.x1,box.x1)-Math.max(b.x0,box.x0)>0.01&&Math.min(b.z1,box.z1)-Math.max(b.z0,box.z0)>0.01);
+    let L=0; for(const b of hit) if(!(b.road&&!box.road)) L=Math.max(L,b.m.userData.stripLayer+1); stripLayer(m,L);
+    for(const b of hit) if(b.road&&!box.road&&b.m.userData.stripLayer<=L) stripLayer(b.m,L+1);   /* 步道後蓋、和柏油路重疊：柏油路往上一層 */
+    list.push(box); return m; }
   function curb(g,x0,z0,x1,z1,w){ const dx=x1-x0, dz=z1-z0; const len=Math.hypot(dx,dz); for(const s of [-1,1]){ const m=new THREE.Mesh(new THREE.BoxGeometry(0.25,0.14,len),M('#d9d3c6')); const ang=-Math.atan2(dx,dz); m.rotation.y=ang; m.position.set((x0+x1)/2+Math.cos(ang)*s*(w/2+0.12),0.07,(z0+z1)/2-Math.sin(ang)*s*(w/2+0.12)); g.add(m); } }
   // ---- 資產層：樹／長椅／小道具（有 GLB 就用 GLB，沒有就 fallback 到 W3 placeholder）----
   let treeIdx=0, leafyCount=0; const TREE=(scale)=>{ treeIdx++; /* 闊葉樹（townkit 葉片卡，和溫州街同一套）；舊的 GLB 方塊葉樹／針葉樹看起來不像台北的樹，只在 TK 不存在時退回 */ if(typeof TK!=='undefined'&&TK.tree) return TK.tree(6.4*(scale||1)); const useLeafy=(treeIdx%2===1)&&leafyCount<14; if(useLeafy) leafyCount++; return ASSETS.get(useLeafy?'tree.leafy':'tree.conifer',{height:6*(scale||1)}); };
