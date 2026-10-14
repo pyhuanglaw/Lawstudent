@@ -1,0 +1,236 @@
+"""宿舍書桌上的黃金葛小盆栽（交接包 v1，BB_95 3-1：方奕廷送的；LAWWW 2026-10-14 02:01Z 分派）→ GLB。第二 AI 工作階段（環境美術）；Blender 5.2（bpy，無介面）：
+  /opt/blenv/bin/python tools/blender/env_second/prop_pothos.py [-- --out assets/models/env/second_ai/prop_pothos.glb]
+
+原點＝盆底（托盤底）中心、y=0＝放的那個面（桌面）；遊戲座標方向（x 東、y 上、z 南）。
+放的位置：宿舍 dorm 區域、祐廷書桌（中心 (1.8,−2.6)、1.6×0.7、桌面 0.77）的左前角 (1.11, 0.77, −2.36)，不轉（ry=0）。
+三條垂藤照這個位置做：一條往 −x 越過桌子左緣（局部 x=−0.11）、一條往 +z 越過前緣（局部 z=+0.11）、一條從左前角垂下；
+左邊抽屜櫃的側板在桌緣往內 2 cm（局部 x=−0.09）、抽屜把手在前緣外 1.2 cm 但在局部 x 0.07–0.17，垂藤都避開了。
+（筆筒原本在這個角落，dorm_interior.py 把它移到書堆和筆電中間。）
+
+盆：白色釉面小陶盆（盆口直徑 12.8 cm、高 11 cm）＋同色托盤（直徑 14.2 cm）；土；
+黃金葛：心形的模型葉子（一片一片有厚度方向的彎曲：主脈隆起、兩側往下、葉尖下垂），綠底帶黃色斑紋（本作程式畫的葉子貼圖，
+兩種斑紋各一半；葉形邊緣與葉基的凹口用貼圖透明度切）；盆裡往上長的葉子 8 片（葉柄 4–8 cm）＋三條垂藤（各 5–6 片葉子、越往藤尖越小）。
+材質三個（三個 draw call）：陶盆（釉面）、土＋莖（頂點色）、葉子（貼圖、alpha clip、雙面）。
+"""
+import json, math, os, sys, random
+import numpy as np
+from PIL import Image
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import lib2 as L   # noqa: E402
+from lib2 import B, Mesh, CMesh, g2b, bpy, bmesh, Vector, Matrix   # noqa: E402
+
+ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
+def arg(name, default=None):
+    return ARGS[ARGS.index(name) + 1] if name in ARGS else default
+OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/prop_pothos.glb'))
+GEN = os.path.join(HERE, 'textures', 'gen'); LEAF_PNG = os.path.join(GEN, 'pothos_leaf.png')
+PLACE = dict(zone='dorm', x=1.11, y=0.77, z=-2.36, ry=0.0)
+random.seed(1014)
+
+
+# ---------------- 葉子貼圖（本作：程式畫的，256×256 兩張並排）----------------
+def heart_w(t):
+    """葉形：t＝0 葉基（兩片圓耳的最下面）→ 1 葉尖；回傳半寬（最寬＝1，在 t≈0.35）"""
+    t = np.asarray(t, float)
+    lo = np.sqrt(np.clip(1 - ((0.35 - t) / 0.35) ** 2, 0, 1)) ** 0.9
+    u = np.clip((t - 0.35) / 0.65, 0, 1); s = np.clip((u - 0.65) / 0.35, 0, 1); s = s * s * (3 - 2 * s)
+    hi = np.clip(1 - u ** 1.5, 0, 1) ** 0.85 * (1 - 0.15 * s)
+    return np.where(t < 0.35, lo, hi)
+
+
+SINUS = 0.14          # 葉柄接在主脈 t=0.14（葉基的凹口）
+U_HALF = 0.46         # 貼圖上最寬處的半寬（u）
+
+
+def lattice_noise(rng, X, Y, n=64):
+    """任意座標的值雜訊（格點 n×n、循環）"""
+    g = rng.random((n, n)); xi = np.floor(X).astype(int); yi = np.floor(Y).astype(int); fx = X - xi; fy = Y - yi
+    fx = fx * fx * (3 - 2 * fx); fy = fy * fy * (3 - 2 * fy); x0, x1, y0, y1 = xi % n, (xi + 1) % n, yi % n, (yi + 1) % n
+    return g[y0, x0] * (1 - fx) * (1 - fy) + g[y0, x1] * fx * (1 - fy) + g[y1, x0] * (1 - fx) * fy + g[y1, x1] * fx * fy
+
+
+def sstep(a, b, x):
+    t = np.clip((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t)
+
+
+def leaf_texture(S=256, seed=0, gold=0.25):
+    rng = np.random.default_rng(seed)
+    v = 1 - (np.arange(S) + 0.5)[:, None] / S          # 圖片最上面＝葉尖（v=1）
+    u = (np.arange(S) + 0.5)[None, :] / S
+    t = (v - 0.03) / 0.94; x = (u - 0.5) / U_HALF        # x：±1＝最寬處的葉緣
+    w = heart_w(np.clip(t, 0, 1))
+    edge = w - np.abs(x)
+    inside = np.clip(edge * 60 + 0.5, 0, 1) * (t >= 0) * (t <= 1)
+    notch = (np.abs(x) < 0.30) & (t < SINUS * (1 - (np.abs(x) / 0.30) ** 1.4))     # 葉基的凹口（葉柄接的地方）
+    alpha = inside * (1 - notch)
+    # 黃金葛的斑紋：沿側脈（從主脈斜往葉尖）拉長的黃色筆觸，有的地方多、有的地方幾乎沒有
+    ax = np.abs(x); sv = t - 0.55 * ax * (1 + 0.35 * ax); side = (x < 0) * 17.0
+    f1 = lattice_noise(rng, sv * 26 + side, ax * 2.2 + 5)
+    f2 = lattice_noise(rng, t * 2.6 + 11, x * 2.6 + 3)
+    f3 = lattice_noise(rng, sv * 70 + side, ax * 9)
+    streak = sstep(0.60 - gold, 0.74 - gold, f1 * (0.75 + 0.25 * f3)) * sstep(0.30, 0.62, f2 + 0.25 * gold)
+    streak *= np.clip(edge * 8, 0, 1)                                        # 葉緣一圈綠色
+    green_dark = np.array([0.11, 0.29, 0.07]); green = np.array([0.19, 0.42, 0.11]); yellow = np.array([0.88, 0.83, 0.38])
+    n2 = lattice_noise(rng, u * 40, v * 40)
+    base = green_dark + (green - green_dark) * np.clip(1 - ax * 0.9, 0, 1)[..., None] * (0.7 + 0.3 * n2[..., None])
+    col = base * (1 - streak[..., None]) + yellow * streak[..., None]
+    mid = np.exp(-(x / 0.03) ** 2) * (t > SINUS) * (t < 0.97)                 # 主脈：淡黃綠
+    col = col * (1 - 0.5 * mid[..., None]) + np.array([0.66, 0.72, 0.36]) * 0.5 * mid[..., None]
+    lat = np.exp(-((np.sin(sv * 2 * math.pi * 4.5)) / 0.10) ** 2) * (ax > 0.05) * 0.14   # 淡淡的側脈線
+    col = col * (1 - lat[..., None]) + np.array([0.45, 0.58, 0.26]) * lat[..., None]
+    return np.concatenate([np.clip(col, 0, 1), alpha[..., None]], -1)
+
+
+def write_leaf_atlas():
+    a = leaf_texture(256, 3, gold=0.10); b = leaf_texture(256, 11, gold=0.20)   # 黃金葛的斑紋不多（第二版 0.20／0.34 太白，像白金葛）
+    img = np.concatenate([a, b], 1)
+    os.makedirs(GEN, exist_ok=True)
+    rgb = (np.clip(img[..., :3], 0, 1) * 255).astype(np.uint8); al = (img[..., 3:] * 255).astype(np.uint8)   # 顏色常數就是 sRGB（第一版多做一次 gamma，葉子淡得發白）
+    Image.fromarray(np.concatenate([rgb, al], -1), 'RGBA').save(LEAF_PNG)
+
+
+# ---------------- 材質 ----------------
+B.reset(texres=512)
+write_leaf_atlas()
+
+
+def leaf_material():
+    m = L.flat('pothos_leaf', '#ffffff', rough=0.45); nt = m.node_tree; N = nt.nodes; bs = N['Principled BSDF']
+    tx = N.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(LEAF_PNG); tx.image.alpha_mode = 'STRAIGHT'
+    nt.links.new(tx.outputs['Color'], bs.inputs['Base Color'])
+    rd = N.new('ShaderNodeMath'); rd.operation = 'ROUND'; nt.links.new(tx.outputs['Alpha'], rd.inputs[0]); nt.links.new(rd.outputs[0], bs.inputs['Alpha'])   # alphaMode MASK
+    m.use_backface_culling = False; return m
+
+
+M = {'pot': L.flat('pothos_pot', '#ebe7de', rough=0.28), 'vc': L.vc_material('pothos_soil_stem', rough=0.75), 'leaf': leaf_material()}
+root = B.group('prop_pothos', props={'kind': 'prop_pothos', 'place': json.dumps(PLACE)})
+
+# ---------------- 盆、托盤、土 ----------------
+pot = Mesh('pothos_pot', M['pot'])
+saucer = L.lathe([(0.0, 0.0), (0.063, 0.0), (0.071, 0.012), (0.0705, 0.0145), (0.067, 0.0145), (0.061, 0.006), (0.0, 0.006)], seg=24)
+pot.add_bm(saucer); saucer.free()
+POT_TOP, POT_R, SOIL_Y = 0.113, 0.064, 0.097
+body = L.lathe([(0.0, 0.006), (0.047, 0.006), (0.050, 0.011), (0.0605, 0.098), (0.0615, 0.101), (0.064, 0.103), (0.064, 0.111), (0.0625, POT_TOP),
+                (0.059, POT_TOP), (0.0575, 0.109), (0.0565, SOIL_Y), (0.0, SOIL_Y)], seg=24)
+pot.add_bm(body); body.free()
+pot_ob = pot.finish(root, uv=False, smooth=False); L.smooth_mesh(pot_ob, angle=0.6)
+vc = CMesh('pothos_soil_stem', M['vc'])
+soil = L.lathe([(0.0565, SOIL_Y + 0.001), (0.0, SOIL_Y + 0.004)], seg=24)      # 由外往內：法線朝上
+vc.bm.faces.ensure_lookup_table(); n0 = len(vc.bm.faces); vc.add_bm(soil); soil.free(); vc.bm.faces.ensure_lookup_table()
+vc.paint([vc.bm.faces[i] for i in range(n0, len(vc.bm.faces))], '#3a2b20')
+
+STEM, PETIOLE = '#4a6a2c', '#5c7c34'
+
+
+def tube(pts, r0, r1, sides, hexcol):
+    """沿折線的細管（莖、葉柄）：每一點一圈 sides 個頂點，半徑從 r0 漸細到 r1"""
+    P = [Vector(g2b(*p)) for p in pts]; n = len(P); rings = []
+    for i, p in enumerate(P):
+        d = (P[min(i + 1, n - 1)] - P[max(i - 1, 0)]).normalized()
+        a = d.orthogonal().normalized(); b = d.cross(a).normalized(); r = r0 + (r1 - r0) * i / (n - 1)
+        rings.append([vc.bm.verts.new(p + (a * math.cos(2 * math.pi * k / sides) + b * math.sin(2 * math.pi * k / sides)) * r) for k in range(sides)])
+    fs = []
+    for A, C in zip(rings, rings[1:]):
+        for k in range(sides):
+            fs.append(vc.bm.faces.new((A[k], A[(k + 1) % sides], C[(k + 1) % sides], C[k])))
+    vc.paint(fs, hexcol); return fs
+
+
+def catmull(ctrl, per=6):
+    C = [np.array(c, float) for c in ctrl]; C = [2 * C[0] - C[1]] + C + [2 * C[-1] - C[-2]]; out = []
+    for i in range(1, len(C) - 2):
+        p0, p1, p2, p3 = C[i - 1], C[i], C[i + 1], C[i + 2]
+        for k in range(per):
+            t = k / per; out.append(0.5 * ((2 * p1) + (-p0 + p2) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t * t + (-p0 + 3 * p1 - 3 * p2 + p3) * t ** 3))
+    out.append(C[-2]); return np.array(out)
+
+
+# ---------------- 葉子（模型葉：沿主脈 6 段、每段左緣／主脈／右緣）----------------
+leaves = Mesh('pothos_leaf', M['leaf']); uvl = leaves.bm.loops.layers.uv.new('UVMap'); NLEAF = [0]
+
+
+def leaf(attach, fwd, normal, Lf, var, droop=0.25, cup=0.22):
+    """attach＝葉柄末端（葉基凹口，主脈 t=SINUS）；fwd＝葉尖方向；normal＝葉面朝向（大約）；Lf＝葉長；var＝貼圖 0／1"""
+    fwd = np.array(fwd, float); fwd /= np.linalg.norm(fwd); nrm = np.array(normal, float); nrm -= fwd * (nrm @ fwd); nrm /= np.linalg.norm(nrm)
+    side = np.cross(nrm, fwd); Wf = Lf * 0.36; rows = []; n = 6
+    for i in range(n + 1):
+        t = i / n; w = float(heart_w(t)) * 1.08; along = (t - SINUS) * Lf
+        sag = -droop * Lf * max(0.0, t - 0.35) ** 2 / 0.42                     # 葉尖往下垂（沿葉面法線的反方向）
+        row = []
+        for s in ((-1, 0, 1) if i < n else (0,)):          # 葉尖只有一個頂點
+            off = s * w * Wf
+            lift = (cup * Wf * 0.35 if s == 0 else -cup * 0.5 * w * Wf) + sag    # 主脈隆起、兩側往下
+            p = np.array(attach) + fwd * along + side * off + nrm * lift
+            uv = (var * 0.5 + 0.5 * (0.5 + s * w * U_HALF), 0.03 + 0.94 * t)
+            row.append((leaves.bm.verts.new(g2b(*p)), uv))
+        rows.append(row if i < n else row * 3)
+    for i in range(n):
+        A, C = rows[i], rows[i + 1]
+        quads = [(A[0], A[1], C[1], C[0]), (A[1], A[2], C[2], C[1])] if i < n - 1 else [(A[0], A[1], C[1]), (A[1], A[2], C[1])]
+        for q in quads:
+            f = leaves.bm.faces.new([v for v, _ in q])
+            for lp, (_, uv) in zip(f.loops, q): lp[uvl].uv = uv
+    NLEAF[0] += 1
+
+
+def unit(v): v = np.array(v, float); return v / np.linalg.norm(v)
+
+
+# 盆裡：4 條短藤從土裡長出來、往外彎，每條 2–3 片葉子（葉柄 2–3 cm），葉子朝上、朝外，蓋住大部分的土
+# （第一版：8 根 5–8 cm 的直葉柄往上撐、葉子在頂端，像一束插花）
+rnd = random.Random(7)
+for k in range(4):
+    a = k * 2 * math.pi / 4 + 0.4 + rnd.uniform(-0.25, 0.25); d = np.array([math.cos(a), 0.0, math.sin(a)])
+    p0 = np.array([0.0, SOIL_Y + 0.002, 0.0]) + d * 0.012
+    p1 = p0 + d * 0.02 + np.array([0, 0.03 + rnd.uniform(0, 0.02), 0]); p2 = p1 + d * 0.035 + np.array([0, 0.012, 0])
+    P = catmull([p0, p1, p2], 4); tube(P, 0.0024, 0.0018, 4, STEM)
+    for j, f in enumerate((0.45, 0.75, 1.0)[: 2 + (k % 2)]):
+        q = P[int(round(f * (len(P) - 1)))]; ang = a + (1 if j % 2 else -1) * rnd.uniform(0.5, 1.1); o = np.array([math.cos(ang), 0.0, math.sin(ang)])
+        tip = q + o * rnd.uniform(0.015, 0.028) + np.array([0, rnd.uniform(0.008, 0.022), 0])
+        tube([q, (q + tip) / 2 + np.array([0, 0.005, 0]), tip], 0.0017, 0.0013, 3, PETIOLE)
+        leaf(tip, unit(o + np.array([0, rnd.uniform(0.05, 0.4), 0])), unit(np.array([0, 1.0, 0]) - o * rnd.uniform(0.1, 0.5)), rnd.uniform(0.055, 0.078), (k + j) % 2, droop=0.25)
+
+# 三條垂藤：越過盆緣、沿桌面到桌緣、垂下去（桌面＝局部 y 0；桌子左緣 x=−0.11、前緣 z=+0.11；抽屜櫃側板 x=−0.09）
+VINES = [
+    [(-0.040, SOIL_Y + 0.003, 0.004), (-0.066, 0.122, 0.006), (-0.088, 0.040, 0.008), (-0.103, 0.006, 0.010), (-0.116, -0.004, 0.012),
+     (-0.124, -0.080, 0.006), (-0.133, -0.165, 0.030), (-0.127, -0.250, 0.052)],
+    [(0.004, SOIL_Y + 0.003, 0.040), (0.006, 0.122, 0.066), (0.010, 0.040, 0.088), (0.012, 0.006, 0.103), (0.014, -0.004, 0.116),
+     (0.004, -0.070, 0.124), (0.030, -0.140, 0.133), (0.050, -0.205, 0.128)],
+    [(-0.028, SOIL_Y + 0.003, 0.028), (-0.047, 0.122, 0.047), (-0.068, 0.045, 0.068), (-0.086, 0.007, 0.086), (-0.110, -0.004, 0.110),
+     (-0.121, -0.090, 0.116), (-0.112, -0.190, 0.131), (-0.130, -0.300, 0.128)],
+]
+for vi, ctrl in enumerate(VINES):
+    P = catmull(ctrl, 4); tube(P, 0.0026, 0.0018, 4, STEM)
+    seg = np.linalg.norm(np.diff(P, axis=0), axis=1); s = np.concatenate([[0], np.cumsum(seg)]); Ltot = s[-1]
+    nl = 6 if Ltot > 0.33 else 5
+    for j in range(nl):
+        sj = float(np.clip(0.07 + (Ltot - 0.09) * (j + rnd.uniform(-0.22, 0.22)) / (nl - 1), 0.06, Ltot - 0.012))   # 第一片在越過盆緣之後；間隔不完全一樣
+        p = np.array([np.interp(sj, s, P[:, c]) for c in range(3)]); q = np.array([np.interp(sj + 0.01, s, P[:, c]) for c in range(3)])
+        tdir = unit(q - p); hanging = tdir[1] < -0.5
+        outw = unit(np.array([p[0], 0.0, p[2]]))                              # 離開盆子中心的方向（水平）
+        sgn = 1 if j % 2 else -1; sidev = unit(np.cross(tdir, np.array([0, 1.0, 0])) if not hanging else np.cross(tdir, outw)) * sgn
+        tip = p + sidev * 0.012 + (outw * 0.014 if hanging else np.array([0, 0.012, 0]))
+        tube([p, tip], 0.0016, 0.0013, 3, PETIOLE)
+        Lf = 0.058 * (1 - 0.45 * j / (nl - 1)) * rnd.uniform(0.92, 1.08)
+        if hanging:     # 垂下來的那段：葉子朝外、葉尖往下、葉面對著房間
+            fwd = unit(outw * 0.35 + sidev * 0.45 + np.array([0, -1.0, 0])); nrm = outw
+        else:           # 盆緣到桌緣：葉子平放、葉尖往外
+            fwd = unit(outw + sidev * 0.6 + np.array([0, 0.15, 0])); nrm = np.array([0, 1.0, 0])
+        leaf(tip, fwd, nrm, Lf, (vi + j) % 2, droop=0.18 if hanging else 0.3)
+
+vc_ob = vc.finish(root, uv=False, smooth=False); L.smooth_mesh(vc_ob, angle=1.2)
+leaf_ob = leaves.finish(root, uv=False, smooth=False); L.smooth_mesh(leaf_ob, angle=1.4)
+
+tris = {ob.name: sum(len(p.vertices) - 2 for p in ob.data.polygons) for ob in (pot_ob, vc_ob, leaf_ob)}
+print('pothos tris', tris, 'total', sum(tris.values()), 'leaves', NLEAF[0])
+st = L.export(OUT, gpu_instances=False)
+if arg('--ctx'):   # Blender 渲染用的桌角（桌面 0.5×0.5、厚 2.5 cm，左緣 x=−0.11、前緣 z=+0.11；左邊抽屜櫃側板往內 2 cm）——只給驗收渲染，不是遊戲的東西
+    for ob in list(bpy.data.objects): bpy.data.objects.remove(ob, do_unlink=True)
+    B.reset(texres=256); ctx = B.group('desk_ctx'); wd = L.flat('ctx_desk', '#b98e62', rough=0.6); dk = Mesh('ctx_desk', wd)
+    dk.box(-0.11, 0.39, -0.025, 0.0, -0.39, 0.11); dk.box(-0.09, 0.33, -0.60, -0.025, -0.37, 0.09); dk.finish(ctx, uv=False)
+    bpy.ops.export_scene.gltf(filepath=arg('--ctx'), export_format='GLB', export_yup=True, export_apply=True)
+L.write_json(OUT.replace('.glb', '.json'), {'glb': os.path.relpath(OUT, L.ROOT), 'place': PLACE, 'tris': tris, 'tris_total': sum(tris.values()), 'leaves': NLEAF[0],
+                                            'bytes': st['bytes'], 'materials': ['pothos_pot', 'pothos_soil_stem', 'pothos_leaf'],
+                                            'size_m': {'pot_rim_d': 0.128, 'pot_h': POT_TOP, 'saucer_d': 0.142, 'vine_drop_below_desk_top': [0.25, 0.205, 0.30]},
+                                            'texture': 'tools/blender/env_second/textures/gen/pothos_leaf.png（本作，程式畫的）'})
