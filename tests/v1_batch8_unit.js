@@ -118,6 +118,14 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A22：最後一科考完以後傍晚進麵店才有（考完前一天、沒有麵店團、不是麵店、22:00 以後：沒有；隔天還有）',r.after&&!r.before&&!r.noTeam&&!r.cafe&&r.later&&!r.late,JSON.stringify(r));
     fresh(le.day,18,'noodle',{noodleTableDay:9}); await EVENTS.run(e);
     check('A22：旁白＋阿姨「考完了，吃好一點。」（AA_71 2-13 原文）；只一次',JSON.stringify(lines())===JSON.stringify(['期末最後一科考完。麵店團一定吃一頓。','阿姨多送了一盤小菜。','考完了，吃好一點。'])&&said[2].who==='阿姨'&&!EVENTS.check(e),JSON.stringify(said)); }
+  /* ---------- 交接包 v2 C19：大一下的期末最後一頓（同一段原文，另一個 id）---------- */
+  { fresh(250,10,'campus'); const le=CLS.lastExamEnd(G,'Y1S2','final'); const tm=le&&CALENDAR.termOf(le.day); const e=ev('ev_term_last_meal_y1s2');
+    check('C19：大一下最後一科期末考考完在第 17～18 週',!!le&&tm&&tm.id==='Y1S2'&&tm.week>=17&&tm.week<=18,JSON.stringify(le));
+    const at=(day,h,flags)=>{ fresh(day,h,'noodle',flags); return EVENTS.check(e); };
+    const r={after:at(le.day,Math.max(le.h+0.2,17.5),{noodleTableDay:9}),before:at(le.day-1,18,{noodleTableDay:9}),noTeam:at(le.day,Math.max(le.h+0.2,17.5),{})};
+    check('C19：大一下最後一科考完以後傍晚進麵店才有（之前、沒有麵店團：沒有）',r.after&&!r.before&&!r.noTeam,JSON.stringify(r));
+    fresh(le.day,18,'noodle',{noodleTableDay:9}); G.events.done.ev_term_last_meal=true; await EVENTS.run(e);
+    check('C19：大一上演過了，大一下照樣有一次（旁白＋阿姨「考完了，吃好一點。」）',JSON.stringify(lines())===JSON.stringify(['期末最後一科考完。麵店團一定吃一頓。','阿姨多送了一盤小菜。','考完了，吃好一點。'])&&!EVENTS.check(e),JSON.stringify(lines())); }
   /* ---------- 可昕：期末成績寒假第一天一起打開（BB_95 9-8）---------- */
   { const LAST=termDay(18,5); let BRK=LAST; while(CALENDAR.termOf(BRK)) BRK++;
     check('期末成績：期末考週最後一個上課日＝'+CALENDAR.dateOf(LAST).key+'、寒假第一天＝'+CALENDAR.dateOf(BRK).key,CALENDAR.dateOf(LAST).key==='2026-01-02'&&!CALENDAR.termOf(BRK)&&CALENDAR.termOf(BRK-1));
