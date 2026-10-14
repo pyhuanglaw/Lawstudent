@@ -69,8 +69,11 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     const r={ok:setup(),club:setup({club:true}),noSign:setup({sign:false}),notAte:setup({ate:false}),late:setup({h:22.3})};
     check('③ 騎樓：麵店團、今天有在麵店（ndlDays）、看過 ① 或 ② 其中一個、不是吉他社、走到公館＝演；吉他社的玩家、沒看過其他徵兆、今天沒去麵店、22:18 都沒有',r.ok&&!r.club&&!r.noSign&&!r.notAte&&!r.late,JSON.stringify(r));
     const play=async k=>{ setup(); picks=[k]; await EVENTS.run(eC2); return lines(); };
-    let L=await play(0); check('③ 選「對每個人都好。」：小語「……喔。」（她低頭調弦。）「也是啦。」',JSON.stringify(L.slice(1))===JSON.stringify(['小語：……喔。','她低頭調弦。','小語：也是啦。'])&&G.flags.YU2_PICK==='everyone'&&SOCIAL.has('yu','ASKED_ABOUT_ZHE'),JSON.stringify(L));
-    L=await play(1); check('③ 選「對妳比較好。」：（她停住，然後很大聲地彈了一個和弦。）小語「欸你很煩！」',JSON.stringify(L.slice(1))===JSON.stringify(['她停住，然後很大聲地彈了一個和弦。','小語：欸你很煩！'])&&G.flags.YU2_PICK==='you',JSON.stringify(L));
+    let L=await play(0); check('③ 騎樓（她沒背吉他，AA 50da3a9）選「對每個人都好。」：小語「……喔。」（她低頭滑手機。）「也是啦。」',JSON.stringify(L.slice(1))===JSON.stringify(['小語：……喔。','她低頭滑手機。','小語：也是啦。'])&&G.flags.YU2_PICK==='everyone'&&SOCIAL.has('yu','ASKED_ABOUT_ZHE'),JSON.stringify(L));
+    L=await play(1); check('③ 騎樓選「對妳比較好。」：（她停住，然後很大聲地哼了一段成發要彈的旋律。）小語「欸你很煩！」',JSON.stringify(L.slice(1))===JSON.stringify(['她停住，然後很大聲地哼了一段成發要彈的旋律。','小語：欸你很煩！'])&&G.flags.YU2_PICK==='you',JSON.stringify(L));
+    { const playClub=async k=>{ setup(); picks=[k]; await EVENTS.run(eC1); return lines(); };
+      let C=await playClub(0); check('③ 社課後的版本照舊（背著吉他）：「她低頭調弦。」',JSON.stringify(C.slice(1))===JSON.stringify(['小語：……喔。','她低頭調弦。','小語：也是啦。']),JSON.stringify(C));
+      C=await playClub(1); check('③ 社課後：「她停住，然後很大聲地彈了一個和弦。」',JSON.stringify(C.slice(1))===JSON.stringify(['她停住，然後很大聲地彈了一個和弦。','小語：欸你很煩！']),JSON.stringify(C)); }
     L=await play(2); check('③ 選「妳自己問他。」：小語「我才不要。」（她想了一下。）「……好啦，我會問。」',JSON.stringify(L.slice(1))===JSON.stringify(['小語：我才不要。','她想了一下。','小語：……好啦，我會問。'])&&G.flags.YU2_PICK==='ask',JSON.stringify(L));
     check('三個選項都不改變結果：只記 YU2_PICK 和一筆記憶（沒有好感數字、沒有別的旗標）',[eC1,eC2].every(e=>!e.consequences)&&!JSON.stringify(YU2_QUESTION).includes('rel'));
     /* 整個存檔只問一次：騎樓問過以後，吉他社那一個也不演 */

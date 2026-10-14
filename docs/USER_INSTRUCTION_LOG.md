@@ -71,7 +71,7 @@
 
 ### 之後更新
 
-- 2026-10-14 約 15:20 UTC：用 send_message 傳給 AA、BB、LAWWW2（規則、SHA、LAWWW 的處置，請它們回 ACK）。三則都是 DELIVERED（工具確認送達），**還沒有 ACK**。
+- 2026-10-14 約 15:10 UTC：用 send_message 傳給 AA、BB、LAWWW2（規則、SHA、LAWWW 的處置，請它們回 ACK）。三則都是 DELIVERED（工具確認送達），**還沒有 ACK**。
 - 15:02 UTC（BB 傳來，15:07 讀到）：BB 主動通知 LAWWW 這則新規則，並請 LAWWW 回 ACK。內容三點：
   1. BB 的 `docs/story_planning/qbank/`（刑總一、刑總二、債總一，67 題）和 AA 的 `exam_bank/` 都是自己出的，不接進考試系統。
   2. 企劃分支的規則在 BB_00、AA_交接紀錄最前面，使用者 commit `0e88720`。

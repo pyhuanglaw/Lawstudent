@@ -61,8 +61,8 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('留在宿舍（交往中）：可昕回「留在宿舍？……好。那暑假我們去遠一點。」；KX_TRIP_DEFERRED＝summer',G.flags.SPRING_Y1==='dorm'&&JSON.stringify(txt('p:kexin').slice(-1))==='["kexin:留在宿舍？……好。那暑假我們去遠一點。"]'&&G.flags.KX_TRIP_DEFERRED==='summer',JSON.stringify(txt('p:kexin').slice(-1)));
     G.day=D.d0; run(0,23.9); G.day=D.d0+1; run(0,23.9);
     check('留在宿舍：4/4 16:00 可昕傳政大山上的照片＋「山上沒有人。階梯只剩我一個人在數。」；麵店團的照片也來了',JSON.stringify(txt('p:kexin').slice(-2))==='["kexin:📷（政大山上的階梯）","kexin:山上沒有人。階梯只剩我一個人在數。"]'&&txt('g:noodle_team').some(t=>/下次你要來/.test(t)),JSON.stringify(txt('p:kexin').slice(-2)));
-    G.day=D.d0; G.zone='dorm'; check('留在宿舍：春假第一次走進宿舍，旁白「宿舍變得很空。」（選別的、春假以外都沒有）',EVENTS.check(eD)&&(G.flags.SPRING_Y1='noodle',!EVENTS.check(eD))&&(G.flags.SPRING_Y1='dorm',G.day=D.d0+5,!EVENTS.check(eD)));
-    G.day=D.d0; G.flags.SPRING_Y1='dorm'; await EVENTS.run(eD); check('宿舍的旁白一句',JSON.stringify(lines().slice(-1))==='["宿舍變得很空。"]'); }
+    G.day=D.d0; G.hour=10; G.zone='dorm'; check('留在宿舍：4/3 白天走進宿舍，旁白「宿舍變得很空。」（AA 71186c7 改成只在 4/3 白天；選別的、春假以外都沒有）',EVENTS.check(eD)&&(G.flags.SPRING_Y1='noodle',!EVENTS.check(eD))&&(G.flags.SPRING_Y1='dorm',G.day=D.d0+5,!EVENTS.check(eD)));
+    G.day=D.d0; G.hour=10; G.flags.SPRING_Y1='dorm'; await EVENTS.run(eD); check('宿舍的旁白一句',JSON.stringify(lines().slice(-1))==='["宿舍變得很空。"]'); }
   /* 4/2 過了還沒選 */
   { setup({dating:true}); run(18,23.9); G.day=D.inv2; run(0,23.9); G.day=D.d0; run(7,8);
     check('一直沒選、到了 4/3：算留在宿舍；可昕不回（玩家沒有回她），照片照常',G.flags.SPRING_Y1==='dorm'&&!txt('p:kexin').some(t=>/留在宿舍？/.test(t))&&G.flags.KX_TRIP_DEFERRED==='summer'&&!STORY.springPending(G),JSON.stringify(txt('p:kexin').slice(-2))); }

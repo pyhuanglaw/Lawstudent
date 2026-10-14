@@ -16,7 +16,7 @@ const OUT=(function(){
     chiayi_living:{label:'嘉義・老家的客廳',image:null}, chiayi_balcony:{label:'嘉義・老家的陽台',image:null},
     wenzhou_tutoring:{label:'溫州街・課輔班門口',image:null}, yongkang_curry:{label:'永康街・咖哩店',image:null},
     gongguan_cinema:{label:'公館・二輪戲院',image:null}, soymilk_shop:{label:'豆漿店',image:null},
-    noodle_table:{label:'阿鳳麵店・長桌',image:null} };   /* 期中考完的晚餐（交接包 v2 C11、C21）：麵店有 3D 區域，長桌這一幕先用 2D 底 */   /* 春假 K8 的三個目的地（BB_96 9-5；交接包 v2 C9）、嘉義老家（AA_12 主線 2；C2）：圖還沒有＝深色底＋地點字幕 */   /* K2 可昕來台大（BB_95 9-3 的最小版本：依序換 2D 背景；之後可以換成遊戲校園的畫面）*/
+    noodle_table:{label:'阿鳳麵店・長桌',image:null}, seaside_town:{label:'春假・海邊的小鎮',image:null} };   /* 期中考完的晚餐（交接包 v2 C11、C21）：麵店有 3D 區域，長桌這一幕先用 2D 底 */   /* 春假 K8 的三個目的地（BB_96 9-5；交接包 v2 C9）、嘉義老家（AA_12 主線 2；C2）：圖還沒有＝深色底＋地點字幕 */   /* K2 可昕來台大（BB_95 9-3 的最小版本：依序換 2D 背景；之後可以換成遊戲校園的畫面）*/
   S.bg=id=>{ const b=S.BG[id]; return b&&b.image?{image:b.image}:'dark'; };
   S.rec=G=>{ if(!Array.isArray(G.outings)) G.outings=[]; return G.outings; };
   S.get=(G,id)=>S.rec(G).find(q=>q.id===id)||null;
