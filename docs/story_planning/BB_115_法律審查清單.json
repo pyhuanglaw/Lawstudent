@@ -18,6 +18,15 @@
     "芯慈把要件說成「表示內容的錯」，漏掉 §88 I 的表示行為錯誤；本案標錯價正是誤寫，照她的字面反而像不能撤銷。註記也寫成「表示內容錯誤」，同樣的說法可能延續到其他內容。"
    ],
    "bb_fixed": "芯慈改成「內容弄錯、打錯字都算錯誤，可是不能是他自己的過失……那打錯一個零，算不算過失？」；註記補上表示行為錯誤（審查的人確認新文字；下面的「原文」是改之前的）",
+   "review": {
+    "result": "已修正",
+    "basis": "民法 §88 I（意思表示內容錯誤；表意人若知其事情即不為意思表示——通說指表示行為錯誤，如誤寫、誤言）",
+    "version": "現行條文；劇情 2025 年秋，當時同一版本",
+    "checked": "2026-10-14，WebSearch（條文文字由兩個以上網路資料引述一致；錯誤的分類是通行教科書見解）",
+    "fix": "見「BB 已處理」：芯慈改成「內容弄錯、打錯字都算錯誤……」（`y1s1.py` 民總第 14 週）",
+    "note": "",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -46,6 +55,15 @@
     "黑板把「人民也可以聲請」標成 2022 年起，玩家會以為人民在憲法訴訟法施行前不能聲請；大審法 §5 I ② 早已允許人民聲請法規範的違憲審查，2022 年新的是對裁判本身的審查。"
    ],
    "bb_fixed": "黑板改成「人民可以請求審查判決本身（2022 年起）」（審查的人確認新文字；下面的「原文」是改之前的）",
+   "review": {
+    "result": "已修正",
+    "basis": "憲法訴訟法 §59（裁判憲法審查）；舊制司法院大法官審理案件法也有人民聲請法規範審查",
+    "version": "憲法訴訟法 2022-01-04 施行；2024 年底的修正改的是評議門檻，不影響本句（門檻另見大一下 L015、L016）",
+    "checked": "2026-10-14，WebSearch（司法院說明與統計資料）",
+    "fix": "見「BB 已處理」：黑板改成「人民可以請求審查判決本身（2022 年起）」（`y1s2.py` 憲法（下）第 12 週）",
+    "note": "",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S2",
@@ -76,6 +94,15 @@
     "以安的問句預設「改的是法律，不是他自己的結果」；但憲法訴訟法下聲請人的原因案件可以廢棄發回或再審，前提有誤，本週又沒有更正，玩家會帶著錯誤印象離開。"
    ],
    "bb_fixed": "以安的提問保留，後面加芯慈的回應「不只改法律。他自己的案子，也可以回到法院重新審。」（審查的人確認新文字；下面的「原文」是改之前的）",
+   "review": {
+    "result": "已修正",
+    "basis": "憲法訴訟法 §62 I（裁判違憲：廢棄、發回管轄法院，原法院依判決意旨重新審理）；新法施行前送達的裁判只宣告法規範違憲，聲請人另依再審、非常上訴救濟",
+    "version": "同上",
+    "checked": "2026-10-14，WebSearch（司法院說明：發回後聲請人不用另外聲請；過渡規定）",
+    "fix": "見「BB 已處理」：加芯慈「不只改法律。他自己的案子，也可以回到法院重新審。」（兩種情形都涵蓋）",
+    "note": "",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S2",
@@ -107,6 +134,15 @@
     "註記自己寫明學校為達成教育目的之內部程序不適用本法程序規定（§3 III ⑥），黑板卻把 §102、§96 直接放在學校記過的例子上，收尾又說「法律寫了原則，也寫了例外」，玩家會以為記過直接適用 §102、§103。"
    ],
    "bb_fixed": "收尾改成「學校記過不直接適用這部法，可是先聽人說的道理一樣。例外為什麼存在，你們自己想。」（審查的人確認新文字；下面的「原文」是改之前的）",
+   "review": {
+    "result": "已修正",
+    "basis": "行政程序法 §3 III ⑥（學校為達成教育目的之內部程序不適用本法程序規定）；§102、§96",
+    "version": "現行條文",
+    "checked": "2026-10-14，WebSearch（法務部 2024 年函引用 §3 III ⑥ 條文；法務部早期函釋）",
+    "fix": "見「BB 已處理」：收尾改成「學校記過不直接適用這部法，可是先聽人說的道理一樣。……」",
+    "note": "哪些學生懲處算「內部程序」有討論；影響受教權的重大懲處另有正當程序要求（大學法、校規）。新收尾沒有說學校可以不聽學生說話",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y2S1",
@@ -136,6 +172,15 @@
     "§170 第 1 項規定常會「每年至少召集一次」，另有「於必要時召集」的臨時會；黑板與教授說「一年開一次」，次數與種類都說錯，玩家會以為股東會一年只能開一次。"
    ],
    "bb_fixed": "黑板改成「常會一年至少一次」；教授改成「股東會是公司的國會。常會一年至少開一次，有事再開臨時會。」（審查的人確認新文字；下面的「原文」是改之前的）",
+   "review": {
+    "result": "已修正",
+    "basis": "公司法 §170 I（常會每年至少召集一次；臨時會必要時召集）、II（會計年度終了後六個月內召開）",
+    "version": "現行條文",
+    "checked": "2026-10-14，WebSearch（會計師網站、臺北市訴願決定引述條文，兩個來源一致）",
+    "fix": "見「BB 已處理」：黑板「常會一年至少一次」；教授「……常會一年至少開一次，有事再開臨時會。」",
+    "note": "",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y3S1",
@@ -164,6 +209,15 @@
     "§202 的例外是「本法或章程」規定應由股東會決議的事項；只說章程，漏掉公司法本身保留給股東會的事項（如選任董事、變更章程、合併），推出「章程才是真正的老闆」不成立。"
    ],
    "bb_fixed": "芯慈改成「董事會說了算，除非法律或章程說要交給股東會。……那誰才是真正的老闆？」（審查的人確認新文字；下面的「原文」是改之前的）",
+   "review": {
+    "result": "已修正",
+    "basis": "公司法 §202（除本法或章程規定應由股東會決議之事項外，均應由董事會決議行之）",
+    "version": "現行條文",
+    "checked": "2026-10-14，WebSearch（法律百科引述最高法院判決、律師事務所電子報、學術文獻，一致）",
+    "fix": "見「BB 已處理」：芯慈改成「董事會說了算，除非法律或章程說要交給股東會。……」",
+    "note": "",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y3S1",
@@ -192,6 +246,15 @@
     "§157-1 第 1 項的禁止期間是消息明確後、未公開前「或公開後十八小時內」；黑板只寫「在消息公開以前買賣」，玩家會以為消息一公開就可以買賣。"
    ],
    "bb_fixed": "黑板改成「知道消息的人，在消息公開前、或公開後十八小時內買賣」（審查的人確認新文字；下面的「原文」是改之前的）",
+   "review": {
+    "result": "已修正",
+    "basis": "證券交易法 §157-1 I（實際知悉重大消息，消息明確後、未公開前或公開後十八小時內不得買賣）",
+    "version": "2010 年修正（十二小時改成十八小時、「獲悉」改成「實際知悉」；修正公布日待原文核對）；2025 年的資料仍是十八小時",
+    "checked": "2026-10-14，WebSearch（律師事務所電子報、2025 年內線交易法令簡報、國考試題資料，三個來源一致）",
+    "fix": "見「BB 已處理」：黑板改成「……在消息公開前、或公開後十八小時內買賣」",
+    "note": "",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y3S1",
@@ -220,6 +283,15 @@
     "公平法 §48 I（2015 年修正）規定不服公平會處分直接提起行政訴訟、不經訴願；台詞暗示套用大二學的一般行政救濟流程（先訴願），救濟程序的結論可能有誤。"
    ],
    "bb_fixed": "教授改成「公平會的處分不服，不用先訴願，直接打行政訴訟。大二的行政救濟又回來了。」（審查的人確認新文字；下面的「原文」是改之前的）",
+   "review": {
+    "result": "已修正",
+    "basis": "公平交易法 §48 I（不服依本法所為之處分或決定，直接適用行政訴訟程序）",
+    "version": "現行條文（2015-02-04 全文修正公布後）",
+    "checked": "2026-10-14，WebSearch（台北律師公會 2023、2026 兩篇文章：不經訴願、逕行起訴）",
+    "fix": "見「BB 已處理」：教授改成「公平會的處分不服，不用先訴願，直接打行政訴訟。……」",
+    "note": "",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y3S2",
@@ -248,6 +320,15 @@
     "黑板與教授說成一律從第一天加保，但 §6 只對僱用五人以上的特定事業強制，小店打工可能沒有勞保；雇主沒在到職當天通知，保險效力也不是從第一天開始。"
    ],
    "bb_fixed": "黑板改成「勞工保險／五人以上的公司／上班第一天就要加保」；教授改成「五人以上的公司，你上班第一天就要幫你加勞保。」阿哲的「我打工的時候有嗎？」保留（審查的人確認新文字；下面的「原文」是改之前的；職業災害保險的部分還要查）",
+   "review": {
+    "result": "已修正",
+    "basis": "勞工保險條例 §6（僱用五人以上的公司、行號等強制加保）、§8（未滿五人得自願加保）、§11（到職當日通知）；勞工職業災害保險及保護法 §6（已辦理登記、設有稅籍等雇主，不分人數都要加保）",
+    "version": "現行條文；劇情 2028 年秋（未來），依查證時的現行法",
+    "checked": "2026-10-14，WebSearch（勞動部說明、勞保局說明、人力銀行整理，一致）",
+    "fix": "見「BB 已處理」：教授「五人以上的公司，你上班第一天就要幫你加勞保。」；這次再加芯慈「店不到五個人，勞保可以不保；可是有登記的店，職災保險一定要保。」回答阿哲（`y4s1.py` 勞動社會法第 2 週）",
+    "note": "",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y4S1",
@@ -277,6 +358,15 @@
     "黑板依序對應會變成避稅合法、節稅灰色，與註記和選項的分類（節稅合法、租稅規避灰色、逃漏稅違法）相反，可能是排列順序錯誤。"
    ],
    "bb_fixed": "黑板順序改成「節稅、避稅、逃稅」（審查的人確認新文字；下面的「原文」是改之前的）",
+   "review": {
+    "result": "已修正",
+    "basis": "分類：節稅（合法）、租稅規避（灰色，依實質課稅調整）、逃漏稅（違法）",
+    "version": "—",
+    "checked": "2026-10-14，黑板順序的修正不涉條文；註記裡的納稅者權利保護法 §7、稅捐稽徵法 §41 這次沒有逐條核對（大四財稅法排在第 6 批再看）",
+    "fix": "見「BB 已處理」：黑板順序改成「節稅、避稅、逃稅」",
+    "note": "",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y4S1",
@@ -303,6 +393,15 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": {
+    "result": "無誤",
+    "basis": "日本國憲法 1947 年施行後未曾修正",
+    "version": "劇情 2025 年秋",
+    "checked": "2026-10-14，WebSearch（自民黨 2025-05-23 大會總裁致詞摘要：施行 78 年一次也沒改過；2026 年政黨方針仍以發議為目標）",
+    "fix": "",
+    "note": "之後的週次如果再提，照查證時的狀態；2026 年 10 月是否已有發議，這次沒有查到",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -338,6 +437,15 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": {
+    "result": "已修正",
+    "basis": "111 年憲判字第 2 號（2022-02-25）：民法 §195 I 後段「回復名譽之適當處分」不包括法院以判決命加害人道歉，釋字第 656 號在此範圍內變更",
+    "version": "劇情 2025 年秋（大一）、2028～2029 年（大四）都在這號判決之後",
+    "checked": "2026-10-14，WebSearch（憲法法庭判決摘要與全文、地方法院裁定引用，一致）",
+    "fix": "大一上憲法（上）第 11 週收尾改成「兩邊都要保護。憲法法庭也答過這題——先寫下你們的答案，以後拿來對照。」（原本「你們今天的答案，請寫在講義最後一頁。以後還會用到。」）",
+    "note": "其他 5 處（大四公法判決研討第 3、15 週、大四下專題第 11 週）的「以前的看法、後來的看法」「主文寫不用道歉」和現行見解一致，無誤。道歉以外的方法（例如由加害人負擔費用刊登判決）：二手資料提到後來的最高法院判決引用，字號待原文核對，遊戲不寫",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -414,6 +522,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -440,6 +549,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -473,6 +583,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -519,6 +630,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -547,6 +659,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -584,6 +697,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -611,6 +725,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -637,6 +752,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -663,6 +779,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -693,6 +810,7 @@
     "註記自己標「條號需查證」；審判權移送的規定 2022 年從行政訴訟法、民事訴訟法改到法院組織法，沿用修法前的移送條號就會寫錯；台詞「選錯就零分」「被推來推去」也容易讓玩家以為選錯法院案子就沒了。"
    ],
    "bb_fixed": "沒有改字。BB 判斷：柏翰那句講的是考試答題，不是法律效果；要查的是收尾「被推來推去」和 2022 年起法院組織法的移送新制，從 A 改列 B。",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -730,6 +848,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -757,6 +876,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -784,6 +904,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -810,6 +931,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -836,6 +958,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -862,6 +985,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -889,6 +1013,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -915,6 +1040,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -941,6 +1067,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -967,6 +1094,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -993,6 +1121,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -1019,6 +1148,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -1045,6 +1175,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -1071,6 +1202,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -1097,6 +1229,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -1123,6 +1256,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -1152,6 +1286,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -1198,6 +1333,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -1226,6 +1362,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -1262,6 +1399,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -1288,6 +1426,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -1319,6 +1458,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -1365,6 +1505,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -1391,6 +1532,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -1418,6 +1560,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -1444,6 +1587,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -1470,6 +1614,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -1498,6 +1643,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -1524,6 +1670,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -1550,6 +1697,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -1576,6 +1724,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -1602,6 +1751,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -1630,6 +1780,15 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": {
+    "result": "補充",
+    "basis": "民法 §94（對話：相對人了解時）、§95 I（非對話：通知達到時）；到達＝進入相對人支配範圍、可隨時了解內容",
+    "version": "現行條文",
+    "checked": "2026-10-14，WebSearch（法律百科、律師公會文章、商業雜誌：LINE 等一般歸非對話，以到達生效，已讀不是要件）",
+    "fix": "民總第 13 週加芯慈「可是兩個人正在線上一來一往，那不就像對話？」，呈現即時聊天算不算對話的不同看法；教授原句不改",
+    "note": "",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -1666,6 +1825,15 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": {
+    "result": "無誤",
+    "basis": "民法 §88 I 但書（非由表意人自己之過失者為限）：「過失」的標準學說、實務不一（有整理指出學說多採抽象輕過失、最高法院採具體輕過失）",
+    "version": "現行條文",
+    "checked": "2026-10-14，WebSearch（臺大法學論叢論文摘要、研究所考題）",
+    "fix": "",
+    "note": "芯慈只問不答，符合「不簡化爭議」",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -1692,6 +1860,15 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": {
+    "result": "補充",
+    "basis": "民法 §153、§154 II（貨物標定賣價陳列視為要約；價目表之寄送不視為要約）；網頁標價是要約或要約之引誘，學說、實務見解不一（多數判決傾向要約之引誘）；經濟部「零售業等網路交易定型化契約應記載及不得記載事項」",
+    "version": "現行條文；應記載事項 2016 年修正（二手資料，待原文核對）",
+    "checked": "2026-10-14，WebSearch（法律百科、臺大與政大學位論文摘要）",
+    "fix": "民總第 14 週教授開場改成「說錯了，能不能反悔？先假設契約已經成立：標錯價的賣家，可以不賣嗎？」",
+    "note": "",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -1721,6 +1898,15 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": {
+    "result": "無誤",
+    "basis": "憲法 §22；釋字第 603 號（戶籍法第 8 條換發身分證按捺指紋）",
+    "version": "劇情 2025 年秋",
+    "checked": "2026-10-14，WebSearch（司法院資料確認第 603 號處理戶籍法第 8 條；內容依通行教科書）",
+    "fix": "",
+    "note": "討論的方向（法律保留、目的、必要、保存與取用）和這號解釋一致；遊戲不講號",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -1748,6 +1934,15 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": {
+    "result": "補充",
+    "basis": "刑法 §15 I、II；學說與實務除法令、契約、危險前行為外，也承認自願承擔、緊密生活關係等來源",
+    "version": "現行條文",
+    "checked": "2026-10-14，WebSearch（法律百科；新聞報導法院以「自願承擔保護義務」認定保證人地位）",
+    "fix": "刑總（一）第 6 週收尾改成「能救，和該救，是兩件事。「該」從哪裡來，不只柏翰說的三種。這題我們還會回來。」",
+    "note": "形式說、實質說的詳細比較，搜尋結果不完整；本句只說「不只三種」，不替任何一說下結論",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -1774,6 +1969,15 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": {
+    "result": "無誤",
+    "basis": "刑法 §15；學說多以事實上承擔保護任務為準，不只看契約上的時間",
+    "version": "—",
+    "checked": "2026-10-14，WebSearch（同上；自願承擔的討論）",
+    "fix": "",
+    "note": "阿哲的提問只問不答，符合「不簡化爭議」",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -1800,6 +2004,15 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": {
+    "result": "已修正",
+    "basis": "具體符合說（對目標未遂、對誤擊者過失）與法定符合說（對誤擊者故意既遂）；具體符合說是多數教科書與考試採用的處理",
+    "version": "—",
+    "checked": "2026-10-14，WebSearch（法律百科、2026 年考試講義、期刊論文摘要）",
+    "fix": "刑總（一）第 13 週收尾原本「我站哪一說？下次講。」，第 14 週沒有接（第 14 週是結果加重犯），改成「……我站哪一說？你們先說服我。」",
+    "note": "柏翰的「兩說」是簡化，另有折衷說法；本週不替兩說下結論",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -1826,6 +2039,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -1854,6 +2068,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -1893,6 +2108,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -1929,6 +2145,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -1956,6 +2173,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -1983,6 +2201,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -2009,6 +2228,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -2036,6 +2256,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -2062,6 +2283,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -2088,6 +2310,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -2121,6 +2344,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -2178,6 +2402,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -2205,6 +2430,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -2231,6 +2457,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -2257,6 +2484,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -2283,6 +2511,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -2311,6 +2540,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -2337,6 +2567,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -2365,6 +2596,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -2402,6 +2634,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -2432,6 +2665,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -2478,6 +2712,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -2504,6 +2739,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -2530,6 +2766,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -2558,6 +2795,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -2595,6 +2833,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -2623,6 +2862,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -2659,6 +2899,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -2685,6 +2926,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -2711,6 +2953,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -2738,6 +2981,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -2765,6 +3009,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -2793,6 +3038,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -2819,6 +3065,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -2845,6 +3092,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -2872,6 +3120,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -2898,6 +3147,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -2925,6 +3175,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -2951,6 +3202,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -2977,6 +3229,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3004,6 +3257,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3040,6 +3294,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3066,6 +3321,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3092,6 +3348,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3119,6 +3376,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3155,6 +3413,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3182,6 +3441,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3208,6 +3468,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3234,6 +3495,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3260,6 +3522,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3288,6 +3551,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3326,6 +3590,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3362,6 +3627,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3388,6 +3654,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3415,6 +3682,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3454,6 +3722,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3500,6 +3769,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3528,6 +3798,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3564,6 +3835,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3591,6 +3863,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3618,6 +3891,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -3644,6 +3918,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -3670,6 +3945,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -3701,6 +3977,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -3747,6 +4024,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -3777,6 +4055,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -3814,6 +4093,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -3852,6 +4132,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -3888,6 +4169,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -3914,6 +4196,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -3940,6 +4223,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -3966,6 +4250,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -3993,6 +4278,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -4019,6 +4305,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -4046,6 +4333,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -4074,6 +4362,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -4115,6 +4404,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -4152,6 +4442,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -4180,6 +4471,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -4209,6 +4501,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -4245,6 +4538,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -4272,6 +4566,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -4298,6 +4593,15 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": {
+    "result": "無誤",
+    "basis": "民法 §91（依 §88、§89 撤銷時，對信其有效而受損害的相對人負賠償責任；受害人明知或可得而知者不在此限）",
+    "version": "現行條文",
+    "checked": "2026-10-14，條文；通行教科書",
+    "fix": "",
+    "note": "選項「看買的人看不看得出來」對應的是 §91 但書，教授的回應「『看得出來』這四個字，很重」沒有說錯",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -4324,6 +4628,15 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": {
+    "result": "無誤",
+    "basis": "中華民國憲法增修條文（例：§1 規定不適用本文 §4、§174；§3 規定本文 §55、§57 停止適用）",
+    "version": "現行增修條文",
+    "checked": "2026-10-14，條文；通行教科書",
+    "fix": "",
+    "note": "黑板「本文還在，有些條文停止適用」方向正確",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -4351,6 +4664,15 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": {
+    "result": "補充",
+    "basis": "刑法 §13 I（明知並有意使其發生）、II（預見其發生而其發生並不違背其本意者，以故意論）",
+    "version": "現行條文",
+    "checked": "2026-10-14，WebSearch（法律百科引述條文與實務例子）",
+    "fix": "刑總（一）第 13 週芯慈改成「故意是明知並有意，或預見了也不違背本意。……那 A 和 B 站得很近呢？」",
+    "note": "阿哲傳球打到阿姨沒有傷害故意，是過失的問題，不是打擊錯誤；本週沒有人說他是打擊錯誤，不改",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -4380,6 +4702,15 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": {
+    "result": "已修正",
+    "basis": "刑法 §25 II（未遂以有特別規定者為限）、§277（沒有處罰未遂）、§284（過失傷害）",
+    "version": "現行條文",
+    "checked": "2026-10-14，WebSearch（法律辭典：普通傷害未遂原則上不罰；條文引述）",
+    "fix": "大一上刑總（一）第 13 週：選項一的回應改成「對 A 未遂，可是傷害未遂不罰。那打到 B 的車窗呢？」；大一下刑總（二）第 5 週：案例補「他跌倒擦傷」",
+    "note": "",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -4416,6 +4747,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -4442,6 +4774,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -4468,6 +4801,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -4496,6 +4830,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -4532,6 +4867,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -4559,6 +4895,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -4585,6 +4922,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -4611,6 +4949,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -4637,6 +4976,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -4663,6 +5003,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -4690,6 +5031,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -4722,6 +5064,7 @@
     "柏翰把「瑕疵擔保六個月」講成考點，但六個月是自買受人依 §356 通知後起算，另有自交付時起五年的上限，而且只管解除與減少價金；沒講起算點，玩家會以為買後六個月就不能主張。"
    ],
    "bb_fixed": "沒有改字。BB 判斷：柏翰的記憶口訣，「六個月」本身沒有錯，只是沒講起算點，從 A 改列 D；建議之後讓教授補一句「通知後六個月、交付後五年」。",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -4748,6 +5091,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -4775,6 +5119,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -4803,6 +5148,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -4829,6 +5175,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -4855,6 +5202,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -4881,6 +5229,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -4909,6 +5258,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -4936,6 +5286,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -4963,6 +5314,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -4989,6 +5341,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5018,6 +5371,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5055,6 +5409,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5081,6 +5436,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5107,6 +5463,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5133,6 +5490,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5161,6 +5519,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5197,6 +5556,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5224,6 +5584,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5250,6 +5611,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5276,6 +5638,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5302,6 +5665,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5328,6 +5692,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5354,6 +5719,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5382,6 +5748,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5408,6 +5775,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5436,6 +5804,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5472,6 +5841,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5498,6 +5868,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5525,6 +5896,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5551,6 +5923,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5578,6 +5951,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -5605,6 +5979,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -5632,6 +6007,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -5660,6 +6036,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -5696,6 +6073,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -5723,6 +6101,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -5749,6 +6128,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -5775,6 +6155,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -5801,6 +6182,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -5828,6 +6210,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -5854,6 +6237,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -5881,6 +6265,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -5908,6 +6293,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -5936,6 +6322,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -5964,6 +6351,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -5992,6 +6380,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -6018,6 +6407,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -6044,6 +6434,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -6070,6 +6461,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -6096,6 +6488,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -6122,6 +6515,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -6149,6 +6543,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -6175,6 +6570,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -6201,6 +6597,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -6228,6 +6625,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -6254,6 +6652,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6280,6 +6679,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6306,6 +6706,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6336,6 +6737,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6382,6 +6784,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6408,6 +6811,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6434,6 +6838,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6461,6 +6866,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6497,6 +6903,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6523,6 +6930,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6551,6 +6959,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6588,6 +6997,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6624,6 +7034,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6650,6 +7061,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6676,6 +7088,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6702,6 +7115,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6728,6 +7142,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6754,6 +7169,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6780,6 +7196,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6806,6 +7223,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6832,6 +7250,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6858,6 +7277,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6885,6 +7305,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6913,6 +7334,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6939,6 +7361,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6965,6 +7388,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -6993,6 +7417,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -7019,6 +7444,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -7045,6 +7471,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -7073,6 +7500,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -7099,6 +7527,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -7128,6 +7557,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -7154,6 +7584,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -7180,6 +7611,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -7206,6 +7638,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -7234,6 +7667,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -7260,6 +7694,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -7286,6 +7721,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7314,6 +7750,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7340,6 +7777,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7366,6 +7804,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7392,6 +7831,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7418,6 +7858,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7444,6 +7885,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7470,6 +7912,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7496,6 +7939,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7522,6 +7966,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7549,6 +7994,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7585,6 +8031,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7611,6 +8058,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7637,6 +8085,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7663,6 +8112,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7689,6 +8139,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7715,6 +8166,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7741,6 +8193,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7767,6 +8220,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7793,6 +8247,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7819,6 +8274,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7845,6 +8301,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7871,6 +8328,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7898,6 +8356,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7924,6 +8383,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7951,6 +8411,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -7977,6 +8438,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -8003,6 +8465,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -8029,6 +8492,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -8055,6 +8519,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -8081,6 +8546,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -8107,6 +8573,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -8133,6 +8600,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -8159,6 +8627,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -8185,6 +8654,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -8211,6 +8681,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -8238,6 +8709,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -8264,6 +8736,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -8290,6 +8763,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -8316,6 +8790,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -8343,6 +8818,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -8370,6 +8846,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -8396,6 +8873,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -8422,6 +8900,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -8448,6 +8927,15 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": {
+    "result": "無誤",
+    "basis": "憲法 §11；釋字第 577 號（2004-05-07，菸品標示：言論自由包括積極表意與消極不表意）；111 年憲判字第 2 號",
+    "version": "—",
+    "checked": "2026-10-14，WebSearch（司法院解釋文與協同意見書摘要）",
+    "fix": "",
+    "note": "遊戲不講號",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -8474,6 +8962,15 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": {
+    "result": "無誤",
+    "basis": "憲法 §22；大法官解釋承認隱私權（例：釋字第 603 號）",
+    "version": "—",
+    "checked": "2026-10-14，WebSearch（同指紋那一項）",
+    "fix": "",
+    "note": "遊戲不講號",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -8501,6 +8998,15 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": {
+    "result": "無誤",
+    "basis": "歐盟規則 2019/1157（會員國身分證晶片存指紋）；歐洲法院 C-61/22（2024-03-21）認規則因法律依據錯誤而無效，但效力維持到新規則生效，最晚 2026 年底；英國、美國沒有全國性身分證",
+    "version": "劇情 2025 年秋：歐盟身分證指紋仍有效",
+    "checked": "2026-10-14，WebSearch（歐盟基本權利署判決資料庫、eucrim、EDRi，一致）",
+    "fix": "",
+    "note": "之後的週次如果再提，要查新規則",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -8529,6 +9035,15 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": {
+    "result": "無誤",
+    "basis": "刑法 §293（遺棄無自救力之人）、§294（依法令或契約負扶助、保護義務者）；沒有一般的見危不救罪",
+    "version": "現行條文",
+    "checked": "2026-10-14，WebSearch（法律百科：對陌生人見死不救不成立不作為犯）",
+    "fix": "",
+    "note": "「路人不救不對，但刑法不管」方向正確",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -8555,6 +9070,15 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": {
+    "result": "無誤",
+    "basis": "等價的客體錯誤（認錯人）不阻卻故意",
+    "version": "—",
+    "checked": "2026-10-14，通行教科書；WebSearch（法律百科打擊錯誤條目的對照說明）",
+    "fix": "",
+    "note": "不等價的情形（例如把人看成動物）處理不同，之後如果提到要另外說明",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -8583,6 +9107,15 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": {
+    "result": "無誤",
+    "basis": "刑法 §12 II（過失行為之處罰以有特別規定者為限）、§354（毀損只罰故意）",
+    "version": "現行條文",
+    "checked": "2026-10-14，WebSearch（法律百科：過失毀損刑法不罰、民事可能要賠）",
+    "fix": "",
+    "note": "只在教授的追問裡",
+    "batch": 1
+   },
    "occurrences": [
     {
      "term": "Y1S1",
@@ -8610,6 +9143,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -8638,6 +9172,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -8674,6 +9209,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -8700,6 +9236,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -8730,6 +9267,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -8766,6 +9304,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -8792,6 +9331,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -8818,6 +9358,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y1S2",
@@ -8844,6 +9385,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -8870,6 +9412,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -8896,6 +9439,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -8922,6 +9466,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -8948,6 +9493,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -8975,6 +9521,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -9002,6 +9549,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -9028,6 +9576,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -9054,6 +9603,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S1",
@@ -9081,6 +9631,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9107,6 +9658,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9133,6 +9685,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9159,6 +9712,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9185,6 +9739,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9211,6 +9766,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9237,6 +9793,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9263,6 +9820,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9289,6 +9847,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9315,6 +9874,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9341,6 +9901,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9367,6 +9928,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9393,6 +9955,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9420,6 +9983,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9447,6 +10011,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9473,6 +10038,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9499,6 +10065,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9526,6 +10093,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9554,6 +10122,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9590,6 +10159,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9617,6 +10187,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9643,6 +10214,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9669,6 +10241,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9695,6 +10268,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9723,6 +10297,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9749,6 +10324,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9775,6 +10351,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y2S2",
@@ -9803,6 +10380,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -9829,6 +10407,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -9856,6 +10435,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -9883,6 +10463,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -9909,6 +10490,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -9935,6 +10517,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -9961,6 +10544,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -9987,6 +10571,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -10014,6 +10599,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -10040,6 +10626,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -10066,6 +10653,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -10092,6 +10680,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S1",
@@ -10118,6 +10707,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10144,6 +10734,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10172,6 +10763,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10208,6 +10800,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10234,6 +10827,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10260,6 +10854,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10286,6 +10881,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10312,6 +10908,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10338,6 +10935,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10364,6 +10962,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10392,6 +10991,7 @@
    ],
    "doubt": [],
    "bb_fixed": "「下週講」改成「這學期後面會講」（評議在第 15 週）（審查的人確認新文字；下面的「原文」是改之前的）",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10428,6 +11028,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10454,6 +11055,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10480,6 +11082,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10506,6 +11109,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10532,6 +11136,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10558,6 +11163,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10585,6 +11191,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10611,6 +11218,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10637,6 +11245,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10663,6 +11272,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y3S2",
@@ -10690,6 +11300,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -10726,6 +11337,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -10752,6 +11364,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -10778,6 +11391,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -10804,6 +11418,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -10830,6 +11445,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -10858,6 +11474,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -10895,6 +11512,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -10921,6 +11539,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -10947,6 +11566,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -10973,6 +11593,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -10999,6 +11620,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -11025,6 +11647,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -11051,6 +11674,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -11077,6 +11701,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -11103,6 +11728,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -11129,6 +11755,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -11155,6 +11782,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -11181,6 +11809,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -11207,6 +11836,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -11233,6 +11863,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -11259,6 +11890,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -11285,6 +11917,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -11311,6 +11944,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -11337,6 +11971,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -11363,6 +11998,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -11389,6 +12025,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -11415,6 +12052,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -11443,6 +12081,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S1",
@@ -11469,6 +12108,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -11495,6 +12135,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -11521,6 +12162,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -11547,6 +12189,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -11573,6 +12216,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -11600,6 +12244,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -11626,6 +12271,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -11652,6 +12298,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -11678,6 +12325,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -11704,6 +12352,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
@@ -11730,6 +12379,7 @@
    ],
    "doubt": [],
    "bb_fixed": "",
+   "review": null,
    "occurrences": [
     {
      "term": "Y4S2",
