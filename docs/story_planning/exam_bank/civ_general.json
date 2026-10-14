@@ -1,0 +1,236 @@
+{
+ "course": "civ_general",
+ "name": "民法總則",
+ "term": "Y1S1",
+ "author": "AA",
+ "version": 1,
+ "updated": "2026-10-14",
+ "questions": [
+  {
+   "id": "civ_general_01",
+   "course": "civ_general",
+   "week": 2,
+   "type": "mc",
+   "q": "民事案件，法律沒有規定的時候，依民法第一條應該怎麼處理？",
+   "options": [
+    "先依法理；沒有法理，再依習慣",
+    "先依習慣；沒有習慣，再依法理",
+    "法律沒有規定，法官只能駁回",
+    "由雙方當事人自己決定適用什麼規則"
+   ],
+   "answer": 1,
+   "core": "民事的法源順序：法律 → 習慣 → 法理。",
+   "basis": "民法第 1 條：民事，法律所未規定者，依習慣；無習慣者，依法理。",
+   "checked": "全國法規資料庫（AA 2026-10-14）",
+   "status": "LEGAL_REVIEW_REQUIRED"
+  },
+  {
+   "id": "civ_general_02",
+   "course": "civ_general",
+   "week": 4,
+   "type": "mc",
+   "q": "依民法第七條，胎兒在什麼條件下，關於其個人利益的保護，視為既已出生？",
+   "options": [
+    "懷孕滿三個月以後",
+    "以將來非死產者為限",
+    "父母都同意的時候",
+    "辦完出生登記以後"
+   ],
+   "answer": 1,
+   "core": "胎兒只要將來不是死產，關於他自己的利益，就當作已經出生來保護。",
+   "basis": "民法第 7 條：胎兒以將來非死產者為限，關於其個人利益之保護，視為既已出生。",
+   "checked": "全國法規資料庫（AA 2026-10-14）",
+   "status": "LEGAL_REVIEW_REQUIRED"
+  },
+  {
+   "id": "civ_general_03",
+   "course": "civ_general",
+   "week": 5,
+   "type": "tf",
+   "q": "依民法第十二條，滿二十歲為成年。",
+   "options": null,
+   "answer": false,
+   "core": "現在的民法：滿十八歲為成年。",
+   "basis": "民法第 12 條：滿十八歲為成年。",
+   "checked": "全國法規資料庫（AA 2026-10-14）",
+   "status": "LEGAL_REVIEW_REQUIRED"
+  },
+  {
+   "id": "civ_general_04",
+   "course": "civ_general",
+   "week": 5,
+   "type": "mc",
+   "q": "依民法第十三條，未滿幾歲的未成年人，無行為能力？",
+   "options": [
+    "七歲",
+    "十二歲",
+    "十四歲",
+    "十八歲"
+   ],
+   "answer": 0,
+   "core": "未滿七歲：無行為能力；滿七歲以上的未成年人：限制行為能力。",
+   "basis": "民法第 13 條：未滿七歲之未成年人，無行為能力。滿七歲以上之未成年人，有限制行為能力。",
+   "checked": "全國法規資料庫（AA 2026-10-14）",
+   "status": "LEGAL_REVIEW_REQUIRED"
+  },
+  {
+   "id": "civ_general_05",
+   "course": "civ_general",
+   "week": 5,
+   "type": "tf",
+   "q": "限制行為能力人的意思表示，如果是依其年齡及身分、日常生活所必需的，不需要得到法定代理人的允許。",
+   "options": null,
+   "answer": true,
+   "core": "限制行為能力人原則上要法定代理人允許；純獲法律上利益，或依年齡及身分、日常生活所必需的，例外不用。",
+   "basis": "民法第 77 條：限制行為能力人為意思表示及受意思表示，應得法定代理人之允許。但純獲法律上利益，或依其年齡及身分、日常生活所必需者，不在此限。",
+   "checked": "全國法規資料庫（AA 2026-10-14）",
+   "status": "LEGAL_REVIEW_REQUIRED"
+  },
+  {
+   "id": "civ_general_06",
+   "course": "civ_general",
+   "week": 6,
+   "type": "tf",
+   "q": "受監護宣告之人，無行為能力。",
+   "options": null,
+   "answer": true,
+   "core": "受監護宣告的人沒有行為能力；受輔助宣告的人做條文列出的重要行為，才要輔助人同意。",
+   "basis": "民法第 15 條：受監護宣告之人，無行為能力。（對照第 15 條之 2：受輔助宣告之人為下列行為時，應經輔助人同意……）",
+   "checked": "全國法規資料庫（AA 2026-10-14）",
+   "status": "LEGAL_REVIEW_REQUIRED"
+  },
+  {
+   "id": "civ_general_07",
+   "course": "civ_general",
+   "week": 7,
+   "type": "tf",
+   "q": "一群人只要有共同的目的，不必依照法律的規定，就可以成立法人。",
+   "options": null,
+   "answer": false,
+   "core": "法人非依民法或其他法律的規定，不得成立。",
+   "basis": "民法第 25 條：法人非依本法或其他法律之規定，不得成立。",
+   "checked": "全國法規資料庫（AA 2026-10-14）",
+   "status": "LEGAL_REVIEW_REQUIRED"
+  },
+  {
+   "id": "civ_general_08",
+   "course": "civ_general",
+   "week": 10,
+   "type": "mc",
+   "q": "依民法第六十六條，什麼是不動產？",
+   "options": [
+    "價值超過一定金額的財產",
+    "土地及其定著物",
+    "辦過登記的所有東西",
+    "體積大、不方便搬動的物品"
+   ],
+   "answer": 1,
+   "core": "不動產＝土地及其定著物；不動產以外的物，是動產。",
+   "basis": "民法第 66 條第 1 項：稱不動產者，謂土地及其定著物。第 67 條：稱動產者，為前條所稱不動產以外之物。",
+   "checked": "全國法規資料庫（AA 2026-10-14）",
+   "status": "LEGAL_REVIEW_REQUIRED"
+  },
+  {
+   "id": "civ_general_09",
+   "course": "civ_general",
+   "week": 12,
+   "type": "tf",
+   "q": "依民法第七十一條，法律行為違反強制或禁止的規定，一律無效，沒有例外。",
+   "options": null,
+   "answer": false,
+   "core": "違反強制或禁止規定的法律行為，原則上無效；但規定本身不以之為無效的，不在此限。",
+   "basis": "民法第 71 條：法律行為，違反強制或禁止之規定者，無效。但其規定並不以之為無效者，不在此限。",
+   "checked": "全國法規資料庫（AA 2026-10-14）",
+   "status": "LEGAL_REVIEW_REQUIRED"
+  },
+  {
+   "id": "civ_general_10",
+   "course": "civ_general",
+   "week": 12,
+   "type": "tf",
+   "q": "法律行為有背於公共秩序或善良風俗者，無效。",
+   "options": null,
+   "answer": true,
+   "core": "就算雙方都同意，違背公序良俗的法律行為也無效。",
+   "basis": "民法第 72 條：法律行為，有背於公共秩序或善良風俗者，無效。",
+   "checked": "全國法規資料庫（AA 2026-10-14）",
+   "status": "LEGAL_REVIEW_REQUIRED"
+  },
+  {
+   "id": "civ_general_11",
+   "course": "civ_general",
+   "week": 13,
+   "type": "mc",
+   "q": "依民法第九十五條，非對話的意思表示，什麼時候發生效力？",
+   "options": [
+    "表意人發出通知的時候",
+    "通知達到相對人的時候",
+    "相對人讀完通知的時候",
+    "相對人回覆的時候"
+   ],
+   "answer": 1,
+   "core": "非對話的意思表示，通知達到相對人時發生效力；撤回的通知同時或先到，就不生效。",
+   "basis": "民法第 95 條第 1 項：非對話而為意思表示者，其意思表示，以通知達到相對人時，發生效力。但撤回之通知，同時或先時到達者，不在此限。",
+   "checked": "全國法規資料庫（AA 2026-10-14）",
+   "status": "LEGAL_REVIEW_REQUIRED"
+  },
+  {
+   "id": "civ_general_12",
+   "course": "civ_general",
+   "week": 14,
+   "type": "tf",
+   "q": "表意人因為自己的過失弄錯了意思表示的內容，仍然可以依民法第八十八條撤銷這個意思表示。",
+   "options": null,
+   "answer": false,
+   "core": "錯誤可以撤銷，但以錯誤不是表意人自己的過失造成的為限。",
+   "basis": "民法第 88 條第 1 項：意思表示之內容有錯誤，或表意人若知其事情即不為意思表示者，表意人得將其意思表示撤銷之。但以其錯誤或不知事情，非由表意人自己之過失者為限。",
+   "checked": "全國法規資料庫（AA 2026-10-14）",
+   "status": "LEGAL_REVIEW_REQUIRED",
+   "note": "只考條文文字（但書）；過失要到什麼程度，課堂討論，不出題。"
+  },
+  {
+   "id": "civ_general_13",
+   "course": "civ_general",
+   "week": 15,
+   "type": "tf",
+   "q": "無代理權人以代理人的名義所做的法律行為，非經本人承認，對於本人不生效力。",
+   "options": null,
+   "answer": true,
+   "core": "無權代理：本人承認才對本人生效；相對人可以定相當期限催告本人確答，逾期不答，視為拒絕承認。",
+   "basis": "民法第 170 條：無代理權人以代理人之名義所為之法律行為，非經本人承認，對於本人不生效力。前項情形，法律行為之相對人，得定相當期限，催告本人確答是否承認，如本人逾期未為確答者，視為拒絕承認。",
+   "checked": "全國法規資料庫（AA 2026-10-14）",
+   "status": "LEGAL_REVIEW_REQUIRED"
+  },
+  {
+   "id": "civ_general_14",
+   "course": "civ_general",
+   "week": 16,
+   "type": "mc",
+   "q": "依民法第一百二十五條，請求權原則上因幾年間不行使而消滅？",
+   "options": [
+    "二年",
+    "五年",
+    "十年",
+    "十五年"
+   ],
+   "answer": 3,
+   "core": "一般的消滅時效是十五年；法律定的期間較短的，依其規定（例如第 126 條的五年、第 127 條的二年）。",
+   "basis": "民法第 125 條：請求權，因十五年間不行使而消滅。但法律所定期間較短者，依其規定。",
+   "checked": "全國法規資料庫（AA 2026-10-14）",
+   "status": "LEGAL_REVIEW_REQUIRED"
+  },
+  {
+   "id": "civ_general_15",
+   "course": "civ_general",
+   "week": 16,
+   "type": "tf",
+   "q": "消滅時效完成以後，債務人可以拒絕給付。",
+   "options": null,
+   "answer": true,
+   "core": "時效完成，債務人得拒絕給付；已經付了的，不能用不知道時效為理由要回來。",
+   "basis": "民法第 144 條：時效完成後，債務人得拒絕給付。請求權已經時效消滅，債務人仍為履行之給付者，不得以不知時效為理由，請求返還；其以契約承認該債務或提出擔保者亦同。",
+   "checked": "全國法規資料庫（AA 2026-10-14）",
+   "status": "LEGAL_REVIEW_REQUIRED"
+  }
+ ]
+}
