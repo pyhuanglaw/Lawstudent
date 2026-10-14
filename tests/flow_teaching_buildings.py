@@ -4,7 +4,7 @@
 A. 從椰林大道（傅鐘東邊）點地面走到共同教學館正門：不瞬移；到門口出現「共同教學館」按鈕；今天沒有課——按下去就進館；
    自己走進共 101 階梯教室（側邊台階上到第 2 排）坐下、起身；走上樓梯到二樓走廊、自習區；走下樓、走出去回到正門前（D55 第二階段的室內）。
 B. 大地圖：地名「共同教學館」在建築的位置（地名資料＋點小地圖打開大地圖的截圖）。
-C. 手機「活動」分頁（沒有活動時寫「目前沒有」）；手機「地點」快速前往：從宿舍 → 共同教學館：到校園、站在門口前（站得住、不在建築裡）、時間有過（照距離約 5 分鐘）、出現「共同教學館」按鈕；
+C. 手機「活動」分頁（這幾天的活動都列出來；沒有活動時寫「目前沒有」）；手機「地點」快速前往：從宿舍 → 共同教學館：到校園、站在門口前（站得住、不在建築裡）、時間有過（照距離約 5 分鐘）、出現「共同教學館」按鈕；
    再自己走回椰林大道（不會卡在門口）。
 D. 手機「地點」→ 總圖書館：到總圖大廳、站得住。
 E. 舊存檔站在共同教學館的位置（建築裡）：讀檔後移到站得住的地方。
@@ -102,7 +102,8 @@ async def main():
         await run.shot(pg, 'C_phone_places')
         await L.tap(pg, cdp, '#phoneTabs button[data-ptab="events"]'); await pg.wait_for_timeout(800)
         txt = await pg.evaluate("(document.getElementById('phoneBody')||{}).textContent||''")
-        run.check('手機「活動」分頁：活動清單（遊戲裡還沒有活動：寫「目前沒有公告的演講或活動」）', '目前沒有公告的演講或活動' in txt, txt[:160])
+        up = await pg.evaluate("(typeof ACTIVITIES!=='undefined'?ACTIVITIES.upcoming(GAME.G,7):[]).map(o=>o.a.title)")   # 2026-10-13 起有活動（AA_110 6-3 第一批）
+        run.check('手機「活動」分頁：這幾天的演講與活動都列出來（沒有的話寫「目前沒有公告的演講或活動」）', (all(t in txt for t in up) and '目前沒有' not in txt) if up else '目前沒有公告的演講或活動' in txt, json.dumps(up, ensure_ascii=False) + ' ／ ' + txt[:160])
         await run.shot(pg, 'C_phone_events')
         await L.tap(pg, cdp, '#phoneTabs button[data-ptab="places"]'); await pg.wait_for_timeout(800)
         ok = await L.tap(pg, cdp, '#phoneBody [data-place="campus|共同教學館"]')
