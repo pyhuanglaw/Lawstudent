@@ -280,14 +280,14 @@
    "kind": "required",
    "exam": "mc5",
    "sources": [
-    "exam_y4/AA_enforcement.json（AA 寫，8 題；BB 交叉審通過 7 題）"
+    "exam_y4/AA_enforcement.json（AA 寫，8 題；BB 交叉審通過 8 題）"
    ],
    "confirmed": 0,
    "status": "ENABLED",
    "rule": "大四：AI 出題並自審（AA、BB 分科，互相交叉審）；status＝Y4_SELF_REVIEWED（作者自審完，還不抽）→ Y4_CROSS_REVIEWED（對方交叉審通過，才抽）；抽題母體＝Y4_CROSS_REVIEWED 的題目，≥5 題才開考",
    "owner": "AA",
    "selfReviewed": 8,
-   "crossReviewed": 7
+   "crossReviewed": 8
   },
   {
    "term": "Y4S1",
