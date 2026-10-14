@@ -8,7 +8,8 @@
   "answer": true,
   "core": "第 153 條第 1 項：意思表示一致，契約成立。",
   "basis": "民法第 153 條第 1 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_02",
@@ -24,7 +25,8 @@
   "answer": 1,
   "core": "第 153 條第 2 項：推定契約成立。",
   "basis": "民法第 153 條第 2 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_03",
@@ -35,7 +37,8 @@
   "answer": true,
   "core": "第 154 條第 2 項本文。",
   "basis": "民法第 154 條第 2 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_04",
@@ -46,7 +49,8 @@
   "answer": false,
   "core": "第 154 條第 2 項但書：價目表之寄送，不視為要約。",
   "basis": "民法第 154 條第 2 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_05",
@@ -62,7 +66,8 @@
   "answer": 0,
   "core": "第 154 條第 1 項但書。",
   "basis": "民法第 154 條第 1 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_06",
@@ -78,7 +83,8 @@
   "answer": 1,
   "core": "第 156 條：非立時承諾，即失其拘束力。",
   "basis": "民法第 156 條",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_07",
@@ -89,7 +95,8 @@
   "answer": true,
   "core": "第 158 條。",
   "basis": "民法第 158 條",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_08",
@@ -105,7 +112,8 @@
   "answer": 1,
   "core": "第 160 條第 2 項。",
   "basis": "民法第 160 條第 2 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_09",
@@ -116,7 +124,8 @@
   "answer": true,
   "core": "第 164 條第 1 項。",
   "basis": "民法第 164 條第 1 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_10",
@@ -132,7 +141,8 @@
   "answer": 1,
   "core": "第 164 條第 4 項：準用前三項規定。",
   "basis": "民法第 164 條第 4 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_11",
@@ -148,7 +158,8 @@
   "answer": 0,
   "core": "第 164 條第 2 項：最先完成該行為之人。",
   "basis": "民法第 164 條第 2 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_12",
@@ -164,7 +175,8 @@
   "answer": 1,
   "core": "第 247 條之 1：該部分約定無效。",
   "basis": "民法第 247 條之 1",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_13",
@@ -175,7 +187,8 @@
   "answer": true,
   "core": "第 247 條之 1 第 3 款。",
   "basis": "民法第 247 條之 1",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_14",
@@ -191,7 +204,8 @@
   "answer": 1,
   "core": "第 167 條。",
   "basis": "民法第 167 條",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_15",
@@ -202,7 +216,8 @@
   "answer": true,
   "core": "第 172 條。",
   "basis": "民法第 172 條",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_16",
@@ -213,7 +228,8 @@
   "answer": true,
   "core": "第 173 條第 1 項。",
   "basis": "民法第 173 條第 1 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_17",
@@ -229,7 +245,8 @@
   "answer": 1,
   "core": "第 176 條第 1 項。",
   "basis": "民法第 176 條第 1 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_18",
@@ -240,7 +257,8 @@
   "answer": true,
   "core": "第 179 條前段。",
   "basis": "民法第 179 條",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_19",
@@ -251,7 +269,8 @@
   "answer": false,
   "core": "第 179 條後段：其後已不存在者，亦同。",
   "basis": "民法第 179 條",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_20",
@@ -267,7 +286,8 @@
   "answer": 1,
   "core": "第 182 條第 1 項。",
   "basis": "民法第 182 條第 1 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_21",
@@ -283,7 +303,8 @@
   "answer": 0,
   "core": "第 182 條第 2 項。",
   "basis": "民法第 182 條第 2 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_22",
@@ -294,7 +315,8 @@
   "answer": true,
   "core": "第 184 條第 1 項前段。",
   "basis": "民法第 184 條第 1 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_23",
@@ -305,7 +327,8 @@
   "answer": true,
   "core": "第 184 條第 1 項後段。",
   "basis": "民法第 184 條第 1 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_24",
@@ -321,7 +344,8 @@
   "answer": 1,
   "core": "第 184 條第 2 項。",
   "basis": "民法第 184 條第 2 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_25",
@@ -337,7 +361,8 @@
   "answer": 0,
   "core": "第 213 條第 1 項：回復原狀為原則。",
   "basis": "民法第 213 條第 1 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  },
  {
   "id": "oblig_gen1_26",
@@ -348,6 +373,7 @@
   "answer": true,
   "core": "第 213 條第 3 項。",
   "basis": "民法第 213 條第 3 項",
-  "status": "LEGAL_REVIEW_REQUIRED"
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
  }
 ]
