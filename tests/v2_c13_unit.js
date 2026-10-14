@@ -89,5 +89,13 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const missedRun=(st)=>{ fresh(thu,18,'campus'); PHONE.join(G,'noodle_team','麵店團'); mark(st); run(18,22); return G.msgs.filter(m=>m.tag==='b4_missed'); };
   let M=missedRun(null); check('8. 沒去：21:30 小語在麵店團「講者最後問：被限制的人可以去哪裡。我想了一路。」',M.length===1&&M[0].from==='yu'&&M[0].text==='講者最後問：被限制的人可以去哪裡。我想了一路。'&&M[0].h===21.5,JSON.stringify(M.map(m=>[m.h,m.from,m.text])));
   check('8. 聽完、中途離開：沒有這一則',missedRun('full').length===0&&missedRun('left').length===0);
+  /* 散場先走：第 12 週週一憲法（下）下課，以安好奇地問 */
+  { const e5=ev('ev_b4_left_an'); const mon=termDay('Y1S2',12,1);
+    const conOn=(left,know)=>{ fresh(mon,8,'classroom'); if(know!==false) meet('heroine_01'); if(left) G.flags.LEFT_AFTER_B4=true; return CLS.dayItems(G,mon).find(x=>x.c.id==='const_2'); };
+    let it=conOn(true); check('9. 第 12 週週一有憲法（下）',!!e5&&!!it&&!it.exam,JSON.stringify({e5:!!e5,it:!!it}));
+    if(e5&&it){ G.hour=it.t0+0.1; said=[]; await CLS.attend(GM,it); check('9. 散場先走的玩家：憲法（下）下課後以安「你那天聽完就走了。你怎麼想？」',lines().includes('沈以安：你那天聽完就走了。你怎麼想？'),JSON.stringify(lines()));
+      it=conOn(false); G.hour=it.t0+0.1; said=[]; await CLS.attend(GM,it); check('9. 沒有先走（留下來或沒去）：沒有這一句',!lines().some(l=>l.includes('聽完就走了')),JSON.stringify(lines()));
+      const w13=termDay('Y1S2',13,1); fresh(w13,8,'classroom'); meet('heroine_01'); G.flags.LEFT_AFTER_B4=true; const it13=CLS.dayItems(G,w13).find(x=>x.c.id==='const_2');
+      if(it13){ G.hour=it13.t0+0.1; said=[]; await CLS.attend(GM,it13); } check('9. 只在第 12 週（第 13 週不演）',!it13||!lines().some(l=>l.includes('聽完就走了'))); } }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
