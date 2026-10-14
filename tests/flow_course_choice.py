@@ -44,7 +44,11 @@ async def settle(pg, cdp, run, pick_prefix=None, max_steps=40):
     said, opts_seen = [], []
     for _ in range(max_steps):
         q = await L.state(pg)
-        if q['dtext'] and (not said or said[-1] != q['dtext']): said.append(q['dtext'])
+        # 記整句（GAME.D.full）：畫面上的字是打字機效果打到一半的樣子，SwiftShader 1 fps 時取樣常常只拿到半句，
+        # 下一次取樣已經是下一句（2026-10-14 v9.6 回歸：「選課結果出來」少了「了」）——判斷標準不變，只是不靠取樣剛好碰到打完的那一刻
+        full = await pg.evaluate("(()=>{ const D=GAME.D; return D&&D.active?String(D.full||''):''; })()")
+        t = full or q['dtext']
+        if t and (not said or said[-1] != t): said.append(t)
         if q['choices']:
             opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
             opts_seen.append(opts)
