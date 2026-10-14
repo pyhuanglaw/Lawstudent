@@ -10,6 +10,16 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-14 05:02 UTC（開發分支最新 `a15c636`；線上 v9.5＝`a4f2760`，main 沒動；v9.6 候選 10 `2f138a5` 在跑發布回歸——使用者 04:48 要兩小時內看到 v9.6）**：
+- **v9.6 發布回歸**：候選都是本機分支，備份在 `wip_backup/v96-rc10.bundle`（含候選 4～10，前置 `5f66b67`）。
+  - 候選 8 `6c2d6e9`：只改測試——flow_classes（HUD 等它出現、教授下課走到門口、C 段改成共同 102 大一英文、D 段只查 C 段、手機分頁等換過去）＋flow_soclib（看不到「坐下讀書」再往椅子走一步）。
+  - 候選 9 `781e292`：共同教學館、大一女舍的正式外觀先不放（校門鏡頭 draw call 1.138 倍＞1.1 倍；src/assets3d.js 拿掉兩行）＋campus_glb_integration 外框比對修正。
+  - 候選 10 `2f138a5`：flow_soclib 窗邊座位照玩家走（按鈕出現就停；候選 8 那一輪點了 91 次到時間用完，按鈕早就出現）。
+  - 佇列（`scratchpad/q`，執行器 `bguqrhkph` 04:59 起，**06:59 前要換**，提醒 06:40）：campus_glb_integration → flow_soclib → flow_classes → deploy_check → save_compat_v7 → p0_movement → minimap_direction → zone_transitions → touch_flow_wenzhou → reachability_all → campus_layout_nav → flow_teaching_buildings → 其他。
+  - 發布後 merge 回開發分支已在 `scratchpad/wt_merge` 試過（7 個衝突檔全取開發分支的版本；開發分支保留兩棟正式外觀；單元測試全過）。發布紀錄草稿 `scratchpad/rel_v96_entry.md`。
+- **開發分支新增（不在 v9.6）**：大一上 v1 第 10 批——`aa243db` A20 聖誕交換禮物、`243fd79` 可昕 K4 視訊讀書＋12/3 生日（手機回覆期限、出遊 beforeOuting）、`c5c228f` 可昕 K2 第一次來台大；A18 確認已在討論型課堂（憲法第 11 週）。tests/v1_batch10_unit.js 55 項全過，瀏覽器沒看。已告訴 AA、BB（DELIVERED）。
+- **已知問題（開發分支修）**：社科院北側長桌的站位 0.9 m（按鈕 0.8 m）、點椅子會走到別張椅子；共同教學館、大一女舍的模型材質太多（已請 LAWWW2 合併，DELIVERED，等 ACK）。
+
 **2026-10-14 04:16 UTC（開發分支最新 `bc02c5d`；線上 v9.5＝`a4f2760`，main 沒動；v9.6 候選 7 `e2c4f10` 在跑發布回歸）**：
 - **v9.6 發布回歸**：候選都是本機分支（備份 `wip_backup/v96-rc7.bundle`）。
   - 候選 4 `1c62e0a`＝7223e75 課堂法律內容閘門＋playlib 跨樓層。
