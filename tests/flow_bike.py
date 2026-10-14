@@ -26,6 +26,12 @@ FIT_JS = """(()=>{ const h=GAME.E.player.obj, vrm=h.userData.vrm, bk=h.children.
   return {footL:+W(R('leftFoot')).distanceTo(tl).toFixed(3), footR:+W(R('rightFoot')).distanceTo(tr).toFixed(3), handL:+W(R('leftHand')).distanceTo(gl).toFixed(3), handR:+W(R('rightHand')).distanceTo(gr).toFixed(3)}; })()"""
 
 
+# 從玩家的位置往 24 個方向看，哪一個方向能一直站得住最遠（導航格，人物半徑 0.35 m）：回傳那個方向 30 m 內最遠的點
+OPEN_JS = """(()=>{ const E=GAME.E, P=E.player, x0=P.obj.position.x, z0=P.obj.position.z, lv=P.lv|0; let best=null;
+  for(let k=0;k<24;k++){ const a=k/24*Math.PI*2, dx=Math.sin(a), dz=Math.cos(a); let d=0; while(d<30&&E.canStand(x0+dx*(d+0.5),z0+dz*(d+0.5),0.35,lv)) d+=0.5;
+    if(!best||d>best.d) best={d,tx:x0+dx*d,tz:z0+dz*d}; } return best; })()"""
+
+
 async def bike(pg):
     return await pg.evaluate(BIKE_JS)
 
@@ -41,9 +47,7 @@ async def wait_until(pg, js, secs):
 async def ride_forward(pg, cdp, secs):
     """搖桿往前推 secs 秒（真人按住搖桿）；回傳 (距離, 遊戲裡經過的秒數)"""
     b0 = await bike(pg)
-    t0 = time.time()
-    while time.time() - t0 < secs:
-        await L.joystick(pg, cdp, 0, -45, 1500)
+    await L.joystick(pg, cdp, 0, -45, int(secs * 1000))   # 一直按住（候選 14：原本每 1.5 秒放開再按，SwiftShader 1～2 fps 時放開的那幾幀也算進遊戲時間——位移 6.2 m＝遊戲裡騎了 1 秒，卻量成 1.8 秒）
     b1 = await bike(pg)
     return math.hypot(b1['x'] - b0['x'], b1['z'] - b0['z']), b1['t'] - b0['t']
 
@@ -69,17 +73,25 @@ async def main():
         run.check('A 按「騎腳踏車」：上車（姿勢 ride、車掛在玩家底下、停著的車拿掉、出現「下車」）', ok and k['pose'] == 'ride' and k['on'] and not k['parked'] and k['btn'], json.dumps({x: k[x] for x in ('riding', 'pose', 'on', 'parked', 'btn')}))
         await run.shot(pg, 'A_mounted')
         # ---------- B：騎 ----------
+        # 鏡頭先轉向最空的方向（像玩家一樣用手指滑鏡頭）：上車時鏡頭對著男一舍的牆，直接推搖桿「往前」會騎去撞牆、2.3 m 就停住（v9.7 回歸第一次跑：1.15 m/s）
+        op = await pg.evaluate(OPEN_JS)
+        await L.turn_camera_to(pg, cdp, op['tx'], op['tz'])
+        # 先推一下讓車頭轉到鏡頭的方向（車頭不是瞬間轉向），再量直線騎的速度：v9.7 回歸第二次跑，量的那一段包含從對著牆轉向空的方向，位移 5.6 m／遊戲 1.72 秒＝3.25 m/s（SwiftShader 1～2 fps）
+        await ride_forward(pg, cdp, 4)
         d, dt = await ride_forward(pg, cdp, 9)
         k = await bike(pg)
         sp = d / dt if dt > 0 else 0
         run.check('B 搖桿往前：騎車速度（5.5 m/s 以上；跑步 4.8）、輪子和曲柄有轉', sp >= 5.5 and k['dbg'] and k['dbg']['wheel'] > 1 and k['dbg']['crank'] > 0.4, f'{d:.1f} m / {dt:.2f} s = {sp:.2f} m/s；{json.dumps(k["dbg"])}')
+        await pg.wait_for_timeout(2500)   # 車停下來再量（候選 14：騎的時候一幀曲柄轉約 48°（SwiftShader 每幀 0.1 秒），人物的踏板位置和車的踏板差一幀＝兩腳都 13.4 cm；60 fps 時約 2 cm）
         fit = await pg.evaluate(FIT_JS)
         run.check('B 腳踝在踏板上、手腕在把手上（≤ 5 cm，瀏覽器裡的真實骨架和車的節點）', bool(fit) and max(fit.values()) <= 0.05, json.dumps(fit))
         await run.shot(pg, 'B_riding_back')
         await L.drag(pg, cdp, 200, 200, 420, 200, steps=12); await pg.wait_for_timeout(2500)
         await run.shot(pg, 'B_riding_side')
         # ---------- C：騎出校門 ----------
-        await L.go_to(pg, cdp, run, -122.5, 0, 2.5, '校門')
+        # 校門的出口互動點照遊戲裡的位置（zones3d.js：(-126,0)、範圍 3 m）；原本寫死走到 (-122.5,0)，離出口 3.5 m，「走出校門」不會出現（v9.7 回歸第一次跑）
+        gate = await pg.evaluate("(()=>{ const i=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='gongguan'); return i&&{x:i.x,z:i.z,r:i.radius||1.8}; })()")
+        await L.go_to(pg, cdp, run, gate['x'], gate['z'], min(2.5, gate['r'] - 0.4), '校門')
         s = await L.state(pg)
         run.check('C 騎到校門：出現「走出校門」、還在騎', s['interact'].startswith('走出校門') and s['pose'] == 'ride', f"{s['interact']} {s['pose']}")
         await L.tap(pg, cdp, '#interact')
@@ -104,7 +116,8 @@ async def main():
         ok2 = await wait_until(pg, "!!GAME.E.zone.group.children.find(o=>o.name==='bike_ride')", 30)
         k = await bike(pg)
         run.check('D 出店：車停在門口', ok and ok2 and k['parked'] and math.hypot(k['parked'][0] - bz['x'], k['parked'][1] - bz['z']) < 0.01, json.dumps(k['parked']))
-        await L.go_to(pg, cdp, run, k['parked'][0] - 0.8, k['parked'][1], 0.9, '腳踏車旁邊')
+        ux, uz = k['parked'][0] - door['x'], k['parked'][1] - door['z']; ul = math.hypot(ux, uz) or 1   # 站在車離店門遠的那一邊（候選 14：站在靠門那邊，按鈕是「進入便利商店」——門比車近）
+        await L.go_to(pg, cdp, run, k['parked'][0] + 0.8 * ux / ul, k['parked'][1] + 0.8 * uz / ul, 0.9, '腳踏車旁邊（離店門遠的那一邊）')
         s = await L.state(pg)
         run.check('D 走到車旁邊：出現「騎腳踏車」', s['interact'].startswith('騎腳踏車'), s['interact'])
         await run.shot(pg, 'D_parked_at_shop')
@@ -129,6 +142,7 @@ async def main():
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
         await b.close()
     print('ALL PASS' if not run.fails else 'FAILED: ' + ', '.join(run.fails))
+    return 1 if run.fails else 0
 
 
-asyncio.run(main())
+sys.exit(asyncio.run(main()))   # 失敗時結束碼 1（v9.7 回歸：原本印 FAILED 但結束碼 0，佇列記成 rc=0）
