@@ -65,5 +65,16 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('第一次：（研討室的白板上寫著「公法讀書會」。下面是以安的字：「每人十分鐘。」）（小語在旁邊補：「可以吃東西。」）、PUBLIC_LAW_GROUP',JSON.stringify(L)===JSON.stringify(['（研討室的白板上寫著「公法讀書會」。下面是以安的字：「每人十分鐘。」）','（小語在旁邊補：「可以吃東西。」）'])&&G.flags.PUBLIC_LAW_GROUP===true,JSON.stringify(L));
     check('之後：沒有第一次的事件（每週照常參加）',CLS.clubEvent(G,A)===null);
     const c=CHARACTERS.heroine_01; G.hour=20.5; const s=STORY.schedEnt(c,G); check('以安週四 20:30 在萬才館（公法讀書會）',s&&s.zone==='wancai',JSON.stringify(s&&s.zone)); }
+  /* ---------- C21 沛珊和柏翰（第一個畫面：第 4 週法服讀書會結束後）＋法服讀書會大一下也有 ---------- */
+  { const L=ACTIVITIES.list.find(a=>a.id==='lawclub_study'), e=ev('ev_peishan_bohan_w4'); check('C21：事件在',!!e);
+    const W=(term,w)=>termDay(term,w,3);
+    check('法服讀書會：大一下第 2～7、10～16 週的週三也有（期中第 8～9 週沒有）；大一上照舊第 5 週起（第 4 週沒有）',ACTIVITIES.on(L,W('Y1S2',2))&&ACTIVITIES.on(L,W('Y1S2',4))&&ACTIVITIES.on(L,W('Y1S2',16))&&!ACTIVITIES.on(L,W('Y1S2',8))&&!ACTIVITIES.on(L,W('Y1S2',17))&&!ACTIVITIES.on(L,W('Y1S1',4))&&ACTIVITIES.on(L,W('Y1S1',5)));
+    check('門口的說明照學期寫「第幾週起」：大一上第 5 週、大一下第 2 週',/（第 5 週起）/.test(CLS.clubWhen(L,'Y1S1'))&&/（第 2 週起）/.test(CLS.clubWhen(L,'Y1S2')),CLS.clubWhen(L,'Y1S2'));
+    if(e){ const at=(w,known)=>{ fresh(W('Y1S2',w),21,'wancai'); if(known) SOCIAL.meet('classmate_peishan','campus'); return CLS.afterActEvent(G,L); };
+      check('C21：第 4 週法服讀書會結束後、認識沛珊＝演；不認識、第 5 週都沒有',at(4,true)===e&&!at(4,false)&&!at(5,true));
+      fresh(W('Y1S2',4),19,'wancai'); SOCIAL.meet('classmate_peishan','campus'); G.flags.lawclub=true; G.events.done.ev_studygroup_wed=1;
+      await CLS.attendActivity(GM,L,{door:true}); const Ls=lines();
+      check('C21：照玩家流程參加（attendActivity）——社課結束以後接著演：（讀書會結束。沛珊和柏翰一起走出萬才館，一路在爭下週誰報告哪一題。）（你在後面收白板。）',Ls.includes('（讀書會結束。沛珊和柏翰一起走出萬才館，一路在爭下週誰報告哪一題。）')&&Ls[Ls.length-1]==='（你在後面收白板。）'&&G.events.done.ev_peishan_bohan_w4===1,JSON.stringify(Ls.slice(-3)));
+      check('C21：只有畫面——沒有選項、沒有訊息',!opts.length&&!(G.msgs||[]).some(m=>/柏翰/.test(m.text||''))); } }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

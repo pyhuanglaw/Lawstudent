@@ -31,7 +31,8 @@ const ACTIVITIES={
      desc:'練和弦、輪流彈一首。',story:false,
      narr:['（今天練 C、G、Am 三個和弦。換和弦的時候，整間教室都慢了半拍。）','（今天輪流彈一首。你彈錯了第二小節，大家笑得比你大聲。）','（有人帶了洋芋片。練習的時間，比吃東西的時間短一點。）',
            '（今天練刷法：下、下、上、上、下、上。你的右手比左手聽話。）','（學長示範一首老歌。大家安靜聽完，然後各自練回自己的和弦。）','（手指上的紅痕沒那麼痛了。你多撐了兩首歌。）']},
-    {id:'lawclub_study',title:'法服讀書會',clubName:'法服（法律服務社）',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15,16],weekday:3,t0:19,t1:21,
+    /* 大一下也有（交接包 v2：第 4 週讀書會結束後的沛珊和柏翰、第 14 週和成發同一晚、第 15 週「最後幾次」）；大一下的週次原文沒寫，先排第 2～7、10～16 週（期中、期末沒有；已問 AA）*/
+    {id:'lawclub_study',title:'法服讀書會',clubName:'法服（法律服務社）',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S1','Y1S2'],weeks:[5,6,7,10,11,12,13,14,15,16],termWeeks:{Y1S2:[2,3,4,5,6,7,10,11,12,13,14,15,16]},weekday:3,t0:19,t1:21,
      desc:'刑訴題庫每次兩三題（讀書會的方式：先聽爭點怎麼吵）。',story:false,narrAt:'start',
      narr:['（白板上寫著今天的兩個爭點。大家先安靜讀五分鐘。）','（今天的題目是學長姊從題庫裡挑的。一年級坐後面，先聽。）','（研討室的冷氣很強。有人把外套借給隔壁，然後開始吵第一題。）',
            '（今天來的人比上週少兩個。題目反而讀得比較深。）','（結束前，每個人把今天的爭點用一句話寫在白板上。）']},
@@ -65,7 +66,7 @@ const ACTIVITIES={
   on(a,day){ if(typeof CALENDAR==='undefined') return false; const d=CALENDAR.dateOf(day);
     if(a.dates) return a.dates.includes(d.key);
     if(CALENDAR.holiday(day)&&!a.holidays) return false;   /* 照學期、週次、星期排的活動：放假那天不辦（2026-10-13 審查；真的要在假日辦的寫 holidays:true 或用 dates）*/
-    if(a.weekday&&d.wd!==a.weekday) return false; if(a.weekdays&&!a.weekdays.includes(d.wd)) return false; const t=CALENDAR.termOf(day); if(a.term&&(!t||!a.term.includes(t.id))) return false; if(a.weeks&&(!t||!a.weeks.includes(t.week))) return false; return !!(a.term||a.weeks||a.weekday||a.weekdays); },
+    if(a.weekday&&d.wd!==a.weekday) return false; if(a.weekdays&&!a.weekdays.includes(d.wd)) return false; const t=CALENDAR.termOf(day); if(a.term&&(!t||!a.term.includes(t.id))) return false; const wks=(a.termWeeks&&t&&a.termWeeks[t.id])||a.weeks; if(wks&&(!t||!wks.includes(t.week))) return false; return !!(a.term||a.weeks||a.weekday||a.weekdays); },   /* termWeeks：不同學期的週次不一樣（法服讀書會大一下第 2 週起）*/
   /* 活動的時段（AA_110 第 5 節）：'before'（今天還沒開始）／'during'（進行中）／'justEnded'（結束後 20 分鐘內：「散場後的走廊」）／'after'（更晚）；今天沒有這個活動＝null */
   phaseOf(G,id){ const a=ACTIVITIES.list.find(q=>q.id===id); if(!a||!ACTIVITIES.on(a,G.day)) return null; const h=G.hour%24; return h<a.t0?'before':(h<a.t1?'during':(h<a.t1+1/3?'justEnded':'after')); },
   /* 現在進行中（before：開始前幾小時也算，給人流用）；justEnded：**只算結束後 20 分鐘內**（2026-10-13 ChatGPT 審查：原本從開始一直算到結束後 20 分鐘，演講進行中也會觸發「散場後」的事件）*/
