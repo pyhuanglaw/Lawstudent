@@ -129,9 +129,9 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     check('G 結果（阿姨週三去了法服）：那個週三還不出現、之後才出現',a===false&&b===true,JSON.stringify({d,wed,a,b}));
     said=[]; await EVENTS.run(after); check('G 結果的旁白（三種選擇都一樣）',lines()[0]==='阿姨週三去了法服。溫學姊幫她把那天的進貨單、發票、監視器的時間整理好。'&&lines()[1]==='客人看到阿姨準備得這麼齊，就沒有再來了。'); }
   /* ---------- H 房間物件 ---------- */
-  { fresh(5,20,'dorm',{dating_kexin:true}); picks=[0,1,2,3,4,5]; await STORY._v1.roomItems(GM);
+  { fresh(5,20,'dorm',{dating_kexin:true}); picks=[0,1,2,3,4,6]; await STORY._v1.roomItems(GM);   /* 大一同房時多一樣「阿凱的泡麵評鑑表」（BB_120 1-7c，在固定的五樣後面；內容在 bb120_fixed_unit）*/
     const W=['以前翻過。看得到字，看不懂意思。','經濟系那一年的課本。邊角都翻軟了。','重考那段時間的筆記。一半是你的字，一半是她的。','摩天輪的票根。兩個人開始交往的那一天。','河堤邊停著幾台腳踏車。那一群人，那一年。'];
-    check('H 五個物件的旁白（AA_12 原文）、「不看了」結束',JSON.stringify(lines())===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['書架上的舊《民法》','經濟學原理（一年前的課本）','寫滿的筆記本','摩天輪的票根（夾在桌墊下）','手機相簿的一張照片','不看了']),JSON.stringify(lines()));
+    check('H 五個物件的旁白（AA_12 原文）、「不看了」結束',JSON.stringify(lines())===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['書架上的舊《民法》','經濟學原理（一年前的課本）','寫滿的筆記本','摩天輪的票根（夾在桌墊下）','手機相簿的一張照片','阿凱的泡麵評鑑表','不看了']),JSON.stringify(lines()));
     const zsrc=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8'); check('H 宿舍有「看看房間裡的東西」的互動點',/label:'看看房間裡的東西',roomItems:true/.test(zsrc)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

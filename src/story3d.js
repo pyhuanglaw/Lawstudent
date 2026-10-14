@@ -325,7 +325,7 @@ const STORY = (function(){
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ CLS.tick(GM); }catch(e){ console.warn('CLS.tick',e); } }   /* 課表（D52）*/
     if(typeof PHONE!=='undefined'){ try{ S.phoneRules(GM); PHONE.tick(G,out=>{ if(out.length) GM.toast('手機｜'+PHONE.notice(G,out[0]),3800); if(GM.phoneBadge) GM.phoneBadge(); }); }catch(e){ console.warn('PHONE',e); } }   /* 手機：排定時間的訊息（交接包 v1）*/
     if(G.zone==='noodle') noodleRegulars(GM);   /* 麵店的固定客人：時間到了進來、離開 */
-    if(G.zone==='dorm') S.dormItems(GM);   /* 房間裡跟著劇情出現的東西（黃金葛、阿凱的鍵盤盒子）*/
+    if(G.zone==='dorm'){ S.dormItems(GM); if(fyPotsTick(GM,dt)) return; }   /* 房間裡跟著劇情出現的東西（黃金葛、阿凱的鍵盤盒子、方奕廷的三盆植物）*/
     if(typeof CROWD!=='undefined'){ try{ CROWD.tick(GM,dt); }catch(e){ console.warn('CROWD.tick',e); } }   /* 公共場景的人流（D55）*/
     if(typeof INV!=='undefined'){ try{ INV.tick(GM); if(INV.walkChat) INV.walkChat(GM,dt); }catch(e){ console.warn('INV.tick',e); } }   /* 邀約：過了時間沒見到＝沒赴約；一起走過去的路上聊一句 */
     if(typeof OUT!=='undefined'){ try{ const p=OUT.tick(GM); if(p&&p.catch) p.catch(e=>console.warn('OUT.tick',e)); }catch(e){ console.warn('OUT.tick',e); } }   /* 出遊（離開 3D 地圖的約）：時間到了問「出發」*/
@@ -360,6 +360,7 @@ const STORY = (function(){
     if(it.roomItems){ await roomItems(GM); return true; }
     if(it.pothos){ await pothosScene(GM); return true; }
     if(it.kaiBox){ await kaiBoxScene(GM,it); return true; }
+    if(it.fyPots){ await fyPotsScene(GM); return true; }
     if(it.sleep){ await bedScene(GM); return true; }
     if(it.counter==='cafe'){ await counter(GM,'兩點半 Café',CAFE_MENU); return true; }
     if(it.shop==='cvs'){ await counter(GM,'便利商店',[['飯糰',35,12],['美式咖啡',45,8],['運動飲料',30,6],['微波義大利麵',75,22]]); return true; }
@@ -576,6 +577,10 @@ const STORY = (function(){
   const DAILY_KEVIN=['📹（一隻貓把桌上的筆一支一支推下去）','📹（一隻柯基在海邊追浪，又被浪追回來）','📹（Kevin 自己煎荷包蛋，蛋黃破了。「第三次了」）','📹（高速公路塞車的空拍，配樂很激昂）'];
   const actOn=(id,day)=>{ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.list) return false; const a=ACTIVITIES.list.find(x=>x.id===id); return !!a&&ACTIVITIES.on(a,day); };
   const gotBefore=(G,id)=>!!(G.contacts&&G.contacts[id]!=null&&G.contacts[id]<G.day);   /* 前一天以前就有聯絡方式（不和第一則訊息同一天）*/
+  const fl=id=>typeof SOCIAL!=='undefined'&&SOCIAL.friendLevel?SOCIAL.friendLevel(id):'STRANGER';
+  const dpSent=(G,id)=>!!(G.flags.dpN&&G.flags.dpN[id]);
+  const fyEarly=G=>gotBefore(G,'npc_fangyt')&&['STRANGER','ACQUAINTANCE'].includes(fl('npc_fangyt'));   /* 方奕廷「有點熟」以前還說「學弟好」（BB_120 1-7）*/
+  const P1=(id,t,dt)=>({th:'p:'+id,from:id,text:t,dt:dt||0}), seq=(id,L,th)=>L.map((t,k)=>Object.assign(P1(id,t,k/60),th?{th}:{}));
   const DAILY=[
     {id:'kevin_video',max:()=>DAILY_KEVIN.length,h:()=>21.3,ok:G=>PHONE.inGroup(G,'family_law'),
       items:(G,n)=>{ const K=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t}), W=(t,dt)=>({th:'g:family_law',from:'heroine_05',name:'溫學姊',text:t,dt:dt||0});
@@ -595,7 +600,42 @@ const STORY = (function(){
     {id:'mingxuan_bento',h:()=>12.1,ok:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('classmate_mingxuan','SAW_HIM_STUDY')&&gotBefore(G,'classmate_mingxuan'),
       items:()=>[{th:'p:classmate_mingxuan',from:'classmate_mingxuan',text:'公館新開一家便當店，八十。已加進清單。你什麼都沒看到。'}]},
     {id:'peishan_handout',h:()=>21.6,ok:G=>PHONE.inGroup(G,'lawclub_study'),
-      items:()=>[{th:'g:lawclub_study',from:'classmate_peishan',text:'📷（講義的照片，邊角畫了一個問號）'}]} ];
+      items:()=>[{th:'g:lawclub_study',from:'classmate_peishan',text:'📷（講義的照片，邊角畫了一個問號）'}]},
+    /* BB_120 1-7c「固定的改變」（BB 2026-10-14，第②級）：照熟度傳的訊息，只在那個階段（過了就不補）。子晴「認識」只有事情、發在吉他社群組（還沒有私訊）；
+       「有點熟」一句拆五則；「朋友」測試版先私訊給你（22:10），同一晚 22:40 群組才出現；「好朋友」真的問問題（第二組在期末考那兩週）*/
+    {id:'zq_a1',h:()=>21,ok:(G,day)=>fl('heroine_04')==='ACQUAINTANCE'&&PHONE.inGroup(G,'guitar')&&actOn('club_guitar',day+1),
+      items:()=>[{th:'g:guitar',from:'heroine_04',text:'明天社課 19:00。萬才館一樓。帶琴。'}]},
+    {id:'zq_a2',h:()=>22+10/60,ok:G=>fl('heroine_04')==='ACQUAINTANCE'&&PHONE.inGroup(G,'guitar'),
+      items:()=>seq('heroine_04',['📎 cat_v0.3','測試版。'],'g:guitar')},
+    {id:'zq_f1',h:()=>21.5,ok:G=>fl('heroine_04')==='FAMILIAR'&&gotBefore(G,'heroine_04'),
+      items:()=>['欸不是','滷味','十點後','半價','你要來'].map(t=>P1('heroine_04',t))},
+    {id:'zq_f2',h:()=>23,ok:G=>fl('heroine_04')==='FAMILIAR'&&gotBefore(G,'heroine_04'),
+      items:()=>['欸不是','我的貓','卡在牆裡','出不來','不用回'].map(t=>P1('heroine_04',t))},
+    {id:'zq_r1',h:()=>22+10/60,ok:G=>fl('heroine_04')==='FRIEND'&&gotBefore(G,'heroine_04'),
+      items:G=>seq('heroine_04',['📎 cat_v0.9','這版貓會爬樓梯。']).concat(PHONE.inGroup(G,'guitar')?[{th:'g:guitar',from:'heroine_04',text:'新版本。測試的人報名。',dt:0.5}]:[])},
+    {id:'zq_c1',h:()=>19+40/60,ok:G=>fl('heroine_04')==='CLOSE_FRIEND'&&gotBefore(G,'heroine_04'),
+      items:()=>seq('heroine_04',['你今天吃飯了嗎。','這是問句。'])},
+    {id:'zq_c2',h:()=>22.5,ok:(G,day)=>fl('heroine_04')==='CLOSE_FRIEND'&&gotBefore(G,'heroine_04')&&(CALENDAR.termOf(day)||{}).exam==='final',
+      items:()=>seq('heroine_04',['期末考還好嗎。','這是問句。','……不用回很長。'])},
+    /* 沛珊：問題換人問——「認識」在讀書會群組問所有人（23:10）、「有點熟」私訊書頁照片（23:20、23:21）、「朋友」長訊息最後問你（上課日）、「好朋友」不問、等你問（23:05、23:06）*/
+    {id:'ps_a',h:()=>23+10/60,ok:G=>fl('classmate_peishan')==='ACQUAINTANCE'&&PHONE.inGroup(G,'lawclub_study'),
+      items:()=>seq('classmate_peishan',['睡前想到一個問題：一條規定沒有人知道，它還算規定嗎？','大家明天可以回答。'],'g:lawclub_study')},
+    {id:'ps_f',h:()=>23+20/60,ok:G=>fl('classmate_peishan')==='FAMILIAR'&&gotBefore(G,'classmate_peishan'),
+      items:()=>seq('classmate_peishan',['📷（一頁書，劃了一行線）','這行讓我想到讀書會那題。你不用回。'])},
+    {id:'ps_r',h:()=>23,ok:(G,day)=>fl('classmate_peishan')==='FRIEND'&&gotBefore(G,'classmate_peishan')&&CALENDAR.dateOf(day).wd<=5&&!CALENDAR.holiday(day),
+      items:()=>seq('classmate_peishan',['今天老師說，法律是最低限度的道德。','我抄下來了。可是回家的路上一直在想：','那最高限度的，是誰在管？','……你覺得呢？'])},
+    {id:'ps_c',h:()=>23+5/60,ok:G=>fl('classmate_peishan')==='CLOSE_FRIEND'&&gotBefore(G,'classmate_peishan'),
+      items:()=>seq('classmate_peishan',['今天我沒有問題。','你有的話，我在。'])},
+    /* 方奕廷「有點熟」以前（「學弟好」開頭、學名、一段說明、最後一句很短的真話）：九、十月台灣欒樹；十月以後黃金葛的葉子（欒樹那則先）；寒流前（遊戲沒有寒流的日期：先放大一上第 13～15 週，等 BB 確認）*/
+    {id:'fy_tree',h:()=>20.5,ok:(G,day)=>fyEarly(G)&&[9,10].includes(CALENDAR.dateOf(day).m),
+      items:()=>seq('npc_fangyt',['學弟好。舟山路的台灣欒樹開花了。','📷 Koelreuteria elegans。秋天先開黃花，再結粉紅色的果。','很漂亮。'])},
+    {id:'fy_pothos',h:()=>20.5,ok:(G,day)=>{ const m=CALENDAR.dateOf(day).m; return fyEarly(G)&&!!G.flags.POTHOS&&m!==9&&(m!==10||dpSent(G,'fy_tree')); },
+      items:()=>seq('npc_fangyt',['學弟好。你的黃金葛葉子，最近有沒有變黃？','變黃通常是水太多。不是你的錯，是它比較挑。','拍給我看。'])},
+    {id:'fy_cold',h:()=>20.5,ok:(G,day)=>{ const t=CALENDAR.termOf(day); return fyEarly(G)&&!!G.flags.POTHOS&&!!t&&t.week>=13&&t.week<=15; },
+      items:()=>seq('npc_fangyt',['學弟好。下週寒流。黃金葛不要放窗邊。','它怕冷。我也是。'])},
+    /* 阿凱的泡麵評鑑表：大一同房時是房間物件（S.roomItemList）；大二起分開住，偶爾傳照片（四次、至少隔四週）*/
+    {id:'kai_sheet',term:t=>!/^Y1/.test(t.id),max:()=>4,gap:28,h:()=>21.8,ok:()=>fl('kai')!=='STRANGER',
+      items:()=>seq('kai',['表更新了','📷（泡麵評鑑表）'])} ];
   S.DAILY_PHONE=DAILY;
   /* ok(G, day)：那一天條件成立嗎（決定時是今天、補送時是原本那天）。存檔：dpDay（決定過的那天）、dpPick（{id, day}：今天那一則）、dpN（每則出現過幾次）、dpLast（上一次輪到哪一則，輪流用）、dpDayOf（每則上一次是哪一天）；舊存檔沒有＝從頭開始 */
   function dailyPhone(GM){ const G=GM.G, F=G.flags; if(typeof CALENDAR==='undefined') return; const N=()=>F.dpN||(F.dpN={});
@@ -603,24 +643,32 @@ const STORY = (function(){
         if(now>=t){ F.dpPick=null; const late=now-t>0.25; if(d.ok(G,p.day)&&(late||!d.live||d.live(G))){ const n=N()[d.id]|0; N()[d.id]=n+1; F.dpLast=d.id; (F.dpDayOf||(F.dpDayOf={}))[d.id]=p.day; const h1=late?h0:G.hour;
             d.items(G,n).forEach((it,k)=>{ const x=Object.assign({},it), dt=x.dt||0; delete x.dt; PHONE.at(G,late?p.day:G.day,h1+dt,[x],'dp_'+d.id+'_'+n+'_'+k); }); }
           else F.dpLast=d.id; } } }   /* 那天不傳（例：阿凱那則你醒著待在宿舍）：輪到下一則，改天再輪回來——不然每天都挑到它，別人的小事永遠輪不到 */
-    if(F.dpDay===G.day) return; F.dpDay=G.day; const t=CALENDAR.termOf(G.day); if(!t||t.id!=='Y1S1'||t.week<4||F.dpPick) return;
+    if(F.dpDay===G.day) return; F.dpDay=G.day; const t=CALENDAR.termOf(G.day); if(!t||t.week<4||F.dpPick) return;   /* 每學期第 4 週起；條目沒寫 term 的只在大一上（BB_95 4-4），寫了的照它自己的（阿凱大二起的評鑑表照片）*/
     if(PHONE.rec(G).q.some(q=>q.day===G.day&&!(q.tag&&q.tag.startsWith('rt_')))) return;   /* 今天已經有排好的劇情訊息（rt_ 例行訊息不算）*/
     const i0=DAILY.findIndex(d=>d.id===F.dpLast)+1;
     const last=F.dpDayOf||{};
-    for(let k=0;k<DAILY.length;k++){ const d=DAILY[(i0+k)%DAILY.length]; if((N()[d.id]|0)>=(d.max?d.max():1)||(last[d.id]!=null&&G.day-last[d.id]<7)||d.h(G)<=G.hour+0.1||!d.ok(G,G.day)) continue; F.dpPick={id:d.id,day:G.day}; break; } }   /* 會出現好幾次的（Kevin 的影片）：同一則至少隔 7 天 */
+    for(let k=0;k<DAILY.length;k++){ const d=DAILY[(i0+k)%DAILY.length]; if(!(d.term?d.term(t):t.id==='Y1S1')||(N()[d.id]|0)>=(d.max?d.max():1)||(last[d.id]!=null&&G.day-last[d.id]<(d.gap||7))||d.h(G)<=G.hour+0.1||!d.ok(G,G.day)) continue; F.dpPick={id:d.id,day:G.day}; break; } }   /* 會出現好幾次的（Kevin 的影片）：同一則至少隔 7 天（gap：阿凱的照片隔 28 天）*/
   /* 宿舍房間的物件（交接包 v1 第 1 節「房間物件」，AA_12 0-2、0-3）：點了看一句旁白。可昕的物件分開以後的旁白，之後由 AA 補（大一上不會分開）*/
   const ROOM_ITEMS=[['書架上的舊《民法》','以前翻過。看得到字，看不懂意思。'],['經濟學原理（一年前的課本）','經濟系那一年的課本。邊角都翻軟了。'],['寫滿的筆記本','重考那段時間的筆記。一半是你的字，一半是她的。'],['摩天輪的票根（夾在桌墊下）','摩天輪的票根。兩個人開始交往的那一天。'],['手機相簿的一張照片','河堤邊停著幾台腳踏車。那一群人，那一年。']];
   S.ROOM_ITEMS=ROOM_ITEMS;
   /* 跟著劇情多出來的東西（放在固定的那幾樣後面）：明軒送的三色螢光筆（聖誕交換禮物 XMAS_HL3；BB_95 3-6b，BB 2026-10-14 寫的旁白）*/
+  /* 阿凱的泡麵評鑑表（BB_120 1-7c）：大一同房時，他書桌上方牆上貼的一張紙；口味用通稱。朋友的門檻台詞（F-K2「泡麵第一名是這個 你可以知道了」）那天起第一名填上了，
+     多一欄你的名字（他替你填的分數，BB 沒有寫分數：只描述、不編數字）*/
+  const KAI_SHEET='「紅燒牛肉 8.5」「蔥燒排骨 8」「麻辣 7.5（太辣扣分）」「海鮮 6（有一隻蝦）」';
+  S.kaiRoommate=function(G){ if(typeof CALENDAR==='undefined'||!CALENDAR.TERMS) return true; const T=CALENDAR.TERMS.find(t=>t.id==='Y2S1'); return !T||CALENDAR.tOf(G.day)<T.t0; };   /* 大一同房（大二上開學以前）*/
+  S.kaiSheet=function(G){ const up=((G&&G.social&&G.social.relUp)||{}).kai|0;
+    return up>=3?['「第一名：沙茶 9.5」'+KAI_SHEET,'（多了一欄「{name}」，裡面是他替你填的分數。最下面一行：「不準的話自己改」）']:['「第一名：不能說（怕被搶）」'+KAI_SHEET]; };
   S.roomItemList=function(G){ const F=(G&&G.flags)||{}, L=ROOM_ITEMS.slice();
     if(F.XMAS_HL3) L.push(['桌上的三色螢光筆',F.GREEN_HIGHLIGHTER?'明軒送的三色螢光筆，和上次那支綠的放在一起。他說他用不到。':'明軒送的三色螢光筆。他說他用不到。']);
+    if(G&&S.kaiRoommate(G)) L.push(['阿凱的泡麵評鑑表',S.kaiSheet(G)]);
     return L; };
-  async function roomItems(GM){ GM.sceneBegin(); try{ const L=S.roomItemList(GM.G); for(let n=0;n<12;n++){ const i=await GM.choose([...L.map(r=>({t:r[0]})),{t:'不看了'}]); if(i<0||i>=L.length) break; await GM.say(null,L[i][1]); } } finally { GM.sceneEnd(); } }
+  async function roomItems(GM){ GM.sceneBegin(); try{ const L=S.roomItemList(GM.G); for(let n=0;n<12;n++){ const i=await GM.choose([...L.map(r=>({t:r[0]})),{t:'不看了'}]); if(i<0||i>=L.length) break; for(const t of [].concat(L[i][1])) await GM.say(null,t); } } finally { GM.sceneEnd(); } }
   /* 宿舍房間裡跟著劇情出現的東西（交接包 v1 第 4 批，BB_95 3-1、3-2）：黃金葛（POTHOS，方奕廷送的，書桌旁）、阿凱書桌下的鍵盤盒子（KAI_SILENT_KB；看過就收起來）。
      進宿舍、待在宿舍時（S.tick）補上，同一個東西不重複加。3D 模型：黃金葛的小盆栽還沒有——先只有互動點；小道具集中成一批「環境細節」，主要工作穩定後一起做（D70，使用者 2026-10-14：低優先）*/
   S.dormItems=function(GM){ const G=GM.G, F=G.flags, E=GM.E; if(G.zone!=='dorm'||!E||!E.interactables) return; const has=k=>E.interactables.some(it=>it[k]);
     if(F.POTHOS&&!has('pothos')) E.interactables.push({x:0.7,z:-2.3,radius:0.7,label:'黃金葛',pothos:true});
-    if(F.KAI_SILENT_KB&&!F.KAI_BOX_SEEN&&!has('kaiBox')) E.interactables.push({x:0.6,z:1.5,radius:0.8,label:'書桌下的盒子',kaiBox:true}); };
+    if(F.KAI_SILENT_KB&&!F.KAI_BOX_SEEN&&!has('kaiBox')) E.interactables.push({x:0.6,z:1.5,radius:0.8,label:'書桌下的盒子',kaiBox:true});
+    const FP=F.fyPots; if(FP&&FP.hand!=null&&!FP.done&&!has('fyPots')) E.interactables.push({x:1.0,z:-1.6,radius:0.55,label:'方奕廷的三盆植物',fyPots:true}); };   /* 窗台（書桌上方的窗）前 */
   /* 黃金葛：每週（週一開始）澆一次就夠；沒澆也不會枯，只是不長大（BB_95 3-1；v1 只有一個大小，澆了幾次記在 pothosWaterN，之後長大用）*/
   const weekNo=day=>Math.floor((day+1)/7);   /* 第 6 天＝9/22 週一 */
   S.pothosWeek=weekNo;
@@ -630,6 +678,29 @@ const STORY = (function(){
   /* 阿凱的鍵盤盒子（BB_95 3-2）：「靜音軸。這個很貴喔。」——阿凱：「……我本來就想換。」記憶 HELPED（為你換鍵盤）。阿凱不在房間時只有前一句，等他在再說 */
   async function kaiBoxScene(GM,it){ const G=GM.G, F=G.flags, E=GM.E; const kai=GM.npc.kai; GM.sceneBegin(); try{ await GM.say(ME(G),'靜音軸。這個很貴喔。'); if(!kai) return;
       await GM.say(kai,'……我本來就想換。'); F.KAI_BOX_SEEN=true; SOCIAL.remember('kai','HELPED','為你換鍵盤'); const k=E.interactables.indexOf(it); if(k>=0) E.interactables.splice(k,1); } finally { GM.sceneEnd(); } }
+  /* 方奕廷上山的一週（BB_120 1-7、1-7c，BB 2026-10-14）：好朋友的門檻台詞「我下週上山。我的植物，可以拜託你澆嗎？」之後的下週一起，第一次待在房間（7:00～23:00）時
+     他把三盆搬到窗台：「三盆。兩天一次。早上澆，不要澆到葉子。」（房間物件「方奕廷的三盆植物」，可以點「澆水」）；七天裡檢查三次（第 2、4、6 天結束時：
+     那兩天裡沒有澆就算忘了一次）；第 8 天（之後第一次待在房間時）他回來：都有澆「三盆都很好。土的濕度剛好。」「……謝謝。下次上山還找你。」，
+     忘了一次以上「它們很堅強。」；三盆搬回他的房間、物件拿掉。存檔 F.fyPots＝{ask（門檻台詞那天）, hand（交給你那天）, w:[澆水的日子], done, forgot}；
+     門檻台詞那天沒有記錄（SOCIAL relUpDay 以前的存檔）就不演，不知道他是哪一天說的 */
+  const monAfter=day=>{ let d=day+1; while(CALENDAR.dateOf(d).wd!==1&&d<day+8) d++; return d; };
+  const fyWho=()=>({name:SOCIAL.displayName?SOCIAL.displayName('npc_fangyt'):'方奕廷',charId:'npc_fangyt'});
+  S.fyForgot=P=>{ let n=0; for(let k=0;k<3;k++){ const a=P.hand+2*k; if(!(P.w||[]).some(d=>d===a||d===a+1)) n++; } return n; };
+  let fyT=0;
+  function fyPotsTick(GM,dt){ const G=GM.G, F=G.flags; if(typeof SOCIAL==='undefined'||!G.social||typeof CALENDAR==='undefined') return false; let P=F.fyPots;
+    if(!P){ if((((G.social.relUp||{}).npc_fangyt)|0)<4) return false; const d=(G.social.relUpDay||{}).npc_fangyt; P=F.fyPots=d==null?{done:true,old:true}:{ask:d,hand:null,w:[]}; }
+    if(P.done) return false; const hr=h(G); if(hr<7||hr>=23){ fyT=0; return false; }
+    if(!(P.hand==null?G.day>=monAfter(P.ask):G.day>=P.hand+7)){ fyT=0; return false; }
+    fyT+=dt||0; if(fyT<2.5) return false; fyT=0;   /* 進房間 2.5 秒以後（不和進門的事件搶）*/
+    (async()=>{ try{ if(P.hand==null) await fyHand(GM); else await fyBack(GM); }catch(e){ console.warn('fyPots',e); } })(); return true; }
+  async function fyHand(GM){ const G=GM.G, P=G.flags.fyPots; P.hand=G.day; GM.sceneBegin(); try{ await SOCIAL.playSteps(GM,fyWho(),'npc_fangyt',['（方奕廷把三盆植物搬到你的房間窗台。）','「三盆。兩天一次。早上澆，不要澆到葉子。」']); } finally { GM.sceneEnd(); } S.dormItems(GM); }
+  async function fyBack(GM){ const G=GM.G, E=GM.E, P=G.flags.fyPots, n=S.fyForgot(P); P.done=true; P.forgot=n; GM.sceneBegin();
+    try{ await SOCIAL.playSteps(GM,fyWho(),'npc_fangyt',(n===0?['「三盆都很好。土的濕度剛好。」','「……謝謝。下次上山還找你。」']:['「它們很堅強。」']).concat(['（三盆搬回他的房間了。）'])); } finally { GM.sceneEnd(); }
+    const k=E&&E.interactables?E.interactables.findIndex(it=>it.fyPots):-1; if(k>=0) E.interactables.splice(k,1); }
+  async function fyPotsScene(GM){ const G=GM.G, P=G.flags.fyPots; if(!P||P.done||P.hand==null) return; GM.sceneBegin(); try{
+      if((P.w||[]).includes(G.day)){ await GM.say(null,'土還是濕的。今天澆過了。'); return; }
+      const i=await GM.choose([{t:'澆水'},{t:'不用了'}]); if(i!==0) return; (P.w||(P.w=[])).push(G.day); await GM.say(null,'你幫三盆植物澆了水。'); } finally { GM.sceneEnd(); } }
+  S._fy={tick:(GM,dt)=>fyPotsTick(GM,dt),hand:GM=>fyHand(GM),back:GM=>fyBack(GM),scene:GM=>fyPotsScene(GM),monAfter,reset(){ fyT=0; }};   /* 測試用 */
   /* 睡著之後、天亮之前的事件（EVENTS.sleepEvent：trigger 'sleep'，例：阿凱凌晨三點的螢幕）：畫面換成凌晨三點的房間演，演完再暗下來繼續睡 */
   async function nightEvent(GM){ const G=GM.G, E=GM.E; if(typeof EVENTS==='undefined'||!EVENTS.sleepEvent) return false; const ev=EVENTS.sleepEvent(); if(!ev) return false;
     G.hour=Math.max(G.hour,27); E.hour=G.hour; if(GM.updateHUD) GM.updateHUD(); await GM.titleCard('03:00','',1400); await GM.fade(false);
