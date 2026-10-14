@@ -61,7 +61,7 @@ async def settle(pg, cdp, run, pick_prefix=None, max_steps=40):
 
 
 async def sleep_in_bed(pg, cdp, run, label):
-    """走到床邊、按「睡覺」、選「睡覺」；等到隔天早上在宿舍醒來（titleCard、進宿舍）"""
+    """走到床邊、按「睡覺」、選「睡到明天早上」（v9.7 以前是「睡覺」）；等到隔天早上在宿舍醒來（titleCard、進宿舍）"""
     bed = await L.find_it(pg, '睡覺')
     ok = bool(bed) and await L.go_to(pg, cdp, run, bed['x'], bed['z'], bed['r'] * 0.7, '床')
     s = await L.state(pg)
@@ -69,9 +69,10 @@ async def sleep_in_bed(pg, cdp, run, label):
         run.check(label + '：走到床邊、出現「睡覺」', False, json.dumps(s, ensure_ascii=False)); return None
     d0 = await pg.evaluate("GAME.G.day")
     await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
-    if not await choose(pg, cdp, '睡覺'):
-        run.check(label + '：床的選項有「睡覺」', False); return None
-    for _ in range(60):
+    # v9.7 睡覺第二版（AA_110 6-5）：床的選項是「睡到明天早上（07:30）」「睡到明天中午」…（舊版是「睡覺」）；照 flow_typhoon（候選 4）的改法
+    if not (await choose(pg, cdp, '睡到明天早上') or await choose(pg, cdp, '睡覺')):
+        run.check(label + '：床的選項有「睡到明天早上」', False); return None
+    for _ in range(300):   # 睡覺的過場（淡出、標題卡、換區域）在 1 fps 時要好幾分鐘（flow_typhoon 候選 4 同一個改法：原本只等 60 秒）
         st = await pg.evaluate("({day:GAME.G.day, zone:GAME.G.zone, hour:GAME.G.hour})")
         if st['day'] == d0 + 1 and st['zone'] == 'dorm' and abs(st['hour'] - 7.5) < 0.05: break
         await pg.wait_for_timeout(1000)
