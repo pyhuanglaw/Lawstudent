@@ -32,7 +32,7 @@ function runZone(id,L,minSeats){ tag='['+L.name+'] '; const z=loadZone(id); cons
     const r=p?walk([SP.x,SP.z,0],[p[0],p[1],0]):{ok:false}; check('從大廳走得到出口（「走出'+L.name+'」）',r.ok,JSON.stringify(r).slice(0,160)); }
   // 座位：照 GAME.seatApproach 的候選位置（前 0.5、後 0.6、左右 0.55、前 0.8、後 0.9），至少一個站得住、高度對、走得到
   { const bad=[]; let n=0; for(const st of z.seats){ const yaw=st.yaw||0, fx=Math.sin(yaw), fz=Math.cos(yaw), lv=st.lv|0; let ok=false, why='沒有站得住的位置';
-      for(const [dx,dz] of [[fx*0.5,fz*0.5],[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]]){ const x=st.x+dx, zz=st.z+dz; if(!E.canStand(x,zz,0.3,lv)) continue; if(st.y!=null&&Math.abs(E.heightAt(x,zz,lv)-st.y)>0.2) continue;   /* 階梯教室：要站在那一排的平台上（GAME.seatApproach 的規則）*/
+      for(const [dx,dz] of [[fx*0.5,fz*0.5],[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[-fx*0.7,-fz*0.7],[-fx*0.75,-fz*0.75],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]]){ const x=st.x+dx, zz=st.z+dz; if(!E.canStand(x,zz,0.3,lv)) continue; if(st.y!=null&&Math.abs(E.heightAt(x,zz,lv)-st.y)>0.2) continue;   /* 階梯教室：要站在那一排的平台上（GAME.seatApproach 的規則）*/
         const r=walk([SP.x,SP.z,0],[x,zz,lv]); if(r.ok){ ok=true; break; } why=r.reason||'走不到'; }
       if(ok) n++; else bad.push((st.room||st.kind)+'('+st.x+','+st.z+(lv?',2F':'')+')：'+why); }
     check('每一個座位旁邊站得住、從大門走得到（'+n+'/'+z.seats.length+'）',!bad.length,bad.slice(0,5).join(' | ')); }

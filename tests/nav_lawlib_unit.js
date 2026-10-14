@@ -23,7 +23,7 @@ const run=(a,b)=>{ for(const dt of [1/30,0.1]){ const r=sim(a,b,dt,4.8); if(!r.o
 const fmt=(r)=>JSON.stringify(r).slice(0,220);
 const L=LAWLIB_LAYOUT, WL=WANCAI_LAYOUT;
 // GAME.seatApproach 的規則（game3d.js）：座位前 0.5、後 0.6、兩側 0.55、前 0.8、後 0.9，第一個站得住而且走得到的
-function approach(seat){ const yaw=seat.yaw||0, fx=Math.sin(yaw), fz=Math.cos(yaw); for(const [dx,dz] of [[fx*0.5,fz*0.5],[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]]){ const x=seat.x+dx, z=seat.z+dz; if(E.canStand(x,z,0.3,seat.lv|0)) return [x,z,seat.lv|0]; } return null; }
+function approach(seat){ const yaw=seat.yaw||0, fx=Math.sin(yaw), fz=Math.cos(yaw); for(const [dx,dz] of [[fx*0.5,fz*0.5],[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[-fx*0.7,-fz*0.7],[-fx*0.75,-fz*0.75],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]]){ const x=seat.x+dx, z=seat.z+dz; if(E.canStand(x,z,0.3,seat.lv|0)) return [x,z,seat.lv|0]; } return null; }
 // 互動點附近（半徑內）站得住的點：先試正中間，再一圈一圈往外
 function standNear(it){ const lv=it.lv|0, R=Math.min(it.radius||1,1.2); if(E.canStand(it.x,it.z,0.32,lv)) return [it.x,it.z,lv]; for(let r=0.2;r<=R-0.1;r+=0.15) for(let a=0;a<16;a++){ const x=it.x+Math.cos(a/16*Math.PI*2)*r, z=it.z+Math.sin(a/16*Math.PI*2)*r; if(E.canStand(x,z,0.32,lv)) return [x,z,lv]; } return null; }
 

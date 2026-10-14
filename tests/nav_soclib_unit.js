@@ -24,7 +24,7 @@ const walk=(a,b)=>{ for(const [dt,sp] of [[1/30,1.8],[0.1,4.8]]){ const r=sim(a,
 const fmt=r=>JSON.stringify(r).slice(0,200);
 const stand=(x,z,r)=>E.canStand(x,z,r==null?0.32:r,0);
 function standNear(it){ const R=Math.min(it.radius||1,1.2); if(stand(it.x,it.z)) return [it.x,it.z]; for(let r=0.15;r<=R-0.1;r+=0.15) for(let a=0;a<16;a++){ const x=it.x+Math.cos(a/16*Math.PI*2)*r, z=it.z+Math.sin(a/16*Math.PI*2)*r; if(stand(x,z)) return [x,z]; } return null; }
-function approach(seat){ const yaw=seat.yaw||0, fx=Math.sin(yaw), fz=Math.cos(yaw); for(const [dx,dz] of [[fx*0.5,fz*0.5],[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]]){ const x=seat.x+dx, z=seat.z+dz; if(stand(x,z,0.3)) return [x,z]; } return null; }   /* GAME.seatApproach 的規則 */
+function approach(seat){ const yaw=seat.yaw||0, fx=Math.sin(yaw), fz=Math.cos(yaw); for(const [dx,dz] of [[fx*0.5,fz*0.5],[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[-fx*0.7,-fz*0.7],[-fx*0.75,-fz*0.75],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]]){ const x=seat.x+dx, z=seat.z+dz; if(stand(x,z,0.3)) return [x,z]; } return null; }   /* GAME.seatApproach 的規則 */
 const L=SOCLIB_LAYOUT;
 
 // ---------- 校園：社科院正面的門 ----------
@@ -70,6 +70,9 @@ const L=SOCLIB_LAYOUT;
   // 座位：每一個「坐下」走得到的位置（seatApproach 的規則）、從入口走得到
   bad=[]; for(const st of z.seats){ const ap=approach(st); if(!ap){ bad.push(`${st.kind}(${st.x},${st.z}) 旁邊站不住`); continue; } const r=sim([sp.x,sp.z],ap,0.1,1.8); if(!r.ok) bad.push(`${st.kind}(${st.x},${st.z}) 走不到 ${fmt(r).slice(0,80)}`); }
   check(`每一個座位（${z.seats.length} 個）旁邊站得住、從入口走得到（坐下時走過去的位置）`,!bad.length,bad.slice(0,4).join(' | '));
+  /* 站在那裡就看得到「坐下」按鈕：站位要在座位互動點的範圍內（2026-10-14 v9.6 回歸：北側長桌後 0.6 m 碰到椅背，舊規則跳到 0.9 m，比按鈕範圍 0.8 m 遠——這一項在舊規則會失敗）*/
+  bad=[]; for(const st of z.seats){ const ap=approach(st), it=E.interactables.find(i=>i.seat===st); if(!ap||!it) continue; const d=Math.hypot(ap[0]-it.x,ap[1]-it.z); if(d>(it.radius||0.8)-0.04) bad.push(`${st.kind}(${st.x},${st.z}) 站位離按鈕 ${d.toFixed(2)} m＞${it.radius}`); }
+  check('每一個座位的站位都在「坐下」按鈕的範圍內（站在那裡就看得到按鈕）',!bad.length,bad.slice(0,4).join(' | '));
   // 互動點（座位以外）
   bad=[]; let n=0; for(const it of E.interactables){ if(it.seat) continue; n++; const nd=standNear(it); if(!nd){ bad.push(`${it.label}：旁邊站不住`); continue; } const r=sim([sp.x,sp.z],nd,0.1,1.8); if(!r.ok) bad.push(`${it.label}：${fmt(r).slice(0,80)}`); }
   check(`每一個互動點（座位以外 ${n} 個：出口、服務台、查詢、新書、期刊、書架、林間書房、還書箱）旁邊站得住、走得到`,!bad.length,bad.slice(0,5).join(' | '));
