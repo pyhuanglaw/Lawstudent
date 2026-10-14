@@ -276,7 +276,7 @@ const STORY = (function(){
     if(!E.moveTo(n,best.x,best.z,()=>{ n.arrived=true; },lv)){ n.leaving=false; return false; }
     return true; }
   S.walkAway=walkAway;
-  S._day2={walkChecks:p=>walkChecks(p),meetAn:GM=>meetAn(GM),cafeScene:GM=>cafeScene(GM),libraryScene:GM=>libraryScene(GM),talkAn:(GM,n)=>talkAn(GM,n)};   /* 測試用（tests/day2_whylaw_unit.js）：第二天下課後的邀約、走路對話、Café、總圖、之後找以安 */
+  S._day2={walkChecks:p=>walkChecks(p),startWalkTalk:GM=>startWalkTalk(GM),meetAn:GM=>meetAn(GM),cafeScene:GM=>cafeScene(GM),libraryScene:GM=>libraryScene(GM),talkAn:(GM,n)=>talkAn(GM,n)};   /* 測試用（tests/day2_whylaw_unit.js）：第二天下課後的邀約、走路對話、Café、總圖、之後找以安 */
   /* 麵店的固定客人（AA_110 第 6-3 節，AA 暫定：「週二、週四 17:30–19:00，阿鳳麵店裡固定有兩到四個法律系的一般同學」——是日程，不是活動）：
      上課日（不是放假）才有；同一天同一批人（日期當種子：出去再進來看到同樣的人坐同樣的位子）；坐在東西兩張桌子北側先坐（中間那張留給玩家和阿哲，
      玩家的「坐下吃麵」坐南側）；進店時已經在吃（先套好坐姿）；19:00 起身走到門口才離開；路人沒有名字（有名字的人照各自的日程）。 */
@@ -420,7 +420,7 @@ const STORY = (function(){
      祐廷回「說來話長」，理由留到坐下來再說（AA_12 0-4）；以安講自己的理由，剛認識不提媽媽的工作（AA_113 第 0 節）*/
   const WHY_LAW_WALK=[['小安','你有沒有想過，為什麼是法律系？'],['我','……說來話長。你呢？'],['小安','我家吃飯的時候，一件小事也要講理由講半天。我想知道，理由要怎麼講才算數。']];
   function walkChecks(plan){ return plan==='cafe'?[{k:'road',x:30,z:-40,r:9,lines:WHY_LAW_WALK},{k:'bell',x:-38,z:6,r:12,lines:[['小安','傅鐘二十一響。上課十分鐘的那個故事。'],['我','我每次經過都在想，那剩下的三小時要幹嘛。'],['小安','……你這個人講話很煩耶。',3200]]},{k:'gate',x:-100,z:0,r:12,lines:[['小安','校門口那家豆花，週末排隊要二十分鐘。'],['小安','報告寫完我請你——如果你等一下有幫到忙的話。']]}]:[{k:'soc',x:40,z:-70,r:16,lines:WHY_LAW_WALK},{k:'lib',x:78,z:0,r:9,lines:[['小安','總圖三樓靠窗那排，下午光線很好，但四點以後會被曬到。'],['小安','我們坐二樓好了。']]}]; }
-  function startWalkTalk(GM){ const G=GM.G, F=G.flags, E=GM.E; const cks=walkChecks(F.plan); const iv=setInterval(()=>{ if(F.companion!=='an'||F.afternoonDone){ clearInterval(iv); return; } if(E.player.busy||GM.D.active||G.zone!=='campus') return; const P=E.player.obj.position; for(const c of cks){ if(F.walkCk[c.k]) continue; if(Math.hypot(P.x-c.x,P.z-c.z)<c.r){ F.walkCk[c.k]=true; playLines(GM,c.lines); break; } } },700); }
+  function startWalkTalk(GM){ const G=GM.G, F=G.flags, E=GM.E; const cks=walkChecks(F.plan); const iv=setInterval(()=>{ if(F.companion!=='an'||F.afternoonDone){ clearInterval(iv); return; } if(E.player.busy||GM.D.active||G.zone!=='campus') return; const P=E.player.obj.position; for(const c of cks){ if(F.walkCk[c.k]) continue; if(Math.hypot(P.x-c.x,P.z-c.z)<c.r){ F.walkCk[c.k]=true; if(c.lines===WHY_LAW_WALK) F.whyWalkNew=true; playLines(GM,c.lines); break; } } },700); }   /* whyWalkNew：這次存檔裡真的播過新版的「說來話長」（AA 2026-10-14）*/
   async function playLines(GM,lines){ for(const l of lines){ GM.caption(l[0]==='我'?GM.G.name:l[0],l[1],l[2]||3000); await GM.sleep((l[2]||3000)+300); } }
   /* 為什麼念法律（D60）：Café、總圖兩個版本共用。只有 econ（說出念過一年經濟系）以安才記得（KNOWS_ECON_YEAR）；不設全域旗標——其他同學知不知道另外管。
      舊存檔的 whyLaw（ok／hero／family／unknown）保留原值不遷移 */
@@ -434,7 +434,7 @@ const STORY = (function(){
     if(key==='A'){ CHAR.setExpr(an.obj,'smile'); await GM.say(an,'我也這樣想。可是我寫報告的時候一直被自己反駁——那買家呢？他真的以為撿到便宜，也沒做錯事。'); }
     else if(key==='B'){ CHAR.setExpr(an.obj,'surprise'); await GM.say(an,'好狠。'); CHAR.setExpr(an.obj,'normal'); await GM.say(an,'……但我懂。「我不是故意的」，現實裡每天都有人說。可是法律不是用來原諒粗心的。'); }   /* D60：剛認識的人，她不提媽媽在法院工作（AA_113 第 0 節）*/
     else { CHAR.setExpr(an.obj,'smile'); await GM.say(an,'對，就是「無過失」那三個字。我報告的結論想寫這個——可是要怎麼判斷「少打一個零」有沒有過失？你覺得呢？'); const j=await GM.choose([{t:'看賣家有沒有機會發現。網頁掛了三天都沒改，就有過失。'},{t:'看數字差多少。一千和一萬，正常人會發現。'}]); await GM.say(an,j===0?'時間。好，這個我沒想到。':'金額落差。嗯，這個判決好像有提到。'); GM.rel('an',2); F.cafeHelp=true; }
-    await GM.say(null,'她打開筆電，打了幾行字，又停下來。'); GM.cine('two',P.obj,an.obj); await GM.say(an,'欸，剛剛路上你說「說來話長」。我們有一整個下午。');
+    await GM.say(null,'她打開筆電，打了幾行字，又停下來。'); GM.cine('two',P.obj,an.obj); await GM.say(an,F.whyWalkNew?'欸，剛剛路上你說「說來話長」。我們有一整個下午。':'欸，剛剛路上那個問題——為什麼是法律系？我們有一整個下午。');   /* 沒聽過新版走路台詞（舊版走到一半存的檔、沒經過觸發點就到店裡）：不提「說來話長」（AA 2026-10-14）*/
     /* 為什麼念法律（D60）：四個回答都是祐廷自己選的；只有說出念過經濟系（econ）以安才記得——其他同學知不知道另外管（ECON_PAST_SHARED），這裡不設全域旗標 */
     const k=await GM.choose([{t:'我小時候遇到事情就會去翻民法。翻得到，看不懂。我想知道怎麼看懂。',key:'curious'},{t:'我念過一年經濟。後來發現，我比較想知道事情「應該」怎麼處理。',key:'econ'},{t:'我想幫身邊的人把事情弄清楚。',key:'help'},{t:'還在找怎麼說。但這是我自己選的。',key:'own'}]); whyLawChosen(G,F,k);
     if(F.whyLaw==='curious'){ await GM.say(an,'……小時候？'); await GM.say(null,'她停了一下。'); await GM.say(an,'那你很誠實。大部分人會說自己從小就懂。',{expr:'smile'}); }
@@ -444,7 +444,7 @@ const STORY = (function(){
     await GM.fade(true); GM.advance(17.7-G.hour); await GM.fade(false); GM.cine('wide',P.obj,an.obj); await GM.say(null,'窗外的光慢慢變成橘色。巷子裡有機車經過，吧檯的磨豆機響了一聲。'); await GM.say(an,'我再待一下，你先走吧。'+(F.zheInvite?'阿哲不是約你吃麵？':'')+'',{expr:'smile'}); await GM.say(an,'今天……謝謝。'); F.afternoonDone=true; F.companion=null; GM.memo('和小安在兩點半 Café 待到黃昏'); SOCIAL.remember('heroine_01','CAFE_AFTERNOON','聊了報告和為什麼念法律'); SOCIAL.remember('heroine_01','WALKED_TOGETHER','從法學院走到溫州街'); SOCIAL.adjust('heroine_01',{fam:8,trust:5,comf:6}); GM.standUp(P); an.talk=n=>talkAn(GM,n); an.frozen=true; GM.letterbox(false); GM.sceneEnd(); GM.setGoal(F.zheInvite?'18:30 公館 阿鳳麵店（阿哲）':'今晚去公館吃點東西，或回宿舍'); GM.autosave(); }
   async function libraryScene(GM){ const G=GM.G, F=G.flags, E=GM.E, P=E.player; const an=GM.npc.an; if(!an) return; GM.sceneBegin(); GM.letterbox(true); an.beh='idle'; const seats=E.zone.seats; const sA=seats[0], sB=seats[1]; await Promise.all([GM.walkTo(P,sA.x,sA.z-0.7,{lv:sA.lv}),GM.walkTo(an,sB.x,sB.z+0.7,{lv:sB.lv})]); GM.sitAt(P,sA); GM.sitAt(an,sB); await GM.sleep(400); GM.advance(0.3);
     GM.cine('two',P.obj,an.obj); ADV.begin({background:'blur',right:'heroine_01'}); await GM.say(null,'二樓靠牆的長桌。翻書的聲音、有人把水壺放下的聲音。她把聲音壓得很低。'); GM.cine('ots',P.obj,an.obj); await GM.say(an,'（小聲）那個賣家——少打一個零的那個。你覺得法律應該保護他嗎？'); const hasNote=GM.hasNote('law_88'); const i=await GM.choose([{t:'應該。交易要有誠信，但不能讓人因為一個手誤就賠十倍。',key:'A'},{t:'不應該。錯誤是自己造成的。',key:'B'},{t:'看情況。八十八條「無過失」才能撤銷。',key:'C',hint:hasNote?'你的筆記裡有':'需要讀過 §88',dim:!hasNote}]); let key=['A','B','C'][i]; if(key==='C'&&!hasNote){ await GM.say(null,'你想引條文，但想不起來是哪一條。'); key='A'; } F.cafeView=key; G.choices.cafeView=key; GM.cine('close',P.obj,an.obj); if(key==='A') await GM.say(an,'（小聲）我也這樣想。可是那買家沒做錯事啊。'); else if(key==='B'){ CHAR.setExpr(an.obj,'surprise'); await GM.say(an,'（小聲）好狠。……但我懂。'); } else { CHAR.setExpr(an.obj,'smile'); await GM.say(an,'（小聲）對，「無過失」。我的結論就想寫這個。'); GM.rel('an',2); F.cafeHelp=true; }
-    GM.cine('two',P.obj,an.obj); await GM.say(an,'（小聲）剛剛路上你說「說來話長」。……小聲講，可以講短一點。');
+    GM.cine('two',P.obj,an.obj); await GM.say(an,F.whyWalkNew?'（小聲）剛剛路上你說「說來話長」。……小聲講，可以講短一點。':'（小聲）剛剛路上那個問題……小聲講，可以講短一點。');
     const k=await GM.choose([{t:'小時候遇到事情就去翻民法。翻得到，看不懂。',key:'curious'},{t:'我念過一年經濟。後來比較想知道事情「應該」怎麼處理。',key:'econ'},{t:'想幫身邊的人把事情弄清楚。',key:'help'},{t:'還在找怎麼說。但是我自己選的。',key:'own'}]); whyLawChosen(G,F,k);   /* 總圖的小聲版（D60）*/
     if(F.whyLaw==='curious') await GM.say(an,'（小聲）……小時候？那你很誠實。',{expr:'smile'});
     else if(F.whyLaw==='econ'){ await GM.say(an,'（小聲）所以你比我大？'); await GM.say(ME(G),'一歲。'); await GM.say(an,'（小聲）……學長。',{expr:'smile'}); await GM.say(ME(G),'不要。'); }

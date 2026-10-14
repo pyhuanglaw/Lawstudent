@@ -21,7 +21,7 @@ global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){}}; glo
 const OLD=['分數到了','書記官','一年後我再問你','我媽說','我媽在法院'];
 const oldIn=lines=>OLD.filter(w=>lines.some(t=>String(t).includes(w)));
 let said=[], opts=[], pick={law88:0,why:0,invite:0}, noteOK=true;
-const mkG=name=>({v:2,day:2,hour:14.2,zone:'cafe',weekday:4,money:2000,flags:{introDone:true,campusIntro:true,readCase:'full',classDone:true,metAn:true,plan:'cafe',companion:'an',walkCk:{road:true}},choices:{},events:{done:{},last:{},count:0},name:name||'祐廷',rel:{an:6,zhe:12,sis:2,kai:3,yu:2},social:null});
+const mkG=name=>({v:2,day:2,hour:14.2,zone:'cafe',weekday:4,money:2000,flags:{introDone:true,campusIntro:true,readCase:'full',classDone:true,metAn:true,plan:'cafe',companion:'an',walkCk:{road:true},whyWalkNew:true},choices:{},events:{done:{},last:{},count:0},name:name||'祐廷',rel:{an:6,zhe:12,sis:2,kai:3,yu:2},social:null});
 let G=mkG();
 const P={busy:false,obj:{position:{x:0,y:0,z:0},rotation:{y:0}},lv:0};
 const GM={get G(){ return G; },E:{q:{level:'medium'},player:P,zone:{roomAt:()=>null,seats:[{x:1,z:1,lv:1,yaw:0},{x:2,z:2,lv:1,yaw:Math.PI}]},npcs:[],interactables:[],levels:null},D:{active:false},npc:{},
@@ -105,14 +105,27 @@ const after=(arr,q)=>{ const i=arr.indexOf(q); return i<0?[]:arr.slice(i+1); };
   // 7-2 第二天之前存的：讀進來以後第二天照新版演
   { fresh({plan:undefined,companion:undefined,walkCk:undefined,classDone:false}); G.day=1; G.hour=22.5; G.zone='dorm'; const snap=JSON.parse(JSON.stringify(G)); G=snap; SOCIAL.bind(G); EVENTS.bind(GM);
     check('7-2 第二天之前的舊存檔：還沒有 whyLaw',G.flags.whyLaw===undefined&&STORY.whyLawKey(G.flags)===null);
-    G.day=2; G.hour=14.2; G.zone='cafe'; Object.assign(G.flags,{classDone:true,plan:'cafe',companion:'an',walkCk:{}}); pick={law88:1,why:1}; said=[]; opts=[]; await D2.cafeScene(GM); const L=lines();
+    delete G.flags.whyWalkNew;   /* 舊存檔沒有這個旗標 */
+    G.day=2; G.hour=13.5; G.zone='campus'; Object.assign(G.flags,{classDone:true,plan:'cafe',companion:'an',walkCk:{}});
+    { const si=global.setInterval, ci=global.clearInterval; let cb=null; global.setInterval=f=>{ cb=f; return 1; }; global.clearInterval=()=>{};
+      try{ D2.startWalkTalk(GM); P.obj.position.x=30; P.obj.position.z=-40; cb&&cb(); } finally { global.setInterval=si; global.clearInterval=ci; P.obj.position.x=0; P.obj.position.z=0; } }
+    check('7-2 第二天之前的舊存檔：讀進來以後走到路上的觸發點，播新版走路台詞、記下 whyWalkNew',G.flags.walkCk.road===true&&G.flags.whyWalkNew===true,JSON.stringify({walkCk:G.flags.walkCk,whyWalkNew:G.flags.whyWalkNew}));
+    G.hour=14.2; G.zone='cafe'; pick={law88:1,why:1}; said=[]; opts=[]; await D2.cafeScene(GM); const L=lines();
     check('7-2 第二天之前的舊存檔：第二天照新版演（「說來話長」、新選項、econ 記得、「現實裡」）',L.includes('欸，剛剛路上你說「說來話長」。我們有一整個下午。')&&G.flags.whyLaw==='econ'&&has('heroine_01','KNOWS_ECON_YEAR')&&L.some(t=>/現實裡每天都有人說/.test(t))&&oldIn(L).length===0,oldIn(L).join('、')); }
   // 7-3 已經演過 ev_an_mother 的：不會再演、記憶留著、人物面板讀得出來
   { fresh({afternoonDone:true,whyLaw:'ok'}); G.zone='campus'; G.hour=18; G.day=15; G.events.done.ev_an_mother=1; G.events.last.ev_an_mother=11; SOCIAL.adjust('heroine_01',{fam:30,trust:20});
     SOCIAL.remember('heroine_01','TALKED_FAMILY','她媽媽是書記官');
     const snap=JSON.parse(JSON.stringify(G)); G=snap; SOCIAL.bind(G); EVENTS.bind(GM); const ev=STORY_EVENTS.find(e=>e.id==='ev_an_mother'); let d='';
     try{ d=SOCIAL.describe('heroine_01'); }catch(e){ d='例外 '+e.message; }
-    check('7-3 演過 ev_an_mother 的舊存檔：讀得進來、不會再演、記憶照舊（已經演過的舊存檔不改，AA_120 7-5）',EVENTS.check(ev)===false&&G.events.done.ev_an_mother===1&&has('heroine_01','TALKED_FAMILY')&&/聊過家裡的事/.test(d),d); }
+    check('7-3 演過 ev_an_mother 的舊存檔：讀得進來、不會再演、記憶照舊（已經演過的舊存檔不改，AA_120 7-5）',EVENTS.check(ev)===false&&G.events.done.ev_an_mother===1&&has('heroine_01','TALKED_FAMILY')&&/聊過家裡的事/.test(d),d);
+    check('7-3 人物面板只寫「聊過家裡的事」，不顯示舊備註（存檔裡的備註不改，AA 2026-10-14）',!/書記官/.test(d)&&G.social.mem.heroine_01.some(m=>m.tag==='TALKED_FAMILY'&&m.note==='她媽媽是書記官'),d);
+    SOCIAL.remember('heroine_01','LATE_NIGHT_TALK','聊到很晚'); const d2=SOCIAL.describe('heroine_01');
+    check('7-3 不是停用事件留下的備註照常顯示',/深夜聊過（聊到很晚）/.test(d2),d2); }
+  // 7-4 舊版走到一半存的檔（聽過舊的走路台詞、還沒到店裡）：到 Café／總圖用不提「說來話長」的問句（AA 2026-10-14）；也涵蓋沒經過觸發點就到店裡的玩家
+  { fresh(); delete G.flags.whyWalkNew; pick={law88:0,why:2}; await D2.cafeScene(GM); const L=lines(), whyOpts=opts.find(o=>o.some(t=>/翻民法/.test(t)))||[];
+    check('7-4 Café：沒聽過新版走路台詞 → 「欸，剛剛路上那個問題——為什麼是法律系？我們有一整個下午。」，四個選項、key 照舊',L.includes('欸，剛剛路上那個問題——為什麼是法律系？我們有一整個下午。')&&!L.some(t=>/說來話長/.test(t))&&JSON.stringify(whyOpts)===JSON.stringify(CAFE_OPTS)&&G.flags.whyLaw==='help',JSON.stringify(L.filter(t=>/剛剛路上/.test(t))));
+    fresh({plan:'library',walkCk:{soc:true}}); delete G.flags.whyWalkNew; G.zone='library_hall'; pick={law88:0,why:3}; await D2.libraryScene(GM); const L2=lines();
+    check('7-4 總圖：沒聽過新版走路台詞 → 「（小聲）剛剛路上那個問題……小聲講，可以講短一點。」',L2.includes('（小聲）剛剛路上那個問題……小聲講，可以講短一點。')&&!L2.some(t=>/說來話長/.test(t))&&G.flags.whyLaw==='own',JSON.stringify(L2.filter(t=>/剛剛路上/.test(t)))); }
   // ---------- 8 開局 ----------
   { fresh(null,'阿明'); pick={law88:0,why:1}; await D2.cafeScene(GM);
     check('8 自訂名字「阿明」：祐廷自己說的「一歲。」「不要。」對話框寫「阿明」',said.filter(s=>s.t==='一歲。'||s.t==='不要。').every(s=>s.who==='阿明')&&said.filter(s=>s.who==='阿明').length===2,JSON.stringify(said.filter(s=>s.t==='一歲。'||s.t==='不要。')));
