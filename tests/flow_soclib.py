@@ -91,8 +91,14 @@ async def main():
         # ---------- D：窗邊座位 ----------
         seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.filter(q=>q.kind==='window')[8]; if(!s) return null; const ap=GAME.seatApproach(s)||[s.x,s.z]; return {x:s.x,z:s.z,yaw:s.yaw,ax:ap[0],az:ap[1]}; })()")
         ax, az = seat['ax'], seat['az']
-        ok = await L.go_to(pg, cdp, run, ax, az, 0.15, '北面窗邊的座位旁')   # 按鈕範圍 0.8 m、站的位置在椅子後面 0.6 m：停在 0.3 m 外可能看不到按鈕（flow_boya_interior 同一個問題）
+        # 像玩家一樣：往椅子旁邊走，按鈕出現就停（2026-10-14 v9.6 候選 8：原本一定要走到站位 0.15 m 以內，停在 0.18 m、按鈕早就出現了，
+        # 測試還一直點地面——點了 91 次、推 7 次搖桿，最後算「走不到」）。先走到 0.6 m 內；按鈕還沒出現才再往站位走近（容許 0.15 m）
+        ok = await L.go_to(pg, cdp, run, ax, az, 0.6, '北面窗邊的座位旁')
         s = await L.state(pg)
+        if ok and not s['interact'].startswith('坐下讀書（窗邊）'):
+            run.note('0.6 m 內還沒看到「坐下讀書（窗邊）」：再往站位走近')
+            ok = await L.go_to(pg, cdp, run, ax, az, 0.15, '北面窗邊的座位旁（再走近）')
+            s = await L.state(pg)
         run.check('走到北面玻璃帷幕前的窗邊座位、出現「坐下讀書（窗邊）」', ok and s['interact'].startswith('坐下讀書（窗邊）'), json.dumps(s, ensure_ascii=False))
         await sit_and_stand(pg, cdp, run, 'D_window')
         # ---------- E：走出去 ----------
