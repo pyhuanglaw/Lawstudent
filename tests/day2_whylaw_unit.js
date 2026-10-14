@@ -8,6 +8,7 @@
 //   ev_an_mother 停用：條件都符合也不觸發（同樣條件、拿掉 retired 的複本會觸發——證明這項測試抓得到）。
 //   存檔：第二天之後存的（舊 key ok／hero／family／unknown 原值不變、以安不知道經濟系、下午之後找以安不再追問「家裡那件事」）、
 //         第二天之前存的（照新版演）、已經演過 ev_an_mother 的（不會再演、記憶留著、人物面板照樣讀得出來）。
+//   以安要聯絡方式（A19 的前提，AA 2026-10-14）：Café、總圖兩條路線的結尾各一句，記 AN_CONTACT_DAY2。
 //   開局：自訂名字（祐廷自己說的話，對話框寫玩家取的名字）；遊戲只有一種新遊戲開局（STORY.newGame），第二天拒絕以安的邀約時沒有這段對話。
 // 用法：node tests/day2_whylaw_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -75,6 +76,11 @@ const after=(arr,q)=>{ const i=arr.indexOf(q); return i<0?[]:arr.slice(i+1); };
     check('3 總圖 選 '+KEYS[k]+'：以安的反應＝AA 原文',JSON.stringify(got)===JSON.stringify(exp),JSON.stringify(got));
     check('3 總圖 選 '+KEYS[k]+'：只有 econ 記得 KNOWS_ECON_YEAR；沒有全域旗標',has('heroine_01','KNOWS_ECON_YEAR')===(k===1)&&G.flags.ECON_PAST_SHARED===undefined);
     check('3 總圖 選 '+KEYS[k]+'：沒有舊句子；下午照樣結束（LIBRARY_AFTERNOON）',oldIn(L).length===0&&G.flags.afternoonDone===true&&has('heroine_01','LIBRARY_AFTERNOON'),oldIn(L).join('、')); }
+  // ---------- 3b 以安要聯絡方式（交付清單 A19 的前提，AA 2026-10-14）：兩條路線的結尾 ----------
+  { fresh(); pick={law88:0,why:1}; await D2.cafeScene(GM); const L=lines(); const i=L.indexOf('今天……謝謝。');
+    check('3b Café 的結尾：「今天……謝謝。」之後以安「你的聯絡方式給我。筆記我拍給你。」、記 AN_CONTACT_DAY2＝那一天',i>=0&&L[i+1]==='你的聯絡方式給我。筆記我拍給你。'&&G.flags.AN_CONTACT_DAY2===G.day,JSON.stringify(L.slice(-3)));
+    fresh({plan:'library',walkCk:{soc:true}}); G.zone='library_hall'; pick={law88:0,why:1}; await D2.libraryScene(GM); const L2=lines(); const j=L2.indexOf('（小聲）我再待一下。今天……謝謝。');
+    check('3b 總圖的結尾（小聲版）：以安「（小聲）你的聯絡方式給我。筆記我拍給你。」、記 AN_CONTACT_DAY2',j>=0&&L2[j+1]==='（小聲）你的聯絡方式給我。筆記我拍給你。'&&G.flags.AN_CONTACT_DAY2===G.day,JSON.stringify(L2.slice(-3))); }
   // ---------- 4 以安的記憶：人物面板讀得出來（只在 econ）----------
   { fresh(); pick={law88:0,why:1}; await D2.cafeScene(GM); const d=SOCIAL.describe('heroine_01');
     check('4 econ 之後：以安的人物面板寫「知道你念過一年經濟系」',/知道你念過一年經濟系/.test(d),d);

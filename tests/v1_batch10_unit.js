@@ -108,7 +108,7 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
     check('K2：第 6 週週五 20:00「這次換我去台大。我先去找品妤，再去霖澤館抓你。」；週六 16:00 社科院門口（不和第 4 週六迎新、第 5 週六中秋同一天）',!!m&&m.day===FRI&&Math.abs(m.h-20)<0.06&&m.text==='這次換我去台大。我先去找品妤，再去霖澤館抓你。'&&!!q&&q.day===SAT&&q.h===16&&SAT!==termDay(4,6)&&SAT!==termDay(5,6),JSON.stringify(q));
     const go=async(flags,events,pick)=>{ fresh(SAT,15.7,'campus',Object.assign({dating_kexin:true},flags||{})); for(const e of (events||[])) G.events.done[e]=1; PHONE.at(G,FRI,20,[{th:'p:kexin',from:'kexin',text:'x'}],'kx_ntu_ask'); run(15.7,15.8); const q2=OUT.get(G,'kx_ntu'); picks=[pick]; said=[]; opts=[]; await OUT.go(GM,q2); return {L:lines(),O:opts[0]||[]}; };
     let r=await go({},[],'「今天也辛苦了。」');
-    check('K2：品妤第一次出現＝「曾品妤。經濟系，可昕以前的室友。……一個暑假沒見，你不會忘了吧。」；可昕「這是我的舊系館。你的新系館在對面，我知道。」',r.L[0]==='社科院門口，可昕和品妤在一起。'&&r.L.includes('曾品妤。經濟系，可昕以前的室友。……一個暑假沒見，你不會忘了吧。')&&!r.L.includes('你來了。')&&r.L.includes('這是我的舊系館。你的新系館在對面，我知道。'),JSON.stringify(r.L.slice(0,4)));
+    check('K2：旁白用「你」（BB 2026-10-14）：「社科院門口，可昕和品妤已經在等你。」「品妤先回去了。你們沿著椰林大道……」；品妤第一次出現＝「曾品妤。經濟系，可昕以前的室友。……一個暑假沒見，你不會忘了吧。」；可昕「這是我的舊系館。你的新系館在對面，我知道。」',r.L[0]==='社科院門口，可昕和品妤已經在等你。'&&r.L.includes('品妤先回去了。你們沿著椰林大道，一路走到公館吃晚餐。')&&r.L.includes('曾品妤。經濟系，可昕以前的室友。……一個暑假沒見，你不會忘了吧。')&&!r.L.includes('你來了。')&&r.L.includes('這是我的舊系館。你的新系館在對面，我知道。'),JSON.stringify(r.L.slice(0,4)));
     check('K2：霖澤館前的假設題三選一（BB_95 原文）；「今天也辛苦了。」→「……你對建築物比對我溫柔。」她笑',JSON.stringify(r.O)===JSON.stringify(['「又是你。」','「今天也辛苦了。」','「我沒有每天遲到。」'])&&r.L.includes('所以這就是你每天說的霖澤館。……比照片高。')&&r.L.includes('……你對建築物比對我溫柔。')&&r.L.includes('她笑。'));
     check('K2：K1 還沒去過＝分開時「下次換你來，我當導遊。」；記 MET_PINYU',r.L.includes('下次換你來，我當導遊。')&&G.flags.MET_PINYU===true);
     r=await go({MET_PINYU:true},['ev_kexin_tour_nccu'],'「我沒有每天遲到。」');
@@ -140,7 +140,7 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
   { const BD=termDay(14,3); let toasts=[]; GM.toast=(t)=>{ toasts.push(t); };
     const draft=()=>G.msgs.find(m=>m.tag==='kx_bday_draft');
     fresh(BD,5.5,'dorm',{dating_kexin:true}); toasts=[]; run(5.5,6.2); let d=draft();
-    check('生日：12/3（週三）早上跳「行事曆：今天是可昕的生日。」、她的對話串有「（祐廷的草稿）」可以傳「生日快樂。」',CALENDAR.dateOf(BD).key.endsWith('12-03')&&toasts.includes('行事曆：今天是可昕的生日。')&&!!d&&d.th==='p:kexin'&&d.from==='player'&&JSON.stringify(d.ask.opts.map(o=>o.t))===JSON.stringify(['生日快樂。']),JSON.stringify({toasts,d:d&&d.text}));
+    check('生日：12/3（週三）早上跳「行事曆：今天是可昕的生日。」、她的對話串有「（草稿）」可以傳「生日快樂。」',CALENDAR.dateOf(BD).key.endsWith('12-03')&&toasts.includes('行事曆：今天是可昕的生日。')&&!!d&&d.th==='p:kexin'&&d.from==='player'&&JSON.stringify(d.ask.opts.map(o=>o.t))===JSON.stringify(['生日快樂。']),JSON.stringify({toasts,d:d&&d.text}));
     const q=OUT.get(G,'kx_bday'); G.hour=17.9; const due0=OUT.due(G); G.hour=18.01; const due1=OUT.due(G);
     check('生日：18:00 起出遊提示「可昕的生日：開車去政大」（開車約 30 分鐘）',!!q&&!due0&&!!due1&&due1.id==='kx_bday'&&q.title==='可昕的生日：開車去政大'&&q.travel==='開車約 30 分鐘',JSON.stringify(q));
     G.hour=12; PHONE.answer(G,d.ask.id,0); const rep=G.msgs.filter(m=>m.th==='p:kexin').map(m=>m.text).slice(-2);

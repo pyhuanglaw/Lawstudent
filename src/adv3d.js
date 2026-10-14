@@ -79,4 +79,4 @@ const ADV = (function(){
   return A;
 })();
 // Event CG 登錄（檔案尚未提供；解鎖狀態存於 G.cg.unlocked）
-const CG_REGISTRY={ cg_library_rain_heroine03:{file:'assets/cg/heroine_03/event_rain_library.webp',title:'雨天的總圖門口'}, cg_cafe_dusk_heroine01:{file:'assets/cg/heroine_01/event_cafe_dusk.webp',title:'兩點半的黃昏'}, cg_typhoon_noodles:{file:'assets/cg/kai/event_typhoon_noodles.webp',title:'颱風夜的泡麵'} };
+const CG_REGISTRY={ cg_library_rain_heroine03:{file:'assets/cg/heroine_03/event_rain_library.webp',title:'雨天的總圖門口'}, cg_cafe_dusk_heroine01:{file:'assets/cg/heroine_01/event_cafe_dusk.webp',title:'兩點半的黃昏'}, cg_typhoon_noodles:{file:'assets/cg/kai/event_typhoon_noodles.webp',title:'颱風夜的泡麵'}, cg_midautumn_riverside:{file:'assets/cg/zhe/event_midautumn_riverside.webp',title:'中秋的河濱'}, cg_nye_rooftop:{file:'assets/cg/zhe/event_nye_rooftop.webp',title:'頂樓的跨年'} };
