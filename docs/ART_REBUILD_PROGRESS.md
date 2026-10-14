@@ -10,6 +10,20 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-14 09:40 UTC（段落存檔；開發分支最新：這一筆交接的 commit；線上 v9.6＝`e88bda5`；v9.7 最後的候選＝候選 11 `836a1f6`）**：
+- **v9.7 候選 10 `11bdf50`、候選 11 `836a1f6`**（本機分支 `rel/v97-rc10`、`rel/v97-rc11`，在 `scratchpad/wt_rc97`；bundle `wip_backup/v97-rc10.bundle`〔rc5／rc8／rc9／rc10〕，rc11 在下一個 bundle）：只改測試，遊戲程式＝候選 8。
+  候選 10：flow_bike——上車時鏡頭對著男一舍的牆，推搖桿往前撞牆只走 2.3 m（測試量到 1.15 m/s）；校門寫死 (-122.5,0) 離出口 3.5 m（範圍 3 m）→ 改成先把鏡頭轉向最空的方向、校門照遊戲裡出口的位置。
+  候選 11：flow_course_choice 跟上睡覺第二版（床的選項「睡到明天早上」，同 flow_typhoon 候選 4 的改法）。騎車畫面本身這次看了：上車、腳在踏板、手在把手（≤5 cm）都通過。
+- **v9.7 已過（本機）**：候選 4～8 的 deploy_check（候選 8 再過一次）、Node、reachability_all、zone_transitions、minimap、save_compat_v7／v95、p0、touch_flow_wenzhou、初遇存檔遷移、flow_class_real、campus_layout_nav、joystick、flow_classes、flow_linze_floors。
+  **跑中／還沒跑**：flow_bike（候選 10）→ evtest（加 executable_path 重跑）→ flow_course_choice（候選 11）→ flow_study_legal → 坐姿 → 試玩修正 → 社團 → 博雅 → 總圖兩支 → 手機邀約 → 其他。執行器 `bxeuwcwb5` 09:18 起（11:18 前要換）。
+  LAWWW2：flow_first_meet、flow_lecture_attend（候選 9）、flow_discuss_class、adv_cg_layout、flow_main_day12、flow_teaching_buildings、flow_soclib、campus_glb_integration（結果還沒回來）。
+- **開發分支（下一版，瀏覽器都還沒看）**：`73baa50` 店員（Café 一般店員、總圖服務台館員）；`ce67bb7` 手機約人（約不了的原因照 AA_125 第 1 節、可昕和學姊開場就有聯絡方式、有點熟以後「交換聯絡方式」、兩個人單獨＋有伴侶不約）；
+  `1b56598` 好感看得見（AA_124 1-6、BB_120 第 1 節：門檻台詞、見面結束一句、聯絡人名字、見面旁白；`src/data/rel_lines.js`）；`b187c46` Café 的學姊小場面（BB_120 1-1）。
+  還沒做：BB_120「固定的改變」（芷若的點單要和 Z1 事件對齊、子晴／沛珊的訊息樣子、方奕廷學名、阿凱宵夜）、方奕廷澆水一週、學姊小交流 (2)（等 AA_124 第 2 節）。
+- **等使用者**：AA 的五個問題（讀書會不會被當、讀書影響的方向、健身房 A/B/C、節日邀約、節日 CG）——已原文轉給使用者；AA_124 第 2 節；v6「大學四年不只跟一個女生交往」（D50 第③級）。
+- **問 AA 中**（ce67bb7 後）：兩個人單獨只套女生、「找大家一起吧」沒有群約、學姊有伴侶算到大三上整學期。
+- **如果這個工作階段在發布前中斷**：從 bundle 取出 `rel/v97-rc10`（＋候選 11 的 flow_course_choice 修改在開發分支下一個 commit 也會帶到），把「跑中／還沒跑」的跑完，全過才快轉 main 到最後的候選；D71：v9.7 不受三小時限制。
+
 **2026-10-14 09:05 UTC（段落存檔——使用者 09:00：「如果兩小時內沒辦法把下一個版本弄出來就要做一個段落上傳到資料庫一次，因為我們的用量快要到」；開發分支最新：這一筆交接的 commit；線上 v9.6＝`e88bda5`）**：
 - **v9.7 候選 8 `3e5201d`**（本機分支 `rel/v97-rc8`，bundle `wip_backup/v97-rc8.bundle`，前置 22c597c）＝候選 7＋`story3d.js` 見過以後按鈕名字更新（事件演完才定名字；Café 第一次見面後原本還是「和不認識的女生說話」）＋flow_first_meet 的 A（邊看邊追）、B2（沿遊戲路線點地面）。
   遊戲程式：候選 1＝v9.7 內容；候選 5＝Café 店員和得到話（engine3d staff 優先、story3d 沒事件就點餐）；候選 8＝按鈕名字。其他候選只改測試。
