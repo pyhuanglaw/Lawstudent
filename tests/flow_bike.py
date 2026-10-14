@@ -26,6 +26,12 @@ FIT_JS = """(()=>{ const h=GAME.E.player.obj, vrm=h.userData.vrm, bk=h.children.
   return {footL:+W(R('leftFoot')).distanceTo(tl).toFixed(3), footR:+W(R('rightFoot')).distanceTo(tr).toFixed(3), handL:+W(R('leftHand')).distanceTo(gl).toFixed(3), handR:+W(R('rightHand')).distanceTo(gr).toFixed(3)}; })()"""
 
 
+# 從玩家的位置往 24 個方向看，哪一個方向能一直站得住最遠（導航格，人物半徑 0.35 m）：回傳那個方向 30 m 內最遠的點
+OPEN_JS = """(()=>{ const E=GAME.E, P=E.player, x0=P.obj.position.x, z0=P.obj.position.z, lv=P.lv|0; let best=null;
+  for(let k=0;k<24;k++){ const a=k/24*Math.PI*2, dx=Math.sin(a), dz=Math.cos(a); let d=0; while(d<30&&E.canStand(x0+dx*(d+0.5),z0+dz*(d+0.5),0.35,lv)) d+=0.5;
+    if(!best||d>best.d) best={d,tx:x0+dx*d,tz:z0+dz*d}; } return best; })()"""
+
+
 async def bike(pg):
     return await pg.evaluate(BIKE_JS)
 
@@ -69,6 +75,9 @@ async def main():
         run.check('A 按「騎腳踏車」：上車（姿勢 ride、車掛在玩家底下、停著的車拿掉、出現「下車」）', ok and k['pose'] == 'ride' and k['on'] and not k['parked'] and k['btn'], json.dumps({x: k[x] for x in ('riding', 'pose', 'on', 'parked', 'btn')}))
         await run.shot(pg, 'A_mounted')
         # ---------- B：騎 ----------
+        # 鏡頭先轉向最空的方向（像玩家一樣用手指滑鏡頭）：上車時鏡頭對著男一舍的牆，直接推搖桿「往前」會騎去撞牆、2.3 m 就停住（v9.7 回歸第一次跑：1.15 m/s）
+        op = await pg.evaluate(OPEN_JS)
+        await L.turn_camera_to(pg, cdp, op['tx'], op['tz'])
         d, dt = await ride_forward(pg, cdp, 9)
         k = await bike(pg)
         sp = d / dt if dt > 0 else 0
@@ -79,7 +88,9 @@ async def main():
         await L.drag(pg, cdp, 200, 200, 420, 200, steps=12); await pg.wait_for_timeout(2500)
         await run.shot(pg, 'B_riding_side')
         # ---------- C：騎出校門 ----------
-        await L.go_to(pg, cdp, run, -122.5, 0, 2.5, '校門')
+        # 校門的出口互動點照遊戲裡的位置（zones3d.js：(-126,0)、範圍 3 m）；原本寫死走到 (-122.5,0)，離出口 3.5 m，「走出校門」不會出現（v9.7 回歸第一次跑）
+        gate = await pg.evaluate("(()=>{ const i=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='gongguan'); return i&&{x:i.x,z:i.z,r:i.radius||1.8}; })()")
+        await L.go_to(pg, cdp, run, gate['x'], gate['z'], min(2.5, gate['r'] - 0.4), '校門')
         s = await L.state(pg)
         run.check('C 騎到校門：出現「走出校門」、還在騎', s['interact'].startswith('走出校門') and s['pose'] == 'ride', f"{s['interact']} {s['pose']}")
         await L.tap(pg, cdp, '#interact')
