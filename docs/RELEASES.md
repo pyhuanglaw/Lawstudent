@@ -102,7 +102,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - `adv_cg_layout`：ALL PASS（候選 8 `3e5201d`，60 秒）
 - `campus_glb_integration`：ALL PASS（候選 8 `3e5201d`，254 秒）
 - `cg_rain_shots`：ALL PASS（候選 4 `6ad0923`，172 秒）
-- `flow_boya_interior`：ALL PASS（候選 16 `52f288e`，1114 秒）
+- `flow_boya_interior`：ALL PASS（候選 16 `52f288e`，1114 秒；候選 19 `313d620` 重跑 ALL PASS，1067 秒，`d7ffa8c`）
 - `flow_discuss_class`：ALL PASS（候選 14 `fd46e14`，352 秒）
 - `flow_first_meet`：ALL PASS（候選 14 `fd46e14`，901 秒）
 - `flow_invite_phone`：ALL PASS（候選 2 `06f2b64`，80 秒）
@@ -115,7 +115,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - `flow_typhoon`：ALL PASS（候選 4 `6ad0923`，180 秒）
 - `see_through`：ALL PASS（候選 16 `52f288e`，58 秒）
 
-**候選 19 的說明**：候選 19 的遊戲程式＝候選 8＋`game3d.js` choose 一處（選單墊高時 max-height 一起扣掉）。這一處之後重跑的：Node、deploy_check、flow_clubs（候選 17 的 C 段在修改前失敗、候選 19 通過）。flow_boya_interior 是候選 16 的結果（遊戲程式只差這一處）；LAWWW2 在候選 19 重跑中，發布時還沒回來，結果之後補在這裡。
+**候選 19 的說明**：候選 19 的遊戲程式＝候選 8＋`game3d.js` choose 一處（選單墊高時 max-height 一起扣掉）。這一處之後重跑的：Node、deploy_check、flow_clubs（候選 17 的 C 段在修改前失敗、候選 19 通過）。flow_boya_interior 發布時用的是候選 16 的結果（遊戲程式只差這一處）；**LAWWW2 在候選 19（＝發布版 313d620）重跑：ALL PASS（1067 秒、24 項，不用 turbo；LAWWW2 `d7ffa8c`，發布後 12:35 回來）**。
 
 ## v9.6（2026-10-14 07:46:55 UTC 發布 `e88bda5`）
 
