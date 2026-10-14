@@ -10,6 +10,19 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-14 05:48 UTC（開發分支最新：這一筆交接的 commit；線上 v9.5＝`a4f2760`，main 沒動；v9.6 候選 12 `a9c2b69` 在跑發布回歸，預估 07:30 UTC 發布）**：
+- **v9.6 發布回歸**：候選 11 `f87f71b`＝campus_layout_nav 清單（LAWWW2 的 patch）；候選 12 `a9c2b69`＝flow_soclib 閱覽長桌那一步按鈕出現就停（候選 10 上 14/15，唯一失敗是測試要求停在 0.08 m 內）。都只改測試，遊戲程式和候選 9 相同。備份 `wip_backup/v96-rc12.bundle`（含候選 4～12）。
+  - 05:18 重排：TESTING.md 第五節「發布前必跑」全部在候選 12 上跑——Node 全部 → deploy_check → zone_transitions → minimap_direction → save_compat_v7 → p0_movement → touch_flow_wenzhou → reachability_all → flow_class_real → campus_layout_nav → joystick_direction → flow_classes → flow_main_day12 → flow_linze_floors → flow_teaching_buildings → flow_soclib，其他回歸排後面。
+  - 已過（候選 12）：Node 全部（43 秒）、deploy_check、zone_transitions、minimap_direction、save_compat_v7；候選 10：campus_glb_integration（校門 draw call 1.097 倍）。
+  - 執行器 `bguqrhkph` 04:59 起，**06:59 前要換**（提醒 06:15：趁 flow_classes 跑完換）。發布腳本：`scratchpad/finish_release.py`、`collect_results.py`（已乾跑）；merge 回開發分支已在 `scratchpad/wt_merge` 用候選 12 試過（衝突全取開發分支，單元測試全過，rerere 記住了）。
+- **開發分支新增（不在 v9.6）**：
+  - `28007ae`：聖誕交換禮物加明軒的三色螢光筆（BB_95 3-6b）、「又被以安沒收」只給中秋看過的玩家（AA）、明軒抽到祐廷的禮物時不寫「明軒抽到小語的玩偶」。
+  - `4b6cb10`：颱風假（交付清單 B3）：大一上第 7 週週一 10/13 停課、整天下雨；T1b 前一晚張教授的信＋麵店團群組；T1a 宿舍的泡麵之夜。
+  - `f231eba`：BB 的回覆——T1a 接上生活 CG BCG-18（BB ART_APPROVED；沒見過方奕廷不放）、T1b 前一晚 20:30 新聞通知、明軒的螢光筆放在房間。
+  - 全部只跑了 Node 單元測試（65 個全過），瀏覽器還沒看。
+- **等別人**：AA——颱風假放週一可以嗎（DELIVERED）、A20 旁白、A15「（不說話）」選項；BB——杜可昕參考圖；LAWWW2——共同教學館、大一女舍合併材質（v9.7 再上）。
+- **下一步**：跑完必跑 → 快轉 main 到候選 12（或之後的候選）→ 確認 Pages 部署 → merge 回開發分支 → RELEASES.md／CLAUDE.md → 回報使用者 → 開發分支的瀏覽器回歸（`scratchpad/q_dev_after_release.txt`）＋給 BB 的截圖。
+
 **2026-10-14 05:02 UTC（開發分支最新 `a15c636`；線上 v9.5＝`a4f2760`，main 沒動；v9.6 候選 10 `2f138a5` 在跑發布回歸——使用者 04:48 要兩小時內看到 v9.6）**：
 - **v9.6 發布回歸**：候選都是本機分支，備份在 `wip_backup/v96-rc10.bundle`（含候選 4～10，前置 `5f66b67`）。
   - 候選 8 `6c2d6e9`：只改測試——flow_classes（HUD 等它出現、教授下課走到門口、C 段改成共同 102 大一英文、D 段只查 C 段、手機分頁等換過去）＋flow_soclib（看不到「坐下讀書」再往椅子走一步）。

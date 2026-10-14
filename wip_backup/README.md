@@ -25,3 +25,4 @@ git worktree add <資料夾> wip/dorm-hall
 - `v96-rc9.bundle`（2026-10-14 04:53 UTC）：v9.6 發布候選 9，本機分支 `rel/v96-rc9`（`781e292`）＝候選 8 `6c2d6e9`＋共同教學館、大一女舍的正式外觀先不放（校門鏡頭 draw call 1.14 倍超過 1.1 倍；src/assets3d.js 拿掉兩行）＋campus_glb_integration 外框比對修正。前置 commit `5f66b67` 在 origin 的開發分支上（含候選 4～9）。
 - `v96-rc10.bundle`（2026-10-14 05:00 UTC）：v9.6 發布候選 10，本機分支 `rel/v96-rc10`（`2f138a5`）＝候選 9 `781e292`＋flow_soclib 窗邊座位照玩家的做法走（按鈕出現就停；只改測試）。前置 commit `5f66b67`（含候選 4～10）。
 - `v96-rc11.bundle`（2026-10-14 05:08 UTC）：v9.6 發布候選 11，本機分支 `rel/v96-rc11`（`f87f71b`）＝候選 10 `2f138a5`＋campus_layout_nav 清單跟上大一女舍（LAWWW2 25d2aa7 的 patch；只改測試）。前置 commit `5f66b67`（含候選 4～11）。
+- `v96-rc12.bundle`（2026-10-14 05:47 UTC）：v9.6 發布候選 12，本機分支 `rel/v96-rc12`（`a9c2b69`）＝候選 11 `f87f71b`＋flow_soclib 閱覽長桌那一步按鈕出現就停（只改測試；遊戲程式和候選 9～11 相同）。前置 `5f66b67`。還原：`git fetch wip_backup/v96-rc12.bundle rel/v96-rc12:rel/v96-rc12`
