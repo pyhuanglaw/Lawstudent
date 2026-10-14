@@ -3,7 +3,8 @@
 //   1. 芯慈「借筆記」：借給她（兩個分支）→「筆記還你的時候要找你。」＋聯絡方式；不借＝沒有；
 //   2. 柏翰「你考幾分」（期中放榜）：結尾「你的聯絡方式。考古題要傳給你。」＋聯絡方式（三個分支都有）；
 //   3. 小語「傅鐘旁邊的早餐」：坐下來一起吃＝「欸你有沒有群組？沒有？我拉你。」＋聯絡方式；趕上課＝沒有；
-//   4. 已經有聯絡方式：那一句不說。修正前（事件裡沒有這幾句）這個測試會失敗。用法：node tests/contact_moments_unit.js
+//   4. 已經有聯絡方式：那一句不說。修正前（事件裡沒有這幾句）這個測試會失敗。
+//   5. 語彤「雨天之後在麵店」：她把手機推過來「傘的事。……你的聯絡方式。」＋傘給她「我還你傘的時候要找你。」／其他「下次下雨的時候找你。」；沒有雨天、已經有的不說。用法：node tests/contact_moments_unit.js
 // 用法：node tests/v1_batch6_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -42,6 +43,21 @@ async function play(id,pickList,pre){ fresh(30,10,'campus',{met_yu:true}); if(pr
   check('3. 小語：坐下來一起吃 →「欸你有沒有群組？沒有？我拉你。」＋聯絡方式',L.includes('欸你有沒有群組？沒有？我拉你。')&&INV.hasContact(G,'yu'),L.join('｜'));
   L=await play('ev_yu_breakfast',[1]);
   check('3. 小語：趕上課 → 沒有那一句、沒有聯絡方式',!L.includes('欸你有沒有群組？沒有？我拉你。')&&!INV.hasContact(G,'yu'),L.join('｜'));
+  // 5 語彤（AA_70 第 2 節）：雨天之後在麵店
+  const rain=(tag)=>()=>{ G.events.done.ev_rain_library_door=1; SOCIAL.remember('heroine_03','FIRST_MET','雨天'); if(tag) SOCIAL.remember('heroine_03',tag,'雨天總圖門口'); };
+  L=await play('ev_noodle_yutong',[0],rain('HELPED'));
+  check('5. 語彤：雨天把傘給她（HELPED）→ 麵店「（她把手機推過來。）」「傘的事。……你的聯絡方式。」「我還你傘的時候要找你。」＋聯絡方式',L.indexOf('（她把手機推過來。）')>=0&&L[L.indexOf('（她把手機推過來。）')+1]==='傘的事。……你的聯絡方式。'&&L[L.indexOf('（她把手機推過來。）')+2]==='我還你傘的時候要找你。'&&!L.includes('下次下雨的時候找你。')&&INV.hasContact(G,'heroine_03'),L.join('｜'));
+  check('5. 語彤：給過傘的人不會再被問「圖書館那天之後就沒再看到你。你都幾點去？」（只給兩種傘的記憶都沒有的人）',!L.includes('圖書館那天之後就沒再看到你。你都幾點去？'),L.join('｜'));
+  L=await play('ev_noodle_yutong',[0],rain('SHARED_UMBRELLA'));
+  check('5. 語彤：雨天一起撐傘 →「傘的事。……你的聯絡方式。」「下次下雨的時候找你。」＋聯絡方式',L.includes('傘的事。……你的聯絡方式。')&&L.includes('下次下雨的時候找你。')&&!L.includes('我還你傘的時候要找你。')&&INV.hasContact(G,'heroine_03'),L.join('｜'));
+  L=await play('ev_noodle_yutong',[0],rain(null));
+  check('5. 語彤：雨天其他選項（沒有傘的記憶）→「圖書館那天之後……」「下次下雨的時候找你。」＋聯絡方式',L.includes('圖書館那天之後就沒再看到你。你都幾點去？')&&L.includes('下次下雨的時候找你。')&&INV.hasContact(G,'heroine_03'),L.join('｜'));
+  L=await play('ev_noodle_yutong',[2],rain('HELPED'));
+  check('5. 語彤：選「今天忙嗎？我改天再來。」也已經拿到（她先推過來）',L.includes('我還你傘的時候要找你。')&&INV.hasContact(G,'heroine_03'),L.join('｜'));
+  L=await play('ev_noodle_yutong',[0],()=>{ SOCIAL.remember('heroine_03','FIRST_MET','麵店'); });
+  check('5. 語彤：沒有雨天（先在別的地方認識）→ 不推手機、沒有聯絡方式',!L.includes('（她把手機推過來。）')&&!L.includes('傘的事。……你的聯絡方式。')&&!INV.hasContact(G,'heroine_03'),L.join('｜'));
+  L=await play('ev_noodle_yutong',[0],()=>{ rain('HELPED')(); INV.rec(G); G.contacts.heroine_03=5; });
+  check('5. 語彤：已經有聯絡方式 → 不推手機',!L.includes('（她把手機推過來。）')&&!L.includes('我還你傘的時候要找你。'),L.join('｜'));
   // 4 已經有聯絡方式
   L=await play('ev_bohan_score',[0],()=>{ INV.rec(G); G.contacts.classmate_bohan=5; });
   check('4. 已經有柏翰的聯絡方式：那一句不說',!L.includes('你的聯絡方式。考古題要傳給你。'),L.slice(-2).join('｜'));

@@ -41,7 +41,7 @@ R('heroine_01',25);
   check("2. 以安升到「有點熟」：下一次見面先說（手帳那一句）",ok1&&gm.out[0]==='N:（她把手帳翻到最後一頁，寫下你的名字。）'&&gm.out[1]==='S:「我記人的名字要寫下來。……每個人都有，不要誤會。」',gm.out.join('｜'));
   gm=mockGM(); ok1=await SOCIAL.playUp(gm,{name:"以安"},"heroine_01"); check("2. 說過就不再說",!ok1&&!gm.out.length);
   R('heroine_03',8); R('heroine_03',65,50,45); gm=mockGM(); await SOCIAL.playUp(gm,{name:'語彤'},'heroine_03');
-  check('2. 語彤從「認識」直接跳到「好朋友」：只說最高的那一句，之後不補說低的',gm.out.length===1&&gm.out[0]==='S:「……我跟別人在一起會累。跟你不會。」'&&SOCIAL.upLine('heroine_03')===null,gm.out.join('｜'));
+  check('2. 語彤從「認識」直接跳到「好朋友」：只說最高的那一句，之後不補說低的',gm.out.length===1&&gm.out[0]==='S:「嗯。你來的時候，阿姨會先下你的麵。……我跟她說的。」'&&SOCIAL.upLine('heroine_03')===null,gm.out.join('｜'));
   // 學姊：W8 以前一律算有點熟
   R('heroine_05',45,30,10); W8=false;
   check('2. 學姊「朋友」但 W8 還沒發生：台詞上算「有點熟」（聯絡人「溫書瑀（直屬）」、見面結束三件事）',SOCIAL.friendLevel('heroine_05')==='FAMILIAR'&&SOCIAL.contactName('heroine_05')==='溫書瑀（直屬）'&&steps(SOCIAL.byeLine('heroine_05'))[0].indexOf('三件事')>=0,SOCIAL.contactName('heroine_05'));
