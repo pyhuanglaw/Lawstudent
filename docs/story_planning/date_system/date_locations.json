@@ -28,7 +28,8 @@
   "combo": "可以排在同一趟的地點；整趟仍然只算一次",
   "admission": "祐廷自己的一張門票，抵達時扣；0＝免費或不用買票。遊戲用的固定值，實際票價實作前再確認",
   "fixed": "固定段落（例：看電影）：抵達後先演，照 minutes 推進時間、扣 cost；不算互動點，散場後再選互動點（AA_128 5-1）",
-  "fromChiayi": "祐廷回嘉義的期間（過年、暑假那兩週，AA_128 11-1）從嘉義出發的交通；null＝那段期間不能約這個地點（「從嘉義過去太遠了」）。目前只有 D26 臺中：以安、芷若過年和暑假那兩週在臺中（AA_128 11-2）"
+  "fromChiayi": "祐廷回嘉義的期間（過年、暑假那兩週，AA_128 11-1）從嘉義出發的交通；null＝那段期間不能約這個地點（「從嘉義過去太遠了」）。目前只有 D26 臺中：以安、芷若過年和暑假那兩週在臺中（AA_128 11-2）",
+  "transportTier": "transport 裡每一種交通方式自己的開放等級（tier）：開車最早第 1 級（大一寒假車子開放以後，AA_126 8-1）；開車去宜蘭（D24、D25）要第 2 級（大二起，AA_126 8-1）；大眾運輸照地點的 tier。地點的 tier＝最早有任何一種方式可以去的時候"
  },
  "version": 1,
  "updated": "2026-10-14",
@@ -57,7 +58,8 @@
     {
      "mode": "mrt",
      "minutes": 25,
-     "fare": 60
+     "fare": 60,
+     "tier": 0
     }
    ],
    "fromChiayi": null,
@@ -83,7 +85,8 @@
     {
      "mode": "mrt",
      "minutes": 30,
-     "fare": 60
+     "fare": 60,
+     "tier": 0
     }
    ],
    "fromChiayi": null,
@@ -110,7 +113,8 @@
     {
      "mode": "mrt",
      "minutes": 25,
-     "fare": 60
+     "fare": 60,
+     "tier": 0
     }
    ],
    "fromChiayi": null,
@@ -137,7 +141,8 @@
     {
      "mode": "mrt",
      "minutes": 15,
-     "fare": 50
+     "fare": 50,
+     "tier": 0
     }
    ],
    "fromChiayi": null,
@@ -168,7 +173,8 @@
     {
      "mode": "mrt",
      "minutes": 20,
-     "fare": 50
+     "fare": 50,
+     "tier": 0
     }
    ],
    "fromChiayi": null,
@@ -198,7 +204,8 @@
     {
      "mode": "mrt",
      "minutes": 30,
-     "fare": 60
+     "fare": 60,
+     "tier": 0
     }
    ],
    "fromChiayi": null,
@@ -224,7 +231,8 @@
     {
      "mode": "mrt",
      "minutes": 20,
-     "fare": 50
+     "fare": 50,
+     "tier": 0
     }
    ],
    "fromChiayi": null,
@@ -250,7 +258,8 @@
     {
      "mode": "mrt",
      "minutes": 35,
-     "fare": 60
+     "fare": 60,
+     "tier": 0
     }
    ],
    "fromChiayi": null,
@@ -277,12 +286,14 @@
     {
      "mode": "mrt",
      "minutes": 60,
-     "fare": 60
+     "fare": 60,
+     "tier": 0
     },
     {
      "mode": "car",
      "minutes": 30,
-     "fare": 100
+     "fare": 100,
+     "tier": 1
     }
    ],
    "fromChiayi": null,
@@ -308,7 +319,8 @@
     {
      "mode": "mrt",
      "minutes": 20,
-     "fare": 50
+     "fare": 50,
+     "tier": 0
     }
    ],
    "fromChiayi": null,
@@ -334,7 +346,8 @@
     {
      "mode": "mrt",
      "minutes": 50,
-     "fare": 80
+     "fare": 80,
+     "tier": 0
     }
    ],
    "fromChiayi": null,
@@ -360,7 +373,8 @@
     {
      "mode": "mrt",
      "minutes": 30,
-     "fare": 60
+     "fare": 60,
+     "tier": 0
     }
    ],
    "fromChiayi": null,
@@ -386,7 +400,8 @@
     {
      "mode": "mrt",
      "minutes": 55,
-     "fare": 100
+     "fare": 100,
+     "tier": 0
     }
    ],
    "fromChiayi": null,
@@ -415,7 +430,8 @@
     {
      "mode": "mrt+bus",
      "minutes": 70,
-     "fare": 120
+     "fare": 120,
+     "tier": 0
     }
    ],
    "fromChiayi": null,
@@ -443,7 +459,8 @@
     {
      "mode": "car",
      "minutes": 40,
-     "fare": 150
+     "fare": 150,
+     "tier": 1
     }
    ],
    "fromChiayi": null,
@@ -469,7 +486,8 @@
     {
      "mode": "car",
      "minutes": 60,
-     "fare": 300
+     "fare": 300,
+     "tier": 1
     }
    ],
    "fromChiayi": null,
@@ -497,12 +515,14 @@
     {
      "mode": "coach",
      "minutes": 90,
-     "fare": 200
+     "fare": 200,
+     "tier": 0
     },
     {
      "mode": "car",
      "minutes": 60,
-     "fare": 300
+     "fare": 300,
+     "tier": 1
     }
    ],
    "fromChiayi": null,
@@ -531,12 +551,14 @@
     {
      "mode": "mrt+coach",
      "minutes": 90,
-     "fare": 200
+     "fare": 200,
+     "tier": 0
     },
     {
      "mode": "car",
      "minutes": 60,
-     "fare": 300
+     "fare": 300,
+     "tier": 1
     }
    ],
    "fromChiayi": null,
@@ -564,12 +586,14 @@
     {
      "mode": "mrt+coach",
      "minutes": 100,
-     "fare": 220
+     "fare": 220,
+     "tier": 0
     },
     {
      "mode": "car",
      "minutes": 70,
-     "fare": 300
+     "fare": 300,
+     "tier": 1
     }
    ],
    "fromChiayi": null,
@@ -597,12 +621,14 @@
     {
      "mode": "mrt+bus",
      "minutes": 60,
-     "fare": 100
+     "fare": 100,
+     "tier": 0
     },
     {
      "mode": "car",
      "minutes": 50,
-     "fare": 200
+     "fare": 200,
+     "tier": 1
     }
    ],
    "fromChiayi": null,
@@ -628,12 +654,14 @@
     {
      "mode": "mrt+bus",
      "minutes": 70,
-     "fare": 120
+     "fare": 120,
+     "tier": 0
     },
     {
      "mode": "car",
      "minutes": 40,
-     "fare": 200
+     "fare": 200,
+     "tier": 1
     }
    ],
    "fromChiayi": null,
@@ -659,7 +687,8 @@
     {
      "mode": "car",
      "minutes": 60,
-     "fare": 300
+     "fare": 300,
+     "tier": 1
     }
    ],
    "fromChiayi": null,
@@ -685,7 +714,8 @@
     {
      "mode": "car",
      "minutes": 50,
-     "fare": 300
+     "fare": 300,
+     "tier": 1
     }
    ],
    "fromChiayi": null,
@@ -711,12 +741,14 @@
     {
      "mode": "coach",
      "minutes": 90,
-     "fare": 300
+     "fare": 300,
+     "tier": 1
     },
     {
      "mode": "car",
      "minutes": 60,
-     "fare": 400
+     "fare": 400,
+     "tier": 2
     }
    ],
    "fromChiayi": null,
@@ -744,12 +776,14 @@
     {
      "mode": "rail",
      "minutes": 100,
-     "fare": 400
+     "fare": 400,
+     "tier": 1
     },
     {
      "mode": "car",
      "minutes": 80,
-     "fare": 400
+     "fare": 400,
+     "tier": 2
     }
    ],
    "fromChiayi": null,
@@ -778,24 +812,28 @@
     {
      "mode": "hsr",
      "minutes": 90,
-     "fare": 1600
+     "fare": 1600,
+     "tier": 1
     },
     {
      "mode": "car",
      "minutes": 150,
-     "fare": 900
+     "fare": 900,
+     "tier": 1
     }
    ],
    "fromChiayi": [
     {
      "mode": "car",
      "minutes": 60,
-     "fare": 300
+     "fare": 300,
+     "tier": 1
     },
     {
      "mode": "hsr",
      "minutes": 70,
-     "fare": 800
+     "fare": 800,
+     "tier": 1
     }
    ],
    "admission": 0,
@@ -821,12 +859,14 @@
     {
      "mode": "hsr",
      "minutes": 110,
-     "fare": 2200
+     "fare": 2200,
+     "tier": 1
     },
     {
      "mode": "car",
      "minutes": 180,
-     "fare": 1000
+     "fare": 1000,
+     "tier": 1
     }
    ],
    "fromChiayi": null,
@@ -852,12 +892,14 @@
     {
      "mode": "hsr",
      "minutes": 135,
-     "fare": 2800
+     "fare": 2800,
+     "tier": 2
     },
     {
      "mode": "car",
      "minutes": 240,
-     "fare": 1400
+     "fare": 1400,
+     "tier": 2
     }
    ],
    "fromChiayi": null,
@@ -883,12 +925,14 @@
     {
      "mode": "hsr",
      "minutes": 125,
-     "fare": 3000
+     "fare": 3000,
+     "tier": 2
     },
     {
      "mode": "car",
      "minutes": 270,
-     "fare": 1500
+     "fare": 1500,
+     "tier": 2
     }
    ],
    "fromChiayi": null,
@@ -914,12 +958,14 @@
     {
      "mode": "rail",
      "minutes": 130,
-     "fare": 900
+     "fare": 900,
+     "tier": 2
     },
     {
      "mode": "car",
      "minutes": 180,
-     "fare": 1000
+     "fare": 1000,
+     "tier": 2
     }
    ],
    "fromChiayi": null,
@@ -945,12 +991,14 @@
     {
      "mode": "hsr+coach",
      "minutes": 150,
-     "fare": 1800
+     "fare": 1800,
+     "tier": 2
     },
     {
      "mode": "car",
      "minutes": 180,
-     "fare": 1000
+     "fare": 1000,
+     "tier": 2
     }
    ],
    "fromChiayi": null,
@@ -978,7 +1026,8 @@
     {
      "mode": "car",
      "minutes": 210,
-     "fare": 1200
+     "fare": 1200,
+     "tier": 2
     }
    ],
    "fromChiayi": null,
