@@ -4,7 +4,7 @@
 A. 從椰林大道（傅鐘東邊）點地面走到共同教學館正門：不瞬移；到門口出現「共同教學館」按鈕；今天沒有課——按下去就進館；
    自己走進共 101 階梯教室（側邊台階上到第 2 排）坐下、起身；走上樓梯到二樓走廊、自習區；走下樓、走出去回到正門前（D55 第二階段的室內）。
 B. 大地圖：地名「共同教學館」在建築的位置（地名資料＋點小地圖打開大地圖的截圖）。
-C. 手機「活動」分頁（沒有活動時寫「目前沒有」）；手機「地點」快速前往：從宿舍 → 共同教學館：到校園、站在門口前（站得住、不在建築裡）、時間有過（照距離約 5 分鐘）、出現「共同教學館」按鈕；
+C. 手機「活動」分頁（這幾天的活動都列出來；沒有活動時寫「目前沒有」）；手機「地點」快速前往：從宿舍 → 共同教學館：到校園、站在門口前（站得住、不在建築裡）、時間有過（照距離約 5 分鐘）、出現「共同教學館」按鈕；
    再自己走回椰林大道（不會卡在門口）。
 D. 手機「地點」→ 總圖書館：到總圖大廳、站得住。
 E. 舊存檔站在共同教學館的位置（建築裡）：讀檔後移到站得住的地方。
@@ -19,11 +19,14 @@ URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_teaching_buildings'
 DAY_FRI = 3   # 9/19 週五：13:20 法律與社會（霖澤館 201），共同教學館今天沒有課
 BASE_FLAGS = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True}
-FOOT = (2, 33, 24, 14)   # 共同教學館：中心 (2,33)、24×14
+FOOT = (2, 33, 24, 14)   # 共同教學館：中心 (2,33)、24×14（含正面二樓下的拱廊）
+# 圍起來的本體（牆裡面）：24×11.4、z 28.6–40（src/zones3d.js 的 gongtong cols 第一筆 [0,-1.3,24,11.4]，轉 180°）。
+# 正面的拱廊（z 26.0–28.6，二樓在上面）是走得進去的騎樓（v9.3 第七批起建築的一樓拱廊都可以走），不算「在建築裡」。
+BODY = (2, 34.3, 24, 11.4)
 
 
-def inside_foot(x, z):
-    cx, cz, w, d = FOOT
+def inside_foot(x, z, box=None):
+    cx, cz, w, d = box or FOOT
     return abs(x - cx) < w / 2 and abs(z - cz) < d / 2
 
 
@@ -102,7 +105,8 @@ async def main():
         await run.shot(pg, 'C_phone_places')
         await L.tap(pg, cdp, '#phoneTabs button[data-ptab="events"]'); await pg.wait_for_timeout(800)
         txt = await pg.evaluate("(document.getElementById('phoneBody')||{}).textContent||''")
-        run.check('手機「活動」分頁：活動清單（遊戲裡還沒有活動：寫「目前沒有公告的演講或活動」）', '目前沒有公告的演講或活動' in txt, txt[:160])
+        up = await pg.evaluate("(typeof ACTIVITIES!=='undefined'?ACTIVITIES.upcoming(GAME.G,7):[]).map(o=>o.a.title)")   # 2026-10-13 起有活動（AA_110 6-3 第一批）
+        run.check('手機「活動」分頁：這幾天的演講與活動都列出來（沒有的話寫「目前沒有公告的演講或活動」）', (all(t in txt for t in up) and '目前沒有' not in txt) if up else '目前沒有公告的演講或活動' in txt, json.dumps(up, ensure_ascii=False) + ' ／ ' + txt[:160])
         await run.shot(pg, 'C_phone_events')
         await L.tap(pg, cdp, '#phoneTabs button[data-ptab="places"]'); await pg.wait_for_timeout(800)
         ok = await L.tap(pg, cdp, '#phoneBody [data-place="campus|共同教學館"]')
@@ -130,7 +134,8 @@ async def main():
         await L.load_state(pg, {'zone': 'campus', 'hour': 10.0, 'day': DAY_FRI, 'weekday': 5, 'weather': 'sunny', 'pos': {'x': 2, 'z': 33, 'yaw': 0}, 'flags': BASE_FLAGS})
         await pg.wait_for_timeout(3500)
         s = await L.state(pg)
-        run.check('讀檔後移到建築外面站得住的地方', s['zone'] == 'campus' and s['stand'] and not inside_foot(s['x'], s['z']), json.dumps(s, ensure_ascii=False))
+        # 2026-10-14 v9.6 回歸：原本用整個 24×14（含拱廊）判斷，遊戲把人移到正面的拱廊下 (-3.25,27.75)：站得住、在牆外 0.85 m——是騎樓，不是建築裡面。改用牆圍起來的本體判斷
+        run.check('讀檔後移到建築外面站得住的地方（牆圍起來的本體外面；正面的拱廊下可以）', s['zone'] == 'campus' and s['stand'] and not inside_foot(s['x'], s['z'], BODY), json.dumps(s, ensure_ascii=False))
         # ---------- F：大一女舍 ----------
         run.setup('讀檔：第 3 天 17:30，校門口 (-112,0)')
         await L.load_state(pg, {'zone': 'campus', 'hour': 17.5, 'day': DAY_FRI, 'weekday': 5, 'weather': 'sunny', 'pos': {'x': -112, 'z': 0, 'yaw': 3.14}, 'flags': BASE_FLAGS})
