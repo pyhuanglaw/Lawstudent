@@ -1,5 +1,5 @@
 {
- "_comment": "大四期末考題庫（使用者 2026-10-14：大四由 AI 出題並自行審核，只限大四）。作者 BB；status＝Y4_SELF_REVIEWED（BB 自審完成），crossReview＝PENDING_AA、crossReviewedBy＝null（AA 交叉審通過後改 status＝Y4_CROSS_REVIEWED、crossReviewedBy＝AA 才抽題；AA 2026-10-14 16:46 統一的欄位）。條文依全國法規資料庫現行條文逐條核對。",
+ "_comment": "大四期末考題庫（使用者 2026-10-14：大四由 AI 出題並自行審核，只限大四）。作者 BB；BB 自審完成；AA 2026-10-14 交叉審通過（exam_y4/AA_交叉審_BB.md）→ status＝Y4_CROSS_REVIEWED、crossReviewedBy＝AA，可以抽題。條文依全國法規資料庫現行條文逐條核對。",
  "course": "tax_law",
  "term": "Y4S1",
  "name": "財稅法",
@@ -30,11 +30,11 @@
    "basis": "憲法 §19；納稅者權利保護法 §3",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（憲法；所得稅法、遺產及贈與稅法 民國115年9月11日修正；加值型及非加值型營業稅法、納稅者權利保護法 民國114年5月28日修正；稅捐稽徵法 民國110年12月17日修正；房屋稅條例 民國113年1月3日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4TAX_02",
@@ -55,11 +55,11 @@
    "basis": "所得稅法 §2",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（憲法；所得稅法、遺產及贈與稅法 民國115年9月11日修正；加值型及非加值型營業稅法、納稅者權利保護法 民國114年5月28日修正；稅捐稽徵法 民國110年12月17日修正；房屋稅條例 民國113年1月3日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4TAX_03",
@@ -80,11 +80,11 @@
    "basis": "加值型及非加值型營業稅法 §1、§2",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（憲法；所得稅法、遺產及贈與稅法 民國115年9月11日修正；加值型及非加值型營業稅法、納稅者權利保護法 民國114年5月28日修正；稅捐稽徵法 民國110年12月17日修正；房屋稅條例 民國113年1月3日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4TAX_04",
@@ -105,11 +105,11 @@
    "basis": "遺產及贈與稅法 §6、§7",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（憲法；所得稅法、遺產及贈與稅法 民國115年9月11日修正；加值型及非加值型營業稅法、納稅者權利保護法 民國114年5月28日修正；稅捐稽徵法 民國110年12月17日修正；房屋稅條例 民國113年1月3日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4TAX_05",
@@ -130,11 +130,11 @@
    "basis": "遺產及贈與稅法 §5②、§7",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（憲法；所得稅法、遺產及贈與稅法 民國115年9月11日修正；加值型及非加值型營業稅法、納稅者權利保護法 民國114年5月28日修正；稅捐稽徵法 民國110年12月17日修正；房屋稅條例 民國113年1月3日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4TAX_06",
@@ -155,11 +155,11 @@
    "basis": "所得稅法 §4-4、§14-4",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（憲法；所得稅法、遺產及贈與稅法 民國115年9月11日修正；加值型及非加值型營業稅法、納稅者權利保護法 民國114年5月28日修正；稅捐稽徵法 民國110年12月17日修正；房屋稅條例 民國113年1月3日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4TAX_07",
@@ -180,11 +180,11 @@
    "basis": "稅捐稽徵法 §21",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（憲法；所得稅法、遺產及贈與稅法 民國115年9月11日修正；加值型及非加值型營業稅法、納稅者權利保護法 民國114年5月28日修正；稅捐稽徵法 民國110年12月17日修正；房屋稅條例 民國113年1月3日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4TAX_08",
@@ -205,11 +205,11 @@
    "basis": "納稅者權利保護法 §4",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（憲法；所得稅法、遺產及贈與稅法 民國115年9月11日修正；加值型及非加值型營業稅法、納稅者權利保護法 民國114年5月28日修正；稅捐稽徵法 民國110年12月17日修正；房屋稅條例 民國113年1月3日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4TAX_09",
@@ -230,11 +230,11 @@
    "basis": "稅捐稽徵法 §35、§38",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（憲法；所得稅法、遺產及贈與稅法 民國115年9月11日修正；加值型及非加值型營業稅法、納稅者權利保護法 民國114年5月28日修正；稅捐稽徵法 民國110年12月17日修正；房屋稅條例 民國113年1月3日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4TAX_10",
@@ -255,11 +255,11 @@
    "basis": "納稅者權利保護法 §7",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（憲法；所得稅法、遺產及贈與稅法 民國115年9月11日修正；加值型及非加值型營業稅法、納稅者權利保護法 民國114年5月28日修正；稅捐稽徵法 民國110年12月17日修正；房屋稅條例 民國113年1月3日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4TAX_11",
@@ -280,11 +280,11 @@
    "basis": "房屋稅條例 §4",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（憲法；所得稅法、遺產及贈與稅法 民國115年9月11日修正；加值型及非加值型營業稅法、納稅者權利保護法 民國114年5月28日修正；稅捐稽徵法 民國110年12月17日修正；房屋稅條例 民國113年1月3日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4TAX_12",
@@ -305,11 +305,11 @@
    "basis": "所得稅法 §3",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（憲法；所得稅法、遺產及贈與稅法 民國115年9月11日修正；加值型及非加值型營業稅法、納稅者權利保護法 民國114年5月28日修正；稅捐稽徵法 民國110年12月17日修正；房屋稅條例 民國113年1月3日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   }
  ]
 }

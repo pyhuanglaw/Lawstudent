@@ -1,5 +1,5 @@
 {
- "_comment": "大四期末考題庫（使用者 2026-10-14：大四由 AI 出題並自行審核，只限大四）。作者 BB；status＝Y4_SELF_REVIEWED（BB 自審完成），crossReview＝PENDING_AA、crossReviewedBy＝null（AA 交叉審通過後改 status＝Y4_CROSS_REVIEWED、crossReviewedBy＝AA 才抽題；AA 2026-10-14 16:46 統一的欄位）。條文依全國法規資料庫現行條文逐條核對。",
+ "_comment": "大四期末考題庫（使用者 2026-10-14：大四由 AI 出題並自行審核，只限大四）。作者 BB；BB 自審完成；AA 2026-10-14 交叉審通過（exam_y4/AA_交叉審_BB.md）→ status＝Y4_CROSS_REVIEWED、crossReviewedBy＝AA，可以抽題。條文依全國法規資料庫現行條文逐條核對。",
  "course": "labor_social",
  "term": "Y4S1",
  "name": "勞動社會法",
@@ -30,11 +30,11 @@
    "basis": "勞工保險條例 §6、§8",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（勞工保險條例 民國115年1月21日修正；全民健康保險法 民國112年6月28日修正；勞工職業災害保險及保護法；就業保險法 民國111年1月12日修正；長期照顧服務法 民國110年6月9日修正；社會救助法 民國104年12月30日修正；身心障礙者權益保障法 民國114年8月1日修正；兒童及少年福利與權益保障法 民國110年1月20日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4LSO_02",
@@ -55,11 +55,11 @@
    "basis": "勞工保險條例 §11、§72",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（勞工保險條例 民國115年1月21日修正；全民健康保險法 民國112年6月28日修正；勞工職業災害保險及保護法；就業保險法 民國111年1月12日修正；長期照顧服務法 民國110年6月9日修正；社會救助法 民國104年12月30日修正；身心障礙者權益保障法 民國114年8月1日修正；兒童及少年福利與權益保障法 民國110年1月20日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4LSO_03",
@@ -80,11 +80,11 @@
    "basis": "全民健康保險法 §1、§9、§43",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（勞工保險條例 民國115年1月21日修正；全民健康保險法 民國112年6月28日修正；勞工職業災害保險及保護法；就業保險法 民國111年1月12日修正；長期照顧服務法 民國110年6月9日修正；社會救助法 民國104年12月30日修正；身心障礙者權益保障法 民國114年8月1日修正；兒童及少年福利與權益保障法 民國110年1月20日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4LSO_04",
@@ -105,11 +105,11 @@
    "basis": "勞工職業災害保險及保護法 §6、§7",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（勞工保險條例 民國115年1月21日修正；全民健康保險法 民國112年6月28日修正；勞工職業災害保險及保護法；就業保險法 民國111年1月12日修正；長期照顧服務法 民國110年6月9日修正；社會救助法 民國104年12月30日修正；身心障礙者權益保障法 民國114年8月1日修正；兒童及少年福利與權益保障法 民國110年1月20日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4LSO_05",
@@ -130,11 +130,11 @@
    "basis": "勞工職業災害保險及保護法 §13",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（勞工保險條例 民國115年1月21日修正；全民健康保險法 民國112年6月28日修正；勞工職業災害保險及保護法；就業保險法 民國111年1月12日修正；長期照顧服務法 民國110年6月9日修正；社會救助法 民國104年12月30日修正；身心障礙者權益保障法 民國114年8月1日修正；兒童及少年福利與權益保障法 民國110年1月20日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4LSO_06",
@@ -155,11 +155,11 @@
    "basis": "勞工職業災害保險及保護法 §42",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（勞工保險條例 民國115年1月21日修正；全民健康保險法 民國112年6月28日修正；勞工職業災害保險及保護法；就業保險法 民國111年1月12日修正；長期照顧服務法 民國110年6月9日修正；社會救助法 民國104年12月30日修正；身心障礙者權益保障法 民國114年8月1日修正；兒童及少年福利與權益保障法 民國110年1月20日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4LSO_07",
@@ -180,11 +180,11 @@
    "basis": "就業保險法 §11",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（勞工保險條例 民國115年1月21日修正；全民健康保險法 民國112年6月28日修正；勞工職業災害保險及保護法；就業保險法 民國111年1月12日修正；長期照顧服務法 民國110年6月9日修正；社會救助法 民國104年12月30日修正；身心障礙者權益保障法 民國114年8月1日修正；兒童及少年福利與權益保障法 民國110年1月20日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4LSO_08",
@@ -205,11 +205,11 @@
    "basis": "就業保險法 §16",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（勞工保險條例 民國115年1月21日修正；全民健康保險法 民國112年6月28日修正；勞工職業災害保險及保護法；就業保險法 民國111年1月12日修正；長期照顧服務法 民國110年6月9日修正；社會救助法 民國104年12月30日修正；身心障礙者權益保障法 民國114年8月1日修正；兒童及少年福利與權益保障法 民國110年1月20日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4LSO_09",
@@ -230,11 +230,11 @@
    "basis": "長期照顧服務法 §9",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（勞工保險條例 民國115年1月21日修正；全民健康保險法 民國112年6月28日修正；勞工職業災害保險及保護法；就業保險法 民國111年1月12日修正；長期照顧服務法 民國110年6月9日修正；社會救助法 民國104年12月30日修正；身心障礙者權益保障法 民國114年8月1日修正；兒童及少年福利與權益保障法 民國110年1月20日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4LSO_10",
@@ -255,11 +255,11 @@
    "basis": "社會救助法 §2、§4",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（勞工保險條例 民國115年1月21日修正；全民健康保險法 民國112年6月28日修正；勞工職業災害保險及保護法；就業保險法 民國111年1月12日修正；長期照顧服務法 民國110年6月9日修正；社會救助法 民國104年12月30日修正；身心障礙者權益保障法 民國114年8月1日修正；兒童及少年福利與權益保障法 民國110年1月20日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4LSO_11",
@@ -280,11 +280,11 @@
    "basis": "身心障礙者權益保障法 §38",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（勞工保險條例 民國115年1月21日修正；全民健康保險法 民國112年6月28日修正；勞工職業災害保險及保護法；就業保險法 民國111年1月12日修正；長期照顧服務法 民國110年6月9日修正；社會救助法 民國104年12月30日修正；身心障礙者權益保障法 民國114年8月1日修正；兒童及少年福利與權益保障法 民國110年1月20日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4LSO_12",
@@ -305,11 +305,11 @@
    "basis": "兒童及少年福利與權益保障法 §2",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（勞工保險條例 民國115年1月21日修正；全民健康保險法 民國112年6月28日修正；勞工職業災害保險及保護法；就業保險法 民國111年1月12日修正；長期照顧服務法 民國110年6月9日修正；社會救助法 民國104年12月30日修正；身心障礙者權益保障法 民國114年8月1日修正；兒童及少年福利與權益保障法 民國110年1月20日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   },
   {
    "id": "Y4LSO_13",
@@ -330,11 +330,11 @@
    "basis": "勞工職業災害保險及保護法 §5；全民健康保險法 §6",
    "source": "BB_Y4",
    "author": "BB",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReview": "PENDING_AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReview": "PASSED_AA（AA_交叉審_BB.md，2026-10-14）",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（勞工保險條例 民國115年1月21日修正；全民健康保險法 民國112年6月28日修正；勞工職業災害保險及保護法；就業保險法 民國111年1月12日修正；長期照顧服務法 民國110年6月9日修正；社會救助法 民國104年12月30日修正；身心障礙者權益保障法 民國114年8月1日修正；兒童及少年福利與權益保障法 民國110年1月20日修正）",
    "flags": [],
-   "crossReviewedBy": null
+   "crossReviewedBy": "AA"
   }
  ]
 }
