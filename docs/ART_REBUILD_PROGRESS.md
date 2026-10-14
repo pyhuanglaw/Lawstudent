@@ -10,6 +10,21 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-14 12:00 UTC 補充（開發分支最新：這一筆交接的 commit；線上 v9.6＝`e88bda5`；v9.7 最後的候選＝候選 17 `402f2b5`）**：
+- **v9.7 候選 17 `402f2b5`**（本機分支 `rel/v97-rc17`，在 `scratchpad/wt_rc97`；bundle `wip_backup/v97-rc17.bundle`，前置 `52f288e`）＝候選 16＋`tests/flow_clubs.py` A 段換日子：
+  原本讀檔到 10/13 週一，v9.7 大一上劇情把那天排成颱風假（T1），吉他社 noHoliday，遊戲照規則說「今天沒有社課」、按門沒有「參加」（候選 16 跑的 A 段 3 項 FAIL＝測試的問題）；
+  改用 10/15 週三，18:40 的檢查改成要「今天 19:00 在這裡」（原本只看「19:00」，連「今天沒有社課」也算過）。只改測試，遊戲程式＝候選 8（13 起多版本字串）。
+- **11:40 以後過的**：flow_playtest_fixes（候選 15）ALL PASS（2633 秒）；Node 76 項（候選 16，在 wt_rc97 跑：候選 8 的 story3d.js 改了一行，Node 上次只跑到候選 5）ALL PASS；
+  LAWWW2 `bef3d7c` flow_library_floors（候選 16）ALL PASS 27 項。
+- **跑中／還沒跑（發布前最後兩項）**：flow_clubs（候選 17，11:55 開始，`q/flow_clubs_v97b.log`）→ flow_boya_interior（我的佇列在 flow_clubs 之後；LAWWW2 11:52 P1 請它在候選 16 並行跑，等 ACK；誰先過算誰的）。
+- **全過以後發布**：`git push origin 402f2b5:refs/heads/main`（快轉、不 force）→ 確認 Pages → `scratchpad/collect_results_v97.py`（RCS 已有候選 17）→
+  `finish_release_v97.py REPO MAIN_SHA 'YYYY-MM-DD HH:MM:SS' PAGES_N 結果檔 候選 17 "$(cat later_rc_v97.txt)"`（備份在 `wip_backup/release_v96_v97/`）→ 告訴使用者、LAWWW2、AA、BB → 候選 17 併回開發分支。D71：v9.7 不受三小時限制。
+- **開發分支（下一版，瀏覽器還沒看）**：`a087e9c` 子晴 Q4「比賽那天」（BB_96 4-1：公館騎樓、大一下第 8 週週六 13–16、CONTEST_DAY）；`9961929` 子晴 Q6「測試我的遊戲。現在。」
+  （BB_96 4-2：前置 CONTEST_DAY 或 CLAPPED＋有點熟、第 11 週以後週一三吉他社時段、PLAYTESTED、FIRST_BUG）＋人物面板 8 種新記憶補中文名稱（原本顯示英文代號）。劇情 Node 測試 66/66。
+  問 BB 中：Q4 的錢（照舊版 −120）、Q6 第三個選項的好感數字、單身版要不要散會後兩人、小遊戲要不要一句旁白。
+- **接下來**：照 11:40 的順序（C14 以安新 7＋公法讀書會 → C21 → C18 → C20 → C9 → C2 → C13 → BB_96 照週次）；BB_96 4-3 阿凱 K2「工程師也是人」（Q6 之後在宿舍）可以接著做；
+  4-4 子晴 Q5 成發（萬才館小舞台、演出中「拍手」）要新的畫面與互動，排在 C13 之後。
+
 **2026-10-14 11:40 UTC 補充（開發分支最新：這一筆交接的 commit）**：
 - **v9.7 發布回歸**：flow_playtest_fixes（候選 15）A～C 全過、D 跑中；之後自動換執行器（`run_q_handover.sh`）→ 候選 16 → 社團 → 博雅 → 總圖兩支 → see_through；LAWWW2 從另一頭跑 see_through、總圖兩支（11:15 的 P1，還沒回 ACK）。
 - **v2（大一下）開工**（AA、BB 審完、使用者同意直接施工；照 `交接包_v2_交付清單`、`交接包_v2_大一下_草稿`、`BB_96`）：
