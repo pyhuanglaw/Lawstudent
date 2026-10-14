@@ -9,7 +9,7 @@ TERM_NAMES = {'JP':'日文','Y0S1':'經濟系大一上','Y0S2':'經濟系大一�
 WHO = {'heroine_01':'以安','heroine_02':'芷若','zhe':'阿哲','yu':'小語','classmate_xinci':'芯慈','classmate_bohan':'柏翰',
        'classmate_mingxuan':'明軒','classmate_youchen':'宥辰','classmate_peishan':'沛珊','npc_huangxh':'筱涵','kai':'阿凱',
        'heroine_03':'語彤','heroine_04':'子晴','heroine_05':'溫學姊','class':'同學',
-       'heroine_06':'可昕','econ_weilun':'韋綸','econ_pinyu':'品妤','econ_zhengxun':'阿勳','econ_tangrui':'唐睿',
+       'kexin':'可昕','econ_weilun':'韋綸','econ_pinyu':'品妤','econ_zhengxun':'阿勳','econ_tangrui':'唐睿',
        'jp_caizhen':'采蓁','jp_liheng':'立衡','jp_yuheng':'宇恆'}
 PROF = {'prof_zhou':'周教授','prof_zhang':'張教授','prof_wu':'吳教授','prof_huang':'黃教授','prof_xu':'許教授','prof_tsai':'蔡教授',
         'prof_lin':'林教授','prof_chen':'陳教授','prof_zheng':'鄭教授','prof_ye':'葉教授','prof_he':'何教授','prof_jian':'簡教授','prof_wei':'魏教授'}
@@ -27,6 +27,8 @@ def main(key):
     def chk(text, lim, where):
         if len(text) > lim: problems.append(f'{where}：{len(text)} 字＞{lim}：{text}')
     out = {'term':term, 'exam_weeks':sorted(EXAM_WEEKS), 'courses':[], 'pools':[]}
+    LEAVE = getattr(m,'LEAVE_WEEK',None)   # 經濟系大一下：休學的那一週（交接包_v0 第 0 節第 5 點）
+    if LEAVE: out['leave_week']=LEAVE
     for c in m.COURSES:
         cj = {k:c[k] for k in ('id','name','kind','retake','prof','slots','room') if k in c}
         if c.get('prof_label'): cj['prof_label'] = c['prof_label']
@@ -44,6 +46,9 @@ def main(key):
             chk(wk['line'], 40, tag+' 教授')
             e = {'w':w, 'tpl':wk['tpl'], 'board':wk['board'], 'line':wk['line'],
                  'react':[{'who':a,'text':t} for a,t in wk['react']]}
+            if LEAVE and w>LEAVE:
+                e['after_leave']=True   # 休學以後：不排進課表，只當同學在群組、走廊說起的素材
+                if wk['tpl']!='A' or wk.get('obs'): problems.append(tag+'：休學以後不能有要玩家選的東西（只能是 A）')
             for a,t in wk['react']:
                 chk(t, 40, tag+' 反應'); 
                 if a not in WHO: problems.append(f'{tag}：未知的 who {a}')
@@ -174,7 +179,12 @@ def render(m, out):
     L.append("## 0. 怎麼用")
     L.append("")
     L.append("- 每門課每週一筆：**黑板三行＋教授一句＋同學反應**（A 類大多沒有同學發言，有的話一句）。模板：**A** 一句開場、一個例子、下課（沒有選項）；**B** 觀察（不影響數值的小選擇，選了只顯示一行結果）；**B（討論）** 有爭點的互動課（`AA_119`）：教授問一題 → 玩家選三個看法之一或「我想先聽別人說」→ 兩三個同學依序回應 → 教授收尾、不說誰對，記下玩家的看法（有些週有**回想**：照玩家之前的看法、去過的課、旗標、人物記憶或聽過的演講，在選項前或某位同學之後多一句旁白；A、C 類和觀察型 B 也可以有回想，放在教授那句之後）；**C** 被點到，但沒有對錯（三個立場都接同一個收尾）。")
-    L.append("- 第 8～9、17～18 週考試，不上課；遊戲第一天是第 3 週週三，第 1～2 週只是資料。")
+    if term=='Y0S1':
+        L.append("- 第 8～9、17～18 週考試，不上課。經濟系那一年從第 1 週開始（E01～E05、P1、B1 都在第 1～2 週），不是法律系的「第 3 週週三」。")
+    elif term=='Y0S2':
+        L.append(f"- 第 8～9、17～18 週考試，不上課；從第 1 週開始。**第 {out.get('leave_week')} 週辦休學**：之後經濟系的課不排進課表，第 {out.get('leave_week',0)+1} 週以後的內容（標「休學後」）只當同學在群組、走廊說起的素材，沒有要玩家選的東西；法學緒論休學後不上，之後的週不放進遊戲（交接包_v0 第 0 節第 5 點）。")
+    else:
+        L.append("- 第 8～9、17～18 週考試，不上課；遊戲第一天是第 3 週週三，第 1～2 週只是資料。")
     L.append("- **翹課**：不扣任何東西；那門課的「翹課訊息」可以在當天晚上出現一則（群組一行）。")
     L.append("- 標「特殊事件」的週：有完整事件時用事件；事件還沒做或暫緩時，用這裡的普通內容。")
     L.append("")
@@ -207,7 +217,8 @@ def render(m, out):
             if e.get('recall'): extra += '<br>**回想**：'+'；'.join(recall_md(r) for r in e['recall'])
             r = '<br>'.join(f"{WHO.get(x['who'],x['who'])}：「{x['text']}」" for x in e['react'])
             sp = '（特殊事件週）' if e.get('special') else ''
-            L.append(f"| {e['w']}{sp} | {e['tpl']} | {b} | 「{e['line']}」{extra} | {r} | {e.get('review','')} |")
+            tl = e['tpl'] + ('（休學後：群組、走廊）' if e.get('after_leave') else '')
+            L.append(f"| {e['w']}{sp} | {tl} | {b} | 「{e['line']}」{extra} | {r} | {e.get('review','')} |")
         L.append("")
         if c['special']:
             L.append("- 特殊事件：" + '；'.join(f"第 {s['w']} 週＝{s['ref']}" for s in c['special']))
