@@ -26,3 +26,4 @@ git worktree add <資料夾> wip/dorm-hall
 - `v96-rc10.bundle`（2026-10-14 05:00 UTC）：v9.6 發布候選 10，本機分支 `rel/v96-rc10`（`2f138a5`）＝候選 9 `781e292`＋flow_soclib 窗邊座位照玩家的做法走（按鈕出現就停；只改測試）。前置 commit `5f66b67`（含候選 4～10）。
 - `v96-rc11.bundle`（2026-10-14 05:08 UTC）：v9.6 發布候選 11，本機分支 `rel/v96-rc11`（`f87f71b`）＝候選 10 `2f138a5`＋campus_layout_nav 清單跟上大一女舍（LAWWW2 25d2aa7 的 patch；只改測試）。前置 commit `5f66b67`（含候選 4～11）。
 - `v96-rc12.bundle`（2026-10-14 05:47 UTC）：v9.6 發布候選 12，本機分支 `rel/v96-rc12`（`a9c2b69`）＝候選 11 `f87f71b`＋flow_soclib 閱覽長桌那一步按鈕出現就停（只改測試；遊戲程式和候選 9～11 相同）。前置 `5f66b67`。還原：`git fetch wip_backup/v96-rc12.bundle rel/v96-rc12:rel/v96-rc12`
+- `v96-rc13.bundle`（2026-10-14 06:12 UTC）：v9.6 發布候選 13，本機分支 `rel/v96-rc13`（`ba435d5`）＝候選 12 `a9c2b69`＋座位的「坐下」範圍（engine3d.js 的 fitSeatRadius：5 棟新建築 29 個座位）＋E.simWalk 步數上限看路線長度＋tests/seat_reach_unit.js。前置 `5f66b67`。還原：`git fetch wip_backup/v96-rc13.bundle rel/v96-rc13:rel/v96-rc13`
