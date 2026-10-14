@@ -1,0 +1,167 @@
+diff --git a/src/assets3d.js b/src/assets3d.js
+index 2dc438e..7f7d383 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -75,11 +75,12 @@ const ASSETS = (function(){
+     'prop.seated_figures':{url:'assets/models/env/second_ai/seated_figures.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/seated_figures.py（LAWWW2 167fc2d：坐著的聽眾替身，遊戲路人底模 vroid_npc_f1/f2/m1/m2 減面＋烤色；聽講、抄筆記、滑手機×2 配色×LOD0/LOD1；原點＝座位地面中心、+z 朝講台；VISUAL_REVIEW（second_ai）第 24 節）', license:'本作；底模 VRoid CC0 樣本改作'},
+     'bldg.campus_freshman':{url:'assets/models/env/second_ai/campus_freshman.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_freshman.py（大一女舍 A、B 兩棟外觀＋二樓天橋＋門口；校園世界座標；本體與門廊位置照 zones3d.js campus 區塊的 CK.hall（導航不用改）；外觀是依文字資料的遊戲化設計（米色二丁掛、樓梯間、窗型冷氣、屋頂水塔與太陽能熱水器、背面曬衣），沒有照片；面磚、粉刷、花崗石、隔熱磚貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+     'bldg.campus_socsci':{url:'assets/models/env/second_ai/campus_socsci.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_socsci.py（新社科院：辜先生紀念圖書館（玻璃帷幕、白色樹狀柱＋荷葉柱頂、植栽屋頂與天窗；柱子與天窗照 ⑬ soclib_layout.js）＋8 層清水混凝土大樓＋中庭；校園世界座標；遊戲化：南北對調；沒有照片，大樓立面是推測）；清水混凝土貼圖 gen_socsci_textures.py（Poly Haven concrete_wall_006 CC0 改作）；其他貼圖 Poly Haven CC0', license:'本作；貼圖 CC0'},
++    'prop.trees':{url:'assets/models/env/second_ai/street_trees.glb', type:'building', source:'本作 Blender 腳本 tools/blender/env_second/street_trees.py（樟樹兩款、榕樹、大王椰子的正式模型＋遠景卡片；TK.tree／TK.royalPalm 載入後改成樹的位置記號，整區用 InstancedMesh 畫：近的模型、遠的卡片；樹皮 Poly Haven CC0、葉片貼圖 tree_atlas.py 在 Blender 用葉片幾何渲染）', license:'本作；貼圖 CC0'},   /* 不是 lazy（TK.tree() 是同步建立的）；?nobldg 一樣會關掉 */
+     // ==== 第二個 AI 區塊結束 ====
+     'char.mixamo_clips':{url:'assets/models/char/mixamo_clips.glb', type:'clips', source:'three.js examples (Xbot.glb, Mixamo)', license:'Mixamo 動畫（Adobe 條款：可用於專案，不可單獨再散布）'},
+   };
+   // 網址加 ?nobldg：不載入建築的正式模型（Blender GLB），只看程序化備用模型（新舊比較、載入失敗時的樣子）
+-  if(typeof location!=='undefined'&&/[?&]nobldg\b/.test(location.search||'')) for(const k of Object.keys(A.manifest)) if(k.startsWith('bldg.')||k==='prop.street') delete A.manifest[k];
++  if(typeof location!=='undefined'&&/[?&]nobldg\b/.test(location.search||'')) for(const k of Object.keys(A.manifest)) if(k.startsWith('bldg.')||k==='prop.street'||k==='prop.trees') delete A.manifest[k];
+   // 網址加 ?blchar：有 Blender 正式製作版本的人物（manifest 的 blUrl）改用 Blender 版（v9.4 起；沈以安是示範角色）。
+   // 使用者驗收美術方向之前，預設仍是 VRoid 加工版；這個參數讓使用者在實際遊戲（包括手機）裡看 Blender 版
+   if(typeof location!=='undefined'&&/[?&]blchar\b/.test(location.search||'')) for(const k of Object.keys(A.manifest)) if(A.manifest[k].blUrl) A.manifest[k].url=A.manifest[k].blUrl;
+diff --git a/src/townkit3d.js b/src/townkit3d.js
+index 05d5853..55b765c 100644
+--- a/src/townkit3d.js
++++ b/src/townkit3d.js
+@@ -243,12 +243,19 @@ const TK = (function(){
+ 
+   // ---------------- 行道樹（葉片卡：交叉的透明葉叢面片，會投下斑駁樹影）----------------
+   function leafTex(){ return tex('leafCluster',256,256,(x,w,h)=>{ x.clearRect(0,0,w,h); const cols=['#3f6e3a','#4f8a44','#5f9a4e','#6fa85a','#3a5f34','#7cb064']; for(let i=0;i<420;i++){ const a=rnd()*Math.PI*2, r=Math.pow(rnd(),0.6)*w*0.46; const px=w/2+Math.cos(a)*r, py=h/2+Math.sin(a)*r*0.92; x.save(); x.translate(px,py); x.rotate(rnd()*Math.PI*2); x.fillStyle=cols[(rnd()*cols.length)|0]; x.beginPath(); x.ellipse(0,0,4+rnd()*4,8+rnd()*6,0,0,7); x.fill(); x.restore(); } }, false); }
++  const barkMat=()=>M('bark',()=>seeThru(std({map:tex('bark',64,256,(x,w,hh)=>{ x.fillStyle='#5a4a3c'; x.fillRect(0,0,w,hh); for(let i=0;i<120;i++){ x.fillStyle=rnd()<0.5?'rgba(30,22,16,0.35)':'rgba(140,125,105,0.25)'; x.fillRect(rnd()*w,rnd()*hh,2+rnd()*3,8+rnd()*20); } }),roughness:0.95})));
++  const leafCardMat=()=>M('leafCard',()=>std({map:leafTex(),alphaTest:0.45,side:THREE.DoubleSide,roughness:0.85,vertexColors:true}));
+   // o.spread：樹冠半徑倍數（加寬的部分用以 seed 決定的獨立亂數補葉片，不動共用的 rnd 序列，其他物件的形狀不會跟著變）；o.dark：葉色倍數（<1 較深）
+-  function tree(height, seed, o){ o=o||{}; const g=new THREE.Group(); const bin=new Bin(); const H=height||7; const r=(a,b)=>a+(b-a)*rnd(); const SP=o.spread||1, DK=o.dark||1;
++  // o.sp：樹種（'camphor' 樟樹、'banyan' 榕樹；沒給時 dark ≤ 0.75 的是榕樹，其他是樟樹）——只有正式模型用得到
++  function tree(height, seed, o){ o=o||{}; const H=height||7; const r=(a,b)=>a+(b-a)*rnd(); const SP=o.spread||1, DK=o.dark||1;
++    // 正式模型（street_trees.glb）載入了：不建幾何，只回傳樹的位置記號；共用亂數照樣抽（次數和下面完全相同，後面其他物件的形狀不變）
++    if(treeFieldOK()){ barkMat(); for(let i=0;i<6;i++) rnd(); leafCardMat(); const n=Math.round(14+H*2.2); for(let i=0;i<n*9;i++) rnd();
++      const sp=o.sp||(DK<=0.75?'banyan':'camphor'); return treeProxy(TREE_SP[sp], H, SP, DK, seed==null?treeAuto++:seed); }
++    const g=new THREE.Group(); const bin=new Bin();
+     // 樹幹（略彎）＋主枝
+-    const bark=M('bark',()=>seeThru(std({map:tex('bark',64,256,(x,w,hh)=>{ x.fillStyle='#5a4a3c'; x.fillRect(0,0,w,hh); for(let i=0;i<120;i++){ x.fillStyle=rnd()<0.5?'rgba(30,22,16,0.35)':'rgba(140,125,105,0.25)'; x.fillRect(rnd()*w,rnd()*hh,2+rnd()*3,8+rnd()*20); } }),roughness:0.95})));
++    const bark=barkMat();
+     const th=H*0.45; let px=0, pz=0; for(let i=0;i<3;i++){ const seg=new THREE.CylinderGeometry(0.16-i*0.03,0.22-i*0.03,th/3+0.05,8); const nx=px+r(-0.12,0.12), nz=pz+r(-0.12,0.12); bin.add(bark,seg,(px+nx)/2,th/6+i*th/3,(pz+nz)/2,0,{rx:(nz-pz)*0.8,rz:-(nx-px)*0.8}); px=nx; pz=nz; }
+-    const leafM={isPaint:true,color:new THREE.Color(1,1,1),key:'leaf',mat:M('leafCard',()=>std({map:leafTex(),alphaTest:0.45,side:THREE.DoubleSide,roughness:0.85,vertexColors:true}))};
++    const leafM={isPaint:true,color:new THREE.Color(1,1,1),key:'leaf',mat:leafCardMat()};
+     const crownY=th+H*0.22, cr=H*0.32*SP; const n=Math.round(14+H*2.2);
+     for(let i=0;i<n;i++){ const a=rnd()*Math.PI*2, rr=Math.sqrt(rnd())*cr, yy=crownY+r(-0.35,0.45)*H*0.35; const cx=px+Math.cos(a)*rr, cz=pz+Math.sin(a)*rr; const sz=r(1.6,2.4)*(H/7); const shade=(0.78+rnd()*0.3+(yy-crownY)*0.05)*DK; const c=new THREE.Color(shade,shade*(0.98+rnd()*0.06),shade*0.92);
+       if(i%4===0){ const br=new THREE.CylinderGeometry(0.04,0.07,Math.hypot(cx-px,yy-th),5); const ang=Math.atan2(cx-px,cz-pz); bin.add(bark,br,(px+cx)/2,(th+yy)/2,(pz+cz)/2,ang,{rx:Math.atan2(Math.hypot(cx-px,cz-pz),yy-th)}); }
+@@ -263,9 +270,12 @@ const TK = (function(){
+   function frondTex(){ return tex('palmFrond',128,512,(x,w,h)=>{ x.clearRect(0,0,w,h); const c=w/2;
+     for(let y=10;y<h-4;y+=4){ const t=y/h; const L=(c-4)*(0.25+0.75*Math.sin(Math.PI*Math.min(1,0.15+t*0.95))); for(const s of [-1,1]){ const g=150+((y*7)%34), gg=0.78+((y*13)%20)/100; x.strokeStyle='rgb('+Math.round(70*gg)+','+Math.round(g*gg)+','+Math.round(58*gg)+')'; x.lineWidth=2.2; x.beginPath(); x.moveTo(c+s*2,y); x.quadraticCurveTo(c+s*(2+L*0.6),y-L*0.18,c+s*(2+L),y-L*0.5); x.stroke(); } }
+     x.fillStyle='#b8b48a'; x.fillRect(c-2,0,4,h); }, false); }
+-  function royalPalm(h, seed, o){ const g=new THREE.Group(); const bin=new Bin(); const H=h||12; const CR=(o&&o.crown)||1;   /* o.crown：樹冠（葉片長度、寬度）相對樹高的比例（椰林大道的樹高、樹冠小）*/ let s=(seed||1)*9301+49297; const r=()=>{ s=(s*16807)%2147483647; return (s-1)/2147483646; };
++  const palmBarkMat=()=>M('palmTrunk',()=>seeThru(std({map:tex('palmTrunk',64,256,(x,w,hh)=>{ x.fillStyle='#c4bfb3'; x.fillRect(0,0,w,hh); for(let y=0;y<hh;y+=6+((y*7)%5)){ x.fillStyle='rgba(120,112,98,0.2)'; x.fillRect(0,y,w,1.5); } for(let i=0;i<90;i++){ x.fillStyle=rnd()<0.5?'rgba(90,84,74,0.12)':'rgba(240,236,226,0.18)'; x.fillRect(rnd()*w,rnd()*hh,3+rnd()*6,2+rnd()*5); } }),roughness:0.92})));
++  function royalPalm(h, seed, o){ const H=h||12; const CR=(o&&o.crown)||1;   /* o.crown：樹冠（葉片長度、寬度）相對樹高的比例（椰林大道的樹高、樹冠小）*/
++    if(treeFieldOK()){ palmBarkMat(); return treeProxy(TREE_SP.palm, H, CR, 1, seed==null?treeAuto++:seed); }   // 正式模型：樹的位置記號（共用亂數只用在樹幹貼圖第一次建立時，照樣建）
++    const g=new THREE.Group(); const bin=new Bin(); let s=(seed||1)*9301+49297; const r=()=>{ s=(s*16807)%2147483647; return (s-1)/2147483646; };
+     const trunkH=H*0.78, shaftH=H*0.1;
+-    const bark=M('palmTrunk',()=>seeThru(std({map:tex('palmTrunk',64,256,(x,w,hh)=>{ x.fillStyle='#c4bfb3'; x.fillRect(0,0,w,hh); for(let y=0;y<hh;y+=6+((y*7)%5)){ x.fillStyle='rgba(120,112,98,0.2)'; x.fillRect(0,y,w,1.5); } for(let i=0;i<90;i++){ x.fillStyle=rnd()<0.5?'rgba(90,84,74,0.12)':'rgba(240,236,226,0.18)'; x.fillRect(rnd()*w,rnd()*hh,3+rnd()*6,2+rnd()*5); } }),roughness:0.92})));
++    const bark=palmBarkMat();
+     // 樹幹：lathe 斷面（半徑隨高度變化）
+     const prof=[]; const R0=Math.min(H,13)*0.026;   /* 樹幹粗細只跟到 13 m：椰林大道的樹拉高了，樹幹不要跟著變粗 */ for(let i=0;i<=10;i++){ const t=i/10; const rr=R0*(1.25-0.3*Math.min(1,t*5)+0.12*Math.sin(Math.PI*Math.min(1,t*1.4))-0.12*t); prof.push(new THREE.Vector2(Math.max(0.05,rr),t*trunkH)); }
+     const trunk=new THREE.LatheGeometry(prof,10); const uvA=trunk.attributes.uv; for(let i=0;i<uvA.count;i++) uvA.setY(i,uvA.getY(i)*trunkH/3); bin.add(bark,trunk,0,0,0);
+@@ -281,6 +291,86 @@ const TK = (function(){
+     const fg=new THREE.BufferGeometry(); fg.setAttribute('position',new THREE.Float32BufferAttribute(pos,3)); fg.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2)); fg.setAttribute('color',new THREE.Float32BufferAttribute(colA,3)); fg.setIndex(idx); fg.computeVertexNormals();
+     bin.build(g); const fm=new THREE.Mesh(fg,frondM); fm.castShadow=true; fm.receiveShadow=true; g.add(fm); g.rotation.z=lean; return g; }
+ 
++  // ---------------- 行道樹的正式模型（第二個 AI ⑦，2026-10-11：tools/blender/env_second/street_trees.py → ASSETS 'prop.trees'，開機預載）----------------
++  // 載入了：TK.tree／TK.royalPalm 不建幾何，回傳「樹的位置記號」——一個看不見的小三角形（三個頂點＝原點、x 軸、y 軸，位置、方向、縮放跟著
++  // 呼叫端的擺放與區域的合併一起烘進去；樹種、高度、樹冠參數放在 UV）。區域建好後的第一格，TreeField 從區域裡找出這些記號、拿掉，
++  // 整區的樹改用 InstancedMesh 畫：鏡頭附近（42 m 內）畫模型（會投影），遠的畫一片面向鏡頭的卡片，畫面外的不畫。
++  // 沒載入（?nobldg、載入失敗、Node 的單元測試）照舊是上面的程序化樹。呼叫端（區域的擺放、導航阻擋）完全不用改。
++  const TREE_SP={camphor:0,banyan:1,palm:2}, TREE_MAGIC=7777, NEAR_IN=42, NEAR_OUT=46;
++  let treeAuto=1, seedMatC=null, field=null, treeLib=null; const TREE_T={value:0};
++  function treeAsset(){ const c=(typeof ASSETS!=='undefined'&&ASSETS.getRaw)?ASSETS.getRaw('prop.trees'):null; return c&&c.scene?c:null; }
++  function treeFieldOK(){ return !!(treeAsset()&&typeof E3!=='undefined'&&E3.camera&&E3.addExtra); }
++  function seedMat(){ if(!seedMatC){ seedMatC=new THREE.MeshBasicMaterial({colorWrite:false,depthWrite:false}); seedMatC.name='treeSeed'; seedMatC.userData.treeSeed=true; } return seedMatC; }
++  function treeProxy(sp,h,a,b,seed){ ensureField(); const g=new THREE.Group(), geo=new THREE.BufferGeometry();
++    geo.setAttribute('position',new THREE.Float32BufferAttribute([0,0,0, 1,0,0, 0,1,0],3)); geo.setAttribute('normal',new THREE.Float32BufferAttribute([0,0,1, 0,0,1, 0,0,1],3));
++    geo.setAttribute('uv',new THREE.Float32BufferAttribute([sp,h, a,b, seed%100000,TREE_MAGIC],2));
++    const m=new THREE.Mesh(geo,seedMat()); m.name='treeSeed'; g.add(m); g.userData.treeProxy=true; g.userData.trunk={x:0,z:0}; return g; }
++  function ensureField(){ if(field&&E3.extras.indexOf(field)>=0) return field; if(field) field.dispose(); field=new TreeField(); E3.addExtra(field); return field; }
++  // 正式模型的材質（第一次用到時整理一次）：樹皮加樹幹透視；葉片的法線往樹冠外側、正反面不翻（整個樹冠像一團體積）；遠景卡片永遠面向鏡頭、每棵樹取貼圖上自己那一格
++  function lib(){ if(treeLib) return treeLib; const sc=treeAsset().scene; const L={models:{},card:null};
++    sc.traverse(o=>{ if(!o.name||o.name.indexOf('tree_')!==0||o.isMesh) return; const k=o.name.slice(5), ud=o.userData||{}; const bark=o.getObjectByName(k+'_bark'), leaf=o.getObjectByName(k+'_leaf'); if(!bark||!leaf||!ud.h0) return;
++      L.models[k]={key:k,sp:ud.sp,h0:ud.h0,r0:ud.r0,card:JSON.parse(ud.card),bark,leaf}; });
++    const card=sc.getObjectByName('tree_card'); const cm=card.material.clone(); cm.name='tree_card_bb';
++    cm.onBeforeCompile=sh=>{ sh.vertexShader='attribute vec4 aCell;\n'+sh.vertexShader
++      .replace('#include <uv_vertex>','#include <uv_vertex>\n#ifdef USE_MAP\n\tvMapUv = aCell.xy + uv * aCell.zw;\n#endif')
++      .replace('#include <defaultnormal_vertex>','#include <defaultnormal_vertex>\n\ttransformedNormal = normalize( mat3( viewMatrix ) * vec3( 0.0, 0.8, 0.0 ) + vec3( 0.0, 0.0, 0.6 ) );')
++      .replace('#include <project_vertex>','vec4 tcC = modelMatrix * instanceMatrix * vec4( 0.0, 0.0, 0.0, 1.0 ); float tcW = length( instanceMatrix[ 0 ].xyz ), tcH = length( instanceMatrix[ 1 ].xyz );\n\tvec3 tcR = vec3( viewMatrix[ 0 ][ 0 ], viewMatrix[ 1 ][ 0 ], viewMatrix[ 2 ][ 0 ] ); tcR = normalize( vec3( tcR.x, 0.0, tcR.z ) + vec3( 1e-5, 0.0, 0.0 ) );\n\tvec4 mvPosition = viewMatrix * vec4( tcC.xyz + tcR * ( transformed.x * tcW ) + vec3( 0.0, transformed.y * tcH, 0.0 ), 1.0 );\n\tgl_Position = projectionMatrix * mvPosition;'); };
++    cm.customProgramCacheKey=()=>'treeCard1'; L.card={geo:card.geometry,mat:cm};
++    for(const md of Object.values(L.models)){ md.bark.geometry.userData.shared=true; md.leaf.geometry.userData.shared=true;
++      const bm=md.bark.material; if(E3.patchSeeThrough&&!bm.userData._st){ bm.userData.seeThrough=true; E3.patchSeeThrough(bm); }
++      const lm=md.leaf.material; if(!lm.userData.treeLeaf){ lm.userData.treeLeaf=true; lm.onBeforeCompile=sh=>{ sh.uniforms.uTreeT=TREE_T;
++        /* 風：樹冠上半部（模型座標 3 m 以上）輕輕晃，離樹幹越遠晃得越多（大王椰子的葉尖），每棵樹的相位不同 */
++        sh.vertexShader='uniform float uTreeT;\n'+sh.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n#ifdef USE_INSTANCING\n\t{ float twS = smoothstep( 3.0, 9.0, position.y ) * ( 0.04 + 0.04 * clamp( length( position.xz ) / 4.0, 0.0, 1.0 ) ); float twP = instanceMatrix[ 3 ].x * 0.37 + instanceMatrix[ 3 ].z * 0.21;\n\t  transformed.x += sin( uTreeT * 1.3 + twP + position.y * 0.3 ) * twS; transformed.z += cos( uTreeT * 1.05 + twP * 1.3 + position.x * 0.3 ) * twS * 0.8; }\n#endif');
++        sh.fragmentShader=sh.fragmentShader.replace('#include <normal_fragment_begin>',THREE.ShaderChunk.normal_fragment_begin.replace('normal *= faceDirection;',''))
++        /* 側面對著鏡頭的葉片卡（樹冠邊緣）：透明門檻提高、慢慢消失，不會變成一條一條拉長的葉子 */
++        .replace('#include <alphatest_fragment>','#ifdef USE_ALPHATEST\n\t{ vec3 tlN = normalize( cross( dFdx( vViewPosition ), dFdy( vViewPosition ) ) ); float tlE = abs( dot( tlN, normalize( vViewPosition ) ) ); if ( diffuseColor.a < mix( 0.98, alphaTest, smoothstep( 0.15, 0.45, tlE ) ) ) discard; }\n#endif'); }; lm.customProgramCacheKey=()=>'treeLeaf1'; lm.needsUpdate=true; } }
++    card.geometry.userData.shared=true; treeLib=L; return L; }
++  const _tA=new THREE.Vector3(), _tB=new THREE.Vector3(), _tC=new THREE.Vector3(), _tQ=new THREE.Quaternion(), _tS=new THREE.Vector3(), _tM=new THREE.Matrix4(), _tF=new THREE.Frustum(), _tPM=new THREE.Matrix4(), _tSp=new THREE.Sphere(), _tCol=new THREE.Color(), _tUp=new THREE.Vector3(0,1,0);
++  const hash01=(a,b)=>{ const h=Math.sin(a*12.9898+b*78.233)*43758.5453; return h-Math.floor(h); };
++  function TreeField(){ this.obj=new THREE.Group(); this.obj.name='treeFieldExtra'; this.ready=false; this.trees=[]; this.group=null; this.last=null; this.frame=0; }
++  TreeField.prototype.dispose=function(){ if(!this.group) return; this.group.traverse(o=>{ if(o.isInstancedMesh) o.dispose(); }); if(this.group.parent) this.group.parent.remove(this.group); this.group=null; };
++  TreeField.prototype.init=function(){ this.ready=true; const z=E3.zone; if(!z||!z.group) return; const L=lib(); const seeds=[]; z.group.updateMatrixWorld(true);
++    z.group.traverse(o=>{ if(o.isMesh&&o.material&&o.material.userData&&o.material.userData.treeSeed) seeds.push(o); });
++    for(const s of seeds){ let vis=true; for(let p=s;p;p=p.parent) if(!p.visible){ vis=false; break; }
++      const g=s.geometry, pos=g.attributes.position, uv=g.attributes.uv, ix=g.index, n=ix?ix.count:pos.count;
++      if(vis) for(let i=0;i+2<n;i+=3){ const ia=ix?ix.getX(i):i, ib=ix?ix.getX(i+1):i+1, ic=ix?ix.getX(i+2):i+2; if(Math.round(uv.getY(ic))!==TREE_MAGIC) continue;
++        _tA.fromBufferAttribute(pos,ia).applyMatrix4(s.matrixWorld); _tB.fromBufferAttribute(pos,ib).applyMatrix4(s.matrixWorld).sub(_tA); _tC.fromBufferAttribute(pos,ic).applyMatrix4(s.matrixWorld).sub(_tA);
++        this.add(L,Math.round(uv.getX(ia)),uv.getY(ia),uv.getX(ib),uv.getY(ib),Math.round(uv.getX(ic)),_tA,_tB,_tC); }
++      if(s.parent) s.parent.remove(s); g.dispose(); }   /* 記號拿掉（不留看不見的網格） */
++    this.build(L,z.group); };
++  TreeField.prototype.add=function(L,sp,h,a,b,seed,A,X,Y){ const key=sp===2?'palm_a':(sp===1?'banyan_a':(seed%2?'camphor_b':'camphor_a')); const md=L.models[key]; if(!md) return;
++    const syP=Y.length(), sxP=X.length(), rot=Math.atan2(-X.z,X.x); const sy=h/md.h0*syP;
++    const sxz=sp===2?sy*Math.max(0.8,Math.min(1.5,(0.3*a)/0.21)):sy*a*(sp===1?0.75:1.0);   /* 大王椰子：a＝樹冠比例（套件的葉長 0.3·H·crown；模型 0.21·H）；闊葉樹：a＝樹冠加寬倍數（榕樹本來就寬，乘 0.75） */
++    const v=hash01(seed+sp*31,A.x*0.37+A.z*0.11), k=(sp===2?1:b)*(0.9+0.18*v);   /* 葉色：深色參數（dark）×每棵樹一點差異 */
++    const t={key,x:A.x,y:A.y,z:A.z,rot:rot+(sp===2?v*6.28:0),sy,sxz,col:new THREE.Color(k*(0.97+0.05*hash01(seed,7)),k,k*(0.96+0.06*hash01(seed,9))),near:false,
++      r:Math.max(md.r0*sxz/sy*sy,md.h0*sy*0.5)*1.15, cy:A.y+md.h0*sy*0.55, cw:md.card.w*sxz, ch:md.card.h*sy, cell:[md.card.px[0]/md.card.size,md.card.px[1]/md.card.size,(md.card.px[2]-md.card.px[0])/md.card.size,(md.card.px[3]-md.card.px[1])/md.card.size]};
++    t.m=new THREE.Matrix4().compose(_tA.set(t.x,t.y,t.z),_tQ.setFromAxisAngle(_tUp,t.rot),_tS.set(t.sxz,t.sy,t.sxz)); this.trees.push(t); };
++  TreeField.prototype.build=function(L,parent){ const G=new THREE.Group(); G.name='street_trees_field'; G.userData.dyn=true; const cnt={};
++    for(const t of this.trees) cnt[t.key]=(cnt[t.key]||0)+1;
++    this.near={}; for(const k of Object.keys(cnt)){ const md=L.models[k]; const mk=(src,name)=>{ const im=new THREE.InstancedMesh(src.geometry,src.material,cnt[k]); im.name=name; im.count=0; im.frustumCulled=false; im.castShadow=true; im.receiveShadow=true; im.instanceMatrix.setUsage(THREE.DynamicDrawUsage); G.add(im); return im; };
++      const leaf=mk(md.leaf,'trees_'+k+'_leaf'); leaf.instanceColor=new THREE.InstancedBufferAttribute(new Float32Array(cnt[k]*3),3); leaf.instanceColor.setUsage(THREE.DynamicDrawUsage);
++      this.near[k]={bark:mk(md.bark,'trees_'+k+'_bark'),leaf}; }
++    const N=this.trees.length; if(N){ const cm=new THREE.InstancedMesh(L.card.geo,L.card.mat,N); cm.name='trees_cards'; cm.count=0; cm.frustumCulled=false; cm.castShadow=false; cm.receiveShadow=false; cm.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
++      cm.instanceColor=new THREE.InstancedBufferAttribute(new Float32Array(N*3),3); cm.instanceColor.setUsage(THREE.DynamicDrawUsage);
++      const cell=new THREE.InstancedBufferAttribute(new Float32Array(N*4),4); cell.setUsage(THREE.DynamicDrawUsage); cm.geometry=L.card.geo.clone(); cm.geometry.setAttribute('aCell',cell); this.cards=cm; G.add(cm); }
++    parent.add(G); this.group=G; this.stats={trees:N,models:cnt}; };
++  TreeField.prototype.update=function(){ TREE_T.value=E3.time||0; if(!this.ready) this.init(); if(!this.group||!this.trees.length) return; const cam=E3.camera; if(!cam) return;
++    const cx=cam.position.x, cz=cam.position.z, e=cam.matrixWorld.elements; const sig=[cx,cz,e[8],e[10],cam.projectionMatrix.elements[0]];
++    if(this.last&&this.frame++%20!==0&&sig.every((v,i)=>Math.abs(v-this.last[i])<(i<2?0.05:0.002))) return; this.last=sig;   /* 鏡頭幾乎沒動：不用重排 */
++    cam.updateMatrixWorld(); _tPM.multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse); _tF.setFromProjectionMatrix(_tPM);
++    const P=E3.player&&E3.player.obj.position; const far=(E3.zone&&E3.zone.def&&E3.zone.def.viewFar)||cam.far; const F2=far*far;
++    for(const k in this.near){ this.near[k].n=0; } let nc=0; const cards=this.cards, ca=cards&&cards.geometry.attributes.aCell;
++    for(const t of this.trees){ const dx=t.x-cx, dz=t.z-cz, d2=dx*dx+dz*dz; const R=t.near?NEAR_OUT:NEAR_IN; let near=d2<R*R; _tSp.center.set(t.x,t.cy,t.z); _tSp.radius=t.r; const vis=_tF.intersectsSphere(_tSp);
++      if(near&&!vis&&P){ const px=t.x-P.x, pz=t.z-P.z; if(px*px+pz*pz>30*30) near=false; }   /* 畫面外、離玩家 30 m 以上的樹不畫模型（影子也照不到玩家附近） */
++      t.near=near;
++      if(near){ const nm=this.near[t.key], i=nm.n++; nm.bark.setMatrixAt(i,t.m); nm.leaf.setMatrixAt(i,t.m); nm.leaf.setColorAt(i,t.col); continue; }
++      if(!vis||d2>F2||!cards) continue;
++      _tM.compose(_tA.set(t.x,t.y,t.z),_tQ.identity(),_tS.set(t.cw,t.ch,1)); cards.setMatrixAt(nc,_tM); cards.setColorAt(nc,t.col); ca.setXYZW(nc,t.cell[0],t.cell[1],t.cell[2],t.cell[3]); nc++; }
++    for(const k in this.near){ const nm=this.near[k]; for(const im of [nm.bark,nm.leaf]){ im.count=nm.n; im.instanceMatrix.needsUpdate=true; } nm.leaf.instanceColor.needsUpdate=true; }
++    if(cards){ cards.count=nc; cards.instanceMatrix.needsUpdate=true; cards.instanceColor.needsUpdate=true; ca.needsUpdate=true; }
++    this.stats.near=Object.fromEntries(Object.entries(this.near).map(([k,v])=>[k,v.n])); this.stats.cards=nc; };
++  function treeStats(){ return field&&E3.extras.indexOf(field)>=0?Object.assign({ready:field.ready},field.stats||{}):null; }
++
+   // ---------------- 街道小物 ----------------
+   // 電線桿（水泥）＋橫擔＋變壓器；arm:true 時附巷道路燈
+   function utilityPole(o){ o=o||{}; const g=new THREE.Group(); const bin=new Bin(); const h=9;
+@@ -420,5 +510,5 @@ const TK = (function(){
+   // 正式模型（Blender GLB）的天花板、穿堂頂：陰影裡只有半球光照到，看起來髒暗——加一點自發光當作地面反射上來的光（和套件的天花板一樣），晚上可以亮一點
+   function bounce(m,dayI,nightI){ if(!m||m.userData.bounce) return; m.userData.bounce=true; m.emissive=new THREE.Color(0xffffff); m.emissiveMap=m.map||null; addNight(m,nightI,dayI); m.needsUpdate=true; }
+   function setNight(k){ nightK=k; for(const m of nightMats){ m.emissiveIntensity=(m.userData.dayI||0)*(1-k)+(m.userData.nightI||1)*k; } for(const sp of nightSprites){ const o=sp.userData.dayO*(1-k)+sp.userData.nightO*k; sp.material.opacity=o; sp.visible=o>0.02; } }
+-  return {tex,tileTex,mosaicTex,plasterTex,Bin,boxG,planeG,col:colMat,paint:col,M,std,tree,royalPalm,glowMat,addNight,bounce,mrtExit,plantClump,glowSprite,apartment,japaneseHouse,wall,utilityPole,trafficMirror,scooter,pots,mailbox,road,sidewalk,lightPool,wires,aBoard,signTex,interiorTex,setNight,nightMats,rnd,bgCity};
++  return {tex,tileTex,mosaicTex,plasterTex,Bin,boxG,planeG,col:colMat,paint:col,M,std,tree,royalPalm,treeStats,glowMat,addNight,bounce,mrtExit,plantClump,glowSprite,apartment,japaneseHouse,wall,utilityPole,trafficMirror,scooter,pots,mailbox,road,sidewalk,lightPool,wires,aBoard,signTex,interiorTex,setNight,nightMats,rnd,bgCity};
+ })();
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 1820099..0ce6034 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -660,7 +660,7 @@ const Z3 = (function(){
+       { const t=paverT().clone(); t.needsUpdate=true; t.repeat.set(2.7,2.7); const m=new THREE.Mesh(new THREE.CircleGeometry(2.75,28),new THREE.MeshStandardMaterial({map:t,roughness:0.9})); m.rotation.x=-Math.PI/2; m.position.set(26,0.017,13.2); m.receiveShadow=true; g.add(m); pkTag(m); }
+       const pb=new TK.Bin(), pbH=new TK.Bin(); const curbP=TK.paint('#c9c2b4');   /* pbH＝鋪面以外的硬體（路緣、樹圍座椅、單槓）：正式模型載入後藏起來；pb＝灌木（留著） */
+       for(const sx of [-1,1]) pbH.add(curbP,TK.boxG(0.12,0.08,5.6),26+sx*1.16,0.04,7.9,0);
+-      { const big=TK.tree(10.5,7); place(g,big,26,13.2,0.6); nav.blockCircle(26,13.2,1.3);
++      { const big=TK.tree(10.5,7,{sp:'banyan'}); place(g,big,26,13.2,0.6);   /* 小公園中間的大樹：正式模型是榕樹（台北的公園常見；程序化的樹不受影響）*/ nav.blockCircle(26,13.2,1.3);
+         const wood=TK.paint('#8a6a4a'), legP=TK.paint('#5a5550'); for(let i=0;i<8;i++){ const a=i/8*Math.PI*2; const cx=26+Math.sin(a)*1.15, cz=13.2+Math.cos(a)*1.15; pbH.add(wood,TK.boxG(0.98,0.06,0.36),cx,0.44,cz,a); pbH.add(legP,TK.boxG(0.06,0.42,0.3),cx+Math.sin(a+Math.PI/2)*0.42,0.21,cz+Math.cos(a+Math.PI/2)*0.42,a); }
+         E.interactables.push({x:26,z:11.5,radius:1.3,label:'坐在大樹下的圓椅',seat:{x:26,z:11.82,yaw:Math.PI}}); }
+       for(const [tx,tz,sc] of [[21.6,12.8,1.0],[30.6,12.6,0.95],[30.8,6.4,0.8]]){ const t=TK.tree(7.5*sc); place(g,t,tx,tz,0); nav.blockCircle(tx,tz,0.5); }

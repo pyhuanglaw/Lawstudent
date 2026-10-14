@@ -50,10 +50,10 @@ def img_mat(name, png, rough=0.7, emit=False):
 
 M = {
     'floor': L.pbr('l3_parquet', 'herringbone_parquet', tile=1.8, target='#a07a55', sat=0.8, normal=0.4, maps=('diff', 'nor'), res=512, rough_value=0.55),
-    'plaster': L.pbr('l3_plaster', 'painted_plaster_wall', tile=2.5, target='#ece4d6', maps=('diff',), res=256, rough_value=0.9),
+    'plaster': img_mat('l3_plaster', 'l3_plaster.png', rough=0.9),   # Poly Haven white_plaster_02 的變化只留 22%（lib3f_atlas.py 旁邊產生）：原圖在大片牆上像水漬
     'walnut': L.pbr('l3_walnut', 'walnut_veneer', tile=1.2, target='#6b4a33', maps=('diff',), res=512, rough_value=0.5),
     'top': L.pbr('l3_tabletop', 'walnut_veneer', tile=1.4, target='#7d5a3e', maps=('diff',), res=512, rough_value=0.38),
-    'chairwood': L.pbr('l3_chair_wood', 'fine_grained_wood', tile=0.8, target='#a77d57', maps=('diff',), res=256, rough_value=0.55),
+    'chairwood': L.pbr('l3_chair_wood', 'walnut_veneer', tile=0.8, target='#9c7552', maps=('diff',), res=256, rough_value=0.55),   # fine_grained_wood 在椅子上像軟木塞（第一版的渲染）
     'ceil': L.pbr('l3_ceiling', 'ceiling_interior', tile=0.6, target='#eeede9', sat=0.0, normal=0.25, maps=('diff', 'nor'), rough_value=0.9, cull=True),
     'seat': L.flat('l3_seat_fabric', '#34493d', rough=0.9),
     'tbar': L.flat('l3_ceiling_grid', '#dcdcd8', rough=0.5),
@@ -80,6 +80,8 @@ M = {
     'sign': img_mat('l3_signs', 'lib3f_signs.png', rough=0.55),
     'exit': img_mat('l3_exit_sign', 'lib3f_signs.png', rough=0.5, emit=True),
 }
+
+M['plaster']['tile'] = 2.5   # 粉光貼圖每 2.5 m 重複一次
 
 # ---------------- 網格累積器：同一個材質合成一個網格 ----------------
 MESH, WMESH = {}, {}
@@ -197,7 +199,7 @@ for side in ('back', 'front', 'left', 'right'):
         n = max(1, round((q - p) / 1.2))
         for k in range(1, n): a = p + (q - p) * k / n; on_wall(wm(side, 'walnut'), side, a - 0.03, a + 0.03, 0.1, 0.98, 0.018, 0.03)
     on_wall(wm(side, 'cornice'), side, a0, a1, 3.84, 3.9, 0.0, 0.06); on_wall(wm(side, 'cornice'), side, a0, a1, 3.9, 3.96, 0.0, 0.11)   # 上緣線腳（兩段）
-PIL = {'back': [-5.5, 0.0, 5.5], 'front': [-5.5, 5.5], 'right': [-5.3, 5.3], 'left': []}     # 壁柱（牆裙以上到線腳）
+PIL = {'back': [-5.5, 5.5], 'front': [-5.5, 5.5], 'right': [-5.3, 5.3], 'left': []}     # 壁柱（牆裙以上到線腳）；後牆中間是「3F 閱覽區」的牌子，不放
 for side, xs in PIL.items():
     for a in xs:
         y0 = 1.04 if not (side == 'back' and abs(a) > 3.9) else 0.97
