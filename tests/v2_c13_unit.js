@@ -68,9 +68,12 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   afterOK('full',20.6); meet('yu'); picks=[1]; await EVENTS.run(ev2);
   check('5. 「我約了人，先走。」：以安「好。」小語「明天群組見。」；記 LEFT_AFTER_B4、沒有 B5_GO',JSON.stringify(lines())==='["沈以安：要不要去小桌子整理一下？","沈以安：好。","小語：明天群組見。"]'&&G.flags.LEFT_AFTER_B4===true&&!G.flags.B5_GO,JSON.stringify({L:lines(),f:G.flags}));
   /* B5 */
-  const near=(d)=>{ const n={id:'heroine_01',obj:{position:{x:0,y:0,z:d}},lv:0}; GM.npc.heroine_01=n; E.npcs=[n]; };
+  const near=(d,st)=>{ const n={id:'heroine_01',obj:{position:{x:0,y:0,z:d}},lv:0,seat:st===undefined?{room:'round',table:'r2'}:st}; GM.npc.heroine_01=n; E.npcs=[n]; return n; };   /* 她坐在圓桌（roomMove 走過去坐下）*/
   const b5=(h,d,go)=>{ fresh(thu,h,'boya'); meet('heroine_01'); if(go!==false) G.flags.B5_GO=thu; near(d); return EVENTS.check(ev3); };
   check('6. B5：說了「好。」、走到以安旁邊（2.5 m 內）才開始；離太遠、沒說好、21:30 以後都不開始',b5(20.7,1.5)&&!b5(20.7,6)&&!b5(20.7,1.5,false)&&!b5(21.6,1.5),JSON.stringify([b5(20.7,1.5),b5(20.7,6),b5(20.7,1.5,false),b5(21.6,1.5)]));
+  { const at=(st,extra)=>{ fresh(thu,20.6,'boya'); meet('heroine_01'); G.flags.B5_GO=thu; Object.assign(near(1.5,st),extra||{}); return EVENTS.check(ev3); };
+    const r=[at({room:'101'}),at(null,{roomGo:true,seatTarget:{room:'round'}}),at({room:'round',table:'r1'}),at({room:'101'},{roomFail:{}})];
+    check('6. B5 要等以安坐到圓桌：還坐在 101（玩家就在旁邊）、正走過去都不開始；坐下了才開始；走不到圓桌（roomFail）就在原地開始',!r[0]&&!r[1]&&r[2]&&r[3],JSON.stringify(r)); }
   check('6. 隔天不開始（B5_GO 只算當天）',(()=>{ b5(20.7,1.5); G.day=thu+1; G.weekday=wdOf(thu+1); return !EVENTS.check(ev3); })());
   const playB5=async(k,knowYu)=>{ b5(20.7,1.5); if(knowYu!==false) meet('yu'); picks=[k]; await EVENTS.run(ev3); return lines(); };
   L=await playB5(0);

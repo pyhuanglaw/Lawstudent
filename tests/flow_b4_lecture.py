@@ -28,6 +28,9 @@ async def play_through(pg, cdp, run, until, pick_text=None, seen=None, max_s=240
     t0 = time.time(); last = None; still = time.time()
     while time.time() - t0 < max_s:
         s = await L.state(pg)
+        # 整句台詞（GAME.D.full）：對話框有打字機效果，SwiftShader 取樣常常只拿到半句（2026-10-14 flow_spring_trip 記到「……好。行程表」就被點到下一句）
+        full = await pg.evaluate("(GAME.D&&GAME.D.active&&GAME.D.full)?String(GAME.D.full):''")
+        if full: s['dtext'] = full
         if s['dtext'] and seen is not None and (not seen or seen[-1] != s['dtext']): seen.append(s['dtext'])
         if until(s): return s
         key = (s['dtext'], s['choices'], round(s['hour'], 2))
@@ -113,7 +116,7 @@ async def main():
           const p=n.obj.position, dx=p.x-cx, dz=p.z-cz, d=Math.hypot(dx,dz)||1; return [p.x+dx/d*1.0, p.z+dz/d*1.0]; })()""")
         run.note('走向以安旁邊：' + json.dumps(tgt))
         seen2 = []
-        await L.go_to(pg, cdp, run, tgt[0], tgt[1], 0.8, '圓桌以安的旁邊', lv=0)
+        await L.go_to(pg, cdp, run, tgt[0], tgt[1], 0.8, '圓桌以安的旁邊', lv=0, stop=lambda q: bool(q['dlg'] or q['choices']))   # 走近她（2.5 m）事件就開始：停下來自己看台詞
         s = await play_through(pg, cdp, run, lambda q: q['dtext'].startswith('他說，限制自由'), seen=seen2, max_s=90)
         run.check('走到以安旁邊，B5 開始（「他說，限制自由要用最小的手段。」）', s['dtext'].startswith('他說，限制自由'), json.dumps(s, ensure_ascii=False))
         await run.shot(pg, '5_b5_start')

@@ -274,7 +274,7 @@ const STORY = (function(){
   function inView(E,o){ const cam=E.camera; if(!cam||typeof THREE==='undefined'||!THREE.Vector3.prototype.project) return true; const v=new THREE.Vector3(o.x,o.y+1.0,o.z).project(cam); return v.z<1&&Math.abs(v.x)<1.05&&Math.abs(v.y)<1.05; }
   function refreshSchedule(GM){ const E=GM.E, G=GM.G; if(!G.social||!E.zone||!E.player) return; const zoneId=G.zone;
     try{ populateSchedule(zoneId,GM,true); }catch(e){ console.warn('schedule refresh failed',e); }
-    lingerMove(GM,zoneId);
+    lingerMove(GM,zoneId); roomMove(GM,zoneId);
     const P=E.player.obj.position, hr=h(G); for(const id of Object.keys(GM.npc)){ const n=GM.npc[id]; if(!n) continue; const gone=(n.sched&&n.charId===id&&!schedFor(id,zoneId,G))||(n.until!=null&&hr>=n.until); if(!gone) continue;
       if(G.flags.companion&&id===G.flags.companion) continue; const o=n.obj.position, d=Math.hypot(o.x-P.x,o.z-P.z), vis=inView(E,o);
       /* 2026-10-13 使用者試玩：「林芷若第一次講完話直接消失在校園，本來在我前面」——時段結束時只要鏡頭沒對著她就拿掉（玩家一轉頭人就不見了）。
@@ -295,6 +295,21 @@ const STORY = (function(){
       const [x,z,yaw,lv]=ent.at; if(Math.hypot(n.obj.position.x-x,n.obj.position.z-z)<0.6&&(n.lv|0)===(lv|0)) continue; if(n.lingerFail===ent) continue;
       if(n.seat&&GM.standUp) GM.standUp(n); n.beh='idle'; n.frozen=false; n.waypoints=null; n.lingerGo=true;
       if(!E.moveTo(n,x,z,()=>{ n.lingerGo=false; n.obj.rotation.y=yaw||0; n.pose=n.idlePose='idle'; },lv|0)){ n.lingerGo=false; n.lingerFail=ent; } } }
+  /* 同一區、下一個時段換到另一間（作息寫了不同的 room，坐著的動作：read、class、eat、sit）：已經在場的人起身、走過去坐到那一間的空位，不瞬移、不留在原地
+     （2026-10-14 flow_b4_lecture：演講完以安、小語的作息換成博雅的圓桌，原本只處理「走到某一點站著」（linger）和「離開」，兩個人一直坐在 101）。
+     同一間有朋友已經坐著（或正走過去）＝優先坐同一張桌子；沒有空位、走不到＝留在原地（下一個時段照常）*/
+  const ROOM_ACTS=['read','class','eat','sit'];
+  function roomMove(GM,zoneId){ const E=GM.E, G=GM.G; if(!E.zone||!E.zone.seats) return; for(const id of Object.keys(GM.npc)){ const n=GM.npc[id]; if(!n||!n.sched||n.leaving||n.lingerGo||n.roomGo||n.charId!==id||n.paired||n.beh==='follow') continue;
+      if(G.flags&&G.flags.companion===id) continue; const ent=schedFor(id,zoneId,G); if(!ent||!ent.room||!ROOM_ACTS.includes(ent.act)||ent.seat) continue;
+      const cur=(n.seat&&n.seat.room)||(n.seatTarget&&n.seatTarget.room)||null; if(cur===ent.room||n.roomFail===ent) continue;
+      if(!cur&&E.zone.roomAt&&E.zone.roomAt(n.obj.position.x,n.obj.position.z,n.lv|0)===ent.room) continue;   /* 站在那一間裡（還沒坐下）：照原本的規則 */
+      const busy=st=>st.taken||E.npcs.some(m=>m!==n&&(m.seat||m.seatTarget)&&Math.hypot((m.seat||m.seatTarget).x-st.x,(m.seat||m.seatTarget).z-st.z)<0.35)||(E.player&&E.player.seat&&Math.hypot(E.player.seat.x-st.x,E.player.seat.z-st.z)<0.35);
+      const free=E.zone.seats.filter(st=>st.room===ent.room&&!busy(st)); if(!free.length){ n.roomFail=ent; continue; }
+      const tables=new Set(E.npcs.filter(m=>m!==n&&m.charId&&(m.seat||m.seatTarget)&&(m.seat||m.seatTarget).room===ent.room).map(m=>(m.seat||m.seatTarget).table).filter(Boolean));
+      const st=free.find(q=>q.table&&tables.has(q.table))||free[free.length-1]; const pz=ent.act==='class'?'sit':'read';
+      const old=n.seat, oldPose=n.pose; if(n.seat&&GM.standUp) GM.standUp(n); n.beh='idle'; n.frozen=false; n.waypoints=null; n.seatTarget=st; n.roomGo=true;   /* 先站起來（座位的格子是擋住的，從座位旁邊才找得到路）*/
+      const sit=()=>{ n.roomGo=false; n.seatTarget=null; if(busy(st)){ n.pose=n.idlePose='idle'; return; } if(GM.sitAt) GM.sitAt(n,st); n.pose=n.idlePose=pz; };
+      const ap=(GM.seatApproach&&GM.seatApproach(st))||[st.x,st.z]; if(!E.moveTo(n,ap[0],ap[1],sit,st.lv|0)){ n.roomGo=false; n.seatTarget=null; n.roomFail=ent; if(old&&GM.sitAt){ GM.sitAt(n,old); n.pose=n.idlePose=oldPose||'sit'; } } } }   /* 走不到：坐回原來的位子 */
   /* 時段結束：走到最近的出口（區域的出口、建築入口）——走得到才走；坐著的先起身；聊天的對象回到原本的樣子 */
   function walkAway(GM,n){ const E=GM.E; const o=n.obj.position, lv=n.lv|0; let best=null, bd=1e9;
     for(const it of (E.interactables||[])){ if(!it.exit&&!it.enter) continue; if((it.lv|0)!==lv) continue; const dd=Math.hypot(it.x-o.x,it.z-o.z); if(dd<bd){ bd=dd; best=it; } }

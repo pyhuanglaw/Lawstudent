@@ -610,7 +610,8 @@ const STORY_EVENTS=[
      小語：認識才在場（只有認識的人在場）；不認識小語＝她那兩句不演、便利貼是兩張（LAWWW 改的字，已告訴 BB）。
      記 B5_THOUGHT（ask_them／trade／where；B12 讀它）、B4_DISCUSSED（AA_115 的 discussed:B4）；以安的熟悉度＝參與事件的一般見面（不另加數字）。法律同 B4：LEGAL_REVIEW_REQUIRED */
   { id:'ev_b5_table', title:'小桌子', participants:['heroine_01'], location:'boya', trigger:'auto', npcNear:'heroine_01', time:[20.5,21.5], once:true, background:'blur', legal_review:'REQUIRED',
-    prereq:{custom:G=>G.flags.B5_GO===G.day},
+    prereq:{custom:G=>{ if(G.flags.B5_GO!==G.day) return false; const n=typeof EVENTS!=='undefined'&&EVENTS.npcOf?EVENTS.npcOf('heroine_01'):null;   /* 她坐到圓桌才開始（小桌子）：散場時坐在她旁邊的話，不在 101 就先演；走不到圓桌（roomFail）就在原地（2026-10-14 story3d.js roomMove）*/
+      return !n||(!n.roomGo&&(!!(n.seat&&n.seat.room==='round')||!!n.roomFail)); }},
     dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'他說，限制自由要用最小的手段。'},
       {speaker:'heroine_01',expression:'thinking',text:'可是「最小」，是對誰來說最小？'},
       {if:EV_KNOWS('yu'),speaker:'yu',expression:'neutral',text:'對整個社會吧？'},

@@ -20,6 +20,9 @@ async def play_through(pg, cdp, run, until, pick_text=None, seen=None, max_s=240
     t0 = time.time(); last = None; still = time.time()
     while time.time() - t0 < max_s:
         s = await L.state(pg)
+        # 整句台詞（GAME.D.full）：對話框有打字機效果，SwiftShader 取樣常常只拿到半句（2026-10-14 flow_spring_trip 記到「……好。行程表」就被點到下一句）
+        full = await pg.evaluate("(GAME.D&&GAME.D.active&&GAME.D.full)?String(GAME.D.full):''")
+        if full: s['dtext'] = full
         if s['dtext'] and seen is not None and (not seen or seen[-1] != s['dtext']): seen.append(s['dtext'])
         if until(s): return s
         key = (s['dtext'], s['choices'], round(s['hour'], 2))

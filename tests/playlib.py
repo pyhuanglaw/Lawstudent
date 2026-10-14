@@ -204,12 +204,16 @@ async def turn_camera_to(pg, cdp, tx, tz, tries=4):
     return False
 
 
-async def go_to(pg, cdp, run, tx, tz, near, label, max_s=420, lv=None):
+async def go_to(pg, cdp, run, tx, tz, near, label, max_s=420, lv=None, stop=None):
     """像玩家一樣走到 (tx,tz) 附近：先點地面（遠的話點中途的點），走不動才改用搖桿朝目標推。回傳是否到達。
-    lv（v9.4 多樓層）：目標在第幾層；到達要在那一層（不能只是在正下方／正上方）"""
+    lv（v9.4 多樓層）：目標在第幾層；到達要在那一層（不能只是在正下方／正上方）
+    stop（可省略）：stop(state) 為真就停下來、回傳 True——例如走近人物時事件的對話開始了，要由測試自己看台詞、選選項
+    （沒給 stop 時，途中出現的對話照舊自動點過去；2026-10-14 flow_b4_lecture 的 B5 就是這樣被點掉、測試看不到開頭）"""
     t0 = time.time(); last = None; last_prog = time.time(); taps = 0; joys = 0; turns = 0; f0 = None
     while time.time() - t0 < max_s:
         s = await state(pg)
+        if stop is not None and stop(s):
+            run.note(f'「{label}」途中停下（離目標 {math.hypot(tx - s["x"], tz - s["z"]):.2f} m）：{s.get("dtext") or "條件成立"}'); return True
         if f0 is None: f0 = (s.get('frame', 0), s['hour'], time.time())
         d = math.hypot(tx - s['x'], tz - s['z'])
         if d <= near and (lv is None or s.get('lv', 0) == lv):
