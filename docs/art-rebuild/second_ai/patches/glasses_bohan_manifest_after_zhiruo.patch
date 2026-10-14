@@ -1,0 +1,10 @@
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -81,6 +81,7 @@
+     'bldg.campus_freshman':{url:'assets/models/env/second_ai/campus_freshman.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_freshman.py（大一女舍 A、B 兩棟外觀＋二樓天橋＋門口；校園世界座標；本體與門廊位置照 zones3d.js campus 區塊的 CK.hall（導航不用改）；外觀是依文字資料的遊戲化設計（米色二丁掛、樓梯間、窗型冷氣、屋頂水塔與太陽能熱水器、背面曬衣），沒有照片；面磚、粉刷、花崗石、隔熱磚貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+     'bldg.campus_socsci':{url:'assets/models/env/second_ai/campus_socsci.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_socsci.py（新社科院：辜先生紀念圖書館（玻璃帷幕、白色樹狀柱＋荷葉柱頂、植栽屋頂與天窗；柱子與天窗照 ⑬ soclib_layout.js）＋8 層清水混凝土大樓＋中庭；校園世界座標；遊戲化：南北對調；沒有照片，大樓立面是推測）；清水混凝土貼圖 gen_socsci_textures.py（Poly Haven concrete_wall_006 CC0 改作）；其他貼圖 Poly Haven CC0', license:'本作；貼圖 CC0'},
+     'prop.glasses_zhiruo':{url:'assets/models/char/second_ai/glasses_zhiruo.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/glasses_zhiruo.py（LAWWW2 D59：林芷若的眼鏡——參考圖 06 的淺色（霧面玫瑰金）細金屬圓框、鼻托、鉸鏈、鏡腳；src/props3d.js 的 glasses() 載好後換掉程式產生的版本）', license:'本作'},
++    'prop.glasses_bohan':{url:'assets/models/char/second_ai/glasses_bohan.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/glasses_bohan.py（LAWWW2 D59：許柏翰的眼鏡——參考圖 classmate_bohan.webp 的深色細金屬圓角方框、鼻托、鉸鏈、鏡腳；C.MODEL_PROPS 用 {name:\'glasses\', glb:\'prop.glasses_bohan\'}）', license:'本作'},
+     // ==== 第二個 AI 區塊結束 ====
+     'char.mixamo_clips':{url:'assets/models/char/mixamo_clips.glb', type:'clips', source:'three.js examples (Xbot.glb, Mixamo)', license:'Mixamo 動畫（Adobe 條款：可用於專案，不可單獨再散布）'},
+   };

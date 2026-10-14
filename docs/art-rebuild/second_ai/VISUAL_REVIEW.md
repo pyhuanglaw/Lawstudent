@@ -2951,7 +2951,7 @@ patch 的內容（只動 `src/zones3d.js` 的 `lake()`、校園載入的地方�
 
 **還沒做／沒測**：iPhone 實機；晚上的燈光（亭子沒有燈，湖邊是原本的路燈）；NPC 走上木棧道（目前湖邊沒有排 NPC 的路線）。
 
-## 32. 人物（D59）：吳芯慈、林芷若的眼鏡、阿哲（Blender／VRM；**還沒接進遊戲**；角色美術由 BB 驗收）
+## 32. 人物（D59）：吳芯慈、林芷若的眼鏡、阿哲、許柏翰（Blender／VRM；**還沒接進遊戲**；角色美術由 BB 驗收）
 
 D59：角色美術改由 BB 驗收；LAWWW2 照 BB 通過的參考圖改 Blender／VRM，**遊戲內截圖由 LAWWW 接進遊戲後拍給 BB**。下面的「遊戲渲染器」是 LAWWW 的 `test_charlook.html`（遊戲本身的 `ASSETS`＋`CHAR.build`＋`PROPS`、白天的光線、待機／走路動畫、坐姿）——**不是遊戲內截圖**；Playwright＋SwiftShader，不是 iPhone。
 
@@ -3072,3 +3072,48 @@ Blender 渲染（T 姿勢；Eevee；**不是遊戲畫面**）：
 - 外套是圓領敞開（參考圖是立領）；T 恤紮在牛仔褲裡（參考圖沒有紮、蓋住褲頭）。
 - 腿很長（Sakurada Fumiriya 樣本本來的比例），牛仔褲在褲腳附近看起來有點寬。
 - 手機殼、籃球服沒做；iPhone 實機、遊戲內實際場景光線都沒看過。
+
+### 32.4 許柏翰（`classmate_bohan`；法律系一年級、172 cm）
+
+**參考圖**：BB 通過的 `classmate_bohan.webp`——黑色整齊短髮（側分、瀏海略長）、深色細金屬方框眼鏡、淺藍灰長袖襯衫（扣到第二顆、紮進褲子）、黑色皮帶、炭黑色西裝褲、白色球鞋、黑色後背包、貼滿便條紙的厚書（之後另外做）。現在遊戲裡的柏翰是程序化的 spec（不是 VRM，沒有修改前的對照圖）。
+
+**做法**：`tools/blender/char_second/bohan.py`（`bohan_face.py`、`bohan_clothes.py`、`bohan_hair.py`）＋LAWWW 的人物生產線。底模：VRoid β 版 CC0 樣本 HairSample_Male（和祐廷同一個樣本；臉的參數、髮型、眼鏡、服裝不同）。
+- 臉：`p00_face.run`＋柏翰的參數（眼睛細長平直、臉稍長、下巴不寬、直的濃眉）；膚色白（VRoid 原本的膚色，不調）。
+- 衣服：**直接用 LAWWW 給溫書瑀做的 `p05_clothes.py`**（襯衫身片＋領子＋門襟＋扣子＋袖口），只換 STYLE（淺藍灰、長袖、男生的寬鬆量、炭黑斜紋西裝褲、黑皮帶、白球鞋）和高度。
+- 頭髮：從祐廷的 `p00_hair.py` 複製（近黑、偏冷，分線在人物右邊，外層比較整齊，瀏海中間短一點）。
+- 眼鏡：`tools/blender/char_second/glasses_bohan.py` → `assets/models/char/second_ai/glasses_bohan.glb`（32 KB、1,348 三角形；圓角方框 5.0×3.1 cm、近黑深棕 `#2f2a28`、1.6 mm、鼻托、鉸鏈、鏡腳；和芷若的眼鏡同一套座標）。接法：先套 `patches/glasses_zhiruo_97f4abc.patch`，再套 `patches/glasses_bohan_manifest_after_zhiruo.patch`（`assets3d.js` 我的區塊多一行 `prop.glasses_bohan`），`C.MODEL_PROPS['char.classmate_bohan']=[{name:'glasses', glb:'prop.glasses_bohan'}, 'backpack']`。
+
+**檔案**：`assets/models/char/second_ai/bl_classmate_bohan.vrm`（**2.8 MB**；三角形 31,980＝臉 5,322、身體 3,544、襯衫＋褲子＋鞋 11,806、領子 576、門襟＋3 顆扣子 76、袖口 288、頭髮 10,368；16 個材質、20 張貼圖；沒有彈簧骨）。
+
+**這一輪的版本（都在遊戲渲染器看過）**：第一版——襯衫在遊戲裡看起來是灰的、領口 V 開太深、褲管太寬、袖子和肩膀像運動衫、瀏海像碗蓋；第二版顏色偏藍、V 收小、褲管收窄、袖子身片收、瀏海中間短一點並往兩邊撥、戴上方框眼鏡。
+
+| | |
+|---|---|
+| 參考圖（正面）→ 新版（遊戲渲染器，戴方框眼鏡、背後包） | ![參考圖 → 新版](shots/bohan_ref_vs_look.webp) |
+| 眼鏡 Blender 渲染（Cycles；正面、45°、側面、上方；**不是遊戲畫面**） | ![](shots/glasses_bohan_blender.webp) |
+
+遊戲渲染器（交付版；`char_lookdev.py --base char.zhe --height 1.72 --props '[{"name":"glasses","glb":"prop.glasses_bohan"},"backpack"]' --asset prop.glasses_bohan=…`；伺服器是 `97f4abc`＋眼鏡 patch）：
+
+| 臉 正面 | 臉 45° | 臉 側面 |
+|---|---|---|
+| ![](shots/bohan_look_face_front.webp) | ![](shots/bohan_look_face_q45.webp) | ![](shots/bohan_look_face_side.webp) |
+| **全身 正面** | **全身 45°** | **全身 背面** |
+| ![](shots/bohan_look_body_front.webp) | ![](shots/bohan_look_body_q45.webp) | ![](shots/bohan_look_body_back.webp) |
+| **走路 45°** | **走路 側面** | **坐下 正面** |
+| ![](shots/bohan_look_body_q45_walk.webp) | ![](shots/bohan_look_body_side_walk.webp) | ![](shots/bohan_look_body_front_sit.webp) |
+| **坐下 45°** | **坐下 側面** | |
+| ![](shots/bohan_look_body_q45_sit.webp) | ![](shots/bohan_look_body_side_sit.webp) | |
+
+Blender 渲染（T 姿勢；Eevee；**不是遊戲畫面**）：
+
+| 臉 正面 | 臉 45° | 臉 側面 |
+|---|---|---|
+| ![](shots/bohan_blender_face_front.webp) | ![](shots/bohan_blender_face_q45.webp) | ![](shots/bohan_blender_face_side.webp) |
+| **全身 正面** | **全身 45°** | **全身 背面** |
+| ![](shots/bohan_blender_body_front.webp) | ![](shots/bohan_blender_body_q45.webp) | ![](shots/bohan_blender_body_back.webp) |
+
+**接法（LAWWW 決定）**：`ASSETS.manifest` 加 `'char.classmate_bohan':{url:'assets/models/char/second_ai/bl_classmate_bohan.vrm', type:'vrm', anims:'char.mixamo_clips', height:1.72, …}`，`CHARACTERS.classmate_bohan.char3d` 加 `model:'char.classmate_bohan'`；配件見上。
+
+**驗收狀態**：`MODEL_READY` → LAWWW 接進遊戲、拍遊戲內截圖給 BB。**不標 `ART_APPROVED`**。
+
+**還沒達到參考品質的地方（自評）**：瀏海還是偏厚（像碗蓋），頭頂後面偏高；和祐廷同一個樣本，臉型差別只靠參數（並排時可能看得出是同一張臉的變化）；襯衫肩膀、袖子仍比參考圖蓬；西裝褲褲管下半段偏寬；厚書沒做；iPhone 實機、遊戲內實際場景都沒看過。
