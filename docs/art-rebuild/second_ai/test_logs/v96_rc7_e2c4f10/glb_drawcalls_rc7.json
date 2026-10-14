@@ -1,0 +1,339 @@
+{
+ "gate_avenue": {
+  "all": {
+   "calls": 329,
+   "tris": 946727
+  },
+  "none": {
+   "calls": 256,
+   "tris": 853831
+  },
+  "per": {
+   "campus_library_glb": {
+    "meshes": 9,
+    "castMeshes": 3,
+    "materials": 9,
+    "calls": 12,
+    "shadowCalls": 3,
+    "tris": 28159
+   },
+   "campus_bell_glb": {
+    "meshes": 8,
+    "castMeshes": 4,
+    "materials": 8,
+    "calls": 9,
+    "shadowCalls": 0,
+    "tris": 1566
+   },
+   "campus_gongtong_glb": {
+    "meshes": 17,
+    "castMeshes": 7,
+    "materials": 17,
+    "calls": 21,
+    "shadowCalls": 4,
+    "tris": 32620
+   },
+   "campus_freshman_glb": {
+    "meshes": 12,
+    "castMeshes": 4,
+    "materials": 12,
+    "calls": 0,
+    "shadowCalls": 0,
+    "tris": 0
+   },
+   "campus_admin_glb": {
+    "meshes": 9,
+    "castMeshes": 3,
+    "materials": 9,
+    "calls": 9,
+    "shadowCalls": 0,
+    "tris": 13453
+   },
+   "campus_arts_glb": {
+    "meshes": 9,
+    "castMeshes": 3,
+    "materials": 9,
+    "calls": 9,
+    "shadowCalls": 0,
+    "tris": 8776
+   },
+   "campus_hist_glb": {
+    "meshes": 9,
+    "castMeshes": 3,
+    "materials": 9,
+    "calls": 9,
+    "shadowCalls": 0,
+    "tris": 6354
+   },
+   "campus_pavilion_glb": {
+    "meshes": 5,
+    "castMeshes": 2,
+    "materials": 5,
+    "calls": 0,
+    "shadowCalls": 0,
+    "tris": 0
+   },
+   "campus_modern_glb": {
+    "meshes": 4,
+    "castMeshes": 1,
+    "materials": 4,
+    "calls": 4,
+    "shadowCalls": 0,
+    "tris": 1968
+   }
+  }
+ },
+ "admin_arcade": {
+  "all": {
+   "calls": 246,
+   "tris": 820923
+  },
+  "none": {
+   "calls": 191,
+   "tris": 743157
+  },
+  "per": {
+   "campus_library_glb": {
+    "meshes": 9,
+    "castMeshes": 3,
+    "materials": 9,
+    "calls": 12,
+    "shadowCalls": 3,
+    "tris": 28159
+   },
+   "campus_bell_glb": {
+    "meshes": 8,
+    "castMeshes": 4,
+    "materials": 8,
+    "calls": 9,
+    "shadowCalls": 0,
+    "tris": 1566
+   },
+   "campus_gongtong_glb": {
+    "meshes": 17,
+    "castMeshes": 7,
+    "materials": 17,
+    "calls": 21,
+    "shadowCalls": 4,
+    "tris": 32620
+   },
+   "campus_freshman_glb": {
+    "meshes": 12,
+    "castMeshes": 4,
+    "materials": 12,
+    "calls": 0,
+    "shadowCalls": 0,
+    "tris": 0
+   },
+   "campus_admin_glb": {
+    "meshes": 9,
+    "castMeshes": 3,
+    "materials": 9,
+    "calls": 9,
+    "shadowCalls": 0,
+    "tris": 13453
+   },
+   "campus_arts_glb": {
+    "meshes": 9,
+    "castMeshes": 3,
+    "materials": 9,
+    "calls": 0,
+    "shadowCalls": 0,
+    "tris": 0
+   },
+   "campus_hist_glb": {
+    "meshes": 9,
+    "castMeshes": 3,
+    "materials": 9,
+    "calls": 0,
+    "shadowCalls": 0,
+    "tris": 0
+   },
+   "campus_pavilion_glb": {
+    "meshes": 5,
+    "castMeshes": 2,
+    "materials": 5,
+    "calls": 0,
+    "shadowCalls": 0,
+    "tris": 0
+   },
+   "campus_modern_glb": {
+    "meshes": 4,
+    "castMeshes": 1,
+    "materials": 4,
+    "calls": 4,
+    "shadowCalls": 0,
+    "tris": 1968
+   }
+  }
+ },
+ "arts_arcade": {
+  "all": {
+   "calls": 271,
+   "tris": 857082
+  },
+  "none": {
+   "calls": 225,
+   "tris": 785559
+  },
+  "per": {
+   "campus_library_glb": {
+    "meshes": 9,
+    "castMeshes": 3,
+    "materials": 9,
+    "calls": 12,
+    "shadowCalls": 3,
+    "tris": 28159
+   },
+   "campus_bell_glb": {
+    "meshes": 8,
+    "castMeshes": 4,
+    "materials": 8,
+    "calls": 0,
+    "shadowCalls": 0,
+    "tris": 0
+   },
+   "campus_gongtong_glb": {
+    "meshes": 17,
+    "castMeshes": 7,
+    "materials": 17,
+    "calls": 21,
+    "shadowCalls": 4,
+    "tris": 32620
+   },
+   "campus_freshman_glb": {
+    "meshes": 12,
+    "castMeshes": 4,
+    "materials": 12,
+    "calls": 0,
+    "shadowCalls": 0,
+    "tris": 0
+   },
+   "campus_admin_glb": {
+    "meshes": 9,
+    "castMeshes": 3,
+    "materials": 9,
+    "calls": 0,
+    "shadowCalls": 0,
+    "tris": 0
+   },
+   "campus_arts_glb": {
+    "meshes": 9,
+    "castMeshes": 3,
+    "materials": 9,
+    "calls": 9,
+    "shadowCalls": 0,
+    "tris": 8776
+   },
+   "campus_hist_glb": {
+    "meshes": 9,
+    "castMeshes": 3,
+    "materials": 9,
+    "calls": 0,
+    "shadowCalls": 0,
+    "tris": 0
+   },
+   "campus_pavilion_glb": {
+    "meshes": 5,
+    "castMeshes": 2,
+    "materials": 5,
+    "calls": 0,
+    "shadowCalls": 0,
+    "tris": 0
+   },
+   "campus_modern_glb": {
+    "meshes": 4,
+    "castMeshes": 1,
+    "materials": 4,
+    "calls": 4,
+    "shadowCalls": 0,
+    "tris": 1968
+   }
+  }
+ },
+ "bell_avenue": {
+  "all": {
+   "calls": 181,
+   "tris": 727917
+  },
+  "none": {
+   "calls": 132,
+   "tris": 673241
+  },
+  "per": {
+   "campus_library_glb": {
+    "meshes": 9,
+    "castMeshes": 3,
+    "materials": 9,
+    "calls": 3,
+    "shadowCalls": 3,
+    "tris": 5343
+   },
+   "campus_bell_glb": {
+    "meshes": 8,
+    "castMeshes": 4,
+    "materials": 8,
+    "calls": 9,
+    "shadowCalls": 0,
+    "tris": 1566
+   },
+   "campus_gongtong_glb": {
+    "meshes": 17,
+    "castMeshes": 7,
+    "materials": 17,
+    "calls": 16,
+    "shadowCalls": 4,
+    "tris": 18344
+   },
+   "campus_freshman_glb": {
+    "meshes": 12,
+    "castMeshes": 4,
+    "materials": 12,
+    "calls": 12,
+    "shadowCalls": 0,
+    "tris": 15970
+   },
+   "campus_admin_glb": {
+    "meshes": 9,
+    "castMeshes": 3,
+    "materials": 9,
+    "calls": 9,
+    "shadowCalls": 0,
+    "tris": 13453
+   },
+   "campus_arts_glb": {
+    "meshes": 9,
+    "castMeshes": 3,
+    "materials": 9,
+    "calls": 0,
+    "shadowCalls": 0,
+    "tris": 0
+   },
+   "campus_hist_glb": {
+    "meshes": 9,
+    "castMeshes": 3,
+    "materials": 9,
+    "calls": 0,
+    "shadowCalls": 0,
+    "tris": 0
+   },
+   "campus_pavilion_glb": {
+    "meshes": 5,
+    "castMeshes": 2,
+    "materials": 5,
+    "calls": 0,
+    "shadowCalls": 0,
+    "tris": 0
+   },
+   "campus_modern_glb": {
+    "meshes": 4,
+    "castMeshes": 1,
+    "materials": 4,
+    "calls": 0,
+    "shadowCalls": 0,
+    "tris": 0
+   }
+  }
+ },
+ "errors": []
+}
