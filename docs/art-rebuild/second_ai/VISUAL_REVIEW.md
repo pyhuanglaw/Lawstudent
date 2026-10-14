@@ -2951,7 +2951,7 @@ patch 的內容（只動 `src/zones3d.js` 的 `lake()`、校園載入的地方�
 
 **還沒做／沒測**：iPhone 實機；晚上的燈光（亭子沒有燈，湖邊是原本的路燈）；NPC 走上木棧道（目前湖邊沒有排 NPC 的路線）。
 
-## 32. 人物（D59）：吳芯慈、林芷若的眼鏡（Blender／VRM；**還沒接進遊戲**；角色美術由 BB 驗收）
+## 32. 人物（D59）：吳芯慈、林芷若的眼鏡、阿哲（Blender／VRM；**還沒接進遊戲**；角色美術由 BB 驗收）
 
 D59：角色美術改由 BB 驗收；LAWWW2 照 BB 通過的參考圖改 Blender／VRM，**遊戲內截圖由 LAWWW 接進遊戲後拍給 BB**。下面的「遊戲渲染器」是 LAWWW 的 `test_charlook.html`（遊戲本身的 `ASSETS`＋`CHAR.build`＋`PROPS`、白天的光線、待機／走路動畫、坐姿）——**不是遊戲內截圖**；Playwright＋SwiftShader，不是 iPhone。
 
@@ -3019,3 +3019,56 @@ Blender 渲染（第八版 T 姿勢；Eevee；**不是遊戲畫面**）：
 | Blender 渲染（Cycles；正面、45°、側面、上方；**不是遊戲畫面**） | ![](shots/glasses_zhiruo_blender.webp) |
 
 **驗收狀態**：`MODEL_READY`（接法是 patch，LAWWW 整合）。**還沒做**：Café 工作時的樣子（圍裙＋眼鏡）在遊戲內場景的截圖；iPhone 實機。
+
+### 32.3 阿哲（張哲維，`zhe`；法律系一年級、178 cm）
+
+**參考圖**：BB 通過的 `zhe.webp`（`claude/story-planning` 分支 `docs/story_planning/art_reference/`）——小麥色皮膚、蓬亂有層次的棕色短髮、總是笑著；
+深藍運動外套（敞開、袖子外側一條米白色拼接、白色拉鍊邊、羅紋袖口與下擺）＋芥末黃圓領 T＋淺藍寬直筒牛仔褲＋深藍帆布球鞋（白鞋底）＋深色後背包；另有籃球服（之後另外做）。
+杜可昕在他前面，但參考圖在企劃分支標「待使用者重傳完整版」、repo 裡沒有 → BLOCKED，先做阿哲。
+
+**做法**：`tools/blender/char_second/zhe.py`（`zhe_face.py`、`zhe_clothes.py`、`zhe_hair.py`）＋LAWWW 的人物生產線 `tools/blender/char/`。
+底模：VRoid β 版 CC0 樣本「Sakurada Fumiriya」（現在遊戲裡的阿哲用的同一個樣本；和祐廷的 HairSample_Male 不同，約 8 頭身）。
+- 臉：`h01_face`（`p00_face.run`）＋祐廷的男生參數（嘴窄一點、唇色淡、直的濃眉）；**小麥色**＝皮膚材質的 MToon 底色係數 ×(0.86, 0.70, 0.56)、陰影色 ×(0.92, 0.80, 0.70)（不改貼圖）。
+- 衣服：牛仔褲＝`h01_clothes` 的褲子（denim）；外套＝`h01_clothes` 的上衣＋芯慈的「前面敞開」（`x_xinci_clothes.build_cardigan_open`，±24°）；袖子外側 ±38° 從肩膀到袖口羅紋換成米白色材質；兩條前襟外側各一條 8 mm 的拉鍊布條；T 恤＝`tee_full`，**只留前面 ±72°**（兩側、背後被外套蓋住；留著的話手放下來時從腋下後方穿出來）。
+- 頭髮：從祐廷的 `p00_hair.py` 複製改寫（棕色、頭頂更蓬、外層髮片更多更亂、瀏海一撮一撮、髮尾在眉毛上方 1.2 cm）；全部綁頭骨，沒有彈簧骨。
+- VRM 收尾：`tools/blender/char_second/vrm_finish2.py`（LAWWW 的 `vrm_finish.py` 同一套步驟；男生眼型改用 `VRM_MALE=1` 判斷——原本只認 `HairSample_Male`）。
+
+**檔案**：`assets/models/char/second_ai/bl_zhe.vrm`（**2.83 MB**；三角形 31,922＝臉 5,526、身體 3,406、衣服 12,382〔外套 5,824、牛仔褲 3,870、球鞋 1,184、T 恤 992、拼接 384、拉鍊 128〕、頭髮 10,608；16 個材質、24 張貼圖；沒有彈簧骨）。
+
+**這一輪的版本（都在遊戲渲染器看過）**：第一版——米白拼接是上臂一半（手放下來像兩塊肩章）、牛仔褲從臀部直落太寬（像喇叭褲）、外套太短、眼睛太圓太大（像國中生）、嘴又寬又深、瀏海一整片像碗蓋、頭頂一根根細的觸角；第二版改拼接成沿手臂外側的一條、褲管收窄、外套到胯骨、眼型照祐廷、膚色加深；頭頂的高光在遊戲強光下曬成一圈白色→第三版高光調暗、瀏海變少變短（露出眉毛）；側面看外套腋下後方露出一塊芥末黃→第五版 T 恤只留前面。
+
+| | |
+|---|---|
+| 遊戲渲染器：上排＝現在遊戲裡的阿哲（`vroid_zhe.vrm`，沒有配件）、下排＝新版（背後包是 `props3d.js` 的 `backpack`） | ![修改前 → 修改後](shots/zhe_before_after.webp) |
+| 參考圖（正面）→ 新版（遊戲渲染器） | ![參考圖 → 新版](shots/zhe_ref_vs_look.webp) |
+
+遊戲渲染器（交付版；`tools/blender/char_second/char_lookdev.py --base char.zhe --height 1.78 --props backpack`）：
+
+| 臉 正面 | 臉 45° | 臉 側面 |
+|---|---|---|
+| ![](shots/zhe_look_face_front.webp) | ![](shots/zhe_look_face_q45.webp) | ![](shots/zhe_look_face_side.webp) |
+| **全身 正面** | **全身 45°** | **全身 背面** |
+| ![](shots/zhe_look_body_front.webp) | ![](shots/zhe_look_body_q45.webp) | ![](shots/zhe_look_body_back.webp) |
+| **走路 45°** | **走路 側面** | **坐下 正面** |
+| ![](shots/zhe_look_body_q45_walk.webp) | ![](shots/zhe_look_body_side_walk.webp) | ![](shots/zhe_look_body_front_sit.webp) |
+| **坐下 45°** | **坐下 側面** | |
+| ![](shots/zhe_look_body_q45_sit.webp) | ![](shots/zhe_look_body_side_sit.webp) | |
+
+Blender 渲染（T 姿勢；Eevee；**不是遊戲畫面**）：
+
+| 臉 正面 | 臉 45° | 臉 側面 |
+|---|---|---|
+| ![](shots/zhe_blender_face_front.webp) | ![](shots/zhe_blender_face_q45.webp) | ![](shots/zhe_blender_face_side.webp) |
+| **全身 正面** | **全身 45°** | **全身 背面** |
+| ![](shots/zhe_blender_body_front.webp) | ![](shots/zhe_blender_body_q45.webp) | ![](shots/zhe_blender_body_back.webp) |
+
+**接法（LAWWW 決定）**：`ASSETS.manifest['char.zhe']` 加 `blUrl:'assets/models/char/second_ai/bl_zhe.vrm'`（和五位女主角一樣先只在 `?blchar` 用），或直接把 `url` 換掉；`C.MODEL_PROPS['char.zhe']=['backpack']`（參考圖有深色後背包；現在阿哲沒有配件）。身高照舊 1.78。
+
+**驗收狀態**：`MODEL_READY`（還沒接進遊戲）→ LAWWW 接進遊戲、拍遊戲內截圖給 BB → `READY_FOR_ART_REVIEW`。**不標 `ART_APPROVED`**。
+
+**還沒達到參考品質的地方（自評）**：
+- 頭髮比參考圖整齊、像一頂安全帽（參考圖頭頂一撮一撮往不同方向翹）；臉旁、後腦的層次少。
+- 臉：預設表情是不笑的（參考圖幾乎都在笑；遊戲的表情由 LAWWW 的系統控制），五官仍偏 VRoid 的少年感，沒有逐項對參考圖重做下顎與鼻樑。
+- 外套是圓領敞開（參考圖是立領）；T 恤紮在牛仔褲裡（參考圖沒有紮、蓋住褲頭）。
+- 腿很長（Sakurada Fumiriya 樣本本來的比例），牛仔褲在褲腳附近看起來有點寬。
+- 手機殼、籃球服沒做；iPhone 實機、遊戲內實際場景光線都沒看過。

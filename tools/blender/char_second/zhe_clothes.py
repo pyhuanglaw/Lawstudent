@@ -56,6 +56,48 @@ def zip_tapes(mb, edges, w=0.008, mat=5):
         mb.grid(np.stack([A, B], 1), UV, closed=False, mat=mat, centers=cen)
 
 
+def tee_under_jacket(cl, tee=3, jacket=(0, 4, 5), inset=0.004, slack=0.002, max_move=0.02):
+    """T 恤收進外套裡面：從軀幹中心線往外打，T 恤的點如果在外套外面（或離外套不到 2 mm），拉回到外套裡面 4 mm。
+    第三版：側面看外套腋下後方露出一小塊芥末黃（外套在腋下往內收，T 恤照身體加寬鬆量，比外套寬）。前面敞開的地方打不到外套，不動"""
+    from mathutils import Vector
+    from mathutils.bvhtree import BVHTree
+    me = cl.data; Mc = np.array(cl.matrix_world)
+    P = np.empty(len(me.vertices) * 3); me.vertices.foreach_get('co', P); P = P.reshape(-1, 3) @ Mc[:3, :3].T + Mc[:3, 3]
+    FJ = [list(p.vertices) for p in me.polygons if p.material_index in jacket]
+    vt = np.unique(np.concatenate([np.array(list(p.vertices)) for p in me.polygons if p.material_index == tee]))
+    bv = BVHTree.FromPolygons(P.tolist(), FJ); T = P[vt]; moved = 0
+    for i in vt:
+        w = P[i]; band = T[np.abs(T[:, 2] - w[2]) < 0.012]
+        if len(band) < 8: continue
+        o = np.array([0.0, 0.5 * (band[:, 1].min() + band[:, 1].max()), w[2]])
+        d = w - o; d[2] = 0.0; L = float(np.linalg.norm(d))
+        if L < 1e-4: continue
+        d /= L; hit = bv.ray_cast(Vector(o), Vector(d), L + 0.06)
+        if hit[0] is None: continue
+        dist = float((np.array(hit[0]) - o) @ d)
+        if dist < L + slack and L - (dist - inset) < max_move:
+            P[i] = o + d * max(0.0, dist - inset); P[i][2] = w[2]; moved += 1
+    C.set_co(cl, (P - Mc[:3, 3]) @ np.linalg.inv(Mc[:3, :3]).T)
+    return moved
+
+
+def trim_tee(cl, tee=3, max_angle=72.0):
+    """T 恤只留前面（離正前方 72° 以內）：兩側、背後被外套整個蓋住，看不到；留著的話手放下來時外套腋下跟著手臂往內收，
+    T 恤從腋下後方穿出來（第三、四版遊戲渲染器側面看到一塊芥末黃；綁定姿勢下量不到穿模）"""
+    import bmesh
+    me = cl.data; bm = bmesh.new(); bm.from_mesh(me); Mc = np.array(cl.matrix_world)
+    faces = [f for f in bm.faces if f.material_index == tee]
+    if not faces: bm.free(); return 0
+    cen = np.array([[*f.calc_center_median()] for f in faces]) @ Mc[:3, :3].T + Mc[:3, 3]
+    yc = 0.5 * (cen[:, 1].min() + cen[:, 1].max())
+    ang = np.degrees(np.arctan2(np.abs(cen[:, 0]), -(cen[:, 1] - yc)))          # 0＝正前方（-y）
+    dead = [f for f, a in zip(faces, ang) if a > max_angle]
+    bmesh.ops.delete(bm, geom=dead, context='FACES')
+    loose = [v for v in bm.verts if not v.link_faces]; bmesh.ops.delete(bm, geom=loose, context='VERTS')
+    bm.to_mesh(me); bm.free(); me.update()
+    return len(dead)
+
+
 def _texture(rgb, S=1024):
     keep = K.KNIT_RGB; K.KNIT_RGB = rgb
     try: return K.jersey_texture(S)
@@ -93,6 +135,8 @@ def _apply(m, arm, body):
     (arm.users_collection[0] if arm.users_collection else bpy.context.scene.collection).objects.link(obj)
     C.bind(obj, arm, K.weights_dict(skin, W))
     print('  dropped loose verts (open front)', XC.drop_loose(obj))
+    print('  tee faces removed at the sides/back (under the jacket)', trim_tee(obj))
+    print('  tee pulled under the jacket', tee_under_jacket(obj))
     print('  body pulled under the tee', XC.conform_under(body, obj, 3, K.PANTS_TOP - 0.03, K.TEE_CREW_Z + 0.065))
     me = obj.data; tris = {}
     for p in me.polygons: tris[p.material_index] = tris.get(p.material_index, 0) + len(p.vertices) - 2
