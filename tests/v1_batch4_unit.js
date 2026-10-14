@@ -118,5 +118,17 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
         check('P2b '+(dating?'交往中':'單身')+'、選「'+pick+'」：開場「'+first+'」＋BB_95 原文＋回答',JSON.stringify(L)===JSON.stringify([first].concat(BODY,reply)),JSON.stringify(L)); } }
     check('P2b 三個選項（BB_95 原文）',JSON.stringify(opts[0])===JSON.stringify(['「框是用來想清楚的，不是用來關人的。」','「妳可以不喜歡。」','「我們再寫一題。」']),JSON.stringify(opts[0]));
     check('P2b 之後：沛珊記憶 NOT_FOR_ME、筆記第一頁改寫（NOTE_PAGE1＝1）、提示、只一次',SOCIAL.has('classmate_peishan','NOT_FOR_ME')&&G.flags.NOTE_PAGE1===1&&toasts.some(t=>/第一頁/.test(t))&&EVENTS.check(e)===false,JSON.stringify(toasts)); }
+  /* ---------- M1 明軒：公車站的筆記（BB_95 3-6）---------- */
+  { const e=ev('ev_mingxuan_notes'), MX='classmate_mingxuan', dOf=(w,wd)=>{ for(let d=1;d<200;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y1S1'&&t.week===w&&CALENDAR.dateOf(d).wd===wd) return d; } };
+    const can=(day,h,acq)=>{ fresh(day,h,'gongguan'); if(acq) SOCIAL.meet(MX,'campus'); return EVENTS.check(e); };
+    check('M1 第 7 週起、週二週四 21–22 點在公館、認識明軒才有',can(dOf(7,2),21.5,true)&&can(dOf(9,4),21.2,true));
+    check('M1 第 6 週、週三、20:30、還不認識都沒有',!can(dOf(6,2),21.5,true)&&!can(dOf(7,3),21.5,true)&&!can(dOf(7,2),20.5,true)&&!can(dOf(7,2),21.5,false));
+    { fresh(dOf(7,2),21.5,'gongguan'); const ent=STORY.schedEnt(CHARACTERS[MX],G); check('M1 他照日程在公館騎樓的公車站（週二 21:30，linger）',!!ent&&ent.zone==='gongguan'&&ent.act==='linger',JSON.stringify(ent)); }
+    const HEAD=['明軒戴著耳機，膝蓋上攤著民總的筆記，三種顏色的螢光筆。','他看到你，把筆記蓋起來。','……你沒看到。','（笑）我是說，你什麼都沒看到喔。我是在看漫畫。'];
+    for(const [pick,tail,secret,pen] of [['什麼都沒看到',['很好。','他把筆記打開，繼續畫。','走到校門口。','明天見。你什麼都沒看到。'],false,false],['從哪裡回來',['……家教。三個。','他看馬路。','我爸的店最近比較忙不過來，我多接一點。','然後轉回來，笑了。','好，這個話題結束。你要不要看漫畫？'],true,false],['坐到他旁邊',['兩個人一路沒講話。','你的螢光筆只有一種顏色？很可憐耶。','他給你一支綠色的。'],false,true]]){
+      fresh(dOf(7,2),21.5,'gongguan'); SOCIAL.meet(MX,'campus'); picks=[pick]; await EVENTS.run(e); const L=lines();
+      check('M1 選「'+pick+'」：BB_95 原文（舞台指示做成第二人稱旁白）',JSON.stringify(L)===JSON.stringify(HEAD.concat(tail)),JSON.stringify(L));
+      check('M1 選「'+pick+'」：SAW_HIM_STUDY'+(secret?'＋SHARED_SECRET':'')+(pen?'＋綠色螢光筆':'')+'、有他的聯絡方式、只一次',SOCIAL.has(MX,'SAW_HIM_STUDY')&&SOCIAL.has(MX,'SHARED_SECRET')===secret&&!!G.flags.GREEN_HIGHLIGHTER===pen&&INV.hasContact(G,MX)&&EVENTS.check(e)===false); }
+    check('M1 三個選項（BB_95 原文）',JSON.stringify(opts[0])===JSON.stringify(['「我什麼都沒看到。」','「你從哪裡回來？」','（坐到他旁邊，也拿出筆記）']),JSON.stringify(opts[0])); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

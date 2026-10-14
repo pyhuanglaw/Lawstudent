@@ -162,6 +162,17 @@ const STORY_EVENTS=[
       {label:'again'},{speaker:null,text:'兩人又寫了一題。她寫得很好。'},{speaker:'classmate_peishan',expression:'thinking',text:'我寫得出來。可是我不想寫。好奇怪。'},
       {label:'end'} ],
     consequences:{mem:[{npc:'classmate_peishan',tag:'NOT_FOR_ME',note:'三段論那天'}],flags:{NOTE_PAGE1:1},toast:'📓 筆記的第一頁：你改寫了一行'} },
+  /* 明軒 M1：公車站的筆記（BB_95 3-6，v1 版）：週二、週四 21–22 點，他家教完剛下公車，在公館騎樓的公車站把民總筆記畫完（characters.js 的日程：linger）。
+     和他至少 ACQUAINTANCE、大一上第 7 週（期中前一週）起、只一次。SAW_HIM_STUDY：期中後麵店團的聚餐（A15）阿哲說「明軒從來不念書」時多一個選項。
+     解鎖他的聯絡方式；「公館一百元以內」的店家清單（地圖小標，BB_70 F-M1）還沒做。公車站的長椅還沒有（站著）——環境細節那一批（D70） */
+  { id:'ev_mingxuan_notes', title:'公車站的筆記', participants:['classmate_mingxuan'], location:'gongguan', trigger:'interact', priority:6, weekday:[2,4], time:[21,22], term:['Y1S1'], once:true, prereq:{stage:{npc:'classmate_mingxuan',min:'ACQUAINTANCE'},custom:G=>{ const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf(G.day); return !!t&&t.week>=7; }}, background:'blur',
+    dialogue:[ {speaker:null,text:'明軒戴著耳機，膝蓋上攤著民總的筆記，三種顏色的螢光筆。'},{speaker:null,text:'他看到你，把筆記蓋起來。'},{speaker:'classmate_mingxuan',expression:'embarrassed',text:'……你沒看到。'},{speaker:'classmate_mingxuan',expression:'laugh',text:'（笑）我是說，你什麼都沒看到喔。我是在看漫畫。'},
+      {choice:[{text:'「我什麼都沒看到。」',goto:'nothing'},{text:'「你從哪裡回來？」',goto:'where'},{text:'（坐到他旁邊，也拿出筆記）',goto:'sit'}]},
+      {label:'nothing'},{speaker:'classmate_mingxuan',expression:'smile',text:'很好。'},{speaker:null,text:'他把筆記打開，繼續畫。'},{speaker:null,text:'走到校門口。'},{speaker:'classmate_mingxuan',expression:'smile',text:'明天見。你什麼都沒看到。'},{goto:'end'},
+      {label:'where'},{speaker:'classmate_mingxuan',expression:'neutral',text:'……家教。三個。'},{speaker:null,text:'他看馬路。'},{speaker:'classmate_mingxuan',expression:'neutral',text:'我爸的店最近比較忙不過來，我多接一點。'},{speaker:null,text:'然後轉回來，笑了。'},{speaker:'classmate_mingxuan',expression:'smile',text:'好，這個話題結束。你要不要看漫畫？'},{mem:[{npc:'classmate_mingxuan',tag:'SHARED_SECRET',note:'他多接了家教'}]},{goto:'end'},
+      {label:'sit'},{speaker:null,text:'兩個人一路沒講話。'},{speaker:'classmate_mingxuan',expression:'laugh',text:'你的螢光筆只有一種顏色？很可憐耶。'},{speaker:null,text:'他給你一支綠色的。'},{set:{GREEN_HIGHLIGHTER:true}},
+      {label:'end'} ],
+    consequences:{mem:[{npc:'classmate_mingxuan',tag:'SAW_HIM_STUDY'}],contact:'classmate_mingxuan',memo:'在公館的公車站遇到明軒'} },
   { id:'ev_dorm_late_kai', title:'半夜', participants:['kai'], location:'dorm', trigger:'enter', time:[23,26], day_min:3, cooldown_days:2, random_weight:0.7, background:'blur',
     dialogue:[ {speaker:'kai',expression:'neutral',text:'（頭沒回）欸，你回來了。我這個 bug 追到第三小時。'},{choice:[{text:'「去睡啦。」',consequences:{rel:{kai:{fam:1,comf:1}}}},{text:'「什麼 bug？」',consequences:{rel:{kai:{fam:2,trust:1}}},goto:'bug'},{text:'（戴上耳機）',consequences:{}}]},{goto:'end'},{label:'bug'},{speaker:'kai',expression:'tired',text:'一個值應該是 0 結果是 undefined。……你們法律系有這種東西嗎？'},{speaker:'player',text:'有。叫「法無明文」。'},{speaker:'kai',expression:'laugh',text:'幹，好爛。'},{label:'end'} ] },
   { id:'ev_library_closing', title:'閉館', participants:[], location:'library', trigger:'auto', time:[21.6,22.2], cooldown_days:1, background:'freeze',
