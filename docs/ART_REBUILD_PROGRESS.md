@@ -10,6 +10,21 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-14 06:30 UTC（開發分支最新：這一筆交接的 commit；線上 v9.5＝`a4f2760`，main 沒動；v9.6 候選 13 `ba435d5` 在跑發布回歸，預估 07:45–08:15 UTC 發布；v9.7 候選 1 `5adef66` 平行測試中）**：
+- **使用者 06:05**：「還有多久可以上新版本 把這些有CG劇情都加進去 還差多少東西 適量分配給LAWWW2 加快腳步」——回答：v9.6 先發（沒有新劇情），CG 劇情版＝v9.7（大一上 v1＋4 張 CG），三小時規則最早 v9.6＋3h；
+  BB 通過的 41 張 CG 裡故事已經在遊戲裡的只有 4 張（CG-1、BCG-18、CG-14、CG-15，都接上了），其他要等那些劇情批准、實作。LAWWW2 分到 v9.7 的瀏覽器回歸（它的機器上平行跑）。
+- **v9.6 候選 13 `ba435d5`**＝候選 12＋座位的「坐下」範圍（`engine3d.js` 的 `fitSeatRadius`：最近站得住的位置往外不到 0.3 m 的座位放大範圍；656 個座位放大 29 個，都在 v9.6 新的 5 棟）＋測試用 `E.simWalk` 步數上限看路線長度＋`tests/seat_reach_unit.js`（候選 12 失敗、候選 13 通過）。
+  reachability_all 在候選 12 失敗（9 個座位）→ 候選 13 通過。已過（候選 13）：reachability_all、Node 全部、deploy_check、zone_transitions；候選 12 上過、不受影響：flow_class_real、campus_layout_nav、joystick、p0、minimap、save_compat_v7、touch_flow_wenzhou。
+  剩：flow_classes（跑中）→ flow_linze_floors → flow_soclib → flow_teaching_buildings → flow_main_day12（後兩項 LAWWW2 也跑，先完成的算）。執行器 `brx885ke5` 06:10 起，08:10 前要換（提醒 07:50）。
+  發布腳本 `scratchpad/finish_release.py`（第 6 個參數「候選 13」）、`collect_results.py`（已改成候選 13 為準）。
+- **開發分支**：`5d50939` v1 第 12 批（K1 回應＋第二次邀約、K1b、K3、K2 旁白、A15、A19 以安第一則訊息、A12 分工表、CG-14、CG-15、LICENSES；v1_batch12_unit 37 項）；
+  `22c597c` 合併候選 13（衝突：engine3d 兩邊都留——開發分支的 seat.taken＋候選 13 的 fitSeatRadius；assets3d／story3d／文件照開發分支）＋LAWWW2 的 campus_glb_integration patch（manifest 有才檢查、蒲葵用位置判斷）。NODE ALL PASS。
+- **v9.7 候選 1 `5adef66`**（本機分支 `rel/v97-rc1`，備份 `wip_backup/v97-rc1.bundle`，前置 `22c597c`）＝開發分支 `22c597c`＋拿掉共同教學館、大一女舍 manifest 兩行（合併材質後 ×1.097 只剩 0.003）＋版本字樣 v9.7。
+  瀏覽器回歸分工：LAWWW2——劇情流程（flow_typhoon、cg_rain_shots、flow_first_meet、flow_main_day12、flow_invite_phone、flow_lecture_attend、flow_discuss_class、adv_cg_layout）＋必跑後半段（flow_class_real、flow_classes、flow_linze_floors、flow_teaching_buildings、flow_soclib、campus_layout_nav、joystick、campus_glb_integration）；
+  LAWWW——佇列在 v9.6 必跑之後自動 setff 到 `5adef66`：deploy_check（v9.7 字樣）、Node、reachability、換區域、小地圖、存檔 v7、p0、觸控＋存檔 v9.5、初遇存檔遷移、evtest、選課、法律讀書、坐姿、試玩修正、社團、博雅、總圖。
+- **等別人**：LAWWW2——候選 13 的 flow_main_day12／flow_teaching_buildings 結果、v9.7 劇情流程；收到但排到 v9.7 之後：杜可昕 VRM（0171f66）、合併材質 GLB（8902c5f）、BB 的 CG-10 尾聲圖層（9 張全部通過）。
+- **下一步**：v9.6 必跑全過 → 快轉 main 到 `ba435d5` → 確認 Pages → merge main 回開發分支（已含）→ finish_release.py／collect_results.py → 回報使用者 → v9.7 測完、滿三小時 → 發布 v9.7。
+
 **2026-10-14 05:48 UTC（開發分支最新：這一筆交接的 commit；線上 v9.5＝`a4f2760`，main 沒動；v9.6 候選 12 `a9c2b69` 在跑發布回歸，預估 07:30 UTC 發布）**：
 - **v9.6 發布回歸**：候選 11 `f87f71b`＝campus_layout_nav 清單（LAWWW2 的 patch）；候選 12 `a9c2b69`＝flow_soclib 閱覽長桌那一步按鈕出現就停（候選 10 上 14/15，唯一失敗是測試要求停在 0.08 m 內）。都只改測試，遊戲程式和候選 9 相同。備份 `wip_backup/v96-rc12.bundle`（含候選 4～12）。
   - 05:18 重排：TESTING.md 第五節「發布前必跑」全部在候選 12 上跑——Node 全部 → deploy_check → zone_transitions → minimap_direction → save_compat_v7 → p0_movement → touch_flow_wenzhou → reachability_all → flow_class_real → campus_layout_nav → joystick_direction → flow_classes → flow_main_day12 → flow_linze_floors → flow_teaching_buildings → flow_soclib，其他回歸排後面。
