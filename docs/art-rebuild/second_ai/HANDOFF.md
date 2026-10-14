@@ -5,7 +5,50 @@
 交班紀錄：2026-10-11 10:13 UTC 交班（`1f20126`）→ 2026-10-13 回到帳號 A。
 使用者 2026-10-13：帳號 B 暫時沒有開，從上次停下來的地方接著做。
 
-**2026-10-14 10:45Z（最新）**：
+**2026-10-14 12:20Z（最新；使用者用量約 12:50 UTC 用完，下一個工作階段從這裡接）**：
+- **v9.7 發布測試，我跑的全部 ALL PASS**（log＋截圖在 `test_logs/`）：
+
+  | 測試 | 基準 | 結果 | 秒數 | commit |
+  |---|---|---|---|---|
+  | flow_first_meet | 候選 14 fd46e14＋我的測試 patch（＝候選 16 的測試） | 21 PASS | 901 | d22d317 |
+  | flow_discuss_class | 同上 | 9 PASS | 352 | 57e89fe |
+  | flow_lecture_attend | 同上 | 11 PASS | 869 | f265316 |
+  | see_through | 候選 16 52f288e | 12 PASS | 58 | 5576908 |
+  | flow_library_scene | 候選 16 | 13 PASS | 528 | 60c2e48、1764ab4 |
+  | flow_library_floors | 候選 16 | 27 PASS | 899 | bef3d7c |
+  | flow_boya_interior | 候選 16 | 24 PASS | 1114 | 4985b0a |
+
+  - 測試 patch：`patches/v97_tests_fd46e14.patch`，LAWWW 已做成候選 16。細節見 `test_logs/v97_rc14_fd46e14/README.md`。
+- **正在跑**：flow_boya_interior，在**候選 19 313d620** 上，12:17 開始。
+  - 候選 19＝候選 16＋兩支測試修正＋game3d.js choose 選單 max-height 修正。
+  - 環境：worktree `/home/user/v97rc19_wt`，伺服器 8819；log 在 `scratchpad/v97rc19/`。
+  - 跑完要做：push 到 `test_logs/v97_rc19_313d620/`，回 LAWWW。
+  - 如果這個工作階段在那之前斷了，結果沒有遠端備份，下一個工作階段要重跑。
+- **給 LAWWW 的遊戲問題**（不卡發布，LAWWW 會修引擎）：201 階梯教室點到走不到的地方（下一排桌子邊緣）時，人會原地一直走。證據在 v97_rc14 的 README。
+- **路人底模（LAWWW 09:53Z ①，進行中）**：
+  - VRM：8 個都在 `assets/models/char/second_ai/bl_npc_*.vrm`，2.41–2.74 MB。
+    - nm1、nf1、nf2：f84bee8。
+    - nm2、nm4、nf3、nf4：d972896。
+    - nm3：4af64d9。
+    - 衣服貼圖顏色都核對過。
+  - 接法建議 patch：`patches/npc_ambient_1ca527d.patch`（127d36d）。
+    - assets3d.js 加 8 筆 ambient、沒有 tintBase。
+    - AMB 是新 8 個＋原本 4 個。
+    - **還沒進開發分支**，LAWWW 發布後才看。
+  - 遊戲內對照截圖：腳本 `drafts/npc_crowd_shot.py`，拍共同教學館門口的人流，比較原本和加上 `?npcnew`。
+    - 只在本機 worktree `/home/user/npc_wt` 試接（1ca527d＋本機修改，**不 commit**）。
+    - 第 1 版：同一批 5 個人，原本 2 種模型，加上新的變成 5 種。但鏡頭多是背面，還有樹幹擋住。
+    - 第 2 版：加了整群、側面、正面臉部三種鏡頭。舊模型那一半拍到了（臉部近拍可用），新模型那一半為了跑候選 19 停掉了。
+    - 下一步：跑 `python3 drafts/npc_crowd_shot.py http://127.0.0.1:8817/index.html <輸出> both`（伺服器要開在 npc_wt），挑圖放 VISUAL_REVIEW，給 LAWWW。
+  - 已知缺點：
+    - 女生四個都是空氣瀏海，側邊髮束細。
+    - nm4 不是設定的「很短的黑髮」。
+    - nm3 側臉左眉外有一片脫離的髮片。
+  - 狀態：MODEL_READY 前的 WIP，還沒進遊戲正式驗收。
+- **之後的佇列**（LAWWW 09:53Z）：②便利商店商品 ③溫州街多一兩家店 ④男宿交誼廳家具 ⑤健身房（先不做）。
+- **暫停的人物**：小語 `yu*.py`、明軒 `mingxuan*.py`（腳本 WIP，還沒跑 Blender）。
+
+**2026-10-14 10:45Z**：
 - **正在做（LAWWW 10:31Z P1，11:40 前）**：v9.7 發布前最後三支測試，只改 tests/。
   - 基準：fd46e14（候選 14）＝候選 8 遊戲＋候選 7／8／9 的這三支測試（LAWWW 10:42Z 確認）。
   - 修改：`patches/v97_tests_fd46e14.patch`（`d972896`，WIP）。
