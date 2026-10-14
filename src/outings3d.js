@@ -38,7 +38,8 @@ const OUT=(function(){
     await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title,q.travel||'',2400);
     const arrive=Math.max(t(G.day,G.hour)+(q.travelH||0), t(q.day,q.h)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.updateHUD) GM.updateHUD();
     if(typeof ADV!=='undefined'){ ADV.begin({background:ev.background||'dark'}); }
-    await GM.fade(false); await EVENTS.run(ev); if(typeof ev.afterOuting==='function') await ev.afterOuting(G,GM,q);   /* 演完以後在同一個畫面接著做的事（例：可昕的視訊之後發成績單）*/
+    await GM.fade(false); if(typeof ev.beforeOuting==='function') await ev.beforeOuting(G,GM,q);   /* 演之前在同一個畫面先做的事（例：可昕的視訊讀書先選讀哪一科，BB_95 9-5）*/
+    await EVENTS.run(ev); if(typeof ev.afterOuting==='function') await ev.afterOuting(G,GM,q);   /* 演完以後在同一個畫面接著做的事（例：可昕的視訊之後發成績單）*/
     await GM.fade(true); GM.advance(ev.hours||2); await GM.fade(false); if(GM.caption) GM.caption('',q.back||'回到台大。',2400);
     if(GM.autosave) GM.autosave(); return true; };
   return S;

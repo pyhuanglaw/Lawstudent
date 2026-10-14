@@ -85,5 +85,51 @@ const runX=async(known,gift,toIdx,fromIdx)=>{ const WED=termDay(17,3); fresh(WED
     let r4=null; for(let n=0;n<80;n++){ r4=await runX(['heroine_01','classmate_bohan','heroine_03'],'一張手寫卡片',null,null); if(r4.F.XMAS_FROM!=='classmate_bohan') break; }
     check('A20：柏翰、以安都在、祐廷沒抽到考古題＝旁白「柏翰送的考古題，又被以安沒收了。」',r4.F.XMAS_FROM!=='classmate_bohan'&&r4.L.includes('柏翰送的考古題，又被以安沒收了。'));
     r=await runX(['heroine_01'],'一張手寫卡片',0,0); const F=G.flags; check('A20：只一次（演完再檢查不會開始）；記 XMAS_Y1',F.XMAS_Y1===true&&!EVENTS.check(ev('ev_xmas_exchange'))); }
+  /* ---------- 可昕 K4 第一次視訊一起讀書（BB_95 9-5）---------- */
+  { const D=termDay(16,2); const kx=()=>G.msgs.filter(m=>m.th==='p:kexin').map(m=>({day:m.day,h:m.h,from:m.from,text:m.text,ask:m.ask?m.ask.opts.map(o=>o.t):null}));
+    const ask=()=>G.msgs.find(m=>m.tag==='kx_video_ask');
+    fresh(D-1,19,'dorm',{dating_kexin:true}); run(19,23.9); const early=!!ask(); keepOn(D,19); run(19,19.9); const before=!!ask(); run(19.9,20.1);
+    let m=ask(); check('K4：第 16 週週二 20:00 她問「要不要視訊一起讀書？各讀各的。我每半小時出一題假設題，你可以不理我。」（BB_95 原文；兩個回覆）',!early&&!before&&!!m&&m.day===D&&Math.abs(m.h-20)<0.06&&m.text==='要不要視訊一起讀書？各讀各的。我每半小時出一題假設題，你可以不理我。'&&JSON.stringify(m.ask.opts.map(o=>o.t))===JSON.stringify(['好，九點開。','今天不行。']),JSON.stringify(kx()));
+    G.hour=20.2; PHONE.answer(G,m.ask.id,0); run(20.2,20.3); const q=OUT.get(G,'kx_video');
+    check('K4：「好，九點開。」→ 她「好。我先把書排好。」、當天 21:00 排視訊（接起來）',kx().some(x=>x.text==='好。我先把書排好。')&&!!q&&q.day===D&&q.h===21&&q.verb==='接起來',JSON.stringify(q));
+    const R0=JSON.parse(JSON.stringify(CLS.rec(G).prep)); G.hour=21; said=[]; picks=[0,'（回她）','（不回，繼續讀）','（回她）','（不回，繼續讀）']; const st0=(G.stats&&G.stats.study)||0;
+    await OUT.go(GM,q); const L=lines(); const c=G.flags.kxVideoCourse; const R1=CLS.rec(G).prep;
+    const Q=['假設你的螢光筆會說話，它會說你畫太多了嗎？','假設期末考可以帶一個人進去，但他不能講話。你帶誰？','假設咖啡有法律人格，你喝它算不算……算了，你讀你的。','假設我們現在同時睡著，誰會先發現？'];
+    check('K4：開始前先選讀哪一科；四題照順序（BB_95 原文）',L[0]==='今天讀哪一科？'&&!!c&&Q.every((t,i)=>L.indexOf(t)>=0&&(i===0||L.indexOf(t)>L.indexOf(Q[i-1]))),JSON.stringify(L));
+    check('K4：回她＝「你分心了。很好。」、不回＝「你今天好認真。我有點寂寞。……繼續。」，各自只說第一次',L.filter(t=>t==='你分心了。很好。').length===1&&L.filter(t=>t==='你今天好認真。我有點寂寞。……繼續。').length===1&&L.indexOf('你分心了。很好。')<L.indexOf(Q[1])&&L.indexOf('你今天好認真。我有點寂寞。……繼續。')<L.indexOf(Q[2]));
+    check('K4：讀書時間算進期末準備（兩個小時＝那一科 +2）、時間往後兩小時、記 VIDEO_STUDY',(R1[c]||0)-(R0[c]||0)===2&&((G.stats&&G.stats.study)||0)-st0===2&&Math.abs(G.hour-23)<0.05&&SOCIAL.has('kexin','VIDEO_STUDY'),JSON.stringify({c,before:R0[c]||0,after:R1[c],hour:G.hour}));
+    run(23,23.9); check('K4：去了就沒有書桌的照片',!G.msgs.some(x=>x.tag==='kx_video_photo'));
+    fresh(D,19.9,'dorm',{dating_kexin:true}); run(19.9,20.1); m=ask(); G.hour=20.3; PHONE.answer(G,m.ask.id,1); run(20.3,23.1);
+    const ph=G.msgs.filter(x=>x.tag==='kx_video_photo').map(x=>x.text); check('K4：「今天不行。」→「好。我自己讀，讀完傳照片給你。」、23:00 書桌的照片「我自己讀了。你欠我一次。」、沒有視訊',kx().some(x=>x.text==='好。我自己讀，讀完傳照片給你。')&&JSON.stringify(ph)===JSON.stringify(['📷（她的書桌）','我自己讀了。你欠我一次。'])&&!OUT.get(G,'kx_video'),JSON.stringify(ph));
+    fresh(D,19.9,'dorm',{dating_kexin:true}); run(19.9,23.1); m=ask(); const exp=PHONE.answer(G,m.ask.id,0);
+    check('K4：沒回＝21:45 以後不能再回、23:00 一樣傳照片',exp===null&&G.msgs.filter(x=>x.tag==='kx_video_photo').length===2&&G.flags.KX_VIDEO==='none');
+    fresh(D,19.9,'dorm',{dating_kexin:true}); run(19.9,20.1); m=ask(); G.hour=20.3; PHONE.answer(G,m.ask.id,0); run(20.3,20.4); const q2=OUT.get(G,'kx_video'); G.hour=21; q2.state='missed'; OUT.onMissed(GM,q2); run(21,23.1);
+    check('K4：答應了但沒接（今天先不要）＝23:00 一樣傳照片',G.msgs.filter(x=>x.tag==='kx_video_photo').length===2);
+    fresh(D,19.9,'dorm',{}); run(19.9,23.5); check('K4：沒有在交往（dating_kexin 沒設）＝沒有',!ask()); }
+  /* ---------- 可昕的生日（BB_95 9-6）---------- */
+  { const BD=termDay(14,3); let toasts=[]; GM.toast=(t)=>{ toasts.push(t); };
+    const draft=()=>G.msgs.find(m=>m.tag==='kx_bday_draft');
+    fresh(BD,5.5,'dorm',{dating_kexin:true}); toasts=[]; run(5.5,6.2); let d=draft();
+    check('生日：12/3（週三）早上跳「行事曆：今天是可昕的生日。」、她的對話串有「（祐廷的草稿）」可以傳「生日快樂。」',CALENDAR.dateOf(BD).key.endsWith('12-03')&&toasts.includes('行事曆：今天是可昕的生日。')&&!!d&&d.th==='p:kexin'&&d.from==='player'&&JSON.stringify(d.ask.opts.map(o=>o.t))===JSON.stringify(['生日快樂。']),JSON.stringify({toasts,d:d&&d.text}));
+    const q=OUT.get(G,'kx_bday'); G.hour=17.9; const due0=OUT.due(G); G.hour=18.01; const due1=OUT.due(G);
+    check('生日：18:00 起出遊提示「可昕的生日：開車去政大」（開車約 30 分鐘）',!!q&&!due0&&!!due1&&due1.id==='kx_bday'&&q.title==='可昕的生日：開車去政大'&&q.travel==='開車約 30 分鐘',JSON.stringify(q));
+    G.hour=12; PHONE.answer(G,d.ask.id,0); const rep=G.msgs.filter(m=>m.th==='p:kexin').map(m=>m.text).slice(-2);
+    check('生日：只傳訊息 → 「生日快樂。」＋她「收到。今天的假設題取消，換你出一題給我。」',JSON.stringify(rep)===JSON.stringify(['生日快樂。','收到。今天的假設題取消，換你出一題給我。']),JSON.stringify(rep));
+    keepOn(BD+1,7.5); run(7.5,8.2); check('生日：只傳訊息＝KX_BDAY {1:"message"}，隔天沒有「我等了一天。」',G.flags.KX_BDAY&&G.flags.KX_BDAY[1]==='message'&&!G.msgs.some(m=>m.tag==='kx_bday_none'));
+    fresh(BD,6,'dorm',{dating_kexin:true}); run(6,23.95); keepOn(BD+1,7); run(7,8.2); const none=G.msgs.filter(m=>m.tag==='kx_bday_none').map(m=>[m.day,m.h,m.text]);
+    check('生日：什麼都沒做＝隔天早上她只傳「我等了一天。」（一次）、KX_BDAY {1:"none"}',JSON.stringify(none)===JSON.stringify([[BD+1,8,'我等了一天。']])&&G.flags.KX_BDAY[1]==='none',JSON.stringify(none));
+    keepOn(BD+2,8); run(8,9); check('生日：之後照常（不會再傳）',G.msgs.filter(m=>m.tag==='kx_bday_none').length===1);
+    fresh(BD,6,'dorm',{dating_kexin:true}); run(6,6.2); d=draft(); keepOn(BD+1,0.2); const late=PHONE.answer(G,d.ask.id,0); check('生日：草稿過了當天就不能傳',late===null);
+    const go=async(flags,events,pick)=>{ fresh(BD,18.2,'dorm',Object.assign({dating_kexin:true},flags||{})); for(const e of (events||[])) G.events.done[e]=1; run(18.2,18.3); const q3=OUT.get(G,'kx_bday'); picks=[pick]; said=[]; opts=[]; await OUT.go(GM,q3); return {L:lines(),O:opts[0]||[]}; };
+    let r=await go({},[],'「猜的。」');
+    check('生日：去政大＝旁白「政大的晚上，山上的風比台大冷一點。」→「……你怎麼知道我幾點下課？」；沒見過予樂＝沒有「問予樂的。」',r.L[0]==='政大的晚上，山上的風比台大冷一點。'&&r.L.includes('……你怎麼知道我幾點下課？')&&JSON.stringify(r.O)===JSON.stringify(['「妳的課表在我手機裡。」','「猜的。」']),JSON.stringify(r.O));
+    check('生日：「猜的。」→「假設你猜錯了，你要在這裡等多久？」「等到猜對。」「……這題算你過。」；予樂沒見過＝「予樂看了你一眼，對可昕說：」「好，我先走。」',['假設你猜錯了，你要在這裡等多久？','等到猜對。','……這題算你過。','予樂看了你一眼，對可昕說：','好，我先走。'].every(t=>r.L.includes(t))&&!r.L.includes('好，我先走。司機，載好她。'));
+    check('生日：小吃街「生日願望有三個。第一個：明年也這樣。第二個：不能說。」「第三個……今天你點餐。」；沒有「老闆記得你的點法。」',r.L.includes('生日願望有三個。第一個：明年也這樣。第二個：不能說。')&&r.L.includes('第三個……今天你點餐。')&&!r.L.includes('老闆記得你的點法。'));
+    keepOn(BD+1,7.5); run(7.5,8.2); check('生日：去了＝KX_BDAY {1:"visit"}、沒有「我等了一天。」',G.flags.KX_BDAY[1]==='visit'&&!G.msgs.some(m=>m.tag==='kx_bday_none'));
+    r=await go({K1_ORDER:'let_her'},['ev_kexin_tour_nccu','ev_kexin_yule_pass'],'「問予樂的。」');
+    check('生日：見過予樂＝有「問予樂的。」→ 予樂「我什麼都沒說。」可昕「她說了。她每次說謊都先撥頭髮。」、予樂「好，我先走。司機，載好她。」',r.O.includes('「問予樂的。」')&&r.L.includes('我什麼都沒說。')&&r.L.includes('她說了。她每次說謊都先撥頭髮。')&&r.L.includes('好，我先走。司機，載好她。')&&!r.L.includes('予樂看了你一眼，對可昕說：'),JSON.stringify(r.O));
+    check('生日：K1、K1b 都去過、K1 讓她點＝第三次去，「老闆記得你的點法。」',r.L.includes('老闆記得你的點法。'));
+    r=await go({K1_ORDER:'mine'},['ev_kexin_tour_nccu','ev_kexin_yule_pass'],'「妳的課表在我手機裡。」'); check('生日：K1 自己點的＝沒有「老闆記得你的點法。」；「妳的課表在我手機裡。」→「那張是我開玩笑傳給你的。……你真的存了。」',!r.L.includes('老闆記得你的點法。')&&r.L.includes('那張是我開玩笑傳給你的。……你真的存了。'));
+    fresh(BD,6,'dorm',{}); toasts=[]; run(6,8); check('生日：沒有在交往＝沒有提醒、沒有草稿',!toasts.length&&!draft()); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
