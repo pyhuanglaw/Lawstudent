@@ -43,21 +43,32 @@ const W4MON=termDay(4,1), W5MON=termDay(5,1), W5TUE=termDay(5,2);
   { fresh(5,7.5,'dorm',{}); PHONE.join(G,'family_law','法律系直屬家族'); run(7.5,26); const a=dp().length;
     fresh(W4MON,7.5,'dorm',{}); PHONE.join(G,'family_law','法律系直屬家族'); run(7.5,26); const b=dp();
     check('第 3 週（第 5 天）沒有；第 4 週週一開始有',a===0&&b.length>0,JSON.stringify({a,b:txt(b)}));
-    check('Kevin 的貓影片＋學姊「收到。」（家族群組，21:18）',JSON.stringify(txt(b))===JSON.stringify(['Kevin｜📹（一支貓的影片）','溫學姊｜收到。'])&&b.every(m=>m.th==='g:family_law')&&Math.abs(b[0].h-21.3)<0.06,JSON.stringify(b.map(m=>[m.th,m.h])));
+    check('Kevin 的第一支影片＋學姊「收到。」（家族群組，21:18；BB 2026-10-14 補的四支之一）',JSON.stringify(txt(b))===JSON.stringify(['Kevin｜📹（一隻貓把桌上的筆一支一支推下去）','溫學姊｜收到。'])&&b.every(m=>m.th==='g:family_law')&&Math.abs(b[0].h-21.3)<0.06,JSON.stringify(b.map(m=>[m.th,m.h])));
     run(7.5,26); check('同一天重複跑不會重複送',dp().length===2);
     const F0=Object.assign({},G.flags); fresh(W4MON+1,7.5,'dorm',F0); PHONE.join(G,'family_law','法律系直屬家族'); run(7.5,26);
-    check('Kevin 的影片目前只有一支：第二天沒有別的可以挑就不送（另外三支等 BB）',dp().length===0&&G.flags.dpN.kevin_video===1,JSON.stringify(G.flags.dpN)); }
+    check('第二天輪到阿凱（你在宿舍：那天不傳），Kevin 不會連兩天',dp().length===0&&G.flags.dpN.kevin_video===1&&G.flags.dpLast==='kai_snack',JSON.stringify(G.flags));
+    const F1=Object.assign({},G.flags); fresh(W4MON+7,7.5,'dorm',F1); PHONE.join(G,'family_law','法律系直屬家族'); run(7.5,26);
+    check('一週後（還是待在宿舍）：阿凱那則跳過以後輪下去（不會每天都挑到阿凱、別人永遠輪不到）——輪回 Kevin 的第二支（Kevin 隔 7 天）',JSON.stringify(txt(dp()))===JSON.stringify(['Kevin｜📹（一隻柯基在海邊追浪，又被浪追回來）','溫學姊｜收到。']),JSON.stringify(txt(dp()))); }
+  /* ---------- Kevin 的四支影片（BB 2026-10-14）：照順序、第四支 Kevin 多問一句 ---------- */
+  { const only=(n)=>{ fresh(W4MON+n,7.5,'campus',{dpN:{kevin_video:n}}); PHONE.join(G,'family_law','法律系直屬家族'); const keep=STORY.DAILY_PHONE.slice(); STORY.DAILY_PHONE.splice(0,STORY.DAILY_PHONE.length,...keep.filter(d=>d.id==='kevin_video'));
+      try{ run(7.5,26); } finally { STORY.DAILY_PHONE.splice(0,STORY.DAILY_PHONE.length,...keep); } return txt(dp()); };
+    check('Kevin 第三支：煎荷包蛋（「第三次了」）',JSON.stringify(only(2))===JSON.stringify(['Kevin｜📹（Kevin 自己煎荷包蛋，蛋黃破了。「第三次了」）','溫學姊｜收到。']));
+    const v4=only(3); check('Kevin 第四支：塞車空拍＋「學姊妳到底有沒有看」「有。三分十二秒。」',JSON.stringify(v4)===JSON.stringify(['Kevin｜📹（高速公路塞車的空拍，配樂很激昂）','溫學姊｜收到。','Kevin｜學姊妳到底有沒有看','溫學姊｜有。三分十二秒。']),JSON.stringify(v4));
+    check('Kevin 最多四次：第五次不送',only(4).length===0); }
   /* ---------- 一天最多一則、輪流 ---------- */
   { const flags={ZIQING_MAKING_SOMETHING:true,POTHOS:true}; fresh(W5MON,7.5,'campus',flags);
     PHONE.join(G,'family_law','法律系直屬家族'); PHONE.join(G,'guitar','吉他社'); PHONE.join(G,'lawclub_study','法服讀書會'); G.contacts={heroine_02:3,npc_fangyt:6,classmate_mingxuan:8}; SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY');
     G.flags.pothosWaterWk=STORY.pothosWeek(W5MON);
     const seen=[]; let day=W5MON, F=G.flags, contacts=G.contacts;
-    for(let k=0;k<10;k++){ const before=dp().length; run(7.5,26.5,0.01); const got=dp().slice(before); seen.push({day,ids:[...new Set(got.map(m=>m.tag.split('_').slice(1,-2).join('_')))],n:got.length});
+    for(let k=0;k<16;k++){ const before=dp().length; run(7.5,26.5,0.01); const got=dp().slice(before); seen.push({day,ids:[...new Set(got.map(m=>m.tag.split('_').slice(1,-2).join('_')))],n:got.length});
       const msgs=G.msgs, phone=G.phone, soc=G.social; day++; fresh(day,7.5,'campus',F); G.msgs=msgs; G.phone=phone; G.contacts=contacts; G.social=soc; SOCIAL.bind(G); F=G.flags; F.pothosWaterWk=STORY.pothosWeek(day); }
     check('一天最多一則（每天的 dp_ 訊息都來自同一則）',seen.every(s=>s.ids.length<=1),JSON.stringify(seen));
-    const order=seen.map(s=>s.ids[0]).filter(Boolean);
-    check('照順序輪流、每則一次：Kevin、子晴五則（社課那天）、子晴截圖、芷若、阿凱、方奕廷、明軒、沛珊都出現過一次',new Set(order).size===order.length&&['kevin_video','ziqing_five','ziqing_black','zhiruo_latte','kai_snack','fangyt_leaf','mingxuan_bento','peishan_handout'].every(id=>order.includes(id)),JSON.stringify(order));
     const by=id=>G.msgs.filter(m=>m.tag&&m.tag.startsWith('dp_'+id+'_'));
+    const order=seen.map(s=>s.ids[0]).filter(Boolean);
+    const cnt={}; for(const id of order) cnt[id]=(cnt[id]||0)+1;
+    check('照順序輪流（不會連兩天同一則；Kevin 的影片至少隔 7 天）：Kevin（最多四次）、學姊讀書會前一天、子晴五則（社課那天）、子晴截圖、芷若、阿凱、方奕廷、明軒、沛珊都出現過；其他每則一次',order.every((id,i)=>i===0||id!==order[i-1])&&['kevin_video','sis_study_eve','ziqing_five','ziqing_black','zhiruo_latte','kai_snack','fangyt_leaf','mingxuan_bento','peishan_handout'].every(id=>cnt[id]>=1&&cnt[id]<=(id==='kevin_video'?4:1))&&(()=>{ const kd=by('kevin_video').filter(m=>m.from==='kevin').map(m=>m.day); return kd.every((d,i)=>i===0||d-kd[i-1]>=7); })(),JSON.stringify(seen.map(x=>[x.day,x.ids[0]||'-'])));
+    const se=by('sis_study_eve'); const sd=se.length?se[0].day:null;
+    check('學姊：讀書會的前一天（週二）17:05、發在讀書會群組（BB 2026-10-14 原文）',se.length===1&&se[0].text==='明天讀書會。三件事。一，研討室 A。二，研討室 A。三，上次走錯的那位，也是研討室 A。'&&se[0].th==='g:lawclub_study'&&se[0].from==='heroine_05'&&CALENDAR.dateOf(sd).wd===2&&ACTIVITIES.on(ACTIVITIES.list.find(a=>a.id==='lawclub_study'),sd+1)&&Math.abs(se[0].h-(17+5/60))<0.06,JSON.stringify(se.map(m=>[m.day,m.h,m.text])));
     const z5=by('ziqing_five'); const zd=z5.length?z5[0].day:null;
     check('子晴拆五則（BB_95 原文、吉他社群組、17:30、社課那天＝週一或週三）',JSON.stringify(z5.map(m=>m.text))===JSON.stringify(['今天','社課','C 和弦','不會的不能走','這不是問句'])&&z5.every(m=>m.th==='g:guitar'&&m.from==='heroine_04')&&zd!=null&&[1,3].includes(CALENDAR.dateOf(zd).wd)&&ACTIVITIES.on(ACTIVITIES.list.find(a=>a.id==='club_guitar'),zd)&&Math.abs(z5[0].h-17.5)<0.06,JSON.stringify(z5.map(m=>[m.day,m.h])));
     const zb=by('ziqing_black');
@@ -73,7 +84,7 @@ const W4MON=termDay(4,1), W5MON=termDay(5,1), W5TUE=termDay(5,2);
     check('明軒：「公館新開一家便當店，八十。已加進清單。你什麼都沒看到。」',mx.length===1&&mx[0].text==='公館新開一家便當店，八十。已加進清單。你什麼都沒看到。'&&mx[0].th==='p:classmate_mingxuan');
     const ps=by('peishan_handout');
     check('沛珊：讀書會群組一張講義照片（邊角一個問號、沒有字、不用招牌句）',ps.length===1&&ps[0].th==='g:lawclub_study'&&ps[0].from==='classmate_peishan'&&ps[0].text.startsWith('📷')&&!/奇怪的問題/.test(ps[0].text),JSON.stringify(ps.map(m=>m.text)));
-    const rep=Object.entries(G.flags.dpN||{}).filter(([k,v])=>v>1); check('每則一次（dpN 沒有大於 1 的）',rep.length===0,JSON.stringify(G.flags.dpN)); }
+    const rep=Object.entries(G.flags.dpN||{}).filter(([k,v])=>v>(k==='kevin_video'?4:1)); check('每則一次（Kevin 最多四次）',rep.length===0,JSON.stringify(G.flags.dpN)); }
   /* ---------- 條件 ---------- */
   { const only=(id,flags,setup,h0,h1,zone)=>{ fresh(W5TUE,h0==null?7.5:h0,zone||'campus',Object.assign({},flags)); if(setup) setup(); const keep=STORY.DAILY_PHONE.slice(); STORY.DAILY_PHONE.splice(0,STORY.DAILY_PHONE.length,...keep.filter(d=>d.id===id));
       try{ run(h0==null?7.5:h0,h1==null?26.5:h1); } finally { STORY.DAILY_PHONE.splice(0,STORY.DAILY_PHONE.length,...keep); } return dp(); };
@@ -95,7 +106,7 @@ const W4MON=termDay(4,1), W5MON=termDay(5,1), W5TUE=termDay(5,2);
       check('那天已經有排好時間的劇情訊息就不加',dp().length===0&&G.msgs.some(m=>m.tag==='story_x')); } }
   /* ---------- 舊存檔 ---------- */
   { fresh(W5TUE,7.5,'campus',{}); delete G.phone; G.msgs=[{day:3,h:20,who:'zhe',text:'舊訊息',iv:null}]; PHONE.join(G,'lawclub_study','法服讀書會'); run(7.5,26.5);
-    check('舊存檔（沒有 dp 欄位、舊訊息格式）照常：舊訊息還在、今天的一則送到（從第一則開始輪：條件成立的是阿凱）',G.msgs[0].text==='舊訊息'&&dp().length===4&&dp().every(m=>m.th==='p:kai'),JSON.stringify(txt(dp()))); }
+    check('舊存檔（沒有 dp 欄位、舊訊息格式）照常：舊訊息還在、今天的一則送到（從第一則開始輪：條件成立的是學姊讀書會前一天——今天週二、在讀書會群組）',G.msgs[0].text==='舊訊息'&&dp().length===1&&dp()[0].th==='g:lawclub_study'&&dp()[0].from==='heroine_05',JSON.stringify(txt(dp()))); }
   /* ---------- 大一上以外沒有 ---------- */
   { const d=termDay(18,2)||null; let after=null; for(let x=100;x<400;x++){ const t=CALENDAR.termOf(x); if(t&&t.id!=='Y1S1'){ after=x; break; } }
     fresh(after,7.5,'campus',{}); PHONE.join(G,'lawclub_study','法服讀書會'); run(7.5,26.5); check('大一下（第 '+after+' 天）沒有（4-4 是大一上的）',dp().length===0); }

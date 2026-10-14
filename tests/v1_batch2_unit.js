@@ -97,11 +97,12 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     fresh(4,22,'dorm',{introDone:true,KX_FIRST_MSG:true,dating_kexin:true}); await STORY.sleepNow(GM); check('E 看過的（有 KX_FIRST_MSG）不補',!lines().some(t=>/假設題/.test(t)));
     fresh(1,22,'dorm',{introDone:true,dating_kexin:true}); await STORY.sleepNow(GM); check('E 第二天（劇情的那一天）不補，等第三天的早上',G.day===2&&!lines().some(t=>/假設題/.test(t))); }
   /* ---------- F 芷若的第一則私訊 ---------- */
-  for(const [dating,order] of [[true,'手沖'],[false,'手沖'],[true,'檸檬塔'],[false,'檸檬塔']]){ fresh(20,15,'cafe',{dating_kexin:dating,zhiruoShopContactDay:20,zhiruoFirstOrder:order}); STORY.phoneRules(GM); PHONE.tick(G);
+  for(const [dating,order] of [[true,'手沖'],[false,'手沖'],[true,'檸檬塔'],[false,'檸檬塔'],[false,'拿鐵'],[true,'拿鐵'],[false,'卡布奇諾'],[false,'熱可可'],[false,'美式'],[false,'茶']]){ fresh(20,15,'cafe',{dating_kexin:dating,zhiruoShopContactDay:20,zhiruoFirstOrder:order}); STORY.phoneRules(GM); PHONE.tick(G);
     const at=dating?{day:21,h:15+10/60}:{day:20,h:22+7/60}, before=at.day*24+at.h-0.1; G.day=Math.floor(before/24); G.hour=before-G.day*24; PHONE.tick(G);
     const none=!G.msgs.some(m=>m.tag==='zr_dm1'); G.day=at.day; G.hour=at.h+0.02; PHONE.tick(G); STORY.phoneRules(GM); const T=KX('p:heroine_02').map(m=>m.text);
-    /* 第三句（BB_95 4-2，BB 2026-10-14 回覆）：交往中隔天才傳＝「昨天」；點心用「挑」，飲料用「做」「奶泡」 */
-    const third=order==='檸檬塔'?(dating?'你昨天的檸檬塔，是我挑的。好吃的話，跟老闆說。':'你今天的檸檬塔，我挑了邊邊最脆的那一塊。你沒發現。'):(dating?'你昨天的那杯，是我做的。好喝的話，跟老闆說。':'你今天的手沖，奶泡我多打了三秒。你沒發現。');
+    /* 第三句（BB_95 4-2，BB 2026-10-14 654f5dd）：照第一次點的東西；交往中隔天才傳＝「昨天」，飲料都是同一句 */
+    const DRINK={'手沖':'你今天的手沖，悶蒸我多等了十秒。你沒發現。','拿鐵':'你今天的拿鐵，奶泡我多打了三秒。你沒發現。','卡布奇諾':'你今天的卡布奇諾，奶泡我多打了三秒。你沒發現。','熱可可':'你今天的熱可可，奶泡我多打了三秒。你沒發現。','美式':'你今天的美式，水我少加了一點。你沒發現。','茶':'你今天的茶，我多泡了十秒。你沒發現。'};
+    const third=order==='檸檬塔'?(dating?'你昨天的檸檬塔，是我挑的。好吃的話，跟老闆說。':'你今天的檸檬塔，我挑了邊邊最脆的那一塊。你沒發現。'):(dating?'你昨天的那杯，是我做的。好喝的話，跟老闆說。':DRINK[order]);
     check('F '+(dating?'交往中：加帳號隔天 15:10':'單身：當天 22:07')+'、第一次點'+order+'；時間到才出現；三句（第三句'+(dating?'友情版、「昨天」':'照第一次點的東西')+'）',none&&JSON.stringify(T)===JSON.stringify(['我是 Café 的芷若。','……你應該知道。',third]),JSON.stringify(T));
     check('F 收到以後有她的聯絡方式',INV.hasContact(G,'heroine_02')); }
   /* ---------- G 語彤事件 3 ---------- */

@@ -121,12 +121,12 @@ const STORY_EVENTS=[
       {label:'end'},{speaker:'npc_fangyt',expression:'neutral',text:'死掉的話傳照片給我。'} ],
     consequences:{flags:{POTHOS:true},stamp:['pothosDay'],contact:'npc_fangyt'} },   /* BB_95 4-4：送盆栽時留了聯絡方式（之後「新葉。你的。」用）*/
   /* 阿凱 K1：凌晨三點的螢幕（BB_95 3-2）。睡覺觸發（trigger:'sleep'：story3d.js 的 sleepNow 在睡著之後、天亮之前演，畫面是凌晨三點的房間）：
-     大一上第 3～4 週、平日晚上、隔天早上真的有課（「你明天早八」只在隔天有早上的課時出現：這裡直接當條件——課表最早的課是 9:10，「早八」這兩個字等 BB 確認）、只一次。
+     大一上第 3～4 週、平日晚上、隔天早上真的有課（「你明天第一堂就有課」只在隔天有早上的課時出現：這裡直接當條件；BB 2026-10-14 把「早八」改成「第一堂」，654f5dd）、只一次。
      三個選項都會換鍵盤，不懲罰：說了＝隔天晚上（ev_kai_keyboard_quiet）；蓋棉被、戴耳塞＝一週後他自己發現（ev_kai_dark_circles），再隔天換。現有的「法無明文」（ev_dorm_late_kai）保留 */
   { id:'ev_kai_late_screen', title:'凌晨三點的螢幕', participants:['kai'], location:'dorm', trigger:'sleep', term:['Y1S1'], weeks:[3,4], weekday:[1,2,3,4,5], time:[17.5,27], day_min:3, once:true, background:'blur',
     prereq:{custom:G=>typeof CLS!=='undefined'&&CLS.dayItems(G,G.day+1).some(it=>!it.exam&&it.t0<12)},
-    dialogue:[ {speaker:null,text:'凌晨三點。阿凱的螢幕很亮，鍵盤很吵。你明天早八。'},
-      {choice:[{text:'「阿凱，我明天早八。」',set:{kaiScreenChoice:0},goto:'said'},{text:'（翻身，用棉被蓋住頭）',set:{kaiScreenChoice:1},end:true},{text:'（戴耳塞）',set:{kaiScreenChoice:2},end:true}]},
+    dialogue:[ {speaker:null,text:'凌晨三點。阿凱的螢幕很亮，鍵盤很吵。你明天第一堂就有課。'},
+      {choice:[{text:'「阿凱，我明天第一堂有課。」',set:{kaiScreenChoice:0},goto:'said'},{text:'（翻身，用棉被蓋住頭）',set:{kaiScreenChoice:1},end:true},{text:'（戴耳塞）',set:{kaiScreenChoice:2},end:true}]},
       {label:'said'},{speaker:'kai',expression:'neutral',text:'（頭沒回）……喔。'} ],
     consequences:{stamp:['kaiScreenDay']} },
   /* K1 之後（蓋棉被、戴耳塞）：一週後的晚上，阿凱自己發現。要在房間裡（他的日程 18–32 在宿舍）*/
@@ -134,7 +134,7 @@ const STORY_EVENTS=[
     prereq:{flagIs:{kaiScreenChoice:[1,2]},custom:G=>G.flags.kaiScreenDay!=null&&G.day>=G.flags.kaiScreenDay+7},
     dialogue:[ {speaker:'kai',expression:'neutral',text:'你黑眼圈好重，是我嗎。'} ],
     consequences:{stamp:['kaiDarkDay']} },
-  /* K1 之後換鍵盤：說了「我明天早八」的隔天晚上；或黑眼圈的隔天晚上。書桌下的盒子可以看（story3d.js 的 kaiBoxScene：看了才記 HELPED）*/
+  /* K1 之後換鍵盤：說了「我明天第一堂有課」的隔天晚上；或黑眼圈的隔天晚上。書桌下的盒子可以看（story3d.js 的 kaiBoxScene：看了才記 HELPED）*/
   { id:'ev_kai_keyboard_quiet', title:'安靜的鍵盤', participants:[], location:'dorm', trigger:'enter', time:[18,27], once:true, background:'blur',
     prereq:{custom:G=>{ const F=G.flags; return (F.kaiScreenChoice===0&&F.kaiScreenDay!=null&&G.day>=F.kaiScreenDay+1)||(F.kaiDarkDay!=null&&G.day>=F.kaiDarkDay+1); }},
     dialogue:[ {speaker:null,text:'螢幕調暗了，鍵盤換成很安靜的一把。'} ],
@@ -222,7 +222,7 @@ const STORY_EVENTS=[
     prereq:{flags:['met_yu'],custom:G=>G.flags.metYuDay==null||G.flags.metYuDay<G.day},
     dialogue:[ {speaker:'yu',expression:'smile',text:'欸，你要不要坐？'},{speaker:'yu',expression:'neutral',text:'我一個人吃很怪。……不是怪，是很安靜。我不喜歡安靜。'},
       {speaker:'yu',expression:'smile',text:'對了，你有參加社團嗎？我有三個。你要不要加一個？吉他社缺人，辯論社也缺人，系學會永遠缺人。'},
-      {choice:[{text:'（坐下來一起吃）',consequences:{mem:[{npc:'yu',tag:'BREAKFAST_YU',note:'傅鐘旁邊的早餐'}],advance:0.25},goto:'sit'},{text:'「我趕早八。」',goto:'rush'},{text:'「三個社團不會累嗎？」',goto:'tired'}]},
+      {choice:[{text:'（坐下來一起吃）',consequences:{mem:[{npc:'yu',tag:'BREAKFAST_YU',note:'傅鐘旁邊的早餐'}],advance:0.25},goto:'sit'},{text:'「我上課要遲到了。」',goto:'rush'},{text:'「三個社團不會累嗎？」',goto:'tired'}]},
       {label:'sit'},{speaker:null,text:'她講了十五分鐘，關於三個社團。'},{speaker:'yu',expression:'smile',text:'明天你也會經過嗎？'},{goto:'end'},
       {label:'rush'},{speaker:'yu',expression:'smile',text:'喔，好！'},{speaker:null,text:'她揮手。等你走遠，她把耳機戴上。'},{goto:'end'},
       {label:'tired'},{speaker:'yu',expression:'laugh',text:'累啊。'},{speaker:'yu',expression:'smile',text:'可是累就不會想東想西。'},

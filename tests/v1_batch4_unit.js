@@ -5,7 +5,7 @@
 //     沒澆也不會枯（幾週不澆照樣在、照樣可以澆）。
 //   K1 阿凱凌晨三點的螢幕（3-2）：睡覺觸發——大一上第 3～4 週、平日晚上、隔天早上有課才有（週五晚上隔天沒課、第 5 週、三點以後才睡、第一二天都沒有）；
 //     sleepNow 裡在天亮之前演、演完照常到隔天早上；旁白與「……喔。」照 BB_95 原文；只一次。
-//     說了「我明天早八」→ 隔天晚上（18 點後進宿舍）螢幕調暗、換鍵盤（當天晚上不會）；書桌下的盒子：「靜音軸。這個很貴喔。」阿凱「……我本來就想換。」、
+//     說了「我明天第一堂有課」→ 隔天晚上（18 點後進宿舍）螢幕調暗、換鍵盤（當天晚上不會）；書桌下的盒子：「靜音軸。這個很貴喔。」阿凱「……我本來就想換。」、
 //     記憶 HELPED（為你換鍵盤）、看過就收起來；阿凱不在房間時只有前一句、不記憶。
 //     蓋棉被／戴耳塞 → 一週後的晚上阿凱「你黑眼圈好重，是我嗎。」（第 6 天不會、阿凱不在不會）→ 再隔天晚上換鍵盤（不懲罰，只是晚一點）。
 //     現有的「法無明文」（ev_dorm_late_kai）照舊在。
@@ -65,8 +65,8 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
     check('K1 週五（隔天週六沒課）、週日（不是平日晚上）、第 5 週、三點以後才睡、傍晚 17:00 都沒有',!r.fri3&&!r.sun5&&!r.mon13&&!r.late&&!r.evening,JSON.stringify(Object.fromEntries(Object.entries(r).map(([k,v])=>[k,!!v]))));
     for(const d of [1,2]){ fresh(d,23,'dorm'); check('K1 第 '+d+' 天晚上沒有（開場劇情）',!EVENTS.sleepEvent()); }
     /* sleepNow 裡演 */
-    fresh(6,23.5,'dorm'); withKai(); picks=['我明天早八']; await STORY.sleepNow(GM,7.5);
-    const L=lines(); check('K1 睡覺時演：旁白（BB_95 原文）→ 選項 → 阿凱「（頭沒回）……喔。」',L[0]==='凌晨三點。阿凱的螢幕很亮，鍵盤很吵。你明天早八。'&&L[1]==='（頭沒回）……喔。'&&JSON.stringify(opts[0])===JSON.stringify(['「阿凱，我明天早八。」','（翻身，用棉被蓋住頭）','（戴耳塞）']),JSON.stringify({L,o:opts[0]}));
+    fresh(6,23.5,'dorm'); withKai(); picks=['我明天第一堂有課']; await STORY.sleepNow(GM,7.5);
+    const L=lines(); check('K1 睡覺時演：旁白（BB_95 原文）→ 選項 → 阿凱「（頭沒回）……喔。」',L[0]==='凌晨三點。阿凱的螢幕很亮，鍵盤很吵。你明天第一堂就有課。'&&L[1]==='（頭沒回）……喔。'&&JSON.stringify(opts[0])===JSON.stringify(['「阿凱，我明天第一堂有課。」','（翻身，用棉被蓋住頭）','（戴耳塞）']),JSON.stringify({L,o:opts[0]}));
     check('K1 畫面是凌晨三點（標題 03:00），演完照常醒在隔天早上（第 7 天 07:30）',titles[0]==='03:00'&&G.day===7&&Math.abs(G.hour-7.5)<0.01,JSON.stringify({titles,day:G.day,hour:G.hour}));
     check('K1 記下選了什麼、哪一晚（kaiScreenChoice 0、kaiScreenDay 6）；只一次',G.flags.kaiScreenChoice===0&&G.flags.kaiScreenDay===6&&(G.hour=23,!EVENTS.sleepEvent()));
     /* 說了 → 隔天晚上換鍵盤 */

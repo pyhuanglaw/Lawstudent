@@ -387,8 +387,12 @@ const STORY = (function(){
   S.knows=function(id,G){ G=G||(GM_ref&&GM_ref.G); if(id==='zhe') return true; if(id==='yu'&&G&&G.flags&&G.flags.met_yu) return true; return typeof SOCIAL!=='undefined'&&SOCIAL.has(id,'FIRST_MET'); };
   S.phoneRules=function(GM){ const G=GM.G, F=G.flags; if(typeof PHONE==='undefined') return; const silentContact=id=>{ if(typeof INV==='undefined') return; INV.rec(G); if(G.contacts[id]==null) G.contacts[id]=G.day; };
     /* 芷若的第一則私訊（BB_95 4-2）：Café 第五次加了店裡的帳號（zhiruoShopContactDay）→ 那天 22:07；交往中改在隔天 15:10＋友情版的第三句（AA_112 8-1：交往中的玩家不收晚上只傳給他的訊息）*/
-    /* 第三句（BB_95 4-2，2026-10-14 BB 回覆）：飲料用「做」配「奶泡」、點心用「切」配「挑」；交往中隔天 15:10 才傳，「今天」改「昨天」*/
-    const zrThird=(order,dating)=>order==='檸檬塔'?(dating?'你昨天的檸檬塔，是我挑的。好吃的話，跟老闆說。':'你今天的檸檬塔，我挑了邊邊最脆的那一塊。你沒發現。'):(dating?'你昨天的那杯，是我做的。好喝的話，跟老闆說。':'你今天的'+order+'，奶泡我多打了三秒。你沒發現。');
+    /* 第三句（BB_95 4-2，BB 2026-10-14 654f5dd）：照第一次點的東西——有奶的（拿鐵、卡布奇諾、熱可可）「奶泡我多打了三秒」、手沖「悶蒸我多等了十秒」、
+       美式「水我少加了一點」、茶「我多泡了十秒」、點心「挑」；交往中隔天 15:10 才傳：飲料都是「你昨天的那杯，是我做的。好喝的話，跟老闆說。」*/
+    const ZR_DESSERT={'檸檬塔':['你今天的檸檬塔，我挑了邊邊最脆的那一塊。你沒發現。','你昨天的檸檬塔，是我挑的。好吃的話，跟老闆說。']};
+    const zrThird=(order,dating)=>{ const d=ZR_DESSERT[order]; if(d) return d[dating?1:0]; if(dating) return '你昨天的那杯，是我做的。好喝的話，跟老闆說。';
+      if(order==='手沖') return '你今天的手沖，悶蒸我多等了十秒。你沒發現。'; if(order==='美式') return '你今天的美式，水我少加了一點。你沒發現。'; if(/茶/.test(order)) return '你今天的茶，我多泡了十秒。你沒發現。';
+      return '你今天的'+order+'，奶泡我多打了三秒。你沒發現。'; };
     if(F.zhiruoShopContactDay!=null&&!PHONE.sent(G,'zr_dm1')){ const d=F.zhiruoShopContactDay, dating=!!F.dating_kexin, Z=t=>({th:'p:heroine_02',from:'heroine_02',text:t});
       PHONE.at(G,dating?d+1:d,dating?15+10/60:22+7/60,[Z('我是 Café 的芷若。'),Z('……你應該知道。'),Z(zrThird(F.zhiruoFirstOrder||'拿鐵',dating))],'zr_dm1'); }
     if(G.msgs&&G.msgs.some(m=>m.tag==='zr_dm1')) silentContact('heroine_02');   /* 收到了＝有她的聯絡方式（之後她改用自己的帳號）*/
@@ -396,8 +400,14 @@ const STORY = (function(){
        （沒有語彤的聯絡方式：下次在麵店當面給她看，ev_yutong_fwd）*/
     if(F.yutongAskSisDay!=null&&!PHONE.sent(G,'sis_yutong_q')){ silentContact('heroine_05'); for(const t of ['學姊，想請問一件事。麵店的阿姨被客人說吃壞肚子，要賠三萬。','客人還錄了跟阿姨吵架的聲音，說要告。這種事可以去法服問嗎？']) PHONE.post(G,{th:'p:heroine_05',from:'player',who:null,text:t,tag:'sis_yutong_q'});   /* 祐廷傳給學姊的兩則（AA 2026-10-14：不用括號說明）*/
       const W=t=>({th:'p:heroine_05',from:'heroine_05',text:t}); PHONE.at(G,F.yutongAskSisDay,22.5,[W('三件事。'),W('一，叫阿姨週三晚上來萬才館，法服有值班。'),W('二，發票、那天的進貨單、監視器的時間，全部留著。'),W('三，叫阿姨先睡覺。這種事，準備好就不可怕。')],'sis_yutong'); }
-    /* 芷若 Z2（BB_95 2-4）：經原分組之後加入小組群組，她的第一則 */
-    if(F.geGroupDay!=null&&!PHONE.sent(G,'ge_grp1')){ PHONE.join(G,'ge_econ','經原分組報告'); PHONE.at(G,G.day,G.hour+0.2,[{th:'g:ge_econ',from:'heroine_02',text:'我負責剪片。不要叫我上台。'}],'ge_grp1'); }
+    /* 芷若 Z2（BB_95 2-4）：經原分組之後加入小組群組，她的第一則；祐廷可以回（BB_95 4-2，BB 2026-10-14 654f5dd）：三個回覆都算「回過她一次」，她不在群組回；也可以不回 */
+    if(F.geGroupDay!=null&&!PHONE.sent(G,'ge_grp1')){ PHONE.join(G,'ge_econ','經原分組報告'); PHONE.at(G,G.day,G.hour+0.2,[{th:'g:ge_econ',from:'heroine_02',text:'我負責剪片。不要叫我上台。',
+      ask:{opts:[{t:'好。我上台，妳剪片。',set:{ZR_GRP_REPLY:1}},{t:'收到。報告的稿我先寫。',set:{ZR_GRP_REPLY:2}},{t:'（貼一張「OK」的貼圖）',post:'（貼圖：OK）',set:{ZR_GRP_REPLY:3}}]}}],'ge_grp1'); }
+    /* 芷若的第一則私訊——通識群組的替代觸發（BB_95 4-2）：回過她以後的那晚 22:07（交往中隔天 15:10）；回的時候已經過了 22:07＝隔天 22:07，第三句用「昨天」。
+       和 Café 第五次的版本共用 tag zr_dm1：哪一個先到就傳哪一個，只傳一次 */
+    if(F.ZR_GRP_REPLY&&!PHONE.sent(G,'zr_dm1')){ const r=(G.msgs||[]).find(m=>m.th==='g:ge_econ'&&m.from==='player'), d=r?r.day:G.day, h=r?r.h:G.hour, dating=!!F.dating_kexin, Z=t=>({th:'p:heroine_02',from:'heroine_02',text:t});
+      const late=!dating&&h>=22+7/60-0.02, yday=dating||late;
+      PHONE.at(G,dating||late?d+1:d,dating?15+10/60:22+7/60,[Z('我是通識小組的芷若。'),Z('……也是 Café 的那個。'),Z(yday?'你昨天在群組回得很快。我以為法律系的人都很慢。':'你剛剛在群組回得很快。我以為法律系的人都很慢。')],'zr_dm1'); }
     /* 學姊 W2（BB_95 2-5）：第一次參加讀書會那晚 22:30（她的睡前時間），發在法服讀書會的群組（給所有新來的人，不是私訊）*/
     if(F.studyGroupFirstDay!=null&&!PHONE.sent(G,'lawstudy_grp1')){ PHONE.join(G,'lawclub_study','法服讀書會'); const W=t=>({th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:t}); PHONE.at(G,F.studyGroupFirstDay,22.5,[W('三件事。'),W('一，下週還是刑訴，一年級聽就好。'),W('二，民總第三章自己先讀，那個比較重要。'),W('三，不要遲到。')],'lawstudy_grp1'); }
     /* 子晴 Q2（BB_95 2-6）：第一次去吉他社的晚上被拉進群組 */
@@ -476,14 +486,17 @@ const STORY = (function(){
   /* 每天的手機小事（BB_95 4-4）：摘要日（AA_90 第 10 節「週曆＋精華日」）還沒做，照 BB「沒有摘要日的話放進每天的手機小事」——大一上第 4 週起，一天最多一則；
      那天已經有排好時間的劇情訊息就不加。每天第一次（或讀檔後第一次）決定今天是哪一則：照順序輪流，挑條件成立、時間還沒到的；時間到了再確認一次
      （阿凱：你醒著待在宿舍或便利商店時，不會收到「我已經在便利商店了」——那天就不傳，改天）；睡覺、跳過時間跨過去的照原本的時間補進去。
-     每則一次；Kevin 的影片最多四次、每次更無關（目前只有第一支，另外三支等 BB）。學姊「明天讀書會改在 B1」先不做（讀書會在萬才館研討室 A，萬才館沒有 B1：等 BB）。
-     沛珊不用招牌句（「我可以問一個奇怪的問題嗎」留給大二 P5）。方奕廷那則：F1 他說「死掉的話傳照片給我。」——你傳的是新葉的照片（BB 原文「照片：新葉。『新葉。你的。』」的讀法，等 BB 確認）*/
-  const DAILY_KEVIN=['📹（一支貓的影片）'];
+     每則一次；Kevin 的影片最多四次、照順序、每次更無關，第四次 Kevin 多問一句（BB 2026-10-14）。學姊：讀書會的前一天（週二）17:05 發在讀書會群組（BB 2026-10-14：地點不變，只是提醒）。
+     沛珊不用招牌句（「我可以問一個奇怪的問題嗎」留給大二 P5）。方奕廷那則：F1 他說「死掉的話傳照片給我。」——你傳的是新葉的照片（BB 2026-10-14 確認：他說「死掉的話」才傳，結果傳的是活的）*/
+  const DAILY_KEVIN=['📹（一隻貓把桌上的筆一支一支推下去）','📹（一隻柯基在海邊追浪，又被浪追回來）','📹（Kevin 自己煎荷包蛋，蛋黃破了。「第三次了」）','📹（高速公路塞車的空拍，配樂很激昂）'];
   const actOn=(id,day)=>{ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.list) return false; const a=ACTIVITIES.list.find(x=>x.id===id); return !!a&&ACTIVITIES.on(a,day); };
   const gotBefore=(G,id)=>!!(G.contacts&&G.contacts[id]!=null&&G.contacts[id]<G.day);   /* 前一天以前就有聯絡方式（不和第一則訊息同一天）*/
   const DAILY=[
     {id:'kevin_video',max:()=>DAILY_KEVIN.length,h:()=>21.3,ok:G=>PHONE.inGroup(G,'family_law'),
-      items:(G,n)=>[{th:'g:family_law',from:'kevin',name:'Kevin',text:DAILY_KEVIN[n]},{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'收到。'}]},
+      items:(G,n)=>{ const K=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t}), W=(t,dt)=>({th:'g:family_law',from:'heroine_05',name:'溫學姊',text:t,dt:dt||0});
+        return [K(DAILY_KEVIN[n]),W('收到。')].concat(n===3?[Object.assign(K('學姊妳到底有沒有看'),{dt:2/60}),W('有。三分十二秒。',3/60)]:[]); }},
+    {id:'sis_study_eve',h:()=>17+5/60,ok:(G,day)=>PHONE.inGroup(G,'lawclub_study')&&CALENDAR.dateOf(day).wd===2&&actOn('lawclub_study',day+1),
+      items:()=>[{th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'明天讀書會。三件事。一，研討室 A。二，研討室 A。三，上次走錯的那位，也是研討室 A。'}]},
     {id:'ziqing_five',h:()=>17.5,ok:(G,day)=>PHONE.inGroup(G,'guitar')&&actOn('club_guitar',day),
       items:()=>['今天','社課','C 和弦','不會的不能走','這不是問句'].map(t=>({th:'g:guitar',from:'heroine_04',text:t}))},
     {id:'ziqing_black',h:()=>15.6,ok:G=>PHONE.inGroup(G,'guitar')&&!!G.flags.ZIQING_MAKING_SOMETHING,
@@ -499,15 +512,17 @@ const STORY = (function(){
     {id:'peishan_handout',h:()=>21.6,ok:G=>PHONE.inGroup(G,'lawclub_study'),
       items:()=>[{th:'g:lawclub_study',from:'classmate_peishan',text:'📷（講義的照片，邊角畫了一個問號）'}]} ];
   S.DAILY_PHONE=DAILY;
-  /* ok(G, day)：那一天條件成立嗎（決定時是今天、補送時是原本那天）。存檔：dpDay（決定過的那天）、dpPick（{id, day}：今天那一則）、dpN（每則出現過幾次）、dpLast（上一次是哪一則，輪流用）；舊存檔沒有＝從頭開始 */
+  /* ok(G, day)：那一天條件成立嗎（決定時是今天、補送時是原本那天）。存檔：dpDay（決定過的那天）、dpPick（{id, day}：今天那一則）、dpN（每則出現過幾次）、dpLast（上一次輪到哪一則，輪流用）、dpDayOf（每則上一次是哪一天）；舊存檔沒有＝從頭開始 */
   function dailyPhone(GM){ const G=GM.G, F=G.flags; if(typeof CALENDAR==='undefined') return; const N=()=>F.dpN||(F.dpN={});
     const p=F.dpPick; if(p){ const d=DAILY.find(x=>x.id===p.id); if(!d) F.dpPick=null; else { const h0=d.h(G), t=p.day*24+h0, now=G.day*24+G.hour;
-        if(now>=t){ F.dpPick=null; const late=now-t>0.25; if(d.ok(G,p.day)&&(late||!d.live||d.live(G))){ const n=N()[d.id]|0; N()[d.id]=n+1; F.dpLast=d.id; const h1=late?h0:G.hour;
-            d.items(G,n).forEach((it,k)=>{ const x=Object.assign({},it), dt=x.dt||0; delete x.dt; PHONE.at(G,late?p.day:G.day,h1+dt,[x],'dp_'+d.id+'_'+n+'_'+k); }); } } } }
+        if(now>=t){ F.dpPick=null; const late=now-t>0.25; if(d.ok(G,p.day)&&(late||!d.live||d.live(G))){ const n=N()[d.id]|0; N()[d.id]=n+1; F.dpLast=d.id; (F.dpDayOf||(F.dpDayOf={}))[d.id]=p.day; const h1=late?h0:G.hour;
+            d.items(G,n).forEach((it,k)=>{ const x=Object.assign({},it), dt=x.dt||0; delete x.dt; PHONE.at(G,late?p.day:G.day,h1+dt,[x],'dp_'+d.id+'_'+n+'_'+k); }); }
+          else F.dpLast=d.id; } } }   /* 那天不傳（例：阿凱那則你醒著待在宿舍）：輪到下一則，改天再輪回來——不然每天都挑到它，別人的小事永遠輪不到 */
     if(F.dpDay===G.day) return; F.dpDay=G.day; const t=CALENDAR.termOf(G.day); if(!t||t.id!=='Y1S1'||t.week<4||F.dpPick) return;
     if(PHONE.rec(G).q.some(q=>q.day===G.day&&!(q.tag&&q.tag.startsWith('rt_')))) return;   /* 今天已經有排好的劇情訊息（rt_ 例行訊息不算）*/
     const i0=DAILY.findIndex(d=>d.id===F.dpLast)+1;
-    for(let k=0;k<DAILY.length;k++){ const d=DAILY[(i0+k)%DAILY.length]; if((N()[d.id]|0)>=(d.max?d.max():1)||d.h(G)<=G.hour+0.1||!d.ok(G,G.day)) continue; F.dpPick={id:d.id,day:G.day}; break; } }
+    const last=F.dpDayOf||{};
+    for(let k=0;k<DAILY.length;k++){ const d=DAILY[(i0+k)%DAILY.length]; if((N()[d.id]|0)>=(d.max?d.max():1)||(last[d.id]!=null&&G.day-last[d.id]<7)||d.h(G)<=G.hour+0.1||!d.ok(G,G.day)) continue; F.dpPick={id:d.id,day:G.day}; break; } }   /* 會出現好幾次的（Kevin 的影片）：同一則至少隔 7 天 */
   /* 宿舍房間的物件（交接包 v1 第 1 節「房間物件」，AA_12 0-2、0-3）：點了看一句旁白。可昕的物件分開以後的旁白，之後由 AA 補（大一上不會分開）*/
   const ROOM_ITEMS=[['書架上的舊《民法》','以前翻過。看得到字，看不懂意思。'],['經濟學原理（一年前的課本）','經濟系那一年的課本。邊角都翻軟了。'],['寫滿的筆記本','重考那段時間的筆記。一半是你的字，一半是她的。'],['摩天輪的票根（夾在桌墊下）','摩天輪的票根。兩個人開始交往的那一天。'],['手機相簿的一張照片','河堤邊停著幾台腳踏車。那一群人，那一年。']];
   S.ROOM_ITEMS=ROOM_ITEMS;
