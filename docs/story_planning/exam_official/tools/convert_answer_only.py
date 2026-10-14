@@ -8,6 +8,7 @@
   題目之間可能夾著分節標題（「⸻」「第二部分：…」「新增民法選擇題…」）或使用者貼上的說明文字：只讀「第N題」到「正確答案」之間，其餘不用。
 - 課程對應（BB 依各課每週的黑板定，AA 交叉檢查）：{"1": {"id": "...", "course": "...", "term": "...", "scopeWeek": 3, "basis": "...", "flags": [...]}, ...}
 - `core`＝標題「第N題｜」後面的字（使用者寫的考點），原封不動；這一批沒有解析，`explanation` 留空，**不自己寫**。
+- 對應表的 `basis`（BB 為了對週次標的法條，不是使用者給的）輸出成 `mapBasis`：遊戲不顯示（2026-10-14 AA：大一～大三 AI 不補充題目內容）。
 - 舊版題庫（選填）：同題號、題目內容相同的舊版（例如 `civil_20_2026-10-14.json`）有使用者給過的解析時，沿用那段解析（逐字），並記下出處。
 - 逐題檢查：題幹、四個選項、考點都要原封不動出現在原文裡；答案是 A～D 之一；四個選項不重複；沿用解析時，舊版的四個選項與答案必須和新版完全相同。任何一項不符就停止，不輸出。
 """
@@ -71,7 +72,7 @@ def main():
             continue
         q = dict(id=m['id'], course=m['course'], term=m['term'], scopeWeek=m['scopeWeek'], type='mc',
                  q=it['q'], options=it['options'], answer=it['answer'],
-                 core=it['point'], explanation='', basis=m.get('basis', ''),
+                 core=it['point'], explanation='', mapBasis=m.get('basis', ''),
                  source=f"{srcname} 第 {it['no']} 題", status='USER_CONFIRMED', flags=m.get('flags', []))
         if it['no'] in oldq and m.get('carryExplanation'):
             o = oldq[it['no']]
@@ -88,7 +89,7 @@ def main():
     if errors:
         raise SystemExit('\n'.join(errors))
     digest = hashlib.sha256(md.encode('utf-8')).hexdigest()[:16]
-    json.dump(dict(_comment='使用者提供的正式題目（A 類）。只做格式轉換：題幹、選項、答案、考點一字不改（convert_answer_only.py 逐字核對）；這一批沒有解析。course／term／scopeWeek／basis／flags 是 BB 加的對應資料（AA 交叉檢查），不是題目內容。',
+    json.dump(dict(_comment='使用者提供的正式題目（A 類）。只做格式轉換：題幹、選項、答案、考點一字不改（convert_answer_only.py 逐字核對）；這一批沒有解析。course／term／scopeWeek／mapBasis／flags 是 BB 加的對應資料（AA 交叉檢查），不是題目內容（mapBasis＝AI 標的法條，只用來對週次，遊戲不顯示；askedIn 由 sync_asked.py 從 syllabus 同步）。',
                    source=srcname, sourceSha256_16=digest, count=len(qs), questions=qs),
               open(dst, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print(f'ok：{len(qs)} 題 → {dst}')

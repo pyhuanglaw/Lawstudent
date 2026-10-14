@@ -1,5 +1,5 @@
 {
- "_comment": "使用者提供的正式題目（A 類）。只做格式轉換：題幹、選項、答案、考點一字不改（convert_answer_only.py 逐字核對）；這一批沒有解析。course／term／scopeWeek／basis／flags 是 BB 加的對應資料（AA 交叉檢查），不是題目內容。",
+ "_comment": "使用者提供的正式題目（A 類）。只做格式轉換：題幹、選項、答案、考點一字不改（convert_answer_only.py 逐字核對）；這一批沒有解析。course／term／scopeWeek／mapBasis／flags 是 BB 加的對應資料（mapBasis＝AI 標的法條，只用來對週次，遊戲不顯示；askedIn 由 sync_asked.py 從 syllabus 同步）（AA 交叉檢查），不是題目內容。",
  "source": "證券交易法_40題_2026-10-14.md",
  "sourceSha256_16": "c30c6596e1b241e3",
  "count": 40,
@@ -20,7 +20,7 @@
    "answer": "C",
    "core": "內線交易・規範目的",
    "explanation": "",
-   "basis": "",
+   "mapBasis": "",
    "source": "證券交易法_40題_2026-10-14.md 第 1 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -41,7 +41,7 @@
    "answer": "A",
    "core": "內線交易・行為主體",
    "explanation": "",
-   "basis": "證券交易法 §157-1 I ①",
+   "mapBasis": "證券交易法 §157-1 I ①",
    "source": "證券交易法_40題_2026-10-14.md 第 2 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -62,7 +62,7 @@
    "answer": "D",
    "core": "內線交易・大股東",
    "explanation": "",
-   "basis": "證券交易法 §157-1 I ②",
+   "mapBasis": "證券交易法 §157-1 I ②",
    "source": "證券交易法_40題_2026-10-14.md 第 3 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -83,7 +83,7 @@
    "answer": "B",
    "core": "內線交易・職業關係",
    "explanation": "",
-   "basis": "證券交易法 §157-1 I ③",
+   "mapBasis": "證券交易法 §157-1 I ③",
    "source": "證券交易法_40題_2026-10-14.md 第 4 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -104,7 +104,7 @@
    "answer": "C",
    "core": "內線交易・離職人員",
    "explanation": "",
-   "basis": "證券交易法 §157-1 I ④",
+   "mapBasis": "證券交易法 §157-1 I ④",
    "source": "證券交易法_40題_2026-10-14.md 第 5 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -125,7 +125,7 @@
    "answer": "B",
    "core": "內線交易・消息受領人",
    "explanation": "",
-   "basis": "證券交易法 §157-1 I ⑤",
+   "mapBasis": "證券交易法 §157-1 I ⑤",
    "source": "證券交易法_40題_2026-10-14.md 第 6 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -146,7 +146,7 @@
    "answer": "A",
    "core": "內線交易・交易禁止期間",
    "explanation": "",
-   "basis": "證券交易法 §157-1 I",
+   "mapBasis": "證券交易法 §157-1 I",
    "source": "證券交易法_40題_2026-10-14.md 第 7 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -167,7 +167,7 @@
    "answer": "D",
    "core": "內線交易・獲利要件",
    "explanation": "",
-   "basis": "",
+   "mapBasis": "",
    "source": "證券交易法_40題_2026-10-14.md 第 8 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -188,7 +188,7 @@
    "answer": "C",
    "core": "內線交易・交易方式",
    "explanation": "",
-   "basis": "證券交易法 §157-1 I",
+   "mapBasis": "證券交易法 §157-1 I",
    "source": "證券交易法_40題_2026-10-14.md 第 9 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -209,7 +209,7 @@
    "answer": "B",
    "core": "重大消息・企業併購",
    "explanation": "",
-   "basis": "證券交易法 §157-1 V",
+   "mapBasis": "證券交易法 §157-1 V",
    "source": "證券交易法_40題_2026-10-14.md 第 10 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -230,7 +230,7 @@
    "answer": "D",
    "core": "重大消息・成立時點",
    "explanation": "",
-   "basis": "證券交易法第一百五十七條之一第五項及第六項重大消息範圍及其公開方式管理辦法 §5",
+   "mapBasis": "證券交易法第一百五十七條之一第五項及第六項重大消息範圍及其公開方式管理辦法 §5",
    "source": "證券交易法_40題_2026-10-14.md 第 11 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -251,7 +251,7 @@
    "answer": "A",
    "core": "重大消息・實際知悉",
    "explanation": "",
-   "basis": "證券交易法 §157-1 I",
+   "mapBasis": "證券交易法 §157-1 I",
    "source": "證券交易法_40題_2026-10-14.md 第 12 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -272,7 +272,7 @@
    "answer": "C",
    "core": "消息受領・偶然聽聞",
    "explanation": "",
-   "basis": "",
+   "mapBasis": "",
    "source": "證券交易法_40題_2026-10-14.md 第 13 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -293,7 +293,7 @@
    "answer": "B",
    "core": "消息傳遞責任・關係論",
    "explanation": "",
-   "basis": "",
+   "mapBasis": "",
    "source": "證券交易法_40題_2026-10-14.md 第 14 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -314,7 +314,7 @@
    "answer": "A",
    "core": "消息傳遞責任・市場論",
    "explanation": "",
-   "basis": "",
+   "mapBasis": "",
    "source": "證券交易法_40題_2026-10-14.md 第 15 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -335,7 +335,7 @@
    "answer": "D",
    "core": "消息傳遞責任・Dirks案",
    "explanation": "",
-   "basis": "",
+   "mapBasis": "",
    "source": "證券交易法_40題_2026-10-14.md 第 16 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -356,7 +356,7 @@
    "answer": "C",
    "core": "消息傳遞責任・個人利益",
    "explanation": "",
-   "basis": "",
+   "mapBasis": "",
    "source": "證券交易法_40題_2026-10-14.md 第 17 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -377,7 +377,7 @@
    "answer": "B",
    "core": "間接消息受領人",
    "explanation": "",
-   "basis": "證券交易法 §157-1 I ⑤",
+   "mapBasis": "證券交易法 §157-1 I ⑤",
    "source": "證券交易法_40題_2026-10-14.md 第 18 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -398,7 +398,7 @@
    "answer": "A",
    "core": "內線交易・民事責任",
    "explanation": "",
-   "basis": "證券交易法 §157-1 III",
+   "mapBasis": "證券交易法 §157-1 III",
    "source": "證券交易法_40題_2026-10-14.md 第 19 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -419,7 +419,7 @@
    "answer": "D",
    "core": "內線交易・連帶賠償責任",
    "explanation": "",
-   "basis": "證券交易法 §157-1 IV",
+   "mapBasis": "證券交易法 §157-1 IV",
    "source": "證券交易法_40題_2026-10-14.md 第 20 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -445,7 +445,7 @@
    "answer": "D",
    "core": "有價證券的範圍",
    "explanation": "",
-   "basis": "證券交易法 §6",
+   "mapBasis": "證券交易法 §6",
    "source": "證券交易法_40題_2026-10-14.md 第 21 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -466,7 +466,7 @@
    "answer": "A",
    "core": "募集與私募",
    "explanation": "",
-   "basis": "證券交易法 §7",
+   "mapBasis": "證券交易法 §7",
    "source": "證券交易法_40題_2026-10-14.md 第 22 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -487,7 +487,7 @@
    "answer": "C",
    "core": "有價證券的發行",
    "explanation": "",
-   "basis": "證券交易法 §8",
+   "mapBasis": "證券交易法 §8",
    "source": "證券交易法_40題_2026-10-14.md 第 23 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -513,7 +513,7 @@
    "answer": "B",
    "core": "公開說明書",
    "explanation": "",
-   "basis": "證券交易法 §13",
+   "mapBasis": "證券交易法 §13",
    "source": "證券交易法_40題_2026-10-14.md 第 24 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -534,7 +534,7 @@
    "answer": "D",
    "core": "證券詐欺",
    "explanation": "",
-   "basis": "證券交易法 §20 I",
+   "mapBasis": "證券交易法 §20 I",
    "source": "證券交易法_40題_2026-10-14.md 第 25 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -560,7 +560,7 @@
    "answer": "A",
    "core": "財報不實・民事責任",
    "explanation": "",
-   "basis": "證券交易法 §20-1 I",
+   "mapBasis": "證券交易法 §20-1 I",
    "source": "證券交易法_40題_2026-10-14.md 第 26 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -581,7 +581,7 @@
    "answer": "C",
    "core": "財報不實・會計師責任",
    "explanation": "",
-   "basis": "證券交易法 §20-1 III",
+   "mapBasis": "證券交易法 §20-1 III",
    "source": "證券交易法_40題_2026-10-14.md 第 27 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -602,7 +602,7 @@
    "answer": "B",
    "core": "證券損害賠償・消滅時效",
    "explanation": "",
-   "basis": "證券交易法 §21",
+   "mapBasis": "證券交易法 §21",
    "source": "證券交易法_40題_2026-10-14.md 第 28 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -623,7 +623,7 @@
    "answer": "A",
    "core": "公開發行・申報生效",
    "explanation": "",
-   "basis": "證券交易法 §22 I",
+   "mapBasis": "證券交易法 §22 I",
    "source": "證券交易法_40題_2026-10-14.md 第 29 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -644,7 +644,7 @@
    "answer": "D",
    "core": "庫藏股・買回數量",
    "explanation": "",
-   "basis": "證券交易法 §28-2 II",
+   "mapBasis": "證券交易法 §28-2 II",
    "source": "證券交易法_40題_2026-10-14.md 第 30 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -667,7 +667,7 @@
    "answer": "B",
    "core": "庫藏股・法定目的",
    "explanation": "",
-   "basis": "證券交易法 §28-2 I ①",
+   "mapBasis": "證券交易法 §28-2 I ①",
    "source": "證券交易法_40題_2026-10-14.md 第 31 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -695,7 +695,7 @@
    "answer": "C",
    "core": "獨立董事・制度目的",
    "explanation": "",
-   "basis": "",
+   "mapBasis": "",
    "source": "證券交易法_40題_2026-10-14.md 第 32 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -716,7 +716,7 @@
    "answer": "A",
    "core": "審計委員會・組成",
    "explanation": "",
-   "basis": "證券交易法 §14-4 II",
+   "mapBasis": "證券交易法 §14-4 II",
    "source": "證券交易法_40題_2026-10-14.md 第 33 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -737,7 +737,7 @@
    "answer": "B",
    "core": "大量取得股份・申報",
    "explanation": "",
-   "basis": "證券交易法 §43-1 I",
+   "mapBasis": "證券交易法 §43-1 I",
    "source": "證券交易法_40題_2026-10-14.md 第 34 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -763,7 +763,7 @@
    "answer": "D",
    "core": "公開收購",
    "explanation": "",
-   "basis": "證券交易法 §43-1 II",
+   "mapBasis": "證券交易法 §43-1 II",
    "source": "證券交易法_40題_2026-10-14.md 第 35 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -784,7 +784,7 @@
    "answer": "C",
    "core": "私募・股東會決議",
    "explanation": "",
-   "basis": "證券交易法 §43-6 I",
+   "mapBasis": "證券交易法 §43-6 I",
    "source": "證券交易法_40題_2026-10-14.md 第 36 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -805,7 +805,7 @@
    "answer": "A",
    "core": "短線交易・歸入權",
    "explanation": "",
-   "basis": "證券交易法 §157 I",
+   "mapBasis": "證券交易法 §157 I",
    "source": "證券交易法_40題_2026-10-14.md 第 37 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -828,7 +828,7 @@
    "answer": "D",
    "core": "短線交易・股東代位行使",
    "explanation": "",
-   "basis": "證券交易法 §157 II",
+   "mapBasis": "證券交易法 §157 II",
    "source": "證券交易法_40題_2026-10-14.md 第 38 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -856,7 +856,7 @@
    "answer": "B",
    "core": "操縱市場・相對成交",
    "explanation": "",
-   "basis": "證券交易法 §155 I ⑤",
+   "mapBasis": "證券交易法 §155 I ⑤",
    "source": "證券交易法_40題_2026-10-14.md 第 39 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -877,7 +877,7 @@
    "answer": "C",
    "core": "操縱市場・散布不實資訊",
    "explanation": "",
-   "basis": "證券交易法 §155 I ⑥",
+   "mapBasis": "證券交易法 §155 I ⑥",
    "source": "證券交易法_40題_2026-10-14.md 第 40 題",
    "status": "USER_CONFIRMED",
    "flags": []

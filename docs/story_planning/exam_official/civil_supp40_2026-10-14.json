@@ -1,5 +1,5 @@
 {
- "_comment": "使用者提供的正式題目（A 類）。只做格式轉換：題幹、選項、答案、考點一字不改（convert_answer_only.py 逐字核對）；這一批沒有解析。course／term／scopeWeek／basis／flags 是 BB 加的對應資料（AA 交叉檢查），不是題目內容。",
+ "_comment": "使用者提供的正式題目（A 類）。只做格式轉換：題幹、選項、答案、考點一字不改（convert_answer_only.py 逐字核對）；這一批沒有解析。course／term／scopeWeek／mapBasis／flags 是 BB 加的對應資料（mapBasis＝AI 標的法條，只用來對週次，遊戲不顯示；askedIn 由 sync_asked.py 從 syllabus 同步）（AA 交叉檢查），不是題目內容。",
  "source": "民法_六門課程補充40題_2026-10-14.md",
  "sourceSha256_16": "8fb993f4981753bf",
  "count": 40,
@@ -25,7 +25,7 @@
    "answer": "B",
    "core": "行為能力",
    "explanation": "",
-   "basis": "民法 §12、§13",
+   "mapBasis": "民法 §12、§13",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 1 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -46,7 +46,7 @@
    "answer": "C",
    "core": "限制行為能力人",
    "explanation": "",
-   "basis": "民法 §79",
+   "mapBasis": "民法 §79",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 2 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -72,7 +72,7 @@
    "answer": "A",
    "core": "意思表示到達",
    "explanation": "",
-   "basis": "民法 §95 I",
+   "mapBasis": "民法 §95 I",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 3 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -93,7 +93,7 @@
    "answer": "D",
    "core": "代理權授與",
    "explanation": "",
-   "basis": "民法 §167",
+   "mapBasis": "民法 §167",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 4 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -114,7 +114,7 @@
    "answer": "B",
    "core": "條件成就的妨害",
    "explanation": "",
-   "basis": "民法 §101 I",
+   "mapBasis": "民法 §101 I",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 5 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -137,7 +137,7 @@
    "answer": "C",
    "core": "消滅時效的中斷",
    "explanation": "",
-   "basis": "民法 §129",
+   "mapBasis": "民法 §129",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 6 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -163,7 +163,7 @@
    "answer": "A",
    "core": "法律行為的無效",
    "explanation": "",
-   "basis": "民法 §71",
+   "mapBasis": "民法 §71",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 7 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -189,7 +189,7 @@
    "answer": "D",
    "core": "契約成立",
    "explanation": "",
-   "basis": "民法 §153 I",
+   "mapBasis": "民法 §153 I",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 8 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -215,7 +215,7 @@
    "answer": "B",
    "core": "懸賞廣告",
    "explanation": "",
-   "basis": "民法 §164 I",
+   "mapBasis": "民法 §164 I",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 9 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -241,7 +241,7 @@
    "answer": "C",
    "core": "侵權行為",
    "explanation": "",
-   "basis": "民法 §184 I",
+   "mapBasis": "民法 §184 I",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 10 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -262,7 +262,7 @@
    "answer": "A",
    "core": "僱用人責任",
    "explanation": "",
-   "basis": "民法 §188 I",
+   "mapBasis": "民法 §188 I",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 11 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -288,7 +288,7 @@
    "answer": "D",
    "core": "無因管理",
    "explanation": "",
-   "basis": "民法 §172",
+   "mapBasis": "民法 §172",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 12 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -309,7 +309,7 @@
    "answer": "B",
    "core": "不當得利",
    "explanation": "",
-   "basis": "民法 §179",
+   "mapBasis": "民法 §179",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 13 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -330,7 +330,7 @@
    "answer": "C",
    "core": "定金",
    "explanation": "",
-   "basis": "民法 §249 ②",
+   "mapBasis": "民法 §249 ②",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 14 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -358,7 +358,7 @@
    "answer": "A",
    "core": "給付遲延",
    "explanation": "",
-   "basis": "民法 §229 I",
+   "mapBasis": "民法 §229 I",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 15 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -379,7 +379,7 @@
    "answer": "D",
    "core": "遲延中的不可抗力",
    "explanation": "",
-   "basis": "民法 §231 II",
+   "mapBasis": "民法 §231 II",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 16 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -400,7 +400,7 @@
    "answer": "B",
    "core": "不完全給付",
    "explanation": "",
-   "basis": "民法 §227 I",
+   "mapBasis": "民法 §227 I",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 17 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -421,7 +421,7 @@
    "answer": "C",
    "core": "同時履行抗辯權",
    "explanation": "",
-   "basis": "民法 §264 I",
+   "mapBasis": "民法 §264 I",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 18 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -447,7 +447,7 @@
    "answer": "A",
    "core": "債權讓與",
    "explanation": "",
-   "basis": "民法 §297 I",
+   "mapBasis": "民法 §297 I",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 19 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -468,7 +468,7 @@
    "answer": "D",
    "core": "債務承擔",
    "explanation": "",
-   "basis": "民法 §300",
+   "mapBasis": "民法 §300",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 20 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -494,7 +494,7 @@
    "answer": "B",
    "core": "抵銷",
    "explanation": "",
-   "basis": "民法 §334 I",
+   "mapBasis": "民法 §334 I",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 21 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -515,7 +515,7 @@
    "answer": "C",
    "core": "債務免除",
    "explanation": "",
-   "basis": "民法 §343",
+   "mapBasis": "民法 §343",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 22 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -536,7 +536,7 @@
    "answer": "A",
    "core": "買賣契約",
    "explanation": "",
-   "basis": "民法 §345 I",
+   "mapBasis": "民法 §345 I",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 23 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -557,7 +557,7 @@
    "answer": "D",
    "core": "物之瑕疵擔保",
    "explanation": "",
-   "basis": "民法 §359",
+   "mapBasis": "民法 §359",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 24 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -578,7 +578,7 @@
    "answer": "B",
    "core": "租賃契約",
    "explanation": "",
-   "basis": "民法 §421 I",
+   "mapBasis": "民法 §421 I",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 25 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -604,7 +604,7 @@
    "answer": "C",
    "core": "承攬契約",
    "explanation": "",
-   "basis": "民法 §490 I",
+   "mapBasis": "民法 §490 I",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 26 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -630,7 +630,7 @@
    "answer": "A",
    "core": "委任契約",
    "explanation": "",
-   "basis": "民法 §528",
+   "mapBasis": "民法 §528",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 27 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -656,7 +656,7 @@
    "answer": "D",
    "core": "贈與撤銷",
    "explanation": "",
-   "basis": "民法 §408 I",
+   "mapBasis": "民法 §408 I",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 28 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -677,7 +677,7 @@
    "answer": "B",
    "core": "寄託契約",
    "explanation": "",
-   "basis": "民法 §589 I",
+   "mapBasis": "民法 §589 I",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 29 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -705,7 +705,7 @@
    "answer": "C",
    "core": "物權法定原則",
    "explanation": "",
-   "basis": "民法 §757",
+   "mapBasis": "民法 §757",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 30 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -726,7 +726,7 @@
    "answer": "A",
    "core": "動產所有權移轉",
    "explanation": "",
-   "basis": "民法 §761 I",
+   "mapBasis": "民法 §761 I",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 31 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -747,7 +747,7 @@
    "answer": "D",
    "core": "共有物分割",
    "explanation": "",
-   "basis": "民法 §823 I",
+   "mapBasis": "民法 §823 I",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 32 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -768,7 +768,7 @@
    "answer": "B",
    "core": "普通地上權",
    "explanation": "",
-   "basis": "民法 §832",
+   "mapBasis": "民法 §832",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 33 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -791,7 +791,7 @@
    "answer": "C",
    "core": "普通抵押權",
    "explanation": "",
-   "basis": "民法 §860",
+   "mapBasis": "民法 §860",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 34 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -819,7 +819,7 @@
    "answer": "A",
    "core": "質權",
    "explanation": "",
-   "basis": "民法 §884",
+   "mapBasis": "民法 §884",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 35 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -845,7 +845,7 @@
    "answer": "D",
    "core": "親等計算",
    "explanation": "",
-   "basis": "民法 §968",
+   "mapBasis": "民法 §968",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 36 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -866,7 +866,7 @@
    "answer": "B",
    "core": "婚姻成立",
    "explanation": "",
-   "basis": "民法 §982",
+   "mapBasis": "民法 §982",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 37 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -889,7 +889,7 @@
    "answer": "C",
    "core": "兩願離婚",
    "explanation": "",
-   "basis": "民法 §1050",
+   "mapBasis": "民法 §1050",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 38 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -910,7 +910,7 @@
    "answer": "A",
    "core": "繼承開始",
    "explanation": "",
-   "basis": "民法 §1147",
+   "mapBasis": "民法 §1147",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 39 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -931,7 +931,7 @@
    "answer": "D",
    "core": "拋棄繼承",
    "explanation": "",
-   "basis": "民法 §1174 II",
+   "mapBasis": "民法 §1174 II",
    "source": "民法_六門課程補充40題_2026-10-14.md 第 40 題",
    "status": "USER_CONFIRMED",
    "flags": []

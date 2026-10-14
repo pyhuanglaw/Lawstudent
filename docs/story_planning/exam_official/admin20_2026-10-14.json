@@ -1,5 +1,5 @@
 {
- "_comment": "使用者提供的正式題目（A 類）。只做格式轉換：題幹、選項、答案、考點一字不改（convert_answer_only.py 逐字核對）；這一批沒有解析。course／term／scopeWeek／basis／flags 是 BB 加的對應資料（AA 交叉檢查），不是題目內容。",
+ "_comment": "使用者提供的正式題目（A 類）。只做格式轉換：題幹、選項、答案、考點一字不改（convert_answer_only.py 逐字核對）；這一批沒有解析。course／term／scopeWeek／mapBasis／flags 是 BB 加的對應資料（mapBasis＝AI 標的法條，只用來對週次，遊戲不顯示；askedIn 由 sync_asked.py 從 syllabus 同步）（AA 交叉檢查），不是題目內容。",
  "source": "行政法_20題_2026-10-14.md",
  "sourceSha256_16": "3fdaf4965fe51b54",
  "count": 20,
@@ -25,7 +25,7 @@
    "answer": "B",
    "core": "行政法總論・法律保留",
    "explanation": "",
-   "basis": "",
+   "mapBasis": "",
    "source": "行政法_20題_2026-10-14.md 第 1 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -46,7 +46,7 @@
    "answer": "D",
    "core": "比例原則",
    "explanation": "",
-   "basis": "行政程序法 §7",
+   "mapBasis": "行政程序法 §7",
    "source": "行政法_20題_2026-10-14.md 第 2 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -74,7 +74,7 @@
    "answer": "B",
    "core": "行政處分的認定",
    "explanation": "",
-   "basis": "行政程序法 §92",
+   "mapBasis": "行政程序法 §92",
    "source": "行政法_20題_2026-10-14.md 第 3 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -95,7 +95,7 @@
    "answer": "C",
    "core": "行政處分的無效",
    "explanation": "",
-   "basis": "行政程序法 §111 ⑦",
+   "mapBasis": "行政程序法 §111 ⑦",
    "source": "行政法_20題_2026-10-14.md 第 4 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -116,7 +116,7 @@
    "answer": "B",
    "core": "行政處分的撤銷",
    "explanation": "",
-   "basis": "行政程序法 §117",
+   "mapBasis": "行政程序法 §117",
    "source": "行政法_20題_2026-10-14.md 第 5 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -142,7 +142,7 @@
    "answer": "C",
    "core": "信賴保護",
    "explanation": "",
-   "basis": "行政程序法 §119 ①",
+   "mapBasis": "行政程序法 §119 ①",
    "source": "行政法_20題_2026-10-14.md 第 6 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -163,7 +163,7 @@
    "answer": "A",
    "core": "行政程序・陳述意見",
    "explanation": "",
-   "basis": "行政程序法 §102",
+   "mapBasis": "行政程序法 §102",
    "source": "行政法_20題_2026-10-14.md 第 7 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -184,7 +184,7 @@
    "answer": "B",
    "core": "行政程序瑕疵的補正",
    "explanation": "",
-   "basis": "行政程序法 §114 I ③",
+   "mapBasis": "行政程序法 §114 I ③",
    "source": "行政法_20題_2026-10-14.md 第 8 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -210,7 +210,7 @@
    "answer": "A",
    "core": "行政契約",
    "explanation": "",
-   "basis": "行政程序法 §135",
+   "mapBasis": "行政程序法 §135",
    "source": "行政法_20題_2026-10-14.md 第 9 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -231,7 +231,7 @@
    "answer": "C",
    "core": "行政罰・責任條件",
    "explanation": "",
-   "basis": "行政罰法 §7 I",
+   "mapBasis": "行政罰法 §7 I",
    "source": "行政法_20題_2026-10-14.md 第 10 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -257,7 +257,7 @@
    "answer": "B",
    "core": "行政罰・一行為不二罰",
    "explanation": "",
-   "basis": "行政罰法 §24 I",
+   "mapBasis": "行政罰法 §24 I",
    "source": "行政法_20題_2026-10-14.md 第 11 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -278,7 +278,7 @@
    "answer": "C",
    "core": "按日連續處罰",
    "explanation": "",
-   "basis": "",
+   "mapBasis": "",
    "source": "行政法_20題_2026-10-14.md 第 12 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -299,7 +299,7 @@
    "answer": "A",
    "core": "行政執行・怠金",
    "explanation": "",
-   "basis": "行政執行法 §28 I、§30",
+   "mapBasis": "行政執行法 §28 I、§30",
    "source": "行政法_20題_2026-10-14.md 第 13 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -325,7 +325,7 @@
    "answer": "B",
    "core": "行政執行・代履行",
    "explanation": "",
-   "basis": "行政執行法 §28 I、§29",
+   "mapBasis": "行政執行法 §28 I、§29",
    "source": "行政法_20題_2026-10-14.md 第 14 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -351,7 +351,7 @@
    "answer": "B",
    "core": "訴願・不利益變更禁止",
    "explanation": "",
-   "basis": "訴願法 §81 I 但書",
+   "mapBasis": "訴願法 §81 I 但書",
    "source": "行政法_20題_2026-10-14.md 第 15 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -377,7 +377,7 @@
    "answer": "A",
    "core": "行政訴訟・撤銷訴訟",
    "explanation": "",
-   "basis": "行政訴訟法 §4 I",
+   "mapBasis": "行政訴訟法 §4 I",
    "source": "行政法_20題_2026-10-14.md 第 16 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -403,7 +403,7 @@
    "answer": "B",
    "core": "行政訴訟・課予義務訴訟",
    "explanation": "",
-   "basis": "行政訴訟法 §5 II",
+   "mapBasis": "行政訴訟法 §5 II",
    "source": "行政法_20題_2026-10-14.md 第 17 題",
    "status": "USER_CONFIRMED",
    "flags": []
@@ -424,7 +424,7 @@
    "answer": "C",
    "core": "國家賠償・純粹經濟上損失",
    "explanation": "",
-   "basis": "國家賠償法 §2 II",
+   "mapBasis": "國家賠償法 §2 II",
    "source": "行政法_20題_2026-10-14.md 第 18 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -447,7 +447,7 @@
    "answer": "B",
    "core": "國家賠償・公共設施",
    "explanation": "",
-   "basis": "國家賠償法 §3 I",
+   "mapBasis": "國家賠償法 §3 I",
    "source": "行政法_20題_2026-10-14.md 第 19 題",
    "status": "USER_CONFIRMED",
    "flags": [
@@ -470,7 +470,7 @@
    "answer": "C",
    "core": "公用地役關係",
    "explanation": "",
-   "basis": "",
+   "mapBasis": "",
    "source": "行政法_20題_2026-10-14.md 第 20 題",
    "status": "USER_CONFIRMED",
    "flags": [
