@@ -565,6 +565,23 @@ const STORY_EVENTS=[
     outingMissed:(G,GM,q)=>{ if(typeof PHONE==='undefined'||!PHONE.inGroup(G,'noodle_team')||typeof STORY==='undefined'||!STORY.knows('classmate_peishan',G)) return;
       PHONE.at(G,q.day,Math.max(20.5,G.day===q.day?G.hour:0),[{th:'g:noodle_team',from:'zhe',text:'……喔。'},{th:'g:noodle_team',from:'zhe',text:'📷（一顆切成兩半的滷蛋）'}],'zhe_supper_mid2_egg');
       if(typeof SOCIAL!=='undefined') SOCIAL.remember('classmate_peishan','HEARD_ABOUT','和柏翰在一起了（聽說）'); } },
+  /* 經濟系的朋友（BB_96 第 10 節，BB 2026-10-14）——10-1 P4d「你怎麼又在這裡？」（大一下版）：重修經原（下）下課，普通教學館的走廊；第 2 週週五（3/6）。
+     那天沒去上課的，延到下一個有去的週五（第 3～5、7 週；第 6 週週五是春假、第 8 週是期中考）；一直沒去就不發生。
+     阿勳（盧正勳，經濟系大二）、品妤（v1 K2 見過＝只點頭「你來了。」；沒見過＝先介紹自己）。兩個人還沒有 3D 人物，只有台詞（同 K2 的品妤）。
+     通則（BB_105 2-1）：經濟系的朋友在法律系時期第一次出現，先加一句重新介紹；經濟系大一還沒實作，所有玩家都有阿勳那句。
+     記 P4D_ANSWER（retake／good／long）、MET_XUN（法律系時期見過阿勳：之後的事件不再重新介紹）、MET_PINYU、ECON_HALLWAY_DAY（SK03 小福午餐從下一個週五開始）*/
+  { id:'ev_econ_hallway', title:'你怎麼又在這裡？', participants:[], location:'any', trigger:'class', afterClass:'econ_principles_2', term:['Y1S2'], weeks:[2,3,4,5,7], weekday:[5], once:true, background:'blur',
+    dialogue:[ {speaker:'阿勳',text:'……你怎麼又在這裡？'},
+      {speaker:'阿勳',text:'盧正勳。你經濟系那年的室友。……你該不會連我都忘了。'},
+      {if:{flags:['MET_PINYU']},speaker:'品妤',text:'你來了。'},
+      {unless:{flags:['MET_PINYU']},speaker:'品妤',text:'曾品妤。經濟系，可昕以前的室友。'},
+      {choice:[{text:'「重修。」',set:{P4D_ANSWER:'retake'},goto:'r'},{text:'「我在法律系，很好。」',set:{P4D_ANSWER:'good'},goto:'g'},{text:'「說來話長。」',set:{P4D_ANSWER:'long'},goto:'l'}]},
+      {label:'r'},{speaker:'阿勳',text:'重修。……你看起來比去年清醒。'},{goto:'end'},
+      {label:'g'},{speaker:'阿勳',text:'看得出來。你走路變快了。'},{goto:'end'},
+      {label:'l'},{speaker:'阿勳',text:'那下次說。'},
+      {label:'end'},{speaker:'阿勳',text:'週五中午，我們在小福。你要來就來。'} ],
+    consequences:{flags:{MET_XUN:true,MET_PINYU:true},memo:'重修經原（下）下課，走廊上遇到經濟系那年的室友阿勳（盧正勳）'},
+    after:G=>{ G.flags.ECON_HALLWAY_DAY=G.day; } },
   /* 聖誕交換禮物（交付清單 A20：AA_71 2-6「大一的實作」，AA 2026-10-14 回 LAWWW）：第 17 週週三 12/24 中午 12:20～13:10 在霖澤館一樓；只有麵店團的玩家有（阿哲兩天前在群組揪，
      story3d.js 的 phoneRules），沒去不扣分。在場的人＝XMAS_WHO 裡玩家認識的（交付清單第 0 節第 1 條）。祐廷送什麼由玩家選（XMAS_GIFT）；
      抽到祐廷禮物的人（XMAS_TO）、祐廷抽到誰的（XMAS_FROM）從在場的人裡隨機挑（pick）；明軒和小語都在、抽到祐廷禮物的不是明軒＝小語的玩偶是明軒抽到（「和祐廷無關的一句」），祐廷就抽不到；
