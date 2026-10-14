@@ -300,6 +300,7 @@ const STORY = (function(){
   S.tick=function(GM,dt){ const G=GM.G, F=G.flags, E=GM.E; if(E.player.busy||GM.D.active) return; const P=E.player.obj.position;
     schedT-=dt; if(schedT<=0){ schedT=3; refreshSchedule(GM); }
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ CLS.tick(GM); }catch(e){ console.warn('CLS.tick',e); } }   /* 課表（D52）*/
+    if(typeof PHONE!=='undefined'){ try{ S.phoneRules(GM); PHONE.tick(G,out=>{ if(out.length) GM.toast('手機｜'+PHONE.notice(G,out[0]),3800); if(GM.phoneBadge) GM.phoneBadge(); }); }catch(e){ console.warn('PHONE',e); } }   /* 手機：排定時間的訊息（交接包 v1）*/
     if(G.zone==='noodle') noodleRegulars(GM);   /* 麵店的固定客人：時間到了進來、離開 */
     if(typeof CROWD!=='undefined'){ try{ CROWD.tick(GM,dt); }catch(e){ console.warn('CROWD.tick',e); } }   /* 公共場景的人流（D55）*/
     if(typeof INV!=='undefined'){ try{ INV.tick(GM); }catch(e){ console.warn('INV.tick',e); } }   /* 邀約：過了時間沒見到＝沒赴約 */
@@ -331,6 +332,7 @@ const STORY = (function(){
   // ---------- 互動 ----------
   S.interact=async function(it,GM){ const G=GM.G, F=G.flags, E=GM.E;
     if(it.deskStudy){ await deskScene(GM,it); return true; }
+    if(it.roomItems){ await roomItems(GM); return true; }
     if(it.sleep){ await bedScene(GM); return true; }
     if(it.counter==='cafe'){ await counter(GM,'兩點半 Café',[['拿鐵',120,10],['手沖咖啡',150,12],['檸檬塔',110,14]]); return true; }
     if(it.shop==='cvs'){ await counter(GM,'便利商店',[['飯糰',35,12],['美式咖啡',45,8],['運動飲料',30,6],['微波義大利麵',75,22]]); return true; }
@@ -349,7 +351,47 @@ const STORY = (function(){
   async function counter(GM,shop,items){ const G=GM.G; GM.sceneBegin(); const opts=items.map(([n,p,e])=>({t:n+'　'+p+' 元',hint:'體力 +'+e,dim:G.money<p})); opts.push({t:'不用了'}); const i=await GM.choose(opts); if(i<items.length){ const [n,p,e]=items[i]; if(G.money<p){ GM.toast('錢不夠'); } else { GM.money(-p); GM.energy(e); GM.advance(0.15); await GM.say(null,'你買了'+n+'。'+(shop==='兩點半 Café'?'店員把杯子放在你面前的時候，杯底和木桌碰出一聲很小的響。':'')); } } GM.sceneEnd(); }
   async function bookshop(GM){ const G=GM.G, F=G.flags; GM.sceneBegin(); const opts=[{t:'《民法總則》教科書　650 元',hint:F.textbook?'已經有了':'讀書時會多整理一條筆記',dim:F.textbook||G.money<650},{t:'螢光筆一組　80 元',hint:'讓筆記好看一點',dim:G.money<80},{t:'只是看看'}]; const i=await GM.choose(opts); if(i===0&&!F.textbook&&G.money>=650){ GM.money(-650); F.textbook=true; GM.memo('買了民法總則教科書'); await GM.say(null,'很厚。老闆說一年級都會買，然後大部分人到期末都只翻到第三章。'); } else if(i===1&&G.money>=80){ GM.money(-80); GM.toast('買了螢光筆'); } else if(i===2){ await GM.say(null,'架上有一整排判決彙編。有人在角落翻著《法律人的第一堂課》。'); } GM.sceneEnd(); }
   // ---------- 第一天：宿舍 ----------
-  async function introDorm(GM){ const G=GM.G, F=G.flags, E=GM.E; GM.sceneBegin(); GM.letterbox(true); await GM.titleCard('第一天','週三 21:12 · 男生宿舍',2600); await GM.say(null,'你是{name}，台大法律系一年級。開學第三週。'); await GM.say(null,'書桌上放著明天民法總則要討論的案例——網拍上標價 1,000 元的相機。老師上週說：「會點人。」'); const kai=GM.npc.kai; if(kai){ GM.cine('two',E.player.obj,kai.obj); ADV.begin({background:'blur',right:'kai'}); await GM.say(kai,'欸，你們法律系是不是每堂課都要先讀一堆東西？',{expr:'smile'}); const i=await GM.choose([{t:'差不多。明天有個案例還沒看。'},{t:'還好，看心情。'}]); if(i===0){ await GM.say(kai,'那你快看啊，我要開遊戲了，等一下會很吵。'); } else { await GM.say(kai,'心情好就會被點到，我室友上學期就是這樣。',{expr:'laugh'}); } GM.rel('kai',2); } GM.letterbox(false); F.introDone=true; GM.setGoal('讀（或不讀）明天的案例，然後睡覺'); GM.sceneEnd(); GM.autosave(); }
+  async function introDorm(GM){ const G=GM.G, F=G.flags, E=GM.E; GM.sceneBegin(); GM.letterbox(true); await GM.titleCard('第一天','週三 21:12 · 男生宿舍',2600); await GM.say(null,'你是{name}，台大法律系一年級。開學第三週。'); await GM.say(null,'書桌上放著明天民法總則要討論的案例——網拍上標價 1,000 元的相機。老師上週說：「會點人。」'); /* 交接包 v1 第 1 節（AA_12 0-3 第 1 點、0-2）＋可昕的第一則訊息（BB_95 9-0）*/ for(const t of DAY1_NARR) await GM.say(null,t); await kexinFirstMsg(GM,'night'); const kai=GM.npc.kai; if(kai){ GM.cine('two',E.player.obj,kai.obj); ADV.begin({background:'blur',right:'kai'}); await GM.say(kai,'欸，你們法律系是不是每堂課都要先讀一堆東西？',{expr:'smile'}); const i=await GM.choose([{t:'差不多。明天有個案例還沒看。'},{t:'還好，看心情。'}]); if(i===0){ await GM.say(kai,'那你快看啊，我要開遊戲了，等一下會很吵。'); } else { await GM.say(kai,'心情好就會被點到，我室友上學期就是這樣。',{expr:'laugh'}); } GM.rel('kai',2); } GM.letterbox(false); familyGroupD1(GM); F.introDone=true; GM.setGoal('讀（或不讀）明天的案例，然後睡覺'); GM.sceneEnd(); GM.autosave(); }
+  /* ---------- 交接包 v1：第一天的旁白、可昕的第一則訊息、家族群組、房間物件、手機的規則 ---------- */
+  const DAY1_NARR=['以前遇到事情，他會去翻民法。翻得到條文，卻不知道條文和條文怎麼接起來，也不知道怎麼用在一件真的事情上。','這次不一樣。這次有人要教他怎麼讀。','經濟系的那一年，他不是一個人過的。'];   /* AA_12 0-3 第 1 點、0-2 */
+  /* 手機上的一段對話，在劇情裡演（開場是過場，不打開手機面板）：對話框的名字寫「可昕（手機）」，回覆用一般的選項；演完的內容同時寫進手機的對話串（之後打開手機看得到）*/
+  async function phoneScene(GM,th,lines,ask){ const G=GM.G; let last=null;
+    for(const l of lines){ last=PHONE.post(G,Object.assign({th},l)); await GM.say({name:PHONE.who(l)+'（手機）'},l.text); }
+    if(!ask) return -1; last.ask=Object.assign({id:'scene_'+th+'_'+G.day+'_'+Math.round(G.hour*100)},ask); const k=await GM.choose(ask.opts.map(o=>({t:o.t})));
+    const r=PHONE.answer(G,last.ask.id,k); if(r) for(const m of r.out.slice(1)) await GM.say({name:PHONE.who(m)+'（手機）'},m.text); if(GM.phoneBadge) GM.phoneBadge(); return k; }
+  /* 可昕的第一則訊息（BB_95 9-0；旗標 KX_FIRST_MSG）：night＝第一天晚上；morning＝舊存檔下一個早上補的（第一句、最後一句換）。三個回覆不影響關係、之後也不讀 */
+  async function kexinFirstMsg(GM,variant){ const G=GM.G, F=G.flags; if(F.KX_FIRST_MSG||typeof PHONE==='undefined') return false; F.KX_FIRST_MSG=true; if(F.dating_kexin===undefined) F.dating_kexin=true;
+    if(typeof INV!=='undefined'){ INV.rec(G); if(G.contacts.kexin==null) G.contacts.kexin=0; }
+    const am=variant==='morning', end=am?'去上課吧。下課再跟我說你讀到哪了。':'晚安。不要讀到太晚。', K=t=>({from:'kexin',text:t});
+    if(GM.toast) GM.toast('手機｜可昕：'+(am?'早安。今天的假設題。':'今天的假設題。'),2600);
+    await phoneScene(GM,'p:kexin',[K(am?'早安。今天的假設題。':'今天的假設題。'),K('假設你在台大讀的案例，和我在政大讀的是同一個。'),K('兩邊的老師講出兩個答案。考試的時候，我們要寫哪一個？'),K('……不用回答。我只是想知道你讀到哪了。')],
+      {opts:[{t:'讀到一半。案例比想像的長。',say:[K('我也是。讀到一半去泡麵，回來就忘了誰告誰。'),K(end)]},{t:'寫自己老師的。',say:[K('好現實。……但是對的。'),K(end)]},{t:'讀到一半，在想妳。',say:[K('那就是沒在讀。回去讀，讀完再想。'),K(end)]}]});
+    return true; }
+  /* 家族群組（BB_95 4-1；ev_family_group_pin）：第一天晚上回宿舍後手機亮起。群組名「法律系直屬家族」（家族制度的叫法需查證）；置頂是學姊開學前發的；
+     回「（舉手）」或「活著。」設 FAM_GROUP_REPLIED（學姊第一次見面 talkSis 會讀），Kevin：「很好，有一個活的。」；不回就是不回。舊存檔已經過了第一天的不補 */
+  function familyGroupD1(GM){ const G=GM.G, F=G.flags; if(F.FAM_GROUP_SENT||typeof PHONE==='undefined') return; F.FAM_GROUP_SENT=true; const th='g:family_law'; PHONE.join(G,'family_law','法律系直屬家族');
+    const sis=t=>({th,from:'heroine_05',name:'溫學姊',text:t}), kv=t=>({th,from:'kevin',name:'Kevin',text:t});
+    PHONE.postAt(G,Object.assign(sis('學弟妹好。三件事。一，開學第一週不要買二手書，先等學長姐的。二，民總很重要。三，有問題可以問，但先自己查。'),{pin:true}),-16,21);   /* 開學前（8/31）發的置頂 */
+    PHONE.post(G,Object.assign(kv('第三週了，直屬學弟妹還活著嗎？要考古題的舉手'),{ask:{opts:[{t:'（舉手）',set:{FAM_GROUP_REPLIED:true},say:[kv('很好，有一個活的。')]},{t:'活著。',set:{FAM_GROUP_REPLIED:true},say:[kv('很好，有一個活的。')]}]}}));
+    PHONE.post(G,sis('先看置頂。')); if(GM.toast) GM.toast('手機｜法律系直屬家族｜Kevin：第三週了，直屬學弟妹還活著嗎？',4200); if(GM.phoneBadge) GM.phoneBadge(); }
+  /* 手機上照旗標排時間的訊息（內容照企劃組原文）。每 0.5 秒（S.tick）；同一則用 tag 只排一次 */
+  S.phoneRules=function(GM){ const G=GM.G, F=G.flags; if(typeof PHONE==='undefined') return; const silentContact=id=>{ if(typeof INV==='undefined') return; INV.rec(G); if(G.contacts[id]==null) G.contacts[id]=G.day; };
+    /* 芷若的第一則私訊（BB_95 4-2）：Café 第五次加了店裡的帳號（zhiruoShopContactDay）→ 那天 22:07；交往中改在隔天 15:10＋友情版的第三句（AA_112 8-1：交往中的玩家不收晚上只傳給他的訊息）*/
+    if(F.zhiruoShopContactDay!=null&&!PHONE.sent(G,'zr_dm1')){ const d=F.zhiruoShopContactDay, dating=!!F.dating_kexin, Z=t=>({th:'p:heroine_02',from:'heroine_02',text:t});
+      PHONE.at(G,dating?d+1:d,dating?15+10/60:22+7/60,[Z('我是 Café 的芷若。'),Z('……你應該知道。'),Z(dating?'你今天的那杯，是我做的。好喝的話，跟老闆說。':'你今天的'+(F.zhiruoFirstOrder||'拿鐵')+'，奶泡我多打了三秒。你沒發現。')],'zr_dm1'); }
+    if(G.msgs&&G.msgs.some(m=>m.tag==='zr_dm1')) silentContact('heroine_02');   /* 收到了＝有她的聯絡方式（之後她改用自己的帳號）*/
+    /* 語彤事件 3（AA_11 事件 3、BB_95 4-3）：選「我知道誰會知道」→ 祐廷第一次私訊學姊；學姊當晚 22:30 回；祐廷把截圖傳給語彤：「……法服是什麼？」
+       （沒有語彤的聯絡方式：下次在麵店當面給她看，ev_yutong_fwd）*/
+    if(F.yutongAskSisDay!=null&&!PHONE.sent(G,'sis_yutong_q')){ silentContact('heroine_05'); PHONE.post(G,{th:'p:heroine_05',from:'player',who:null,text:'（把語彤說的事傳給學姊）',tag:'sis_yutong_q'});
+      const W=t=>({th:'p:heroine_05',from:'heroine_05',text:t}); PHONE.at(G,F.yutongAskSisDay,22.5,[W('三件事。'),W('一，叫阿姨週三晚上來萬才館，法服有值班。'),W('二，發票、那天的進貨單、監視器的時間，全部留著。'),W('三，叫阿姨先睡覺。這種事，準備好就不可怕。')],'sis_yutong'); }
+    if(G.msgs&&G.msgs.some(m=>m.tag==='sis_yutong')&&!F.yutongFwd){ F.yutongFwd=true;
+      if(typeof INV!=='undefined'&&INV.hasContact(G,'heroine_03')){ PHONE.post(G,{th:'p:heroine_03',from:'player',who:null,text:'（把學姊的回覆截圖傳給語彤）',tag:'yutong_fwd_q'}); PHONE.at(G,G.day,G.hour+0.1,[{th:'p:heroine_03',from:'heroine_03',text:'……法服是什麼？'}],'yutong_fwd'); }
+      else F.yutongFwdInPerson=true; } };
+  /* 宿舍房間的物件（交接包 v1 第 1 節「房間物件」，AA_12 0-2、0-3）：點了看一句旁白。可昕的物件分開以後的旁白，之後由 AA 補（大一上不會分開）*/
+  const ROOM_ITEMS=[['書架上的舊《民法》','以前翻過。看得到字，看不懂意思。'],['經濟學原理（一年前的課本）','經濟系那一年的課本。邊角都翻軟了。'],['寫滿的筆記本','重考那段時間的筆記。一半是他的字，一半是她的。'],['摩天輪的票根（夾在桌墊下）','摩天輪的票根。兩個人開始交往的那一天。'],['手機相簿的一張照片','河堤邊停著幾台腳踏車。那一群人，那一年。']];
+  S.ROOM_ITEMS=ROOM_ITEMS;
+  async function roomItems(GM){ GM.sceneBegin(); try{ for(let n=0;n<12;n++){ const i=await GM.choose([...ROOM_ITEMS.map(r=>({t:r[0]})),{t:'不看了'}]); if(i<0||i>=ROOM_ITEMS.length) break; await GM.say(null,ROOM_ITEMS[i][1]); } } finally { GM.sceneEnd(); } }
+  S._v1={kexinFirstMsg:(GM,v)=>kexinFirstMsg(GM,v),familyGroupD1:GM=>familyGroupD1(GM),roomItems:GM=>roomItems(GM),phoneScene:(GM,th,l,a)=>phoneScene(GM,th,l,a)};   /* 測試用 */
   async function deskScene(GM,it){ const G=GM.G, F=G.flags, E=GM.E, P=E.player; GM.sceneBegin(); await GM.walkTo(P,it.seat.x,it.seat.z+0.5); GM.sitAt(P,it.seat); E.cam.distTarget=3.2; await GM.sleep(300);
     if(G.day===1&&!F.readCase){ await GM.say(null,'案例影本放在桌上。「'+CASE.title.replace('指定案例：','')+'」。標題底下是兩頁判決節錄。'); const i=await GM.choose([{t:'認真讀完（約 1 小時）',hint:'體力 −10。明天上課可能用得到'},{t:'讀一半就好',hint:'體力 −4'},{t:'不讀了，明天再說'}]); if(i===0){ P.pose='read'; P.idlePose='read'; await GM.fade(true); GM.advance(1.1); GM.energy(-10); await GM.fade(false); F.readCase='full'; GM.addNote(CASE.id,CASE.title,CASE.body); GM.addNote('law_154','民法 §154：要約與要約之引誘','貨物標定賣價陳列者，視為要約；但價目表之寄送，不視為要約。網拍頁面算哪一種，有爭論。'); GM.addNote('law_88','民法 §88：意思表示錯誤','表意人若無過失，得撤銷；撤銷後對信賴者負賠償責任（§91）。'); await GM.say(null,'你讀到最後一頁的時候，阿凱的遊戲已經打到第三場。你在頁邊寫下：「標價陳列 vs 價目表寄送——網頁到底像哪一個？」'); GM.memo('熬夜讀完了網拍相機的案例'); }
       else if(i===1){ P.pose='read'; P.idlePose='read'; await GM.fade(true); GM.advance(0.5); GM.energy(-4); await GM.fade(false); F.readCase='half'; GM.addNote(CASE.id,CASE.title,CASE.body); await GM.say(null,'你看完事實部分就停了。賣家說自己少打一個零，想撤銷。至於法院怎麼判——明天再說。'); GM.memo('案例只讀了一半'); }
@@ -393,7 +435,7 @@ const STORY = (function(){
   S.sleepNow=(GM,wake,alarm)=>sleepNow(GM,wake,alarm);   /* 測試用（tests/bed_nap_unit.js）*/
   async function sleepNow(GM,wake,alarm){ const G=GM.G, F=G.flags, E=GM.E; GM.sceneBegin(); await GM.fade(true); await GM.sleep(400); G.day++; G.weekday=(G.weekday+1)%7; G.energy=Math.min(100,G.energy+65); G.weather=Math.random()<0.7?'clear':(Math.random()<0.7?'cloudy':'rain'); E.setWeather(G.weather); F.companion=null; F.nightKai=false;
     if(G.day===2){ G.hour=13.05; E.hour=G.hour; GM.sceneEnd(); await GM.titleCard('第二天','週四 13:05 · 霖澤館前',2400); await GM.enter('campus',{x:26,z:-90,yaw:Math.PI}); return; }
-    G.hour=wake!=null&&G.day>=3?wake:7.5; E.hour=G.hour; F.morningLine=false;   /* 醒來的時間（AA_110 6-5）：沒給＝07:30（舊行為）*/ if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined') CLS.setGoal(GM); else GM.setGoal(isThu(G)?'13:20 民法總則（霖澤館）':'自由的一天。去圖書館、公館，或找人聊天'); GM.sceneEnd(); await GM.titleCard('第 '+G.day+' 天',['週日','週一','週二','週三','週四','週五','週六'][G.weekday]+' '+hm(G.hour)+(alarm?'・鬧鐘：'+alarm:''),2200); await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); { const f=S.monthlyFunds(G); if(f){ GM.money(f.amount); GM.toast(f.text,3800); } }   /* 生活費（D48）：S.monthlyFunds */ if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ await CLS.morning(GM); }catch(e){ console.warn('CLS.morning',e); } } GM.autosave(); }
+    G.hour=wake!=null&&G.day>=3?wake:7.5; E.hour=G.hour; F.morningLine=false;   /* 醒來的時間（AA_110 6-5）：沒給＝07:30（舊行為）*/ if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined') CLS.setGoal(GM); else GM.setGoal(isThu(G)?'13:20 民法總則（霖澤館）':'自由的一天。去圖書館、公館，或找人聊天'); GM.sceneEnd(); await GM.titleCard('第 '+G.day+' 天',['週日','週一','週二','週三','週四','週五','週六'][G.weekday]+' '+hm(G.hour)+(alarm?'・鬧鐘：'+alarm:''),2200); await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); { const f=S.monthlyFunds(G); if(f){ GM.money(f.amount); GM.toast(f.text,3800); } }   /* 生活費（D48）：S.monthlyFunds */ if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ await CLS.morning(GM); }catch(e){ console.warn('CLS.morning',e); } } if(!F.KX_FIRST_MSG&&F.dating_kexin){ GM.sceneBegin(); try{ await GM.say(null,'經濟系的那一年，他不是一個人過的。'); await kexinFirstMsg(GM,'morning'); } finally { GM.sceneEnd(); } }   /* 舊存檔（BB_95 9-0）：已經過了第一天、沒看過可昕的訊息的，下一個早上補一次；只補一次 */ GM.autosave(); }
   // ---------- 第二天：校園早上（其實是中午）----------
   async function campusMorning(GM){ const G=GM.G, F=G.flags, E=GM.E; const zhe=GM.npc.zhe; GM.sceneBegin(); GM.letterbox(true); await GM.sleep(300); if(zhe){ GM.face(zhe,E.player.obj.position.x,E.player.obj.position.z); GM.cine('two',E.player.obj,zhe.obj); ADV.begin({background:'blur',right:'zhe'}); await GM.say(zhe,'{name}！你走路超慢。周老師那堂我不想坐最前面。',{expr:'smile'}); const i=await GM.choose([{t:'你先進去佔位子啊。'},{t:'昨天的案例你看了嗎？'}]); if(i===1){ if(F.readCase==='full') await GM.say(zhe,'看了一半。你看完了？那等一下被點到你幫我。',{expr:'laugh'}); else await GM.say(zhe,'沒有。我們兩個今天要低調一點。',{expr:'laugh'}); } else { await GM.say(zhe,'好啦好啦。'); } zhe.beh='follow'; zhe.followOff=1.4; GM.rel('zhe',1); } GM.letterbox(false); GM.sceneEnd(); GM.setGoal('進入霖澤館上課（13:20）'); }
   // ---------- 課堂 ----------

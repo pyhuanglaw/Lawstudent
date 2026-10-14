@@ -7,7 +7,7 @@ const GAME = (function(){
   let E=null; let G=null; let S={quality:'medium',joystick:true,volume:0.6,textSpeed:2,fps:false,guide:true};
   const GM={E:null,G:null,S,npc:{},extras:[],running:false,hourRate:1/150,lastAuto:0};
   // ---------- 狀態 ----------
-  function defaults(name){ return {v:SAVE_VER,name:name||'祐廷',day:1,weekday:3,hour:21.2,energy:72,money:22000,zone:'dorm',pos:null,weather:'clear',flags:{},rel:{an:6,zhe:12,sis:2,kai:8,yu:3},notes:[],memo:[],visited:{dorm:true},stats:{steps:0,classes:0,study:0},choices:{},social:null,events:null,legal:null,cg:{unlocked:[]},savedAt:0}; }
+  function defaults(name){ return {v:SAVE_VER,name:name||'祐廷',day:1,weekday:3,hour:21.2,energy:72,money:22000,zone:'dorm',pos:null,weather:'clear',flags:{dating_kexin:true},rel:{an:6,zhe:12,sis:2,kai:8,yu:3},notes:[],memo:[],visited:{dorm:true},stats:{steps:0,classes:0,study:0},choices:{},social:null,events:null,legal:null,cg:{unlocked:[]},savedAt:0}; }
   function bindSystems(){ SOCIAL.bind(G); EVENTS.bind(GM); LEGAL.bind(G,GM); if(!G.cg) G.cg={unlocked:[]}; }
   GM.bindSystems=bindSystems;
   GM.defaults=defaults;
@@ -216,6 +216,9 @@ const GAME = (function(){
   function migrate(s){ const d=defaults(s.name); for(const k in d){ if(s[k]===undefined||s[k]===null) s[k]=d[k]; } for(const k in d.rel){ if(s.rel[k]===undefined) s.rel[k]=d.rel[k]; } if(s.v<2){ s.social=null; s.events=null; s.legal=null; }
     /* Café 點餐次數（BB_95 2-2，交接包 v1）：舊存檔點過但沒有計數＝當作點過一次（不然芷若會再自我介紹一次）；已經有計數的不動，讀幾次都一樣 */
     if(s.flags&&typeof s.flags==='object'&&s.flags.CAFE_VISITS==null&&s.events&&s.events.done&&s.events.done.ev_cafe_barista_zhiruo) s.flags.CAFE_VISITS=1;
+    /* 杜可昕（交接包 v1，BB_95 第 0b 節）：大一上一開始所有玩家都和她交往中；舊存檔也是（現有程式沒有任何事件設過 dating_ 旗標，不會和別人衝突）。之後的分開事件把它設成 false，這裡就不再動 */
+    if(s.flags&&typeof s.flags==='object'&&s.flags.dating_kexin===undefined) s.flags.dating_kexin=true;
+    if(s.flags&&s.flags.dating_kexin){ if(!s.contacts||typeof s.contacts!=='object') s.contacts={}; if(s.contacts.kexin==null) s.contacts.kexin=0; }
     s.v=SAVE_VER; return s; }
   function ls(){ try{ return window.localStorage; }catch(e){ return null; } }
   function write(key,obj){ const st=ls(); if(!st) return false; try{ st.setItem(key,JSON.stringify(obj)); return true; }catch(e){ return false; } }
@@ -315,6 +318,9 @@ const GAME = (function(){
     body.querySelectorAll('[data-inv]').forEach(b=>b.onclick=async()=>{ if(E.player.busy){ toast('現在不能約人'); return; } closePhone(); sceneBegin(); try{ await INV.flow(GM,b.dataset.inv,null,false); } finally { sceneEnd(); } openPhone('msg'); });   /* 手機約人（使用者第 3 點）*/
     body.querySelectorAll('[data-ans]').forEach(b=>b.onclick=()=>{ const [iv,a]=b.dataset.ans.split('|'); const r=a.startsWith('c:')?INV.answerChange(G,iv,a.slice(2)):INV.answer(G,iv,a); if(r&&r.res==='later'){ const v=INV.byId(G,iv); if(v){ closePhone(); sceneBegin(); INV.flow(GM,v.who,null,false).finally(()=>{ sceneEnd(); openPhone('msg'); }); return; } } renderPhone(); });   /* 對方約你／改約的回覆 */
     body.querySelectorAll('[data-skip]').forEach(b=>b.onclick=async()=>{ closePhone(); await CLS.skipTo(GM,+b.dataset.skip); });
+    body.querySelectorAll('[data-ask]').forEach(b=>b.onclick=()=>{ const t=b.dataset.ask, i=t.lastIndexOf('|'); const r=typeof PHONE!=='undefined'?PHONE.answer(G,t.slice(0,i),+t.slice(i+1)):null; if(r&&!phoneThread) phoneThread=PHONE.th(r.m); renderPhone(); phoneBadge(); autosave(); });   /* 回覆（交接包 v1）：回了之後打開那一段對話，看得到對方的回覆 */
+    body.querySelectorAll('[data-th]').forEach(b=>b.onclick=()=>{ phoneThread=b.dataset.th; renderPhone(); phoneBadge(); const pb=$('phoneBody'); if(pb) pb.scrollTop=pb.scrollHeight; });
+    body.querySelectorAll('[data-thback]').forEach(b=>b.onclick=()=>{ phoneThread=null; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
     body.querySelectorAll('[data-place]').forEach(b=>b.onclick=async()=>{ const pl=PLACE_LIST().find(q=>q[0]+'|'+q[1]===b.dataset.place); if(pl) await quickGo(pl); });
     body.querySelectorAll('[data-find]').forEach(b=>b.onclick=()=>{ if(findPerson(b.dataset.find)) closePhone(); });
     document.querySelectorAll('#phoneTabs button').forEach(b=>b.classList.toggle('on',b.dataset.ptab===phoneTab));
@@ -352,19 +358,40 @@ const GAME = (function(){
       h+='<div class="item phrow"><div>'+esc(nm)+'<div class="muted">'+(w?esc(whereText(id))+(w.zone===G.zone?'・就在這裡':''):'現在沒有固定的行程')+'</div></div><div class="row2" style="gap:6px">'+(pl&&st&&st.known?'<button class="btn" data-place="'+esc(pl[0]+'|'+pl[1])+'">過去（約 '+st.mins+' 分鐘）</button>':'')+(w&&w.zone&&!w.away?'<button class="btn" data-find="'+esc(id)+'">帶我去</button>':'')+(canInv?'<button class="btn pri" data-inv="'+esc(id)+'">約</button>':'')+'</div></div>'; }
     return h; }
   /* 手機「訊息」（D54 ⑥）：約人、對方的回答、沒赴約……最新的在上面；對方約你、改約的有回覆的按鈕（src/invites3d.js）*/
-  function msgHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); if(typeof INV==='undefined') return ''; INV.rec(G); const M=G.msgs.slice(-40).reverse();
-    let h='<div class="item muted">有聯絡方式的朋友，在「朋友」按「約」就可以約；當面遇到也可以約。</div>'; if(!M.length) return h+'<div class="item muted">還沒有訊息。</div>';
+  /* 手機「訊息」（交接包 v1：群組、置頂、可以回的訊息，src/phone3d.js）：最上面是「待回覆」（邀約、可以回的訊息）、對話串（點了看整段，群組的置頂在最上面），下面照舊是最近的訊息 */
+  let phoneThread=null;
+  const escH=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);
+  const msgWhen=m=>(m.day===G.day?'今天':(m.day===G.day-1?'昨天':(CALENDAR.dateOf(m.day).m+'/'+CALENDAR.dateOf(m.day).d)))+' '+INV.hhmm(m.h);
+  const askBtns=m=>'<div class="row2" style="gap:6px;margin-top:6px;flex-wrap:wrap">'+m.ask.opts.map((o,k)=>'<button class="btn'+(k===0?' pri':'')+'" data-ask="'+escH(m.ask.id+'|'+k)+'">'+escH(o.t)+'</button>').join('')+'</div>';
+  const msgLine=m=>{ if(typeof PHONE==='undefined'||!m.th) return escH(m.text); const g=m.th.startsWith('g:'), w=PHONE.who(m); return (g?'<span class="muted">【'+escH(PHONE.title(G,m.th))+'】</span>':'')+(w?'<b>'+escH(w)+'</b>：':'')+escH(m.text); };
+  function threadHTML(th){ PHONE.markSeen(G,th); const L=PHONE.thread(G,th), g=th.startsWith('g:');
+    let h='<div class="item phrow"><button class="btn" data-thback="1">‹ 訊息</button><b>'+escH(PHONE.title(G,th))+'</b></div>';
+    for(const m of L.filter(q=>q.pin)) h+='<div class="item pin"><div class="muted">（置頂）'+msgWhen(m)+'</div>'+(PHONE.who(m)?'<b>'+escH(PHONE.who(m))+'</b>：':'')+escH(m.text)+'</div>';
+    for(const m of L.filter(q=>!q.pin)) h+='<div class="item'+(m.from==='player'?' me':'')+'"><div class="muted">'+msgWhen(m)+'</div>'+(g&&m.from!=='player'&&PHONE.who(m)?'<b>'+escH(PHONE.who(m))+'</b>：':'')+escH(m.text)+(m.ask&&m.ans==null?askBtns(m):'')+'</div>';
+    return h; }
+  function msgHTML(){ if(typeof INV==='undefined') return ''; INV.rec(G); if(phoneThread&&typeof PHONE!=='undefined') return threadHTML(phoneThread);
+    const M=G.msgs.slice(-40).reverse();
+    let h='<div class="item muted">有聯絡方式的朋友，在「朋友」按「約」就可以約；當面遇到也可以約。</div>';
+    if(typeof PHONE!=='undefined'){ const pend=PHONE.pending(G); if(pend.length) h+='<div class="item"><b>待回覆</b>'+pend.map(m=>'<div style="margin-top:6px"><div class="muted">'+escH(PHONE.title(G,PHONE.th(m)))+'・'+msgWhen(m)+'</div>'+msgLine(m)+askBtns(m)+'</div>').join('')+'</div>';
+      const ths=PHONE.threads(G); if(ths.length) h+='<div class="item"><b>對話</b><div class="row2" style="gap:6px;margin-top:6px;flex-wrap:wrap">'+ths.map(t=>'<button class="btn'+(t.unread?' pri':'')+'" data-th="'+escH(t.th)+'">'+escH(t.title)+(t.unread?'（'+t.unread+'）':'')+'</button>').join('')+'</div></div>'; }
+    if(!M.length) return h+'<div class="item muted">還沒有訊息。</div>';
     for(const m of M){ const iv=m.iv?INV.byId(G,m.iv):null; let btn='';
       if(iv&&iv.state==='offered'&&m===M.find(q=>q.iv===iv.id)) btn='<div class="row2" style="gap:6px;margin-top:6px"><button class="btn pri" data-ans="'+iv.id+'|yes">答應</button><button class="btn" data-ans="'+iv.id+'|later">改天</button><button class="btn" data-ans="'+iv.id+'|no">不了</button></div>';
       else if(iv&&iv.state==='changed'&&m===M.find(q=>q.iv===iv.id)) btn='<div class="row2" style="gap:6px;margin-top:6px"><button class="btn pri" data-ans="'+iv.id+'|c:ok">'+(iv.to?'好':'好，下次')+'</button><button class="btn" data-ans="'+iv.id+'|c:next">那就下次</button><button class="btn" data-ans="'+iv.id+'|c:alone">沒關係，我自己去</button></div>';
-      const d=m.day===G.day?'今天':(m.day===G.day-1?'昨天':(CALENDAR.dateOf(m.day).m+'/'+CALENDAR.dateOf(m.day).d)); h+='<div class="item"><div class="muted">'+d+' '+INV.hhmm(m.h)+'</div>'+esc(m.text)+btn+'</div>'; }
+      h+='<div class="item'+(m.from==='player'?' me':'')+'"><div class="muted">'+msgWhen(m)+'</div>'+msgLine(m)+btn+'</div>'; }
     return h; }
   function invTodayHTML(){ if(typeof INV==='undefined') return ''; const L=INV.todayLines(G); if(!L.length) return ''; return '<div class="item"><b>今天約好的</b>'+L.map(t=>'<div>'+t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[c])+'</div>').join('')+'</div>'; }
-  function openPhone(tab){ if(!G||GM.titleIdle) return; if(menuOpen) closeMenu(); phoneOpen=true; if(tab) phoneTab=tab; E.paused=true; $('phone').classList.remove('hide'); renderPhone(); }
-  function closePhone(){ phoneOpen=false; $('phone').classList.add('hide'); E.paused=false; }
+  function openPhone(tab,th){ if(!G||GM.titleIdle) return; if(menuOpen) closeMenu(); phoneOpen=true; if(tab) phoneTab=tab; phoneThread=th||null; E.paused=true; $('phone').classList.remove('hide'); renderPhone(); phoneBadge(); }
+  let phoneWaiters=[];
+  function closePhone(){ phoneOpen=false; phoneThread=null; $('phone').classList.add('hide'); E.paused=false; phoneBadge(); const w=phoneWaiters; phoneWaiters=[]; for(const f of w) f(); }
   GM.openPhone=openPhone; GM.closePhone=closePhone;
+  /* 劇情打開手機的某一段對話（第一天可昕的訊息）：玩家關掉手機才繼續 */
+  GM.phoneThread=th=>new Promise(res=>{ phoneWaiters.push(res); openPhone('msg',th); });
+  /* 手機按鈕上的未讀數字（別人傳來、還沒打開那一段對話看過的）*/
+  function phoneBadge(){ const el=$('phoneBadge'); if(!el||typeof PHONE==='undefined'||!G) return; const n=PHONE.unread(G); el.textContent=n>9?'9+':String(n); el.classList.toggle('hide',!n); }
+  GM.phoneBadge=phoneBadge;
   function bindUI(){ $('btnMenu').onclick=()=>{ if(menuOpen) closeMenu(); else openMenu('notes'); }; $('btnClose').onclick=closeMenu; document.querySelectorAll('#menu .tabs button').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
-    if($('btnPhone')){ $('btnPhone').onclick=()=>{ if(phoneOpen) closePhone(); else openPhone(); }; $('btnPhoneClose').onclick=closePhone; document.querySelectorAll('#phoneTabs button').forEach(b=>b.onclick=()=>{ if(b.disabled) return; phoneTab=b.dataset.ptab; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; }); if($('nextClass')) $('nextClass').onclick=()=>openPhone('today'); } $('interact').onclick=()=>doInteract(); $('btnRun').onclick=()=>{ E.player.runHold=!E.player.runHold; E.input.runToggle=E.player.runHold; $('btnRun').classList.toggle('on',E.player.runHold); }; $('btnCenter').onclick=()=>E.recenter(); if(typeof BIKE!=='undefined') BIKE.bindUI(GM);
+    if($('btnPhone')){ $('btnPhone').onclick=()=>{ if(phoneOpen) closePhone(); else openPhone(); }; $('btnPhoneClose').onclick=closePhone; document.querySelectorAll('#phoneTabs button').forEach(b=>b.onclick=()=>{ if(b.disabled) return; phoneTab=b.dataset.ptab; phoneThread=null; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; }); if($('nextClass')) $('nextClass').onclick=()=>openPhone('today'); } $('interact').onclick=()=>doInteract(); $('btnRun').onclick=()=>{ E.player.runHold=!E.player.runHold; E.input.runToggle=E.player.runHold; $('btnRun').classList.toggle('on',E.player.runHold); }; $('btnCenter').onclick=()=>E.recenter(); if(typeof BIKE!=='undefined') BIKE.bindUI(GM);
     $('dlg').addEventListener('pointerup',e=>{ e.stopPropagation(); dlgAdvance(); }); addEventListener('keydown',e=>{ if(e.key===' '||e.key==='Enter'){ if(dlgAdvance()) e.preventDefault(); else if(nearIt&&!menuOpen) doInteract(); } if(e.key==='Escape'){ if(menuOpen) closeMenu(); else if(!D.active) openMenu('notes'); } });
     E.onTap=(tp)=>{ if(D.active){ dlgAdvance(); return true; } return false; };
     E.onGreet=(n)=>{ if(!D.active&&!E.player.busy) caption('',n.name+'朝你揮了揮手。',1800); };

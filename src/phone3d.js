@@ -1,0 +1,60 @@
+/* ===== 手機的對話：一對一、群組、置頂、可以回的訊息、排定時間送達（交接包 v1；AA_70 1-1、1-2、1-8；BB_95 4-1、9-0）=====
+   訊息照舊存在 G.msgs（invites3d.js：最新的在最後、最多 200 則），舊訊息不用改；新訊息多幾個欄位：
+     th：對話串（'p:人物 id'＝和那個人的一對一；'g:群組 id'＝群組）。舊訊息沒有：有 who＝和 who 的一對一，沒有＝通知（'sys'）
+     from：誰說的（人物 id；'player'＝祐廷）；name：手機上顯示的名字（只在手機上出現的人，例如 Kevin 學長；或群組裡的帳號名稱「溫學姊」）
+     pin：群組的置頂；ask：可以回的訊息 {id, opts:[{t, say:[{from,name,text}], set:{旗標:值}, mem:[{npc,tag,note}]}]}；ans：回了第幾個（回過就不能再回）
+     tag：同一則內容只送一次（PHONE.at 的 tag）
+   G.phone＝{groups:{群組 id:{name, day}}, seen:{對話串:看過的最後一則的時間}, q:[{day,h,items,tag}], n}（舊存檔沒有就從空的開始）
+   排定時間（PHONE.at）：時間到了才出現（PHONE.tick，story3d.js 每 0.5 秒；劇情、對話進行中先不送）；睡覺、跳過時間跨過去的，照原本的時間補進去（不會跑到未來）。
+   回覆（PHONE.answer）：祐廷那一句、對方的回覆接在後面（時間是回的當下）；set、mem 照事件引擎的寫法。
+   不做「已讀不回」的懲罰（AA_70 1-9）：不回就只是沒回。
+   測試：node tests/phone_unit.js */
+'use strict';
+const PHONE=(function(){
+  const S={};
+  const nm=id=>{ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(c&&c.phoneName) return c.phoneName; return (typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(id):((c&&c.name)||id); };   /* phoneName：手機上的名字（可昕）*/
+  S.rec=function(G){ if(typeof INV!=='undefined') INV.rec(G); else if(!Array.isArray(G.msgs)) G.msgs=[];
+    if(!G.phone||typeof G.phone!=='object') G.phone={}; const P=G.phone; if(!P.groups||typeof P.groups!=='object') P.groups={}; if(!P.seen||typeof P.seen!=='object') P.seen={}; if(!Array.isArray(P.q)) P.q=[]; if(typeof P.n!=='number') P.n=0; return P; };
+  S.th=m=>m.th||(m.who?'p:'+m.who:'sys');
+  const abs=(day,h)=>day*24+h;
+  S.join=function(G,gid,name){ const P=S.rec(G); if(!P.groups[gid]) P.groups[gid]={name,day:G.day}; return P.groups[gid]; };
+  S.inGroup=(G,gid)=>!!S.rec(G).groups[gid];
+  S.title=function(G,th){ if(th.startsWith('g:')){ const g=S.rec(G).groups[th.slice(2)]; return g?g.name:th.slice(2); } if(th.startsWith('p:')) return nm(th.slice(2)); return '通知'; };
+  S.who=m=>m.from==='player'?'你':(m.name||(m.from?nm(m.from):''));
+  const mk=(G,it,day,h)=>{ const hh=((h%24)+24)%24, dd=day+Math.floor(h/24); const th=it.th||(it.who?'p:'+it.who:'sys');
+    const m={day:dd,h:+hh.toFixed(2),who:it.who!==undefined?it.who:(th.startsWith('p:')&&it.from!=='player'?th.slice(2):null),text:it.text,iv:null,th};
+    if(it.from) m.from=it.from; if(it.name) m.name=it.name; if(it.pin) m.pin=true; if(it.tag) m.tag=it.tag;
+    if(it.ask){ const P=S.rec(G); P.n++; m.ask=Object.assign({},it.ask,{id:it.ask.id||('a'+P.n)}); } return m; };
+  const put=(G,m)=>{ let i=G.msgs.length; while(i>0&&abs(G.msgs[i-1].day,G.msgs[i-1].h)>abs(m.day,m.h)) i--; G.msgs.splice(i,0,m); if(G.msgs.length>200) G.msgs.splice(0,G.msgs.length-200); return m; };
+  /* 現在送出（時間＝現在）；postAt：補在過去的時間（照時間排進去）*/
+  S.post=function(G,it){ S.rec(G); return put(G,mk(G,it,G.day,G.hour)); };
+  S.postAt=function(G,it,day,h){ S.rec(G); return put(G,mk(G,it,day,h)); };
+  /* 排定時間：day 第幾天、h 幾點（24 以上＝隔天凌晨）；items 依序；tag：同一個 tag 已經排過或送過就不再排（讀檔、重進區域不會重複）*/
+  S.sent=(G,tag)=>!!tag&&(S.rec(G).q.some(q=>q.tag===tag)||G.msgs.some(m=>m.tag===tag));
+  S.at=function(G,day,h,items,tag){ const P=S.rec(G); if(S.sent(G,tag)) return false; P.q.push({day,h,items:[].concat(items),tag:tag||null}); return true; };
+  /* 送出時間到了的（notify：每一批送完呼叫一次，給畫面提示）。15 分鐘以上前就該送的（睡覺、跳過時間）照原本的時間補進去 */
+  S.tick=function(G,notify){ const P=S.rec(G); if(!P.q.length) return 0; const now=abs(G.day,G.hour); let n=0;
+    for(const q of P.q.slice().sort((a,b)=>abs(a.day,a.h)-abs(b.day,b.h))){ const t=abs(q.day,q.h); if(t>now) continue; P.q.splice(P.q.indexOf(q),1); const late=now-t>0.25; const out=[];
+      q.items.forEach((it,k)=>{ const it2=Object.assign({},it); if(q.tag) it2.tag=q.tag; out.push(late?S.postAt(G,it2,q.day,q.h+k*0.01):S.post(G,it2)); n++; });
+      if(notify) notify(out,q); }
+    return n; };
+  /* 可以回的訊息 */
+  S.pending=G=>{ S.rec(G); return G.msgs.filter(m=>m.ask&&m.ans==null); };
+  S.byAsk=(G,id)=>{ S.rec(G); return G.msgs.find(m=>m.ask&&m.ask.id===id)||null; };
+  S.answer=function(G,id,k){ const m=S.byAsk(G,id); if(!m||m.ans!=null) return null; const o=m.ask.opts[k]; if(!o) return null; m.ans=k; const th=S.th(m);
+    const out=[S.post(G,{th,from:'player',who:null,text:o.t})]; for(const r of (o.say||[])) out.push(S.post(G,Object.assign({th},r)));
+    if(o.set) for(const f in o.set) G.flags[f]=o.set[f]; if(o.mem&&typeof SOCIAL!=='undefined') for(const q of o.mem) SOCIAL.remember(q.npc,q.tag,q.note);
+    if(o.contact&&typeof INV!=='undefined') for(const c of [].concat(o.contact)) INV.addContact(G,c);
+    return {m,o,out}; };
+  /* 對話串：最新的排前面；unread＝別人說的、在上次看過之後 */
+  S.threads=function(G){ const P=S.rec(G); const by=new Map();
+    for(const m of G.msgs){ const th=S.th(m); if(th==='sys') continue; let r=by.get(th); if(!r){ r={th,title:S.title(G,th),last:null,n:0,unread:0,pending:0}; by.set(th,r); } r.last=m; r.n++;
+      if(m.from!=='player'&&abs(m.day,m.h)>(P.seen[th]!=null?P.seen[th]:-1e9)&&!m.pin) r.unread++; if(m.ask&&m.ans==null) r.pending++; }
+    return [...by.values()].sort((a,b)=>abs(b.last.day,b.last.h)-abs(a.last.day,a.last.h)); };
+  S.thread=(G,th)=>{ S.rec(G); return G.msgs.filter(m=>S.th(m)===th); };
+  S.markSeen=function(G,th){ const P=S.rec(G); const L=S.thread(G,th); if(L.length){ const m=L[L.length-1]; P.seen[th]=abs(m.day,m.h); } };
+  S.unread=G=>S.threads(G).reduce((s,r)=>s+r.unread,0);
+  /* 通知文字（toast）：「可昕：今天的假設題。」／「法律系直屬家族｜Kevin：第三週了……」*/
+  S.notice=function(G,m){ if(!m) return ''; const th=S.th(m), w=S.who(m); const t=String(m.text||''); const s=(th.startsWith('g:')?S.title(G,th)+'｜':'')+(w?w+'：':'')+t; return s.length>40?s.slice(0,39)+'…':s; };
+  return S;
+})();

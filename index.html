@@ -73,6 +73,10 @@ button{font-family:var(--font);cursor:pointer}
 .card.phone #phoneBody{flex:1 1 auto;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch}
 .phone .list{display:flex;flex-direction:column;gap:8px}
 .phrow{display:flex;align-items:center;justify-content:space-between;gap:10px}.phrow .btn{flex:none;min-height:44px}
+/* 手機的對話（交接包 v1：src/phone3d.js）：自己傳的靠右、群組置頂、手機按鈕上的未讀數字 */
+.phone .item.me{margin-left:18%;background:rgba(120,160,220,.16)}
+.phone .item.pin{border-left:3px solid #c9a24a}
+#btnPhone{position:relative}.pbadge{position:absolute;top:-2px;right:-2px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:#d2463c;color:#fff;font-size:11px;line-height:18px;text-align:center;pointer-events:none}.pbadge.hide{display:none}
 .tt{display:grid;grid-template-columns:52px repeat(5,1fr);gap:3px;font-size:12px;line-height:1.35}
 .tth,.ttb,.ttc{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px;padding:5px 4px;text-align:center;min-height:44px}
 .tth{min-height:0;font-weight:500}.ttc.on,.tth.on{background:rgba(233,185,106,.18);border-color:rgba(233,185,106,.6)}
@@ -110,7 +114,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
 <canvas id="c"></canvas>
 <div id="ui">
   <div id="hud"><div class="chip" id="clock"><b id="clockT">週四 13:20</b><span id="clockZ">台大校園</span><span id="clockW">☀</span></div><div class="chip" id="goal">目標：—</div><div class="chip hide" id="nextClass" role="button" aria-label="今天的課（打開手機）"></div><div class="chip hide" id="guide"><svg id="guideArrow" viewBox="-10 -10 20 20" aria-hidden="true"><path d="M0 -8.5 L6.8 6.5 L0 3 L-6.8 6.5 Z" fill="#ffc85a" stroke="#1c1a17" stroke-width="1.2" stroke-linejoin="round"/></svg><span id="guideText"></span></div></div>
-  <div id="hudR"><div class="chip"><span>體力</span><div id="energy"><i></i></div><span id="money">$0</span></div><button class="ibtn" id="btnPhone" aria-label="手機">📱</button><button class="ibtn" id="btnMenu" aria-label="選單">☰</button></div>
+  <div id="hudR"><div class="chip"><span>體力</span><div id="energy"><i></i></div><span id="money">$0</span></div><button class="ibtn" id="btnPhone" aria-label="手機">📱<span id="phoneBadge" class="pbadge hide"></span></button><button class="ibtn" id="btnMenu" aria-label="選單">☰</button></div>
   <canvas id="minimap" width="224" height="160" aria-label="小地圖（點一下看整張地圖）"></canvas>
   <div id="bigmap" class="hide"><div class="bmHead"><b id="bmTitle">地圖</b><span id="bmNorth" class="hide" aria-label="地圖上方是北">↑ 北</span><span id="bmSub"></span><button class="ibtn" id="bmClose" aria-label="關閉地圖">✕</button></div><canvas id="bmCanvas"></canvas><div class="bmTools"><button class="ibtn" id="bmWho" aria-label="認識的人在哪">👥</button><button class="ibtn" id="bmTravel" aria-label="快速前往">🚶</button><button class="ibtn" id="bmIn" aria-label="放大">＋</button><button class="ibtn" id="bmOut" aria-label="縮小">－</button><button class="ibtn" id="bmMe" aria-label="回到我的位置">◎</button></div><div id="bmInfo" class="hide"></div><div id="bmPeople" class="hide"></div></div>
   <div id="joy"><i></i></div>
@@ -211,6 +215,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
 <script src="src/data/activities.js?v=9.6-1"></script>
 <script src="src/data/invites.js?v=9.6-1"></script>
 <script src="src/invites3d.js?v=9.6-1"></script>
+<script src="src/phone3d.js?v=9.6-1"></script>
 <script src="src/game3d.js?v=9.6-1"></script>
 <script src="src/guide3d.js?v=9.6-1"></script>
 <script src="src/story3d.js?v=9.6-1"></script>

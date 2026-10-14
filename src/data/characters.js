@@ -67,6 +67,13 @@ const CHARACTERS = {
     daily_schedule:[{days:[1,2,3,4,5],from:12,to:13,zone:'campus',act:'wander'},{days:[6],from:9,to:12,zone:'campus',act:'wander'}] },
   npc_huangxh:{ id:'npc_huangxh', presence:{from:'Y1S1'}, name:'黃筱涵', age:19, gender:'f', department:'心理系', year:1, social_layer:'C', visual_tier:1, personality:'通識課同組；問問題很直接；跟語彤是高中同學', career_goal:'臨床心理', char3d:{spec:{id:'npc_huangxh',height:1.6,build:'slim',sex:'f',skin:'#f9e3d1',hair:{color:'#3b2a1e',style:'softMid'},face:{iris:'#4a3020',brow:'soft',lash:true},outfit:{top:{type:'knit',color:'#c9a24f',inner:'#ffffff'},bottom:{type:'jeans',color:'#2b2b3a'},shoes:{type:'canvas',color:'#ffffff',sole:'#ffffff'},bag:'tote',bagColor:'#3b2a1e'},posture:{sway:0.015}}}, portrait:'npc_huangxh',
     daily_schedule:[{days:[2,4],from:10,to:13,zone:'campus',act:'wander'},{days:[1,3,5],from:14,to:16,zone:'library',act:'read'}] },
+  // ---------- G. 政大（交接包 v1，2026-10-14）----------
+  /* 杜可昕：政大法律系大一，和祐廷同屆；經濟系那一年開始交往、一起重考，法律系大一開學時已經交往幾個月（AA_99 3-3、AA_112、BB_104 第 1 節、BB_107）。
+     大一上一開始所有玩家都和她交往中（BB_95 第 0b 節）：G.flags.dating_kexin（game3d.js 的 defaults／migrate）。平常不在台大：沒有作息、不出現在 3D 校園（她來台大的事件之後做）；
+     手機上的名字是「可昕」（phoneName）。年齡、家庭細節文件沒有寫，不補。 */
+  kexin:{ id:'kexin', name:'杜可昕', nickname:'可昕', phoneName:'可昕', gender:'f', school:'政大', department:'法律系', year:1, social_layer:'G', visual_tier:2,
+    personality:'聰明、幽默、有趣；常提出出人意料的假設題；有自己的自尊與主見，在感情裡也會主動', career_goal:'律師（從來沒有想過司法官）', social_style:'輕快、反應快；認真的時候句子會突然變短',
+    daily_schedule:[] },
   // ---------- F. 助教／研究生 ----------
   npc_ta_chen:{ id:'npc_ta_chen', name:'陳助教', fullname:'陳冠廷', age:25, gender:'m', department:'法研所（刑事法組）', year:'碩二', social_layer:'F', visual_tier:1, personality:'刑訴助教；講話慢、喜歡反問；準備寫論文寫到懷疑人生', career_goal:'博士班或律師', char3d:{spec:{id:'npc_ta_chen',height:1.76,build:'slim',sex:'m',skin:'#efd0b3',hair:{color:'#1f1a17',style:'softMid'},face:{iris:'#2e211c',brow:'soft',lash:false,glasses:true},outfit:{top:{type:'cardiganOpen',color:'#3a3f4a',inner:'#ffffff'},bottom:{type:'slacks',color:'#2b2b3a'},shoes:{type:'loafer',color:'#2b2118',sole:'#2b2118'},bag:'shoulder',bagColor:'#4a4238'},posture:{sway:0.01}}}, portrait:'npc_ta_chen',
     daily_schedule:[{days:[2],from:10.1,to:12.2,zone:'classroom',act:'ta'},{days:[1,2,3,4,5],from:14,to:18,zone:'library',act:'read'},{days:[3],from:19,to:21,zone:'wancai',act:'club'},{days:[5],from:18.5,to:20.5,zone:'gongguan',act:'wander'}] },
