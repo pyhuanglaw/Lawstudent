@@ -82,5 +82,20 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       L=await play(1); check('學姊 W4 選 2：「……你翹課？」你「下課了。」「……好。」（她把咖啡倒進保溫瓶。）、HELPED',L.some(t=>/……你翹課？$/.test(t))&&L.includes('祐廷：下課了。')&&L.includes('（她把咖啡倒進保溫瓶。）')&&SOCIAL.has('heroine_05','HELPED'),JSON.stringify(L.slice(2)));
       L=await play(2); check('學姊 W4 選 3：她自己發現去裝水；「你看到了吧。」你「……沒有。」「說謊的時候，不要看別的地方。」、NOTICED_HER',L.includes('（她自己發現，起身去裝水。）')&&L.some(t=>/你看到了吧。$/.test(t))&&L.includes('祐廷：……沒有。')&&L.some(t=>/說謊的時候，不要看別的地方。$/.test(t))&&SOCIAL.has('heroine_05','NOTICED_HER'),JSON.stringify(L.slice(2)));
       check('學姊 W4：只一次',!EVENTS.check(e)); } }
+  /* ---------- 子晴 Q4 比賽那天（BB_96 4-1 改寫）---------- */
+  { const e=ev('ev_ziqing_contest_day'); check('子晴 Q4：事件在',!!e);
+    if(e){ const at=(term,w,wd,h,zone,noMem)=>{ fresh(wk(term,w,wd),h,zone||'gongguan'); SOCIAL.meet('heroine_04','campus'); if(!noMem) SOCIAL.remember('heroine_04','ARGUED_ABOUT_CAREER','x'); return EVENTS.check(e); };
+      const r={ok:at('Y1S2',8,6,14),h13:at('Y1S2',8,6,13.2),noMem:at('Y1S2',8,6,14,null,true),w7:at('Y1S2',7,6,14),w9:at('Y1S2',9,6,14),fri:at('Y1S2',8,5,14),sun:at('Y1S2',8,7,14),eve:at('Y1S2',8,6,16.5),cafe:at('Y1S2',8,6,14,'cafe'),y1s1:at('Y1S1',8,6,14)};
+      check('子晴 Q4：只在大一下第 8 週的週六 13～16、公館、問過比賽（ARGUED_ABOUT_CAREER）（沒問過、第 7／9 週、週五、週日、16:30、Café、大一上都沒有）',r.ok&&r.h13&&!r.noMem&&!r.w7&&!r.w9&&!r.fri&&!r.sun&&!r.eve&&!r.cafe&&!r.y1s1,JSON.stringify(r));
+      const play=async k=>{ fresh(wk('Y1S2',8,6),14,'gongguan'); SOCIAL.meet('heroine_04','campus'); SOCIAL.remember('heroine_04','ARGUED_ABOUT_CAREER','x'); picks=[k]; await EVENTS.run(e); return lines(); };
+      let L=await play(0);
+      check('子晴 Q4：旁白「（她坐在騎樓的長椅，旁邊三個空的咖啡罐。）」＋三句（第三罐咖啡）；三個選項（原文）',L[0]==='（她坐在騎樓的長椅，旁邊三個空的咖啡罐。）'&&/……今天是那個比賽。系上的人現在都在會場。$/.test(L[1])&&/我在這裡喝第三罐咖啡。$/.test(L[2])&&/你說，我是不是很爛。$/.test(L[3])&&JSON.stringify(opts[0])==='["「妳不想去，就不是爛。」","「現在去還來得及嗎？」","（陪她喝第四罐）"]',JSON.stringify([L.slice(0,4),opts[0]]));
+      const m=SOCIAL.memories('heroine_04').find(x=>x.tag==='CONTEST_DAY');
+      check('子晴 Q4 選 1：「……你這樣講，好像我很勇敢。」（她笑。）「我只是怕輸。」→「……第四罐。你請。」、CONTEST_DAY（比賽那天，公館騎樓）',L.some(t=>/……你這樣講，好像我很勇敢。$/.test(t))&&L.includes('（她笑。）')&&L.some(t=>/我只是怕輸。$/.test(t))&&/……第四罐。你請。$/.test(L[L.length-1])&&!!m&&m.note==='比賽那天，公館騎樓'&&!L.some(t=>/來不及|你也喝/.test(t)),JSON.stringify(L.slice(4)));
+      L=await play(1); check('子晴 Q4 選 2：「來不及了。第一輪已經結束了。」（她把手機蓋在長椅上。）「……好爽。好爛。兩個都有。」→ 第四罐、CONTEST_DAY',L.some(t=>/來不及了。第一輪已經結束了。$/.test(t))&&L.includes('（她把手機蓋在長椅上。）')&&L.some(t=>/……好爽。好爛。兩個都有。$/.test(t))&&/……第四罐。你請。$/.test(L[L.length-1])&&SOCIAL.has('heroine_04','CONTEST_DAY')&&!L.some(t=>/勇敢|你也喝/.test(t)),JSON.stringify(L.slice(4)));
+      L=await play(2); check('子晴 Q4 選 3：「欸不是，你也喝？」你「嗯。」「……你很奇怪。」（她第一次沒有吐槽下去。）→ 第四罐、CONTEST_DAY',L.some(t=>/欸不是，你也喝？$/.test(t))&&L.includes('祐廷：嗯。')&&L.some(t=>/……你很奇怪。$/.test(t))&&L.includes('（她第一次沒有吐槽下去。）')&&/……第四罐。你請。$/.test(L[L.length-1])&&SOCIAL.has('heroine_04','CONTEST_DAY')&&!L.some(t=>/勇敢|來不及/.test(t)),JSON.stringify(L.slice(4)));
+      const T=JSON.stringify(e.dialogue);
+      check('子晴 Q4：舊版刪掉的選項「有一點。但明年還有。」與舊的 IMPORTANT_CONVERSATION 備註都不在；錢照舊 −120',!/有一點。但明年還有。/.test(T)&&!/IMPORTANT_CONVERSATION/.test(T)&&e.consequences&&e.consequences.money===-120);
+      check('子晴 Q4：只一次',!EVENTS.check(e)); } }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });
