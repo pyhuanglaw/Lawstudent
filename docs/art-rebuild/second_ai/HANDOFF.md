@@ -13,12 +13,71 @@
 
 **待正式分派（LAWWW 15:06Z 預告，現在不用動）**：使用者 10/14 的新決策（健身體態、汽車、跨縣市約會、校外單獨約會 32 處、半互動 2D 約會場景）之後可能要 LAWWW2 做人物透明素材、道具、腳踏車與汽車相關美術；等 AA、BB 互審交接後 LAWWW 正式分派。
 
-值班登記：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜分支 claude/second-ai-env-art｜接班基準 `1f20126`（＋合併 LAWWW `cb399ea`）｜2026-10-13 12:35 UTC（使用者：「我回來了，請同步 GitHub 最新進度，接續工作。」）
+## 交班（最新）：2026-10-14 17:4x UTC｜帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜正常交班
+
+- **原因**：使用者 17:3xZ：「現在換班，請依照既定交班規則完成交班。」
+- **最後 commit**：分支 `claude/second-ai-env-art` 上訊息開頭為「LAWWW2（帳號 A）交班」的那個 commit。
+  - 查法：`git fetch origin --prune && git log -1 --format='%h %ci %s' origin/claude/second-ai-env-art`。
+  - 交班前的上一個 commit 是 `208f242`（便利商店商品 WIP 腳本）。
+- **之後**：不再寫入 LAWWW2 的範圍，直到使用者叫回來（帳號 A 說「我回來了…」，或帳號 B 開 LAWWW2-B）。
+- **接班的人先讀**：上面的 P0 一節 → 這一節 → `test_shots/cvs_goods_wip/README.md`。
+
+### 正在做，停在 WIP（不能整合、不能發布）
+
+1. **便利商店商品第二版**（LAWWW 17:22Z 佇列①；使用者 10-14 回饋⑦「貨架像模板複製貼上」）：`WORK_IN_PROGRESS`／`CHECKPOINT_SAVED`。
+   - 已做：腳本 `tools/blender/env_second/cvs_goods.py`（新）、`cvs_interior.py`（改用它），在 `208f242`。
+   - 遊戲內新舊截圖：入口、零食貨架兩個角度＋並排比較，在 `test_shots/cvs_goods_wip/`（桌機 SwiftShader，不是實機）。
+   - **正式 GLB 沒換**。注意：現在跑 `cvs_interior.py` 會產生 WIP 版，不要輸出到正式路徑。
+   - 還沒做（README 有細節與順序）：
+     - 海報換成貼圖集海報。
+     - 洋芋片、麵包改成鼓起來的袋子。
+     - 依分類畫包裝插圖，並照每個面的長寬比畫（現在袋麵字被拉寬、洗髮精字被壓扁）。
+     - 圓柱平滑著色、接縫對齊側面。
+     - 寶特瓶標籤加高。
+     - 後牆密度。
+     - 四角度＋手機直向／橫向截圖、預算量測，然後交付。
+
+### LAWWW 17:22Z 佇列，還沒開始
+
+2. **女舍門燈罩加大**：我的 `campus_freshman.glb`，腳本 `tools/blender/env_second/campus_freshman.py`，零件 `wz_lamp_lens`，現在 0.36 m。
+   - README 要寫「長椅附近適合加燈的位置」，給 LAWWW 整合時加燈。
+   - 長椅在 C13 截圖 B 的 (−93, 51.5) 附近，建議見 `test_shots/c13_night/README.md` 第 28 行（`W3.lampPost()`＋地面光圈，長椅下鋪一小塊地磚接到步道）。
+3. **盤點**我這邊 READY_FOR_ART_REVIEW、還沒給使用者看的成果清單（檔案、commit、截圖路徑），寫進這份 HANDOFF，方便下次給使用者驗收。
+4. **汽車／約會美術**：**不要開工**，等 AA、BB 交接＋LAWWW 正式分派。
+
+### 其他待辦（順序由 LAWWW 排）
+
+- **普通、博雅 Blender 外觀＋空橋**（舊清單 #43）：
+  - 位置不用再等使用者選：v9.6 已照**方案 A** 發布（開發分支 `docs/RELEASES.md` v9.6「校園方案 A」：醉月湖往北移，普通、博雅在文學院後面，二樓空橋）。
+  - 外觀還是套件方盒（`BLOCKOUT`），沒排進佇列。
+  - 交班時使用者問過 A／B 是什麼，已回答：v9.6 已照 A。使用者想改成 B 就跟 LAWWW 說。
+- 博雅官方平面圖對照 R2（#67，只寫文件，等平面圖）。
+- 小語、明軒模型（暫停中）；路人底模的缺點；溫州街多一兩家店；男宿交誼廳家具。
+
+### 本機狀態（容器重開就沒了；沒有獨有的成果）
+
+- 測試用 worktree，**不要 commit**，交付的東西都已在分支上：
+  - `/home/user/bg_wt`：開發分支 `e6ca3e2`，加本機 noodle_table 接線，cvs 換成 WIP GLB；伺服器 8820。
+  - `/home/user/npc_wt`、`/home/user/v97rc16_wt`、`/home/user/v97rc19_wt`、`/home/user/v97rc5_wt`。
+- scratchpad：cvs WIP 測試 GLB（可以用腳本重建）、截圖原檔（已轉 webp 進 repo）。
+- 沒有跑到一半的 Blender 匯出或背景測試；沒有排程（send_later）。
+
+### 不能合併／發布
+
+- 便利商店 WIP（同上）。
+- 我所有成果都要 LAWWW merge 進開發分支、跑回歸後才能發布。commit／push 只是保存，不是核准，也不是發布。我不碰 `main`、不 force push、不標 ART_APPROVED。
+
+### 通訊
+
+- LAWWW 17:22Z P1（下一段佇列）已在 17:34Z 讀到，寫在上面。
+- 交班通知＋ACK 用 claude-code-remote `send_message` 傳給 LAWWW。狀態以工具結果為準（SENT／DELIVERED 不是 ACK）。
+
+值班登記：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜分支 claude/second-ai-env-art｜接班基準 `1f20126`（＋合併 LAWWW `cb399ea`）｜2026-10-13 12:35 UTC（使用者：「我回來了，請同步 GitHub 最新進度，接續工作。」）→ **2026-10-14 17:4x UTC 交班**（見上一節）
 上一班：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜最後 commit `1f20126`（2026-10-11 10:14 UTC）｜正常交班；中間沒有人接班（LAWWW2-B 沒有建立，遠端沒有別的 LAWWW2 分支）
 交班紀錄：2026-10-11 10:13 UTC 交班（`1f20126`）→ 2026-10-13 回到帳號 A。
 使用者 2026-10-13：帳號 B 暫時沒有開，從上次停下來的地方接著做。
 
-**2026-10-14 17:00Z（最新）**：
+**2026-10-14 17:00Z**：
 - **LAWWW 16:00Z 佇列**：
   - ① 2D 背景 noodle_table：**v2 已交**。
     - 檔案：`assets/bg/noodle_table.webp`，備用 `noodle_table_window.webp`。commit dcc4cf7；腳本 `tools/blender/env_second/bg_noodle_table.py`、`noodle_interior.py --layout longtable`。

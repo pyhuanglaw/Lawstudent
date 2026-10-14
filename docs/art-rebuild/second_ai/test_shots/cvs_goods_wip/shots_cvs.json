@@ -1,0 +1,114 @@
+[
+ {
+  "out": "shots_out/cvs/cvs_1_entrance.png",
+  "w": 1280,
+  "h": 800,
+  "state": {
+   "zone": "cvs",
+   "hour": 14.0,
+   "pos": {
+    "x": 0,
+    "z": 3.6,
+    "yaw": 3.14
+   }
+  },
+  "cam": {
+   "pos": [
+    0.0,
+    1.75,
+    4.05
+   ],
+   "look": [
+    0.0,
+    1.0,
+    -2.0
+   ]
+  },
+  "hidePlayer": true,
+  "wait": 3500
+ },
+ {
+  "out": "shots_out/cvs/cvs_2_island.png",
+  "w": 1280,
+  "h": 800,
+  "state": {
+   "zone": "cvs",
+   "hour": 14.0,
+   "pos": {
+    "x": 0,
+    "z": 3.6,
+    "yaw": 3.14
+   }
+  },
+  "cam": {
+   "pos": [
+    -0.35,
+    1.45,
+    1.6
+   ],
+   "look": [
+    -1.8,
+    1.0,
+    -0.3
+   ]
+  },
+  "hidePlayer": true,
+  "wait": 3500
+ },
+ {
+  "out": "shots_out/cvs/cvs_3_backwall.png",
+  "w": 1280,
+  "h": 800,
+  "state": {
+   "zone": "cvs",
+   "hour": 14.0,
+   "pos": {
+    "x": 0,
+    "z": 3.6,
+    "yaw": 3.14
+   }
+  },
+  "cam": {
+   "pos": [
+    -3.4,
+    1.5,
+    -1.4
+   ],
+   "look": [
+    -4.3,
+    1.0,
+    -4.3
+   ]
+  },
+  "hidePlayer": true,
+  "wait": 3500
+ },
+ {
+  "out": "shots_out/cvs/cvs_4_cooler.png",
+  "w": 1280,
+  "h": 800,
+  "state": {
+   "zone": "cvs",
+   "hour": 14.0,
+   "pos": {
+    "x": 0,
+    "z": 3.6,
+    "yaw": 3.14
+   }
+  },
+  "cam": {
+   "pos": [
+    3.6,
+    1.5,
+    3.2
+   ],
+   "look": [
+    5.4,
+    1.1,
+    1.0
+   ]
+  },
+  "hidePlayer": true,
+  "wait": 3500
+ }
+]
