@@ -2,7 +2,7 @@
 v9.7 候選 1～4 遊戲程式相同（候選 2～4 只改測試：flow_classes、playlib 的 go_to／讀檔、flow_typhoon）；候選 5 以後加在 RCS。"""
 import re, os
 S='/tmp/claude-0/-home-user-Lawstudent/a98cd672-cd93-5881-9adc-d5e86cb59d66/scratchpad'
-RCS={'5adef66':'候選 1','06f2b64':'候選 2','8ac75f6':'候選 3','6ad0923':'候選 4','37a5db2':'候選 5','7c5d4c2':'候選 6','dbe16a5':'候選 7','3e5201d':'候選 8','64792d3':'候選 9','11bdf50':'候選 10','836a1f6':'候選 11','b223a31':'候選 12','69a6cdc':'候選 13','fd46e14':'候選 14','d8aca4d':'候選 15'}
+RCS={'5adef66':'候選 1','06f2b64':'候選 2','8ac75f6':'候選 3','6ad0923':'候選 4','37a5db2':'候選 5','7c5d4c2':'候選 6','dbe16a5':'候選 7','3e5201d':'候選 8','64792d3':'候選 9','11bdf50':'候選 10','836a1f6':'候選 11','b223a31':'候選 12','69a6cdc':'候選 13','fd46e14':'候選 14','d8aca4d':'候選 15','52f288e':'候選 16'}
 PAT=r'(\S+) rc=(\d+) \((\d+)s\) @(\w+) ?(.*)'
 mine={}
 for line in open(S+'/q/Q.txt',encoding='utf8',errors='replace'):
