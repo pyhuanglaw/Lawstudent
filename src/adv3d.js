@@ -14,6 +14,9 @@ const ADV = (function(){
 #adv.blur #advBg{backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);background:rgba(10,12,18,.38)}
 #adv.image #advBg{background-size:cover;background-position:center}
 #adv.freeze #advBg{background:rgba(0,0,0,0)}
+#advCg{position:absolute;inset:0;display:none;background-repeat:no-repeat;background-position:center;background-size:cover}
+#adv.cg #advCg{display:block}
+#adv.cg #advBg{filter:blur(18px) brightness(.6);transform:scale(1.1)}
 .advSlot{position:absolute;bottom:0;height:min(88%,calc(100% - 20px));width:42%;display:flex;align-items:flex-end;justify-content:center;transition:filter .3s,opacity .3s,transform .35s;transform:translateY(12px);opacity:0}
 .advSlot.show{transform:translateY(0);opacity:1}
 .advSlot.dim{filter:brightness(.55) saturate(.8)}
@@ -34,9 +37,9 @@ const ADV = (function(){
 .adv-on #choices{right:auto;left:max(14px,env(safe-area-inset-left));bottom:calc(max(14px,env(safe-area-inset-bottom)) + 118px)}
 .adv-on.spriteLeft #choices{left:auto;right:max(14px,env(safe-area-inset-right))}
 .adv-on #dlg{z-index:6}
-@media (orientation:portrait){.advSlot{width:100%;height:calc(100% - 150px - max(8px,env(safe-area-inset-top)));top:calc(max(8px,env(safe-area-inset-top)) + 40px);bottom:auto;align-items:flex-start}#advL{left:0}#advR{right:0}.adv-on #choices{bottom:calc(max(14px,env(safe-area-inset-bottom)) + 130px);width:calc(100% - 28px)}}
+@media (orientation:portrait){#adv.cg #advCg{background-size:contain;background-position:center 40%}.advSlot{width:100%;height:calc(100% - 150px - max(8px,env(safe-area-inset-top)));top:calc(max(8px,env(safe-area-inset-top)) + 40px);bottom:auto;align-items:flex-start}#advL{left:0}#advR{right:0}.adv-on #choices{bottom:calc(max(14px,env(safe-area-inset-bottom)) + 130px);width:calc(100% - 28px)}}
 @media (orientation:landscape){.advSlot{height:100%;bottom:0;align-items:flex-start;padding-top:6px;overflow:hidden}.advSlot img{height:132%}}`;
-    document.head.appendChild(css); const root=el('div','',document.body); root.id='adv'; A.root=root; const bg=el('div','',root); bg.id='advBg'; A.bg=bg; const L=el('div','advSlot',root); L.id='advL'; const R=el('div','advSlot',root); R.id='advR'; A.L=L; A.R=R; const top=el('div','',root); top.id='advTop'; const bh=el('button','',top); bh.textContent='紀錄'; bh.onclick=()=>A.toggleHistory(); const bs=el('button','',top); bs.textContent='略過對話'; bs.onclick=()=>{ A.skip=true; if(window.GAME&&GAME.dlgAdvance) GAME.dlgAdvance(); }; const hist=el('div','',root); hist.id='advHist'; A.hist=hist; hist.onclick=()=>A.toggleHistory(); const dev=el('div','',root); dev.id='advDev'; A.dev=dev; A.devMode=/[?&](dev|mdbg|debug)\b/.test(location.search); // dlg 要在 adv 之上
+    document.head.appendChild(css); const root=el('div','',document.body); root.id='adv'; A.root=root; const bg=el('div','',root); bg.id='advBg'; A.bg=bg; const cgEl=el('div','',root); cgEl.id='advCg'; A.cgEl=cgEl; const L=el('div','advSlot',root); L.id='advL'; const R=el('div','advSlot',root); R.id='advR'; A.L=L; A.R=R; const top=el('div','',root); top.id='advTop'; const bh=el('button','',top); bh.textContent='紀錄'; bh.onclick=()=>A.toggleHistory(); const bs=el('button','',top); bs.textContent='略過對話'; bs.onclick=()=>{ A.skip=true; if(window.GAME&&GAME.dlgAdvance) GAME.dlgAdvance(); }; const hist=el('div','',root); hist.id='advHist'; A.hist=hist; hist.onclick=()=>A.toggleHistory(); const dev=el('div','',root); dev.id='advDev'; A.dev=dev; A.devMode=/[?&](dev|mdbg|debug)\b/.test(location.search); // dlg 要在 adv 之上
     const dlg=$('dlg'); if(dlg) dlg.style.zIndex=6; const ch=$('choices'); if(ch) ch.style.zIndex=6; };
   // ---- 立繪解析（fallback 鏈）----
   // ---- Portrait coverage：只有實際存在（PORTRAIT_FILES manifest）的檔案才算 production ----
@@ -57,7 +60,7 @@ const ADV = (function(){
     A.slots[slot]={charId,expression,outfit}; box.classList.add('show'); A.root.classList.remove('compact'); }
   // ---- 進入／離開 ----
   A.begin=function(opts){ opts=opts||{}; A.init(); A.active=true; A.skip=false; const bgMode=opts.background||'blur'; A.bgMode=bgMode; A.root.className='on '+(typeof bgMode==='object'?'image':bgMode); if(typeof bgMode==='object'&&bgMode.image){ A.bg.style.backgroundImage='url('+bgMode.image+')'; loadImage(bgMode.image).catch(()=>{ A.root.className='on blur'; A.bg.style.backgroundImage=''; }); } else A.bg.style.backgroundImage=''; document.body.classList.add('adv-on'); document.body.classList.toggle('spriteLeft',opts.mainSide==='left'); A.root.classList.remove('compact'); A.root.classList.remove('dev'); A.L.classList.remove('show'); A.R.classList.remove('show'); A.L.innerHTML=''; A.R.innerHTML=''; A.slots={left:null,right:null}; if(opts.left) A.show('left',opts.left.charId||opts.left,opts.left.expression,opts.left.outfit); if(opts.right) A.show('right',opts.right.charId||opts.right,opts.right.expression,opts.right.outfit); if(opts.cg&&typeof CG_REGISTRY!=='undefined'&&CG_REGISTRY[opts.cg]){ A.cg(opts.cg); } };
-  A.end=function(){ if(!A.active) return; A.active=false; A.root.className=''; if(A.dev) A.dev.textContent=''; document.body.classList.remove('adv-on'); document.body.classList.remove('spriteLeft'); A.L.classList.remove('show'); A.R.classList.remove('show'); A.hist.style.display='none'; setTimeout(()=>{ if(!A.active){ A.L.innerHTML=''; A.R.innerHTML=''; A.bg.style.backgroundImage=''; } },400); };
+  A.end=function(){ if(!A.active) return; A.active=false; A.root.className=''; if(A.dev) A.dev.textContent=''; document.body.classList.remove('adv-on'); document.body.classList.remove('spriteLeft'); A.L.classList.remove('show'); A.R.classList.remove('show'); A.hist.style.display='none'; setTimeout(()=>{ if(!A.active){ A.L.innerHTML=''; A.R.innerHTML=''; A.bg.style.backgroundImage=''; if(A.cgEl) A.cgEl.style.backgroundImage=''; } },400); };
   A.show=function(slot,charId,expression,outfit){ if(!A.active) return; render(slot,charId,expression||'neutral',outfit); };
   A.hide=function(slot){ const box=slot==='left'?A.L:A.R; box.classList.remove('show'); A.slots[slot]=null; };
   // 說話者高亮：另一側變暗
@@ -65,7 +68,9 @@ const ADV = (function(){
   A.log=function(name,text){ A.history.push({name,text}); if(A.history.length>60) A.history.shift(); };
   A.toggleHistory=function(){ const h=A.hist; if(h.style.display==='block'){ h.style.display='none'; return; } h.innerHTML=A.history.map(x=>'<div>'+(x.name?'<b>'+x.name+'</b>':'')+x.text+'</div>').join('')||'<div>（還沒有對話）</div>'; h.style.display='block'; h.scrollTop=h.scrollHeight; };
   // Event CG：稀有；不存在時自動退回一般 ADV
-  A.cg=function(cgId){ const reg=(typeof CG_REGISTRY!=='undefined')?CG_REGISTRY[cgId]:null; if(!reg) return false; loadImage(reg.file).then(()=>{ A.root.className='on image'; A.bg.style.backgroundImage='url('+reg.file+')'; A.L.classList.remove('show'); A.R.classList.remove('show'); if(window.GAME&&GAME.G){ GAME.G.cg=GAME.G.cg||{unlocked:[]}; if(!GAME.G.cg.unlocked.includes(cgId)) GAME.G.cg.unlocked.push(cgId); } }).catch(()=>{ /* fallback：維持一般 ADV */ }); return true; };
+  /* 手機直向（BB 2026-10-14 同意）：整張 CG 縮小放進畫面（contain），人物不會被裁；上下的空白是同一張 CG 放大模糊（#advBg）。橫向照舊 cover。
+     CG 一律 16:9（docs/CHARACTER_ART_SPEC.md）；直向時圖放在畫面 40% 的高度，下面留給對話框與選項 */
+  A.cg=function(cgId){ const reg=(typeof CG_REGISTRY!=='undefined')?CG_REGISTRY[cgId]:null; if(!reg) return false; loadImage(reg.file).then(()=>{ A.root.className='on image cg'; A.bg.style.backgroundImage='url('+reg.file+')'; A.cgEl.style.backgroundImage='url('+reg.file+')'; A.L.classList.remove('show'); A.R.classList.remove('show'); if(window.GAME&&GAME.G){ GAME.G.cg=GAME.G.cg||{unlocked:[]}; if(!GAME.G.cg.unlocked.includes(cgId)) GAME.G.cg.unlocked.push(cgId); } }).catch(()=>{ /* fallback：維持一般 ADV */ }); return true; };
   return A;
 })();
 // Event CG 登錄（檔案尚未提供；解鎖狀態存於 G.cg.unlocked）
