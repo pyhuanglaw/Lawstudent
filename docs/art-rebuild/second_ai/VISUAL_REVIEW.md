@@ -2604,3 +2604,168 @@ LAWWW 2026-10-13 22:01Z 分派②（系籃練球 `dept_basketball`，AA 暫定�
 | `bball_court.glb` | 完成 | **還沒接**（位置、導航、活動點由 LAWWW 做） | `MODEL_READY` |
 
 自評（還沒達到參考品質的地方）：沒有照片可以核對臺大的球場；鋪面沒有磨損與球印；籃網是線框；只有半場；四周沒有圍網與路燈（見提案第 3 節）。
+
+## 30. 總圖書館 3F 閱覽區（⑪，Blender 正式模型；**還沒接進遊戲**）
+
+LAWWW 佇列的 ⑪（原文在 `docs/DUAL_AI_BOARD.md`：「總圖 3F 閱覽區 Blender 化」）：房間 22×16×4.0（`zones3d.js` library 區塊的 room()）；6 張長桌、36 張椅子（`z.seats`，劇情用 seats[0..2]，座標不能動）、三面書架牆；**不能動**：座位、互動點（坐下讀書、樓梯間的門 (0,7.6)）、東側電梯（程序化、會動，不做進 GLB）、劇情人物的位置。
+腳本 `tools/blender/env_second/library_3f.py` → `assets/models/env/second_ai/library_3f.glb`（＋`.json`）；書背與牌子 `lib3f_atlas.py`。
+
+### 30.1 做了什麼（玩家會看到什麼不同）
+
+| | 現在（程序化） | 正式模型 |
+|---|---|---|
+| 地板、牆、天花板 | 單色石材地板、單色牆、方格天花板 | **人字拼木地板**、米色粉光牆＋**胡桃木牆裙**（直條、腰帶、深色踢腳板）、壁柱、上緣兩段線腳、**礦纖天花板＋輕鋼架**、每張長桌正上方一條長燈、走道的方燈、冷氣出風口、偵煙器（和 LAWWW 的總圖大廳同一套材質） |
+| 窗 | 牆上的四片窗景（後兩扇被書架擋住） | **四扇窗都看得到**：深古銅色鋁框、中間直櫺、上面一道橫櫺（氣窗）、拉到橫櫺的捲簾、木窗台；窗外照舊是遊戲的 `library_3f` 窗景照片 |
+| 後牆的書架 | 2.4 m 高、伸出房間外 3 m、擋住兩扇窗 | **窗下的胡桃木矮書櫃**（0.95 m，兩層書、上面幾疊書）——導航範圍和原本一樣（x ±4～±11） |
+| 西牆的書架 | 一排書背貼圖 | **整面 2.4 m 的胡桃木書架**（13 個開間 × 5 層，一本一本的書：一般書、參考書（百科全書、辭典、地圖集、統計年鑑）、期刊合訂本）＋上面「參考書」的牌子 |
+| 長桌 | 一塊板＋圓管腳 | 胡桃木桌面＋封邊、牙板、**兩端的實木端板＋腳座**、下面的橫撐；桌子中線每 1.6 m 一盞**黃銅檯燈＋綠燈罩**（晚上燈罩下發光）、兩個插座盒；有些桌子的一端放著一疊書 |
+| 椅子 | 程序化的木椅 | 實木閱覽椅：深綠布坐墊、微彎的靠背（坐面 0.47 m，和遊戲的椅子一樣） |
+| 前牆 | 一個互動點 | **樓梯間的雙開門**（上半霧面玻璃、下半木板、推桿、踢板、門框）、門上的出口標示燈、「樓梯間」「請保持安靜」的牌子、時鐘、滅火器箱 |
+| 東牆 | — | 「閱覽須知」的板子；電梯（程序化）旁邊留空 |
+
+### 30.2 接法（LAWWW 整合；照 Café／便利商店的做法）
+
+1. `ASSETS.manifest` 加 `'bldg.library_3f':{url:'assets/models/env/second_ai/library_3f.glb', type:'building', lazy:true, …}`。
+2. `zones3d.js` 的 library 區塊：room() 之後、`LB3.readingExtras` **之前**，把程序化的東西搬進 `fallback` 群組（和 cafe 一樣：燈留著）；載入後 `attachRoomGLB(z, g0, fb, root)`。電梯是 `readingExtras` 之後才加的，不會被藏起來。
+3. 不用改：導航（家具都在原本 `desk`、`shelfWall` 的阻擋範圍裡）、座位、互動點、出口、窗（room() 的四扇窗位置和窗洞對得上：窗景會放到玻璃外面）。
+4. 注意：桌上的 `PROP`（水瓶、包包、杯子）在程序化的群組裡；要留著的話放到 fallback 外面。
+
+規格：GLB **1.46 MB**、網格 147（不重複 73）、材質 32、三角形 24,990（靜態 13,186＋書 11,804：19 個書模組、93 個 instance）；座位 36 張（和 z.seats 一樣）。
+
+### 30.3 遊戲內原型（**本機注入、不是整合**：LAWWW `9884d29`（閱覽室、`library3d.js`、配置和 `469ae8c` 完全一樣），讀檔到 library、用遊戲的 GLTFLoader 載入、把程序化的東西搬進 fallback、呼叫遊戲的 `Z3.attachRoomGLB`；Playwright＋SwiftShader，**不是 iPhone**）
+
+| 鏡頭 | 修改前（程序化） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 從樓梯間的門口往裡看（13:00） | ![修改前](shots/lib3f_before_entrance_1300.webp) | ![修改後](shots/lib3f_after_entrance_1300.webp) |
+| 長桌與西牆書架（13:00） | ![修改前](shots/lib3f_before_tables_1300.webp) | ![修改後](shots/lib3f_after_tables_1300.webp) |
+| 後牆的窗與窗下矮書櫃（13:00） | ![修改前](shots/lib3f_before_windows_1300.webp) | ![修改後](shots/lib3f_after_windows_1300.webp) |
+| 西牆整面書架（13:00） | ![修改前](shots/lib3f_before_westshelf_1300.webp) | ![修改後](shots/lib3f_after_westshelf_1300.webp) |
+| 桌燈、插座（13:00） | ![修改前](shots/lib3f_before_lamp_1300.webp) | ![修改後](shots/lib3f_after_lamp_1300.webp) |
+| 樓梯間的門（13:00） | ![修改前](shots/lib3f_before_door_1300.webp) | ![修改後](shots/lib3f_after_door_1300.webp) |
+| 晚上 20:30 | ![修改前](shots/lib3f_before_entrance_2050.webp) | ![修改後](shots/lib3f_after_entrance_2050.webp) |
+| 晚上 20:30 | ![修改前](shots/lib3f_before_tables_2050.webp) | ![修改後](shots/lib3f_after_tables_2050.webp) |
+| 晚上 20:30 | ![修改前](shots/lib3f_before_windows_2050.webp) | ![修改後](shots/lib3f_after_windows_2050.webp) |
+| 手機直向 390×844（跟隨鏡頭、有 HUD） | ![修改前](shots/lib3f_before_mobile_1300.webp) | ![修改後](shots/lib3f_after_mobile_1300.webp) |
+
+### 30.4 Blender 渲染（Cycles；**不是遊戲畫面**；室內打了點光源）
+
+**從門口往裡看**
+
+![](blender_renders/lib3f_entrance.webp)
+
+**長桌、檯燈、椅子、西牆書架**
+
+![](blender_renders/lib3f_tables.webp)
+
+**後牆的窗、窗下矮書櫃**
+
+![](blender_renders/lib3f_windows.webp)
+
+**西牆書架（參考書、期刊合訂本）**
+
+![](blender_renders/lib3f_westshelf.webp)
+
+**檯燈近看**
+
+![](blender_renders/lib3f_lamp.webp)
+
+**樓梯間的門、出口標示燈、時鐘**
+
+![](blender_renders/lib3f_door.webp)
+
+
+### 30.5 驗收狀態
+
+| 項目 | 模型 | 整合 | 狀態 |
+|---|---|---|---|
+| `library_3f.glb` | 完成 | **還沒接**（接法見 30.2，由 LAWWW 做） | `MODEL_READY` |
+
+### 30.6 還沒達到參考品質的地方（自評）
+
+1. **沒有照片或平面圖**：臺大總圖 3F 實際的樣子（天花板、窗、書架、桌椅）沒有查證，是照遊戲現有的配置做的遊戲化設計（D43），材質跟 LAWWW 做的大廳一致。
+2. 窗只有後牆四扇（照 room() 的窗）；真的閱覽室大概有更多窗。
+3. 書是書背圖集（程式畫），近看看得出是平面；書的排列是亂數。
+4. 牌子的字是點陣圖（文泉驛正黑）。
+5. 沒有人：讀書的人由 LAWWW 的 NPC 或坐姿替身放。
+
+## 31. 醉月湖：石砌湖岸、置石、湖心亭、木棧道（⑩，Blender 正式模型；**還沒接進遊戲**）
+
+LAWWW 佇列的 ⑩（醉月湖：湖心亭＋木棧道＋湖岸）。腳本 `tools/blender/env_second/campus_lake.py` → `assets/models/env/second_ai/campus_lake.glb`（＋`.json`）；預覽場景 `shots/lake_preview.py`。
+座標是**湖的本地座標**（原點＝湖中心）：遊戲裡整組放在 `lake(g,nav,cx,cz,…)` 的 `(cx, 0, cz)`（方案 A 是 (−36, −112)），湖再搬家也跟著走。外形照 `zones3d.js` 的 `lake()`（同一個公式），兩邊對得上。
+
+### 31.1 做了什麼（玩家會看到什麼不同）
+
+| | 現在（程序化） | 正式模型 |
+|---|---|---|
+| 湖岸 | 一條 0.75 m 寬、0.2 m 高的石頭色帶子 | **石砌湖岸**：湖這一側的石牆從水下 0.35 m 砌到壓頂石（往上稍微內收、每一點前後差一點），壓頂石 0.7 m 寬、高低差一點；Poly Haven `japanese_stone_wall`；木棧道經過的南岸照遊戲留缺口，缺口兩端有石牆的端面 |
+| 置石 | — | 岸邊 18 組大石頭（一半在水裡、一半在岸上；有的旁邊一顆小的；Poly Haven `mossy_rock` 調淡；頂點共用＝平滑著色，貼圖每一面照法線投影——第一版用球面投影，接縫兩邊的面拉成條紋） |
+| 湖心亭 | 六角柱體平台＋6 根圓柱＋圓錐屋頂＋圓球 | **六角亭**：花崗石平台（平邊朝南北，南邊接木棧道；頂面 y 0.05，和遊戲原本的一樣、比水面高）、花崗石柱珠＋紅漆圓柱、紅漆額枋＋青綠彩畫、雀替（金邊）、**凹曲面的攢尖屋頂**（屋簷平緩、越往上越陡）、**翼角起翹**、六條垂脊（尾端翹起）、深色瓦（本作程式產生的 `jp_kawara` 瓦片貼圖）、木板天花＋紅色的椽子（每一面中間一根，共六根）、金色葫蘆寶頂 |
+| 木棧道 | 一塊長板＋細欄杆 | **2.3 m 寬**（遊戲原本 1.7 m；理由見 31.2 第 3 點）、一片一片的木板（Poly Haven `dark_planks`，板縫）、兩條托梁、橫梁、**水裡的木樁**、欄杆（柱子每 1.6 m、扶手、中間一道橫桿；亭子和岸邊兩端開口） |
+
+**沒有改的**：水面（遊戲的 shader）、睡蓮、岸邊的草叢、樹、長椅、路燈、導航。
+
+### 31.2 接法（LAWWW 整合）
+
+1. `lake()` 裡把**湖岸、湖心亭、木棧道**的網格放進一個 `lake_fallback` 群組（`userData.dyn=true`：不被 `mergeStatic` 合併），正式模型載入後整組藏起來——做法見 `patches/lake_fallback_9884d29.patch`（我本機原型的改法：只把那 12 個 `g.add(` 改成 `lfb.add(`，導航沒動）。
+2. `ASSETS.manifest` 加 `'bldg.campus_lake'`，載入後放在 `(cx, 0, cz)`。
+3. **木棧道不用改導航**：遊戲現在走得到的格子是 `|x−PX|≤BW/2+0.05`（`onBoard`，格子中心 ±0.9），用遊戲的 `E.canStand` 量，人的身體最遠到中線 ±1.01 m；所以模型做成 2.3 m 寬、欄杆內側在 ±1.055，人碰不到欄杆。（第一版照 `BW` 做成 1.7 m 寬、欄杆在 ±0.8，人走到邊上身體會穿過欄杆；程序化的版本也一樣。）湖岸的缺口照遊戲（±1.35），木棧道放得進去。
+4. **建議改導航（湖心亭，要不要改由 LAWWW 決定）**：遊戲現在讓人走到亭子中心 2.35 m 內（`Math.hypot(wx-PX,wz-PZ)<PR-0.35`，算格子中心），柱子不擋。用遊戲的 `E.canStand`（人物半徑）在 2 cm 的格點上找出所有站得住的位置，量身體（半徑 0.33 m）和柱子（柱身半徑 0.105 m）、平台邊緣（平邊朝南北的六角形，邊心距 2.338 m；南邊接木棧道不算）的距離；再用 `E.simWalk` 走一遍：
+
+| 做法 | 身體穿進柱子 | 身體超出平台邊緣 | 走路模擬（南岸 ↔ 亭子中間；亭子中間 → 五個方向的邊上） |
+|---|---|---|---|
+| 現在（中心 2.35 m 內、柱子不擋） | 31.5 cm | 17.4 cm | 往北的邊上走不到（走路模擬停在半路） |
+| 2.1 m＋柱子的格子擋起來 | 25.9 cm | 不會（離邊緣最近 0.9 cm） | 全部走得到 |
+| **2.0 m＋柱子的格子擋起來（建議）** | 不會（離柱子最近 0.3 cm） | 不會（離邊緣最近 16.9 cm） | 全部走得到 |
+| 1.9 m＋柱子的格子擋起來 | 不會（離柱子最近 3.5 cm） | 不會（離邊緣最近 24.8 cm） | 往東北、往西北的邊上走不到（走路模擬停在半路） |
+
+建議第三種：`PR-0.35` 改成 `PR-0.7`（＝2.0 m），再把六根柱子（半徑 2.3 的六個頂點）所在的格子擋起來——兩行，patch 在 `patches/lake_nav_9884d29.patch`（在 `469ae8c` 上也 `git apply` 得上）。**這只是建議，我沒有改 `zones3d.js`**；要不要改由 LAWWW 決定。程序化備用的柱子在半徑 2.4，離走得到的範圍更遠。量測腳本 `tools/blender/env_second/shots/lake_nav_check.py`（只改亭子附近的格子、算法和 `lake()` 一樣，同一頁裡換做法，不用重新載入）；結果 `test_logs/lake/nav_check.json`。
+
+規格：GLB **0.88 MB**、網格 10（不重複 10）、材質 11、三角形 8,448（lake_rim_stone 622、lake_rocks_rock 3,200、lake_pavilion_granite 376、lake_pavilion_red 744、lake_pavilion_teal 24、lake_pavilion_gold 168、lake_pavilion_tile 1,392、lake_pavilion_soffit 672、lake_boardwalk_plank 774、lake_boardwalk_pile 476）。
+
+### 31.3 遊戲內原型（**本機注入、不是整合**：LAWWW `9884d29`（方案 A 的校園；湖的程式和 `469ae8c` 完全一樣）＋上面 1. 的本機改法，讀檔到校園、用遊戲的 GLTFLoader 載入、藏起 `lake_fallback`；Playwright＋SwiftShader，**不是 iPhone**）
+
+| 鏡頭 | 修改前（程序化） | 修改後（Blender 正式模型） |
+|---|---|---|
+| 從上面看（13:00） | ![修改前](shots/lake_before_aerial_1300.webp) | ![修改後](shots/lake_after_aerial_1300.webp) |
+| 從南岸步道看湖心亭（13:00） | ![修改前](shots/lake_before_pavilion_1300.webp) | ![修改後](shots/lake_after_pavilion_1300.webp) |
+| 站在木棧道起點（13:00） | ![修改前](shots/lake_before_boardwalk_1300.webp) | ![修改後](shots/lake_after_boardwalk_1300.webp) |
+| 從東岸看湖岸與置石（13:00） | ![修改前](shots/lake_before_shore_1300.webp) | ![修改後](shots/lake_after_shore_1300.webp) |
+| 在亭子裡往上看（13:00） | ![修改前](shots/lake_before_roof_1300.webp) | ![修改後](shots/lake_after_roof_1300.webp) |
+| 傍晚 17:45 | ![修改前](shots/lake_before_pavilion_1775.webp) | ![修改後](shots/lake_after_pavilion_1775.webp) |
+| 手機直向 390×844（站在木棧道上） | ![修改前](shots/lake_before_mobile_1300.webp) | ![修改後](shots/lake_after_mobile_1300.webp) |
+
+### 31.4 Blender 渲染（Cycles；**不是遊戲畫面**；水面、草地、步道是預覽用的示意）
+
+**整體**
+
+![](blender_renders/lake_overview.webp)
+
+**湖心亭**
+
+![](blender_renders/lake_pavilion.webp)
+
+**木棧道**
+
+![](blender_renders/lake_boardwalk.webp)
+
+**湖岸與置石**
+
+![](blender_renders/lake_rim.webp)
+
+**亭子的天花、橫梁、雀替**
+
+![](blender_renders/lake_roof.webp)
+
+
+### 31.5 驗收狀態
+
+| 項目 | 模型 | 整合 | 狀態 |
+|---|---|---|---|
+| `campus_lake.glb` | 完成 | **還沒接**（接法見 31.2，由 LAWWW 做） | `MODEL_READY` |
+
+### 31.6 還沒達到參考品質的地方（自評）
+
+1. **沒有照片可以核對**真實的醉月湖（湖岸的做法、湖心亭的樣子、木棧道）：沙盒打不開臺大網站；是一般台灣校園湖景的遊戲化設計，顏色照遊戲原本的（紅柱、深色瓦頂）。
+2. 湖心亭沒有欄杆、座椅（美人靠）：遊戲的導航讓人走到平台邊上，加了會穿過去。
+3. 石頭是低多邊形（每顆 128 個三角形、平滑著色）＋貼圖，近看輪廓有稜角；湖岸沒有苔蘚、水線的污漬。
+4. 屋頂的瓦是貼圖（不是一片一片的瓦）；天花下的椽子只有六根（真的亭子是一整排）。
