@@ -79,6 +79,11 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
       await play([a,b]); const Lx=lines(); check('選「'+a+'」「'+b+'」：'+JSON.stringify(want)+'、K1_ORDER='+flag,want.every(t=>Lx.includes(t))&&G.flags.K1_ORDER===flag,JSON.stringify(Lx.slice(6,10))); }
     fresh(SAT3,13.8,'dorm'); OUT.plan(G,{id:'kx_tour',ev:'ev_kexin_tour_nccu',day:SAT3,h:14,place:'政大',title:'去政大找可昕',travelH:0.5}); G.hour=14.5; picks=['出發']; await tickOut();
     check('晚一點才出發（14:30）：抵達 15:00、演完 18:00',Math.abs(G.hour-18)<0.01,String(G.hour)); }
+  /* ---------- K1「念了幾個禮拜」照實際的週數（AA 審 9-1 第 2 點）---------- */
+  { check('數字：3→三、4→四、10→十、12→十二、20→二十',[3,4,10,12,20].map(STORY.zhNum).join(',')==='三,四,十,十二,二十');
+    fresh(FRI3,8,'campus'); run(8,20); const m=G.msgs.find(x=>x.tag==='kx_tour_ask'); const F0=G.flags, ms=G.msgs, ph=G.phone; fresh(SAT3+3,10,'campus',F0); G.msgs=ms; G.phone=ph; PHONE.answer(G,m.ask.id,0); run(10,10.2);
+    const o=OUT.get(G,'kx_tour'); check('K1 延後到第 4 週週六：記下「四」',!!o&&CALENDAR.termOf(o.day).week===4&&G.flags.kxTourWeeks==='四',JSON.stringify({o,w:G.flags.kxTourWeeks}));
+    G.day=o.day; G.hour=13.5; picks=['出發','影子不會講話','她推薦']; said=[]; await tickOut(); check('K1 延後：「我在這裡念了四個禮拜，所以比你懂這裡四個禮拜。」',lines().includes('我在這裡念了四個禮拜，所以比你懂這裡四個禮拜。'),JSON.stringify(lines().slice(0,3))); }
   /* ---------- K1b 予樂說：及格（BB_95 9-2）---------- */
   { const W5MON=STORY.termDay('Y1S1',5,1); let W6MON=STORY.termDay('Y1S1',6,1); const hol=CALENDAR.holiday(W6MON); while(CALENDAR.holiday(W6MON)||CALENDAR.dateOf(W6MON).wd>5) W6MON++;   /* 第 6 週週一 10/6 中秋放假：第一個上課的平日 */
     check('K1b：第 6 週週一（10/6）放假（'+hol+'），第一個平日是第 '+W6MON+' 天（'+CALENDAR.dateOf(W6MON).key+'）',!!hol&&CALENDAR.dateOf(W6MON).key==='2025-10-07');

@@ -266,7 +266,7 @@ const STORY_EVENTS=[
     dialogue:[ {scene:'政大・校門口',bg:'nccu_gate'},
       {speaker:null,text:'校門口。她在揮手，只戴一邊的耳環，今天是一顆小骰子。'},
       {speaker:'kexin',expression:'smile',text:'歡迎來到政大。我是今天的導遊。'},
-      {speaker:'kexin',expression:'smile',text:'我在這裡念了三個禮拜，所以比你懂這裡三個禮拜。'},
+      {speaker:'kexin',expression:'smile',text:'我在這裡念了{flag:kxTourWeeks|三}個禮拜，所以比你懂這裡{flag:kxTourWeeks|三}個禮拜。'},   /* AA 審 9-1 第 2 點：K1 延後時照實際的週數（排出遊時記下：story3d.js）*/
       {speaker:null,text:'她指了左邊、右邊、後面。'},
       {speaker:'kexin',expression:'laugh',text:'法學院。山。也是山。政大的地圖重點就是：山。'},
       {speaker:'kexin',expression:'teasing',text:'假設你的影子先到政大，它可以幫你點餐嗎？'},
