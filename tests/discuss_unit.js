@@ -10,6 +10,8 @@ const ROOT=path.resolve(__dirname,'..');
 global.window=global;
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|CALENDAR|PLACES|COURSES|SYLLABUS|CLS|INV|ACTIVITIES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 for(const f of ['src/data/characters.js','src/data/calendar.js','src/data/places.js','src/data/courses.js','src/data/syllabus.js','src/data/activities.js','src/invites3d.js','src/classes3d.js']) load(f);
+/* 這裡檢查討論課的流程：當作每一週都審查過（法律審查的閘門——沒審查的週不用 BB 的內容——在 tests/syllabus_unit.js 檢查）*/
+SYLLABUS.reviewed=[]; for(const id in SYLLABUS.courses) for(const w of SYLLABUS.courses[id]) SYLLABUS.reviewed.push(id+'|'+w.w);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const MEM={}; global.SOCIAL={has:(id,tag)=>!!(MEM[id]&&MEM[id].includes(tag)),displayName:id=>(CHARACTERS[id]||{}).name||id};
 const said=[]; let answer=0, chose=[];

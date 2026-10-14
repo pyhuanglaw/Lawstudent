@@ -109,7 +109,11 @@ const CLS=(function(){
   S.slotOrder=function(it){ const ss=(it.c.slots||[]).slice().sort((a,b)=>a.wd-b.wd||String(a.block).localeCompare(String(b.block))); return {i:ss.indexOf(it.slot),ss}; };
   S.earlierSlotsOff=function(it){ const o=S.slotOrder(it); if(o.i<1||typeof CALENDAR==='undefined') return false; const wd=it.slot.wd; return o.ss.slice(0,o.i).every(q=>q.wd!==wd&&CALENDAR.holiday(it.day-(wd-q.wd))); };
   /* 第二格是短片段（BB 的 second_slot_lines，一句）；第一格碰到國定假日，那一週的主要內容改在第二格播、第二格原本的內容不播（AA_110 5-6；兩格都放假＝那一週的內容看不到，和真的停課一樣）*/
-  S.content=function(it){ attachSyllabus(); const c=it.c, t=S.topic(c,it.week)||c.name; const sy=c.syllabus&&c.syllabus.find(q=>q.w===it.week);
+  /* 法律審查（AA_122 第 0a 節，使用者 2026-10-14 同意）：還沒審查的課堂法律內容，不能當作已確認的法律結論發布。每週的黑板、教授一句、同學反應、觀察／被點到的選擇，
+     只有審查過的那一週才用（SYLLABUS.reviewed：['課程代號|週次']，匯入時照 BB_115 的審查結果產生）；其他週用不含法律結論的一般句子（STYLE／GENERAL：只寫這週的主題）。
+     v9.6 的課堂內容是審查之前的版本，沒有 reviewed：法律系的課全部用一般句子。國文、英文、體育、實習的台詞池、第二格的短片段（不在審查清單裡）照舊 */
+  S.sylReviewed=(c,w)=>!!(typeof SYLLABUS!=='undefined'&&Array.isArray(SYLLABUS.reviewed)&&SYLLABUS.reviewed.includes(c.id+'|'+w));
+  S.content=function(it){ attachSyllabus(); const c=it.c, t=S.topic(c,it.week)||c.name; const sy=c.syllabus&&S.sylReviewed(c,it.week)&&c.syllabus.find(q=>q.w===it.week);
     if(c.second&&c.second.length&&S.slotOrder(it).i>=1&&!S.earlierSlotsOff(it)){ const L=c.second; return {board:[c.name+'：'+t,'（這週的第二堂）',''],line:L[(it.day+it.week)%L.length],react:'',second:true}; }
     if(sy) return {board:sy.board||[c.name+'：'+t,'',''],line:sy.line,react:pickReact(sy.react,it),tpl:sy.tpl,obs:sy.obs,call:sy.call};
     if(c.pool&&c.pool.lines&&c.pool.lines.length){ const L=c.pool.lines; return {board:[c.name+'：'+t,'本週：'+t,''],line:L[(it.day+it.week)%L.length],react:pickReact(c.pool.react,it),prof:c.pool.prof_label}; }
