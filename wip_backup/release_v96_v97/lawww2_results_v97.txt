@@ -1,2 +1,7 @@
 # LAWWW2 機器上的 v9.7 結果（格式：名稱 rc=N (秒s) @SHA 說明）。遊戲程式＝候選 1 5adef66（候選 2～4 只改測試）。
 # 07:27 第一批：flow_typhoon 7/7（測試問題：床的選項、醒來對話、直向提示）、cg_rain_shots 直向 FAIL（直向提示蓋住）——已用候選 4 的 patch 重跑中，不記在這裡；以重跑結果為準。
+flow_typhoon rc=0 (180s) @6ad0923 ALL PASS（14 PASS；候選 4 的 patch）
+cg_rain_shots rc=0 (172s) @6ad0923 ALL PASS（直向＋橫向都是 event_rain_library.webp 1920×1080）
+flow_invite_phone rc=0 (80s) @06f2b64 ALL PASS（13 PASS，沒有 JS 例外；遊戲＝候選 1）
+flow_first_meet rc=1 (1204s) @06f2b64 FAILED: 10 PASS／5 段 FAIL（A 傅鐘芷若不在、B2 經原分組沒開始、C 櫃台按鈕名稱、D 總圖門口晴天版沒觸發）——LAWWW 查原因中
+flow_lecture_attend rc=1 (851s) @06f2b64 FAILED: 4 PASS／7 FAIL——測試寫死的座位被坐姿替身坐走（演講一半的位子有人）；候選 6 改成挑空位，LAWWW2 重跑中

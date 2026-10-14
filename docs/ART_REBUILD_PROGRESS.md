@@ -10,6 +10,16 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-14 08:12 UTC（開發分支最新：這一筆交接的 commit；線上 v9.6＝`e88bda5`；v9.7 候選改成候選 6 `7c5d4c2`，兩台機器跑回歸）**：
+- **v9.7 回歸抓到一個 v9.6 以前就有的遊戲問題（已修，候選 5 `37a5db2`）**：兩點半 Café 吧檯後面的店員（芷若）和不到話——吧檯的點餐點永遠比較近，
+  「和店員說話」從來不會出現（Node 模擬 2961 個站得住的點 0 處）；芷若在 Café 的初遇、點餐次數、集點卡都碰不到。修：`engine3d.js` nearestInteractable 標了 staff 的店員比櫃台的點餐點優先；
+  `story3d.js` 店員標 staff、和店員說話先跑事件、沒有就點餐（同一份 CAFE_MENU）。`tests/cafe_barista_unit.js`（修正前的引擎 0 處、修正後 95 處）。NODE ALL PASS、reachability_all ALL PASS（候選 5）。
+- **測試問題（只改測試）**：flow_first_meet（A 追人 10 次、B2 點地面沒靠近就用搖桿、走到後等自動事件 60／180 秒、C 同一天再說話＝點餐）；候選 6：flow_lecture_attend 等聽眾坐好再挑空位（演講時一半的位子有人，寫死的位子被替身坐走）。
+- **分工（08:11）**：本機——zone_transitions、deploy_check（候選 5／6 重跑）、touch_flow_wenzhou、初遇存檔遷移、save_compat_v95、flow_class_real、campus_layout_nav、joystick、flow_classes、flow_linze_floors、evtest、其他；
+  LAWWW2——flow_discuss_class、flow_first_meet、flow_lecture_attend、adv_cg_layout、flow_main_day12、flow_teaching_buildings、flow_soclib、campus_glb_integration。預估 10:00 UTC 兩邊跑完。
+  已過（候選 4／5）：deploy_check、Node、reachability_all（候選 4、5）、zone_transitions、minimap、save_compat_v7、p0；LAWWW2：flow_typhoon、cg_rain_shots、flow_invite_phone。
+- 本機分支 `rel/v97-rc5`、`rel/v97-rc6`；bundle `wip_backup/v97-rc6.bundle`（兩個 ref，前置 22c597c）。開發分支已合併候選 5、6（保留共同教學館、大一女舍的 manifest 兩行）。
+
 **2026-10-14 07:55 UTC（開發分支最新：這一筆交接的 commit；線上 v9.6＝`e88bda5`；v9.7 候選 4 `6ad0923` 兩台機器平行跑回歸，全過就發——D71 不受三小時限制）**：
 - **v9.6 已發布**：main 從 `a4f2760` 快轉到候選 15 `e88bda5`（07:45:17 推送，沒有強制推送），GitHub Pages 第 15 次部署 07:46:55 UTC success（標題「版本 v9.6（2026-10-14）」；沙盒連不到 Pages 網址，以部署紀錄的 head_sha 確認）。
   發布紀錄 `e6bce5c`（RELEASES.md 版本表、v9.6 說明、發布前測試 21 項 0 失敗含 LAWWW2 三項、緊急回復改回 v9.5、v9.7 依 D71 不受三小時限制）。已通知 LAWWW2、AA、BB（DELIVERED）。

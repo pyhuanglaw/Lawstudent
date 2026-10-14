@@ -138,3 +138,17 @@ hold：執行器重啟（07:48:23；reachability_all_v97 跑完就換新的執�
 node_rc_v97 rc=0 (85s) @6ad0923 NODE ALL PASS
 runner restart 07:48:50（實際是 node_rc_v97 跑完才換；佇列接著從 reachability_all_v97 開始）
 start 2026-10-14T07:48:50Z 6ad0923
+reachability_all_v97 rc=0 (181s) @6ad0923 ALL PASS
+zone_transitions_v97 rc=0 (102s) @6ad0923 ALL PASS
+minimap_direction_v97 rc=0 (133s) @6ad0923 ALL PASS
+save_compat_v7_v97 rc=0 (254s) @6ad0923 ALL PASS
+ff 要求：v9.7 候選 5 37a5db2（＝候選 4＋Café 店員和得到話：engine3d nearestInteractable staff 優先、story3d 店員沒事件就點餐；flow_first_meet 測試修正）；重跑 Node、reachability_all、zone_transitions、deploy_check
+p0_movement_v97 rc=0 (322s) @6ad0923 RESULT: ALL PASS
+setff_rc5 rc=0 (0s) @6ad0923 
+ff → 37a5db2 08:05:38
+node_rc_v97b rc=0 (77s) @37a5db2 NODE ALL PASS
+ff 要求：v9.7 候選 6 7c5d4c2（＝候選 5＋flow_lecture_attend 等聽眾坐好再挑空位；只改測試）
+排序：08:09:56 v9.7 後半段必跑 flow_class_real、campus_layout_nav、joystick_direction、flow_classes、flow_linze_floors 搬到本機（LAWWW2 留 flow_first_meet、flow_lecture_attend、劇情流程、flow_teaching_buildings、flow_soclib、campus_glb_integration）
+reachability_all_v97b rc=0 (187s) @37a5db2 ALL PASS
+setff_rc6 rc=0 (0s) @37a5db2 
+ff → 7c5d4c2 08:10:03
