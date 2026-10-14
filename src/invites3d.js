@@ -33,6 +33,14 @@ const INV=(function(){
   /* 可以約的人：認識、對的分類、這學期在學校 */
   S.canInvite=function(G,id){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c||!D().layers.includes(c.social_layer)) return false;
     if(typeof STORY!=='undefined'&&STORY.present&&!STORY.present(id,G)) return false; return typeof SOCIAL==='undefined'||!SOCIAL.stage||SOCIAL.stage(id)!=='STRANGER'; };
+  /* 手機「朋友」裡約不了的人寫原因（2026-10-14 使用者：「為什麼手機只能約阿哲小凱」——原本約不了的人沒有「約」按鈕，也沒有說為什麼）。
+     順序：這學期不在、還沒有聯絡方式、還不太熟（熟悉度 5 以下）；可以約就回傳空字串 */
+  S.whyNot=function(G,id){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c) return '不能約'; const pr=c.gender==='f'?'她':'他';
+    if(!D().layers.includes(c.social_layer)) return '';   /* 教授、店員這些本來就不在約的名單：不寫原因、也不顯示按鈕 */
+    if(typeof STORY!=='undefined'&&STORY.present&&!STORY.present(id,G)) return '這學期不在學校';
+    if(!S.hasContact(G,id)) return '還沒有'+pr+'的聯絡方式';
+    if(!S.canInvite(G,id)) return '還不太熟，多聊幾次再約';
+    return ''; };
   const stageOk=(id,min)=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.stage) return true; const L=SOCIAL.STAGES||[]; return L.indexOf(SOCIAL.stage(id))>=L.indexOf(min); };
   /* 關係夠不夠去這個地方：階段到了，或是已經一起做過這件事（那個地方會留下的記憶，例如一起吃過飯 SHARED_MEAL）——
      2026-10-13 批次 3：第一天和阿哲吃過麵（story3d.js 記下 SHARED_MEAL），第三天約他吃飯卻說「還不太熟」*/
