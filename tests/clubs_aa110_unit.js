@@ -54,7 +54,9 @@ const W=[5,6,7,10,11,12,13,14,15,16];
   fresh(monOK+1,19.1); await CLS.roomDoor(GM,'wancai','seminarA',{door:'wancai_seminar'});
   check('週二按研討室 A 的門：先寫法服讀書會的時間＋今天沒有社課，後面照舊是研討室的說明和今天的課',!chose.length&&/^法服讀書會：每週三 19:00–21:00，萬才館 研討室 A（第 5 週起）。今天沒有社課。研討室 A：/.test(caps[0]||''),caps[0]);
   { const ev=STORY_EVENTS.find(e=>e.id==='ev_kai_mentions_ziqing'), g=ev&&ev.dialogue.find(d=>d.choice).choice[0].consequences.goal;
-    check('阿凱轉述子晴、問「什麼時候？」的目標：「吉他社：第 5 週起，週一、週三 19:00，萬才館一樓多功能教室」（AA P2；原本「萬才館」沒寫哪一間、沒寫第 5 週起）',g==='吉他社：第 5 週起，週一、週三 19:00，萬才館一樓多功能教室',g); }
+    check('阿凱轉述子晴、問「什麼時候？」的目標：「吉他社：第 5 週起，週一、週三 19:00，萬才館一樓多功能教室」（AA P2；原本「萬才館」沒寫哪一間、沒寫第 5 週起）',g==='吉他社：第 5 週起，週一、週三 19:00，萬才館一樓多功能教室',g);
+    const i=ev.dialogue.findIndex(d=>d.label==='when'), line=ev.dialogue[i+1]&&ev.dialogue[i+1].text;   /* f99f664 只改了目標、阿凱這句沒改到（還寫「萬才館旁邊的社辦」），2026-10-14 補上 */
+    check('阿凱接著說的時間地點和目標一致：「第五週開始，週一、週三晚上七點，在萬才館一樓的多功能教室。她說不用會彈。」（AA_110）',line==='第五週開始，週一、週三晚上七點，在萬才館一樓的多功能教室。她說不用會彈。'&&!/社辦/.test(JSON.stringify(ev.dialogue)),line); }
   /* C：吉他社——還沒認識子晴：第一次自動播初遇、不播旁白 */
   fresh(monOK,19.1); delete MEM.heroine_04; ran.length=0; await CLS.roomDoor(GM,'wancai','multi',{});
   check('19:06 按門：「參加：吉他社社課」→ 參加',(chose[0]||[])[0]==='參加：吉他社社課'&&ACTIVITIES.attended(G,'club_guitar',G.day),JSON.stringify(chose[0]));
