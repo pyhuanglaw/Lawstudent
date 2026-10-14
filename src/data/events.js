@@ -590,6 +590,10 @@ const STORY_EVENTS=[
   /* 以安「四年，四張」的第一張（交接包 v2 C7；AA_71 2-9「大一的台詞」）：大一下第 3 週週六上午，椰林大道的杜鵑開了（她那個上午在椰林大道：characters.js 的作息）。
      和她有點熟以上＝她請你拍；還不熟＝她請小語拍、你在旁邊看到。芷若、子晴那兩句只給兩個人都認識的玩家（AA：和祐廷無關的一句）。
      旁白只用 AA 的字（「椰林大道的杜鵑開了」「拿著手機」「她把手機遞給你」「拍完她看了一下」「她請小語拍」「芷若拿著手機在拍花」）。之後三年照 AA_71 2-9（大三、大四以後做）*/
+  /* 法四學長姊畢業（交接包 v2 C17；AA_71 2-12「大一：法四學長姊畢業」，寫成慶祝）：大一下第 15 週週六 10～15 在校園（和 ev_sis_festival_booth 同樣的做法：在校園就演）；
+     學士帽丟上天、學長請你拍照。法服群組、家族群組那兩則在 story3d.js 的 phoneRules。旁白只用 AA 的字 */
+  { id:'ev_grad_seniors_y1', title:'學長姊畢業', participants:[], location:'campus', trigger:'auto', term:['Y1S2'], weeks:[15], weekday:[6], time:[10,15], once:true, background:'blur',
+    dialogue:[ {speaker:null,text:'（椰林大道。學士帽丟上天。）'},{speaker:null,text:'（一位學長把手機塞給你。）'},{speaker:'學長',text:'學弟，幫我們拍一張！'},{speaker:null,text:'（拍完。）'},{speaker:'學長',text:'謝啦！三年後換你。'} ] },
   /* 大一的系籃比賽（交接包 v2 C16；AA_71 2-11）：活動「系籃比賽」（activities.js，大一下第 14 週週六 14～16，球場）去看就演；阿哲上場，你選拍手、記分、送水，各一段（原文）；
      都記一筆小記憶 WATCHED_GAME（記在阿哲身上）。旁白只用 AA 的字。好感數字原文沒有，不加 */
   { id:'ev_zhe_game_y1', title:'系籃比賽', participants:['zhe'], location:'campus', trigger:'activity', term:['Y1S2'], once:true, background:'blur',
