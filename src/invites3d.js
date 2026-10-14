@@ -34,17 +34,33 @@ const INV=(function(){
   S.canInvite=function(G,id){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c||!D().layers.includes(c.social_layer)) return false;
     if(typeof STORY!=='undefined'&&STORY.present&&!STORY.present(id,G)) return false; return typeof SOCIAL==='undefined'||!SOCIAL.stage||SOCIAL.stage(id)!=='STRANGER'; };
   /* 手機「朋友」裡約不了的人寫原因（2026-10-14 使用者：「為什麼手機只能約阿哲小凱」——原本約不了的人沒有「約」按鈕，也沒有說為什麼）。
-     順序：這學期不在、還沒有聯絡方式、還不太熟（熟悉度 5 以下）；可以約就回傳空字串 */
-  S.whyNot=function(G,id){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c) return '不能約'; const pr=c.gender==='f'?'她':'他';
+     文字照 AA_125 第 1 節的表（INVITE_DATA.why）。順序：不在學校（交換＝國外、until 過了＝畢業）→ 已經約好了（約好的那一筆）→ 只打過招呼（STRANGER）
+     → 沒有聯絡方式（有點熟以後：可以當面問，talkCharacter 的「交換聯絡方式」）；可以約就回傳空字串。地點各自的門檻（吃飯、散步、兩個人單獨）在 placeWhy */
+  const fmtWhy=(t,o)=>String(t||'').replace(/\{(\w+)\}/g,(m,k)=>o[k]!=null?o[k]:m);
+  const WK=['日','一','二','三','四','五','六'];
+  /* 和這個人約好、還沒到（或正在一起走過去）的那一筆 */
+  S.booked=(G,id)=>(G.invites||[]).filter(iv=>iv.who===id&&(iv.state==='accepted'||iv.state==='going')&&(iv.day>G.day||(iv.day===G.day&&iv.h+((S.place(iv.place)||{}).stay||1)>G.hour%24))).sort((a,b)=>a.day-b.day||a.h-b.h)[0]||null;
+  S.whyNot=function(G,id){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c) return '不能約'; const pr=c.gender==='f'?'她':'他', W=D().why||{};
     if(!D().layers.includes(c.social_layer)) return '';   /* 教授、店員這些本來就不在約的名單：不寫原因、也不顯示按鈕 */
-    if(typeof STORY!=='undefined'&&STORY.present&&!STORY.present(id,G)) return '這學期不在學校';
-    if(!S.hasContact(G,id)) return '還沒有'+pr+'的聯絡方式';
-    if(!S.canInvite(G,id)) return '還不太熟，多聊幾次再約';
+    const pres=(typeof STORY!=='undefined'&&STORY.presence)?STORY.presence(id,G):{here:true};
+    if(!pres.here) return fmtWhy(pres.kind==='after'?W.graduated:(pres.kind==='absent'?W.abroad:W.away),{pr})||'這學期不在學校';
+    const b=S.booked(G,id); if(b) return fmtWhy(W.booked,{when:'週'+WK[wdOf(G,b.day)]+' '+hh(b.h),place:(S.place(b.place)||{}).name||''});
+    if(typeof SOCIAL!=='undefined'&&SOCIAL.stage&&SOCIAL.stage(id)==='STRANGER') return W.stranger||'還不太熟';
+    if(!S.hasContact(G,id)) return fmtWhy(stageOk(id,'FAMILIAR')?W.noContactAsk:W.noContact,{pr});
     return ''; };
   const stageOk=(id,min)=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.stage) return true; const L=SOCIAL.STAGES||[]; return L.indexOf(SOCIAL.stage(id))>=L.indexOf(min); };
   /* 關係夠不夠去這個地方：階段到了，或是已經一起做過這件事（那個地方會留下的記憶，例如一起吃過飯 SHARED_MEAL）——
      2026-10-13 批次 3：第一天和阿哲吃過麵（story3d.js 記下 SHARED_MEAL），第三天約他吃飯卻說「還不太熟」*/
   const placeOk=(id,P)=>stageOk(id,P.minStage)||(!!P.memory&&typeof SOCIAL!=='undefined'&&!!SOCIAL.memories&&SOCIAL.memories(id).some(m=>m.tag===P.memory));
+  /* 兩個人單獨的邀約（BB_70 0-2、AA_125 第 1 節）：吃飯、散步（soloKinds），祐廷交往中、或對方這學期有伴侶（CHARACTERS[id].partner＝{from,until} 學期），就不約——
+     約交往的對象本人照常。只看女生（祐廷是男生；「兩個人單獨」說的是男女兩個人，阿哲、阿凱這些照常吃飯：AA 確認中）*/
+  S.partnerBlock=function(G,id,P){ if(!P||!(D().soloKinds||[]).includes(P.kind)) return false; const F=G.flags||{}; if(F['dating_'+id]) return false;
+    const c=(typeof CHARACTERS!=='undefined'&&CHARACTERS[id])||{}; if(c.gender!=='f') return false;
+    if(Object.keys(F).some(k=>k.indexOf('dating_')===0&&F[k])) return true;
+    return !!(c.partner&&typeof STORY!=='undefined'&&STORY.inTerms&&STORY.inTerms(G,c.partner)); };
+  /* 這個地方約不約得到、為什麼（選地點時的說明；可以就空字串）*/
+  S.placeWhy=function(G,id,P){ const W=D().why||{}; if(S.partnerBlock(G,id,P)) return W.partner||'';
+    if(!placeOk(id,P)) return (P.kind==='meal'?W.meal:(P.kind==='walk'?W.walk:W.stranger))||'還不太熟'; return ''; };
   /* 某一天某個時間，這個人照作息在做什麼（STORY.schedEnt，不含邀約本身）*/
   const entAt=(G,id,day,h)=>{ if(typeof STORY==='undefined'||!STORY.schedEnt) return null; const c=CHARACTERS[id]; if(!c) return null; return STORY.schedEnt(c,{day,hour:h,weekday:wdOf(G,day),flags:G.flags||{},noInvite:true}); };
   const busyAt=(G,id,day,h,stay)=>{ for(const t of [h,h+stay/2,h+stay-0.02]){ const e=entAt(G,id,day,t); if(e&&D().busyActs.includes(e.act)) return e; } return null; };
@@ -58,6 +74,7 @@ const INV=(function(){
   /* 答不答應（使用者第 4 點）。回傳 {res:'accept'|'resched'|'decline', why, alt:{day,h,place?}, act} */
   S.decide=function(G,id,pid,day,h){ S.rec(G); let P=S.place(pid); if(!P) return {res:'decline',why:'place'};
     if(typeof STORY!=='undefined'&&STORY.present&&!STORY.present(id,{day})) return {res:'decline',why:'away'};
+    if(S.partnerBlock(G,id,P)) return {res:'decline',why:'partner'};
     if(!placeOk(id,P)) return {res:'decline',why:'rel'};
     if(P.rainTo&&day===G.day&&G.weather==='rain'){ const Q=S.place(P.rainTo); const ok=Q&&free(G,id,Q,day,h); return {res:'resched',why:'weather',alt:ok?{day,h,place:Q.id}:S.nextFree(G,id,P,day+1,10)}; }
     if(clash(G,null,day,h,P.stay)) return {res:'resched',why:'mine',alt:S.nextFree(G,id,P,day,h+0.5)};   /* 你那個時間已經約了別人 */
@@ -75,7 +92,7 @@ const INV=(function(){
     if(r.why==='booked') return nm+'那個時間已經跟人約了。'+(alt?'問你 '+alt+' 可不可以。':'');
     if(r.why==='closed') return P.name+'那個時間沒開。'+(alt?nm+'問 '+alt+' 可不可以。':'');
     if(r.why==='busy') return nm+'那時候'+(ACTN[r.act]||'有事')+'。'+(alt?'問你 '+alt+' 可不可以。':'');
-    if(r.why==='rel') return nm+'客氣地說下次吧。';
+    if(r.why==='rel'||r.why==='partner') return S.placeWhy(G,id,P)||(nm+'客氣地說下次吧。');
     if(r.why==='away') return nm+'這學期不在學校。';
     return nm+'說改天。'; };
   /* 約好 */
@@ -134,8 +151,9 @@ const INV=(function(){
     for(const t of D().times) if(t>h+0.4) out.push({t:'今天 '+hh(t),day:G.day,h:t}); for(const t of [12+10/60,19]) out.push({t:'明天 '+hh(t),day:G.day+1,h:t}); return out; };
   /* ---------- 約人的流程（當面：story3d.js 的 talkCharacter；手機：game3d.js 的「朋友」）：去哪裡 → 什麼時候 → 對方的回答 → 改天就問要不要那個時間 ---------- */
   S.flow=async function(GM,id,n,together){ const G=GM.G; S.rec(G); const nm=nameOf(id), c=CHARACTERS[id]||{}, her=c.gender==='f'?'她':'他';
-    const PL=D().places, opts=PL.map(P=>({t:P.verb,hint:placeOk(id,P)?'':'（還不太熟）'})); opts.push({t:'算了'});
-    let k=await GM.choose(opts); if(k>=PL.length) return null; const P=PL[k];
+    const PL=D().places; let k, P=null;
+    for(;;){ const opts=PL.map(Q=>({t:Q.verb,hint:S.placeWhy(G,id,Q)})); opts.push({t:'算了'});   /* 約不到的地方寫原因（AA_125 第 1 節），選了就說原因、再選一次 */
+      k=await GM.choose(opts); if(k>=PL.length) return null; const why=S.placeWhy(G,id,PL[k]); if(!why){ P=PL[k]; break; } await GM.say(null,why); }
     const T=S.timeOptions(G,together); if(!T.length){ await GM.say(null,'今天太晚了，改天再約吧。'); return null; } const to=T.map(q=>({t:q.t})); to.push({t:'算了'});
     k=await GM.choose(to); if(k>=T.length) return null; const W=T[k];
     const r=S.decide(G,id,P.id,W.day,W.h);

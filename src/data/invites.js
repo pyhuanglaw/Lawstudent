@@ -13,8 +13,32 @@ const INVITE_DATA={
     {id:'noodle',  zone:'noodle',       name:'阿鳳麵店',     verb:'去公館吃飯（阿鳳麵店）', kind:'meal',   minStage:'FAMILIAR',     stay:0.75, memory:'SHARED_MEAL',     sitAct:'eat'},
     {id:'wenzhou', zone:'wenzhou',      name:'溫州街',       verb:'去溫州街散步',         kind:'walk',   minStage:'FRIEND',       stay:0.75, memory:'WALKED_TOGETHER', sitAct:'wait', rainTo:'cafe'}
   ],
-  /* 開場就有聯絡方式的：阿哲（現有設定：已經熟）、阿凱（室友）。其他人要在劇情裡拿到（事件的後果 contact:'人物 id'，內容由 AA、BB 寫） */
-  contacts0:['zhe','kai'],
+  /* 開場就有聯絡方式的（AA_124 1-7 第 3 點，2026-10-14）：阿哲（現有設定：已經熟）、阿凱（室友）、可昕（經濟系那一年就在一起）、學姊（直屬：開學前的家族群組，BB_70 3-1）。
+     其他人在劇情裡拿到（事件的後果 contact:'人物 id'，內容由 AA、BB 寫）；錯過了，到「有點熟」以後聊天多一個「交換聯絡方式」（下面的 exchange，story3d.js talkCharacter） */
+  contacts0:['zhe','kai','kexin','heroine_05'],
+  /* 約不了的原因（AA_125 第 1 節的表＋AA_124 1-7 第 4 點，AA 決定）：手機「朋友」、約人時選地點的說明。{pr}＝她／他；不寫數字 */
+  why:{
+    stranger:'你們只打過招呼。先在學校多聊幾次。',
+    meal:'再熟一點，才約得出去吃飯。',
+    walk:'散步要等你們變成朋友。',
+    abroad:'{pr}這學期在國外。',
+    graduated:'{pr}已經畢業了。',
+    away:'這學期不在學校',
+    booked:'你們已經約好了：{when}，{place}。',
+    partner:'兩個人單獨出去不太好。找大家一起吧。',
+    noContact:'還沒有{pr}的聯絡方式。再熟一點，可以當面問{pr}。',
+    noContactAsk:'還沒有{pr}的聯絡方式。可以當面問{pr}。'
+  },
+  /* 兩個人單獨的邀約（BB_70 0-2：散步、吃飯）：任一方有伴侶時不約，改成一群人（AA_125 第 1 節）。Café、總圖是「有理由的」，照常 */
+  soloKinds:['meal','walk'],
+  /* 保底的「交換聯絡方式」（AA_124 1-7）：對方的回應，每人一句（AA 的五位；BB 的人物 BB 寫，還沒有的用旁白，不替人物編台詞）*/
+  exchange:{
+    heroine_01:[{say:'「好。……我傳給你的第一則會是筆記。不要回貼圖。」'}],
+    heroine_03:[{say:'「嗯。」'},{narr:'（她把手機推過來，畫面已經停在加好友那一頁。）'}],
+    yu:[{say:'「欸你還不在我的群組裡？我拉你。三個。」'}],
+    classmate_bohan:[{say:'「好。我只傳考古題。……還有時間表。」'}],
+    classmate_xinci:[{say:'「好。我會傳讀書計畫表，你不用每一張都回。」'}]
+  },
   /* 這些作息的時候不能赴約（會說「改天」，附一個具體的時間）*/
   busyActs:['class','barista','help','club','ta'],
   /* 可以約的人：人物的分類（CHARACTERS 的 social_layer）——法律系熟同學 A、其他系 C、五位主角 D、學長姐 F；不熟的同學 B、教授 E 不行 */
