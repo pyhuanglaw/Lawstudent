@@ -34,3 +34,18 @@
 - **麵店價目板的字被切掉**：`zones3d.js` 的 `attachNoodleInterior` 用 `h*0.42` 的字寫「乾麵 60 ・ 餛飩湯 70 ・ 滷蛋 15」，canvas 1024 寬放不下，「乾」和「15」被切掉。
   - 建議：用 `measureText` 縮字，或 `fillText` 加 maxWidth。
   - 背景圖裡我已經把字縮到放得下。
+
+## 第二版 v2（2026-10-14 16:40Z）——檔名不變，已替換 `assets/bg/noodle_table.webp`（164 KB）、`noodle_table_window.webp`（144 KB）
+
+- **加的東西**：只有背景版有，遊戲的麵店配置不變。
+  - 左牆的玻璃門飲料冰箱：中空的櫃體，背板有燈，四層飲料。
+  - 後牆的時鐘（七點）和月曆、角落疊起來的紅色塑膠椅。
+  - 湯鍋的熱氣：三片交叉的半透明面加上雜訊。
+- **燈光與色調**：日光燈偏暖一點，煮麵台上方的暖光加強，補光減弱，色調改 AgX Punchy（對比和飽和度高一點）。
+- **前後比較**（同一個鏡頭）：`v1_bg_main_preview.webp` → `v2_bg_main_preview.webp`。
+- **遊戲內截圖**（同一支腳本重拍，ALL PASS，沒有 JS 例外）：`v2_adv_event_A.webp`（實際事件）、`v2_adv_portraits_B.webp`（立繪疊上去的測試）。
+- **還是沒做到的**：
+  - 整體還是比立繪乾淨。
+  - 熱氣很淡，在白牆前面不明顯。
+  - 晚上的感覺主要靠燈光，要看到窗外夜景得用 `noodle_table_window.webp`。
+  - 這些需要使用者看過才知道方向對不對。狀態 READY_FOR_ART_REVIEW，不是 ART_APPROVED。
