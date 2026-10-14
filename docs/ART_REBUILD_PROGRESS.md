@@ -10,6 +10,17 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-14 09:05 UTC（段落存檔——使用者 09:00：「如果兩小時內沒辦法把下一個版本弄出來就要做一個段落上傳到資料庫一次，因為我們的用量快要到」；開發分支最新：這一筆交接的 commit；線上 v9.6＝`e88bda5`）**：
+- **v9.7 候選 8 `3e5201d`**（本機分支 `rel/v97-rc8`，bundle `wip_backup/v97-rc8.bundle`，前置 22c597c）＝候選 7＋`story3d.js` 見過以後按鈕名字更新（事件演完才定名字；Café 第一次見面後原本還是「和不認識的女生說話」）＋flow_first_meet 的 A（邊看邊追）、B2（沿遊戲路線點地面）。
+  遊戲程式：候選 1＝v9.7 內容；候選 5＝Café 店員和得到話（engine3d staff 優先、story3d 沒事件就點餐）；候選 8＝按鈕名字。其他候選只改測試。
+- **v9.7 已過**（本機，候選 4～7）：deploy_check、Node（候選 8 也過）、reachability_all（候選 4、5）、zone_transitions、minimap、save_compat_v7、p0、touch_flow_wenzhou、初遇存檔遷移、save_compat_v95、flow_class_real、campus_layout_nav、joystick、flow_classes。
+  LAWWW2：flow_typhoon、cg_rain_shots、flow_invite_phone；flow_first_meet 候選 6 的 C（Café 修正）通過、A／B2／C 第二次 → 候選 8 重跑中。
+  **還沒跑完**：本機 flow_linze_floors（跑中）→ deploy_check（候選 8）→ flow_bike → evtest → 其他回歸；LAWWW2：flow_lecture_attend（候選 6）→ adv_cg_layout → flow_main_day12 → flow_teaching_buildings → flow_soclib → campus_glb_integration → flow_first_meet（候選 8）→ flow_discuss_class（候選 7 測試）。預估 10:30 UTC 全過就發。
+- **使用者 10-14 試玩 v9.6 回饋**（`docs/history/user_feedback_2026-10-14_v96.md`）在開發分支已做（下一版，瀏覽器還沒看）：男一舍前地板閃爍 `7cd6684`（`tests/ground_zfight_unit.js`）、好感提示 `e30b320`（`tests/rel_feel_unit.js`）、換區域釋放材質貼圖 `45edfa8`（`tests/zone_dispose_unit.js`；瀏覽器 `tests/zone_memory.py` 還沒跑；iPhone 跳回開始畫面的推測原因）。
+  還沒做：店員（Café 芷若沒班時、總圖服務台、公館飲料店）、牽腳踏車的路人（換成 BIKE.rider、要看畫面）、男宿交誼廳（#47）、AA_124 第 1 節關係數值、考試成績系統骨架（AA_124 第 2 節等使用者確認）。LAWWW2 排了便利商店商品、交誼廳家具（v9.7 測完後）。
+- **發布工具**：`scratchpad/collect_results_v97.py`、`finish_release_v97.py`（`wip_backup/release_v96_v97/` 有備份）；發布後 `v97_user_summary.md` 填好回報使用者。
+- **如果這個工作階段在發布前中斷**：下一個 LAWWW 從 bundle 取出 `rel/v97-rc8`，照 TESTING.md 第五節把還沒跑的跑完（清單見上），全過才快轉 main；D71：v9.7 不受三小時限制。
+
 **2026-10-14 08:12 UTC（開發分支最新：這一筆交接的 commit；線上 v9.6＝`e88bda5`；v9.7 候選改成候選 6 `7c5d4c2`，兩台機器跑回歸）**：
 - **v9.7 回歸抓到一個 v9.6 以前就有的遊戲問題（已修，候選 5 `37a5db2`）**：兩點半 Café 吧檯後面的店員（芷若）和不到話——吧檯的點餐點永遠比較近，
   「和店員說話」從來不會出現（Node 模擬 2961 個站得住的點 0 處）；芷若在 Café 的初遇、點餐次數、集點卡都碰不到。修：`engine3d.js` nearestInteractable 標了 staff 的店員比櫃台的點餐點優先；

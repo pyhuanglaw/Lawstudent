@@ -1,0 +1,26 @@
+setff_rc8|echo 3e5201d > /tmp/claude-0/-home-user-Lawstudent/a98cd672-cd93-5881-9adc-d5e86cb59d66/scratchpad/q/FF
+deploy_check_v97c|python3 tests/deploy_check.py {U} '版本 v9.7（2026-10-14）'
+flow_bike_v97|python3 tests/flow_bike.py {U} {O}
+evtest_v97|sed 's#http://127.0.0.1:8765/index.html#http://127.0.0.1:8768/index.html#' tools/dev_scratch/evtest.py > /tmp/claude-0/-home-user-Lawstudent/a98cd672-cd93-5881-9adc-d5e86cb59d66/scratchpad/evtest_8768.py && cd tools/dev_scratch && python3 /tmp/claude-0/-home-user-Lawstudent/a98cd672-cd93-5881-9adc-d5e86cb59d66/scratchpad/evtest_8768.py
+flow_course_choice_v97|python3 tests/flow_course_choice.py {U} {O}
+flow_study_legal_v97|python3 tests/flow_study_legal.py {U} {O}
+flow_seated_spawn_v97|python3 tests/flow_seated_spawn.py {U} {O}
+flow_playtest_fixes_v97|python3 tests/flow_playtest_fixes.py {U} {O}
+flow_clubs_v97|python3 tests/flow_clubs.py {U} {O}
+flow_boya_interior_v97|python3 tests/flow_boya_interior.py {U} {O}
+flow_library_floors_v97|python3 tests/flow_library_floors.py {U} {O}
+flow_library_scene_v97|python3 tests/flow_library_scene.py {U} {O}
+flow_invite_phone_v97|python3 tests/flow_invite_phone.py {U} {O}
+see_through|python3 tests/see_through.py {U}
+model_upgrade|python3 tests/model_upgrade.py {U} {O}
+gongguan_layout_nav|python3 tests/gongguan_layout_nav.py {U}
+flow_wancai_stairs|python3 tests/flow_wancai_stairs.py {U} {O}
+flow_wancai_floors|python3 tests/flow_wancai_floors.py {U} {O}
+guide_flow|python3 tests/guide_flow.py {U}?turbo {O}
+levels_no_sky|python3 tests/levels_no_sky.py {U}?turbo {O}
+movement_regression|python3 tests/movement_regression.py {U}
+stairs_cam_browser|python3 tests/stairs_cam_browser.py {U}?turbo {O}
+tap_floor_levels|python3 tests/tap_floor_levels.py {U} {O}
+cam_swing_shots|python3 tools/shots/cam_swing_shots.py {U} {O}
+render_stats_soc|VIEWSET=soc python3 /tmp/claude-0/-home-user-Lawstudent/a98cd672-cd93-5881-9adc-d5e86cb59d66/scratchpad/wt_next/tools/dev_scratch/render_stats.py {U}
+flow_playtest_fixes_full|python3 /tmp/claude-0/-home-user-Lawstudent/a98cd672-cd93-5881-9adc-d5e86cb59d66/scratchpad/reltests/flow_playtest_fixes_run2.py {U} {O}

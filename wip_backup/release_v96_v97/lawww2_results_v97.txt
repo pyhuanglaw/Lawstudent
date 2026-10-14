@@ -5,3 +5,5 @@ cg_rain_shots rc=0 (172s) @6ad0923 ALL PASS（直向＋橫向都是 event_rain_l
 flow_invite_phone rc=0 (80s) @06f2b64 ALL PASS（13 PASS，沒有 JS 例外；遊戲＝候選 1）
 flow_first_meet rc=1 (1204s) @06f2b64 FAILED: 10 PASS／5 段 FAIL（A 傅鐘芷若不在、B2 經原分組沒開始、C 櫃台按鈕名稱、D 總圖門口晴天版沒觸發）——LAWWW 查原因中
 flow_lecture_attend rc=1 (851s) @06f2b64 FAILED: 4 PASS／7 FAIL——測試寫死的座位被坐姿替身坐走（演講一半的位子有人）；候選 6 改成挑空位，LAWWW2 重跑中
+flow_discuss_class rc=1 (221s) @06f2b64 FAILED: 4 PASS／5 FAIL——寫死的 201 第 4 排第 4 個座位是上課時同學固定坐的位子；候選 7 改成挑空位，LAWWW2 重跑中
+flow_first_meet rc=1 (1380s) @7c5d4c2 FAILED: 16 PASS／4 FAIL——C（Café 店員修正）通過；A 追人、B2 卡門框是測試問題，C 見過以後按鈕名字沒更新是遊戲小 bug；候選 8 修，LAWWW2 重跑中

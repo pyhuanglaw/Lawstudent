@@ -152,3 +152,17 @@ ff 要求：v9.7 候選 6 7c5d4c2（＝候選 5＋flow_lecture_attend 等聽眾�
 reachability_all_v97b rc=0 (187s) @37a5db2 ALL PASS
 setff_rc6 rc=0 (0s) @37a5db2 
 ff → 7c5d4c2 08:10:03
+zone_transitions_v97b rc=0 (96s) @7c5d4c2 ALL PASS
+ff 要求：v9.7 候選 7 dbe16a5（＝候選 6＋flow_discuss_class 等同學坐好再挑空位；只改測試）
+deploy_check_v97b rc=0 (132s) @7c5d4c2 ALL PASS
+setff_rc7 rc=0 (0s) @7c5d4c2 
+ff → dbe16a5 08:13:51
+touch_flow_wenzhou_v97 rc=0 (277s) @dbe16a5 ALL PASS
+save_firstmet_migration_v97 rc=0 (92s) @dbe16a5 ALL PASS
+save_compat_v95_v97 rc=0 (279s) @dbe16a5 ALL PASS
+flow_class_real_v97 rc=0 (389s) @dbe16a5 ALL PASS
+campus_layout_nav_v97 rc=0 (65s) @dbe16a5 ALL PASS
+joystick_direction_v97 rc=0 (457s) @dbe16a5 ALL PASS
+排序：08:54:07 flow_bike_v97 提前到 flow_linze_floors 之後（使用者 10-14：「我還是不能騎腳踏車」——v9.7 才有騎車）
+flow_classes_v97 rc=0 (995s) @dbe16a5 ALL PASS
+ff 要求：v9.7 候選 8 3e5201d（＝候選 7＋story3d 見過以後按鈕名字更新；flow_first_meet A、B2 測試）；重跑 deploy_check
