@@ -95,6 +95,17 @@ const ASSETS = (function(){
     // ==== 第二個 AI 區塊結束 ====
     'char.mixamo_clips':{url:'assets/models/char/mixamo_clips.glb', type:'clips', source:'three.js examples (Xbot.glb, Mixamo)', license:'Mixamo 動畫（Adobe 條款：可用於專案，不可單獨再散布）'},
   };
+  /* 路人底模（LAWWW2 Blender，docs/art-rebuild/second_ai/patches/npc_ambient_1ca527d.patch；2026-10-14 LAWWW 整合）：網址加 ?npcnew 才放進 manifest——
+     預設不載入（ambient 會在開場預載，8 個約 20 MB；使用者看過截圖再決定）。只給沒有名字的路人用（character3d.js 的 AMB_ANON），有名字的人物照舊用可換色的模型 */
+  if(typeof location!=='undefined'&&/[?&]npcnew\b/.test(location.search||'')) Object.assign(A.manifest,{
+    'char.npc_nm1':    {url:'assets/models/char/second_ai/bl_npc_nm1.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.7,ambient:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Male」：深棕短髮、深藍 T、卡其褲',license:'CC0'},
+    'char.npc_nm2':    {url:'assets/models/char/second_ai/bl_npc_nm2.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.8,ambient:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Sakurada_Fumiriya」：黑色蓬鬆短髮、灰針織衫、黑長褲',license:'CC0'},
+    'char.npc_nm3':    {url:'assets/models/char/second_ai/bl_npc_nm3.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.76,ambient:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Male」：淺棕側分短髮、磚紅針織衫、淺灰長褲',license:'CC0'},
+    'char.npc_nm4':    {url:'assets/models/char/second_ai/bl_npc_nm4.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.73,ambient:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Sakurada_Fumiriya」：黑色側分瀏海、白 T、橄欖綠長褲',license:'CC0'},
+    'char.npc_nf1':    {url:'assets/models/char/second_ai/bl_npc_nf1.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.62,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Victoria_Rubin」：棕色及肩髮、淺綠 T、白寬褲',license:'CC0'},
+    'char.npc_nf2':    {url:'assets/models/char/second_ai/bl_npc_nf2.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.58,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Female」：黑色鮑伯頭、白 V 領、深藍牛仔褲',license:'CC0'},
+    'char.npc_nf3':    {url:'assets/models/char/second_ai/bl_npc_nf3.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.66,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Victoria_Rubin」：灰棕長髮、深藍針織衫、淺色牛仔褲',license:'CC0'},
+    'char.npc_nf4':    {url:'assets/models/char/second_ai/bl_npc_nf4.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.6,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Female」：紅棕長髮、珊瑚色 T、米色寬褲',license:'CC0'}});
   // 網址加 ?nobldg：不載入建築的正式模型（Blender GLB），只看程序化備用模型（新舊比較、載入失敗時的樣子）
   if(typeof location!=='undefined'&&/[?&]nobldg\b/.test(location.search||'')) for(const k of Object.keys(A.manifest)) if(k.startsWith('bldg.')||k==='prop.street'||k==='prop.trees') delete A.manifest[k];
   // 網址加 ?blchar：有 Blender 正式製作版本的人物（manifest 的 blUrl）改用 Blender 版（v9.4 起；沈以安是示範角色）。
