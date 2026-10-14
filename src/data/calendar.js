@@ -5,7 +5,7 @@
    - 國定假日：紀念日及節日實施條例（2025 年修正：新增教師節 9/28、臺灣光復暨金門古寧頭大捷紀念日 10/25、行憲紀念日 12/25、除夕前一日）。
      補假：週六放的提前到週五、週日放的延到週一（春節：落在週末的那幾天補在連假之後的上班日；兒童節與清明同一天時前一天放，逢週四改後一天）。
      農曆節日、清明照每年的國曆日期表。需查證：實際以人事行政總處當年度公告為準；彈性放假與補行上班日不做。
-   - 校定假日：等 AA 給清單（SCHOOL），沒有就不放。
+   - 校定假日：等 AA 給清單（SCHOOL），沒有就不放。颱風假（TYPHOON）：劇情排定的固定日期，當天停課。
    讀的地方：src/data/places.js（法律學院圖書館的開放時間，D53）、課表系統（AA_104：沒有課的日子）。 */
 const CALENDAR=(function(){
   const DAY=86400000, DAY1=Date.UTC(2025,8,17);
@@ -25,6 +25,10 @@ const CALENDAR=(function(){
                 2027:{cny:'2027-02-06',dragon:'2027-06-09',moon:'2027-09-15',qm:'2027-04-05'}, 2028:{cny:'2028-01-26',dragon:'2028-05-28',moon:'2028-10-03',qm:'2028-04-04'},
                 2029:{cny:'2029-02-13',dragon:'2029-06-16',moon:'2029-09-22',qm:'2029-04-04'} };
   const SCHOOL={};   // 校定假日：'YYYY-MM-DD':'名稱'（等 AA）
+  /* 颱風假（BB_110 第 2 節、交付清單 B3，2026-10-14 AA×BB 第 2 級）：遊戲照固定週次安排（真實的颱風假由縣市政府前一晚宣布，需查證）。
+     法律系大一上第 7 週週一（憲法（上）那天：T1b 張教授前一晚的信「明日停課」）。當天和國定假日一樣停課（沒有課、上課日程的人不來學校、活動不辦、圖書館照假日），
+     整天下雨（story3d.js 的 sleepNow）。大二以後的颱風假（BB_110：大二第 7 週、大三第 6 週、大四第 3 週）劇情交付後再加 */
+  const TYPHOON={'2025-10-13':'颱風假'};
   const cache={};
   function holidaysOf(y){ if(cache[y]) return cache[y]; const H={}, L=LUNAR[y]; const add=(t,n)=>{ const k=key(t); if(!H[k]) H[k]=n; };
     const isOff=t=>{ const w=wdOf(t); return w>=6||!!H[key(t)]; };
@@ -41,12 +45,14 @@ const CALENDAR=(function(){
     for(const k of Object.keys(H).sort()){ const t=parse(k); if(spring.some(([s])=>s===t)) continue; if(/補假/.test(H[k])) continue; shift(t,H[k]); }
     if(spring.length){ let last=spring[spring.length-1][0]; for(const [t,n] of spring){ if(wdOf(t)>=6){ let s=last+DAY; while(isOff(s)) s+=DAY; add(s,'春節（補假）'); last=s; } } }
     for(const [k,n] of Object.entries(SCHOOL)) if(k.startsWith(String(y))) H[k]=H[k]||n;
+    for(const [k,n] of Object.entries(TYPHOON)) if(k.startsWith(String(y))) H[k]=H[k]||n;
     return cache[y]=H; }
   const C={ TERMS, SCHOOL,
     tOf(day){ return DAY1+((day|0)-1)*DAY; },
     dateOf(day){ const t=C.tOf(day), dt=new Date(t); return {y:dt.getUTCFullYear(),m:dt.getUTCMonth()+1,d:dt.getUTCDate(),wd:wdOf(t),key:key(t)}; },
     holiday(day){ const t=C.tOf(day), y=new Date(t).getUTCFullYear(), k=key(t); return holidaysOf(y)[k]||holidaysOf(y+1)[k]||null; },   /* 隔年元旦落在週六：補假在今年 12/31 */
     holidaysOf,
+    typhoon(day){ return !!TYPHOON[C.dateOf(day).key]; },   /* 颱風假那一天（停課、下雨）*/
     /* 這一天在哪個學期：{id, week（1～18）, exam：'mid'｜'final'｜null}；寒暑假＝null */
     termOf(day){ const t=C.tOf(day); for(const T of TERMS){ if(t>=T.t0&&t<T.t1){ const week=Math.floor((t-T.t0)/(7*DAY))+1; return {id:T.id,week,exam:week>=8&&week<=9?'mid':(week>=17?'final':null)}; } } return null; },
     /* 'holiday'（國定、校定假日）／'term'（學期間）／'break'（寒暑假） */

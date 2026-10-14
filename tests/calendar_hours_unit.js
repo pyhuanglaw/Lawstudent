@@ -21,7 +21,7 @@ const C=CALENDAR, P=PLACES;
     '2027-02-09':'春節（補假）','2027-02-10':'春節（補假）','2027-12-31':'開國紀念日（補假）','2028-04-03':'兒童節','2028-05-29':'端午節（補假）','2029-02-16':'春節（補假）','2029-06-15':'端午節（補假）'};
   const bad=[]; for(const [k,n] of Object.entries(want)){ const got=C.holiday(dayOf(k)); if(got!==n) bad.push(k+'：'+got+'≠'+n); }
   check('國定假日與補假（2025 年新增的教師節、光復節、行憲紀念日、除夕前一日；週六提前、週日延後；春節補在連假之後；兒童節與清明同一天放前一天）',!bad.length,bad.slice(0,4).join(' | '));
-  const work=['2025-09-17','2025-10-07','2025-10-13','2026-02-23','2026-04-07']; const b2=work.filter(k=>C.holiday(dayOf(k))); check('平常的上課日不是假日',!b2.length,b2.join(',')); }
+  const work=['2025-09-17','2025-10-07','2025-10-20','2026-02-23','2026-04-07'];   /* 2025-10-13 是颱風假（calendar.js 的 TYPHOON，交付清單 B3），改用 10/20 */ const b2=work.filter(k=>C.holiday(dayOf(k))); check('平常的上課日不是假日',!b2.length,b2.join(',')); }
 // 學期
 { const t=C.termOf(1); check('第 1 天是大一上第 3 週（9/1 開學）',t&&t.id==='Y1S1'&&t.week===3,JSON.stringify(t));
   const mid=C.termOf(dayOf('2025-10-20')), fin=C.termOf(dayOf('2025-12-22')); check('第 8～9 週期中、第 17～18 週期末',mid&&mid.exam==='mid'&&mid.week===8&&fin&&fin.exam==='final'&&fin.week===17,JSON.stringify([mid,fin]));
@@ -68,7 +68,7 @@ const C=CALENDAR, P=PLACES;
   check('辜振甫 寒暑假平日 08:20–21:00',!o(BRK,8.3)&&o(BRK,8.34)&&o(BRK,20.9)&&!o(BRK,21));
   check('辜振甫 寒暑假週六 09:00–17:00、週日不開',o(BSAT,9)&&o(BSAT,16.9)&&!o(BSAT,17)&&[9,12,16].every(h=>!o(BSUN,h)));
   check('辜振甫 國定假日（國慶日）、春節（除夕）不開',[9,12,20].every(h=>!o(HOL,h))&&!o(dayOf('2026-02-16'),12));
-  const t1=P.closedText('soclib',22.5,T), t2=P.closedText('soclib',18,SUN), t3=P.closedText('soclib',12,BSUN), t4=P.closedText('soclib',12,HOL);
+  const t1=P.closedText('soclib',22.5,T), t2=P.closedText('soclib',18,dayOf('2025-10-19')),   /* 學期間週日 18:00：10/12 的隔天是颱風假，改用 10/19 */ t3=P.closedText('soclib',12,BSUN), t4=P.closedText('soclib',12,HOL);
   check('辜振甫 閉館說明（平日晚上）：明天 08:20',/社科院圖書館/.test(t1)&&/明天 08:20/.test(t1),t1);
   check('辜振甫 閉館說明（學期間週日 18:00）：明天（週一）08:20',/明天 08:20/.test(t2),t2);
   check('辜振甫 閉館說明（寒假週日）：寫「寒暑假的週日」（不是「週末」：寒假週六有開）、明天 08:20',/寒暑假的週日/.test(t3)&&/明天 08:20/.test(t3),t3);

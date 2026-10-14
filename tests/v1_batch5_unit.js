@@ -60,7 +60,7 @@ const W4MON=termDay(4,1), W5MON=termDay(5,1), W5TUE=termDay(5,2);
     PHONE.join(G,'family_law','法律系直屬家族'); PHONE.join(G,'guitar','吉他社'); PHONE.join(G,'lawclub_study','法服讀書會'); G.contacts={heroine_02:3,npc_fangyt:6,classmate_mingxuan:8}; SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY');
     G.flags.pothosWaterWk=STORY.pothosWeek(W5MON);
     const seen=[]; let day=W5MON, F=G.flags, contacts=G.contacts;
-    for(let k=0;k<16;k++){ const before=dp().length; run(7.5,26.5,0.01); const got=dp().slice(before); seen.push({day,ids:[...new Set(got.map(m=>m.tag.split('_').slice(1,-2).join('_')))],n:got.length});
+    for(let k=0;k<18;k++){ const before=dp().length;   /* 18 天（9/29～10/16）：第 7 週週一 10/13 是颱風假（吉他社不上課），子晴的五則排到下一次社課（週三 10/15）*/ run(7.5,26.5,0.01); const got=dp().slice(before); seen.push({day,ids:[...new Set(got.map(m=>m.tag.split('_').slice(1,-2).join('_')))],n:got.length});
       const msgs=G.msgs, phone=G.phone, soc=G.social; day++; fresh(day,7.5,'campus',F); G.msgs=msgs; G.phone=phone; G.contacts=contacts; G.social=soc; SOCIAL.bind(G); F=G.flags; F.pothosWaterWk=STORY.pothosWeek(day); }
     check('一天最多一則（每天的 dp_ 訊息都來自同一則）',seen.every(s=>s.ids.length<=1),JSON.stringify(seen));
     const by=id=>G.msgs.filter(m=>m.tag&&m.tag.startsWith('dp_'+id+'_'));

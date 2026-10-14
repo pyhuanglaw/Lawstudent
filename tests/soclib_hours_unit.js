@@ -25,7 +25,7 @@ const door={exit:{to:'soclib',spawn:{x:-9,z:9.3}},label:'進入社科院圖書�
 const flush=()=>new Promise(r=>setTimeout(r,20));
 (async()=>{
   // ---------- 校園的門 ----------
-  { at('campus','2025-10-12',18); const r=await STORY.interact(door,GM);
+  { at('campus','2025-10-19',18);   /* 10/12 的隔天是颱風假（交付清單 B3），改用 10/19 */ const r=await STORY.interact(door,GM);
     check('學期間週日 18:00（週日 09:00–17:00）：按「進入社科院圖書館」被擋下、寫下次是明天 08:20、沒有進去',r===true&&/社科院圖書館 現在沒有開/.test(toasts[0]||'')&&/明天 08:20/.test(toasts[0]||'')&&!entered.length,toasts[0]); }
   { at('campus','2026-01-18',12); const r=await STORY.interact(door,GM);
     check('寒假週日中午（寒暑假週日不開）：被擋下、寫「寒暑假的週日」',r===true&&/寒暑假的週日/.test(toasts[0]||''),toasts[0]); }

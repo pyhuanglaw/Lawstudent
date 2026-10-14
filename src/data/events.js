@@ -483,6 +483,23 @@ const STORY_EVENTS=[
       {if:{custom:G=>{ const h=XMAS_HERE(G); return h.includes('classmate_mingxuan')&&h.includes('zhe')&&G.flags.XMAS_FROM!=='classmate_mingxuan'; }},speaker:'classmate_mingxuan',expression:'neutral',text:'多買的啦。'},
       {if:{custom:G=>XMAS_MX_YU(G)},speaker:null,text:'明軒抽到小語的巨大玩偶，揹著它去搭公車。'} ],
     consequences:{flags:{XMAS_Y1:true},memo:'聖誕交換禮物（霖澤館一樓）'} },
+  /* 颱風假 T1a「泡麵之夜」（BB_110 第 2 節、交付清單 B3，2026-10-14 第 2 級 AA×BB）：颱風假（calendar.js 的 TYPHOON：第 7 週週一）晚上 18–23 點在宿舍房間。
+     阿凱囤了泡麵；隔壁的方奕廷抱著植物過來——玩家見過他才有和他有關的三句（交付清單第 0 節第 1 條：沒見過的人不出現）。
+     「不可抗力」只當玩笑、沒有人下結論（BB 2026-10-14 法律查核，BB_115 L436）。「看情況。」記 SAID_DEPENDS（大二 F2 阿凱的聊天機器人多一句）。
+     生活 CG BCG-18「颱風夜的泡麵」還沒生成：通過後接在方奕廷進來那一句、之後都用同一張（BB_117 第 4b 節）。跳過時間的玩家不補演（BB_110 第 0 節）*/
+  { id:'ev_typhoon_noodles_y1', title:'颱風夜的泡麵', participants:['kai'], location:'dorm', trigger:'auto', term:['Y1S1'], weeks:[7], weekday:[1], time:[18,23], once:true, background:'blur',
+    prereq:{custom:G=>typeof CALENDAR!=='undefined'&&CALENDAR.typhoon(G.day)},
+    dialogue:[ {speaker:'kai',expression:'laugh',text:'我囤了二十包。這是我人生最正確的決定。'},
+      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('npc_fangyt',G)},speaker:'npc_fangyt',expression:'neutral',text:'（抱著一盆植物進來）它在陽台會死。'},
+      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('npc_fangyt',G)},speaker:'kai',expression:'surprised',text:'……你帶一盆植物來吃泡麵？'},
+      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('npc_fangyt',G)},speaker:'npc_fangyt',expression:'neutral',text:'它不吃。它看。'},
+      {speaker:'kai',expression:'smile',text:'法律系的，颱風天泡麵算不算「不可抗力」？'},
+      {choice:[{text:'「算。所以你要分我。」',goto:'yes'},{text:'「不算。這是你自己囤的。」',goto:'no'},{text:'「看情況。」',goto:'dep'}]},
+      {label:'yes'},{speaker:'kai',expression:'smile',text:'這個推論有問題，但我接受。'},{goto:'end'},
+      {label:'no'},{speaker:'kai',expression:'sad',text:'你好無情。……拿去。'},{goto:'end'},
+      {label:'dep'},{speaker:'kai',expression:'laugh',text:'你們法律系每次都這樣。'},{mem:[{npc:'kai',tag:'SAID_DEPENDS',note:'颱風夜的泡麵：「不可抗力？」「看情況。」'}]},
+      {label:'end'} ],
+    consequences:{flags:{TYPHOON_Y1:true},memo:'颱風假：宿舍的泡麵之夜'} },
   /* 跨年（交付清單 A21：交接包_v1 第 3 節、AA_71 2-7、BB_95 9-7）：第 18 週 12/31（期末考中間）。一週前可昕問「跨年要不要去人少的地方？」（story3d.js 的 phoneRules）：
      「好。」＝河堤（出遊，和 K1b 的河堤共用背景；回宿舍的路上麵店團群組傳頂樓的照片）；「我答應麵店團要去頂樓了。」＝宿舍頂樓，零點前一分鐘她打視訊來（不扣分；她不在這裡和麵店團見面）。
      沒有回她、在麵店團群組裡的玩家照 AA 的群戲去頂樓（沒有視訊）。記 KX_NYE:{1:'river'|'roof'}（BB_107 第 13 節：節日每年一筆）*/
