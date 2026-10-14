@@ -100,6 +100,16 @@ def main(key):
                 cl = wk['call']; e['call'] = {'options':cl['options'],'follow':cl['follow']}
                 for a in cl['options']: chk(a,20,tag+' 選項')
                 for a in cl['follow']: chk(a,40,tag+' 收尾')
+            if wk.get('recall'):
+                # 一般課（A、C、觀察型 B）的回想：條件成立時，教授那句之後多一句旁白（交接包 v2 第 12 週憲法：聽完演講的玩家）
+                if (wk.get('obs') or {}).get('kind')=='discuss': problems.append(tag+'：討論型 B 的回想寫在 obs 裡')
+                e['recall']=[]
+                for r in wk['recall']:
+                    keys=[k for k in ('attended','flag','activity') if r.get(k)]
+                    if len(keys)!=1 or not r.get('say'): problems.append(f'{tag}：回想要剛好一個條件（attended／flag／activity）和 say'); continue
+                    k=keys[0]; chk(r['say'],40,tag+' 回想')
+                    if k=='attended': attends.append((tag,r[k]))
+                    e['recall'].append({k:r[k],'say':r['say'],'after':'line'})
             if wk['tpl'] in 'BC' and wk['tpl']=='B' and 'obs' not in wk: problems.append(tag+'：B 沒有 obs')
             if wk.get('review'): e['review'] = wk['review']
             if wk.get('special'):
@@ -141,7 +151,7 @@ def main(key):
         print('問題：'); [print(' -', x) for x in problems]; sys.exit(1)
 
 def recall_md(r):
-    pos = f"（{WHO.get(r['after'], r['after'])}的回應之後）" if r.get('after') else '（選項前）'
+    pos = '（教授那句之後）' if r.get('after')=='line' else (f"（{WHO.get(r['after'], r['after'])}的回應之後）" if r.get('after') else '（選項前）')
     if r.get('record'):
         return (f"讀 `{r['record']}`{pos}：選了看法→{r['said']}／先聽別人說→{r['listened']}／沒有紀錄→"
                 + (r['missed'] if r.get('missed') else '（不加）'))
@@ -163,7 +173,7 @@ def render(m, out):
     L.append("")
     L.append("## 0. 怎麼用")
     L.append("")
-    L.append("- 每門課每週一筆：**黑板三行＋教授一句＋同學反應**（A 類大多沒有同學發言，有的話一句）。模板：**A** 一句開場、一個例子、下課（沒有選項）；**B** 觀察（不影響數值的小選擇，選了只顯示一行結果）；**B（討論）** 有爭點的互動課（`AA_119`）：教授問一題 → 玩家選三個看法之一或「我想先聽別人說」→ 兩三個同學依序回應 → 教授收尾、不說誰對，記下玩家的看法（有些週有**回想**：照玩家之前的看法、去過的課、旗標、人物記憶或聽過的演講，在選項前或某位同學之後多一句旁白）；**C** 被點到，但沒有對錯（三個立場都接同一個收尾）。")
+    L.append("- 每門課每週一筆：**黑板三行＋教授一句＋同學反應**（A 類大多沒有同學發言，有的話一句）。模板：**A** 一句開場、一個例子、下課（沒有選項）；**B** 觀察（不影響數值的小選擇，選了只顯示一行結果）；**B（討論）** 有爭點的互動課（`AA_119`）：教授問一題 → 玩家選三個看法之一或「我想先聽別人說」→ 兩三個同學依序回應 → 教授收尾、不說誰對，記下玩家的看法（有些週有**回想**：照玩家之前的看法、去過的課、旗標、人物記憶或聽過的演講，在選項前或某位同學之後多一句旁白；A、C 類和觀察型 B 也可以有回想，放在教授那句之後）；**C** 被點到，但沒有對錯（三個立場都接同一個收尾）。")
     L.append("- 第 8～9、17～18 週考試，不上課；遊戲第一天是第 3 週週三，第 1～2 週只是資料。")
     L.append("- **翹課**：不扣任何東西；那門課的「翹課訊息」可以在當天晚上出現一則（群組一行）。")
     L.append("- 標「特殊事件」的週：有完整事件時用事件；事件還沒做或暫緩時，用這裡的普通內容。")
@@ -194,6 +204,7 @@ def render(m, out):
                          +('<br>**翹課**：'+WHO.get(ob['skip_line']['who'],ob['skip_line']['who'])+'「'+ob['skip_line']['text']+'」' if ob.get('skip_line') else ''))
             elif e['tpl']=='B': extra = '<br>**觀察**：'+e['obs']['prompt']+' '+'／'.join(f"「{o['text']}」→{o['result']}" for o in e['obs']['options'])
             if e['tpl']=='C': extra = '<br>**選項**：'+'／'.join('「'+o+'」' for o in e['call']['options'])+'<br>**收尾**：'+' '.join('「'+x+'」' for x in e['call']['follow'])
+            if e.get('recall'): extra += '<br>**回想**：'+'；'.join(recall_md(r) for r in e['recall'])
             r = '<br>'.join(f"{WHO.get(x['who'],x['who'])}：「{x['text']}」" for x in e['react'])
             sp = '（特殊事件週）' if e.get('special') else ''
             L.append(f"| {e['w']}{sp} | {e['tpl']} | {b} | 「{e['line']}」{extra} | {r} | {e.get('review','')} |")
