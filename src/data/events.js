@@ -615,6 +615,41 @@ const STORY_EVENTS=[
      還沒認識沛珊的玩家沒有。第二個畫面（期中的麵店長桌）跟大一下期中的宵夜一起做 */
   { id:'ev_peishan_bohan_w4', title:'走出萬才館', participants:['classmate_peishan','classmate_bohan'], location:'wancai', trigger:'activity', afterActivity:'lawclub_study', term:['Y1S2'], weeks:[4], once:true, prereq:{memory:[{npc:'classmate_peishan',tag:'FIRST_MET'}]}, background:'blur',
     dialogue:[ {speaker:null,text:'（讀書會結束。沛珊和柏翰一起走出萬才館，一路在爭下週誰報告哪一題。）'},{speaker:null,text:'（你在後面收白板。）'} ] },
+  /* 春假三選一（交接包 v2 C9；草稿第 3 節「春假」）——可昕 K8 開車旅行（BB_96 9-5）：第 5 週選了「和可昕開車旅行」＝4/3 早上 8:00 出遊（story3d.js 的 springChoose）。一天來回、不演住宿。
+     車上的規則 → 目的地三選一（山上看星星只給第 6 週天文課有去的玩家：CLS.attendedWeek 'Y1S2:ge_y1s2:w6'，那一堂有同學說「連假的時候，我要去山上看星星。」）→ 到了（2D，依目的地）一題假設題、
+     怎麼接都可以 → 回程（車上，晚上）。記 KX_TRIP:{Y1S2:'sea'|'oldtown'|'stars'}。旅行的照片（房間物件）：照片上寫什麼等 BB */
+  { id:'ev_kexin_trip_spring_y1', title:'春假：開車旅行', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:13,
+    dialogue:[ {scene:'車上',bg:'car'},
+      {speaker:'kexin',expression:'smile',text:'規則。我管音樂，你管方向。'},
+      {speaker:'kexin',expression:'teasing',text:'誰都不能管對方的。……目的地，現在決定。'},
+      {choice:[{text:'海邊',set:{KX_TRIP_Y1S2:'sea'},goto:'d_sea'},{text:'別的城市的老街',set:{KX_TRIP_Y1S2:'oldtown'},goto:'d_old'},
+        {text:'山上看星星',if:{custom:G=>typeof CLS!=='undefined'&&!!CLS.attendedWeek&&CLS.attendedWeek(G,'Y1S2:ge_y1s2:w6')},set:{KX_TRIP_Y1S2:'stars'},goto:'d_star'}]},
+      {label:'d_sea'},{speaker:'kexin',expression:'smile',text:'好。我要把腳弄濕。'},{scene:'海邊',bg:'trip_sea'},
+      {speaker:'kexin',expression:'teasing',text:'假設海浪一直說同一句話，它想說什麼？'},
+      {choice:[{text:'「回來。」',goto:'s1'},{text:'「再來一次。」',goto:'s2'},{text:'「妳腳濕了。」',goto:'s3'}]},
+      {label:'s1'},{speaker:'kexin',expression:'smile',text:'好，等一下就回來。'},{speaker:null,text:'她又往海走了兩步。'},{goto:'back'},
+      {label:'s2'},{speaker:'kexin',expression:'smile',text:'好，再來一次。'},{goto:'back'},
+      {label:'s3'},{speaker:'kexin',expression:'teasing',text:'……這不是答案，是事實。'},{goto:'back'},
+      {label:'d_old'},{speaker:'kexin',expression:'smile',text:'每一家都說自己是老店。我們去查證。'},{scene:'老街',bg:'trip_oldtown'},
+      {speaker:'kexin',expression:'teasing',text:'假設這條街每一家都說自己最老，誰要負責證明？'},
+      {choice:[{text:'「說的人。」',goto:'o1'},{text:'「吃的人。」',goto:'o2'},{text:'「不用證明，好吃就好。」',goto:'o3'}]},
+      {label:'o1'},{speaker:'kexin',expression:'smile',text:'好。這家的證據是牆上的照片，我信了。'},{goto:'back'},
+      {label:'o2'},{speaker:'kexin',expression:'smile',text:'那我們要多吃幾家。'},{goto:'back'},
+      {label:'o3'},{speaker:'kexin',expression:'teasing',text:'這個法官太好收買了。'},{goto:'back'},
+      {label:'d_star'},{speaker:'kexin',expression:'teasing',text:'你們通識課的人說的？好，我們去驗證。'},{scene:'山上',bg:'trip_mountain'},
+      {speaker:'kexin',expression:'teasing',text:'假設月亮是我們兩個共有的，誰負責初一，誰負責十五？'},
+      {choice:[{text:'「我負責初一。」',goto:'m1'},{text:'「妳負責十五。」',goto:'m2'},{text:'「一起負責。」',goto:'m3'}]},
+      {label:'m1'},{speaker:'kexin',expression:'teasing',text:'初一看不到月亮。你好狡猾。'},{goto:'back'},
+      {label:'m2'},{speaker:'kexin',expression:'smile',text:'最亮的那天給我？……成交。'},{goto:'back'},
+      {label:'m3'},{speaker:'kexin',expression:'smile',text:'好。那每天晚上都要一起看。'},
+      {label:'back'},{scene:'車上',bg:'car'},
+      {speaker:'kexin',expression:'smile',text:'我不睡。我要陪你開車。'},
+      {speaker:null,text:'過了收費站，她睡著了。音樂還是她選的。'} ],
+    after:G=>{ const k=G.flags.KX_TRIP_Y1S2; if(k){ const T=(G.flags.KX_TRIP&&typeof G.flags.KX_TRIP==='object')?G.flags.KX_TRIP:{}; T.Y1S2=k; G.flags.KX_TRIP=T; } } },
+  /* 春假留在宿舍（交接包 v2 C9）：選了留在宿舍的玩家，春假（4/3～4/6）第一次走進宿舍，一句旁白 */
+  { id:'ev_spring_dorm_empty_y1', title:'春假', participants:[], location:['dorm','dorm_hall'], trigger:'enter', once:true, background:'freeze',
+    prereq:{custom:G=>G.flags.SPRING_Y1==='dorm'&&typeof STORY!=='undefined'&&!!STORY.springDays&&G.day>=STORY.springDays().d0&&G.day<=STORY.springDays().d0+3},
+    dialogue:[ {speaker:null,text:'宿舍變得很空。'} ] },
   /* 重訪日 1（交接包 v2 C20；草稿第 3 節、AA_12）——可昕的版本（BB_96 9-10）：大一最後一天（第 18 週最後一天，STORY.revisitDay），交往中的玩家
      她中午傳「最後一天。你說的那張桌子，我六點到。」（story3d.js phoneRules），18:00 以後人在兩點半 Café 就演（auto；早到的等到六點）。
      題目、選項照第 3 節的表（REVISIT_Y1_OPTS：只出經歷過的事，最多三個＋一定有的那一個）；她的回應照 BB 的表；中秋烤肉看 K3 有沒有來（KX_MET_NOODLE_TEAM）；
