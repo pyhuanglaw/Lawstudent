@@ -26,14 +26,21 @@
   - `tools/dev_scratch/evtest.py` 改用預裝的 Chromium（`executable_path`）。
   - `v2_c14_unit` 不算同一天中午 B4 的揪人訊息。
   - `activities_unit`、`boya_lecture_unit` 的允許清單加上 B4。
+- **16:00 以後**：
+  - `9da176e`：B4／B5 本體。
+  - `fd235b6`：第 12 週以安「你那天聽完就走了。你怎麼想？」。
+  - `0c63b2d`：瀏覽器測試 `tests/flow_b4_lecture.py`。
+  - `54e44b4`：沛珊的那張表（BB_96 3-7）＋測試等人的時間（SwiftShader 下遊戲時間約為真實時間 4 倍）。
 - **C13 還沒做**：
-  - 沛珊的那張表（BB_96 3-7：女舍門口改約、三種回法）。
   - 共同教學館的阿勳（10-3）、小福的還債（10-4）、SK03 週五小福午餐、SK05 販賣機。這幾項要先有阿勳的人物資料，以及小福用 2D 出遊的確認，已問 BB。
+  - 期末「欠的，還了。」：遊戲裡還沒有刑總二的課程群組，已問 BB。
+  - 3-2 明軒 F-M4：要先有打工系統（AA_72 第 3 節：每週最多兩個打工時段、和社團撞時間要選）。只做邀約會讓玩家答應一個不存在的打工，所以先不做。
+- **期末考**：使用者 15:45（經 AA）說題目全部由使用者提供（`USER_INSTRUCTION_LOG.md`）。
   - 第 12 週憲法課的演講回想：AA 說大一下的 recall 先不匯入。
 - **10-6 P4e（經原下的成績）和可昕第 9 節 9-9 綁在一起**：第 9 節恢復時一起做。
 - **瀏覽器回歸**：
   - 15:40 快轉到 `a409436`，接著跑 wancai_floors、tap_stall、deploy_check、first_meet、invite_phone、zone_transitions、save_compat_v95、main_day12。
-  - 執行器最晚 16:53 要重開。
+  - 執行器 15:57 重開（最晚 17:57 要再重開），先跑 `flow_b4_lecture`（修正版），再跑 tap_stall、deploy_check、first_meet、invite_phone、zone_transitions、save_compat_v95、main_day12、playtest_fixes、evtest。
 
 **2026-10-14 15:30 UTC（開發分支最新：這一筆交接的 commit；線上＝v9.7 `313d620`；沒有排發布）**：
 - **使用者 15:0x 的 P0 永久工作規則（D72、D73、D74）已寫入**：
