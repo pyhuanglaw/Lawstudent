@@ -4,7 +4,7 @@
  "term": "Y4S1",
  "author": "AA",
  "count": 8,
- "crossReviewed": 0,
+ "crossReviewed": 7,
  "questions": [
   {
    "id": "Y4_ENF_01",
@@ -25,8 +25,8 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "強制執行法 §4：「確定之終局判決」",
     "公證法 §2：「對於私文書予以認證」",
@@ -53,8 +53,8 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "強制執行法 §15：「第三人就執行標的物有足以排除強制執行之權利者」"
    ]
@@ -78,8 +78,8 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "強制執行法 §14：「如有消滅或妨礙債權人請求之事由發生」"
    ]
@@ -103,8 +103,8 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "強制執行法 §115-1：「不得逾各期給付數額三分之一」"
    ]
@@ -115,11 +115,11 @@
    "term": "Y4S1",
    "scopeWeek": 15,
    "type": "mc",
-   "q": "執行人員到作家乙家裡查封，看到：一部還沒出版的小說手稿、一支名牌手錶、上市公司股票的存摺、乙名下另一間出租的房子。依強制執行法第53條，哪一樣原則上不得查封？",
+   "q": "執行人員到作家乙家裡查封，看到：一部還沒發表的小說手稿、一支名牌手錶、一輛很少開的跑車、乙名下另一間出租的房子。依強制執行法第53條，哪一樣原則上不得查封？",
    "options": {
     "A": "名牌手錶",
-    "B": "還沒出版的小說手稿",
-    "C": "上市公司的股票",
+    "B": "還沒發表的小說手稿",
+    "C": "很少開的跑車",
     "D": "另一間出租的房子"
    },
    "answer": "B",
@@ -153,8 +153,8 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §522：「欲保全強制執行者，得聲請假扣押」",
     "民事訴訟法 §532：「債權人就金錢請求以外之請求」"
@@ -179,8 +179,8 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "強制執行法 §1：「於地方法院及其分院設民事執行處辦理之」",
     "行政執行法 §4：「公法上金錢給付義務逾期不履行者」"
@@ -205,8 +205,8 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "強制執行法 §127：「執行法院得以債務人之費用，命第三人代為履行」",
     "強制執行法 §128：「非他人所能代履行者」"

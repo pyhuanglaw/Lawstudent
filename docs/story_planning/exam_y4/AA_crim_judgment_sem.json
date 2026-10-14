@@ -4,7 +4,7 @@
  "term": "Y4S1",
  "author": "AA",
  "count": 8,
- "crossReviewed": 0,
+ "crossReviewed": 8,
  "questions": [
   {
    "id": "Y4_CJS_01",
@@ -25,8 +25,8 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "刑事訴訟法 §308：「有罪之判決書並應記載犯罪事實」"
    ]
@@ -50,8 +50,8 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "中華民國刑法 §23：「對於現在不法之侵害」"
    ]
@@ -75,8 +75,8 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "中華民國刑法 §57：「科刑時應以行為人之責任為基礎」"
    ]
@@ -100,8 +100,8 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "刑事訴訟法 §155：「證據之證明力，由法院本於確信自由判斷。但不得違背經驗法則及論理法則」"
    ]
@@ -125,8 +125,8 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "刑事訴訟法 §301：「不能證明被告犯罪或其行為不罰者應諭知無罪之判決」"
    ]
@@ -150,8 +150,8 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "刑事訴訟法 §31：「最輕本刑為三年以上有期徒刑案件」"
    ]
@@ -175,8 +175,8 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "國民法官法 §5：「所犯最輕本刑為十年以上有期徒刑之罪」",
     "國民法官法 §5：「除少年刑事案件及犯毒品危害防制條例之罪之案件外」"
@@ -201,8 +201,8 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "刑事訴訟法 §441：「最高檢察署檢察總長得向最高法院提起非常上訴」"
    ]

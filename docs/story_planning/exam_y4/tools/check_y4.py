@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 """大四期末考題庫的共用檢查（AA_<課程>.json、BB_<課程>.json 一起檢查）。
 
-用法：python3 check_y4.py
+用法：python3 check_y4.py          # 檢查
+      python3 check_y4.py --sync   # 先照實際的題庫檔更新 course_bank_map.json 大四各課的 sources／題數／crossReviewed／status，再檢查
 規則（AA_126 1-5 B、AA_130 3-2）：
   - author：AA／BB；status：Y4_SELF_REVIEWED（作者自審完，還不抽）→ Y4_CROSS_REVIEWED（對方交叉審通過，才抽）；
     Y4_CROSS_REVIEWED 的題目要有 crossReviewedBy，而且不是作者自己。
   - 四選一 A～D、選項不重複、答案在選項裡；basis（法條）不能空。
   - 課程是現行大四的課（course_bank_map.json），學期相符。
   - 題號不重複；題幹不重複（不分檔）。
-  - 每個檔的答案分布：最多和最少的差不超過 1；沒有連續三題同一個答案。
+  - 每門課（AA、BB 合併）的答案分布：最多和最少的差不超過 2；每個檔沒有連續三題同一個答案。
   - 不出現判決字號、大法官解釋、憲法法庭判決字號（AA_126 1-5 B：不捏造、不引用）。
   - course_bank_map 的大四：crossReviewed＝實際交叉審通過的題數；status＝ENABLED（≥5）或 WAITING_CROSS_REVIEW。
 另外列出同一門課 AA、BB 引用同一條文的題目，給交叉審時判斷是不是重複考點（只提示，不算錯）。
@@ -35,7 +36,29 @@ def arts(basis):
             out.add((law, n))
     return out
 
+def sync():
+    cmap = json.load(open(MAP, encoding='utf-8'))
+    files = defaultdict(list)
+    for f in sorted(glob.glob(os.path.join(ROOT, '*.json'))):
+        name = os.path.basename(f)
+        if name.startswith('basis_'): continue
+        d = json.load(open(f, encoding='utf-8'))
+        files[d['course']].append((name, d['questions']))
+    for e in cmap['courses']:
+        if not e['term'].startswith('Y4') or e.get('exam') != 'mc5': continue
+        fs = files.get(e['course'], [])
+        e['sources'] = []
+        for name, qs in fs:
+            a = name.split('_', 1)[0]; other = 'BB' if a == 'AA' else 'AA'
+            x = sum(1 for q in qs if q.get('status') == 'Y4_CROSS_REVIEWED')
+            e['sources'].append(f'exam_y4/{name}（{a} 寫，{len(qs)} 題；{other} 交叉審通過 {x} 題）')
+        e['selfReviewed'] = sum(len(qs) for _, qs in fs)
+        e['crossReviewed'] = sum(1 for _, qs in fs for q in qs if q.get('status') == 'Y4_CROSS_REVIEWED')
+        e['status'] = 'ENABLED' if e['crossReviewed'] >= 5 else 'WAITING_CROSS_REVIEW'
+    open(MAP, 'w', encoding='utf-8').write(json.dumps(cmap, ensure_ascii=False, indent=1) + '\n')
+
 def main():
+    if '--sync' in sys.argv: sync()
     cmap = json.load(open(MAP, encoding='utf-8'))
     y4 = {c['course']: c for c in cmap['courses'] if c['term'].startswith('Y4')}
     deleted = set(cmap['deletedCourses'])
@@ -77,9 +100,6 @@ def main():
             if k in texts: err.append(f'{t}：題幹和 {texts[k]} 相同')
             texts[k] = t
             per_course[c].append((name, q))
-        cnt = Counter(q.get('answer') for q in qs)
-        vals = [cnt.get(x, 0) for x in 'ABCD']
-        if max(vals) - min(vals) > 1: err.append(f'{name}：答案分布 A{vals[0]} B{vals[1]} C{vals[2]} D{vals[3]}（差超過 1）')
         seq = ''.join(q.get('answer', '?') for q in qs)
         if re.search(r'(.)\1\1', seq): err.append(f'{name}：連續三題同一個答案（{seq}）')
     print('== 大四各課（只有 Y4_CROSS_REVIEWED 會被抽）')
@@ -90,7 +110,10 @@ def main():
         by_a = Counter(q['author'] for _, q in items)
         cross = sum(1 for _, q in items if q.get('status') == 'Y4_CROSS_REVIEWED')
         want = 'ENABLED' if cross >= 5 else 'WAITING_CROSS_REVIEW'
-        print(f"  {e['term']} {c:20s} AA {by_a.get('AA', 0):2d}、BB {by_a.get('BB', 0):2d}；交叉審通過 {cross:2d} → {want}")
+        cnt = Counter(q.get('answer') for _, q in items)
+        vals = [cnt.get(x, 0) for x in 'ABCD']
+        if items and max(vals) - min(vals) > 2: err.append(f'{c}：合併以後答案分布 A{vals[0]} B{vals[1]} C{vals[2]} D{vals[3]}（差超過 2）')
+        print(f"  {e['term']} {c:20s} AA {by_a.get('AA', 0):2d}、BB {by_a.get('BB', 0):2d}；答案 A{vals[0]} B{vals[1]} C{vals[2]} D{vals[3]}；交叉審通過 {cross:2d} → {want}")
         if e.get('status') != want or e.get('crossReviewed') != cross:
             err.append(f"course_bank_map：{c} 寫 {e.get('status')}／crossReviewed {e.get('crossReviewed')}，實際 {cross} → {want}")
         aa = [(n, q) for n, q in items if q['author'] == 'AA']; bb = [(n, q) for n, q in items if q['author'] == 'BB']

@@ -280,14 +280,14 @@
    "kind": "required",
    "exam": "mc5",
    "sources": [
-    "exam_y4/AA_enforcement.json（AA 寫，8 題；AA 自審完，BB 交叉審中）"
+    "exam_y4/AA_enforcement.json（AA 寫，8 題；BB 交叉審通過 7 題）"
    ],
    "confirmed": 0,
-   "status": "WAITING_CROSS_REVIEW",
+   "status": "ENABLED",
    "rule": "大四：AI 出題並自審（AA、BB 分科，互相交叉審）；status＝Y4_SELF_REVIEWED（作者自審完，還不抽）→ Y4_CROSS_REVIEWED（對方交叉審通過，才抽）；抽題母體＝Y4_CROSS_REVIEWED 的題目，≥5 題才開考",
    "owner": "AA",
    "selfReviewed": 8,
-   "crossReviewed": 0
+   "crossReviewed": 7
   },
   {
    "term": "Y4S1",
@@ -296,14 +296,14 @@
    "kind": "required",
    "exam": "mc5",
    "sources": [
-    "exam_y4/AA_legal_ethics.json（AA 寫，8 題；AA 自審完，BB 交叉審中）"
+    "exam_y4/AA_legal_ethics.json（AA 寫，8 題；BB 交叉審通過 8 題）"
    ],
    "confirmed": 0,
-   "status": "WAITING_CROSS_REVIEW",
+   "status": "ENABLED",
    "rule": "大四：AI 出題並自審（AA、BB 分科，互相交叉審）；status＝Y4_SELF_REVIEWED（作者自審完，還不抽）→ Y4_CROSS_REVIEWED（對方交叉審通過，才抽）；抽題母體＝Y4_CROSS_REVIEWED 的題目，≥5 題才開考",
    "owner": "AA",
    "selfReviewed": 8,
-   "crossReviewed": 0
+   "crossReviewed": 8
   },
   {
    "term": "Y4S1",
@@ -312,14 +312,13 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [
-    "exam_y4/AA_ip_law.json（AA 寫，8 題；AA 自審完，BB 交叉審中）",
-    "exam_y4/BB_ip_law.json（BB 寫，13 題；BB 自審完，AA 交叉審中）"
+    "exam_y4/BB_ip_law.json（BB 寫，13 題；AA 交叉審通過 0 題）"
    ],
    "confirmed": 0,
    "status": "WAITING_CROSS_REVIEW",
    "rule": "大四：AI 出題並自審（AA、BB 分科，互相交叉審）；status＝Y4_SELF_REVIEWED（作者自審完，還不抽）→ Y4_CROSS_REVIEWED（對方交叉審通過，才抽）；抽題母體＝Y4_CROSS_REVIEWED 的題目，≥5 題才開考",
    "owner": "BB",
-   "selfReviewed": 21,
+   "selfReviewed": 13,
    "crossReviewed": 0
   },
   {
@@ -329,15 +328,15 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [
-    "exam_y4/AA_labor_social.json（AA 寫，8 題；AA 自審完，BB 交叉審中）",
-    "exam_y4/BB_labor_social.json（BB 寫，13 題；BB 自審完，AA 交叉審中）"
+    "exam_y4/AA_labor_social.json（AA 寫，2 題；BB 交叉審通過 2 題）",
+    "exam_y4/BB_labor_social.json（BB 寫，13 題；AA 交叉審通過 0 題）"
    ],
    "confirmed": 0,
    "status": "WAITING_CROSS_REVIEW",
    "rule": "大四：AI 出題並自審（AA、BB 分科，互相交叉審）；status＝Y4_SELF_REVIEWED（作者自審完，還不抽）→ Y4_CROSS_REVIEWED（對方交叉審通過，才抽）；抽題母體＝Y4_CROSS_REVIEWED 的題目，≥5 題才開考",
    "owner": "BB",
-   "selfReviewed": 21,
-   "crossReviewed": 0
+   "selfReviewed": 15,
+   "crossReviewed": 2
   },
   {
    "term": "Y4S1",
@@ -346,15 +345,15 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [
-    "exam_y4/AA_tax_law.json（AA 寫，8 題；AA 自審完，BB 交叉審中）",
-    "exam_y4/BB_tax_law.json（BB 寫，12 題；BB 自審完，AA 交叉審中）"
+    "exam_y4/AA_tax_law.json（AA 寫，3 題；BB 交叉審通過 3 題）",
+    "exam_y4/BB_tax_law.json（BB 寫，12 題；AA 交叉審通過 0 題）"
    ],
    "confirmed": 0,
    "status": "WAITING_CROSS_REVIEW",
    "rule": "大四：AI 出題並自審（AA、BB 分科，互相交叉審）；status＝Y4_SELF_REVIEWED（作者自審完，還不抽）→ Y4_CROSS_REVIEWED（對方交叉審通過，才抽）；抽題母體＝Y4_CROSS_REVIEWED 的題目，≥5 題才開考",
    "owner": "BB",
-   "selfReviewed": 20,
-   "crossReviewed": 0
+   "selfReviewed": 15,
+   "crossReviewed": 3
   },
   {
    "term": "Y4S1",
@@ -363,14 +362,14 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [
-    "exam_y4/AA_crim_judgment_sem.json（AA 寫，8 題；AA 自審完，BB 交叉審中）"
+    "exam_y4/AA_crim_judgment_sem.json（AA 寫，8 題；BB 交叉審通過 8 題）"
    ],
    "confirmed": 0,
-   "status": "WAITING_CROSS_REVIEW",
+   "status": "ENABLED",
    "rule": "大四：AI 出題並自審（AA、BB 分科，互相交叉審）；status＝Y4_SELF_REVIEWED（作者自審完，還不抽）→ Y4_CROSS_REVIEWED（對方交叉審通過，才抽）；抽題母體＝Y4_CROSS_REVIEWED 的題目，≥5 題才開考",
    "owner": "AA",
    "selfReviewed": 8,
-   "crossReviewed": 0
+   "crossReviewed": 8
   },
   {
    "term": "Y4S1",
@@ -379,14 +378,14 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [
-    "exam_y4/AA_public_judgment_sem.json（AA 寫，8 題；AA 自審完，BB 交叉審中）"
+    "exam_y4/AA_public_judgment_sem.json（AA 寫，8 題；BB 交叉審通過 8 題）"
    ],
    "confirmed": 0,
-   "status": "WAITING_CROSS_REVIEW",
+   "status": "ENABLED",
    "rule": "大四：AI 出題並自審（AA、BB 分科，互相交叉審）；status＝Y4_SELF_REVIEWED（作者自審完，還不抽）→ Y4_CROSS_REVIEWED（對方交叉審通過，才抽）；抽題母體＝Y4_CROSS_REVIEWED 的題目，≥5 題才開考",
    "owner": "AA",
    "selfReviewed": 8,
-   "crossReviewed": 0
+   "crossReviewed": 8
   },
   {
    "term": "Y4S2",
@@ -417,15 +416,15 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [
-    "exam_y4/AA_maritime.json（AA 寫，8 題；AA 自審完，BB 交叉審中）",
-    "exam_y4/BB_maritime.json（BB 寫，11 題；BB 自審完，AA 交叉審中）"
+    "exam_y4/AA_maritime.json（AA 寫，2 題；BB 交叉審通過 2 題）",
+    "exam_y4/BB_maritime.json（BB 寫，11 題；AA 交叉審通過 0 題）"
    ],
    "confirmed": 0,
    "status": "WAITING_CROSS_REVIEW",
    "rule": "大四：AI 出題並自審（AA、BB 分科，互相交叉審）；status＝Y4_SELF_REVIEWED（作者自審完，還不抽）→ Y4_CROSS_REVIEWED（對方交叉審通過，才抽）；抽題母體＝Y4_CROSS_REVIEWED 的題目，≥5 題才開考",
    "owner": "BB",
-   "selfReviewed": 19,
-   "crossReviewed": 0
+   "selfReviewed": 13,
+   "crossReviewed": 2
   }
  ]
 }
