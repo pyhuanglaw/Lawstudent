@@ -20,7 +20,7 @@ async def watch(pg, secs_wall, until):
     s0 = await L.state(pg); log = []; s = s0; t = 0.0
     while t < secs_wall:
         await pg.wait_for_timeout(700); t += 0.7; s = await L.state(pg)
-        log.append((round((s['hour'] - s0['hour']) * 3600, 1), s['pose'], len(s['path'] or []), round(s['x'], 2), round(s['z'], 2)))
+        log.append((round((s['hour'] - s0['hour']) * 3600, 1), s['pose'], (s['path'] or 0), round(s['x'], 2), round(s['z'], 2)))
         if until(s): break
     return s, s0, log
 
@@ -45,13 +45,13 @@ async def main():
         run.note('點長桌邊上：' + json.dumps(pt))
         if not run.check('點得到第 5 排長桌邊上那一點（畫面上看得到）', bool(pt)): await run.shot(pg, 'no_tap'); await b.close(); return run.finish()
         await pg.wait_for_timeout(600)
-        s1 = await L.state(pg); run.note(f"點下去以後：path {len(s1['path'] or [])} 段、pose {s1['pose']}、落點 {pt.get('hit')}")
+        s1 = await L.state(pg); run.note(f"點下去以後：path {(s1['path'] or 0)} 段、pose {s1['pose']}、落點 {pt.get('hit')}")
         s, s0, log = await watch(pg, 90, lambda q: not q['path'] and q['pose'] == 'idle')
         run.note('紀錄（遊戲秒數, pose, 路線段數, x, z）：' + json.dumps(log[-12:]))
         gsec = round((s['hour'] - s0['hour']) * 3600, 1)
         moved = math.hypot(s['x'] - (-2), s['z'] - 3.43)
         await run.shot(pg, 'after_stall')
-        run.check('點到走不到的地方：放掉路線、站好（不會一直原地走）', not s['path'] and s['pose'] == 'idle', f"遊戲時間過了 {gsec} 秒；path {len(s['path'] or [])}、pose {s['pose']}")
+        run.check('點到走不到的地方：放掉路線、站好（不會一直原地走）', not s['path'] and s['pose'] == 'idle', f"遊戲時間過了 {gsec} 秒；path {(s['path'] or 0)}、pose {s['pose']}")
         run.check('站好之前沒有原地走太久（遊戲時間 4 秒內；規則是 1.5 秒沒有前進）', gsec <= 4.0, f'{gsec} 秒')
         run.check('人還在原本的平台上（沒有被推到別的地方）', moved < 0.5, f"({s['x']:.2f},{s['z']:.2f})，離原地 {moved:.2f} m")
         # 2. 點走道上走得到的地方：照常走到
