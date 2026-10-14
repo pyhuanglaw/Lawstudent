@@ -429,6 +429,11 @@
    "course": "securities",
    "term": "Y3S1",
    "scopeWeek": 2,
+   "askedIn": {
+    "term": "Y3S1",
+    "course": "securities",
+    "week": 2
+   },
    "type": "mc",
    "q": "依證券交易法第6條，下列何者正確？",
    "options": {
@@ -492,6 +497,11 @@
    "course": "securities",
    "term": "Y3S1",
    "scopeWeek": 3,
+   "askedIn": {
+    "term": "Y3S1",
+    "course": "securities",
+    "week": 3
+   },
    "type": "mc",
    "q": "依證券交易法第13條，公開說明書的主要功能為何？",
    "options": {
@@ -534,6 +544,11 @@
    "course": "securities",
    "term": "Y3S1",
    "scopeWeek": 4,
+   "askedIn": {
+    "term": "Y3S1",
+    "course": "securities",
+    "week": 4
+   },
    "type": "mc",
    "q": "依證券交易法第20條之1，財務報告主要內容有虛偽或隱匿，致投資人受損害時，下列何者正確？",
    "options": {
@@ -664,6 +679,11 @@
    "course": "securities",
    "term": "Y3S1",
    "scopeWeek": 11,
+   "askedIn": {
+    "term": "Y3S1",
+    "course": "securities",
+    "week": 11
+   },
    "type": "mc",
    "q": "關於公開發行公司獨立董事制度，下列何者最符合其主要功能？",
    "options": {
@@ -727,6 +747,11 @@
    "course": "securities",
    "term": "Y3S1",
    "scopeWeek": 10,
+   "askedIn": {
+    "term": "Y3S1",
+    "course": "securities",
+    "week": 10
+   },
    "type": "mc",
    "q": "關於證券交易法上的公開收購制度，下列何者正確？",
    "options": {
@@ -815,6 +840,11 @@
    "course": "securities",
    "term": "Y3S1",
    "scopeWeek": 6,
+   "askedIn": {
+    "term": "Y3S1",
+    "course": "securities",
+    "week": 6
+   },
    "type": "mc",
    "q": "甲為製造某上市股票交易熱絡的假象，以自己控制的不同帳戶連續委託買賣，使買賣申報相對成交。下列何者最符合其可能涉及的違法類型？",
    "options": {

@@ -9,6 +9,11 @@
    "course": "admin_law",
    "term": "Y2S1",
    "scopeWeek": 2,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "admin_law",
+    "week": 2
+   },
    "type": "mc",
    "q": "行政機關限制人民基本權利時，原則上須有法律或法律明確授權的依據。此要求主要體現何種原則？",
    "options": {
@@ -53,6 +58,11 @@
    "course": "admin_law",
    "term": "Y2S1",
    "scopeWeek": 5,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "admin_law",
+    "week": 5
+   },
    "type": "mc",
    "q": "依行政程序法第92條，下列何者最符合行政處分的概念？",
    "options": {
@@ -116,6 +126,11 @@
    "course": "admin_law",
    "term": "Y2S1",
    "scopeWeek": 12,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "admin_law",
+    "week": 12
+   },
    "type": "mc",
    "q": "依行政程序法第119條，下列何者屬於信賴不值得保護的法定情形？",
    "options": {
@@ -179,6 +194,11 @@
    "course": "admin_law",
    "term": "Y2S1",
    "scopeWeek": 6,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "admin_law",
+    "week": 6
+   },
    "type": "mc",
    "q": "依行政程序法第135條，公法上法律關係原則上得以何種方式設定、變更或消滅，但依性質或法規規定不得締約者除外？",
    "options": {
@@ -221,6 +241,11 @@
    "course": "admin_law",
    "term": "Y2S1",
    "scopeWeek": 10,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "admin_law",
+    "week": 10
+   },
    "type": "mc",
    "q": "依行政罰法第24條第1項，一行為違反數個行政法上義務規定而均應處罰鍰時，原則上如何裁處？",
    "options": {
@@ -284,6 +309,11 @@
    "course": "admin_law",
    "term": "Y2S1",
    "scopeWeek": 14,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "admin_law",
+    "week": 14
+   },
    "type": "mc",
    "q": "甲依法負有拆除違法設施的義務，逾期不履行，該義務可以由第三人代為完成。行政機關在法定條件下得考慮何種方法？",
    "options": {
@@ -305,6 +335,11 @@
    "course": "admin_remedy",
    "term": "Y2S2",
    "scopeWeek": 3,
+   "askedIn": {
+    "term": "Y2S2",
+    "course": "admin_remedy",
+    "week": 3
+   },
    "type": "mc",
    "q": "關於訴願程序中的不利益變更禁止，下列何者最接近其核心意義？",
    "options": {
@@ -326,6 +361,11 @@
    "course": "admin_remedy",
    "term": "Y2S2",
    "scopeWeek": 5,
+   "askedIn": {
+    "term": "Y2S2",
+    "course": "admin_remedy",
+    "week": 5
+   },
    "type": "mc",
    "q": "人民認為行政機關作成的行政處分違法，侵害其權利或法律上利益，經必要的訴願程序後，原則上得提起何種訴訟？",
    "options": {
@@ -347,6 +387,11 @@
    "course": "admin_remedy",
    "term": "Y2S2",
    "scopeWeek": 6,
+   "askedIn": {
+    "term": "Y2S2",
+    "course": "admin_remedy",
+    "week": 6
+   },
    "type": "mc",
    "q": "甲依法申請核發許可，行政機關違法駁回。甲希望法院促使行政機關依法作成所申請的行政處分，原則上應考慮何種訴訟？",
    "options": {

@@ -19,6 +19,7 @@
 | `tools/convert_answer_only.py` | 使用者 Markdown → JSON（每題只附「正確答案：X」的格式，BB 寫）；考點用標題「第N題｜」後面的字，沒有解析就留空，不自己寫 |
 | `tools/map_*.json` | 每題對到哪一門課、哪一週（AA 依教學範圍定），以及要回報使用者的問題（`flags`） |
 | `tools/check_official.py` | 檢查：課程 id 是現行的課、沒有刪掉的課、四選一的格式、答案在選項裡、同一門課沒有重複的題目、狀態只有 `USER_CONFIRMED`、每門課的題數 |
+| `tools/sync_asked.py` | 課堂提問（BB 寫，2026-10-14）：照 `../syllabus/*.json` 每週的 `ask: {qid}`，寫入題目的 `askedIn: {term, course, week}`（期末考先抽課堂題，`AA_126` 1-5 A、`AA_130` §3）；`--check` 只檢查。**只能由這支工具寫 `askedIn`**，來源是 `syllabus/_src/<學期>.py` 的 `ask='<qid>'` |
 
 ## 2. 現在每門課有幾題（2026-10-14 約 17:10，`check_official.py --sync`）
 
@@ -27,11 +28,18 @@
 - 期中練習（只抽第 1～7 週的題，不算成績）目前不足 5 題的：民法總則、民法債編總論（一）、刑法總則（一）、行政救濟法——照規則不舉行。
 - **大四**：AI 出題並自審，`../exam_y4/`（AA、BB 分科、互相交叉審）。AA 的 `AA_<課程>.json`：8 門課各 8 題（共 64 題，自審紀錄 `REVIEW.md`）；BB 的 `BB_<課程>.json`：智財 13、勞社 13、財稅 12、海商 11。`status`：作者自審完＝`Y4_SELF_REVIEWED`（不抽）→ 交叉審通過＝`Y4_CROSS_REVIEWED`（才抽）；檢查 `../exam_y4/tools/check_y4.py`。法律專題研究、法律實習沒有選擇題。
 
+## 2b. 課堂提問（2026-10-14 約 17:30，BB 排、AA 審）
+
+- **69 題**排進教到的那一週（一週最多一題；每門課最多 6 題，大約隔週一題）：民總、刑總（一）、刑總（二）、債總（一）、行政法、刑分、債總（二）、物權、債各、身分法、證交法各 6 題；行政救濟法 3 題（全部 4 題，本來就不開考）。刑訴 `QBANK` 沒有週次，這一輪沒排。
+- 排法：只排**真的在那一週教**的題目（`scopeWeek`＝那一週；flags 寫「課表沒有專講」的、等使用者決定課別的 CIV40_07、CIV40_10、ADM20_18、ADM20_19 不排）；同一個考點的兩題最多問一題；優先 A 週（沒有其他互動的那幾週），不夠才放在點名課、討論課的最後。
+- 哪一週問哪一題：看 `../BB_102_課堂內容_<學期>.md` 那一週的「課堂提問」，或 `python3 tools/sync_asked.py --check` 的清單。
+- 改了 syllabus 的 `ask`、或重新轉換了題目檔：`python3 ../syllabus/build.py <學期>` → `python3 tools/sync_asked.py` → `python3 tools/check_official.py`。
+
 ## 3. 收到使用者新題目時
 
 1. 原文存進 `../使用者題庫/`（照使用者的格式：每題選項下面附答案、考點、解析）。
 2. 寫 `tools/map_<檔名>.json`：每題對到課程與週次（照 `syllabus` 每週的黑板）；看不出來或有疑問的寫進 `flags`，回報使用者。
-3. `python3 tools/convert_user_md.py <原文> <對應> <輸出>`（只附正確答案的格式用 `convert_answer_only.py`），再跑 `python3 tools/check_official.py --sync`（照實際題數更新 `course_bank_map.json`）。
+3. `python3 tools/convert_user_md.py <原文> <對應> <輸出>`（只附正確答案的格式用 `convert_answer_only.py`），再跑 `python3 tools/sync_asked.py`（轉換會清掉 `askedIn`，要補回來）和 `python3 tools/check_official.py --sync`（照實際題數更新 `course_bank_map.json`）。
 4. 通知 LAWWW；`flags` 整理給使用者決定。
 
 ## 4. AA 交叉檢查紀錄（2026-10-14 約 17:45 UTC）

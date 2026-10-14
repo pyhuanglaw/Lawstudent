@@ -17,6 +17,18 @@ BLOCK = {'am':'09:10–12:10','pm1':'13:20–15:10','pm2':'15:30–17:20'}
 WD = '一二三四五六日'
 EXAM_WEEKS = {8,9,17,18}
 
+def load_bank():
+    """課堂提問讀的題庫：exam_official/ 的正式題目（使用者給的，不含 superseded/）。qid → 題目。"""
+    bank = {}
+    root = os.path.join(HERE, '..', 'exam_official')
+    for f in sorted(os.listdir(root)):
+        if f.endswith('.json') and f != 'course_bank_map.json':
+            with open(os.path.join(root, f), encoding='utf-8') as fh:
+                for q in json.load(fh)['questions']: bank[q['id']] = q
+    return bank
+
+BANK = load_bank()
+
 def load(key):
     p = os.path.join(HERE,'_src',key+'.py')
     spec = importlib.util.spec_from_file_location('src_'+key, p)
@@ -35,7 +47,7 @@ def main(key):
         if c.get('choice'): cj['choice'] = c['choice']
         if c.get('note'): cj['note'] = c['note']
         cj['term'] = term; cj['syllabus'] = []; cj['special'] = []
-        seen = set()
+        seen = set(); asked = {}
         for wk in c['weeks']:
             w = wk['w']; tag = f"{c['name']} 第 {w} 週"
             if w in EXAM_WEEKS: problems.append(f'{tag}：落在考試週')
@@ -115,6 +127,20 @@ def main(key):
                     k=keys[0]; chk(r['say'],40,tag+' 回想')
                     if k=='attended': attends.append((tag,r[k]))
                     e['recall'].append({k:r[k],'say':r['say'],'after':'line'})
+            if wk.get('ask'):
+                # 課堂提問（AA_126 1-5 A、AA_130 §3；2026-10-14）：使用者題庫的一題，那堂課最後由教授問；一週最多一題，
+                # 題目只寫 qid（從 exam_official/ 讀原文，這裡不重抄）；題目檔的 askedIn 由 exam_official/tools/sync_asked.py 從這裡同步
+                qid = wk['ask']; q = BANK.get(qid)
+                if not q: problems.append(f'{tag}：課堂提問 {qid} 不在 exam_official/ 的題庫')
+                else:
+                    if q.get('status') != 'USER_CONFIRMED': problems.append(f'{tag}：課堂提問 {qid} 不是 USER_CONFIRMED')
+                    if q['term'] != term or q['course'] != c['id']: problems.append(f"{tag}：課堂提問 {qid} 是 {q['term']} {q['course']} 的題目")
+                    if int(q['scopeWeek']) > w: problems.append(f"{tag}：課堂提問 {qid} 的範圍到第 {q['scopeWeek']} 週，這週還沒教到")
+                    if any('課表沒有專講' in x for x in q.get('flags', [])): problems.append(f'{tag}：課堂提問 {qid} 的主題課表沒有專講，不在課堂問')
+                if qid in asked: problems.append(f'{tag}：課堂提問 {qid} 已經在 {asked[qid]} 問過')
+                asked[qid] = tag
+                if LEAVE and w > LEAVE: problems.append(tag+'：休學以後不能有課堂提問')
+                e['ask'] = {'qid': qid}
             if wk['tpl'] in 'BC' and wk['tpl']=='B' and 'obs' not in wk: problems.append(tag+'：B 沒有 obs')
             if wk.get('review'): e['review'] = wk['review']
             if wk.get('special'):
@@ -185,6 +211,7 @@ def render(m, out):
         L.append(f"- 第 8～9、17～18 週考試，不上課；從第 1 週開始。**第 {out.get('leave_week')} 週辦休學**：之後經濟系的課不排進課表，第 {out.get('leave_week',0)+1} 週以後的內容（標「休學後」）只當同學在群組、走廊說起的素材，沒有要玩家選的東西；法學緒論休學後不上，之後的週不放進遊戲（交接包_v0 第 0 節第 5 點）。")
     else:
         L.append("- 第 8～9、17～18 週考試，不上課；遊戲第一天是第 3 週週三，第 1～2 週只是資料。")
+    if any(e.get('ask') for c in out['courses'] for e in c['syllabus']): L.append("- **課堂提問**（`ask`；2026-10-14 起，`AA_126` 1-5 A、`AA_130` §3）：使用者題庫的一題，一週最多一題，排在真的教到那個主題的週。那堂課最後（A：教授那句之後；B：觀察或討論收尾之後；C：點名收尾之後）：旁白「（下課前，教授在黑板角落寫了一題。）」→ 題幹＋四個選項（使用者原文，用 `qid` 從 `exam_official/` 讀，這裡不重抄）→ 玩家選 → 「答案是（X）。」（題目有解析才顯示解析；AI 不補寫）→ 這學期這門課第一次問的時候，教授加一句「期末考，會考這樣的題目。」。不計分、不影響成績；沒去上課不演，期末考一樣算課堂題（優先抽）。")
     L.append("- **翹課**：不扣任何東西；那門課的「翹課訊息」可以在當天晚上出現一則（群組一行）。")
     L.append("- 標「特殊事件」的週：有完整事件時用事件；事件還沒做或暫緩時，用這裡的普通內容。")
     L.append("")
@@ -215,6 +242,9 @@ def render(m, out):
             elif e['tpl']=='B': extra = '<br>**觀察**：'+e['obs']['prompt']+' '+'／'.join(f"「{o['text']}」→{o['result']}" for o in e['obs']['options'])
             if e['tpl']=='C': extra = '<br>**選項**：'+'／'.join('「'+o+'」' for o in e['call']['options'])+'<br>**收尾**：'+' '.join('「'+x+'」' for x in e['call']['follow'])
             if e.get('recall'): extra += '<br>**回想**：'+'；'.join(recall_md(r) for r in e['recall'])
+            if e.get('ask'):
+                q = BANK.get(e['ask']['qid'], {})
+                extra += f"<br>**課堂提問**：`{e['ask']['qid']}`（{q.get('core','')}；答案 {q.get('answer','')}）"
             r = '<br>'.join(f"{WHO.get(x['who'],x['who'])}：「{x['text']}」" for x in e['react'])
             sp = '（特殊事件週）' if e.get('special') else ''
             tl = e['tpl'] + ('（休學後：群組、走廊）' if e.get('after_leave') else '')
