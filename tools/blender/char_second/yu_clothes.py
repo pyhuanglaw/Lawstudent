@@ -12,7 +12,7 @@
      所以拼色的邊界是平滑的線、不會沿著網格出現階梯；拼接處畫一條淡淡的車縫，袖口、下擺的鬆緊畫皺褶。
   2. T 恤、裙子、鞋＝芯慈的裙子做法（x_xinci_clothes.build_skirt，這裡多了直褶、腰帶、扣子、帶尾）＋h01 的上衣（圓領、紮進裙子）＋球鞋；
      裙子的權重照芯慈第九版（只綁腰臀＋大腿，不用 VRoid 的裙擺彈簧骨：坐下時不會炸開）。
-  3. 外套推到 T 恤、裙子外面（kexin_clothes.push_out），領子照可昕外套的翻領（kexin_clothes.jacket_collar，領片很窄＝立起來的領子），
+  3. 外套推到 T 恤、裙子外面（kexin_clothes.push_out），領子照可昕外套的翻領做法（collar：領片很窄＝立起來的領子），
      合併成外套同一個物件、同一個材質（少一個 draw call），顏色是淡黃。
 高度直接寫在參考空間（沈以安，p00_clothes.REF：膝 0.552、胯 0.904、脊椎 0.997、胸 1.111、上胸 1.235、脖子 1.350）——
 芯慈的基底（Darkness Shibu）和參考是同一個身體，她的數字可以直接比；小語的基底（Sendagaya Shibu）照地標分段對到參考空間做、再轉回來。
@@ -322,7 +322,7 @@ def build_jacket(m):
         img_j = C.image_from_array('Y01_Jacket', bake_colorblock(mb, regions, G), os.path.join(K.WIP, 'y01_clothes_Jacket.png'))
         mat = K.make_mat(_tmpl('Tops'), 'Y01_Jacket_CLOTH', img_j, (0.84, 0.84, 0.90))
         W = K.compute_weights(skin, arm, mb, top, dict(legs={}, z_crotch=sk['z_crotch']), shoes)
-        obj, bad = mb.build('Clothes_Y01_Jacket', [mat, mat, mat, mat])
+        obj, bad = mb.build('Clothes_Y01_Jacket', [mat])           # 身片、袖子、前襟都是材質 0（沒有扣子）
         (arm.users_collection[0] if arm.users_collection else bpy.context.scene.collection).objects.link(obj)
         C.bind(obj, arm, K.weights_dict(skin, W))
         print('  jacket: dropped loose verts (open front)', XC.drop_loose(obj), 'bad faces', bad)
@@ -378,17 +378,59 @@ def build_inner(m):
     return obj
 
 
-def collar(m, jacket):
-    """立領：可昕外套的翻領做法（kexin_clothes.jacket_collar），領座 2.4 cm、領片只有 1.4 cm（立起來、往外微翻），
-    UV 全部放到貼圖的淡黃條，換成外套的材質後合併進外套（同一個物件、同一個材質）"""
-    o = KC.jacket_collar(m, jacket, stand=(0.024, 0.020), width=(0.014, 0.014, 0.016))
-    if o is None: return None
-    jm = jacket.data.materials[0]; old = o.data.materials[0]
-    o.data.materials[0] = jm
-    if old is not None and old.users == 0: bpy.data.materials.remove(old)
+def collar(m, jacket, stand=(0.024, 0.020), width=(0.014, 0.014, 0.016), max_x=0.10):
+    """立領：照可昕外套的翻領（kexin_clothes.jacket_collar）——沿著外套領口（網格邊界上、脖子附近的點，照繞脖子的角度排）做領座＋很窄的領片
+    （立起來、往外微翻）。差別：領口點的範圍放寬到離中心 10 cm（小語的外套比較寬，可昕的 8.5 cm 會漏掉兩側）；
+    直接用外套的材質、UV 全部放到貼圖的淡黃條；最後合併進外套（同一個物件、同一個材質，少一個 draw call）"""
+    from mathutils import Vector
+    import p05_clothes as P5
+    arm = m['arm']; N = C.bone_head(arm, 'J_Bip_C_Neck'); neck_z = float(N[2])
+    bvh, P = P5._bvh(jacket)
+    loops = P5._boundary_loops(jacket, P)
+    cand = sorted({i for l in loops for i in l if P[i][2] > neck_z - 0.045 and abs(P[i][0]) < max_x and P[i][1] > N[1] - 0.10})
+    if len(cand) < 12: print('  collar: neckline not found (%d)' % len(cand)); return None
+    Q = P[cand]; yc = float(N[1])
+    ang = np.degrees(np.arctan2(Q[:, 0], -(Q[:, 1] - yc))); ang = np.where(ang < 0, ang + 360.0, ang)
+    o = np.argsort(ang); Q = Q[o]; ang = ang[o]
+    keep = (ang > 8) & (ang < 352); Q = Q[keep]; ang = ang[keep]
+    seg = np.r_[0, np.cumsum(np.linalg.norm(np.diff(Q, axis=0), axis=1))]; L = seg[-1]
+    s = np.linspace(0.0, L, 81); ring = np.stack([np.interp(s, seg, Q[:, k]) for k in range(3)], -1)
+    for _ in range(4): ring[1:-1] = ring[1:-1] * 0.5 + (ring[:-2] + ring[2:]) * 0.25
+    t = s / L; back = np.cos(np.pi * (t - 0.5)) ** 2
+    tan = P5._u(np.gradient(ring, axis=0)); cen = np.array([N[0], N[1], float(np.mean(ring[:, 2]))])
+    stand_h = np.interp(np.abs(t - 0.5), [0, 0.20, 0.34, 0.46, 0.5], [stand[0], stand[0] * 0.9, stand[1], 0.004, 0.002])
+    radial = P5._u(np.column_stack([ring[:, 0] - cen[0], ring[:, 1] - cen[1], np.zeros(len(ring))]))
+    fold = ring + np.array([0, 0, 1.0]) * stand_h[:, None] + radial * 0.004
+    wd = np.interp(np.abs(t - 0.5), [0, 0.20, 0.34, 0.43, 0.48, 0.5], [width[0], width[0], width[1], width[2], width[2] * 0.8, 0.02])
+    def onsurf(p, off):
+        hit = bvh.find_nearest(Vector(p))
+        return np.array(p) if hit[0] is None else np.array(hit[0]) + np.array(hit[1]) * off
+    outer, mid = [], []
+    for i in range(len(ring)):
+        p = fold[i] + radial[i] * 0.005
+        nrm = np.array(bvh.find_nearest(Vector(ring[i]))[1]); d = P5._u(np.cross(tan[i], nrm))
+        hd = np.array([d[0], d[1], 0.0])
+        if np.dot(hd, radial[i]) - 0.5 * d[2] < 0: d = -d
+        walked, q, qm, target = 0.0, p.copy(), None, wd[i] + stand_h[i]
+        while walked < target:
+            st = min(0.002, target - walked); q = onsurf(q + d * st, 0.0035)
+            nrm = np.array(bvh.find_nearest(Vector(q))[1]); d = P5._u(d - nrm * np.dot(d, nrm)); walked += st
+            if qm is None and walked >= stand_h[i] + 0.45 * wd[i]: qm = q + nrm * 0.0012
+        outer.append(q); mid.append(qm if qm is not None else (p + q) / 2)
+    outer = np.array(outer); mid = np.array(mid)
+    for _ in range(8):
+        outer[1:-1] = outer[1:-1] * 0.5 + (outer[:-2] + outer[2:]) * 0.25
+        mid[1:-1] = mid[1:-1] * 0.5 + (mid[:-2] + mid[2:]) * 0.25
+    jm = jacket.data.materials[0]
+    mc = P5.Mesh(); wneck = 0.65 * back + 0.25
+    mc.strip(ring + radial * 0.0015, fold, (0.40, 0.46), wneck)
+    mc.strip(fold + radial * 0.005, mid, (0.46, 0.53), wneck * 0.6)
+    mc.strip(mid, outer, (0.53, 0.70), wneck * 0.5)
+    o = mc.obj('Clothes_Y01_Collar', arm, jm, lambda V, W: {'J_Bip_C_Neck': W, 'J_Bip_C_UpperChest': 1 - W})
     uvl = o.data.uv_layers.active; n = len(uvl.data)
     uv = np.zeros((n, 2), np.float32); uv[:, 0] = 0.5 * (COLLAR_UV[0] + COLLAR_UV[1]); uv[:, 1] = np.linspace(0.2, 0.8, n)
     uvl.data.foreach_set('uv', uv.reshape(-1))
+    print('  collar: neckline %d points (%.0f..%.0f deg), length %.3f, faces %d' % (len(Q), float(ang.min()), float(ang.max()), L, len(mc.F)))
     with bpy.context.temp_override(active_object=jacket, object=jacket, selected_objects=[jacket, o], selected_editable_objects=[jacket, o]):
         bpy.ops.object.join()
     print('  collar joined into the jacket; jacket materials', [mt.name for mt in jacket.data.materials if mt])
