@@ -60,7 +60,9 @@
 
 ### commit
 
-待補：寫入這些規則的 commit（`CLAUDE.md`、`AI_SESSION_HANDOFF.md`、`PROJECT_DECISIONS.md`、這份檔案，以及可昕的備份 patch）。SHA 在下一筆更新補上。
+- `ae697fd`：LAWWW 寫入 `CLAUDE.md` 新一節、`AI_SESSION_HANDOFF.md` 第 0、4、7 節、`PROJECT_DECISIONS.md` D72～D74、這份檔案、可昕的備份 patch。
+- `f6c836e`、`ace5d7e`：使用者自己（`pyhuanglaw`，15:01 UTC）推到開發分支的「P0 使用者新訊息優先與期末考素材來源」，放在 `CLAUDE.md`、`AI_SESSION_HANDOFF.md` 最上面。
+- `22c65ca`：用 merge 把兩邊合在一起，沒有改使用者寫的內容；`CLAUDE.md` 裡 LAWWW 那一節註明以使用者那一節為準。
 
 ### 完成情況
 
