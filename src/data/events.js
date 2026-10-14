@@ -590,6 +590,15 @@ const STORY_EVENTS=[
   /* 以安「四年，四張」的第一張（交接包 v2 C7；AA_71 2-9「大一的台詞」）：大一下第 3 週週六上午，椰林大道的杜鵑開了（她那個上午在椰林大道：characters.js 的作息）。
      和她有點熟以上＝她請你拍；還不熟＝她請小語拍、你在旁邊看到。芷若、子晴那兩句只給兩個人都認識的玩家（AA：和祐廷無關的一句）。
      旁白只用 AA 的字（「椰林大道的杜鵑開了」「拿著手機」「她把手機遞給你」「拍完她看了一下」「她請小語拍」「芷若拿著手機在拍花」）。之後三年照 AA_71 2-9（大三、大四以後做）*/
+  /* 大一的系籃比賽（交接包 v2 C16；AA_71 2-11）：活動「系籃比賽」（activities.js，大一下第 14 週週六 14～16，球場）去看就演；阿哲上場，你選拍手、記分、送水，各一段（原文）；
+     都記一筆小記憶 WATCHED_GAME（記在阿哲身上）。旁白只用 AA 的字。好感數字原文沒有，不加 */
+  { id:'ev_zhe_game_y1', title:'系籃比賽', participants:['zhe'], location:'campus', trigger:'activity', term:['Y1S2'], once:true, background:'blur',
+    dialogue:[ {speaker:null,text:'（系籃比賽。阿哲上場。）'},
+      {choice:[{text:'（拍手）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME',note:'大一的系籃比賽：你拍手'}]},goto:'clap'},{text:'（記分）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME',note:'大一的系籃比賽：你記分'}]},goto:'score'},{text:'（送水）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME',note:'大一的系籃比賽：你送水'}]},goto:'water'}]},
+      {label:'clap'},{speaker:null,text:'（你在觀眾席拍到手掌發紅。阿哲進球，轉身指著你。）'},{speaker:'zhe',expression:'laugh',text:'有聽到！'},{goto:'end'},
+      {label:'score'},{speaker:null,text:'（你坐到記分台，翻牌翻錯一次，裁判看了你一眼。）'},{speaker:'zhe',expression:'smile',text:'沒事啦，多兩分給對面，算我們請客。'},{goto:'end'},
+      {label:'water'},{speaker:null,text:'（中場你把一箱水搬到場邊。阿哲一口氣喝掉半瓶。）'},{speaker:'zhe',expression:'smile',text:'你是我們的後勤部長。'},
+      {label:'end'} ] },
   { id:'ev_an_azalea_y1', title:'四年，四張', participants:['heroine_01'], location:'campus', trigger:'interact', priority:8, once:true, term:['Y1S2'], weeks:[3], weekday:[6], time:[10,12], prereq:{stage:{npc:'heroine_01',min:'ACQUAINTANCE'}}, background:'blur',
     dialogue:[ {speaker:null,text:'（椰林大道的杜鵑開了。以安拿著手機。）'},{speaker:'heroine_01',expression:'neutral',text:'每年同一個位置拍一張。四年，四張。'},
       {unless:{stage:{npc:'heroine_01',min:'FAMILIAR'}},goto:'yu'},

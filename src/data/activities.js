@@ -44,6 +44,9 @@ const ACTIVITIES={
     {id:'welcome_y1s1',title:'法律系迎新',kind:'event',zone:'campus',roomName:'傅鐘前',spot:{x:-13.5,z:13.6,lv:0,label:'迎新集合點',r:1.3},dates:['2025-09-27'],t0:14,t1:17,once:true,event:'ev_welcome_y1s1',
      desc:'系上的新生迎新：自我介紹、分組玩大地遊戲。學長姊帶隊。',story:true},
     /* 6-8 (c)：系籃——2026-10-14 搬到球場（LAWWW2 9428f9f，醉月湖東側；zones3d.js 的 bballCourt）：活動點在場邊兩張長椅中間、面向場內；id 不變（原本先放在體育館門口）*/
+    /* 大一的系籃比賽（交接包 v2 C16；AA_71 2-11「大一的系籃比賽（v2 C16，第 14 週）」）：AA 只寫第 14 週，日子、時間是 LAWWW 定的（週六 14～16，和練球同一個球場；已告訴 AA）；去看＝演 ev_zhe_game_y1 */
+    {id:'dept_ball_game_y1s2',title:'系籃比賽',kind:'event',zone:'campus',roomName:'籃球場（醉月湖東側）',spot:{x:3.3,z:-112.7,lv:0,label:'系籃比賽'},verb:'去看',term:['Y1S2'],weeks:[14],weekday:6,t0:14,t1:16,once:true,event:'ev_zhe_game_y1',
+     desc:'系上的系籃比賽，阿哲上場。觀眾可以拍手、記分或送水。',story:true},
     {id:'dept_basketball',title:'系籃練球',clubName:'系籃（系學會）',kind:'club',zone:'campus',roomName:'籃球場（醉月湖東側）',spot:{x:3.3,z:-112.7,lv:0,label:'系籃練球'},verb:'去練球',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15,16],weekday:5,t0:17.5,t1:19,
      desc:'投籃、分隊打半場；也可以在場邊記分、送水。',story:false,
      narr:['（投籃練習，每人二十球。進幾球沒有人在算——除了學長。）','（分隊打半場。你在場邊記分，記錯一次，被兩隊同時糾正。）','（今天練防守腳步。十分鐘後，大家的腿都在發抖。）',

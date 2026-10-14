@@ -8,8 +8,8 @@ const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}}; global.THREE={Vector3:function(){}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
-const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
-for(const f of ['src/data/calendar.js','src/data/characters.js','src/data/events.js','src/social3d.js','src/events3d.js']) load(f);
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|ACTIVITIES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+for(const f of ['src/data/calendar.js','src/data/characters.js','src/data/events.js','src/data/activities.js','src/social3d.js','src/events3d.js']) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -148,6 +148,16 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       L=await play(25,true);
       check('C7（芷若、子晴都認識）：（芷若拿著手機在拍花。）子晴「妳拍花？妳平常不是都在看人嗎？」芷若「花不會點餐。今天想休息。」',L.includes('（芷若拿著手機在拍花。）')&&L.includes('高子晴：妳拍花？妳平常不是都在看人嗎？')&&L.includes('林芷若：花不會點餐。今天想休息。'),JSON.stringify(L.slice(-3)));
       check('C7：只一次',!EVENTS.check(e)); } }
+  /* ---------- C16 大一的系籃比賽（AA_71 2-11）---------- */
+  { const e=ev('ev_zhe_game_y1'), a=ACTIVITIES.list.find(q=>q.id==='dept_ball_game_y1s2'); check('C16 系籃比賽：事件與活動都在',!!e&&!!a);
+    if(e&&a){ const d=wk('Y1S2',14,6);
+      check('C16：活動在大一下第 14 週週六 14～16、球場（醉月湖東側）；第 13 週、週五、大一上都沒有；去看＝這個事件',ACTIVITIES.on(a,d)&&!ACTIVITIES.on(a,wk('Y1S2',13,6))&&!ACTIVITIES.on(a,wk('Y1S2',14,5))&&!ACTIVITIES.on(a,wk('Y1S1',14,6))&&a.t0===14&&a.t1===16&&a.event==='ev_zhe_game_y1'&&a.verb==='去看'&&a.zone==='campus',JSON.stringify({d,on:ACTIVITIES.on(a,d)}));
+      const play=async k=>{ fresh(d,14.2,'campus'); picks=[k]; await EVENTS.run(e); return lines(); };
+      let L=await play(0);
+      check('C16：（系籃比賽。阿哲上場。）三個選項（拍手／記分／送水）',L[0]==='（系籃比賽。阿哲上場。）'&&JSON.stringify(opts[0])==='["（拍手）","（記分）","（送水）"]',JSON.stringify(opts[0]));
+      check('C16 拍手：（你在觀眾席拍到手掌發紅。阿哲進球，轉身指著你。）「有聽到！」、WATCHED_GAME（阿哲）',L.includes('（你在觀眾席拍到手掌發紅。阿哲進球，轉身指著你。）')&&L.some(t=>/有聽到！$/.test(t))&&SOCIAL.has('zhe','WATCHED_GAME'),JSON.stringify(L.slice(1)));
+      L=await play(1); check('C16 記分：（你坐到記分台，翻牌翻錯一次，裁判看了你一眼。）「沒事啦，多兩分給對面，算我們請客。」',L.includes('（你坐到記分台，翻牌翻錯一次，裁判看了你一眼。）')&&L.some(t=>/沒事啦，多兩分給對面，算我們請客。$/.test(t))&&SOCIAL.has('zhe','WATCHED_GAME'),JSON.stringify(L.slice(1)));
+      L=await play(2); check('C16 送水：（中場你把一箱水搬到場邊。阿哲一口氣喝掉半瓶。）「你是我們的後勤部長。」',L.includes('（中場你把一箱水搬到場邊。阿哲一口氣喝掉半瓶。）')&&L.some(t=>/你是我們的後勤部長。$/.test(t))&&SOCIAL.has('zhe','WATCHED_GAME'),JSON.stringify(L.slice(1))); } }
   /* ---------- 人物面板：每一種記憶都有中文名稱（沒有的話面板直接顯示英文代號）---------- */
   { const src=fs.readdirSync(path.join(ROOT,'src')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src',f),'utf8')).join('\n')+fs.readdirSync(path.join(ROOT,'src/data')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src/data',f),'utf8')).join('\n');
     const used=new Set(); for(const m of src.matchAll(/tag:'([A-Z_0-9]+)'/g)) used.add(m[1]); for(const m of src.matchAll(/remember\([^,()]+,'([A-Z_0-9]+)'/g)) used.add(m[1]); used.delete('ADJUST');
