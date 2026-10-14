@@ -79,5 +79,56 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
       await play([a,b]); const Lx=lines(); check('選「'+a+'」「'+b+'」：'+JSON.stringify(want)+'、K1_ORDER='+flag,want.every(t=>Lx.includes(t))&&G.flags.K1_ORDER===flag,JSON.stringify(Lx.slice(6,10))); }
     fresh(SAT3,13.8,'dorm'); OUT.plan(G,{id:'kx_tour',ev:'ev_kexin_tour_nccu',day:SAT3,h:14,place:'政大',title:'去政大找可昕',travelH:0.5}); G.hour=14.5; picks=['出發']; await tickOut();
     check('晚一點才出發（14:30）：抵達 15:00、演完 18:00',Math.abs(G.hour-18)<0.01,String(G.hour)); }
+  /* ---------- K1b 予樂說：及格（BB_95 9-2）---------- */
+  { const W5MON=STORY.termDay('Y1S1',5,1); let W6MON=STORY.termDay('Y1S1',6,1); const hol=CALENDAR.holiday(W6MON); while(CALENDAR.holiday(W6MON)||CALENDAR.dateOf(W6MON).wd>5) W6MON++;   /* 第 6 週週一 10/6 中秋放假：第一個上課的平日 */
+    check('K1b：第 6 週週一（10/6）放假（'+hol+'），第一個平日是第 '+W6MON+' 天（'+CALENDAR.dateOf(W6MON).key+'）',!!hol&&CALENDAR.dateOf(W6MON).key==='2025-10-07');
+    fresh(W6MON,8,'campus'); run(8,16); check('K1b：還沒去過政大（K1 之前）不傳',!G.msgs||!G.msgs.some(x=>x.tag==='kx_yule_ask'));
+    fresh(W5MON,8,'campus',{NCCU_VISITED:true}); run(8,16); check('K1b：第 5 週不傳',!G.msgs||!G.msgs.some(x=>x.tag==='kx_yule_ask'));
+    const ask=(pick)=>{ fresh(W6MON,8,'campus',{NCCU_VISITED:true}); run(8,16); const m=G.msgs.find(x=>x.tag==='kx_yule_ask'); if(pick!=null) PHONE.answer(G,m.ask.id,pick); run(16,16.2); return m; };
+    const m=ask(null);
+    check('K1b：第 6 週第一個平日 15:30 可昕傳「明天晚上有空嗎？我們系上有人揪宵夜，予樂一直說要看你本人。」，三個回覆（原文）',!!m&&m.text==='明天晚上有空嗎？我們系上有人揪宵夜，予樂一直說要看你本人。'&&Math.abs(m.h-15.5)<0.06&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["好，我開車過去。","我七點跟麵店團吃飯，晚一點可以嗎？","這週不行，下週換我請。"]',JSON.stringify(m&&m.ask.opts.map(o=>o.t)));
+    ask(0); let o=OUT.get(G,'kx_yule'); check('K1b：「好，我開車過去。」＝隔天 19:30 去政大',!!o&&o.day===W6MON+1&&o.h===19.5,JSON.stringify(o));
+    ask(1); o=OUT.get(G,'kx_yule'); const r1=G.msgs.filter(x=>x.th==='p:kexin'&&x.from==='kexin').map(x=>x.text);
+    check('K1b：「晚一點可以嗎？」＝她回「那九點？你來吃第二輪。」、隔天 21:00',!!o&&o.h===21&&o.day===W6MON+1&&r1.includes('那九點？你來吃第二輪。'),JSON.stringify(o));
+    ask(2); const r2=G.msgs.filter(x=>x.th==='p:kexin'&&x.from==='kexin').map(x=>x.text); const F2=Object.assign({},G.flags), msgs=G.msgs, ph=G.phone; fresh(W6MON+2,8,'campus',F2); G.msgs=msgs; G.phone=ph; run(8,13);
+    const crown=G.msgs.filter(x=>x.tag==='kx_yule_crown');
+    check('K1b：「這週不行」＝她回「好，那下週換你請。」、不排出遊；後天中午傳予樂戴紙巾皇冠的照片',r2.includes('好，那下週換你請。')&&!OUT.get(G,'kx_yule')&&crown.length===1&&crown[0].day===W6MON+2&&crown[0].text==='📷（予樂戴著用紙巾做的皇冠）',JSON.stringify(crown.map(x=>[x.day,x.text])));
+    /* 演出 */
+    fresh(W6MON+1,19,'dorm',{NCCU_VISITED:true}); OUT.plan(G,{id:'kx_yule',ev:'ev_kexin_yule_pass',day:W6MON+1,h:19.5,place:'政大',title:'去政大見予樂',travel:'開車約 30 分鐘',travelH:0.5}); picks=['出發','所以我來政大','週末換妳'];
+    await tickOut(); const L=lines();
+    check('K1b 演出：五個場景（校門口、小吃街、河堤、圖書館、停車場）',JSON.stringify(caps.filter(c=>c.startsWith('政大')))==='["政大・校門口","政大・山下的小吃街","政大・河堤","政大・圖書館","政大・停車場"]',JSON.stringify(caps));
+    check('K1b：校門「停車場只剩最邊邊的一格。」＋她的訊息「再十分鐘！你先去山下那間，幫我點酸辣湯餃。」（手機）',L[0]==='停車場只剩最邊邊的一格。'&&L[1]==='再十分鐘！你先去山下那間，幫我點酸辣湯餃。'&&said[1].who==='可昕（手機）',JSON.stringify(said.slice(0,2)));
+    check('K1b：予樂的第一句（原文）、三個選項（第三個帶玩家的名字）、選「是。所以我來政大聊。」→「……可以，你很老實。」、YL_IMPRESSION=honest',L[2]==='你就是那個……開車的？'&&L[3]==='我問你，台大法律系是不是都很難聊？'&&said[2].who==='予樂'&&JSON.stringify(opts[1])==='["「司機兼男朋友。」","「是。所以我來政大聊。」","「妳好，我是祐廷。」"]'&&L.includes('……可以，你很老實。')&&G.flags.YL_IMPRESSION==='honest',JSON.stringify({o:opts[1],L:L.slice(2,6)}));
+    check('K1b：河堤的假設題（玩笑、不給結論）、圖書館「你翻頁好大聲。」、停車場兩個選項（「週末換妳來台大？」記 KX_NTU_ASKED）',L.includes('假設我把你的筆記借給予樂，算無權處分嗎？')&&L.includes('你翻頁好大聲。')&&JSON.stringify(opts[2])==='["「週末換妳來台大？」","「明天考完傳訊息給我。」"]'&&G.flags.KX_NTU_ASKED===true,JSON.stringify(opts[2]));
+    const F3=Object.assign({},G.flags), msgs3=G.msgs, ph3=G.phone; fresh(W6MON+2,8,'campus',F3); G.msgs=msgs3; G.phone=ph3; run(8,13); const pass=G.msgs.filter(x=>x.tag==='kx_yule_pass');
+    check('K1b：隔天中午她傳予樂的紙條照片「及格。」',pass.length===1&&pass[0].day===W6MON+2&&pass[0].text==='📷（予樂寫的紙條：「及格。」）'); }
+  /* ---------- 中秋烤肉（A13）＋可昕 K3（BB_95 9-4）---------- */
+  { const WED=STORY.termDay('Y1S1',5,3), SAT=STORY.termDay('Y1S1',5,6);
+    check('中秋烤肉：第 5 週週六＝2025-10-04',CALENDAR.dateOf(SAT).key==='2025-10-04');
+    fresh(WED,8,'campus'); run(8,22); const m=G.msgs.find(x=>x.tag==='bbq_ask');
+    check('烤肉：第 5 週週三 21:00 阿哲揪（沒有麵店團群組＝私訊）、兩個回覆',!!m&&m.th==='p:zhe'&&m.from==='zhe'&&Math.abs(m.h-21)<0.06&&m.ask.opts.length===2,JSON.stringify(m&&[m.th,m.text]));
+    fresh(WED,8,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(8,22); const mg=G.msgs.find(x=>x.tag==='bbq_ask');
+    check('烤肉：有麵店團群組＝在群組揪',!!mg&&mg.th==='g:noodle_team');
+    PHONE.answer(G,mg.ask.id,0); run(22,22.2); const o=OUT.get(G,'bbq');
+    check('烤肉：回「去。」＝排週六 15:00 河濱',!!o&&o.day===SAT&&o.h===15&&o.place==='河濱'&&o.ev==='ev_mid_autumn_bbq',JSON.stringify(o));
+    const F1=Object.assign({},G.flags), msgs=G.msgs, ph=G.phone; fresh(SAT-1,8,'campus',F1); G.msgs=msgs; G.phone=ph; G.outings=[o]; run(8,20.5); const k=G.msgs.find(x=>x.tag==='kx_bbq_ask');
+    check('K3：前一天（週五）20:00 可昕問「我們系也有烤肉。……你們的比較好玩嗎？」、兩個回覆（原文）',!!k&&k.day===SAT-1&&Math.abs(k.h-20)<0.06&&k.text==='我們系也有烤肉。……你們的比較好玩嗎？'&&JSON.stringify(k.ask.opts.map(q=>q.t))==='["來我們這邊。","妳去妳們系的。"]');
+    { const F2=Object.assign({},G.flags), ms=G.msgs.slice(), p2=JSON.parse(JSON.stringify(G.phone)); PHONE.answer(G,k.ask.id,1); fresh(SAT,8,'campus',Object.assign({},G.flags)); G.msgs=ms; G.phone=p2; G.flags.KX_BBQ_NO=true; run(8,21); const c=G.msgs.filter(x=>x.tag==='kx_bbq_corn').map(x=>x.text);
+      check('K3：「妳去妳們系的。」＝週六晚上她傳烤玉米的照片＋「我們的玉米比較好。」',JSON.stringify(c)==='["📷（烤玉米）","我們的玉米比較好。"]',JSON.stringify(c)); }
+    const playBBQ=async(flags,setup,pk)=>{ fresh(SAT,14.5,'campus',flags||{}); if(setup) setup(); OUT.plan(G,{id:'bbq',ev:'ev_mid_autumn_bbq',day:SAT,h:15,place:'河濱',title:'中秋烤肉',travel:'走過去約 15 分鐘',travelH:0.25}); picks=['出發'].concat(pk||[]); await tickOut(); return lines(); };
+    let L=await playBBQ({},null,[]);
+    check('烤肉（只認識阿哲）：河濱、「阿哲負責烤。」，以安、語彤、柏翰、方奕廷、可昕都不在',caps.includes('河濱')&&L.includes('阿哲負責烤。')&&!L.some(t=>/以安|語彤|柏翰|方奕廷|可昕來了|菜單/.test(t)),JSON.stringify(L));
+    L=await playBBQ({met_yu:true},()=>{ for(const id of ['heroine_01','heroine_03','classmate_bohan','npc_fangyt']) SOCIAL.remember(id,'FIRST_MET',''); },[]);
+    check('烤肉（大家都認識）：小語負責吃、以安的烤肉時間表、語彤阿姨醃的肉、柏翰的考古題被沒收、方奕廷講植物；阿哲「可以叫阿姨開一個烤肉的菜單嗎？」語彤「不行。她會真的開。」',['阿哲負責烤，小語負責吃。','以安帶了一張「烤肉時間表」。','語彤帶了阿姨醃的肉。全場最好吃。','柏翰帶了考古題，被沒收了。','可以叫阿姨開一個烤肉的菜單嗎？','不行。她會真的開。'].every(t=>L.includes(t))&&L.some(t=>/方奕廷/.test(t)),JSON.stringify(L));
+    L=await playBBQ({KX_BBQ_COME:true},null,['我女朋友','阿哲贏']);
+    check('K3 介紹「這是可昕，我女朋友。」：阿哲「哪間學校的？」可昕「政大的。考古題可以交換。」；之後比冷笑話、阿哲贏→「好，我回去練。」；不透露經濟系',L.includes('哪間學校的？')&&L.includes('政大的。考古題可以交換。')&&L.includes('好，我回去練。')&&G.flags.ECON_PAST_SHARED===undefined&&G.flags.KX_MET_NOODLE_TEAM===true,JSON.stringify(L.slice(-6)));
+    L=await playBBQ({KX_BBQ_COME:true},null,['出題','可昕贏']);
+    check('K3 介紹「她會出題考你們。」：「是假設題。假設你是一塊烤肉——」「我拒絕回答。」；可昕贏沒有「我回去練」；不透露經濟系',L.includes('是假設題。假設你是一塊烤肉——')&&L.includes('我拒絕回答。')&&!L.includes('好，我回去練。')&&G.flags.ECON_PAST_SHARED===undefined);
+    L=await playBBQ({KX_BBQ_COME:true},()=>SOCIAL.remember('heroine_01','FIRST_MET',''),['怎麼認識','阿哲贏']);
+    check('K3「讓她說我們怎麼認識的。」（原本不是 full）：可昕的介紹＋阿哲「等一下。經濟系？重考？」＋你「……嗯。一年。」→ full、以安（認識）記 KNOWS_ECON_YEAR',L.includes('杜可昕。政大法律。我們以前是經濟系的同學。……他重考的時候，坐我對面。')&&L.includes('等一下。經濟系？重考？')&&L.includes('……嗯。一年。')&&G.flags.ECON_PAST_SHARED==='full'&&SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'));
+    L=await playBBQ({KX_BBQ_COME:true,ECON_PAST_SHARED:'full'},null,['怎麼認識','阿哲贏']);
+    check('K3「讓她說」（原本就是 full）：阿哲「喔——就是那一年。」，不再問',L.includes('喔——就是那一年。')&&!L.includes('等一下。經濟系？重考？'));
+    L=await playBBQ({KX_BBQ_COME:true,ECON_PAST_SHARED:'half'},null,['怎麼認識','阿哲贏']);
+    check('K3「讓她說」（原本 half）：升成 full；以安不認識就不記',G.flags.ECON_PAST_SHARED==='full'&&!SOCIAL.has('heroine_01','KNOWS_ECON_YEAR')); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

@@ -59,7 +59,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A9 之後：加入「麵店團」群組，一則系統訊息（阿哲建立了群組），哲 1 那天沒有揪',PHONE.inGroup(G,'noodle_team')&&PHONE.rec(G).groups.noodle_team.name==='麵店團'&&gm.length===1&&gm[0].text==='阿哲建立了群組「麵店團」，把你加了進來。'&&!gm[0].from,JSON.stringify(gm.map(m=>m.text)));
     const pings=[]; let day=W4THU+1;
     for(;day<=W4THU+14;day++){ keepOn(day,7.5,'campus'); run(7.5,23.5,0.1); }
-    const ps=G.msgs.filter(m=>m.th==='g:noodle_team'&&m.from==='zhe');
+    const ps=G.msgs.filter(m=>m.th==='g:noodle_team'&&m.from==='zhe'&&m.tag&&m.tag.startsWith('rt_zhe_ndl_'));   /* 例行的揪（群組裡阿哲的其他訊息，例如第 5 週的中秋烤肉，不算）*/
     const wds=ps.map(m=>CALENDAR.dateOf(m.day).wd), days=ps.map(m=>m.day);
     check('A9 之後兩週：每個週二、週四 17:30 阿哲在群組揪「麵店。我揪了。」（週一三五六日沒有、一天一次）',ps.length>=3&&ps.every(m=>m.text==='麵店。我揪了。'&&Math.abs(m.h-17.5)<0.11)&&wds.every(w=>w===2||w===4)&&new Set(days).size===days.length,JSON.stringify(ps.map(m=>[m.day,CALENDAR.dateOf(m.day).wd,m.h])));
     const holTT=[]; for(let d=W4THU+1;d<=W4THU+14;d++){ const w=CALENDAR.dateOf(d).wd; if((w===2||w===4)&&CALENDAR.holiday(d)) holTT.push(d); }
