@@ -32,3 +32,4 @@ git worktree add <資料夾> wip/dorm-hall
 - `v97-rc2.bundle`（2026-10-14 06:40 UTC）：v9.7 發布候選 2，本機分支 `rel/v97-rc2`（`06f2b64`）＝v9.7 候選 1 `5adef66` 合併 v9.6 候選 14（同一個 flow_classes 測試修正；遊戲程式和候選 1 相同）。前置 `22c597c`（開發分支裡有）。還原：`git fetch wip_backup/v97-rc2.bundle rel/v97-rc2:rel/v97-rc2`
 - `v96-rc15.bundle`（2026-10-14 07:08 UTC）：v9.6 發布候選 15，本機分支 `rel/v96-rc15`（`e88bda5`）＝候選 14＋測試工具 go_to 等人物真的走完（只改測試）。前置 `5f66b67`。還原：`git fetch wip_backup/v96-rc15.bundle rel/v96-rc15:rel/v96-rc15`
 - `v97-rc3.bundle`（2026-10-14 07:08 UTC）：v9.7 發布候選 3，本機分支 `rel/v97-rc3`（`8ac75f6`）＝v9.7 候選 2 `06f2b64` 合併 v9.6 候選 15（遊戲程式和候選 1、2 相同）。前置 `22c597c`。還原：`git fetch wip_backup/v97-rc3.bundle rel/v97-rc3:rel/v97-rc3`
+- `v97-rc4.bundle`（2026-10-14 07:30 UTC）：v9.7 發布候選 4，本機分支 `rel/v97-rc4`（`6ad0923`）＝候選 3＋測試工具讀檔時關掉直向提示、flow_typhoon 跟上（LAWWW2 的 patch；只改測試，遊戲程式和候選 1～3 相同）。前置 `22c597c`。還原：`git fetch wip_backup/v97-rc4.bundle rel/v97-rc4:rel/v97-rc4`
