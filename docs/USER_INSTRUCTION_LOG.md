@@ -71,7 +71,8 @@
 
 ### 之後更新
 
-- （待更新）傳給 AA、BB、LAWWW2，以及它們的 ACK。
+- 2026-10-14 約 15:20 UTC：用 send_message 傳給 AA、BB、LAWWW2（規則、SHA、LAWWW 的處置，請它們回 ACK）。三則都是 DELIVERED（工具確認送達），**還沒有 ACK**。
+- （待更新）AA、BB、LAWWW2 的 ACK；AA、BB 交給使用者的來源盤點表。
 
 ---
 
