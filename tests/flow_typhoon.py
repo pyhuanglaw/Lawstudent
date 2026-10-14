@@ -97,7 +97,7 @@ async def main():
         s = await L.state(pg)
         run.check('走到床邊、出現「睡覺」', okb and s['interact'].startswith('睡覺'), json.dumps(s, ensure_ascii=False))
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
-        c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')].find(x=>x.textContent.startsWith('睡覺')); if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
+        c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')].find(x=>x.textContent.startsWith('睡到明天早上')||x.textContent.startsWith('睡覺')); if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
         if c: await L.touch_tap(cdp, c[0], c[1])
         st = None
         for _ in range(300):   # 睡覺的過場（淡出、標題卡、換區域）在 1 fps 時要好幾分鐘：等到真的在第 27 天早上醒來、可以動（2026-10-14：原本只等 90 秒）
@@ -112,10 +112,10 @@ async def main():
         run.check('手機「今天」：「今天放假（颱風假），沒有課」', '今天放假（颱風假），沒有課' in txt, txt[:200])
         await close_phone(pg, cdp)
         # ---------- C：泡麵之夜 ----------
-        for _ in range(120):   # 讀檔前上一段不能還在演（2026-10-14：B 段的睡覺流程沒跑完就讀檔，接著演到 C 的存檔裡）
-            q = await L.state(pg)
-            if not q['busy'] and not q['dlg'] and not q['choices']: break
-            await pg.wait_for_timeout(1000)
+        for _ in range(4):     # 讀檔前上一段不能還在演（2026-10-14：B 段的睡覺流程沒跑完就讀檔，接著演到 C 的存檔裡）；
+            # 早上在宿舍醒來會有一次性的事件（例：ev_course_selection「選課結果」，宿舍 7–12 點），像玩家一樣點完（選第 2 個：不設旗標的那個）再讀檔
+            await pg.wait_for_timeout(3000)
+            q = await L.advance_dialogs(pg, cdp, run, lambda q: not q['busy'] and not q['dlg'] and not q['choices'], max_steps=40, pick=1)
         run.setup('讀檔：第 27 天（10/13 週一，颱風假）17:57 宿舍房間；麵店團第 20 天加入、見過方奕廷')
         await L.load_state(pg, {'zone': 'dorm', 'hour': 17.95, 'day': 27, 'weekday': 1, 'weather': 'rain', 'flags': FLAGS})
         await pg.evaluate(SETUP)
