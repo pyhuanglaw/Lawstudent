@@ -9,9 +9,12 @@ URL = sys.argv[1]; OUT = sys.argv[2]; WHICH = sys.argv[3] if len(sys.argv) > 3 e
 FLAGS = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True}
 # 11/10 週一（大一上第 11 週，上課日）：13:05＝13:20 那一節開始前在門口等的人（3～6 個）；15:12＝15:10 下課後從門口出來聊天的人（2～5 個）
 SHOTS = [
-    {'tag': 'g1305', 'hour': 13.08, 'cams': [((2, 1.75, 15.2), (2, 1.25, 20.4)), ((-3.6, 1.7, 18.2), (2.5, 1.3, 20.6))]},
-    {'tag': 'g1512', 'hour': 15.22, 'cams': [((2, 1.75, 15.2), (2, 1.25, 20.4)), ((7.4, 1.7, 18.0), (1.5, 1.3, 20.6))]},
+    {'tag': 'g1305', 'hour': 13.08},
+    {'tag': 'g1512', 'hour': 15.22},
 ]
+# 鏡頭（第 2 版：第 1 版從北邊拍，大多是背面，而且前面有樹幹）：
+# wide＝門廊上方往北拍整群（FOV 66）；side＝西側平視；face＝離門口最近的兩個人，照他現在面向的方向，站在他前面 2.2 m 拍臉
+CAMS = [('wide', (2, 3.2, 23.2), (2, 1.0, 17.0), 66), ('side', (-5.5, 1.75, 21.5), (2.5, 1.3, 20.0), 50)]
 NEAR_JS = """(()=>{ const E=GAME.E; return E.npcs.filter(n=>Math.hypot(n.obj.position.x-2,n.obj.position.z-20.2)<9).map(n=>{ const u=n.obj.userData||{};
   return {id:n.id||'', key:u.key||null, driver:u.driver||null, x:+n.obj.position.x.toFixed(1), z:+n.obj.position.z.toFixed(1), pose:n.pose||null}; }); })()"""
 
@@ -39,10 +42,14 @@ async def one(b, url, label, s):
     await pg.evaluate("[GAME.E.player].concat(GAME.E.npcs).forEach(n=>{ const u=n.obj&&n.obj.userData; if(u&&u.anim){ u.anim.blink=1e9; u.anim.blinkT=0; } })")
     await pg.add_style_tag(content="#hud,#hudR,#joy,#interact,#minimap,#btnMenu,#btnRun,#ctlR,#goal,#toast,#caption,#clock,#bar,#energy,#money,#mdbg,#fps,#devErr,#rotate,#btnPhone{display:none!important}")
     outs = []
-    for i, (p, l) in enumerate(s['cams']):
-        await pg.evaluate("((p,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...p),new THREE.Vector3(...l)); E.camera.position.set(...p); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look); })(%s,%s)" % (json.dumps(p), json.dumps(l)))
+    async def shoot(name, p, l, fov):
+        await pg.evaluate("((p,l,f)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...p),new THREE.Vector3(...l)); E.camera.position.set(...p); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look); E.camera.fov=f; E.camera.updateProjectionMatrix(); })(%s,%s,%s)" % (json.dumps(p), json.dumps(l), fov))
         await pg.wait_for_timeout(3000)
-        f = os.path.join(OUT, f"npc_{s['tag']}_{label}_{i + 1}.png"); await pg.screenshot(path=f); outs.append(f)
+        f = os.path.join(OUT, f"npc_{s['tag']}_{label}_{name}.png"); await pg.screenshot(path=f); outs.append(f)
+    for name, p, l, fov in CAMS: await shoot(name, p, l, fov)
+    faces = await pg.evaluate("""(()=>{ const E=GAME.E; const L=E.npcs.filter(n=>Math.hypot(n.obj.position.x-2,n.obj.position.z-20.2)<9).sort((a,b)=>Math.hypot(a.obj.position.x-2,a.obj.position.z-20.2)-Math.hypot(b.obj.position.x-2,b.obj.position.z-20.2)).slice(0,2);
+      return L.map(n=>{ const o=n.obj.position, r=n.obj.rotation.y, u=n.obj.userData||{}; const fx=Math.sin(r), fz=Math.cos(r); return {key:u.key||null, p:[o.x+fx*2.2, 1.55, o.z+fz*2.2], l:[o.x, 1.45, o.z]}; }); })()""")
+    for i, fc in enumerate(faces): await shoot(f"face{i + 1}_{(fc['key'] or 'x').split('.')[-1]}", fc['p'], fc['l'], 40)
     keys = sorted({n['key'] for n in near if n['key']})
     print(json.dumps({'label': label, 'shot': s['tag'], 'n': len(near), 'distinct_models': len(keys), 'keys': keys, 'near': near, 'errors': errs[:3], 'files': outs}, ensure_ascii=False))
     await ctx.close()
