@@ -1,0 +1,30 @@
+PASS 遊戲載入
+  [前置／捷徑] 讀檔：第 3 天（9/19 週五）10:00，霖澤館前 (34,-98)
+PASS 校園有「進入社科院圖書館」（社科院正面中間、一樓）  {"x": 97.9, "z": -70, "r": 1.6, "label": "進入社科院圖書館", "lv": 0, "y": 0}
+  [ 143.5s] 到達「社科院正門」附近（0.20 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，118 秒
+PASS 自己走到社科院正門（點地面，沒有瞬移）、出現「進入社科院圖書館」  {"zone": "campus", "x": 97.71, "z": -70.06, "ry": 1.19, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "進入社科院圖書館", "hour": 10.13, "stand": true, "camYaw": 4.712, "fallbacks": 0, "y": 0, "lv": 0, "frame": 204, "paused": false}
+PASS 按下去：進到社科院圖書館、站在入口（閘門外）、站得住  {"zone": "soclib", "x": -9, "z": 9.3, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 10.13, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 216, "paused": false}
+PASS 正式模型載入（LAWWW2 ⑬；沒有就是程序化備用模型）
+  [ 300.8s] 到達「閱覽長桌的座位旁」附近（0.07 m）：點地面 11 次、轉鏡頭 0 次、搖桿 1 次，143 秒
+PASS 自己走過閘門、走到閱覽長桌的座位旁、出現「坐下讀書」  {"zone": "soclib", "x": -8.87, "z": -3.6, "ry": 1.53, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "坐下讀書", "hour": 10.25, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 390, "paused": false}
+PASS B_table：坐下（姿勢 sit）、有「坐一下」可以選  pose=sit ["坐一下，看看四周體力 +5，時間 +20 分鐘", "讀書（1 小時）體力 −8。整理筆記，之後上課用得到", "趴著睡一下：30 分鐘睡到 10:45", "趴著睡一下：1 小時睡到 11:15", "起身"]
+PASS B_table：起身後站得住（不在桌子、書架裡）  pose=idle {"zone": "soclib", "x": -8.8, "z": -3.55, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "坐下讀書", "hour": 10.59, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 408, "paused": false}
+  [ 391.2s] 到達「林間書房（弧形書架裡面）」附近（0.12 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，78 秒
+PASS 走進林間書房、出現「看書架（林間書房）」  {"zone": "soclib", "x": 4.3, "z": -5.49, "ry": 2.87, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "看書架（林間書房）", "hour": 10.66, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 518, "paused": false}
+PASS 按下去：有說明（弧形的竹書架、樹狀柱、天窗）  弧形的竹書架圍著一根白色的樹狀柱，像樹林裡的小書房。抬頭看，柱頂像荷葉一樣散開，光從天窗灑下來。
+  [ 431.8s] 到達「北面窗邊的座位旁」附近（0.12 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，29 秒
+PASS 走到北面玻璃帷幕前的窗邊座位、出現「坐下讀書（窗邊）」  {"zone": "soclib", "x": -2.33, "z": -9.74, "ry": 4.55, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "坐下讀書（窗邊）", "hour": 10.71, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 593, "paused": false}
+PASS D_window：坐下（姿勢 sit）、有「坐一下」可以選  pose=sit ["坐一下，看看四周體力 +5，時間 +20 分鐘", "讀書（1 小時）體力 −8。整理筆記，之後上課用得到", "趴著睡一下：30 分鐘睡到 11:13", "趴著睡一下：1 小時睡到 11:43", "起身"]
+PASS D_window：起身後站得住（不在桌子、書架裡）  pose=idle {"zone": "soclib", "x": -2.55, "z": -9.75, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "坐下讀書（窗邊）", "hour": 11.04, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 615, "paused": false}
+  [ 536.7s] 到達「出口」附近（0.14 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，96 秒
+PASS 自己走回閘門外、走到出口、出現「離開圖書館（回社科院前）」  {"zone": "soclib", "x": -9, "z": 10.06, "ry": 6.28, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "離開圖書館（回社科院前）", "hour": 11.14, "stand": true, "camYaw": 9.027, "fallbacks": 0, "y": 0, "lv": 0, "frame": 769, "paused": false}
+PASS 回到校園社科院正門前、站得住、不會一出來又跳出「進入社科院圖書館」  {"zone": "campus", "x": 95.6, "z": -70, "ry": -1.57, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 11.15, "stand": true, "camYaw": 1.571, "fallbacks": 0, "y": 0, "lv": 0, "frame": 778, "paused": false}
+  [ 647.8s] 到達「法學院廣場（往霖澤館走）」附近（1.09 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，102 秒
+PASS 從門口自己走回法學院廣場（不會卡在門口）  {"zone": "campus", "x": 60.95, "z": -91.46, "ry": -2.04, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 11.21, "stand": true, "camYaw": 1.571, "fallbacks": 0, "y": 0, "lv": 0, "frame": 875, "paused": false}
+PASS 手機「地點」有社科院圖書館  知道的地方可以直接過去，依距離花時間；想看看路上的人和風景，也可以自己走。台大校園（霖澤館前）約 5 分鐘前往椰林大道・傅鐘約 15 分鐘前往校門口約 15 分鐘前往共同教學館約 10 分鐘前往普通教學館約 10 分鐘前往博雅教學館約 10 分鐘前往大一女舍（門口）約 20 分鐘前往霖澤館（大廳）約 5 分鐘前往霖澤館 201 教室約 5 分鐘前往萬才館（大廳）約 5 分鐘前往法律學院圖書館約 5
+PASS 滑到那一列、點「前往」（按鈕在畫面上、沒有被蓋住）  vis=True
+PASS 到社科院圖書館入口、站得住、時間有過  {"zone": "soclib", "x": -9, "z": 9.3, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 11.3, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 889, "paused": false} toast=走了 5 分鐘到社科院圖書館
+  [前置／捷徑] 讀檔：第 3 天 20:30，社科院圖書館入口
+PASS 晚上天窗變暗（自發光比白天低），而且是白天的 8%（不是調暗兩次：clone 的模型共用材質，2026-10-13 批次 2 量到 0.0064）  白天 1、晚上 0.08
+PASS 沒有 JS 例外  []
+ALL PASS
