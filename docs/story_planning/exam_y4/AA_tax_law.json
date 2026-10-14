@@ -23,7 +23,9 @@
    "basis": "中華民國憲法 §19",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "中華民國憲法 §19：「人民有依法律納稅之義務」"
    ]
@@ -46,7 +48,9 @@
    "basis": "納稅者權利保護法 §3 III",
    "level": "應用",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "納稅者權利保護法 §3：「不得增加法律所未明定之納稅義務或減免稅捐」"
    ]
@@ -69,7 +73,9 @@
    "basis": "納稅者權利保護法 §7 II",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "納稅者權利保護法 §7：「應以實質經濟事實關係及其所生實質經濟利益之歸屬與享有為依據」"
    ]
@@ -92,7 +98,9 @@
    "basis": "納稅者權利保護法 §7 III",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "納稅者權利保護法 §7：「為租稅規避」"
    ]
@@ -115,7 +123,9 @@
    "basis": "稅捐稽徵法 §35 I ①",
    "level": "應用",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "稅捐稽徵法 §35：「應於繳款書送達後，於繳納期間屆滿之翌日起三十日內，申請復查」"
    ]
@@ -138,7 +148,9 @@
    "basis": "所得稅法 §71 I",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "所得稅法 §71：「應於每年五月一日起至五月三十一日止」"
    ]
@@ -161,7 +173,9 @@
    "basis": "遺產及贈與稅法 §7 I",
    "level": "應用",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "遺產及贈與稅法 §7：「贈與稅之納稅義務人為贈與人」"
    ]
@@ -184,7 +198,9 @@
    "basis": "遺產及贈與稅法 §4 II",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "遺產及贈與稅法 §4：「財產所有人以自己之財產無償給予他人，經他人允受而生效力之行為」"
    ]

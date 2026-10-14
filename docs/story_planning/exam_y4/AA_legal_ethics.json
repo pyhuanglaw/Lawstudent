@@ -23,7 +23,9 @@
    "basis": "律師法 §36",
    "level": "應用",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "律師法 §36：「律師有保守其職務上所知悉秘密之權利及義務」"
    ]
@@ -46,7 +48,9 @@
    "basis": "律師法 §34 I ①、II",
    "level": "應用",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "律師法 §34：「本人或同一律師事務所之律師曾受委任人之相對人之委任」",
     "律師法 §34：「律師經利益受影響之當事人全體書面同意，仍得受任之」"
@@ -70,7 +74,9 @@
    "basis": "刑事訴訟法 §2",
    "level": "應用",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "刑事訴訟法 §2：「應於被告有利及不利之情形，一律注意」"
    ]
@@ -93,7 +99,9 @@
    "basis": "刑事訴訟法 §17 ①",
    "level": "應用",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "刑事訴訟法 §17：「法官為被害人者」"
    ]
@@ -116,7 +124,9 @@
    "basis": "刑事訴訟法 §245",
    "level": "應用",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "刑事訴訟法 §245：「辯護人、告訴代理人或其他於偵查程序依法執行職務之人員」",
     "刑事訴訟法 §245：「除依法令或為維護公共利益或保護合法權益有必要者外」"
@@ -140,7 +150,9 @@
    "basis": "律師法 §37",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "律師法 §37：「律師應參與法律扶助、平民法律服務或其他社會公益活動」"
    ]
@@ -163,7 +175,9 @@
    "basis": "律師法 §40",
    "level": "應用",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "律師法 §40：「律師不得挑唆訴訟，或以誇大不實、不正當之方法推展業務」"
    ]
@@ -186,7 +200,9 @@
    "basis": "律師法 §47",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "律師法 §47：「律師應向委任人明示其收取酬金之計算方法及數額」"
    ]

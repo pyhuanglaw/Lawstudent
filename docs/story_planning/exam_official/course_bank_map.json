@@ -280,12 +280,13 @@
    "kind": "required",
    "exam": "mc5",
    "sources": [
-    "exam_y4/enforcement.json（AA 出題自審，8 題）"
+    "exam_y4/AA_enforcement.json（AA 寫，8 題，AA_REVIEWED）"
    ],
    "confirmed": 0,
    "status": "ENABLED",
-   "rule": "大四：AA 出題並自審（exam_y4/REVIEW.md）；每題 status＝AA_REVIEWED",
-   "reviewed": 8
+   "rule": "大四：AI 出題並自審（AA、BB 分科，互相交叉審）；抽題母體＝status 為 AA_REVIEWED 或 BB_REVIEWED 的題目",
+   "reviewed": 8,
+   "owner": "AA"
   },
   {
    "term": "Y4S1",
@@ -294,12 +295,13 @@
    "kind": "required",
    "exam": "mc5",
    "sources": [
-    "exam_y4/legal_ethics.json（AA 出題自審，8 題）"
+    "exam_y4/AA_legal_ethics.json（AA 寫，8 題，AA_REVIEWED）"
    ],
    "confirmed": 0,
    "status": "ENABLED",
-   "rule": "大四：AA 出題並自審（exam_y4/REVIEW.md）；每題 status＝AA_REVIEWED",
-   "reviewed": 8
+   "rule": "大四：AI 出題並自審（AA、BB 分科，互相交叉審）；抽題母體＝status 為 AA_REVIEWED 或 BB_REVIEWED 的題目",
+   "reviewed": 8,
+   "owner": "AA"
   },
   {
    "term": "Y4S1",
@@ -308,12 +310,14 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [
-    "exam_y4/ip_law.json（AA 出題自審，8 題）"
+    "exam_y4/AA_ip_law.json（AA 寫，8 題，AA_REVIEWED）",
+    "exam_y4/BB_ip_law.json（BB 寫，13 題；BB 自審，AA 交叉審中）"
    ],
    "confirmed": 0,
    "status": "ENABLED",
-   "rule": "大四：AA 出題並自審（exam_y4/REVIEW.md）；每題 status＝AA_REVIEWED",
-   "reviewed": 8
+   "rule": "大四：AI 出題並自審（AA、BB 分科，互相交叉審）；抽題母體＝status 為 AA_REVIEWED 或 BB_REVIEWED 的題目",
+   "reviewed": 8,
+   "owner": "BB"
   },
   {
    "term": "Y4S1",
@@ -322,12 +326,13 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [
-    "exam_y4/labor_social.json（AA 出題自審，8 題）"
+    "exam_y4/AA_labor_social.json（AA 寫，8 題，AA_REVIEWED）"
    ],
    "confirmed": 0,
    "status": "ENABLED",
-   "rule": "大四：AA 出題並自審（exam_y4/REVIEW.md）；每題 status＝AA_REVIEWED",
-   "reviewed": 8
+   "rule": "大四：AI 出題並自審（AA、BB 分科，互相交叉審）；抽題母體＝status 為 AA_REVIEWED 或 BB_REVIEWED 的題目",
+   "reviewed": 8,
+   "owner": "BB"
   },
   {
    "term": "Y4S1",
@@ -336,12 +341,14 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [
-    "exam_y4/tax_law.json（AA 出題自審，8 題）"
+    "exam_y4/AA_tax_law.json（AA 寫，8 題，AA_REVIEWED）",
+    "exam_y4/BB_tax_law.json（BB 寫，12 題；BB 自審，AA 交叉審中）"
    ],
    "confirmed": 0,
    "status": "ENABLED",
-   "rule": "大四：AA 出題並自審（exam_y4/REVIEW.md）；每題 status＝AA_REVIEWED",
-   "reviewed": 8
+   "rule": "大四：AI 出題並自審（AA、BB 分科，互相交叉審）；抽題母體＝status 為 AA_REVIEWED 或 BB_REVIEWED 的題目",
+   "reviewed": 8,
+   "owner": "BB"
   },
   {
    "term": "Y4S1",
@@ -350,12 +357,13 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [
-    "exam_y4/crim_judgment_sem.json（AA 出題自審，8 題）"
+    "exam_y4/AA_crim_judgment_sem.json（AA 寫，8 題，AA_REVIEWED）"
    ],
    "confirmed": 0,
    "status": "ENABLED",
-   "rule": "大四：AA 出題並自審（exam_y4/REVIEW.md）；每題 status＝AA_REVIEWED",
-   "reviewed": 8
+   "rule": "大四：AI 出題並自審（AA、BB 分科，互相交叉審）；抽題母體＝status 為 AA_REVIEWED 或 BB_REVIEWED 的題目",
+   "reviewed": 8,
+   "owner": "AA"
   },
   {
    "term": "Y4S1",
@@ -364,12 +372,13 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [
-    "exam_y4/public_judgment_sem.json（AA 出題自審，8 題）"
+    "exam_y4/AA_public_judgment_sem.json（AA 寫，8 題，AA_REVIEWED）"
    ],
    "confirmed": 0,
    "status": "ENABLED",
-   "rule": "大四：AA 出題並自審（exam_y4/REVIEW.md）；每題 status＝AA_REVIEWED",
-   "reviewed": 8
+   "rule": "大四：AI 出題並自審（AA、BB 分科，互相交叉審）；抽題母體＝status 為 AA_REVIEWED 或 BB_REVIEWED 的題目",
+   "reviewed": 8,
+   "owner": "AA"
   },
   {
    "term": "Y4S2",
@@ -400,12 +409,14 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [
-    "exam_y4/maritime.json（AA 出題自審，8 題）"
+    "exam_y4/AA_maritime.json（AA 寫，8 題，AA_REVIEWED）",
+    "exam_y4/BB_maritime.json（BB 寫，11 題；BB 自審，AA 交叉審中）"
    ],
    "confirmed": 0,
    "status": "ENABLED",
-   "rule": "大四：AA 出題並自審（exam_y4/REVIEW.md）；每題 status＝AA_REVIEWED",
-   "reviewed": 8
+   "rule": "大四：AI 出題並自審（AA、BB 分科，互相交叉審）；抽題母體＝status 為 AA_REVIEWED 或 BB_REVIEWED 的題目",
+   "reviewed": 8,
+   "owner": "BB"
   }
  ]
 }

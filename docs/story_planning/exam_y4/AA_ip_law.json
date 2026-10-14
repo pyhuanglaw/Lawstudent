@@ -23,7 +23,9 @@
    "basis": "著作權法 §10",
    "level": "應用",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "著作權法 §10：「著作人於著作完成時享有著作權」"
    ]
@@ -46,7 +48,9 @@
    "basis": "著作權法 §10-1",
    "level": "應用",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "著作權法 §10-1：「其保護僅及於該著作之表達」"
    ]
@@ -69,7 +73,9 @@
    "basis": "著作權法 §16 I、§21",
    "level": "應用",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "著作權法 §21：「著作人格權專屬於著作人本身，不得讓與或繼承」",
     "著作權法 §16：「有表示其本名、別名或不具名之權利」"
@@ -93,7 +99,9 @@
    "basis": "著作權法 §65 II",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "著作權法 §65：「利用之目的及性質」",
     "著作權法 §65：「利用結果對著作潛在市場與現在價值之影響」"
@@ -117,7 +125,9 @@
    "basis": "專利法 §22 I、II",
    "level": "應用",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "專利法 §22：「依申請前之先前技術所能輕易完成時，仍不得取得發明專利」"
    ]
@@ -140,7 +150,9 @@
    "basis": "專利法 §52 III",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "專利法 §52：「發明專利權期限，自申請日起算二十年屆滿」"
    ]
@@ -163,7 +175,9 @@
    "basis": "商標法 §33",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "商標法 §33：「商標權期間為十年」",
     "商標法 §33：「每次延展為十年」"
@@ -187,7 +201,9 @@
    "basis": "營業秘密法 §2",
    "level": "記憶",
    "source": "AA_Y4",
+   "author": "AA",
    "status": "AA_REVIEWED",
+   "crossReviewedBy": null,
    "verified": [
     "營業秘密法 §2：「非一般涉及該類資訊之人所知者」",
     "營業秘密法 §2：「所有人已採取合理之保密措施者」"
