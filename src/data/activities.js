@@ -44,6 +44,9 @@ const ACTIVITIES={
     {id:'welcome_y1s1',title:'法律系迎新',kind:'event',zone:'campus',roomName:'傅鐘前',spot:{x:-13.5,z:13.6,lv:0,label:'迎新集合點',r:1.3},dates:['2025-09-27'],t0:14,t1:17,once:true,event:'ev_welcome_y1s1',
      desc:'系上的新生迎新：自我介紹、分組玩大地遊戲。學長姊帶隊。',story:true},
     /* 6-8 (c)：系籃——2026-10-14 搬到球場（LAWWW2 9428f9f，醉月湖東側；zones3d.js 的 bballCourt）：活動點在場邊兩張長椅中間、面向場內；id 不變（原本先放在體育館門口）*/
+    /* 公法讀書會（交接包 v2 C14 以安新 7 後半；草稿第 2 節「固定節奏」）：大一下第 12 週起每週四 20:00，萬才館研討室 A（和法服週三讀書會同一類：加入就每週有一格）；第一次＝ev_public_law_group。結束時間原文沒寫，先 21:30 */
+    {id:'public_law_group',title:'公法讀書會',clubName:'公法讀書會',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S2'],weeks:[12,13,14,15,16],weekday:4,t0:20,t1:21.5,
+     desc:'以安和小語發起的讀書會。每人十分鐘。',story:true},
     /* 大一的系籃比賽（交接包 v2 C16；AA_71 2-11「大一的系籃比賽（v2 C16，第 14 週）」）：AA 只寫第 14 週，日子、時間是 LAWWW 定的（週六 14～16，和練球同一個球場；已告訴 AA）；去看＝演 ev_zhe_game_y1 */
     {id:'dept_ball_game_y1s2',title:'系籃比賽',kind:'event',zone:'campus',roomName:'籃球場（醉月湖東側）',spot:{x:3.3,z:-112.7,lv:0,label:'系籃比賽'},verb:'去看',term:['Y1S2'],weeks:[14],weekday:6,t0:14,t1:16,once:true,event:'ev_zhe_game_y1',
      desc:'系上的系籃比賽，阿哲上場。觀眾可以拍手、記分或送水。',story:true},

@@ -590,6 +590,23 @@ const STORY_EVENTS=[
   /* 以安「四年，四張」的第一張（交接包 v2 C7；AA_71 2-9「大一的台詞」）：大一下第 3 週週六上午，椰林大道的杜鵑開了（她那個上午在椰林大道：characters.js 的作息）。
      和她有點熟以上＝她請你拍；還不熟＝她請小語拍、你在旁邊看到。芷若、子晴那兩句只給兩個人都認識的玩家（AA：和祐廷無關的一句）。
      旁白只用 AA 的字（「椰林大道的杜鵑開了」「拿著手機」「她把手機遞給你」「拍完她看了一下」「她請小語拍」「芷若拿著手機在拍花」）。之後三年照 AA_71 2-9（大三、大四以後做）*/
+  /* 以安新 7 前半「和小語吵架」（交接包 v2 C14；草稿第 3 節、AA_113 新 7）：大一下第 11 週週二晚上的麵店（麵店日）。台詞、選項照原文；好感數字原文沒有，不加。
+     記 AN_YU_ARGUMENT（選了哪一個；之後新 8 可以用）。不在場的玩家：小語在麵店團群組說「我跟以安吵架了。」「……吵得很好。」（story3d.js phoneRules，記「聽說」）。
+     法律：集會遊行「許可制／報備制」的爭論，只呈現兩邊的理由、不給結論——LEGAL_REVIEW_REQUIRED（BB 查核前不發布；legal_review 欄位給發布檢查用）*/
+  { id:'ev_an_yu_argument', title:'吵架', participants:['heroine_01','yu','zhe'], location:'noodle', trigger:'enter', priority:9, once:true, term:['Y1S2'], weeks:[11], weekday:[2], time:[17.5,21], prereq:{stage:{npc:'heroine_01',min:'ACQUAINTANCE'}}, background:'blur', legal_review:'REQUIRED',
+    dialogue:[ {speaker:'yu',expression:'serious',text:'上街要先申請？那還叫自由嗎？'},{speaker:'heroine_01',expression:'serious',text:'先分清楚。是要申請許可，還是讓人知道你要用哪一條路。'},
+      {speaker:'yu',expression:'annoyed',text:'妳好冷。'},{speaker:'heroine_01',expression:'neutral',text:'妳沒有結構。'},{speaker:'zhe',expression:'neutral',text:'麵要坨了。'},
+      {choice:[{text:'「我站小語。」',consequences:{flags:{AN_YU_ARGUMENT:'yu'}},goto:'yu'},{text:'「我站以安。」',consequences:{flags:{AN_YU_ARGUMENT:'an'}},goto:'an'},
+        {text:'「妳們講的是同一件事的兩邊。」',consequences:{flags:{AN_YU_ARGUMENT:'both'}},goto:'both'},{text:'（先吃麵）',consequences:{flags:{AN_YU_ARGUMENT:'noodle'}},goto:'noodle'}]},
+      {label:'yu'},{speaker:'yu',expression:'laugh',text:'看吧！'},{speaker:'heroine_01',expression:'neutral',text:'理由？……不准賴。'},{goto:'end'},
+      {label:'an'},{speaker:'heroine_01',expression:'neutral',text:'謝謝。理由？'},{speaker:'yu',expression:'surprised',text:'你們兩個好可怕。'},{goto:'end'},
+      {label:'both'},{speaker:null,text:'（兩個人同時轉過來看你。）'},{speaker:'yu',expression:'surprised',text:'……幹嘛突然這麼有道理。'},{goto:'end'},
+      {label:'noodle'},{speaker:'zhe',expression:'smile',text:'明智。'},
+      {label:'end'} ] },
+  /* 以安新 7 後半「公法讀書會第一次」（交接包 v2 C14）：活動「公法讀書會」（activities.js，大一下第 12 週起每週四 20:00，萬才館研討室 A；所有人都收到邀請，AA_115：不懲罰先走、沒去演講的人）。
+     第一次去：白板（原文）；加入就每週四有一格（CLUB_public_law_group），記 PUBLIC_LAW_GROUP。不去也照常，之後還是會被邀 */
+  { id:'ev_public_law_group', title:'公法讀書會', participants:['heroine_01','yu'], location:'wancai', trigger:'activity', term:['Y1S2'], once:true, background:'blur',
+    dialogue:[ {speaker:null,text:'（研討室的白板上寫著「公法讀書會」。下面是以安的字：「每人十分鐘。」）'},{speaker:null,text:'（小語在旁邊補：「可以吃東西。」）'},{set:{PUBLIC_LAW_GROUP:true}} ] },
   /* 法四學長姊畢業（交接包 v2 C17；AA_71 2-12「大一：法四學長姊畢業」，寫成慶祝）：大一下第 15 週週六 10～15 在校園（和 ev_sis_festival_booth 同樣的做法：在校園就演）；
      學士帽丟上天、學長請你拍照。法服群組、家族群組那兩則在 story3d.js 的 phoneRules。旁白只用 AA 的字 */
   { id:'ev_grad_seniors_y1', title:'學長姊畢業', participants:[], location:'campus', trigger:'auto', term:['Y1S2'], weeks:[15], weekday:[6], time:[10,15], once:true, background:'blur',

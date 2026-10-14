@@ -583,6 +583,15 @@ const STORY = (function(){
       if(atL('npc_fangyt','FAMILIAR')&&gotBefore(G,'npc_fangyt')&&!PHONE.sent(G,'cny_fangyt')){ const th='p:npc_fangyt', fr=atL('npc_fangyt','FRIEND'), Y=t=>({th,from:'npc_fangyt',text:t});
         PHONE.at(G,ny+2,15,[Y('📷（山上的雲海和一棵松樹）'),Y('新年快樂。初一拍的，山上沒有訊號。')].concat(fr?[Y('這棵你猜。')]:[Y('台灣二葉松，Pinus taiwanensis。針葉兩根一束。'),Y('山上聽不到鞭炮。很好。')]),'cny_fangyt');
         if(fr) PHONE.at(G,ny+3,10,[Y('答案：台灣二葉松。針葉兩根一束，名字就是提示。')],'cny_fangyt_answer'); } } }
+    /* 以安新 7（交接包 v2 C14）：①第 11 週週二晚上沒在麵店看到吵架（ev_an_yu_argument 沒演）＝21:30 小語在麵店團群組「我跟以安吵架了。」、22:10「……吵得很好。」，記「聽說」；
+       ②公法讀書會的邀請：第 12 週週一 21:00 麵店團群組以安「公法讀書會。週四晚上八點，萬才館研討室。」小語「我也是發起人喔。」（所有人都收到：不在麵店團、有以安聯絡方式的＝她私訊同一句）*/
+    { const tue=termDay('Y1S2',11,2), mon=termDay('Y1S2',12,1), done=id=>!!(G.events&&G.events.done&&G.events.done[id]);
+      if(tue&&G.day>=tue&&G.day<=tue+1&&!(G.day===tue&&h(G)<21.5)&&!done('ev_an_yu_argument')&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'an_yu_heard')){ const th='g:noodle_team';
+        PHONE.at(G,tue,21.5,[{th,from:'yu',text:'我跟以安吵架了。'}],'an_yu_heard'); PHONE.at(G,tue,22+1/6,[{th,from:'yu',text:'……吵得很好。'}],'an_yu_heard2');
+        if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember('heroine_01','HEARD_ABOUT','聽說她和小語吵架了'); }
+      if(mon&&G.day>=mon-1&&G.day<=mon+3&&!PHONE.sent(G,'plg_invite')){
+        if(PHONE.inGroup(G,'noodle_team')){ const th='g:noodle_team'; PHONE.at(G,mon,21,[{th,from:'heroine_01',text:'公法讀書會。週四晚上八點，萬才館研討室。'},{th,from:'yu',text:'我也是發起人喔。'}],'plg_invite'); }
+        else if(typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,'heroine_01')) PHONE.at(G,mon,21,[{th:'p:heroine_01',from:'heroine_01',text:'公法讀書會。週四晚上八點，萬才館研討室。'}],'plg_invite'); } }
     /* 法四學長姊畢業的群組（交接包 v2 C17；AA_71 2-12）：大一下第 15 週週六。法服群組（加入法服的玩家）12:30 有人傳合照＋「恭喜學長姊！法服永遠歡迎回來值班！」（傳的人：法服社長——法三的學長姊、不具名，社團公告的口氣；AA 2026-10-14）；
        家族群組 13:00 Kevin 傳畢業照，學姊「恭喜。」（不是「收到」，BB_96 第 5 節）*/
     { const gd=termDay('Y1S2',15,6); if(gd&&G.day>=gd-1&&G.day<=gd+1){

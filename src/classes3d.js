@@ -191,6 +191,7 @@ const CLS=(function(){
      法服讀書會：ev_studygroup_wed 就是讀書會本身——第一次整段（學姊研究計畫那段只有這一次），之後旁白＋題庫兩三題（studyQs）。 */
   S.clubEvent=function(G,a){ if(typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined') return null; const ev=id=>STORY_EVENTS.find(e=>e.id===id)||null;
     const here=id=>typeof STORY==='undefined'||!STORY.present||STORY.present(id,G);
+    if(a.id==='public_law_group') return !(G.events&&G.events.done&&G.events.done.ev_public_law_group)?ev('ev_public_law_group'):null;   /* 公法讀書會第一次：白板（交接包 v2 C14）；門口參加＝2D 畫面，不看人在不在 */
     if(a.id==='club_guitar'){ const met=typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_04','FIRST_MET'); return !met&&here('heroine_04')?ev('ev_ziqing_club'):null; }
     if(a.id==='lawclub_study'){ const done=!!(G.events&&G.events.done&&G.events.done.ev_studygroup_wed); if(!done) return here('heroine_05')?ev('ev_studygroup_wed'):null;
       /* 第一次之後：沛珊問「為什麼要背」（P1）的下一次讀書會，學姊回答（BB_95 3-4）；隔週沒來的，之後第一次來時沛珊轉述一句——讀書會一開始，代替這一次的旁白＋題目（事件裡自己有兩題）*/
