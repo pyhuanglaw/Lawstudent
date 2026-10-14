@@ -14,15 +14,30 @@ import playlib as L
 
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_typhoon'
-FLAGS = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheInvite': True, 'zheNoodleDone': True}
+FLAGS = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheInvite': True, 'zheNoodleDone': True,
+         'dating_kexin': True, 'KX_FIRST_MSG': True, 'FAM_GROUP_SENT': True, 'fundsV2': 1, 'allowanceMonth': 10}
+# 後面五個：v9.7 新開的存檔第一天就有的旗標（2026-10-14 LAWWW2 回報：少了這些，存檔被當成舊存檔，睡醒時補演「經濟系的那一年」＋可昕的第一則訊息，
+# 占住 B 段的早上；C 段讀檔時那一段還在演，接著演到新存檔裡）。舊存檔補演本身是設計（story3d.js 的 sleepNow），這個測試要測的是新玩家的颱風假
 SETUP = "(()=>{ const G=GAME.G; PHONE.join(G,'noodle_team','麵店團'); PHONE.rec(G).groups.noodle_team.day=20; SOCIAL.remember('npc_fangyt','FIRST_MET','黃金葛'); return true; })()"
 CG_JS = """(async()=>{ const a=document.getElementById('advCg'); const bg=a?a.style.backgroundImage:''; const m=/url\\(["']?([^"')]+)/.exec(bg||''); if(!m) return {bg:bg||'',w:0};
   const im=new Image(); im.src=m[1]; try{ await im.decode(); }catch(e){} return {bg:m[1],w:im.naturalWidth,h:im.naturalHeight,cls:document.getElementById('adv').className}; })()"""
 
 
-async def phone(pg, cdp, tab):
-    if await pg.evaluate("document.getElementById('phone').classList.contains('hide')"):
-        await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
+PHONE_HIDDEN = "document.getElementById('phone').classList.contains('hide')"
+WHO_AT_BTN = """(()=>{ const b=document.getElementById('btnPhone'); if(!b) return 'no btnPhone'; const r=b.getBoundingClientRect(); const e=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);
+  return (e?(e.id||e.className||e.tagName):'null')+' busy='+!!GAME.E.player.busy+' dlg='+!!(GAME.D&&GAME.D.active)+' titleIdle='+!!GAME.titleIdle; })()"""
+
+
+async def phone(pg, cdp, tab, run=None):
+    """打開手機、換到分頁（點了等它真的打開；SwiftShader 約 1 fps，沒開就再點，最多 3 次——玩家也會再點）。
+    打不開時記下按鈕位置上是什麼東西（2026-10-14 LAWWW2 回報 A 段手機點了沒開，原因還在查）"""
+    for _ in range(3):
+        if not await pg.evaluate(PHONE_HIDDEN): break
+        await L.tap(pg, cdp, '#btnPhone')
+        for _ in range(16):
+            await pg.wait_for_timeout(500)
+            if not await pg.evaluate(PHONE_HIDDEN): break
+    if await pg.evaluate(PHONE_HIDDEN) and run: run.note('手機打不開：按鈕上是 ' + await pg.evaluate(WHO_AT_BTN))
     await L.tap(pg, cdp, '#phoneTabs button[data-ptab="%s"]' % tab); await pg.wait_for_timeout(900)
     return await pg.evaluate("(document.getElementById('phoneBody')||{}).textContent||''")
 
@@ -58,7 +73,7 @@ async def main():
         await pg.evaluate(SETUP); await pg.wait_for_timeout(4000)
         ok = await wait_hour(pg, 21.55)
         run.check('等到 21:33（遊戲時間走得動）', ok, str(await pg.evaluate("GAME.G.hour")))
-        await phone(pg, cdp, 'msg')
+        await phone(pg, cdp, 'msg', run)
         await tap_sel(pg, cdp, '#phoneBody [data-th="sys"]'); await pg.wait_for_timeout(900)
         txt = await pg.evaluate("(document.getElementById('phoneBody')||{}).textContent||''")
         await run.shot(pg, 'A_notice')
@@ -82,21 +97,25 @@ async def main():
         s = await L.state(pg)
         run.check('走到床邊、出現「睡覺」', okb and s['interact'].startswith('睡覺'), json.dumps(s, ensure_ascii=False))
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
-        c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')].find(x=>x.textContent.startsWith('睡覺')); if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
+        c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')].find(x=>x.textContent.startsWith('睡到明天早上')||x.textContent.startsWith('睡覺')); if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
         if c: await L.touch_tap(cdp, c[0], c[1])
         st = None
-        for _ in range(90):
-            st = await pg.evaluate("({day:GAME.G.day, zone:GAME.G.zone, hour:GAME.G.hour, weather:GAME.G.weather})")
-            if st['day'] == 27 and st['zone'] == 'dorm' and st['hour'] < 9: break
+        for _ in range(300):   # 睡覺的過場（淡出、標題卡、換區域）在 1 fps 時要好幾分鐘：等到真的在第 27 天早上醒來、可以動（2026-10-14：原本只等 90 秒）
+            st = await pg.evaluate("({day:GAME.G.day, zone:GAME.G.zone, hour:GAME.G.hour, weather:GAME.G.weather, busy:!!GAME.E.player.busy})")
+            if st['day'] == 27 and st['zone'] == 'dorm' and st['hour'] < 9 and not st['busy']: break
             await pg.wait_for_timeout(1000)
         await pg.wait_for_timeout(4000)
         await L.advance_dialogs(pg, cdp, run, lambda q: not q['dlg'] and not q['choices'] and not q['busy'], max_steps=40)
         run.check('睡覺 → 第 27 天（10/13 週一）早上在宿舍醒來、下雨', bool(st) and st['day'] == 27 and st['weather'] == 'rain', json.dumps(st, ensure_ascii=False))
-        txt = await phone(pg, cdp, 'today')
+        txt = await phone(pg, cdp, 'today', run)
         await run.shot(pg, 'B_morning_phone')
         run.check('手機「今天」：「今天放假（颱風假），沒有課」', '今天放假（颱風假），沒有課' in txt, txt[:200])
         await close_phone(pg, cdp)
         # ---------- C：泡麵之夜 ----------
+        for _ in range(4):     # 讀檔前上一段不能還在演（2026-10-14：B 段的睡覺流程沒跑完就讀檔，接著演到 C 的存檔裡）；
+            # 早上在宿舍醒來會有一次性的事件（例：ev_course_selection「選課結果」，宿舍 7–12 點），像玩家一樣點完（選第 2 個：不設旗標的那個）再讀檔
+            await pg.wait_for_timeout(3000)
+            q = await L.advance_dialogs(pg, cdp, run, lambda q: not q['busy'] and not q['dlg'] and not q['choices'], max_steps=40, pick=1)
         run.setup('讀檔：第 27 天（10/13 週一，颱風假）17:57 宿舍房間；麵店團第 20 天加入、見過方奕廷')
         await L.load_state(pg, {'zone': 'dorm', 'hour': 17.95, 'day': 27, 'weekday': 1, 'weather': 'rain', 'flags': FLAGS})
         await pg.evaluate(SETUP)
