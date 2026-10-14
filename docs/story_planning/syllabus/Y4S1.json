@@ -1161,7 +1161,7 @@
       ],
       "close": "大三問他是不是勞工。今天換個問法：他摔車那天，誰接得住他？",
       "record": "B_Y4S1_labor_social_w14",
-      "echo": "大三下勞動法第 15 週（C「外送員是勞工嗎？」）的回聲；沒修勞動法（選了公平交易法，或大三下在國外）的玩家沒有這句",
+      "echo": "大三下勞動法第 15 週（C「外送員是勞工嗎？」）的回聲；那一堂沒去（翹課，或大三下在國外）的玩家沒有這句",
       "recall": [
        {
         "attended": "Y3S2:labor_law:w15",
@@ -1769,8 +1769,8 @@
       "record": "B_Y4S1_crim_judgment_sem_w12",
       "recall": [
        {
-        "attended": "Y1S1:law_society:w10",
-        "say": "你想起大一黃教授問的：如果被抽中當國民法官，你會去嗎？"
+        "attended": "Y2S2:legal_english:w6",
+        "say": "你想起大二的法學英文：美國是陪審團，台灣是國民法官。"
        }
       ],
       "skip_line": {
