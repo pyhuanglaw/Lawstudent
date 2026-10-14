@@ -793,6 +793,43 @@ const STORY_EVENTS=[
       {if:{flags:['KX_K6_EXAM']},speaker:'kexin',expression:'teasing',text:'結果我們吵最多的，是考古題。'},
       {unless:{flags:['KX_K6_EXAM']},speaker:'kexin',expression:'teasing',text:'結果我們吵最多的，是假設題的答案。'} ],
     after:G=>{ G.flags.REVISIT_Y1={who:'kexin',pick:G.flags.REVISIT_Y1_PICK||'daily'}; } },
+  /* 重訪日 1（交接包 v2 C20）——麵店團併桌的版本（AA 50da3a9：沒有和可昕交往、在麵店團）：17:00 阿哲在群組「學期最後一天。兩點半，六點，併桌。」（story3d.js phoneRules）。
+     題目（AA 草稿第 3 節的原句，寫成旁白）→ 玩家的選項（REVISIT_Y1_OPTS）→ 麵店團回一句（一般：阿哲「……好。這個可以。」；「麵店的第一碗。」：阿哲「那碗是我推薦的。」；
+     「每天都差不多。」：小語「……這個最好。」）→ 他們也各說一件（只讓認識的人說；阿哲那句要去過麵店——LAWWW 加的條件，問 AA）。記 REVISIT_Y1:{who:'noodle_team',pick} */
+  { id:'ev_revisit_y1_noodle', title:'重訪日', participants:['zhe'], location:'cafe', trigger:'auto', priority:8, term:['Y1S2'], weeks:[18], time:[18,22], once:true, background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.revisitDay&&G.day===STORY.revisitDay()&&!G.flags.REVISIT_Y1&&!G.flags.dating_kexin&&typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},
+    dialogue:[ {speaker:null,text:'這一年，你最意外的一件事是什麼？'},
+      REVISIT_Y1_CHOICE('n_'),
+      {label:'n_noodle'},{speaker:'zhe',expression:'laugh',text:'那碗是我推薦的。'},{goto:'theirs'},
+      {label:'n_daily'},{if:EV_KNOWS('yu'),speaker:'yu',expression:'smile',text:'……這個最好。'},{unless:EV_KNOWS('yu'),speaker:'zhe',expression:'smile',text:'……好。這個可以。'},{goto:'theirs'},
+      {label:'n_retake'},{label:'n_bbq'},{label:'n_appeal'},{label:'n_rain'},{label:'n_lecture'},{label:'n_show'},{speaker:'zhe',expression:'smile',text:'……好。這個可以。'},
+      {label:'theirs'},
+      {if:{custom:G=>G.flags.noodleTableDay!=null||(Array.isArray(G.flags.ndlDays)&&G.flags.ndlDays.length>0)},speaker:'zhe',expression:'smile',text:'我最意外的是，你真的每個禮拜二、四都來。'},
+      {if:EV_KNOWS('yu'),speaker:'yu',expression:'neutral',text:'我最意外的是我跟以安吵完還開了讀書會。'} ],
+    after:G=>{ G.flags.REVISIT_Y1={who:'noodle_team',pick:G.flags.REVISIT_Y1_PICK||'daily'}; } },
+  /* 重訪日 1——單身、不在麵店團的版本（AA 50da3a9、d1fa44f；BB_96 第 11 節 b7c89d1）：這一年最親近的人（STORY.revisitClosest：先看階段、再看熟悉；學姊、沛珊這時有伴侶，不算）。
+     男生：窗邊雙人桌坐他，玩家說完他也說一件。女生：祐廷一個人坐窗邊，她 18:00 傳來訊息（story3d.js phoneRules），之後一樣有題目和選項。
+     都還不到「有點熟」：一個人坐窗邊，題目寫在筆記本上；「這張桌子，從今天開始是你的位子。」（旁白照 AA 的描述寫成句子）。
+     以安、語彤、小語、芯慈（AA 的人物）的版本還沒有台詞：最親近的是她們時先看下一位（已問 AA）。記 REVISIT_Y1:{who,pick} */
+  { id:'ev_revisit_y1_single', title:'重訪日', participants:[], location:'cafe', trigger:'auto', priority:8, term:['Y1S2'], weeks:[18], time:[18,22], once:true, background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.revisitDay&&G.day===STORY.revisitDay()&&!G.flags.REVISIT_Y1&&!G.flags.dating_kexin&&!(typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team'))},
+    dialogue:[ {if:{custom:G=>STORY.revisitClosest(G).kind==='male'},goto:'q'},
+      {speaker:null,text:'你一個人坐在窗邊。'},
+      {if:{custom:G=>STORY.revisitClosest(G).kind==='none'},speaker:null,text:'你在筆記本上寫了一行。'},
+      {label:'q'},{speaker:null,text:'這一年，你最意外的一件事是什麼？'},
+      REVISIT_Y1_CHOICE('s_'),
+      {label:'s_retake'},{label:'s_bbq'},{label:'s_noodle'},{label:'s_appeal'},{label:'s_rain'},{label:'s_lecture'},{label:'s_show'},{label:'s_daily'},
+      {if:{custom:G=>STORY.revisitClosest(G).id==='classmate_bohan'},goto:'bohan'},{if:{custom:G=>STORY.revisitClosest(G).id==='kai'},goto:'kai'},
+      {if:{custom:G=>STORY.revisitClosest(G).id==='classmate_mingxuan'},goto:'mx'},{if:{custom:G=>STORY.revisitClosest(G).id==='npc_fangyt'},goto:'fy'},
+      {if:{custom:G=>STORY.revisitClosest(G).kind==='none'},speaker:null,text:'這張桌子，從今天開始是你的位子。'},{goto:'end'},
+      {label:'bohan'},{speaker:'classmate_bohan',expression:'neutral',text:'我最意外的是……'},{speaker:'classmate_bohan',expression:'neutral',text:'（推了一下眼鏡）這一題，沒有考古題。'},{goto:'end'},
+      {label:'kai'},{if:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.friendLevel&&SOCIAL.friendLevel('kai')==='CLOSE_FRIEND'},goto:'kai2'},
+      {speaker:'kai',expression:'neutral',text:'我最意外的是……那條膠帶。'},{speaker:'kai',expression:'smile',text:'我寫了『無條件入境』，結果是我一直在出境。'},{speaker:'kai',expression:'smile',text:'……去你那邊拿零食。'},{goto:'end'},
+      {label:'kai2'},{speaker:'kai',expression:'neutral',text:'我最意外的是……膠帶是我自己撕的。'},{speaker:'kai',expression:'smile',text:'本來以為會貼四年。'},{goto:'end'},
+      {label:'mx'},{speaker:'classmate_mingxuan',expression:'laugh',text:'哈哈，我最意外的是……'},{speaker:'classmate_mingxuan',expression:'neutral',text:'我第一次走進一家店，沒有先算 CP 值。'},{speaker:'classmate_mingxuan',expression:'smile',text:'……就是這裡。'},{goto:'end'},
+      {label:'fy'},{speaker:'npc_fangyt',expression:'neutral',text:'我最意外的是……你的黃金葛長得比我的好。'},{speaker:'npc_fangyt',expression:'neutral',text:'……我回去查了原因。是窗戶的方向。'},
+      {label:'end'} ],
+    after:G=>{ const c=STORY.revisitClosest(G); G.flags.REVISIT_Y1={who:c.id||'alone',pick:G.flags.REVISIT_Y1_PICK||'daily'}; } },
   /* 學姊 W5「她改的便條」（BB_96 2-6；交接包 v2）：大一下第 17 週週三的法服學期檢討會（activities.js 的 lawclub_review_y1s2）之後；前置 lawclub、法服讀書會去過 3 次以上、只一次。
      去了檢討會：會後接著演（afterActivity）；沒去的社員：那天晚上 21:00 以後走進萬才館，第一句旁白換成「聽說今天的檢討會很安靜。」其他照舊。流程的描述寫成旁白。
      記 NOTICED_HER（W8 的伏筆）／GAVE_HER_NOTE（寫了什麼記在備註；回收見 BB_108）*/
