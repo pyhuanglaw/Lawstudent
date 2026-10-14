@@ -106,6 +106,37 @@ const STORY_EVENTS=[
     dialogue:[ {speaker:null,text:'走出建築的瞬間，雨。你的傘在宿舍的桌上。'},{choice:[{text:'跑去便利商店買一把（150 元）',consequences:{money:-150,energy:-3,memo:'買了第三把傘'}},{text:'淋回去',consequences:{energy:-8,memo:'淋雨'}},{text:'在屋簷下等十分鐘',consequences:{advance:0.2}}]} ] },
   { id:'ev_library_outlet', title:'插座', participants:[], location:'library', trigger:'enter', time:[13,21], day_min:3, cooldown_days:3, random_weight:0.5, background:'freeze',
     dialogue:[ {speaker:null,text:'閱覽室裡每一個靠插座的位子都有人。有人把充電線拉到桌子中央，像在宣示主權。'},{choice:[{text:'問旁邊的人能不能分一格',consequences:{energy:-1},goto:'ask'},{text:'算了，用電池',consequences:{}}]},{label:'ask'},{speaker:null,text:'對方看了你一眼，把充電線往旁邊挪了三公分。'} ] },
+  // ────────────────────────────────────────── 交接包 v1 第 4 批（BB_95 第 3 節：新事件）
+  /* 方奕廷 F1：黃金葛（BB_95 3-1）。他平日 12–13 在校園走走（characters.js 的日程）；和他說話就觸發，只一次。植物知識需查證（BB）。
+     之後：宿舍書桌旁多一盆黃金葛（POTHOS；story3d.js 的 dormItems、pothosScene：每週澆一次就夠，沒澆也不會枯，只是不長大——v1 只有一個大小）*/
+  { id:'ev_fangyt_pothos', title:'黃金葛', participants:['npc_fangyt'], location:'campus', trigger:'interact', priority:6, weekday:[1,2,3,4,5], time:[12,13], once:true, background:'blur',
+    dialogue:[ {speaker:'npc_fangyt',expression:'neutral',text:'你是隔壁房的吧。我經過的時候看到，你們房間沒有綠色的東西。'},{speaker:'npc_fangyt',expression:'smile',text:'（從袋子裡拿出一盆小小的黃金葛）黃金葛。天南星科，耐陰，空氣不好也可以活。'},
+      {speaker:'npc_fangyt',expression:'neutral',text:'莖節會長氣根，所以可以水耕，也可以土耕，而且——'},{speaker:'npc_fangyt',expression:'neutral',text:'……總之，很好養。忘記澆也不會死。'},{speaker:'npc_fangyt',expression:'smile',text:'跟你室友一樣。'},
+      {choice:[{text:'「謝謝學長。」',goto:'thanks'},{text:'「我會養死。」',goto:'die'},{text:'「你袋子裡還有幾盆？」',goto:'bag'}]},
+      {label:'thanks'},{speaker:'npc_fangyt',expression:'smile',text:'不用謝。它比較需要謝謝你。'},{goto:'end'},
+      {label:'die'},{speaker:'npc_fangyt',expression:'neutral',text:'不會。我說過了，它很難死。'},{goto:'end'},
+      {label:'bag'},{speaker:'npc_fangyt',expression:'laugh',text:'（笑）七盆。整層樓都要有。'},
+      {label:'end'} ],
+    consequences:{flags:{POTHOS:true},stamp:['pothosDay']} },
+  /* 阿凱 K1：凌晨三點的螢幕（BB_95 3-2）。睡覺觸發（trigger:'sleep'：story3d.js 的 sleepNow 在睡著之後、天亮之前演，畫面是凌晨三點的房間）：
+     大一上第 3～4 週、平日晚上、隔天早上真的有課（「你明天早八」只在隔天有早上的課時出現：這裡直接當條件——課表最早的課是 9:10，「早八」這兩個字等 BB 確認）、只一次。
+     三個選項都會換鍵盤，不懲罰：說了＝隔天晚上（ev_kai_keyboard_quiet）；蓋棉被、戴耳塞＝一週後他自己發現（ev_kai_dark_circles），再隔天換。現有的「法無明文」（ev_dorm_late_kai）保留 */
+  { id:'ev_kai_late_screen', title:'凌晨三點的螢幕', participants:['kai'], location:'dorm', trigger:'sleep', term:['Y1S1'], weeks:[3,4], weekday:[1,2,3,4,5], time:[17.5,27], day_min:3, once:true, background:'blur',
+    prereq:{custom:G=>typeof CLS!=='undefined'&&CLS.dayItems(G,G.day+1).some(it=>!it.exam&&it.t0<12)},
+    dialogue:[ {speaker:null,text:'凌晨三點。阿凱的螢幕很亮，鍵盤很吵。你明天早八。'},
+      {choice:[{text:'「阿凱，我明天早八。」',set:{kaiScreenChoice:0},goto:'said'},{text:'（翻身，用棉被蓋住頭）',set:{kaiScreenChoice:1},end:true},{text:'（戴耳塞）',set:{kaiScreenChoice:2},end:true}]},
+      {label:'said'},{speaker:'kai',expression:'neutral',text:'（頭沒回）……喔。'} ],
+    consequences:{stamp:['kaiScreenDay']} },
+  /* K1 之後（蓋棉被、戴耳塞）：一週後的晚上，阿凱自己發現。要在房間裡（他的日程 18–32 在宿舍）*/
+  { id:'ev_kai_dark_circles', title:'黑眼圈', participants:['kai'], location:'dorm', trigger:'enter', npcPresent:'kai', time:[18,27], once:true, background:'blur',
+    prereq:{flagIs:{kaiScreenChoice:[1,2]},custom:G=>G.flags.kaiScreenDay!=null&&G.day>=G.flags.kaiScreenDay+7},
+    dialogue:[ {speaker:'kai',expression:'neutral',text:'你黑眼圈好重，是我嗎。'} ],
+    consequences:{stamp:['kaiDarkDay']} },
+  /* K1 之後換鍵盤：說了「我明天早八」的隔天晚上；或黑眼圈的隔天晚上。書桌下的盒子可以看（story3d.js 的 kaiBoxScene：看了才記 HELPED）*/
+  { id:'ev_kai_keyboard_quiet', title:'安靜的鍵盤', participants:[], location:'dorm', trigger:'enter', time:[18,27], once:true, background:'blur',
+    prereq:{custom:G=>{ const F=G.flags; return (F.kaiScreenChoice===0&&F.kaiScreenDay!=null&&G.day>=F.kaiScreenDay+1)||(F.kaiDarkDay!=null&&G.day>=F.kaiDarkDay+1); }},
+    dialogue:[ {speaker:null,text:'螢幕調暗了，鍵盤換成很安靜的一把。'} ],
+    consequences:{flags:{KAI_SILENT_KB:true}} },
   { id:'ev_dorm_late_kai', title:'半夜', participants:['kai'], location:'dorm', trigger:'enter', time:[23,26], day_min:3, cooldown_days:2, random_weight:0.7, background:'blur',
     dialogue:[ {speaker:'kai',expression:'neutral',text:'（頭沒回）欸，你回來了。我這個 bug 追到第三小時。'},{choice:[{text:'「去睡啦。」',consequences:{rel:{kai:{fam:1,comf:1}}}},{text:'「什麼 bug？」',consequences:{rel:{kai:{fam:2,trust:1}}},goto:'bug'},{text:'（戴上耳機）',consequences:{}}]},{goto:'end'},{label:'bug'},{speaker:'kai',expression:'tired',text:'一個值應該是 0 結果是 undefined。……你們法律系有這種東西嗎？'},{speaker:'player',text:'有。叫「法無明文」。'},{speaker:'kai',expression:'laugh',text:'幹，好爛。'},{label:'end'} ] },
   { id:'ev_library_closing', title:'閉館', participants:[], location:'library', trigger:'auto', time:[21.6,22.2], cooldown_days:1, background:'freeze',
