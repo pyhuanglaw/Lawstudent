@@ -10,6 +10,21 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-14 10:25 UTC（段落存檔；開發分支最新：這一筆交接的 commit；線上 v9.6＝`e88bda5`；v9.7 最後的候選＝候選 13 `69a6cdc`）**：
+- **v9.7 候選 12 `b223a31`、候選 13 `69a6cdc`**（本機分支 `rel/v97-rc12`、`rel/v97-rc13`，在 `scratchpad/wt_rc97`；bundle `wip_backup/v97-rc13.bundle`，前置候選 11 `836a1f6`）：
+  候選 12＝flow_bike 先推一下讓車頭轉正再量速度、失敗時結束碼 1（只改測試）；**候選 13＝index.html 的 script 版本號 9.6-1 → 9.7-1**（v9.6 候選 5f66b67 有做、v9.7 漏了：
+  30 個程式檔有改，版本字串不變的話手機可能拿到新頁面＋快取舊程式；拿掉版本字串後逐行相同）。遊戲程式＝候選 8 `3e5201d`。
+- **09:40 以後過的**：flow_course_choice（候選 11）ALL PASS；evtest——整批那 6 個 BAD（研究所三個事件演完 busy:true）單獨跑 6/6 OK，是整批跑的順序造成的，不是遊戲問題；
+  LAWWW2 `7f572c8`：flow_teaching_buildings、flow_soclib ALL PASS（候選 8）。
+  **跑中／還沒跑**：flow_bike（候選 12）→ deploy_check、p0（候選 13）→ flow_study_legal → 坐姿 → 試玩修正 → 社團 → 博雅 → 總圖兩支 → see_through → 其他（`scratchpad/q/queue.txt`）。
+  執行器 `bh624bnas` 10:16 換新的，12:16 到期（到期前用 queue.hold 換）。LAWWW2 還有：flow_first_meet（候選 8）、flow_lecture_attend（候選 9）、flow_discuss_class（候選 7）、campus_glb_integration。
+- **開發分支（下一版，瀏覽器都還沒看）**：`ab784c3` 阿哲、語彤兩句換成 AA 定稿；芷若好朋友的紙杯旁白（BB_120 1-2，對齊 Z1）；語彤雨天之後在麵店給聯絡方式（AA_70）；
+  麵店「圖書館那天之後…」條件修正（給過傘的人不會連問兩句）。`43ac7b7` **邀約的個性第一段**（`INVITE_DATA.people`，13 人被邀約時的台詞與個人規則；`tests/invite_people_unit.js` 37 項）。
+  還沒做：邀約第二段（一起走路聊什麼：芷若猜電影、子晴 TOLD_HER_CHANGE）、BB_120 其他「固定的改變」（子晴／沛珊的訊息樣子、阿凱宵夜與評鑑表、方奕廷學名、澆水一週——多數要 BB 補具體台詞）。
+- **等使用者**：AA 的五個問題（會不會被當、讀書的影響、健身房 A/B/C、節日邀約與生日、節日 CG 七張）；v6「不只跟一個女生交往」（第③級）。
+- **如果這個工作階段在發布前中斷**：從 bundle 取出 `rel/v97-rc13`（依序 fetch rc9→rc10→rc11→rc13 的包），把「跑中／還沒跑」的跑完，全過才把 main 快轉到候選 13（不 force）；
+  發布後跑 `scratchpad/finish_release_v97.py`（`wip_backup/release_v96_v97/` 有備份；LATER_RC 用 `later_rc_v97.txt`）。D71：v9.7 不受三小時限制。
+
 **2026-10-14 09:40 UTC（段落存檔；開發分支最新：這一筆交接的 commit；線上 v9.6＝`e88bda5`；v9.7 最後的候選＝候選 11 `836a1f6`）**：
 - **v9.7 候選 10 `11bdf50`、候選 11 `836a1f6`**（本機分支 `rel/v97-rc10`、`rel/v97-rc11`，在 `scratchpad/wt_rc97`；bundle `wip_backup/v97-rc10.bundle`〔rc5／rc8／rc9／rc10〕，rc11 在下一個 bundle）：只改測試，遊戲程式＝候選 8。
   候選 10：flow_bike——上車時鏡頭對著男一舍的牆，推搖桿往前撞牆只走 2.3 m（測試量到 1.15 m/s）；校門寫死 (-122.5,0) 離出口 3.5 m（範圍 3 m）→ 改成先把鏡頭轉向最空的方向、校門照遊戲裡出口的位置。
