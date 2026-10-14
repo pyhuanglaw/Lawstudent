@@ -28,7 +28,7 @@ STYLE = dict(KNIT_RGB=LAV, TROUSER_RGB=NAVY, LEATHER_RGB=np.array([62, 40, 30]) 
 # 高度寫在芯慈身上（Darkness Shibu 樣本的單位：身高 1.632，遊戲裡 160 cm）
 STYLE_M = dict(PANTS_TOP=1.050, PANTS_BAND=1.022, KNIT_HEM=0.945, KNIT_HEM_TOP=0.975, BACK_NECK_Z=1.388,
                CREW_FRONT_Z=1.322,     # 開襟衫圓領的前中心（只有敞開兩旁的領口用得到：前襟最上面在鎖骨附近）
-               TEE_CREW_Z=1.358)       # 白 T 圓領的前中心（比開襟衫的領口高，參考圖看得到 T 恤的圓領）
+               TEE_CREW_Z=1.345)       # 白 T 圓領的前中心（比開襟衫的領口高，參考圖看得到 T 恤的圓領；第五版從 1.358 降一點）
 OPEN_PHI = 31.0      # 開襟衫敞開：身片 64 個方向的環，離正前方 31° 以內的格子不做（每格 5.625°）
 SIDE_NECK_M = (0.071, 1.402)
 SKIRT = dict(z_top=1.050, z_band=1.022, z_hip=0.885, z_hem=0.470, hem_rx=0.255, hem_ry=0.215, n_dir=48)
@@ -157,11 +157,9 @@ def tee_full(skin, arm, mb, z_bottom, crew_front):
     Kd = 48; th = np.arange(Kd) * 2 * math.pi / Kd - math.pi / 2; dirs = np.stack([np.cos(th), np.sin(th), np.zeros(Kd)], -1)
     fa = np.abs((np.degrees(th + math.pi / 2) + 180) % 360 - 180)           # 離正前方幾度
     sn = K.SIDE_NECK
-    sn_z = sn[1] - 0.008; back_z = K.BACK_NECK_Z - 0.006           # 圓領在脖子根部（第三版照開襟衫的側頸點，正面看像高領）
+    sn_z = sn[1] - 0.026; back_z = K.BACK_NECK_Z - 0.020           # 圓領在脖子根部、貼著身體（第三版照開襟衫的側頸點，正面看像高領；第四版硬撐開成橢圓，像一圈白色的盤子）
     ZN = np.array([back_z + (sn_z - back_z) * abs(math.cos(t)) ** 1.5 if math.sin(t) >= -0.05
                    else crew_front + (sn_z - crew_front) * abs(math.cos(t)) ** 1.8 for t in th])
-    # 領口的開口：脖子根部的橢圓（左右半寬 7.6 cm、往前 6.6 cm、往後 6.2 cm）——領口最上面幾圈至少這麼大，不會像高領貼著脖子
-    ELL = np.array([1.0 / math.sqrt((math.cos(t) / 0.076) ** 2 + (math.sin(t) / (0.066 if math.sin(t) < 0 else 0.062)) ** 2) for t in th])
     def ring_r(zk, ease):
         rr = np.array([K.Skin.outer(bv, (0, float(YC(zk[k])), zk[k]), dirs[k], 0.40) for k in range(Kd)], float)
         bad = ~np.isfinite(rr)
@@ -185,7 +183,7 @@ def tee_full(skin, arm, mb, z_bottom, crew_front):
     NT = 8
     for j in range(1, NT + 1):
         f = j / NT; zk = z_split + (ZN - z_split) * f
-        r = ring_r(zk, 0.004 + 0.003 * f); r = np.maximum(r, ELL * (0.85 + 0.15 * f) * float(K.sstep(0.4, 1.0, f)))
+        r = ring_r(zk, 0.004 + 0.003 * f)
         rows.append(np.stack([dirs[:, 0] * r, YC(zk) + dirs[:, 1] * r, zk], -1))
         dz = ZN - zk; vrow.append(np.where(dz < 0.013, 0.80 + 0.15 * (1 - dz / 0.013), 0.70))   # 領口最上面 1.3 cm：羅紋
     top = rows[-1]; ctr = np.stack([np.zeros(Kd), YC(top[:, 2]), top[:, 2]], -1); dxy = top - ctr; dxy[:, 2] = 0
@@ -199,6 +197,33 @@ def tee_full(skin, arm, mb, z_bottom, crew_front):
     mb.grid(I, UV, closed=True, mat=3, centers=np.array(cens))
     print('  tee: rows %d dirs %d, bottom z %.3f, bust z %.3f, crew front z %.3f, side neck z %.3f' % (NR, Kd, z_bottom, z_bust, crew_front, sn[1]))
     return rows
+
+
+def conform_under(body, cl, mat_idx, z_lo, z_hi, inset=0.003, slack=0.001, max_move=0.015):
+    """白 T 底下的皮膚：從軀幹中心線往外打，軀幹的皮膚點如果在白 T 外面（或離 T 恤不到 1 mm），拉回到 T 恤裡面 3 mm。
+    第五版：上胸、肩膀附近幾塊皮膚從 T 恤穿出來（正面看像兩個粉紅色的眼睛）。只動軀幹骨頭權重 ≥ 0.8 的點（手臂、肩膀不動），一次最多 1.5 cm"""
+    from mathutils.bvhtree import BVHTree
+    me = cl.data; Mc = np.array(cl.matrix_world)
+    P = np.empty(len(me.vertices) * 3); me.vertices.foreach_get('co', P); P = P.reshape(-1, 3) @ Mc[:3, :3].T + Mc[:3, 3]
+    F = [list(p.vertices) for p in me.polygons if p.material_index == mat_idx]
+    T = P[np.unique(np.concatenate([np.array(f) for f in F]))]
+    bv = BVHTree.FromPolygons(P.tolist(), F)
+    Mb = np.array(body.matrix_world); co = C.co(body); W = co @ Mb[:3, :3].T + Mb[:3, 3]
+    torso = C.vgroup_weights(body, {'J_Bip_C_Hips', 'J_Bip_C_Spine', 'J_Bip_C_Chest', 'J_Bip_C_UpperChest', 'J_Bip_C_Neck'} | set(K.BUST))
+    moved = 0
+    for i in np.nonzero((W[:, 2] > z_lo) & (W[:, 2] < z_hi) & (torso >= 0.8))[0]:
+        w = W[i]; band = T[np.abs(T[:, 2] - w[2]) < 0.012]
+        if len(band) < 8: continue
+        o = np.array([0.0, 0.5 * (band[:, 1].min() + band[:, 1].max()), w[2]])
+        d = w - o; d[2] = 0.0; L = float(np.linalg.norm(d))
+        if L < 1e-4: continue
+        d /= L; hit = bv.ray_cast(Vector(o), Vector(d), L + 0.05)
+        if hit[0] is None: continue
+        dist = float((np.array(hit[0]) - o) @ d)
+        if dist < L + slack and L - (dist - inset) < max_move:
+            W[i] = o + d * max(0.0, dist - inset); W[i][2] = w[2]; moved += 1
+    C.set_co(body, (W - Mb[:3, 3]) @ np.linalg.inv(Mb[:3, :3]).T)
+    return moved
 
 
 def drop_loose(obj):
@@ -256,6 +281,7 @@ def _apply(m, arm, body, wsrc_skirt):
     (arm.users_collection[0] if arm.users_collection else bpy.context.scene.collection).objects.link(obj)
     C.bind(obj, arm, K.weights_dict(skin, W))
     print('  dropped loose verts (open front)', drop_loose(obj))
+    print('  body pulled under the tee', conform_under(body, obj, 3, SKIRT_REF['z_top'] - 0.025, K.TEE_CREW_Z + 0.065))
     me = obj.data; tris = {}
     for p in me.polygons: tris[p.material_index] = tris.get(p.material_index, 0) + len(p.vertices) - 2
     print('  clothes: verts %d faces %d (bad %d) tris knit %d skirt %d loafer %d tee %d' % (len(me.vertices), len(me.polygons), bad, tris.get(0, 0), tris.get(1, 0), tris.get(2, 0), tris.get(3, 0)))

@@ -3,10 +3,11 @@
   proc＝現在的遊戲（程序化的湖、現在的導航）
   glb ＝正式模型（lake_fallback 藏起來）＋建議的導航（亭子 2.0 m＋柱子的格子擋起來）＋木棧道、亭子的地板高度 0.05（腳不沉進木板）
   glb_st＝glb＋亭子屋頂、橫梁的材質加「樹幹透視」（擋住鏡頭和人的時候網點透空）
+  final＝交給 LAWWW 的完整接法（patches/lake_integration_3f3d56a.patch：攔截 zones3d.js 與 assets3d.js，遊戲自己載入 campus_lake.glb，不在頁面裡注入）
 真實操作：點地移動（PL.go_to：和玩家一樣點畫面，走不動才用搖桿），不瞬移、不用 ?turbo；讀檔到湖南岸步道是 [前置]，關掉條件事件。
 Playwright＋SwiftShader 手機模擬（iPhone 844×390 橫向、390×844 直向），不是 iPhone 實機。
 用法：python3 lake_integration_check.py <網址> <輸出資料夾> <proc|glb|glb_st> [patched zones3d.js] [campus_lake.glb]"""
-import asyncio, json, math, os, sys, time
+import asyncio, json, math, os, re, sys, time
 LAWWW = os.environ.get('LAWWW_WT', '/home/user/lawwwtip_wt')
 sys.path.insert(0, os.path.join(LAWWW, 'tests'))
 import playlib as PL   # noqa: E402
@@ -15,6 +16,7 @@ from playwright.async_api import async_playwright   # noqa: E402
 URL, OUT, VAR = sys.argv[1], sys.argv[2], sys.argv[3]
 ZJS = sys.argv[4] if len(sys.argv) > 4 else None
 GLBF = sys.argv[5] if len(sys.argv) > 5 else None
+AJS = sys.argv[6] if len(sys.argv) > 6 else None          # final：改過的 assets3d.js（manifest 加 bldg.campus_lake）
 os.makedirs(OUT, exist_ok=True)
 CX, CZ = -36.0, -112.0                       # 方案 A 的湖中心（zones3d.js lake(g,nav,-36,-112,…)）
 PX, PZ, PR = CX - 3, CZ + 0.6, 2.7
@@ -27,9 +29,10 @@ RAIL_IN = 1.055 if VAR != 'proc' else 0.77   # 木棧道欄杆內側離中線（
 INJECT = """(async()=>{ const L=new THREE_JSM.GLTFLoader.GLTFLoader(); const g=await new Promise((res,rej)=>L.load('assets/models/env/second_ai/campus_lake.glb',res,undefined,rej));
   const z=GAME.E.zone, o=g.scene; o.name='campus_lake_glb'; o.position.set(%f,0,%f); z.group.add(o);
   let hid=0; z.group.traverse(m=>{ if(m.name==='lake_fallback'){ m.visible=false; hid=m.children.length; } });
-  o.traverse(m=>{ if(m.isMesh){ m.castShadow=!/rock|rim/.test(m.material.name||''); m.receiveShadow=true; } });
-  if(%s){ let n=0; o.traverse(m=>{ if(m.isMesh&&/lake_pavilion_(tile|soffit|gold|teal|red)/.test(m.material.name||'')&&GAME.E.patchSeeThrough){ m.material.userData.seeThrough=true; GAME.E.patchSeeThrough(m.material); n++; } }); window.__st=n; }
+  o.traverse(m=>{ if(m.isMesh){ m.castShadow=!/lake_rim|lake_rocks/.test(m.name); m.receiveShadow=true; } });
+  if(%s){ let n=0; o.traverse(m=>{ if(m.isMesh&&/lake_pavilion_(tile|soffit|gold|teal|red)/.test(m.name)&&GAME.E.patchSeeThrough){ m.material.userData.seeThrough=true; GAME.E.patchSeeThrough(m.material); n++; } }); window.__st=n; }
   return {hid, meshes:(()=>{ let n=0; o.traverse(m=>{ if(m.isMesh) n++; }); return n; })()}; })()""" % (CX, CZ, 'true' if VAR == 'glb_st' else 'false')
+WAIT_GLB = "(async()=>{ for(let i=0;i<240;i++){ const o=GAME.E.zone.group.getObjectByName('campus_lake_glb'); if(o) { const fb=GAME.E.zone.group.getObjectByName('lake_fallback'); let st=0; o.traverse(m=>{ if(m.isMesh&&m.material.userData.seeThrough) st++; }); return {i, fbVisible:fb?fb.visible:null, seeThrough:st}; } await new Promise(r=>setTimeout(r,250)); } return null; })()"
 TRACK = """(()=>{ window.__trk=[]; const E=GAME.E; E.addExtra({obj:new THREE.Group(), update(){ const p=E.player.obj.position; window.__trk.push([+p.x.toFixed(3),+p.y.toFixed(3),+p.z.toFixed(3)]); }}); return true; })()"""
 # 鏡頭到人（頭、胸）之間被湖的網格擋住嗎（正式模型：campus_lake_glb；程序化：lake_fallback 以外的湖心亭網格合併在區域裡，用顏色找）
 OCC = """(()=>{ const E=GAME.E, cam=E.camera, p=E.player.obj.position; const tg=[]; const o=E.zone.group.getObjectByName('campus_lake_glb');
@@ -48,10 +51,13 @@ class Run:
 async def route(pg):
     if ZJS:
         body = open(ZJS, 'rb').read()
-        await pg.route('**/src/zones3d.js', lambda r: r.fulfill(status=200, body=body, headers={'content-type': 'application/javascript; charset=utf-8'}))
+        await pg.route(re.compile(r'.*/src/zones3d\.js(\?.*)?$'), lambda r: r.fulfill(status=200, body=body, headers={'content-type': 'application/javascript; charset=utf-8'}))
+    if AJS:
+        ab = open(AJS, 'rb').read()
+        await pg.route(re.compile(r'.*/src/assets3d\.js(\?.*)?$'), lambda r: r.fulfill(status=200, body=ab, headers={'content-type': 'application/javascript; charset=utf-8'}))
     if GLBF:
         gb = open(GLBF, 'rb').read()
-        await pg.route('**/assets/models/env/second_ai/campus_lake.glb', lambda r: r.fulfill(status=200, body=gb, headers={'content-type': 'model/gltf-binary'}))
+        await pg.route(re.compile(r'.*/assets/models/env/second_ai/campus_lake\.glb(\?.*)?$'), lambda r: r.fulfill(status=200, body=gb, headers={'content-type': 'model/gltf-binary'}))
 
 
 def stats(trk, cols):
@@ -87,7 +93,8 @@ async def main():
         await pg.goto(URL); res['loaded'] = await PL.wait_loaded(pg)
         await PL.load_state(pg, {'zone': 'campus', 'hour': 13.0, 'pos': {'x': PX, 'z': CZ + 14.6, 'lv': 0, 'yaw': 0.0}}, quiet_events=True)
         await PL.advance_dialogs(pg, cdp, run, lambda st: not st['dlg'] and not st['choices'], max_steps=30)
-        if VAR != 'proc': res['inject'] = await pg.evaluate(INJECT)
+        if VAR == 'final': res['attach'] = await pg.evaluate(WAIT_GLB)
+        elif VAR != 'proc': res['inject'] = await pg.evaluate(INJECT)
         await pg.evaluate(TRACK); await pg.wait_for_timeout(1500)
         await pg.screenshot(path=f'{OUT}/lake_{VAR}_start.png')
         for nm, x, z in WPS:
@@ -104,9 +111,11 @@ async def main():
         # 直向：亭子中間（讀檔到亭子中間是 [前置]）
         b, ctx, pg, cdp, errs = await PL.launch(p, landscape=False)
         await route(pg); await pg.goto(URL); await PL.wait_loaded(pg)
+        if await pg.evaluate("(()=>{ const e=document.getElementById('rotate'); return !!(e&&e.offsetParent); })()"): await PL.tap(pg, cdp, '#rotate')   # 「請把手機轉成橫向（或直接點這裡繼續直向遊玩）」：點一下繼續直向
         await PL.load_state(pg, {'zone': 'campus', 'hour': 13.0, 'pos': {'x': PX, 'z': PZ + 0.8, 'lv': 0, 'yaw': 0.0}}, quiet_events=True)
         await PL.advance_dialogs(pg, cdp, run, lambda st: not st['dlg'] and not st['choices'], max_steps=30)
-        if VAR != 'proc': await pg.evaluate(INJECT)
+        if VAR == 'final': await pg.evaluate(WAIT_GLB)
+        elif VAR != 'proc': await pg.evaluate(INJECT)
         await pg.wait_for_timeout(2500); res['occlusion']['portrait_pav'] = await pg.evaluate(OCC)
         await pg.screenshot(path=f'{OUT}/lake_{VAR}_portrait_pav.png')
         res['errors_portrait'] = errs[:5]
