@@ -32,7 +32,7 @@
    0.6
   ],
   "r": 2.7,
-  "deck_y": 0.02,
+  "deck_y": 0.05,
   "col_r": 2.3,
   "eave_r": 3.45,
   "apex_y": 4.7299999999999995
@@ -46,7 +46,7 @@
    2.9000000000000004,
    13.4
   ],
-  "deck_y": 0.02
+  "deck_y": 0.05
  },
  "rocks": 17,
  "hide_in_game": "lake() 的程序化湖岸（rim）、湖心亭（deck、6 根柱、beam、roof、eave、fin）、木棧道（bw、兩條 rail、posts、piles）；水面、睡蓮、草叢、樹、長椅、路燈留著",

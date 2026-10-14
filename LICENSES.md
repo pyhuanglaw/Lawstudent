@@ -54,8 +54,9 @@
 | `red_brick`（萬才館） | 四～八樓偏橘的淺紅磚 | `wancai_exterior.glb` |
 | `granite_tile_03`、`painted_plaster_wall`、`ceiling_interior`、`fine_grained_wood`、`wood_table_001`、`fabric_leather_02`（萬才館室內） | 牆腳 1.2 m、方柱、樓板邊、樓梯踏面（花崗石）；米色粉光牆、二樓樓板底面；天花板；木門、長椅、踢腳板；圓桌桌面；深綠色沙發（皮紋染色）。地板的磨石子見下面 `terrazzo_tiles` 那一列 | `wancai_interior.glb` |
 | `granite_tile_03`、`painted_plaster_wall`、`ceiling_interior`、`fine_grained_wood`、`fabric_leather_02`（總圖大廳） | 花崗石：柱子、樓板邊收邊、閘門台座、樓梯踏面與平台（深一點）；米色粉光牆、樓板底面、樓梯中間的矮牆；天花板；淺色木：自習區的椅子、新書展示桌；深棕皮沙發、單人沙發。地板的磨石子、人字拼木地板、胡桃木見下面 `terrazzo_tiles`、`herringbone_parquet`、`walnut_veneer` | `library_interior.glb` |
+| `granite_tile`、`ceiling_interior`（第二個 AI：法律學院圖書館、總圖 3F 閱覽區、醉月湖） | 法律學院圖書館一樓地磚；3F 閱覽區的礦纖天花板；醉月湖湖心亭的花崗石平台與柱珠 | `lawlib_interior.glb`、`library_3f.glb`、`campus_lake.glb` |
 
-（`tools/blender/textures/` 裡其他下載過、還沒用到的材質：`granite_tile`、`granite_tile_02`、`granite_wall`、`grey_plaster_02`、`floor_tiles_06`、`concrete_floor_02`，同樣是 Poly Haven CC0；用到時補進上表。）
+（`tools/blender/textures/` 裡其他下載過、還沒用到的材質：`granite_tile_02`、`granite_wall`、`grey_plaster_02`、`floor_tiles_06`、`concrete_floor_02`，同樣是 Poly Haven CC0；用到時補進上表。）
 
 ## 本作自製的 3D 模型（Blender 腳本，2026-10-10 起）
 
@@ -112,6 +113,10 @@
 | 桌上小物 `assets/models/env/second_ai/desk_props.glb`（筆記本（攤開／闔起）、六法（闔起／攤開）、教科書、筆電（打開／闔起）、手機（亮／暗）、原子筆、螢光筆、筆袋、紙杯、保溫瓶；講堂／自習桌／圓桌／手上的組合＋LOD1） | 本作 Blender 腳本 `tools/blender/env_second/desk_props.py`（網格與 UV 用程式產生）；貼圖集 `tools/blender/env_second/textures/gen/desk_props_{atlas,orm,emit}.png` 全部程式畫（PIL）：手寫筆記、書頁、螢幕畫面、封面。字形用系統字型 **WenQuanYi Zen Hei**（GPL-2.0，附字型嵌入例外）畫成點陣圖，**沒有附字型檔**；六法頁面的條文是《中華民國刑法》第 1–4、12–14 條原文（**著作權法第 9 條：法律不是著作權的標的**）。手上東西的位置 `tools/blender/env_second/data/seated_hands.json`（`seated_hands.py` 從上一列的替身算出） | 本作 | 博雅 101、教學館自習區（LAWWW 接；還沒接） |
 | 社團博覽會攤位 `assets/models/env/second_ai/club_fair.glb`（九個攤位：登山社、法服、服務台、吉他社、辯論社、系籃、三個不具名的背景攤；折疊帳篷、背板、桌巾、易拉展、傳單、各社的道具） | 本作 Blender 腳本 `tools/blender/env_second/club_fair.py`（網格與 UV 用程式產生，共用 `pmesh.py`）；貼圖集 `tools/blender/env_second/textures/gen/club_fair_{atlas,orm}.png` 全部程式畫（PIL）：社名、標語、簡化插圖。社名照遊戲 `src/data/activities.js` 的社團名稱（虛構的社團資料）；字形用系統字型 **WenQuanYi Zen Hei**（GPL-2.0，附字型嵌入例外）畫成點陣圖，**沒有附字型檔**；沒有用照片或別人的海報 | 本作 | 椰林大道南側（9/30、10/1；LAWWW 接；還沒接） |
 | 系籃半場 `assets/models/env/second_ai/bball_court.glb`（FIBA 半場：鋪面、場線、籃架、籃板、籃框、籃網；場邊長椅、籃球、水壺） | 本作 Blender 腳本 `tools/blender/env_second/bball_court.py`（網格、場線都是程式產生的網格）；貼圖 `tools/blender/env_second/textures/gen/bball_{atlas,orm}.png` 是程式畫的純色格（加細顆粒），沒有照片；尺寸照 FIBA 規則的公開數字 | 本作 | 校園（位置等使用者確認；LAWWW 接；還沒接） |
+| 總圖書館 3F 閱覽區 `assets/models/env/second_ai/library_3f.glb`（長桌、閱覽椅、檯燈、書櫃、窗、樓梯間的門、牌子） | 本作 Blender 腳本 `tools/blender/env_second/library_3f.py`（網格與 UV 用程式產生）；書背圖集與牌子 `tools/blender/env_second/lib3f_atlas.py` → `textures/gen/lib3f_books.png`、`lib3f_signs.png` 全部程式畫（書名只寫科目或一般書名、期刊名是一般的詞、索書號照中國圖書分類法；字形用系統字型 **WenQuanYi Zen Hei**（GPL-2.0，附字型嵌入例外）畫成點陣圖，**沒有附字型檔**）；牆的粉光 `textures/gen/l3_plaster.png`＝Poly Haven `white_plaster_02`（CC0）降低對比改作；其他貼圖 Poly Haven CC0（`herringbone_parquet`、`walnut_veneer`、`ceiling_interior`） | 本作；貼圖 CC0 | 總圖 3F 閱覽區（LAWWW 接；還沒接） |
+| 醉月湖 `assets/models/env/second_ai/campus_lake.glb`（石砌湖岸、置石、湖心亭、木棧道） | 本作 Blender 腳本 `tools/blender/env_second/campus_lake.py`（網格與 UV 用程式產生；外形照遊戲 `src/zones3d.js` 的 `lake()`）；貼圖 Poly Haven CC0（`japanese_stone_wall`、`mossy_rock`、`granite_tile`、`dark_planks`、`dark_wood`）；屋瓦是本作程式產生的 `jp_kawara` | 本作；貼圖 CC0 | 校園醉月湖（LAWWW 接；還沒接） |
+| Poly Haven `japanese_stone_wall`（Rico Cilliers、Charlotte Baglioni、Dario Barresi） | https://polyhaven.com/a/japanese_stone_wall | CC0 | 醉月湖的石砌湖岸 |
+| Poly Haven `mossy_rock`（Rob Tuytel） | https://polyhaven.com/a/mossy_rock | CC0 | 醉月湖的置石 |
 | Poly Haven `long_white_tiles`（Jenelle van Heerden、Sergej Majboroda） | https://polyhaven.com/a/long_white_tiles | CC0 | 溫州街公寓的長條磁磚外牆、騎樓柱子 |
 | Poly Haven `rounded_square_tiled_wall`（Charlotte Baglioni） | https://polyhaven.com/a/rounded_square_tiled_wall | CC0 | 溫州街公寓的小方塊馬賽克外牆 |
 | Poly Haven `painted_metal_shutter`（Charlotte Baglioni、Dario Barresi、Rico Cilliers） | https://polyhaven.com/a/painted_metal_shutter | CC0 | 溫州街公寓一樓的鐵捲門 |
