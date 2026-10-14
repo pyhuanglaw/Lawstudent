@@ -22,7 +22,7 @@ import x_xinci_clothes as XC
 
 SHIRT_RGB = np.array([244, 244, 246]) / 255.0       # 襯衫底色（參考圖：白，陰影偏淡紫灰）
 STRIPE_RGB = np.array([150, 168, 206]) / 255.0      # 細條紋（淺藍）
-JACKET_RGB = np.array([132, 156, 188]) / 255.0      # 外套：淺色刷色牛仔布（參考圖受光面 #9fb3c9、陰影 #6f84a2）
+JACKET_RGB = np.array([150, 168, 192]) / 255.0      # 外套：淺色刷色牛仔布（參考圖受光面 #9fb3c9、陰影 #6f84a2；第二版：第一版 (132,156,188) 在遊戲裡太藏青、太飽和）
 JEANS_RGB = np.array([156, 176, 200]) / 255.0       # 牛仔褲：比外套再淺一點（參考圖 #a9bccf）
 SHOE_RGB = np.array([30, 30, 34]) / 255.0           # 黑色帆布鞋
 SOLE_RGB = np.array([234, 232, 226]) / 255.0        # 白鞋底（有點舊）
@@ -57,7 +57,7 @@ def denim_jacket_texture(rgb, S=1024, seed=31):
     """牛仔外套：右斜紋＋縱向紗線粗細不均＋刷色斑駁；v 0.75 以上（下擺帶、袖口）深一點、兩道橘棕色車縫線"""
     rng = np.random.default_rng(seed)
     v = (np.arange(S)[::-1] + 0.5)[:, None] / S; u = (np.arange(S) + 0.5)[None, :] / S
-    lum = 1.0 + (K._noise(rng, S, S, 3) - 0.5) * 0.12 + (K._noise(rng, S, S, 28) - 0.5) * 0.06
+    lum = 1.0 + (K._noise(rng, S, S, 3) - 0.5) * 0.16 + (K._noise(rng, S, S, 28) - 0.5) * 0.06   # 刷色斑駁（第二版加大）
     lum += 0.05 * np.cos(2 * math.pi * (u * S / 2.5 - v * S / 2.5)) + (K._noise(rng, 1, S, 2)[0][None, :] - 0.5) * 0.06
     edge = v > 0.75
     lum = np.where(edge, lum * 0.92, lum)

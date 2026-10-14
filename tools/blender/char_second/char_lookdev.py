@@ -3,17 +3,18 @@
 在 props3d.js 後面加一個 manifest 項目（照 --base 那個人物的設定、換成這個 VRM、身高 --height），VRM 從本機檔案送出。
 用法：python3 char_lookdev.py <網址根> <VRM 檔> <輸出資料夾> [idle|walk|sit|tpose] --base char.zhe --height 1.78 --tag zhe [--props backpack]
   --props 也可以是 JSON（配件有參數時），例如 '[{"name":"glasses","glb":"prop.glasses_bohan"},"backpack"]'；
+  --blchar：網址加 &blchar（開發分支：沒有它時 blOnly 的人物不在 manifest 裡，--base 用它們會失敗）
   --asset key=網址：多加一個 lazy 的配件 GLB（例如 prop.glasses_bohan=assets/models/char/second_ai/glasses_bohan.glb；伺服器要有這個檔案，props3d 要套眼鏡 patch）
 （芯慈用 xinci_lookdev.py；這支是一般化的版本）"""
 import asyncio, json, os, re, sys
 from playwright.async_api import async_playwright
 ROOT, VRM, OUT = sys.argv[1].rstrip('/'), sys.argv[2], sys.argv[3]
 MODE = sys.argv[4] if len(sys.argv) > 4 and not sys.argv[4].startswith('--') else 'idle'
-OPT = {sys.argv[i]: sys.argv[i + 1] for i in range(1, len(sys.argv) - 1) if sys.argv[i].startswith('--')}
+OPT = {sys.argv[i]: sys.argv[i + 1] for i in range(1, len(sys.argv) - 1) if sys.argv[i].startswith('--') and sys.argv[i] != '--blchar'}
 BASE, HEIGHT, TAG = OPT.get('--base', 'char.zhe'), float(OPT.get('--height', '1.70')), OPT.get('--tag', 'char')
 PROPS = json.loads(OPT['--props']) if OPT.get('--props', '').startswith('[') else [p for p in OPT.get('--props', '').split(',') if p]
 EXTRA = dict(a.split('=', 1) for a in [sys.argv[i + 1] for i in range(1, len(sys.argv) - 1) if sys.argv[i] == '--asset'])
-QS = {'tpose': '&tpose=1', 'walk': '&pose=walk&speed=1.4', 'sit': '&pose=sit'}.get(MODE, '')
+QS = {'tpose': '&tpose=1', 'walk': '&pose=walk&speed=1.4', 'sit': '&pose=sit'}.get(MODE, '') + ('&blchar' if '--blchar' in sys.argv else '')   # --blchar：開發分支（2026-10-14 起）沒有 ?blchar 時會把 blOnly 的人物（芯慈等）從 manifest 拿掉
 VIEWS = {'walk': ('body_front', 'body_q45', 'body_side'), 'sit': ('body_front', 'body_q45', 'body_side', 'hips_side')}.get(MODE, ('face_front', 'face_q45', 'face_side', 'body_front', 'body_q45', 'body_back'))
 URL = 'assets/models/char/second_ai/_lookdev_%s.vrm' % TAG
 os.makedirs(OUT, exist_ok=True)
