@@ -12,3 +12,4 @@
 | 檔案 | CG | 遊戲 key | 事件 | 檢查 | 備註 |
 |---|---|---|---|---|---|
 | `cg_library_rain_heroine03.webp` | CG-1 雨天的總圖門口（語彤） | `cg_library_rain_heroine03`（已登錄，現有路徑 `assets/cg/heroine_03/event_rain_library.webp`） | `ev_rain_library_door`（已在遊戲裡） | **通過**（BB 2026-10-14，`ART_APPROVED`） | 1672×941，要放大到 1920×1080。語彤手腕的髮圈這張沒有，CG-6 再加 |
+| `cg_own_drink_heroine02.webp` | BCG-04 妳自己喝什麼（芷若） | `cg_own_drink_heroine02`（LAWWW 可以改名） | Z3 `ev_zhiruo_own_drink`（交接包 v2，**還沒批准實作**，先放著） | **通過**（BB 2026-10-14，`ART_APPROVED`） | 1672×941。抹布是拿在手上，不是停在吧檯上，沒關係。手機直拿時，對話框會蓋到手和抹布，臉看得到 |
