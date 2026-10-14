@@ -10,6 +10,30 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-14 04:16 UTC（開發分支最新 `bc02c5d`；線上 v9.5＝`a4f2760`，main 沒動；v9.6 候選 7 `e2c4f10` 在跑發布回歸）**：
+- **v9.6 發布回歸**：候選都是本機分支（備份 `wip_backup/v96-rc7.bundle`）。
+  - 候選 4 `1c62e0a`＝7223e75 課堂法律內容閘門＋playlib 跨樓層。
+  - 候選 5 `709eb53`＝playlib 點擊前捲動。
+  - 候選 6 `83ff81b`＝flow_teaching_buildings 用本體判斷。
+  - 候選 7 `e2c4f10`＝生活費改成企劃的遊戲數值，遊戲程式只差金額。
+  - 已過：flow_class_real、flow_boya_interior、flow_course_choice、flow_teaching_buildings。佇列在 `scratchpad/q`，04:13 起 hold，flow_soclib 跑完就換新的執行器；剩 29 項。
+  - campus_layout_nav、campus_glb_integration 在乾淨版就失敗（LAWWW2 查過：測試清單沒跟上大一女舍），已請 LAWWW2 做只改 tests/ 的 patch。
+- **開發分支新增（不在 v9.6）**：
+  - `6d6387e`：生活費改成虛構的遊戲數值（每月 30,000，AA_72 5b-1；已回 AA）。
+  - 第 9 批 `74741c4`、`06e94eb`、`cd9afb8`、`456a7c4`：AA、BB 10-14 的答案，包括改字、通識群組回覆、Kevin 四支影片、麵店團「沒來才揪」、A13、A15 宵夜、A16 翰 1、A17，以及課表重新匯入（照 BB_115 一週一週開，514/706）。
+  - `37427dd`：CG-1 第二版。
+  - `40f1d63`：merge LAWWW2＋醉月湖／行道樹／球場博覽會備用／芷若眼鏡 patch，阿哲、芯慈 Blender VRM 只在 ?blchar。
+  - `bc02c5d`：總圖 3F 正式模型。
+  - 全部只跑了 Node 單元測試，瀏覽器還沒看。
+- **等別人**：
+  - AA：A15「（不說話）」選項、條列改成的旁白字句、A20 聖誕的內容、以安「你的聯絡方式給我」那句。
+  - BB：杜可昕的參考圖、K4 視訊、生日。
+  - LAWWW2：ACK、測試 patch。
+- **下一步**：
+  1. 重啟執行器，跑完 v9.6 回歸；全過就快轉 main（第一次發布 v9.6，離 v9.5 已超過 3 小時）。
+  2. merge main 回開發分支，整理 playlib 和課表閘門的重複部分。
+  3. 開發分支的瀏覽器回歸，加上給 BB 的人物與 CG 截圖。
+
 **2026-10-14 01:15 UTC（開發分支最新 `b5b9b10`；線上 v9.5＝`a4f2760`，main 沒動；v9.6 候選 3 `a6c3d1a` 還在跑發布回歸）**：
 - **v9.6 發布回歸**：`flow_class_real`、`flow_main_day12`、`flow_playtest_fixes` 的 D 段（追人 rounds=30）通過；`flow_playtest_fixes` 的 A、B、C、E 段之前已過，最後還會整個重跑一次（`flow_playtest_fixes_full`）。
   - `flow_course_choice` 失敗＝測試取樣問題：打字機效果打到一半時取樣，拿到「選課結果出來」（少了「了」），下一次取樣已經是下一句。遊戲有說那句話、也問了要不要修。`e9b6042` 改成讀整句（`GAME.D.full`），判斷標準不變；發布用的那一份在 `scratchpad/reltests/`，重跑中。
