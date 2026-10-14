@@ -5,7 +5,21 @@
 交班紀錄：2026-10-11 10:13 UTC 交班（`1f20126`）→ 2026-10-13 回到帳號 A。
 使用者 2026-10-13：帳號 B 暫時沒有開，從上次停下來的地方接著做。
 
-**2026-10-14 06:1xZ（最新）**：
+**2026-10-14 06:4xZ（最新）**：
+- **LAWWW 06:09Z 更正（ACK 已回）**：先幫 v9.6 收尾，再做 v9.7。
+  - v9.6 候選 13 `ba435d5`（bundle 在開發分支 `wip_backup/v96-rc13.bundle`），乾淨 worktree `/home/user/rc13_wt`，伺服器 8811。
+  - flow_main_day12：**ALL PASS**（29 項，06:20–06:33，已回報）。
+  - flow_teaching_buildings：06:33 開始，跑完要立刻回報。
+- **v9.7（636688f）**：
+  - flow_typhoon FAIL，看起來是三個原因連鎖（紀錄＋分析在 `test_logs/v97_636688f/README.md`，`19a96bb`，已回報）。
+  - 「手機點不開」的診斷腳本：`scratchpad/v97/diag/phone_diag.py`。等候選 13 跑完才開瀏覽器。
+  - 之後從 cg_rain_shots 起跑其餘 6 項；flow_main_day12 等 LAWWW 給合併 commit 再跑。
+- **小語**：
+  - `yu.py`、`yu_face.py`、`yu_hair.py` 已 commit（WIP）。
+  - `yu_clothes.py` 已寫好，還沒跑 Blender：拼色貼圖照 3D 位置烘、直褶裙＋腰帶＋扣子＋帶尾、立領合併進外套。
+  - 回歸跑完才開 Blender。
+
+**2026-10-14 06:1xZ**：
 - **交付**：
   - 杜可昕 `0171f66`（MODEL_READY，VISUAL_REVIEW 32.5）。
   - 共同教學館、大一女舍合併材質 `8902c5f`：開發分支實測 ALL PASS，gate_avenue ×1.097；VISUAL_REVIEW 33。測試要換 `patches/campus_glb_integration_dev_636688f.patch`。修改前後截圖還沒拍：`drafts/gt_fd_shots.py`；舊 GLB 備份在 `scratchpad/t96/campus_*_before.glb`。
