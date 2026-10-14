@@ -33,6 +33,16 @@ async def phone_tab(pg, cdp, tab):
     return 0
 
 
+async def first_choice(pg, max_s=60):
+    """按「坐下」之後等選項真的出現再讀第一個（玩家也是等它出現）：人物先走到椅子旁、坐下，SwiftShader 約 1 fps 時要好幾秒
+    （2026-10-14 v9.6 回歸：原本固定等 2.5 秒，讀到空字串判失敗，之後選第一個照樣上了課）。回傳第一個選項的字（沒出現＝空字串）"""
+    for _ in range(int(max_s * 2)):
+        t = await pg.evaluate("(()=>{ const b=document.querySelector('#choices button'); return b?b.textContent:''; })()")
+        if t: return t
+        await pg.wait_for_timeout(500)
+    return ''
+
+
 async def sit_and_attend(pg, cdp, run, course_name, seat_rc=(2, 3)):
     seat = await pg.evaluate("(([r,c])=>{ const s=GAME.E.zone.seats.find(q=>q.row===r&&q.col===c); return s?{x:s.x,z:s.z,y:s.y}:null; })(%s)" % json.dumps(list(seat_rc)))
     run.check('201 的座位資料', bool(seat), json.dumps(seat))
@@ -40,9 +50,9 @@ async def sit_and_attend(pg, cdp, run, course_name, seat_rc=(2, 3)):
     run.check('走到座位旁邊', ok)
     s = await L.state(pg)
     run.check('出現「坐下」按鈕', s['interact'].startswith('坐下'), s['interact'])
-    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
+    await L.tap(pg, cdp, '#interact')
+    first = await first_choice(pg)
     s = await L.state(pg)
-    first = await pg.evaluate("(()=>{ const b=document.querySelector('#choices button'); return b?b.textContent:''; })()")
     run.check('坐下後第一個選項是「上課：' + course_name + '」', first.startswith('上課：' + course_name), first)
     h0 = s['hour']
     s = await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['busy'] and not q['dlg'] and not q['choices'], pick=0)
@@ -135,8 +145,8 @@ async def main():
         ok = await L.go_to(pg, cdp, run, seat['ax'], seat['az'], 0.15, '共 102 的空位旁', lv=0)
         s = await L.state(pg)
         run.check('自己走進共 102、走到空位旁、出現「坐下」', ok and s['interact'].startswith('坐下'), json.dumps(s, ensure_ascii=False))
-        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
-        first = await pg.evaluate("(()=>{ const b=document.querySelector('#choices button'); return b?b.textContent:''; })()")
+        await L.tap(pg, cdp, '#interact')
+        first = await first_choice(pg)
         run.check('坐下後第一個選項「上課：大一英文」', first.startswith('上課：大一英文'), first)
         s = await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['busy'] and not q['dlg'] and not q['choices'], pick=0)
         run.check('大一英文下課：12:10', s['hour'] >= 12.15 and s['hour'] < 12.6, str(s['hour']))
