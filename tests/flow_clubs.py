@@ -1,6 +1,6 @@
 """真實玩家流程：社團（AA_110 第 6-8 節，AA 暫定；src/data/activities.js、classes3d.js 的 roomDoor／attendActivity／fairMenu）。不用 ?turbo。
 [前置／捷徑] 每一段讀檔到那一天、那個時間、那一區的門口附近（位置與時間是設定的）；之後都走真的介面（點地面走路、互動按鈕、點對話、點選項）。
-A. 吉他社第一次（還沒認識子晴）：10/13 週一 18:50 萬才館大廳 → 自己走到多功能教室門口 → 還沒開始時按門寫「今天 19:00 在這裡」→ 等到 18:45 以後按門 →「參加：吉他社社課」
+A. 吉他社第一次（還沒認識子晴）：10/15 週三 18:40 萬才館大廳 → 自己走到多功能教室門口 → 還沒開始時按門寫「今天 19:00 在這裡」→ 等到 18:45 以後按門 →「參加：吉他社社課」
    → 社課一開始自動播子晴的初遇（ev_ziqing_club：「你就是阿凱的室友？」「我高子晴。資工二。」）→ 時間到 21:00、記下 FIRST_MET、加入吉他社。
 B. 法服讀書會第一次：10/1 週三 18:55 萬才館大廳 → 自己走上二樓到研討室 A 門口 →「參加：法服讀書會」→ 播 ev_studygroup_wed 整段（學姊「來了？坐。」、題庫三題）→ 21:00、加入法服。
 C. 社團博覽會：9/30 週二 12:00 椰林大道 → 自己走到公告欄前的「社團博覽會」→ 選單有五個社團 → 選吉他社（加入）→ 再看一次寫「已加入」→ 逛完了。
@@ -15,7 +15,7 @@ import playlib as L
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_clubs'
 BASE_FLAGS = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True}
-D_MON = 27   # 2025-10-13 週一（第 7 週；第 5、6 週的週一放假）
+D_GUITAR = 29   # 2025-10-15 週三（第 7 週）。原本用 10/13 週一（day 27），v9.7 大一上劇情把那天排成颱風假（T1），沒有社課（noHoliday）；第 5、6 週的週一也放假
 D_WED = 15   # 2025-10-01 週三（第 5 週）
 D_TUE = 14   # 2025-09-30 週二（博覽會）
 D_FRI = 17   # 2025-10-03 週五（第 5 週）
@@ -43,8 +43,8 @@ async def main():
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
         # ---------- A：吉他社第一次 ----------
-        run.setup('讀檔：10/13 週一 18:40，萬才館一樓大廳（還沒認識子晴）')
-        await L.load_state(pg, {'zone': 'wancai', 'hour': 18.67, 'day': D_MON, 'weekday': 1, 'weather': 'sunny', 'pos': {'x': 0, 'z': 4.6, 'yaw': 3.14, 'lv': 0}, 'flags': BASE_FLAGS})
+        run.setup('讀檔：10/15 週三 18:40，萬才館一樓大廳（還沒認識子晴）')
+        await L.load_state(pg, {'zone': 'wancai', 'hour': 18.67, 'day': D_GUITAR, 'weekday': 3, 'weather': 'sunny', 'pos': {'x': 0, 'z': 4.6, 'yaw': 3.14, 'lv': 0}, 'flags': BASE_FLAGS})
         await pg.wait_for_timeout(4000)
         door = await L.find_it(pg, '多功能教室')
         run.check('A 萬才館大廳有多功能教室的門', bool(door), json.dumps(door, ensure_ascii=False))
@@ -53,7 +53,7 @@ async def main():
         run.check('A 自己走到多功能教室門口、出現「多功能教室」的按鈕', ok and s['interact'].startswith('多功能教室'), json.dumps(s, ensure_ascii=False))
         opts = await press_interact_and_choose(pg, cdp, run, None)
         cap = await g(pg, "(document.getElementById('caption')||{}).textContent||''")
-        run.check('A 18:40 按門：還不能參加，寫「今天 19:00 在這裡」', not opts and '19:00' in cap, cap)
+        run.check('A 18:40 按門：還不能參加，寫「今天 19:00 在這裡」（不是「今天沒有社課」）', not opts and '今天 19:00 在這裡' in cap and '今天沒有社課' not in cap, cap)
         run.setup('等到 18:50（站在門口等，時間照常走；這裡直接把時鐘撥到 18:50 省掉十分鐘的模擬）')
         await pg.evaluate("(()=>{ GAME.G.hour=18.84; GAME.E.hour=18.84; })()"); await pg.wait_for_timeout(2500)
         opts = await press_interact_and_choose(pg, cdp, run, '參加：吉他社社課')
