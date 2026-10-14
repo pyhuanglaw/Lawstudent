@@ -5,7 +5,14 @@
 交班紀錄：2026-10-11 10:13 UTC 交班（`1f20126`）→ 2026-10-13 回到帳號 A。
 使用者 2026-10-13：帳號 B 暫時沒有開，從上次停下來的地方接著做。
 
-**2026-10-14 00:5xZ（最新）**：LAWWW 00:23Z、00:38Z 兩則（P1）**在通知佇列裡，00:42Z 才讀到**（又漏讀一次：每個 checkpoint 一定要 `ReadNotifications`）；00:4xZ 已回 ACK（DELIVERED）。決定：
+**2026-10-14 02:3xZ（最新）：使用者調整優先順序（原文已轉給 LAWWW，P0）**——黃金葛降為低優先（不再精修；小道具以後集中成一批）。LAWWW2 的佇列：①醉月湖、湖心亭的導航與穿模 → ②總圖 3F 閱覽區 → ③行道樹已確認的整合問題 → ④BB 驗收通過的主要角色 3D（芯慈、芷若、杜可昕）→ ⑤其他影響遊玩的場景問題。
+- **⑦行道樹交付** `4c1e81b`（VISUAL_REVIEW 第 15 節；patch 在 469ae8c、3f3d56a 都 apply 得上）：公館「沒有標記的群組」修好（記號材質 visible=false、拿掉只裝記號的群組）；溫州街三角形 +3–4% 還是照實寫，選項給 LAWWW。WIP 備份 `claude/second-ai-env-art-wip-trees` `22ff594`。
+- **黃金葛暫停** `2baa5ac`：`prop_pothos.glb` 2,538 三角形、Blender 渲染；遊戲內截圖沒做完。宿舍 `dorm_interior.glb` 筆筒移到書堆和筆電中間（放盆栽時一起換）。
+- **芯慈 WIP** `eadec42`：開襟衫敞開＋整件白 T、髮髻往下、髮色調亮；之後：白 T 領口降到脖子根部（已改程式、還沒算圖）、瀏海改 bangA／B（已改程式、還沒算圖）。工作檔 `scratchpad/char/xinci/x_face.blend`（`--from-blend` 只重做衣服、頭髮）。
+- **醉月湖實測**（進行中）：`tools/blender/env_second/shots/lake_integration_check.py`，在 LAWWW `3f3d56a`（`/home/user/lawwwtip_wt`、伺服器 8790）用 Playwright 攔截換上 `scratchpad/lake_proto/src/zones3d.js`（fallback＋亭子 2.0 m＋擋柱子＋地板高度 0.05）與 campus_lake.glb；不改任何工作目錄的 src。
+- 杜可昕：art_reference README 寫「待使用者重傳完整版」，repo 裡沒有參考圖 → 到她的時候還沒有就告訴 LAWWW，不猜。
+
+**2026-10-14 00:5xZ**：LAWWW 00:23Z、00:38Z 兩則（P1）**在通知佇列裡，00:42Z 才讀到**（又漏讀一次：每個 checkpoint 一定要 `ReadNotifications`）；00:4xZ 已回 ACK（DELIVERED）。決定：
 - **⑨ 校門不做**（算在使用者暫停的「新建築外觀」）。佇列：⑪ → ⑩ → ⑦ → 博雅官方平面圖對照（只寫差異表，不改模型）→ **角色模型（D59：角色美術改由 BB 驗收；我照 BB 通過的參考圖改 Blender／VRM；第一位芯慈（整齊低髮髻）、第二位芷若（淺色細金屬圓框眼鏡），開工前先把順序告訴 LAWWW；清單 `origin/claude/story-planning:docs/story_planning/art_reference/README.md`，用 git show 拿、不 merge）**；後備：吉他社社辦（等 AA）。
 - **博雅官方平面圖 BLOCKED**：使用者給的 aca.ntu.edu.tw、ga.ntu.edu.tw 兩個網址沙盒連不到（curl 403、WebFetch ENOTFOUND），已回報 LAWWW、已請使用者加 Allowed domains 或直接上傳 PDF；**不猜**。
 - **⑦**：src patch 等 v9.6 之後才接；溫州街三角形 +3–4% 照實寫。乾淨 `469ae8c` 對照（`test_logs/trees_469ae8c/base_469ae8c/`）：campus_glb（5 項）、wz_street（導航）、street_props（兩區導航）、campus_layout_nav（新系館）**乾淨版一樣沒過、數字相同→不是 ⑦**；gongguan_glb **乾淨版全過→⑦ 造成**（正式模型那一輪少一個空群組，`scratchpad/gg_groups.py` 查是哪一個）；reachability_all 乾淨版在跑。模型、腳本、貼圖、測試已搬進交付分支（`6fc622d`），src 只交 patch。

@@ -157,8 +157,11 @@ def tee_full(skin, arm, mb, z_bottom, crew_front):
     Kd = 48; th = np.arange(Kd) * 2 * math.pi / Kd - math.pi / 2; dirs = np.stack([np.cos(th), np.sin(th), np.zeros(Kd)], -1)
     fa = np.abs((np.degrees(th + math.pi / 2) + 180) % 360 - 180)           # 離正前方幾度
     sn = K.SIDE_NECK
-    ZN = np.array([K.BACK_NECK_Z + (sn[1] - K.BACK_NECK_Z) * abs(math.cos(t)) ** 1.5 if math.sin(t) >= -0.05
-                   else crew_front + (sn[1] - crew_front) * abs(math.cos(t)) ** 1.8 for t in th])
+    sn_z = sn[1] - 0.008; back_z = K.BACK_NECK_Z - 0.006           # 圓領在脖子根部（第三版照開襟衫的側頸點，正面看像高領）
+    ZN = np.array([back_z + (sn_z - back_z) * abs(math.cos(t)) ** 1.5 if math.sin(t) >= -0.05
+                   else crew_front + (sn_z - crew_front) * abs(math.cos(t)) ** 1.8 for t in th])
+    # 領口的開口：脖子根部的橢圓（左右半寬 7.6 cm、往前 6.6 cm、往後 6.2 cm）——領口最上面幾圈至少這麼大，不會像高領貼著脖子
+    ELL = np.array([1.0 / math.sqrt((math.cos(t) / 0.076) ** 2 + (math.sin(t) / (0.066 if math.sin(t) < 0 else 0.062)) ** 2) for t in th])
     def ring_r(zk, ease):
         rr = np.array([K.Skin.outer(bv, (0, float(YC(zk[k])), zk[k]), dirs[k], 0.40) for k in range(Kd)], float)
         bad = ~np.isfinite(rr)
@@ -182,7 +185,7 @@ def tee_full(skin, arm, mb, z_bottom, crew_front):
     NT = 8
     for j in range(1, NT + 1):
         f = j / NT; zk = z_split + (ZN - z_split) * f
-        r = ring_r(zk, 0.004 + 0.003 * f)
+        r = ring_r(zk, 0.004 + 0.003 * f); r = np.maximum(r, ELL * (0.85 + 0.15 * f) * float(K.sstep(0.4, 1.0, f)))
         rows.append(np.stack([dirs[:, 0] * r, YC(zk) + dirs[:, 1] * r, zk], -1))
         dz = ZN - zk; vrow.append(np.where(dz < 0.013, 0.80 + 0.15 * (1 - dz / 0.013), 0.70))   # 領口最上面 1.3 cm：羅紋
     top = rows[-1]; ctr = np.stack([np.zeros(Kd), YC(top[:, 2]), top[:, 2]], -1); dxy = top - ctr; dxy[:, 2] = 0
