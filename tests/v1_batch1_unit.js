@@ -84,6 +84,9 @@ const Y1S1=dayIn('Y1S1'), Y1S2=dayIn('Y1S2');
     /* 第一次點手沖：第 5 次做的是手沖、收手沖的錢 */
     fresh(Y1S1+1,15,'cafe'); for(let k=0;k<5;k++){ at(Y1S1+1+k,15,'cafe'); picks=k<4?['手沖']:['收進錢包']; money=0; await EVENTS.run(e); }   /* 第 5 次沒有點餐選項：只回答集點卡 */
     check('Z1 第一次點手沖：第 5 次是「手沖。……我已經在做了。」、收 150、不加帳號',lines()[0]==='手沖。……我已經在做了。'&&money===-150&&G.flags.zhiruoShopContactDay==null,JSON.stringify({L0:lines()[0],money}));
+    /* 第一次點檸檬塔：第 5 次是「檸檬塔。……我已經在切了。」（點心用「切」，BB 2026-10-14）*/
+    fresh(Y1S1+1,15,'cafe'); for(let k=0;k<5;k++){ at(Y1S1+1+k,15,'cafe'); picks=k<4?['檸檬塔']:['收進錢包']; money=0; await EVENTS.run(e); }
+    check('Z1 第一次點檸檬塔：第 5 次是「檸檬塔。……我已經在切了。」（不說「做」）、收 110',lines()[0]==='檸檬塔。……我已經在切了。'&&!lines().some(t=>/在做了/.test(t))&&money===-110,JSON.stringify({L0:lines()[0],money}));
     /* 只是看看：不算點餐 */
     fresh(Y1S1+1,15,'cafe'); picks=['只是看看']; await EVENTS.run(e); check('Z1 「只是看看」不算點餐（計數沒有加）',!(G.flags.CAFE_VISITS>0));
     /* 先在經原分組認識 */

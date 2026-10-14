@@ -48,6 +48,12 @@ const PS='classmate_peishan', rel=()=>Object.assign({},SOCIAL.rel(PS));
     check('第一次見面以後記下 FIRST_MET',SOCIAL.has(PS,'FIRST_MET')); }
   /* 其他時間地點、第一次見面：只說名字，不提讀書會 */
   for(const [zone,wd,h,why] of [['library',3,18.5,'週三晚上在總圖'],['wancai',2,18.5,'週二晚上在萬才館'],['wancai',3,14,'週三下午在萬才館'],['campus',5,12,'週五中午在校園']]){ at(zone,wd,h); pick=1; await EVENTS.run(ev); const L=lines();
-    check(why+'、還不認識：只說「郭沛珊。」、不提讀書會；結尾「我要去上課了。」',L[0]==='郭沛珊。'&&!L.some(t=>/讀書會/.test(t))&&L.includes('我要去上課了。'),JSON.stringify(L.slice(0,2))); }
+    const end=h>=18?'我先回去了。':'我要去上課了。', other=h>=18?'我要去上課了。':'我先回去了。';   /* 18 點以後「我先回去了。」（AA 建議、BB_95 2-8 bdd96d9：事件沒有時間限制，晚上不說去上課）*/
+    check(why+'、還不認識：只說「郭沛珊。」、不提讀書會；結尾「'+end+'」（不說「'+other+'」）',L[0]==='郭沛珊。'&&!L.some(t=>/讀書會/.test(t))&&L.includes(end)&&!L.includes(other),JSON.stringify([L.slice(0,2),L.slice(-3)])); }
+  /* 舊存檔（AA 2026-10-14）：舊版沒有 once，但演過的事件都記在 G.events.done——玩過舊版的存檔不會再演一次新版 */
+  { at('library',2,15); SOCIAL.meet(PS,'library'); G.events.done.ev_peishan_doubt=2; G.events.last.ev_peishan_doubt=8; check('舊存檔演過舊版（events.done 有紀錄、沒有 once 的紀錄）：新版不再觸發',EVENTS.check(ev)===false); }
+  /* 舊存檔的記憶備註「她在考慮轉系」：人物面板顯示「她在想別的路」，存檔不改（AA 2026-10-14）*/
+  { at('library',2,15); SOCIAL.remember(PS,'IMPORTANT_CONVERSATION','她在考慮轉系'); const m=(G.social.mem[PS]||[]).find(x=>x.tag==='IMPORTANT_CONVERSATION');
+    check('舊備註「她在考慮轉系」：面板顯示「她在想別的路」、存檔裡照舊',SOCIAL.noteShown(PS,m)==='她在想別的路'&&m.note==='她在考慮轉系'&&/她在想別的路/.test(SOCIAL.describe(PS)),SOCIAL.describe(PS)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

@@ -59,7 +59,7 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
   const d0=defaults('祐廷'); check('B 新遊戲預設和可昕交往中（dating_kexin）',d0.flags.dating_kexin===true);
   fresh(1,21.2,'dorm',d0.flags); picks=['寫自己老師']; await STORY.onEnter('dorm',GM);
   { const L=lines(), i=L.findIndex(t=>/書桌上放著明天民法總則/.test(t));
-    const NARR=['以前遇到事情，他會去翻民法。翻得到條文，卻不知道條文和條文怎麼接起來，也不知道怎麼用在一件真的事情上。','這次不一樣。這次有人要教他怎麼讀。','經濟系的那一年，他不是一個人過的。'];
+    const NARR=['以前遇到事情，你會去翻民法。翻得到條文，卻不知道條文和條文怎麼接起來，也不知道怎麼用在一件真的事情上。','這次不一樣。這次有人要教你怎麼讀。','經濟系的那一年，你不是一個人過的。'];
     check('B 案例那一句之後是三句旁白（AA_12 原文、順序）',i>=0&&JSON.stringify(L.slice(i+1,i+4))===JSON.stringify(NARR),JSON.stringify(L.slice(i+1,i+4)));
     const KXL=['今天的假設題。','假設你在台大讀的案例，和我在政大讀的是同一個。','兩邊的老師講出兩個答案。考試的時候，我們要寫哪一個？','……不用回答。我只是想知道你讀到哪了。'];
     check('B 接著是可昕的四則訊息（對話框名字「可昕（手機）」）',JSON.stringify(L.slice(i+4,i+8))===JSON.stringify(KXL)&&said[i+4].who==='可昕（手機）',JSON.stringify(said.slice(i+4,i+8)));
@@ -89,7 +89,7 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     check('E 舊存檔讀檔：交往中、有她的聯絡方式；家族群組不補',s.flags.dating_kexin===true&&s.contacts&&s.contacts.kexin===0&&!s.flags.FAM_GROUP_SENT);
     check('E 已經設過的不動（之後分開設成 false，讀檔不會又變回交往中）',migrate({v:3,name:'x',rel:{},flags:{dating_kexin:false}}).flags.dating_kexin===false);
     fresh(4,22,'dorm',s.flags); G.contacts=s.contacts; await STORY.sleepNow(GM); const L=lines();
-    const i=L.indexOf('經濟系的那一年，他不是一個人過的。');
+    const i=L.indexOf('經濟系的那一年，你不是一個人過的。');
     check('E 第三天以後的早上：補一次（旁白＋早上版第一句「早安。今天的假設題。」）',G.day===5&&i>=0&&L[i+1]==='早安。今天的假設題。',JSON.stringify(L.slice(0,8)));
     check('E 早上版最後一句「去上課吧。下課再跟我說你讀到哪了。」、中間相同',L.includes('去上課吧。下課再跟我說你讀到哪了。')&&L.includes('兩邊的老師講出兩個答案。考試的時候，我們要寫哪一個？')&&!L.includes('晚安。不要讀到太晚。'));
     check('E 家族群組沒有補發',!PHONE.inGroup(G,'family_law'));
@@ -97,11 +97,12 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     fresh(4,22,'dorm',{introDone:true,KX_FIRST_MSG:true,dating_kexin:true}); await STORY.sleepNow(GM); check('E 看過的（有 KX_FIRST_MSG）不補',!lines().some(t=>/假設題/.test(t)));
     fresh(1,22,'dorm',{introDone:true,dating_kexin:true}); await STORY.sleepNow(GM); check('E 第二天（劇情的那一天）不補，等第三天的早上',G.day===2&&!lines().some(t=>/假設題/.test(t))); }
   /* ---------- F 芷若的第一則私訊 ---------- */
-  for(const dating of [true,false]){ fresh(20,15,'cafe',{dating_kexin:dating,zhiruoShopContactDay:20,zhiruoFirstOrder:'手沖'}); STORY.phoneRules(GM); PHONE.tick(G);
+  for(const [dating,order] of [[true,'手沖'],[false,'手沖'],[true,'檸檬塔'],[false,'檸檬塔']]){ fresh(20,15,'cafe',{dating_kexin:dating,zhiruoShopContactDay:20,zhiruoFirstOrder:order}); STORY.phoneRules(GM); PHONE.tick(G);
     const at=dating?{day:21,h:15+10/60}:{day:20,h:22+7/60}, before=at.day*24+at.h-0.1; G.day=Math.floor(before/24); G.hour=before-G.day*24; PHONE.tick(G);
     const none=!G.msgs.some(m=>m.tag==='zr_dm1'); G.day=at.day; G.hour=at.h+0.02; PHONE.tick(G); STORY.phoneRules(GM); const T=KX('p:heroine_02').map(m=>m.text);
-    const third=dating?'你今天的那杯，是我做的。好喝的話，跟老闆說。':'你今天的手沖，奶泡我多打了三秒。你沒發現。';
-    check('F '+(dating?'交往中：加帳號隔天 15:10':'單身：當天 22:07')+'；時間到才出現；三句（第三句'+(dating?'友情版':'照第一次點的東西')+'）',none&&JSON.stringify(T)===JSON.stringify(['我是 Café 的芷若。','……你應該知道。',third]),JSON.stringify(T));
+    /* 第三句（BB_95 4-2，BB 2026-10-14 回覆）：交往中隔天才傳＝「昨天」；點心用「挑」，飲料用「做」「奶泡」 */
+    const third=order==='檸檬塔'?(dating?'你昨天的檸檬塔，是我挑的。好吃的話，跟老闆說。':'你今天的檸檬塔，我挑了邊邊最脆的那一塊。你沒發現。'):(dating?'你昨天的那杯，是我做的。好喝的話，跟老闆說。':'你今天的手沖，奶泡我多打了三秒。你沒發現。');
+    check('F '+(dating?'交往中：加帳號隔天 15:10':'單身：當天 22:07')+'、第一次點'+order+'；時間到才出現；三句（第三句'+(dating?'友情版、「昨天」':'照第一次點的東西')+'）',none&&JSON.stringify(T)===JSON.stringify(['我是 Café 的芷若。','……你應該知道。',third]),JSON.stringify(T));
     check('F 收到以後有她的聯絡方式',INV.hasContact(G,'heroine_02')); }
   /* ---------- G 語彤事件 3 ---------- */
   { const e=ev('ev_yutong_customer'); const setup=()=>{ fresh(80,20.5,'noodle',{dating_kexin:true}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x'); };
@@ -110,7 +111,8 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     check('G 不出法律題目（沒有 legal 那一行、沒有問）',legalAsked===0&&!e.dialogue.some(l=>l.legal));
     check('G 最後一句「今天的麵不用錢。……阿姨問的話，我就說你洗了碗。」（沒有「不要跟阿姨說是我說的」）',L[L.length-1]==='今天的麵不用錢。……阿姨問的話，我就說你洗了碗。'&&!L.some(t=>/不要跟阿姨說/.test(t)));
     STORY.phoneRules(GM); const q=KX('p:heroine_05');
-    check('G 選「我知道誰會知道」：祐廷傳訊息給學姊（手機裡看得到），學姊的回覆排在當晚 22:30',q.length===1&&q[0].from==='player'&&G.phone.q.some(x=>x.tag==='sis_yutong'&&x.day===80&&Math.abs(x.h-22.5)<1e-6));
+    check('G 選「我知道誰會知道」：祐廷傳給學姊兩則（AA 2026-10-14 的原文，不用括號說明），學姊的回覆排在當晚 22:30',JSON.stringify(q.map(m=>m.from+'：'+m.text))===JSON.stringify(['player：學姊，想請問一件事。麵店的阿姨被客人說吃壞肚子，要賠三萬。','player：客人還錄了跟阿姨吵架的聲音，說要告。這種事可以去法服問嗎？'])&&G.phone.q.some(x=>x.tag==='sis_yutong'&&x.day===80&&Math.abs(x.h-22.5)<1e-6),JSON.stringify(q.map(m=>m.text)));
+    check('G 語彤第二句拆成兩句（AA：一句 40 字以內）',L.includes('上週有客人說他在我們店吃壞肚子，要我阿姨賠三萬。')&&L.includes('他還錄了跟我阿姨吵架的聲音，說要拿去告。')&&L.every(t=>[...t].length<=40),JSON.stringify(L.filter(t=>[...t].length>40)));
     G.hour=22.55; PHONE.tick(G); STORY.phoneRules(GM); const W=KX('p:heroine_05').filter(m=>m.from==='heroine_05').map(m=>m.text);
     check('G 學姊 22:30 的四句（BB_95 4-3）',JSON.stringify(W)===JSON.stringify(['三件事。','一，叫阿姨週三晚上來萬才館，法服有值班。','二，發票、那天的進貨單、監視器的時間，全部留著。','三，叫阿姨先睡覺。這種事，準備好就不可怕。']),JSON.stringify(W));
     check('G 沒有語彤的聯絡方式：下次在麵店當面給她看（ev_yutong_fwd）',G.flags.yutongFwdInPerson===true&&EVENTS.check(ev('ev_yutong_fwd'))===true);
@@ -127,7 +129,7 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     said=[]; await EVENTS.run(after); check('G 結果的旁白（三種選擇都一樣）',lines()[0]==='阿姨週三去了法服。溫學姊幫她把那天的進貨單、發票、監視器的時間整理好。'&&lines()[1]==='客人看到阿姨準備得這麼齊，就沒有再來了。'); }
   /* ---------- H 房間物件 ---------- */
   { fresh(5,20,'dorm',{dating_kexin:true}); picks=[0,1,2,3,4,5]; await STORY._v1.roomItems(GM);
-    const W=['以前翻過。看得到字，看不懂意思。','經濟系那一年的課本。邊角都翻軟了。','重考那段時間的筆記。一半是他的字，一半是她的。','摩天輪的票根。兩個人開始交往的那一天。','河堤邊停著幾台腳踏車。那一群人，那一年。'];
+    const W=['以前翻過。看得到字，看不懂意思。','經濟系那一年的課本。邊角都翻軟了。','重考那段時間的筆記。一半是你的字，一半是她的。','摩天輪的票根。兩個人開始交往的那一天。','河堤邊停著幾台腳踏車。那一群人，那一年。'];
     check('H 五個物件的旁白（AA_12 原文）、「不看了」結束',JSON.stringify(lines())===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['書架上的舊《民法》','經濟學原理（一年前的課本）','寫滿的筆記本','摩天輪的票根（夾在桌墊下）','手機相簿的一張照片','不看了']),JSON.stringify(lines()));
     const zsrc=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8'); check('H 宿舍有「看看房間裡的東西」的互動點',/label:'看看房間裡的東西',roomItems:true/.test(zsrc)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
