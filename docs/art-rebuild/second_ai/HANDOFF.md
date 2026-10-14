@@ -5,7 +5,7 @@
 交班紀錄：2026-10-11 10:13 UTC 交班（`1f20126`）→ 2026-10-13 回到帳號 A。
 使用者 2026-10-13：帳號 B 暫時沒有開，從上次停下來的地方接著做。
 
-**2026-10-14 12:20Z（最新；使用者用量約 12:50 UTC 用完，下一個工作階段從這裡接）**：
+**2026-10-14 12:37Z（最新；使用者用量約 12:50 UTC 用完，下一個工作階段從這裡接）**：
 - **v9.7 發布測試，我跑的全部 ALL PASS**（log＋截圖在 `test_logs/`）：
 
   | 測試 | 基準 | 結果 | 秒數 | commit |
@@ -19,11 +19,10 @@
   | flow_boya_interior | 候選 16 | 24 PASS | 1114 | 4985b0a |
 
   - 測試 patch：`patches/v97_tests_fd46e14.patch`，LAWWW 已做成候選 16。細節見 `test_logs/v97_rc14_fd46e14/README.md`。
-- **正在跑**：flow_boya_interior，在**候選 19 313d620** 上，12:17 開始。
-  - 候選 19＝候選 16＋兩支測試修正＋game3d.js choose 選單 max-height 修正。
-  - 環境：worktree `/home/user/v97rc19_wt`，伺服器 8819；log 在 `scratchpad/v97rc19/`。
-  - 跑完要做：push 到 `test_logs/v97_rc19_313d620/`，回 LAWWW。
-  - 如果這個工作階段在那之前斷了，結果沒有遠端備份，下一個工作階段要重跑。
+- **v9.7 已發布**（LAWWW 12:32:31 UTC，main＝313d620＝候選 19）。
+  - 候選 19 上的 flow_boya_interior：**ALL PASS**（24 項、1067 秒、不用 turbo），log 在 `test_logs/v97_rc19_313d620/`（d7ffa8c），已回 LAWWW。
+  - LAWWW 要下一個 LAWWW 工作階段把這個結果補進 RELEASES.md。
+  - 這支沒有「手機橫向＋長選單」的情境，不能當成 choose 選單修正本身的驗證。
 - **給 LAWWW 的遊戲問題**（不卡發布，LAWWW 會修引擎）：201 階梯教室點到走不到的地方（下一排桌子邊緣）時，人會原地一直走。證據在 v97_rc14 的 README。
 - **路人底模（LAWWW 09:53Z ①，進行中）**：
   - VRM：8 個都在 `assets/models/char/second_ai/bl_npc_*.vrm`，2.41–2.74 MB。
