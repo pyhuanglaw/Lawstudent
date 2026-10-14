@@ -102,13 +102,17 @@ async def main():
         s = await play_through(pg, cdp, run, lambda q: not q['dlg'] and not q['choices'] and not q['busy'], pick_text='「好。」', seen=seen)
         go = await pg.evaluate("GAME.G.flags.B5_GO")
         run.check('選「好。」：記 B5_GO＝今天', go == thu, f'B5_GO={go}')
-        # 4. 以安、小語走到圓桌坐下
-        w = None
-        for _ in range(150):
+        # 4. 以安、小語走到圓桌坐下（story3d.js roomMove：起身、從 101 走出來、走到大廳的圓桌）
+        # SwiftShader 演講散場時約 0.5～1 fps：從 101 走到圓桌（約 20 m）要好幾分鐘真實時間（2026-10-14 第三次跑：150 秒時兩個人還在 101 門口往外走）
+        w = None; trail = []; t_w = time.time()
+        while time.time() - t_w < 600:
             w = dict(await pg.evaluate(WHERE_JS + "(%s)" % json.dumps(['heroine_01', 'yu'])))
             if all(w.get(i) and w[i]['seat'] == 'round' for i in ['heroine_01', 'yu']): break
-            await pg.wait_for_timeout(1000)
-        run.check('以安、小語走到博雅的圓桌坐下', all(w.get(i) and w[i]['seat'] == 'round' for i in ['heroine_01', 'yu']), json.dumps(w, ensure_ascii=False) + ' 時間 ' + str((await L.state(pg))['hour']))
+            an_ = w.get('heroine_01') or {}
+            if not trail or abs(trail[-1][1] - an_.get('x', 0)) + abs(trail[-1][2] - an_.get('z', 0)) > 1.0: trail.append((int(time.time() - t_w), an_.get('x'), an_.get('z'), an_.get('pose')))
+            await pg.wait_for_timeout(2000)
+        run.note('以安走過去的軌跡（秒, x, z, pose）：' + json.dumps(trail[-10:]))
+        run.check('以安、小語走到博雅的圓桌坐下', all(w.get(i) and w[i]['seat'] == 'round' for i in ['heroine_01', 'yu']), json.dumps(w, ensure_ascii=False) + ' 時間 ' + str((await L.state(pg))['hour']) + f'；等了 {time.time() - t_w:.0f} 秒')
         an = w.get('heroine_01')
         if not an: await b.close(); return run.finish()
         # 5. 自己走到以安旁邊（她的座位往桌子外側一公尺）→ B5
