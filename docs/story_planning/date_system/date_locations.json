@@ -1,5 +1,5 @@
 {
- "_comment": "校外單獨約會地點資料（AA_128 第 2 節；使用者 2026-10-14 決策）。存檔一律用 id。交通費＝祐廷自己的來回交通（開車＝油錢加過路費）；門票、吃的在互動點另外扣。tier：0 大一上起、1 大一寒假起（車子開放或一兩小時的客運火車）、2 大二起。兩天一夜另加住宿 2,500，要第 6 階或交往中。closed：mon＝週一休館；mon_museum＝館內展館週一休；mon1_museum＝每月第一個週一休；mon_maybe＝週一常停駛維修。實際開放時間與票價實作前再確認。沒有場景底圖的地點不出現在約會清單。",
+ "_comment": "校外單獨約會地點資料（AA_128 第 2 節；使用者 2026-10-14 決策）。存檔一律用 id。交通費＝祐廷自己的來回交通（開車＝油錢加過路費）；門票、吃的在互動點另外扣。所有地點大一上起就能約，沒有按學年開放（使用者 2026-10-14 約 17:10：祐廷是臺北人、車停臺北家、大一就能開車去各地；原本的 tier 欄位與 fromChiayi 已拿掉）；地點自己的條件照 wishOf 等欄位與 AA_128。兩天一夜另加住宿 2,500，要第 6 階或交往中。closed：mon＝週一休館；mon_museum＝館內展館週一休；mon1_museum＝每月第一個週一休；mon_maybe＝週一常停駛維修。實際開放時間與票價實作前再確認。沒有場景底圖的地點不出現在約會清單。",
  "_codes": {
   "kinds": {
    "half": "半日（含交通約 4～5 小時）",
@@ -13,7 +13,7 @@
    "coach": "客運",
    "rail": "台鐵",
    "hsr": "高鐵",
-   "car": "開車（要車；車子大一寒假起，AA_126 8-1）",
+   "car": "開車（車平時停在臺北的家；從宿舍出發要先回家取車、回程還車，各加 30 分，AA_128 4-1、4-4，AA 暫定；大一就能開，沒有年級限制，使用者 2026-10-14）",
    "mrt+bus": "捷運轉公車",
    "mrt+coach": "捷運轉客運",
    "hsr+coach": "高鐵轉客運"
@@ -23,13 +23,11 @@
    "mixed": "雨天可去，部分互動點改室內",
    "outdoor": "雨天要有變體或改期（看 note）"
   },
-  "minutes": "從臺大單程的遊戲固定值",
+  "minutes": "從臺大單程的遊戲固定值（祐廷的家也在臺北，從家裡出發用同一個值）",
   "fare": "祐廷自己的來回交通費；開車＝油錢加過路費，載她不另外算",
   "combo": "可以排在同一趟的地點；整趟仍然只算一次",
   "admission": "祐廷自己的一張門票，抵達時扣；0＝免費或不用買票。遊戲用的固定值，實際票價實作前再確認",
-  "fixed": "固定段落（例：看電影）：抵達後先演，照 minutes 推進時間、扣 cost；不算互動點，散場後再選互動點（AA_128 5-1）",
-  "fromChiayi": "祐廷回嘉義的期間（過年、暑假那兩週，AA_128 11-1）從嘉義出發的交通；null＝那段期間不能約這個地點（「從嘉義過去太遠了」）。目前只有 D26 臺中：以安、芷若過年和暑假那兩週在臺中（AA_128 11-2）",
-  "transportTier": "transport 裡每一種交通方式自己的開放等級（tier）：開車最早第 1 級（大一寒假車子開放以後，AA_126 8-1）；開車去宜蘭（D24、D25）要第 2 級（大二起，AA_126 8-1）；大眾運輸照地點的 tier。地點的 tier＝最早有任何一種方式可以去的時候"
+  "fixed": "固定段落（例：看電影）：抵達後先演，照 minutes 推進時間、扣 cost；不算互動點，散場後再選互動點（AA_128 5-1）"
  },
  "version": 1,
  "updated": "2026-10-14",
@@ -52,17 +50,14 @@
    "kinds": [
     "half"
    ],
-   "tier": 0,
    "needsCar": false,
    "transport": [
     {
      "mode": "mrt",
      "minutes": 25,
-     "fare": 60,
-     "tier": 0
+     "fare": 60
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": true,
@@ -79,17 +74,14 @@
    "kinds": [
     "half"
    ],
-   "tier": 0,
    "needsCar": false,
    "transport": [
     {
      "mode": "mrt",
      "minutes": 30,
-     "fare": 60,
-     "tier": 0
+     "fare": 60
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -107,17 +99,14 @@
     "half",
     "evening"
    ],
-   "tier": 0,
    "needsCar": false,
    "transport": [
     {
      "mode": "mrt",
      "minutes": 25,
-     "fare": 60,
-     "tier": 0
+     "fare": 60
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": true,
@@ -135,17 +124,14 @@
     "half",
     "evening"
    ],
-   "tier": 0,
    "needsCar": false,
    "transport": [
     {
      "mode": "mrt",
      "minutes": 15,
-     "fare": 50,
-     "tier": 0
+     "fare": 50
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": {
     "label": "看電影",
@@ -167,17 +153,14 @@
     "half",
     "evening"
    ],
-   "tier": 0,
    "needsCar": false,
    "transport": [
     {
      "mode": "mrt",
      "minutes": 20,
-     "fare": 50,
-     "tier": 0
+     "fare": 50
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": {
     "label": "看電影",
@@ -198,17 +181,14 @@
    "kinds": [
     "half"
    ],
-   "tier": 0,
    "needsCar": false,
    "transport": [
     {
      "mode": "mrt",
      "minutes": 30,
-     "fare": 60,
-     "tier": 0
+     "fare": 60
     }
    ],
-   "fromChiayi": null,
    "admission": 30,
    "fixed": null,
    "batch1": true,
@@ -225,17 +205,14 @@
    "kinds": [
     "half"
    ],
-   "tier": 0,
    "needsCar": false,
    "transport": [
     {
      "mode": "mrt",
      "minutes": 20,
-     "fare": 50,
-     "tier": 0
+     "fare": 50
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": true,
@@ -252,17 +229,14 @@
    "kinds": [
     "half"
    ],
-   "tier": 0,
    "needsCar": false,
    "transport": [
     {
      "mode": "mrt",
      "minutes": 35,
-     "fare": 60,
-     "tier": 0
+     "fare": 60
     }
    ],
-   "fromChiayi": null,
    "admission": 60,
    "fixed": null,
    "batch1": false,
@@ -280,23 +254,19 @@
     "half",
     "evening"
    ],
-   "tier": 0,
    "needsCar": false,
    "transport": [
     {
      "mode": "mrt",
      "minutes": 60,
-     "fare": 60,
-     "tier": 0
+     "fare": 60
     },
     {
      "mode": "car",
      "minutes": 30,
-     "fare": 100,
-     "tier": 1
+     "fare": 100
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": true,
@@ -313,17 +283,14 @@
    "kinds": [
     "half"
    ],
-   "tier": 0,
    "needsCar": false,
    "transport": [
     {
      "mode": "mrt",
      "minutes": 20,
-     "fare": 50,
-     "tier": 0
+     "fare": 50
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -340,17 +307,14 @@
    "kinds": [
     "half"
    ],
-   "tier": 0,
    "needsCar": false,
    "transport": [
     {
      "mode": "mrt",
      "minutes": 50,
-     "fare": 80,
-     "tier": 0
+     "fare": 80
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -367,17 +331,14 @@
    "kinds": [
     "half"
    ],
-   "tier": 0,
    "needsCar": false,
    "transport": [
     {
      "mode": "mrt",
      "minutes": 30,
-     "fare": 60,
-     "tier": 0
+     "fare": 60
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -394,17 +355,14 @@
    "kinds": [
     "half"
    ],
-   "tier": 0,
    "needsCar": false,
    "transport": [
     {
      "mode": "mrt",
      "minutes": 55,
-     "fare": 100,
-     "tier": 0
+     "fare": 100
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": true,
@@ -424,17 +382,14 @@
     "half",
     "evening"
    ],
-   "tier": 0,
    "needsCar": false,
    "transport": [
     {
      "mode": "mrt+bus",
      "minutes": 70,
-     "fare": 120,
-     "tier": 0
+     "fare": 120
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -453,17 +408,14 @@
    "kinds": [
     "evening"
    ],
-   "tier": 1,
    "needsCar": true,
    "transport": [
     {
      "mode": "car",
      "minutes": 40,
-     "fare": 150,
-     "tier": 1
+     "fare": 150
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": true,
@@ -480,17 +432,14 @@
    "kinds": [
     "half"
    ],
-   "tier": 1,
    "needsCar": true,
    "transport": [
     {
      "mode": "car",
      "minutes": 60,
-     "fare": 300,
-     "tier": 1
+     "fare": 300
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -509,23 +458,19 @@
    "kinds": [
     "half"
    ],
-   "tier": 0,
    "needsCar": false,
    "transport": [
     {
      "mode": "coach",
      "minutes": 90,
-     "fare": 200,
-     "tier": 0
+     "fare": 200
     },
     {
      "mode": "car",
      "minutes": 60,
-     "fare": 300,
-     "tier": 1
+     "fare": 300
     }
    ],
-   "fromChiayi": null,
    "admission": 120,
    "fixed": null,
    "batch1": false,
@@ -545,23 +490,19 @@
     "half",
     "evening"
    ],
-   "tier": 0,
    "needsCar": false,
    "transport": [
     {
      "mode": "mrt+coach",
      "minutes": 90,
-     "fare": 200,
-     "tier": 0
+     "fare": 200
     },
     {
      "mode": "car",
      "minutes": 60,
-     "fare": 300,
-     "tier": 1
+     "fare": 300
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": true,
@@ -580,23 +521,19 @@
    "kinds": [
     "half"
    ],
-   "tier": 0,
    "needsCar": false,
    "transport": [
     {
      "mode": "mrt+coach",
      "minutes": 100,
-     "fare": 220,
-     "tier": 0
+     "fare": 220
     },
     {
      "mode": "car",
      "minutes": 70,
-     "fare": 300,
-     "tier": 1
+     "fare": 300
     }
    ],
-   "fromChiayi": null,
    "admission": 80,
    "fixed": null,
    "batch1": false,
@@ -615,23 +552,19 @@
    "kinds": [
     "half"
    ],
-   "tier": 0,
    "needsCar": false,
    "transport": [
     {
      "mode": "mrt+bus",
      "minutes": 60,
-     "fare": 100,
-     "tier": 0
+     "fare": 100
     },
     {
      "mode": "car",
      "minutes": 50,
-     "fare": 200,
-     "tier": 1
+     "fare": 200
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -648,23 +581,19 @@
    "kinds": [
     "half"
    ],
-   "tier": 0,
    "needsCar": false,
    "transport": [
     {
      "mode": "mrt+bus",
      "minutes": 70,
-     "fare": 120,
-     "tier": 0
+     "fare": 120
     },
     {
      "mode": "car",
      "minutes": 40,
-     "fare": 200,
-     "tier": 1
+     "fare": 200
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -681,17 +610,14 @@
    "kinds": [
     "half"
    ],
-   "tier": 1,
    "needsCar": true,
    "transport": [
     {
      "mode": "car",
      "minutes": 60,
-     "fare": 300,
-     "tier": 1
+     "fare": 300
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -708,17 +634,14 @@
    "kinds": [
     "half"
    ],
-   "tier": 1,
    "needsCar": true,
    "transport": [
     {
      "mode": "car",
      "minutes": 50,
-     "fare": 300,
-     "tier": 1
+     "fare": 300
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -735,23 +658,19 @@
    "kinds": [
     "day"
    ],
-   "tier": 1,
    "needsCar": false,
    "transport": [
     {
      "mode": "coach",
      "minutes": 90,
-     "fare": 300,
-     "tier": 1
+     "fare": 300
     },
     {
      "mode": "car",
      "minutes": 60,
-     "fare": 400,
-     "tier": 2
+     "fare": 400
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -770,23 +689,19 @@
    "kinds": [
     "day"
    ],
-   "tier": 1,
    "needsCar": false,
    "transport": [
     {
      "mode": "rail",
      "minutes": 100,
-     "fare": 400,
-     "tier": 1
+     "fare": 400
     },
     {
      "mode": "car",
      "minutes": 80,
-     "fare": 400,
-     "tier": 2
+     "fare": 400
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": true,
@@ -806,34 +721,17 @@
     "day",
     "overnight"
    ],
-   "tier": 1,
    "needsCar": false,
    "transport": [
     {
      "mode": "hsr",
      "minutes": 90,
-     "fare": 1600,
-     "tier": 1
+     "fare": 1600
     },
     {
      "mode": "car",
      "minutes": 150,
-     "fare": 900,
-     "tier": 1
-    }
-   ],
-   "fromChiayi": [
-    {
-     "mode": "car",
-     "minutes": 60,
-     "fare": 300,
-     "tier": 1
-    },
-    {
-     "mode": "hsr",
-     "minutes": 70,
-     "fare": 800,
-     "tier": 1
+     "fare": 900
     }
    ],
    "admission": 0,
@@ -853,23 +751,19 @@
     "day",
     "overnight"
    ],
-   "tier": 1,
    "needsCar": false,
    "transport": [
     {
      "mode": "hsr",
      "minutes": 110,
-     "fare": 2200,
-     "tier": 1
+     "fare": 2200
     },
     {
      "mode": "car",
      "minutes": 180,
-     "fare": 1000,
-     "tier": 1
+     "fare": 1000
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -877,7 +771,7 @@
    "closed": null,
    "weather": "mixed",
    "combo": [],
-   "note": "祐廷的家鄉；帶她見家人另有事件"
+   "note": ""
   },
   {
    "id": "D28",
@@ -886,23 +780,19 @@
    "kinds": [
     "overnight"
    ],
-   "tier": 2,
    "needsCar": false,
    "transport": [
     {
      "mode": "hsr",
      "minutes": 135,
-     "fare": 2800,
-     "tier": 2
+     "fare": 2800
     },
     {
      "mode": "car",
      "minutes": 240,
-     "fare": 1400,
-     "tier": 2
+     "fare": 1400
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -919,23 +809,19 @@
    "kinds": [
     "overnight"
    ],
-   "tier": 2,
    "needsCar": false,
    "transport": [
     {
      "mode": "hsr",
      "minutes": 125,
-     "fare": 3000,
-     "tier": 2
+     "fare": 3000
     },
     {
      "mode": "car",
      "minutes": 270,
-     "fare": 1500,
-     "tier": 2
+     "fare": 1500
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -952,23 +838,19 @@
    "kinds": [
     "overnight"
    ],
-   "tier": 2,
    "needsCar": false,
    "transport": [
     {
      "mode": "rail",
      "minutes": 130,
-     "fare": 900,
-     "tier": 2
+     "fare": 900
     },
     {
      "mode": "car",
      "minutes": 180,
-     "fare": 1000,
-     "tier": 2
+     "fare": 1000
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -985,23 +867,19 @@
    "kinds": [
     "overnight"
    ],
-   "tier": 2,
    "needsCar": false,
    "transport": [
     {
      "mode": "hsr+coach",
      "minutes": 150,
-     "fare": 1800,
-     "tier": 2
+     "fare": 1800
     },
     {
      "mode": "car",
      "minutes": 180,
-     "fare": 1000,
-     "tier": 2
+     "fare": 1000
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
@@ -1020,17 +898,14 @@
    "kinds": [
     "overnight"
    ],
-   "tier": 2,
    "needsCar": true,
    "transport": [
     {
      "mode": "car",
      "minutes": 210,
-     "fare": 1200,
-     "tier": 2
+     "fare": 1200
     }
    ],
-   "fromChiayi": null,
    "admission": 0,
    "fixed": null,
    "batch1": false,
