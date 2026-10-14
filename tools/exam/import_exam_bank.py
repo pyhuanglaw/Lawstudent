@@ -4,6 +4,8 @@
 刑訴用遊戲裡現有的 QBANK（src/data/legal_qbank.js），在遊戲裡接，不在這裡複製。
 課堂題（AA_130 第 3 節第 3 點）：題目有 askedIn 或 source＝CLASS_DISC；其餘是題庫題。現在還沒有課堂題。
 AI 草稿（exam_bank_封存_AI草稿/、qbank_封存_AI草稿/）不讀。
+法條：大一～大三的 basis（之後改名 mapBasis）是 AA、BB 對週次時自己標的，不是使用者給的——兩種名字都不帶進遊戲（AA 2026-10-14 17:4x，企劃分支 ac7ecb2）；
+大四是 AI 出題、使用者授權，basis 照帶、交卷後顯示。
 用法：python3 tools/exam/import_exam_bank.py [企劃分支的 ref，預設 origin/claude/story-planning]"""
 import json, os, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -11,7 +13,8 @@ REF = sys.argv[1] if len(sys.argv) > 1 else 'origin/claude/story-planning'
 sha = subprocess.check_output(['git', '-C', ROOT, 'rev-parse', '--short', REF], text=True).strip()
 show = lambda p: subprocess.check_output(['git', '-C', ROOT, 'show', f'{REF}:{p}'], text=True)
 ls = lambda d: [l for l in subprocess.check_output(['git', '-C', ROOT, 'ls-tree', '--name-only', f'{REF}:{d}'], text=True).split('\n') if l]
-KEEP = ('id', 'course', 'term', 'scopeWeek', 'type', 'q', 'options', 'answer', 'core', 'explanation', 'basis', 'status', 'askedIn', 'source')
+KEEP = ('id', 'course', 'term', 'scopeWeek', 'type', 'q', 'options', 'answer', 'core', 'explanation', 'status', 'askedIn', 'source')
+KEEP_Y4 = KEEP + ('basis',)
 DROPPED = ('law_society', 'law_society_2', 'juris', 'intl_public', 'legal_history', 'fair_trade', 'conflict_laws')
 out = {'source': 'claude/story-planning ' + sha, 'files': [], 'questions': [], 'courseMap': {}}
 seen = set(); skipped = []
@@ -22,7 +25,8 @@ def take(path, need):
         if q.get('status') != need: skipped.append(f"{q.get('id')}:{q.get('status')}"); continue
         if q.get('course') in DROPPED: skipped.append(f"{q.get('id')}:刪掉的課"); continue
         if q['id'] in seen: sys.exit('題號重複：' + q['id'] + '（' + path + '）')
-        seen.add(q['id']); out['questions'].append({k: q[k] for k in KEEP if k in q}); n += 1
+        keep = KEEP_Y4 if need == 'Y4_CROSS_REVIEWED' else KEEP
+        seen.add(q['id']); out['questions'].append({k: q[k] for k in keep if k in q}); n += 1
     out['files'].append({'path': path.replace('docs/story_planning/', ''), 'taken': n})
 for f in ls('docs/story_planning/exam_official'):
     if f.endswith('.json') and f != 'course_bank_map.json': take('docs/story_planning/exam_official/' + f, 'USER_CONFIRMED')

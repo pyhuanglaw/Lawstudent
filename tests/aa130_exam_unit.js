@@ -69,6 +69,18 @@ function mkGM(G,answer){ const log=[]; return {G,log,D:{active:false},E:{player:
     const q1=r.qs[0]; check('交卷後答錯的那一題顯示答案'+(q1.core?'與使用者給的考點':'（這一題使用者沒有給考點，就不顯示）'),GM.log.some(t=>t.startsWith('第 1 題的答案：')&&(q1.core?t.includes('考點：'+q1.core):!t.includes('考點：'))),GM.log.slice(-3).join(' | '));
     check('只有答錯的題目顯示答案（答對的 4 題不顯示）',GM.log.filter(t=>/^第 \d 題的答案：/.test(t)).length===1);
     check('成績單：刑事訴訟法「90 分」',CLS.reportFor(G,'Y3S1').crimpro==='90 分',JSON.stringify(CLS.reportFor(G,'Y3S1'))); }
+  // 交卷後的法條（AA 2026-10-14 17:4x）：大一～大三的 basis／mapBasis 是 AA、BB 對週次自己標的、不是使用者給的——不顯示；大四（AI 出題、使用者授權）照顯示
+  { check('題庫資料：大一～大三（USER_CONFIRMED）的題目沒有 basis、mapBasis 欄位',EXAM_BANK.questions.filter(q=>q.status==='USER_CONFIRMED').every(q=>!('basis' in q)&&!('mapBasis' in q)));
+    const wrong=qs=>{ let i=0; return ()=>{ const q=qs[i++]; const vals=q.type==='tf'||!q.options?['對','錯']:Object.keys(q.options); return vals.indexOf(q.answer)===0?1:0; }; };
+    const fam=EXAM_BANK.questions.filter(q=>q.course==='family_law'&&q.term==='Y2S2'); const keep=fam.map(q=>[q,q.basis,q.mapBasis]); fam.forEach(q=>{ q.basis='民法 §9999（測試）'; q.mapBasis='民法 §8888（測試）'; });   /* 就算資料裡有（舊格式），畫面也不顯示 */
+    const G=mkG(dayOf('2027-06-20'),9); const r=CLS.drawExam(G,'family_law','Y2S2','final'); const GM=mkGM(G,wrong(r.qs)); const res=await CLS.runExam(GM,{c:CLS.byId('family_law'),exam:'final',term:'Y2S2'});
+    const rev=GM.log.filter(t=>/^第 \d 題的答案：/.test(t));
+    check('大一～大三交卷後：答錯的 5 題都顯示答案與考點，不顯示 basis／mapBasis',res.correct===0&&rev.length===5&&rev.every(t=>t.includes('考點：')&&!t.includes('§9999')&&!t.includes('§8888')),rev.join(' | '));
+    keep.forEach(([q,b,m])=>{ if(b===undefined) delete q.basis; else q.basis=b; if(m===undefined) delete q.mapBasis; else q.mapBasis=m; });
+    const y4={}; EXAM_BANK.questions.filter(q=>q.status==='Y4_CROSS_REVIEWED').forEach(q=>{ const k=q.course+'|'+q.term; y4[k]=(y4[k]||0)+1; }); const [c4,t4]=Object.keys(y4).sort((a,b)=>y4[b]-y4[a])[0].split('|');
+    const G4=mkG(dayOf('2028-12-20'),9); const r4=CLS.drawExam(G4,c4,t4,'final'); const GM4=mkGM(G4,wrong(r4.qs)); await CLS.runExam(GM4,{c:CLS.byId(c4),exam:'final',term:t4});
+    const rev4=GM4.log.filter(t=>/^第 \d 題的答案：/.test(t)), withB=r4.qs.filter(q=>q.basis);
+    check('大四（'+c4+'）交卷後：有法條的題目顯示法條',rev4.length===5&&withB.length>0&&withB.every(q=>rev4.some(t=>t.includes('（'+q.basis+'）'))),rev4.slice(0,2).join(' | ')); }
   // 非法律課不考五題
   { check('非法律課（大一國文、體育）不考五題',!CLS.isExamCourse(CLS.byId('chinese_y1'))&&!CLS.isExamCourse(CLS.byId('pe_y1s1'))); }
   console.error=cerr; console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
