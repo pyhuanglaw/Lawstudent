@@ -6,7 +6,8 @@
 //   T1b（手機）：前一晚 21:00 張教授的信（通知）；21:20～21:32 麵店團群組四則（那天以前就在群組裡才有）；最後一則可以回三種，各自的回覆照 BB_110；
 //     沒在群組＝只有信；睡著／跳過時間＝隔天補收在原本的時間；颱風假過了不能再回。
 //   T1a（宿舍）：颱風假晚上 18–23 點在宿舍房間才開始（其他時間、其他地方、別的週一都不會）；見過方奕廷才有他那三句（沒見過＝跳過）；
-//     三個選項的阿凱回應照 BB_110；「看情況。」記 SAID_DEPENDS（阿凱）；只一次。
+//     三個選項的阿凱回應照 BB_110；「看情況。」記 SAID_DEPENDS（阿凱）；只一次；生活 CG BCG-18 在方奕廷進來那一句（沒見過他＝不放）；前一晚 20:30 新聞通知。
+//   明軒的三色螢光筆（聖誕抽到）放在房間：「看看房間」多一樣，旁白照 BB（有綠色螢光筆的另一句）。
 // 用法：node tests/v1_batch11_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -15,8 +16,9 @@ global.document={ getElementById:()=>null, addEventListener(){} }; global.naviga
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|OUT|COURSES|CLS|ACTIVITIES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/classes3d.js']) load(f);
+{ const src=fs.readFileSync(path.join(ROOT,'src/adv3d.js'),'utf8'); const m=/^const CG_REGISTRY=(\{.*\});$/m.exec(src); global.CG_REGISTRY=m?eval('('+m[1]+')'):{}; }
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
-global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){},setBg(){}}; global.CHAR={setExpr(){}};
+let cgs=[]; global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(id){ cgs.push({id,at:said.length}); return true; },setBg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
 let said=[], opts=[], picks=[], caps=[], G=null;
 const E={q:{level:'medium'},player:{busy:false,obj:{position:{x:0,y:0,z:0},rotation:{y:0}},lv:0},zone:{roomAt:()=>null,seats:[]},npcs:[],interactables:[],levels:null,setWeather(){},hour:0};
@@ -55,6 +57,8 @@ const WHO=['heroine_01','heroine_03','zhe','classmate_bohan','classmate_xinci','
   const tyMsgs=()=>G.msgs.filter(m=>/^ty1_/.test(m.tag||'')).map(m=>({tag:m.tag,day:m.day,h:m.h,th:m.th,from:m.from,name:m.name,text:m.text,ask:!!m.ask}));
   const joinOn=d=>{ PHONE.join(G,'noodle_team','麵店團'); PHONE.rec(G).groups.noodle_team.day=d; };
   { fresh(EVE,20.5,'dorm',{}); joinOn(EVE-3); run(20.5,21.7); const M=tyMsgs();
+    const news=M.find(m=>m.tag==='ty1_news');
+    check('T1b：前一晚 20:30 新聞通知「明天停止上班上課。」（BB 2026-10-14 照 AA 建議加）',!!news&&news.day===EVE&&news.h===20.5&&news.th==='sys'&&news.name==='新聞'&&news.text==='明天停止上班上課。',JSON.stringify(news));
     const mail=M.find(m=>m.tag==='ty1_mail');
     check('T1b：前一晚 21:00 張教授的信（通知）：「明日停課。附件為明日進度的講義，共四十二頁，請自行閱讀。」',!!mail&&mail.day===EVE&&mail.h===21&&mail.th==='sys'&&mail.name==='張教授（信）'&&mail.text==='明日停課。附件為明日進度的講義，共四十二頁，請自行閱讀。',JSON.stringify(mail));
     const g=M.filter(m=>m.th==='g:noodle_team');
@@ -65,10 +69,10 @@ const WHO=['heroine_01','heroine_03','zhe','classmate_bohan','classmate_xinci','
     for(let k=0;k<3;k++){ fresh(EVE,20.5,'dorm',{}); joinOn(EVE-3); run(20.5,21.7); const m=G.msgs.find(x=>x.tag==='ty1_g4'); const r=PHONE.answer(G,m.ask.id,k); const out=r&&r.out.map(x=>[x.from,x.text]);
       if(!r||JSON.stringify(out)!==JSON.stringify([['player',WANT[k][0]],[WANT[k][1],WANT[k][2]]])||G.flags.TY1_REPLY!==WANT[k][3]) bad.push(k+':'+JSON.stringify(out)); }
     check('T1b：三種回覆各自的回應（柏翰「很好。」／阿哲「這才是正確的颱風假。」／小語「這張貼圖比講義有用。」）',!bad.length,bad.join(' ')); }
-  { fresh(EVE,20.5,'dorm',{}); run(20.5,21.7); const M=tyMsgs(); check('T1b：沒在麵店團群組＝只有張教授的信',M.length===1&&M[0].tag==='ty1_mail',JSON.stringify(M.map(m=>m.tag))); }
-  { fresh(EVE,20.5,'dorm',{}); joinOn(TY); run(20.5,21.7); const M=tyMsgs(); check('T1b：颱風假當天才加入群組＝看不到前一晚的群組訊息（只有信）',M.length===1&&M[0].tag==='ty1_mail',JSON.stringify(M.map(m=>m.tag))); }
+  { fresh(EVE,20.5,'dorm',{}); run(20.5,21.7); const M=tyMsgs(); check('T1b：沒在麵店團群組＝只有新聞通知和張教授的信',M.map(m=>m.tag).join()==='ty1_news,ty1_mail',JSON.stringify(M.map(m=>m.tag))); }
+  { fresh(EVE,20.5,'dorm',{}); joinOn(TY); run(20.5,21.7); const M=tyMsgs(); check('T1b：颱風假當天才加入群組＝看不到前一晚的群組訊息（只有新聞和信）',M.map(m=>m.tag).join()==='ty1_news,ty1_mail',JSON.stringify(M.map(m=>m.tag))); }
   { fresh(TY,9,'dorm',{}); joinOn(EVE-3); run(9,9.2); const M=tyMsgs();
-    check('T1b：前一晚睡著了（颱風假早上才看手機）＝信和群組都補收、時間是前一晚',M.length===5&&M.every(m=>m.day===EVE&&m.h>=21&&m.h<21.6),JSON.stringify(M.map(m=>[m.tag,m.day,m.h])));
+    check('T1b：前一晚睡著了（颱風假早上才看手機）＝新聞、信和群組都補收、時間是前一晚',M.length===6&&M.every(m=>m.day===EVE&&m.h>=20.5&&m.h<21.6),JSON.stringify(M.map(m=>[m.tag,m.day,m.h])));
     G.day=TY+1; G.hour=9; const m=G.msgs.find(x=>x.tag==='ty1_g4'); check('T1b：颱風假過了（隔天）就不能回了',!PHONE.askOpen(G,m)&&PHONE.answer(G,m.ask.id,0)===null); }
   { fresh(TY+3,9,'dorm',{}); joinOn(EVE-3); run(9,9.2); check('T1b：颱風假之後才玩到（例如讀到之後的存檔）＝不補這些訊息',!tyMsgs().length); }
   /* ---------- T1a：泡麵之夜 ---------- */
@@ -78,15 +82,23 @@ const WHO=['heroine_01','heroine_03','zhe','classmate_bohan','classmate_xinci','
     check('T1a：颱風假 17:00、23:30 不會；不在宿舍房間（校園、麵店）不會；別的週一晚上不會',!can(TY,17,'dorm')&&!can(TY,23.5,'dorm')&&!can(TY,19,'campus')&&!can(TY,19,'noodle')&&!can(MON6,19,'dorm'));   /* 別的週一＝第 4 週 */ }
   const KAI={yes:'這個推論有問題，但我接受。',no:'你好無情。……拿去。',dep:'你們法律系每次都這樣。'};
   const FANG=['（抱著一盆植物進來）它在陽台會死。','……你帶一盆植物來吃泡麵？','它不吃。它看。'];
-  const t1a=async(knowFang,pick)=>{ fresh(TY,19,'dorm',{}); if(knowFang) meet('npc_fangyt'); picks=[pick]; await EVENTS.run(T1A); return {L:lines(),who:said.map(s=>s.who),F:G.flags,O:opts}; };
+  const t1a=async(knowFang,pick)=>{ fresh(TY,19,'dorm',{}); cgs=[]; if(knowFang) meet('npc_fangyt'); picks=[pick]; await EVENTS.run(T1A); return {L:lines(),who:said.map(s=>s.who),F:G.flags,O:opts,cg:cgs.slice()}; };
   { let r=await t1a(true,'算');
     check('T1a：見過方奕廷＝阿凱「我囤了二十包。……」、方奕廷三句、阿凱「法律系的，颱風天泡麵算不算「不可抗力」？」',r.L[0]==='我囤了二十包。這是我人生最正確的決定。'&&FANG.every(t=>r.L.includes(t))&&r.L.includes('法律系的，颱風天泡麵算不算「不可抗力」？'),JSON.stringify(r.L.slice(0,5)));
+    check('T1a：見過方奕廷＝生活 CG BCG-18（cg_typhoon_noodles）在他進來那一句出現（之前只有阿凱第一句）、登錄的是正式檔',r.cg.length===1&&r.cg[0].id==='cg_typhoon_noodles'&&r.cg[0].at===1&&r.L[1]==='（抱著一盆植物進來）它在陽台會死。'&&CG_REGISTRY.cg_typhoon_noodles&&CG_REGISTRY.cg_typhoon_noodles.file==='assets/cg/kai/event_typhoon_noodles.webp'&&fs.existsSync(path.join(ROOT,CG_REGISTRY.cg_typhoon_noodles.file)),JSON.stringify(r.cg));
     check('T1a：三個選項照 BB_110',JSON.stringify(r.O[0])===JSON.stringify(['「算。所以你要分我。」','「不算。這是你自己囤的。」','「看情況。」']),JSON.stringify(r.O[0]));
     check('T1a：「算。」→「這個推論有問題，但我接受。」、不記 SAID_DEPENDS；記 TYPHOON_Y1',r.L.includes(KAI.yes)&&!r.L.includes(KAI.no)&&!SOCIAL.has('kai','SAID_DEPENDS')&&r.F.TYPHOON_Y1===true);
     r=await t1a(true,'不算'); check('T1a：「不算。」→「你好無情。……拿去。」',r.L.includes(KAI.no)&&!r.L.includes(KAI.yes)&&!SOCIAL.has('kai','SAID_DEPENDS'));
     r=await t1a(true,'看情況'); check('T1a：「看情況。」→「你們法律系每次都這樣。」＋記 SAID_DEPENDS（阿凱，大二 F2 用）',r.L.includes(KAI.dep)&&SOCIAL.has('kai','SAID_DEPENDS'));
-    r=await t1a(false,'算'); check('T1a：沒見過方奕廷＝他那三句都跳過，其他照舊',!FANG.some(t=>r.L.includes(t))&&r.L[0]==='我囤了二十包。這是我人生最正確的決定。'&&r.L.includes('法律系的，颱風天泡麵算不算「不可抗力」？')&&r.L.includes(KAI.yes),JSON.stringify(r.L));
+    r=await t1a(false,'算'); check('T1a：沒見過方奕廷＝不放 BCG-18（圖裡有他；BB 2026-10-14 同意）',!r.cg.length,JSON.stringify(r.cg));
+    check('T1a：沒見過方奕廷＝他那三句都跳過，其他照舊',!FANG.some(t=>r.L.includes(t))&&r.L[0]==='我囤了二十包。這是我人生最正確的決定。'&&r.L.includes('法律系的，颱風天泡麵算不算「不可抗力」？')&&r.L.includes(KAI.yes),JSON.stringify(r.L));
     check('T1a：沒見過方奕廷＝演完也還是沒見過（不會因為這個事件變成認識）',!STORY.knows('npc_fangyt',G));
     fresh(TY,19,'dorm',{}); picks=['算']; await EVENTS.run(T1A); G.hour=20; check('T1a：只一次（演完再檢查不會開始）',!EVENTS.check(T1A)); }
+  /* ---------- 明軒的三色螢光筆放在房間（BB_95 3-6b，BB 2026-10-14 的旁白）---------- */
+  { const HL='明軒送的三色螢光筆。他說他用不到。', HLG='明軒送的三色螢光筆，和上次那支綠的放在一起。他說他用不到。';
+    const look=async(flags)=>{ fresh(TY+60,21,'dorm',flags); picks=['三色螢光筆']; await STORY.interact({roomItems:true,label:'看看房間'},GM); return {L:lines(),O:opts[0]||[]}; };
+    let r=await look({}); check('房間：沒抽到明軒的禮物＝沒有螢光筆',!r.O.some(t=>/螢光筆/.test(t)),JSON.stringify(r.O));
+    r=await look({XMAS_HL3:true}); check('房間：抽到明軒的禮物＝「桌上的三色螢光筆」→「明軒送的三色螢光筆。他說他用不到。」',r.O.includes('桌上的三色螢光筆')&&r.L.includes(HL),JSON.stringify({O:r.O,L:r.L}));
+    r=await look({XMAS_HL3:true,GREEN_HIGHLIGHTER:true}); check('房間：也有綠色螢光筆＝「明軒送的三色螢光筆，和上次那支綠的放在一起。他說他用不到。」',r.L.includes(HLG)&&!r.L.includes(HL),JSON.stringify(r.L)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

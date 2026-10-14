@@ -498,10 +498,11 @@ const STORY = (function(){
         if(typeof OUT!=='undefined'&&!OUT.get(G,'kx_bday')) OUT.plan(G,{id:'kx_bday',ev:'ev_kexin_birthday_y1',day:bd,h:18.75,place:'政大',title:'可昕的生日：開車去政大',travel:'開車約 30 分鐘',travelH:0.5}); }
       if(bd&&F.dating_kexin&&G.day>bd&&G.day<=bd+7&&!(F.KX_BDAY&&F.KX_BDAY[1])){ const v=F.KX_BDAY_VISIT?'visit':(F.KX_BDAY_MSG?'message':'none'); F.KX_BDAY=Object.assign({},F.KX_BDAY||{},{1:v});
         if(v==='none') PHONE.at(G,bd+1,8,[{th:'p:kexin',from:'kexin',text:'我等了一天。'}],'kx_bday_none'); } }
-    /* 颱風假 T1b「照常上課的喜劇」（BB_110 第 2 節、交付清單 B3）：颱風假（calendar.js 的 TYPHOON：第 7 週週一，憲法（上）那天）前一晚 21:00 張教授的信（通知），
+    /* 颱風假 T1b「照常上課的喜劇」（BB_110 第 2 節、交付清單 B3）：颱風假（calendar.js 的 TYPHOON：第 7 週週一，憲法（上）那天）前一晚 20:30 新聞通知「明天停止上班上課。」、21:00 張教授的信（通知），
        21:20 起麵店團群組（那天以前就在群組裡的玩家）：阿哲、小語、柏翰、阿哲；最後一則可以回三種（到颱風假當天 24:00）。睡著、跳過時間的玩家照原本的時間補收（PHONE.at）。
        AA 角色的台詞（阿哲、小語、柏翰）照 BB_110，AA 可以改 */
     { const ty=termDay('Y1S1',7,1); if(ty&&typeof CALENDAR!=='undefined'&&CALENDAR.typhoon(ty)&&G.day>=ty-1&&G.day<=ty){ const eve=ty-1;
+        if(!PHONE.sent(G,'ty1_news')) PHONE.at(G,eve,20.5,[{th:'sys',name:'新聞',text:'明天停止上班上課。'}],'ty1_news');   /* 前一晚市政府宣布（BB 2026-10-14 照 AA 建議加）：沒有群組的玩家也收得到 */
         if(!PHONE.sent(G,'ty1_mail')) PHONE.at(G,eve,21,[{th:'sys',from:'prof_zhang',name:'張教授（信）',text:'明日停課。附件為明日進度的講義，共四十二頁，請自行閱讀。'}],'ty1_mail');
         const gj=PHONE.inGroup(G,'noodle_team')&&PHONE.rec(G).groups.noodle_team; if(gj&&gj.day<=eve&&!PHONE.sent(G,'ty1_g4')){ const T='g:noodle_team';
           PHONE.at(G,eve,21+20/60,[{th:T,from:'zhe',text:'四十二頁。颱風比較仁慈。'}],'ty1_g1');
@@ -581,7 +582,11 @@ const STORY = (function(){
   /* 宿舍房間的物件（交接包 v1 第 1 節「房間物件」，AA_12 0-2、0-3）：點了看一句旁白。可昕的物件分開以後的旁白，之後由 AA 補（大一上不會分開）*/
   const ROOM_ITEMS=[['書架上的舊《民法》','以前翻過。看得到字，看不懂意思。'],['經濟學原理（一年前的課本）','經濟系那一年的課本。邊角都翻軟了。'],['寫滿的筆記本','重考那段時間的筆記。一半是你的字，一半是她的。'],['摩天輪的票根（夾在桌墊下）','摩天輪的票根。兩個人開始交往的那一天。'],['手機相簿的一張照片','河堤邊停著幾台腳踏車。那一群人，那一年。']];
   S.ROOM_ITEMS=ROOM_ITEMS;
-  async function roomItems(GM){ GM.sceneBegin(); try{ for(let n=0;n<12;n++){ const i=await GM.choose([...ROOM_ITEMS.map(r=>({t:r[0]})),{t:'不看了'}]); if(i<0||i>=ROOM_ITEMS.length) break; await GM.say(null,ROOM_ITEMS[i][1]); } } finally { GM.sceneEnd(); } }
+  /* 跟著劇情多出來的東西（放在固定的那幾樣後面）：明軒送的三色螢光筆（聖誕交換禮物 XMAS_HL3；BB_95 3-6b，BB 2026-10-14 寫的旁白）*/
+  S.roomItemList=function(G){ const F=(G&&G.flags)||{}, L=ROOM_ITEMS.slice();
+    if(F.XMAS_HL3) L.push(['桌上的三色螢光筆',F.GREEN_HIGHLIGHTER?'明軒送的三色螢光筆，和上次那支綠的放在一起。他說他用不到。':'明軒送的三色螢光筆。他說他用不到。']);
+    return L; };
+  async function roomItems(GM){ GM.sceneBegin(); try{ const L=S.roomItemList(GM.G); for(let n=0;n<12;n++){ const i=await GM.choose([...L.map(r=>({t:r[0]})),{t:'不看了'}]); if(i<0||i>=L.length) break; await GM.say(null,L[i][1]); } } finally { GM.sceneEnd(); } }
   /* 宿舍房間裡跟著劇情出現的東西（交接包 v1 第 4 批，BB_95 3-1、3-2）：黃金葛（POTHOS，方奕廷送的，書桌旁）、阿凱書桌下的鍵盤盒子（KAI_SILENT_KB；看過就收起來）。
      進宿舍、待在宿舍時（S.tick）補上，同一個東西不重複加。3D 模型：黃金葛的小盆栽還沒有——先只有互動點；小道具集中成一批「環境細節」，主要工作穩定後一起做（D70，使用者 2026-10-14：低優先）*/
   S.dormItems=function(GM){ const G=GM.G, F=G.flags, E=GM.E; if(G.zone!=='dorm'||!E||!E.interactables) return; const has=k=>E.interactables.some(it=>it[k]);
