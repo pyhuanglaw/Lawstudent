@@ -213,9 +213,12 @@ async def go_to(pg, cdp, run, tx, tz, near, label, max_s=420, lv=None):
         if d <= near and (lv is None or s.get('lv', 0) == lv):
             # 還在走（路線還沒走完）：真人會等人物停下來再看按鈕、按按鈕。不等的話，人物經過座位旁那一瞬間按鈕是「坐下」
             # （2026-10-10：flow_linze_floors 在 201 往後門走、離目標 0.67 m 時就檢查，按鈕還是最上排座位的「坐下」，停下來後才是「離開教室」）
-            t1 = time.time()
-            while s['path'] and time.time() - t1 < 30:   # SwiftShader 0.5–1 fps：12 秒只有 6–12 格，最後半公尺常常還沒走完（2026-10-13 改 30 秒）
+            t1 = time.time(); moved = time.time(); px, pz = s['x'], s['z']
+            while s['path'] and time.time() - t1 < 120 and time.time() - moved < 20:   # 還在走就等：只要 20 秒內有往前走就繼續（最多 120 秒）
+                # SwiftShader 0.3–1 fps：201 階梯教室裡 30 秒常常還走不完最後一公尺（2026-10-14 v9.6 候選 13：停在 0.67 m、路線還剩一點就被當成「到了」，
+                # 按鈕還沒出現；之後人物照樣走到椅子旁、出現「坐下」。2026-10-13 以前是固定 30 秒）
                 await pg.wait_for_timeout(500); s = await state(pg)
+                if math.hypot(s['x'] - px, s['z'] - pz) > 0.05: px, pz = s['x'], s['z']; moved = time.time()
             d = math.hypot(tx - s['x'], tz - s['z'])
             if d > near and not s['path']:
                 # 走過頭：點下去的地面和目標差了一點（tap_ground 的驗證容許 1 m），人經過目標旁邊、停在 near 以外——真人看按鈕沒出現會用搖桿往目標推一下。
