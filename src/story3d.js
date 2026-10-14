@@ -92,7 +92,8 @@ const STORY = (function(){
         GM.spawnExtra(boy(),[[-12.4,0,0],[12.4,0,0]],{});   /* 一樓走廊來回 */
         if(hr>=12){ const st=E.zone.seats[1]; if(st) mk(st.x,st.z,0,st.yaw,'read',{x:st.x,z:st.z,yaw:st.yaw,lv:0}); }
         if(hr>=19){ const sf=L.furniture.find(f=>f.type==='sofa'); if(sf) mk(sf.x,sf.z,0,sf.ry,'sit',{x:sf.x,z:sf.z,yaw:sf.ry,lv:0}); } } }
-    if(zoneId==='cafe'){ const seats=E.zone.seats; if(hr>=19&&hr<23){ GM.spawnNPC('sis',C.sis,0,0,{seat:seats[5],pose:'read',talk:n=>talkSis(GM,n)}); GM.npc.sis.idlePose='read'; tm('sis',23); } for(const i of [6]){ const o=CHAR.build(extraSpec(xi++)); const s=seats[i]; o.position.set(s.x,0,s.z); o.rotation.y=s.yaw; E.addNPC({obj:o,name:'',beh:'idle',pose:'read',idlePose:'read',frozen:true,isExtra:true}); } if(F.companion==='an') spawnCompanion(GM); }
+    if(zoneId==='cafe'){ const seats=E.zone.seats; const z3=S.z3Pending(G), shut=S.Z3_SHUT, quiet=z3&&hr>=shut&&hr<22;   /* 芷若 Z3（BB_96 3-1）還沒發生的平日：21:40 起店裡只剩祐廷——之前進來的客人 21:40 起身走出去（until）、21:40～22:00 不生成（S.z3Pending）*/
+      if(hr>=19&&hr<23&&!quiet){ GM.spawnNPC('sis',C.sis,0,0,{seat:seats[5],pose:'read',talk:n=>talkSis(GM,n)}); GM.npc.sis.idlePose='read'; tm('sis',z3&&hr<shut?shut:23); } for(const i of [6]){ if(quiet) continue; const o=CHAR.build(extraSpec(xi++)); const s=seats[i]; o.position.set(s.x,0,s.z); o.rotation.y=s.yaw; const x=E.addNPC({obj:o,name:'',beh:'idle',pose:'read',idlePose:'read',frozen:true,isExtra:true}); if(x&&z3&&hr<shut) x.until=shut; } if(F.companion==='an') spawnCompanion(GM); }
     /* 店員（2026-10-11 使用者回報：便利商店、麵店、書店都沒有人顧店）：站在櫃台後面、工作台前；只是讓店有人在顧，不加對話和劇情（結帳還是櫃台的互動點）。
        外觀用路人模型（extraSpec：偶數＝女性、奇數＝男性）；年紀比較大的老闆娘、老闆要等有中年人物模型（MISSING_EXTERNAL_ART）*/
     { const clerk=(x,z,yaw,i)=>{ const o=CHAR.build(extraSpec(i)); o.position.set(x,0,z); o.rotation.y=yaw; E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,clerk:true}); };
@@ -159,19 +160,20 @@ const STORY = (function(){
         n=GM.spawnCharacter(id,wp[0],wp[1],{beh:'wander',waypoints:r}); } return n; };
     // 教授：依課表
     const F=G.flags;
-    for(const id in CHARACTERS){ if(EVENTS.npcOf(id)) continue; const ent=schedFor(id,zoneId,G); if(!ent) continue; let n=null;
+    const z3c=zoneId==='cafe'&&S.z3Pending(G);   /* 芷若 Z3 那天：Café 的客人 21:40 起身離開、21:40～22:00 不補（店員不算）*/
+    for(const id in CHARACTERS){ if(EVENTS.npcOf(id)) continue; const ent=schedFor(id,zoneId,G); if(!ent) continue; let n=null; const z3cust=z3c&&ent.act!=='barista'; if(z3cust&&hr>=S.Z3_SHUT&&hr<22) continue;
       if(refresh&&typeof ent.to==='number'&&typeof ent.from==='number'&&(ent.to<=24?ent.to-hr:(hr>=ent.from?ent.to-hr:ent.to-24-hr))<0.25) continue;   /* 待在區域裡補人：時段剩不到 15 分鐘的不補（劇情場景擋住補人時，結束後同學在座位上憑空出現、一分鐘後又起身離開——v9.6 回歸 flow_class_real）*/
       if(ent.prof==='class'){ const ts=E.zone.teacherSpot||{x:-1.5,z:-4.4}; n=GM.spawnCharacter(id,ts.x,ts.z,{yaw:0,pose:'idle'}); if(n) n.frozen=true; }
       else if(ent.prof==='wancai'){ n=GM.spawnCharacter(id,-5,1.2,{yaw:0,pose:'idle'}); if(n) n.frozen=true; }
       else n=spawnAt(id,ent);
-      if(n) n.sched=true; }   /* sched：照行程出現的人（時段結束時 refreshSchedule 會讓他離開；劇情裡生出來的人不算） */
+      if(n) n.sched=true; if(n&&z3cust&&hr<S.Z3_SHUT) n.until=S.Z3_SHUT; }   /* sched：照行程出現的人（時段結束時 refreshSchedule 會讓他離開；劇情裡生出來的人不算） */
     if(refresh) return;   /* 待在區域裡補人：不重排不熟同學、不把已經在的人搬到朋友旁邊（pairUp 會瞬移） */
     // 不熟同學 pool：教室（上課時）、圖書館、校園各幾位（固定分配，讓玩家會重複看到同一批人）
     const poolIds=Object.keys(CHARACTERS).filter(id=>id.startsWith('pool_')); const pick=(from,n)=>poolIds.filter((_,i)=>i%5===from).filter(id=>S.present(id,G)).slice(0,n);   /* 畢業的不出現（AA_120 7-3：presence until）；分配不變 */
     if(zoneId==='classroom'&&(GM.G.flags.classNow||(typeof CLS!=='undefined'?CLS.liveIn(G,'classroom').length>0:((wd===4&&hr>=12.5&&hr<15.2)||(wd===2&&hr>=9.9&&hr<12.2))))){ for(const id of pick(1,3)) spawnAt(id,{act:'class'}); }   /* 上課時間照課表（D52）*/
     if(zoneId==='library'&&hr>=8&&hr<22){ for(const id of pick(2,2)) spawnAt(id,{act:'read'}); }
     if(zoneId==='campus'&&hr>=8&&hr<19){ for(const id of pick(3,2)) spawnAt(id,{act:'wander'}); }
-    if(zoneId==='cafe'&&hr>=11&&hr<23){ for(const id of pick(4,1)) spawnAt(id,{act:'read'}); }
+    if(zoneId==='cafe'&&hr>=11&&hr<23&&!(z3c&&hr>=S.Z3_SHUT&&hr<22)){ for(const id of pick(4,1)){ const n=spawnAt(id,{act:'read'}); if(n&&z3c&&hr<S.Z3_SHUT) n.until=S.Z3_SHUT; } }
     if(zoneId==='gongguan'&&hr>=17.5&&hr<23.5){ for(const id of pick(0,2)) spawnAt(id,{act:'wander'}); }
     if(zoneId==='wenzhou'&&hr>=12&&hr<21){ for(const id of pick(0,1)) spawnAt(id,{act:'wander'}); }
     pairUp(zoneId,GM); }
@@ -280,7 +282,13 @@ const STORY = (function(){
       if(n.leaving){ if(n.arrived||(d>=30&&!vis)) GM.removeNPC(id); continue; }
       if(d>=12&&!vis){ GM.removeNPC(id); continue; }
       if(walkAway(GM,n)) continue;
-      if(d<12&&vis) continue; GM.removeNPC(id); } }
+      if(d<12&&vis) continue; GM.removeNPC(id); }
+    for(const n of (E.npcs||[]).slice()){ if(!n||!n.isExtra||n.clerk||n.until==null||hr<n.until) continue;   /* 路人（不在 GM.npc）有 until 的：同一套，走到門口才離開（芷若 Z3 那天 Café 座位 6 的客人）*/
+      const o=n.obj.position, d=Math.hypot(o.x-P.x,o.z-P.z), vis=inView(E,o);
+      if(n.leaving){ if(n.arrived||(d>=30&&!vis)) E.removeNPC(n); continue; }
+      if(d>=12&&!vis){ E.removeNPC(n); continue; }
+      n.pose=n.idlePose='idle'; if(walkAway(GM,n)) continue;
+      if(d<12&&vis) continue; E.removeNPC(n); } }
   /* 同一區、下一個時段是「在某個位置站一下」（linger，例：芷若經原 12:10 下課後走到 101 門口的走廊，12:40 才去吃飯）：已經在場的人（坐在教室裡）起身走過去，不瞬移；
      走不到就留在原地（下一個時段照常離開）。進區域時才生出來的人直接站在那裡（spawnAt）*/
   function lingerMove(GM,zoneId){ const E=GM.E, G=GM.G; for(const id of Object.keys(GM.npc)){ const n=GM.npc[id]; if(!n||!n.sched||n.leaving||n.lingerGo||n.charId!==id) continue; const ent=schedFor(id,zoneId,G); if(!ent||ent.act!=='linger'||!ent.at) continue;
@@ -409,6 +417,17 @@ const STORY = (function(){
   /* 某學期第幾週星期幾是第幾天（wd：1＝週一…7＝週日）；沒有＝null */
   const termDayCache={}; function termDay(term,week,wd){ const k=term+'|'+week+'|'+wd; if(k in termDayCache) return termDayCache[k]; let r=null; if(typeof CALENDAR!=='undefined') for(let d=1;d<1500;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===week&&CALENDAR.dateOf(d).wd===wd){ r=d; break; } } return termDayCache[k]=r; }
   S.termDay=termDay;
+  /* 芷若 Z3「妳自己都喝什麼」（BB_96 3-1）：還沒發生、大一下第 3 週起的平日（她 19–22 晚班）、和她有點熟以上——這一天 21:40～22:00「店裡只剩祐廷」：
+     之前進來的客人 21:40 起身走出去（until：refreshSchedule 讓他們走到門口才離開，不在眼前消失）、21:40～22:00 不生成客人（populate）；
+     事件本身要等店裡沒有別的客人（S.cafeOthers：還沒在離開的人、跟著你的人）。吧檯的店員（clerk、芷若自己）是員工，不算客人 */
+  S.Z3_SHUT=21+40/60;
+  S.z3Pending=function(G){ if(!G||((G.events&&G.events.done)||{}).ev_zhiruo_own_drink) return false; if(typeof SOCIAL==='undefined'||!SOCIAL.STAGES||!SOCIAL.stage) return false;
+    const wd=G.weekday; if(!(wd>=1&&wd<=5)) return false; const d0=termDay('Y1S2',3,1); if(d0==null||G.day<d0) return false;
+    return SOCIAL.STAGES.indexOf(SOCIAL.stage('heroine_02'))>=SOCIAL.STAGES.indexOf('FAMILIAR'); };
+  S.cafeOthers=function(GM){ GM=GM||GM_ref; const out=[]; if(!GM) return out;
+    for(const k of Object.keys(GM.npc||{})){ const n=GM.npc[k]; if(!n||k==='heroine_02'||n.charId==='heroine_02'||n.staff||n.leaving) continue; out.push(k); }
+    for(const n of ((GM.E&&GM.E.npcs)||[])){ if(n&&n.isExtra&&!n.clerk&&!n.leaving) out.push('extra'); }
+    return out; };
   S.zhNum=n=>{ const d='零一二三四五六七八九'; n=n|0; if(n<=0) return '零'; if(n<10) return d[n]; if(n<20) return '十'+(n%10?d[n%10]:''); return d[Math.floor(n/10)]+'十'+(n%10?d[n%10]:''); };   /* 3→三、12→十二、20→二十 */
   /* 玩家認識這個人了嗎（群戲只放認識的人：交接包 v1 交付清單第 0 節第 1 點、AA_120 初遇規則）：FIRST_MET；小語的第一次說話是 talkYu（met_yu）；阿哲開場就熟 */
   S.knows=function(id,G){ G=G||(GM_ref&&GM_ref.G); if(id==='zhe') return true; if(id==='yu'&&G&&G.flags&&G.flags.met_yu) return true; return typeof SOCIAL!=='undefined'&&SOCIAL.has(id,'FIRST_MET'); };
