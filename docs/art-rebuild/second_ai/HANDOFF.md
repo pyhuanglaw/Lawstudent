@@ -5,7 +5,19 @@
 交班紀錄：2026-10-11 10:13 UTC 交班（`1f20126`）→ 2026-10-13 回到帳號 A。
 使用者 2026-10-13：帳號 B 暫時沒有開，從上次停下來的地方接著做。
 
-**2026-10-14 05:4xZ（最新）**：
+**2026-10-14 06:1xZ（最新）**：
+- **交付**：
+  - 杜可昕 `0171f66`（MODEL_READY，VISUAL_REVIEW 32.5）。
+  - 共同教學館、大一女舍合併材質 `8902c5f`：開發分支實測 ALL PASS，gate_avenue ×1.097；VISUAL_REVIEW 33。測試要換 `patches/campus_glb_integration_dev_636688f.patch`。修改前後截圖還沒拍：`drafts/gt_fd_shots.py`；舊 GLB 備份在 `scratchpad/t96/campus_*_before.glb`。
+- **LAWWW 06:02Z P1（進行中）**：在 `/home/user/v97_wt`（636688f）、伺服器 8810 跑 v9.7 回歸 8 項，一次一個（`scratchpad/v97/chain1.sh`；結果在 `scratchpad/v97/summary.txt`、`*.log`）。每 3–4 項回報 LAWWW。第二步要等 LAWWW 的合併 commit，再跑發布前清單的後半段。
+- **LAWWW 已接**：測試清單 `f7dbd96`、蒲葵 0.45 `c9c2ea7`、總圖 3F 正式模型 `bc02c5d`、柏翰 `0f11222`。
+- **下一位人物**：小語，參考圖 `yu.webp`。
+  - 棕色中長捲髮、金色髮夾。
+  - 淡黃／白／灰藍拼色風衣外套、白 T 紮進酒紅百褶過膝裙。
+  - 白帆布鞋、黑斜背包＋三個吊飾。
+  - 回歸跑完、對照截圖拍完再開工。
+
+**2026-10-14 05:4xZ**：
 - **v9.6 測試**：
   - LAWWW 已把 campus_layout_nav patch 套進 v9.6 候選 11（ACTIONED）。
   - 合併版 campus_glb_integration（RC9／開發分支兩份 patch）在 `c2d893c`：RC9 ALL PASS；開發分支只剩效能。
