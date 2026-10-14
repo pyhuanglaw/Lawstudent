@@ -1,0 +1,80 @@
+PASS 霖澤館穿堂（v9.4 D36 起可以走，高 0.9 m；舊版這三個在「不能走」清單） 站得住且走得到  {"stand": true, "ok": true, "len": 2, "end": [34, -110]}
+PASS 霖澤館正面台階 站得住且走得到  {"stand": true, "ok": true, "len": 1, "end": [34, -101.6]}
+PASS 霖澤館背面的後台階 站得住且走得到  {"stand": true, "ok": true, "len": 2, "end": [34, -122.5]}
+PASS 校門內 站得住且走得到  {"stand": true, "ok": true, "len": 7, "end": [-112, 0]}
+PASS 校門口（走出校門的互動點） 站得住且走得到  {"stand": true, "ok": true, "len": 6, "end": [-126, 0]}
+PASS 校門開口正中間 站得住且走得到  {"stand": true, "ok": true, "len": 7, "end": [-124, 0]}
+PASS 椰林大道中段 站得住且走得到  {"stand": true, "ok": true, "len": 6, "end": [-38, -4]}
+PASS 傅鐘廣場 站得住且走得到  {"stand": true, "ok": true, "len": 5, "end": [-44, 14]}
+PASS 傅鐘旁長椅前 站得住且走得到  {"stand": true, "ok": true, "len": 3, "end": [-30, 19.6]}
+PASS 行政大樓前（柱廊外） 站得住且走得到  {"stand": true, "ok": true, "len": 6, "end": [-38, 23.2]}
+PASS 文學院門前 站得住且走得到  {"stand": true, "ok": true, "len": 5, "end": [-38, -23.5]}
+PASS 校史館門前 站得住且走得到  {"stand": true, "ok": true, "len": 7, "end": [-77, -19]}
+PASS 總圖門口 站得住且走得到  {"stand": true, "ok": true, "len": 4, "end": [80.5, 0]}
+PASS 小椰林道 站得住且走得到  {"stand": true, "ok": true, "len": 1, "end": [30, -40]}
+PASS 醉月湖南岸步道 站得住且走得到  {"stand": true, "ok": true, "len": 1, "end": [-36, -97]}
+PASS 醉月湖木棧道（湖面上） 站得住且走得到  {"stand": true, "ok": true, "len": 3, "end": [-39, -107]}
+PASS 湖心亭 站得住且走得到  {"stand": true, "ok": true, "len": 3, "end": [-39, -111.4]}
+PASS 醉月湖畔長椅（步道這側） 站得住且走得到  {"stand": true, "ok": true, "len": 1, "end": [-47, -98.8]}
+PASS 普通教學館正門（方案 A） 站得住且走得到  {"stand": true, "ok": true, "len": 3, "end": [-38, -49.4]}
+PASS 博雅教學館正門（方案 A） 站得住且走得到  {"stand": true, "ok": true, "len": 2, "end": [-38, -72.8]}
+PASS 宿舍門口 站得住且走得到  {"stand": true, "ok": true, "len": 2, "end": [20, 54]}
+PASS 共同教學館正門（2026-10-13，行政大樓東邊） 站得住且走得到  {"stand": true, "ok": true, "len": 5, "end": [2, 22.8]}
+PASS 大一女舍 A 棟門口（2026-10-13） 站得住且走得到  {"stand": true, "ok": true, "len": 5, "end": [-108, 59.2]}
+PASS 大一女舍 B 棟門口 站得住且走得到  {"stand": true, "ok": true, "len": 5, "end": [-78, 57.2]}
+PASS 大一女舍天橋下 站得住且走得到  {"stand": true, "ok": true, "len": 7, "end": [-93, 67]}
+PASS 大一女舍門口長椅前 站得住且走得到  {"stand": true, "ok": true, "len": 6, "end": [-93, 55.6]}
+PASS 萬才館舊門口（第十九～二十三批的台階下，現在在弧形量體前面） 站得住且走得到  {"stand": true, "ok": true, "len": 1, "end": [79.5, -94.3]}
+PASS 萬才館一樓入口（陽台下，第二十四批） 站得住且走得到  {"stand": true, "ok": true, "len": 3, "end": [93.8, -100.6]}
+PASS 萬才館大樓梯中段（萬才館第二階段起可以走、高度一階一階，平台與陽台在第 1 層；第二十四批～v9.4.2 在「不能走」清單） 站得住且走得到  {"stand": true, "ok": true, "len": 2, "end": [87, -94]}
+PASS 萬才館西側（第二十三批以前的方形低樓位置） 站得住且走得到  {"stand": true, "ok": true, "len": 2, "end": [66, -108]}
+PASS 兩棟系館之間（矮籬前） 站得住且走得到  {"stand": true, "ok": true, "len": 2, "end": [58, -117]}
+PASS 社科院前 站得住且走得到  {"stand": true, "ok": true, "len": 2, "end": [90, -60]}
+PASS 社團攤位前 站得住且走得到  {"stand": true, "ok": true, "len": 4, "end": [-18, 13.3]}
+PASS 傅鐘石碑前 站得住且走得到  {"stand": true, "ok": true, "len": 3, "end": [-38, 12.6]}
+PASS 大道北側新系館前（第十八批） 站得住且走得到  {"stand": true, "ok": true, "len": 5, "end": [6, -16.2]}
+PASS 小椰林道東側系館前 站得住且走得到  {"stand": true, "ok": true, "len": 6, "end": [57, -21]}
+PASS 南側系館前 站得住且走得到  {"stand": true, "ok": true, "len": 4, "end": [2, 22]}
+PASS 南側東邊系館前 站得住且走得到  {"stand": true, "ok": true, "len": 3, "end": [45, 22]}
+PASS 宿舍區西側大樓前 站得住且走得到  {"stand": true, "ok": true, "len": 5, "end": [-34, 57]}
+PASS 路人路線點（北側系館後面） 站得住且走得到  {"stand": true, "ok": true, "len": 1, "end": [8, -40]}
+PASS 大一女舍天橋前（第二十批的舟山路西段南側系館前；2026-10-13 換成大一女舍） 站得住且走得到  {"stand": true, "ok": true, "len": 5, "end": [-92, 57.5]}
+PASS 醉月湖水面（中央） 不能走
+PASS 醉月湖水面（東側） 不能走
+PASS 醉月湖水面（西側） 不能走
+PASS 普通教學館建築內 不能走
+PASS 博雅教學館建築內 不能走
+PASS 總圖建築內 不能走
+PASS 行政大樓建築內 不能走
+PASS 文學院建築內 不能走
+PASS 校史館建築內 不能走
+PASS 傅鐘本體 不能走
+PASS 傅鐘台基角 不能走
+PASS 傅鐘石碑 不能走
+PASS 新系館（大道北側）內 不能走
+PASS 新系館（小椰林道東）內 不能走
+PASS 新系館（大道南側）內 不能走
+PASS 新系館（南側東邊）內 不能走
+PASS 宿舍區西側大樓內 不能走
+PASS 宿舍區東側大樓內 不能走
+PASS 校門門柱（北） 不能走
+PASS 校門門柱（南） 不能走
+PASS 校門門房 不能走
+PASS 萬才館弧形量體內（第十九批的大台階位置） 不能走
+PASS 萬才館弧形量體內（第十九批的平台位置） 不能走
+PASS 萬才館樓梯頂端平台 不能走
+PASS 萬才館正面往前凸出的量體內 不能走
+PASS 法學院後面（建築背面到圍牆） 不能走
+PASS 大一女舍 A 棟建築內（2026-10-13 e59c1ad 取代第二十批的舟山路西段南側系館；舊清單的 (-92,68) 現在是 A、B 棟之間的天橋下，可以走） 不能走
+PASS 大一女舍 B 棟建築內 不能走
+PASS 舊存檔：站在新行政大樓位置 → 讀檔後移到可走、走得到的地方  {"x": -44.25, "z": 26.75, "stand": true, "reach": true}
+PASS 舊存檔：站在新總圖中央 → 讀檔後移到可走、走得到的地方  {"x": 88.75, "z": -11.25, "stand": true, "reach": true}
+PASS 舊存檔：站在醉月湖中央（方案 A 之前的位置，現在是普通、博雅之間） → 讀檔後移到可走、走得到的地方  {"x": -26, "z": -68, "stand": true, "reach": true}
+PASS 舊存檔：站在現在普通教學館的位置（以前是湖面） → 讀檔後移到可走、走得到的地方  {"x": -37.75, "z": -67.75, "stand": true, "reach": true}
+PASS 舊存檔：站在霖澤館舊門廊（現在是墊高的穿堂） → 讀檔後移到可走、走得到的地方  {"x": 33.25, "z": -104.75, "stand": true, "reach": true}
+PASS 舊存檔：站在萬才館第十九批的平台（第二十四批起在弧形量體裡） → 讀檔後移到可走、走得到的地方  {"x": 83.25, "z": -97.75, "stand": true, "reach": true}
+PASS 舊存檔：站在萬才館最早的門口（第二十四批起是樓梯頂端平台） → 讀檔後移到可走、走得到的地方  {"x": 88.25, "z": -97.25, "stand": true, "reach": true}
+PASS 舊存檔：站在法學院後面的窄縫（現在不能走） → 讀檔後移到可走、走得到的地方  {"x": 55.25, "z": -117.75, "stand": true, "reach": true}
+PASS 沒有 JS 例外  []
+ALL PASS
+exit 0
