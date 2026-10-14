@@ -5,7 +5,7 @@
          （校園 x 95–125、z −92～−70，docs/campus/SOCSCI_PLAN.md 第 3 節），北面、西面的玻璃帷幕朝萬才館、法學院廣場。
    區域：校園社科院正面的門（zones3d.js 校園的 exits，門的位置在下面的 DOOR）→ soclib（這個檔案）；離開回到社科院正面。
          第①步沿用現在的社科院外觀（門在西面），所以從西邊的門進來、出現在圖書館南面的入口（外觀換成正式模型的第②步再對齊）。
-         開放時間還沒查證（使用者 2026-10-13 要查官網）：現在不擋門，只有背景人物照一般的時間出現（story3d.js）。
+         開放時間（D62，使用者 2026-10-14 查證館方網頁）：src/data/places.js；沒開的時候校園的門擋著（story3d.js 的 onInteract），館裡的人在閉館時被請出去（回到社科院正門前）。
    導航：配置的 nav.rects（[x, z, 寬, 深, ry]）、nav.circles（柱子）。rects 的 ry 是 Blender／three.js 的旋轉方向（物件的 x 軸在世界的 (cos ry, −sin ry)），
          E3.NavGrid.blockRect 的 rot 方向相反（本地 x 軸在世界的 (cos rot, sin rot)），所以傳 −ry（只有弧形書架有旋轉；tests/nav_soclib_unit.js 檢查書架和導航對得上）。
    畫面：程序化備用模型（正式模型載入前、載入失敗時：簡單的牆、桌椅、書架、柱子；D38 分類 ③）；

@@ -59,5 +59,22 @@ const C=CALENDAR, P=PLACES;
   check('閉館說明（寒假週六）：下次開館是下週一 09:10',/週一 09:10/.test(t4),t4);
   check('今天的開放時間一行（入口名牌、大地圖、快速前往）',P.todayText('lawlib',T)==='今天 08:10–21:45'&&P.todayText('lawlib',SAT)==='今天 09:10–17:00'&&/不開放/.test(P.todayText('lawlib',HOL)),[P.todayText('lawlib',T),P.todayText('lawlib',SAT),P.todayText('lawlib',HOL)].join(' / '));
   check('其他地點照舊（總圖 08:00–22:00、Café 跨夜）',P.isOpen('library_hall',21.9,T)&&!P.isOpen('library_hall',22.1,T)&&P.isOpen('cafe',1,T)&&!P.isOpen('cafe',3,T)); }
+// 社科院 辜振甫先生紀念圖書館（D62，使用者 2026-10-14 查證館方網頁）：週六、週日的時間不一樣。修改前（沒有時間＝整天開）這一段會失敗
+{ const T=dayOf('2025-10-07'), SAT=dayOf('2025-10-11'), SUN=dayOf('2025-10-12'), HOL=dayOf('2025-10-10'), BRK=dayOf('2026-01-13'), BSAT=dayOf('2026-01-17'), BSUN=dayOf('2026-01-18');
+  const o=(day,h)=>P.isOpen('soclib',h,day);
+  check('辜振甫 學期間平日：08:19 沒開、08:20 開、21:59 開、22:00 關',!o(T,8.3)&&o(T,8+20/60)&&o(T,21.98)&&!o(T,22));
+  check('辜振甫 學期間週六 09:00–22:00',!o(SAT,8.9)&&o(SAT,9)&&o(SAT,21.9)&&!o(SAT,22));
+  check('辜振甫 學期間週日 09:00–17:00（和週六不一樣）',!o(SUN,8.9)&&o(SUN,9)&&o(SUN,16.9)&&!o(SUN,17)&&!o(SUN,20));
+  check('辜振甫 寒暑假平日 08:20–21:00',!o(BRK,8.3)&&o(BRK,8.34)&&o(BRK,20.9)&&!o(BRK,21));
+  check('辜振甫 寒暑假週六 09:00–17:00、週日不開',o(BSAT,9)&&o(BSAT,16.9)&&!o(BSAT,17)&&[9,12,16].every(h=>!o(BSUN,h)));
+  check('辜振甫 國定假日（國慶日）、春節（除夕）不開',[9,12,20].every(h=>!o(HOL,h))&&!o(dayOf('2026-02-16'),12));
+  const t1=P.closedText('soclib',22.5,T), t2=P.closedText('soclib',18,SUN), t3=P.closedText('soclib',12,BSUN), t4=P.closedText('soclib',12,HOL);
+  check('辜振甫 閉館說明（平日晚上）：明天 08:20',/社科院圖書館/.test(t1)&&/明天 08:20/.test(t1),t1);
+  check('辜振甫 閉館說明（學期間週日 18:00）：明天（週一）08:20',/明天 08:20/.test(t2),t2);
+  check('辜振甫 閉館說明（寒假週日）：寫「寒暑假的週日」（不是「週末」：寒假週六有開）、明天 08:20',/寒暑假的週日/.test(t3)&&/明天 08:20/.test(t3),t3);
+  check('辜振甫 閉館說明（國慶日，週五）：寫國慶日、下次是明天（週六）09:00',/國慶日/.test(t4)&&/明天 09:00/.test(t4),t4);
+  check('辜振甫 今天的開放時間一行',P.todayText('soclib',T)==='今天 08:20–22:00'&&P.todayText('soclib',SAT)==='今天 09:00–22:00'&&P.todayText('soclib',SUN)==='今天 09:00–17:00'&&P.todayText('soclib',BSAT)==='今天 09:00–17:00',[T,SAT,SUN,BSAT].map(d=>P.todayText('soclib',d)).join(' / '));
+  const tx=(P.hours.soclib||{}).text||''; check('辜振甫 時間說明寫週六、週日各自的時間',/週六 09:00–22:00/.test(tx)&&/週日 09:00–17:00/.test(tx)&&/週日不開/.test(tx),tx);
+  check('法圖照舊：寒假週末兩天都不開（沒有 sat／sun 的地點用 we）',!P.isOpen('lawlib',12,BSAT)&&!P.isOpen('lawlib',12,BSUN)&&/寒暑假的週六/.test(P.todayText('lawlib',BSAT))); }
 console.log(fails?('FAILED '+fails):'ALL PASS');
 process.exit(fails?1:0);
