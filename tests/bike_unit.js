@@ -87,7 +87,9 @@ const step=(dist,turn,n)=>{ for(let i=0;i<n;i++){ P.obj.rotation.y+=turn/n; P.ob
   { const shop=E.interactables.find(i=>i.exit&&i.exit.to==='cvs'); P.obj.position.set(shop.x,0,shop.z+1.2); await enter('cvs',shop.exit.spawn);
     check('10 騎到便利商店門口、進店：車停在公館的門口（站得住）、不在店裡',!P.riding&&!bikeOn()&&G.bike.zone==='gongguan'&&Math.hypot(G.bike.x-shop.x,G.bike.z-(shop.z+1.2))<3.1&&!parkedObj(),JSON.stringify(G.bike));
     const out=E.interactables.find(i=>i.exit&&i.exit.to==='gongguan'); await enter('gongguan',out.exit.spawn);
-    check('10 出店：車停在門口、有「騎腳踏車」',!!parkedObj()&&!!parkedIt()&&E.canStand(G.bike.x,G.bike.z,0.45,0)); }
+    check('10 出店：車停在門口、有「騎腳踏車」',!!parkedObj()&&!!parkedIt()&&E.canStand(G.bike.x,G.bike.z,0.45,0));
+    { const dd=Math.hypot(G.bike.x-shop.x,G.bike.z-shop.z), ux=(G.bike.x-shop.x)/dd, uz=(G.bike.z-shop.z)/dd, sx=G.bike.x+ux*0.8, sz=G.bike.z+uz*0.8;
+      check('10b 車停在門口旁邊、離門 2 m 以上（停在門正前方時，走回車旁按鈕常是「進入便利商店」；v9.7 回歸 2026-10-14）；站在車旁（離門遠的那邊 0.8 m）車比門近',dd>=2&&dd<=3&&Math.hypot(sx-G.bike.x,sz-G.bike.z)<Math.hypot(sx-shop.x,sz-shop.z)-1,JSON.stringify({dd:+dd.toFixed(2)})); } }
   // ---- 11 快速前往室內（離門口很遠）：車停到那棟建築的門外 ----
   { P.obj.position.set(G.bike.x,0,G.bike.z); BIKE.mount(GM); P.obj.position.x-=3; await enter('library_hall');
     const ex=E.interactables.find(i=>i.exit&&BIKE.ok(i.exit.to)); const sp=ex.exit.spawn;
