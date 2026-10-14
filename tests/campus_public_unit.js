@@ -13,8 +13,8 @@ global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createE
 global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
 const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js',
   'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/data/putong_layout.js','src/teach3d.js',
-  'src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/classes3d.js'];
-for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|GONGTONG_LAYOUT|BOYA_LAYOUT|PUTONG_LAYOUT|TB3|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
+  'src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/data/activities.js','src/classes3d.js'];
+for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|GONGTONG_LAYOUT|BOYA_LAYOUT|PUTONG_LAYOUT|TB3|ACTIVITIES|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
 const TREES=[]; { const orig=TK.tree; TK.tree=(...a)=>{ const t=orig(...a); TREES.push(t); return t; }; }   /* 記下校園上每一棵闊葉樹（檢查方案 A 留下的樹）*/
@@ -59,6 +59,18 @@ check('大一女舍：A、B 兩棟之間（2 樓天橋下）走得過去',stand(
   r=walk(LINZE,S); check('系籃球場：活動點從霖澤館前走得到',r.ok,JSON.stringify(r).slice(0,180));
   r=walk(S,[-4,-117]); check('系籃球場：從活動點走到籃框前（場內走得通）',r.ok,JSON.stringify(r).slice(0,180));
   const lamps=(z.lamps||[]).filter(l=>Math.abs(l.position.x+4)<9.5&&Math.abs(l.position.z+113)<9.5); check('系籃球場：四個角各一盞路燈（晚上練球）',lamps.length===4,String(lamps.length)); }
+// 社團博覽會（LAWWW2 479b7fc，九頂帳篷；2026-10-14）：只有 9/30、10/1 擺；那兩天公告欄、招生攤位收起來；帳篷擋住、前面站得住、博覽會的互動點走得到
+{ const DAY=(k)=>{ const [y,m,d]=k.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/86400000)+1; };
+  const build=day=>{ global.GAME={G:{day}}; E.interactables=[]; const zz=Z3.ZONES.campus.build(E); E.zone=zz; E.levels=zz.levels||null; E.nav=zz.nav; if(E.levels) for(const n of E.levels) n._cm=null; delete global.GAME; return zz; };
+  const fz=build(DAY('2025-09-30')); const tentsF=fz.group.children.find(o=>o.name==='fair_fallback');
+  const booth=E.interactables.find(i=>/招生攤位/.test(i.label||''));
+  check('博覽會那天（9/30）：九頂帳篷擺出來、招生攤位收起來',!!tentsF&&tentsF.children.length===9&&!booth,JSON.stringify({tents:tentsF&&tentsF.children.length,booth:!!booth}));
+  check('博覽會那天：帳篷擋住（站不進帳篷裡）、帳篷前面 z 13 站得住',![-21.3,-13.5,3.4,14.8].some(x=>stand(x,15.1))&&[-21.3,-13.5,-9.7,3.4].every(x=>stand(x,13.0)));
+  const r=walk(GATE,[-13.5,13.0]); check('博覽會那天：服務台前（博覽會的互動點 (-13.5,13.6) 旁邊）從校門走得到',r.ok,JSON.stringify(r).slice(0,160));
+  check('博覽會那天：傅鐘廣場、長椅前留空（(-25,12)、(0,12) 站得住）',stand(-25,12)&&stand(0,12));
+  const nz=build(DAY('2025-10-07')); const tentsN=nz.group.children.find(o=>o.name==='fair_fallback'); const booth2=E.interactables.find(i=>/招生攤位/.test(i.label||''));
+  check('平常（10/7）：沒有帳篷，招生攤位、公告欄照舊',!tentsN&&!!booth2&&!stand(-13.5,14.6),JSON.stringify({tents:!!tentsN,booth:!!booth2}));
+  { const zz=Z3.ZONES.campus.build(E); E.zone=zz; E.nav=zz.nav; E.levels=zz.levels||null; if(E.levels) for(const n of E.levels) n._cm=null; } }
 // 萬才館研討室 A：大四研討課的門（2026-10-13 審查第 9 項）
 { E.interactables=[]; const wz=Z3.ZONES.wancai.build(E); const sem=E.interactables.find(i=>i.door==='wancai_seminar'); check('萬才館二樓的研討室 A 是上課的門（門口上課：大四的法律倫理、判決研討）',!!sem&&sem.lv===1&&sem.label==='研討室 A'&&typeof sem.onInteract==='function',sem?`${sem.label} lv${sem.lv}`:'沒有'); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
