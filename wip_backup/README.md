@@ -18,3 +18,4 @@ git worktree add <資料夾> wip/dorm-hall
 - `dorm-hall.bundle` 10:04 UTC 重新建立（同樣是 `bf750b4`，宿舍走廊 WIP，還沒在瀏覽器實測，不可合併進要發布的版本）。
 - `v96-rc2.bundle`（2026-10-13 22:30 UTC）：v9.6 發布候選 2，本機分支 `rel/v96-rc2`（`93877e9`＝`5f66b67`＋`f9b9017` 只改文件＋互動按鈕修正）。前置 commit `5f66b67` 在 origin 的開發分支上。還原：`git fetch wip_backup/v96-rc2.bundle rel/v96-rc2:rel/v96-rc2`。**發布回歸跑完、全部通過以前不是可以發布的版本。**
 - `v96-rc3.bundle`（2026-10-13 22:48 UTC）：v9.6 發布候選 3，本機分支 `rel/v96-rc3`（`a6c3d1a`＝候選 2 `93877e9`＋要離開的人不擋出口、補人時段剩不到 15 分鐘的不補）。前置 commit `5f66b67` 在 origin 的開發分支上。還原：`git fetch wip_backup/v96-rc3.bundle rel/v96-rc3:rel/v96-rc3`。**發布回歸跑完、全部通過以前不是可以發布的版本。**
+- `v96-rc5.bundle`（2026-10-14 03:12 UTC）：v9.6 發布候選 5，本機分支 `rel/v96-rc5`（`709eb53`）＝候選 3 `a6c3d1a`＋`7223e75` 課綱法律內容閘門（AA_122：還沒審查的週只顯示主題）＋`1c62e0a` 回歸測試工具（目標在別層時先轉鏡頭）＋`709eb53` 回歸測試工具（按鈕在清單外面時先捲過去）。後兩個只改 tests/，遊戲程式和候選 4 相同。前置 commit `5f66b67` 在 origin 的開發分支上。還原：`git fetch wip_backup/v96-rc5.bundle rel/v96-rc5:rel/v96-rc5`。**發布回歸跑完、全部通過以前不是可以發布的版本。**
