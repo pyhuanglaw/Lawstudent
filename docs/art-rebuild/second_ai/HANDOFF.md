@@ -5,7 +5,38 @@
 交班紀錄：2026-10-11 10:13 UTC 交班（`1f20126`）→ 2026-10-13 回到帳號 A。
 使用者 2026-10-13：帳號 B 暫時沒有開，從上次停下來的地方接著做。
 
-**2026-10-14 06:4xZ（最新）**：
+**2026-10-14 09:0xZ（最新；使用者 09:00：用量快到，兩小時內一定要存檔）**：
+- **做到哪**：
+  - v9.6：我跑的三項（flow_main_day12、flow_teaching_buildings、flow_soclib）全部 PASS；LAWWW 07:46 已發布 v9.6（main e88bda5）。
+  - v9.7 已回報 LAWWW 的結果：
+    - flow_typhoon PASS（候選 4＝我的 patch）。
+    - cg_rain_shots PASS（直向、橫向）。
+    - flow_invite_phone PASS。
+    - flow_first_meet：候選 6 是 16 PASS／4 FAIL，LAWWW 在候選 8 修了遊戲（按鈕名字）和測試。
+    - flow_lecture_attend、flow_discuss_class：都是測試的問題（座位有人），LAWWW 在候選 6、7 修了測試。
+  - 紀錄：`test_logs/v97_rc3_8ac75f6/`、`test_logs/v97_rc6_7c5d4c2/`。
+  - patch：`patches/playlib_rotate_8ac75f6.patch`、`flow_typhoon_bed_course_a8f05de.patch`（LAWWW 已套進候選 4）。
+- **正在跑**（`/home/user/v97rc5_wt` checkout 候選 8 `3e5201d`，伺服器 8813，排程 `scratchpad/v97rc5/chain8.sh`）：
+  1. flow_lecture_attend（候選 6/7 的遊戲，08:47 開始）
+  2. adv_cg_layout
+  3. flow_main_day12
+  4. flow_teaching_buildings
+  5. flow_soclib
+  6. campus_glb_integration
+  7. flow_first_meet（候選 8 重跑）
+  8. flow_discuss_class
+  - 結果在 `scratchpad/v97rc5/summary.txt`；每項跑完回報 LAWWW、推紀錄。
+  - LAWWW 那邊跑：flow_class_real、campus_layout_nav、joystick_direction、flow_classes、flow_linze_floors。
+- **沒測**：上面 8 項還沒跑完的部分；手機實機都沒測（全部是 Playwright＋SwiftShader 模擬）。
+- **下一步**（LAWWW 08:46Z 派的，v9.7 測完才開始）：
+  1. 便利商店商品：Blender 做多種虛構包裝、貨架分區、冷藏櫃玻璃；instancing／合併材質；修改前後截圖；MODEL_READY。
+  2. （候補）宿舍交誼廳家具組：沙發、長桌、自習桌、電視、飲水機、公告欄、洗衣間一角、信箱。
+- **人物（暫停，使用者 06:52「只跑測試、不做新模型」）**：
+  - 小語 `yu*.py`、明軒 `mingxuan*.py` 腳本 WIP，都還沒跑 Blender。
+  - 沛珊的參考圖看過：低馬尾、深色圓框眼鏡、酒紅 T 紮進深藍長裙、黑帆布鞋。
+- **注意**：等待排程不要用 `pgrep -f <測試名>`（會比到啟動它的 shell，08:33–08:46 因此卡住）；改用等 PID（`kill -0`）。
+
+**2026-10-14 06:4xZ**：
 - **LAWWW 06:09Z 更正（ACK 已回）**：先幫 v9.6 收尾，再做 v9.7。
   - v9.6 候選 13 `ba435d5`（bundle 在開發分支 `wip_backup/v96-rc13.bundle`），乾淨 worktree `/home/user/rc13_wt`，伺服器 8811。
   - flow_main_day12：**ALL PASS**（29 項，06:20–06:33，已回報）。
