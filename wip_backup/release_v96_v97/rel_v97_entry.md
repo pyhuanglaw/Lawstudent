@@ -39,7 +39,7 @@
 
 **發布**：
 - main 從 `{PREV_SHA}`（v9.6）快轉到 `{MAIN_SHA}`，沒有強制推送。v9.6 之後不到三小時：使用者 2026-10-14 06:58 同意 v9.7 測完就發、不受三小時限制（D71）。
-- 候選 1 `5adef66`＝開發分支 `22c597c`（合併 v9.6 候選 13）＋拿掉共同教學館、大一女舍的 manifest 兩行＋版本字樣；候選 2 `06f2b64`、候選 3 `8ac75f6`＝合併 v9.6 候選 14、15（flow_classes 等選項出現再讀、測試工具 go_to 等人物真的走完）；候選 4 `6ad0923`＝測試工具讀檔時關掉直向的「請轉成橫向」提示、flow_typhoon 跟上（床的選項「睡到明天早上」、讀檔前把醒來的對話點完；LAWWW2 的 patch）。候選 2～4 只改測試，遊戲程式和候選 1 相同；候選 5 `37a5db2`＝Café 店員和得到話（engine3d.js nearestInteractable：標了 staff 的店員比櫃台的點餐點優先；story3d.js：店員標 staff、和店員說話沒有事件就是點餐）＋flow_first_meet 測試修正；候選 6 `7c5d4c2`、候選 7 `dbe16a5`＝flow_lecture_attend、flow_discuss_class 等聽眾／同學坐好再挑空位（只改測試）。{LATER_RC}
+- 候選 1 `5adef66`＝開發分支 `22c597c`（合併 v9.6 候選 13）＋拿掉共同教學館、大一女舍的 manifest 兩行＋版本字樣；候選 2 `06f2b64`、候選 3 `8ac75f6`＝合併 v9.6 候選 14、15（flow_classes 等選項出現再讀、測試工具 go_to 等人物真的走完）；候選 4 `6ad0923`＝測試工具讀檔時關掉直向的「請轉成橫向」提示、flow_typhoon 跟上（床的選項「睡到明天早上」、讀檔前把醒來的對話點完；LAWWW2 的 patch）。候選 2～4 只改測試，遊戲程式和候選 1 相同；候選 5 `37a5db2`＝Café 店員和得到話（engine3d.js nearestInteractable：標了 staff 的店員比櫃台的點餐點優先；story3d.js：店員標 staff、和店員說話沒有事件就是點餐）＋flow_first_meet 測試修正；候選 6 `7c5d4c2`、候選 7 `dbe16a5`＝flow_lecture_attend、flow_discuss_class 等聽眾／同學坐好再挑空位（只改測試）；候選 8 `3e5201d`＝見過以後按鈕上的名字跟著更新（story3d.js talkCharacter：事件演完才定名字）＋flow_first_meet 測試；候選 9 `64792d3`＝flow_lecture_attend 第二場演講 4 小時（只改測試）。{LATER_RC}
 - GitHub Pages 第 {PAGES_N} 次部署 {DEPLOY_TIME} UTC success。
 
 **發布前測試**（乾淨 worktree，Playwright 手機模擬＋SwiftShader，**不是 iPhone 實機**；LAWWW 和 LAWWW2 兩台機器平行跑）：
