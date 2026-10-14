@@ -32,10 +32,10 @@ TAGS = {'library': ('bldg.campus_library', 'campus_library_glb', 'PLATE_FACE_LIB
         'arts': ('bldg.campus_arts', 'campus_arts_glb', 'PLATE_FACE_ARTS'),
         'hist': ('bldg.campus_hist', 'campus_hist_glb', 'PLATE_FACE_HIST'),
         'pavilion': ('bldg.campus_pavilion', 'campus_pavilion_glb', 'PLATE_FACE_PAV'),
-        'soc': ('bldg.campus_modern', 'campus_modern_glb', 'PLATE_FACE_SOC'),
-        # 2026-10-13 接上 LAWWW2 55fbedb（共同教學館、大一女舍外觀）：沒有匾額（plate=None 不檢查匾額）
-        'gongtong': ('bldg.campus_gongtong', 'campus_gongtong_glb', None),
-        'freshman': ('bldg.campus_freshman', 'campus_freshman_glb', None)}
+        'soc': ('bldg.campus_modern', 'campus_modern_glb', 'PLATE_FACE_SOC')}
+# v9.6 不放共同教學館、大一女舍的正式模型（src/assets3d.js 的說明）：manifest 有才檢查（開發分支照舊接著，那邊兩個都會檢查）
+for _k, _v in (('gongtong', ('bldg.campus_gongtong', 'campus_gongtong_glb', None)), ('freshman', ('bldg.campus_freshman', 'campus_freshman_glb', None))):
+    if ("'%s'" % _v[0]) in open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'src', 'assets3d.js'), encoding='utf8').read(): TAGS[_k] = _v
 HALLS = ['campus_library_glb', 'campus_admin_glb', 'campus_arts_glb', 'campus_hist_glb']   # campus_hall.py 做的（有窗、拱廊、門廊、天花板）
 GLASS_ONLY = ['campus_pavilion_glb', 'campus_modern_glb']   # 玻璃和總圖同一套（ck_glass），沒有拱廊天花板
 WAIT_FORMAL = "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='%s')) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()"
@@ -108,10 +108,13 @@ async def check(pg, run, formal):
     info = await pg.evaluate("""(()=>{ const z=GAME.E.zone; const bs=z.group.children.filter(o=>o.userData&&o.userData.ckTag); const per={};
         for(const b of bs) per[b.userData.ckTag]={formal:!!b.userData.formal, dyn:!!b.userData.dyn, kitVisible:b.children.filter(o=>(o.isMesh||o.isSprite)&&o.visible).length, kitMeshes:b.children.filter(o=>o.isMesh||o.isSprite).length};
         return per; })()""")
-    run.check('有 ckTag 的套件建築＝%s' % ', '.join(sorted(TAGS)), sorted(info) == sorted(TAGS), json.dumps(info))
+    deferred = sorted(set(info) - set(TAGS))   # 有標記、但這一版沒有正式模型的（v9.6：共同教學館、大一女舍——src/assets3d.js 的說明）
+    run.check('有 ckTag 的套件建築＝%s%s' % (', '.join(sorted(TAGS)), ('（先不放正式模型：' + ', '.join(deferred) + '）') if deferred else ''),
+              sorted(set(info) & set(TAGS)) == sorted(TAGS) and set(deferred) <= {'gongtong', 'freshman'}, json.dumps(info))
+    if deferred: run.check('先不放正式模型的：套件外觀照舊（沒有接正式模型、照舊參加整區靜態合併）', all(not info[t]['formal'] and not info[t]['dyn'] for t in deferred), json.dumps({t: info[t] for t in deferred}))
     if formal:
-        run.check('都接上正式模型（userData.formal）、不參加整區靜態合併（dyn）', all(v['formal'] and v['dyn'] for v in info.values()), json.dumps(info))
-        run.check('套件外觀全部藏起來', all(v['kitVisible'] == 0 and v['kitMeshes'] > 0 for v in info.values()), json.dumps(info))
+        run.check('都接上正式模型（userData.formal）、不參加整區靜態合併（dyn）', all(info[t]['formal'] and info[t]['dyn'] for t in TAGS if t in info), json.dumps(info))
+        run.check('套件外觀全部藏起來', all(info[t]['kitVisible'] == 0 and info[t]['kitMeshes'] > 0 for t in TAGS if t in info), json.dumps(info))
     else:
         run.check('改之前：套件照舊參加整區靜態合併（不是 dyn、沒有接正式模型）', all(not v['dyn'] and not v['formal'] for v in info.values()), json.dumps(info))
     others = await pg.evaluate(OTHERS)
@@ -119,9 +122,9 @@ async def check(pg, run, formal):
     run.check(('一般' if formal else '改之前') + '：20:30 路燈都開著', lamps['n'] > 0 and lamps['on'] == lamps['n'], json.dumps(lamps))
     if formal:
         for tag, (key, glb, plate) in TAGS.items():
-            g = await pg.evaluate("""(([tag,glbName])=>{ const z=GAME.E.zone; const kit=z.group.children.find(o=>o.userData&&o.userData.ckTag===tag), glb=z.group.children.find(o=>o.name===glbName);
+            g = await pg.evaluate("""(([tag,glbName])=>{ const z=GAME.E.zone; const kits=z.group.children.filter(o=>o.userData&&o.userData.ckTag===tag), kit=kits[0], glb=z.group.children.find(o=>o.name===glbName);   /* 同一個標記可能有好幾個部分（大一女舍 A、B、天橋）：外框要全部算（2026-10-14：原本只拿第一個）*/
                 z.group.updateMatrixWorld(true); const r=b=>[b.min.x,b.min.y,b.min.z,b.max.x,b.max.y,b.max.z].map(v=>Math.round(v*100)/100);
-                const bk=new THREE.Box3(), bg=new THREE.Box3(); kit.traverse(o=>{ if(o.isMesh){ o.geometry.computeBoundingBox(); bk.union(o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld)); } });
+                const bk=new THREE.Box3(), bg=new THREE.Box3(); for(const k of kits) k.traverse(o=>{ if(o.isMesh){ o.geometry.computeBoundingBox(); bk.union(o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld)); } });
                 glb.traverse(o=>{ if(o.isMesh){ o.geometry.computeBoundingBox(); bg.union(o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld)); } });
                 return {kit:r(bk), glb:r(bg)}; })""" + "(%s)" % json.dumps([tag, glb]))
             d = max(abs(a - b) for a, b in zip(g['kit'], g['glb']))
