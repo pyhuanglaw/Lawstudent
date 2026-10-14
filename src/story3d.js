@@ -599,6 +599,23 @@ const STORY = (function(){
     { const gd=termDay('Y1S2',15,6); if(gd&&G.day>=gd-1&&G.day<=gd+1){
       if(PHONE.inGroup(G,'lawclub_study')&&!PHONE.sent(G,'grad_lawclub')){ const th='g:lawclub_study'; PHONE.at(G,gd,12.5,[{th,from:'npc_lawclub_pres',name:'法服社長',text:'📷（學長姊穿學士服、抱著花的合照）'},{th,from:'npc_lawclub_pres',name:'法服社長',text:'恭喜學長姊！法服永遠歡迎回來值班！'}],'grad_lawclub'); }
       if(PHONE.inGroup(G,'family_law')&&!PHONE.sent(G,'grad_family')){ const th='g:family_law'; PHONE.at(G,gd,13,[{th,from:'kevin',name:'Kevin',text:'📷（學長姊的畢業照）'},{th,from:'heroine_05',name:'溫學姊',text:'恭喜。'}],'grad_family'); } } }
+    /* 學姊 W2b／W2c、「誰有車？」（BB_96 2-1、2-2、BB_97 2-9；交接包 v2）：大一下的家族群組（法律系直屬家族，給所有人；學姊有伴侶，沒有兩個人的時間）。
+       第 3 週週二 21:00 Kevin 開玩笑（說要請全家族飲料＝SAID_TREAT_SIS／貼圖／不回）；週五 21:00 Kevin 揪第 4 週週五 18:30 永康街的咖哩（「去。」＝排出遊 ev_family_dinner；有 SAID_TREAT_SIS 學姊多三句）；
+       接著 Kevin「家聚要搬兩箱飲料，誰有車？」（「我有。」＝SAID_HAS_CAR）。聚餐當晚 21:30 學姊「三件事」（W2c，給所有人，沒去也看得到；TREATED_FAMILY 換第三件）。
+       沒去聚餐、有 SAID_TREAT_SIS 的期末那三句：要先有 Kevin 揪期末聚餐的那一則（台詞已問 BB）*/
+    if(PHONE.inGroup(G,'family_law')&&typeof CALENDAR!=='undefined'){ const th='g:family_law', kv=t=>({th,from:'kevin',name:'Kevin',text:t}), sis=t=>({th,from:'heroine_05',name:'溫學姊',text:t});
+      const dJ=termDay('Y1S2',3,2), dI=termDay('Y1S2',3,5), dD=termDay('Y1S2',4,5);
+      if(dJ&&dI&&dD&&G.day>=dJ-1&&G.day<=dD+1){
+        if(!PHONE.sent(G,'fam_joke_y1s2')) PHONE.at(G,dJ,21,[kv('學姊上學期聚餐遲到一分鐘。'),Object.assign(kv('這學期罰她出來吃飯。全家族。'),{ask:{until:dI*24+21,opts:[
+            {t:'那學姊來，我請全家族一輪飲料。謝謝她的書。',set:{SAID_TREAT_SIS:true},say:[kv('學弟好勇。'),sis('好啊。')]},{t:'（貼圖）',say:[kv('至少有人回。')]}]}})],'fam_joke_y1s2');
+        if(!PHONE.sent(G,'fam_dinner_inv')&&G.day>=dI){ const L=[Object.assign(kv('週五六點半，永康街那家咖哩。全家族。'),{ask:{until:dD*24+18,opts:[{t:'去。',set:{FAM_DINNER_GO:true}},{t:'這次不行。',set:{FAM_DINNER_GO:false}}]}})];
+          if(F.SAID_TREAT_SIS) L.push(sis('……學弟，你是認真的？'),sis('我以為那是客套話。'),sis('好。六點半。我會準時。重點是，你們不要遲到。'));
+          PHONE.at(G,dI,21,L,'fam_dinner_inv'); PHONE.at(G,dI,21.3,[Object.assign(kv('家聚要搬兩箱飲料，誰有車？'),{ask:{until:dD*24+18,opts:[{t:'我有。',set:{SAID_HAS_CAR:true},say:[kv('直屬學弟有車！'),sis('……好。之後有用。')]}]}})],'fam_car'); }
+        if(F.FAM_DINNER_GO===true&&typeof OUT!=='undefined'&&!OUT.get(G,'fam_dinner_y1s2')) OUT.plan(G,{id:'fam_dinner_y1s2',ev:'ev_family_dinner',day:dD,h:18.5,place:'永康街的咖哩店',title:'家族聚餐',travel:'約 20 分鐘',travelH:1/3});
+        if(!PHONE.sent(G,'fam_three_things')&&(G.day>dD||(G.day===dD&&G.hour>=21.4))){
+          PHONE.at(G,dD,21.5,[sis('三件事。'),sis('一，今天謝謝大家。'),sis('二，Kevin 遲到七分鐘，下次地方他選。'),
+            Object.assign(sis(F.TREATED_FAMILY?'三，學弟的飲料，我記得。':'三，我這學期第一次好好吃完一頓飯。'),{ask:{until:(dD+1)*24+12,opts:[{t:'（貼圖）'},{t:'收到'}]}})],'fam_three_things');
+          if(typeof SOCIAL!=='undefined') SOCIAL.remember('heroine_05','FAMILY_THREE_THINGS','家族群組的三件事'); } } }
     /* 除夕：可昕 KN 的假設題（BB_96 9-2；接主線 2＝交接包 v2 C2）：交往中，除夕晚上主線 2 演完以後 22:00 她傳（22:00 還沒演＝照樣 22:00 傳，沒有「家裡在講一件事」）。
        「今天家裡在講一件事。」只在有 FAMILY_LAND_Y1；之後再選「妳聽就好。」／「一起看。」（記 KX_FAMILY_LAND）；「一起看」而且主線 2 選了「先問哪幾件事」多一句。
        不回：隔天 9:00「新年快樂。昨天的題目，你可以想一年。」（回覆在那之前可以回）。打給妳：電話（她那邊的鞭炮聲、新年快樂、早點睡）寫在對話串裡 */

@@ -716,6 +716,19 @@ const STORY_EVENTS=[
       {if:{flags:['KX_K6_EXAM']},speaker:'kexin',expression:'teasing',text:'結果我們吵最多的，是考古題。'},
       {unless:{flags:['KX_K6_EXAM']},speaker:'kexin',expression:'teasing',text:'結果我們吵最多的，是假設題的答案。'} ],
     after:G=>{ G.flags.REVISIT_Y1={who:'kexin',pick:G.flags.REVISIT_Y1_PICK||'daily'}; } },
+  /* 學姊 W2b 家族聚餐（BB_96 2-1；交接包 v2）：第 4 週週五 18:30 永康街的咖哩（出遊；家族群組回「去。」才排，story3d.js）。2D 背景「永康街・咖哩店」（虛構店名；圖還沒有）。
+     有 SAID_TREAT_SIS：「二，飲料學弟請，咖哩我請。」「重點是，這不是客套。」；沒有：「二，今天我請。」「重點是，下次誰都不要遲到。」（「最後一句」照 W2c 的內容理解成「重點是」那一句；已請 BB 確認）。
+     回了「我有。」（SAID_HAS_CAR）：結束時順路載三個人回學校（BB_97 2-9 的描述寫成旁白）。記 FAMILY_DINNER；有 SAID_TREAT_SIS 而且到場＝TREATED_FAMILY */
+  { id:'ev_family_dinner', title:'家族聚餐', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
+    dialogue:[ {scene:'永康街・咖哩店',bg:'yongkang_curry'},
+      {if:{flags:['SAID_TREAT_SIS']},speaker:'heroine_05',expression:'neutral',text:'（看菜單三十秒）兩件事。一，我要辣的。二，飲料學弟請，咖哩我請。'},
+      {unless:{flags:['SAID_TREAT_SIS']},speaker:'heroine_05',expression:'neutral',text:'（看菜單三十秒）兩件事。一，我要辣的。二，今天我請。'},
+      {if:{flags:['SAID_TREAT_SIS']},speaker:'heroine_05',expression:'smile',text:'重點是，這不是客套。'},
+      {unless:{flags:['SAID_TREAT_SIS']},speaker:'heroine_05',expression:'neutral',text:'重點是，下次誰都不要遲到。'},
+      {speaker:null,text:'Kevin 遲到七分鐘。'},
+      {speaker:'heroine_05',expression:'neutral',text:'Kevin，下次的地方你選。'},
+      {if:{flags:['SAID_HAS_CAR']},speaker:null,text:'家聚結束，你順路載三個人回學校。學姊坐後座，一路在講下學期的家族讀書會。'} ],
+    after:G=>{ if(typeof SOCIAL==='undefined') return; SOCIAL.remember('heroine_05','FAMILY_DINNER','永康街的咖哩'); if(G.flags.SAID_TREAT_SIS){ G.flags.TREATED_FAMILY=true; SOCIAL.remember('heroine_05','TREATED_FAMILY','說要請全家族飲料，真的請了'); } } },
   /* 沛珊 P3b「課輔班的下午」（BB_96 3-3，交接包 v2）：大一下第 5 週起，週二或週四 16:30–18:00 走進溫州街，P2（ev_peishan_doubt）之後、只一次。
      她不用在 3D 裡出現：直接換成 2D 背景「溫州街・課輔班門口」（圖還沒有＝深色底＋字幕）。第二個選項只給去過法服讀書會的玩家（CLUB_lawclub_study）。
      記 SAW_HER_TEACH（大二 P3「我要重考。去念教育」的伏筆；不寫成憂鬱或逃避）*/
