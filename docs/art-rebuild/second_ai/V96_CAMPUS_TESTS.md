@@ -110,3 +110,33 @@ RC7 同一個鏡頭的 draw call：改之前 → 正式。藏起路人、時鐘�
 - **兩個都套**：`campus_glb_integration` 只剩效能 1 項 FAIL（C 類，門檻不改）。
 - 蒲葵 patch 只改一個數字，影響的範圍：比沒修的版本多擋 8 格（80,962 → 80,970），全部在 6 棵蒲葵樹幹 0.45 m 以內。要不要接、要不要在 v9.6 接，由 LAWWW 決定。
 - 效能這一項，在 ①②（或其他降法）做完之前都會是 FAIL。發布時要寫明「已知、超出預算、原因見本文件」，或等降完再發布。這個決定在 LAWWW。
+
+## 5. RC9（`781e292`）之後的版本（2026-10-14 05:2xZ）
+
+LAWWW 04:52Z 做了 RC9：
+- 拿掉共同教學館、大一女舍的正式模型，v9.7 再上。
+- `campus_glb_integration` 改成 manifest 有才檢查，外框取聯集。
+
+上面第 2 節的測試 patch 寫在 RC7 版本上，和 RC9 的改動衝突，**不要再用**。改用下面這幾份：
+
+| 檔案 | 用在哪裡 | 內容 |
+|---|---|---|
+| `patches/v96_campus_layout_nav_rc9.patch` | RC9、開發分支 `243fd79` | 同第 1 節，只改這一個測試 |
+| `patches/campus_glb_integration_rc9_781e292.patch` | RC9 | 你的 RC9 版本＋我的宣告差異檢查。沒有共同教學館正式模型時，導航格、鏡頭碰撞照舊要求完全相同 |
+| `patches/campus_glb_integration_dev_243fd79.patch` | 開發分支 `243fd79` | 套完和上一份是同一個測試檔 |
+| `patches/gongtong_palm_nav_40f1d63.patch` | 開發分支（`243fd79` 也套得上） | 蒲葵導航半徑 0.45 |
+
+和第 2 節的版本相比，合併版另外改了一處：
+- 「改之前：沒有載入正式模型」只檢查 TAGS 裡的地標。
+- 原因：開發分支的醉月湖 `campus_lake_glb` 兩輪都有，它不是套件換模型。第一次在開發分支上跑，這一項因此 FAIL，紀錄是 `test_logs/dev_243fd79/…_run1_lakecheck.log`。
+
+實跑結果（伺服器開跑前都確認過 manifest、蒲葵半徑是哪一版）：
+
+| 版本 | campus_layout_nav | campus_glb_integration | 效能（draw call 倍數） |
+|---|---|---|---|
+| RC9 原樣（原本的測試） | FAIL 1 項（(-92,68)） | （沒跑原本的版本） | |
+| RC9＋兩個測試 patch | **ALL PASS** | **ALL PASS** | gate_avenue 289 → 317 **×1.097**（離 1.1 只差 0.003） |
+| 開發分支 `243fd79`＋測試 patch＋蒲葵 patch | （沒跑） | 只剩效能 FAIL（C 類） | gate_avenue 319 → 359 **×1.125**、arts_arcade 251 → 277 **×1.104**、admin_arcade ×1.090、bell_avenue ×1.082 |
+
+- RC9 的效能是剛好過，下一次再加任何東西就會超過。降法（第 3 節的 ①②）在 v9.7 上共同教學館之前做比較好。
+- 紀錄：`test_logs/v96_rc9_781e292/`、`test_logs/dev_243fd79/`。
