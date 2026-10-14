@@ -568,7 +568,7 @@ const STORY_EVENTS=[
       {speaker:'zhe',expression:'neutral',text:'（小聲）那誰？'},{speaker:null,text:'語彤端麵過來。'},{speaker:'阿姨',text:'沒事啦，房東的朋友，來看房子。'},
       {speaker:null,text:'（語彤放下碗）'},{speaker:'heroine_03',expression:'neutral',text:'……嗯。'},
       {unless:{memory:[{npc:'heroine_03',tag:'FIRST_MET'}]},goto:'end'},
-      {choice:[{text:'（問語彤）',goto:'ask'},{text:'（不問）',goto:'end'}]},
+      {choice:[{text:'「剛剛那個人是誰？」',goto:'ask'},{text:'（不問，低頭吃麵）',goto:'end'}]},   /* 選項字 AA 180c8ff（玩家說的話）；只有問了才記 RENT_RUMOR */
       {label:'ask'},{speaker:'heroine_03',expression:'neutral',text:'房東想把整棟賣掉。還沒確定。……你吃你的。'},{mem:[{npc:'heroine_03',tag:'RENT_RUMOR',note:'房東想把整棟賣掉，還沒確定'}]},
       {label:'end'} ] },
   /* 以安新 5：舍友的記點申訴（交接包 v2 C8；草稿第 3 節、AA_113 新 5；法律台詞 BB 2026-10-14 查核無誤：學校的內部程序，不寫成行政程序法直接適用）：
@@ -794,13 +794,13 @@ const STORY_EVENTS_V11=[
       {label:'bug'},{speaker:null,text:'（她愣住，打開程式碼。）'},{speaker:'heroine_04',expression:'surprised',text:'……真的假的。我加進去。'},
       {label:'end'} ] },
   /* 阿凱 K2「工程師也是人」（BB_96 4-3，交接包 v2，新事件）：子晴 Q6 之後第一個在宿舍和他說話的晚上（他 18 點以後都在宿舍）；兩週內沒說到話就不演。
-     原稿最後一句「算了。反正名單上不會有我。」刪掉（BB：太消沉）。三個選項各記一個旗標／記憶，之後的 K4（BB_98）、BB_108 回收；好感數字原文沒有，不加 */
+     原稿最後一句「算了。反正名單上不會有我。」刪掉（BB：太消沉）。三個選項各記一個旗標／記憶，之後的 K4（BB_98）、BB_108 回收；好感數字 BB b6b21d6 補 */
   { id:'ev_kai_engineer', title:'工程師也是人', participants:['kai'], location:'dorm', trigger:'interact', priority:7, once:true, time:[18,26],
     prereq:{events:['ev_ziqing_secret_game'],custom:G=>{ const d=G.events&&G.events.last&&G.events.last.ev_ziqing_secret_game; return d!=null&&G.day-d<=14; }}, background:'blur',
     dialogue:[ {speaker:'kai',expression:'neutral',text:'她跟我說，我是工程師，不算玩家。'},{speaker:'kai',expression:'tired',text:'……工程師也是人啊。'},
-      {choice:[{text:'「你要跟她說。」',consequences:{flags:{TOLD_KAI_TELL_HER:true}},goto:'tell'},
-        {text:'「你想被寫進去嗎？」',consequences:{mem:[{npc:'kai',tag:'KAI_WANTS_CREDIT',note:'他想被寫進她的遊戲'}]},goto:'want'},
-        {text:'「下次測試我叫你一起。」',consequences:{flags:{KAI_JOINS_TEST:true}},goto:'join'}]},
+      {choice:[{text:'「你要跟她說。」',consequences:{rel:{kai:{fam:2,trust:2}},flags:{TOLD_KAI_TELL_HER:true}},goto:'tell'},
+        {text:'「你想被寫進去嗎？」',consequences:{rel:{kai:{trust:4,comf:2}},mem:[{npc:'kai',tag:'KAI_WANTS_CREDIT',note:'他想被寫進她的遊戲'}]},goto:'want'},
+        {text:'「下次測試我叫你一起。」',consequences:{rel:{kai:{fam:3,comf:3}},flags:{KAI_JOINS_TEST:true}},goto:'join'}]},
       {label:'tell'},{speaker:'kai',expression:'neutral',text:'說什麼，「請把我寫進去」？很遜。'},{goto:'end'},
       {label:'want'},{speaker:null,text:'（他想了很久。）'},{speaker:'kai',expression:'neutral',text:'……想。'},{goto:'end'},
       {label:'join'},{speaker:'kai',expression:'smile',text:'好。'},{speaker:null,text:'（他轉回螢幕，打字變快了。）'},
@@ -844,7 +844,7 @@ const STORY_EVENTS_V11=[
       {label:'ec_not'},{speaker:'classmate_xinci',expression:'neutral',text:'（小聲）……好，不說也行。'},{goto:'ec_together'},
       {label:'ec_full'},{speaker:'classmate_xinci',expression:'neutral',text:'（小聲）你念過的那一年，第三章有教嗎？'},{speaker:'player',text:'有。我那時候沒聽懂。'},{speaker:'classmate_xinci',expression:'smile',text:'（小聲）那這次一起懂。'},{goto:'ec_together'},
       {label:'ec_half'},{speaker:'classmate_xinci',expression:'neutral',text:'（小聲）自學的人，第三章懂嗎？'},{speaker:'player',text:'懂一半。'},{speaker:'classmate_xinci',expression:'smile',text:'（小聲）一半也好。'},
-      {label:'ec_together'},{speaker:null,text:'（你們在總圖對經濟題。）'},{mem:[{npc:'classmate_xinci',tag:'ECON_TOGETHER',note:'在總圖一起對經濟題'}]},
+      {label:'ec_together'},{speaker:null,text:'（你們在總圖對經濟題。她列式子，你畫圖。）'},{mem:[{npc:'classmate_xinci',tag:'ECON_TOGETHER',note:'在總圖一起對經濟題'}]},
       {label:'end'},{speaker:'classmate_xinci',expression:'smile',text:'（小聲）謝謝。我要繼續讀了。'} ] },
   { id:'ev_mingxuan_money', title:'家裡的事', off:'交接包 v1 關閉（BB_95 2-9；改寫版在之後的交接包）', participants:['classmate_mingxuan'], location:['campus','gongguan'], trigger:'interact', priority:7, once:true, prereq:{stage:{npc:'classmate_mingxuan',min:'FAMILIAR'}}, background:'blur',
     dialogue:[ {speaker:'classmate_mingxuan',expression:'neutral',text:'我下學期可能要去打工。家裡……嗯。'},{speaker:'classmate_mingxuan',expression:'smile',text:'不用那個表情，我又不是要休學。只是球可能不打了。'},{choice:[{text:'「法服有工讀，我問學姊。」',consequences:{rel:{classmate_mingxuan:{trust:6,fam:4}},mem:[{npc:'classmate_mingxuan',tag:'HELPED',note:'幫他問工讀'}],flags:{mingxuan_job_ask:true}}},{text:'「阿哲知道嗎？」',consequences:{rel:{classmate_mingxuan:{fam:3}},mem:[{npc:'classmate_mingxuan',tag:'TALKED_FAMILY'}]}},{text:'「加油。」',consequences:{rel:{classmate_mingxuan:{fam:1}}}}]},{speaker:'classmate_mingxuan',expression:'smile',text:'……嗯。謝了。不要跟阿哲講，他會請我吃一個月的麵。'} ] },

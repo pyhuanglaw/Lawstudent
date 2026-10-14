@@ -44,7 +44,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
     const go=async(flags,pk)=>{ fresh(day,15,'library',flags); SOCIAL.meet('classmate_xinci','campus'); SOCIAL.remember('classmate_xinci','LENT_NOTES','x'); picks=pk.slice(); await EVENTS.run(e); return lines(); };
     let L=await go({ECON_PAST_SHARED:'full'},[3]);
     check('慈 2：第四個選項「經濟那科我陪妳看。」（所有玩家都有）',opts[0].length===4&&opts[0][3]==='「經濟那科我陪妳看。」',JSON.stringify(opts[0]));
-    check('慈 2（full）：「你念過的那一年，第三章有教嗎？」→ 你「有。我那時候沒聽懂。」→「那這次一起懂。」→ 對經濟題、ECON_TOGETHER',L.includes('吳芯慈：（小聲）你念過的那一年，第三章有教嗎？')&&L.includes('祐廷：有。我那時候沒聽懂。')&&L.includes('吳芯慈：（小聲）那這次一起懂。')&&L.includes('（你們在總圖對經濟題。）')&&SOCIAL.has('classmate_xinci','ECON_TOGETHER')&&L[L.length-1]==='吳芯慈：（小聲）謝謝。我要繼續讀了。',JSON.stringify(L));
+    check('慈 2（full）：「你念過的那一年，第三章有教嗎？」→ 你「有。我那時候沒聽懂。」→「那這次一起懂。」→ 對經濟題、ECON_TOGETHER',L.includes('吳芯慈：（小聲）你念過的那一年，第三章有教嗎？')&&L.includes('祐廷：有。我那時候沒聽懂。')&&L.includes('吳芯慈：（小聲）那這次一起懂。')&&L.includes('（你們在總圖對經濟題。她列式子，你畫圖。）')&&SOCIAL.has('classmate_xinci','ECON_TOGETHER')&&L[L.length-1]==='吳芯慈：（小聲）謝謝。我要繼續讀了。',JSON.stringify(L));
     L=await go({ECON_PAST_SHARED:'half'},[3]);
     check('慈 2（half）：「自學的人，第三章懂嗎？」→「懂一半。」→「一半也好。」',L.includes('吳芯慈：（小聲）自學的人，第三章懂嗎？')&&L.includes('祐廷：懂一半。')&&L.includes('吳芯慈：（小聲）一半也好。')&&opts.length===1,JSON.stringify(L));
     L=await go({},[3,0]);
@@ -66,7 +66,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       fresh(wk('Y1S2',10,2),18.5,'noodle'); await EVENTS.run(e); let L=lines();
       check('語彤 6（還不認識語彤）：流程旁白＋阿哲「那誰？」＋阿姨「沒事啦…」＋語彤「……嗯。」；沒有問的選項、沒有 RENT_RUMOR',L[0]==='一個穿西裝的中年人拿著捲尺量店面的寬度，跟阿姨講了幾句就走。'&&L[1]==='阿姨把湯勺放下，站著不動，然後又拿起來。'&&/那誰？$/.test(L[2])&&L[3]==='語彤端麵過來。'&&L[4]==='阿姨：沒事啦，房東的朋友，來看房子。'&&/……嗯。$/.test(L[6])&&!opts.length&&!SOCIAL.has('heroine_03','RENT_RUMOR'),JSON.stringify(L));
       fresh(wk('Y1S2',10,2),18.5,'noodle'); SOCIAL.meet('heroine_03','campus'); picks=[0]; await EVENTS.run(e); L=lines();
-      check('語彤 6（認識）：問 →「房東想把整棟賣掉。還沒確定。……你吃你的。」、記 RENT_RUMOR',JSON.stringify(opts[0])==='["（問語彤）","（不問）"]'&&L.some(t=>/房東想把整棟賣掉。還沒確定。……你吃你的。$/.test(t))&&SOCIAL.has('heroine_03','RENT_RUMOR'),JSON.stringify(L.slice(-2)));
+      check('語彤 6（認識）：問 →「房東想把整棟賣掉。還沒確定。……你吃你的。」、記 RENT_RUMOR',JSON.stringify(opts[0])==='["「剛剛那個人是誰？」","（不問，低頭吃麵）"]'&&L.some(t=>/房東想把整棟賣掉。還沒確定。……你吃你的。$/.test(t))&&SOCIAL.has('heroine_03','RENT_RUMOR'),JSON.stringify(L.slice(-2)));
       fresh(wk('Y1S2',10,2),18.5,'noodle'); SOCIAL.meet('heroine_03','campus'); picks=[1]; await EVENTS.run(e);
       check('語彤 6（認識）：不問就不記 RENT_RUMOR、只演一次',!SOCIAL.has('heroine_03','RENT_RUMOR')&&!EVENTS.check(e)); } }
   /* ---------- 學姊 W4 空的保溫瓶（BB_96 2-5）---------- */
@@ -127,6 +127,8 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       check('阿凱 K2 選 1：「說什麼，『請把我寫進去』？很遜。」、TOLD_KAI_TELL_HER',L.some(t=>/說什麼，「請把我寫進去」？很遜。$/.test(t))&&G.flags.TOLD_KAI_TELL_HER===true&&!SOCIAL.has('kai','KAI_WANTS_CREDIT')&&!G.flags.KAI_JOINS_TEST,JSON.stringify(L.slice(2)));
       L=await play(1); check('阿凱 K2 選 2：（他想了很久。）「……想。」、記憶 KAI_WANTS_CREDIT',L.includes('（他想了很久。）')&&L.some(t=>/……想。$/.test(t))&&SOCIAL.has('kai','KAI_WANTS_CREDIT')&&!G.flags.TOLD_KAI_TELL_HER,JSON.stringify(L.slice(2)));
       L=await play(2); check('阿凱 K2 選 3：「好。」（他轉回螢幕，打字變快了。）、KAI_JOINS_TEST',L.some(t=>/好。$/.test(t))&&L.includes('（他轉回螢幕，打字變快了。）')&&G.flags.KAI_JOINS_TEST===true,JSON.stringify(L.slice(2)));
+      const ch=e.dialogue.find(l=>l.choice).choice.map(c=>JSON.stringify(c.consequences.rel));
+      check('阿凱 K2：好感數字（BB b6b21d6）：fam2 trust2／trust4 comf2／fam3 comf3',JSON.stringify(ch)===JSON.stringify(['{"kai":{"fam":2,"trust":2}}','{"kai":{"trust":4,"comf":2}}','{"kai":{"fam":3,"comf":3}}']),JSON.stringify(ch));
       check('阿凱 K2：只一次',!EVENTS.check(e)); } }
   /* ---------- 人物面板：每一種記憶都有中文名稱（沒有的話面板直接顯示英文代號）---------- */
   { const src=fs.readdirSync(path.join(ROOT,'src')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src',f),'utf8')).join('\n')+fs.readdirSync(path.join(ROOT,'src/data')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src/data',f),'utf8')).join('\n');
