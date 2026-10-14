@@ -116,8 +116,8 @@ const STORY_EVENTS=[
       {label:'thanks'},{speaker:'npc_fangyt',expression:'smile',text:'不用謝。它比較需要謝謝你。'},{goto:'end'},
       {label:'die'},{speaker:'npc_fangyt',expression:'neutral',text:'不會。我說過了，它很難死。'},{goto:'end'},
       {label:'bag'},{speaker:'npc_fangyt',expression:'laugh',text:'（笑）七盆。整層樓都要有。'},
-      {label:'end'} ],
-    consequences:{flags:{POTHOS:true},stamp:['pothosDay']} },
+      {label:'end'},{speaker:'npc_fangyt',expression:'neutral',text:'死掉的話傳照片給我。'} ],
+    consequences:{flags:{POTHOS:true},stamp:['pothosDay'],contact:'npc_fangyt'} },   /* BB_95 4-4：送盆栽時留了聯絡方式（之後「新葉。你的。」用）*/
   /* 阿凱 K1：凌晨三點的螢幕（BB_95 3-2）。睡覺觸發（trigger:'sleep'：story3d.js 的 sleepNow 在睡著之後、天亮之前演，畫面是凌晨三點的房間）：
      大一上第 3～4 週、平日晚上、隔天早上真的有課（「你明天早八」只在隔天有早上的課時出現：這裡直接當條件——課表最早的課是 9:10，「早八」這兩個字等 BB 確認）、只一次。
      三個選項都會換鍵盤，不懲罰：說了＝隔天晚上（ev_kai_keyboard_quiet）；蓋棉被、戴耳塞＝一週後他自己發現（ev_kai_dark_circles），再隔天換。現有的「法無明文」（ev_dorm_late_kai）保留 */

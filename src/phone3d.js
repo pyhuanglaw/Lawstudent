@@ -8,7 +8,7 @@
    排定時間（PHONE.at）：時間到了才出現（PHONE.tick，story3d.js 每 0.5 秒；劇情、對話進行中先不送）；睡覺、跳過時間跨過去的，照原本的時間補進去（不會跑到未來）。
    回覆（PHONE.answer）：祐廷那一句、對方的回覆接在後面（時間是回的當下）；set、mem 照事件引擎的寫法。
    不做「已讀不回」的懲罰（AA_70 1-9）：不回就只是沒回。
-   測試：node tests/phone_unit.js */
+   測試：node tests/v1_batch2_unit.js（群組、排定時間、回覆）、tests/v1_batch5_unit.js（每天的手機小事） */
 'use strict';
 const PHONE=(function(){
   const S={};

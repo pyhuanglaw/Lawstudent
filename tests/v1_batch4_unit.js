@@ -44,7 +44,7 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
     const F1=['你是隔壁房的吧。我經過的時候看到，你們房間沒有綠色的東西。','（從袋子裡拿出一盆小小的黃金葛）黃金葛。天南星科，耐陰，空氣不好也可以活。','莖節會長氣根，所以可以水耕，也可以土耕，而且——','……總之，很好養。忘記澆也不會死。','跟你室友一樣。'];
     for(const [pick,reply] of [['謝謝學長','不用謝。它比較需要謝謝你。'],['我會養死','不會。我說過了，它很難死。'],['還有幾盆','（笑）七盆。整層樓都要有。']]){
       fresh(mon,12.5,'campus'); picks=[pick]; await EVENTS.run(e); const L=lines();
-      check('F1 選「'+pick+'」：五句（BB_95 3-1 原文）＋回答「'+reply+'」、只有這一個回答',JSON.stringify(L)===JSON.stringify(F1.concat([reply])),JSON.stringify(L)); }
+      check('F1 選「'+pick+'」：五句（BB_95 3-1 原文）＋回答「'+reply+'」、只有這一個回答＋最後「死掉的話傳照片給我。」（4-4：留聯絡方式）',JSON.stringify(L)===JSON.stringify(F1.concat([reply,'死掉的話傳照片給我。'])),JSON.stringify(L)); }
     check('F1 三個選項（BB_95 原文）',JSON.stringify(opts[0])===JSON.stringify(['「謝謝學長。」','「我會養死。」','「你袋子裡還有幾盆？」']),JSON.stringify(opts[0]));
     check('F1 之後：POTHOS、記方奕廷 FIRST_MET、只一次',G.flags.POTHOS===true&&SOCIAL.has('npc_fangyt','FIRST_MET')&&EVENTS.check(e)===false);
     /* 宿舍的互動點 */
