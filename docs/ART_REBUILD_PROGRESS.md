@@ -10,6 +10,18 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**2026-10-14 12:20 UTC 補充（v9.7 發布前最後一段；開發分支最新：這一筆交接的 commit；線上還是 v9.6 `e88bda5`；v9.7 最後的候選＝候選 19 `313d620`）**：
+- **候選 19 `313d620`**（本機分支 `rel/v97-rc19`，`scratchpad/wt_rc97`；bundle `wip_backup/v97-rc17.bundle`→`v97-rc18.bundle`→`v97-rc19.bundle` 依序 fetch，前置 `52f288e`）＝候選 16＋
+  ①flow_clubs A 段換日子（10/13 在 v9.7 是颱風假）②flow_clubs A 段初遇台詞跟上 v1 定稿（沒聽阿凱轉述過的存檔第一句是「新人？……法律系的？」）——只改測試；
+  ③**遊戲修正**：`game3d.js` 的 choose——對話框剛講完、留在畫面上時，選單墊高到對話框上面（bottom＋對話框高度），但 max-height 沒扣，**手機橫向 844×390 社團博覽會 6 個選項的選單上緣在畫面外 76 px，第一個「吉他社」看不到也捲不到**
+  （flow_clubs C 抓到；量選單位置的腳本 `wip_backup/release_v96_v97/fair_menu_probe.py`）。改成 max-height 一起扣掉、太長在選單裡捲動；量過修改後上緣 26 px、第一個點得到。v9.6 線上版沒有社團博覽會（v9.7 新功能）。
+- **候選 19 已過**：Node 76 項 ALL PASS。**跑中**：deploy_check → flow_clubs（我的佇列，約 12:30 跑完）；flow_boya_interior：LAWWW2 在候選 16 ALL PASS（`4985b0a`，24 項），12:18 請它在候選 19 再跑（遊戲程式只差 choose 這一處）。
+- **其他所有發布前測試**都已在候選 8～16 過（遊戲程式＝候選 8；候選 19 只多 choose 這一處，見 `collect_results_v97.py` 的總表）。
+- **發布步驟**（候選 19 的 flow_clubs、deploy_check 過，boya 有候選 19 或候選 16 的結果）：`git push origin 313d620:refs/heads/main`（快轉、不 force；`git merge-base --is-ancestor origin/main 313d620`）→ 確認 Pages 部署成功 →
+  `python3 scratchpad/collect_results_v97.py > v97_results.txt` → `finish_release_v97.py <開發分支 worktree> 313d620 'YYYY-MM-DD HH:MM:SS' <Pages 第幾次> v97_results.txt 候選 19 "$(cat later_rc_v97.txt)"` → commit＋push 開發分支 →
+  告訴使用者（`v97_user_summary.md`；main 有什麼、開發分支有什麼、iPhone 沒測）、LAWWW2、AA、BB → `rel/v97-rc19` 併回開發分支（choose 的修正要一起進開發分支）。D71：v9.7 不受三小時限制。
+- **如果這個工作階段在發布前中斷**：下一個工作階段照上面做；boya 用 LAWWW2 的候選 19 結果（沒有的話自己在候選 19 跑一次）。
+
 **2026-10-14 12:00 UTC 補充（開發分支最新：這一筆交接的 commit；線上 v9.6＝`e88bda5`；v9.7 最後的候選＝候選 17 `402f2b5`）**：
 - **v9.7 候選 17 `402f2b5`**（本機分支 `rel/v97-rc17`，在 `scratchpad/wt_rc97`；bundle `wip_backup/v97-rc17.bundle`，前置 `52f288e`）＝候選 16＋`tests/flow_clubs.py` A 段換日子：
   原本讀檔到 10/13 週一，v9.7 大一上劇情把那天排成颱風假（T1），吉他社 noHoliday，遊戲照規則說「今天沒有社課」、按門沒有「參加」（候選 16 跑的 A 段 3 項 FAIL＝測試的問題）；
