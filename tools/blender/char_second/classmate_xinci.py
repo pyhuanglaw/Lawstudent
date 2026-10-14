@@ -1,9 +1,9 @@
 """吳芯慈（classmate_xinci）Blender 人物製作（LAWWW2，角色模型 D59 第一位；照 BB 通過的參考圖 classmate_xinci.webp）。
-參考圖：19 歲、160 cm、法律系一年級；整齊的低髮髻（後頸上方）＋空氣瀏海＋臉旁細碎髮；薰衣草紫開襟衫（扣起來）＋白 T＋深藍中長裙（A 字、過膝）
+參考圖：19 歲、160 cm、法律系一年級；整齊的低髮髻（後頸上方）＋空氣瀏海＋臉旁細碎髮；薰衣草紫開襟衫（敞開）＋白 T＋深藍中長裙（A 字、過膝）
 ＋深棕樂福鞋；帆布托特包、手錶、四色筆（配件之後另外做）。她現在用路人底模（npc_f*）＋長直髮，這裡做她自己的 VRM。
 做法照 LAWWW 的人物生產線（tools/blender/char：common、h01_face、h01_clothes、vrm_finish）：
-  基底：VRoid CC0 樣本 Darkness Shibu 的身體、臉（全部表情 shape key）、骨架——沒有被五位女主角、路人底模用過；有裙子的次要骨頭（前、後、側各 3 節），
-  新的中長裙沿用這組骨頭與彈簧骨（走路時裙擺跟著腿擺動，不穿模）。原本的頭髮、連身裙、鞋、其他次要骨頭拿掉。
+  基底：VRoid CC0 樣本 Darkness Shibu 的身體、臉（全部表情 shape key）、骨架——沒有被五位女主角、路人底模用過。
+  原本的頭髮、連身裙、鞋、胸部以外的次要骨頭（含裙擺的彈簧骨）拿掉；新的中長裙只綁腰臀＋大腿（第十版：裙擺彈簧骨在遊戲坐下時把裙子擠成圓盤）。
   臉：h01_face（p00_face.run，先等比例對到沈以安的臉、做完轉回來）＋芯慈的參數（x_xinci_face）；頭髮：x_xinci_hair（低髮髻）；衣服：x_xinci_clothes。
 LAWWW 的模組放在 tools/blender/char/（這個工作階段的分支還沒有：預設讀 /home/user/char_wt/tools/blender/char，或用環境變數 CHAR_LIB 指定）。
 用法：/opt/blenv/bin/python tools/blender/char_second/classmate_xinci.py -- <輸出.vrm 或 -（不匯出）> [--blend 工作檔.blend] [--stages stage0,face,clothes,hair] [--render 預覽圖前綴] [--views face_front,body_front]
