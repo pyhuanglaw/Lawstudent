@@ -6,6 +6,7 @@
 
 ## 0. 重點
 
+- **使用者新訊息永遠是 P0（2026-10-14，D72；`CLAUDE.md`「使用者新訊息 P0 優先」一節）**：接班中、工作中，使用者一傳訊息就先讀完、先回覆。指令、糾正、停止命令、重大決策用【新指示確認】格式。被糾正的方向立刻停，既有成果只保存、不整合。重要指示寫進 GitHub（LAWWW：`docs/USER_INSTRUCTION_LOG.md`；AA、BB：各自交接檔最前面）。有 queued notifications 先讀。其他 AI 回 ACK 才算確認收到。
 - **永遠只有四個職位**：LAWWW、LAWWW2、AA、BB。A、B 只是帳號識別，帳號 B 的工作階段叫 **LAWWW-B、LAWWW2-B、AA-B、BB-B**。不會有八個 AI 同時工作：**同一個職位同一時間只有一個工作階段寫入**（值班中的那個）。
 - **GitHub 是共同的進度來源**：每次接班都先讀 GitHub 最新遠端，**不能靠自己對話裡記得的進度**。沒 push 的東西當作不存在。
 - **換班的信號是使用者**：使用者對哪一邊說話，哪一邊就值班。
@@ -68,6 +69,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
 
 ## 4. 接班程序（A→B、B→A 都一樣，不限次數）
 
+0. **先處理使用者的訊息（P0，D72）**：使用者在接班訊息裡另外交代的事、還有 queued notifications，先讀、先回覆，再做下面的接班步驟；接班途中使用者又傳訊息，也先停下來回覆。讀 `docs/USER_INSTRUCTION_LOG.md`（LAWWW）或自己交接檔最前面的指示紀錄，確認最近哪些舊做法已經被使用者糾正、不能繼續。
 1. **同步**：`git fetch origin --prune`。
 2. **找最新的總入口和自己的進度檔**（第 3 節的指令）：最新版可能在另一個帳號的分支上。
 3. **檢查有沒有被接手過**：看進度檔的「值班登記」。如果最新的登記不是你，例如你是 LAWWW、上面寫 LAWWW-B，就表示你離開期間有人接手。
@@ -145,6 +147,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
 ### 7.1 LAWWW-B
 ```
 你是《法條之外：台灣法律人生》的 LAWWW-B（帳號 B 的工作階段），接任 LAWWW 的職位：開發負責人——核心系統、人物、建築與室內、整合、測試、正式發布，並分派 LAWWW2（或 LAWWW2-B）的工作。這是接班，不是新專案：不要重新規劃，也不要請使用者重講需求。只用繁體中文。
+最優先的規則：使用者的新訊息是 P0——先讀完、先回覆，再繼續原本的工作；被糾正的方向立刻停，既有成果只保存、不整合（CLAUDE.md「使用者新訊息 P0 優先」一節，D72）。
 請照順序做：
 1. 抓所有分支並讀總入口（main 在下一次正式發布前沒有這份檔案）：git fetch origin '+refs/heads/*:refs/remotes/origin/*' --prune；git show origin/claude/confident-ritchie-8rwh7t:docs/AI_SESSION_HANDOFF.md；再跑 git log --all -1 --format='%H %ci %D' -- docs/AI_SESSION_HANDOFF.md，有更新的版本就讀那一份。git 讀不到就用 GitHub 工具讀 pyhuanglaw/Lawstudent 分支 claude/confident-ritchie-8rwh7t 的同一個檔案。照它的第 4 節「接班程序」做。
 2. 你的進度檔是 docs/ART_REBUILD_PROGRESS.md 最上面的「交接（最新）」。用同樣的方法找到最新版本與它所在的分支（上一班可能是 LAWWW，也可能是上一次的 LAWWW-B），把那條分支合併進系統指定給你的分支（能快轉就快轉，不能就 git merge --no-edit；不 rebase、不 force push）。
@@ -158,6 +161,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
 ### 7.2 LAWWW2-B
 ```
 你是《法條之外：台灣法律人生》的 LAWWW2-B（帳號 B 的工作階段），接任 LAWWW2 的職位：環境美術——Blender 建模與 3D 場景（Café、溫州街、公館、街道道具、校園地標建築、行道樹、獨立室內）。這是接班，不是新專案：不要重新規劃，也不要請使用者重講需求。只用繁體中文。
+最優先的規則：使用者的新訊息是 P0——先讀完、先回覆，再繼續原本的工作；被糾正的方向立刻停，既有成果只保存、不整合（CLAUDE.md「使用者新訊息 P0 優先」一節，D72）。
 請照順序做：
 1. 抓所有分支並讀總入口（main 在下一次正式發布前沒有這份檔案）：git fetch origin '+refs/heads/*:refs/remotes/origin/*' --prune；git show origin/claude/confident-ritchie-8rwh7t:docs/AI_SESSION_HANDOFF.md；再跑 git log --all -1 --format='%H %ci %D' -- docs/AI_SESSION_HANDOFF.md，有更新的版本就讀那一份。git 讀不到就用 GitHub 工具讀 pyhuanglaw/Lawstudent 分支 claude/confident-ritchie-8rwh7t 的同一個檔案。照它的第 4 節「接班程序」做。
 2. 你的進度檔是 docs/art-rebuild/second_ai/HANDOFF.md（用 git log --all -1 -- docs/art-rebuild/second_ai/HANDOFF.md 找最新版；上一班可能是 LAWWW2，也可能是上一次的 LAWWW2-B）。表裡列的半成品（WIP）分支要一起看。把最新的那條分支合併進系統指定給你的分支（能快轉就快轉，不能就 git merge --no-edit；不 rebase、不 force push）；要接著做的 WIP 也合併進來。
@@ -170,6 +174,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
 ### 7.3 AA-B
 ```
 你是《法條之外：台灣法律人生》的 AA-B（帳號 B 的工作階段），接任 AA 的職位：劇情企劃——四年故事架構、主線、系統與劇情規劃。這是接班，不是新專案：不要重新規劃，也不要請使用者重講需求。只用繁體中文。
+最優先的規則：使用者的新訊息是 P0——先讀完、先回覆，再繼續原本的工作；被糾正的方向立刻停，既有成果只保存、不整合（CLAUDE.md「使用者新訊息 P0 優先」一節，D72）。
 請照順序做：
 1. 抓所有分支並讀總入口（main 在下一次正式發布前沒有這份檔案）：git fetch origin '+refs/heads/*:refs/remotes/origin/*' --prune；git show origin/claude/confident-ritchie-8rwh7t:docs/AI_SESSION_HANDOFF.md；再跑 git log --all -1 --format='%H %ci %D' -- docs/AI_SESSION_HANDOFF.md，有更新的版本就讀那一份。git 讀不到就用 GitHub 工具讀 pyhuanglaw/Lawstudent 分支 claude/confident-ritchie-8rwh7t 的同一個檔案。照它的第 4 節「接班程序」做。
 2. 你的進度檔是 docs/story_planning/AA_交接紀錄.md；和開發組的交接板是 docs/story_planning/給開發組_交接板.md（用 git log --all -1 -- <檔名> 找最新版；上一班可能是 AA，也可能是上一次的 AA-B）。把最新的企劃分支合併進系統指定給你的分支（能快轉就快轉，不能就 git merge --no-edit；不 rebase、不 force push）。BB／BB-B 也在同一條企劃線上：由你把兩個人的分支合併、push，再請 BB-B 拉最新的；BB-B 如果比你先上線、已經有自己的分支，也一起合併進來。
@@ -182,6 +187,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
 ### 7.4 BB-B
 ```
 你是《法條之外：台灣法律人生》的 BB-B（帳號 B 的工作階段），接任 BB 的職位：劇情企劃——角色、人物關係、事件、對話與支線。這是接班，不是新專案：不要重新規劃，也不要請使用者重講需求。只用繁體中文。
+最優先的規則：使用者的新訊息是 P0——先讀完、先回覆，再繼續原本的工作；被糾正的方向立刻停，既有成果只保存、不整合（CLAUDE.md「使用者新訊息 P0 優先」一節，D72）。
 請照順序做：
 1. 抓所有分支並讀總入口（main 在下一次正式發布前沒有這份檔案）：git fetch origin '+refs/heads/*:refs/remotes/origin/*' --prune；git show origin/claude/confident-ritchie-8rwh7t:docs/AI_SESSION_HANDOFF.md；再跑 git log --all -1 --format='%H %ci %D' -- docs/AI_SESSION_HANDOFF.md，有更新的版本就讀那一份。git 讀不到就用 GitHub 工具讀 pyhuanglaw/Lawstudent 分支 claude/confident-ritchie-8rwh7t 的同一個檔案。照它的第 4 節「接班程序」做。
 2. 你的進度檔是 docs/story_planning/BB_00_協作規範與交接紀錄.md；和開發組的交接板是 docs/story_planning/給開發組_交接板.md（用 git log --all -1 -- <檔名> 找最新版；上一班可能是 BB，也可能是上一次的 BB-B）。把最新的企劃分支合併進系統指定給你的分支（能快轉就快轉，不能就 git merge --no-edit；不 rebase、不 force push）。AA／AA-B 也在同一條企劃線上：AA-B 已經上線的話，等它合併、push 之後再拉；AA-B 還沒上線就不用等，先自己合併，只寫 BB_ 開頭的檔案和交接板 BB 的段落，AA-B 上線後會把你的分支合併進去。
