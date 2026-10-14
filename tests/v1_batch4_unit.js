@@ -19,17 +19,17 @@ global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.
 for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/story3d.js','src/classes3d.js']) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
-global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
+let legalAsked=0, toasts=[]; global.LEGAL={ask:async()=>{ legalAsked++; },apply(){},stateOf:()=>'unseen',STATES:['unseen']};
 let said=[], opts=[], picks=[], titles=[], G=null;
 const E={q:{level:'medium'},player:{busy:false,obj:{position:{x:0,y:0,z:0},rotation:{y:0}},lv:0},zone:{roomAt:()=>null,seats:[]},npcs:[],interactables:[],levels:null,setWeather(){},hour:0};
 const GM={get G(){ return G; },E,D:{active:false},npc:{},
-  sceneBegin(){},sceneEnd(){},face(){},cine(){},caption(){},sleep:()=>Promise.resolve(),memo(){},autosave(){},addNote(){},energy(){},money(){},setGoal(){},toast(){},updateHUD(){},letterbox(){},phoneBadge(){},
+  sceneBegin(){},sceneEnd(){},face(){},cine(){},caption(){},sleep:()=>Promise.resolve(),memo(){},autosave(){},addNote(){},energy(){},money(){},setGoal(){},toast(t){ toasts.push(t); },updateHUD(){},letterbox(){},phoneBadge(){},
   titleCard:async(a,b)=>{ titles.push(a+(b?' '+b:'')); },enter:async(z)=>{ G.zone=z; },
   advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
-  SOCIAL.bind(G); EVENTS.bind(GM); said=[]; opts=[]; picks=[]; titles=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; };
+  SOCIAL.bind(G); EVENTS.bind(GM); said=[]; opts=[]; picks=[]; titles=[]; legalAsked=0; toasts=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; };
 const lines=()=>said.map(s=>s.t);
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const kaiN=()=>({id:'kai',charId:'kai',name:'阿凱',obj:{position:{x:1.8,y:0,z:2.2}},seat:null});
@@ -89,5 +89,34 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
       await EVENTS.run(ev('ev_kai_dark_circles')); check('K1 黑眼圈：「你黑眼圈好重，是我嗎。」（BB_95 原文）、當晚還沒換',lines()[0]==='你黑眼圈好重，是我嗎。'&&enterEv()!=='ev_kai_keyboard_quiet');
       const F2=Object.assign({},G.flags), EV2=JSON.parse(JSON.stringify(G.events)); fresh(15,19,'dorm',F2); G.events=EV2; withKai();   /* 演過的事件（once）跟著存檔 */ check('K1 「'+pick+'」：黑眼圈的隔天晚上換鍵盤（不懲罰，只是晚一點）',enterEv()==='ev_kai_keyboard_quiet'); }
     check('K1 現有的「法無明文」（ev_dorm_late_kai）照舊在',!!ev('ev_dorm_late_kai')&&ev('ev_dorm_late_kai').dialogue.some(l=>l.text==='有。叫「法無明文」。')); }
+  /* ---------- P1b 讀書會的下一週：學姊的回答（BB_95 3-4）---------- */
+  { const wedOf=w=>{ for(let d=1;d<200;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y1S1'&&t.week===w&&CALENDAR.dateOf(d).wd===3) return d; } }, w5=wedOf(5), A={id:'lawclub_study'};
+    const club=(day,flags,extra)=>{ fresh(day,19,'wancai',Object.assign({lawclub:true},flags)); G.events.done.ev_studygroup_wed=1; if(extra) extra(); const e=CLS.clubEvent(G,A); return e?e.id:null; };
+    /* P1 那一次記下日期 */
+    fresh(w5,19.2,'wancai',{lawclub:true}); picks=['收書包']; await EVENTS.run(ev('ev_studygroup_wed')); check('P1 那一次讀書會記下日期（peishanAskedDay）',G.flags.PEISHAN_ASKED_WHY===true&&G.flags.peishanAskedDay===w5,String(G.flags.peishanAskedDay));
+    const P={PEISHAN_ASKED_WHY:true,peishanAskedDay:w5};
+    check('P1b 下一週（7 天內）的讀書會一開始：學姊的回答',club(w5+7,P)==='ev_studygroup_p1b');
+    check('P1b 同一天（P1 那一次）不會接著演',club(w5,P)===null);
+    check('P1b 隔週沒來、兩週後才來：沛珊轉述（ev_studygroup_p1b_missed）',club(w5+14,P)==='ev_studygroup_p1b_missed');
+    check('P1b 舊存檔沒有 P1 的日期：當作沒來（轉述）',club(w5+7,{PEISHAN_ASKED_WHY:true})==='ev_studygroup_p1b_missed');
+    check('P1b 沒有 P1（沒問過）：照舊沒有人物事件（旁白＋題目）',club(w5+7,{})===null);
+    check('P1b 演過之後：下一次讀書會照舊（不會再演、也不轉述）',club(w5+14,P,()=>{ G.events.done.ev_studygroup_p1b=1; })===null);
+    fresh(w5+7,19,'wancai',Object.assign({lawclub:true},P)); G.events.done.ev_studygroup_wed=1; await EVENTS.run(ev('ev_studygroup_p1b')); const L=lines();
+    check('P1b 學姊（BB_95 原文）：三件事、一、二、三……、她停住、三我還在想；兩題（讀書會）；沛珊「（小聲）她第一次沒講完三件。」',JSON.stringify(L)===JSON.stringify(['上週的問題。我想了一週。三件事。','一，因為會考。','二，因為背了，才有東西可以吵。','三……','她停住。','三我還在想。今天讀刑訴。','（小聲）她第一次沒講完三件。'])&&legalAsked===2,JSON.stringify(L)+' 題目 '+legalAsked);
+    check('P1b 之後：SIS_ANSWERED_WHY（大二上 P3 會讀）',G.flags.SIS_ANSWERED_WHY===true);
+    fresh(w5+14,19,'wancai',Object.assign({lawclub:true},P)); G.events.done.ev_studygroup_wed=1; await EVENTS.run(ev('ev_studygroup_p1b_missed'));
+    check('P1b 沒來的玩家：沛珊「（小聲）學姊上週回答了。她說她還在想。」、兩題、SIS_ANSWERED_WHY',lines()[0]==='（小聲）學姊上週回答了。她說她還在想。'&&legalAsked===2&&G.flags.SIS_ANSWERED_WHY===true,JSON.stringify(lines())); }
+  /* ---------- P2b 沛珊：三段論（BB_95 3-5）---------- */
+  { const e=ev('ev_peishan_syllogism'), dOf=(w,wd)=>{ for(let d=1;d<200;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y1S1'&&t.week===w&&CALENDAR.dateOf(d).wd===wd) return d; } };
+    const can=(day,h,zone,done)=>{ fresh(day,h,zone,{dating_kexin:true}); if(done) G.events.done.ev_peishan_doubt=1; return EVENTS.check(e); };
+    check('P2b 第 6、7 週平日 16–19 在總圖（P2 之後）才有',can(dOf(6,2),17,'library',true)&&can(dOf(7,4),18.5,'library_hall',true),'');
+    check('P2b 第 5、8 週、週六、15 點、在校園、沒有 P2 都沒有',!can(dOf(5,2),17,'library',true)&&!can(dOf(8,2),17,'library',true)&&!can(dOf(6,6),17,'library',true)&&!can(dOf(6,2),15,'library',true)&&!can(dOf(6,2),17,'campus',true)&&!can(dOf(6,2),17,'library',false));
+    const BODY=['老師說法律的推理是三段論。大前提是法條，小前提是事實，結論是……把事實放進法條。','（在紙上畫了三個框）所以先找規則，再看這件事符不符合，最後才說結果。','……我小時候翻民法，就是少了中間那一步。','（看著那三個框）你講得很開心耶。','我聽完的感覺是，人被放進一個框裡。','……我是不是不適合念這個。'];
+    for(const [dating,first] of [[true,'總圖不能講話。去外面講。'],[false,'總圖不能講話。去 Café？我請你。']]){
+      for(const [pick,reply] of [['框是用來',['嗯。','她想了很久。','我懂你的意思。可是我比較想知道框外面的人在想什麼。']],['可以不喜歡',['……可以不喜歡？','她重複一次，好像第一次聽到有這個選項。','好，我先記著。']],['再寫一題',['兩人又寫了一題。她寫得很好。','我寫得出來。可是我不想寫。好奇怪。']]]){
+        fresh(dOf(6,2),17,'library',{dating_kexin:dating}); G.events.done.ev_peishan_doubt=1; picks=[pick]; await EVENTS.run(e); const L=lines();
+        check('P2b '+(dating?'交往中':'單身')+'、選「'+pick+'」：開場「'+first+'」＋BB_95 原文＋回答',JSON.stringify(L)===JSON.stringify([first].concat(BODY,reply)),JSON.stringify(L)); } }
+    check('P2b 三個選項（BB_95 原文）',JSON.stringify(opts[0])===JSON.stringify(['「框是用來想清楚的，不是用來關人的。」','「妳可以不喜歡。」','「我們再寫一題。」']),JSON.stringify(opts[0]));
+    check('P2b 之後：沛珊記憶 NOT_FOR_ME、筆記第一頁改寫（NOTE_PAGE1＝1）、提示、只一次',SOCIAL.has('classmate_peishan','NOT_FOR_ME')&&G.flags.NOTE_PAGE1===1&&toasts.some(t=>/第一頁/.test(t))&&EVENTS.check(e)===false,JSON.stringify(toasts)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

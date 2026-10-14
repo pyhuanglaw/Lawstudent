@@ -187,7 +187,10 @@ const CLS=(function(){
   S.clubEvent=function(G,a){ if(typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined') return null; const ev=id=>STORY_EVENTS.find(e=>e.id===id)||null;
     const here=id=>typeof STORY==='undefined'||!STORY.present||STORY.present(id,G);
     if(a.id==='club_guitar'){ const met=typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_04','FIRST_MET'); return !met&&here('heroine_04')?ev('ev_ziqing_club'):null; }
-    if(a.id==='lawclub_study'){ const done=!!(G.events&&G.events.done&&G.events.done.ev_studygroup_wed); return !done&&here('heroine_05')?ev('ev_studygroup_wed'):null; }
+    if(a.id==='lawclub_study'){ const done=!!(G.events&&G.events.done&&G.events.done.ev_studygroup_wed); if(!done) return here('heroine_05')?ev('ev_studygroup_wed'):null;
+      /* 第一次之後：沛珊問「為什麼要背」（P1）的下一次讀書會，學姊回答（BB_95 3-4）；隔週沒來的，之後第一次來時沛珊轉述一句——讀書會一開始，代替這一次的旁白＋題目（事件裡自己有兩題）*/
+      if(G.flags&&G.flags.PEISHAN_ASKED_WHY&&here('classmate_peishan')&&here('heroine_05')) for(const id of ['ev_studygroup_p1b','ev_studygroup_p1b_missed']){ const e=ev(id); if(e&&EVENTS.check(e,{chain:true})) return e; }
+      return null; }
     return null; };
   /* 社課的旁白（6-8 (d)）：同一學期照順序、每句最多一次；用完了回 ''（只顯示「社課結束了。」）。存在 G.acts.narr['<活動>@<學期>']＝用過幾句（舊存檔沒有＝從頭）*/
   S.clubNarr=function(G,a){ const L=a.narr||[]; if(!L.length||typeof ACTIVITIES==='undefined') return ''; const A=ACTIVITIES.rec(G); if(!A.narr||typeof A.narr!=='object') A.narr={};
