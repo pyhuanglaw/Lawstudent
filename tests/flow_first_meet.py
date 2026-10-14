@@ -5,7 +5,8 @@ A. 傅鐘（芷若還沒見過）：9/23 週二 11:20 在傅鐘附近找到她�
 B1. 經原分組（P1-3）：9/26 週五 12:06（大一上第 4 週）在普通的門廳。她在 101 上經原；12:10 下課後起身、走到 101 門口的走廊（一步一步走過去，不瞬移）；玩家離她超過 5 m，不會開始。
 B2. 同一天 12:15 在 101 裡面的東門旁（她在門口的走廊，離玩家 3.7 m、隔著牆）：不會開始；走出 101 到走廊 → 自動開始：「欸！法律系！你也修「經濟學原理」？」「林芷若，外文二。」→ 選第一個 → 記下 FIRST_MET。
    修改前：她 12:10 就去吃飯（作息 zone:null），經原分組幾乎碰不到。
-C. 兩點半 Café（芷若還沒見過）：9/26 週五 13:30 走到櫃台 →「和店員說話」→「歡迎光臨——喔，法律系的。」、選項有「檸檬塔。然後——妳是外文系的？」→ 記下 FIRST_MET、名字變成林芷若。
+C. 兩點半 Café（芷若還沒見過）：9/26 週五 13:30 走到櫃台 →「和店員說話」→「歡迎光臨——喔，法律系的。」、選項有「檸檬塔。然後——妳是外文系的？」→ 記下 FIRST_MET、名字變成林芷若；
+   同一天再和她說話（她的事件一天一次）＝點餐。修改前（v9.7 候選 4 以前）：吧檯的點餐點永遠比較近，「和店員說話」不會出現（tests/cafe_barista_unit.js）。
 D. 總圖門口（語彤還沒見過、不下雨）：9/21 週日 17:30 從總圖前面走到門口 → 自動開始 ev_library_door_phone（「總圖門口有個女生一直在看手機……」）→ 記下 FIRST_MET。
 D2. 接著 D 的存檔，隔天晚上下雨走到總圖門口：下雨版（ev_rain_library_door）不會再演一次初遇（AA_120 7-5 第 1 項）。
 E. 總圖門口（語彤還沒見過、下雨）：9/22 週一 18:30 → 下雨版當第一次見面（「總圖門口的屋簷下站著一個人……」）→ 記下 FIRST_MET。
@@ -45,7 +46,7 @@ async def play_dialog(pg, cdp, start_tap=False, max_steps=60):
     return lines, menus
 
 
-async def chase(pg, cdp, run, cid, label, rounds=4):
+async def chase(pg, cdp, run, cid, label, rounds=10):   # 走路的人玩家走到 2.8 m 內才停下來；散步路線的起點隨機，可能在 70 m 外（v9.7 回歸：4 次追到 5.7 m 就停了）
     for _ in range(rounds):
         n = await npc(pg, cid)
         if not n: return None
@@ -55,15 +56,31 @@ async def chase(pg, cdp, run, cid, label, rounds=4):
     return n and n['d']
 
 
-async def walk_until_dialog(pg, cdp, run, tx, tz, label, max_s=300):
-    """點地面往 (tx,tz) 走；走的途中自動開始的對話一出現就停（回傳 True）"""
-    t0 = time.time()
+async def walk_until_dialog(pg, cdp, run, tx, tz, label, max_s=300, wait_s=60):
+    """點地面往 (tx,tz) 走；走的途中自動開始的對話一出現就停（回傳 True）。
+    點了沒有往目標靠近（點到牆、門框）就用搖桿朝目標推（v9.7 回歸 B2：在 101 裡點走廊，300 秒還沒走出去，她 12:40 已經走了）。
+    走到以後最多等 wait_s 秒：自動事件每 30 格畫面檢查一次（SwiftShader 1–4 fps＝7–30 秒一次），有 random_weight 的還要抽中（總圖門口晴天版每次 1/3）；
+    真的玩家 60 fps 是 0.5 秒一次（v9.7 回歸 D：走到門口只等 3 秒就判沒開始）"""
+    t0 = time.time(); last_d = None
     while time.time() - t0 < max_s:
         q = await L.state(pg)
         if q['dlg'] or q['choices'] or q['busy']: return True
-        if math.hypot(q['x'] - tx, q['z'] - tz) < 0.8:
-            await pg.wait_for_timeout(3000); q = await L.state(pg); return bool(q['dlg'] or q['choices'] or q['busy'])
-        await L.tap_ground(pg, cdp, tx, tz); await pg.wait_for_timeout(4000)
+        d = math.hypot(q['x'] - tx, q['z'] - tz)
+        if d < 0.8:
+            t1 = time.time()
+            while time.time() - t1 < wait_s:
+                await pg.wait_for_timeout(1000); q = await L.state(pg)
+                if q['dlg'] or q['choices'] or q['busy']: return True
+            run.note(f'{label}：走到了，等了 {wait_s} 秒沒有對話')
+            return False
+        if last_d is not None and d > last_d - 0.2:
+            yaw = q['camYaw']; fx, fz = -math.sin(yaw), -math.cos(yaw); rx, rz = -fz, fx
+            ux, uz = (tx - q['x']) / max(d, 0.01), (tz - q['z']) / max(d, 0.01)
+            await L.joystick(pg, cdp, int(25 * (ux * rx + uz * rz)), int(-25 * (ux * fx + uz * fz)), 900)
+        else:
+            await L.tap_ground(pg, cdp, tx, tz)
+        last_d = d
+        await pg.wait_for_timeout(4000)
     run.note(f'{label}：{max_s} 秒內沒有走到、也沒有對話')
     return False
 
@@ -137,11 +154,20 @@ async def main():
                 run.check('C 第一次見面：「歡迎光臨——喔，法律系的。」、選項有「檸檬塔。然後——妳是外文系的？」', any(t.startswith('歡迎光臨——喔，法律系的。') for t in lines) and bool(menus) and any('檸檬塔。然後——妳是外文系的？' in o for o in menus[0]), ' / '.join(t[:20] for t in lines[:3]) + ' ｜ ' + json.dumps(menus[:1], ensure_ascii=False))
             w = await who(pg, 'heroine_02')
             run.check('C 之後：記下 FIRST_MET、名字是林芷若', w['met'] and w['name'] == '林芷若', json.dumps(w, ensure_ascii=False))
+            if w['met']:
+                await pg.wait_for_timeout(1500); s = await L.state(pg)
+                run.check('C 同一天再走到她前面：按鈕是「和林芷若說話」', s['interact'] == '和林芷若說話', s['interact'])
+                if '說話' in s['interact']:
+                    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2000)
+                    m = await menu(pg)
+                    run.check('C 同一天再和她說話：她的事件一天一次，這次就是點餐（拿鐵、手沖咖啡、檸檬塔、不用了）', any(o.startswith('拿鐵') for o in m) and any(o.startswith('檸檬塔') for o in m) and '不用了' in m, json.dumps(m, ensure_ascii=False))
+                    if '不用了' in m:
+                        await L.tap(pg, cdp, '#choices button:last-child'); await pg.wait_for_timeout(1500)
         # ---------- D：總圖門口，不下雨 ----------
         run.setup('讀檔：第 5 天（9/21 週日）17:30、晴天，校園總圖前 (81,12)；還沒見過陳語彤')
         await L.load_state(pg, {'zone': 'campus', 'hour': 17.5, 'day': 5, 'weekday': 0, 'weather': 'clear', 'pos': {'x': 81, 'z': 12, 'yaw': 3.14}, 'flags': BASE_FLAGS})
         await pg.wait_for_timeout(5000)
-        started = await walk_until_dialog(pg, cdp, run, 81, 2.5, '總圖門口')
+        started = await walk_until_dialog(pg, cdp, run, 81, 2.5, '總圖門口', wait_s=180)   # random_weight 20：每次檢查 1/3（SwiftShader 7–30 秒檢查一次）
         lines, menus = await play_dialog(pg, cdp) if started else ([], [])
         await run.shot(pg, 'D_after_door')
         w = await who(pg, 'heroine_03')
