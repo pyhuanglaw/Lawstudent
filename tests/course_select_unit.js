@@ -50,6 +50,8 @@ const has=(G,term,id)=>CLS.termCourses(G,term).some(c=>c.id===id);
     const G2=mkG(SUN,7.5); G2.flags.ge_walk_waitlist=true; const GM2=mkGM(G2,[0]); await CLS.morning(GM2); const L2=GM2.log.filter(t=>t.startsWith('say:'));
     check('大一下：v1 選加簽的玩家：「上學期加簽沒成功的「城市與散步」，這學期——備取三。」',L2[1]==='say:上學期加簽沒成功的「城市與散步」，這學期——備取三。'&&L2[2]==='say:選上的是「天文與我們」。',L2.join(' | '));
     const D=dayOf('2028-09-03'), G3=mkG(D,7.5), GM3=mkGM(G3,[0,0]); await CLS.morning(GM3); check('其他學期沒有這兩句',!GM3.log.some(t=>/城市與散步|天文與我們/.test(t))); }
+  { const c=COURSES.list?COURSES.list.find(q=>q.id==='ge_y1s2'):(Array.isArray(COURSES)?COURSES.find(q=>q.id==='ge_y1s2'):Object.values(COURSES).flat().find(q=>q&&q.id==='ge_y1s2'));
+    check('大一下的通識課名是「通識：天文與我們」（AA 同意改名；課表、手機都顯示這個名字）',!!c&&c.name==='通識：天文與我們',c&&c.name); }
   // ---------- 3. 大四上：兩組二選一 ----------
   { const T0=CALENDAR.termOf(dayOf('2028-09-04')), D=dayOf('2028-09-03'); const G=mkG(D,7.5), GM=mkGM(G,[1,1]); await CLS.morning(GM);
     const chs=GM.log.filter(t=>t.startsWith('choose:'));

@@ -53,7 +53,7 @@ const COURSES={
        第 3 週＝BB_105 P4「第二次大一」的那一堂（BB 的 syllabus 標 special）：事件要使用者批准才做，現在照 BB 的備用內容上普通的課 */
     // ---- 大一下（2026 春）----
     {id:'const_2',name:'憲法（下）',kind:'required',term:'Y1S2',prof:'prof_zhang',room:'L201',slots:[{wd:1,block:'am'}],topics:['基本權（續）','權力分立（續）','憲法訴訟入門']},
-    {id:'ge_y1s2',name:'通識',kind:'general',term:'Y1S2',prof:null,profName:'通識老師',room:'PUTONG',slots:[{wd:1,block:'pm1'}],topics:['課程導論','分組討論','期末報告準備']},
+    {id:'ge_y1s2',name:'通識：天文與我們',kind:'general',term:'Y1S2',prof:null,profName:'通識老師',room:'PUTONG',slots:[{wd:1,block:'pm1'}],topics:['課程導論','分組討論','期末報告準備']},
     {id:'pe_y1s2',name:'體育',kind:'general',term:'Y1S2',prof:null,room:'GYM',slots:[{wd:1,block:'pm2'}],topics:['羽球','排球','體適能檢測']},
     {id:'chinese_y1_2',name:'大一國文（下）',kind:'general',term:'Y1S2',prof:null,profName:'國文老師',room:'BOYA',slots:[{wd:2,block:'am'}],topics:['小說選讀','論說文','期末作品']},
     {id:'law_society_2',name:'法律與社會（下）',kind:'elective',term:'Y1S2',prof:'prof_huang',room:'LINZE',slots:[{wd:2,block:'pm1'}],topics:['法律與電影','法律與新聞','法律與社會'],choice:{group:'Y1S2_ls',default:'law_society_2',none:true}},   /* 可選可不選（不再和經濟學原理二選一）*/
