@@ -10,6 +10,10 @@ VIEWS = [('校園：椰林大道往總圖', 'campus', 40, -3, 1.5708, 4.712), ('
 # 室內（v9.3 第十五批）：VIEWSET=interior 時改量室內：玩家站在出生點、鏡頭在預設方向
 if os.environ.get('VIEWSET') == 'interior':
     VIEWS = [('宿舍', 'dorm', 0, 2.4, 3.1416, 0.0), ('教室', 'classroom', 0, 5, 3.1416, 0.0), ('便利商店', 'cvs', 0, 3.5, 3.1416, 0.0), ('麵店', 'noodle', 0, 3.5, 3.1416, 0.0), ('書店', 'bookstore', 0, 3.5, 3.1416, 0.0), ('萬才館', 'wancai', 0, 5, 3.1416, 0.0), ('總圖', 'library', 0, 7, 3.1416, 0.0)]
+# 社科院（D62，使用者 2026-10-14「保留在 v9.6，沒有明顯效能問題」）：VIEWSET=soc 量社科院圖書館、法律學院圖書館、總圖大廳、萬才館（室內：x=None＝區域預設的出生點）和校園社科院前
+if os.environ.get('VIEWSET') == 'soc':
+    VIEWS = [('社科院圖書館（入口）', 'soclib', None, None, 3.1416, 0.0), ('社科院圖書館（中間）', 'soclib', 0, 1.5, 3.1416, 0.0), ('法律學院圖書館', 'lawlib', None, None, 3.1416, 0.0), ('總圖大廳', 'library_hall', None, None, 3.1416, 0.0),
+             ('萬才館', 'wancai', 0, 5, 3.1416, 0.0), ('校園：社科院前（往東看）', 'campus', 85, -70, -1.5708, 4.712), ('校園：霖澤館前', 'campus', 34, -95, 3.1416, 0.0)]
 async def main():
     async with async_playwright() as p:
         b = await p.chromium.launch(executable_path='/opt/pw-browsers/chromium', args=['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'])
@@ -20,7 +24,8 @@ async def main():
             if await pg.evaluate("!!(typeof GAME!=='undefined'&&document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide'))"): break
             await pg.wait_for_timeout(500)
         for name, zone, x, z, yaw, cy in VIEWS:
-            st = {'zone': zone, 'hour': 10.5, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': x, 'z': z, 'yaw': yaw}, 'flags': FLAGS}
+            st = {'zone': zone, 'hour': 10.5, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'flags': FLAGS}
+            if x is not None: st['pos'] = {'x': x, 'z': z, 'yaw': yaw}   # x=None：區域預設的出生點
             await pg.evaluate("(async(st)=>{ const s=GAME.defaults('祐廷'); Object.assign(s,st); document.getElementById('titleScreen').classList.add('hide'); EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; await GAME.applySave(s); })(%s)" % json.dumps(st))
             await pg.evaluate("(c=>{ const C=GAME.E.cam; C.mode='follow'; C.yaw=c; C.manualT=999; })(%s)" % cy)
             await pg.wait_for_timeout(3000)
