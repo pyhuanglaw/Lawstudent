@@ -1,5 +1,5 @@
 {
- "source_status": "待來源核對／未獲使用者確認（AA 自編，D 類；使用者 2026-10-14 糾正後暫停）",
+ "source_status": "AI 草稿／未經使用者審核（AA 自編，大一～大三；使用者 2026-10-14 16:15：不得當正式考題，封存）",
  "course": "const_1",
  "name": "憲法（上）",
  "term": "Y1S1",
@@ -18,7 +18,7 @@
    "core": "憲法是最高的法：法律牴觸憲法，無效。",
    "basis": "憲法第 171 條第 1 項：法律與憲法牴觸者無效。",
    "checked": "全國法規資料庫（AA 2026-10-14）",
-   "status": "LEGAL_REVIEW_REQUIRED"
+   "status": "AI_DRAFT_UNREVIEWED"
   },
   {
    "id": "const_1_02",
@@ -31,7 +31,7 @@
    "core": "命令牴觸憲法或法律，都無效。",
    "basis": "憲法第 172 條：命令與憲法或法律牴觸者無效。",
    "checked": "全國法規資料庫（AA 2026-10-14）",
-   "status": "LEGAL_REVIEW_REQUIRED"
+   "status": "AI_DRAFT_UNREVIEWED"
   },
   {
    "id": "const_1_03",
@@ -49,7 +49,7 @@
    "core": "法律有沒有牴觸憲法，由司法院解釋；現在由司法院大法官組成的憲法法庭審理。",
    "basis": "憲法第 171 條第 2 項：法律與憲法有無牴觸發生疑義時，由司法院解釋之。憲法訴訟法第 1 條第 1 項：司法院大法官組成憲法法庭，依本法之規定審理下列案件：一、法規範憲法審查及裁判憲法審查案件……",
    "checked": "全國法規資料庫（AA 2026-10-14）",
-   "status": "LEGAL_REVIEW_REQUIRED"
+   "status": "AI_DRAFT_UNREVIEWED"
   },
   {
    "id": "const_1_04",
@@ -62,7 +62,7 @@
    "core": "憲法本文仍然有效；增修條文明白寫出停止適用的條文，才不再適用。",
    "basis": "增修條文前言：……增修本憲法條文如左。第 1 條第 2 項：憲法第二十五條至第三十四條及第一百三十五條之規定，停止適用。",
    "checked": "全國法規資料庫（AA 2026-10-14）",
-   "status": "LEGAL_REVIEW_REQUIRED"
+   "status": "AI_DRAFT_UNREVIEWED"
   },
   {
    "id": "const_1_05",
@@ -75,7 +75,7 @@
    "core": "平等不是一律相同：相同的事相同處理，不同的事不同處理；差別待遇要說得出正當的理由。",
    "basis": "憲法第 7 條：中華民國人民，無分男女、宗教、種族、階級、黨派，在法律上一律平等。",
    "checked": "全國法規資料庫（AA 2026-10-14）",
-   "status": "LEGAL_REVIEW_REQUIRED"
+   "status": "AI_DRAFT_UNREVIEWED"
   },
   {
    "id": "const_1_06",
@@ -93,7 +93,7 @@
    "core": "逮捕拘禁的原因要以書面告知本人及他指定的親友，並至遲二十四小時內移送法院。",
    "basis": "憲法第 8 條第 2 項：人民因犯罪嫌疑被逮捕拘禁時，其逮捕拘禁機關應將逮捕拘禁原因，以書面告知本人及其本人指定之親友，並至遲於二十四小時內移送該管法院審問。",
    "checked": "全國法規資料庫（AA 2026-10-14）",
-   "status": "LEGAL_REVIEW_REQUIRED"
+   "status": "AI_DRAFT_UNREVIEWED"
   },
   {
    "id": "const_1_07",
@@ -106,7 +106,7 @@
    "core": "提審的聲請，法院不得拒絕，也不得先令逮捕拘禁的機關查覆；逮捕拘禁的機關不得拒絕或遲延。",
    "basis": "憲法第 8 條第 3 項：法院對於前項聲請，不得拒絕，並不得先令逮捕拘禁之機關查覆。逮捕拘禁之機關，對於法院之提審，不得拒絕或遲延。",
    "checked": "全國法規資料庫（AA 2026-10-14）",
-   "status": "LEGAL_REVIEW_REQUIRED"
+   "status": "AI_DRAFT_UNREVIEWED"
   },
   {
    "id": "const_1_08",
@@ -124,7 +124,7 @@
    "core": "限制自由權利，要為了防止妨礙他人自由、避免緊急危難、維持社會秩序或增進公共利益所必要，而且要用法律。",
    "basis": "憲法第 23 條：以上各條列舉之自由權利，除為防止妨礙他人自由、避免緊急危難、維持社會秩序，或增進公共利益所必要者外，不得以法律限制之。",
    "checked": "全國法規資料庫（AA 2026-10-14）",
-   "status": "LEGAL_REVIEW_REQUIRED"
+   "status": "AI_DRAFT_UNREVIEWED"
   },
   {
    "id": "const_1_09",
@@ -142,7 +142,7 @@
    "core": "比例原則三步：方法有助於目的（適當性）、選損害最少的方法（必要性）、損害和利益不能顯失均衡（衡量性）。",
    "basis": "行政程序法第 7 條：行政行為，應依下列原則為之：一、採取之方法應有助於目的之達成。二、有多種同樣能達成目的之方法時，應選擇對人民權益損害最少者。三、採取之方法所造成之損害不得與欲達成目的之利益顯失均衡。",
    "checked": "全國法規資料庫（AA 2026-10-14）",
-   "status": "LEGAL_REVIEW_REQUIRED"
+   "status": "AI_DRAFT_UNREVIEWED"
   },
   {
    "id": "const_1_10",
@@ -155,7 +155,7 @@
    "core": "憲法第 11 條保障言論、講學、著作及出版四種自由。",
    "basis": "憲法第 11 條：人民有言論、講學、著作及出版之自由。",
    "checked": "全國法規資料庫（AA 2026-10-14）",
-   "status": "LEGAL_REVIEW_REQUIRED"
+   "status": "AI_DRAFT_UNREVIEWED"
   },
   {
    "id": "const_1_11",
@@ -173,7 +173,7 @@
    "core": "憲法第 15 條保障生存權、工作權及財產權；居住及遷徙自由在第 10 條。",
    "basis": "憲法第 15 條：人民之生存權、工作權及財產權，應予保障。第 10 條：人民有居住及遷徙之自由。",
    "checked": "全國法規資料庫（AA 2026-10-14）",
-   "status": "LEGAL_REVIEW_REQUIRED"
+   "status": "AI_DRAFT_UNREVIEWED"
   },
   {
    "id": "const_1_12",
@@ -186,7 +186,7 @@
    "core": "應考試服公職的權利，也是憲法明文保障的基本權。",
    "basis": "憲法第 18 條：人民有應考試服公職之權。",
    "checked": "全國法規資料庫（AA 2026-10-14）",
-   "status": "LEGAL_REVIEW_REQUIRED"
+   "status": "AI_DRAFT_UNREVIEWED"
   },
   {
    "id": "const_1_13",
@@ -204,7 +204,7 @@
    "core": "憲法沒有一條一條寫出來的自由權利（例如隱私權），也透過第 22 條受到保障。",
    "basis": "憲法第 22 條：凡人民之其他自由及權利，不妨害社會秩序公共利益者，均受憲法之保障。",
    "checked": "全國法規資料庫（AA 2026-10-14）",
-   "status": "LEGAL_REVIEW_REQUIRED"
+   "status": "AI_DRAFT_UNREVIEWED"
   },
   {
    "id": "const_1_14",
@@ -217,7 +217,7 @@
    "core": "秘密通訊自由是憲法明文列出的基本權。",
    "basis": "憲法第 12 條：人民有秘密通訊之自由。",
    "checked": "全國法規資料庫（AA 2026-10-14）",
-   "status": "LEGAL_REVIEW_REQUIRED"
+   "status": "AI_DRAFT_UNREVIEWED"
   },
   {
    "id": "const_1_15",
@@ -230,7 +230,8 @@
    "core": "集會自由和結社自由，都規定在憲法第 14 條。",
    "basis": "憲法第 14 條：人民有集會及結社之自由。",
    "checked": "全國法規資料庫（AA 2026-10-14）",
-   "status": "LEGAL_REVIEW_REQUIRED"
+   "status": "AI_DRAFT_UNREVIEWED"
   }
- ]
+ ],
+ "archived": true
 }
