@@ -65,7 +65,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const holTT=[]; for(let d=W4THU+1;d<=W4THU+14;d++){ const w=CALENDAR.dateOf(d).wd; if((w===2||w===4)&&CALENDAR.holiday(d)) holTT.push(d); }
     check('A9 放假的週二、週四不揪'+(holTT.length?'（'+holTT.map(d=>CALENDAR.dateOf(d).key).join('、')+'）':'（這兩週沒有放假的週二四：只檢查上課日）'),holTT.every(d=>!days.includes(d))&&ps.every(m=>CALENDAR.kind(m.day)==='term'));
     /* 每天的手機小事不被例行訊息擋住 */
-    { const D=termDay(7,2); keepOn(D,7.5,'campus');   /* 前面兩週已經跑過的日子不再排（tag 一天一次）：用第 7 週週二 */ const d0=G.flags.dpDay; G.flags.dpDay=null; G.flags.dpPick=null; G.flags.dpN={}; G.flags.dpLast=null; PHONE.join(G,'lawclub_study','法服讀書會');
+    { const D=termDay(10,2); keepOn(D,7.5,'campus');   /* 前面兩週已經跑過的日子不再排（tag 一天一次）；第 7 週週二有以安新 3 的群組訊息（劇情訊息，那天本來就不加小事）：用第 10 週週二 */ const d0=G.flags.dpDay; G.flags.dpDay=null; G.flags.dpPick=null; G.flags.dpN={}; G.flags.dpLast=null; PHONE.join(G,'lawclub_study','法服讀書會');
       run(7.5,8); const pick=G.flags.dpPick; check('A9 週二早上已經排了阿哲的例行訊息，每天的手機小事照樣挑（rt_ 不算劇情訊息）',!!pick&&PHONE.rec(G).q.some(q=>q.tag==='rt_zhe_ndl_'+D),JSON.stringify(pick)); } }
   /* ---------- A10 語 1 ---------- */
   { const e=ev('ev_yu_breakfast'); check('A10 事件存在（ev_yu_breakfast，找小語說話）',!!e&&e.trigger==='interact'&&e.participants[0]==='yu');

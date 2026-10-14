@@ -436,6 +436,11 @@ const STORY = (function(){
       if(sat&&F.dating_kexin&&(F.BBQ_YES||!F.BBQ_NO)&&!PHONE.sent(G,'kx_bbq_ask')&&G.day>=sat-1&&G.day<=sat){ const K=t=>({from:'kexin',text:t});
         PHONE.at(G,sat-1,20,[{th:'p:kexin',from:'kexin',text:'我們系也有烤肉。……你們的比較好玩嗎？',ask:{opts:[{t:'來我們這邊。',set:{KX_BBQ_COME:true}},{t:'妳去妳們系的。',set:{KX_BBQ_NO:true}}]}}],'kx_bbq_ask'); }
       if(F.KX_BBQ_NO&&sat) PHONE.at(G,sat,20.5,[{th:'p:kexin',from:'kexin',text:'📷（烤玉米）'},{th:'p:kexin',from:'kexin',text:'我們的玉米比較好。'}],'kx_bbq_corn'); }
+    /* 以安新 3 宿舍的規則（A14，交接包_v1 第 3 節）：第 7 週週二晚上麵店團群組，小語轉述（她是聽說的）、阿哲、以安隔一陣子才回；只給在群組裡的玩家（其他人由沛珊當面說：ev_an_dorm_rules_peishan）*/
+    if(PHONE.inGroup(G,'noodle_team')&&!F.AN_DORM_RULES){ const d=termDay('Y1S1',7,2), gj=PHONE.rec(G).groups.noodle_team; if(d&&G.day>=d-1&&gj.day<=d){ const th='g:noodle_team';   /* 那天以前就在群組裡（之後才加入的，看不到加入以前的訊息：由沛珊當面說）*/
+      PHONE.at(G,d,21.7,[{th,from:'yu',text:'報告！聽說以安為了樓層會議，把整本宿舍規則讀完了，還寫了三頁意見。'},{th,from:'yu',text:'大家笑她，她說：「規則是我們要住的，總要有人讀完。」'},{th,from:'zhe',text:'……她說得對耶。'}],'an_rules_grp');
+      PHONE.at(G,d,22.4,[{th,from:'heroine_01',text:'三頁是因為字很大。'}],'an_rules_an'); } }
+    if(G.msgs&&!F.AN_DORM_RULES&&G.msgs.some(m=>m.tag==='an_rules_grp')) F.AN_DORM_RULES='group';
     dailyPhone(GM); };
   /* 每天的手機小事（BB_95 4-4）：摘要日（AA_90 第 10 節「週曆＋精華日」）還沒做，照 BB「沒有摘要日的話放進每天的手機小事」——大一上第 4 週起，一天最多一則；
      那天已經有排好時間的劇情訊息就不加。每天第一次（或讀檔後第一次）決定今天是哪一則：照順序輪流，挑條件成立、時間還沒到的；時間到了再確認一次

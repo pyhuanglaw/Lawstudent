@@ -3,6 +3,8 @@
    對話行：{speaker, text, expression, position} / {choice:[{text,hint,consequences,goto,next,set,mem,rel,choiceKey,value}]} / {legal:{context,by,pick|qid,chorus}} / {label} / {goto} / {if} / {set,mem,rel,note,advance}
    所有人物與故事皆為虛構。 ===== */
 'use strict';
+/* 群戲「只有認識的人在場」（交接包 v1 交付清單第 0 節第 1 點）：if:EV_KNOWS('id')／if:EV_KNOWS('a','b')＝都認識了（STORY.knows：FIRST_MET；小語 met_yu；阿哲開場就熟）*/
+const EV_KNOWS=(...ids)=>({custom:G=>typeof STORY!=='undefined'&&!!STORY.knows&&ids.every(id=>STORY.knows(id,G))});
 const STORY_EVENTS=[
   // ────────────────────────────────────────── 語彤：雨天圖書館門口（Vertical Slice）
   { id:'ev_rain_library_door', title:'雨天的總圖門口', participants:['heroine_03'], location:'campus', near:{x:81,z:0,r:7}, trigger:'auto', time:[18,23], weather:'rain', day_min:3, once:true, prereq:{notMemory:[{npc:'heroine_03',tag:'FIRST_MET'}]},   /* AA_120 7-5 第 1 項：不下雨的版本（ev_library_door_phone）認識以後，下雨天不再演一次初遇；對話一個字都不動 */
@@ -337,6 +339,35 @@ const STORY_EVENTS=[
       {label:'end'} ],
     consequences:{stamp:['bbqDay'],memo:'中秋烤肉（河濱）'},
     after:(G)=>{ if(G.flags.KX_BBQ_COME) G.flags.KX_MET_NOODLE_TEAM=true; } },
+  /* 以安新 3 宿舍的規則（交付清單 A14；交接包_v1 第 3 節、AA_113 事件 3）：祐廷不在，轉述。麵店團群組的訊息在 story3d.js 的 phoneRules（第 7 週週二晚上）；
+     沒有加入麵店團群組的玩家，改成沛珊當面說同樣的內容（第 7 週起找她說話；要認識她）。只記旗標 AN_DORM_RULES（聽說，不寫成玩家在場）*/
+  { id:'ev_an_dorm_rules_peishan', title:'宿舍的規則', participants:['classmate_peishan'], location:'any', trigger:'interact', priority:3, term:['Y1S1'], once:true, background:'blur',
+    prereq:{memory:[{npc:'classmate_peishan',tag:'FIRST_MET'}],custom:G=>{ if(G.flags.AN_DORM_RULES||typeof STORY==='undefined'||!STORY.termDay) return false; const g=G.phone&&G.phone.groups&&G.phone.groups.noodle_team; return !(g&&g.day<=STORY.termDay('Y1S1',7,2))&&G.day>=STORY.termDay('Y1S1',7,1); }},
+    dialogue:[ {speaker:'classmate_peishan',expression:'neutral',text:'聽說以安為了樓層會議，把整本宿舍規則讀完了，還寫了三頁意見。'},
+      {speaker:'classmate_peishan',expression:'neutral',text:'大家笑她，她說：「規則是我們要住的，總要有人讀完。」'} ],
+    consequences:{flags:{AN_DORM_RULES:'peishan'}} },
+  /* G1 考完試走出教室（交付清單 A15：AA_13 G1）：大一上民總期中考考完，在教室門口接著演（classes3d.js 的 afterClassEvent：afterExam 'mid'）；一定會發生。
+     只有認識的人在場：柏翰沒見過＝第一句變成旁白（有人在問第二題）、他和芯慈的那段（和祐廷無關的一句）兩個人都認識才有；小語、明軒、以安沒見過就跳過。
+     第一個選項要第一天讀過案例（readCase 不是 none）。只改變誰跟你走；記憶 SHARED_CLASS（在場、認識的同學）。考題不出題庫，只說「第二題」*/
+  { id:'ev_midterm_walkout', title:'考完試走出教室', participants:[], location:'any', trigger:'class', afterClass:'civ_general', afterExam:'mid', term:['Y1S1'], once:true, background:'blur',
+    dialogue:[ {speaker:null,text:'走廊上一群人。有人在翻課本，有人已經在滑手機。'},
+      {if:EV_KNOWS('classmate_bohan'),speaker:'classmate_bohan',expression:'neutral',text:'第二題，你們是寫要約之引誘還是要約？'},
+      {unless:EV_KNOWS('classmate_bohan'),speaker:null,text:'有人在問：第二題，是寫要約之引誘還是要約？'},
+      {speaker:'zhe',expression:'surprised',text:'……有第二題？'},
+      {if:EV_KNOWS('yu'),speaker:'yu',expression:'neutral',text:'我寫要約。我覺得是要約。（停）完了，我寫要約。'},
+      {if:EV_KNOWS('classmate_xinci','classmate_bohan'),speaker:'classmate_xinci',expression:'neutral',text:'（小聲）我寫引誘，然後補了一段反對意見。'},
+      {if:EV_KNOWS('classmate_xinci','classmate_bohan'),speaker:'classmate_bohan',expression:'neutral',text:'反對意見誰的？'},
+      {if:EV_KNOWS('classmate_xinci','classmate_bohan'),speaker:'classmate_xinci',expression:'neutral',text:'我自己的。'},
+      {if:EV_KNOWS('classmate_xinci','classmate_bohan'),speaker:'classmate_bohan',expression:'neutral',text:'……可以這樣寫嗎？'},
+      {if:EV_KNOWS('classmate_mingxuan'),speaker:'classmate_mingxuan',expression:'neutral',text:'不要對了啦，去吃飯。'},
+      {if:EV_KNOWS('heroine_01'),speaker:'heroine_01',expression:'neutral',text:'（從教室出來，把筆收進筆袋）對答案沒有用。考完了就是考完了。'},
+      {if:EV_KNOWS('heroine_01'),speaker:'heroine_01',expression:'neutral',text:'……我寫引誘。'},
+      {choice:[{text:'「我寫引誘，第二天那個案子就是這個。」',unless:{flagIs:{readCase:['none',undefined]}},set:{G1_PICK:'case'},goto:'c1'},{text:'「我寫要約。」',set:{G1_PICK:'offer'},goto:'c2'},{text:'「去吃飯。」',set:{G1_PICK:'eat'},goto:'c3'}]},
+      {label:'c1'},{if:EV_KNOWS('classmate_bohan'),speaker:'classmate_bohan',expression:'surprised',text:'你也讀了判決？'},{goto:'end'},
+      {label:'c2'},{if:EV_KNOWS('yu'),speaker:'yu',expression:'laugh',text:'同一國的！'},{goto:'end'},
+      {label:'c3'},{if:EV_KNOWS('classmate_mingxuan'),speaker:'阿哲、明軒',text:'走！'},{unless:EV_KNOWS('classmate_mingxuan'),speaker:'zhe',expression:'laugh',text:'走！'},
+      {label:'end'} ],
+    after:G=>{ if(typeof SOCIAL==='undefined'||typeof STORY==='undefined') return; for(const id of ['zhe','classmate_bohan','yu','classmate_xinci','classmate_mingxuan','heroine_01']) if(STORY.knows(id,G)) SOCIAL.remember(id,'SHARED_CLASS','民總期中考'); } },
   { id:'ev_dorm_late_kai', title:'半夜', participants:['kai'], location:'dorm', trigger:'enter', time:[23,26], day_min:3, cooldown_days:2, random_weight:0.7, background:'blur',
     dialogue:[ {speaker:'kai',expression:'neutral',text:'（頭沒回）欸，你回來了。我這個 bug 追到第三小時。'},{choice:[{text:'「去睡啦。」',consequences:{rel:{kai:{fam:1,comf:1}}}},{text:'「什麼 bug？」',consequences:{rel:{kai:{fam:2,trust:1}}},goto:'bug'},{text:'（戴上耳機）',consequences:{}}]},{goto:'end'},{label:'bug'},{speaker:'kai',expression:'tired',text:'一個值應該是 0 結果是 undefined。……你們法律系有這種東西嗎？'},{speaker:'player',text:'有。叫「法無明文」。'},{speaker:'kai',expression:'laugh',text:'幹，好爛。'},{label:'end'} ] },
   { id:'ev_library_closing', title:'閉館', participants:[], location:'library', trigger:'auto', time:[21.6,22.2], cooldown_days:1, background:'freeze',
