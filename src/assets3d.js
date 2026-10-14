@@ -86,6 +86,7 @@ const ASSETS = (function(){
     'bldg.campus_socsci':{url:'assets/models/env/second_ai/campus_socsci.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_socsci.py（新社科院：辜先生紀念圖書館（玻璃帷幕、白色樹狀柱＋荷葉柱頂、植栽屋頂與天窗；柱子與天窗照 ⑬ soclib_layout.js）＋8 層清水混凝土大樓＋中庭；校園世界座標；遊戲化：南北對調；沒有照片，大樓立面是推測）；清水混凝土貼圖 gen_socsci_textures.py（Poly Haven concrete_wall_006 CC0 改作）；其他貼圖 Poly Haven CC0', license:'本作；貼圖 CC0'},
     'prop.trees':{url:'assets/models/env/second_ai/street_trees.glb', type:'building', source:'本作 Blender 腳本 tools/blender/env_second/street_trees.py（樟樹兩款、榕樹、大王椰子的正式模型＋遠景卡片；TK.tree／TK.royalPalm 載入後改成樹的位置記號，整區用 InstancedMesh 畫：近的模型、遠的卡片；樹皮 Poly Haven CC0、葉片貼圖 tree_atlas.py 在 Blender 用葉片幾何渲染）', license:'本作；貼圖 CC0'},   /* 不是 lazy（TK.tree() 是同步建立的）；?nobldg 一樣會關掉 */
     'prop.glasses_zhiruo':{url:'assets/models/char/second_ai/glasses_zhiruo.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/glasses_zhiruo.py（LAWWW2 D59：林芷若的眼鏡——參考圖 06 的淺色（霧面玫瑰金）細金屬圓框、鼻托、鉸鏈、鏡腳；src/props3d.js 的 glasses() 載好後換掉程式產生的版本）', license:'本作'},
+    'bldg.library_3f':{url:'assets/models/env/second_ai/library_3f.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/library_3f.py（LAWWW2 ⑪：總圖 3F 閱覽區——長桌、椅子、三面書架牆、窗框；座位、互動點、導航、東側電梯照遊戲原本的；書背與牌子 lib3f_atlas.py）', license:'本作；貼圖 CC0'},
     // ==== 第二個 AI 區塊結束 ====
     'char.mixamo_clips':{url:'assets/models/char/mixamo_clips.glb', type:'clips', source:'three.js examples (Xbot.glb, Mixamo)', license:'Mixamo 動畫（Adobe 條款：可用於專案，不可單獨再散布）'},
   };
