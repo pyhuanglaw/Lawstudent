@@ -1,0 +1,147 @@
+"""路人底模產生器（LAWWW2；LAWWW 2026-10-14 09:53Z：使用者「可不可以不要說 NPC 都只是從一張臉、只是換衣服」）。
+現在的路人只有 4 個底模（src/character3d.js 的 AMB：npc_f1／f2／m1／m2），只換頭髮、上衣、下身的顏色。這裡做更多路人底模：
+每個人不同的 VRoid 樣本（身體、臉的 shape key）、臉的參數（p00_face：眼睛大小與角度、眉毛、臉寬、下巴）、髮型（npc_hair_m／npc_hair_f：
+長度、分線、蓬度、顏色）、衣服（p00_clothes.run：款式、布料、顏色）、身高（manifest 的 height）。避開主要角色的辨識特徵（髮型＋顏色＋衣服的組合）。
+做法照 LAWWW 的人物生產線（tools/blender/char）＋杜可昕、明軒的模組；用法：
+  NPC=<名字> /opt/blenv/bin/python tools/blender/char_second/npc.py -- <輸出.vrm 或 -> [--blend 工作檔] [--from-blend 工作檔] [--stages stage0,face,clothes,hair] [--render 前綴] [--views ...]
+之後：VRM_BASE=<樣本> [VRM_MALE=1] NPC_SMALL=1 python3 tools/blender/char_second/vrm_finish2.py <輸出.vrm> <遊戲用.vrm> 路人 [虹膜色]"""
+import sys, os
+HERE = os.path.dirname(os.path.abspath(__file__))
+CHAR_LIB = os.environ.get('CHAR_LIB') or next((p for p in (os.path.join(HERE, '..', 'char'), '/home/user/char_wt/tools/blender/char') if os.path.exists(os.path.join(p, 'common.py'))), None)
+sys.path.insert(0, HERE); sys.path.insert(1, CHAR_LIB)
+import common as C
+import numpy as np, bpy
+
+def rgb(*c): return np.array(c, float) / 255.0
+
+# 各樣本的衣服高度（人物空間；照已經做過的人物量過的數字：祐廷／柏翰＝HairSample_Male、阿哲／明軒＝Sakurada Fumiriya、
+# 杜可昕＝Victoria Rubin、沈以安／芯慈＝HairSample_Female／Darkness Shibu）
+HT = dict(
+    HairSample_Male=dict(M=dict(PANTS_TOP=1.060, PANTS_BAND=1.020, KNIT_HEM=0.930, KNIT_HEM_TOP=0.945, CREW_FRONT_Z=1.452, BACK_NECK_Z=1.478, V_BOTTOM=1.400), side=(0.066, 1.492)),
+    Sakurada_Fumiriya=dict(M=dict(PANTS_TOP=1.200, PANTS_BAND=1.160, KNIT_HEM=1.060, KNIT_HEM_TOP=1.075, CREW_FRONT_Z=1.578, BACK_NECK_Z=1.615, V_BOTTOM=1.540), side=(0.066, 1.631)),
+    Victoria_Rubin=dict(M=dict(PANTS_TOP=1.083, PANTS_BAND=1.046, KNIT_HEM=0.960, KNIT_HEM_TOP=0.975, CREW_FRONT_Z=1.395, BACK_NECK_Z=1.430, V_BOTTOM=1.360), side=(0.058, 1.436)),
+    HairSample_Female=dict(M=dict(PANTS_TOP=1.100, PANTS_BAND=1.031, KNIT_HEM=0.990, KNIT_HEM_TOP=1.005, CREW_FRONT_Z=1.345, BACK_NECK_Z=1.388, V_BOTTOM=1.300), side=(0.071, 1.402)),
+)
+
+def style(top, pants, shoe, sole, tex='jersey', neck='crew', sleeve=0.46, sleeve_k=0.85, ease=0.9, pants_ell=(0.064, 0.074), drop=False, ptex='twill', shoe_style='sneaker', hem_loose=True, top_fit=0.0):
+    return dict(KNIT_RGB=top, TROUSER_RGB=pants, BELT_RGB=None, LEATHER_RGB=shoe, SOLE_RGB=sole, GOLD_RGB=shoe, SHOE_STYLE=shoe_style, NECK_STYLE=neck,
+                HEM_OVER_PANTS=True, SLIM=False, TOP_TEX=tex, TROUSER_TEX=ptex, SLEEVE_LEN=sleeve, SLEEVE_K=sleeve_k, CUFF_EASE=0.022 if sleeve < 0.8 else 0.010,
+                EASE_K=ease, DROP_X=0.115, TOP_FIT=top_fit, HEM_LOOSE=hem_loose, PANTS_ELLIPSE=pants_ell, PANTS_DROP=drop, PANTS_HEM_UP=0.0)
+
+# 路人（男女各幾個；第一批 4 個，之後加）：base＝樣本、head＝頭縮放、face＝p00_face 參數（男生以 PF.MALE 為底、女生以 FEMALE 為底）、
+# hair＝npc_hair_m／f 的 P、clothes＝style(...)、height＝遊戲裡的身高、iris＝虹膜色
+VARIANTS = {
+    'nm1': dict(sex='m', base='HairSample_Male', head=0.93, height=1.70, iris='#3a2a20',
+                face=dict(EYE_SX=1.02, EYE_SZ=0.76, EYE_TILT=0.01, BROW_ARCH=0.55, BROW_K=1.45, FACE_NARROW=0.975, JAW_OUT=0.0040, CHIN_WIDEN=0.58, MOUTH_K=1.42),
+                hair=dict(seed=20261211, part=-12.0, col=(0.20, 0.16, 0.13), tip=(0.012, 0.012, 0.004, 0.012, 0.010, 0.006, 0.0, -0.010, -0.006, -0.004), nape=0.015, vol=0.8, curl=(8, 20)),
+                clothes=style(rgb(46, 58, 92), rgb(176, 160, 128), rgb(238, 238, 234), rgb(226, 224, 218))),   # 深藍 T＋卡其褲＋白球鞋
+    'nm2': dict(sex='m', base='Sakurada_Fumiriya', head=0.97, height=1.80, iris='#2a2420',
+                face=dict(EYE_TILT=0.05, EYE_SX=1.06, EYE_SZ=0.66, BROW_K=1.70, BROW_ARCH=0.20, FACE_NARROW=0.950, CHIN_WIDEN=0.50, JAW_OUT=0.0052, MOUTH_K=1.36),
+                hair=dict(seed=20261212, part=0.0, col=(0.12, 0.11, 0.11), tip=(-0.012, -0.010, -0.014, 0.0, -0.004, -0.010, -0.016, -0.026, -0.024, -0.020), nape=0.035, vol=1.15, curl=(2, 10)),
+                clothes=style(rgb(150, 150, 148), rgb(40, 40, 44), rgb(52, 52, 56), rgb(228, 226, 220), tex='knit', sleeve=1.0, sleeve_k=0.82, ease=0.85)),   # 灰針織衫＋黑長褲＋深色球鞋
+    'nf1': dict(sex='f', base='Victoria_Rubin', head=0.92, height=1.62, iris='#4a3020',
+                face=dict(EYE_SX=1.00, EYE_SZ=0.74, EYE_TILT=0.04, BROW_ARCH=0.70, BROW_K=1.2, MOUTH_K=1.30, FACE_NARROW=0.965, CHIN_WIDEN=0.58, CHEEK_TINT_K=1.1),
+                hair=dict(seed=20261111, part=-10.0, col=(0.36, 0.24, 0.16), tip=(-0.100, -0.110, -0.060, 0.0, -0.040, -0.090, -0.120, -0.130, -0.140, -0.140), n_main=44, n_outer=28),
+                clothes=style(rgb(170, 200, 170), rgb(232, 228, 220), rgb(196, 168, 132), rgb(120, 96, 76), shoe_style='loafer', pants_ell=(0.074, 0.084), drop=True)),   # 淺綠 T＋白寬褲＋淺棕樂福鞋
+    'nf2': dict(sex='f', base='HairSample_Female', head=0.92, height=1.58, iris='#2c2018',
+                face=dict(EYE_SX=1.08, EYE_SZ=0.62, EYE_TILT=-0.01, BROW_ARCH=0.35, BROW_K=1.3, FACE_NARROW=0.985, CHIN_WIDEN=0.66, MOUTH_K=1.25, CHEEK_TINT_K=0.8),
+                hair=dict(seed=20261112, part=0.0, col=(0.11, 0.085, 0.075), tip=(0.0, -0.005, 0.010, 0.030, 0.020, 0.0, -0.020, -0.030, -0.035, -0.040), n_main=40, n_outer=24),
+                clothes=style(rgb(240, 238, 232), rgb(70, 86, 120), rgb(30, 30, 34), rgb(234, 232, 226), tex='linen', neck='V', ptex='denim')),   # 白色 V 領上衣＋深藍牛仔褲＋黑球鞋
+}
+FEMALE_FACE = dict(D_CHIN=0.006, BROW_DROP=0.0042, EYE_SX=1.05, EYE_SZ=0.68, EYE_TILT=0.0, EYE_IN=0.0027, EYE_LIFT=0.0004, CHEEK_TINT_K=1.0,
+                   CHIN_WIDEN=0.60, JAW_OUT=0.0036, MOUTH_K=1.40, FACE_NARROW=0.975, IRIS_FRAC=0.52,
+                   EYELINE_K=1.0, WING=0.0018, LASH_N=26, LASH_L=0.88, BROW_K=1.30, BROW_ARCH=0.55, BROW_SCALE_Z=1.25, BROW_COL=(0.17, 0.12, 0.10), BROW_A=0.9,
+                   LIP_OUT=(0.84, 0.54, 0.54), LIP_IN=(0.72, 0.39, 0.42), LIP_HI=(0.93, 0.70, 0.68), LIP_A=0.85)   # 杜可昕的參數當底，各路人再改
+
+NAME = os.environ.get('NPC', 'nm1'); VAR = VARIANTS[NAME]; TAG = NAME.upper()
+
+
+def stage0(m):
+    arm = m['arm']; male = VAR['sex'] == 'm'
+    hair_bones = [b.name for b in arm.data.bones if 'HairJoint' in b.name or b.name.startswith('J_Sec_Hair')]
+    if m['hair']: bpy.data.objects.remove(m['hair'], do_unlink=True); m['hair'] = None
+    print('  removed hair bones', C.remove_bones(arm, hair_bones))
+    m['wsrc_top'] = C.extract_by_material(m['body'], ['Tops'], 'WSRC_Tops', 'J_Sec_')
+    print('  removed clothes/shoes/back-hair faces', C.delete_by_material(m['body'], ['Tops', 'AccessoryNeck', 'Bottoms', 'Shoes', 'HairBack']))
+    keep = () if male else ('Bust',)
+    sec = [b.name for b in arm.data.bones if b.name.startswith('J_Sec_') and not any(k in b.name for k in keep)]
+    for o in (m['body'], m['face']):
+        for n in sec:
+            if n in o.vertex_groups: o.vertex_groups.remove(o.vertex_groups[n])
+    print('  removed secondary bones', C.remove_bones(arm, sec))
+    C.prune_springs(arm)
+    import heroine_05 as H05
+    H05.fill_hidden_skin(m['body'], 'Body_00_SKIN', TAG + '_Body_filled')
+    if VAR['head'] != 1.0: C.scale_head(arm, [m['face'], m['body']], VAR['head'])
+    if not male:
+        nk = C.bone_head(arm, 'J_Bip_C_Neck'); w = np.clip(C.vgroup_weights(m['body'], {'J_Bip_C_Neck'}), 0, 1)
+        C.warp(m['body'], lambda P, B: np.column_stack([nk[0] + (P[:, 0] - nk[0]) * (1 - 0.05 * w), nk[1] + (P[:, 1] - nk[1]) * (1 - 0.05 * w), P[:, 2]]))
+    print('  %s (%s %s) landmarks' % (NAME, VAR['sex'], VAR['base']), {k: round(v, 3) for k, v in C.landmarks(arm).items()})
+
+
+def face(m):
+    import p00_face as PF
+    if VAR['sex'] == 'm':
+        f = dict(PF.MALE); f.update(VAR['face']); PF.run(m, f, {'Fcl_EYE_Close': 0.0})
+    else:
+        f = dict(FEMALE_FACE); f.update(VAR['face']); PF.run(m, f, {'Fcl_EYE_Natural': 0.5, 'Fcl_EYE_Close': 0.2})
+
+
+def clothes(m):
+    import p00_clothes as PC
+    ht = HT[VAR['base']]
+    obj = PC.run(m, VAR['clothes'], ht['M'], ht['side'])
+    obj.name = 'Clothes_' + TAG
+    for mt in obj.data.materials:
+        if mt and mt.name.startswith('H01_'): mt.name = TAG + '_' + mt.name[4:]
+    for im in bpy.data.images:
+        if im.name.startswith('H01_'): im.name = TAG + '_' + im.name[4:]
+    m['clothes'] = obj
+
+
+def hair(m):
+    import npc_hair_m as HM, npc_hair_f as HF
+    mod = HM if VAR['sex'] == 'm' else HF
+    mod.P.update(VAR['hair']); mod.P['name'] = TAG
+    mod.apply(m)
+
+
+STAGES = dict(stage0=stage0, face=face, clothes=clothes, hair=hair)
+
+
+def from_blend(path):
+    bpy.ops.wm.open_mainfile(filepath=os.path.abspath(path))
+    m = {'arm': None, 'face': None, 'body': None, 'hair': None}
+    for o in bpy.data.objects:
+        if o.type == 'ARMATURE': m['arm'] = o
+        elif o.type == 'MESH':
+            n = o.name.lower()
+            if n.startswith('face'): m['face'] = o
+            elif n.startswith('body'): m['body'] = o
+            elif n.startswith('hair'): m['hair'] = o
+    m['wsrc_top'] = bpy.data.objects.get('WSRC_Tops')
+    cl = bpy.data.objects.get('Clothes_' + TAG)
+    if cl is not None: m['clothes'] = cl
+    return m
+
+
+def main():
+    a = C.args(); out = a[0]
+    opt = {a[i]: a[i + 1] for i in range(1, len(a) - 1) if a[i].startswith('--')}
+    stages = [s for s in opt.get('--stages', 'stage0').split(',') if s]
+    C.setup()
+    m = from_blend(opt['--from-blend']) if '--from-blend' in opt else C.import_vrm(os.path.join(C.SRC, VAR['base'] + '.vrm'))
+    for s in stages:
+        print('[stage]', s); STAGES[s](m)
+    if '--blend' in opt:
+        os.makedirs(os.path.dirname(os.path.abspath(opt['--blend'])), exist_ok=True)
+        bpy.ops.file.pack_all(); bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(opt['--blend']), compress=True); print('saved blend', opt['--blend'])
+    if m.get('wsrc_top') is not None: bpy.data.objects.remove(m['wsrc_top'], do_unlink=True); m['wsrc_top'] = None
+    if '--render' in opt:
+        lm = C.landmarks(m['arm']); kw = {'views': tuple(opt['--views'].split(','))} if '--views' in opt else {}
+        print('renders', C.render_views(opt['--render'], head_z=lm['head'] + 0.08, height=lm['head'] + 0.20, **kw))
+    if out != '-': print('exported', C.export_vrm(os.path.abspath(out)))
+
+
+if __name__ == '__main__':
+    main()
