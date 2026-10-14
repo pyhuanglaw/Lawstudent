@@ -505,6 +505,28 @@ const STORY_EVENTS=[
     prereq:{custom:G=>{ if(G.flags.noodleTableDay==null||typeof CLS==='undefined'||!CLS.lastExamEnd) return false; const e=CLS.lastExamEnd(G,'Y1S1','final'); return !!e&&(G.day>e.day||(G.day===e.day&&G.hour>=e.h)); }},
     dialogue:[ {speaker:null,text:'期末最後一科考完。麵店團一定吃一頓。'},{speaker:null,text:'阿姨多送了一盤小菜。'},{speaker:'阿姨',text:'考完了，吃好一點。'} ],
     consequences:{memo:'期末最後一頓（阿鳳麵店）'} },
+  /* 可昕 K2 她第一次來台大（BB_95 9-3）：第 6 週週五 20:00 她傳「這次換我去台大。我先去找品妤，再去霖澤館抓你。」，週六 16:00 在社科院門口（story3d.js 的 phoneRules；出遊）。
+     最小版本（BB_95 第 9 節）：依序換背景——社科院門口（她和品妤；品妤第一次出現＝重新介紹自己，之前遇過＝「你來了。」）→ 霖澤館前（假設題三選一）→ 椰林大道（旁白帶過去公館吃晚餐）。
+     K1 還沒去過＝分開時「下次換你來，我當導遊。」。沒去（不去了、過了時間）＝她傳兩個人在社科院門口的照片（outingMissed）。記 MET_PINYU */
+  { id:'ev_kexin_visits_ntu', title:'她第一次來台大', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
+    outingMissed:(G,GM,q)=>{ if(typeof PHONE==='undefined') return; PHONE.at(G,G.day,Math.max(G.hour,q.h+0.75),[{th:'p:kexin',from:'kexin',text:'📷（她和品妤在社科院門口）'},{th:'p:kexin',from:'kexin',text:'品妤說你們系館很好認，最高的那棟。'}],'kx_ntu_photo'); },
+    dialogue:[ {scene:'台大・社科院門口',bg:'ntu_soc'},
+      {speaker:null,text:'社科院門口，可昕和品妤在一起。'},
+      {unless:{flags:['MET_PINYU']},speaker:'品妤',text:'曾品妤。經濟系，可昕以前的室友。……一個暑假沒見，你不會忘了吧。'},
+      {if:{flags:['MET_PINYU']},speaker:'品妤',text:'你來了。'},
+      {speaker:'kexin',expression:'teasing',text:'這是我的舊系館。你的新系館在對面，我知道。'},
+      {scene:'台大・霖澤館前',bg:'ntu_linze'},
+      {speaker:'kexin',expression:'neutral',text:'所以這就是你每天說的霖澤館。……比照片高。'},
+      {speaker:'kexin',expression:'teasing',text:'假設霖澤館會說話，它看到你每天第一堂遲到，第一句會說什麼？'},
+      {choice:[{text:'「又是你。」',goto:'a'},{text:'「今天也辛苦了。」',goto:'b'},{text:'「我沒有每天遲到。」',goto:'c'}]},
+      {label:'a'},{speaker:'kexin',expression:'smile',text:'對，它一定很熟你。'},{goto:'e'},
+      {label:'b'},{speaker:'kexin',expression:'smile',text:'……你對建築物比對我溫柔。'},{speaker:null,text:'她笑。'},{goto:'e'},
+      {label:'c'},{speaker:'kexin',expression:'teasing',text:'它會說：『證據呢？』'},
+      {label:'e'},
+      {scene:'台大・椰林大道',bg:'ntu_avenue'},
+      {speaker:null,text:'兩個人沿著椰林大道，一路走到公館吃晚餐。'},
+      {unless:{events:['ev_kexin_tour_nccu']},speaker:'kexin',expression:'smile',text:'下次換你來，我當導遊。'} ],
+    consequences:{flags:{MET_PINYU:true},memo:'可昕第一次來台大'} },
   /* 可昕 K4 第一次視訊一起讀書（BB_95 9-5）：第 16 週週二 20:00 她問（story3d.js 的 phoneRules）；「好，九點開。」＝當天 21:00 視訊（出遊：接起來）。
      開始前先選讀哪一科（和自學一樣算進期末準備：兩個小時＝兩次）；每半小時她出一題假設題（照順序，玩笑，不給結論），回她＝「你分心了。很好。」、
      不回＝「你今天好認真。我有點寂寞。……繼續。」（各自第一次才說，不重複）。沒接、今天先不要＝23:00 她傳書桌的照片（outingMissed）。記 VIDEO_STUDY（AA_112 第 6 節：和見面一樣算數）*/

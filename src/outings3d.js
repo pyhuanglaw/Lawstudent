@@ -10,7 +10,8 @@ const OUT=(function(){
   const S={};
   /* 2D 背景（AA_112 3-1：政大四個＋停車場；河濱和子晴的河堤夜景共用）：image 是圖片路徑，還沒有圖＝null（深色底＋地點字幕）*/
   S.BG={ car:{label:'車上',image:null}, nccu_gate:{label:'政大・校門口',image:null}, nccu_food:{label:'政大・山下的小吃街',image:null}, nccu_river:{label:'政大・河堤',image:null},
-    nccu_lib:{label:'政大・圖書館',image:null}, nccu_park:{label:'政大・停車場',image:null}, riverside:{label:'河濱',image:null}, dorm_roof:{label:'宿舍頂樓',image:null}, video:{label:'視訊',image:null}, gongguan_luwei:{label:'公館・滷味攤',image:null} };
+    nccu_lib:{label:'政大・圖書館',image:null}, nccu_park:{label:'政大・停車場',image:null}, riverside:{label:'河濱',image:null}, dorm_roof:{label:'宿舍頂樓',image:null}, video:{label:'視訊',image:null}, gongguan_luwei:{label:'公館・滷味攤',image:null},
+    ntu_soc:{label:'台大・社科院門口',image:null}, ntu_linze:{label:'台大・霖澤館前',image:null}, ntu_avenue:{label:'台大・椰林大道',image:null} };   /* K2 可昕來台大（BB_95 9-3 的最小版本：依序換 2D 背景；之後可以換成遊戲校園的畫面）*/
   S.bg=id=>{ const b=S.BG[id]; return b&&b.image?{image:b.image}:'dark'; };
   S.rec=G=>{ if(!Array.isArray(G.outings)) G.outings=[]; return G.outings; };
   S.get=(G,id)=>S.rec(G).find(q=>q.id===id)||null;

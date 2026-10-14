@@ -85,6 +85,19 @@ const runX=async(known,gift,toIdx,fromIdx)=>{ const WED=termDay(17,3); fresh(WED
     let r4=null; for(let n=0;n<80;n++){ r4=await runX(['heroine_01','classmate_bohan','heroine_03'],'一張手寫卡片',null,null); if(r4.F.XMAS_FROM!=='classmate_bohan') break; }
     check('A20：柏翰、以安都在、祐廷沒抽到考古題＝旁白「柏翰送的考古題，又被以安沒收了。」',r4.F.XMAS_FROM!=='classmate_bohan'&&r4.L.includes('柏翰送的考古題，又被以安沒收了。'));
     r=await runX(['heroine_01'],'一張手寫卡片',0,0); const F=G.flags; check('A20：只一次（演完再檢查不會開始）；記 XMAS_Y1',F.XMAS_Y1===true&&!EVENTS.check(ev('ev_xmas_exchange'))); }
+  /* ---------- 可昕 K2 她第一次來台大（BB_95 9-3）---------- */
+  { const FRI=termDay(6,5), SAT=FRI+1;
+    fresh(FRI,19.5,'dorm',{dating_kexin:true}); run(19.5,20.1); const m=G.msgs.find(x=>x.tag==='kx_ntu_ask'); const q=OUT.get(G,'kx_ntu');
+    check('K2：第 6 週週五 20:00「這次換我去台大。我先去找品妤，再去霖澤館抓你。」；週六 16:00 社科院門口（不和第 4 週六迎新、第 5 週六中秋同一天）',!!m&&m.day===FRI&&Math.abs(m.h-20)<0.06&&m.text==='這次換我去台大。我先去找品妤，再去霖澤館抓你。'&&!!q&&q.day===SAT&&q.h===16&&SAT!==termDay(4,6)&&SAT!==termDay(5,6),JSON.stringify(q));
+    const go=async(flags,events,pick)=>{ fresh(SAT,15.7,'campus',Object.assign({dating_kexin:true},flags||{})); for(const e of (events||[])) G.events.done[e]=1; PHONE.at(G,FRI,20,[{th:'p:kexin',from:'kexin',text:'x'}],'kx_ntu_ask'); run(15.7,15.8); const q2=OUT.get(G,'kx_ntu'); picks=[pick]; said=[]; opts=[]; await OUT.go(GM,q2); return {L:lines(),O:opts[0]||[]}; };
+    let r=await go({},[],'「今天也辛苦了。」');
+    check('K2：品妤第一次出現＝「曾品妤。經濟系，可昕以前的室友。……一個暑假沒見，你不會忘了吧。」；可昕「這是我的舊系館。你的新系館在對面，我知道。」',r.L[0]==='社科院門口，可昕和品妤在一起。'&&r.L.includes('曾品妤。經濟系，可昕以前的室友。……一個暑假沒見，你不會忘了吧。')&&!r.L.includes('你來了。')&&r.L.includes('這是我的舊系館。你的新系館在對面，我知道。'),JSON.stringify(r.L.slice(0,4)));
+    check('K2：霖澤館前的假設題三選一（BB_95 原文）；「今天也辛苦了。」→「……你對建築物比對我溫柔。」她笑',JSON.stringify(r.O)===JSON.stringify(['「又是你。」','「今天也辛苦了。」','「我沒有每天遲到。」'])&&r.L.includes('所以這就是你每天說的霖澤館。……比照片高。')&&r.L.includes('……你對建築物比對我溫柔。')&&r.L.includes('她笑。'));
+    check('K2：K1 還沒去過＝分開時「下次換你來，我當導遊。」；記 MET_PINYU',r.L.includes('下次換你來，我當導遊。')&&G.flags.MET_PINYU===true);
+    r=await go({MET_PINYU:true},['ev_kexin_tour_nccu'],'「我沒有每天遲到。」');
+    check('K2：之前遇過品妤＝只點頭「你來了。」；K1 去過＝沒有「下次換你來」；「我沒有每天遲到。」→「它會說：『證據呢？』」',r.L.includes('你來了。')&&!r.L.some(t=>t.startsWith('曾品妤。'))&&!r.L.includes('下次換你來，我當導遊。')&&r.L.includes('它會說：『證據呢？』'));
+    fresh(SAT,15.7,'campus',{dating_kexin:true}); PHONE.at(G,FRI,20,[{th:'p:kexin',from:'kexin',text:'x'}],'kx_ntu_ask'); run(15.7,15.8); const q3=OUT.get(G,'kx_ntu'); q3.state='missed'; OUT.onMissed(GM,q3); run(15.8,17.2);
+    const ph=G.msgs.filter(x=>x.tag==='kx_ntu_photo').map(x=>x.text); check('K2：沒去＝她照樣去找品妤，傳兩個人在社科院門口的照片「品妤說你們系館很好認，最高的那棟。」',JSON.stringify(ph)===JSON.stringify(['📷（她和品妤在社科院門口）','品妤說你們系館很好認，最高的那棟。']),JSON.stringify(ph)); }
   /* ---------- 可昕 K4 第一次視訊一起讀書（BB_95 9-5）---------- */
   { const D=termDay(16,2); const kx=()=>G.msgs.filter(m=>m.th==='p:kexin').map(m=>({day:m.day,h:m.h,from:m.from,text:m.text,ask:m.ask?m.ask.opts.map(o=>o.t):null}));
     const ask=()=>G.msgs.find(m=>m.tag==='kx_video_ask');
