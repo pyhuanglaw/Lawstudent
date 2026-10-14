@@ -47,9 +47,7 @@ async def wait_until(pg, js, secs):
 async def ride_forward(pg, cdp, secs):
     """搖桿往前推 secs 秒（真人按住搖桿）；回傳 (距離, 遊戲裡經過的秒數)"""
     b0 = await bike(pg)
-    t0 = time.time()
-    while time.time() - t0 < secs:
-        await L.joystick(pg, cdp, 0, -45, 1500)
+    await L.joystick(pg, cdp, 0, -45, int(secs * 1000))   # 一直按住（候選 14：原本每 1.5 秒放開再按，SwiftShader 1～2 fps 時放開的那幾幀也算進遊戲時間——位移 6.2 m＝遊戲裡騎了 1 秒，卻量成 1.8 秒）
     b1 = await bike(pg)
     return math.hypot(b1['x'] - b0['x'], b1['z'] - b0['z']), b1['t'] - b0['t']
 
@@ -84,6 +82,7 @@ async def main():
         k = await bike(pg)
         sp = d / dt if dt > 0 else 0
         run.check('B 搖桿往前：騎車速度（5.5 m/s 以上；跑步 4.8）、輪子和曲柄有轉', sp >= 5.5 and k['dbg'] and k['dbg']['wheel'] > 1 and k['dbg']['crank'] > 0.4, f'{d:.1f} m / {dt:.2f} s = {sp:.2f} m/s；{json.dumps(k["dbg"])}')
+        await pg.wait_for_timeout(2500)   # 車停下來再量（候選 14：騎的時候一幀曲柄轉約 48°（SwiftShader 每幀 0.1 秒），人物的踏板位置和車的踏板差一幀＝兩腳都 13.4 cm；60 fps 時約 2 cm）
         fit = await pg.evaluate(FIT_JS)
         run.check('B 腳踝在踏板上、手腕在把手上（≤ 5 cm，瀏覽器裡的真實骨架和車的節點）', bool(fit) and max(fit.values()) <= 0.05, json.dumps(fit))
         await run.shot(pg, 'B_riding_back')
@@ -117,7 +116,8 @@ async def main():
         ok2 = await wait_until(pg, "!!GAME.E.zone.group.children.find(o=>o.name==='bike_ride')", 30)
         k = await bike(pg)
         run.check('D 出店：車停在門口', ok and ok2 and k['parked'] and math.hypot(k['parked'][0] - bz['x'], k['parked'][1] - bz['z']) < 0.01, json.dumps(k['parked']))
-        await L.go_to(pg, cdp, run, k['parked'][0] - 0.8, k['parked'][1], 0.9, '腳踏車旁邊')
+        ux, uz = k['parked'][0] - door['x'], k['parked'][1] - door['z']; ul = math.hypot(ux, uz) or 1   # 站在車離店門遠的那一邊（候選 14：站在靠門那邊，按鈕是「進入便利商店」——門比車近）
+        await L.go_to(pg, cdp, run, k['parked'][0] + 0.8 * ux / ul, k['parked'][1] + 0.8 * uz / ul, 0.9, '腳踏車旁邊（離店門遠的那一邊）')
         s = await L.state(pg)
         run.check('D 走到車旁邊：出現「騎腳踏車」', s['interact'].startswith('騎腳踏車'), s['interact'])
         await run.shot(pg, 'D_parked_at_shop')
