@@ -9,6 +9,11 @@
    "course": "civ_general",
    "term": "Y1S1",
    "scopeWeek": 5,
+   "askedIn": {
+    "term": "Y1S1",
+    "course": "civ_general",
+    "week": 5
+   },
    "type": "mc",
    "q": "依民法規定，下列何者為完全行為能力人？",
    "options": {
@@ -51,6 +56,11 @@
    "course": "civ_general",
    "term": "Y1S1",
    "scopeWeek": 13,
+   "askedIn": {
+    "term": "Y1S1",
+    "course": "civ_general",
+    "week": 13
+   },
    "type": "mc",
    "q": "甲以書面向乙為解除契約的意思表示。依民法第95條第1項，非對話意思表示原則上於何時發生效力？",
    "options": {
@@ -137,6 +147,11 @@
    "course": "civ_general",
    "term": "Y1S1",
    "scopeWeek": 12,
+   "askedIn": {
+    "term": "Y1S1",
+    "course": "civ_general",
+    "week": 12
+   },
    "type": "mc",
    "q": "依民法第71條，法律行為違反強制或禁止規定時，原則上其效力如何？",
    "options": {
@@ -158,6 +173,11 @@
    "course": "oblig_gen1",
    "term": "Y1S2",
    "scopeWeek": 2,
+   "askedIn": {
+    "term": "Y1S2",
+    "course": "oblig_gen1",
+    "week": 2
+   },
    "type": "mc",
    "q": "甲向乙表示願以十萬元出售自己的電腦，乙對價格及標的物完全同意。依民法第153條，原則上發生何種效果？",
    "options": {
@@ -179,6 +199,11 @@
    "course": "oblig_gen1",
    "term": "Y1S2",
    "scopeWeek": 5,
+   "askedIn": {
+    "term": "Y1S2",
+    "course": "oblig_gen1",
+    "week": 5
+   },
    "type": "mc",
    "q": "甲公開表示：「找到我遺失的狗並送回者，給付一萬元。」乙依廣告完成指定行為。依民法第164條，原則上甲應如何？",
    "options": {
@@ -200,6 +225,11 @@
    "course": "oblig_gen1",
    "term": "Y1S2",
    "scopeWeek": 14,
+   "askedIn": {
+    "term": "Y1S2",
+    "course": "oblig_gen1",
+    "week": 14
+   },
    "type": "mc",
    "q": "依民法第184條第1項前段，一般侵權行為的成立要件包括下列何者？",
    "options": {
@@ -242,6 +272,11 @@
    "course": "oblig_gen1",
    "term": "Y1S2",
    "scopeWeek": 10,
+   "askedIn": {
+    "term": "Y1S2",
+    "course": "oblig_gen1",
+    "week": 10
+   },
    "type": "mc",
    "q": "甲未受乙委任，也沒有法律上的義務，為避免乙的房屋漏水造成重大損害，主動進行必要修繕。此行為可能構成何種法律關係？",
    "options": {
@@ -307,6 +342,11 @@
    "course": "oblig_gen2",
    "term": "Y2S1",
    "scopeWeek": 3,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "oblig_gen2",
+    "week": 3
+   },
    "type": "mc",
    "q": "給付有確定期限者，依民法第229條第1項，債務人原則上自何時起負遲延責任？",
    "options": {
@@ -391,6 +431,11 @@
    "course": "oblig_gen2",
    "term": "Y2S1",
    "scopeWeek": 13,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "oblig_gen2",
+    "week": 13
+   },
    "type": "mc",
    "q": "依民法第297條第1項，債權讓與未經讓與人或受讓人通知債務人時，原則上對債務人有何效果？",
    "options": {
@@ -433,6 +478,11 @@
    "course": "oblig_gen2",
    "term": "Y2S1",
    "scopeWeek": 14,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "oblig_gen2",
+    "week": 14
+   },
    "type": "mc",
    "q": "依民法第334條第1項，二人互負債務，給付種類相同，且均屆清償期者，原則上得如何？",
    "options": {
@@ -538,6 +588,11 @@
    "course": "oblig_spec",
    "term": "Y2S2",
    "scopeWeek": 15,
+   "askedIn": {
+    "term": "Y2S2",
+    "course": "oblig_spec",
+    "week": 15
+   },
    "type": "mc",
    "q": "依民法第490條，承攬契約的基本特徵為何？",
    "options": {
@@ -559,6 +614,11 @@
    "course": "oblig_spec",
    "term": "Y2S2",
    "scopeWeek": 10,
+   "askedIn": {
+    "term": "Y2S2",
+    "course": "oblig_spec",
+    "week": 10
+   },
    "type": "mc",
    "q": "依民法第528條，委任契約的基本內容為何？",
    "options": {
@@ -580,6 +640,11 @@
    "course": "oblig_spec",
    "term": "Y2S2",
    "scopeWeek": 14,
+   "askedIn": {
+    "term": "Y2S2",
+    "course": "oblig_spec",
+    "week": 14
+   },
    "type": "mc",
    "q": "依民法第408條第1項，贈與物的權利尚未移轉前，贈與人原則上得如何？",
    "options": {
@@ -624,6 +689,11 @@
    "course": "property",
    "term": "Y2S1",
    "scopeWeek": 2,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "property",
+    "week": 2
+   },
    "type": "mc",
    "q": "依民法第757條，物權除依法律或習慣外，原則上不得如何？",
    "options": {
@@ -733,6 +803,11 @@
    "course": "property",
    "term": "Y2S1",
    "scopeWeek": 13,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "property",
+    "week": 13
+   },
    "type": "mc",
    "q": "依民法第884條，動產質權的基本特徵為何？",
    "options": {
@@ -754,6 +829,11 @@
    "course": "family_law",
    "term": "Y2S2",
    "scopeWeek": 2,
+   "askedIn": {
+    "term": "Y2S2",
+    "course": "family_law",
+    "week": 2
+   },
    "type": "mc",
    "q": "依民法第968條，甲與其親生兄弟乙之間，屬於幾親等的旁系血親？",
    "options": {

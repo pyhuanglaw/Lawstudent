@@ -32,6 +32,11 @@
    "course": "civ_general",
    "term": "Y1S1",
    "scopeWeek": 16,
+   "askedIn": {
+    "term": "Y1S1",
+    "course": "civ_general",
+    "week": 16
+   },
    "type": "mc",
    "q": "依民法第144條第1項，消滅時效完成後，債務人取得何種法律地位？",
    "options": {
@@ -55,6 +60,11 @@
    "course": "civ_general",
    "term": "Y1S1",
    "scopeWeek": 15,
+   "askedIn": {
+    "term": "Y1S1",
+    "course": "civ_general",
+    "week": 15
+   },
    "type": "mc",
    "q": "甲未經乙授權，卻以乙的名義與丙締結契約。依民法第170條，契約對乙的效力原則上如何？",
    "options": {
@@ -78,6 +88,11 @@
    "course": "oblig_gen1",
    "term": "Y1S2",
    "scopeWeek": 15,
+   "askedIn": {
+    "term": "Y1S2",
+    "course": "oblig_gen1",
+    "week": 15
+   },
    "type": "mc",
    "q": "依民法第184條第1項前段的通常理解，下列何者最適合描述純粹經濟上損失？",
    "options": {
@@ -124,6 +139,11 @@
    "course": "oblig_gen2",
    "term": "Y2S1",
    "scopeWeek": 5,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "oblig_gen2",
+    "week": 5
+   },
    "type": "mc",
    "q": "甲出售機器給乙，交付的機器有瑕疵，並因可歸責於甲的瑕疵造成乙其他設備損壞。此情形除買賣瑕疵擔保外，可能涉及何種債務不履行類型？",
    "options": {
@@ -172,6 +192,11 @@
    "course": "oblig_gen1",
    "term": "Y1S2",
    "scopeWeek": 12,
+   "askedIn": {
+    "term": "Y1S2",
+    "course": "oblig_gen1",
+    "week": 12
+   },
    "type": "mc",
    "q": "甲誤將10萬元匯入乙的帳戶，雙方沒有任何債權債務關係。甲最直接可考慮何種請求權？",
    "options": {
@@ -243,6 +268,11 @@
    "course": "oblig_spec",
    "term": "Y2S2",
    "scopeWeek": 4,
+   "askedIn": {
+    "term": "Y2S2",
+    "course": "oblig_spec",
+    "week": 4
+   },
    "type": "mc",
    "q": "出租人於租賃關係存續中，原則上負有何種義務？",
    "options": {
@@ -266,6 +296,11 @@
    "course": "property",
    "term": "Y2S1",
    "scopeWeek": 5,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "property",
+    "week": 5
+   },
    "type": "mc",
    "q": "甲為A物所有權人，乙無權占有A物。甲原則上得依何條規定請求返還？",
    "options": {
@@ -381,6 +416,11 @@
    "course": "family_law",
    "term": "Y2S2",
    "scopeWeek": 7,
+   "askedIn": {
+    "term": "Y2S2",
+    "course": "family_law",
+    "week": 7
+   },
    "type": "mc",
    "q": "民法第1030條之1所定剩餘財產差額分配，原則上發生於何時？",
    "options": {
@@ -404,6 +444,11 @@
    "course": "family_law",
    "term": "Y2S2",
    "scopeWeek": 7,
+   "askedIn": {
+    "term": "Y2S2",
+    "course": "family_law",
+    "week": 13
+   },
    "type": "mc",
    "q": "依民法第1030條之1，夫妻一方因繼承取得的婚後財產，原則上如何處理？",
    "options": {
@@ -496,6 +541,11 @@
    "course": "civ_general",
    "term": "Y1S1",
    "scopeWeek": 14,
+   "askedIn": {
+    "term": "Y1S1",
+    "course": "civ_general",
+    "week": 14
+   },
    "type": "mc",
    "q": "依民法第88條，表意人因符合該條規定的重大錯誤而為意思表示，且其錯誤非由自己過失所致時，原則上得主張何種法律效果？",
    "options": {
@@ -563,6 +613,11 @@
    "course": "oblig_gen2",
    "term": "Y2S1",
    "scopeWeek": 2,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "oblig_gen2",
+    "week": 2
+   },
    "type": "mc",
    "q": "甲與乙訂立買賣契約後，因可歸責於甲的事由，致甲應交付的特定物滅失而不能給付。依民法第226條第1項，乙原則上得請求何者？",
    "options": {
@@ -651,6 +706,11 @@
    "course": "oblig_gen2",
    "term": "Y2S1",
    "scopeWeek": 12,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "oblig_gen2",
+    "week": 12
+   },
    "type": "mc",
    "q": "依民法第273條第1項，連帶債務的債權人得如何請求給付？",
    "options": {
@@ -672,6 +732,11 @@
    "course": "oblig_spec",
    "term": "Y2S2",
    "scopeWeek": 3,
+   "askedIn": {
+    "term": "Y2S2",
+    "course": "oblig_spec",
+    "week": 3
+   },
    "type": "mc",
    "q": "依民法第354條第1項，物之出賣人原則上應擔保買賣標的物在何時不存在法定瑕疵？",
    "options": {
@@ -714,6 +779,11 @@
    "course": "oblig_spec",
    "term": "Y2S2",
    "scopeWeek": 13,
+   "askedIn": {
+    "term": "Y2S2",
+    "course": "oblig_spec",
+    "week": 13
+   },
    "type": "mc",
    "q": "依民法第745條，保證人於債權人未就主債務人的財產強制執行而無效果前，原則上得拒絕清償。此項權利稱為何者？",
    "options": {
@@ -735,6 +805,11 @@
    "course": "property",
    "term": "Y2S1",
    "scopeWeek": 3,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "property",
+    "week": 3
+   },
    "type": "mc",
    "q": "依民法第758條第1項，依法律行為而取得、設定、喪失或變更不動產物權者，非經何種程序，不生效力？",
    "options": {
@@ -756,6 +831,11 @@
    "course": "property",
    "term": "Y2S1",
    "scopeWeek": 12,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "property",
+    "week": 12
+   },
    "type": "mc",
    "q": "依民法第860條，普通抵押權的主要功能為何？",
    "options": {
@@ -802,6 +882,11 @@
    "course": "property",
    "term": "Y2S1",
    "scopeWeek": 11,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "property",
+    "week": 11
+   },
    "type": "mc",
    "q": "依民法第832條，普通地上權主要是指以何種目的而使用他人土地的權利？",
    "options": {
@@ -825,6 +910,11 @@
    "course": "family_law",
    "term": "Y2S2",
    "scopeWeek": 4,
+   "askedIn": {
+    "term": "Y2S2",
+    "course": "family_law",
+    "week": 4
+   },
    "type": "mc",
    "q": "依現行民法第982條，結婚除應有書面及二人以上證人簽名外，尚須符合何種要件？",
    "options": {
@@ -869,6 +959,11 @@
    "course": "family_law",
    "term": "Y2S2",
    "scopeWeek": 15,
+   "askedIn": {
+    "term": "Y2S2",
+    "course": "family_law",
+    "week": 15
+   },
    "type": "mc",
    "q": "依民法第1148條第2項，繼承人對於被繼承人的債務，原則上以何者為限負清償責任？",
    "options": {
@@ -890,6 +985,11 @@
    "course": "family_law",
    "term": "Y2S2",
    "scopeWeek": 14,
+   "askedIn": {
+    "term": "Y2S2",
+    "course": "family_law",
+    "week": 14
+   },
    "type": "mc",
    "q": "依民法第1223條，直系血親卑親屬的特留分為其應繼分的多少？",
    "options": {
