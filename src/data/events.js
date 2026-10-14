@@ -5,6 +5,10 @@
 'use strict';
 /* 群戲「只有認識的人在場」（交接包 v1 交付清單第 0 節第 1 點）：if:EV_KNOWS('id')／if:EV_KNOWS('a','b')＝都認識了（STORY.knows：FIRST_MET；小語 met_yu；阿哲開場就熟）*/
 const EV_KNOWS=(...ids)=>({custom:G=>typeof STORY!=='undefined'&&!!STORY.knows&&ids.every(id=>STORY.knows(id,G))});
+/* 聖誕交換禮物（A20）：可能在場的七個人（AA_71 2-6）；在場＝玩家認識的；祐廷抽到誰的：明軒和小語都在時小語的玩偶已經是明軒的，盡量不和抽到祐廷禮物的是同一個人 */
+const XMAS_WHO=['heroine_01','heroine_03','zhe','classmate_bohan','classmate_xinci','yu','classmate_mingxuan'];
+const XMAS_HERE=G=>typeof STORY==='undefined'||!STORY.knows?[]:XMAS_WHO.filter(id=>STORY.knows(id,G));
+const XMAS_FROM_POOL=G=>{ const h=XMAS_HERE(G); const p=h.filter(id=>id!=='classmate_mingxuan'&&!(id==='yu'&&h.includes('classmate_mingxuan'))); const q=p.filter(id=>id!==G.flags.XMAS_TO); return q.length?q:p; };
 const STORY_EVENTS=[
   // ────────────────────────────────────────── 語彤：雨天圖書館門口（Vertical Slice）
   { id:'ev_rain_library_door', title:'雨天的總圖門口', participants:['heroine_03'], location:'campus', near:{x:81,z:0,r:7}, trigger:'auto', time:[18,23], weather:'rain', day_min:3, once:true, prereq:{notMemory:[{npc:'heroine_03',tag:'FIRST_MET'}]},   /* AA_120 7-5 第 1 項：不下雨的版本（ev_library_door_phone）認識以後，下雨天不再演一次初遇；對話一個字都不動 */
@@ -409,6 +413,62 @@ const STORY_EVENTS=[
       {if:EV_KNOWS('classmate_bohan','classmate_xinci','yu'),speaker:'yu',expression:'neutral',text:'你們兩個要不要結婚。'},
       {if:EV_KNOWS('classmate_bohan','classmate_xinci','yu'),speaker:'柏翰、芯慈',text:'不要。'} ],
     consequences:{stamp:['supperMid1Day'],memo:'考完的宵夜（公館滷味攤）'} },
+  /* 聖誕交換禮物（交付清單 A20：AA_71 2-6「大一的實作」，AA 2026-10-14 回 LAWWW）：第 17 週週三 12/24 中午 12:20～13:10 在霖澤館一樓；只有麵店團的玩家有（阿哲兩天前在群組揪，
+     story3d.js 的 phoneRules），沒去不扣分。在場的人＝XMAS_WHO 裡玩家認識的（交付清單第 0 節第 1 條）。祐廷送什麼由玩家選（XMAS_GIFT）；
+     抽到祐廷禮物的人（XMAS_TO）、祐廷抽到誰的（XMAS_FROM）從在場的人裡隨機挑（pick）；明軒和小語都在＝小語的玩偶是明軒抽到（「和祐廷無關的一句」），祐廷就抽不到；
+     柏翰的考古題由以安沒收（以安在場才有那一句）；語彤抽到筆記本記 GIFT_NOTEBOOK_YT（AA_11 事件 16）。AA 的「小事」是條列，旁白照條列的字寫成句子 */
+  { id:'ev_xmas_exchange', title:'聖誕交換禮物', participants:[], location:'linze', trigger:'auto', term:['Y1S1'], weeks:[17], weekday:[3], time:[12+20/60,13+10/60], once:true, background:'blur',
+    prereq:{custom:(G,GM)=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&!(GM&&GM.E&&GM.E.player&&(GM.E.player.lv|0)!==0)&&XMAS_HERE(G).length>0},
+    dialogue:[ {speaker:null,text:'抽籤交換禮物。'},{speaker:null,text:'每個人的禮物都很像他們自己。'},
+      {speaker:null,text:'你帶來的禮物是——'},
+      {choice:[{text:'一本小筆記本',set:{XMAS_GIFT:'notebook'}},{text:'一包咖啡豆',set:{XMAS_GIFT:'coffee'}},{text:'一張手寫卡片',set:{XMAS_GIFT:'card'}}]},
+      {pick:{flag:'XMAS_TO',from:G=>XMAS_HERE(G)}},
+      {if:{flagIs:{XMAS_TO:'heroine_01'}},speaker:null,text:'抽到你禮物的是以安。'},
+      {if:{flagIs:{XMAS_TO:'heroine_01',XMAS_GIFT:'notebook'}},speaker:'heroine_01',expression:'smile',text:'剛好。手帳的理由欄不夠寫了。'},
+      {if:{flagIs:{XMAS_TO:'heroine_01',XMAS_GIFT:'coffee'}},speaker:'heroine_01',expression:'neutral',text:'我不喝咖啡。……期末會喝。好。'},
+      {if:{flagIs:{XMAS_TO:'heroine_01',XMAS_GIFT:'card'}},speaker:'heroine_01',expression:'neutral',text:'字很工整。我收著。'},
+      {if:{flagIs:{XMAS_TO:'heroine_03'}},speaker:null,text:'抽到你禮物的是語彤。'},
+      {if:{flagIs:{XMAS_TO:'heroine_03',XMAS_GIFT:'notebook'}},speaker:'heroine_03',expression:'neutral',text:'嗯。……我還不知道要寫什麼。先收著。'},
+      {if:{flagIs:{XMAS_TO:'heroine_03',XMAS_GIFT:'coffee'}},speaker:'heroine_03',expression:'neutral',text:'我帶去店裡。阿姨會好奇。'},
+      {if:{flagIs:{XMAS_TO:'heroine_03',XMAS_GIFT:'card'}},speaker:'heroine_03',expression:'neutral',text:'嗯。我會看兩次。'},
+      {if:{flagIs:{XMAS_TO:'heroine_03',XMAS_GIFT:'notebook'}},mem:[{npc:'heroine_03',tag:'GIFT_NOTEBOOK_YT',note:'聖誕交換禮物：抽到你送的筆記本，還不知道要寫什麼'}]},
+      {if:{flagIs:{XMAS_TO:'zhe'}},speaker:null,text:'抽到你禮物的是阿哲。'},
+      {if:{flagIs:{XMAS_TO:'zhe',XMAS_GIFT:'notebook'}},speaker:'zhe',expression:'laugh',text:'好，我拿來寫菜單。'},
+      {if:{flagIs:{XMAS_TO:'zhe',XMAS_GIFT:'coffee'}},speaker:'zhe',expression:'neutral',text:'可以配滷味嗎？'},
+      {if:{flagIs:{XMAS_TO:'zhe',XMAS_GIFT:'card'}},speaker:'zhe',expression:'laugh',text:'你寫這麼多字，我會哭耶。……沒事啦。'},
+      {if:{flagIs:{XMAS_TO:'classmate_bohan'}},speaker:null,text:'抽到你禮物的是柏翰。'},
+      {if:{flagIs:{XMAS_TO:'classmate_bohan',XMAS_GIFT:'notebook'}},speaker:'classmate_bohan',expression:'neutral',text:'我拿來整理考古題。……這次不會被沒收吧。'},
+      {if:{flagIs:{XMAS_TO:'classmate_bohan',XMAS_GIFT:'coffee'}},speaker:'classmate_bohan',expression:'neutral',text:'期末很需要。謝謝。'},
+      {if:{flagIs:{XMAS_TO:'classmate_bohan',XMAS_GIFT:'card'}},speaker:'classmate_bohan',expression:'neutral',text:'……沒有人寫卡片給我過。謝謝。'},
+      {if:{flagIs:{XMAS_TO:'classmate_xinci'}},speaker:null,text:'抽到你禮物的是芯慈。'},
+      {if:{flagIs:{XMAS_TO:'classmate_xinci',XMAS_GIFT:'notebook'}},speaker:'classmate_xinci',expression:'neutral',text:'格線的嗎？……空白的也好。謝謝。'},
+      {if:{flagIs:{XMAS_TO:'classmate_xinci',XMAS_GIFT:'coffee'}},speaker:'classmate_xinci',expression:'smile',text:'追劇的時候剛好。謝謝。'},
+      {if:{flagIs:{XMAS_TO:'classmate_xinci',XMAS_GIFT:'card'}},speaker:'classmate_xinci',expression:'smile',text:'你寫得比我整齊。……騙你的，我比較整齊。'},
+      {if:{flagIs:{XMAS_TO:'yu'}},speaker:null,text:'抽到你禮物的是小語。'},
+      {if:{flagIs:{XMAS_TO:'yu',XMAS_GIFT:'notebook'}},speaker:'yu',expression:'laugh',text:'我要拿來寫三個社團的行事曆！'},
+      {if:{flagIs:{XMAS_TO:'yu',XMAS_GIFT:'coffee'}},speaker:'yu',expression:'laugh',text:'我拿去社辦泡給大家喝！'},
+      {if:{flagIs:{XMAS_TO:'yu',XMAS_GIFT:'card'}},speaker:'yu',expression:'laugh',text:'卡片！我要貼在牆上！'},
+      {if:{flagIs:{XMAS_TO:'classmate_mingxuan'}},speaker:null,text:'抽到你禮物的是明軒。'},
+      {if:{flagIs:{XMAS_TO:'classmate_mingxuan',XMAS_GIFT:'notebook'}},speaker:'classmate_mingxuan',expression:'neutral',text:'……我不念書的。'},
+      {if:{flagIs:{XMAS_TO:'classmate_mingxuan',XMAS_GIFT:'notebook'}},speaker:null,text:'他很快把它收進書包。'},
+      {if:{flagIs:{XMAS_TO:'classmate_mingxuan',XMAS_GIFT:'coffee'}},speaker:'classmate_mingxuan',expression:'neutral',text:'家教的時候喝。謝啦。'},
+      {if:{flagIs:{XMAS_TO:'classmate_mingxuan',XMAS_GIFT:'card'}},speaker:'classmate_mingxuan',expression:'neutral',text:'卡片喔。……我帶回家。'},
+      {pick:{flag:'XMAS_FROM',from:G=>XMAS_FROM_POOL(G)}},
+      {if:{flagIs:{XMAS_FROM:'heroine_01'}},speaker:null,text:'你抽到以安的禮物：一本空白的手帳。'},
+      {if:{flagIs:{XMAS_FROM:'heroine_01'}},speaker:'heroine_01',expression:'neutral',text:'一頁行程，一頁理由欄。理由要自己寫。'},
+      {if:{flagIs:{XMAS_FROM:'heroine_03'}},speaker:null,text:'你抽到語彤的禮物：一包阿姨的辣椒醬。'},
+      {if:{flagIs:{XMAS_FROM:'heroine_03'}},speaker:'heroine_03',expression:'neutral',text:'很辣。不要一次吃完。'},
+      {if:{flagIs:{XMAS_FROM:'zhe'}},speaker:null,text:'你抽到阿哲的禮物：一盒滷味。'},
+      {if:{flagIs:{XMAS_FROM:'zhe'}},speaker:'zhe',expression:'laugh',text:'冷掉了，但很好吃。'},
+      {if:{flagIs:{XMAS_FROM:'classmate_bohan'}},speaker:null,text:'你抽到柏翰的禮物：一疊考古題。'},
+      {if:{flagIs:{XMAS_FROM:'classmate_bohan'},custom:G=>XMAS_HERE(G).includes('heroine_01')},speaker:'heroine_01',expression:'neutral',text:'沒收。'},
+      {if:{flagIs:{XMAS_FROM:'classmate_xinci'}},speaker:null,text:'你抽到芯慈的禮物：一張劇單。'},
+      {if:{flagIs:{XMAS_FROM:'classmate_xinci'}},speaker:'classmate_xinci',expression:'smile',text:'十二部。看完跟我說。'},
+      {if:{flagIs:{XMAS_FROM:'yu'}},speaker:null,text:'你抽到小語的禮物：一個巨大的玩偶。'},
+      {if:{flagIs:{XMAS_FROM:'yu'}},speaker:'yu',expression:'smile',text:'我一個人在家的時候抱的那種。……送你。'},
+      {if:{custom:G=>{ const h=XMAS_HERE(G); return h.includes('classmate_bohan')&&h.includes('heroine_01')&&G.flags.XMAS_FROM!=='classmate_bohan'; }},speaker:null,text:'柏翰送的考古題，又被以安沒收了。'},
+      {if:{custom:G=>{ const h=XMAS_HERE(G); return h.includes('classmate_mingxuan')&&h.includes('yu'); }},speaker:null,text:'明軒抽到小語的巨大玩偶，揹著它去搭公車。'} ],
+    consequences:{flags:{XMAS_Y1:true},memo:'聖誕交換禮物（霖澤館一樓）'} },
   /* 跨年（交付清單 A21：交接包_v1 第 3 節、AA_71 2-7、BB_95 9-7）：第 18 週 12/31（期末考中間）。一週前可昕問「跨年要不要去人少的地方？」（story3d.js 的 phoneRules）：
      「好。」＝河堤（出遊，和 K1b 的河堤共用背景；回宿舍的路上麵店團群組傳頂樓的照片）；「我答應麵店團要去頂樓了。」＝宿舍頂樓，零點前一分鐘她打視訊來（不扣分；她不在這裡和麵店團見面）。
      沒有回她、在麵店團群組裡的玩家照 AA 的群戲去頂樓（沒有視訊）。記 KX_NYE:{1:'river'|'roof'}（BB_107 第 13 節：節日每年一筆）*/

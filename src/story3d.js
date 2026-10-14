@@ -474,6 +474,9 @@ const STORY = (function(){
        邀約系統（invites3d.js 的 offer：手機上回答應／改天／不了；見面照邀約系統）；只約一次 */
     { const d=termDay('Y1S1',16,1); if(d&&G.day>=d&&G.day<=d+3&&h(G)>=19&&!F.anFinalInvite&&typeof INV!=='undefined'&&INV.hasContact(G,'heroine_01')&&typeof SOCIAL!=='undefined'&&SOCIAL.stage('heroine_01')!=='STRANGER'){
         F.anFinalInvite=G.day; INV.offer(G,'heroine_01','library',G.day+1,8,'明天 8:00 總圖。周老師那題，我寫了反方的理由。你來反駁。'); } }
+    /* 聖誕交換禮物（A20、AA_71 2-6）：阿哲在麵店團群組揪（第 17 週週一 12/22 21:00；之後才加入群組的，加入時看到）。活動本身是 ev_xmas_exchange（12/24 週三中午霖澤館一樓）*/
+    { const mon=termDay('Y1S1',17,1); if(mon&&PHONE.inGroup(G,'noodle_team')&&G.day>=mon&&(G.day<mon+2||(G.day===mon+2&&h(G)<12+20/60))&&!PHONE.sent(G,'xmas_ask')){ const late=G.day>mon||h(G)>=21;
+        PHONE.at(G,late?G.day:mon,late?h(G):21,[{th:'g:noodle_team',from:'zhe',text:'聖誕交換禮物，週三中午，霖澤館一樓。一百五以內。'}],'xmas_ask'); } }
     /* 跨年（A21、BB_95 9-7）：一週前（第 17 週週三 12/24 21:00）可昕問；KX_NYE_PICK 換成 KX_NYE:{1:…}（每年一筆）；12/31 排出遊：河堤 23:30（開車）、頂樓 23:45（走上去）；
        沒有回她、在麵店團群組的玩家：頂樓（AA 的群戲，沒有視訊）。河堤回來的路上（00:12）麵店團群組：頂樓的照片＋阿哲「我們就說有看到。」*/
     { const nye=termDay('Y1S1',18,3);
