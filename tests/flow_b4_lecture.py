@@ -96,6 +96,7 @@ async def main():
         run.check('演講的台詞（旁白、講者四句、掌聲）依序出現', all(any(t.startswith(w_[:12]) for t in seen) for w_ in want), json.dumps(seen, ensure_ascii=False))
         att = await pg.evaluate("ACTIVITIES.attended(GAME.G,'B4')")
         run.check('聽完：記成 attended（B4）、時間到 20:30 以後', att and s['hour'] % 24 >= 20.5, f"attended={att} 時間 {s['hour']}")
+        await pg.wait_for_timeout(1500)   # 立繪淡入、背景模糊的轉場（0.35～0.4 秒）做完再拍（記整句以後「台詞開始」提早成立，2026-10-14 第四次拍到轉場前、沒有立繪）
         await run.shot(pg, '2_after_lecture')
         # 3. 散場：以安問、選「好。」
         run.check('散場（20 分鐘內）以安問「要不要去小桌子整理一下？」', s['dtext'].startswith('要不要去小桌子'), json.dumps(s, ensure_ascii=False))
@@ -123,6 +124,7 @@ async def main():
         await L.go_to(pg, cdp, run, tgt[0], tgt[1], 0.8, '圓桌以安的旁邊', lv=0, stop=lambda q: bool(q['dlg'] or q['choices']))   # 走近她（2.5 m）事件就開始：停下來自己看台詞
         s = await play_through(pg, cdp, run, lambda q: q['dtext'].startswith('他說，限制自由'), seen=seen2, max_s=90)
         run.check('走到以安旁邊，B5 開始（「他說，限制自由要用最小的手段。」）', s['dtext'].startswith('他說，限制自由'), json.dumps(s, ensure_ascii=False))
+        await pg.wait_for_timeout(1500)   # 立繪淡入、背景模糊的轉場（0.35～0.4 秒）做完再拍（記整句以後「台詞開始」提早成立，2026-10-14 第四次拍到轉場前、沒有立繪）
         await run.shot(pg, '5_b5_start')
         s = await play_through(pg, cdp, run, lambda q: not q['dlg'] and not q['choices'] and not q['busy'], pick_text='「最小，要問被限制的人。」', seen=seen2)
         run.note('B5 的對話：' + json.dumps(seen2, ensure_ascii=False))
