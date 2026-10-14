@@ -209,6 +209,7 @@
 | ⑧參考圖 | `art_reference/heroine05_winter.webp`（冬裝、頭髮放下的小圖）；06（臉） |
 | key | `cg_bus_station_heroine05`（LAWWW 可以改名） |
 | 給 AI 的描述 | 第十三組提示詞（`CG_正式製作清單` 進度欄） |
+| 狀態 | **已生成、BB 檢查通過**（2026-10-14，`cg_approved/cg_bus_station_heroine05.webp`） |
 
 ## 5. B 組（之後再做；路線限定或補充）
 
