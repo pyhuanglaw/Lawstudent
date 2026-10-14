@@ -114,6 +114,19 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       L=await play(1,{flags:{},mem:['CLAPPED']}); check('子晴 Q6：不知道比賽的玩家（只有 CLAPPED）第二個選項換成「這比我想的好玩。」',JSON.stringify(opts[0])==='["「貓為什麼要找插座？」","「這比我想的好玩。」","「總圖二樓靠窗那排的插座是壞的。」"]'&&L.some(t=>/你不要突然講這種話，我會當真。$/.test(t)),JSON.stringify(opts[0]));
       check('子晴 Q6：表情沒有 embarrassed（第一次留給 Q5）、沒有舊台詞「不准笑」「交出去」',!JSON.stringify(e.dialogue).includes("'embarrassed'")&&!/embarrassed/.test(JSON.stringify(e.dialogue))&&!/不准笑|交出去/.test(JSON.stringify(e.dialogue)));
       check('子晴 Q6：只一次',!EVENTS.check(e)); } }
+  /* ---------- 阿凱 K2 工程師也是人（BB_96 4-3）---------- */
+  { const e=ev('ev_kai_engineer'); check('阿凱 K2：事件在',!!e);
+    if(e){ const q6=wk('Y1S2',11,1);
+      const at=(day,h,opt)=>{ opt=opt||{}; fresh(day,h,opt.zone||'dorm'); if(!opt.noQ6){ G.events.done.ev_ziqing_secret_game=1; G.events.last.ev_ziqing_secret_game=q6; } return EVENTS.check(e); };
+      const r={same:at(q6,21.5),d3:at(q6+3,19),d14:at(q6+14,23),d15:at(q6+15,19),noQ6:at(q6+1,19,{noQ6:true}),noon:at(q6+1,12),lib:at(q6+1,19,{zone:'library'})};
+      check('阿凱 K2：子晴 Q6 之後、兩週內、宿舍晚上（18 點以後）；沒演過 Q6、第 15 天、中午、總圖都沒有',r.same&&r.d3&&r.d14&&!r.d15&&!r.noQ6&&!r.noon&&!r.lib,JSON.stringify(r));
+      const play=async k=>{ fresh(q6+2,20,'dorm'); G.events.done.ev_ziqing_secret_game=1; G.events.last.ev_ziqing_secret_game=q6; picks=[k]; await EVENTS.run(e); return lines(); };
+      let L=await play(0);
+      check('阿凱 K2：兩句（原文）、三個選項（原文）；沒有刪掉的「算了。反正名單上不會有我。」',/她跟我說，我是工程師，不算玩家。$/.test(L[0])&&/……工程師也是人啊。$/.test(L[1])&&JSON.stringify(opts[0])==='["「你要跟她說。」","「你想被寫進去嗎？」","「下次測試我叫你一起。」"]'&&!/名單上不會有我/.test(JSON.stringify(e.dialogue)),JSON.stringify([L.slice(0,2),opts[0]]));
+      check('阿凱 K2 選 1：「說什麼，『請把我寫進去』？很遜。」、TOLD_KAI_TELL_HER',L.some(t=>/說什麼，「請把我寫進去」？很遜。$/.test(t))&&G.flags.TOLD_KAI_TELL_HER===true&&!SOCIAL.has('kai','KAI_WANTS_CREDIT')&&!G.flags.KAI_JOINS_TEST,JSON.stringify(L.slice(2)));
+      L=await play(1); check('阿凱 K2 選 2：（他想了很久。）「……想。」、記憶 KAI_WANTS_CREDIT',L.includes('（他想了很久。）')&&L.some(t=>/……想。$/.test(t))&&SOCIAL.has('kai','KAI_WANTS_CREDIT')&&!G.flags.TOLD_KAI_TELL_HER,JSON.stringify(L.slice(2)));
+      L=await play(2); check('阿凱 K2 選 3：「好。」（他轉回螢幕，打字變快了。）、KAI_JOINS_TEST',L.some(t=>/好。$/.test(t))&&L.includes('（他轉回螢幕，打字變快了。）')&&G.flags.KAI_JOINS_TEST===true,JSON.stringify(L.slice(2)));
+      check('阿凱 K2：只一次',!EVENTS.check(e)); } }
   /* ---------- 人物面板：每一種記憶都有中文名稱（沒有的話面板直接顯示英文代號）---------- */
   { const src=fs.readdirSync(path.join(ROOT,'src')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src',f),'utf8')).join('\n')+fs.readdirSync(path.join(ROOT,'src/data')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src/data',f),'utf8')).join('\n');
     const used=new Set(); for(const m of src.matchAll(/tag:'([A-Z_0-9]+)'/g)) used.add(m[1]); for(const m of src.matchAll(/remember\([^,()]+,'([A-Z_0-9]+)'/g)) used.add(m[1]); used.delete('ADJUST');

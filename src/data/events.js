@@ -792,6 +792,18 @@ const STORY_EVENTS_V11=[
       {label:'better'},{unless:{flags:['dating_kexin']},speaker:'heroine_04',expression:'smile',text:'你不要突然講這種話，我會當真。'},{if:{flags:['dating_kexin']},speaker:'heroine_04',expression:'smile',text:'你不要突然講這種話。我會真的把它做完。'},{goto:'end'},
       {label:'bug'},{speaker:null,text:'（她愣住，打開程式碼。）'},{speaker:'heroine_04',expression:'surprised',text:'……真的假的。我加進去。'},
       {label:'end'} ] },
+  /* 阿凱 K2「工程師也是人」（BB_96 4-3，交接包 v2，新事件）：子晴 Q6 之後第一個在宿舍和他說話的晚上（他 18 點以後都在宿舍）；兩週內沒說到話就不演。
+     原稿最後一句「算了。反正名單上不會有我。」刪掉（BB：太消沉）。三個選項各記一個旗標／記憶，之後的 K4（BB_98）、BB_108 回收；好感數字原文沒有，不加 */
+  { id:'ev_kai_engineer', title:'工程師也是人', participants:['kai'], location:'dorm', trigger:'interact', priority:7, once:true, time:[18,26],
+    prereq:{events:['ev_ziqing_secret_game'],custom:G=>{ const d=G.events&&G.events.last&&G.events.last.ev_ziqing_secret_game; return d!=null&&G.day-d<=14; }}, background:'blur',
+    dialogue:[ {speaker:'kai',expression:'neutral',text:'她跟我說，我是工程師，不算玩家。'},{speaker:'kai',expression:'tired',text:'……工程師也是人啊。'},
+      {choice:[{text:'「你要跟她說。」',consequences:{flags:{TOLD_KAI_TELL_HER:true}},goto:'tell'},
+        {text:'「你想被寫進去嗎？」',consequences:{mem:[{npc:'kai',tag:'KAI_WANTS_CREDIT',note:'他想被寫進她的遊戲'}]},goto:'want'},
+        {text:'「下次測試我叫你一起。」',consequences:{flags:{KAI_JOINS_TEST:true}},goto:'join'}]},
+      {label:'tell'},{speaker:'kai',expression:'neutral',text:'說什麼，「請把我寫進去」？很遜。'},{goto:'end'},
+      {label:'want'},{speaker:null,text:'（他想了很久。）'},{speaker:'kai',expression:'neutral',text:'……想。'},{goto:'end'},
+      {label:'join'},{speaker:'kai',expression:'smile',text:'好。'},{speaker:null,text:'（他轉回螢幕，打字變快了。）'},
+      {label:'end'} ] },
   /* 子晴 Q4 比賽那天（BB_96 4-1 改寫，交接包 v2）：她週六的作息在公館（13–16），原本放在 Café 走不到 → 公館騎樓的長椅、只在比賽那一個週六（大一下第 8 週的週六，
      第 8～9 週之間）、前置 v1 Q2 問過比賽（ARGUED_ABOUT_CAREER）；三個選項都沒有正解（刪掉「有一點。但明年還有。」comf −2）；記 CONTEST_DAY（Q6 的前置之一）。
      id 不改：舊存檔在 Café 演過的不再演。錢照舊版 −120（BB 沒寫，已問）*/
