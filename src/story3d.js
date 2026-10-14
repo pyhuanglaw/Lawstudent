@@ -564,6 +564,12 @@ const STORY = (function(){
     /* 方奕廷「學弟好。明天寒流。」（BB_120 1-7c、BB 2026-10-14）：第一波寒流（S.firstColdDay，AA_71 十二月第一波；遊戲還沒有寒流的天氣，先放大一上第 15 週週一）的前一晚 20:30；
        「有點熟」以前、有黃金葛、有他的聯絡方式（前一天以前拿到）*/
     { const cold=S.firstColdDay(); if(cold&&G.day>=cold-2&&G.day<=cold-1&&!PHONE.sent(G,'fy_cold')&&fyEarly(G)&&F.POTHOS) PHONE.at(G,cold-1,20.5,[P1('npc_fangyt','學弟好。明天寒流。黃金葛不要放窗邊。'),P1('npc_fangyt','它怕冷。我也是。',1/60)].map(x=>{ const y=Object.assign({},x); delete y.dt; return y; }),'fy_cold'); }
+    /* 以安新 5 的結果（交接包 v2 C8）：第 7 週週五 21:00 還沒在總圖當面聽到＝私訊同樣的話（有她的聯絡方式）；沒遇到的玩家第 7 週週三 21:30 麵店團群組「我室友的申訴過了一半。」（聽說）*/
+    { const fri=termDay('Y1S2',7,5), wed=termDay('Y1S2',7,3), done=id=>!!(G.events&&G.events.done&&G.events.done[id]);
+      if(fri&&G.day===fri&&h(G)<21&&done('ev_an_dorm_appeal')&&!F.AN_APPEAL_RESULT&&!PHONE.sent(G,'an_appeal_result')&&typeof INV!=='undefined'&&INV.hasContact(G,'heroine_01')){ F.AN_APPEAL_RESULT='phone';
+        PHONE.at(G,fri,21,[P1('heroine_01','點數減了一點。宿舍說，以後記點以前會先問。'),P1('heroine_01','我本來想證明規定是錯的。後來發現規定沒錯，是它沒想到這種情況。')].concat(F.AN_APPEAL==='ask'?[P1('heroine_01','你說的那一句，我放在第一段。')]:[]).map(x=>{ const y=Object.assign({},x); delete y.dt; return y; }),'an_appeal_result'); }
+      if(wed&&G.day>=wed-1&&G.day<=wed&&!done('ev_an_dorm_appeal')&&!PHONE.sent(G,'an_appeal_heard')&&PHONE.inGroup(G,'noodle_team')&&S.knows('heroine_01',G)){
+        PHONE.at(G,wed,21.5,[{th:'g:noodle_team',from:'heroine_01',text:'我室友的申訴過了一半。'}],'an_appeal_heard'); if(typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!SOCIAL.has('heroine_01','HEARD_ABOUT')) SOCIAL.remember('heroine_01','HEARD_ABOUT','聽說她室友的申訴過了一半'); } }
     dailyPhone(GM); };
   S.firstColdDay=()=>termDay('Y1S1',15,1);   /* 第一波寒流（AA_71 十二月；阿哲的薑母鴨、AA_12 紙箱旁白也用這一天，之後接）*/
   /* 成績單先等一下（classes3d.js 的 morning 呼叫；回傳 true＝先不發，晚上視訊一起打開）：只有大一上、和可昕約好的玩家問一次 */

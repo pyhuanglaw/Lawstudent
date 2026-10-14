@@ -551,6 +551,25 @@ const STORY_EVENTS=[
     prereq:{custom:G=>{ if(G.flags.noodleTableDay==null||typeof CLS==='undefined'||!CLS.lastExamEnd) return false; const e=CLS.lastExamEnd(G,'Y1S1','final'); return !!e&&(G.day>e.day||(G.day===e.day&&G.hour>=e.h)); }},
     dialogue:[ {speaker:null,text:'期末最後一科考完。麵店團一定吃一頓。'},{speaker:null,text:'阿姨多送了一盤小菜。'},{speaker:'阿姨',text:'考完了，吃好一點。'} ],
     consequences:{memo:'期末最後一頓（阿鳳麵店）'} },
+  /* 以安新 5：舍友的記點申訴（交接包 v2 C8；草稿第 3 節、AA_113 新 5；法律台詞 BB 2026-10-14 查核無誤：學校的內部程序，不寫成行政程序法直接適用）：
+     大一下第 5 週平日晚上 19～22 在總圖（她那週的作息），認識以上；四個選項記 AN_APPEAL。結果在第 7 週：總圖見到她就當面說，週五晚上還沒見到就傳訊息（story3d phoneRules）；
+     沒遇到的玩家第 7 週在麵店團群組看到一句（聽說）*/
+  { id:'ev_an_dorm_appeal', title:'舍友的記點申訴', participants:['heroine_01'], location:'library', trigger:'interact', priority:9, once:true, term:['Y1S2'], weeks:[5], weekday:[1,2,3,4,5], time:[19,22], prereq:{stage:{npc:'heroine_01',min:'ACQUAINTANCE'}}, background:'blur',
+    dialogue:[ {speaker:null,text:'以安的桌上攤著兩份草稿，理由欄寫得密密麻麻。'},
+      {speaker:'heroine_01',expression:'serious',text:'我室友被記點了。晚歸二十分鐘。'},
+      {speaker:'heroine_01',expression:'neutral',text:'她陪隔壁寢的同學去急診。記點以前，沒有人問她那天發生什麼事。'},
+      {speaker:'heroine_01',expression:'serious',text:'申訴我幫她寫。你幫我讀。然後站另一邊，反駁我。'},
+      {speaker:'heroine_01',expression:'neutral',text:'第一份寫：這條規定錯了。第二份寫：規定沒錯，是它沒想到這種情況。'},
+      {choice:[{text:'「寫第一份。規定錯了，就該改。」',consequences:{flags:{AN_APPEAL:'rule'}},goto:'rule'},{text:'「寫第二份。規定沒錯，是沒想到。」',consequences:{flags:{AN_APPEAL:'case'}},goto:'case'},
+        {text:'「先寫一件事：記點以前，應該先問她。」',consequences:{flags:{AN_APPEAL:'ask'}},goto:'ask'},{text:'「我想先聽妳的。」',consequences:{flags:{AN_APPEAL:'listen'}},goto:'listen'}]},
+      {label:'rule'},{speaker:'heroine_01',expression:'thinking',text:'那你要證明它對每個人都錯。……門禁本身沒有道理嗎？'},{speaker:null,text:'（她在第一份旁邊畫了一個問號。）'},{goto:'end'},
+      {label:'case'},{speaker:'heroine_01',expression:'smile',text:'我也是這樣想。……所以我才要你反駁我。不准賴。'},{goto:'end'},
+      {label:'ask'},{speaker:null,text:'（她停住，把這句抄進理由欄的第一行。）'},{speaker:'heroine_01',expression:'neutral',text:'先問。……對，要先問。'},{goto:'end'},
+      {label:'listen'},{speaker:'heroine_01',expression:'neutral',text:'好，我先說。說完你一定要反駁。'},
+      {label:'end'} ] },
+  { id:'ev_an_dorm_appeal_result', title:'申訴的結果', participants:['heroine_01'], location:'library', trigger:'interact', priority:9, once:true, term:['Y1S2'], weeks:[7], prereq:{events:['ev_an_dorm_appeal'],custom:G=>!G.flags.AN_APPEAL_RESULT}, background:'blur',
+    dialogue:[ {speaker:'heroine_01',expression:'smile',text:'點數減了一點。宿舍說，以後記點以前會先問。'},{speaker:'heroine_01',expression:'neutral',text:'我本來想證明規定是錯的。後來發現規定沒錯，是它沒想到這種情況。'},
+      {if:{flagIs:{AN_APPEAL:'ask'}},speaker:'heroine_01',expression:'smile',text:'你說的那一句，我放在第一段。'},{set:{AN_APPEAL_RESULT:'met'}} ] },
   /* 大一下的期末最後一頓（交接包 v2 C19：AA_71 2-13，同一段原文；只一次）。大一上那一個 id 不改（舊存檔 events.done 相容）*/
   { id:'ev_term_last_meal_y1s2', title:'期末最後一頓', participants:[], location:'noodle', trigger:'enter', term:['Y1S2'], time:[17,22], once:true, background:'blur',
     prereq:{custom:G=>{ if(G.flags.noodleTableDay==null||typeof CLS==='undefined'||!CLS.lastExamEnd) return false; const e=CLS.lastExamEnd(G,'Y1S2','final'); return !!e&&(G.day>e.day||(G.day===e.day&&G.hour>=e.h)); }},
