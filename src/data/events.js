@@ -120,8 +120,24 @@ const STORY_EVENTS=[
   /* AA 2026-10-13 P1-2：傅鐘這段是「已經認識」的日常（她直接講下課的事），要先見過芷若（兩點半或經原分組）；沒見過時在傅鐘找她說話只有旁白（story3d.js 的 talkCharacter），也不會變成第一次見面 */
   { id:'ev_zhiruo_bell', title:'傅鐘旁邊', participants:['heroine_02'], location:'campus', trigger:'interact', priority:3, cooldown_days:1, prereq:{memory:[{npc:'heroine_02',tag:'FIRST_MET'}]}, background:'blur',
     dialogue:[ {speaker:'heroine_02',expression:'smile',text:'剛下外文系的課。今天一句詩翻了一整堂。'},{choice:[{text:'「週五的經原，妳聽得懂供給曲線嗎？」',if:{events:['ev_zhiruo_ge_group']},consequences:{rel:{heroine_02:{fam:3,comf:3}}}},{text:'「妳上完課都在這裡發呆？」',consequences:{rel:{heroine_02:{fam:3}}}},{text:'「妳的交換申請交了嗎？」',if:{memory:[{npc:'heroine_02',tag:'SHARED_SECRET'}]},consequences:{rel:{heroine_02:{trust:4}}},goto:'ex'}]},{speaker:'heroine_02',expression:'laugh',text:'發呆是下課最重要的部分。'},{goto:'end'},{label:'ex'},{speaker:'heroine_02',expression:'embarrassed',text:'……還沒。你不要每次都問這個。'},{speaker:'heroine_02',expression:'serious',text:'我會交。這週。大概。'},{mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'催她交交換申請'}]},{label:'end'} ] },
-  { id:'ev_zhiruo_secret', title:'週末的咖啡廳', participants:['heroine_02'], location:'cafe', trigger:'interact', priority:8, once:true, weekday:[6,0], prereq:{stage:{npc:'heroine_02',min:'FAMILIAR'}}, background:'blur',
-    dialogue:[ {speaker:'heroine_02',expression:'neutral',text:'週末沒排班，我還是來了。這裡的人不會問我週末在幹嘛。'},{speaker:'heroine_02',expression:'thinking',text:'我跟你講一件事，你不要跟別人說。'},{speaker:'heroine_02',expression:'serious',text:'交換的申請我拖了兩個月。不是懶。是我媽問我「去了誰顧店」，我答不出來。'},{choice:[{text:'「妳想去嗎？」',consequences:{rel:{heroine_02:{trust:8,aff:3}},mem:[{npc:'heroine_02',tag:'SHARED_SECRET',note:'交換申請與家裡的店'}]},goto:'want'},{text:'「先交件再說，錄取了再煩惱。」',consequences:{rel:{heroine_02:{trust:5,resp:4}},mem:[{npc:'heroine_02',tag:'SHARED_SECRET',note:'交換申請與家裡的店'}]},goto:'do'},{text:'「家裡的事比較重要吧。」',consequences:{rel:{heroine_02:{trust:2,comf:-3}},mem:[{npc:'heroine_02',tag:'SHARED_SECRET',note:'你說家裡比較重要'}]},goto:'fam'}]},{label:'want'},{speaker:'heroine_02',expression:'sad',text:'……想。想到每天看那間學校的網站。'},{speaker:'heroine_02',expression:'smile',text:'好，我知道了。謝謝你問「想不想」，大家都只問「怎麼辦」。'},{goto:'end'},{label:'do'},{speaker:'heroine_02',expression:'laugh',text:'你講話真的像法律系的。好，這週交。你作證。'},{goto:'end'},{label:'fam'},{speaker:'heroine_02',expression:'neutral',text:'……嗯。也許吧。'},{speaker:null,text:'她把杯子收走的時候，沒有看你。'},{label:'end'} ] },
+  /* 芷若 Z4「十點的電話」（BB_96 3-4，交接包 v2；原本的「週末的咖啡廳」改寫）：原本在 Café 週末——她週末不在 Café（週六 14–18 在溫州街），走不到；
+     也拿掉企劃組禁用的「我跟你講一件事，你不要跟別人說」、「家裡的事比較重要吧」的 comf:-3（不扣分）。改成大一下第 12 週以後的週六 14～18、溫州街、有點熟以上、只一次。
+     交往中：台詞照舊（週六下午街上的偶遇，朋友之間講家裡的事），第一個選項只有 trust:8（沒有 aff）。三個選項都記 SHARED_SECRET（note 不同）＋ Z4_PICK（大二 Z7 回來講第三個選項那一句）*/
+  { id:'ev_zhiruo_secret', title:'十點的電話', participants:['heroine_02'], location:'wenzhou', trigger:'interact', priority:8, once:true, term:['Y1S2'], weeks:[12,13,14,15,16,17,18], weekday:[6], time:[14,18], prereq:{stage:{npc:'heroine_02',min:'FAMILIAR'}}, background:'blur',
+    dialogue:[ {speaker:'heroine_02',expression:'neutral',text:'週六我都在溫州街。這裡的人不會問我週末在幹嘛。'},
+      {speaker:'heroine_02',expression:'thinking',text:'交換的申請，我拖了兩個月。不是懶。'},
+      {speaker:'heroine_02',expression:'neutral',text:'我媽每天晚上十點打給我。講店裡的事。'},
+      {speaker:'heroine_02',expression:'neutral',text:'誰來印考卷、哪一台又卡紙。'},
+      {speaker:'heroine_02',expression:'thinking',text:'我去英國的話，那邊是下午三點。'},
+      {speaker:'heroine_02',expression:'neutral',text:'……她十點要打給誰？'},
+      {choice:[{text:'「妳想去嗎？」',unless:{flags:['dating_kexin']},set:{Z4_PICK:'want'},consequences:{rel:{heroine_02:{trust:8,aff:3}},mem:[{npc:'heroine_02',tag:'SHARED_SECRET',note:'十點的電話：你問她想不想去'}]},goto:'want'},
+        {text:'「妳想去嗎？」',if:{flags:['dating_kexin']},set:{Z4_PICK:'want'},consequences:{rel:{heroine_02:{trust:8}},mem:[{npc:'heroine_02',tag:'SHARED_SECRET',note:'十點的電話：你問她想不想去'}]},goto:'want'},
+        {text:'「先交件再說，錄取了再煩惱。」',set:{Z4_PICK:'apply'},consequences:{rel:{heroine_02:{trust:5,resp:4}},mem:[{npc:'heroine_02',tag:'SHARED_SECRET',note:'十點的電話：先交件再說'}]},goto:'do'},
+        {text:'「家裡的事比較重要吧。」',set:{Z4_PICK:'family'},consequences:{rel:{heroine_02:{trust:2}},mem:[{npc:'heroine_02',tag:'SHARED_SECRET',note:'十點的電話：你說家裡的事比較重要'}]},goto:'fam'}]},
+      {label:'want'},{speaker:null,text:'她沉默很久。'},{speaker:'heroine_02',expression:'neutral',text:'……想。'},{speaker:null,text:'她用手指捲頭髮，捲了三圈。'},{speaker:'heroine_02',expression:'smile',text:'好可怕。說出來就變成真的了。'},{goto:'end'},
+      {label:'do'},{speaker:'heroine_02',expression:'smile',text:'你們法律系都這樣講話嗎？'},{speaker:null,text:'她笑了。'},{speaker:'heroine_02',expression:'smile',text:'……可是你說得對。'},{goto:'end'},
+      {label:'fam'},{speaker:'heroine_02',expression:'neutral',text:'嗯。'},{speaker:null,text:'她點頭。'},{speaker:'heroine_02',expression:'neutral',text:'我也這樣跟自己說了兩個月。'},
+      {label:'end'} ] },
   // ────────────────────────────────────────── 子晴：室友的同學、吉他社
   { id:'ev_zhiruo_ge_final', title:'期末的短片', participants:[], location:['dorm','campus','putong'], trigger:'enter', term:['Y1S1'], once:true, prereq:{flags:['ge_group_zhiruo'],custom:G=>{ if(typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); return !!t&&t.week>=18; }}, background:'freeze',   /* BB_95 2-4 期末：旁白一行帶過（AA_108 第 4 節 #27：不排「第一個」）*/
     dialogue:[ {speaker:null,text:'三分鐘的短片，旁白是你。片尾名單照筆畫排，你的名字後面多了兩個字：（旁白）。'} ] },
@@ -700,6 +716,21 @@ const STORY_EVENTS=[
       {if:{flags:['KX_K6_EXAM']},speaker:'kexin',expression:'teasing',text:'結果我們吵最多的，是考古題。'},
       {unless:{flags:['KX_K6_EXAM']},speaker:'kexin',expression:'teasing',text:'結果我們吵最多的，是假設題的答案。'} ],
     after:G=>{ G.flags.REVISIT_Y1={who:'kexin',pick:G.flags.REVISIT_Y1_PICK||'daily'}; } },
+  /* 沛珊 P3b「課輔班的下午」（BB_96 3-3，交接包 v2）：大一下第 5 週起，週二或週四 16:30–18:00 走進溫州街，P2（ev_peishan_doubt）之後、只一次。
+     她不用在 3D 裡出現：直接換成 2D 背景「溫州街・課輔班門口」（圖還沒有＝深色底＋字幕）。第二個選項只給去過法服讀書會的玩家（CLUB_lawclub_study）。
+     記 SAW_HER_TEACH（大二 P3「我要重考。去念教育」的伏筆；不寫成憂鬱或逃避）*/
+  { id:'ev_peishan_tutoring', title:'課輔班的下午', participants:['classmate_peishan'], location:'wenzhou', trigger:'enter', term:['Y1S2'], weeks:[5,6,7,8,9,10,11,12,13,14,15,16,17,18], weekday:[2,4], time:[16.5,18], once:true, background:'dark',
+    prereq:{events:['ev_peishan_doubt']},
+    dialogue:[ {scene:'溫州街・課輔班門口',bg:'wenzhou_tutoring'},
+      {speaker:null,text:'她帶著一群國小生從課輔班走出來，手上拿著一疊作業本。'},
+      {speaker:'classmate_peishan',expression:'smile',text:'喔，是你。我在這裡當志工。一週三天。'},
+      {speaker:null,text:'一個小孩拉她的衣角。她蹲下來聽他講完，站起來。'},
+      {speaker:'classmate_peishan',expression:'thinking',text:'……我在這裡的時候，不會看時間。'},
+      {choice:[{text:'「妳看起來很開心。」',goto:'a'},{text:'「讀書會最近比較少看到妳。」',if:{flags:['CLUB_lawclub_study']},goto:'b'},{text:'（幫她拿一半的作業本）',goto:'c'}]},
+      {label:'a'},{speaker:'classmate_peishan',expression:'thinking',text:'有嗎。'},{speaker:null,text:'她想了一下。'},{speaker:'classmate_peishan',expression:'smile',text:'……有。'},{goto:'end'},
+      {label:'b'},{speaker:'classmate_peishan',expression:'neutral',text:'嗯。我還是會去，只是比較少。'},{speaker:null,text:'她不躲這個問題。'},{speaker:'classmate_peishan',expression:'thinking',text:'我在找我比較想待的地方。'},{goto:'end'},
+      {label:'c'},{speaker:'classmate_peishan',expression:'smile',text:'謝謝。……你走路很慢，跟小孩一樣。'},{speaker:null,text:'小孩們笑。'},
+      {label:'end'},{mem:[{npc:'classmate_peishan',tag:'SAW_HER_TEACH',note:'溫州街的課輔班：她在當志工'}]} ] },
   /* 小語 語 2「剛好路過」（交接包 v2 C18；草稿第 3 節、AA_40 語 2）：大一下第 14～16 週，阿哲和小語的三個徵兆。三個選項都不改變結果（大二上兩人在一起），只記 YU2_PICK（之後小語怎麼跟祐廷說）。
      交往中的玩家也一樣（這是小語和阿哲的事）。只有認識小語的玩家有（met_yu）；阿哲開場就認識。
      「徵兆保證觸發」（AA_40 要開發組評估）的做法：
