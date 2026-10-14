@@ -129,9 +129,13 @@ const STORY = (function(){
     const hit=ent=>{ if(!ent.days.includes(wd)) return false; if((ent.act==='class'||ent.noHoliday)&&(!T||hol)) return false; if(ent.weeks&&(!T||!ent.weeks.includes(T.week))) return false; const to=ent.to;   /* weeks：學期的第幾週才有（子晴的吉他社：第 5～7、10～16 週）*/ return to<=24?(hr>=ent.from&&hr<to):(hr>=ent.from||hr<to-24); };
     const L=c.daily_schedule||[]; for(const ent of L) if(ent.terms&&T&&ent.terms.includes(T.id)&&hit(ent)) return ent; for(const ent of L) if(!ent.terms&&hit(ent)) return ent; return null; }
   S.schedEnt=schedEnt;
+  /* 沒有開課的教授（2026-10-14 課程調整：黃教授、陳教授的課都刪了，AA_130 第 2 節第 4 列）：上課期間照人物資料的星期、時間，在霖澤館一樓大廳（lobby）。
+     國定假日、寒暑假不在；這個時段剛好有自己的課（之後若再開課）就照課表 */
+  S.profLobby=function(c,G){ if(!c||!c.lobby||!c.time||!(c.time[1]>c.time[0])||c.weekday!==G.weekday) return false; const hr=h(G); if(hr<c.time[0]||hr>=c.time[1]) return false;
+    if(typeof CALENDAR==='undefined') return false; const T=CALENDAR.termOf(G.day); return !!T&&!CALENDAR.holiday(G.day); };
   function schedFor(id,zoneId,G){ const c=CHARACTERS[id], F=G.flags, hr=h(G), wd=G.weekday; if(!c) return null; if(c.presence&&!S.present(id,G)) return null;   /* 這學期不在學校（presence，AA_110 第 3 節）*/
     if(LEGACY_IDS.includes(id)){ if(!F.afternoonDone||F.classNow) return null; const al=LEGACY_ALIAS[id]||id; if(F.companion===al) return null; }
-    if(c.social_layer==='E'&&typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ const w=CLS.profWhere(G,id); if(!w) return null; if(w.zone==='classroom'&&zoneId==='classroom') return {prof:'class',until:null}; if(w.zone==='wancai'&&zoneId==='wancai') return {prof:'wancai'}; return null; }   /* 課表（D52）：上課時在教室、下課後 1.5 小時在萬才館 */
+    if(c.social_layer==='E'&&typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ const w=CLS.profWhere(G,id); if(!w) return S.profLobby(c,G)&&zoneId===c.lobby?{prof:'lobby'}:null; if(w.zone==='classroom'&&zoneId==='classroom') return {prof:'class',until:null}; if(w.zone==='wancai'&&zoneId==='wancai') return {prof:'wancai'}; return null; }   /* 課表（D52）：上課時在教室、下課後 1.5 小時在萬才館 */
     if(c.social_layer==='E'){ if(zoneId==='classroom'&&c.weekday===wd&&hr>=c.time[0]-0.3&&hr<c.time[1]) return {prof:'class'}; if(zoneId==='wancai'&&c.weekday===wd&&hr>=c.time[1]&&hr<c.time[1]+1.5) return {prof:'wancai'}; return null; }
     if(c.social_layer==='B') return null; const ent=schedEnt(c,G); return ent&&ent.zone===zoneId?ent:null; }
   function populateSchedule(zoneId,GM,refresh){ const E=GM.E, G=GM.G; const hr=h(G); const wd=G.weekday; const used=new Set(); for(const n of E.npcs){ const st=n.seat||n.seatTarget; if(st) used.add(st.x.toFixed(1)+','+st.z.toFixed(1)); } let clubI=0, routeI=0;   /* seatTarget：正從門口走過去要坐的位子（還沒坐下）*/
@@ -165,6 +169,8 @@ const STORY = (function(){
       if(refresh&&typeof ent.to==='number'&&typeof ent.from==='number'&&(ent.to<=24?ent.to-hr:(hr>=ent.from?ent.to-hr:ent.to-24-hr))<0.25) continue;   /* 待在區域裡補人：時段剩不到 15 分鐘的不補（劇情場景擋住補人時，結束後同學在座位上憑空出現、一分鐘後又起身離開——v9.6 回歸 flow_class_real）*/
       if(ent.prof==='class'){ const ts=E.zone.teacherSpot||{x:-1.5,z:-4.4}; n=GM.spawnCharacter(id,ts.x,ts.z,{yaw:0,pose:'idle'}); if(n) n.frozen=true; }
       else if(ent.prof==='wancai'){ n=GM.spawnCharacter(id,-5,1.2,{yaw:0,pose:'idle'}); if(n) n.frozen=true; }
+      else if(ent.prof==='lobby'){ const cand=[].concat(E.zone.profSpot?[E.zone.profSpot]:[],[{x:-0.6,z:-5.4,yaw:0},{x:2.6,z:2.2,yaw:Math.PI},{x:-2.4,z:1.6,yaw:Math.PI/2}]);   /* 霖澤館一樓大廳：樓層簡介前、沙發旁 */
+        const sp=cand.find(q=>!E.canStand||E.canStand(q.x,q.z,0.32,0))||(E.zone.spawn||{x:0,z:0}); n=GM.spawnCharacter(id,sp.x,sp.z,{yaw:sp.yaw||0,pose:'idle',lv:0}); if(n) n.frozen=true; }
       else n=spawnAt(id,ent);
       if(n) n.sched=true; if(n&&z3cust&&hr<S.Z3_SHUT) n.until=S.Z3_SHUT; }   /* sched：照行程出現的人（時段結束時 refreshSchedule 會讓他離開；劇情裡生出來的人不算） */
     if(refresh) return;   /* 待在區域裡補人：不重排不熟同學、不把已經在的人搬到朋友旁邊（pairUp 會瞬移） */

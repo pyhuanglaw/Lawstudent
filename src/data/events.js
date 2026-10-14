@@ -1179,7 +1179,7 @@ const SMALLTALK={
   npc_fangyt:[{t:'「森林系的野外實習，下週去溪頭。」',once:'term'},{t:'「芷若跟你講過我嗎？她高中就這樣，什麼都不講。」',if:{events:['ev_fangyt_z6']}}],   /* 第二句在 Z6（BB_96 3-6，大一下）之後才說；Z6 還沒做，先不說（BB 2026-10-13）*/
   npc_huangxh:['「心理系的統計比你們的民法可怕。」',{t:'「語彤最近很累，你有注意到嗎？」',if:{memory:[{npc:'heroine_03',tag:'FIRST_MET'}]}}],
   npc_ta_chen:['「論文寫到第三章。……別問我第四章。」',{t:'「林老師的考題，看判決就對了。」',term:['Y2S2','Y3S1']}],
-  prof_zhou:['「有問題就來研究室。法律不是背的，是想的。」'],prof_lin:['「判決要整個讀，不要只讀結論。」'],prof_zhang:[{t:'「講義第三十頁，自己回去看。」',if:{course:{const_1:{min:1}}}}],prof_wu:[{t:'「這個概念我們下週再講兩小時。」',if:{course:{crim_gen1:{min:1}}},term:['Y1S1','Y1S2','Y2S1']}],prof_huang:[{t:'「最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。」',if:{course:{law_society:{min:1}}}}],   /* AA_120 7-1 第 4 項：那是書不是電影；上過她的課以後 */prof_xu:[{t:'「行政法大二再說。先把民總讀好。」',if:{course:{admin_law:{max:0}}}}],prof_tsai:['「民訴的題目很長，因為人生很長。」'],prof_chen:['「國際法的 seminar 隨時歡迎旁聽。」'],
+  prof_zhou:['「有問題就來研究室。法律不是背的，是想的。」'],prof_lin:['「判決要整個讀，不要只讀結論。」'],prof_zhang:[{t:'「講義第三十頁，自己回去看。」',if:{course:{const_1:{min:1}}}}],prof_wu:[{t:'「這個概念我們下週再講兩小時。」',if:{course:{crim_gen1:{min:1}}},term:['Y1S1','Y1S2','Y2S1']}],prof_huang:['「最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。」'],   /* AA_120 7-1 第 4 項：那是書不是電影；上過她的課以後 */prof_xu:[{t:'「行政法大二再說。先把民總讀好。」',if:{course:{admin_law:{max:0}}}}],prof_tsai:['「民訴的題目很長，因為人生很長。」'],prof_chen:['「國際法的新聞，每天都有。有興趣可以來研究室聊。」'],
   kai:[{t:'「所以那個賣家可以告嗎？……不能？那法律系在幹嘛。」',if:{flags:['classDone']}},{t:'「宿舍網路又斷了。你們有教這個嗎？」',location:'dorm'}],
   zhe:[{t:'「系籃週五練球，來坐也可以。」',if:{notFlags:['ball_invite']}},'「公館那家滷味晚上十點後半價。」'],
   yu:[{t:'「辯論社下週辯『網拍標錯價要不要出貨』。」',term:['Y1S1'],week:[4,6],once:true,if:{flags:['classDone']}},   /* AA_120 7-1 第 5 項：引號；辯論社第 5 週開始，第 4～6 週說「下週」才對 */'「溫州街的貓你有看到嗎？」'],

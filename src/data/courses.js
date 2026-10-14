@@ -48,7 +48,6 @@ const COURSES={
     {id:'civ_general',name:'民法總則',kind:'required',term:'Y1S1',prof:'prof_zhou',room:'L201',slots:[{wd:4,block:'pm1'}],
      topics:['民法的結構','權利主體：權利能力','權利主體：行為能力','物','法律行為','意思表示','代理','時效'],
      specials:[{w:3,title:'網拍相機',story:true,storyDay2:true},{w:12,title:'兩個人都簽了，為什麼還可能無效'},{w:14,title:'周教授的正反辯論',story:true}]},
-    {id:'law_society',name:'法律與社會',kind:'elective',term:'Y1S1',prof:'prof_huang',room:'LINZE',slots:[{wd:5,block:'pm1'}],topics:['法律與電影','法律與新聞','法律與社會']},   /* 大一上沒有選課事件：算已選（AA_103 第 8 節）*/
     {id:'econ_principles_1',name:'經濟學原理（上）',kind:'required',retake:true,term:'Y1S1',prof:null,profName:'經濟系老師',room:'PUTONG',slots:[{wd:5,block:'am'}],topics:['供給與需求','市場與價格','彈性'],specials:[{w:3,title:'第一次走進這門課',story:true},{w:4,title:'價格管制（分組）'}]},   /* 重修（使用者 2026-10-13：經濟系休學沒拿到學分）；上下兩學期（使用者定案，AA_107 1-2a）。
        第 3 週＝BB_105 P4「第二次大一」的那一堂（BB 的 syllabus 標 special）：事件要使用者批准才做，現在照 BB 的備用內容上普通的課 */
     // ---- 大一下（2026 春）----
@@ -56,7 +55,6 @@ const COURSES={
     {id:'ge_y1s2',name:'通識：天文與我們',kind:'general',term:'Y1S2',prof:null,profName:'通識老師',room:'PUTONG',slots:[{wd:1,block:'pm1'}],topics:['課程導論','分組討論','期末報告準備']},
     {id:'pe_y1s2',name:'體育',kind:'general',term:'Y1S2',prof:null,room:'GYM',slots:[{wd:1,block:'pm2'}],topics:['羽球','排球','體適能檢測']},
     {id:'chinese_y1_2',name:'大一國文（下）',kind:'general',term:'Y1S2',prof:null,profName:'國文老師',room:'BOYA',slots:[{wd:2,block:'am'}],topics:['小說選讀','論說文','期末作品']},
-    {id:'law_society_2',name:'法律與社會（下）',kind:'elective',term:'Y1S2',prof:'prof_huang',room:'LINZE',slots:[{wd:2,block:'pm1'}],topics:['法律與電影','法律與新聞','法律與社會'],choice:{group:'Y1S2_ls',default:'law_society_2',none:true}},   /* 可選可不選（不再和經濟學原理二選一）*/
     {id:'crim_gen2',name:'刑法總則（二）',kind:'required',term:'Y1S2',prof:'prof_wu',room:'L201',slots:[{wd:3,block:'am'}],topics:['違法性：正當防衛','罪責','未遂','共犯'],specials:[{w:5,title:'為了保護朋友而動手'}]},
     {id:'english_y1_2',name:'大一英文（下）',kind:'general',term:'Y1S2',prof:null,profName:'英文老師',room:'GONGTONG',slots:[{wd:4,block:'am'}],topics:['閱讀','寫作','口頭報告']},
     {id:'oblig_gen1',name:'民法債編總論（一）',kind:'required',term:'Y1S2',prof:'prof_zhou',room:'L201',slots:[{wd:4,block:'pm1'}],topics:['債的發生：契約成立（要約與承諾）','無因管理','不當得利概論'],specials:[{w:3,title:'網拍相機的回聲'}]},
@@ -65,11 +63,10 @@ const COURSES={
     {id:'admin_law',name:'行政法',kind:'required',term:'Y2S1',prof:'prof_xu',room:'L201',slots:[{wd:1,block:'am'}],topics:['行政行為','行政處分','行政契約','依法行政'],specials:[{w:11,title:'國家賠償'}]},
     {id:'japanese_1',name:'日文（上）',kind:'elective',term:'Y2S1',prof:null,profName:'日文老師',room:'GONGTONG',slots:[{wd:1,block:'pm1'}],topics:['五十音','打招呼','自我介紹']},   /* 遊戲安排（使用者 2026-10-13：大二上下是遊戲安排的候選，不是真實修課年份）*/
     {id:'pe_y2s1',name:'體育',kind:'general',term:'Y2S1',prof:null,room:'GYM',slots:[{wd:1,block:'pm2'}],topics:['桌球','籃球','體適能']},
-    /* 服務學習（二）（AA_110 6-1，AA 暫定）：週三下午二（下午一是法理學），椰林大道、醉月湖的校園環境；每次的一句 AA 大二前再補（現在用一般句子）*/
+    /* 服務學習（二）（AA_110 6-1，AA 暫定）：週三下午二（下午一原本是法理學，2026-10-14 刪除），椰林大道、醉月湖的校園環境；每次的一句 AA 大二前再補（現在用一般句子）*/
     {id:'service_2',name:'服務學習（二）',kind:'service',term:'Y2S1',prof:null,profName:'服務學習老師',room:'CAMPUS_SVC',slots:[{wd:3,block:'pm2'}],weeks:[4,5,6,7,10,11,12,13,14],makeupWeeks:[15,16]},
     {id:'crim_spec',name:'刑法分則',kind:'required',term:'Y2S1',prof:'prof_wu',room:'L201',slots:[{wd:2,block:'am'}],topics:['生命法益','身體法益','自由法益','財產法益','侵占與背信的差別'],specials:[{w:12,title:'幫社團管錢，侵占還是背信'}]},
     {id:'property',name:'民法物權',kind:'required',term:'Y2S1',prof:'prof_zheng',room:'L201',slots:[{wd:2,block:'pm1'}],topics:['物權概念','所有權','占有','登記','共有','用益物權'],specials:[{w:10,title:'買了房子，卻沒有房子下面那塊地'}]},
-    {id:'juris',name:'法理學',kind:'required',term:'Y2S1',prof:'prof_huang',room:'LINZE',slots:[{wd:3,block:'pm1'}],topics:['法律是什麼','法律與道德','法律解釋'],specials:[{w:6,title:'法律能要求一個人的內心嗎'}]},
     {id:'oblig_gen2',name:'民法債編總論（二）',kind:'required',term:'Y2S1',prof:'prof_zhou',room:'L201',slots:[{wd:4,block:'am'}],topics:['債務不履行','債的效力','多數債務人','時效']},
     {id:'ge_y2s1',name:'通識',kind:'general',term:'Y2S1',prof:null,profName:'通識老師',room:'BOYA',slots:[{wd:5,block:'am'}],topics:['課程導論','分組討論','期末報告準備']},
     // ---- 大二下（2027 春）----
@@ -78,8 +75,7 @@ const COURSES={
     {id:'family_law',name:'民法身分法',kind:'required',term:'Y2S2',prof:'prof_zheng',room:'L201',slots:[{wd:2,block:'am'}],topics:['婚姻','親子','繼承','遺囑','特留分'],specials:[{w:14,title:'遺囑能不能排除一個繼承人'}]},
     {id:'ge_y2s2',name:'通識',kind:'general',term:'Y2S2',prof:null,profName:'通識老師',room:'PUTONG',slots:[{wd:2,block:'pm1'}],topics:['課程導論','分組討論','期末報告準備']},
     {id:'admin_remedy',name:'行政救濟法',kind:'required',term:'Y2S2',prof:'prof_xu',room:'L201',slots:[{wd:3,block:'am'}],topics:['訴願','行政訴訟','國家賠償程序'],specials:[{w:7,title:'申請被政府拒絕，去哪個法院'}]},
-    {id:'intl_public',name:'國際公法',kind:'required',term:'Y2S2',prof:'prof_chen',room:'LINZE',slots:[{wd:4,block:'pm1'}],topics:['國際法的法源','國家','條約','國際組織'],specials:[{w:15,title:'報告週'}]},
-    {id:'legal_history',name:'法律史',kind:'required',term:'Y2S2',prof:'prof_huang',room:'LINZE',slots:[{wd:5,block:'am'}],topics:['傳統中國法','日治時期的法制','台灣法的變遷'],specials:[{w:5,title:'日治時期的土地登記'}]},
+    {id:'legal_english',name:'法學英文／英美法',kind:'elective',term:'Y2S2',prof:null,profName:'兼任老師',room:'LINZE',slots:[{wd:4,block:'am'}],topics:['英美判例','法律英文','判例法']},   /* 2026-10-14 課程調整（使用者 16:15，AA_130）：大四下 → 大二下，同一個時段（週四上午，大二下原本空著） */
     // ---- 大三上（2027 秋）----
     {id:'civpro_1',name:'民事訴訟法甲上',kind:'required',term:'Y3S1',prof:'prof_tsai',room:'L201',slots:[{wd:1,block:'am'},{wd:4,block:'am'}],topics:['訴訟標的','當事人','管轄','審判權','起訴'],specials:[{w:4,title:'告政府一定去行政法院嗎'},{w:11,title:'法院的闡明'}]},
     {id:'crimpro',name:'刑事訴訟法',kind:'required',term:'Y3S1',prof:'prof_lin',room:'L201',slots:[{wd:2,block:'am'},{wd:5,block:'am'}],topics:['證據法：證據能力','證據法：傳聞','強制處分','被告與證人的權利'],
@@ -90,9 +86,7 @@ const COURSES={
     {id:'civpro_2',name:'民事訴訟法甲下',kind:'required',term:'Y3S2',prof:'prof_tsai',room:'L201',slots:[{wd:1,block:'am'}],topics:['證據調查','舉證責任','判決','上訴'],specials:[{w:5,title:'重寫起訴聲明'}]},
     {id:'insurance',name:'保險法',kind:'required',term:'Y3S2',prof:'prof_jian',room:'L201',slots:[{wd:2,block:'am'}],topics:['保險契約','告知義務','理賠爭議'],specials:[{w:6,title:'理賠被拒'}]},
     {id:'negotiable',name:'票據及支付工具法',kind:'elective',term:'Y3S2',prof:'prof_jian',room:'LINZE',slots:[{wd:3,block:'pm1'}],topics:['支票','本票','電子支付']},
-    {id:'labor_law',name:'勞動法',kind:'elective',term:'Y3S2',prof:null,profName:'兼任老師',room:'LINZE',slots:[{wd:4,block:'am'}],topics:['勞動契約','工時','颱風假'],specials:[{w:7,title:'颱風天要不要上班'}],choice:{group:'Y3S2_elec',default:'labor_law'}},
-    {id:'fair_trade',name:'公平交易法',kind:'elective',term:'Y3S2',prof:null,profName:'兼任老師',room:'LINZE',slots:[{wd:4,block:'am'}],topics:['公平競爭','聯合行為','不公平競爭'],choice:{group:'Y3S2_elec',default:'labor_law'}},
-    {id:'conflict_laws',name:'國際私法',kind:'elective',term:'Y3S2',prof:'prof_chen',room:'LINZE',slots:[{wd:5,block:'am'}],topics:['涉外民事','準據法']},
+    {id:'labor_law',name:'勞動法',kind:'elective',term:'Y3S2',prof:null,profName:'兼任老師',room:'LINZE',slots:[{wd:4,block:'am'}],topics:['勞動契約','工時','颱風假'],specials:[{w:7,title:'颱風天要不要上班'}]},   /* 2026-10-14 課程調整（使用者 16:15，AA_130）：公平交易法刪除，勞動法固定安排、不再有選課 */
     // ---- 大四上（2028 秋）----
     {id:'enforcement',name:'強制執行法',kind:'required',term:'Y4S1',prof:'prof_tsai',room:'L201',slots:[{wd:1,block:'am'}],topics:['判決之後','查封','拍賣','執行'],specials:[{w:7,title:'判決贏了，錢拿不回來怎麼辦'}]},
     {id:'legal_ethics',name:'法律倫理',kind:'required',term:'Y4S1',prof:null,profName:'兼任律師',room:'WSEM',slots:[{wd:2,block:'pm1'}],topics:['律師的保密','利益衝突','為被告辯護'],specials:[{w:4,title:'律師能不能替明知有罪的人辯護'}]},
@@ -105,6 +99,5 @@ const COURSES={
     {id:'legal_research',name:'法律專題研究',kind:'required',term:'Y4S2',prof:'prof_zhou',room:'WSEM',slots:[{wd:1,block:'pm1'}],topics:['自選題目','報告'],specials:[{w:10,title:'回顧大一的案例'}]},   /* AA_110 第 1 節第 3 點：syllabus 沒標，週次先用程式原本的 */
     {id:'legal_practice',name:'法律實習或法律扶助實務',kind:'required',term:'Y4S2',prof:null,profName:'實習指導',room:'OFF',slots:[{wd:2,block:'am'},{wd:2,block:'pm1'}],topics:['事務所或法扶的實務']},
     {id:'maritime',name:'海商法與海洋法',kind:'elective',term:'Y4S2',prof:null,profName:'兼任老師',room:'LINZE',slots:[{wd:3,block:'am'}],topics:['海上運送','海洋法']},
-    {id:'legal_english',name:'法學英文／英美法',kind:'elective',term:'Y4S2',prof:null,profName:'兼任老師',room:'LINZE',slots:[{wd:4,block:'am'}],topics:['英美判例','法律英文','判例法']}
   ]
 };

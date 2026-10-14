@@ -27,7 +27,8 @@ const CLS=(function(){
     english2:'english_y1_2',gened2:'ge_y1s2',law_society2:'law_society_2',pe2:'pe_y1s2',civ_obl2:'oblig_gen2',civ_property:'property',gened3:'ge_y2s1',jurisprudence:'juris',pe3:'pe_y2s1',civ_obl_spec:'oblig_spec',
     gened4:'ge_y2s2',civ_proc1:'civpro_1',crim_proc:'crimpro',civ_proc2:'civpro_2',pil:'conflict_laws',case_seminar:'crim_judgment_sem',ethics:'legal_ethics',practicum:'legal_practice',anglo_law:'legal_english'};
   S.OLD_IDS=OLD_IDS;
-  function migrateIds(R){ if(R.idv===2) return; const ren=id=>OLD_IDS[id]||id; const rkey=k=>{ const p=String(k).split(':'); if(p.length===3) p[1]=ren(p[1]); return p.join(':'); };   /* 上課紀錄的 key＝天:課程:時段 */
+  function migrateIds(R,G){ if((R.idv|0)>=3) return; if((R.idv|0)<2) migrateV2(R); migrateV3(R,G); }
+  function migrateV2(R){ const ren=id=>OLD_IDS[id]||id; const rkey=k=>{ const p=String(k).split(':'); if(p.length===3) p[1]=ren(p[1]); return p.join(':'); };   /* 上課紀錄的 key＝天:課程:時段 */
     const merge=(o,f)=>{ const n={}; for(const k in o){ const nk=f(k); n[nk]=(typeof o[k]==='number'&&typeof n[nk]==='number')?n[nk]+o[k]:o[k]; } return n; };   /* 英美法併進法學英文：次數相加 */
     R.done=merge(R.done,rkey); R.attend=merge(R.attend,ren); R.prep=merge(R.prep,ren);
     for(const t in R.grades) if(R.grades[t]&&typeof R.grades[t]==='object') R.grades[t]=merge(R.grades[t],ren);
@@ -35,7 +36,26 @@ const CLS=(function(){
     const EL=R.electives; if(EL.Y1S2_elec!==undefined){ EL.Y1S2_ls=EL.Y1S2_elec==='econ'?'none':'law_society_2'; delete EL.Y1S2_elec; }   /* 大一下：經濟學原理改成必修（重修），法律與社會可選可不選 */
     delete EL.Y1S1_ls; delete EL.Y4S2_elec;   /* 大一上的法律與社會算已選；大四下法學英文／英美法是一門 */
     R.idv=2; }
-  S.rec=function(G){ const R=G.courses&&typeof G.courses==='object'?G.courses:(G.courses={}); for(const k of ['done','attend','prep','electives','grades','note','disc']) if(!R[k]||typeof R[k]!=='object') R[k]={}; migrateIds(R); return R; };
+  /* idv 3（2026-10-14 課程調整，使用者 16:15，企劃分支 AA_130 第 4 節）：刪掉的 7 門課的出席、準備、成績、上課紀錄、提醒、翹課、討論紀錄一起刪；
+     選修群組 Y1S2_ls、Y3S2_elec 刪掉（選過公平交易法的人，大三下週四上午照勞動法上課）；法學英文搬到大二下，討論紀錄的鍵跟著換。
+     存檔已經過了大二下：法學英文不補修，大二下的成績單寫「未修（2026-10-14 課程調整）」；大四下已經上過：成績單照「已修」。其他資料都不動 */
+  const DROPPED=['law_society','law_society_2','juris','intl_public','legal_history','fair_trade','conflict_laws'];
+  S.DROPPED=DROPPED;
+  const TERM_ORDER=['Y0S1','Y0S2','Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
+  S.termIndex=id=>TERM_ORDER.indexOf(id);
+  function migrateV3(R,G){ const gone=id=>DROPPED.includes(id); const keyGone=k=>{ const p=String(k).split(':'); return p.length===3&&gone(p[1]); };
+    for(const k of Object.keys(R.done)) if(keyGone(k)) delete R.done[k];
+    for(const id of DROPPED){ delete R.attend[id]; delete R.prep[id]; }
+    for(const t in R.grades) if(R.grades[t]&&typeof R.grades[t]==='object') for(const id of DROPPED) delete R.grades[t][id];
+    for(const k of Object.keys(R.note)){ let drop=false; if(k.indexOf('rem_')===0||k.indexOf('skip_')===0) drop=keyGone(k.slice(k.indexOf('_')+1)); else if(k.indexOf('skipn_')===0) drop=DROPPED.some(id=>k.indexOf('skipn_'+id+'_')===0); if(drop) delete R.note[k]; }
+    for(const k of Object.keys(R.disc||{})){ if(DROPPED.some(id=>k.indexOf('_'+id+'_w')>0)) delete R.disc[k]; }
+    if(R.disc&&R.disc.B_Y4S2_legal_english_w4!==undefined){ R.disc.B_Y2S2_legal_english_w4=R.disc.B_Y4S2_legal_english_w4; delete R.disc.B_Y4S2_legal_english_w4; }
+    delete R.electives.Y1S2_ls; delete R.electives.Y3S2_elec;
+    /* 法學英文搬家前已經在哪個學期：之後大二下／大四下的成績單照這個寫 */
+    const T=G&&typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; const ti=T?S.termIndex(T.id):-1;
+    if(ti>S.termIndex('Y2S2')) R.leMoved={after:T.id,took:(R.attend.legal_english|0)>0};
+    R.idv=3; }
+  S.rec=function(G){ const R=G.courses&&typeof G.courses==='object'?G.courses:(G.courses={}); for(const k of ['done','attend','prep','electives','grades','note','disc']) if(!R[k]||typeof R[k]!=='object') R[k]={}; migrateIds(R,G); return R; };
   S.byId=id=>COURSES.list.find(c=>c.id===id)||null;
   S.enrolled=function(G,c){ if(!c.choice) return true; const pick=S.rec(G).electives[c.choice.group]; const cur=pick===undefined?c.choice.default:pick; return cur===c.id; };
   S.termCourses=(G,termId)=>COURSES.list.filter(c=>c.term===termId&&S.enrolled(G,c));
@@ -303,7 +323,7 @@ const CLS=(function(){
      錯過前一天（開學頭兩週才第一次起床）就在那時候問；第三週以後才第一次起床（舊存檔）＝照預設，不再問。大一上沒有選課（遊戲從第 3 週開始，AA_103）。 */
   S.choiceGroups=function(termId){ const out={}; for(const c of COURSES.list){ if(c.term!==termId||!c.choice) continue; const g=out[c.choice.group]||(out[c.choice.group]={group:c.choice.group,def:c.choice.default,none:false,opts:[]}); g.opts.push(c); if(c.choice.none) g.none=true; } return Object.values(out); };
   S.slotText=c=>c.slots.map(s=>WD[s.wd]+(COURSES.blocks[s.block]||{}).label).join('、')+'・'+S.roomName(c);
-  S.selectTerm=async function(GM,termId){ const G=GM.G, R=S.rec(G), gs=S.choiceGroups(termId); R.note['sel_'+termId]=1; if(!gs.length) return false;
+  S.selectTerm=async function(GM,termId){ const G=GM.G, R=S.rec(G), gs=S.choiceGroups(termId); R.note['sel_'+termId]=1; if(!gs.length&&termId!=='Y1S2') return false;   /* 大一下：法律與社會（下）刪了（2026-10-14 課程調整）以後沒有選修，選課結果照樣播（通識那兩句，AA_130 第 2 節第 1 列）*/
     GM.sceneBegin(); try{ await GM.say(null,'選課結果出來了：'+S.termName(termId)+'。');
       /* 交接包 v2 第 3 節第 1 週（AA_104）：大一下接 v1 的選課結果——v1 選加簽的、選「下學期再選」的（或沒遇到的）各一句，通識選上「天文與我們」*/
       if(termId==='Y1S2'){ await GM.say(null,G.flags&&G.flags.ge_walk_waitlist?'上學期加簽沒成功的「城市與散步」，這學期——備取三。':'「城市與散步」——備取三。差一點。'); await GM.say(null,'選上的是「天文與我們」。'); }
@@ -316,6 +336,8 @@ const CLS=(function(){
   /* 發成績單（文字；服務學習只寫次數，AA_110 6-1）：opts.inScene＝在別的場景裡（例如可昕的視訊）接著顯示 */
   S.showGrades=async function(GM,termId,opts){ opts=opts||{}; const G=GM.G, R=S.rec(G); if(!R.grades[termId]) R.grades[termId]=S.reportFor(G,termId);
     const lines=S.termCourses(G,termId).map(c=>c.name+'：'+(c.kind==='service'?(R.attend[c.id]||0)+'／'+(c.weeks||[]).length+' 次':R.grades[termId][c.id]));
+    if(R.leMoved){ const le=S.byId('legal_english'); if(le){ if(termId==='Y2S2'&&!R.leMoved.took){ const i=lines.findIndex(t=>t.indexOf(le.name+'：')===0); const txt=le.name+'：未修（2026-10-14 課程調整）'; if(i>=0) lines[i]=txt; else lines.push(txt); }
+      if(termId==='Y4S2'&&R.leMoved.took) lines.push(le.name+'：已修'); } }   /* 舊存檔（AA_130 第 4 節）：已經過了大二下＝不補修；大四下上過＝照「已修」 */
     if(!opts.inScene) GM.sceneBegin(); try{ await GM.say(null,S.termName(termId)+'的成績出來了。'); await GM.say(null,lines.join('　')); } finally { if(!opts.inScene) GM.sceneEnd(); } return true; };
   /* 起床時呼叫：前一個學期剛結束（今天不在那個學期、成績還沒發）→ 發成績單；新學期的前一天（或開學頭兩週）→ 選課結果 */
   S.morning=async function(GM){ const G=GM.G, R=S.rec(G); const prev=CALENDAR.termOf(G.day-1), now=CALENDAR.termOf(G.day);
