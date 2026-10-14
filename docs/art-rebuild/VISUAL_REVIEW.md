@@ -1704,3 +1704,27 @@ Meshopt／KTX2 壓縮還沒做。
 - 右邊截圖最右側的黑色長條是博雅東北角的深色玻璃，鏡頭離它太近；下一輪換角度重拍。
 
 驗收狀態：位置與動線 `FUNCTIONAL_VERIFIED`（Node 單元測試＋`campus_layout_nav`、`flow_teaching_buildings`、`flow_boya_interior`，Playwright 手機模擬）。美術是 `BLOCKOUT`／`READY_FOR_ART_REVIEW`：**使用者還沒看過，也還沒決定方案 A／B**。
+
+## 24. 路人底模：LAWWW2 的 8 個 Blender 路人（`?npcnew`；2026-10-14 整合，開發分支 `26c6553`）
+
+- **做法**：LAWWW2 用 Blender 改作 VRoid CC0 樣本，做了 8 個路人（`assets/models/char/second_ai/bl_npc_nm1～nm4`、`nf1～nf4`；腳本 `tools/blender/char_second/npc*.py`）。每個人有自己的臉、眼睛、髮型、衣服、身高。
+- **整合方式（LAWWW）**：
+  - 網址加 `?npcnew` 才載入，預設畫面不變。路人會在開場預載，8 個約 20 MB，等使用者看過再決定要不要開。
+  - 只給**沒有名字的路人**（教室聽眾、自習區、路上的人）。
+  - 有名字的人物（方奕廷、黃筱涵、陳助教、教授、不熟同學）照舊用原本可換色的模型和自己的穿搭。新模型不能換色，分到的人會失去自己的穿搭。
+- **截圖**：LAWWW2 拍的，共同教學館門口下課的人流，手機橫向，遊戲內。左邊是原本 4 種模型，右邊是加上新的。
+
+| 原本（下課 13:05） | `?npcnew`（下課 13:05） |
+|---|---|
+| ![原本](shots_npc/ingame_npc_g1305_old_wide.webp) | ![新](shots_npc/ingame_npc_g1305_new_wide.webp) |
+| ![原本近看](shots_npc/ingame_npc_g1305_old_face1_npc_m2.webp) | ![新近看](shots_npc/ingame_npc_g1305_new_face1_npc_nm2.webp) |
+
+| `?npcnew`（下課 15:12） | `?npcnew` 近看 |
+|---|---|
+| ![新 15:12](shots_npc/ingame_npc_g1512_new_wide.webp) | ![新近看 nf4](shots_npc/ingame_npc_g1512_new_face2_npc_nf4.webp) |
+
+- **還沒達到的**（LAWWW2 回報）：
+  - nm1 後頸髮尾有方塊狀的黑邊。
+  - 截圖是 LAWWW2 套 patch 拍的，那時候所有路人都會分到新模型。改成「只給沒名字的路人」以後還沒重拍。
+- **測試**：`tests/npc_ambient_unit.js` 共 7 項。預設時不載入；`?npcnew` 時只有沒名字的路人用新模型，有名字的人保留自己的顏色，新模型建得出來。瀏覽器還沒用 `?npcnew` 跑完整流程。
+- **驗收狀態**：`INTEGRATED`（只在 `?npcnew`）、`READY_FOR_ART_REVIEW`。請使用者看截圖決定要不要預設打開。
