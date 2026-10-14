@@ -5,7 +5,25 @@
 交班紀錄：2026-10-11 10:13 UTC 交班（`1f20126`）→ 2026-10-13 回到帳號 A。
 使用者 2026-10-13：帳號 B 暫時沒有開，從上次停下來的地方接著做。
 
-**2026-10-14 09:0xZ（最新；使用者 09:00：用量快到，兩小時內一定要存檔）**：
+**2026-10-14 10:45Z（最新）**：
+- **正在做（LAWWW 10:31Z P1，11:40 前）**：v9.7 發布前最後三支測試，只改 tests/。
+  - 基準：fd46e14（候選 14）＝候選 8 遊戲＋候選 7／8／9 的這三支測試（LAWWW 10:42Z 確認）。
+  - 修改：`patches/v97_tests_fd46e14.patch`（`d972896`，WIP）。
+    - flow_first_meet：讀整句台詞 GAME.D.full；追人用跑的、每 2 秒重新瞄準、最多 90 次；追不到寫她的位置與作息。
+    - flow_discuss_class：A 等路線走完、停下來才看「坐下」，卡住時寫 log 再用搖桿推；B 等遊戲時間走過 2 分鐘再開手機，照手機現在的格式比對內容＋說話的人。
+    - flow_lecture_attend：坐下後等選單出來、選項印進 log、照文字選「坐一下」。
+  - 正在跑：worktree `/home/user/v97rc5_wt`（fd46e14＋修改，還沒 commit 到那邊），伺服器 8813。
+    - 排程：`scratchpad/v97fix14/chain.sh`，順序 first_meet → discuss_class → lecture_attend；log 在 `scratchpad/v97fix14/`。
+  - 跑完：log 複製到 `test_logs/v97_rc14_fd46e14/`，push，回 LAWWW SHA。
+- **路人底模（LAWWW 09:53Z ①，暫停到測試做完）**：
+  - 第一批 nm1、nf1、nf2（f84bee8）。
+  - 第二批 nm2 v2、nm4、nf3、nf4（d972896）：貼圖顏色都核對過，和設定相同。
+  - nm3 匯出失敗：五個一起建時，h01_clothes 的 `WIP/clothes_Trouser.png` 被互相覆蓋，打包到寫到一半的檔案。
+    - 已改 npc.py：每個路人用自己的暫存資料夾。nm3 要重建。
+  - 已知缺點：女生都是空氣瀏海、側邊髮束細；nm4 不是設定的「很短的黑髮」，是側分長瀏海。
+  - 下一步：重建 nm3、在遊戲裡拍路人群的截圖、給 manifest／AMB 接法建議，標 MODEL_READY。
+
+**2026-10-14 09:0xZ（使用者 09:00：用量快到，兩小時內一定要存檔）**：
 - **做到哪**：
   - v9.6：我跑的三項（flow_main_day12、flow_teaching_buildings、flow_soclib）全部 PASS；LAWWW 07:46 已發布 v9.6（main e88bda5）。
   - v9.7 已回報 LAWWW 的結果：

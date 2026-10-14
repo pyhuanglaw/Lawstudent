@@ -105,6 +105,9 @@ def face(m):
 
 def clothes(m):
     import p00_clothes as PC
+    # 每個路人用自己的暫存資料夾：h01_clothes 把衣服貼圖存成 WIP/clothes_*.png 再打包，同時建好幾個路人會互相覆蓋
+    # （2026-10-14 第二批五個一起建：nm3 打包到寫到一半的 clothes_Trouser.png，VRM 匯出時讀不了）
+    PC.K.WIP = os.path.join(PC.K.WIP, 'npc_' + TAG.lower()); os.makedirs(PC.K.WIP, exist_ok=True)
     ht = HT[VAR['base']]
     obj = PC.run(m, VAR['clothes'], ht['M'], ht['side'])
     obj.name = 'Clothes_' + TAG
