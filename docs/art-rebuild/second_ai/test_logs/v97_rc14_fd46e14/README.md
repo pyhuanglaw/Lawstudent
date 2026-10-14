@@ -15,9 +15,11 @@
 
 | 項目 | rc | 秒數 | 結果 |
 |---|---|---|---|
-| flow_first_meet | 0 | 901 | **ALL PASS**（20 項） |
-| flow_discuss_class | 0 | 352 | **ALL PASS**（9 項）。A 段卡住一次，推一下搖桿才到（見下面「遊戲的問題」） |
-| flow_lecture_attend | （跑完補） | | |
+| flow_first_meet | 0 | 901 | **ALL PASS**（21 項，0 FAIL） |
+| flow_discuss_class | 0 | 352 | **ALL PASS**（9 項，0 FAIL）。A 段卡住一次，推一下搖桿才到（見下面「遊戲的問題」） |
+| flow_lecture_attend | 0 | 869 | **ALL PASS**（11 項，0 FAIL）。B 段選單印出來是「聽演講…／坐一下…／讀書…／趴著睡一下 30 分鐘、1 小時／起身」，照文字選到第 2 個「坐一下」→ in → 快速前往 → left；D 存檔是 left／left／full |
+
+LAWWW 11:09Z：已經把這個 patch 做成候選 16 `52f288e`（＝候選 15＋patch；遊戲程式還是候選 8），這三項算進 v9.7 的發布條件。
 
 ## 改了什麼、為什麼（每一項都對應候選 8／9 的失敗）
 

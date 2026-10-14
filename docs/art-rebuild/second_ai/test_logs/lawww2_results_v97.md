@@ -20,3 +20,13 @@
 較早的版本（只供參考，已被上面取代）：flow_typhoon（636688f／06f2b64 第一版測試）、flow_first_meet（候選 1、候選 6）、flow_lecture_attend（候選 1、候選 6）、flow_discuss_class（候選 1）、cg_rain_shots 直向（候選 3）——原因與 patch 見各資料夾的 README／log。
 
 LAWWW 那邊跑的（不在這裡）：deploy_check、reachability_all、zone_transitions、minimap、save_compat、p0、touch_flow_wenzhou、Node 單元測試、flow_class_real、campus_layout_nav、joystick_direction、flow_classes、flow_linze_floors、flow_bike。
+
+## 候選 14（fd46e14）＋LAWWW2 的測試 patch（LAWWW 10:31Z P1；之後做成候選 16 `52f288e`）
+
+| 項目 | rc | 秒數 | 結果 |
+|---|---|---|---|
+| flow_first_meet | 0 | 901 | ALL PASS（21 項） |
+| flow_discuss_class | 0 | 352 | ALL PASS（9 項）；201 原地走路卡住一次、推搖桿才到（遊戲的問題，LAWWW 之後修引擎） |
+| flow_lecture_attend | 0 | 869 | ALL PASS（11 項） |
+
+細節、改了什麼：`v97_rc14_fd46e14/README.md`；patch：`../patches/v97_tests_fd46e14.patch`。
