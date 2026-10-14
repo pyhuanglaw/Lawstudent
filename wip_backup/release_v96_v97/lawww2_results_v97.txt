@@ -12,3 +12,7 @@ adv_cg_layout rc=0 (60s) @3e5201d ALL PASS（直向縮小放進畫面＋上下�
 flow_main_day12 rc=0 (718s) @3e5201d ALL PASS（從標題開新遊戲的第一、二天主線，走上二樓進 201、存讀檔；LAWWW2 7ae5def）
 flow_teaching_buildings rc=0 (915s) @3e5201d ALL PASS（坐下「坐一下」、手機地點到大一女舍門口、沒有 JS 例外；LAWWW2 7f572c8）
 flow_soclib rc=0 (648s) @3e5201d ALL PASS（手機地點到社科院圖書館、晚上天窗 8%、沒有 JS 例外；LAWWW2 7f572c8）
+campus_glb_integration rc=0 (254s) @3e5201d ALL PASS（70；gate_avenue draw call ×1.088、三角形 ≤ 改之前；LAWWW2 d0d8d92 總表）
+flow_first_meet rc=1 (909s) @3e5201d FAILED: 18 PASS／2 FAIL——A 追不到（d=30.9）、B2 抓到打字機打到一半的字（FIRST_MET 有記，事件正常）；LAWWW2 修測試中（10:35 P1）
+flow_discuss_class rc=1 (201s) @3e5201d FAILED: 3 PASS／6 FAIL——A 檢查「坐下」時人還在走（path 2）連帶後面；B 轉述訊息有、比對的格式舊；LAWWW2 修測試中
+flow_lecture_attend rc=1 (872s) @64792d3 FAILED: 8 PASS／3 FAIL——第二場坐下選到「聽演講」不是「坐一下」（時間跳 3.8 小時記成 full）；LAWWW2 修測試中
