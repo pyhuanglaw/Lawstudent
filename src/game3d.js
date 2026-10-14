@@ -223,17 +223,27 @@ const GAME = (function(){
   /* 舊存檔的女主角初遇（AA_120 7-4 第 7 點，使用者 2026-10-13 批准）：舊版的一般自我介紹已經記了 FIRST_MET、她的相遇事件卻一次都沒播過——
      這筆 FIRST_MET 改標成「一般招呼」（GREETED），相遇事件就當還沒見過（不會永久錯過）；熟悉度、其他紀錄都不動。
      只動「除了這筆初遇什麼都還沒發生」的人（她的任何事件播過、或有別的記憶，就照舊）；以安（劇情裡認識）、溫學姊（talkSis）不在內。
-     只做一次（social.fm120），改之前把讀進來的原始存檔備份到 fatiao3d_backup */
+     只做一次（social.fm120），改之前把讀進來的原始存檔備份到 fatiao3d_backup。
+     D61（使用者 2026-10-14 同意放正式版，條件）：①遷移前先備份——另外寫一份這個存檔專用、之後不會被蓋掉的 fatiao3d_backup_fm120_<savedAt>，備份寫不進去就這次先不改；
+     ②只改一般搭話留下的 FIRST_MET（連同同一次記下的 met_ 旗標：名單上的人和 FIRST_MET 一致）；③正式初遇事件播過的不動；④熟悉度等關係、事件紀錄、其他旗標都不動；
+     ⑤改過一次就不再改（fm120）；⑥存檔資料壞掉（記憶不是物件、事件紀錄壞掉）不改也不丟例外——無法確定正式初遇有沒有發生過時一律不動。測試：tests/save_firstmet_unit.js */
   const MEET_EVENTS={heroine_02:['ev_cafe_barista_zhiruo','ev_zhiruo_ge_group'],heroine_03:['ev_library_door_phone','ev_rain_library_door'],heroine_04:['ev_ziqing_club']};
-  function relabelFirstMet(s){ const so=s.social; if(!so||typeof so!=='object'||!so.mem||so.fm120) return []; const done=(s.events&&s.events.done)||{}, out=[];
-    for(const id in MEET_EVENTS){ const M=so.mem[id]; if(!Array.isArray(M)||!M.some(m=>m.tag==='FIRST_MET')) continue;
+  function relabelFirstMet(s){ const so=s&&s.social; if(!so||typeof so!=='object'||!so.mem||typeof so.mem!=='object'||so.fm120) return [];
+    const ev=s.events; if(!ev||typeof ev!=='object'||!ev.done||typeof ev.done!=='object'){ so.fm120=true; return []; }   /* 事件紀錄壞掉：不知道正式初遇有沒有播過，不動（⑥③）*/
+    const done=ev.done, out=[];
+    for(const id in MEET_EVENTS){ const M=so.mem[id]; if(!Array.isArray(M)||!M.some(m=>m&&m.tag==='FIRST_MET')) continue;
       if(MEET_EVENTS[id].some(e=>done[e])) continue; if(typeof STORY_EVENTS!=='undefined'&&STORY_EVENTS.some(e=>(e.participants||[]).includes(id)&&done[e.id])) continue;
-      if(M.some(m=>m.tag!=='FIRST_MET'&&m.tag!=='ADJUST')) continue;
-      for(const m of M) if(m.tag==='FIRST_MET') m.tag='GREETED'; out.push(id); }
+      if(M.some(m=>!m||typeof m!=='object'||(m.tag!=='FIRST_MET'&&m.tag!=='ADJUST'))) continue;   /* 有別的記憶（壞掉的也算）：不動 */
+      for(const m of M) if(m.tag==='FIRST_MET') m.tag='GREETED'; if(s.flags&&typeof s.flags==='object') delete s.flags['met_'+id]; out.push(id); }
     so.fm120=true; return out; }
   GM.relabelFirstMet=relabelFirstMet;
+  /* 讀檔時做（applySave）：s＝migrate 過的存檔、raw＝讀進來的原始存檔；回傳要用的存檔（D61 ①：先備份；備份寫不進去就回傳沒改的 s，下次讀檔再試）*/
+  function firstMetMigrate(s,raw){ const s2=JSON.parse(JSON.stringify(s)); if(!relabelFirstMet(s2).length) return s2;
+    const bk=KEY_BACKUP+'_fm120_'+((raw&&raw.savedAt)||'unknown'); const ok=(!!read(bk)||write(bk,raw))&&write(KEY_BACKUP,raw);
+    if(!ok){ console.warn('舊存檔初遇修正：備份寫不進去，這次先不改（下次讀檔再試）'); return s; } return s2; }
+  GM.firstMetMigrate=firstMetMigrate;
   async function applySave(s){ const err=validate(s); if(err) throw new Error(err); const raw=s; s=migrate(JSON.parse(JSON.stringify(s)));
-    if(relabelFirstMet(s).length) write(KEY_BACKUP,raw);   /* 遷移前先備份（AA_120 7-4 第 7 點）*/
+    s=firstMetMigrate(s,raw);   /* 舊存檔的女主角初遇：先備份再改（AA_120 7-4 第 7 點、D61）*/
     /* 換區域的淡出淡入還沒結束時 enter() 會直接略過：先等它結束再讀檔，否則存檔內容換掉了、人卻沒移過去（下次自動存檔會把這一區的座標記在另一區名下）*/
     for(let i=0;i<200&&entering;i++) await new Promise(r=>setTimeout(r,50)); if(entering) throw new Error('正在切換場景，請稍後再讀取');
     G=s; GM.G=G; bindSystems(); E.player.busy=false; E.endCinematic(); D.busyDepth=0; GM.titleIdle=false; hideHUD(false); GM.running=true; E.hour=G.hour; E.weather=G.weather; E.setWeather(G.weather); const sp=G.pos?{x:G.pos.x,z:G.pos.z,yaw:G.pos.yaw,lv:G.pos.lv|0}:undefined;   /* 多樓層（v9.4）：舊存檔沒有 lv＝一樓 */ await enter(G.zone,sp,{fromLoad:true}); setGoal(G.goal||'—',G.goalDest); updateHUD(); if(G.flags.companion==='an'&&STORY.resumeWalk) STORY.resumeWalk(GM); }

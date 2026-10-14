@@ -67,7 +67,7 @@ check('十男十女',POOL.filter(id=>CHARACTERS[id].gender==='m').length===10);
   check('(b) 子晴：吉他社初遇播過 → 不動；語彤：已經有一起吃飯的記憶 → 不動',!out.includes('heroine_04')&&s1.social.mem.heroine_04[0].tag==='FIRST_MET'&&!out.includes('heroine_03')&&s1.social.mem.heroine_03[0].tag==='FIRST_MET');
   check('只做一次（fm120）',s1.social.fm120===true&&relabel(s1).length===0);
   const s2=mk(); s2.events.done.ev_noodle_yutong=1; s2.social.mem.heroine_03=[{tag:'FIRST_MET',day:6}]; const o2=relabel(s2); check('她的任何事件播過（麵店）→ 不動',!o2.includes('heroine_03'));
-  check('applySave：有改到才把原始存檔備份到 fatiao3d_backup',/if\(relabelFirstMet\(s\)\.length\) write\(KEY_BACKUP,raw\)/.test(src)); }
+  check('applySave：先備份再改（firstMetMigrate；備份與失敗時不改的細節在 tests/save_firstmet_unit.js，D61）',/s=firstMetMigrate\(s,raw\)/.test(src)); }
 { fresh(dOf('Y1S1',4,5)); G.social.mem.heroine_02=[{tag:'GREETED',day:5}]; check('標成一般招呼以後：芷若算還沒見過（相遇事件會把她當第一次見面）',!SOCIAL.has('heroine_02','FIRST_MET')); }
 /* ---------- 7-5 ---------- */
 { const ev=STORY_EVENTS.find(e=>e.id==='ev_rain_library_door'); fresh(10); check('雨天的總圖門口：還沒見過語彤才演（notMemory FIRST_MET），對話沒動',JSON.stringify(ev.prereq)==='{"notMemory":[{"npc":"heroine_03","tag":"FIRST_MET"}]}'&&EVENTS.cond(ev.prereq)&&(SOCIAL.meet('heroine_03','campus'),!EVENTS.cond(ev.prereq))&&ev.dialogue[1].text==='……'); }
