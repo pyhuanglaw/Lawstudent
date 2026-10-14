@@ -110,5 +110,13 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     ask(null); PHONE.join(G,'noodle_team','麵店團'); toNye(20); o=OUT.get(G,'nye'); G.hour=23.6; picks=['出發']; await OUT.tick(GM); L2=lines();
     check('跨年：沒有回她、在麵店團群組：頂樓（AA 的群戲），沒有視訊',!!o&&o.ev==='ev_nye_roof'&&L2.includes('我們就說有看到。')&&!L2.includes('三、二、一——'),JSON.stringify(L2));
     ask(null); toNye(20); check('跨年：沒有回她、沒有麵店團群組：沒有排',!OUT.get(G,'nye')); }
+  /* ---------- A22 期末最後一頓（AA_71 2-13）---------- */
+  { fresh(100,10,'campus'); const le=CLS.lastExamEnd(G,'Y1S1','final'); const tm=le&&CALENDAR.termOf(le.day);
+    check('A22：大一上最後一科期末考考完的時間在第 17～18 週（第 '+(le&&le.day)+' 天 '+(le&&le.h)+'）',!!le&&tm&&tm.id==='Y1S1'&&tm.week>=17&&tm.week<=18);
+    const e=ev('ev_term_last_meal'); const at=(day,h,flags,zone)=>{ fresh(day,h,zone||'noodle',flags); return EVENTS.check(e); };
+    const r={after:at(le.day,Math.max(le.h+0.2,17.5),{noodleTableDay:9}),before:at(le.day-1,18,{noodleTableDay:9}),noTeam:at(le.day,Math.max(le.h+0.2,17.5),{}),cafe:at(le.day,18,{noodleTableDay:9},'cafe'),later:at(le.day+1,19,{noodleTableDay:9}),late:at(le.day,22.5,{noodleTableDay:9})};
+    check('A22：最後一科考完以後傍晚進麵店才有（考完前一天、沒有麵店團、不是麵店、22:00 以後：沒有；隔天還有）',r.after&&!r.before&&!r.noTeam&&!r.cafe&&r.later&&!r.late,JSON.stringify(r));
+    fresh(le.day,18,'noodle',{noodleTableDay:9}); await EVENTS.run(e);
+    check('A22：旁白＋阿姨「考完了，吃好一點。」（AA_71 2-13 原文）；只一次',JSON.stringify(lines())===JSON.stringify(['期末最後一科考完。麵店團一定吃一頓。','阿姨多送了一盤小菜。','考完了，吃好一點。'])&&said[2].who==='阿姨'&&!EVENTS.check(e),JSON.stringify(said)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
