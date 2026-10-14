@@ -5,7 +5,7 @@
 //   4. 語彤週二週四晚上在麵店幫忙：麵店＝「我就在店裡。你來。」、其他＝「麵店。」「你來店裡就好。」（婉拒，不問改天）；「認識」約 Café＝「……那裡很貴。」「總圖可以。」；第一次散步改到週六；
 //   5. 柏翰：總圖照常、其他地方改到念完書（九點十分）；6. 芯慈：當天約吃飯改到隔天；7. 學姊：W8 以前不散步（不給改天）、平日 9–17 在總圖；
 //   8. 明軒家教、阿凱的總圖、阿哲吃飯；9. 時間的中文（九點十分、十點半）；10. 手機上約：她的話寫「某某（手機）」；沒有個性資料的人照舊（旁白）；
-//   11. 「第一次」散步的台詞只有第一次。修正前（INVITE_DATA.people 是空的、沒有 INV.personal）這個測試會失敗。用法：node tests/invite_people_unit.js
+//   11. 「第一次」散步的台詞只有第一次；12. 一起走過去的路上聊一句（照目的地、輪流、下雨、6 秒以後、在旁邊才說、一趟一句）。修正前（INVITE_DATA.people 是空的、沒有 INV.personal）這個測試會失敗。用法：node tests/invite_people_unit.js
 const vm=require('vm'), fs=require('fs'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.THREE={Vector3:function(x,y,z){this.x=x;this.y=y;this.z=z;}};
@@ -95,6 +95,24 @@ async function await0(){}
   check('11. 子晴第一次約散步：「散步？散步是什麼？」（你解釋了一下。）「……好啦。但要有目的地。」',r.res==='accept'&&L(r)==='「散步？散步是什麼？」｜（你解釋了一下。）｜「……好啦。但要有目的地。」',L(r));
   G.invites.push({id:'x',who:'heroine_04',place:'wenzhou',zone:'wenzhou',day:MON-3,h:15,state:'done'}); r=ask('heroine_04','wenzhou',MON,15.5);
   check('11. 散步過一次以後：沒有「第一次」的那幾句',r.res==='accept'&&!/散步是什麼/.test(L(r)),L(r));
+  // 12 一起走過去的路上聊一句
+  fresh(MON,10); rel('heroine_01',45,30,10);
+  let pk=INV.walkPick(G,'heroine_01','cafe'); check('12. 以安去 Café 的路上：先說去 Café 的那句（周老師那題）',!!pk&&pk.lines[0]==='「周老師今天那題，你是先想要件還是先想結論？……我都先想結論。我在改。」',pk&&pk.lines.join('｜'));
+  pk.next(); pk=INV.walkPick(G,'heroine_01','cafe'); check('12. 下一次去 Café：輪到「任何目的地」那句（宿舍門禁）',!!pk&&/宿舍門禁是十二點/.test(pk.lines[0]),pk&&pk.lines.join('｜'));
+  G.flags.walkChatN={}; pk=INV.walkPick(G,'heroine_01','wenzhou'); check('12. 以安大一去溫州街：「這條巷子我走過一百次」是大二以後的，這次說門禁那句',!!pk&&/宿舍門禁/.test(pk.lines[0]),pk&&pk.lines.join('｜'));
+  G.weather='rain'; rel('heroine_03',45,30,10); pk=INV.walkPick(G,'heroine_03','noodle'); check('12. 語彤下雨天：她撐傘偏向你那一邊（旁白＋「……沒事。我習慣了。」）',!!pk&&pk.lines.length===2&&/傘偏向你那一邊/.test(pk.lines[0])&&pk.lines[1]==='「……沒事。我習慣了。」',pk&&pk.lines.join('｜')); G.weather='clear';
+  check('12. 小語沒有「一起走路」的台詞：不說',INV.walkPick(G,'yu','cafe')===null);
+  const caps=[]; INV._later=(f)=>f(); const npcObj={position:{x:1,z:0}};
+  const gmW={G,npc:{heroine_02:{obj:npcObj}},E:{player:{obj:{position:{x:0,z:0}}}},caption:(w,t)=>caps.push((w||'旁白')+'：'+t)};
+  fresh(MON,10); gmW.G=G; rel('heroine_02',45,30,10); G.invites.push({id:'w1',who:'heroine_02',place:'noodle',zone:'noodle',day:MON,h:10,state:'going'});
+  INV.walkChat(gmW,5); check('12. 一起走 5 秒：還沒說',caps.length===0,caps.join('｜'));
+  INV.walkChat(gmW,1.5); check('12. 一起走 6 秒以後：芷若說去公館的那句（影印店），寫在字幕、名字是她',caps.length===1&&/林芷若：「我每次經過那家影印店/.test(caps[0])&&G.invites[0].chat===true,caps.join('｜'));
+  INV.walkChat(gmW,10); check('12. 一趟只說一句',caps.length===1,caps.join('｜'));
+  G.invites.push({id:'w2',who:'heroine_02',place:'noodle',zone:'noodle',day:MON,h:12,state:'going'}); INV.walkChat(gmW,7);
+  check('12. 下一趟：換下一句（她看到電影海報：旁白＋她的話，兩個字幕）',caps.length===3&&caps[1]==='旁白：（她看到騎樓下的電影海報。）'&&/林芷若：「這部不要看/.test(caps[2]),caps.join('｜'));
+  npcObj.position.x=9; G.invites.push({id:'w3',who:'heroine_02',place:'noodle',zone:'noodle',day:MON,h:14,state:'going'}); INV.walkChat(gmW,8);
+  check('12. 跟著的人不在旁邊（9 m）：先不說',caps.length===3&&!G.invites[2].chat,caps.join('｜'));
+  const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('12. STORY.tick 每一幀叫 INV.walkChat(GM,dt)',/INV\.walkChat\(GM,dt\)/.test(st));
   const s3=fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8'); check('INV.flow 用 INV.personal（decide 之後）',/S\.personal\(G,id,P,W\.day,W\.h,S\.decide\(/.test(s3));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });
