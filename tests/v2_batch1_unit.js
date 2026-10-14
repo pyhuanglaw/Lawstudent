@@ -97,5 +97,27 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       const T=JSON.stringify(e.dialogue);
       check('子晴 Q4：舊版刪掉的選項「有一點。但明年還有。」與舊的 IMPORTANT_CONVERSATION 備註都不在；錢照舊 −120',!/有一點。但明年還有。/.test(T)&&!/IMPORTANT_CONVERSATION/.test(T)&&e.consequences&&e.consequences.money===-120);
       check('子晴 Q4：只一次',!EVENTS.check(e)); } }
+  /* ---------- 子晴 Q6 測試我的遊戲。現在。（BB_96 4-2 改門檻）---------- */
+  { const e=ev('ev_ziqing_secret_game'); check('子晴 Q6：事件在',!!e);
+    if(e){ const Z4=(fam)=>{ const r=SOCIAL.rel('heroine_04'); r.fam=fam; };
+      const at=(term,w,wd,h,opt)=>{ opt=opt||{}; fresh(wk(term,w,wd),h,opt.zone||'wancai'); SOCIAL.meet('heroine_04','campus'); Z4(opt.fam==null?25:opt.fam); for(const t of (opt.mem||['CONTEST_DAY'])) SOCIAL.remember('heroine_04',t,'x'); return EVENTS.check(e); };
+      const r={contest:at('Y1S2',11,1,19.5),clapped:at('Y1S2',15,3,20,{mem:['CLAPPED']}),none:at('Y1S2',11,1,19.5,{mem:[]}),careerOnly:at('Y1S2',11,1,19.5,{mem:['ARGUED_ABOUT_CAREER']}),acq:at('Y1S2',11,1,19.5,{fam:10}),w10:at('Y1S2',10,1,19.5),tue:at('Y1S2',11,2,19.5),late:at('Y1S2',11,1,21.5),lib:at('Y1S2',11,1,19.5,{zone:'library'}),y1s1:at('Y1S1',11,1,19.5)};
+      check('子晴 Q6：Q4（CONTEST_DAY）或 Q5（CLAPPED）任一＋有點熟以上；大一下第 11 週以後、週一三 19～21、萬才館（都沒有、只問過比賽、只是認識、第 10 週、週二、21:30、總圖、大一上都沒有）',r.contest&&r.clapped&&!r.none&&!r.careerOnly&&!r.acq&&!r.w10&&!r.tue&&!r.late&&!r.lib&&!r.y1s1,JSON.stringify(r));
+      check('子晴 Q6：舊的前置（FRIEND，沒有事件會到）拿掉了',!(e.prereq.stage&&e.prereq.stage.min==='FRIEND'));
+      const play=async(k,opt)=>{ opt=opt||{}; fresh(wk('Y1S2',11,1),19.5,'wancai',opt.flags||{}); SOCIAL.meet('heroine_04','campus'); Z4(25); for(const t of (opt.mem||['ARGUED_ABOUT_CAREER','CONTEST_DAY'])) SOCIAL.remember('heroine_04',t,'x'); picks=[k]; await EVENTS.run(e); return lines(); };
+      let L=await play(0,{flags:{}});
+      check('子晴 Q6：三句（原文）；知道比賽的玩家三個選項是「貓為什麼要找插座？」「這比比賽有用多了。」「總圖二樓靠窗那排的插座是壞的。」',/（把筆電轉過來）測試我的遊戲。現在。$/.test(L[0])&&/一隻在校園裡找插座的貓。做了半年。$/.test(L[1])&&/沒有人知道。……除了阿凱。他是工程師，不算。$/.test(L[2])&&JSON.stringify(opts[0])==='["「貓為什麼要找插座？」","「這比比賽有用多了。」","「總圖二樓靠窗那排的插座是壞的。」"]',JSON.stringify([L.slice(0,3),opts[0]]));
+      check('子晴 Q6 選 1：「因為牠的手機沒電了。」（她說得很認真，然後自己笑到趴在桌上。）、PLAYTESTED、沒有 FIRST_BUG',L.some(t=>/因為牠的手機沒電了。$/.test(t))&&L.includes('（她說得很認真，然後自己笑到趴在桌上。）')&&SOCIAL.has('heroine_04','PLAYTESTED')&&!G.flags.FIRST_BUG,JSON.stringify(L.slice(3)));
+      L=await play(1,{flags:{}}); check('子晴 Q6 選 2（單身）：「你不要突然講這種話，我會當真。」',L.some(t=>/你不要突然講這種話，我會當真。$/.test(t))&&!L.some(t=>/把它做完/.test(t))&&SOCIAL.has('heroine_04','PLAYTESTED'),JSON.stringify(L.slice(3)));
+      L=await play(1,{flags:{dating_kexin:true}}); check('子晴 Q6 選 2（交往中，AA_112 8-1）：「你不要突然講這種話。我會真的把它做完。」',L.some(t=>/你不要突然講這種話。我會真的把它做完。$/.test(t))&&!L.some(t=>/我會當真/.test(t)),JSON.stringify(L.slice(3)));
+      L=await play(2,{flags:{}}); check('子晴 Q6 選 3：（她愣住，打開程式碼。）「……真的假的。我加進去。」、FIRST_BUG（祐廷的第一個貢獻）、PLAYTESTED',L.includes('（她愣住，打開程式碼。）')&&L.some(t=>/……真的假的。我加進去。$/.test(t))&&G.flags.FIRST_BUG===true&&SOCIAL.has('heroine_04','PLAYTESTED'),JSON.stringify(L.slice(3)));
+      L=await play(1,{flags:{},mem:['CLAPPED']}); check('子晴 Q6：不知道比賽的玩家（只有 CLAPPED）第二個選項換成「這比我想的好玩。」',JSON.stringify(opts[0])==='["「貓為什麼要找插座？」","「這比我想的好玩。」","「總圖二樓靠窗那排的插座是壞的。」"]'&&L.some(t=>/你不要突然講這種話，我會當真。$/.test(t)),JSON.stringify(opts[0]));
+      check('子晴 Q6：表情沒有 embarrassed（第一次留給 Q5）、沒有舊台詞「不准笑」「交出去」',!JSON.stringify(e.dialogue).includes("'embarrassed'")&&!/embarrassed/.test(JSON.stringify(e.dialogue))&&!/不准笑|交出去/.test(JSON.stringify(e.dialogue)));
+      check('子晴 Q6：只一次',!EVENTS.check(e)); } }
+  /* ---------- 人物面板：每一種記憶都有中文名稱（沒有的話面板直接顯示英文代號）---------- */
+  { const src=fs.readdirSync(path.join(ROOT,'src')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src',f),'utf8')).join('\n')+fs.readdirSync(path.join(ROOT,'src/data')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src/data',f),'utf8')).join('\n');
+    const used=new Set(); for(const m of src.matchAll(/tag:'([A-Z_0-9]+)'/g)) used.add(m[1]); for(const m of src.matchAll(/remember\([^,()]+,'([A-Z_0-9]+)'/g)) used.add(m[1]); used.delete('ADJUST');
+    const miss=[...used].filter(t=>!SOCIAL.MEMORY_LABEL[t]);
+    check('人物面板：遊戲裡用到的 '+used.size+' 種記憶都有中文名稱（ADJUST 不顯示）',used.size>30&&!miss.length,miss.join(' ')); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });
