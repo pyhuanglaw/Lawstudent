@@ -716,6 +716,24 @@ const STORY_EVENTS=[
       {if:{flags:['KX_K6_EXAM']},speaker:'kexin',expression:'teasing',text:'結果我們吵最多的，是考古題。'},
       {unless:{flags:['KX_K6_EXAM']},speaker:'kexin',expression:'teasing',text:'結果我們吵最多的，是假設題的答案。'} ],
     after:G=>{ G.flags.REVISIT_Y1={who:'kexin',pick:G.flags.REVISIT_Y1_PICK||'daily'}; } },
+  /* 子晴 Q5「你負責拍手」（BB_96 4-4、AA_13 G3；交接包 v2）：大一下第 14 週週三的吉他社成發（activities.js 的 guitar_show_y1s2，去看就演）；認識子晴才有。
+     演出中三選一（介面的動作）：拍手＝CLAPPED（她下台說的那句＋插座貓貼紙：雙方都單身、和她朋友以上＝直接貼在你的手機殼上，其他＝遞給你）／坐著聽完＝她點頭「你有來。」／先走＝隔天手機「你看到一半。後半比較好。」。
+     沒去（收到邀請或是吉他社的人）：隔天手機「你沒來」（沒有標點）。記 ZQ_SHOW（clap／came／half／absent；大二 Q9 讀它）。BCG-11（舞台上她按錯和弦後對著麥克風笑）還沒有圖 */
+  { id:'ev_ziqing_show', title:'你負責拍手', participants:['heroine_04'], location:'wancai', trigger:'activity', term:['Y1S2'], once:true, background:'blur',
+    prereq:{memory:[{npc:'heroine_04',tag:'FIRST_MET'}]},
+    dialogue:[ {speaker:null,text:'（後台。）'},
+      {speaker:'heroine_04',expression:'embarrassed',text:'欸不是，我手在抖。'},
+      {speaker:'heroine_04',expression:'neutral',text:'我寫程式從來不抖。'},
+      {speaker:null,text:'（第二首，她按錯一個和弦。全場安靜一秒。她自己先笑出來。）'},
+      {speaker:'heroine_04',expression:'laugh',text:'（對著麥克風）這個 bug 我下次修。'},
+      {speaker:null,text:'（全場笑。）'},
+      {choice:[{text:'（拍手）',set:{ZQ_SHOW:'clap'},goto:'clap'},{text:'（坐著聽完）',set:{ZQ_SHOW:'came'},goto:'came'},{text:'（先走）',set:{ZQ_SHOW:'half'},goto:'end'}]},
+      {label:'clap'},{speaker:'heroine_04',expression:'laugh',text:'我看到你了。你拍得超大聲。很丟臉。……謝啦。'},
+      {if:{custom:G=>!G.flags.dating_kexin&&typeof SOCIAL!=='undefined'&&['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel('heroine_04'))},speaker:null,text:'（她把一張插座貓貼紙，直接貼在你的手機殼上。）'},
+      {unless:{custom:G=>!G.flags.dating_kexin&&typeof SOCIAL!=='undefined'&&['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel('heroine_04'))},speaker:null,text:'（她遞給你一張插座貓貼紙。）'},
+      {mem:[{npc:'heroine_04',tag:'CLAPPED',note:'大一下的吉他社成發：你拍手'}]},{goto:'end'},
+      {label:'came'},{speaker:null,text:'（她下台經過，點個頭。）'},{speaker:'heroine_04',expression:'neutral',text:'你有來。'},
+      {label:'end'} ] },
   /* 學姊 W2b 家族聚餐（BB_96 2-1；交接包 v2）：第 4 週週五 18:30 永康街的咖哩（出遊；家族群組回「去。」才排，story3d.js）。2D 背景「永康街・咖哩店」（虛構店名；圖還沒有）。
      有 SAID_TREAT_SIS：「二，飲料學弟請，咖哩我請。」「重點是，這不是客套。」；沒有：「二，今天我請。」「重點是，下次誰都不要遲到。」（「最後一句」照 W2c 的內容理解成「重點是」那一句；已請 BB 確認）。
      回了「我有。」（SAID_HAS_CAR）：結束時順路載三個人回學校（BB_97 2-9 的描述寫成旁白）。記 FAMILY_DINNER；有 SAID_TREAT_SIS 而且到場＝TREATED_FAMILY */

@@ -49,6 +49,9 @@ const ACTIVITIES={
     {id:'public_law_group',title:'公法讀書會',clubName:'公法讀書會',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S2'],weeks:[12,13,14,15,16],weekday:4,t0:20,t1:21.5,
      desc:'以安和小語發起的讀書會。每人十分鐘。',story:true},
     /* 大一的系籃比賽（交接包 v2 C16；AA_71 2-11「大一的系籃比賽（v2 C16，第 14 週）」）：AA 只寫第 14 週，日子、時間是 LAWWW 定的（週六 14～16，和練球同一個球場；已告訴 AA）；去看＝演 ev_zhe_game_y1 */
+    /* 吉他社成發（BB_96 4-4 子晴 Q5、AA_13 G3；交接包 v2）：大一下第 14 週週三 19:00–21:00，萬才館大廳的小舞台；和法服讀書會同一晚，走進哪一個就是哪一個 */
+    {id:'guitar_show_y1s2',title:'吉他社成發',kind:'event',zone:'wancai',roomName:'萬才館大廳',spot:{x:0,z:4.6,lv:0,label:'吉他社成發'},verb:'去看',term:['Y1S2'],weeks:[14],weekday:3,t0:19,t1:21,once:true,event:'ev_ziqing_show',
+      desc:'吉他社的期末成發。',story:true},
     {id:'dept_ball_game_y1s2',title:'系籃比賽',kind:'event',zone:'campus',roomName:'籃球場（醉月湖東側）',spot:{x:3.3,z:-112.7,lv:0,label:'系籃比賽'},verb:'去看',term:['Y1S2'],weeks:[14],weekday:6,t0:14,t1:16,once:true,event:'ev_zhe_game_y1',
      desc:'系上的系籃比賽，阿哲上場。觀眾可以拍手、記分或送水。',story:true},
     {id:'dept_basketball',title:'系籃練球',clubName:'系籃（系學會）',kind:'club',zone:'campus',roomName:'籃球場（醉月湖東側）',spot:{x:3.3,z:-112.7,lv:0,label:'系籃練球'},verb:'去練球',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15,16],weekday:5,t0:17.5,t1:19,
