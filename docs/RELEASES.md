@@ -117,6 +117,8 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 
 **候選 19 的說明**：候選 19 的遊戲程式＝候選 8＋`game3d.js` choose 一處（選單墊高時 max-height 一起扣掉）。這一處之後重跑的：Node、deploy_check、flow_clubs（候選 17 的 C 段在修改前失敗、候選 19 通過）。flow_boya_interior 發布時用的是候選 16 的結果（遊戲程式只差這一處）；**LAWWW2 在候選 19（＝發布版 313d620）重跑：ALL PASS（1067 秒、24 項，不用 turbo；LAWWW2 `d7ffa8c`，發布後 12:35 回來）**。
 
+**發布後在發布版 `313d620` 上多跑的（LAWWW 的佇列，12:31～13:14）**：flow_boya_interior ALL PASS（1245 秒，和 LAWWW2 的結果一致）、model_upgrade ALL PASS（61 秒）、gongguan_layout_nav ALL PASS（79 秒）、flow_wancai_stairs ALL PASS（731 秒）；flow_wancai_floors 跑到一半時執行器到了兩小時上限被停掉，沒有結果（之後補跑）。
+
 ## v9.6（2026-10-14 07:46:55 UTC 發布 `e88bda5`）
 
 **玩家會看到的改變**（v9.5 之後）
