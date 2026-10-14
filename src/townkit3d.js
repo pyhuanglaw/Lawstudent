@@ -293,14 +293,15 @@ const TK = (function(){
 
   // ---------------- 行道樹的正式模型（第二個 AI ⑦，2026-10-11：tools/blender/env_second/street_trees.py → ASSETS 'prop.trees'，開機預載）----------------
   // 載入了：TK.tree／TK.royalPalm 不建幾何，回傳「樹的位置記號」——一個看不見的小三角形（三個頂點＝原點、x 軸、y 軸，位置、方向、縮放跟著
-  // 呼叫端的擺放與區域的合併一起烘進去；樹種、高度、樹冠參數放在 UV）。區域建好後的第一格，TreeField 從區域裡找出這些記號、拿掉，
+  // 呼叫端的擺放一起烘進去（W3.mergeGroup 合併的樹列烘在合併後的幾何裡）；材質 visible=false：不畫、整區的 P3.mergeStatic 也不合併它，記號留在原本的群組；
+  // 樹種、高度、樹冠參數放在 UV）。區域建好後的第一格，TreeField 從區域裡找出這些記號、拿掉，
   // 整區的樹改用 InstancedMesh 畫：鏡頭附近（42 m 內）畫模型（會投影），遠的畫一片面向鏡頭的卡片，畫面外的不畫。
   // 沒載入（?nobldg、載入失敗、Node 的單元測試）照舊是上面的程序化樹。呼叫端（區域的擺放、導航阻擋）完全不用改。
   const TREE_SP={camphor:0,banyan:1,palm:2}, TREE_MAGIC=7777, NEAR_IN=42, NEAR_OUT=46;
   let treeAuto=1, seedMatC=null, field=null, treeLib=null; const TREE_T={value:0};
   function treeAsset(){ const c=(typeof ASSETS!=='undefined'&&ASSETS.getRaw)?ASSETS.getRaw('prop.trees'):null; return c&&c.scene?c:null; }
   function treeFieldOK(){ return !!(treeAsset()&&typeof E3!=='undefined'&&E3.camera&&E3.addExtra); }
-  function seedMat(){ if(!seedMatC){ seedMatC=new THREE.MeshBasicMaterial({colorWrite:false,depthWrite:false}); seedMatC.name='treeSeed'; seedMatC.userData.treeSeed=true; } return seedMatC; }
+  function seedMat(){ if(!seedMatC){ seedMatC=new THREE.MeshBasicMaterial({colorWrite:false,depthWrite:false}); seedMatC.visible=false; seedMatC.name='treeSeed'; seedMatC.userData.treeSeed=true; } return seedMatC; }
   function treeProxy(sp,h,a,b,seed){ ensureField(); const g=new THREE.Group(), geo=new THREE.BufferGeometry();
     geo.setAttribute('position',new THREE.Float32BufferAttribute([0,0,0, 1,0,0, 0,1,0],3)); geo.setAttribute('normal',new THREE.Float32BufferAttribute([0,0,1, 0,0,1, 0,0,1],3));
     geo.setAttribute('uv',new THREE.Float32BufferAttribute([sp,h, a,b, seed%100000,TREE_MAGIC],2));
@@ -336,7 +337,8 @@ const TK = (function(){
       if(vis) for(let i=0;i+2<n;i+=3){ const ia=ix?ix.getX(i):i, ib=ix?ix.getX(i+1):i+1, ic=ix?ix.getX(i+2):i+2; if(Math.round(uv.getY(ic))!==TREE_MAGIC) continue;
         _tA.fromBufferAttribute(pos,ia).applyMatrix4(s.matrixWorld); _tB.fromBufferAttribute(pos,ib).applyMatrix4(s.matrixWorld).sub(_tA); _tC.fromBufferAttribute(pos,ic).applyMatrix4(s.matrixWorld).sub(_tA);
         this.add(L,Math.round(uv.getX(ia)),uv.getY(ia),uv.getX(ib),uv.getY(ib),Math.round(uv.getX(ic)),_tA,_tB,_tC); }
-      if(s.parent) s.parent.remove(s); g.dispose(); }   /* 記號拿掉（不留看不見的網格） */
+      const par=s.parent; if(par) par.remove(s); g.dispose();   /* 記號拿掉（不留看不見的網格） */
+      if(par&&par!==z.group&&par.isGroup&&!par.children.length&&par.parent&&!Object.keys(par.userData||{}).length) par.parent.remove(par); }   /* 只裝記號的群組（W3.mergeGroup 合併的樹列，例如公館看進校門的椰子樹與樹牆）記號拿掉後是空殼，也拿掉：?nobldg 那邊是有網格的群組（2026-10-14 公館整合測試） */
     this.build(L,z.group); };
   TreeField.prototype.add=function(L,sp,h,a,b,seed,A,X,Y){ const key=sp===2?'palm_a':(sp===1?'banyan_a':(seed%2?'camphor_b':'camphor_a')); const md=L.models[key]; if(!md) return;
     const syP=Y.length(), sxP=X.length(), rot=Math.atan2(-X.z,X.x); const sy=h/md.h0*syP;
