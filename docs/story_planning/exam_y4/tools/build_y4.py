@@ -30,8 +30,30 @@ LAWS = {
 
 APPLIED = {'Y4_CJS_02', 'Y4_CJS_05', 'Y4_CJS_06', 'Y4_CJS_07', 'Y4_ENF_01', 'Y4_ENF_02', 'Y4_ENF_03', 'Y4_ENF_04', 'Y4_ENF_05', 'Y4_ENF_06', 'Y4_ENF_08', 'Y4_ETH_01', 'Y4_ETH_02', 'Y4_ETH_03', 'Y4_ETH_04', 'Y4_ETH_05', 'Y4_ETH_07', 'Y4_IP_01', 'Y4_IP_02', 'Y4_IP_03', 'Y4_IP_05', 'Y4_LSO_01', 'Y4_LSO_02', 'Y4_LSO_03', 'Y4_LSO_05', 'Y4_LSO_08', 'Y4_MAR_03', 'Y4_MAR_05', 'Y4_MAR_06', 'Y4_PJS_04', 'Y4_PJS_05', 'Y4_PJS_07', 'Y4_TAX_02', 'Y4_TAX_05', 'Y4_TAX_07'}
 
-# BB 交叉審通過的題號（BB 的審查結果在 ../BB_交叉審_AA.md；通過一題加一題）
-CROSS_PASSED = set()
+# 分科（AA_126 1-5 B）：AA 負責這四門；智財、勞社、財稅、海商是 BB 的課，AA 分科前寫的題目是補充題
+OWN = {'enforcement', 'legal_ethics', 'crim_judgment_sem', 'public_judgment_sem'}
+
+# BB 交叉審（BB 0e30ba4，2026-10-14 16:5x）：64 題全部通過。交叉審以後改過字的題目，要 BB 再看一次才算通過
+REREVIEW = {'Y4_ENF_05': '照 BB 的建議改字（集保股票實務上是發扣押命令，不叫查封 → 換成跑車；「出版」改「發表」），等 BB 再確認'}
+
+# BB 的四門課以 BB 的題為主：AA 的補充題和 BB 考同一個點、或會互相洩題的，拿掉（../AA_交叉審_BB.md 第 3 節）
+DROPPED = {
+    'Y4_IP_01': 'BB Y4IP_01 同一個點（著作權法 §10）', 'Y4_IP_02': 'BB Y4IP_03 同一個點（§10-1）',
+    'Y4_IP_03': 'BB Y4IP_05 同一個點（§21 著作人格權不得讓與）', 'Y4_IP_04': 'BB Y4IP_04 幾乎同一題（§65 II）',
+    'Y4_IP_05': 'BB Y4IP_07 同一條（專利法 §22）', 'Y4_IP_06': 'BB Y4IP_08 同一個點（§52 III）',
+    'Y4_IP_07': 'BB Y4IP_10 選項 A 就是答案（商標法 §33）', 'Y4_IP_08': 'BB Y4IP_12 幾乎同一題（營業秘密法 §2）',
+    'Y4_TAX_01': 'BB Y4TAX_01 的題幹寫了「憲法第19條」「租稅法律主義」，會洩題；本題也太容易',
+    'Y4_TAX_02': 'BB Y4TAX_01 選項 C 就是答案（納保法 §3 III）',
+    'Y4_TAX_04': 'BB Y4TAX_10 的題幹寫了「（租稅規避）」，會洩題',
+    'Y4_TAX_05': 'BB Y4TAX_09 選項 A 寫了復查期間的算法，會洩題（稅捐稽徵法 §35）',
+    'Y4_TAX_07': 'BB Y4TAX_04 同一個點（遺贈稅法 §7 贈與稅納稅義務人）',
+    'Y4_MAR_02': 'BB Y4MAR_02 同一個點（海商法 §33）', 'Y4_MAR_03': 'BB Y4MAR_02 同一個點（§33、§36 登記對抗）',
+    'Y4_MAR_05': 'BB Y4MAR_06 同一個點（§110 共同海損）', 'Y4_MAR_06': 'BB Y4MAR_07 同一條（§103 I，正反兩面）',
+    'Y4_MAR_07': 'BB Y4MAR_09 選項涵蓋（領海 12 浬）', 'Y4_MAR_08': 'BB Y4MAR_09 選項 B 就是答案（鄰接區 24 浬）',
+    'Y4_LSO_01': 'BB Y4LSO_01 同一個點（勞保條例 §6 五人以上）', 'Y4_LSO_02': 'BB Y4LSO_04 同一個點（災保法 §6 沒有人數門檻）',
+    'Y4_LSO_03': 'BB Y4LSO_02 同一條（勞保條例 §11，正反兩面）', 'Y4_LSO_04': 'BB Y4LSO_07 題幹相同（就保法 §11）',
+    'Y4_LSO_05': 'BB Y4LSO_08 寫了百分之六十，會洩題（就保法 §16）', 'Y4_LSO_07': 'BB Y4LSO_03 選項 D 就是答案（健保法 §1 II）',
+}
 
 TERM = {'enforcement': 'Y4S1', 'legal_ethics': 'Y4S1', 'ip_law': 'Y4S1', 'labor_social': 'Y4S1', 'tax_law': 'Y4S1',
         'crim_judgment_sem': 'Y4S1', 'public_judgment_sem': 'Y4S1', 'maritime': 'Y4S2'}
@@ -39,8 +61,7 @@ TERM = {'enforcement': 'Y4S1', 'legal_ethics': 'Y4S1', 'ip_law': 'Y4S1', 'labor_
 def Q(id, course, week, q, A, B, C, D, ans, why, basis, verify, level=None):
     return dict(id=id, course=course, term=TERM[course], scopeWeek=week, type='mc', q=q,
                 options=dict(A=A, B=B, C=C, D=D), answer=ans, core=why, basis=basis,
-                verify=verify, level=level or ('應用' if id in APPLIED else '記憶'), source='AA_Y4', author='AA',
-                status='Y4_CROSS_REVIEWED' if id in CROSS_PASSED else 'Y4_SELF_REVIEWED', crossReviewedBy='BB' if id in CROSS_PASSED else None)
+                verify=verify, level=level or ('應用' if id in APPLIED else '記憶'), source='AA_Y4', author='AA', status='Y4_SELF_REVIEWED', crossReviewedBy=None)
 
 QS = [
  # ───── 強制執行法（大四上）─────
@@ -61,8 +82,8 @@ QS = [
    '6,000 元','12,000 元','15,000 元','20,000 元',
    'D','對自然人因提供勞務而獲得的繼續性報酬債權發扣押命令，不得逾各期給付數額三分之一：60,000 ÷ 3 ＝ 20,000 元。執行法院認有失公平時得不受比例限制，但應預酌留債務人生活費用。',
    '強制執行法 §115-1 II、III',[('B0010004','115-1','不得逾各期給付數額三分之一')]),
- Q('Y4_ENF_05','enforcement',15,'執行人員到作家乙家裡查封，看到：一部還沒出版的小說手稿、一支名牌手錶、上市公司股票的存摺、乙名下另一間出租的房子。依強制執行法第53條，哪一樣原則上不得查封？',
-   '名牌手錶','還沒出版的小說手稿','上市公司的股票','另一間出租的房子',
+ Q('Y4_ENF_05','enforcement',15,'執行人員到作家乙家裡查封，看到：一部還沒發表的小說手稿、一支名牌手錶、一輛很少開的跑車、乙名下另一間出租的房子。依強制執行法第53條，哪一樣原則上不得查封？',
+   '名牌手錶','還沒發表的小說手稿','很少開的跑車','另一間出租的房子',
    'B','尚未發表之發明或著作不得查封；其他是可以查封的一般財產。',
    '強制執行法 §53 I ⑥',[('B0010004','53','尚未發表之發明或著作')]),
  Q('Y4_ENF_06','enforcement',14,'甲起訴請求乙返還借款 100 萬元，擔心訴訟期間乙把財產脫手、日後判決贏了也拿不到錢。甲為了保全將來的強制執行，應聲請哪一種保全程序？',
@@ -276,7 +297,7 @@ QS = [
    'C','撤銷訴訟原則上須經依訴願法提起訴願而不服其決定（或訴願逾期不為決定）後，才能提起。',
    '行政訴訟法 §4 I',[('A0030154','4','經依訴願法提起訴願而不服其決定')]),
  # ───── 海商法與海洋法（大四下）─────
- Q('Y4_MAR_01','maritime',1,'依海商法第1條，海商法所稱的船舶是指什麼？',
+ Q('Y4_MAR_01','maritime',2,'依海商法第1條，海商法所稱的船舶是指什麼？',
    '只限在海上航行的船舶','在海上航行，或在與海相通之水面或水中航行之船舶','只限總噸位一百噸以上的船舶','所有在湖泊航行的船舶',
    'B','本法稱船舶者，謂在海上航行，或在與海相通之水面或水中航行之船舶。',
    '海商法 §1',[('K0070002','1','在海上航行，或在與海相通之水面或水中航行之船舶')]),
@@ -347,27 +368,37 @@ def main():
             a = snap.get(f'{p}:{n}')
             if not a: err.append(f'{t}：快照沒有 {p} §{n}'); continue
             if norm(ph) not in norm(a['text']): err.append(f'{t}：「{ph}」不在 {LAWS[p]} §{n} 的現行條文裡')
+    for x in list(DROPPED) + list(REREVIEW):
+        if x not in ids: err.append(f'{x}：DROPPED／REREVIEW 裡的題號不存在')
+    for q in QS:
+        if q['id'] not in REREVIEW:  # BB 0e30ba4：64 題全部通過
+            q['status'] = 'Y4_CROSS_REVIEWED'; q['crossReviewedBy'] = 'BB'
     by = defaultdict(list)
-    for q in QS: by[q['course']].append(q)
+    for q in QS:
+        if q['id'] not in DROPPED: by[q['course']].append(q)
     for c, qs in by.items():
-        if len(qs) < 5: err.append(f'{c}：不到 5 題')
         cnt = Counter(q['answer'] for q in qs)
-        if any(cnt[x] != len(qs) // 4 for x in 'ABCD'): err.append(f'{c}：答案分布 {dict(cnt)}（要各 {len(qs)//4}）')
+        if c in OWN:  # AA 自己的課：至少 5 題、答案平均；BB 的課的分布由 check_y4.py 合併檢查
+            if len(qs) < 5: err.append(f'{c}：不到 5 題')
+            if any(cnt[x] != len(qs) // 4 for x in 'ABCD'): err.append(f'{c}：答案分布 {dict(cnt)}（要各 {len(qs)//4}）')
         seq = ''.join(q['answer'] for q in qs)
         if re.search(r'(.)\1\1', seq): err.append(f'{c}：連續三題同一個答案（{seq}）')
     if err:
         print('\n'.join('! ' + e for e in err)); sys.exit(1)
+    for c in TERM:
+        f = os.path.join(ROOT, f'AA_{c}.json')
+        if c not in by and os.path.exists(f): os.remove(f)  # 全部和 BB 重複、拿掉了
     for c, qs in by.items():
         out = [{k: v for k, v in q.items() if k != 'verify'} | {'verified': [f'{LAWS[p]} §{n}：「{ph}」' for p, n, ph in q['verify']]} for q in qs]
         json.dump(dict(_comment='大四期末考題庫（AA 出題並自審；使用者 2026-10-14 16:15 授權，只限大四）。四選一、唯一答案；verified 列出逐字核對過的現行條文（basis_2026-10-14.json）。status：Y4_SELF_REVIEWED＝AA 自審完、還不抽；Y4_CROSS_REVIEWED＝BB 交叉審通過、才抽（AA_130 3-2）。',
                        course=c, term=TERM[c], author='AA', count=len(out), crossReviewed=sum(1 for q in out if q['status'] == 'Y4_CROSS_REVIEWED'), questions=out),
                   open(os.path.join(ROOT, f'AA_{c}.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     lines = ['# 大四期末考題庫：AA 自審紀錄（2026-10-14）', '',
-             '> 使用者 2026-10-14 16:15：大四法律課由 AI 出題並自審（不擴張到大一～大三）。AA、BB 分科（AA：強制執行法、法律倫理、刑事判決研討、公法判決研討；BB：智慧財產權法、勞動社會法、財稅法、海商法與海洋法），兩邊互相交叉審一次。AA 在 BB 的四科也各寫了 8 題（分科前寫的），保留成那一科的補充題，BB 交叉審。本檔只記 AA 寫的 `AA_<課程>.json`，由 `tools/build_y4.py` 產生；BB 的題目在 `BB_<課程>.json` 和 BB 的 md。', '',
+             '> 使用者 2026-10-14 16:15：大四法律課由 AI 出題並自審（不擴張到大一～大三）。AA、BB 分科（AA：強制執行法、法律倫理、刑事判決研討、公法判決研討；BB：智慧財產權法、勞動社會法、財稅法、海商法與海洋法），兩邊互相交叉審一次。AA 在 BB 的四科也各寫了 8 題（分科前寫的），BB 的課以 BB 的題為主，AA 的只留考不同點的當補充題。本檔只記 AA 寫的 `AA_<課程>.json`，由 `tools/build_y4.py` 產生；BB 的題目在 `BB_<課程>.json` 和 BB 的 md；兩邊一起檢查用 `tools/check_y4.py`。', '',
              '## 檢查項目（全部自動檢查，任何一項不符就不輸出）', '',
              '1. 每題的法律依據：題目引用的條文用全國法規資料庫的**現行條文**逐字核對（`basis_2026-10-14.json`，2026-10-14 下載；各法的修正日期寫在 `lawVersion`）。',
              '2. 四選一、A～D、選項不重複、答案在選項裡、題幹不重複。',
-             '3. 每門課 8 題，正確答案 A、B、C、D 各 2 題，沒有連續三題同一個答案。',
+             '3. AA 自己的四門課各 8 題，正確答案 A、B、C、D 各 2 題；每個檔沒有連續三題同一個答案（BB 的課和 BB 的題合併以後的分布，由 `check_y4.py` 檢查）。',
              '4. 沒有判決字號、憲法法庭判決字號、學說；有重大爭議或還在變動的題目不出（例如憲法訴訟法的評議門檻、AI 生成物的著作權、私人錄音的證據能力、平台工作者的勞工身分）。',
              '5. 「唯一答案」：每題的錯誤選項都和條文明顯不符（逐題的理由在 `core`）。', '',
              '## 各課', '', '| 課程 | 學期 | 題數 | 答案分布 | 應用題 | 涵蓋的週次 |', '|---|---|---|---|---|---|']
@@ -375,13 +406,22 @@ def main():
         cnt = Counter(q['answer'] for q in qs); app = sum(1 for q in qs if q['level'] == '應用')
         weeks = '、'.join(str(w) for w in sorted({q['scopeWeek'] for q in qs}))
         lines.append(f"| `{c}` | {TERM[c]} | {len(qs)} | A{cnt['A']} B{cnt['B']} C{cnt['C']} D{cnt['D']} | {app} | {weeks} |")
+    lines += ['', f'## BB 交叉審（BB `0e30ba4`，2026-10-14 16:5x）', '',
+              f'- 結論：AA 的 {len(QS)} 題全部通過，沒有法律錯誤（BB 用自己重新抓的現行條文逐題核對）。通過的題目 `status` 改成 `Y4_CROSS_REVIEWED`、`crossReviewedBy: BB`。',
+              '- BB 的兩個建議都採用：']
+    lines += [f'  - `{k}`：{v}（這題先維持 `Y4_SELF_REVIEWED`）' for k, v in REREVIEW.items()]
+    lines += ['  - `Y4_LSO_04` 選項 D 只寫了半句：這題和 BB 的 `Y4LSO_07` 題幹相同，直接拿掉（見下）。', '',
+              f'## 拿掉的題目（{len(DROPPED)} 題：BB 的課以 BB 的題為主，同一個點只留一題，會互相洩題的也拿掉）', '',
+              '| 題號 | 原因 |', '|---|---|']
+    lines += [f'| `{k}` | {v} |' for k, v in DROPPED.items()]
     lines += ['', '## 還沒做到的（誠實列出）', '',
-              f'- 情境題（應用）{sum(1 for q in QS if q["level"]=="應用")} 題、條文記憶題 {sum(1 for q in QS if q["level"]=="記憶")} 題；分類是 AA 逐題標的（`APPLIED`）。之後可以再加情境題，加的時候一樣跑這支程式。',
+              f'- 留下的 {sum(len(v) for v in by.values())} 題裡，情境題（應用）{sum(1 for v in by.values() for q in v if q["level"]=="應用")} 題、條文記憶題 {sum(1 for v in by.values() for q in v if q["level"]=="記憶")} 題；分類是 AA 逐題標的（`APPLIED`）。之後可以再加情境題，加的時候一樣跑這支程式。',
               '- 「法律專題研究」「法律實習或法律扶助實務」是報告與實務課，沒有選擇題（`AA_126` 1-5 B）。',
               '- 所得稅申報期間等規定，實務上偶有延長；題目寫「原則上」並以條文為準。',
               '- 法條會修正：每學年開學前重跑一次核對（換新的快取），條文變了的題目先停用再改。']
     open(os.path.join(ROOT, 'REVIEW.md'), 'w', encoding='utf-8').write('\n'.join(lines) + '\n')
-    print(f'ok：{len(QS)} 題、{len(by)} 門課；條文核對 {sum(len(q["verify"]) for q in QS)} 處全部符合')
+    kept = sum(len(v) for v in by.values())
+    print(f'ok：寫了 {len(QS)} 題、留下 {kept} 題（拿掉 {len(DROPPED)} 題）、{len(by)} 門課；交叉審通過 {sum(1 for v in by.values() for q in v if q["status"] == "Y4_CROSS_REVIEWED")} 題；條文核對 {sum(len(q["verify"]) for q in QS)} 處全部符合')
 
 if __name__ == '__main__':
     main()

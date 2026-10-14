@@ -3,59 +3,9 @@
  "course": "tax_law",
  "term": "Y4S1",
  "author": "AA",
- "count": 8,
- "crossReviewed": 0,
+ "count": 3,
+ "crossReviewed": 3,
  "questions": [
-  {
-   "id": "Y4_TAX_01",
-   "course": "tax_law",
-   "term": "Y4S1",
-   "scopeWeek": 1,
-   "type": "mc",
-   "q": "憲法第19條規定什麼？",
-   "options": {
-    "A": "人民有依法律納稅之義務",
-    "B": "人民有依行政命令納稅之義務",
-    "C": "稅率由財政部自由決定",
-    "D": "地方政府不得課徵任何稅捐"
-   },
-   "answer": "A",
-   "core": "人民有依法律納稅之義務，這是租稅法律主義的憲法依據。",
-   "basis": "中華民國憲法 §19",
-   "level": "記憶",
-   "source": "AA_Y4",
-   "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
-   "verified": [
-    "中華民國憲法 §19：「人民有依法律納稅之義務」"
-   ]
-  },
-  {
-   "id": "Y4_TAX_02",
-   "course": "tax_law",
-   "term": "Y4S1",
-   "scopeWeek": 7,
-   "type": "mc",
-   "q": "財政部發布一則解釋函令，要求某一種所得多繳一項法律沒有規定的稅。依納稅者權利保護法第3條，這則函令能不能這樣做？",
-   "options": {
-    "A": "可以，解釋函令本來就能補充法律",
-    "B": "可以，只要事先公告周知",
-    "C": "可以，只要經財政部長核定",
-    "D": "不可以，不得增加法律所未明定之納稅義務"
-   },
-   "answer": "D",
-   "core": "行政規則及解釋函令只能解釋法律原意、規範執行法律必要的技術性、細節性事項，不得增加法律所未明定之納稅義務或減免稅捐。",
-   "basis": "納稅者權利保護法 §3 III",
-   "level": "應用",
-   "source": "AA_Y4",
-   "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
-   "verified": [
-    "納稅者權利保護法 §3：「不得增加法律所未明定之納稅義務或減免稅捐」"
-   ]
-  },
   {
    "id": "Y4_TAX_03",
    "course": "tax_law",
@@ -75,60 +25,10 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "納稅者權利保護法 §7：「應以實質經濟事實關係及其所生實質經濟利益之歸屬與享有為依據」"
-   ]
-  },
-  {
-   "id": "Y4_TAX_04",
-   "course": "tax_law",
-   "term": "Y4S1",
-   "scopeWeek": 12,
-   "type": "mc",
-   "q": "納稅者基於獲得租稅利益，違背稅法的立法目的，濫用法律形式，以非常規交易規避租稅構成要件之該當，達成與交易常規相當的經濟效果。納稅者權利保護法稱這種情形為什麼？",
-   "options": {
-    "A": "節稅",
-    "B": "合法的租稅規劃",
-    "C": "租稅規避",
-    "D": "溢繳退稅"
-   },
-   "answer": "C",
-   "core": "這是第7條第3項定義的租稅規避；稽徵機關仍根據與實質上經濟利益相當之法律形式，成立租稅構成要件之事實核課。",
-   "basis": "納稅者權利保護法 §7 III",
-   "level": "記憶",
-   "source": "AA_Y4",
-   "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
-   "verified": [
-    "納稅者權利保護法 §7：「為租稅規避」"
-   ]
-  },
-  {
-   "id": "Y4_TAX_05",
-   "course": "tax_law",
-   "term": "Y4S1",
-   "scopeWeek": 10,
-   "type": "mc",
-   "q": "乙收到核定稅額通知書和繳款書，上面有應納稅額，繳納期間到 6 月 10 日屆滿。乙不服，最晚應在哪一天以前申請復查？",
-   "options": {
-    "A": "7 月 10 日",
-    "B": "6 月 10 日",
-    "C": "6 月 30 日",
-    "D": "隔年 6 月 10 日"
-   },
-   "answer": "A",
-   "core": "有應納稅額者，應於繳款書送達後，於繳納期間屆滿之翌日起三十日內申請復查：從 6 月 11 日起算三十日，到 7 月 10 日。",
-   "basis": "稅捐稽徵法 §35 I ①",
-   "level": "應用",
-   "source": "AA_Y4",
-   "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
-   "verified": [
-    "稅捐稽徵法 §35：「應於繳款書送達後，於繳納期間屆滿之翌日起三十日內，申請復查」"
    ]
   },
   {
@@ -150,35 +50,10 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "所得稅法 §71：「應於每年五月一日起至五月三十一日止」"
-   ]
-  },
-  {
-   "id": "Y4_TAX_07",
-   "course": "tax_law",
-   "term": "Y4S1",
-   "scopeWeek": 4,
-   "type": "mc",
-   "q": "爸爸把一筆現金無償送給成年的兒子，兒子也接受了。爸爸沒有行蹤不明、逾期未繳等特殊情形。如果這筆贈與要繳贈與稅，納稅義務人是誰？",
-   "options": {
-    "A": "兒子（受贈人）",
-    "B": "爸爸（贈與人）",
-    "C": "爸爸和兒子平均分擔",
-    "D": "由國稅局選擇"
-   },
-   "answer": "B",
-   "core": "贈與稅之納稅義務人為贈與人；贈與人行蹤不明、逾期未繳且境內無財產可供執行、或死亡時尚未核課，才以受贈人為納稅義務人。",
-   "basis": "遺產及贈與稅法 §7 I",
-   "level": "應用",
-   "source": "AA_Y4",
-   "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
-   "verified": [
-    "遺產及贈與稅法 §7：「贈與稅之納稅義務人為贈與人」"
    ]
   },
   {
@@ -200,8 +75,8 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "遺產及贈與稅法 §4：「財產所有人以自己之財產無償給予他人，經他人允受而生效力之行為」"
    ]

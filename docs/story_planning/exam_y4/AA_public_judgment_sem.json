@@ -4,7 +4,7 @@
  "term": "Y4S1",
  "author": "AA",
  "count": 8,
- "crossReviewed": 0,
+ "crossReviewed": 8,
  "questions": [
   {
    "id": "Y4_PJS_01",
@@ -25,8 +25,8 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "憲法訴訟法 §59：「應自用盡審級救濟之最終裁判送達後翌日起之六個月不變期間內為之」"
    ]
@@ -50,8 +50,8 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "憲法訴訟法 §59：「經依法定程序用盡審級救濟程序」"
    ]
@@ -75,8 +75,8 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "憲法訴訟法 §35：「得提出協同意見書」"
    ]
@@ -100,8 +100,8 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "國家賠償法 §2：「公務員怠於執行職務，致人民自由或權利遭受損害者亦同」"
    ]
@@ -125,8 +125,8 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "國家賠償法 §10：「應先以書面向賠償義務機關請求之」",
     "國家賠償法 §3：「公共設施因設置或管理有欠缺」"
@@ -151,8 +151,8 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "行政程序法 §7：「應選擇對人民權益損害最少者」",
     "行政程序法 §7：「採取之方法所造成之損害不得與欲達成目的之利益顯失均衡」"
@@ -177,8 +177,8 @@
    "level": "應用",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "行政訴訟法 §5：「予以駁回，認為其權利或法律上利益受違法損害者」"
    ]
@@ -202,8 +202,8 @@
    "level": "記憶",
    "source": "AA_Y4",
    "author": "AA",
-   "status": "Y4_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "行政訴訟法 §4：「經依訴願法提起訴願而不服其決定」"
    ]
