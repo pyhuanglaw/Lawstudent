@@ -619,6 +619,14 @@ const STORY = (function(){
       if(mon&&G.day>=mon-1&&G.day<=mon+3&&!PHONE.sent(G,'plg_invite')){
         if(PHONE.inGroup(G,'noodle_team')){ const th='g:noodle_team'; PHONE.at(G,mon,21,[{th,from:'heroine_01',text:'公法讀書會。週四晚上八點，萬才館研討室。'},{th,from:'yu',text:'我也是發起人喔。'}],'plg_invite'); }
         else if(typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,'heroine_01')) PHONE.at(G,mon,21,[{th:'p:heroine_01',from:'heroine_01',text:'公法讀書會。週四晚上八點，萬才館研討室。'}],'plg_invite'); } }
+    /* B4 博雅午後講座（交接包 v2 C13；BB_105 4-5、AA_115 第 1 節）：①第 11 週週二 12:30 麵店團群組以安揪人（和以安新 7 前半同一天；時間是 LAWWW 排的），小語、阿哲回；
+       玩家回「我去。」／「我看看。」／不回都一樣（只記 B4_REPLY），去不去看週四有沒有走進博雅 101。②沒去（missed:B4）：週四 21:30 小語在群組轉述一句 */
+    { const tue=termDay('Y1S2',11,2), thu=termDay('Y1S2',11,4);
+      if(tue&&thu&&G.day>=tue-1&&G.day<=thu&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'b4_invite')){ const th='g:noodle_team';
+        PHONE.at(G,tue,12.5,[{th,from:'heroine_01',text:'週四晚上七點，博雅 101 有演講。'},{th,from:'heroine_01',text:'「政府可以為了大家，限制一個人嗎？」誰要去？'},{th,from:'yu',text:'我！我是憲法迷。'},
+          {th,from:'zhe',text:'……我跟。散場有宵夜嗎？',ask:{until:thu*24+19,opts:[{t:'我去。',set:{B4_REPLY:'go'}},{t:'我看看。',set:{B4_REPLY:'maybe'}}]}}],'b4_invite'); }
+      if(thu&&G.day>=thu&&G.day<=thu+1&&!(G.day===thu&&h(G)<21.5)&&PHONE.inGroup(G,'noodle_team')&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.missed(G,'B4')&&!PHONE.sent(G,'b4_missed')){
+        PHONE.at(G,thu,21.5,[{th:'g:noodle_team',from:'yu',text:'講者最後問：被限制的人可以去哪裡。我想了一路。'}],'b4_missed'); } }
     /* 法四學長姊畢業的群組（交接包 v2 C17；AA_71 2-12）：大一下第 15 週週六。法服群組（加入法服的玩家）12:30 有人傳合照＋「恭喜學長姊！法服永遠歡迎回來值班！」（傳的人：法服社長——法三的學長姊、不具名，社團公告的口氣；AA 2026-10-14）；
        家族群組 13:00 Kevin 傳畢業照，學姊「恭喜。」（不是「收到」，BB_96 第 5 節）*/
     { const gd=termDay('Y1S2',15,6); if(gd&&G.day>=gd-1&&G.day<=gd+1){

@@ -582,6 +582,52 @@ const STORY_EVENTS=[
       {label:'end'},{speaker:'阿勳',text:'週五中午，我們在小福。你要來就來。'} ],
     consequences:{flags:{MET_XUN:true,MET_PINYU:true},memo:'重修經原（下）下課，走廊上遇到經濟系那年的室友阿勳（盧正勳）'},
     after:G=>{ G.flags.ECON_HALLWAY_DAY=G.day; } },
+  /* 可玩切片（交接包 v2 C13；AA_115 第 1、2 節、BB_105 4-5）——B4 博雅午後講座「政府可以為了大家，限制一個人嗎？」：第 11 週週四 19:00～20:30 博雅 101（activities.js 的 B4）。
+     以安揪人（週二在麵店團群組，story3d.js phoneRules）；以安、小語、阿哲照作息在 101（characters.js），散場後以安、小語去博雅的圓桌。
+     去不去看玩家週四有沒有走進博雅 101：坐下選「聽演講」＝這一段（之後快轉到 20:30）；坐著待到結束也算聽完（沒有這一段）；結束前走出 101＝中途離開（沒有這一段，之後以安說一句）。
+     講者虛構、只講比例原則的方向，不給結論（BB_105 4-3）——LEGAL_REVIEW_REQUIRED（BB 確認前不發布）。（時間往前跳。）＝開場三句之後時鐘往前 45 分鐘（晚到的不跳）*/
+  { id:'ev_b4_lecture', title:'政府可以為了大家，限制一個人嗎？', participants:[], location:'boya', trigger:'activity', once:true, background:'blur', legal_review:'REQUIRED',
+    dialogue:[ {speaker:null,text:'講者是一位頭髮花白的老師，說話很慢。'},
+      {speaker:'講者',text:'政府要限制一個人，要有理由，而且要用最小的手段。'},
+      {speaker:'講者',text:'可是「最小」，是誰來量的？'},
+      {if:{custom:G=>(G.hour%24)<19.5},advance:0.75},
+      {speaker:'講者',text:'最後一個問題，我留給你們。'},
+      {speaker:'講者',text:'被限制的那個人，最後可以去哪裡？'},
+      {if:EV_KNOWS('heroine_01'),speaker:null,text:'掌聲。以安把最後那一句抄了兩次。'},{unless:EV_KNOWS('heroine_01'),speaker:null,text:'掌聲。'} ],
+    consequences:{memo:'博雅 101 聽演講：「政府可以為了大家，限制一個人嗎？」'} },
+  /* B4 散場（20:30 起 20 分鐘內，activityPhase justEnded）：聽完的玩家（attended:B4，中途離開的不算）、認識以安——以安「要不要去小桌子整理一下？」
+     「好。」＝記 B5_GO（今天）：以安、小語照作息在博雅的圓桌（characters.js），玩家走過去才開始 B5（ev_b5_table）；
+     「我約了人，先走。」＝以安「好。」小語「明天群組見。」，記 LEFT_AFTER_B4（AA_115 的 left_after:B4；第 12 週以安好奇地問，不懲罰）*/
+  { id:'ev_b4_after', title:'散場', participants:['heroine_01'], location:'boya', trigger:'auto', activity:'B4', activityPhase:'justEnded', once:true, background:'blur',
+    prereq:{attended:['B4'],memory:[{npc:'heroine_01',tag:'FIRST_MET'}]},
+    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'要不要去小桌子整理一下？'},
+      {choice:[{text:'「好。」',set:{B5_GO:true},goto:'go'},{text:'「我約了人，先走。」',set:{LEFT_AFTER_B4:true},goto:'leave'}]},
+      {label:'go'},{goto:'end'},
+      {label:'leave'},{speaker:'heroine_01',expression:'neutral',text:'好。'},{if:EV_KNOWS('yu'),speaker:'yu',expression:'smile',text:'明天群組見。'},
+      {label:'end'} ],
+    after:G=>{ if(G.flags.B5_GO===true) G.flags.B5_GO=G.day; } },
+  /* B5 小桌子（BB_105 4-5）：散場說「好。」的玩家，當晚走到博雅圓桌的以安旁邊（npcNear）才開始。先演 4-4「B4 演講之後」的四句，再寫便利貼（三選一，沒有對錯）。
+     小語：認識才在場（只有認識的人在場）；不認識小語＝她那兩句不演、便利貼是兩張（LAWWW 改的字，已告訴 BB）。
+     記 B5_THOUGHT（ask_them／trade／where；B12 讀它）、B4_DISCUSSED（AA_115 的 discussed:B4）；以安的熟悉度＝參與事件的一般見面（不另加數字）。法律同 B4：LEGAL_REVIEW_REQUIRED */
+  { id:'ev_b5_table', title:'小桌子', participants:['heroine_01'], location:'boya', trigger:'auto', npcNear:'heroine_01', time:[20.5,21.5], once:true, background:'blur', legal_review:'REQUIRED',
+    prereq:{custom:G=>G.flags.B5_GO===G.day},
+    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'他說，限制自由要用最小的手段。'},
+      {speaker:'heroine_01',expression:'thinking',text:'可是「最小」，是對誰來說最小？'},
+      {if:EV_KNOWS('yu'),speaker:'yu',expression:'neutral',text:'對整個社會吧？'},
+      {speaker:'heroine_01',expression:'neutral',text:'……對那個被限制的人呢？'},
+      {speaker:'heroine_01',expression:'neutral',text:'（把便利貼推過來）你呢？寫一句。不用對。'},
+      {choice:[{text:'「最小，要問被限制的人。」',set:{B5_THOUGHT:'ask_them'},goto:'t1'},{text:'「最小，要看大家換到了什麼。」',set:{B5_THOUGHT:'trade'},goto:'t2'},{text:'「我還不知道。我想知道他最後去了哪裡。」',set:{B5_THOUGHT:'where'},goto:'t3'}]},
+      {label:'t1'},{speaker:'heroine_01',expression:'thinking',text:'那他說『全部都太多』呢？'},{if:EV_KNOWS('yu'),speaker:'yu',expression:'neutral',text:'那就……再問一次？'},{goto:'end'},
+      {label:'t2'},{speaker:'heroine_01',expression:'neutral',text:'好。那換到的東西，要誰來證明？'},{goto:'end'},
+      {label:'t3'},{speaker:'heroine_01',expression:'neutral',text:'……那就是講者最後那一題。'},
+      {label:'end'},
+      {if:EV_KNOWS('yu'),speaker:null,text:'她把三張便利貼並排貼在筆記本上：她的、小語的、你的。'},{unless:EV_KNOWS('yu'),speaker:null,text:'她把兩張便利貼並排貼在筆記本上：她的、你的。'},
+      {speaker:'heroine_01',expression:'smile',text:'九點半了。我回宿舍讀刑總。'} ],
+    consequences:{flags:{B4_DISCUSSED:true},mem:[{npc:'heroine_01',tag:'B5_STICKY',note:'演講完在博雅的小桌子，三個人各寫一張便利貼'}],memo:'博雅的小桌子：演講之後寫了一張便利貼'} },
+  /* B4 中途離開（AA_115 第 2 節：attendedAny 但不是 attended）：之後第一次找以安說話（演講後兩週內）——「你後半場不在。最精彩的你錯過了。」*/
+  { id:'ev_b4_partial_an', title:'後半場', participants:['heroine_01'], location:'any', trigger:'interact', priority:9, once:true, term:['Y1S2'], background:'blur',
+    prereq:{custom:G=>typeof ACTIVITIES!=='undefined'&&ACTIVITIES.attendedAny(G,'B4')&&!ACTIVITIES.attended(G,'B4')&&(()=>{ const d=ACTIVITIES.lastEnded(G,'B4'); return d!=null&&G.day-d<=14; })()},
+    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'你後半場不在。最精彩的你錯過了。'} ] },
   /* 聖誕交換禮物（交付清單 A20：AA_71 2-6「大一的實作」，AA 2026-10-14 回 LAWWW）：第 17 週週三 12/24 中午 12:20～13:10 在霖澤館一樓；只有麵店團的玩家有（阿哲兩天前在群組揪，
      story3d.js 的 phoneRules），沒去不扣分。在場的人＝XMAS_WHO 裡玩家認識的（交付清單第 0 節第 1 條）。祐廷送什麼由玩家選（XMAS_GIFT）；
      抽到祐廷禮物的人（XMAS_TO）、祐廷抽到誰的（XMAS_FROM）從在場的人裡隨機挑（pick）；明軒和小語都在、抽到祐廷禮物的不是明軒＝小語的玩偶是明軒抽到（「和祐廷無關的一句」），祐廷就抽不到；

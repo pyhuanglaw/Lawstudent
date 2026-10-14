@@ -29,7 +29,7 @@ def state():
      'social':{'rel':{},'mem':{},'reveal':{},'prof':{},'grad':{'interest':'CONSIDERING','field':'公法','prep':0}}}
 async def main(ids):
     async with async_playwright() as p:
-        b=await p.chromium.launch(args=['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist'])
+        b=await p.chromium.launch(executable_path='/opt/pw-browsers/chromium',args=['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist'])
         ctx=await b.new_context(viewport={'width':844,'height':390},device_scale_factor=1,has_touch=True)
         pg=await ctx.new_page(); msgs=[]
         pg.on('console', lambda m: msgs.append(m.type+': '+m.text) if m.type in ('error','warning') else None)

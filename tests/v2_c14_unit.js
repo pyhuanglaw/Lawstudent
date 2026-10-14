@@ -48,7 +48,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     L=await play(2); check('前半 選 3：（兩個人同時轉過來看你。）小語「……幹嘛突然這麼有道理。」',JSON.stringify(L.slice(5))===JSON.stringify(['（兩個人同時轉過來看你。）','小語：……幹嘛突然這麼有道理。'])&&G.flags.AN_YU_ARGUMENT==='both',JSON.stringify(L.slice(5)));
     L=await play(3); check('前半 選 4（先吃麵）：阿哲「明智。」',JSON.stringify(L.slice(5))===JSON.stringify(['阿哲：明智。'])&&G.flags.AN_YU_ARGUMENT==='noodle',JSON.stringify(L.slice(5))); }
   /* 不在場：群組聽說 */
-  { fresh(T11,17,'dorm'); PHONE.join(G,'noodle_team','麵店團'); run(17,23.9); const L=txt('g:noodle_team').filter(t=>!/建立了/.test(t));
+  { fresh(T11,17,'dorm'); PHONE.join(G,'noodle_team','麵店團'); run(17,23.9); const L=TH('g:noodle_team').filter(m=>!String(m.tag||'').startsWith('b4_')).map(m=>(m.from||'')+':'+m.text).filter(t=>!/建立了/.test(t));   /* 同一天中午以安在群組揪 B4 演講（交接包 v2 C13，tag b4_invite）：不算在這一項 */
     check('不在場的玩家：21:30 小語「我跟以安吵架了。」、22:10「……吵得很好。」，記「聽說」',JSON.stringify(L)===JSON.stringify(['yu:我跟以安吵架了。','yu:……吵得很好。'])&&SOCIAL.has('heroine_01','HEARD_ABOUT'),JSON.stringify(L));
     fresh(T11,17,'dorm'); PHONE.join(G,'noodle_team','麵店團'); G.events.done.ev_an_yu_argument=1; run(17,23.9); check('在場看過的玩家：群組沒有這兩句',!txt('g:noodle_team').some(t=>/吵架/.test(t))); }
   /* 後半：邀請 */
