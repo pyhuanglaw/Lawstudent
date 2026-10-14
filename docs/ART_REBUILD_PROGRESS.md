@@ -12,6 +12,7 @@
 
 **2026-10-14 12:35 UTC：v9.7 已發布**——main 從 v9.6 `e88bda5` 快轉到 **`313d620`（候選 19 本身，沒有強制推送）**；GitHub Pages 第 16 次部署 2026-10-14 12:32:31 UTC success。發布紀錄 `docs/RELEASES.md` 的 v9.7 一節；下一次最早 15:32:31 UTC（三小時規則）。
 - 候選 19 已併回開發分支（`3679126`）。flow_boya_interior 在候選 19（＝發布版）重跑 ALL PASS（LAWWW2 `d7ffa8c`，12:35），已補進 RELEASES.md——發布版的每一項發布前測試都有結果了。
+- **LAWWW2 路人底模（WIP，使用者 10-14「NPC 不要都是一張臉換衣服」）12:40 交付**：8 個路人 VRM（`claude/second-ai-env-art` 的 `assets/models/char/second_ai/bl_npc_{nm1..nm4,nf1..nf4}.vrm`，各 2.4–2.7 MB）、接法 patch `docs/art-rebuild/second_ai/patches/npc_ambient_1ca527d.patch`（127d36d：assets3d.js 加 8 筆 ambient、AMB＝新 8＋舊 4）、遊戲內對照圖 `docs/art-rebuild/second_ai/shots/npc_ingame_g1305_old_vs_new.webp`（9c50fdd：共同教學館門口同一批 5 人，舊的 2 種模型、新的 5 種）。已知缺點：四個女生都是空氣瀏海、nm3 側臉有脫離的髮片、nm2 頭髮偏厚、8 個一起預載多約 20 MB。狀態 MODEL_READY 前的 WIP——下一個工作階段看完對照圖再決定要 LAWWW2 改什麼，接進開發分支前跑人物相關回歸（model_upgrade、p0、效能）。
 - 開發分支 12:34 以後：`f8c5996` AA、BB 的回覆（慈 2 旁白「她列式子，你畫圖」、語彤 6 選項字、阿凱 K2 好感數字）。還沒做、企劃組已給原文的：AA_71 的 C3 寒假拜年（含 BB 7451e42 改字）、C7 杜鵑花季、C16 系籃、C17 法四畢業（180c8ff）；BB_70 3-7 便利商店飯糰（讀書會群組，35c9328）；「天文與我們」改名（AA 同意）。
 - 開發分支下一步照 12:00 那一筆的「接下來」（v2 大一下：C14 以安新 7＋公法讀書會 → C21 → C18 → C20 → C9 → C2 → C13 → BB_96 照週次）；開發分支的瀏覽器回歸（flow_tap_stall_201 等）還沒跑。
 
