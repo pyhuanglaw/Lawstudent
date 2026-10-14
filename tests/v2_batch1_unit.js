@@ -58,5 +58,16 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
     check('慈 2：有 P4B_SEEN 的玩家：「上次問你，你只笑。這次是第三章，你總要說了吧。」（不問「你怎麼這麼熟」）',L.includes('吳芯慈：（小聲）上次問你，你只笑。這次是第三章，你總要說了吧。')&&!L.some(t=>/你怎麼這麼熟/.test(t)),JSON.stringify(L));
     L=await go({},[2]);
     check('慈 2：原本的三個選項照舊（「妳為什麼要雙主修？」→ 會計師那句 → 謝謝）、沒有 ECON_TOGETHER',L.includes('吳芯慈：（小聲）我爸說法律系畢業沒有第二專長會餓死。他是會計師。')&&L[L.length-1]==='吳芯慈：（小聲）謝謝。我要繼續讀了。'&&!SOCIAL.has('classmate_xinci','ECON_TOGETHER'),JSON.stringify(L)); }
+  /* ---------- 語彤 6 房東來過了（C12；AA_11 事件 6）---------- */
+  { const e=ev('ev_yutong_landlord'); check('語彤 6：事件在',!!e);
+    if(e){ const at=(term,w,wd,h)=>{ const d=wk(term,w,wd); fresh(d,h,'noodle'); return EVENTS.check(e); };
+      const r={w10tue:at('Y1S2',10,2,18.5),w9:at('Y1S2',9,2,18.5),w12thu:at('Y1S2',12,4,19),wed:at('Y1S2',10,3,18.5),late:at('Y1S2',10,2,21),y2:at('Y2S1',10,2,18.5)};
+      check('語彤 6：大一下第 10 週以後的週二、週四晚上進麵店才有（第 9 週、週三、21:00、大二都沒有）',r.w10tue&&!r.w9&&r.w12thu&&!r.wed&&!r.late&&!r.y2,JSON.stringify(r));
+      fresh(wk('Y1S2',10,2),18.5,'noodle'); await EVENTS.run(e); let L=lines();
+      check('語彤 6（還不認識語彤）：流程旁白＋阿哲「那誰？」＋阿姨「沒事啦…」＋語彤「……嗯。」；沒有問的選項、沒有 RENT_RUMOR',L[0]==='一個穿西裝的中年人拿著捲尺量店面的寬度，跟阿姨講了幾句就走。'&&L[1]==='阿姨把湯勺放下，站著不動，然後又拿起來。'&&/那誰？$/.test(L[2])&&L[3]==='語彤端麵過來。'&&L[4]==='阿姨：沒事啦，房東的朋友，來看房子。'&&/……嗯。$/.test(L[6])&&!opts.length&&!SOCIAL.has('heroine_03','RENT_RUMOR'),JSON.stringify(L));
+      fresh(wk('Y1S2',10,2),18.5,'noodle'); SOCIAL.meet('heroine_03','campus'); picks=[0]; await EVENTS.run(e); L=lines();
+      check('語彤 6（認識）：問 →「房東想把整棟賣掉。還沒確定。……你吃你的。」、記 RENT_RUMOR',JSON.stringify(opts[0])==='["（問語彤）","（不問）"]'&&L.some(t=>/房東想把整棟賣掉。還沒確定。……你吃你的。$/.test(t))&&SOCIAL.has('heroine_03','RENT_RUMOR'),JSON.stringify(L.slice(-2)));
+      fresh(wk('Y1S2',10,2),18.5,'noodle'); SOCIAL.meet('heroine_03','campus'); picks=[1]; await EVENTS.run(e);
+      check('語彤 6（認識）：不問就不記 RENT_RUMOR、只演一次',!SOCIAL.has('heroine_03','RENT_RUMOR')&&!EVENTS.check(e)); } }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

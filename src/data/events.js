@@ -551,6 +551,17 @@ const STORY_EVENTS=[
     prereq:{custom:G=>{ if(G.flags.noodleTableDay==null||typeof CLS==='undefined'||!CLS.lastExamEnd) return false; const e=CLS.lastExamEnd(G,'Y1S1','final'); return !!e&&(G.day>e.day||(G.day===e.day&&G.hour>=e.h)); }},
     dialogue:[ {speaker:null,text:'期末最後一科考完。麵店團一定吃一頓。'},{speaker:null,text:'阿姨多送了一盤小菜。'},{speaker:'阿姨',text:'考完了，吃好一點。'} ],
     consequences:{memo:'期末最後一頓（阿鳳麵店）'} },
+  /* 語彤 6：房東來過了（交接包 v2 C12；AA_11 事件 6）：大一下第 10 週以後，第一次在週二或週四晚上去麵店（同班圈固定儀式）；once；玩家一直沒去就不發生。
+     流程 1～4 照 AA_11 的字寫成旁白；問的選項只在和語彤有 FIRST_MET 時出現（選項的字「（問語彤）／（不問）」是 LAWWW 寫的動作描述，AA 可改）；問了才記 RENT_RUMOR */
+  { id:'ev_yutong_landlord', title:'房東來過了', participants:['heroine_03'], location:'noodle', trigger:'enter', weekday:[2,4], time:[17.5,20.5], once:true,
+    term:['Y1S2'], weeks:[10,11,12,13,14,15,16,17,18], background:'freeze',   /* 只在大一下（AA_11：「事件 6 只在大一下去麵店時發生」）*/
+    dialogue:[ {speaker:null,text:'一個穿西裝的中年人拿著捲尺量店面的寬度，跟阿姨講了幾句就走。'},{speaker:null,text:'阿姨把湯勺放下，站著不動，然後又拿起來。'},
+      {speaker:'zhe',expression:'neutral',text:'（小聲）那誰？'},{speaker:null,text:'語彤端麵過來。'},{speaker:'阿姨',text:'沒事啦，房東的朋友，來看房子。'},
+      {speaker:null,text:'（語彤放下碗）'},{speaker:'heroine_03',expression:'neutral',text:'……嗯。'},
+      {unless:{memory:[{npc:'heroine_03',tag:'FIRST_MET'}]},goto:'end'},
+      {choice:[{text:'（問語彤）',goto:'ask'},{text:'（不問）',goto:'end'}]},
+      {label:'ask'},{speaker:'heroine_03',expression:'neutral',text:'房東想把整棟賣掉。還沒確定。……你吃你的。'},{mem:[{npc:'heroine_03',tag:'RENT_RUMOR',note:'房東想把整棟賣掉，還沒確定'}]},
+      {label:'end'} ] },
   /* 以安新 5：舍友的記點申訴（交接包 v2 C8；草稿第 3 節、AA_113 新 5；法律台詞 BB 2026-10-14 查核無誤：學校的內部程序，不寫成行政程序法直接適用）：
      大一下第 5 週平日晚上 19～22 在總圖（她那週的作息），認識以上；四個選項記 AN_APPEAL。結果在第 7 週：總圖見到她就當面說，週五晚上還沒見到就傳訊息（story3d phoneRules）；
      沒遇到的玩家第 7 週在麵店團群組看到一句（聽說）*/
