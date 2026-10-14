@@ -97,5 +97,34 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
       it=conOn(false); G.hour=it.t0+0.1; said=[]; await CLS.attend(GM,it); check('9. 沒有先走（留下來或沒去）：沒有這一句',!lines().some(l=>l.includes('聽完就走了')),JSON.stringify(lines()));
       const w13=termDay('Y1S2',13,1); fresh(w13,8,'classroom'); meet('heroine_01'); G.flags.LEFT_AFTER_B4=true; const it13=CLS.dayItems(G,w13).find(x=>x.c.id==='const_2');
       if(it13){ G.hour=it13.t0+0.1; said=[]; await CLS.attend(GM,it13); } check('9. 只在第 12 週（第 13 週不演）',!it13||!lines().some(l=>l.includes('聽完就走了'))); } }
+  /* 沛珊的那張表（BB_96 3-7） */
+  { const PS='classmate_peishan', thP='p:'+PS, eb=ev('ev_peishan_table_bench'), ec=ev('ev_peishan_table_later_club'), ek=ev('ev_peishan_table_later_class'), em=ev('ev_peishan_table_mail');
+    check('10. 沛珊的那張表：女舍長椅、讀書會、週四上課前、信箱四個事件都在',!!eb&&!!ec&&!!ek&&!!em);
+    const withC=(day,h,zone)=>{ fresh(day,h,zone||'campus'); INV.addContact(G,PS); meet(PS); };
+    withC(tue,8); run(8,13); const ask=TH(thP);
+    check('10. 週二 12:00 沛珊私訊兩句（原文）',JSON.stringify(ask.map(m=>m.text))===JSON.stringify(['刑總二未遂那一章，我做了一張表，印給大家。','你的那份，週四演講完，來女舍門口拿？'])&&ask.every(m=>m.h===12),JSON.stringify(ask.map(m=>[m.h,m.text])));
+    const q2=ask.find(m=>m.ask); check('10. 可以回「好。」／「我不一定會去演講。」',!!q2&&JSON.stringify(q2.ask.opts.map(o=>o.t))==='["好。","我不一定會去演講。"]');
+    PHONE.answer(G,q2.ask.id,1); check('10. 回「我不一定會去演講。」：她「那你經過女舍的時候說一聲。」',TH(thP).slice(-1)[0].text==='那你經過女舍的時候說一聲。'&&G.flags.PS_TABLE_REPLY==='maybe');
+    withC(tue,8); run(8,13); PHONE.answer(G,TH(thP).find(m=>m.ask).ask.id,0); check('10. 回「好。」：比 OK 的貼圖',TH(thP).slice(-1)[0].text==='（貼圖：比 OK）');
+    fresh(tue,8,'campus'); run(8,13); check('10. 沒有沛珊聯絡方式：整條線沒有',!TH(thP).length);
+    withC(thu,18); run(18,21); const cx=TH(thP).filter(m=>m.tag==='ps_table_cancel');
+    check('10. 週四 20:40 改約的兩句（所有有聯絡方式的玩家）',JSON.stringify(cx.map(m=>m.text))===JSON.stringify(['對不起。課輔班的作業還沒改完，明天要發回去。','今天下不去了。'])&&cx.every(m=>Math.abs(m.h-(20+40/60))<0.05),JSON.stringify(cx.map(m=>[m.h,m.text])));
+    const bench=(h)=>{ withC(thu,h,'campus'); return EVENTS.check(eb); };
+    check('10. 女舍長椅：週四 20:40～21:30、在校園、有聯絡方式才演（靠近長椅 3 m 內才觸發）',bench(20.75)&&!bench(20.5)&&!bench(21.6)&&eb.near&&eb.near.x===-93&&Math.abs(eb.near.z-54.26)<0.01&&eb.near.r===3&&(()=>{ fresh(thu,20.75,'campus'); return !EVENTS.check(eb); })());
+    const playB=async k=>{ withC(thu,20.75,'campus'); run(20.7,20.75); picks=[k]; await EVENTS.run(eb); return lines(); };
+    L=await playB(0);
+    check('10. 「沒關係。」：手機上她的兩句 →「……好。週一前給你。」；手機裡照順序是她的兩句、你「沒關係。」、她的回覆；PS_CANCEL＝ok',JSON.stringify(L)===JSON.stringify(['沛珊（手機）：對不起。課輔班的作業還沒改完，明天要發回去。','沛珊（手機）：今天下不去了。','沛珊（手機）：……好。週一前給你。'])&&JSON.stringify(TH(thP).slice(-4).map(m=>m.from+':'+m.text))===JSON.stringify(['classmate_peishan:對不起。課輔班的作業還沒改完，明天要發回去。','classmate_peishan:今天下不去了。','player:沒關係。','classmate_peishan:……好。週一前給你。'])&&G.flags.PS_CANCEL==='ok'&&!G.flags.PS_TABLE_GOT,JSON.stringify({L,T:TH(thP).map(m=>m.from+':'+m.text)}));
+    L=await playB(1);
+    check('10. 「那我等妳十分鐘。」：十分鐘後她下來（旁白＋三句）、拿到表；PS_CANCEL＝waited',JSON.stringify(L.slice(2))===JSON.stringify(['十分鐘後她真的下來了，外套沒拉好，手上拿著紅筆。','郭沛珊：你真的在等。','郭沛珊：表給你。第二頁我還沒畫完。','郭沛珊：……我上去了。還有十二本。'])&&G.flags.PS_CANCEL==='waited'&&G.flags.PS_TABLE_GOT===true&&Math.abs(G.hour-(20.75+1/6))<1e-6,JSON.stringify({L,h:G.hour}));
+    run(G.hour,23.9); G.day=thu+1; G.weekday=wdOf(G.day); run(0,13);
+    check('10. 等了十分鐘：隔天 12:00「你真的等了十分鐘？……下次我會先說。」',TH(thP).some(m=>m.text==='你真的等了十分鐘？……下次我會先說。'&&m.day===thu+1&&m.h===12),JSON.stringify(TH(thP).slice(-2).map(m=>[m.day,m.h,m.text])));
+    L=await playB(2); check('10. 「改天再給我。」：敬禮的貼圖；PS_CANCEL＝later',L[L.length-1]==='沛珊（手機）：（貼圖：敬禮）'&&G.flags.PS_CANCEL==='later'&&TH(thP).slice(-2).map(m=>m.text).join('|')==='改天再給我。|（貼圖：敬禮）',JSON.stringify(L));
+    const wed12=termDay('Y1S2',12,3), thu12=termDay('Y1S2',12,4), mon12=termDay('Y1S2',12,1);
+    const later=(day,h,zone,got)=>{ withC(day,h,zone); G.flags.PS_CANCEL='later'; if(got) G.flags.PS_TABLE_GOT=true; return [EVENTS.check(ec,{chain:true}),EVENTS.check(ek)]; };
+    check('10. 改天：第 12 週週三法服讀書會散場給（afterActivity）；週四進 201 上課前也可以（還沒拿到才給）',later(wed12,21,'wancai')[0]&&later(thu12,13,'classroom')[1]&&!later(thu12,13,'classroom',true)[1]&&!later(thu12,14,'classroom')[1],JSON.stringify([later(wed12,21,'wancai'),later(thu12,13,'classroom')]));
+    { withC(wed12,21,'wancai'); G.flags.PS_CANCEL='later'; await EVENTS.run(ec); check('10. 改天：「給你。上次說的改天，就是今天。」、拿到表',JSON.stringify(lines())==='["郭沛珊：給你。上次說的改天，就是今天。"]'&&G.flags.PS_TABLE_GOT===true,JSON.stringify(lines())); }
+    const mail=(k,day,sent)=>{ withC(day,10,'dorm_hall'); if(k) G.flags.PS_CANCEL=k; if(sent!==false) PHONE.post(G,{th:thP,from:PS,text:'今天下不去了。',tag:'ps_table_cancel'}); return EVENTS.check(em); };
+    check('10. 信箱：「沒關係。」、沒去（沒回）＝第 12 週週一起回宿舍；等了、改天＝沒有；第 12 週以前沒有；沒收到改約（沒有聯絡方式）沒有',mail('ok',mon12)&&mail(null,mon12)&&!mail('waited',mon12)&&!mail('later',mon12)&&!mail('ok',mon12-1)&&!mail(null,mon12,false),JSON.stringify([mail('ok',mon12),mail(null,mon12),mail('waited',mon12),mail('later',mon12),mail('ok',mon12-1),mail(null,mon12,false)]));
+    { mail('ok',mon12); await EVENTS.run(em); check('10. 信箱：「信箱裡有那張表，附一張便條：「對不起。這份有畫重點。」」',JSON.stringify(lines())==='["信箱裡有那張表，附一張便條：「對不起。這份有畫重點。」"]'&&G.flags.PS_TABLE_GOT===true,JSON.stringify(lines())); } }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

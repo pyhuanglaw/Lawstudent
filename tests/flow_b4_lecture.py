@@ -1,5 +1,5 @@
 """真實玩家流程：交接包 v2 C13 的 B4 博雅演講、B5 小桌子（AA_115 第 1、2 節；BB_105 4-5）。不用 ?turbo。
-[前置／捷徑] 讀檔：大一下第 11 週週四 18:36，博雅大廳；「認識以安、小語」用 SOCIAL.remember 補（照劇情這時候早就認識，只是把人放到那個時間）。
+[前置／捷徑] 讀檔：大一下第 11 週週四 18:48，博雅大廳；「認識以安、小語」用 SOCIAL.remember 補（照劇情這時候早就認識，只是把人放到那個時間）。
 之後都走真的介面：自己走進 101、坐下、選「聽演講」、點對話；散場以安問「要不要去小桌子整理一下？」選「好。」；
 起身、自己走到圓桌以安的旁邊；B5 選第一張便利貼。
 檢查：以安、小語、阿哲照作息走進 101；演講的台詞；聽完（attended）；散場的問題與 B5_GO；以安、小語走到圓桌坐下；
@@ -51,13 +51,13 @@ async def main():
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
         thu = await pg.evaluate("STORY.termDay('Y1S2',11,4)")
-        run.setup(f'讀檔：大一下第 11 週週四（第 {thu} 天）18:36，博雅大廳；補「認識以安、小語」的記憶')
-        await L.load_state(pg, {'zone': 'boya', 'hour': 18.6, 'day': thu, 'weekday': 4, 'weather': 'clear', 'pos': {'x': 0, 'z': 6.8, 'yaw': 3.14}, 'flags': BASE_FLAGS})
+        run.setup(f'讀檔：大一下第 11 週週四（第 {thu} 天）18:48，博雅大廳；補「認識以安、小語」的記憶')
+        await L.load_state(pg, {'zone': 'boya', 'hour': 18.8, 'day': thu, 'weekday': 4, 'weather': 'clear', 'pos': {'x': 0, 'z': 6.8, 'yaw': 3.14}, 'flags': BASE_FLAGS})
         await pg.evaluate("SOCIAL.remember('heroine_01','FIRST_MET','');SOCIAL.remember('yu','FIRST_MET','')")
         await pg.wait_for_timeout(3000)
         # 1. 以安、小語、阿哲照作息走進 101
         w = None
-        for _ in range(150):
+        for _ in range(300):   # SwiftShader 下遊戲時間大約是真實時間的 4 倍：18:48→18:50 以後人才走進來（2026-10-14 第一次跑：150 秒只到 18:46）
             w = dict(await pg.evaluate(WHERE_JS + "(%s)" % json.dumps(FRIENDS)))
             if all(w.get(i) and w[i]['x'] < -6 for i in FRIENDS): break
             await pg.wait_for_timeout(1000)

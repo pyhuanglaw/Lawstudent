@@ -632,6 +632,36 @@ const STORY_EVENTS=[
   { id:'ev_b4_left_an', title:'那天的演講', participants:['heroine_01'], location:'any', trigger:'class', afterClass:'const_2', term:['Y1S2'], weeks:[12], once:true, background:'blur',
     prereq:{flags:['LEFT_AFTER_B4'],memory:[{npc:'heroine_01',tag:'FIRST_MET'}]},
     dialogue:[ {speaker:'heroine_01',expression:'thinking',text:'你那天聽完就走了。你怎麼想？'} ] },
+  /* 可玩切片的選擇③（AA_115 第 1、2 節；BB_96 3-7）——沛珊的那張表：有沛珊聯絡方式的玩家，週二中午她私訊「刑總二未遂那一章，我做了一張表……週四演講完，來女舍門口拿？」（story3d.js phoneRules）；
+     週四 20:40 她傳「對不起。課輔班的作業還沒改完……今天下不去了。」（所有人都收到）。玩家這時候在大一女舍門口的長椅附近＝這一段：手機上她的兩句（只顯示，手機裡已經有），三選一。
+     玩家和她的回覆在演完以後照順序寫進手機（after）。「那我等妳十分鐘。」＝十分鐘後她真的下來（她的台詞照 BB）。朋友之間的一張筆記表，沒有「我請你」。記 PS_CANCEL（ok／waited／later）、拿到表＝PS_TABLE_GOT */
+  { id:'ev_peishan_table_bench', title:'女舍門口', participants:[], location:'campus', trigger:'auto', near:{x:-93,z:54.26,r:3}, term:['Y1S2'], weeks:[11], weekday:[4], time:[20+40/60,21.5], once:true, background:'blur',
+    prereq:{custom:G=>typeof INV!=='undefined'&&!!INV.hasContact&&INV.hasContact(G,'classmate_peishan')},
+    dialogue:[ {speaker:'沛珊（手機）',text:'對不起。課輔班的作業還沒改完，明天要發回去。'},{speaker:'沛珊（手機）',text:'今天下不去了。'},
+      {choice:[{text:'「沒關係。」',set:{PS_CANCEL:'ok'},goto:'ok'},{text:'「那我等妳十分鐘。」',set:{PS_CANCEL:'waited'},goto:'wait'},{text:'「改天再給我。」',set:{PS_CANCEL:'later'},goto:'later'}]},
+      {label:'ok'},{speaker:'沛珊（手機）',text:'……好。週一前給你。'},{goto:'end'},
+      {label:'wait'},{advance:1/6},{speaker:null,text:'十分鐘後她真的下來了，外套沒拉好，手上拿著紅筆。'},
+      {speaker:'classmate_peishan',expression:'surprised',text:'你真的在等。'},{speaker:'classmate_peishan',expression:'neutral',text:'表給你。第二頁我還沒畫完。'},
+      {speaker:'classmate_peishan',expression:'neutral',text:'……我上去了。還有十二本。'},{set:{PS_TABLE_GOT:true}},{goto:'end'},
+      {label:'later'},{speaker:'沛珊（手機）',text:'（貼圖：敬禮）'},
+      {label:'end'} ],
+    after:G=>{ if(typeof PHONE==='undefined') return; const th='p:classmate_peishan', me=t=>PHONE.post(G,{th,from:'player',who:null,text:t}), ps=t=>PHONE.post(G,{th,from:'classmate_peishan',text:t});
+      const k=G.flags.PS_CANCEL; if(k==='ok'){ me('沒關係。'); ps('……好。週一前給你。'); } else if(k==='waited') me('那我等妳十分鐘。'); else if(k==='later'){ me('改天再給我。'); ps('（貼圖：敬禮）'); } } },
+  /* 「改天再給我。」（BB_96 3-7）：第 12 週週三法服讀書會散場（afterActivity）她把表拿給他；不是法服的玩家（或那天沒去）：第 12 週週四進 201 上課前 */
+  { id:'ev_peishan_table_later_club', title:'那張表', participants:['classmate_peishan'], location:'any', trigger:'activity', afterActivity:'lawclub_study', term:['Y1S2'], weeks:[12], once:true, background:'blur',
+    prereq:{flagIs:{PS_CANCEL:'later'},notFlags:['PS_TABLE_GOT']},
+    dialogue:[ {speaker:'classmate_peishan',expression:'smile',text:'給你。上次說的改天，就是今天。'} ],
+    consequences:{flags:{PS_TABLE_GOT:true}} },
+  { id:'ev_peishan_table_later_class', title:'那張表', participants:['classmate_peishan'], location:'classroom', trigger:'enter', term:['Y1S2'], weeks:[12], weekday:[4], time:[12,13+20/60], once:true, background:'blur',
+    prereq:{flagIs:{PS_CANCEL:'later'},notFlags:['PS_TABLE_GOT']},
+    dialogue:[ {speaker:'classmate_peishan',expression:'smile',text:'給你。上次說的改天，就是今天。'} ],
+    consequences:{flags:{PS_TABLE_GOT:true}} },
+  /* 「沒關係。」、沒去女舍（或沒回）（BB_96 3-7）：第 12 週週一起，回宿舍時信箱裡有那張表，附一張便條（旁白照 BB 的描述寫成句子）*/
+  { id:'ev_peishan_table_mail', title:'信箱', participants:[], location:['dorm_hall','dorm'], trigger:'enter', term:['Y1S2'], once:true, background:'freeze',
+    prereq:{notFlags:['PS_TABLE_GOT'],custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay('Y1S2',12,1):null; const k=G.flags.PS_CANCEL;
+      return d!=null&&G.day>=d&&(k==null||k==='ok')&&typeof PHONE!=='undefined'&&PHONE.sent(G,'ps_table_cancel'); }},
+    dialogue:[ {speaker:null,text:'信箱裡有那張表，附一張便條：「對不起。這份有畫重點。」'} ],
+    consequences:{flags:{PS_TABLE_GOT:true}} },
   /* 聖誕交換禮物（交付清單 A20：AA_71 2-6「大一的實作」，AA 2026-10-14 回 LAWWW）：第 17 週週三 12/24 中午 12:20～13:10 在霖澤館一樓；只有麵店團的玩家有（阿哲兩天前在群組揪，
      story3d.js 的 phoneRules），沒去不扣分。在場的人＝XMAS_WHO 裡玩家認識的（交付清單第 0 節第 1 條）。祐廷送什麼由玩家選（XMAS_GIFT）；
      抽到祐廷禮物的人（XMAS_TO）、祐廷抽到誰的（XMAS_FROM）從在場的人裡隨機挑（pick）；明軒和小語都在、抽到祐廷禮物的不是明軒＝小語的玩偶是明軒抽到（「和祐廷無關的一句」），祐廷就抽不到；
