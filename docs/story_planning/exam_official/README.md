@@ -41,3 +41,9 @@
 2. 寫 `tools/map_<檔名>.json`：每題對到課程與週次（照 `syllabus` 每週的黑板）；看不出來或有疑問的寫進 `flags`，回報使用者。
 3. `python3 tools/convert_user_md.py <原文> <對應> <輸出>`（只附正確答案的格式用 `convert_answer_only.py`），再跑 `python3 tools/sync_asked.py`（轉換會清掉 `askedIn`，要補回來）和 `python3 tools/check_official.py --sync`（照實際題數更新 `course_bank_map.json`）。
 4. 通知 LAWWW；`flags` 整理給使用者決定。
+
+## 4. AA 交叉檢查紀錄（2026-10-14 約 17:45 UTC）
+
+- BB `8e86f83` 轉換的使用者新一批 185 題（行政法 20、民法 40、民法補充 40、刑法 45、證交法 40）：AA 用另一支獨立的程式逐題比對使用者題庫的原文（題幹、四個選項、答案、考點），**0 處不同**。
+- 課程週次：民法 40 的第 1～20 題沿用舊的對應（第 5、14、16 題使用者改過字，flag 清掉；第 7、10 題的 flag 保留）；補充 40 照使用者分的課（民總 7、債總一 7、債總二 8、債各 7、物權 6、身分法 5）；刑法、行政法和 `tools/AA_核對_刑法45_行政法20.md` 第 4 節一致；證交法有 22 題在第 5 週（內線交易 20 題、短線交易 2 題有 flag）。
+- **要改**：USER_CONFIRMED 題目的 `basis`（法條）是 AA／BB 為了對週次自己標的，不是使用者給的，遊戲不能顯示 → 改名 `mapBasis`（BB 下次重產時改；`check_official.py` 先警告）；LAWWW 的考試畫面大一～大三只顯示 `core` 與使用者的 `explanation`。
