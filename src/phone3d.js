@@ -12,7 +12,8 @@
 'use strict';
 const PHONE=(function(){
   const S={};
-  const nm=id=>{ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(c&&c.phoneName) return c.phoneName; return (typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(id):((c&&c.name)||id); };   /* phoneName：手機上的名字（可昕）*/
+  const nm=id=>{ const cn=typeof SOCIAL!=='undefined'&&SOCIAL.contactName?SOCIAL.contactName(id):null; if(cn) return cn;   /* 手機聯絡人的名字跟著關係（AA_124 1-6、BB_120：到「朋友」時改叫法） */
+    const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(c&&c.phoneName) return c.phoneName; return (typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(id):((c&&c.name)||id); };   /* phoneName：手機上的名字（可昕）*/
   S.rec=function(G){ if(typeof INV!=='undefined') INV.rec(G); else if(!Array.isArray(G.msgs)) G.msgs=[];
     if(!G.phone||typeof G.phone!=='object') G.phone={}; const P=G.phone; if(!P.groups||typeof P.groups!=='object') P.groups={}; if(!P.seen||typeof P.seen!=='object') P.seen={}; if(!Array.isArray(P.q)) P.q=[]; if(typeof P.n!=='number') P.n=0; return P; };
   S.th=m=>m.th||(m.who?'p:'+m.who:'sys');

@@ -37,7 +37,16 @@ const INVITE_DATA={
     heroine_03:[{say:'「嗯。」'},{narr:'（她把手機推過來，畫面已經停在加好友那一頁。）'}],
     yu:[{say:'「欸你還不在我的群組裡？我拉你。三個。」'}],
     classmate_bohan:[{say:'「好。我只傳考古題。……還有時間表。」'}],
-    classmate_xinci:[{say:'「好。我會傳讀書計畫表，你不用每一張都回。」'}]
+    classmate_xinci:[{say:'「好。我會傳讀書計畫表，你不用每一張都回。」'}],
+    /* BB 的人物（BB_120 1-7b，第②級）：每一句都是她／他在手機上的習慣 */
+    heroine_02:[{say:'「好。……上班時間我不回。下班一次回完。」'}],
+    heroine_04:[{say:'「欸不是，你還沒有我的？好。我傳東西不解釋。」'}],
+    classmate_peishan:[{say:'「好。我睡前常常想到問題。……你可以不回。」'}],
+    classmate_mingxuan:[{say:'「好啊。二四六晚上我在家教，九點以後回。哈哈」'}],
+    npc_fangyt:[{say:'「好。上山的時候沒有訊號，下山會一次回。」'}],
+    classmate_youchen:[{say:'「好啊。週五我會丟一首歌，聽不聽隨你。」'}],
+    npc_huangxh:[{say:'「好。我找受試者的時候，可以先問你嗎？」'}],
+    npc_ta_chen:[{say:'「好。……有問題先問自己一次，再問我。」'}]
   },
   /* 這些作息的時候不能赴約（會說「改天」，附一個具體的時間）*/
   busyActs:['class','barista','help','club','ta'],

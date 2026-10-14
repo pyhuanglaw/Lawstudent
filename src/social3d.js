@@ -74,6 +74,33 @@ const SOCIAL = (function(){
     const r=retiredNotes[id]; if(r&&r.has(m.tag+'|'+m.note)) return ''; const rn=NOTE_RENAMED[id]&&NOTE_RENAMED[id][m.tag+'|'+m.note]; return rn||m.note; };
   /* 改過的備註（舊存檔裡記的是舊說法；人物面板顯示新的，存檔不改）：沛珊「她在考慮轉系」→「她在想別的路」（AA 2026-10-14：她之後是休學重考，不是轉系；BB_95 2-8）*/
   const NOTE_RENAMED={classmate_peishan:{'IMPORTANT_CONVERSATION|她在考慮轉系':'她在想別的路'}};
+  /* ---- 好感看得見（AA_124 1-6、BB_120 第 1 節；台詞在 src/data/rel_lines.js）----
+     升到有點熟／朋友／好朋友以後的下一次見面先說門檻台詞（每句一次、跳階只說最高的）、約好的見面結束的一句、手機聯絡人的名字、見面時的旁白。
+     階段只看朋友這條線（熟悉、信任、自在；交往中、曖昧的人也照這三項），再照人物的 cap 壓低（學姊 W8 以前算有點熟）。存檔：G.social.relUp＝{人物: 說過的最高一階} */
+  const RL=()=>typeof REL_LINES!=='undefined'?REL_LINES:{};
+  const FL=['STRANGER','ACQUAINTANCE','FAMILIAR','FRIEND','CLOSE_FRIEND'];
+  S.friendLevel=function(id){ const r=S.rel(id); let s=(r.fam>=60&&r.trust>=45&&r.comf>=40)?'CLOSE_FRIEND':((r.fam>=40&&r.trust>=25)?'FRIEND':(r.fam>=20?'FAMILIAR':(r.fam>=5?'ACQUAINTANCE':'STRANGER')));
+    const d=RL()[id], cap=d&&d.cap?d.cap(G):null; if(cap&&FL.indexOf(cap)<FL.indexOf(s)) s=cap; return s; };
+  /* 好幾個版本（[{if,l}／{if,t}…]）取第一個成立的；不是版本清單就原樣 */
+  const pickV=v=>{ if(Array.isArray(v)&&v.length&&v[0]&&typeof v[0]==='object'&&!('n' in v[0])&&(('l' in v[0])||('t' in v[0]))){ for(const x of v) if(!x.if||x.if(G)) return x; return null; } return v; };
+  S.upLine=function(id){ const d=RL()[id]; if(!d||!d.up||!G.social) return null; const lv=FL.indexOf(S.friendLevel(id)), done=((G.social.relUp||{})[id])|0;
+    for(let k=lv;k>=2&&k>done;k--){ const e=pickV(d.up[FL[k]]); if(!e) continue; if(e.wait&&!e.wait(G)) continue; return {stage:FL[k],k,l:e.l||[],ch:e.ch||null}; } return null; };
+  S.markUp=function(id,k){ const U=G.social.relUp||(G.social.relUp={}); if((U[id]|0)<k) U[id]=k; };
+  S.byeLine=function(id){ const d=RL()[id]; if(!d||!d.bye) return null; const s=S.friendLevel(id), B=d.bye;
+    const v=pickV((s==='CLOSE_FRIEND'&&B.CLOSE_FRIEND)||((s==='CLOSE_FRIEND'||s==='FRIEND')&&B.FRIEND)||B.base); return v?(v.l||v):null; };
+  S.meetLine=function(id,pid){ const d=RL()[id], T=d&&d.meet&&d.meet[pid]; if(!T) return null; const s=S.friendLevel(id);
+    const v=pickV(T[(s==='FRIEND'||s==='CLOSE_FRIEND')?'R':(s==='FAMILIAR'?'F':'A')]); return v?(typeof v==='string'?v:(v.t||null)):null; };
+  S.contactName=function(id){ const d=RL()[id], C=d&&d.contact; if(!C) return null; const s=S.friendLevel(id);
+    return (s==='CLOSE_FRIEND'&&(C.CLOSE_FRIEND||C.FRIEND))||((s==='FRIEND'||s==='CLOSE_FRIEND')&&C.FRIEND)||C.base||null; };
+  /* 任一方有伴侶（祐廷和別人交往中，或對方這學期有伴侶 CHARACTERS[id].partner）：{solo:true} 的旁白拿掉（BB_120 1-0） */
+  S.partnered=function(id){ const F=G.flags||{}; if(Object.keys(F).some(k=>k.indexOf('dating_')===0&&k!=='dating_'+id&&F[k])) return true;
+    const c=(typeof CHARACTERS!=='undefined')&&CHARACTERS[id]; return !!(c&&c.partner&&typeof STORY!=='undefined'&&STORY.inTerms&&STORY.inTerms(G,c.partner)); };
+  /* 播一串台詞：（開頭＝旁白、其他＝那個人說（who）；{n,solo}；{name}＝玩家的名字 */
+  S.playSteps=async function(GM,who,id,steps){ for(const st of steps||[]){ const o=typeof st==='string'?{t:st}:(st||{}); if(o.solo&&S.partnered(id)) continue;
+      const t=String(o.t||o.n||o.s||'').replace('{name}',G.name||'祐廷'); if(!t) continue; if(o.n||/^（/.test(t)) await GM.say(null,t); else await GM.say(who,t); } };
+  /* 門檻台詞＋小選擇（不加數值）；說了回傳 true（先記下來，演到一半出錯也不會每次都說） */
+  S.playUp=async function(GM,who,id){ const U=S.upLine(id); if(!U) return false; S.markUp(id,U.k); await S.playSteps(GM,who,id,U.l);
+    if(U.ch&&U.ch.length){ const k=await GM.choose(U.ch.map(c=>({t:c.t}))); const c=U.ch[k]; if(c) await S.playSteps(GM,who,id,c.r); } return true; };
   S.describe=function(id){ const c=CHARACTERS[id]; if(!c) return ''; const st=S.stage(id); const label={STRANGER:'還不認識',ACQUAINTANCE:'認識',FAMILIAR:'有點熟',FRIEND:'朋友',CLOSE_FRIEND:'好朋友',POSSIBLE_ROMANTIC_INTEREST:'……有點在意',ROMANTIC_TENSION:'說不清楚的關係',RELATIONSHIP:'在一起'}[st]; const mems=S.memories(id).slice(-4).map(m=>{ if(!MEMORY_LABEL[m.tag]) return null; const nt=S.noteShown(id,m); return MEMORY_LABEL[m.tag]+(nt?'（'+nt+'）':''); }).filter(Boolean); return label+(mems.length?' · '+mems.join('、'):''); };
   const MEMORY_LABEL={BLUFFED:'在她面前裝懂過',FIRST_MET:'第一次見面',GREETED:'打過招呼',SHARED_CLASS:'一起上課',SHARED_MEAL:'一起吃飯',STUDIED_TOGETHER:'一起讀書',HELPED:'幫過忙',REFUSED_HELP:'你拒絕過',ARGUED:'吵過',APOLOGIZED:'道過歉',SHARED_SECRET:'說過秘密',SHARED_UMBRELLA:'共撐一把傘',MISSED_DINNER:'放過鴿子',HELPED_WITH_REPORT:'幫她寫報告',STUDIED_ALL_NIGHT:'一起熬夜',ARGUED_ABOUT_CAREER:'為未來吵過',GRAD_SCHOOL_DISCUSSION:'聊過研究所',BAR_EXAM_DISCUSSION:'聊過國考',WALKED_TOGETHER:'一起走過校園',CAFE_AFTERNOON:'咖啡廳的下午',LIBRARY_AFTERNOON:'總圖的下午',KNOWS_ECON_YEAR:'知道你念過一年經濟系',DECLINED_INVITE:'你拒絕過邀約',CLASS_ANSWER_GOOD:'看過你答得很好',CLASS_ANSWER_BAD:'看過你被電',LENT_NOTES:'借過筆記',INVITED_CLUB:'邀你進社團',TALKED_FAMILY:'聊過家裡的事',RAIN_LIBRARY:'雨天圖書館門口',LATE_NIGHT_TALK:'深夜聊過',PLAYER_ASKED_QUESTION:'你問過她問題',CONFESSION:'告白',DATING:'交往',BREAKUP:'分手',EXAM_RESULT:'考試結果',GRAD_SCHOOL_RESULT:'放榜',IMPORTANT_CONVERSATION:'重要的對話',NOT_FOR_ME:'她說她不想寫',SAW_HIM_STUDY:'看過他偷偷念書',SAID_DEPENDS:'颱風天說「看情況」',REPORT_PARTNER:'一起寫報告',BREAKFAST_YU:'傅鐘旁邊的早餐',OUR_SHOP_FIRST:'「我們的店」的第一次',TOLD_SCORE:'告訴他期中的分數',ASKED_BACK:'反問他考幾分'};
   S.MEMORY_LABEL=MEMORY_LABEL;
