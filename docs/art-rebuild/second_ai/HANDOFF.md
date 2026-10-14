@@ -42,9 +42,10 @@
       - 對照圖 `shots/npc_ingame_g1305_old_vs_new.webp`：左舊右新；四列是整群、側面、正面臉 1、正面臉 2（9c50fdd）。
       - 單張：`shots/ingame_npc_g1305_*.webp`。
       - 正面臉 2 被前面的人擋住了。
-      - 15:12 那一組沒拍。
+      - 15:12 那一組只拍了加上新路人的版本（`shots/ingame_npc_g1512_new_*.webp`，1a59273）：5 人 5 種模型，聊天的那一群看起來是不同的人。
+      - 這組新發現的缺點：nm1 後頸的髮尾有方塊狀的黑邊。可能是髮片貼圖縮到 512 後，透明邊緣變粗。下一版考慮把髮片貼圖留 1024，或把髮尾的 alpha 做柔一點。
     - 下一步：
-      - 補拍 15:12 那一組：`python3 drafts/npc_crowd_shot.py http://127.0.0.1:8817/index.html <輸出> both`，伺服器要開在 npc_wt。
+      - 補拍 15:12 那一組的「原本」版本：`python3 drafts/npc_crowd_shot.py http://127.0.0.1:8817/index.html <輸出> both`，伺服器要開在 npc_wt。
       - 挑圖放 VISUAL_REVIEW，給 LAWWW，標 READY_FOR_ART_REVIEW。
   - 已知缺點：
     - 女生四個都是空氣瀏海，側邊髮束細。
