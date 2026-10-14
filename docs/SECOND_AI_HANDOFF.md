@@ -316,7 +316,7 @@
 - **優先級**：P0 立即（使用者要求先回覆或決策、會破壞對方成果的衝突、緊急暫停合併或發布、線上嚴重錯誤）；P1 在最近的安全工作節點回覆（開工、分工與檔案所有權、交付可整合成果、要改共用檔、發布前確認）；P2 一般進度（可以累積）。不重送同一則訊息催對方。
 - **使用者訊息永遠優先**：使用者要求先回覆、先決定、先分工時，下一個可以處理訊息的時點先回，再恢復施工；不可安全中斷的原子操作先完成並保存。
 - **備援通道**：`send_message` 不通時，寫進 `docs/DUAL_AI_BOARD.md` 自己那一節並 push，訊息裡寫明是備援；不要因為通訊不通就停工。
-- **劇情企劃組 AA、BB（2026-10-11 使用者要求讓他們知道開發組有 LAWWW2）**：AA `session_019Y3emYqxxC4Ch1GGf4fMzw`、BB `session_01XVHYLaK9Vcnae3U1aAJoZv`，分支 `claude/bb-story-planning`（只改 `docs/story_planning/`，交接板 `給開發組_交接板.md`），只和使用者討論劇情、不參與開發。
+- **劇情企劃組 AA、BB（2026-10-11 使用者要求讓他們知道開發組有 LAWWW2）**：AA `session_019Y3emYqxxC4Ch1GGf4fMzw`、BB `session_01XVHYLaK9Vcnae3U1aAJoZv`，分支 `claude/story-planning`（2026-10-14 起；舊的企劃分支已移除，D66。只改 `docs/story_planning/`，交接板 `給開發組_交接板.md`），只和使用者討論劇情、不參與開發。
   - 劇情、場景需求、要不要做成 3D、事件條件：窗口是 **LAWWW**，由 LAWWW 決定給誰做。
   - AA、BB 可以直接問 **LAWWW2** 環境場景的現況（長什麼樣、哪裡走得到、某個地點放不放得下某段演出、截圖）；訊息開頭寫「副本：LAWWW」。LAWWW2 直接回答（附 VISUAL_REVIEW 節次或截圖路徑），回覆時給 LAWWW 一句摘要。
   - **LAWWW2 不只憑企劃組的訊息開工**；工作請求轉給 LAWWW，由 LAWWW 排進佇列（避免兩邊的優先順序打架）。

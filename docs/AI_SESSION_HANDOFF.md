@@ -21,8 +21,8 @@
 |---|---|---|---|---|---|---|
 | **LAWWW** | 開發負責人：核心系統、人物、建築室內、整合、測試、**正式發布**、分派 LAWWW2 | LAWWW `session_01Eds6msqpsuzNEw98sdw8JX`（**2026-10-13 回到值班**，接班基準 `cb399ea`）交班」） | LAWWW-B：未建立 | **A（值班中）** | `claude/confident-ritchie-8rwh7t`（`e747724`）；本機半成品備份在 `wip_backup/`（git bundle：dorm-hall、wancai-stairs） | `docs/ART_REBUILD_PROGRESS.md` 最上面「交接（最新）」 |
 | **LAWWW2** | 環境美術：Blender、3D 場景（Café、溫州街、公館、街道道具、校園地標、行道樹、獨立室內） | LAWWW2 `session_01AC1WVgJSmoJK1uRsPK2Zn1`（**2026-10-13 12:35Z 回到值班**，接班基準 `1f20126`，值班登記 `8876a23`） | LAWWW2-B：未建立 | **A 值班中** | `claude/second-ai-env-art`（`1f20126`）＋半成品分支 `-wip-pavsoc`（`8c6f1fe`，⑤驗收完成）、`-wip-props6`（`f2fe6ae`，⑤⑥：合併後回歸只跑完 street_props_integration，要重跑才交付）、`-wip-trees`（`d7916da`，⑦驗收沒跑）、`-wip-soclib`（`3b4b201`，⑬配置＋Blender 腳本初稿，還沒執行）；`-wip-props` 是重複分支，忽略 | `docs/art-rebuild/second_ai/HANDOFF.md` |
-| **AA** | 劇情企劃：四年故事架構、主線、系統與劇情規劃 | AA `session_019Y3emYqxxC4Ch1GGf4fMzw`（**2026-10-13 12:34Z 回到值班**，接班基準 `e28aa3d`，值班登記 `ed374c4`） | AA-B：未建立 | **A 值班中** | `claude/bb-story-planning`（`1892599`，和 BB 共用） | `docs/story_planning/AA_交接紀錄.md` |
-| **BB** | 劇情企劃：角色、人物關係、事件、對話與支線 | BB `session_01XVHYLaK9Vcnae3U1aAJoZv`（**2026-10-13 12:34Z 回到值班**，接班基準 `e28aa3d`，值班登記 `83d64b9`） | BB-B：未建立 | **A 值班中** | `claude/bb-story-planning`（同上） | `docs/story_planning/BB_00_協作規範與交接紀錄.md` |
+| **AA** | 劇情企劃：四年故事架構、主線、系統與劇情規劃 | AA `session_019Y3emYqxxC4Ch1GGf4fMzw`（**2026-10-13 12:34Z 回到值班**；接班基準、值班登記見右欄的交接紀錄） | AA-B：未建立 | **A 值班中** | `claude/story-planning`（2026-10-14 起；和 BB 共用。舊的企劃分支已移除，不要再推那個名字——D66） | `docs/story_planning/AA_交接紀錄.md` |
+| **BB** | 劇情企劃：角色、人物關係、事件、對話與支線 | BB `session_01XVHYLaK9Vcnae3U1aAJoZv`（**2026-10-13 12:34Z 回到值班**；接班基準、值班登記見右欄的交接紀錄） | BB-B：未建立 | **A 值班中** | `claude/story-planning`（同上） | `docs/story_planning/BB_00_協作規範與交接紀錄.md` |
 
 - 表上的 SHA 只是更新當時的值，**真正的最新以遠端為準**：`git fetch origin --prune` 後跑 `git log -1 --format='%h %ci %s' origin/<分支>`。
 - 帳號 B 的工作階段由系統指定分支名稱，那也沒關係：接班時把最新的進度合併進去，再登記在這張表。
@@ -247,6 +247,6 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
 | 2026-10-11 10:13 | LAWWW（帳號 A）交班 | LAWWW | 「LAWWW（帳號 A）交班」那個 commit（`claude/confident-ritchie-8rwh7t`） | 使用者說要換班；正常交班。背景的最終回歸、修改審查、接班檢查、出遊規劃都停了，結果不在 GitHub，LAWWW-B 要重跑（進度檔「交班（最新）」） |
 | 2026-10-13 | （A 交班後直接回到 A；**帳號 B 這次沒有開**） | LAWWW | `cb399ea` | 使用者說「我回來了…」，之後說明「後來暫時沒有開新的帳號，從上次停下來的地方開始就好」。所有遠端分支沒有新 commit、沒有帳號 B 的分支。**跨帳號接班還沒實際演練過**（第 9 節的跨帳號通訊仍是未實測）。LAWWW2、AA、BB 等使用者各自叫回來，從各自交班時停下的地方接續 |
 | 2026-10-11 10:14 | LAWWW2（帳號 A）交班 | LAWWW2 | `1f20126`（`claude/second-ai-env-art`）＋WIP 分支（見值班表） | 使用者說要換班；正常交班，HANDOFF.md 最上面有交班紀錄 |
-| 2026-10-11 10:11 | BB（帳號 A）交班 | BB | `e28aa3d`（`claude/bb-story-planning`） | 使用者說要換班；BB 正常交班，BB_00 最上面有交班紀錄 |
-| 2026-10-11 10:10 | AA（帳號 A）交班 | AA | `7721b72`（`claude/bb-story-planning`） | 使用者說要換班；AA 正常交班，交接紀錄最上面「交班（最新）」 |
-| 2026-10-11 09:50 | （建立制度） | 四個 | LAWWW `13e53b2`、LAWWW2 `5cf1b4d`、AA／BB `dc4c8e8` | 帳號 A 值班，還沒換過班；帳號 B 未建立 |
+| 2026-10-11 10:11 | BB（帳號 A）交班 | BB | 舊企劃分支上的交班 commit（該分支已移除；交班紀錄在新企劃分支 `docs/story_planning/BB_00_協作規範與交接紀錄.md`） | 使用者說要換班；BB 正常交班，BB_00 最上面有交班紀錄 |
+| 2026-10-11 10:10 | AA（帳號 A）交班 | AA | 舊企劃分支上的交班 commit（該分支已移除；交班紀錄在新企劃分支 `docs/story_planning/AA_交接紀錄.md`） | 使用者說要換班；AA 正常交班，交接紀錄最上面「交班（最新）」 |
+| 2026-10-11 09:50 | （建立制度） | 四個 | LAWWW `13e53b2`、LAWWW2 `5cf1b4d`、AA／BB 舊企劃分支（已移除） | 帳號 A 值班，還沒換過班；帳號 B 未建立 |

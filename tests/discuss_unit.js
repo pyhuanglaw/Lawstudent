@@ -1,4 +1,4 @@
-// 討論型 B 課堂（AA_119；BB 的 syllabus 00b4ec3 起：obs.kind==='discuss'）＋翹課的轉述（AA_104 4-2）——不需要瀏覽器。
+// 討論型 B 課堂（AA_119；BB 的 syllabus（企劃分支 claude/story-planning）：obs.kind==='discuss'）＋翹課的轉述（AA_104 4-2）——不需要瀏覽器。
 // 流程：教授一句 → 教授問（prompt）→ 回想（選項前的）→ 三個看法＋「我想先聽別人說」→ 那個選項的結果 → 兩三位同學依序回應（回想 after 那位的接在後面）→ 教授收尾（不說誰對）。
 // 檢查：播放順序；記下玩家的看法（G.courses.disc[record]＝選項序號）；去過就有「理解」（G.flags 的 U_*）；回想讀之前的看法（said 的 {choice}／listened／missed）、
 //   去過的課（attended 學期:課程:w週）、人物記憶（memory）、旗標；不計分（出席、準備和一般的課一樣）；舊存檔沒有 disc 從空的開始。

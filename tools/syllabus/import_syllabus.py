@@ -1,13 +1,14 @@
 """BB 的普通課堂內容（企劃分支 docs/story_planning/syllabus/*.json，格式見 AA_104 第 1 節）→ src/data/syllabus.js。
 只匯入法律系的學期（Y1S1～Y4S2）和日文（JP）；經濟系大一（Y0S1、Y0S2）等使用者確認時間線後才匯入（AA_106）。
 拿掉給法律審查的 review、給企劃的 ref（不顯示）；其他欄位照原樣（board 三行、line、react[{who,text}]、tpl A／B（obs）／C（call）、special、skip、pools、second＝一週兩格的課第二格的短片段 second_slot_lines）。
-用法：python3 tools/syllabus/import_syllabus.py [企劃分支的 ref，預設 origin/claude/bb-story-planning]"""
+用法：python3 tools/syllabus/import_syllabus.py [企劃分支的 ref，預設 origin/claude/story-planning]
+（2026-10-14 起企劃分支是 claude/story-planning；舊的企劃分支已經移除，不要再用那個名字——D66）"""
 import json, os, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-REF = sys.argv[1] if len(sys.argv) > 1 else 'origin/claude/bb-story-planning'
+REF = sys.argv[1] if len(sys.argv) > 1 else 'origin/claude/story-planning'
 TERMS = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2', 'JP']
 sha = subprocess.check_output(['git', '-C', ROOT, 'rev-parse', '--short', REF], text=True).strip()
-out = {'source': 'claude/bb-story-planning ' + sha, 'courses': {}, 'skip': {}, 'pools': {}, 'second': {}}
+out = {'source': 'claude/story-planning ' + sha, 'courses': {}, 'skip': {}, 'pools': {}, 'second': {}}
 KEEP = ('w', 'tpl', 'board', 'line', 'react', 'obs', 'call', 'special', 'second_slot_lines')
 for t in TERMS:
     d = json.loads(subprocess.check_output(['git', '-C', ROOT, 'show', f'{REF}:docs/story_planning/syllabus/{t}.json'], text=True))

@@ -65,7 +65,7 @@
   - 佇列執行器到 2 小時會被停，停了就把那一項重排、再啟動 `run_q.sh`。
   - 全部通過後：合併到 main（不 force）＋docs-only 的 `5ebb19e` 一起進去（拿掉 D56 一句不屬於遊戲設定的話）→ 確認 Pages 部署 → RELEASES.md。
 - **開發分支新增（不在 v9.6；Node 測試全過、瀏覽器還沒跑）**：
-  - `6ba24c2`：BB 課程大綱 00b4ec3、討論型 B 課堂（AA_119：看法、同學回應、教授收尾、記錄、回想、理解）、翹課的群組轉述（`discuss_unit`）。
+  - `6ba24c2`：BB 課程大綱（企劃分支 `claude/story-planning` 的 `docs/story_planning/syllabus/`）、討論型 B 課堂（AA_119：看法、同學回應、教授收尾、記錄、回想、理解）、翹課的群組轉述（`discuss_unit`）。
   - `e3e5811`：社團（AA_110 6-8）。吉他社、法服讀書會在萬才館門口參加；社團博覽會在椰林大道的公告欄；系籃在體育館門口；社課旁白（`clubs_aa110_unit`）。
   - `96c0e73`：AA_120 第 7 節。五處改字、20 位不熟同學 60 句、年級跟著遊戲、學長姊畢業、舊存檔女主角初遇遷移（先備份）（`aa120_s7_unit`）。
   - `5ebb19e`：決策 D57（公開文件標示與隱私）、D58（以安新版，AA 轉述）。
@@ -145,7 +145,7 @@
   - `defd65c` AA_110 第 5 節一般系統：出席三態（聽完／中途離開／沒去，`src/game3d.js` 的 actTrack＋`ACTIVITIES.track`）、人物在場四級（npcZone／npcRoom／npcPresent／npcNear）、習慣記憶（`EVENTS.habit`、G.habits）；
     55fbedb（共同、大一女舍外觀）的接線也在這裡（c747b45、f3a18d6）。
   - `29c54cd` 一週兩格的第二格（BB second_slot_lines）與國定假日、人物作息「一個時間只有一筆」（story3d.js 的 schedEnt）、2025 年入學這一屆 presence from Y1S1、芷若大一上的週五。
-  - `d617ad1` BB 3bd5238 課堂內容、經原（下）改總體經濟（AA）；`8c2fa01`、`b6fa24e` 教學館鏡頭不再跑到隔間牆後面＋入口門框淡出（LAWWW2 審查 P1）；
+  - `d617ad1` BB 的課堂內容（`docs/story_planning/syllabus/`）、經原（下）改總體經濟（AA）；`8c2fa01`、`b6fa24e` 教學館鏡頭不再跑到隔間牆後面＋入口門框淡出（LAWWW2 審查 P1）；
     `5aaa306` 教學館桌椅合併（網格數博雅 623→176）；`77deeab` 社科院天窗調暗兩次的 bug。
   - 單元測試 28 個全部通過（新的：aa110_systems_unit、teach_cam_walls_unit、teach_perf_unit）。
 - **瀏覽器批次 2**（整合工作樹 `scratchpad/wt_int`＝`29c54cd`＋`d617ad1`，port 8767；腳本 `scratchpad/run_b2.sh`、結果 `scratchpad/b2/B2.txt`，不在 GitHub）：

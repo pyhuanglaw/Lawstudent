@@ -1,5 +1,5 @@
 /* ===== 八學期課程與課表（D52，2026-10-13）=====
-   來源：劇情企劃 AA 的 AA_103「四年八學期課程與課表」、AA_104「課表與日曆系統：實作規格」（劇情企劃分支 claude/bb-story-planning，commit 42d1337）。
+   來源：劇情企劃 AA 的 AA_103「四年八學期課程與課表」、AA_104「課表與日曆系統：實作規格」（劇情企劃分支 claude/story-planning 的 docs/story_planning/；舊的企劃分支已移除，D66）。
    使用者 2026-10-13：課表直接交給 LAWWW 實作，不用再等使用者批准；AA 負責把課表想完整，LAWWW 負責做進遊戲（AA 與 LAWWW 自行協調修正）。
    這份是 LAWWW 照 AA_103 第 4 節（八份每週課表）、第 5 節（進度架構、特殊事件的週次）、第 2 節（教授）轉成的遊戲資料；改課表照 AA 的文件改這裡。
    - 時段（AA_103 第 1 節）：上午 09:10–12:10、下午一 13:20–15:10、下午二 15:30–17:20；晚上沒有法律系的課。
@@ -28,7 +28,7 @@ const COURSES={
   profs:{ prof_zhou:'周啟明', prof_zhang:'張維德', prof_wu:'吳承翰', prof_huang:'黃素芬', prof_xu:'許志遠', prof_tsai:'蔡佩君', prof_lin:'林昭儀', prof_chen:'陳律言',
           prof_zheng:'鄭婉如', prof_ye:'葉明哲', prof_he:'何安平', prof_jian:'簡如萍' },
   list:[
-    /* 課程代號、教授、時段、地點、選修群組：AA_103 第 8 節（企劃分支 b93c720 起；2026-10-13 照 AA_110 差異表同步，舊代號在 classes3d.js 的 OLD_IDS 轉換舊存檔）。
+    /* 課程代號、教授、時段、地點、選修群組：AA_103 第 8 節（企劃分支 claude/story-planning；2026-10-13 照 AA_110 差異表同步，舊代號在 classes3d.js 的 OLD_IDS 轉換舊存檔）。
        特殊週：BB 的 syllabus（docs/story_planning/syllabus/*.json）標的週次；標題照 AA_103 第 5 節（遊戲對話不講案號）。 */
     // ---- 大一上（2025 秋）----
     {id:'const_1',name:'憲法（上）',kind:'required',term:'Y1S1',prof:'prof_zhang',room:'L201',slots:[{wd:1,block:'am'}],
@@ -50,7 +50,7 @@ const COURSES={
      specials:[{w:3,title:'網拍相機',story:true,storyDay2:true},{w:12,title:'兩個人都簽了，為什麼還可能無效'},{w:14,title:'周教授的正反辯論',story:true}]},
     {id:'law_society',name:'法律與社會',kind:'elective',term:'Y1S1',prof:'prof_huang',room:'LINZE',slots:[{wd:5,block:'pm1'}],topics:['法律與電影','法律與新聞','法律與社會']},   /* 大一上沒有選課事件：算已選（AA_103 第 8 節）*/
     {id:'econ_principles_1',name:'經濟學原理（上）',kind:'required',retake:true,term:'Y1S1',prof:null,profName:'經濟系老師',room:'PUTONG',slots:[{wd:5,block:'am'}],topics:['供給與需求','市場與價格','彈性'],specials:[{w:3,title:'第一次走進這門課',story:true},{w:4,title:'價格管制（分組）'}]},   /* 重修（使用者 2026-10-13：經濟系休學沒拿到學分）；上下兩學期（使用者定案，AA_107 1-2a）。
-       第 3 週＝BB_105 P4「第二次大一」的那一堂（BB 3bd5238 標 special）：事件要使用者批准才做，現在照 BB 的備用內容上普通的課 */
+       第 3 週＝BB_105 P4「第二次大一」的那一堂（BB 的 syllabus 標 special）：事件要使用者批准才做，現在照 BB 的備用內容上普通的課 */
     // ---- 大一下（2026 春）----
     {id:'const_2',name:'憲法（下）',kind:'required',term:'Y1S2',prof:'prof_zhang',room:'L201',slots:[{wd:1,block:'am'}],topics:['基本權（續）','權力分立（續）','憲法訴訟入門']},
     {id:'ge_y1s2',name:'通識',kind:'general',term:'Y1S2',prof:null,profName:'通識老師',room:'PUTONG',slots:[{wd:1,block:'pm1'}],topics:['課程導論','分組討論','期末報告準備']},
