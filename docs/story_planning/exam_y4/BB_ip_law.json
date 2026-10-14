@@ -1,5 +1,5 @@
 {
- "_comment": "大四期末考題庫（使用者 2026-10-14：大四由 AI 出題並自行審核，只限大四）。作者 BB；status＝Y4_SELF_REVIEWED（BB 自審完成），crossReview＝PENDING_AA（AA 交叉審完成後改 AA_REVIEWED 才啟用，AA_130 3-2）。條文依全國法規資料庫現行條文逐條核對。",
+ "_comment": "大四期末考題庫（使用者 2026-10-14：大四由 AI 出題並自行審核，只限大四）。作者 BB；status＝Y4_SELF_REVIEWED（BB 自審完成），crossReview＝PENDING_AA、crossReviewedBy＝null（AA 交叉審通過後改 status＝Y4_CROSS_REVIEWED、crossReviewedBy＝AA 才抽題；AA 2026-10-14 16:46 統一的欄位）。條文依全國法規資料庫現行條文逐條核對。",
  "course": "ip_law",
  "term": "Y4S1",
  "name": "智慧財產權法",
@@ -33,7 +33,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（著作權法 民國111年6月15日修正；專利法 民國111年5月4日修正；商標法 民國112年5月24日修正；營業秘密法 民國109年1月15日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4IP_02",
@@ -57,7 +58,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（著作權法 民國111年6月15日修正；專利法 民國111年5月4日修正；商標法 民國112年5月24日修正；營業秘密法 民國109年1月15日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4IP_03",
@@ -81,7 +83,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（著作權法 民國111年6月15日修正；專利法 民國111年5月4日修正；商標法 民國112年5月24日修正；營業秘密法 民國109年1月15日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4IP_04",
@@ -105,7 +108,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（著作權法 民國111年6月15日修正；專利法 民國111年5月4日修正；商標法 民國112年5月24日修正；營業秘密法 民國109年1月15日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4IP_05",
@@ -129,7 +133,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（著作權法 民國111年6月15日修正；專利法 民國111年5月4日修正；商標法 民國112年5月24日修正；營業秘密法 民國109年1月15日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4IP_06",
@@ -153,7 +158,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（著作權法 民國111年6月15日修正；專利法 民國111年5月4日修正；商標法 民國112年5月24日修正；營業秘密法 民國109年1月15日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4IP_07",
@@ -177,7 +183,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（著作權法 民國111年6月15日修正；專利法 民國111年5月4日修正；商標法 民國112年5月24日修正；營業秘密法 民國109年1月15日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4IP_08",
@@ -201,7 +208,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（著作權法 民國111年6月15日修正；專利法 民國111年5月4日修正；商標法 民國112年5月24日修正；營業秘密法 民國109年1月15日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4IP_09",
@@ -225,7 +233,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（著作權法 民國111年6月15日修正；專利法 民國111年5月4日修正；商標法 民國112年5月24日修正；營業秘密法 民國109年1月15日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4IP_10",
@@ -249,7 +258,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（著作權法 民國111年6月15日修正；專利法 民國111年5月4日修正；商標法 民國112年5月24日修正；營業秘密法 民國109年1月15日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4IP_11",
@@ -273,7 +283,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（著作權法 民國111年6月15日修正；專利法 民國111年5月4日修正；商標法 民國112年5月24日修正；營業秘密法 民國109年1月15日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4IP_12",
@@ -297,7 +308,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（著作權法 民國111年6月15日修正；專利法 民國111年5月4日修正；商標法 民國112年5月24日修正；營業秘密法 民國109年1月15日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4IP_13",
@@ -321,7 +333,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（著作權法 民國111年6月15日修正；專利法 民國111年5月4日修正；商標法 民國112年5月24日修正；營業秘密法 民國109年1月15日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   }
  ]
 }

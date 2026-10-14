@@ -1,5 +1,5 @@
 {
- "_comment": "大四期末考題庫（使用者 2026-10-14：大四由 AI 出題並自行審核，只限大四）。作者 BB；status＝Y4_SELF_REVIEWED（BB 自審完成），crossReview＝PENDING_AA（AA 交叉審完成後改 AA_REVIEWED 才啟用，AA_130 3-2）。條文依全國法規資料庫現行條文逐條核對。",
+ "_comment": "大四期末考題庫（使用者 2026-10-14：大四由 AI 出題並自行審核，只限大四）。作者 BB；status＝Y4_SELF_REVIEWED（BB 自審完成），crossReview＝PENDING_AA、crossReviewedBy＝null（AA 交叉審通過後改 status＝Y4_CROSS_REVIEWED、crossReviewedBy＝AA 才抽題；AA 2026-10-14 16:46 統一的欄位）。條文依全國法規資料庫現行條文逐條核對。",
  "course": "maritime",
  "term": "Y4S2",
  "name": "海商法與海洋法",
@@ -33,7 +33,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（海商法 民國98年7月8日修正；領海及鄰接區法；專屬經濟海域及大陸礁層法 民國112年12月27日修正；船員法 民國110年4月28日修正；海洋污染防治法 民國112年5月31日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4MAR_02",
@@ -57,7 +58,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（海商法 民國98年7月8日修正；領海及鄰接區法；專屬經濟海域及大陸礁層法 民國112年12月27日修正；船員法 民國110年4月28日修正；海洋污染防治法 民國112年5月31日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4MAR_03",
@@ -81,7 +83,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（海商法 民國98年7月8日修正；領海及鄰接區法；專屬經濟海域及大陸礁層法 民國112年12月27日修正；船員法 民國110年4月28日修正；海洋污染防治法 民國112年5月31日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4MAR_04",
@@ -105,7 +108,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（海商法 民國98年7月8日修正；領海及鄰接區法；專屬經濟海域及大陸礁層法 民國112年12月27日修正；船員法 民國110年4月28日修正；海洋污染防治法 民國112年5月31日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4MAR_05",
@@ -129,7 +133,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（海商法 民國98年7月8日修正；領海及鄰接區法；專屬經濟海域及大陸礁層法 民國112年12月27日修正；船員法 民國110年4月28日修正；海洋污染防治法 民國112年5月31日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4MAR_06",
@@ -153,7 +158,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（海商法 民國98年7月8日修正；領海及鄰接區法；專屬經濟海域及大陸礁層法 民國112年12月27日修正；船員法 民國110年4月28日修正；海洋污染防治法 民國112年5月31日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4MAR_07",
@@ -177,7 +183,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（海商法 民國98年7月8日修正；領海及鄰接區法；專屬經濟海域及大陸礁層法 民國112年12月27日修正；船員法 民國110年4月28日修正；海洋污染防治法 民國112年5月31日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4MAR_08",
@@ -201,7 +208,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（海商法 民國98年7月8日修正；領海及鄰接區法；專屬經濟海域及大陸礁層法 民國112年12月27日修正；船員法 民國110年4月28日修正；海洋污染防治法 民國112年5月31日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4MAR_09",
@@ -225,7 +233,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（海商法 民國98年7月8日修正；領海及鄰接區法；專屬經濟海域及大陸礁層法 民國112年12月27日修正；船員法 民國110年4月28日修正；海洋污染防治法 民國112年5月31日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4MAR_10",
@@ -249,7 +258,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（海商法 民國98年7月8日修正；領海及鄰接區法；專屬經濟海域及大陸礁層法 民國112年12月27日修正；船員法 民國110年4月28日修正；海洋污染防治法 民國112年5月31日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   },
   {
    "id": "Y4MAR_11",
@@ -273,7 +283,8 @@
    "status": "Y4_SELF_REVIEWED",
    "crossReview": "PENDING_AA",
    "checked": "全國法規資料庫現行條文，BB 2026-10-14 逐條核對（海商法 民國98年7月8日修正；領海及鄰接區法；專屬經濟海域及大陸礁層法 民國112年12月27日修正；船員法 民國110年4月28日修正；海洋污染防治法 民國112年5月31日修正）",
-   "flags": []
+   "flags": [],
+   "crossReviewedBy": null
   }
  ]
 }
