@@ -70,8 +70,18 @@ async def center_of(pg, sel):
     return await pg.evaluate("(s=>{ const e=document.querySelector(s); if(!e) return null; const r=e.getBoundingClientRect(); if(!r.width||!r.height) return null; return [r.left+r.width/2, r.top+r.height/2]; })(" + json.dumps(sel) + ")")
 
 
+TAP_AT_JS = """(s=>{ const e=document.querySelector(s); if(!e) return null;
+  const at=()=>{ const r=e.getBoundingClientRect(); if(!r.width||!r.height) return null; const cx=r.left+r.width/2, cy=r.top+r.height/2;
+    const inView=cx>=0&&cy>=0&&cx<innerWidth&&cy<innerHeight, h=inView?document.elementFromPoint(cx,cy):null; return {c:[cx,cy],hit:!!h&&(h===e||e.contains(h))}; };
+  let a=at(); if(!a) return null; if(!a.hit){ e.scrollIntoView({block:'center',inline:'nearest'}); a=at(); if(!a) return null; }
+  return a.c; })(%s)"""
+
+
 async def tap(pg, cdp, sel):
-    c = await center_of(pg, sel)
+    """用手指按一下。按鈕在可以捲動的清單裡、還在畫面外面（或被清單的邊切掉）時，先把清單捲到看得到——像玩家先滑一下清單再按
+    （2026-10-14 v9.6 回歸：橫向時手機「地點」清單比面板長，「共同教學館」的「前往」在面板下面看不到，原本照座標按到面板外面，什麼都沒發生）。
+    捲不過去（面板不能捲）就照舊按那個位置，按不到的話後面的檢查會失敗"""
+    c = await pg.evaluate(TAP_AT_JS % json.dumps(sel))
     if not c: return False
     await touch_tap(cdp, c[0], c[1]); return True
 
