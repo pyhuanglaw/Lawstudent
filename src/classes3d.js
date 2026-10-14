@@ -322,18 +322,29 @@ const CLS=(function(){
      大的階梯教室（40 個位子以上）上課、演講時：完整人物照舊最多 16 個，其餘要坐的位子用替身——路人底模 4 種×聽講／抄筆記／滑手機×2 配色；
      每種外型一個 InstancedMesh；離玩家 7 m 內用 LOD0（約 1,500 個三角形）、更遠用 LOD1（約 350）。替身的原點＝座位地面中心、+z 朝講台（和座位 yaw 同一個方向）。
      替身坐的位子標 taken（玩家、其他人不坐）。下課：整組在畫面外才拿掉（不在玩家眼前消失）；換區域、時間跳過直接拿掉。不是有名字的人，不能對話 */
-  const FIG={on:new Map(),zone:null}, FIG_KEY='prop.seated_figures';
+  const FIG={on:new Map(),zone:null}, FIG_KEY='prop.seated_figures', PROP_KEY='prop.desk_props';
+  /* 桌上小物（LAWWW2 desk_props.glb，VISUAL_REVIEW（second_ai）第 27 節）：每個替身面前一組，和替身同一個矩陣（原點＝座位地面中心，東西在桌面 0.75 m 上）；
+     照替身的姿勢配：抄筆記 lset_write（攤開的筆記本、右手的筆）、滑手機 lset_phone（兩手中間的手機＋桌上闔起的筆記本）、聽講 lset_laptop／lset_book／lset_code 三選一（照位子固定）；
+     遠近跟替身一樣（7 m 以外用 _lod1）。滑手機的人不配有手機的組（一個人兩支手機）。載入失敗：替身照放，桌上沒有東西 */
+  const LISTEN_SETS=['lset_laptop','lset_book','lset_code'];
+  const deskSet=(nm,n)=>{ const pose=(String(nm).match(/_(listen|write|phone)_/)||[])[1]; return pose==='write'?'lset_write':(pose==='phone'?'lset_phone':(pose==='listen'?LISTEN_SETS[n%LISTEN_SETS.length]:null)); };
+  S.deskSet=deskSet;   /* 測試用 */
   const figFree=(E,st)=>!st.taken&&!E.npcs.some(n=>(n.seat||n.seatTarget)&&Math.hypot((n.seat||n.seatTarget).x-st.x,(n.seat||n.seatTarget).z-st.z)<0.35)&&!(E.player&&E.player.seat&&Math.hypot(E.player.seat.x-st.x,E.player.seat.z-st.z)<0.35);
   S.figPlace=function(GM,key,seats){ const E=GM.E; if(typeof ASSETS==='undefined'||!ASSETS.manifest[FIG_KEY]||typeof THREE==='undefined'||!E.zone) return 0;
     if(FIG.zone!==E.zone){ FIG.on.clear(); FIG.zone=E.zone; } if(FIG.on.has(key)) return 0; seats=seats.filter(st=>figFree(E,st)); if(!seats.length) return 0;
     const rec={key,seats,group:null,leaving:false,zone:E.zone}; FIG.on.set(key,rec); for(const st of seats) st.taken=key;
-    ASSETS.loadOne(FIG_KEY).then(c=>{ if(FIG.on.get(key)!==rec||GM.E.zone!==rec.zone) return; const vars={}; c.scene.traverse(o=>{ if(o.isMesh&&/^fig_/.test(o.name)) vars[o.name]=o; });
+    const propP=ASSETS.manifest[PROP_KEY]?ASSETS.loadOne(PROP_KEY).catch(e=>{ console.warn('desk_props（替身照樣放，桌上沒有東西）',e); return null; }):Promise.resolve(null);
+    Promise.all([ASSETS.loadOne(FIG_KEY),propP]).then(([c,pc])=>{ if(FIG.on.get(key)!==rec||GM.E.zone!==rec.zone) return; const vars={}; c.scene.traverse(o=>{ if(o.isMesh&&/^fig_/.test(o.name)) vars[o.name]=o; });
+      const props={}; if(pc&&pc.scene) pc.scene.traverse(o=>{ if(o.isMesh&&/^lset_/.test(o.name)) props[o.name]=o; });
       const names=Object.keys(vars).filter(n=>!/_lod1$/.test(n)).sort(); if(!names.length) return; let h=0; for(const ch of key) h=(h*31+ch.charCodeAt(0))>>>0;
-      const P=GM.E.player&&GM.E.player.obj.position, by=new Map();
-      rec.seats.forEach((st,i)=>{ const nm=names[(h+i*7)%names.length], k=(P&&Math.hypot(st.x-P.x,st.z-P.z)<7)?nm:nm+'_lod1'; const kk=vars[k]?k:nm; if(!by.has(kk)) by.set(kk,[]); by.get(kk).push(st); });
+      const P=GM.E.player&&GM.E.player.obj.position, by=new Map(), pby=new Map(); const add=(m,k,st)=>{ if(!m.has(k)) m.set(k,[]); m.get(k).push(st); };
+      rec.seats.forEach((st,i)=>{ const nm=names[(h+i*7)%names.length], far=!(P&&Math.hypot(st.x-P.x,st.z-P.z)<7), k=far?nm+'_lod1':nm; const kk=vars[k]?k:nm; add(by,kk,st);
+        const set=deskSet(nm,h+i*13); if(set){ const pk=far&&props[set+'_lod1']?set+'_lod1':set; if(props[pk]) add(pby,pk,st); } });
       const g=new THREE.Group(); g.name='seated_figures:'+key; const M=new THREE.Matrix4(), Q=new THREE.Quaternion(), UP=new THREE.Vector3(0,1,0), ONE=new THREE.Vector3(1,1,1), V=new THREE.Vector3();
-      for(const [k,L] of by){ const im=new THREE.InstancedMesh(vars[k].geometry,vars[k].material,L.length); L.forEach((st,i)=>{ Q.setFromAxisAngle(UP,st.yaw||0); V.set(st.x,st.y||0,st.z); M.compose(V,Q,ONE); im.setMatrixAt(i,M); });
-        im.instanceMatrix.needsUpdate=true; im.castShadow=false; im.receiveShadow=true; im.computeBoundingSphere(); g.add(im); }
+      const inst=(src,L,name)=>{ const im=new THREE.InstancedMesh(src.geometry,src.material,L.length); L.forEach((st,i)=>{ Q.setFromAxisAngle(UP,st.yaw||0); V.set(st.x,st.y||0,st.z); M.compose(V,Q,ONE); im.setMatrixAt(i,M); });
+        im.instanceMatrix.needsUpdate=true; im.castShadow=false; im.receiveShadow=true; im.computeBoundingSphere(); im.name=name; g.add(im); };
+      for(const [k,L] of by) inst(vars[k],L,k);
+      for(const [k,L] of pby) inst(props[k],L,'desk:'+k);   /* 桌上小物：和替身同一個矩陣 */
       const LG=rec.zone.levelGroups, lg=LG&&LG[rec.seats[0].lv|0]; (lg&&lg.group||rec.zone.group||GM.E.scene).add(g); rec.group=g; }).catch(e=>{ console.warn('seated_figures',e); });   /* 放進那一層的群組：上下樓時跟著那一層顯示／隱藏 */
     return seats.length; };
   const figGone=rec=>{ if(rec.group&&rec.group.parent) rec.group.parent.remove(rec.group); for(const st of rec.seats) if(st.taken===rec.key) st.taken=null; FIG.on.delete(rec.key); };

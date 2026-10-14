@@ -118,6 +118,25 @@ const TB3=(function(){
     for(const bd of (L.boards||[])){ if(bd.style==='screen') continue; const lv=bd.lv|0, m=new THREE.Mesh(new THREE.BoxGeometry(2.6,2.5,0.5),inv);
       m.position.set(bd.x+Math.sin(bd.ry)*0.1,(lv?Y1:0)+1.25,bd.z+Math.cos(bd.ry)*0.1); m.rotation.y=bd.ry; m.userData.noMerge=true; m.userData.camFurn='bulletin'; g.add(m); (out[lv]=out[lv]||[]).push(m); }
     return out; }
+  /* ---- 正式家具模組（LAWWW2 furniture_study.glb；VISUAL_REVIEW（second_ai）第 23 節）----
+     大廳的自習雙人桌（0.9×0.6、兩張椅子離桌心 0.55）、圓桌（Ø1.0、四張椅子離桌心 0.8）：配置的尺寸對得上才換，每種一個 InstancedMesh；載入前、載入失敗照樣是程序化備用。
+     椅子垂直放大到椅面 0.485 m：遊戲的坐姿（character3d.js 坐下時往下 0.47 m）是照 Z3.chair 的椅面高度調的，正式椅子的椅面 0.454 m，不放大的話人會浮在椅面上 3 公分。
+     階梯教室的講堂椅（座距 0.52、排距 1.0）等 R2 的配置（使用者 2026-10-14：保留 R2、不要沒測試就放大整棟），現在的 6 排配置（座距約 0.73、排距 2.0）照舊用備用模型 */
+  const FURN_KEY='prop.furniture_study', CHAIR_FIT=0.485/0.454, LECT_DESK_TOP=0.75;
+  function furnModule(t){ const near=(a,b,e)=>Math.abs(a-b)<(e||0.02), seats=t.seats||[];
+    if(t.shape==='round') return near(t.r,0.5)&&seats.length&&seats.every(s=>near(Math.hypot(s.x-t.x,s.z-t.z),0.8,0.03))?{mod:'round_table',ry:0}:null;
+    const ry=near(t.w,0.6)&&near(t.d,0.9)?Math.PI/2:(near(t.w,0.9)&&near(t.d,0.6)?0:null);   /* 模組是 0.9（x）×0.6（z）、椅子在 z 的兩側；配置的桌子長邊南北向（0.6×0.9、椅子在東西兩側）＝整組轉 90° */
+    if(ry===null||!seats.length||!seats.every(s=>near(Math.hypot(s.x-t.x,s.z-t.z),0.55,0.03))) return null; return {mod:'study_table2',ry}; }
+  function furnitureGLB(zone,swap,items){ if(!items.length||typeof ASSETS==='undefined'||!ASSETS.manifest||!ASSETS.manifest[FURN_KEY]) return;
+    ASSETS.loadOne(FURN_KEY).then(c=>{ const mesh={}; c.scene.traverse(o=>{ if(o.isMesh) mesh[o.name]=o; }); if(!mesh.study_chair||items.some(it=>!mesh[it.mod])) return;
+      const Mx=new THREE.Matrix4(), Q=new THREE.Quaternion(), UP=new THREE.Vector3(0,1,0), V=new THREE.Vector3(), S=new THREE.Vector3();
+      for(let lv=0;lv<swap.length;lv++){ const fb=swap[lv]; if(!fb||!fb.parent) continue; const its=items.filter(it=>it.lv===lv); if(!its.length) continue;
+        const out=new THREE.Group(); out.name='furniture_glb'; const put=(name,list,fn)=>{ const im=new THREE.InstancedMesh(mesh[name].geometry,mesh[name].material,list.length); list.forEach((q,i)=>{ fn(q); Mx.compose(V,Q,S); im.setMatrixAt(i,Mx); });
+          im.instanceMatrix.needsUpdate=true; im.castShadow=false; im.receiveShadow=true; im.computeBoundingSphere(); im.name=name; out.add(im); };
+        for(const mod of [...new Set(its.map(it=>it.mod))]) put(mod,its.filter(it=>it.mod===mod),it=>{ V.set(it.x,0,it.z); Q.setFromAxisAngle(UP,it.ry); S.set(1,1,1); });
+        put('study_chair',its.flatMap(it=>it.seats),st=>{ V.set(st.x,0,st.z); Q.setFromAxisAngle(UP,st.yaw||0); S.set(1,CHAIR_FIT,1); });   /* 椅子：座位點＝椅面中心、坐的人面向 +z（和座位 yaw 同一個方向）*/
+        fb.parent.add(out); fb.visible=false; }
+      zone.furnGLB=true; }).catch(e=>{ console.warn('furniture_study（照樣用備用模型）',e); }); }
   // ---- 家具（備用）＋互動點 ----
   function buildFurniture(E,L,lv0,lv1,fb0,fb1,zone){ const Y1=L.floors[1].y, MAT=B3.MAT, IT=E.interactables; const b0=new TK.Bin(), b1=new TK.Bin(); const bins=[b0,b1];
     const up1=new THREE.Group(); up1.position.y=Y1; fb1.add(up1); const grpOf=lv=>lv?up1:fb0; const dummy={blockRect(){}};
@@ -137,8 +156,11 @@ const TB3=(function(){
     if(L.lounge) for(const t of L.lounge.tables){ const g=grpOf(L.lounge.lv); const top=new THREE.Mesh(new THREE.CylinderGeometry(t.r,t.r,0.04,18),M('#d9cdb8',{rough:0.5})); top.position.set(t.x,0.74,t.z); top.userData.furn=true; g.add(top); const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.04,0.18,0.72,10),M('#3a3f46')); leg.position.set(t.x,0.36,t.z); leg.userData.furn=true; g.add(leg); }
     if(L.study) for(const t of L.study.tables) Z3.desk(grpOf(L.study.lv),dummy,t.x,t.z,0,t.w,t.d,'#b08a62','wood');
     // 公共空間（備用模型）：長桌／小桌（木頭）、小圓桌、椅子、沙發（坐墊＋靠背＋扶手）
-    for(const g of (L.groups||[])){ const grp=grpOf(g.lv), bb=bins[g.lv], y0=g.lv?Y1:0;
-      for(const t of (g.tables||[])){ if(t.shape==='round'){ const h=t.h||0.74; const top=new THREE.Mesh(new THREE.CylinderGeometry(t.r,t.r,0.04,18),M('#d9cdb8',{rough:0.5})); top.position.set(t.x,h,t.z); top.userData.furn=true; grp.add(top); const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.04,0.16,h-0.02,10),M('#3a3f46')); leg.position.set(t.x,(h-0.02)/2,t.z); leg.userData.furn=true; grp.add(leg); }
+    /* 尺寸對得上正式家具模組的桌子（自習雙人桌、圓桌，furnModule）：備用模型放進 swap 群組，正式模組載入以後整組藏起來（furnitureGLB）*/
+    const swap=[null,null], swapItems=[]; const swapGrp=lv=>swap[lv]||(swap[lv]=(()=>{ const s=new THREE.Group(); s.name='furniture_fallback'; grpOf(lv).add(s); return s; })());
+    for(const g of (L.groups||[])){ const bb=bins[g.lv], y0=g.lv?Y1:0;
+      for(const t of (g.tables||[])){ const fm=furnModule(t), grp=fm?swapGrp(g.lv):grpOf(g.lv); if(fm) swapItems.push({lv:g.lv|0,x:t.x,z:t.z,ry:fm.ry,mod:fm.mod,seats:t.seats});
+        if(t.shape==='round'){ const h=t.h||0.74; const top=new THREE.Mesh(new THREE.CylinderGeometry(t.r,t.r,0.04,18),M('#d9cdb8',{rough:0.5})); top.position.set(t.x,h,t.z); top.userData.furn=true; grp.add(top); const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.04,0.16,h-0.02,10),M('#3a3f46')); leg.position.set(t.x,(h-0.02)/2,t.z); leg.userData.furn=true; grp.add(leg); }
         else Z3.desk(grp,dummy,t.x,t.z,0,t.w,t.d,g.deskColor||(g.id==='discuss'?'#c9b48f':'#b08a62'),'wood');
         for(const st of t.seats) Z3.chair(grp,st.x,st.z,st.yaw,g.chairColor||(g.id==='discuss'?'#5a6470':'#8a6a4a')); }   /* chairColor／deskColor：配置可以指定（博雅的圓桌區用灰藍色椅子）*/
       for(const so of (g.sofas||[])){ const c=Math.cos(so.ry), sn=Math.sin(so.ry), at=(ox,oz)=>[so.x+ox*c+oz*sn,so.z-ox*sn+oz*c], sm=MAT.sofa();
@@ -163,6 +185,7 @@ const TB3=(function(){
       if(st.kind==='sofa'){ IT.push({x:st.x+Math.sin(st.yaw)*0.4,z:st.z+Math.cos(st.yaw)*0.4,radius:0.75,lv:st.lv,label,seat:st,study:true}); continue; }
       IT.push({x:st.x,z:st.z,radius:0.8,lv:st.lv,label,seat:st,study:st.kind!=='bench'}); }
     mergeFurniture(fb0); mergeFurniture(up1);   /* 2026-10-13 LAWWW2 審查：博雅空著每個畫面 570–810 次 draw call——每張椅子、桌子各自是網格 */
+    for(const s of swap) if(s) mergeFurniture(s); furnitureGLB(zone,swap,swapItems);
     b0.build(fb0); b1.build(fb1); return seats; }
   /* 一層的桌椅（Z3.desk／Z3.chair、小圓桌，userData.furn）合成每種材質一個網格：位置、樣子不變，只是少畫很多次。座位、導航、互動點是資料，不受影響 */
   function mergeFurniture(grp){ const fs=grp.children.filter(o=>o.userData&&o.userData.furn); if(fs.length<2) return; const tmp=new THREE.Group(); grp.add(tmp); for(const o of fs) tmp.add(o); const m=W3.mergeGroup(tmp); grp.remove(tmp); m.name='furniture'; grp.add(m);
@@ -181,7 +204,7 @@ const TB3=(function(){
         bb.add(platM,TK.boxG(aw,q.y,r.stepD,2.4),ac,Y+q.y/2,q.front+up*r.stepD*1.5);
         bb.add(platM,TK.boxG(aw,q.y,fb-fa,2.4),ac,Y+q.y/2,(fa+fb)/2);
         for(const [zz,yy] of [[q.front,q.yPrev+half],[z1,q.y]]) bb.add(stepM,TK.boxG(aw,0.02,0.06),ac,Y+yy+0.005,zz+up*0.03); }   // 每一階前緣的止滑條
-      { const dk=Z3.desk(grp,dummy,sx,q.deskZ,0,sw,r.deskD,'#3b3330'); dk.position.y=q.y; }
+      { const dk=Z3.desk(grp,dummy,sx,q.deskZ,0,sw,r.deskD,'#3b3330'); dk.position.y=q.y-(0.77-LECT_DESK_TOP); }   /* 桌面在那一排的平台上 0.75 m（Z3.desk 的桌面 0.77）：和正式的講堂桌板、替身抄筆記的手、桌上小物同一個高度 */
       const wp=new THREE.Mesh(new THREE.PlaneGeometry(wx1-wx0,zb-za),new THREE.MeshBasicMaterial({visible:false})); wp.rotation.x=-Math.PI/2; wp.position.set((wx0+wx1)/2,Y+q.y+0.01,(za+zb)/2); wp.userData.walkLv=r.lv; wp.userData.dyn=true; lvGrp.add(wp); zone.walkMeshes.push(wp); }
     for(const st of r.seats){ const c=Z3.chair(grp,st.x,st.z,st.yaw,'#8a5f3c'); c.position.y=st.y; }
     if(r.lectern){ const lc=r.lectern; bb.add(MAT.wood(),TK.boxG(lc.w,1.05,lc.d),lc.x,Y+0.525,lc.z); bb.add(MAT.woodD(),TK.boxG(lc.w+0.1,0.05,lc.d+0.1),lc.x,Y+1.075,lc.z); }
@@ -215,6 +238,6 @@ const TB3=(function(){
     const EN=L.entrance; E.interactables.push({x:EN.exit.x,z:EN.exit.z,radius:EN.exit.r,lv:0,label:'走出'+L.name,exit:{to:'campus',spawn:EN.campus?Object.assign({},EN.campus):undefined}});   /* campus 還沒定（博雅：校園的位置等使用者決定）＝校園的預設出生點 */
     return zone; } }; }
   const ZONES={ gongtong:makeZone('gongtong') }; if(typeof BOYA_LAYOUT!=='undefined') ZONES.boya=makeZone('boya'); if(typeof PUTONG_LAYOUT!=='undefined') ZONES.putong=makeZone('putong');
-  return {ZONES,stairSurfs,buildNav,seatsOf,LAYOUTS};
+  return {ZONES,stairSurfs,buildNav,seatsOf,LAYOUTS,furnModule,CHAIR_FIT,LECT_DESK_TOP};
 })();
 for(const k in TB3.ZONES) Z3.ZONES[k]=TB3.ZONES[k];
