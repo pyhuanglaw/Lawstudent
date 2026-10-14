@@ -1048,6 +1048,42 @@
    ]
   },
   {
+   "id": "L426",
+   "cat": "B",
+   "key": "民§1148_限定責任",
+   "issue": "黑板還用「限定繼承」：2009 年以後是法定的限定責任",
+   "check": [
+    "§1148 第 2 項的現行用語"
+   ],
+   "basis": [
+    "民法 §1148",
+    "§1154"
+   ],
+   "doubt": [],
+   "bb_fixed": "",
+   "review": {
+    "result": "已修正",
+    "basis": "民法 §1148 第 2 項（繼承人對於被繼承人之債務，以因繼承所得遺產為限，負清償責任；2009 年修正）；§1154（現行：繼承人對於被繼承人之權利、義務，不因繼承而消滅）",
+    "version": "查證日現行；劇情 2027 年春",
+    "checked": "2026-10-14，全國法規資料庫原文（curl）",
+    "fix": "黑板「限定繼承：以遺產為限（§1148）」改成「限定責任：以遺產為限（§1148）」（`y2s2.py` 民法身分法第 15 週）",
+    "note": "教授那句「現在，原則上以遺產為限」本來就對",
+    "batch": "Q"
+   },
+   "occurrences": [
+    {
+     "term": "Y2S2",
+     "course": "family_law",
+     "course_name": "民法身分法",
+     "week": 15,
+     "src": "syllabus/_src/y2s2.py:187",
+     "md": "BB_102_課堂內容_大二下.md:57",
+     "quote": "黑板：限定繼承：以遺產為限（§1148）",
+     "review": "§1148 第 2 項（2009 年修正）、§1174"
+    }
+   ]
+  },
+  {
    "id": "L026",
    "cat": "B",
    "key": "國際法_氣候諮詢意見",
@@ -9576,6 +9612,43 @@
    ]
   },
   {
+   "id": "L427",
+   "cat": "D",
+   "key": "憲訴§36_意見書",
+   "issue": "「不同意見，也是判決的一部分」？",
+   "check": [
+    "意見書和判決書的關係"
+   ],
+   "basis": [
+    "憲法訴訟法 §33",
+    "§35",
+    "§36"
+   ],
+   "doubt": [],
+   "bb_fixed": "",
+   "review": {
+    "result": "已修正",
+    "basis": "憲法訴訟法 §33（判決書記載主文、理由，以及參與判決的大法官同意與不同意主文的意見）、§35（協同意見書、不同意見書）、§36 第 4 項（意見書由憲法法庭隨同裁判一併公告及送達）",
+    "version": "查證日現行（2022 年施行）；劇情 2028 年秋",
+    "checked": "2026-10-14，全國法規資料庫原文（curl）",
+    "fix": "黑板「不同意見，也是判決的一部分」改成「不同意見，會跟判決一起公告」（`y4s1.py` 公法判決研討第 2 週）",
+    "note": "教授那句「意見書有時候比主文更有意思」不改",
+    "batch": "Q"
+   },
+   "occurrences": [
+    {
+     "term": "Y4S1",
+     "course": "public_judgment_sem",
+     "course_name": "公法判決研討",
+     "week": 2,
+     "src": "syllabus/_src/y4s1.py:490",
+     "md": "BB_102_課堂內容_大四上.md:168",
+     "quote": "黑板：主文、理由、意見書／不同意見，也是判決的一部分",
+     "review": ""
+    }
+   ]
+  },
+  {
    "id": "L277",
    "cat": "D",
    "key": "用語_釋字與憲判稱呼",
@@ -13444,6 +13517,41 @@
    ]
   },
   {
+   "id": "L428",
+   "cat": "E",
+   "key": "事實_裁判書數量",
+   "issue": "「判決系統裡有幾十萬份判決」",
+   "check": [
+    "司法院裁判書系統的數量"
+   ],
+   "basis": [
+    "（事實，不是法條）"
+   ],
+   "doubt": [],
+   "bb_fixed": "",
+   "review": {
+    "result": "已修正",
+    "basis": "不是法條：司法院裁判書系統收錄的判決遠多於「幾十萬份」，確切數字沒有查",
+    "version": "—",
+    "checked": "2026-10-14，BB 判斷（沒有查到官方統計，所以改成不寫數字）",
+    "fix": "黑板「幾十萬份判決」→「一輩子讀不完的判決」；教授那句改成「判決系統裡的判決，一輩子讀不完。找到對的那一份，是一種能力。」（`y4s2.py` 法律專題研究第 4 週）",
+    "note": "",
+    "batch": "Q"
+   },
+   "occurrences": [
+    {
+     "term": "Y4S2",
+     "course": "legal_research",
+     "course_name": "法律專題研究",
+     "week": 4,
+     "src": "syllabus/_src/y4s2.py:25",
+     "md": "BB_102_課堂內容_大四下.md:24",
+     "quote": "黑板：幾十萬份判決；教授：判決系統裡有幾十萬份判決。",
+     "review": ""
+    }
+   ]
+  },
+  {
    "id": "L410",
    "cat": "E",
    "key": "民§478_未定期限催告",
@@ -13728,7 +13836,16 @@
   "note": "AA 2026-10-14 交辦：沒有標審查的週，寫到條號、期間、金額、門檻的句子逐句核對。status：ok＝掃過，沒有要補；item＝補進清單（items 是代號）；todo＝還沒掃。",
   "terms_done": [
    "Y1S1",
-   "Y1S2"
+   "Y1S2",
+   "Y2S1",
+   "Y2S2",
+   "Y3S1",
+   "Y3S2",
+   "Y4S1",
+   "Y4S2",
+   "Y0S1",
+   "Y0S2",
+   "JP"
   ],
   "weeks": [
    {
@@ -13736,7 +13853,7 @@
     "course": "japanese_1",
     "course_name": "日文（上）",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13745,7 +13862,7 @@
     "course": "japanese_1",
     "course_name": "日文（上）",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13754,7 +13871,7 @@
     "course": "japanese_1",
     "course_name": "日文（上）",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13763,7 +13880,7 @@
     "course": "japanese_1",
     "course_name": "日文（上）",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13772,7 +13889,7 @@
     "course": "japanese_1",
     "course_name": "日文（上）",
     "week": 5,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13781,7 +13898,7 @@
     "course": "japanese_1",
     "course_name": "日文（上）",
     "week": 6,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13790,7 +13907,7 @@
     "course": "japanese_1",
     "course_name": "日文（上）",
     "week": 7,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13799,7 +13916,7 @@
     "course": "japanese_1",
     "course_name": "日文（上）",
     "week": 10,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13808,7 +13925,7 @@
     "course": "japanese_1",
     "course_name": "日文（上）",
     "week": 11,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13817,7 +13934,7 @@
     "course": "japanese_1",
     "course_name": "日文（上）",
     "week": 12,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13826,7 +13943,7 @@
     "course": "japanese_1",
     "course_name": "日文（上）",
     "week": 13,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13835,7 +13952,7 @@
     "course": "japanese_1",
     "course_name": "日文（上）",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13844,7 +13961,7 @@
     "course": "japanese_1",
     "course_name": "日文（上）",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13853,7 +13970,7 @@
     "course": "japanese_1",
     "course_name": "日文（上）",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13862,7 +13979,7 @@
     "course": "japanese_2",
     "course_name": "日文（下）",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13871,7 +13988,7 @@
     "course": "japanese_2",
     "course_name": "日文（下）",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13880,7 +13997,7 @@
     "course": "japanese_2",
     "course_name": "日文（下）",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13889,7 +14006,7 @@
     "course": "japanese_2",
     "course_name": "日文（下）",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13898,7 +14015,7 @@
     "course": "japanese_2",
     "course_name": "日文（下）",
     "week": 5,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13907,7 +14024,7 @@
     "course": "japanese_2",
     "course_name": "日文（下）",
     "week": 6,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13916,7 +14033,7 @@
     "course": "japanese_2",
     "course_name": "日文（下）",
     "week": 7,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13925,7 +14042,7 @@
     "course": "japanese_2",
     "course_name": "日文（下）",
     "week": 10,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13934,7 +14051,7 @@
     "course": "japanese_2",
     "course_name": "日文（下）",
     "week": 11,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13943,7 +14060,7 @@
     "course": "japanese_2",
     "course_name": "日文（下）",
     "week": 12,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13952,7 +14069,7 @@
     "course": "japanese_2",
     "course_name": "日文（下）",
     "week": 13,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13961,7 +14078,7 @@
     "course": "japanese_2",
     "course_name": "日文（下）",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13970,7 +14087,7 @@
     "course": "japanese_2",
     "course_name": "日文（下）",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13979,16 +14096,16 @@
     "course": "japanese_2",
     "course_name": "日文（下）",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "非法律"
    },
    {
     "term": "Y0S1",
     "course": "econ_principles_y0",
     "course_name": "經濟學原理（上）",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -13997,16 +14114,16 @@
     "course": "econ_principles_y0",
     "course_name": "經濟學原理（上）",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "非法律"
    },
    {
     "term": "Y0S1",
     "course": "econ_principles_y0",
     "course_name": "經濟學原理（上）",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14015,7 +14132,7 @@
     "course": "econ_principles_y0",
     "course_name": "經濟學原理（上）",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14024,7 +14141,7 @@
     "course": "econ_principles_y0",
     "course_name": "經濟學原理（上）",
     "week": 5,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14033,7 +14150,7 @@
     "course": "econ_principles_y0",
     "course_name": "經濟學原理（上）",
     "week": 6,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14042,7 +14159,7 @@
     "course": "econ_principles_y0",
     "course_name": "經濟學原理（上）",
     "week": 7,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14051,7 +14168,7 @@
     "course": "econ_principles_y0",
     "course_name": "經濟學原理（上）",
     "week": 10,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14060,7 +14177,7 @@
     "course": "econ_principles_y0",
     "course_name": "經濟學原理（上）",
     "week": 11,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14069,16 +14186,16 @@
     "course": "econ_principles_y0",
     "course_name": "經濟學原理（上）",
     "week": 12,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "舉例"
    },
    {
     "term": "Y0S1",
     "course": "econ_principles_y0",
     "course_name": "經濟學原理（上）",
     "week": 13,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14087,7 +14204,7 @@
     "course": "econ_principles_y0",
     "course_name": "經濟學原理（上）",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14096,16 +14213,16 @@
     "course": "econ_principles_y0",
     "course_name": "經濟學原理（上）",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "非法律"
    },
    {
     "term": "Y0S1",
     "course": "econ_principles_y0",
     "course_name": "經濟學原理（上）",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14114,7 +14231,7 @@
     "course": "ge_y0s1",
     "course_name": "通識：思考實驗（課名暫定）",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14123,7 +14240,7 @@
     "course": "ge_y0s1",
     "course_name": "通識：思考實驗（課名暫定）",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14132,7 +14249,7 @@
     "course": "ge_y0s1",
     "course_name": "通識：思考實驗（課名暫定）",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14141,7 +14258,7 @@
     "course": "ge_y0s1",
     "course_name": "通識：思考實驗（課名暫定）",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14150,7 +14267,7 @@
     "course": "ge_y0s1",
     "course_name": "通識：思考實驗（課名暫定）",
     "week": 5,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14159,7 +14276,7 @@
     "course": "ge_y0s1",
     "course_name": "通識：思考實驗（課名暫定）",
     "week": 6,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14168,7 +14285,7 @@
     "course": "ge_y0s1",
     "course_name": "通識：思考實驗（課名暫定）",
     "week": 7,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14177,7 +14294,7 @@
     "course": "ge_y0s1",
     "course_name": "通識：思考實驗（課名暫定）",
     "week": 10,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14186,7 +14303,7 @@
     "course": "ge_y0s1",
     "course_name": "通識：思考實驗（課名暫定）",
     "week": 11,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14195,7 +14312,7 @@
     "course": "ge_y0s1",
     "course_name": "通識：思考實驗（課名暫定）",
     "week": 12,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14204,7 +14321,7 @@
     "course": "ge_y0s1",
     "course_name": "通識：思考實驗（課名暫定）",
     "week": 13,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14213,7 +14330,7 @@
     "course": "ge_y0s1",
     "course_name": "通識：思考實驗（課名暫定）",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14222,7 +14339,7 @@
     "course": "ge_y0s1",
     "course_name": "通識：思考實驗（課名暫定）",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14231,7 +14348,7 @@
     "course": "ge_y0s1",
     "course_name": "通識：思考實驗（課名暫定）",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14240,7 +14357,7 @@
     "course": "acct_y0",
     "course_name": "初等會計學（上）",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14249,7 +14366,7 @@
     "course": "acct_y0",
     "course_name": "初等會計學（上）",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14258,7 +14375,7 @@
     "course": "acct_y0",
     "course_name": "初等會計學（上）",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14267,7 +14384,7 @@
     "course": "acct_y0",
     "course_name": "初等會計學（上）",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14276,7 +14393,7 @@
     "course": "acct_y0",
     "course_name": "初等會計學（上）",
     "week": 5,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14285,7 +14402,7 @@
     "course": "acct_y0",
     "course_name": "初等會計學（上）",
     "week": 6,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14294,16 +14411,16 @@
     "course": "acct_y0",
     "course_name": "初等會計學（上）",
     "week": 7,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "補習班先收學費是舉例（會計的預收）"
    },
    {
     "term": "Y0S1",
     "course": "acct_y0",
     "course_name": "初等會計學（上）",
     "week": 10,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14312,7 +14429,7 @@
     "course": "acct_y0",
     "course_name": "初等會計學（上）",
     "week": 11,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14321,7 +14438,7 @@
     "course": "acct_y0",
     "course_name": "初等會計學（上）",
     "week": 12,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14330,16 +14447,16 @@
     "course": "acct_y0",
     "course_name": "初等會計學（上）",
     "week": 13,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "非法律"
    },
    {
     "term": "Y0S1",
     "course": "acct_y0",
     "course_name": "初等會計學（上）",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14348,7 +14465,7 @@
     "course": "acct_y0",
     "course_name": "初等會計學（上）",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14357,7 +14474,7 @@
     "course": "acct_y0",
     "course_name": "初等會計學（上）",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14366,7 +14483,7 @@
     "course": "econ_principles_y0_2",
     "course_name": "經濟學原理（下）",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14375,7 +14492,7 @@
     "course": "econ_principles_y0_2",
     "course_name": "經濟學原理（下）",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14384,25 +14501,25 @@
     "course": "econ_principles_y0_2",
     "course_name": "經濟學原理（下）",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "舉例"
    },
    {
     "term": "Y0S2",
     "course": "econ_principles_y0_2",
     "course_name": "經濟學原理（下）",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "非法律"
    },
    {
     "term": "Y0S2",
     "course": "econ_principles_y0_2",
     "course_name": "經濟學原理（下）",
     "week": 5,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14411,7 +14528,7 @@
     "course": "econ_principles_y0_2",
     "course_name": "經濟學原理（下）",
     "week": 6,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14420,7 +14537,7 @@
     "course": "econ_principles_y0_2",
     "course_name": "經濟學原理（下）",
     "week": 7,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14429,7 +14546,7 @@
     "course": "econ_principles_y0_2",
     "course_name": "經濟學原理（下）",
     "week": 10,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14438,7 +14555,7 @@
     "course": "econ_principles_y0_2",
     "course_name": "經濟學原理（下）",
     "week": 11,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14447,7 +14564,7 @@
     "course": "econ_principles_y0_2",
     "course_name": "經濟學原理（下）",
     "week": 12,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14456,7 +14573,7 @@
     "course": "econ_principles_y0_2",
     "course_name": "經濟學原理（下）",
     "week": 13,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14465,7 +14582,7 @@
     "course": "econ_principles_y0_2",
     "course_name": "經濟學原理（下）",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14474,7 +14591,7 @@
     "course": "econ_principles_y0_2",
     "course_name": "經濟學原理（下）",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14483,7 +14600,7 @@
     "course": "econ_principles_y0_2",
     "course_name": "經濟學原理（下）",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14492,7 +14609,7 @@
     "course": "law_intro",
     "course_name": "法學緒論",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14501,7 +14618,7 @@
     "course": "law_intro",
     "course_name": "法學緒論",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14510,16 +14627,16 @@
     "course": "law_intro",
     "course_name": "法學緒論",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "民法 §1"
    },
    {
     "term": "Y0S2",
     "course": "law_intro",
     "course_name": "法學緒論",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14528,7 +14645,7 @@
     "course": "law_intro",
     "course_name": "法學緒論",
     "week": 5,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -14537,79 +14654,7 @@
     "course": "law_intro",
     "course_name": "法學緒論",
     "week": 6,
-    "status": "todo",
-    "items": [],
-    "note": ""
-   },
-   {
-    "term": "Y0S2",
-    "course": "law_intro",
-    "course_name": "法學緒論",
-    "week": 7,
-    "status": "todo",
-    "items": [],
-    "note": ""
-   },
-   {
-    "term": "Y0S2",
-    "course": "law_intro",
-    "course_name": "法學緒論",
-    "week": 10,
-    "status": "todo",
-    "items": [],
-    "note": ""
-   },
-   {
-    "term": "Y0S2",
-    "course": "law_intro",
-    "course_name": "法學緒論",
-    "week": 11,
-    "status": "todo",
-    "items": [],
-    "note": ""
-   },
-   {
-    "term": "Y0S2",
-    "course": "law_intro",
-    "course_name": "法學緒論",
-    "week": 12,
-    "status": "todo",
-    "items": [],
-    "note": ""
-   },
-   {
-    "term": "Y0S2",
-    "course": "law_intro",
-    "course_name": "法學緒論",
-    "week": 13,
-    "status": "todo",
-    "items": [],
-    "note": ""
-   },
-   {
-    "term": "Y0S2",
-    "course": "law_intro",
-    "course_name": "法學緒論",
-    "week": 14,
-    "status": "todo",
-    "items": [],
-    "note": ""
-   },
-   {
-    "term": "Y0S2",
-    "course": "law_intro",
-    "course_name": "法學緒論",
-    "week": 15,
-    "status": "todo",
-    "items": [],
-    "note": ""
-   },
-   {
-    "term": "Y0S2",
-    "course": "law_intro",
-    "course_name": "法學緒論",
-    "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -15992,7 +16037,7 @@
     "course": "admin_law",
     "course_name": "行政法",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16001,7 +16046,7 @@
     "course": "admin_law",
     "course_name": "行政法",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16010,7 +16055,7 @@
     "course": "admin_law",
     "course_name": "行政法",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16019,7 +16064,7 @@
     "course": "admin_law",
     "course_name": "行政法",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16028,34 +16073,34 @@
     "course": "admin_law",
     "course_name": "行政法",
     "week": 5,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "行政程序法 §92"
    },
    {
     "term": "Y2S1",
     "course": "admin_law",
     "course_name": "行政法",
     "week": 6,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "行政程序法 §135"
    },
    {
     "term": "Y2S1",
     "course": "admin_law",
     "course_name": "行政法",
     "week": 10,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "行政罰法 §7、§24、§26"
    },
    {
     "term": "Y2S1",
     "course": "admin_law",
     "course_name": "行政法",
     "week": 12,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16064,16 +16109,16 @@
     "course": "admin_law",
     "course_name": "行政法",
     "week": 13,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "行政程序法 §150、§159"
    },
    {
     "term": "Y2S1",
     "course": "admin_law",
     "course_name": "行政法",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16082,7 +16127,7 @@
     "course": "admin_law",
     "course_name": "行政法",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16091,7 +16136,7 @@
     "course": "admin_law",
     "course_name": "行政法",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16100,7 +16145,7 @@
     "course": "crim_spec",
     "course_name": "刑法分則",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16109,97 +16154,97 @@
     "course": "crim_spec",
     "course_name": "刑法分則",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§271、§273"
    },
    {
     "term": "Y2S1",
     "course": "crim_spec",
     "course_name": "刑法分則",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§277、§278、§284"
    },
    {
     "term": "Y2S1",
     "course": "crim_spec",
     "course_name": "刑法分則",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§293、§294"
    },
    {
     "term": "Y2S1",
     "course": "crim_spec",
     "course_name": "刑法分則",
     "week": 5,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§302、§304、§305"
    },
    {
     "term": "Y2S1",
     "course": "crim_spec",
     "course_name": "刑法分則",
     "week": 7,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§315-1"
    },
    {
     "term": "Y2S1",
     "course": "crim_spec",
     "course_name": "刑法分則",
     "week": 11,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§325、§328"
    },
    {
     "term": "Y2S1",
     "course": "crim_spec",
     "course_name": "刑法分則",
     "week": 12,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§335、§342"
    },
    {
     "term": "Y2S1",
     "course": "crim_spec",
     "course_name": "刑法分則",
     "week": 13,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§339"
    },
    {
     "term": "Y2S1",
     "course": "crim_spec",
     "course_name": "刑法分則",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§210、§211"
    },
    {
     "term": "Y2S1",
     "course": "crim_spec",
     "course_name": "刑法分則",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§173、§185-3"
    },
    {
     "term": "Y2S1",
     "course": "crim_spec",
     "course_name": "刑法分則",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16208,7 +16253,7 @@
     "course": "property",
     "course_name": "民法物權",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16217,79 +16262,79 @@
     "course": "property",
     "course_name": "民法物權",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§757"
    },
    {
     "term": "Y2S1",
     "course": "property",
     "course_name": "民法物權",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§758"
    },
    {
     "term": "Y2S1",
     "course": "property",
     "course_name": "民法物權",
     "week": 5,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§765"
    },
    {
     "term": "Y2S1",
     "course": "property",
     "course_name": "民法物權",
     "week": 6,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§787、§793、§796"
    },
    {
     "term": "Y2S1",
     "course": "property",
     "course_name": "民法物權",
     "week": 10,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§425-1"
    },
    {
     "term": "Y2S1",
     "course": "property",
     "course_name": "民法物權",
     "week": 12,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§860"
    },
    {
     "term": "Y2S1",
     "course": "property",
     "course_name": "民法物權",
     "week": 13,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§884、§928"
    },
    {
     "term": "Y2S1",
     "course": "property",
     "course_name": "民法物權",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§940、§962"
    },
    {
     "term": "Y2S1",
     "course": "property",
     "course_name": "民法物權",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16298,7 +16343,7 @@
     "course": "property",
     "course_name": "民法物權",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16307,7 +16352,7 @@
     "course": "juris",
     "course_name": "法理學",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16316,7 +16361,7 @@
     "course": "juris",
     "course_name": "法理學",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16325,7 +16370,7 @@
     "course": "juris",
     "course_name": "法理學",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16334,7 +16379,7 @@
     "course": "juris",
     "course_name": "法理學",
     "week": 5,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16343,7 +16388,7 @@
     "course": "juris",
     "course_name": "法理學",
     "week": 6,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16352,7 +16397,7 @@
     "course": "juris",
     "course_name": "法理學",
     "week": 7,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16361,7 +16406,7 @@
     "course": "juris",
     "course_name": "法理學",
     "week": 11,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16370,7 +16415,7 @@
     "course": "juris",
     "course_name": "法理學",
     "week": 12,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16379,7 +16424,7 @@
     "course": "juris",
     "course_name": "法理學",
     "week": 13,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16388,7 +16433,7 @@
     "course": "juris",
     "course_name": "法理學",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16397,7 +16442,7 @@
     "course": "juris",
     "course_name": "法理學",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16406,7 +16451,7 @@
     "course": "juris",
     "course_name": "法理學",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16415,7 +16460,7 @@
     "course": "oblig_gen2",
     "course_name": "民法債編總論（二）",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16424,25 +16469,25 @@
     "course": "oblig_gen2",
     "course_name": "民法債編總論（二）",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§225、§226"
    },
    {
     "term": "Y2S1",
     "course": "oblig_gen2",
     "course_name": "民法債編總論（二）",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§229"
    },
    {
     "term": "Y2S1",
     "course": "oblig_gen2",
     "course_name": "民法債編總論（二）",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16451,70 +16496,70 @@
     "course": "oblig_gen2",
     "course_name": "民法債編總論（二）",
     "week": 6,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§234"
    },
    {
     "term": "Y2S1",
     "course": "oblig_gen2",
     "course_name": "民法債編總論（二）",
     "week": 7,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§478"
    },
    {
     "term": "Y2S1",
     "course": "oblig_gen2",
     "course_name": "民法債編總論（二）",
     "week": 10,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§254、§259"
    },
    {
     "term": "Y2S1",
     "course": "oblig_gen2",
     "course_name": "民法債編總論（二）",
     "week": 12,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§272"
    },
    {
     "term": "Y2S1",
     "course": "oblig_gen2",
     "course_name": "民法債編總論（二）",
     "week": 13,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§294、§300"
    },
    {
     "term": "Y2S1",
     "course": "oblig_gen2",
     "course_name": "民法債編總論（二）",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§334"
    },
    {
     "term": "Y2S1",
     "course": "oblig_gen2",
     "course_name": "民法債編總論（二）",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "只問"
    },
    {
     "term": "Y2S1",
     "course": "oblig_gen2",
     "course_name": "民法債編總論（二）",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16523,7 +16568,7 @@
     "course": "ge_y2s1",
     "course_name": "通識：流行音樂與社會（課名暫定）",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16532,7 +16577,7 @@
     "course": "ge_y2s1",
     "course_name": "通識：流行音樂與社會（課名暫定）",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16541,7 +16586,7 @@
     "course": "ge_y2s1",
     "course_name": "通識：流行音樂與社會（課名暫定）",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16550,7 +16595,7 @@
     "course": "ge_y2s1",
     "course_name": "通識：流行音樂與社會（課名暫定）",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16559,7 +16604,7 @@
     "course": "ge_y2s1",
     "course_name": "通識：流行音樂與社會（課名暫定）",
     "week": 5,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16568,7 +16613,7 @@
     "course": "ge_y2s1",
     "course_name": "通識：流行音樂與社會（課名暫定）",
     "week": 6,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16577,7 +16622,7 @@
     "course": "ge_y2s1",
     "course_name": "通識：流行音樂與社會（課名暫定）",
     "week": 7,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16586,7 +16631,7 @@
     "course": "ge_y2s1",
     "course_name": "通識：流行音樂與社會（課名暫定）",
     "week": 10,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16595,7 +16640,7 @@
     "course": "ge_y2s1",
     "course_name": "通識：流行音樂與社會（課名暫定）",
     "week": 11,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16604,7 +16649,7 @@
     "course": "ge_y2s1",
     "course_name": "通識：流行音樂與社會（課名暫定）",
     "week": 12,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16613,7 +16658,7 @@
     "course": "ge_y2s1",
     "course_name": "通識：流行音樂與社會（課名暫定）",
     "week": 13,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16622,7 +16667,7 @@
     "course": "ge_y2s1",
     "course_name": "通識：流行音樂與社會（課名暫定）",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16631,7 +16676,7 @@
     "course": "ge_y2s1",
     "course_name": "通識：流行音樂與社會（課名暫定）",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16640,7 +16685,7 @@
     "course": "ge_y2s1",
     "course_name": "通識：流行音樂與社會（課名暫定）",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16649,7 +16694,7 @@
     "course": "oblig_spec",
     "course_name": "民法債編各論",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16658,88 +16703,88 @@
     "course": "oblig_spec",
     "course_name": "民法債編各論",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§373；七天只問"
    },
    {
     "term": "Y2S2",
     "course": "oblig_spec",
     "course_name": "民法債編各論",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§421、§429"
    },
    {
     "term": "Y2S2",
     "course": "oblig_spec",
     "course_name": "民法債編各論",
     "week": 6,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§425"
    },
    {
     "term": "Y2S2",
     "course": "oblig_spec",
     "course_name": "民法債編各論",
     "week": 7,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§514-1 以下"
    },
    {
     "term": "Y2S2",
     "course": "oblig_spec",
     "course_name": "民法債編各論",
     "week": 10,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§528、§535"
    },
    {
     "term": "Y2S2",
     "course": "oblig_spec",
     "course_name": "民法債編各論",
     "week": 12,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§482"
    },
    {
     "term": "Y2S2",
     "course": "oblig_spec",
     "course_name": "民法債編各論",
     "week": 13,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§739、§745"
    },
    {
     "term": "Y2S2",
     "course": "oblig_spec",
     "course_name": "民法債編各論",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§406、§408"
    },
    {
     "term": "Y2S2",
     "course": "oblig_spec",
     "course_name": "民法債編各論",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§490"
    },
    {
     "term": "Y2S2",
     "course": "oblig_spec",
     "course_name": "民法債編各論",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16748,7 +16793,7 @@
     "course": "family_law",
     "course_name": "民法身分法",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16757,52 +16802,52 @@
     "course": "family_law",
     "course_name": "民法身分法",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§968"
    },
    {
     "term": "Y2S2",
     "course": "family_law",
     "course_name": "民法身分法",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§972、§975"
    },
    {
     "term": "Y2S2",
     "course": "family_law",
     "course_name": "民法身分法",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§980、§982"
    },
    {
     "term": "Y2S2",
     "course": "family_law",
     "course_name": "民法身分法",
     "week": 7,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§1030-1"
    },
    {
     "term": "Y2S2",
     "course": "family_law",
     "course_name": "民法身分法",
     "week": 10,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§1059"
    },
    {
     "term": "Y2S2",
     "course": "family_law",
     "course_name": "民法身分法",
     "week": 12,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16811,17 +16856,19 @@
     "course": "family_law",
     "course_name": "民法身分法",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§1187、§1223（第 4 批已補修法註記）"
    },
    {
     "term": "Y2S2",
     "course": "family_law",
     "course_name": "民法身分法",
     "week": 15,
-    "status": "todo",
-    "items": [],
+    "status": "item",
+    "items": [
+     "L426"
+    ],
     "note": ""
    },
    {
@@ -16829,7 +16876,7 @@
     "course": "family_law",
     "course_name": "民法身分法",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16838,7 +16885,7 @@
     "course": "admin_remedy",
     "course_name": "行政救濟法",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16847,25 +16894,25 @@
     "course": "admin_remedy",
     "course_name": "行政救濟法",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "訴願法 §14"
    },
    {
     "term": "Y2S2",
     "course": "admin_remedy",
     "course_name": "行政救濟法",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "訴願法 §81"
    },
    {
     "term": "Y2S2",
     "course": "admin_remedy",
     "course_name": "行政救濟法",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16874,7 +16921,7 @@
     "course": "admin_remedy",
     "course_name": "行政救濟法",
     "week": 5,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16883,25 +16930,25 @@
     "course": "admin_remedy",
     "course_name": "行政救濟法",
     "week": 6,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "行政訴訟法 §5"
    },
    {
     "term": "Y2S2",
     "course": "admin_remedy",
     "course_name": "行政救濟法",
     "week": 10,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "2023 年地方行政訴訟庭"
    },
    {
     "term": "Y2S2",
     "course": "admin_remedy",
     "course_name": "行政救濟法",
     "week": 11,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16910,25 +16957,25 @@
     "course": "admin_remedy",
     "course_name": "行政救濟法",
     "week": 12,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "國賠法 §10、§11"
    },
    {
     "term": "Y2S2",
     "course": "admin_remedy",
     "course_name": "行政救濟法",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "行政程序法 §128"
    },
    {
     "term": "Y2S2",
     "course": "admin_remedy",
     "course_name": "行政救濟法",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16937,7 +16984,7 @@
     "course": "admin_remedy",
     "course_name": "行政救濟法",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16946,7 +16993,7 @@
     "course": "intl_public",
     "course_name": "國際公法",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16955,7 +17002,7 @@
     "course": "intl_public",
     "course_name": "國際公法",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16964,7 +17011,7 @@
     "course": "legal_history",
     "course_name": "法律史",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16973,7 +17020,7 @@
     "course": "legal_history",
     "course_name": "法律史",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16982,7 +17029,7 @@
     "course": "legal_history",
     "course_name": "法律史",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -16991,7 +17038,7 @@
     "course": "ge_y2s2",
     "course_name": "通識：食物與城市（課名暫定）",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17000,7 +17047,7 @@
     "course": "ge_y2s2",
     "course_name": "通識：食物與城市（課名暫定）",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17009,7 +17056,7 @@
     "course": "ge_y2s2",
     "course_name": "通識：食物與城市（課名暫定）",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17018,7 +17065,7 @@
     "course": "ge_y2s2",
     "course_name": "通識：食物與城市（課名暫定）",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17027,7 +17074,7 @@
     "course": "ge_y2s2",
     "course_name": "通識：食物與城市（課名暫定）",
     "week": 5,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17036,7 +17083,7 @@
     "course": "ge_y2s2",
     "course_name": "通識：食物與城市（課名暫定）",
     "week": 6,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17045,7 +17092,7 @@
     "course": "ge_y2s2",
     "course_name": "通識：食物與城市（課名暫定）",
     "week": 7,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17054,7 +17101,7 @@
     "course": "ge_y2s2",
     "course_name": "通識：食物與城市（課名暫定）",
     "week": 10,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17063,7 +17110,7 @@
     "course": "ge_y2s2",
     "course_name": "通識：食物與城市（課名暫定）",
     "week": 11,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17072,7 +17119,7 @@
     "course": "ge_y2s2",
     "course_name": "通識：食物與城市（課名暫定）",
     "week": 12,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17081,7 +17128,7 @@
     "course": "ge_y2s2",
     "course_name": "通識：食物與城市（課名暫定）",
     "week": 13,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17090,7 +17137,7 @@
     "course": "ge_y2s2",
     "course_name": "通識：食物與城市（課名暫定）",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17099,7 +17146,7 @@
     "course": "ge_y2s2",
     "course_name": "通識：食物與城市（課名暫定）",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17108,7 +17155,7 @@
     "course": "ge_y2s2",
     "course_name": "通識：食物與城市（課名暫定）",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17117,7 +17164,7 @@
     "course": "civpro_1",
     "course_name": "民事訴訟法甲上",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17126,7 +17173,7 @@
     "course": "civpro_1",
     "course_name": "民事訴訟法甲上",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17135,16 +17182,16 @@
     "course": "civpro_1",
     "course_name": "民事訴訟法甲上",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "民訴 §1"
    },
    {
     "term": "Y3S1",
     "course": "civpro_1",
     "course_name": "民事訴訟法甲上",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17153,7 +17200,7 @@
     "course": "civpro_1",
     "course_name": "民事訴訟法甲上",
     "week": 5,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17162,16 +17209,16 @@
     "course": "civpro_1",
     "course_name": "民事訴訟法甲上",
     "week": 6,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "學說爭議，只問"
    },
    {
     "term": "Y3S1",
     "course": "civpro_1",
     "course_name": "民事訴訟法甲上",
     "week": 7,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17180,25 +17227,25 @@
     "course": "civpro_1",
     "course_name": "民事訴訟法甲上",
     "week": 10,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§244"
    },
    {
     "term": "Y3S1",
     "course": "civpro_1",
     "course_name": "民事訴訟法甲上",
     "week": 12,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§255"
    },
    {
     "term": "Y3S1",
     "course": "civpro_1",
     "course_name": "民事訴訟法甲上",
     "week": 13,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17207,7 +17254,7 @@
     "course": "civpro_1",
     "course_name": "民事訴訟法甲上",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17216,7 +17263,7 @@
     "course": "civpro_1",
     "course_name": "民事訴訟法甲上",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17225,7 +17272,7 @@
     "course": "crimpro",
     "course_name": "刑事訴訟法",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17234,34 +17281,34 @@
     "course": "crimpro",
     "course_name": "刑事訴訟法",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "刑訴 §154"
    },
    {
     "term": "Y3S1",
     "course": "crimpro",
     "course_name": "刑事訴訟法",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§95"
    },
    {
     "term": "Y3S1",
     "course": "crimpro",
     "course_name": "刑事訴訟法",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§128"
    },
    {
     "term": "Y3S1",
     "course": "crimpro",
     "course_name": "刑事訴訟法",
     "week": 6,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17270,7 +17317,7 @@
     "course": "crimpro",
     "course_name": "刑事訴訟法",
     "week": 7,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17279,7 +17326,7 @@
     "course": "crimpro",
     "course_name": "刑事訴訟法",
     "week": 11,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17288,16 +17335,16 @@
     "course": "crimpro",
     "course_name": "刑事訴訟法",
     "week": 12,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§181"
    },
    {
     "term": "Y3S1",
     "course": "crimpro",
     "course_name": "刑事訴訟法",
     "week": 13,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17306,34 +17353,34 @@
     "course": "crimpro",
     "course_name": "刑事訴訟法",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§208（機關鑑定）"
    },
    {
     "term": "Y3S1",
     "course": "crimpro",
     "course_name": "刑事訴訟法",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§31"
    },
    {
     "term": "Y3S1",
     "course": "crimpro",
     "course_name": "刑事訴訟法",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§300"
    },
    {
     "term": "Y3S1",
     "course": "company_law",
     "course_name": "商事法總論及公司法",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17342,7 +17389,7 @@
     "course": "securities",
     "course_name": "證券交易法",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17351,7 +17398,7 @@
     "course": "civpro_2",
     "course_name": "民事訴訟法甲下",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17360,16 +17407,16 @@
     "course": "civpro_2",
     "course_name": "民事訴訟法甲下",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§277"
    },
    {
     "term": "Y3S2",
     "course": "civpro_2",
     "course_name": "民事訴訟法甲下",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17378,16 +17425,16 @@
     "course": "civpro_2",
     "course_name": "民事訴訟法甲下",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§222"
    },
    {
     "term": "Y3S2",
     "course": "civpro_2",
     "course_name": "民事訴訟法甲下",
     "week": 5,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17396,25 +17443,25 @@
     "course": "civpro_2",
     "course_name": "民事訴訟法甲下",
     "week": 6,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§400"
    },
    {
     "term": "Y3S2",
     "course": "civpro_2",
     "course_name": "民事訴訟法甲下",
     "week": 10,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "上訴不是重來（續審、法律審）"
    },
    {
     "term": "Y3S2",
     "course": "civpro_2",
     "course_name": "民事訴訟法甲下",
     "week": 11,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17423,25 +17470,25 @@
     "course": "civpro_2",
     "course_name": "民事訴訟法甲下",
     "week": 12,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§522"
    },
    {
     "term": "Y3S2",
     "course": "civpro_2",
     "course_name": "民事訴訟法甲下",
     "week": 13,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "§496"
    },
    {
     "term": "Y3S2",
     "course": "civpro_2",
     "course_name": "民事訴訟法甲下",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17450,7 +17497,7 @@
     "course": "civpro_2",
     "course_name": "民事訴訟法甲下",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17459,7 +17506,7 @@
     "course": "civpro_2",
     "course_name": "民事訴訟法甲下",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17468,7 +17515,7 @@
     "course": "insurance",
     "course_name": "保險法",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17477,7 +17524,7 @@
     "course": "negotiable",
     "course_name": "票據及支付工具法",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17486,7 +17533,7 @@
     "course": "negotiable",
     "course_name": "票據及支付工具法",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17495,7 +17542,7 @@
     "course": "labor_law",
     "course_name": "勞動法",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17504,7 +17551,7 @@
     "course": "fair_trade",
     "course_name": "公平交易法",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17513,7 +17560,7 @@
     "course": "conflict_laws",
     "course_name": "國際私法",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17522,7 +17569,7 @@
     "course": "enforcement",
     "course_name": "強制執行法",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17531,7 +17578,7 @@
     "course": "legal_ethics",
     "course_name": "法律倫理",
     "week": 5,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17540,7 +17587,7 @@
     "course": "legal_ethics",
     "course_name": "法律倫理",
     "week": 6,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17549,16 +17596,16 @@
     "course": "legal_ethics",
     "course_name": "法律倫理",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "律師、司法官考試都考法律倫理"
    },
    {
     "term": "Y4S1",
     "course": "ip_law",
     "course_name": "智慧財產權法",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17567,7 +17614,7 @@
     "course": "labor_social",
     "course_name": "勞動社會法",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17576,7 +17623,7 @@
     "course": "labor_social",
     "course_name": "勞動社會法",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17585,16 +17632,16 @@
     "course": "tax_law",
     "course_name": "財稅法",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "虛構案例"
    },
    {
     "term": "Y4S1",
     "course": "tax_law",
     "course_name": "財稅法",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17603,16 +17650,16 @@
     "course": "crim_judgment_sem",
     "course_name": "刑事判決研討",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "大一刑總到大四，三年"
    },
    {
     "term": "Y4S1",
     "course": "crim_judgment_sem",
     "course_name": "刑事判決研討",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17621,7 +17668,7 @@
     "course": "crim_judgment_sem",
     "course_name": "刑事判決研討",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17630,7 +17677,7 @@
     "course": "crim_judgment_sem",
     "course_name": "刑事判決研討",
     "week": 7,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17639,16 +17686,16 @@
     "course": "crim_judgment_sem",
     "course_name": "刑事判決研討",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "同上"
    },
    {
     "term": "Y4S1",
     "course": "public_judgment_sem",
     "course_name": "公法判決研討",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17657,8 +17704,10 @@
     "course": "public_judgment_sem",
     "course_name": "公法判決研討",
     "week": 2,
-    "status": "todo",
-    "items": [],
+    "status": "item",
+    "items": [
+     "L427"
+    ],
     "note": ""
    },
    {
@@ -17666,7 +17715,7 @@
     "course": "public_judgment_sem",
     "course_name": "公法判決研討",
     "week": 4,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17675,7 +17724,7 @@
     "course": "public_judgment_sem",
     "course_name": "公法判決研討",
     "week": 7,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17684,7 +17733,7 @@
     "course": "public_judgment_sem",
     "course_name": "公法判決研討",
     "week": 10,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17693,7 +17742,7 @@
     "course": "public_judgment_sem",
     "course_name": "公法判決研討",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17702,16 +17751,16 @@
     "course": "legal_research",
     "course_name": "法律專題研究",
     "week": 1,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "大一民總也是周教授"
    },
    {
     "term": "Y4S2",
     "course": "legal_research",
     "course_name": "法律專題研究",
     "week": 2,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17720,7 +17769,7 @@
     "course": "legal_research",
     "course_name": "法律專題研究",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17729,8 +17778,10 @@
     "course": "legal_research",
     "course_name": "法律專題研究",
     "week": 4,
-    "status": "todo",
-    "items": [],
+    "status": "item",
+    "items": [
+     "L428"
+    ],
     "note": ""
    },
    {
@@ -17738,7 +17789,7 @@
     "course": "legal_research",
     "course_name": "法律專題研究",
     "week": 5,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17747,7 +17798,7 @@
     "course": "legal_research",
     "course_name": "法律專題研究",
     "week": 6,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17756,7 +17807,7 @@
     "course": "legal_research",
     "course_name": "法律專題研究",
     "week": 7,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17765,16 +17816,16 @@
     "course": "legal_research",
     "course_name": "法律專題研究",
     "week": 10,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "和大一民總第 3 週的網拍相機一致"
    },
    {
     "term": "Y4S2",
     "course": "legal_research",
     "course_name": "法律專題研究",
     "week": 13,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17783,16 +17834,16 @@
     "course": "legal_research",
     "course_name": "法律專題研究",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "四年前"
    },
    {
     "term": "Y4S2",
     "course": "legal_research",
     "course_name": "法律專題研究",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17801,16 +17852,16 @@
     "course": "legal_research",
     "course_name": "法律專題研究",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
-    "note": ""
+    "note": "四年前"
    },
    {
     "term": "Y4S2",
     "course": "maritime",
     "course_name": "海商法與海洋法",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17819,7 +17870,7 @@
     "course": "maritime",
     "course_name": "海商法與海洋法",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17828,7 +17879,7 @@
     "course": "legal_english",
     "course_name": "法學英文／英美法",
     "week": 3,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17837,7 +17888,7 @@
     "course": "legal_english",
     "course_name": "法學英文／英美法",
     "week": 7,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17846,7 +17897,7 @@
     "course": "legal_english",
     "course_name": "法學英文／英美法",
     "week": 10,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17855,7 +17906,7 @@
     "course": "legal_english",
     "course_name": "法學英文／英美法",
     "week": 11,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17864,7 +17915,7 @@
     "course": "legal_english",
     "course_name": "法學英文／英美法",
     "week": 13,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17873,7 +17924,7 @@
     "course": "legal_english",
     "course_name": "法學英文／英美法",
     "week": 14,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17882,7 +17933,7 @@
     "course": "legal_english",
     "course_name": "法學英文／英美法",
     "week": 15,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    },
@@ -17891,7 +17942,7 @@
     "course": "legal_english",
     "course_name": "法學英文／英美法",
     "week": 16,
-    "status": "todo",
+    "status": "ok",
     "items": [],
     "note": ""
    }
