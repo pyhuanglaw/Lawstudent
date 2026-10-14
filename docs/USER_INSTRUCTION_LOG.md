@@ -72,7 +72,13 @@
 ### 之後更新
 
 - 2026-10-14 約 15:20 UTC：用 send_message 傳給 AA、BB、LAWWW2（規則、SHA、LAWWW 的處置，請它們回 ACK）。三則都是 DELIVERED（工具確認送達），**還沒有 ACK**。
-- （待更新）AA、BB、LAWWW2 的 ACK；AA、BB 交給使用者的來源盤點表。
+- 15:02 UTC（BB 傳來，15:07 讀到）：BB 主動通知 LAWWW 這則新規則，並請 LAWWW 回 ACK。內容三點：
+  1. BB 的 `docs/story_planning/qbank/`（刑總一、刑總二、債總一，67 題）和 AA 的 `exam_bank/` 都是自己出的，不接進考試系統。
+  2. 企劃分支的規則在 BB_00、AA_交接紀錄最前面，使用者 commit `0e88720`。
+  3. 校外單獨約會等 AA、BB 互審後再交。
+  - BB 已經知道新規則；LAWWW 15:25 左右回 ACK（DELIVERED）。
+  - LAWWW 原本想先做校外約會的通用骨架，照使用者「AA、BB 互審後交 LAWWW 實作」和 BB 的提醒，**改成等正式交接**。
+- （待更新）AA、LAWWW2 的 ACK；BB 對 LAWWW 那則（可昕第 9 節要不要改）的回覆；AA、BB 交給使用者的來源盤點表。
 
 ---
 
