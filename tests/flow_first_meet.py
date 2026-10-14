@@ -46,12 +46,21 @@ async def play_dialog(pg, cdp, start_tap=False, max_steps=60):
     return lines, menus
 
 
-async def chase(pg, cdp, run, cid, label, rounds=10):   # 走路的人玩家走到 2.8 m 內才停下來；散步路線的起點隨機，可能在 70 m 外（v9.7 回歸：4 次追到 5.7 m 就停了）
-    for _ in range(rounds):
+async def chase(pg, cdp, run, cid, label, max_s=240):
+    """追走路中的人：像玩家一樣邊看她在哪邊追——遠的時候點她附近的地面（遊戲找路），近了（12 m 內）用搖桿朝她目前的位置推；
+    玩家走到 2.8 m 內她就會停下來（engine3d.js updateNPC）。v9.7 回歸：原本每次走到她「原本的位置」才看下一步，SwiftShader 太慢，她每次都走開了"""
+    t0 = time.time()
+    while time.time() - t0 < max_s:
         n = await npc(pg, cid)
         if not n: return None
         if n['d'] <= 2.0: break
-        await L.go_to(pg, cdp, run, n['x'], n['z'], 1.6, label, max_s=150)
+        q = await L.state(pg)
+        if n['d'] > 12:
+            await L._tap_toward(pg, cdp, q, n['x'], n['z'], n['d'], None); await pg.wait_for_timeout(2500)
+        else:
+            yaw = q['camYaw']; fx, fz = -math.sin(yaw), -math.cos(yaw); rx, rz = -fz, fx
+            ux, uz = (n['x'] - q['x']) / max(n['d'], 0.01), (n['z'] - q['z']) / max(n['d'], 0.01)
+            await L.joystick(pg, cdp, int(28 * (ux * rx + uz * rz)), int(-28 * (ux * fx + uz * fz)), 700)
     n = await npc(pg, cid)
     return n and n['d']
 
@@ -73,12 +82,12 @@ async def walk_until_dialog(pg, cdp, run, tx, tz, label, max_s=300, wait_s=60):
                 if q['dlg'] or q['choices'] or q['busy']: return True
             run.note(f'{label}：走到了，等了 {wait_s} 秒沒有對話')
             return False
-        if last_d is not None and d > last_d - 0.2:
+        if last_d is not None and d > last_d - 0.2 and d < 3.0:   # 只在很近、還沒走到時推搖桿（遠的時候直推會撞牆、卡在門框裡）
             yaw = q['camYaw']; fx, fz = -math.sin(yaw), -math.cos(yaw); rx, rz = -fz, fx
             ux, uz = (tx - q['x']) / max(d, 0.01), (tz - q['z']) / max(d, 0.01)
             await L.joystick(pg, cdp, int(25 * (ux * rx + uz * rz)), int(-25 * (ux * fx + uz * fz)), 900)
         else:
-            await L.tap_ground(pg, cdp, tx, tz)
+            await L._tap_toward(pg, cdp, q, tx, tz, d, None)   # 點目標；看不到（隔著牆、門）就沿著遊戲的路線點看得到的那一段（v9.7 回歸 B2：從 101 裡點走廊點不到）
         last_d = d
         await pg.wait_for_timeout(4000)
     run.note(f'{label}：{max_s} 秒內沒有走到、也沒有對話')
