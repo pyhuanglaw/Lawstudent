@@ -37,7 +37,7 @@ const has=(id,tag)=>SOCIAL.has(id,tag);
   { fresh(); G.zone='cafe'; await EVENTS.run(evById('ev_cafe_barista_zhiruo')); const a=said.slice(), o=(opts[0]||[]).join('／');
     check('① 芷若的兩點半（ev_cafe_barista_zhiruo）第一次：「歡迎光臨——喔，法律系的」；選項有「檸檬塔。然後——妳是外文系的？」（BB 6-1：第一次見面才問）',a.some(t=>/歡迎光臨/.test(t))&&/檸檬塔/.test(o),a[0]+'｜'+o);
     said=[]; opts=[]; G.day++; await EVENTS.run(evById('ev_cafe_barista_zhiruo')); const b=said.slice(), o2=(opts[0]||[]).join('／');
-    check('① 第二次：沒有「歡迎光臨」、沒有問系所的選項，換成「你又來了」',!b.some(t=>/歡迎光臨/.test(t))&&!/檸檬塔/.test(o2)&&b.some(t=>/你又來了/.test(t)),b[0]+'｜'+o2); }
+    check('① 第二次：沒有「歡迎光臨」、沒有問系所的選項，換成「老樣子？」（BB_95 2-2 交接包 v1；原本是「你又來了」）、不再說名字',!b.some(t=>/歡迎光臨/.test(t))&&!/檸檬塔/.test(o2)&&b[0]==='老樣子？'&&!b.some(t=>/林芷若/.test(t)),b[0]+'｜'+o2); }
   { fresh(); const ev=evById('ev_zhiruo_ge_group');
     check('① ev_zhiruo_ge_group 沒見過芷若也可以發生（前置條件不再要 FIRST_MET）',!ev.prereq||EVENTS.cond(ev.prereq),JSON.stringify(ev.prereq||null));
     G.zone='campus'; await EVENTS.run(ev); const a=said.slice();

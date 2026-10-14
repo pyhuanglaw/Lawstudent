@@ -213,7 +213,10 @@ const GAME = (function(){
   // ---------- 存檔 ----------
   function snapshot(){ const P=E.player.obj.position; return Object.assign({},G,{pos:{x:+P.x.toFixed(2),z:+P.z.toFixed(2),yaw:+E.player.obj.rotation.y.toFixed(3),lv:E.player.lv|0,y:+P.y.toFixed(2)},hour:+G.hour.toFixed(3),savedAt:Date.now(),v:SAVE_VER}); }
   function validate(s){ if(!s||typeof s!=='object') return '不是有效的存檔物件'; if(typeof s.v!=='number') return '缺少版本欄位'; if(s.v>SAVE_VER) return '存檔來自較新的版本（v'+s.v+'），本版無法讀取'; if(typeof s.day!=='number'||typeof s.hour!=='number') return '日期／時間欄位損毀'; if(!Z3.ZONES[s.zone]) return '未知的地點：'+s.zone; if(!s.flags||typeof s.flags!=='object') return '旗標欄位損毀'; return null; }
-  function migrate(s){ const d=defaults(s.name); for(const k in d){ if(s[k]===undefined||s[k]===null) s[k]=d[k]; } for(const k in d.rel){ if(s.rel[k]===undefined) s.rel[k]=d.rel[k]; } if(s.v<2){ s.social=null; s.events=null; s.legal=null; } s.v=SAVE_VER; return s; }
+  function migrate(s){ const d=defaults(s.name); for(const k in d){ if(s[k]===undefined||s[k]===null) s[k]=d[k]; } for(const k in d.rel){ if(s.rel[k]===undefined) s.rel[k]=d.rel[k]; } if(s.v<2){ s.social=null; s.events=null; s.legal=null; }
+    /* Café 點餐次數（BB_95 2-2，交接包 v1）：舊存檔點過但沒有計數＝當作點過一次（不然芷若會再自我介紹一次）；已經有計數的不動，讀幾次都一樣 */
+    if(s.flags&&typeof s.flags==='object'&&s.flags.CAFE_VISITS==null&&s.events&&s.events.done&&s.events.done.ev_cafe_barista_zhiruo) s.flags.CAFE_VISITS=1;
+    s.v=SAVE_VER; return s; }
   function ls(){ try{ return window.localStorage; }catch(e){ return null; } }
   function write(key,obj){ const st=ls(); if(!st) return false; try{ st.setItem(key,JSON.stringify(obj)); return true; }catch(e){ return false; } }
   function read(key){ const st=ls(); if(!st) return null; try{ const t=st.getItem(key); return t?JSON.parse(t):null; }catch(e){ return null; } }
