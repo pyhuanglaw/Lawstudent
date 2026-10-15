@@ -52,12 +52,13 @@ function mkGM(G,answer){ const log=[]; return {G,log,D:{active:false},E:{player:
     let m=0; for(let day=dayOf('2027-11-01');day<=dayOf('2028-02-20');day++){ const t=CALENDAR.termOf(day); if(!t||t.id!=='Y3S1'||!(t.week===17||t.week===18)) continue; m+=CLS.dayItems(mkG(day,8),day).filter(x=>x.c.id==='crimpro').length; }
     check('7. 刑事訴訟法（一週兩堂）在期末考週（第 17～18 週）只考一次',m===1,'次數 '+m); }
   // 課堂題優先（假資料：只在這個測試裡把兩題標成課堂上問過）
-  { const qs=EXAM_BANK.questions.filter(q=>q.course==='family_law'&&q.term==='Y2S2'); const a=qs[qs.length-1], b=qs[qs.length-2]; a.askedIn={term:'Y2S2',course:'family_law',week:3}; b.source='CLASS_DISC';
+  { const qs=EXAM_BANK.questions.filter(q=>q.course==='family_law'&&q.term==='Y2S2'); const real=new Map(qs.filter(q=>q.askedIn).map(q=>[q,q.askedIn])); for(const q of real.keys()) delete q.askedIn;   /* 2026-10-15 起題庫有真的課堂題（BB 排的 ask）：這一段只看兩題假資料，先拿掉、最後放回 */
+    const a=qs[qs.length-1], b=qs[qs.length-2]; a.askedIn={term:'Y2S2',course:'family_law',week:3}; b.source='CLASS_DISC';
     const G=mkG(dayOf('2027-06-20'),9); const r=CLS.drawExam(G,'family_law','Y2S2','final'); const ids=r.qs.map(q=>q.id);
     check('課堂題優先（class_first）：課堂上問過的兩題一定在考卷上',ids.includes(a.id)&&ids.includes(b.id),JSON.stringify(ids));
     CLS.EXAM_MIX='3_2'; const G2=mkG(dayOf('2027-06-20'),9); G2.flags.examSeed=7; const r2=CLS.drawExam(G2,'family_law','Y2S2','final'); CLS.EXAM_MIX='class_first';
     check('EXAM_MIX 3_2：課堂題只有 2 題＝都上，其餘 3 題從題庫補',r2.ok&&r2.qs.length===5&&r2.qs.includes(a)&&r2.qs.includes(b));
-    delete a.askedIn; delete b.source; }
+    delete a.askedIn; delete b.source; for(const [q,v] of real) q.askedIn=v; }
   // 期中練習只抽第 1～7 週
   { const G=mkG(dayOf('2027-04-12'),9); const p=CLS.examPool('family_law','Y2S2','mid'); check('期中練習：只收第 1～7 週範圍的題目',p.cls.concat(p.bank).every(q=>q.scopeWeek==null||q.scopeWeek<=7)); }
   // 作答與分數
