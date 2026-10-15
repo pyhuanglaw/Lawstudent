@@ -67,10 +67,11 @@ const step=(dist,turn,n)=>{ for(let i=0;i<n;i++){ P.obj.rotation.y+=turn/n; P.ob
   check('5 按「下車」：車停在下車的地方、方向不變；人往左邊讓開 0.65 m；按鈕收起來',!P.riding&&!bikeOn()&&!!parkedObj()&&Math.hypot(parkedObj().position.x-pb.x,parkedObj().position.z-pb.z)<1e-6&&Math.abs(parkedObj().rotation.y-yb)<1e-6&&Math.hypot(P.obj.position.x-(pb.x+lx*0.65),P.obj.position.z-(pb.z+lz*0.65))<1e-6&&btn.cls.has('hide')&&P.obj.rotation.z===0&&P.pose==='idle');
   check('5 存檔裡的車：位置、方向、沒在騎',G.bike.zone==='campus'&&!G.bike.riding&&Math.abs(G.bike.x-pb.x)<1e-6&&Math.abs(G.bike.z-pb.z)<1e-6);
   // ---- 6 有人跟著走：不能騎；騎到一半有人開始跟：下車 ----
+  /* 2026-10-15 使用者：「腳踏車要可以載人」——一起走的人坐後座（engine3d.js 的 beh 'passenger'），不再擋上車、不再自動下車；不坐後座的（noRide）照舊 */
   E.npcs.push({beh:'follow',obj:new THREE.Object3D()}); P.obj.position.set(G.bike.x,0,G.bike.z); toasts=[];
-  check('6 有人跟著一起走：不能上車（說明為什麼）',BIKE.mount(GM)===false&&!P.riding&&toasts.some(t=>/一起走/.test(t)),toasts.join('／'));
-  E.npcs.length=0; BIKE.mount(GM); check('6 （沒人跟了）上車',P.riding);
-  E.npcs.push({beh:'follow',obj:new THREE.Object3D()}); BIKE.tick(GM,1/30); check('6 騎著、有人開始跟著走：自動下車',!P.riding&&!!parkedObj()); E.npcs.length=0;
+  check('6 有人跟著一起走：照樣可以上車（他會坐後座）',BIKE.mount(GM)!==false&&P.riding,toasts.join('／'));
+  BIKE.tick(GM,1/30); check('6 騎著、有人跟著：不會自動下車',P.riding); E.npcs.length=0; BIKE.dismount(GM);
+  E.npcs.push({beh:'follow',noRide:true,obj:new THREE.Object3D()}); P.obj.position.set(G.bike.x,0,G.bike.z); BIKE.mount(GM); BIKE.tick(GM,1/30); check('6 跟著的人不坐後座（noRide）：自動下車',!P.riding&&!!parkedObj()); E.npcs.length=0;
   // ---- 7 劇情開始（busy）：下車 ----
   P.obj.position.set(G.bike.x,0,G.bike.z); BIKE.mount(GM); P.busy=true; BIKE.tick(GM,1/30); check('7 劇情開始（busy）：自動下車',!P.riding&&!!parkedObj()); P.busy=false;
   // ---- 8 樓梯：萬才館大樓梯（第 1 層）——車停在樓梯前 ----

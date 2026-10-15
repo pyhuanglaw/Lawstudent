@@ -280,7 +280,8 @@ const E3 = (function(){
   // 目前位置本身就不合法（起身位置太靠近桌子、舊存檔、資料錯誤）時：允許「不會變更糟」的移動，讓玩家走出來；不允許穿牆（分數變低的方向仍擋）
   function escapeOK(ent,nx,nz,r){ const o=ent.obj.position; return stuckIn(ent)&&freeScore(nx,nz,r,ent.lv|0)>=freeScore(o.x,o.z,r,ent.lv|0); }
   E.canStand=canStand; E.freeScore=freeScore; E.navOf=navOf; E.setLv=setLv; E.settleY=settleY;
-  E.SPD={walk:1.8,run:4.8,bike:6.2};   /* 玩家走路／跑步／騎腳踏車速度（m/s）。2026-10-11 使用者：「走路又很慢完全不想玩遊戲」——原本 1.45／4.1（真實步行速度），校園一頭到另一頭要走兩三分鐘；動畫播放速度跟著速度調整（character3d.js：速度／1.45），不會滑步 */
+  E.SPD={walk:1.8,run:4.8,bike:8.5};
+  E.PASSENGER={back:0.62,y:0.34};   /* 後座的位置（車的座標，乘上車的縮放）：坐姿的人物原點放在後座表面往下約 0.45 m（坐姿把模型往下 0.47）——瀏覽器截圖調 */   /* 腳踏車 6.2 → 8.5（使用者 2026-10-15：「騎腳踏車還是好慢」）*/   /* 玩家走路／跑步／騎腳踏車速度（m/s）。2026-10-11 使用者：「走路又很慢完全不想玩遊戲」——原本 1.45／4.1（真實步行速度），校園一頭到另一頭要走兩三分鐘；動畫播放速度跟著速度調整（character3d.js：速度／1.45），不會滑步 */
   E.heightAt=function(x,z,lv){ const n=navOf(lv===undefined?(E.player?E.player.lv|0:0):lv); return n?n.heightAt(x,z):0; };
   // 把人物放到某一層的 (x,z)，高度照地板（劇情、讀檔、坐下、電梯用）
   E.placeAt=function(ent,x,z,lv){ if(lv!==undefined&&lv!==null) setLv(ent,lv|0); const o=ent.obj.position; o.x=x; o.z=z; const n=navOf(ent.lv|0); o.y=n?n.heightAt(x,z):0; };
@@ -318,6 +319,10 @@ const E3 = (function(){
       if((dd<(n.held?3.5:2.8)&&!E.player.busy)||(n.held&&E.player.busy)){ if(n.path){ n.path=null; n.onArrive=null; } n.timer=Math.max(n.timer,1.5); if(!n.held){ n.held=true; if(!n.lookAt) n.lookAt=pp; } }
       else if(n.held){ n.held=false; if(n.lookAt===pp) n.lookAt=null; } }
     if(n.beh==='chat'&&n.chatWith){ if(!(E.player&&E.player.busy)){ const c=n.chatWith.obj; const ty=Math.atan2(c.position.x-o.position.x,c.position.z-o.position.z); let dd=ty-o.rotation.y; dd=Math.atan2(Math.sin(dd),Math.cos(dd)); if(Math.abs(dd)>0.05) o.rotation.y+=dd*Math.min(1,dt*3); if(!n.lookAt||n.lookAt!==c.position) n.lookAt=c.position; } if(n.chatLead&&!(E.player&&E.player.busy)&&n.timer<=0){ const b=n.chatWith; const aTalks=n.pose!=='talk'; n.pose=aTalks?'talk':'idle'; n.idlePose=n.pose; b.pose=aTalks?'idle':'talk'; b.idlePose=b.pose; n.timer=1.8+Math.random()*3.5; } }
+    else if(n.beh==='passenger'&&E.player){ const P=E.player.obj, y=P.rotation.y, k=(E.player.ride&&E.player.ride.scale)||1;   /* 載妹墊（使用者 2026-10-15）：坐在後座、側坐（臉朝車的左邊）*/
+      if(!E.player.riding){ n.beh='follow'; o.position.x=P.position.x-Math.sin(y)*1.0+Math.cos(y)*0.6; o.position.z=P.position.z-Math.cos(y)*1.0-Math.sin(y)*0.6; o.position.y=P.position.y; n.pose=n.idlePose='idle'; n.lv=E.player.lv|0; }   /* 下車：站到車的左後方，照舊跟著走 */
+      else { o.position.set(P.position.x-Math.sin(y)*E.PASSENGER.back*k,P.position.y+E.PASSENGER.y*k,P.position.z-Math.cos(y)*E.PASSENGER.back*k); o.rotation.set(0,y+Math.PI/2,P.rotation.z); n.pose='sit'; n.idlePose='sit'; n.speed=0; n.lv=E.player.lv|0; } }
+    else if(n.beh==='follow'&&E.player&&E.player.riding&&!n.noRide&&Math.hypot(E.player.obj.position.x-o.position.x,E.player.obj.position.z-o.position.z)<3.5){ n.beh='passenger'; n.path=null; }   /* 一起走的人：你騎上車，他就自己坐到後座 */
     else if((n.beh==='follow'&&E.player)||(n.beh==='buddy'&&n.buddy)){ if(followStep(n,dt)) moving=true; }
     else if(n.path){ const t=n.path[0]; const dx=t[0]-o.position.x, dz=t[1]-o.position.z; const d=Math.hypot(dx,dz); if(wpReached(n,d,0.3,dt)){ n.path.shift(); if(!n.path.length){ n.path=null; if(n.onArrive){ const f=n.onArrive; n.onArrive=null; f(n); } } } else { const sp=n.run?4.0:(n.walkSpeed||1.35); stepEntity(n,dx/d,dz/d,stepSp(sp,d,dt),dt); moving=true; n.pose=n.run?'run':'walk'; n.speed=sp; } }
     else if(n.beh==='wander'&&n.timer<=0&&!n.frozen){ const w=n.waypoints; if(w&&w.length){ const wp=w[(Math.random()*w.length)|0]; E.moveTo(n,wp[0]+(Math.random()-0.5)*1.5,wp[1]+(Math.random()-0.5)*1.5,null,wp[2]); n.timer=4+Math.random()*8; } }

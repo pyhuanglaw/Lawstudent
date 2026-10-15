@@ -350,7 +350,7 @@ const GAME = (function(){
   /* 快速前往（D54 ①）：主要地點從第一天就知道（第 1 天是開學第三週）；依距離花遊戲時間（CLS.travelMinutes）；關門的地方寫幾點開 */
   function PLACE_LIST(){ return PLACES.quickList().filter(p=>p&&Z3.ZONES[p[0]]); }   /* 清單在 src/data/places.js（tests/quick_travel_unit.js 逐一檢查落點站得住、走得出去）*/
   function placeState(pl){ const [z,,sp]=pl; const known=!!(PLACES.known0[z]||(G.visited&&G.visited[z])); const open=typeof PLACES==='undefined'||PLACES.isOpen(z,G.hour,G.day); const mins=typeof CLS!=='undefined'?CLS.travelMinutes(G,G.zone,z,E.player.obj.position,sp):15; const here=G.zone===z&&(z!=='campus'||mins===0);
-    const bike=!!E.player.riding, m=bike&&mins>0?Math.max(5,Math.round(mins/2.5/5)*5):mins;   /* 騎著腳踏車：大約是走路的 2.5 倍快（最少 5 分鐘）；進室內的地方車停在那棟的門外（bike3d.js）*/
+    const bike=!!E.player.riding, m=bike&&mins>0?Math.max(5,Math.round(mins/3.5/5)*5):mins;   /* 騎著腳踏車：大約是走路的 3.5 倍快（2026-10-15 調快；原本 2.5）（最少 5 分鐘）；進室內的地方車停在那棟的門外（bike3d.js）*/
     return {known,open,here,mins:m,bike}; }
   async function quickGo(pl){ const [z,label,sp]=pl; const st=placeState(pl); if(E.player.busy||GM.titleIdle){ toast('現在不能移動'); return; } if(!st.known){ toast('還沒去過'+label+'。自己走去一次之後，就可以直接前往。',4000); return; } if(!st.open){ toast(typeof PLACES!=='undefined'?PLACES.closedText(z,G.hour,G.day):'已閉館',4500); return; } if(st.here){ toast(z==='campus'?'你就在這附近':'你已經在'+label+'了'); return; }
     closePhone(); if(menuOpen) closeMenu(); if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.leave) ACTIVITIES.leave(G);   /* 活動中快速前往＝中途離開（AA_110 5-2）*/
