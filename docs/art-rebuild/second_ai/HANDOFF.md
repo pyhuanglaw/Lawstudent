@@ -1,5 +1,18 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+值班登記：帳號 B｜LAWWW2-B｜session_01GV1WG3UeT2DhuDpxeWJsvD｜分支 claude/funny-albattani-iawshm｜接班基準 origin/claude/second-ai-env-art 的 8e1061a（合併進 main 4e203e8 開出的分支）｜2026-10-15 23:1x UTC
+上一班：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜最後 commit 8e1061a（2026-10-14 17:38 UTC，「LAWWW2（帳號 A）交班」）｜正常交班
+
+## 接班（LAWWW2-B 帳號 B，2026-10-15 23:1x UTC）
+
+- 使用者在帳號 B 貼 7.2 啟動提示詞。系統指定的分支 `claude/funny-albattani-iawshm` 從 `main`（`4e203e8`）開出；`origin/claude/second-ai-env-art`（`8e1061a`）用 `git merge --no-edit` 合進來，沒有衝突，`src/`、`tests/`、`CLAUDE.md` 跟 main 相同（我的分支只多 LAWWW2 自己的檔案）。
+- 離開期間（10-14 17:38 → 10-15 23:1x UTC）：`claude/second-ai-env-art` 和 WIP 分支都沒有新 commit；開發這邊只有使用者推的 P0 換班規則，以及 LAWWW-B 接班（`claude/modest-rubin-2lyp7g`，`ba8b225`，D75）。沒有發布。
+- **LAWWW 現在是 LAWWW-B**（帳號 B，`session_01DvRVNNnivf7da7qqWuGmw6`，分支 `claude/modest-rubin-2lyp7g`）。我的交付以那條分支為準；`claude/confident-ritchie-8rwh7t` 這段期間不寫入。
+- **D75**：不傳訊息給帳號 A 的任何工作階段（LAWWW、LAWWW2 A），跨帳號只用 GitHub。帳號 B 內正在值班的 LAWWW-B 可以用 `send_message`。
+- 我的分支：`claude/funny-albattani-iawshm`（之後 LAWWW2-B 的成果都 push 這裡；`claude/second-ai-env-art` 這段期間不寫入）。
+- 接下來照下面「交班（最新）」的順序：①便利商店商品第二版（WIP）→ ②女舍門燈罩加大 → ③盤點 READY_FOR_ART_REVIEW 成果；④汽車／約會美術不開工。以 LAWWW-B 的分派為準。
+- 本機 worktree（`/home/user/bg_wt`、`npc_wt`…）是帳號 A 容器上的，這個容器沒有；要重建。
+
 ## ⚠ P0：使用者新訊息優先（2026-10-14 使用者給四個 AI 的永久工作規則，D72）——先讀這一節
 
 來源：開發分支 `CLAUDE.md` 最上面「P0 使用者新訊息優先與期末考素材來源」一節（使用者自己寫的 f6c836e／ace5d7e 為準；LAWWW 補註 ccb2edd）、`docs/AI_SESSION_HANDOFF.md` 第 0、4、7 節、`docs/PROJECT_DECISIONS.md` D72、`docs/USER_INSTRUCTION_LOG.md`。LAWWW 15:06Z P0 轉達，LAWWW2 15:08Z 讀過原文確認。
