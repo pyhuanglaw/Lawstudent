@@ -1,0 +1,2660 @@
+{
+ "v": 2,
+ "name": "祐廷",
+ "day": 7,
+ "weekday": 2,
+ "hour": 17.175,
+ "energy": 81,
+ "money": 20750,
+ "zone": "noodle",
+ "pos": {
+  "x": -1.61,
+  "z": 1.38,
+  "yaw": 3.451,
+  "lv": 0,
+  "y": 0
+ },
+ "weather": "clear",
+ "flags": {
+  "dating_kexin": true,
+  "fundsV2": 1,
+  "allowanceMonth": 9,
+  "clsGoal": "今天的課：09:10 大一國文（上）、13:20 通識：電影與敘事。自由活動：去圖書館、公館，或找人聊天",
+  "dpDay": 7,
+  "amb": {
+   "lawPlaza2": true,
+   "park3": true,
+   "park4": true,
+   "bellArgue6": true,
+   "clubTable6": true,
+   "mrt6": true
+  },
+  "KX_FIRST_MSG": true,
+  "FAM_GROUP_SENT": true,
+  "introDone": true,
+  "FAM_GROUP_REPLIED": true,
+  "readCase": "full",
+  "companion": null,
+  "nightKai": false,
+  "guideTip": true,
+  "campusIntro": true,
+  "classNow": false,
+  "classAnswer": "good",
+  "classAnswerPlus": true,
+  "classDone": true,
+  "zheInvite": true,
+  "metAn": true,
+  "met_heroine_01": true,
+  "flags_met_an": true,
+  "met_an": true,
+  "plan": "cafe",
+  "walkCk": {
+   "bell": true,
+   "gate": true
+  },
+  "met_pool_4": true,
+  "met_pool_9": true,
+  "gongguanLine": true,
+  "wenzhouLine": true,
+  "cafeView": "C",
+  "cafeHelp": true,
+  "whyLaw": "econ",
+  "AN_CONTACT_DAY2": 2,
+  "afternoonDone": true,
+  "anAfter": true,
+  "met_pool_5": true,
+  "zheAtNoodle": true,
+  "zheNoodleDone": true,
+  "findWho": null,
+  "met_sis": true,
+  "met_heroine_05": true,
+  "met_heroine_02": true,
+  "CAFE_VISITS": 3,
+  "zhiruoFirstOrder": "檸檬塔",
+  "zhiruo_film_invite": true,
+  "kaiAsked": true,
+  "morningLine": false,
+  "met_pool_12": true,
+  "met_pool_7": true,
+  "met_pool_2": true,
+  "met_yu": true,
+  "metYuDay": 3,
+  "met_pool_1": true,
+  "met_heroine_03": true,
+  "KX_TOUR_YES": true,
+  "kxTourWeeks": "三",
+  "met_kexin": true,
+  "K1_ORDER": "hers",
+  "NCCU_VISITED": true,
+  "ge_walk_waitlist": true,
+  "dpN": {
+   "kevin_video": 1
+  },
+  "dpPick": {
+   "id": "kai_snack",
+   "day": 7
+  },
+  "met_prof_zhang": true,
+  "met_pool_6": true,
+  "met_classmate_youchen": true,
+  "met_kai": true,
+  "kaiScreenChoice": 0,
+  "kaiScreenDay": 6,
+  "dpLast": "kevin_video",
+  "dpDayOf": {
+   "kevin_video": 6
+  }
+ },
+ "rel": {
+  "an": 18,
+  "zhe": 19,
+  "sis": 5,
+  "kai": 10,
+  "yu": 5
+ },
+ "notes": [
+  {
+   "id": "case_camera",
+   "title": "指定案例：網拍相機 1,000 元",
+   "body": "賣家在拍賣網站把一台市價約一萬元的相機標成 1,000 元（少打一個零）。買家下標付款，賣家拒絕出貨。爭點：網頁標價是「要約」還是「要約之引誘」？賣家能否主張錯誤撤銷？",
+   "day": 1
+  },
+  {
+   "id": "law_154",
+   "title": "民法 §154：要約與要約之引誘",
+   "body": "貨物標定賣價陳列者，視為要約；但價目表之寄送，不視為要約。網拍頁面算哪一種，有爭論。",
+   "day": 1
+  },
+  {
+   "id": "law_88",
+   "title": "民法 §88：意思表示錯誤",
+   "body": "表意人若無過失，得撤銷；撤銷後對信賴者負賠償責任（§91）。",
+   "day": 1
+  },
+  {
+   "id": "law_91",
+   "title": "民法 §91：撤銷後的賠償",
+   "body": "表意人撤銷錯誤的意思表示後，對信賴其有效的相對人要負損害賠償。",
+   "day": 2
+  },
+  {
+   "id": "club_law",
+   "title": "法律服務社",
+   "body": "週三 19:00 萬才館 201。社長溫學姊。阿哲說一年級去會被操。",
+   "day": 2
+  },
+  {
+   "id": "law_153",
+   "title": "民法 §153：契約成立",
+   "body": "當事人互相表示意思一致者，契約即為成立。必要之點須一致，非必要之點推定成立。",
+   "day": 2
+  }
+ ],
+ "memo": [
+  {
+   "day": 1,
+   "t": "熬夜讀完了網拍相機的案例"
+  },
+  {
+   "day": 2,
+   "t": "上了民法總則：要約之引誘"
+  },
+  {
+   "day": 2,
+   "t": "和小安一起去溫州街的咖啡廳"
+  },
+  {
+   "day": 2,
+   "t": "和小安在兩點半 Café 待到黃昏"
+  },
+  {
+   "day": 2,
+   "t": "和阿哲在阿鳳麵店吃麵"
+  },
+  {
+   "day": 2,
+   "t": "兩點半的店員"
+  },
+  {
+   "day": 3,
+   "t": "咖啡買錯"
+  },
+  {
+   "day": 3,
+   "t": "總圖門口"
+  },
+  {
+   "day": 3,
+   "t": "兩點半的店員"
+  },
+  {
+   "day": 4,
+   "t": "第一次去政大：可昕當導遊"
+  },
+  {
+   "day": 4,
+   "t": "導遊"
+  },
+  {
+   "day": 5,
+   "t": "通識「城市與散步」備取，打算加簽"
+  },
+  {
+   "day": 5,
+   "t": "選課結果"
+  },
+  {
+   "day": 6,
+   "t": "兩點半的店員"
+  },
+  {
+   "day": 6,
+   "t": "凌晨三點的螢幕"
+  },
+  {
+   "day": 7,
+   "t": "腳踏車沒氣"
+  },
+  {
+   "day": 7,
+   "t": "喝了一杯不是自己點的咖啡"
+  },
+  {
+   "day": 7,
+   "t": "咖啡買錯"
+  }
+ ],
+ "visited": {
+  "dorm": true,
+  "campus": true,
+  "linze": true,
+  "classroom": true,
+  "gongguan": true,
+  "wenzhou": true,
+  "cafe": true,
+  "noodle": true,
+  "putong": true,
+  "library_hall": true,
+  "library": true,
+  "soclib": true,
+  "boya": true
+ },
+ "stats": {
+  "steps": 2053,
+  "classes": 1,
+  "study": 1
+ },
+ "choices": {
+  "cafeView": "C",
+  "whyLaw": "econ"
+ },
+ "social": {
+  "rel": {
+   "heroine_01": {
+    "fam": 35,
+    "trust": 17,
+    "aff": 0,
+    "resp": 0,
+    "comf": 6,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 9,
+    "talked": 22,
+    "_migrated": true
+   },
+   "zhe": {
+    "fam": 19,
+    "trust": 12,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 3,
+    "talked": 1,
+    "_migrated": true
+   },
+   "heroine_05": {
+    "fam": 8,
+    "trust": 3,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 11,
+    "_migrated": true
+   },
+   "kai": {
+    "fam": 10,
+    "trust": 6,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 6,
+    "_migrated": true
+   },
+   "yu": {
+    "fam": 7,
+    "trust": 3,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 2,
+    "_migrated": true
+   },
+   "prof_zhou": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0
+   },
+   "pool_4": {
+    "fam": 9,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 11,
+    "talked": 3
+   },
+   "pool_9": {
+    "fam": 9,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 11,
+    "talked": 3
+   },
+   "classmate_bohan": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 3,
+    "talked": 0
+   },
+   "classmate_xinci": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 6,
+    "talked": 0
+   },
+   "classmate_mingxuan": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 7,
+    "talked": 0
+   },
+   "classmate_peishan": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 2,
+    "talked": 0
+   },
+   "heroine_04": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 2,
+    "talked": 0
+   },
+   "pool_1": {
+    "fam": 9,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 9,
+    "talked": 4
+   },
+   "pool_5": {
+    "fam": 10,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 14,
+    "talked": 7
+   },
+   "pool_6": {
+    "fam": 9,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 4,
+    "talked": 4
+   },
+   "heroine_03": {
+    "fam": 10,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 3,
+    "talked": 1
+   },
+   "heroine_02": {
+    "fam": 22,
+    "trust": 3,
+    "aff": 0,
+    "resp": 3,
+    "comf": 2,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 10,
+    "talked": 12
+   },
+   "pool_3": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 4,
+    "talked": 0
+   },
+   "pool_8": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 4,
+    "talked": 0
+   },
+   "prof_huang": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 0
+   },
+   "pool_2": {
+    "fam": 8,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 2
+   },
+   "pool_7": {
+    "fam": 8,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 2
+   },
+   "pool_12": {
+    "fam": 8,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 2
+   },
+   "npc_huangxh": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 2,
+    "talked": 0
+   },
+   "npc_ta_chen": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 2,
+    "talked": 0
+   },
+   "kexin": {
+    "fam": 5,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 1
+   },
+   "prof_zhang": {
+    "fam": 9,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 5
+   },
+   "classmate_youchen": {
+    "fam": 8,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 2
+   }
+  },
+  "mem": {
+   "heroine_01": [
+    {
+     "tag": "CLASS_ANSWER_GOOD",
+     "day": 2,
+     "note": "民總：要約之引誘"
+    },
+    {
+     "tag": "FIRST_MET",
+     "day": 2,
+     "note": "campus"
+    },
+    {
+     "tag": "KNOWS_ECON_YEAR",
+     "day": 2,
+     "note": "他說他念過一年經濟系"
+    },
+    {
+     "tag": "CAFE_AFTERNOON",
+     "day": 2,
+     "note": "聊了報告和為什麼念法律"
+    },
+    {
+     "tag": "WALKED_TOGETHER",
+     "day": 2,
+     "note": "從法學院走到溫州街"
+    },
+    {
+     "tag": "MISSED_DINNER",
+     "day": 2,
+     "note": "兩點半 Café"
+    },
+    {
+     "tag": "STUDIED_TOGETHER",
+     "day": 3,
+     "note": "總圖"
+    },
+    {
+     "tag": "SHARED_MEAL",
+     "day": 4,
+     "note": "阿鳳麵店"
+    },
+    {
+     "tag": "CAFE_AFTERNOON",
+     "day": 6,
+     "note": "兩點半 Café"
+    }
+   ],
+   "zhe": [
+    {
+     "tag": "CLASS_ANSWER_GOOD",
+     "day": 2,
+     "note": ""
+    },
+    {
+     "tag": "SHARED_MEAL",
+     "day": 2,
+     "note": "阿鳳麵店"
+    }
+   ],
+   "prof_zhou": [
+    {
+     "tag": "PERF",
+     "day": 2,
+     "note": "民總課堂答對"
+    },
+    {
+     "tag": "PART",
+     "day": 2,
+     "note": ""
+    }
+   ],
+   "pool_4": [
+    {
+     "tag": "FIRST_MET",
+     "day": 2,
+     "note": "campus"
+    }
+   ],
+   "pool_9": [
+    {
+     "tag": "FIRST_MET",
+     "day": 2,
+     "note": "campus"
+    }
+   ],
+   "pool_5": [
+    {
+     "tag": "FIRST_MET",
+     "day": 2,
+     "note": "cafe"
+    }
+   ],
+   "heroine_05": [
+    {
+     "tag": "FIRST_MET",
+     "day": 2,
+     "note": "cafe"
+    }
+   ],
+   "heroine_02": [
+    {
+     "tag": "FIRST_MET",
+     "day": 2,
+     "note": "cafe"
+    },
+    {
+     "tag": "INVITED_CLUB",
+     "day": 2,
+     "note": "邀你修法律與電影"
+    },
+    {
+     "tag": "SHARED_MEAL",
+     "day": 2,
+     "note": "第一次在兩點半點了檸檬塔"
+    },
+    {
+     "tag": "MISSED_DINNER",
+     "day": 3,
+     "note": "總圖"
+    },
+    {
+     "tag": "STUDIED_TOGETHER",
+     "day": 4,
+     "note": "總圖"
+    }
+   ],
+   "pool_12": [
+    {
+     "tag": "FIRST_MET",
+     "day": 3,
+     "note": "classroom"
+    }
+   ],
+   "pool_7": [
+    {
+     "tag": "FIRST_MET",
+     "day": 3,
+     "note": "classroom"
+    }
+   ],
+   "pool_2": [
+    {
+     "tag": "FIRST_MET",
+     "day": 3,
+     "note": "classroom"
+    }
+   ],
+   "pool_1": [
+    {
+     "tag": "FIRST_MET",
+     "day": 3,
+     "note": "wenzhou"
+    }
+   ],
+   "heroine_03": [
+    {
+     "tag": "FIRST_MET",
+     "day": 3,
+     "note": "campus"
+    },
+    {
+     "tag": "PLAYER_ASKED_QUESTION",
+     "day": 3,
+     "note": ""
+    }
+   ],
+   "kexin": [
+    {
+     "tag": "FIRST_MET",
+     "day": 4,
+     "note": "noodle"
+    },
+    {
+     "tag": "OUR_SHOP_FIRST",
+     "day": 4,
+     "note": "政大山下的小吃街"
+    }
+   ],
+   "prof_zhang": [
+    {
+     "tag": "FIRST_MET",
+     "day": 6,
+     "note": "classroom"
+    }
+   ],
+   "pool_6": [
+    {
+     "tag": "FIRST_MET",
+     "day": 6,
+     "note": "gongguan"
+    }
+   ],
+   "classmate_youchen": [
+    {
+     "tag": "FIRST_MET",
+     "day": 6,
+     "note": "gongguan"
+    }
+   ],
+   "kai": [
+    {
+     "tag": "FIRST_MET",
+     "day": 6,
+     "note": "dorm"
+    }
+   ]
+  },
+  "reveal": {
+   "zhe": "ACQUAINTANCE",
+   "heroine_01": "ACQUAINTANCE",
+   "pool_4": "ACQUAINTANCE",
+   "pool_9": "ACQUAINTANCE",
+   "pool_5": "ACQUAINTANCE",
+   "pool_1": "ACQUAINTANCE",
+   "pool_6": "ACQUAINTANCE",
+   "heroine_05": "ACQUAINTANCE",
+   "heroine_02": "ACQUAINTANCE",
+   "kai": "ACQUAINTANCE",
+   "pool_12": "ACQUAINTANCE",
+   "pool_7": "ACQUAINTANCE",
+   "pool_2": "ACQUAINTANCE",
+   "pool_3": "RECOGNIZABLE",
+   "pool_8": "RECOGNIZABLE",
+   "classmate_mingxuan": "RECOGNIZABLE",
+   "yu": "ACQUAINTANCE",
+   "heroine_03": "ACQUAINTANCE",
+   "kexin": "ACQUAINTANCE",
+   "prof_zhang": "ACQUAINTANCE",
+   "classmate_bohan": "RECOGNIZABLE",
+   "classmate_xinci": "RECOGNIZABLE",
+   "classmate_youchen": "ACQUAINTANCE"
+  },
+  "prof": {
+   "prof_zhou": {
+    "perf": 6,
+    "part": 2,
+    "office": 0,
+    "research": 0,
+    "rep": 0,
+    "notes": [
+     {
+      "day": 2,
+      "note": "民總課堂答對"
+     }
+    ]
+   }
+  },
+  "grad": {
+   "interest": "NONE",
+   "field": null,
+   "prep": 0
+  },
+  "_relSync": 1,
+  "fm120": true,
+  "small": {
+   "pool_5": {
+    "day": 3,
+    "used": [
+     "「社辦的吉他有一把斷了一根弦，大家都假裝沒看到。」",
+     "「我們社課有一半的時間在吃東西，另一半在找誰帶了撥片。」"
+    ],
+    "last": "「我們社課有一半的時間在吃東西，另一半在找誰帶了撥片。」",
+    "once": {
+     "「社辦的吉他有一把斷了一根弦，大家都假裝沒看到。」": true,
+     "「我們社課有一半的時間在吃東西，另一半在找誰帶了撥片。」": true
+    }
+   },
+   "pool_4": {
+    "day": 2,
+    "used": [
+     "「系學會又要辦活動了。你有什麼想玩的，可以跟我說。」"
+    ],
+    "last": "「系學會又要辦活動了。你有什麼想玩的，可以跟我說。」",
+    "once": {
+     "「系學會又要辦活動了。你有什麼想玩的，可以跟我說。」": true
+    }
+   },
+   "pool_9": {
+    "day": 2,
+    "used": [
+     "「我最近在聽一個講冷知識的 podcast。昨天那集在講醬油。」"
+    ],
+    "last": "「我最近在聽一個講冷知識的 podcast。昨天那集在講醬油。」",
+    "once": {
+     "「我最近在聽一個講冷知識的 podcast。昨天那集在講醬油。」": true
+    }
+   },
+   "heroine_02": {
+    "day": 4,
+    "used": [],
+    "last": "__greet"
+   },
+   "heroine_01": {
+    "day": 7,
+    "used": [],
+    "last": "__greet"
+   },
+   "prof_zhang": {
+    "day": 6,
+    "used": [],
+    "last": "__greet"
+   },
+   "pool_6": {
+    "day": 6,
+    "used": [
+     "「椰林大道下午四點的光最好看。你下次經過可以看一下。」"
+    ],
+    "last": "「椰林大道下午四點的光最好看。你下次經過可以看一下。」",
+    "once": {
+     "「椰林大道下午四點的光最好看。你下次經過可以看一下。」": true
+    }
+   },
+   "pool_1": {
+    "day": 6,
+    "used": [
+     "「我在看一本推理小說，兇手是律師。……我還沒看完，你不要猜。」"
+    ],
+    "last": "「我在看一本推理小說，兇手是律師。……我還沒看完，你不要猜。」",
+    "once": {
+     "「我在看一本推理小說，兇手是律師。……我還沒看完，你不要猜。」": true
+    }
+   }
+  }
+ },
+ "events": {
+  "done": {
+   "ev_cafe_barista_zhiruo": 3,
+   "ev_wrong_coffee": 2,
+   "ev_library_door_phone": 1,
+   "ev_kexin_tour_nccu": 1,
+   "ev_course_selection": 1,
+   "ev_kai_late_screen": 1,
+   "ev_bike_flat": 1
+  },
+  "last": {
+   "ev_cafe_barista_zhiruo": 6,
+   "ev_wrong_coffee": 7,
+   "ev_library_door_phone": 3,
+   "ev_kexin_tour_nccu": 4,
+   "ev_course_selection": 5,
+   "ev_kai_late_screen": 6,
+   "ev_bike_flat": 7
+  },
+  "count": 10
+ },
+ "legal": {
+  "q": {
+   "Q001": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q002": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q003": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q004": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q005": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q006": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q007": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q008": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q009": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q010": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q011": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q012": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q013": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q014": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q015": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q016": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q017": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q018": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q019": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q020": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q021": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q022": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q023": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q024": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q025": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q026": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q027": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q028": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q029": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q030": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q031": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q032": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q033": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q034": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q035": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q036": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q037": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q038": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q039": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q040": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q041": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q042": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q043": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q044": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q045": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q046": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q047": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q048": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q049": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q050": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q051": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q052": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q053": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q054": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q055": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q056": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q057": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q058": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q059": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q060": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q061": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q062": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q063": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q064": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q065": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q066": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q067": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q068": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q069": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q070": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q071": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q072": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q073": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q074": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q075": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q076": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q077": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q078": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q079": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q080": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q081": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q082": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q083": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q084": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   }
+  },
+  "misc": {},
+  "log": []
+ },
+ "cg": {
+  "unlocked": []
+ },
+ "savedAt": 1792040766214,
+ "bike": {
+  "riding": false,
+  "zone": "campus",
+  "x": -68.8149217160897,
+  "z": -7.75018018833999,
+  "yaw": 4.9065629889488145
+ },
+ "courses": {
+  "done": {
+   "3:econ_principles_1:am": 1,
+   "3:law_society:pm1": 1,
+   "6:const_1:am": 1,
+   "6:pe_y1s1:pm2": 1,
+   "7:chinese_y1:am": 1,
+   "7:ge_film_y1s1:pm1": 1
+  },
+  "attend": {
+   "econ_principles_1": 1,
+   "law_society": 1,
+   "const_1": 1,
+   "pe_y1s1": 1,
+   "chinese_y1": 1,
+   "ge_film_y1s1": 1
+  },
+  "prep": {
+   "law_society": 2,
+   "econ_principles_1": 1,
+   "const_1": 1,
+   "pe_y1s1": 1,
+   "chinese_y1": 1,
+   "ge_film_y1s1": 1
+  },
+  "electives": {},
+  "grades": {},
+  "note": {
+   "sel_Y1S1": 1,
+   "rem_3:econ_principles_1:am": 1,
+   "rem_3:law_society:pm1": 1,
+   "rem_6:const_1:am": 1,
+   "rem_6:pe_y1s1:pm2": 1,
+   "rem_7:chinese_y1:am": 1,
+   "rem_7:ge_film_y1s1:pm1": 1
+  },
+  "disc": {},
+  "idv": 2
+ },
+ "goal": "今天的課：09:10 大一國文（上）、13:20 通識：電影與敘事。自由活動：去圖書館、公館，或找人聊天",
+ "goalDest": null,
+ "invites": [
+  {
+   "id": "iv1",
+   "who": "heroine_01",
+   "place": "cafe",
+   "zone": "cafe",
+   "day": 2,
+   "h": 21,
+   "state": "missed",
+   "accepted": true,
+   "by": "player",
+   "now": false,
+   "label": "和沈以安約在兩點半 Café"
+  },
+  {
+   "id": "iv2",
+   "who": "heroine_02",
+   "place": "library",
+   "zone": "library_hall",
+   "day": 3,
+   "h": 17,
+   "state": "missed",
+   "accepted": true,
+   "by": "player",
+   "now": false,
+   "label": "和林芷若約在總圖"
+  },
+  {
+   "id": "iv3",
+   "who": "heroine_01",
+   "place": "library",
+   "zone": "library_hall",
+   "day": 3,
+   "h": 19,
+   "state": "done",
+   "accepted": true,
+   "by": "player",
+   "now": false,
+   "label": "和沈以安約在總圖"
+  },
+  {
+   "id": "iv4",
+   "who": "heroine_01",
+   "place": "noodle",
+   "zone": "noodle",
+   "day": 4,
+   "h": 12.167,
+   "state": "done",
+   "accepted": true,
+   "by": "player",
+   "now": false,
+   "label": "和沈以安約在阿鳳麵店"
+  },
+  {
+   "id": "iv5",
+   "who": "heroine_02",
+   "place": "library",
+   "zone": "library_hall",
+   "day": 4,
+   "h": 17.47,
+   "state": "done",
+   "accepted": true,
+   "by": "player",
+   "now": true,
+   "label": "和林芷若約在總圖"
+  },
+  {
+   "id": "iv6",
+   "who": "heroine_01",
+   "place": "cafe",
+   "zone": "cafe",
+   "day": 6,
+   "h": 18.23,
+   "state": "done",
+   "accepted": true,
+   "by": "player",
+   "now": true,
+   "label": "和沈以安約在兩點半 Café"
+  },
+  {
+   "id": "iv7",
+   "who": "heroine_01",
+   "place": "noodle",
+   "zone": "noodle",
+   "day": 7,
+   "h": 17.5,
+   "state": "accepted",
+   "accepted": true,
+   "by": "player",
+   "now": false,
+   "label": "和沈以安約在阿鳳麵店"
+  }
+ ],
+ "msgs": [
+  {
+   "day": -16,
+   "h": 21,
+   "who": null,
+   "text": "學弟妹好。三件事。一，開學第一週不要買二手書，先等學長姐的。二，民總很重要。三，有問題可以問，但先自己查。",
+   "iv": null,
+   "th": "g:family_law",
+   "from": "heroine_05",
+   "name": "溫學姊",
+   "pin": true
+  },
+  {
+   "day": 1,
+   "h": 21.21,
+   "who": "kexin",
+   "text": "今天的假設題。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin"
+  },
+  {
+   "day": 1,
+   "h": 21.21,
+   "who": "kexin",
+   "text": "假設你在台大讀的案例，和我在政大讀的是同一個。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin"
+  },
+  {
+   "day": 1,
+   "h": 21.21,
+   "who": "kexin",
+   "text": "兩邊的老師講出兩個答案。考試的時候，我們要寫哪一個？",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin"
+  },
+  {
+   "day": 1,
+   "h": 21.21,
+   "who": "kexin",
+   "text": "……不用回答。我只是想知道你讀到哪了。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "ask": {
+    "id": "scene_p:kexin_1_2121",
+    "opts": [
+     {
+      "t": "讀到一半。案例比想像的長。",
+      "say": [
+       {
+        "from": "kexin",
+        "text": "我也是。讀到一半去泡麵，回來就忘了誰告誰。"
+       },
+       {
+        "from": "kexin",
+        "text": "晚安。不要讀到太晚。"
+       }
+      ]
+     },
+     {
+      "t": "寫自己老師的。",
+      "say": [
+       {
+        "from": "kexin",
+        "text": "好現實。……但是對的。"
+       },
+       {
+        "from": "kexin",
+        "text": "晚安。不要讀到太晚。"
+       }
+      ]
+     },
+     {
+      "t": "讀到一半，在想妳。",
+      "say": [
+       {
+        "from": "kexin",
+        "text": "那就是沒在讀。回去讀，讀完再想。"
+       },
+       {
+        "from": "kexin",
+        "text": "晚安。不要讀到太晚。"
+       }
+      ]
+     }
+    ]
+   },
+   "ans": 0
+  },
+  {
+   "day": 1,
+   "h": 21.21,
+   "who": null,
+   "text": "讀到一半。案例比想像的長。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "player"
+  },
+  {
+   "day": 1,
+   "h": 21.21,
+   "who": "kexin",
+   "text": "我也是。讀到一半去泡麵，回來就忘了誰告誰。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin"
+  },
+  {
+   "day": 1,
+   "h": 21.21,
+   "who": "kexin",
+   "text": "晚安。不要讀到太晚。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin"
+  },
+  {
+   "day": 1,
+   "h": 21.21,
+   "who": null,
+   "text": "第三週了，直屬學弟妹還活著嗎？要考古題的舉手",
+   "iv": null,
+   "th": "g:family_law",
+   "from": "kevin",
+   "name": "Kevin",
+   "ask": {
+    "opts": [
+     {
+      "t": "（舉手）",
+      "set": {
+       "FAM_GROUP_REPLIED": true
+      },
+      "say": [
+       {
+        "th": "g:family_law",
+        "from": "kevin",
+        "name": "Kevin",
+        "text": "很好，有一個活的。"
+       }
+      ]
+     },
+     {
+      "t": "活著。",
+      "set": {
+       "FAM_GROUP_REPLIED": true
+      },
+      "say": [
+       {
+        "th": "g:family_law",
+        "from": "kevin",
+        "name": "Kevin",
+        "text": "很好，有一個活的。"
+       }
+      ]
+     }
+    ],
+    "id": "a1"
+   },
+   "ans": 0
+  },
+  {
+   "day": 1,
+   "h": 21.21,
+   "who": null,
+   "text": "先看置頂。",
+   "iv": null,
+   "th": "g:family_law",
+   "from": "heroine_05",
+   "name": "溫學姊"
+  },
+  {
+   "day": 1,
+   "h": 21.24,
+   "who": null,
+   "text": "（舉手）",
+   "iv": null,
+   "th": "g:family_law",
+   "from": "player"
+  },
+  {
+   "day": 1,
+   "h": 21.24,
+   "who": null,
+   "text": "很好，有一個活的。",
+   "iv": null,
+   "th": "g:family_law",
+   "from": "kevin",
+   "name": "Kevin"
+  },
+  {
+   "day": 2,
+   "h": 19.71,
+   "who": "heroine_01",
+   "text": "約好了：今天 21:00，兩點半 Café（沈以安）。",
+   "iv": "iv1"
+  },
+  {
+   "day": 2,
+   "h": 21.5,
+   "who": "heroine_01",
+   "text": "📷（筆記的照片，字很整齊）",
+   "iv": null,
+   "th": "p:heroine_01",
+   "from": "heroine_01",
+   "tag": "an_first_note"
+  },
+  {
+   "day": 2,
+   "h": 22.11,
+   "who": "heroine_01",
+   "text": "你沒有赴約：今天 21:00，兩點半 Café（沈以安）。",
+   "iv": "iv1"
+  },
+  {
+   "day": 3,
+   "h": 12.22,
+   "who": "heroine_02",
+   "text": "約好了：今天 17:00，總圖（林芷若）。",
+   "iv": "iv2"
+  },
+  {
+   "day": 3,
+   "h": 12.65,
+   "who": "heroine_01",
+   "text": "約好了：今天 19:00，總圖（沈以安）。",
+   "iv": "iv3"
+  },
+  {
+   "day": 3,
+   "h": 17.85,
+   "who": "heroine_02",
+   "text": "你沒有赴約：今天 17:00，總圖（林芷若）。",
+   "iv": "iv2"
+  },
+  {
+   "day": 3,
+   "h": 19.5,
+   "who": "kexin",
+   "text": "週末來政大？我當導遊。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "kx_tour_ask",
+   "ask": {
+    "opts": [
+     {
+      "t": "好，週六下午過去。",
+      "set": {
+       "KX_TOUR_YES": true
+      },
+      "say": [
+       {
+        "from": "kexin",
+        "text": "好。導遊在校門口等。"
+       }
+      ]
+     },
+     {
+      "t": "這週末不行。",
+      "set": {
+       "KX_TOUR_NO": true
+      },
+      "say": [
+       {
+        "from": "kexin",
+        "text": "好。導遊的位子幫你留著。"
+       }
+      ]
+     }
+    ],
+    "id": "a2"
+   },
+   "ans": 0
+  },
+  {
+   "day": 3,
+   "h": 20.58,
+   "who": "heroine_01",
+   "text": "和沈以安在總圖。",
+   "iv": "iv3"
+  },
+  {
+   "day": 3,
+   "h": 20.61,
+   "who": null,
+   "text": "好，週六下午過去。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "player"
+  },
+  {
+   "day": 3,
+   "h": 20.61,
+   "who": "kexin",
+   "text": "好。導遊在校門口等。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin"
+  },
+  {
+   "day": 4,
+   "h": 7.59,
+   "who": "heroine_01",
+   "text": "約好了：今天 12:10，阿鳳麵店（沈以安）。",
+   "iv": "iv4"
+  },
+  {
+   "day": 4,
+   "h": 13.13,
+   "who": "heroine_01",
+   "text": "和沈以安在阿鳳麵店。",
+   "iv": "iv4"
+  },
+  {
+   "day": 4,
+   "h": 17.47,
+   "who": "heroine_02",
+   "text": "和林芷若一起去總圖一起念書。",
+   "iv": "iv5"
+  },
+  {
+   "day": 4,
+   "h": 19.43,
+   "who": "heroine_02",
+   "text": "和林芷若在總圖。",
+   "iv": "iv5"
+  },
+  {
+   "day": 6,
+   "h": 18.23,
+   "who": "heroine_01",
+   "text": "和沈以安一起去兩點半 Café 坐坐。",
+   "iv": "iv6"
+  },
+  {
+   "day": 6,
+   "h": 19.48,
+   "who": "heroine_01",
+   "text": "和沈以安在兩點半 Café。",
+   "iv": "iv6"
+  },
+  {
+   "day": 6,
+   "h": 21.3,
+   "who": null,
+   "text": "📹（一隻貓把桌上的筆一支一支推下去）",
+   "iv": null,
+   "th": "g:family_law",
+   "from": "kevin",
+   "name": "Kevin",
+   "tag": "dp_kevin_video_0_0"
+  },
+  {
+   "day": 6,
+   "h": 21.3,
+   "who": null,
+   "text": "收到。",
+   "iv": null,
+   "th": "g:family_law",
+   "from": "heroine_05",
+   "name": "溫學姊",
+   "tag": "dp_kevin_video_0_1"
+  },
+  {
+   "day": 7,
+   "h": 15.31,
+   "who": "heroine_01",
+   "text": "約好了：今天 17:30，阿鳳麵店（沈以安）。",
+   "iv": "iv7"
+  }
+ ],
+ "contacts": {
+  "kexin": 0,
+  "heroine_01": 2
+ },
+ "phone": {
+  "groups": {
+   "family_law": {
+    "name": "法律系直屬家族",
+    "day": 1
+   }
+  },
+  "seen": {
+   "g:family_law": 165.3,
+   "p:kexin": 92.61,
+   "p:heroine_01": 183.31,
+   "p:heroine_02": 115.43
+  },
+  "q": [
+   {
+    "day": 15,
+    "h": 21,
+    "items": [
+     {
+      "th": "p:zhe",
+      "from": "zhe",
+      "text": "週六中秋烤肉。河濱，下午三點。",
+      "ask": {
+       "opts": [
+        {
+         "t": "去。",
+         "set": {
+          "BBQ_YES": true
+         }
+        },
+        {
+         "t": "這次不行。",
+         "set": {
+          "BBQ_NO": true
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "tag": "bbq_ask"
+   }
+  ],
+  "n": 2
+ },
+ "outings": [
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "kx_tour",
+   "ev": "ev_kexin_tour_nccu",
+   "day": 4,
+   "h": 14,
+   "place": "政大",
+   "title": "去政大找可昕",
+   "travel": "開車約 30 分鐘"
+  }
+ ],
+ "habits": {
+  "place:dorm:night": {
+   "n": 5,
+   "first": 1,
+   "last": 6,
+   "days": [
+    1,
+    2,
+    3,
+    4,
+    6
+   ]
+  },
+  "place:campus:noon": {
+   "n": 2,
+   "first": 2,
+   "last": 3,
+   "days": [
+    2,
+    3
+   ]
+  },
+  "place:linze:noon": {
+   "n": 2,
+   "first": 2,
+   "last": 6,
+   "days": [
+    2,
+    6
+   ]
+  },
+  "place:classroom:noon": {
+   "n": 2,
+   "first": 2,
+   "last": 3,
+   "days": [
+    2,
+    3
+   ]
+  },
+  "place:campus:afternoon": {
+   "n": 3,
+   "first": 2,
+   "last": 6,
+   "days": [
+    2,
+    3,
+    6
+   ]
+  },
+  "place:gongguan:afternoon": {
+   "n": 1,
+   "first": 2,
+   "last": 2,
+   "days": [
+    2
+   ]
+  },
+  "place:gongguan:with:heroine_01": {
+   "n": 1,
+   "first": 2,
+   "last": 2,
+   "days": [
+    2
+   ]
+  },
+  "place:wenzhou:afternoon": {
+   "n": 1,
+   "first": 2,
+   "last": 2,
+   "days": [
+    2
+   ]
+  },
+  "place:wenzhou:with:heroine_01": {
+   "n": 1,
+   "first": 2,
+   "last": 2,
+   "days": [
+    2
+   ]
+  },
+  "place:cafe:afternoon": {
+   "n": 2,
+   "first": 2,
+   "last": 7,
+   "days": [
+    2,
+    7
+   ]
+  },
+  "place:cafe:with:heroine_01": {
+   "n": 2,
+   "first": 2,
+   "last": 6,
+   "days": [
+    2,
+    6
+   ]
+  },
+  "seat:cafe:@5,-2": {
+   "n": 1,
+   "first": 2,
+   "last": 2,
+   "days": [
+    2
+   ]
+  },
+  "seat:cafe:with:heroine_01": {
+   "n": 1,
+   "first": 2,
+   "last": 2,
+   "days": [
+    2
+   ]
+  },
+  "meal:cafe": {
+   "n": 2,
+   "first": 2,
+   "last": 7,
+   "days": [
+    2,
+    7
+   ]
+  },
+  "meal:cafe:with:heroine_01": {
+   "n": 1,
+   "first": 2,
+   "last": 2,
+   "days": [
+    2
+   ]
+  },
+  "place:wenzhou:evening": {
+   "n": 3,
+   "first": 2,
+   "last": 4,
+   "days": [
+    2,
+    3,
+    4
+   ]
+  },
+  "place:gongguan:evening": {
+   "n": 2,
+   "first": 2,
+   "last": 4,
+   "days": [
+    2,
+    4
+   ]
+  },
+  "place:noodle:evening": {
+   "n": 2,
+   "first": 2,
+   "last": 7,
+   "days": [
+    2,
+    7
+   ]
+  },
+  "place:campus:evening": {
+   "n": 3,
+   "first": 2,
+   "last": 6,
+   "days": [
+    2,
+    3,
+    6
+   ]
+  },
+  "place:cafe:night": {
+   "n": 2,
+   "first": 2,
+   "last": 3,
+   "days": [
+    2,
+    3
+   ]
+  },
+  "place:wenzhou:night": {
+   "n": 1,
+   "first": 2,
+   "last": 2,
+   "days": [
+    2
+   ]
+  },
+  "place:campus:night": {
+   "n": 3,
+   "first": 2,
+   "last": 6,
+   "days": [
+    2,
+    4,
+    6
+   ]
+  },
+  "place:dorm:morning": {
+   "n": 5,
+   "first": 3,
+   "last": 7,
+   "days": [
+    3,
+    4,
+    5,
+    6,
+    7
+   ]
+  },
+  "place:campus:morning": {
+   "n": 2,
+   "first": 3,
+   "last": 7,
+   "days": [
+    3,
+    7
+   ]
+  },
+  "place:putong:morning": {
+   "n": 1,
+   "first": 3,
+   "last": 3,
+   "days": [
+    3
+   ]
+  },
+  "seat:putong:101": {
+   "n": 2,
+   "first": 3,
+   "last": 7,
+   "days": [
+    3,
+    7
+   ]
+  },
+  "place:library_hall:noon": {
+   "n": 2,
+   "first": 3,
+   "last": 6,
+   "days": [
+    3,
+    6
+   ]
+  },
+  "place:library:noon": {
+   "n": 2,
+   "first": 3,
+   "last": 6,
+   "days": [
+    3,
+    6
+   ]
+  },
+  "seat:classroom:@-1,7": {
+   "n": 2,
+   "first": 3,
+   "last": 6,
+   "days": [
+    3,
+    6
+   ]
+  },
+  "seat:classroom:with:pool_12": {
+   "n": 1,
+   "first": 3,
+   "last": 3,
+   "days": [
+    3
+   ]
+  },
+  "place:library_hall:afternoon": {
+   "n": 2,
+   "first": 3,
+   "last": 7,
+   "days": [
+    3,
+    7
+   ]
+  },
+  "place:library:afternoon": {
+   "n": 1,
+   "first": 3,
+   "last": 3,
+   "days": [
+    3
+   ]
+  },
+  "seat:library:@-2,-2": {
+   "n": 1,
+   "first": 3,
+   "last": 3,
+   "days": [
+    3
+   ]
+  },
+  "seat:library:with:heroine_05": {
+   "n": 1,
+   "first": 3,
+   "last": 3,
+   "days": [
+    3
+   ]
+  },
+  "place:cafe:evening": {
+   "n": 2,
+   "first": 3,
+   "last": 6,
+   "days": [
+    3,
+    6
+   ]
+  },
+  "seat:wenzhou:@28,8": {
+   "n": 1,
+   "first": 3,
+   "last": 3,
+   "days": [
+    3
+   ]
+  },
+  "place:library_hall:night": {
+   "n": 1,
+   "first": 3,
+   "last": 3,
+   "days": [
+    3
+   ]
+  },
+  "place:library_hall:with:heroine_01": {
+   "n": 1,
+   "first": 3,
+   "last": 3,
+   "days": [
+    3
+   ]
+  },
+  "place:noodle:noon": {
+   "n": 1,
+   "first": 4,
+   "last": 4,
+   "days": [
+    4
+   ]
+  },
+  "place:noodle:with:heroine_01": {
+   "n": 1,
+   "first": 4,
+   "last": 4,
+   "days": [
+    4
+   ]
+  },
+  "meal:noodle:with:heroine_01": {
+   "n": 1,
+   "first": 4,
+   "last": 4,
+   "days": [
+    4
+   ]
+  },
+  "place:library_hall:evening": {
+   "n": 1,
+   "first": 4,
+   "last": 4,
+   "days": [
+    4
+   ]
+  },
+  "place:library_hall:with:heroine_02": {
+   "n": 1,
+   "first": 4,
+   "last": 4,
+   "days": [
+    4
+   ]
+  },
+  "seat:library_hall:@-11,-6": {
+   "n": 1,
+   "first": 4,
+   "last": 4,
+   "days": [
+    4
+   ]
+  },
+  "place:classroom:morning": {
+   "n": 1,
+   "first": 6,
+   "last": 6,
+   "days": [
+    6
+   ]
+  },
+  "seat:classroom:@5,-4": {
+   "n": 1,
+   "first": 6,
+   "last": 6,
+   "days": [
+    6
+   ]
+  },
+  "place:cafe:noon": {
+   "n": 1,
+   "first": 6,
+   "last": 6,
+   "days": [
+    6
+   ]
+  },
+  "place:soclib:evening": {
+   "n": 1,
+   "first": 6,
+   "last": 6,
+   "days": [
+    6
+   ]
+  },
+  "place:gongguan:night": {
+   "n": 1,
+   "first": 6,
+   "last": 6,
+   "days": [
+    6
+   ]
+  },
+  "place:boya:morning": {
+   "n": 1,
+   "first": 7,
+   "last": 7,
+   "days": [
+    7
+   ]
+  },
+  "seat:boya:101": {
+   "n": 1,
+   "first": 7,
+   "last": 7,
+   "days": [
+    7
+   ]
+  },
+  "place:putong:noon": {
+   "n": 1,
+   "first": 7,
+   "last": 7,
+   "days": [
+    7
+   ]
+  },
+  "place:boya:noon": {
+   "n": 1,
+   "first": 7,
+   "last": 7,
+   "days": [
+    7
+   ]
+  },
+  "seat:cafe:@0,2": {
+   "n": 1,
+   "first": 7,
+   "last": 7,
+   "days": [
+    7
+   ]
+  }
+ },
+ "invSeq": 7,
+ "acts": {
+  "att": {
+   "lib_tour_y1s1@7": {
+    "h": 15.8,
+    "end": "full"
+   }
+  }
+ }
+}
