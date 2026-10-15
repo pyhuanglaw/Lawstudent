@@ -244,9 +244,11 @@ for y in (0.3, 0.68, 1.06, 1.44, 1.82):
 cs.finish(root)
 
 # ---- 後牆中間（貨架與香菸櫃之間）：促銷看板（canvas 字）＋海報色塊
-pb = L.CMesh('back_promo', M['poster'])
-for i, col in enumerate(('#e8a33a', '#1f6f78', '#d8432f', '#f4f1ea')): pb.cbox(-1.25 + i * 1.02, -0.35 + i * 1.02, 1.25, 1.95, Z0 + 0.12, Z0 + 0.13, col)
-walls['back'].append(pb)
+# 海報（2026-10-15 LAWWW2-B：原本是四塊純色方塊）：貼圖集裡的海報（現煮咖啡、集點換好禮、早餐組合、霜淇淋），跟著後牆淡出
+pb = CG.Goods('WALL_back_posters', gd.mat)
+for i in range(4):
+    a0, a1, zf = -1.25 + i * 1.02, -0.35 + i * 1.02, Z0 + 0.13
+    pb.poster('back', i, [(a0, 1.28, zf), (a1, 1.28, zf), (a1, 1.955, zf), (a0, 1.955, zf)])
 pm = Mesh('WALL_back_SIGN_FACE_promo', M['board']); pm.quad([(-1.3, 2.05, Z0 + 0.125), (2.75, 2.05, Z0 + 0.125), (2.75, 2.5, Z0 + 0.125), (-1.3, 2.5, Z0 + 0.125)])
 PROMO = (pm, {'dir': DIRS['back'], 'sign': '咖啡第二杯半價・集點換好禮', 'promo': 1})
 
@@ -265,10 +267,9 @@ for i, (x, z, txt) in enumerate(((-2.0, 0.0, '零食・餅乾'), (2.0, 0.0, '泡
             p = [(x - 0.65, 2.3, z + s * 0.012), (x + 0.65, 2.3, z + s * 0.012), (x + 0.65, 2.6, z + s * 0.012), (x - 0.65, 2.6, z + s * 0.012)]
             m = Mesh(f'SIGN_FACE_aisle{i}{"ab"[s > 0]}', M['board']); m.quad(p if s > 0 else [p[1], p[0], p[3], p[2]]); uv01(m.finish(root, props={'sign': txt}))
 hang.finish(root)
-pst = GMesh('left_posters', M['poster'])
-for (z, col) in ((-2.0, '#d8432f'), (-0.6, '#f0b429'), (0.8, '#2f7ed8')):
-    pst.cbox(X0 + 0.12, X0 + 0.13, 1.4, 2.2, z - 0.4, z + 0.4, col)
-walls['left'].append(pst)
+pst = CG.Goods('WALL_left_posters', gd.mat)          # 左牆三張（關東煮、代收繳費・包裹取件、冰涼特調）：從室內看（面向 −x），左邊是 +z
+for i, z in enumerate((0.8, -0.6, -2.0)):
+    xf = X0 + 0.13; pst.poster('left', i, [(xf, 1.4, z + 0.4), (xf, 1.4, z - 0.4), (xf, 2.2, z - 0.4), (xf, 2.2, z + 0.4)])
 
 # ---- 收尾：會淡出的牆（WALL_<side>_*，dir＝往室內）、商品等
 for side, ms in walls.items():
@@ -276,6 +277,7 @@ for side, ms in walls.items():
         m.name = f'WALL_{m.name}'; ob = m.finish(root, uv=True, props={'dir': DIRS[side]})
 for m in (goods, sh, rl, tg): m.finish(root, uv=(m is not goods))
 gd.finish(root)
+pb.finish(root, props={'dir': DIRS['back']}); pst.finish(root, props={'dir': DIRS['left']})
 uv01(PROMO[0].finish(root, uv=True, props=PROMO[1]))
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
 info = L.export(OUT, gpu_instances=True)

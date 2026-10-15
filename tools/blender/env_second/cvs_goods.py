@@ -58,28 +58,117 @@ for p in P: CATS.setdefault(p['cat'], []).append(p)
 def _font(sz): return ImageFont.truetype(FONT, max(8, int(sz)))
 
 
+def face_aspect(p):
+    """正面（玩家看到的那一張包裝）的實際長寬比：盒子、袋子＝寬／高；圓柱＝半圈的弧長／包裝高度（每半圈貼一張）"""
+    s, w, h = p['shape'], p['w'], p['h']
+    if s == 'cup': return math.pi * (w / 2 * 0.9) / h
+    if s == 'can': return math.pi * (w / 2) / (h - 0.018)
+    if s == 'bottle': return math.pi * (w / 2) / (h * BOTTLE_LABEL[1] / 0.235 - h * BOTTLE_LABEL[0] / 0.235)
+    return w / h
+
+
+BOTTLE_LABEL = (0.05, 0.15)             # 寶特瓶標籤的上下（瓶高 0.235 時的位置；原本 0.09～0.16 太窄）
+FRONT = {}                              # 格子 → 正面在格子裡的像素範圍（照長寬比，不再拉長或壓扁字）
+
+
+def _fit(asp, W=CELL, H=112, pad=2):
+    """在 W×H 裡放一個長寬比 asp 的最大矩形（置中）"""
+    W2, H2 = W - 2 * pad, H - 2 * pad
+    if W2 / H2 > asp: w, h = H2 * asp, H2
+    else: w, h = W2, W2 / asp
+    return (W - w) / 2, (H - h) / 2, (W + w) / 2, (H + h) / 2
+
+
+def _art(d, cat, p, X0, Y0, X1, Y1):
+    """依分類的小插圖（畫在 (X0,Y0)–(X1,Y1)），讓包裝不再只是一個色塊"""
+    w, h = X1 - X0, Y1 - Y0; cx, cy = (X0 + X1) / 2, (Y0 + Y1) / 2; ac, fg = p['accent'], p['fg']
+    r = min(w, h) / 2
+    if cat in ('cupnoodle', 'bagnoodle'):                      # 一碗麵：碗、麵條、蔥花、熱氣
+        d.chord([cx - r, cy - r * 0.9, cx + r, cy + r * 0.9], 0, 180, fill=ac)
+        for k in range(4): d.arc([cx - r * 0.8 + k * r * 0.12, cy - r * 0.5, cx + r * 0.8 - k * r * 0.12, cy + r * 0.3], 200, 340, fill='#f4dc9a', width=max(1, int(r * 0.09)))
+        for k in range(3): d.ellipse([cx - r * 0.5 + k * r * 0.45, cy - r * 0.15, cx - r * 0.38 + k * r * 0.45, cy - r * 0.03], fill='#4f9a3a')
+        for k in (-1, 0, 1): d.arc([cx + k * r * 0.35 - r * 0.12, cy - r * 1.1, cx + k * r * 0.35 + r * 0.12, cy - r * 0.45], 100, 260, fill=fg, width=max(1, int(r * 0.06)))
+    elif cat == 'chips':                                       # 一堆洋芋片
+        for k, (ox, oy) in enumerate(((-0.45, 0.25), (0.4, 0.3), (0.0, 0.1), (-0.25, -0.2), (0.3, -0.15), (0.0, -0.45))):
+            x, y = cx + ox * r, cy + oy * r
+            d.ellipse([x - r * 0.42, y - r * 0.26, x + r * 0.42, y + r * 0.26], fill='#f2cf5a', outline='#c8962a', width=max(1, int(r * 0.05)))
+        d.ellipse([cx - r * 0.95, cy - r * 0.95, cx - r * 0.45, cy - r * 0.45], fill=ac)
+    elif cat == 'cookie':
+        for k, (ox, oy) in enumerate(((-0.4, 0.15), (0.35, 0.2), (0.0, -0.25))):
+            x, y = cx + ox * r, cy + oy * r
+            d.ellipse([x - r * 0.42, y - r * 0.42, x + r * 0.42, y + r * 0.42], fill='#d9a35a', outline='#9a6a2a', width=max(1, int(r * 0.05)))
+            for j in range(3): d.ellipse([x - r * 0.2 + j * r * 0.16, y - r * 0.08, x - r * 0.12 + j * r * 0.16, y], fill='#5a3220')
+    elif cat == 'candy':                                       # 包裝紙的糖果
+        for k, ox in enumerate((-0.45, 0.45)):
+            x, y = cx + ox * r, cy + (0.2 if k else -0.2) * r
+            d.polygon([(x - r * 0.55, y - r * 0.2), (x - r * 0.3, y), (x - r * 0.55, y + r * 0.2)], fill=ac)
+            d.polygon([(x + r * 0.55, y - r * 0.2), (x + r * 0.3, y), (x + r * 0.55, y + r * 0.2)], fill=ac)
+            d.ellipse([x - r * 0.32, y - r * 0.25, x + r * 0.32, y + r * 0.25], fill=fg)
+    elif cat == 'bread':                                       # 麵包
+        d.ellipse([cx - r * 0.95, cy - r * 0.55, cx + r * 0.95, cy + r * 0.6], fill='#d9a35a')
+        d.ellipse([cx - r * 0.85, cy - r * 0.62, cx + r * 0.85, cy + r * 0.2], fill='#e8b86a')
+        for k in range(3): d.line([cx - r * 0.5 + k * r * 0.4, cy - r * 0.45, cx - r * 0.3 + k * r * 0.4, cy - r * 0.05], fill='#b07a3a', width=max(1, int(r * 0.07)))
+    elif cat == 'drink':                                       # 茶葉、水滴、檸檬
+        liq = p.get('liquid', ac)
+        if p['name'] in ('純水', '運動飲料'):
+            d.polygon([(cx, cy - r), (cx - r * 0.6, cy + r * 0.2), (cx + r * 0.6, cy + r * 0.2)], fill=ac); d.ellipse([cx - r * 0.6, cy - r * 0.3, cx + r * 0.6, cy + r * 0.9], fill=ac)
+        elif p['name'] == '檸檬':
+            d.ellipse([cx - r * 0.9, cy - r * 0.6, cx + r * 0.9, cy + r * 0.6], fill='#f6e04a', outline='#c8a020', width=max(1, int(r * 0.08)))
+        else:
+            for k in (-1, 1): d.ellipse([cx + k * r * 0.35 - r * 0.32, cy - r * 0.8, cx + k * r * 0.35 + r * 0.32, cy + r * 0.5], fill=ac)
+            d.line([cx, cy - r * 0.2, cx, cy + r], fill=fg, width=max(1, int(r * 0.08)))
+    elif cat == 'can':                                         # 氣泡或咖啡豆
+        if '咖啡' in p['name'] or p['name'] == '拿鐵':
+            for k in (-1, 1): d.ellipse([cx + k * r * 0.4 - r * 0.35, cy - r * 0.5, cx + k * r * 0.4 + r * 0.35, cy + r * 0.5], fill='#5a3220'); d.line([cx + k * r * 0.4, cy - r * 0.4, cx + k * r * 0.4, cy + r * 0.4], fill='#2a1608', width=max(1, int(r * 0.06)))
+        else:
+            for k, (ox, oy, rr) in enumerate(((-0.4, 0.3, 0.3), (0.3, -0.1, 0.4), (-0.1, -0.6, 0.2), (0.5, 0.55, 0.18))):
+                d.ellipse([cx + ox * r - rr * r, cy + oy * r - rr * r, cx + ox * r + rr * r, cy + oy * r + rr * r], outline=ac, width=max(1, int(r * 0.08)))
+    elif cat == 'carton':
+        d.ellipse([cx - r * 0.7, cy - r * 0.7, cx + r * 0.7, cy + r * 0.7], fill=ac)
+    elif cat in ('daily', 'daily2'):
+        if p['name'] == '口罩':
+            d.rounded_rectangle([cx - r * 0.8, cy - r * 0.45, cx + r * 0.8, cy + r * 0.45], radius=r * 0.2, fill='#ffffff', outline=ac, width=max(1, int(r * 0.08)))
+            for k in (-1, 1): d.line([cx - r * 0.6, cy + k * r * 0.12, cx + r * 0.6, cy + k * r * 0.12], fill=ac, width=1)
+        else:
+            d.ellipse([cx - r * 0.6, cy - r * 0.6, cx + r * 0.6, cy + r * 0.6], fill=ac); d.ellipse([cx - r * 0.3, cy - r * 0.35, cx + r * 0.05, cy - r * 0.05], fill='#ffffff')
+    elif cat == 'stationery':                                  # 吊卡：上面的掛孔＋透明窗裡的商品
+        d.rounded_rectangle([cx - w * 0.38, Y0, cx + w * 0.38, Y1], radius=4, fill='#e8eef2')
+        if p['name'] == '原子筆':
+            for k in (-1, 0, 1): d.line([cx + k * w * 0.18, Y0 + h * 0.1, cx + k * w * 0.18, Y1 - h * 0.08], fill=(ac if k else '#d8432f'), width=max(2, int(w * 0.08)))
+        else: d.rectangle([cx - w * 0.28, Y0 + h * 0.12, cx + w * 0.28, Y1 - h * 0.1], fill=ac)
+    else:
+        d.rectangle([X0, cy - h * 0.1, X1, cy + h * 0.1], fill=ac)
+
+
 def draw_cell(im, p):
-    """一格包裝：上面 112 px 是正面；最下面 16 px 是側面的顏色（側面、底、背面都取這一條的中間）"""
+    """一格包裝：上面 112 px 是正面（照實際長寬比畫在中間，FRONT 記住範圍）；最下面 16 px 是側面的顏色"""
     x0, y0 = (p['cell'] % N) * CELL, (p['cell'] // N) * CELL
     d = ImageDraw.Draw(im)
     d.rectangle([x0, y0, x0 + CELL - 1, y0 + CELL - 1], fill=p['bg'])
-    W, H = CELL, 112
+    fx0, fy0, fx1, fy1 = _fit(face_aspect(p)); FRONT[p['cell']] = (fx0, fy0, fx1, fy1)
+    X0, Y0, X1, Y1 = x0 + fx0, y0 + fy0, x0 + fx1, y0 + fy1; W, H = X1 - X0, Y1 - Y0
     deco, ac = p['deco'], p['accent']
-    if deco == 'band': d.rectangle([x0, y0 + int(H * 0.62), x0 + W, y0 + int(H * 0.8)], fill=ac)
-    elif deco == 'circle': d.ellipse([x0 + int(W * 0.22), y0 + int(H * 0.38), x0 + int(W * 0.78), y0 + int(H * 0.94)], fill=ac)
+    if deco == 'band': d.rectangle([X0, Y0 + H * 0.86, X1, Y0 + H * 0.94], fill=ac)
     elif deco == 'stripe':
-        for k in range(3): d.rectangle([x0, y0 + int(H * (0.7 + k * 0.1)), x0 + W, y0 + int(H * (0.7 + k * 0.1) + 4)], fill=ac)
-    elif deco == 'window': d.rounded_rectangle([x0 + int(W * 0.18), y0 + int(H * 0.5), x0 + int(W * 0.82), y0 + int(H * 0.9)], radius=10, fill=ac)
+        for k in range(2): d.rectangle([X0, Y0 + H * (0.88 + k * 0.06), X1, Y0 + H * (0.88 + k * 0.06) + 2], fill=ac)
+    wide = W / H > 1.5                                         # 橫的包裝（袋麵、面紙）：字在左、圖在右
+    if p['cat'] == 'smoke':
+        d.rectangle([X0, Y0 + H * 0.12, X1, Y0 + H * 0.3], fill=ac); d.rectangle([X0, Y0 + H * 0.78, X1, Y0 + H * 0.86], fill=ac)
+    elif wide:
+        _art(d, p['cat'], p, X0 + W * 0.55, Y0 + H * 0.12, X1 - W * 0.04, Y1 - H * 0.12)
+    else:
+        _art(d, p['cat'], p, X0 + W * 0.1, Y0 + H * 0.46, X1 - W * 0.1, Y0 + H * 0.84)
+    tw = W * (0.52 if wide else 0.9); tx = X0 + (W * 0.28 if wide else W / 2)
     if p['brand']:
-        f = _font(26)
-        while d.textlength(p['brand'], font=f) > W * 0.9 and f.size > 10: f = _font(f.size - 2)
-        d.text((x0 + W / 2, y0 + H * 0.17), p['brand'], fill=p['fg'], font=f, anchor='mm', stroke_width=1, stroke_fill=p['fg'])
+        f = _font(min(26, H * (0.3 if wide else 0.18)))
+        while d.textlength(p['brand'], font=f) > tw and f.size > 9: f = _font(f.size - 1)
+        d.text((tx, Y0 + H * (0.32 if wide else 0.15)), p['brand'], fill=p['fg'], font=f, anchor='mm', stroke_width=1, stroke_fill=p['fg'])
     if p['name']:
-        f = _font(19)
-        while d.textlength(p['name'], font=f) > W * 0.88 and f.size > 9: f = _font(f.size - 2)
-        d.text((x0 + W / 2, y0 + H * 0.4), p['name'], fill=p['fg'], font=f, anchor='mm')
+        f = _font(min(20, H * (0.22 if wide else 0.13)))
+        while d.textlength(p['name'], font=f) > tw * 0.95 and f.size > 8: f = _font(f.size - 1)
+        d.text((tx, Y0 + H * (0.66 if wide else 0.34)), p['name'], fill=p['fg'], font=f, anchor='mm')
     side = tuple(max(0, int(c * 0.82)) for c in Image.new('RGB', (1, 1), p['bg']).getpixel((0, 0)))
-    d.rectangle([x0, y0 + H, x0 + W, y0 + CELL - 1], fill=side)
+    d.rectangle([x0, y0 + 112, x0 + CELL, y0 + CELL - 1], fill=side)
 
 
 def draw_tag(im, k, price):
@@ -100,6 +189,56 @@ TAG0 = PROMO; PROMO_CELLS = TAG0 + len(PRICES)
 PROMOS = [('第二件\n6 折', '#d8432f', '#ffffff'), ('新品\n上市', '#f2c230', '#b8231c'), ('買一送一', '#1f6f78', '#ffffff')]
 SOLID0 = PROMO_CELLS + len(PROMOS)      # 純色（瓶蓋、液體、鋁罐的上下）
 SOLIDS = ['#ffffff', '#1d1d1f', '#c9ccd0', '#2f7a3a', '#2f7ed8', '#d8432f', '#f2c230'] + sorted({p.get('liquid', '#ffffff') for p in P})
+for _p in P: FRONT[_p['cell']] = _fit(face_aspect(_p))
+
+# 牆上的海報（原本是純色方塊）：貼圖集下面幾列，一張海報佔好幾格。(標題, 副標, 底色, 字色, 強調色, 插圖)
+POSTER_ROW0 = -(-(SOLID0 + len(SOLIDS)) // N)
+BACK_POSTERS = [('現煮咖啡', '大杯美式 $45', '#3a2418', '#f6e2b3', '#d99a2b', 'coffee'), ('集點換好禮', '滿 $77 送 1 點', '#1f6f78', '#ffffff', '#f2c230', 'stamp'),
+                ('早餐組合', '三明治＋鮮乳 $59', '#f4efe4', '#b8231c', '#e8a33a', 'breakfast'), ('霜淇淋', '北海道牛奶 $35', '#c9e2f2', '#1f4fa0', '#f4b6c8', 'icecream')]
+LEFT_POSTERS = [('關東煮', '任選 3 樣 $50', '#b8231c', '#fff4d6', '#f2c230', 'oden'), ('代收繳費', '包裹取件・寄件', '#ffffff', '#1f6f78', '#e8a33a', 'parcel'),
+                ('冰涼特調', '第二杯 半價', '#2f7ed8', '#ffffff', '#f2e04a', 'iced')]
+POSTER_RECT = {}                        # ('back', i)／('left', i) → 像素範圍 (x0, y0, x1, y1)
+for _i in range(4): POSTER_RECT[('back', _i)] = (_i * 4 * CELL, POSTER_ROW0 * CELL, (_i + 1) * 4 * CELL, (POSTER_ROW0 + 3) * CELL)
+for _i in range(3): POSTER_RECT[('left', _i)] = (_i * 3 * CELL, (POSTER_ROW0 + 3) * CELL, (_i + 1) * 3 * CELL, (POSTER_ROW0 + 6) * CELL)
+assert POSTER_ROW0 + 6 <= N, POSTER_ROW0
+
+
+def draw_poster(im, rect, title, sub, bg, fg, ac, art):
+    x0, y0, x1, y1 = rect; w, h = x1 - x0, y1 - y0; d = ImageDraw.Draw(im)
+    d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=bg); d.rectangle([x0, y1 - h * 0.1, x1, y1], fill=ac)
+    d.rectangle([x0 + 6, y0 + 6, x1 - 7, y1 - 7], outline=ac, width=4)
+    f = _font(h * 0.17)
+    while d.textlength(title, font=f) > w * 0.86: f = _font(f.size - 2)
+    d.text((x0 + w / 2, y0 + h * 0.17), title, fill=fg, font=f, anchor='mm', stroke_width=2, stroke_fill=fg)
+    cx, cy, r = x0 + w / 2, y0 + h * 0.56, h * 0.17; lw = max(3, int(r * 0.08))
+    if art == 'coffee':
+        d.polygon([(cx - r * 0.7, cy - r * 0.6), (cx + r * 0.7, cy - r * 0.6), (cx + r * 0.5, cy + r), (cx - r * 0.5, cy + r)], fill='#ffffff'); d.rectangle([cx - r * 0.78, cy - r * 0.8, cx + r * 0.78, cy - r * 0.6], fill=ac)
+        d.rectangle([cx - r * 0.62, cy - r * 0.1, cx + r * 0.62, cy + r * 0.3], fill='#7a4a1a')
+        for k in (-1, 0, 1): d.arc([cx + k * r * 0.35 - r * 0.15, cy - r * 1.5, cx + k * r * 0.35 + r * 0.15, cy - r * 0.9], 100, 260, fill=fg, width=lw)
+    elif art == 'stamp':
+        d.rounded_rectangle([cx - r * 1.6, cy - r * 0.9, cx + r * 1.6, cy + r * 0.9], radius=r * 0.2, fill='#ffffff')
+        for j in range(2):
+            for k in range(5): d.ellipse([cx - r * 1.35 + k * r * 0.58, cy - r * 0.6 + j * r * 0.65, cx - r * 0.95 + k * r * 0.58, cy - r * 0.2 + j * r * 0.65], fill=(ac if j * 5 + k < 7 else '#d8dcdf'))
+    elif art == 'breakfast':
+        d.polygon([(cx - r * 1.4, cy + r * 0.8), (cx - r * 0.1, cy + r * 0.8), (cx - r * 0.75, cy - r * 0.6)], fill='#f2d79a'); d.line([(cx - r * 1.3, cy + r * 0.55), (cx - r * 0.2, cy + r * 0.55)], fill='#4f9a3a', width=lw * 2)
+        d.rectangle([cx + r * 0.2, cy - r * 0.6, cx + r * 0.9, cy + r * 0.85], fill='#ffffff', outline='#1f4fa0', width=lw); d.polygon([(cx + r * 0.2, cy - r * 0.6), (cx + r * 0.55, cy - r), (cx + r * 0.9, cy - r * 0.6)], fill='#1f4fa0')
+    elif art == 'icecream':
+        d.polygon([(cx - r * 0.45, cy), (cx + r * 0.45, cy), (cx, cy + r * 1.2)], fill='#d9a35a')
+        for k, rr in enumerate((0.6, 0.48, 0.34)): d.ellipse([cx - r * rr, cy - r * (0.35 + k * 0.42) - r * 0.3, cx + r * rr, cy - r * (0.35 + k * 0.42) + r * 0.3], fill='#fffaf0', outline='#e8d8c0', width=2)
+    elif art == 'oden':
+        d.line([(cx, cy - r * 1.3), (cx, cy + r * 1.1)], fill='#c8a46a', width=lw)
+        d.ellipse([cx - r * 0.45, cy - r * 1.2, cx + r * 0.45, cy - r * 0.4], fill='#f4f0e0'); d.polygon([(cx - r * 0.5, cy + r * 0.3), (cx + r * 0.5, cy + r * 0.3), (cx, cy - r * 0.45)], fill='#b98a4e')
+        d.rounded_rectangle([cx - r * 0.42, cy + r * 0.35, cx + r * 0.42, cy + r * 0.95], radius=r * 0.15, fill='#e8d5b0')
+    elif art == 'parcel':
+        d.polygon([(cx - r, cy - r * 0.3), (cx, cy - r * 0.8), (cx + r, cy - r * 0.3), (cx, cy + r * 0.2)], fill='#e8c48a'); d.polygon([(cx - r, cy - r * 0.3), (cx, cy + r * 0.2), (cx, cy + r * 1.1), (cx - r, cy + r * 0.6)], fill='#c89a5a')
+        d.polygon([(cx + r, cy - r * 0.3), (cx, cy + r * 0.2), (cx, cy + r * 1.1), (cx + r, cy + r * 0.6)], fill='#b0844a')
+    elif art == 'iced':
+        d.polygon([(cx - r * 0.6, cy - r * 0.9), (cx + r * 0.6, cy - r * 0.9), (cx + r * 0.45, cy + r), (cx - r * 0.45, cy + r)], fill='#f2e04a', outline='#ffffff', width=lw)
+        for k, (ox, oy) in enumerate(((-0.2, -0.5), (0.2, -0.3), (-0.1, 0.0))): d.rectangle([cx + ox * r - r * 0.15, cy + oy * r - r * 0.15, cx + ox * r + r * 0.15, cy + oy * r + r * 0.15], outline='#ffffff', width=2)
+        d.line([(cx + r * 0.2, cy - r * 1.4), (cx + r * 0.05, cy - r * 0.3)], fill='#d8432f', width=lw)
+    f = _font(h * 0.1)
+    while d.textlength(sub, font=f) > w * 0.86: f = _font(f.size - 2)
+    d.text((x0 + w / 2, y0 + h * 0.8), sub, fill=fg, font=f, anchor='mm')
 
 
 def make_atlas(path):
@@ -107,6 +246,8 @@ def make_atlas(path):
     for p in P: draw_cell(im, p)
     for i, pr in enumerate(PRICES): draw_tag(im, TAG0 + i, pr)
     for i, (t, bg, fg) in enumerate(PROMOS): draw_promo(im, PROMO_CELLS + i, t, bg, fg)
+    for i, a in enumerate(BACK_POSTERS): draw_poster(im, POSTER_RECT[('back', i)], *a)
+    for i, a in enumerate(LEFT_POSTERS): draw_poster(im, POSTER_RECT[('left', i)], *a)
     d = ImageDraw.Draw(im)
     for i, c in enumerate(SOLIDS):
         k = SOLID0 + i; x0, y0 = (k % N) * CELL, (k // N) * CELL; d.rectangle([x0, y0, x0 + CELL - 1, y0 + CELL - 1], fill=c)
@@ -115,8 +256,10 @@ def make_atlas(path):
 
 def cell_uv(k, part='front'):
     """格子 k 的 UV（Blender UV 原點在左下）：front＝上面 112 px；side＝最下面那條的中間一點"""
-    u0, v_top = (k % N) / N, 1 - (k // N) / N
-    if part == 'front': return (u0 + 1 / (N * CELL), v_top - 112 / (N * CELL), u0 + (CELL - 1) / (N * CELL), v_top - 1 / (N * CELL))
+    u0, v_top = (k % N) / N, 1 - (k // N) / N; px = 1 / (N * CELL)
+    if part == 'front':
+        fx0, fy0, fx1, fy1 = FRONT.get(k, (1, 1, CELL - 1, 112))
+        return (u0 + fx0 * px, v_top - fy1 * px, u0 + fx1 * px, v_top - fy0 * px)
     v = v_top - 120 / (N * CELL); u = u0 + 0.5 / N; return (u, v, u, v)
 
 
@@ -145,30 +288,57 @@ class Goods:
             elif key != '-y': self._face(q, [(su[0], su[1])] * 4)
         self.n += 1
 
+    # 正面往外的法線、沿正面由左往右的方向（和 box() 的四邊形同一個方向，字才是正的）
+    FRAME = {'+z': ((0, 0, 1), (1, 0, 0)), '-z': ((0, 0, -1), (-1, 0, 0)), '+x': ((1, 0, 0), (0, 0, -1)), '-x': ((-1, 0, 0), (0, 0, 1))}
+
     def bag(self, x0, x1, y0, y1, z0, z1, face, k):
-        """袋子：正面中間鼓起來（四邊壓扁的封口）"""
-        self.box(x0, x1, y0 + 0.012, y1 - 0.012, z0, z1, face, k)
-        su = cell_uv(k, 'side')
+        """袋子（洋芋片、麵包）：正面是鼓起來的曲面（共用頂點＋平滑著色），左右圓、上下封口壓扁到袋緣；側面接到背面那一圈"""
+        nrm, rgt = self.FRAME[face]; fu, su = cell_uv(k, 'front'), cell_uv(k, 'side')
         cx, cz = (x0 + x1) / 2, (z0 + z1) / 2
-        for yy in (y0, y1 - 0.012):        # 上下的封口（比袋身薄）
-            if face in ('+z', '-z'): self.box(x0 + 0.004, x1 - 0.004, yy, yy + 0.012, cz - 0.006, cz + 0.006, face, k, front=False)
-            else: self.box(cx - 0.006, cx + 0.006, yy, yy + 0.012, z0 + 0.004, z1 - 0.004, face, k, front=False)
+        W = abs((x1 - x0) * rgt[0] + (z1 - z0) * rgt[2]); D = abs((x1 - x0) * nrm[0] + (z1 - z0) * nrm[2])
+        back = (cx - nrm[0] * D / 2, cz - nrm[2] * D / 2)        # 背面的中心（貼著貨架）
+        def P(u, y, off):                                         # u∈[0,1] 由左往右、off＝離背面往外
+            return (back[0] + rgt[0] * (u - 0.5) * W + nrm[0] * off, y, back[1] + rgt[2] * (u - 0.5) * W + nrm[2] * off)
+        US, VS, seal = (0.0, 0.12, 0.32, 0.5, 0.68, 0.88, 1.0), (0.0, 0.07, 0.25, 0.5, 0.75, 0.93, 1.0), 0.07
+        def off(u, v):
+            sv = 0.0 if v <= seal or v >= 1 - seal else math.sin(math.pi * (v - seal) / (1 - 2 * seal)) ** 0.55
+            return D * (0.3 + 0.7 * math.sin(math.pi * u) ** 0.5 * sv) if 0 < u < 1 else D * 0.3
+        H = y1 - y0
+        grid = [[self.bm.verts.new(g2b(*P(u, y0 + v * H, off(u, v)))) for u in US] for v in VS]
+        for j in range(len(VS) - 1):
+            for i in range(len(US) - 1):
+                f = self.bm.faces.new((grid[j][i], grid[j][i + 1], grid[j + 1][i + 1], grid[j + 1][i])); f.smooth = True
+                for lp, (uu, vv) in zip(f.loops, ((US[i], VS[j]), (US[i + 1], VS[j]), (US[i + 1], VS[j + 1]), (US[i], VS[j + 1]))):
+                    lp[self.uv].uv = (fu[0] + (fu[2] - fu[0]) * uu, fu[1] + (fu[3] - fu[1]) * vv)
+        # 側面：正面外圈 → 背面（封口那兩條很薄：上下緣的 off 是 0.3D，左右是 0.3D）
+        ring = [grid[0][i] for i in range(len(US))] + [grid[j][-1] for j in range(1, len(VS))] + [grid[-1][i] for i in range(len(US) - 2, -1, -1)] + [grid[j][0] for j in range(len(VS) - 2, 0, -1)]
+        bv = []
+        for v in ring:
+            co = v.co.copy(); bx, by, bz = co.x, co.z, -co.y          # Blender → 遊戲座標
+            bx -= nrm[0] * D * 0.3; bz -= nrm[2] * D * 0.3; bv.append(self.bm.verts.new(g2b(bx, by, bz)))
+        n = len(ring)
+        for i in range(n):
+            f = self.bm.faces.new((bv[i], bv[(i + 1) % n], ring[(i + 1) % n], ring[i]))
+            for lp in f.loops: lp[self.uv].uv = (su[0], su[1])
+        self.n += 1
 
     FACE_DEG = {'+z': 0.0, '+x': 90.0, '-z': 180.0, '-x': 270.0}
 
     def ring(self, cx, cz, y0, y1, r0, r1, seg, k, part='front', reps=2, uvpt=None, face='+z'):
-        """側面（圓台）：包裝每半圈一張，從看得到的那一半的左邊開始（正面看到一整張，接縫在側邊）"""
-        fu = cell_uv(k, 'front'); st = self.FACE_DEG.get(face, 0.0) - 90.0
+        """側面（圓台）：一圈共用頂點、平滑著色；包裝每半圈一張，第一個頂點就在接縫上（看得到的那一半的左邊），正面看到一整張"""
+        fu = cell_uv(k, 'front'); st = math.radians(self.FACE_DEG.get(face, 0.0) - 90.0)
+        ang = [st + 2 * math.pi * i / seg for i in range(seg)]
+        lo = [self.bm.verts.new(g2b(cx + r0 * math.sin(a), y0, cz + r0 * math.cos(a))) for a in ang]
+        hi = [self.bm.verts.new(g2b(cx + r1 * math.sin(a), y1, cz + r1 * math.cos(a))) for a in ang]
+        half = seg // 2
         for i in range(seg):
-            a0, a1 = 2 * math.pi * i / seg, 2 * math.pi * (i + 1) / seg
-            p = [(cx + r0 * math.sin(a0), y0, cz + r0 * math.cos(a0)), (cx + r0 * math.sin(a1), y0, cz + r0 * math.cos(a1)),
-                 (cx + r1 * math.sin(a1), y1, cz + r1 * math.cos(a1)), (cx + r1 * math.sin(a0), y1, cz + r1 * math.cos(a0))]
-            if uvpt is not None: self._face(p, [uvpt] * 4); continue
-            d0, d1 = math.degrees(a0) - st, math.degrees(a1) - st
-            t0 = (d0 % 180.0) / 180.0; t1 = t0 + (d1 - d0) / 180.0
-            if t1 > 1.0 + 1e-6: t1 = 1.0
+            j = (i + 1) % seg; f = self.bm.faces.new((lo[i], lo[j], hi[j], hi[i])); f.smooth = True
+            if uvpt is not None:
+                for lp in f.loops: lp[self.uv].uv = uvpt
+                continue
+            t0 = (i % half) / half; t1 = t0 + 1 / half
             ua, ub = fu[0] + (fu[2] - fu[0]) * t0, fu[0] + (fu[2] - fu[0]) * t1
-            self._face(p, [(ua, fu[1]), (ub, fu[1]), (ub, fu[3]), (ua, fu[3])])
+            for lp, uv in zip(f.loops, ((ua, fu[1]), (ub, fu[1]), (ub, fu[3]), (ua, fu[3]))): lp[self.uv].uv = uv
 
     def disc(self, cx, cz, y, r, seg, uvpt, up=True):
         pts = [(cx + r * math.sin(2 * math.pi * i / seg), y, cz + r * math.cos(2 * math.pi * i / seg)) for i in range(seg)]
@@ -190,11 +360,11 @@ class Goods:
     def bottle(self, cx, cz, y, p, face='+z'):
         """寶特瓶：瓶身（液體顏色）、標籤（包裝）、瓶肩、瓶頸、瓶蓋"""
         r, h = p['w'] / 2, p['h']; liq = solid_uv(p.get('liquid', '#ffffff'))
-        prof = [(0.0, r * 0.9, liq), (0.02, r, liq), (0.09, r, None), (0.16, r, liq), (0.19, r * 0.75, liq), (0.205, r * 0.42, liq), (0.212, r * 0.4, solid_uv('#ffffff'))]
+        prof = [(0.0, r * 0.9, liq), (0.02, r, liq), (BOTTLE_LABEL[0], r, None), (BOTTLE_LABEL[1], r, liq), (0.18, r * 0.78, liq), (0.2, r * 0.42, liq), (0.212, r * 0.4, solid_uv('#ffffff'))]
         prof = [(y + t * h / 0.235, rr, u) for t, rr, u in prof]
         for (ya, ra, ua), (yb, rb, ub) in zip(prof, prof[1:]):
             if ua is None: self.ring(cx, cz, ya, yb, ra, rb, 8, p['cell'], face=face)
-            else: self.ring(cx, cz, ya, yb, ra, rb, 8, p['cell'], uvpt=ua)
+            else: self.ring(cx, cz, ya, yb, ra, rb, 8, p['cell'], uvpt=ua, face=face)
         cap = solid_uv(p['accent'] if p['accent'] in SOLIDS else ('#ffffff' if p['bg'] != '#ffffff' else '#2f7ed8'))
         self.ring(cx, cz, y + h * 0.9, y + h, r * 0.42, r * 0.42, 8, p['cell'], uvpt=cap); self.disc(cx, cz, y + h, r * 0.42, 8, cap); self.n += 1
 
@@ -212,6 +382,12 @@ class Goods:
         fu = cell_uv(PROMO_CELLS + i, 'front')
         q = [(x0, y0, zf), (x1, y0, zf), (x1, y1, zf), (x0, y1, zf)] if face == '+z' else [(x1, y0, zf), (x0, y0, zf), (x0, y1, zf), (x1, y1, zf)]
         self._face(q, [(fu[0], fu[1]), (fu[2], fu[1]), (fu[2], fu[3]), (fu[0], fu[3])])
+
+    def poster(self, side, i, pts):
+        """牆上的海報：pts＝左下、右下、右上、左上（從室內看）"""
+        x0, y0, x1, y1 = POSTER_RECT[(side, i)]; T = N * CELL
+        u0, u1, v0, v1 = (x0 + 2) / T, (x1 - 2) / T, 1 - (y1 - 2) / T, 1 - (y0 + 2) / T
+        self._face(pts, [(u0, v0), (u1, v0), (u1, v1), (u0, v1)])
 
     # ---- 一個商品（a＝沿著貨架的起點、depth＝離背板往外的範圍）
     def one(self, p, a, y, front_d, face, axis):
@@ -250,11 +426,12 @@ class Goods:
                 self.tag(start, min(start + 0.07, a1 - 0.02), rail_y - 0.052, rail_y - 0.012, tf, face, p['price'])
             a += 0.018
 
-    def finish(self, parent, mesh_name=None):
+    def finish(self, parent, mesh_name=None, props=None):
         if not self.bm.faces: self.bm.free(); return None
         self.bm.normal_update(); me = bpy.data.meshes.new(mesh_name or self.name); self.bm.to_mesh(me); self.bm.free()
         me.materials.append(self.mat); ob = bpy.data.objects.new(mesh_name or self.name, me); bpy.context.scene.collection.objects.link(ob)
         if parent is not None: ob.parent = parent
+        for k, v in (props or {}).items(): ob[k] = v
         return ob
 
 
