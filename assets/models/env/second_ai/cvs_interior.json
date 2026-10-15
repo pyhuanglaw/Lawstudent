@@ -1,10 +1,10 @@
 {
- "objects": 47,
- "unique_meshes": 47,
- "tris": 17220,
- "tris_drawn": 17220,
- "materials": 23,
+ "objects": 48,
+ "unique_meshes": 48,
+ "tris": 50268,
+ "tris_drawn": 50268,
+ "materials": 24,
  "out": "assets/models/env/second_ai/cvs_interior.glb",
- "bytes": 1411160,
+ "bytes": 2592036,
  "texres": 512
 }
