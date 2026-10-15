@@ -179,8 +179,8 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [],
-   "confirmed": 0,
-   "status": "INSUFFICIENT",
+   "confirmed": 25,
+   "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
   {
