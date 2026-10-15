@@ -1,5 +1,5 @@
 {
- "_comment": "使用者提供的正式題目（A 類）。只做格式轉換：題幹、選項、答案、考點一字不改（convert_answer_only.py 逐字核對）；這一批沒有解析。course／term／scopeWeek／mapBasis／flags 是 BB 加的對應資料（mapBasis＝AI 標的法條，只用來對週次，遊戲不顯示；askedIn 由 sync_asked.py 從 syllabus 同步）（AA 交叉檢查），不是題目內容。",
+ "_comment": "使用者提供的正式題目（A 類）。只做格式轉換：題幹、選項、答案、考點一字不改（convert_answer_only.py 逐字核對）；這一批沒有解析。course／term／scopeWeek／mapBasis／flags 是 BB 加的對應資料（AA 交叉檢查），不是題目內容（mapBasis＝AI 標的法條，只用來對週次，遊戲不顯示；askedIn 由 sync_asked.py 從 syllabus 同步）。",
  "source": "刑法_45題_2026-10-14.md",
  "sourceSha256_16": "9ba9991c6dd6b67d",
  "count": 45,
@@ -28,6 +28,7 @@
    "mapBasis": "刑法 §2 I",
    "source": "刑法_45題_2026-10-14.md 第 1 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -54,6 +55,7 @@
    "mapBasis": "刑法 §4",
    "source": "刑法_45題_2026-10-14.md 第 2 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -80,6 +82,7 @@
    "mapBasis": "刑法 §13 II",
    "source": "刑法_45題_2026-10-14.md 第 3 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -101,6 +104,7 @@
    "mapBasis": "刑法 §15",
    "source": "刑法_45題_2026-10-14.md 第 4 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -127,6 +131,7 @@
    "mapBasis": "刑法 §16",
    "source": "刑法_45題_2026-10-14.md 第 5 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -153,9 +158,8 @@
    "mapBasis": "刑法 §19 I",
    "source": "刑法_45題_2026-10-14.md 第 6 題",
    "status": "USER_CONFIRMED",
-   "flags": [
-    "和第 32 題考同一個點（§19 I 精神障礙致不能辨識違法 → 不罰／不具責任能力），兩題都在刑法總則（二），同一份考卷可能抽到兩題幾乎一樣的題目。要不要兩題都留，請使用者決定。"
-   ]
+   "mapNote": [],
+   "flags": []
   },
   {
    "id": "CRIM45_07",
@@ -176,6 +180,7 @@
    "mapBasis": "刑法 §23",
    "source": "刑法_45題_2026-10-14.md 第 7 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -202,6 +207,7 @@
    "mapBasis": "刑法 §24 I",
    "source": "刑法_45題_2026-10-14.md 第 8 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -223,6 +229,7 @@
    "mapBasis": "刑法 §26",
    "source": "刑法_45題_2026-10-14.md 第 9 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -244,6 +251,7 @@
    "mapBasis": "刑法 §27 I",
    "source": "刑法_45題_2026-10-14.md 第 10 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -270,6 +278,7 @@
    "mapBasis": "刑法 §28",
    "source": "刑法_45題_2026-10-14.md 第 11 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -291,6 +300,7 @@
    "mapBasis": "刑法 §29",
    "source": "刑法_45題_2026-10-14.md 第 12 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -312,6 +322,7 @@
    "mapBasis": "刑法 §30 I",
    "source": "刑法_45題_2026-10-14.md 第 13 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -333,6 +344,7 @@
    "mapBasis": "刑法 §31 I",
    "source": "刑法_45題_2026-10-14.md 第 14 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -359,6 +371,7 @@
    "mapBasis": "刑法 §55",
    "source": "刑法_45題_2026-10-14.md 第 15 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -380,6 +393,7 @@
    "mapBasis": "刑法 §277 II",
    "source": "刑法_45題_2026-10-14.md 第 16 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -406,6 +420,7 @@
    "mapBasis": "刑法 §271 II",
    "source": "刑法_45題_2026-10-14.md 第 17 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -432,6 +447,7 @@
    "mapBasis": "刑法 §10 IV ①、§278",
    "source": "刑法_45題_2026-10-14.md 第 18 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -453,6 +469,7 @@
    "mapBasis": "刑法 §276",
    "source": "刑法_45題_2026-10-14.md 第 19 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -474,6 +491,7 @@
    "mapBasis": "刑法 §302",
    "source": "刑法_45題_2026-10-14.md 第 20 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -500,6 +518,7 @@
    "mapBasis": "刑法 §304",
    "source": "刑法_45題_2026-10-14.md 第 21 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -521,6 +540,7 @@
    "mapBasis": "刑法 §305",
    "source": "刑法_45題_2026-10-14.md 第 22 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -542,9 +562,10 @@
    "mapBasis": "刑法 §306",
    "source": "刑法_45題_2026-10-14.md 第 23 題",
    "status": "USER_CONFIRMED",
-   "flags": [
+   "mapNote": [
     "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 5 週（刑法分則的黑板沒有寫到 §306，最接近的是第 5 週「自由」）。"
-   ]
+   ],
+   "flags": []
   },
   {
    "id": "CRIM45_24",
@@ -565,6 +586,7 @@
    "mapBasis": "刑法 §310",
    "source": "刑法_45題_2026-10-14.md 第 24 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -591,6 +613,7 @@
    "mapBasis": "刑法 §210",
    "source": "刑法_45題_2026-10-14.md 第 25 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -612,6 +635,7 @@
    "mapBasis": "刑法 §214",
    "source": "刑法_45題_2026-10-14.md 第 26 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -633,6 +657,7 @@
    "mapBasis": "刑法 §320",
    "source": "刑法_45題_2026-10-14.md 第 27 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -659,6 +684,7 @@
    "mapBasis": "刑法 §335",
    "source": "刑法_45題_2026-10-14.md 第 28 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -685,9 +711,10 @@
    "mapBasis": "刑法 §339",
    "source": "刑法_45題_2026-10-14.md 第 29 題",
    "status": "USER_CONFIRMED",
-   "flags": [
+   "mapNote": [
     "提醒（不影響答案）：在網路上公開刊登假的販售訊息，實務上常論 §339-4 I ③ 加重詐欺（以網際網路對公眾散布）；選項 C「可能成立詐欺取財罪」仍是唯一可以選的答案。"
-   ]
+   ],
+   "flags": []
   },
   {
    "id": "CRIM45_30",
@@ -708,9 +735,10 @@
    "mapBasis": "刑法 §346",
    "source": "刑法_45題_2026-10-14.md 第 30 題",
    "status": "USER_CONFIRMED",
-   "flags": [
+   "mapNote": [
     "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 13 週（刑法分則的黑板沒有寫到 §346，最接近的是第 13 週「詐欺」）。"
-   ]
+   ],
+   "flags": []
   },
   {
    "id": "CRIM45_31",
@@ -736,6 +764,7 @@
    "mapBasis": "刑法 §1",
    "source": "刑法_45題_2026-10-14.md 第 31 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -757,9 +786,8 @@
    "mapBasis": "刑法 §19 I",
    "source": "刑法_45題_2026-10-14.md 第 32 題",
    "status": "USER_CONFIRMED",
-   "flags": [
-    "和第 6 題考同一個點（見第 6 題）。"
-   ]
+   "mapNote": [],
+   "flags": []
   },
   {
    "id": "CRIM45_33",
@@ -780,6 +808,7 @@
    "mapBasis": "",
    "source": "刑法_45題_2026-10-14.md 第 33 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -806,6 +835,7 @@
    "mapBasis": "",
    "source": "刑法_45題_2026-10-14.md 第 34 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -827,6 +857,7 @@
    "mapBasis": "",
    "source": "刑法_45題_2026-10-14.md 第 35 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -848,6 +879,7 @@
    "mapBasis": "",
    "source": "刑法_45題_2026-10-14.md 第 36 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -869,6 +901,7 @@
    "mapBasis": "刑法 §23",
    "source": "刑法_45題_2026-10-14.md 第 37 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -895,6 +928,7 @@
    "mapBasis": "刑法 §25、§271 III",
    "source": "刑法_45題_2026-10-14.md 第 38 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -916,6 +950,7 @@
    "mapBasis": "刑法 §25 II",
    "source": "刑法_45題_2026-10-14.md 第 39 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -942,6 +977,7 @@
    "mapBasis": "刑法 §17",
    "source": "刑法_45題_2026-10-14.md 第 40 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -963,6 +999,7 @@
    "mapBasis": "刑法 §28",
    "source": "刑法_45題_2026-10-14.md 第 41 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -984,6 +1021,7 @@
    "mapBasis": "刑法 §29",
    "source": "刑法_45題_2026-10-14.md 第 42 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -1005,9 +1043,10 @@
    "mapBasis": "刑法 §47 I；司法院釋字第 775 號解釋",
    "source": "刑法_45題_2026-10-14.md 第 43 題",
    "status": "USER_CONFIRMED",
-   "flags": [
+   "mapNote": [
     "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 16 週（刑法總則（二）沒有排刑罰論（累犯、自首、緩刑）的週次，放回顧週）。"
-   ]
+   ],
+   "flags": []
   },
   {
    "id": "CRIM45_44",
@@ -1028,9 +1067,10 @@
    "mapBasis": "刑法 §62",
    "source": "刑法_45題_2026-10-14.md 第 44 題",
    "status": "USER_CONFIRMED",
-   "flags": [
+   "mapNote": [
     "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 16 週（同第 43 題）。"
-   ]
+   ],
+   "flags": []
   },
   {
    "id": "CRIM45_45",
@@ -1051,9 +1091,10 @@
    "mapBasis": "刑法 §74 I",
    "source": "刑法_45題_2026-10-14.md 第 45 題",
    "status": "USER_CONFIRMED",
-   "flags": [
+   "mapNote": [
     "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 16 週（同第 43 題）。"
-   ]
+   ],
+   "flags": []
   }
  ]
 }

@@ -94,7 +94,7 @@
    "kind": "required",
    "exam": "mc5",
    "sources": [],
-   "confirmed": 16,
+   "confirmed": 15,
    "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
@@ -168,8 +168,8 @@
    "kind": "required",
    "exam": "mc5",
    "sources": [],
-   "confirmed": 4,
-   "status": "INSUFFICIENT",
+   "confirmed": 5,
+   "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
   {

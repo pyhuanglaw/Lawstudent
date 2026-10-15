@@ -136,7 +136,7 @@ def main(key):
                     if q.get('status') != 'USER_CONFIRMED': problems.append(f'{tag}：課堂提問 {qid} 不是 USER_CONFIRMED')
                     if q['term'] != term or q['course'] != c['id']: problems.append(f"{tag}：課堂提問 {qid} 是 {q['term']} {q['course']} 的題目")
                     if int(q['scopeWeek']) > w: problems.append(f"{tag}：課堂提問 {qid} 的範圍到第 {q['scopeWeek']} 週，這週還沒教到")
-                    if any('課表沒有專講' in x for x in q.get('flags', [])): problems.append(f'{tag}：課堂提問 {qid} 的主題課表沒有專講，不在課堂問')
+                    if any('課表沒有專講' in x for x in q.get('flags', []) + q.get('mapNote', [])): problems.append(f'{tag}：課堂提問 {qid} 的主題課表沒有專講，不在課堂問')
                 if qid in asked: problems.append(f'{tag}：課堂提問 {qid} 已經在 {asked[qid]} 問過')
                 asked[qid] = tag
                 if LEAVE and w > LEAVE: problems.append(tag+'：休學以後不能有課堂提問')

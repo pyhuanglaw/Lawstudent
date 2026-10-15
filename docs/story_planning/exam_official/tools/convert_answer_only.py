@@ -73,7 +73,7 @@ def main():
         q = dict(id=m['id'], course=m['course'], term=m['term'], scopeWeek=m['scopeWeek'], type='mc',
                  q=it['q'], options=it['options'], answer=it['answer'],
                  core=it['point'], explanation='', mapBasis=m.get('basis', ''),
-                 source=f"{srcname} 第 {it['no']} 題", status='USER_CONFIRMED', flags=m.get('flags', []))
+                 source=f"{srcname} 第 {it['no']} 題", status='USER_CONFIRMED', mapNote=m.get('notes', []), flags=m.get('flags', []))
         if it['no'] in oldq and m.get('carryExplanation'):
             o = oldq[it['no']]
             if o['options'] != it['options'] or o['answer'] != it['answer']:
