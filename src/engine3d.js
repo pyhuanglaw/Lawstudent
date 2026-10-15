@@ -69,7 +69,7 @@ const E3 = (function(){
     scene.fog=new THREE.Fog(0xdbe6ea,40,150); E.sky=makeSky(); scene.add(E.sky); E.skyline=makeSkyline(); scene.add(E.skyline);
     E.groundPlane=new THREE.Plane(new THREE.Vector3(0,1,0),0); E.ray=new THREE.Raycaster(); E.ndc=new THREE.Vector2();
     E.cam={yaw:Math.PI,pitch:0.22,dist:6.0,distTarget:6.0,target:new THREE.Vector3(),mode:'follow',shake:0}; E.player=null; E.npcs=[]; E.extras=[]; E.zone=null; E.colliders=[]; E.interactables=[]; E.hour=8.5; E.weather='clear'; E.paused=false; E.lampGlows=[]; E.windowsLit=false;
-    setupInput(); E.setQuality(opts.quality||'medium'); E.resize(); window.addEventListener('resize',E.resize); return E; };
+    setupInput(); E.setQuality(opts.quality||'medium'); E.resize(); window.addEventListener('resize',E.resize); window.addEventListener('orientationchange',()=>{ for(const t of [60,250,600]) setTimeout(E.resize,t); }); if(window.visualViewport) window.visualViewport.addEventListener('resize',E.resize); canvas.addEventListener('webglcontextlost',()=>{ E.ctxLost=(E.ctxLost|0)+1; console.warn('WEBGL_CONTEXT_LOST',E.ctxLost); }); canvas.addEventListener('webglcontextrestored',()=>{ console.warn('WEBGL_CONTEXT_RESTORED'); scene.traverse(o=>{ const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms){ m.needsUpdate=true; for(const k in m){ const v=m[k]; if(v&&v.isTexture) v.needsUpdate=true; } } }); });   /* 使用者 2026-10-15「很少見：畫面大部分變黑、臉只剩面膜的形狀」——還沒重現；先記下 WebGL 有沒有掉（E.ctxLost，?debug 面板），恢復時把材質、貼圖重新上傳 */ return E; };
   // 天空（v9.2）：漸層＋地平線霧氣＋會隨時間變色的雲（程序雜訊，緩慢飄動）＋夜晚星星
   function makeSky(){ const geo=new THREE.SphereGeometry(120,32,16); const mat=new THREE.ShaderMaterial({side:THREE.BackSide,depthWrite:false,fog:false,
       uniforms:{top:{value:new THREE.Color(0x7fb0d8)},mid:{value:new THREE.Color(0xd8e8ef)},bot:{value:new THREE.Color(0xf1e7d6)},sunDir:{value:new THREE.Vector3(0,1,0)},sunCol:{value:new THREE.Color(0xffe6b0)},sunAmt:{value:0.3},
@@ -372,7 +372,7 @@ const E3 = (function(){
     for(const off of SW_OFF){ const r=followCam(C.target,C.yaw+off,pitch,C.dist,P.lv,swV); const v=sc(C.yaw+off,r.dist)-Math.abs(off)*0.25+(C.swing&&Math.sign(off)===Math.sign(C.swing)?0.3:0); if(v>bs){ bs=v; best=off; } }
     C.swing=best; if(!best) return 0; const st=Math.sign(best)*Math.min(Math.abs(best),1.3*dt); C.yaw+=st; if(C.ctl) C.swingAcc=(C.swingAcc||0)+st; return st; }
   E.autoSwing=autoSwing;
-  function updateCamera(dt){ const C=E.cam; const P=E.player; if(C.mode==='cinematic'&&C.cine){ const s=C.cine; camera.position.lerp(s.pos,Math.min(1,dt*4)); C.look=C.look||new THREE.Vector3(); C.look.lerp(s.look,Math.min(1,dt*4)); slabClip(C.look,camera.position,0.9); camera.lookAt(C.look); if(E.zone&&E.zone.fadeWalls) E.zone.fadeWalls(camera,P.obj.position); updateLevelVis(); ST.uSeeR.value=0; return; }
+  function updateCamera(dt){ const C=E.cam; const P=E.player; if(C.mode==='cinematic'&&C.cine){ const s=C.cine; camera.position.lerp(s.pos,Math.min(1,dt*2.4)); C.look=C.look||new THREE.Vector3(); C.look.lerp(s.look,Math.min(1,dt*2.4));   /* 原本 dt*4（約 0.25 秒就轉過去）：轉太快會暈（使用者 2026-10-15），放慢一點 */ slabClip(C.look,camera.position,0.9); camera.lookAt(C.look); if(E.zone&&E.zone.fadeWalls) E.zone.fadeWalls(camera,P.obj.position); updateLevelVis(); ST.uSeeR.value=0; return; }
     C.dist+=(C.distTarget-C.dist)*Math.min(1,dt*4); if(C.manualT>0) C.manualT-=dt; C.target.lerp(tmpV2.copy(P.obj.position).add(tmpV3.set(0,1.45,0)),Math.min(1,dt*7));
     /* 往下走樓梯時鏡頭抬高（戶外：萬才館大樓梯；萬才館第二階段的真實玩家測試抓到）：鏡頭在玩家背後 2.7 m 高，往下走的時候平台邊緣擋住下面的台階，
        畫面上看不到要走去的地方（點下面的台階會點到平台、又走回去）。前方 3～5.5 m 的地面比腳下低超過 0.4 m 時，俯角最多加 0.32（約 18°），平順地變化；室內維持原本的鏡頭 */
@@ -420,7 +420,9 @@ const E3 = (function(){
       for(let R=0.3;R<=1.3+1e-6&&best===null;R+=0.05) for(let a=0;a<48;a++){ const x=it.x+Math.cos(a*Math.PI/24)*R, z=it.z+Math.sin(a*Math.PI/24)*R; if(standL(x,z,0.32,lv)){ best=R; break; } }
       if(best!==null&&best+0.3>r0+1e-6){ it.radiusFit=r0; it.radius=Math.min(1.3,best+0.3); n++; } } return n; }
   E.fitSeatRadius=fitSeatRadius;
-  E.render=function(){ renderer.render(scene,camera); };
+  /* 手機轉向（使用者 2026-10-15：先橫再直，人物變細／變扁，要重開才正常）：iOS 的 resize 事件常在版面還沒換好時就來，讀到舊的寬高。
+     每一幀比一次畫布的實際大小，不一樣就重設（只讀兩個數字，很便宜）；另外 orientationchange、visualViewport 也接上 */
+  E.render=function(){ const w=E.canvas.clientWidth||innerWidth, h=E.canvas.clientHeight||innerHeight; if(w!==E.w||h!==E.h) E.resize(); renderer.render(scene,camera); };
   E.recenter=function(){ if(E.player){ E.cam.yaw=E.player.obj.rotation.y+Math.PI; E.cam.manualT=0; } };
   E.faceEachOther=function(a,b){ const dx=b.position.x-a.position.x, dz=b.position.z-a.position.z; a.rotation.y=Math.atan2(dx,dz); b.rotation.y=Math.atan2(-dx,-dz); };
   return E;

@@ -27,7 +27,8 @@ const s101=z.seats.find(q=>q.room==='101'), s102=z.seats.find(q=>q.room==='102')
 { const it=CLS.seatClass(mkG(9.0),s101); check('09:00 坐在 101：第一個選項是「大一國文」（課在博雅教學館 101）',it&&it.c.id==='chinese_y1'&&it.room.name==='博雅教學館 101',it?it.c.name+'／'+it.room.name:'null');
   check('09:00 坐在 102：沒有課',!CLS.seatClass(mkG(9.0),s102));
   check('坐在沙發、自習小桌：不是上課的位子',!CLS.seatClass(mkG(9.0),z.seats.find(q=>q.kind==='sofa'))&&!CLS.seatClass(mkG(9.0),z.seats.find(q=>q.kind==='study')));
-  check('09:50（開始超過 30 分鐘）坐在 101：已經算沒來，不能上',!CLS.seatClass(mkG(9.84),s101)); }
+  check('09:50（開始超過 30 分鐘）坐在 101：遲到，照樣可以上（使用者 2026-10-15）',!!CLS.seatClass(mkG(9.84),s101));
+  check('11:45（下課前 30 分鐘以後）坐在 101：已經算沒來，不能上',!CLS.seatClass(mkG(11.75),s101)); }
 { const g=CLS.goalFor(mkG(8.0)); const it=E.interactables.find(i=>g.dest&&(i.label||'').startsWith(g.dest.label));
   check('起床的目標：導航指到博雅教學館 101（館裡有「看看博雅 101 階梯教室」這個互動點）',g.dest&&g.dest.zone==='boya'&&!!it,JSON.stringify(g.dest)+' → '+(it&&it.label)); }
 { const GM={G:mkG(9.25),E}; CLS.syncRooms(GM); const a=E.npcs.filter(n=>n.clsStudent).map(n=>n.seat.room+':'+n.seat.x+','+n.seat.z);

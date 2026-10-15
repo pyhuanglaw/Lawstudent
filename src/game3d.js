@@ -52,7 +52,7 @@ const GAME = (function(){
   GM.habit=habit; GM.habitSlot=habitSlot; GM.seatHabits=seatHabits;
   GM.advance=advance;
   // ---------- HUD ----------
-  function updateHUD(){ if(!G) return; $('clockT').textContent=WEEK[G.weekday]+' '+fmtTime(G.hour); const zn=Z3.ZONES[G.zone]?Z3.ZONES[G.zone].name:G.zone; $('clockZ').textContent=zn; $('clockW').textContent=G.weather==='rain'?'🌧':(G.weather==='cloudy'?'☁':(G.hour%24>=18.5||G.hour%24<5.5?'🌙':'☀')); $('energy').firstElementChild.style.width=G.energy+'%'; $('money').textContent='$'+G.money; }
+  function updateHUD(){ if(!G) return; { const dd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day+Math.floor(G.hour/24)):null; $('clockT').textContent=(dd?dd.m+'/'+dd.d+' ':'')+WEEK[G.weekday]+' '+fmtTime(G.hour); }   /* 日期（使用者 2026-10-15：遊戲裡就寫今天幾月幾號，不需要點開手機）*/ const zn=Z3.ZONES[G.zone]?Z3.ZONES[G.zone].name:G.zone; $('clockZ').textContent=zn; $('clockW').textContent=G.weather==='rain'?'🌧':(G.weather==='cloudy'?'☁':(G.hour%24>=18.5||G.hour%24<5.5?'🌙':'☀')); $('energy').firstElementChild.style.width=G.energy+'%'; $('money').textContent='$'+G.money; }
   GM.updateHUD=updateHUD;
   function fade(on){ const f=$('fade'); f.classList.toggle('on',on); return sleep(on?480:500); }
   GM.fade=fade;
@@ -92,6 +92,8 @@ const GAME = (function(){
   function fwd(o){ return V(Math.sin(o.rotation.y),0,Math.cos(o.rotation.y)); }
   function cine(kind,A,B,opt){ opt=opt||{}; A=A||E.player.obj; B=B||A; const ha=headOf(A), hb=headOf(B); const mid=ha.clone().add(hb).multiplyScalar(0.5); const dir=hb.clone().sub(ha); dir.y=0; const d=Math.max(0.01,dir.length()); dir.normalize(); const side=V(-dir.z,0,dir.x); if(opt.flip) side.negate(); let pos,look;
     if(kind==='ots'){ pos=ha.clone().addScaledVector(dir,-1.3).addScaledVector(side,0.7); pos.y=ha.y+0.25; look=hb.clone(); look.y-=0.02; if(E.indoor&&E.zone.bounds){ const b=E.zone.bounds; const alt=ha.clone().addScaledVector(dir,-1.05).addScaledVector(side,-0.55); alt.y=pos.y; const room=p=>Math.min(b.w/2-Math.abs(p.x),b.d/2-Math.abs(p.z)); if(room(alt)>room(pos)+0.3) pos=alt; } }
+    else if(kind==='talk'){   /* 平常說話（2026-10-15 使用者：「跟人講話角度不要大轉，會 3D 暈」）：不切到兩人的正側面，鏡頭留在玩家背後偏一側（偏向現在鏡頭那一側），從跟隨鏡頭只轉一點點 */
+      const cur=E.camera.position, s0=((cur.x-ha.x)*side.x+(cur.z-ha.z)*side.z)>=0?1:-1; pos=ha.clone().addScaledVector(dir,-2.3).addScaledVector(side,0.95*s0); pos.y=ha.y+0.5; look=ha.clone().lerp(hb,0.62); look.y=(ha.y+hb.y)/2-0.08; }
     else if(kind==='close'){ pos=hb.clone().addScaledVector(dir,-1.25).addScaledVector(side,0.25); pos.y=hb.y+0.06; look=hb.clone(); look.y-=0.04; }
     else if(kind==='two'){ const dist=Math.max(2.3,d*1.25); pos=mid.clone().addScaledVector(side,dist); pos.y=mid.y+0.12; look=mid.clone(); look.y-=0.12; if(E.indoor&&E.zone.bounds&&!opt.flip){ const b=E.zone.bounds; const alt=mid.clone().addScaledVector(side,-dist); const room=p=>Math.min(b.w/2-Math.abs(p.x),b.d/2-Math.abs(p.z)); if(room(alt)>room(pos)) pos=alt; } }
     else if(kind==='low'){ pos=mid.clone().addScaledVector(side,Math.max(2.2,d*1.3)).addScaledVector(dir,-0.6); pos.y=Math.min(A.position.y,B.position.y)+0.8; look=mid.clone(); look.y-=0.2; }
@@ -217,9 +219,12 @@ const GAME = (function(){
     if(course){ await fade(false); await say(null,'你讀了一小時的'+course.name+'——'+(CLS.topic(course,(CALENDAR.termOf(G.day)||{}).week)||'這週的進度')+'。'); }
     else if(grad&&!asked){ await fade(false); const k=await choose([{t:'讀學姊給的那篇文章',hint:'研究所準備（'+((G.social.grad.prep||0))+'/3）'},{t:'讀這週的進度'}]); if(k===0){ await gradReadingSession(); if(G.energy<20) toast('你有點累了'); return; } await fade(true); }
     const topics=STORY.studyTopics?STORY.studyTopics(GM):[]; const t=topics.find(x=>!GM.hasNote(x.id)); if(!course) await fade(false);
-    const studied=(typeof LEGAL!=='undefined'&&G.legal)?LEGAL.study():[];
+    /* 選了科目：只出那一科的東西（使用者 2026-10-15：「讀憲法為什麼會出現強行規定無效」——原本不管選什麼都接民總的 studyTopics、刑訴題庫的複習）。
+       民總的 studyTopics 只在讀民法總則或沒選科目時；刑訴題庫（QBANK）的複習只在讀刑事訴訟法或沒選科目時 */
+    const okTopic=!course||course.id==='civ_general', okLegal=!course||course.id==='crimpro';
+    const studied=(okLegal&&typeof LEGAL!=='undefined'&&G.legal)?LEGAL.study():[];
     if(studied.length){ for(const q of studied){ await say(null,'你回頭看了讀書會／上課時卡住的地方：「'+q.q.replace(/。$/,'')+'」——'+(q.core?q.core:'答案是「'+(q.type==='tf'?q.answer:q.answer+'、'+q.options[q.answer])+'」')+'。這次應該懂了。'); } }
-    else if(t){ addNote(t.id,t.title,t.body); await say(null,t.read||('你花了一小時讀'+t.title+'。'+t.body)); }
+    else if(t&&okTopic){ addNote(t.id,t.title,t.body); await say(null,t.read||('你花了一小時讀'+t.title+'。'+t.body)); }
     else if(!course){ await say(null,'你把這週的筆記重新整理了一遍。沒有新的東西，但腦袋清楚了一些。'); }
     if(G.energy<20) toast('你有點累了'); }
   GM.studySession=studySession;
