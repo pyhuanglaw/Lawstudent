@@ -13,6 +13,18 @@
 
 ---
 
+## 2026-10-15 約 23:1x UTC（使用者直接給 LAWWW-B）｜不准傳訊息給已交班的另一個帳號
+
+- **原話**：「你幫我改規則 上一個帳號是每周使用量到上限 我才開這個帳號 你不應該direct message他 會害他又開始工作 他已經交班了」
+- **起因**：LAWWW-B 接班時照總入口第 9 節的舊規則，對帳號 A 的 LAWWW 傳了一則跨帳號測試訊息。工具回「the requested resource was not found」，沒有送達。
+- **新規則（D75）**：跨帳號、或對方已交班時，不 `send_message`、不 `interrupt_session`、不替對方排程，只用 GitHub 文件交接。同一個帳號內在值班的職位照舊可以用 `send_message`。
+- **取代**：`AI_SESSION_HANDOFF.md` 第 9 節的「跨帳號實測」、7.1 第 5 步、第 4 節第 8 步的通知方式。
+- **改了**：`CLAUDE.md`（P0 換班口令第 8 點、跨帳號接班一節）、`docs/AI_SESSION_HANDOFF.md`、`docs/PROJECT_DECISIONS.md` D75、這份紀錄。
+- **通知**：不通知帳號 A（就是這條規則）。LAWWW2-B、AA-B、BB-B 上線時會讀到 GitHub 上的規則。
+- **工作**：課堂提問暫停幾分鐘、改完規則接著做。
+
+---
+
 ## 2026-10-14 約 17:25～17:40 UTC（使用者直接給 LAWWW）｜貼上 16:15、17:10 原文、確認祐廷是臺北人、交班
 
 - **使用者直接給 LAWWW 的訊息**：

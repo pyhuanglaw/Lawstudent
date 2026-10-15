@@ -12,6 +12,8 @@
 6. **四職位各自執行**：LAWWW、LAWWW2、AA、BB 收到使用者直接換班指令，就各自啟動，不需 LAWWW 打斷或催促；LAWWW 可同步通知其他職位，但 SENT／DELIVERED 不等於 ACK，不能以此宣稱對方完成。通訊／通知暫時不能讀取時，於下一個可處理節點讀通知並執行；**GitHub 文件更新本身不會遠端強制中止另一個正在執行的 Claude 工作階段**。
 7. **不得混淆保存與發布**：禁止為交班而合併 `main`、發布 GitHub Pages、force push、覆蓋其他 AI 的分支，或把未經核准內容當正式成果。交班以各自遠端 commit、進度檔與使用者可核對的回報為準。
 
+8. **不傳訊息給已交班的另一個帳號（使用者 2026-10-15，D75）**：另一個帳號通常是每週用量到上限才交班；對它的工作階段 `send_message`（包括「測試訊息」「不用回覆」）會叫醒它、讓它又開始工作、消耗它的額度。**跨帳號一律只用 GitHub 文件交接**（進度檔、總入口、看板、交接板），不 `send_message`、不 `interrupt_session`、不替它排 `send_later`／排程。同一個帳號內、同一班都在值班的職位之間照舊可以用 `send_message`。
+
 **一句話測試：使用者說「現在換班」後，下一項正常工作必須是交班保存，不是繼續便利商店建模或法條修正。**
 
 
@@ -122,7 +124,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
 8. **登記**：
    - 在自己的進度檔最上面寫「值班登記」，commit＋push。
    - LAWWW／LAWWW-B 另外更新這份檔案的值班表和第 12 節交班紀錄。
-   - 其他職位登記完通知值班的 LAWWW：同一個帳號用 `send_message`，不通就靠 GitHub，LAWWW 下次同步時抄進值班表。
+   - 其他職位登記完通知值班的 LAWWW：同一個帳號、而且對方正在值班才用 `send_message`；**對方在另一個帳號、或已經交班，就只寫 GitHub（D75，不傳訊息）**，LAWWW 下次同步時抄進值班表。
    - **找對方的 session ID**：①值班表；②對方進度檔最上面的值班登記；③同一個帳號內用 claude-code-remote 的 `list_sessions`，看工作階段標題（LAWWW-B、LAWWW2-B、AA-B、BB-B）。找到之後傳一則「我上線了＋我的 session ID」，對方回 ACK 才算連上；沒回就寫看板。
 9. **回報使用者「接班確認」**（第 6 節的格式），然後接著做進度檔寫的下一步，不用使用者再說「繼續」。
 
@@ -179,7 +181,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
 2. 你的進度檔是 docs/ART_REBUILD_PROGRESS.md 最上面的「交接（最新）」。用同樣的方法找到最新版本與它所在的分支（上一班可能是 LAWWW，也可能是上一次的 LAWWW-B），把那條分支合併進系統指定給你的分支（能快轉就快轉，不能就 git merge --no-edit；不 rebase、不 force push）。
 3. 合併之後讀 CLAUDE.md、docs/RELEASES.md、docs/PROJECT_DECISIONS.md 的新決策、docs/DUAL_AI_BOARD.md，以及上一班最後一次登記之後的新 commit（docs/RELEASES.md 要看最後一次發布的時間、還沒發布的候選、發布前測試做到哪裡；本機 scratchpad 的測試結果不在 GitHub，要自己重跑）。新工作階段一開始拿到的 CLAUDE.md 可能是 main 上比較舊的版本，以合併後的為準。
 4. 用 get_session（claude-code-remote）查自己的 session ID（查不到就請使用者告訴你網址最後一段）。在進度檔最上面寫「值班登記」；更新 docs/AI_SESSION_HANDOFF.md 的值班表（LAWWW 那一列：帳號 B、LAWWW-B、你的 session ID、分支、接班基準 commit）和第 12 節交班紀錄；commit＋push。
-5. 照第 9 節實測跨帳號通訊，把結果寫進表裡；不通就只用 GitHub 文件交接。
+5. **不要傳訊息給帳號 A 的任何工作階段**（D75：會叫醒已交班的它、消耗它的額度）；跨帳號只用 GitHub 文件交接。同一個帳號（B）裡已經上線的職位可以用 send_message。
 6. 回覆使用者「接班確認」（第 6 節的格式），然後接著做進度檔寫的下一步。LAWWW2-B、AA-B、BB-B 登記後，把它們的 session ID 抄進值班表。
 權限：只有值班中的你可以正式發布（三小時規則跨帳號照算）；只 push 系統指定給你的分支；不改其他職位的分支；其餘規則照 CLAUDE.md 和 AI_SESSION_HANDOFF.md。
 ```
@@ -239,10 +241,8 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
 ## 9. 通訊（要實測，不假設）
 
 - 同一個帳號內：claude-code-remote 的 `send_message`。訊息照 CLAUDE.md 的規則讓使用者看得到，狀態分 SENT／DELIVERED／ACKNOWLEDGED／ACTIONED。
-- 跨帳號：**還沒實測**，帳號 B 還不存在。
-  - LAWWW-B 第一次上線時測兩件事：用 `list_sessions` 看不看得到帳號 A 的工作階段；對 LAWWW 的 session ID 傳一則測試訊息（例如「跨帳號通訊測試，不用回覆」）。
-  - 把結果寫進下表。
-  - 不通就全部靠 GitHub：進度檔、這份總入口、交接板、看板。
+- 跨帳號：**不傳訊息，只用 GitHub**。**不傳訊息給已交班的另一個帳號（使用者 2026-10-15，D75）**：另一個帳號通常是每週用量到上限才交班；對它的工作階段 `send_message`（包括「測試訊息」「不用回覆」）會叫醒它、讓它又開始工作、消耗它的額度。**跨帳號一律只用 GitHub 文件交接**（進度檔、總入口、看板、交接板），不 `send_message`、不 `interrupt_session`、不替它排 `send_later`／排程。同一個帳號內、同一班都在值班的職位之間照舊可以用 `send_message`。
+  - 2026-10-15 LAWWW-B 照舊版規則對 LAWWW 傳過一則測試訊息，工具回「not found」，沒有送達；之後不再測。
 - **先讀通知**：工作階段收到「有通知在排隊」（queued notifications）的提示時，先呼叫 `ReadNotifications`，一直讀到剩 0 則，再做別的事。2026-10-11 LAWWW2 的「顯示 DELIVERED 卻沒看到」就是這個原因：9 則訊息一直排在佇列裡，沒有去讀（LAWWW2 10:15Z 回報）。
 - **重要訊息一律同時寫進 GitHub**（自己的進度檔或看板），不能只存在對話裡。同一個帳號內的 `send_message` 顯示 DELIVERED，對方也可能沒看到（2026-10-11 實際發生）。對方 30 分鐘內沒 ACK，就再傳一次並寫在看板。
 
@@ -250,7 +250,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
 |---|---|---|---|
 | 帳號 A 內部：LAWWW ⇄ LAWWW2、LAWWW → AA、BB | 工具大多回 DELIVERED，紀錄在 `docs/DUAL_AI_BOARD.md`。**但送達不保證對方看到**：2026-10-11 LAWWW → LAWWW2 有三則顯示 DELIVERED、對方的對話裡沒有，它是讀看板才知道的 | 2026-10-10～11 | LAWWW、LAWWW2 |
 | 帳號 B → 帳號 A（`list_sessions`、`send_message`） | **不通**：`list_sessions` 只看得到 LAWWW-B 自己；對 LAWWW `session_01Eds6msqpsuzNEw98sdw8JX` 的 `send_message` 回「the requested resource was not found」。跨帳號一律用 GitHub 文件交接 | 2026-10-15 23:0x UTC | LAWWW-B |
-| 帳號 A → 帳號 B | 未實測 | — | 回到帳號 A 時的 LAWWW |
+| 帳號 A → 帳號 B | **不測**（D75：不傳訊息給已交班的另一個帳號） | — | — |
 
 ## 10. 權限（換帳號不變）
 
