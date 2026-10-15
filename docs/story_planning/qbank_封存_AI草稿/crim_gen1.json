@@ -1,0 +1,258 @@
+[
+ {
+  "id": "crim_gen1_01",
+  "course": "crim_gen1",
+  "week": 2,
+  "type": "tf",
+  "q": "刑法第 1 條：行為之處罰，以行為時之法律有明文規定者為限。",
+  "answer": true,
+  "core": "罪刑法定：行為時沒有明文，就不能罰。",
+  "basis": "刑法第 1 條",
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
+ },
+ {
+  "id": "crim_gen1_02",
+  "course": "crim_gen1",
+  "week": 2,
+  "type": "tf",
+  "q": "拘束人身自由的保安處分，不受罪刑法定原則的限制。",
+  "answer": false,
+  "core": "第 1 條後段：拘束人身自由之保安處分，亦同。",
+  "basis": "刑法第 1 條",
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
+ },
+ {
+  "id": "crim_gen1_03",
+  "course": "crim_gen1",
+  "week": 2,
+  "type": "mc",
+  "q": "某行為在行為時沒有處罰規定，行為後才立法處罰。可以處罰嗎？",
+  "options": [
+   "可以，依裁判時的法律",
+   "不可以，以行為時有明文規定為限",
+   "由法官裁量"
+  ],
+  "answer": 1,
+  "core": "處罰以行為時的法律有明文為限。",
+  "basis": "刑法第 1 條",
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
+ },
+ {
+  "id": "crim_gen1_04",
+  "course": "crim_gen1",
+  "week": 3,
+  "type": "tf",
+  "q": "行為後法律有變更時，一律適用裁判時的法律。",
+  "answer": false,
+  "core": "原則適用行為時之法律；新法有利於行為人，才適用最有利的。",
+  "basis": "刑法第 2 條第 1 項",
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
+ },
+ {
+  "id": "crim_gen1_05",
+  "course": "crim_gen1",
+  "week": 3,
+  "type": "mc",
+  "q": "行為後法律變更，新法對行為人比較有利。應適用哪一個？",
+  "options": [
+   "行為時之法律",
+   "最有利於行為人之法律",
+   "檢察官選擇的法律"
+  ],
+  "answer": 1,
+  "core": "第 2 條第 1 項但書：適用最有利於行為人之法律。",
+  "basis": "刑法第 2 條第 1 項",
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
+ },
+ {
+  "id": "crim_gen1_06",
+  "course": "crim_gen1",
+  "week": 3,
+  "type": "tf",
+  "q": "沒收，適用裁判時之法律。",
+  "answer": true,
+  "core": "第 2 條第 2 項：沒收適用裁判時之法律。",
+  "basis": "刑法第 2 條第 2 項",
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
+ },
+ {
+  "id": "crim_gen1_07",
+  "course": "crim_gen1",
+  "week": 6,
+  "type": "mc",
+  "q": "依刑法第 15 條，「不作為」要和積極行為同視，需要什麼？",
+  "options": [
+   "法律上有防止義務，能防止而不防止",
+   "只要在場看到",
+   "道德上應該幫忙"
+  ],
+  "answer": 0,
+  "core": "不作為犯：法律上有防止義務，能防止而不防止。",
+  "basis": "刑法第 15 條第 1 項",
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
+ },
+ {
+  "id": "crim_gen1_08",
+  "course": "crim_gen1",
+  "week": 6,
+  "type": "tf",
+  "q": "因自己的行為致有發生犯罪結果之危險者，負防止其發生之義務。",
+  "answer": true,
+  "core": "第 15 條第 2 項：危險前行為產生防止義務。",
+  "basis": "刑法第 15 條第 2 項",
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
+ },
+ {
+  "id": "crim_gen1_09",
+  "course": "crim_gen1",
+  "week": 10,
+  "type": "mc",
+  "q": "依刑法第 12 條，行為非出於故意或過失者：",
+  "options": [
+   "減輕其刑",
+   "不罰",
+   "得免除其刑"
+  ],
+  "answer": 1,
+  "core": "沒有故意也沒有過失，不罰。",
+  "basis": "刑法第 12 條第 1 項",
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
+ },
+ {
+  "id": "crim_gen1_10",
+  "course": "crim_gen1",
+  "week": 10,
+  "type": "tf",
+  "q": "對構成犯罪之事實，預見其發生而其發生並不違背其本意者，以故意論。",
+  "answer": true,
+  "core": "這是間接故意（第 13 條第 2 項）。",
+  "basis": "刑法第 13 條第 2 項",
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
+ },
+ {
+  "id": "crim_gen1_11",
+  "course": "crim_gen1",
+  "week": 11,
+  "type": "tf",
+  "q": "過失行為，一律處罰。",
+  "answer": false,
+  "core": "過失行為之處罰，以有特別規定者為限。",
+  "basis": "刑法第 12 條第 2 項",
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
+ },
+ {
+  "id": "crim_gen1_12",
+  "course": "crim_gen1",
+  "week": 11,
+  "type": "mc",
+  "q": "下列何者是刑法第 14 條第 1 項的過失？",
+  "options": [
+   "明知並有意使其發生",
+   "應注意，並能注意，而不注意",
+   "預見其發生而不違背本意"
+  ],
+  "answer": 1,
+  "core": "過失：按其情節應注意、能注意而不注意。",
+  "basis": "刑法第 14 條第 1 項",
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
+ },
+ {
+  "id": "crim_gen1_13",
+  "course": "crim_gen1",
+  "week": 12,
+  "type": "mc",
+  "q": "預見犯罪事實能發生，但「確信它不會發生」，依刑法：",
+  "options": [
+   "以故意論",
+   "以過失論",
+   "不罰"
+  ],
+  "answer": 1,
+  "core": "有認識的過失（第 14 條第 2 項）。",
+  "basis": "刑法第 14 條第 2 項",
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
+ },
+ {
+  "id": "crim_gen1_14",
+  "course": "crim_gen1",
+  "week": 12,
+  "type": "mc",
+  "q": "預見犯罪事實可能發生，「發生了也沒關係」，依刑法：",
+  "options": [
+   "以故意論",
+   "以過失論",
+   "不罰"
+  ],
+  "answer": 0,
+  "core": "其發生並不違背本意，以故意論（間接故意）。",
+  "basis": "刑法第 13 條第 2 項",
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
+ },
+ {
+  "id": "crim_gen1_15",
+  "course": "crim_gen1",
+  "week": 14,
+  "type": "tf",
+  "q": "結果加重犯，行為人不能預見加重的結果時，不適用加重其刑的規定。",
+  "answer": true,
+  "core": "第 17 條：不能預見其發生時，不適用。",
+  "basis": "刑法第 17 條",
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
+ },
+ {
+  "id": "crim_gen1_16",
+  "course": "crim_gen1",
+  "week": 15,
+  "type": "tf",
+  "q": "犯罪的行為或結果，有一在中華民國領域內者，為在中華民國領域內犯罪。",
+  "answer": true,
+  "core": "第 4 條：行為地或結果地有一在國內即可。",
+  "basis": "刑法第 4 條",
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
+ },
+ {
+  "id": "crim_gen1_17",
+  "course": "crim_gen1",
+  "week": 15,
+  "type": "tf",
+  "q": "在中華民國領域外的中華民國船艦或航空器內犯罪，以在中華民國領域內犯罪論。",
+  "answer": true,
+  "core": "第 3 條後段（旗國主義）。",
+  "basis": "刑法第 3 條",
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
+ },
+ {
+  "id": "crim_gen1_18",
+  "course": "crim_gen1",
+  "week": 15,
+  "type": "mc",
+  "q": "我國人民在國外犯第 5、6 條以外的罪，什麼情況適用我國刑法？",
+  "options": [
+   "任何罪都適用",
+   "最輕本刑三年以上有期徒刑，且犯罪地法律也處罰",
+   "只有犯罪地法律不罰時"
+  ],
+  "answer": 1,
+  "core": "第 7 條：最輕本刑三年以上；犯罪地法律不罰者除外。",
+  "basis": "刑法第 7 條",
+  "status": "AI_DRAFT_UNREVIEWED",
+  "label": "AI 草稿／未經使用者審核"
+ }
+]

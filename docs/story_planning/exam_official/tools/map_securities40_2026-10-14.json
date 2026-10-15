@@ -1,0 +1,295 @@
+{
+ "_comment": "使用者證券交易法 40 題（2026-10-14 約 16:50）對到遊戲課程的方式：全部放證券交易法（大三上，選修），週次 BB 依黑板定。原文開頭與第 20 題後面的整理說明不是題目，不轉。",
+ "1": {
+  "id": "SEC40_01",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": ""
+ },
+ "2": {
+  "id": "SEC40_02",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": "證券交易法 §157-1 I ①"
+ },
+ "3": {
+  "id": "SEC40_03",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": "證券交易法 §157-1 I ②"
+ },
+ "4": {
+  "id": "SEC40_04",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": "證券交易法 §157-1 I ③"
+ },
+ "5": {
+  "id": "SEC40_05",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": "證券交易法 §157-1 I ④"
+ },
+ "6": {
+  "id": "SEC40_06",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": "證券交易法 §157-1 I ⑤"
+ },
+ "7": {
+  "id": "SEC40_07",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": "證券交易法 §157-1 I"
+ },
+ "8": {
+  "id": "SEC40_08",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": ""
+ },
+ "9": {
+  "id": "SEC40_09",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": "證券交易法 §157-1 I"
+ },
+ "10": {
+  "id": "SEC40_10",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": "證券交易法 §157-1 V"
+ },
+ "11": {
+  "id": "SEC40_11",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": "證券交易法第一百五十七條之一第五項及第六項重大消息範圍及其公開方式管理辦法 §5"
+ },
+ "12": {
+  "id": "SEC40_12",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": "證券交易法 §157-1 I"
+ },
+ "13": {
+  "id": "SEC40_13",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": ""
+ },
+ "14": {
+  "id": "SEC40_14",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": ""
+ },
+ "15": {
+  "id": "SEC40_15",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": ""
+ },
+ "16": {
+  "id": "SEC40_16",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": ""
+ },
+ "17": {
+  "id": "SEC40_17",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": ""
+ },
+ "18": {
+  "id": "SEC40_18",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": "證券交易法 §157-1 I ⑤"
+ },
+ "19": {
+  "id": "SEC40_19",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": "證券交易法 §157-1 III"
+ },
+ "20": {
+  "id": "SEC40_20",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": "證券交易法 §157-1 IV"
+ },
+ "21": {
+  "id": "SEC40_21",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 2,
+  "basis": "證券交易法 §6"
+ },
+ "22": {
+  "id": "SEC40_22",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 2,
+  "basis": "證券交易法 §7"
+ },
+ "23": {
+  "id": "SEC40_23",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 2,
+  "basis": "證券交易法 §8"
+ },
+ "24": {
+  "id": "SEC40_24",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 3,
+  "basis": "證券交易法 §13"
+ },
+ "25": {
+  "id": "SEC40_25",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 4,
+  "basis": "證券交易法 §20 I"
+ },
+ "26": {
+  "id": "SEC40_26",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 4,
+  "basis": "證券交易法 §20-1 I"
+ },
+ "27": {
+  "id": "SEC40_27",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 4,
+  "basis": "證券交易法 §20-1 III"
+ },
+ "28": {
+  "id": "SEC40_28",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 7,
+  "basis": "證券交易法 §21"
+ },
+ "29": {
+  "id": "SEC40_29",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 3,
+  "basis": "證券交易法 §22 I"
+ },
+ "30": {
+  "id": "SEC40_30",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 16,
+  "basis": "證券交易法 §28-2 II",
+  "flags": [
+   "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 16 週（證券交易法沒有講庫藏股那一週，放回顧週）。"
+  ]
+ },
+ "31": {
+  "id": "SEC40_31",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 16,
+  "basis": "證券交易法 §28-2 I ①",
+  "flags": [
+   "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 16 週（同第 30 題）。"
+  ]
+ },
+ "32": {
+  "id": "SEC40_32",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 11,
+  "basis": ""
+ },
+ "33": {
+  "id": "SEC40_33",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 11,
+  "basis": "證券交易法 §14-4 II"
+ },
+ "34": {
+  "id": "SEC40_34",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 10,
+  "basis": "證券交易法 §43-1 I"
+ },
+ "35": {
+  "id": "SEC40_35",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 10,
+  "basis": "證券交易法 §43-1 II"
+ },
+ "36": {
+  "id": "SEC40_36",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 2,
+  "basis": "證券交易法 §43-6 I"
+ },
+ "37": {
+  "id": "SEC40_37",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": "證券交易法 §157 I",
+  "flags": [
+   "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 5 週（第 5 週的黑板只寫內線交易（§157-1），短線交易（§157）放在同一週）。"
+  ]
+ },
+ "38": {
+  "id": "SEC40_38",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 5,
+  "basis": "證券交易法 §157 II",
+  "flags": [
+   "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 5 週（同第 37 題）。"
+  ]
+ },
+ "39": {
+  "id": "SEC40_39",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 6,
+  "basis": "證券交易法 §155 I ⑤"
+ },
+ "40": {
+  "id": "SEC40_40",
+  "course": "securities",
+  "term": "Y3S1",
+  "scopeWeek": 6,
+  "basis": "證券交易法 §155 I ⑥"
+ }
+}

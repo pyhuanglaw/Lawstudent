@@ -1,0 +1,60 @@
+{
+ "_comment": "大四期末考題庫（AA 出題並自審；使用者 2026-10-14 16:15 授權，只限大四）。四選一、唯一答案；verified 列出逐字核對過的現行條文（basis_2026-10-14.json）。status：Y4_SELF_REVIEWED＝AA 自審完、還不抽；Y4_CROSS_REVIEWED＝BB 交叉審通過、才抽（AA_130 3-2）。",
+ "course": "labor_social",
+ "term": "Y4S1",
+ "author": "AA",
+ "count": 2,
+ "crossReviewed": 2,
+ "questions": [
+  {
+   "id": "Y4_LSO_06",
+   "course": "labor_social",
+   "term": "Y4S1",
+   "scopeWeek": 10,
+   "type": "mc",
+   "q": "依社會救助法第4條，最低生活費是參照當地區最近一年每人可支配所得中位數的百分之多少訂定？",
+   "options": {
+    "A": "百分之四十",
+    "B": "百分之五十",
+    "C": "百分之六十",
+    "D": "百分之七十"
+   },
+   "answer": "C",
+   "core": "最低生活費由主管機關參照中央主計機關公布的當地區最近一年每人可支配所得中位數百分之六十定之。",
+   "basis": "社會救助法 §4 II",
+   "level": "記憶",
+   "source": "AA_Y4",
+   "author": "AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
+   "verified": [
+    "社會救助法 §4：「每人可支配所得中位數百分之六十定之」"
+   ]
+  },
+  {
+   "id": "Y4_LSO_08",
+   "course": "labor_social",
+   "term": "Y4S1",
+   "scopeWeek": 5,
+   "type": "mc",
+   "q": "年滿十五歲、無一定雇主而參加職業工會的會員，參加勞工職業災害保險時，以誰為投保單位？",
+   "options": {
+    "A": "勞動部",
+    "B": "自己",
+    "C": "最近一次僱用他的雇主",
+    "D": "所屬的職業工會（所屬團體）"
+   },
+   "answer": "D",
+   "core": "無一定雇主或自營作業而參加職業工會之會員，應以其所屬團體為投保單位。",
+   "basis": "勞工職業災害保險及保護法 §7 ①",
+   "level": "應用",
+   "source": "AA_Y4",
+   "author": "AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
+   "verified": [
+    "勞工職業災害保險及保護法 §7：「無一定雇主或自營作業而參加職業工會之會員」"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,85 @@
+{
+ "_comment": "大四期末考題庫（AA 出題並自審；使用者 2026-10-14 16:15 授權，只限大四）。四選一、唯一答案；verified 列出逐字核對過的現行條文（basis_2026-10-14.json）。status：Y4_SELF_REVIEWED＝AA 自審完、還不抽；Y4_CROSS_REVIEWED＝BB 交叉審通過、才抽（AA_130 3-2）。",
+ "course": "tax_law",
+ "term": "Y4S1",
+ "author": "AA",
+ "count": 3,
+ "crossReviewed": 3,
+ "questions": [
+  {
+   "id": "Y4_TAX_03",
+   "course": "tax_law",
+   "term": "Y4S1",
+   "scopeWeek": 11,
+   "type": "mc",
+   "q": "依納稅者權利保護法第7條，稅捐稽徵機關認定課徵租稅之構成要件事實時，應以什麼為依據？",
+   "options": {
+    "A": "契約上記載的名義",
+    "B": "實質經濟事實關係及其所生實質經濟利益之歸屬與享有",
+    "C": "當年度的稅收預算目標",
+    "D": "納稅者的口頭說明"
+   },
+   "answer": "B",
+   "core": "實質課稅原則：以實質經濟事實關係及其所生實質經濟利益之歸屬與享有為依據（原本稅捐稽徵法第12條之1的規定已刪除，移到這裡）。",
+   "basis": "納稅者權利保護法 §7 II",
+   "level": "記憶",
+   "source": "AA_Y4",
+   "author": "AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
+   "verified": [
+    "納稅者權利保護法 §7：「應以實質經濟事實關係及其所生實質經濟利益之歸屬與享有為依據」"
+   ]
+  },
+  {
+   "id": "Y4_TAX_06",
+   "course": "tax_law",
+   "term": "Y4S1",
+   "scopeWeek": 2,
+   "type": "mc",
+   "q": "依所得稅法第71條，綜合所得稅結算申報原則上在什麼期間辦理？",
+   "options": {
+    "A": "每年一月一日起至一月三十一日止",
+    "B": "每年三月一日起至三月三十一日止",
+    "C": "每年五月一日起至五月三十一日止",
+    "D": "每年十二月一日起至十二月三十一日止"
+   },
+   "answer": "C",
+   "core": "納稅義務人應於每年五月一日起至五月三十一日止辦理結算申報（實務上偶有延長，以當年公告為準）。",
+   "basis": "所得稅法 §71 I",
+   "level": "記憶",
+   "source": "AA_Y4",
+   "author": "AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
+   "verified": [
+    "所得稅法 §71：「應於每年五月一日起至五月三十一日止」"
+   ]
+  },
+  {
+   "id": "Y4_TAX_08",
+   "course": "tax_law",
+   "term": "Y4S1",
+   "scopeWeek": 4,
+   "type": "mc",
+   "q": "遺產及贈與稅法所稱的「贈與」，是指什麼？",
+   "options": {
+    "A": "任何金錢的移轉",
+    "B": "只限不動產的移轉",
+    "C": "只限父母給子女的財產",
+    "D": "財產所有人以自己之財產無償給予他人，經他人允受而生效力之行為"
+   },
+   "answer": "D",
+   "core": "本法稱贈與，指財產所有人以自己之財產無償給予他人，經他人允受而生效力之行為。",
+   "basis": "遺產及贈與稅法 §4 II",
+   "level": "記憶",
+   "source": "AA_Y4",
+   "author": "AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
+   "verified": [
+    "遺產及贈與稅法 §4：「財產所有人以自己之財產無償給予他人，經他人允受而生效力之行為」"
+   ]
+  }
+ ]
+}

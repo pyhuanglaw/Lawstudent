@@ -1,0 +1,155 @@
+{
+ "_comment": "使用者行政法 20 題（2026-10-14 約 16:50）對到遊戲課程的方式。BB 依各課每週的黑板定（和 AA_核對_刑法45_行政法20.md 第 4 節一致）；flags 是要回報使用者決定的地方。題目內容不在這裡。",
+ "1": {
+  "id": "ADM20_01",
+  "course": "admin_law",
+  "term": "Y2S1",
+  "scopeWeek": 2,
+  "basis": ""
+ },
+ "2": {
+  "id": "ADM20_02",
+  "course": "admin_law",
+  "term": "Y2S1",
+  "scopeWeek": 2,
+  "basis": "行政程序法 §7",
+  "flags": [
+   "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 2 週（最接近的是第 2 週「依法行政」）。"
+  ]
+ },
+ "3": {
+  "id": "ADM20_03",
+  "course": "admin_law",
+  "term": "Y2S1",
+  "scopeWeek": 5,
+  "basis": "行政程序法 §92"
+ },
+ "4": {
+  "id": "ADM20_04",
+  "course": "admin_law",
+  "term": "Y2S1",
+  "scopeWeek": 12,
+  "basis": "行政程序法 §111 ⑦"
+ },
+ "5": {
+  "id": "ADM20_05",
+  "course": "admin_law",
+  "term": "Y2S1",
+  "scopeWeek": 12,
+  "basis": "行政程序法 §117"
+ },
+ "6": {
+  "id": "ADM20_06",
+  "course": "admin_law",
+  "term": "Y2S1",
+  "scopeWeek": 12,
+  "basis": "行政程序法 §119 ①"
+ },
+ "7": {
+  "id": "ADM20_07",
+  "course": "admin_law",
+  "term": "Y2S1",
+  "scopeWeek": 7,
+  "basis": "行政程序法 §102"
+ },
+ "8": {
+  "id": "ADM20_08",
+  "course": "admin_law",
+  "term": "Y2S1",
+  "scopeWeek": 7,
+  "basis": "行政程序法 §114 I ③"
+ },
+ "9": {
+  "id": "ADM20_09",
+  "course": "admin_law",
+  "term": "Y2S1",
+  "scopeWeek": 6,
+  "basis": "行政程序法 §135"
+ },
+ "10": {
+  "id": "ADM20_10",
+  "course": "admin_law",
+  "term": "Y2S1",
+  "scopeWeek": 10,
+  "basis": "行政罰法 §7 I"
+ },
+ "11": {
+  "id": "ADM20_11",
+  "course": "admin_law",
+  "term": "Y2S1",
+  "scopeWeek": 10,
+  "basis": "行政罰法 §24 I"
+ },
+ "12": {
+  "id": "ADM20_12",
+  "course": "admin_law",
+  "term": "Y2S1",
+  "scopeWeek": 10,
+  "basis": ""
+ },
+ "13": {
+  "id": "ADM20_13",
+  "course": "admin_law",
+  "term": "Y2S1",
+  "scopeWeek": 14,
+  "basis": "行政執行法 §28 I、§30"
+ },
+ "14": {
+  "id": "ADM20_14",
+  "course": "admin_law",
+  "term": "Y2S1",
+  "scopeWeek": 14,
+  "basis": "行政執行法 §28 I、§29"
+ },
+ "15": {
+  "id": "ADM20_15",
+  "course": "admin_remedy",
+  "term": "Y2S2",
+  "scopeWeek": 3,
+  "basis": "訴願法 §81 I 但書"
+ },
+ "16": {
+  "id": "ADM20_16",
+  "course": "admin_remedy",
+  "term": "Y2S2",
+  "scopeWeek": 5,
+  "basis": "行政訴訟法 §4 I"
+ },
+ "17": {
+  "id": "ADM20_17",
+  "course": "admin_remedy",
+  "term": "Y2S2",
+  "scopeWeek": 6,
+  "basis": "行政訴訟法 §5 II"
+ },
+ "18": {
+  "id": "ADM20_18",
+  "course": "admin_law",
+  "term": "Y2S1",
+  "scopeWeek": 11,
+  "basis": "國家賠償法 §2 II",
+  "flags": [
+   "國賠的實體要件在大二上行政法第 11 週教，所以放行政法；國賠也在大二下行政救濟法的範圍（第 1、12 週）。行政救濟法目前只有 4 題（第 15、16、17、20 題），要不要把這一題或第 19 題改放行政救濟法，讓它湊滿 5 題開考，請使用者決定。"
+  ]
+ },
+ "19": {
+  "id": "ADM20_19",
+  "course": "admin_law",
+  "term": "Y2S1",
+  "scopeWeek": 11,
+  "basis": "國家賠償法 §3 I",
+  "flags": [
+   "同第 18 題（可改放行政救濟法）。"
+  ]
+ },
+ "20": {
+  "id": "ADM20_20",
+  "course": "admin_remedy",
+  "term": "Y2S2",
+  "scopeWeek": 13,
+  "basis": "",
+  "flags": [
+   "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 13 週（沒有公物法那一週；最接近的是行政救濟法第 13 週「損失補償」）。"
+  ]
+ }
+}

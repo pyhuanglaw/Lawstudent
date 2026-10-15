@@ -1,0 +1,60 @@
+{
+ "_comment": "大四期末考題庫（AA 出題並自審；使用者 2026-10-14 16:15 授權，只限大四）。四選一、唯一答案；verified 列出逐字核對過的現行條文（basis_2026-10-14.json）。status：Y4_SELF_REVIEWED＝AA 自審完、還不抽；Y4_CROSS_REVIEWED＝BB 交叉審通過、才抽（AA_130 3-2）。",
+ "course": "maritime",
+ "term": "Y4S2",
+ "author": "AA",
+ "count": 2,
+ "crossReviewed": 2,
+ "questions": [
+  {
+   "id": "Y4_MAR_01",
+   "course": "maritime",
+   "term": "Y4S2",
+   "scopeWeek": 2,
+   "type": "mc",
+   "q": "依海商法第1條，海商法所稱的船舶是指什麼？",
+   "options": {
+    "A": "只限在海上航行的船舶",
+    "B": "在海上航行，或在與海相通之水面或水中航行之船舶",
+    "C": "只限總噸位一百噸以上的船舶",
+    "D": "所有在湖泊航行的船舶"
+   },
+   "answer": "B",
+   "core": "本法稱船舶者，謂在海上航行，或在與海相通之水面或水中航行之船舶。",
+   "basis": "海商法 §1",
+   "level": "記憶",
+   "source": "AA_Y4",
+   "author": "AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
+   "verified": [
+    "海商法 §1：「在海上航行，或在與海相通之水面或水中航行之船舶」"
+   ]
+  },
+  {
+   "id": "Y4_MAR_04",
+   "course": "maritime",
+   "term": "Y4S2",
+   "scopeWeek": 4,
+   "type": "mc",
+   "q": "依海商法第53條，載貨證券由誰、在什麼時候發給？",
+   "options": {
+    "A": "運送人或船長於貨物裝載後，因託運人之請求發給",
+    "B": "港務機關於船舶出港時主動發給",
+    "C": "受貨人於收貨後簽發",
+    "D": "海關於報關完成時發給"
+   },
+   "answer": "A",
+   "core": "運送人或船長於貨物裝載後，因託運人之請求，應發給載貨證券。",
+   "basis": "海商法 §53",
+   "level": "記憶",
+   "source": "AA_Y4",
+   "author": "AA",
+   "status": "Y4_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
+   "verified": [
+    "海商法 §53：「運送人或船長於貨物裝載後，因託運人之請求，應發給載貨證券」"
+   ]
+  }
+ ]
+}

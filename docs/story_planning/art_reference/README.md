@@ -1,0 +1,42 @@
+# 角色外觀參考圖（候選美術基準 → BB 第一輪驗收）
+
+> **這是什麼**：使用者用 AI 生成、BB 依 `AA_114`、`BB_109`、`BB_116` 與 06 標準圖驗收過的角色設定圖。全部人物都是虛構的。
+> **用途**：開發參考。LAWWW2 依這些圖對照、調整 3D 模型；AA、BB 挑 CG、寫構圖規格時用。**不是遊戲素材，不放進遊戲。**
+> **驗收規則**（使用者 2026-10-13，`BB_114` 第 9 節）：角色美術由 BB 驗收、直接標 `ART_APPROVED`。仍由使用者決定：重大人物外觀設定變更、遊戲整體畫風更換、主要人物劇情與戀愛路線的重大變更、大量 CG 製作或重大美術方向調整。
+> 檢查紀錄：`BB_116_角色外觀參考圖檢查紀錄.md`（第 13 節是這一輪的驗收總表）。
+
+| 檔案 | 人物 | 遊戲 id | 狀態 | 備註 |
+|---|---|---|---|---|
+| `../../art-rebuild/references/06_six_characters_standard_sheet.webp` | 祐廷、沈以安、林芷若、陳語彤、高子晴、溫書瑀 | `player`、`heroine_01`～`05` | `ART_APPROVED`（沿用 06 標準圖） | 圖上的年齡以正式資料為準（芷若 20、子晴 20、學姊 21）；以安加識別物「手帳」（`AA_114` 第 5 節） |
+| `kexin.webp` | 杜可昕 | （新人物） | `ART_APPROVED` | 最終完整版（使用者 2026-10-13 生成；2026-10-14 從對話紀錄找回存檔，不用重傳）：基礎服裝三視圖、冬天（深綠格紋大圍巾）／正式（白襯衫＋深色西裝外套）／經濟系大一（灰色連帽外套＋帆布托特包）、八個表情、耳環（只戴一邊的小長頸鹿）／帆布鞋／托特包特寫（`BB_116` 3-1、3-2、第 13 節） |
+| `classmate_peishan.webp`＋`classmate_peishan_y3.webp` | 郭沛珊 | `classmate_peishan` | `ART_APPROVED` | 最終完整版（使用者 2026-10-13 生成；2026-10-14 從對話紀錄找回存檔）：三視圖、五個表情（平常、微笑、思考〔輕咬筆蓋〕、擔心、驚訝）、三套服裝差分（冬天、讀書會報告日、哲學系旁聽）；大三起及肩短髮是 `classmate_peishan_y3.webp` |
+| `zhe.webp` | 阿哲（張哲維） | `zhe` | `ART_APPROVED` | |
+| `yian_mother.webp` | 以安的媽媽（名字不寫） | （CG 用，不是遊戲人物） | `ART_APPROVED`（BB 2026-10-14） | 使用者生成（第六組）：臉部近景＋正面全身。短髮夾少量白髮、素色立領上衣、深色長褲、平底鞋、舊皮包、簡單手錶；看不出職業（`AA_114` 5b）。看起來比五十出頭年輕一點，有白髮，可以接受。用在 `AA_121` CG-9 |
+| `heroine05_winter.webp` | 溫書瑀的冬裝（服裝差分） | `heroine_05` | `ART_APPROVED`（BB 2026-10-14） | 使用者生成（第八組）：正面全身＋背面＋頭部小圖。深灰色、偏大的長版羽絨外套（有帽子）、米白毛線圍巾、白襯衫＋深色針織衫、深色長褲、黑色短靴、舊的深藍保溫瓶；低馬尾；頭部小圖是頭髮放下、沾雪（CG 裡的狀態）。臉照 06。用在 `BB_117` BCG-09 |
+| `outlet_cat.webp` | 插座貓（子晴的遊戲主角） | （道具：遊戲、貼紙） | `ART_APPROVED`（BB 2026-10-14） | 使用者生成（第八組）：像素風的灰白色小貓（灰色虎斑、白色胸口和腳掌、粉紅鼻子），脖子用細繩掛著一支小手機，螢幕只有電池圖示；四個姿勢（正面、走路東張西望、找到插座、沒電趴下）＋圓形貼紙。貼紙、遊戲、尾聲桌上都是這一隻。用在 `BB_117` BCG-13 |
+| `ziqing_father.webp` | 子晴的爸爸（名字不寫） | （CG 用，不是遊戲人物） | `ART_APPROVED`（BB 2026-10-14） | 使用者生成（第五組）：臉部近景＋正面全身。兩鬢花白、深灰西裝不打領帶、白襯衫、黑公事包、左手金屬錶、不戴眼鏡；個子高、偏瘦（`BB_109` 5b）。用在 `BB_117` BCG-03 |
+| `yu.webp` | 小語（李語晴） | `yu` | `ART_APPROVED` | 吊飾：天秤（系學會）、麥克風（辯論社）、吉他（吉他社） |
+| `classmate_bohan.webp` | 許柏翰 | `classmate_bohan` | `ART_APPROVED` | |
+| `classmate_xinci.webp` | 吳芯慈 | `classmate_xinci` | `ART_APPROVED` | 整齊的低髮髻【已定案】（現有 3D 是長直髮，要改） |
+| `classmate_mingxuan.webp` | 江明軒 | `classmate_mingxuan` | `ART_APPROVED` | |
+| `kai.webp` | 阿凱（王凱翔） | `kai` | `ART_APPROVED` | 偏瘦【已定案】 |
+| `classmate_youchen.webp` | 賴宥辰 | `classmate_youchen` | `ART_APPROVED` | |
+| `npc_fangyt.webp` | 方奕廷 | `npc_fangyt` | `ART_APPROVED` | |
+| `npc_huangxh.webp` | 黃筱涵 | `npc_huangxh` | `ART_APPROVED` | |
+| `weilun.webp` | 邱韋綸 | （新人物，經濟系） | `ART_APPROVED` | |
+| `pinyu.webp` | 曾品妤 | （新人物，經濟系） | `ART_APPROVED` | |
+| `xun.webp` | 盧正勳（阿勳） | （新人物，經濟系） | `ART_APPROVED` | |
+| `tangrui.webp` | 唐睿 | （新人物，經濟系） | `ART_APPROVED` | |
+| `jiahao.webp` | 宋家豪（學長） | （新人物，經濟系） | `ART_APPROVED` | |
+| `yule.webp` | 程予樂 | （新人物，政大，2D 立繪） | `ART_APPROVED` | |
+| `prof_zhou.webp` | 周教授（周啟明） | `prof_zhou` | `ART_APPROVED` | |
+| `prof_lin.webp` | 林教授（林昭儀） | `prof_lin` | `ART_APPROVED` | |
+| `prof_huang.webp` | 黃教授（黃素芬） | `prof_huang` | `ART_APPROVED` | |
+
+- 從多人總圖裁出來的單人圖（品妤、芯慈、明軒、林教授、程予樂、方奕廷、筱涵、唐睿）是 2026-10-13 第二批的原圖；其他是照修正單改好的版本。
+- 還沒有參考圖（CG 會用到的家長）：
+  - ~~以安的媽媽~~：2026-10-14 已生成、BB 驗收（`yian_mother.webp`）。
+  - ~~子晴的爸爸~~：2026-10-14 已生成、BB 驗收（`ziqing_father.webp`）。
+  - ~~學姊的冬裝、插座貓~~：2026-10-14 已生成、BB 驗收（`heroine05_winter.webp`、`outlet_cat.webp`）。
+  - 阿鳳阿姨（只畫手）、語彤的媽媽（畫得小）、沛珊的媽媽（只在倒影）：照文字規格即可，不必生成參考圖。
+- 畫風：杜可昕偏寫實，其他人偏插畫，06 是半寫實 3D。這些是**外觀基準**；CG 的統一畫風另外寫規格（不改人物的臉型、五官、髮型、身材與識別物）。
