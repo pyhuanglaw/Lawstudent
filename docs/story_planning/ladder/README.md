@@ -1,7 +1,7 @@
 # 閒聊階梯資料（大一上；使用者 2026-10-15 全案通過，直接實作）
 
 - `ladder_bb.json`：BB-B 的芷若（heroine_02）、子晴（heroine_04）、溫學姊（heroine_05）、沛珊（classmate_peishan）、可昕（kexin）＋室友阿凱宿舍事件（`kaiDorm`）。原稿 `../BB_130_閒聊階梯_芷若子晴學姊沛珊_室友阿凱.md`；由 `build_ladder_bb.py` 產生（改台詞改 .py，再跑一次）。
-- 以安、語彤：AA-B 的 `AA_135`、`AA_136`（AA-B 用同一個格式出 `ladder_aa.json`）。
+- `ladder_aa.json`：AA-B 的以安（heroine_01）、語彤（heroine_03）。原稿 `../AA_135`、`../AA_136`；由 `build_ladder_aa.py` 產生。
 
 ## 給 LAWWW-B：欄位
 
@@ -19,6 +19,9 @@
 | `context:'date'`、`dateOnly` | 可昕：**只在「我們的日子」見面或視訊時推進**（不在路上）；`dateOnly:'meet'` 只在見面、`'video'` 只在視訊。沒有 `dating_kexin` 就停 |
 | `greet.base` | 當天推進過、或條件不到時的短招呼：5 句輪替、不連續重複 |
 | `greet.when[]` | 情境句：符合 location／time／weekday（芷若另有 `working`）時**優先**用；一天只說一次同一句 |
+| `dayMin` | （AA）遊戲第幾天以後（開局那天是第 1 天）；以安 A-L1＝第二天的事件之後 |
+| `locTime` | （AA）`{zone:{weekday,time}}`：在這個 zone 只有這些時段才推進（語彤在麵店只有週二、四 20:00～20:30 客人少的時候）；其他 zone 照一般條件 |
+| `greet.when[].weather`、`.week` | （AA）情境句也可以看天氣（`'rain'`）、週次範圍 |
 | `note` | 實作提醒 |
 
 ## 給 LAWWW-B：`kaiDorm`（宿舍事件 K-D1～6）
