@@ -108,7 +108,7 @@ COURSES.append(dict(
                          ('zhe','我表哥是律師，有一次對面是他高中同學。他說那件不管輸贏，都睡不好。')],
                 close='我執業第三年也遇過。那天我猶豫了一整晚。你們剛剛那一下，記住。',
                 record='B_Y4S1_legal_ethics_w3',
-                recall=[dict(memory=dict(npc='heroine_03', tag='RENT_CONSULTATION'), say='你想起大二下那個晚上。阿姨在裡面諮詢，語彤只能坐在門外。')],
+                recall=[dict(memory=dict(npc='heroine_03', tag='RENT_CONSULTATION'), say='你想起大二下那個週六上午。阿姨在裡面諮詢，語彤只能坐在門外。')],
                 echo='語彤事件 9「迴避」（AA_11，大二下）的回聲；不寫成同學的話',
                 skip_line=('zhe','法倫今天問：法服來的人要告你朋友，你接不接。柏翰講得超認真。')),
        react=[], review='律師法的利益衝突規定；需法律審查；B 類討論（AA_119）：律師法、律師倫理規範的利益衝突與受任限制（哪些情形經當事人同意後可以受任）、學生法律服務社團的迴避規則（AA_98 第 18 項）——只講方向，LEGAL_REVIEW_REQUIRED'),
