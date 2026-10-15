@@ -82,6 +82,13 @@ def main(key):
                     if not rec.startswith(f"B_{term}_{c['id']}_w{w}"): problems.append(f'{tag}：record 要是 B_{term}_{c["id"]}_w{w}')
                     e['obs']['record']=rec
                     if o.get('understand'): e['obs']['understand']=o['understand']
+                    if o.get('disc'):
+                        # 討論課的題目（source: CLASS_DISC，BB_129 第 4 節，使用者 2026-10-15 確認）：討論收尾後教授在黑板寫這一題，流程和 ask 相同（玩家選 → 「答案是（X）。」）；askedIn 由 sync_asked.py 同步
+                        dq=BANK.get(o['disc'])
+                        if not dq or dq.get('source')!='CLASS_DISC' or dq.get('status')!='USER_CONFIRMED': problems.append(f"{tag}：討論課題目 {o['disc']} 不在 exam_official/class_disc.json 或不是使用者確認的")
+                        elif dq['term']!=term or dq['course']!=c['id'] or int(dq['scopeWeek'])!=w: problems.append(f"{tag}：討論課題目 {o['disc']} 是 {dq['term']} {dq['course']} 第 {dq['scopeWeek']} 週的")
+                        if wk.get('ask'): problems.append(f'{tag}：同一週不能同時有課堂提問 ask 和討論課題目 disc')
+                        e['obs']['disc']={'qid':o['disc']}
                     if o.get('echo'): e['obs']['echo']=o['echo']
                     if o.get('recall'):
                         # 回想（AA_119 第 3 節的回聲）：條件成立時播一句旁白；預設在 prompt 之後、選項之前，after＝某位同學回應之後
@@ -238,6 +245,7 @@ def render(m, out):
                          +('（理解：'+'、'.join(ob['understand'])+'）' if ob.get('understand') else '')
                          +('<br>**回想**：'+'；'.join(recall_md(r) for r in ob['recall']) if ob.get('recall') else '')
                          +('<br>**回聲**：'+ob['echo'] if ob.get('echo') else '')
+                         +('<br>**討論課題目**（收尾後，教授在黑板寫的題目）：`'+ob['disc']['qid']+'`（'+BANK.get(ob['disc']['qid'],{}).get('core','')+'；答案 '+BANK.get(ob['disc']['qid'],{}).get('answer','')+'）' if ob.get('disc') else '')
                          +('<br>**翹課**：'+WHO.get(ob['skip_line']['who'],ob['skip_line']['who'])+'「'+ob['skip_line']['text']+'」' if ob.get('skip_line') else ''))
             elif e['tpl']=='B': extra = '<br>**觀察**：'+e['obs']['prompt']+' '+'／'.join(f"「{o['text']}」→{o['result']}" for o in e['obs']['options'])
             if e['tpl']=='C': extra = '<br>**選項**：'+'／'.join('「'+o+'」' for o in e['call']['options'])+'<br>**收尾**：'+' '.join('「'+x+'」' for x in e['call']['follow'])

@@ -24,7 +24,7 @@
    "kind": "required",
    "exam": "mc5",
    "sources": [],
-   "confirmed": 0,
+   "confirmed": 1,
    "status": "INSUFFICIENT",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
@@ -35,7 +35,7 @@
    "kind": "required",
    "exam": "mc5",
    "sources": [],
-   "confirmed": 9,
+   "confirmed": 10,
    "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
@@ -105,7 +105,7 @@
    "kind": "required",
    "exam": "mc5",
    "sources": [],
-   "confirmed": 15,
+   "confirmed": 16,
    "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
@@ -118,7 +118,7 @@
    "sources": [
     "exam_official/civil_20_2026-10-14.json"
    ],
-   "confirmed": 14,
+   "confirmed": 16,
    "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
@@ -144,7 +144,7 @@
    "sources": [
     "exam_official/civil_20_2026-10-14.json"
    ],
-   "confirmed": 13,
+   "confirmed": 14,
    "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
@@ -203,7 +203,7 @@
    "sources": [
     "QBANK（src/data/legal_qbank.js）Q001–Q084；Q085 原檔截斷，不用"
    ],
-   "confirmed": 84,
+   "confirmed": 85,
    "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
@@ -225,7 +225,7 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [],
-   "confirmed": 40,
+   "confirmed": 41,
    "status": "ENABLED",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
@@ -247,7 +247,7 @@
    "kind": "required",
    "exam": "mc5",
    "sources": [],
-   "confirmed": 0,
+   "confirmed": 1,
    "status": "INSUFFICIENT",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },
@@ -269,7 +269,7 @@
    "kind": "elective",
    "exam": "mc5",
    "sources": [],
-   "confirmed": 0,
+   "confirmed": 1,
    "status": "INSUFFICIENT",
    "rule": "大一～大三：只用使用者確認的正式題庫；不足 5 題不開考、不補題"
   },

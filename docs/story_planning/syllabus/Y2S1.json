@@ -551,6 +551,9 @@
       ],
       "close": "拿走別人的東西，心裡想的是什麼，決定了罪名。可是心裡想的，要怎麼證明？",
       "record": "B_Y2S1_crim_spec_w10",
+      "disc": {
+       "qid": "DISC_03"
+      },
       "skip_line": {
        "who": "classmate_bohan",
        "text": "今天刑分討論借筆電不還算不算偷。重點是時間點。筆記第 12 頁。"
@@ -768,6 +771,9 @@
       "understand": [
        "U_SALE"
       ],
+      "disc": {
+       "qid": "DISC_04"
+      },
       "recall": [
        {
         "flag": "BIKE_LOOKED_UP",
@@ -851,6 +857,9 @@
       ],
       "close": "法律可以決定地能不能賣。三個孫子還要不要一起過年，法律管不到。",
       "record": "B_Y2S1_property_w7",
+      "disc": {
+       "qid": "DISC_05"
+      },
       "echo": "這一題的紀錄給大三寒假的主線 9（親戚的土地資料（二））讀；回想用主線 2（大一寒假）的記憶，主線 9 在大三寒假，大二還沒發生",
       "recall": [
        {
