@@ -14,11 +14,15 @@ PASS = ('無誤', '已修正', '補充')   # BB_115 的 review.result：通過�
 sha = subprocess.check_output(['git', '-C', ROOT, 'rev-parse', '--short', REF], text=True).strip()
 show = lambda p: subprocess.check_output(['git', '-C', ROOT, 'show', f'{REF}:{p}'], text=True)
 out = {'source': 'claude/story-planning ' + sha, 'courses': {}, 'skip': {}, 'pools': {}, 'second': {}, 'reviewed': [], 'y0': []}   # y0：經濟系那一年的課與台詞池（遊戲裡還沒有）
-KEEP = ('w', 'tpl', 'board', 'line', 'react', 'obs', 'call', 'special', 'second_slot_lines')
+KEEP = ('w', 'tpl', 'board', 'line', 'react', 'obs', 'call', 'special', 'second_slot_lines', 'ask')   # ask＝課堂提問 {qid}（AA_130 第 3 節第 3 點；題目從 EXAM_BANK 讀）
 owner = {}
+# 2026-10-14 課程調整（使用者 16:15，企劃分支 AA_130）：刪掉的 7 門課——就算舊的 JSON 還有，也不匯入
+DROPPED = ('law_society', 'law_society_2', 'juris', 'intl_public', 'legal_history', 'fair_trade', 'conflict_laws')
+dropped_seen = []
 for t in TERMS:
     d = json.loads(show(f'docs/story_planning/syllabus/{t}.json'))
     for c in d.get('courses', []):
+        if c['id'] in DROPPED: dropped_seen.append(c['id']); continue
         if c['id'] in owner: sys.exit(f"課程代號重複：{c['id']}（{owner[c['id']]}、{t}）")
         owner[c['id']] = t
         if t.startswith('Y0'): out['y0'].append(c['id'])
@@ -57,3 +61,4 @@ nweeks = sum(len(v) for v in out['courses'].values())
 print('wrote', dst, 'courses', len(out['courses']), 'weeks', nweeks, 'reviewed', len(out['reviewed']), 'closed', len(closed), 'pools', len(out['pools']), 'skip', len(out['skip']), 'second', len(out['second']), 'bytes', os.path.getsize(dst))
 print('審查項目', len(rv['items']), '通過', sum(1 for it in rv['items'] if ((it.get('review') or {}).get('result')) in PASS))
 if stray: print('指到課表裡沒有的週（', len(stray), '）：', '、'.join(stray[:20]) + ('…' if len(stray) > 20 else ''))
+if dropped_seen: print('略過刪掉的課（AA_130）：', '、'.join(dropped_seen))

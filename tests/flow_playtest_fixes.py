@@ -182,9 +182,10 @@ async def main():
                 await choose(pg, cdp, '睡到傍晚'); await pg.wait_for_timeout(1500)
                 opts2 = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
                 run.check('C 12:00 再「睡到傍晚」（不設鬧鐘）會經過 13:20 的課：先問「照樣跳過／先不要」', any(o.startswith('照樣跳過') and '13:20' in o for o in opts2), json.dumps([opts, opts2], ensure_ascii=False))
+                h0 = await pg.evaluate("GAME.G.hour")   # 小睡醒來是 12:02，之後自由行動時時鐘照常走（2026-10-14 回歸：選單前後走了約 1 分鐘，舊的「離 12:00 不超過 3 分鐘」差 4 秒沒過）
                 await choose(pg, cdp, '先不要'); await pg.wait_for_timeout(1500)
                 h = await pg.evaluate("GAME.G.hour")
-                run.check('C 選「先不要」：時間不動（還是 12:00）', abs(h - 12.0) < 0.05, str(h))
+                run.check('C 選「先不要」：時間不動（沒有跳到傍晚：和選之前差不到 3 分鐘、還在中午）', abs(h - h0) < 0.05 and h < 12.25, f'選之前 {h0:.4f}、選之後 {h:.4f}')
         # ---------- D：帶我去找阿哲 ----------
         run.setup('讀檔：第 3 天（9/19 週五）16:30，霖澤館前 (34,-98)；阿哲 15:30–17:30 在校園走走')
         await L.load_state(pg, {'zone': 'campus', 'hour': 16.5, 'day': 3, 'weekday': 5, 'weather': 'clear', 'pos': {'x': 34, 'z': -98, 'yaw': 0}, 'flags': BASE_FLAGS}, quiet_events=True)

@@ -37,7 +37,7 @@ const line=(id,re)=>ST(id).find(e=>(typeof e==='string'?e:e.t).match(re));
 { const ev=STORY_EVENTS.find(e=>e.id==='ev_xinci_double');
   check('ev_xinci_double：「經濟的期中在債總的隔天。兩科我都還沒念完……我可能要放棄一科。」、大一下、第 195～208 天（2026-03-30～04-12）',ev.dialogue[0].text==='（小聲）經濟的期中在債總的隔天。兩科我都還沒念完……我可能要放棄一科。'&&JSON.stringify(ev.term)==='["Y1S2"]'&&ev.day_min===195&&ev.day_max===208&&dayOf('2026-03-30')===195&&dayOf('2026-04-12')===208);
   check('第 195、208 天是大一下第 6、7 週',CALENDAR.termOf(195).id==='Y1S2'&&CALENDAR.termOf(195).week===6&&CALENDAR.termOf(208).week===7,CALENDAR.termOf(195).week+'、'+CALENDAR.termOf(208).week); }
-{ const e=ST('prof_huang')[0]; check('黃教授：「最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。」、上過法律與社會才說',typeof e==='object'&&e.t==='「最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。」'&&JSON.stringify(e.if)==='{"course":{"law_society":{"min":1}}}'&&ST('prof_huang').length===1); }
+{ const e=ST('prof_huang')[0]; check('黃教授：「最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。」，沒有課程條件（2026-10-14 課程調整：法律與社會刪了，AA_130 第 2 節第 3 列）',e==='「最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。」'&&ST('prof_huang').length===1,JSON.stringify(ST('prof_huang'))); }
 { const e=line('yu',/辯論社下週/); check('小語：「辯論社下週辯『網拍標錯價要不要出貨』。」、第 4～6 週、大一上、一次',!!e&&e.t==='「辯論社下週辯『網拍標錯價要不要出貨』。」'&&JSON.stringify(e.week)==='[4,6]'&&e.once===true); }
 /* ---------- 7-2 不熟同學 ---------- */
 const POOL=Object.keys(CHARACTERS).filter(id=>/^pool_/.test(id));
