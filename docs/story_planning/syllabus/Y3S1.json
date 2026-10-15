@@ -538,6 +538,9 @@
       ],
       "close": "少了一個能被問的人，那句話還能信多少？這題，期末前會再回來。",
       "record": "B_Y3S1_crimpro_w10",
+      "disc": {
+       "qid": "DISC_07"
+      },
       "skip_line": {
        "who": "classmate_xinci",
        "text": "今天林教授講傳聞。阿哲舉了「小語說我很帥」，小語說她沒說過。"
@@ -1124,6 +1127,9 @@
       ],
       "close": "這一項先不結案。你們先想：法律禁止內線交易，是在保護誰？",
       "record": "B_Y3S1_securities_w5",
+      "disc": {
+       "qid": "DISC_08"
+      },
       "skip_line": {
        "who": "classmate_mingxuan",
        "text": "證交法今天問：咖啡店聽到董事講話，回家買股票算不算內線。阿哲說以後要先問隔壁桌。"

@@ -1,0 +1,297 @@
+{
+ "_comment": "討論課裡有明確答案的題目（source: CLASS_DISC）。題目、選項、答案由 BB-B 依那一週的討論寫成（BB_129 第 4 節），使用者 2026-10-15 看過、回「可以放」→ USER_CONFIRMED。那一週的討論收尾後由教授問（syllabus obs.disc），askedIn 由 sync_asked.py 同步；期末考算課堂題（優先抽）。mapBasis＝依據條文，遊戲不顯示。",
+ "source": "BB_129_討論課明確答案候選_給使用者確認.md 第 4 節",
+ "count": 10,
+ "questions": [
+  {
+   "id": "DISC_01",
+   "course": "crim_gen1",
+   "term": "Y1S1",
+   "scopeWeek": 6,
+   "askedIn": {
+    "term": "Y1S1",
+    "course": "crim_gen1",
+    "week": 6
+   },
+   "type": "mc",
+   "q": "救生員值勤時看到泳客溺水，能救而不救；同時在場的一般路人也沒有救。下列敘述何者正確？",
+   "options": {
+    "A": "兩人都成立不作為犯",
+    "B": "救生員因契約負有防止結果發生的義務，可能成立不純正不作為犯；路人原則上不成立",
+    "C": "兩人都不成立，因為刑法不處罰不作為",
+    "D": "路人離得比較近，責任比救生員重"
+   },
+   "answer": "B",
+   "core": "刑法總則・不作為犯與保證人地位",
+   "explanation": "",
+   "mapBasis": "刑法 §15",
+   "source": "CLASS_DISC",
+   "sourceDoc": "BB_129 第 4 節 第 1 題",
+   "status": "USER_CONFIRMED",
+   "confirmedBy": "使用者 2026-10-15（「可以放」）",
+   "flags": [],
+   "mapNote": []
+  },
+  {
+   "id": "DISC_02",
+   "course": "const_1",
+   "term": "Y1S1",
+   "scopeWeek": 11,
+   "askedIn": {
+    "term": "Y1S1",
+    "course": "const_1",
+    "week": 11
+   },
+   "type": "mc",
+   "q": "依111年憲判字第2號判決，民法第195條第1項後段「回復名譽之適當處分」，是否包括法院以判決命加害人公開道歉？",
+   "options": {
+    "A": "包括，這是回復名譽最有效的方法",
+    "B": "包括，但只限加害人同意時",
+    "C": "不包括，才符合憲法保障言論自由及思想自由的意旨",
+    "D": "由法官依個案自由決定"
+   },
+   "answer": "C",
+   "core": "憲法・不表意自由與名譽",
+   "explanation": "",
+   "mapBasis": "111 年憲判字第 2 號",
+   "source": "CLASS_DISC",
+   "sourceDoc": "BB_129 第 4 節 第 2 題",
+   "status": "USER_CONFIRMED",
+   "confirmedBy": "使用者 2026-10-15（「可以放」）",
+   "flags": [],
+   "mapNote": []
+  },
+  {
+   "id": "DISC_03",
+   "course": "crim_spec",
+   "term": "Y2S1",
+   "scopeWeek": 10,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "crim_spec",
+    "week": 10
+   },
+   "type": "mc",
+   "q": "甲向同學借筆電，借的時候確實打算歸還；一週後起意據為己有，拒不返還。甲可能成立何罪？",
+   "options": {
+    "A": "竊盜罪",
+    "B": "侵占罪",
+    "C": "詐欺罪",
+    "D": "不成立犯罪"
+   },
+   "answer": "B",
+   "core": "刑法分則・竊盜與侵占",
+   "explanation": "",
+   "mapBasis": "刑法 §320、§335",
+   "source": "CLASS_DISC",
+   "sourceDoc": "BB_129 第 4 節 第 3 題",
+   "status": "USER_CONFIRMED",
+   "confirmedBy": "使用者 2026-10-15（「可以放」）",
+   "flags": [],
+   "mapNote": []
+  },
+  {
+   "id": "DISC_04",
+   "course": "property",
+   "term": "Y2S1",
+   "scopeWeek": 4,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "property",
+    "week": 4
+   },
+   "type": "mc",
+   "q": "乙的腳踏車被偷，小偷在網路上賣給不知情的丙。依民法，下列何者正確？",
+   "options": {
+    "A": "丙善意取得，乙不能請求返還",
+    "B": "乙自喪失占有之時起二年內，得向丙請求回復其物",
+    "C": "乙只能向小偷請求賠償",
+    "D": "乙的請求沒有期間限制"
+   },
+   "answer": "B",
+   "core": "民法物權・盜贓物的回復",
+   "explanation": "",
+   "mapBasis": "民法 §949",
+   "source": "CLASS_DISC",
+   "sourceDoc": "BB_129 第 4 節 第 4 題",
+   "status": "USER_CONFIRMED",
+   "confirmedBy": "使用者 2026-10-15（「可以放」）",
+   "flags": [],
+   "mapNote": []
+  },
+  {
+   "id": "DISC_05",
+   "course": "property",
+   "term": "Y2S1",
+   "scopeWeek": 7,
+   "askedIn": {
+    "term": "Y2S1",
+    "course": "property",
+    "week": 7
+   },
+   "type": "mc",
+   "q": "甲、乙、丙三人共有一筆土地，應有部分各三分之一。甲、乙要出售，丙反對。依土地法第34條之1，下列何者正確？",
+   "options": {
+    "A": "須全體同意，不能出售",
+    "B": "共有人過半數、應有部分合計也過半數，可以出售",
+    "C": "應有部分合計要超過三分之二才可以",
+    "D": "須先經法院裁定"
+   },
+   "answer": "B",
+   "core": "民法物權・共有土地的處分",
+   "explanation": "",
+   "mapBasis": "土地法 §34-1 I",
+   "source": "CLASS_DISC",
+   "sourceDoc": "BB_129 第 4 節 第 5 題",
+   "status": "USER_CONFIRMED",
+   "confirmedBy": "使用者 2026-10-15（「可以放」）",
+   "flags": [],
+   "mapNote": []
+  },
+  {
+   "id": "DISC_06",
+   "course": "oblig_spec",
+   "term": "Y2S2",
+   "scopeWeek": 3,
+   "askedIn": {
+    "term": "Y2S2",
+    "course": "oblig_spec",
+    "week": 3
+   },
+   "type": "mc",
+   "q": "二手手機的買賣約定「售出不退」（免除瑕疵擔保），賣家明知手機有瑕疵卻故意不告知。這項約定的效力是？",
+   "options": {
+    "A": "有效",
+    "B": "無效",
+    "C": "效力未定",
+    "D": "買家得撤銷"
+   },
+   "answer": "B",
+   "core": "債法各論・瑕疵擔保的免除",
+   "explanation": "",
+   "mapBasis": "民法 §366",
+   "source": "CLASS_DISC",
+   "sourceDoc": "BB_129 第 4 節 第 6 題",
+   "status": "USER_CONFIRMED",
+   "confirmedBy": "使用者 2026-10-15（「可以放」）",
+   "flags": [],
+   "mapNote": []
+  },
+  {
+   "id": "DISC_07",
+   "course": "crimpro",
+   "term": "Y3S1",
+   "scopeWeek": 10,
+   "askedIn": {
+    "term": "Y3S1",
+    "course": "crimpro",
+    "week": 10
+   },
+   "type": "mc",
+   "q": "被害人向朋友敘述被害經過，朋友到法院轉述。依刑事訴訟法第159條第1項，這段轉述原則上？",
+   "options": {
+    "A": "可以作為證據",
+    "B": "除法律有規定者外，不得作為證據",
+    "C": "只要朋友具結就可以作為證據",
+    "D": "證據能力由法官自由判斷，不受限制"
+   },
+   "answer": "B",
+   "core": "刑事訴訟法・傳聞法則",
+   "explanation": "",
+   "mapBasis": "刑事訴訟法 §159 I",
+   "source": "CLASS_DISC",
+   "sourceDoc": "BB_129 第 4 節 第 7 題",
+   "status": "USER_CONFIRMED",
+   "confirmedBy": "使用者 2026-10-15（「可以放」）",
+   "flags": [],
+   "mapNote": []
+  },
+  {
+   "id": "DISC_08",
+   "course": "securities",
+   "term": "Y3S1",
+   "scopeWeek": 5,
+   "askedIn": {
+    "term": "Y3S1",
+    "course": "securities",
+    "week": 5
+   },
+   "type": "mc",
+   "q": "依證券交易法第157條之1，在實際知悉公司重大消息後、消息公開前買賣股票，下列何人屬於規範的對象？",
+   "options": {
+    "A": "只限董事、監察人、經理人",
+    "B": "從董事等內部人獲悉消息的人，也包括在內",
+    "C": "只限持股超過百分之十的大股東",
+    "D": "散戶一律不受規範"
+   },
+   "answer": "B",
+   "core": "證券交易法・內線交易的規範對象",
+   "explanation": "",
+   "mapBasis": "證券交易法 §157-1 I ⑤",
+   "source": "CLASS_DISC",
+   "sourceDoc": "BB_129 第 4 節 第 8 題",
+   "status": "USER_CONFIRMED",
+   "confirmedBy": "使用者 2026-10-15（「可以放」）",
+   "flags": [],
+   "mapNote": []
+  },
+  {
+   "id": "DISC_09",
+   "course": "insurance",
+   "term": "Y3S2",
+   "scopeWeek": 5,
+   "askedIn": {
+    "term": "Y3S2",
+    "course": "insurance",
+    "week": 5
+   },
+   "type": "mc",
+   "q": "要保人投保時，對保險人書面詢問的事項隱匿了一項病史。後來發生的保險事故和這項病史無關，而且要保人證明了這一點。依保險法第64條，保險人？",
+   "options": {
+    "A": "得解除契約，不負賠償責任",
+    "B": "不得以此解除契約",
+    "C": "只需賠償一半",
+    "D": "須經主管機關同意才能解除"
+   },
+   "answer": "B",
+   "core": "保險法・告知義務",
+   "explanation": "",
+   "mapBasis": "保險法 §64",
+   "source": "CLASS_DISC",
+   "sourceDoc": "BB_129 第 4 節 第 9 題",
+   "status": "USER_CONFIRMED",
+   "confirmedBy": "使用者 2026-10-15（「可以放」）",
+   "flags": [],
+   "mapNote": []
+  },
+  {
+   "id": "DISC_10",
+   "course": "labor_law",
+   "term": "Y3S2",
+   "scopeWeek": 5,
+   "askedIn": {
+    "term": "Y3S2",
+    "course": "labor_law",
+    "week": 5
+   },
+   "type": "mc",
+   "q": "依勞動基準法第84條之1，下列何者正確？",
+   "options": {
+    "A": "雇主和勞工簽了同意書，任何工作都可以適用責任制",
+    "B": "限經中央主管機關核定公告的工作者，並以書面約定、報請當地主管機關核備",
+    "C": "適用責任制的勞工，一律沒有加班費",
+    "D": "只要是主管職，就自動適用"
+   },
+   "answer": "B",
+   "core": "勞動法・責任制",
+   "explanation": "",
+   "mapBasis": "勞動基準法 §84-1",
+   "source": "CLASS_DISC",
+   "sourceDoc": "BB_129 第 4 節 第 10 題",
+   "status": "USER_CONFIRMED",
+   "confirmedBy": "使用者 2026-10-15（「可以放」）",
+   "flags": [],
+   "mapNote": []
+  }
+ ]
+}

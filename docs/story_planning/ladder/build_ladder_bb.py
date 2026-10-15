@@ -195,6 +195,13 @@ D['kaiDorm'] = [
   'choices':[{'t':'「謝謝。」','reply':'不客氣 它目前只會說「所以」','rel':{'kai':{'fam':2}}}]},
 ]
 
+D['bikeSeat'] = {'_comment':'腳踏車載妹墊（AA_137 第 5 節）：FAMILIAR 以上、約好同行才坐；學姊有伴侶時不坐、走在旁邊（walk）。可昕、以安、語彤、阿凱、阿哲的台詞在 AA_137／ladder_aa.json。',
+ ZR:{'min':'FAMILIAR','on':'……我第一次坐別人的後座。不要笑。','off':'謝謝。……你騎得比我想的穩。','decline':'我走路就好。我喜歡看路邊的店。'},
+ ZQ:{'min':'FAMILIAR','on':'欸不是，這個墊子是你自己裝的？……好，出發。這不是問句。','off':'再騎一圈。……騙你的。到了。','decline':'我會暈車。腳踏車也會。……好啦是我還不熟你。'},
+ PS:{'min':'FAMILIAR','on':'我可以問一個奇怪的問題嗎？……坐後座要抓哪裡？','off':'好好玩。我小時候都坐我爸的機車後座送蛋餅。','decline':'我走路！我走得很快，你看。'},
+ SIS:{'whilePartner':'walk','walkOn':'我走路就好。三件事：一，我喜歡走路。二，你騎慢一點，我跟得上。三，……沒有三。','walkOff':'一，你騎得太慢了。二，那是我叫你的。三，謝謝。','afterPartner':{'min':'FAMILIAR','note':'分手以後照 FAMILIAR 規則；台詞大三上再寫'}},
+}
+
 def check(d):
     err=[]
     for cid,c in d['characters'].items():

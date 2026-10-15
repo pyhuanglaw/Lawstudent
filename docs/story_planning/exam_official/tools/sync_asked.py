@@ -18,8 +18,8 @@ for f in sorted(glob.glob(os.path.join(syl, '*.json'))):
     d = json.load(open(f, encoding='utf-8'))
     for c in d['courses']:
         for w in c['syllabus']:
-            if w.get('ask'):
-                qid = w['ask']['qid']
+            qids = ([w['ask']['qid']] if w.get('ask') else []) + ([w['obs']['disc']['qid']] if (w.get('obs') or {}).get('disc') else [])   # 課堂提問＋討論課題目（obs.disc，2026-10-15）
+            for qid in qids:
                 if qid in asks: err.append(f"{qid} 在兩個地方問：{asks[qid]} 和 {d['term']} {c['id']} 第 {w['w']} 週")
                 asks[qid] = {'term': d['term'], 'course': c['id'], 'week': w['w']}
 

@@ -386,6 +386,9 @@
       ],
       "close": "要保書上的每一個勾，出事以後都會被重看一次。下週，換你是被拒賠的那個人。",
       "record": "B_Y3S2_insurance_w5",
+      "disc": {
+       "qid": "DISC_09"
+      },
       "skip_line": {
        "who": "zhe",
        "text": "簡教授今天問沒說小毛病能不能不賠。我回家問我媽，我的保單是誰填的。"
@@ -960,6 +963,9 @@
       "understand": [
        "U_WORK"
       ],
+      "disc": {
+       "qid": "DISC_10"
+      },
       "skip_line": {
        "who": "classmate_mingxuan",
        "text": "勞動法今天問「你是責任制」對不對。我算了家教備課的那一小時。"
