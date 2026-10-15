@@ -69,7 +69,7 @@ check('8. 選地點時寫原因、選了約不到的地方先說原因再選一�
 // 9. 畫面
 const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
 check('9. 手機朋友頁：有原因就寫原因、不出「約」按鈕',/const why=typeof INV!=='undefined'&&INV\.whyNot\?INV\.whyNot\(G,id\):''/.test(g3)&&/const canInv=typeof INV!=='undefined'&&!why&&/.test(g3)&&/canInv\?'<button class="btn pri" data-inv="'\+esc\(id\)\+'">約<\/button>':\(why\?/.test(g3));
-const s3=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), tc=s3.slice(s3.indexOf('S.talkCharacter=async function'),s3.indexOf('let GM_ref=null'));
+const s3=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), tc=s3.slice(s3.indexOf('S.offerInvite=async function'),s3.indexOf('let GM_ref=null'));   /* 2026-10-15：當面約的選單搬到 S.offerInvite（舊的 talkAn 等也用），talkCharacter 呼叫它 */
 check('9. 聊天：有點熟以後、沒有聯絡方式才有「交換聯絡方式」，對方的一句照 INVITE_DATA.exchange，然後加聯絡方式',/!INV\.hasContact\(G,id\)&&SOCIAL\.STAGES\.indexOf\(SOCIAL\.stage\(id\)\)>=SOCIAL\.STAGES\.indexOf\('FAMILIAR'\)\) O\.push\(\{t:'交換聯絡方式'/.test(tc)&&/INVITE_DATA\.exchange/.test(tc)&&/INV\.addContact\(G,id\)/.test(tc));
 const EX=INVITE_DATA.exchange||{};
 check('9. AA 的五位都有保底的一句（AA_124 1-7 的表）：以安、語彤、小語、柏翰、芯慈',['heroine_01','heroine_03','yu','classmate_bohan','classmate_xinci'].every(id=>Array.isArray(EX[id])&&EX[id].length&&EX[id].every(l=>l.say||l.narr)),Object.keys(EX).join(','));

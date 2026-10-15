@@ -343,6 +343,7 @@ const GAME = (function(){
     body.querySelectorAll('[data-thback]').forEach(b=>b.onclick=()=>{ phoneThread=null; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
     body.querySelectorAll('[data-place]').forEach(b=>b.onclick=async()=>{ const pl=PLACE_LIST().find(q=>q[0]+'|'+q[1]===b.dataset.place); if(pl) await quickGo(pl); });
     body.querySelectorAll('[data-find]').forEach(b=>b.onclick=()=>{ if(findPerson(b.dataset.find)) closePhone(); });
+    body.querySelectorAll('[data-msg]').forEach(b=>b.onclick=()=>{ phoneTab='msg'; phoneThread='p:'+b.dataset.msg; renderPhone(); phoneBadge(); const pb=$('phoneBody'); if(pb) pb.scrollTop=pb.scrollHeight; });
     document.querySelectorAll('#phoneTabs button').forEach(b=>b.classList.toggle('on',b.dataset.ptab===phoneTab));
     body.querySelectorAll('[data-go]').forEach(b=>b.onclick=async()=>{ const it=CLS.dayItems(G).find(q=>q.key===b.dataset.go); if(!it) return; if(E.player.busy){ toast('現在不能移動'); return; } closePhone(); const zn=it.room.zone; if(G.zone===zn){ toast('你已經在'+(zn==='classroom'?'教室':it.room.name.replace(/ \S+$/,''))+'了。'+(zn==='classroom'?'':'教室是 '+it.room.name+'，')+'找個位子坐下就可以上課。',4200); return; }
       const mins=zn==='classroom'&&G.zone==='linze'?3:CLS.travelMinutes(G,G.zone,zn,E.player.obj.position); advance(mins/60); energy(-2); await enter(zn); toast((zn==='classroom'?'':'走了 '+mins+' 分鐘。教室是 '+it.room.name+'，')+(it.room.door?((CLS.DOORS[it.room.door]||{}).verb==='報到'?'到「'+(it.room.label||it.room.name)+'」報到':'到「'+(it.room.label||it.room.name)+'」門口就可以上課'):'找個位子坐下就可以上課')+'（'+CLS.hhmm(it.t0)+' 開始）',4200); }); }   /* 2026-10-13：建築裡的教室（共同教學館…）也可以；時間照距離 */
@@ -368,15 +369,20 @@ const GAME = (function(){
       const where=a.roomName||(PLACES.names&&PLACES.names[a.zone])||''; const pl=PL.find(q=>q[0]===a.zone)||PL.find(q=>q[0]==='campus'&&q[1]===(PLACES.names&&PLACES.names[a.zone]));
       h+='<div class="item phrow"><div>'+esc(a.title)+'<div class="muted">'+esc(when)+(where?'・'+esc(where):'')+'</div></div>'+(pl&&!(k===0&&G.hour%24>=a.t1)?'<button class="btn" data-place="'+esc(pl[0]+'|'+pl[1])+'">前往</button>':'')+'</div>'; }
     return h; }
+  /* 校園裡的人：照作息的位置（linger 的 at、傅鐘的長椅）挑最近的校園快速地點；不知道確切位置就用第一個（霖澤館前），到了再用「帶我去」 */
+  function campusPlaceFor(id,PL){ const C=PL.filter(q=>q[0]==='campus'); if(!C.length) return null; const ent=STORY.schedEnt?STORY.schedEnt(CHARACTERS[id],G):null; let xy=null;
+    if(ent&&ent.at) xy=[ent.at[0],ent.at[1]]; else if(ent&&ent.seat==='bell') xy=[-30,20.94]; if(!xy) return C[0];
+    let best=C[0], bd=1e9; for(const q of C){ const sp=q[2]; if(!sp) continue; const d=Math.hypot(sp.x-xy[0],sp.z-xy[1]); if(d<bd){ bd=d; best=q; } } return best; }
   /* 手機「朋友」（D54 ④：手機資訊是協助找人，不是任務標記）：認識的人現在大概在哪（照作息，和大地圖的人物線索同一份）；在別的地方的，可以快速前往那個地方（照樣花時間）*/
   function friendsHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); const ids=knownIds(); const PL=PLACE_LIST();
     if(!ids.length) return '<div class="item muted">還沒有認識的人。</div>';
     let h='<div class="item muted">大家照自己的作息在校園裡生活；這裡寫的是「大概在哪」，去了不一定剛好遇到。</div>';
     for(const id of ids){ const w=STORY.whereIs&&STORY.whereIs(GM,id); const nm=(typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(id):((CHARACTERS[id]||{}).name||id);
-      const pl=w&&w.zone!=='campus'&&w.zone!==G.zone?PL.find(q=>q[0]===w.zone):null; const st=pl?placeState(pl):null;
+      const pl=w&&w.zone&&w.zone!==G.zone?(w.zone==='campus'?campusPlaceFor(id,PL):PL.find(q=>q[0]===w.zone)):null; const st=pl?placeState(pl):null;   /* 校園裡的人也可以「過去」：到離他最近的校園地點（使用者 2026-10-15：有的可以直接過去、有的只能導航）*/
+      const msg=typeof INV!=='undefined'&&INV.hasContact(G,id)?'<button class="btn" data-msg="'+esc(id)+'">訊息</button>':'';   /* 有聯絡方式＝可以直接傳訊息（約人和訊息放在一起：使用者 2026-10-15）*/
       const why=typeof INV!=='undefined'&&INV.whyNot?INV.whyNot(G,id):'';   /* 約不了的原因（AA_125 第 1 節：只打過招呼、沒有聯絡方式、已經約好了、不在學校）*/
       const canInv=typeof INV!=='undefined'&&!why&&INV.hasContact(G,id)&&INV.canInvite(G,id);   /* 有聯絡方式的才能用手機約（使用者第 2 點：認識的朋友才有聯絡方式）*/
-      h+='<div class="item phrow"><div>'+esc(nm)+'<div class="muted">'+(w?esc(whereText(id))+(w.zone===G.zone?'・就在這裡':''):'現在沒有固定的行程')+'</div></div><div class="row2" style="gap:6px">'+(pl&&st&&st.known?'<button class="btn" data-place="'+esc(pl[0]+'|'+pl[1])+'">過去（約 '+st.mins+' 分鐘）</button>':'')+(w&&w.zone&&!w.away?'<button class="btn" data-find="'+esc(id)+'">帶我去</button>':'')+(canInv?'<button class="btn pri" data-inv="'+esc(id)+'">約</button>':(why?'<span class="muted" style="font-size:12px;align-self:center">'+esc(why)+'</span>':''))+'</div></div>'; }
+      h+='<div class="item phrow"><div>'+esc(nm)+'<div class="muted">'+(w?esc(whereText(id))+(w.zone===G.zone?'・就在這裡':''):'現在沒有固定的行程')+'</div></div><div class="row2" style="gap:6px">'+(pl&&st&&st.known?'<button class="btn" data-place="'+esc(pl[0]+'|'+pl[1])+'">過去（約 '+st.mins+' 分鐘）</button>':'')+(w&&w.zone&&!w.away?'<button class="btn" data-find="'+esc(id)+'">帶我去</button>':'')+msg+(canInv?'<button class="btn pri" data-inv="'+esc(id)+'">約</button>':(why?'<span class="muted" style="font-size:12px;align-self:center">'+esc(why)+'</span>':''))+'</div></div>'; }
     return h; }
   /* 手機「訊息」（D54 ⑥）：約人、對方的回答、沒赴約……最新的在上面；對方約你、改約的有回覆的按鈕（src/invites3d.js）*/
   /* 手機「訊息」（交接包 v1：群組、置頂、可以回的訊息，src/phone3d.js）：最上面是「待回覆」（邀約、可以回的訊息）、對話串（點了看整段，群組的置頂在最上面），下面照舊是最近的訊息 */
@@ -386,7 +392,8 @@ const GAME = (function(){
   const askBtns=m=>'<div class="row2" style="gap:6px;margin-top:6px;flex-wrap:wrap">'+m.ask.opts.map((o,k)=>'<button class="btn'+(k===0?' pri':'')+'" data-ask="'+escH(m.ask.id+'|'+k)+'">'+escH(o.t)+'</button>').join('')+'</div>';
   const msgLine=m=>{ if(typeof PHONE==='undefined'||!m.th) return escH(m.text); const g=m.th.startsWith('g:'), w=PHONE.who(m); return (g?'<span class="muted">【'+escH(PHONE.title(G,m.th))+'】</span>':'')+(w?'<b>'+escH(w)+'</b>：':'')+escH(m.text); };
   function threadHTML(th){ PHONE.markSeen(G,th); const L=PHONE.thread(G,th), g=th.startsWith('g:')||th==='sys';   /* 通知（sys）也寫是誰傳的：新聞、張教授（信）（颱風假 T1b）；沒有寄件人的系統訊息照舊只有內容 */
-    let h='<div class="item phrow"><button class="btn" data-thback="1">‹ 訊息</button><b>'+escH(PHONE.title(G,th))+'</b></div>';
+    const pid=th.startsWith('p:')?th.slice(2):null, why=pid&&typeof INV!=='undefined'&&INV.whyNot?INV.whyNot(G,pid):'x', canInv=!!pid&&!why&&INV.hasContact(G,pid)&&INV.canInvite(G,pid);   /* 一對一的對話裡也可以約（約人和訊息放在一起：使用者 2026-10-15）*/
+    let h='<div class="item phrow"><button class="btn" data-thback="1">‹ 訊息</button><b>'+escH(PHONE.title(G,th))+'</b>'+(canInv?'<button class="btn pri" data-inv="'+escH(pid)+'">約</button>':'')+'</div>';
     for(const m of L.filter(q=>q.pin)) h+='<div class="item pin"><div class="muted">（置頂）'+msgWhen(m)+'</div>'+(PHONE.who(m)?'<b>'+escH(PHONE.who(m))+'</b>：':'')+escH(m.text)+'</div>';
     for(const m of L.filter(q=>!q.pin)) h+='<div class="item'+(m.from==='player'?' me':'')+'"><div class="muted">'+msgWhen(m)+'</div>'+(g&&m.from!=='player'&&PHONE.who(m)?'<b>'+escH(PHONE.who(m))+'</b>：':'')+(m.fold&&m.fold.length?'<details class="fold"><summary>'+escH(m.text)+'……（點開看全文）</summary>'+m.fold.map(escH).join('<br>')+'</details>':escH(m.text))+((PHONE.askOpen?PHONE.askOpen(G,m):(m.ask&&m.ans==null))?askBtns(m):'')+'</div>';   /* fold：長的訊息折起來（W3b 學姊的長回覆）*/
     return h; }
