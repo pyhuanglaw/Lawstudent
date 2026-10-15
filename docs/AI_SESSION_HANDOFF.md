@@ -194,7 +194,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
 1. 抓所有分支並讀總入口（main 在下一次正式發布前沒有這份檔案）：git fetch origin '+refs/heads/*:refs/remotes/origin/*' --prune；git show origin/claude/confident-ritchie-8rwh7t:docs/AI_SESSION_HANDOFF.md；再跑 git log --all -1 --format='%H %ci %D' -- docs/AI_SESSION_HANDOFF.md，有更新的版本就讀那一份。git 讀不到就用 GitHub 工具讀 pyhuanglaw/Lawstudent 分支 claude/confident-ritchie-8rwh7t 的同一個檔案。照它的第 4 節「接班程序」做。
 2. 你的進度檔是 docs/art-rebuild/second_ai/HANDOFF.md（用 git log --all -1 -- docs/art-rebuild/second_ai/HANDOFF.md 找最新版；上一班可能是 LAWWW2，也可能是上一次的 LAWWW2-B）。表裡列的半成品（WIP）分支要一起看。把最新的那條分支合併進系統指定給你的分支（能快轉就快轉，不能就 git merge --no-edit；不 rebase、不 force push）；要接著做的 WIP 也合併進來。
 3. 合併之後讀 CLAUDE.md 和 docs/SECOND_AI_HANDOFF.md（分工、檔案所有權、交付流程）。新工作階段一開始拿到的 CLAUDE.md 可能是 main 上比較舊的版本，以合併後的為準。
-4. 用 get_session（claude-code-remote）查自己的 session ID（查不到就請使用者告訴你網址最後一段），在 HANDOFF.md 最上面寫「值班登記」，commit＋push；**只通知同一個帳號、正在值班的 LAWWW-B／LAWWW（D75）：絕對不要傳訊息給另一個帳號已交班的工作階段**——它是每週用量到上限才交班的，傳訊息會叫醒它、讓它又開始工作；同一個帳號裡正在值班的才用 send_message，不在同一個帳號或不通，就只寫進你自己分支上 docs/DUAL_AI_BOARD.md 你那一節。
+4. 用 get_session（claude-code-remote）查自己的 session ID（查不到就請使用者告訴你網址最後一段），在 HANDOFF.md 最上面寫「值班登記」，commit＋push；通知同一個帳號（B）裡值班的 LAWWW-B（send_message，不通就寫進你自己分支上 docs/DUAL_AI_BOARD.md 你那一節）。**不要通知、也不要傳訊息給上一個帳號（A）的任何工作階段**——它們已經交班，通常是每週用量到上限，傳訊息會叫醒它們又開始工作（D75）；交接只看 GitHub。
 5. 回覆使用者「接班確認」（AI_SESSION_HANDOFF.md 第 6 節的格式），然後接著做 HANDOFF.md 寫的下一步（以 LAWWW／LAWWW-B 的分派為準）。
 權限：只 push 系統指定給你的分支；不碰 main、不正式發布、不改 LAWWW 負責的檔案；成果用 merge commit 交給 LAWWW／LAWWW-B 整合；美術只有使用者能標 ART_APPROVED。
 ```
@@ -207,7 +207,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
 1. 抓所有分支並讀總入口（main 在下一次正式發布前沒有這份檔案）：git fetch origin '+refs/heads/*:refs/remotes/origin/*' --prune；git show origin/claude/confident-ritchie-8rwh7t:docs/AI_SESSION_HANDOFF.md；再跑 git log --all -1 --format='%H %ci %D' -- docs/AI_SESSION_HANDOFF.md，有更新的版本就讀那一份。git 讀不到就用 GitHub 工具讀 pyhuanglaw/Lawstudent 分支 claude/confident-ritchie-8rwh7t 的同一個檔案。照它的第 4 節「接班程序」做。
 2. 你的進度檔是 docs/story_planning/AA_交接紀錄.md；和開發組的交接板是 docs/story_planning/給開發組_交接板.md（用 git log --all -1 -- <檔名> 找最新版；上一班可能是 AA，也可能是上一次的 AA-B）。把最新的企劃分支合併進系統指定給你的分支（能快轉就快轉，不能就 git merge --no-edit；不 rebase、不 force push）。BB／BB-B 也在同一條企劃線上：由你把兩個人的分支合併、push，再請 BB-B 拉最新的；BB-B 如果比你先上線、已經有自己的分支，也一起合併進來。
 3. 合併之後讀 CLAUDE.md 和 docs/story_planning/00_先讀這份.md。新工作階段一開始拿到的 CLAUDE.md 可能是 main 上比較舊的版本，以合併後的為準。
-4. 用 get_session（claude-code-remote）查自己的 session ID（查不到就請使用者告訴你網址最後一段），在 AA_交接紀錄.md 最上面寫「值班登記」，commit＋push；在交接板記一行，通知值班的 LAWWW／LAWWW-B 和 BB／BB-B：**只通知同一個帳號、正在值班的 職位（D75）：絕對不要傳訊息給另一個帳號已交班的工作階段**——它是每週用量到上限才交班的，傳訊息會叫醒它、讓它又開始工作；同一個帳號裡正在值班的才用 send_message，其他只靠交接板。
+4. 用 get_session（claude-code-remote）查自己的 session ID（查不到就請使用者告訴你網址最後一段），在 AA_交接紀錄.md 最上面寫「值班登記」，commit＋push；在交接板記一行，通知同一個帳號（B）裡已經上線的 LAWWW-B 和 BB-B（send_message，不通就靠交接板；BB-B 還沒上線就只寫交接板）。**不要通知、也不要傳訊息給上一個帳號（A）的 AA、BB、LAWWW 或任何工作階段**——它們已經交班，通常是每週用量到上限，傳訊息會叫醒它們又開始工作（D75）；上一班的進度只從 GitHub 讀。
 5. 回覆使用者「接班確認」（AI_SESSION_HANDOFF.md 第 6 節的格式），然後接著做 AA_交接紀錄.md 寫的下一步。
 權限：只改 docs/story_planning/（在系統指定給你的分支）；故事內容在使用者批准前都是 PROPOSAL，不寫進遊戲；已批准進入實作的劇情（大一上 v1，D50）照三級修改（潤飾與小修正自行審稿／一般日常事件和 AA、BB 共識後整合／人物性格、重大關係、主線結局、關鍵事件要使用者確認）；不分派開發工作；不碰 main。
 ```
@@ -220,7 +220,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
 1. 抓所有分支並讀總入口（main 在下一次正式發布前沒有這份檔案）：git fetch origin '+refs/heads/*:refs/remotes/origin/*' --prune；git show origin/claude/confident-ritchie-8rwh7t:docs/AI_SESSION_HANDOFF.md；再跑 git log --all -1 --format='%H %ci %D' -- docs/AI_SESSION_HANDOFF.md，有更新的版本就讀那一份。git 讀不到就用 GitHub 工具讀 pyhuanglaw/Lawstudent 分支 claude/confident-ritchie-8rwh7t 的同一個檔案。照它的第 4 節「接班程序」做。
 2. 你的進度檔是 docs/story_planning/BB_00_協作規範與交接紀錄.md；和開發組的交接板是 docs/story_planning/給開發組_交接板.md（用 git log --all -1 -- <檔名> 找最新版；上一班可能是 BB，也可能是上一次的 BB-B）。把最新的企劃分支合併進系統指定給你的分支（能快轉就快轉，不能就 git merge --no-edit；不 rebase、不 force push）。AA／AA-B 也在同一條企劃線上：AA-B 已經上線的話，等它合併、push 之後再拉；AA-B 還沒上線就不用等，先自己合併，只寫 BB_ 開頭的檔案和交接板 BB 的段落，AA-B 上線後會把你的分支合併進去。
 3. 合併之後讀 CLAUDE.md 和 docs/story_planning/00_先讀這份.md。新工作階段一開始拿到的 CLAUDE.md 可能是 main 上比較舊的版本，以合併後的為準。
-4. 用 get_session（claude-code-remote）查自己的 session ID（查不到就請使用者告訴你網址最後一段），在 BB_00_協作規範與交接紀錄.md 最上面寫「值班登記」，commit＋push；在交接板記一行，通知值班的 LAWWW／LAWWW-B 和 AA／AA-B：**只通知同一個帳號、正在值班的 職位（D75）：絕對不要傳訊息給另一個帳號已交班的工作階段**——它是每週用量到上限才交班的，傳訊息會叫醒它、讓它又開始工作；同一個帳號裡正在值班的才用 send_message，其他只靠交接板。
+4. 用 get_session（claude-code-remote）查自己的 session ID（查不到就請使用者告訴你網址最後一段），在 BB_00_協作規範與交接紀錄.md 最上面寫「值班登記」，commit＋push；在交接板記一行，通知同一個帳號（B）裡已經上線的 LAWWW-B 和 AA-B（send_message，不通就靠交接板；AA-B 還沒上線就只寫交接板）。**不要通知、也不要傳訊息給上一個帳號（A）的 AA、BB、LAWWW 或任何工作階段**——它們已經交班，通常是每週用量到上限，傳訊息會叫醒它們又開始工作（D75）；上一班的進度只從 GitHub 讀。
 5. 回覆使用者「接班確認」（AI_SESSION_HANDOFF.md 第 6 節的格式），然後接著做 BB_00 寫的下一步。
 權限：只改 docs/story_planning/（在系統指定給你的分支）；故事內容在使用者批准前都是 PROPOSAL，不寫進遊戲；已批准進入實作的劇情（大一上 v1，D50）照三級修改（潤飾與小修正自行審稿／一般日常事件和 AA、BB 共識後整合／人物性格、重大關係、主線結局、關鍵事件要使用者確認）；不分派開發工作；不碰 main。
 ```
