@@ -1,0 +1,178 @@
+{
+ "_comment": "使用者法學英文 25 題（2026-10-14 約 17:30）對到遊戲課程的方式。BB-B 依大二下 legal_english 每週的黑板定（使用者：「你自己判斷要放哪一週」）；scopeWeek＝最接近的那一週。題目內容不在這裡。週次說明：第 1 週「英美法：法官造法」（法院、法官、制定法與憲法的位階）；第 2 週「先例拘束原則」（上級法院審查）；第 3 週「案例摘要」（讀判決：當事人、律師、主張）；第 4 週「契約：對價」（契約、違約、救濟）；第 5 週「侵權：過失」（注意義務、損害賠償）；第 6 週「陪審團」（刑事審判：證據、證人、無罪推定、排除合理懷疑）；第 11 週「語言與法律」（同一個詞在兩種法律裡的意思）；第 12 週「國際商務契約」（公司與商務用語）",
+ "1": {
+  "id": "LENG25_01",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 3,
+  "basis": ""
+ },
+ "2": {
+  "id": "LENG25_02",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 4,
+  "basis": ""
+ },
+ "3": {
+  "id": "LENG25_03",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 6,
+  "basis": ""
+ },
+ "4": {
+  "id": "LENG25_04",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 1,
+  "basis": ""
+ },
+ "5": {
+  "id": "LENG25_05",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 3,
+  "basis": ""
+ },
+ "6": {
+  "id": "LENG25_06",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 6,
+  "basis": ""
+ },
+ "7": {
+  "id": "LENG25_07",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 6,
+  "basis": ""
+ },
+ "8": {
+  "id": "LENG25_08",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 2,
+  "basis": ""
+ },
+ "9": {
+  "id": "LENG25_09",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 6,
+  "basis": ""
+ },
+ "10": {
+  "id": "LENG25_10",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 1,
+  "basis": ""
+ },
+ "11": {
+  "id": "LENG25_11",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 4,
+  "basis": ""
+ },
+ "12": {
+  "id": "LENG25_12",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 6,
+  "basis": ""
+ },
+ "13": {
+  "id": "LENG25_13",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 5,
+  "basis": ""
+ },
+ "14": {
+  "id": "LENG25_14",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 1,
+  "basis": ""
+ },
+ "15": {
+  "id": "LENG25_15",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 6,
+  "basis": ""
+ },
+ "16": {
+  "id": "LENG25_16",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 4,
+  "basis": ""
+ },
+ "17": {
+  "id": "LENG25_17",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 6,
+  "basis": ""
+ },
+ "18": {
+  "id": "LENG25_18",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 1,
+  "basis": ""
+ },
+ "19": {
+  "id": "LENG25_19",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 3,
+  "basis": ""
+ },
+ "20": {
+  "id": "LENG25_20",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 5,
+  "basis": ""
+ },
+ "21": {
+  "id": "LENG25_21",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 6,
+  "basis": ""
+ },
+ "22": {
+  "id": "LENG25_22",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 11,
+  "basis": ""
+ },
+ "23": {
+  "id": "LENG25_23",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 11,
+  "basis": ""
+ },
+ "24": {
+  "id": "LENG25_24",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 6,
+  "basis": ""
+ },
+ "25": {
+  "id": "LENG25_25",
+  "course": "legal_english",
+  "term": "Y2S2",
+  "scopeWeek": 12,
+  "basis": ""
+ }
+}

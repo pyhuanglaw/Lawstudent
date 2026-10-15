@@ -244,7 +244,7 @@ def render(m, out):
             if e.get('recall'): extra += '<br>**回想**：'+'；'.join(recall_md(r) for r in e['recall'])
             if e.get('ask'):
                 q = BANK.get(e['ask']['qid'], {})
-                extra += f"<br>**課堂提問**：`{e['ask']['qid']}`（{q.get('core','')}；答案 {q.get('answer','')}）"
+                extra += f"<br>**課堂提問**：`{e['ask']['qid']}`（{q.get('core') or q.get('difficulty','')}；答案 {q.get('answer','')}）"
             r = '<br>'.join(f"{WHO.get(x['who'],x['who'])}：「{x['text']}」" for x in e['react'])
             sp = '（特殊事件週）' if e.get('special') else ''
             tl = e['tpl'] + ('（休學後：群組、走廊）' if e.get('after_leave') else '')
