@@ -81,8 +81,16 @@
 5. **現有成果處置**：AA 已編的 45 題及 BB 在做的題目**先保存、不刪、不繼續擴充、不當成使用者批准**；先交付各科來源盤點與差異表。既有明確的刑事訴訟法 Q001～Q084 原答案不得改。使用者確認來源使用方式後才能恢復相容工作。
 6. **跨帳號接班**：LAWWW／LAWWW2／AA／BB 與 -B 接任者在讀舊待辦以前，先讀本節及各職位的最新交接檔。**GitHub 更新不會自動中斷目前已在運作的 Claude 工作階段**；只有在下一次實際同步／讀檔後才可聲稱已採用。
 
-值班登記：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜分支 claude/story-planning（2026-10-13 起；原本是 claude/bb-story-planning）｜接班基準 e28aa3d｜2026-10-13 12:34 UTC
-上一班：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜最後 commit 7721b72｜正常交班（2026-10-11 10:10 UTC）；離開期間沒有 AA-B（帳號 B 沒有建立），企劃線只多了 BB 的交班 commit
+值班登記：帳號 B｜AA-B｜session_016ACZaD4oB9tX94WqQR4dkS｜分支 claude/cool-heisenberg-o8kuqx（系統指定，從 main 4e203e8 開出，合併企劃分支 origin/claude/story-planning 0d278bb）｜接班基準 0d278bb｜2026-10-15 23:15 UTC
+上一班：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜最後 commit 0d278bb（企劃分支，2026-10-14 17:38 UTC；AA 自己最後一筆 83cf089）｜正常交班（2026-10-14 約 18:00 UTC）
+
+### 接班（AA-B 帳號 B，2026-10-15 23:15 UTC）
+
+- 第一次換到帳號 B（使用者貼總入口 7.3 啟動提示詞）。帳號 B 已上線：LAWWW-B `session_01DvRVNNnivf7da7qqWuGmw6`（`claude/modest-rubin-2lyp7g`）、LAWWW2-B `session_01GV1WG3UeT2DhuDpxeWJsvD`（`claude/funny-albattani-iawshm`）；**BB-B 還沒上線**。
+- 離開期間（10-14 18:00 → 10-15 23:15 UTC）：企劃分支 `claude/story-planning` **沒有新 commit**（仍是 `0d278bb`）。開發面：LAWWW-B 接班（`450ffdb`），**D75**：不傳訊息給已交班的另一個帳號，跨帳號只用 GitHub（總入口 P0 換班口令第 8 點、第 9 節）；LAWWW-B 已推 WIP `0feac473`：syllabus 匯入 `ask`、重新匯入 exam_bank（企劃 `0d278bb`）、`CLS.classAsk`＋`tests/class_ask_unit.js`——**還沒跑完整單元測試與瀏覽器測試、還沒回報 AA**；`aa130_exam_unit` 的 EXAM_MIX 3_2 暫時拿掉真的 askedIn，LAWWW-B 標「等使用者確認」。
+- **企劃分支的寫法**：AA-B 只能 push 系統指定的 `claude/cool-heisenberg-o8kuqx`；帳號 B 值班期間企劃線以這條為準（BB-B 上線後把這條合併進它的分支；AA-B 再合併 BB-B 的）。`claude/story-planning` 停在 `0d278bb`，帳號 B 值班期間不寫入。
+- 通知：LAWWW-B（同帳號、在值班）用 `send_message`；**帳號 A 的 AA、BB、LAWWW 不傳訊息**（D75）；BB-B 還沒上線，只寫交接板。
+- 接下來照上一班「下一班的順序」：①讀通知 ②驗收 LAWWW-B 的課堂提問（等它回 SHA 與測試結果），記進 `AA_130` 第 8 節 ③`AA_128` 11-2、11-3（BB 已決定版本，見 `BB_00` 第 3 節）④法服修改（先和 BB-B 對齊）⑤`AA_131` 第 5 節等使用者。
 
 ## 這一次交班（2026-10-14 約 18:00 UTC；使用者：「現在換班，請依照既定交班規則完成交班」）
 
