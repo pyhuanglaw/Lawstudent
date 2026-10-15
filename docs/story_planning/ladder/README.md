@@ -1,0 +1,30 @@
+# 閒聊階梯資料（大一上；使用者 2026-10-15 全案通過，直接實作）
+
+- `ladder_bb.json`：BB-B 的芷若（heroine_02）、子晴（heroine_04）、溫學姊（heroine_05）、沛珊（classmate_peishan）、可昕（kexin）＋室友阿凱宿舍事件（`kaiDorm`）。原稿 `../BB_130_閒聊階梯_芷若子晴學姊沛珊_室友阿凱.md`；由 `build_ladder_bb.py` 產生（改台詞改 .py，再跑一次）。
+- 以安、語彤：AA-B 的 `AA_135`、`AA_136`（AA-B 用同一個格式出 `ladder_aa.json`）。
+
+## 給 LAWWW-B：欄位
+
+| 欄位 | 意思 |
+|---|---|
+| `steps[]` | 依序推進。**每人每天最多推進一層**；推進記 `G.social.ladder[id]=層的序號`、`ladderDay[id]=G.day`。存檔新欄位，舊存檔預設 0 |
+| `if`／`unless` | 照 `EVENTS.cond`（stage、events、memory、notMemory、flags、notFlags、flagNum）。**新增 `any:[cond,…]`**：其中一個成立就算 |
+| `term`、`week`、`location`、`time`、`weekday` | 和 `SMALLTALK` 的 `ok()` 一樣（location＝zone id；time＝[h0,h1)；weekday 0＝日） |
+| `unlessWorking` | 芷若：她的日程現在是 `act:'barista'`（在吧檯上班）就不推進，只給短招呼的 `working` 句 |
+| `unlessWeekdayTime` | 這個星期幾＋時段不推進（學姊週五傍晚和陳助教吃飯） |
+| `lines` | 她說的話（依序）；`choices`（最多 2）＝玩家回答，`reply`＝她的收尾；沒有 `choices` 的層，她說完就結束 |
+| `rel`（層）＋`choices[].rel` | 加在她身上（fam、comf、trust、resp）；兩者相加 |
+| `mem`（層或選項）| `SOCIAL.remember(她,'TAG')` |
+| `friendOnly` | 學姊：她有伴侶，階梯只有朋友的話（已經寫成這樣，不用另外處理；只是提醒不要接戀愛選項） |
+| `context:'date'`、`dateOnly` | 可昕：**只在「我們的日子」見面或視訊時推進**（不在路上）；`dateOnly:'meet'` 只在見面、`'video'` 只在視訊。沒有 `dating_kexin` 就停 |
+| `greet.base` | 當天推進過、或條件不到時的短招呼：5 句輪替、不連續重複 |
+| `greet.when[]` | 情境句：符合 location／time／weekday（芷若另有 `working`）時**優先**用；一天只說一次同一句 |
+| `note` | 實作提醒 |
+
+## 給 LAWWW-B：`kaiDorm`（宿舍事件 K-D1～6）
+
+寫成 `events.js` 的事件（trigger:'interact' 對阿凱、或回宿舍時 auto）；欄位是規格，不是引擎格式：`perWeek`（一週最多一次）、`random`（三選一的結果）、`count`／`inc`（計數旗標）、`nextMorningEnergy`（隔天早上精力）、`daysAfter`、`fallback`（沒和好的第 4 天自動和好，**不鎖線**）。
+
+## 測試（使用者 2026-10-15 交付標準第 4 點）
+
+一天只推進一層；同一層不重播；條件不到給短招呼；短招呼情境句；存讀檔後層數不變；舊存檔（沒有 ladder 欄位）從第 1 層開始；直向、橫向的對話框；芷若上班中不推進；可昕只在見面／視訊推進；阿凱吵架後第 4 天一定和好。
