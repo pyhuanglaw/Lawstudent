@@ -13,9 +13,11 @@
 | `criminal45_2026-10-14.json` | 使用者的刑法 45 題（刑總 30、刑分 15） |
 | `admin20_2026-10-14.json` | 使用者的行政法 20 題（行政法、行政救濟法） |
 | `securities40_2026-10-14.json` | 使用者的證券交易法 40 題 |
+| `legal_english25_2026-10-14.json` | 使用者的法學英文 25 題（`LENG25_01`～`25`；原文：`../使用者題庫/法學英文_25題_2026-10-14.md`）。題幹、選項英文、解析中文（`lang:'en'`）；`difficulty` 照原文（1～10 Easy、11～15 Medium、16～25 Intermediate），`core` 只有第 16～25 題有（原文標題的領域，如 Contract Law）；`sourceNote` 照使用者要求標「original practice questions inspired by Taiwan’s bar and judicial examination, not official past examination questions」。BB-B 2026-10-15 轉換（`796319d`） |
 | `superseded/civil_20_2026-10-14.json` | 舊的民法 20 題（已由 `civil40` 取代，不讀；留作紀錄） |
 | 刑事訴訟法 | `QBANK`（`src/data/legal_qbank.js`，使用者提供，Q001～Q084；Q085 原檔截斷、不用）。不另外複製一份 |
 | `tools/convert_user_md.py` | 使用者 Markdown → JSON（「答案：X｜…」＋「解析：…」的格式）；題幹、選項、答案、考點、解析逐字核對，不符就停止 |
+| `tools/convert_legal_english.py` | 使用者的法學英文格式（`Question N`／`(A)`～`(D)`／`Answer: X. …`／`解析：`＋兩張 Answer Key 表）→ JSON（BB-B 寫）；三處答案（題目下、答案表、選項文字）不一致就停止 |
 | `tools/convert_answer_only.py` | 使用者 Markdown → JSON（每題只附「正確答案：X」的格式，BB 寫）；考點用標題「第N題｜」後面的字，沒有解析就留空，不自己寫 |
 | `tools/map_*.json` | 每題對到哪一門課、哪一週（AA 依教學範圍定），以及要回報使用者的問題（`flags`） |
 | `tools/check_official.py` | 檢查：課程 id 是現行的課、沒有刪掉的課、四選一的格式、答案在選項裡、同一門課沒有重複的題目、狀態只有 `USER_CONFIRMED`、每門課的題數 |
@@ -27,6 +29,12 @@
 - **不足 5 題（不開考、不補題）**：行政救濟法 4；憲法（上）（下）、法學英文／英美法、民事訴訟法甲上、甲下、商事法總論及公司法、保險法、票據及支付工具法、勞動法 0 題（位置保留）。
 - 期中練習（只抽第 1～7 週的題，不算成績）目前不足 5 題的：民法總則、民法債編總論（一）、刑法總則（一）、行政救濟法——照規則不舉行。
 - **大四**：AI 出題並自審，`../exam_y4/`（AA、BB 分科、互相交叉審）。AA 的 `AA_<課程>.json`：8 門課各 8 題（共 64 題，自審紀錄 `REVIEW.md`）；BB 的 `BB_<課程>.json`：智財 13、勞社 13、財稅 12、海商 11。`status`：作者自審完＝`Y4_SELF_REVIEWED`（不抽）→ 交叉審通過＝`Y4_CROSS_REVIEWED`（才抽）；檢查 `../exam_y4/tools/check_y4.py`。法律專題研究、法律實習沒有選擇題。
+
+## 2a. 更新（2026-10-15，AA-B）
+
+- **法學英文／英美法（大二下）：0 → 25 題，可以考**（ENABLED）。課堂提問 6 題排在大二下第 1～6 週（第 1 週 `LENG25_14`、第 2 週 `08`、第 3 週 `01`、第 4 週 `11`、第 5 週 `20`、第 6 週 `12`，每題的 `scopeWeek` 都等於問的那一週）。
+- 上面第 2 節「不足 5 題」那一行的「法學英文／英美法」已經不適用；其他課的題數沒變。
+- `check_official.py`、`sync_asked.py --check` 錯誤 0（2026-10-15）。
 
 ## 2b. 課堂提問（2026-10-14 約 17:30，BB 排、AA 審）
 
@@ -53,3 +61,8 @@
 - BB `a777b55` 排的 69 題（`ask:{qid}`；12 門課，行政救濟法 3 題、其他各 6 題）：AA 逐題對那一週的黑板主題與題目的考點，**全部通過**。
 - 唯一 `scopeWeek` 早於那一週的：身分法第 13 週問 `CIV40_18`（夫妻財產，範圍第 7 週）——那一週同學正好問「婚後繼承來的，也要分嗎？」，下課前回到這一題，AA 接受。
 - `sync_asked.py --check`、`check_official.py` 錯誤 0；AA 的獨立程式再比對一次 185 題原文：0 處不同（只多了 `askedIn`）。
+
+## 6. AA-B 交叉檢查法學英文 25 題（2026-10-15 約 23:30 UTC）
+
+- BB-B `796319d` 轉換的 `legal_english25_2026-10-14.json`：AA-B 另外寫一支獨立的程式解析使用者原文（不用 `convert_legal_english.py`），逐題比對題幹、四個選項、答案、中文解析，並核對兩張 Answer Key 表和「Answer: X. 選項文字」：**25 題 0 處不同**；id 不重複；difficulty 和原文的分級一致。
+- 課堂提問 6 題：`scopeWeek`＝`askedIn.week`，沒有提早問。週次對應（`scopeWeek`）是 BB-B 依大二下 syllabus 定的，AA-B 沒有逐週對黑板，之後有空再審。
