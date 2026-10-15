@@ -299,7 +299,7 @@ class Goods:
         back = (cx - nrm[0] * D / 2, cz - nrm[2] * D / 2)        # 背面的中心（貼著貨架）
         def P(u, y, off):                                         # u∈[0,1] 由左往右、off＝離背面往外
             return (back[0] + rgt[0] * (u - 0.5) * W + nrm[0] * off, y, back[1] + rgt[2] * (u - 0.5) * W + nrm[2] * off)
-        US, VS, seal = (0.0, 0.12, 0.32, 0.5, 0.68, 0.88, 1.0), (0.0, 0.07, 0.25, 0.5, 0.75, 0.93, 1.0), 0.07
+        US, VS, seal = (0.0, 0.15, 0.5, 0.85, 1.0), (0.0, 0.07, 0.35, 0.65, 0.93, 1.0), 0.07
         def off(u, v):
             sv = 0.0 if v <= seal or v >= 1 - seal else math.sin(math.pi * (v - seal) / (1 - 2 * seal)) ** 0.55
             return D * (0.3 + 0.7 * math.sin(math.pi * u) ** 0.5 * sv) if 0 < u < 1 else D * 0.3
@@ -417,9 +417,13 @@ class Goods:
             n = rng.randint(*facings); gap = 0.006 if p['shape'] in ('box', 'bag') else 0.004
             if a + p['w'] > a1 - 0.02: break
             start = a
+            # 矮的商品往上疊（真的便利商店麵包、面紙、杯麵會疊兩三層；2026-10-15 後牆層板上方空一大截）：瓶子、罐子不疊
+            tiers = 1 if p['shape'] in ('bottle', 'can') else max(1, min(2, int((hmax + 0.01) // (p['h'] + 0.004))))
+            if tiers > 1 and rng.random() < 0.25: tiers -= 1
             for i in range(n):
                 if a + p['w'] > a1 - 0.02: break
-                if rng.random() > 0.06: self.one(p, a, y, front_d, face, axis)     # 偶爾缺一個（賣掉了）
+                if rng.random() > 0.06:                                                # 偶爾缺一個（賣掉了）
+                    for t in range(tiers if rng.random() > 0.15 else 1): self.one(p, a, y + t * (p['h'] + 0.003), front_d, face, axis)
                 a += p['w'] + gap
             if rail_y is not None and p['price']:
                 tf = tag_d if tag_d is not None else front_d + (0.008 if face in ('+z', '+x') else -0.008)
