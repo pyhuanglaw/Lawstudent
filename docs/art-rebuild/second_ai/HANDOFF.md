@@ -1,5 +1,12 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## ⚠ D75（使用者 2026-10-15 直接指示 LAWWW2-B）：不傳訊息給已交班的另一個帳號
+
+- 另一個帳號是**每週用量到上限才交班**的。對它的任何工作階段 `send_message`（包括「測試」「不用回覆」）、`interrupt_session`、替它排 `send_later`／排程，都會叫醒它、讓它又開始工作、消耗它的額度。**一律不做。**
+- 跨帳號只用 GitHub 文件交接（這份 HANDOFF、總入口、看板）。
+- 只有同一個帳號、而且正在值班的職位之間，才用 `send_message`（例：帳號 B 的 LAWWW2-B → LAWWW-B）。
+- 紀錄：LAWWW2-B 接班時只傳了一則給 LAWWW-B（帳號 B，`session_01DvRVNNnivf7da7qqWuGmw6`，已抄進值班表 `6212adb`），沒有傳給帳號 A 的任何工作階段。
+
 值班登記：帳號 B｜LAWWW2-B｜session_01GV1WG3UeT2DhuDpxeWJsvD｜分支 claude/funny-albattani-iawshm｜接班基準 origin/claude/second-ai-env-art 的 8e1061a（合併進 main 4e203e8 開出的分支）｜2026-10-15 23:1x UTC
 上一班：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜最後 commit 8e1061a（2026-10-14 17:38 UTC，「LAWWW2（帳號 A）交班」）｜正常交班
 
