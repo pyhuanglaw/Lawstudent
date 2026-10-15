@@ -383,7 +383,7 @@ const GAME = (function(){
   function threadHTML(th){ PHONE.markSeen(G,th); const L=PHONE.thread(G,th), g=th.startsWith('g:')||th==='sys';   /* 通知（sys）也寫是誰傳的：新聞、張教授（信）（颱風假 T1b）；沒有寄件人的系統訊息照舊只有內容 */
     let h='<div class="item phrow"><button class="btn" data-thback="1">‹ 訊息</button><b>'+escH(PHONE.title(G,th))+'</b></div>';
     for(const m of L.filter(q=>q.pin)) h+='<div class="item pin"><div class="muted">（置頂）'+msgWhen(m)+'</div>'+(PHONE.who(m)?'<b>'+escH(PHONE.who(m))+'</b>：':'')+escH(m.text)+'</div>';
-    for(const m of L.filter(q=>!q.pin)) h+='<div class="item'+(m.from==='player'?' me':'')+'"><div class="muted">'+msgWhen(m)+'</div>'+(g&&m.from!=='player'&&PHONE.who(m)?'<b>'+escH(PHONE.who(m))+'</b>：':'')+escH(m.text)+((PHONE.askOpen?PHONE.askOpen(G,m):(m.ask&&m.ans==null))?askBtns(m):'')+'</div>';
+    for(const m of L.filter(q=>!q.pin)) h+='<div class="item'+(m.from==='player'?' me':'')+'"><div class="muted">'+msgWhen(m)+'</div>'+(g&&m.from!=='player'&&PHONE.who(m)?'<b>'+escH(PHONE.who(m))+'</b>：':'')+(m.fold&&m.fold.length?'<details class="fold"><summary>'+escH(m.text)+'……（點開看全文）</summary>'+m.fold.map(escH).join('<br>')+'</details>':escH(m.text))+((PHONE.askOpen?PHONE.askOpen(G,m):(m.ask&&m.ans==null))?askBtns(m):'')+'</div>';   /* fold：長的訊息折起來（W3b 學姊的長回覆）*/
     return h; }
   function msgHTML(){ if(typeof INV==='undefined') return ''; INV.rec(G); if(phoneThread&&typeof PHONE!=='undefined') return threadHTML(phoneThread);
     const M=G.msgs.slice(-40).reverse();
