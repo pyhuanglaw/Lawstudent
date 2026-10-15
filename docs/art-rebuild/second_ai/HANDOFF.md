@@ -10,6 +10,39 @@
 值班登記：帳號 B｜LAWWW2-B｜session_01GV1WG3UeT2DhuDpxeWJsvD｜分支 claude/funny-albattani-iawshm｜接班基準 origin/claude/second-ai-env-art 的 8e1061a（合併進 main 4e203e8 開出的分支）｜2026-10-15 23:1x UTC
 上一班：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜最後 commit 8e1061a（2026-10-14 17:38 UTC，「LAWWW2（帳號 A）交班」）｜正常交班
 
+## 盤點：等使用者驗收的 LAWWW2 成果（佇列③，LAWWW2-B 2026-10-15 23:2x UTC）
+
+查法：`assets/models/env/second_ai/*.glb`、`assets/models/char/second_ai/*`，對 `origin/main`（v9.7 `313d620`＋P0 文件）和 LAWWW-B 開發分支 `claude/modest-rubin-2lyp7g`（`6212adb`）的 `src/` 搜尋檔名與 manifest key。章節＝`VISUAL_REVIEW.md` 的節號（裡面有規格、截圖、缺點）。**下面全部都還沒經使用者驗收**（建築、場景只有使用者能標 ART_APPROVED；人物由 BB 驗收，D59）。VISUAL_REVIEW 各節的「整合」欄有些停在當時的狀態（寫「還沒接」但後來 LAWWW 接了），以這張表為準。
+
+**A. 已經在線上版（v9.7）、等使用者看**——使用者可以直接在 GitHub Pages 走到那裡看：
+
+| 成果 | 檔案 | VISUAL_REVIEW |
+|---|---|---|
+| 兩點半 Café 外觀＋室內 | `cafe_exterior.glb`、`cafe_interior.glb` | 1 |
+| 溫州街近景：主巷公寓、日式宿舍、小公園、街道小物 | `wenzhou_street.glb`、`wz_jphouse.glb`、`wz_park.glb`、`wz_props.glb` | 2、5 |
+| 便利商店室內（**舊版商品**；第二版是 WIP，見「交班（最新）」） | `cvs_interior.glb` | 3 |
+| 阿鳳麵店、舊路書房、宿舍房間 | `noodle_interior.glb`、`bookstore_interior.glb`、`dorm_interior.glb` | 4 |
+| 街道道具（淑女車、路燈、長椅）＋法學院廣場花台、公告欄、販賣機 | `street_props.glb` | 6、14 |
+| 公館騎樓店面街、機車 | `gongguan_shops.glb`、`scooter.glb` | 7、12 |
+| 校園地標：總圖、傅鐘、行政大樓、文學院、校史館、洞洞館、社會科學院 | `campus_library/bell/admin/arts/hist/pavilion/modern.glb` | 8～11、13 |
+| 行道樹（樟樹、榕樹、大王椰子） | `street_trees.glb` | 15 |
+| 新社科院外觀、社科院圖書館一樓 | `campus_socsci.glb`、`soclib_interior.glb` | 16、22 |
+| 萬才館法律學院圖書館 | `lawlib_interior.glb`（在 `assets/models/env/`） | 17 |
+| 騎車用的腳踏車 | `bike_ride.glb`（在 `assets/models/env/`） | 19 |
+| 教學館家具、坐著的聽眾、桌上小物 | `furniture_study.glb`、`seated_figures.glb`、`desk_props.glb` | 23、24、27 |
+| 社團博覽會攤位、系籃半場、總圖 3F、醉月湖 | `club_fair.glb`、`bball_court.glb`、`library_3f.glb`、`campus_lake.glb` | 28～31 |
+| 人物：吳芯慈、許柏翰、阿哲、芷若和柏翰的眼鏡（BB 驗收） | `bl_classmate_xinci/bohan.vrm`、`bl_zhe.vrm`、`glasses_*.glb` | 32 |
+
+**B. 只在開發分支、還沒發布**：
+- 共同教學館外觀（`campus_gongtong.glb`，第 20、33 節）、大一女舍 A／B 棟＋天橋（`campus_freshman.glb`，第 21、33 節）：main 的 `zones3d.js` 有接線，但 manifest 沒有這兩個 key，**線上版看不到**；開發分支有。
+- 杜可昕（`bl_kexin.vrm`，第 32 節，`blOnly`）、8 個路人底模（`bl_npc_*.vrm`，只在 `?npcnew`）。
+
+**C. 還沒接進遊戲**：
+- 118 巷街景 `lane118_street.glb`（第 18 節，等 LAWWW 做區域）。
+- 黃金葛盆栽 `prop_pothos.glb`（manifest 沒有；劇情 `ev_fangyt_pothos` 已經在 main）。
+- 2D 背景 `assets/bg/noodle_table.webp`（`outings3d.js` 的 `noodle_table` 還是 `image:null`）。
+- 便利商店商品第二版（WIP）。
+
 ## 接班（LAWWW2-B 帳號 B，2026-10-15 23:1x UTC）
 
 - 使用者在帳號 B 貼 7.2 啟動提示詞。系統指定的分支 `claude/funny-albattani-iawshm` 從 `main`（`4e203e8`）開出；`origin/claude/second-ai-env-art`（`8e1061a`）用 `git merge --no-edit` 合進來，沒有衝突，`src/`、`tests/`、`CLAUDE.md` 跟 main 相同（我的分支只多 LAWWW2 自己的檔案）。
