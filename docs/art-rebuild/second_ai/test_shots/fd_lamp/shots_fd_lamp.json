@@ -1,0 +1,60 @@
+[
+ {
+  "out": "/tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/fd/after_porch_close.png",
+  "w": 1280,
+  "h": 800,
+  "state": {
+   "zone": "campus",
+   "hour": 20.67,
+   "pos": {
+    "x": -108.0,
+    "z": 56.5,
+    "yaw": 0.0,
+    "lv": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -106.2,
+    1.6,
+    56.0
+   ],
+   "look": [
+    -108.0,
+    2.9,
+    61.2
+   ]
+  },
+  "hidePlayer": true,
+  "wait": 3500
+ },
+ {
+  "out": "/tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/fd/after_porch_wide.png",
+  "w": 1280,
+  "h": 800,
+  "state": {
+   "zone": "campus",
+   "hour": 20.67,
+   "pos": {
+    "x": -108.0,
+    "z": 56.5,
+    "yaw": 0.0,
+    "lv": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -97.0,
+    2.6,
+    50.5
+   ],
+   "look": [
+    -107.0,
+    2.0,
+    60.5
+   ]
+  },
+  "hidePlayer": true,
+  "wait": 3500
+ }
+]
