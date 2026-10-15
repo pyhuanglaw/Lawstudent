@@ -90,7 +90,7 @@ def main():
         qs.append(dict(id=m['id'], course=m['course'], term=m['term'], scopeWeek=m['scopeWeek'], type='mc', lang='en',
                        q=it['q'], options=it['options'], answer=it['answer'],
                        core=it['area'], explanation=it['explanation'], difficulty=d, mapBasis=m.get('basis', ''),
-                       source=f'{srcname} 第 {n} 題', sourceNote=NOTE, status='USER_CONFIRMED', flags=m.get('flags', [])))
+                       source=f'{srcname} 第 {n} 題', sourceNote=NOTE, status='USER_CONFIRMED', mapNote=m.get('notes', []), flags=m.get('flags', [])))
     if set(key) != set(nos):
         errors.append(f'Answer Key 的題號和題目不同：{sorted(set(key) ^ set(nos))}')
     for k in cmap:

@@ -1,5 +1,5 @@
 {
- "_comment": "使用者提供的正式題目（A 類）。只做格式轉換：題幹、選項、答案、考點一字不改（convert_answer_only.py 逐字核對）；這一批沒有解析。course／term／scopeWeek／mapBasis／flags 是 BB 加的對應資料（mapBasis＝AI 標的法條，只用來對週次，遊戲不顯示；askedIn 由 sync_asked.py 從 syllabus 同步）（AA 交叉檢查），不是題目內容。",
+ "_comment": "使用者提供的正式題目（A 類）。只做格式轉換：題幹、選項、答案、考點一字不改（convert_answer_only.py 逐字核對）；這一批沒有解析。course／term／scopeWeek／mapBasis／flags 是 BB 加的對應資料（AA 交叉檢查），不是題目內容（mapBasis＝AI 標的法條，只用來對週次，遊戲不顯示；askedIn 由 sync_asked.py 從 syllabus 同步）。",
  "source": "行政法_20題_2026-10-14.md",
  "sourceSha256_16": "3fdaf4965fe51b54",
  "count": 20,
@@ -28,6 +28,7 @@
    "mapBasis": "",
    "source": "行政法_20題_2026-10-14.md 第 1 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -49,9 +50,10 @@
    "mapBasis": "行政程序法 §7",
    "source": "行政法_20題_2026-10-14.md 第 2 題",
    "status": "USER_CONFIRMED",
-   "flags": [
+   "mapNote": [
     "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 2 週（最接近的是第 2 週「依法行政」）。"
-   ]
+   ],
+   "flags": []
   },
   {
    "id": "ADM20_03",
@@ -77,6 +79,7 @@
    "mapBasis": "行政程序法 §92",
    "source": "行政法_20題_2026-10-14.md 第 3 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -98,6 +101,7 @@
    "mapBasis": "行政程序法 §111 ⑦",
    "source": "行政法_20題_2026-10-14.md 第 4 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -119,6 +123,7 @@
    "mapBasis": "行政程序法 §117",
    "source": "行政法_20題_2026-10-14.md 第 5 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -145,6 +150,7 @@
    "mapBasis": "行政程序法 §119 ①",
    "source": "行政法_20題_2026-10-14.md 第 6 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -166,6 +172,7 @@
    "mapBasis": "行政程序法 §102",
    "source": "行政法_20題_2026-10-14.md 第 7 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -187,6 +194,7 @@
    "mapBasis": "行政程序法 §114 I ③",
    "source": "行政法_20題_2026-10-14.md 第 8 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -213,6 +221,7 @@
    "mapBasis": "行政程序法 §135",
    "source": "行政法_20題_2026-10-14.md 第 9 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -234,6 +243,7 @@
    "mapBasis": "行政罰法 §7 I",
    "source": "行政法_20題_2026-10-14.md 第 10 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -260,6 +270,7 @@
    "mapBasis": "行政罰法 §24 I",
    "source": "行政法_20題_2026-10-14.md 第 11 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -281,6 +292,7 @@
    "mapBasis": "",
    "source": "行政法_20題_2026-10-14.md 第 12 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -302,6 +314,7 @@
    "mapBasis": "行政執行法 §28 I、§30",
    "source": "行政法_20題_2026-10-14.md 第 13 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -328,6 +341,7 @@
    "mapBasis": "行政執行法 §28 I、§29",
    "source": "行政法_20題_2026-10-14.md 第 14 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -354,6 +368,7 @@
    "mapBasis": "訴願法 §81 I 但書",
    "source": "行政法_20題_2026-10-14.md 第 15 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -380,6 +395,7 @@
    "mapBasis": "行政訴訟法 §4 I",
    "source": "行政法_20題_2026-10-14.md 第 16 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -406,6 +422,7 @@
    "mapBasis": "行政訴訟法 §5 II",
    "source": "行政法_20題_2026-10-14.md 第 17 題",
    "status": "USER_CONFIRMED",
+   "mapNote": [],
    "flags": []
   },
   {
@@ -427,15 +444,21 @@
    "mapBasis": "國家賠償法 §2 II",
    "source": "行政法_20題_2026-10-14.md 第 18 題",
    "status": "USER_CONFIRMED",
-   "flags": [
-    "國賠的實體要件在大二上行政法第 11 週教，所以放行政法；國賠也在大二下行政救濟法的範圍（第 1、12 週）。行政救濟法目前只有 4 題（第 15、16、17、20 題），要不要把這一題或第 19 題改放行政救濟法，讓它湊滿 5 題開考，請使用者決定。"
-   ]
+   "mapNote": [
+    "國賠的實體要件在大二上行政法第 11 週教，放行政法。2026-10-15 BB-B：同一組的第 19 題改放行政救濟法（使用者 10-14「你自己判斷要放哪一週」），這一題留在行政法。"
+   ],
+   "flags": []
   },
   {
    "id": "ADM20_19",
-   "course": "admin_law",
-   "term": "Y2S1",
-   "scopeWeek": 11,
+   "course": "admin_remedy",
+   "term": "Y2S2",
+   "scopeWeek": 12,
+   "askedIn": {
+    "term": "Y2S2",
+    "course": "admin_remedy",
+    "week": 12
+   },
    "type": "mc",
    "q": "依國家賠償法第3條第1項，公共設施設置或管理有欠缺，致人民生命、身體、人身自由或財產受損害時，原則上由何者負賠償責任？",
    "options": {
@@ -450,9 +473,10 @@
    "mapBasis": "國家賠償法 §3 I",
    "source": "行政法_20題_2026-10-14.md 第 19 題",
    "status": "USER_CONFIRMED",
-   "flags": [
-    "同第 18 題（可改放行政救濟法）。"
-   ]
+   "mapNote": [
+    "2026-10-15 BB-B 改放行政救濟法第 12 週「國家賠償的程序」（第 1 週也介紹國賠）：使用者 10-14「你自己判斷要放哪一週」；行政救濟法 4 → 5 題可以開考，行政法 16 → 15 題。"
+   ],
+   "flags": []
   },
   {
    "id": "ADM20_20",
@@ -473,9 +497,10 @@
    "mapBasis": "",
    "source": "行政法_20題_2026-10-14.md 第 20 題",
    "status": "USER_CONFIRMED",
-   "flags": [
+   "mapNote": [
     "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 13 週（沒有公物法那一週；最接近的是行政救濟法第 13 週「損失補償」）。"
-   ]
+   ],
+   "flags": []
   }
  ]
 }
