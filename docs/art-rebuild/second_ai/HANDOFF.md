@@ -10,6 +10,27 @@
 值班登記：帳號 B｜LAWWW2-B｜session_01GV1WG3UeT2DhuDpxeWJsvD｜分支 claude/funny-albattani-iawshm｜接班基準 origin/claude/second-ai-env-art 的 8e1061a（合併進 main 4e203e8 開出的分支）｜2026-10-15 23:1x UTC
 上一班：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜最後 commit 8e1061a（2026-10-14 17:38 UTC，「LAWWW2（帳號 A）交班」）｜正常交班
 
+## 進度（LAWWW2-B，2026-10-16 00:0x UTC）——最新
+
+**LAWWW-B 23:34Z P1 新分派**（使用者 10-15 試玩 v9.7 的 26 項，原話在 LAWWW-B 分支 `docs/USER_INSTRUCTION_LOG.md` `10826bd`），排在便利商店之前：
+- **A 郭沛珊自己的 VRM**：`MODEL_READY`，已交（`78db4a6`）。
+  - 照 BB 已 ART_APPROVED 的參考圖。
+  - 檢視圖、缺點、接法在 `test_shots/peishan_v1/README.md`。
+  - 等 LAWWW-B 接進遊戲、拍遊戲內截圖給 BB 驗收。
+- **B 政大 2D 背景**：`WORK_IN_PROGRESS`，nccu_gate、nccu_food 正在算 1920×1080。
+  - 腳本 `tools/blender/env_second/bg_nccu.py`。
+  - 小吃街：`wz_street.py --set nccu_food`，店名虛構。
+  - 校門：原創石牆＋門柱＋山，沒有校名、校徽。
+  - 之後：nccu_river、nccu_lib、nccu_park。
+- **C 空橋**：已回報現況（不是我的 GLB；zones3d.js 第 193 行的方塊＋teach3d 的 link 門瞬移），等 LAWWW-B 決定要不要做成能走的。
+- 舊佇列已交：
+  - 便利商店第二版（`a41c52e`）。
+  - 女舍門燈（`6f98244`）。
+  - 兩項都是 READY_FOR_ART_REVIEW，整合時間由 LAWWW-B 依使用者排的順序決定。
+- 這個容器的環境：
+  - 已裝：`/opt/blenv`（bpy 5.2.2）、VRM Add-on（`/opt/vrmaddon`）、VRoid 樣本（`tools/vroid_src/`，git 忽略）、python playwright、EGL 函式庫。
+  - 本機 worktree `/home/user/cvs_wt`（LAWWW-B `6212adb`＋本機換的 GLB，**不 commit**，伺服器 8830）。
+
 ## 盤點：等使用者驗收的 LAWWW2 成果（佇列③，LAWWW2-B 2026-10-15 23:2x UTC）
 
 查法：`assets/models/env/second_ai/*.glb`、`assets/models/char/second_ai/*`，對 `origin/main`（v9.7 `313d620`＋P0 文件）和 LAWWW-B 開發分支 `claude/modest-rubin-2lyp7g`（`6212adb`）的 `src/` 搜尋檔名與 manifest key。章節＝`VISUAL_REVIEW.md` 的節號（裡面有規格、截圖、缺點）。**下面全部都還沒經使用者驗收**（建築、場景只有使用者能標 ART_APPROVED；人物由 BB 驗收，D59）。VISUAL_REVIEW 各節的「整合」欄有些停在當時的狀態（寫「還沒接」但後來 LAWWW 接了），以這張表為準。

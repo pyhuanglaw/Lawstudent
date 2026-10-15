@@ -23,8 +23,8 @@ from cafe_layout import bush, pot, card, rand_uv, proto, combine, uv01   # noqa:
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 def arg(name, default=None):
     return ARGS[ARGS.index(name) + 1] if name in ARGS else default
-SET = arg('--set', 'wenzhou')   # wenzhou＝溫州街（預設）；gongguan＝公館羅斯福路南側的騎樓店面；lane118＝和平東路二段 118 巷（⑭；同一套公寓、材質與窗戶原型）
-OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/' + {'gongguan': 'gongguan_shops.glb', 'lane118': 'lane118_street.glb'}.get(SET, 'wenzhou_street.glb')))
+SET = arg('--set', 'wenzhou')   # wenzhou＝溫州街（預設）；gongguan＝公館羅斯福路南側的騎樓店面；lane118＝和平東路二段 118 巷（⑭；同一套公寓、材質與窗戶原型）；nccu_food＝政大山下的小吃街（只給 2D 背景算圖：bg_nccu.py）
+OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/' + {'gongguan': 'gongguan_shops.glb', 'lane118': 'lane118_street.glb', 'nccu_food': 'bg_nccu_food_street.glb'}.get(SET, 'wenzhou_street.glb')))
 
 # ---------------- 遊戲裡的配置（照 zones3d.js buildWenzhou；改那邊要一起改這裡） ----------------
 SHOP = lambda **k: k
@@ -112,16 +112,37 @@ if SET == 'gongguan':
 # 巷子南北向（x 往東、z 往南）：西側立面在 x=facade.west、朝東（ry=π/2：建築的 +x＝世界 −z）；東側在 x=facade.east、朝西（ry=−π/2：建築的 +x＝世界 +z）。
 # 配置裡的 9 間店照 z0～z1 蓋（店門在中間）；店與店之間的空檔補上沒有互動的樓房：寬度不到 2.6 m 的是住家樓梯間（紅／綠鐵門），其他是住家、鐵捲門、一般小店；
 # 兩條小巷（alleys）不蓋（走不進去的背景巷由遊戲做）；靠小巷、靠和平東路／辛亥路的那一面開側窗。店名是虛構的（配置裡的名字）。
-if SET == 'lane118':
+# 政大山下的小吃街（--set nccu_food；LAWWW2-B 2026-10-15：使用者「去政大找可昕完全沒有畫面」，outings3d.js 的 nccu_food 背景）：
+# 不是遊戲區域（沒有導航），只給 bg_nccu.py 算 2D 背景。參考政大山下（指南路往山上的方向）學生小吃巷的生活感，**店名全部虛構**、不放真實店名或校徽；
+# 和 118 巷同一套產生方式（兩側老公寓、一樓小吃店），巷子比較短、店更密，巷底看得到山（bg_nccu.py 另外放山）。
+NCCU_FOOD = {"lane": {"x0": -3.0, "x1": 3.0, "z0": -46.0, "z1": 10.0}, "facade": {"west": -4.6, "east": 4.6}, "floorH": 3.1, "groundH": 3.5, "alleys": [{"side": "E", "z0": -21.0, "z1": -19.0}],
+             "shops": [{"id": "dump", "side": "W", "z0": 0.0, "z1": 5.5, "floors": 4, "name": "山下湯餃", "type": "麵店"},
+                       {"id": "luwei", "side": "W", "z0": -6.5, "z1": -1.0, "floors": 4, "name": "阿嬤滷味", "type": "滷味"},
+                       {"id": "bento", "side": "W", "z0": -14.0, "z1": -7.5, "floors": 5, "name": "指南便當", "type": "家常菜"},
+                       {"id": "tofu", "side": "W", "z0": -19.0, "z1": -15.0, "floors": 4, "name": "豆花・仙草", "type": "甜湯"},
+                       {"id": "pan", "side": "W", "z0": -27.0, "z1": -21.5, "floors": 4, "name": "水煎包", "type": "早餐"},
+                       {"id": "tea", "side": "E", "z0": 3.0, "z1": 6.5, "floors": 4, "name": "山城茶飲", "type": "手搖飲"},
+                       {"id": "noodle", "side": "E", "z0": -4.5, "z1": 2.0, "floors": 4, "name": "牛肉麵", "type": "麵店"},
+                       {"id": "fried", "side": "E", "z0": -11.0, "z1": -6.0, "floors": 5, "name": "鹹酥雞", "type": "鹹酥雞"},
+                       {"id": "curry", "side": "E", "z0": -18.0, "z1": -12.0, "floors": 4, "name": "咖哩飯", "type": "家常菜"},
+                       {"id": "cafe", "side": "E", "z0": -28.0, "z1": -22.0, "floors": 4, "name": "小山咖啡", "type": "咖啡"}]}
+if SET in ('lane118', 'nccu_food'):
     import json as _json
-    _src = open(os.path.join(L.ROOT, 'src/data/lane118_layout.js'), encoding='utf8').read()
-    LJ = _json.loads(_src[_src.index('{', _src.index('const LANE118_LAYOUT=')):_src.rindex('}') + 1])
+    if SET == 'lane118':
+        _src = open(os.path.join(L.ROOT, 'src/data/lane118_layout.js'), encoding='utf8').read()
+        LJ = _json.loads(_src[_src.index('{', _src.index('const LANE118_LAYOUT=')):_src.rindex('}') + 1])
+    else:
+        LJ = NCCU_FOOD
     GH, FH = LJ['groundH'], LJ['floorH']
-    _TYPE = {'滇緬料理': 'teishoku', '自助餐': 'teishoku', '手搖飲': 'tea', '家常菜': 'teishoku', '咖啡': 'cafe', '義大利麵': 'cafe', '韓式': 'teishoku', '蛋包飯': 'cafe', '麵店': 'noodle'}
+    _TYPE = {'滇緬料理': 'teishoku', '自助餐': 'teishoku', '手搖飲': 'tea', '家常菜': 'teishoku', '咖啡': 'cafe', '義大利麵': 'cafe', '韓式': 'teishoku', '蛋包飯': 'cafe', '麵店': 'noodle',
+             '滷味': 'noodle', '甜湯': 'teishoku', '早餐': 'teishoku', '鹹酥雞': 'noodle'}
     # 招牌底色、字色、色帶、雨遮（虛構店家，配色照店的類型）
     _LOOK = {'dian': ('#2f5d50', '#f4ead8', '#c9a24a', '#2f5d50'), 'self': ('#c9463d', '#ffffff', '', '#c9463d'), 'tea': ('#f4ead8', '#2f7d5b', '#2f7d5b', None),
              'home': ('#8c3b2a', '#f4ead8', '', '#3b5a8c'), 'cafe2': ('#3b2a1e', '#f4ead8', '', None), 'pasta': ('#f4f1ea', '#8c3b47', '#2f5d50', '#2f5d50'),
-             'korea': ('#ffffff', '#c9463d', '#1f4e8c', '#c9463d'), 'omu': ('#f2c230', '#5c3a21', '', '#e0a030'), 'noodle2': ('#f4ead8', '#9c2f2a', '', '#9c2f2a')}
+             'korea': ('#ffffff', '#c9463d', '#1f4e8c', '#c9463d'), 'omu': ('#f2c230', '#5c3a21', '', '#e0a030'), 'noodle2': ('#f4ead8', '#9c2f2a', '', '#9c2f2a'),
+             'dump': ('#f4ead8', '#9c2f2a', '#9c2f2a', '#9c2f2a'), 'luwei': ('#3b2a1e', '#f2c230', '', '#8c3b2a'), 'bento': ('#ffffff', '#2f5d50', '#2f5d50', '#2f5d50'),
+             'tofu': ('#f4ead8', '#5c3a21', '#c9a24a', None), 'pan': ('#f2b33e', '#3b2a1e', '', '#c9463d'), 'noodle': ('#9c2f2a', '#ffffff', '', '#9c2f2a'),
+             'fried': ('#f2c230', '#9c2f2a', '#9c2f2a', '#e0a030'), 'curry': ('#e0a030', '#3b2a1e', '', None), 'cafe': ('#2f3a44', '#f4ead8', '', None)}
     _FILL = [('早餐店', 'teishoku', '#f2b33e', '#3b2a1e'), ('影印・輸出', 'print', '#2f3a44', '#ffffff'), ('自助洗衣', 'laundry', '#e9f2f6', '#2a5f8a'),
              ('水果行', 'fruit', '#e0a030', '#3b2a1e'), ('二手書', 'books', '#2f4a3a', '#f4ead8'), ('文具', 'books', '#8c3b47', '#ffffff')]
     _WALLC = ['#d9cbb0', '#cfc5b2', '#e3ddd0', '#c8bca8', '#d6c3a5', '#e6dfd0', '#bfb2a0', '#cdbfa8']; _WALLT = ['tile', 'mosaic', 'tile', 'plaster']
@@ -171,7 +192,7 @@ if SET == 'lane118':
 
 random.seed(707)
 B.reset(texres=512)
-_RN = {'gongguan': 'gongguan_shops', 'lane118': 'lane118_street'}.get(SET, 'wenzhou_street')
+_RN = {'gongguan': 'gongguan_shops', 'lane118': 'lane118_street', 'nccu_food': 'nccu_food_street'}.get(SET, 'wenzhou_street')
 root = B.group(_RN, props={'kind': _RN})
 base = CL.materials()      # Café 的共用材質（鋁窗、鐵窗、冷氣、浪板、水塔、植物…，名稱相同→遊戲同一套夜間設定）
 _mats = {}
