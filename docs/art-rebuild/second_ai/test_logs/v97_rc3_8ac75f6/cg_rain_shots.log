@@ -1,0 +1,7 @@
+  [前置／捷徑] portrait：讀檔第 6 天 18:30、下雨、總圖前 (81,12)、還沒見過陳語彤
+FAIL portrait：走到總圖門口，雨天事件自己開始、CG 是正式檔（1920×1080）  {"bg": "", "w": 0}
+PASS portrait：沒有 JS 例外  []
+  [前置／捷徑] landscape：讀檔第 6 天 18:30、下雨、總圖前 (81,12)、還沒見過陳語彤
+PASS landscape：走到總圖門口，雨天事件自己開始、CG 是正式檔（1920×1080）  {"bg": "assets/cg/heroine_03/event_rain_library.webp", "w": 1920, "h": 1080, "cls": "on image cg"}
+PASS landscape：沒有 JS 例外  []
+FAILED: portrait：走到總圖門口，雨天事件自己開始、CG 是正式檔（1920×1080）

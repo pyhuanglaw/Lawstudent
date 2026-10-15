@@ -1,0 +1,15 @@
+PASS 直向：遊戲載入
+  [前置／捷徑] 直向：登錄一張測試用的 16:9 CG（左右各一條白邊）並演出
+PASS 直向：進入 CG（root 有 cg、CG 那一層顯示、有圖）  {"cls": "on image cg", "disp": "block", "size": "contain", "img": true, "blur": "blur(18px) brightness(0.6)", "w": 390, "h": 844}
+PASS 直向：CG 那一層是 contain（整張放進畫面）、模糊層有 blur  {"cls": "on image cg", "disp": "block", "size": "contain", "img": true, "blur": "blur(18px) brightness(0.6)", "w": 390, "h": 844}
+  [  22.4s] 直向 CG 的位置（依 contain＋40%）：{"top": 249.85000000000002, "bottom": 469.225}
+PASS 直向：CG 的上下有模糊填滿（圖只占畫面中間一條，上下不是黑色空白）  {"top": 249.85000000000002, "bottom": 469.225}
+PASS 直向：ADV 結束後 CG 清掉，下一次一般 ADV 沒有殘留  {"cls": "on blur", "disp": "none", "size": "cover", "img": false, "blur": "none", "w": 390, "h": 844}
+PASS 直向：沒有 JS 例外  []
+PASS 橫向：遊戲載入
+  [前置／捷徑] 橫向：登錄一張測試用的 16:9 CG（左右各一條白邊）並演出
+PASS 橫向：進入 CG（root 有 cg、CG 那一層顯示、有圖）  {"cls": "on image cg", "disp": "block", "size": "cover", "img": true, "blur": "blur(18px) brightness(0.6)", "w": 844, "h": 390}
+PASS 橫向：CG 那一層是 cover（畫面填滿）  {"cls": "on image cg", "disp": "block", "size": "cover", "img": true, "blur": "blur(18px) brightness(0.6)", "w": 844, "h": 390}
+PASS 橫向：ADV 結束後 CG 清掉，下一次一般 ADV 沒有殘留  {"cls": "on blur", "disp": "none", "size": "cover", "img": false, "blur": "none", "w": 844, "h": 390}
+PASS 橫向：沒有 JS 例外  []
+ALL PASS

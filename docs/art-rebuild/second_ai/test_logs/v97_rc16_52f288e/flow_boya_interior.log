@@ -1,0 +1,36 @@
+PASS 遊戲載入
+  [前置／捷徑] 讀檔：第 3 天（9/19 週五）10:00，博雅教學館大廳（校園上的門還沒做：位置等使用者決定）
+PASS 在博雅大廳、站得住  {"zone": "boya", "x": 0, "z": 6.8, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 10, "stand": true, "camYaw": 6.282, "fallbacks": 0, "y": 0, "lv": 0, "frame": 15, "paused": false}
+PASS 101 的門口有「看看博雅 101 階梯教室」  {"x": -5.4, "z": 6, "r": 0.9, "label": "看看博雅 101 階梯教室", "lv": 0, "y": null}
+  [  53.3s] 到達「博雅 101 門口」附近（0.09 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，24 秒
+PASS 自己走到 101 門口（講台那一端）、出現按鈕  {"zone": "boya", "x": -5.31, "z": 5.99, "ry": 4.56, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "看看博雅 101 階梯教室", "hour": 10.03, "stand": true, "camYaw": 6.282, "fallbacks": 0, "y": 0, "lv": 0, "frame": 61, "paused": false}
+PASS 101 第 3 排的座位（高 0.9 m）  {"x": -11.45, "z": -0.85, "yaw": 0, "y": 0.9, "lv": 0, "kind": "lecture", "room": "101", "ax": -11.45, "az": -1.45}
+  [  96.5s] 到達「101 第 3 排的座位後面」附近（0.08 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，41 秒
+PASS 走進 101、走側邊台階上到第 3 排（高 0.9 m）、出現「坐下」  {"zone": "boya", "x": -11.37, "z": -1.45, "ry": 4.74, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "坐下", "hour": 10.09, "stand": true, "camYaw": 6.412, "fallbacks": 0, "y": 0.9, "lv": 0, "frame": 152, "paused": false}
+PASS 坐在 101 第 3 排（姿勢 sit；沒有課：坐一下、讀書可以選）  pose=sit ["坐一下，看看四周體力 +5，時間 +20 分鐘", "讀書（1 小時）體力 −8。整理筆記，之後上課用得到", "趴著睡一下：30 分鐘睡到 10:36", "趴著睡一下：1 小時睡到 11:06", "起身"]
+PASS 起身後站在那一排的平台上（站得住）  pose=idle {"zone": "boya", "x": -11.45, "z": -1.45, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "坐下", "hour": 10.43, "stand": true, "camYaw": 6.412, "fallbacks": 0, "y": 0.9, "lv": 0, "frame": 175, "paused": false}
+  [前置／捷徑] 放一場測試演講到活動清單：今天、博雅 101、現在＋5 分鐘開始、兩小時（遊戲裡的活動清單是空的，內容等 AA、BB）
+PASS 同一個位子再坐下：第一個選項是「聽演講：測試演講」；選了之後記下到場、時間到演講結束（約 2 小時後）  ["聽演講：測試演講（流程測試）10:31–12:31　快轉到結束", "坐一下，看看四周體力 +5，時間 +20 分鐘", "讀書（1 小時）體力 −8。整理筆記，之後上課用得到", "趴著睡一下：30 分鐘睡到 10:56", "趴著睡一下：1 小時睡到 11:26", "起身"] ["t_flow_lec@3"] 10.43→12.51
+PASS 演講結束：聽眾站起來往外走（不是一起消失）  12 人在往外走
+  [ 400.0s] 到達「自習小桌的椅子後面」附近（0.10 m）：點地面 2 次、轉鏡頭 1 次、搖桿 1 次，256 秒
+PASS 走出 101、走到自習小桌、出現「坐下讀書（自習小桌）」  {"zone": "boya", "x": 0.13, "z": 0.7, "ry": 4.71, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "你找了位子坐下。台上的人在試麥克風，投影片停在第一頁：「測試演講（流程測試）」。", "choices": 0, "interact": "坐下讀書（自習小桌）", "hour": 12.65, "stand": true, "camYaw": 4.612, "fallbacks": 0, "y": 0, "lv": 0, "frame": 409, "paused": false}
+PASS 坐下（姿勢 sit）、選「讀書（1 小時）」  pose=sit ["坐一下，看看四周體力 +5，時間 +20 分鐘", "讀書（1 小時）體力 −8。整理筆記，之後上課用得到", "趴著睡一下：30 分鐘下一堂 13:20 法律與社會前 20 分鐘叫醒你（13:00）", "起身"]
+PASS 讀完：時間過了約 1 小時、起身站得住  12.65 → 13.66
+  [ 464.6s] 到達「沙發前面」附近（0.17 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，41 秒
+PASS 走到沙發前、出現「坐在沙發上」  {"zone": "boya", "x": -3.03, "z": 7.83, "ry": -0.78, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "你讀了民法第 154 條和幾則判決。網拍標價到底算不算要約，原來連法院都吵過。", "choices": 0, "interact": "坐在沙發上", "hour": 13.72, "stand": true, "camYaw": 2.812, "fallbacks": 0, "y": 0, "lv": 0, "frame": 548, "paused": false}
+PASS 坐在沙發上（姿勢 sit）、坐一下、起身站得住  pose=sit {"zone": "boya", "x": -3.2, "z": 7.62, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "你讀了民法第 154 條和幾則判決。網拍標價到底算不算要約，原來連法院都吵過。", "choices": 0, "interact": "坐在沙發上", "hour": 14.06, "stand": true, "camYaw": 2.812, "fallbacks": 0, "y": 0, "lv": 0, "frame": 574, "paused": false}
+  [ 585.8s] 到達「圓桌的椅子後面」附近（0.09 m）：點地面 12 次、轉鏡頭 1 次、搖桿 1 次，114 秒
+PASS 走到圓桌、出現「坐下（圓桌）」  {"zone": "boya", "x": 3.67, "z": -0.36, "ry": -0.88, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "你讀了民法第 154 條和幾則判決。網拍標價到底算不算要約，原來連法院都吵過。", "choices": 0, "interact": "坐下（圓桌）", "hour": 14.22, "stand": true, "camYaw": 5.493, "fallbacks": 0, "y": 0, "lv": 0, "frame": 832, "paused": false}
+  [ 620.0s] 到達「講座資訊螢幕」附近（0.16 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，32 秒
+PASS 走到資訊角、出現「看講座資訊（螢幕）」  {"zone": "boya", "x": -0.36, "z": -7.69, "ry": -2.87, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "你讀了民法第 154 條和幾則判決。網拍標價到底算不算要約，原來連法院都吵過。", "choices": 0, "interact": "看講座資訊（螢幕）", "hour": 14.27, "stand": true, "camYaw": 5.883, "fallbacks": 0, "y": 0, "lv": 0, "frame": 910, "paused": false}
+PASS 螢幕：寫這一週的演講（目前沒有活動就寫「目前沒有」）  講座資訊螢幕：這一週博雅的演講、活動、教室異動。　目前沒有公告的演講或活動。你讀了民法第 154 條和幾則判決。網拍標價到底算不算要約，原來連法院都吵過。
+  [ 776.4s] 到達「二樓走廊（樓梯上來）」附近（0.24 m）：點地面 4 次、轉鏡頭 2 次、搖桿 0 次，153 秒
+PASS 自己走樓梯到二樓（第 1 層、4.8 m）  {"zone": "boya", "x": 4.9, "z": 0.76, "ry": -0.01, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "你讀了民法第 154 條和幾則判決。網拍標價到底算不算要約，原來連法院都吵過。", "choices": 0, "interact": "", "hour": 14.48, "stand": true, "camYaw": 3.511, "fallbacks": 0, "y": 4.8, "lv": 1, "frame": 1235, "paused": false}
+  [ 848.0s] 到達「201 的座位旁」附近（0.03 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，70 秒
+PASS 走進 201 討論教室、出現「坐下」  {"zone": "boya", "x": -11.77, "z": -6.09, "ry": -2.38, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "你讀了民法第 154 條和幾則判決。網拍標價到底算不算要約，原來連法院都吵過。", "choices": 0, "interact": "坐下", "hour": 14.58, "stand": true, "camYaw": 0.88, "fallbacks": 0, "y": 4.8, "lv": 1, "frame": 1376, "paused": false}
+PASS 坐在 201（姿勢 sit）、起身站得住  pose=sit {"zone": "boya", "x": -12.4, "z": -5.35, "ry": -1.57, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "你讀了民法第 154 條和幾則判決。網拍標價到底算不算要約，原來連法院都吵過。", "choices": 0, "interact": "坐下", "hour": 14.91, "stand": true, "camYaw": 0.88, "fallbacks": 0, "y": 4.8, "lv": 1, "frame": 1399, "paused": false}
+  [1107.4s] 到達「一樓出口」附近（0.02 m）：點地面 4 次、轉鏡頭 3 次、搖桿 1 次，252 秒
+PASS 自己走下樓、走到出口（出現「走出博雅教學館」）  {"zone": "boya", "x": 0, "z": 8.18, "ry": 6.28, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "你讀了民法第 154 條和幾則判決。網拍標價到底算不算要約，原來連法院都吵過。", "choices": 0, "interact": "走出博雅教學館", "hour": 15.23, "stand": true, "camYaw": 2.738, "fallbacks": 0, "y": 0, "lv": 0, "frame": 1886, "paused": false}
+PASS 走出去：回到校園、站得住  {"zone": "campus", "x": -38, "z": -70.6, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "你讀了民法第 154 條和幾則判決。網拍標價到底算不算要約，原來連法院都吵過。", "choices": 0, "interact": "", "hour": 15.24, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 0, "lv": 0, "frame": 1895, "paused": false}
+PASS 沒有 JS 例外  []
+ALL PASS

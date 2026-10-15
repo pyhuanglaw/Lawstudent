@@ -1,0 +1,6 @@
+before tap {"x": 306, "y": 94, "w": 44, "h": 44, "top": ["#rotate.want", "#btnPhone.ibtn", "#hudR", "#c", "body", "html"], "phoneCls": "panel hide", "titleIdle": false, "paused": false, "busy": false, "hour": 21.458332666666678}
+after touch tap {"x": 306, "y": 94, "w": 44, "h": 44, "top": ["#btnPhone.ibtn", "#hudR", "#c", "body", "html"], "phoneCls": "panel hide", "titleIdle": false, "paused": false, "busy": false, "hour": 21.46299933333335}
+events ["pointerdown:rotate", "touchstart:rotate", "pointerup:rotate", "touchend:rotate", "mousedown:rotate", "mouseup:rotate", "click:rotate"]
+after element.click() {"x": 306, "y": 94, "w": 44, "h": 44, "top": ["#phone.panel", "#btnPhone.ibtn", "#hudR", "#c", "body", "html"], "phoneCls": "panel", "titleIdle": false, "paused": true, "busy": false, "hour": 21.465110666666686}
+events ["click:btnPhone"]
+errors []

@@ -62,11 +62,11 @@ def build():
         'wall': L.pbr('gt_wall', 'exterior_wall_cladding_02', tile=2.0, target=WALL, sat=0.35, normal=0.8, maps=('diff', 'nor'), rough_value=0.88),
         # 洗石子：granular_concrete（細碎石子露在水泥面上）校正成淺灰米色；1.5 m 一張
         'wash': L.pbr('gt_wash', 'granular_concrete', tile=1.5, target=WASH, normal=0.7, maps=('diff', 'nor'), res=512, rough_value=0.86),
-        'trimw': L.pbr('ck_trim_win', 'granular_concrete', tile=1.5, target=WASH, maps=('diff',), res=512, rough_value=0.86),   # 同一張顏色貼圖（窗框、窗台：遊戲端不投影）
+        'trimw': None,   # v9.7 合併材質：窗框、窗台直接用牆面洗石子的材質（原本是同一張顏色貼圖的另一個材質 ck_trim_win）
         'base': L.pbr('ck_stone_base', 'granite_tile_03', tile=1.2, target='#9a948a', maps=('diff',), res=256, rough_value=0.7),
         'roof': L.pbr('gt_roof', 'grey_roof_tiles', tile=3.0, target=ROOF, normal=0.8, maps=('diff', 'nor'), rough_value=0.82),
-        'terr': L.pbr('gt_terrace', 'square_brick_paving', tile=1.6, target='#a5674c', maps=('diff',), res=256, rough_value=0.9),   # 露台、走廊地板：紅色隔熱磚
-        'wood': L.pbr('gt_wood', 'dark_wood', tile=1.0, target='#6a4a33', maps=('diff',), res=256, rough_value=0.62),          # 木造走廊、木門
+        'terr': L.flat('gt_terrace', '#a5674c', rough=0.9),   # 露台、走廊地板：紅色隔熱磚（v9.7 合併材質：改純色，併進 wz_vc_gt；從地面幾乎看不到）
+        'wood': L.flat('gt_wood', '#6a4a33', rough=0.62),          # 木造走廊、木門（v9.7 合併材質：改純色，併進 wz_vc_gt）
         'ceil': L.flat('ck_ceiling', '#e2dccf', rough=0.95),
         'plaster': L.flat('gt_plaster', '#e5dfd1', rough=0.92),                     # 走廊裡的牆（油漆）
         'frame': L.flat('ck_frame', '#3e362f', rough=0.42, metal=0.35),            # 古銅色鋁窗框、門框
@@ -75,9 +75,10 @@ def build():
         'misc': L.vc_material('gt_misc', rough=0.6),                               # 冷氣室外機、落水管、公告欄、燈座
         'lamp': L.flat('wz_lamp_lens', '#f3ead6', rough=0.4),                      # 燈罩（晚上發光：WZ_NIGHT）
         'board': L.flat('ck_board', '#d8d0c0', rough=0.8),
-        'bark': L.pbr('gt_palm_bark', 'palm_tree_bark', tile=1.0, target='#71685c', sat=0.35, maps=('diff', 'nor'), res=256, rough_value=0.88, normal=0.9),   # 蒲葵樹幹
+        'bark': L.flat('gt_palm_bark', '#71685c', rough=0.88),   # 蒲葵樹幹（v9.7 合併材質：改純色，併進 wz_vc_gt）
         'palm': L.vc_material('gt_palm', rough=0.62),                              # 蒲葵的葉片、葉柄、樹冠基部（頂點色）
     }
+    M['trimw'] = M['wash']
     # 玻璃：亮燈、沒亮燈的窗同一個材質（自發光貼圖 64×64：左半黑＝沒亮燈；右半＝由上往下漸暗的室內燈光；campus_hall.py 同一套）
     lit = bpy.data.images.new('win_lit_grad', 64, 64, alpha=False); px = []
     for j in range(64):
@@ -702,9 +703,13 @@ def build():
         if k == 'palm': L.smooth_mesh(ob_, angle=math.pi)   # 蒲葵：全部平滑著色（摺的角度超過 43° 會被切成硬邊，相鄰裂片就不共用頂點；平面著色時 GLB 多 1 MB）
     uv01(plate.finish(root, uv=True, props={'text': '共同教學館', 'bg': '#d8d0c0', 'color': '#3b2a1e', 'serif': 1, 'fs': 0.72}))
     uv01(sp.finish(root, uv=True, props={'text': '側門　請由正門出入', 'bg': '#d8d0c0', 'color': '#3b2a1e', 'serif': 1, 'fs': 0.6}))
+    # v9.7 合併材質（LAWWW 2026-10-14 04:52Z：校門往椰林大道的鏡頭 draw call 是改之前的 1.14 倍；這棟 17 個材質）：純色、頂點色的零件併成一個頂點色材質
+    # （名稱 wz_vc_ 開頭：遊戲端整個網格投影、陰影一次 draw call）。留下：面磚、洗石子（含窗框）、屋瓦、石材勒腳、玻璃、燈罩、匾額
+    VCM = L.vc_material('wz_vc_gt', rough=0.6)
+    L.vc_consolidate(root, {n: VCM for n in ('gt_plaster', 'gt_celadon', 'gt_misc', 'gt_palm', 'ck_frame', 'ck_ceiling', 'gt_terrace', 'gt_wood', 'gt_palm_bark')})
     L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
     info = L.export(out, gpu_instances=False)
-    info['note'] = '依文字描述的遊戲化設計（沒有照片）；一樓佔地照 CK.hall，導航不用改'
+    info['note'] = '依文字描述的遊戲化設計（沒有照片）；一樓佔地照 CK.hall，導航不用改；v9.7 合併材質（17 → 8）'
     L.write_json(out[:-4] + '.json', info)
     return info
 

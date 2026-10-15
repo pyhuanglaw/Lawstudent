@@ -22,6 +22,9 @@ ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 def arg(name, default=None):
     return ARGS[ARGS.index(name) + 1] if name in ARGS else default
 OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/noodle_interior.glb'))
+# --layout longtable：2D 背景 noodle_table 用（交接包 v2 C11／C21「考完的晚餐」，tools/blender/env_second/bg_noodle_table.py）——
+# 中間和右邊兩張桌子併成一張長桌（2.8×0.9 m，x＝−0.7～2.1）、八張椅子（兩側各三、兩頭各一）、桌上多幾碗麵和小菜；左邊那張照舊。預設 game＝遊戲裡的配置，不變
+LAYOUT = arg('--layout', 'game')
 
 W, D, H = 10.0, 9.0, 3.2
 X0, X1, Z0, Z1 = -W / 2, W / 2, -D / 2, D / 2
@@ -139,8 +142,14 @@ cj.finish(root)
 # ---- 三張桌子（套件 desk：1.4×0.9、桌面 0.745–0.77）＋六張紅椅（座面頂 0.485）＋桌上：調味罐、筷筒、面紙盒、麵碗
 tt, te, ch, lg = Mesh('ndl_tables', M['table']), Mesh('ndl_table_edges', M['tedge']), Mesh('ndl_chairs', M['chair']), Mesh('ndl_legs', M['leg'])
 cond, blk = Mesh('ndl_condiments', M['red']), Mesh('ndl_black_items', M['black'])
-for i, x in enumerate((-3.0, 0.0, 3.0)):
+TABLE_XS = (-3.0, 0.0, 3.0) if LAYOUT == 'game' else (-3.0, 0.0, 1.4)
+for i, x in enumerate(TABLE_XS):
     z = 0.5
+    if LAYOUT == 'longtable' and i > 0:                                             # 長桌的兩半：桌面、桌邊、桌腳照原樣，椅子另外排
+        tt.box(x - 0.7, x + 0.7, 0.745, 0.77, z - 0.45, z + 0.45); te.box(x - 0.706, x + 0.706, 0.715, 0.745, z - 0.456, z + 0.456)
+        for sx in (-1, 1):
+            for sz in (-1, 1): lg.cyl((x + sx * 0.62, 0.0, z + sz * 0.37), (x + sx * 0.62, 0.715, z + sz * 0.37), 0.018, seg=6)
+        continue
     tt.box(x - 0.7, x + 0.7, 0.745, 0.77, z - 0.45, z + 0.45); te.box(x - 0.706, x + 0.706, 0.715, 0.745, z - 0.456, z + 0.456)
     for sx in (-1, 1):
         for sz in (-1, 1): lg.cyl((x + sx * 0.62, 0.0, z + sz * 0.37), (x + sx * 0.62, 0.715, z + sz * 0.37), 0.018, seg=6)
@@ -155,7 +164,72 @@ for i, x in enumerate((-3.0, 0.0, 3.0)):
     blk.cyl((x + 0.5, 0.77, z - 0.18), (x + 0.5, 0.92, z - 0.18), 0.04, seg=10)                         # 筷筒
     bowl(x - 0.2, z + 0.25, 0.77, 'noodle'); bowl(x + 0.2, z - 0.05, 0.77, 'soup' if i == 1 else None)
 tissue = Mesh('ndl_tissue', M['fan'])
-for x in (-3.0, 0.0, 3.0): tissue.box(x - 0.6, x - 0.38, 0.77, 0.85, 0.15, 0.27)
+for x in TABLE_XS[:1] if LAYOUT == 'longtable' else TABLE_XS: tissue.box(x - 0.6, x - 0.38, 0.77, 0.85, 0.15, 0.27)
+if LAYOUT == 'longtable':
+    z = 0.5; cup = Mesh('ndl_cups', M['glass']); tea = Mesh('ndl_tea', M['soup']); plate = Mesh('ndl_plates', M['bowl']); tfood = L.CMesh('ndl_food_table', M['food'])
+    def chair(cx, cz, face):                                                       # face：椅背在哪一邊（'z+'、'z-'、'x+'、'x-'）
+        if face in ('z+', 'z-'):
+            s = 1 if face == 'z+' else -1; back = cz + s * 0.2
+            ch.box(cx - 0.22, cx + 0.22, 0.46, 0.485, cz - 0.21, cz + 0.21); ch.box(cx - 0.21, cx + 0.21, 0.66, 0.92, back - 0.018, back + 0.018)
+            for sx in (-1, 1):
+                for sz in (-1, 1): lg.cyl((cx + sx * 0.19, 0.0, cz + sz * 0.18), (cx + sx * 0.19, 0.46, cz + sz * 0.18), 0.012, seg=5)
+                lg.cyl((cx + sx * 0.19, 0.46, back), (cx + sx * 0.19, 0.92, back), 0.012, seg=5)
+        else:
+            s = 1 if face == 'x+' else -1; back = cx + s * 0.2
+            ch.box(cx - 0.21, cx + 0.21, 0.46, 0.485, cz - 0.22, cz + 0.22); ch.box(back - 0.018, back + 0.018, 0.66, 0.92, cz - 0.21, cz + 0.21)
+            for sz in (-1, 1):
+                for sx in (-1, 1): lg.cyl((cx + sx * 0.18, 0.0, cz + sz * 0.19), (cx + sx * 0.18, 0.46, cz + sz * 0.19), 0.012, seg=5)
+                lg.cyl((back, 0.46, cz + sz * 0.19), (back, 0.92, cz + sz * 0.19), 0.012, seg=5)
+    for k, cx in enumerate((-0.25, 0.7, 1.65)):                                    # 兩側各三張，稍微拉開一點（還沒有人坐）
+        chair(cx + (0.05 if k == 1 else 0.0), z - 0.84, 'z-'); chair(cx - 0.04, z + 0.86, 'z+')
+    chair(-1.18, z, 'x-'); chair(2.58, z, 'x+')                                    # 兩頭各一張
+    for k, (bx, bz, kind) in enumerate(((-0.25, 0.22, 'noodle'), (0.7, 0.2, 'soup'), (1.65, 0.24, 'noodle'), (-0.2, 0.8, 'noodle'), (0.75, 0.78, 'noodle'), (1.6, 0.8, 'soup'))):
+        bowl(bx, bz, 0.77, kind)                                                    # 每個位子一碗：乾麵或餛飩湯
+    for bx, bz in ((0.25, 0.5), (1.15, 0.5)):                                      # 中間兩盤小菜（滷味拼盤、燙青菜）
+        bm = L.lathe([(0.0, 0.0), (0.11, 0.0), (0.13, 0.02), (0.125, 0.022), (0.1, 0.006), (0.0, 0.006)], seg=14); plate.add_bm(bm, Matrix.Translation(g2b(bx, 0.77, bz))); bm.free()
+    for i2 in range(7): tfood.cbox(0.17 + (i2 % 4) * 0.045, 0.21 + (i2 % 4) * 0.045, 0.776, 0.79 + random.uniform(0, 0.01), 0.45 + (i2 // 4) * 0.06, 0.49 + (i2 // 4) * 0.06, random.choice(['#7a4a2a', '#5c3a21', '#c9a46a', '#8a5a3a']))
+    for i2 in range(5): tfood.cbox(1.07 + (i2 % 3) * 0.05, 1.11 + (i2 % 3) * 0.05, 0.776, 0.786, 0.44 + (i2 // 3) * 0.07, 0.5 + (i2 // 3) * 0.07, random.choice(['#3f6a2e', '#4f7a34', '#2f5a26']))
+    for cx, cz in ((-0.05, 0.28), (0.9, 0.26), (1.85, 0.3), (0.0, 0.72), (0.95, 0.74), (1.4, 0.7)):   # 每個位子一杯冬瓜茶／冰水（塑膠杯）
+        cup.cyl((cx, 0.77, cz), (cx, 0.89, cz), 0.034, seg=10, r2=0.04); tea.cyl((cx, 0.771, cz), (cx, 0.86, cz), 0.031, seg=10, r2=0.037)
+    cond.cyl((1.25, 0.77, z - 0.3), (1.25, 0.88, z - 0.3), 0.03, seg=8); blk.cyl((1.32, 0.77, z - 0.18), (1.32, 0.92, z - 0.18), 0.04, seg=10)   # 第二套辣椒罐、筷筒
+    tissue.box(0.6, 0.82, 0.77, 0.85, 0.15, 0.27)
+    for m in (cup, tea, plate): m.finish(root)
+    tfood.finish(root, uv=False)
+    # 背景版才有的雜物（v2，讓店裡有生活感；遊戲的配置不受影響）：右牆的玻璃門飲料冰箱、後牆的時鐘、左牆的月曆、疊起來的紅色塑膠椅
+    fz0, fz1, fb0, ff0 = -1.3, -0.5, X0 + 0.04, X0 + 0.74     # 左牆：冰箱背面貼牆（x＝fb0）、玻璃門朝店裡（x＝ff0）
+    fb = Mesh('ndl_fridge_body', L.flat('ndl_fridge_white', '#e9e9e6', rough=0.4))   # 中空的櫃體：背板、兩側、頂、底（飲料從玻璃門看得到）
+    fb.box(fb0, fb0 + 0.04, 0.0, 1.95, fz0, fz1); fb.box(fb0, ff0, 0.0, 1.95, fz0, fz0 + 0.04); fb.box(fb0, ff0, 0.0, 1.95, fz1 - 0.04, fz1)
+    fb.box(fb0, ff0, 0.0, 0.1, fz0, fz1); fb.box(fb0, ff0, 1.78, 1.95, fz0, fz1)
+    fl = Mesh('ndl_fridge_light', L.flat('ndl_fridge_inside', '#f3f7fb', rough=0.5, emit=B.srgb('#dfe8f5'))); fl.box(fb0 + 0.04, fb0 + 0.05, 0.12, 1.76, fz0 + 0.05, fz1 - 0.05)   # 背板的燈
+    fg = Mesh('ndl_fridge_glass', M['glass']); fg.quad([(ff0 + 0.03, 0.1, fz1 - 0.03), (ff0 + 0.03, 0.1, fz0 + 0.03), (ff0 + 0.03, 1.8, fz0 + 0.03), (ff0 + 0.03, 1.8, fz1 - 0.03)])
+    ff = Mesh('ndl_fridge_frame', M['frame'])
+    for zz in (fz0 + 0.03, fz1 - 0.03): ff.box(ff0, ff0 + 0.04, 0.1, 1.8, zz - 0.025, zz + 0.025)
+    for yy in (0.1, 1.8): ff.box(ff0, ff0 + 0.04, yy - 0.025, yy + 0.025, fz0 + 0.03, fz1 - 0.03)
+    sign = Mesh('ndl_fridge_top', M['red']); sign.box(fb0, ff0 + 0.005, 1.8, 1.95, fz0, fz1)
+    bot = L.CMesh('ndl_fridge_drinks', M['food'])
+    for sy in (0.25, 0.65, 1.05, 1.45):
+        ff.box(fb0 + 0.05, ff0 - 0.02, sy - 0.015, sy, fz0 + 0.05, fz1 - 0.05)
+        for k in range(7):
+            zz = fz0 + 0.1 + k * 0.085; col = random.choice(['#c8332a', '#2f6db0', '#f2c230', '#3a8a3a', '#f0f0ea', '#7a3a1a', '#e07a20'])
+            bot.cbox(ff0 - 0.12, ff0 - 0.06, sy, sy + random.choice((0.2, 0.24, 0.13)), zz - 0.03, zz + 0.03, col)
+    for m in (fb, fl, fg, ff, sign): m.finish(root)
+    bot.finish(root, uv=False)
+    clk = Mesh('ndl_clock', M['bowl']); clk.cyl((-2.35, 2.55, Z0 + 0.12), (-2.35, 2.55, Z0 + 0.16), 0.16, seg=20)
+    rim = Mesh('ndl_clock_rim', M['black']); rim.cyl((-2.35, 2.55, Z0 + 0.115), (-2.35, 2.55, Z0 + 0.155), 0.175, seg=20)
+    rim.box(-2.355, -2.345, 2.55, 2.66, Z0 + 0.16, Z0 + 0.168); rim.box(-2.35, -2.27, 2.545, 2.555, Z0 + 0.16, Z0 + 0.168)   # 七點：時針、分針
+    clk.finish(root); rim.finish(root)
+    cal = Mesh('ndl_calendar', M['bowl']); cal.quad([(-4.4, 1.35, Z0 + 0.125), (-3.95, 1.35, Z0 + 0.125), (-3.95, 1.97, Z0 + 0.125), (-4.4, 1.97, Z0 + 0.125)])   # 月曆：後牆左邊
+    calh = Mesh('ndl_calendar_head', M['red']); calh.quad([(-4.4, 1.85, Z0 + 0.13), (-3.95, 1.85, Z0 + 0.13), (-3.95, 1.97, Z0 + 0.13), (-4.4, 1.97, Z0 + 0.13)])
+    calg = Mesh('ndl_calendar_grid', M['black'])
+    for r in range(5):
+        for c in range(7): calg.box(-4.37 + c * 0.06, -4.355 + c * 0.06, 1.42 + r * 0.08, 1.44 + r * 0.08, Z0 + 0.128, Z0 + 0.132)
+    for m in (cal, calh, calg): m.finish(root)
+    stool = Mesh('ndl_stools', L.flat('ndl_stool_red', '#c0392b', rough=0.5))
+    for k in range(4):
+        y = k * 0.06; stool.box(-4.55, -4.2, 0.4 + y, 0.44 + y, -2.95, -2.6)
+        for sx in (-4.53, -4.22):
+            for sz in (-2.93, -2.62): stool.box(sx - 0.015, sx + 0.015, y, 0.4 + y, sz - 0.015, sz + 0.015)
+    stool.finish(root)
 for m in (tt, te, ch, lg, cond, blk, tissue): m.finish(root)
 bw.finish(root, uv=False, smooth=True); nd.finish(root, uv=False, smooth=True); sp2.finish(root, uv=False)
 st.finish(root); sd.finish(root)

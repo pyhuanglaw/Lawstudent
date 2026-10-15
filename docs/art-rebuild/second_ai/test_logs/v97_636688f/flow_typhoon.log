@@ -1,0 +1,18 @@
+  [前置／捷徑] 讀檔：第 26 天（10/12 週日）21:27 宿舍房間；麵店團第 20 天加入、見過方奕廷
+PASS 等到 21:33（遊戲時間走得動）  21.551110666666787
+FAIL 「通知」：新聞「明天停止上班上課。」、張教授（信）「明日停課。……四十二頁……」，看得到是誰傳的
+FAIL 「麵店團」：阿哲、小語、柏翰、阿哲四則照順序；最後一則有三個回覆按鈕  {"pos": [-1, -1, -1, -1], "btns": []}
+FAIL 點「（貼一張颱風的貼圖）」→ 送出貼圖、小語「這張貼圖比講義有用。」、按鈕不見
+  [ 102.9s] 到達「床」附近（0.16 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，14 秒
+PASS 走到床邊、出現「睡覺」  {"zone": "dorm", "x": -1.24, "z": -1.5, "ry": 4.71, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "睡覺", "hour": 21.59, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 233, "paused": false}
+FAIL 睡覺 → 第 27 天（10/13 週一）早上在宿舍醒來、下雨  {"day": 26, "zone": "dorm", "hour": 21.59533266666684, "weather": "cloudy"}
+FAIL 手機「今天」：「今天放假（颱風假），沒有課」
+  [前置／捷徑] 讀檔：第 27 天（10/13 週一，颱風假）17:57 宿舍房間；麵店團第 20 天加入、見過方奕廷
+FAIL 18:00 泡麵之夜自己開始（阿凱「我囤了二十包。這是我人生最正確的決定。」）  {"zone": "dorm", "x": 0, "z": 2.4, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": true, "dtext": "經濟系的那一年，你不是一", "choices": 0, "interact": "", "hour": 17.95, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 602, "paused": false}
+FAIL 方奕廷進來那一句起是 CG（正式檔 assets/cg/kai/event_typhoon_noodles.webp，1920×1080）  {"cg": {"bg": "", "w": 0}, "dtext": "早安。今天的假設題。"}
+FAIL 三個選項照 BB_110  ["讀到一半。案例比想像的長。", "寫自己老師的。", "讀到一半，在想妳。"]
+FAIL 選項出現時還是同一張 CG  {"bg": "", "w": 0}
+FAIL 選「看情況。」→ 阿凱「你們法律系每次都這樣。」  {"zone": "dorm", "x": 0, "z": 2.4, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "去上課吧。下課再跟我說你讀到哪了。", "choices": 0, "interact": "離開宿舍", "hour": 17.96, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 685, "paused": false}
+FAIL 結束後可以走動、記了 SAID_DEPENDS（阿凱）  {"zone": "dorm", "x": 0, "z": 2.4, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "去上課吧。下課再跟我說你讀到哪了。", "choices": 0, "interact": "離開宿舍", "hour": 17.96, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 685, "paused": false}
+PASS 沒有 JS 例外  []
+FAILED: 「通知」：新聞「明天停止上班上課。」、張教授（信）「明日停課。……四十二頁……」，看得到是誰傳的, 「麵店團」：阿哲、小語、柏翰、阿哲四則照順序；最後一則有三個回覆按鈕, 點「（貼一張颱風的貼圖）」→ 送出貼圖、小語「這張貼圖比講義有用。」、按鈕不見, 睡覺 → 第 27 天（10/13 週一）早上在宿舍醒來、下雨, 手機「今天」：「今天放假（颱風假），沒有課」, 18:00 泡麵之夜自己開始（阿凱「我囤了二十包。這是我人生最正確的決定。」）, 方奕廷進來那一句起是 CG（正式檔 assets/cg/kai/event_typhoon_noodles.webp，1920×1080）, 三個選項照 BB_110, 選項出現時還是同一張 CG, 選「看情況。」→ 阿凱「你們法律系每次都這樣。」, 結束後可以走動、記了 SAID_DEPENDS（阿凱）
