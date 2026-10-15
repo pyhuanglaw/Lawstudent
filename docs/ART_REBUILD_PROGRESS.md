@@ -10,6 +10,18 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+值班登記：帳號 B｜LAWWW-B｜session_01DvRVNNnivf7da7qqWuGmw6｜分支 claude/modest-rubin-2lyp7g｜接班基準 origin/claude/confident-ritchie-8rwh7t 的 c8b3eab（合併 commit 450ffdb）｜2026-10-15 23:02 UTC
+上一班：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜最後 commit 78402e1（交班補記，2026-10-14 17:38 UTC；之後 c8b3eab／effb148 是使用者推的 P0 換班規則）｜正常交班
+
+### 接班（LAWWW-B 帳號 B，2026-10-15 23:02 UTC）
+
+- 第一次真的換到帳號 B。系統指定的分支 `claude/modest-rubin-2lyp7g` 從 `main`（`4e203e8`：v9.7 `313d620`＋使用者推的 P0 換班規則兩個 commit）開出；把 `claude/confident-ritchie-8rwh7t`（`c8b3eab`）用 merge 合進來（`450ffdb`）。衝突只有 `CLAUDE.md`、`docs/AI_SESSION_HANDOFF.md` 最上面：兩邊都有同一段「P0 緊急換班口令」，開發分支多一段「P0 使用者新訊息優先與期末考素材來源」，兩段都留（內容和開發分支相同）。
+- 離開期間（10-14 17:40 → 10-15 23:02 UTC）：開發分支、`claude/second-ai-env-art`（`8e1061a`）、`claude/story-planning`（`0d278bb`）都**沒有新的工作 commit**；只有使用者推的 P0 換班規則（main `e80da49`／`4e203e8`、開發分支 `effb148`／`c8b3eab`）。沒有發布（最後一次發布 v9.7 2026-10-14 12:32 UTC，三小時規則早已過）。
+- 跨帳號通訊實測（第 9 節）：帳號 B 的 `list_sessions` 只看得到 LAWWW-B 自己；對 LAWWW（`session_01Eds6msqpsuzNEw98sdw8JX`）`send_message` 回「the requested resource was not found」。**跨帳號不通，全部靠 GitHub 文件交接。**
+- 接下來照上一班的「沒做、沒跑的」清單從第 1 項開始（AA 的 P0：重新匯入 `exam_official/`、syllabus，做「課堂提問」畫面）。LAWWW2-B、AA-B、BB-B 還沒上線。
+- **注意**：LAWWW-B 的開發分支是 `claude/modest-rubin-2lyp7g`；`claude/confident-ritchie-8rwh7t` 這段期間不再寫入。LAWWW2-B 交付、AA-B／BB-B 的交接，請以這條分支為準。
+
+
 ### 交班（LAWWW 帳號 A，2026-10-14 約 17:40 UTC）——使用者：「現在換班，請依照既定交班規則完成交班。」
 
 - **分支**：

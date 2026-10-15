@@ -46,7 +46,7 @@
 
 | 職位 | 職責 | 帳號 A | 帳號 B | 現在值班 | 分支（2026-10-11 10:06 UTC 的最新 commit） | 進度檔（在各自的分支上） |
 |---|---|---|---|---|---|---|
-| **LAWWW** | 開發負責人：核心系統、人物、建築室內、整合、測試、**正式發布**、分派 LAWWW2 | LAWWW `session_01Eds6msqpsuzNEw98sdw8JX`（**2026-10-13 回到值班**，接班基準 `cb399ea`）交班」） | LAWWW-B：未建立 | A，2026-10-14 約 17:40 交班（等使用者指定下一班） | `claude/confident-ritchie-8rwh7t`（交班時：程式 `8c5b6ee`＋交班 commit）；本機半成品備份在 `wip_backup/`（git bundle：dorm-hall、wancai-stairs） | `docs/ART_REBUILD_PROGRESS.md` 最上面「交接（最新）」 |
+| **LAWWW** | 開發負責人：核心系統、人物、建築室內、整合、測試、**正式發布**、分派 LAWWW2 | LAWWW `session_01Eds6msqpsuzNEw98sdw8JX`（2026-10-14 約 17:40 交班，最後 commit `78402e1`） | **LAWWW-B `session_01DvRVNNnivf7da7qqWuGmw6`（2026-10-15 23:02 UTC 接班，接班基準 `c8b3eab`）** | **B 值班中** | **`claude/modest-rubin-2lyp7g`**（LAWWW-B；接班合併 `450ffdb`）；A 的 `claude/confident-ritchie-8rwh7t` 停在 `c8b3eab`，B 值班期間不寫入；本機半成品備份在 `wip_backup/` | `docs/ART_REBUILD_PROGRESS.md` 最上面「交接（最新）」（在 LAWWW-B 的分支上） |
 | **LAWWW2** | 環境美術：Blender、3D 場景（Café、溫州街、公館、街道道具、校園地標、行道樹、獨立室內） | LAWWW2 `session_01AC1WVgJSmoJK1uRsPK2Zn1`（**2026-10-13 12:35Z 回到值班**，接班基準 `1f20126`，值班登記 `8876a23`） | LAWWW2-B：未建立 | **A 值班中** | `claude/second-ai-env-art`（`1f20126`）＋半成品分支 `-wip-pavsoc`（`8c6f1fe`，⑤驗收完成）、`-wip-props6`（`f2fe6ae`，⑤⑥：合併後回歸只跑完 street_props_integration，要重跑才交付）、`-wip-trees`（`d7916da`，⑦驗收沒跑）、`-wip-soclib`（`3b4b201`，⑬配置＋Blender 腳本初稿，還沒執行）；`-wip-props` 是重複分支，忽略 | `docs/art-rebuild/second_ai/HANDOFF.md` |
 | **AA** | 劇情企劃：四年故事架構、主線、系統與劇情規劃 | AA `session_019Y3emYqxxC4Ch1GGf4fMzw`（**2026-10-13 12:34Z 回到值班**；接班基準、值班登記見右欄的交接紀錄） | AA-B：未建立 | **A 值班中** | `claude/story-planning`（2026-10-14 起；和 BB 共用。舊的企劃分支已移除，不要再推那個名字——D66） | `docs/story_planning/AA_交接紀錄.md` |
 | **BB** | 劇情企劃：角色、人物關係、事件、對話與支線 | BB `session_01XVHYLaK9Vcnae3U1aAJoZv`（**2026-10-13 12:34Z 回到值班**；接班基準、值班登記見右欄的交接紀錄） | BB-B：未建立 | **A 值班中** | `claude/story-planning`（同上） | `docs/story_planning/BB_00_協作規範與交接紀錄.md` |
@@ -249,7 +249,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
 | 測試 | 結果 | 日期 | 測試者 |
 |---|---|---|---|
 | 帳號 A 內部：LAWWW ⇄ LAWWW2、LAWWW → AA、BB | 工具大多回 DELIVERED，紀錄在 `docs/DUAL_AI_BOARD.md`。**但送達不保證對方看到**：2026-10-11 LAWWW → LAWWW2 有三則顯示 DELIVERED、對方的對話裡沒有，它是讀看板才知道的 | 2026-10-10～11 | LAWWW、LAWWW2 |
-| 帳號 B → 帳號 A（`list_sessions`、`send_message`） | 未實測 | — | LAWWW-B 第一次上線時 |
+| 帳號 B → 帳號 A（`list_sessions`、`send_message`） | **不通**：`list_sessions` 只看得到 LAWWW-B 自己；對 LAWWW `session_01Eds6msqpsuzNEw98sdw8JX` 的 `send_message` 回「the requested resource was not found」。跨帳號一律用 GitHub 文件交接 | 2026-10-15 23:0x UTC | LAWWW-B |
 | 帳號 A → 帳號 B | 未實測 | — | 回到帳號 A 時的 LAWWW |
 
 ## 10. 權限（換帳號不變）
@@ -276,6 +276,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>
 
 | 時間（UTC） | 從 → 到 | 職位 | 接班基準 commit | 備註 |
 |---|---|---|---|---|
+| 2026-10-15 23:02 | LAWWW（帳號 A）→ **LAWWW-B（帳號 B）** | LAWWW | `c8b3eab`（`claude/confident-ritchie-8rwh7t`），合併進 `claude/modest-rubin-2lyp7g` 為 `450ffdb` | 第一次實際換到帳號 B（使用者貼 7.1 啟動提示詞）。離開期間只有使用者推的 P0 換班規則，沒有其他工作 commit、沒有發布。跨帳號 `send_message` 不通（第 9 節）。LAWWW-B 從上一班清單第 1 項（AA 的 P0 課堂提問）接續 |
 | 2026-10-14 17:40 | LAWWW（帳號 A）交班 | LAWWW | 「LAWWW（帳號 A）交班 2026-10-14」那個 commit（`claude/confident-ritchie-8rwh7t`） | 使用者說「現在換班」；正常交班。下一班先做 AA 的 P0（`7180b53` 課堂提問＋重新匯入），清單在進度檔「交班（LAWWW 帳號 A，2026-10-14 約 17:40 UTC）」。瀏覽器回歸 evtest、main_day12、first_meet、playtest_fixes 沒跑，要重跑 |
 | 2026-10-11 10:13 | LAWWW（帳號 A）交班 | LAWWW | 「LAWWW（帳號 A）交班」那個 commit（`claude/confident-ritchie-8rwh7t`） | 使用者說要換班；正常交班。背景的最終回歸、修改審查、接班檢查、出遊規劃都停了，結果不在 GitHub，LAWWW-B 要重跑（進度檔「交班（最新）」） |
 | 2026-10-13 | （A 交班後直接回到 A；**帳號 B 這次沒有開**） | LAWWW | `cb399ea` | 使用者說「我回來了…」，之後說明「後來暫時沒有開新的帳號，從上次停下來的地方開始就好」。所有遠端分支沒有新 commit、沒有帳號 B 的分支。**跨帳號接班還沒實際演練過**（第 9 節的跨帳號通訊仍是未實測）。LAWWW2、AA、BB 等使用者各自叫回來，從各自交班時停下的地方接續 |
