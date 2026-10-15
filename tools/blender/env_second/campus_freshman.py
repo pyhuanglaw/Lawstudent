@@ -42,17 +42,18 @@ def build():
     M = {
         'wall': L.pbr('fd_wall', 'exterior_wall_cladding_02', tile=2.0, target=WALL, sat=0.25, normal=0.7, maps=('diff', 'nor'), rough_value=0.88),
         'paint': L.pbr('fd_paint', 'painted_plaster_wall', tile=2.5, target=PAINT, sat=0.3, maps=('diff',), res=256, rough_value=0.9),     # 樓梯間、樓板線、雨遮、女兒牆壓頂（平整的漆面）
-        'trimw': L.pbr('ck_trim_win', 'painted_plaster_wall', tile=2.5, target='#e2ded6', sat=0.3, maps=('diff',), res=256, rough_value=0.9),   # 窗台、窗洞內側（不投影）
+        'trimw': None,   # v9.7 合併材質：窗台、窗洞內側直接用 paint（原本是同一張貼圖、顏色稍暗的另一個材質 ck_trim_win）
         'base': L.pbr('ck_stone_base', 'granite_tile_03', tile=1.2, target=WALL1, maps=('diff',), res=256, rough_value=0.7),
         'ceil': L.flat('ck_ceiling', '#e2dccf', rough=0.95),
         'frame': L.flat('ck_frame', '#9a9d9f', rough=0.4, metal=0.35),            # 銀色鋁框
-        'roof': L.pbr('fd_roof', 'square_brick_paving', tile=1.6, target='#a5674c', maps=('diff',), res=256, rough_value=0.9),    # 屋頂隔熱磚
+        'roof': L.flat('fd_roof', '#a5674c', rough=0.9),    # 屋頂隔熱磚（v9.7 合併材質：改純色，併進 wz_vc_fd；從地面看不到屋頂）
         'glass': L.vc_material('ck_glass', rough=0.12),
         'misc': L.vc_material('fd_misc', rough=0.55),                             # 冷氣、水塔、太陽能板、鐵窗、刷卡機、信箱…（頂點色）
         'cloth': L.vc_material('fd_cloth', rough=0.85),                           # 曬的衣服（頂點色）
         'lamp': L.flat('wz_lamp_lens', '#f3ead6', rough=0.4),
         'board': L.flat('ck_board', '#d8d0c0', rough=0.8),
     }
+    M['trimw'] = M['paint']
     K.setup_glass(M['glass'])
     accs = {}
     VC = ('glass', 'misc', 'cloth')
@@ -254,9 +255,13 @@ def build():
     # ---------------- 完成 ----------------
     K.finish(accs, root, VC)
     for (m, props) in plates: uv01(m.finish(root, uv=True, props=props))
+    # v9.7 合併材質（LAWWW 2026-10-14 04:52Z）：純色、頂點色的零件併成一個頂點色材質 wz_vc_fd（遊戲端整個網格投影、陰影一次 draw call）。
+    # 留下：面磚、漆面（含窗台）、石材勒腳、玻璃、燈罩、匾額
+    VCM = L.vc_material('wz_vc_fd', rough=0.6)
+    L.vc_consolidate(root, {n: VCM for n in ('fd_misc', 'fd_cloth', 'ck_ceiling', 'ck_frame', 'fd_roof')})
     L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
     info = L.export(out, gpu_instances=False)
-    info['note'] = '依文字資料的遊戲化設計（沒有照片）；本體、門廊位置照 CK.hall，導航不用改'
+    info['note'] = '依文字資料的遊戲化設計（沒有照片）；本體、門廊位置照 CK.hall，導航不用改；v9.7 合併材質（12 → 7）'
     L.write_json(out[:-4] + '.json', info)
     return info
 

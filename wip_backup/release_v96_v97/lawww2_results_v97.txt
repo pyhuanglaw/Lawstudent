@@ -1,0 +1,25 @@
+# LAWWW2 機器上的 v9.7 結果（格式：名稱 rc=N (秒s) @SHA 說明）。遊戲程式＝候選 1 5adef66（候選 2～4 只改測試）。
+# 07:27 第一批：flow_typhoon 7/7（測試問題：床的選項、醒來對話、直向提示）、cg_rain_shots 直向 FAIL（直向提示蓋住）——已用候選 4 的 patch 重跑中，不記在這裡；以重跑結果為準。
+flow_typhoon rc=0 (180s) @6ad0923 ALL PASS（14 PASS；候選 4 的 patch）
+cg_rain_shots rc=0 (172s) @6ad0923 ALL PASS（直向＋橫向都是 event_rain_library.webp 1920×1080）
+flow_invite_phone rc=0 (80s) @06f2b64 ALL PASS（13 PASS，沒有 JS 例外；遊戲＝候選 1）
+flow_first_meet rc=1 (1204s) @06f2b64 FAILED: 10 PASS／5 段 FAIL（A 傅鐘芷若不在、B2 經原分組沒開始、C 櫃台按鈕名稱、D 總圖門口晴天版沒觸發）——LAWWW 查原因中
+flow_lecture_attend rc=1 (851s) @06f2b64 FAILED: 4 PASS／7 FAIL——測試寫死的座位被坐姿替身坐走（演講一半的位子有人）；候選 6 改成挑空位，LAWWW2 重跑中
+flow_discuss_class rc=1 (221s) @06f2b64 FAILED: 4 PASS／5 FAIL——寫死的 201 第 4 排第 4 個座位是上課時同學固定坐的位子；候選 7 改成挑空位，LAWWW2 重跑中
+flow_first_meet rc=1 (1380s) @7c5d4c2 FAILED: 16 PASS／4 FAIL——C（Café 店員修正）通過；A 追人、B2 卡門框是測試問題，C 見過以後按鈕名字沒更新是遊戲小 bug；候選 8 修，LAWWW2 重跑中
+flow_lecture_attend rc=1 (848s) @7c5d4c2 FAILED: 8 PASS／3 FAIL——A 段（空位、中途離開）全過；B 段第二場是測試時間（走回 101 時 1.5 小時的演講快結束）；候選 9 改 4 小時，LAWWW2 重跑中
+adv_cg_layout rc=0 (60s) @3e5201d ALL PASS（直向縮小放進畫面＋上下模糊填滿、橫向 cover、ADV 結束清掉；LAWWW2 7ae5def 推的 log＋截圖，秒數是 log 裡最後的時間戳）
+flow_main_day12 rc=0 (718s) @3e5201d ALL PASS（從標題開新遊戲的第一、二天主線，走上二樓進 201、存讀檔；LAWWW2 7ae5def）
+flow_teaching_buildings rc=0 (915s) @3e5201d ALL PASS（坐下「坐一下」、手機地點到大一女舍門口、沒有 JS 例外；LAWWW2 7f572c8）
+flow_soclib rc=0 (648s) @3e5201d ALL PASS（手機地點到社科院圖書館、晚上天窗 8%、沒有 JS 例外；LAWWW2 7f572c8）
+campus_glb_integration rc=0 (254s) @3e5201d ALL PASS（70；gate_avenue draw call ×1.088、三角形 ≤ 改之前；LAWWW2 d0d8d92 總表）
+flow_first_meet rc=1 (909s) @3e5201d FAILED: 18 PASS／2 FAIL——A 追不到（d=30.9）、B2 抓到打字機打到一半的字（FIRST_MET 有記，事件正常）；LAWWW2 修測試中（10:35 P1）
+flow_discuss_class rc=1 (201s) @3e5201d FAILED: 3 PASS／6 FAIL——A 檢查「坐下」時人還在走（path 2）連帶後面；B 轉述訊息有、比對的格式舊；LAWWW2 修測試中
+flow_lecture_attend rc=1 (872s) @64792d3 FAILED: 8 PASS／3 FAIL——第二場坐下選到「聽演講」不是「坐一下」（時間跳 3.8 小時記成 full）；LAWWW2 修測試中
+flow_first_meet rc=0 (901s) @fd46e14 ALL PASS（20 項；候選 14＋LAWWW2 的測試 patch v97_tests_fd46e14＝候選 16 的測試；LAWWW2 d22d317）
+flow_discuss_class rc=0 (352s) @fd46e14 ALL PASS（9 項；同上 patch；A 段在 201 第 4 排原地走路、推一下搖桿才到＝遊戲的問題，不是 v9.7 新的，開發分支 7247f1a 修；LAWWW2 57e89fe）
+flow_lecture_attend rc=0 (836s) @fd46e14 ALL PASS（11 項；同上 patch：照文字選「坐一下」；LAWWW2 推的 log）
+see_through rc=0 (58s) @52f288e ALL PASS（12 項；LAWWW2 5576908）
+flow_library_scene rc=0 (528s) @52f288e ALL PASS（13 項；LAWWW2 60c2e48、1764ab4）
+flow_library_floors rc=0 (899s) @52f288e ALL PASS（27 項；LAWWW2 bef3d7c）
+flow_boya_interior rc=0 (1114s) @52f288e ALL PASS（24 項，不用 turbo；LAWWW2 4985b0a）

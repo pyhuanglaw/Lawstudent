@@ -10,6 +10,330 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+### 交班（LAWWW 帳號 A，2026-10-14 約 17:40 UTC）——使用者：「現在換班，請依照既定交班規則完成交班。」
+
+- **分支**：
+  - 正式 `main`＝`313d620`（v9.7），這一班沒有動。
+  - 開發分支 `claude/confident-ritchie-8rwh7t`：程式最後一個 commit `8c5b6ee`，再來是這個交班 commit。
+  - 這一班的東西都**沒有發布**。
+- **這一班做完的**（都在開發分支）：
+  - `dc0e576`／`7936f0b`：作息換到同一區的另一間（roomMove）、B5 等以安坐到圓桌。瀏覽器 `flow_b4_lecture` ALL PASS（Playwright 手機模擬，不是 iPhone 實機）。
+  - `bb6d2ee`：AA_130 課程調整——刪 7 門課、法學英文搬到大二下、黃陳兩位教授改在霖澤館大廳、存檔 idv 3、syllabus 重新匯入。
+  - `828f2d4`：期末考抽 5 題（課堂題優先、不足 5 題不開考、絕不補題）。
+  - `ff4de09`：考試畫面截圖腳本。
+  - `1bb3b17`：`?dev` 除錯面板列出這學期不開考的課。
+  - `d4e5629`：大一～大三交卷後不顯示法條（basis／mapBasis 是 AA、BB 標的），大四照顯示。
+  - `8c5b6ee`：祐廷是臺北人（使用者直接確認）。
+- **測試**：
+  - Node 單元測試 107/107（`8c5b6ee`）。
+  - 瀏覽器（Playwright 手機模擬，`7936f0b`）：
+    - ALL PASS：`spring_trip`、`tap_stall_201`、`b4_lecture`、`deploy_check`、`zone_transitions`、`invite_phone`、`save_compat_v95`。
+    - **FAILED**：`zone_memory`（見下面第 4 點）。
+  - 截圖：`dev_shots_1014` 7 張（`7936f0b`，只在本機 scratchpad，沒放進 repo）。
+  - 考試畫面截圖（`ff4de09`）：`docs/art-rebuild/screenshots/exam_2026-10-14/`。
+    - 第 1、2 題的直向、橫向排版看得到題目和選項。
+    - **交卷結果那一頁沒拍到**：截圖時文字已經關了。
+    - 直向時題目框後面露出「離開教室」按鈕。截圖腳本用捷徑直接開考（沒坐下、沒進劇情模式），要在真實流程確認考試中按不按得到。
+- **沒做、沒跑的**（下一班依序做）：
+  1. **P0（AA 17:5x，企劃分支 `7180b53`）**：重新匯入 `exam_official/` 和 syllabus，做「課堂提問」畫面，做完回 SHA 給 AA。
+     - `exam_official/`：多了 `askedIn`；大一～大三的 `basis` 改名 `mapBasis`。importer 兩種名字都已經不帶。
+     - syllabus：Y1S1～Y3S1 每週多了 `ask:{qid}`，共 69 題。
+     - 「課堂提問」畫面規格在 AA_130 第 3 節第 3 點（`aa57384`）：下課前教授在黑板角落寫一題，玩家作答，公布答案＋考點；這學期第一次時說「期末考，會考這樣的題目。」；不計分；沒去上課不演。
+  2. 考試畫面在**真實流程**（坐下上課 → 考試週那一堂）用手機模擬重拍直向、橫向，要有交卷結果。
+  3. 瀏覽器回歸，在最新的開發分支上跑：
+     - 排了沒跑（執行器已停）：`evtest`、`flow_main_day12`、`flow_first_meet`、`flow_playtest_fixes`。
+     - `flow_classes.py` 的 A 段、`flow_course_choice.py` 用了被刪的課，要重寫或退休。
+  4. `zone_memory`：校園來回 4 次，貼圖一直增加（每次約 +110）。懷疑騎腳踏車的路人（`E.extras`）移除時沒有 dispose；和使用者回報⑤（iPhone 跳回標題）可能有關。
+  5. LAWWW2 回報、在我的檔案裡的問題：
+     - 麵店價目板的字被切掉（`zones3d.js` attachNoodleInterior，要用 measureText 縮字）。
+     - 博雅後牆的方形光斑。
+     - 大一女舍長椅附近沒有燈。
+     - 女舍門口的路人坐在空中。
+     - 另外要整合 LAWWW2 的 noodle_table v2（`dcc4cf7`）、看 C13 夜景截圖（`ce301b6`）。
+  6. v2 待辦：
+     - BB 15:52：B4 可以拿掉 `legal_review:'REQUIRED'`。
+     - BB 15:59：沛珊「欠的，還了。」改用班級群組「法律系一年級」。
+     - BB 16:00：W3b 三篇文章（`d21d8e1`）。
+     - AA 15:30：重訪日 1 的台詞（`2100018`）。
+     - 可昕第 9 節：BB 15:35 說可以恢復，但 9-1 寫「寒假祐廷在嘉義」，改成臺北人以後要等 AA、BB 重給文字。
+  7. 等使用者：
+     - 期末考抽法（`EXAM_MIX` 課堂優先或 3＋2）。
+     - 交換延畢方案（AA 先提）。
+     - 七位女主角的生日列表。
+     - 法律服務改成每兩週週六早上：先記錄、不改程式，企劃在 AA_131 第 6 節。
+- **其他 AI**：
+  - LAWWW2：17:22 派了三項——① 便利商店商品 ② 女舍門燈罩加大＋長椅適合加燈的位置 ③ 盤點還沒給使用者驗收的成果。DELIVERED，還沒有 ACK。
+  - AA：17:5x 交班（企劃分支 `4bdf744`）。
+  - BB：沒有收到交班訊息。
+- **交班後收到（17:38）**：
+  - LAWWW2 已交班，最後 commit `8e1061a`（`claude/second-ai-env-art`）。
+    - 便利商店商品停在 WIP（腳本 `208f242`，正式 GLB 沒換，**不要整合這一版**）。
+    - 女舍門燈罩、待驗收盤點還沒開始。
+  - BB 已交班（企劃分支 `b79cb91`）。
+    - 法學英文 25 題（使用者剛給的）還沒轉成題庫，在那之前法學英文 0 題、不開考。
+    - **可昕 12/3 的生日事件在使用者確認新的生日表之前不要動**。
+    - 細節在企劃分支 `給開發組_交接板.md` 第 4 節最上面。
+- **本機**：scratchpad 的瀏覽器佇列執行器和監看已停。`wt_next` 沒有未 commit 的修改。沒有只存在本機的成果（截圖 `dev_shots_1014` 例外，可以重拍：`tools/shots/dev_features_1014.py`）。
+
+
+**2026-10-14 16:55 UTC（開發分支最新：這一筆交接的 commit；線上＝v9.7 `313d620`；沒有排發布；使用者的額度約 18:50 UTC 用完）**：
+- **16:00 以後的 commit（開發分支）**：
+  - `dc0e576`：`roomMove`（作息換到同一區的另一間）、B5 等以安坐到圓桌才開始。另外三個流程測試改成記整句台詞。
+  - `7fcb3d0`：`flow_tap_stall_201` 改用引擎時間 `E.time`；使用者指示紀錄補 15:45 的原話（上課討論的出題＋使用者的題庫）。
+  - `500b637`：截圖腳本 `dev_features_1014` 加第 7 張（男一舍前的地板）。
+  - `7936f0b`：`flow_b4_lecture` 等以安、小語走到圓桌，最多 600 秒。
+  - 這一筆：CLAUDE.md 加 `roomMove` 的說明、這段交接。
+- **瀏覽器（Playwright 手機模擬＋SwiftShader，不是 iPhone 實機）**：
+  - `flow_peishan_table` ALL PASS（`863d8ac`）。
+  - `flow_spring_trip` ALL PASS（`7936f0b`，6 項）。
+  - `flow_tap_stall_201` ALL PASS（`7936f0b`）：點到走不到的地方，3.03 秒（引擎時間）放掉路線、站好。
+  - `flow_b4_lecture` **ALL PASS**（`7936f0b`，12 項，928 秒）。
+    - 流程：以安、小語、阿哲照作息走進 101 → 自己坐下 → 聽演講 → 散場的問題 →「好。」
+      → 兩個人起身，從 101 走到大廳的圓桌坐下（模擬器等了 261 秒）→ 走到以安旁邊 → B5 → 三張便利貼。
+    - 第三次（`dc0e576`）沒過，是測試只等 150 秒；當時兩個人已經起身往圓桌走（約 0.65 fps）。
+- **執行器 16:30 重開**（舊的到 2 小時上限前先停；可以跑到 18:30）。佇列：`flow_b4_lecture`、`deploy_check`、`zone_transitions`、`flow_invite_phone`、`save_compat_v95`、10-14 回饋截圖、`evtest`、`flow_main_day12`、`flow_first_meet`、`flow_playtest_fixes`（約 47 分鐘，可能跑不完）。
+- **雙 AI**：
+  - 16:20 回 AA 15:53 的再確認：兩則使用者指示寫在哪個檔、哪個 SHA。狀態 DELIVERED，不用回。
+  - LAWWW2 正在做麵店長桌的 2D 背景。之後的佇列：C13 夜景截圖、便利商店商品、溫州街多幾家店、男宿交誼廳家具。
+- **主要工作目錄** `/home/user/Lawstudent` 原本停在舊的 `3609378`，已快轉到開發分支最新（沒有本機修改）。
+- **提案（沒做）**：玩家說「好。」之後，目標可以改成「去找以安」，地圖畫路線（用現有的 `GM.findPerson`）。現在以安、小語會自己起身走過去，玩家看得到，所以先不加。
+
+**2026-10-14 16:00 UTC（開發分支最新：這一筆交接的 commit；線上＝v9.7 `313d620`；沒有排發布）**：
+- **15:30 以後（開發分支，瀏覽器還沒看畫面；每個都有單元測試，修改前失敗）**：
+  - `a409436`：C9 春假麵店團兩天一夜、選完自動傳訊息、W2b 期末、K8 照片、小語騎樓版。
+  - `e94cfae`：BB_96 第 10 節 10-1 P4d「你怎麼又在這裡？」（重修經原下課的走廊；阿勳、品妤只有台詞，還沒有 3D 人物）。
+  - 這一筆：C13 可玩切片的 B4／B5。
+    - 活動 `B4`：博雅午後講座，第 11 週週四 19:00 博雅 101。
+    - 週二以安在麵店團揪人。
+    - 以安、小語、阿哲那一晚的作息在 101，散場後以安、小語在圓桌。
+    - 事件：演講 `ev_b4_lecture`、散場 `ev_b4_after`、小桌子 `ev_b5_table`、中途離開以後以安一句 `ev_b4_partial_an`。
+    - 沒去：小語在群組轉述。
+    - B4、B5 標 `legal_review:'REQUIRED'`（比例原則的方向），等 BB 確認。
+- **測試修正（不是遊戲的 bug）**：
+  - `flow_playtest_fixes` C 項：小睡醒來是 12:02，之後時鐘照常走。舊寫法拿 12:00 比、差 4 秒沒過；改成和選之前的時間比，而且要還在中午。
+  - `tools/dev_scratch/evtest.py` 改用預裝的 Chromium（`executable_path`）。
+  - `v2_c14_unit` 不算同一天中午 B4 的揪人訊息。
+  - `activities_unit`、`boya_lecture_unit` 的允許清單加上 B4。
+- **16:00 以後**：
+  - `9da176e`：B4／B5 本體。
+  - `fd235b6`：第 12 週以安「你那天聽完就走了。你怎麼想？」。
+  - `0c63b2d`：瀏覽器測試 `tests/flow_b4_lecture.py`。
+  - `54e44b4`：沛珊的那張表（BB_96 3-7）＋測試等人的時間（SwiftShader 下遊戲時間約為真實時間 4 倍）。
+- **16:20 瀏覽器測試（Playwright 手機模擬＋SwiftShader，不是 iPhone）**：
+  - `flow_peishan_table` ALL PASS（`863d8ac`）。
+  - `flow_b4_lecture`（`54e44b4`）抓到一個真的 bug：20:30 散場後以安、小語的作息換成博雅的圓桌，兩個人卻一直坐在 101。
+    原因：`refreshSchedule` 只處理「走到某一點站著」（linger）和「離開」，沒有「同一區換到另一間坐下」。
+  - 這一筆修正：
+    - `story3d.js` 的 `roomMove`：起身、走到那一間的空位坐下；朋友已經在那一間就坐同一張桌子；沒有空位就留在原地；走不到就坐回原來的位子。
+    - B5 要等以安坐到圓桌才開始（不然散場時坐在她旁邊的玩家，會在 101 就演完「小桌子」）。
+    - 新測試 `tests/schedule_roommove_unit.js`（修改前 5 項失敗）；`v2_c13_unit` 加一項（修改前失敗）。
+  - 測試本身的問題：
+    - `flow_b4_lecture` 走向以安時，途中開始的 B5 被 `go_to` 自動點掉了。`playlib.go_to` 加 `stop`（可省略，舊的呼叫不變）。
+    - `flow_spring_trip`（`2348da9`）只有「AA 的六句」沒過：出發提示、回到 4/4 17:00、天氣、走得動都通過。
+      原因是對話框的打字機效果：測試記到半句「……好。行程表」，下一下就點到下一句。遊戲本身沒錯。
+      改成記整句（`GAME.D.full`，和 `flow_first_meet` 一樣）；`flow_peishan_table`、`flow_b4_lecture` 也一起改。
+- **C13 還沒做**：
+  - 共同教學館的阿勳（10-3）、小福的還債（10-4）、SK03 週五小福午餐、SK05 販賣機。這幾項要先有阿勳的人物資料，以及小福用 2D 出遊的確認，已問 BB。
+  - 期末「欠的，還了。」：遊戲裡還沒有刑總二的課程群組，已問 BB。
+  - 3-2 明軒 F-M4：要先有打工系統（AA_72 第 3 節：每週最多兩個打工時段、和社團撞時間要選）。只做邀約會讓玩家答應一個不存在的打工，所以先不做。
+- **期末考**：使用者 15:45（經 AA）說題目全部由使用者提供（`USER_INSTRUCTION_LOG.md`）。
+  - 第 12 週憲法課的演講回想：AA 說大一下的 recall 先不匯入。
+- **10-6 P4e（經原下的成績）和可昕第 9 節 9-9 綁在一起**：第 9 節恢復時一起做。
+- **瀏覽器回歸**：
+  - 15:40 快轉到 `a409436`，接著跑 wancai_floors、tap_stall、deploy_check、first_meet、invite_phone、zone_transitions、save_compat_v95、main_day12。
+  - 執行器 15:57 重開（最晚 17:57 要再重開），先跑 `flow_b4_lecture`（修正版），再跑 tap_stall、deploy_check、first_meet、invite_phone、zone_transitions、save_compat_v95、main_day12、playtest_fixes、evtest。
+
+**2026-10-14 15:30 UTC（開發分支最新：這一筆交接的 commit；線上＝v9.7 `313d620`；沒有排發布）**：
+- **使用者 15:0x 的 P0 永久工作規則（D72、D73、D74）已寫入**：
+  - `ae697fd`：`CLAUDE.md` 新一節、`AI_SESSION_HANDOFF.md` 第 0／4／7 節、`PROJECT_DECISIONS.md`、新檔 `docs/USER_INSTRUCTION_LOG.md`。
+  - 使用者自己推的 `f6c836e`／`ace5d7e` 放在兩個檔最上面，`22c65ca` 用 merge 合在一起，以那一節為準。
+  - **新訊息先讀先回；被糾正的方向只保存不整合；期末考只用使用者素材，AA、BB 自行出的題目在來源核對與使用者確認前不接進考試系統**。
+  - 使用者重要指示的紀錄在 `docs/USER_INSTRUCTION_LOG.md`。
+- **停下的工作**：可昕大一下（BB_96 第 9 節）半成品 → `wip_backup/kexin_y1s2_s9_wip_2026-10-14.patch`（`git apply --check` 通過，不在遊戲裡），等 BB 確認和 10/14 決策相容（情人節）。
+- **15:00 以後的 v2（開發分支，瀏覽器還沒看畫面；每個都有單元測試，修改前失敗）**：
+  - `3c1af62` C11／C21 第二個畫面：期中考完的 G1 大一下版＋19:00 阿鳳麵店長桌。
+  - `eca4091` C20 重訪日 1 的麵店團併桌、單身不在麵店團（最親近的人）。
+  - 這一筆：C9 春假麵店團兩天一夜（`STORY.travelOvernight`）、選完以後祐廷自動傳的一句、「宿舍變得很空。」只在 4/3 白天、W2b 期末家族群組、K8 旅行照片。
+- **等使用者**：
+  - 期末考的出題來源（`AA_129` 第 3 節三個做法；只有刑訴有現成題庫）。
+  - AA 的五題；AA v6「不只跟一個女生交往」；10/14 新決策與校外約會由 AA、BB 互審後交接。
+- **等 AA、BB、LAWWW2**：
+  - AA、LAWWW2 的 P0 ACK（BB 已知新規則）。
+  - BB：可昕第 9 節要不要改、Z3 的四個問題、W3b 的文章與法律審查。
+  - AA：重訪日 1 以安／語彤／小語／芯慈的訊息版本（暫時跳過她們）。
+- **瀏覽器回歸**：
+  - 執行器 14:53 重新開始（最多到 16:53），在跑 flow_playtest_fixes。
+  - 接著跑 evtest，之後快轉到最新 commit，跑 wancai_floors、tap_stall、deploy_check、first_meet、invite_phone、zone_transitions、save_compat_v95（v9.5 正式版在 port 8781）、main_day12。
+- **輕量 Node 測試清單**：`scratchpad/light_js.txt`，83 個。
+
+**2026-10-14 14:55 UTC（開發分支最新：這一筆交接的 commit；線上＝v9.7 `313d620`，下一次發布最早 15:32:31 UTC，沒有排發布）**：
+- **v2 大一下，14:05 以後新增（開發分支，都還沒發布、瀏覽器還沒看畫面；每個都有單元測試，修改前失敗、修改後通過）**：
+  `0867a19` C9 春假三選一（邀約、選擇、可昕 K8 開車旅行、麵店團照片；麵店團那一趟的事件等 AA）；`b6dc42e` C2 主線 2 親戚的土地資料（一）＋可昕除夕 KN；
+  `af555b6` 芷若 Z4「十點的電話」改寫＋沛珊 P3b 課輔班；`4d77d05` 學姊 W2b 家族聚餐、W2c 三件事、「誰有車」；`dd8276c` 子晴 Q5 成發；
+  `76a7e0f` 芷若 Z5 東京物語早場＋方奕廷 Z6；`f1d132c` 學姊 W3 調到第 5 週以後＋W3_STANCE、W5 便條；`6517acc` 大一下手機小事八則；
+  `809e176` 芷若 Z3「妳自己喝什麼」＋點餐「也幫芷若點一杯」（Z3 那天 21:40 起 Café 只剩祐廷：客人起身走到門口才離開、21:40～22:00 不生成）。
+- **等 BB（14:51 已問，DELIVERED）**：①W3b 手機上的爭論要真的文章內容＋法律審查（沒有就不做）②Z5 電影票根的說明文字 ③群組名「東京物語」④拒絕早場後要不要排午場；Z3 的選項字「（就這樣）」「不加」、她那杯 120 元請 BB 確認。
+- **等 AA（之前已問，DELIVERED）**：C11＋C21 第二個畫面、C20 併桌／單身版、C18 騎樓調弦、法服／吉他社大一下週次、C9 麵店團那一趟（＋BB）。**等使用者**：AA 的五題（會不會被當、讀書的影響、健身房、節日邀約、節日 CG）、AA v6「不只跟一個女生交往」（D50 第③級）。
+- **開發分支瀏覽器回歸**（`scratchpad/run_q.sh`，wt_dev，port 8768；結果 `scratchpad/q/Q.txt`；執行器 14:53 重新開始，最多跑到 16:53）：13e2344 上 p0_movement、main_day12、first_meet、invite_phone、zone_transitions、
+  reachability_all、存檔相容 v95／v7、touch_flow_wenzhou、flow_clubs 都 ALL PASS；接著 flow_playtest_fixes、evtest，然後快轉到 `809e176` 跑 wancai_floors、tap_stall_201、deploy_check、
+  first_meet、invite_phone、zone_transitions、save_compat_v95（v9.5 正式版 a4f2760 在 port 8781 產生舊存檔）、main_day12。
+- **接下來**：BB_96 其他（3-2 明軒 F-M4 要家教打工系統、3-7 沛珊的桌子＝C13 的一部分）→ BB_96 第 9 節可昕（情人節、K5、K7 3/22、K6、K6b、手機小事、期末成績）→ 第 10 節經濟系朋友 → C13 可玩切片。
+- **輕量 Node 測試清單**：`scratchpad/light_js.txt`（80 個，809e176 全部通過）。
+
+**2026-10-14 14:05 UTC（開發分支最新：這一筆交接的 commit；線上＝v9.7 `313d620`，下一次發布最早 15:32:31 UTC）**：
+- **v2 大一下，12:35 以後新增（開發分支，都還沒發布、瀏覽器還沒看畫面）**：`0aa1a4c` C14 以安新 7（吵架＋公法讀書會；法律台詞 `legal_review:'REQUIRED'`，BB 已查核「無誤」，見交付清單）；
+  `1380f39` C21 第一個畫面（第 4 週法服讀書會結束後沛珊和柏翰；新增活動結束後的事件 `afterActivity`＝`CLS.afterActEvent`；法服讀書會大一下也有 `termWeeks`）；
+  `419431f` C18 小語語 2（三個徵兆：傅鐘早餐 auto＋near、麵店日的一句旁白、社課後／騎樓的問題；吉他社大一下也開）；`753cb8a` C20 重訪日 1 可昕的版本（6/28 18:00 Café，選項只出經歷過的事）。
+- **等 AA 回覆（已問，DELIVERED）**：①C11＋C21 第二個畫面（大一下期中的宵夜在麵店長桌：揪人的台詞、宵夜內容要不要和大一上一樣、G1 大一下版）；②C20 麵店團併桌／單身的版本（誰揪、最親近的人怎麼選）；
+  ③C18 騎樓版小語「調弦」的動作；④法服、吉他社大一下的週次（目前 2～7、10～16／5～7、10～16）。
+- **開發分支瀏覽器回歸**（`scratchpad/run_q.sh`，wt_dev，port 8768；結果 `scratchpad/q/Q.txt`）：13e2344 上 p0_movement、flow_main_day12 ALL PASS；deploy_check 的宿舍窗外景 404 已補拍（e8b8f31）；
+  flow_tap_stall_201 是測試的錯（0604058 已修）。佇列接著跑 first_meet、invite_phone、zone_transitions、reachability_all、存檔相容、wenzhou、clubs、playtest_fixes、evtest，然後快轉到 1380f39 跑 wancai_floors、tap_stall、deploy_check。
+- **接下來**：C9 春假三選一（BB_96 9-5 的 K8＋交接包 v2 第 3 節）→ C2 嘉義 → C13 可玩切片 → BB_96 其他（照週次）；AA 回覆後補 C11／C21 第二個畫面、C20 其他版本。
+- **輕量 Node 測試清單**：`scratchpad/light_js.txt`（71 個，全部通過）；新的 v2 測試：`tests/v2_c14_unit.js`、`v2_c18_unit.js`、`v2_c20_unit.js`。
+
+**2026-10-14 12:35 UTC：v9.7 已發布**——main 從 v9.6 `e88bda5` 快轉到 **`313d620`（候選 19 本身，沒有強制推送）**；GitHub Pages 第 16 次部署 2026-10-14 12:32:31 UTC success。發布紀錄 `docs/RELEASES.md` 的 v9.7 一節；下一次最早 15:32:31 UTC（三小時規則）。
+- 候選 19 已併回開發分支（`3679126`）。flow_boya_interior 在候選 19（＝發布版）重跑 ALL PASS（LAWWW2 `d7ffa8c`，12:35），已補進 RELEASES.md——發布版的每一項發布前測試都有結果了。
+- **LAWWW2 路人底模（WIP，使用者 10-14「NPC 不要都是一張臉換衣服」）12:40 交付**：8 個路人 VRM（`claude/second-ai-env-art` 的 `assets/models/char/second_ai/bl_npc_{nm1..nm4,nf1..nf4}.vrm`，各 2.4–2.7 MB）、接法 patch `docs/art-rebuild/second_ai/patches/npc_ambient_1ca527d.patch`（127d36d：assets3d.js 加 8 筆 ambient、AMB＝新 8＋舊 4）、遊戲內對照圖 `docs/art-rebuild/second_ai/shots/npc_ingame_g1305_old_vs_new.webp`（9c50fdd：共同教學館門口同一批 5 人，舊的 2 種模型、新的 5 種）。已知缺點：四個女生都是空氣瀏海、nm3 側臉有脫離的髮片、nm2 頭髮偏厚、8 個一起預載多約 20 MB。狀態 MODEL_READY 前的 WIP——下一個工作階段看完對照圖再決定要 LAWWW2 改什麼，接進開發分支前跑人物相關回歸（model_upgrade、p0、效能）。
+- 開發分支 12:34 以後：`f8c5996` AA、BB 的回覆（慈 2 旁白「她列式子，你畫圖」、語彤 6 選項字、阿凱 K2 好感數字）。還沒做、企劃組已給原文的：AA_71 的 C3 寒假拜年（含 BB 7451e42 改字）、C7 杜鵑花季、C16 系籃、C17 法四畢業（180c8ff）；BB_70 3-7 便利商店飯糰（讀書會群組，35c9328）；「天文與我們」改名（AA 同意）。
+- 開發分支下一步照 12:00 那一筆的「接下來」（v2 大一下：C14 以安新 7＋公法讀書會 → C21 → C18 → C20 → C9 → C2 → C13 → BB_96 照週次）；開發分支的瀏覽器回歸（flow_tap_stall_201 等）還沒跑。
+
+**2026-10-14 12:20 UTC 補充（v9.7 發布前最後一段；開發分支最新：這一筆交接的 commit；線上還是 v9.6 `e88bda5`；v9.7 最後的候選＝候選 19 `313d620`）**：
+- **候選 19 `313d620`**（本機分支 `rel/v97-rc19`，`scratchpad/wt_rc97`；bundle `wip_backup/v97-rc17.bundle`→`v97-rc18.bundle`→`v97-rc19.bundle` 依序 fetch，前置 `52f288e`）＝候選 16＋
+  ①flow_clubs A 段換日子（10/13 在 v9.7 是颱風假）②flow_clubs A 段初遇台詞跟上 v1 定稿（沒聽阿凱轉述過的存檔第一句是「新人？……法律系的？」）——只改測試；
+  ③**遊戲修正**：`game3d.js` 的 choose——對話框剛講完、留在畫面上時，選單墊高到對話框上面（bottom＋對話框高度），但 max-height 沒扣，**手機橫向 844×390 社團博覽會 6 個選項的選單上緣在畫面外 76 px，第一個「吉他社」看不到也捲不到**
+  （flow_clubs C 抓到；量選單位置的腳本 `wip_backup/release_v96_v97/fair_menu_probe.py`）。改成 max-height 一起扣掉、太長在選單裡捲動；量過修改後上緣 26 px、第一個點得到。v9.6 線上版沒有社團博覽會（v9.7 新功能）。
+- **候選 19 已過**：Node 76 項 ALL PASS。**跑中**：deploy_check → flow_clubs（我的佇列，約 12:30 跑完）；flow_boya_interior：LAWWW2 在候選 16 ALL PASS（`4985b0a`，24 項），12:18 請它在候選 19 再跑（遊戲程式只差 choose 這一處）。
+- **其他所有發布前測試**都已在候選 8～16 過（遊戲程式＝候選 8；候選 19 只多 choose 這一處，見 `collect_results_v97.py` 的總表）。
+- **發布步驟**（候選 19 的 flow_clubs、deploy_check 過，boya 有候選 19 或候選 16 的結果）：`git push origin 313d620:refs/heads/main`（快轉、不 force；`git merge-base --is-ancestor origin/main 313d620`）→ 確認 Pages 部署成功 →
+  `python3 scratchpad/collect_results_v97.py > v97_results.txt` → `finish_release_v97.py <開發分支 worktree> 313d620 'YYYY-MM-DD HH:MM:SS' <Pages 第幾次> v97_results.txt 候選 19 "$(cat later_rc_v97.txt)"` → commit＋push 開發分支 →
+  告訴使用者（`v97_user_summary.md`；main 有什麼、開發分支有什麼、iPhone 沒測）、LAWWW2、AA、BB → `rel/v97-rc19` 併回開發分支（choose 的修正要一起進開發分支）。D71：v9.7 不受三小時限制。
+- **如果這個工作階段在發布前中斷**：下一個工作階段照上面做；boya 用 LAWWW2 的候選 19 結果（沒有的話自己在候選 19 跑一次）。
+
+**2026-10-14 12:00 UTC 補充（開發分支最新：這一筆交接的 commit；線上 v9.6＝`e88bda5`；v9.7 最後的候選＝候選 17 `402f2b5`）**：
+- **v9.7 候選 17 `402f2b5`**（本機分支 `rel/v97-rc17`，在 `scratchpad/wt_rc97`；bundle `wip_backup/v97-rc17.bundle`，前置 `52f288e`）＝候選 16＋`tests/flow_clubs.py` A 段換日子：
+  原本讀檔到 10/13 週一，v9.7 大一上劇情把那天排成颱風假（T1），吉他社 noHoliday，遊戲照規則說「今天沒有社課」、按門沒有「參加」（候選 16 跑的 A 段 3 項 FAIL＝測試的問題）；
+  改用 10/15 週三，18:40 的檢查改成要「今天 19:00 在這裡」（原本只看「19:00」，連「今天沒有社課」也算過）。只改測試，遊戲程式＝候選 8（13 起多版本字串）。
+- **11:40 以後過的**：flow_playtest_fixes（候選 15）ALL PASS（2633 秒）；Node 76 項（候選 16，在 wt_rc97 跑：候選 8 的 story3d.js 改了一行，Node 上次只跑到候選 5）ALL PASS；
+  LAWWW2 `bef3d7c` flow_library_floors（候選 16）ALL PASS 27 項。
+- **跑中／還沒跑（發布前最後兩項）**：flow_clubs（候選 17，11:55 開始，`q/flow_clubs_v97b.log`）→ flow_boya_interior（我的佇列在 flow_clubs 之後；LAWWW2 11:52 P1 請它在候選 16 並行跑，等 ACK；誰先過算誰的）。
+- **全過以後發布**：`git push origin 402f2b5:refs/heads/main`（快轉、不 force）→ 確認 Pages → `scratchpad/collect_results_v97.py`（RCS 已有候選 17）→
+  `finish_release_v97.py REPO MAIN_SHA 'YYYY-MM-DD HH:MM:SS' PAGES_N 結果檔 候選 17 "$(cat later_rc_v97.txt)"`（備份在 `wip_backup/release_v96_v97/`）→ 告訴使用者、LAWWW2、AA、BB → 候選 17 併回開發分支。D71：v9.7 不受三小時限制。
+- **開發分支（下一版，瀏覽器還沒看）**：`a087e9c` 子晴 Q4「比賽那天」（BB_96 4-1：公館騎樓、大一下第 8 週週六 13–16、CONTEST_DAY）；`9961929` 子晴 Q6「測試我的遊戲。現在。」
+  （BB_96 4-2：前置 CONTEST_DAY 或 CLAPPED＋有點熟、第 11 週以後週一三吉他社時段、PLAYTESTED、FIRST_BUG）＋人物面板 8 種新記憶補中文名稱（原本顯示英文代號）。劇情 Node 測試 66/66。
+  問 BB 中：Q4 的錢（照舊版 −120）、Q6 第三個選項的好感數字、單身版要不要散會後兩人、小遊戲要不要一句旁白。
+- **接下來**：照 11:40 的順序（C14 以安新 7＋公法讀書會 → C21 → C18 → C20 → C9 → C2 → C13 → BB_96 照週次）；BB_96 4-3 阿凱 K2「工程師也是人」（Q6 之後在宿舍）可以接著做；
+  4-4 子晴 Q5 成發（萬才館小舞台、演出中「拍手」）要新的畫面與互動，排在 C13 之後。
+
+**2026-10-14 11:40 UTC 補充（開發分支最新：這一筆交接的 commit）**：
+- **v9.7 發布回歸**：flow_playtest_fixes（候選 15）A～C 全過、D 跑中；之後自動換執行器（`run_q_handover.sh`）→ 候選 16 → 社團 → 博雅 → 總圖兩支 → see_through；LAWWW2 從另一頭跑 see_through、總圖兩支（11:15 的 P1，還沒回 ACK）。
+- **v2（大一下）開工**（AA、BB 審完、使用者同意直接施工；照 `交接包_v2_交付清單`、`交接包_v2_大一下_草稿`、`BB_96`）：
+  - 已做（開發分支，Node 84/84，瀏覽器都還沒看）：`f451e71` 第 1 批「先改的現有文字」（語彤 4 改成阿姨扭到手腕、期中第 8～9 週；語彤 5 三句；慈 2 第四個選項＋說多少經濟系）；
+    `40d3fa9` C4 大一下選課結果接 v1（城市與散步、天文與我們）；`e07088d` C19 大一下期末最後一頓；`c09407f` C8 以安新 5（舍友的記點申訴，第 5 週總圖＋第 7 週結果／手機／群組聽說）；
+    `8e58449` C12 語彤 6 房東來過了（選項的字「（問語彤）／（不問）」是我寫的動作描述，已請 AA 看）。
+  - **接下來的順序**：C14 以安新 7（第 11～12 週吵架＋公法讀書會；要做「公法讀書會」每週四 20:00 一格的活動，照法服讀書會 lawclub_study 的做法）→ C21 沛珊和柏翰兩個畫面（第 4 週萬才館、期中宵夜；只有畫面）→
+    C10 已做的慈 2 之外的 C5／C6 已完成 → C18 小語 語 2（三個徵兆，選項照 AA_40）→ C20 重訪日 1（草稿第 3 節最後，Café 窗邊雙人桌）→ C9 春假三選一（新系統：2D 背景＋compact）→ C2 嘉義老家主線 2（2D）→
+    C13 可玩切片（B4 演講、B5、女舍、阿勳，照 AA_115 修正版＋BB_105、BB_106）→ BB_96 的人物（芷若 Z3～Z6、子晴 Q4～Q6、學姊 W2b～W5、沛珊 P3b、阿凱、方奕廷、明軒 F-M4、可昕 K5～K8、經濟系的朋友）照週次。
+  - **缺原文的（不自己寫，要問 AA）**：C3 寒假群組拜年（AA_71 2-8 只有大綱）、C7 杜鵑花季（以安拍照那一段的實際台詞）、C16 系籃（拍手、記分、送水三種的台詞）、C17 畢業（群組的話）。
+  - 「天文與我們」目前只在選課那一句；課表裡大一下的通識還叫「通識」（courses.js 的 ge_y1s2），之後 K8「山上看星星只給第 6 週天文課有去」要用到時一起改名。
+
+**2026-10-14 11:20 UTC（段落存檔；開發分支最新：這一筆交接的 commit；線上 v9.6＝`e88bda5`；v9.7 最後的候選＝候選 16 `52f288e`）**：
+- **v9.7 候選 15 `d8aca4d`、候選 16 `52f288e`**（本機分支 `rel/v97-rc15`、`rel/v97-rc16`，在 `scratchpad/wt_rc97`；bundle `wip_backup/v97-rc15.bundle`〔前置 fd46e14〕、`v97-rc16.bundle`〔前置 d8aca4d〕）：
+  只改測試，遊戲程式＝候選 8 `3e5201d`（候選 13 起多 script 版本號 9.7-1，`git diff 3e5201d 52f288e -- . ':!tests'` 只有 index.html）。
+  候選 15＝flow_bike 只量真的在騎的那一段（候選 14 把按下、放開搖桿的幾幀算進去，5.07 m/s；候選 15 量到 6.20 m/s＝設定值）；候選 16＝LAWWW2 的 patch `v97_tests_fd46e14`（first_meet、discuss_class、lecture_attend，判定變嚴、不是放寬）。
+- **已過**：第五節核心 8 項；flow_bike（候選 15 ALL PASS：腳 0 cm、校門、公館、便利商店、下車、存讀檔）；flow_study_legal、flow_seated_spawn（候選 14）；evtest；flow_course_choice；
+  LAWWW2：flow_first_meet、flow_discuss_class（候選 14＋patch，ALL PASS）、adv_cg_layout、flow_main_day12、flow_typhoon、cg_rain_shots、flow_invite_phone、teaching_buildings、soclib、campus_glb_integration。
+- **跑中／還沒跑**：我這台 flow_playtest_fixes（跑中）→ 換執行器（自動：`run_q_handover.sh`，舊的 25229 跑完這一項看到佇列空＋STOP 就結束，新的把 `q/queue.hold` 接回）→
+  候選 16 → flow_clubs → flow_boya_interior → flow_library_floors → flow_library_scene → see_through；LAWWW2 從另一頭：flow_lecture_attend → see_through → flow_library_scene → flow_library_floors。誰先過哪一項就算數。
+- **全過以後發布**：`git push origin 52f288e:refs/heads/main`（快轉、不 force）→ 確認 Pages → `scratchpad/collect_results_v97.py`（RCS 已有候選 15、16）→ `finish_release_v97.py REPO MAIN_SHA 'YYYY-MM-DD HH:MM:SS' PAGES_N 結果檔 候選 16 later_rc_v97.txt`
+  （這幾個檔在 `wip_backup/release_v96_v97/` 有備份）→ 告訴使用者（`v97_user_summary.md`）、LAWWW2、AA、BB → 候選 16 併回開發分支。D71：v9.7 不受三小時限制。
+- **開發分支（下一版，瀏覽器都還沒看）**：`15fd793` BB_120 1-7c 固定的改變（子晴、沛珊照熟度的訊息，方奕廷「學弟好」三則與上山那一週的澆水，阿凱的泡麵評鑑表；`tests/bb120_fixed_unit.js`）；
+  `67953ae` 一起走路的選項句走到目的地、見面前選（芷若猜電影、阿凱機車擋騎樓）；`7247f1a` 點地面點到人過不去的地方不再原地一直走（LAWWW2 回報的 201；`tests/tap_stall_unit.js`）；`d9c7c89` AA、BB 10:23～10:36 的回覆。Node 82/82。
+- **問 BB 中**：方奕廷「寒流前」放哪一週（先放大一上第 13～15 週）；子晴「你為什麼換」、沛珊「大家都不遵守的法律」的玩家選項原文。
+- **等使用者**：AA 的五個問題（會不會被當、讀書的影響、健身房 A/B/C、節日邀約與生日、節日 CG 七張）；v6「不只跟一個女生交往」（第③級）。
+
+**2026-10-14 10:40 UTC 補充**：v9.7 最後的候選改成**候選 14 `fd46e14`**（＝候選 13＋flow_bike 量法：一直按住搖桿量速度、車停下來再量腳和踏板、上車站在離店門遠的那邊；
+只改測試；bundle `wip_backup/v97-rc14.bundle`，前置 `69a6cdc`）。候選 14 已過：deploy_check、p0；flow_bike 跑中，之後照佇列。LAWWW2（10:35 P1）修三支測試
+（flow_first_meet 打字機半句＋追人、flow_discuss_class 還在走就檢查＋轉述格式、flow_lecture_attend 選「坐一下」），在候選 14 上重跑，修改併進候選 15（只改測試）。
+開發分支：`f6c1ad8` 一起走路聊天、`1d5d30e` 阿凱宵夜、`7b9291e` 腳踏車停在門口旁邊、`f7c77f3` 候選 10～14 併回（script 版本號 9.7-1）。
+企劃組交接板：**v2（大一下）整包可以施工**（AA、BB 都審完；照排程 v1 在瀏覽器測過再接）——下一個大工作。
+
+**2026-10-14 10:25 UTC（段落存檔；開發分支最新：這一筆交接的 commit；線上 v9.6＝`e88bda5`；v9.7 最後的候選＝候選 13 `69a6cdc`）**：
+- **v9.7 候選 12 `b223a31`、候選 13 `69a6cdc`**（本機分支 `rel/v97-rc12`、`rel/v97-rc13`，在 `scratchpad/wt_rc97`；bundle `wip_backup/v97-rc13.bundle`，前置候選 11 `836a1f6`）：
+  候選 12＝flow_bike 先推一下讓車頭轉正再量速度、失敗時結束碼 1（只改測試）；**候選 13＝index.html 的 script 版本號 9.6-1 → 9.7-1**（v9.6 候選 5f66b67 有做、v9.7 漏了：
+  30 個程式檔有改，版本字串不變的話手機可能拿到新頁面＋快取舊程式；拿掉版本字串後逐行相同）。遊戲程式＝候選 8 `3e5201d`。
+- **09:40 以後過的**：flow_course_choice（候選 11）ALL PASS；evtest——整批那 6 個 BAD（研究所三個事件演完 busy:true）單獨跑 6/6 OK，是整批跑的順序造成的，不是遊戲問題；
+  LAWWW2 `7f572c8`：flow_teaching_buildings、flow_soclib ALL PASS（候選 8）。
+  **跑中／還沒跑**：flow_bike（候選 12）→ deploy_check、p0（候選 13）→ flow_study_legal → 坐姿 → 試玩修正 → 社團 → 博雅 → 總圖兩支 → see_through → 其他（`scratchpad/q/queue.txt`）。
+  執行器 `bh624bnas` 10:16 換新的，12:16 到期（到期前用 queue.hold 換）。LAWWW2 還有：flow_first_meet（候選 8）、flow_lecture_attend（候選 9）、flow_discuss_class（候選 7）、campus_glb_integration。
+- **開發分支（下一版，瀏覽器都還沒看）**：`ab784c3` 阿哲、語彤兩句換成 AA 定稿；芷若好朋友的紙杯旁白（BB_120 1-2，對齊 Z1）；語彤雨天之後在麵店給聯絡方式（AA_70）；
+  麵店「圖書館那天之後…」條件修正（給過傘的人不會連問兩句）。`43ac7b7` **邀約的個性第一段**（`INVITE_DATA.people`，13 人被邀約時的台詞與個人規則；`tests/invite_people_unit.js` 37 項）。
+  還沒做：邀約第二段（一起走路聊什麼：芷若猜電影、子晴 TOLD_HER_CHANGE）、BB_120 其他「固定的改變」（子晴／沛珊的訊息樣子、阿凱宵夜與評鑑表、方奕廷學名、澆水一週——多數要 BB 補具體台詞）。
+- **等使用者**：AA 的五個問題（會不會被當、讀書的影響、健身房 A/B/C、節日邀約與生日、節日 CG 七張）；v6「不只跟一個女生交往」（第③級）。
+- **如果這個工作階段在發布前中斷**：從 bundle 取出 `rel/v97-rc13`（依序 fetch rc9→rc10→rc11→rc13 的包），把「跑中／還沒跑」的跑完，全過才把 main 快轉到候選 13（不 force）；
+  發布後跑 `scratchpad/finish_release_v97.py`（`wip_backup/release_v96_v97/` 有備份；LATER_RC 用 `later_rc_v97.txt`）。D71：v9.7 不受三小時限制。
+
+**2026-10-14 09:40 UTC（段落存檔；開發分支最新：這一筆交接的 commit；線上 v9.6＝`e88bda5`；v9.7 最後的候選＝候選 11 `836a1f6`）**：
+- **v9.7 候選 10 `11bdf50`、候選 11 `836a1f6`**（本機分支 `rel/v97-rc10`、`rel/v97-rc11`，在 `scratchpad/wt_rc97`；bundle `wip_backup/v97-rc10.bundle`〔rc5／rc8／rc9／rc10〕，rc11 在下一個 bundle）：只改測試，遊戲程式＝候選 8。
+  候選 10：flow_bike——上車時鏡頭對著男一舍的牆，推搖桿往前撞牆只走 2.3 m（測試量到 1.15 m/s）；校門寫死 (-122.5,0) 離出口 3.5 m（範圍 3 m）→ 改成先把鏡頭轉向最空的方向、校門照遊戲裡出口的位置。
+  候選 11：flow_course_choice 跟上睡覺第二版（床的選項「睡到明天早上」，同 flow_typhoon 候選 4 的改法）。騎車畫面本身這次看了：上車、腳在踏板、手在把手（≤5 cm）都通過。
+- **v9.7 已過（本機）**：候選 4～8 的 deploy_check（候選 8 再過一次）、Node、reachability_all、zone_transitions、minimap、save_compat_v7／v95、p0、touch_flow_wenzhou、初遇存檔遷移、flow_class_real、campus_layout_nav、joystick、flow_classes、flow_linze_floors。
+  **跑中／還沒跑**：flow_bike（候選 10）→ evtest（加 executable_path 重跑）→ flow_course_choice（候選 11）→ flow_study_legal → 坐姿 → 試玩修正 → 社團 → 博雅 → 總圖兩支 → 手機邀約 → 其他。執行器 `bxeuwcwb5` 09:18 起（11:18 前要換）。
+  LAWWW2：flow_first_meet、flow_lecture_attend（候選 9）、flow_discuss_class、adv_cg_layout、flow_main_day12、flow_teaching_buildings、flow_soclib、campus_glb_integration（結果還沒回來）。
+- **開發分支（下一版，瀏覽器都還沒看）**：`73baa50` 店員（Café 一般店員、總圖服務台館員）；`ce67bb7` 手機約人（約不了的原因照 AA_125 第 1 節、可昕和學姊開場就有聯絡方式、有點熟以後「交換聯絡方式」、兩個人單獨＋有伴侶不約）；
+  `1b56598` 好感看得見（AA_124 1-6、BB_120 第 1 節：門檻台詞、見面結束一句、聯絡人名字、見面旁白；`src/data/rel_lines.js`）；`b187c46` Café 的學姊小場面（BB_120 1-1）。
+  還沒做：BB_120「固定的改變」（芷若的點單要和 Z1 事件對齊、子晴／沛珊的訊息樣子、方奕廷學名、阿凱宵夜）、方奕廷澆水一週、學姊小交流 (2)（等 AA_124 第 2 節）。
+- **等使用者**：AA 的五個問題（讀書會不會被當、讀書影響的方向、健身房 A/B/C、節日邀約、節日 CG）——已原文轉給使用者；AA_124 第 2 節；v6「大學四年不只跟一個女生交往」（D50 第③級）。
+- **問 AA 中**（ce67bb7 後）：兩個人單獨只套女生、「找大家一起吧」沒有群約、學姊有伴侶算到大三上整學期。
+- **如果這個工作階段在發布前中斷**：從 bundle 取出 `rel/v97-rc10`（＋候選 11 的 flow_course_choice 修改在開發分支下一個 commit 也會帶到），把「跑中／還沒跑」的跑完，全過才快轉 main 到最後的候選；D71：v9.7 不受三小時限制。
+
+**2026-10-14 09:05 UTC（段落存檔——使用者 09:00：「如果兩小時內沒辦法把下一個版本弄出來就要做一個段落上傳到資料庫一次，因為我們的用量快要到」；開發分支最新：這一筆交接的 commit；線上 v9.6＝`e88bda5`）**：
+- **v9.7 候選 8 `3e5201d`**（本機分支 `rel/v97-rc8`，bundle `wip_backup/v97-rc8.bundle`，前置 22c597c）＝候選 7＋`story3d.js` 見過以後按鈕名字更新（事件演完才定名字；Café 第一次見面後原本還是「和不認識的女生說話」）＋flow_first_meet 的 A（邊看邊追）、B2（沿遊戲路線點地面）。
+  遊戲程式：候選 1＝v9.7 內容；候選 5＝Café 店員和得到話（engine3d staff 優先、story3d 沒事件就點餐）；候選 8＝按鈕名字。其他候選只改測試。
+- **v9.7 已過**（本機，候選 4～7）：deploy_check、Node（候選 8 也過）、reachability_all（候選 4、5）、zone_transitions、minimap、save_compat_v7、p0、touch_flow_wenzhou、初遇存檔遷移、save_compat_v95、flow_class_real、campus_layout_nav、joystick、flow_classes。
+  LAWWW2：flow_typhoon、cg_rain_shots、flow_invite_phone；flow_first_meet 候選 6 的 C（Café 修正）通過、A／B2／C 第二次 → 候選 8 重跑中。
+  **還沒跑完**：本機 flow_linze_floors（跑中）→ deploy_check（候選 8）→ flow_bike → evtest → 其他回歸；LAWWW2：flow_lecture_attend（候選 6）→ adv_cg_layout → flow_main_day12 → flow_teaching_buildings → flow_soclib → campus_glb_integration → flow_first_meet（候選 8）→ flow_discuss_class（候選 7 測試）。預估 10:30 UTC 全過就發。
+- **使用者 10-14 試玩 v9.6 回饋**（`docs/history/user_feedback_2026-10-14_v96.md`）在開發分支已做（下一版，瀏覽器還沒看）：男一舍前地板閃爍 `7cd6684`（`tests/ground_zfight_unit.js`）、好感提示 `e30b320`（`tests/rel_feel_unit.js`）、換區域釋放材質貼圖 `45edfa8`（`tests/zone_dispose_unit.js`；瀏覽器 `tests/zone_memory.py` 還沒跑；iPhone 跳回開始畫面的推測原因）。
+  還沒做：店員（Café 芷若沒班時、總圖服務台、公館飲料店）、牽腳踏車的路人（換成 BIKE.rider、要看畫面）、男宿交誼廳（#47）、AA_124 第 1 節關係數值、考試成績系統骨架（AA_124 第 2 節等使用者確認）。LAWWW2 排了便利商店商品、交誼廳家具（v9.7 測完後）。
+- **發布工具**：`scratchpad/collect_results_v97.py`、`finish_release_v97.py`（`wip_backup/release_v96_v97/` 有備份）；發布後 `v97_user_summary.md` 填好回報使用者。
+- **如果這個工作階段在發布前中斷**：下一個 LAWWW 從 bundle 取出 `rel/v97-rc8`，照 TESTING.md 第五節把還沒跑的跑完（清單見上），全過才快轉 main；D71：v9.7 不受三小時限制。
+
+**2026-10-14 08:12 UTC（開發分支最新：這一筆交接的 commit；線上 v9.6＝`e88bda5`；v9.7 候選改成候選 6 `7c5d4c2`，兩台機器跑回歸）**：
+- **v9.7 回歸抓到一個 v9.6 以前就有的遊戲問題（已修，候選 5 `37a5db2`）**：兩點半 Café 吧檯後面的店員（芷若）和不到話——吧檯的點餐點永遠比較近，
+  「和店員說話」從來不會出現（Node 模擬 2961 個站得住的點 0 處）；芷若在 Café 的初遇、點餐次數、集點卡都碰不到。修：`engine3d.js` nearestInteractable 標了 staff 的店員比櫃台的點餐點優先；
+  `story3d.js` 店員標 staff、和店員說話先跑事件、沒有就點餐（同一份 CAFE_MENU）。`tests/cafe_barista_unit.js`（修正前的引擎 0 處、修正後 95 處）。NODE ALL PASS、reachability_all ALL PASS（候選 5）。
+- **測試問題（只改測試）**：flow_first_meet（A 追人 10 次、B2 點地面沒靠近就用搖桿、走到後等自動事件 60／180 秒、C 同一天再說話＝點餐）；候選 6：flow_lecture_attend 等聽眾坐好再挑空位（演講時一半的位子有人，寫死的位子被替身坐走）。
+- **分工（08:11）**：本機——zone_transitions、deploy_check（候選 5／6 重跑）、touch_flow_wenzhou、初遇存檔遷移、save_compat_v95、flow_class_real、campus_layout_nav、joystick、flow_classes、flow_linze_floors、evtest、其他；
+  LAWWW2——flow_discuss_class、flow_first_meet、flow_lecture_attend、adv_cg_layout、flow_main_day12、flow_teaching_buildings、flow_soclib、campus_glb_integration。預估 10:00 UTC 兩邊跑完。
+  已過（候選 4／5）：deploy_check、Node、reachability_all（候選 4、5）、zone_transitions、minimap、save_compat_v7、p0；LAWWW2：flow_typhoon、cg_rain_shots、flow_invite_phone。
+- 本機分支 `rel/v97-rc5`、`rel/v97-rc6`；bundle `wip_backup/v97-rc6.bundle`（兩個 ref，前置 22c597c）。開發分支已合併候選 5、6（保留共同教學館、大一女舍的 manifest 兩行）。
+
+**2026-10-14 07:55 UTC（開發分支最新：這一筆交接的 commit；線上 v9.6＝`e88bda5`；v9.7 候選 4 `6ad0923` 兩台機器平行跑回歸，全過就發——D71 不受三小時限制）**：
+- **v9.6 已發布**：main 從 `a4f2760` 快轉到候選 15 `e88bda5`（07:45:17 推送，沒有強制推送），GitHub Pages 第 15 次部署 07:46:55 UTC success（標題「版本 v9.6（2026-10-14）」；沙盒連不到 Pages 網址，以部署紀錄的 head_sha 確認）。
+  發布紀錄 `e6bce5c`（RELEASES.md 版本表、v9.6 說明、發布前測試 21 項 0 失敗含 LAWWW2 三項、緊急回復改回 v9.5、v9.7 依 D71 不受三小時限制）。已通知 LAWWW2、AA、BB（DELIVERED）。
+- **v9.7 候選鏈**（本機分支 `rel/v97-rc1..rc4`，在 `scratchpad/wt_rc97`；bundle 在 `wip_backup/v97-rc*.bundle`，前置 `22c597c`）：候選 1 `5adef66`＝開發分支 `22c597c`－共同教學館／大一女舍 manifest 兩行＋版本字樣 v9.7；候選 2 `06f2b64`、候選 3 `8ac75f6`＝合併 v9.6 候選 14、15（只改測試）；
+  候選 4 `6ad0923`＝LAWWW2 的兩個測試 patch（讀檔時關掉直向提示 #rotate、flow_typhoon 床的選項與醒來對話）。**候選 2～4 遊戲程式＝候選 1。**
+- **v9.7 回歸**：本機（佇列 `scratchpad/q`、wt_dev 8768，執行器 `bv9tndc3b` 07:48:50 起，**09:48 前要換**，提醒 09:30）：deploy_check（v9.7 字樣）ALL PASS、Node 全部 ALL PASS；接著 reachability_all → zone_transitions → minimap → save_compat_v7 → p0 → touch_flow_wenzhou → 初遇存檔遷移 → save_compat_v95 → evtest → 選課 → 法律讀書 → 坐姿 → 試玩修正 → 社團 → 博雅 → 總圖兩項 → 腳踏車 → 手機邀約 → 其他回歸。
+  LAWWW2（它的機器）：flow_typhoon、cg_rain_shots（patch 後重跑）→ flow_first_meet → flow_invite_phone → flow_lecture_attend → flow_discuss_class → adv_cg_layout → flow_main_day12 → 後半段（flow_class_real、flow_classes、flow_linze_floors、flow_teaching_buildings、flow_soclib、campus_layout_nav、joystick、campus_glb_integration）。結果抄進 `scratchpad/q/lawww2_results_v97.txt`。
+  發布工具：`scratchpad/collect_results_v97.py`（結果整理）、`finish_release_v97.py`（RELEASES.md、CLAUDE.md；已乾跑）、`rel_v97_entry.md`（說明草稿）；備份在 `wip_backup/release_v96_v97/`。
+- **開發分支有、v9.7 不放**：讀檔時劇情還在演就擋下（`3d7f068`，v9.5 起的已知問題，下一版放）、共同教學館與大一女舍合併材質 GLB（校門 ×1.097）、杜可昕 Blender 人物（`char.kexin`）。
+- **等使用者**：AA 轉達的 v6「大學四年不只跟一個女生交往」（D50 第③級，要使用者直接確認）；iPhone 實機沒測。
+- **下一步**：v9.7 全過 → 快轉 main 到候選 4（或之後的候選）→ 確認 Pages → collect_results_v97.py＋finish_release_v97.py → 回報使用者、通知三位 AI → 開發分支的瀏覽器驗證（讀檔防護、合併材質 GLB、可昕截圖給 BB）。
+
+**2026-10-14 06:30 UTC（開發分支最新：這一筆交接的 commit；線上 v9.5＝`a4f2760`，main 沒動；v9.6 候選 13 `ba435d5` 在跑發布回歸，預估 07:45–08:15 UTC 發布；v9.7 候選 1 `5adef66` 平行測試中）**：
+- **使用者 06:05**：「還有多久可以上新版本 把這些有CG劇情都加進去 還差多少東西 適量分配給LAWWW2 加快腳步」——回答：v9.6 先發（沒有新劇情），CG 劇情版＝v9.7（大一上 v1＋4 張 CG），三小時規則最早 v9.6＋3h；
+  BB 通過的 41 張 CG 裡故事已經在遊戲裡的只有 4 張（CG-1、BCG-18、CG-14、CG-15，都接上了），其他要等那些劇情批准、實作。LAWWW2 分到 v9.7 的瀏覽器回歸（它的機器上平行跑）。
+- **v9.6 候選 13 `ba435d5`**＝候選 12＋座位的「坐下」範圍（`engine3d.js` 的 `fitSeatRadius`：最近站得住的位置往外不到 0.3 m 的座位放大範圍；656 個座位放大 29 個，都在 v9.6 新的 5 棟）＋測試用 `E.simWalk` 步數上限看路線長度＋`tests/seat_reach_unit.js`（候選 12 失敗、候選 13 通過）。
+  reachability_all 在候選 12 失敗（9 個座位）→ 候選 13 通過。已過（候選 13）：reachability_all、Node 全部、deploy_check、zone_transitions；候選 12 上過、不受影響：flow_class_real、campus_layout_nav、joystick、p0、minimap、save_compat_v7、touch_flow_wenzhou。
+  剩：flow_classes（跑中）→ flow_linze_floors → flow_soclib → flow_teaching_buildings → flow_main_day12（後兩項 LAWWW2 也跑，先完成的算）。執行器 `brx885ke5` 06:10 起，08:10 前要換（提醒 07:50）。
+  發布腳本 `scratchpad/finish_release.py`（第 6 個參數「候選 13」）、`collect_results.py`（已改成候選 13 為準）。
+- **開發分支**：`5d50939` v1 第 12 批（K1 回應＋第二次邀約、K1b、K3、K2 旁白、A15、A19 以安第一則訊息、A12 分工表、CG-14、CG-15、LICENSES；v1_batch12_unit 37 項）；
+  `22c597c` 合併候選 13（衝突：engine3d 兩邊都留——開發分支的 seat.taken＋候選 13 的 fitSeatRadius；assets3d／story3d／文件照開發分支）＋LAWWW2 的 campus_glb_integration patch（manifest 有才檢查、蒲葵用位置判斷）。NODE ALL PASS。
+- **v9.7 候選 1 `5adef66`**（本機分支 `rel/v97-rc1`，備份 `wip_backup/v97-rc1.bundle`，前置 `22c597c`）＝開發分支 `22c597c`＋拿掉共同教學館、大一女舍 manifest 兩行（合併材質後 ×1.097 只剩 0.003）＋版本字樣 v9.7。
+  瀏覽器回歸分工：LAWWW2——劇情流程（flow_typhoon、cg_rain_shots、flow_first_meet、flow_main_day12、flow_invite_phone、flow_lecture_attend、flow_discuss_class、adv_cg_layout）＋必跑後半段（flow_class_real、flow_classes、flow_linze_floors、flow_teaching_buildings、flow_soclib、campus_layout_nav、joystick、campus_glb_integration）；
+  LAWWW——佇列在 v9.6 必跑之後自動 setff 到 `5adef66`：deploy_check（v9.7 字樣）、Node、reachability、換區域、小地圖、存檔 v7、p0、觸控＋存檔 v9.5、初遇存檔遷移、evtest、選課、法律讀書、坐姿、試玩修正、社團、博雅、總圖。
+- **等別人**：LAWWW2——候選 13 的 flow_main_day12／flow_teaching_buildings 結果、v9.7 劇情流程；收到但排到 v9.7 之後：杜可昕 VRM（0171f66）、合併材質 GLB（8902c5f）、BB 的 CG-10 尾聲圖層（9 張全部通過）。
+- **下一步**：v9.6 必跑全過 → 快轉 main 到 `ba435d5` → 確認 Pages → merge main 回開發分支（已含）→ finish_release.py／collect_results.py → 回報使用者 → v9.7 測完、滿三小時 → 發布 v9.7。
+
 **2026-10-14 05:48 UTC（開發分支最新：這一筆交接的 commit；線上 v9.5＝`a4f2760`，main 沒動；v9.6 候選 12 `a9c2b69` 在跑發布回歸，預估 07:30 UTC 發布）**：
 - **v9.6 發布回歸**：候選 11 `f87f71b`＝campus_layout_nav 清單（LAWWW2 的 patch）；候選 12 `a9c2b69`＝flow_soclib 閱覽長桌那一步按鈕出現就停（候選 10 上 14/15，唯一失敗是測試要求停在 0.08 m 內）。都只改測試，遊戲程式和候選 9 相同。備份 `wip_backup/v96-rc12.bundle`（含候選 4～12）。
   - 05:18 重排：TESTING.md 第五節「發布前必跑」全部在候選 12 上跑——Node 全部 → deploy_check → zone_transitions → minimap_direction → save_compat_v7 → p0_movement → touch_flow_wenzhou → reachability_all → flow_class_real → campus_layout_nav → joystick_direction → flow_classes → flow_main_day12 → flow_linze_floors → flow_teaching_buildings → flow_soclib，其他回歸排後面。

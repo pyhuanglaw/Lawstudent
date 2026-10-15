@@ -1,11 +1,11 @@
 {
- "objects": 18,
- "unique_meshes": 18,
+ "objects": 9,
+ "unique_meshes": 9,
  "tris": 28627,
  "tris_drawn": 28627,
  "materials": 17,
  "out": "assets/models/env/second_ai/campus_gongtong.glb",
- "bytes": 1711852,
+ "bytes": 2125540,
  "texres": 512,
- "note": "依文字描述的遊戲化設計（沒有照片）；一樓佔地照 CK.hall，導航不用改"
+ "note": "依文字描述的遊戲化設計（沒有照片）；一樓佔地照 CK.hall，導航不用改；v9.7 合併材質（17 → 8）"
 }

@@ -166,7 +166,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
     <h1>法條之外</h1><div class="sub">台灣法律人生 · 3D 原型</div>
     <div class="row2" style="justify-content:center;margin-bottom:14px"><span class="muted">你的名字</span><input type="text" id="nameInput" value="祐廷" maxlength="6" style="width:120px;text-align:center"></div>
     <button class="btn pri" id="btnNew">開始新的一天</button>
-    <button class="btn" id="btnContinue">繼續（自動存檔）</button>
+    <div id="resumeNote" class="hide" style="margin:6px 0 8px;font-size:13px;line-height:1.5;color:#ffe9a8"></div><button class="btn" id="btnContinue">繼續（自動存檔）</button>
     <button class="btn" id="btnLoadMenu">讀取／匯入存檔</button>
     <div class="muted" style="margin-top:16px;font-size:12px">建議橫向遊玩。點地面移動、拖曳旋轉鏡頭。<br>所有人物與故事皆為虛構。</div>
     <div class="muted" id="verLabel" style="margin-top:8px;font-size:11px;opacity:.7">版本 v9.7（2026-10-14）</div>
@@ -193,6 +193,8 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
 <script src="src/wancai3d.js?v=9.7-1"></script>
 <script src="src/data/library_layout.js?v=9.7-1"></script>
 <script src="src/library3d.js?v=9.7-1"></script>
+<script src="src/data/dorm_layout.js?v=9.7-1"></script>
+<script src="src/dorm3d.js?v=9.7-1"></script>
 <script src="src/data/lawlib_layout.js?v=9.7-1"></script>
 <script src="src/lawlib3d.js?v=9.7-1"></script>
 <script src="src/data/soclib_layout.js?v=9.7-1"></script>
@@ -214,6 +216,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
 <script src="src/data/places.js?v=9.7-1"></script>
 <script src="src/data/activities.js?v=9.7-1"></script>
 <script src="src/data/invites.js?v=9.7-1"></script>
+<script src="src/data/rel_lines.js?v=9.7-1"></script>
 <script src="src/invites3d.js?v=9.7-1"></script>
 <script src="src/phone3d.js?v=9.7-1"></script>
 <script src="src/outings3d.js?v=9.7-1"></script>
@@ -222,6 +225,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
 <script src="src/story3d.js?v=9.7-1"></script>
 <script src="src/data/courses.js?v=9.7-1"></script>
 <script src="src/data/syllabus.js?v=9.7-1"></script>
+<script src="src/data/exam_bank.js?v=9.7-1"></script>
 <script src="src/classes3d.js?v=9.7-1"></script>
 <script src="src/crowd3d.js?v=9.7-1"></script>
 <script src="src/bike3d.js?v=9.7-1"></script>

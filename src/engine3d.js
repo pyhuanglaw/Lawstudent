@@ -168,7 +168,13 @@ const E3 = (function(){
     const z=zoneDef.build(E); z.def=zoneDef; E.zone=z; if(P3.mergeStatic&&!zoneDef.noMerge){ const t0=performance.now(); const n=P3.mergeStatic(z.group); z.mergedCount=n; z.mergeMs=performance.now()-t0; } scene.add(z.group); E.roadMats=[]; z.group.traverse(o=>{ if(o.isMesh&&o.material){ for(const m of (Array.isArray(o.material)?o.material:[o.material])){ if(m.userData&&m.userData.seeThrough) patchSeeThrough(m); if(m.map&&m.map.userData&&m.map.userData.asphalt&&E.roadMats.indexOf(m)<0) E.roadMats.push(m); } } }); E.levels=z.levels||null; if(E.levels) for(const n of E.levels) n._cm=null; E.nav=z.nav; if(E.nav) E.nav._cm=null; z.seatFit=fitSeatRadius(); E.indoor=!!zoneDef.indoor; E.applyViewFar(); E.cam.distTarget=E.indoor?(zoneDef.camDist||3.8):(zoneDef.camDist||6.0); E.cam.pitch=E.indoor?0.38:0.22; E.cam.pitchAdd=0;
     if(E.player){ const sp=spawn||z.spawn||{x:0,z:0,yaw:0}; E.player.lv=E.levels?Math.max(0,Math.min(E.levels.length-1,sp.lv|0)):0; E.nav=navOf(E.player.lv); E.player.obj.position.set(sp.x,0,sp.z); E.player.obj.rotation.y=sp.yaw||0; let moved=false; if(E.unstick(E.player,16)){ moved=true; console.warn('spawn was inside a blocked cell:',zoneDef.id,sp); } if(E.nav&&!canStand(E.player.obj.position.x,E.player.obj.position.z,0.3)){ moved=true; /* 舊存檔的位置在區域改版後落在新建築裡（8 m 內沒有空地）：擴大搜尋，再不行就回到區域預設出生點 */ if(!(E.unstick(E.player,90)&&canStand(E.player.obj.position.x,E.player.obj.position.z,0.3))&&z.spawn){ E.player.obj.position.set(z.spawn.x,0,z.spawn.z); setLv(E.player,E.levels?(z.spawn.lv|0):0); } console.warn('spawn relocated (old layout):',zoneDef.id,sp,'→',E.player.obj.position.x.toFixed(1),E.player.obj.position.z.toFixed(1)); } /* 移過去的空地要走得到區域出生點（不能是新建築後面的封閉小空地，否則玩家被關在裡面）*/ if(moved&&E.nav&&z.spawn){ const p=E.player.obj.position; if(Math.hypot(p.x-z.spawn.x,p.z-z.spawn.z)>1&&!E.pathTo(p.x,p.z,E.player.lv,z.spawn.x,z.spawn.z,z.spawn.lv|0)){ console.warn('relocated spot is cut off → zone spawn:',zoneDef.id,p.x.toFixed(1),p.z.toFixed(1)); p.set(z.spawn.x,0,z.spawn.z); setLv(E.player,E.levels?(z.spawn.lv|0):0); } } settleY(E.player); E.lastSpawn={zone:zoneDef.id,x:sp.x,z:sp.z,lv:E.player.lv|0,fixed:[+E.player.obj.position.x.toFixed(2),+E.player.obj.position.z.toFixed(2)]}; E.player.path=null; E.player.target=null; E.cam.yaw=(sp.yaw||0)+Math.PI; E.cam.target.copy(E.player.obj.position); tmpV.copy(E.player.obj.position); tmpV.y+=1.4; camera.position.copy(tmpV).add(new THREE.Vector3(Math.sin(E.cam.yaw)*E.cam.distTarget*Math.cos(E.cam.pitch),Math.sin(E.cam.pitch)*E.cam.distTarget,Math.cos(E.cam.yaw)*E.cam.distTarget*Math.cos(E.cam.pitch))); }
     E.applyTime(E.hour); E.setLamps(E.lampsOn); if(E.zone.onWeather) E.zone.onWeather(E.weather); if(E.rain) E.rain.visible=(E.weather==='rain'&&!E.indoor); return z; };
-  function disposeGroup(g){ g.traverse(o=>{ if(o.geometry&&!o.geometry.userData.shared) o.geometry.dispose(); }); }
+  /* 換區域：舊區域的幾何、材質、貼圖都釋放（2026-10-14 使用者 iPhone 試玩 v9.6：「有時候換地點…會跳出跑到進入遊戲的畫面，顯示請把手機轉為橫向」——
+     原本只釋放幾何，材質和貼圖（例如校園每一條步道都複製一張路面貼圖）留在顯示記憶體裡，每換一次區域就多一批；iOS Safari 記憶體到上限會把整個網頁重新載入）。
+     之後再用到同一個材質／貼圖（快取的正式模型、共用的材質），three.js 會自動重新上傳——只是第一次出現時慢一點。標了 userData.shared 的不釋放 */
+  function disposeGroup(g){ const mats=new Set(), texs=new Set(); g.traverse(o=>{ if(o.geometry&&!o.geometry.userData.shared) o.geometry.dispose();
+    const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms){ if(!m||!m.isMaterial||(m.userData&&m.userData.shared)) continue; mats.add(m); for(const k in m){ const v=m[k]; if(v&&v.isTexture&&!(v.userData&&v.userData.shared)) texs.add(v); } } });
+    for(const m of mats) m.dispose(); for(const t of texs) t.dispose(); E.lastDispose={materials:mats.size,textures:texs.size}; }
+  E.disposeGroup=disposeGroup;   /* 測試用 */
   // ---------- 實體 ----------
   E.setPlayer=function(obj){ if(E.player) scene.remove(E.player.obj); E.player={obj,speed:0,path:null,target:null,pose:'idle',run:false,busy:false,radius:0.32,lv:0}; scene.add(obj); };
   E.addNPC=function(n){ n.path=null; n.speed=0; n.pose=n.pose||'idle'; n.radius=0.32; n.timer=0; n.lodPhase=E.npcs.length; n.lv=n.lv|0; /* 多樓層：坐著的放在座位的高度、其他的放在所在那一層的地板上 */ { const o=n.obj.position; if(n.seat&&n.seat.y!=null) o.y=n.seat.y; else { const nv=navOf(n.lv); if(nv&&(nv.surf||nv.y0)) o.y=nv.heightAt(o.x,o.z); } } scene.add(n.obj); E.npcs.push(n); if(n.pose==='sit'||n.pose==='read') prePose(n); return n; };
@@ -197,6 +203,17 @@ const E3 = (function(){
   E.screenRay=function(x,y){ E.ndc.set(x/E.w*2-1,-(y/E.h)*2+1); E.ray.setFromCamera(E.ndc,camera); return E.ray; };
   // ---------- 更新 ----------
   E.onTapGround=null; E.onInteractNear=null; E.frame=0;
+  /* 玩家沿路線走一步（點地面、劇情 walkTo 都走這裡）；回傳這一幀有沒有在走。
+     點地面點到人過不去的地方（v9.7 回歸 LAWWW2：201 點到下一排長桌的邊，人的半徑 0.33 m 到不了，會靠著桌子一直原地走）：
+     玩家自己點的路線（沒有 onArrive、不是劇情）連續 1.5 秒（遊戲時間）幾乎沒有前進，就放掉路線、站好。劇情的 walkTo 照舊（它有自己的 4 秒保底）。
+     E.stallStop=false＝舊的做法（測試對照用）*/
+  E.stallStop=true;
+  function pathStep(P,dt){ const t=P.path[0]; const dx=t[0]-P.obj.position.x, dz=t[1]-P.obj.position.z; const d=Math.hypot(dx,dz);
+    if(wpReached(P,d,0.25,dt)){ P.path.shift(); if(!P.path.length){ P.path=null; if(P.onArrive){ const f=P.onArrive; P.onArrive=null; f(); } } return false; }
+    const sp=P.riding?E.SPD.bike:(P.run?E.SPD.run:E.SPD.walk), st=stepSp(sp,d,dt), x0=P.obj.position.x, z0=P.obj.position.z; stepEntity(P,dx/d,dz/d,st,dt); P.pose=P.riding?'ride':(P.run?'run':'walk'); P.speed=sp;
+    if(E.stallStop&&!P.onArrive&&!P.busy&&st*dt>1e-4){ const mv=Math.hypot(P.obj.position.x-x0,P.obj.position.z-z0); P._stall=mv<st*dt*0.15?(P._stall||0)+dt:0; if(P._stall>1.5){ P._stall=0; P.path=null; return false; } }
+    return true; }
+  E.playerPathStep=pathStep;   /* 測試用 */
   E.update=function(dt){ E.time+=dt; E.frame++; const P=E.player; if(!P) return;
     // 點擊
     if(input.tap&&!E.paused){ const tp=input.tap; input.tap=null; let handled=false; if(E.onTap) handled=E.onTap(tp); if(!handled&&!P.busy&&E.cam.mode==='follow'){ const hit=E.screenToFloor(tp.x,tp.y); if(hit&&E.nav){ let tx=hit.x, tz=hit.z, tlv=hit.lv;
@@ -210,7 +227,7 @@ const E3 = (function(){
     const spdWalk=E.SPD.walk, spdRun=E.SPD.run; let moving=false;
     E.cam.ctl=mv.lengthSq()>0.02; if(!E.cam.ctl) E.cam.swingAcc=0;   /* 推著搖桿時鏡頭自動轉開的角度（swingAcc）不算進方向：放開再推才照新的鏡頭方向 */
     if(E.cam.ctl){ mv.normalize(); const ang=E.cam.yaw-(E.cam.swingAcc||0); /* 搖桿／鍵盤的方向換成世界方向（v9.3 第二十五批修正，2026-10-10 線上回報「霖澤館外面跑的方向相反」）：鏡頭在玩家的 (sin yaw, cos yaw) 那一側，畫面的「前」是 (-sin yaw,-cos yaw)、「右」是 (cos yaw,-sin yaw)；推 (x,y)（y 往下為正）＝ x·右 − y·前。原本旋轉方向寫反：只有鏡頭朝正北／正南時對，鏡頭轉 45° 時偏 90°、轉到側面時整個相反（往鏡頭這邊跑）*/ const dx=mv.x*Math.cos(ang)+mv.z*Math.sin(ang); const dz=-mv.x*Math.sin(ang)+mv.z*Math.cos(ang); const run=input.runToggle||input.joy.run||P.runHold; const sp=P.riding?E.SPD.bike:(run?spdRun:spdWalk); P.path=null; P.target=null; stepEntity(P,dx,dz,sp,dt); moving=true; P.pose=P.riding?'ride':(run?'run':'walk'); P.speed=sp; }   /* P.riding：騎腳踏車（src/bike3d.js）*/
-    else if(P.path){ const t=P.path[0]; const dx=t[0]-P.obj.position.x, dz=t[1]-P.obj.position.z; const d=Math.hypot(dx,dz); if(wpReached(P,d,0.25,dt)){ P.path.shift(); if(!P.path.length){ P.path=null; if(P.onArrive){ const f=P.onArrive; P.onArrive=null; f(); } } } else { const sp=P.riding?E.SPD.bike:(P.run?spdRun:spdWalk); stepEntity(P,dx/d,dz/d,stepSp(sp,d,dt),dt); moving=true; P.pose=P.riding?'ride':(P.run?'run':'walk'); P.speed=sp; } }
+    else if(P.path) moving=pathStep(P,dt);
     if(!moving){ if(P.pose==='walk'||P.pose==='run'){ P.pose='idle'; } P.speed=0; }
     CHAR.animate(P.obj,dt,{pose:P.busy?P.pose:(P.pose),speed:P.speed,handsPockets:P.pocketsIdle&&P.pose==='idle',lookAt:P.lookAt,ground:groundFn(P),ride:P.ride});
     // NPC
