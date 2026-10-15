@@ -176,7 +176,8 @@ const Z3 = (function(){
       const fdGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_freshman']; for(const o of [fdA,fdB,br]){ o.userData.ckTag='freshman'; if(fdGLB) o.userData.dyn=true; }   /* 大一女舍的 Blender 正式模型（LAWWW2 55fbedb，第 21.5 節）：A、B、天橋一起換；導航、門口、長椅、車架不變 */
       const bc=new THREE.Mesh(new THREE.BoxGeometry(bw,bh+0.3,3.4),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); bc.position.set(-93,by0+bh/2,67); g.add(bc); E.colliders.push(bc);
       // 門口：等人用的長椅（面向兩棟的大門）、B 棟門口的腳踏車架
-      { const b=BENCH(); place(g,b,-93,54.2,0); nav.blockRect(-93,54.2,1.4,0.7,0); seats.push({x:-93,z:54.26,yaw:0,label:'坐在大一女舍門口的長椅（等人）'}); }
+      { const b=BENCH(); place(g,b,-93,54.2,0); nav.blockRect(-93,54.2,1.4,0.7,0); seats.push({x:-93,z:54.26,yaw:0,label:'坐在大一女舍門口的長椅（等人）'});
+        { const l=W3.lampPost(); place(g,l,-91.2,53.5,-Math.PI/2); lamps.push(l); nav.blockCircle(-91.2,53.5,0.25); } }   /* 長椅旁的路燈（燈臂朝西照長椅）：晚上 C13 在這裡等人，原本附近沒有燈（LAWWW2 10-14 回報）*/
       { const r=W3.bikeRack(7); place(g,r,-66,55.4,0); nav.blockRect(-66,55.4,5,1.4,0); }
       E.interactables.push({x:-108,z:59.2,radius:1.6,lv:0,label:'大一女舍 A 棟（傳達室）',mark:true,look:'大一女舍 A 棟。傳達室在這一棟。女生宿舍，男賓止步——要找人，可以在門口的長椅等。'});
       E.interactables.push({x:-78,z:57.2,radius:1.6,lv:0,label:'大一女舍 B 棟',mark:true,look:'大一女舍 B 棟。大門要刷住宿生的學生證。女生宿舍，男賓止步。'}); }
@@ -1175,7 +1176,7 @@ const Z3 = (function(){
   function attachNoodleInterior(z,g0,root){
     root.traverse(o=>{ if(!o.isMesh) return; const mt=o.material, nm=mt&&mt.name, ud=o.userData||{};
       if(/SIGN_FACE_/.test(o.name)){ o.geometry.computeBoundingBox(); const sz=o.geometry.boundingBox.getSize(new THREE.Vector3()); const wM=Math.max(sz.x,sz.z), hM=sz.y;
-        const t=ud.style==='price'?cafeCanvas(1024,Math.round(1024*hM/wM),(x,w,h)=>{ x.fillStyle='#fbf7ee'; x.fillRect(0,0,w,h); x.strokeStyle='#8a3b2e'; x.lineWidth=8; x.strokeRect(8,8,w-16,h-16); x.fillStyle='#3b2a1e'; x.textAlign='center'; x.textBaseline='middle'; x.font='bold '+Math.round(h*0.42)+'px '+WZ_SANS; x.fillText(ud.sign||'',w/2,h*0.52); })
+        const t=ud.style==='price'?cafeCanvas(1024,Math.round(1024*hM/wM),(x,w,h)=>{ x.fillStyle='#fbf7ee'; x.fillRect(0,0,w,h); x.strokeStyle='#8a3b2e'; x.lineWidth=8; x.strokeRect(8,8,w-16,h-16); x.fillStyle='#3b2a1e'; x.textAlign='center'; x.textBaseline='middle'; let fs=Math.round(h*0.42); x.font='bold '+fs+'px '+WZ_SANS; const tw=x.measureText(ud.sign||'').width, maxW=w-48; if(tw>maxW){ fs=Math.floor(fs*maxW/tw); x.font='bold '+fs+'px '+WZ_SANS; } x.fillText(ud.sign||'',w/2,h*0.52); })   /* 字比板面寬就縮字（LAWWW2 10-14 回報：價目板的字被切掉）*/
           : cafeCanvas(96,Math.round(96*hM/wM),(x,w,h)=>{ x.fillStyle='#c8332a'; x.fillRect(0,0,w,h); x.fillStyle='rgba(255,255,255,0.08)'; x.fillRect(0,0,w,h*0.04); const ch=[...(ud.sign||'')], fs=Math.min(w*0.62,h*0.8/Math.max(1,ch.length)); x.fillStyle='#1d1a18'; x.textAlign='center'; x.textBaseline='middle'; x.font='bold '+fs+'px '+WZ_SANS; ch.forEach((c,i)=>x.fillText(c,w/2,h*0.1+fs*0.6+i*fs*1.05)); });
         const keep=o.material; cafeFacePaint(o,t,null); o.material.emissiveIntensity=0.25; o.material.emissive=new THREE.Color(0xffffff); o.material.emissiveMap=t; return; }
       if(!mt||mt.userData.ndlReg) return; mt.userData.ndlReg=true;

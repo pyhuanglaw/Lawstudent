@@ -737,13 +737,19 @@ const STORY = (function(){
   /* 重訪日 1：單身、不在麵店團的玩家，這一年最親近的人（AA 50da3a9、d1fa44f；BB_96 第 11 節）：先看階段、再看熟悉；至少「有點熟」。
      學姊、沛珊這時有伴侶，不算（不傳只給一個人的閒聊私訊）；可昕另外處理。以安、語彤、小語、芯慈、阿哲（AA 的人物）還沒有台詞，暫時不列（已問 AA）。
      回傳 {id, kind:'male'|'female'|'none'} */
-  const REVISIT_MALE=['classmate_bohan','kai','classmate_mingxuan','npc_fangyt'], REVISIT_FEMALE=['heroine_02','heroine_04'];
+  const REVISIT_MALE=['classmate_bohan','kai','classmate_mingxuan','npc_fangyt','zhe'], REVISIT_FEMALE=['heroine_02','heroine_04','heroine_01','heroine_03','yu','classmate_xinci'];   /* 阿哲、以安、語彤、小語、芯慈：AA 2100018（交接包 v2 草稿第 3 節）*/
   S.revisitClosest=function(G){ if(typeof SOCIAL==='undefined'||!SOCIAL.STAGES) return {id:null,kind:'none'}; const st=id=>SOCIAL.STAGES.indexOf(SOCIAL.stage(id)), min=SOCIAL.STAGES.indexOf('FAMILIAR');
     let best=null; for(const id of REVISIT_MALE.concat(REVISIT_FEMALE)){ if(!S.knows(id,G)) continue; if(REVISIT_FEMALE.includes(id)&&typeof INV!=='undefined'&&INV.hasContact&&!INV.hasContact(G,id)) continue;   /* 女生是傳訊息：要有她的聯絡方式 */ const s=st(id); if(s<min) continue; const f=(SOCIAL.rel(id)||{}).fam||0;
       if(!best||s>best.s||(s===best.s&&f>best.f)) best={id,s,f}; }
     return best?{id:best.id,kind:REVISIT_MALE.includes(best.id)?'male':'female'}:{id:null,kind:'none'}; };
   /* 女生的訊息（BB_96 11-2；芷若「我媽」那則不提她喝什麼，也不提交換）*/
-  const REVISIT_MSG={ heroine_02:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_02','SHARED_SECRET')?['期末辛苦了。','我今年最意外的事：我把交換的申請表印出來了。','還沒交。……可是印出來了。']:['期末辛苦了。','我今年最意外的事：我媽學會用貼圖了。','她傳的第一張，是一隻戴眼鏡的貓。'],
+  const REVISIT_MSG={
+    /* AA 的人物（AA 2026-10-14 2100018）。小語和阿哲大二上才在一起，這時候還單身，算數 */
+    heroine_01:G=>['這一年最意外的一件事。','我以為規則寫清楚就好。後來發現，規則常常只是沒想到。','（貼圖：兔子「收到」）','……傳錯了。不好意思，打擾了。'],
+    heroine_03:G=>['最意外的一件事。','阿姨說，我今年講的話比去年多。','……嗯。'],
+    yu:G=>['最意外的？','我跟以安吵了一架，結果變成每週四都要見面。','……讀書會啦。'],
+    classmate_xinci:G=>['最意外的一件事：','這學期有一次，我沒有先去看以安的成績。','……就一次。'],
+    heroine_02:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_02','SHARED_SECRET')?['期末辛苦了。','我今年最意外的事：我把交換的申請表印出來了。','還沒交。……可是印出來了。']:['期末辛苦了。','我今年最意外的事：我媽學會用貼圖了。','她傳的第一張，是一隻戴眼鏡的貓。'],
     heroine_04:G=>{ const has=t=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_04',t); return has('PLAYTESTED')?['最意外的事：我把還沒做完的東西給人看了。','而且我沒有死掉。']:(has('CONTEST_DAY')?['最意外的事：比賽那天我沒去，天沒有塌。','第四罐的錢我不還。']:['最意外的事：法律系的人，比我想的好玩。','一點點。']); } };
   /* 春假三選一（交接包 v2 C9）的日子：inv1＝第 5 週週二（以安揪）、inv2＝週三（可昕問）、dl＝4/2（最後可以選的一天）、d0＝4/3（春假第一天，出發）*/
   S.springDays=function(){ return {inv1:termDay('Y1S2',5,2), inv2:termDay('Y1S2',5,3), dl:termDay('Y1S2',6,4), d0:termDay('Y1S2',6,5)}; };

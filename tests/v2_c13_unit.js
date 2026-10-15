@@ -57,7 +57,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('4. 演講：旁白＋講者兩句 →（時間往前跳）→ 講者兩句 → 「掌聲。以安把最後那一句抄了兩次。」',JSON.stringify(L)===JSON.stringify(['講者是一位頭髮花白的老師，說話很慢。','講者：政府要限制一個人，要有理由，而且要用最小的手段。','講者：可是「最小」，是誰來量的？','講者：最後一個問題，我留給你們。','講者：被限制的那個人，最後可以去哪裡？','掌聲。以安把最後那一句抄了兩次。']),JSON.stringify(L));
   check('4. 19:00 坐下：時間往前跳 45 分鐘（之後活動快轉到 20:30）',Math.abs(G.hour-19.75)<1e-6,String(G.hour));
   L=await lecture(19.6,false); check('4. 19:36 才坐下：不跳；不認識以安＝只有「掌聲。」',Math.abs(G.hour-19.6)<1e-6&&L[L.length-1]==='掌聲。',JSON.stringify({h:G.hour,last:L[L.length-1]}));
-  check('4. 法律審查標記（比例原則的方向；BB 確認前不發布）',ev1.legal_review==='REQUIRED'&&ev3.legal_review==='REQUIRED');
+  check('4. 法律審查標記已拿掉（BB 10-14 15:52 確認；BB_105：演講與 B5 只講比例原則的方向，BB_115 不另立項）',!ev1.legal_review&&!ev3.legal_review);
   /* 散場 */
   const mark=(st)=>{ const att=ACTIVITIES.rec(G).att; if(st==='full') att['B4@'+G.day]={h:19,end:'full'}; else if(st==='left') att['B4@'+G.day]={h:19,end:'left',lh:19.6}; };
   const afterOK=(st,h,know)=>{ fresh(thu,h,'boya'); if(know!==false) meet('heroine_01'); mark(st); return EVENTS.check(ev2); };
