@@ -118,3 +118,18 @@ v2 遊戲內截圖的狀況：
 - **擺放**：新的通用函式 `place_support()`（也給之後的 ART-PARK3 用）照 layout 擺；layout、導航不變。
 - **數字**：三角形 37,580 → 45,608；draw call +1（`park2`）。
 - **截圖**：`v6_park2_fit_swings.webp`（從環狀步道看）、`v6_park2_fit_close.webp`、`v6_park2_swings_close.webp`、`v6_park2_portrait.webp`（手機直向）。AA-B 的前後對照：`park2_game_before_*`、`park2_game_after_*`。
+
+## v7：象棋桌凳、直飲台、腳踏車架換成 BB-B 的 ART-PARK3（LAWWW2-B 2026-10-16 18:0x UTC）
+
+- **換掉的**：
+  - 涼亭裡用圓柱拼的圓石桌、四個石凳、用細長方塊排的棋盤；
+  - 圓柱加碗狀的直飲台；
+  - 細圓柱拼的腳踏車架。
+- **換成**：BB-B 做的 `bb_support/park3_props.glb`（ba3af720，5,444 三角形、1 個貼圖材質 `park3`）。
+  - 花崗岩象棋桌：束腰桌腳、桌面刻棋盤和「楚河　漢界」；四個鼓形石凳。
+  - 不鏽鋼直飲台：鵝頸出水口、按壓鈕、排水孔、水漬。
+  - 四格倒 U 鍍鋅車架：一格掛 U 型鎖。
+- **layout**：`bikes` 的 yaw π/2 → π，車架沿南北排，和導航阻擋（0.7×2.6）同方向。導航不變。
+- **數字**：三角形 45,608 → 50,100（石凳 instancing，畫出來 52,200）；draw call +1（`park3`）。
+- **截圖**（在 LAWWW-B 的 f1651491 拍）：`v7_park3_pavilion.webp`、`v7_park3_pavilion_night.webp`、`v7_park3_front_east.webp`（車架、直飲台、長椅）、`v7_park3_fountain.webp`。BB-B 拍的前後對照：`park3_game_*.webp`。
+- 小公園還沒換的：公布欄（有遊戲的海報互動，我做）。

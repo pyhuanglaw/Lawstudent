@@ -46,6 +46,16 @@ REG = {
     'coil': (768, 256, 896, 384),       # 爐口：鍍鉻承盤＋深色的電熱圈（螺旋）
     'cooktop': (896, 256, 1024, 384),   # 爐面：白色琺瑯（四個爐口另外是網格）
     'grille': (0, 384, 128, 448),       # 冰箱下面的通風格柵：深灰橫條
+    # ---- 第 9 節補強（2026-10-16，LAWWW2-B 16:29 的清單）----
+    'door_tr': (0, 448, 256, 704),      # 楓木門片＋把手在右上（下櫃）：把手附近手摸的髒、亮
+    'door_tl': (256, 448, 512, 704),    # 把手在左上（下櫃的第二扇）
+    'door_br': (512, 448, 768, 704),    # 把手在右下（吊櫃）
+    'door_bl': (768, 448, 1024, 704),   # 把手在左下（吊櫃的第二扇）
+    'board': (0, 704, 256, 832),        # 砧板：淺色木紋＋刀痕＋中間洗不掉的一塊淡色
+    'note_list': (256, 704, 336, 832),  # 冰箱門上的購物清單：手寫的線（不是字）
+    'note_photo': (336, 704, 432, 768), # 一張照片（白邊、海和山，看不出是誰）
+    'note_cal': (432, 704, 512, 832),   # 課表：格子＋幾格塗了顏色（沒有字）
+    'towel_roll': (512, 704, 640, 832), # 捲筒紙巾：壓紋＋一條撕線
 }
 SW = {
     'white_app': ((238, 238, 234), 0.32, 0.0), 'white_side': ((228, 228, 224), 0.38, 0.0), 'handle_w': ((226, 226, 222), 0.3, 0.0),
@@ -53,12 +63,31 @@ SW = {
     'black_glass': ((22, 24, 26), 0.08, 0.0), 'toe': ((44, 36, 30), 0.7, 0.0), 'knob_black': ((30, 30, 32), 0.35, 0.0),
     'bracket': ((32, 32, 34), 0.45, 0.2), 'drain': ((60, 60, 64), 0.4, METAL), 'shadow': ((20, 18, 16), 0.9, 0.0),
     'granite_edge': ((58, 52, 48), 0.3, 0.0),
+    # ---- 第 9 節補強 ----
+    'steel_low': ((132, 134, 136), 0.34, METAL),   # 水槽槽底（AO：比槽壁暗）
+    'maple_under': ((112, 82, 54), 0.6, 0.0),      # 吊櫃底面（AO：從下面看是暗的）
+    'ceramic': ((232, 230, 224), 0.22, 0.0), 'rim_blue': ((64, 96, 148), 0.25, 0.0), 'mug': ((92, 128, 108), 0.3, 0.0),
+    'kettle': ((196, 198, 200), 0.26, 0.35), 'kettle_k': ((34, 34, 36), 0.4, 0.0), 'cord': ((238, 238, 234), 0.45, 0.0),
+    'rack_wire': ((206, 208, 210), 0.3, 0.3), 'rack_tray': ((70, 74, 78), 0.45, 0.0),
+    'sponge_y': ((218, 186, 72), 0.85, 0.0), 'sponge_g': ((58, 110, 70), 0.8, 0.0),
+    'board_edge': ((176, 136, 92), 0.55, 0.0), 'holder': ((40, 40, 42), 0.4, 0.2), 'core': ((150, 120, 84), 0.8, 0.0),
+    'mag_r': ((186, 64, 52), 0.3, 0.0), 'mag_y': ((222, 182, 62), 0.3, 0.0), 'mag_b': ((62, 108, 168), 0.3, 0.0),
 }
 SW_CELL, SW_Y0 = 32, 896
 for i, k in enumerate(SW):
     REG['sw_' + k] = ((i % 32) * SW_CELL, SW_Y0 + (i // 32) * SW_CELL, (i % 32) * SW_CELL + SW_CELL, SW_Y0 + (i // 32) * SW_CELL + SW_CELL)
 ORM_REG = {'granite': (0.22, 0.0), 'maple_door': (0.5, 0.0), 'maple': (0.5, 0.0), 'oven_door': (0.3, 0.0), 'mw_door': (0.3, 0.0), 'dw_front': (0.32, 0.0),
-           'coil': (0.3, 0.3), 'cooktop': (0.3, 0.0), 'grille': (0.6, 0.0)}
+           'coil': (0.3, 0.3), 'cooktop': (0.3, 0.0), 'grille': (0.6, 0.0),
+           'door_tr': (0.5, 0.0), 'door_tl': (0.5, 0.0), 'door_br': (0.5, 0.0), 'door_bl': (0.5, 0.0), 'board': (0.6, 0.0),
+           'note_list': (0.85, 0.0), 'note_photo': (0.3, 0.0), 'note_cal': (0.85, 0.0), 'towel_roll': (0.9, 0.0)}
+# 第 9 節補強：門片把手在哪一角（s, t：0～1，t 往上）
+DOOR_KNOB = {'door_tr': (0.86, 0.9), 'door_tl': (0.14, 0.9), 'door_br': (0.86, 0.1), 'door_bl': (0.14, 0.1)}
+# 檯面上的水漬、油漬（流理台本地座標 x、z；r＝半徑 m）：只放在檯面的前緣（z>0.2）和靠牆那一條（z<−0.21），
+# 這兩條在花崗石那一塊的上下兩端，窗口的檯面、吧台用不到（它們只用到中間那一段），不會跟著出現
+WATER = [(-0.62, 0.27, 0.05), (-0.42, 0.25, 0.035), (-0.78, 0.29, 0.03), (-0.33, 0.29, 0.025), (-0.55, -0.25, 0.035), (-0.66, -0.245, 0.03)]
+RINGS = [(-0.9, 0.24, 0.036), (-0.24, 0.26, 0.04)]          # 杯子放過的圈
+OIL = [(0.66, -0.255, 0.04), (0.75, -0.26, 0.045), (-0.2, -0.25, 0.03), (0.66, 0.26, 0.04)]
+COUNTER_SAFE = (0.2, 0.21)   # 上面那幾筆的範圍要在 z>0.2 或 z<−0.21 以內（build 會檢查）
 
 
 def sz(name):
@@ -121,6 +150,106 @@ def paint(P):
     w, h = sz('grille'); img = Image.new('RGB', (w, h), (70, 70, 72)); d = ImageDraw.Draw(img)
     for k in range(0, h, 6 * SS): d.rectangle([0, k, w, k + 3 * SS], fill=(28, 28, 30))
     P.paste(img, (REG['grille'][0] * SS, REG['grille'][1] * SS))
+    wear(P)
+
+
+# ================= 第 9 節補強：磨損、髒污、AO（畫在底色上；粗糙度另外記在 ROUGH_MASKS，make_textures 畫進 ORM） =================
+ROUGH_MASKS = []   # (區塊名, 遮罩（區塊大小、0～1）, 粗糙度)
+
+
+def soft(w, h, shapes, blur, noise=0.0, seed=0):
+    """畫一張 0～1 的遮罩：shapes＝[(cx, cy, rx, ry, 強度, 'fill'|'ring')]（像素）；邊緣模糊、加一點不均勻"""
+    m = Image.new('L', (w, h), 0); d = ImageDraw.Draw(m)
+    for (cx, cy, rx, ry, k, kind) in shapes:
+        box_ = [cx - rx, cy - ry, cx + rx, cy + ry]; v = int(255 * k)
+        if kind == 'ring': d.ellipse(box_, outline=v, width=max(1, int(min(rx, ry) * 0.12)))
+        else: d.ellipse(box_, fill=v)
+    a = np.asarray(m.filter(ImageFilter.GaussianBlur(blur)), np.float32) / 255
+    if noise:
+        g = np.random.default_rng(seed); n = np.asarray(Image.fromarray((g.random((max(2, h // 8), max(2, w // 8))) * 255).astype(np.uint8)).resize((w, h), Image.BICUBIC), np.float32) / 255
+        a = a * (1 - noise + noise * 2 * n)
+    return np.clip(a, 0, 1)
+
+
+def region_arr(P, name):
+    x0, y0, x1, y1 = REG[name]; return np.asarray(P.crop((x0 * SS, y0 * SS, x1 * SS, y1 * SS)), np.float32)
+
+
+def put(P, name, a): P.paste(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)), (REG[name][0] * SS, REG[name][1] * SS))
+
+
+def wear(P):
+    # --- 花崗石檯面：水槽前後的水漬（乾掉的白圈、霧面）、杯子的圈、爐子旁的油漬、靠牆那一條的 AO ---
+    a = region_arr(P, 'granite'); h, w = a.shape[:2]
+    def gp(x, z): return (x + 1.4) / 2.8 * w, (1 - (z + 0.3) / 0.61) * h
+    sx, sz_ = w / 2.8, h / 0.61   # 每公尺幾個像素（橫、直不一樣：圓的漬在檯面上才是圓的）
+    for (x, z, r) in WATER + RINGS + OIL: assert z - r > COUNTER_SAFE[0] or z + r < -COUNTER_SAFE[1], (x, z, r)
+    mw = soft(w, h, [(*gp(x, z), r * sx, r * sz_, 0.8, 'fill') for (x, z, r) in WATER] + [(*gp(x, z), r * sx, r * sz_, 1.0, 'ring') for (x, z, r) in RINGS], 2.5 * SS, noise=0.6, seed=3)
+    mo = soft(w, h, [(*gp(x, z), r * sx, r * sz_, 0.7, 'fill') for (x, z, r) in OIL], 4 * SS, noise=0.5, seed=4)
+    a = a * (1 - 0.42 * mw[..., None]) + np.array((104, 100, 96), np.float32) * 0.42 * mw[..., None]   # 水漬：礦物的灰白、霧
+    a = a * (1 - 0.22 * mo[..., None]) + np.array((40, 30, 18), np.float32) * 0.22 * mo[..., None]     # 油：暗一點、偏黃褐
+    zz = -0.3 + 0.61 * (1 - (np.arange(h) + 0.5) / h)                                                 # 每一列對到的 z
+    ao = np.clip((zz + 0.28) / 0.035, 0, 1); ao = 0.8 + 0.2 * ao                                      # 靠牆（擋水板前面）3.5 cm 由 0.8 到 1
+    a *= ao[:, None, None]; put(P, 'granite', a)
+    ROUGH_MASKS.extend([('granite', mw, 0.5), ('granite', mo, 0.12)])
+    # --- 門片：把手附近手摸的地方暗一點、亮一點（四種把手位置） ---
+    base = region_arr(P, 'maple_door'); h, w = base.shape[:2]
+    for name, (s, t) in DOOR_KNOB.items():
+        m = soft(w, h, [(s * w, (1 - t) * h, 0.16 * w, 0.1 * h, 0.9, 'fill')], 6 * SS, noise=0.4, seed=20 + list(DOOR_KNOB).index(name))
+        a = base * (1 - 0.2 * m[..., None]) + np.array((96, 72, 50), np.float32) * 0.2 * m[..., None]; put(P, name, a)
+        ROUGH_MASKS.append((name, m, 0.36))
+    # --- 爐面：爐口周圍的油點、前面一條滴下來的痕 ---
+    a = region_arr(P, 'cooktop'); h, w = a.shape[:2]; g = np.random.default_rng(11); dots = []
+    for (x, z, r) in ((-0.18, 0.13, 0.095), (0.18, 0.13, 0.08), (-0.18, -0.15, 0.08), (0.18, -0.15, 0.095)):
+        cx, cy = (x + 0.38) / 0.76 * w, (1 - (0.315 - z) / 0.615) * h
+        for _ in range(26):
+            ang = g.uniform(0, 2 * math.pi); rr = (r + g.uniform(0.012, 0.06)); px = cx + math.cos(ang) * rr / 0.76 * w; py = cy - math.sin(ang) * rr / 0.615 * h
+            q = g.uniform(0.6, 1.8) * SS; dots.append((px, py, q, q, g.uniform(0.4, 0.9), 'fill'))
+    x, z = -0.18, 0.13; cx, cy = (x + 0.38) / 0.76 * w, (1 - (0.315 - z) / 0.615) * h
+    for k in range(10): dots.append((cx + 0.11 / 0.76 * w + k * 0.4 * SS, cy + (0.1 + k * 0.012) / 0.615 * h, 2 * SS, 3 * SS, 0.6, 'fill'))   # 滴下來的一條
+    m = soft(w, h, dots, 0.8 * SS)
+    a = a * (1 - 0.3 * m[..., None]) + np.array((176, 158, 112), np.float32) * 0.3 * m[..., None]; put(P, 'cooktop', a)
+    ROUGH_MASKS.append(('cooktop', m, 0.42))
+    # --- 砧板：淺色木紋、刀痕、中間一塊洗不掉的淡色 ---
+    w, h = sz('board'); zw = lum(SRC['walnut'], w, h); img = tint(zw, (204, 168, 120), 0.05); d = ImageDraw.Draw(img); g = np.random.default_rng(5)
+    for _ in range(70):
+        x0, y0 = g.uniform(0.15, 0.85) * w, g.uniform(0.15, 0.85) * h; ang = g.normal(0.3, 0.5); L_ = g.uniform(0.04, 0.16) * w
+        d.line([(x0, y0), (x0 + math.cos(ang) * L_, y0 + math.sin(ang) * L_)], fill=(226, 200, 160) if g.random() < 0.6 else (168, 132, 92), width=1)
+    a = np.asarray(img, np.float32); m = soft(w, h, [(0.52 * w, 0.5 * h, 0.22 * w, 0.2 * h, 0.7, 'fill')], 10 * SS, noise=0.6, seed=6)
+    a = a * (1 - 0.1 * m[..., None]) + np.array((150, 128, 110), np.float32) * 0.1 * m[..., None]
+    ee = np.minimum.outer(np.minimum(np.arange(h), np.arange(h)[::-1]), np.minimum(np.arange(w), np.arange(w)[::-1])) / (0.05 * min(w, h))
+    a *= (0.86 + 0.14 * np.clip(ee, 0, 1))[..., None]; put(P, 'board', a)                              # 邊緣比較暗（端面、手摸）
+    # --- 冰箱門上的三張紙（沒有字：手寫的線、照片、課表的格子） ---
+    w, h = sz('note_list'); img = Image.new('RGB', (w, h), (246, 242, 230)); d = ImageDraw.Draw(img); g = np.random.default_rng(7)
+    d.line([(k, 2 * SS + (3 * SS if (k // (4 * SS)) % 2 else 0)) for k in range(0, w, 2 * SS)], fill=(214, 208, 192), width=SS)   # 撕下來的上緣
+    for row in range(7):
+        y = (0.16 + row * 0.11) * h; x = 0.1 * w; L_ = g.uniform(0.45, 0.8) * w; pts = []
+        for k in range(48):
+            t_ = k / 47; pts.append((x + t_ * L_, y + math.sin(t_ * 38 + row) * 1.4 * SS + g.normal(0, 0.4 * SS)))
+        d.line(pts, fill=(44, 70, 140), width=SS)
+        if row == 3: d.line([(x, y), (x + L_ * 0.7, y)], fill=(44, 70, 140), width=SS)   # 劃掉的一項
+    put(P, 'note_list', np.asarray(img, np.float32))
+    w, h = sz('note_photo'); img = Image.new('RGB', (w, h), (244, 244, 240)); d = ImageDraw.Draw(img); b = int(0.07 * w)
+    for yy in range(b, h - b):
+        t_ = (yy - b) / max(1, h - 2 * b); c = (int(150 + 60 * t_), int(190 + 35 * t_), int(222 + 12 * t_)) if t_ < 0.55 else (70, 118, int(150 - 20 * t_))
+        d.line([(b, yy), (w - b, yy)], fill=c)
+    d.polygon([(b, h * 0.58), (w * 0.3, h * 0.36), (w * 0.52, h * 0.5), (w * 0.72, h * 0.3), (w - b, h * 0.52), (w - b, h * 0.6), (b, h * 0.62)], fill=(84, 116, 104))
+    put(P, 'note_photo', np.asarray(img, np.float32))
+    w, h = sz('note_cal'); img = Image.new('RGB', (w, h), (250, 250, 246)); d = ImageDraw.Draw(img); g = np.random.default_rng(8)
+    gx0, gy0, gx1, gy1 = 0.08 * w, 0.14 * h, 0.92 * w, 0.92 * h; cw, ch = (gx1 - gx0) / 5, (gy1 - gy0) / 7
+    for (c, r_) in ((0, 1), (2, 1), (1, 3), (3, 3), (4, 2), (0, 5), (2, 4)):
+        d.rectangle([gx0 + c * cw + SS, gy0 + r_ * ch + SS, gx0 + (c + 1) * cw - SS, gy0 + (r_ + 1) * ch - SS], fill=[(240, 204, 172), (192, 222, 202), (204, 212, 240)][(c + r_) % 3])
+    d.rectangle([gx0, gy0, gx1, gy0 + ch], fill=(226, 226, 222))
+    for k in range(6): d.line([(gx0 + k * cw, gy0), (gx0 + k * cw, gy1)], fill=(160, 160, 158), width=SS)
+    for k in range(8): d.line([(gx0, gy0 + k * ch), (gx1, gy0 + k * ch)], fill=(160, 160, 158), width=SS)
+    d.rectangle([0.08 * w, 0.04 * h, 0.5 * w, 0.08 * h], fill=(60, 60, 64))   # 上面一條粗線（標題的位置，沒有字）
+    put(P, 'note_cal', np.asarray(img, np.float32))
+    # --- 捲筒紙巾：菱形壓紋（很淡）＋一條撕線 ---
+    w, h = sz('towel_roll'); yy, xx = np.mgrid[0:h, 0:w].astype(np.float32); per = 9 * SS
+    q = (np.abs(((xx + yy) % per) - per / 2) < 0.7 * SS) | (np.abs(((xx - yy) % per) - per / 2) < 0.7 * SS)
+    a = np.full((h, w, 3), 240, np.float32); a[q] -= 9
+    a[:, int(0.3 * w):int(0.3 * w) + SS][(np.arange(h) // (3 * SS)) % 2 == 0] -= 22
+    put(P, 'towel_roll', a)
 
 
 def make_textures():
@@ -133,6 +262,10 @@ def make_textures():
         rough, metal = SW[name[3:]][1:] if name.startswith('sw_') else ORM_REG[name]
         orm[int(y0 * f):int(math.ceil(y1 * f)), int(x0 * f):int(math.ceil(x1 * f)), 1] = int(rough * 255)
         orm[int(y0 * f):int(math.ceil(y1 * f)), int(x0 * f):int(math.ceil(x1 * f)), 2] = int(min(metal, METAL) * 255)
+    for name, m, rough in ROUGH_MASKS:   # 第 9 節補強：水漬霧、油亮、把手附近被手摸亮
+        x0, y0, x1, y1 = REG[name]; X0, Y0, X1, Y1 = int(x0 * f), int(y0 * f), int(math.ceil(x1 * f)), int(math.ceil(y1 * f))
+        mm = np.asarray(Image.fromarray((m * 255).astype(np.uint8)).resize((X1 - X0, Y1 - Y0), Image.BILINEAR), np.float32) / 255
+        g = orm[Y0:Y1, X0:X1, 1].astype(np.float32); orm[Y0:Y1, X0:X1, 1] = np.clip(g * (1 - mm) + rough * 255 * mm, 0, 255).astype(np.uint8)
     Image.fromarray(orm).save(ATLAS_ORM)
 
 
@@ -176,6 +309,7 @@ class PM:
 def T(x, y, z): M = np.eye(4); M[:3, 3] = (x, y, z); return M
 def Ry(a): c, s = math.cos(a), math.sin(a); M = np.eye(4); M[0, 0], M[0, 2], M[2, 0], M[2, 2] = c, s, -s, c; return M
 def Rx(a): c, s = math.cos(a), math.sin(a); M = np.eye(4); M[1, 1], M[1, 2], M[2, 1], M[2, 2] = c, -s, s, c; return M
+def Rz(a): c, s = math.cos(a), math.sin(a); M = np.eye(4); M[0, 0], M[0, 1], M[1, 0], M[1, 1] = c, -s, s, c; return M
 
 
 def rbox(pm, x0, x1, y0, y1, z0, z1, uv, r=0.003, seg=1, M=None):
@@ -371,7 +505,16 @@ def fridge():
         for yy in (y0, y1): box(pm, x - 0.01, x + 0.01, yy - 0.012, yy + 0.012, 0.375, 0.41, {'*': S('handle_w')})
         rbox(pm, x - 0.014, x + 0.014, y0 - 0.02, y1 + 0.02, 0.41, 0.435, {'*': S('handle_w')}, r=0.008, seg=2)
     box(pm, -hx + 0.02, hx - 0.02, 0.0, 0.08, 0.3, 0.34, {'f': R('grille'), '*': S('toe')})   # 通風格柵
+    # 第 9 節補強（生活痕跡）：門上三張紙＋磁鐵（沒有字：手寫的線、照片、課表的格子）；只做正面（紙 0.8 mm，邊看不到）
+    for (name, w, h, cx, cy, deg, mag) in (('note_list', 0.1, 0.15, 0.12, 1.08, 3.0, 'mag_r'), ('note_photo', 0.1, 0.067, -0.13, 1.1, -4.0, 'mag_b'), ('note_cal', 0.14, 0.2, 0.09, 1.47, 1.5, 'mag_y')):
+        M = T(cx, cy, 0.3752) @ Rz(math.radians(deg)); box(pm, -w / 2, w / 2, -h / 2, h / 2, 0.0, 0.0008, {'f': R(name)}, M=M, skip=('k', 't', 'b', 'l', 'r'))
+        magnet(pm, M @ T(0.0, h / 2 - 0.012, 0.0008), mag)
+    magnet(pm, T(-0.2, 0.92, 0.375), 'mag_y')   # 一個沒有夾東西的磁鐵
     return pm
+
+
+def magnet(pm, M, sw):
+    lathe(pm, [(0.011, 0.0, 0.011, 0.005, S(sw), 'out'), (0.011, 0.005, 0.0095, 0.0062, S(sw), 'out')], 10, caps=[(0.0095, 0.0062, S(sw), 'up')], M=M @ Rx(math.pi / 2))
 
 
 # 流理台的本地座標：x −1.4～1.4（layout 是 ry=π，本地 +x＝房間的西邊）；z −0.3（靠牆）～0.3
@@ -391,7 +534,7 @@ def base_cab(pm, x0, x1, doors=2, drawer=False, body_top=None):
         knob(pm, (x0 + x1) / 2, ytop - 0.07, 0.29); ytop -= 0.155
     w = (x1 - x0 - 0.01 * (doors + 1)) / doors
     for k in range(doors):
-        a = x0 + 0.01 + k * (w + 0.01); rbox(pm, a, a + w, 0.12, ytop, 0.27, 0.29, {'f': MD, '*': MP}, r=0.004, seg=1)
+        a = x0 + 0.01 + k * (w + 0.01); rbox(pm, a, a + w, 0.12, ytop, 0.27, 0.29, {'f': R('door_tr' if (doors == 1 or k == 0) else 'door_tl'), '*': MP}, r=0.004, seg=1)
         kx = a + w - 0.04 if (doors == 1 or k == 0) else a + 0.04; knob(pm, kx, ytop - 0.06, 0.29)
 
 
@@ -433,7 +576,7 @@ def sink():
     """原點＝檯面的高度；槽往 −y"""
     pm = PM(); hx, hz = 0.27, 0.21
     for (x0, x1) in ((-0.26, -0.01), (0.01, 0.26)):
-        box(pm, x0, x1, -0.2, 0.0, -0.19, 0.19, {'*': S('steel')}, inward=True, skip=('t',))
+        box(pm, x0, x1, -0.2, 0.0, -0.19, 0.19, {'b': S('steel_low'), '*': S('steel')}, inward=True, skip=('t',))   # 槽底暗一點（AO）
         lathe(pm, [(0.0, -0.198, 0.035, -0.198, S('drain'), 'up')], 12, M=T((x0 + x1) / 2, 0, 0.02))
     for (x0, x1, z0, z1) in ((-hx, hx, -hz, -0.19), (-hx, hx, 0.19, hz), (-hx, -0.26, -0.19, 0.19), (0.26, hx, -0.19, 0.19), (-0.01, 0.01, -0.19, 0.19)):
         box(pm, x0, x1, -0.004, 0.003, z0, z1, {'*': S('steel')}, skip=('b',))   # 邊框（蓋住檯面的洞邊）
@@ -457,10 +600,10 @@ def upper():
     """吊櫃：本地 x 和 US_COUNTER 相同；底 1.45、高 0.75、深 0.33（靠牆 z −0.3）；微波爐那一格只有上面的短櫃"""
     pm = PM(); y0, y1, z0, z1 = 1.45, 2.2, -0.3, 0.03
     def cab(x0, x1, doors, yb=y0):
-        box(pm, x0, x1, yb, y1, z0, z1 - 0.02, {'*': MP})
+        box(pm, x0, x1, yb, y1, z0, z1 - 0.02, {'b': S('maple_under'), '*': MP})   # 底面暗（AO）
         w = (x1 - x0 - 0.008 * (doors + 1)) / doors
         for k in range(doors):
-            a = x0 + 0.008 + k * (w + 0.008); rbox(pm, a, a + w, yb + 0.01, y1 - 0.01, z1 - 0.02, z1, {'f': MD, '*': MP}, r=0.004, seg=1)
+            a = x0 + 0.008 + k * (w + 0.008); rbox(pm, a, a + w, yb + 0.01, y1 - 0.01, z1 - 0.02, z1, {'f': R('door_br' if k % 2 == 0 else 'door_bl'), '*': MP}, r=0.004, seg=1)
             knob(pm, a + w - 0.04 if k % 2 == 0 else a + 0.04, yb + 0.06, z1)
     cab(-1.4, -0.79, 2); cab(-0.79, RANGE_X[0], 2); cab(RANGE_X[0], RANGE_X[1], 2, yb=1.87); cab(RANGE_X[1], 1.4, 2)
     return pm
@@ -479,11 +622,77 @@ def bar():
     return pm
 
 
-ITEMS = {'US_FRIDGE': fridge, 'US_COUNTER': counter, 'US_RANGE': range_, 'US_SINK': sink, 'US_DISHWASHER': dishwasher, 'US_UPPER': upper, 'US_PASSSHELF': passshelf, 'US_BAR': bar}
+# ================= 第 9 節補強：生活痕跡（一個節點，原點和 US_COUNTER 相同：照流理台的位置擺就對齊） =================
+def plate(r=0.11, seg=16):
+    q = PM(); C, BL = S('ceramic'), S('rim_blue')
+    lathe(q, [(0.042, 0.0, 0.046, 0.007, C, 'out'), (0.046, 0.007, r * 0.78, 0.013, C, 'out'), (r * 0.78, 0.013, r, 0.022, C, 'out'),
+              (r, 0.022, r - 0.005, 0.024, BL, 'up'), (r - 0.005, 0.024, r * 0.7, 0.016, C, 'up'), (r * 0.7, 0.016, 0.0, 0.014, C, 'up')], seg, caps=[(0.042, 0.0, C, 'down')])
+    return q
+
+
+def bowl(r=0.072, h=0.06, seg=16):
+    q = PM(); C, BL = S('ceramic'), S('rim_blue')
+    lathe(q, [(0.03, 0.0, 0.033, 0.007, C, 'out'), (0.033, 0.007, r * 0.82, h * 0.55, C, 'out'), (r * 0.82, h * 0.55, r, h, C, 'out'), (r, h, r - 0.004, h + 0.002, BL, 'up'),
+              (r - 0.004, h + 0.002, r * 0.78, h * 0.55, C, 'in'), (r * 0.78, h * 0.55, 0.03, 0.012, C, 'in'), (0.03, 0.012, 0.0, 0.011, C, 'up')], seg, caps=[(0.03, 0.0, C, 'down')])
+    return q
+
+
+def mug(r=0.04, h=0.095, seg=14):
+    q = PM(); MG = S('mug')
+    lathe(q, [(r, 0.0, r, h, MG, 'out'), (r, h, r - 0.004, h, MG, 'up'), (r - 0.004, h, r - 0.004, 0.012, MG, 'in')], seg, caps=[(r - 0.004, 0.012, MG, 'up'), (r, 0.0, MG, 'down')])
+    sweep(q, [(r - 0.002, 0.075, 0), (r + 0.022, 0.072, 0), (r + 0.028, 0.05, 0), (r + 0.022, 0.027, 0), (r - 0.002, 0.025, 0)], 0.0055, 6, MG)
+    return q
+
+
+def rrect(x0, x1, z0, z1, y, c=0.015):
+    """圓角的長方形（鐵絲架的框）：每個角兩個點"""
+    return [(x0 + c, y, z0), (x1 - c, y, z0), (x1, y, z0 + c), (x1, y, z1 - c), (x1 - c, y, z1), (x0 + c, y, z1), (x0, y, z1 - c), (x0, y, z0 + c)]
+
+
+def life():
+    pm = PM()
+    # 水槽裡（左槽靠牆斜放一個盤子、前面一個碗；右槽一個杯子）＋水槽後面的海綿
+    pm.add(plate(), T(-0.635, 0.818, -0.15) @ Rx(math.radians(70)))
+    pm.add(bowl(), T(-0.64, 0.723, 0.07) @ Ry(0.4))
+    pm.add(mug(), T(-0.37, 0.723, 0.04) @ Ry(2.2))
+    q = PM(); rbox(q, -0.04, 0.04, 0.0, 0.02, -0.025, 0.025, {'*': S('sponge_y')}, r=0.006, seg=1); rbox(q, -0.04, 0.04, 0.02, 0.028, -0.025, 0.025, {'*': S('sponge_g')}, r=0.003, seg=1)
+    pm.add(q, T(-0.66, TOP_Y, -0.245) @ Ry(0.15))
+    # 瀝水架（洗碗機上面那一段檯面）：塑膠托盤、鐵絲框、兩排插盤子的鐵絲、兩個盤子、倒扣的杯子
+    q = PM(); W_ = S('rack_wire'); rbox(q, -0.21, 0.21, 0.0, 0.016, -0.16, 0.16, {'*': S('rack_tray')}, r=0.006, seg=1)
+    sweep(q, rrect(-0.19, 0.19, -0.14, 0.14, 0.035), 0.0025, 6, W_, closed=True); sweep(q, rrect(-0.19, 0.19, -0.14, 0.14, 0.1), 0.0025, 6, W_, closed=True)
+    for (x, z) in ((-0.185, -0.135), (0.185, -0.135), (-0.185, 0.135), (0.185, 0.135)): sweep(q, [(x, 0.016, z), (x, 0.1, z)], 0.0025, 6, W_)
+    for zr in (-0.1, 0.05):
+        for k in range(6): x = -0.15 + k * 0.045; sweep(q, [(x, 0.035, zr), (x, 0.105, zr)], 0.002, 6, W_)
+    for x in (-0.1, -0.025): q.add(plate(), T(x, 0.146, -0.02) @ Rz(-math.pi / 2 + 0.1))   # 盤子的厚度往 +x：x 是盤子背面，夾在兩根鐵絲中間
+    q.add(mug(), T(0.13, 0.037 + 0.095, 0.07) @ Rx(math.pi) @ Ry(2.0))   # 倒扣，把手朝前（不會穿出框）
+    pm.add(q, T(-1.08, TOP_Y, -0.03) @ Ry(0.05))
+    # 電熱水壺（爐子西邊、靠牆）＋電線繞到擋水板後面
+    q = PM(); K, KT = S('kettle_k'), S('kettle')
+    lathe(q, [(0.088, 0.0, 0.088, 0.016, K, 'out'), (0.088, 0.016, 0.074, 0.02, K, 'up')], 16)
+    lathe(q, [(0.076, 0.02, 0.082, 0.07, KT, 'out'), (0.082, 0.07, 0.079, 0.14, KT, 'out'), (0.079, 0.14, 0.066, 0.195, KT, 'out'), (0.066, 0.195, 0.045, 0.21, KT, 'out'),
+              (0.045, 0.21, 0.043, 0.214, K, 'out'), (0.043, 0.214, 0.0, 0.222, K, 'up')], 16)
+    lathe(q, [(0.012, 0.22, 0.012, 0.235, K, 'out'), (0.012, 0.235, 0.0, 0.238, K, 'up')], 8)
+    sweep(q, [(0.074, 0.185, 0), (0.108, 0.19, 0), (0.125, 0.16, 0), (0.124, 0.09, 0), (0.105, 0.05, 0), (0.078, 0.045, 0)], 0.013, 6, K)
+    sweep(q, [(-0.07, 0.13, 0), (-0.095, 0.155, 0), (-0.11, 0.175, 0)], lambda t: 0.016 - 0.006 * t, 6, KT)
+    pm.add(q, T(0.95, TOP_Y, -0.14) @ Ry(-0.5))
+    sweep(pm, [(0.98, TOP_Y + 0.004, -0.21), (1.05, TOP_Y + 0.004, -0.235), (1.12, TOP_Y + 0.004, -0.25), (1.16, TOP_Y + 0.006, -0.268), (1.17, TOP_Y + 0.05, -0.276), (1.175, TOP_Y + 0.085, -0.288)], 0.0035, 6, S('cord'))
+    # 砧板：靠在擋水板上
+    q = PM(); rbox(q, -0.17, 0.17, 0.0, 0.25, -0.008, 0.008, {'f': R('board'), 'k': R('board', flip=True), '*': S('board_edge')}, r=0.004, seg=1)
+    pm.add(q, T(1.2, TOP_Y, -0.215) @ Rx(-0.21))
+    # 捲筒紙巾架（西南角）
+    q = PM(); HD, TR = S('holder'), R('towel_roll')
+    lathe(q, [(0.075, 0.0, 0.075, 0.01, HD, 'out'), (0.075, 0.01, 0.0, 0.014, HD, 'up')], 14)
+    lathe(q, [(0.007, 0.014, 0.007, 0.31, HD, 'out'), (0.007, 0.31, 0.0, 0.315, HD, 'up')], 6)
+    lathe(q, [(0.058, 0.016, 0.06, 0.02, TR, 'out'), (0.06, 0.02, 0.06, 0.285, TR, 'out'), (0.06, 0.285, 0.058, 0.29, TR, 'out'), (0.058, 0.29, 0.02, 0.29, S('ceramic'), 'up'), (0.02, 0.29, 0.02, 0.27, S('core'), 'in')], 16)
+    pm.add(q, T(1.28, TOP_Y, -0.08))
+    return pm
+
+
+ITEMS = {'US_FRIDGE': fridge, 'US_COUNTER': counter, 'US_RANGE': range_, 'US_SINK': sink, 'US_DISHWASHER': dishwasher, 'US_UPPER': upper, 'US_PASSSHELF': passshelf, 'US_BAR': bar, 'US_KITCHEN_LIFE': life}
 # GLB 裡的位置：流理台、爐子、水槽、洗碗機、吊櫃照組好的樣子擺（看得出彼此對齊）；冰箱、窗口檯面、吧台排在旁邊
 SPREAD = {'US_COUNTER': (0.0, 0.0, 0.0, 0), 'US_RANGE': (0.2, 0.0, 0.0, 0), 'US_SINK': (SINK_X, TOP_Y, 0.0, 0), 'US_DISHWASHER': (-1.1, 0.0, 0.0, 0), 'US_UPPER': (0.0, 0.0, 0.0, 0),
-          'US_FRIDGE': (2.0, 0.0, -0.075, 0), 'US_PASSSHELF': (0.0, 0.0, 1.6, 0), 'US_BAR': (0.0, 0.0, 2.2, 0)}
-BUDGET = {'US_FRIDGE': 900, 'US_COUNTER': 2600, 'US_RANGE': 1800, 'US_SINK': 900, 'US_DISHWASHER': 400, 'US_UPPER': 1600, 'US_PASSSHELF': 200, 'US_BAR': 400}
+          'US_FRIDGE': (2.0, 0.0, -0.075, 0), 'US_PASSSHELF': (0.0, 0.0, 1.6, 0), 'US_BAR': (0.0, 0.0, 2.2, 0), 'US_KITCHEN_LIFE': (0.0, 0.0, 0.0, 0)}
+BUDGET = {'US_KITCHEN_LIFE': 2800, 'US_FRIDGE': 900, 'US_COUNTER': 2600, 'US_RANGE': 1800, 'US_SINK': 900, 'US_DISHWASHER': 400, 'US_UPPER': 1600, 'US_PASSSHELF': 200, 'US_BAR': 400}
 TOTAL_BUDGET = 12000
 SMOOTH = {'US_SINK': 0.9}
 
@@ -517,6 +726,7 @@ def build():
                        'US_COUNTER': '本地 x −1.4～1.4、z −0.3（靠牆）～0.31；layout 是 ry=π（本地 +x＝房間西邊）。爐子在本地 x 0.2（寬 0.76）、水槽 x −0.5、洗碗機 x −1.1（寬 0.6）',
                        'US_RANGE': '和 US_COUNTER 一樣靠牆（z −0.3）；微波爐離地 1.45～1.85，在同一個節點', 'US_SINK': '原點＝檯面的高度（放在 US_COUNTER 的 x −0.5、y 0.92），槽往 −y',
                        'US_UPPER': '原點在地面，本地 x 和 US_COUNTER 相同；吊櫃底 1.45、頂 2.2、深 0.33', 'US_PASSSHELF': '檯面頂 1.05；1.8×0.3',
+                       'US_KITCHEN_LIFE': '生活痕跡（水槽裡的盤子、碗、杯子、海綿、瀝水架、電熱水壺＋電線、砧板、捲筒紙巾）：原點、本地座標都和 US_COUNTER 相同（照流理台的位置、角度擺就對齊）；整個節點可以拿掉',
                        'US_BAR': '檯面頂 1.05；靠牆那一側在 −z，坐的人在 +z（layout 的高腳椅在客廳那一側，放的時候 ry=π）'}
     info['note'] = '一個材質：us_kitchen（底色 1024＋ORM 256，metal 最高 0.40；花崗石＝Poly Haven granite_tile_03、楓木＝walnut_veneer 改色，都是 CC0）'
     L.write_json(out[:-4] + '.json', info)

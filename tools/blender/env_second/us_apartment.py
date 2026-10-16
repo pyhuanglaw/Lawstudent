@@ -349,8 +349,13 @@ if res:
     tops, new = res
     cr = [f for f in LAY['furniture'] if f['type'] == 'counterRun'][0]
     cx, cz = (cr['x0'] + cr['x1']) / 2, cr['z1'] - T / 2 - 0.3
-    for nd in ('US_COUNTER', 'US_RANGE', 'US_DISHWASHER', 'US_UPPER'): place(tops, nd, cx, 0.0, cz, math.pi)
-    place(tops, 'US_SINK', cx + 0.5, cr['h'], cz, math.pi)
+    # 每一件相對 US_COUNTER 的位置照 GLB（AA-B 的 SPREAD：爐子 x 0.2、洗碗機 x −1.1、水槽 x −0.5／y 0.92…）。
+    # 2026-10-16 17:5x 修：13:0x 起爐子、洗碗機、吊櫃都放在 US_COUNTER 的原點，爐子往水槽偏 0.2 m、洗碗機整台卡在爐子裡（爐面上一塊塊黑的就是洗碗機）
+    cw = tops['US_COUNTER'].matrix_world.inverted(); RY = math.pi; c_, s_ = math.cos(RY), math.sin(RY)
+    for nd in ('US_COUNTER', 'US_RANGE', 'US_DISHWASHER', 'US_UPPER', 'US_SINK', 'US_KITCHEN_LIFE'):   # US_KITCHEN_LIFE：ART-US2 第 9 節補強（AA-B 48393461），原點和 US_COUNTER 相同
+        if nd not in tops: continue
+        t = (cw @ tops[nd].matrix_world).to_translation(); lx, ly, lz = t.x, t.z, -t.y
+        place(tops, nd, cx + lx * c_ + lz * s_, ly, cz - lx * s_ + lz * c_, RY)
     fr = [f for f in LAY['furniture'] if f['type'] == 'fridge'][0]
     place(tops, 'US_FRIDGE', cr['x0'] + T / 2 + 0.375 + 0.01, 0.0, fr['z'], fr.get('ry', 0.0))   # 背面貼西牆，門朝東（廚房裡面）
     ps = [f for f in LAY['furniture'] if f['type'] == 'passShelf'][0]

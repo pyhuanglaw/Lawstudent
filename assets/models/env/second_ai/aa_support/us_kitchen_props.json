@@ -1,15 +1,15 @@
 {
- "objects": 8,
- "unique_meshes": 8,
- "tris": 4750,
- "tris_drawn": 4750,
+ "objects": 9,
+ "unique_meshes": 9,
+ "tris": 7408,
+ "tris_drawn": 7408,
  "materials": 1,
  "out": "assets/models/env/second_ai/aa_support/us_kitchen_props.glb",
- "bytes": 307260,
+ "bytes": 455388,
  "texres": 1024,
  "modules": {
   "US_FRIDGE": {
-   "tris": 600,
+   "tris": 798,
    "min": [
     -0.4,
     0.0,
@@ -111,9 +111,22 @@
     1.05,
     0.18
    ]
+  },
+  "US_KITCHEN_LIFE": {
+   "tris": 2460,
+   "min": [
+    -1.2974,
+    0.7222,
+    -0.2911
+   ],
+   "max": [
+    1.37,
+    1.235,
+    0.142
+   ]
   }
  },
- "tris_total": 4750,
+ "tris_total": 7408,
  "atlas": [
   "tools/blender/env_second/textures/gen/us_kitchen_props_atlas.png",
   "tools/blender/env_second/textures/gen/us_kitchen_props_orm.png"
@@ -125,6 +138,7 @@
   "US_SINK": "原點＝檯面的高度（放在 US_COUNTER 的 x −0.5、y 0.92），槽往 −y",
   "US_UPPER": "原點在地面，本地 x 和 US_COUNTER 相同；吊櫃底 1.45、頂 2.2、深 0.33",
   "US_PASSSHELF": "檯面頂 1.05；1.8×0.3",
+  "US_KITCHEN_LIFE": "生活痕跡（水槽裡的盤子、碗、杯子、海綿、瀝水架、電熱水壺＋電線、砧板、捲筒紙巾）：原點、本地座標都和 US_COUNTER 相同（照流理台的位置、角度擺就對齊）；整個節點可以拿掉",
   "US_BAR": "檯面頂 1.05；靠牆那一側在 −z，坐的人在 +z（layout 的高腳椅在客廳那一側，放的時候 ry=π）"
  },
  "note": "一個材質：us_kitchen（底色 1024＋ORM 256，metal 最高 0.40；花崗石＝Poly Haven granite_tile_03、楓木＝walnut_veneer 改色，都是 CC0）"

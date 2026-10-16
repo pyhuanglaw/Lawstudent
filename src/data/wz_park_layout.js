@@ -24,7 +24,7 @@ const WZ_PARK_LAYOUT = {
     // 入口段（主巷這一側）
     {id: 'notice', kind: 'notice_board', x: 22.0, z: 6.3, yaw: Math.PI, note: '社區公布欄（面向主巷，5-4「看公布欄」）'},
     {id: 'fountain', kind: 'drinking_fountain', x: 29.9, z: 6.3, yaw: Math.PI},
-    {id: 'bikes', kind: 'bike_rack', x: 31.0, z: 9.6, yaw: Math.PI / 2, note: '靠東側，可以停 4 台'},
+    {id: 'bikes', kind: 'bike_rack', x: 31.0, z: 9.6, yaw: Math.PI, note: '靠東側，可以停 4 台；四格沿南北（z）排，和導航阻擋 0.7×2.6 同方向（2026-10-16 yaw π/2 → π：BB-B 發現外觀橫的、阻擋直的）'},
     {id: 'bench_f1', kind: 'bench', x: 23.6, z: 9.0, yaw: Math.PI / 2},
     {id: 'bench_f2', kind: 'bench', x: 28.4, z: 9.0, yaw: -Math.PI / 2},
     {id: 'tree_f1', kind: 'tree_camphor', x: 21.3, z: 13.6},
