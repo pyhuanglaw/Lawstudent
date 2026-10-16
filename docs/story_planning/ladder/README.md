@@ -22,7 +22,10 @@
 | `dayMin` | （AA）遊戲第幾天以後（開局那天是第 1 天）；以安 A-L1＝第二天的事件之後 |
 | `locTime` | （AA）`{zone:{weekday,time}}`：在這個 zone 只有這些時段才推進（語彤在麵店只有週二、四 20:00～20:30 客人少的時候）；其他 zone 照一般條件 |
 | `greet.when[].weather`、`.week` | （AA）情境句也可以看天氣（`'rain'`）、週次範圍 |
-| `note` | 實作提醒 |
+| `linesIf` | （AA 2026-10-16）`[{if?／unless?, lines}]`：第一個條件成立的那一套**取代**這一層的 `lines`（選項照用）。例：語彤 Y-L1 只在麵店認識的玩家 |
+| `extraIf` | （AA 2026-10-16）`[{if?／unless?, lines}]`：條件成立時，在這一層的 `lines` 後面**多說**這幾句。例：語彤 Y-L5 傘給她的玩家 |
+| `skipIf` | （AA 2026-10-16 提議，BB 的 Q-L3 用）條件成立時，這一層**直接算過**（記層數、不播、不算今天推進），避免 `if` 用 `notMemory` 讓階梯永遠卡住 |
+| `note` | 實作提醒（**不放要播的台詞**；要播的變化用 `linesIf`／`extraIf`） |
 
 ## 給 LAWWW-B：`kaiDorm`（宿舍事件 K-D1～6）
 
