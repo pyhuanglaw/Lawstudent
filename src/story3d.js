@@ -2435,6 +2435,25 @@ const STORY = (function(){
      日期（AA_158 第 3 節）：JP 1/7 退宿、1/8 出發（和以安同一班）、7/15 返台；US 1/18 退宿、1/19 出發、6/24 返台。時差（第 4 節）：日本 +1；美國 −13，2028-03-12 起 −12 */
   const ROUTE_DATES={ JP:{out:'2028-01-07',dep:'2028-01-08',arrive:'2028-01-08',ret:'2028-07-15',place:'日本關西的大學城'}, US:{out:'2028-01-18',dep:'2028-01-19',arrive:'2028-01-19',ret:'2028-06-24',place:'美國印第安納'} };
   S.ROUTE_DATES=ROUTE_DATES;
+  /* 以安的戀愛前置（AA-B 2026-10-16 20:33；交換志願表 V4-E10，AA_30 場景 0、AA_113 第 6 節）：判斷的那一刻四項都成立才算，不成立一律演友情版、不給暗示。
+     a 公法讀書會：加入（PUBLIC_LAW_GROUP／CLUB_public_law_group）而且聽完至少 3 次（活動出席紀錄 G.acts.att 的 public_law_group@日）；
+     b 認真和她辯過至少 2 次：AN_APPEAL 是 rule／case／ask（listen 不算）、AN9_ARGUED、AN11_ARGUED（新 9、新 11 還沒有事件，旗標等那兩件做了才會有）；
+     c 以安的階段 FRIEND 以上；d 兩人都單身：祐廷沒有任何 dating_*（可昕也算），而且距離上一段分手至少 28 天（AA_128「收拾過」）；以安在遊戲裡沒有伴侶。
+     why＝true 回傳每一項（測試、除錯用）*/
+  S.breakupDaysAgo=function(G){ const R=(G.flags&&G.flags.romance)||{}; let last=null;
+    for(const id in R) for(const h of ((R[id]&&R[id].history)||[])){ if(!h||h.ev!=='end') continue; let d=typeof h.day==='number'?h.day:null;
+      if(d==null&&typeof h.at==='string'){ const m=/^(Y\dS\d)W(\d+)$/.exec(h.at), m2=/^D(-?\d+)$/.exec(h.at); if(m){ const t=termDay(m[1],+m[2],7); d=t!=null?t:(termDay(m[1],+m[2],1)!=null?termDay(m[1],+m[2],1)+6:null); } else if(m2) d=+m2[1]; }   /* 舊紀錄只有學期週次：當作那一週的最後一天（保守）*/
+      if(d!=null&&(last==null||d>last)) last=d; }
+    return last==null?Infinity:G.day-last; };
+  S.anRomancePre=function(G,why){ const F=(G&&G.flags)||{}; const A=(G.acts&&G.acts.att)||{}; let attend=0;
+    for(const k in A) if(k.indexOf('public_law_group@')===0&&(A[k]&&(A[k].end||'full')==='full')) attend++;
+    const group=!!(F.PUBLIC_LAW_GROUP||F.CLUB_public_law_group)&&attend>=3;
+    const argued=(['rule','case','ask'].includes(F.AN_APPEAL)?1:0)+(F.AN9_ARGUED?1:0)+(F.AN11_ARGUED?1:0);
+    const ST=typeof SOCIAL!=='undefined'&&SOCIAL.STAGES?SOCIAL.STAGES:[], st=typeof SOCIAL!=='undefined'&&SOCIAL.stage?SOCIAL.stage('heroine_01'):'STRANGER';
+    const friend=ST.indexOf(st)>=ST.indexOf('FRIEND')&&ST.indexOf('FRIEND')>=0;
+    const dating=Object.keys(F).filter(k=>/^dating_/.test(k)&&F[k]===true), since=S.breakupDaysAgo(G), single=!dating.length&&since>=28;
+    const ok=group&&argued>=2&&friend&&single;
+    return why?{ok,group,attend,argued,friend,stage:st,single,dating,since}:ok; };
   S.route=G=>{ const r=G&&G.flags&&G.flags.EXCHANGE_ROUTE; return r==='JP'||r==='US'||r==='TW'?r:null; };
   S.routeAbroadRoute=G=>{ const r=S.route(G); return r==='JP'||r==='US'?r:null; };   /* 國外路線（JP／US）；台灣、未決定＝null */
   S.abroad=function(G){ const R=ROUTE_DATES[S.routeAbroadRoute(G)]; if(!R) return false; const d0=S.dayOfKey(R.dep), d1=S.dayOfKey(R.ret); return d0!=null&&d1!=null&&G.day>=d0&&G.day<d1; };   /* 出發日 ≦ 今天 ＜ 返台日 */
