@@ -89,7 +89,7 @@ const after=(arr,q)=>{ const i=arr.indexOf(q); return i<0?[]:arr.slice(i+1); };
   // ---------- 5 程式碼與資料：舊句子、以安的家庭欄 ----------
   { const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');
     /* 別的事件合法用到同樣的字（經濟系寒假 E24 可昕「我媽說我寒假胖了。我說這是存糧。」，BB_104 8b-16）：先拿掉這幾句再搜尋 */
-    const LEGIT=['我媽說我寒假胖了。我說這是存糧。']; const src2=LEGIT.reduce((a,w)=>a.split(w).join(''),src);
+    const LEGIT=['我媽說我寒假胖了。我說這是存糧。','我媽說她不好意思拒絕。'];   /* 法服值班民眾第 6 件（AA_184）*/ const src2=LEGIT.reduce((a,w)=>a.split(w).join(''),src);
     check('5 story3d.js 整個檔案搜尋不到：'+OLD.join('、')+'（不算 '+LEGIT.join('、')+'）',oldIn([src2]).length===0,oldIn([src2]).join('、'));
     const h=CHARACTERS.heroine_01;
     check('5 以安的 family_context＝「母親是法官，單親；家在台中」',h.family_context==='母親是法官，單親；家在台中',h.family_context);

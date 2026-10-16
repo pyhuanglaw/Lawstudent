@@ -72,7 +72,7 @@ GM.money=function(n){ G.money+=n; };
   check('6. 跳過的 1/10 22:30 訊息照原本的時間收進手機',!!m10&&m10.day===D('2026-01-10')&&Math.abs(m10.h-22.5)<0.02,m10&&JSON.stringify([m10.day,m10.h]));
   check('6. 第一個選單：過幾天（跳到 1/20（二）18:30）、睡覺；沒有回宿舍、去學校',opts[0].some(t=>/^過幾天/.test(t))&&opts[0].includes('睡覺')&&!opts[0].some(t=>/回宿舍|去學校/.test(t)),JSON.stringify(opts[0]));
   check('6. 字卡依序：1/20 → 2/5 → 2/16 → 2/17 → 2/22 → 回宿舍',JSON.stringify(cards.map(c=>c[0]))===JSON.stringify(['1/20（二）18:30','2/5（四）18:30','2/16（一）12:00','2/17（二）11:00','2/22（日）17:00','回宿舍']),JSON.stringify(cards));
-  check('6. 跳過的旁白：1/20「寒假的早上…」、2/5「年前…」、2/16 同一句不說、2/17「過年的幾天…」、2/22「寒假的最後一週…」',L.includes('寒假的早上，家裡比宿舍安靜。')&&L.includes('年前，媽媽把你的房間也算進大掃除。')&&L.filter(t=>t==='年前，媽媽把你的房間也算進大掃除。').length===1&&L.includes('過年的幾天，親戚來來去去。每個人都問你，法律系是不是都在背條文。')&&L.includes('寒假的最後一週，你把下學期的課表抄進手帳。'),JSON.stringify(L.filter(t=>/寒假|年前|過年/.test(t))));
+  check('6. 跳過的旁白：1/20「寒假的早上…」、2/5「年前…」、2/16 同一格＝「棉被曬過一次，又收了起來。」（AA-B）、2/17「過年的幾天…」、2/22「寒假的最後一週…」',L.includes('寒假的早上，家裡比宿舍安靜。')&&L.includes('年前，媽媽把你的房間也算進大掃除。')&&L.filter(t=>t==='年前，媽媽把你的房間也算進大掃除。').length===1&&L.includes('棉被曬過一次，又收了起來。')&&L.includes('過年的幾天，親戚來來去去。每個人都問你，法律系是不是都在背條文。')&&L.includes('寒假的最後一週，你把下學期的課表抄進手帳。'),JSON.stringify(L.filter(t=>/寒假|年前|過年/.test(t))));
   check('6. 除夕：主線 2（親戚的土地資料）在家演，FAMILY_LAND_Y1 有值',!!G.flags.FAMILY_LAND_Y1&&!!G.events.done.ev_chiayi_land_y1);
   check('6. 初一：麵店團的拜年收進來（11:00）',PHONE.sent(G,'cny_noodle'));
   check('6. 2/22：「明天開學。你回宿舍。」→ 字卡「回宿舍」→ 宿舍房間；不在家、放假模式結束',L.includes('明天開學。你回宿舍。')&&entered[entered.length-1]==='dorm'&&!HOME.at(G)&&!G.home.lbreak&&G.day===D('2026-02-22')&&G.hour>=17.6,JSON.stringify([G.day,G.hour,entered]));
@@ -88,7 +88,7 @@ GM.money=function(n){ G.money+=n; };
   check('7. 7/15 10:00 宿舍系統「大二宿舍抽籤結果：已分配。請於 9/6 前完成入住。」＋旁白「換一層樓，換一個房間。」＋10:05 阿哲',!!lot&&lot.text==='大二宿舍抽籤結果：已分配。請於 9/6 前完成入住。'&&L.includes('換一層樓，換一個房間。')&&!!zl&&zl.text==='抽到了！哥你哪一間？……我們還是不同棟。');
   check('7. 7/20：大一下有打工＝「暑假的班照排。你從家裡搭捷運去上班。」',L.includes('暑假的班照排。你從家裡搭捷運去上班。'));
   check('7. 字卡：7/9 → 7/15 → 7/20 → 8/25 → 9/6 → 主線 3 的「回宿舍」',JSON.stringify(cards.map(c=>c[0]).slice(0,6))===JSON.stringify(['7/9（四）12:00','7/15（三）10:00','7/20（一）18:30','8/25（二）18:30','9/6（日）08:30','回宿舍']),JSON.stringify(cards.map(c=>c[0])));
-  check('7. 暑假的旁白：第一週、七月、八月、最後幾天各一次',['暑假的第一週。紙箱靠在牆邊，你一直沒拆。','七月。臺北熱到柏油路會反光。','八月。颱風來的那一晚，你在家把筆記從頭翻了一遍。','暑假的最後幾天，你把紙箱的膠帶重新貼好。'].every(t=>L.filter(x=>x===t).length===1),JSON.stringify(L.filter(t=>/暑假|七月|八月/.test(t))));
+  check('7. 暑假的旁白：第一週、七月、八月、最後幾天各一次；7/20 和 7/15 同一格＝「午後雷陣雨。……」',L.includes('午後雷陣雨。下完，又出太陽。')&&['暑假的第一週。紙箱靠在牆邊，你一直沒拆。','七月。臺北熱到柏油路會反光。','八月。颱風來的那一晚，你在家把筆記從頭翻了一遍。','暑假的最後幾天，你把紙箱的膠帶重新貼好。'].every(t=>L.filter(x=>x===t).length===1),JSON.stringify(L.filter(t=>/暑假|七月|八月/.test(t))));
   check('7. 9/6：主線 3（「明天開學。今天搬進新的房間。」→ 拆箱）；放假模式結束、ROOM_Y2',L.includes('明天開學。今天搬進新的房間。')&&!!G.flags.ROOM_Y2&&!HOME.at(G)&&!G.home.lbreak&&entered[entered.length-1]==='dorm');
   // 8. 沒在麵店團、和語彤有點熟以上＝私訊；不熟＝沒有
   fresh(D('2026-07-09'),12.5,'dorm',{}); G.stage='law'; meet('heroine_03'); R('heroine_03',30,0,0); HOME.breakPhone(GM); PHONE.tick(G);

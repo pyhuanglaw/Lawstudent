@@ -156,7 +156,7 @@ const HOME=(function(){
   S.BREAK_PTS={
     Y1W:[['2026-01-20',18.5,'sum'],['2026-02-05',18.5,'sum'],['2026-02-16',12,'eve'],['2026-02-17',11,'cny'],['2026-02-22',17,'back']],
     Y1S:[['2026-07-09',12,'ytbday'],['2026-07-15',10,'lottery'],['2026-07-20',18.5,'sum'],['2026-08-25',18.5,'sum'],['2026-09-06',8.5,'room']],
-    Y2W:[['2027-02-05',12,'eve'],['2027-02-06',11,'cny'],['2027-02-21',17,'back']],   /* 大二寒假的規格（交接包_v3 第 2 節）做好再補 */
+    Y2W:[['2027-01-20',20,'sum'],['2027-01-28',18.5,'sum'],['2027-02-05',12,'eve'],['2027-02-06',11,'cny'],['2027-02-21',17,'back']],   /* AA_183 3-2b（AA-B acf89d8a）：1/20 20:00 學姊 M2 的家族群組訊息（V3-B06 做好就會收到）、1/28 摘要日；情人節 2/14（交往中）是出遊、動態停 */
     Y2S:[['2027-06-28',18.5,'sum'],['2027-07-15',10,'lottery3'],['2027-07-20',18.5,'sum'],['2027-08-25',18.5,'sum'],['2027-09-05',17,'back']] };   /* AA_170 第 2 節；9/5 主線 5 做好以前照寒假的回宿舍 */
   S.breakPts=function(G,B){ B=B||S.lawBreak(G); if(!B) return []; const L=(S.BREAK_PTS[B.key]||[]).map(p=>({day:DK(p[0]),h:p[1],k:p[2]})).filter(p=>p.day!=null&&p.day>=B.from&&p.day<=B.to);
     if(!L.some(p=>p.k==='back'||p.k==='room')) L.push({day:B.to,h:17,k:'back'}); return L.sort((a,b)=>T(a.day,a.h)-T(b.day,b.h)); };
@@ -189,13 +189,16 @@ const HOME=(function(){
   S.BREAK_SKIP={winter:['寒假的早上，家裡比宿舍安靜。','年前，媽媽把你的房間也算進大掃除。','過年的幾天，親戚來來去去。每個人都問你，法律系是不是都在背條文。','寒假的最後一週，你把下學期的課表抄進手帳。'],
     summer:['暑假的第一週。紙箱靠在牆邊，你一直沒拆。','七月。臺北熱到柏油路會反光。','八月。颱風來的那一晚，你在家把筆記從頭翻了一遍。','暑假的最後幾天，你把紙箱的膠帶重新貼好。']};
   /* 四句照跳過的那一段在放假的哪個時候挑（中間那一天）：寒假＝前 10 天／過年以前／除夕到初二／最後 7 天；暑假＝前 10 天／七月／八月／最後 7 天。
-     和上一次跳過是同一句就不說（只有字卡）——表上的日子比四次多（大一暑假五次），照順序輪流會在七月說「八月」。已請 AA-B 確認 */
+     和上一次跳過同一句＝改說 BREAK_SKIP_EXTRA，那一句也用過了才只有字卡（AA-B acf89d8a 同意這個挑法）*/
   S.breakSkipIdx=function(G,mid,B){ B=B||S.lawBreak(G); if(!B) return -1; if(mid-B.from<10) return 0; const m=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(mid).m:0;
     if(B.kind==='summer') return B.to-mid<7?3:(m===7?1:(m===8?2:(m<7?0:3)));
     let eve=null; for(let d=B.from;d<=B.to;d++){ if(typeof CALENDAR!=='undefined'&&CALENDAR.holiday(d)==='除夕'){ eve=d; break; } } if(eve!=null&&mid>=eve&&mid<=eve+2) return 2;   /* 除夕到初二（大一的過年在寒假最後一週裡）*/
     if(B.to-mid<7) return 3; return eve!=null&&mid<eve?1:3; };
+  /* 和上一次同一格（同一句）時改說這一句（AA-B acf89d8a，AA_183 第 4 節）；這一句這個假也用過了＝只有字卡 */
+  S.BREAK_SKIP_EXTRA={winter:'棉被曬過一次，又收了起來。',summer:'午後雷陣雨。下完，又出太陽。'};
   S.breakSkipLine=function(G,t0,t1){ const H=S.rec(G), B=S.lawBreak(G); if(!B) return null; if(!H.bskip||H.bskip.key!==B.key) H.bskip={key:B.key,n:0,last:-1}; const i=S.breakSkipIdx(G,Math.floor((t0+t1)/48),B);
-    if(i<0||i===H.bskip.last) return null; H.bskip.last=i; H.bskip.n++; return S.BREAK_SKIP[B.kind][i]; };
+    if(i<0) return null; if(i===H.bskip.last){ if(H.bskip.extra) return null; H.bskip.extra=true; H.bskip.n++; return S.BREAK_SKIP_EXTRA[B.kind]; }
+    H.bskip.last=i; H.bskip.n++; return S.BREAK_SKIP[B.kind][i]; };
   /* 大一下有在做的打工（家教 JOB_TUTOR；溫州街三家等 DL-10 的 JOBS）*/
   const hasJob=G=>!!(G.flags&&G.flags.JOB_TUTOR)||(typeof JOBS!=='undefined'&&JOBS.any&&!!JOBS.any(G));
   const setTime=(G,E,tt)=>{ const d=Math.floor(tt/24); if(d>G.day){ G.day=d; G.weekday=wdOf(d); G.energy=100; G.flags.companion=null; G.weather=(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(d))?'rain':(Math.random()<0.7?'clear':'cloudy'); } G.hour=tt-d*24; if(E) E.hour=G.hour; };
