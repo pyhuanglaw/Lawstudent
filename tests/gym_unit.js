@@ -25,13 +25,20 @@ check('3. 大廳和球場之間：牆走不過（x −15、−5、5、15）；�
 check('4. 看台、服務台、往 3F／B1 的樓梯口擋住；羽球網柱擋住、網子本身不擋（上課時同學會穿過場地）',!E.canStand(0,-17.6,0.1,0)&&!E.canStand(11,15.6,0.1,0)&&!E.canStand(-18,15.3,0.1,0)&&!E.canStand(18,15.1,0.1,0)&&!E.canStand(-3.1,-11.2,0.02,0)&&E.canStand(0,-11.2,0.32,0));
 const shows=i=>{ const R=i.radius-0.05; for(let dx=-R;dx<=R+1e-9;dx+=0.2) for(let dz=-R;dz<=R+1e-9;dz+=0.2){ if(dx*dx+dz*dz>R*R) continue; const x=i.x+dx, zz=i.z+dz; if(!E.canStand(x,zz,0.32,0)) continue;
   let best=null, bd=1e9; for(const q of E.interactables){ const d=Math.hypot(q.x-x,q.z-zz); if(d<=q.radius&&d<bd){ bd=d; best=q; } } if(best===i&&walk(sp,[x,zz]).ok) return true; } return false; };
-const want=['服務台','看開館時間','往 3F 的樓梯（今天不開放）','往 B1 的樓梯（今天不開放）','體育課集合','看公告欄','看樓層指引','打羽球','販賣機','直飲台'];
+const want=['服務台','看開館時間','往 3F 的樓梯（今天不開放）','下樓到 B1（健身中心・游泳池）','體育課集合','看公告欄','看樓層指引','打羽球','販賣機','直飲台'];
 const its=want.map(l=>E.interactables.find(i=>i.label===l)); const bad=want.filter((l,k)=>!its[k]||!shows(its[k]));
 check('5. 互動點都有、走得到、按鈕真的出現（不被別的蓋過）：'+want.join('、'),!bad.length,bad.join('、'));
-check('5. 看的互動點都有說明字（設施的說明，不是劇情）；打羽球、販賣機、直飲台是 AA_174 的選單',its.filter(i=>i&&i.look).length===6&&['打羽球','販賣機','直飲台'].every(l=>E.interactables.some(i=>i.label===l&&i.gym&&i.onInteract)));
+check('5. 看的互動點都有說明字（設施的說明，不是劇情）；打羽球、販賣機、直飲台是 AA_174 的選單；往 B1 的樓梯可以下樓（第三階段）',its.filter(i=>i&&i.look).length===5&&!!(its[3]&&its[3].exit&&its[3].exit.to==='gym_b1')&&['打羽球','販賣機','直飲台'].every(l=>E.interactables.some(i=>i.label===l&&i.gym&&i.onInteract)));
 const seats=E.interactables.filter(i=>i.seat); const badS=seats.filter(i=>!shows(i)).map(i=>i.label+'('+i.x+','+i.z+')');
 check('6. 座位 '+seats.length+' 個（大廳長椅、看台、場邊長椅）都走得到、按鈕出現；看台的位子坐在看台的高度',seats.length===Ly.seats.length&&!badS.length&&seats.filter(i=>i.label==='坐在看台').every(i=>i.seat.y===0.45),badS.join('、'));
 { const zc=loadZone('campus'); check('7. 回校園的落點 (74,58.0) 站得住、走得到體育館門口',E.canStand(74,58.0,0.32,0)&&E.simWalk(74,58.0,74,59.0,{lv0:0,lv1:0,dt:0.1,speed:4.1}).ok); }
+// ---------- B1：大廳、健身中心、游泳池（第三階段）----------
+{ const zb=loadZone('gym_b1'), B=GYM_LAYOUT.b1; const spb=[zb.spawn.x,zb.spawn.z]; const exb=E.interactables.find(i=>i.exit&&i.exit.to==='gym'); const fit=E.interactables.find(i=>i.label==='去健身房'), desk=E.interactables.find(i=>i.label==='服務櫃台');
+  check('13. B1：出生點站得住；「上樓回大廳」一進來不在範圍裡；有「去健身房」「服務櫃台」',E.canStand(spb[0],spb[1],0.32,0)&&!!exb&&Math.hypot(exb.x-spb[0],exb.z-spb[1])>exb.radius&&!!fit&&!!desk);
+  const shows=i=>{ const R=i.radius-0.05; for(let dx=-R;dx<=R+1e-9;dx+=0.15) for(let dz=-R;dz<=R+1e-9;dz+=0.15){ if(dx*dx+dz*dz>R*R) continue; const x=i.x+dx, zz=i.z+dz; if(!E.canStand(x,zz,0.32,0)) continue; let best=null, bd=1e9; for(const q of E.interactables){ const d=Math.hypot(q.x-x,q.z-zz); if(d<=q.radius&&d<bd){ bd=d; best=q; } } if(best===i&&(Math.hypot(x-spb[0],zz-spb[1])<0.05||walk(spb,[x,zz]).ok)) return true; } return false; };
+  check('13. 「去健身房」「服務櫃台」「上樓回大廳」、池邊長椅都走得到、按鈕出現',shows(fit)&&shows(desk)&&shows(exb)&&E.interactables.filter(i=>i.seat).every(shows));
+  check('14. 健身中心的玻璃牆只能從門（x 3.2～5.0）進去；游泳池只能從門（x −5～−3.2）進去；池子、器材、樓梯擋住',!E.canStand(0,3.0,0.1,0)&&E.canStand(4.1,3.0,0.3,0)&&walk(spb,[0,8]).ok&&!E.canStand(-8,-0.2,0.1,0)&&walk(spb,[-4.1,-2.0]).ok&&!E.canStand(0,-12,0.1,0)&&!E.canStand(1.2,12.4,0.1,0)&&!E.canStand(18,11,0.1,0));
+  check('14. 平放的墊子不擋',E.canStand(-19.6,5.0,0.3,0)); }
 // ---------- AA_174：一個人打羽球、販賣機、直飲台 ----------
 (async()=>{ const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/DAY)+1; };
   const mk=(d,h,o)=>Object.assign({day:dayOf(d),hour:h,weekday:CALENDAR.dateOf(dayOf(d)).wd%7,flags:{introDone:true,classDone:true,afternoonDone:true},daily:{},money:1000,courses:{}},o||{});
@@ -51,5 +58,18 @@ check('6. 座位 '+seats.length+' 個（大廳長椅、看台、場邊長椅）�
   { const G=mk('2025-10-15',15); const a=gm(G), b=gm(G); await GY3.fountain(a); await GY3.fountain(b); const G2=mk('2025-10-16',15); GY3.rec(G2).sportDay=G2.day; const c=gm(G2); await GY3.fountain(c);
     check('11. 直飲台：平常「你按下按鈕，彎腰喝了幾口。」、當天有運動「你喝了很久……」；一天第二次不說話；0 分鐘',a.L.says[0]==='你按下按鈕，彎腰喝了幾口。'&&!b.L.says.length&&c.L.says[0]==='你喝了很久。後面排隊的人在等你。'&&a.L.adv+c.L.adv===0); }
   { const G=mk('2025-10-15',13); delete G.daily; const g=gm(G,[1]); await GY3.badminton(g); check('12. 舊存檔沒有 G.daily.gym：預設 0，照常可以打',!!G.daily.gym&&(G.daily.gym.fit|0)===0); }
+  /* ---------- 去健身房（AA_126 6-1、6-4；BB_124 7-3、7-4）---------- */
+  { const W=d=>{ for(let k=0;k<7;k++){ const x=mk(d,10); x.day+=k; if(CALENDAR.dateOf(x.day).wd===3) return x.day; } };
+    const G=mk('2025-10-15',10); const g=gm(G,[1]); await GY3.workout(g); const r=GY3.rec(G);
+    check('15. 第一次去：櫃台辦會員證（BB_124 7-4 原文）、選月票扣 200、「用到這個月底喔」、提醒室內鞋、照樣進去；重訓 1 小時、體能 +2、普通的第一句',g.L.says[0]==='B1 的櫃台。阿姨推過來一張同意書。'&&g.L.says.includes('好，兩百。用到這個月底喔。')&&g.L.says.includes('毛巾要帶喔。還有——（看了一眼你的鞋）下次記得穿室內鞋喔。')&&g.L.spent===200&&Math.abs(g.L.adv-1)<1e-9&&r.fit===2&&r.card&&r.pass==='2025-10'&&g.L.says[g.L.says.length-1]===GY3.FIT_LINES['普通'][0],JSON.stringify(g.L.says.slice(-2)));
+    G.hour=10; G.day+=1; const g2=gm(G); await GY3.workout(g2); check('15. 同一個月有月票：不扣錢、不問；三句輪流（換第二句）',g2.L.spent===0&&!g2.L.menus.length&&g2.L.says[0]===GY3.FIT_LINES['普通'][1]);
+    G.hour=10; G.day+=1; const g3=gm(G); await GY3.workout(g3); G.hour=10; G.day+=1; const g4=gm(G); await GY3.workout(g4);
+    check('15. 同一週第 4 次起不加體能（每週最多算 3 次）',r.fit===6&&r.fitN===3,JSON.stringify([r.fit,r.fitN]));
+    const Gn=mk('2025-11-12',10); Gn.daily=G.daily; const g5=gm(Gn,[0]); await GY3.workout(g5); check('15. 下個月第一次去：「這個月要買月票嗎？」→ 選單次扣 50',g5.L.says[0]==='這個月要買月票嗎？'&&g5.L.spent===50&&r.single==='2025-11');
+    Gn.hour=10; Gn.day+=1; const g6=gm(Gn); await GY3.workout(g6); check('15. 那個月選了單次：之後直接扣 50、不再問',g6.L.spent===50&&!g6.L.menus.length);
+    const late=mk('2025-10-15',21.6); late.daily={gym:{card:1,pass:'2025-10'}}; const gl=gm(late); await GY3.workout(gl); const sun=mk('2025-10-19',17.6); sun.daily={gym:{card:1,pass:'2025-10'}}; const gs=gm(sun); await GY3.workout(gs);
+    check('16. 平日 21:30、週日 17:30 以後：「健身房在清場了。明天吧。」不扣時間',gl.L.says[0]==='健身房在清場了。明天吧。'&&gs.L.says[0]==='健身房在清場了。明天吧。'&&gl.L.adv+gs.L.adv===0);
+    const fm=mk('2025-10-27',10); fm.daily={gym:{card:1,pass:'2025-10'}}; const gf=gm(fm); await GY3.workout(gf); check('16. 每月第四個星期一（2025-10-27）：「今天第四個星期一，健身房休館。」',GY3.fourthMonday(fm)&&gf.L.says[0]==='今天第四個星期一，健身房休館。'&&gf.L.adv===0&&!GY3.fourthMonday(mk('2025-10-20',10)));
+    const sp=mk('2025-10-15',10); sp.daily={gym:{card:1,pass:'2025-10',fit:60}}; const gsp=gm(sp); await GY3.workout(gsp); check('16. 體能 50 以上：結實的旁白',GY3.FIT_LINES['結實'].includes(gsp.L.says[0])); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });
