@@ -60,6 +60,7 @@
 | `granite_tile_03`、`painted_plaster_wall`、`ceiling_interior`、`fine_grained_wood`、`wood_table_001`、`fabric_leather_02`（萬才館室內） | 牆腳 1.2 m、方柱、樓板邊、樓梯踏面（花崗石）；米色粉光牆、二樓樓板底面；天花板；木門、長椅、踢腳板；圓桌桌面；深綠色沙發（皮紋染色）。地板的磨石子見下面 `terrazzo_tiles` 那一列 | `wancai_interior.glb` |
 | `granite_tile_03`、`painted_plaster_wall`、`ceiling_interior`、`fine_grained_wood`、`fabric_leather_02`（總圖大廳） | 花崗石：柱子、樓板邊收邊、閘門台座、樓梯踏面與平台（深一點）；米色粉光牆、樓板底面、樓梯中間的矮牆；天花板；淺色木：自習區的椅子、新書展示桌；深棕皮沙發、單人沙發。地板的磨石子、人字拼木地板、胡桃木見下面 `terrazzo_tiles`、`herringbone_parquet`、`walnut_veneer` | `library_interior.glb` |
 | `granite_tile`、`ceiling_interior`（第二個 AI：法律學院圖書館、總圖 3F 閱覽區、醉月湖） | 法律學院圖書館一樓地磚；3F 閱覽區的礦纖天花板；醉月湖湖心亭的花崗石平台與柱珠 | `lawlib_interior.glb`、`library_3f.glb`、`campus_lake.glb` |
+| `metal_plate`、`green_metal_rust`、`rusty_painted_metal`、`rubber_tiles`（BB-B 支援，ART-SHOP1 機車行道具組；檔案在 `tools/blender/env_second/bb_support/textures/<id>/`） | 只取明暗、校色後畫進貼圖集：升降台檯面的菱形花紋鋼板（metal_plate 的底色＋法線）、角鋼層架烤漆與鏽點、廢油桶的流痕與底部鏽、輪胎橡膠的細顆粒 | `assets/models/env/second_ai/bb_support/scooter_shop_props.glb` |
 
 （`tools/blender/textures/` 裡其他下載過、還沒用到的材質：`granite_tile_02`、`granite_wall`、`grey_plaster_02`、`floor_tiles_06`、`concrete_floor_02`，同樣是 Poly Haven CC0；用到時補進上表。）
 
@@ -190,3 +191,5 @@
 | 溫州街小公園遊戲場 `assets/models/env/second_ai/bb_support/park_play_props.glb`（ART-PARK1：溜滑梯、搖搖馬、搖搖小鴨、沙坑） | 本作 Blender 腳本 `tools/blender/env_second/bb_support/park_play_props.py`（BB-B 做、LAWWW2-B 驗收）；貼圖 Poly Haven CC0（`granular_concrete`、`dark_planks`，repo 裡已有）烘進 `bb_support/textures/gen/park_play_props_atlas.png`；沒有字、品牌 | 本作；貼圖 CC0 | 擺進 `wz_park.glb` |
 | 溫州街小公園鞦韆＋健身器材 `assets/models/env/second_ai/aa_support/park2_props.glb`（ART-PARK2） | 本作 Blender 腳本 `tools/blender/env_second/aa_support/park2_props.py`（AA-B 做、LAWWW2-B 驗收）；貼圖集 `textures/gen/park2_props_{atlas,orm}.png` 程式畫（numpy／PIL）；混凝土基座用 Poly Haven CC0 `concrete_wall_006` 的明暗；沒有字、品牌 | 本作；貼圖 CC0 | 擺進 `wz_park.glb` |
 | 溫州街小公園象棋桌凳、直飲台、腳踏車架 `assets/models/env/second_ai/bb_support/park3_props.glb`（ART-PARK3） | 本作 Blender 腳本 `tools/blender/env_second/bb_support/park3_props.py`（BB-B 做、LAWWW2-B 驗收）；貼圖集 `bb_support/textures/gen/park3_props_{atlas,orm}.png`：花崗岩用 Poly Haven CC0 `granite_tile_03`、混凝土 `granular_concrete` 改作，其他程式畫；棋盤的「楚河　漢界」用系統字型 **WenQuanYi Zen Hei**（GPL-2.0，附字型嵌入例外）畫成點陣圖，**沒有附字型檔**；沒有品牌 | 本作；貼圖 CC0 | 擺進 `wz_park.glb` |
+
+| 機車行道具組 `assets/models/env/second_ai/bb_support/scooter_shop_props.glb`（ART-SHOP1：輪胎疊、洞洞板工具牆、角鋼層架、升降台、空壓機、廢油桶、塑膠矮凳；2D 背景用） | 本作 Blender 腳本 `tools/blender/env_second/bb_support/scooter_shop_props.py`（BB-B 做、LAWWW2-B 驗收 d9388b2a）；貼圖集 `textures/gen/scooter_shop_props_{atlas,orm}.png` 由腳本畫，Poly Haven 四種（CC0，見上面 Poly Haven 表）只取明暗；沒有店名、商標、品牌 | 本作 |

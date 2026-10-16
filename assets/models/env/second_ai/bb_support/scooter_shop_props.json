@@ -1,0 +1,209 @@
+{
+ "objects": 8,
+ "unique_meshes": 8,
+ "tris": 29936,
+ "tris_drawn": 29936,
+ "materials": 1,
+ "out": "assets/models/env/second_ai/bb_support/scooter_shop_props.glb",
+ "bytes": 1053116,
+ "texres": 1024,
+ "modules": {
+  "SHOP_TIRE_STACK": {
+   "tris": 6864,
+   "min": [
+    -0.4934,
+    -0.003,
+    -0.271
+   ],
+   "max": [
+    0.5124,
+    0.7087,
+    0.4058
+   ]
+  },
+  "SHOP_TOOL_WALL": {
+   "tris": 10326,
+   "min": [
+    -1.2,
+    0.9,
+    0.0
+   ],
+   "max": [
+    1.2,
+    2.1,
+    0.1248
+   ]
+  },
+  "SHOP_PARTS_SHELF": {
+   "tris": 2900,
+   "min": [
+    -0.6,
+    -0.0,
+    -0.225
+   ],
+   "max": [
+    0.6,
+    1.98,
+    0.253
+   ]
+  },
+  "SHOP_LIFT": {
+   "tris": 2076,
+   "min": [
+    -0.9873,
+    -0.0068,
+    -0.3
+   ],
+   "max": [
+    1.0,
+    0.62,
+    0.712
+   ]
+  },
+  "SHOP_AIR_PUMP": {
+   "tris": 4506,
+   "min": [
+    -0.275,
+    0.0,
+    -0.19
+   ],
+   "max": [
+    0.7666,
+    0.5805,
+    0.4735
+   ]
+  },
+  "SHOP_OIL_DRUM": {
+   "tris": 2344,
+   "min": [
+    -0.386,
+    0.002,
+    -0.2904
+   ],
+   "max": [
+    0.292,
+    1.064,
+    0.2904
+   ]
+  },
+  "SHOP_STOOL_RED": {
+   "tris": 460,
+   "min": [
+    -0.162,
+    -0.0004,
+    -0.162
+   ],
+   "max": [
+    0.162,
+    0.26,
+    0.162
+   ]
+  },
+  "SHOP_STOOL_BLUE": {
+   "tris": 460,
+   "min": [
+    -0.162,
+    -0.0004,
+    -0.162
+   ],
+   "max": [
+    0.162,
+    0.26,
+    0.162
+   ]
+  }
+ },
+ "tris_total": 29936,
+ "atlas": [
+  "tools/blender/env_second/bb_support/textures/gen/scooter_shop_props_atlas.png",
+  "tools/blender/env_second/bb_support/textures/gen/scooter_shop_props_orm.png"
+ ],
+ "spread": {
+  "SHOP_TOOL_WALL": [
+   -0.35,
+   0.0,
+   -1.8,
+   0
+  ],
+  "SHOP_PARTS_SHELF": [
+   1.75,
+   0.0,
+   -1.545,
+   0
+  ],
+  "SHOP_TIRE_STACK": [
+   -2.25,
+   0.0,
+   -1.42,
+   8
+  ],
+  "SHOP_LIFT": [
+   -0.05,
+   0.0,
+   0.05,
+   0
+  ],
+  "SHOP_AIR_PUMP": [
+   1.45,
+   0.0,
+   0.62,
+   -18
+  ],
+  "SHOP_OIL_DRUM": [
+   2.4,
+   0.0,
+   -0.55,
+   25
+  ],
+  "SHOP_STOOL_RED": [
+   -1.75,
+   0.0,
+   0.85,
+   22
+  ],
+  "SHOP_STOOL_BLUE": [
+   0.95,
+   0.0,
+   1.35,
+   -38
+  ]
+ },
+ "checks": {
+  "stack_A_top": 0.7087,
+  "stack_B_top": 0.5789,
+  "lean": {
+   "center": [
+    0.285,
+    0.2153,
+    0.315
+   ],
+   "lean_deg": 14,
+   "contact_gap_m": 0.003,
+   "top_y": 0.4336
+  },
+  "peg_smudge_cells": 10,
+  "socket_rail_x": [
+   -0.12,
+   0.173
+  ],
+  "tool_wall_items": 39,
+  "cartons": 7,
+  "bottles": 8,
+  "batteries": 2,
+  "spray_cans": 2,
+  "ramp_end_x": -0.989,
+  "hose_points": 125
+ },
+ "origins": {
+  "*": "原點都在底部中央（地面）；遊戲座標 y 上、+z 朝前（朝觀眾）。GLB 裡先排成店的一角（spread：x, y, z, yaw°；牆面 z −1.8），擺放時用各自的原點",
+  "SHOP_TIRE_STACK": "甲疊 10 吋 7 條（中心 x −0.26）、乙疊 12 吋 5 條（x +0.26、z −0.015）；斜靠的 10 吋在乙疊 +z 前面（位置見 checks.lean）",
+  "SHOP_TOOL_WALL": "洞洞板 x −1.2～1.2、y 0.9～2.1；背面 z 0.02、板面 z 0.026；木條 z 0～0.02：原點放在牆面上（z＝牆），板面朝 +z",
+  "SHOP_PARTS_SHELF": "寬 1.2（x ±0.6）、深 0.45（z ±0.225）、高 1.8；層板 y 0.08、0.48、0.88、1.28、1.68；背面 z −0.225（離牆留 2～3 cm）",
+  "SHOP_LIFT": "底座框 x −0.80～1.0、z ±0.30；檯面 x −0.62～0.98、頂面 y 0.34；斜坡板到 x −0.99；前輪夾座在 +x；腳踏幫浦在 +z 側（z 到 0.45）；接油盤在 +z 前面（到 z 0.71）",
+  "SHOP_AIR_PUMP": "氣筒軸沿 x（x ±0.275、中心 y 0.20）；輪子在 −x、提把和橡膠腳在 +x；風管捲在 +x 旁邊地上（圈中心約 (0.58, 0.12)）",
+  "SHOP_OIL_DRUM": "半徑 0.29、高 0.88；漏斗插在 (−0.185, 0.03) 的大桶塞（頂 1.064）、小桶塞 (0.17, −0.10)、抹布 (0.11, 0.17)",
+  "SHOP_STOOL_RED": "座面 0.296 見方、座高 0.26；殼往下張到 ±0.162（四面拱門、側板到地）",
+  "SHOP_STOOL_BLUE": "同紅色"
+ },
+ "note": "一個材質 shop1（底色 1024＋ORM 256，金屬度最高 0.40：工具、套筒 0.40，軸、鉤子、銷 0.2，檯面 0.15，塗裝、塑膠、橡膠 0）；Poly Haven（CC0）：metal_plate（檯面菱形花紋：法線圖算明暗）、green_metal_rust（層架烤漆明暗、鏽點）、rusty_painted_metal（油桶油痕、底部鏽）、rubber_tiles（輪胎橡膠顆粒）、fine_grained_wood（鐵鎚木柄）；其他是程式畫的。沒有任何文字、商標、品牌（D77）"
+}
