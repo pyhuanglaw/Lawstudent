@@ -4,7 +4,7 @@
  "term": "Y1S1",
  "author": "AA",
  "count": 4,
- "crossReviewed": 0,
+ "crossReviewed": 4,
  "questions": [
   {
    "id": "AI_CIV_01",
@@ -26,8 +26,8 @@
    "refPoint": "參考考點：民事法源的順序（民法 §1）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民法 §1：「民事，法律所未規定者，依習慣；無習慣者，依法理」"
    ]
@@ -52,8 +52,8 @@
    "refPoint": "參考考點：胎兒的權利能力（民法 §7）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民法 §7：「胎兒以將來非死產者為限，關於其個人利益之保護，視為既已出生」",
     "民法 §6：「人之權利能力，始於出生，終於死亡」"
@@ -79,8 +79,8 @@
    "refPoint": "參考考點：輔助宣告與重要財產行為（民法 §15-2）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民法 §15-2：「受輔助宣告之人為下列行為時，應經輔助人同意」",
     "民法 §15-2：「五、為不動產、船舶、航空器、汽車或其他重要財產之處分」",
@@ -107,8 +107,8 @@
    "refPoint": "參考考點：法人成立的法律保留（民法 §25）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民法 §25：「法人非依本法或其他法律之規定，不得成立」"
    ]

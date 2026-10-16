@@ -4,7 +4,7 @@
  "term": "Y1S2",
  "author": "AA",
  "count": 4,
- "crossReviewed": 0,
+ "crossReviewed": 4,
  "questions": [
   {
    "id": "AI_OBL_01",
@@ -26,8 +26,8 @@
    "refPoint": "參考考點：貨物標定賣價陳列的性質（民法 §154 II）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民法 §154：「貨物標定賣價陳列者，視為要約」",
     "民法 §154：「但價目表之寄送，不視為要約」"
@@ -53,8 +53,8 @@
    "refPoint": "參考考點：變更要約的承諾（民法 §160 II）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民法 §160：「將要約擴張、限制或為其他變更而承諾者，視為拒絕原要約而為新要約」"
    ]
@@ -79,8 +79,8 @@
    "refPoint": "參考考點：定型化契約條款的控制（民法 §247-1）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民法 §247-1：「按其情形顯失公平者，該部分約定無效」",
     "民法 §247-1：「三、使他方當事人拋棄權利或限制其行使權利者」"
@@ -106,8 +106,8 @@
    "refPoint": "參考考點：代理權撤回與善意第三人（民法 §107）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民法 §107：「代理權之限制及撤回，不得以之對抗善意第三人」",
     "民法 §107：「但第三人因過失而不知其事實者，不在此限」"

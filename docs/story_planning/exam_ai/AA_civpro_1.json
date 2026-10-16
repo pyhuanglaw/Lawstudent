@@ -4,7 +4,7 @@
  "term": "Y3S1",
  "author": "AA",
  "count": 10,
- "crossReviewed": 0,
+ "crossReviewed": 10,
  "questions": [
   {
    "id": "AI_CP1_01",
@@ -26,8 +26,8 @@
    "refPoint": "參考考點：處分權主義（民事訴訟法 §388）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §388：「法院不得就當事人未聲明之事項為判決」"
    ]
@@ -40,9 +40,9 @@
    "type": "mc",
    "q": "住在臺北市的甲，要起訴住在高雄市的乙，請求返還借款。雙方沒有約定債務履行地，也沒有合意由哪個法院管轄。原則上應該向哪一個法院起訴？",
    "options": {
-    "A": "臺北地方法院，因為是原告住所地",
+    "A": "原告住所地（臺北市）的地方法院",
     "B": "任何一個地方法院都可以",
-    "C": "高雄地方法院，因為是被告住所地",
+    "C": "被告住所地（高雄市）的地方法院",
     "D": "最高法院"
    },
    "answer": "C",
@@ -52,8 +52,8 @@
    "refPoint": "參考考點：普通審判籍「以原就被」（民事訴訟法 §1）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §1：「訴訟，由被告住所地之法院管轄」"
    ]
@@ -66,10 +66,10 @@
    "type": "mc",
    "q": "住在臺中市的乙，在臺北市騎腳踏車撞傷了住在新竹市的甲。甲起訴請求損害賠償。下列敘述何者正確？",
    "options": {
-    "A": "臺北地方法院（行為地）或臺中地方法院（被告住所地）都有管轄權，甲可以選一個起訴",
-    "B": "只有新竹地方法院（原告住所地）有管轄權",
-    "C": "只有臺北地方法院有管轄權",
-    "D": "只有臺中地方法院有管轄權"
+    "A": "行為地（臺北市）或被告住所地（臺中市）的地方法院都有管轄權，甲可以選一個起訴",
+    "B": "只有原告住所地（新竹市）的地方法院有管轄權",
+    "C": "只有行為地（臺北市）的地方法院有管轄權",
+    "D": "只有被告住所地（臺中市）的地方法院有管轄權"
    },
    "answer": "A",
    "core": "民事訴訟法第 15 條：因侵權行為涉訟者，得由行為地之法院管轄；第 1 條：被告住所地之法院也有管轄權。第 22 條：數法院有管轄權者，原告得任向其中一法院起訴。原告住所地不是審判籍。",
@@ -78,8 +78,8 @@
    "refPoint": "參考考點：侵權行為地的特別審判籍與原告的選擇（民事訴訟法 §15、§22）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §15：「因侵權行為涉訟者，得由行為地之法院管轄」",
     "民事訴訟法 §1：「訴訟，由被告住所地之法院管轄」",
@@ -106,8 +106,8 @@
    "refPoint": "參考考點：當事人能力（民事訴訟法 §40）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §40：「有權利能力者，有當事人能力」",
     "民事訴訟法 §40：「胎兒，關於其可享受之利益，有當事人能力」",
@@ -136,8 +136,8 @@
    "refPoint": "參考考點：舉證責任的分配（民事訴訟法 §277）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §277：「當事人主張有利於己之事實者，就其事實有舉證之責任」",
     "民法 §474：「移轉金錢或其他代替物之所有權於他方」"
@@ -163,8 +163,8 @@
    "refPoint": "參考考點：起訴狀的必要記載（民事訴訟法 §244）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §244：「一、當事人及法定代理人。」",
     "民事訴訟法 §244：「二、訴訟標的及其原因事實。」",
@@ -191,8 +191,8 @@
    "refPoint": "參考考點：審判長的闡明義務（民事訴訟法 §199）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §199：「審判長應向當事人發問或曉諭」",
     "民事訴訟法 §199：「其所聲明或陳述有不明瞭或不完足者，應令其敘明或補充之」"
@@ -218,8 +218,8 @@
    "refPoint": "參考考點：訴之變更追加的例外（民事訴訟法 §255）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §255：「訴狀送達後，原告不得將原訴變更或追加他訴」",
     "民事訴訟法 §255：「三、擴張或減縮應受判決事項之聲明者」"
@@ -245,8 +245,8 @@
    "refPoint": "參考考點：審判公開原則（法院組織法 §86）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "法院組織法 §86：「訴訟之辯論及裁判之宣示，應公開法庭行之」",
     "法院組織法 §86：「法院得決定不予公開」"
@@ -272,8 +272,8 @@
    "refPoint": "參考考點：訴訟上和解的效力（民事訴訟法 §380）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §380：「和解成立者，與確定判決有同一之效力」"
    ]

@@ -4,7 +4,7 @@
  "term": "Y1S2",
  "author": "AA",
  "count": 10,
- "crossReviewed": 0,
+ "crossReviewed": 10,
  "questions": [
   {
    "id": "AI_CON2_01",
@@ -26,8 +26,8 @@
    "refPoint": "參考考點：總統的產生（增修條文 §2）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "中華民國憲法增修條文 §2：「總統、副總統由中華民國自由地區全體人民直接選舉之」"
    ]
@@ -52,8 +52,8 @@
    "refPoint": "參考考點：行政院院長的任命（增修條文 §3）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "中華民國憲法增修條文 §3：「行政院院長由總統任命之」",
     "中華民國憲法增修條文 §3：「憲法第五十五條之規定，停止適用」"
@@ -79,8 +79,8 @@
    "refPoint": "參考考點：立法委員的人數與任期（增修條文 §4）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "中華民國憲法增修條文 §4：「立法院立法委員自第七屆起一百一十三人，任期四年」"
    ]
@@ -105,8 +105,8 @@
    "refPoint": "參考考點：覆議（增修條文 §3 II ②）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "中華民國憲法增修條文 §3：「如經全體立法委員二分之一以上決議維持原案，行政院院長應即接受該決議」"
    ]
@@ -131,8 +131,8 @@
    "refPoint": "參考考點：不信任案與解散立法院（增修條文 §2 V、§3 II ③）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "中華民國憲法增修條文 §3：「行政院院長應於十日內提出辭職，並得同時呈請總統解散立法院」",
     "中華民國憲法增修條文 §2：「但總統於戒嚴或緊急命令生效期間，不得解散立法院」"
@@ -158,8 +158,8 @@
    "refPoint": "參考考點：法官的身分保障（憲法 §80、§81）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "中華民國憲法 §81：「法官為終身職，非受刑事或懲戒處分，或禁治產之宣告，不得免職」",
     "中華民國憲法 §80：「依據法律獨立審判，不受任何干涉」"
@@ -185,8 +185,8 @@
    "refPoint": "參考考點：監察院的職權（增修條文 §7）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "中華民國憲法增修條文 §7：「行使彈劾、糾舉及審計權，不適用憲法第九十條及第九十四條有關同意權之規定」",
     "中華民國憲法增修條文 §5：「由總統提名，經立法院同意任命之」"
@@ -198,7 +198,7 @@
    "term": "Y1S2",
    "scopeWeek": 11,
    "type": "mc",
-   "q": "甲是剛滿十八歲、沒有受監護宣告的中華民國國民。依現行規定，下列敘述何者正確？",
+   "q": "甲是剛滿十八歲、沒有受監護宣告的中華民國國民，從小一直住在臺灣。依現行規定，下列敘述何者正確？",
    "options": {
     "A": "甲可以在總統選舉投票，但還不能參加公民投票",
     "B": "甲可以參加全國性公民投票，但還不能在總統選舉投票",
@@ -206,16 +206,17 @@
     "D": "甲兩者都還不能參加"
    },
    "answer": "B",
-   "core": "公民投票法第 7 條：年滿十八歲、未受監護宣告者，有公民投票權。選舉權的年齡規定在憲法第 130 條：年滿二十歲者，有依法選舉之權（第 11 週的課堂：「十八歲可以投公投，卻不能投總統」）。",
-   "basis": "憲法 §130；公民投票法 §7",
+   "core": "公民投票法第 7 條：年滿十八歲、未受監護宣告者，有公民投票權；第 8 條另外要求在中華民國繼續居住六個月以上，才是全國性公投的投票權人（甲一直住在臺灣）。選舉權的年齡規定在憲法第 130 條：年滿二十歲者，有依法選舉之權（第 11 週的課堂：「十八歲可以投公投，卻不能投總統」）。",
+   "basis": "憲法 §130；公民投票法 §7、§8",
    "level": "應用",
    "refPoint": "參考考點：選舉權與公民投票權的年齡（憲法 §130、公民投票法 §7）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "公民投票法 §7：「年滿十八歲，未受監護宣告者，有公民投票權」",
+    "公民投票法 §8：「在中華民國、各該直轄市、縣（市）繼續居住六個月以上」",
     "中華民國憲法 §130：「中華民國國民年滿二十歲者，有依法選舉之權」"
    ]
   },
@@ -239,8 +240,8 @@
    "refPoint": "參考考點：裁判憲法審查的要件與期間（憲法訴訟法 §59）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "憲法訴訟法 §59：「經依法定程序用盡審級救濟程序，對於所受不利確定終局裁判」",
     "憲法訴訟法 §59：「六個月不變期間內為之」"
@@ -266,8 +267,8 @@
    "refPoint": "參考考點：修憲程序（增修條文 §12）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "中華民國憲法增修條文 §12：「經中華民國自由地區選舉人投票複決，有效同意票過選舉人總額之半數，即通過之」"
    ]

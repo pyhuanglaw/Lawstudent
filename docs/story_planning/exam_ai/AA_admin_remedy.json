@@ -4,7 +4,7 @@
  "term": "Y2S2",
  "author": "AA",
  "count": 3,
- "crossReviewed": 0,
+ "crossReviewed": 3,
  "questions": [
   {
    "id": "AI_ADR_01",
@@ -26,8 +26,8 @@
    "refPoint": "參考考點：訴願與撤銷訴訟的審查範圍（訴願法 §1、行政訴訟法 §4）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "訴願法 §1：「認為違法或不當，致損害其權利或利益者，得依本法提起訴願」",
     "行政訴訟法 §4：「人民因中央或地方機關之違法行政處分」"
@@ -53,8 +53,8 @@
    "refPoint": "參考考點：訴願的期間（訴願法 §14）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "訴願法 §14：「應自行政處分達到或公告期滿之次日起三十日內為之」"
    ]
@@ -79,8 +79,8 @@
    "refPoint": "參考考點：確認行政處分無效訴訟的要件（行政訴訟法 §6）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "行政訴訟法 §6：「非原告有即受確認判決之法律上利益者，不得提起之」",
     "行政訴訟法 §6：「須已向原處分機關請求確認其無效未被允許，或經請求後於三十日內不為確答者，始得提起之」"

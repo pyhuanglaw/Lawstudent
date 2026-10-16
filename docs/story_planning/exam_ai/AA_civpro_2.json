@@ -4,7 +4,7 @@
  "term": "Y3S2",
  "author": "AA",
  "count": 10,
- "crossReviewed": 0,
+ "crossReviewed": 10,
  "questions": [
   {
    "id": "AI_CP2_01",
@@ -26,8 +26,8 @@
    "refPoint": "參考考點：舉證責任的原則與例外（民事訴訟法 §277）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §277：「但法律別有規定，或依其情形顯失公平者，不在此限」"
    ]
@@ -52,8 +52,8 @@
    "refPoint": "參考考點：證人的義務（民事訴訟法 §302）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §302：「除法律別有規定外，不問何人，於他人之訴訟，有為證人之義務」"
    ]
@@ -78,8 +78,8 @@
    "refPoint": "參考考點：自由心證主義（民事訴訟法 §222）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §222：「依自由心證判斷事實之真偽」",
     "民事訴訟法 §222：「不得違背論理及經驗法則」",
@@ -106,8 +106,8 @@
    "refPoint": "參考考點：既判力（民事訴訟法 §400）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §400：「確定之終局判決就經裁判之訴訟標的，有既判力」"
    ]
@@ -132,8 +132,8 @@
    "refPoint": "參考考點：小額訴訟程序的適用範圍（民事訴訟法 §436-8）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §436-8：「其標的金額或價額在新臺幣十萬元以下者，適用本章所定之小額程序」",
     "民事訴訟法 §427：「其標的之金額或價額在新臺幣五十萬元以下者，適用本章所定之簡易程序」"
@@ -159,8 +159,8 @@
    "refPoint": "參考考點：第二審上訴期間（民事訴訟法 §440）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §440：「應於第一審判決送達後二十日之不變期間內為之」"
    ]
@@ -185,8 +185,8 @@
    "refPoint": "參考考點：第三審是法律審（民事訴訟法 §467）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §467：「上訴第三審法院，非以原判決違背法令為理由，不得為之」"
    ]
@@ -211,8 +211,8 @@
    "refPoint": "參考考點：假扣押的要件（民事訴訟法 §522）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §522：「債權人就金錢請求或得易為金錢請求之請求，欲保全強制執行者，得聲請假扣押」"
    ]
@@ -237,8 +237,8 @@
    "refPoint": "參考考點：再審事由與期間（民事訴訟法 §496、§500）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §496：「證人、鑑定人、通譯、當事人或法定代理人經具結後，就為判決基礎之證言」",
     "民事訴訟法 §496：「以宣告有罪之判決或處罰鍰之裁定已確定」",
@@ -265,8 +265,8 @@
    "refPoint": "參考考點：判決書的記載事項（民事訴訟法 §226）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "民事訴訟法 §226：「四、主文。」",
     "民事訴訟法 §226：「五、事實。」",

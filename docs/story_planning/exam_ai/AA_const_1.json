@@ -4,7 +4,7 @@
  "term": "Y1S1",
  "author": "AA",
  "count": 10,
- "crossReviewed": 0,
+ "crossReviewed": 10,
  "questions": [
   {
    "id": "AI_CON1_01",
@@ -26,8 +26,8 @@
    "refPoint": "參考考點：律師一試、高考憲法常考的規範位階（憲法 §171、§172）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "中華民國憲法 §172：「命令與憲法或法律牴觸者無效」",
     "中華民國憲法 §171：「法律與憲法牴觸者無效」"
@@ -53,8 +53,8 @@
    "refPoint": "參考考點：違憲審查的機關（憲法訴訟法 §1）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "憲法訴訟法 §1：「司法院大法官組成憲法法庭」",
     "憲法訴訟法 §1：「法規範憲法審查及裁判憲法審查案件」"
@@ -80,8 +80,8 @@
    "refPoint": "參考考點：憲法本文與增修條文的關係",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "中華民國憲法增修條文 §1：「憲法第二十五條至第三十四條及第一百三十五條之規定，停止適用」"
    ]
@@ -106,8 +106,8 @@
    "refPoint": "參考考點：平等權明文列舉的事由（憲法 §7）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "中華民國憲法 §7：「無分男女、宗教、種族、階級、黨派，在法律上一律平等」"
    ]
@@ -132,8 +132,8 @@
    "refPoint": "參考考點：人身自由的移送時限（憲法 §8）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "中華民國憲法 §8：「至遲於二十四小時內移送該管法院審問」"
    ]
@@ -158,8 +158,8 @@
    "refPoint": "參考考點：提審（憲法 §8）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "中華民國憲法 §8：「本人或他人亦得聲請該管法院」",
     "中華民國憲法 §8：「法院對於前項聲請，不得拒絕，並不得先令逮捕拘禁之機關查覆」",
@@ -186,8 +186,8 @@
    "refPoint": "參考考點：基本權限制的目的與比例原則（憲法 §23）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "中華民國憲法 §23：「除為防止妨礙他人自由、避免緊急危難、維持社會秩序，或增進公共利益所必要者外，不得以法律限制之」"
    ]
@@ -212,8 +212,8 @@
    "refPoint": "參考考點：表現自由的條文（憲法 §11）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "中華民國憲法 §11：「人民有言論、講學、著作及出版之自由」",
     "中華民國憲法 §14：「人民有集會及結社之自由」"
@@ -239,8 +239,8 @@
    "refPoint": "參考考點：財產權保障與徵收補償（憲法 §15）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "中華民國憲法 §15：「人民之生存權、工作權及財產權，應予保障」"
    ]
@@ -265,8 +265,8 @@
    "refPoint": "參考考點：未列舉權利（憲法 §22）",
    "source": "AI_Y1Y3",
    "author": "AA",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "BB",
    "verified": [
     "中華民國憲法 §22：「凡人民之其他自由及權利，不妨害社會秩序公共利益者，均受憲法之保障」"
    ]
