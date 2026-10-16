@@ -783,6 +783,13 @@ WZ_TEXT = {'wz_signs', 'wz_in_board', 'wz_in_price', 'wz_menu_ice', 'wz_menu_tea
 if L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', f'wz_small_atlas_{SET}.png'), f'wz_small_atlas_{SET}', protect=WZ_KEEP | WZ_TEXT, keep=_keep): pass
 # 有字的小牌子（菜單、價目、告示、門簾）不合貼圖集：效能第三輪試過另一張 512 格的貼圖集，寬的菜單被壓扁、字橫向糊掉（遊戲截圖看得出來），退回各自的材質
 L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', f'wz_rows_atlas_{SET}.jpg'), f'wz_rows_atlas_{SET}', protect=WZ_KEEP | WZ_TEXT, max_vloss=0.06, keep=_keep, skip=lambda m: m.name.startswith('wz_small_atlas'))   # 沿 u 重複很多次的（條紋雨遮、店內地板、木頭）
+# 效能第四輪：atlas_rows 不收的磁磚、木紋、地板（兩個方向都有細節）合成一張 2D 貼圖集——面沿 UV 格線切開、格子用 wrap 墊邊，不糊（lib2 atlas_tiles）
+WZ_TILES = {'wz_in_books', 'wz_sf_wood_light', 'wz_sf_wood_dark', 'wz_sf_floral', 'wz_sf_quarry', 'wz_sf_white', 'wz_sf_concrete', 'wz_sf_corr', 'wz_sf_granite',
+            'wz_sf_terrazzo', 'wz_sf_mosaic', 'wz_arcade_floor', 'wz_shutter', 'cafe_base_stone'}
+# 材質名開頭 wz_in_：遊戲的 WZ_NO_SHADOW 不投影（店裡的家具、地板、騎樓地板、鐵捲門的影子本來就看不到；投影的話切開的三角形在陰影那一輪又畫一次）
+L.atlas_tiles(root, os.path.join(HERE, 'textures', 'gen', f'wz_tiles_{SET}'), f'wz_in_tiles_{SET}', only=WZ_TILES, keep=_keep,
+              reps={'wz_sf_wood_dark': 2, 'wz_sf_wood_light': 2, 'wz_sf_mosaic': 2, 'wz_sf_granite': 2, 'wz_sf_terrazzo': 2, 'wz_sf_white': 2, 'wz_sf_floral': 2})
+# ↑ 木頭多半是店裡的小家具、店內地板隔著玻璃看：一格放 2×2 個週期，少切很多刀；騎樓地板（近看、走在上面）、鐵捲門、石材牆基維持一格一個週期
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or 'SEASON' in ob.name or (ob.parent is not None and 'SEASON' in ob.parent.name))
 info = L.export(OUT, gpu_instances=True)
 info.update({'buildings': [s['id'] for s in SPECS]})

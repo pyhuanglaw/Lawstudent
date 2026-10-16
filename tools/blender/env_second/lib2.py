@@ -441,6 +441,145 @@ def atlas_rows(root, out_jpg, mat_name, protect=(), max_tris=2500, max_rv=6, W=5
     return [s_[0] for s_ in sel]
 
 
+def _uv_clip(poly, u0, u1, v0, v1):
+    """Sutherland–Hodgman：把 [(co, uv)…] 多邊形裁到 UV 的 [u0,u1]×[v0,v1]（co、uv 在邊上線性內插；平面、box UV 的面是精確的）"""
+    for ax, val, ge in ((0, u0, True), (0, u1, False), (1, v0, True), (1, v1, False)):
+        out = []
+        for k in range(len(poly)):
+            a, b = poly[k - 1], poly[k]
+            ia = a[1][ax] >= val - 1e-6 if ge else a[1][ax] <= val + 1e-6
+            ib = b[1][ax] >= val - 1e-6 if ge else b[1][ax] <= val + 1e-6
+            if ib != ia:
+                t = (val - a[1][ax]) / (b[1][ax] - a[1][ax]); out.append((a[0].lerp(b[0], t), a[1].lerp(b[1], t)))
+            if ib: out.append(b)
+        poly = []
+        for q in out:   # 去掉重複的點（裁在角上會出現）
+            if not poly or (q[0] - poly[-1][0]).length > 1e-6: poly.append(q)
+        if len(poly) > 1 and (poly[0][0] - poly[-1][0]).length <= 1e-6: poly.pop()
+        if len(poly) < 3: return []
+    return poly
+
+
+def atlas_tiles(root, out_base, mat_name, only, cell=256, pad=12, keep=lambda ob: False, reps=None):
+    """磁磚、木紋、地板這類「兩個方向都有細節、會重複」的貼圖材質合成一張 2D 貼圖集，不糊（效能第四輪，2026-10-16）：
+    - 每個面先沿 UV 的整數格線切開（每一塊只落在一個週期裡），UV 平移到 0～1，再對到貼圖集的一格。
+    - 每一格四周用貼圖自己繞回來的像素墊邊（wrap）：遠處的 mipmap 混到的是同一張貼圖，不會混到隔壁格。
+    - 底色、法線（強度烤進像素）、ORM（G 粗糙度、B 金屬度）三張圖同一個排列；一個材質。
+    - 代價：大面積的面會切成好幾塊（三角形變多）。atlas_rows（一列一個材質）只適合 v 方向不變的條紋，這個給其他的。
+    only：要收的材質名。reps：{材質名: k}，一格放 k×k 個週期（切線只在 k 的倍數上，三角形少；每個週期的像素變成 1/k）。
+    回傳收進去的材質名。之後再 merge_by_material，同一個貼圖集材質的網格合成一個。"""
+    reps = reps or {}
+    import numpy as np
+    from PIL import Image as _I
+    objs, seen = [], set()
+    for ob in [root] + list(root.children_recursive):
+        if ob.type == 'MESH' and not keep(ob) and ob.data.name not in seen: seen.add(ob.data.name); objs.append(ob)
+    def src(m):
+        if not (m and m.use_nodes) or m.name not in only: return None
+        b = m.node_tree.nodes.get('Principled BSDF')
+        if b is None or not b.inputs['Base Color'].is_linked or b.inputs['Alpha'].is_linked: return None
+        n = b.inputs['Base Color'].links[0].from_node; tint = (1.0, 1.0, 1.0)
+        if n.bl_idname == 'ShaderNodeMix':
+            l6 = n.inputs[6].links
+            if not l6 or n.inputs[7].is_linked: return None
+            tint = tuple(n.inputs[7].default_value[:3]); n = l6[0].from_node
+        if n.bl_idname != 'ShaderNodeTexImage' or n.image is None or n.inputs['Vector'].is_linked: return None
+        nimg, nstr = None, 1.0
+        if b.inputs['Normal'].is_linked:
+            nm_ = b.inputs['Normal'].links[0].from_node
+            if nm_.bl_idname == 'ShaderNodeNormalMap' and nm_.inputs['Color'].is_linked:
+                ti = nm_.inputs['Color'].links[0].from_node
+                if ti.bl_idname == 'ShaderNodeTexImage' and ti.image: nimg, nstr = ti.image, nm_.inputs['Strength'].default_value
+        rough = b.inputs['Roughness'].default_value
+        if b.inputs['Roughness'].is_linked:
+            rn = b.inputs['Roughness'].links[0].from_node
+            if rn.bl_idname == 'ShaderNodeTexImage' and rn.image:
+                rp = np.array(rn.image.pixels[:], np.float32).reshape(-1, rn.image.channels); rough = float(rp[:, 0].mean())
+            else: rough = 0.6
+        return dict(img=n.image, tint=tint, nimg=nimg, nstr=nstr, rough=rough, metal=b.inputs['Metallic'].default_value)
+    srcs = {}
+    for ob in objs:
+        for m in ob.data.materials:
+            if m and m.name in only and m.name not in srcs: srcs[m.name] = src(m)
+    sel = [nm for nm in sorted(srcs) if srcs[nm]]
+    if len(sel) < 2: print(json.dumps({'atlas_tiles': 0})); return []
+    n = len(sel); cols = math.ceil(math.sqrt(n)); rows = math.ceil(n / cols); W, H = cols * cell, rows * cell; inner = cell - 2 * pad
+    pos = {nm: ((k % cols) * cell, H - (k // cols + 1) * cell) for k, nm in enumerate(sel)}   # 每格左下角（UV 的 v 從下面算）
+    def pix(img, srgb_in):   # Blender 像素（第 0 列在下面）→ 上到下、0～1 的 RGB 浮點
+        a = np.array(img.pixels[:], np.float32).reshape(img.size[1], img.size[0], img.channels)[::-1, :, :3]
+        return a
+    base = np.zeros((H, W, 3), np.uint8); nor = np.zeros((H, W, 3), np.uint8); nor[...] = (128, 128, 255); orm = np.zeros((H, W, 3), np.uint8); orm[..., 0] = 255
+    def place(arr, tile, nm):
+        x0, yb = pos[nm]; top = H - (yb + cell)
+        t = np.pad(tile, ((pad, pad), (pad, pad), (0, 0)), mode='wrap'); arr[top:top + cell, x0:x0 + cell] = t
+    for nm in sel:
+        s_ = srcs[nm]; px = pix(s_['img'], True)
+        if s_['img'].colorspace_settings.name == 'sRGB': px = np.where(px <= 0.04045, px / 12.92, ((px + 0.055) / 1.055) ** 2.4)
+        px = px * np.array(s_['tint'], np.float32)
+        sr = np.where(px <= 0.0031308, px * 12.92, 1.055 * np.power(np.clip(px, 0, None), 1 / 2.4) - 0.055)
+        kk = reps.get(nm, 1); sr = np.tile(sr, (kk, kk, 1)) if kk > 1 else sr
+        im = _I.fromarray((np.clip(sr, 0, 1) * 255).astype(np.uint8)).resize((inner, inner), _I.LANCZOS); place(base, np.array(im), nm)
+        if s_['nimg'] is not None:
+            nx = pix(s_['nimg'], False); xy = (nx[..., :2] - 0.5) * s_['nstr']; z = np.sqrt(np.clip(0.25 - (xy ** 2).sum(-1), 0, None))   # 強度烤進像素（遊戲裡的法線強度＝1）
+            nn = np.concatenate([xy + 0.5, z[..., None] + 0.5], -1); nn = np.tile(nn, (kk, kk, 1)) if kk > 1 else nn
+            im = _I.fromarray((np.clip(nn, 0, 1) * 255).astype(np.uint8)).resize((inner, inner), _I.LANCZOS); place(nor, np.array(im), nm)
+        t = np.zeros((inner, inner, 3), np.uint8); t[..., 0] = 255; t[..., 1] = int(np.clip(s_['rough'], 0, 1) * 255); t[..., 2] = int(np.clip(min(s_['metal'], 0.45), 0, 1) * 255); place(orm, t, nm)
+    paths = {k: f'{out_base}_{k}.png' for k in ('base', 'nor', 'orm')}
+    _I.fromarray(base).save(paths['base']); _I.fromarray(nor).save(paths['nor']); _I.fromarray(orm).save(paths['orm'])
+    am = bpy.data.materials.new(mat_name); am.use_nodes = True; nt = am.node_tree; bs = nt.nodes['Principled BSDF']
+    tb = nt.nodes.new('ShaderNodeTexImage'); tb.image = bpy.data.images.load(paths['base']); nt.links.new(tb.outputs['Color'], bs.inputs['Base Color'])
+    tn = nt.nodes.new('ShaderNodeTexImage'); tn.image = bpy.data.images.load(paths['nor']); tn.image.colorspace_settings.name = 'Non-Color'
+    nmap = nt.nodes.new('ShaderNodeNormalMap'); nmap.inputs['Strength'].default_value = 1.0; nt.links.new(tn.outputs['Color'], nmap.inputs['Color']); nt.links.new(nmap.outputs['Normal'], bs.inputs['Normal'])
+    to = nt.nodes.new('ShaderNodeTexImage'); to.image = bpy.data.images.load(paths['orm']); to.image.colorspace_settings.name = 'Non-Color'
+    sp = nt.nodes.new('ShaderNodeSeparateColor'); nt.links.new(to.outputs['Color'], sp.inputs['Color']); nt.links.new(sp.outputs['Green'], bs.inputs['Roughness']); nt.links.new(sp.outputs['Blue'], bs.inputs['Metallic'])
+    tris_before = tris_after = 0; per = {}
+    for ob in objs:
+        me = ob.data; mats = list(me.materials)
+        idx = {i: mats[i].name for i in range(len(mats)) if mats[i] and mats[i].name in pos}
+        if not idx: continue
+        if am.name not in [mm.name for mm in me.materials if mm]: me.materials.append(am)
+        ai = [j for j, mm in enumerate(me.materials) if mm and mm.name == am.name][0]
+        bm = bmesh.new(); bm.from_mesh(me); ul = bm.loops.layers.uv.active
+        if ul is None: bm.free(); continue
+        newv = []
+        def put(face, nm, i, j):   # i、j＝這一塊所在的格（以 k 個週期為一格）
+            x0, yb = pos[nm]; kk = reps.get(nm, 1)
+            for l in face.loops: u, v = l[ul].uv; l[ul].uv = ((x0 + pad + (u / kk - i) * inner) / W, (yb + pad + (v / kk - j) * inner) / H)
+            face.material_index = ai
+        for f in [f for f in bm.faces if f.material_index in idx]:
+            nm = idx[f.material_index]; tris_before += len(f.verts) - 2; pm = per.setdefault(nm, [0, 0]); pm[0] += len(f.verts) - 2
+            pts = [(l.vert.co.copy(), l[ul].uv.copy()) for l in f.loops]
+            kk = reps.get(nm, 1); us = [q[1].x / kk for q in pts]; vs = [q[1].y / kk for q in pts]
+            i0, i1 = math.floor(min(us) + 1e-4), math.ceil(max(us) - 1e-4); j0, j1 = math.floor(min(vs) + 1e-4), math.ceil(max(vs) - 1e-4)
+            i1, j1 = max(i1, i0 + 1), max(j1, j0 + 1)
+            if i1 - i0 == 1 and j1 - j0 == 1: put(f, nm, i0, j0); tris_after += len(f.verts) - 2; pm[1] += len(f.verts) - 2; continue
+            sm = f.smooth
+            for i in range(i0, i1):
+                for j in range(j0, j1):
+                    poly = _uv_clip(pts, i * kk, (i + 1) * kk, j * kk, (j + 1) * kk)
+                    if not poly: continue
+                    vs_ = [bm.verts.new(c) for c, uv in poly]; newv += vs_
+                    try: nf = bm.faces.new(vs_)
+                    except ValueError: continue
+                    nf.smooth = sm
+                    for l, (c, uv) in zip(nf.loops, poly): l[ul].uv = uv
+                    put(nf, nm, i, j); tris_after += len(poly) - 2; pm[1] += len(poly) - 2
+            bm.faces.remove(f)
+        bmesh.ops.delete(bm, geom=[e for e in bm.edges if not e.link_faces], context='EDGES')
+        bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context='VERTS')
+        newv = [v for v in newv if v.is_valid]
+        if newv: bmesh.ops.remove_doubles(bm, verts=newv, dist=1e-5)
+        bm.normal_update(); bm.to_mesh(me); bm.free()
+        used = {p.material_index for p in me.polygons}
+        for i in sorted(range(len(me.materials)), reverse=True):
+            if i not in used:
+                for p in me.polygons:
+                    if p.material_index > i: p.material_index -= 1
+                me.materials.pop(index=i)
+    print(json.dumps({'atlas_tiles': len(sel), 'materials': sel, 'size': [W, H], 'tris_before': tris_before, 'tris_after': tris_after, 'per': per}))
+    return sel
+
+
 def realize_small_instances(root, max_users=3, max_tris=2000, keep=lambda ob: False):
     """數量少或很小的 instancing（同一個網格只用 1～3 次、或全部加起來不到 max_tris 個三角形）改成各自一份網格，
     之後 split_by_material＋merge_by_material 才能合進大網格（instancing 每個原型每個材質一次 draw call，只擺一兩個的不划算）。"""
