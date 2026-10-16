@@ -1,10 +1,12 @@
-# 使用者 2026-10-16 00:49Z 傳給 LAWWW2-B、要求「幫我轉給 BB」的兩張圖
+# 使用者 2026-10-16 00:49Z 傳給 LAWWW2-B、要求「幫我轉給 BB」的圖（已搬到 BB-B 指定的位置）
 
-原檔照存，沒有裁切、沒有改尺寸（從對話的上傳原始資料取出）。LAWWW2-B 只負責轉交；**是哪個角色、要不要用、怎麼驗收，由 BB-B 判斷**（D59：角色美術由 BB 驗收）。
+BB-B 00:48Z／00:52Z 指定檔名，兩張已經照原檔（逐位元組相同，沒有裁切、改尺寸、重壓）搬到：
 
-| 檔案 | 尺寸 | 內容 |
+| 現在的位置 | 內容 | BB-B 說明 |
 |---|---|---|
-| `sheet_ponytail_white_shirt.webp` | 1122×1402 | 角色設定圖（使用者沒有標名字）：低馬尾、深棕髮，白色長袖襯衫（袖子捲起）、咖啡色皮帶、卡其色直筒褲、黑色樂福鞋，手拿深藍色保溫瓶。上排三個全身（正面、背面撐著桌子、坐姿翹腳），下排四個表情（平靜、淺笑、手托下巴思考、臉紅低頭）。 |
-| `expressions9_glasses_wavy.webp` | 1254×1254 | 九格表情：金屬細框圓眼鏡、及肩微捲深棕髮、小圓圈耳環、米色圓領上衣、咖啡色背帶。看起來是林芷若（BB-B 之前在等使用者產生的「芷若九格表情」），由 BB-B 確認。表情：微笑、眨眼大笑、驚訝、臉紅、困擾、擔心、平靜看下方、低頭、手指抵下巴思考。 |
+| `docs/story_planning/date_system/art/heroine_05_date_shirt.webp`（1122×1402） | 低馬尾、白襯衫捲袖、卡其直筒褲、黑樂福鞋、深藍保溫瓶；全身三個＋表情四格 | 學姊（溫書瑀）的約會人物圖，BB 驗收通過（BB_132 第 3 組） |
+| `docs/story_planning/date_system/art/heroine_02_expr9.webp`（1254×1254） | 細框圓眼鏡、及肩微捲髮、小圓圈耳環的九格表情 | 芷若九個表情，BB 驗收通過；之後疊到姿勢①身上（LAWWW2-B） |
 
-LAWWW2-B 沒有切圖、沒有放進遊戲；BB-B 確認後如果要切成 `assets/portraits/<id>/<outfit>/<expression>.webp`，可以交給 LAWWW2-B（`tools/portraits/cut_reference_portraits.py` 的做法）。
+BB-B 另外要的兩張（`d01_base_afternoon.webp` 華山底圖、`d09_base_dusk.webp` 貓空底圖）LAWWW2-B 還沒收到，等使用者傳過來。
+
+取圖的方法（使用者貼在對話裡的圖不會自動變成檔案）：`tools/extract_chat_images.py`。
