@@ -9,6 +9,12 @@
   duty plan    --account C [--role LAWWW] [--ref …]        接班清單：上一任是誰、四職位的分支與 SHA、快照、待整合（只讀）
   duty register --account C --role LAWWW --session <id> --branch <分支> [--user-ok]   接班登記（寫工作目錄的 duty.json／duty_<職位>.json）
   duty handoff --account B --role LAWWW [--snapshot <檔名>]  交班登記（寫工作目錄；快照先用 check_handoff.py snapshot 做好）
+  duty find                                               找 RULE_SOURCE：掃所有遠端分支的 duty.json，照「登記鏈」（seq＋chain）選最新的那一份；
+                                                          兩份互相不包含（分岔）＝不能自己決定，結束碼 1，回報使用者。不看 commit 時間。
+  duty sync                                               （值班 LAWWW）把其他三職位在各自分支的 duty_<職位>.json 收進 duty.json
+
+各職位怎麼寫：LAWWW 的 register／handoff 同時寫 duty.json（RULE_SOURCE）和 duty_LAWWW.json；LAWWW2、AA、BB 只寫自己分支的 duty_<職位>.json，
+值班 LAWWW 用 sync 收（多個分支同時改 duty.json 會打架，所以只有一個人寫）。
 
 register 的安全規則：
   - 這個職位上一任還沒正式交班（state 不是 handed-off），而且上一任是另一個帳號 → 拒絕，除非加 --user-ok（使用者在對話裡明確說「我回來了／現在由這個帳號接班」）；
@@ -261,6 +267,11 @@ def plan(args):
     return 0
 
 
+def _chain(d, account, role, event):
+    d['seq'] = int(d.get('seq') or 0) + 1
+    d.setdefault('chain', []).append({'seq': d['seq'], 'at': now(), 'account': account, 'role': role, 'event': event})
+
+
 def _write(root, path, obj):
     p = os.path.join(root, path)
     os.makedirs(os.path.dirname(p), exist_ok=True)
@@ -271,7 +282,7 @@ def _write(root, path, obj):
 
 def register(args):
     src = Src(args.root)
-    d, err = load(src)
+    d, err = load(src, getattr(args, 'ref', None))
     if err:
         print(f'[致命] {err}——沒有值班狀態不能登記；回報使用者')
         return 2
@@ -311,8 +322,13 @@ def register(args):
         d['ruleSource'] = {'branch': args.branch, 'sha': head, 'updated': now()}
         if d.get('pending'):
             d['pending'] = None
+    reg = {'role': r, 'account': me, 'session': args.session, 'branch': args.branch, 'since': now(), 'state': 'on', 'sinceSha': head, 'userOk': bool(no_handoff)}
+    _write(args.root, ROLE_FILE.format(role=r), reg)
+    if r != 'LAWWW':
+        print(f'登記：{session_name(r, me)}（帳號 {me}）接 {r}，分支 {args.branch} @ {head}——只寫了自己的 {ROLE_FILE.format(role=r)}；commit＋push 以後，值班 LAWWW 跑 duty sync 收進 duty.json')
+        return 0
+    _chain(d, me, r, 'register' + ('-user-ok' if no_handoff else ''))
     _write(args.root, DUTY, d)
-    _write(args.root, ROLE_FILE.format(role=r), {'role': r, 'account': me, 'session': args.session, 'branch': args.branch, 'since': now(), 'state': 'on', 'sinceSha': head})
     print(f'登記：{session_name(r, me)}（帳號 {me}）接 {r}，分支 {args.branch} @ {head}' + (f'（上一任 {prev_acc}{"，沒有正式交班＝已記異常" if no_handoff else ""}）' if prev_acc and prev_acc != me else ''))
     print(f'寫了 {DUTY}、{ROLE_FILE.format(role=r)}——commit＋push 才算登記完成；LAWWW 以外的職位，duty.json 的變更交給值班 LAWWW 併進 RULE_SOURCE')
     return 0
@@ -320,7 +336,7 @@ def register(args):
 
 def handoff(args):
     src = Src(args.root)
-    d, err = load(src)
+    d, err = load(src, getattr(args, 'ref', None))
     if err:
         print(f'[致命] {err}')
         return 2
@@ -347,10 +363,106 @@ def handoff(args):
         d['pending'] = None
     else:
         d['pending'] = {'from': me, 'rolesHandedOff': sorted(k for k, v in (d.get('roles') or {}).items() if v.get('state') == 'handed-off')}
-    _write(args.root, DUTY, d)
-    reg = {'role': r, 'account': me, 'session': x.get('session'), 'branch': x.get('branch'), 'state': 'handed-off', 'handedOffAt': x['handedOffAt'], 'sha': head}
+    reg = {'role': r, 'account': me, 'session': x.get('session'), 'branch': x.get('branch'), 'state': 'handed-off', 'handedOffAt': x['handedOffAt'], 'sha': head, 'snapshot': args.snapshot}
     _write(args.root, ROLE_FILE.format(role=r), reg)
+    if r != 'LAWWW':
+        print(f'交班：{session_name(r, me)} 交出 {r} @ {head}——寫了自己的 {ROLE_FILE.format(role=r)}；commit＋push，值班 LAWWW 交班前跑 duty sync')
+        return 0
+    _chain(d, me, r, 'handoff')
+    _write(args.root, DUTY, d)
     print(f'交班：{session_name(r, me)}（帳號 {me}）交出 {r} @ {head}' + (f'，快照 {args.snapshot}' if args.snapshot else '（沒有指定快照——先跑 check_handoff.py snapshot）'))
+    return 0
+
+
+def remote_branches(root):
+    rc, out = git(root, 'for-each-ref', '--format=%(refname:short)', 'refs/remotes/origin/')
+    return [l for l in out.splitlines() if l and not l.endswith('/HEAD')] if rc == 0 else []
+
+
+def find(args, quiet=False):
+    """掃所有遠端分支的 duty.json，照登記鏈選 RULE_SOURCE。回傳 (結束碼, 分支)。"""
+    src = Src(args.root)
+    cands = []
+    for ref in remote_branches(args.root):
+        try:
+            d = json.loads(src.read(DUTY, ref))
+        except Exception:
+            continue
+        b = ref[len('origin/'):] if ref.startswith('origin/') else ref
+        if (d.get('ruleSource') or {}).get('branch') != b:
+            continue   # 別的分支合併進來的副本，不是它自己的值班狀態
+        cands.append((b, d))
+    if not cands:
+        if not quiet:
+            print('[致命] 遠端沒有任何分支有自己的 duty.json——不能判斷 RULE_SOURCE，回報使用者')
+        return 2, None
+    def key(c):
+        return [(e.get('seq'), e.get('account'), e.get('role'), e.get('event')) for e in (c[1].get('chain') or [])]
+    def contains(big, small):
+        ks, kb = key(small), key(big)
+        return len(ks) <= len(kb) and kb[:len(ks)] == ks
+    tops = [c for c in cands if not any(o is not c and contains(o, c) and len(key(o)) > len(key(c)) for o in cands)]
+    if len(tops) > 1:
+        # 完全一樣的鏈（同一份狀態合併到多個分支）只要 ruleSource 指向自己的那份——上面已經篩過；剩下多份＝分岔
+        if not quiet:
+            print('[異常] 兩份以上的值班狀態互相不包含（登記鏈分岔）——不能自己決定哪一班最新，回報使用者：')
+            for b, d in tops:
+                print(f'  {b}：值班 {d.get("onDuty")}，seq {d.get("seq")}，最後 {json.dumps((d.get("chain") or [{}])[-1], ensure_ascii=False)}')
+        return 1, None
+    b, d = tops[0]
+    if not quiet:
+        print(f'RULE_SOURCE：{b}（值班 {d.get("onDuty") or "沒有人"}、上一任 {d.get("previous") or "—"}、規則 {d.get("ruleVersion")}、seq {d.get("seq")}）')
+    return 0, b
+
+
+def sync(args):
+    src = Src(args.root)
+    d, err = load(src)
+    if err:
+        print(f'[致命] {err}')
+        return 2
+    changed = []
+    for r in ROLES:
+        if r == 'LAWWW':
+            continue
+        found = []
+        for ref in remote_branches(args.root):
+            try:
+                reg = json.loads(src.read(ROLE_FILE.format(role=r), ref))
+            except Exception:
+                continue
+            if reg.get('branch') and ref != f'origin/{reg["branch"]}':
+                continue
+            found.append((ref, reg))
+        cur = (d.get('roles') or {}).get(r) or {}
+        mine = [f for f in found if f[1].get('account') == (d.get('onDuty') or cur.get('account'))]
+        if len(mine) > 1:
+            print(f'[異常] {r}：值班帳號有兩份登記 {[f[0] for f in mine]}——不收，回報使用者')
+            continue
+        if not mine:
+            continue
+        ref, reg = mine[0]
+        tip = git(args.root, 'rev-parse', '--short=8', ref)[1]
+        new = {'account': reg['account'], 'session': reg.get('session'), 'branch': reg.get('branch'), 'sha': reg.get('sha') or tip,
+               'sinceSha': reg.get('sinceSha'), 'since': reg.get('since'), 'state': reg.get('state', 'on')}
+        if reg.get('handedOffAt'):
+            new['handedOffAt'] = reg['handedOffAt']
+        if reg.get('snapshot'):
+            new['handoffSnapshot'] = reg['snapshot']
+            new['handoffRef'] = ref
+        if cur.get('account') and cur.get('account') != new['account']:
+            d.setdefault('history', []).append({'account': cur['account'], 'role': r, 'roles': {r: {k: cur.get(k) for k in ('session', 'branch', 'sha', 'state', 'handedOffAt')}}, 'until': now()})
+            if cur.get('state') != 'handed-off' and not reg.get('userOk'):
+                d.setdefault('anomalies', []).append({'kind': 'no-handoff', 'role': r, 'from': cur['account'], 'to': new['account'], 'at': now(), 'note': f'{r} 上一任沒有正式交班', 'resolved': False})
+        if {k: cur.get(k) for k in new} != new:
+            d.setdefault('roles', {})[r] = {**cur, **new}
+            changed.append(r)
+            if new['state'] == 'handed-off' and d.get('lastHandoff', {}).get('from') == new['account'] and reg.get('snapshot'):
+                d['lastHandoff'].setdefault('snapshots', {})[r] = reg['snapshot']
+    if changed:
+        _chain(d, d.get('onDuty') or '-', ','.join(changed), 'sync')
+        _write(args.root, DUTY, d)
+    print('sync：' + ('更新 ' + '、'.join(changed) if changed else '沒有變更'))
     return 0
 
 
@@ -375,8 +487,14 @@ def add_parser(sub):
     ho.add_argument('--account', required=True, choices=ACCOUNTS)
     ho.add_argument('--role', required=True, choices=ROLES)
     ho.add_argument('--snapshot')
+    ho.add_argument('--ref', help='LAWWW 以外的職位：從 RULE_SOURCE 讀 duty.json 檢查（例：origin/<RULE_SOURCE>）')
+    rg.add_argument('--ref', help='LAWWW 以外的職位：從 RULE_SOURCE 讀 duty.json 檢查上一任')
+    ds.add_parser('find')
+    ds.add_parser('sync')
     return p
 
 
 def run(args):
-    return {'verify': verify, 'plan': plan, 'register': register, 'handoff': handoff}[args.dcmd](args)
+    if args.dcmd == 'find':
+        return find(args)[0]
+    return {'verify': verify, 'plan': plan, 'register': register, 'handoff': handoff, 'sync': sync}[args.dcmd](args)

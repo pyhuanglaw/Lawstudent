@@ -107,5 +107,15 @@
   }
  ],
  "pending": null,
- "anomalies": []
+ "anomalies": [],
+ "seq": 1,
+ "chain": [
+  {
+   "seq": 1,
+   "at": "2026-10-16T21:45Z",
+   "account": "B",
+   "role": "LAWWW",
+   "event": "init-HV-10"
+  }
+ ]
 }
