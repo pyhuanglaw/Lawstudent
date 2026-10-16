@@ -1876,6 +1876,22 @@
     "extraIf": [
      {
       "if": {
+       "freeVisited": "D06"
+      },
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "……你一個人來過？"
+       },
+       {
+        "who": "classmate_peishan",
+        "text": "那你知道，哪一幅前面可以站很久，不會有人催。"
+       }
+      ],
+      "note": "AB-25：玩家自己來過北美館（自由出行，G.places.free.D06≥1，AA_160 4-4）；只多這兩句，心願內容不變；不讀 ENC_（R7）"
+     },
+     {
+      "if": {
        "datingHer": true
       },
       "lines": [
@@ -2474,6 +2490,22 @@
      }
     ],
     "extraIf": [
+     {
+      "if": {
+       "freeVisited": "D25"
+      },
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "你一個人來過外澳？"
+       },
+       {
+        "who": "kexin",
+        "text": "……那你不要告訴我哪裡好玩。今天我要自己找。"
+       }
+      ],
+      "note": "AB-25：玩家自己來過外澳（自由出行，G.places.free.D25≥1，AA_160 4-4）；只多這兩句，心願內容不變；不讀 ENC_（R7）"
+     },
      {
       "if": {
        "datingHer": true
