@@ -36,7 +36,7 @@
 | 2 | 示範案例（溫州街）`sop_demo/README.md` | 完成 | 644a322f |
 | 3 | 同步 AA-B、BB-B | 20:2x 已送出（DELIVERED；附 ART_SOP 69e4b181、SCENE_RULES 1c3bdefd／54ff20d5、示範 644a322f、入口 d8cfa784） | |
 | 4 | AA-B、BB-B ACK＋採用計畫＋README 具體做法＋舊成果分舊／新標準 | **等 ACK（未完成）** | |
-| 5 | HANDOFF／WORK_RULES 最上方強制閱讀＋通知 LAWWW-B | 強制閱讀已加；LAWWW-B 已通知（DELIVERED，等 ACK＋AI_SESSION_HANDOFF 登記） | d8cfa784 |
+| 5 | HANDOFF／WORK_RULES 最上方強制閱讀＋通知 LAWWW-B | 完成：強制閱讀已加；**LAWWW-B 20:22 ACK**，已登記 AI_SESSION_HANDOFF 第 7.2 節（LAWWW2 啟動提示詞）、第 13 節 HV-9a（LAWWW-B 5607bf59） | d8cfa784／5607bf59 |
 | 6 | AA-B、BB-B 照 SOP 實作驗證 | **未完成**：BB-B＝ART-SHOP1 v2（附八項紀錄）；AA-B＝劇情之後，建議土地公廟供品組 | |
 | — | 機車、腳踏車多車型（方法交接之後） | 參考研究完成：`research/vehicles_research.md`（9 種機車原型、9 種腳踏車、停車排、建模計畫；數字來自搜尋摘要，標「估」的是估計） | |
 
