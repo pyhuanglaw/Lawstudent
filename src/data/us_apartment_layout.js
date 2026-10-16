@@ -1,90 +1,121 @@
-/* ===== 美國交換：校外學生公寓社區的單人房（大三下，D47）室內配置（LAWWW2-B 2026-10-16 提案 v1；還沒接進遊戲）=====
+/* ===== 美國交換：校外學生公寓社區的單人房（大三下，D47）室內配置（LAWWW2-B 2026-10-16 提案 v2；還沒接進遊戲）=====
    使用者 2026-10-16 直接指示：「美國宿舍不能沿用。美國宿舍我是住在自己租的社區。我租單人房，有自己房間、客廳、廚房。」
    → 不是學校宿舍、沒有公用廚房：祐廷租校外學生公寓社區的「一房一廳一衛＋廚房＋陽台」（1x1）。
-   參考（查證，只取特徵，遊戲裡不寫真實社區名，D77）：布魯明頓東邊的三層樓學生公寓社區，約 180 戶；1x1 約 613 平方英尺（約 57 m²）、一房一衛；
-     花崗石流理台、烤箱、微波爐、洗碗機、屋內洗衣機與烘衣機、陽台、吊扇；社區有健身房、游泳池、烤肉區、24 小時櫃台、門禁；旁邊是自然保護區步道、購物中心；搭公車去校園。
+   v2（同一天，使用者給了三張照片：客廳、社區外觀、廚房吧台；特徵整理在 docs/art-rebuild/second_ai/research/us_apartment_photos.md）：
+     - 大門外面是**戶外的樓梯平台**（breezeway：有屋頂、白柱子、欄杆，走下去是停車場），不是室內的地毯走廊；
+     - 廚房是**獨立的一間**，朝客廳的牆開一個窗口，窗口下是花崗石吧台，客廳這一側擺兩張黑色高腳椅；廚房旁邊是走道，走道底是大門；
+     - 客廳的窗和陽台的玻璃門在**同一面牆**，臥室的門開在客廳的側牆；客廳、廚房是木紋地板，臥室是地毯；
+     - 照片的左右和這份相反（照片裡走道在廚房右邊），不影響。
+   參考（查證，只取特徵，遊戲裡不寫真實社區名、地址、門牌，D77）：布魯明頓東邊的三層樓學生公寓社區；1x1 約 613 平方英尺（約 57 m²）、一房一衛；
+     有家具（黑色皮沙發、單人沙發、深色木茶几、電視櫃）、花崗石流理台、微波爐在爐子上方、洗碗機、屋內洗衣機烘衣機、陽台、吊扇；搭公車去校園。
    這份配置給遊戲（LAWWW-B 建區域：導航格、互動點、出生點；格式比照 src/data/dorm_layout.js）和 Blender（tools/blender/env_second/us_apartment.py）共用。
    必須是「const US_APARTMENT_LAYOUT=」後面接純 JSON。
-   座標：x 往東、z 往南；單位公尺；y 往上；地板 y=0、天花板 2.6（三樓的單位可以是斜頂，先不做）。導航格 0.4 m，邊界放在「0.2 的奇數倍」（同 dorm_layout.js）。
-   配置：公寓（x −4.6～5.0、z −3.0～3.0，約 57.6 m²）南邊是大樓的室內走廊（z 3.0～5.0，地毯、鄰居的門）；北邊是陽台（z −4.6～−3.0）。
-     公寓裡：西南＝廚房（L 型流理台＋吧台、兩張高腳椅）；正南＝玄關（大門、洗衣機烘衣機的櫃子）；東南＝衛浴（從玄關進）；
-     西北＝客廳（沙發、電視、吊扇、落地拉門到陽台）；東北＝臥室（床、書桌、衣櫃、北窗、吊扇）。
-   **還沒確認的**（AA-B 依使用者指示改企劃中）：學姊住哪裡、US2（她煮泡麵）在誰的廚房、US1 抵達後的流程、香港朋友的段落。互動文字是暫定。 */
+   座標：x 往東、z 往南；單位公尺；y 往上；地板 y=0、天花板 2.6。導航格 0.4 m，房間和牆的邊界放在「0.2 的奇數倍」（同 dorm_layout.js）。
+   yaw、ry：面向 (sin yaw, cos yaw)（同 engine3d.js 的 atan2(dx,dz)）——0＝面向南、π/2＝面向東、π＝面向北、−π/2＝面向西。（v1 把東西寫反了，v2 更正）
+   家具的 ry：模型正面（人坐下時面向、櫃子打開那一面）朝 +z，轉 ry。
+   配置（俯視，北在上）：
+         陽台（x −2.6～0.2）
+     ┌──────────────客廳──────────────┬────臥室────┐   z −3.0
+     │ 窗        玻璃門        電視    │ 窗   書桌   │
+     │ 沙發  茶几                      門      床   │
+     │ ▔▔吧台▔▔（高腳椅）   走道 小玄關 │            │   z  1.0
+     ├──廚房──────┬窗口┬─┤  ↓    ├─┬──衛浴──┼─衣物間─┤
+     │ 冰箱 爐子 水槽 洗碗機 │ 走道 │洗│        │      │
+     └───────────────┴─大門─┴衣┴────────┴──────┘   z  3.0
+            戶外樓梯平台（有屋頂、欄杆；東邊是往下的樓梯 → 停車場）       z 3.0～5.0
+   **還沒確認的**：浴室從哪裡進（先放在走道旁的小玄關；照片看不出來，已問使用者）。學姊住同一個社區的合租單位（AA-B 8f9408eb），
+   她的廚房（US2）是另外一個配置（照片三那種多房的單位：客廳＋窗口吧台，臥室門上有 A、B），之後另一份檔案。 */
 const US_APARTMENT_LAYOUT={
-  "version":1,
+  "version":2,
   "W":15.2, "D":10.4, "cell":0.4, "wallT":0.2, "ceilY":2.6,
   "unit":{"x0":-4.6,"x1":5.0,"z0":-3.0,"z1":3.0},
-  "balcony":{"x0":-3.4,"x1":-0.2,"z0":-4.6,"z1":-3.0,"rail":1.05},
-  "hall":{"x0":-7.0,"x1":7.4,"z0":3.0,"z1":5.0,"floor":"carpet","note":"大樓的室內走廊（門禁、地毯）"},
+  "balcony":{"x0":-2.6,"x1":0.2,"z0":-4.6,"z1":-3.0,"rail":1.05,"railMat":"wood_brown","note":"內凹的陽台：兩側是外牆，前面是咖啡色木欄杆（外觀照片）"},
+  "breezeway":{"x0":-2.6,"x1":2.2,"z0":3.0,"z1":5.0,"floor":"concrete","roof":true,"rail":{"side":"S","h":1.05,"mat":"white_metal"},
+    "posts":[[-2.4,4.85],[2.0,4.85]],"stairs":{"x0":2.2,"x1":5.0,"z0":3.4,"z1":4.6,"dir":"E","down":true,"note":"往下到停車場（畫面上看得到第一段；走到平台東端就出門）"},
+    "note":"戶外樓梯平台：有屋頂、白柱子、欄杆；看出去是停車場、對面的公寓、樹林。牆上一盞壁燈、門牌"},
   "rooms":[
-    {"id":"kitchen","x0":-4.6,"x1":-1.4,"z0":0.6,"z1":3.0,"floor":"wood","name":"廚房"},
-    {"id":"entry","x0":-1.4,"x1":1.0,"z0":0.6,"z1":3.0,"floor":"wood","name":"玄關"},
-    {"id":"bath","x0":1.0,"x1":5.0,"z0":1.0,"z1":3.0,"floor":"tile","name":"衛浴"},
-    {"id":"living","x0":-4.6,"x1":1.0,"z0":-3.0,"z1":0.6,"floor":"wood","name":"客廳"},
-    {"id":"bedroom","x0":1.0,"x1":5.0,"z0":-3.0,"z1":1.0,"floor":"carpet","name":"臥室"}
+    {"id":"living","x0":-4.6,"x1":1.4,"z0":-3.0,"z1":1.0,"floor":"wood","name":"客廳"},
+    {"id":"kitchen","x0":-4.6,"x1":-1.8,"z0":1.0,"z1":3.0,"floor":"wood","name":"廚房"},
+    {"id":"hallway","x0":-1.8,"x1":-0.2,"z0":1.0,"z1":3.0,"floor":"wood","name":"走道"},
+    {"id":"nook","x0":-0.2,"x1":0.6,"z0":1.0,"z1":1.8,"floor":"wood","name":"小玄關","note":"浴室門前"},
+    {"id":"laundry","x0":-0.2,"x1":0.6,"z0":1.8,"z1":3.0,"floor":"wood","name":"洗衣機櫃","walk":false},
+    {"id":"bath","x0":0.6,"x1":3.0,"z0":1.0,"z1":3.0,"floor":"tile","name":"衛浴"},
+    {"id":"closet","x0":3.0,"x1":5.0,"z0":1.0,"z1":3.0,"floor":"carpet","name":"衣物間"},
+    {"id":"bedroom","x0":1.4,"x1":5.0,"z0":-3.0,"z1":1.0,"floor":"carpet","name":"臥室"}
   ],
   "walls":[
-    {"note":"外牆＋隔間（遊戲依這些擋導航；Blender 照這些蓋）。open＝牆上的開口 [a,b]（沿牆的座標）","list":[
-      {"id":"N","axis":"x","at":-3.0,"from":-4.6,"to":5.0,"open":[[-3.0,-1.0,"balconyDoor"],[2.2,3.8,"window"]],"fade":true,"dir":[0,0,1]},
-      {"id":"S","axis":"x","at":3.0,"from":-4.6,"to":5.0,"open":[[-1.05,-0.15,"frontDoor"]],"note":"南牆＝走廊那一面（不淡出：鏡頭在走廊時才看得到門）"},
-      {"id":"W","axis":"z","at":-4.6,"from":-3.0,"to":3.0,"open":[[-2.2,-0.6,"window"]],"fade":true,"dir":[1,0,0]},
+    {"note":"外牆＋隔間（遊戲依這些擋導航；Blender 照這些蓋）。open＝牆上的開口 [a,b]（沿牆的座標）；sill／head＝開口的下緣、上緣（沒寫就是落地、門高 2.05）","list":[
+      {"id":"N","axis":"x","at":-3.0,"from":-4.6,"to":5.0,"open":[[-3.8,-2.6,"window"],[-1.4,-0.6,"patioDoor"],[2.6,3.8,"window"]],"fade":true,"dir":[0,0,1]},
+      {"id":"S","axis":"x","at":3.0,"from":-4.6,"to":5.0,"open":[[-1.4,-0.6,"frontDoor"]],"note":"南牆＝樓梯平台那一面（不淡出：鏡頭在平台時才看得到大門）"},
+      {"id":"W","axis":"z","at":-4.6,"from":-3.0,"to":3.0,"fade":true,"dir":[1,0,0]},
       {"id":"E","axis":"z","at":5.0,"from":-3.0,"to":3.0,"fade":true,"dir":[-1,0,0]},
-      {"id":"bed_w","axis":"z","at":1.0,"from":-3.0,"to":1.0,"open":[[-0.2,0.6,"bedroomDoor"]],"fade":true,"dir":[1,0,0],"note":"臥室西牆（客廳那一面）"},
-      {"id":"bath_n","axis":"x","at":1.0,"from":1.0,"to":5.0,"fade":true,"dir":[0,0,1]},
-      {"id":"bath_w","axis":"z","at":1.0,"from":1.0,"to":3.0,"open":[[1.4,2.2,"bathDoor"]]},
-      {"id":"wd_closet","axis":"x","at":1.8,"from":0.2,"to":1.0,"note":"洗衣機烘衣機的櫃子（玄關東側，百葉門）"}
+      {"id":"kit_n","axis":"x","at":1.0,"from":-4.6,"to":-1.8,"open":[[-4.2,-2.2,"passThrough"]],"sill":1.05,"head":2.05,"note":"廚房朝客廳的牆：窗口下緣 1.05（吧台），上緣 2.05；窗口上方看得到廚房的吊櫃"},
+      {"id":"kit_e","axis":"z","at":-1.8,"from":1.0,"to":3.0,"open":[[1.4,2.2,"kitchenDoor"]],"note":"廚房從走道進（沒有門板）"},
+      {"id":"lau_w","axis":"z","at":-0.2,"from":1.8,"to":3.0,"open":[[1.8,3.0,"laundryDoors"]],"note":"洗衣機櫃的百葉摺門（關著，導航擋住）"},
+      {"id":"lau_n","axis":"x","at":1.8,"from":-0.2,"to":0.6},
+      {"id":"bath_w","axis":"z","at":0.6,"from":1.0,"to":3.0,"open":[[1.0,1.8,"bathDoor"]]},
+      {"id":"bath_n","axis":"x","at":1.0,"from":0.6,"to":5.0,"open":[[3.4,4.2,"closetDoor"]],"fade":true,"dir":[0,0,-1],"note":"衛浴＋衣物間的北牆（臥室那一面）；衣物間的門從臥室開"},
+      {"id":"bath_e","axis":"z","at":3.0,"from":1.0,"to":3.0},
+      {"id":"bed_w","axis":"z","at":1.4,"from":-3.0,"to":1.0,"open":[[-1.0,-0.2,"bedroomDoor"]],"fade":true,"dir":[1,0,0],"note":"臥室西牆＝客廳的東牆（照片一：臥室門在客廳右邊的牆，門開著看得到床）"},
+      {"id":"bal_w","axis":"z","at":-2.6,"from":-4.6,"to":-3.0,"note":"陽台兩側的外牆"},
+      {"id":"bal_e","axis":"z","at":0.2,"from":-4.6,"to":-3.0}
     ]}
   ],
   "doors":[
-    {"id":"front","x":-0.6,"z":3.0,"w":0.9,"label":"大門","plate":"214","openDoor":true,"note":"門號虛構"},
-    {"id":"bedroom","x":1.0,"z":0.2,"w":0.8,"axis":"z","label":"臥室","openDoor":true},
-    {"id":"bath","x":1.0,"z":1.8,"w":0.8,"axis":"z","label":"衛浴","closed":"衛浴。"},
-    {"id":"balcony","x":-2.0,"z":-3.0,"w":2.0,"label":"陽台","slider":true},
-    {"id":"n212","x":-5.6,"z":3.0,"w":0.9,"label":"212","plate":"212","closed":"212。門關著。","hall":true},
-    {"id":"n216","x":3.4,"z":3.0,"w":0.9,"label":"216","plate":"216","closed":"216。門關著。","hall":true},
-    {"id":"n213","x":-3.0,"z":5.0,"w":0.9,"label":"213","plate":"213","closed":"213。門關著。","hall":true},
-    {"id":"n215","x":2.6,"z":5.0,"w":0.9,"label":"215","plate":"215","closed":"215。門關著。","hall":true}
+    {"id":"front","x":-1.0,"z":3.0,"w":0.9,"label":"大門","plate":"214","openDoor":true,"style":"sixPanelWhite","note":"門號虛構；門外是樓梯平台"},
+    {"id":"bedroom","x":1.4,"z":-0.6,"w":0.8,"axis":"z","label":"臥室","openDoor":true,"style":"sixPanelWhite"},
+    {"id":"bath","x":0.6,"z":1.4,"w":0.8,"axis":"z","label":"衛浴","closed":"衛浴。","style":"sixPanelWhite"},
+    {"id":"closet","x":3.8,"z":1.0,"w":0.8,"label":"衣物間","closed":"衣物間。行李箱還塞在最裡面。","style":"sixPanelWhite"},
+    {"id":"laundry","x":-0.2,"z":2.4,"w":1.2,"axis":"z","label":"洗衣機","closed":"洗衣機和烘衣機疊在一起。","style":"louverBifold"},
+    {"id":"patio","x":-1.0,"z":-3.0,"w":0.8,"label":"陽台","glass":true,"note":"單扇的玻璃門（整片玻璃＋百葉），不是拉門"},
+    {"id":"n213","x":-2.6,"z":4.0,"w":0.9,"axis":"z","label":"213","plate":"213","closed":"213。門關著。","breezeway":true}
   ],
   "windows":[
-    {"room":"living","side":"N","x0":-3.0,"x1":-1.0,"y0":0.0,"y1":2.15,"slider":true,"note":"落地拉門（陽台）"},
-    {"room":"bedroom","side":"N","x0":2.2,"x1":3.8,"y0":0.9,"y1":2.1},
-    {"room":"living","side":"W","z0":-2.2,"z1":-0.6,"y0":0.9,"y1":2.1}
+    {"room":"living","side":"N","x0":-3.8,"x1":-2.6,"y0":0.9,"y1":2.1,"blinds":true,"curtains":"黑白圓圈圖案的落地窗簾（照片一）"},
+    {"room":"living","side":"N","x0":-1.4,"x1":-0.6,"y0":0.0,"y1":2.05,"door":"patio","blinds":true},
+    {"room":"bedroom","side":"N","x0":2.6,"x1":3.8,"y0":0.9,"y1":2.1,"blinds":true}
   ],
-  "exit":{"x":7.0,"z":4.0,"r":1.2,"label":"出門（下樓）","to":"us_outside","note":"走廊東端的樓梯間；外面是社區門口／公車站（之後的區域）"},
+  "exit":{"x":2.0,"z":4.0,"r":1.0,"label":"下樓（停車場）","to":"us_outside","note":"平台東端的樓梯；外面是社區的停車場、公車站（之後的區域）"},
   "spawns":{
-    "fromOutside":{"x":6.4,"z":4.0,"yaw":1.5708,"note":"從外面回來：走廊東端，面向西"},
-    "entry":{"x":-0.6,"z":2.2,"yaw":3.1416,"note":"一進門"},
-    "bedroom":{"x":2.6,"z":-1.0,"yaw":3.1416,"note":"早上醒來"}
+    "fromOutside":{"x":0.4,"z":4.0,"yaw":-1.5708,"note":"從外面回來：剛爬上樓梯，面向西（看得到大門）"},
+    "entry":{"x":-1.0,"z":2.2,"yaw":3.1416,"note":"一進門：走道，面向北（客廳）"},
+    "bedroom":{"x":2.6,"z":-1.0,"yaw":1.5708,"note":"早上醒來：床邊，面向東（床）"}
   },
   "furniture":[
-    {"type":"counterL","room":"kitchen","note":"L 型：西牆 x −4.6～−3.95（z 0.6～3.0）＋南牆 z 2.35～3.0（x −4.6～−2.2）；花崗石檯面、上下櫃","h":0.92},
-    {"type":"range","room":"kitchen","x":-4.27,"z":1.5,"ry":1.5708,"use":"cook","note":"爐子＋烤箱，上面微波爐（over-the-range）"},
-    {"type":"sink","room":"kitchen","x":-3.4,"z":2.67,"ry":3.1416,"note":"水槽＋旁邊洗碗機"},
-    {"type":"dishwasher","room":"kitchen","x":-2.8,"z":2.67,"ry":3.1416},
-    {"type":"fridge","room":"kitchen","x":-1.8,"z":2.6,"w":0.8,"d":0.75,"ry":3.1416,"use":"fridge"},
-    {"type":"breakfastBar","room":"kitchen","x0":-3.95,"x1":-1.8,"z":0.8,"d":0.5,"h":0.92,"note":"吧台（朝客廳那一側懸出，坐高腳椅）"},
-    {"type":"stool","room":"kitchen","x":-3.3,"z":0.2,"ry":3.1416,"seat":true,"seatY":0.75},
-    {"type":"stool","room":"kitchen","x":-2.5,"z":0.2,"ry":3.1416,"seat":true,"seatY":0.75},
-    {"type":"washerDryer","room":"entry","x":0.6,"z":2.4,"note":"上下疊的洗衣機烘衣機，百葉門櫃子"},
-    {"type":"sofa","room":"living","x":-1.6,"z":-1.4,"w":2.0,"d":0.9,"ry":1.5708,"seat":true,"note":"面向西牆的電視"},
-    {"type":"coffeeTable","room":"living","x":-2.9,"z":-1.4,"w":0.6,"d":1.1},
-    {"type":"tvStand","room":"living","x":-4.35,"z":-1.4,"w":1.4,"ry":1.5708,"note":"窗在電視上方偏北：電視放在窗下的矮櫃"},
-    {"type":"floorLamp","room":"living","x":-0.5,"z":-2.6},
-    {"type":"ceilingFan","room":"living","x":-2.0,"z":-1.2},
-    {"type":"bed","room":"bedroom","x":3.95,"z":-1.6,"w":1.4,"d":2.0,"ry":-1.5708,"use":"sleep","note":"Full；床頭靠東牆"},
-    {"type":"nightstand","room":"bedroom","x":4.7,"z":-2.75},
-    {"type":"desk","room":"bedroom","x":3.0,"z":-2.7,"w":1.2,"d":0.55,"ry":0,"use":"study","note":"北窗下"},
-    {"type":"deskChair","room":"bedroom","x":3.0,"z":-2.1,"ry":3.1416,"seat":true},
-    {"type":"closet","room":"bedroom","x0":2.8,"x1":5.0,"z":0.7,"d":0.6,"note":"拉門衣櫃（南牆）"},
-    {"type":"suitcase","room":"bedroom","x":1.5,"z":-0.6,"w":0.45,"d":0.7,"ry":0.4,"note":"還沒拆完的行李箱"},
-    {"type":"ceilingFan","room":"bedroom","x":3.0,"z":-1.0},
-    {"type":"vanity","room":"bath","x0":1.2,"x1":2.4,"z":1.3,"note":"洗手台＋鏡子"},
-    {"type":"toilet","room":"bath","x":2.8,"z":1.3},
-    {"type":"tub","room":"bath","x0":3.4,"x1":5.0,"z0":1.2,"z1":2.95,"note":"浴缸淋浴兩用"},
-    {"type":"balconyChairs","x":-2.4,"z":-3.9,"n":2},
-    {"type":"hallSconce","n":4,"note":"走廊壁燈"},
-    {"type":"exitSign","x":7.0,"z":3.1}
+    {"type":"fridge","room":"kitchen","x":-4.2,"z":1.8,"w":0.8,"d":0.75,"ry":1.5708,"use":"fridge","note":"白色"},
+    {"type":"counterRun","room":"kitchen","x0":-4.6,"x1":-1.8,"z0":2.4,"z1":3.0,"h":0.92,"note":"南牆的流理台（西南角是轉角櫃）：花崗石檯面（深色斑點）、楓木色上下櫃"},
+    {"type":"range","room":"kitchen","x":-3.4,"z":2.7,"ry":3.1416,"use":"cook","note":"爐子＋烤箱，上面微波爐（照片三）"},
+    {"type":"sink","room":"kitchen","x":-2.7,"z":2.7,"ry":3.1416},
+    {"type":"dishwasher","room":"kitchen","x":-2.1,"z":2.7,"ry":3.1416},
+    {"type":"passShelf","room":"kitchen","x0":-4.0,"x1":-2.2,"z":1.15,"h":1.05,"note":"窗口內側的檯面（廚房那一邊）"},
+    {"type":"breakfastBar","room":"living","x0":-4.1,"x1":-2.1,"z":0.82,"d":0.36,"h":1.05,"note":"窗口外側的吧台（花崗石，客廳這一側懸出）"},
+    {"type":"barStool","room":"living","x":-3.6,"z":0.4,"ry":0,"seat":true,"seatY":0.76,"note":"黑色椅面、鍍鉻腳（照片三）"},
+    {"type":"barStool","room":"living","x":-2.6,"z":0.4,"ry":0,"seat":true,"seatY":0.76},
+    {"type":"sofa","room":"living","x":-4.15,"z":-1.2,"w":2.0,"d":0.9,"ry":1.5708,"seat":true,"note":"黑色皮沙發，靠西牆、面向東"},
+    {"type":"endTable","room":"living","x":-4.25,"z":-2.55,"note":"沙發旁的小桌＋桌燈（黑色底座、圖案燈罩）"},
+    {"type":"armchair","room":"living","x":-3.2,"z":-2.4,"ry":0.8,"seat":true,"note":"黑色皮單人沙發，窗邊的角落"},
+    {"type":"coffeeTable","room":"living","x":-3.0,"z":-1.2,"w":0.6,"d":1.1,"note":"深色木頭"},
+    {"type":"rug","room":"living","x":-3.1,"z":-1.2,"w":2.0,"d":2.6,"note":"橘紅色的地毯"},
+    {"type":"ladderShelf","room":"living","x":-0.1,"z":-2.85,"note":"黑色的梯子形壁架（玻璃門和電視之間）"},
+    {"type":"tvStand","room":"living","x":0.8,"z":-2.4,"w":1.1,"ry":-1.33,"note":"角落、斜放，面向沙發；黑色"},
+    {"type":"ceilingFan","room":"living","x":-1.6,"z":-1.0,"note":"白色五葉＋四個燈罩（照片一、三）"},
+    {"type":"thermostat","room":"living","x":1.3,"z":0.4,"y":1.5,"ry":-1.5708},
+    {"type":"bed","room":"bedroom","x":4.0,"z":-1.0,"w":1.4,"d":2.0,"ry":-1.5708,"use":"sleep","note":"Full；床頭靠東牆、床尾朝西（模型的床尾朝 +z）；灰白人字紋被子（照片一）"},
+    {"type":"nightstand","room":"bedroom","x":4.7,"z":-2.1,"note":"黑色方格櫃"},
+    {"type":"desk","room":"bedroom","x":3.2,"z":-2.7,"w":1.2,"d":0.55,"ry":0,"use":"study","note":"北窗下"},
+    {"type":"deskChair","room":"bedroom","x":3.2,"z":-2.1,"ry":3.1416,"seat":true},
+    {"type":"ceilingLight","room":"bedroom","x":3.2,"z":-1.0,"note":"吸頂燈（照片一的臥室看得到）"},
+    {"type":"suitcase","room":"bedroom","x":1.8,"z":-2.55,"w":0.45,"d":0.7,"ry":0.4,"note":"還沒拆完的行李箱"},
+    {"type":"vanity","room":"bath","x0":0.8,"x1":1.8,"z":2.7,"note":"洗手台＋鏡子"},
+    {"type":"toilet","room":"bath","x":2.4,"z":2.7},
+    {"type":"tub","room":"bath","x0":1.5,"x1":3.0,"z0":1.0,"z1":1.75,"note":"浴缸淋浴兩用（北牆那一邊；門開在西牆，進門左手邊是浴缸）"},
+    {"type":"closetRods","room":"closet","note":"吊衣桿、層架"},
+    {"type":"washerDryer","room":"laundry","x":0.2,"z":2.4,"note":"上下疊"},
+    {"type":"balconyChairs","x":-1.6,"z":-3.9,"n":2},
+    {"type":"breezewaySconce","x":-0.2,"z":3.05,"y":2.0},
+    {"type":"doorMat","x":-1.0,"z":3.4}
   ],
-  "eventProps":{"note":"US2（學姊煮泡麵）在誰的廚房要等 AA-B 改企劃；如果在這裡，泡麵、鍋、碗、報告做成獨立節點 US2_*，事件時才顯示（和原本的規格相同）"},
-  "season":{"note":"窗景、陽台的積雪兩套：雪（1～3 月）、春（4～6 月）；日／夜各一張。窗外是社區的停車場、另一棟公寓、遠一點的樹林（自然保護區）"}
+  "materials":{"note":"照片（使用者 2026-10-16）的顏色，Blender 用 Poly Haven 貼圖再調色","wall":"暖米色（客廳偏米黃、廚房走道偏奶油白）","trim":"白色踢腳板、門框；白色六格門板","floor":"木紋地板（紅棕色，Poly Haven laminate_floor_02 調暖）","bedroom":"米灰色地毯","counter":"深色花崗石","cabinet":"楓木色","ceiling":"白色；走道上方有一段降板（照片三）"},
+  "eventProps":{"note":"US2（學姊煮泡麵）在學姊的合租單位，不在這裡（AA-B 8f9408eb）。這裡之後可能有祐廷自己煮飯、視訊、寫報告的道具，等企劃"},
+  "season":{"note":"窗景、陽台的積雪兩套：雪（1～3 月）、春（4～6 月）；日／夜各一張。窗外是社區的停車場、對面同樣的灰褐色壁板公寓、遠一點的樹林"}
 };
