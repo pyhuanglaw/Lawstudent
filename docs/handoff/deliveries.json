@@ -4972,6 +4972,45 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "只換 GLB（8dc8e5f8）；真機待使用者看"
+  },
+  {
+   "id": "DL-LW2-WZFLICK2",
+   "date": "2026-10-16",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "6e5aa462",
+   "what": "BUG-WZFLICKER 第二輪（溫州街）：掃描工具漏列的小疊面，「一定會閃」5,263 → 1,087 對；check_coplanar.py 可以整批掃整個資料夾（17986bd3）",
+   "task": "BUG-WZFLICKER",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 只取 GLB、json、兩支腳本；說明與截圖在 8e58f030（LAWWW2-B 分支）；萬才館外觀、霖澤館外觀、宿舍大廳是開發組自己的模型，掃描清單轉 LAWWW-B 修（BUG-COPLANAR-DEV）"
+  },
+  {
+   "id": "DL-AA202-MSG",
+   "date": "2026-10-16",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "b2a056f7",
+   "what": "MSG-L1 正式交付：AA_202 玩家主動傳訊息系統規格定稿（話題、次數、回覆排程、熟悉度、可昕另一條）",
+   "task": "SYS-PHONE-CHAT",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "排在 QA-W1-VISUAL（P0）之後實作"
+  },
+  {
+   "id": "DL-BB178-MSG",
+   "date": "2026-10-16",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "34ea4e1d",
+   "what": "BB_178 傳訊息回覆池（各人各階段的回覆台詞）定稿",
+   "task": "SYS-PHONE-CHAT",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "BB 另外會補兩行的最終 SHA；和 AA_202 一起實作"
   }
  ],
  "ignored": [
