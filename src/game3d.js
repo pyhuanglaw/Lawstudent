@@ -239,6 +239,7 @@ const GAME = (function(){
     /* 杜可昕（交接包 v1，BB_95 第 0b 節）：大一上一開始所有玩家都和她交往中；舊存檔也是（現有程式沒有任何事件設過 dating_ 旗標，不會和別人衝突）。之後的分開事件把它設成 false，這裡就不再動 */
     if(s.flags&&typeof s.flags==='object'&&s.flags.dating_kexin===undefined) s.flags.dating_kexin=true;
     if(s.flags&&s.flags.dating_kexin){ if(!s.contacts||typeof s.contacts!=='object') s.contacts={}; if(s.contacts.kexin==null) s.contacts.kexin=0; }
+    if(typeof ROM!=='undefined'&&s.flags&&typeof s.flags==='object'){ try{ ROM.rec(s); }catch(e){ console.warn('ROM.rec',e); } }   /* 多段感情（v6 S7）：補 ROMANCE_HISTORY、CLEANUP_DONE（有 dating_kexin 的補一筆）*/
     s.v=SAVE_VER; return s; }
   function ls(){ try{ return window.localStorage; }catch(e){ return null; } }
   function write(key,obj){ const st=ls(); if(!st) return false; try{ st.setItem(key,JSON.stringify(obj)); return true; }catch(e){ return false; } }
