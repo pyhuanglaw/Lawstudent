@@ -1575,6 +1575,19 @@ const STORY_EVENTS=[
     dialogue:[ {scene:'小福',bg:'xiaofu'},
       {speaker:'kexin',expression:'smile',text:'你不念書，我也不念了。'},
       {set:{E10_STUDY:'chat'}} ] },
+  /* E11 期中考：考完走出普通教學館（BB_104 8b-5；AA_154 第 122 行）：Y0S1 第 9 週最後一科＝10/31（四）下午的初等會計（考場在普通；AA_154 寫 11/1，週五沒有考試——已問 AA-B）。考試一定會考，沒有沒去版。記憶：無 */
+  { id:'ev_y0_e11', stage:'econ', title:'期中考後', participants:['econ_zhengxun','econ_pinyu','kexin'], location:'any', trigger:'class', afterClass:'acct_y0', afterExam:'mid', term:['Y0S1'], weeks:[9], once:true, background:'blur',
+    dialogue:[ {speaker:'韋綸',text:'我第三題寫了一整頁。'},
+      {speaker:'econ_zhengxun',text:'第三題的答案是零。'},
+      {speaker:null,text:'（全體沉默。）'},
+      {speaker:'econ_pinyu',text:'……我寫了一百二十。'},
+      {speaker:'唐睿',text:'我寫了一個故事。'},
+      {speaker:'kexin',expression:'neutral',text:'（看你）你寫什麼？'},
+      {choice:[{text:'「零。」',goto:'z'},{text:'「我寫了一整頁。」',goto:'p'},{text:'「我不記得了。」',goto:'n'}]},
+      {label:'z'},{speaker:null,text:'阿勳和你擊掌。'},{speaker:'kexin',expression:'smile',text:'……你們兩個是同一國的。'},{goto:'end'},
+      {label:'p'},{speaker:'韋綸',text:'（抱住你）兄弟！'},{goto:'end'},
+      {label:'n'},{speaker:'kexin',expression:'smile',text:'好。那我們都不記得。去吃宵夜。'},
+      {label:'end'} ] },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、
