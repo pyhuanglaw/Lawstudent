@@ -12226,7 +12226,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "原因：各室內的 fadeWalls 把鏡頭這一側的牆調成 12% 透明，細長牆段、門框、壁柱的殘影在鏡頭前變成一條半透明直條（QA-W1 宿舍截圖 shots/qa_w1/A1、A2 也看得到）。已修：engine3d.js hideFaded()——淡出的牆整面藏（Café 原本就這樣）。待截圖確認＋使用者 iPhone",
+   "next": "已修（0dc2acbc）＋瀏覽器重拍宿舍確認直條消失（shots/qa_w1/A1）；總圖大廳、舊路書房待使用者 iPhone 看。｜原因：各室內的 fadeWalls 把鏡頭這一側的牆調成 12% 透明，細長牆段、門框、壁柱的殘影在鏡頭前變成一條半透明直條（QA-W1 宿舍截圖 shots/qa_w1/A1、A2 也看得到）。已修：engine3d.js hideFaded()——淡出的牆整面藏（Café 原本就這樣）。待截圖確認＋使用者 iPhone",
    "first": {
     "term": "Y1S1",
     "week": 1,
