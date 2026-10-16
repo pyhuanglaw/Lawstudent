@@ -29,10 +29,10 @@ const ev=id=>STORY_EVENTS.find(e=>e.id===id);
   const D=STORY.dayOfKey('2024-09-02'); check('1. 2024-09-02 是週一、Y0S1 第 1 週',CALENDAR.dateOf(D).wd===1&&CALENDAR.termOf(D).id==='Y0S1'&&CALENDAR.termOf(D).week===1);
   const can=(day,h,stage)=>{ fresh(day,h,'dorm'); G.stage=stage||'econ'; return EVENTS.check(e); };
   check('2. 經濟系 9/2 13:00 會演；上課時間 10:00、17:30、9/3、法律系同一天都不會',can(D,13)&&!can(D,10)&&!can(D,17.5)&&!can(D+1,13)&&!can(D,13,'law'));
-  const BB=['規則很簡單。用一個經濟學名詞介紹自己。不會的就亂講。','我是……「供給」！我很多！什麼都很多！','我是「機會成本」。跟我說話，你就失去了做別的事的機會。','我是「沉沒成本」。我已經講了三分鐘，所以我不能停。','唐睿，你才講了五秒。','我是「邊際效用遞減」。','第一次見面最好玩，之後越來越普通。','……開玩笑的。我會越來越好玩。'];
+  const BB=['開學典禮在社科院的大講堂。前面坐的人，都穿得比平常整齊一點。','典禮結束。門口有個學長舉著牌子：『經濟系新生，這邊。』','規則很簡單。用一個經濟學名詞介紹自己。不會的就亂講。','我是……「供給」！我很多！什麼都很多！','我是「機會成本」。跟我說話，你就失去了做別的事的機會。','我是「沉沒成本」。我已經講了三分鐘，所以我不能停。','唐睿，你才講了五秒。','我是「邊際效用遞減」。','第一次見面最好玩，之後越來越普通。','……開玩笑的。我會越來越好玩。'];
   for(const [pick,word,reply] of [['外部性','externality','那我們要跟你收費。'],['均衡','equilibrium','均衡？你看起來很不穩定。'],['看不見的手','invisible_hand','所以你等一下拿零食，我們都看不到？']]){
     fresh(D,12.4,'dorm'); G.stage='econ'; picks=[pick]; await EVENTS.run(e); const L=lines();
-    check('3. 選「'+pick+'」：BB_104 原文、可昕回「'+reply+'」、E02_WORD＝'+word+'、時間到 15:00、到社科院門口',JSON.stringify(L.slice(0,8))===JSON.stringify(BB)&&L[8]===reply&&L.length===9&&G.flags.E02_WORD===word&&Math.abs(G.hour-15)<1e-6&&G.zone==='campus',JSON.stringify([L.slice(-2),G.flags.E02_WORD,G.hour,G.zone]));
+    check('3. 選「'+pick+'」：AA 的兩句旁白（268d529d）＋BB_104 原文、可昕回「'+reply+'」、E02_WORD＝'+word+'、時間到 15:00、到社科院門口',JSON.stringify(L.slice(0,10))===JSON.stringify(BB)&&L[10]===reply&&L.length===11&&G.flags.E02_WORD===word&&Math.abs(G.hour-15)<1e-6&&G.zone==='campus',JSON.stringify([L.slice(-2),G.flags.E02_WORD,G.hour,G.zone]));
     check('3. 認識可昕、品妤（FIRST_MET）',SOCIAL.has('kexin','FIRST_MET')&&SOCIAL.has('econ_pinyu','FIRST_MET')); }
   { const sc=e.dialogue.filter(l=>l.scene!==undefined); check('4. 兩個場景：社科院大講堂（soc_hall，開學典禮）→ 系上的教室（soc_classroom，迎新）；兩張背景都有圖',sc.length===2&&sc[0].bg==='soc_hall'&&sc[1].bg==='soc_classroom'&&fs.existsSync(path.join(ROOT,'assets/bg/soc_hall.webp'))&&fs.existsSync(path.join(ROOT,'assets/bg/soc_classroom.webp'))); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

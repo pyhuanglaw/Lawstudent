@@ -302,8 +302,8 @@ const STORY_EVENTS=[
     dialogue:[ {speaker:'heroine_05',expression:'serious',text:'你。過來。'},{speaker:'heroine_05',expression:'neutral',text:'兩件事。一，顧十分鐘。二，不會的不要亂答，叫我。'},
       {speaker:'阿嬤',text:'少年仔，隔壁的樹長到我家這邊，我可以自己剪嗎？'},
       {choice:[{text:'「阿嬤，我幫妳問學姊。」',consequences:{rel:{heroine_05:{fam:2}}},goto:'ask'},{text:'（翻民總的筆記）',consequences:{rel:{heroine_05:{fam:2}}},goto:'notes'},{text:'「我也還不會，我們一起查。」',consequences:{rel:{heroine_05:{fam:3,resp:2}},mem:[{npc:'heroine_05',tag:'HELPED',note:'一起幫阿嬤查'}]},goto:'search'}]},
-      {label:'ask'},{speaker:'heroine_05',expression:'neutral',text:'阿嬤，先跟鄰居講，請他剪。講了一直沒剪，週六早上來萬才館，我們一起看。'},{goto:'side'},
-      {label:'notes'},{speaker:null,text:'翻了半天找不到。學姊探頭。'},{speaker:'heroine_05',expression:'neutral',text:'那是物權。你們大二才上。'},{speaker:'阿嬤',text:'物權是什麼？'},{speaker:'heroine_05',expression:'neutral',text:'……阿嬤，週三晚上來。'},{speaker:null,text:'原來法律是分科的。'},{goto:'side'},
+      {label:'ask'},{speaker:'heroine_05',expression:'neutral',text:'阿嬤，先跟鄰居講，請他剪。講了一直沒剪，兩週後的週六早上，九點到十二點，來萬才館。我們一起看。'},{goto:'side'},
+      {label:'notes'},{speaker:null,text:'翻了半天找不到。學姊探頭。'},{speaker:'heroine_05',expression:'neutral',text:'那是物權。你們大二才上。'},{speaker:'阿嬤',text:'物權是什麼？'},{speaker:'heroine_05',expression:'neutral',text:'……阿嬤，下一次值班，週六早上來。'},{speaker:null,text:'原來法律是分科的。'},{goto:'side'},
       {label:'search'},{speaker:null,text:'你和阿嬤用手機一起查。學姊在旁邊看完。'},{speaker:'heroine_05',expression:'smile',text:'……還可以。'},
       {label:'side'},
       {if:{memory:[{npc:'heroine_02',tag:'FIRST_MET'}],stage:{npc:'heroine_02',min:'FAMILIAR'},custom:G=>typeof INV!=='undefined'&&INV.hasContact(G,'heroine_02')},phone:'heroine_02',text:'聽說你在顧法律問答攤。問一題：電影裡偷看別人的信，算犯罪嗎。'},
@@ -1371,9 +1371,9 @@ const STORY_EVENTS=[
      ★E02 開學典禮與迎新（BB_104 第 8-1 節，BB 2026-10-14 審查通過「可以交」；AA_154 第 95 行）：2024-09-02（一）W1，開學典禮後自動演
      （固定核心：那一天把玩家帶到場）。社科院的大講堂 soc_hall → 系上的教室 soc_classroom（2D 背景，AA_173 第 1 節：社科院不做 3D 室內）；
      用一個經濟學名詞介紹自己，記 E02_WORD（'externality'／'equilibrium'／'invisible_hand'；BB_106 SK08、SK14 讀）。家豪學長、韋綸、唐睿還沒有人物資料，先用名字說話。
-     時段（暫定，問 AA-B）：9/2 週一上午是經濟學原理（09:10～12:10，第 1 週有課堂內容），所以排在下課以後 12:15～17:00 自動，演完時間到 15:00、人在社科院門口 */
+     時段（AA-B 定案 A，268d529d）：9/2 週一上午是經濟學原理（照上、不停課），下課以後 12:15～17:00 自動，演完時間到 15:00、人在社科院門口 */
   { id:'ev_y0_e02', stage:'econ', title:'開學典禮與迎新', participants:['kexin'], location:'any', trigger:'auto', term:['Y0S1'], weeks:[1], weekday:[1], time:[12.25,17], once:true, priority:9, background:'dark',
-    dialogue:[ {scene:'社科院・大講堂｜開學典禮',bg:'soc_hall',hold:2200},{scene:'社科院・系上的教室｜迎新',bg:'soc_classroom',hold:1200},
+    dialogue:[ {scene:'社科院・大講堂｜開學典禮',bg:'soc_hall'},{speaker:null,text:'開學典禮在社科院的大講堂。前面坐的人，都穿得比平常整齊一點。'},{speaker:null,text:'典禮結束。門口有個學長舉著牌子：『經濟系新生，這邊。』'},{scene:'社科院・系上的教室｜迎新',bg:'soc_classroom'},   /* 兩句旁白：AA-B 定案（268d529d，AA_154）*/
       {speaker:'家豪學長',text:'規則很簡單。用一個經濟學名詞介紹自己。不會的就亂講。'},{speaker:'韋綸',text:'我是……「供給」！我很多！什麼都很多！'},
       {speaker:'econ_pinyu',expression:'neutral',text:'我是「機會成本」。跟我說話，你就失去了做別的事的機會。'},{speaker:'唐睿',text:'我是「沉沒成本」。我已經講了三分鐘，所以我不能停。'},{speaker:'家豪學長',text:'唐睿，你才講了五秒。'},
       {speaker:'kexin',expression:'neutral',text:'我是「邊際效用遞減」。'},{speaker:'kexin',expression:'neutral',text:'第一次見面最好玩，之後越來越普通。'},{speaker:'kexin',expression:'smile',text:'……開玩笑的。我會越來越好玩。'},

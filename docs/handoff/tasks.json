@@ -1102,7 +1102,7 @@
    "area": "V0",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "已接：E01、★E02（時段暫定，問 AA-B）、P2（第一次）、★E05、★E06／D2；下一批 E03（BB_105 B1）、E08（BB_153）、P2b、E12",
+   "next": "已接：E01、★E02（AA-B 定案 A、兩句旁白 268d529d）、P2（第一次）、★E05、★E06／D2；下一批 E03（BB_105 B1）、E08（BB_153）、P2b、E12",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -10881,6 +10881,69 @@
     "acceptance": "遊戲內截圖、導航一致",
     "ack": "ACTIONED"
    }
+  },
+  {
+   "id": "V1-MX-FM1",
+   "title": "明軒 F-M1「公館一百元以內」清單：M1（SAW_HIM_STUDY）以後私訊傳手機筆記，七家店用遊戲裡的店名（第 7 名＝日日便利）；地圖「100」小標記做不到就只放筆記",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 BB_70 5-6、BB_134 第 3 節實作",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "明軒 M1 之後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_70 5-6；BB_134 第 3 節；BB-B 2026-10-16 比對漏項（a10d53be）",
+   "authorized": "D79（交接包 v1／v2，BB 定稿）"
+  },
+  {
+   "id": "V2-ZR-MATINEE",
+   "title": "芷若的午場（ev_zhiruo_matinee）：拒絕 Z5 早場以後 3～4 週的邀約、午場 11:40、散場 13:30；支線第 4 環",
+   "area": "V2",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 BB_96 3-5b 實作",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "拒絕 Z5 早場以後 3～4 週",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_96 3-5b；BB-B 2026-10-16 比對漏項",
+   "authorized": "D79（交接包 v1／v2，BB 定稿）"
+  },
+  {
+   "id": "V2-TICKET",
+   "title": "電影票根（房間物件）：兩人早場／午場／三人三種文字",
+   "area": "V2",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 BB_96 3-5c 實作",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "看過芷若的早場或午場以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_96 3-5c；BB-B 2026-10-16 比對漏項",
+   "authorized": "D79（交接包 v1／v2，BB 定稿）"
   }
  ]
 }
