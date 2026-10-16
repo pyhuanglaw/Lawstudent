@@ -69,6 +69,23 @@ def img_mat(name, fn, clip=False, rough=0.8):
 
 
 M['notes'] = img_mat('park_notes', 'shop_notes.png', clip=True)
+def _shrine_text(path):   # 土地公廟的匾（福德祠）和對聯（福而有德千家敬／正則為神萬世尊；常見的對聯，不是店名）：紅底金字，畫成一張 512×512
+    from PIL import Image, ImageDraw, ImageFont
+    im = Image.new('RGB', (512, 512), (142, 28, 24)); d = ImageDraw.Draw(im)
+    f1 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc', 96); f2 = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc', 40)
+    gold = (226, 188, 92)
+    d.rectangle([4, 4, 507, 155], outline=gold, width=8); d.rectangle([18, 18, 493, 141], outline=gold, width=2)   # 匾：上面 512×160
+    for k, ch in enumerate('福德祠'): d.text((70 + k * 136, 80), ch, font=f1, fill=gold, anchor='mm')
+    for col, txt in ((0, '福而有德千家敬'), (1, '正則為神萬世尊')):   # 對聯：下面兩條 64×336（x 0～64、80～144）
+        x0 = col * 80; d.rectangle([x0 + 2, 172, x0 + 61, 509], fill=(176, 36, 30)); d.rectangle([x0 + 5, 175, x0 + 58, 506], outline=gold, width=2)
+        for k, ch in enumerate(txt): d.text((x0 + 32, 200 + k * 44), ch, font=f2, fill=(30, 22, 18), anchor='mm')
+    im.save(path)
+_shrine_text(os.path.join(GEN, 'shrine_text.png'))
+M['shrine_text'] = img_mat('park_shrine_text', 'shrine_text.png', rough=0.6)
+M['beard'] = L.flat('park_beard', '#e9e4da', rough=0.8); M['hat'] = L.flat('park_hat', '#1f1f22', rough=0.5); M['table_wood'] = L.flat('park_table_wood', '#5a3424', rough=0.55)
+M['skin_gold'] = L.flat('park_statue_face', '#d9b06a', rough=0.4, metal=0.3)
+M['niche'] = L.flat('park_niche', '#6e2a22', rough=0.8)
+SHRINE_Q = []   # (四點, (u0, v0, u1, v1))：匾、對聯
 M['azalea'] = img_mat('park_azalea_leaf', 'azalea_leaves.png', clip=True, rough=0.7)
 M['azalea_fl'] = img_mat('park_azalea_flower', 'azalea_flower.png', clip=True, rough=0.7)
 _acc = {}
@@ -358,11 +375,17 @@ for it in LAY['items']:
 sh = next(i for i in LAY['items'] if i['kind'] == 'tudigong_shrine'); xf = Xf(sh['x'], sh['z'], sh.get('yaw', 0))
 xf.rbox(acc('stone'), -0.66, 0.66, 0.0, 0.32, -0.5, 0.42, r=0.03)                                     # 台座＋前面一階
 xf.rbox(acc('stone'), -0.5, 0.5, 0.0, 0.14, 0.42, 0.72, r=0.02)
-xf.rbox(acc('red'), -0.5, 0.5, 0.32, 1.28, -0.42, -0.32, r=0.02)                                        # 後牆、兩側牆
-for sx in (-1, 1): xf.rbox(acc('red'), sx * 0.5 - 0.05, sx * 0.5 + 0.05, 0.32, 1.28, -0.42, 0.18, r=0.02)
-xf.rbox(acc('soil'), -0.45, 0.45, 0.32, 1.25, -0.32, 0.12, r=0.0)                                       # 神龕裡面（暗）
-xf.rbox(acc('red'), -0.36, 0.36, 0.32, 0.5, -0.3, -0.05, r=0.015)                                       # 神桌
-xf.ell(acc('gold'), (0, 0.66, -0.17), 0.09, 0.15, 0.08); xf.ell(acc('gold'), (0, 0.86, -0.17), 0.055, 0.06, 0.055)   # 土地公像（金身）
+xf.rbox(acc('stone'), -0.51, 0.51, 0.32, 0.62, -0.43, -0.31, r=0.015)                                     # 後牆、兩側牆：下段石材（勒腳），上段紅牆（v4：原本整面紅方塊）
+xf.rbox(acc('red'), -0.5, 0.5, 0.62, 1.28, -0.42, -0.32, r=0.02)
+for sx in (-1, 1): xf.rbox(acc('stone'), sx * 0.5 - 0.06, sx * 0.5 + 0.06, 0.32, 0.62, -0.43, 0.19, r=0.015); xf.rbox(acc('red'), sx * 0.5 - 0.05, sx * 0.5 + 0.05, 0.62, 1.28, -0.42, 0.18, r=0.02)
+for sx in (-1, 1): xf.rbox(acc('gold'), sx * 0.5 - 0.055, sx * 0.5 + 0.055, 0.6, 0.63, -0.425, 0.185, r=0.005)   # 石材和紅牆之間一條金色收邊
+xf.box(acc('niche'), -0.45, 0.45, 0.32, 1.25, -0.32, -0.3)                                               # 神龕裡面的背板：暗紅（v4：原本是整塊實心的土色方塊，把神桌和金身整個包在裡面，從來看不到）
+xf.rbox(acc('table_wood'), -0.36, 0.36, 0.47, 0.5, -0.3, -0.05, r=0.01)                                  # 神桌：桌面＋紅桌裙（金邊）
+xf.box(acc('red'), -0.34, 0.34, 0.33, 0.47, -0.065, -0.055); xf.box(acc('gold'), -0.34, 0.34, 0.44, 0.465, -0.068, -0.054)
+xf.rbox(acc('table_wood'), -0.1, 0.1, 0.5, 0.54, -0.25, -0.1, r=0.008)                                 # 土地公像（v4：原本兩顆金色橢球）：台座、坐姿的長袍、臉、白鬍子、黑官帽
+xf.ell(acc('gold'), (0, 0.6, -0.17), 0.085, 0.07, 0.065); xf.ell(acc('gold'), (0, 0.7, -0.18), 0.07, 0.09, 0.055)   # 坐著的下半身、上身
+xf.ell(acc('skin_gold'), (0, 0.815, -0.17), 0.04, 0.045, 0.04); xf.ell(acc('beard'), (0, 0.775, -0.145), 0.032, 0.045, 0.02)
+xf.cyl(acc('hat'), (0, 0.85, -0.17), (0, 0.885, -0.17), 0.042, seg=10); xf.box(acc('hat'), -0.075, 0.075, 0.855, 0.866, -0.175, -0.165)   # 官帽＋兩側的帽翅
 for sx in (-1, 1): xf.cyl(acc('pillar'), (sx * 0.47, 0.32, 0.24), (sx * 0.47, 1.26, 0.24), 0.045, seg=12)   # 前面兩根圓柱
 xf.rbox(acc('red'), -0.56, 0.56, 1.22, 1.33, -0.46, 0.3, r=0.02)                                          # 樑
 roof_field(acc('roof_red'), xf, 0.8, 0.62, 1.32, 1.62, 'gable', lift=0.15, thick=0.05, n=12, y_off=0.0)
@@ -372,7 +395,13 @@ for k in range(12):                                                             
 for sx in (-1, 1):
     for sz in (-0.03, 0.03): xf.cyl(acc('roof_red'), (sx * 0.86, 1.85, 0.0), (sx * 0.98, 1.95, sz * 2.5), 0.018, r2=0.004, seg=5)
 acc('gold').sphere(xf.p(0, 1.75, 0), 0.06, seg=10, rings=6)                                               # 屋脊中間的寶珠
-xf.rbox(acc('red'), -0.34, 0.34, 0.32, 0.72, 0.5, 0.82, r=0.02)                                           # 供桌
+xf.rbox(acc('table_wood'), -0.36, 0.36, 0.68, 0.72, 0.48, 0.84, r=0.012)                                 # 供桌（v4：原本一個紅方塊）：木桌面、四隻腳、前面紅桌裙＋金邊
+for sx in (-1, 1):
+    for sz in (0.52, 0.8): xf.box(acc('table_wood'), sx * 0.32 - 0.025, sx * 0.32 + 0.025, 0.32, 0.68, sz - 0.025, sz + 0.025)
+xf.box(acc('red'), -0.34, 0.34, 0.38, 0.68, 0.845, 0.852); xf.box(acc('gold'), -0.34, 0.34, 0.62, 0.65, 0.848, 0.856)
+SHRINE_Q.append(([xf.p(-0.25, 1.235, 0.306), xf.p(0.25, 1.235, 0.306), xf.p(0.25, 1.325, 0.306), xf.p(-0.25, 1.325, 0.306)], (0.0, 1 - 160 / 512, 1.0, 1.0)))   # 匾（樑的正面）
+for k, sx in enumerate((0.47, -0.47)):   # 對聯：貼在兩根柱子正面（上聯在右＝面向廟時的右手邊）
+    x0 = k * 80 / 512; SHRINE_Q.append(([xf.p(sx - 0.035, 0.42, 0.29), xf.p(sx + 0.035, 0.42, 0.29), xf.p(sx + 0.035, 1.14, 0.29), xf.p(sx - 0.035, 1.14, 0.29)], (x0 + 2 / 512, 3 / 512, x0 + 61 / 512, 1 - 172 / 512)))
 xf.cyl(acc('gold'), (0, 0.72, 0.66), (0, 0.84, 0.66), 0.07, r2=0.1, seg=14)                              # 香爐
 for dx in (-0.03, 0.0, 0.03): acc('incense').cyl(xf.p(dx, 0.84, 0.66), xf.p(dx, 1.06, 0.66), 0.004, seg=3)
 for sx in (-0.42, 0.42):                                                                                  # 紅燈籠（金色上下蓋）
@@ -449,7 +478,10 @@ def hedge_core(bm, x0, z0, x1, z1, seed):
 random.seed(311)
 hedge = {'off': Mesh('SEASON_AZALEA_off_hedge', M['azalea']), 'on': Mesh('SEASON_AZALEA_on_hedge', M['azalea_fl'])}
 cores = {tag: Mesh(f'SEASON_AZALEA_{tag}_core', CORE[tag]) for tag in CORE}
+_shr = next(i for i in LAY['items'] if i['kind'] == 'tudigong_shrine')
 for si, (x0, z0, x1, z1) in enumerate(hz['segments']):
+    if abs(z1 - z0) < 1e-6 and abs(z0 - _shr['z']) < 1.0 and min(x0, x1) < _shr['x'] + 0.7 < max(x0, x1):   # 南邊那一段花籬穿過土地公廟的背牆：畫面從廟的東邊開始（導航照 layout，不變）
+        x0, x1 = _shr['x'] + 0.75, max(x0, x1)
     for tag in cores: hedge_core(cores[tag].bm, x0, z0, x1, z1, 50 + si)
     Ln = math.hypot(x1 - x0, z1 - z0); n = max(2, int(Ln / 0.4))
     for i in range(n + 1):
@@ -473,6 +505,13 @@ fm = Mesh('PLATE_FACE_parksign', M['board']); fm.quad([(22.1, 1.2, 5.935), (20.5
 # ======================== 收尾 ========================
 for k, m in _acc.items(): m.finish(root, uv=True, smooth=k not in ('park_grass', 'park_paver', 'park_granite'))
 uv01(fm.finish(root, uv=True, props={'plate': 'park', 'text': '溫州公園', 'bg': '#2f4a3a', 'color': '#f4ead8'}))
+if SHRINE_Q:
+    bm = bmesh.new(); uvl = bm.loops.layers.uv.new('UVMap')
+    for pts, (u0, v0, u1, v1) in SHRINE_Q:
+        vs = [bm.verts.new(g2b(*p)) for p in pts]; f = bm.faces.new(vs)
+        for lp, uv in zip(f.loops, ((u0, v0), (u1, v0), (u1, v1), (u0, v1))): lp[uvl].uv = uv
+    me = bpy.data.meshes.new('park_shrine_text'); bm.to_mesh(me); bm.free(); me.materials.append(M['shrine_text'])
+    ob = bpy.data.objects.new('park_shrine_text', me); B.scene().collection.objects.link(ob); ob.parent = root
 if NOTE_Q:
     bm = bmesh.new(); uvl = bm.loops.layers.uv.new('UVMap'); NOTES = ['hiring', 'hours', 'pay', 'rent', 'winter', 'copyprice', 'copyprice2', 'nobook', 'chalk', 'menu', 'closed', 'poster', 'lostcat', 'tutor', 'hours2', 'blank']
     for pts, cn in NOTE_Q:
@@ -493,7 +532,7 @@ def _season_key(ob):   # 楓香兩棵：同一個季節狀態、同材質的合�
 L.vc_consolidate(root, L.auto_vc_groups(root, bpy.data.materials['wz_vc_matte'], bpy.data.materials['wz_vc_metal'], protect={'wz_lamp_lens', 'jp_lamp', 'cafe_bulb'}))
 L.realize_small_instances(root, keep=_keep)
 L.split_by_material(root, keep=_keep)
-L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', 'wz_park_small_atlas.png'), 'wz_park_small_atlas', protect={'wz_lamp_lens', 'park_lamp_glass', 'cafe_bulb'}, max_tris=1600, keep=_keep)   # 效能第二輪：小貼圖材質合一張
+L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', 'wz_park_small_atlas.png'), 'wz_park_small_atlas', protect={'wz_lamp_lens', 'park_lamp_glass', 'cafe_bulb', 'park_shrine_text'}, max_tris=1600, keep=_keep)   # 效能第二輪：小貼圖材質合一張
 L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', 'wz_park_rows.jpg'), 'wz_park_rows', protect={'wz_lamp_lens', 'park_lamp_glass', 'cafe_bulb', 'park_grass', 'park_stone'}, max_vloss=0.06, keep=_keep, skip=lambda m: m.name.startswith('wz_park_small_atlas'))
 L.merge_by_material(root, keep=_keep, key=_season_key)
 info = L.export(OUT, gpu_instances=True)
