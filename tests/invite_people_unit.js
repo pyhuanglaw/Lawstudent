@@ -146,6 +146,12 @@ async function await0(){}
   { const y1s2=(()=>{ for(let d=100;d<500;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y1S2') return d; } return null; })(); fresh(y1s2,10); rel('classmate_peishan',25); const r=await meetAsk('classmate_peishan','cafe',0);
     check('13. 沛珊大一下起：選「還是法律，只是沒人守。」→ 兩句 →「好。我要拿這題去問課輔班的小孩，看看他們怎麼說。」',r.said[1]==='郭沛珊：「所以寫下來的那一刻就算數。」'&&r.said[2]==='郭沛珊：「……那寫下來的人責任好大。」'&&r.said[3]==='郭沛珊：「好。我要拿這題去問課輔班的小孩，看看他們怎麼說。」',r.said.slice(0,4).join('｜')); }
   { const iv={id:'z',who:'heroine_02',ask:'NOPE'}; const r=await INV.walkAsk({G,say:async()=>{},choose:async()=>0},iv,{name:'x'}); check('13. 找不到的選項句（資料改過）：不演、不出錯',r===false&&iv.ask===null); }
+  /* AA_134 第 4 節（AA_140 G49）：當面約——第一句「……那，這週末有空嗎？」、她看手機行事曆、答應時點頭；手機約沒有這些 */
+  { fresh(MON,10); G.contacts.classmate_bohan=1; rel('classmate_bohan',25,8,4); const caps=[]; gm=GMk(['兩點半','15:30','好，就']); gm.G=G; gm.caption=(w,t)=>caps.push(t); gm.sleep=async()=>{};
+    await INV.flow(gm,'classmate_bohan',{obj:{}},false); const o=gm.out.join('｜');
+    check('G49 當面約：祐廷先說「……那，這週末有空嗎？」，她看手機行事曆（字幕）',/^祐廷：……那，這週末有空嗎？/.test(gm.out[0])&&caps.some(t=>/看了一下手機的行事曆/.test(t)),JSON.stringify({o:gm.out.slice(0,2),caps}));
+    const caps2=[]; fresh(MON,10); G.contacts.classmate_bohan=1; rel('classmate_bohan',25,8,4); gm=GMk(['兩點半','15:30','好，就']); gm.G=G; gm.caption=(w,t)=>caps2.push(t); await INV.flow(gm,'classmate_bohan',null,false);
+    check('G49 手機約：沒有當面的第一句、沒有動作字幕',!gm.out.some(t=>/這週末有空嗎/.test(t))&&caps2.length===0,JSON.stringify({o:gm.out.slice(0,2),caps2})); }
   const s3=fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8'); check('INV.flow 用 INV.personal（decide 之後）',/S\.personal\(G,id,P,W\.day,W\.h,S\.decide\(/.test(s3));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

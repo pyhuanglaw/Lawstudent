@@ -115,5 +115,14 @@ const step=(dist,turn,n)=>{ for(let i=0;i<n;i++){ P.obj.rotation.y+=turn/n; P.ob
     const last=calls[calls.length-1]; check('13 人物用 pose ride、給曲柄角度、握點、車的尺寸（rideIK）',!!last&&last.pose==='ride'&&Math.abs(last.ride.crank-r.crank)<1e-9&&last.ride.grips.length===2&&last.ride.scale===k);
     check('13 照路線騎（離路線 < 1 cm）、轉角不瞬間轉向（每秒最多 2 rad）',maxOff<0.01&&maxTurn<=2.0001,`離路線 ${(maxOff*100).toFixed(2)} cm、最快 ${maxTurn.toFixed(2)} rad/s`);
     check('13 輪子照騎的距離轉',Math.abs(r.wheel-r.speed*dt*150/(0.333*k))<1e-6&&Math.abs(r.crank-r.wheel*0.45)<1e-6); }
+  // ---- 14 載人騎車（AA_137 第 5 節第 3、5 步；AA_140 G49）：騎 6 秒以後她一句短話（一趟最多一句）；中途按「下車」她說「……我還是走一下好了。」 ----
+  { await enter('campus',{x:20,z:54,yaw:Math.PI}); const caps=[]; GM.caption=(w,t)=>caps.push((w||'')+t);
+    const oldS=global.STORY, oldSo=global.SOCIAL; let greetN=0; global.STORY=Object.assign({},oldS||{},{ladGreet:(g,id)=>{ greetN++; return '短招呼（'+id+'）'; }}); global.SOCIAL=Object.assign({},oldSo||{},{displayName:id=>id==='heroine_01'?'沈以安':id});
+    const her={beh:'passenger',charId:'heroine_01',name:'沈以安',obj:new THREE.Object3D()}; P.obj.position.set(G.bike.x,0,G.bike.z); BIKE.mount(GM); E.npcs.push(her);
+    step(30,0,150); const c5=caps.length; step(30,0,150); const c10=caps.length; step(60,0,300);
+    check('14 載人騎：騎了 5 秒還沒說、超過 6 秒說一句（她的短招呼池），一趟只說一句',c5===0&&c10===1&&caps.length===1&&caps[0]==='沈以安：短招呼（heroine_01）'&&greetN===1,JSON.stringify({c5,c10,caps}));
+    BIKE.manualDismount(GM); check('14 中途按「下車」：她說「……我還是走一下好了。」',!P.riding&&caps[caps.length-1]==='沈以安：……我還是走一下好了。',JSON.stringify(caps));
+    E.npcs.length=0; P.obj.position.set(G.bike.x,0,G.bike.z); BIKE.mount(GM); caps.length=0; BIKE.manualDismount(GM); check('14 一個人騎時按「下車」：沒有那一句',caps.length===0);
+    global.STORY=oldS; global.SOCIAL=oldSo; }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

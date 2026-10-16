@@ -54,6 +54,11 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('經歷了五件：最多三個（照表的順序：重修、中秋烤肉、麵店）＋一定有的那一個',JSON.stringify(o)==='["「重修的第一堂，坐回同一間教室。」","「中秋烤肉，借來的烤肉架。」","「麵店的第一碗。」","「每天都差不多。可是我很喜歡。」"]',JSON.stringify(o));
     o=await optsFor({B4_ATTENDED:true},()=>{ SOCIAL.meet('heroine_04','wancai'); SOCIAL.remember('heroine_04','CLAPPED','成發'); });
     check('演講（B4_ATTENDED）、成發拍手（子晴的 CLAPPED）：之後做了就會出現',JSON.stringify(o)==='["「那場演講。」","「成發那天，我負責拍手。」","「每天都差不多。可是我很喜歡。」"]',JSON.stringify(o)); }
+  /* AA_140 G49：沒有 B4_ATTENDED、但出席紀錄是聽完（坐著聽到結束、沒選「聽演講」）＝也有「那場演講。」；中途離開的沒有 */
+  { if(typeof ACTIVITIES!=='undefined'){ let o=await optsFor({},()=>{ ACTIVITIES.rec(G).att['B4@'+(RD-30)]={h:19,end:'full'}; });
+      check('G49 B4 看出席紀錄：坐著聽完（沒有 B4_ATTENDED 旗標）也有「那場演講。」',o.includes('「那場演講。」'),JSON.stringify(o));
+      o=await optsFor({},()=>{ ACTIVITIES.rec(G).att['B4@'+(RD-30)]={h:19,end:'left',lh:19.5}; });
+      check('G49 中途離開的：沒有「那場演講。」',!o.includes('「那場演講。」'),JSON.stringify(o)); } }
   /* 她的回應＋她自己的那一件 */
   { const play=async(flags,want,extra)=>{ fresh(RD,18.2,'cafe',Object.assign({dating_kexin:true},flags||{})); if(extra) extra(); picks=[want]; await EVENTS.run(e); return lines(); };
     const base=['杜可昕：（坐下，手放在桌上）假設這張桌子，記得每一個坐過的人。','杜可昕：它會記得你今年最意外的一件事嗎？說吧。'];

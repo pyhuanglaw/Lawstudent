@@ -21,7 +21,7 @@ const REVISIT_Y1_OPTS=[
   {k:'noodle',t:'「麵店的第一碗。」',ok:G=>G.flags.noodleTableDay!=null||(Array.isArray(G.flags.ndlDays)&&G.flags.ndlDays.length>0)},
   {k:'appeal',t:'「幫以安室友寫申訴。」',ok:G=>!!G.flags.AN_APPEAL},
   {k:'rain',t:'「那天下雨，總圖門口。」',ok:G=>G.flags.rain_umbrella!=null},
-  {k:'lecture',t:'「那場演講。」',ok:G=>!!G.flags.B4_ATTENDED},
+  {k:'lecture',t:'「那場演講。」',ok:G=>!!G.flags.B4_ATTENDED||(typeof ACTIVITIES!=='undefined'&&!!ACTIVITIES.attended&&ACTIVITIES.attended(G,'B4'))},   /* AA_140 G49：看出席紀錄（坐著聽到結束、沒選「聽演講」的也算聽完）*/
   {k:'show',t:'「成發那天，我負責拍手。」',ok:G=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_04','CLAPPED')} ];
 const REVISIT_Y1_SHOWN=G=>REVISIT_Y1_OPTS.filter(o=>o.ok(G)).slice(0,3).map(o=>o.k);
 /* 學姊 W5（BB_96 2-6）：法服讀書會去過 3 次以上、還沒演過（兩個版本共用一次）；後半段兩個版本相同 */

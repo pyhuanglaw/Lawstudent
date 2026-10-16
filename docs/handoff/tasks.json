@@ -9226,8 +9226,8 @@
    "title": "語彤事件 3：學姊那句「下一個值班的週六」照 BB_95 4-3 單週、雙週兩版；事件 3 只在大一（大一上第 15 週～大一下第 18 週）",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照 AA_140 G47、BB_95 4-3（企劃線 bda35a09、BB-B 617fcaaf）",
+   "status": "已整合待測試",
+   "next": "第 2 級：麵店演一次，看學姊的手機回覆；邊界（第 16 週以後要等到 3 月）問 AA-B 中",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -9240,15 +9240,17 @@
     "confirmed": true
    },
    "source": "AA_140 G47（AA-B 03:26，企劃線 1bc752e4）",
-   "authorized": "D79 第 7 點"
+   "authorized": "D79 第 7 點",
+   "evidence": "tests/v1_batch2_unit.js G47 三項＋原本 G 段改成雙週版（第 1 級）",
+   "sha": "（本批）"
   },
   {
    "id": "V1-G48",
    "title": "回家的週末：在家也問「該出發了」、從家裡出發（不加取車時間），錯過照延後不扣分；週日晚上在家選睡覺＝先回宿舍",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照 AA_140 G48、AA_134 第 3 節",
+   "status": "已整合待測試",
+   "next": "第 2 級：週末在家等到 4/24 那類出遊，選單出現「出發」、演完；週日晚上睡覺回宿舍",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -9261,15 +9263,17 @@
     "confirmed": true
    },
    "source": "AA_140 G48（AA-B 03:26，企劃線 1bc752e4）",
-   "authorized": "D79 第 7 點"
+   "authorized": "D79 第 7 點",
+   "evidence": "tests/home_unit.js 12～15（修改前 12、13 失敗、14 例外）",
+   "sha": "（本批）"
   },
   {
    "id": "V1-G49",
    "title": "小項：B4_ATTENDED 改看出席紀錄；晚餐第 6 題姊姊在場的週末不選；載妹墊途中下車、騎車閒聊（AA_137 5 第 3、5 步）；當面邀約的開場句與動作（AA_134 4）",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照 AA_140 G49",
+   "status": "已整合待測試",
+   "next": "第 2 級：載人騎 6 秒的那句、中途下車那句、當面約的開場與字幕",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -9282,7 +9286,9 @@
     "confirmed": true
    },
    "source": "AA_140 G49（AA-B 03:26，企劃線 1bc752e4）",
-   "authorized": "D79 第 7 點"
+   "authorized": "D79 第 7 點",
+   "evidence": "tests/v2_c20_unit.js G49 兩項、home_unit G49、bike_unit 14 三項、invite_people_unit G49 兩項",
+   "sha": "（本批）"
   },
   {
    "id": "AA-REQ-01",

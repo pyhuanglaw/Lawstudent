@@ -221,12 +221,16 @@ const INV=(function(){
   /* ---------- 約人的流程（當面：story3d.js 的 talkCharacter；手機：game3d.js 的「朋友」）：去哪裡 → 什麼時候 → 對方的回答 → 改天就問要不要那個時間 ---------- */
   S.flow=async function(GM,id,n,together){ const G=GM.G; S.rec(G); const nm=nameOf(id), c=CHARACTERS[id]||{}, her=c.gender==='f'?'她':'他';
     const PL=D().places; let k, P=null;
+    /* 當面約（AA_134 第 4 節，AA_140 G49）：第一句是當面的版本；她回答前看一下手機的行事曆、答應時點頭（動作用字幕，不多一個要點的對話框）*/
+    const act=(t,ms)=>{ if(n&&GM.caption) GM.caption('','（'+t+'）',ms||1800); };
+    if(n) await GM.say({name:G.name||'祐廷'},'……那，這週末有空嗎？');
     for(;;){ const opts=PL.map(Q=>({t:Q.verb,hint:S.placeWhy(G,id,Q)})); opts.push({t:'算了'});   /* 約不到的地方寫原因（AA_125 第 1 節），選了就說原因、再選一次 */
       k=await GM.choose(opts); if(k>=PL.length) return null; const why=S.placeWhy(G,id,PL[k]); if(!why){ P=PL[k]; break; } await GM.say(null,why); }
     const T=S.timeOptions(G,together); if(!T.length){ await GM.say(null,'今天太晚了，改天再約吧。'); return null; } const to=T.map(q=>({t:q.t})); to.push({t:'算了'});
     k=await GM.choose(to); if(k>=T.length) return null; const W=T[k];
     const r=S.personal(G,id,P,W.day,W.h,S.decide(G,id,P.id,W.day,W.h)), who=n?{name:nm,obj:n.obj,charId:id}:{name:nm+'（手機）',charId:id};
-    if(r.res==='accept'){ const iv=S.accept(G,id,P.id,W.day,W.h,{now:!!W.now,by:'player'}); const tail=W.now?'你們一起'+P.verb+'。':'約好 '+when(G,W.day,W.h)+'，'+P.name+'。';
+    act(her+'看了一下手機的行事曆。'); if(n&&GM.sleep) await GM.sleep(700);
+    if(r.res==='accept'){ act(her+'點點頭。'); if(n&&typeof CHAR!=='undefined'&&CHAR.setExpr) CHAR.setExpr(n.obj,'smile'); const iv=S.accept(G,id,P.id,W.day,W.h,{now:!!W.now,by:'player'}); const tail=W.now?'你們一起'+P.verb+'。':'約好 '+when(G,W.day,W.h)+'，'+P.name+'。';
       if(r.lines){ await S.playLines(GM,who,r.lines,r); await GM.say(null,tail); } else await GM.say(null,S.reply(G,id,P.id,r)+tail);
       if(W.now&&n){ n.beh='follow'; n.frozen=false; n.followOff=1.1; n.path=null; } return iv; }
     if(r.lines) await S.playLines(GM,who,r.lines,r); else await GM.say(null,S.reply(G,id,P.id,r));

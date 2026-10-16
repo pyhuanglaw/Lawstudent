@@ -110,7 +110,10 @@ const BIKE=(function(){
     ride.steer+=(steerT-ride.steer)*k; ride.lean+=(leanT-ride.lean)*k;
     pose(ride.parts,ride.wheel,ride.crank,ride.steer); o.rotation.z=ride.lean;
     P.ride=P.ride||{}; P.ride.crank=ride.crank; P.ride.grips=grips(ride.steer,ride.k); P.ride.scale=ride.k;
-    if(P.pose!=='ride') P.pose='ride'; };
+    if(P.pose!=='ride') P.pose='ride';
+    /* AA_137 第 5 節第 3 步（AA_140 G49）：載著人一起騎，實際騎了 6 秒以後，她隨機一句短話（她的閒聊短招呼池 STORY.ladGreet），一趟（上車到下車）最多一句；字幕，不打斷騎車 */
+    const pas=E.npcs.find(n=>n.beh==='passenger'&&n.charId);
+    if(pas){ if(v>1) ride.tripT=(ride.tripT||0)+dt; if(!ride.tripSaid&&ride.tripT>6){ ride.tripSaid=true; const t=typeof STORY!=='undefined'&&STORY.ladGreet?STORY.ladGreet(G,pas.charId):null; if(t&&GM.caption) GM.caption((typeof SOCIAL!=='undefined'?SOCIAL.displayName(pas.charId):pas.name)+'：',t,3600); } } };
   /* 路上騎腳踏車的人（game3d.js 的 spawnRider）：一個群組＝人＋車（同一個座標，和玩家一樣）；照路線一段一段騎，轉角不瞬間轉向（每秒最多轉 2 rad）；
      輪子、曲柄照距離轉，轉彎時把手轉、車身往內側傾；人物用 pose 'ride'（rideIK）。車的模型還沒載好時人先不顯示。
      o＝CHAR.build 出來的人（模型晚到時 upgradeModels 會換掉 x.rider，所以每一幀用 this.rider）*/
@@ -130,6 +133,9 @@ const BIKE=(function(){
   B.parkedAt=G=>{ if(!G) return null; const s=G.bike||HOME; return s.riding?null:{zone:s.zone,x:s.x,z:s.z}; };
   B.debug=()=>ride?{wheel:ride.wheel,crank:ride.crank,steer:ride.steer,lean:ride.lean,k:ride.k}:null;   /* 測試用（tests/bike_unit.js）*/
   /* 下車按鈕 */
-  B.bindUI=function(GM){ const b=btn(); if(b) b.onclick=()=>{ if(ride&&!GM.E.player.busy) B.dismount(GM); }; };
+  B.bindUI=function(GM){ const b=btn(); if(b) b.onclick=()=>B.manualDismount(GM); };
+  /* 按「下車」（AA_137 第 5 節第 5 步，AA_140 G49）：載著人的時候中途下車＝她先下車、站在旁邊說一句；之後騎到她旁邊停下，她照第 2 步再坐上來 */
+  B.manualDismount=function(GM){ if(!ride||GM.E.player.busy) return false; const pas=GM.E.npcs.find(n=>n.beh==='passenger'&&n.charId); B.dismount(GM);
+    if(pas&&GM.caption) GM.caption((typeof SOCIAL!=='undefined'?SOCIAL.displayName(pas.charId):pas.name)+'：','……我還是走一下好了。',3200); return true; };
   return B;
 })();

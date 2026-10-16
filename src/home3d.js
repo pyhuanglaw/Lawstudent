@@ -26,8 +26,9 @@ const HOME=(function(){
   const firstWeekend=G=>{ if(typeof CALENDAR==='undefined') return false; const d=CALENDAR.dateOf(G.day); return d&&d.d<=7; };   /* 每月第一個週末（日期 1～7 號）姊姊在家 */
   /* 晚餐：媽媽問（四週內同一句不重複；第 4 句的第一個選項要 KAI_ROOM_RULES；第 8 句只在第 8～10 週）→ 玩家二選一 → 爸爸收尾 */
   S.dinnerPick=function(G){ const D=(L()||{}).dinner||[], H=S.rec(G), T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null;
-    const ok=D.filter(d=>(!d.weeks||(T&&T.week>=d.weeks[0]&&T.week<=d.weeks[1]))&&!(H.ate[d.n]!=null&&G.day-H.ate[d.n]<28));
-    const pool=ok.length?ok:D.filter(d=>!d.weeks||(T&&T.week>=d.weeks[0]&&T.week<=d.weeks[1])); if(!pool.length) return null; return pool[(G.day+Object.keys(H.ate).length)%pool.length]; };
+    const sisHome=firstWeekend(G), okSis=d=>!(sisHome&&/你姊說/.test(d.mom||''));   /* AA_140 G49：「你姊說她下個月回來。」姊姊在家的週末不問 */
+    const ok=D.filter(d=>(!d.weeks||(T&&T.week>=d.weeks[0]&&T.week<=d.weeks[1]))&&okSis(d)&&!(H.ate[d.n]!=null&&G.day-H.ate[d.n]<28));
+    const pool=ok.length?ok:D.filter(d=>(!d.weeks||(T&&T.week>=d.weeks[0]&&T.week<=d.weeks[1]))&&okSis(d)); if(!pool.length) return null; return pool[(G.day+Object.keys(H.ate).length)%pool.length]; };
   S.dinner=async function(GM){ const G=GM.G, H=S.rec(G), d=S.dinnerPick(G); if(!d) return; H.eat={day:G.day}; H.ate[d.n]=G.day;
     await GM.say(null,'（晚餐。'+(firstWeekend(G)?'爸爸、媽媽，姊姊也回來了。':'爸爸、媽媽都在。')+'）'); await GM.say(MOM,d.mom);
     const opts=d.opts.filter(o=>!o.ifMem||(typeof SOCIAL!=='undefined'&&SOCIAL.has(o.ifMem[0],o.ifMem[1]))); await GM.choose(opts.map(o=>({t:'「'+o.t+'」'})));
@@ -41,17 +42,39 @@ const HOME=(function(){
     if(typeof STORY!=='undefined'&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ GM.money(f.amount); if(GM.toast) GM.toast(f.text,3800); } }
     const m=S.pick(G,'morning'); await say(GM,m,MOM); if(GM.autosave) GM.autosave(); };
   S.takeCar=async function(GM){ const G=GM.G; G.flags.carWithMe=true; const c=S.pick(G,'car'); await say(GM,c,DAD); };   /* 取車（AA_128 S4：從家裡出發的約會不用再加取車的時間）*/
+  /* 在家也要赴約（AA_140 G48，AA-B 2026-10-16；AA_134 第 3 節）：原本人在家時 INV.tick、OUT.tick 不跑，排定的約（例：4/24 可昕 18:45）直接錯過、還被當成爽約。
+     出遊（OUT）到了該出發的時間，選單最上面多「出發」——從家裡出發（車在家裡，不加取車時間）；當面約（INV）約定前 1 小時起多「出發」——回到約好的地方。
+     會跳過約定時間的選項（睡覺、休息、等晚餐）先問一次「照樣／先不要」。在家錯過當面約＝延後、不扣分（不記 MISSED_DINNER）*/
+  const T=(day,h)=>day*24+h;
+  S.dueOuting=G=>typeof OUT!=='undefined'&&OUT.due?OUT.due(G):null;
+  S.dueInvites=G=>{ if(typeof INV==='undefined'||!Array.isArray(G.invites)) return []; const h=G.hour%24; return G.invites.filter(iv=>iv.state==='accepted'&&iv.day===G.day&&h>=iv.h-1&&h<iv.h+(INV.WAIT_H||0.5)); };
+  /* 這個動作做完會到 toH（今天的小時，可以超過 24）：會錯過的約（出遊：約好的時間後 45 分鐘；當面約：約好的時間＋等待）*/
+  S.wouldMiss=function(G,toH){ const now=T(G.day,G.hour), to=T(G.day,toH), out=[];
+    if(typeof OUT!=='undefined') for(const q of OUT.rec(G)) if(q.state==='planned'&&T(q.day,q.h)+0.75>now&&T(q.day,q.h)+0.75<=to) out.push(hm(q.h)+' '+q.title);
+    if(typeof INV!=='undefined'&&Array.isArray(G.invites)) for(const iv of G.invites) if(iv.state==='accepted'&&T(iv.day,iv.h)+(INV.WAIT_H||0.5)>now&&T(iv.day,iv.h)+(INV.WAIT_H||0.5)<=to){ const P=INV.place(iv.place)||{}; out.push(hm(iv.h)+' 和'+(typeof SOCIAL!=='undefined'?SOCIAL.displayName(iv.who):iv.who)+'約在'+(P.name||'')); }
+    return out; };
+  /* 在家的時候過了時間的當面約：延後、不扣分（INV.tick 回宿舍以後才跑，原本會記成沒赴約）*/
+  S.postponeMissed=function(G){ if(typeof INV==='undefined'||!Array.isArray(G.invites)) return; const now=T(G.day,G.hour);
+    for(const iv of G.invites) if(iv.state==='accepted'&&now>=T(iv.day,iv.h)+(INV.WAIT_H||0.5)){ iv.state='postponed'; const P=INV.place(iv.place)||{}; if(INV.msg) INV.msg(G,iv.who,'在臺北的家，和'+(typeof SOCIAL!=='undefined'?SOCIAL.displayName(iv.who):iv.who)+'約在'+(P.name||'')+'的事延後了（不算沒赴約）。',iv); } };
+  const confirmMiss=async(GM,toH)=>{ const M=S.wouldMiss(GM.G,toH); if(!M.length) return true; await GM.say(null,'會錯過：'+M.join('、')+'。'); return (await GM.choose([{t:'照樣'},{t:'先不要'}]))===0; };
   /* 在家：選單一直到回宿舍 */
   let busy=false;
   S.loop=async function(GM){ const G=GM.G, H=S.rec(G); if(busy) return; busy=true; GM.sceneBegin();
     try{ if(typeof ADV!=='undefined') ADV.begin({background:bg()});
-      for(let guard=0;guard<60&&H.at;guard++){ phoneTick(GM); const h=G.hour, late=G.weekday===0&&h>=21.5, ateToday=H.eat&&H.eat.day===G.day;
+      for(let guard=0;guard<60&&H.at;guard++){ phoneTick(GM); S.postponeMissed(G); const h=G.hour, late=G.weekday===0&&h>=21.5, ateToday=H.eat&&H.eat.day===G.day;
         if(late){ await GM.say(MOM,'明天有課吧。早點回去。'); await S.back(GM); break; }   /* 週日 21:30 以後：該回宿舍了 */
-        const O=[]; if(!ateToday&&h>=18.5&&h<20) O.push({t:'吃晚餐',k:'eat'}); else if(!ateToday&&h>=16&&h<18.5) O.push({t:'等吃晚餐',hint:'到 18:30',k:'wait'});
-        O.push({t:'睡覺',hint:'隔天早上在家醒來',k:'sleep'}); if(!G.flags.carWithMe) O.push({t:'去玄關拿車鑰匙（取車）',k:'car'}); O.push({t:'在家休息一下',hint:'一小時',k:'rest'}); O.push({t:'回宿舍',hint:'捷運＋公車 約 40 分鐘',k:'back'});
+        const O=[], q=S.dueOuting(G);
+        if(q) O.push({t:(q.verb||'出發')+'：'+q.title,hint:'從家裡出發　'+(q.place||'')+'　'+hm(q.h)+(q.travel?'　'+q.travel:''),k:'out',q});   /* G48：出遊從家裡出發（不加取車時間）*/
+        for(const iv of S.dueInvites(G)){ const P=INV.place(iv.place)||{}; O.push({t:'出發：和'+(typeof SOCIAL!=='undefined'?SOCIAL.displayName(iv.who):iv.who)+'約在'+(P.name||''),hint:hm(iv.h)+'　捷運＋公車 約 40 分鐘',k:'inv',iv,P}); }
+        if(!ateToday&&h>=18.5&&h<20) O.push({t:'吃晚餐',k:'eat'}); else if(!ateToday&&h>=16&&h<18.5) O.push({t:'等吃晚餐',hint:'到 18:30',k:'wait'});
+        const sun=G.weekday===0; O.push({t:'睡覺',hint:sun?'明天有課：先回宿舍再睡':'隔天早上在家醒來',k:'sleep'}); if(!G.flags.carWithMe) O.push({t:'去玄關拿車鑰匙（取車）',k:'car'}); O.push({t:'在家休息一下',hint:'一小時',k:'rest'}); O.push({t:'回宿舍',hint:'捷運＋公車 約 40 分鐘',k:'back'});
         const o=O[await GM.choose(O)]||O[O.length-1];
-        if(o.k==='eat') await S.dinner(GM); else if(o.k==='wait'){ GM.advance(Math.max(0,18.5-G.hour)); } else if(o.k==='sleep') await S.sleep(GM); else if(o.k==='car') await S.takeCar(GM);
-        else if(o.k==='rest'){ GM.advance(1); if(GM.energy) GM.energy(8); } else { await S.back(GM); break; } } }
+        if(o.k==='out'){ H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); await OUT.go(GM,o.q); break; }
+        else if(o.k==='inv'){ await S.leaveTo(GM,o.P); break; }
+        else if(o.k==='eat') await S.dinner(GM); else if(o.k==='wait'){ if(await confirmMiss(GM,18.5)) GM.advance(Math.max(0,18.5-G.hour)); }
+        else if(o.k==='sleep'){ if(sun){ await S.back(GM); await S.sleepAtDorm(GM); break; } if(await confirmMiss(GM,24+8.5)) await S.sleep(GM); }   /* G48：週日晚上在家睡覺＝先回宿舍（不在家睡到週一）*/
+        else if(o.k==='car') await S.takeCar(GM);
+        else if(o.k==='rest'){ if(await confirmMiss(GM,G.hour+1)){ GM.advance(1); if(GM.energy) GM.energy(8); } } else { await S.back(GM); break; } } }
     finally{ busy=false; GM.sceneEnd(); } };
   /* 回家：轉場 → 到家（媽媽一句）→ 選單 */
   S.go=async function(GM){ const G=GM.G; if(!S.canGo(G)||S.at(G)) return false; const H=S.rec(G); GM.sceneBegin();
@@ -62,6 +85,11 @@ const HOME=(function(){
   /* 回宿舍：媽媽一句 → 轉場 → 宿舍房間 */
   S.back=async function(GM){ const G=GM.G, H=S.rec(G); await say(GM,S.pick(G,'back'),MOM); await GM.fade(true); GM.advance(0.7); H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end();
     if(GM.caption) GM.caption('','回到宿舍。',2200); await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); };
+  /* 從家裡去當面約的地方（G48）：轉場（捷運＋公車）→ 那個地方；見面照 INV 原本的流程 */
+  S.leaveTo=async function(GM,P){ const G=GM.G, H=S.rec(G); await GM.fade(true); if(GM.titleCard) await GM.titleCard(P.name||'出發','捷運＋公車 約 40 分鐘',2000); GM.advance(0.7); H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end();
+    await GM.enter(P.zone||'campus',P.spawn||undefined); };
+  /* 週日晚上回到宿舍以後直接睡（床的「睡覺」第一個選項：明天早上）*/
+  S.sleepAtDorm=async function(GM){ if(typeof STORY==='undefined'||!STORY.bedOptions||!STORY.sleepNow) return; const o=STORY.bedOptions(GM.G).find(x=>x.kind==='sleep'); if(o) await STORY.sleepNow(GM,o.wake,o.alarm); };
   /* 讀檔時人在家裡：回到家的選單（story3d.js 的 S.tick）*/
   S.tick=function(GM){ const G=GM.G; if(!S.at(G)||busy) return; S.loop(GM).catch(e=>{ console.warn('HOME.loop',e); busy=false; }); };
   /* 家人群組（週四 20:00）：story3d.js 的 S.phoneRules 每次呼叫 */

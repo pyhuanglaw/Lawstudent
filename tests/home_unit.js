@@ -60,6 +60,24 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   G.hour=22.2; STORY.phoneRules(GM); PHONE.tick(G); check('10. 兩小時沒回：爸爸傳「？」',(G.msgs||[]).some(m=>m.th==='g:home'&&m.from==='dad'&&m.text==='？'));
   fresh(THU,20.1,'dorm',{introDone:true}); STORY.phoneRules(GM); PHONE.tick(G); const q=(G.msgs||[]).find(m=>m.th==='g:home'&&m.ask); PHONE.answer(G,q.ask.id,0); G.hour=22.5; STORY.phoneRules(GM); PHONE.tick(G);
   check('10. 回「會回去」：媽媽「好」＋愛心貼圖、爸爸不傳「？」',(G.msgs||[]).some(m=>m.from==='mom'&&m.text==='好')&&!(G.msgs||[]).some(m=>m.from==='dad'));
+  // AA_140 G49：「你姊說她下個月回來。」姊姊在家的週末（每月 1～7 號）不問
+  { let sat=null; for(let d=1;d<400&&!sat;d++){ const x=CALENDAR.dateOf(d); if(x.wd===6&&x.d<=7&&CALENDAR.termOf(d)) sat=d; }
+    fresh(sat,19,'dorm',{}); let hit=0; for(let k=0;k<40;k++){ HOME.rec(G).ate={}; HOME.rec(G).used={}; const d=HOME.dinnerPick(G); if(d&&/你姊說/.test(d.mom)) hit++; G.day+=0; HOME.rec(G).ate[(k%10)+1]=G.day; }
+    const pool=HOME_LINES.dinner.filter(d=>!/你姊說/.test(d.mom)).length;
+    check('G49 姊姊在家的週末（1～7 號）晚餐不會問「你姊說她下個月回來。」',hit===0&&pool>0,JSON.stringify({sat,hit})); }
+  // AA_140 G48：在家也要赴約；週日晚上在家睡覺＝先回宿舍（修改前 12～15 失敗）
+  { const SAT=termDay('Y1S2',9,6); fresh(SAT,18.5,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true}); HOME.rec(G).at=true; HOME.rec(G).day=G.day;
+    OUT.plan(G,{id:'t_out',ev:'ev_kexin_tour_nccu',day:G.day,h:18.75,place:'政大',title:'去政大找可昕',travel:'開車約 30 分鐘',travelH:0.5}); opts=[]; picks=['出發']; await HOME.loop(GM);
+    check('12. 在家、到了出遊該出發的時間：選單最上面「出發：去政大找可昕」（從家裡出發）；出發＝演出遊、離開家',(opts[0]||[])[0]==='出發：去政大找可昕'&&OUT.get(G,'t_out').state==='done'&&!HOME.at(G),JSON.stringify({o:opts[0],st:OUT.get(G,'t_out').state,at:HOME.at(G)})); }
+  { const SAT=termDay('Y1S2',9,6); fresh(SAT,17,'dorm',{introDone:true,classDone:true,afternoonDone:true}); HOME.rec(G).at=true; HOME.rec(G).day=G.day;
+    OUT.plan(G,{id:'t_out2',ev:'ev_kexin_tour_nccu',day:G.day,h:19,place:'政大',title:'去政大找可昕',travelH:0.5}); said=[]; picks=['睡覺','先不要','回宿舍']; const d0=G.day; await HOME.loop(GM);
+    check('13. 睡覺會跳過約好的時間：先問「會錯過：19:00 去政大找可昕」，選「先不要」＝不睡（還是同一天）',said.some(x=>/^會錯過：19:00 去政大找可昕/.test(x.t))&&G.day===d0&&OUT.get(G,'t_out2').state==='planned',JSON.stringify({s:said.map(x=>x.t).slice(-3),day:G.day})); }
+  { const SAT=termDay('Y1S2',9,6); fresh(SAT,12,'dorm',{introDone:true}); HOME.rec(G).at=true; G.invites=[{id:'iv_t',who:'heroine_01',place:'cafe',day:G.day,h:10,state:'accepted'}];
+    HOME.postponeMissed(G); check('14. 在家的時候過了時間的當面約＝延後、不扣分（不是沒赴約、不記 MISSED_DINNER）',G.invites[0].state==='postponed'&&!SOCIAL.has('heroine_01','MISSED_DINNER')); }
+  { const SAT=termDay('Y1S2',9,6); fresh(SAT,15,'dorm',{introDone:true}); HOME.rec(G).at=true; G.invites=[{id:'iv_t2',who:'heroine_01',place:'cafe',day:G.day,h:15.5,state:'accepted'}]; opts=[]; picks=['出發']; await HOME.loop(GM);
+    check('14b. 當面約前 1 小時起：選單有「出發：和…約在兩點半 Café」→ 回到那個地方（不在家了）',(opts[0]||[]).some(t=>/^出發：和.*約在兩點半 Café/.test(t))&&!HOME.at(G)&&G.zone==='cafe',JSON.stringify({o:opts[0],zone:G.zone})); }
+  { const SUN=termDay('Y1S2',9,7); fresh(SUN,20,'dorm',{introDone:true,classDone:true,afternoonDone:true}); HOME.rec(G).at=true; opts=[]; picks=['睡覺']; const d0=G.day; let err=null; try{ await HOME.loop(GM); }catch(e){ err=String(e); }
+    check('15. 週日晚上在家選「睡覺」：先回宿舍（不在家睡到週一）',!HOME.at(G)&&G.zone==='dorm'&&(opts[0]||[]).some(t=>t==='睡覺'),JSON.stringify({at:HOME.at(G),zone:G.zone,err,day:G.day-d0})); }
   // 舊存檔
   fresh(FRI,19,'dorm',{}); delete G.home; let ok=true; try{ ok=!HOME.at(G); HOME.tick(GM); }catch(e){ ok=false; } check('11. 舊存檔沒有 G.home：不在家、不出錯',ok);
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
