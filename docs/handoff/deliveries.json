@@ -2596,9 +2596,9 @@
    "sha": "cc13fb27",
    "what": "AA_154 A37：E15、C2 的邀約與出發選單；A38：E22、E21a 改總圖 B1 自習室",
    "task": "V0-B1",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "E15 已有出發選單，接著補邀約；C2、E21a、E22 接著做"
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "E15 邀約（照 BB-B e0e7a359 定稿）、C2 四種已接；E21a、E22（A38）接著做"
   },
   {
    "id": "DLV-1016-217",

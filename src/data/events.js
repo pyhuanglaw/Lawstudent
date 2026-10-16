@@ -1773,6 +1773,33 @@ const STORY_EVENTS=[
       {speaker:null,text:'她把一個小東西塞進你手裡。一隻長頸鹿鑰匙圈，脖子短短的。'},
       {speaker:'kexin',expression:'smile',text:'你的份。'},
       {set:{GIRAFFE_KEYCHAIN:true}} ] },
+  /* C2 祐廷自己的社團（BB_110 第 3 節；AA_154 第 123 行、A7、A37）：照 E07 選的社團（Y0_CLUB），第 10 週社課當天 12:30 社團群組一則＋出發選單（story3d.js）。
+     吉他社 11/4（一）19:00 萬才館一樓（3D：走進萬才館就演，出發選單帶到門口）；登山社 11/5（二）19:00 行前會（2D 出遊）；羽球社 11/7（四）19:00 新體一樓（3D）。
+     「不參加」＝11/5 21:00 唐睿私訊問要不要當臨時演員（Y0_EXTRA，E18 讀它）。15 分鐘沒到＝沒去，沒有沒去版 */
+  { id:'ev_y0_c2_guitar', stage:'econ', title:'吉他社的第一堂', participants:[], location:'wancai', trigger:'auto', term:['Y0S1'], weeks:[10], weekday:[1], time:[18.75,19.25], once:true, background:'blur',
+    prereq:{custom:G=>G.flags.Y0_CLUB==='guitar'},
+    dialogue:[ {speaker:'社長',text:'今天只教一個和弦。C。三根手指，按到聲音乾淨為止。'},
+      {speaker:'player',text:'（彈）……'},
+      {speaker:'社長',text:'很好。這是 C 和弦的遠房親戚。'},
+      {speaker:'韋綸',text:'（從門口探頭）吉他社！走啦，騎腳踏車！'},
+      {speaker:'社長',text:'他是誰？'},
+      {speaker:'player',text:'……我們系的。'},
+      {choice:[{text:'留下來練到按出來',set:{Y0_GUITAR_C:true},goto:'a'},{text:'跟韋綸去騎腳踏車',goto:'b'},{text:'問社長：「怎麼知道自己適不適合？」',goto:'c'}]},
+      {label:'a'},{speaker:'社長',text:'好。你是今天最晚走的人。'},{goto:'end'},
+      {label:'b'},{speaker:'社長',text:'下次再來。C 和弦不會跑。'},{goto:'end'},
+      {label:'c'},{speaker:'社長',text:'按三個月就知道了。我按了三年，還不知道。'},
+      {label:'end'} ],
+    after:(G,GM)=>{ GM.advance(1.5); } },
+  { id:'ev_y0_c2_hiking', stage:'econ', title:'登山社的行前會', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+    dialogue:[ {scene:'登山社・行前會'},
+      {speaker:'學長',text:'背包裡最重要的是什麼？'},
+      {speaker:null,text:'大家說水、外套、手電筒。'},
+      {speaker:'學長',text:'垃圾袋。'} ] },
+  { id:'ev_y0_c2_badminton', stage:'econ', title:'羽球社的第一次', participants:[], location:'gym', trigger:'auto', term:['Y0S1'], weeks:[10], weekday:[4], time:[18.75,19.25], once:true, background:'blur',
+    prereq:{custom:G=>G.flags.Y0_CLUB==='badminton'},
+    dialogue:[ {speaker:'學姊',text:'羽球最重要的是，不要打到自己的頭。'},
+      {speaker:null,text:'三分鐘後，你打到自己的頭。'} ],
+    after:(G,GM)=>{ GM.advance(1.5); } },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、
