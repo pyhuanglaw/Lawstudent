@@ -137,7 +137,8 @@ const CLS=(function(){
   const inScene=id=>{ if(typeof GAME==='undefined'||!GAME.E||!GAME.E.npcs||typeof EVENTS==='undefined'||!EVENTS.npcOf) return true; return !!EVENTS.npcOf(id); };   /* 3D 場景裡：同學要真的在教室才有反應句（使用者 2026-10-15：以安不在教室卻回答老師）；沒有場景（單元測試）照舊 */
   const reactOK=(r,day)=>r&&r.text&&(r.who==='class'||(r.who!=='heroine_06'&&r.who!=='heroine_05'&&typeof CHARACTERS!=='undefined'&&!!CHARACTERS[r.who]&&(day==null||typeof STORY==='undefined'||!STORY.present||STORY.present(r.who,{day}))&&inScene(r.who)));   /* 那學期不在學校的人（presence）沒有反應句；溫書瑀高兩屆，不在祐廷的任何一堂課（AA_110 5-7）*/
   S.reactLine=function(r){ if(!r) return ''; const act=/^（.*）$/.test(r.text); if(r.who==='class') return act?r.text:'同學：「'+r.text+'」';
-    const nm=(typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(r.who):((CHARACTERS[r.who]||{}).name||'同學'); return act?nm+r.text:nm+'：「'+r.text+'」'; };
+    const known=typeof STORY==='undefined'||!STORY.knows||STORY.knows(r.who);   /* BB_170 第 11、32 列：還沒認識的同學（例：開學第一週的沛珊、明軒、以安）顯示「同學」，認識以後才顯示名字 */
+    const nm=!known?'同學':((typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(r.who):((CHARACTERS[r.who]||{}).name||'同學')); return act?nm+r.text:nm+'：「'+r.text+'」'; };
   const pickReact=(arr,it)=>{ const ok=(arr||[]).filter(r=>reactOK(r,it.day)); return ok.length?S.reactLine(ok[(it.day+it.week)%ok.length]):''; };
   /* 一週兩格的課（大三上的民訴甲上、刑訴；AA_103）：這一堂是那一週的第幾格（照星期排）、前面的格子是不是都放假 */
   S.slotOrder=function(it){ const ss=(it.c.slots||[]).slice().sort((a,b)=>a.wd-b.wd||String(a.block).localeCompare(String(b.block))); return {i:ss.indexOf(it.slot),ss}; };

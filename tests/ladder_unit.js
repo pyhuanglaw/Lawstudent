@@ -147,10 +147,10 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     said=[]; fresh(termDay('Y1S2',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); meet('heroine_01'); R('heroine_01',30,10,10);
     picks=[0]; await STORY.ladPlay(GM,{name:'沈以安',charId:'heroine_01'},'heroine_01',A3);
     check('21. ladPlay 實際播出來的也是原本的 lines',lines().join('｜').includes(A3.lines[0])&&!lines().join('｜').includes('杜鵑花謝了'),lines().slice(0,2).join('｜')); }
-  { const SIS='heroine_05', DUTY=LADDER.byTerm.Y1S2[SIS].greet.when.find(w=>w.weekParity==='odd').t; let even=0, odd=0;
-    for(let w=1;w<=15;w++){ fresh(termDay('Y1S2',w,6),9,'campus',{introDone:true,classDone:true,afternoonDone:true}); const got=[]; for(let k=0;k<4;k++) got.push(STORY.ladGreet(G,SIS));
-      if(got.includes(DUTY)){ if(w%2) odd++; else even++; } }
+  { const SIS='heroine_05', DUTY=LADDER.byTerm.Y1S2[SIS].greet.when.find(w=>w.weekParity==='odd').t; let even=0, odd=0, duty=0, offDuty=0;
+    for(let w=1;w<=15;w++){ fresh(termDay('Y1S2',w,6),9,'campus',{introDone:true,classDone:true,afternoonDone:true}); const isDuty=STORY.fafuDuty(G); if(isDuty) duty++; const got=[]; for(let k=0;k<4;k++) got.push(STORY.ladGreet(G,SIS));
+      if(got.includes(DUTY)){ if(w%2) odd++; else even++; if(!isDuty) offDuty++; } }
     check('22. 學姊大一下的「今天法服值班」（weekParity odd）：雙週六不出現',even===0,'雙週出現 '+even+' 次');
-    check('22. 單週六上午會出現',odd>=7,'單週出現 '+odd+' 次'); }
+    check('22. 真的值班的週六（S.fafuDuty：第 3 週起的單週、考試週和假日不值班，BB_170 第 16 列）幾乎都會出現，不值班的週六不出現',odd>=duty-1&&duty>=5&&offDuty===0,'單週出現 '+odd+' 次、值班 '+duty+' 次、不值班卻出現 '+offDuty); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();
