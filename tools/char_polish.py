@@ -10,6 +10,7 @@
   hair_tone：頭髮接近純黑、ACES 一壓就是一整塊沒有形狀的黑 → 改成參考圖的深棕黑、保留髮束明暗。
 
 用法：python3 tools/char_polish.py vroid_yuting [--out <資料夾>]   （不給 --out 就覆蓋 assets/models/char/<key>.vrm）
+      python3 tools/char_polish.py vroid_yuting --facetest   （3D 臉試做：另外存 <key>_facetest.vrm，預設模型不動；BB_131 第 11 節）
 """
 import os, sys
 import numpy as np
@@ -188,11 +189,164 @@ def polish_heroine_01(v):
 POLISH = {'vroid_yuting': polish_yuting, 'vroid_heroine_01': polish_heroine_01}
 
 
+# ---- 3D 臉試做（BB_131 第 11 節，2026-10-16 18:3x BB-B；AA-B 的建議）：只改眼睛和眉毛，臉型、鼻子、嘴、頭髮、衣服不動 ----
+# 輸出另一個檔案 <key>_facetest.vrm（只在網址加 ?facetest 時載入），預設模型照舊；使用者說「用」才由 LAWWW-B 換成預設。
+
+def _face_prim(v, pat):
+    mats = v.j['materials']; fm = [m for m in v.j['meshes'] if m['name'].startswith('Face')][0]
+    return [p for p in fm['primitives'] if pat in mats[p['material']]['name']]
+
+
+def highlight_small(v, k=0.5, white=(255, 248, 240), mix=0.7):
+    """眼睛高光：貼圖上每一個亮點以自己的中心縮成 k 倍（位置不動），橘色的光暈改成偏暖的白（參考圖 02：自然的反光，不是動畫的大片高光）。"""
+    from scipy import ndimage
+    p = _face_prim(v, 'EyeHighlight')[0]
+    ii = v.image_of_tex(v.vrm_mat(p['material'])['textureProperties']['_MainTex'])
+    img = v.get_image(ii); a = np.asarray(img).astype(np.float64); H, W = a.shape[:2]
+    lab, n = ndimage.label(a[..., 3] > 4)
+    out = a.copy(); out[..., 3] = 0
+    for i in range(1, n + 1):
+        m = lab == i
+        if m.sum() < 4: continue
+        w = a[..., 3] * m; yy, xx = np.mgrid[0:H, 0:W]; cy, cx = (w * yy).sum() / w.sum(), (w * xx).sum() / w.sum()
+        # 反向取樣：新貼圖的點 q 取原圖 c + (q − c)/k（雙線性）
+        sy, sx = cy + (yy - cy) / k, cx + (xx - cx) / k
+        for ch in range(4):
+            src = a[..., ch] * (m if ch == 3 else 1)
+            val = ndimage.map_coordinates(src, [sy, sx], order=1, mode='constant', cval=0)
+            if ch == 3: out[..., 3] = np.maximum(out[..., 3], val)
+            else:
+                near = ndimage.map_coordinates(m.astype(float), [sy, sx], order=1, mode='constant', cval=0) > 0.01
+                out[..., ch] = np.where(near, val, out[..., ch])
+    out[..., :3] = out[..., :3] * (1 - mix) + np.array(white) * mix
+    v.set_image(ii, Image.fromarray(np.clip(out, 0, 255).astype(np.uint8), 'RGBA'))
+    return n
+
+
+def brow_line(v, p):
+    """眉毛貼圖上畫出來的那條線（alpha > 0.5 的像素）在模型上的位置：每一邊依 |x| 分 8 段，回傳 (|x| 中點, 線的中心高度) 各 8 個（兩邊對稱，取平均）。"""
+    P = v.acc(p['attributes']['POSITION']).astype(np.float64); UV = v.acc(p['attributes']['TEXCOORD_0']).astype(np.float64)
+    T = v.acc(p['indices']).astype(np.int64).reshape(-1, 3)
+    ii = v.image_of_tex(v.vrm_mat(p['material'])['textureProperties']['_MainTex']); A = np.asarray(v.get_image(ii)).astype(np.float64)[..., 3] / 255; H, W = A.shape
+    pts = []
+    for t in T:
+        uv = UV[t] * [W, H]; x0, y0 = np.floor(uv.min(0)).astype(int); x1, y1 = np.ceil(uv.max(0)).astype(int)
+        (ax, ay), (bx, by), (cx, cy) = uv; d = (by - cy) * (ax - cx) + (cx - bx) * (ay - cy)
+        if abs(d) < 1e-12: continue
+        for py in range(max(y0, 0), min(y1, H - 1) + 1):
+            for px in range(max(x0, 0), min(x1, W - 1) + 1):
+                if A[py, px] < 0.5: continue
+                gx, gy = px + 0.5, py + 0.5
+                l0 = ((by - cy) * (gx - cx) + (cx - bx) * (gy - cy)) / d; l1 = ((cy - ay) * (gx - cx) + (ax - cx) * (gy - cy)) / d; l2 = 1 - l0 - l1
+                if min(l0, l1, l2) >= -0.01: pts.append(np.array([l0, l1, l2]) @ P[t])
+    Q = np.array(pts); ax = np.abs(Q[:, 0]); bins = np.linspace(ax.min(), ax.max(), 9)
+    xs = (bins[:-1] + bins[1:]) / 2; ys = np.array([Q[(ax >= bins[k]) & (ax <= bins[k + 1]), 1].mean() for k in range(8)])
+    return xs, ys
+
+
+def brow_natural(v, thin=0.72, rise=0.0034, peak=0.68, drop=0.0012, lift_inner=0.0008, color='#7a5a45'):
+    """眉毛：細一點（以畫出來的那條線為中心，眉毛網格上下壓成 thin 倍）、平一點、眉尾不上挑（線的高度改成：眉頭 → 眉峰（全長 68% 處）只升 3.4 mm，
+    眉峰 → 眉尾下降 1.2 mm；原本眉頭到眉尾一路升 7.8 mm）、顏色從近黑改成深棕。前後（z）貼著額頭皮膚的表面移動（保持原本離皮膚的距離）。
+    表情 morph 的位移不動（生氣、驚訝時眉毛照原本的幅度動）。"""
+    from scipy.interpolate import griddata
+    p = _face_prim(v, 'FaceBrow')[0]; skin = _face_prim(v, 'Face_00_SKIN')[0]
+    xs, ys = brow_line(v, p)
+    pa = p['attributes']['POSITION']; P = v.acc(pa).astype(np.float64)
+    ids = np.unique(v.acc(p['indices']).astype(np.int64))
+    ax = np.abs(P[ids, 0]); s = np.clip((ax - xs[0]) / (xs[-1] - xs[0]), 0, 1)
+    yc = np.interp(ax, xs, ys)                                               # 現在那條線在這個 |x| 的高度
+    y_in = ys[0] + lift_inner
+    yt = np.where(s < peak, y_in + rise * (1 - ((s - peak) / peak) ** 2), y_in + rise - drop * ((s - peak) / (1 - peak)) ** 2)
+    newy = yt + (P[ids, 1] - yc) * thin
+    # 皮膚表面（前方 z）：額頭附近的皮膚頂點內插
+    S = v.acc(skin['attributes']['POSITION']).astype(np.float64); sid = np.unique(v.acc(skin['indices']).astype(np.int64)); S = S[sid]
+    box = (np.abs(S[:, 0]) < 0.09) & (S[:, 1] > 1.58) & (S[:, 1] < 1.68) & (S[:, 2] < -0.05)
+    S = S[box]
+    z0 = griddata(S[:, :2], S[:, 2], P[ids][:, :2], method='linear'); z1 = griddata(S[:, :2], S[:, 2], np.stack([P[ids, 0], newy], 1), method='linear')
+    dz = np.where(np.isfinite(z0) & np.isfinite(z1), z1 - z0, 0.0)
+    P2 = P.copy(); P2[ids, 1] = newy; P2[ids, 2] = P[ids, 2] + dz
+    p['attributes']['POSITION'] = v.add_acc(P2.astype(np.float32), 5126, 'VEC3', 34962, True)
+    # 同一個頂點緩衝也被別的 primitive 用（VRoid 的臉共用一個）：其他 primitive 指到新的緩衝，頂點只有眉毛的被改到
+    for q in [x for m in v.j['meshes'] if m['name'].startswith('Face') for x in m['primitives']]:
+        if q is not p and q['attributes']['POSITION'] == pa: q['attributes']['POSITION'] = p['attributes']['POSITION']
+    r, g, b = VB.hexrgb(color); vp = v.vrm_mat(p['material'])['vectorProperties']
+    vp['_Color'] = [r, g, b, 1]; vp['_ShadeColor'] = [r * 0.8, g * 0.8, b * 0.8, 1]
+    v.j['materials'][p['material']].setdefault('pbrMetallicRoughness', {})['baseColorFactor'] = [r, g, b, 1]
+    others = set()
+    for q in [x for m in v.j['meshes'] if m['name'].startswith('Face') for x in m['primitives']]:
+        if q is not p: others |= set(np.unique(v.acc(q['indices']).astype(np.int64)).tolist())
+    shared = len(others & set(ids.tolist()))                                # 眉毛的頂點不能被別的材質用到（不然會一起被移動）
+    return dict(verts=len(ids), shared_with_other_prims=shared, tail_rise_mm_before=round(float(ys[-1] - ys[0]) * 1000, 1), tail_rise_mm_after=round((lift_inner * 0 + rise - drop) * 1000, 1))
+
+
+def eye_white_box(v):
+    """左右眼白的中心與半寬、半高（x, y），{1: (cx, cy, hx, hy), -1: …}"""
+    p = _face_prim(v, 'EyeWhite')[0]; P = v.acc(p['attributes']['POSITION']).astype(np.float64); I = np.unique(v.acc(p['indices']).astype(np.int64)); out = {}
+    for side in (1, -1):
+        Q = P[I][P[I, 0] * side > 0]; out[side] = (Q[:, 0].mean(), Q[:, 1].mean(), (Q[:, 0].max() - Q[:, 0].min()) / 2, (Q[:, 1].max() - Q[:, 1].min()) / 2)
+    return out
+
+
+def eye_socket_pinch(v, box0, kx, ky, R1=1.15, R2=1.8):
+    """眼睛周圍的皮膚往眼睛中心收（kx、ky 倍；R1 以內整個收、R1～R2 漸漸變回原樣；半徑以「VRoid 原本眼白」的半寬半高為單位）。
+    皮膚貼圖上畫的眼窩（粉紅色的杏仁形＋紅色暈影＋雙眼皮線）是照 VRoid 原本的眼睛大小畫的：眼睛縮小後露出來，看起來是一圈紅眼圈。
+    皮膚的網格（眼皮）跟著收，貼圖就跟著縮；眨眼的眼皮位移照同一個變形換算（閉眼時眼皮蓋住的範圍和縮小後的眼睛一致）。
+    鼻樑（|x| < 1.5 cm）不動：兩邊的變形在中線不會互相拉扯。"""
+    p = _face_prim(v, 'Face_00_SKIN')[0]; pa = p['attributes']['POSITION']; P = v.acc(pa).astype(np.float64)
+    ids = np.unique(v.acc(p['indices']).astype(np.int64))
+
+    def warp(X):
+        Y = X.copy()
+        for side, (cx, cy, hx, hy) in box0.items():
+            m = X[:, 0] * side > 0
+            dx, dy = X[m, 0] - cx, X[m, 1] - cy; r = np.sqrt((dx / hx) ** 2 + (dy / hy) ** 2)
+            t = np.clip((r - R1) / (R2 - R1), 0, 1); ss = t * t * (3 - 2 * t)
+            g = np.clip((np.abs(X[m, 0]) - 0.004) / 0.011, 0, 1); g = g * g * (3 - 2 * g)     # 中線附近不動
+            fx = 1 - (1 - (kx + (1 - kx) * ss)) * g; fy = 1 - (1 - (ky + (1 - ky) * ss)) * g
+            Y[m, 0] = cx + dx * fx; Y[m, 1] = cy + dy * fy
+        return Y
+    P2 = P.copy(); P2[ids] = warp(P[ids]); moved = int((np.abs(P2[ids] - P[ids]).max(1) > 1e-5).sum())
+    newpa = v.add_acc(P2.astype(np.float32), 5126, 'VEC3', 34962, True)
+    tnew = {}
+    for t in p.get('targets', []):
+        ti = t['POSITION']
+        if ti in tnew: continue
+        D = v.acc(ti).astype(np.float64); D2 = D.copy(); D2[ids] = warp(P[ids] + D[ids]) - P2[ids]
+        tnew[ti] = v.add_acc(D2.astype(np.float32), 5126, 'VEC3')
+    for q in [x for m in v.j['meshes'] if m['name'].startswith('Face') for x in m['primitives']]:
+        if q['attributes']['POSITION'] == pa:
+            q['attributes']['POSITION'] = newpa
+            for t in q.get('targets', []): t['POSITION'] = tnew.get(t['POSITION'], t['POSITION'])
+    others = set()
+    for q in [x for m in v.j['meshes'] if m['name'].startswith('Face') for x in m['primitives']]:
+        if q is not p: others |= set(np.unique(v.acc(q['indices']).astype(np.int64)).tolist())
+    return dict(moved=moved, shared_with_other_prims=len(others & set(ids.tolist())))
+
+
+def facetest_yuting(v):
+    """祐廷 3D 臉試做（BB_131 第 11 節）：
+    1. 眼睛（眼白、虹膜、高光、眼線、睫毛）再縮小 15%，以左右眼各自的中心縮，上下左右同比例；眨眼的位移一起縮（閉眼不留縫）。
+    2. 高光縮成一半、改成偏暖的白。
+    3. 眉毛細一點、平一點、眉尾不上挑、深棕色。"""
+    b = eye_white_box(v)                                                     # 現在的眼白（vroid_build 已經縮成 0.86／0.82）
+    box0 = {s: (cx, cy, hx / 0.86, hy / 0.82) for s, (cx, cy, hx, hy) in b.items()}   # VRoid 原本的眼白大小（皮膚的眼窩是照這個畫的）
+    print('  facetest yuting: eye verts', VB.scale_eyes(v, 0.85, 0.85))
+    print('  facetest yuting: eye socket skin', eye_socket_pinch(v, box0, 0.86 * 0.85, 0.82 * 0.85))
+    print('  facetest yuting: highlight spots', highlight_small(v))
+    print('  facetest yuting: brow', brow_natural(v))
+
+
+FACETEST = {'vroid_yuting': facetest_yuting}
+
+
 if __name__ == '__main__':
     args = sys.argv[1:]; out = VB.OUT
     if '--out' in args:
         i = args.index('--out'); out = os.path.abspath(args[i + 1]); del args[i:i + 2]
     os.makedirs(out, exist_ok=True)
+    ft = '--facetest' in args; args = [a for a in args if a != '--facetest']   # --facetest：另外存 <key>_facetest.vrm（3D 臉試做），不覆蓋預設模型
     for k in args:
-        v = VB.BUILDS[k](); POLISH[k](v); fill_minmax(v)
-        n = v.save(os.path.join(out, k + '.vrm')); print(k, round(n / 1e6, 2), 'MB →', out)
+        v = VB.BUILDS[k](); POLISH[k](v)
+        if ft: FACETEST[k](v)
+        fill_minmax(v)
+        n = v.save(os.path.join(out, k + ('_facetest' if ft else '') + '.vrm')); print(k, round(n / 1e6, 2), 'MB →', out)

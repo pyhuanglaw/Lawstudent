@@ -121,7 +121,11 @@
 | 18:0x | 小公園 v7：ART-PARK3 象棋桌凳、直飲台、腳踏車架（BB-B 做、我驗收；車架 layout yaw π）；美國公寓：ART-US2 第 9 節補強（AA-B）擺進去＋修我 13:0x 的擺放 bug（洗碗機卡在爐子裡） | 5e688f34 | 交 LAWWW-B |
 | 18:1x | 小公園 v8：公布欄加頂上的公園名牌（原本的木牌擋住公告） | a4c05720 | 已交 |
 | 18:5x | ART-BG-COURT `ntu_court_night`（哲 2 的新體育館旁籃球場，晚上；Blender `bg_court.py`）；遊戲內 ADV 截圖 390×844／844×390；第二版鏡頭左轉 6°，手機直向看得到整塊籃板 | 6e72e346 | 交 BB-B 驗收、交 LAWWW-B 填 `S.BG.ntu_court_night.image` |
-| 19:0x | ART-PT-SIS-FORMAL 學姊面試西裝立繪 `heroine_05/formal/`（neutral 全身去背＋serious、smile 換臉；企劃線 heroine05_interview.webp）；遊戲內 ADV 截圖 | （這一批） | 交 BB-B 驗收、LAWWW-B 重跑立繪清單＋W9 加 outfit:'formal' |
+| 19:0x | ART-PT-SIS-FORMAL 學姊面試西裝立繪 `heroine_05/formal/`（neutral 全身去背＋serious、smile 換臉；企劃線 heroine05_interview.webp）；遊戲內 ADV 截圖 | 4e812ce5 | **BB-B 19:16 三張 ART_APPROVED**；LAWWW-B 合入（DLV-1016-372） |
+
+**⚠ D89（使用者 2026-10-16 約 19:2x，直接給 LAWWW-B；LAWWW-B 19:12 轉達，我 19:58 讀到、ACK）**：溫州街、小公園和所有美術（Blender／GLB、貼圖、2D 背景、場景佈置、模型擺放、效能減面、美術截圖）歸 LAWWW2-B；LAWWW-B 只整合（接交付、LICENSES、導航碰撞、互動點、事件、回歸）。`wz_park_layout.js` 畫面欄位歸我、導航與互動點歸 LAWWW-B，改之前互相說；`zones3d.js` 備用方塊我給外觀方向。
+- 新改給我的（tasks.json owner＝LAWWW2，照 D81 順序）：**SCN-V3-01** 第二個房間 2D＋物件（SYS-06，大二開學）、**ART-04** 黃金葛 `prop_pothos.glb`（203 窗台，互動點已有）→ **SCN-V3-03** 霖澤館 201 模擬法庭擺法（模 5，5/1）→ **SCN-V0-01** 社科院大樓室內（用途等 AA-B）→ ART-BG12 seaside_town（D13 底圖）、SCN-V4-01 第三個房間、SCN-V5-01 第四個房間、SCN-V5-02 畢業典禮（G6）。
+- 開遊戲加速（LAWWW-B v9.9.2）：主要角色背景下載；截圖腳本等人物要加 `(!GAME.charsAllP||GAME.charsAll)`。
 
 **進行中（16:1x UTC）**：
 - 精修第 3 批溫州街路面：`wz_road_tex.py` 畫一張路面貼圖集 `wz_road_atlas.jpg`（主巷、Café 前南北向路、三條側巷；一個材質 `wz_road`，原本三個材質讓 arcade 到 311 次 draw call）＋每公尺重複的顆粒法線，`wz_props.py` 鋪在套件路面上（y 0.016）。

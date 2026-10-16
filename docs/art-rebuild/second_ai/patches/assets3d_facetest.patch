@@ -1,0 +1,13 @@
+diff --git a/src/assets3d.js b/src/assets3d.js
+index 495ef2b1..fbdd8b08 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -121,6 +121,8 @@ const ASSETS = (function(){
+   // 網址加 ?blchar：有 Blender 正式製作版本的人物（manifest 的 blUrl）改用 Blender 版（v9.4 起；沈以安是示範角色）。
+   // 使用者驗收美術方向之前，預設仍是 VRoid 加工版；這個參數讓使用者在實際遊戲（包括手機）裡看 Blender 版
+   { const bl=typeof location!=='undefined'&&/[?&]blchar\b/.test(location.search||''); for(const k of Object.keys(A.manifest)){ const m=A.manifest[k]; if(bl&&m.blUrl) m.url=m.blUrl; if(!bl&&m.blOnly) delete A.manifest[k]; } }   /* blOnly：只有 Blender 版的人物（芯慈），沒有 ?blchar 照舊用路人底模 */
++  // 網址加 ?facetest：祐廷改用 3D 臉試做版（BB_131 第 11 節：眼睛縮小、高光變小、眉毛細平深棕；LAWWW2-B）。預設照舊是 vroid_yuting.vrm，使用者說「用」才換。
++  if(typeof location!=='undefined'&&/[?&]facetest\b/.test(location.search||'')&&A.manifest['char.yuting']) A.manifest['char.yuting'].url='assets/models/char/vroid_yuting_facetest.vrm';
+   // ---- placeholder fallbacks（procedural；LEVEL_BLOCKOUT）----
+   A.fallbacks={
+     'tree.palm':(o)=>W3.palm(o.height||9), 'tree.leafy':(o)=>W3.banyan((o.height||6)/6), 'tree.conifer':(o)=>W3.banyan((o.height||6)/6), 'prop.bench':()=>W3.bench(),
