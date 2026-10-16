@@ -2123,8 +2123,8 @@
    "title": "阿凱 K3 週日宵夜",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照 BB_97 實作",
+   "status": "已整合待測試",
+   "next": "BB_97 4-1 已接：搬完房間（ROOM_Y2）以後大二上每週日、大二下每月第一個週日 23:00；第一次多一句；去＝出發選單→宿舍旁的滷味攤（2D、背景共用公館滷味攤；LAWWW2-B 的 3D 之後換）、第一次三選一、之後輪流（筆電那句第 13 週 F2 之後）、快轉到 00:00；這週不行；連續三週沒回多一句（一次）；habit kai_supper 3 次＝SUNDAY_SUPPER；瀏覽器",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -2137,15 +2137,16 @@
     "confirmed": true
    },
    "source": "BB_97",
-   "authorized": "D79"
+   "authorized": "D79",
+   "tests": "tests/v3_kai_k3_unit.js"
   },
   {
    "id": "V3-B02",
    "title": "學姊 W6 handover",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照 BB_97 實作",
+   "status": "已整合待測試",
+   "next": "BB_97 2-1 已接：法服讀書會延到大二（activities.js lawclub_study 的 Y2S1／Y2S2 週次）；第 1～2 週週三讀書會先演交接（逐字、SIS_HANDOVER_SEEN）；大一的第一次讀書會不在大二演；沒加入法服＝第 1 週週三 21:30、社員到第 2 週都沒去＝第 2 週週三 21:30 家族群組 Kevin「學姊卸任了！」學姊「收到。」。3D 的「她的座位換到角落」還沒做；瀏覽器",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -2158,7 +2159,8 @@
     "confirmed": true
    },
    "source": "BB_97",
-   "authorized": "D79"
+   "authorized": "D79",
+   "tests": "tests/v3_sis_w6_unit.js"
   },
   {
    "id": "V3-B03",

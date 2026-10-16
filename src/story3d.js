@@ -1310,6 +1310,22 @@ const STORY = (function(){
       if(G.day>mEnd&&!PHONE.sent(G,'mx_tutor_gone')){ F.TUTOR_GONE=true; PHONE.at(G,mEnd+1,12,[M('名額給別人了。下次有，我再跟你說。')],'mx_tutor_gone'); } }
     if(F.JOB_TUTOR&&typeof OUT!=='undefined'){ const T=CALENDAR.termOf(G.day); if(T&&T.id==='Y1S2'){ for(let w=T.week;w<=18;w++){ const d=termDay('Y1S2',w,2); if(d==null||d<=(F.tutorFromDay|0)||d*24+19<G.day*24+G.hour) continue; if(CALENDAR.holiday(d)||(CALENDAR.typhoon&&CALENDAR.typhoon(d))) continue;   /* 颱風假不能打工（AA_160 3-4 D）*/ const id='tutor_'+d; if(OUT.get(G,id)) break;
           OUT.plan(G,{id,ev:'ev_tutor_lesson',day:d,h:19,place:'學生家（公館附近）',title:'家教',travel:'騎車約 10 分鐘',travelH:1/6,no:'這週不去',back:'家教結束。'}); break; } } }
+    /* 學姊 W6 交接（BB_97 2-1）的家族群組那句：沒加入法服＝大二上第 1 週週三 21:30；社員到第 2 週都沒去讀書會＝第 2 週週三 21:30（照 AA_176 R7 的時段）*/
+    if(PHONE.inGroup(G,'family_law')&&!PHONE.sent(G,'sis_handover_group')&&!(G.events.done&&G.events.done.ev_sis_handover)){ const mem=!!(F.lawclub||F.CLUB_lawclub_study), d=termDay('Y2S1',mem?2:1,3);
+      if(d!=null&&(G.day>d||(G.day===d&&h(G)>=21.5))&&G.day<=d+14) PHONE.at(G,d,21.5,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'學姊卸任了！'},{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'收到。'}],'sis_handover_group'); }
+    /* 阿凱 K3 宿舍分開了，宵夜沒有（BB_97 4-1，BB-B 定稿）：大二搬完房間（ROOM_Y2）以後，大二上每個週日 23:00、大二下每個月第一個週日 23:00 阿凱私訊；
+       第一次多一句「我這棟樓下的滷味比較好吃……」。去＝出發選單（宿舍旁的滷味攤，2D，ev_kai_sunday_supper）；「這週不行」＝「好。下週日。」；不回＝下週日照樣問，
+       連續三週沒回，第三週的回覆期限過了多一句「你還活著吧？……活著就好。下週日。」（只說一次）。去了 3 次以上（habit kai_supper、365 天內）＝阿凱 SUNDAY_SUPPER */
+    if(F.ROOM_Y2&&typeof CALENDAR!=='undefined'){ const T=CALENDAR.termOf(G.day), A=t=>({th:'p:kai',from:'kai',text:t});
+      const sunOK=d=>{ const t=CALENDAR.termOf(d), x=CALENDAR.dateOf(d); if(!t||x.wd!==7||d<F.ROOM_Y2) return false; if(t.id==='Y2S1') return true; if(t.id==='Y2S2') return x.d<=7; return false; };   /* 大二下：每個月第一個週日 */
+      if(sunOK(G.day)&&G.hour>=23&&!PHONE.sent(G,'kai_sup_'+G.day)){ const first=!F.KAI_SUP_ASKED; F.KAI_SUP_ASKED=(F.KAI_SUP_ASKED|0)+1; const d=G.day;
+        const ask={id:'kai_sup_'+d,until:(d+1)*24+18,opts:[{t:'去。',set:{KAI_SUP_GO:d}},{t:'這週不行。',set:{KAI_SUP_LAST:d},say:[A('好。下週日。')]}]};
+        PHONE.at(G,d,Math.max(23,h(G)),first?[A('宵夜？'),Object.assign(A('我這棟樓下的滷味比較好吃。不是我要找你，是滷味。'),{ask})]:[Object.assign(A('宵夜？'),{ask})],'kai_sup_'+d); }
+      if(F.KAI_SUP_GO===G.day&&typeof OUT!=='undefined'&&!OUT.get(G,'kai_sup_'+G.day)&&G.hour>=23) OUT.plan(G,{id:'kai_sup_'+G.day,ev:'ev_kai_sunday_supper',day:G.day,h:Math.max(23,h(G)),late:0.5,place:'宿舍旁的滷味攤',title:'週日宵夜（阿凱）',travel:'走過去約 5 分鐘',travelH:1/12});
+      /* 連續沒回：每一次問的回覆期限（隔天 18:00）過了才算一週沒回 */
+      if(!F.KAI_SUP_ALIVE){ const asks=(G.msgs||[]).filter(m=>m.th==='p:kai'&&m.ask&&/^kai_sup_/.test(m.ask.id||'')), now=G.day*24+G.hour; let run=0;
+        for(const m of asks){ if(m.ans!=null){ run=0; continue; } if(m.ask.until!=null&&now>m.ask.until) run++; }
+        if(run>=3&&!PHONE.sent(G,'kai_sup_alive')){ F.KAI_SUP_ALIVE=G.day; PHONE.at(G,G.day,h(G),[A('你還活著吧？……活著就好。下週日。')],'kai_sup_alive'); } } }
     /* 語彤事件 7（AA_177 4-6）：不管玩家在不在，9/26 語彤加入法服、第一次值班（劇情事實）＝YT_LEGALAID_Y2 */
     { const d0=S.dayOfKey('2026-09-26'); if(d0!=null&&!F.YT_LEGALAID_Y2&&(G.day>d0||(G.day===d0&&h(G)>=9))) F.YT_LEGALAID_Y2=true; }
     /* ===== 大二（交接包 v3）的群戲：邀約＋出發選單＋沒去的群組照片（AA_143、AA_177 第 6 節、AA_176 R5）=====

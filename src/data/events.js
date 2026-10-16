@@ -2457,6 +2457,34 @@ const STORY_EVENTS=[
       {label:'b'},{if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:'yu',text:'對嘛。'},
       {label:'end'} ],
     consequences:{flags:{MIDAUTUMN_Y2:true},memo:'大二的中秋烤肉（河濱）'} },
+  /* 學姊 W6 交接（BB_97 2-1，BB-B 定稿）：大二上第 1～2 週週三的法服讀書會（萬才館研討室 A，classes3d.js clubEvent 先演這件）；法服社員（lawclub）、只一次。新社長柏翰。
+     流程裡的「大家笑了……她也笑了。」用 BB 的字當旁白。沒加入法服的、到第 2 週都沒去的社員：家族群組 Kevin「學姊卸任了！」學姊「收到。」（story3d.js phoneRules 'sis_handover_group'）*/
+  { id:'ev_sis_handover', title:'交接', participants:['heroine_05'], location:'wancai', trigger:'club', term:['Y2S1'], weeks:[1,2], weekday:[3], once:true, background:'blur',
+    prereq:{custom:G=>!!(G.flags.lawclub||G.flags.CLUB_lawclub_study)},
+    dialogue:[ {speaker:'heroine_05',text:'交接三件事。'},{speaker:'heroine_05',text:'一，週六的值班表在雲端。'},{speaker:'heroine_05',text:'二，指導律師的聯絡方式在資料夾。'},{speaker:'heroine_05',text:'三……'},
+      {speaker:null,text:'（三個人在等她。）'},{speaker:'heroine_05',text:'……三，我想不起來了。'},
+      {speaker:null,text:'大家笑了，以為她在開玩笑。她也笑了。'},{speaker:null,text:'你看見她的手在找保溫瓶。'} ],
+    consequences:{flags:{SIS_HANDOVER_SEEN:true},memo:'學姊在法服交接（新社長：柏翰）'} },
+  /* 阿凱 K3 的週日宵夜（BB_97 4-1 場面，BB-B 2026-10-16）：宿舍旁的滷味攤（晚上、騎樓下、折疊桌；背景和公館滷味攤共用、字幕換掉）。
+     第一次＝夾好的三樣＋三個選項＋「下週日，同一時間。」；第二次以後＝一句旁白＋阿凱輪流一句（筆電那句只在大二上第 13 週 F2 之後）；時間快轉到 00:00。
+     story3d.js 的 phoneRules 'kai_sup_<day>' 出發選單。記 habit kai_supper，365 天內 3 次以上＝阿凱 SUNDAY_SUPPER */
+  { id:'ev_kai_sunday_supper', title:'週日宵夜', participants:['kai'], location:'any', trigger:'outing', background:'dark', hours:0.5,
+    dialogue:[ {scene:'宿舍旁的滷味攤',bg:'gongguan_luwei'},
+      {if:{custom:G=>!(G.flags.KAI_SUP_N>0)},goto:'first'},
+      {speaker:null,text:'（週日晚上，滷味攤。阿凱的籃子永遠比你的滿。）'},
+      {pick:{flag:'KAI_SUP_LINE',from:G=>{ const L=['今天我多夾了一顆貢丸。這是成長。','新室友說我話太多。我說，那你沒聽過我大一的室友。','你們法律系今天念了什麼？……算了，你吃。'];
+        const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, f2=t&&(t.id!=='Y2S1'||t.week>=13); if(f2) L.push('（打開筆電）你看，我的作業會頂嘴了。'); const n=(G.flags.KAI_SUP_N|0)-1; return [L[((n%L.length)+L.length)%L.length]]; }}},
+      {speaker:'kai',text:'{flag:KAI_SUP_LINE}'},{goto:'end'},
+      {label:'first'},{speaker:null,text:'（週日晚上十一點，宿舍旁的滷味攤。阿凱已經夾好兩籃。）'},
+      {speaker:'kai',text:'你的我幫你夾了。豆干、海帶、王子麵。'},{speaker:'kai',text:'你大一每次都點這三樣。我記得。'},
+      {choice:[{text:'「你新室友怎麼樣？」',goto:'a'},{text:'「今天的滷味好吃嗎？」',goto:'b'},{text:'（先吃）',goto:'c'}]},
+      {label:'a'},{speaker:'kai',text:'十點就睡。'},{speaker:'kai',text:'……我還不習慣有人那麼早關燈。'},{goto:'f_end'},
+      {label:'b'},{speaker:'kai',text:'普通。你來比較好吃。'},{speaker:'kai',text:'……這句不要記。'},{goto:'f_end'},
+      {label:'c'},{speaker:null,text:'（他講了二十分鐘新室友的鬧鐘。你一句都沒插話，他好像很滿意。）'},
+      {label:'f_end'},{speaker:'kai',text:'下週日，同一時間。不是我要找你，是滷味。'},
+      {label:'end'},{advance:G=>Math.max(0,24-G.hour)} ],
+    after:(G,GM)=>{ const F=G.flags; F.KAI_SUP_N=(F.KAI_SUP_N|0)+1; F.KAI_SUP_LAST=G.day-(G.hour<1?1:0); if(typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('kai_supper');
+      if(typeof SOCIAL!=='undefined'&&!SOCIAL.has('kai','SUNDAY_SUPPER')&&typeof EVENTS!=='undefined'&&EVENTS.habitCount&&EVENTS.habitCount({key:'kai_supper',withinDays:365})>=3) SOCIAL.remember('kai','SUNDAY_SUPPER','大二的週日宵夜'); } },
   /* D4 語彤事件 7 法服的第一次值班（AA_11 事件 7；AA_177 第 2 節、4-6）：大二上第 3 週週六 9/26 9:00～12:00 萬才館一樓的法服民眾服務。玩家在場（走到圓桌旁）才看得到。
      流程第 2、3 點用 AA 的字當旁白；記 YT_DUTY_SEEN、語彤 SHARED_CLASS（法服）。不在場的玩家：ev_y2_yt_duty_heard */
   { id:'ev_y2_yt_duty', title:'法服的第一次值班', participants:['heroine_03'], location:'wancai', trigger:'auto', term:['Y2S1'], time:[9,12], once:true, background:'blur', near:{x:0.5,z:2.2,r:4.5},
