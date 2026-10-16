@@ -2045,8 +2045,8 @@
    "what": "ART-WZ6 故事小物件",
    "task": "ART-WZ6",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "等 DL-13"
+   "integration": "已整合待測試",
+   "note": "等 DL-13；資產和 LAWWW2-B 分支一致（096fd15d 對過 git diff），瀏覽器 wz_street_integration 排隊"
   },
   {
    "id": "DLV-1016-171",
@@ -2225,8 +2225,8 @@
    "what": "ART-WZ7 溫州街路邊小物（AA-B）、GYM-P2 第一部分 B1 櫃台／置物櫃（BB-B）驗收通過、merge",
    "task": "ART-WZ7",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "wz7_street_props.glb、gym_b1_entry.glb 還沒接：WZ7 跟 DL-13 溫州街故事線一起放；gym_b1_entry 跟 B1 v5"
+   "integration": "已整合待測試",
+   "note": "wz7_street_props.glb、gym_b1_entry.glb 還沒接：WZ7 跟 DL-13 溫州街故事線一起放；gym_b1_entry 跟 B1 v5；資產和 LAWWW2-B 分支一致（096fd15d 對過 git diff），瀏覽器 wz_street_integration 排隊"
   },
   {
    "id": "DLV-1016-186",
@@ -3472,8 +3472,8 @@
    "what": "小公園 v4：土地公小廟去積木化（供桌、神龕看得到神桌與金身、石材＋紅牆、匾與對聯；花籬南段改從廟東邊開始）；只換 wz_park.glb＋.json",
    "task": "ART-WZ1",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "下一版；layout 沒改",
+   "integration": "已整合待測試",
+   "note": "下一版；layout 沒改；資產和 LAWWW2-B 分支一致（096fd15d 對過 git diff），瀏覽器 wz_street_integration 排隊",
    "date": "2026-10-16T15:3xZ"
   },
   {
@@ -4171,6 +4171,18 @@
    "integration": "參考用",
    "note": "使用者指示的對象是 AA-B、BB-B（做美術支援時照做）；LAWWW 整合美術時照同一套驗收（D38）",
    "date": "2026-10-16T18:0xZ"
+  },
+  {
+   "id": "DLV-1016-348",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "f0c2bfec",
+   "what": "溫州街精修第 3 批：路面三張貼圖（補丁、輪跡、水溝蓋、停車格、斑馬線、紅線）＋ART-PARK1 遊戲場擺進小公園＋機車輪胎 14 邊；patches/wz_road_nightdark.patch",
+   "task": "ART-WZ1",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "096fd15d 收（資產原樣、patch 套進 zones3d.js、LICENSES）；瀏覽器 wz_street_integration 排隊",
+   "date": "2026-10-16T18:2xZ"
   }
  ],
  "ignored": [
