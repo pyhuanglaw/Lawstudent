@@ -4219,6 +4219,30 @@
    "integration": "已整合待測試",
    "note": "S.fafuWatchLine／FAFU_W1（story3d.js）；tests/v3_fafu_duty_unit.js 第 8 項（7 條）；AA-B 有改再跟",
    "date": "2026-10-16T17:0xZ"
+  },
+  {
+   "id": "DLV-1016-352",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "1e445818",
+   "what": "小公園 v6（ART-PARK2 鞦韆＋三件體健器材，AA-B 做、LAWWW2-B 驗收）＋溫州街效能第六輪（輪胎 12 邊、碗盤 6 邊）",
+   "task": "ART-WZ1",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "wz_park／wenzhou_street／scooter 的 GLB＋json 原樣、LICENSES 一行；park2_props.glb 已合進 wz_park.glb、不另外載；LAWWW2-B 說 wz_street_integration 36 項全過，我的瀏覽器排隊重跑",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-353",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "55509fe2",
+   "what": "BB_163 第 2 節補：子晴大四平日下午的一盞改到最近的週六下午",
+   "task": "SYS-21B",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "invites.js heroine_04 rule；bb163_taipei_unit 加一條",
+   "date": "2026-10-16T17:3xZ"
   }
  ],
  "ignored": [

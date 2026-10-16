@@ -117,6 +117,7 @@ const INVITE_DATA={
         /* 大四（畢業，在臺北的工作室上班；BB_163 第 2 節）：平日 20:00 以前在工作室、總圖要辦校友證；其他照下面原本的規則 */
         if(typeof STORY!=='undefined'&&STORY.presence&&STORY.presence('heroine_04',{day:c.day}).kind==='taipei'&&(r.res==='accept'||r.why==='busy')){ const wk=c.wd>=1&&c.wd<=5, late=20+10/60;
           if(c.pid==='library') return {res:'decline',why:'grad',lines:['「欸不是，我畢業了。總圖要辦校友證，我還沒辦。……兩點半？」'],alt:null};
+          if(c.pid==='teahouse'&&wk) return {res:'resched',why:'work',act:'work',lines:['「欸不是，平日下午我在工作室。……週六下午？這是問句。」'],alt:I.nextSat(G,'heroine_04',c.P,c.day,14)};   /* BB_163 第 2 節（BB-B 55509fe2）：平日（週三～週五下午）的一盞改到最近的週六下午 */
           const firstY4=c.pid==='noodle'&&!(G.invites||[]).some(iv=>iv.who==='heroine_04'&&iv.place==='noodle'&&['done','accepted','going'].includes(iv.state)&&STORY.presence('heroine_04',{day:iv.day}).kind==='taipei');
           if(wk&&c.h<20&&['cafe','noodle','wenzhou'].includes(c.pid)){ const alt=I.freeAt(G,'heroine_04',c.P,c.day,late)?{day:c.day,h:late}:I.nextFree(G,'heroine_04',c.P,c.day,late);
             return {res:'resched',why:'work',act:'work',lines:c.pid==='cafe'?['「欸不是，我八點才下班。……八點十分，兩點半。」']:(firstY4?['「好。……欸不是，阿鳳阿姨還記得我嗎。」']:null),alt}; }
