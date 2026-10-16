@@ -229,6 +229,34 @@ def M(x, y, z, ry=0.0):
     return Matrix.Translation(g2b(x, y, z)) @ Matrix.Rotation(ry, 4, 'Z')
 
 
+def cloth_drape(colliders, cx, cz, w, d, y0, nx=22, nz=14, frames=50, t=0.008):
+    """布料模擬：一張 w（遊戲 x）× d（遊戲 z）的布，從 y0 落下，碰到 colliders（[(bmesh, matrix)]，Blender 座標）停住。
+    模擬完把形狀取出來、加厚度，回傳 Blender 座標的 bmesh；暫時的物件都刪掉"""
+    sc = bpy.context.scene; tmp = []
+    for bm_, mt in colliders:
+        me = bpy.data.meshes.new('_col'); bm_.to_mesh(me); bm_.free(); me.transform(mt)
+        ob = bpy.data.objects.new('_col', me); sc.collection.objects.link(ob); ob.modifiers.new('col', 'COLLISION')
+        ob.collision.thickness_outer = 0.004; ob.collision.cloth_friction = 10; tmp.append(ob)
+    gb = bmesh.new(); bmesh.ops.create_grid(gb, x_segments=nx, y_segments=nz, size=0.5)
+    xs = [v_.co.x for v_ in gb.verts]; ys = [v_.co.y for v_ in gb.verts]
+    for v_ in gb.verts:
+        v_.co = Vector(((v_.co.x - min(xs)) / (max(xs) - min(xs)) * w - w / 2 + cx, (v_.co.y - min(ys)) / (max(ys) - min(ys)) * d - d / 2 - cz, y0))
+    me = bpy.data.meshes.new('_cloth'); gb.to_mesh(me); gb.free()
+    cl = bpy.data.objects.new('_cloth', me); sc.collection.objects.link(cl); tmp.append(cl)
+    cm = cl.modifiers.new('cloth', 'CLOTH'); st = cm.settings
+    st.quality = 10; st.mass = 0.3; st.tension_stiffness = 15; st.compression_stiffness = 15; st.bending_stiffness = 0.8; st.air_damping = 1.0
+    cm.collision_settings.distance_min = 0.004; cm.point_cache.frame_start = 1; cm.point_cache.frame_end = frames
+    sc.frame_start, sc.frame_end = 1, frames
+    for f in range(1, frames + 1): sc.frame_set(f)
+    dg = bpy.context.evaluated_depsgraph_get(); out = bmesh.new(); out.from_object(cl, dg)
+    sc.frame_set(1)
+    for ob in tmp:
+        m_ = ob.data; bpy.data.objects.remove(ob); bpy.data.meshes.remove(m_)
+    res = bmesh.ops.solidify(out, geom=list(out.faces), thickness=t)
+    bmesh.ops.recalc_face_normals(out, faces=out.faces)
+    return out
+
+
 ROOT = B.group('TUTOR_PROPS')
 STATS = {}
 
@@ -440,29 +468,22 @@ def sofa(m, v):
         bm = soft_box(cw, 0.40, 0.17, e=0.30, ez=0.42, bulge=0.05, seg=14, rings=10)
         mt = Matrix.Translation(g2b(x, 0.44, -0.20)) @ Matrix.Rotation(math.radians(-11), 4, 'X')
         v.bmf(bm, mt, col); bm.free()
-    # 國中運動外套：搭在右邊扶手上，貼著扶手的斷面（同一組超橢球公式算出來）；裡面垂到坐墊上方、外面垂到 0.30
-    aw, ah, ae, aez, abul, asag = 0.20, 0.55, 0.30, 0.38, 0.03, 0.004
-    pw = lambda c, k: math.copysign(abs(c) ** k, c)
+    # 國中運動外套：Blender 布料模擬，從扶手上方落下，搭在扶手和右邊的座墊上（碰撞體就是這張沙發自己的扶手、座墊、椅背）
+    rx = -(W - 0.40) / 2 + cw / 2 + 2 * (cw + 0.009)
+    colliders = [(soft_box(0.20, 0.55, D, e=0.30, ez=0.38, bulge=0.03, sag=0.004, seg=14, rings=10), M(AX, 0.09, 0.0)),
+                 (soft_box(cw, 0.15, 0.62, e=0.26, ez=0.40, sag=0.026, bulge=0.04, seg=16, rings=10), M(rx, 0.30, 0.10)),
+                 (soft_box(W - 0.06, 0.70, 0.20, e=0.22, ez=0.30, bulge=0.02, seg=16, rings=8), M(0, 0.09, -D / 2 + 0.10))]
+    jb = cloth_drape(colliders, cx=AX + 0.02, cz=0.09, w=0.62, d=0.42, y0=0.665, nx=22, nz=14)
+    fs = v.bmf(jb, Matrix.Identity(4)); jb.free()
 
-    def arm_pt(phi, gap):
-        cx_, cz_ = math.cos(phi), math.sin(phi)
-        X, Z = pw(cx_, ae), pw(cz_, aez); k = 1 + abul * (1 - Z * Z)
-        x, y = X * k * aw / 2, (Z + 1) * ah / 2
-        if Z > 0: y -= asag * max(0.0, 1 - X * X) * Z
-        return (AX + x * (1 + gap / 0.1), 0.09 + y + gap * max(0.0, Z))
-    path = [arm_pt(math.radians(a_), 0.004) for a_ in (196, 172, 150, 130, 112, 98, 84, 68, 50, 30, 12, -6, -22)]
-    path = [p_ for p_ in path if p_[1] > 0.29]
-    zs = sorted(set([round(z_, 4) for z_ in lin_space(-0.12, 0.30, 9)] + [0.018, 0.032, 0.048, 0.062]))
-
-    def jacket(x, y, z, f):
-        if 0.018 < z < 0.032 or 0.048 < z < 0.062: return STRIPE      # 兩條白條紋
+    def jacket(x, y, z, f):   # 兩條白條紋（跨過扶手）：布的格子一排 3 cm，條紋就是一整排（中心 z＝0.015、0.075），中間隔一排深藍
+        if abs(z - 0.015) < 0.011 or abs(z - 0.075) < 0.011: return STRIPE
         return NAVY
-    drape(v, path, zs, 0.008, jacket)
-    xo = path[-1][0]
-    # 一隻袖子從外側垂下來（起點藏在外套底下；白條紋沿著袖子正面）
-    sx, sy, sz = xo - 0.004, 0.52, 0.22
-    ex, ey, ez = xo + 0.022, 0.14, 0.29
-    fs = v._newf(lambda: v.cyl((sx, sy, sz), (ex, ey, ez), 0.040, seg=10, r2=0.033, caps=True))
+    v.fpaint(fs, jacket)
+    # 一隻袖子從外側的肩線垂下來（白條紋沿著袖子正面）
+    sx, sy, sz = AX + 0.125, 0.60, 0.22
+    ex, ey, ez = AX + 0.150, 0.16, 0.29
+    fs = v._newf(lambda: v.cyl((sx, sy, sz), (ex, ey, ez), 0.038, seg=10, r2=0.032, caps=True))
 
     def sleeve(x, y, z, f):
         n = f.normal; ang = math.atan2(n.x, -n.y)
