@@ -10503,8 +10503,8 @@
    "title": "v0 閒聊階梯 ladder_bb_y0s1／y0s2.json（BB-B 82b61711、f70b4e87、19ee72d5；AA 核對）",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
-   "next": "匯入工具已支援（Y0S1／Y0S2 各 40 個記憶）；BB_146 沒有「| `代號` | 名稱 |」的記憶名稱表，先不匯入（不然人物面板會顯示英文代號）——已請 BB-B 補表；補了以後重跑 tools/ladder/import_ladder.py 就會進來",
+   "status": "已整合待測試",
+   "next": "已匯入（BB-B 6227de53 補了 BB_146 第 3 節的記憶名稱表；匯入來源 claude/elegant-brown-fcos7n 16bd2c03）：Y0S1、Y0S2 可昕、品妤、唐睿、阿勳、韋綸各 8 層；第 2 級：經濟系開局後實際聊一次",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -10517,9 +10517,7 @@
     "confirmed": false
    },
    "source": "AA-B 06:08、06:15",
-   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示",
-   "pausedReason": "BB_146 缺記憶名稱表（80 個）",
-   "resumeWhen": "BB-B 在 BB_146 補表"
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示"
   },
   {
    "id": "V0-KXPHONE",

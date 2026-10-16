@@ -3211,6 +3211,42 @@
    "integration": "已整合待測試",
    "note": "收進開發分支 9735698a（v9.9 之後那一版）；LAWWW-B 這邊的 wz_street_integration 還沒跑",
    "date": "2026-10-16T14:08Z"
+  },
+  {
+   "id": "DLV-1016-268",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "6227de53",
+   "what": "BB_146 第 3 節 經濟系階梯的記憶名稱表（80 個）",
+   "task": "V0-LADDER",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "重跑 import_ladder（REF elegant-brown）",
+   "date": "2026-10-16T14:3xZ"
+  },
+  {
+   "id": "DLV-1016-269",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "8d66014f",
+   "what": "AA_154 A51：P4 full 版本、P4b 台詞與機率、P1 座位按鈕",
+   "task": "V0-E1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW-B 接著做",
+   "date": "2026-10-16T14:3xZ"
+  },
+  {
+   "id": "DLV-1016-270",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "b2a9b9df",
+   "what": "AA_154 A52：SK01、SK02、SK04 照 BB_106 草稿＋時間點",
+   "task": "V0-SK",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW-B 接著做",
+   "date": "2026-10-16T14:3xZ"
   }
  ],
  "ignored": [

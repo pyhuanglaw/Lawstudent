@@ -34,7 +34,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   { const e=ev('ev_yutong_absent'); check('① ev_yutong_absent：term 只有 Y1S2；阿姨兩句的說話人＝阿姨',JSON.stringify(e.term)==='["Y1S2"]'&&e.dialogue.filter(l=>l.speaker==='阿姨').length===2); }
   // ②
   { const e=ev('ev_yutong_thanks'); const d=wk('Y1S2',10,2); const ck=h=>{ fresh(d,h,'library'); SOCIAL.meet('heroine_03','campus'); G.flags.yutong_hospital=true; return EVENTS.check(e); };
-    check('② ev_yutong_thanks：20:30～22:00 才有（18:00、22:30 沒有）',ck(21)&&!ck(18)&&!ck(22.5)); }
+    check('② ev_yutong_thanks：21:00～22:00 才有（麵店 21:00 打烊；20:45、22:30 沒有）',ck(21.2)&&!ck(20.75)&&!ck(22.5)); }
   // ③
   { const e=ev('ev_an_yu_argument'), d=wk('Y1S2',11,2); const ck=(an,yu)=>{ fresh(d,18,'noodle'); SOCIAL.meet('heroine_01','campus'); R('heroine_01',an); SOCIAL.meet('yu','noodle'); R('yu',yu); return EVENTS.check(e); };
     check('③ 吵架在場版：以安、小語都 ACQUAINTANCE 以上才演（小語還不熟＝不演）',ck(10,10)&&!ck(10,0)&&!ck(0,10)); }
