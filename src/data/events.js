@@ -1767,6 +1767,15 @@ const STORY_EVENTS=[
         dialogue:[ {scene:'公館・宵夜攤',bg:'gongguan_luwei'},{speaker:null,text:'八月放榜那晚，公館的宵夜攤坐滿了經濟系的人。'},{speaker:'econ_zhengxun',text:'所以你們兩個，一個台大法律，一個政大法律。'},
           {speaker:'econ_pinyu',text:'經濟學上，這叫雙贏。'},{speaker:'韋綸',text:'妳上學期才說，經濟學不談輸贏。'},{speaker:'kexin',text:'今天談。'},{speaker:null,text:'你們一直吃到攤子收攤。'} ],
         after:(G,GM)=>{ if(G.hour<23.5) GM.advance(23.5-G.hour); } } ]; })(),
+  /* ★E37 第一次一起去政大（BB_104 8b-20；AA_154 A40）：8/30（六）14:00 政大校門（2D 出遊）。「我只是繞了一點路」只說這一次（5-2 的一層）；法律系 K1 的經濟系版本回收這一天。
+     邀約、出發選單、14:15 的電話在 story3d.js；從家裡出發的演完回臺北的家（home3d.js）*/
+  { id:'ev_y0_e37', stage:'econ', title:'第一次一起去政大', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:4,
+    dialogue:[ {scene:'政大・校門口',bg:'nccu_gate'},{speaker:null,text:'（政大校門。她站在門口，手背在後面。）'},{speaker:'kexin',text:'歡迎來到政大。我是今天的導遊。'},{speaker:'kexin',text:'我在這裡念了零天，所以跟你懂得一樣多。'},
+      {speaker:null,text:'（她指了左邊、右邊、後面。）'},{speaker:'kexin',text:'這是一棟樓。那是另一棟樓。後面是山。'},
+      {choice:[{text:'「導遊，那棟是什麼？」',goto:'a'},{text:'「妳也是第一次來？」',goto:'b'},{text:'「我跟著妳走。」',goto:'c'}]},
+      {label:'a'},{speaker:'kexin',text:'那是……我們之後會知道的樓。'},{goto:'f'},{label:'b'},{speaker:'kexin',text:'導遊不能說這種話。'},{goto:'f'},{label:'c'},{speaker:'kexin',text:'好。迷路的話，算導遊的。'},
+      {label:'f'},{scene:'政大・山下的小吃街',bg:'nccu_food'},{speaker:null,text:'（山下的小吃街。她點了兩碗酸辣湯餃。）'},{speaker:'kexin',text:'以後你開車來找我。我負責選宵夜。'},
+      {speaker:null,text:'（走到山下，她停了一下。）'},{speaker:'kexin',text:'我只是繞了一點路。……你不也是嗎？'} ] },
   /* E35 考完以後：7/19（六）摘要日（AA_154 A47；旁白 AA 寫）：E35_PLAN 有值才演；字卡「7/19（六）」＋一句旁白，接她考前一晚的回應；那一天用摘要帶過（演完到 20:00）。
      ev_y0_e35s＝人不在家；ev_y0_e35sh＝在臺北的家（home3d.js 選單那一輪）*/
   ...(()=>{ const due=G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-07-19'):null; return d!=null&&G.day===d&&!!G.flags.E35_PLAN&&!G.flags.E35_SUM; };

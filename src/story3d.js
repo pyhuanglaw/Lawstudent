@@ -808,6 +808,14 @@ const STORY = (function(){
       if(d36!=null&&F.E36_ASKED&&!done36&&(G.day>d36||G.hour>=20.5)) F.E36_FORCE=true;
       if(d36!=null&&G.events&&G.events.done&&G.events.done.ev_y0_e36n&&(G.day>d36||G.hour>=23.5)&&G.day<=d36+2&&!PHONE.sent(G,'y0_e36_photo')){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid; if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
         PHONE.at(G,d36,23.5,[{th:T,from:'econ_pinyu',name:'品妤',text:'📷（宵夜攤，大家擠在一張桌子）'},{th:T,from:'econ_pinyu',name:'品妤',text:'放榜紀念。'},{th:T,from:'econ_weilun',name:'韋綸',text:'這張我要設成桌布。'},{th:T,from:'econ_zhengxun',name:'阿勳',text:'……我眨眼了。'}],'y0_e36_photo'); } }
+    /* ★E37 第一次一起去政大（BB_104 8b-20；AA_154 A40）：8/28（四）21:00 可昕私訊兩則＋出發選單 8/30（六）「政大校門 14:00」（從臺北的家捷運＋公車約 40 分鐘）；
+       14:15 還沒出發＝可昕打電話 → 直接進出遊（在家＝home3d 選單那一輪，STORY.homeCall；在外面＝這裡；睡著＝CORE_OUT 叫醒）*/
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const d37=S.dayOfKey('2025-08-30'), K=t=>({th:'p:kexin',from:'kexin',text:t});
+      if(d37!=null&&(G.day>d37-2||(G.day===d37-2&&G.hour>=21))&&G.day<=d37&&!PHONE.sent(G,'y0_e37_ask')){ PHONE.at(G,d37-2,21,[K('週六下午兩點，政大校門。'),K('我九月要去的地方，想先給你看。')],'y0_e37_ask');
+        if(!OUT.get(G,'y0_e37')) OUT.plan(G,{id:'y0_e37',ev:'ev_y0_e37',day:d37,h:14,late:0.25,place:'政大校門',title:'政大校門 14:00',travel:'捷運＋公車 約 40 分鐘',travelH:2/3}); }
+      const q37=OUT.get(G,'y0_e37'), home=typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
+      if(!home&&S.e37CallDue(G)&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!y0CallBusy){ y0CallBusy=true;
+        (async()=>{ try{ GM.sceneBegin(); try{ await GM.say({name:'可昕（電話）'},S.E37_CALL); } finally { GM.sceneEnd(); } q37.state='planned'; await OUT.go(GM,q37); } catch(e){ console.warn('E37 call',e); } finally { y0CallBusy=false; } })(); } }
     /* R 系列沒遇到的照片、私訊（BB_112 第 4 節「沒去時」；時間 LAWWW 定：當天 21:00）＋R4 可昕在總圖外台階、R7 前一晚的群組（S.kxFreeAt 那一段）*/
     if(S.isEcon(G)&&S.dayOfKey('2025-03-28')!=null){ const K=t=>({th:'p:kexin',from:'kexin',text:t}), ED=id=>!!(G.events&&G.events.done&&G.events.done[id]), past=(k,h)=>{ const d=S.dayOfKey(k); return G.day>d||(G.day===d&&G.hour>=h); }, before=(k,n)=>G.day<=S.dayOfKey(k)+(n||2);
       if(!ED('ev_y0_r5')&&past('2025-04-02',21)&&before('2025-04-02')&&!PHONE.sent(G,'y0_r5_miss')) PHONE.at(G,S.dayOfKey('2025-04-02'),21,[K('📷（牆上的倒數：100）')],'y0_r5_miss');
@@ -1659,7 +1667,11 @@ const STORY = (function(){
     if(F.allowanceMonth!==mo){ F.allowanceMonth=mo; return {amount:30000,text:'家裡匯來這個月的生活費：30,000 元'}; } return null; };
   S.sleepNow=(GM,wake,alarm)=>sleepNow(GM,wake,alarm);   /* 測試用（tests/bed_nap_unit.js）*/
   /* 經濟系那一年的固定核心出遊（AA_154 A33③：E14，之後 E19）：當天出發前就去睡覺＝電話把你吵醒——睡到「開始後 15 分鐘」那一刻，不跳到隔天（AA-B 2026-10-16 抽查）*/
-  const CORE_OUT=['y0_e14','y0_e19','y0_e26'];
+  const CORE_OUT=['y0_e14','y0_e19','y0_e26','y0_e37'];
+  S.E37_CALL='你在哪？我在校門口。太陽很大，我會等，可是我會曬黑。';
+  S.e37CallDue=function(G){ if(!S.isEcon(G)||typeof OUT==='undefined') return false; const q=OUT.get(G,'y0_e37'), d=S.dayOfKey('2025-08-30'); return !!q&&q.state!=='done'&&d!=null&&(G.day>d||(G.day===d&&G.hour>=14.25))&&G.day<=d+1; };
+  /* 在臺北的家（休學後）時的固定核心電話：home3d.js 的選單每一輪先問這裡；有＝電話一句 → 直接進出遊（從家裡出發）*/
+  S.homeCall=function(G){ if(S.e37CallDue(G)) return {q:OUT.get(G,'y0_e37'),who:'可昕（電話）',line:S.E37_CALL}; return null; };
   /* T2 唐睿的練習（AA_154 第 127 行）：每次經原下課擲一次 50%（同一天只擲一次，記在 T2_DAY／T2_HIT）；E18 演過就不再觸發 */
   S.T2_P=0.5;
   S.t2Due=function(G){ if(!S.isEcon(G)) return false; const F=G.flags; if(G.events&&G.events.done&&G.events.done.ev_y0_e18) return false; if(F.T2_DAY!==G.day){ F.T2_DAY=G.day; F.T2_HIT=Math.random()<S.T2_P; } return !!F.T2_HIT; };
