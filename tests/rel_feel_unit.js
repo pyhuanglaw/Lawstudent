@@ -45,7 +45,7 @@ const T=SOCIAL.ACT; check('4. 數值照 AA_124 1-2 的表',JSON.stringify(T)===J
 // 5
 const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), iv=fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8');
 check('5. 閒聊：chat＋新的一句 chatNew',/SOCIAL\.activity\(id,'chat'\); if\(L\.fresh\) SOCIAL\.activity\(id,'chatNew'\);/.test(st));
-check('5. 約好的見面照地點；對方約的又赴約加 acceptInvite',/SOCIAL\.activity\(iv\.who,\{cafe:'cafe',library:'library',noodle:'meal',wenzhou:'walk'\}\[P\.id\]\|\|'cafe'\); if\(iv\.by==='npc'\) SOCIAL\.activity\(iv\.who,'acceptInvite'\);/.test(iv));
+check('5. 約好的見面照地點；對方約的又赴約加 acceptInvite',/SOCIAL\.activity\(iv\.who,\{cafe:'cafe',library:'library',noodle:'meal',wenzhou:'walk',brunch:'meal',teahouse:'cafe'\}\[P\.id\]\|\|'cafe'\); if\(iv\.by==='npc'\) SOCIAL\.activity\(iv\.who,'acceptInvite'\);/.test(iv));
 // 6
 const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
 check('6. sceneBegin 第一層開始記',/function sceneBegin\(opts\)\{ if\(D\.busyDepth===0&&typeof SOCIAL!=='undefined'&&SOCIAL\.feel\)\{ SOCIAL\.feel=\{\}; SOCIAL\.feelOn=true; \}/.test(g3));
