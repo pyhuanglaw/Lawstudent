@@ -2177,8 +2177,212 @@
    "what": "課表重新匯入：BB_115 第 11～22 批（472 項全部通過）→ 608 週全部開（多開 99 週，大三大四選修為主）；L472 國民法官句",
    "task": "TXT-1016",
    "msg": "ACTIONED",
+   "integration": "已驗收",
+   "note": "LAWWW-B 用 tools/syllabus/import_syllabus.py origin/claude/elegant-brown-fcos7n 重新匯入；開著的週只變 4 週（經原 W6、物權 W3、日文一二 W12）；syllabus_unit 改成沒有關著的週時模擬關週。排進 v9.9。　物權第 3 週：BB 的 Y2S1.json 還是舊句「房子要登記」（_src/y2s1.py 已改成 L459 的「買房子」），匯入後手改回「買房子要登記」（L459 已修正），已請 BB-B 重新產生 Y2S1.json。　syllabus_unit、text_fixes_1016_unit、class_ask_unit 等課表相關單元測試通過（純文字資料，不需要瀏覽器）"
+  },
+  {
+   "id": "DLV-1016-182",
+   "date": "2026-10-16T10:2xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "f2bebf72",
+   "what": "V0-ART-DORM 經濟系宿舍道具（AA-B 做）＋ART-GYM-P1 健身器材（BB-B 做）驗收通過、merge",
+   "task": "V0-ART-DORM",
+   "msg": "ACTIONED",
    "integration": "已整合待測試",
-   "note": "LAWWW-B 用 tools/syllabus/import_syllabus.py origin/claude/elegant-brown-fcos7n 重新匯入；開著的週只變 4 週（經原 W6、物權 W3、日文一二 W12）；syllabus_unit 改成沒有關著的週時模擬關週。排進 v9.9。　物權第 3 週：BB 的 Y2S1.json 還是舊句「房子要登記」（_src/y2s1.py 已改成 L459 的「買房子」），匯入後手改回「買房子要登記」（L459 已修正），已請 BB-B 重新產生 Y2S1.json。"
+   "note": "v0_dorm_props.glb 已接（內容和 LAWWW2-B 的一致）；gym_b1_props.glb（bb_support）是 B1 v5 的一部分，跟 B1 v5 一起接"
+  },
+  {
+   "id": "DLV-1016-183",
+   "date": "2026-10-16T10:2xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "f799ba65",
+   "what": "溫州街 v6d、一盞 v3、冰菓室冬天驗收",
+   "task": "ART-WZ1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "0f8f6a45 已換上（檔案內容和 LAWWW2-B 一致）"
+  },
+  {
+   "id": "DLV-1016-184",
+   "date": "2026-10-16T10:2xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "9ec16071",
+   "what": "ART-WZ5 貓 v2（AA-B 做）驗收通過",
+   "task": "ART-WZ5",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "0f8f6a45 已換上"
+  },
+  {
+   "id": "DLV-1016-185",
+   "date": "2026-10-16T10:2xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "97f315ca",
+   "what": "ART-WZ7 溫州街路邊小物（AA-B）、GYM-P2 第一部分 B1 櫃台／置物櫃（BB-B）驗收通過、merge",
+   "task": "ART-WZ7",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "wz7_street_props.glb、gym_b1_entry.glb 還沒接：WZ7 跟 DL-13 溫州街故事線一起放；gym_b1_entry 跟 B1 v5"
+  },
+  {
+   "id": "DLV-1016-186",
+   "date": "2026-10-16T10:2xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "5a5a52af",
+   "what": "新體育館 B1 v5（GYM-P2／P3a 改版、飲水機、救生員椅、浮板架）＋gym_layout v5",
+   "task": "ART-GYM1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v9.9 發布後接（gym_b1.glb、gym_interior.glb、gym_layout.js 都和遊戲版不同）；3F 主球場（3effc0e0、f1e732f8 gym_arena.glb）也還沒接"
+  },
+  {
+   "id": "DLV-1016-187",
+   "date": "2026-10-16T10:2xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "f50e6476",
+   "what": "BB_151 第 6 節：第二會場打開時羽球網要收",
+   "task": "ART-GYM1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "gym3d.js：SET_NETS 跟著 GYM_SECONDHALL（本 commit）"
+  },
+  {
+   "id": "DLV-1016-188",
+   "date": "2026-10-16T10:2xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "9f0a3212",
+   "what": "BB_151 第 6 節：LAWWW2-B 照規格核對改的三點（SET_NETS、3F 大牆、入口通道）",
+   "task": "ART-GYM1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "1F SET_NETS 已接；3F 跟主球場一起接"
+  },
+  {
+   "id": "DLV-1016-189",
+   "date": "2026-10-16T10:2xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "d82caa52",
+   "what": "AA_172 2-2：一盞的看院子、看床之間的掛軸",
+   "task": "DL-09",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "wzshops3d.js GARDEN／TOKONOMA"
+  },
+  {
+   "id": "DLV-1016-190",
+   "date": "2026-10-16T10:2xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "93c0bce9",
+   "what": "AA_174 新體育館一樓：一個人打羽球、販賣機、直飲台",
+   "task": "ART-GYM1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "gym3d.js badminton／vending／fountain；gym_unit 1～16"
+  },
+  {
+   "id": "DLV-1016-191",
+   "date": "2026-10-16T10:2xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "268d529d",
+   "what": "AA_154：E02 改在 9/2 下午＋兩句場景之間的旁白",
+   "task": "V0-B1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "a569eed3"
+  },
+  {
+   "id": "DLV-1016-192",
+   "date": "2026-10-16T10:2xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "40a204f6",
+   "what": "v0 休學要先辦退宿：AA-B 定 (b) 3/27 辦休學、同一週退宿、3/29 搬回臺北的家",
+   "task": "V0-B3",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "跟 V0-B3（R1～R8）、E30 一起做；ecc55187、7d247c30 是同一件的後續"
+  },
+  {
+   "id": "DLV-1016-193",
+   "date": "2026-10-16T10:2xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "ecc55187",
+   "what": "v0 退宿的後續：BB_112 A3 改 3/29 搬出、R7 便利貼改在臺北的家；BB_104 E33／E36、BB_146",
+   "task": "V0-B3",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-194",
+   "date": "2026-10-16T10:2xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "7d247c30",
+   "what": "AA_154：A3 搬家那一列移到 3/28 R1 後面、R3 杜鵑花改 3/30～4/1、R7 前一晚阿勳在群組問便利貼",
+   "task": "V0-B3",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-195",
+   "date": "2026-10-16T10:2xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "7524e492",
+   "what": "AA_170 大二暑假打工：+6000 改 +22000（BB_115 L467）",
+   "task": "V3-AA170",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "AA_170 整份（社團博覽會大二版、大二暑假）還沒做，新任務 V3-AA170"
+  },
+  {
+   "id": "DLV-1016-196",
+   "date": "2026-10-16T10:2xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "30434597",
+   "what": "AA_161 D04 看電影第二次的旁白照 BB_115 L470 改（國民法官只審重大刑案）",
+   "task": "DL-06",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "free_trips.js 已是新句"
+  },
+  {
+   "id": "DLV-1016-197",
+   "date": "2026-10-16T10:2xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "a10d53be",
+   "what": "BB_70 F-M1 明軒的一百元清單：第 7 名改「日日便利」",
+   "task": "V1-MX-FM1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "F-M1 本身還沒做（V1-MX-FM1 待開工），做的時候用新店名"
+  },
+  {
+   "id": "DLV-1016-198",
+   "date": "2026-10-16T10:2xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "8c3caace",
+   "what": "BB_158 第 6 節：明軒「好啦 週末可以」（AA-B 第①級）",
+   "task": "DL-12",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
+   "note": "遊戲已是新句"
   }
  ],
  "ignored": [
@@ -3041,6 +3245,136 @@
    "sha": "3d282f12",
    "branch": "origin/claude/elegant-brown-fcos7n",
    "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "d58dfec5",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "why": "LAWWW2-B 的交接紀錄（不是交付）"
+  },
+  {
+   "sha": "c79d418a",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的任務板"
+  },
+  {
+   "sha": "30a4d7bc",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度"
+  },
+  {
+   "sha": "ebe478e6",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交 LAWWW2-B 驗收（貓 v2），經 9ec16071 交到開發組"
+  },
+  {
+   "sha": "489666e0",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查紀錄（第 22 批）；改句由各自的交付處理"
+  },
+  {
+   "sha": "2108df75",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的驗收紀錄與進度"
+  },
+  {
+   "sha": "a4fb1d58",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的標記與任務板"
+  },
+  {
+   "sha": "3a95010c",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查紀錄 L470（改句是 30434597）"
+  },
+  {
+   "sha": "a2d9e925",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查紀錄 L471（開發組已照改 2f545486）"
+  },
+  {
+   "sha": "026931fa",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查紀錄"
+  },
+  {
+   "sha": "fdb4fd00",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "aa_support README 同步"
+  },
+  {
+   "sha": "c3161d05",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "待使用者生成的圖片清單"
+  },
+  {
+   "sha": "f9da807a",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "待使用者生成的圖片清單"
+  },
+  {
+   "sha": "43e3210d",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度"
+  },
+  {
+   "sha": "2fc00ced",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交 LAWWW2-B 驗收（WZ7），經 97f315ca 交到開發組"
+  },
+  {
+   "sha": "c645f953",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的任務板"
+  },
+  {
+   "sha": "4feba57c",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的任務板"
+  },
+  {
+   "sha": "bd993bba",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度"
+  },
+  {
+   "sha": "b06ae5e0",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查紀錄 L471"
+  },
+  {
+   "sha": "8819660c",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度"
+  },
+  {
+   "sha": "8a133869",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "BB_132 給使用者生成圖片的提示詞"
+  },
+  {
+   "sha": "e83ec1e0",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "BB_132 給使用者生成圖片的提示詞"
+  },
+  {
+   "sha": "affd5c40",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "課表來源同步，併入 DLV-1016-181（445f5d3c）"
+  },
+  {
+   "sha": "222472d2",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "ART-SOY1 交 LAWWW2-B 驗收（READY_FOR_REVIEW），LAWWW2-B 驗收後才交開發組"
+  },
+  {
+   "sha": "d59ee926",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "企劃組的進度"
+  },
+  {
+   "sha": "a70ccf72",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB_132 提示詞與進度"
   }
  ]
 }
