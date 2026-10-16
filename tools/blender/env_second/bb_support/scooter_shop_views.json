@@ -2,7 +2,7 @@
  {"name": "tire_stack", "eye": [1.25, 1.2, 2.3], "look": [0.02, 0.32, 0.06], "lens": 40, "only": "SHOP_TIRE_STACK"},
  {"name": "tire_close", "eye": [0.75, 0.75, 1.15], "look": [0.15, 0.42, 0.05], "lens": 50, "only": "SHOP_TIRE_STACK"},
  {"name": "tool_wall", "eye": [1.15, 1.7, 2.9], "look": [0.0, 1.5, 0.0], "lens": 26, "only": "SHOP_TOOL_WALL", "wall": -0.001, "lamp": [0.0, 2.75, 1.2]},
- {"name": "tool_wall_close", "eye": [0.3, 1.72, 1.45], "look": [-0.3, 1.66, 0.0], "lens": 34, "only": "SHOP_TOOL_WALL", "wall": -0.001, "lamp": [-0.3, 2.7, 1.0]},
+ {"name": "tool_wall_close", "eye": [0.3, 1.72, 1.45], "look": [-0.3, 1.66, 0.0], "lens": 34, "only": "SHOP_TOOL_WALL", "wall": -0.001, "lamp": [-0.3, 2.8, 1.3], "lamp_w": 120},
  {"name": "parts_shelf", "eye": [1.45, 1.55, 2.55], "look": [0.0, 0.97, 0.0], "lens": 24, "only": "SHOP_PARTS_SHELF"},
  {"name": "lift", "eye": [1.65, 1.35, 2.45], "look": [0.0, 0.22, 0.05], "lens": 32, "only": "SHOP_LIFT"},
  {"name": "air_pump", "eye": [1.3, 1.0, 1.7], "look": [0.24, 0.24, 0.12], "lens": 36, "only": "SHOP_AIR_PUMP"},
