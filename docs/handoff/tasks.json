@@ -11741,9 +11741,9 @@
    "title": "開遊戲加速：主要角色、路人背景下載，標題畫面先出來（使用者 2026-10-16 19:5x「光打開遊戲超過 20 秒」）",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "game3d.js boot：g1（主角＋動作）＋環境小物到了就出標題；g2／g3 背景下載；開始／繼續／讀取前 waitChars；tests/boot_fast.py（3 MB/s 限速）新版、v9.9 對照；之後再看 VRM 貼圖壓縮",
+   "next": "開發分支（照使用者 20:01「不急著發布」，不發布）：標題 7.7 秒／13 MB（限速 3 MB/s、無快取；v9.9 對照 30.3 秒／61.1 MB）；直向載入不再被轉橫向提示蓋住（101898df，tests/loading_portrait.py 排隊中）；不准醜模型（27e2fb48）：開始／繼續等全部人物、ensure 無上限重試、備用人物隱藏——tests/boot_fast.py ALL PASS（進遊戲 20 個人物沒有一個是備用）。之後：人物檔模型壓縮（要工具）",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -11756,7 +11756,12 @@
    },
    "source": "使用者 2026-10-16 19:5x 直接要求",
    "authorized": "D85",
-   "tests": "tests/boot_fast.py"
+   "tests": "tests/boot_fast.py",
+   "sha": [
+    "9cbd0a73",
+    "101898df",
+    "27e2fb48"
+   ]
   },
   {
    "id": "START-WEEK",
@@ -11787,6 +11792,31 @@
     "receiver": "AA-B",
     "ack": "DELIVERED"
    }
+  },
+  {
+   "id": "NO-UGLY",
+   "title": "不准自動退化成醜模型（使用者 2026-10-17「不管怎麼樣都不能讓遊戲進入自動退化成醜的模型」）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "next": "27e2fb48：ASSETS.ensure（沒有上限、失敗自動重試）；開始／繼續／從標題讀檔等全部人物；正式模型還沒到時建出來的備用人物整個隱藏（CHAR.isDegraded），到了原地換上；主角 GLB 備用也會換。tests/boot_fast.py ALL PASS。還沒：遊戲中途換區域時晚到的 lazy 模型（隱藏、到了出現）在瀏覽器專門測一次；iPhone 實機",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "每次打開遊戲",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 20:01 UTC 直接要求",
+   "authorized": "D85",
+   "tests": "tests/boot_fast.py",
+   "sha": [
+    "27e2fb48"
+   ]
   }
  ]
 }
