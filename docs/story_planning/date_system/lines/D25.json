@@ -2697,7 +2697,7 @@
   "kexin": {
    "arrive": {
     "first": {
-     "wishEvent": "BB_128 3-5（如果今天沒有行程表）"
+     "wishEvent": "wish_kexin"
     },
     "normal": [
      {
@@ -2742,7 +2742,7 @@
    },
    "closing": {
     "first": {
-     "wishEvent": "BB_128 3-5（如果今天沒有行程表）"
+     "wishEvent": "wish_kexin"
     },
     "normal": [
      {
@@ -2779,7 +2779,7 @@
    "hotspots": {
     "D25.shore": {
      "first": {
-      "wishEvent": "BB_128 3-5（如果今天沒有行程表）"
+      "wishEvent": "wish_kexin"
      },
      "normal": [
       {
@@ -2833,7 +2833,7 @@
     },
     "D25.cafe": {
      "first": {
-      "wishEvent": "BB_128 3-5（如果今天沒有行程表）"
+      "wishEvent": "wish_kexin"
      },
      "normal": [
       {
@@ -2887,7 +2887,7 @@
     },
     "D25.surf": {
      "first": {
-      "wishEvent": "BB_128 3-5（如果今天沒有行程表）"
+      "wishEvent": "wish_kexin"
      },
      "normal": [
       {
@@ -2941,7 +2941,7 @@
     },
     "D25.station": {
      "first": {
-      "wishEvent": "BB_128 3-5（如果今天沒有行程表）"
+      "wishEvent": "wish_kexin"
      },
      "normal": [
       {

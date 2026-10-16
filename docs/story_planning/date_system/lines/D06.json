@@ -2270,7 +2270,7 @@
   "classmate_peishan": {
    "arrive": {
     "first": {
-     "wishEvent": "BB_128 3-4（沒有標準答案的一天）"
+     "wishEvent": "wish_classmate_peishan"
     },
     "normal": [
      {
@@ -2315,7 +2315,7 @@
    },
    "closing": {
     "first": {
-     "wishEvent": "BB_128 3-4（沒有標準答案的一天）"
+     "wishEvent": "wish_classmate_peishan"
     },
     "normal": [
      {
@@ -2352,7 +2352,7 @@
    "hotspots": {
     "D06.gallery": {
      "first": {
-      "wishEvent": "BB_128 3-4（沒有標準答案的一天）"
+      "wishEvent": "wish_classmate_peishan"
      },
      "normal": [
       {
@@ -2406,7 +2406,7 @@
     },
     "D06.frame": {
      "first": {
-      "wishEvent": "BB_128 3-4（沒有標準答案的一天）"
+      "wishEvent": "wish_classmate_peishan"
      },
      "normal": [
       {
@@ -2460,7 +2460,7 @@
     },
     "D06.cafe": {
      "first": {
-      "wishEvent": "BB_128 3-4（沒有標準答案的一天）"
+      "wishEvent": "wish_classmate_peishan"
      },
      "normal": [
       {
@@ -2514,7 +2514,7 @@
     },
     "D06.lawn": {
      "first": {
-      "wishEvent": "BB_128 3-4（沒有標準答案的一天）"
+      "wishEvent": "wish_classmate_peishan"
      },
      "normal": [
       {
