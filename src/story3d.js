@@ -1577,7 +1577,13 @@ const STORY = (function(){
           const di=S.dayOfKey(k); if(di!=null&&(G.day>di||(G.day===di&&G.hour>=21))&&G.day<=di+1&&!PHONE.sent(G,'moot_inv_'+k)) PHONE.at(G,di,21,inv,'moot_inv_'+k); }
         if(ED('ev_moot_5')&&typeof OUT!=='undefined'&&!OUT.get(G,'moot_6')&&G.day===d5&&G.hour<19.25) OUT.plan(G,{id:'moot_6',ev:'ev_moot_6',day:d5,h:19,late:0.25,place:'阿鳳麵店',title:'模擬法庭之後的麵店',travel:'走過去約 15 分鐘',travelH:0.25});
         const o=typeof OUT!=='undefined'?OUT.get(G,'moot_6'):null; if(ED('ev_moot_5')&&!ED('ev_moot_6')&&(G.day>d5||G.hour>=21.5)&&!PHONE.sent(G,'moot_6_photo')){ const th=PHONE.inGroup(G,'noodle_team')?'g:noodle_team':MG;
-          PHONE.at(G,d5,21.5,[{th,from:'zhe',text:'📷（阿哲分的滷味）'}],'moot_6_photo'); } } }
+          PHONE.at(G,d5,21.5,[{th,from:'zhe',text:'📷（阿哲分的滷味）'}],'moot_6_photo'); }
+        /* 可昕的部分（BB_97 9-19）：交往中＝第 9 週週五 4/23 21:00 她問（大二沒有每週的「我們的日子」，照「沒有固定日子的玩家」那一種）；開到模 5 那天 09:00。
+           模 5 演完記 KX_MOOT（events.js）：came＝散場、麵店各一句；call＝說了但她有課（平日白天的比賽；現在的模 5 是週六，不會發生）→ 散場後一則；photo＝沒說或沒回 → 22:00 粉專的照片＋一則 */
+        const dq=S.dayOfKey('2027-04-23'); if(dq!=null&&F.dating_kexin){ const K=t=>({th:'p:kexin',from:'kexin',text:t});
+          if((G.day>dq||(G.day===dq&&G.hour>=21))&&G.day<d5&&!PHONE.sent(G,'kx_moot_ask')) PHONE.at(G,dq,21,[Object.assign(K('你最近的訊息都很短。在忙什麼？'),{ask:{id:'kx_moot_ask',until:d5*24+9,opts:[{t:'模擬法庭。第 10 週比賽，妳要來嗎？',set:{KX_MOOT_TOLD:true},say:[K('要。我坐最後一排，你不要看我。')]},{t:'一個比賽。比完再跟妳說。',set:{KX_MOOT_TOLD:false},say:[K('好。比完要說。')]}]}})],'kx_moot_ask');
+          if(ED('ev_moot_5')&&F.KX_MOOT==='call'&&!PHONE.sent(G,'kx_moot_call')) PHONE.at(G,G.day,G.hour,[K('你們學校的評審是不是比較兇？')],'kx_moot_call');
+          if(ED('ev_moot_5')&&F.KX_MOOT==='photo'&&(G.day>d5||G.hour>=22)&&!PHONE.sent(G,'kx_moot_photo')) PHONE.at(G,d5,22,[K('📷（法律系學會粉專貼的模擬法庭照片）'),K('下次要說。我想看你發抖。')],'kx_moot_photo'); } } }
     /* 大二過年（V3-D13；AA_143 2-1 新的字，AA-B 9035ede0：不重用大一的原句）：初一 2027-02-06 11:00 麵店團群組——阿哲、以安、小語的照片（小語那三則所有成員都看得到，
        他們交往在麵店團是公開的事）；祐廷三選一：年夜飯照片／「醜的水餃比較好吃」／貼圖（不回就只是沒回）*/
     { const ny=S.dayOfKey('2027-02-06'); if(ny!=null&&PHONE.inGroup(G,'noodle_team')&&(G.day>ny||(G.day===ny&&G.hour>=11))&&G.day<=ny+4&&!PHONE.sent(G,'cny_noodle_y2')){ const th='g:noodle_team', M=(f,t,o)=>Object.assign({th,from:f,text:t},o||{});

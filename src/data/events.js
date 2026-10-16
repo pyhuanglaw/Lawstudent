@@ -5,6 +5,8 @@
 'use strict';
 /* 群戲「只有認識的人在場」（交接包 v1 交付清單第 0 節第 1 點）：if:EV_KNOWS('id')／if:EV_KNOWS('a','b')＝都認識了（STORY.knows：FIRST_MET；小語 met_yu；阿哲開場就熟）*/
 const EV_KNOWS=(...ids)=>({custom:G=>typeof STORY!=='undefined'&&!!STORY.knows&&ids.every(id=>STORY.knows(id,G))});
+/* 可昕來看模 5（BB_97 9-19）：交往中、第 9 週回她「模擬法庭。第 10 週比賽，妳要來嗎？」（KX_MOOT_TOLD）、比賽在週末或平日 18:00 以後（平日白天她有課）*/
+const KX_MOOT_CAME=G=>{ const F=G.flags||{}; if(!F.dating_kexin||F.KX_MOOT_TOLD!==true) return false; const wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd:6; return wd>=6||(G.hour%24)>=18; };
 /* 小語 語 2 的最後一個徵兆（交接包 v2 C18、AA_40 語 2 的表）：吉他社的社課後、麵店散場後的騎樓兩個地方共用同一段 */
 const YU2_Q=arcade=>[ {speaker:'yu',expression:'neutral',text:'欸，阿哲是不是對每個人都這麼好？'},
   {choice:[{text:'「對每個人都好。」',set:{YU2_PICK:'everyone'},goto:'a'},{text:'「對妳比較好。」',set:{YU2_PICK:'you'},goto:'b'},{text:'「妳自己問他。」',set:{YU2_PICK:'ask'},goto:'c'}]},
@@ -2575,8 +2577,11 @@ const STORY_EVENTS=[
       {label:'r'},{speaker:'player',text:'契約寫的是『二手』，沒有寫『無瑕疵』。我們請評審看的，是雙方在簽約那一天，各自知道什麼。'},{goto:'end'},
       {label:'g'},{speaker:'player',text:'我的當事人不是壞人。他只是以為『二手』這兩個字，可以說明一切。'},{goto:'end'},
       {label:'s'},{speaker:'player',text:'我去問過機車行的老闆。他說，每一台二手車，都有上一個主人留下的習慣。我的當事人賣的，是他騎了七年的車。'},
-      {label:'end'},{advance:2} ],
+      {label:'end'},{advance:2},
+      /* 可昕的部分（BB_97 9-19）：交往中、第 9 週告訴她日期、比賽在週末或平日晚上＝她坐最後一排；散場只有這一句（不搶學姊、以安、柏翰的台詞）*/
+      {if:{custom:G=>KX_MOOT_CAME(G)},speaker:'kexin',text:'你第二個爭點講得比第一個好。第一個你在發抖。'} ],
     after:(G,GM)=>{ const sc=typeof STORY!=='undefined'&&STORY.mootScore?STORY.mootScore(G):0; G.flags.MOOT_SCORE=sc; G.flags.MOOT_WIN=sc>=3; G.flags.MOOT_DAY=G.day;
+      if(G.flags.dating_kexin) G.flags.KX_MOOT=KX_MOOT_CAME(G)?'came':(G.flags.KX_MOOT_TOLD===true?'call':'photo');   /* BB_97 9-19：came／call（說了、她有課）／photo（沒說：粉專的照片）——story3d.js phoneRules 發 call、photo 的訊息 */
       if(GM&&GM.memo) GM.memo(sc>=3?'模擬法庭：你們準備得夠，結辯也站得住。':'模擬法庭：芯慈那隊準備得比你們多一步。'); } },
   /* 模 6 結果之後（當晚 19:00 麵店，出遊；可以錯過＝21:30 群組照片）：輸＝阿哲分滷味、學姊「這是最好的輸法」、以安手帳；贏＝芯慈「你們第三段很好」、學姊收評分表（BB_97 2-6）*/
   { id:'ev_moot_6', title:'結果之後', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
@@ -2586,7 +2591,9 @@ const STORY_EVENTS=[
       {unless:{flags:['MOOT_WIN']},speaker:null,text:'（以安在手帳上寫：「計畫以外：輸了也很開心。」）'},
       {if:{flags:['MOOT_WIN']},speaker:'classmate_xinci',expression:'smile',text:'你們第三段很好。……我們下次會贏。'},
       {if:{flags:['MOOT_WIN']},speaker:'heroine_05',expression:'smile',text:'……好。'},{if:{flags:['MOOT_WIN']},speaker:null,text:'（她把評分表摺起來收進包包。）'},
-      {if:{flags:['MOOT_WIN']},speaker:'heroine_05',expression:'smile',text:'這張我要留著。不是你們的，是我的。我第一次帶的隊伍。'} ],
+      {if:{flags:['MOOT_WIN']},speaker:'heroine_05',expression:'smile',text:'這張我要留著。不是你們的，是我的。我第一次帶的隊伍。'},
+      /* 可昕在場（BB_97 9-19，KX_MOOT 'came'）：輸、贏都一樣，只有這一句 */
+      {if:{flagIs:{KX_MOOT:'came'}},speaker:null,text:'（可昕把自己那份滷味的豆干夾給你。）'},{if:{flagIs:{KX_MOOT:'came'}},speaker:'kexin',text:'發抖的人要補充。'} ],
     consequences:{memo:'模擬法庭之後的麵店'} },
   /* D11 系籃（大二上，AA_143 1-5、AA_177 4-4）＋語 3「在一起」（AA_40）：12/18（五）21:00 麵店團群組阿哲揪 → 出發選單「新體育館 12/19 14:00」→ 2D（新體育館室內 3D 做好以前，用 2D＋旁白）；
      祐廷坐觀眾席三選一（拍手、記分、送水；大二版的字 AA-B c2f1c5aa）；記 WATCHED_GAME_Y2；明軒的句子等 BB-B（AB-59）；以安、小語在觀眾席（AA_143 1-5 的描述）。
