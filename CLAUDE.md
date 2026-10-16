@@ -2,7 +2,7 @@
 
 ## ⚠ 帳號 A 回來接班先讀：帳號 A 交班（2026-10-14 17:40 UTC）以後新增、修訂的永久規則（使用者 2026-10-16 要求「帳號 A 之後交班回來也要看得出這些改變」）
 
-你讀到的這份如果是在帳號 A 停住的分支上（`claude/confident-ritchie-8rwh7t`、`claude/second-ai-env-art`、`claude/story-planning`），**那是舊版**。照 `docs/AI_SESSION_HANDOFF.md` 第 0a 節找 RULE_SOURCE（帳號 B 值班期間是 `claude/modest-rubin-2lyp7g`），讀那裡的版本。下面每一條的全文都在 RULE_SOURCE 的 CLAUDE.md；規則版本紀錄在 AI_SESSION_HANDOFF.md 第 13 節（HV-3～HV-7）。
+你讀到的這份如果是在帳號 A 停住的分支上（`claude/confident-ritchie-8rwh7t`、`claude/second-ai-env-art`、`claude/story-planning`），**那是舊版**。照 `docs/AI_SESSION_HANDOFF.md` 第 0a 節找 RULE_SOURCE（`python3 tools/handoff/check_handoff.py duty find`；帳號 B 值班期間是 `claude/modest-rubin-2lyp7g`），讀那裡的版本。下面每一條的全文都在 RULE_SOURCE 的 CLAUDE.md；規則版本紀錄在 AI_SESSION_HANDOFF.md 第 13 節（HV-3～HV-7）。
 
 | 決策 | 一句話 | 對你的影響 |
 |---|---|---|
@@ -21,6 +21,7 @@
 | D87／HV-7（10-16） | **自主連續工作、禁止無故待命**：做完自動接下一項，回報、等使用者回覆都不是停下來的理由 | 每次接班必讀 |
 | D88／HV-8（10-16） | **分支收斂與生命週期**：有效成果都要保存、整合、驗證；WIP 不當唯一備份；休班帳號的交接分支保留；換班、發布、大型任務結案時盤點分支 | `docs/handoff/BRANCH_INVENTORY.md` |
 | **D90／HV-9（10-17）** | **使用者訊息優先協定（全部帳號、全部 AI、子代理）**：使用者的訊息只在回合結束時送到——**短回合**（一個工作單位、最多約 10 分鐘就結束回合）、長工作放背景、結束前 commit＋push、用 send_later 自己接續；回合開始先回使用者 | 每次接班必讀＋ACK（AI_SESSION_HANDOFF 第 14 節）；`tools/handoff/turn_check.py` |
+| **D92／HV-10（10-16）** | **A／B／C 三帳號任意輪值**：上一任一律看 `docs/handoff/duty.json`（不照順序、不靠記憶、不看 commit 時間）；接班十四步、交班六類 A～F；D75 擴大到所有休班帳號 | 接班先跑 `check_handoff.py duty find`，再照 AI_SESSION_HANDOFF 第 4 節；使用者換班時說的話在第 8 節 |
 
 另外：戀愛規則是「可以同時和多位交往、每段各自計算」（企劃線 AA_140 第 0 節）；可昕生日改 4/24、12/3 改成「第一份報告交出去的晚上」（AA_140 G01）。
 

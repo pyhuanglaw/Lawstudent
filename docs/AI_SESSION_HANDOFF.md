@@ -1,8 +1,8 @@
-# 四個職位的跨帳號接班（帳號 A ⇄ 帳號 B）——總入口
+# 四個職位的跨帳號接班（帳號 A、B、C 任意方向輪值）——總入口
 
 ## ⚠ 帳號 A 回來接班先讀：帳號 A 交班（2026-10-14 17:40 UTC）以後新增、修訂的永久規則（使用者 2026-10-16 要求「帳號 A 之後交班回來也要看得出這些改變」）
 
-你讀到的這份如果是在帳號 A 停住的分支上（`claude/confident-ritchie-8rwh7t`、`claude/second-ai-env-art`、`claude/story-planning`），**那是舊版**。照 `docs/AI_SESSION_HANDOFF.md` 第 0a 節找 RULE_SOURCE（帳號 B 值班期間是 `claude/modest-rubin-2lyp7g`），讀那裡的版本。下面每一條的全文都在 RULE_SOURCE 的 CLAUDE.md；規則版本紀錄在 AI_SESSION_HANDOFF.md 第 13 節（HV-3～HV-7）。
+你讀到的這份如果是在帳號 A 停住的分支上（`claude/confident-ritchie-8rwh7t`、`claude/second-ai-env-art`、`claude/story-planning`），**那是舊版**。照 `docs/AI_SESSION_HANDOFF.md` 第 0a 節找 RULE_SOURCE（`python3 tools/handoff/check_handoff.py duty find`；帳號 B 值班期間是 `claude/modest-rubin-2lyp7g`），讀那裡的版本。下面每一條的全文都在 RULE_SOURCE 的 CLAUDE.md；規則版本紀錄在 AI_SESSION_HANDOFF.md 第 13 節（HV-3～HV-7）。
 
 | 決策 | 一句話 | 對你的影響 |
 |---|---|---|
@@ -21,6 +21,7 @@
 | D87／HV-7（10-16） | **自主連續工作、禁止無故待命**：做完自動接下一項，回報、等使用者回覆都不是停下來的理由 | 每次接班必讀 |
 | D88／HV-8（10-16） | **分支收斂與生命週期**：有效成果都要保存、整合、驗證；WIP 不當唯一備份；休班帳號的交接分支保留；換班、發布、大型任務結案時盤點分支 | `docs/handoff/BRANCH_INVENTORY.md` |
 | **D90／HV-9（10-17）** | **使用者訊息優先協定**：使用者的訊息只在回合結束時送到——短回合（最多約 10 分鐘）、長工作放背景、結束前 commit＋push、send_later 自己接續；回合開始先回使用者 | 接班必讀＋第 14 節 ACK；`tools/handoff/turn_check.py` |
+| **D92／HV-10（10-16）** | **A／B／C 三帳號任意輪值**：上一任一律看 `docs/handoff/duty.json`（不照順序、不靠記憶、不看 commit 時間）；接班十四步、交班六類 A～F；D75 擴大到所有休班帳號 | 接班先跑 `check_handoff.py duty find`，再照 AI_SESSION_HANDOFF 第 4 節；使用者換班時說的話在第 8 節 |
 
 另外：戀愛規則是「可以同時和多位交往、每段各自計算」（企劃線 AA_140 第 0 節）；可昕生日改 4/24、12/3 改成「第一份報告交出去的晚上」（AA_140 G01）。
 
@@ -74,13 +75,11 @@
 ## 0. 重點
 
 - **使用者新訊息永遠是 P0（2026-10-14，D72；`CLAUDE.md`「使用者新訊息 P0 優先」一節）**：接班中、工作中，使用者一傳訊息就先讀完、先回覆。指令、糾正、停止命令、重大決策用【新指示確認】格式。被糾正的方向立刻停，既有成果只保存、不整合。重要指示寫進 GitHub（LAWWW：`docs/USER_INSTRUCTION_LOG.md`；AA、BB：各自交接檔最前面）。有 queued notifications 先讀。其他 AI 回 ACK 才算確認收到。
-- **永遠只有四個職位**：LAWWW、LAWWW2、AA、BB。A、B 只是帳號識別，帳號 B 的工作階段叫 **LAWWW-B、LAWWW2-B、AA-B、BB-B**。不會有八個 AI 同時工作：**同一個職位同一時間只有一個工作階段寫入**（值班中的那個）。
-- **GitHub 是共同的進度來源**：每次接班都先讀 GitHub 最新遠端，**不能靠自己對話裡記得的進度**。沒 push 的東西當作不存在。
-- **換班的信號是使用者**：使用者對哪一邊說話，哪一邊就值班。
-  - 換到帳號 B：在帳號 B 開新工作階段、貼第 7 節的啟動提示詞（之後再回到 B，對既有的 B 工作階段說第 8 節那一句）。
-  - 回到帳號 A：對 A 的四個工作階段各說一次「我回來了，請同步 GitHub 最新進度，接續工作。」
-  - 不在值班的那一邊**不寫入**同一個工作範圍。
-- **只有值班中的 LAWWW 或 LAWWW-B 可以正式發布**（main／GitHub Pages），自主決定、對品質負責（D85）。**三小時間隔 2026-10-16 使用者正式取消**：看功能完成度、測試結果、版本穩定性，不看時間；換班後不得恢復舊限制。
+- **永遠只有四個職位**：LAWWW、LAWWW2、AA、BB。A、B、C 只是帳號識別：帳號 A 的工作階段叫 LAWWW、LAWWW2、AA、BB；帳號 B 叫 **LAWWW-B、LAWWW2-B、AA-B、BB-B**；帳號 C 叫 **LAWWW-C、LAWWW2-C、AA-C、BB-C**。不會有十二個 AI 同時工作：**同一個職位同一時間只有一個工作階段寫入**（值班中的那個）。任務的負責人寫職位，換帳號不歸零。
+- **GitHub 是共同的進度來源**：每次接班都先讀 GitHub 最新遠端，**不能靠自己對話裡記得的進度**。沒 push 的東西當作不存在。**上一任是誰只看 `docs/handoff/duty.json`**（第 0a 節）：不照 A→B→C 的順序、不靠自己上次值班的記憶、不看哪條分支的 commit 時間最新。
+- **換班的信號是使用者**：使用者對哪一邊說話，哪一邊就值班。A→B、A→C、B→A、B→C、C→A、C→B 都一樣，休多久都一樣。使用者要說的話見**第 8 節**：交班說「現在換班」；第一次用的帳號貼第 7 節提示詞；用過的帳號說「我回來了，請同步 GitHub 最新進度，接續工作。」；上一班來不及交班加一句「上一班來不及交班，現在由帳號 <X> 接班。」
+  - 不在值班的帳號**不寫入**同一個工作範圍；值班帳號**不叫醒任何休班帳號**（D75、HV-10）。
+- **只有值班中的那個 LAWWW（LAWWW、LAWWW-B 或 LAWWW-C）可以正式發布**（main／GitHub Pages），自主決定、對品質負責（D85）。**三小時間隔 2026-10-16 使用者正式取消**：看功能完成度、測試結果、版本穩定性，不看時間；換班後不得恢復舊限制。
 - 已批准和未批准要分開：使用者批准的決策在 `docs/PROJECT_DECISIONS.md`；草案在 `docs/proposals/`，劇情企劃在 `docs/story_planning/`，兩者都是 PROPOSAL。
 
 ## 0a. 唯一的值班狀態與有效規則來源（RULE_SOURCE；A、B、C 共用一份；D92／HV-10，2026-10-16）
@@ -521,6 +520,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 時間（UTC） | 從 → 到 | 職位 | 接班基準 commit | 備註 |
 |---|---|---|---|---|
+| 2026-10-16 22:0x | （制度修訂，不是換班） | 四個 | `b1d95de2` 之後 | HV-10（D92）：A／B／C 三帳號任意方向輪值；唯一值班狀態 `docs/handoff/duty.json`（初始化 seq 1：帳號 B 值班、上一任 A、C 未啟用）；`check_handoff.py duty find／plan／register／handoff／sync／verify`；模擬 19／19 PASS（`docs/handoff/HANDOFF_SIM_HV10.md`）。**沒有換班**：帳號 B 繼續值班、A 休班不喚醒、C 等使用者啟用 |
 | 2026-10-16 02:22 | （制度修訂，不是換班） | 四個 | `4e13d63f` 之後 | HV-4（D82、D81）：增量交接＋自動對帳工具；用這次 A→B 交接實際驗證：重建 A 的交班快照（`snapshots/2026-10-14T1740Z_A_LAWWW.json`，94 個 ID）→ 沒有任務消失；第一次跑抓到 6 個真的異常（取消的替代 ID 寫成 SHA、兩個取消沒寫替代、交付分支 1 個沒登記、閱讀版兩個 ID 對不上），處理後 OK；交付登記 31 筆；從上次同步以後三條交付分支 32 個 commit 掃完。帳號 B 的第一份快照（checkpoint）也存了 |
 | 2026-10-16 02:2x | （制度修訂，不是換班） | 四個 | `4d0170d4` 之後 | HV-3（D80、D79）：RULE_SOURCE、永久任務總表、接班對帳、交班五樣、A／B 共用提示詞。A→B 對帳結果：原 LAWWW 交班清單每一項都有對應 ID、沒有消失；約 180 個任務原本沒登記（總表第 12 節）。靜態模擬 B→A：見總表第 13 節 |
 | 2026-10-15 23:02 | LAWWW（帳號 A）→ **LAWWW-B（帳號 B）** | LAWWW | `c8b3eab`（`claude/confident-ritchie-8rwh7t`），合併進 `claude/modest-rubin-2lyp7g` 為 `450ffdb` | 第一次實際換到帳號 B（使用者貼 7.1 啟動提示詞）。離開期間只有使用者推的 P0 換班規則，沒有其他工作 commit、沒有發布。跨帳號 `send_message` 不通（第 9 節）。LAWWW-B 從上一班清單第 1 項（AA 的 P0 課堂提問）接續 |
@@ -536,6 +536,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 版本 | 日期（UTC） | 內容 | 使用者決策來源 | 寫在哪 | SHA |
 |---|---|---|---|---|---|
+| **HV-10** | 2026-10-16 | **D92 A／B／C 三帳號任意輪值與完整無縫交接**：帳號 C（LAWWW-C、LAWWW2-C、AA-C、BB-C）；任意方向交接、上一任一律以 GitHub 的 `docs/handoff/duty.json` 登記鏈為準（不照固定順序、不靠記憶、不看 commit 時間），來源不一致或分岔不猜、回報使用者；唯一值班狀態九樣＋各職位自己的 `duty_<職位>.json`；接班十四步（第 4 節）、交班六類 A～F（第 5 節）；使用者換班時說的話（第 8 節）；工具 `duty` 子指令＋`snapshot --account C`；任務 owner 永遠是職位、交付記帳號／分支／commit；**D75 擴大到所有休班帳號**；第 7 節通用提示詞＋帳號 C 四份；六方向＋三條連續輪值＋十種異常的模擬（19／19 PASS）。取代：HV-3 的「RULE_SOURCE 只寫在第 0a 節一行」、HV-3／HV-4 的十步接班與五樣交班、D49 的 A⇄B 限定 | 使用者 2026-10-16 21:35（【P0】升級 A／B／C 三帳號任意輪值）、22:02（換班時要說什麼） | CLAUDE.md、本檔第 0a、1、4～9、12～14 節、`docs/handoff/duty.json`、`tools/handoff/duty_state.py`、`check_handoff.py`、`tests/handoff_duty_sim.py`、`docs/handoff/HANDOFF_SIM_HV10.md`、PROJECT_DECISIONS D92 | 3d6f0079…（本批，見第 12 節） |
 | **HV-9a** | 2026-10-17 | **美術精修 SOP 入口（ART-SOP）**：使用者 2026-10-16 20:2x 直接給 LAWWW2-B「美術標準是得遊戲大獎、不要像廉價拼接、不要有方塊感；精修方法寫成 SOP，支援的 AI、交接後原本帳號的 LAWWW2 都要照著做」→ 第 7.2 節 LAWWW2 啟動提示詞：開工前先讀 funny-albattani 的 ART_SOP.md 等四份、合併有效成果 | 使用者經 LAWWW2-B 轉達（LAWWW2-B 20:21 訊息） | 本檔第 7.2 節；LAWWW2-B 分支 d8cfa784（69e4b181、644a322f、1c3bdefd） | （本 commit） |
 | **HV-9** | 2026-10-17 | **D90 使用者訊息優先協定（全部帳號、全部 AI、子代理）**：平台在回合結束時才送使用者訊息（LAWWW-B 用工作階段紀錄查證）→ 短回合（最多約 10 分鐘／30 次工具）、長工作放背景不輪詢、結束前 commit＋push、send_later 自己接續、回合開始先回使用者再讀通知；`tools/handoff/turn_check.py` 自我檢查；第 14 節 ACK 表 | 使用者 2026-10-17 約 04:0x 台北（UTC 20:01） | CLAUDE.md D90 一節、本檔第 4、7、14 節、PROJECT_DECISIONS D90、USER_INSTRUCTION_LOG | （本 commit） |
 | **HV-8** | 2026-10-16 | **D88 GitHub 分支收斂與生命週期**：有效成果都要保存、整合、驗證；建立 → 工作 → 交付 → 整合 → 驗證 → 清理；8 條美術 WIP 由 LAWWW2 逐條確認整合、LAWWW 複核刪除（權限受阻就標記、不重試）；休班帳號的交接分支保留；換班、發布、大型任務結案時增量盤點；交班第 5 件「分支狀態」 | 使用者 2026-10-16 約 04:1x | CLAUDE.md D88 一節、本檔第 4 節必讀清單與第 5 節、BRANCH_INVENTORY.md、PROJECT_DECISIONS D88 | （本 commit） |
@@ -558,7 +559,8 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 其他職位不能改本檔（只有值班的 LAWWW 改五份規則檔）：
 - 寫在自己的交接檔，或用訊息告訴值班的 LAWWW；
 - LAWWW 收到後代登記，標明來源與 SHA。
-- 休班的帳號（目前帳號 A 的四個職位）不叫醒它們（D75），下次接班時登記；在那之前狀態是「待同步」，**不代表已讀**。
+- 休班的帳號（目前帳號 A 的四個職位）不叫醒它們（D75），下次接班時登記；在那之前狀態是「待同步」，**不代表已讀**。帳號 C 還沒啟用，第一次接班時登記。
+- **HV-10 起**：登記時一併寫已讀 D92（第 4 節十四步）和 `duty register` 的 commit。
 
 | 時間（UTC） | 職位 | 帳號 | 規則版本／RULE_SOURCE commit | 已讀 D90 | 沒處理的使用者指示 | 正在跑的長工作 | turn_check | 來源 |
 |---|---|---|---|---|---|---|---|---|
@@ -570,3 +572,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 | — | LAWWW2 | A | 待同步（休班） | — | — | — | — | — |
 | — | AA | A | 待同步（休班） | — | — | — | — | — |
 | — | BB | A | 待同步（休班） | — | — | — | — | — |
+| — | LAWWW-C | C | 未啟用（第一次接班時登記） | — | — | — | — | — |
+| — | LAWWW2-C | C | 未啟用 | — | — | — | — | — |
+| — | AA-C | C | 未啟用 | — | — | — | — | — |
+| — | BB-C | C | 未啟用 | — | — | — | — | — |
