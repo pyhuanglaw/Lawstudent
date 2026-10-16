@@ -1184,7 +1184,7 @@ const Z3 = (function(){
     /* ART-WZ4（LAWWW2-B patches/cafe_wz4.md，AA_164 第 4 節）：格局不動、座位只增不減——中間那張改成四人長方桌（兩端各加一個位子）、吧檯座 ×4、角落沙發 ×3；
        沙發、矮桌、立燈、傘桶擋住。原本的站位、seatApproach、存檔都不變 */
     for(const sx of [-1,1]){ chair(g,sx*0.85,1.5,sx<0?Math.PI/2:-Math.PI/2,'#3b2a1e'); z.seats.push({x:sx*0.85,z:1.5,yaw:sx<0?Math.PI/2:-Math.PI/2,pair:'0,1.5'}); }
-    for(const sx of [-4.5,-2.9,-1.3,0.3]) z.seats.push({x:sx,z:-3.3,yaw:Math.PI,bar:true});
+    for(const sx of [-4.5,-2.9,-1.3,0.3]) z.seats.push({x:sx,z:-3.3,yaw:Math.PI,bar:true,lift:0.27});   /* 吧檯高腳椅座面 0.72 m（一般椅子 0.45）：坐姿抬高 0.27，原本人坐進椅子裡（QA-W1 seats_on_furniture）*/
     nav.blockRect(-6.35,3.4,0.9,2.2,0,0.1); nav.blockRect(-5.3,3.4,0.5,0.8,0,0.1); nav.blockCircle(-6.55,4.85,0.18); nav.blockCircle(-1.05,5.15,0.2);
     for(const [sz,ap] of [[2.85,[-5.0,2.4]],[3.4,[-5.0,4.4]],[3.95,[-5.0,4.4]]]) z.seats.push({x:-5.95,z:sz,yaw:Math.PI/2,sofa:true,ap});   /* ap：前面是矮桌（離沙發 0.15 m），從桌子的一端走近再坐下 */
     E.interactables.push({x:-5.0,z:4.2,radius:1.1,label:'坐在角落的沙發',seat:{x:-5.95,z:3.4,yaw:Math.PI/2,ap:[-5.0,4.4]}});
