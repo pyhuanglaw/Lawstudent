@@ -81,7 +81,8 @@ async def cafe(pg, run, formal):
     else:
         run.check('?nobldg：程序化備用模型看得到', info['fbVisible'] is True, json.dumps(info['fbVisible']))
     want = [[round(x, 2), round(z, 2), round(y, 4)] for (x, z, y) in SEATS]
-    run.check('8 個座位的位置與方向不變（seats[0..7]）', info['seats'] == want, json.dumps(info['seats']))
+    # ART-WZ4（LAWWW2-B bbc566da）起座位只增不減：前 8 個（故事用到的）不變，後面多的是新座位
+    run.check('8 個座位的位置與方向不變（seats[0..7]；ART-WZ4 起座位只增不減）', info['seats'][:8] == want and len(info['seats']) >= 8, json.dumps({'n': len(info['seats']), 'first8': info['seats'][:8]}))
     run.check('4 個雙人桌互動點不變', info['tables'] == [[4.5, -1.7], [4.5, 2.3], [0, 2.3], [-4, 3.3]], json.dumps(info['tables']))
     run.check('吧檯點餐 (−2.5,−3.2)、出口 (0,5.6) 不變', info['bar'] == [-2.5, -3.2] and info['exit'] == [0, 5.6], json.dumps([info['bar'], info['exit']]))
     for (x, z, name) in ((3.775, 5.56, '右段窗邊吧台'), (-3.775, 5.56, '左段窗邊吧台'), (4.1, -5.81, '書牆'), (-6.35, 0.4, '左牆大盆栽'), (6.35, -0.5, '右牆大盆栽'), (-2.5, -4.4, '吧檯')):
