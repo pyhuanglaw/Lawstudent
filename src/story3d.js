@@ -238,6 +238,22 @@ const STORY = (function(){
   S.ladderTalk=async function(GM,who,id,mode){ const G=GM.G; if(!S.LADDER_ON(G)||!LADDER.characters[id]) return false; const tm=LADDER.terms&&LADDER.terms[id], T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(tm&&!(T&&T.id===tm)) return false;
     const st=S.ladNext(G,id,mode); if(st) return S.ladPlay(GM,who,id,st);
     const g=S.ladGreet(G,id); if(!g) return false; await GM.say(who,g); if(SOCIAL.activity) SOCIAL.activity(id,'chat'); return true; };
+  /* 載妹墊（AA_137 第 5 節；使用者 2026-10-15「腳踏車要可以載人」；使用者 2026-10-16 更正：「一開始腳踏車就有載妹墊不用加裝 學姊也要給我載」——取代 AA_137 的公館車行加裝、學姊走在旁邊）：
+     開局就有載妹墊。誰願意坐（約好同行的人）：可昕（交往中）、以安／語彤／芷若／子晴／沛珊／學姊（熟悉以上；女生側坐）、阿凱／阿哲（跨坐）。
+     台詞：AA_137 的表（SEAT_AA）、BB-B 的 LADDER.bikeSeat（芷若、子晴、沛珊）——沒有寫的就不說話（學姊坐後座的台詞等 BB-B）。
+     rideMode：'ride' 坐後座、'refuse' 還不願意（一起走路） */
+  const SEAT_AA={ kexin:{need:'dating',on:'出發。……不要騎太快，我在後面看不到前面。'}, heroine_01:{min:'FAMILIAR',on:'好。不准突然煞車。',decline:'我走路。……不是不信任你，是我還不熟你的煞車。'},
+    heroine_03:{min:'FAMILIAR',on:'……嗯。我很輕。'}, kai:{astride:true,any:true,on:'所以 這個墊子是給我的嗎'}, zhe:{astride:true,any:true} };
+  S.rideInfo=function(G,id){ let bs=(typeof LADDER!=='undefined'&&LADDER.bikeSeat&&LADDER.bikeSeat[id])||null, a=SEAT_AA[id]||null;
+    if(bs&&bs.whilePartner) bs=null;   /* 學姊：BB 原本寫「有伴侶時不坐、走在旁邊」——使用者 10-16 要她也坐後座；走路的兩句不用，坐後座的台詞還沒有 */
+    if(a&&a.need==='dating') return G.flags&&G.flags.dating_kexin?{mode:'ride',on:a.on}:{mode:'refuse'};
+    const d=Object.assign({},a||{},bs||{}); if(!(a&&a.any)&&typeof EVENTS!=='undefined'&&!EVENTS.cond({stage:{npc:id,min:d.min||'FAMILIAR'}})) return {mode:'refuse',decline:d.decline||null};
+    return {mode:'ride',on:d.on||null,off:d.off||null,astride:!!(a&&a.astride)}; };
+  S.rideMode=function(n){ const G=GM_ref&&GM_ref.G; if(!G||!n) return 'ride'; return S.rideInfo(G,n.charId||n.id).mode; };
+  /* 上車、下車的一句話（字幕，不停下遊戲）；一趟只說一次 */
+  S.onRide=function(GM,n,on){ const G=GM.G, id=n.charId||n.id, r=S.rideInfo(G,id), nm=SOCIAL.displayName(id); if(on){ n.astride=!!r.astride; if(r.on&&GM.caption) GM.caption(nm,'「'+r.on+'」',2800); } else if(r.off&&GM.caption) GM.caption(nm,'「'+r.off+'」',2600); };
+  /* 不坐後座的理由（上車前）：回傳字幕的文字；null＝可以上車 */
+  S.rideBlock=function(GM,n){ const G=GM.G, id=n.charId||n.id; if(S.rideMode(n)==='ride') return null; const r=S.rideInfo(G,id), nm=SOCIAL.displayName(id); return r.decline?nm+'：「'+r.decline+'」':'（'+nm+'說她走路就好。）'; };
   S.smallTalk=function(G,id){ const c=CHARACTERS[id]||{}, nm=SOCIAL.displayName(id); const R=G.social.small||(G.social.small={}), r=R[id]||(R[id]={day:0,used:[],last:null});
     if(r.day===G.day) return {narr:'（'+nm+'跟你打了個招呼，又忙自己的事。）',fresh:false};
     const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, tid=T?T.id:'none', hh=G.hour%24;

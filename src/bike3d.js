@@ -60,6 +60,8 @@ const BIKE=(function(){
     for(const r of [2.4,2.8,2.2]) for(const d of [Math.PI/3,-Math.PI/3,Math.PI/2,-Math.PI/2,Math.PI/6,-Math.PI/6]){ const a=a0+d, px=door.x+Math.sin(a)*r, pz=door.z+Math.cos(a)*r; if(!E.canStand||E.canStand(px,pz,0.45,0)) return [px,pz]; }
     return spotNear(E,P.x,P.z,yaw); }
   B.mount=function(GM){ const E=GM.E, G=GM.G, P=E.player, s=st(G); if(s.riding||P.busy||!B.ok(G.zone)) return false;
+    /* 一起走的人還不願意坐後座：不上車，一起走路（AA_137 第 5 節；載妹墊開局就有，使用者 2026-10-16）*/
+    if(typeof STORY!=='undefined'&&STORY.rideBlock){ for(const n of E.npcs){ if(n.beh!=='follow'||n.noRide) continue; const why=STORY.rideBlock(GM,n); if(why){ if(GM.caption) GM.caption('',why,3200); else if(GM.toast) GM.toast(why,3200); return false; } } }
     if(!src){ load().then(()=>{ if(src) B.mount(GM); }); return false; }
     /* 有人跟著一起走：照樣上車，他會坐到後座（engine3d.js 的 beh 'passenger'；使用者 2026-10-15「腳踏車要可以載人」）——原本「有人跟著一起走，先用走的」*/
     { const p=P.obj.position; if(Math.hypot(p.x-s.x,p.z-s.z)>0.5&&!opts_walked&&E.moveTo(P,s.x,s.z,()=>{ opts_walked=true; try{ B.mount(GM); } finally { opts_walked=false; } })) return false; }   /* 先走到車旁邊再上車（不瞬移）*/
@@ -95,7 +97,7 @@ const BIKE=(function(){
   B.tick=function(GM,dt){ const E=GM.E, G=GM.G; if(!G||!E||!E.player) return; const P=E.player, s=st(G); if(!ride) return; const o=P.obj;
     if(ride.obj.parent!==o){ o.add(ride.obj); ride.obj.position.set(0,0,0); ride.obj.rotation.set(0,0,0); }   /* 正式人物模型晚到時玩家的 obj 會換新（game3d.js 的 upgradeModels）：車跟著換過去 */
     // 自動下車
-    const follow=E.npcs.some(n=>n.beh==='follow'&&n.noRide);   /* 一起走的人會坐後座（beh 'passenger'）；只有不坐後座的（noRide）才要下車用走的 */
+    const follow=E.npcs.some(n=>n.beh==='follow'&&(n.noRide||(E.rideMode&&E.rideMode(n)==='refuse')));   /* 一起走的人會坐後座（beh 'passenger'）；不坐後座的（noRide、還不願意）要下車一起走 */
     if(P.busy||follow||P.seat||(P.pose!=='ride'&&P.pose!=='idle'&&P.pose!=='walk'&&P.pose!=='run')){ B.dismount(GM); return; }
     if((P.lv|0)!==0||o.position.y>0.12){ const lf=ride.lastFlat; B.dismount(GM,{at:lf}); if(GM.toast) GM.toast('（樓梯不能騎，車停在下面。）',2200); return; }
     ride.lastFlat.x=o.position.x; ride.lastFlat.z=o.position.z; ride.lastFlat.yaw=o.rotation.y;

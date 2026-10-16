@@ -210,7 +210,7 @@ const E3 = (function(){
   E.stallStop=true;
   function pathStep(P,dt){ const t=P.path[0]; const dx=t[0]-P.obj.position.x, dz=t[1]-P.obj.position.z; const d=Math.hypot(dx,dz);
     if(wpReached(P,d,0.25,dt)){ P.path.shift(); if(!P.path.length){ P.path=null; if(P.onArrive){ const f=P.onArrive; P.onArrive=null; f(); } } return false; }
-    const sp=P.riding?E.SPD.bike:(P.run?E.SPD.run:E.SPD.walk), st=stepSp(sp,d,dt), x0=P.obj.position.x, z0=P.obj.position.z; stepEntity(P,dx/d,dz/d,st,dt); P.pose=P.riding?'ride':(P.run?'run':'walk'); P.speed=sp;
+    const sp=P.riding?E.bikeSp():(P.run?E.SPD.run:E.SPD.walk), st=stepSp(sp,d,dt), x0=P.obj.position.x, z0=P.obj.position.z; stepEntity(P,dx/d,dz/d,st,dt); P.pose=P.riding?'ride':(P.run?'run':'walk'); P.speed=sp;
     if(E.stallStop&&!P.onArrive&&!P.busy&&st*dt>1e-4){ const mv=Math.hypot(P.obj.position.x-x0,P.obj.position.z-z0); P._stall=mv<st*dt*0.15?(P._stall||0)+dt:0; if(P._stall>1.5){ P._stall=0; P.path=null; return false; } }
     return true; }
   E.playerPathStep=pathStep;   /* 測試用 */
@@ -226,7 +226,7 @@ const E3 = (function(){
     let mv=tmpV.set(0,0,0); if(!P.busy&&E.cam.mode==='follow'){ if(input.keys['w']||input.keys['arrowup']) mv.z-=1; if(input.keys['s']||input.keys['arrowdown']) mv.z+=1; if(input.keys['a']||input.keys['arrowleft']) mv.x-=1; if(input.keys['d']||input.keys['arrowright']) mv.x+=1; if(input.joy.active){ mv.x+=input.joy.x; mv.z+=input.joy.y; } }
     const spdWalk=E.SPD.walk, spdRun=E.SPD.run; let moving=false;
     E.cam.ctl=mv.lengthSq()>0.02; if(!E.cam.ctl) E.cam.swingAcc=0;   /* 推著搖桿時鏡頭自動轉開的角度（swingAcc）不算進方向：放開再推才照新的鏡頭方向 */
-    if(E.cam.ctl){ mv.normalize(); const ang=E.cam.yaw-(E.cam.swingAcc||0); /* 搖桿／鍵盤的方向換成世界方向（v9.3 第二十五批修正，2026-10-10 線上回報「霖澤館外面跑的方向相反」）：鏡頭在玩家的 (sin yaw, cos yaw) 那一側，畫面的「前」是 (-sin yaw,-cos yaw)、「右」是 (cos yaw,-sin yaw)；推 (x,y)（y 往下為正）＝ x·右 − y·前。原本旋轉方向寫反：只有鏡頭朝正北／正南時對，鏡頭轉 45° 時偏 90°、轉到側面時整個相反（往鏡頭這邊跑）*/ const dx=mv.x*Math.cos(ang)+mv.z*Math.sin(ang); const dz=-mv.x*Math.sin(ang)+mv.z*Math.cos(ang); const run=input.runToggle||input.joy.run||P.runHold; const sp=P.riding?E.SPD.bike:(run?spdRun:spdWalk); P.path=null; P.target=null; stepEntity(P,dx,dz,sp,dt); moving=true; P.pose=P.riding?'ride':(run?'run':'walk'); P.speed=sp; }   /* P.riding：騎腳踏車（src/bike3d.js）*/
+    if(E.cam.ctl){ mv.normalize(); const ang=E.cam.yaw-(E.cam.swingAcc||0); /* 搖桿／鍵盤的方向換成世界方向（v9.3 第二十五批修正，2026-10-10 線上回報「霖澤館外面跑的方向相反」）：鏡頭在玩家的 (sin yaw, cos yaw) 那一側，畫面的「前」是 (-sin yaw,-cos yaw)、「右」是 (cos yaw,-sin yaw)；推 (x,y)（y 往下為正）＝ x·右 − y·前。原本旋轉方向寫反：只有鏡頭朝正北／正南時對，鏡頭轉 45° 時偏 90°、轉到側面時整個相反（往鏡頭這邊跑）*/ const dx=mv.x*Math.cos(ang)+mv.z*Math.sin(ang); const dz=-mv.x*Math.sin(ang)+mv.z*Math.cos(ang); const run=input.runToggle||input.joy.run||P.runHold; const sp=P.riding?E.bikeSp():(run?spdRun:spdWalk); P.path=null; P.target=null; stepEntity(P,dx,dz,sp,dt); moving=true; P.pose=P.riding?'ride':(run?'run':'walk'); P.speed=sp; }   /* P.riding：騎腳踏車（src/bike3d.js）*/
     else if(P.path) moving=pathStep(P,dt);
     if(!moving){ if(P.pose==='walk'||P.pose==='run'){ P.pose='idle'; } P.speed=0; }
     CHAR.animate(P.obj,dt,{pose:P.busy?P.pose:(P.pose),speed:P.speed,handsPockets:P.pocketsIdle&&P.pose==='idle',lookAt:P.lookAt,ground:groundFn(P),ride:P.ride});
@@ -281,7 +281,9 @@ const E3 = (function(){
   function escapeOK(ent,nx,nz,r){ const o=ent.obj.position; return stuckIn(ent)&&freeScore(nx,nz,r,ent.lv|0)>=freeScore(o.x,o.z,r,ent.lv|0); }
   E.canStand=canStand; E.freeScore=freeScore; E.navOf=navOf; E.setLv=setLv; E.settleY=settleY;
   E.SPD={walk:1.8,run:4.8,bike:8.5};
-  E.PASSENGER={back:0.50,y:0.334};   /* 後座的位置（車的座標，乘上車的縮放）：LAWWW2-B 的載妹墊坐墊頂面在 (0, 0.784, −0.50)；坐姿的人物原點放在坐墊表面往下 0.45 m（坐姿把模型往下 0.47）——正式 GLB 交付後改讀 passenger_side 節點 */   /* 腳踏車 6.2 → 8.5（使用者 2026-10-15：「騎腳踏車還是好慢」）*/   /* 玩家走路／跑步／騎腳踏車速度（m/s）。2026-10-11 使用者：「走路又很慢完全不想玩遊戲」——原本 1.45／4.1（真實步行速度），校園一頭到另一頭要走兩三分鐘；動畫播放速度跟著速度調整（character3d.js：速度／1.45），不會滑步 */
+  /* 騎車的速度：載人時 85%（AA_137 第 5 節）；一起走、不坐後座的人走在旁邊（rideMode 'walk'，目前沒有人用；使用者 10-16 要學姊也坐後座）時騎慢，跟走路差不多 */
+  E.bikeSp=function(){ let k=1, cap=Infinity; for(const n of E.npcs){ if(n.beh==='passenger') k=0.85; else if(n.beh==='follow'&&E.rideMode&&E.rideMode(n)==='walk') cap=2.4; } return Math.min(E.SPD.bike*k,cap); };
+  E.PASSENGER={back:0.52,side:0.03,backAstride:0.54,y:0.334,mount:[0.55,-0.75],mountT:1.5};   /* 後座的位置（車的座標，乘上車的縮放）：LAWWW2-B 的載妹墊坐墊頂面在 (0, 0.784, −0.50)；坐姿的人物原點放在坐墊表面往下 0.45 m（坐姿把模型往下 0.47）——正式 GLB 交付後改讀 passenger_side 節點 */   /* 腳踏車 6.2 → 8.5（使用者 2026-10-15：「騎腳踏車還是好慢」）*/   /* 玩家走路／跑步／騎腳踏車速度（m/s）。2026-10-11 使用者：「走路又很慢完全不想玩遊戲」——原本 1.45／4.1（真實步行速度），校園一頭到另一頭要走兩三分鐘；動畫播放速度跟著速度調整（character3d.js：速度／1.45），不會滑步 */
   E.heightAt=function(x,z,lv){ const n=navOf(lv===undefined?(E.player?E.player.lv|0:0):lv); return n?n.heightAt(x,z):0; };
   // 把人物放到某一層的 (x,z)，高度照地板（劇情、讀檔、坐下、電梯用）
   E.placeAt=function(ent,x,z,lv){ if(lv!==undefined&&lv!==null) setLv(ent,lv|0); const o=ent.obj.position; o.x=x; o.z=z; const n=navOf(ent.lv|0); o.y=n?n.heightAt(x,z):0; };
@@ -319,10 +321,17 @@ const E3 = (function(){
       if((dd<(n.held?3.5:2.8)&&!E.player.busy)||(n.held&&E.player.busy)){ if(n.path){ n.path=null; n.onArrive=null; } n.timer=Math.max(n.timer,1.5); if(!n.held){ n.held=true; if(!n.lookAt) n.lookAt=pp; } }
       else if(n.held){ n.held=false; if(n.lookAt===pp) n.lookAt=null; } }
     if(n.beh==='chat'&&n.chatWith){ if(!(E.player&&E.player.busy)){ const c=n.chatWith.obj; const ty=Math.atan2(c.position.x-o.position.x,c.position.z-o.position.z); let dd=ty-o.rotation.y; dd=Math.atan2(Math.sin(dd),Math.cos(dd)); if(Math.abs(dd)>0.05) o.rotation.y+=dd*Math.min(1,dt*3); if(!n.lookAt||n.lookAt!==c.position) n.lookAt=c.position; } if(n.chatLead&&!(E.player&&E.player.busy)&&n.timer<=0){ const b=n.chatWith; const aTalks=n.pose!=='talk'; n.pose=aTalks?'talk':'idle'; n.idlePose=n.pose; b.pose=aTalks?'idle':'talk'; b.idlePose=b.pose; n.timer=1.8+Math.random()*3.5; } }
-    else if(n.beh==='passenger'&&E.player){ const P=E.player.obj, y=P.rotation.y, k=(E.player.ride&&E.player.ride.scale)||1;   /* 載妹墊（使用者 2026-10-15）：坐在後座、側坐（臉朝車的左邊）*/
-      if(!E.player.riding){ n.beh='follow'; o.position.x=P.position.x-Math.sin(y)*1.0+Math.cos(y)*0.6; o.position.z=P.position.z-Math.cos(y)*1.0-Math.sin(y)*0.6; o.position.y=P.position.y; n.pose=n.idlePose='idle'; n.lv=E.player.lv|0; }   /* 下車：站到車的左後方，照舊跟著走 */
-      else { o.position.set(P.position.x-Math.sin(y)*E.PASSENGER.back*k,P.position.y+E.PASSENGER.y*k,P.position.z-Math.cos(y)*E.PASSENGER.back*k); o.rotation.set(0,y+Math.PI/2,P.rotation.z); n.pose='sit'; n.idlePose='sit'; n.speed=0; n.lv=E.player.lv|0; } }
-    else if(n.beh==='follow'&&E.player&&E.player.riding&&!n.noRide&&Math.hypot(E.player.obj.position.x-o.position.x,E.player.obj.position.z-o.position.z)<3.5){ n.beh='passenger'; n.path=null; }   /* 一起走的人：你騎上車，他就自己坐到後座 */
+    else if(n.beh==='passenger'&&E.player){ const P=E.player.obj, y=P.rotation.y, k=(E.player.ride&&E.player.ride.scale)||1, PS=E.PASSENGER, fx=Math.sin(y), fz=Math.cos(y), rx=Math.cos(y), rz=-Math.sin(y);   /* 載妹墊（使用者 2026-10-15、AA_137 第 5 節）：女生側坐（臉朝車的左邊 +x）、男生跨坐（朝車頭）；車的座標：+z 車頭、+x 左邊 */
+      const lp=(bx,bz)=>[P.position.x+rx*bx*k+fx*bz*k,P.position.z+rz*bx*k+fz*bz*k];   /* 車的座標 → 世界 */
+      if(!E.player.riding){ const [mx,mz]=lp(PS.mount[0],PS.mount[1]); n.beh='follow'; n.mountT=null; o.position.x=mx; o.position.z=mz; o.position.y=P.position.y; o.rotation.set(0,y,0); n.pose=n.idlePose='idle'; n.lv=E.player.lv|0; if(E.onRide) E.onRide(n,false); }   /* 下車：站到車的左後方（mount_point），照舊跟著走 */
+      else { const back=n.astride?PS.backAstride:PS.back, [sx,sz]=lp(n.astride?0:PS.side,-back), sy=y+(n.astride?0:Math.PI/2);
+        if(n.mountT!=null&&n.mountT<PS.mountT){ n.mountT+=dt; const t=n.mountT;   /* 上車（約 1.5 秒）：先走到車子左後方、轉身、坐上去——不是瞬間出現在車上 */
+          if(!n.mount0) n.mount0={x:o.position.x,z:o.position.z,ry:o.rotation.y}; const [mx,mz]=lp(PS.mount[0],PS.mount[1]);
+          if(t<0.9){ const u=t/0.9; o.position.x=n.mount0.x+(mx-n.mount0.x)*u; o.position.z=n.mount0.z+(mz-n.mount0.z)*u; o.position.y=P.position.y; o.rotation.set(0,Math.atan2(mx-n.mount0.x,mz-n.mount0.z)||y,0); n.pose='walk'; n.speed=1.4; }
+          else { const u=Math.min(1,(t-0.9)/0.6); o.position.set(mx+(sx-mx)*u,P.position.y+PS.y*k*u,mz+(sz-mz)*u); let dr=sy-y; o.rotation.set(0,y+dr*u,P.rotation.z*u); n.pose=u<0.5?'idle':'sit'; n.idlePose=n.pose; n.speed=0; }
+          n.lv=E.player.lv|0; }
+        else { n.mount0=null; o.position.set(sx,P.position.y+PS.y*k,sz); o.rotation.set(0,sy,P.rotation.z); n.pose='sit'; n.idlePose='sit'; n.speed=0; n.lv=E.player.lv|0; } } }
+    else if(n.beh==='follow'&&E.player&&E.player.riding&&!n.noRide&&(!E.rideMode||E.rideMode(n)==='ride')&&(E.player.speed||0)<0.2&&Math.hypot(E.player.obj.position.x-o.position.x,E.player.obj.position.z-o.position.z)<3.0){ n.beh='passenger'; n.path=null; n.mountT=0; n.mount0=null; if(E.onRide) E.onRide(n,true); }   /* 一起走的人：你騎著車停在她旁邊（3 m 內、停下來），她自己走到後座坐上去（AA_137 第 5 節）；沒裝載妹墊、不願意的人照舊走路（rideMode）*/
     else if((n.beh==='follow'&&E.player)||(n.beh==='buddy'&&n.buddy)){ if(followStep(n,dt)) moving=true; }
     else if(n.path){ const t=n.path[0]; const dx=t[0]-o.position.x, dz=t[1]-o.position.z; const d=Math.hypot(dx,dz); if(wpReached(n,d,0.3,dt)){ n.path.shift(); if(!n.path.length){ n.path=null; if(n.onArrive){ const f=n.onArrive; n.onArrive=null; f(n); } } } else { const sp=n.run?4.0:(n.walkSpeed||1.35); stepEntity(n,dx/d,dz/d,stepSp(sp,d,dt),dt); moving=true; n.pose=n.run?'run':'walk'; n.speed=sp; } }
     else if(n.beh==='wander'&&n.timer<=0&&!n.frozen){ const w=n.waypoints; if(w&&w.length){ const wp=w[(Math.random()*w.length)|0]; E.moveTo(n,wp[0]+(Math.random()-0.5)*1.5,wp[1]+(Math.random()-0.5)*1.5,null,wp[2]); n.timer=4+Math.random()*8; } }

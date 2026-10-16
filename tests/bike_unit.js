@@ -22,7 +22,8 @@ const objs=J.nodes.map(n=>{ const o=new THREE.Object3D(); o.name=n.name; if(n.tr
 J.nodes.forEach((n,i)=>{ for(const c of n.children||[]) objs[i].add(objs[c]); }); const bikeScene=new THREE.Group(); for(const i of J.scenes[0].nodes) bikeScene.add(objs[i]);
 const frameMat=new THREE.MeshStandardMaterial({color:'#7a8f7e'}); frameMat.name='ride_frame'; objs.find(o=>o.name==='frame').add(new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),frameMat));   /* 車架的材質（GLB 裡的名稱 ride_frame）：路上的騎士改色用 */
 { const nm=n=>J.nodes.findIndex(q=>q.name===n), kids=n=>(J.nodes[nm(n)].children||[]).map(i=>J.nodes[i].name).sort().join(',');
-  check('1 GLB 的節點：frame 底下 crank、fork、wheel_r；fork 底下 wheel_f；crank 底下兩個踏板',kids('frame')==='crank,fork,wheel_r'&&kids('fork')==='wheel_f'&&kids('crank')==='pedal_l,pedal_r',J.nodes.map(n=>n.name).join(',')); }
+  { const fk=kids('frame').split(',');   /* 2026-10-16 載妹墊（LAWWW2-B aed5e46、4c7feb7）：frame 底下多了 rear_cushion 和乘客的定位節點，原本的樞紐不變 */
+  check('1 GLB 的節點：frame 底下 crank、fork、wheel_r（＋載妹墊 rear_cushion、passenger_side／astride）；fork 底下 wheel_f；crank 底下兩個踏板',['crank','fork','wheel_r','rear_cushion','passenger_side','passenger_astride'].every(k=>fk.includes(k))&&kids('fork')==='wheel_f'&&kids('crank')==='pedal_l,pedal_r',J.nodes.map(n=>n.name).join(',')); } }
 ASSETS.loadOne=k=>k==='prop.bike_ride'?Promise.resolve({scene:bikeScene}):Promise.reject(new Error('no '+k));
 // ---- 遊戲的最小替身：區域載入、玩家、GM ----
 let toasts=[]; const G={zone:'campus',day:5,hour:15,flags:{}}; const GM={E,G,toast:t=>toasts.push(t)};
