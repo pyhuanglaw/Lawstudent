@@ -4819,6 +4819,18 @@
    "integration": "未整合（企劃文件；照 D81 排到對應學期時接）",
    "note": "check_handoff 異常 6 補登記（2026-10-16 19:3x）",
    "date": "2026-10-16"
+  },
+  {
+   "id": "DLV-1016-402",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "12788948",
+   "what": "BG_TRACKER：BG-22 ntu_court_night BB-B 驗收三點通過",
+   "task": "ART-BG-COURT",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "只有追蹤表；背景圖已在 6e72e346 收進開發線",
+   "date": "2026-10-16"
   }
  ],
  "ignored": [

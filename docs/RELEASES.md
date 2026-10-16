@@ -18,7 +18,7 @@
 | v9.7 | `313d620`（就是測試過的候選 19 本身） | 2026-10-14 12:32:31 | `e88bda5` |
 | v9.8 | `1d0ff40f`（PR [pyhuanglaw/Lawstudent#3](https://github.com/pyhuanglaw/Lawstudent/pull/3) 的合併 commit；遊戲檔案＝測試過的候選 2 `9508b534`，只多了 README） | 2026-10-16 06:22:15 | `313d620`（v9.7） |
 | v9.9 | `19b97eff`（PR [pyhuanglaw/Lawstudent#4](https://github.com/pyhuanglaw/Lawstudent/pull/4) 的合併 commit；遊戲檔案＝測試過的候選 2 `147c573e`，只多了 README） | 2026-10-16 14:55 UTC | `1d0ff40f`（v9.8） |
-| v9.9.1 | `6d5c3279`（PR [pyhuanglaw/Lawstudent#5](https://github.com/pyhuanglaw/Lawstudent/pull/5) 的合併 commit；遊戲檔案＝測試過的候選 `09630e60`） | 部署中（GitHub Actions run 38958391728） | `19b97eff`（v9.9） |
+| v9.9.1 | `6d5c3279`（PR [pyhuanglaw/Lawstudent#5](https://github.com/pyhuanglaw/Lawstudent/pull/5) 的合併 commit；遊戲檔案＝測試過的候選 `09630e60`） | 2026-10-16 19:56:07 UTC（GitHub Actions pages build and deployment #22 成功） | `19b97eff`（v9.9） |
 
 ---
 

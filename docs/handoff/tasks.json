@@ -11691,9 +11691,9 @@
    "title": "第二天：早上的大一英文顯示沒去、以安叫住之後畫面卡住、開局在第三週（使用者 2026-10-16 19:3x）",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "①第 2 天 13:05 以前的課不排（982b389e）②「卡住」＝劇情黑邊蓋住對話框最後一行與「點一下繼續」、點黑邊沒反應（使用者截圖）：黑邊改 z-index 5、不接點擊；tests/letterbox_dialog.py、tests/flow_day2_an.py（瀏覽器跑中）③開局週次：已問 AA-B、也問使用者，決定前不改",
+   "next": "v9.9.1 已發布（main 6d5c3279，2026-10-16 19:56:07 UTC 部署成功）：①第 2 天 13:05 以前的課不排 ②劇情黑邊在對話框下面、不接點擊。等使用者 iPhone 實機確認；tests/flow_day2_an.py 發布後跑中。③開局週次拆到 START-WEEK",
    "first": {
     "term": "Y1S1",
     "week": 3,
@@ -11708,7 +11708,9 @@
    "authorized": "D79",
    "tests": "tests/discuss_unit.js、tests/classes_unit.js、tests/letterbox_dialog.py、tests/flow_day2_an.py",
    "sha": [
-    "982b389e"
+    "982b389e",
+    "dbf41306",
+    "6d5c3279"
    ]
   },
   {
@@ -11755,6 +11757,36 @@
    "source": "使用者 2026-10-16 19:5x 直接要求",
    "authorized": "D85",
    "tests": "tests/boot_fast.py"
+  },
+  {
+   "id": "START-WEEK",
+   "title": "開局在大一上第三週（9/17）：使用者第二次提（10-15 第 2 項、10-16 19:3x）",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P1",
+   "next": "已問 AA-B（A 維持 9/17、開場交代；B 從第 1 週開始、補第 1～2 週內容），也在對話裡問使用者；兩邊回覆前不改開局日期",
+   "pausedReason": "開局日期是時間線（D79），要 AA-B 評估；可能是第③級要使用者決定",
+   "resumeWhen": "使用者選 A／B、AA-B 給規格",
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "新遊戲",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-15 23:55 第 2 項、2026-10-16 19:3x",
+   "authorized": "D79",
+   "xai": {
+    "spec": "AA-B 評估中",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "AA-B 規格＋使用者決定",
+    "receiver": "AA-B",
+    "ack": "DELIVERED"
+   }
   }
  ]
 }
