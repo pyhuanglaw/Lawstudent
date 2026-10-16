@@ -1,0 +1,24 @@
+fatal: Needed a single revision
+== bike HEAD fb23c7db 2026-10-13 15:14 | uniq commits: 0 | base(second-ai-env-art)  | ahead of base: 145 | files: 1678
+fatal: Needed a single revision
+== lane118 HEAD 0b1788b9 2026-10-13 15:13 | uniq commits: 0 | base(second-ai-env-art)  | ahead of base: 136 | files: 1683
+fatal: Needed a single revision
+== lawlib HEAD 3ba83057 2026-10-13 15:11 | uniq commits: 0 | base(second-ai-env-art)  | ahead of base: 126 | files: 1691
+fatal: Needed a single revision
+== pavsoc HEAD 8c6f1fe0 2026-10-11 08:30 | uniq commits: 0 | base(second-ai-env-art)  | ahead of base: 11 | files: 1958
+fatal: Needed a single revision
+== props HEAD fa626b9d 2026-10-11 09:51 | uniq commits: 0 | base(second-ai-env-art)  | ahead of base: 41 | files: 1913
+fatal: Needed a single revision
+== props6 HEAD 49d32ed8 2026-10-13 13:04 | uniq commits: 0 | base(second-ai-env-art)  | ahead of base: 72 | files: 1776
+fatal: Needed a single revision
+== soclib HEAD af7de02e 2026-10-13 13:30 | uniq commits: 0 | base(second-ai-env-art)  | ahead of base: 86 | files: 1767
+fatal: Needed a single revision
+== trees HEAD 22ff594d 2026-10-14 02:14 | uniq commits: 58 | base(second-ai-env-art)  | ahead of base: 203 | files: 1243
+   22ff594d 2026-10-14 02:14:58 +0000 WIP（checkpoint）⑦行道樹：樹的記號材質 visible=false（不參加整區合併）＋拿掉只裝記號的群組——公
+   141fe09e 2026-10-13 23:58:12 +0000 WIP（checkpoint，未交付）⑦行道樹：在 LAWWW 469ae8c 重新驗收中；樹皮減面（溫州街三角形）
+   3c147b4c 2026-10-13 23:41:40 +0000 Merge LAWWW 開發分支 469ae8c into second-ai-trees-tmp：⑦行道樹在現在的遊戲（方案 A 校園、v9.6 候選之後）�
+   469ae8c8 2026-10-13 23:09:01 +0000 發布後步驟清單（v9.6，wip_backup；工作階段中斷時接手用）
+   1eabc22a 2026-10-13 23:00:16 +0000 接線 LAWWW2 167fc2d 坐姿替身：大的階梯教室上課、演講時，16 個完整人物以外的座位用替身（開發分�
+   8ab929da 2026-10-13 22:51:30 +0000 待在室內補人時從門口走進來、走到位子才坐下（不在座位上憑空出現；開發分支，不在 v9.6）
+   28b98dd9 2026-10-13 22:49:23 +0000 交接：v9.6 候選 3（a6c3d1a）、flow_linze_floors 的原因、整合 LAWWW2 c15a648
+   775dfc67 2026-10-13 22:48:52 +0000 備份：v9.6 發布候選 3（a6c3d1a）的 git bundle（D45；發布回歸重新開始）

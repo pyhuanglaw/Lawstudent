@@ -1,0 +1,177 @@
+
+### wip-bike  HEAD fb23c7db  2026-10-13 15:14  fork 3c9e02f8
+art files: 289  same_as_durable_tip: 287  only_in_durable_history(older ver): 2  not_in_durable: 0  deleted_in_wip: 0
+GLB: bike_ride.glb, campus_modern.glb, campus_pavilion.glb, lane118_street.glb, lawlib_interior.glb, library_interior.glb, soclib_interior.glb, street_props.glb, wancai_interior.glb
+   * HIST tools/blender/env_second/soclib_interior.py
+   * HIST tools/blender/env_second/soclib_layout_gen.py
+first LAWWW2 commit subjects:
+   - ⑫ 騎車用的腳踏車：VISUAL_REVIEW 第 19 節（尺寸表、節點與樞紐、規格、Blender 渲染 4 張、缺點）；MODEL_READY
+   - LICENSES、ASSET_INVENTORY：⑭ 118 巷街景
+   - ⑭ 118 巷街景：VISUAL_REVIEW 第 18 節（做法、規格、接線說明、Blender 渲染 5 張、缺點）；MODEL_READY
+   - 看板、交接紀錄：法律學院圖書館交付（merge a9a227a）；ACK LAWWW 四則分派；下一步 ⑭、⑫ 文件 → 共同教學館外觀 → 大一女舍
+
+### wip-lane118  HEAD 0b1788b9  2026-10-13 15:13  fork 3c9e02f8
+art files: 282  same_as_durable_tip: 280  only_in_durable_history(older ver): 2  not_in_durable: 0  deleted_in_wip: 0
+GLB: campus_modern.glb, campus_pavilion.glb, lane118_street.glb, lawlib_interior.glb, library_interior.glb, soclib_interior.glb, street_props.glb, wancai_interior.glb
+   * HIST tools/blender/env_second/soclib_interior.py
+   * HIST tools/blender/env_second/soclib_layout_gen.py
+first LAWWW2 commit subjects:
+   - ⑭ 118 巷街景：VISUAL_REVIEW 第 18 節（做法、規格、接線說明、Blender 渲染 5 張、缺點）；MODEL_READY
+   - 看板、交接紀錄：法律學院圖書館交付（merge a9a227a）；ACK LAWWW 四則分派；下一步 ⑭、⑫ 文件 → 共同教學館外觀 → 大一女舍
+   - 資產清單與規劃文件：共同教學館（外觀、室內模板）、大一女舍的狀態（BLOCKOUT，等 LAWWW2）
+   - WIP（checkpoint）法律學院圖書館：萬才館西牆的門洞＋玻璃門＋名牌＋門後一小段館內；窗景 lawlib_south／north／west（白天、晚上）；ASSETS 加 bldg.lawlib_interior
+
+### wip-lawlib  HEAD 3ba83057  2026-10-13 15:11  fork 3c9e02f8
+art files: 274  same_as_durable_tip: 272  only_in_durable_history(older ver): 2  not_in_durable: 0  deleted_in_wip: 0
+GLB: campus_modern.glb, campus_pavilion.glb, lawlib_interior.glb, library_interior.glb, soclib_interior.glb, street_props.glb, wancai_interior.glb
+   * HIST tools/blender/env_second/soclib_interior.py
+   * HIST tools/blender/env_second/soclib_layout_gen.py
+first LAWWW2 commit subjects:
+   - 資產清單與規劃文件：共同教學館（外觀、室內模板）、大一女舍的狀態（BLOCKOUT，等 LAWWW2）
+   - WIP（checkpoint）法律學院圖書館：萬才館西牆的門洞＋玻璃門＋名牌＋門後一小段館內；窗景 lawlib_south／north／west（白天、晚上）；ASSETS 加 bldg.lawlib_interior
+   - 法律學院圖書館配置修正（LAWWW2 2026-10-13 回報）＋公告改成查證的開放時間；三棟教學館的玩家流程測試（未跑）
+   - WIP（未測）共同教學館蓋在真實位置＋時間系統相容性盤點（D55）
+
+### wip-pavsoc  HEAD 8c6f1fe0  2026-10-11 08:30  fork 3c9e02f8
+art files: 106  same_as_durable_tip: 71  only_in_durable_history(older ver): 0  not_in_durable: 35  deleted_in_wip: 0
+GLB: campus_modern.glb, campus_pavilion.glb
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/01_gate_avenue_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/02_avenue_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/03_plaza_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/04_porch_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/05_arcade_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/06_bell_avenue_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/07_bell_close_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/08_admin_front_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/09_admin_arcade_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/10_arts_front_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/11_arts_arcade_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/12_hist_front_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/13_hist_porch_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/14_pav_front_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/15_pav_close_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/16_soc_front_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/17_soc_lobby_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/18_bell_night_2030.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/19_gate_avenue_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/20_avenue_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/21_plaza_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/22_porch_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/23_arcade_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/24_bell_avenue_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/25_bell_close_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/26_admin_front_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/27_admin_arcade_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/28_arts_front_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/29_arts_arcade_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/30_hist_front_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/31_hist_porch_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/32_pav_front_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/33_pav_close_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/34_soc_front_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/35_soc_lobby_before.webp
+first LAWWW2 commit subjects:
+   - 洞洞館、社科院驗收（校園地標⑤）：VISUAL_REVIEW 第 13 節（規格、三輪測試、效能、三時段前後截圖、Blender 渲染、截圖檢查發現的兩個問題與修正、缺點）、驗收腳本與截圖清單
+   - WIP（checkpoint）⑤：社科院匾額改成石材匾額樣式（門牌樣式的外框寬度照板面寬度的 4% 算，6 m 寬的匾額整塊被蓋成深色——截圖裡的黑帶的真正原因）
+   - WIP checkpoint：換樓層看到天空、人物線索、移動速度、大地圖人物與快速前往（未跑完整回歸，不可發布）
+   - WIP（checkpoint）⑤：VISUAL_REVIEW 第 13 節的草稿與填寫腳本（原本只在本機暫存區）
+
+### wip-props  HEAD fa626b9d  2026-10-11 09:51  fork 3c9e02f8
+art files: 134  same_as_durable_tip: 99  only_in_durable_history(older ver): 0  not_in_durable: 35  deleted_in_wip: 0
+GLB: campus_modern.glb, campus_pavilion.glb, library_interior.glb, street_props.glb
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/01_gate_avenue_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/02_avenue_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/03_plaza_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/04_porch_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/05_arcade_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/06_bell_avenue_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/07_bell_close_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/08_admin_front_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/09_admin_arcade_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/10_arts_front_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/11_arts_arcade_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/12_hist_front_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/13_hist_porch_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/14_pav_front_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/15_pav_close_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/16_soc_front_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/17_soc_lobby_formal.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/18_bell_night_2030.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/19_gate_avenue_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/20_avenue_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/21_plaza_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/22_porch_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/23_arcade_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/24_bell_avenue_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/25_bell_close_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/26_admin_front_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/27_admin_arcade_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/28_arts_front_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/29_arts_arcade_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/30_hist_front_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/31_hist_porch_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/32_pav_front_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/33_pav_close_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/34_soc_front_before.webp
+   * NEW  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/35_soc_lobby_before.webp
+first LAWWW2 commit subjects:
+   - WIP（checkpoint）⑥販賣機：陰影裡幾乎全黑 → 不帶金屬的紅色烤漆、廣告面板、深灰投幣面板＋金額顯示、頂上燈條自發光；販賣機正面的截圖鏡頭；ASSET_INVENTORY、LICENSES
+   - 劇情企劃組 AA、BB 和 LAWWW2 的聯絡方式（使用者 2026-10-11：讓企劃組知道開發組是 LAWWW＋LAWWW2）：需求一律經 LAWWW；可以直接問 LAWWW2 環境場景的現況；LAWWW2 不只憑
+   - 118 巷配置草案 v1（D46；src/data/lane118_layout.js，還沒接進遊戲）：巷道、兩側店面（9 間虛構店名：滇緬、自助餐、手搖飲、家常菜、咖啡、義大利麵、韓式、蛋包飯、麵店）、辛亥路／後門、和
+   - 看板：07:30Z 店家窗景插隊工作（還沒收到 ACK，看板備援）、07:52Z 保存規則與 ⑫ 腳踏車、08:55Z 開發分支共用檔變更
+
+### wip-props6  HEAD 49d32ed8  2026-10-13 13:04  fork 3c9e02f8
+art files: 198  same_as_durable_tip: 198  only_in_durable_history(older ver): 0  not_in_durable: 0  deleted_in_wip: 0
+GLB: campus_modern.glb, campus_pavilion.glb, library_interior.glb, street_props.glb
+first LAWWW2 commit subjects:
+   - ⑥法學院廣場花台、公告欄、販賣機驗收：VISUAL_REVIEW 第 14 節（規格、⑤⑥ 合併 AI-1 cb399ea 之後的完整回歸 13 項全部通過、效能、三時段前後截圖、Blender 渲染、驗收中抓到並修好的
+   - 交班後補記（使用者同意）：接班總入口第 9 節——收到「有通知在排隊」先 ReadNotifications 讀完（DELIVERED 卻沒看到的原因）；值班表記 LAWWW2 10:14Z 交班（1f20126＋WIP
+   - 交班（使用者要求換班）⑤⑥：合併 8afdece 之後的回歸跑到第二項就停了——street_props_integration ALL PASS、campus_glb_integration 中斷（log 不完整）、其
+   - 店家窗景接進遊戲（LAWWW2 交付 afbf7ec，已 merge 32cd0c1）：Café、便利商店、麵店、書店的窗改用遊戲裡公館／溫州街的照片＋視差（景深照 LAWWW2 量的：cafe 11、bookstore
+
+### wip-soclib  HEAD af7de02e  2026-10-13 13:30  fork 3c9e02f8
+art files: 208  same_as_durable_tip: 206  only_in_durable_history(older ver): 2  not_in_durable: 0  deleted_in_wip: 0
+GLB: campus_modern.glb, campus_pavilion.glb, library_interior.glb, soclib_interior.glb, street_props.glb
+   * HIST tools/blender/env_second/soclib_interior.py
+   * HIST tools/blender/env_second/soclib_layout_gen.py
+first LAWWW2 commit subjects:
+   - ⑬ 社科院辜振甫圖書館一樓：正式 GLB（5.53 MB、85,540 個三角形）＋驗收文件第 16 節（Blender 渲染 6 張、規格、接線說明、缺點）；MODEL_READY
+   - WIP（checkpoint）⑬：書的側面只在露出來時做、書寬一點（85,540 個三角形、5.5 MB）；驗收文件產生腳本（第 16 節）、平面草圖更新
+   - WIP（checkpoint）⑬：竹集成材改直紋、白牆、弧形書架改雙面、柱頂 36 段、書寬一點；LICENSES、ASSET_INVENTORY 加辜振甫圖書館
+   - 看板、交接紀錄：⑤⑥ 交付（merge 451d032）
+
+### wip-trees  HEAD 22ff594d  2026-10-14 02:14  fork 5f66b675
+art files: 276  same_as_durable_tip: 259  only_in_durable_history(older ver): 0  not_in_durable: 17  deleted_in_wip: 0
+GLB: campus_socsci.glb, furniture_study.glb, seated_figures.glb, street_trees.glb
+   * NEW  assets/models/env/second_ai/seated_figures.glb
+   * NEW  assets/models/env/second_ai/seated_figures.json
+   * NEW  docs/art-rebuild/second_ai/blender_renders/seated_fig_back.webp
+   * NEW  docs/art-rebuild/second_ai/blender_renders/seated_fig_close.webp
+   * NEW  docs/art-rebuild/second_ai/blender_renders/seated_fig_front.webp
+   * NEW  docs/art-rebuild/second_ai/blender_renders/seated_fig_side.webp
+   * NEW  docs/art-rebuild/second_ai/blender_renders/seated_lod1_close.webp
+   * NEW  docs/art-rebuild/second_ai/blender_renders/seated_lod1_front.webp
+   * NEW  docs/art-rebuild/second_ai/blender_renders/trees_all.webp
+   * NEW  docs/art-rebuild/second_ai/blender_renders/trees_banyan.webp
+   * NEW  docs/art-rebuild/second_ai/blender_renders/trees_camphor_under.webp
+   * NEW  docs/art-rebuild/second_ai/blender_renders/trees_palm_top.webp
+   * NEW  docs/art-rebuild/second_ai/shots/seated_game_101.webp
+   * NEW  docs/art-rebuild/second_ai/shots/seated_game_101_side.webp
+   * NEW  docs/art-rebuild/second_ai/shots/seated_game_lobby.webp
+   * NEW  docs/art-rebuild/second_ai/shots/seated_game_mobile.webp
+   * NEW  tools/blender/env_second/seated_figures.py
+first LAWWW2 commit subjects:
+   - WIP（checkpoint）⑦行道樹：樹的記號材質 visible=false（不參加整區合併）＋拿掉只裝記號的群組——公館整合測試「沒有標記的群組」多一個空殼的修正；單元、公館、行道樹、校園整合重跑
+   - WIP（checkpoint，未交付）⑦行道樹：在 LAWWW 469ae8c 重新驗收中；樹皮減面（溫州街三角形）
+   - 接線 LAWWW2 167fc2d 坐姿替身：大的階梯教室上課、演講時，16 個完整人物以外的座位用替身（開發分支，不在 v9.6）
+   - 交接：v9.6 候選 3（a6c3d1a）、flow_linze_floors 的原因、整合 LAWWW2 c15a648
+
+bike in-history-only (all kinds): ['docs/art-rebuild/second_ai/drafts/soclib_fill.py', 'tools/blender/env_second/soclib_interior.py', 'tools/blender/env_second/soclib_layout_gen.py']
+
+lane118 in-history-only (all kinds): ['docs/art-rebuild/second_ai/drafts/soclib_fill.py', 'tools/blender/env_second/soclib_interior.py', 'tools/blender/env_second/soclib_layout_gen.py']
+
+lawlib in-history-only (all kinds): ['docs/art-rebuild/second_ai/drafts/soclib_fill.py', 'tools/blender/env_second/soclib_interior.py', 'tools/blender/env_second/soclib_layout_gen.py']
+
+soclib in-history-only (all kinds): ['docs/art-rebuild/second_ai/drafts/soclib_fill.py', 'tools/blender/env_second/soclib_interior.py', 'tools/blender/env_second/soclib_layout_gen.py']
+
+trees in-history-only (all kinds): ['src/crowd3d.js', 'tests/flow_discuss_class.py', 'tests/flow_first_meet.py', 'tests/nav_teach_unit.js', 'tests/playlib.py', 'tests/presence_unit.js', 'tests/syllabus_unit.js']

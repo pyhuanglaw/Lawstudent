@@ -1,0 +1,270 @@
+TEXT OK   CLAUDE.md [pavsoc] added=9 missing=0
+TEXT OK   CLAUDE.md [props] added=10 missing=0
+TEXT MISS LICENSES.md [bike] added=6 missing=1 e.g. ['| 社會科學院 辜振甫先生紀念圖書館室內 `assets/models/env/second_ai/soclib_interior.glb`']
+TEXT MISS LICENSES.md [lane118] added=5 missing=1 e.g. ['| 社會科學院 辜振甫先生紀念圖書館室內 `assets/models/env/second_ai/soclib_interior.glb`']
+TEXT MISS LICENSES.md [lawlib] added=5 missing=1 e.g. ['| 社會科學院 辜振甫先生紀念圖書館室內 `assets/models/env/second_ai/soclib_interior.glb`']
+TEXT OK   LICENSES.md [pavsoc] added=2 missing=0
+TEXT OK   LICENSES.md [props] added=3 missing=0
+TEXT OK   LICENSES.md [props6] added=3 missing=0
+TEXT MISS LICENSES.md [soclib] added=4 missing=1 e.g. ['| 社會科學院 辜振甫先生紀念圖書館室內 `assets/models/env/second_ai/soclib_interior.glb`']
+TEXT OK   LICENSES.md [trees] added=7 missing=0
+BIN  assets/models/env/second_ai/seated_figures.glb [trees] 22bdd44f
+TEXT MISS assets/models/env/second_ai/seated_figures.json [trees] added=379 missing=1 e.g. ['"bytes": 2295184,']
+TEXT MISS docs/AI_SESSION_HANDOFF.md [props6] added=196 missing=1 e.g. ['| **LAWWW** | 開發負責人：核心系統、人物、建築室內、整合、測試、**正式發布**、分派 LAWWW2 | LAWWW `ses']
+TEXT MISS docs/AI_SESSION_HANDOFF.md [soclib] added=196 missing=1 e.g. ['| **LAWWW** | 開發負責人：核心系統、人物、建築室內、整合、測試、**正式發布**、分派 LAWWW2 | LAWWW `ses']
+TEXT OK   docs/ART_REBUILD_PROGRESS.md [bike] added=53 missing=0
+TEXT OK   docs/ART_REBUILD_PROGRESS.md [lane118] added=53 missing=0
+TEXT OK   docs/ART_REBUILD_PROGRESS.md [lawlib] added=53 missing=0
+TEXT MISS docs/ART_REBUILD_PROGRESS.md [pavsoc] added=12 missing=9 e.g. ['- **時間**：2026-10-11 07:50 UTC｜**分支**：`claude/confident-ritchie-8rwh7t`', '- **線上版本**：v9.4.2（main＝`dfd2618`，07:02:57 UTC）。下一次發布最早 10:02:57 UTC。', '- **正在做：v9.5（使用者實機回報修正）**——狀態 WORK_IN_PROGRESS／CHECKPOINT_SAVED，**沒有跑完', '- 已完成並實測：室友在椅子上轉圈（`tests/seated_look_unit.js`）、拿掉假的騎腳踏車路人、三家店加店員、吃完麵的目']
+TEXT MISS docs/ART_REBUILD_PROGRESS.md [props] added=13 missing=10 e.g. ['- **時間**：2026-10-11 08:48 UTC｜**分支**：`claude/confident-ritchie-8rwh7t`', '- **線上版本**：v9.4.2（main＝`dfd2618`，07:02:57 UTC）。下一次發布最早 10:02:57 UTC。', '- **v9.5（使用者實機回報修正）**——WORK_IN_PROGRESS／CHECKPOINT_SAVED，**還不能發布**：', '- 做完、有測試或實測：室友轉圈（`tests/seated_look_unit.js`）、假騎士拿掉、店員、吃麵目標（含 20:30 沒去']
+TEXT MISS docs/ART_REBUILD_PROGRESS.md [props6] added=20 missing=1 e.g. ['**交班（最新）：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜2026-10-11 10:13 ']
+TEXT MISS docs/ART_REBUILD_PROGRESS.md [soclib] added=20 missing=1 e.g. ['**交班（最新）：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜2026-10-11 10:13 ']
+TEXT MISS docs/ART_REBUILD_PROGRESS.md [trees] added=51 missing=1 e.g. ['- `6ba24c2`：BB 課程大綱 00b4ec3、討論型 B 課堂（AA_119：看法、同學回應、教授收尾、記錄、回想、理解）、翹課的']
+TEXT MISS docs/DUAL_AI_BOARD.md [bike] added=26 missing=2 e.g. ['**⑬ 交付（2026-10-13 13:3xZ，可接線；MODEL_READY）**：merge `f3212c0`（`claude/se', '②⑬ 社科院辜振甫圖書館室內（一層：入口、服務台、開架書區、閱覽長桌與座位、窗邊座位）→ 配置 JSON（像 `src/data/libra']
+TEXT MISS docs/DUAL_AI_BOARD.md [lane118] added=26 missing=2 e.g. ['**⑬ 交付（2026-10-13 13:3xZ，可接線；MODEL_READY）**：merge `f3212c0`（`claude/se', '②⑬ 社科院辜振甫圖書館室內（一層：入口、服務台、開架書區、閱覽長桌與座位、窗邊座位）→ 配置 JSON（像 `src/data/libra']
+TEXT MISS docs/DUAL_AI_BOARD.md [lawlib] added=24 missing=2 e.g. ['**⑬ 交付（2026-10-13 13:3xZ，可接線；MODEL_READY）**：merge `f3212c0`（`claude/se', '②⑬ 社科院辜振甫圖書館室內（一層：入口、服務台、開架書區、閱覽長桌與座位、窗邊座位）→ 配置 JSON（像 `src/data/libra']
+TEXT OK   docs/DUAL_AI_BOARD.md [props] added=6 missing=0
+TEXT MISS docs/DUAL_AI_BOARD.md [props6] added=17 missing=2 e.g. ['**緊急保存（使用者 2026-10-11 10:05Z「週使用量 98%」；遠端 SHA 已用 `git ls-remote` 逐條確認，', '②⑬ 社科院辜振甫圖書館室內（一層：入口、服務台、開架書區、閱覽長桌與座位、窗邊座位）→ 配置 JSON（像 `src/data/libra']
+TEXT MISS docs/DUAL_AI_BOARD.md [soclib] added=19 missing=1 e.g. ['②⑬ 社科院辜振甫圖書館室內（一層：入口、服務台、開架書區、閱覽長桌與座位、窗邊座位）→ 配置 JSON（像 `src/data/libra']
+TEXT OK   docs/DUAL_AI_BOARD.md [trees] added=4 missing=0
+TEXT OK   docs/PROJECT_DECISIONS.md [pavsoc] added=1 missing=0
+TEXT MISS docs/PROJECT_DECISIONS.md [props] added=4 missing=1 e.g. ['| D48 | **主角的經濟狀況：比較寬裕；劇情不以打工或金錢為門檻（使用者 2026-10-11 指定，已和劇情企劃 AA 討論過）**']
+TEXT MISS docs/PROJECT_DECISIONS.md [props6] added=6 missing=1 e.g. ['| D50 | **大一上 v1 劇情交接包批准進入實作（APPROVED_FOR_INTEGRATION，不是最終定稿）＋劇情修改的分級權']
+TEXT MISS docs/PROJECT_DECISIONS.md [soclib] added=6 missing=1 e.g. ['| D50 | **大一上 v1 劇情交接包批准進入實作（APPROVED_FOR_INTEGRATION，不是最終定稿）＋劇情修改的分級權']
+TEXT MISS docs/PROJECT_DECISIONS.md [trees] added=3 missing=3 e.g. ['| D56 | **校園世界觀定案：現代台大平行校園（使用者 2026-10-13）**：①遊戲不是任何一年台大的歷史重建：經濟系大一也用現', '| D57 | **公開文件的標示與隱私（使用者 2026-10-13，AA 轉述；AA_99 第 11 節、企劃分支 ded7f2c）**', '| D58 | **沈以安新版設定【已定案】（使用者 2026-10-13，AA 轉述；AA_113、企劃分支 ded7f2c）**：甲主線']
+TEXT MISS docs/RELEASES.md [props] added=17 missing=1 e.g. ['- 標題畫面版本字樣「版本 v9.5（2026-10-11）」；script 版本號 9.5-2。']
+TEXT MISS docs/RELEASES.md [props6] added=22 missing=1 e.g. ['- 標題畫面版本字樣「版本 v9.5（2026-10-11）」；script 版本號 9.5-2。']
+TEXT MISS docs/RELEASES.md [soclib] added=22 missing=1 e.g. ['- 標題畫面版本字樣「版本 v9.5（2026-10-11）」；script 版本號 9.5-2。']
+TEXT MISS docs/art-rebuild/ASSET_INVENTORY.md [bike] added=10 missing=1 e.g. ['| 社會科學院 辜振甫先生紀念圖書館 一樓開架閱覽室（⑬；配置 `src/data/soclib_layout.js`，由 `tools/b']
+TEXT MISS docs/art-rebuild/ASSET_INVENTORY.md [lane118] added=9 missing=1 e.g. ['| 社會科學院 辜振甫先生紀念圖書館 一樓開架閱覽室（⑬；配置 `src/data/soclib_layout.js`，由 `tools/b']
+TEXT MISS docs/art-rebuild/ASSET_INVENTORY.md [lawlib] added=9 missing=1 e.g. ['| 社會科學院 辜振甫先生紀念圖書館 一樓開架閱覽室（⑬；配置 `src/data/soclib_layout.js`，由 `tools/b']
+TEXT OK   docs/art-rebuild/ASSET_INVENTORY.md [pavsoc] added=2 missing=0
+TEXT OK   docs/art-rebuild/ASSET_INVENTORY.md [props] added=4 missing=0
+TEXT OK   docs/art-rebuild/ASSET_INVENTORY.md [props6] added=4 missing=0
+TEXT MISS docs/art-rebuild/ASSET_INVENTORY.md [soclib] added=5 missing=1 e.g. ['| 社會科學院 辜振甫先生紀念圖書館 一樓開架閱覽室（⑬；配置 `src/data/soclib_layout.js`，由 `tools/b']
+TEXT OK   docs/art-rebuild/ASSET_INVENTORY.md [trees] added=4 missing=0
+TEXT MISS docs/art-rebuild/second_ai/HANDOFF.md [bike] added=37 missing=1 e.g. ['| ⑬辜振甫先生紀念圖書館室內 | `WORK_IN_PROGRESS`（草稿） | `claude/second-ai-env-art-w']
+TEXT MISS docs/art-rebuild/second_ai/HANDOFF.md [lane118] added=37 missing=1 e.g. ['| ⑬辜振甫先生紀念圖書館室內 | `WORK_IN_PROGRESS`（草稿） | `claude/second-ai-env-art-w']
+TEXT MISS docs/art-rebuild/second_ai/HANDOFF.md [lawlib] added=37 missing=2 e.g. ['**2026-10-13 接班後的進度（最新在這裡；下面的表是交班時的狀態）**：**⑤⑥ 已交付**（13:05Z，merge `451d', '| ⑬辜振甫先生紀念圖書館室內 | `WORK_IN_PROGRESS`（草稿） | `claude/second-ai-env-art-w']
+TEXT MISS docs/art-rebuild/second_ai/HANDOFF.md [props6] added=26 missing=5 e.g. ['值班登記：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜分支 claude/second-ai-', '上一班：無（帳號 B 還沒建立；跨帳號接班制度 D49，總入口在 LAWWW 分支的 `docs/AI_SESSION_HANDOFF.md', '## 目前（2026-10-11 10:07Z，緊急保存後）', '| ⑥花台、公告欄、販賣機 | 收尾：已合併 ⑤＋AI-1 `8afdece`；販賣機改亮；前後截圖（WebP）、`5b21aa0` 那一輪']
+TEXT MISS docs/art-rebuild/second_ai/HANDOFF.md [soclib] added=37 missing=2 e.g. ['**2026-10-13 接班後的進度（最新在這裡；下面的表是交班時的狀態）**：**⑤⑥ 已交付**（13:05Z，merge `451d', '| ⑬辜振甫先生紀念圖書館室內 | `WORK_IN_PROGRESS`（草稿） | `claude/second-ai-env-art-w']
+TEXT MISS docs/art-rebuild/second_ai/HANDOFF.md [trees] added=6 missing=1 e.g. ['**2026-10-13 20:4xZ（最新）**：LAWWW 20:02Z ACK 分工（U6）、R2 等平面圖、坐姿替身用「預先烤配色、']
+TEXT MISS docs/art-rebuild/second_ai/VISUAL_REVIEW.md [bike] added=358 missing=4 e.g. ['## 16. 社會科學院 辜振甫先生紀念圖書館：一樓開架閱覽室（⑬，Blender 正式模型＋配置）', 'LAWWW 佇列的 ⑬（使用者 D46：法律系學生念書會去「新社科院的辜振甫先生紀念圖書館」）。交付**配置 `src/data/socli', '| 辜振甫圖書館一樓（`soclib_interior.glb`＋`soclib_layout.js`） | 完成（模型、配置） | **還', '- GLB 的命名照其他室內（attachRoomGLB）：會淡出的牆 `WALL_<side>_*`（自訂屬性 `dir`＝往室內的法線；']
+TEXT MISS docs/art-rebuild/second_ai/VISUAL_REVIEW.md [lane118] added=312 missing=4 e.g. ['## 16. 社會科學院 辜振甫先生紀念圖書館：一樓開架閱覽室（⑬，Blender 正式模型＋配置）', 'LAWWW 佇列的 ⑬（使用者 D46：法律系學生念書會去「新社科院的辜振甫先生紀念圖書館」）。交付**配置 `src/data/socli', '| 辜振甫圖書館一樓（`soclib_interior.glb`＋`soclib_layout.js`） | 完成（模型、配置） | **還', '- GLB 的命名照其他室內（attachRoomGLB）：會淡出的牆 `WALL_<side>_*`（自訂屬性 `dir`＝往室內的法線；']
+TEXT MISS docs/art-rebuild/second_ai/VISUAL_REVIEW.md [lawlib] added=281 missing=4 e.g. ['## 16. 社會科學院 辜振甫先生紀念圖書館：一樓開架閱覽室（⑬，Blender 正式模型＋配置）', 'LAWWW 佇列的 ⑬（使用者 D46：法律系學生念書會去「新社科院的辜振甫先生紀念圖書館」）。交付**配置 `src/data/socli', '| 辜振甫圖書館一樓（`soclib_interior.glb`＋`soclib_layout.js`） | 完成（模型、配置） | **還', '- GLB 的命名照其他室內（attachRoomGLB）：會淡出的牆 `WALL_<side>_*`（自訂屬性 `dir`＝往室內的法線；']
+TEXT OK   docs/art-rebuild/second_ai/VISUAL_REVIEW.md [pavsoc] added=90 missing=0
+TEXT OK   docs/art-rebuild/second_ai/VISUAL_REVIEW.md [props] added=90 missing=0
+TEXT OK   docs/art-rebuild/second_ai/VISUAL_REVIEW.md [props6] added=138 missing=0
+TEXT MISS docs/art-rebuild/second_ai/VISUAL_REVIEW.md [soclib] added=182 missing=4 e.g. ['## 16. 社會科學院 辜振甫先生紀念圖書館：一樓開架閱覽室（⑬，Blender 正式模型＋配置）', 'LAWWW 佇列的 ⑬（使用者 D46：法律系學生念書會去「新社科院的辜振甫先生紀念圖書館」）。交付**配置 `src/data/socli', '| 辜振甫圖書館一樓（`soclib_interior.glb`＋`soclib_layout.js`） | 完成（模型、配置） | **還', '- GLB 的命名照其他室內（attachRoomGLB）：會淡出的牆 `WALL_<side>_*`（自訂屬性 `dir`＝往室內的法線；']
+TEXT MISS docs/art-rebuild/second_ai/VISUAL_REVIEW.md [trees] added=291 missing=4 e.g. ['4. 每個姿勢：骨架在世界座標轉（腿、上身、頭）＋手臂兩段 IK（手腕放到指定位置、手肘往外後）＋腳掌不穿地（小腿自動往前伸）→ 套到 LO', '### 24.4 遊戲內原型（**本機注入、不是整合**：LAWWW `dae1da3` 的博雅讀檔後，用遊戲的 GLTFLoader 載入', '5. 抄筆記的桌上沒有筆記本、筆；滑手機的手裡沒有手機——可以做成另外的小物（給 LAWWW 用 instancing 放），還沒做。', '6. 坐在自習椅、圓桌椅時，座位高度差 2 cm、椅背位置不同：原型是手動把替身往下 2 cm、往後 3 cm；正式接的時候要 LAWWW ']
+BIN  docs/art-rebuild/second_ai/blender_renders/seated_fig_back.webp [trees] ee0cbe6c
+BIN  docs/art-rebuild/second_ai/blender_renders/seated_fig_close.webp [trees] 8ad27f17
+BIN  docs/art-rebuild/second_ai/blender_renders/seated_fig_front.webp [trees] 876c6903
+BIN  docs/art-rebuild/second_ai/blender_renders/seated_fig_side.webp [trees] c065299a
+BIN  docs/art-rebuild/second_ai/blender_renders/seated_lod1_close.webp [trees] 6b2a5221
+BIN  docs/art-rebuild/second_ai/blender_renders/seated_lod1_front.webp [trees] bf4a7d86
+BIN  docs/art-rebuild/second_ai/blender_renders/trees_all.webp [trees] 92fca924
+BIN  docs/art-rebuild/second_ai/blender_renders/trees_banyan.webp [trees] b9c6b59c
+BIN  docs/art-rebuild/second_ai/blender_renders/trees_camphor_under.webp [trees] 61c06609
+BIN  docs/art-rebuild/second_ai/blender_renders/trees_palm_top.webp [trees] 86fb82b9
+TEXT MISS docs/art-rebuild/second_ai/drafts/props6_fill.py [props] added=66 missing=1 e.g. ['**這一輪是 ⑤（洞洞館、社科院）和 ⑥ 一起、合併 AI-1 開發分支 `a46f944` 之後的完整回歸**（合併 `5b21aa0` ']
+TEXT MISS docs/art-rebuild/second_ai/drafts/trees_fill.py [trees] added=45 missing=3 e.g. ['assert all(v[1] == 0 and v[2] for v in res.values()), res', "line = [l for l in log if l.startswith(f'PASS {zid}：效能')][0]; perf[zid", "doc = doc.replace('{{TESTS}}', '、'.join(f'`{k}` {v[0]}' for k, v in re"]
+TEXT MISS docs/art-rebuild/second_ai/drafts/trees_review_draft.md [trees] added=50 missing=4 e.g. ['| 行道樹（`prop.trees`：樟樹兩款、榕樹、大王椰子＋遠景卡片） | 完成 | `FUNCTIONAL_VERIFIED`（見 1', '- 記號：一個看不見的小三角形（三個頂點＝原點、x 軸、y 軸；樹種、高度、樹冠參數放在 UV），跟著呼叫端的擺放、`W3.mergeGro', '測試都是 Playwright 手機模擬（不是 iPhone 實機）；log 在 `docs/art-rebuild/second_ai/t', '{{TESTS}}：**全部通過**。']
+TEXT MISS docs/art-rebuild/second_ai/research/四棟教學館與宿舍_參考資料.md [bike] added=81 missing=3 e.g. ['- 能用的只有**搜尋引擎**：它會讀官方文件和維基百科，回給我**文字摘要**。所以下面每一條都是「搜尋摘要轉述的內容」，**我沒有親自打', '| 外觀材質、顏色 | **沒查到** | — | — |', '| 外觀照片 | **沒有** | — | — |']
+TEXT MISS docs/art-rebuild/second_ai/research/四棟教學館與宿舍_參考資料.md [lane118] added=81 missing=3 e.g. ['- 能用的只有**搜尋引擎**：它會讀官方文件和維基百科，回給我**文字摘要**。所以下面每一條都是「搜尋摘要轉述的內容」，**我沒有親自打', '| 外觀材質、顏色 | **沒查到** | — | — |', '| 外觀照片 | **沒有** | — | — |']
+TEXT MISS docs/art-rebuild/second_ai/research/四棟教學館與宿舍_參考資料.md [lawlib] added=62 missing=8 e.g. ['- 能用的只有**搜尋引擎**：它會讀官方文件和維基百科，回給我**文字摘要**。所以下面每一條都是「搜尋摘要轉述的內容」，**我沒有親自打', '| 樓層 | 至少 2 樓（考場資料寫 2 樓）；總樓層數**沒查到** | C | 暨南大學 112 學年度試場平面圖（搜尋摘要） |', '| 外觀材質、顏色 | **沒查到** | — | — |', '| 入口、走廊 | **沒查到** | — | — |']
+BIN  docs/art-rebuild/second_ai/shots/seated_game_101.webp [trees] 2c1bde97
+BIN  docs/art-rebuild/second_ai/shots/seated_game_101_side.webp [trees] 9882c23e
+BIN  docs/art-rebuild/second_ai/shots/seated_game_lobby.webp [trees] 9c031196
+BIN  docs/art-rebuild/second_ai/shots/seated_game_mobile.webp [trees] 98466e06
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/01_gate_avenue_formal.webp [pavsoc] 66516408
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/01_gate_avenue_formal.webp [props] 66516408
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/02_avenue_formal.webp [pavsoc] d306371d
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/02_avenue_formal.webp [props] d306371d
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/03_plaza_formal.webp [pavsoc] df2b40b6
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/03_plaza_formal.webp [props] df2b40b6
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/04_porch_formal.webp [pavsoc] 5c7d0825
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/04_porch_formal.webp [props] 5c7d0825
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/05_arcade_formal.webp [pavsoc] 08144d18
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/05_arcade_formal.webp [props] 08144d18
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/06_bell_avenue_formal.webp [pavsoc] 91ca72ad
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/06_bell_avenue_formal.webp [props] 91ca72ad
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/07_bell_close_formal.webp [pavsoc] 15b17a2e
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/07_bell_close_formal.webp [props] 15b17a2e
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/08_admin_front_formal.webp [pavsoc] 25181868
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/08_admin_front_formal.webp [props] 25181868
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/09_admin_arcade_formal.webp [pavsoc] e4bcf2e4
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/09_admin_arcade_formal.webp [props] e4bcf2e4
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/10_arts_front_formal.webp [pavsoc] e7d0231a
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/10_arts_front_formal.webp [props] e7d0231a
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/11_arts_arcade_formal.webp [pavsoc] 743be373
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/11_arts_arcade_formal.webp [props] 743be373
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/12_hist_front_formal.webp [pavsoc] b7715f51
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/12_hist_front_formal.webp [props] b7715f51
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/13_hist_porch_formal.webp [pavsoc] 9f98cd12
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/13_hist_porch_formal.webp [props] 9f98cd12
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/14_pav_front_formal.webp [pavsoc] bf37e28e
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/14_pav_front_formal.webp [props] bf37e28e
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/15_pav_close_formal.webp [pavsoc] 269f93db
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/15_pav_close_formal.webp [props] 269f93db
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/16_soc_front_formal.webp [pavsoc] ed235544
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/16_soc_front_formal.webp [props] ed235544
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/17_soc_lobby_formal.webp [pavsoc] 3b33ca7e
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/17_soc_lobby_formal.webp [props] 3b33ca7e
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/18_bell_night_2030.webp [pavsoc] b9804705
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/18_bell_night_2030.webp [props] b9804705
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/19_gate_avenue_before.webp [pavsoc] b8c35efd
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/19_gate_avenue_before.webp [props] b8c35efd
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/20_avenue_before.webp [pavsoc] 2b7ef03b
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/20_avenue_before.webp [props] 2b7ef03b
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/21_plaza_before.webp [pavsoc] c95d7403
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/21_plaza_before.webp [props] c95d7403
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/22_porch_before.webp [pavsoc] 347cc23e
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/22_porch_before.webp [props] 347cc23e
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/23_arcade_before.webp [pavsoc] 00d2ecc7
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/23_arcade_before.webp [props] 00d2ecc7
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/24_bell_avenue_before.webp [pavsoc] 838089bf
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/24_bell_avenue_before.webp [props] 838089bf
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/25_bell_close_before.webp [pavsoc] 01346439
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/25_bell_close_before.webp [props] 01346439
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/26_admin_front_before.webp [pavsoc] 770cd257
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/26_admin_front_before.webp [props] 770cd257
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/27_admin_arcade_before.webp [pavsoc] 3f7a1031
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/27_admin_arcade_before.webp [props] 3f7a1031
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/28_arts_front_before.webp [pavsoc] f685166c
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/28_arts_front_before.webp [props] f685166c
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/29_arts_arcade_before.webp [pavsoc] bab2cf90
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/29_arts_arcade_before.webp [props] bab2cf90
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/30_hist_front_before.webp [pavsoc] 8ee36eb2
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/30_hist_front_before.webp [props] 8ee36eb2
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/31_hist_porch_before.webp [pavsoc] a6c40865
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/31_hist_porch_before.webp [props] a6c40865
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/32_pav_front_before.webp [pavsoc] 998b964e
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/32_pav_front_before.webp [props] 998b964e
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/33_pav_close_before.webp [pavsoc] c2def240
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/33_pav_close_before.webp [props] c2def240
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/34_soc_front_before.webp [pavsoc] 30fa3b1b
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/34_soc_front_before.webp [props] 30fa3b1b
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/35_soc_lobby_before.webp [pavsoc] 3e712657
+BIN  docs/art-rebuild/second_ai/test_shots/campus_glb_integration/35_soc_lobby_before.webp [props] 3e712657
+TEXT MISS docs/campus/PUBLIC_BUILDINGS_DESIGN.md [bike] added=114 missing=1 e.g. ['| 2 | 教學館模板（`teach3d.js`）＋共同教學館室內：大廳、走廊、兩間可重用教室、等候位置；上課前後的人流；「門口上課」換成走']
+TEXT MISS docs/campus/PUBLIC_BUILDINGS_DESIGN.md [lane118] added=114 missing=1 e.g. ['| 2 | 教學館模板（`teach3d.js`）＋共同教學館室內：大廳、走廊、兩間可重用教室、等候位置；上課前後的人流；「門口上課」換成走']
+TEXT MISS docs/campus/PUBLIC_BUILDINGS_DESIGN.md [lawlib] added=114 missing=1 e.g. ['| 2 | 教學館模板（`teach3d.js`）＋共同教學館室內：大廳、走廊、兩間可重用教室、等候位置；上課前後的人流；「門口上課」換成走']
+TEXT MISS docs/campus/TEACHING_BUILDINGS_PLAN.md [bike] added=144 missing=1 e.g. ['| 整合進可玩的 3D 地圖（開發分支，外觀是 BLOCKOUT） | 共同教學館：外觀、門口、地圖、快速前往、**室內第一版**（大廳、走']
+TEXT MISS docs/campus/TEACHING_BUILDINGS_PLAN.md [lane118] added=144 missing=1 e.g. ['| 整合進可玩的 3D 地圖（開發分支，外觀是 BLOCKOUT） | 共同教學館：外觀、門口、地圖、快速前往、**室內第一版**（大廳、走']
+TEXT MISS docs/campus/TEACHING_BUILDINGS_PLAN.md [lawlib] added=144 missing=1 e.g. ['| 整合進可玩的 3D 地圖（開發分支，外觀是 BLOCKOUT） | 共同教學館：外觀、門口、地圖、快速前往、**室內第一版**（大廳、走']
+TEXT OK   docs/proposals/SCHEDULE_PROPOSAL.md [props] added=53 missing=0
+TEXT OK   docs/proposals/SCHEDULE_PROPOSAL.md [props6] added=53 missing=0
+TEXT OK   docs/proposals/SCHEDULE_PROPOSAL.md [soclib] added=53 missing=0
+TEXT OK   index.html [bike] added=71 missing=0
+TEXT OK   index.html [lane118] added=71 missing=0
+TEXT OK   index.html [lawlib] added=71 missing=0
+TEXT MISS index.html [pavsoc] added=46 missing=3 e.g. ['#bigmap .bmHead{display:flex;align-items:center;gap:10px;padding:4px 4', '<div id="hud"><div class="chip" id="clock"><b id="clockT">週四 13:20</b>', '<div id="bigmap" class="hide"><div class="bmHead"><b id="bmTitle">地圖</']
+TEXT MISS index.html [props] added=46 missing=3 e.g. ['#bigmap .bmHead{display:flex;align-items:center;gap:10px;padding:4px 4', '<div id="hud"><div class="chip" id="clock"><b id="clockT">週四 13:20</b>', '<div id="bigmap" class="hide"><div class="bmHead"><b id="bmTitle">地圖</']
+TEXT MISS index.html [props6] added=46 missing=1 e.g. ['<div id="hud"><div class="chip" id="clock"><b id="clockT">週四 13:20</b>']
+TEXT MISS index.html [soclib] added=46 missing=1 e.g. ['<div id="hud"><div class="chip" id="clock"><b id="clockT">週四 13:20</b>']
+TEXT OK   src/assets3d.js [bike] added=3 missing=0
+TEXT OK   src/assets3d.js [lane118] added=3 missing=0
+TEXT OK   src/assets3d.js [lawlib] added=3 missing=0
+TEXT OK   src/assets3d.js [pavsoc] added=2 missing=0
+TEXT OK   src/assets3d.js [props] added=2 missing=0
+TEXT OK   src/assets3d.js [props6] added=2 missing=0
+TEXT OK   src/assets3d.js [soclib] added=2 missing=0
+TEXT OK   src/assets3d.js [trees] added=4 missing=0
+TEXT MISS src/classes3d.js [bike] added=204 missing=3 e.g. ['S.syncRooms=function(GM){ const G=GM.G, E=GM.E; if(!E.zone||!E.zone.se', 'for(const it of live){ if(E.npcs.some(n=>n.clsStudent&&n.clsKey===it.k', 'for(const i of idx.slice(0,Math.round(seats.length*0.5))){ const st=se']
+TEXT MISS src/classes3d.js [lane118] added=204 missing=3 e.g. ['S.syncRooms=function(GM){ const G=GM.G, E=GM.E; if(!E.zone||!E.zone.se', 'for(const it of live){ if(E.npcs.some(n=>n.clsStudent&&n.clsKey===it.k', 'for(const i of idx.slice(0,Math.round(seats.length*0.5))){ const st=se']
+TEXT MISS src/classes3d.js [lawlib] added=204 missing=3 e.g. ['S.syncRooms=function(GM){ const G=GM.G, E=GM.E; if(!E.zone||!E.zone.se', 'for(const it of live){ if(E.npcs.some(n=>n.clsStudent&&n.clsKey===it.k', 'for(const i of idx.slice(0,Math.round(seats.length*0.5))){ const st=se']
+TEXT MISS src/classes3d.js [trees] added=132 missing=8 e.g. ["if(a.id==='lawclub_study'){ const done=!!(G.events&&G.events.done&&G.e", 'const ev=club?S.clubEvent(G,a):null;', "const FIG={on:new Map(),zone:null}, FIG_KEY='prop.seated_figures';", 'ASSETS.loadOne(FIG_KEY).then(c=>{ if(FIG.on.get(key)!==rec||GM.E.zone!']
+TEXT MISS src/data/activities.js [trees] added=33 missing=2 e.g. ['/* 6-8 (c)：系籃——先放在體育館門口（體育課那一棟）；球場做好以後搬過去，id 不變 */', "{id:'dept_basketball',title:'系籃練球',clubName:'系籃（系學會）',kind:'club',zone"]
+TEXT OK   src/data/characters.js [trees] added=4 missing=0
+TEXT OK   src/data/courses.js [trees] added=1 missing=0
+TEXT MISS src/data/events.js [trees] added=45 missing=2 e.g. ["dialogue:[ {speaker:'kai',expression:'smile',text:'欸，我們系有個學姊，高子晴，吉他社的。", "dialogue:[ {unless:{memory:[{npc:'heroine_04',tag:'FIRST_MET'}]},speak"]
+TEXT MISS src/data/gongtong_layout.js [bike] added=3 missing=1 e.g. ['const GONGTONG_LAYOUT={"version": 1, "id": "gongtong", "name": "共同教學館"']
+TEXT MISS src/data/gongtong_layout.js [lane118] added=3 missing=1 e.g. ['const GONGTONG_LAYOUT={"version": 1, "id": "gongtong", "name": "共同教學館"']
+TEXT MISS src/data/gongtong_layout.js [lawlib] added=3 missing=1 e.g. ['const GONGTONG_LAYOUT={"version": 1, "id": "gongtong", "name": "共同教學館"']
+TEXT MISS src/data/lawlib_layout.js [props] added=31 missing=27 e.g. ['/* ===== 萬才館 法律學院圖書館 配置（D46，2026-10-11；草案 v1，還沒接進遊戲）=====', '遊戲（之後的 src/lawlib3d.js：導航格、地板高度、互動點、程序化備用模型）和 Blender（tools/blender/la', '座標（室內）：x 往東、z 往南；入口在東牆（接萬才館大廳的西牆，大廳一進門左手邊）；單位公尺；y 往上。樓高和萬才館相同（二樓 4.2 m', '導航格對齊（W=14、D=16、格子 0.4 m）：格子中心在 0.4 的整數倍上，牆、房間、樓梯的邊界放在「0.2 的奇數倍」（同宿舍走廊']
+TEXT MISS src/data/lawlib_layout.js [props6] added=31 missing=27 e.g. ['/* ===== 萬才館 法律學院圖書館 配置（D46，2026-10-11；草案 v1，還沒接進遊戲）=====', '遊戲（之後的 src/lawlib3d.js：導航格、地板高度、互動點、程序化備用模型）和 Blender（tools/blender/la', '座標（室內）：x 往東、z 往南；入口在東牆（接萬才館大廳的西牆，大廳一進門左手邊）；單位公尺；y 往上。樓高和萬才館相同（二樓 4.2 m', '導航格對齊（W=14、D=16、格子 0.4 m）：格子中心在 0.4 的整數倍上，牆、房間、樓梯的邊界放在「0.2 的奇數倍」（同宿舍走廊']
+TEXT MISS src/data/lawlib_layout.js [soclib] added=31 missing=27 e.g. ['/* ===== 萬才館 法律學院圖書館 配置（D46，2026-10-11；草案 v1，還沒接進遊戲）=====', '遊戲（之後的 src/lawlib3d.js：導航格、地板高度、互動點、程序化備用模型）和 Blender（tools/blender/la', '座標（室內）：x 往東、z 往南；入口在東牆（接萬才館大廳的西牆，大廳一進門左手邊）；單位公尺；y 往上。樓高和萬才館相同（二樓 4.2 m', '導航格對齊（W=14、D=16、格子 0.4 m）：格子中心在 0.4 的整數倍上，牆、房間、樓梯的邊界放在「0.2 的奇數倍」（同宿舍走廊']
+TEXT MISS src/data/places.js [bike] added=46 missing=1 e.g. ["names:{ gongtong:'共同教學館', campus:'台大校園', gongguan:'公館', wenzhou:'溫州街',"]
+TEXT MISS src/data/places.js [lane118] added=46 missing=1 e.g. ["names:{ gongtong:'共同教學館', campus:'台大校園', gongguan:'公館', wenzhou:'溫州街',"]
+TEXT MISS src/data/places.js [lawlib] added=46 missing=1 e.g. ["names:{ gongtong:'共同教學館', campus:'台大校園', gongguan:'公館', wenzhou:'溫州街',"]
+TEXT MISS src/data/places.js [pavsoc] added=21 missing=6 e.g. ["names:{ campus:'台大校園', gongguan:'公館', wenzhou:'溫州街', cafe:'兩點半 Café', ", "linze:'霖澤館', classroom:'霖澤館 201 教室', wancai:'萬才館', library_hall:'總圖書館'", "hours:{ cafe:{open:11,close:26.5,text:'11:00–02:30'}, library_hall:{op", 'isOpen(zone,h){ const o=PLACES.hours[zone]; if(!o||o.open==null) retur']
+TEXT MISS src/data/places.js [props] added=21 missing=6 e.g. ["names:{ campus:'台大校園', gongguan:'公館', wenzhou:'溫州街', cafe:'兩點半 Café', ", "linze:'霖澤館', classroom:'霖澤館 201 教室', wancai:'萬才館', library_hall:'總圖書館'", "hours:{ cafe:{open:11,close:26.5,text:'11:00–02:30'}, library_hall:{op", 'isOpen(zone,h){ const o=PLACES.hours[zone]; if(!o||o.open==null) retur']
+TEXT MISS src/data/places.js [props6] added=21 missing=6 e.g. ["names:{ campus:'台大校園', gongguan:'公館', wenzhou:'溫州街', cafe:'兩點半 Café', ", "linze:'霖澤館', classroom:'霖澤館 201 教室', wancai:'萬才館', library_hall:'總圖書館'", "hours:{ cafe:{open:11,close:26.5,text:'11:00–02:30'}, library_hall:{op", 'isOpen(zone,h){ const o=PLACES.hours[zone]; if(!o||o.open==null) retur']
+TEXT MISS src/data/places.js [soclib] added=21 missing=6 e.g. ["names:{ campus:'台大校園', gongguan:'公館', wenzhou:'溫州街', cafe:'兩點半 Café', ", "linze:'霖澤館', classroom:'霖澤館 201 教室', wancai:'萬才館', library_hall:'總圖書館'", "hours:{ cafe:{open:11,close:26.5,text:'11:00–02:30'}, library_hall:{op", 'isOpen(zone,h){ const o=PLACES.hours[zone]; if(!o||o.open==null) retur']
+TEXT MISS src/data/syllabus.js [trees] added=2 missing=2 e.g. ['來源：claude/bb-story-planning 00b4ec3。只有法律系八學期＋日文；經濟系大一等使用者確認時間線（AA_106）', 'const SYLLABUS={"source":"claude/bb-story-planning 00b4ec3","courses":']
+TEXT MISS src/engine3d.js [pavsoc] added=6 missing=1 e.g. ['function updateLevelVis(){ const z=E.zone; if(!z||!z.levelGroups) retu']
+TEXT OK   src/engine3d.js [props] added=25 missing=0
+TEXT OK   src/engine3d.js [props6] added=26 missing=0
+TEXT OK   src/engine3d.js [soclib] added=26 missing=0
+TEXT MISS src/engine3d.js [trees] added=4 missing=1 e.g. ['for(const n of E.npcs){ if(!n.talk||n.hidden) continue; if(Math.abs(n.']
+TEXT OK   src/events3d.js [trees] added=1 missing=0
+TEXT MISS src/game3d.js [pavsoc] added=20 missing=3 e.g. ['async function enter(zoneId,spawn,opts){ opts=opts||{}; if(entering) r', "function applySettings(){ $('mdbg').style.display=(S.mdbg||/mdbg|debug", "$('setQuality').onchange=e=>{ S.quality=e.target.value; saveSettings()"]
+TEXT MISS src/game3d.js [props] added=24 missing=6 e.g. ['async function enter(zoneId,spawn,opts){ opts=opts||{}; if(entering) r', "function renderMap(){ const box=$('mapList'); box.innerHTML=''; const ", '/* 快速前往（2026-10-11 使用者：走路太慢；大地圖的 🚶 也開這裡）：多了霖澤館、萬才館、總圖、Café、公館的店（去過才能去；', "const places=[['campus','台大校園（霖澤館前）',{x:34,z:-98,yaw:0}],['campus','椰林"]
+TEXT MISS src/game3d.js [props6] added=28 missing=5 e.g. ["function renderMap(){ const box=$('mapList'); box.innerHTML=''; const ", '/* 快速前往（2026-10-11 使用者：走路太慢；大地圖的 🚶 也開這裡）：多了霖澤館、萬才館、總圖、Café、公館的店（去過才能去；', "const places=[['campus','台大校園（霖澤館前）',{x:34,z:-98,yaw:0}],['campus','椰林", "function applySettings(){ $('mdbg').style.display=(S.mdbg||/mdbg|debug"]
+TEXT MISS src/game3d.js [soclib] added=28 missing=5 e.g. ["function renderMap(){ const box=$('mapList'); box.innerHTML=''; const ", '/* 快速前往（2026-10-11 使用者：走路太慢；大地圖的 🚶 也開這裡）：多了霖澤館、萬才館、總圖、Café、公館的店（去過才能去；', "const places=[['campus','台大校園（霖澤館前）',{x:34,z:-98,yaw:0}],['campus','椰林", "function applySettings(){ $('mdbg').style.display=(S.mdbg||/mdbg|debug"]
+TEXT MISS src/game3d.js [trees] added=15 missing=6 e.g. ['只做一次（social.fm120），改之前把讀進來的原始存檔備份到 fatiao3d_backup */', "function relabelFirstMet(s){ const so=s.social; if(!so||typeof so!=='o", 'for(const id in MEET_EVENTS){ const M=so.mem[id]; if(!Array.isArray(M)', "if(M.some(m=>m.tag!=='FIRST_MET'&&m.tag!=='ADJUST')) continue;"]
+TEXT MISS src/guide3d.js [bike] added=166 missing=1 e.g. ["const LINKS={ dorm:['campus','dorm_hall'], dorm_hall:['campus','dorm']"]
+TEXT MISS src/guide3d.js [lane118] added=166 missing=1 e.g. ["const LINKS={ dorm:['campus','dorm_hall'], dorm_hall:['campus','dorm']"]
+TEXT MISS src/guide3d.js [lawlib] added=166 missing=1 e.g. ["const LINKS={ dorm:['campus','dorm_hall'], dorm_hall:['campus','dorm']"]
+TEXT MISS src/guide3d.js [pavsoc] added=151 missing=30 e.g. ["const LINKS={ dorm:['campus','dorm_hall'], dorm_hall:['campus','dorm']", "linze:['campus','classroom'], classroom:['linze'], wancai:['campus'], ", '順序有意義：先看「或」（自由選擇）、再看睡覺／回宿舍（「睡覺（明天 13:20 民法總則）」要指床，不是教室）。', '[/或/, null],']
+TEXT MISS src/guide3d.js [props] added=151 missing=28 e.g. ["const LINKS={ dorm:['campus','dorm_hall'], dorm_hall:['campus','dorm']", "linze:['campus','classroom'], classroom:['linze'], wancai:['campus'], ", '順序有意義：先看「或」（自由選擇）、再看睡覺／回宿舍（「睡覺（明天 13:20 民法總則）」要指床，不是教室）。', '[/或/, null],']
+TEXT MISS src/guide3d.js [props6] added=163 missing=6 e.g. ["const LINKS={ dorm:['campus','dorm_hall'], dorm_hall:['campus','dorm']", "linze:['campus','classroom'], classroom:['linze'], wancai:['campus'], ", "function closedNote(d){ const G=GM.G; if(!d||G.zone===d.zone) return '", "function hoursLine(zone){ const o=PLACES.hours[zone]; if(!o) return ''"]
+TEXT MISS src/guide3d.js [soclib] added=163 missing=6 e.g. ["const LINKS={ dorm:['campus','dorm_hall'], dorm_hall:['campus','dorm']", "linze:['campus','classroom'], classroom:['linze'], wancai:['campus'], ", "function closedNote(d){ const G=GM.G; if(!d||G.zone===d.zone) return '", "function hoursLine(zone){ const o=PLACES.hours[zone]; if(!o) return ''"]
+TEXT OK   src/library3d.js [props] added=10 missing=0
+TEXT MISS src/social3d.js [trees] added=5 missing=1 e.g. ["const MEMORY_LABEL={FIRST_MET:'第一次見面',GREETED:'打過招呼',SHARED_CLASS:'一起上"]
+TEXT OK   src/story3d.js [pavsoc] added=19 missing=0
+TEXT MISS src/story3d.js [props] added=31 missing=3 e.g. ["if(F.zheInvite&&!F.zheNoodleDone&&h(G)>=20.5&&G.goal&&G.goal.indexOf('", '遊戲畫面沒有日期：第一天是「開學第三週的週三」（AA 的企劃），先假設是 9/17（9/1 開學），只用來算「每月 1 日」；企劃組給了日期', "G.hour=7.5; E.hour=G.hour; F.morningLine=false; GM.setGoal(isThu(G)?'1"]
+TEXT MISS src/story3d.js [props6] added=71 missing=1 e.g. ["G.hour=7.5; E.hour=G.hour; F.morningLine=false; GM.setGoal(isThu(G)?'1"]
+TEXT MISS src/story3d.js [soclib] added=71 missing=1 e.g. ["G.hour=7.5; E.hour=G.hour; F.morningLine=false; GM.setGoal(isThu(G)?'1"]
+TEXT MISS src/story3d.js [trees] added=75 missing=3 e.g. ['S.talkCharacter=async function(id,n){ const G=GM_ref.G; const first=!S', 'async function sleepNow(GM,wake,alarm){ const G=GM.G, F=G.flags, E=GM.', 'G.hour=wake!=null&&G.day>=3?wake:7.5; E.hour=G.hour; F.morningLine=fal']
+TEXT MISS src/teach3d.js [bike] added=142 missing=14 e.g. ['一個模組蓋所有的教學館（第一棟：共同教學館；之後普通、博雅用同一套），配置寫在 layout JSON（src/data/gongtong_', '產生器 tools/layout/gongtong_layout_gen.py）；LAWWW2 的 Blender 正式模型讀同一份，兩邊的', 'const LAYOUTS={ gongtong:()=>GONGTONG_LAYOUT };', 'function seatsOf(L){ const out=[]; for(const r of L.rooms) for(const s']
+TEXT MISS src/teach3d.js [lane118] added=142 missing=14 e.g. ['一個模組蓋所有的教學館（第一棟：共同教學館；之後普通、博雅用同一套），配置寫在 layout JSON（src/data/gongtong_', '產生器 tools/layout/gongtong_layout_gen.py）；LAWWW2 的 Blender 正式模型讀同一份，兩邊的', 'const LAYOUTS={ gongtong:()=>GONGTONG_LAYOUT };', 'function seatsOf(L){ const out=[]; for(const r of L.rooms) for(const s']
+TEXT MISS src/teach3d.js [lawlib] added=142 missing=14 e.g. ['一個模組蓋所有的教學館（第一棟：共同教學館；之後普通、博雅用同一套），配置寫在 layout JSON（src/data/gongtong_', '產生器 tools/layout/gongtong_layout_gen.py）；LAWWW2 的 Blender 正式模型讀同一份，兩邊的', 'const LAYOUTS={ gongtong:()=>GONGTONG_LAYOUT };', 'function seatsOf(L){ const out=[]; for(const r of L.rooms) for(const s']
+TEXT OK   src/teach3d.js [trees] added=2 missing=0
+TEXT OK   src/wancai3d.js [props] added=7 missing=0
+TEXT OK   src/wancai3d.js [props6] added=7 missing=0
+TEXT OK   src/wancai3d.js [soclib] added=7 missing=0
+TEXT MISS src/world3d.js [props] added=26 missing=2 e.g. ['function viewPhoto(kind,night){ if(!kind) return null; const k=kind+(n', 'return {viewPhoto,windowMat,setWindowView,photoTint,mergeGroup,canvasT']
+TEXT OK   src/zones3d.js [pavsoc] added=17 missing=0
+TEXT OK   src/zones3d.js [props] added=23 missing=0
+TEXT OK   src/zones3d.js [props6] added=27 missing=0
+TEXT OK   src/zones3d.js [soclib] added=27 missing=0
+TEXT MISS src/zones3d.js [trees] added=4 missing=1 e.g. ['{ const bb=W3.bulletin(); place(g,bb,-13.5,14.6,Math.PI); nav.blockRec']
+TEXT MISS tests/aa120_s7_unit.js [trees] added=82 missing=1 e.g. ["check('applySave：有改到才把原始存檔備份到 fatiao3d_backup',/if\\(relabelFirstMet\\(s"]
+TEXT MISS tests/clubs_aa110_unit.js [trees] added=101 missing=6 e.g. ['//   系籃在體育館門口「去練球」→ 轉暗 → 19:00 → 旁白；子晴的作息只有第 5～7、10～16 週的週一、三 19–21 在萬', '//   ev_ziqing_club 冷卻 7 天、「阿凱說妳系上第一名」整個存檔只出現一次；ev_studygroup_wed 不會因為', "check('阿凱轉述子晴、問「什麼時候？」的目標：「吉他社：第 5 週起，週一、週三 19:00，萬才館一樓多功能教室」（AA P2；原本", "check('系籃：體育館門口「去練球：系籃練球」→ 沒有入座的句子、直接轉暗 → 19:00 → 旁白 → 社課結束了',(chose[0"]
+TEXT MISS tests/discuss_unit.js [trees] added=86 missing=1 e.g. ["// 討論型 B 課堂（AA_119；BB 的 syllabus 00b4ec3 起：obs.kind==='discuss'）＋翹課的轉述"]
+TEXT OK   tests/first_meet_unit.js [trees] added=17 missing=0
+TEXT MISS tests/flow_classes.py [bike] added=147 missing=4 e.g. ['C. 共同教學館 101：週二 08:50 在椰林大道 → 走到共同教學館門口 → 按門進館 → 自己走進 101 → 坐下「上課：大一國文', 'seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.find(q=>q.r', "ok = await L.go_to(pg, cdp, run, seat['x'], seat['z'] + 0.55, 0.5, '10", "run.check('自己走進 101、走到座位旁、出現「坐下」', ok and s['interact'].startswith('坐下"]
+TEXT MISS tests/flow_classes.py [lane118] added=147 missing=4 e.g. ['C. 共同教學館 101：週二 08:50 在椰林大道 → 走到共同教學館門口 → 按門進館 → 自己走進 101 → 坐下「上課：大一國文', 'seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.find(q=>q.r', "ok = await L.go_to(pg, cdp, run, seat['x'], seat['z'] + 0.55, 0.5, '10", "run.check('自己走進 101、走到座位旁、出現「坐下」', ok and s['interact'].startswith('坐下"]
+TEXT MISS tests/flow_classes.py [lawlib] added=147 missing=4 e.g. ['C. 共同教學館 101：週二 08:50 在椰林大道 → 走到共同教學館門口 → 按門進館 → 自己走進 101 → 坐下「上課：大一國文', 'seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.find(q=>q.r', "ok = await L.go_to(pg, cdp, run, seat['x'], seat['z'] + 0.55, 0.5, '10", "run.check('自己走進 101、走到座位旁、出現「坐下」', ok and s['interact'].startswith('坐下"]
+TEXT MISS tests/flow_clubs.py [trees] added=137 missing=10 e.g. ['A. 吉他社第一次（還沒認識子晴）：10/13 週一 18:50 萬才館大廳 → 自己走到多功能教室門口 → 還沒開始時按門寫「今天 19:', '→ 社課一開始自動播子晴的初遇（ev_ziqing_club：「你就是阿凱的室友？」「我高子晴。資工二。」）→ 時間到 21:00、記下 F', 'D_MON = 27   # 2025-10-13 週一（第 7 週；第 5、6 週的週一放假）', "run.setup('讀檔：10/13 週一 18:40，萬才館一樓大廳（還沒認識子晴）')"]
+TEXT OK   tests/flow_playtest_fixes.py [trees] added=8 missing=0
+TEXT MISS tests/flow_teaching_buildings.py [bike] added=162 missing=6 e.g. ['自己走進 101 教室坐下、起身；走上樓梯到二樓走廊、自習區；走下樓、走出去回到正門前（D55 第二階段的室內）。', 'seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.find(q=>q.r', "run.check('101 教室的座位資料', bool(seat), json.dumps(seat))", "ok = await L.go_to(pg, cdp, run, seat['x'], seat['z'] + 0.55, 0.5, '10"]
+TEXT MISS tests/flow_teaching_buildings.py [lane118] added=162 missing=6 e.g. ['自己走進 101 教室坐下、起身；走上樓梯到二樓走廊、自習區；走下樓、走出去回到正門前（D55 第二階段的室內）。', 'seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.find(q=>q.r', "run.check('101 教室的座位資料', bool(seat), json.dumps(seat))", "ok = await L.go_to(pg, cdp, run, seat['x'], seat['z'] + 0.55, 0.5, '10"]
+TEXT MISS tests/flow_teaching_buildings.py [lawlib] added=162 missing=6 e.g. ['自己走進 101 教室坐下、起身；走上樓梯到二樓走廊、自習區；走下樓、走出去回到正門前（D55 第二階段的室內）。', 'seat = await pg.evaluate("(()=>{ const s=GAME.E.zone.seats.find(q=>q.r', "run.check('101 教室的座位資料', bool(seat), json.dumps(seat))", "ok = await L.go_to(pg, cdp, run, seat['x'], seat['z'] + 0.55, 0.5, '10"]
+TEXT MISS tests/guide_unit.js [props] added=26 missing=3 e.g. ["const t=fs.readFileSync(path.join(ROOT,f),'utf8'); const re=/setGoal\\(", "'睡覺（明天 13:20 民法總則）':'dorm','吃飽了。晚上自由活動，回宿舍睡覺就到明天':'dorm'};", "for(const g of ['自由的一天。去圖書館、公館，或找人聊天','今晚去公館吃點東西，或回宿舍','讀（或不讀）明天的案例，然後"]
+TEXT MISS tests/nav_teach_unit.js [bike] added=49 missing=26 e.g. ['// 公共教學館模板（src/teach3d.js；D55 第二階段）的導航——不需要瀏覽器。第一棟：共同教學館（src/data/gong', '//   每一個座位（教室 64 個、休息區、自習區、長椅）的「坐下」位置（GAME.seatApproach 的規則）站得住、從大門走得到', '//   樓梯：大廳 → A 跑 → 平台 → B 跑 → 二樓走廊（高度一階一階、換到第 1 層）；二樓 → 一樓；', '//   關著的房間（管理室、203、洗手間）走不進去；二樓的樓梯井掉不下去；']
+TEXT MISS tests/nav_teach_unit.js [lane118] added=49 missing=26 e.g. ['// 公共教學館模板（src/teach3d.js；D55 第二階段）的導航——不需要瀏覽器。第一棟：共同教學館（src/data/gong', '//   每一個座位（教室 64 個、休息區、自習區、長椅）的「坐下」位置（GAME.seatApproach 的規則）站得住、從大門走得到', '//   樓梯：大廳 → A 跑 → 平台 → B 跑 → 二樓走廊（高度一階一階、換到第 1 層）；二樓 → 一樓；', '//   關著的房間（管理室、203、洗手間）走不進去；二樓的樓梯井掉不下去；']
+TEXT MISS tests/nav_teach_unit.js [lawlib] added=49 missing=26 e.g. ['// 公共教學館模板（src/teach3d.js；D55 第二階段）的導航——不需要瀏覽器。第一棟：共同教學館（src/data/gong', '//   每一個座位（教室 64 個、休息區、自習區、長椅）的「坐下」位置（GAME.seatApproach 的規則）站得住、從大門走得到', '//   樓梯：大廳 → A 跑 → 平台 → B 跑 → 二樓走廊（高度一階一階、換到第 1 層）；二樓 → 一樓；', '//   關著的房間（管理室、203、洗手間）走不進去；二樓的樓梯井掉不下去；']
+TEXT MISS tests/release_suite.sh [bike] added=18 missing=1 e.g. ['run nav_teach_unit        node tests/nav_teach_unit.js          # 公共教學']
+TEXT MISS tests/release_suite.sh [lane118] added=18 missing=1 e.g. ['run nav_teach_unit        node tests/nav_teach_unit.js          # 公共教學']
+TEXT MISS tests/release_suite.sh [lawlib] added=18 missing=1 e.g. ['run nav_teach_unit        node tests/nav_teach_unit.js          # 公共教學']
+TEXT OK   tests/release_suite.sh [props] added=6 missing=0
+TEXT OK   tests/release_suite.sh [props6] added=7 missing=0
+TEXT OK   tests/release_suite.sh [soclib] added=7 missing=0
+TEXT MISS tests/save_firstmet_migration.py [trees] added=42 missing=3 e.g. ["localStorage.setItem('fatiao3d_auto',JSON.stringify(s)); localStorage.", "zq:SOCIAL.has('heroine_04','FIRST_MET'), fm:!!G.social.fm120, backup:l", "run.check('3 子晴（吉他社事件播過）不動', st['zq'] and st['fm'])"]
+TEXT MISS tests/teach_class_unit.js [bike] added=40 missing=3 e.g. ['// 建築裡的教室上課（D55 第二階段：共同教學館 101；課表 COMMON＝共同教學館 101）——不需要瀏覽器。', '//       上課時 101 坐了一部分同學（位子照課程與日期固定，再算一次一樣）、102 沒有；下課後同學離開；', "check('上課時（09:15）：101 坐了一部分同學（5～12 人）、102 沒有',a.length>=5&&a.length<=1"]
+TEXT MISS tests/teach_class_unit.js [lane118] added=40 missing=3 e.g. ['// 建築裡的教室上課（D55 第二階段：共同教學館 101；課表 COMMON＝共同教學館 101）——不需要瀏覽器。', '//       上課時 101 坐了一部分同學（位子照課程與日期固定，再算一次一樣）、102 沒有；下課後同學離開；', "check('上課時（09:15）：101 坐了一部分同學（5～12 人）、102 沒有',a.length>=5&&a.length<=1"]
+TEXT MISS tests/teach_class_unit.js [lawlib] added=40 missing=3 e.g. ['// 建築裡的教室上課（D55 第二階段：共同教學館 101；課表 COMMON＝共同教學館 101）——不需要瀏覽器。', '//       上課時 101 坐了一部分同學（位子照課程與日期固定，再算一次一樣）、102 沒有；下課後同學離開；', "check('上課時（09:15）：101 坐了一部分同學（5～12 人）、102 沒有',a.length>=5&&a.length<=1"]
+TEXT MISS tools/blender/env_second/seated_figures.py [trees] added=279 missing=10 e.g. ['# 腳：鞋底不能低於地面。先讓小腿往前伸（最多離垂直 15°：再多腳會伸到前一排的桌板下、碰到擋板），不夠再把大腿抬高（膝蓋往上）——個子高', 'for _ in range(16):', "k = H(arm, S + s + '_LowerLeg'); ank = H(arm, S + s + '_Foot'); Ls = (", 'cur_phi = math.atan2(ank.y - k.y, k.z - ank.z)']
+TEXT MISS tools/layout/gongtong_layout_gen.py [bike] added=82 missing=21 e.g. ['座標：區域自己的座標，入口在南牆（+z），走進去往北（-z）；外觀 24×14（和校園上的共同教學館同尺寸）。導航格 0.4 m：牆放在格子', '# 走廊北牆：教室前門、後門；一樓 A 跑的入口、二樓 B 跑的出口（中間是洗手間，關著）', 'gaps = [(-11.4, -10.2), (-5.0, -3.8), (3.8, 5.0), (10.2, 11.4)] + ([(-', "wall(lv, -11.9, CZN, 11.9, CZN, gaps, 'solid')"]
+TEXT MISS tools/layout/gongtong_layout_gen.py [lane118] added=82 missing=21 e.g. ['座標：區域自己的座標，入口在南牆（+z），走進去往北（-z）；外觀 24×14（和校園上的共同教學館同尺寸）。導航格 0.4 m：牆放在格子', '# 走廊北牆：教室前門、後門；一樓 A 跑的入口、二樓 B 跑的出口（中間是洗手間，關著）', 'gaps = [(-11.4, -10.2), (-5.0, -3.8), (3.8, 5.0), (10.2, 11.4)] + ([(-', "wall(lv, -11.9, CZN, 11.9, CZN, gaps, 'solid')"]
+TEXT MISS tools/layout/gongtong_layout_gen.py [lawlib] added=82 missing=21 e.g. ['座標：區域自己的座標，入口在南牆（+z），走進去往北（-z）；外觀 24×14（和校園上的共同教學館同尺寸）。導航格 0.4 m：牆放在格子', '# 走廊北牆：教室前門、後門；一樓 A 跑的入口、二樓 B 跑的出口（中間是洗手間，關著）', 'gaps = [(-11.4, -10.2), (-5.0, -3.8), (3.8, 5.0), (10.2, 11.4)] + ([(-', "wall(lv, -11.9, CZN, 11.9, CZN, gaps, 'solid')"]
+TEXT OK   tools/shots/window_views.py [props] added=46 missing=0
+TEXT OK   tools/shots/window_views.py [props6] added=46 missing=0
+TEXT OK   tools/shots/window_views.py [soclib] added=46 missing=0
+TEXT OK   tools/syllabus/import_syllabus.py [trees] added=2 missing=0
+TEXT OK   wip_backup/README.md [pavsoc] added=11 missing=0
+TEXT OK   wip_backup/README.md [props] added=11 missing=0
+TEXT OK   wip_backup/README.md [trees] added=2 missing=0
