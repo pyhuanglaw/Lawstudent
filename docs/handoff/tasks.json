@@ -1165,7 +1165,7 @@
    "area": "V0",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "T0b（9/29 21:58 兩封信＋新聞＋群組，可昕的假設題三種回）、T0a 泡麵之夜（9/30 颱風假在宿舍，Y0_SAUCE；阿勳那天整天在房間）、XL-1（第 8 週阿勳問肉燥）已接（tests/v0_t0_unit.js）；C1 即興劇社的熱身已接（第 6 週第一個平日 17:30 可昕邀→19:00 博雅；IMPROV_LINE；沒去 22:00「你錯過了一隻企鵝」；tests/v0_c1_unit.js）；C2 自己的社團已接（AA_154 A37：社團群組＋出發選單，吉他社萬才館 3D、登山社 2D、羽球社新體 3D、不參加＝唐睿私訊 Y0_EXTRA；tests/v0_c2_unit.js）；P2b 門口有人在揪＋L5b 已接（60bedabc：AA_154 2-5a、BB-B 6d59df01；tests/v0_p2b_unit.js）；F1、L5a 待開工",
+   "next": "T0b（9/29 21:58 兩封信＋新聞＋群組，可昕的假設題三種回）、T0a 泡麵之夜（9/30 颱風假在宿舍，Y0_SAUCE；阿勳那天整天在房間）、XL-1（第 8 週阿勳問肉燥）已接（tests/v0_t0_unit.js）；C1 即興劇社的熱身已接（第 6 週第一個平日 17:30 可昕邀→19:00 博雅；IMPROV_LINE；沒去 22:00「你錯過了一隻企鵝」；tests/v0_c1_unit.js）；C2 自己的社團已接（AA_154 A37：社團群組＋出發選單，吉他社萬才館 3D、登山社 2D、羽球社新體 3D、不參加＝唐睿私訊 Y0_EXTRA；tests/v0_c2_unit.js）；P2b 門口有人在揪＋L5b 已接（60bedabc：AA_154 2-5a、BB-B 6d59df01；tests/v0_p2b_unit.js）；F1 小年夜已接（d833d3a5；tests/v0_f1_unit.js；Y0_UNCLE 回聲的時間已問 AA-B）；L5a 待開工（時間已問 AA-B）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -10910,8 +10910,8 @@
    "title": "芷若的午場（ev_zhiruo_matinee）：拒絕 Z5 早場以後 3～4 週的邀約、午場 11:40、散場 13:30；支線第 4 環",
    "area": "V2",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照 BB_96 3-5b 實作",
+   "status": "已整合待測試",
+   "next": "0e722815：邀約、出遊、散場、票根（tests/v2_bb96_z5_unit.js）；兩處排法請 BB-B 抽查；底圖 gongguan_cinema 共用 Z5",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
