@@ -514,13 +514,13 @@
 | 9-6 和參考比 | 做了 | 文字描述（本節開頭） |
 | 9-6 遊戲內截圖 | 見下一節 | |
 
-### 遊戲內截圖（SOP 第 9 節；AA-B 2026-10-16 16:3x～17:1x UTC）
+### 遊戲內截圖（SOP 第 9 節；AA-B 2026-10-16 16:3x～17:0x UTC）
 
 - **怎麼拍**：在 LAWWW2-B 分支（`1c3bdefd`）的 worktree 開 server，用 `tools/blender/env_second/shots/fast_shots.py`。
   - 新的 GLB 還沒接進 `zones3d.js`，所以用 `js` 欄位在拍之前把 `park2_props.glb` 擺到 layout 的位置，並把 `wz_park.glb` 裡舊的圓柱版鞦韆、健身器材的三角形暫時拿掉（地面留著）。**只在截圖時，不進遊戲**。
   - 拍法：`park2_game_place.js`、`park2_game_shots.json`（本資料夾；把 JSON 裡的 `@park2_game_place.js` 換成 JS 的內容再跑）。
 - **圖**：`docs/art-rebuild/second_ai/test_shots/wz_park/park2_game_*.webp`。
-  - 手機直向 390×844（dpr 2）：`before_p_1100`（原本）、`after_p_1100`、`after_p_1730`、`after_p_2030`，同一個鏡頭；近景 `after_p_1730_swings`、`after_p_1730_fitness`；比例 `after_p_1730_scale`（祐廷站在鞦韆旁）。
+  - 手機直向 390×844（dpr 2）：`before_p_1100`（原本）、`after_p_1100`、`after_p_1730`、`after_p_2030`，同一個鏡頭；近景 `after_p_1730_swings`、`after_p_1730_fitness`；比例 `after_p_1730_scale`（祐廷 1.75 m 站在鞦韆旁：橫桿 2.35 m 在頭上，比例對）。
   - 手機橫向 844×390：`before_l_1100`（原本）、`after_l_1100`、`after_l_1730`、`after_l_2030`。
 - **看到的**：
   - 四件都在 layout 的位置，朝向對（健身器材面向公園裡面、鞦韆面向步道）。原本黑色的鞦韆、橘藍色的漫步機、灰色石板換掉了。
