@@ -1,0 +1,126 @@
+diff --git a/src/world3d.js b/src/world3d.js
+index c7acebc0..302c9a7f 100644
+--- a/src/world3d.js
++++ b/src/world3d.js
+@@ -74,12 +74,21 @@ const W3 = (function(){
+     o.traverse(m=>{ if(m.isMesh&&m.material&&m.material.name==='lamp_lens'){ m.material=lampMat.lens||(lampMat.lens=new THREE.MeshBasicMaterial({color:0xfff2c8})); lens=m; } });
+     g.add(o); g.userData={lamp:lens,lightPos:new THREE.Vector3(0,3.9,0.75),formal:'prop.street'}; return g; }
+   const formalFrameGeo={}, bikeMat={};
+-  function formalBike(color){ const s=formalSrc('bike_city'); if(!s) return null; const g=new THREE.Group(), o=formalCopy(s), col=new THREE.Color(color||'#3a6fb0');
++  function formalBike(color,kind){ const s=(kind&&formalSrc(kind))||formalSrc('bike_city'); if(!s) return null; const g=new THREE.Group(), o=formalCopy(s), col=new THREE.Color(color||'#3a6fb0');
+     o.traverse(m=>{ if(!m.isMesh) return; const n=m.material&&m.material.name; m.castShadow=n!=='bike_alpha'&&n!=='bike_metal'; m.receiveShadow=true;
+       if(n==='bike_frame'){ const k=m.geometry.uuid+col.getHexString(); let geo=formalFrameGeo[k];
+         if(!geo){ geo=m.geometry.clone(); const N=geo.attributes.position.count, a=new Float32Array(N*3); for(let i=0;i<N;i++){ a[i*3]=col.r; a[i*3+1]=col.g; a[i*3+2]=col.b; } geo.setAttribute('color',new THREE.BufferAttribute(a,3)); formalFrameGeo[k]=geo; }
+         m.geometry=geo; m.material=bikeMat.formalFrame||(bikeMat.formalFrame=Object.assign(m.material.clone(),{vertexColors:true})); } });
+     g.add(o); g.rotation.y=Math.PI/2; g.userData.formal='prop.street'; return g; }
++  /* 腳踏車多款式（LAWWW2-B，street_props.py；使用者 2026-10-16：「腳踏車機車全部都是同一個款式……路上不會全部都一樣」）：
++     停車架、路邊停的車照比例混搭（淑女車、公共單車形式、媽媽車、公路車、登山車、小折、老鐵馬）；每一款有自己常見的車架顏色（淑女車照呼叫者給的顏色）。
++     NPC 騎的車照舊用 bike()（淑女車：座墊、把手的位置和騎車的姿勢對得上）。kind 指定款式（腳踏車行的騎樓、櫥窗）。沒有正式模型時照舊用程序化的淑女車 */
++  const BIKE_KINDS=[['bike_city',0.33],['bike_share',0.22],['bike_city_child',0.06],['bike_road',0.11],['bike_mtb',0.12],['bike_fold',0.09],['bike_old',0.07]];
++  const BIKE_COL={bike_share:['#d9a23c'],bike_old:['#1f2021','#26332b','#1f2021','#3a2a26'],bike_road:['#e9e9e6','#1d1f22','#b8262b','#2b4f8c','#9ea3a8'],bike_mtb:['#1d1f22','#4f5a3c','#d65a2a','#e9e9e6','#2b4f8c'],bike_fold:['#e9e9e6','#b8262b','#2b4f8c','#c9a227','#1d1f22']};
++  let bikeSeq=0;
++  function bikeAny(color,seed,kind){ const t=Math.sin((seed==null?++bikeSeq:seed)*12.9898+4.1)*43758.5453, h=t-Math.floor(t);
++    if(!kind){ let r=h; kind='bike_city'; for(const [k,w] of BIKE_KINDS){ if((r-=w)<=0){ kind=k; break; } } }
++    const cs=BIKE_COL[kind], c=cs?cs[Math.floor(((h*97.13)%1)*cs.length)]:color; const f=formalBike(c||color,kind); if(f){ f.userData.bikeKind=kind; return f; } return bike(color); }
+   function formalBench(){ const s=formalSrc('bench_park'); if(!s) return null; const g=new THREE.Group(); g.add(formalCopy(s)); g.userData={seat:{y:0.45},formal:'prop.street'}; return g; }
+   // ⑥（2026-10-11）花台、公告欄、販賣機：尺寸照下面的程序化版本（導航阻擋在 zones3d.js，不變）；小零件（花、公告紙、飲料瓶、販賣機背光）不投影
+   const FORMAL_NO_SHADOW=/^(prop_vc|vend_light|bike_metal)$/;
+@@ -128,11 +137,12 @@ const W3 = (function(){
+     const bm=bikeMat.basket||(bikeMat.basket=new THREE.MeshStandardMaterial({map:basketTex(),roughness:0.5,metalness:0.2,alphaTest:0.5,side:THREE.DoubleSide})); const bk=new THREE.Mesh(G('bikeBasket',()=>new THREE.BoxGeometry(0.34,0.22,0.26)),bm); bk.position.set(0,0.83,0.5); bk.castShadow=false; g.add(bk);   // 前籃（鐵絲網）
+     g.rotation.y=Math.PI/2; return g; }
+   // 腳踏車架（v9.3 第十八批）：前輪插進去的低停車架；車子垂直於車架並排（原本車子沿著車架頭尾相疊），空位是固定的（原本每次載入隨機）
+-  function bikeRack(n,color){ const g=new THREE.Group(); const bin=new TK.Bin(); const rm=TK.col('#8f9399',{roughness:0.4,metalness:0.3}); const cols=['#3a6fb0','#8c3b47','#2f5d50','#e0b95b','#7b6a5a','#c46a4a','#f2efe8','#3a3f46'];
++  let rackSeq=0;
++  function bikeRack(n,color){ rackSeq++; const g=new THREE.Group(); const bin=new TK.Bin(); const rm=TK.col('#8f9399',{roughness:0.4,metalness:0.3}); const cols=['#3a6fb0','#8c3b47','#2f5d50','#e0b95b','#7b6a5a','#c46a4a','#f2efe8','#3a3f46'];
+     const L=n*0.6+0.2; bin.add(rm,new THREE.BoxGeometry(L,0.04,0.04),0,0.34,0.62); for(const sx of [-1,1]) bin.add(rm,new THREE.CylinderGeometry(0.02,0.02,0.34,6),sx*L/2,0.17,0.62);
+     for(let i=0;i<n;i++){ const x=(i-(n-1)/2)*0.6; for(const dx of [-0.05,0.05]) bin.add(rm,new THREE.CylinderGeometry(0.011,0.011,0.32,6),x+dx,0.16,0.62); }
+     bin.build(g);
+-    const bg=new THREE.Group(); for(let i=0;i<n;i++){ if(((i*7+n*3)%10)<3) continue; const b=bike(color||cols[(i*5+n)%cols.length]); b.position.set((i-(n-1)/2)*0.6,0,0); b.rotation.y=(((i*13)%5)-2)*0.03; bg.add(b); }
++    const bg=new THREE.Group(); for(let i=0;i<n;i++){ if(((i*7+n*3)%10)<3) continue; const b=bikeAny(color||cols[(i*5+n)%cols.length],rackSeq*101+i*13); b.position.set((i-(n-1)/2)*0.6,0,0); b.rotation.y=(((i*13)%5)-2)*0.03; bg.add(b); }
+     g.add(mergeGroup(bg));   /* 整排車合成同材質一個網格：一個停車架 4 個 draw call（原本每台 12 個） */ return g; }
+   function bulletin(){ const f=formalProp('bulletin_board'); if(f) return f; const g=new THREE.Group(); for(const s of [-1,1]){ const post=new THREE.Mesh(new THREE.BoxGeometry(0.12,2.4,0.12),mat('#5c3a21')); post.position.set(s*1.1,1.2,0); g.add(post); } const board=new THREE.Mesh(new THREE.BoxGeometry(2.4,1.5,0.08),mat('#8b5e3c')); board.position.set(0,1.65,0); g.add(board); outline(board,1.02); const cork=new THREE.Mesh(new THREE.PlaneGeometry(2.2,1.3),mat('#c9a57a')); cork.position.set(0,1.65,0.05); g.add(cork); const cols=['#f6dfa8','#ffffff','#cfe3ea','#f4b8a8','#d7e3ce']; for(let i=0;i<7;i++){ const p=new THREE.Mesh(new THREE.PlaneGeometry(0.42,0.55),new THREE.MeshBasicMaterial({color:cols[i%cols.length]})); p.position.set(-0.85+(i%4)*0.55+(i>3?0.25:0),1.85-(i>3?0.5:0)+ (Math.random()*0.06),0.06); p.rotation.z=(Math.random()-0.5)*0.12; g.add(p); } const roof=new THREE.Mesh(new THREE.BoxGeometry(2.6,0.08,0.5),mat('#5c3a21')); roof.position.set(0,2.45,0.1); g.add(roof); g.userData={cork}; return g; }
+   function planter(){ const f=formalProp('planter_box'); if(f) return f; const g=new THREE.Group(); const box=new THREE.Mesh(new THREE.BoxGeometry(1.2,0.5,0.5),mat('#9a8a7a')); box.position.y=0.25; g.add(box); outline(box,1.02); const flowers=['#e07a7a','#f2c14e','#f7f7f4','#c46a9a']; for(let i=0;i<6;i++){ const f=new THREE.Mesh(G('flower',()=>new THREE.SphereGeometry(0.09,7,5)),mat(flowers[i%4])); f.position.set(-0.45+i*0.18,0.62,(i%2?0.12:-0.12)); g.add(f); } const green=new THREE.Mesh(new THREE.BoxGeometry(1.1,0.16,0.4),mat('#5f9a5e')); green.position.y=0.55; g.add(green); return g; }
+@@ -168,5 +178,5 @@ const W3 = (function(){
+   function setWindowView(m,kind,night,fallback,tint){ const u=m.uniforms; if(!u) return; const ph=viewPhoto(kind,night); const want=ph||fallback; if(u.map.value!==want){ u.map.value=want; } u.photo.value=ph?1:0; if(tint!=null) u.tint.value.set(tint); return !!ph; }
+   // 白天的照片隨時段調色（照片是 11:00 拍的）：清晨偏冷、傍晚偏暖、黃昏暗下來；晚上換夜景照片，不調色
+   function photoTint(h,rain){ h=((h%24)+24)%24; if(h<5.5||h>=19.4) return 0xffffff; if(h<6.5) return 0xb8c2d6; if(h<8) return rain?0xc8ccd2:0xe8eef8; if(h<16) return rain?0xc9cfd6:0xffffff; if(h<17.6) return rain?0xc2c4c8:0xfff0dc; if(h<18.4) return rain?0x9a9ca4:0xffcfa0; return 0x8a8aa8; }
+-  return {viewPhoto,releaseViews,windowMat,setWindowView,photoTint,mergeGroup,canvasTex,grassTex,pathTex,asphaltTex,brickTex,stoneTex,facadeTex,signPlane,signTex,building,setNight,palm,banyan,bush,hedge,bench,formalBench,lampPost,bike,bikeRack,bulletin,planter,bell,vending,scooter,foodCart,gate,mrtEntrance,awning,updateWind,foliageMat};
++  return {viewPhoto,releaseViews,windowMat,setWindowView,photoTint,mergeGroup,canvasTex,grassTex,pathTex,asphaltTex,brickTex,stoneTex,facadeTex,signPlane,signTex,building,setNight,palm,banyan,bush,hedge,bench,formalBench,lampPost,bike,bikeAny,bikeRack,bulletin,planter,bell,vending,scooter,foodCart,gate,mrtEntrance,awning,updateWind,foliageMat};
+ })();
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 784ece3b..59ebaae8 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -261,7 +261,7 @@ const Z3 = (function(){
+     if(!fairDay){ const bb=W3.bulletin(); place(g,bb,-13.5,14.6,Math.PI); nav.blockRect(-13.5,14.6,2.6,0.4,0); }
+     const fairGLB=fairDay?clubFair(E,g,nav):null;   /* 博覽會的帳篷：位置、碰撞現在放；正式模型等 zone 建好再載 */
+     // 路旁散置腳踏車
+-    for(const [x,z] of [[-60,-15.5],[-57,15.5],[0,-15.5],[24,-64],[36,-64]]){ const b=W3.bike(['#3a6fb0','#8c3b47','#2f5d50','#e0b95b'][(x+z)&3]); place(g,b,x,z,Math.PI/2); nav.blockRect(x,z,1.7,0.6,0); }   /* v9.3 第十八批：車子沿 x 方向停，導航原本擋成沿 z 方向（走得過車頭車尾、旁邊空地反而不能走）*/
++    for(const [x,z] of [[-60,-15.5],[-57,15.5],[0,-15.5],[24,-64],[36,-64]]){ const b=W3.bikeAny(['#3a6fb0','#8c3b47','#2f5d50','#e0b95b'][(x+z)&3],x*7+z); place(g,b,x,z,Math.PI/2); nav.blockRect(x,z,1.7,0.6,0); }   /* v9.3 第十八批：車子沿 x 方向停，導航原本擋成沿 z 方向（走得過車頭車尾、旁邊空地反而不能走）*/
+     // ---- v9.3 第十八批：校園加密 ----
+     // 真實的椰林大道兩側幾乎整排都是系館（離大道 20–30 m、前面是草地）；原本這裡大道東半段兩側、行政大樓東邊、男一舍兩側都是空草地。
+     // 補上沒有掛名字的系館（不冒用真實系館的名字和位置），同一套校園套件語彙：紅磚／面磚、一樓拱廊、拱窗或方窗
+@@ -362,7 +362,7 @@ const Z3 = (function(){
+       for(const [bx,bz,bw,bd,pad] of linze.userData.ck.blocks) nav.blockRect(34+bx,-112+bz,bw,bd,0,pad==null?0.15:pad);   /* 柱子、扶手、兩翼再擋一次 */
+       nav.blockCircle(29,-128,0.6); nav.blockRect(22.0,-125.7,0.6,4.6,0,0.1); nav.blockRect(46.0,-125.7,0.6,4.6,0,0.1);
+       const hb=new TK.Bin(); for(const x0 of [22.0,46.0]) for(let z=-127.6;z<=-123.6;z+=0.8) TK.plantClump(hb,x0,0,z,1.0,6,[0.62,0.82,0.6]); const hg=new THREE.Group(); hb.build(hg); g.add(hg);
+-      for(let i=0;i<9;i++){ const b=W3.bike(['#3a6fb0','#8c3b47','#2f5d50','#e0b95b','#d9d3c6'][i%5]); b.position.set(24.2+i*0.75,0,-127.0); b.rotation.y=Math.PI/2; g.add(b); } nav.blockRect(27.2,-127.0,7.0,1.1,0,0.05);   /* 腳踏車停在後面那棟的牆邊 */ }
++      for(let i=0;i<9;i++){ const b=W3.bikeAny(['#3a6fb0','#8c3b47','#2f5d50','#e0b95b','#d9d3c6'][i%5],500+i); b.position.set(24.2+i*0.75,0,-127.0); b.rotation.y=Math.PI/2; g.add(b); } nav.blockRect(27.2,-127.0,7.0,1.1,0,0.05);   /* 腳踏車停在後面那棟的牆邊 */ }
+     { const hb=new TK.Bin(); for(const [x0,x1] of [[5,14],[54,73]]) for(let x=x0+0.5;x<=x1-0.4;x+=0.85) TK.plantClump(hb,x,0,-118.3+((Math.round(x*7))%3-1)*0.08,1.0+((Math.round(x*3))%3)*0.08,6,[0.62,0.82,0.6]); const hg=new THREE.Group(); hb.build(hg); g.add(hg); }   /* 矮灌木（和椰林大道的杜鵑叢同一套）*/
+     // 校門通道格：確保 -124..-118 之間可走（往公館）
+     for(let z=-4;z<=4;z+=0.5) for(let x=-127;x<=-118;x+=0.5){ const [cx,cz]=nav.toCell(x,z); if(cx>=0&&cz>=0&&cx<nav.cols&&cz<nav.rows) nav.b[nav.idx(cx,cz)]=0; }
+@@ -568,8 +568,8 @@ const Z3 = (function(){
+       x=X1; });
+     /* 輪轉單車（G06，正對校門；LAWWW2-B 2026-10-16，原本是「眼鏡・手機維修」）：店名虛構（D77）。街景——載妹墊開局就有（使用者 10-16，D78），不用在這裡裝、沒有互動點。
+        騎樓靠櫥窗停三台（和店面平行，騎樓還有 1.6 m 寬可以走；店門口 x −2.1～1.7 不放車）、櫥窗裡兩台、騎樓外一塊立牌。店門口互動點（−0.3, FZ+2）之後有需要再加 */
+-    { const sx=0.3; for(const [dx,c] of [[-3.3,'#2f5d50'],[2.3,'#e0b95b'],[4.2,'#8c3b47']]){ const b=W3.bike(c); b.position.set(sx+dx,0,FZ+2.55); b.rotation.y=Math.PI/2; g.add(b); nav.blockRect(sx+dx,FZ+2.55,1.75,0.6,0); }
+-      for(const [dx,c] of [[-2.2,'#3a6fb0'],[1.6,'#d9d3c6']]){ const b=W3.bike(c); b.position.set(sx+dx,0.155,FZ+3.75); b.rotation.y=-Math.PI/2; g.add(b); }
++    { const sx=0.3; for(const [dx,c,k] of [[-3.3,'#2f5d50','bike_road'],[2.3,'#e0b95b','bike_city'],[4.2,'#8c3b47','bike_mtb']]){ const b=W3.bikeAny(c,0,k);   /* 腳踏車行（輪轉單車）：騎樓擺公路車、淑女車、登山車 */ b.position.set(sx+dx,0,FZ+2.55); b.rotation.y=Math.PI/2; g.add(b); nav.blockRect(sx+dx,FZ+2.55,1.75,0.6,0); }
++      for(const [dx,c,k] of [[-2.2,'#3a6fb0','bike_fold'],[1.6,'#d9d3c6','bike_road']]){ const b=W3.bikeAny(c,0,k);   /* 櫥窗：小折、公路車 */ b.position.set(sx+dx,0.155,FZ+3.75); b.rotation.y=-Math.PI/2; g.add(b); }
+       const ab=TK.aBoard(['打氣免費','修車・換胎','後座墊加裝']); ab.position.set(2.6,0,FZ-0.6); ab.rotation.y=Math.PI; g.add(ab); nav.blockCircle(2.6,FZ-0.6,0.35); }
+     // 往溫州街的巷口（店面街西端）：麵店西邊留 6 m 寬的巷子（x −74～−68）往南，巷口對面是轉角公寓（一般店面、沒有騎樓）；巷口有路名牌和反光鏡。
+     /* 原本「往溫州街」只是區域邊上地面的互動點，旁邊什麼都沒有 */
+@@ -714,11 +714,11 @@ const Z3 = (function(){
+     E.interactables.push({x:54.2,z:0,radius:2.3,label:'進入兩點半 Café',exit:{to:'cafe',spawn:{x:0,z:5,yaw:Math.PI}}});
+     const cafeKitProps=[];   // 套件的 A 字立牌、門口盆栽：Café 正式模型裡有自己的版本（位置、導航阻擋相同），載入後藏起來
+     { const ab=TK.aBoard(['今日手沖','衣索比亞','耶加雪菲','—','讀書位 有']); ab.position.set(54.4,0,3.6); ab.rotation.y=-Math.PI/2; g.add(ab); nav.blockCircle(54.4,3.6,0.35); ab.userData.dyn=true; cafeKitProps.push(ab); }
+-    { const bk=W3.bike('#2f5d50'); bk.position.set(54.6,0,-5.4); bk.rotation.y=Math.PI+0.15; g.add(bk); nav.blockRect(54.6,-5.4,0.6,1.8,0.15,0.1); }
++    { const bk=W3.bikeAny('#2f5d50',546); bk.position.set(54.6,0,-5.4); bk.rotation.y=Math.PI+0.15; g.add(bk); nav.blockRect(54.6,-5.4,0.6,1.8,0.15,0.1); }
+     { const pt=TK.pots(5,1); pt.position.set(54.85,0,4.6); pt.rotation.y=-Math.PI/2; g.add(pt); nav.blockRect(54.85,5.4,0.6,1.8,0,0); pt.userData.dyn=true; cafeKitProps.push(pt); }
+     nav.blockRect(54.8,4.22,0.7,0.65,0,0); nav.blockRect(46.25,4.7,0.9,0.7,0,0);   // 比人窄的縫（A 字立牌和盆栽之間、電線桿和郵筒之間）：會留下只有一點站得住的小孤島，滑進去就出不來（v9.3 #31，tools/dev_scratch/nav_islands.py）
+     { const pt=TK.pots(4,3); pt.position.set(54.85,0,-4.6); pt.rotation.y=-Math.PI/2; g.add(pt); nav.blockRect(54.85,-3.8,0.6,1.6,0,0); pt.userData.dyn=true; cafeKitProps.push(pt); }
+-    { const bk=W3.bike('#3a6fb0'); bk.position.set(-35.9,0,-5.2); bk.rotation.y=0.15; g.add(bk); nav.blockRect(-35.9,-5.2,0.6,1.8,0.15,0.1); }
++    { const bk=W3.bikeAny('#3a6fb0',-359); bk.position.set(-35.9,0,-5.2); bk.rotation.y=0.15; g.add(bk); nav.blockRect(-35.9,-5.2,0.6,1.8,0.15,0.1); }
+     { const pt=TK.pots(5,1); pt.position.set(-36.6,0,3.4); pt.rotation.y=Math.PI/2; g.add(pt); nav.blockRect(-36.4,4.2,0.6,1.8,0,0); }
+     // A 側：日式宿舍（圍牆＋黑瓦木屋＋老樹）
+     // v9.3：圍牆降到 1.15 m、門開著（冠木門）、房子往前 0.5 m——從巷子就看得到木造外觀、格子窗、玄關（以前 1.7 m 的牆把房子整個擋住）
+@@ -781,7 +781,7 @@ const Z3 = (function(){
+     const scColors=['#e8e8e8','#2b2b2b','#8c3b47','#4a6c8c','#c9b48a','#f2f0ea','#3e5a48'];
+     const scRow=(x0,n,z,ry)=>{ for(let k=0;k<n;k++){ if(TK.rnd()<0.15) continue; const c=scColors[(k*3+Math.round(x0))%scColors.length], s=TK.scooter(c); const x=x0+k*0.85; s.position.set(x,0,z+(TK.rnd()-0.5)*0.15); s.rotation.y=ry+(TK.rnd()-0.5)*0.12; scAdd(s,c); } nav.blockRect(x0+(n-1)*0.85/2,z,n*0.85,1.7,0,0.05); };
+     if(typeof WZ_SHOPS_LAYOUT!=='undefined'){ scRow(-11.5,2,3.95,0); scRow(-6.8,3,3.95,0); } else scRow(-11.5,7,3.95,0);   /* 阿德影印輸出的店門（x −8）前面留空（DL-09）*/ scRow(5.0,12,-3.95,Math.PI); scRow(31.5,8,-3.95,Math.PI); scRow(-28.5,6,-3.95,Math.PI); scRow(typeof WZ_PARK_LAYOUT!=='undefined'?16.4:24.4,4,3.95,0);   /* 擴大版小公園：入口 A（x 22.6–29.4）前面不停機車，這一排挪到 A3 巷口書房前面 */
+-    for(const [bx,bz,ry,c] of [[9.4,4.1,0.1,'#3a6fb0'],[10.3,4.1,-0.08,'#8c3b47'],[18.6,4.1,0.05,'#e0b95b']]){ const bk=W3.bike(c); bk.position.set(bx,0,bz); bk.rotation.y=ry; g.add(bk); nav.blockRect(bx,bz,0.6,1.8,ry,0.05); }
++    for(const [bx,bz,ry,c] of [[9.4,4.1,0.1,'#3a6fb0'],[10.3,4.1,-0.08,'#8c3b47'],[18.6,4.1,0.05,'#e0b95b']]){ const bk=W3.bikeAny(c,Math.round(bx*10)); bk.position.set(bx,0,bz); bk.rotation.y=ry; g.add(bk); nav.blockRect(bx,bz,0.6,1.8,ry,0.05); }
+     // 盆栽（住家門口）、郵筒、立牌
+     for(const [px,pz,ry,n] of [[-2.6,4.55,Math.PI,6],[9.6,-4.55,0,5],[41.5,-4.55,0,7],[3.6,9.5,-Math.PI/2,5],[-13.5,-9,Math.PI/2,4],[-14.4,4.6,Math.PI,4]].filter(q=>!(q[0]===41.5&&typeof WZ_SHOPS_LAYOUT!=='undefined'))){   /* B7 改成半熟（溫州街 v5）：店門口有自己的黑板、長椅、大盆栽（模型），套件那一排盆栽會擋住店門 */ const pt=TK.pots(n,Math.round(px)); pt.position.set(px,0,pz); pt.rotation.y=ry; g.add(pt); const L=pt.userData.len; const c=Math.cos(ry), sn=Math.sin(ry); nav.blockRect(px+c*L/2,pz-sn*L/2,Math.abs(c)*L+0.6,Math.abs(sn)*L+0.6,0,0); }
+     { const mb=TK.mailbox(); mb.position.set(47.3,0,4.3); mb.rotation.y=Math.PI; g.add(mb); nav.blockRect(47.3,4.3,1.2,0.6,0,0); }
+diff --git a/tests/street_props_integration.py b/tests/street_props_integration.py
+index 0d10f34a..47dd2493 100644
+--- a/tests/street_props_integration.py
++++ b/tests/street_props_integration.py
+@@ -27,6 +27,7 @@ CONTRACT = """(()=>{ const r=v=>Math.round(v*1000)/1000; const out={};
+   const want=new THREE.Color('#d03030'); out.bike.want=[r(want.r),r(want.g),r(want.b)];
+   const b2=W3.bike('#3070d0'); let f2=null; b2.traverse(o=>{ if(o.isMesh&&o.material.name==='bike_frame') f2=o; }); out.bike.sharedMat=!!(frame&&f2&&frame.material===f2.material);
+   const rack=W3.bikeRack(7); let rm=0; rack.traverse(o=>{ if(o.isMesh) rm++; }); out.rack={meshes:rm};
++  if(W3.bikeAny){ const ks={}; let formal=0; for(let i=1;i<=60;i++){ const v=W3.bikeAny('#888888',i); const k=v.userData.bikeKind||'?'; ks[k]=(ks[k]||0)+1; if(v.userData.formal==='prop.street') formal++; } out.bikeAny={kinds:ks, n:Object.keys(ks).length, formal}; }   /* 腳踏車多款式（LAWWW2-B） */
+   const z3=Z3; const be=(typeof ASSETS!=='undefined')?W3.formalBench():null; if(be){ be.updateMatrixWorld(true); const eb=new THREE.Box3().setFromObject(be); out.bench={formal:be.userData.formal||null, seatY:be.userData.seat&&be.userData.seat.y, box:[r(eb.min.x),r(eb.max.x),r(eb.min.y),r(eb.max.y),r(eb.min.z),r(eb.max.z)]}; } else out.bench=null;
+   for(const [k,fn] of [['planter',()=>W3.planter()],['bulletin',()=>W3.bulletin()],['vending',()=>W3.vending()]]){ const o=fn(); o.updateMatrixWorld(true); const bx=new THREE.Box3().setFromObject(o);
+     out[k]={formal:o.userData.formal||null, box:[r(bx.min.x),r(bx.max.x),r(bx.min.y),r(bx.max.y),r(bx.min.z),r(bx.max.z)]}; }
+@@ -64,6 +65,8 @@ async def run_mode(p, run, mode):
+         run.check('腳踏車：沿 z 建模（長在 z、寬在 x）、輪子著地、兩輪在 z＝±0.47（車長約 ±0.8）', bx[1] - bx[0] < 0.7 and bx[5] - bx[4] > 1.5 and abs(bx[2]) < 0.03 and 0.7 < bx[5] < 0.9 and -0.9 < bx[4] < -0.7, json.dumps(bx))
+         run.check('腳踏車：車架顏色照參數（頂點色）、所有顏色共用一個材質（停車架可以合併）', B.get('vertexColors') and B.get('frameColor') and all(abs(a - b_) < 0.02 for a, b_ in zip(B['frameColor'], B['want'])) and B['sharedMat'], json.dumps(B))
+         run.check('停車架：整排合併（網格數少，不是每台各自一組）', 0 < c['rack']['meshes'] <= 12, json.dumps(c['rack']))
++        if c.get('bikeAny'):
++            run.check('腳踏車多款式：停車架、路邊的車照比例混搭（60 台裡至少 5 款、淑女車最多、全部是正式模型）', c['bikeAny']['n'] >= 5 and c['bikeAny']['formal'] == 60 and max(c['bikeAny']['kinds'], key=c['bikeAny']['kinds'].get) == 'bike_city', json.dumps(c['bikeAny']))
+         run.check('長椅：是正式模型、userData.seat.y＝0.45', E and E['formal'] == 'prop.street' and E['seatY'] == 0.45, json.dumps(E))
+         eb = E['box'] if E else [0] * 6
+         run.check('長椅：寬約 1.35 m、深度在導航阻擋（±0.35）裡、著地', E and 1.3 < eb[1] - eb[0] < 1.42 and eb[4] > -0.36 and eb[5] < 0.36 and abs(eb[2]) < 0.03, json.dumps(eb))
