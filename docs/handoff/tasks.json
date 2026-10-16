@@ -12477,6 +12477,27 @@
    },
    "source": "使用者 2026-10-16 22:3x 截圖",
    "authorized": "使用者（bug 回報）"
+  },
+  {
+   "id": "BUG-PARK-SEATS",
+   "title": "溫州街小公園：人坐在長椅前面的空中（陳語彤）；座位點都往前 0.35 m",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "next": "wz_park_layout.js seats：長椅改成中心往前 0.06 m、圓椅半徑 1.30（座面中間）；seat_occupied_unit 檢查；通知 LAWWW2-B 在它的版本同步（避免下次整合蓋回）；等瀏覽器截圖",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一個週六溫州街",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 22:3x 截圖（9/20 17:50 溫州街）",
+   "authorized": "使用者（bug 回報）"
   }
  ]
 }

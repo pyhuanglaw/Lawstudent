@@ -64,14 +64,14 @@ const WZ_PARK_LAYOUT = {
     {type: 'circle', x: 20.4, z: 27.6, r: 0.45}, {type: 'circle', x: 31.4, z: 28.0, r: 0.45},
     {type: 'circle', x: 23.4, z: 23.4, r: 0.2}, {type: 'circle', x: 30.6, z: 22.8, r: 0.2}
   ],
-  seats: [
-    {x: 26.0, z: 19.65, yaw: Math.PI, label: '坐在老樹下的圓椅'},
-    {x: 24.55, z: 21.2, yaw: -Math.PI / 2, label: '坐在老樹下的圓椅'},
-    {x: 27.45, z: 21.2, yaw: Math.PI / 2, label: '坐在老樹下的圓椅'},
-    {x: 23.95, z: 9.0, yaw: Math.PI / 2, label: '坐在小公園的長椅'},
-    {x: 28.05, z: 9.0, yaw: -Math.PI / 2, label: '坐在小公園的長椅'},
-    {x: 19.55, z: 21.4, yaw: Math.PI / 2, label: '坐在長椅上看孩子玩'},
-    {x: 29.6, z: 26.25, yaw: Math.PI, label: '坐在後面的長椅'},
+  seats: [   // 座位點＝人坐下時的位置（sitAt 直接放在這裡）：長椅＝椅子中心往前 0.06 m（和程序化長椅一樣）、圓椅＝半徑 1.30（座面 1.07～1.45 的中間）。原本往前 0.35 m，人坐在椅子前面的空中（使用者 2026-10-16：陳語彤沒有坐在椅子上）
+    {x: 26.0, z: 19.9, yaw: Math.PI, label: '坐在老樹下的圓椅'},
+    {x: 24.7, z: 21.2, yaw: -Math.PI / 2, label: '坐在老樹下的圓椅'},
+    {x: 27.3, z: 21.2, yaw: Math.PI / 2, label: '坐在老樹下的圓椅'},
+    {x: 23.66, z: 9.0, yaw: Math.PI / 2, label: '坐在小公園的長椅'},
+    {x: 28.34, z: 9.0, yaw: -Math.PI / 2, label: '坐在小公園的長椅'},
+    {x: 19.26, z: 21.4, yaw: Math.PI / 2, label: '坐在長椅上看孩子玩'},
+    {x: 29.6, z: 26.54, yaw: Math.PI, label: '坐在後面的長椅'},
     {x: 31.7, z: 24.2, yaw: Math.PI, label: '盪鞦韆', kind: 'swing'},
     {x: 33.5, z: 24.2, yaw: Math.PI, label: '盪鞦韆', kind: 'swing'},
     {x: 14.6, z: 24.25, yaw: 0, label: '坐在涼亭的石凳'},
