@@ -115,14 +115,15 @@ if SET == 'gongguan':
 # 政大山下（--set nccu_food；LAWWW2-B 2026-10-16；outings3d.js 的 nccu_food「政大・山下的小吃街」）：只給 bg_nccu.py 算 2D 背景（沒有導航）。
 # 使用者 2026-10-16：「政大附近有麥當勞 和主要什麼學生會去的店你要實際查 不要虛構」→ 照查證（docs/art-rebuild/second_ai/research/nccu_real_shops.md）：
 # 指南路二段 57～67 號（政大側門「麥側」斜對面、學生人流最多的一段）由南往北：敏忠小吃 57、迷客夏 59、50嵐 63、一樓甜品店＋二樓四川飯館 65、麥當勞 67（三層）。
-# 店面寬度、樓層數、配色是推估（沒有看到照片）；只有一側（W）有房子，對面是指南路和校園（bg_nccu.py 做）。招牌只寫店名，不畫商標圖形。
+# 店面寬度、樓層數、配色是推估（沒有看到照片）；只有一側（W）有房子，對面是指南路和校園（bg_nccu.py 做）。
+# 使用者 2026-10-16：店名一律改諧音（避免侵權）：敏忠小吃→明中小吃、迷客夏→米可夏、50嵐→五十藍、四川飯館→肆川飯館、麥當勞→麥丹勞、摩斯漢堡→魔司漢堡；不畫商標、不照抄品牌配色
 NCCU_FOOD = {"sides": ["W"], "lane": {"x0": -3.0, "x1": 3.0, "z0": -40.0, "z1": 14.0}, "facade": {"west": -4.6, "east": 4.6}, "floorH": 3.1, "groundH": 3.5, "alleys": [],
-             "shops": [{"id": "minzhong", "side": "W", "z0": 6.0, "z1": 11.0, "floors": 4, "name": "敏忠小吃", "type": "家常菜"},
-                       {"id": "milksha", "side": "W", "z0": 2.0, "z1": 6.0, "floors": 4, "name": "迷客夏", "type": "手搖飲"},
-                       {"id": "fifty", "side": "W", "z0": -2.0, "z1": 2.0, "floors": 4, "name": "50嵐", "type": "手搖飲"},
-                       {"id": "sichuan", "side": "W", "z0": -7.0, "z1": -2.0, "floors": 4, "name": "冰品・甜湯", "type": "甜湯", "vsign": "四川飯館"},
-                       {"id": "mcd", "side": "W", "z0": -15.0, "z1": -7.0, "floors": 3, "name": "麥當勞", "type": "速食"},
-                       {"id": "mos", "side": "W", "z0": -25.0, "z1": -19.0, "floors": 4, "name": "摩斯漢堡", "type": "速食"}]}
+             "shops": [{"id": "minzhong", "side": "W", "z0": 6.0, "z1": 11.0, "floors": 4, "name": "明中小吃", "type": "家常菜"},
+                       {"id": "milksha", "side": "W", "z0": 2.0, "z1": 6.0, "floors": 4, "name": "米可夏", "type": "手搖飲"},
+                       {"id": "fifty", "side": "W", "z0": -2.0, "z1": 2.0, "floors": 4, "name": "五十藍", "type": "手搖飲"},
+                       {"id": "sichuan", "side": "W", "z0": -7.0, "z1": -2.0, "floors": 4, "name": "冰品・甜湯", "type": "甜湯", "vsign": "肆川飯館"},
+                       {"id": "mcd", "side": "W", "z0": -15.0, "z1": -7.0, "floors": 3, "name": "麥丹勞", "type": "速食"},
+                       {"id": "mos", "side": "W", "z0": -25.0, "z1": -19.0, "floors": 4, "name": "魔司漢堡", "type": "速食"}]}
 # 麥當勞和摩斯中間：一棟鐵門長年拉下的公寓（關鍵評論網）；其他查不到的門面只放住家鐵門、鐵捲門，不編店名
 if SET in ('lane118', 'nccu_food'):
     import json as _json
@@ -138,8 +139,8 @@ if SET in ('lane118', 'nccu_food'):
     _LOOK = {'dian': ('#2f5d50', '#f4ead8', '#c9a24a', '#2f5d50'), 'self': ('#c9463d', '#ffffff', '', '#c9463d'), 'tea': ('#f4ead8', '#2f7d5b', '#2f7d5b', None),
              'home': ('#8c3b2a', '#f4ead8', '', '#3b5a8c'), 'cafe2': ('#3b2a1e', '#f4ead8', '', None), 'pasta': ('#f4f1ea', '#8c3b47', '#2f5d50', '#2f5d50'),
              'korea': ('#ffffff', '#c9463d', '#1f4e8c', '#c9463d'), 'omu': ('#f2c230', '#5c3a21', '', '#e0a030'), 'noodle2': ('#f4ead8', '#9c2f2a', '', '#9c2f2a'),
-             'minzhong': ('#b8231c', '#ffffff', '', '#b8231c'), 'milksha': ('#2f7d5b', '#ffffff', '', None), 'fifty': ('#ffffff', '#1f4e8c', '#1f4e8c', None),
-             'sichuan': ('#f4ead8', '#9c2f2a', '', None), 'mcd': ('#c8102e', '#ffc72c', '', None), 'mos': ('#ffffff', '#c8102e', '#2f7d5b', None)}
+             'minzhong': ('#b8231c', '#ffffff', '', '#b8231c'), 'milksha': ('#3f6f8c', '#ffffff', '', None), 'fifty': ('#f4f1ea', '#2f5d50', '#2f5d50', None),
+             'sichuan': ('#f4ead8', '#9c2f2a', '', None), 'mcd': ('#8c2a22', '#f4ead8', '#e0a030', None), 'mos': ('#2f4a3a', '#f4ead8', '', None)}
     _FILL = [('早餐店', 'teishoku', '#f2b33e', '#3b2a1e'), ('影印・輸出', 'print', '#2f3a44', '#ffffff'), ('自助洗衣', 'laundry', '#e9f2f6', '#2a5f8a'),
              ('水果行', 'fruit', '#e0a030', '#3b2a1e'), ('二手書', 'books', '#2f4a3a', '#f4ead8'), ('文具', 'books', '#8c3b47', '#ffffff')]
     _WALLC = ['#d9cbb0', '#cfc5b2', '#e3ddd0', '#c8bca8', '#d6c3a5', '#e6dfd0', '#bfb2a0', '#cdbfa8']; _WALLT = ['tile', 'mosaic', 'tile', 'plaster']
