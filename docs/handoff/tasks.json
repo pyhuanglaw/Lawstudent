@@ -7760,8 +7760,8 @@
    "title": "抓包 CG（P4）、畢業典禮兩位以上女友在場（P5）、多重交往的尾聲（P6）",
    "area": "V6",
    "owner": "LAWWW",
-   "status": "暫停",
-   "next": "—",
+   "status": "待開工",
+   "next": "AA_185 第 0 節（AA-B d85c1309，使用者 17:4x 授權 AA 定案）：多重交往走到畢業與尾聲（大四下 5/21 22:00「選擇」三選一、畢業後一年內再一次、尾聲坐旁邊的是那時還在一起的人、二十三週年兩位以上伴侶在場傘給小語）；尾聲前任在 Café 另一頭（0-2）。v5 施工時做",
    "priority": "P3",
    "first": {
     "term": "Y4S2",
@@ -7773,10 +7773,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "AA_140 §0（企劃線 f1213a26）；AA-B 10-16 02:09",
-   "authorized": "D79",
-   "pausedReason": "AA_140 0-3：使用者還沒確認，先不做內容",
-   "resumeWhen": "使用者確認 P4～P6（AA-B 轉達）；單一伴侶、沒有伴侶的版本照 v5 做"
+   "source": "AA_140 §0（企劃線 f1213a26）；AA-B 10-16 02:09；AA_185 第 0 節",
+   "authorized": "D79"
   },
   {
    "id": "V2-G01",
@@ -11437,6 +11435,90 @@
    },
    "source": "v9.9 發布後回歸 post99 flow_clubs",
    "authorized": "D85"
+  },
+  {
+   "id": "AA185-Y12",
+   "title": "AA_185 第 3 節大一大二的缺口",
+   "area": "V3",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "3-2 沛珊說分開（ev_peishan_split＋週五群組、HEARD_PS_SPLIT、伴侶 endEvent）、3-3 3/23 春假群組、3-4 可昕物件分開以後、3-8 期中晚餐旁白、3-11 慈 2 不需要慈 1、3-6 語彤 10 用習慣（已做）。tests/aa185_y12_unit.js。還沒：3-7 F-哲3 開頭（D15 做時）、3-10 洗碗數值（語彤 11 做時）、3-12 麵店兩人座（語 3 做時）",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S1",
+    "week": 6,
+    "earliest": "大二上第 6 週（沛珊說分開）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_185（AA-B d85c1309）",
+   "authorized": "D79"
+  },
+  {
+   "id": "AA185-Y3",
+   "title": "AA_185 第 1 節大三（何俊朗 1/3/5、主線 8 遠方與回來、大三暑假 SUMMER_Y3、語彤田野照片、交換學校的課、1/18 退宿、訪客規定、宜蓁、刑訴舊事件、J1b 町公所號碼牌）",
+   "area": "V4",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "v4 施工時做（AA-B d85c1309、832d5d78）",
+   "priority": "P2",
+   "first": {
+    "term": "Y3S1",
+    "week": null,
+    "earliest": "大三",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_185（AA-B d85c1309）",
+   "authorized": "D79"
+  },
+  {
+   "id": "AA185-Y4",
+   "title": "AA_185 第 2 節大四（應屆生期末第 14 週、以安新 18 伴侶版、ROMANCE_WITH 對照、Life Album、子晴線達成條件）",
+   "area": "V5",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "v5 施工時做",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S1",
+    "week": null,
+    "earliest": "大四",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_185（AA-B d85c1309）",
+   "authorized": "D79"
+  },
+  {
+   "id": "AA185-V6",
+   "title": "AA_185 第 4 節多段感情（以安、語彤分開後重新開始；有別的伴侶時戀愛 CG 照她知道的事情）",
+   "area": "V6",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "v6 照各學年施工",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S1",
+    "week": null,
+    "earliest": "第一次交往之後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_185（AA-B d85c1309）",
+   "authorized": "D79"
   }
  ]
 }

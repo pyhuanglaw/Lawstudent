@@ -1504,6 +1504,12 @@ const STORY = (function(){
        校慶（法服問答攤）：法服成員 11/13（五）21:00 語彤在法服讀書會群組「明天九點半，攤位集合。」（攤位的事件 ev_fair_booth_y2）。
        哲 2：第 10 週週四 11/12，和阿哲「朋友」以上：20:15 祐廷的訊息自動送出「今天週四，你沒去麵店？」，20:30 他回「沒事啦，在練球」（AA-B 682d911f）；回「我去找你。」＝出發選單「籃球場 21:00」→ 2D ev_zhe_court_y2。
          不回、不去：下週二起第一次在麵店遇到他，只說「上次沒事啦。」（ev_zhe_court_skip），沒有三種幫法、LENT_NOTES_Y2 沒有值 */
+    /* 大二下第 5 週 3/23（二）21:00 起，麵店團群組排春假（AA_185 3-3；P5 的鋪陳：沒有人 @ 沛珊，她有讀、沒有回）*/
+    { const d=S.dayOfKey('2027-03-23'); if(d!=null&&G.day===d&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'y2_spring_plan')){ const g=(from,text)=>({th:'g:noodle_team',from,text});
+        PHONE.at(G,d,21,[g('zhe','春假四天！要不要去哪裡？'),g('yu','我要去海邊！'),g('classmate_bohan','要先訂車。誰會開車？'),g('zhe','@'+(G.name||'祐廷')),g('classmate_xinci','住哪裡要先決定。'),g('yu','@語彤 妳可以嗎？'),g('heroine_03','……阿姨說可以。'),g('zhe','那下週再排。')],'y2_spring_plan'); } }
+    /* 沛珊說分開，沒在霖澤館遇到的（AA_185 3-2）：第 6 週週五 21:00 麵店團群組她自己說（直接說、對全桌說），阿哲回；記 HEARD_PS_SPLIT */
+    { const f6=termDay('Y2S1',6,5); if(f6!=null&&G.day===f6&&!(G.events&&G.events.done&&G.events.done.ev_peishan_split)&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'ps_split_group')){ F.HEARD_PS_SPLIT=true;
+        PHONE.at(G,f6,21,[{th:'g:noodle_team',from:'classmate_peishan',text:'說一下：我和柏翰分開了。我們都好。你們吃你們的。'},{th:'g:noodle_team',from:'zhe',text:'……收到。'}],'ps_split_group'); } }
     /* 學姊 W8 沒演到的玩家（不熟或沒到，BB_97 2-3、AA_177 第 8 節①）：11/27（五）21:00 讀書會群組她請假；Kevin 在家族群組問（不靠語彤轉述）*/
     { const d27=S.dayOfKey('2026-11-27'); if(d27!=null&&G.day===d27&&!(G.events&&G.events.done&&G.events.done.ev_sis_collapse)&&!PHONE.sent(G,'sis_w8_leave')){ const it=[];
         if(PHONE.inGroup(G,'lawclub_study')) it.push({th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'這週讀書會我請假。……第一次。'});
@@ -1905,6 +1911,7 @@ const STORY = (function(){
   S.kaiSheet=function(G){ const up=((G&&G.social&&G.social.relUp)||{}).kai|0;
     return up>=3?['「第一名：沙茶 9.5」'+KAI_SHEET,'（多了一欄「{name}」，裡面是他替你填的分數。最下面一行：「不準的話自己改」）']:['「第一名：不能說（怕被搶）」'+KAI_SHEET]; };
   S.roomItemList=function(G){ const F=(G&&G.flags)||{}, L=ROOM_ITEMS.slice(); if(F.ROOM_Y2) L[0]=['書架上的舊《民法》','現在知道，要先問是誰、向誰、依據什麼、要什麼。'];   /* AA_12 0-3 第 2 點：每一年拿起來的旁白不同（大二）*/
+    if(F.EX_kexin&&!F.dating_kexin){ L[2]=['寫滿的筆記本','她在第一頁寫的那一句，你沒有擦掉。']; L[3]=['摩天輪的票根（夾在桌墊下）','票根的日期，還是那一天。']; L[4]=['手機相簿的一張照片',['你翻到一半，又闔上了。','……照片裡的河，還是一樣寬。']]; }   /* 和可昕分開以後（AA_185 3-4：不寫責怪、不寫後悔）；「收拾」收進紙箱的那一段等 AA_182 第 2 節做的時候一起接 */
     if(F.XMAS_HL3) L.push(['桌上的三色螢光筆',F.GREEN_HIGHLIGHTER?'明軒送的三色螢光筆，和上次那支綠的放在一起。他說他用不到。':'明軒送的三色螢光筆。他說他用不到。']);
     if(G&&S.kaiRoommate(G)) L.push(['阿凱的泡麵評鑑表',S.kaiSheet(G)]);
     if(typeof SOCIAL!=='undefined'){ if(SOCIAL.has('heroine_02','WATCHED_FILM_GROUP')) L.push(['三張連號的票根',['三張連號的票根，你留著中間那張。','另外兩張在他們那裡。……應該吧。']]);   /* 電影票根（BB_96 3-5c）：同一個存檔只會有一種 */

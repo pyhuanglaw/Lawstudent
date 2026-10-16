@@ -57,7 +57,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   /* 晚餐 */
   const dinner=async(setup,pk)=>{ fresh(midDay,18.9,'campus',{}); meet('zhe'); if(setup) setup(); picks=pk||[]; await EVENTS.run(sup); return lines(); };
   L=await dinner(()=>{ meet('yu'); });
-  check('5. 開頭（認識小語）：小語「今天不講考試。誰講誰請。」阿哲「那第二題——」小語「你請。」阿哲「我還沒講完！」',JSON.stringify(L.slice(0,4))===JSON.stringify(['小語：今天不講考試。誰講誰請。','阿哲：那第二題——','小語：你請。','阿哲：我還沒講完！']),JSON.stringify(L));
+  check('5. 開頭：旁白「（阿姨的手腕綁著護腕。今天端麵的是語彤。）」（AA_185 3-8）；認識小語：小語「今天不講考試。誰講誰請。」阿哲「那第二題——」小語「你請。」阿哲「我還沒講完！」',JSON.stringify(L.slice(0,5))===JSON.stringify(['（阿姨的手腕綁著護腕。今天端麵的是語彤。）','小語：今天不講考試。誰講誰請。','阿哲：那第二題——','小語：你請。','阿哲：我還沒講完！']),JSON.stringify(L));
   L=await dinner(null); check('5. 不認識小語：沒有那四句',!L.some(l=>l.includes('誰講誰請')),JSON.stringify(L));
   L=await dinner(()=>{ meet('classmate_mingxuan'); SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY',''); },['他有念']);
   check('6. 明軒的回聲（SAW_HIM_STUDY）：阿哲「明軒說他這次也沒念。」→「……他有念。我看到了。」→ 明軒「……哈哈。這次換我請。」',L.includes('阿哲：明軒說他這次也沒念。')&&JSON.stringify(opts[0])==='["「……他有念。我看到了。」","（繼續吃麵）"]'&&L.some(l=>l.endsWith('……哈哈。這次換我請。'))&&G.flags.SUPPER2_MX===true,JSON.stringify({L,opts}));

@@ -4279,6 +4279,18 @@
    "integration": "已整合待測試",
    "note": "campus_socsci.glb／.json＋腳本、ramp 貼圖；廣場夜景重拍排隊",
    "date": "2026-10-16T17:5xZ"
+  },
+  {
+   "id": "DLV-1016-357",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "832d5d78",
+   "what": "AA_185 1-12 日本路線 J1b 町公所的號碼牌（1/14）、J2 開頭回聲、2/18 關西的雪",
+   "task": "AA185-Y3",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v4 施工時做",
+   "date": "2026-10-16T17:5xZ"
   }
  ],
  "ignored": [
@@ -5606,6 +5618,26 @@
    "sha": "2a907fdf",
    "branch": "origin/claude/elegant-brown-fcos7n",
    "why": "BB-B 自己的工作紀錄（BB_163 本身是 9c1d72a5＝DLV-1016-350）"
+  },
+  {
+   "sha": "45ef62d3",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "BB_162 美術支援 SOP 的方法提議（給 LAWWW2-B，不是交付給 LAWWW 的內容）"
+  },
+  {
+   "sha": "8bd444ce",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "BB-B 工作紀錄（BB_163 本身是 9c1d72a5＝DLV-1016-350）"
+  },
+  {
+   "sha": "a42a527f",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "BB_162 SOP 小補（給 AA／BB／LAWWW2 的施工方法）"
+  },
+  {
+   "sha": "4a9a867d",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "AA_185 的另一個 commit（合併後是 d85c1309＝DLV-1016-355）"
   }
  ]
 }

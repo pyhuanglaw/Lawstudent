@@ -238,7 +238,7 @@ const HOME=(function(){
     { const d=DK('2026-07-09'); if(d!=null&&now>=T(d,12)&&now<T(d+1,0)&&!PHONE.sent(G,'yt_bday_y1')){ const reply={from:'heroine_03',text:'……謝謝。阿姨說要請你吃滷蛋。下次來。'}, opt={t:'傳一句生日快樂',post:'生日快樂。',say:[reply],set:{YT_BDAY_Y1:true}};
         if(PHONE.inGroup(G,'noodle_team')) PHONE.at(G,d,12,[{th:'g:noodle_team',from:'yu',text:'今天語彤生日！',ask:{id:'yt_bday_y1',until:T(d+1,0),opts:[Object.assign({},opt,{say:[Object.assign({th:'g:noodle_team'},reply)]})]}}],'yt_bday_y1');
         else if(typeof SOCIAL!=='undefined'&&SOCIAL.STAGES.indexOf(SOCIAL.stage('heroine_03'))>=SOCIAL.STAGES.indexOf('FAMILIAR')) PHONE.at(G,d,12,[{th:'p:heroine_03',text:'今天是語彤的生日。',ask:{id:'yt_bday_y1',until:T(d+1,0),opts:[opt]}}],'yt_bday_y1'); } }
-    { const d=DK('2026-07-15'); if(d!=null&&now>=T(d,10)&&!PHONE.sent(G,'dorm_lottery_y2')){ PHONE.join(G,'dorm','宿舍系統'); PHONE.at(G,d,10,[{th:'g:dorm',text:'大二宿舍抽籤結果：已分配。請於 9/6 前完成入住。'}],'dorm_lottery_y2');
+    { const d=DK('2026-07-15'), d9=DK('2026-09-07'); if(d!=null&&now>=T(d,10)&&(d9==null||now<T(d9,0))&&!PHONE.sent(G,'dorm_lottery_y2')){   /* 只在那個暑假（9/6 搬進去以前）：之後才讀到的舊存檔不補 */ PHONE.join(G,'dorm','宿舍系統'); PHONE.at(G,d,10,[{th:'g:dorm',text:'大二宿舍抽籤結果：已分配。請於 9/6 前完成入住。'}],'dorm_lottery_y2');
         if(PHONE.inGroup(G,'noodle_team')) PHONE.at(G,d,10+5/60,[{th:'g:noodle_team',from:'zhe',text:'抽到了！哥你哪一間？……我們還是不同棟。'}],'dorm_lottery_y2_zhe'); } } };
   /* A3 搬家不能錯過（AA_154 A46 ①）：3/29 以後、還沒搬、人在家（週末回家那一套）＝下一輪選單（含起床選單）之前先回宿舍演 A3，演完搬回家（HOME.moveOut）。旁白 AA 寫 */
   S.a3Due=G=>{ const F=G.flags||{}; if((G.stage||'law')!=='econ'||F.LEAVE_WEEK!==6||F.Y0_MOVED_OUT||(G.events&&G.events.done&&G.events.done.ev_y0_a3)) return false; const d=DK('2025-03-29'); return d!=null&&G.day>=d; };
