@@ -1415,8 +1415,8 @@
    "title": "法服每兩週週六早上（方案 A）：週六值班本身沒有活動",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "照 AA_131 §6 做週六值班",
+   "status": "等待其他AI／素材",
+   "next": "AA_131 第 6 節只記錄、沒給大一週六值班的內容；2026-10-16 05:2x 問 AA-B 四題（大一能不能旁觀、NPC、去了幾次要不要記、學姊的台詞）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -8254,8 +8254,8 @@
    "title": "大一的三個回聲：SIS_NO_STICKER、KAI_JOINS_TEST、W4 便條",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照 BB_134 附錄的規格",
+   "status": "已整合待測試",
+   "next": "三個回聲做完（tests/v1_echo_unit.js）：W4「已裝滿」便條（總圖 npcNear、7 天內）、阿凱「測試。你說好的。」／「你錯過了史上最難的一關。」（K2 後第 7～14 天晚上回房間）、學姊跨年第一次貼圖（家族群組）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",

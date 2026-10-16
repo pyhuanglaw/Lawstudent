@@ -861,11 +861,20 @@ const STORY_EVENTS=[
      選項 2 之後一週「保溫瓶上貼了一張便條：已裝滿」——遊戲沒有保溫瓶的模型，先沒有（之後做道具時補）*/
   { id:'ev_sis_empty_flask', title:'空的保溫瓶', participants:['heroine_05'], location:'library', trigger:'interact', priority:8, once:true, term:['Y1S2'], weeks:[8,9], weekday:[1,2,3,4,5], time:[14,17], prereq:{stage:{npc:'heroine_05',min:'FAMILIAR'}}, background:'blur',
     dialogue:[ {speaker:null,text:'她在讀判決，左手拿著保溫瓶，喝了一口。又喝了一口。'},{speaker:null,text:'保溫瓶是空的。她已經對著空瓶喝了三次。'},
-      {choice:[{text:'「學姊，妳的保溫瓶是空的。」',consequences:{mem:[{npc:'heroine_05',tag:'NOTICED_HER',note:'空的保溫瓶'}]},goto:'tell'},{text:'（去 Café 買一杯黑咖啡，放在她桌上）',consequences:{mem:[{npc:'heroine_05',tag:'HELPED',note:'空的保溫瓶，買了黑咖啡'}]},goto:'coffee'},{text:'（什麼都不說）',consequences:{mem:[{npc:'heroine_05',tag:'NOTICED_HER',note:'空的保溫瓶'}]},goto:'quiet'}]},
+      {choice:[{text:'「學姊，妳的保溫瓶是空的。」',consequences:{mem:[{npc:'heroine_05',tag:'NOTICED_HER',note:'空的保溫瓶'}]},goto:'tell'},{text:'（去 Café 買一杯黑咖啡，放在她桌上）',consequences:{mem:[{npc:'heroine_05',tag:'HELPED',note:'空的保溫瓶，買了黑咖啡'}],stamp:['flaskCoffeeDay']},goto:'coffee'},{text:'（什麼都不說）',consequences:{mem:[{npc:'heroine_05',tag:'NOTICED_HER',note:'空的保溫瓶'}]},goto:'quiet'}]},
       {label:'tell'},{speaker:null,text:'（她低頭看，搖了一下。）'},{speaker:'heroine_05',expression:'surprised',text:'……喔。'},{speaker:'heroine_05',expression:'neutral',text:'我早上九點裝的。我以為我還沒喝完。'},{speaker:null,text:'（她笑出來。）'},{speaker:'heroine_05',expression:'smile',text:'這件事很蠢。你看到了，就算了。'},{goto:'end'},
       {label:'coffee'},{speaker:'heroine_05',expression:'surprised',text:'……你翹課？'},{speaker:'player',text:'下課了。'},{speaker:'heroine_05',expression:'smile',text:'……好。'},{speaker:null,text:'（她把咖啡倒進保溫瓶。）'},{goto:'end'},
       {label:'quiet'},{speaker:null,text:'（她自己發現，起身去裝水。）'},{speaker:'heroine_05',expression:'serious',text:'你看到了吧。'},{speaker:'player',text:'……沒有。'},{speaker:'heroine_05',expression:'smile',text:'說謊的時候，不要看別的地方。'},
       {label:'end'} ] },
+  /* 大一的回聲（BB_134 第 1 節第 4 點、附錄 BB_134a；台詞 BB_96 2-5、BB_108 第 1 節）——W4「已裝滿」便條：空的保溫瓶選了買黑咖啡的玩家，之後一週內在總圖走到學姊旁邊，一句旁白 */
+  { id:'ev_sis_flask_full', title:'已裝滿', participants:[], location:'library', trigger:'auto', npcNear:'heroine_05', once:true, background:'blur',
+    prereq:{custom:G=>G.flags.flaskCoffeeDay!=null&&G.day>G.flags.flaskCoffeeDay&&G.day<=G.flags.flaskCoffeeDay+7},
+    dialogue:[ {speaker:null,text:'（她的保溫瓶上貼了一張便條：「已裝滿」。）'} ] },
+  /* 阿凱 K2 的回聲（BB_108 第 1 節 KAI_JOINS_TEST）：K2 之後第二週的晚上回到房間——說好「下次測試我叫你一起」的玩家：「測試。你說好的。」三個小時；其他選項：他自己測，隔天說「你錯過了史上最難的一關」 */
+  { id:'ev_kai_test_echo', title:'測試', participants:['kai'], location:'dorm', trigger:'enter', once:true, time:[18,23], background:'blur',
+    prereq:{events:['ev_kai_engineer'],custom:G=>{ const d=G.events&&G.events.last&&G.events.last.ev_kai_engineer; return d!=null&&G.day>=d+7&&G.day<=d+14; }},
+    dialogue:[ {if:{flags:['KAI_JOINS_TEST']},speaker:'kai',expression:'smile',text:'測試。你說好的。'},{if:{flags:['KAI_JOINS_TEST']},speaker:null,text:'（三個小時，你死了四十次；阿凱記下每一次。）',consequences:{advance:3}},
+      {unless:{flags:['KAI_JOINS_TEST']},speaker:'kai',expression:'tired',text:'你錯過了史上最難的一關。'} ] },
   /* 語彤 6：房東來過了（交接包 v2 C12；AA_11 事件 6）：大一下第 10 週以後，第一次在週二或週四晚上去麵店（同班圈固定儀式）；once；玩家一直沒去就不發生。
      流程 1～4 照 AA_11 的字寫成旁白；問的選項只在和語彤有 FIRST_MET 時出現（選項的字 AA 180c8ff 定：「剛剛那個人是誰？」／（不問，低頭吃麵））；問了才記 RENT_RUMOR */
   { id:'ev_yutong_landlord', title:'房東來過了', participants:['heroine_03'], location:'noodle', trigger:'enter', weekday:[2,4], time:[17.5,20.5], once:true,

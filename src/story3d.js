@@ -569,7 +569,8 @@ const STORY = (function(){
     if(PHONE.inGroup(G,'family_law')){ const fri=termDay('Y1S1',14,5); if(fri){ const th='g:family_law', sis=t=>({th,from:'heroine_05',name:'溫學姊',text:t}), kv=t=>({th,from:'kevin',name:'Kevin',text:t});
       if(G.day>=fri-7&&G.day<=fri) PHONE.at(G,fri-7,20.5,[kv('家族聚餐！週五 18:30，阿鳳麵店。學姊說她會來（截圖為證）'),sis('收到。')],'fam_dinner_invite');
       if(G.day===fri) PHONE.at(G,fri,22.5,[sis('考古題第七題，我的紅筆改錯了。正確的在附件。')],'fam_dinner_fix');
-      if(G.day===fri&&h(G)>=19&&!(G.events&&G.events.done&&G.events.done.ev_sis_family_dinner)) PHONE.at(G,fri,22,[kv('📷 學姊整理的，沒來的人自己拿。'),sis('下學期的書，我會留給學弟。')],'fam_dinner_noshow'); } }
+      if(G.day===fri&&h(G)>=19&&!(G.events&&G.events.done&&G.events.done.ev_sis_family_dinner)) PHONE.at(G,fri,22,[kv('📷 學姊整理的，沒來的人自己拿。'),sis('下學期的書，我會留給學弟。')],'fam_dinner_noshow');
+      { const nye=termDay('Y1S1',18,3); if(F.SIS_NO_STICKER&&nye&&G.day>=nye-1&&G.day<=nye+1) PHONE.at(G,nye,24+3/60,[sis('（貼圖）'),kv('？？？'),sis('……學弟說過。')],'sis_first_sticker'); }   /* SIS_NO_STICKER 的回聲（BB_108 第 1 節）：跨年夜，學姊第一次在家族群組貼貼圖；沒有這個旗標不觸發 */ } }
     if(F.guitarFirstDay!=null&&!PHONE.sent(G,'guitar_grp1')){ PHONE.join(G,'guitar','吉他社'); PHONE.at(G,F.guitarFirstDay,21.5,[{th:'g:guitar',from:'heroine_04',text:'新人自己報名字，不要讓我問。這不是問句。'}],'guitar_grp1'); }
     if(G.msgs&&G.msgs.some(m=>m.tag==='sis_yutong')&&!F.yutongFwd){ F.yutongFwd=true;
       if(typeof INV!=='undefined'&&INV.hasContact(G,'heroine_03')){ PHONE.post(G,{th:'p:heroine_03',from:'player',who:null,text:'（把學姊的回覆截圖傳給語彤）',tag:'yutong_fwd_q'}); PHONE.at(G,G.day,G.hour+0.1,[{th:'p:heroine_03',from:'heroine_03',text:'……法服是什麼？'}],'yutong_fwd'); }
