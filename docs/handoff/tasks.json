@@ -8182,7 +8182,7 @@
    "title": "大二閒聊階梯：BB 五位（ladder_bb_y2s1：BB_136 fa4ce043；ladder_bb_y2s2：905b1103、BB_138 cc96e1f2）＋MEMORY_LABEL",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "重跑 tools 的 import_ladder 匯入兩個 json、補 BB_138 的 37 個記憶 tag 標籤；大二時一起驗收",
    "priority": "P2",
    "first": {
@@ -8198,7 +8198,8 @@
    "source": "BB_136（fa4ce043）、BB_138（cc96e1f2、905b1103）",
    "authorized": "D79",
    "sha": "",
-   "evidence": ""
+   "evidence": "",
+   "note": "2026-10-16：從企劃線 b20e614b 重新匯入，大二上、大二下 BB 五位（沛珊、芷若、子晴、學姊、可昕）各 8 步都在、記憶名稱齊（沒有被略過的學期）；和 16bd2c03 那次比內容沒有差。瀏覽器的閒聊階梯驗收跟大二一起。"
   },
   {
    "id": "V3-SYL",
