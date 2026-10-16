@@ -1,10 +1,10 @@
 {
- "objects": 181,
- "unique_meshes": 16,
- "tris": 4854,
- "tris_drawn": 8979,
- "materials": 63,
+ "objects": 183,
+ "unique_meshes": 18,
+ "tris": 5554,
+ "tris_drawn": 9679,
+ "materials": 66,
  "out": "assets/models/env/second_ai/wz_jphouse.glb",
- "bytes": 593400,
+ "bytes": 932448,
  "texres": 512
 }

@@ -1,0 +1,12 @@
+{
+ "objects": 31,
+ "unique_meshes": 31,
+ "tris": 15946,
+ "tris_drawn": 15946,
+ "materials": 74,
+ "out": "assets/models/env/second_ai/wz_print_interior.glb",
+ "bytes": 988812,
+ "texres": 512,
+ "shop": "print",
+ "layout": 1
+}
