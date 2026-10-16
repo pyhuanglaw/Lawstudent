@@ -54,7 +54,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - tests/letterbox_dialog.py：直向、橫向全部通過；同一支在 v9.9 失敗（最上層是黑邊 `letterB`、點黑邊沒反應）
 - tests/deploy_check.py：11 個區域、891 個網址、沒有 JS 例外、版本字樣 v9.9.1、70 個 script 帶 `?v=`
 - tests/p0_movement.py：全部通過
-- tests/flow_day2_an.py（從標題玩到第二天 Café 聊完）：發布後繼續跑（結果補在這裡）
+- tests/flow_day2_an.py（從標題玩到第二天 Café 聊完；真實玩家流程、不用 turbo）：發布後跑，2026-10-16 20:20 UTC **全部通過**（第一天宿舍 → 第二天上課 → 走出霖澤館 → 以安追上來、選咖啡廳、恢復控制 → 溫州街 → 進兩點半坐下聊完 → 恢復控制；第二天課表沒有 09:10 英文；沒有卡住保險、沒有 JS 例外）
 - 發布流程：GitHub 工具只能從分支名稱建分支，開發分支先推 `d65f9610`（內容＝候選）、建 `claude/release-v9.9.1`、再推 `68c74cc4` 還原開發分支（見 BRANCH_INVENTORY）；main 合併後的檔案和候選 `09630e60` 逐檔相同（git diff 為空）。
 
 **還沒做**：開局在第三週（等使用者決定方向、AA-B 評估）；v9.10 的內容照舊在開發分支。
