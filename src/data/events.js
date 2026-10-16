@@ -1529,6 +1529,18 @@ const STORY_EVENTS=[
   { id:'ev_y0_a1_note', stage:'econ', title:'門上的紙條', participants:[], location:'dorm', trigger:'auto', term:['Y0S1'], weeks:[9,10,11], once:true, background:'blur',
     prereq:{custom:G=>!(G.events&&G.events.done&&G.events.done.ev_y0_a1)&&typeof CALENDAR!=='undefined'&&CALENDAR.dateOf(G.day).key>='2024-11-01'&&(CALENDAR.dateOf(G.day).key>'2024-11-01'||G.hour>=12)},
     dialogue:[ {speaker:null,text:'期中考完，阿勳在門上貼了一張紙：「第四題，答案是零。」'} ] },
+  /* B2 小桌子的午後（BB_105 B2、4-4；AA_154 第 112 行）：Y0S1 第 6～7 週週一（10/7、10/14；第 5 週颱風停課）經原下課後，在博雅的自習區（101 旁小桌）坐下，可昕自己走過來。
+     讀書或聊天都可以；她一點二十有課。和總圖那次（E10，她約的）是兩件不同的事。熟悉度上升沒有給數字（等 AA-B）：先不加 */
+  { id:'ev_y0_b2', stage:'econ', title:'小桌子的午後', participants:['kexin'], location:'boya', trigger:'seat', seatRoom:'study', term:['Y0S1'], weeks:[6,7], weekday:[1], time:[12.1,13.25], once:true, background:'blur',
+    dialogue:[ {speaker:'kexin',expression:'neutral',text:'這裡有人嗎？'},
+      {speaker:'kexin',expression:'smile',text:'……沒有人的話，我坐了。我一點二十才有課，還有一個小時。'},
+      {speaker:'kexin',expression:'neutral',text:'你在讀經原？'},
+      {speaker:'kexin',expression:'teasing',text:'假設，供給曲線會害羞。它會往哪裡移？'},
+      {choice:[{text:'讀書',goto:'r'},{text:'聊天',goto:'c'}]},
+      {label:'r'},{speaker:null,text:'她安靜地讀了十分鐘，然後把一張紙條推過來：「我讀不下去了。你呢？」'},{set:{B2_PICK:'read'}},{goto:'end'},
+      {label:'c'},{speaker:null,text:'四十分鐘過去，誰都沒有翻頁。'},{set:{B2_PICK:'chat'}},
+      {label:'end'} ],
+    after:(G,GM)=>{ GM.advance(G.flags.B2_PICK==='chat'?2/3:1/6); } },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、

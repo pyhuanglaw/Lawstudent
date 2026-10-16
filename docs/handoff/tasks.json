@@ -1123,7 +1123,7 @@
    "area": "V0",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "P1 已接（classes3d.js S.p1Due：選座位 Y0_P1_SEAT、BB_105 2-3 四句、課表第 1 週的 C 類；第 1 週沒去就在之後第一次出席時；遲到超過 15 分鐘＝略過一句旁白——「可跳過」的意思已問 AA-B；tests/v0_p1_unit.js）；B1＝E03 已接；D2 已接（ec12d21c）；B2（博雅小桌子的午後）待開工",
+   "next": "P1 已接（classes3d.js S.p1Due：選座位 Y0_P1_SEAT、BB_105 2-3 四句、課表第 1 週的 C 類；第 1 週沒去就在之後第一次出席時；遲到超過 15 分鐘＝略過一句旁白——「可跳過」的意思已問 AA-B；tests/v0_p1_unit.js）；B1＝E03 已接；D2 已接（ec12d21c）；B2 小桌子的午後已接（坐在博雅自習區就開始：STORY.onSeat、trigger:'seat'；第 6～7 週週一中午；熟悉度沒給數字先不加；tests/v0_b2_unit.js）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
