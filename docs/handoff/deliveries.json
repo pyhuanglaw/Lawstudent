@@ -5022,8 +5022,8 @@
    "what": "ART-GYM-BG1 開學典禮背景 assets/bg/ntu_gym_ceremony.webp（3F 主球場、背板「開學典禮」、4,029 個新生、白天）＋腳本、說明、ADV 截圖",
    "task": "ART-GYM-BG1",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "註冊成 ADV 背景 ntu_gym_ceremony（outings3d.js BG 表）；法律系 8/31 典禮在 START-WEEK 實作時接（目前遊戲裡沒有法律系典禮場景）"
+   "integration": "退件",
+   "note": "使用者 2026-10-16 23:4x 直接退件（「開學典禮是學生要坐在座位上吧 怎麼一堆家長 而且超醜!!!」）：ADV 背景註冊已拿掉，不接任何劇情；LAWWW2-B 重做（只有學生坐在場地座位、用遊戲的學生正式人物、先給使用者看小圖）"
   },
   {
    "id": "DL-LW2-COPLANAR3",
