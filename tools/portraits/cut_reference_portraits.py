@@ -23,6 +23,7 @@ SRC = {
     'heroine_03': ('H:heroine_03_sheet.webp', (320, 0, 462, 532)),
     'heroine_04': ('H:heroine_04_sheet.webp', (320, 0, 472, 532)),
     'heroine_05': ('H:heroine_05_sheet.webp', (320, 0, 462, 532)),
+    'heroine_05@campus_v2': ('D:heroine_05_date_shirt.webp', (30, 0, 385, 975)),   # 試疊用（BB-B 2026-10-16 建議：學姊對話立繪比照芷若換成約會圖姿勢①，表情頭才對得上；BB-B 驗收前不寫進 assets）
     'kexin': ('R:kexin.webp', (358, 120, 544, 636)),
     'classmate_peishan': ('R:classmate_peishan.webp', (405, 80, 600, 695)),
     'zhe': ('R:zhe.webp', (572, 8, 800, 714)),
@@ -46,7 +47,9 @@ SRC = {
     'yule': ('R:yule.webp', (18, 368, 180, 810)),
 }
 CW, CH, TOP, FILL = 600, 1000, 0.04, 0.94
-HOLES = {'pinyu'}                                                     # BB-B 2026-10-16 D59 退件：曾品妤耳朵高度的白邊、兩腿中間的灰底
+MATTING = {'heroine_05@campus_v2'}                                 # 學姊約會圖：白襯衫和灰底只差 7，一般去背會在髮絲邊留一圈淺灰；alpha matting（pymatting）髮絲乾淨、衣領完整
+PATCH_HOLES = {'heroine_05@campus_v2'}                                     # 學姊約會圖姿勢①：衣領的白色被挖掉
+HOLES = {'pinyu'}                                                   # BB-B 2026-10-16 D59 退件：曾品妤耳朵高度的白邊、兩腿中間的灰底
 
 
 def key_holes(c0, al, bgc, shoe=0.92):
@@ -91,7 +94,8 @@ def main():
         gdir, outfit = (gid.split('@') + ['campus'])[:2]
         im = Image.open(path).convert('RGB'); x0, y0, x1, y1 = box
         crop = im.crop((max(0, x0), max(0, y0), min(im.width, x1), min(im.height, y1)))
-        rgba = np.array(remove(crop, session=sess['u2net' if gid in REAL else 'isnet-anime'])).astype(np.float32)
+        kw = dict(alpha_matting=True, alpha_matting_foreground_threshold=240, alpha_matting_background_threshold=10, alpha_matting_erode_size=6) if gid in MATTING else {}
+        rgba = np.array(remove(crop, session=sess['u2net' if gid in REAL else 'isnet-anime'], **kw)).astype(np.float32)
         al = rgba[..., 3] / 255.0
         c0 = np.array(crop).astype(np.float32); bd = np.concatenate([c0[:3].reshape(-1, 3), c0[-3:].reshape(-1, 3), c0[:, :3].reshape(-1, 3), c0[:, -3:].reshape(-1, 3)])
         bgc = np.median(bd, 0)
@@ -104,6 +108,10 @@ def main():
         lab, n = ndimage.label(al > 0.25)
         if n > 1:                                                     # 只留最大的一塊（旁邊人物、字、細節格的邊、浮在頭上的線）
             sizes = ndimage.sum(np.ones_like(al), lab, range(1, n + 1)); keep = ndimage.binary_dilation(lab == (1 + int(np.argmax(sizes))), iterations=2); al = al * keep
+        if gid in PATCH_HOLES:                                             # 白色衣領被當成背景挖出一個洞（四周都是人物）：補回去（300～3000 px 的洞；手臂和身體中間更大的空隙不補）
+            m = al > 0.5; hl, nh = ndimage.label(ndimage.binary_fill_holes(m) & ~m)
+            for i, sl in enumerate(ndimage.find_objects(hl), 1):
+                if sl is not None and 300 <= int((hl[sl] == i).sum()) <= 3000: al = np.where(ndimage.binary_dilation(hl == i, iterations=1), 1.0, al)
         # 去掉邊緣的背景色：背景色＝裁切範圍四邊的中位數；半透明的像素 c = a·f + (1−a)·bg → f = (c − (1−a)·bg)/a
         a3 = np.clip(al, 1e-3, 1)[..., None]
         fg = np.clip((c0 - (1 - a3) * bgc) / a3, 0, 255); edge = ((al > 0.02) & (al < 0.98))[..., None]
