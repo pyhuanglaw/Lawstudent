@@ -2731,6 +2731,126 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "等豆漿店場景"
+  },
+  {
+   "id": "DLV-1016-228",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "eb9f392e",
+   "what": "ART-TUTOR1 家教客廳道具、ART-US1 美國公寓客廳家具驗收通過",
+   "task": "ART-US1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "ART-TUTOR1 已用在 BG-21（d5f15981）",
+   "date": "2026-10-16T12:5xZ"
+  },
+  {
+   "id": "DLV-1016-229",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "439763c6",
+   "what": "ART-US2 美國公寓廚房驗收通過",
+   "task": "ART-US2",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "V4 美國線時放",
+   "date": "2026-10-16T12:5xZ"
+  },
+  {
+   "id": "DLV-1016-230",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "1c025d9a",
+   "what": "BG-21 學生家的客廳",
+   "task": "ART-TUTOR1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "d5f15981",
+   "date": "2026-10-16T12:5xZ"
+  },
+  {
+   "id": "DLV-1016-231",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "35513f11",
+   "what": "FIX-WZ-PERF 第二輪",
+   "task": "FIX-WZ-PERF",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "0b41a1e8；瀏覽器 280／258／298 次 draw call",
+   "date": "2026-10-16T12:5xZ"
+  },
+  {
+   "id": "DLV-1016-232",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "aca65794",
+   "what": "BG-20 豆漿店",
+   "task": "ART-SOY1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "0b41a1e8",
+   "date": "2026-10-16T12:5xZ"
+  },
+  {
+   "id": "DLV-1016-233",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "a48d7f8a",
+   "what": "可昕生日 E18A_DOUHUA 兩句",
+   "task": "V0-B1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "7d813237",
+   "date": "2026-10-16T12:5xZ"
+  },
+  {
+   "id": "DLV-1016-234",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "7cf231c3",
+   "what": "AB-37 韋綸的腳踏車法律審查通過",
+   "task": "V0-B3",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "9356501a",
+   "date": "2026-10-16T12:5xZ"
+  },
+  {
+   "id": "DLV-1016-235",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "15452559",
+   "what": "AA_154 A44 寒假",
+   "task": "V0-B1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "ffbf3a8f、09ae6f95",
+   "date": "2026-10-16T12:5xZ"
+  },
+  {
+   "id": "DLV-1016-236",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "f87cff96",
+   "what": "AA_154 A42 L5a、A43 F1／XL-2",
+   "task": "V0-B4",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "57a5cf34、7d813237、93d95ccb",
+   "date": "2026-10-16T12:5xZ"
+  },
+  {
+   "id": "DLV-1016-237",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "6c7a12d1",
+   "what": "E28 觸發改出發選單＋2D（BB_153 完整稿）",
+   "task": "V0-B1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "441cd77a",
+   "date": "2026-10-16T12:5xZ"
   }
  ],
  "ignored": [
@@ -3863,6 +3983,86 @@
    "sha": "65600a4b",
    "branch": "origin/claude/elegant-brown-fcos7n",
    "why": "企劃組的進度（ntu_lib_b1 提示詞，交使用者生成）"
+  },
+  {
+   "sha": "89166b27",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度（AA_154 2-4b 換階段旗標）"
+  },
+  {
+   "sha": "914e18b6",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度（互助板）"
+  },
+  {
+   "sha": "992e928d",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度（旗標總帳）"
+  },
+  {
+   "sha": "fa3c4e6f",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度（互助板）"
+  },
+  {
+   "sha": "47a53b27",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度（互助板）"
+  },
+  {
+   "sha": "88dffad9",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度（互助板）"
+  },
+  {
+   "sha": "eea7669d",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度（AA 交接紀錄）"
+  },
+  {
+   "sha": "0e323f88",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "企劃組的進度（BB_00）"
+  },
+  {
+   "sha": "27c4dd76",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "企劃組的進度（BB_00）"
+  },
+  {
+   "sha": "7920f33b",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "企劃組的進度（R3 杜鵑花，做到 R3 時照）"
+  },
+  {
+   "sha": "aa5944f5",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "企劃組的進度（園遊會地點查證，帳篷位置之後定）"
+  },
+  {
+   "sha": "ee6479d8",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "企劃組的進度（法律查證）"
+  },
+  {
+   "sha": "b23d77ce",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "企劃組的進度（T2 確認，268cd7c9 已照做）"
+  },
+  {
+   "sha": "4f192352",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "企劃組的進度（說話人標註；E24b 已照）"
+  },
+  {
+   "sha": "fbbf0364",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "企劃組的進度（BB_111 勾選）"
+  },
+  {
+   "sha": "ec9d486e",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "企劃組的進度（v0 回聲一覽，換階段時用）"
   }
  ]
 }
