@@ -9,7 +9,7 @@ const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}}; global.THREE={Vector3:function(){}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|ACTIVITIES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
-for(const f of ['src/data/calendar.js','src/data/characters.js','src/data/events.js','src/data/activities.js','src/data/ladder.js','src/social3d.js','src/events3d.js']) load(f);   /* ladder.js 在 social3d 前面（index.html 的順序；階梯記憶的中文名稱 LADDER.labels）*/
+for(const f of ['src/data/calendar.js','src/data/characters.js','src/data/events.js','src/data/activities.js','src/social3d.js','src/events3d.js']) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -29,7 +29,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
     const r=[w3,w8,w9,w10].map(d=>{ prep(d); return EVENTS.check(e); });
     check('語彤 4：大一下期中這兩週（第 8、9 週）的週二、週四晚上才有；第 3 週、第 10 週沒有',JSON.stringify(r)==='[false,true,true,false]',JSON.stringify(r));
     prep(w8); await EVENTS.run(e); const L=lines();
-    check('語彤 4（AA_178 ①：阿姨兩句的說話人是阿姨）：「阿姨右手包著護腕，用左手撈麵。」＋「手扭到了，這禮拜都是她在顧，顧到打烊。今天我叫她先回去睡。」＋「那孩子什麼都不講。…」',L[0]==='櫃台後面沒有語彤。阿姨右手包著護腕，用左手撈麵。'&&L[1]==='阿姨：手扭到了，這禮拜都是她在顧，顧到打烊。今天我叫她先回去睡。'&&L[2]==='阿姨：那孩子什麼都不講。你是她同學？下次叫她不要什麼都自己扛。'&&!L.some(t=>/醫院|回診/.test(t)),JSON.stringify(L));
+    check('語彤 4：「阿姨右手包著護腕，用左手撈麵。」＋「手扭到了，這禮拜都是她在顧，顧到打烊。今天我叫她先回去睡。」＋「那孩子什麼都不講。…」',L[0]==='櫃台後面沒有語彤。阿姨右手包著護腕，用左手撈麵。'&&L[1]==='阿姨：「手扭到了，這禮拜都是她在顧，顧到打烊。今天我叫她先回去睡。」'&&L[2]==='「那孩子什麼都不講。你是她同學？下次叫她不要什麼都自己扛。」'&&!L.some(t=>/醫院|回診/.test(t)),JSON.stringify(L));
     const m=SOCIAL.memories('heroine_03').find(x=>x.tag==='IMPORTANT_CONVERSATION');
     check('語彤 4：設 yutong_hospital（旗標名不改）、記憶備註「阿姨扭到手腕，那週她顧店到打烊」',G.flags.yutong_hospital===true&&!!m&&m.note==='阿姨扭到手腕，那週她顧店到打烊',JSON.stringify(m));
     fresh(w8,18,'noodle'); SOCIAL.remember('heroine_03','IMPORTANT_CONVERSATION','阿姨說她帶媽媽去醫院'); const old=SOCIAL.memories('heroine_03').find(x=>x.tag==='IMPORTANT_CONVERSATION');

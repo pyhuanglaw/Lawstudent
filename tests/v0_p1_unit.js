@@ -17,7 +17,7 @@ function itemFor(week){ const CID='acct_y0'; for(let d=-400;d<0;d++){ const t=CA
   const w1=itemFor(1), w2=itemFor(2), w3=itemFor(3); const d1=w1&&CALENDAR.dateOf(w1.day);
   check('0. 找到會計第 1、2、3 週；第 1 週是 9/5（四）13:20',!!w1&&!!w2&&!!w3&&d1.m===9&&d1.d===5&&Math.abs(w1.t0-(13+20/60))<0.01,JSON.stringify([d1,w1&&w1.t0]));
   const W1=SYLLABUS.courses.acct_y0.find(q=>q.w===1), W2=SYLLABUS.courses.acct_y0.find(q=>q.w===2);
-  const seats='choose:（坐在阿勳旁邊） / （坐前排） / （坐靠窗）'   /* 按鈕字照 AA_154 A51 */, opts='choose:'+W1.call.options.map(o=>'「'+o+'」').join(' / ');
+  const seats='choose:坐阿勳旁邊 / 坐前排 / 坐靠窗', opts='choose:'+W1.call.options.map(o=>'「'+o+'」').join(' / ');
   const P1=['……要看租約。','負債！我室友打呼。','你的室友是費用。'];
   // 1. 第 1 週準時
   { const G=mkG(w1.day,w1.t0-0.05), GM=mkGM(G,1); GM.choose=async o=>{ GM.log.push('choose:'+o.map(q=>q.t).join(' / ')); return 2; }; await CLS.attend(GM,w1,{inScene:true}); const L=GM.log;

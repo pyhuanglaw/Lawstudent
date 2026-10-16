@@ -87,8 +87,6 @@ const keep=()=>JSON.stringify(G), back=s=>{ G=JSON.parse(s); SOCIAL.bind(G); EVE
   fresh(K('2025-05-10'),20,'dorm',{LEAVE_WEEK:6}); G.stage='econ'; run(20.9,21.1);
   check('8. 到 5/10 都沒去成：21:00 夕陽照片「規定是我一個人遵守的。」；5/11 的玩樂日不是 R6',kx().includes('規定是我一個人遵守的。')&&G.flags.R6_MISSED&&(()=>{ G.day=K('2025-05-11'); return STORY.rPlayEv(G)[0]==='ev_y0_rp'; })());
   // 9. R4
-  fresh(K('2025-04-19'),15.5,'dorm',{LEAVE_WEEK:6}); G.stage='econ'; run(15.5,15.7); const r4a=!PHONE.sent(G,'y0_r4_ask'); run(15.75,15.8);
-  check('9. 4/19 15:45 可昕兩則（不用回）：「模擬考考完了。」「我在總圖外面的台階。……不用特地過來，我只是在曬太陽。」（15:45 以前沒有）',r4a&&kx().includes('模擬考考完了。')&&kx().includes('我在總圖外面的台階。……不用特地過來，我只是在曬太陽。'));
   fresh(K('2025-04-19'),16.5,'campus',{LEAVE_WEEK:6}); G.stage='econ'; check('9. 4/19 16:00～18:00 在校園：R4（可昕坐在總圖外台階）',EVENTS.check(ev('ev_y0_r4'))); G.hour=18.1; check('9. 18:00 以後不演',!EVENTS.check(ev('ev_y0_r4'))); G.hour=16.5;
   L=await runEv('ev_y0_r4','不說話'); check('9. 安靜陪她坐＝E32_COMFORT quiet；「……謝謝你沒有說話。」→「好。今天考爛了，明天再說。」「走吧。抽象藝術家也要吃飯。」',G.flags.E32_COMFORT==='quiet'&&L.includes('……謝謝你沒有說話。')&&L[L.length-1]==='走吧。抽象藝術家也要吃飯。'&&L[0].startsWith('（模擬考考完'),JSON.stringify(L));
   fresh(K('2025-04-19'),20,'dorm',{LEAVE_WEEK:6}); G.stage='econ'; run(20.9,21.1); check('9. 沒遇到：21:00「今天考爛了。明天再說。」',kx().includes('今天考爛了。明天再說。'));

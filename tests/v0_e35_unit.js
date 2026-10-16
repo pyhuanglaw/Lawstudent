@@ -67,16 +67,6 @@ const atHome=()=>{ G.stage='econ'; G.flags.Y0_MOVED_OUT=true; G.flags.LEAVE_WEEK
   check('6. 電話版演完：不帶回家（E35_MET＝false）',L[0]==='（電話裡，她那邊有翻紙的聲音。）'&&G.flags.E35_MET===false&&!HOME.at(G)&&G.zone==='gongguan');
   // 7. 睡著叫醒的時間：coreCallAt
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.hour=20; check('7. coreCallAt：7/10 20:00＝21:30；演完以後沒有',STORY.coreCallAt(G)===21.5&&(()=>{ G.flags.E35_DONE=true; return STORY.coreCallAt(G)==null; })());
-  // 9. 考完以後（AA_154 A47）：7/14 20:00 兩則私訊、7/19 摘要日
-  for(const [plan,m1,m2,narr] of [['sea','你說考完要去海邊。我查好了。','星期六，客運早上八點。西瓜我負責。……不要問為什麼。','那天的海很藍。她真的帶了一顆西瓜，可是兩個人都沒有帶刀。'],
-      ['sleep','你說考完要睡一整天。我查好了。','星期六整天下雨。很適合。……我說過，我也要睡。','雨下了一整天。你睡到下午三點，醒來的時候，她剛好傳來一張窗外下雨的照片。'],
-      ['shop','你說考完要吃第三家。我查好了。','星期六中午有開。我訂位了，兩個人。','第三家是公館巷子裡的一間小店。她點了兩份一樣的，說這樣才公平。']]){
-    const d14=STORY.dayOfKey('2025-07-14'), d19=STORY.dayOfKey('2025-07-19');
-    fresh(d14,19.5,'campus',{E35_PLAN:plan,E35_DONE:true}); atHome(); run(19.5,19.9); const before=!PHONE.sent(G,'y0_e35_after'); run(20,20.1); const K2=TH('p:kexin').map(m=>m.text);
-    check('9. '+plan+'：7/14 20:00 可昕「'+m1+'」「'+m2+'」（20:00 以前沒有）',before&&K2.includes(m1)&&K2.includes(m2),JSON.stringify(K2));
-    G.day=d19; G.weekday=wdOf(d19); G.hour=8.5; const evS=STORY_EVENTS.find(e=>e.id==='ev_y0_e35sh'); said=[]; menus=[]; script=[]; await loop(); const L9=said.map(x=>x.t);
-    check('9. '+plan+'：7/19 在家醒來＝摘要日：旁白「'+narr.slice(0,12)+'……」，演完到 20:00、只演一次',L9.includes(narr)&&G.hour>=20&&G.flags.E35_SUM&&!EVENTS.check(evS),JSON.stringify(L9)+' '+G.hour); }
-  fresh(STORY.dayOfKey('2025-07-14'),20.5,'campus',{E35_DONE:true}); atHome(); run(20.5,20.6); check('9. 沒有 E35_PLAN（沒演到 E35）：不傳、不演',!PHONE.sent(G,'y0_e35_after')&&(()=>{ G.day=STORY.dayOfKey('2025-07-19'); return !EVENTS.check(STORY_EVENTS.find(e=>e.id==='ev_y0_e35sh')); })());
   // 8. 法律系不受影響
   fresh(termDay('Y1S1',4,3),18.5,'dorm'); G.stage='law'; run(18,19); check('8. 法律系的存檔：沒有 E35 的訊息',!PHONE.sent(G,'y0_e35_ask')&&!G.flags.E35_ASKED);
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

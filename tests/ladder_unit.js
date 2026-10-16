@@ -105,8 +105,8 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('13. 大一下（一學期一個檔）：用大一下的檔、從第 1 層開始；大一上的進度不動、大一下另外記（id@Y1S2）',
       ok===true&&(st.if||st.week||st.location||st.time?true:lines().join('').includes((STORY.ladLines(st)[0]||'').t||STORY.ladLines(st)[0]))&&(G.social.ladder[PS]|0)===y1&&(G.social.ladder[PS+'@Y1S2']|0)<=1,
       JSON.stringify({ok,y1:G.social.ladder[PS],y2:G.social.ladder[PS+'@Y1S2'],said:lines().slice(0,2)})); }
-  { const ZR='heroine_02'; fresh(termDay('Y3S1',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); meet(ZR); R(ZR,12); said=[];   /* 大三上芷若在英國（BB_113 第 0 節）：那一學期沒有她的階梯檔 */
-    check('13b. 那一學期沒有這個人的階梯檔（大三上的芷若）：ladderTalk 回 false（照舊閒聊）',!(LADDER.byTerm.Y3S1||{})[ZR]&&(await STORY.ladderTalk(GM,who,ZR))===false&&said.length===0); }
+  fresh(termDay('Y2S1',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); meet(PS); R(PS,12); said=[];
+  check('13b. 大二上（沛珊還沒有階梯檔）：ladderTalk 回 false（照舊閒聊）',(await STORY.ladderTalk(GM,who,PS))===false&&said.length===0);
   fresh(termDay('Y2S1',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); said=[];
   check('13c. 大二上以安有檔（AA_141）：資料讀得到、key 是 heroine_01@Y2S1',!!(STORY.ladData(G,'heroine_01')&&STORY.ladData(G,'heroine_01').key==='heroine_01@Y2S1'));
   // any：語彤 Y-L1＝雨天總圖門口或麵店那一次
