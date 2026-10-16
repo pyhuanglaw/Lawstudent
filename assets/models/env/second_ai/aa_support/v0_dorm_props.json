@@ -1,0 +1,101 @@
+{
+ "objects": 6,
+ "unique_meshes": 6,
+ "tris": 3586,
+ "tris_drawn": 3586,
+ "materials": 1,
+ "out": "assets/models/env/second_ai/aa_support/v0_dorm_props.glb",
+ "bytes": 254172,
+ "texres": 1024,
+ "modules": {
+  "BOXES_ONBED": {
+   "tris": 528,
+   "min": [
+    -0.2361,
+    -0.0,
+    -0.1878
+   ],
+   "max": [
+    0.236,
+    0.8412,
+    0.196
+   ]
+  },
+  "BOXES_BED": {
+   "tris": 352,
+   "min": [
+    -0.4379,
+    -0.0,
+    -0.1706
+   ],
+   "max": [
+    0.4662,
+    0.2812,
+    0.2106
+   ]
+  },
+  "BOXES_FOOT": {
+   "tris": 352,
+   "min": [
+    -0.4081,
+    -0.0,
+    -0.2653
+   ],
+   "max": [
+    0.501,
+    0.2812,
+    0.1973
+   ]
+  },
+  "XUN_DESK": {
+   "tris": 450,
+   "min": [
+    -0.4569,
+    -0.0,
+    -0.1156
+   ],
+   "max": [
+    0.3526,
+    0.2063,
+    0.2431
+   ]
+  },
+  "XUN_BOWLING": {
+   "tris": 1728,
+   "min": [
+    -0.15,
+    -0.0,
+    -0.13
+   ],
+   "max": [
+    0.15,
+    0.2656,
+    0.13
+   ]
+  },
+  "BOOK_ECON": {
+   "tris": 176,
+   "min": [
+    -0.096,
+    -0.0,
+    -0.13
+   ],
+   "max": [
+    0.095,
+    0.045,
+    0.13
+   ]
+  }
+ },
+ "atlas": [
+  "tools/blender/env_second/textures/gen/v0_dorm_props_atlas.png",
+  "tools/blender/env_second/textures/gen/v0_dorm_props_orm.png"
+ ],
+ "origins": {
+  "*": "底面中心、y=0＝放的那個面、正面朝 +z",
+  "BOXES_ONBED": "原點＝床面（三箱疊在床上）",
+  "XUN_DESK": "原點＝桌面；筆電螢幕朝 +z 那一側的人（坐在桌前的人在 +z）",
+  "BOOK_ECON": "平放；立在書架上就繞 x 轉 90°（書背在 −x）"
+ },
+ "note": "一個材質 v0_dorm_props（底色 1024＋ORM 256）；每件一個網格；GLB 裡的位置只是排開給人看（SPREAD）。203 的擺放：睡覺點 (−1.4, −1.5)、室友書桌 (1.8, 2.2) 面向 −z（LAWWW2-B 給的座標，LAWWW-B 擺）"
+}
