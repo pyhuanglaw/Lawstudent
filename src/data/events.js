@@ -867,6 +867,25 @@ const STORY_EVENTS=[
       {label:'coffee'},{speaker:'heroine_05',expression:'surprised',text:'……你翹課？'},{speaker:'player',text:'下課了。'},{speaker:'heroine_05',expression:'smile',text:'……好。'},{speaker:null,text:'（她把咖啡倒進保溫瓶。）'},{goto:'end'},
       {label:'quiet'},{speaker:null,text:'（她自己發現，起身去裝水。）'},{speaker:'heroine_05',expression:'serious',text:'你看到了吧。'},{speaker:'player',text:'……沒有。'},{speaker:'heroine_05',expression:'smile',text:'說謊的時候，不要看別的地方。'},
       {label:'end'} ] },
+  /* 明軒 F-M4 家教的弟弟（BB_96 3-2；AA_72 第 3 節；V2-B32＋SYS-13 最小版）：大一下第 3 週起、校園、平日 15:30～18:00（他的作息）、SAW_HIM_STUDY 或和他「熟悉」以上、只一次。
+     「好。」＝JOB_TUTOR（每週一次的家教，story3d.js 排出遊 ev_tutor_lesson）；「我先想想。」＝名額留到月底：月底前一週他私訊再問，過了月底「名額給別人了。」。
+     哪一天（週二或週四）、做多久、沒去那一週、「為什麼要念書」的選項：待 AA-B（2026-10-16 問）；先排週二 19:00～21:00 */
+  { id:'ev_mingxuan_tutor_intro', title:'家教的弟弟', participants:['classmate_mingxuan'], location:'campus', trigger:'interact', priority:6, once:true, term:['Y1S2'], weeks:[3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18], weekday:[1,2,3,4,5], time:[15.5,18], background:'blur',
+    prereq:{any:[{memory:[{npc:'classmate_mingxuan',tag:'SAW_HIM_STUDY'}]},{stage:{npc:'classmate_mingxuan',min:'FAMILIAR'}}]},
+    dialogue:[ {speaker:'classmate_mingxuan',expression:'neutral',text:'欸，你要不要接一個家教？'},{speaker:'classmate_mingxuan',expression:'neutral',text:'我學生的弟弟，國中，要補公民。我排不下了。'},
+      {speaker:'classmate_mingxuan',expression:'neutral',text:'你們法律系教公民應該沒問題吧？'},{speaker:'classmate_mingxuan',expression:'smile',text:'時薪我幫你談好了。不能比我低。'},
+      {choice:[{text:'「好。」',set:{JOB_TUTOR:true},consequences:{stamp:['tutorFromDay']},goto:'y'},{text:'「我先想想。」',consequences:{stamp:['tutorThinkDay']},goto:'n'}]},
+      {label:'y'},{speaker:'classmate_mingxuan',expression:'smile',text:'很好。第一堂我陪你去認門。'},{goto:'end'},
+      {label:'n'},{speaker:'classmate_mingxuan',expression:'neutral',text:'好。名額幫你留到月底。'},
+      {label:'end'} ] },
+  /* 家教的一堂（SYS-13 最小版）：學生家的客廳（2D，圖還沒有）。第一堂：國中生的問題＋旁白（BB_96 3-2，旁白只用 AA_12 0-3 的原意）；
+     第二堂：媽媽切的柳丁、你不好意思吃；第三堂：「你不吃，我媽會以為你不喜歡她。」（AA_72 3-3）；之後只有地點字幕。TUTOR_N＝上過幾堂 */
+  { id:'ev_tutor_lesson', title:'家教', participants:[], location:'any', trigger:'outing', background:'dark', hours:2,
+    dialogue:[ {scene:'學生家的客廳',bg:'tutor_home'},
+      {if:{custom:G=>(G.flags.TUTOR_N|0)===0},speaker:'國中生',text:'老師，課本寫的跟我家發生的事不一樣，那要聽誰的？'},{if:{custom:G=>(G.flags.TUTOR_N|0)===0},speaker:null,text:'你想起自己小時候，也是這樣翻書找答案。'},
+      {if:{custom:G=>(G.flags.TUTOR_N|0)===1},speaker:null,text:'（學生的媽媽切了一盤柳丁。你不好意思吃。）'},
+      {if:{custom:G=>(G.flags.TUTOR_N|0)===2},speaker:null,text:'（學生的媽媽又切了一盤柳丁。）'},{if:{custom:G=>(G.flags.TUTOR_N|0)===2},speaker:'國中生',text:'你不吃，我媽會以為你不喜歡她。'} ],
+    after:G=>{ G.flags.TUTOR_N=(G.flags.TUTOR_N|0)+1; } },
   /* 大一的回聲（BB_134 第 1 節第 4 點、附錄 BB_134a；台詞 BB_96 2-5、BB_108 第 1 節）——W4「已裝滿」便條：空的保溫瓶選了買黑咖啡的玩家，之後一週內在總圖走到學姊旁邊，一句旁白 */
   { id:'ev_sis_flask_full', title:'已裝滿', participants:[], location:'library', trigger:'auto', npcNear:'heroine_05', once:true, background:'blur',
     prereq:{custom:G=>G.flags.flaskCoffeeDay!=null&&G.day>G.flags.flaskCoffeeDay&&G.day<=G.flags.flaskCoffeeDay+7},

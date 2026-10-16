@@ -839,6 +839,13 @@ const STORY = (function(){
       if(F.XUN_PACT&&!PHONE.sent(G,'xun_pact_plan')){ silentContact('econ_zhengxun'); PHONE.at(G,xd,21.2,[{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'📄（期末考那兩週的行程表）'}],'xun_pact_plan'); }
       if(F.XUN_NIGHT&&!F.XUN_REPAID&&F.SK03_LAST!==fri&&(G.day>fri||(G.day===fri&&h(G)>=12+40/60))&&!PHONE.sent(G,'xun_repay_photo'))
         PHONE.at(G,fri,12+40/60,[{th:'g:econ_friends',from:'econ_zhengxun',text:'📷（一個便當）'},{th:'g:econ_friends',from:'econ_zhengxun',text:'欠你的，下週。'}],'xun_repay_photo'); }
+    /* 家教（BB_96 3-2；SYS-13 最小版）：「我先想想。」＝名額留到月底——月底前一週 21:00 明軒私訊再問；過了月底「名額給別人了。」。
+       接了（JOB_TUTOR）＝大一下每週一次，先排週二 19:00～21:00（哪一天、做多久等 AA-B）；可以接受或略過，略過不扣分 */
+    if(F.tutorThinkDay!=null&&!F.JOB_TUTOR){ const d0=CALENDAR.dateOf(F.tutorThinkDay), mdays=[31,28,31,30,31,30,31,31,30,31,30,31][d0.m-1]+((d0.m===2&&d0.y%4===0)?1:0), mEnd=F.tutorThinkDay+(mdays-d0.d), M=t=>({th:'p:classmate_mingxuan',from:'classmate_mingxuan',text:t});
+      if(mEnd-7>F.tutorThinkDay&&!PHONE.sent(G,'mx_tutor_ask2')) PHONE.at(G,mEnd-7,21,[Object.assign(M('家教的事，想好了嗎？'),{ask:{until:(mEnd+1)*24,opts:[{t:'好。',set:{JOB_TUTOR:true,tutorFromDay:mEnd-7},say:[M('很好。第一堂我陪你去認門。')]}]}})],'mx_tutor_ask2');
+      if(G.day>mEnd&&!PHONE.sent(G,'mx_tutor_gone')){ F.TUTOR_GONE=true; PHONE.at(G,mEnd+1,12,[M('名額給別人了。下次有，我再跟你說。')],'mx_tutor_gone'); } }
+    if(F.JOB_TUTOR&&typeof OUT!=='undefined'){ const T=CALENDAR.termOf(G.day); if(T&&T.id==='Y1S2'){ for(let w=T.week;w<=18;w++){ const d=termDay('Y1S2',w,2); if(d==null||d<=(F.tutorFromDay|0)||d*24+19<G.day*24+G.hour) continue; if(CALENDAR.holiday(d)) continue; const id='tutor_'+d; if(OUT.get(G,id)) break;
+          OUT.plan(G,{id,ev:'ev_tutor_lesson',day:d,h:19,place:'學生家（公館附近）',title:'家教',travel:'騎車約 10 分鐘',travelH:1/6,no:'這週不去',back:'家教結束。'}); break; } } }
     /* SK05 三閃，販賣機見（大一版；BB_135 第 2 節；AA-B 2026-10-16：期末考週（第 17～18 週，2026-06-15～06-28）第一個晚上玩家在霖澤館（22:55～23:30；23:00 以後才走進去＝一進去就亮））：
        23:00 阿勳傳訊息說暗號（一年一次）。法律系時期一直沒見過他的玩家（MET_XUN 沒有）先多一則「我是盧正勳。你經濟系那年的室友。」。pact 多兩句、night 多一句（都有＝先 pact 再 night）。
        三個回覆：閃三下＝SK05_GO（今晚 23:00～23:45 他在法學院廣場的販賣機前，events.js ev_sk05_vending_y1）；閃一下、只回訊息＝這一年沒有這五分鐘 */
