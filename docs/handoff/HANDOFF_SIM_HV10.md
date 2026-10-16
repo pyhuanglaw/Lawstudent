@@ -2,7 +2,7 @@
 
 > 使用者 2026-10-16 21:35 要求：「模擬只能使用測試資料、臨時工作區或只讀驗證，不得真的轉移值班權、覆蓋正式紀錄或發布遊戲」，每一項要有 PASS／FAIL 與具體結果。
 > 做法：`tests/handoff_duty_sim.py` 在暫存資料夾開一個假的 origin（bare repo），模擬 A、B、C 三個帳號的四個職位各自 clone、工作、交班、接班，用的是正式的 `tools/handoff/check_handoff.py`（`duty find／plan／register／handoff／sync／verify`、`snapshot`、`check`）。**不碰正式 repo、不 push 到 GitHub、不叫醒任何工作階段**；跑完刪掉暫存資料夾。
-> 跑法：`PYTHONDONTWRITEBYTECODE=1 python3 tests/handoff_duty_sim.py`（約 8 分鐘）。這次：第 4 輪，工具版本 `b1d95de2`，**19／19 PASS**（2026-10-16 22:0x UTC）。
+> 跑法：`PYTHONDONTWRITEBYTECODE=1 python3 tests/handoff_duty_sim.py`（約 8 分鐘）。第 4 輪（工具 `b1d95de2`）**19／19 PASS**（2026-10-16 21:5x UTC）；register 加了「補登記」以後第 5 輪（工具 `73d93699`）**19／19 PASS**（2026-10-16 22:1x UTC）。
 > 前三輪的失敗與修正：第 2 輪 9／19（`__pycache__` 被 commit、交班紀錄本身被當成「交班後還在寫」、check 用 `--no-git` 少查一項、分岔情境沒先 fetch）；第 3 輪 17／19（帳號休班回來再交班，舊的交班紀錄被誤判成兩個帳號同時寫；AA 情境沒先 fetch）；都修了工具或測試，**沒有放寬判斷標準**。
 
 | # | 情境 | 結果 | 具體結果 |

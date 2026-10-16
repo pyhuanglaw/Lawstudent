@@ -11851,9 +11851,9 @@
    "title": "A／B／C 三帳號任意輪值與完整無縫交接制度（唯一值班狀態、六類交班紀錄、14 步接班、工具支援 C、三帳號提示詞、17 種模擬測試）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "已完成：duty.json＋duty 子指令、模擬 19／19 PASS（HANDOFF_SIM_HV10.md）、五份規則檔與 BRANCH_INVENTORY、第 7 節三帳號提示詞＋C 四份、第 8 節換班說的話。剩：同帳號 LAWWW2-B／AA-B／BB-B 用 duty register 補登記並 ACK HV-10 → duty sync → 交付五項成果給使用者",
+   "next": "制度、工具、文件都完成（RULE_SOURCE 4cf301ea 起）；模擬第 5 輪 19／19 PASS；帳號 B 四職位都已補登記（duty sync 4cf301ea，duty verify OK）。等使用者驗收五項成果；正式第一次換到帳號 C 時是實際驗收",
    "first": {
     "term": "META",
     "week": 0,
