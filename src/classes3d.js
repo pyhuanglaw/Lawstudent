@@ -248,7 +248,40 @@ const CLS=(function(){
   S.lastExamEnd=function(G,termId,kind){ kind=kind||'final'; let best=null; for(let d=1;d<1500;d++){ const t=CALENDAR.termOf(d); if(!t){ if(best) break; continue; } if(t.id!==termId) continue;
       for(const it of S.dayItems(G,d)) if(it.exam===kind&&(!best||d>best.day||(d===best.day&&it.t1>best.h))) best={day:d,h:it.t1}; } return best; };
   S.afterClassEvent=async function(GM,it){ if(typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined'||!it||!it.c) return false; const ev=STORY_EVENTS.find(e=>e.afterClass===it.c.id&&(e.afterExam?e.afterExam===it.exam:!it.exam)&&EVENTS.check(e,{chain:true})); if(!ev) return false; await EVENTS.run(ev); return true; };   /* afterExam:'mid'／'final'＝那一科考完（G1 考完試走出教室）；沒寫＝一般的課 */
+  /* 總圖新生導覽（AA_134 第 2 節，使用者 2026-10-15「開始到結束就是一個按鈕？」）：館員走在前面，玩家自己用搖桿跟上（走太遠她停下來等），每站一到兩句（字幕，不擋操作）；
+     同場的新生 2 個跟在館員後面（buddy）；9/19 那一場、還沒走過「總圖的下午」（第二天和以安約總圖）的話，以安站在最前面，最後一站對玩家說一句。
+     中途離開（離開這一區、或離館員 25 m 以上超過 40 秒）＝館員不等、記「去過但沒走完」（left），清單不打勾、改天可以再參加別場。走完＝full */
+  const TOUR=[
+    {x:-3.0,z:2.8,lv:0,say:'新生導覽，十五分鐘。跟著我走，問題留到最後。'},
+    {x:0,z:4.4,lv:0,say:'進出都要刷學生證。忘記帶的，服務台可以臨時登記，一學期三次。'},
+    {x:7.8,z:3.2,lv:0,say:'借書、還書、預約研究小間，都在這裡問。'},
+    {x:-7.0,z:-5.3,lv:1,say:'二樓的長桌不用預約，晚上很搶。插座在桌子底下。'},
+    {x:10.6,z:5.6,lv:1,say:'研究小間要上網預約，兩個人以上才能借。'},
+    {x:10.8,z:-6.0,lv:1,say:'三樓比較安靜。講話請到樓梯間。',up:true},
+    {x:0,z:3.2,lv:0,say:'以上。法律的書在四樓以上，這學期在整理，下學期再帶你們上去。',zone:'library'} ];
+  S.runLibTour=async function(GM,a){ const G=GM.G, E=GM.E, A=ACTIVITIES.rec(G).att, k=a.id+'@'+G.day; A[k]={h:+(G.hour%24).toFixed(2),end:'left'};
+    if(hr(G)<a.t0){ await GM.fade(true); GM.advance(a.t0-hr(G)); await GM.fade(false); }
+    const D19=(()=>{ for(let d=1;d<30;d++){ const x=CALENDAR.dateOf(d); if(x.m===9&&x.d===19) return d; } return -1; })(), withAn=G.day===D19&&!(G.flags.plan==='library'&&G.flags.afternoonDone);
+    let lib=null, crew=[];
+    const spawnCrew=(x,z,lv)=>{ const o=CHAR.build(STORY.extraSpec(45)); o.position.set(x,0,z); lib=E.addNPC({obj:o,name:'館員',beh:'idle',pose:'idle',idlePose:'idle',isExtra:true,lv:lv|0}); if(E.placeAt) E.placeAt(lib,x,z,lv|0); crew=[];
+      for(let i=0;i<2;i++){ const q=CHAR.build(STORY.extraSpec(150+i*7)); q.position.set(x+0.8*(i?1:-1),0,z+1.2); const n=E.addNPC({obj:q,name:'',beh:'buddy',buddy:lib,side:i?1:-1,followOff:0.9+i*0.4,isExtra:true,lv:lv|0}); if(E.placeAt) E.placeAt(n,x+0.8*(i?1:-1),z+1.2,lv|0); crew.push(n); }
+      if(withAn&&GM.spawnCharacter){ const an=GM.spawnCharacter('heroine_01',x+0.6,z-0.8,{lv:lv|0,beh:'buddy'}); if(an){ an.buddy=lib; an.side=1; an.followOff=0.7; crew.push(an); } } };
+    const near=()=>{ const P=E.player.obj.position, L=lib.obj.position; return (E.player.lv|0)===(lib.lv|0)&&Math.hypot(P.x-L.x,P.z-L.z)<4.5; };
+    const far=()=>{ const P=E.player.obj.position, L=lib.obj.position; return (E.player.lv|0)!==(lib.lv|0)||Math.hypot(P.x-L.x,P.z-L.z)>25; };
+    let zone0=G.zone, farT=0, left=false;
+    const waitFor=async(cond,maxS)=>{ let t=0; while(!cond()){ await GM.sleep(300); t+=0.3; if(G.zone!==zone0&&!E._tourMove){ left=true; return false; } if(far()) farT+=0.3; else farT=0; if(farT>40){ left=true; return false; } if(maxS&&t>maxS) return true; } return true; };
+    spawnCrew(TOUR[0].x,TOUR[0].z,0); GM.caption('館員',TOUR[0].say,5000); await waitFor(near,20);
+    for(let i=1;i<TOUR.length&&!left;i++){ const st=TOUR[i];
+      if(st.zone){ E._tourMove=true; GM.caption('','（你們跟著館員從樓梯間上三樓。）',2400); try{ await GM.enter(st.zone,{x:0,z:7,yaw:Math.PI}); } finally { E._tourMove=false; } if(GM.G.zone!==st.zone){ left=true; break; } zone0=st.zone; spawnCrew(0.8,5.6,0); }
+      let arrived=false; if(!E.moveTo(lib,st.x,st.z,()=>{ arrived=true; },st.lv)){ if(E.placeAt) E.placeAt(lib,st.x,st.z,st.lv); arrived=true; }
+      await waitFor(()=>arrived,60); if(left) break; lib.pose=lib.idlePose='idle'; if(GM.face) GM.face(lib,E.player.obj.position.x,E.player.obj.position.z);
+      await waitFor(near,90); if(left) break; GM.caption('館員',st.say,5200); await GM.sleep(2600); }
+    if(left){ GM.caption('','你離開了「'+a.title+'」。館員帶著其他人繼續走。改天還有別場。',3800); }
+    else { A[k]={h:A[k].h,end:'full'}; if(withAn&&GM.npc.heroine_01){ await GM.sleep(1800); GM.caption(SOCIAL.displayName('heroine_01'),'三樓。……我記住了。',4200); } }
+    setTimeout(()=>{ try{ for(const n of crew.concat(lib?[lib]:[])){ if(n&&!n.charId&&E.npcs.includes(n)) E.removeNPC(n); } }catch(e){} },6000);
+    S.refreshGoal(GM); if(GM.autosave) GM.autosave(); return !left; };
   S.attendActivity=async function(GM,a,o){ o=o||{}; const G=GM.G; if(!a||typeof ACTIVITIES==='undefined'||ACTIVITIES.attended(G,a.id,G.day)) return false;
+    if(a.id==='lib_tour_y1s1'&&GM.E&&GM.E.player&&GM.E.moveTo&&typeof CHAR!=='undefined'&&GM.G.zone==='library_hall'&&!o.inScene) return S.runLibTour(GM,a);   /* 沒有 3D 引擎（單元測試）照舊快轉 */   /* 總圖新生導覽：館員帶著走一圈（AA_134 第 2 節）*/
     const lec=a.kind==='lecture', tour=a.kind==='tour', club=a.kind==='club';
     ACTIVITIES.markAttended(G,a); if(club&&G.flags){ G.flags['CLUB_'+a.id]=true; if(a.id==='lawclub_study') G.flags.lawclub=true; }   /* 第一次去社課就算加入（AA_110 6-3：CLUB_<id>）；法服另外記 lawclub（看過招募公告的那個旗標）*/
     const ev=club?S.clubEvent(G,a):(a.event?S.actEvent(G,a):null);   /* 活動的事件（event：迎新，交接包 v1 A11）*/
