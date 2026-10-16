@@ -75,8 +75,8 @@ GH, FH = 3.4, 3.1          # TK.apartment 的預設一樓高、樓高
 # ---------------- 公館（--set gongguan）：照 zones3d.js gongguan 區塊的 shops（位置、寬度、樓層、牆、顏色、招牌、柱子），改那邊要一起改這裡 ----------------
 if SET == 'gongguan':
     GH = 4.2                # 公館的騎樓店面一樓高 4.2 m（groundH）
-    _SHOPS = [dict(n='阿鳳麵店', c='#c9463d', w=10, type='noodle', it='noodle', sub='乾麵・餛飩湯・小菜', v='阿鳳麵店'), dict(n='青葉茶行', c='#2f7d5b', w=8, type='tea', it='tea', sub='手搖飲・現煮珍珠'),
-              dict(n='舊路書房', c='#3b5a8c', w=12, type='book', it='books', sub='法律書・文具・二手書', v='舊路書房'), dict(n='全日便利商店', c='#3a6fb0', w=10, type='cvs', it='cvs', band='#e0a030'),
+    _SHOPS = [dict(n='阿鳳麵店', c='#c9463d', w=10, type='noodle', it='noodle', sub='乾麵・餛飩湯・小菜', v='阿鳳麵店'), dict(n='清葉茶行', c='#2f7d5b', w=8, type='tea', it='tea', sub='手搖飲・現煮珍珠'),
+              dict(n='舊路書房', c='#3b5a8c', w=12, type='book', it='books', sub='法律書・文具・二手書', v='舊路書房'), dict(n='日日便利', c='#3a6fb0', w=10, type='cvs', it='cvs', band='#e0a030', atlas='riri_mart_h'),
               dict(n='公館藥局', c='#4a9a6a', w=8, type='none', it='cvs', v='藥局'), dict(n='滷味・鹹酥雞', c='#e0b24a', sc='#3b2a1e', w=8, type='none', it='luwei'),
               dict(n='輪轉單車', c='#b5532c', w=9, type='bike', it='bike', sub='修車・打氣・配件加裝', v='單車'), dict(n='咖啡・輕食', c='#8c3b47', w=9, type='none', it='cafe'),
               dict(n='水果行', c='#e0a030', sc='#3b2a1e', w=8, type='none', it='fruit'), dict(n='自助洗衣', c='#4a90c2', w=9, type='none', it='laundry'),
@@ -100,7 +100,7 @@ if SET == 'gongguan':
         if _last: _pl.append(-_W / 2)
         _sp = dict(id=f'G{_i:02d}', pos=(_cx, 19.0), ry=math.pi, w=_W, d=16, floors=4 + ((_i * 5) % 4), wall=_WALLT[_i % 4], color=_WALLC[_i % 7],
                    balcony=_i % 3 == 1, tank=_i % 2 == 0, roofAdd=_i % 5 == 3, ground='arcade', pillars=_pl, rollbox=True, **_P,
-                   shop=SHOP(type=_s['it'], name=_s['n'], sub=_s.get('sub', ''), signBg=_s['c'], signColor=_s.get('sc', '#ffffff'), band=_s.get('band', ''),
+                   shop=SHOP(type=_s['it'], name=_s['n'], sub=_s.get('sub', ''), signBg=_s['c'], signColor=_s.get('sc', '#ffffff'), band=_s.get('band', ''), atlas=_s.get('atlas'),
                              vertical=_s.get('v'), vBg='#ffffff', vColor=_s['c'], vBand=_s['c']))
         if _i in _VT: _t = _VT[_i]; _sp['vtenant'] = dict(vertical=_t[0], vBg=_t[1], vColor=_t[2], vBand=_t[2], len=_t[3])
         if _i in _S2: _t = _S2[_i]; _sp['sign2f'] = dict(sign=_t[0], sub=_t[1], bg=_t[2], color=_t[3], band=_t[4])
@@ -639,8 +639,14 @@ def shopfront(spec, xf, W, gt):
         xf.box(acc(M['alu']), -iw / 2 - 0.1, iw / 2 + 0.1, ih + 0.18, GH - 0.37, -dep + 0.12, -dep + 0.42)
     # 橫招牌（板面＋框）
     sw = min(W - 0.4, 6.5); sy0, sy1 = GH - 0.67, GH - 0.03
-    xf.box(acc(fr), -sw / 2 - 0.05, sw / 2 + 0.05, sy0 - 0.04, sy1 + 0.04, 0.0, 0.1)
-    face(f'SIGN_FACE_{spec["id"]}', M['board'], xf, [(-sw / 2, sy0, 0.105), (sw / 2, sy0, 0.105), (sw / 2, sy1, 0.105), (-sw / 2, sy1, 0.105)],
+    if s.get('atlas') and 'SIGN_ATLAS' in globals() and s['atlas'] in SIGN_ATLAS:   # 設計稿招牌（貼圖集）：鋁框燈箱＋設計稿，不留 SIGN_FACE（遊戲不再用 canvas 字蓋過去）
+        h_ = sy1 - sy0 + 0.08; w_ = min(sw, h_ * SIGN_ATLAS[s['atlas']]['aspect'])
+        xf.box(acc(SK['alu2']), -w_ / 2 - 0.03, w_ / 2 + 0.03, sy0 - 0.07, sy0 - 0.04 + h_ + 0.03, 0.0, 0.2)
+        sign_tex(xf, s['atlas'], 0.0, sy0 - 0.04, w_, 0.204, f'sk_sign_{spec["id"]}')
+        if SIGN_ATLAS[s['atlas']]['lit']: CL.glow(root, 'signbox', *xf.p(0.0, (sy0 + sy1) / 2, 0.6), color='rgba(255,250,235,1)', size=2.2, day=0.0, night=0.55)
+    else:
+      xf.box(acc(fr), -sw / 2 - 0.05, sw / 2 + 0.05, sy0 - 0.04, sy1 + 0.04, 0.0, 0.1)
+      face(f'SIGN_FACE_{spec["id"]}', M['board'], xf, [(-sw / 2, sy0, 0.105), (sw / 2, sy0, 0.105), (sw / 2, sy1, 0.105), (-sw / 2, sy1, 0.105)],
          {'sign': s['name'], 'sub': s.get('sub', ''), 'bg': s.get('signBg', '#3b2a1e'), 'color': s.get('signColor', '#f4ead8'), 'serif': 1 if s.get('serif') else 0, 'band': s.get('band', '')})
     # 直立招牌（突出牆面，兩面都有字）＋鐵架
     if s.get('vertical'):
@@ -694,7 +700,7 @@ def housedoor(spec, xf, W, rng, rec):
 
 
 SF, SF_HOUSE, SF_SHUTTER = {}, {}, {}
-if SET == 'wenzhou': exec(open(os.path.join(HERE, 'wz_shopkit.py'), encoding='utf-8').read())   # ART-WZ0 店面組件（同一個命名空間）
+if SET in ('wenzhou', 'gongguan'): exec(open(os.path.join(HERE, 'wz_shopkit.py'), encoding='utf-8').read())   # ART-WZ0 店面組件（同一個命名空間）；公館只用招牌設計稿（日日便利和溫州街同一家連鎖，招牌要一樣），店面照舊
 for sp in SPECS: apartment(sp)
 if SET == 'wenzhou':
     build_notes()

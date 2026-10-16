@@ -9,6 +9,8 @@
 """
 import math, os, random
 import lib2 as L
+import sys as _sys; _sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+import plants as PL   # noqa: E402
 from lib2 import B, Mesh, g2b, bpy, bmesh, Vector, Matrix
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -74,10 +76,10 @@ def materials():
         'tank': L.flat('cafe_tank_steel', '#c4c8cb', rough=0.3, metal=0.45),
         # 店內
         'floor': M_('cafe_int_floor', 'herringbone_parquet', tile=1.7, target='#8a5f3e', maps=('diff',), rough_value=0.55),
-        'plaster': M_('cafe_int_plaster', 'white_plaster_02', tile=1.0, target='#dcc6a4', maps=('diff',), res=256, rough_value=0.9),   # 暖米色灰泥
+        'plaster': soft_plaster('cafe_int_plaster', '#dcc6a4', 0.9),   # 暖米色灰泥（WZ4b：照片的深色斑對比降到 45%，原本看起來髒）
         'iwood': M_('cafe_int_wood', 'walnut_veneer', tile=1.2, target='#7a5536', maps=('diff',), res=256, rough_value=0.6),
         'shelf': M_('cafe_int_shelf', 'black_walnut_veneer_01', tile=1.0, target='#5a3d26', maps=('diff',), res=256, rough_value=0.65),
-        'ceil': M_('cafe_int_ceiling', 'white_plaster_02', tile=1.4, target='#e6d8bf', maps=('diff',), res=256, rough_value=0.95, cull=True),   # 單面朝下（鏡頭在天花板上面時看不到）
+        'ceil': soft_plaster('cafe_int_ceiling', '#e6d8bf', 0.95, cull=True, tile=1.4),   # 單面朝下（鏡頭在天花板上面時看不到）
         'beam': M_('cafe_int_beam', 'dark_wood', tile=1.6, target='#5e4330', maps=('diff',), res=256, rough_value=0.75, cull=True),
         'bar': M_('cafe_int_bar', 'walnut_veneer', tile=1.0, target='#6a4a30', maps=('diff',), res=256, rough_value=0.6),
         'bartop': L.flat('cafe_int_bartop', '#d8cfc0', rough=0.4),
@@ -102,6 +104,24 @@ def materials():
     bk = bpy.data.materials.new('cafe_int_books'); bk.use_nodes = True; nt = bk.node_tree
     ti = nt.nodes.new('ShaderNodeTexImage'); ti.image = pal; ti.interpolation = 'Closest'; nt.links.new(ti.outputs['Color'], nt.nodes['Principled BSDF'].inputs['Base Color'])
     nt.nodes['Principled BSDF'].inputs['Roughness'].default_value = 0.8; bk['tile'] = 1.0; m['books'] = bk
+    return m
+
+
+def soft_plaster(name, target, rough, cull=False, tile=1.0, k=0.45):
+    """white_plaster_02 的顏色貼圖：明暗變化留 k（0.45），再校正到 target 的平均顏色（WZ4b：原本深色斑太明顯，牆、天花板看起來髒）"""
+    import numpy as np
+    key = f'{name}_soft'
+    im = bpy.data.images.get(key)
+    if im is None:
+        src = bpy.data.images.load(os.path.join(HERE, 'textures', 'white_plaster_02', 'white_plaster_02_diff_1k.jpg'), check_existing=True)
+        w, h = src.size; px = np.empty(w * h * 4, dtype=np.float32); src.pixels.foreach_get(px); px = px.reshape(-1, 4)
+        mu = px[:, :3].mean(axis=0); px[:, :3] = mu + (px[:, :3] - mu) * k
+        t = np.array([int(target.lstrip('#')[i:i + 2], 16) / 255 for i in (0, 2, 4)], dtype=np.float32) ** 2.2   # sRGB → 線性（Blender 圖片的像素是線性）
+        px[:, :3] *= t / np.maximum(px[:, :3].mean(axis=0), 1e-4)
+        im = bpy.data.images.new(key, w, h, alpha=False); im.pixels.foreach_set(np.clip(px, 0, 1).ravel()); im.scale(256, 256)
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; bs = nt.nodes['Principled BSDF']; bs.inputs['Roughness'].default_value = rough
+    tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = im; nt.links.new(tx.outputs['Color'], bs.inputs['Base Color'])
+    m.use_backface_culling = cull; m['tile'] = tile
     return m
 
 
@@ -439,10 +459,12 @@ def interior(mat, parent, lite=False, walls=None, half_w=RW / 2):
     cord.finish(parent)
     out['glows'] = glows
     # 植物：大盆栽（琴葉榕一類）＋書牆與窗台的小盆栽
-    ipl = Mesh('int_plants', mat['broad']); ipo = Mesh('int_pots', mat['pot_cream']); itr = Mesh('int_trunks', mat['trunk']); ifern = Mesh('int_ferns', mat['fern'])
-    for (px_, pz_) in BIG_PLANTS:
-        pot(ipo, px_, pz_, 0.24, 0.45, 'cyl'); itr.cyl((px_, 0.42, pz_), (px_ + 0.05, 1.2, pz_), 0.025, seg=6)
-        bush(ipl, px_, 1.45, pz_, 0.6, n=10, span=0.4, flat_y=1.6)
+    ipo = Mesh('int_pots', mat['pot_cream']); ifern = Mesh('int_ferns', mat['fern']); PLM = PL.materials('cafe_pl_')
+    for i_, (px_, pz_) in enumerate(BIG_PLANTS):              # WZ4b：葉片卡的大葉子遠看像折紙 → plants.py 的模型葉子（總圖、霖澤館同一套）
+        pot(ipo, px_, pz_, 0.24, 0.45, 'cyl')
+        PL.potted(B.mesh_obj, PLM, f'cafe_plant_{i_}', parent, px_, 0.45, pz_, 0.24, seed=901 + i_ * 7, h=1.4)
+    for ob in list(parent.children):
+        if ob.type == 'MESH' and ob.name.startswith('cafe_plant_') and ob.data.materials and 'leaf_' in ob.data.materials[0].name: L.smooth_mesh(ob, angle=1.2)
     for (dx, dy, ri) in deco:
         pot(ipo, dx, Z0 + 0.2, 0.07, 0.12, y0=dy); bush(ifern, dx, dy + 0.22, Z0 + 0.2, 0.22, n=3, span=0.45, flat_y=0.6)
     for c in RIGHT_WINS:                                    # 右窗窗台上的小盆栽
@@ -450,7 +472,7 @@ def interior(mat, parent, lite=False, walls=None, half_w=RW / 2):
     for s in (-1, 1):                                       # 窗邊吧台上的小盆栽
         for xx in (2.0, 4.2, 5.8):
             pot(ipo, s * xx, COUNTER_Z + 0.2, 0.065, 0.12, y0=COUNTER_H); bush(ifern, s * xx, COUNTER_H + 0.22, COUNTER_Z + 0.2, 0.2, n=3, span=0.45, flat_y=0.6)
-    ipl.finish(parent, uv=False); ifern.finish(parent, uv=False); ipo.finish(parent, smooth=True); itr.finish(parent)
+    ifern.finish(parent, uv=False); ipo.finish(parent, smooth=True)
     # 左牆：三幅裱框的畫（暖色系版畫，用素色板＋木框）、一段牆上層板＋小盆栽
     if not lite:
         fr = wall_mesh('left', 'frames', mat['shelf']); pr = wall_mesh('left', 'prints', mat['print'])
@@ -496,10 +518,10 @@ def wz4_details(mat, parent, stm, wall_mesh, Z0):
     ux, uz = UMBRELLA; ub = Mesh('int_umbrella_stand', mat['metal'])
     bmx = L.lathe([(0.0, 0.0), (0.14, 0.0), (0.15, 0.02), (0.15, 0.5), (0.13, 0.5)], seg=16); ub.add_bm(bmx, Matrix.Translation(g2b(ux, 0.0, uz))); bmx.free(); ub.finish(parent, smooth=True)
     ums = [Mesh('int_umbrella_green', L.flat('cafe_umbrella_green', '#2c4636', rough=0.7)), Mesh('int_umbrella_black', L.flat('cafe_umbrella_black', '#1e1f22', rough=0.7))]; uw = Mesh('int_umbrella_handle', mat['shelf'])
-    for k, (dx, dz, tilt) in enumerate(((-0.04, 0.03, 0.12), (0.05, -0.03, -0.1))):
-        top = (ux + dx + tilt * 0.4, 0.95, uz + dz); um = ums[k]
-        bmx = L.lathe([(0.0, 0.0), (0.03, 0.05), (0.055, 0.35), (0.04, 0.55), (0.012, 0.62), (0.0, 0.63)], seg=10); um.add_bm(bmx, Matrix.Translation(g2b(ux + dx, 0.05, uz + dz))); bmx.free()
-        uw.cyl((ux + dx, 0.66, uz + dz), top, 0.012, seg=6)
+    for k, (dx, dz, tilt) in enumerate(((-0.04, -0.03, 0.12), (0.05, 0.03, -0.1))):   # WZ4b：綠傘放在店內那一側、拉高 0.12 m（原本傘布幾乎都在桶子裡，從店內看不到）
+        lift = 0.12 if k == 0 else 0.0; top = (ux + dx + tilt * 0.4, 0.95 + lift, uz + dz); um = ums[k]
+        bmx = L.lathe([(0.0, 0.0), (0.03, 0.05), (0.058, 0.35), (0.042, 0.55), (0.012, 0.62), (0.0, 0.63)], seg=12); um.add_bm(bmx, Matrix.Translation(g2b(ux + dx, 0.05 + lift, uz + dz))); bmx.free()
+        uw.cyl((ux + dx, 0.66 + lift, uz + dz), top, 0.012, seg=6)
         if k == 0: uw.cyl(top, (top[0] + 0.06, top[1] + 0.05, top[2]), 0.018, seg=6); uw.cyl((top[0] + 0.06, top[1] + 0.05, top[2]), (top[0] + 0.1, top[1] - 0.02, top[2]), 0.018, seg=6)
         else: uw.cyl(top, (top[0], top[1] + 0.09, top[2]), 0.02, seg=6)
     for um in ums: um.finish(parent, smooth=True)

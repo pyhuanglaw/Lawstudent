@@ -69,7 +69,8 @@ def _atlas_mat(name, emit):
     m['tile'] = 1.0; return m
 
 
-SK['sign'] = _atlas_mat('wz_signs', 0.0); SK['sign_lit'] = _atlas_mat('wz_signs_lit', 0.6)   # 燈箱：貼圖自己發光（白天也微微亮，和真的燈箱一樣）
+SK['sign'] = _atlas_mat('wz_signs', 0.0); SK['sign_lit'] = _atlas_mat('wz_signs_lit', 0.6)
+SK['enamel_red'] = flat('wz_sf_enamel_red', '#b8322a', rough=0.35)   # 麵攤正面的紅色烤漆板   # 燈箱：貼圖自己發光（白天也微微亮，和真的燈箱一樣）
 # 有使用者核可招牌圖（BB-B signs_approved）的店：棟號 → 貼圖集的名字（_h 橫、_v 直）
 SIGNMAP = {'A1': 'ade_print', 'A3': 'xiangkou_books', 'A4': 'lin_noodle', 'A5': 'riri_mart', 'B2': 'laundry', 'B3': 'xiangzi_teishoku',
            'B5': 'xiangkou_tea', 'B5i': 'summer_ice', 'B6': 'azhong_fruit', 'B7': 'banshu'}
@@ -191,14 +192,35 @@ def p_crates():
 
 
 def p_noodle():
-    """麵攤（台灣麵店在店門口煮麵）：不鏽鋼工作台＋兩鍋＋湯杓架＋玻璃櫥窗"""
-    s = Mesh('noodle_steel', SK['steel']); s.box(-0.8, 0.8, 0.0, 0.85, -0.3, 0.3); s.box(-0.82, 0.82, 0.85, 0.88, -0.32, 0.32)
-    s.cyl((-0.42, 0.88, 0.0), (-0.42, 1.12, 0.0), 0.22, seg=12); s.cyl((0.1, 0.88, 0.02), (0.1, 1.06, 0.02), 0.18, seg=12)
-    s.box(0.42, 0.8, 0.88, 1.32, -0.28, 0.1)
-    g = Mesh('noodle_glass', M['glass']); g.quad([(0.42, 0.9, 0.12), (0.8, 0.9, 0.12), (0.8, 1.3, 0.12), (0.42, 1.3, 0.12)])
-    w = _cm('noodle_food'); w.cbox(0.46, 0.76, 0.9, 0.98, -0.24, 0.06, '#f0e2b0'); w.cbox(0.46, 0.76, 1.04, 1.1, -0.24, 0.06, '#7a4a2a')
-    w.cbox(-0.62, -0.22, 1.12, 1.13, -0.2, 0.2, '#d8c8a0')
-    return combine([s.finish(None), g.finish(None), w.finish(None, uv=False)], 'sk_noodle')
+    """麵攤（台灣麵店在店門口煮麵）：倒角的不鏽鋼工作台（正面紅色烤漆板）、兩口有提耳的湯鍋（一鍋蓋著）、竹撈、湯杓、
+    玻璃櫥窗（碗疊、麵團、滷味盤）。v6c：原本是直角方塊＋圓柱，像灰色積木"""
+    s = Mesh('noodle_steel', SK['steel'])
+    s.rbox(-0.8, 0.8, 0.08, 0.85, -0.3, 0.3, r=0.02, seg=2); s.rbox(-0.83, 0.83, 0.85, 0.89, -0.33, 0.33, r=0.012, seg=2)   # 台身、檯面（前緣往外一點）
+    for x in (-0.76, 0.76):
+        for z in (-0.26, 0.26): s.cyl((x, 0.0, z), (x, 0.09, z), 0.025, seg=8)                                   # 腳
+    for (x, r, h) in ((-0.42, 0.21, 0.26), (0.08, 0.17, 0.2)):                                                       # 湯鍋：鍋身、鍋口捲邊、兩個提耳
+        bm = L.lathe([(0.0, 0.0), (r - 0.01, 0.0), (r, 0.01), (r, h - 0.012), (r + 0.012, h - 0.004), (r + 0.012, h), (r - 0.004, h), (r - 0.006, h - 0.02), (0.0, h - 0.02)], seg=20)
+        s.add_bm(bm, Matrix.Translation(g2b(x, 0.89, 0.0))); bm.free()
+        for sx in (-1, 1): s.cyl((x + sx * (r + 0.005), 0.89 + h - 0.05, -0.03), (x + sx * (r + 0.04), 0.89 + h - 0.05, 0.03), 0.008, seg=5)
+    bm = L.lathe([(0.0, 0.25), (0.05, 0.245), (0.12, 0.225), (0.175, 0.205), (0.18, 0.2), (0.0, 0.2)], seg=20); s.add_bm(bm, Matrix.Translation(g2b(0.08, 0.89, 0.0))); bm.free()   # 小鍋的蓋子
+    s.cyl((0.08, 0.89 + 0.25, 0.0), (0.08, 0.89 + 0.27, 0.0), 0.02, seg=8)
+    s.cyl((-0.42, 0.89 + 0.24, 0.12), (-0.62, 0.89 + 0.62, 0.22), 0.008, seg=5)                                       # 湯杓
+    bm = L.lathe([(0.0, 0.0), (0.04, 0.005), (0.05, 0.03), (0.0, 0.03)], seg=10); s.add_bm(bm, Matrix.Translation(g2b(-0.42, 0.89 + 0.2, 0.12))); bm.free()
+    s.rbox(0.42, 0.8, 0.89, 0.92, -0.28, 0.1, r=0.008, seg=1)                                                         # 櫥窗底座、框
+    for (x, z) in ((0.42, -0.28), (0.8, -0.28), (0.42, 0.1), (0.8, 0.1)): s.cyl((x, 0.92, z), (x, 1.32, z), 0.012, seg=6)
+    s.rbox(0.41, 0.81, 1.31, 1.34, -0.29, 0.11, r=0.008, seg=1)
+    r_ = Mesh('noodle_red', SK['enamel_red']); r_.rbox(-0.74, 0.74, 0.18, 0.76, 0.3, 0.31, r=0.01, seg=1)            # 正面紅色烤漆板
+    bb = Mesh('noodle_bamboo', SK['wood_lt'])                                                                          # 竹撈（掛在鍋邊）
+    for k in range(2):
+        x = -0.6 + k * 0.1; bb.cyl((x, 1.16, -0.05), (x - 0.02, 1.5, -0.2), 0.008, seg=5)
+        bm = L.lathe([(0.0, 0.0), (0.045, 0.02), (0.06, 0.06), (0.0, 0.06)], seg=10); bb.add_bm(bm, Matrix.Translation(g2b(x, 1.06, -0.03))); bm.free()
+    g = Mesh('noodle_glass', M['glass']); g.quad([(0.42, 0.92, 0.1), (0.8, 0.92, 0.1), (0.8, 1.31, 0.1), (0.42, 1.31, 0.1)]); g.quad([(0.8, 0.92, 0.1), (0.8, 0.92, -0.28), (0.8, 1.31, -0.28), (0.8, 1.31, 0.1)])
+    w = _cm('noodle_food')
+    for k in range(4): w.crbox(0.46, 0.58, 0.925 + k * 0.014, 0.937 + k * 0.014, -0.16, -0.04, '#f4f1ea', r=0.005, seg=1)   # 碗疊
+    for k in range(5): w.cbox(0.62 + (k % 3) * 0.05, 0.66 + (k % 3) * 0.05, 0.92, 0.95, -0.2 + (k // 3) * 0.08, -0.15 + (k // 3) * 0.08, '#efd9a0')   # 一球一球的麵
+    w.cbox(0.47, 0.75, 1.1, 1.12, -0.22, 0.04, '#c9c4bb'); w.cbox(0.5, 0.72, 1.12, 1.15, -0.2, 0.02, '#7a4a2a')     # 層板上的滷味盤
+    w.cbox(-0.6, -0.24, 0.89 + 0.235, 0.89 + 0.24, -0.17, 0.17, '#c9a674')                                           # 大鍋的湯面
+    return combine([s.finish(None, smooth=True), r_.finish(None), bb.finish(None, smooth=True), g.finish(None), w.finish(None, uv=False)], 'sk_noodle')
 
 
 def p_bookcart():
