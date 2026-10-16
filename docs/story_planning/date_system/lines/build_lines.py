@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 """約會反應台詞（BB_128 2-7、2-9 的 DATE_LINES／DATE_LIKES）：每個地點一個 <LOC>.py → <LOC>.json＋檢查。作者：BB-B 2026-10-15。
 用法：python3 build_lines.py D01 [D09 …]
-檢查：七位都有；每個互動點都有 first、normal≥3、remember、dating≥1；每一行 ≤40 字；選項 ≤20 字、最多 2 個；不用的句型（BB_128 2-7）。"""
+檢查：七位都有；每個互動點都有 first、normal≥3、remember、dating≥1；每一行 ≤40 字；選項 ≤20 字、最多 2 個；不用的句型（BB_128 2-7）；真實店名（D77）。"""
 import json, sys, importlib.util, os
 HERE=os.path.dirname(os.path.abspath(__file__))
 SEVEN=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin']
 BAN=['大家都只問','謝謝你沒有','不要跟別人講','你不用那個表情','我可以問一個奇怪的問題嗎']
+# D77（使用者 2026-10-16）：真實店名、品牌改諧音或替代名；地點（園區、老街、景點、車站、市場、夜市）照原名。台詞裡出現就擋下來（清單隨時補）
+BRANDS=['麥當勞','摩斯','星巴克','7-11','7-ELEVEN','統一超商','全家便利','萊爾富','肯德基','必勝客','誠品','光點','三創','路易莎','50嵐','五十嵐','迷客夏','鼎泰豐','春水堂','85度C','阿柑姨','賴阿婆','阿妹茶樓','好樂迪','錢櫃','UNIQLO','IKEA','家樂福','全聯']
 def conv(st, who):
     if isinstance(st, dict):   # 帶條件的一套：{'tier','lines','if'?,'unless'?}（EVENTS.cond 的格式）
         o = conv((st['tier'], st['lines']) + ((st['choice'],) if st.get('choice') else ()), who)
@@ -36,6 +38,8 @@ def build(loc):
     txt=json.dumps(out,ensure_ascii=False)
     for b in BAN:
         if b in txt: err.append(f'{loc} 用了不用的句型：{b}')
+    for b in BRANDS:
+        if b in txt: err.append(f'{loc} 台詞有真實店名或品牌（D77，改諧音或通稱）：{b}')
     def walk(o):
         if isinstance(o,dict):
             if 'text' in o and len(o['text'])>40: err.append(f"{loc} 太長：{o['text']}")
