@@ -10205,8 +10205,8 @@
    "title": "時段次數制（上午 1、下午 2、晚上 2；考試週 +1 只能自習）G.slots",
    "area": "DL",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "AA_160；DL-01、DL-02 以後",
+   "status": "已整合待測試",
+   "next": "做完：G.slots、上午 1／下午 2／晚上 2、考試週 +1 只給自習、跨時段 30 分鐘兩邊扣、用完變灰、自習長度選單（1～3 小時／讀到○○前、閉館前讀不完、會錯過的課 R1）、座位／Café／宿舍書桌／整理筆記／下課「在附近讀書」都算一次、家教去了填滿晚上、手機「今天」最上面一行。還沒：自由出行（DL-06）扣次數。瀏覽器：flow_study_legal 等四支已跟上",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -10219,7 +10219,8 @@
     "confirmed": false
    },
    "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
-   "authorized": "D79（AA-B 定案的系統規格）"
+   "authorized": "D79（AA-B 定案的系統規格）",
+   "evidence": "tests/dl03_slots_unit.js"
   },
   {
    "id": "DL-04",
@@ -10457,8 +10458,8 @@
    "title": "DL-04 劇情保護：AA_160 3-4 盤點（f4105bfb）的施工",
    "area": "DL",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "①v0 的 17 個核心標 keep:'must' ②ev_xmas_exchange：前一晚群組提醒、當天 12:00 toast、窗口 12:10～13:40 ③颱風假：不能搭捷運、店家不開、不能打工、不能回家 ④ev_an_report_split 兩週都翹的補救台詞（第 6 週起第一次遇到以安，REPORT_PARTNER=assigned_absent）⑤下課選單等這一區的事件（97e34807 已做）⑥捷運出遊前列 R1、有【必】不能出發 ⑦BB 兩件（家族聚餐、校慶問答攤）等 BB-B",
+   "status": "進行中",
+   "next": "第 1 批 d8e391fe：報告分組補救、聖誕窗口＋12:00 提醒、颱風假（店家、回家、家教、cond typhoon）。還沒：前一晚群組提醒（等 AA-B 台詞）、v0 keep must、捷運出遊 R1（DL-06）、BB 兩件（等 BB-B）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",

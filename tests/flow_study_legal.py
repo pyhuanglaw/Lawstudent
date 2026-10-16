@@ -1,7 +1,7 @@
 """真實玩家流程：宿舍書桌讀書——選了一科之後，讀書會／上課卡住的題目照樣會想通（2026-10-13 程式審查第 4 項）。不用 ?turbo。
 修改前：自學先選科目（CLS.studyPick），選了科目就直接結束，LEGAL.study()（全遊戲只有這裡把卡住的題目變成「懂了」）走不到，這個測試會失敗。
 [前置] 讀檔：第 T 天（學期間的週二）15:00，宿舍房間，刑訴題庫 Q001 是「卡住」（confused）。
-A. 自己走到書桌、按「坐在書桌前」→「讀書（1 小時）」→ 科目清單（有通識）選第一科 → 看完字幕。
+A. 自己走到書桌、按「坐在書桌前」→「讀書」→「讀 1 小時」（DL-03）→ 科目清單（有通識）選第一科 → 看完字幕。
 B. 檢查：時間過了 1 小時、那一科的準備＋1、Q001 變成「懂了」（learned）、有「你回頭看了讀書會／上課時卡住的地方」那句。
 用法：python3 tests/flow_study_legal.py URL [輸出資料夾]"""
 import asyncio, json, sys
@@ -33,8 +33,12 @@ async def main():
         h0 = s['hour']; prep0 = await pg.evaluate("JSON.stringify((GAME.G.courses||{}).prep||{})")
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
         opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
-        run.check('坐下：有「讀書（1 小時）」', any('讀書（1 小時）' in o for o in opts), json.dumps(opts, ensure_ascii=False))
-        await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (1 + next(i for i, o in enumerate(opts) if '讀書（1 小時）' in o)))
+        run.check('坐下：有「讀書」（DL-03：再選讀多久）', any(o.startswith('讀書') for o in opts), json.dumps(opts, ensure_ascii=False))
+        await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (1 + next(i for i, o in enumerate(opts) if o.startswith('讀書'))))
+        await pg.wait_for_timeout(2500)
+        opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
+        run.check('讀多久：讀 1／2／3 小時（DL-03 時段次數制）', any(o.startswith('讀 1 小時') for o in opts), json.dumps(opts, ensure_ascii=False))
+        await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (1 + next((i for i, o in enumerate(opts) if o.startswith('讀 1 小時')), 0)))
         await pg.wait_for_timeout(2500)
         opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
         run.check('科目清單（有通識、最後是「整理這週的筆記」）', any('通識' in o for o in opts) and '整理這週的筆記' in opts[-1], json.dumps(opts, ensure_ascii=False))
