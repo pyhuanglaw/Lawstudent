@@ -191,7 +191,9 @@ def verify(args, d=None, out=None):
                 last = ((h.get('roles') or {}).get(r) or {}).get('sha')
                 if last and ref_exists(args.root, href) and ref_exists(args.root, last + '^{commit}'):
                     rc, n = git(args.root, 'rev-list', '--count', f'{last}..{href}')
-                    if rc == 0 and n.isdigit() and int(n) > 0:
+                    rc2, files = git(args.root, 'diff', '--name-only', last, href)
+                    real = [f for f in files.splitlines() if f and not (f.startswith('docs/handoff/') or f == ROSTER_DOC)]   # 交班本身的紀錄（duty_*.json、快照、值班表）不算繼續寫
+                    if rc == 0 and n.isdigit() and int(n) > 0 and real:
                         A(6, f'{r}：帳號 {h.get("account")} 的分支 {hb} 在它交班（{last}）以後還有 {n} 個 commit——疑似兩個帳號同時寫同一個職位；查清楚以前不要合併、不要覆寫，回報使用者')
     # 11 職位登記的 WIP 分支：還沒整合進自己的分支＝未整合（不能當作完成，也不能刪）
     if not getattr(args, 'no_git', False):

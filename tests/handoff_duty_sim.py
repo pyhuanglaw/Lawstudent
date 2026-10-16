@@ -178,7 +178,7 @@ class World:
             git(lw, 'merge', '-q', '--no-edit', f'origin/{rs}')
         d0 = self.rjson(lw, 'docs/handoff/duty.json')
         rc, res['plan'] = self.tool(lw, 'duty', 'plan', '--account', acc)
-        res['check_rc'], res['check_out'] = self.tool(lw, 'check', '--role', 'LAWWW', '--no-git')
+        res['check_rc'], res['check_out'] = self.tool(lw, 'check', '--role', 'LAWWW')
         a = ['duty', 'register', '--account', acc, '--role', 'LAWWW', '--session', session('LAWWW', acc), '--branch', branch('LAWWW', acc)]
         res['reg_rc'], res['reg_out'] = self.tool(lw, *(a + (['--user-ok'] if user_ok else [])))
         if res['reg_rc']:
@@ -309,6 +309,7 @@ def anomalies():
         la = w.clone('LAWWW', 'A')
         d = w.rjson(la, 'docs/handoff/duty.json'); d['seq'] += 1; d['chain'].append({'seq': d['seq'], 'at': 't9', 'account': 'A', 'role': 'LAWWW', 'event': 'register'}); d['onDuty'] = 'A'
         d['accountState']['A'] = 'on'; w.wjson(la, 'docs/handoff/duty.json', d); w.push(la, 'rogue duty')
+        lw = w.clone('LAWWW', 'B')   # 先 fetch（接班程序第 1 步）
         rc, out = w.tool(lw, 'duty', 'find')
         check('兩份值班狀態的登記鏈分岔（A 的舊分支自己又登記）：duty find 不自己選、回報使用者（結束碼 1）', rc == 1 and '登記鏈分岔' in out, out[-300:])
     finally:
