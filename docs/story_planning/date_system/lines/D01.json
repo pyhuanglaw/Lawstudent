@@ -1044,7 +1044,32 @@
         "who": "heroine_03",
         "text": "（她在捷運站前停下來）……今天的十分鐘，比較長。"
        }
-      ]
+      ],
+      "if": {
+       "memory": [
+        {
+         "npc": "heroine_03",
+         "tag": "YT_TEN_MINUTES"
+        }
+       ]
+      }
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（她在捷運站前停下來）……今天，比較長。"
+       }
+      ],
+      "unless": {
+       "memory": [
+        {
+         "npc": "heroine_03",
+         "tag": "YT_TEN_MINUTES"
+        }
+       ]
+      }
      }
     ]
    },
@@ -1085,7 +1110,7 @@
        "lines": [
         {
          "who": "heroine_03",
-         "text": "這張畫的是一家店。……很像我們家。"
+         "text": "這張畫的是一家店。……很像阿姨的店。"
         }
        ]
       },
@@ -1103,7 +1128,7 @@
        "lines": [
         {
          "who": "heroine_03",
-         "text": "以後我想做一個展。關於老店。"
+         "text": "以後我想寫一點東西。關於老店。"
         }
        ]
       }

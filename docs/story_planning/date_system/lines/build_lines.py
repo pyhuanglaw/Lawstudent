@@ -7,6 +7,11 @@ HERE=os.path.dirname(os.path.abspath(__file__))
 SEVEN=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin']
 BAN=['大家都只問','謝謝你沒有','不要跟別人講','你不用那個表情','我可以問一個奇怪的問題嗎']
 def conv(st, who):
+    if isinstance(st, dict):   # 帶條件的一套：{'tier','lines','if'?,'unless'?}（EVENTS.cond 的格式）
+        o = conv((st['tier'], st['lines']) + ((st['choice'],) if st.get('choice') else ()), who)
+        for k in ('if', 'unless'):
+            if st.get(k): o[k] = st[k]
+        return o
     tier, lines = st[0], st[1]
     out = {'tier': tier, 'lines': [({'who':'narr','text':l[1:]} if l.startswith('＊') else {'who':who,'text':l}) for l in lines]}
     if len(st) > 2: out['choice'] = [{'t':t,'reply':[{'who':who,'text':r} for r in rs]} for t,rs in st[2]]
