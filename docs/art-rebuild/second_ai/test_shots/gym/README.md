@@ -204,3 +204,15 @@ v1 的預覽有三個問題：
 泳池門口的浮板架：
 
 ![](b1_deck_v5.webp)
+
+## B1 天花板的單面方向（2026-10-16 遊戲內實測，LAWWW-B cab58d64）
+
+LAWWW-B 回報「天花板正面朝上」，在 `gym3d.js` 把 `b1_ceiling*` 改成 BackSide。實測（同一個鏡頭、只切材質的 side）：
+
+| BackSide，鏡頭在天花板上面：整片白（擋住） | BackSide，鏡頭在天花板下面：天花板不見、看到天空 |
+|---|---|
+| **FrontSide（GLB 原本），上面：看得穿** | **FrontSide，下面：看得到天花板** |
+
+![](ceil_test.webp)
+
+GLB 的三角形繞向法線朝下（glTF −y）、單面：和一盞 v2 一樣，不用改；遊戲端的 BackSide 繞過要拿掉。
