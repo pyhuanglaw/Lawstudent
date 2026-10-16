@@ -4,6 +4,7 @@
   - 籃球場 1 面（深藍線；28×15 m 橫放在中間：中線、中圈、三分線 6.75 m、禁區 4.9×5.8 m、罰球圈）
 - gym_hours.png：開館時間牌（BB_151 4b：週一～五 8:00～22:00、週六 9:00～22:00、週日 9:00～18:00；每月第四個週一健身中心、游泳池休館）。不寫校名、館名（D77）
 - gym_score.png：記分板面板（沒有品牌）
+- gym_wayfind.png、gym_directory.png、gym_notice.png：大廳的指標、樓層指引、公告欄（v2）
 座標和 gym_layout.js 一致：球場地板 x −20～20、z −19～11（區域座標）。
 用法：python3 tools/blender/env_second/gym_tex.py"""
 import math, os, random
@@ -87,5 +88,52 @@ def score():
     im.save(os.path.join(GEN, 'gym_score.png'))
 
 
+def wayfind():
+    """大廳的指標（開口上方三塊，1024×128 一條）：深藍底白字＋箭頭。不寫館名（D77）"""
+    W, H = 1024, 384; im = Image.new('RGB', (W, H), (26, 44, 74)); d = ImageDraw.Draw(im)
+    rows = [('←', '3F 主球場', '典禮・演講・演唱會（整修中）'), ('↑', '1F 多功能球場', '羽球・籃球・體育課'), ('→', 'B1 健身中心・游泳池', '（整修中）')]
+    for i, (ar, a, b) in enumerate(rows):
+        y = i * 128; d.rectangle([0, y, W - 1, y + 127], fill=(26, 44, 74)); d.rectangle([0, y + 120, W, y + 127], fill=(232, 176, 60))
+        d.ellipse([22, y + 16, 110, y + 104], fill=(255, 255, 255)); d.text((40, y + 14), ar, font=f(66), fill=(26, 44, 74))
+        d.text((136, y + 18), a, font=f(54), fill=(255, 255, 255)); d.text((140, y + 80), b, font=f(28), fill=(196, 210, 230))
+    im.save(os.path.join(GEN, 'gym_wayfind.png'))
+
+
+def directory():
+    """樓層指引（直的，0.9×1.2 m）"""
+    W, H = 600, 800; im = Image.new('RGB', (W, H), (240, 241, 238)); d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, W, 110], fill=(26, 44, 74)); d.text((40, 24), '樓 層 指 引', font=f(58), fill=(255, 255, 255))
+    rows = [('3F', '主球場', ['典禮・演講・演唱會', '（整修中）']), ('1F', '多功能球場', ['羽球 6 面・籃球 1 面', '服務台・販賣機']), ('B1', '健身中心', ['游泳池（溫水）', '每月第四個週一休館'])]
+    for i, (fl, a, bs) in enumerate(rows):
+        y = 150 + i * 190; d.rectangle([40, y, 150, y + 110], fill=(232, 176, 60) if fl == '1F' else (26, 44, 74)); d.text((52, y + 18), fl, font=f(66), fill=(255, 255, 255))
+        d.text((180, y + 2), a, font=f(48), fill=(26, 44, 74))
+        for k, b in enumerate(bs): d.text((184, y + 64 + k * 38), b, font=f(28), fill=(80, 90, 104))
+        d.line([40, y + 160, W - 40, y + 160], fill=(200, 204, 210), width=2)
+    d.text((40, H - 60), '目前位置：1F 大廳', font=f(30), fill=(200, 80, 60))
+    im.save(os.path.join(GEN, 'gym_directory.png'))
+
+
+def notice():
+    """大廳的軟木公告欄（3.2×1.2 m）：運動相關的公告；沒有校名、日期（不和劇情衝突）"""
+    W, H = 1280, 480; rng = random.Random(7)
+    a = np.zeros((H, W, 3), np.float32) + np.array([176, 128, 80], np.float32)
+    a += np.random.default_rng(8).normal(0, 9, (H, W, 1)); im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)); d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, W - 1, H - 1], outline=(92, 66, 44), width=16)
+    posters = [((40, 40, 300, 420), (232, 108, 40), '系際盃', ['籃球賽', '報名中', '各系隊長', '請至服務台']),
+               ((330, 60, 560, 330), (250, 250, 246), '羽球場', ['借用規則', '一次兩小時', '請穿室內鞋', '用完收網']),
+               ((590, 30, 860, 300), (70, 150, 96), '體適能', ['檢測', '自由報名', '請洽服務台']),
+               ((890, 50, 1230, 300), (52, 104, 178), '游泳池', ['冬季開放', '溫水', '請戴泳帽']),
+               ((600, 330, 820, 450), (246, 214, 80), '失物招領', ['請洽服務台']),
+               ((880, 330, 1100, 450), (250, 250, 246), '注意', ['球場內禁止飲食'])]
+    for (x0, y0, x1, y1), col, t, lines in posters:
+        dark = sum(col) < 450
+        d.rectangle([x0 + 6, y0 + 6, x1 + 6, y1 + 6], fill=(120, 86, 56)); d.rectangle([x0, y0, x1, y1], fill=col)
+        fg = (255, 255, 255) if dark else (40, 44, 52); sz = 44 if (y1 - y0) > 200 else 30
+        d.text((x0 + 18, y0 + 14), t, font=f(sz), fill=fg)
+        for k, ln in enumerate(lines): d.text((x0 + 20, y0 + 30 + sz + k * (sz * 0.72)), ln, font=f(int(sz * 0.6)), fill=fg)
+        for (px, py) in ((x0 + 12, y0 + 10), (x1 - 12, y0 + 10)): d.ellipse([px - 7, py - 7, px + 7, py + 7], fill=rng.choice([(220, 40, 40), (40, 120, 220), (240, 200, 40)]))
+    im.filter(ImageFilter.GaussianBlur(0.4)).save(os.path.join(GEN, 'gym_notice.png'))
+
+
 if __name__ == '__main__':
-    floor(); hours(); score(); print('saved gym textures')
+    floor(); hours(); score(); wayfind(); directory(); notice(); print('saved gym textures')

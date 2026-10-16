@@ -35,7 +35,7 @@ P = 'gym_'
 M = {
     'floor': img_mat(P + 'court_floor', 'gym_floor.jpg', rough=0.32),
     'lobby_floor': L.pbr(P + 'lobby_floor', 'granite_tile', tile=1.2, target='#a9a7a2', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.35),
-    'concrete': L.pbr(P + 'concrete', 'concrete_wall_006', tile=3.0, target='#c9c7c1', normal=0.6, maps=('diff', 'nor'), rough_value=0.85),
+    'concrete': L.pbr(P + 'plaster', 'white_plaster_02', tile=2.5, target='#dedbd3', normal=0.5, maps=('diff', 'nor'), rough_value=0.85),   # v2：清水混凝土的水漬太髒（像停車場）→ 白色粉刷牆
     'pad': L.flat(P + 'wall_pad', '#2f5a8a', rough=0.7), 'pad_trim': L.flat(P + 'pad_trim', '#d9dde2', rough=0.5),
     'stone': L.pbr(P + 'stone_wall', 'granite_tile', tile=0.9, target='#8e8b85', normal=0.5, maps=('diff', 'nor'), res=256, rough_value=0.5),
     'roof': L.flat(P + 'roof_deck', '#5c6166', rough=0.8, cull=True), 'steel': L.flat(P + 'steel', '#8a9096', rough=0.4, metal=0.45),
@@ -49,6 +49,10 @@ M = {
     'brass': base['brass'], 'chair': L.flat(P + 'folding_chair', '#3c4046', rough=0.5, metal=0.2),
     'hours': img_mat(P + 'hours', 'gym_hours.png', rough=0.5), 'score': img_mat(P + 'score', 'gym_score.png', rough=0.3, emit=0.8),
     'screen': L.flat(P + 'screen', '#f4f6f8', rough=0.6, emit=B.srgb('#9fb4c8')), 'vc': L.vc_material(P + 'vc', rough=0.6),
+    'sky': L.flat(P + 'window_sky', '#e8eff6', rough=0.2, emit=B.srgb('#c4d6e8')),   # 高窗：外面沒有東西，用發光的天空色（玻璃會透出後面的牆）
+    'slat_back': L.flat(P + 'slat_back', '#2e2a26', rough=0.8),
+    'wayfind': img_mat(P + 'wayfind', 'gym_wayfind.png', rough=0.4, emit=0.25), 'directory': img_mat(P + 'directory', 'gym_directory.png', rough=0.4),
+    'notice': img_mat(P + 'notice', 'gym_notice.png', rough=0.8),
 }
 VC = L.CMesh(P + 'vc_parts', M['vc'])
 
@@ -105,7 +109,7 @@ for side, xw, sgn in (('left', X0, 1), ('right', X1, -1)):
         wm(side, 'steel_dk').box(xw + sgn * 0.0 - (0.06 if sgn < 0 else 0), xw + sgn * 0.0 + (0.06 if sgn > 0 else 0), 6.0, 6.06, z0, z1)
         wm(side, 'steel_dk').box(xw - (0.06 if sgn < 0 else 0), xw + (0.06 if sgn > 0 else 0), 7.94, 8.0, z0, z1)
         for zz in (z0, (z0 + z1) / 2, z1): wm(side, 'steel_dk').box(xw - (0.06 if sgn < 0 else 0), xw + (0.06 if sgn > 0 else 0), 6.0, 8.0, zz - 0.03, zz + 0.03)
-        wm(side, 'glass').quad([(xw + sgn * 0.04, 6.06, z1 if sgn > 0 else z0), (xw + sgn * 0.04, 6.06, z0 if sgn > 0 else z1), (xw + sgn * 0.04, 7.94, z0 if sgn > 0 else z1), (xw + sgn * 0.04, 7.94, z1 if sgn > 0 else z0)])
+        wm(side, 'sky').quad([(xw + sgn * 0.04, 6.06, z1 if sgn > 0 else z0), (xw + sgn * 0.04, 6.06, z0 if sgn > 0 else z1), (xw + sgn * 0.04, 7.94, z0 if sgn > 0 else z1), (xw + sgn * 0.04, 7.94, z1 if sgn > 0 else z0)])
         CL.glow(root, 'skylight', xw + sgn * 0.5, 7.0, (z0 + z1) / 2, color='rgba(235,245,255,1)', size=3.0, day=0.35, night=0.0)
 # 屋頂：鋼桁架（每 6 m 一榀，跨 x）、屋頂板、高天井燈
 rf = Mesh(P + 'roof', M['roof']); rf.quad([(X0, HH + 0.6, ZH0), (X1, HH + 0.6, ZH0), (X1, HH + 0.6, ZH1), (X0, HH + 0.6, ZH1)]); rf.finish(root, uv=False)
@@ -180,6 +184,22 @@ pz = LAY['partition']['z']; ops = LAY['partition']['openings']; xs = [X0] + [v f
 for i in range(0, len(xs), 2):
     acc('stone').box(xs[i], xs[i + 1], 0.0, 1.2, pz - 0.15, pz + 0.15); acc('concrete').box(xs[i], xs[i + 1], 1.2, HH + 0.5, pz - 0.15, pz + 0.15)
 for (a, b) in ops: acc('concrete').box(a, b, 3.0, HH + 0.5, pz - 0.15, pz + 0.15); acc('steel_dk').box(a, b, 2.95, 3.05, pz - 0.18, pz + 0.18)
+# v2：大廳那一面（z＝pz＋0.15）——開口上方的指標、中間兩段木格柵牆、公告欄、樓層指引（gym_tex 的 wayfind／notice／directory）
+zf = pz + 0.15
+for i, (a, b) in enumerate(ops):                                                                       # 指標：← 3F（樓梯在西）、↑ 1F、→ B1（樓梯在東）
+    c = (a + b) / 2; v0, v1 = 1 - (i + 1) / 3, 1 - i / 3
+    acc('steel_dk').box(c - 2.05, c + 2.05, 3.2, 3.8, zf, zf + 0.04)
+    img_quad(f'wayfind_{i}', M['wayfind'], [(c - 2.0, 3.25, zf + 0.045), (c + 2.0, 3.25, zf + 0.045), (c + 2.0, 3.75, zf + 0.045), (c - 2.0, 3.75, zf + 0.045)], (0, v0, 1, v1))
+for (a, b) in ((ops[0][1], ops[1][0]), (ops[1][1], ops[2][0])):                                        # 木格柵（4.5 cm 寬、間隔 8 cm）
+    acc('slat_back').box(a + 0.1, b - 0.1, 1.25, LH - 0.05, zf, zf + 0.01)
+    x = a + 0.14
+    while x < b - 0.16: acc('wood').box(x, x + 0.045, 1.25, LH - 0.05, zf + 0.01, zf + 0.04); x += 0.08
+nb = (ops[0][1] + ops[1][0]) / 2                                                                       # 公告欄（軟木，3.2×1.2）
+Xf(nb, zf + 0.06).rbox(acc('wood'), -1.68, 1.68, 1.28, 2.62, -0.02, 0.02, r=0.012, seg=2)
+img_quad('notice', M['notice'], [(nb - 1.6, 1.35, zf + 0.083), (nb + 1.6, 1.35, zf + 0.083), (nb + 1.6, 2.55, zf + 0.083), (nb - 1.6, 2.55, zf + 0.083)])
+dr = (ops[1][1] + ops[2][0]) / 2                                                                       # 樓層指引（0.9×1.2）
+Xf(dr, zf + 0.06).rbox(acc('steel_dk'), -0.5, 0.5, 1.25, 2.6, -0.02, 0.02, r=0.01, seg=2)
+img_quad('directory', M['directory'], [(dr - 0.45, 1.33, zf + 0.083), (dr + 0.45, 1.33, zf + 0.083), (dr + 0.45, 2.53, zf + 0.083), (dr - 0.45, 2.53, zf + 0.083)])
 # 前牆：玻璃帷幕＋自動門（窗框）＋門上的雨遮在外面看不到，不做
 fr = LAY['front']; dx, dw = fr['door']['x'], fr['door']['w']
 for (a, b) in fr['glass'] + [(-18.0 - 2.0, -18.0), (18.0, 20.0)]:
