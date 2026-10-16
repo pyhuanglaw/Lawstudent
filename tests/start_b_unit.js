@@ -72,8 +72,8 @@ GM.money=function(n){ G.money+=n; };
     check('13. 新遊戲：沒有 ?start1 照舊從第 1 天（9/17）宿舍開始、沒有 MAIN_D1',old.day===1&&old.m1===undefined&&old.zone==='dorm',JSON.stringify(old));
     check('13. 新遊戲 ?start1：8/29（第 −18 天，週五）下午宿舍、LAW_START_DAY −18、MAIN_D1 −13（使用者 10-16 選 8/29）',G.day===-18&&D('2025-08-29')===-18&&STORY.LAW_D0===-18&&G.weekday===5&&G.hour===15&&G.flags.LAW_START_DAY===-18&&G.flags.MAIN_D1===-13&&G.zone==='dorm'&&G.stage==='law',JSON.stringify({d:G.day,w:G.weekday,f:[G.flags.LAW_START_DAY,G.flags.MAIN_D1],z:G.zone}));
     global.location={search:''}; }
-  { fresh(D('2025-08-31'),19,'dorm',{LAW_START_DAY:-18,MAIN_D1:-13}); G.stage='law'; run(19,19.9); const before=PHONE.inGroup(G,'law_class'); run(20,20.2); const after=PHONE.inGroup(G,'law_class');
-    check('14. 選 1：8/31 晚上 8 點（開學典禮之後）加進班群，之前沒有（AA-B 20:50 第 4 題）',!before&&after);
+  { fresh(D('2025-08-31'),14,'campus',{LAW_START_DAY:-18,MAIN_D1:-13}); G.stage='law'; run(14,14.6); const before=PHONE.inGroup(G,'law_class'); run(14.7,14.9); const after=PHONE.inGroup(G,'law_class');
+    check('14. 選 1：8/31 開學典禮中（約 14:40）加進班群，之前沒有（AA-B 7b2d057f）',!before&&after);
     fresh(1,20,'dorm',{}); G.stage='law'; run(20,20.9); const o1=PHONE.inGroup(G,'law_class'); run(21,21.2);
     check('14. 舊局：照舊第 1 天 21:00 加進班群',!o1&&PHONE.inGroup(G,'law_class')); }
   { fresh(D('2025-08-31'),7,'dorm',{}); G.stage='econ'; global.location={search:'?start1'}; STORY.recap=async()=>{}; GM.backupNow=()=>{}; GM.autosave=()=>{}; cards=[];
@@ -83,7 +83,9 @@ GM.money=function(n){ G.money+=n; };
   { const play=async(day,hour,flags)=>{ fresh(day,hour,'dorm',flags); G.stage='law'; cards=[]; GM.sceneBegin=()=>{}; GM.letterbox=()=>{}; try{ await STORY.onEnter('dorm',GM); }catch(e){ said.push({t:'例外 '+e.message}); } return {lines:said.map(x=>x.t),cards:cards.slice()}; };
     const w1=await play(D('2025-09-03'),21,{LAW_START_DAY:-18,MAIN_D1:-13});
     check('16. 選 1：9/3 晚上回宿舍演宿舍那一晚：日期卡「9 月 3 日（三）」、AA_195 4-1 的三句、沒有「開學第三週」「老師上週說」、沒有 DAY1_NARR',
-      (w1.cards[0]||[])[0]==='9 月 3 日（三）'&&w1.lines[0]==='明天早上是民法總則的第一堂。'&&w1.lines.some(t=>/課綱第一週那一格/.test(t))&&!w1.lines.some(t=>/開學第三週|老師上週說|以前遇到事情|例外/.test(t)),JSON.stringify(w1).slice(0,400));
+      (w1.cards[0]||[])[0]==='9 月 3 日（三）'&&w1.lines[0]==='明天下午是民法總則的第一堂。'&&w1.lines.some(t=>/課綱第一週那一格/.test(t))&&!w1.lines.some(t=>/開學第三週|老師上週說|以前遇到事情|例外/.test(t)),JSON.stringify(w1).slice(0,400));
+    const wl=await play(D('2025-09-03'),23.6,{LAW_START_DAY:-18,MAIN_D1:-13});
+    check('16. 選 1：23:30 以後才回宿舍＝短版兩句（AA_195 4-1）',wl.lines[0]==='你回到宿舍的時候已經很晚了。'&&/明天下午是民法總則的第一堂。印好的案例還在桌上/.test(wl.lines[1]||'')&&!wl.lines.some(t=>/一個字都沒畫|例外/.test(t)),JSON.stringify(wl).slice(0,300));
     const w0=await play(D('2025-09-03'),19.5,{LAW_START_DAY:-18,MAIN_D1:-13});
     check('16. 選 1：9/3 晚上 8 點以前回宿舍不演',!w0.lines.length&&!w0.cards.length,JSON.stringify(w0).slice(0,200));
     const old=await play(1,21.2,{});
