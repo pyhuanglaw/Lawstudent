@@ -10,6 +10,8 @@ import lib2 as L   # noqa: E402
 import cafe_layout as CL   # noqa: E402
 from lib2 import B, Mesh, g2b, bpy, bmesh, Vector, Matrix   # noqa: E402
 from cafe_layout import uv01, bush, pot   # noqa: E402
+import plants as PL   # noqa: E402（cafe_layout 已經把 tools/blender 加進 sys.path）
+_PLM = {}
 
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 def arg(name, default=None): return ARGS[ARGS.index(name) + 1] if name in ARGS else default
@@ -159,8 +161,10 @@ def chair(x, z, ry, seat='wood_lt', leg='wood_dk', back=True):
 
 
 def plant(x, z, h=1.0, leaf='leaf', r=0.2):
-    pm = acc('terra'); pot(pm, x, z, r, r * 1.5); acc('soil').cyl(g2bp(x, r * 1.45, z), g2bp(x, r * 1.46, z), r * 0.92, seg=12)
-    random.seed(int(abs(x * 31 + z * 17)) + 3); bush(acc(leaf), x, r * 1.5 + h * 0.45, z, h * 0.5, n=12, span=0.5, flat_y=1.2)
+    pm = acc('terra'); pot(pm, x, z, r, r * 1.5)
+    if not _PLM: _PLM.update(PL.materials(P + 'pl_'))
+    PL.potted(B.mesh_obj, _PLM, f'{P}plant_{x:.1f}_{z:.1f}', root, x, r * 1.5, z, r, seed=int(abs(x * 31 + z * 17)) + 3, h=h * 1.15)   # v2：模型葉子（葉片卡遠看像折紙）
+    PL.broad_plant(B.mesh_obj, _PLM, f'{P}plant_{x:.1f}_{z:.1f}b', root, x, r * 1.48, z, h * 1.2, max(0.45, h * 0.45), seed=int(abs(x * 31 + z * 17)) + 9)   # 葉子大小照植物大小
 def g2bp(x, y, z): return (x, y, z)
 
 
@@ -253,7 +257,7 @@ def build_brunch():
 
 # ======================================================================
 def build_print():
-    M.update({'floor': L.pbr(P + 'vinyl', 'floor_tiles_06', tile=0.6, target='#a9aaa6', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.45),
+    M.update({'floor': L.pbr(P + 'vinyl', 'large_floor_tiles_02', tile=1.2, target='#b8b7b1', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.45),   # v2：原本的花磚在遊戲裡像黑白棋盤
               'paint': L.flat(P + 'paint_white', '#eef0ee', rough=0.85), 'lower': L.flat(P + 'paint_lower', '#c9ced0', rough=0.6), 'ceil': L.flat(P + 'ceiling', '#f2f2ee', rough=0.9, cull=True),
               'price': img_mat(P + 'price', 'print_price.png', rough=0.6), 'copier': L.flat(P + 'copier', '#e4e4e0', rough=0.4), 'copier_dk': L.flat(P + 'copier_dark', '#4a4e54', rough=0.45),
               'counter': L.flat(P + 'counter_top', '#f2f0ea', rough=0.35), 'counter_fr': L.flat(P + 'counter_front', '#5d7286', rough=0.5), 'paper': L.flat(P + 'paper', '#f8f8f4', rough=0.8),
@@ -331,9 +335,23 @@ def build_print():
             xf.rbox(acc('white'), -w / 2, w / 2, 0.0, 1.6, -d / 2, -d / 2 + 0.03, r=0.005)
             for y in (0.4, 0.75, 1.1, 1.45):
                 xf.rbox(acc('white'), -w / 2, w / 2, y, y + 0.02, -d / 2, d / 2, r=0.004)
-                for j in range(int(w / 0.12)):
-                    col = ['#d8643a', '#3a6fb0', '#e8c060', '#4a8a5a', '#f4f1ea', '#b03a4a', '#2a2a2c'][(j + int(y * 10)) % 7]
-                    hh = 0.08 + ((j * 7 + int(y * 13)) % 4) * 0.03; xf.vbox(-w / 2 + 0.04 + j * 0.12, -w / 2 + 0.13 + j * 0.12, y + 0.02, y + 0.02 + hh, -0.12, 0.12, col, r=0.004)
+                rs = random.Random(int(y * 100)); x = -w / 2 + 0.04                                  # v2：一格一格的彩色方塊像積木 → 立著的筆記本、一疊色紙、筆筒，顏色淡一點
+                while x < w / 2 - 0.12:
+                    kind_ = rs.choice(('books', 'books', 'paper', 'cup'))
+                    if kind_ == 'books':
+                        for q in range(rs.randint(5, 9)):
+                            t_ = rs.uniform(0.008, 0.018); hh = rs.uniform(0.2, 0.27)
+                            if x + t_ > w / 2 - 0.04: break
+                            xf.vbox(x, x + t_, y + 0.02, y + 0.02 + hh, -0.1, 0.1, rs.choice(['#c9b49a', '#8fa6b8', '#d9c48a', '#a8b89a', '#e8e2d6', '#b88a8a', '#5a6470']), r=0.0); x += t_ + 0.002
+                        x += 0.03
+                    elif kind_ == 'paper':
+                        col = rs.choice(['#f2e6c8', '#e6eef0', '#f0dede', '#e4ecd8', '#f6f4ee'])
+                        for q in range(rs.randint(3, 6)): xf.vbox(x, x + 0.22, y + 0.02 + q * 0.012, y + 0.031 + q * 0.012, -0.1, 0.08, col, r=0.0)
+                        x += 0.26
+                    else:
+                        Xf(*xf.p(x + 0.05, 0, 0.0)[0::2]).lathe(acc('white'), [(0.0, 0.0), (0.035, 0.0), (0.035, 0.1), (0.032, 0.1), (0.032, 0.005), (0.0, 0.005)], 0, y + 0.02, 0, seg=10)
+                        for q in range(5): xf.vbox(x + 0.035 + (q % 3) * 0.012, x + 0.043 + (q % 3) * 0.012, y + 0.05, y + 0.17 + (q % 2) * 0.02, -0.01 + (q // 3) * 0.012, -0.002 + (q // 3) * 0.012, ['#2a2a2c', '#3a6fb0', '#b03a4a'][q % 3], r=0.0)
+                        x += 0.12
             xf.rbox(acc('white'), -w / 2, w / 2, 0.0, 0.4, -d / 2, d / 2, r=0.008)
         elif k == 'price_board':
             wall_img('right', 'price', M['price'], t['z'], t['y'], t['w'], t['h'], off=0.13)
@@ -362,7 +380,8 @@ def build_teahouse():
               'tatami': img_mat(P + 'tatami', 'tatami_weave.png', rough=0.85), 'heri': L.flat(P + 'heri', '#24302a', rough=0.8),
               'plaster': L.pbr(P + 'jurakukabe', 'white_plaster_02', tile=1.5, target='#d9c9a6', normal=0.5, maps=('diff', 'nor'), res=256, rough_value=0.95),
               'post': L.pbr(P + 'post', 'dark_wood', tile=0.8, target='#4a3222', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.55),
-              'ceil': L.pbr(P + 'ceiling_boards', 'walnut_veneer', tile=1.2, target='#a4855e', maps=('diff',), res=256, rough_value=0.7),
+              'ceil': L.pbr(P + 'ceiling_boards', 'walnut_veneer', tile=1.2, target='#a4855e', maps=('diff',), res=256, rough_value=0.7, cull=True),
+              'batten': L.flat(P + 'ceiling_batten', '#4a3424', rough=0.6, cull=True),
               'shoji': L.pbr(P + 'shoji', 'jp_shoji', tile=1.0, maps=('diff',), res=512, rough_value=0.8), 'fusuma': L.flat(P + 'fusuma', '#e7dcc4', rough=0.85),
               'washi': L.flat(P + 'washi', '#f6efdc', rough=0.7, emit=B.srgb('#7a6a50')), 'cushion': L.flat(P + 'zabuton', '#3c4a6a', rough=0.9),
               'cushion2': L.flat(P + 'zabuton2', '#7a4a3a', rough=0.9), 'lacquer': L.flat(P + 'lacquer', '#3a2418', rough=0.3),
@@ -387,8 +406,10 @@ def build_teahouse():
     xf0.rbox(acc('stone'), gk['x'] - gk['w'] / 2, gk['x'] + gk['w'] / 2, -0.02, 0.005, gk['z'] - gk['d'] / 2, gk['z'] + gk['d'] / 2, r=0.01, seg=1)
     xf0.rbox(acc('post'), gk['x'] - gk['w'] / 2, gk['x'] + gk['w'] / 2, 0.0, 0.1, gk['z'] - gk['d'] / 2 - 0.08, gk['z'] - gk['d'] / 2 + 0.02, r=0.01)   # 上框（式台）
     # 天花板（木板＋格縁）、牆（聚樂壁＋柱、長押）
-    ce = Mesh(P + 'ceiling', M['ceil']); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(root, uv=True)
-    for z in [Z0 + k * 0.9 for k in range(1, 11)]: acc('post').box(X0, X1, H - 0.05, H - 0.01, z - 0.02, z + 0.02)
+    ce = Mesh(P + 'ceiling', M['ceil']); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(root, uv=True)   # 朝下的單面（鏡頭在天花板上面時看得穿：v1 雙面，跟隨鏡頭只看到天花板的背面）
+    bt = Mesh(P + 'ceiling_batten', M['batten'])
+    for z in [Z0 + k * 0.9 for k in range(1, 11)]: bt.quad([(X0, H - 0.04, z - 0.02), (X1, H - 0.04, z - 0.02), (X1, H - 0.04, z + 0.02), (X0, H - 0.04, z + 0.02)])   # 格縁：只做朝下的面
+    bt.finish(root, uv=False)
     for side in ('back', 'left', 'right'):
         a0, a1 = (X0, X1) if side == 'back' else (Z0, Z1)
         wall_box(side, 'plaster', a0, a1, 0.0, H); wall_box(side, 'post', a0, a1, 1.95, 2.05, 0.0, 0.16); wall_box(side, 'post', a0, a1, 0.0, 0.08, 0.0, 0.15)
@@ -406,8 +427,8 @@ def build_teahouse():
     sh = next(i for i in it if i['kind'] == 'shoji_wall')
     for (a, b) in ((-2.15, -1.25), (3.25, 4.15)): acc('shoji').box(a, b, 0.03, 2.0, Z1 - 0.02, Z1 + 0.02); acc('post').box(a, b, 1.98, 2.06, Z1 - 0.04, Z1 + 0.04)
     for x in (-2.2 + k * 1.6 for k in range(5)): acc('post').cyl((x, 0.0, Z1 + 1.15), (x, H + 0.1, Z1 + 1.15), 0.06, seg=8)   # 簷下的柱
-    rb = Xf(0, 0); rb.rbox(acc('post'), -2.3, X1 + 0.1, H + 0.05, H + 0.15, Z1 - 0.1, Z1 + 1.9, r=0.01)                         # 屋簷下的板
-    acc('fence').box(-2.3, X1 + 0.1, H + 0.15, H + 0.3, Z1 + 1.8, Z1 + 1.95)
+    eb = Mesh(P + 'eave_soffit', M['ceil']); eb.quad([(-2.3, H + 0.05, Z1 - 0.1), (X1 + 0.1, H + 0.05, Z1 - 0.1), (X1 + 0.1, H + 0.05, Z1 + 1.9), (-2.3, H + 0.05, Z1 + 1.9)]); eb.finish(root, uv=True)   # 屋簷下的板：v2 改成朝下的單面（跟隨鏡頭在上面時看得穿；v1 的實心板擋住整個畫面）
+    fz = Mesh(P + 'eave_fascia', M['batten']); fz.quad([(-2.3, H - 0.1, Z1 + 1.9), (X1 + 0.1, H - 0.1, Z1 + 1.9), (X1 + 0.1, H + 0.05, Z1 + 1.9), (-2.3, H + 0.05, Z1 + 1.9)]); fz.finish(root, uv=False)   # 簷口的封板（朝外的單面）
     # 和室前面的紙拉門（中間各開一段）、兩間和室之間的襖
     zz = sh['z']; xs_ = [sh['x0']] + [v for o in sh['open'] for v in o] + [sh['x1']]
     for i in range(0, len(xs_), 2):
@@ -508,6 +529,8 @@ if NOTE_Q:
         u0, v0, u1, v1 = note_uv(cn); f = bm.faces.new([bm.verts.new(g2b(*q)) for q in pts])
         for lp, t in zip(f.loops, ((u0, v0), (u1, v0), (u1, v1), (u0, v1))): lp[uvl].uv = t
     me = bpy.data.meshes.new(P + 'notes'); bm.to_mesh(me); bm.free(); me.materials.append(M['notes']); ob = bpy.data.objects.new(P + 'notes', me); B.scene().collection.objects.link(ob); ob.parent = root
+for ob in list(root.children):   # 模型葉子平滑著色
+    if ob.type == 'MESH' and ob.data.materials and 'leaf_' in ob.data.materials[0].name: L.smooth_mesh(ob, angle=1.2)
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or ob.name.startswith('wzs_camphor'), key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
 info = L.export(OUT, gpu_instances=True)
 info.update({'shop': SHOP, 'layout': ALL['version']})

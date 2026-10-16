@@ -462,7 +462,8 @@ def interior(mat, parent, lite=False, walls=None, half_w=RW / 2):
     ipo = Mesh('int_pots', mat['pot_cream']); ifern = Mesh('int_ferns', mat['fern']); PLM = PL.materials('cafe_pl_')
     for i_, (px_, pz_) in enumerate(BIG_PLANTS):              # WZ4b：葉片卡的大葉子遠看像折紙 → plants.py 的模型葉子（總圖、霖澤館同一套）
         pot(ipo, px_, pz_, 0.24, 0.45, 'cyl')
-        PL.potted(B.mesh_obj, PLM, f'cafe_plant_{i_}', parent, px_, 0.45, pz_, 0.24, seed=901 + i_ * 7, h=1.4)
+        PL.potted(B.mesh_obj, PLM, f'cafe_plant_{i_}', parent, px_, 0.45, pz_, 0.24, seed=901 + i_ * 7, h=1.4)   # 土和莖
+        PL.broad_plant(B.mesh_obj, PLM, f'cafe_plant_{i_}b', parent, px_, 0.43, pz_, 1.5, 0.62, seed=905 + i_ * 7)   # 葉子大小照植物的大小（potted 照盆口半徑：太小、像竹竿）
     for ob in list(parent.children):
         if ob.type == 'MESH' and ob.name.startswith('cafe_plant_') and ob.data.materials and 'leaf_' in ob.data.materials[0].name: L.smooth_mesh(ob, angle=1.2)
     for (dx, dy, ri) in deco:
