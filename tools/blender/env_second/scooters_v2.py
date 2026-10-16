@@ -72,7 +72,7 @@ def finish_all(parts, name, loc_z):
         c = [lin(int(hx[i:i + 2], 16) / 255) for i in (1, 3, 5)] + [1.0]
         at = ob.data.color_attributes.new('Col', 'FLOAT_COLOR', 'CORNER')
         for d in at.data: d.color = c
-        ob.data.materials[0] = M['paint'] if col == 'paint' else (M['metalvc'] if met else M['parts'])
+        ob.data.materials[0] = (M['parts'] if PREVIEW_COL else M['paint']) if col == 'paint' else (M['metalvc'] if met else M['parts'])   # 預覽：車殼用頂點色材質（遊戲版是白色 paint、由遊戲乘顏色）
         obs.append(ob)
     me = combine(obs, name); ob = bpy.data.objects.new(name, me); bpy.context.scene.collection.objects.link(ob); ob.parent = root
     ob.location = (loc_z * 2.0, 0.0, 0.0) if '--layx' in ARGS else (0.0, -loc_z, 0.0)   # 匯出時一款一款排開（遊戲照名稱取，不看位置）；--layx：沿車身方向排（渲染側面用）
@@ -216,7 +216,7 @@ def build(code):
     wl = []
     wb, rf, rr, tw, fl, fx = A['wb'], A['rf'], A['rr'], A['tw'], A['fl'], A['fx']
     wheel(wl, wb, rf, tw); wheel(wl, -wb, rr, tw * (1.12 if code == 'S2' else 1.0))
-    paint = part('paint'); rear = interp(A['rear'], 2)
+    paint = part('paint'); rear = interp(A['rear'], 1)
     # 後車身：圓角梯形斷面，下緣越往後越高（讓出後輪）
     loft(paint, [tsect(x, yb, yt, w0, w1, p=A['rp']) for (x, yb, yt, w0, w1) in rear])
     if A['two_tone']:   # 運動型：側板下半部黑色塑件（比車殼寬一點點，蓋在下緣）
