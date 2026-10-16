@@ -6,7 +6,7 @@
    座標：和現有室內區域一樣（room()：中心在原點、x 往東、z 往南、入口在 +z）；單位公尺。yaw：人面向 (sin yaw, cos yaw)。
    不放校名、館名、校徽（D77）；記分板、看板沒有品牌。 */
 const GYM_LAYOUT = {
-  version: 3,
+  version: 4,
   id: 'gym', name: '綜合體育館', glb: 'assets/models/env/second_ai/gym_interior.glb',
   w: 40.0, d: 38.0, h: 9.0, note: '區域 x −20～20、z −19～19；球場 z −19～11（挑高 9 m）、大廳 z 11～19（天花板 4.2 m）',
   hall: {x0: -20, x1: 20, z0: -19, z1: 11, h: 9.0},
@@ -107,6 +107,47 @@ const GYM_LAYOUT = {
       {x: 0.0, z: -14.8, kind: 'arena_screen', label: '大螢幕'}
     ],
     note: '每一套布置打開時：導航加椅子區的阻擋（留走道）、座位照 chairs 產生（面向舞台 yaw 0 → 面向 −z）；演唱會的鐵馬、控台要擋'
+  },
+  /* ===== 第三階段（v4，LAWWW2-B 2026-10-16）：B1＝另一個區域 gym_b1（tools/blender/env_second/gym_b1.py → gym_b1.glb）=====
+     BB_151：B1 有溫水游泳池（7 水道）、健身中心、服務櫃台（學生證進場）；每月第四個週一健身中心、游泳池休館。BB_124 7-4：第一次辦會員證。
+     這一版：東邊的大廳（樓梯下來、服務櫃台、閘門）→ 中間的走廊 → 走廊南邊是健身中心（鏡牆、有氧區、自由重量區）、北邊是游泳池（25 m × 7 水道，只到池邊）。
+     更衣室、壁球室、桌球室、舞蹈室：門關著、門牌寫名稱（D38 看得懂的關閉）。器材是 BB-B 的 gym_b1_props.glb（GYM-P1），在 Blender 裡照下面的 equipment 擺進 gym_b1.glb。
+     座標：區域中心在原點、x 往東、z 往南；y＝B1 地板 0。 */
+  b1: {
+    id: 'gym_b1', name: '綜合體育館 B1', glb: 'assets/models/env/second_ai/gym_b1.glb', h: 3.6, poolH: 7.0,
+    lobby: {x0: 12, x1: 24, z0: 2, z1: 14, stairs: {x0: 16.6, x1: 19.4, z0: 8.0, z1: 14.0, note: '從 1F 下來的樓梯（往 +z 上去；樓梯底在 z 8.0），和 1F 的樓梯井上下對齊；只做到天花板的開口，上面看不到'}, note: '大廳：東南角是樓梯，服務櫃台在西側（人站在 x 13.6），閘門在 x 12 那條線上'},
+    corridor: {x0: -24, x1: 12, z0: -0.2, z1: 3.0, note: '走廊（3.2 m 寬）：南邊是健身中心的玻璃牆、北邊是游泳池的牆＋門；東端 x 12 是閘門（三道）'},
+    gates: {x: 12.0, z0: -0.2, z1: 3.0, lanes: 3, note: '閘門：用 1F 大廳的閘門樣式，三道各 0.9 m'},
+    desk: {x: 21.0, z: 0.95, w: 4.0, d: 0.7, staff: {x: 21.0, z: 0.2}, note: '服務櫃台（BB-B 的 GYM2_DESK 交件後擺進來；客人站在 z 1.9 那一側）'},
+    fitness: {x0: -24, x1: 10, z0: 3.0, z1: 14, mirror: {z: 13.9, x0: -23, x1: 9}, door: {x0: 3.2, x1: 5.0, z: 3.0}, note: '健身中心 34×12 m：南牆整面鏡子；東半部有氧區、西半部自由重量區；地板黑色橡膠'},
+    pool: {x0: -24, x1: 24, z0: -24, z1: -0.2, h: 7.0, basin: {x0: -12.5, x1: 12.5, z0: -21.0, z1: -3.5, depth: 1.4, lanes: 7}, door: {x0: -5.0, x1: -3.2, z: -0.2},
+      note: '游泳池 25 m（沿 x）× 17.5 m（7 水道，每道 2.5 m）；池邊 3.3～11.5 m；池子不能走（導航擋住整個池子），池邊可以走'},
+    closedDoors: [
+      {x: -10.0, z: -0.2, face: 'south', label: '男更衣室', note: '走廊北牆（游泳池那一側），門面向走廊'},
+      {x: -14.0, z: -0.2, face: 'south', label: '女更衣室'},
+      {x: -24.0, z: 1.4, face: 'east', label: '壁球室・桌球室', note: '走廊西端'}
+    ],
+    equipment: [
+      {node: 'GYM_TREADMILL', at: [[-0.5, 12.4], [1.2, 12.4], [2.9, 12.4], [4.6, 12.4], [6.3, 12.4]], ry: 0, note: '跑步機面向南邊的鏡牆'},
+      {node: 'GYM_BIKE', at: [[-0.5, 9.4], [1.0, 9.4], [2.5, 9.4], [4.0, 9.4]], ry: 0},
+      {node: 'GYM_ROWER', at: [[6.6, 8.8], [8.2, 8.8]], ry: Math.PI / 2},
+      {node: 'GYM_SQUAT_RACK', at: [[-21.5, 11.4], [-18.4, 11.4]], ry: 0},
+      {node: 'GYM_SMITH', at: [[-15.0, 11.4]], ry: 0},
+      {node: 'GYM_DB_RACK', at: [[-9.0, 13.3]], ry: Math.PI},
+      {node: 'GYM_BENCH', at: [[-10.6, 10.0], [-8.6, 10.0], [-6.6, 10.0]], ry: 0},
+      {node: 'GYM_MAT', at: [[-21.0, 5.0], [-19.6, 5.0], [-18.2, 5.0], [-16.8, 5.0]], ry: 0}
+    ],
+    noteFacing: '器材原點在底面中心、正面 +z（使用者面向 +z）。鏡牆在南（z 13.9）＝+z，所以面向鏡子的器材 ry＝0；啞鈴架靠著鏡牆、架子正面朝場內，ry＝π',
+    spawn: {x: 18.0, z: 7.0, yaw: Math.PI},
+    exit: {at: {x: 18.0, z: 7.8}, label: '上樓回大廳', to: 'gym', spawn: {x: 18.0, z: 18.2, yaw: Math.PI}, note: '接 1F 大廳往 B1 的樓梯（stairs_down）；第一階段的「往 B1 的樓梯（今天不開放）」改成下樓'},
+    poolBenches: [[-21.0, -1.0], [-18.6, -1.0], [18.6, -1.0], [21.0, -1.0]],
+    poolBenchNote: '池邊長椅（2.0×0.4，面向北邊的泳池 yaw π；座位點在長椅中間往南 0.1）',
+    interact: [
+      {x: 21.0, z: 2.0, kind: 'gym_b1_desk', label: '服務櫃台（學生證、會員同意書）'},
+      {x: 4.1, z: 2.4, kind: 'gym_fitness', label: '健身中心'},
+      {x: 0.0, z: -2.0, kind: 'pool_look', label: '看游泳池'},
+      {x: -10.0, z: 0.8, kind: 'closed_locker_m', label: '男更衣室'}, {x: -14.0, z: 0.8, kind: 'closed_locker_f', label: '女更衣室'}
+    ]
   }
 };
 if (typeof module !== 'undefined') module.exports = GYM_LAYOUT;

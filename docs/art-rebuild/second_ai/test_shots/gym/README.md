@@ -127,3 +127,47 @@ v1 的預覽有三個問題：
    - 通道口上方加綠色出口燈（圖形，不寫字）。
 
 ![](arena_vomitory_v5.webp)
+
+---
+
+# 第三階段：B1（`gym_b1` 區域）——交付說明（LAWWW2-B 2026-10-16 09:5x UTC）
+
+- **配置**：`src/data/gym_layout.js` 的 `b1` 段（version 4），內容有：
+  - 大廳：東南角是從 1F 下來的樓梯，樓梯底在 z 8，往 +z 上去；
+  - 閘門：x 12，三道；
+  - 服務櫃台：(21, 0.95)，客人站在 z 1.9；
+  - 走廊：z −0.2～3.0；
+  - 健身中心：z 3～14，南牆整面鏡子；
+  - 游泳池：25 m × 7 水道，只到池邊；
+  - 關著的門：更衣室×2、壁球室・桌球室；
+  - 器材擺放、池邊長椅、互動點；
+  - 出生點 (18, 7.0, π)；出口回 1F 大廳 (18, 18.2)。
+- **模型**：`tools/blender/env_second/gym_b1.py` → `assets/models/env/second_ai/gym_b1.glb`
+  - 3.1 MB、43k 三角形，畫出來 63k。
+  - 健身器材 22 件：BB-B 的 `bb_support/gym_b1_props.glb`，GPU instancing。
+- **貼圖**：
+  - `gym_tex.py`：`b1_rubber.jpg`（橡膠地墊）、`pool_floor.jpg`（池底馬賽克＋水道線）；開館時間、公告欄沿用 1F。
+  - Poly Haven CC0：`granite_tile`、`rounded_square_tiled_wall`、`long_white_tiles`、`white_plaster_02`、`walnut_veneer`。
+- **狀態**：`MODEL_READY`，只有 Blender 預覽。
+
+| 大廳（樓梯、深藍牆裙） | 走廊（左邊健身中心的玻璃牆、右邊泳池那一側） |
+|---|---|
+| ![](b1_lobby.webp) | ![](b1_corridor.webp) |
+| **健身中心（有氧區，面向鏡牆）** | **健身中心（自由重量區）** |
+| ![](b1_fitness.webp) | ![](b1_fitness_rev.webp) |
+
+游泳池（7 水道、水道繩、仰泳旗、出發台、扶梯、北牆大時鐘）：
+
+![](b1_pool.webp)
+
+## 給 LAWWW-B
+
+- **導航**：
+  - 池子整個擋住；池邊、走廊、大廳、健身中心可以走。
+  - 器材照 `equipment` 的位置擋：footprint 用器材的 bbox，`gym_b1_props.json` 有每件的大小。
+  - 閘門是三道 0.9 m 的通道。
+- 1F 大廳「往 B1 的樓梯（今天不開放）」改成下樓。
+- **還沒有的**：
+  - 服務櫃台、置物櫃、飲水機、救生員椅：BB-B 的 GYM-P2／P3a 交件、我驗收後擺進來。這一版櫃台的位置是空的。
+  - 更衣室、壁球室、桌球室：門關著，門牌是 `PLATE_FACE_door_b1_*`（`plate:'door'`）。
+- 劇情、體育課（`pe_y1s1` 游泳）怎麼用，由 LAWWW-B 和 AA-B／BB-B 決定。

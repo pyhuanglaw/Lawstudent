@@ -199,5 +199,29 @@ def ceremony_banner():
     im.save(os.path.join(GEN, 'arena_banner.png'))
 
 
+def b1_rubber():
+    """B1 健身區的黑色橡膠地墊（1 m 一塊，512＝1 m；接縫＋彩色小顆粒）"""
+    rs = np.random.default_rng(7); S = 512
+    a = np.zeros((S, S, 3), np.float32) + 40; a += rs.normal(0, 4, (S, S, 1))
+    for _ in range(2600):
+        x, y = rs.integers(0, S, 2); c = rs.choice([(90, 92, 96), (70, 74, 80), (110, 90, 60)]); a[y:y + 2, x:x + 2] = c
+    a[:3] *= 0.5; a[:, :3] *= 0.5
+    Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)).save(os.path.join(GEN, 'b1_rubber.jpg'), quality=88)
+
+
+def pool_floor():
+    """泳池底（25×17.5 m、7 水道；2048×1434）：淺藍白的馬賽克＋每道中間一條深藍線、兩端 T 字（離池壁 2 m）"""
+    W, H = 2048, 1434; kx = W / 25.0; kz = H / 17.5
+    a = np.zeros((H, W, 3), np.float32) + np.array([206, 230, 238], np.float32)
+    t = int(0.05 * kx)                                                    # 5 cm 的小磁磚＋縫
+    yy, xx = np.mgrid[0:H, 0:W]; a[(xx % t == 0) | (yy % t == 0)] *= 0.9
+    a += np.random.default_rng(9).normal(0, 3, (H, W, 1))
+    im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)); d = ImageDraw.Draw(im); B_ = (24, 52, 112)
+    for k in range(7):
+        zc = (k + 0.5) * 2.5 * kz; d.rectangle([2.0 * kx, zc - 0.125 * kz, W - 2.0 * kx, zc + 0.125 * kz], fill=B_)
+        for xe in (2.0 * kx, W - 2.0 * kx): d.rectangle([xe - 0.125 * kx, zc - 0.5 * kz, xe + 0.125 * kx, zc + 0.5 * kz], fill=B_)
+    im.save(os.path.join(GEN, 'pool_floor.jpg'), quality=88)
+
+
 if __name__ == '__main__':
-    floor(); hours(); score(); wayfind(); directory(); notice(); arena_floor(); arena_screen(); ceremony_banner(); print('saved gym textures')
+    floor(); hours(); score(); wayfind(); directory(); notice(); arena_floor(); arena_screen(); ceremony_banner(); b1_rubber(); pool_floor(); print('saved gym textures')
