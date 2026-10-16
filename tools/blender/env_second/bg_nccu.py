@@ -133,7 +133,9 @@ def hills(z_near, x_span, layers, crown=0.9, lumpy=0.0):
         ramp.color_ramp.elements[0].color = (*[c * 0.6 for c in col], 1); ramp.color_ramp.elements[1].color = (*[min(1, c * 1.3) for c in col], 1)
         mix = nt.nodes.new('ShaderNodeMath'); mix.operation = 'MULTIPLY_ADD'; mix.inputs[1].default_value = 0.5
         nt.links.new(vo.outputs['Distance'], mix.inputs[0]); nt.links.new(n1.outputs['Fac'], mix.inputs[2])
-        nt.links.new(mix.outputs[0], ramp.inputs['Fac']); nt.links.new(ramp.outputs['Color'], b.inputs['Base Color'])
+        nt.links.new(mix.outputs[0], ramp.inputs['Fac'])
+        if lumpy: nt.links.new(haze(nt, ramp.outputs['Color'], b), b.inputs['Base Color'])   # 只有校園那一張（lumpy）加空氣透視；校門、小吃街照舊
+        else: nt.links.new(ramp.outputs['Color'], b.inputs['Base Color'])
         bm_ = nt.nodes.new('ShaderNodeBump'); bm_.inputs['Strength'].default_value = 0.45 if not lumpy else 1.0; bm_.inputs['Distance'].default_value = 0.6 if not lumpy else 5.0   # lumpy（近的山）：樹冠一團一團的凹凸要很明顯
         nt.links.new(vo.outputs['Distance'], bm_.inputs['Height']); nt.links.new(bm_.outputs['Normal'], b.inputs['Normal'])
         b.inputs['Roughness'].default_value = 0.95
@@ -278,6 +280,20 @@ def sky(sun_elev, sun_rot, strength):
     nt.links.new(sk.outputs['Color'], nt.nodes['Background'].inputs['Color']); nt.nodes['Background'].inputs['Strength'].default_value = strength
 
 
+def haze(nt, col_socket, bsdf, color=(0.36, 0.44, 0.56), dist=650.0, maxk=0.5):
+    """空氣透視：越遠越往天空的霧藍色混（混合比例＝maxk·(1−exp(−距離/dist))），同時把同一個比例的霧色加到自發光（背光的地方也是霧的顏色、不會黑掉）"""
+    cd = nt.nodes.new('ShaderNodeCameraData'); dv = nt.nodes.new('ShaderNodeMath'); dv.operation = 'DIVIDE'; dv.inputs[1].default_value = -dist
+    nt.links.new(cd.outputs['View Distance'], dv.inputs[0]); ex = nt.nodes.new('ShaderNodeMath'); ex.operation = 'EXPONENT'; nt.links.new(dv.outputs[0], ex.inputs[0])
+    om = nt.nodes.new('ShaderNodeMath'); om.operation = 'SUBTRACT'; om.inputs[0].default_value = 1.0; nt.links.new(ex.outputs[0], om.inputs[1])
+    k = nt.nodes.new('ShaderNodeMath'); k.operation = 'MULTIPLY'; k.inputs[1].default_value = maxk; nt.links.new(om.outputs[0], k.inputs[0])
+    mx = nt.nodes.new('ShaderNodeMixRGB'); mx.inputs['Color2'].default_value = (*color, 1); nt.links.new(k.outputs[0], mx.inputs['Fac']); nt.links.new(col_socket, mx.inputs['Color1'])
+    try:
+        em = nt.nodes.new('ShaderNodeMath'); em.operation = 'MULTIPLY'; em.inputs[1].default_value = 0.12; nt.links.new(k.outputs[0], em.inputs[0])
+        bsdf.inputs['Emission Color'].default_value = (*color, 1); nt.links.new(em.outputs[0], bsdf.inputs['Emission Strength'])
+    except Exception: pass
+    return mx.outputs['Color']
+
+
 def forest_cards(n, x0, x1, z0, z1, smin, smax, eye, seed=7, names=('hill0', 'hill1'), tint=(0.78, 0.86, 0.80)):
     """山坡上種樹：street_trees.py 的遠景卡片（側面正交渲染的樟樹、榕樹，tree_cards.png），每一片面向鏡頭、腳踩在山坡上（往下打光線找地面）。
     卡片共用三個網格（linked duplicates），幾千棵也不重；顏色乘一點偏冷的綠（遠一點、在山上）"""
@@ -288,7 +304,12 @@ def forest_cards(n, x0, x1, z0, z1, smin, smax, eye, seed=7, names=('hill0', 'hi
         mt = bpy.data.materials.new('forest_card'); mt.use_nodes = True; nt = mt.node_tree; b = nt.nodes['Principled BSDF']
         tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(os.path.join(gen, 'tree_cards.png')); tx.image.alpha_mode = 'STRAIGHT'
         mx = nt.nodes.new('ShaderNodeMixRGB'); mx.blend_type = 'MULTIPLY'; mx.inputs['Fac'].default_value = 1.0; mx.inputs['Color2'].default_value = (*tint, 1)
-        nt.links.new(tx.outputs['Color'], mx.inputs['Color1']); nt.links.new(mx.outputs['Color'], b.inputs['Base Color'])
+        nt.links.new(tx.outputs['Color'], mx.inputs['Color1'])
+        # 每棵樹不一樣：明暗 0.55～1.0、色調在黃綠與藍綠之間（Object Info 的 Random）
+        oi = nt.nodes.new('ShaderNodeObjectInfo'); vr = nt.nodes.new('ShaderNodeValToRGB'); vr.color_ramp.elements[0].color = (0.5, 0.56, 0.5, 1); vr.color_ramp.elements[1].color = (1.0, 0.98, 0.86, 1)
+        nt.links.new(oi.outputs['Random'], vr.inputs['Fac']); mv = nt.nodes.new('ShaderNodeMixRGB'); mv.blend_type = 'MULTIPLY'; mv.inputs['Fac'].default_value = 1.0
+        nt.links.new(mx.outputs['Color'], mv.inputs['Color1']); nt.links.new(vr.outputs['Color'], mv.inputs['Color2'])
+        b.inputs['Base Color'].default_value = (0, 0, 0, 1); nt.links.new(haze(nt, mv.outputs['Color'], b), b.inputs['Base Color'])
         rd = nt.nodes.new('ShaderNodeMath'); rd.operation = 'ROUND'; nt.links.new(tx.outputs['Alpha'], rd.inputs[0]); nt.links.new(rd.outputs[0], b.inputs['Alpha'])
         b.inputs['Roughness'].default_value = 0.9
     meshes = []
@@ -497,10 +518,10 @@ elif SCENE == 'campus':
         for x in range(3, 18, 2): box('bridge_post', x - 0.05, x + 0.05, 0.05, 1.05, zr - 0.02, zr + 0.12, RAIL)
     box('bridge_pier', 9.4, 10.4, WL - 0.6, -0.5, -45.5, -43.0, CONC)
     # 指南山：校園就在山腳，山很近、很高
-    hills(-125, 380, [(0, 95, (0.045, 0.095, 0.04), 2.4), (70, 150, (0.08, 0.13, 0.11), 4.1), (180, 200, (0.15, 0.19, 0.25), 6.3)], crown=0.2)
+    hills(-185, 420, [(0, 105, (0.045, 0.095, 0.04), 2.4), (80, 165, (0.08, 0.13, 0.11), 4.1), (200, 230, (0.15, 0.19, 0.25), 6.3)], crown=0.2, lumpy=0.6)   # 山往後退（原本 −125 太近，像一道牆）；lumpy＝小起伏＋空氣透視
     EYE = (1.4, 1.7, 9.0)                                                    # 鏡頭（下面 camera() 用同一個）
-    forest_cards(5200, -170, 230, -126, -235, 0.75, 1.1, EYE, seed=21, names=('hill0',), tint=(0.62, 0.72, 0.62))                 # 近的山：滿滿的樹（指南山麓）
-    forest_cards(3000, -230, 320, -195, -330, 1.2, 1.7, EYE, seed=22, names=('hill1',), tint=(0.52, 0.62, 0.64))   # 第二層：樹大一點、顏色淡一點（空氣透視）
+    forest_cards(5600, -220, 300, -186, -300, 0.8, 1.2, EYE, seed=21, names=('hill0',), tint=(0.62, 0.72, 0.62))                 # 近的山：滿滿的樹（指南山麓）
+    forest_cards(3200, -300, 400, -265, -400, 1.3, 1.8, EYE, seed=22, names=('hill1',), tint=(0.52, 0.62, 0.64))   # 第二層：樹大一點、顏色淡一點（空氣透視）
     load_lib('street_trees.glb', {'tree_camphor_a', 'tree_camphor_b', 'tree_banyan_a'}); load_lib('street_props.glb', {'lamp_post', 'bench_park'})
     for z in range(2, -110, -8): place(rng.choice(['tree_camphor_a', 'tree_camphor_b', 'tree_banyan_a']), -11 + rng.uniform(-3, 3), z + rng.uniform(-3, 3), yaw=rng.uniform(0, 6.28), s=rng.uniform(1.0, 1.3))   # 步道後面第二排（校園裡樹很多）
     for z in range(-4, -110, -10): place(rng.choice(['tree_camphor_a', 'tree_camphor_b']), -19 + rng.uniform(-3, 3), z + rng.uniform(-3, 3), yaw=rng.uniform(0, 6.28), s=rng.uniform(1.1, 1.4))
