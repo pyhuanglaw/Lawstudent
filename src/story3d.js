@@ -821,7 +821,7 @@ const STORY = (function(){
        19:45～20:30 她在椰林大道的長椅旁，走到她旁邊就演（3D）；20:30 還沒到＝帶到場（E36_FORCE：旁白一句再接原文；不做手機版；睡著＝電話叫醒 coreCallAt）。
        演完 → 22:00 放榜的宵夜（AA_106 3b①，ev_y0_e36n）→ 23:30「走啦」群組照片（BB-B 6d59df01）*/
     if(S.isEcon(G)){ const d36=S.dayOfKey('2025-08-13'), K=t=>({th:'p:kexin',from:'kexin',text:t}), done36=!!(G.events&&G.events.done&&G.events.done.ev_y0_e36);
-      if(d36!=null&&G.day===d36&&G.hour>=10&&!PHONE.sent(G,'y0_e36_ask')&&!done36){ F.E36_ASKED=true; PHONE.at(G,d36,10,[K('看到了。'),K('晚上八點，椰林大道。這句恭喜，我想當面說。')],'y0_e36_ask');
+      if(d36!=null&&G.day===d36&&G.hour>=10&&F.E36_RESULT&&!PHONE.sent(G,'y0_e36_ask')&&!done36){ F.E36_ASKED=true;   /* 看到榜單（ev_y0_e36r，AA_154 A49 的兩句系統旁白）以後 */ PHONE.at(G,d36,10,[K('看到了。'),K('晚上八點，椰林大道。這句恭喜，我想當面說。')],'y0_e36_ask');
         if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_e36')&&G.hour<20.5) OUT.plan(G,{id:'y0_e36',goto:{zone:'campus',x:S.E36_AT.x,z:S.E36_AT.z+3,yaw:Math.PI},early:1/12,day:d36,h:20,late:0.5,place:'椰林大道',title:'椰林大道 20:00',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}); }
       if(d36!=null&&F.E36_ASKED&&!done36&&G.zone==='campus'&&G.day===d36&&G.hour>=19.75&&G.hour<20.5&&GM.spawnCharacter&&!(GM.npc&&GM.npc.kexin)){ try{ GM.spawnCharacter('kexin',S.E36_AT.x,S.E36_AT.z,{yaw:0}); }catch(e){ console.warn('E36 kexin',e); } }
       if(d36!=null&&F.E36_ASKED&&!done36&&(G.day>d36||G.hour>=20.5)) F.E36_FORCE=true;
@@ -1759,7 +1759,8 @@ const STORY = (function(){
   S.e22bFrom=fe=>fe.h<12?13.5:fe.h+20/60;
   S.coreCallAt=function(G){ if(!S.isEcon(G)||typeof OUT==='undefined') return null; for(const id of CORE_OUT){ const q=OUT.get(G,id); if(q&&q.state!=='done'&&q.day===G.day){ const t=q.h+(q.late!=null?q.late:0.75); if(G.hour<t) return t; } }
     const d35=S.dayOfKey('2025-07-10'); if(d35!=null&&G.day===d35&&G.flags.E35_ASKED&&!G.flags.E35_DONE&&G.hour<21.5) return 21.5;   /* E35 電話版（AA_154 A41 ④）：睡著＝21:30 電話叫醒 */
-    const d36=S.dayOfKey('2025-08-13'); if(d36!=null&&G.day===d36&&G.flags.E36_ASKED&&!(G.events&&G.events.done&&G.events.done.ev_y0_e36)&&G.hour<20.5) return 20.5;   /* E36 帶到場（A35 ④）：睡著＝20:30 手機震醒 */
+    const d36=S.dayOfKey('2025-08-13'); if(d36!=null&&G.day===d36&&!G.flags.E36_RESULT&&G.hour<10) return 10;   /* E36 放榜：睡著也在 10:00 醒來看榜單 */
+    if(d36!=null&&G.day===d36&&G.flags.E36_ASKED&&!(G.events&&G.events.done&&G.events.done.ev_y0_e36)&&G.hour<20.5) return 20.5;   /* E36 帶到場（A35 ④）：睡著＝20:30 手機震醒 */
     return null; };
   S.R4_AT={x:78.6,z:0};   /* R4 可昕坐在總圖外的台階（E27 的總圖門口同一處）*/
   S.E35_AT={x:-91,z:55.6};

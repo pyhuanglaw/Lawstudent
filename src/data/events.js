@@ -1740,7 +1740,9 @@ const STORY_EVENTS=[
   /* ★E36 放榜：晚上的椰林大道（BB_104 8-11、8b-19；AA_154 A35）：8-11 可昕的台詞（E25_ANSWER only_me 多兩句，8-8 的表）→ E36_REPLY（climb／compete／silent）→ 椰林大道的路燈 → E36_PACT（weekly／later／ask；
      BB-B 754e7136／ec47463b，第②級等 AA-B 確認）。ev_y0_e36＝在外面（走到她旁邊，或 20:30 以後帶到場）；ev_y0_e36h＝帶到場時人在臺北的家。演完接 22:00 放榜的宵夜（ev_y0_e36n，AA_106 3b①）*/
   ...(()=>{ const D=()=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-08-13'):null, atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
+    const hab=k=>typeof EVENTS!=='undefined'&&EVENTS.habitCount?EVENTS.habitCount({key:'retake:'+k}):0;   /* E29 的旁白（AA_154 A49）：重考期讀書日、玩樂日哪邊多說哪一句，一樣多不說 */
     const lines=[ {if:{flags:['E36_FORCE']},speaker:null,text:'（你到椰林大道的時候，她坐在路邊的椅子上，手機螢幕還亮著榜單。）'},{scene:'台大・椰林大道'},
+      {if:{custom:()=>hab('study')>hab('play')},speaker:null,text:'那本筆記本寫滿了。'},{if:{custom:()=>hab('play')>hab('study')},speaker:null,text:'你們騎過的河堤，比讀過的書還多。……還是考上了。'},
       {speaker:'kexin',text:'台大法律。恭喜你。真的。'},{speaker:'kexin',text:'我是政大法律。'},{speaker:'kexin',text:'……我有一點點不甘心。一點點。不是因為你，是想跟自己比。'},
       {if:{flagIs:{E25_ANSWER:'only_me'}},speaker:'kexin',text:'你那天說，你以為只有你。……我現在懂那個感覺了。'},{if:{flagIs:{E25_ANSWER:'only_me'}},speaker:'player',text:'不是只有妳。'},
       {speaker:'kexin',text:'好，消化完了。'},{speaker:'kexin',text:'政大的山比較多。四年後，我會比你強壯。'},
@@ -1755,7 +1757,11 @@ const STORY_EVENTS=[
       {label:'q'},{speaker:null,text:'（她想了很久。）'},{speaker:'kexin',text:'我想每次見面，都不是因為剛好。'},{speaker:'kexin',text:'……這題，我們一起想。'},
       {label:'e'},{speaker:'kexin',text:'走吧。趁我們還在同一個學校。'} ];
     const after=(G,GM)=>{ if(G.hour<22) GM.advance(22-G.hour); };   /* 接 22:00 放榜的宵夜（A21 的順序）*/
+    const rdue=G=>{ const d=D(); return d!=null&&G.day===d&&G.hour>=10&&!G.flags.E36_RESULT; }, rlines=[ {speaker:null,text:'（八月十三日，早上十點。榜單公布了。）'},{speaker:null,text:'（臺大法律學系。你的名字在上面。）'},{set:{E36_RESULT:true}} ];
     return [
+      /* 白天看到結果（AA_154 A49：兩句系統旁白，接著可昕 10:00 的兩則私訊）：ev_y0_e36r＝不在家；ev_y0_e36rh＝在臺北的家 */
+      { id:'ev_y0_e36r', stage:'econ', title:'八月放榜', participants:[], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>rdue(G)&&!atHome(G)}, dialogue:rlines },
+      { id:'ev_y0_e36rh', stage:'econ', title:'八月放榜', participants:[], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:rdue}, dialogue:rlines },
       { id:'ev_y0_e36', stage:'econ', title:'放榜', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'blur', next_event:'ev_y0_e36n', after,
         prereq:{custom:G=>{ const F=G.flags; if(!F.E36_ASKED||atHome(G)) return false; if(F.E36_FORCE) return true; if(G.day!==D()||G.zone!=='campus'||G.hour<19.75||G.hour>=20.5) return false;
           const P=typeof GAME!=='undefined'&&GAME.E&&GAME.E.player&&GAME.E.player.obj, A=STORY.E36_AT; if(!P) return true; const dx=P.position.x-A.x, dz=P.position.z-A.z; return dx*dx+dz*dz<=25; }},

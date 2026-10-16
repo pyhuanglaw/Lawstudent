@@ -37,7 +37,11 @@ const grp=()=>(G.msgs||[]).filter(m=>/^g:econ/.test(m.th)).map(m=>m.text);
   const D=STORY.dayOfKey('2025-08-13'); const e=STORY_EVENTS.find(x=>x.id==='ev_y0_e36'), eh=STORY_EVENTS.find(x=>x.id==='ev_y0_e36h'), en=STORY_EVENTS.find(x=>x.id==='ev_y0_e36n');
   check('0. E36 三個事件都在、8/13 是週三',!!e&&!!eh&&!!en&&CALENDAR.dateOf(D).wd===3); if(!e||!eh||!en){ console.log('FAILED '+fails); process.exit(1); }
   fresh(D,9.5,'campus'); atHome(); run(9.5,9.9); check('1. 10:00 以前沒有',!PHONE.sent(G,'y0_e36_ask'));
-  run(10,10.1); const K=TH('p:kexin').map(m=>m.text), q=OUT.get(G,'y0_e36');
+  run(10,10.1); check('1. 10:00 還沒看到榜單：可昕還沒傳',!PHONE.sent(G,'y0_e36_ask'));
+  check('1. coreCallAt：8/13 09:00 睡著＝10:00 醒來看榜單',(()=>{ const h0=G.hour; G.hour=9; const r=STORY.coreCallAt(G); G.hour=h0; return r===10; })());
+  said=[]; menus=[]; script=[]; await loop(); const L0=said.map(x=>x.t);
+  check('1. 在家：先兩句系統旁白「（八月十三日，早上十點。榜單公布了。）」「（臺大法律學系。你的名字在上面。）」（AA_154 A49）',L0[0]==='（八月十三日，早上十點。榜單公布了。）'&&L0[1]==='（臺大法律學系。你的名字在上面。）'&&G.flags.E36_RESULT===true,JSON.stringify(L0.slice(0,3)));
+  const K=TH('p:kexin').map(m=>m.text), q=OUT.get(G,'y0_e36');
   check('1. 10:00 可昕「看到了。」「晚上八點，椰林大道。這句恭喜，我想當面說。」；出發選單「椰林大道 20:00」（goto 校園）',K.includes('看到了。')&&K.includes('晚上八點，椰林大道。這句恭喜，我想當面說。')&&q&&q.goto.zone==='campus'&&q.h===20&&G.flags.E36_ASKED,JSON.stringify(K));
   const snap=JSON.stringify(G); const back=()=>{ G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); };
   // 2. 從家裡出發 → 椰林大道 3D
@@ -48,6 +52,9 @@ const grp=()=>(G.msgs||[]).filter(m=>/^g:econ/.test(m.th)).map(m=>m.text);
   G.flags.E25_ANSWER='only_me'; said=[]; script=['陪她走','每週一天']; await EVENTS.run(e); await new Promise(r=>setTimeout(r,20)); let L=said.map(x=>x.t);
   const i1=L.indexOf('……我有一點點不甘心。一點點。不是因為你，是想跟自己比。'), i2=L.indexOf('好，消化完了。');
   check('3. 「台大法律。恭喜你。真的。」「我是政大法律。」「……我有一點點不甘心……」→（only_me）「你那天說，你以為只有你。……」「不是只有妳。」→「好，消化完了。」',L[0]==='台大法律。恭喜你。真的。'&&L[1]==='我是政大法律。'&&i1>=0&&L[i1+1]==='你那天說，你以為只有你。……我現在懂那個感覺了。'&&L[i1+2]==='不是只有妳。'&&i2===i1+3&&!L.some(t=>/手機螢幕還亮著榜單/.test(t)),JSON.stringify(L));
+  check('3. 沒有重考期的讀書日／玩樂日紀錄（一樣多）：E29 的旁白不說',!L.includes('那本筆記本寫滿了。')&&!L.some(t=>/河堤，比讀過的書還多/.test(t)));
+  { const s3=JSON.stringify(G); for(const [k,n,want] of [['study',3,'那本筆記本寫滿了。'],['play',2,'你們騎過的河堤，比讀過的書還多。……還是考上了。']]){ G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.day=D-40; for(let i=0;i<n;i++){ G.day=D-40+i; EVENTS.habit('retake:'+k); } G.day=D; G.zone='campus'; G.hour=20; said=[]; script=[0,0]; await EVENTS.run(e); const LL=said.map(x=>x.t);
+      check('3. 重考期 '+k+' 比較多：椰林大道開頭、可昕第一句之前說「'+want.slice(0,10)+'……」',LL.indexOf(want)>=0&&LL.indexOf(want)<LL.indexOf('台大法律。恭喜你。真的。'),JSON.stringify(LL.slice(0,3))); } G=JSON.parse(s3); SOCIAL.bind(G); EVENTS.bind(GM); }
   check('3. 陪她走＝「……你這樣很犯規。」「她走慢了一點。」、E36_REPLY silent；每週一天＝「……好。每週一天。」「是哪一天，等我們都摸熟自己的課表再說。不准忘記。」、E36_PACT weekly；「走吧。趁我們還在同一個學校。」',
     L.includes('……你這樣很犯規。')&&L.includes('她走慢了一點。')&&G.flags.E36_REPLY==='silent'&&L.includes('是哪一天，等我們都摸熟自己的課表再說。不准忘記。')&&G.flags.E36_PACT==='weekly'&&L.includes('走吧。趁我們還在同一個學校。'));
   check('3. 接著 22:00 放榜的宵夜（AA_106 3b①）：「八月放榜那晚，公館的宵夜攤坐滿了經濟系的人。」…「今天談。」「你們一直吃到攤子收攤。」；演完 23:30',L.includes('八月放榜那晚，公館的宵夜攤坐滿了經濟系的人。')&&L.includes('今天談。')&&L[L.length-1]==='你們一直吃到攤子收攤。'&&Math.abs(G.hour-23.5)<1e-6,G.hour);
