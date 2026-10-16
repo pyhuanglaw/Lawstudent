@@ -171,6 +171,7 @@
 | 18:1x | 小公園 v8：公布欄加頂上的公園名牌（原本的木牌擋住公告） | a4c05720 | 已交 |
 | 18:5x | ART-BG-COURT `ntu_court_night`（哲 2 的新體育館旁籃球場，晚上；Blender `bg_court.py`）；遊戲內 ADV 截圖 390×844／844×390；第二版鏡頭左轉 6°，手機直向看得到整塊籃板 | 6e72e346 | 交 BB-B 驗收、交 LAWWW-B 填 `S.BG.ntu_court_night.image` |
 | 19:0x | ART-PT-SIS-FORMAL 學姊面試西裝立繪 `heroine_05/formal/`（neutral 全身去背＋serious、smile 換臉；企劃線 heroine05_interview.webp）；遊戲內 ADV 截圖 | 4e812ce5 | **BB-B 19:16 三張 ART_APPROVED**；LAWWW-B 合入（DLV-1016-372） |
+| 20:3x | 祐廷 3D 臉試做（BB_131 第 11 節；`vroid_yuting_facetest.vrm`、`?facetest`、patch `assets3d_facetest.patch`；`test_shots/facetest_yuting/`） | 8496bf9d | **BB-B 20:42 驗收通過**（4d3e2757），等使用者決定用不用；BB-B 說離參考圖最遠的是頭髮和下顎線（這次不做） |
 
 **⚠ D90／HV-9（使用者 10-17 04:01 台北；LAWWW-B 20:09 轉達，我 20:10 讀到、ACK）**：平台只在回合結束時送使用者訊息 → **短回合**（一個工作單位、最多約 10 分鐘或 30 次工具）、長工作放背景不在回合裡等、結束回合前 commit＋push、沒有背景工作會叫醒時用 send_later 排 1～2 分鐘後接續；每個回合開始先回使用者、再 ReadNotifications 讀到 0。
 - turn_check（20:11）：104 個回合、30 個超過上限，最長 135.5 分鐘；18:29 開始的回合約 100 分鐘（把渲染、截圖、建模串在同一個回合）。改法：每個工作單位結束回合。
