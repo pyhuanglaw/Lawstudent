@@ -596,7 +596,7 @@ const CLS=(function(){
   S.skipTo=async function(GM,h1,o){ o=o||{}; const G=GM.G, why=S.canSkip(GM); if(why){ GM.toast(why,3000); return false; } const h0=hr(G); if(h1<=h0+0.05) return false; if(h1>23.99) h1=23.99;
     const cb=S.closingBlock(G,h1); if(cb){ GM.toast(cb,4000); return false; }
     const stops=S.skipStops(GM,h1); const stop=stops[0]; const target=stop?stop.h:h1;
-    const passed=S.dayItems(G).filter(it=>S.status(G,it)!=='done'&&it.t1-LATE_END>h0&&it.t1-LATE_END<=target&&!S.storyClass(G,it));
+    const passed=S.dayItems(G).filter(it=>S.status(G,it)!=='done'&&it.t1-LATE_END>h0&&it.t1-LATE_END<=target&&!S.storyClass(G,it)&&!(h0>it.t0+WIN1));   /* 已經遲到超過 15 分鐘的課（照樣記缺席）不再警告「會錯過」（v9.7 試玩回歸 flow_playtest_fixes C：10:00 小睡，跳出「會錯過 09:10 國文」）*/
     if(passed.length){ GM.sceneBegin(); let i=0; try{ i=await GM.choose([{t:'照樣跳過',hint:'會錯過：'+passed.map(it=>hhmm(it.t0)+' '+it.c.name).join('、')},{t:'先不要'}]); } finally { GM.sceneEnd(); } if(i!==0) return false; }
     GM.sceneBegin(); try{ await GM.fade(true); GM.advance(target-h0); if(o.nap&&GM.energy) GM.energy(Math.min(40,Math.round((target-h0)*8))); await GM.sleep(300); await GM.fade(false); } finally { GM.sceneEnd(); }
     const zn=(typeof Z3!=='undefined'&&Z3.ZONES[G.zone])?Z3.ZONES[G.zone].name:''; GM.caption('',(stop?'（'+stop.why+'）':'')+(o.nap?'你睡了一下，醒來是 '+hhmm(hr(G))+'。':'你在'+(zn||'這裡')+'待到 '+hhmm(hr(G))+'。'),3200);
