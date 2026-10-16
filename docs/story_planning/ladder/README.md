@@ -3,7 +3,7 @@
 - `ladder_bb.json`：BB-B 的芷若（heroine_02）、子晴（heroine_04）、溫學姊（heroine_05）、沛珊（classmate_peishan）、可昕（kexin）＋室友阿凱宿舍事件（`kaiDorm`）。原稿 `../BB_130_閒聊階梯_芷若子晴學姊沛珊_室友阿凱.md`；由 `build_ladder_bb.py` 產生（改台詞改 .py，再跑一次）。
 - `ladder_aa.json`：AA-B 的以安（heroine_01）、語彤（heroine_03）。原稿 `../AA_135`、`../AA_136`；由 `build_ladder_aa.py` 產生。
 - **大一下（Y1S2）**：`ladder_aa_y1s2.json`（以安 A2-L1～8、語彤 Y2-L1～8；原稿說明 `../AA_139`；`build_ladder_aa_y1s2.py`）。芷若、子晴、學姊、沛珊、可昕的大一下：`ladder_bb_y1s2.json`（Z2／Q2／S2／P2／K2-L1～8；原稿說明 `../BB_133`；`build_ladder_bb_y1s2.py`；BB-B 2026-10-16）。
-- **大二上（Y2S1）**：`ladder_aa_y2s1.json`（以安 A3、語彤 Y3；`../AA_141`）。**大二下（Y2S2）**：`ladder_aa_y2s2.json`（以安 A4、語彤 Y4；`../AA_142`）。**大三上（Y3S1）**：`ladder_aa_y3s1.json`（以安 A5、語彤 Y5；`../AA_149`；路線差別用 `linesIf` 的 `flagIs:{EXCHANGE_ROUTE}`）。大三下起照 `AA_144` 的交換時間線寫（國外的人物只對同路線的玩家有階梯）。芷若、子晴、學姊、沛珊、可昕的大一下由 BB-B 寫（`ladder_bb_y1s2.json`，之後）。
+- **大二上（Y2S1）**：`ladder_aa_y2s1.json`（以安 A3、語彤 Y3；`../AA_141`）。**大二下（Y2S2）**：`ladder_aa_y2s2.json`（以安 A4、語彤 Y4；`../AA_142`）。**大三上（Y3S1）**：`ladder_aa_y3s1.json`（以安 A5、語彤 Y5；`../AA_149`；路線差別用 `linesIf` 的 `flagIs:{EXCHANGE_ROUTE}`）。**大三下（Y3S2）**：`ladder_aa_y3s2.json`（只有語彤 Y6，給留在台灣的玩家；以安在日本，日本路線走 2D，`../AA_150`）。芷若、子晴、學姊、沛珊、可昕的大一下由 BB-B 寫（`ladder_bb_y1s2.json`，之後）。
 - **一學期一個檔（給 LAWWW-B）**：每個檔的 `term` 決定它在哪一學期推進；進度記在 `G.social.ladder[term][層 id 所屬角色]`（或用 `term:角色` 當 key），**換學期就從新檔的第 1 層開始**，上學期沒走完的層不帶過去（新學期的台詞不假設玩家聽過上學期哪一層，要接的用 `linesIf`／`extraIf` 看記憶）。舊存檔：沒有 term 的進度當成 Y1S1。
 
 ## 給 LAWWW-B：欄位
