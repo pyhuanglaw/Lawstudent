@@ -12177,7 +12177,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "index.html #choices button 加 flex-shrink:0（不壓扁、改成捲動）；adv3d.js .adv-on #choices 加 max-height 留出上方紀錄／略過按鈕；Playwright 橫直向截圖驗證中",
+   "next": "已改（69904537）；Playwright 844×390 與 390×844 截圖：選項框頂 58px（紀錄按鈕底 42px）、沒有被壓扁的按鈕、提示字在框內、多的選項捲動（shots/2026-10-16/choice_layout_*.png）。等 iPhone 實機",
    "first": {
     "term": "Y1S1",
     "week": 1,
