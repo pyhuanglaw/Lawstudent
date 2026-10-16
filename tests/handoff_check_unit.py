@@ -211,6 +211,44 @@ code, out = run(d, 'git')
 expect('6 掃描：commit 找不到 → 「沒有檢查」、不報 OK', code == 1 and '[沒有檢查]' in out, out)
 shutil.rmtree(d)
 
+# 10 跨 AI 任務的 xai 欄位（D84 第 3 條）
+X = {'receiver': 'LAWWW', 'branch': 'b', 'spec': 'AA_147', 'acceptance': 'webp＋截圖', 'ack': 'ACK'}
+d = setup(mod(lambda T: T.append(task('ART-9', owner='LAWWW2'))))
+code, out = run(d)
+expect('10 LAWWW2 的任務沒有 xai → 異常 10', '[異常 10] ART-9' in out, out)
+shutil.rmtree(d)
+d = setup(mod(lambda T: T.append(task('ART-9', owner='LAWWW2', xai=dict(X, acceptance='', ack='已讀')))))
+code, out = run(d)
+expect('10 xai 缺交付標準、ack 不合法 → 兩個異常 10', out.count('[異常 10] ART-9') == 2, out)
+shutil.rmtree(d)
+d = setup(mod(lambda T: T.append(task('ART-9', '已驗收', owner='LAWWW2', evidence='截圖'))))
+code, out = run(d)
+expect('10 已結的任務不要求 xai', '[異常 10]' not in out, out)
+shutil.rmtree(d)
+
+# 11 流水線（D84 第 4、6 條）：meta.pipeline 的職位可以做的少於下限＝派工不足；交付停在 DELIVERED＝沒 ACK
+def piped(n, st='待開工'):
+    t = mod(lambda T: [T.append(task(f'ART-P{k}', st, owner='LAWWW2', xai=dict(X))) for k in range(n)])
+    t['meta']['pipeline'] = {'LAWWW2': {'minReady': 3}}
+    return t
+d = setup(piped(2))
+code, out = run(d)
+expect('11 LAWWW2 可以做的只有 2 項（下限 3）→ 異常 11 派工不足', '[異常 11] LAWWW2' in out and '派工不足' in out, out)
+shutil.rmtree(d)
+d = setup(piped(3, '等待其他AI／素材'))
+code, out = run(d)
+expect('11 三項都在「等待」不算可以做 → 異常 11', '[異常 11] LAWWW2' in out, out)
+shutil.rmtree(d)
+d = setup(piped(3))
+code, out = run(d)
+expect('11 三項可以做、交付都 ACK → 沒有異常 11', '[異常 11]' not in out, out)
+shutil.rmtree(d)
+dv = copy.deepcopy(DELIV); dv['deliveries'][0]['msg'] = 'DELIVERED'
+d = setup(piped(3), deliv=dv)
+code, out = run(d)
+expect('11 LAWWW2 的交付停在 DELIVERED → 異常 11（沒 ACK）', '[異常 11] DLV-1' in out, out)
+shutil.rmtree(d)
+
 # queue：P0 先、再照學期（Y0 在 Y1 前）
 d = setup()
 buf = io.StringIO()

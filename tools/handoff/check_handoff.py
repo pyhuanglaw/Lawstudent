@@ -18,11 +18,14 @@ check 的七項（使用者 2026-10-16 指示）＋兩項補充：
   7 未 ACK、待整合、待測試的交付不算完成（連到的任務不能是「已驗收」）
   8 首次出現時間欄位齊全（D81）
   9 閱讀版 docs/HANDOFF_GAP_MATRIX.md 提到的 ID 在 tasks.json 都有（區間如 V5-F1～F27 會展開）
+ D84（2026-10-16，平行開發的派工）再加兩項：
+ 10 跨 AI 任務（負責人 LAWWW2／AA／BB、未結）有 xai：接收者、分支、規格來源、交付標準、ACK 狀態
+ 11 meta.pipeline 設的職位（LAWWW2）：可以做的任務不少於 minReady（派工不足）；它的交付沒有停在 SENT／DELIVERED（沒 ACK）
 
 增量掃描的順序：先 check → 把列出的 commit 登記進 deliveries 或放進 ignored → 再 check 到 OK → 最後才把 scannedThrough 移到各分支現在的 commit。
 先移 scannedThrough 再 check，什麼都掃不到（2026-10-16 犯過一次）。
 
-結束碼：0＝七項都檢查了、沒有異常；1＝有異常、或有一項沒辦法檢查（不虛報正常）；
+結束碼：0＝十一項都檢查了、沒有異常；1＝有異常、或有一項沒辦法檢查（不虛報正常）；
         2＝找不到上次快照或快照壞掉 → REMEDIAL_FULL_AUDIT（要補做一次全面盤點，見總入口第 4 節）。
 """
 import argparse, hashlib, json, os, re, subprocess, sys
@@ -40,6 +43,9 @@ ID_RE = re.compile(r'^[A-Z][A-Z0-9]*-[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$')
 TERM_RE = re.compile(r'^(Y[0-4]S[12]|META)$')
 MD_ID = re.compile(r'(?<![A-Za-z0-9_])((?:BUG|TEST|ART|WIP|V[0-6]|DATE|D14|SYS|SCN|DONE|X)-[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)(?:[～~]([A-Za-z]*)(\d+))?')
 SNAP_KEYS = ('version', 'taken', 'role', 'account', 'open', 'status')
+XAI_OWNERS = ('LAWWW2', 'AA', 'BB')
+XAI_KEYS = ('receiver', 'branch', 'spec', 'acceptance', 'ack')
+XAI_ACK = ['未派', 'SENT', 'DELIVERED', 'ACK', 'ACTIONED', '自領']
 
 
 def canon(i):
@@ -252,6 +258,36 @@ def check(args):
                     A(6, f'{br}：{l[:110]}——符合交付關鍵字但沒登記（登記進 deliveries 或放進 ignored）')
                 info.append(f'{br}：{base} 以後 {len(lines)} 個 commit，符合關鍵字未登記 {len(hits)} 個')
 
+    # 10 跨 AI 任務的欄位（D84 第 3 條）：負責人是 LAWWW2／AA／BB 的未結任務要有 xai＝{receiver, branch, spec, acceptance, ack}
+    acks = (data.get('meta') or {}).get('xaiAck') or XAI_ACK
+    for t in tasks:
+        if t.get('status') in CLOSED or t.get('owner') not in XAI_OWNERS:
+            continue
+        x = t.get('xai')
+        if not isinstance(x, dict):
+            A(10, f'{t.get("id")}：跨 AI 任務（負責人 {t.get("owner")}）沒有 xai 欄位（接收者、分支、規格來源、交付標準、ACK 狀態）')
+            continue
+        miss = [k for k in XAI_KEYS if not x.get(k)]
+        if miss:
+            A(10, f'{t.get("id")}：xai 缺 {"、".join(miss)}')
+        if x.get('ack') and x['ack'] not in acks:
+            A(10, f'{t.get("id")}：xai.ack「{x["ack"]}」不是 {"／".join(acks)} 之一')
+
+    # 11 平行開發的流水線（D84 第 4、6 條）：meta.pipeline 設的職位，可以做的（待開工、進行中）不能少於 minReady；那個職位的交付不能停在 SENT／DELIVERED（沒有 ACK）
+    pipe = (data.get('meta') or {}).get('pipeline') or {}
+    if not pipe:
+        info.append('11：tasks.json 沒有 meta.pipeline（不檢查派工不足）')
+    for role, cfg in pipe.items():
+        ready = [t for t in tasks if t.get('owner') == role and t.get('status') in ('待開工', '進行中')]
+        need = (cfg or {}).get('minReady', 3)
+        if len(ready) < need:
+            A(11, f'{role}：可以做的任務只有 {len(ready)} 項（少於 {need}）＝派工不足；照 D84 第 1 條盤點下一個階段的美術，補任務')
+        info.append(f'{role}：可以做的 {len(ready)} 項（下限 {need}）')
+        if dv:
+            for x in dv.get('deliveries') or []:
+                if str(x.get('from', '')).split('-')[0] == role and x.get('msg') in ('SENT', 'DELIVERED'):
+                    A(11, f'{x.get("id")}（{role}，{x.get("sha")}）：交付停在 {x.get("msg")}，還沒 ACK——讀完回 ACK、寫怎麼排（D84 第 6 條）')
+
     # 9 閱讀版的 ID
     try:
         md = src.read(MATRIX)
@@ -294,7 +330,7 @@ def check(args):
     if out or skipped:
         print(f'結果：異常 {len(out)} 項、沒檢查 {len(skipped)} 項（工具不會自動改任務；請逐項處理後再跑一次）')
         return 1
-    print('結果：OK（九項都檢查了，沒有異常）')
+    print('結果：OK（十一項都檢查了，沒有異常）')
     return 0
 
 

@@ -11,7 +11,7 @@
   "取消／被取代"
  ],
  "meta": {
-  "rule": "D80、D81、D82；docs/AI_SESSION_HANDOFF.md 第 0a、4、5 節",
+  "rule": "D80、D81、D82、D84；docs/AI_SESSION_HANDOFF.md 第 0a、4、5、6b 節",
   "stageOrder": [
    "P0",
    "Y0",
@@ -27,10 +27,24 @@
    "origin/claude/cool-heisenberg-o8kuqx",
    "origin/claude/elegant-brown-fcos7n"
   ],
-  "updated": "2026-10-16T02:40Z",
+  "updated": "2026-10-16T03:5xZ",
   "note": "機器讀的任務索引；docs/HANDOFF_GAP_MATRIX.md 是閱讀版，兩邊的 ID 要一致（check_handoff.py 會比對）",
   "aaRef": "企劃線 docs/story_planning/AA_140_v0到v6_交付實作驗收對照表.md：第 0 節＝戀愛現行規則；第 3 節＝企劃缺漏 G01～；本檔管施工與測試，兩邊互指",
-  "firstSource": "AA_146（9d994120）＋AA_146 第 1b 節 13 項對齊（510eea1c，人物事件照 BB-B）"
+  "firstSource": "AA_146（9d994120）＋AA_146 第 1b 節 13 項對齊（510eea1c，人物事件照 BB-B）",
+  "pipeline": {
+   "LAWWW2": {
+    "minReady": 3,
+    "note": "D84 第 4 條：LAWWW2 可以做的（待開工、進行中，不是等待）少於 3 項＝派工不足（check 第 11 項）"
+   }
+  },
+  "xaiAck": [
+   "未派",
+   "SENT",
+   "DELIVERED",
+   "ACK",
+   "ACTIONED",
+   "自領"
+  ]
  },
  "tasks": [
   {
@@ -397,8 +411,8 @@
    "area": "ART",
    "owner": "LAWWW",
    "status": "已實作待整合",
-   "next": "照 second_ai/VISUAL_REVIEW.md:2025 接線",
-   "priority": "P3",
+   "next": "v0 的前置：v2 剩下的程式做完、v0 開工前接線（照 second_ai/VISUAL_REVIEW.md:2025）",
+   "priority": "P1",
    "first": {
     "term": "Y0S1",
     "week": 1,
@@ -472,7 +486,7 @@
    "area": "ART",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "放宿舍 203 窗台（黃金葛事件、互動點已有）；位置尺寸問 LAWWW2-B",
+   "next": "放宿舍 203 窗台（黃金葛事件、互動點已有）；位置尺寸本批問 LAWWW2-B",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -496,7 +510,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
-   "next": "BB-B 驗收（D59）後改預設",
+   "next": "LAWWW-B 本批向 BB-B 提出 D59 驗收（之前沒有提出，稽核 1-2）；截圖由 LAWWW2-B 提供；通過後改預設",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -512,7 +526,14 @@
    "authorized": "D79",
    "sha": [
     "78db4a6"
-   ]
+   ],
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "LAWWW2／LAWWW2-B 交付",
+    "acceptance": "BB-B D59 通過 → LAWWW 改預設",
+    "ack": "ACK"
+   }
   },
   {
    "id": "ART-06",
@@ -546,7 +567,7 @@
    "area": "ART",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "第 2 級：tests/cvs_glb_integration.py＋便利商店直向、橫向截圖（實際渲染）；使用者看過才算美術通過",
+   "next": "功能第 2 級通過（run13 03:32：cvs_glb_integration ALL PASS／batch_1016_render B 門廊光 6 樣都亮）；美術要使用者看截圖才算通過",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -562,7 +583,8 @@
    "authorized": "D79",
    "sha": [
     "a41c52e7"
-   ]
+   ],
+   "evidence": "；第 2 級 run13（2026-10-16 03:03～03:32）ALL PASS"
   },
   {
    "id": "ART-08",
@@ -570,7 +592,7 @@
    "area": "ART",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "第 2 級：校園 20:40 大一女舍 A、B 門口截圖（?noporch 對照）；使用者看過才算美術通過",
+   "next": "功能第 2 級通過（run13 03:32：cvs_glb_integration ALL PASS／batch_1016_render B 門廊光 6 樣都亮）；美術要使用者看截圖才算通過",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -587,7 +609,8 @@
    "sha": [
     "6f982441",
     "fe8d016d"
-   ]
+   ],
+   "evidence": "；第 2 級 run13（2026-10-16 03:03～03:32）ALL PASS"
   },
   {
    "id": "ART-09",
@@ -611,7 +634,14 @@
    "authorized": "D79",
    "sha": [
     "8fbe1e1a"
-   ]
+   ],
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "LAWWW2／LAWWW2-B 交付",
+    "acceptance": "立繪 webp（BB-B D59 通過）",
+    "ack": "ACK"
+   }
   },
   {
    "id": "ART-10",
@@ -632,15 +662,22 @@
     "confirmed": true
    },
    "source": "LAWWW2／LAWWW2-B 交付",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "LAWWW2／LAWWW2-B 交付",
+    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
+    "ack": "ACK"
+   }
   },
   {
    "id": "ART-11",
    "title": "政大・校園裡的路 nccu_campus",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "LAWWW2-B 在算",
+   "status": "進行中",
+   "next": "LAWWW2-B 在做：bg_nccu.py campus 夜晚主圖（AA_147）；算正式圖、交付",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -653,15 +690,22 @@
     "confirmed": true
    },
    "source": "LAWWW2／LAWWW2-B 交付",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "LAWWW2／LAWWW2-B 交付",
+    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
+    "ack": "ACK"
+   }
   },
   {
    "id": "ART-12",
    "title": "台北的家 2D：home_living、home_balcony",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "LAWWW2-B 佇列②",
+   "status": "進行中",
+   "next": "LAWWW2-B 在做：bg_home.py living／balcony 腳本完成，算正式圖、交付",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -674,16 +718,23 @@
     "confirmed": true
    },
    "source": "LAWWW2／LAWWW2-B 交付",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "LAWWW2／LAWWW2-B 交付",
+    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
+    "ack": "ACK"
+   }
   },
   {
    "id": "ART-13",
    "title": "明軒、小語模型",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "LAWWW2-B",
-   "priority": "P3",
+   "status": "待開工",
+   "next": "接帳號 A 的 WIP 腳本（ae6e4dfa 明軒、0205552d 小語），跑 Blender、BB-B D59 驗收",
+   "priority": "P2",
    "first": {
     "term": "Y1S1",
     "week": 7,
@@ -699,7 +750,14 @@
    "sha": [
     "ae6e4dfa",
     "0205552d"
-   ]
+   ],
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "LAWWW2／LAWWW2-B 交付",
+    "acceptance": "VRM＋BB-B D59",
+    "ack": "ACK"
+   }
   },
   {
    "id": "ART-14",
@@ -720,7 +778,14 @@
     "confirmed": true
    },
    "source": "LAWWW2／LAWWW2-B 交付",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "LAWWW2／LAWWW2-B 交付",
+    "acceptance": "約會底圖＋人物去背（BB-B 規格）",
+    "ack": "ACK"
+   }
   },
   {
    "id": "ART-15",
@@ -741,7 +806,14 @@
     "confirmed": true
    },
    "source": "LAWWW2／LAWWW2-B 交付；AA_140 G28（以通過的 CG 清單為準）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "LAWWW2／LAWWW2-B 交付；AA_140 G28（以通過的 CG 清單為準）",
+    "acceptance": "CG 圖（BB-B 檢查通過）接 CG_REGISTRY",
+    "ack": "ACK"
+   }
   },
   {
    "id": "ART-16",
@@ -762,7 +834,14 @@
     "confirmed": true
    },
    "source": "LAWWW2／LAWWW2-B 交付",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "LAWWW2／LAWWW2-B 交付",
+    "acceptance": "立繪 webp（BB-B D59）",
+    "ack": "ACK"
+   }
   },
   {
    "id": "WIP-01",
@@ -808,7 +887,14 @@
    "source": "遠端",
    "authorized": "D79",
    "pausedReason": "沒有獨有素材",
-   "resumeWhen": "需要時再看"
+   "resumeWhen": "需要時再看",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "遠端",
+    "acceptance": "保留（不整合）",
+    "ack": "ACK"
+   }
   },
   {
    "id": "WIP-03",
@@ -1490,7 +1576,8 @@
     "confirmed": true
    },
    "source": "交接包_v2、BB_96",
-   "authorized": "D79"
+   "authorized": "D79",
+   "evidence": "第 2 級 run13：大一下和以安播 A2-L1，進度記在 heroine_01@Y1S2（直向、橫向）"
   },
   {
    "id": "V2-K6",
@@ -6328,7 +6415,8 @@
     "confirmed": true
    },
    "source": "AA-B 10-16 01:47（AA_140 §4，企劃線 fd7c2744） B10",
-   "authorized": "D79"
+   "authorized": "D79",
+   "evidence": "第 2 級 run13：手機群組「法律系 大一（全班）」"
   },
   {
    "id": "SYS-15",
@@ -6370,7 +6458,14 @@
     "confirmed": true
    },
    "source": "HV-3 靜態驗證",
-   "authorized": "D80"
+   "authorized": "D80",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "spec": "HV-3 靜態驗證",
+    "acceptance": "企劃交付＋LAWWW 確認",
+    "ack": "ACK"
+   }
   },
   {
    "id": "SYS-17",
@@ -6417,7 +6512,14 @@
     "2b79dfc3",
     "e30bf43f",
     "3cc72780"
-   ]
+   ],
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "使用者 10-16 經 LAWWW2-B 轉達；AA-B 8f9408eb；BB_98 4517c707",
+    "acceptance": "layout.js＋GLB（MODEL_READY）、導航與互動點照 layout；US_EXCHANGE_PLAN 第 3 節",
+    "ack": "ACK"
+   }
   },
   {
    "id": "SCN-US-03",
@@ -6438,7 +6540,14 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "場景施工表（總表第 14 節）",
+    "acceptance": "同 SCN-US-01",
+    "ack": "ACK"
+   }
   },
   {
    "id": "SCN-US-02",
@@ -6459,7 +6568,14 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "場景施工表（總表第 14 節）",
+    "acceptance": "同 SCN-US-01",
+    "ack": "ACK"
+   }
   },
   {
    "id": "SCN-US-2D",
@@ -6480,7 +6596,14 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/elegant-brown-fcos7n → claude/cool-heisenberg-o8kuqx",
+    "spec": "場景施工表（總表第 14 節）",
+    "acceptance": "使用者生成、BB-B 檢查通過（D59）存企劃線 *_approved/",
+    "ack": "ACK"
+   }
   },
   {
    "id": "SCN-US-CG",
@@ -6501,7 +6624,14 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）；AA_140 G28",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/elegant-brown-fcos7n → claude/cool-heisenberg-o8kuqx",
+    "spec": "場景施工表（總表第 14 節）；AA_140 G28",
+    "acceptance": "使用者生成、BB-B 檢查通過（D59）存企劃線 *_approved/",
+    "ack": "ACK"
+   }
   },
   {
    "id": "SCN-US-CH",
@@ -6522,7 +6652,14 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/elegant-brown-fcos7n → claude/cool-heisenberg-o8kuqx",
+    "spec": "場景施工表（總表第 14 節）",
+    "acceptance": "使用者生成、BB-B 檢查通過（D59）存企劃線 *_approved/",
+    "ack": "ACK"
+   }
   },
   {
    "id": "SCN-US-EV",
@@ -6564,7 +6701,14 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/elegant-brown-fcos7n → claude/cool-heisenberg-o8kuqx",
+    "spec": "場景施工表（總表第 14 節）",
+    "acceptance": "使用者生成、BB-B 檢查通過（D59）存企劃線 *_approved/",
+    "ack": "未派"
+   }
   },
   {
    "id": "SCN-JP-CG",
@@ -6585,7 +6729,14 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/elegant-brown-fcos7n → claude/cool-heisenberg-o8kuqx",
+    "spec": "場景施工表（總表第 14 節）",
+    "acceptance": "使用者生成、BB-B 檢查通過（D59）存企劃線 *_approved/",
+    "ack": "ACK"
+   }
   },
   {
    "id": "SCN-JP-CH",
@@ -6606,7 +6757,14 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/elegant-brown-fcos7n → claude/cool-heisenberg-o8kuqx",
+    "spec": "場景施工表（總表第 14 節）",
+    "acceptance": "使用者生成、BB-B 檢查通過（D59）存企劃線 *_approved/",
+    "ack": "ACK"
+   }
   },
   {
    "id": "SCN-JP-SYS",
@@ -6669,7 +6827,14 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/elegant-brown-fcos7n → claude/cool-heisenberg-o8kuqx",
+    "spec": "場景施工表（總表第 14 節）",
+    "acceptance": "使用者生成、BB-B 檢查通過（D59）存企劃線 *_approved/",
+    "ack": "未派"
+   }
   },
   {
    "id": "SCN-V3-01",
@@ -6711,7 +6876,14 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/elegant-brown-fcos7n → claude/cool-heisenberg-o8kuqx",
+    "spec": "場景施工表（總表第 14 節）",
+    "acceptance": "使用者生成、BB-B 檢查通過（D59）存企劃線 *_approved/",
+    "ack": "ACK"
+   }
   },
   {
    "id": "SCN-V3-03",
@@ -6774,7 +6946,14 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/elegant-brown-fcos7n → claude/cool-heisenberg-o8kuqx",
+    "spec": "場景施工表（總表第 14 節）",
+    "acceptance": "使用者生成、BB-B 檢查通過（D59）存企劃線 *_approved/",
+    "ack": "ACK"
+   }
   },
   {
    "id": "SCN-V4-03",
@@ -6795,7 +6974,14 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/elegant-brown-fcos7n → claude/cool-heisenberg-o8kuqx",
+    "spec": "場景施工表（總表第 14 節）",
+    "acceptance": "使用者生成、BB-B 檢查通過（D59）存企劃線 *_approved/",
+    "ack": "未派"
+   }
   },
   {
    "id": "SCN-V5-01",
@@ -6858,7 +7044,14 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/elegant-brown-fcos7n → claude/cool-heisenberg-o8kuqx",
+    "spec": "場景施工表（總表第 14 節）",
+    "acceptance": "使用者生成、BB-B 檢查通過（D59）存企劃線 *_approved/",
+    "ack": "ACK"
+   }
   },
   {
    "id": "SCN-V5-04",
@@ -6879,7 +7072,14 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/elegant-brown-fcos7n → claude/cool-heisenberg-o8kuqx",
+    "spec": "場景施工表（總表第 14 節）",
+    "acceptance": "使用者生成、BB-B 檢查通過（D59）存企劃線 *_approved/",
+    "ack": "未派"
+   }
   },
   {
    "id": "DONE-B01",
@@ -7810,8 +8010,8 @@
    "title": "20 張事件在用、還沒有圖的 2D 背景（玩家看到黑底）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "riverside 已接（BB-B 第 20 組）；3D 拍 6 張由 LAWWW2-B（滷味攤、宿舍頂樓改由 LAWWW2-B 拍）；其他照 AA_147",
+   "status": "進行中",
+   "next": "總項：拆成 ART-BG02～BG20（BG-01 riverside 已接、第 2 級 run13 通過；BG-03＝ART-11、BG-04＝ART-10、BG-06／07＝ART-12）",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -7824,7 +8024,15 @@
     "confirmed": true
    },
    "source": "LAWWW2-B 清查 e3d6779 三；BG 追蹤表 d9a6f497",
-   "authorized": "D79"
+   "authorized": "D79",
+   "evidence": "BG-01 riverside：第 2 級 run13（中秋烤肉背景直向、橫向，不是黑底）",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "LAWWW2-B 清查 e3d6779 三；BG 追蹤表 d9a6f497",
+    "acceptance": "MODEL_READY＋遊戲內截圖",
+    "ack": "ACK"
+   }
   },
   {
    "id": "BUG-11",
@@ -8246,7 +8454,14 @@
     "confirmed": true
    },
    "source": "BB-B D59 驗收（企劃線）",
-   "authorized": "D59"
+   "authorized": "D59",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "BB-B D59 驗收（企劃線）",
+    "acceptance": "九格表情 webp（BB-B D59）",
+    "ack": "ACK"
+   }
   },
   {
    "id": "V3-G12",
@@ -8484,6 +8699,503 @@
    },
    "source": "BB-B 法律審查第 8 批 95743dd8、第 9 批 64c24854",
    "authorized": "D79 第 7 點（v4）"
+  },
+  {
+   "id": "ART-BG02",
+   "title": "2D 背景 gongguan_luwei「公館・滷味攤」（BG 追蹤表 BG-02）：ev_midterm_supper 考完的宵夜；v0 E19、E28",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "3D 拍（公館店面街 G05 滷味・鹹酥雞）20:30、騎樓下攤車、折疊桌",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 9,
+    "earliest": "考完的宵夜（大一上期中考後）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_147 第 2 節（企劃線 4a135c36）；LAWWW2-B BG_TRACKER（d9a6f497、97af63cf）；派工稽核 2026-10-16",
+   "authorized": "D79 第 7 點、D84",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
+    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-BG05",
+   "title": "2D 背景 dorm_roof「宿舍頂樓」（BG 追蹤表 BG-05）：ev_nye_roof 跨年；v0 E24c",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "Blender 做男一舍頂樓：水泥平台、矮牆、水塔、一盞昏黃的燈",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 16,
+    "earliest": "跨年（宿舍頂樓那一版）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_147 第 2 節（企劃線 4a135c36）；LAWWW2-B BG_TRACKER（d9a6f497、97af63cf）；派工稽核 2026-10-16",
+   "authorized": "D79 第 7 點、D84",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
+    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-BG18",
+   "title": "2D 背景 video「視訊（可昕那一端）」（BG 追蹤表 BG-18）：ev_kexin_video_study、ev_kexin_grades_open、情人節",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "可昕那一端：書桌一角＋檯燈，看不出是宿舍還是家；晚上",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 17,
+    "earliest": "可昕視訊（大一上期末、寒假第一天一起打開成績）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_147 第 2 節（企劃線 4a135c36）；LAWWW2-B BG_TRACKER（d9a6f497、97af63cf）；派工稽核 2026-10-16",
+   "authorized": "D79 第 7 點、D84",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
+    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-BG15",
+   "title": "2D 背景 ntu_soc「台大・社科院門口」（BG 追蹤表 BG-15）：ev_kexin_visits_ntu（K2）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "社科院正式 GLB 取鏡頭；傍晚（AA_147）",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S2",
+    "week": 6,
+    "earliest": "K2 可昕第一次來台大（第 6 週六 16:00）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_147 第 2 節（企劃線 4a135c36）；LAWWW2-B BG_TRACKER（d9a6f497、97af63cf）；派工稽核 2026-10-16",
+   "authorized": "D79 第 7 點、D84",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
+    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-BG16",
+   "title": "2D 背景 ntu_linze「台大・霖澤館前」（BG 追蹤表 BG-16）：ev_kexin_visits_ntu（K2）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "霖澤館正式 GLB 取鏡頭；傍晚",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S2",
+    "week": 6,
+    "earliest": "K2",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_147 第 2 節（企劃線 4a135c36）；LAWWW2-B BG_TRACKER（d9a6f497、97af63cf）；派工稽核 2026-10-16",
+   "authorized": "D79 第 7 點、D84",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
+    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-BG17",
+   "title": "2D 背景 ntu_avenue「台大・椰林大道」（BG 追蹤表 BG-17）：ev_kexin_visits_ntu（K2）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "遊戲校園的椰林大道取鏡頭；傍晚",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S2",
+    "week": 6,
+    "earliest": "K2",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_147 第 2 節（企劃線 4a135c36）；LAWWW2-B BG_TRACKER（d9a6f497、97af63cf）；派工稽核 2026-10-16",
+   "authorized": "D79 第 7 點、D84",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
+    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-BG13",
+   "title": "2D 背景 wenzhou_tutoring「溫州街・課輔班門口」（BG 追蹤表 BG-13）：ev_peishan_tutoring（大一下第 5 週起週二、四）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "溫州街正式 GLB 選一棟一樓改課輔班門口（招牌虛構）；晚上",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": 5,
+    "earliest": "沛珊的課輔班（第 5 週起）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_147 第 2 節（企劃線 4a135c36）；LAWWW2-B BG_TRACKER（d9a6f497、97af63cf）；派工稽核 2026-10-16",
+   "authorized": "D79 第 7 點、D84",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
+    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-BG08",
+   "title": "2D 背景 car「車上（祐廷開車）」（BG 追蹤表 BG-08）：ev_kexin_trip_spring_y1 春假開車旅行",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "從駕駛座看出去：方向盤、儀表板、擋風玻璃外的路；早上、晚上、雨天三版",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": 6,
+    "earliest": "春假開車旅行（K8）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_147 第 2 節（企劃線 4a135c36）；LAWWW2-B BG_TRACKER（d9a6f497、97af63cf）；派工稽核 2026-10-16",
+   "authorized": "D79 第 7 點、D84",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
+    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-BG11",
+   "title": "2D 背景 trip_mountain「山上（看星星）」（BG 追蹤表 BG-11）：ev_kexin_trip_spring_y1",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "約會底圖 D09 做夜晚版（星星、月亮、幾乎全黑），AA-B 已確認",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": 6,
+    "earliest": "春假開車旅行",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_147 第 2 節（企劃線 4a135c36）；LAWWW2-B BG_TRACKER（d9a6f497、97af63cf）；派工稽核 2026-10-16",
+   "authorized": "D79 第 7 點、D84",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
+    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-BG14",
+   "title": "2D 背景 yongkang_curry「永康街・咖哩店」（BG 追蹤表 BG-14）：ev_family_dinner 家族聚餐",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "查證永康街的咖哩店（不寫真名）；店面＋室內用 Café／麵店構件",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "學姊家族聚餐",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_147 第 2 節（企劃線 4a135c36）；LAWWW2-B BG_TRACKER（d9a6f497、97af63cf）；派工稽核 2026-10-16",
+   "authorized": "D79 第 7 點、D84",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
+    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-BG19",
+   "title": "2D 背景 gongguan_cinema「公館・二輪戲院」（BG 追蹤表 BG-19）：ev_zhiruo_early_show",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "查證公館二輪戲院（店名照 D77）；門口、售票口、海報（不放真實電影）",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "芷若「東京物語的早場」",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_147 第 2 節（企劃線 4a135c36）；LAWWW2-B BG_TRACKER（d9a6f497、97af63cf）；派工稽核 2026-10-16",
+   "authorized": "D79 第 7 點、D84",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
+    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-BG20",
+   "title": "2D 背景 soymilk_shop「豆漿店」（BG 追蹤表 BG-20）：ev_zhiruo_early_show",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "台式早餐店：街屋構件＋麵店構件（不鏽鋼台、豆漿桶、燒餅爐）",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "芷若「東京物語的早場」",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_147 第 2 節（企劃線 4a135c36）；LAWWW2-B BG_TRACKER（d9a6f497、97af63cf）；派工稽核 2026-10-16",
+   "authorized": "D79 第 7 點、D84",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
+    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-BG09",
+   "title": "2D 背景 trip_sea「海邊」：春假開車旅行（用約會底圖 D25（夕陽））",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "等待其他AI／素材",
+   "next": "等 AA-B 回答要白天還是照用 D25（夕陽）（AA_147 寫白天、她拎著鞋站在浪裡）；LAWWW-B 本批已問",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": 6,
+    "earliest": "春假開車旅行",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "BG_TRACKER；AA_147",
+   "authorized": "D79、D84",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA_147＋BG_TRACKER",
+    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名；白天版另外生成或調色",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-BG10",
+   "title": "2D 背景 trip_oldtown「別的城市的老街」：春假開車旅行（用約會底圖 D18（黃昏））",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "等待其他AI／素材",
+   "next": "等 AA-B 回答要白天還是照用 D18（黃昏）（AA_147 寫白天、牆上貼滿發黃的老照片）；LAWWW-B 本批已問",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": 6,
+    "earliest": "春假開車旅行",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "BG_TRACKER；AA_147",
+   "authorized": "D79、D84",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA_147＋BG_TRACKER",
+    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名；白天版另外生成或調色",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-BG12",
+   "title": "2D 背景 seaside_town「春假・海邊的小鎮」：ev_noodle_trip_spring_y1（用約會底圖 D13，字幕寫通稱）",
+   "area": "ART",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "D13 底圖在企劃線的話直接接進 S.BG；沒有就等 ART-14",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": 6,
+    "earliest": "春假小旅行（麵店團）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "BG_TRACKER；AA-B 確認用 D13",
+   "authorized": "D79"
+  },
+  {
+   "id": "ART-CH-XUN",
+   "title": "阿勳（盧正勳 econ_zhengxun）的 3D 人物（VRM）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S2",
+    "week": 11,
+    "earliest": "大一下 10-3 共同教學館自習區、SK05 販賣機前（3D NPC）；v0 整年",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "派工稽核 2026-10-16 1-1 c、e；V2-CHR",
+   "authorized": "D79、D84；D59（BB-B 驗收角色美術）",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "BB_131 標準圖、characters.js econ_zhengxun（180 cm、slim）",
+    "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模）；BB-B D59 通過；LAWWW 接進 CHARACTERS[id].char3d.model",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-CH-PINYU",
+   "title": "品妤（曾品妤 econ_pinyu）的 3D 人物（VRM）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": 6,
+    "earliest": "K2 社科院門口（現在用 compact）；v0 整年",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "派工稽核 2026-10-16 1-1 c、e；V2-CHR",
+   "authorized": "D79、D84；D59（BB-B 驗收角色美術）",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "BB_131 標準圖、characters.js econ_pinyu（158 cm）",
+    "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模）；BB-B D59 通過；LAWWW 接進 CHARACTERS[id].char3d.model",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "V0-ARTPLAN",
+   "title": "v0 經濟系那一年的美術盤點：場景、人物、背景、動畫清單 → 建 LAWWW2 任務（D84 第 1 條）",
+   "area": "V0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "和 AA-B 對交接包 v0、AA_145（v0 11 個背景 id）、BB_104／110／112 的地點與人物；建 ART-V0-* 任務；在 v0 程式開工前完成",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系開學（2024-09-02）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "派工稽核 2026-10-16 1-1 f",
+   "authorized": "D84",
+   "xai": {
+    "receiver": "AA-B",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "spec": "交接包 v0、AA_145、BB_104／110／112",
+    "acceptance": "任務總表有 ART-V0-* 任務（每項有 xai）；AA-B 確認清單",
+    "ack": "未派"
+   }
   }
  ]
 }

@@ -89,8 +89,8 @@
    "what": "便利商店商品第二版 cvs_interior.glb",
    "task": "ART-07",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW2-B 清查 e3d6779 ① 建議優先"
+   "integration": "已整合待測試",
+   "note": "LAWWW2-B 清查 e3d6779 ① 建議優先；稽核 2026-10-16：已整合（任務表早就是已整合待測試，這裡沒跟著改）；第 2 級 run13 通過"
   },
   {
    "id": "DLV-1016-08",
@@ -101,8 +101,8 @@
    "what": "大一女舍門燈 campus_freshman.glb",
    "task": "ART-08",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "清查 ②"
+   "integration": "已整合待測試",
+   "note": "清查 ②；稽核 2026-10-16：已整合（任務表早就是已整合待測試，這裡沒跟著改）；第 2 級 run13 通過"
   },
   {
    "id": "DLV-1016-09",
@@ -136,9 +136,9 @@
    "sha": "d9a6f497",
    "what": "2D 劇情背景追蹤表 BG-01～20",
    "task": "ART-17",
-   "msg": "DELIVERED",
+   "msg": "ACK",
    "integration": "參考用",
-   "note": "還沒讀細節"
+   "note": "稽核 2026-10-16 03:5x 讀完、回答：BG-04 label 改「政大・宿舍樓下」；BG-09、10 白天或黃昏問 AA-B；拆成 ART-BG02～BG20"
   },
   {
    "id": "DLV-1016-12",
@@ -148,9 +148,9 @@
    "sha": "0910efbd",
    "what": "美國交換篇 3D 場景施工計畫",
    "task": "SCN-US-01",
-   "msg": "DELIVERED",
+   "msg": "ACK",
    "integration": "參考用",
-   "note": "還沒讀細節"
+   "note": "稽核 2026-10-16 03:5x 讀完、回答 Q5（公寓→校園、校園→超市＝公車過場卡；抵達日照 AA_144 §5）；Q1、2、4、6、7 企劃已回答"
   },
   {
    "id": "DLV-1016-13",
@@ -712,9 +712,9 @@
    "sha": "a608127a",
    "what": "子晴、學姊九格表情試疊（學姊底圖改約會圖姿勢①）",
    "task": "ART-19",
-   "msg": "DELIVERED",
-   "integration": "未整合",
-   "note": "試疊，等八位做完一起交"
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "被 2ac3c4bf、0f373b49 取代"
   },
   {
    "id": "DLV-1016-60",

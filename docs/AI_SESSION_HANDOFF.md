@@ -196,6 +196,17 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 3. 各職位進度檔最上面的「值班登記」是新的工作階段。
 4. 接班確認寫了規則 SHA 和對帳結果；總表第 1 節（或各交接檔）沒有不明原因消失的任務。
 
+## 6b. LAWWW ⇄ LAWWW2 平行開發的派工（D84，2026-10-16；A／B 兩個帳號都適用）
+
+全文在 `CLAUDE.md`「LAWWW 與 LAWWW2 真正平行開發」。實際做法：
+- **LAWWW 開一個新階段**（學年、系統、一批事件）：先做美術盤點，在 `tasks.json` 建 LAWWW2 任務（`owner:'LAWWW2'`＋`xai`），再開始寫程式。下一個階段的盤點，最晚在目前階段的程式開工時做完。
+- **`xai` 欄位**：`receiver`（接收者）、`branch`（交付分支）、`spec`（規格來源）、`acceptance`（交付標準）、`ack`（未派／SENT／DELIVERED／ACK／ACTIONED／自領）。送出訊息就改 SENT，對方回覆改 ACK，做完交付改 ACTIONED。
+- **LAWWW2 領工作**：`python3 tools/handoff/check_handoff.py queue --owner LAWWW2 --ref origin/<RULE_SOURCE>`。從「可以做的」挑最前面的，在自己的 HANDOFF.md 用任務 ID 寫狀態，再通知 LAWWW（同帳號值班中），由 LAWWW 把 `xai.ack` 改成「自領」。LAWWW2 不改 tasks.json，這是 LAWWW 的檔。
+- **LAWWW 每批結束跑 `check_handoff.py check`**：第 10 項＝跨 AI 欄位不齊；第 11 項＝LAWWW2 可以做的不到 3 項（派工不足），或 LAWWW2 的交付停在 SENT／DELIVERED（沒 ACK）。兩項都要當批處理，不能留到交班。
+- **佇列兩條線**：主線＝目前和下一個階段（D81）；第二條線＝D81 允許並行的（美國篇）。不排低優先級的裝飾填時間。
+- **交班時**（第 5 節的五樣）多寫一樣：LAWWW2 目前的佇列，以及每項的 `xai.ack`。
+- **D75**：只在值班帳號的四個工作階段之間傳訊息。
+
 ## 7. 開新工作階段的啟動提示詞（A、B 兩個帳號都用；2026-10-16 修訂）
 
 **什麼時候用**：在某個帳號第一次開四個工作階段、或原本的工作階段不見了要重開時，各貼一份。**回到已經有工作階段的帳號不用貼**，說第 8 節那一句就好。
@@ -205,7 +216,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 ### 7.1 LAWWW（帳號 A）／LAWWW-B（帳號 B）
 ```
-你是《法條之外：台灣法律人生》的 LAWWW（帳號 A 叫 LAWWW、帳號 B 叫 LAWWW-B），開發總負責人：整合、程式、實際可玩性、測試、開發排程、正式發布，彙整全專案的永久任務總表 docs/HANDOFF_GAP_MATRIX.md，分派 LAWWW2 的工作。這是接班，不是新專案：不要重新規劃，也不要請使用者重講需求。只用繁體中文。
+你是《法條之外：台灣法律人生》的 LAWWW（帳號 A 叫 LAWWW、帳號 B 叫 LAWWW-B），開發總負責人：整合、程式、實際可玩性、測試、開發排程、正式發布，彙整全專案的永久任務總表 docs/HANDOFF_GAP_MATRIX.md，分派 LAWWW2 的工作（D84：每個開發階段開工時先盤點模型、場景、動畫、背景，建好 LAWWW2 的任務；LAWWW2 可以做的不到 3 項、交付沒 ACK，都要當批處理）。這是接班，不是新專案：不要重新規劃，也不要請使用者重講需求。只用繁體中文。
 最優先：使用者的新訊息是 P0——先讀完、先回覆；工作中也要主動讀其他 AI 的通知（D72、D76）。排工作照「玩家越早遇到越先做」（D81：P0 → v0 → v1 → v2 → v3 → v4 → v5，跨學年系統在第一次用到時做）。新增、修改、延伸會影響劇情的內容，先查企劃、再帶具體問題問 AA（D79）。
 請照順序做（docs/AI_SESSION_HANDOFF.md 第 0a、4 節）：
 1. 同步所有遠端分支：git fetch origin '+refs/heads/*:refs/remotes/origin/*' --prune。
@@ -221,7 +232,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 ### 7.2 LAWWW2（帳號 A）／LAWWW2-B（帳號 B）
 ```
-你是《法條之外：台灣法律人生》的 LAWWW2（帳號 A 叫 LAWWW2、帳號 B 叫 LAWWW2-B），環境美術：Blender 建模、3D 場景、背景、美術素材、指定的角色模型與環境工作；持續追蹤所有美術 WIP、已交付但還沒整合的素材。這是接班，不是新專案：不要重新規劃，也不要請使用者重講需求。只用繁體中文。
+你是《法條之外：台灣法律人生》的 LAWWW2（帳號 A 叫 LAWWW2、帳號 B 叫 LAWWW2-B），環境美術：Blender 建模、3D 場景、背景、美術素材、指定的角色模型與環境工作；持續追蹤所有美術 WIP、已交付但還沒整合的素材。D84：主動從任務總表領工作（python3 tools/handoff/check_handoff.py queue --owner LAWWW2 --ref origin/<RULE_SOURCE>，挑可以做的最前面那項，用任務 ID 通知 LAWWW），不必每次等指示；照 D81 先做玩家最早遇到的，不做低優先級裝飾填時間。這是接班，不是新專案：不要重新規劃，也不要請使用者重講需求。只用繁體中文。
 最優先：使用者的新訊息是 P0——先讀完、先回覆；工作中也要主動讀其他 AI 的通知（D72、D76）。排工作照「玩家越早遇到越先做」（D81：P0 → v0 → v1 → v2 → v3 → v4 → v5，跨學年系統在第一次用到時做）。
 請照順序做（docs/AI_SESSION_HANDOFF.md 第 0a、4 節）：
 1. 同步所有遠端分支：git fetch origin '+refs/heads/*:refs/remotes/origin/*' --prune。
@@ -334,6 +345,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 版本 | 日期（UTC） | 內容 | 使用者決策來源 | 寫在哪 | SHA |
 |---|---|---|---|---|---|
+| **HV-5** | 2026-10-16 | **LAWWW ⇄ LAWWW2 平行開發的派工（D84）**：開工前先盤點美術、建 LAWWW2 任務；LAWWW2 主動從總表領工作；跨 AI 任務的 `xai` 欄位（接收者、分支、規格來源、交付標準、ACK）；LAWWW2 可以做的不少於 3 項；LAWWW 每批跑 check（第 10、11 項）主動協調；D81、D75 照舊。稽核報告 `docs/handoff/DISPATCH_AUDIT_2026-10-16.md` | 使用者 2026-10-16 03:3x | CLAUDE.md、本檔第 6b 節與 7.1、7.2、PROJECT_DECISIONS D84、tasks.json（xai、meta.pipeline）、check_handoff.py 第 10、11 項 | （本 commit） |
 | **HV-4** | 2026-10-16 | **增量交接與自動對帳（D82）**：任務索引 `docs/handoff/tasks.json`（以它為準）、交付登記 `deliveries.json`（含各交付分支 `scannedThrough`）、交班快照 `snapshots/`、只讀的對帳工具 `tools/handoff/check_handoff.py`（九項檢查；結束碼 2＝REMEDIAL_FULL_AUDIT）；接班第 4 節第 6 步先跑 check、交班第 5 節第 2 步跑 snapshot；四職位提示詞同步。**D81 玩家越早遇到越先做**：順序 P0 → v0 → v1 → v2 → v3 → v4 → v5、首次出現時間欄位（`first`）、`check_handoff.py queue`。另：戀愛現行規則指向企劃線 AA_140 第 0 節（CLAUDE.md D79 第 7 點） | 使用者 2026-10-16（D49／D79 最後補強：增量交接、自動對帳；永久開發規則：玩家越早遇到的內容越優先） | CLAUDE.md（D79 第 7 點、D81 節、跨帳號接班節、P0 換班第 4 點）、本檔第 0a、4、5、7 節、PROJECT_DECISIONS D81、D82、`docs/handoff/`、`tools/handoff/`、`tests/handoff_check_unit.py` | （本 commit；見第 12 節） |
 | **HV-3** | 2026-10-16 | **D49 修訂**：唯一規則來源 RULE_SOURCE（第 0a 節）；唯一永久任務總表 `docs/HANDOFF_GAP_MATRIX.md`（固定 ID、八種狀態、任務不得無故消失、已驗收要有證據）；接班先對帳再開工、`AUDIT_PENDING`（第 4 節）；交班五部分（成果、全部未完成、規則、跨 AI 協作、測試與已知問題，第 5 節）；四職位提示詞改成 A、B 共用、引用同一套步驟（第 7、8 節）；只有值班 LAWWW 改五份規則檔。**D79**：新增劇情先問 AA；v0～v6、32 處約會、1014 決策已授權。D78（載妹墊）、D77（店名諧音）、D76（工作中讀訊息） | 使用者 2026-10-16 三則正式指示（「修補 D49／D79 跨帳號交接制度」「所有新規則必須在 A、B 帳號之間永久雙向繼承」「永久雙向交班制度」）、01:41 D79 指示 | CLAUDE.md、本檔第 0a～8、13 節、HANDOFF_GAP_MATRIX.md、PROJECT_DECISIONS.md | 2fd0a37a |
 | HV-2 | 2026-10-15 | P0 換班口令（「現在換班」）；D75 不傳訊息給已交班的另一個帳號 | 使用者 2026-10-15 | CLAUDE.md、本檔 P0 節、第 9 節 | e80da49c、4e203e8b、ba8b2254 |

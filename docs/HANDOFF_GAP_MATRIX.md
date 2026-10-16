@@ -19,6 +19,7 @@
 7. **劇情規則（D79）**：任務需要新劇情或企劃沒寫清楚的互動，狀態寫「等待其他AI」、下一步寫「問 AA-B：…」，不要自己補台詞。
 8. **排序（D81）：玩家越早遇到越先做**——P0（嚴重 Bug、大一下 v2 驗收）→ v0 → v1 → v2 → v3 → v4（臺灣／日本／美國照劇情順序）→ v5；跨學年系統在第一次可能用到的學期做；美國篇並行但不擠掉 v0～v2。每項任務在 `tasks.json` 有首次出現時間（`first`：term、week、earliest、mainline、blocks、prereq、parallel、confirmed；時間線以 AA-B 為準，`confirmed:false`＝還沒請 AA-B 核對）。階段完成＝玩家玩得完整。
 9. **增量（D82）**：收到交付就在 `deliveries.json` 登記一筆，新任務直接加進 `tasks.json`；交班跑 `check_handoff.py snapshot`、接班跑 `check_handoff.py check`。工具只列異常、不改任務。
+10. **平行開發的派工（D84）**：每個開發階段開工時先盤點美術、建 LAWWW2 任務；跨 AI 任務在 tasks.json 寫 `xai`（接收者、分支、規格來源、交付標準、ACK）；LAWWW2 用 `check_handoff.py queue --owner LAWWW2` 主動領工作；LAWWW 每批跑 check（第 10、11 項：欄位不齊、派工不足、交付沒 ACK）。2026-10-16 的稽核與重排：`docs/handoff/DISPATCH_AUDIT_2026-10-16.md`。
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 
@@ -60,16 +61,34 @@
 | ART-04 | prop_pothos.glb | 2baa5ac1 | 是 | 否 | 暫停 | 使用者降低優先 | P3 |
 | ART-05 | 角色 VRM bl_zhe、xinci、bohan、kexin、peishan | 多個／78db4a6 | 是 | 只在 ?blchar | 等待其他AI／素材 | BB-B 驗收（D59）後改預設 | P2 |
 | ART-06 | 8 個路人 bl_npc_* | f84bee82 等 | 是 | 只在 ?npcnew | 暫停 | 已知缺點（空氣瀏海等）、多 20 MB | P3 |
-| ART-07 ★ | 便利商店商品第二版 | LAWWW2-B a41c52e7 | 否（樹裡是舊版） | 否 | 已實作待整合 | 合併＋看截圖 | P3 |
-| ART-08 ★ | 女舍門廊吸頂燈加大 | LAWWW2-B 6f982441 | 否 | 否 | 已實作待整合 | 合併；點光源 (−108,2.9,61)、(−78,2.9,59) | P3 |
+| ART-07 ★ | 便利商店商品第二版 | LAWWW2-B a41c52e7 | 是 | 是 | 已整合待測試 | 第 2 級 run13 通過；美術等使用者看截圖 | P3 |
+| ART-08 ★ | 女舍門廊吸頂燈加大＋門口的光（fe8d016d） | LAWWW2-B 6f982441、fe8d016d | 是 | 是 | 已整合待測試 | 第 2 級 run13 通過（光暈＋光圈 6 樣晚上都亮）；美術等使用者看截圖 | P3 |
 | ART-09 ★ | 6 張新立繪 jiahao、pinyu、tangrui、weilun、xun、yule | LAWWW2-B 8fbe1e1a | 否 | 否（沒有角色 id） | 等待其他AI／素材 | 等 V0／V2 的人物資料（BB-B） | P2 |
 | ART-10 | 自強十舍（政大宿舍樓下長椅）nccu_dorm | LAWWW2-B 佇列 | — | 位置已留（outings3d S.BG） | 等待其他AI／素材 | 等使用者照片 | P2 |
-| ART-11 | 政大・校園裡的路 nccu_campus | LAWWW2-B 佇列 | — | 位置已留 | 等待其他AI／素材 | LAWWW2-B 在算 | P2 |
-| ART-12 | 台北的家 2D：home_living、home_balcony | LAWWW2-B 佇列 | — | home3d／events 已讀這兩個 key | 等待其他AI／素材 | — | P2 |
-| ART-13 | 明軒、小語模型 | ae6e4dfa、0205552d（WIP 腳本） | 否 | — | 等待其他AI／素材 | LAWWW2-B | P3 |
+| ART-11 | 政大・校園裡的路 nccu_campus | LAWWW2-B 佇列 | — | 位置已留 | 進行中 | LAWWW2-B 在算（夜晚主圖，AA_147） | P2 |
+| ART-12 | 台北的家 2D：home_living、home_balcony | LAWWW2-B 佇列 | — | home3d／events 已讀這兩個 key | 進行中 | 腳本完成，算正式圖 | P2 |
+| ART-13 | 明軒、小語模型（第一次出現大一上第 7 週） | ae6e4dfa、0205552d（WIP 腳本） | 否 | — | 待開工 | LAWWW2-B 接 A 的 WIP 腳本、BB-B D59（D84 稽核：原本誤標「等待」） | P2 |
 | ART-14 | 約會底圖（32 處只有 9 處）、以安／語彤的約會人物圖 | BB_132；企劃線 art/ | 部分 | 否 | 等待其他AI／素材 | BB-B／使用者生成 | P2 |
 | ART-15 | CG：v3 BCG-01、02、CG-2、2b；v4 CG-5、6、13、16、17、22、23、BCG-03、08、09、12、13、17；v5 CG-8、10、12；v6 CG-18～21、BCG-19～26；Q5 BCG-11 | cg_approved/、CG_正式製作清單 | 部分 | CG_REGISTRY 只有大一的 5 張 | 等待其他AI／素材 | 跟著各學期事件接；圖通過才接 | P2 |
 | ART-16 | 新立繪：學姊（面試西裝、學士服、碩一、羽絨外套）、子晴爸爸、溫爸溫媽、香港朋友、芷若學士服、沛珊書店圍裙、以安冬裝 | v3／v4 稽核 | 否 | 否 | 等待其他AI／素材 | BB-B 要圖 | P2 |
+
+**D84 稽核新增（2026-10-16；LAWWW2 的佇列順序以 `docs/handoff/DISPATCH_AUDIT_2026-10-16.md` 第 2 節為準；每項的接收者、分支、交付標準、ACK 在 tasks.json 的 xai）**
+
+| ID | 素材 | 玩家第一次遇到 | 負責 | 狀態 | 下一步 | 優先 |
+|---|---|---|---|---|---|---|
+| ART-BG02 | 公館・滷味攤 gongguan_luwei | 大一上第 9 週（考完的宵夜） | LAWWW2 | 待開工 | 3D 拍 20:30 騎樓攤車 | P1 |
+| ART-BG05 | 宿舍頂樓 dorm_roof | 大一上跨年 | LAWWW2 | 待開工 | Blender 頂樓 | P1 |
+| ART-BG18 | 視訊（可昕那一端）video | 大一上期末起 | LAWWW2 | 待開工 | 書桌一角＋檯燈 | P1 |
+| ART-BG15、BG16、BG17 | 社科院門口、霖澤館前、椰林大道（傍晚） | 大一下第 6 週 K2 | LAWWW2 | 待開工 | 遊戲 GLB 取鏡頭 | P1 |
+| ART-BG13 | 溫州街・課輔班門口 | 大一下第 5 週起 | LAWWW2 | 待開工 | 溫州街 GLB | P2 |
+| ART-BG08、BG11 | 車上（三版）、山上夜晚版（D09） | 大一下春假 | LAWWW2 | 待開工 | — | P2 |
+| ART-BG09、BG10 | 海邊（D25）、老街（D18） | 大一下春假 | LAWWW2 | 等待其他AI／素材 | AA-B 回答白天或黃昏 | P2 |
+| ART-BG12 | 海邊的小鎮（D13） | 大一下春假 | LAWWW | 待開工 | D13 有圖就接 | P2 |
+| ART-BG14、BG19、BG20 | 永康街咖哩店、公館二輪戲院、豆漿店 | 大一下 | LAWWW2 | 待開工 | 查證、店名照 D77 | P2 |
+| ART-CH-XUN | 阿勳 3D（VRM） | 大一下 10-3、SK05；v0 整年 | LAWWW2 | 待開工 | BB-B D59 | P1 |
+| ART-CH-PINYU | 品妤 3D（VRM） | 大一下 K2；v0 整年 | LAWWW2 | 待開工 | BB-B D59 | P2 |
+| V0-ARTPLAN | v0 美術盤點 → 建 v0 的美術任務 | 經濟系開學 | LAWWW＋AA-B | 待開工 | v0 程式開工前完成 | P1 |
+
 
 ## 5. 舊帳號留下的半成品（WIP）
 

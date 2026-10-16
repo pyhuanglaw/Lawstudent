@@ -10,7 +10,7 @@ const OUT=(function(){
   const S={};
   /* 2D 背景（AA_112 3-1：政大四個＋停車場；河濱和子晴的河堤夜景共用）：image 是圖片路徑，還沒有圖＝null（深色底＋地點字幕）。
      政大只做主要校園＋宿舍（自強十舍）（使用者 2026-10-16 對 LAWWW2-B）：河堤、圖書館、停車場不做，那幾幕照 AA_137 7-1 改到校門、校園裡的路、宿舍樓下 */
-  S.BG={ car:{label:'車上',image:null}, nccu_gate:{label:'政大・校門口',image:'assets/bg/nccu_gate.webp'}, nccu_food:{label:'政大・山下的小吃街',image:'assets/bg/nccu_food.webp'}, nccu_dorm:{label:'政大・宿舍',image:null}, nccu_campus:{label:'政大・校園裡的路',image:null},
+  S.BG={ car:{label:'車上',image:null}, nccu_gate:{label:'政大・校門口',image:'assets/bg/nccu_gate.webp'}, nccu_food:{label:'政大・山下的小吃街',image:'assets/bg/nccu_food.webp'}, nccu_dorm:{label:'政大・宿舍樓下',image:null}, nccu_campus:{label:'政大・校園裡的路',image:null},
     riverside:{label:'河濱',image:'assets/bg/riverside.webp'}, dorm_roof:{label:'宿舍頂樓',image:null}, video:{label:'視訊',image:null}, gongguan_luwei:{label:'公館・滷味攤',image:null},
     ntu_soc:{label:'台大・社科院門口',image:null}, ntu_linze:{label:'台大・霖澤館前',image:null}, ntu_avenue:{label:'台大・椰林大道',image:null},
     trip_sea:{label:'海邊',image:null}, trip_oldtown:{label:'老街',image:null}, trip_mountain:{label:'山上',image:null},
