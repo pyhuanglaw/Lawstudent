@@ -11892,8 +11892,9 @@
     "branch": "LAWWW2-B 的交付分支",
     "acceptance": "assets/bg/ 規格的 webp；沒有真實校徽、沒有可辨識的臉；遊戲內 2D 背景截圖",
     "receiver": "LAWWW2-B",
-    "ack": "SENT"
-   }
+    "ack": "ACK"
+   },
+   "note": "LAWWW2-B 21:34 ACK（用 gym_arena.glb 3F 典禮布置＋遠景人群＋橫幅，Cycles 算圖）；排在機車 v2 交件之後"
   }
  ]
 }
