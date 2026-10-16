@@ -79,7 +79,7 @@ const CLS=(function(){
         out.push({c,slot:{wd,block:d.block},t0:b.t0,t1:b.t1,day,key:day+':'+c.id+':'+d.block,room:COURSES.rooms[c.room]||{},week:t.week,exam:t.exam,term:t.id,examMain:true,makeup:true}); } }
     out.sort((a,b)=>a.t0-b.t0);
     /* 第 2 天（9/18 週四）遊戲從 13:05 霖澤館前開始（story3d.js 的 sleepNow）：早上的大一英文在那之前，不排、不算沒去（使用者 2026-10-16：「第二天……卻顯示當天早上有一堂課沒有參加」；第 1 天同理，見上）*/
-    if(day===m1d(G)+1&&!/^Y0/.test(t.id)) for(let i=out.length-1;i>=0;i--) if(out[i].t0<S.DAY2_START) out.splice(i,1);   /* 主線第二天（舊存檔 9/18、選 1 的新局 9/4）：13:05 以前睡過去了 */
+    if(day===m1d(G)+1&&(typeof STORY!=='undefined'&&STORY.lawStart?STORY.lawStart(G):1)===m1d(G)&&!/^Y0/.test(t.id)) for(let i=out.length-1;i>=0;i--) if(out[i].t0<S.DAY2_START) out.splice(i,1);   /* 主線第二天（舊存檔 9/18）：13:05 以前睡過去了。選 1 的局 9/4 早上照常上課（AA-B 20:50 第 5 題）*/
     /* 同一門課同一天連著兩格（大四下的實習整天）：合併成一格 */
     for(let i=out.length-1;i>0;i--){ if(out[i].c===out[i-1].c){ out[i-1].t1=out[i].t1; out.splice(i,1); } }
     return out; };
@@ -208,7 +208,7 @@ const CLS=(function(){
      沒去的課下課以後，手機「訊息」多一行——討論週：那一週的 skip_line（那堂課發生了什麼，每次都有）；其他週：那門課的 skip 句子，偶爾（這學期第 1、4、7…次沒去那門課）。
      今天的課下課後才發；睡過一整天的，前一天的照那堂課下課的時間補進訊息。考試、服務學習、劇情的課、第一二天不發。R.note 記發過了（skip_<key>）和沒去的次數（skipn_<課>_<學期>）*/
   S.skipNotes=function(GM){ const G=GM.G; if(typeof INV==='undefined'||!INV.msgAt) return 0; const R=S.rec(G), h=hr(G); let n=0;
-    for(const day of [G.day-1,G.day]){ const m1=m1d(G); if((day===m1&&(typeof STORY!=='undefined'&&STORY.lawStart?STORY.lawStart(G):1)===m1)||day===m1+1) continue;   /* 第一、二天是劇情（玩家第一天晚上才到宿舍、第二天跟著劇情走）：那兩天的課不算翹課；開局 B 的第 1、2 週（第 1 天以前）照常（D91）*/
+    for(const day of [G.day-1,G.day]){ const m1=m1d(G), ls1=typeof STORY!=='undefined'&&STORY.lawStart?STORY.lawStart(G):1; if(ls1===m1&&(day===m1||day===m1+1)) continue;   /* 第一、二天是劇情（玩家第一天晚上才到宿舍、第二天跟著劇情走）：那兩天的課不算翹課；開局 B 的第 1、2 週（第 1 天以前）照常（D91）*/
       for(const it of S.dayItems(G,day)){ const k='skip_'+it.key; if(R.note[k]||R.done[it.key]||it.exam||it.c.kind==='service'||S.storyClass(G,it)) continue; if(day===G.day&&h<it.t1+0.1) continue;
         R.note[k]=1; const ct=S.content(it), sl=ct.obs&&ct.obs.kind==='discuss'?ct.obs.skip_line:null; let text='';
         if(sl&&reactOK(sl,it.day)) text='（群組）'+((typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(sl.who):((CHARACTERS[sl.who]||{}).name||'同學'))+'：'+sl.text;   /* 和 BB 那門課的 skip 句子同一個格式 */
