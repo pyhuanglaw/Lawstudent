@@ -10994,6 +10994,35 @@
    },
    "source": "AA_170（企劃線 7524e492）",
    "authorized": "D79"
+  },
+  {
+   "id": "FIX-WZ-PERF",
+   "title": "溫州街效能：主巷 draw call 降到 310 左右（wz_street_integration 的 351～401 對 310）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "next": "第一輪已交（86df67a3，開發分支已換檔：337／301／372）；arcade 還差 62 次、8 萬三角形：街道小貼圖合成貼圖集、機車輕量版（LAWWW2-B 接著做）；LAWWW 端可以考慮溫州街機車照路段分組、套件 136 個投影網格",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走溫州街",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 製作、LAWWW2-B 驗收 8d8fe7d4",
+   "authorized": "D84",
+   "commit": "—",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "tests/wz_street_integration.py 的效能門檻；docs/art-rebuild/second_ai/test_shots/wz_perf/README.md",
+    "acceptance": "三個鏡頭 draw call ≤ 310 左右、看起來不變、節點名不變",
+    "ack": "ACK"
+   }
   }
  ]
 }

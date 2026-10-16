@@ -2431,6 +2431,18 @@
    "msg": "ACTIONED",
    "integration": "已驗收",
    "note": "和遊戲做法一致"
+  },
+  {
+   "id": "DLV-1016-203",
+   "date": "2026-10-16T11:01Z",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "86df67a3",
+   "what": "溫州街效能第一輪：wenzhou_street／cafe_exterior／wz_park／wz_jphouse／bike_ride 五個 GLB（三個鏡頭 draw call 392／355／448 → 337／301／372）",
+   "task": "FIX-WZ-PERF",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "開發分支已換檔（節點名不變）；wz_／bike／cafe 單元測試通過；瀏覽器 wz_street_integration 等 v9.9 冒煙測試跑完再跑。不在 v9.9 候選 1"
   }
  ],
  "ignored": [
