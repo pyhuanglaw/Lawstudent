@@ -12611,7 +12611,7 @@
    "owner": "LAWWW2",
    "status": "已整合待測試",
    "priority": "P0",
-   "next": "ef689b67 整合（GLB＋修改前後截圖 docs/art-rebuild/second_ai/test_shots/cafe_floor/）；待 cafe_glb_integration＋使用者看",
+   "next": "ef689b67 整合；cafe_glb_integration ALL PASS（2026-10-17 00:0x，截圖已更新）；待使用者看",
    "first": {
     "term": "Y1S1",
     "week": 1,
