@@ -1384,6 +1384,27 @@ const STORY_EVENTS=[
       {label:'end'} ],
     consequences:{meet:['econ_pinyu']},
     after:(G,GM)=>{ if(G.hour%24<15) GM.advance(15-G.hour%24); if(G.zone!=='campus'&&GM.enter) GM.enter('campus',{x:97.0,z:-66.5,yaw:-Math.PI/2}); } },
+  /* P2 下課後的一群人（BB_105 第 137 行；AA_154 第 101 行）：Y0S1 第 3～5 週週四，初等會計學下課（普通教學館門口的腳踏車停放區）；第一次（之後的 P2b 另做）。
+     選公館＝接 ★E05（同一天）；選別的、今天先回去、沒去＝E05 在 9/20（五）傍晚照自己的觸發（ev_y0_e05 的 auto 條件）。韋綸、唐睿還沒有人物資料，先用名字說話 */
+  { id:'ev_y0_p2', stage:'econ', title:'下課後的一群人', participants:['kexin'], location:'any', trigger:'class', afterClass:'acct_y0', term:['Y0S1'], weeks:[3,4,5], once:true, background:'blur',
+    dialogue:[ {speaker:'韋綸',text:'走啦！'},{speaker:'econ_pinyu',expression:'neutral',text:'去哪？先說好，我只有一百五。'},{speaker:'唐睿',text:'我有兩百，但要留五十給明天。'},{speaker:'kexin',expression:'neutral',text:'（牽著腳踏車）你決定。'},
+      {choice:[{text:'公館吃飯',set:{P2_PICK:'gongguan'},goto:'end'},{text:'河濱騎腳踏車',set:{P2_PICK:'river'},goto:'river'},{text:'總圖念書',set:{P2_PICK:'library'},goto:'lib'},{text:'「今天先回去。」',set:{P2_PICK:'home'},goto:'home'}]},
+      {label:'river'},{speaker:null,text:'韋綸的鏈子掉了兩次。'},{speaker:'kexin',expression:'smile',text:'你的車，跟我的一起去修。'},{goto:'end'},
+      {label:'lib'},{speaker:null,text:'唐睿講了四十分鐘的話。'},{speaker:'econ_pinyu',expression:'neutral',text:'今天的產出是零。'},{goto:'end'},
+      {label:'home'},{speaker:'韋綸',text:'那下次！'},
+      {label:'end'} ],
+    consequences:{meet:['econ_pinyu']},
+    after:(G,GM)=>{ const p=G.flags.P2_PICK; if(p==='gongguan'){ const e=STORY_EVENTS.find(x=>x.id==='ev_y0_e05'); if(e&&typeof EVENTS!=='undefined'&&!(G.events&&G.events.done&&G.events.done.ev_y0_e05)) setTimeout(()=>{ void EVENTS.run(e); },0); } else if(p==='river'||p==='library') GM.advance(1.5); } },
+  /* ★E05「要我載妳嗎？」（BB_104 第 8-2 節；AA_154 第 102 行）：P2 選公館接著演；三種開口記 E05_OPEN（'carry'／'fix'／'steady'），E06 讀它。
+     演完記 E05_DAY、E05_END（E06／D2 用）。公館那一頓（P2 原文）在後面 */
+  { id:'ev_y0_e05', stage:'econ', title:'要我載妳嗎？', participants:['kexin'], location:'any', trigger:'auto', term:['Y0S1'], weeks:[3], weekday:[5], time:[17,19.5], once:true, background:'blur',   /* P2 選公館＝P2 演完直接接（9/19）；其他＝9/20（五）17:00～19:30 自動（固定核心）*/
+    dialogue:[ {speaker:null,text:'（可昕的腳踏車鏈子掉了，她蹲在路邊研究。）'},
+      {choice:[{text:'「要我載妳嗎？」',set:{E05_OPEN:'carry'},goto:'carry'},{text:'「要不要我幫妳修？」',set:{E05_OPEN:'fix'},goto:'fix'},{text:'「我車很穩。」',set:{E05_OPEN:'steady'},goto:'steady'}]},
+      {label:'carry'},{speaker:'kexin',expression:'teasing',text:'你確定？載我的成本很高喔。'},{speaker:'kexin',expression:'teasing',text:'我會一路問你問題。'},{speaker:'kexin',expression:'smile',text:'……而且雙載違規。我自己牽。你陪我走。'},{goto:'end'},
+      {label:'fix'},{speaker:'kexin',expression:'surprised',text:'你會修？'},{speaker:'player',text:'不會。'},{speaker:'kexin',expression:'smile',text:'那你是來陪我的。'},{goto:'end'},
+      {label:'steady'},{speaker:'kexin',expression:'teasing',text:'穩不穩，要看坐後面的人。'},
+      {label:'end'},{if:{flagIs:{P2_PICK:'gongguan'}},speaker:null,text:'品妤挑了一家一百二十元吃到飽的。阿勳吃了四碗白飯。'} ],
+    after:(G,GM)=>{ GM.advance(1.5); G.flags.E05_DAY=G.day; G.flags.E05_END=G.hour%24; } },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、
