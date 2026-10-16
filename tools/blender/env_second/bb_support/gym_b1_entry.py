@@ -1,14 +1,18 @@
 """ART-GYM-P2／P3a（LAWWW2-B 2026-10-16 HANDOFF d58dfec5 派工）新體育館 B1 健身中心的入口與周邊（BB_151 4b、BB_124 7-4；BB-B 支援製作）
   /opt/blenv/bin/python tools/blender/env_second/bb_support/gym_b1_entry.py [-- --out assets/models/env/second_ai/bb_support/gym_b1_entry.glb]
 
-六件（四件派工＋兩件備用），每件一個頂層節點（原點＝底部中央、正面朝 +z；GLB 裡的位置只是排開給人看）：
-  GYM2_COUNTER    服務櫃台：2.4 (x) × 0.75 (z) × 1.05 m；客人站 +z，櫃台人員在 −z；正面木條、檯面上刷卡機、報到平板、筆筒、一疊毛巾、背對客人的螢幕
-  GYM2_LOCKERS    置物櫃：上下兩層 × 6 格＝12 格，1.8 × 0.45 × 1.05 m（含 0.1 m 底座）
-  GYM2_MIRROR     鏡牆：3.0 × 2.0 m（離地 0.3 m），鋁框＋三片鏡面；鏡面是獨立的網格 gymb2_mirror_pane（藍灰金屬色），LAWWW2-B 可以換成自己的鏡面材質
-  GYM2_FLOOR      橡膠地墊拼塊：2 × 2 m（16 塊 0.5 m），可以重複鋪
-  GYM2_SCALE      體重計（立柱式，**備用**）：0.4 × 0.5 × 1.45 m；頭上一塊沒有字的顯示面板
-  GYM2_TOWEL_BIN  毛巾回收籃（**備用**）：直徑 0.46、高 0.62 m，裡面露出兩條毛巾
-閘門、飲水機不做：共用 1F 大廳的閘門和直飲台（LAWWW2-B 派工沒有列）。
+LAWWW2-B 的 B1（f3180c69）已經有鏡牆、橡膠地坪、水道繩、仰泳旗、出發台、扶梯；他寫還缺、等 BB-B 交的是服務櫃台、置物櫃、飲水機、救生員椅。
+五件要用＋五件備用，每件一個頂層節點（原點＝底部中央、正面朝 +z；GLB 裡的位置只是排開給人看）：
+  GYM2_COUNTER        服務櫃台：2.4 (x) × 0.75 (z) × 1.05 m；客人站 +z，櫃台人員在 −z；正面木條、檯面上刷卡機、報到平板、筆筒、一疊毛巾、背對客人的螢幕
+  GYM2_LOCKERS        置物櫃：上下兩層 × 6 格＝12 格，1.8 × 0.45 × 1.05 m（含 0.1 m 底座）
+  GYM2_WATER          飲水機：0.42 × 0.38 × 1.1 m；不鏽鋼
+  GYM2_LIFEGUARD      救生員高椅：座面離地 1.6 m，前面一道梯子
+  GYM2_SCALE          體重計（立柱式，**備用**）：0.4 × 0.5 × 1.45 m
+  GYM2_TOWEL_BIN      毛巾回收籃（**備用**）：直徑 0.46、高 0.62 m
+  GYM2_KICKBOARD_RACK 浮板架＋五塊浮板（**備用**，池邊）
+  GYM2_MIRROR         鏡牆 3.0 × 2.0 m（**備用**：LAWWW2-B 的 B1 已經整面鏡牆）；鏡面是獨立網格 gymb2_mirror_pane
+  GYM2_FLOOR          橡膠地墊拼塊 2 × 2 m（**備用**：B1 已經用橡膠地坪貼圖）
+閘門不做：B1 已經有三道閘門。
 兩個材質，和 P1 共用名字的規則：gymb2_metal（頂點色＋金屬 0.40）、gymb2_vc（頂點色）。
 不放任何字、品牌、標誌（D77）。"""
 import json, math, os, sys
@@ -39,6 +43,10 @@ RUB = '#222426'        # 橡膠地墊
 RUB2 = '#2a2c2f'
 MIRROR = '#8e99a3'
 WOOD = '#7a6250'        # 櫃台正面的木條
+ORANGE = '#d9772e'      # 救生員椅的座墊
+FOAM_B = '#3d86c6'
+FOAM_Y = '#e8c84a'
+WHITE = '#e8e9e6'
 
 B.reset(texres=256)
 M_METAL = L.vc_metal('gymb2_metal', rough=0.42, metal=0.40)
@@ -143,6 +151,47 @@ def lockers(m, v):
 
 
 
+# ---------------- 飲水機 ----------------
+def water(m, v):
+    m.rb(-0.21, 0.21, 0.0, 0.90, -0.19, 0.19, STEEL, r=0.02)
+    m.rb(-0.20, 0.20, 0.90, 1.00, -0.18, 0.19, STEEL2, r=0.015)
+    v.rb(-0.15, 0.15, 0.965, 1.001, -0.10, 0.14, TRIM, r=0.01)                                 # 水槽（深色）
+    m.tube((-0.02, 1.00, -0.03), (-0.02, 1.07, 0.02), 0.012, STEEL, seg=8)                      # 出水口
+    v.rb(0.12, 0.17, 0.80, 0.86, 0.19, 0.205, READER, r=0.008)                                 # 按鈕
+    m.rb(-0.21, 0.21, 1.00, 1.10, -0.19, -0.14, STEEL2, r=0.01)                                # 後擋板
+
+
+# ---------------- 救生員高椅 ----------------
+def lifeguard(m, v):
+    for sx in (-1, 1):
+        m.tube((sx * 0.35, 0.0, -0.45), (sx * 0.28, 1.55, -0.20), 0.03, WHITE, seg=10)   # 後腳
+        m.tube((sx * 0.35, 0.0, 0.45), (sx * 0.28, 1.55, 0.10), 0.03, WHITE, seg=10)     # 前腳
+        m.tube((sx * 0.28, 1.55, -0.20), (sx * 0.28, 1.55, 0.10), 0.025, WHITE, seg=8)
+        m.tube((sx * 0.28, 1.55, -0.20), (sx * 0.28, 2.05, -0.22), 0.02, WHITE, seg=8)   # 椅背的柱
+        m.tube((sx * 0.28, 1.80, 0.10), (sx * 0.28, 1.80, -0.20), 0.018, WHITE, seg=8)   # 扶手
+        m.tube((sx * 0.28, 1.55, 0.10), (sx * 0.28, 1.80, 0.10), 0.018, WHITE, seg=8)
+    for i in range(5):   # 前面的梯子（兩前腳之間）
+        y = 0.25 + i * 0.27; t = y / 1.55; z = 0.45 + (0.10 - 0.45) * t
+        m.tube((-0.33 + 0.07 * t, y, z), (0.33 - 0.07 * t, y, z), 0.016, STEEL2, seg=8)
+    v.rb(-0.30, 0.30, 1.55, 1.60, -0.22, 0.12, ORANGE, r=0.02)                       # 座墊
+    v.rb(-0.30, 0.30, 1.70, 2.02, -0.25, -0.21, ORANGE, r=0.02)                      # 椅背
+    m.rb(-0.36, 0.36, 0.0, 0.02, -0.50, 0.50, STEEL2, r=0.006, seg=1)                # 底框
+
+
+# ---------------- 浮板架（備用） ----------------
+def kickboard_rack(m, v):
+    for sx in (-1, 1):
+        m.tube((sx * 0.30, 0.0, -0.15), (sx * 0.30, 0.75, -0.15), 0.018, STEEL, seg=8)
+        m.tube((sx * 0.30, 0.0, 0.15), (sx * 0.30, 0.75, 0.15), 0.018, STEEL, seg=8)
+        m.tube((sx * 0.30, 0.02, -0.15), (sx * 0.30, 0.02, 0.15), 0.015, STEEL, seg=8)
+    for y in (0.08, 0.40):
+        m.tube((-0.30, y, -0.15), (0.30, y, -0.15), 0.014, STEEL, seg=8)
+        m.tube((-0.30, y, 0.15), (0.30, y, 0.15), 0.014, STEEL, seg=8)
+    for k in range(5):   # 五塊浮板，直立插在架上，往後微斜
+        x = -0.22 + k * 0.11
+        v.rb_rot((x, 0.30, 0.0), 0.035, 0.46, 0.30, FOAM_B if k % 2 == 0 else FOAM_Y, rx=0.08, r=0.015)
+
+
 # ---------------- 體重計 ----------------
 def scale(m, v):
     v.rb(-0.20, 0.20, 0.0, 0.07, -0.25, 0.25, TRIM, r=0.02)                                    # 底座
@@ -180,8 +229,9 @@ def floor(m, v):
             v.rb(x0, x0 + s - 0.008, 0.0, 0.015, z0, z0 + s - 0.008, RUB if (i + j) % 2 == 0 else RUB2, r=0.003, seg=1)
 
 
-SPREAD = [('GYM2_COUNTER', -5.6, counter), ('GYM2_LOCKERS', -2.4, lockers), ('GYM2_MIRROR', 1.0, mirror), ('GYM2_FLOOR', 4.4, floor),
-          ('GYM2_SCALE', 6.3, scale), ('GYM2_TOWEL_BIN', 7.2, towel_bin)]
+SPREAD = [('GYM2_COUNTER', -7.6, counter), ('GYM2_LOCKERS', -4.4, lockers), ('GYM2_WATER', -2.7, water), ('GYM2_LIFEGUARD', -1.4, lifeguard),
+          ('GYM2_SCALE', 0.0, scale), ('GYM2_TOWEL_BIN', 0.9, towel_bin), ('GYM2_KICKBOARD_RACK', 1.9, kickboard_rack),
+          ('GYM2_MIRROR', 4.4, mirror), ('GYM2_FLOOR', 7.8, floor)]
 for nm, x, fn in SPREAD: item(nm, x, fn)
 
 st = L.export(os.path.abspath(OUT), gpu_instances=False)
