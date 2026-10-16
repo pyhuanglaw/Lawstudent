@@ -144,7 +144,11 @@ const ASSETS = (function(){
     root.traverse(o=>{ const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms){ if(!m) continue; for(const k of TEX_KEYS){ const t=m[k]; if(!t||!t.isTexture||capDone.has(t)) continue; capDone.add(t); const im=t.image; const w=im&&(im.width||im.videoWidth||0), h=im&&(im.height||0); const lim=(k==='map'||k==='emissiveMap'||k==='matcapTexture')?cap.color:cap.data;
       if(!w||!h||Math.max(w,h)<=lim||t.isCanvasTexture||t.isDataTexture) continue; const key=im; let c=capImg.get(key)&&capImg.get(key)[lim];
       if(!c){ const sc=lim/Math.max(w,h); c=document.createElement('canvas'); c.width=Math.max(1,Math.round(w*sc)); c.height=Math.max(1,Math.round(h*sc)); try{ c.getContext('2d').drawImage(im,0,0,c.width,c.height); }catch(e){ continue; } const o2=capImg.get(key)||{}; o2[lim]=c; capImg.set(key,o2); }
-      t.image=c; t.needsUpdate=true; n++; } } }); A.capped=(A.capped|0)+n; return n; };
+      if(c._bmResult){ t.image=c._bmResult; t.needsUpdate=true; n++; continue; }   /* 同一張原圖已經縮好、換成 bitmap 了 */
+      t.image=c; t.needsUpdate=true; n++; (c._capTex||(c._capTex=[])).push(t); toBitmap(c); } } }); A.capped=(A.capped|0)+n; return n; };
+  /* 縮好的 canvas 換成 ImageBitmap、canvas 釋放：iOS Safari 的 2D canvas 有總量上限（超過整個 canvas 會變黑，懷疑和 BUG-MAPBLACK「按地圖變黑」有關）；ImageBitmap 不算在內。
+     先用 canvas 上傳（第一次畫就是縮過的），bitmap 好了再換一次；context 掉了恢復時 bitmap 還在，可以重新上傳。 */
+  function toBitmap(c){ if(c._bm||typeof createImageBitmap!=='function') return; c._bm=true; createImageBitmap(c).then(bm=>{ c._bmResult=bm; for(const t of (c._capTex||[])){ if(t.image===c){ t.image=bm; t.needsUpdate=true; } } c._capTex=null; c.width=1; c.height=1; }).catch(()=>{}); }
   A.loadOne=function(key){ const m=A.manifest[key]; if(!m) return Promise.reject(new Error('unknown asset '+key)); if(A.cache[key]) return Promise.resolve(A.cache[key]); if(A.status[key]) return A.status[key];
     const b64ToBuf=(data)=>{ const bin=atob(data); const buf=new ArrayBuffer(bin.length); const u8=new Uint8Array(buf); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i); return buf; };
     A.status[key]=new Promise((res,rej)=>{ const done=(gltf)=>{ try{ A.capTextures(gltf.scene); if(m.type==='character'||m.type==='clips'||m.type==='building'){ A.cache[key]={gltf,scene:gltf.scene,animations:gltf.animations}; }   /* building：建築正式模型（遊戲座標、不縮放）*/ else { A.cache[key]=normalize(key,gltf); } res(A.cache[key]); }catch(e){ rej(e); } }; const fail=(e)=>{ A.errors.push(key+': '+(e&&e.message||e)); rej(e); };
