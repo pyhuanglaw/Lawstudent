@@ -4831,6 +4831,56 @@
    "integration": "已整合待測試",
    "note": "只有追蹤表；背景圖已在 6e72e346 收進開發線",
    "date": "2026-10-16"
+  },
+  {
+   "id": "DL-LW2-SCOOTER2",
+   "date": "2026-10-16",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "f5b7bdb3",
+   "what": "機車 v2：12 款＋LOD＋patch scooters_v2.patch（溫州街／公館整合測試 ALL PASS；READY_FOR_ART_REVIEW）",
+   "task": "ART-SCOOTER2",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "排在使用者 P0（HANDOFF-ABC）之後整合"
+  },
+  {
+   "id": "DL-BB171",
+   "date": "2026-10-16",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "d8857e69",
+   "what": "BB_171 跨年兩處字（T1 可昕河堤、Kevin 照片不點名大樓）＋16 週制時間修正 T2～T5",
+   "task": "V1-BB171",
+   "msg": "ACK",
+   "integration": "未整合"
+  },
+  {
+   "id": "DL-BB174",
+   "date": "2026-10-16",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "f7146822",
+   "what": "BB_174 課表 16 週制 JSON（11 學期，exam_weeks [8,9,16]）",
+   "task": "HOLIDAY-SYS",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "等 16 週共用系統一起匯入（現在匯入會和 18 週日曆對不上）"
+  },
+  {
+   "id": "DL-BB175",
+   "date": "2026-10-16",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "edebddd5",
+   "what": "BB_175 大一上手機小事 22 則改字",
+   "task": "V1-BB175",
+   "msg": "ACK",
+   "integration": "未整合"
   }
  ],
  "ignored": [

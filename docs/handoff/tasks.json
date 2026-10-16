@@ -11916,6 +11916,48 @@
    },
    "source": "BB-B 2026-10-16 21:37（AA-B 互審通過）",
    "authorized": "AA_193（使用者自然口語決定）、D86"
+  },
+  {
+   "id": "ART-SCOOTER2",
+   "title": "機車 v2（12 款＋LOD）整合：套 scooters_v2.patch、跑溫州街／公館整合、reachability",
+   "area": "ART",
+   "owner": "LAWWW",
+   "status": "已實作待整合",
+   "priority": "P1",
+   "next": "git apply patch → 測試 → commit；之後腳踏車多款式（LAWWW2-B 下一件）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "溫州街、公館",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 20:2x（機車不要同一款只換顏色）；LAWWW2-B f5b7bdb3",
+   "authorized": "使用者直接指示"
+  },
+  {
+   "id": "V1-BB171",
+   "title": "BB_171 跨年：ev_nye_river 可昕兩句、Kevin 跨年照片不點名大樓；T2～T5 等 16 週",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "T1、照片字先做；T2～T5 併 16 週共用系統",
+   "first": {
+    "term": "Y1S1",
+    "week": 16,
+    "earliest": "12/31 跨年",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B d8857e69（AA-B 互審通過）",
+   "authorized": "AA_197（使用者 21:08）"
   }
  ]
 }
