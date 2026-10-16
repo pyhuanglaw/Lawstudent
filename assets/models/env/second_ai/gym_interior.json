@@ -4,9 +4,9 @@
  "tris": 31120,
  "tris_drawn": 76568,
  "materials": 78,
- "out": "assets/models/env/second_ai/gym_interior.json",
- "bytes": 2390960,
+ "out": "assets/models/env/second_ai/gym_interior.glb",
+ "bytes": 2391536,
  "texres": 512,
- "layout": 3,
+ "layout": 5,
  "set_second_hall_chairs": 300
 }

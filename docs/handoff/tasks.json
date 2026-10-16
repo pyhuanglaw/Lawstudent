@@ -10701,7 +10701,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "已整合待測試",
-   "next": "1F、B1（v4）已接；1F SET_NETS 跟著 GYM_SECONDHALL；B1 v5（5a5a52af：gym_b1.glb、bb_support gym_b1_entry／props、gym_layout v5）v9.9 發布後接；3F 主球場（3effc0e0、f1e732f8）未接；GLOW_* 光暈還沒接",
+   "next": "1F、B1（v4）已接；1F SET_NETS 跟著 GYM_SECONDHALL；B1 v5 已接（開發分支，v9.9 之後的版本；5a5a52af：gym_b1.glb、gym_interior.glb、gym_layout v5）、瀏覽器截圖待做；3F 主球場（3effc0e0、f1e732f8）未接；GLOW_* 光暈還沒接",
    "priority": "P2",
    "first": {
     "term": "Y1S1",

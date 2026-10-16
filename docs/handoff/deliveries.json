@@ -2236,9 +2236,9 @@
    "sha": "5a5a52af",
    "what": "新體育館 B1 v5（GYM-P2／P3a 改版、飲水機、救生員椅、浮板架）＋gym_layout v5",
    "task": "ART-GYM1",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "v9.9 發布後接（gym_b1.glb、gym_interior.glb、gym_layout.js 都和遊戲版不同）；3F 主球場（3effc0e0、f1e732f8 gym_arena.glb）也還沒接"
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "B1 v5 已接（gym_b1.glb、gym_interior.glb、gym_layout v5：飲水機、救生員椅、浮板架三件擋導航；gym_unit 1～16 通過）；瀏覽器截圖等 v9.9 冒煙測試跑完。3F 主球場（3effc0e0、f1e732f8 gym_arena.glb）還沒接"
   },
   {
    "id": "DLV-1016-187",

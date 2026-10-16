@@ -1,13 +1,13 @@
 {
- "objects": 89,
- "unique_meshes": 62,
- "tris": 49040,
- "tris_drawn": 70412,
+ "objects": 95,
+ "unique_meshes": 68,
+ "tris": 51196,
+ "tris_drawn": 72568,
  "materials": 83,
  "out": "assets/models/env/second_ai/gym_b1.glb",
- "bytes": 3510060,
+ "bytes": 3624136,
  "texres": 512,
  "layout": 5,
  "equipment": 22,
- "entryProps": 5
+ "entryProps": 8
 }

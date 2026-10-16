@@ -112,7 +112,7 @@ const GYM_LAYOUT = {
      BB_151：B1 有溫水游泳池（7 水道）、健身中心、服務櫃台（學生證進場）；每月第四個週一健身中心、游泳池休館。BB_124 7-4：第一次辦會員證。
      這一版：東邊的大廳（樓梯下來、服務櫃台、閘門）→ 中間的走廊 → 走廊南邊是健身中心（鏡牆、有氧區、自由重量區）、北邊是游泳池（25 m × 7 水道，只到池邊）。
      更衣室、壁球室、桌球室、舞蹈室：門關著、門牌寫名稱（D38 看得懂的關閉）。器材是 BB-B 的 gym_b1_props.glb（GYM-P1），在 Blender 裡照下面的 equipment 擺進 gym_b1.glb。
-     v5：BB-B 的 gym_b1_entry.glb（GYM-P2）服務櫃台、置物櫃、體重計、毛巾回收籃照 entryProps 擺進去；equipment、entryProps 每件加 size（擋導航用）；兩台划船機改並排（v4 重疊）。
+     v5：BB-B 的 gym_b1_entry.glb（GYM-P2／P3a，c561cbfe）服務櫃台、置物櫃、體重計、毛巾回收籃、飲水機、救生員椅、浮板架照 entryProps 擺進去；equipment、entryProps 每件加 size（擋導航用）；兩台划船機改並排（v4 重疊）。
      座標：區域中心在原點、x 往東、z 往南；y＝B1 地板 0。 */
   b1: {
     id: 'gym_b1', name: '綜合體育館 B1', glb: 'assets/models/env/second_ai/gym_b1.glb', h: 3.6, poolH: 7.0,
@@ -142,7 +142,10 @@ const GYM_LAYOUT = {
       {node: 'GYM2_COUNTER', at: [[21.0, 0.95]], ry: 0, size: [2.4, 0.75], note: '大廳的服務櫃台（同 desk）'},
       {node: 'GYM2_LOCKERS', at: [[9.755, 4.4], [9.755, 6.3]], ry: -Math.PI / 2, size: [1.8, 0.45], note: '健身中心東牆的置物櫃（12 格×2），面向西邊場內'},
       {node: 'GYM2_SCALE', at: [[9.7, 7.85]], ry: -Math.PI / 2, size: [0.4, 0.5], note: '置物櫃旁的體重計'},
-      {node: 'GYM2_TOWEL_BIN', at: [[5.6, 3.45]], ry: 0, size: [0.46, 0.46], note: '健身中心門口內側的毛巾回收籃'}
+      {node: 'GYM2_TOWEL_BIN', at: [[5.6, 3.45]], ry: 0, size: [0.46, 0.46], note: '健身中心門口內側的毛巾回收籃'},
+      {node: 'GYM2_WATER', at: [[6.0, 0.01]], ry: 0, size: [0.42, 0.38], note: '走廊北牆的飲水機（健身中心門口斜對面），面向走廊'},
+      {node: 'GYM2_LIFEGUARD', at: [[14.2, -12.0]], ry: -Math.PI / 2, size: [0.72, 1.0], note: '池子東邊池畔的救生員高椅，面向池子'},
+      {node: 'GYM2_KICKBOARD_RACK', at: [[-6.0, -0.52]], ry: Math.PI, size: [0.6, 0.3], note: '泳池門口西側、靠走廊牆的浮板架'}
     ],
     sizeNote: 'size＝[器材本身的 x 寬, z 長]（旋轉前，公尺）；遊戲端擋導航時照 ry 轉；walk: true 的不擋',
     noteFacing: '器材原點在底面中心、正面 +z（使用者面向 +z）。鏡牆在南（z 13.9）＝+z，所以面向鏡子的器材 ry＝0；啞鈴架靠著鏡牆、架子正面朝場內，ry＝π',
