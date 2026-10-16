@@ -119,7 +119,7 @@ def hills(z_near, x_span, layers, crown=0.9, lumpy=0.0):
             prof = math.sin(min(1.0, t * 1.25) * math.pi / 2) ** 1.3          # 山腳 0 → 稜線 1（前坡），稜線以後持平
             for i in range(nx + 1):
                 x = -x_span + 2 * x_span * i / nx
-                lump = lumpy * (1.0, 0.45, 0.15)[min(k, 2)] * (abs(noise.noise(Vector((x / 8.0, zz / 8.0, seed + 11)))) * 2.0 + 0.5 * noise.noise(Vector((x / 3.5, zz / 3.5, seed + 5)))) * (0.4 + 0.6 * prof) if lumpy else 0.0   # 遠的山起伏小（不然像岩石山）
+                lump = lumpy * (1.0, 0.45, 0.15)[min(k, 2)] * noise.noise(Vector((x / 14.0, zz / 14.0, seed + 11))) * (0.4 + 0.6 * prof) if lumpy else 0.0   # 平順的小起伏（abs 的雜訊會有折痕，看起來像多邊形）
                 V.append((x, crest(x) * prof - 3.0 + 2.0 * noise.noise(Vector((x / 9.0, zz / 9.0, seed))) + lump, zz))
         for j in range(nz):
             for i in range(nx):
@@ -134,7 +134,7 @@ def hills(z_near, x_span, layers, crown=0.9, lumpy=0.0):
         mix = nt.nodes.new('ShaderNodeMath'); mix.operation = 'MULTIPLY_ADD'; mix.inputs[1].default_value = 0.5
         nt.links.new(vo.outputs['Distance'], mix.inputs[0]); nt.links.new(n1.outputs['Fac'], mix.inputs[2])
         nt.links.new(mix.outputs[0], ramp.inputs['Fac']); nt.links.new(ramp.outputs['Color'], b.inputs['Base Color'])
-        bm_ = nt.nodes.new('ShaderNodeBump'); bm_.inputs['Strength'].default_value = 0.45 if not lumpy else 0.8; bm_.inputs['Distance'].default_value = 0.6 if not lumpy else 2.5
+        bm_ = nt.nodes.new('ShaderNodeBump'); bm_.inputs['Strength'].default_value = 0.45 if not lumpy else 1.0; bm_.inputs['Distance'].default_value = 0.6 if not lumpy else 5.0   # lumpy（近的山）：樹冠一團一團的凹凸要很明顯
         nt.links.new(vo.outputs['Distance'], bm_.inputs['Height']); nt.links.new(bm_.outputs['Normal'], b.inputs['Normal'])
         b.inputs['Roughness'].default_value = 0.95
         mesh_obj(f'hill{k}', V, F, mt, smooth=True)
@@ -276,6 +276,38 @@ def sky(sun_elev, sun_rot, strength):
     try: sk.sun_elevation = math.radians(sun_elev); sk.sun_rotation = math.radians(sun_rot)
     except Exception: pass
     nt.links.new(sk.outputs['Color'], nt.nodes['Background'].inputs['Color']); nt.nodes['Background'].inputs['Strength'].default_value = strength
+
+
+def forest_cards(n, x0, x1, z0, z1, smin, smax, eye, seed=7, names=('hill0', 'hill1'), tint=(0.78, 0.86, 0.80)):
+    """山坡上種樹：street_trees.py 的遠景卡片（側面正交渲染的樟樹、榕樹，tree_cards.png），每一片面向鏡頭、腳踩在山坡上（往下打光線找地面）。
+    卡片共用三個網格（linked duplicates），幾千棵也不重；顏色乘一點偏冷的綠（遠一點、在山上）"""
+    import json
+    gen = os.path.join(ROOT, 'tools/blender/env_second/textures/gen'); info = json.load(open(os.path.join(gen, 'tree_cards.json')))
+    mt = bpy.data.materials.get('forest_card')
+    if mt is None:
+        mt = bpy.data.materials.new('forest_card'); mt.use_nodes = True; nt = mt.node_tree; b = nt.nodes['Principled BSDF']
+        tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(os.path.join(gen, 'tree_cards.png')); tx.image.alpha_mode = 'STRAIGHT'
+        mx = nt.nodes.new('ShaderNodeMixRGB'); mx.blend_type = 'MULTIPLY'; mx.inputs['Fac'].default_value = 1.0; mx.inputs['Color2'].default_value = (*tint, 1)
+        nt.links.new(tx.outputs['Color'], mx.inputs['Color1']); nt.links.new(mx.outputs['Color'], b.inputs['Base Color'])
+        rd = nt.nodes.new('ShaderNodeMath'); rd.operation = 'ROUND'; nt.links.new(tx.outputs['Alpha'], rd.inputs[0]); nt.links.new(rd.outputs[0], b.inputs['Alpha'])
+        b.inputs['Roughness'].default_value = 0.9
+    meshes = []
+    for nm, c in info.items():
+        if 'palm' in nm: continue                                              # 大王椰子不會長在山上
+        px0, py0, px1, py1 = c['px']; S = 1024.0; u0, u1, v0, v1 = px0 / S, px1 / S, 1 - py1 / S, 1 - py0 / S; w, h = c['w'], c['h']
+        bm = bmesh.new(); vs = [bm.verts.new(v) for v in ((-w / 2, 0, 0), (w / 2, 0, 0), (w / 2, 0, h), (-w / 2, 0, h))]; f = bm.faces.new(vs)
+        uvl = bm.loops.layers.uv.new()
+        for lp, uv in zip(f.loops, ((u0, v0), (u1, v0), (u1, v1), (u0, v1))): lp[uvl].uv = uv
+        me = bpy.data.meshes.new('forest_card_' + nm); bm.to_mesh(me); bm.free(); me.materials.append(mt); meshes.append(me)
+    deps = bpy.context.evaluated_depsgraph_get(); r = random.Random(seed); E = g2b(*eye); placed = 0
+    for i in range(n):
+        x, z = r.uniform(x0, x1), r.uniform(z1, z0)
+        hit, loc, nrm, idx, ob, mx_ = sc.ray_cast(deps, g2b(x, 600, z), Vector((0, 0, -1)))
+        if not hit or ob.name.split('.')[0] not in names: continue
+        o = bpy.data.objects.new('forest_tree', r.choice(meshes)); sc.collection.objects.link(o)
+        o.location = loc - Vector((0, 0, 0.8)); s_ = r.uniform(smin, smax); o.scale = (s_, s_, s_ * r.uniform(0.9, 1.15))
+        d = E - o.location; o.rotation_euler = (0, 0, math.atan2(d.x, -d.y)); placed += 1
+    print('forest cards', placed)
 
 
 def camera(eye, look, lens):
@@ -434,7 +466,7 @@ elif SCENE == 'campus':
     quad('creek', (4.0, WL - 0.02, 12), (16.0, WL - 0.02, 12), (16.0, WL - 0.02, -120), (4.0, WL - 0.02, -120), WATER)
     quad('bed', (3.5, WL - 0.6, 12), (16.5, WL - 0.6, 12), (16.5, WL - 0.6, -120), (3.5, WL - 0.6, -120), STONE)
     # 坡腳的大石頭（近自然工法）：不規則的石塊，一半在水裡
-    ROCK = mat_tex('rock', 'granite_tile_03', scale=2.0, tint=(0.55, 0.54, 0.50), rough=0.9)
+    ROCK = mat_tex('rock', 'granite_tile_03', scale=2.0, tint=(0.74, 0.72, 0.68), rough=0.9)
     for k in range(150):
         side = k % 2; z = 10 - (k // 2) * 1.6 + rng.uniform(-0.6, 0.6); x = (4.5 + rng.uniform(-0.2, 1.0)) if side == 0 else (15.5 - rng.uniform(-0.2, 1.0))
         bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=2, radius=1.0)
@@ -465,8 +497,13 @@ elif SCENE == 'campus':
         for x in range(3, 18, 2): box('bridge_post', x - 0.05, x + 0.05, 0.05, 1.05, zr - 0.02, zr + 0.12, RAIL)
     box('bridge_pier', 9.4, 10.4, WL - 0.6, -0.5, -45.5, -43.0, CONC)
     # 指南山：校園就在山腳，山很近、很高
-    hills(-125, 380, [(0, 95, (0.045, 0.095, 0.04), 2.4), (70, 150, (0.08, 0.13, 0.11), 4.1), (180, 200, (0.22, 0.28, 0.34), 6.3)], crown=0.12, lumpy=2.4)
+    hills(-125, 380, [(0, 95, (0.045, 0.095, 0.04), 2.4), (70, 150, (0.08, 0.13, 0.11), 4.1), (180, 200, (0.15, 0.19, 0.25), 6.3)], crown=0.2)
+    EYE = (1.4, 1.7, 9.0)                                                    # 鏡頭（下面 camera() 用同一個）
+    forest_cards(5200, -170, 230, -126, -235, 0.75, 1.1, EYE, seed=21, names=('hill0',), tint=(0.62, 0.72, 0.62))                 # 近的山：滿滿的樹（指南山麓）
+    forest_cards(3000, -230, 320, -195, -330, 1.2, 1.7, EYE, seed=22, names=('hill1',), tint=(0.52, 0.62, 0.64))   # 第二層：樹大一點、顏色淡一點（空氣透視）
     load_lib('street_trees.glb', {'tree_camphor_a', 'tree_camphor_b', 'tree_banyan_a'}); load_lib('street_props.glb', {'lamp_post', 'bench_park'})
+    for z in range(2, -110, -8): place(rng.choice(['tree_camphor_a', 'tree_camphor_b', 'tree_banyan_a']), -11 + rng.uniform(-3, 3), z + rng.uniform(-3, 3), yaw=rng.uniform(0, 6.28), s=rng.uniform(1.0, 1.3))   # 步道後面第二排（校園裡樹很多）
+    for z in range(-4, -110, -10): place(rng.choice(['tree_camphor_a', 'tree_camphor_b']), -19 + rng.uniform(-3, 3), z + rng.uniform(-3, 3), yaw=rng.uniform(0, 6.28), s=rng.uniform(1.1, 1.4))
     for k, z in enumerate(range(6, -110, -7)):                               # 這一岸的樹（溪邊的楓香、樟樹；用樟樹的模型）
         place(rng.choice(['tree_camphor_a', 'tree_camphor_b']), -4.2 + rng.uniform(-0.8, 0.6), z + rng.uniform(-1.5, 1.5), yaw=rng.uniform(0, 6.28), s=rng.uniform(0.9, 1.15))
     for z in range(-2, -110, -6): place(rng.choice(['tree_camphor_a', 'tree_camphor_b', 'tree_banyan_a']), 23.5 + rng.uniform(-1, 2), z + rng.uniform(-2, 2), yaw=rng.uniform(0, 6.28))
@@ -474,7 +511,7 @@ elif SCENE == 'campus':
     for z in (-9.0, -27.0, -45.0, -63.0, -81.0):                              # 路燈（燈頭朝步道）
         place('lamp_post', -2.5, z, yaw=math.radians(90)); light_point('lamp', -1.75, 3.9, z, 260, (1.0, 0.86, 0.68), 0.15)
     for z in (-14.0, -36.0): place('bench_park', -2.7, z, yaw=math.radians(90))
-    camera((1.4, 1.7, 9.0), (11.5, -0.4, -34.0), float(opt('--lens', '24')))   # 站在步道靠溪那一側，斜看溪、遠處的橋與山
+    camera(EYE, (11.5, -0.4, -34.0), float(opt('--lens', '24')))   # 站在步道靠溪那一側，斜看溪、遠處的橋與山
 
 else:
     sky(4.0, 235, 0.55)
