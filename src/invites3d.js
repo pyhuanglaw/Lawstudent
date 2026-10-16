@@ -166,7 +166,7 @@ const INV=(function(){
     for(const iv of G.invites){ if(iv.state!=='accepted'||iv.day!==G.day) continue; const P=S.place(iv.place)||{};
       if(!iv.rem&&h>=iv.h-0.5&&h<iv.h){ iv.rem=1; if(GM.toast) GM.toast('提醒：'+hh(iv.h)+' 和'+nameOf(iv.who)+'約在'+(P.name||'')+'。',4200); }
       if(!iv.where&&h>=iv.h+0.25&&h<iv.h+S.WAIT_H&&G.zone!==P.zone){ iv.where=1; if(typeof PHONE!=='undefined'&&S.hasContact(G,iv.who)){ PHONE.post(G,{th:'p:'+iv.who,from:iv.who,text:'你在哪？'}); if(GM.phoneBadge) GM.phoneBadge(); if(GM.toast) GM.toast('手機｜'+nameOf(iv.who)+'：你在哪？',3600); } } }
-    for(const iv of G.invites){ if(iv.state==='accepted'&&past(iv)){ iv.state='missed'; S.msg(G,iv.who,'你沒有赴約：'+when(G,iv.day,iv.h)+'，'+((S.place(iv.place)||{}).name||'')+'（'+nameOf(iv.who)+'）。',iv);
+    for(const iv of G.invites){ if(iv.state==='accepted'&&past(iv)&&!(iv.waitSeat&&G.zone===iv.zone)){ iv.state='missed'; S.msg(G,iv.who,'你沒有赴約：'+when(G,iv.day,iv.h)+'，'+((S.place(iv.place)||{}).name||'')+'（'+nameOf(iv.who)+'）。',iv);
         if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember(iv.who,'MISSED_DINNER',(S.place(iv.place)||{}).name||''); }
       else if(iv.state==='going'&&(iv.day<G.day||h>=iv.h+2)){ iv.state='cancelled'; S.msg(G,iv.who,'和'+nameOf(iv.who)+'一起去'+((S.place(iv.place)||{}).name||'')+'的事，後來作罷了。',iv); const n=GM.npc&&GM.npc[iv.who]; if(n){ n.beh='idle'; } }
       else if((iv.state==='offered'||iv.state==='changed')&&past(iv)) iv.state='cancelled'; } };
@@ -198,7 +198,26 @@ const INV=(function(){
       iv.chat=true; const pk=S.walkPick(G,iv.who,iv.place); if(!pk) continue; pk.next(); if(pk.ask){ iv.ask=pk.ask; continue; } const nm=nameOf(iv.who);
       pk.lines.forEach((t,k)=>{ const show=()=>GM.caption(/^（/.test(t)?'':nm,t,3400); if(k===0) show(); else S._later(show,k*3600); }); } };
   /* 走進一個區域：一起走過去的人到了目的地 → 見面 */
-  S.arrive=async function(GM,zoneId){ const G=GM.G; for(const iv of (G.invites||[])){ if(iv.state!=='going'||iv.zone!==zoneId) continue; await GM.sleep(900); const n=GM.npc&&GM.npc[iv.who]; iv.state='accepted'; await S.meet(GM,iv,n); return true; } return false; };
+  S.arrive=async function(GM,zoneId){ const G=GM.G; for(const iv of (G.invites||[])){ if(iv.state!=='going'||iv.zone!==zoneId) continue; await GM.sleep(900); const n=GM.npc&&GM.npc[iv.who]; iv.state='accepted';
+      if(S.seatFirst(GM,iv,n)) return true;   /* 有座位的地方：她先去找位子坐下，你坐到她旁邊（或跟她說話）才開始（使用者 2026-10-16：一進總圖大廳就念完了，根本還沒坐下）*/
+      await S.meet(GM,iv,n); return true; } return false; };
+  /* 一起走到有座位的地點（總圖、Café、麵店、茶館、早午餐）：她走去一個旁邊還有空位的位子坐下；約定時間改成現在（不會因為路上花的時間被算成沒赴約）。
+     見面：你坐到她旁邊（S.seatMeet，座位選單呼叫）或跟她說話（story3d.js talkCharacter 的 INV.meetable）。找不到位子或走不到就照舊直接見面。 */
+  const SEATED={library:'read',cafe:'sit',noodle:'sit',teahouse:'sit',brunch:'sit'};
+  S.seatFirst=function(GM,iv,n){ const E=GM.E, G=GM.G; if(!n||!n.obj||!SEATED[iv.place]||!E||!E.zone||!Array.isArray(E.zone.seats)||!E.moveTo) return false;
+    const near=(a,b,r)=>Math.hypot(a.x-b.x,a.z-b.z)<r;
+    const busy=st=>st.taken||E.npcs.some(m=>m!==n&&(m.seat||m.seatTarget)&&near(m.seat||m.seatTarget,st,0.35))||(E.player&&E.player.seat&&near(E.player.seat,st,0.35));
+    const ok=E.zone.seats.filter(st=>!st.label&&!busy(st));   /* label＝長椅之類的單獨座位；要桌邊的位子 */
+    const pair=st=>ok.some(q=>q!==st&&(q.lv|0)===(st.lv|0)&&near(q,st,1.3));   /* 旁邊還有空位給你 */
+    const P=E.player.obj.position; const cand=ok.filter(pair).sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z));
+    const st=cand[0]; if(!st) return false;
+    if(GM.standUp) GM.standUp(n); n.beh='idle'; n.frozen=false; n.path=null; n.seatTarget=st;
+    const pose=SEATED[iv.place]; const sit=()=>{ n.seatTarget=null; if(GM.sitAt) GM.sitAt(n,st); n.pose=n.idlePose=pose; n.frozen=true; };
+    const ap=(GM.seatApproach&&GM.seatApproach(st))||[st.x,st.z]; if(!E.moveTo(n,ap[0],ap[1],sit,st.lv|0)){ n.seatTarget=null; return false; }
+    iv.h=+((G.hour%24)).toFixed(3); iv.waitSeat={x:st.x,z:st.z,lv:st.lv|0};
+    if(GM.setGoal) GM.setGoal('坐到'+nameOf(iv.who)+'旁邊'); return true; };
+  S.seatMeet=async function(GM,seat){ const G=GM.G; if(!seat) return false; for(const iv of (G.invites||[])){ if(iv.state!=='accepted'||iv.day!==G.day||!iv.waitSeat||(iv.waitSeat.lv|0)!==(seat.lv|0)) continue;
+      if(Math.hypot(iv.waitSeat.x-seat.x,iv.waitSeat.z-seat.z)>1.8) continue; const n=GM.npc&&GM.npc[iv.who]; if(!n) continue; iv.waitSeat=null; await S.meet(GM,iv,n); return true; } return false; };
   /* ---------- 對方約你、臨時改約（給事件用；內容由 AA、BB 寫，使用者批准後才放）---------- */
   S.offer=function(G,who,pid,day,h,text){ S.rec(G); const P=S.place(pid); if(!P) return null; G.invSeq=(G.invSeq|0)+1;
     const iv={id:'iv'+G.invSeq,who,place:pid,zone:P.zone,day,h:+h.toFixed(3),state:'offered',accepted:false,by:'npc',label:nameOf(who)+'約你去'+P.name}; G.invites.push(iv);
