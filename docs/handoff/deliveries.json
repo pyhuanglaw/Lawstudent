@@ -2383,6 +2383,54 @@
    "msg": "ACTIONED",
    "integration": "已驗收",
    "note": "遊戲已是新句"
+  },
+  {
+   "id": "DLV-1016-199",
+   "date": "2026-10-16T10:3xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "ebccf1b2",
+   "what": "AA_107：宿舍門禁 24:00、男女宿一樣；男宿兩句 23:00→24:00",
+   "task": "TXT-1016",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
+   "note": "43c4cc7a"
+  },
+  {
+   "id": "DLV-1016-200",
+   "date": "2026-10-16T10:3xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "410a1fe4",
+   "what": "D16 北海岸停車休息：以安「這是我的規則，不是建議。」、學姊「這是我的規定。」（BB_115 L474）；D16.json 重建",
+   "task": "DATE-L32",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "約會台詞還沒接進遊戲；接 DATE-L32 時照新版（97deb60c BB-B 已同步）"
+  },
+  {
+   "id": "DLV-1016-201",
+   "date": "2026-10-16T10:3xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "c2208723",
+   "what": "AA_154 P1「沒去」＝第一次出席就遲到超過 15 分鐘（確認 80202105）",
+   "task": "V0-B2",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
+   "note": "和遊戲做法一致"
+  },
+  {
+   "id": "DLV-1016-202",
+   "date": "2026-10-16T10:3xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "6686ce0f",
+   "what": "AA_154 E07 沒去時可昕的訊息 9/21 12:30（確認 f26e7641）",
+   "task": "V0-B1",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
+   "note": "和遊戲做法一致"
   }
  ],
  "ignored": [
@@ -3375,6 +3423,51 @@
    "sha": "a70ccf72",
    "branch": "origin/claude/elegant-brown-fcos7n",
    "why": "BB_132 提示詞與進度"
+  },
+  {
+   "sha": "892e1eff",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查紀錄 L471（門禁；AA-B 的決定是 ebccf1b2）"
+  },
+  {
+   "sha": "9b00705b",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "法律審查紀錄第 23 批（改句由 410a1fe4 交）"
+  },
+  {
+   "sha": "97deb60c",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB 這邊同步 AA-B 的 D16（併入 DLV 410a1fe4）"
+  },
+  {
+   "sha": "2d1d2ab9",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "待使用者生成的圖片清單（SCN 任務已照更新）"
+  },
+  {
+   "sha": "b87511ce",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "法律審查紀錄第 24 批（無誤）"
+  },
+  {
+   "sha": "84b2f40a",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB_131 阿勳、品妤 3D 驗收重點：給 LAWWW2-B 做模型時對照"
+  },
+  {
+   "sha": "589054ae",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "企劃組的進度"
+  },
+  {
+   "sha": "78ade12b",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB_131 明軒、小語 3D 驗收重點：給 LAWWW2-B 對照（ART-13）"
+  },
+  {
+   "sha": "c91b1937",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB_131 小語吊飾的社團改正：給 LAWWW2-B 對照"
   }
  ]
 }
