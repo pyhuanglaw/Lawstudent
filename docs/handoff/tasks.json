@@ -1418,7 +1418,7 @@
    "area": "V1",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "AA_163（企劃線 d64110e1）定案：(b) 大一可以旁觀；第一次短 2D 旁觀（阿伯問押金），之後四句旁白輪流＋30 分，可待到 12:00；研究所學長姊路人底模、民眾一到兩位；記 LAWCLUB_SAT_VISITS（同一週六一次）；告示「法律服務　隔週週六 9:00～12:00　萬才館一樓」；學姊台詞等 BB-B（AB-19），之前只放旁白；不扣時段次數",
+   "next": "AA_163（企劃線 d64110e1）定案：(b) 大一可以旁觀；第一次短 2D 旁觀（阿伯問押金），之後四句旁白輪流＋30 分，可待到 12:00；研究所學長姊路人底模、民眾一到兩位；記 LAWCLUB_SAT_VISITS（同一週六一次）；告示「法律服務　隔週週六 9:00～12:00　萬才館一樓」；學姊台詞等 BB-B（AB-19），之前只放旁白；不扣時段次數；學姊台詞到了：BB_145（BB-B 5dc3b883，AA 核對）——第一次接在旁白後（「學弟。旁聽可以。三件事。」…，只一次，LAWCLUB_SAT_FIRST）、池三句和旁白池輪流、第四句 VISITS≥5 一次排最前",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -10287,8 +10287,8 @@
    "title": "偶遇（一）",
    "area": "DL",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
-   "next": "等 BB-B 的人物表",
+   "status": "待開工",
+   "next": "AA-B 05:40 定案：AA_160 5-6（60%、權重、三選一時刻、種子＝日期＋地點＋時段存 G.daily.enc；期末考週、下雨 D12/D13、約會日、劇情時段不出現）；15 列＝BB_144 第 1 節＋AA_162 第 1 節，各附 away 作息（和既有衝突以既有為準）；台詞兩份第 2、3 節；memo 只放閒聊 extraIf 或手機小事；R7：劇情事件的條件／分支／結果不准讀 ENC_（加資料檢查）。接在 DL-06 之後",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -10309,7 +10309,7 @@
    "area": "DL",
    "owner": "LAWWW",
    "status": "等待其他AI／素材",
-   "next": "等 BB-B 的人物表",
+   "next": "照 DL-07 的人物表（AA_160 5-6、BB_144、AA_162）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -10323,6 +10323,27 @@
    },
    "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
    "authorized": "D79（AA-B 定案的系統規格）"
+  },
+  {
+   "id": "LADDER-Y3Y4",
+   "title": "BB 五位的閒聊階梯 大三上～大四下（ladder_bb_y3s1／y3s2／y4s1／y4s2.json）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "next": "檔案在企劃線 claude/cool-heisenberg-o8kuqx（a27e354c；BB_140～143；build_ladder_bb_y*.py --check 通過；AA 核對）。大三開放時接（D81）。注意：學姊大三上 1/5 出發去美國，作息 1/5 以後 away",
+   "priority": "P2",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "大三上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 05:42（D86 轉交 BB-B）",
+   "authorized": "D79"
   }
  ]
 }
