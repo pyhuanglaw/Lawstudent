@@ -180,41 +180,53 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 - **職位的任務不跟著帳號走**：任務的 `owner` 是職位，換帳號不歸零；`deliveries.json` 記帳號、分支、commit，分得出哪一班交的。
 - **舊制度的分支**（還沒有 `duty_<職位>.json` 的職位）：`duty verify` 只列資訊；接班時用 `duty register` 補登記。
 
-## 5. 交班程序（使用者說「現在換班」；A→B、B→A 都一樣；2026-10-16 修訂）
+## 5. 交班程序（使用者說「現在換班」；A、B、C 任意方向都一樣；D92／HV-10，2026-10-16）
 
-收到換班口令先停止一般開發（P0 換班口令），在可以安全中斷的節點做下面五件事。**不能只記最後一件在做的事。**
-1. **保存本班成果**：本班實際做完的程式、劇情、資料、場景、美術，各寫對應的任務 ID、分支、commit SHA、測試結果與證據、整合了沒、發布了沒（還是只在開發分支）、沒推送或推不了的東西。只 `git add` 自己負責的檔案，commit＋push、**核對遠端 SHA**。沒推送成功的不得宣稱已交付。
-2. **保存全部未完成工作**：核對總表，所有沒結案的任務都在、狀態和下一步是最新的——上一班留下本班沒做的、本班做一半的、本班新增的、已交付未整合的、已整合未測試的、等其他 AI 的、等素材或使用者資料的、暫時降低優先級的。每件保留原任務 ID、來源、狀態、下一步。
-   - LAWWW：覆寫總表第 1 節「交班快照」（舊的搬到第 11 節）：本班完成的 ID、未完成的全部 ID（含狀態）、做一半的、待整合／待測試的、本班新增的、因新指示改優先級的。
-   - 其他職位：在自己的交接檔寫同樣的清單（用任務 ID）；同一個帳號值班中的 LAWWW 用訊息收，否則下一班 LAWWW 從 GitHub 抄。
-   - **LAWWW 最後跑 `python3 tools/handoff/check_handoff.py check`（把異常處理掉或寫進交班紀錄），再跑 `python3 tools/handoff/check_handoff.py snapshot --role LAWWW --account <A|B>`**，快照檔和 `tasks.json`、`deliveries.json` 一起 commit＋push（D82）。快照記下所有任務的 ID 和狀態，下一班用它對帳；沒 push 的快照＝沒有快照。
-3. **保存本班新增、修訂、廢止的永久規則**：規則編號、生效範圍、使用者決策來源、取代哪些舊規則、寫在哪份檔、commit SHA。LAWWW 寫進第 13 節並改五份規則檔；其他職位把規則原文與來源交給 LAWWW（不只存在對話裡）。
-4. **保存跨 AI 協作狀態**：誰交付了什麼給誰、哪些等審、等整合、已 ACK 但還沒 ACTIONED、等對方回覆的問題——SENT／DELIVERED／ACKNOWLEDGED／ACTIONED 分清楚。
-5. **保存分支狀態（D88）**：所有有效工作都已 push 到自己的分支（不留只在本機、只在 WIP 分支的成果）；LAWWW 增量更新 `docs/handoff/BRANCH_INVENTORY.md`（新增的分支、已整合可刪的、權限受阻的）。
-5b. **保存未完成的測試與已知問題**：以交班當下的實際狀態為準（例：貼圖增長、全黑、某學期沒驗收、素材沒整合、只在 scratchpad 的測試結果）。
-6. 在進度檔寫「交班」（時間、最後 commit、規則 SHA），之後不再寫入這個職位的範圍，直到使用者叫你回來。LAWWW 另外更新第 1 節值班表與第 12 節（第 0a 節的 RULE_SOURCE 不改，由下一班的 LAWWW 改成它的分支）。
+收到換班口令先停止一般開發（P0 換班口令），在可以安全中斷的節點做下面的事。**不能只記最後一件在做的事**；也不用等交班才補——**六類紀錄平時就持續更新**（D80、D82：收到交付就登記、新任務直接加進 `tasks.json`），交班時只補最後的差異。
 
-**來不及交班**（額度突然用完）時，接班的人以遠端最後 push 的狀態為準，照第 4 節第 6 步對帳；沒 push 的成果當作沒有，沒核完的標 `AUDIT_PENDING`。所以平時每完成一個重要階段就 commit＋push，總表增量更新（D45）。
+**交班紀錄六類**（每個職位都要；LAWWW 寫總表第 1 節＋`tasks.json`／`deliveries.json`／快照，其他職位寫自己的交接檔，用任務 ID）：
+
+| 類 | 內容（每一件都寫任務 ID） |
+|---|---|
+| **A. 本班已完成成果** | 實際做完的程式、劇情、資料、場景、美術：分支、commit SHA、測試結果與證據、整合了沒、發布了沒（還是只在開發分支）、推不了的東西 |
+| **B. 全部未完成工作**（不能只寫最後一件） | 上一班留下本班沒做的、本班做一半的、本班新增的、已交付未整合的、已整合未測試的、等其他 AI 的、等素材或使用者資料的、暫停或降低優先級的（寫原因和恢復條件）。每件保留原 ID、來源、狀態、下一步 |
+| **C. 正在做的工作** | 交班那一刻手上的事：做到哪一步、改了哪些檔、在哪條分支、有沒有沒 commit 的（有就先 commit＋push，標 WIP）、下一班從哪裡接 |
+| **D. 最新決策與規則** | 本班新增、修訂、廢止的使用者決策（D 編號）和永久規則（HV 編號）：生效範圍、使用者來源、取代哪些舊規則、寫在哪份檔、SHA。LAWWW 寫第 13 節並改五份規則檔；其他職位把原文與來源交給 LAWWW（不只存在對話裡） |
+| **E. 跨 AI 協作狀態** | 誰交付了什麼給誰、等審、等整合、等對方回覆的問題：**SENT／DELIVERED／ACK／ACTIONED** 分清楚（`deliveries.json`、`tasks.json` 的 `xai.ack`） |
+| **F. 測試與問題** | 未完成的測試、已知 bug、阻塞、未驗收項目、只在 scratchpad 的測試結果、還沒在 iPhone 實機確認的事 |
+
+**步驟**：
+1. **保存**：只 `git add` 自己負責的檔案（不 `git add .`），commit＋push，**核對遠端 SHA**。沒推送成功的不得宣稱已交付。所有有效工作都在自己的遠端分支上（不留只在本機、只在 scratchpad 的成果）；WIP 分支登記在 `duty_<職位>.json`（`duty register --wip`）和 `BRANCH_INVENTORY.md`（D88）。
+2. **寫六類紀錄**（上表）。
+3. **存快照、登記交班**：
+   - LAWWW 以外的職位：`python3 tools/handoff/check_handoff.py snapshot --role <職位> --account <A|B|C>` → `python3 tools/handoff/check_handoff.py duty handoff --account <X> --role <職位> --snapshot <檔名> --ref origin/<RULE_SOURCE>` → commit＋push；同帳號值班中的 LAWWW 用 `send_message` 通知（LAWWW 已經交班就只寫 GitHub）。
+   - LAWWW 最後做：`check_handoff.py check`（異常處理掉或寫進交班紀錄）→ `duty sync`（收其他職位的交班登記）→ `snapshot --role LAWWW --account <A|B|C>` → `duty handoff --account <X> --role LAWWW --snapshot <檔名>` → 值班表改成「換班中」、第 12 節加一行 → commit＋push、核對遠端 SHA。**沒 push 的快照＝沒有快照。**
+   - 第 0a 節的 RULE_SOURCE 不改（下一班的 LAWWW 用 `duty register` 改成它的分支）。
+4. **交班後停止寫入**這個職位的範圍，直到使用者叫你回來。回報使用者：最後 commit SHA、分支、push 成功與否、沒備份的項目。
+5. **不准**：為了交班合併 `main` 或發布、force push、reset 別人的有效成果、用空白新分支取代原成果、刪還有未整合內容的 WIP 分支、把沒驗收的當作完成（P0 換班口令第 7 條、D85、D88）。
+
+**來不及交班**（額度突然用完）時，接班的人以遠端最後 push 的狀態為準：`duty plan` 會列出「還沒交班的職位」，`duty register` 要使用者明確指示才接（`--user-ok`，記 `no-handoff` 異常），照第 4 節第 7～9 步對帳；沒 push 的成果當作沒有，沒核完的標 `AUDIT_PENDING`。所以平時每完成一個重要階段就 commit＋push（D45）。
 
 ## 6. 接班確認（回給使用者的格式）＋使用者怎麼確認交接成功
 
 ```
-【接班確認｜LAWWW-B（帳號 B）】
+【接班確認｜<職位>-<帳號>（帳號 <A|B|C>）】
 工作階段：session_xxxxxxxx　分支：claude/…（接班基準：origin/<分支> 的 <commit>）
-上一班：LAWWW（帳號 A），最後 commit <sha>（<時間>），正常交班／未交班
+值班狀態：duty find → RULE_SOURCE origin/<分支>（登記鏈 seq <n>）；duty verify 結束碼 <0|1|2>（異常：…／無）
+上一任：帳號 <X>（以 duty.json 為準），這個職位最後 commit <sha>（<時間>），正常交班／未交班（使用者指示接班，記 no-handoff）
 離開期間的變更：N 個 commit，重點：…（沒有就寫「沒有」）
-目前的任務：…　下一步：…
-沒完成／沒測／沒整合／沒部署：…
-規則來源：origin/<RULE_SOURCE> @ <規則 SHA>（HV-n）；本班套用的新規則：…（例：D79、HV-3）
-對帳：上一班快照 N 項未完成，全部在總表／恢復 M 項（ID…）／AUDIT_PENDING：…（沒有就寫「無」）
-值班登記：已 push <sha>；值班表：已更新（LAWWW-B）／等 LAWWW-B 抄錄（其他職位）
+規則來源：origin/<RULE_SOURCE> @ <規則 SHA>（HV-n）；自己上次值班之後新增的規則：…（例：D92、HV-10）
+對帳：check 結束碼 <0|1|2>；上一班快照 N 項未完成，全部在總表／恢復 M 項（ID…）／AUDIT_PENDING：…／REMEDIAL_FULL_AUDIT：…（沒有就寫「無」）
+未整合／未測試／WIP／待 ACK：…
+目前的任務：…　下一步：…（接著就做，不等使用者說開工）
+值班登記：duty register 已 push <sha>；值班表：已更新（LAWWW）／等 LAWWW duty sync（其他職位）
 ```
 
-使用者確認交接成功，看三件事：
-1. 四個 AI 都回了「接班確認」，而且寫的上一班最後 commit 和 GitHub 上一致。
-2. GitHub 上最新的 `docs/AI_SESSION_HANDOFF.md` 值班表寫的是新的那一班，session ID 對得上。
-3. 各職位進度檔最上面的「值班登記」是新的工作階段。
-4. 接班確認寫了規則 SHA 和對帳結果；總表第 1 節（或各交接檔）沒有不明原因消失的任務。
+使用者確認交接成功，看這幾件事：
+1. 四個 AI 都回了「接班確認」，寫的上一任和 `duty.json` 一致、上一班最後 commit 和 GitHub 一致。
+2. `duty verify` 結束碼 0（有異常就寫清楚是哪幾項、怎麼處理）。
+3. GitHub 上 RULE_SOURCE 的 `docs/handoff/duty.json`：`onDuty` 是新的帳號、四個職位的工作階段和分支對得上；值班表（第 1 節）寫「<新帳號> 值班中」。
+4. 接班確認寫了規則 SHA 和對帳結果；總表沒有不明原因消失的任務。
 
 ## 6b. LAWWW ⇄ LAWWW2 平行開發的派工（D84，2026-10-16；A／B 兩個帳號都適用）
 
