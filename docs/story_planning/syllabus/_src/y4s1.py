@@ -448,7 +448,7 @@ COURSES.append(dict(
                          ('classmate_xinci','字變少了。該寫的要件，一個都沒少嗎？我對了兩遍，還是不確定。')],
                 close='國民法官上路到今年，判決還在變。你們讀到的，是中間的樣子。',
                 record='B_Y4S1_crim_judgment_sem_w12',
-                recall=[dict(attended='Y2S2:legal_english:w6', say='你想起大二的法學英文：美國是陪審團，台灣是國民法官。')],
+                recall=[dict(attended='Y2S2:legal_english:w6', say='你想起大二的法學英文：美國是陪審團；台灣重大的刑案，是國民法官和法官一起評議。')],
                 skip_line=('yu','刑事研討今天讀國民法官的判決。阿哲說終於有他讀得懂的了，教授笑了。')),
        react=[], review='國民法官法（2023 年施行）；需法律審查；B 類討論（AA_119）：國民法官案件判決書的寫法（理由的記載是否簡化，國民法官法的規定需查證）——只講方向，LEGAL_REVIEW_REQUIRED；研討課每個人都要說，多放芯慈；原本阿哲那句併進討論的回應'),
   dict(w=13, tpl='A', board=['再審','判決確定以後','發現錯了'],
