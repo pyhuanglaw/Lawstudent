@@ -1,0 +1,176 @@
+# 美術支援 SOP：3D 實際施工方法（AA、BB、LAWWW2 共用；永久）
+
+> **來源**：使用者 2026-10-16 約 16:20 UTC 轉給 AA-B 的【P0｜LAWWW2-B 3D 美術實際製作技術｜直接執行】。內容是 LAWWW2-B 實際在用的工具、方法、參數與流程。
+> **使用者的要求（原意）**：
+> - 把這套方法直接當成 AA、BB 自己的美術製作 SOP，**不必等任何 AI 回應**。
+> - 存進 GitHub 的工作規則和交接紀錄，讓帳號 A 的 AA、BB 和 LAWWW2 都能直接照做。
+> - **不要只寫「參考遊戲大獎」**，要保留具體的工具、方法、參數與流程。
+> - 有更好的方法可以向 LAWWW2 提議、互相教學；可以上網查得獎遊戲、用 Claude vibe coding 做出得獎遊戲的做法。**不要退步。新增任何方法都要寫進規則**，讓每一個接手的 AI 都看得到（寫在本檔第 12 節）。
+> **適用**：AA、BB、LAWWW2（含帳號 B 的 AA-B、BB-B、LAWWW2-B）。LAWWW 整合時也照第 9、10 節看。
+> **和其他規則的關係**：
+> - `CLAUDE.md` 的 D38（MANDATORY 3D ART PRODUCTION RULES）是底線，本檔是實際做法。
+> - LAWWW2-B 的驗收清單：`docs/art-rebuild/second_ai/SCENE_RULES.md` 第 9 節（`claude/funny-albattani-iawshm` `1c3bdefd`）。交件時那一節每一項都要在 README 寫「做了／沒做＋原因」。
+> - 兩邊衝突時，以 LAWWW2-B 分支上較新的 SCENE_RULES 為準，並回來改本檔。
+
+## 0. 先記住的五件事
+
+1. **劇情優先**。AA、BB 只有在劇情沒事、LAWWW2 正式派工時才做美術。開工前先問清楚規格（尺寸、原點、節點名、預算、放在哪裡）。
+2. **做完交 LAWWW2 驗收**。美術狀態最多寫到 `READY_FOR_REVIEW`。AA、BB 不能自己宣稱 `ART_APPROVED`（角色美術由 BB 驗收的規則 D59 不適用於場景道具）。
+3. **只在自己的分支 commit**。不改 `src/`、`zones3d`、`assets3d`；所有權照派工單，仍是 LAWWW2 的。
+4. **Blender 漂亮、遊戲裡醜，仍不合格。** 要拍遊戲內截圖（第 9 節）。
+5. **不退步**。不准為了預算把近景退回方塊、不准把近景貼圖弄糊。
+
+## 1. 美術方向
+
+- **繪本感半寫實環境＋日系動畫人物。**
+  - 環境參考《Season: A Letter to the Future》《Lake》：烘焙光、暖色暮光、空氣感。
+  - 人物參考《Persona 5 Royal》《Atelier Ryza》（LAWWW2-B `HANDOFF.md` 的得獎遊戲那一節）。
+  - 目標畫面：2D 參考圖 07（溫州街 Café 前的黃昏）。
+- **台北的辨識度**：老公寓、騎樓、磁磚外牆、鐵窗、冷氣室外機、遮雨棚、機車、招牌。
+- **不要**：積木感、廉價手遊感、刻意做成日本街景。
+
+## 2. 工具
+
+- **Blender 5.2**：一律用 `/opt/blenv/bin/python <腳本>.py` 執行（bpy）。
+- **共用程式庫**（在 LAWWW2-B 的分支 `claude/funny-albattani-iawshm`，repo `pyhuanglaw/Lawstudent`）：
+  - `tools/blender/env_second/lib2.py`（主要的）
+  - `tools/blender/b3lib.py`
+  - `tools/blender/env_second/cafe_layout.py`
+  - **用 LAWWW2-B 最新的 `lib2.py`**。AA-B 分支上的 `lib2.py` 是舊版（沒有 `rbox_bm` 等），在那裡跑會失敗。做法：`git worktree add --detach <資料夾> origin/claude/funny-albattani-iawshm`，在那個資料夾跑。
+- **範例腳本**（照著學）：
+  - `tools/blender/env_second/wz_street.py`（溫州街；最後呼叫 `L.atlas_tiles`）
+  - `tools/blender/env_second/wz_park.py`
+  - `tools/blender/env_second/shopkit_tex.py`
+  - `tools/blender/env_second/gen_street_textures.py`（自己產生貼圖的寫法）
+  - `tools/blender/env_second/shots/fast_shots.py`（遊戲內截圖）
+- **AA-B 的範例**（`tools/blender/env_second/aa_support/`）：`us_bath_props.py`、`us_kitchen_props.py`、`soy_props.py`、`park2_props.py`（自己的網格類別＋逐面 UV＋numpy／PIL 畫貼圖集）、`render_wz6.py`（Cycles 渲染）。
+
+## 3. 去積木化（造型）
+
+- **圓的東西用旋轉體**：`L.lathe(profile, seg=16)`。profile 是側面輪廓的 (半徑, 高度) 點列。
+- **彎的東西用掃掠**：用 bmesh 沿路徑掃一個截面（loft／sweep）。例：BB-B 的 PARK1 滑道是 U 形截面沿曲線掃出來的。
+- **方的東西也要倒角**：
+  - `Mesh.rbox(x0, x1, y0, y1, z0, z1, r=0.03, seg=3)`
+  - `L.rbox_bm(w, h, d, r=0.03, seg=3)`
+  - `CMesh.crbox(x0, x1, y0, y1, z0, z1, hexcol, r=0.02, seg=2)`（頂點色版本）
+- **倒角寬度**（看得到的硬邊都要有）：
+
+| 材料 | 倒角 |
+|---|---|
+| 金屬 | 3～8 mm |
+| 木頭 | 2～5 mm |
+| 一體成型塑膠 | 10～30 mm |
+
+- **圓形的邊數**：
+  - 輪廓上看得到的圓（輪子、桶、杯口、圓盤）：近景**至少約 14 邊**。
+  - 看不到輪廓的細管、桿子：6～8 邊。
+  - 平滑著色（`L.smooth_mesh(ob, angle)`）救不了剪影。
+- **結構要講得通**：有支撐、有接合（螺絲座、焊點、榫、套環）；不懸空、不互相穿插。交件前自己量 bounding box。
+- **比例**：真實尺寸，拿一個 1.75 m 的人站旁邊比。常用：座高 0.45 m、桌高 0.75 m、門高 2.1 m。
+- **不要規律排列**：同樣的東西間距、角度、高度要有小變化（例：浴簾褶子大小不一、椅子沒推進去的角度不同）。
+
+## 4. 材質
+
+- **大面積用 Poly Haven（CC0）**：
+
+```python
+L.pbr('wall', 'plaster_grey_04', tile=1.5, target='#b5afa4',
+      normal=0.5, maps=('diff', 'nor'), res=256, rough_value=0.9)
+```
+
+  - `target`：把貼圖校到要的平均色，不要整片高彩度。
+  - `maps`：遠處或次要的材質只留 `diff`（顏色），GLB 小很多。
+  - `res`：這個材質自己的解析度（例 256）。
+  - 目前在用的：`long_white_tiles`、`plaster_grey_04`、`painted_metal_shutter`、`square_brick_paving`、`dark_wood`、`concrete_wall_006`（AA-B 用過 `walnut_veneer`、`dirty_carpet`）。
+- **小道具一組共用一張貼圖集**：1024 底色（base color）＋256 ORM，需要時加法線。不要每件一張。只有會被鏡頭貼近的（滑梯、桌面）才給到 1024 的區塊。
+- **不准只有純色**：同一件東西的粗糙度要有變化。手常摸的地方（把手、扶手、座椅、滑道出口）粗糙度低、亮一點；地上那一端髒一點。用 ORM 畫局部粗糙度，不是整件一個數字。
+  - ORM 通道：R＝AO、G＝粗糙度、B＝金屬度（AO 已經烘進底色時，R 填 255）。
+- **金屬度 ≤ 0.40**（遊戲沒有環境貼圖，太高會發黑）。
+- **白色不要純白**：陶瓷、搪瓷約 `#e8e6e0`。
+- **新貼圖記進 `LICENSES.md`**；自己產生的貼圖，**產生它的腳本要 commit**。不用來源不明的圖。
+- **字、標誌**：不放真實品牌（D77）。要字的地方用遊戲的 canvas（`*_FACE_` 節點）或自己畫；字要清楚，不能被擠扁（不要放進正方形格子的貼圖集）。
+
+## 5. AO 與光
+
+- **把 AO 烘進底色**：底色乘 0.75～0.9。要畫的地方：
+  - 接觸地面處、牆面交界、磁磚溝縫、窗框、接合處、物件底部。
+  - 看得出、但不黑一圈。
+- **三個時段都要在 Three.js 看**：白天、黃昏、晚上。不能只看 Cycles。
+- **晚上會亮的東西**（燈罩、螢幕、招牌）：發光材質、`CL.glow`、節點名前綴 `GLOW_*`（SCENE_RULES 第 4 節），亮度由遊戲調。
+
+## 6. 生活痕跡
+
+- **每一組 2～3 處**：毛巾掛歪、杯子裡有牙刷、沙坑裡有小桶子、椅子沒推進去、扶手纏了膠帶。
+- **磨損程度**：「**用了三到五年、有人在維護**」，不是廢墟。
+  - 邊角掉漆、地面接觸處的泥、水漬、褪色。
+  - 畫在貼圖上，不加幾何。
+- 放在人會放的位置、數量剋制，不是堆雜物。
+
+## 7. 最佳化（精緻而有效率，不是退回方塊）
+
+- `L.vc_consolidate(root, groups)`：頂點色的小東西合併。
+- `L.atlas_small(...)`、`L.atlas_rows(...)`：把小材質打包成貼圖集。
+- `L.atlas_tiles(root, out_base, mat_name, only, cell=256, pad=12)`：會重複鋪的貼圖（磁磚、磚）打包時**保留 2D 平鋪**、四周加邊（pad）避免接縫滲色。`wz_street.py` 在最後呼叫它。
+- `L.merge_by_material(root, keep=...)`：同材質合併；`keep` 留下遊戲端要找名字的特殊節點（`GLOW_*`、`*_FACE_`、會動的、要互動的）。
+- `L.export(OUT, gpu_instances=True)`：重複的東西用 GPU instancing 匯出。
+- **最後才刪看不到的面**（貼地的底面、貼牆的背面、被擋住的內面）。
+- **禁止**：把近景貼圖弄糊、把近景物件退回方塊。
+
+## 8. 匯出規格
+
+- **座標**：原點在**底部中央**，正面朝 **+z**。遊戲座標 x 往東、y 往上、z 往南；Blender 和遊戲之間用 `L.g2b(x, y, z)` 換算（`Vector((x, -z, y))`）。
+- **頂層節點清乾淨**：每件一個頂層節點，名字照派工單。
+- `L.export` 會寫出 **GLB＋JSON**。看 JSON 檢查：三角形、材質數、bounding box、檔案大小。
+- **預算**：小道具每件 0.5～3k 三角形；一組合計看派工單（通常 5～10k）；材質一組 1 個（貼圖集）。重複的東西做一份、遊戲用 instancing。
+
+## 9. 驗收流程
+
+1. **Blender Cycles 渲染**：正面、斜 45°、每件近景，加**一張玩家鏡頭高度**（離地 2～3.5 m、往下 15～30°）。
+   - AA-B 的工具：`render_wz6.py -- <glb> <輸出資料夾> <前綴> <views.json> --res 960x600 --samples 48 --view AgX --exposure -2.5 --wall <牆的 z>`。
+2. **遊戲內截圖**：`fast_shots.py`，三個時段 **11:00、17:30、20:30**，兩種畫面 **390×844（直）、844×390（橫）**。
+
+```bash
+python3 tools/blender/env_second/shots/fast_shots.py <URL> <shots.json> [--block=檔名]
+```
+
+   - `shots.json` 欄位：`out`、`w`、`h`、`dpr`（手機用 2）、`mobile`、`hud`、`hidePlayer`、`hideNPCs`、`state{zone,hour,pos,flags}`、`cam{pos,look}` 或 `{yaw,pitch,dist}`、`js`、`wait`、`post`。
+   - `--block=xxx.glb`：擋掉某個正式模型，拍「原本」的對照。
+   - 新物件還沒接進區域時：用 `js` 欄位在拍之前把 GLB 載進來、擺在 layout 的位置（或請 LAWWW2 用他的 worktree 組裝後拍）。
+3. **同角度對照**：和原本的畫面（舊版或程序化版本）同一個鏡頭、相近時間比。
+4. **和參考比**：附真實樣子的照片或文字描述（例：「台灣社區公園常見的彈簧搖搖馬，一體成型塑膠」）。
+5. **交件**：GLB、JSON、腳本、貼圖、渲染、views.json 都 commit＋push；README 寫三角形、材質數、bbox、節點表、SCENE_RULES 第 9 節每一項「做了／沒做＋原因」、還沒做的事。通知 LAWWW2 附 SHA。LAWWW-B 可以協助遊戲內測試。
+
+## 10. 會直接退件的
+
+- 近景主體的剪影看得出方塊、圓柱拼的。
+- 整件單一顏色、單一粗糙度，沒有磨損或 AO。
+- 比例錯、懸空、穿插。
+- 細節只在 Blender 看得到，遊戲裡看不出來。
+- 貼圖糊、字被擠扁。
+- 出現真實品牌。
+- 超過預算一倍以上。
+- 缺腳本、缺統計、缺截圖。
+
+## 11. AA-B 實作補充（PARK2 等實際做過學到的；2026-10-16）
+
+> 照第 12 節的規則補進來的。每一條都是實際做錯、修好以後確認的。
+
+1. **掉漆小白點會變雜訊**：PARK2 第一版白點太多太大，遠看像撒鹽。改成密度 0.0025、大小 ×1.1，鋼材底色調深（約 RGB 100,100,98），白點才像「有人在維護」的掉漆。
+2. **泥土區被基座吃掉**：腳下的泥畫在 0～5 cm，可是混凝土基座就有 5 cm 高，渲染完看不到。泥的範圍要從**基座頂面**往上算（PARK2 的腳從 y 0.05 開始）；泥色約 RGB 106,90,72、混合 0.75。
+3. **6 邊的細管要平滑角度 ≥ 1.1 rad**（`smooth_mesh(ob, 1.12)`）：預設 0.75 會看到一條條的稜。看得到輪廓的粗管還是要 14 邊以上，平滑角度救不了剪影（第 3 節）。
+4. **布、毛巾的 UV 照弧長攤開**，條紋才不會被拉歪；再加一點折的波浪，才不會像硬紙板。
+5. **鐵鍊不要用透明貼圖**（alpha 在手機上排序會錯、也貴）：用 6 邊的細桿＋畫上去的鍊環圖案，遠近都可以。
+6. **螺絲要做成六角頭＋墊片**，不然遠看像插銷；橫樑和柱子的接合加鑄造套環，結構才講得通。
+7. **被別的東西擋住的細節要搬開**：PARK2 的說明牌被毛巾蓋住，改放到 y 0.56 並加兩條束帶，玩家才看得到。
+8. **預算要邊做邊算**：每次匯出後看 JSON 的三角形，超過就先砍看不到輪廓的地方（吊架、夾具的段數、截面的點數、螺絲帶），**不砍剪影上的圓**。
+9. **貼圖區塊的長寬順序要一致**：自己寫的 `sz()` 回傳 (w, h)、numpy 要 (h, w)，畫的時候會廣播錯誤；統一回傳 (h, w)。
+10. **鍍鋅、白鐵不要太白**：調暗到和鋼材同一個明度區間，不然在遊戲的太陽下會整片過曝。
+
+## 12. 新方法的寫入規則（使用者 2026-10-16）
+
+- 任何人（AA、BB、LAWWW、LAWWW2，任何帳號）發現**比本檔更好的做法**：
+  1. 先向 LAWWW2 提議（附前後對照的渲染或遊戲截圖）。
+  2. LAWWW2 同意，或使用者同意後，**寫進本檔**（第 11 節或新的一節），註明誰、日期、哪一個素材驗證過。
+  3. 影響驗收標準的，也請 LAWWW2 改 SCENE_RULES 第 9 節。
+- 可以上網查得獎遊戲的做法（例：GDC 演講、開發者分享的烘焙光、貼圖集、繪本感渲染），以及用 Claude vibe coding 做出得獎遊戲的公開做法。查到的只是參考，要實際做出來、在遊戲裡比較過才寫進規則。
+- **不准用新方法退步**：不能以「新方法」為理由降低造型、材質、截圖驗收的任何一項。

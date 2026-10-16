@@ -5,6 +5,7 @@
 > - 所有權：仍是 LAWWW2-B 的。AA-B 只在自己的分支（`claude/cool-heisenberg-o8kuqx`）commit；LAWWW2-B 驗收、merge 以後，照原流程交 LAWWW-B。
 > - 不改 `src/`、`zones3d`、`assets3d`。美術狀態最多到 `READY_FOR_REVIEW`（LAWWW2-B 確認前不算完成）。
 > - **品質標準（使用者 2026-10-16 約 15:50 UTC，對 AA-B 說）**：「美術3D標準要參考遊戲大獎，可以問lawww2」。AA 支援的素材照 LAWWW2-B 的得獎遊戲方向（`docs/art-rebuild/second_ai/HANDOFF.md`「得獎、Steam 上會賣的遊戲」那一節：繪本感半寫實環境＝《Season: A Letter to the Future》《Lake》的烘焙光、暖色暮光、空氣感；人物＝《Persona 5 Royal》《Atelier Ryza》；目標畫面參考圖 07），不是只對 D38 的底線。具體的驗收清單已經問 LAWWW2-B（15:5x），回覆後補在這裡。
+> - **施工 SOP（使用者 2026-10-16 約 16:20 UTC 轉來 LAWWW2-B 的實際做法，永久）**：`docs/story_planning/美術支援SOP_3D施工方法.md`。驗收清單是 LAWWW2-B 的 `SCENE_RULES.md` 第 9 節（`1c3bdefd`）；每一組交件時在這份 README 寫第 9 節每一項「做了／沒做＋原因」，並附遊戲內截圖（`fast_shots.py`，或請 LAWWW2-B 組裝後拍）。
 
 ## ART-WZ6 故事線的小物件：`wz6_items.py` → `assets/models/env/second_ai/aa_support/wz6_items.glb`
 
