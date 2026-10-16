@@ -1880,6 +1880,61 @@ const STORY_EVENTS=[
       {label:'b'},{speaker:'econ_zhengxun',text:'那就想很久。我在。'},{goto:'end'},
       {label:'c'},{speaker:'econ_zhengxun',text:'你收書的速度，也是。'},{speaker:null,text:'他笑了一下，沒有再問。'},
       {label:'end'} ] },
+  /* P2b 門口有人在揪（AA_154 2-5a；台詞 BB_105 P2b，BB-B 定稿 6d59df01；背景、可重複）：P2 演過以後，Y0S1 第 6～16 週（期中考週除外）、Y0S2 第 1～5 週的週四，初等會計真的上完；
+     每週擲一次 40%、同一週最多一次；那天已經約了別的出遊不揪（STORY.p2bDue）。韋綸一句（4 句輪流、不連續重複）→「跟去。」／「今天先回去。」（韋綸「那下次！」）。
+     跟去＝旁白（5 句輪流）＋經濟系朋友熟悉度各 +1；結束時間照類型（food 19:30、river 17:00、night 21:00／21:30，中間跳過；STORY.P2B_END）。
+     river：Y0S1 第一次接 L5b 牽著車的巷子（BB_110）；W10 起第一次是韋綸的腳踏車（BB_112 第 3 節：祐廷那幾句等 AA-B，STORY.BIKE_READY 之前不開）；之後散場接 E13③。
+     E13 大家走了以後（BB_104 8b-6）：W10 起（含 Y0S2），那一類還沒演過，散場多一個選擇「先回去了。」／「（陪大家走到最後）」：food＝①公館的路口、night＝②女舍門口、river＝③河濱（STORY.p2bE13）。
+     記 P2B_COUNT（跟去的次數）。錢、回宿舍在 after。放在事件表最後：同一堂會計課有固定事件（P1b 等）時先演固定的 */
+  { id:'ev_y0_p2b', stage:'econ', title:'門口有人在揪', participants:['kexin'], location:'any', trigger:'class', afterClass:'acct_y0', term:['Y0S1','Y0S2'], background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.p2bDue&&STORY.p2bDue(G)},
+    dialogue:[ {pick:{flag:'P2B_LN',from:G=>[0,1,2,3].filter(i=>i!==G.flags.P2B_LAST)}},
+      {if:{flagIs:{P2B_LN:0}},speaker:'韋綸',text:'走啦！會計下課了，人生還沒下課！'},
+      {if:{flagIs:{P2B_LN:1}},speaker:'韋綸',text:'借方等於貸方，今天也平衡了。走啦！'},
+      {if:{flagIs:{P2B_LN:2}},speaker:'韋綸',text:'我問過了，大家都有空。……好啦，我還沒問。走啦！'},
+      {if:{flagIs:{P2B_LN:3}},speaker:'韋綸',text:'下課就要出去，這是我的會計原則。走啦！'},
+      {choice:[{text:'「跟去。」',set:{P2B_GO:true},goto:'go'},{text:'「今天先回去。」',set:{P2B_GO:false},goto:'home'}]},
+      {label:'home'},{speaker:'韋綸',text:'那下次！'},{goto:'end'},
+      {label:'go'},{pick:{flag:'P2B_K',from:G=>[(+G.flags.P2B_COUNT||0)%5]}},
+      {if:{flagIs:{P2B_K:0}},speaker:null,text:'公館的滷味攤。可昕每一樣都夾一點，阿勳只夾豆干。品妤：『你們兩個是需求曲線的兩個極端。』'},
+      {if:{flagIs:{P2B_K:1}},speaker:null,text:'騎腳踏車到河濱。韋綸騎最前面，一直回頭喊『快一點！』，結果騎錯了一個出口。'},
+      {if:{flagIs:{P2B_K:2}},speaker:null,text:'大家去總圖讀到九點。阿勳讀完了一章；韋綸睡著了一次，醒來說：『我在想事情。』'},
+      {if:{flagIs:{P2B_K:3}},speaker:null,text:'先各自去讀書，晚上八點在公館夜市集合。唐睿一邊排隊一邊即興，前面的阿姨笑到忘了點餐。'},
+      {if:{flagIs:{P2B_K:4}},speaker:null,text:'晚上在宿舍交誼廳打牌。阿勳說他不會，然後贏了五把。品妤：『機率。』阿勳：『……那是我的台詞。』'},
+      {rel:{kexin:{fam:1},econ_pinyu:{fam:1},econ_zhengxun:{fam:1}}},
+      {advance:G=>typeof STORY!=='undefined'&&STORY.P2B_END?STORY.P2B_END[G.flags.P2B_K]-G.hour:0},
+      {if:{custom:G=>typeof STORY!=='undefined'&&!!STORY.p2bL5b&&STORY.p2bL5b(G)},goto:'l5b'},
+      {label:'e13q'},
+      {if:{custom:G=>typeof STORY!=='undefined'&&!!STORY.p2bE13&&STORY.p2bE13(G)},choice:[{text:'「先回去了。」',goto:'end'},{text:'（陪大家走到最後）',set:{P2B_E13:true},goto:'e13'}]},
+      {goto:'end'},
+      {label:'l5b'},{scene:'溫州街'},{speaker:null,text:'溫州街的巷子太窄，腳踏車要牽著走。'},{speaker:'韋綸',text:'這條巷子很適合拍電影。'},{speaker:'econ_pinyu',text:'你又沒拍過電影。'},{speaker:'econ_zhengxun',text:'機率上，總有人在這裡拍過。'},
+      {choice:[{text:'「拍什麼？」',goto:'l5b_end'},{text:'「先找路出去」',goto:'l5b_end'}]},
+      {label:'l5b_end'},{set:{L5B_DONE:true}},{goto:'end'},   /* L5b：只是聊天，沒有旗標（L5B_DONE 只記演過）*/
+      {label:'e13'},{if:{flagIs:{P2B_K:0}},goto:'e13a'},{if:{flagIs:{P2B_K:1}},goto:'e13c'},{goto:'e13b'},
+      {label:'e13a'},{scene:'公館的路口'},{speaker:'kexin',expression:'neutral',text:'紅燈九十秒。'},{speaker:'kexin',expression:'thinking',text:'假設這九十秒可以存起來，你要存到哪一天用？'},
+      {choice:[{text:'「考試前一天。」',goto:'a1'},{text:'「現在。」',goto:'a2'},{text:'「妳決定。」',goto:'a3'}]},
+      {label:'a1'},{speaker:'kexin',expression:'smile',text:'很實用。……很像你。'},{goto:'a_end'},
+      {label:'a2'},{speaker:'kexin',expression:'smile',text:'現在已經在用了。'},{goto:'a_end'},
+      {label:'a3'},{speaker:'kexin',expression:'thinking',text:'那我存起來。等我們都很忙的時候。'},
+      {label:'a_end'},{set:{E13_FOOD:true}},{goto:'end'},
+      {label:'e13b'},{scene:'女舍門口'},{speaker:'kexin',expression:'neutral',text:'我到了。'},{speaker:'kexin',expression:'neutral',text:'你每次都最後一個走。'},{speaker:'kexin',expression:'smile',text:'……我發現了。只是沒說。'},
+      {choice:[{text:'「順路而已。」',goto:'b1'},{text:'「我喜歡走路。」',goto:'b2'},{text:'（揮手）',goto:'b3'}]},
+      {label:'b1'},{speaker:'kexin',expression:'smile',text:'男宿在另一邊。'},{goto:'b_end'},
+      {label:'b2'},{speaker:'kexin',expression:'smile',text:'好。那下次走遠一點。'},{goto:'b_end'},
+      {label:'b3'},{speaker:null,text:'她在門口也揮了一下，才進去。'},
+      {label:'b_end'},{set:{E13_NIGHT:true}},{goto:'end'},
+      {label:'e13c'},{scene:'河濱'},{speaker:'kexin',expression:'thinking',text:'假設河會記得每一個從這裡騎過去的人。'},{speaker:'kexin',expression:'neutral',text:'它會記得你什麼？'},
+      {choice:[{text:'「鏈子掉的那個女生。」',goto:'c1'},{text:'「我騎很慢。」',goto:'c2'},{text:'「妳先說。」',goto:'c3'}]},
+      {label:'c1'},{speaker:'kexin',expression:'laugh',text:'那是我，不是你。……好，這題你贏。'},{goto:'c_end'},
+      {label:'c2'},{speaker:'kexin',expression:'smile',text:'那它會記得很久。'},{goto:'c_end'},
+      {label:'c3'},{speaker:'kexin',expression:'smile',text:'我會被記得話很多。你呢？……下次說。'},
+      {label:'c_end'},{set:{E13_RIVER:true}},
+      {label:'end'} ],
+    after:(G,GM)=>{ const F=G.flags; if(typeof STORY!=='undefined'&&STORY.p2bSeen) STORY.p2bSeen(G); else F.P2B_SEEN=true; if(F.P2B_LN!=null) F.P2B_LAST=F.P2B_LN;
+      if(F.P2B_GO){ F.P2B_COUNT=(+F.P2B_COUNT||0)+1; if(F.P2B_K===0||F.P2B_K===3) GM.money(-Math.min(80,Math.max(0,G.money|0)));
+        if(F.P2B_E13&&typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('invite:kexin');
+        if(GM.enter){ if(G.hour%24>=20.5) GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); else if(G.zone!=='campus') GM.enter('campus',{x:97.0,z:-66.5,yaw:-Math.PI/2}); } }
+      F.P2B_GO=null; F.P2B_E13=null; F.P2B_K=null; } },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、

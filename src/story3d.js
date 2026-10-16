@@ -1518,6 +1518,20 @@ const STORY = (function(){
   S.sleepNow=(GM,wake,alarm)=>sleepNow(GM,wake,alarm);   /* 測試用（tests/bed_nap_unit.js）*/
   /* 經濟系那一年的固定核心出遊（AA_154 A33③：E14，之後 E19）：當天出發前就去睡覺＝電話把你吵醒——睡到「開始後 15 分鐘」那一刻，不跳到隔天（AA-B 2026-10-16 抽查）*/
   const CORE_OUT=['y0_e14','y0_e19'];
+  /* P2b 門口有人在揪（AA_154 2-5a；事件 ev_y0_p2b）：P2 演過（P2_PICK）以後，Y0S1 第 6～16 週（第 8、9 週期中考除外）、Y0S2 第 1～5 週的週四會計下課；
+     每週擲一次（P2B_P＝40%，記在 P2B_WK／P2B_HIT），同一週最多一次（P2B_SEEN）；那天已經約了別的出遊（OUT 排定、邀約答應）不揪。
+     P2B_END：跟去的結束時間（food 19:30、river 17:00、night 21:00／21:30）。BIKE_READY：韋綸的腳踏車（BB_112 第 3 節）的台詞到了才開 */
+  S.P2B_P=0.4; S.P2B_END=[19.5,17,21,21.5,21.5]; S.BIKE_READY=false;
+  S.p2bDue=function(G){ if(!S.isEcon(G)||typeof CALENDAR==='undefined') return false; const F=G.flags||{}; if(!F.P2_PICK) return false; const t=CALENDAR.termOf(G.day); if(!t||t.exam) return false;
+    if(!((t.id==='Y0S1'&&t.week>=6&&t.week<=16&&t.week!==8&&t.week!==9)||(t.id==='Y0S2'&&t.week>=1&&t.week<=5))) return false;
+    if(typeof OUT!=='undefined'&&OUT.rec(G).some(q=>q.day===G.day&&q.state==='planned')) return false;
+    if(Array.isArray(G.invites)&&G.invites.some(v=>v.day===G.day&&(v.state==='accepted'||v.state==='going'))) return false;
+    const wk=t.id+':'+t.week; if(F.P2B_WK!==wk){ F.P2B_WK=wk; F.P2B_HIT=Math.random()<S.P2B_P; F.P2B_SEEN=false; } return !!F.P2B_HIT&&!F.P2B_SEEN; };
+  S.p2bSeen=G=>{ const F=G.flags, t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(t) F.P2B_WK=t.id+':'+t.week; F.P2B_SEEN=true; };   /* 這一週揪過了（不管跟不跟）*/
+  const postMid=G=>{ const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !!t&&((t.id==='Y0S1'&&t.week>=10)||t.id==='Y0S2'); };
+  /* river 的順序：Y0S1 第一次＝L5b；W10 起第一次＝韋綸的腳踏車（BIKE_READY 之前照舊演 L5b）；之後散場接 E13③ */
+  S.p2bL5b=G=>{ const F=G.flags, t=CALENDAR.termOf(G.day); if(F.P2B_K!==1||F.L5B_DONE||!t||t.id!=='Y0S1') return false; return !(S.BIKE_READY&&postMid(G)&&!F.WL_BIKE_SEEN); };
+  S.p2bE13=G=>{ const F=G.flags, k=F.P2B_K; if(!postMid(G)) return false; if(k===0) return !F.E13_FOOD; if(k===1) return !!F.WL_BIKE_SEEN&&!F.E13_RIVER; return k>=2&&!F.E13_NIGHT; };
   /* 經濟系大一上最後一場期末考（AA_154 A34：E22b 在那一場考完的下午、E19 同一天 19:00）：照遊戲實際的課表（CLS.lastExamEnd），課表改了就跟著變。
      算一次要掃整學期，結果依「同一個 G、同一組修的課」記住。e22bFrom：考完 20 分鐘（上午考完＝13:30）*/
   const FE_CACHE=new WeakMap();
