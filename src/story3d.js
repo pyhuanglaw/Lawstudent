@@ -208,6 +208,13 @@ const STORY = (function(){
      每人每天最多推進一層（G.social.ladder[id]＝已經聊過幾層、ladderDay[id]＝哪一天推進的；舊存檔從第 1 層開始）。條件不到、今天推進過＝短招呼（情境句優先、一天同一句只說一次；
      基本句輪替、不連續重複）。芷若在吧檯上班不推進；可昕（dateOnly）只在見面／視訊推進，路上不推進；學姊只有朋友的話（資料已經這樣寫） */
   S.LADDER_ON=G=>typeof LADDER!=='undefined';
+  /* 一學期一個檔（企劃線 ladder/README，2026-10-16）：這學期有她的檔才推進；換學期從新檔第 1 層開始，上學期沒走完的層不帶過去。
+     進度的 key：大一上照舊用人物 id（舊存檔）；其他學期用「id@學期」（例 heroine_01@Y1S2）。「一天最多推進一層」不分學期，照舊記在 ladderDay[id]。寒暑假沒有學期＝不推進、不招呼（照舊閒聊） */
+  S.ladData=function(G,id){ if(!S.LADDER_ON(G)) return null; const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null;
+    const B=LADDER.byTerm||{Y1S1:LADDER.characters}, t=T&&T.id; if(t&&B[t]&&B[t][id]) return {L:B[t][id],term:t,key:t==='Y1S1'?id:id+'@'+t};
+    if(!LADDER.byTerm&&LADDER.characters[id]&&!(LADDER.terms&&LADDER.terms[id])) return {L:LADDER.characters[id],term:t,key:id};   /* 舊格式、沒有學期的資料（測試用）*/
+    if(B.Y1S1&&B.Y1S1[id]&&!(LADDER.terms&&LADDER.terms[id])) return {L:B.Y1S1[id],term:t,key:id};   /* 沒有寫學期的測試資料 */
+    return null; };
   const ladRec=G=>{ const so=G.social||(G.social={}); if(!so.ladder||typeof so.ladder!=='object') so.ladder={}; if(!so.ladderDay||typeof so.ladderDay!=='object') so.ladderDay={}; if(!so.greetUsed||typeof so.greetUsed!=='object') so.greetUsed={}; return so; };
   const ladCtxOk=(G,e,id)=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, hh=G.hour%24, ec=typeof EVENTS!=='undefined'&&EVENTS.cond;
     if(e.if&&!(ec&&EVENTS.cond(e.if))) return false; if(e.unless&&ec&&EVENTS.cond(e.unless)) return false; if(e.any&&!(ec&&e.any.some(c=>EVENTS.cond(c)))) return false;
@@ -219,24 +226,24 @@ const STORY = (function(){
     if(e.unlessWorking&&S.ladWorking(G,id)) return false; return true; };
   const ladIf=c=>{ const ec=typeof EVENTS!=='undefined'&&EVENTS.cond; if(!c) return true; if(c.if||c.unless) return (!c.if||(ec&&EVENTS.cond(c.if)))&&!(c.unless&&ec&&EVENTS.cond(c.unless)); return !!(ec&&EVENTS.cond(c)); };   /* {if?,unless?} 或直接一個條件 */
   S.ladWorking=(G,id)=>{ try{ const en=schedEnt(CHARACTERS[id],G); return !!(en&&en.act==='barista'); }catch(e){ return false; } };
-  S.ladNext=function(G,id,mode){ if(!S.LADDER_ON(G)) return null; const L=LADDER.characters[id]; if(!L) return null; const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, tm=LADDER.terms&&LADDER.terms[id];
-    if(tm&&!(T&&T.id===tm)) return null; const so=ladRec(G); if(so.ladderDay[id]===G.day) return null; let st=L.steps[so.ladder[id]|0];
-    while(st&&st.skipIf&&ladIf(st.skipIf)){ so.ladder[id]=(so.ladder[id]|0)+1; st=L.steps[so.ladder[id]]; }   /* skipIf（AA 2026-10-16）：條件成立＝這一層直接算過（記層數、不播、不算今天推進）——if 用 notMemory 會讓階梯永遠卡住 */
+  S.ladNext=function(G,id,mode){ const D=S.ladData(G,id); if(!D) return null; const L=D.L, K=D.key;
+    const so=ladRec(G); if(so.ladderDay[id]===G.day) return null; let st=L.steps[so.ladder[K]|0];
+    while(st&&st.skipIf&&ladIf(st.skipIf)){ so.ladder[K]=(so.ladder[K]|0)+1; st=L.steps[so.ladder[K]]; }   /* skipIf（AA 2026-10-16）：條件成立＝這一層直接算過（記層數、不播、不算今天推進）——if 用 notMemory 會讓階梯永遠卡住 */
     if(!st) return null;
     if(L.context==='date'||st.dateOnly){ if(!mode||(st.dateOnly&&st.dateOnly!==mode)) return null; if(!(G.flags&&G.flags.dating_kexin)&&id==='kexin') return null; }
     return ladCtxOk(G,st,id)?st:null; };
-  S.ladGreet=function(G,id){ const L=S.LADDER_ON(G)&&LADDER.characters[id]; if(!L||!L.greet) return null; const so=ladRec(G), u=so.greetUsed[id]&&so.greetUsed[id].day===G.day?so.greetUsed[id]:(so.greetUsed[id]={day:G.day,list:[],last:(so.greetUsed[id]||{}).last}); const g=L.greet;
+  S.ladGreet=function(G,id){ const D=S.ladData(G,id), L=D&&D.L; if(!L||!L.greet) return null; const so=ladRec(G), u=so.greetUsed[id]&&so.greetUsed[id].day===G.day?so.greetUsed[id]:(so.greetUsed[id]={day:G.day,list:[],last:(so.greetUsed[id]||{}).last}); const g=L.greet;
     const work=S.ladWorking(G,id); for(const w of (g.when||[])){ if(w.working&&!work) continue; if(!w.working&&work) continue; if(u.list.includes(w.t)) continue; if(ladCtxOk(G,Object.assign({},w,{t:undefined}),id)){ u.list.push(w.t); u.last=w.t; return w.t; } }
-    const B=g.base||[]; if(!B.length) return null; const n=(G.day*7+(so.ladder[id]|0)+u.list.length)%B.length; let t=B[n]; if(t===u.last&&B.length>1) t=B[(n+1)%B.length]; u.list.push(t); u.last=t; return t; };
+    const B=g.base||[]; if(!B.length) return null; const n=(G.day*7+(so.ladder[D.key]|0)+u.list.length)%B.length; let t=B[n]; if(t===u.last&&B.length>1) t=B[(n+1)%B.length]; u.list.push(t); u.last=t; return t; };
   /* 播一層：她說的話 → 玩家的回答（最多 2）→ 她的收尾；rel、mem 照資料；推進一層（今天不再推進）*/
   S.ladLines=function(st){ const alt=(st.linesIf||[]).find(x=>ladIf(x)); const L=(alt?alt.lines:st.lines||[]).slice(); for(const x of (st.extraIf||[])) if(ladIf(x)) L.push(...(x.lines||[])); return L; };   /* linesIf：第一個成立的那一套取代 lines；extraIf：成立就在後面多說（AA 2026-10-16）*/
-  S.ladPlay=async function(GM,who,id,st){ const G=GM.G, so=ladRec(G); for(const l of S.ladLines(st)) await GM.say(who,typeof l==='string'?l:l.t);
+  S.ladPlay=async function(GM,who,id,st){ const G=GM.G, so=ladRec(G), D=S.ladData(G,id), K=D?D.key:id; for(const l of S.ladLines(st)) await GM.say(who,typeof l==='string'?l:l.t);
     let ch=null; if(st.choices&&st.choices.length){ const k=await GM.choose(st.choices.map(c=>({t:c.t}))); ch=st.choices[k]||st.choices[0]; if(ch.reply) await GM.say(who,ch.reply); }
     const rel=Object.assign({},st.rel||{}); if(ch&&ch.rel) for(const k in ch.rel) rel[k]=(rel[k]||0)+ch.rel[k]; if(Object.keys(rel).length&&SOCIAL.adjust) SOCIAL.adjust(id,rel);
     for(const m of [st.mem,ch&&ch.mem]) if(m&&SOCIAL.remember) SOCIAL.remember(id,m,st.id);
-    so.ladder[id]=(so.ladder[id]|0)+1; so.ladderDay[id]=G.day; if(SOCIAL.activity){ SOCIAL.activity(id,'chat'); SOCIAL.activity(id,'chatNew'); } return true; };
+    so.ladder[K]=(so.ladder[K]|0)+1; so.ladderDay[id]=G.day; if(SOCIAL.activity){ SOCIAL.activity(id,'chat'); SOCIAL.activity(id,'chatNew'); } return true; };
   /* 和她說話時：有下一層就播；沒有就短招呼。回傳 true＝處理了（呼叫的人不要再接舊的閒聊）*/
-  S.ladderTalk=async function(GM,who,id,mode){ const G=GM.G; if(!S.LADDER_ON(G)||!LADDER.characters[id]) return false; const tm=LADDER.terms&&LADDER.terms[id], T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(tm&&!(T&&T.id===tm)) return false;
+  S.ladderTalk=async function(GM,who,id,mode){ const G=GM.G; if(!S.ladData(G,id)) return false;
     const st=S.ladNext(G,id,mode); if(st) return S.ladPlay(GM,who,id,st);
     const g=S.ladGreet(G,id); if(!g) return false; await GM.say(who,g); if(SOCIAL.activity) SOCIAL.activity(id,'chat'); return true; };
   /* 載妹墊（AA_137 第 5 節；使用者 2026-10-15「腳踏車要可以載人」；使用者 2026-10-16 更正：「一開始腳踏車就有載妹墊不用加裝 學姊也要給我載」——取代 AA_137 的公館車行加裝、學姊走在旁邊）：

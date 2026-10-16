@@ -1472,8 +1472,8 @@
    "title": "大一下閒聊階梯（以安、語彤；ladder_aa_y1s2.json）",
    "area": "V2",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "匯入 ladder_aa_y1s2.json（AA_139 a50ebb48）＋ladder_bb_y1s2.json（BB_133 0c9c25d9）；先做 SYS-15 多學期",
+   "status": "已整合待測試",
+   "next": "第 2 級局部瀏覽器測試；記憶名稱 BB_133 §7、AA_139 已加",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -6331,8 +6331,8 @@
    "title": "閒聊階梯多學期",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "V2-L2",
+   "status": "已整合待測試",
+   "next": "第 2 級：大一下和以安聊天的局部瀏覽器測試（對話框直向／橫向）",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -7740,8 +7740,8 @@
    "title": "阿凱 K-D2 新台詞（你明天第一堂幾點／九點十分→早八）＋K-D3 條件說明",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "重匯 ladder_bb.json（BB-B b1884460）；跑 kai_dorm_unit",
+   "status": "已整合待測試",
+   "next": "kai_dorm_unit 已改；第 2 級隨下一批",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -7761,8 +7761,8 @@
    "title": "MEMORY_LABEL 9 條改字（ZR、ZQ、SIS、KX、KAI）",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照 BB-B 01:43 的字樣改 src/social3d.js",
+   "status": "已整合待測試",
+   "next": "人物面板截圖確認字樣（第 2 級）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -7908,8 +7908,8 @@
    "title": "大二閒聊階梯：以安 A3／A4、語彤 Y3／Y4（ladder_aa_y2s1.json、ladder_aa_y2s2.json）",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "SYS-15 多學期之後匯入；BB 的大二階梯等 BB-B",
+   "status": "已整合待測試",
+   "next": "大二時一起驗收（ladder_unit 13c 只有資料檢查）",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -8112,6 +8112,27 @@
    },
    "source": "AA_144（56d5f1ec）",
    "authorized": "D79"
+  },
+  {
+   "id": "TEST-07",
+   "title": "Playwright 快速測試模式與瀏覽器排隊鎖（D83）",
+   "area": "TEST",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "把 flock 鎖與「固定前置＋跳轉＋斷言」的共用函式放進 tests/playlib.py；列出哪些測試屬於第 2 級、哪些只能第 3 級",
+   "priority": "P1",
+   "first": {
+    "term": "META",
+    "week": null,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-16 測試效率指示",
+   "authorized": "D83"
   }
  ]
 }

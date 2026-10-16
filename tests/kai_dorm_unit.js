@@ -40,8 +40,8 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   said=[]; check('3. 同一週再找他：不再打（回 false，照舊閒聊）',!(await STORY.kaiDormTalk(GM,KAI))&&!said.length);
   G.day=MON2; G.weekday=1; G.hour=22.5; said=[]; picks=[0,0];
   await STORY.kaiDormTalk(GM,KAI); const t2=lines().join('｜');
-  check('4. K-D2 第二次、打完 23:30：一場變三場（時間到 02:00）',t2.includes('一場變三場')&&t2.includes('早八是幾點')&&Math.abs(G.hour-26)<1e-6,t2.slice(-80)+' h='+G.hour);
-  check('4. 選「八點。」：隔天早上精力 −10（morningEnergyAdj）',G.flags.morningEnergyAdj===-10);
+  check('4. K-D2 第二次、打完 23:30：一場變三場（時間到 02:00）',t2.includes('一場變三場')&&t2.includes('你明天第一堂幾點')&&t2.includes('九點以前都叫早八')&&Math.abs(G.hour-26)<1e-6,t2.slice(-80)+' h='+G.hour);
+  check('4. 選「九點十分。」（BB-B b1884460 改版）：隔天早上精力 −10（morningEnergyAdj）',G.flags.morningEnergyAdj===-10);
   // K-D3：有早八的早上、昨晚沒一起打（30%：Math.random 固定 0）
   let D3=null; for(let d=termDay('Y1S1',5,1);d<termDay('Y1S1',6,1);d++){ G.day=d; if(CLS.dayItems(G,d).some(it=>it.t0<=9.25)){ D3=d; break; } }
   check('5. 找得到有早上第一堂課（9:10 以前）的日子',!!D3);

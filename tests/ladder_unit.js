@@ -100,7 +100,15 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('12. 和可昕出遊（見面）演完：接著聊 K-L1',tk.includes(LK.steps[0].lines[0])&&G.social.ladder[KX]===1,tk.slice(-120));
   // 學期外：不走階梯（交給舊的閒聊）
   fresh(termDay('Y1S2',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); meet(PS); R(PS,12); said=[];
-  check('13. 大一下（沒有階梯資料）：ladderTalk 回 false（照舊閒聊）',(await STORY.ladderTalk(GM,who,PS))===false&&said.length===0);
+  { const L2=LADDER.byTerm.Y1S2[PS], y1=((G.social.ladder||{})[PS])|0; said=[];
+    const ok=await STORY.ladderTalk(GM,who,PS); const st=L2.steps[0];
+    check('13. 大一下（一學期一個檔）：用大一下的檔、從第 1 層開始；大一上的進度不動、大一下另外記（id@Y1S2）',
+      ok===true&&(st.if||st.week||st.location||st.time?true:lines().join('').includes((STORY.ladLines(st)[0]||'').t||STORY.ladLines(st)[0]))&&(G.social.ladder[PS]|0)===y1&&(G.social.ladder[PS+'@Y1S2']|0)<=1,
+      JSON.stringify({ok,y1:G.social.ladder[PS],y2:G.social.ladder[PS+'@Y1S2'],said:lines().slice(0,2)})); }
+  fresh(termDay('Y2S1',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); meet(PS); R(PS,12); said=[];
+  check('13b. 大二上（沛珊還沒有階梯檔）：ladderTalk 回 false（照舊閒聊）',(await STORY.ladderTalk(GM,who,PS))===false&&said.length===0);
+  fresh(termDay('Y2S1',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); said=[];
+  check('13c. 大二上以安有檔（AA_141）：資料讀得到、key 是 heroine_01@Y2S1',!!(STORY.ladData(G,'heroine_01')&&STORY.ladData(G,'heroine_01').key==='heroine_01@Y2S1'));
   // any：語彤 Y-L1＝雨天總圖門口或麵店那一次
   const YT='heroine_03'; fresh(D0,12,'campus',{introDone:true,classDone:true,afternoonDone:true}); meet(YT); R(YT,12);
   check('14. 語彤 Y-L1：兩個事件都沒發生＝不推進',STORY.ladNext(G,YT)===null);
@@ -126,5 +134,9 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     for(const [id,sid] of [['heroine_05','S-L3'],[PS,'P-L3']]){ const LL=LADDER.characters[id], k=LL.steps.findIndex(s=>s.id===sid); if(k<0||!LL.steps[k].skipIf){ check('18. '+sid+' 有 skipIf',false); continue; }
       fresh(D0,15,'library',{introDone:true,classDone:true,afternoonDone:true}); meet(id); R(id,30,10,10); (G.social.ladder||(G.social.ladder={}))[id]=k; G.weekday=3;
       const n2=STORY.ladNext(G,id); check('18. '+sid+'：熟悉以上、沒參加過週三讀書會＝跳過（不卡住）',(G.social.ladder[id]|0)>k||(n2&&n2.id!==sid),n2?n2.id:('ladder '+G.social.ladder[id])); } }
+  { const tags=new Set(), walk=o=>{ if(Array.isArray(o)) o.forEach(walk); else if(o&&typeof o==='object'){ if(typeof o.mem==='string') tags.add(o.mem); for(const k in o) walk(o[k]); } };
+    walk(LADDER.byTerm); const miss=[...tags].filter(t=>!SOCIAL.MEMORY_LABEL[t]);
+    check('19. 每個學期的階梯記憶都有人物面板的中文名稱（MEMORY_LABEL）',tags.size>50&&!miss.length,tags.size+' 個；缺 '+miss.join(' ')); }
+  check('20. 學期檔：大一上（和 characters 同一份）、大一下七位、大二上下以安和語彤',LADDER.byTerm.Y1S1===LADDER.characters&&Object.keys(LADDER.byTerm.Y1S2).length===7&&!!LADDER.byTerm.Y2S1.heroine_01&&!!LADDER.byTerm.Y2S2.heroine_03,Object.keys(LADDER.byTerm).join(','));
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();
