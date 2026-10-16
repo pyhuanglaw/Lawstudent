@@ -1,0 +1,22 @@
+{
+ "objects": 13,
+ "unique_meshes": 13,
+ "tris": 11136,
+ "tris_drawn": 11136,
+ "materials": 2,
+ "out": "assets/models/env/second_ai/bb_support/tutor_props.glb",
+ "bytes": 499812,
+ "texres": 256,
+ "items_tris": {
+  "TUTOR_RUG": 586,
+  "TUTOR_TABLE": 1310,
+  "TUTOR_STUDY": 1368,
+  "TUTOR_CUSHIONS": 776,
+  "TUTOR_SOFA": 3208,
+  "TUTOR_LAMP": 992,
+  "TUTOR_TVSTAND": 2310,
+  "TUTOR_WALL": 586
+ },
+ "tris_total": 11136,
+ "note": "ART-TUTOR1（LAWWW2-B 派工）；每件一個頂層節點；原點底部中央、正面 +z；TUTOR_STUDY 的 y=0 是桌面；TUTOR_WALL 的原點貼牆；GLB 裡的位置只是排開給人看"
+}
