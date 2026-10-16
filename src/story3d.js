@@ -27,7 +27,76 @@ const STORY = (function(){
   S.studyTopics=G=>[{id:'law_154',title:'民法 §154：要約與要約之引誘',body:'貨物標定賣價陳列者，視為要約；但價目表之寄送，不視為要約。網拍頁面是哪一種，實務與學說有爭論。',read:'你讀了民法第 154 條和幾則判決。網拍標價到底算不算要約，原來連法院都吵過。'},{id:'law_88',title:'民法 §88：意思表示錯誤',body:'表意人若無過失，得撤銷錯誤之意思表示；但撤銷後對信賴者要負賠償責任（§91）。',read:'你讀了錯誤與撤銷的部分。重點在「無過失」和「信賴利益賠償」。'},{id:'law_153',title:'民法 §153：契約成立',body:'當事人互相表示意思一致者，契約即為成立。必要之點須一致，非必要之點推定成立。',read:'你把契約成立的要件整理成一張圖。'},{id:'law_71',title:'民法 §71：強行規定',body:'法律行為違反強制或禁止規定者無效，但其規定不以之為無效者，不在此限。',read:'你讀了強行規定與無效。'}];
   // ---------- 開新遊戲 ----------
   S.resumeWalk=function(GM){ if(!GM.G.flags.walkCk) GM.G.flags.walkCk={}; startWalkTalk(GM); };
-  S.newGame=async function(GM){ const E=GM.E, G=GM.G; E.player.busy=false; E.endCinematic(); GM.titleIdle=false; GM.D.busyDepth=0; GM.hideHUD(false); G.day=1; G.weekday=3; G.hour=21.2; G.flags.fundsV2=1; G.flags.allowanceMonth=S.dateOf(1).m; G.zone='dorm'; E.hour=G.hour; G.weather='clear'; E.setWeather('clear'); await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{}); };
+  /* 經濟系／法律系兩種開局（交接包 v0 A3、AA_106 第 3 節）：G.stage＝'econ'（經濟系那一年）或 'law'（法律系；舊存檔沒有這個欄位＝法律系，migrate 補預設值）。
+     開場劇情的日子：法律系第 1、2 天（第一天宿舍、第二天民總），經濟系 2024-09-01（E01 宿舍第一晚，AA_154 A24）——一鍵上課、跳過時間、時段次數、小睡在這幾天不開（原本寫死 G.day<3，經濟系的天數是負的）*/
+  S.isEcon=G=>!!G&&G.stage==='econ';
+  S.dayTitle=G=>{ if(S.isEcon(G)&&typeof CALENDAR!=='undefined'){ const d=CALENDAR.dateOf(G.day); return d.m+' 月 '+d.d+' 日'; } return '第 '+G.day+' 天'; };   /* 換日的標題：經濟系那一年的日子是負的（2024-09-01＝第 −380 天），寫日期 */
+  S.Y0_DAY1=null; S.y0Day1=()=>S.Y0_DAY1!=null?S.Y0_DAY1:(S.Y0_DAY1=S.dayOfKey?S.dayOfKey('2024-09-01'):null);
+  S.opening=G=>!!G&&(S.isEcon(G)?G.day===S.y0Day1():G.day<3);
+  /* 法律系開局的開頭（AA_106 3b④＋③；AA 2026-10-14）：新遊戲在現有第一天之前放 */
+  S.LAW_START_RECAP=['你在台大經濟系念過一年。','那一年，你認識了一群朋友，也認識了她。','她叫杜可昕，很會問奇怪的問題。','寒假，你們錯過了一次。','下學期，你決定重考法律。不是為了誰。','那天她才說，她一直喜歡的是你。','你們一起重考。你考上台大法律，她考上政大法律。','九月，你回到同一個校園，換了一個系。'];
+  S.LAW_WEEK12=['開學第一週，你走進霖澤館。沒有人知道你來過這個校園。','選課、新生活動、第一次點名。你又排了一次新生的隊。','這次你知道，這種隊要排多久。','重修的經濟學原理排在週五早上，普通教學館。你閉著眼睛也找得到。'];
+  S.recap=async function(GM,lines){ if(!lines||!lines.length) return; GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'dark'}); for(const t of lines) await GM.say(null,t); } finally { if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); GM.sceneEnd(); } };
+  /* 坐下就開始的事件（trigger:'seat'、seatRoom＝座位所在的區（layout 的 groups id，例：博雅的 'study'）；game3d.js 的座位選單在坐下以後、選單出來以前呼叫）*/
+  S.onSeat=async function(GM,seat){ if(typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined'||!seat) return false; const G=GM.G;
+    const ev=STORY_EVENTS.find(e=>e.trigger==='seat'&&(!e.seatRoom||e.seatRoom===seat.room)&&(!e.location||e.location==='any'||e.location===G.zone)&&EVENTS.check(e,{chain:true})); if(!ev) return false; await EVENTS.run(ev); return true; };
+  S.newGame=async function(GM){ const E=GM.E, G=GM.G; E.player.busy=false; E.endCinematic(); GM.titleIdle=false; GM.D.busyDepth=0; GM.hideHUD(false); G.day=1; G.weekday=3; G.hour=21.2; G.flags.fundsV2=1; G.flags.allowanceMonth=S.dateOf(1).m; G.zone='dorm'; G.stage='law'; E.hour=G.hour; G.weather='clear'; E.setWeather('clear'); G.flags.LAW_RECAP_SEEN=true; await S.recap(GM,S.LAW_START_RECAP.concat(S.LAW_WEEK12)); await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{}); };   /* 法律系開局：④＋③ → 現有的第一天（AA_106 3b）*/
+  /* 經濟系開局（交接包 v0；v0 做好以前藏在網址 ?y0 後面，標題畫面照舊只有法律系開局——D81）：2024-09-01（日）晚上，男宿；E01 宿舍第一晚的稿等 AA-B（AA_154 A24）*/
+  S.newGameEcon=async function(GM){ const E=GM.E, G=GM.G; E.player.busy=false; E.endCinematic(); GM.titleIdle=false; GM.D.busyDepth=0; GM.hideHUD(false); const d=S.y0Day1(); if(d==null) return S.newGame(GM);
+    G.stage='econ'; G.day=d; G.weekday=CALENDAR.dateOf(d).wd%7; G.hour=21; G.flags.fundsV2=1; G.flags.allowanceMonth=S.dateOf(d).m; G.flags.dating_kexin=false; G.flags.KX_FIRST_MSG=true; G.zone='dorm'; E.hour=G.hour; G.weather='clear'; E.setWeather('clear');
+    await GM.fade(true); if(GM.titleCard) await GM.titleCard('2024 年 9 月 1 日（日）','開學前一天',2000);   /* AA_168 第 1 節：黑底白字 2 秒 */
+    await GM.enter('dorm',{x:-0.5,z:0.5,yaw:Math.PI},{}); await y0FirstNight(GM); };
+  /* ---------- v0 E01「宿舍第一晚」（AA_168，含 cdaf8a9f BB-B 改的兩處；ev_y0_dorm_first_night）----------
+     9/1（日）21:00 男生宿舍四樓 412：媽媽的訊息 → 阿勳進門、冷笑話（兩個選項，熟悉 +2）→ 22:00 先睡／拆完（E01_NIGHT；拆完自在 +1、02:00 睡＝01:00 以後才睡）
+     → 隔天起床（先睡 07:00、拆完 07:40）阿勳說一句（E01_MORNING）；先睡的玩家 9/2 晚上回房間「箱子拆完」那一句（E01_BOXES）。
+     演到一半關掉遊戲：E01_DONE 還沒記，下次在房間裡從頭演（y0Tick）。房間的紙箱、阿勳的筆電、保齡球袋等 LAWWW2-B 的模型（V0-ART-DORM）。測試：node tests/v0_e01_unit.js */
+  const XUN='econ_zhengxun';
+  const xunWho=GM=>{ const n=GM.npc[XUN]; return n?{name:'阿勳',obj:n.obj,charId:XUN}:{name:'阿勳',charId:XUN}; };
+  const v0Box=(GM,st)=>{ const z=GM.E&&GM.E.zone; if(z&&z.setV0Box) z.setV0Box(st); };   /* 412 的紙箱（zones3d.js dorm 的 V0-ART-DORM）*/
+  async function y0FirstNight(GM){ const G=GM.G, F=G.flags, E=GM.E; if(!S.isEcon(G)||F.E01_DONE||y0Busy) return false; y0Busy=true; let night=null;
+    GM.sceneBegin(); GM.letterbox(true);
+    try{ G.hour=21; E.hour=G.hour; if(GM.updateHUD) GM.updateHUD();
+      v0Box(GM,'onbed'); for(const t of ['開學前一天，晚上九點。男生宿舍四樓，四一二。','媽媽傍晚才走。她把三個紙箱疊在你的床上。','她說：「先拆被子。」被子在最下面那一箱。']) await GM.say(null,t);
+      GM.advance(2/60); if(typeof PHONE!=='undefined') await phoneScene(GM,'p:mom',[{from:'mom',name:'媽媽',text:'到了要記得吃晚餐。'}]); else await GM.say({name:'媽媽（手機）'},'到了要記得吃晚餐。');
+      await GM.say(null,'你已經吃過了。媽媽也知道。');
+      await GM.say(null,'門開了。一個很高的男生拿著臉盆走進來，看了你的紙箱一眼。');
+      const n=GM.npc[XUN]||GM.spawnCharacter(XUN,0.2,2.6,{yaw:Math.PI,pose:'idle'}); if(n){ GM.face(n,E.player.obj.position.x,E.player.obj.position.z); if(GM.cine) GM.cine('two',E.player.obj,n.obj); }
+      if(typeof SOCIAL!=='undefined'&&SOCIAL.meet) SOCIAL.meet(XUN,'dorm');
+      const who=xunWho(GM);
+      await GM.say(who,'你好。盧正勳，經濟系。'); await GM.say(who,'大家叫我阿勳。正勳兩個字，叫起來像在點名。');
+      await GM.say(ME(G),'我叫{name}。也是經濟系。');
+      await GM.say(who,'我知道。門口的名單，我們兩個排在一起。'); await GM.say(who,'學號也只差一號。……這不是冷笑話。這是事實。');
+      await GM.say(null,'他把臉盆放好，看了你的紙箱第二眼。');
+      await GM.say(who,'你知道為什麼經濟系的人搬家，都只帶三個箱子嗎？');
+      const i=await GM.choose([{t:'為什麼？'},{t:'因為預算限制？'}]);
+      if(i===0){ await GM.say(who,'因為第四個箱子的邊際效用是零。'); await GM.say(null,'他停了一下，等你笑。'); await GM.say(who,'……這是我今天想的。成功率大概三成。'); }
+      else { await GM.say(who,'……你搶了我的笑點。'); await GM.say(who,'好。你是一個危險的室友。我會小心。'); }
+      if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(XUN,{fam:2});   /* 兩個選項一樣（不記旗標）*/
+      await GM.say(who,'被子在最下面那一箱，對不對。'); await GM.say(null,'他幫你把上面兩箱搬到地上，然後回去自己的桌子，戴上耳機。');
+      await GM.fade(true); GM.advance(Math.max(0,22-G.hour)); { const m=GM.npc[XUN]; if(m){ const st={x:1.8,z:2.2,yaw:Math.PI}; GM.sitAt(m,st); m.seat=st; m.pose=m.idlePose='sit'; m.frozen=true; } } await GM.fade(false);   /* 時間跳到 22:00（不用旁白說）*/
+      v0Box(GM,'bed'); await GM.say(null,'十點了。被子鋪好了，地上還有兩個箱子沒拆。');
+      const j=await GM.choose([{t:'先睡。明天再拆。'},{t:'今天拆完。'}]);
+      if(j===0){ F.E01_NIGHT='sleep'; v0Box(GM,'foot'); await GM.say(null,'你把兩個箱子推到床尾。燈還沒關，你就睡著了。'); night='sleep'; }
+      else { F.E01_NIGHT='unpack'; v0Box(GM,'none'); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(XUN,{comf:1});
+        for(const t of ['你拆到第三箱的時候，阿勳已經躺下了。','他的桌燈沒有關。他把燈轉過來，照著你那一邊。','最後一本書放上書架，是兩點。']) await GM.say(null,t);
+        GM.advance(Math.max(0,26-G.hour)); night='unpack'; }   /* 02:00 睡：G.hour 26＝01:00 以後才睡（sleepNow 記 lateNight）*/
+      F.E01_DONE=true; }
+    finally { GM.letterbox(false); GM.sceneEnd(); y0Busy=false; }
+    if(night){ await sleepNow(GM,night==='sleep'?7:7+40/60); await y0Morning(GM); }   /* E02 開學典禮假設 09:00：典禮前 2 小時／1 小時 20 分 */
+    return true; }
+  let y0Busy=false;
+  async function y0Morning(GM){ const G=GM.G, F=G.flags; if(!S.isEcon(G)||!F.E01_NIGHT||F.E01_MORNING||y0Busy) return false; y0Busy=true; F.E01_MORNING=true;
+    GM.sceneBegin(); try{ const n=GM.npc[XUN]||GM.spawnCharacter(XUN,1.8,2.2,{seat:{x:1.8,z:2.2,yaw:Math.PI},pose:'sit'}); const E=GM.E; if(n&&GM.cine) GM.cine('two',E.player.obj,n.obj); const who=xunWho(GM);
+      const L=F.E01_NIGHT==='unpack'?['你拆到兩點。我以為你在搬家。','……你本來就在搬家。好，這句不算冷笑話。']:['你十點就睡了。我以為你是機器人。','……機器人也要充電。你充得很完整。'];
+      for(const t of L) await GM.say(who,t); }
+    finally { GM.sceneEnd(); y0Busy=false; } if(GM.autosave) GM.autosave(); return true; }
+  /* 待在房間裡（S.tick）：E01 演到一半關掉遊戲 → 從頭演；起床那一句沒聽到（讀檔）→ 補；先睡的玩家 9/2 晚上回房間 → 箱子拆完那一句 */
+  S.y0Tick=function(GM){ const G=GM.G, F=G.flags, d1=S.y0Day1(); if(!S.isEcon(G)||G.zone!=='dorm'||y0Busy||GM.E.player.busy||(GM.D&&GM.D.active)) return false;
+    if(G.day===d1&&!F.E01_DONE){ y0FirstNight(GM); return true; }
+    if(G.day===d1+1&&F.E01_NIGHT&&!F.E01_MORNING&&h(G)<12){ y0Morning(GM); return true; }
+    if(F.E01_NIGHT==='sleep'&&!F.E01_BOXES&&(G.day>d1+1||(G.day===d1+1&&h(G)>=17))){ F.E01_BOXES=true; v0Box(GM,'none'); y0Busy=true; GM.sceneBegin(); GM.say(null,'你終於把箱子拆完了。阿勳說，比他預測的早。').finally(()=>{ GM.sceneEnd(); y0Busy=false; }); return true; }
+    return false; };
+  S.y0FirstNight=y0FirstNight; S.y0Morning=y0Morning;
   // ---------- 日程與路人 ----------
   /* 路線點可以是 [x,z,層]（v9.4 多樓層）。校園第 6 條（萬才館第二階段）：法學院廣場 → 萬才館大樓梯 → 樓梯頂端平台、弧形陽台（第 1 層）→ 走下來 */
   const walkRoutes={campus:[[[-112,-7],[-60,-7],[-30,-7],[0,-7],[30,-7],[30,-40],[30,-70],[30,-40],[30,-7],[60,-7]],[[60,7],[20,7],[-20,7],[-70,7],[-110,7],[-70,7],[-20,7]],[[34,-92],[50,-80],[30,-60],[8,-40],[30,-60],[50,-80]],[[-38,9],[-50,14],[-44,19.4],[-32,19.4],[-26,14]],[[92,-62],[80,-62],[60,-62],[36,-62],[60,-62],[80,-62]],[[64,-86,0],[87,-85,0],[87,-99.2,1],[92.5,-100.6,1],[95.5,-100.9,1],[87,-99.2,1],[87,-85,0],[104,-84,0]]],gongguan:[[[-70,-38],[-20,-38],[30,-38],[70,-38],[30,-38],[-20,-38]],[[-70,16.5],[-30,16.5],[10,16.5],[60,16.5],[10,16.5],[-30,16.5]],[[-40,14.5],[0,10],[40,14],[0,10]],[[-72,12],[-60,10],[-48,14.5],[-60,10]]],wenzhou:[[[44,-2.4],[20,-2.2],[-6,-2.6],[-30,-2.4],[-6,-2.6],[20,-2.2]],[[-28,2.6],[-4,2.2],[18,2.6],[42,2.4],[18,2.6],[-4,2.2]],[[26,11],[26,4.5],[6,2],[5.8,16],[6,2],[26,4.5]],[[-33.5,10],[-33.5,-1.5],[-12,-1],[-12.2,-14],[-12,-1],[-33.5,-1.5]]]};
@@ -38,7 +107,9 @@ const STORY = (function(){
   S.populate=function(zoneId,GM){ const E=GM.E, G=GM.G; const hr=h(G); const day=hr>=6.5&&hr<23; const F=G.flags; const tm=(key,to)=>{ const n=GM.npc[key]; if(n&&F.afternoonDone) n.until=to; };
     /* 週末回家的第二個入口：校門口（AA_134 第 3 節「宿舍或校門口的『回家』選項」；AA-B 2026-10-16 確認，時段同宿舍：週五 17:00～週日 21:30）。
        位置在校門內側、從公館進校園的出生點 (-119,0) 旁邊（站得住、走得到、不和「走出校門」(-126,0) 半徑 3 重疊；scratchpad gate_check 用 Node 的校園導航格量過）*/
-    if(zoneId==='campus'&&typeof HOME!=='undefined') E.interactables.push({x:-120.5,z:2.4,radius:1.0,lv:0,label:'回臺北的家',home:true,get hidden(){ return !HOME.canGo(GM.G); }});   /* 舊的固定時段（第三天以後）：時段結束時 refreshSchedule 讓他離開（不在玩家眼前）；第一、二天的劇情人物不標 */ let xi=0;
+    if(zoneId==='campus'&&typeof HOME!=='undefined') E.interactables.push({x:-120.5,z:2.4,radius:1.0,lv:0,label:'回臺北的家',home:true,get hidden(){ return !HOME.canGo(GM.G); }});
+    /* 經濟系大一下搬出宿舍以後（A3 3/29；AA_154 1-3b）：男宿的入口進不去，旁白一句（412 是阿勳一個人的）*/
+    if(zoneId==='campus'&&typeof HOME!=='undefined'&&HOME.baseMode&&HOME.baseMode(G)) for(const it of E.interactables){ if(it.exit&&(it.exit.to==='dorm_hall'||it.exit.to==='dorm')){ delete it.exit; it.onInteract=async()=>{ GM.sceneBegin(); try{ await GM.say(null,'這裡已經不是你的房間了。'); } finally { GM.sceneEnd(); } }; } }   /* 舊的固定時段（第三天以後）：時段結束時 refreshSchedule 讓他離開（不在玩家眼前）；第一、二天的劇情人物不標 */ let xi=0;
     const qf=E.q.level==='low'?0.5:(E.q.level==='medium'?0.75:1); const extras=(n,pockets)=>{ n=Math.max(2,Math.round(n*qf)); const rs=walkRoutes[zoneId]||[]; for(let i=0;i<n&&rs.length;i++){ const r=rs[i%rs.length]; GM.spawnExtra(extraSpec(xi++),r.map(p=>[p[0]+(rnd()-0.5)*2,p[1]+(rnd()-0.5)*2,p[2]]),{pockets:pockets&&i%3===0}); } };   /* 牽腳踏車的路人拿掉（2026-10-14 使用者試玩 v9.6：「邊走路邊牽腳踏車的人還是很奇怪跟腳踏車重疊」——車掛在走路的人旁邊，手沒有握把手）；路上的腳踏車改成真的在騎的人（riders） */
     const riders=(n)=>{ if(/[?&]noriders\b/.test(location.search)) return;   /* 2026-10-11 使用者回報：騎腳踏車的人其實是「坐姿的人＋腳踏車」一起平移，腳沒踩踏板、看起來像人和車重疊——之後一直關著。
        2026-10-14：騎士換成 BIKE.rider（88c9cdc：和玩家騎車同一套，腳踝在踏板上、手腕在把手上、曲柄照走的距離轉）→ 預設打開，網址加 ?noriders 可以關掉。v9.7 回歸 flow_bike 量過玩家的騎姿（≤5 cm）；路人騎士的瀏覽器畫面還沒看 */ const rs=bikeRoutes[zoneId]||[]; for(let i=0;i<n&&rs.length;i++){ GM.spawnRider(extraSpec(xi+++20),rs[i%rs.length],['#3a6fb0','#8c3b47','#2f5d50','#e0b95b'][i%4]); } };
@@ -51,7 +122,7 @@ const STORY = (function(){
       if(isThu(G)&&!F.classDone&&hr>=12.5&&hr<13.4){ GM.spawnNPC('zhe',C.zhe,30,-93,{yaw:Math.PI,pockets:true,talk:n=>talkZhe(GM,n)}); }
       // 下課後小安（劇情：由 tick 觸發）；之後在椰林大道散步
       if(F.afternoonDone&&hr>=18&&hr<20.5&&F.companion!=='an'){ GM.spawnNPC('an',AN,-20,6,{beh:'wander',waypoints:[[-20,6],[-60,6],[-90,-6],[-40,-6]],talk:n=>talkAn(GM,n)}); tm('an',20.5); }
-      if(hr>=9.5&&hr<12){ GM.spawnNPC('yu',C.yu,-46,20.94,{seat:{x:-46,z:20.94,yaw:Math.PI},talk:n=>talkYu(GM,n)}); tm('yu',12); } else if(hr>=15.2&&hr<17.5){ GM.spawnNPC('yu',C.yu,20,-80,{beh:'wander',waypoints:[[20,-80],[40,-78],[10,-60],[48,-70]],talk:n=>talkYu(GM,n)}); tm('yu',17.5); }
+      if(hr>=8+20/60&&hr<9+5/60&&G.weekday>=1&&G.weekday<=5){ GM.spawnNPC('yu',C.yu,-46,20.94,{seat:{x:-46,z:20.94,yaw:Math.PI},talk:n=>talkYu(GM,n)}); tm('yu',9+5/60); }   /* 傅鐘旁的長椅：平日上課前 08:20～09:05（AA_156 第 4 節，AA-B 15b50992：原本 9:30～12:00 等於每天翹課）；09:10 去上課、週末不在。大二以後「那天早上有課才在」還沒做 */ else if(hr>=15.2&&hr<17.5){ GM.spawnNPC('yu',C.yu,20,-80,{beh:'wander',waypoints:[[20,-80],[40,-78],[10,-60],[48,-70]],talk:n=>talkYu(GM,n)}); tm('yu',17.5); }
       if(F.afternoonDone&&hr>=15.5&&hr<17.5&&F.companion!=='an'&&!F.zheAtNoodle){ GM.spawnNPC('zhe',C.zhe,-60,3,{beh:'wander',waypoints:[[-60,3],[-30,-6],[-90,3],[-20,3]],talk:n=>talkZhe(GM,n)}); tm('zhe',17.5); }
       if(F.companion==='an'){ spawnCompanion(GM); } }
     if(zoneId==='gongguan'){ extras(hr<22?8:4,true); if(hr>=10&&hr<23) riders(1); if(F.companion==='an') spawnCompanion(GM); }
@@ -108,10 +179,17 @@ const STORY = (function(){
       if(zoneId==='library_hall'&&typeof LIBRARY_LAYOUT!=='undefined'){ const d=(LIBRARY_LAYOUT.furniture||[]).find(f=>f.type==='desk'); if(d) clerk(d.x,d.z+d.d/2+0.45,Math.PI,45); } }   // 服務台後面（兩片隔板中間），面向借書的人
     if(zoneId==='noodle') noodleRegulars(GM,true);   /* 週二、週四傍晚的固定客人（AA_110 6-3）：進店時已經坐著 */
     if(zoneId==='noodle'){ if(F.afternoonDone&&hr>=17.5&&hr<20.5&&!F.zheNoodleDone){ GM.spawnNPC('zhe',C.zhe,0,0,{seat:{x:0,z:-0.3,yaw:0},talk:n=>talkZhe(GM,n)}); F.zheAtNoodle=true; } }
-    if(zoneId==='dorm'){ if(hr>=18||hr<8){ GM.spawnNPC('kai',C.kai,0,0,{seat:{x:1.8,z:2.2,yaw:Math.PI},talk:n=>talkKai(GM,n)}); }
+    if(zoneId==='dorm'&&S.isEcon(G)){ if((hr>=18||hr<8||(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon(G.day)))&&F.E01_DONE) GM.spawnCharacter(XUN,1.8,2.2,{seat:{x:1.8,z:2.2,yaw:Math.PI},pose:'sit'}); }   /* 經濟系那一年的室友是阿勳（AA_168 第 5 節；阿凱這一年不出現）；E01 還沒演完時由 E01 自己帶他進門 */
+    else if(zoneId==='dorm'){ if(hr>=18||hr<8){ GM.spawnNPC('kai',C.kai,0,0,{seat:{x:1.8,z:2.2,yaw:Math.PI},talk:n=>talkKai(GM,n)}); }
       if(typeof HOME!=='undefined') E.interactables.push({x:2.35,z:-0.9,radius:0.6,lv:0,label:'收拾背包回臺北的家',home:true,get hidden(){ return !HOME.canGo(GM.G); }}); }   /* 週末回家（AA_137 第 6 節）：週五 17:00 以後到週日 21:30 才出現（背包在 2.55,-1.6）*/
     if(zoneId==='wancai'){ if(hr>=15.2&&hr<17){ GM.spawnNPC('sis',C.sis,4,-5,{yaw:Math.PI,talk:n=>talkSis(GM,n)}); tm('sis',17); } if(isThu(G)&&hr>=15.2&&hr<16.2){ GM.spawnNPC('prof',PROF,-5,1.2,{yaw:0,talk:n=>talkProf(GM,n)}); } if(G.weekday===3&&hr>=18.8&&hr<21){ GM.spawnNPC('sis',C.sis,-3,3.6,{yaw:Math.PI,talk:n=>talkSis(GM,n)}); tm('sis',21); }
       /* 萬才館室內兩層樓（第三階段，D42）的背景路人：一個照路線上下樓（一樓大廳 → 樓梯 → 二樓門廳 → 走廊的研討室門口 → 走回一樓），一個在二樓走廊靠著欄杆往下看。不是劇情人物、沒有對話 */
+      /* 法服週六值班（V1-F：AA_163 第 1 節、BB_145）：單週週六 9～12、第 3 週起、考試週停（S.fafuDuty）。學姊在圓桌、研究所學長和學姊、民眾一到兩位（路人底模、名字照 AA_163）；
+         大一可以在旁邊看（「在旁邊看法服值班」，S.fafuWatch）。門口的告示照有沒有值班寫下一次的日期 */
+      if(S.fafuDuty(G)&&hr>=9&&hr<12){ const ex=(nm,x,z,ry)=>{ const o=CHAR.build(extraSpec(xi++)); o.position.set(x,0,z); o.rotation.y=ry; E.addNPC({obj:o,name:nm,beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,lv:0}); };
+        GM.spawnNPC('sis',C.sis,0.95,1.25,{yaw:-0.6}); ex('研究所學長',-0.95,1.25,0.6); ex('研究所學姊',-1.2,2.6,1.9); ex('民眾',0,2.85,Math.PI); if(G.day%2===0) ex('民眾',0.95,2.75,-2.2);
+        if(S.fafuWatchable(G)) E.interactables.push({x:2.3,z:3.1,radius:1.3,lv:0,label:'在旁邊看法服值班',fafuWatch:true,get hidden(){ return !S.fafuWatchable(GM.G)||GM.G.hour>=12; }}); }
+      if((G.stage||'law')==='law') E.interactables.push({x:-2.2,z:5.8,radius:0.7,lv:0,label:'看門口的告示',get look(){ return S.fafuNotice(GM.G); }});
       if(E.levels&&hr>=8&&hr<21.5){ GM.spawnExtra(extraSpec(xi++),[[3,4.6,0],[-6.2,5.4,1],[1.5,-6.0,1],[-6.2,5.4,1],[2.5,5.0,0]],{});
         const o=CHAR.build(extraSpec(xi++)); o.position.set(2.6,0,-2.35); o.rotation.y=0; E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,lv:1}); } }
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ if(zoneId==='campus') CLS.addDoors(GM,'campus'); if(CLS.addActSpots) CLS.addActSpots(GM,zoneId);   /* 活動的集合點（AA_110 6-3）*/ if(zoneId==='classroom'&&!F.classNow&&!(isThu(G)&&!F.classDone)) CLS.syncRoom(GM); if(E.zone&&E.zone.layout) CLS.syncRoom(GM);   /* 建築裡的教室（共同教學館…，D55）*/ }catch(e){ console.warn('CLS populate',e); } }   /* 課表（D52）：共同教學館、體育館的門口；201 上課時的同學 */
@@ -160,7 +238,7 @@ const STORY = (function(){
             const ap=(GM.seatApproach&&GM.seatApproach(st))||[st.x,st.z]; if(!E.moveTo(n,ap[0],ap[1],sit,st.lv|0)) sit(); } }
         else { n=GM.spawnCharacter(id,st.x,st.z,{seat:st,pose:pz}); if(n) n.idlePose=pz; } }
       else if(act==='sit'&&ent.seat==='bell'){ n=GM.spawnCharacter(id,-30,20.94,{seat:{x:-30,z:20.94,yaw:Math.PI},pose:'sit'}); }
-      else if(act==='sit'&&zoneId==='wenzhou'){ const st=GM.npc.yu&&GM.npc.yu.seat&&GM.npc.yu.seat.x===23.6?{x:28.4,z:7.94,yaw:Math.PI}:{x:23.6,z:7.94,yaw:Math.PI}; n=GM.spawnCharacter(id,st.x,st.z,{seat:st,pose:'sit'}); }
+      else if(act==='sit'&&zoneId==='wenzhou'){ const B=typeof WZ_PARK_LAYOUT!=='undefined'?WZ_PARK_LAYOUT.seats.filter(q=>q.label==='坐在小公園的長椅').map(q=>({x:q.x,z:q.z,yaw:q.yaw})):[{x:23.6,z:7.94,yaw:Math.PI},{x:28.4,z:7.94,yaw:Math.PI}];   /* 小公園入口段的兩張長椅（擴大版照配置檔）*/ const st=GM.npc.yu&&GM.npc.yu.seat&&GM.npc.yu.seat.x===B[0].x?B[1]:B[0]; n=GM.spawnCharacter(id,st.x,st.z,{seat:st,pose:'sit'}); }
       else if(act==='linger'&&ent.at){ n=GM.spawnCharacter(id,ent.at[0],ent.at[1],{yaw:ent.at[2]||0,pose:'idle',lv:ent.at[3]|0}); }   /* 在日程寫的位置站一下（芷若經原下課後在 101 門口）*/
       else if(act==='barista'){ n=GM.spawnCharacter(id,-2.5,-5.15,{yaw:0,pose:'idle'}); if(n){ n.frozen=true; n.talkLabel='和店員說話'; n.staff='cafe'; } }   /* staff：比吧檯的點餐點優先（engine3d.js nearestInteractable）；沒有事件時和她說話就是點餐（talkCharacter）*/
       else if(act==='help'){ n=GM.spawnCharacter(id,2.6,-3.6,{yaw:-Math.PI/2,pose:'idle'}); if(n) n.frozen=true; }
@@ -169,7 +247,8 @@ const STORY = (function(){
       else if(act==='desk'){ /* legacy kai */ }
       else if(act==='follow'){ const P=E.player.obj; n=GM.spawnCharacter(id,P.position.x-Math.sin(P.rotation.y)*1.2+0.5,P.position.z-Math.cos(P.rotation.y)*1.2,{beh:'follow',lv:E.player.lv|0}); if(n) n.followOff=1.1; }   /* 和你一起走過去的人（邀約「現在一起過去」）*/
       else if(act==='wait'&&ent.invite){ const sp=E.zone.spawn||{x:0,z:0}; let x=sp.x+1.6, z=sp.z+1.2; if(E.canStand&&!E.canStand(x,z,0.32,0)){ x=sp.x; z=sp.z+1.6; } n=GM.spawnCharacter(id,x,z,{pose:'idle'}); if(n){ n.frozen=true; if(GM.face) GM.face(n,sp.x,sp.z); } }   /* 約在路上碰面（溫州街）：在入口附近等 */
-      else { const rs=walkRoutes[zoneId]||[]; if(!rs.length){ n=GM.spawnCharacter(id,0,0,{}); return n; } const r=rs[(routeI++)%rs.length]; let wp=r[(Math.random()*r.length)|0];
+      else { const rs=walkRoutes[zoneId]||[]; if(!rs.length){ n=GM.spawnCharacter(id,0,0,{}); return n; } const nr=ent.near, dq=q=>Math.hypot(q[0]-nr[0],q[1]-nr[1]), dr=r=>Math.min(...r.map(dq));
+        const r=nr?rs.slice().sort((a,b)=>dr(a)-dr(b))[0]:rs[(routeI++)%rs.length]; let wp=nr?r.slice().sort((a,b)=>dq(a)-dq(b))[0]:r[(Math.random()*r.length)|0];   /* 作息寫了 near（例：芷若「外文系的課後在傅鐘附近」）：走離那一點最近的路線、從最近的點出現——原本路線輪流分配，v9.8 多了幾個人以後她被分到校園另一頭（v9.8 回歸 flow_first_meet A）*/
         if(refresh){ const P=E.player.obj.position; for(const q of r) if(Math.hypot(q[0]-P.x,q[1]-P.z)>Math.hypot(wp[0]-P.x,wp[1]-P.z)) wp=q; }   /* 待在區域裡補人：從路線上離玩家最遠的點走出來，不在眼前憑空出現 */
         n=GM.spawnCharacter(id,wp[0],wp[1],{beh:'wander',waypoints:r}); } return n; };
     // 教授：依課表
@@ -246,9 +325,31 @@ const STORY = (function(){
   const ladAlt=(G,x,id)=>{ if(!G) return ladIf(x); const ctx={}, rest={}; for(const k in x){ if(k==='lines') continue; if(LAD_CTX.includes(k)) ctx[k]=x[k]; else rest[k]=x[k]; } if(Object.keys(ctx).length&&!ladCtxOk(G,ctx,id)) return false; return Object.keys(rest).length?ladIf(rest):true; };
   /* 法服的民眾服務（AA_132 F2、AA_140 G03／G47）：單週週六 9～12、第 3 週起、考試週停。day 那一週（還沒過的週六）起第一個值班的週六：{day, thisWeek}；十六週內沒有＝null（例：大一上第 16 週以後＝考試週＋七週寒假，下一次是大一下第 3 週）*/
   /* 日期字串 → 第幾天（'2026-02-14'）；找不到＝null。結果快取 */
-  const dayKeyCache={}; S.dayOfKey=function(k){ if(k in dayKeyCache) return dayKeyCache[k]; let r=null; if(typeof CALENDAR!=='undefined') for(let d=1;d<2200;d++){ if(CALENDAR.dateOf(d).key===k){ r=d; break; } } dayKeyCache[k]=r; return r; };
+  const dayKeyCache={}; S.dayOfKey=function(k){ if(k in dayKeyCache) return dayKeyCache[k]; let r=null; if(typeof CALENDAR!=='undefined') for(let d=-420;d<2200;d++){ if(CALENDAR.dateOf(d).key===k){ r=d; break; } }   /* 從 2024 年 8 月起（經濟系大一 Y0 是負的天數，v0）*/ dayKeyCache[k]=r; return r; };
   S.fafuSat=function(day){ if(typeof CALENDAR==='undefined'||day==null) return null; const sat0=day+(6-CALENDAR.dateOf(day).wd);
     for(let k=0;k<16;k++){ const s=sat0+7*k; if(s<=day) continue; const t=CALENDAR.termOf(s); if(t&&t.week>=3&&t.week%2===1&&!t.exam) return {day:s,thisWeek:k===0,wk:k}; } return null; };   /* wk：0＝這週六、1＝下週六…（週一開始算一週；當天是週六＝已經過了 9 點的值班，從下週算）*/
+  /* 法服週六值班（V1-F，AA_163 第 1 節、BB_145）：今天是不是值班的週六；大一（Y1S1、Y1S2）可以在旁邊看（志工從大二開始，AA_132）；告示 */
+  S.fafuDuty=function(G){ if(typeof CALENDAR==='undefined'||!G||(G.stage||'law')!=='law') return false; const d=CALENDAR.dateOf(G.day), t=CALENDAR.termOf(G.day); return d.wd===6&&!!t&&t.week>=3&&t.week%2===1&&!t.exam; };
+  S.fafuWatchable=G=>{ if(!S.fafuDuty(G)) return false; const t=CALENDAR.termOf(G.day); return !!t&&/^Y1S[12]$/.test(t.id); };
+  S.fafuNotice=function(G){ const base='法律服務　隔週週六 9:00～12:00　萬才館一樓'; if(S.fafuDuty(G)&&G.hour<12) return base; const n=S.fafuSat(G.day); if(!n) return base; const d=CALENDAR.dateOf(n.day); return base+'　下一次：'+d.m+'/'+d.d+'（六）'; };
+  const FAFU_POOL=[{t:'今天來的是一位媽媽，問孩子打工被扣薪水的事。學長說：「我們先把時間和金額寫下來。」'},{sis:'學弟，又來了。……站那邊，看得比較清楚。'},
+    {t:'一位阿嬤來問家裡的事，說到一半開始講她先生年輕的時候。學姊沒有打斷她。'},{sis:'今天那位，你回去想想看，第一個問題應該問什麼。……不用告訴我。'},
+    {t:'上午很安靜，只來了一位。學長趁空檔教新的志工怎麼寫初談紀錄。'},{sis:'（她在初談紀錄上劃了一條線）一件事。字要寫得讓下一個人看得懂。'},
+    {t:'有人拿著一張和解書來，問能不能簽。學姊說：「我們先一起看一下，上面寫了什麼。」'}];   /* AA_163 的旁白池四句、BB_145 的學姊三句，輪流、不重複到用完 */
+  S.fafuWatch=async function(GM){ const G=GM.G, F=G.flags; if(!S.fafuWatchable(G)||G.hour>=12) return false; const sis={name:'溫學姊',charId:'heroine_05'};
+    if(F.LAWCLUB_SAT_LAST!==G.day){ F.LAWCLUB_SAT_LAST=G.day; F.LAWCLUB_SAT_VISITS=(F.LAWCLUB_SAT_VISITS|0)+1; }   /* 同一個週六只算一次（AA_132 落點 A 讀它；大二起的值班也算）*/
+    GM.sceneBegin(); try{
+      if(!F.LAWCLUB_SAT_FIRST){ F.LAWCLUB_SAT_FIRST=true;   /* 第一次（AA_163 的旁白＋研究所學長；BB_145 第 1 節）*/
+        await GM.say(null,'圓桌旁坐著一位阿伯，手上一疊影印的紙。他說房東不還押金。');
+        await GM.say(null,'學姊沒有馬上回答。她先問：「租約還在嗎？什麼時候搬走的？當初押金付了多少？」研究所的學長在旁邊一項一項寫下來。');
+        await GM.say(null,'阿伯講到一半，忽然說：「我是不是很麻煩？」'); await GM.say({name:'研究所學長'},'不會。您慢慢說，我們先把事情弄清楚。');
+        await GM.say(null,'（阿伯被學長帶去填表。學姊走到大廳角落，在祐廷旁邊停下來，聲音壓得很低。）');
+        await GM.say(sis,'學弟。旁聽可以。三件事。'); await GM.say(sis,'一，不要插話。二，不要給意見。三，看學長怎麼問。……問題問對了，事情就清楚一半。'); }
+      else { let it=null; if((F.LAWCLUB_SAT_VISITS|0)>=5&&!F.LAWCLUB_SAT_FIVE){ F.LAWCLUB_SAT_FIVE=true; it={sis:'你來了五次了。……明年記得報名。'}; }   /* BB_145 第 4 句：只一次、排最前 */
+        else { const used=Array.isArray(F.fafuPoolUsed)?F.fafuPoolUsed:[]; let cand=FAFU_POOL.map((q,i)=>i).filter(i=>!used.includes(i)); if(!cand.length){ used.length=0; cand=FAFU_POOL.map((q,i)=>i); } const k=cand[0]; used.push(k); F.fafuPoolUsed=used; it=FAFU_POOL[k]; }
+        if(it.sis) await GM.say(sis,it.sis); else await GM.say(null,it.t); await GM.say(null,'（學姊點頭，回到圓桌。）'); }
+    } finally { GM.sceneEnd(); }
+    await GM.fade(true); GM.advance(Math.min(0.5,Math.max(0,12-G.hour))); await GM.fade(false); return true; };   /* 時間推進 30 分鐘，可以待到 12:00；不扣時段次數（AA_160 第 2 節）*/
   S.ladLines=function(st,g,id){ const G=g||(typeof GAME!=='undefined'&&GAME.G)||null; const alt=(st.linesIf||[]).find(x=>ladAlt(G,x,id)); const L=(alt?alt.lines:st.lines||[]).slice(); for(const x of (st.extraIf||[])) if(ladAlt(G,x,id)) L.push(...(x.lines||[])); return L; };   /* linesIf：第一個成立的那一套取代 lines；extraIf：成立就在後面多說（AA 2026-10-16）*/
   S.ladPlay=async function(GM,who,id,st){ const G=GM.G, so=ladRec(G), D=S.ladData(G,id), K=D?D.key:id; for(const l of S.ladLines(st,G,id)) await GM.say(who,typeof l==='string'?l:l.t);
     let ch=null; if(st.choices&&st.choices.length){ const k=await GM.choose(st.choices.map(c=>({t:c.t}))); ch=st.choices[k]||st.choices[0]; if(ch.reply) await GM.say(who,ch.reply); }
@@ -284,18 +385,18 @@ const STORY = (function(){
       if(e.location&&!(Array.isArray(e.location)?e.location:[e.location]).includes(G.zone)) return false;
       if(e.time&&!(hh>=e.time[0]&&hh<e.time[1])) return false; if(e.weekday&&!e.weekday.includes(G.weekday)) return false;
       if(e.midterm){ const n=S.daysToMidterm(G); if(n==null||n<e.midterm[0]||n>e.midterm[1]) return false; }   /* 柏翰的倒數（AA_120 7-1 第 1 項）：到第一科期中考的天數在範圍裡才說 */
-      if(e.once&&r.once&&r.once[e.t]&&(e.once!=='term'||r.once[e.t]===tid)) return false; return true; };
+      if(e.once&&r.once&&r.once[e.t]&&(e.once==='week'?r.once[e.t]===tid+':'+(T?T.week:0):(e.once!=='term'||r.once[e.t]===tid))) return false; return true; };
     const B=c.social_layer==='B';
     /* 不熟的同學（AA_120 7-2）：三句各只說一次（整個存檔，once），換學期不從頭重播；說完以後只點頭或短招呼（greetB） */
     const fill=t=>t.indexOf('{n}')<0?t:t.replace('{n}',zhNum(S.daysToMidterm(G)));
-    let cands=(SMALLTALK[id]||[]).filter(ok).map(e=>({key:typeof e==='string'?e:e.t,say:fill(typeof e==='string'?e:e.t),once:typeof e==='string'?null:e.once}));
+    let cands=(SMALLTALK[id]||[]).filter(ok).map(e=>({key:typeof e==='string'?e:e.t,say:fill(typeof e==='string'?e:e.t),once:typeof e==='string'?null:e.once,prio:typeof e==='string'?0:(e.prio|0)})); cands.sort((a,b)=>b.prio-a.prio);   /* prio：條件成立時先說（明軒「你看起來很累」：當天第一次見到他）*/
     if(!cands.length&&B) return greetB(G,id,r,nm,T,tid);
     if(!cands.length&&c.facts&&c.facts.length) cands=c.facts.slice(0,1).map(f=>({key:'fact:'+f,narr:'（你們聊了幾句。'+nm+'：'+f+'。）'}));   /* 只用公開的 facts[0]（facts[1] 是心事）*/
     if(!cands.length){ r.day=G.day; r.last='__greet'; return {narr:'（'+nm+'跟你打了個招呼，聊了兩句天氣。）',fresh:true}; }
     let pick=cands.find(q=>!r.used.includes(q.key));
     if(!pick){ if(B){ r.day=G.day; return {narr:'（'+nm+'對你點點頭。）',fresh:false}; } r.used=[]; pick=cands.find(q=>q.key!==r.last);
       if(!pick){ r.day=G.day; r.last='__greet'; return {narr:'（'+nm+'跟你打了個招呼，聊了兩句天氣。）',fresh:true}; } }   /* 只剩一句能說：不連續兩天說同一句，中間隔一次打招呼 */
-    r.used.push(pick.key); r.last=pick.key; r.day=G.day; if(pick.once){ (r.once||(r.once={}))[pick.key]=pick.once==='term'?tid:true; }
+    r.used.push(pick.key); r.last=pick.key; r.day=G.day; if(pick.once){ (r.once||(r.once={}))[pick.key]=pick.once==='term'?tid:(pick.once==='week'?tid+':'+(T?T.week:0):true); }   /* once:'week'：同一週最多一次 */
     const out={fresh:true}; if(pick.say) out.say=pick.say; else out.narr=pick.narr; return out; };
   /* 不熟同學說完三句以後（AA_120 7-2 第 3 點）：開學（第 1～3 週）、期中（第 7～9 週）、期末（第 15～18 週）偶爾一句短招呼——每人每天最多一句、
      同一個人同一學期同一句只說一次；其他日子只有旁白（點頭、揮手、笑一下）。記在 r.greet＝{term, used} */
@@ -331,6 +432,7 @@ const STORY = (function(){
     if(first){ SOCIAL.meet(id,G.zone); if(c.social_layer==='B'){ const py=SOCIAL.playerYear?SOCIAL.playerYear():1, cy=SOCIAL.yearOf?SOCIAL.yearOf(id):(c.year||1); await GM.say(who,cy>py?'「你是大'+['','一','二','三','四'][py]+'的吧？」':(py===1?['「……嗯？喔，你是我們班的吧。」','「你好。……我們是不是修同一堂民總？」','「欸，你是周老師點過的那個。」'][(Math.random()*3)|0]:'「……嗯？喔，你是我們班的吧。」'));   /* 年級跟著遊戲走（AA_120 7-3）*/   /* 學長姊不會說「同一堂民總」（AA_120 3-4）*/ await GM.say(who,'「我是'+c.name+'。」'); if(c.facts&&c.facts[0]) await GM.say(who,'「'+c.facts[0]+'。……你呢？」'); } else { await GM.say(who,'「你好，我是'+c.name+'。'+(c.department||'')+'的。」',{expr:'smile'}); if(c.personality) await GM.say(null,c.personality.split('；')[0]+'。'); } SOCIAL.adjust(id,{fam:3}); }
     else { const rv=SOCIAL.reveal(id); if(SOCIAL.playUp&&await SOCIAL.playUp(GM,who,id)){ if(SOCIAL.activity) SOCIAL.activity(id,'chat'); }   /* 升到有點熟／朋友／好朋友以後的下一次見面：先說門檻台詞（AA_124 1-6、BB_120 第 1 節），這次就不閒聊 */
       else if(c.social_layer==='B'&&rv==='ACQUAINTANCE'&&c.facts&&c.facts[1]&&S.secretReady(G,id)&&!SOCIAL.has(id,'SHARED_SECRET')){ await GM.say(who,'「其實……'+String(c.facts[1]).replace(/^其實/,'')+'。沒跟很多人講過。」'); SOCIAL.remember(id,'SHARED_SECRET',c.facts[1]); SOCIAL.adjust(id,{fam:4,trust:4}); const SM=G.social.small||(G.social.small={}); (SM[id]||(SM[id]={day:0,used:[],last:null})).day=G.day; }
+      else if(typeof ENC!=='undefined'&&ENC.schoolTalk&&await ENC.schoolTalk(GM,who,id)){}   /* 自由出行遇到以後，下一次聊天說一句（DL-07；AA_162、BB_144 第 4 節）*/
       else if(await S.ladderTalk(GM,who,id)){}   /* 閒聊階梯（大一上的七位＋之後的）：有資料的人走階梯，沒有的照舊閒聊 */
       else { const L=S.smallTalk(G,id); if(L.say) await GM.say(who,L.say,{expr:'smile'}); else await GM.say(null,L.narr); if(SOCIAL.activity){ SOCIAL.activity(id,'chat'); if(L.fresh) SOCIAL.activity(id,'chatNew'); } else if(L.fresh) SOCIAL.adjust(id,{fam:1}); } }   /* AA_124 1-2：今天第一次聊天熟悉 +2、聽到新的一句自在 +1（一天一次、有上限）*/
     if(!first) await S.offerInvite(GM,id,n,who);
@@ -353,7 +455,8 @@ const STORY = (function(){
     if(zoneId==='dorm'&&F.afternoonDone&&!F.nightKai&&GM.npc.kai){ F.nightKai=true; await GM.sleep(800); GM.caption('阿凱','喔，回來了。今天很晚耶。',2600); }
     if(G.social&&!E.player.busy&&!GM.D.active&&!opts.fromLoad){ await GM.sleep(600); if(!E.player.busy&&!GM.D.active) EVENTS.onEnter(zoneId); } };
   // ---------- 每 0.5 秒左右呼叫 ----------
-  const AMBIENT=[{zone:'campus',x:-47,z:13.5,r:7,key:'bellArgue',from:8,to:18,lines:['「……所以網頁標價到底算不算要約？」','「你煩不煩，都下課了。」']},{zone:'campus',x:-18,z:13,r:5,key:'clubTable',from:10,to:17.5,lines:['「同學！法律服務社了解一下？一年級也可以喔。」']},{zone:'campus',x:34,z:-90,r:8,key:'lawPlaza',from:15.2,to:17,lines:['有人在霖澤館前的長椅上翻著判決，旁邊放著一杯沒喝完的飲料。']},{zone:'gongguan',x:-40,z:12,r:7,key:'mrt',from:17,to:22,lines:['捷運站出口湧出一波人，又很快散進巷子裡。']},{zone:'wenzhou',x:26,z:8,r:7,key:'park',from:16,to:21,lines:['小公園的長椅上有隻貓在睡覺。有人蹲在旁邊拍照。']}];
+  const AMBIENT=[{zone:'campus',x:-47,z:13.5,r:7,key:'bellArgue',from:8,to:18,lines:['「……所以網頁標價到底算不算要約？」','「你煩不煩，都下課了。」']},{zone:'campus',x:-18,z:13,r:5,key:'clubTable',from:10,to:17.5,lines:['「同學！法律服務社了解一下？一年級也可以喔。」']},{zone:'campus',x:34,z:-90,r:8,key:'lawPlaza',from:15.2,to:17,lines:['有人在霖澤館前的長椅上翻著判決，旁邊放著一杯沒喝完的飲料。']},{zone:'gongguan',x:-40,z:12,r:7,key:'mrt',from:17,to:22,lines:['捷運站出口湧出一波人，又很快散進巷子裡。']},{zone:'campus',x:-13.5,z:13.6,r:4,key:'festEve',from:7,to:23,lines:G=>{ const fs=termDay('Y1S1',11,6); if(!fs||G.day!==fs-1||(typeof PHONE!=='undefined'&&PHONE.inGroup(G,'lawclub_study'))) return null; return ['公告欄：明天校慶，各社團擺攤。']; }},   /* BB_95 3-7：沒加入法服的玩家，校慶前一天走過大道的公告欄 */
+    {zone:'wenzhou',x:26,z:21,r:6,key:'park',from:16,to:21,lines:G=>{ const P=typeof PARK!=='undefined'?PARK:null; if(P&&P.catLost(G)) return null; const n=P&&P.catName(G); return ['老樹下的圓椅上'+(n||'有隻貓')+'在睡覺。有人蹲在旁邊拍照。']; }}];   /* AA 定稿（第①級）：Y3S1 第 9 週貓走失時不出現；取名以後用名字 */
   /* 待在同一個區域時，照行程該出現的人要出現、時段結束的人要離開（2026-10-11 v9.5 審查：populateSchedule 原本只在進入區域時跑，
      人物線索（S.whereIs、大地圖 👥）照時間說「阿哲在校園」，但要出去再進來他才會出現）。每 3 秒看一次（遊戲裡約 1.2 分鐘）：
      該來的人照進入區域時同一套規則補上；時段結束的人（sched，劇情生出來的不算）離玩家 12 m 以上、或不在畫面裡才離開，不在玩家眼前消失 */
@@ -436,8 +539,10 @@ const STORY = (function(){
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ CLS.tick(GM); }catch(e){ console.warn('CLS.tick',e); } }   /* 課表（D52）*/
     if(typeof PHONE!=='undefined'){ try{ S.phoneRules(GM); PHONE.tick(G,out=>{ if(out.length) GM.toast('手機｜'+PHONE.notice(G,out[0]),3800); if(GM.phoneBadge) GM.phoneBadge(); }); }catch(e){ console.warn('PHONE',e); } }   /* 手機：排定時間的訊息（交接包 v1）*/
     if(G.zone==='noodle') noodleRegulars(GM);   /* 麵店的固定客人：時間到了進來、離開 */
+    if(typeof TRIP!=='undefined'&&TRIP.at(G)){ TRIP.tick(GM); return; }   /* 自由出行途中（DL-06）：在外面的時候校園的事件不發生 */
+    if(typeof HOME!=='undefined'&&HOME.winterStartDue&&HOME.winterStartDue(G)){ HOME.winterStart(GM).catch(e=>console.warn('HOME.winterStart',e)); return; }   /* 經濟系大一的寒假：回臺北的家（AA_154 A16）*/
     if(typeof HOME!=='undefined'&&HOME.at(G)){ HOME.tick(GM); return; }   /* 讀檔時人在臺北的家：回到家的選單（在家的時候宿舍、校園的事件不發生）*/
-    if(G.zone==='dorm'){ S.dormItems(GM); if(fyPotsTick(GM,dt)) return; }
+    if(G.zone==='dorm'){ if(S.isEcon(G)&&S.y0Tick(GM)) return; S.dormItems(GM); if(fyPotsTick(GM,dt)) return; }
     S.kaiDormTick(GM);   /* 室友阿凱的宿舍事件（K-D3 鍵盤聲、K-D5 和解；吵架第 4 天自己和好）*/   /* 房間裡跟著劇情出現的東西（黃金葛、阿凱的鍵盤盒子、方奕廷的三盆植物）*/
     if(typeof CROWD!=='undefined'){ try{ CROWD.tick(GM,dt); }catch(e){ console.warn('CROWD.tick',e); } }   /* 公共場景的人流（D55）*/
     if(typeof INV!=='undefined'){ try{ INV.tick(GM); if(INV.walkChat) INV.walkChat(GM,dt); }catch(e){ console.warn('INV.tick',e); } }   /* 邀約：過了時間沒見到＝沒赴約；一起走過去的路上聊一句 */
@@ -457,7 +562,7 @@ const STORY = (function(){
     /* 阿哲約的麵：20:30 以後阿哲就不在麵店了（populate 只在 17:30–20:30 放他），目標不能一直停在「阿鳳麵店」（2026-10-11 使用者：吃完麵目標沒更新、不知道接下來要幹嘛）*/
     if(F.zheInvite&&!F.zheNoodleDone&&h(G)>=20.5&&G.goal&&G.goal.indexOf('阿鳳麵店（阿哲）')>=0&&!(G.zone==='noodle'&&GM.npc.zhe)) GM.setGoal('今晚沒去吃麵。回宿舍休息（睡覺就到明天）');   /* 阿哲還在店裡（20:30 前進來的）就先不換 */
     // 環境事件（每天一次）
-    F.amb=F.amb||{}; for(const a of AMBIENT){ if(a.zone!==G.zone) continue; const k=a.key+G.day; if(F.amb[k]) continue; const hh=h(G); if(hh<a.from||hh>=a.to) continue; if(Math.hypot(P.x-a.x,P.z-a.z)<a.r){ F.amb[k]=true; playLines(GM,a.lines.map(l=>['',l,2800])); } }
+    F.amb=F.amb||{}; for(const a of AMBIENT){ if(a.zone!==G.zone) continue; const k=a.key+G.day; if(F.amb[k]) continue; const hh=h(G); if(hh<a.from||hh>=a.to) continue; if(Math.hypot(P.x-a.x,P.z-a.z)<a.r){ const L=typeof a.lines==='function'?a.lines(G):a.lines; if(!L) continue; F.amb[k]=true; playLines(GM,L.map(l=>['',l,2800])); } }
     // 總圖（D43）：和小安約好去總圖——走上二樓自習區就開始「總圖的下午」（劇情寫的是「二樓靠牆的長桌」）
     if(G.zone==='library_hall'&&F.companion==='an'&&F.plan==='library'&&(E.player.lv|0)===1&&P.y>4.9&&GM.npc.an&&!libSceneOn){ libSceneOn=true; libraryScene(GM).finally(()=>{ libSceneOn=false; }); return; }
     // 下課後：小安追上來
@@ -470,29 +575,33 @@ const STORY = (function(){
   S.forceHome=async function(GM){ const G=GM.G; if(G.flags._forcing) return; G.flags._forcing=true; try{ const home=G.zone==='dorm'; GM.sceneBegin(); await GM.say(null,home?'已經凌晨了。你撐不住，躺上床就睡著了。':'已經凌晨了。你的腳自己往宿舍走。'); GM.sceneEnd(); G.flags.companion=null; if(!home) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await sleepNow(GM); } finally { G.flags._forcing=false; } };
   // ---------- 互動 ----------
   S.interact=async function(it,GM){ const G=GM.G, F=G.flags, E=GM.E;
+    if(it.park&&typeof PARK!=='undefined'){ await PARK.interact(GM,it); return true; } if(it.wzShop&&typeof WZS!=='undefined'){ await WZS.interact(GM,it); return true; }   /* 溫州街三家店的選單（AA_172）*/   /* 溫州街小公園（AA_171）*/
     if(it.home){ if(typeof HOME!=='undefined') await HOME.go(GM); return true; }   /* 回臺北的家（src/home3d.js）*/
     if(it.deskStudy){ await deskScene(GM,it); return true; }
     if(it.roomItems){ await roomItems(GM); return true; }
     if(it.pothos){ await pothosScene(GM); return true; }
     if(it.kaiBox){ await kaiBoxScene(GM,it); return true; }
+    if(it.fafuWatch){ await S.fafuWatch(GM); return true; }   /* 法服週六值班（V1-F）*/
     if(it.fyPots){ await fyPotsScene(GM); return true; }
     if(it.sleep){ await bedScene(GM); return true; }
     if(it.counter==='cafe'){ await counter(GM,'兩點半 Café',CAFE_MENU); return true; }
-    if(it.shop==='cvs'){ await counter(GM,'便利商店',[['飯糰',35,12],['美式咖啡',45,8],['運動飲料',30,6],['微波義大利麵',75,22]]); return true; }
-    if(it.shop==='tea'){ await counter(GM,'青葉茶行',[['珍珠奶茶',60,10],['青茶 微糖',40,6]]); return true; }
+    if(it.shop==='cvs'){ await counter(GM,'便利商店',[['飯糰',35,12],['美式咖啡',45,8],['運動飲料',30,6],['微波義大利麵',75,22]].concat(typeof PARK!=='undefined'&&PARK.catName(G)?[['小罐貓罐頭',35,0,G=>{ G.daily=G.daily||{}; G.daily.catCans=(G.daily.catCans|0)+1; }]]:[])); return true; }   /* 貓罐頭（AA_164 5-4、AA_171 第 7 節）：取了名字以後才會想到要買 */
+    if(it.shop==='tea'){ await counter(GM,'清葉茶行',[['珍珠奶茶',60,10],['青茶 微糖',40,6]]); return true; }
     if(it.shop==='book'){ await bookshop(GM); return true; }
     if(it.eat==='noodle'){ await noodleScene(GM,it); return true; }
     if(it.notice==='lawclub'){ GM.sceneBegin(); await GM.say(null,'【法律服務社 招募新社員】每週三晚上 19:00 萬才館二樓研討室 A（讀書會，第 5 週起）。免費法律諮詢、模擬法庭、學長姊帶你讀判決。聯絡人：溫學姊。'); if(!F.lawclub){ F.lawclub=true; GM.memo('看了法律服務社的招募公告'); GM.addNote('club_law','法律服務社','每週三 19:00 萬才館二樓研討室 A（讀書會，第 5 週起）。社長是溫學姊。');   /* 地點、週次照 AA_110 6-8（原本寫萬才館 201：遊戲裡沒有這間）*/ } GM.sceneEnd(); return true; }
-    if(it.mrt){ GM.sceneBegin(); await GM.say(null,'捷運公館站。今天的生活範圍還在走路可以到的地方。'); GM.sceneEnd(); return true; }
+    if(it.mrt){ if(typeof TRIP!=='undefined'){ await TRIP.menu(GM); return true; } GM.sceneBegin(); await GM.say(null,'捷運公館站。今天的生活範圍還在走路可以到的地方。'); GM.sceneEnd(); return true; }   /* 自由出行（DL-06，AA_160 第 5 節）*/
     /* 201 的課照課表（src/classes3d.js，D52）；沒有課的時候照常走得進去（D54）。v9.5 以前：週四、週二以外會先跳一句「今天沒有民法總則」 */
     if(it.exit&&it.exit.to==='classroom'&&G.day===2&&isThu(G)&&h(G)>=15.2&&!F.classDone){ F.classDone=true; GM.toast('你錯過了今天的民法總則'); G.flags.classAnswer='absent'; return false; }
+    if(it.exit&&PLACES.typhoonClosed&&PLACES.typhoonClosed(it.exit.to,G.day)){ GM.toast(PLACES.closedText(it.exit.to,h(G),G.day),4500); return true; }   /* 颱風假店家不開（AA_160 3-4 D）*/
+    if(it.exit&&/^wz_(brunch|print|teahouse)$/.test(it.exit.to)&&!PLACES.isOpen(it.exit.to,h(G),G.day)){ GM.toast(PLACES.closedText(it.exit.to,h(G),G.day),4500); return true; }   /* 溫州街三家新店的營業時間（AA_164 1-2）*/
     if(it.exit&&it.exit.to==='cafe'&&!PLACES.isOpen('cafe',h(G))){ GM.toast(PLACES.closedText('cafe',h(G)),4500); return true; }   /* 開放時間在 src/data/places.js（入口標記、大地圖讀同一份）*/
     if(it.exit&&it.exit.to==='lawlib'&&G.zone==='wancai'&&!PLACES.isOpen('lawlib',h(G),G.day)){ GM.toast(PLACES.closedText('lawlib',h(G),G.day),5500); return true; }
     if(it.exit&&it.exit.to==='soclib'&&G.zone==='campus'&&!PLACES.isOpen('soclib',h(G),G.day)){ GM.toast(PLACES.closedText('soclib',h(G),G.day),5500); return true; }   /* 社科院圖書館（D62）：只擋從校園進去 */   /* 法律學院圖書館（D46）：只擋從大廳進去；人在館裡照樣走得出來 */
     if(it.exit&&(it.exit.to==='library'||it.exit.to==='library_hall')&&G.zone==='campus'&&!PLACES.isOpen('library_hall',h(G))){ GM.toast(PLACES.closedText('library_hall',h(G)),4500); return true; }   /* 2026-10-11 使用者回報：只寫「閉館了」不知道幾點開 */   /* 只擋從校園進去；人在館裡（大廳、閱覽室）之間照樣走得通，不會被關在裡面 */
     return false; };
   const CAFE_MENU=[['拿鐵',120,10],['手沖咖啡',150,12],['檸檬塔',110,14]];
-  async function counter(GM,shop,items){ const G=GM.G; GM.sceneBegin(); const opts=items.map(([n,p,e])=>({t:n+'　'+p+' 元',hint:'體力 +'+e,dim:G.money<p})); opts.push({t:'不用了'}); const i=await GM.choose(opts); if(i<items.length){ const [n,p,e]=items[i]; if(G.money<p){ GM.toast('錢不夠'); } else { GM.money(-p); GM.energy(e); GM.advance(0.15); await GM.say(null,'你買了'+n+'。'+(shop==='兩點半 Café'?'店員把杯子放在你面前的時候，杯底和木桌碰出一聲很小的響。':'')); } } GM.sceneEnd(); }
+  async function counter(GM,shop,items){ const G=GM.G; GM.sceneBegin(); const opts=items.map(([n,p])=>({t:n+'　'+p+' 元',dim:G.money<p}));   /* 只寫價錢（DL-02：體力拿掉了）*/ opts.push({t:'不用了'}); const i=await GM.choose(opts); if(i<items.length){ const [n,p]=items[i]; if(G.money<p){ GM.toast('錢不夠'); } else { GM.money(-p); GM.advance(0.15); if(typeof items[i][3]==='function') items[i][3](G); await GM.say(null,'你買了'+n+'。'+(shop==='兩點半 Café'?'店員把杯子放在你面前的時候，杯底和木桌碰出一聲很小的響。':'')); } } GM.sceneEnd(); }
   async function bookshop(GM){ const G=GM.G, F=G.flags; GM.sceneBegin(); const opts=[{t:'《民法總則》教科書　650 元',hint:F.textbook?'已經有了':'讀書時會多整理一條筆記',dim:F.textbook||G.money<650},{t:'螢光筆一組　80 元',hint:'讓筆記好看一點',dim:G.money<80},{t:'只是看看'}]; const i=await GM.choose(opts); if(i===0&&!F.textbook&&G.money>=650){ GM.money(-650); F.textbook=true; GM.memo('買了民法總則教科書'); await GM.say(null,'很厚。老闆說一年級都會買，然後大部分人到期末都只翻到第三章。'); } else if(i===1&&G.money>=80){ GM.money(-80); GM.toast('買了螢光筆'); } else if(i===2){ await GM.say(null,'架上有一整排判決彙編。有人在角落翻著《法律人的第一堂課》。'); } GM.sceneEnd(); }
   // ---------- 第一天：宿舍 ----------
   async function introDorm(GM){ const G=GM.G, F=G.flags, E=GM.E; GM.sceneBegin(); GM.letterbox(true); await GM.titleCard('第一天','週三 21:12 · 男生宿舍',2600); await GM.say(null,'你是{name}，台大法律系一年級。開學第三週。'); await GM.say(null,'書桌上放著明天民法總則要討論的案例——網拍上標價 1,000 元的相機。老師上週說：「會點人。」'); /* 交接包 v1 第 1 節（AA_12 0-3 第 1 點、0-2）＋可昕的第一則訊息（BB_95 9-0）*/ for(const t of DAY1_NARR) await GM.say(null,t); await kexinFirstMsg(GM,'night'); const kai=GM.npc.kai; if(kai){ GM.cine('two',E.player.obj,kai.obj); ADV.begin({background:'blur',right:'kai'}); await GM.say(kai,'欸，你們法律系是不是每堂課都要先讀一堆東西？',{expr:'smile'}); const i=await GM.choose([{t:'差不多。明天有個案例還沒看。'},{t:'還好，看心情。'}]); if(i===0){ await GM.say(kai,'那你快看啊，我要開遊戲了，等一下會很吵。'); } else { await GM.say(kai,'心情好就會被點到，我室友上學期就是這樣。',{expr:'laugh'}); } GM.rel('kai',2); } GM.letterbox(false); familyGroupD1(GM); F.introDone=true; GM.setGoal('讀（或不讀）明天的案例，然後睡覺'); GM.sceneEnd(); GM.autosave(); }
@@ -520,7 +629,7 @@ const STORY = (function(){
     PHONE.post(G,sis('先看置頂。')); if(GM.toast) GM.toast('手機｜法律系直屬家族｜Kevin：第三週了，直屬學弟妹還活著嗎？',4200); if(GM.phoneBadge) GM.phoneBadge(); }
   /* 手機上照旗標排時間的訊息（內容照企劃組原文）。每 0.5 秒（S.tick）；同一則用 tag 只排一次 */
   /* 某學期第幾週星期幾是第幾天（wd：1＝週一…7＝週日）；沒有＝null */
-  const termDayCache={}; function termDay(term,week,wd){ const k=term+'|'+week+'|'+wd; if(k in termDayCache) return termDayCache[k]; let r=null; if(typeof CALENDAR!=='undefined') for(let d=1;d<1500;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===week&&CALENDAR.dateOf(d).wd===wd){ r=d; break; } } return termDayCache[k]=r; }
+  const termDayCache={}; function termDay(term,week,wd){ const k=term+'|'+week+'|'+wd; if(k in termDayCache) return termDayCache[k]; let r=null; if(typeof CALENDAR!=='undefined') for(let d=(/^Y0/.test(term)?-420:1);d<1500;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===week&&CALENDAR.dateOf(d).wd===wd){ r=d; break; } } return termDayCache[k]=r; }
   S.termDay=termDay;
   /* 芷若 Z3「妳自己都喝什麼」（BB_96 3-1）：還沒發生、大一下第 3 週起的平日（她 19–22 晚班）、和她有點熟以上——這一天 21:40～22:00「店裡只剩祐廷」：
      之前進來的客人 21:40 起身走出去（until：refreshSchedule 讓他們走到門口才離開，不在眼前消失）、21:40～22:00 不生成客人（populate）；
@@ -536,6 +645,7 @@ const STORY = (function(){
   S.zhNum=n=>{ const d='零一二三四五六七八九'; n=n|0; if(n<=0) return '零'; if(n<10) return d[n]; if(n<20) return '十'+(n%10?d[n%10]:''); return d[Math.floor(n/10)]+'十'+(n%10?d[n%10]:''); };   /* 3→三、12→十二、20→二十 */
   /* 玩家認識這個人了嗎（群戲只放認識的人：交接包 v1 交付清單第 0 節第 1 點、AA_120 初遇規則）：FIRST_MET；小語的第一次說話是 talkYu（met_yu）；阿哲開場就熟 */
   S.knows=function(id,G){ G=G||(GM_ref&&GM_ref.G); if(id==='zhe') return true; if(id==='yu'&&G&&G.flags&&G.flags.met_yu) return true; return typeof SOCIAL!=='undefined'&&SOCIAL.has(id,'FIRST_MET'); };
+  let y0CallBusy=false;   /* 經濟系那一年固定核心的「韋綸打電話」（AA_154 A33）：一次只演一通 */
   S.phoneRules=function(GM){ const G=GM.G, F=G.flags; if(typeof PHONE==='undefined') return; if(typeof HOME!=='undefined'){ try{ HOME.phoneRules(GM); }catch(e){ console.warn('HOME.phoneRules',e); } }   /* 家人群組（週四 20:00）*/ const silentContact=id=>{ if(typeof INV==='undefined') return; INV.rec(G); if(G.contacts[id]==null) G.contacts[id]=G.day; };
     /* 芷若的第一則私訊（BB_95 4-2）：Café 第五次加了店裡的帳號（zhiruoShopContactDay）→ 那天 22:07；交往中改在隔天 15:10＋友情版的第三句（AA_112 8-1：交往中的玩家不收晚上只傳給他的訊息）*/
     /* 第三句（BB_95 4-2，BB 2026-10-14 654f5dd）：照第一次點的東西——有奶的（拿鐵、卡布奇諾、熱可可）「奶泡我多打了三秒」、手沖「悶蒸我多等了十秒」、
@@ -565,9 +675,279 @@ const STORY = (function(){
     /* 子晴 Q2（BB_95 2-6）：第一次去吉他社的晚上被拉進群組 */
     /* 校慶（BB_95 3-7）：子晴——在吉他社群組、INVITED_CLUB——攤位照片 */
     if(F.festivalBoothDay!=null&&PHONE.inGroup(G,'guitar')&&typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_04','INVITED_CLUB')&&!PHONE.sent(G,'fest_guitar')) PHONE.at(G,F.festivalBoothDay,Math.max(12,h(G)),[{th:'g:guitar',from:'heroine_04',text:'📷 吉他撥片賣了三個。三個都是阿凱買的。'}],'fest_guitar');
+    /* ★E06／D2（BB_104 第 8-3 節、BB_105 D2；AA_154 第 103 行、A4）：E05 那一晚。E05 結束到 23:00 之間經過大一女舍門口 30 m 內＝D2（她在三樓看到你）；
+       沒有就 22:30 E06（她先傳；第一句照 E05 的開口）。只會有一個版本 */
+    if(S.isEcon(G)&&F.E05_OPEN&&!F.E06_DONE&&F.E05_DAY!=null&&G.day===F.E05_DAY){ const K=(t,o)=>Object.assign({th:'p:kexin',from:'kexin',text:t},o||{}), P=GM.E&&GM.E.player&&GM.E.player.obj&&GM.E.player.obj.position, hh=h(G);
+      if(G.zone==='campus'&&P&&hh<23&&hh>=(F.E05_END||0)&&Math.hypot(P.x+93,P.z-56)<30){ F.E06_DONE='d2';
+        PHONE.at(G,G.day,G.hour,[K('你剛剛經過我們宿舍。'),K('我在三樓看到一個人騎腳踏車騎得很認真。'),K('是你嗎？',{ask:{opts:[{t:'是我。',say:[K('我就知道。你騎腳踏車的樣子很好認。')]},{t:'不是。',say:[K('好。那那個人很像你。')]},{t:'妳在監視我？',say:[K('我在吹頭髮。窗戶剛好在那邊。')]}]}})],'y0_d2'); }
+      else if(hh>=22.5){ F.E06_DONE='e06'; const first={carry:'你今天說要載我，',fix:'你今天說要幫我修車，',steady:'你今天說你車很穩，'}[F.E05_OPEN]||'你今天說要載我，';
+        PHONE.at(G,G.day,22.5,[K('問你一件事。'),K(first+'是真心的，還是經濟學上的「廉價訊號」？'),K('（廉價訊號：說了不用付出代價的話。我剛學的，想用用看。）',{ask:{opts:[{t:'真心的。',say:[K('好。那下次我的車鏈掉，你要負責。')]},{t:'妳猜。',say:[K('我猜了。我猜你在想要怎麼回。')]},{t:'那妳傳這則訊息，是什麼訊號？',say:[K('……你很會。晚安。')]}]}})],'y0_e06'); } }
+    /* 經濟系那一年的兩個群組（AA_157）：全班群組 econ_class「經濟系 大一（全班）」在 E02 迎新那天加入（寫法照法律系的全班群組：不發訊息）；
+       「走啦」econ_friends 在 P2 第一次去成的那晚由韋綸建立（第一則是系統訊息，照麵店團）。今天先回去的玩家等下一次（P2b，還沒做）*/
+    if(S.isEcon(G)){ const e02=termDay('Y0S1',1,1), mon3=termDay('Y0S1',3,1), sat3=termDay('Y0S1',3,6);
+      if(e02!=null&&!PHONE.inGroup(G,'econ_class')&&(G.day>e02||(G.events&&G.events.done&&G.events.done.ev_y0_e02))) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+      if(F.P2_PICK&&F.P2_PICK!=='home'&&!PHONE.inGroup(G,'econ_friends')){ PHONE.join(G,'econ_friends','走啦'); PHONE.post(G,{th:'g:econ_friends',text:'韋綸建立了群組「走啦」，把你加了進來。',tag:'econ_friends_new'}); }
+      /* ★E08 中秋系烤（BB_153；AA_154 第 88 行）：9/16（一）21:00 全班群組揪；9/21（六）16:00～17:00 韋綸私訊，回「好」＝出遊 17:00 河濱（ev_y0_e08）；
+         「今天不行」、沒回、出發選單選不去＝沒去：21:30 群組一張照片＋可昕私訊（BB_104 AB-09，不用回、不扣分）*/
+      if(mon3!=null&&sat3!=null&&PHONE.inGroup(G,'econ_class')&&G.day<=sat3) PHONE.at(G,mon3,21,[{th:'g:econ_class',text:'中秋系烤：9/21（六）17:00，河濱。自備餐具。'},{th:'g:econ_class',from:'econ_weilun',name:'韋綸',text:'走啦！'}],'y0_e08_grp');
+      if(sat3!=null&&G.day===sat3&&G.hour>=16&&G.hour<17&&!PHONE.sent(G,'y0_e08_dm')) PHONE.at(G,sat3,Math.max(16,G.hour),[{th:'p:econ_weilun',from:'econ_weilun',name:'韋綸',text:'走啦！我在舟山路門口。',ask:{until:sat3*24+17,opts:[{t:'好',set:{E08_GO:'yes'}},{t:'今天不行',set:{E08_GO:'no'}}]}}],'y0_e08_dm');
+      if(F.E08_GO==='yes'&&typeof OUT!=='undefined'&&sat3!=null&&G.day===sat3&&!OUT.get(G,'y0_e08')) OUT.plan(G,{id:'y0_e08',ev:'ev_y0_e08',day:sat3,h:17,place:'河濱',title:'中秋系烤',travel:'和韋綸走過去',travelH:0.25});
+      const q8=typeof OUT!=='undefined'?OUT.get(G,'y0_e08'):null;
+      if(sat3!=null&&!(q8&&q8.state==='done')&&(G.day>sat3||(G.day===sat3&&G.hour>=18))&&G.day<=sat3+2&&!PHONE.sent(G,'y0_e08_missed'))
+        PHONE.at(G,sat3,21.5,[{th:'g:econ_class',text:'📷（河濱的烤肉架、一圈人、一盤烤焦的玉米）'},{th:'p:kexin',from:'kexin',text:'你沒來。火很小，月亮很晚才出來。'}],'y0_e08_missed'); }
+    /* E07 沒去（BB_104 8b-2）：博覽會結束後可昕私訊「我加了即興劇社。你呢？」，玩家在手機上選社團（Y0_CLUB），她照 E07 的表回。
+       時間：9/21（六）12:30（E06 她的第一則私訊在 9/19 或 9/20，這一則排在那之後；AA-B 確認中）*/
+    if(S.isEcon(G)&&!F.Y0_CLUB&&!(G.events&&G.events.done&&G.events.done.ev_y0_e07)){ const sat3=termDay('Y0S1',3,6);
+      if(sat3!=null&&G.day>=sat3&&G.day<=sat3+6&&!(G.day===sat3&&G.hour<12.5)&&!PHONE.sent(G,'y0_e07_missed')){ const K=t=>({th:'p:kexin',from:'kexin',text:t});
+        PHONE.at(G,G.day===sat3?sat3:G.day,G.day===sat3?12.5:G.hour,[Object.assign(K('我加了即興劇社。你呢？'),{ask:{opts:[{t:'吉他社',set:{Y0_CLUB:'guitar'},say:[K('好。那你以後要彈一首給劇社配樂。')]},{t:'登山社',set:{Y0_CLUB:'hiking'},say:[K('你要去爬山？……記得帶伴手禮回來。')]},
+          {t:'羽球社',set:{Y0_CLUB:'badminton'},say:[K('羽球社的人都很早起。你可以嗎？')]},{t:'不參加',set:{Y0_CLUB:'none'},say:[K('也好。那你週五晚上都有空了。……我是說大家。')]}]}})],'y0_e07_missed'); } }
+    /* T0b 照常上課的喜劇（BB_110 第 2 節；AA_154 第 92 行、A2）：颱風假（9/30）前一晚 9/29（日）21:58 經原老師的信、22:00 新聞、22:01 第二封信（通知），
+       之後品妤、唐睿、可昕在群組（「走啦」，還沒有就在全班群組）；可昕那一則可以回三種（玩笑，不推進感情）。睡著、跳過時間的玩家照原本的時間補收 */
+    if(S.isEcon(G)&&typeof CALENDAR!=='undefined'){ const ty=termDay('Y0S1',5,1); if(ty!=null&&CALENDAR.typhoon(ty)&&G.day>=ty-1&&G.day<=ty&&!PHONE.sent(G,'ty0_k')){ const eve=ty-1;
+        PHONE.at(G,eve,21+58/60,[{th:'sys',name:'經原老師（信）',text:'若明日停課，作業照常繳交。'}],'ty0_mail1');
+        PHONE.at(G,eve,22,[{th:'sys',name:'新聞',text:'明天停止上班上課。'}],'ty0_news');
+        PHONE.at(G,eve,22+1/60,[{th:'sys',name:'經原老師（信）',text:'若明日未停課，作業也照常繳交。'}],'ty0_mail2');
+        const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':(PHONE.inGroup(G,'econ_class')?'econ_class':null);
+        if(gid){ const T='g:'+gid, K=t=>({th:T,from:'kexin',text:t});
+          PHONE.at(G,eve,22+3/60,[{th:T,from:'econ_pinyu',text:'這兩封信加起來，資訊量是零。'}],'ty0_g1');
+          PHONE.at(G,eve,22+5/60,[{th:T,from:'econ_tangrui',name:'唐睿',text:'老師其實只寫了一封。第二封是回聲。'}],'ty0_g2');
+          PHONE.at(G,eve,22+8/60,[Object.assign(K('假設颱風是一個人，他今天最想做什麼？'),{ask:{until:ty*24+24,opts:[
+            {t:'「放假。」',post:'放假。',say:[K('你好誠實。')]},{t:'「交作業。」',post:'交作業。',say:[K('你被老師洗腦了。')]},{t:'「看我們會不會真的交。」',post:'看我們會不會真的交。',say:[K('……你比颱風還壞。')]}]}})],'ty0_k'); } } }
+    /* C1 即興劇社的熱身（BB_110 第 3 節；AA_154 第 113 行）：第 6 週（10/7～10/13，10/10 國慶除外）第一個在 17:30 以前醒著的平日，可昕 17:30 私訊；回「好。」＝出遊 19:00 博雅。
+       「今天不行。」、沒回、出發選單選不去＝沒去：當晚 22:00 可昕「今天唐睿演了一隻企鵝。你錯過了一隻企鵝。」*/
+    if(S.isEcon(G)&&typeof CALENDAR!=='undefined'){ const T=CALENDAR.termOf(G.day), wd=CALENDAR.dateOf(G.day).wd, K=t=>({th:'p:kexin',from:'kexin',text:t});
+      if(T&&T.id==='Y0S1'&&T.week===6&&wd>=1&&wd<=5&&!CALENDAR.holiday(G.day)&&G.hour<17.5&&!PHONE.sent(G,'y0_c1_ask')){ F.C1_DAY=G.day;
+        PHONE.at(G,G.day,17.5,[Object.assign(K('劇社今天練習，可以帶一個人。你當那個人。'),{ask:{until:G.day*24+19,opts:[{t:'好。',set:{C1_GO:'yes'}},{t:'今天不行。',set:{C1_GO:'no'}}]}})],'y0_c1_ask'); }
+      if(F.C1_GO==='yes'&&F.C1_DAY!=null&&G.day===F.C1_DAY&&typeof OUT!=='undefined'&&!OUT.get(G,'y0_c1')) OUT.plan(G,{id:'y0_c1',ev:'ev_y0_c1',day:F.C1_DAY,h:19,place:'博雅教學館',title:'即興劇社的熱身',travel:'走過去約 10 分鐘',travelH:0.2});
+      const q1=typeof OUT!=='undefined'?OUT.get(G,'y0_c1'):null;
+      if(F.C1_DAY!=null&&!(q1&&q1.state==='done')&&(G.day>F.C1_DAY||G.hour>=20)&&G.day<=F.C1_DAY+1&&!PHONE.sent(G,'y0_c1_missed')) PHONE.at(G,F.C1_DAY,22,[K('今天唐睿演了一隻企鵝。你錯過了一隻企鵝。')],'y0_c1_missed'); }
+    /* 10/15 的群組聚會（AA_154 2-1b）：17:30 經濟系群組兩則（每個玩家都收到）；出發選單 17:30～19:15「公館 19:00：經濟系的聚會」（OUT late 15 分鐘）；沒去的玩家 21:40 群組多一則（選用的那一則）*/
+    if(S.isEcon(G)){ const tue7=termDay('Y0S1',7,2);
+      if(tue7!=null&&G.day===tue7&&G.hour>=17.5&&!PHONE.sent(G,'y0_gather_grp')){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class'; if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）'); const T='g:'+gid;
+        PHONE.at(G,tue7,17.5,[{th:T,from:'econ_weilun',name:'韋綸',text:'今晚七點，公館。期中考前最後一次。走啦！'},{th:T,from:'econ_pinyu',text:'先說好，我還是只有一百五。'}],'y0_gather_grp'); F.Y0_GATHER_TH=T;
+        if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_gather')&&G.hour<19.25) OUT.plan(G,{id:'y0_gather',ev:'ev_y0_gather',day:tue7,h:19,late:0.25,place:'公館',title:'公館 19:00：經濟系的聚會',travel:'走過去約 15 分鐘',travelH:0.25,back:'在公館的路口散了。'}); }
+      const qg=typeof OUT!=='undefined'?OUT.get(G,'y0_gather'):null;
+      if(tue7!=null&&F.Y0_GATHER_TH&&F.E10_EVE!=='went'&&!(qg&&qg.state==='done')&&(G.day>tue7||G.hour>=21+40/60)&&G.day<=tue7+1&&!PHONE.sent(G,'y0_gather_miss')) PHONE.at(G,tue7,21+40/60,[{th:F.Y0_GATHER_TH,from:'econ_weilun',name:'韋綸',text:'唐睿聊到期中了。今天他請。'}],'y0_gather_miss'); }
+    /* ★E10 的邀約（BB_104 8b-4；AA_154 第 116、117 行）：10/15（二）22:30 可昕私訊「玩了一整晚。明天去總圖念書吧。期中考快到了。」（回到 10/16 19:00）；
+       回「好。」＝10/16 18:00 提醒，晚上走進總圖三樓就開始（events.js ev_y0_e10）；不答應、沒回、20:30 還沒到＝在小福遇到她（ev_y0_e10b）*/
+    if(S.isEcon(G)){ const tue7=termDay('Y0S1',7,2);
+      if(tue7!=null&&G.day>=tue7&&G.day<=tue7+1&&!(G.day===tue7&&G.hour<22.5)&&!PHONE.sent(G,'y0_e10_ask')){ F.E10_ASKED=true;
+        const askO={until:(tue7+1)*24+19,opts:[{t:'好。',set:{E10_GO:'yes'}},{t:'明天不行。',set:{E10_GO:'no'}}]}, KX=t=>({th:'p:kexin',from:'kexin',text:t});
+        PHONE.at(G,tue7,22.5,F.E10_EVE==='went'?[Object.assign(KX('玩了一整晚。明天去總圖念書吧。期中考快到了。'),{ask:askO})]:[KX('你今天沒來。我們玩了一整晚。'),Object.assign(KX('明天去總圖念書吧。期中考快到了。'),{ask:askO})],'y0_e10_ask'); }   /* 沒去聚會的玩家換兩則（BB-B 573f8d2c，AA_154 2-1b 第 3 點）*/
+      if(tue7!=null&&F.E10_GO==='yes'&&!F.E10_STUDY&&G.day===tue7+1&&G.hour>=18&&G.hour<20.5&&!F.E10_TOAST){ F.E10_TOAST=1; if(GM.toast) GM.toast('19:00 總圖三樓：和可昕念書',4200); } }
+    /* ★E12 長頸鹿的尾巴（AA_154 A32）：①11/6（三）17:30 可昕私訊兩則（BB-B 定稿 a38a22c5）＋出發選單「醉月湖 20:00」（OUT goto：帶到湖的南岸步道，19:55 到）；
+       ②19:45～20:15 她站在南岸步道（campus），走到她旁邊就演（events.js ev_y0_e12）；③20:15 還沒到＝20:30 手機版：自動打開和她的對話，四句變四則訊息、三個接法一定要選才關得掉（ask.must）；
+       ④20:30 在別的事件裡＝事件結束後；睡著＝醒來第一次能操作時（訊息時間照 20:30）*/
+    if(S.isEcon(G)){ const wed10=termDay('Y0S1',10,3), K=t=>({th:'p:kexin',from:'kexin',text:t});
+      if(wed10!=null&&G.day===wed10&&G.hour>=17.5&&!PHONE.sent(G,'y0_e12_ask')){ F.E12_ASKED=true;
+        PHONE.at(G,wed10,17.5,[K('今天晚上八點，醉月湖。'),K('我有一個問題，一定要在湖邊問。')],'y0_e12_ask');   /* BB-B 定稿（BB_104 8-4，a38a22c5）*/
+        if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_e12')&&G.hour<20.25) OUT.plan(G,{id:'y0_e12',goto:{zone:'campus',x:-34.5,z:-97.2,yaw:Math.PI},early:1/12,day:wed10,h:20,late:0.25,place:'醉月湖',title:'醉月湖 20:00',travel:'走過去',travelH:1/6}); }
+      if(wed10!=null&&G.day===wed10&&F.E12_ASKED&&!F.E12_ANSWER&&G.zone==='campus'&&G.hour>=19.75&&G.hour<20.25&&GM.spawnCharacter&&!(GM.npc&&GM.npc.kexin)){ try{ GM.spawnCharacter('kexin',-36,-98.5,{yaw:Math.PI}); }catch(e){ console.warn('E12 kexin',e); } }
+      if(wed10!=null&&F.E12_ASKED&&!F.E12_ANSWER&&(G.day>wed10||G.hour>=20.25)&&!PHONE.sent(G,'y0_e12_phone')){ F.E12_PHONE=1;
+        const opts=[{t:'「那上課要訂特別的椅子。」',post:'那上課要訂特別的椅子。',set:{E12_ANSWER:'chair'},say:[K('對！所以學校要多一筆預算。你們經濟系的，算一下。'),K('……下次要在湖邊回答。這次先算你的。')]},
+          {t:'「我要第三隻手，幫妳拿尾巴。」',post:'我要第三隻手，幫妳拿尾巴。',set:{E12_ANSWER:'hand'},say:[K('……這是我聽過最好的回答。'),K('……下次要在湖邊回答。這次先算你的。')]},
+          {t:'「為什麼不是貓的？」',post:'為什麼不是貓的？',set:{E12_ANSWER:'cat'},say:[K('貓的太常見了。我想要一個大家都沒想過的東西。'),K('……下次要在湖邊回答。這次先算你的。')]}];
+        PHONE.at(G,wed10,20.5,[K('你沒來。……沒關係，問題不會跑。'),K('那我用打的。'),K('假設，你可以多一個身體部位。你要什麼？'),K('我要長頸鹿的尾巴。'),K('不是脖子。是尾巴。牠的尾巴尾端有一撮毛，可以趕蒼蠅。'),Object.assign(K('而且我想知道，有尾巴的人怎麼坐椅子。'),{ask:{must:true,opts}})],'y0_e12_phone'); }
+      if(F.E12_PHONE===1&&!F.E12_ANSWER&&GM.openPhone&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&(G.msgs||[]).some(m=>m.text==='而且我想知道，有尾巴的人怎麼坐椅子。')){ F.E12_PHONE=2; GM.openPhone('msg','p:kexin'); } }
+    /* ★E25 我想重考法律（BB_104 8-8；AA_154 A35）：3/19（三）17:30 手機自動打開和可昕的對話，祐廷傳出（不用選）＋她回兩則＋出發選單「醉月湖 20:00」（帶到湖的南岸步道）；
+       19:45～20:15 她在南岸步道，走到她旁邊就演；20:15 還沒到＝20:20「我在湖邊。」、窗口延到 21:30（E25_LATE）；21:30 還沒到＝把玩家帶到場（E25_FORCE：旁白一句再接原文；不改成手機版）*/
+    if(S.isEcon(G)){ const d25=S.dayOfKey('2025-03-19'), K=t=>({th:'p:kexin',from:'kexin',text:t}), done25=!!(G.events&&G.events.done&&G.events.done.ev_y0_e25);
+      if(d25!=null&&G.day===d25&&G.hour>=17.5&&!PHONE.sent(G,'y0_e25_ask')&&!done25){ F.E25_ASKED=true;
+        PHONE.at(G,d25,17.5,[{th:'p:kexin',from:'player',who:null,text:'今天晚上有空嗎？我有一件事想跟妳說。'},K('……八點，醉月湖。'),K('上次是我在那裡問你問題。這次換你。')],'y0_e25_ask');
+        if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_e25')&&G.hour<20.25) OUT.plan(G,{id:'y0_e25',goto:{zone:'campus',x:-34.5,z:-97.2,yaw:Math.PI},early:1/12,day:d25,h:20,late:0.25,place:'醉月湖',title:'醉月湖 20:00',travel:'走過去',travelH:1/6}); }
+      if(F.E25_ASKED&&!F.E25_OPENED&&GM.openPhone&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&(G.msgs||[]).some(m=>m.text==='上次是我在那裡問你問題。這次換你。')){ F.E25_OPENED=true; GM.openPhone('msg','p:kexin'); }
+      if(d25!=null&&G.day===d25&&F.E25_ASKED&&!done25&&G.hour>=20.25&&!PHONE.sent(G,'y0_e25_late')){ F.E25_LATE=true; PHONE.at(G,d25,20+20/60,[K('我在湖邊。')],'y0_e25_late'); }
+      if(d25!=null&&F.E25_ASKED&&!done25&&G.zone==='campus'&&G.day===d25&&G.hour>=19.75&&G.hour<(F.E25_LATE?21.5:20.25)&&GM.spawnCharacter&&!(GM.npc&&GM.npc.kexin)){ try{ GM.spawnCharacter('kexin',-36,-98.5,{yaw:Math.PI}); }catch(e){ console.warn('E25 kexin',e); } }
+      if(d25!=null&&F.E25_ASKED&&!done25&&(G.day>d25||G.hour>=21.5)) F.E25_FORCE=true; }
+    /* ★E27 我不是因為你（BB_104 8-10；AA_154 A35）：3/26（三）12:10 可昕私訊兩則＋出發選單「總圖門口 13:30」（帶到總圖門廊前）；13:15～14:00 走到她旁邊就演（3D）；
+       14:00 還沒到＝她傳「我在總圖門口。」、窗口延到 15:00（體育課 15:30 以前）；15:00 還沒到＝帶到場（E27_FORCE）。不做手機版 */
+    if(S.isEcon(G)){ const d27=S.dayOfKey('2025-03-26'), K=t=>({th:'p:kexin',from:'kexin',text:t}), done27=!!(G.events&&G.events.done&&G.events.done.ev_y0_e27);
+      if(d27!=null&&G.day===d27&&G.hour>=12+10/60&&!PHONE.sent(G,'y0_e27_ask')&&!done27){ F.E27_ASKED=true; PHONE.at(G,d27,12+10/60,[K('一點半，總圖門口。不用帶書。'),K('我有一件事，要先跟你說，再跟別人說。')],'y0_e27_ask');
+        if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_e27')&&G.hour<14) OUT.plan(G,{id:'y0_e27',goto:{zone:'campus',x:75,z:0,yaw:Math.PI/2},early:1/12,day:d27,h:13.5,late:0.5,place:'總圖門口',title:'總圖門口 13:30',travel:'走過去',travelH:1/6}); }
+      if(d27!=null&&G.day===d27&&F.E27_ASKED&&!done27&&G.hour>=14&&!PHONE.sent(G,'y0_e27_late')){ F.E27_LATE=true; PHONE.at(G,d27,14,[K('我在總圖門口。')],'y0_e27_late'); }
+      if(d27!=null&&F.E27_ASKED&&!done27&&G.zone==='campus'&&G.day===d27&&G.hour>=13.25&&G.hour<(F.E27_LATE?15:14)&&GM.spawnCharacter&&!(GM.npc&&GM.npc.kexin)){ try{ GM.spawnCharacter('kexin',78.6,0,{yaw:-Math.PI/2}); }catch(e){ console.warn('E27 kexin',e); } }
+      if(d27!=null&&F.E27_ASKED&&!done27&&(G.day>d27||G.hour>=15)) F.E27_FORCE=true; }
+    /* E28 告訴朋友（BB_153 E28；AA_154 A20、AA-B 2026-10-16 改觸發）：3/26（三）19:30 群組韋綸「宵夜！公館！走啦！」＋可昕私訊；出發選單「公館 21:00：宵夜」（2D 出遊）；
+       21:30 還沒出發＝沒去：22:00 群組品妤（E19_ASK＝none 多唐睿一句）*/
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const d28=S.dayOfKey('2025-03-26'); if(d28!=null){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, done28=!!(G.events&&G.events.done&&G.events.done.ev_y0_e28);
+      if(G.day===d28&&G.hour>=19.5&&!PHONE.sent(G,'y0_e28_ask')&&!done28){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,d28,19.5,[{th:T,from:'econ_weilun',name:'韋綸',text:'宵夜！公館！走啦！'},{th:'p:kexin',from:'kexin',text:'今天要講嗎？……我覺得今天可以。'}],'y0_e28_ask');
+        if(!OUT.get(G,'y0_e28')&&G.hour<21.5) OUT.plan(G,{id:'y0_e28',ev:'ev_y0_e28',day:d28,h:21,late:0.5,place:'公館',title:'公館 21:00：宵夜',travel:'走過去約 15 分鐘',travelH:0.25}); }
+      if(!done28&&PHONE.sent(G,'y0_e28_ask')&&(G.day>d28||G.hour>=22)&&G.day<=d28+2&&!PHONE.sent(G,'y0_e28_miss')){ const L=[{th:T,from:'econ_pinyu',name:'品妤',text:'宣布兩件事：祐廷和可昕。還有，他們要重考。'}]; if(F.E19_ASK==='none') L.push({th:T,from:'econ_tangrui',name:'唐睿',text:'等一下，你們什麼時候開始的？？'}); PHONE.at(G,d28,22,L,'y0_e28_miss'); } } }
+    /* E18b 可昕的生日（BB_104 8b-11；AA_154 第 240 行）：4/23（三）21:00 群組品妤約（時間暫定，照 E14）＋出發選單 4/24（四）19:00 公館豆花店（2D 出遊，晚 15 分鐘＝沒去）；
+       沒去＝4/24 21:00 群組品妤貼蛋糕照片＋可昕私訊、E18B_GIFT＝none */
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const d18=S.dayOfKey('2025-04-24'); if(d18!=null){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, done18=!!(G.events&&G.events.done&&G.events.done.ev_y0_e18b);
+      if((G.day>d18-1||(G.day===d18-1&&G.hour>=21))&&G.day<=d18&&!PHONE.sent(G,'y0_e18b_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,d18-1,21,[{th:T,from:'econ_pinyu',name:'品妤',text:'4/24 可昕生日。公館豆花店，七點。重考生也要來，一碗豆花的時間而已。遲到的人請客。'}],'y0_e18b_ask');
+        if(!OUT.get(G,'y0_e18b')&&(G.day<d18||G.hour<19.25)) OUT.plan(G,{id:'y0_e18b',ev:'ev_y0_e18b',day:d18,h:19,late:0.25,place:'公館豆花店',title:'公館豆花店 19:00：可昕的生日',travel:'走過去約 15 分鐘',travelH:0.25}); }
+      if(!done18&&PHONE.sent(G,'y0_e18b_ask')&&(G.day>d18||(G.day===d18&&G.hour>=21))&&G.day<=d18+2&&!PHONE.sent(G,'y0_e18b_miss')){ if(!F.E18B_GIFT) F.E18B_GIFT='none';
+        PHONE.at(G,d18,21,[{th:T,from:'econ_pinyu',name:'品妤',text:'📷（生日蛋糕）'},{th:'p:kexin',from:'kexin',text:'蛋糕有你的份。我先吃了。'}],'y0_e18b_miss'); } } }
+    /* E34＝R8 經濟學原理最後一堂的最後一句（BB_153 E34 完整稿）：6/1（日）21:00 阿勳私訊（不用回）；6/2（一）11:50～12:15 走到博雅就演（ev_y0_e34）；
+       12:15 還沒到＝阿勳私訊沒去版那句（之後到了也不演）*/
+    if(S.isEcon(G)){ const d34=S.dayOfKey('2025-06-02'), XU=t=>({th:'p:econ_zhengxun',from:'econ_zhengxun',name:'阿勳',text:t}), done34=!!(G.events&&G.events.done&&G.events.done.ev_y0_e34);
+      if(d34!=null&&(G.day>d34-1||(G.day===d34-1&&G.hour>=21))&&G.day<=d34&&!PHONE.sent(G,'y0_e34_ask')) PHONE.at(G,d34-1,21,[XU('明天經原最後一堂。十二點十分下課。')],'y0_e34_ask');
+      if(d34!=null&&!done34&&(G.day>d34||(G.day===d34&&G.hour>=12.25))&&G.day<=d34+2&&!PHONE.sent(G,'y0_e34_miss')) PHONE.at(G,d34,12.25,[XU('老師最後說：選了要付什麼。我覺得你付得起。')],'y0_e34_miss'); }
+    /* ★E35 考試的前一晚（BB_104 8b-18；AA_154 A41）：7/10（四）18:00 可昕私訊兩則（BB-B 6d59df01）＋出發選單「女舍門口 21:00」（從臺北的家約 30 分鐘，帶到大一女舍門口的長椅旁）；
+       20:45～21:15 走到她旁邊就演（3D，E35_MET:true）；21:15 還沒到＝21:30 電話版（E35_PHONE：在家＝home3d 選單那一輪演、睡著＝電話叫醒（coreCallAt）、在別的事件裡＝結束後；E35_MET:false）*/
+    if(S.isEcon(G)){ const d35=S.dayOfKey('2025-07-10'), K=t=>({th:'p:kexin',from:'kexin',text:t});
+      if(d35!=null&&G.day===d35&&G.hour>=18&&!PHONE.sent(G,'y0_e35_ask')&&!F.E35_DONE){ F.E35_ASKED=true; PHONE.at(G,d35,18,[K('今晚九點，我宿舍樓下。'),K('五分鐘就好。明天要早睡。')],'y0_e35_ask');
+        if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_e35')&&G.hour<21.25) OUT.plan(G,{id:'y0_e35',goto:{zone:'campus',x:S.E35_AT.x,z:S.E35_AT.z-3,yaw:0},early:0.25,day:d35,h:21,late:0.25,place:'女舍門口',title:'女舍門口 21:00',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}); }
+      if(d35!=null&&F.E35_ASKED&&!F.E35_DONE&&G.zone==='campus'&&G.day===d35&&G.hour>=20.75&&G.hour<21.25&&GM.spawnCharacter&&!(GM.npc&&GM.npc.kexin)){ try{ GM.spawnCharacter('kexin',S.E35_AT.x,S.E35_AT.z,{yaw:Math.PI}); }catch(e){ console.warn('E35 kexin',e); } }
+      if(d35!=null&&F.E35_ASKED&&!F.E35_DONE&&(G.day>d35||G.hour>=21.5)) F.E35_PHONE=true; }
+    /* R 系列沒遇到的照片、私訊（BB_112 第 4 節「沒去時」；時間 LAWWW 定：當天 21:00）＋R4 可昕在總圖外台階、R7 前一晚的群組（S.kxFreeAt 那一段）*/
+    if(S.isEcon(G)&&S.dayOfKey('2025-03-28')!=null){ const K=t=>({th:'p:kexin',from:'kexin',text:t}), ED=id=>!!(G.events&&G.events.done&&G.events.done[id]), past=(k,h)=>{ const d=S.dayOfKey(k); return G.day>d||(G.day===d&&G.hour>=h); }, before=(k,n)=>G.day<=S.dayOfKey(k)+(n||2);
+      if(!ED('ev_y0_r5')&&past('2025-04-02',21)&&before('2025-04-02')&&!PHONE.sent(G,'y0_r5_miss')) PHONE.at(G,S.dayOfKey('2025-04-02'),21,[K('📷（牆上的倒數：100）')],'y0_r5_miss');
+      if(!ED('ev_y0_r3')&&past('2025-04-01',21)&&before('2025-04-01')&&!PHONE.sent(G,'y0_r3_miss')) PHONE.at(G,S.dayOfKey('2025-04-01'),21,[K('📷（杜鵑花）'),K('它們今天投完了。')],'y0_r3_miss');
+      if(!ED('ev_y0_r2')&&past('2025-04-13',21)&&before('2025-04-13')&&!PHONE.sent(G,'y0_r2_miss')) PHONE.at(G,S.dayOfKey('2025-04-13'),21,[K('📷（四碗豆花）'),K('帳先記著。')],'y0_r2_miss');
+      { const d6=S.dayOfKey('2025-05-10'); if(!ED('ev_y0_r6')&&!F.R6_MISSED&&past('2025-05-10',21)&&before('2025-05-10')){ F.R6_MISSED=true; PHONE.at(G,d6,21,[K('📷（河濱的夕陽）'),K('規定是我一個人遵守的。')],'y0_r6_miss'); } }   /* 第 12 週到 5/10 都沒和她去成玩樂日＝她自己去 */
+      { const d4=S.dayOfKey('2025-04-19'); if(G.day===d4&&G.zone==='campus'&&G.hour>=16&&G.hour<18&&!ED('ev_y0_r4')&&GM.spawnCharacter&&!(GM.npc&&GM.npc.kexin)){ try{ GM.spawnCharacter('kexin',S.R4_AT.x,S.R4_AT.z,{yaw:-Math.PI/2}); }catch(e){ console.warn('R4 kexin',e); } }
+        if(!ED('ev_y0_r4')&&past('2025-04-19',21)&&before('2025-04-19')&&!PHONE.sent(G,'y0_r4_miss')) PHONE.at(G,d4,21,[K('今天考爛了。明天再說。')],'y0_r4_miss'); }
+      { const d7=S.dayOfKey('2025-05-24'), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, XU=t=>({th:T,from:'econ_zhengxun',name:'阿勳',text:t});
+        if((G.day>d7-1||(G.day===d7-1&&G.hour>=21))&&G.day<=d7&&!PHONE.sent(G,'y0_r7_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+          PHONE.at(G,d7-1,21,[XU('那張便利貼，你還留著嗎？'),{th:T,from:'player',who:null,text:'📷（臺北的家，檯燈上的便利貼）'},XU('好。那就算數。……明天兩點。欠我一場。')],'y0_r7_ask');
+          if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_r7')&&(G.day<d7||G.hour<14.75)) OUT.plan(G,{id:'y0_r7',ev:'ev_y0_r7',day:d7,h:14,late:0.75,place:'保齡球館',title:'保齡球館 14:00',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}); }
+        if(!ED('ev_y0_r7')&&PHONE.sent(G,'y0_r7_ask')&&past('2025-05-24',17)&&before('2025-05-24')&&!PHONE.sent(G,'y0_r7_miss')) PHONE.at(G,d7,17,[XU('📷（阿勳舉著球）'),XU('全倒。這次有證人。')],'y0_r7_miss'); } }
+    /* E30 辦休學（AA_169）：3/27（四）起休學（Y0_LEFT：經濟系的課、法學緒論都不排，那天的課不扣出席也不記缺席）；14:40 自動（事件 ev_y0_e30）。
+       「先走。」＝15:12 群組阿勳「我在裡面舉筆了。你有看到嗎？」＋回覆「有。」→「好。那就算數。」。當晚 22:00 以後第一次回房間＝檯燈上的便利貼（ev_y0_e30_note）*/
+    if(S.isEcon(G)){ const d30=S.dayOfKey('2025-03-27'); if(d30!=null&&G.day>=d30&&!F.Y0_LEFT) F.Y0_LEFT=true;
+      if(F.E30_WAITED===false&&!PHONE.sent(G,'y0_e30_grp')){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', XU=t=>({th:'g:'+gid,from:'econ_zhengxun',name:'阿勳',text:t}); const h=Math.max(15.2,G.day===d30?G.hour:15.2);
+        PHONE.at(G,G.day,h,[Object.assign(XU('我在裡面舉筆了。你有看到嗎？'),{ask:{id:'y0_e30',opts:[{t:'有。',say:[XU('好。那就算數。')]}]}})],'y0_e30_grp'); } }
+    /* ★E26 摩天輪（BB_104 8-9；AA_154 A40）：3/20（四）22:00 可昕私訊「週六傍晚有空嗎？」兩個選項（BB-B 定稿 6d59df01）＋出發選單 3/22（六）「捷運站 17:30」；
+       17:45 還沒出發＝可昕打電話（照 AA 暫定句）→ 直接進出遊（同 E14）。睡著也會被叫醒（CORE_OUT）*/
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const d26=S.dayOfKey('2025-03-22'), K=t=>({th:'p:kexin',from:'kexin',text:t});
+      if(d26!=null&&(G.day>d26-2||(G.day===d26-2&&G.hour>=22))&&G.day<=d26&&!PHONE.sent(G,'y0_e26_ask')){
+        PHONE.at(G,d26-2,22,[Object.assign(K('週六傍晚有空嗎？'),{ask:{id:'y0_e26',opts:[{t:'有。',say:[K('好。五點半，捷運站。'),K('我們去一個很高的地方。')]},{t:'妳要去哪？',say:[K('假設我先說了，你就會開始猜。'),K('……五點半，捷運站。很高的地方。')]}]}})],'y0_e26_ask');
+        if(!OUT.get(G,'y0_e26')) OUT.plan(G,{id:'y0_e26',ev:'ev_y0_e26',day:d26,h:17.5,late:0.25,place:'捷運站',title:'捷運站 17:30',travel:'走過去約 15 分鐘',travelH:0.25}); }
+      const q26=OUT.get(G,'y0_e26');
+      if(q26&&q26.state!=='done'&&d26!=null&&(G.day>d26||(G.day===d26&&G.hour>=17.75))&&G.day<=d26+1&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!y0CallBusy){ y0CallBusy=true;
+        (async()=>{ try{ GM.sceneBegin(); try{ await GM.say({name:'可昕（電話）'},'你在哪？……我在捷運站。我會等，可是我不喜歡等。'); } finally { GM.sceneEnd(); } q26.state='planned'; await OUT.go(GM,q26); } catch(e){ console.warn('E26 call',e); } finally { y0CallBusy=false; } })(); } }
+    /* ★E14 保齡球館（AA_154 A33）：11/14（四）21:00 經濟系群組，品妤（BB-B 審定）＋出發選單 11/15（五）19:00；19:15 還沒出發＝韋綸打電話（BB-B 審定）→ 直接進出遊（2D，不用走路）；
+       在別的事件裡＝結束後馬上 */
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const thu11=termDay('Y0S1',11,4), fri11=thu11!=null?thu11+1:null;
+      if(thu11!=null&&(G.day>thu11||(G.day===thu11&&G.hour>=21))&&G.day<=fri11&&!PHONE.sent(G,'y0_e14_ask')){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class'; if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,thu11,21,[{th:'g:'+gid,from:'econ_pinyu',text:'明天晚上七點，保齡球。高中制服記得帶，要抽籤交換。'}],'y0_e14_ask');
+        if(!OUT.get(G,'y0_e14')) OUT.plan(G,{id:'y0_e14',ev:'ev_y0_e14',day:fri11,h:19,late:0.25,place:'保齡球館',title:'保齡球館 19:00',travel:'搭公車約 20 分鐘',travelH:1/3}); }
+      const q14=OUT.get(G,'y0_e14');
+      if(q14&&q14.state!=='done'&&fri11!=null&&(G.day>fri11||(G.day===fri11&&G.hour>=19.25))&&G.day<=fri11+1&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!y0CallBusy){ y0CallBusy=true;
+        (async()=>{ try{ GM.sceneBegin(); try{ await GM.say({name:'韋綸（電話）'},'你在哪？大家都到了。我們等你，快點！'); } finally { GM.sceneEnd(); } q14.state='planned'; await OUT.go(GM,q14); } catch(e){ console.warn('E14 call',e); } finally { y0CallBusy=false; } })(); } }
+    /* E17（AA_154 A36）：11/8（五）12:30 經濟系群組品妤兩則（BB-B 定稿）＋出發選單「社科院 19:00：備料」（2D 出遊到 21:00，15 分鐘沒出發＝沒去）；
+       兩天都沒去（備料、攤位都沒有）＝11/9（六）18:00 群組一張攤位前排隊的照片＋品妤「今天的營收，我會做成報表。」（BB_104 8b-9）*/
+    if(S.isEcon(G)){ const sat10=termDay('Y0S1',10,6), fri10=sat10!=null?sat10-1:null, D=id=>!!(G.events&&G.events.done&&G.events.done[id]), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class';
+      if(fri10!=null&&G.day===fri10&&G.hour>=12.5&&!PHONE.sent(G,'y0_e17_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,fri10,12.5,[{th:'g:'+gid,from:'econ_pinyu',text:'今晚七點，系學會辦公室，備料。明天校慶擺攤，賣珍奶。'},{th:'g:'+gid,from:'econ_pinyu',text:'成本我算好了。定價還沒。'}],'y0_e17_ask');   /* BB-B 定稿（AA_154 76eed22b）*/
+        if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_e17a')&&G.hour<19.25) OUT.plan(G,{id:'y0_e17a',ev:'ev_y0_e17a',day:fri10,h:19,late:0.25,place:'社科院',title:'社科院 19:00：備料',travel:'走過去約 10 分鐘',travelH:1/6,back:'備料結束。'}); }
+      if(sat10!=null&&!D('ev_y0_e17')&&!D('ev_y0_e17a')&&(G.day>sat10||(G.day===sat10&&G.hour>=18))&&G.day<=sat10+2&&!PHONE.sent(G,'y0_e17_missed')){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class'; if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,sat10,18,[{th:'g:'+gid,from:'econ_pinyu',text:'📷（攤位前排隊的照片）'},{th:'g:'+gid,from:'econ_pinyu',text:'今天的營收，我會做成報表。'}],'y0_e17_missed'); } }
+    /* E15 經濟系宿營（BB_104 8b-7）：11/22（五）出發選單「社科院門口 12:00：經濟系宿營（三天兩夜）」（15 分鐘沒出發＝沒去）；去了＝11/24 09:00 群組大合照；
+       沒去＝11/24 18:00 群組大合照（第二排空一個位子，韋綸在旁邊比手勢）＋阿勳私訊「冷笑話我留了一個給你。」*/
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const fri12=termDay('Y0S1',12,5), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class';
+      /* 邀約（BB_104 8b-7，BB-B e0e7a359；AA_154 A37）：11/20（三）21:00 全班群組家豪學長兩則；11/21（四）22:00「走啦」韋綸、品妤（有這個群組的玩家）*/
+      if(fri12!=null&&(G.day>fri12-2||(G.day===fri12-2&&G.hour>=21))&&G.day<=fri12&&!PHONE.sent(G,'y0_e15_ask')){ if(!PHONE.inGroup(G,'econ_class')) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,fri12-2,21,[{th:'g:econ_class',from:'econ_jiahao',name:'家豪學長',text:'宿營這週五！中午十二點社科院門口集合，三天兩夜，遊覽車不等人。'},{th:'g:econ_class',from:'econ_jiahao',name:'家豪學長',text:'第三小隊：'+(G.name||'祐廷')+'、可昕、阿勳、韋綸，小隊輔是我。帶拖鞋，外套帶厚一點，山上晚上很冷。'}],'y0_e15_ask'); }
+      if(fri12!=null&&PHONE.inGroup(G,'econ_friends')&&(G.day>fri12-1||(G.day===fri12-1&&G.hour>=22))&&G.day<=fri12&&!PHONE.sent(G,'y0_e15_grp')) PHONE.at(G,fri12-1,22,[{th:'g:econ_friends',from:'econ_weilun',name:'韋綸',text:'第三小隊！明天誰遲到，大地遊戲就當鬼！'},{th:'g:econ_friends',from:'econ_pinyu',text:'你上次遲到七分鐘。'}],'y0_e15_grp');
+      if(fri12!=null&&G.day===fri12&&G.hour<12.25&&!OUT.get(G,'y0_e15')) OUT.plan(G,{id:'y0_e15',ev:'ev_y0_e15',day:fri12,h:12,late:0.25,place:'社科院門口',title:'社科院門口 12:00：經濟系宿營（三天兩夜）',travel:'坐遊覽車到山邊的青年活動中心',travelH:1/6,back:'回到學校。'});
+      if(fri12!=null&&F.E15_WENT&&!PHONE.sent(G,'y0_e15_photo')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）'); PHONE.at(G,fri12+2,9,[{th:'g:'+gid,from:'econ_weilun',name:'韋綸',text:'📷（活動中心門口的大合照）'}],'y0_e15_photo'); }
+      const q15=OUT.get(G,'y0_e15');
+      if(fri12!=null&&!F.E15_WENT&&(G.day>fri12+2||(G.day===fri12+2&&G.hour>=18))&&G.day<=fri12+4&&!PHONE.sent(G,'y0_e15_missed')&&!(q15&&q15.state==='done')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,fri12+2,18,[{th:'g:'+gid,from:'econ_weilun',name:'韋綸',text:'📷（大合照。第二排有一個空位，韋綸在旁邊比了一個手勢。）'},{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'冷笑話我留了一個給你。'}],'y0_e15_missed'); } }
+    /* E18 即興劇小公演（BB_104 8b-10；AA_154 A36）：11/28（四）21:00 可昕私訊兩則（有 Y0_EXTRA＝唐睿私訊一則）＋出發選單 11/29 19:00（有 Y0_EXTRA＝18:30）；15 分鐘沒出發＝沒去；
+       沒去＝11/30 12:00 唐睿傳一段影片「她接了一句很像你會說的話。」*/
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const thu13=termDay('Y0S1',13,4), fri13=thu13!=null?thu13+1:null, X=!!F.Y0_EXTRA;
+      if(thu13!=null&&(G.day>thu13||(G.day===thu13&&G.hour>=21))&&G.day<=fri13&&!PHONE.sent(G,'y0_e18_ask')){
+        PHONE.at(G,thu13,21,X?[{th:'p:econ_tangrui',from:'econ_tangrui',name:'唐睿',text:'臨時演員六點半到。你的角色是一棵樹，台詞零句，責任重大。'}]:[{th:'p:kexin',from:'kexin',text:'明天晚上七點，博雅。我們有小公演。'},{th:'p:kexin',from:'kexin',text:'假設你不來，我就在台上講你的壞話。……你會來吧？'}],'y0_e18_ask');
+        if(!OUT.get(G,'y0_e18')) OUT.plan(G,{id:'y0_e18',ev:'ev_y0_e18',day:fri13,h:X?18.5:19,late:0.25,place:'博雅教學館',title:X?'博雅 18:30：即興劇小公演（臨時演員）':'博雅 19:00：即興劇小公演',travel:'走過去約 10 分鐘',travelH:1/6}); }
+      const q18=OUT.get(G,'y0_e18');
+      if(fri13!=null&&q18&&q18.state!=='done'&&G.day>=fri13+1&&!(G.day===fri13+1&&G.hour<12)&&G.day<=fri13+3&&!PHONE.sent(G,'y0_e18_missed')) PHONE.at(G,fri13+1,12,[{th:'p:econ_tangrui',from:'econ_tangrui',name:'唐睿',text:'🎬（一段影片）'},{th:'p:econ_tangrui',from:'econ_tangrui',name:'唐睿',text:'她接了一句很像你會說的話。'}],'y0_e18_missed'); }
+    /* E16 分組報告（BB_104 8b-8）：寫報告的玩家，報告前一晚（12/15）23:00 可昕私訊「你在寫嗎」「……我也是。」；第 16 週經原翹課（12/16 12:30 以後還沒演 ev_y0_e16b）＝品妤群組一句、E16_ROLE:'absent' */
+    if(S.isEcon(G)){ const mon16=termDay('Y0S1',16,1), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', done16=!!(G.events&&G.events.done&&G.events.done.ev_y0_e16b);
+      if(mon16!=null&&F.E16_ROLE==='report'&&(G.day>=mon16||(G.day===mon16-1&&G.hour>=23))&&G.day<=mon16&&!PHONE.sent(G,'y0_e16_night')) PHONE.at(G,mon16-1,23,[{th:'p:kexin',from:'kexin',text:'你在寫嗎'},{th:'p:kexin',from:'kexin',text:'……我也是。'}],'y0_e16_night');
+      if(mon16!=null&&!done16&&(G.day>mon16||(G.day===mon16&&G.hour>=12.5))&&G.day<=mon16+2&&!PHONE.sent(G,'y0_e16_absent')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        F.E16_ROLE='absent'; PHONE.at(G,mon16,12.5,[{th:'g:'+gid,from:'econ_pinyu',text:'報告順利。你的那段，可昕替你講了。'}],'y0_e16_absent'); } }
+    /* E20 聖誕交換禮物（BB_153；AA_154 A36）：12/23（一）21:00 品妤群組；12/25（三）17:00 韋綸＋品妤；出發選單 12/25 19:00；沒去＝12/26 第一次經過社科院門口（events.js ev_y0_e20b），
+       18:00 以前沒經過＝20:00 可昕私訊「你的份，我放在你們宿舍一樓的信箱了。」→ 隔天早上拿到 GIRAFFE_KEYCHAIN */
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const wed17=termDay('Y0S1',17,3), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, D=id=>!!(G.events&&G.events.done&&G.events.done[id]);
+      if(wed17!=null&&(G.day>wed17-2||(G.day===wed17-2&&G.hour>=21))&&G.day<=wed17&&!PHONE.sent(G,'y0_e20_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,wed17-2,21,[{th:T,from:'econ_pinyu',text:'12/25 晚上七點，公館火鍋。禮物兩百以內。地址等一下傳。'}],'y0_e20_ask');
+        if(!OUT.get(G,'y0_e20')) OUT.plan(G,{id:'y0_e20',ev:'ev_y0_e20',day:wed17,h:19,late:0.25,place:'公館',title:'公館 19:00：聖誕交換禮物（火鍋）',travel:'走過去約 15 分鐘',travelH:0.25}); }
+      if(wed17!=null&&G.day===wed17&&G.hour>=17&&!PHONE.sent(G,'y0_e20_day')) PHONE.at(G,wed17,17,[{th:T,from:'econ_weilun',name:'韋綸',text:'走啦！今天不念書！'},{th:T,from:'econ_pinyu',text:'念。吃完回去念。'}],'y0_e20_day');
+      if(wed17!=null&&!F.GIRAFFE_KEYCHAIN&&!D('ev_y0_e20')&&!D('ev_y0_e20b')&&(G.day>wed17+1||(G.day===wed17+1&&G.hour>=18))&&!PHONE.sent(G,'y0_e20_mail')){ F.E20_MAILBOX=wed17+2; PHONE.at(G,wed17+1,20,[{th:'p:kexin',from:'kexin',text:'你的份，我放在你們宿舍一樓的信箱了。'}],'y0_e20_mail'); }
+      if(F.E20_MAILBOX!=null&&!F.GIRAFFE_KEYCHAIN&&G.day>=F.E20_MAILBOX) F.GIRAFFE_KEYCHAIN=true; }
+    /* C2 自己的社團（AA_154 A37）：E07 選了社團（Y0_CLUB）就在那個社團的群組；第 10 週社課當天 12:30 群組一則（社長、學長姐不具名）＋出發選單；「不參加」＝11/5 21:00 唐睿私訊（Y0_EXTRA）*/
+    if(S.isEcon(G)&&typeof OUT!=='undefined'&&F.Y0_CLUB){ const C2={guitar:{g:'y0_guitar',n:'吉他社',from:'社長',wd:1,txt:'期中考完了。今晚七點，萬才館一樓，第一堂社課。沒有吉他也沒關係，社辦有借。',title:'萬才館 19:00：吉他社的第一堂',goto:{zone:'wancai',x:0,z:5,yaw:Math.PI}},
+        hiking:{g:'y0_hiking',n:'登山社',from:'學長',wd:2,txt:'今晚七點行前會。帶筆記本，不用帶裝備。',title:'19:00：登山社的行前會',ev:'ev_y0_c2_hiking'},
+        badminton:{g:'y0_badminton',n:'羽球社',from:'學姊',wd:4,txt:'今晚七點新體一樓。球拍社團有借，記得穿運動鞋。',title:'新體 19:00：羽球社的第一次',goto:{zone:'gym',x:0,z:17.6,yaw:Math.PI}}}[F.Y0_CLUB];
+      if(C2&&!PHONE.inGroup(G,C2.g)) PHONE.join(G,C2.g,C2.n);
+      const dC=C2?termDay('Y0S1',10,C2.wd):null;
+      if(C2&&dC!=null&&G.day===dC&&G.hour>=12.5&&!PHONE.sent(G,'y0_c2_ask')){ PHONE.at(G,dC,12.5,[{th:'g:'+C2.g,name:C2.from,text:C2.txt}],'y0_c2_ask');
+        if(!OUT.get(G,'y0_c2')&&G.hour<19.25) OUT.plan(G,Object.assign({id:'y0_c2',day:dC,h:19,late:0.25,place:C2.n,title:C2.title,travel:'走過去',travelH:1/6},C2.goto?{goto:C2.goto,early:1/12}:{ev:C2.ev})); }
+      const tue10=termDay('Y0S1',10,2);
+      if(F.Y0_CLUB==='none'&&tue10!=null&&(G.day>tue10||(G.day===tue10&&G.hour>=21))&&G.day<=tue10+3&&!PHONE.sent(G,'y0_c2_extra')){ const TR=t=>({th:'p:econ_tangrui',from:'econ_tangrui',name:'唐睿',text:t});
+        PHONE.at(G,tue10,21,[Object.assign(TR('劇社缺一個會站著不動的人。你很適合。'),{ask:{opts:[{t:'答應',post:'好。站著不動我很行。',set:{Y0_EXTRA:true},say:[TR('成交。月底小公演，角色之後告訴你。')]},{t:'不要',post:'不要。我會笑場。',say:[TR('可惜。笑場的樹，我們劇社還沒有過。')]}]}})],'y0_c2_extra'); } }
+    /* E22 期末通宵（AA_154 A38）：12/22（日）20:00 經濟系群組韋綸、品妤＋出發選單「總圖 B1 22:00：期末通宵」；沒去＝01:00 群組照片（桌上四杯咖啡）。
+       E21a 跨年（A36、A38）：12/31（二）19:00 群組三則＋出發選單「總圖 B1 19:00：期末衝刺」；沒去＝00:05 群組人潮照片＋可昕私訊 */
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const sun22=termDay('Y0S1',16,7), tue31=termDay('Y0S1',18,2), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, D=id=>!!(G.events&&G.events.done&&G.events.done[id]);
+      if(sun22!=null&&G.day===sun22&&G.hour>=20&&!PHONE.sent(G,'y0_e22_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,sun22,20,[{th:T,from:'econ_weilun',name:'韋綸',text:'今晚 B1 通宵。明天那科，我需要一點奇蹟。'},{th:T,from:'econ_pinyu',text:'奇蹟不是讀書方法。……十點，B1 門口。咖啡我帶。'}],'y0_e22_ask');
+        if(!OUT.get(G,'y0_e22')&&G.hour<22.25) OUT.plan(G,{id:'y0_e22',ev:'ev_y0_e22',day:sun22,h:22,late:0.25,place:'總圖 B1',title:'總圖 B1 22:00：期末通宵',travel:'走過去約 10 分鐘',travelH:1/6,back:'回到宿舍。'}); }
+      const q22=OUT.get(G,'y0_e22');
+      if(sun22!=null&&q22&&q22.state!=='done'&&(G.day>sun22||G.hour>=25)&&G.day<=sun22+2&&!PHONE.sent(G,'y0_e22_missed')) PHONE.at(G,sun22,25,[{th:T,from:'econ_weilun',name:'韋綸',text:'📷（凌晨一點，總圖 B1。桌上四杯咖啡）'}],'y0_e22_missed');
+      if(tue31!=null&&G.day===tue31&&G.hour>=19&&!PHONE.sent(G,'y0_e21a_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,tue31,19,[{th:T,from:'econ_weilun',name:'韋綸',text:'今晚總圖，期末衝刺！走啦！'},{th:T,from:'econ_pinyu',text:'讀到幾點？'},{th:T,from:'econ_weilun',name:'韋綸',text:'讀到……我說停為止。'}],'y0_e21a_ask');
+        if(!OUT.get(G,'y0_e21a')&&G.hour<22) OUT.plan(G,{id:'y0_e21a',ev:'ev_y0_e21a',day:tue31,h:19,late:3,place:'總圖 B1',title:'總圖 B1 19:00：期末衝刺',travel:'走過去約 10 分鐘',travelH:1/6,back:'回到宿舍。'}); }
+      if(tue31!=null&&!D('ev_y0_e21a')&&!F.E21A_WENT&&(G.day>tue31||G.hour>=24+5/60)&&G.day<=tue31+2&&!PHONE.sent(G,'y0_e21a_missed')) PHONE.at(G,tue31,24+5/60,[{th:T,from:'econ_weilun',name:'韋綸',text:'📷（信義區的人潮）'},{th:'p:kexin',from:'kexin',text:'你錯過了一場人潮。……下次。'}],'y0_e21a_missed'); }
+    /* ★E19 誤會（AA_154 A33、A34）：最後一場期末考那一天（現在的課表是 1/2（四）會計，15:10 考完；S.y0FinalEnd）考完群組韋綸「考完了！今晚七點，公館。寒假前最後一次，走啦！」＋出發選單 19:00；19:15 沒出發＝韋綸打電話（固定核心，同 E14）；
+       不問（E19_ASK＝none）＝她之後傳「你最近很有禮貌。我不習慣。」（BB_104 8-6；時間 1/4（六）22:00，BB-B 6d59df01 確認）*/
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const fe=S.y0FinalEnd(G), thu18=fe?fe.day:null, feH=fe?fe.h:15+10/60, gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class';
+      if(thu18!=null&&G.day===thu18&&G.hour>=feH&&!PHONE.sent(G,'y0_e19_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,thu18,Math.max(feH,Math.min(G.hour,18)),[{th:'g:'+gid,from:'econ_weilun',name:'韋綸',text:'考完了！今晚七點，公館。寒假前最後一次，走啦！'}],'y0_e19_ask');
+        if(!OUT.get(G,'y0_e19')) OUT.plan(G,{id:'y0_e19',ev:'ev_y0_e19',day:thu18,h:19,late:0.25,place:'公館',title:'公館 19:00：寒假前最後一次',travel:'走過去約 15 分鐘',travelH:0.25}); }
+      const q19=OUT.get(G,'y0_e19');
+      if(q19&&q19.state!=='done'&&thu18!=null&&(G.day>thu18||(G.day===thu18&&G.hour>=19.25))&&G.day<=thu18+1&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!y0CallBusy){ y0CallBusy=true;
+        (async()=>{ try{ GM.sceneBegin(); try{ await GM.say({name:'韋綸（電話）'},'你在哪？大家都到了。我們等你，快點！'); } finally { GM.sceneEnd(); } q19.state='planned'; await OUT.go(GM,q19); } catch(e){ console.warn('E19 call',e); } finally { y0CallBusy=false; } })(); }
+      if(thu18!=null&&F.E19_ASK==='none'&&(G.day>thu18+2||(G.day===thu18+2&&G.hour>=22))&&G.day<=thu18+6&&!PHONE.sent(G,'y0_e19_none')) PHONE.at(G,thu18+2,22,[{th:'p:kexin',from:'kexin',text:'你最近很有禮貌。我不習慣。'}],'y0_e19_none'); }
+    /* L5a 長頸鹿拉花（BB_110 L5a；AA_154 A42）：10/11（五）21:00 經濟系群組可昕＋出發選單 10/12「兩點半 Café 14:00」（只帶到 Café，走進去就演 ev_y0_l5a；14:15 還沒到＝沒去）；
+       沒去＝10/12 16:00 群組品妤照片「驗證結果：是馬。」＋可昕「是很努力的長頸鹿。」；不再邀第二次 */
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const ld=S.dayOfKey('2024-10-12'); if(ld!=null){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, done=!!(G.events&&G.events.done&&G.events.done.ev_y0_l5a);
+      if((G.day>ld-1||(G.day===ld-1&&G.hour>=21))&&G.day<=ld&&!PHONE.sent(G,'y0_l5a_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,ld-1,21,[{th:T,from:'kexin',text:'溫州街有一間 Café，聽說拉花會畫長頸鹿。……我沒看過。我們去驗證。'}],'y0_l5a_ask');
+        if(!OUT.get(G,'y0_l5a')&&(G.day<ld||G.hour<14.25)) OUT.plan(G,{id:'y0_l5a',day:ld,h:14,late:0.25,place:'兩點半 Café',title:'兩點半 Café 14:00：長頸鹿拉花',travel:'走過去約 15 分鐘',travelH:0.25,goto:{zone:'cafe',x:0,z:5,yaw:Math.PI},early:1/12}); }
+      if(!done&&(G.day>ld||(G.day===ld&&G.hour>=16))&&G.day<=ld+2&&PHONE.sent(G,'y0_l5a_ask')&&!PHONE.sent(G,'y0_l5a_miss')) PHONE.at(G,ld,16,[{th:T,from:'econ_pinyu',name:'品妤',text:'📷（短脖子的長頸鹿）'},{th:T,from:'econ_pinyu',name:'品妤',text:'驗證結果：是馬。'},{th:T,from:'kexin',text:'是很努力的長頸鹿。'}],'y0_l5a_miss'); } }
+    /* 韋綸的腳踏車・沒去版（AA_154 2-5b；BB_112 第 3 節）：11/7 17:30 還沒演腳踏車（沒上會計、或選了「今天先回去」）＝群組韋綸求救，回覆到 18:00：
+       「（去總圖查完再回）」＝時間前進一小時，祐廷傳查到的（LEGAL_REVIEW_REQUIRED：BB-B 審過 7cf231c3，改字要再審）＋韋綸回、記 BIKE_LOOKED_UP、WL_BIKE；「（不回）」不記。
+       18:00 還沒回或選了不回＝阿勳一句（選了去查的不出現）。兩週後 11/21 21:00 群組韋綸、可昕（去了、沒去都收到）*/
+    if(S.isEcon(G)){ const bd=S.bikeDay(); if(bd!=null){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, WL=t=>({th:T,from:'econ_weilun',name:'韋綸',text:t});
+      if(G.day===bd&&G.hour>=17.5&&!F.WL_BIKE_SEEN&&!PHONE.sent(G,'y0_bike_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,bd,17.5,[Object.assign(WL('我的車被認走了。有沒有人懂法律？'),{ask:{id:'y0_bike',until:bd*24+18,opts:[{t:'（去總圖查完再回）',post:false,set:{WL_BIKE_ASK:'look'}},{t:'（不回）',post:false,set:{WL_BIKE_ASK:'none'}}]}})],'y0_bike_ask'); }
+      if(F.WL_BIKE_ASK==='look'&&!PHONE.sent(G,'y0_bike_look')&&!(GM.D&&GM.D.active)){ F.WL_BIKE_ASK='looked'; F.BIKE_LOOKED_UP=true; F.WL_BIKE=true; if(GM.advance) GM.advance(1);
+        PHONE.at(G,G.day,G.hour,[{th:T,from:'player',who:null,text:'被偷的東西，原主兩年內可以要回去。車要還，可是你可以去找賣你的人。紀錄都留著。'},WL('……好。我去派出所。')],'y0_bike_look'); }
+      if(G.day>=bd&&(G.day>bd||G.hour>=18)&&G.day<=bd+2&&PHONE.sent(G,'y0_bike_ask')&&!/^look/.test(F.WL_BIKE_ASK||'')&&!PHONE.sent(G,'y0_bike_xun')) PHONE.at(G,bd,18,[{th:T,from:'econ_zhengxun',name:'阿勳',text:'去派出所。留著對話紀錄。'}],'y0_bike_xun');
+      if((G.day>bd+14||(G.day===bd+14&&G.hour>=21))&&G.day<=bd+18&&!PHONE.sent(G,'y0_bike_after')) PHONE.at(G,bd+14,21,[WL('賣車的人找到了。錢拿回一半。另一半當學費。'),{th:T,from:'kexin',text:'學費的邊際效用很高。'}],'y0_bike_after'); } }
+    /* F1 經濟系群組的小年夜（BB_110 F1；AA_154 A17、A18）：2025-01-27（一）21:00「走啦」（沒有就全班群組）十則＋可昕的假設題；回覆三選一：
+       轉給表叔＝阿勳一句、Y0_UNCLE；轉給品妤＝品妤一句；「（已讀，不回）」＝可昕一句、Y0_F1_SEEN。完全沒打開手機＝什麼都沒有（群組照樣留著）。回覆開到 1/28 18:00（除夕晚上是 E21 的電話；AA_154 A43），過了只能看、什麼都不記 */
+    if(S.isEcon(G)){ const fd=S.dayOfKey('2025-01-27'); if(fd!=null&&(G.day>fd||(G.day===fd&&G.hour>=21))&&G.day<=fd+3&&!PHONE.sent(G,'y0_f1')){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class'; if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+      const T='g:'+gid, M=(from,name,text)=>({th:T,from,name,text}), PY=t=>M('econ_pinyu','品妤',t), TR=t=>M('econ_tangrui','唐睿',t), XU=t=>M('econ_zhengxun','阿勳',t), WL=t=>M('econ_weilun','韋綸',t);
+      PHONE.at(G,fd,21,[PY('📷（一張表格）各縣市年菜價格比較。台北最貴。'),TR('妳為什麼要做這個？'),PY('我媽叫我去買。我要讓她知道代價。'),XU('紅包的期望值我算好了。'),XU('三個阿姨、兩個舅舅、一個不知道為什麼會來的表叔。'),XU('表叔的變異數很大。'),
+        WL('📷（一張照片：海邊、一台腳踏車）我騎到墾丁了！'),TR('從哪裡騎？'),WL('枋寮。……好啦，坐火車到枋寮。'),
+        Object.assign({th:T,from:'kexin',text:'假設紅包可以轉讓，你們會轉給誰？'},{ask:{id:'y0_f1',until:(fd+1)*24+18,opts:[{t:'轉給表叔。增加他的變異數。',set:{Y0_UNCLE:true},say:[XU('……這是今年最好的經濟學。')]},{t:'轉給品妤，讓她付年菜。',say:[PY('收到。不退。')]},{t:'（已讀，不回）',post:false,set:{Y0_F1_SEEN:true},say:[{th:T,from:'kexin',text:(G.name||'祐廷')+'已讀不回。這也是一種答案。'}]}]}})],'y0_f1'); } }
+    /* T3 沒去（BB_112 T3）：第 1 週沒演到＝2/21（五）21:00 群組品妤「今天收到一台計算機。很實用。」韋綸「……全系都在笑。」（時間暫定）*/
+    if(S.isEcon(G)){ const d=S.dayOfKey('2025-02-21'); if(d!=null&&(G.day>d||(G.day===d&&G.hour>=21))&&G.day<=d+3&&!(G.events&&G.events.done&&G.events.done.ev_y0_t3)&&!PHONE.sent(G,'y0_t3_miss')){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid;
+      if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）'); PHONE.at(G,d,21,[{th:T,from:'econ_pinyu',name:'品妤',text:'今天收到一台計算機。很實用。'},{th:T,from:'econ_weilun',name:'韋綸',text:'……全系都在笑。'}],'y0_t3_miss'); } }
+    /* E24 每晚的訊息（BB_104 8b-16；AA_154 A44）：寒假（E19 之後）可昕私訊，順序固定：1/10 22:30「跳過哪一天」（選項有除夕，排在除夕前）、1/18 22:30「什麼湯」、
+       2/2 22:30「寒假胖了是存糧」（過年吃完以後）；那一晚 2/8（六）23:00「如果可以重來一次選科系，你會選什麼？」三選一，回答不記錄（「還是經濟。」＝15 分鐘後才回「好。」）。
+       回覆開到隔天 18:00。寒假模式跳過的日子：照時間戳記收在手機裡 */
+    if(S.isEcon(G)){ const K=t=>({th:'p:kexin',from:'kexin',text:t}), D=k=>S.dayOfKey(k), end=S.dayOfKey('2025-02-17'), past=(d,h)=>d!=null&&(G.day>d||(G.day===d&&G.hour>=h))&&(end==null||G.day<=end), until=d=>(d+1)*24+18;   /* 寒假結束（2/17 開學）以後不補發 */
+      { const d=D('2025-01-10'); if(past(d,22.5)&&!PHONE.sent(G,'y0_e24a')) PHONE.at(G,d,22.5,[Object.assign(K('假設寒假有一天可以跳過，你要跳哪一天？'),{ask:{id:'y0_e24a',until:until(d),opts:[{t:'今天。',say:[K('……今天有跟我聊天，不能跳。')]},{t:'除夕。',say:[K('除夕有紅包。你很奇怪。')]}]}})],'y0_e24a'); }
+      { const d=D('2025-01-18'); if(past(d,22.5)&&!PHONE.sent(G,'y0_e24c')) PHONE.at(G,d,22.5,[Object.assign(K('今天的假設題：如果你是一碗湯，你是什麼湯？'),{ask:{id:'y0_e24c',until:until(d),opts:[{t:'玉米濃湯。',say:[K('好。我是味噌湯。很鹹，但對身體好。')]},{t:'貢丸湯。',say:[K('好。我是味噌湯。很鹹，但對身體好。')]},{t:'……白開水算湯嗎？',say:[K('不算。……好啦，算。我是味噌湯。很鹹，但對身體好。')]}]}})],'y0_e24c'); }   /* 回覆按鈕：BB-B c65b84f0 */
+      { const d=D('2025-02-02'); if(past(d,22.5)&&!PHONE.sent(G,'y0_e24b')) PHONE.at(G,d,22.5,[K('我媽說我寒假胖了。我說這是存糧。')],'y0_e24b'); }
+      { const d=D('2025-02-08'); if(past(d,23)&&!PHONE.sent(G,'y0_e24n')) PHONE.at(G,d,23,[Object.assign(K('如果可以重來一次選科系，你會選什麼？'),{ask:{id:'y0_e24n',until:until(d),opts:[{t:'還是經濟。'},{t:'我不知道。',say:[K('我也不知道。……晚安。')]},{t:'妳呢？',say:[K('我先問的。……算了，晚安。')]}]}})],'y0_e24n');
+        const m=PHONE.byAsk&&PHONE.byAsk(G,'y0_e24n'); if(m&&m.ans===0&&!PHONE.sent(G,'y0_e24n_late')) PHONE.at(G,G.day,G.hour+0.25,[K('好。')],'y0_e24n_late'); } }
+    /* 校慶問答攤（BB_95 3-7，DL-04B）：前一天（週五）21:00 法服群組，學姊提醒；沒加入法服的玩家改成校園公告欄的旁白（AMBIENT 的 festEve）*/
+    if(PHONE.inGroup(G,'lawclub_study')){ const fs=termDay('Y1S1',11,6); if(fs&&G.day===fs-1) PHONE.at(G,fs-1,21,[{th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'明天校慶，問答攤十點開。輪班表在記事本。'}],'fest_eve_lawclub'); }
     /* 家族聚餐（BB_95 3-8）：前一週 Kevin 在家族群組約；當晚 22:30 學姊訂正考古題；沒去的玩家 22:00 Kevin 貼資料夾、學姊說書會留給學弟 */
     if(PHONE.inGroup(G,'family_law')){ const fri=termDay('Y1S1',14,5); if(fri){ const th='g:family_law', sis=t=>({th,from:'heroine_05',name:'溫學姊',text:t}), kv=t=>({th,from:'kevin',name:'Kevin',text:t});
       if(G.day>=fri-7&&G.day<=fri) PHONE.at(G,fri-7,20.5,[kv('家族聚餐！週五 18:30，阿鳳麵店。學姊說她會來（截圖為證）'),sis('收到。')],'fam_dinner_invite');
+      if(G.day===fri-1) PHONE.at(G,fri-1,21,[sis('明天六點半，公館。三件事：準時、帶胃、不要帶作業。')],'fam_dinner_eve');   /* 前一天 21:00 提醒一次（BB_95 3-8，DL-04B）*/
+      if(G.day===fri&&h(G)>=17.5&&h(G)<18.5&&!F.famDinnerToast&&!(G.events&&G.events.done&&G.events.done.ev_sis_family_dinner)){ F.famDinnerToast=true; GM.toast('今天 18:30 家族聚餐（公館）',4200); }   /* 當天 17:30 */
       if(G.day===fri) PHONE.at(G,fri,22.5,[sis('考古題第七題，我的紅筆改錯了。正確的在附件。')],'fam_dinner_fix');
       if(G.day===fri&&h(G)>=19&&!(G.events&&G.events.done&&G.events.done.ev_sis_family_dinner)) PHONE.at(G,fri,22,[kv('📷 學姊整理的，沒來的人自己拿。'),sis('下學期的書，我會留給學弟。')],'fam_dinner_noshow');
       { const nye=termDay('Y1S1',18,3); if(F.SIS_NO_STICKER&&nye&&G.day>=nye-1&&G.day<=nye+1) PHONE.at(G,nye,24+3/60,[sis('（貼圖）'),kv('？？？'),sis('……學弟說過。')],'sis_first_sticker'); }   /* SIS_NO_STICKER 的回聲（BB_108 第 1 節）：跨年夜，學姊第一次在家族群組貼貼圖；沒有這個旗標不觸發 */ } }
@@ -736,8 +1116,12 @@ const STORY = (function(){
             {t:'「我在吃泡麵。」',post:'我在吃泡麵。',set:{TY1_REPLY:'noodle'},say:[{from:'zhe',text:'這才是正確的颱風假。'}]},
             {t:'（貼一張颱風的貼圖）',post:'🌀（颱風的貼圖）',set:{TY1_REPLY:'sticker'},say:[{from:'yu',text:'這張貼圖比講義有用。'}]}]}}],'ty1_g4'); } } }
     /* 聖誕交換禮物（A20、AA_71 2-6）：阿哲在麵店團群組揪（第 17 週週一 12/22 21:00；之後才加入群組的，加入時看到）。活動本身是 ev_xmas_exchange（12/24 週三中午霖澤館一樓）*/
-    { const mon=termDay('Y1S1',17,1); if(mon&&PHONE.inGroup(G,'noodle_team')&&G.day>=mon&&(G.day<mon+2||(G.day===mon+2&&h(G)<12+20/60))&&!PHONE.sent(G,'xmas_ask')){ const late=G.day>mon||h(G)>=21;
+    { const mon=termDay('Y1S1',17,1); if(mon&&PHONE.inGroup(G,'noodle_team')&&G.day>=mon&&(G.day<mon+2||(G.day===mon+2&&h(G)<12+10/60))&&!PHONE.sent(G,'xmas_ask')){ const late=G.day>mon||h(G)>=21;
         PHONE.at(G,late?G.day:mon,late?h(G):21,[{th:'g:noodle_team',from:'zhe',text:'聖誕交換禮物，週三中午，霖澤館一樓。一百五以內。'}],'xmas_ask'); } }
+    /* 週二晚上的第二則提醒（AA-B 10-16，AA_160 3-4 B）：22:00 小語、22:02 阿哲、22:03 小語；條件和 xmas_ask 一樣（在群組、還沒演）；之後才加入的在加入時看到。書店真的開到 22:30 */
+    { const mon=termDay('Y1S1',17,1), tue=mon!=null?mon+1:null; if(tue!=null&&PHONE.inGroup(G,'noodle_team')&&!(G.events&&G.events.done&&G.events.done.ev_xmas_exchange)&&(G.day>tue||(G.day===tue&&h(G)>=22))&&(G.day<tue+1||(G.day===tue+1&&h(G)<12+10/60))&&!PHONE.sent(G,'xmas_eve1')){ const late=G.day>tue||h(G)>=22.1;
+        const d0=late?G.day:tue, t0=late?h(G):22; PHONE.at(G,d0,t0,[{th:'g:noodle_team',from:'yu',text:'明天中午十二點十分，霖澤館一樓！禮物記得包起來。'}],'xmas_eve1'); PHONE.at(G,d0,t0+2/60,[{th:'g:noodle_team',from:'zhe',text:'我還沒買。'}],'xmas_eve2'); PHONE.at(G,d0,t0+3/60,[{th:'g:noodle_team',from:'yu',text:'……書店開到十點半。'}],'xmas_eve3'); } }
+    { const wed=termDay('Y1S1',17,3); if(wed&&G.day===wed&&h(G)>=12&&h(G)<13+40/60&&PHONE.inGroup(G,'noodle_team')&&!(G.events&&G.events.done&&G.events.done.ev_xmas_exchange)){ const D=G.daily||(G.daily={}); if(D.xmasToast!==wed){ D.xmasToast=wed; GM.toast('今天 12:10～13:40：聖誕交換禮物（霖澤館一樓）',4800); } } }   /* 當天 12:00 一則提醒（AA_160 3-4 B）*/
     /* 跨年（A21、BB_95 9-7）：一週前（第 17 週週三 12/24 21:00）可昕問；KX_NYE_PICK 換成 KX_NYE:{1:…}（每年一筆）；12/31 排出遊：河堤 23:30（開車）、頂樓 23:45（走上去）；
        沒有回她、在麵店團群組的玩家：頂樓（AA 的群戲，沒有視訊）。河堤回來的路上（00:12）麵店團群組：頂樓的照片＋阿哲「我們就說有看到。」*/
     { const nye=termDay('Y1S1',18,3);
@@ -829,8 +1213,8 @@ const STORY = (function(){
     { const yr=(()=>{ for(let d=G.day;d>G.day-200;d--){ const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(d):null; if(T){ const y=+String(T.id).charAt(1); return y>=1&&y<=4?y:0; } } return 1; })();
       if(yr>=1){ const nm='法律系 '+['大一','大二','大三','大四'][yr-1]+'（全班）'; const g=PHONE.join(G,'law_class',nm); if(g&&g.name!==nm) g.name=nm; } }
     /* 經濟系那群的群組「走啦」econ_friends（AA_157 第 1 節，AA-B 2026-10-16）：韋綸建的；從法律系開始的玩家、舊存檔第一天就在手機裡，裡面只有 2025-08-13 放榜那晚的一張照片（只有照片說明、沒有台詞）。
-       之後的訊息照各事件（AA_115 xun_met、BB_96 10-4 沒去午餐）。v0（經濟系開局）由 P2 那晚建立，等 v0 做 */
-    if(!PHONE.inGroup(G,'econ_friends')){ const g=PHONE.join(G,'econ_friends','走啦'); g.day=Math.min(g.day,-34); if(!PHONE.sent(G,'econ_photo_0813')) PHONE.postAt(G,{th:'g:econ_friends',from:'econ_weilun',name:'韋綸',text:'📷（公館的宵夜攤，六個人和準備收攤的老闆）',tag:'econ_photo_0813'},-34,23.5); if(PHONE.markSeen) PHONE.markSeen(G,'g:econ_friends'); }   /* 一年多前的舊照片：不算未讀 */
+       之後的訊息照各事件（AA_115 xun_met、BB_96 10-4 沒去午餐）。經濟系開局的玩家：P2 那晚建立（上面 econ_class 那一段）；8/13 的照片等經濟系那一年接到法律系時再補（還沒做）*/
+    if(!S.isEcon(G)&&!PHONE.inGroup(G,'econ_friends')){ const g=PHONE.join(G,'econ_friends','走啦'); g.day=Math.min(g.day,-34); if(!PHONE.sent(G,'econ_photo_0813')) PHONE.postAt(G,{th:'g:econ_friends',from:'econ_weilun',name:'韋綸',text:'📷（公館的宵夜攤，六個人和準備收攤的老闆）',tag:'econ_photo_0813'},-34,23.5); if(PHONE.markSeen) PHONE.markSeen(G,'g:econ_friends'); }   /* 一年多前的舊照片：不算未讀 */
     /* 10-3 之後（AA_115 第 2 節、BB_96 10-3／10-4、AA_157）：「聊兩句就走」（xun_met）＝阿勳在「走啦」說一句；「期末考一起讀？」（pact）＝他私訊期末的行程表；
        「一起讀到閉館」（night）的玩家第 11 週週五沒有去小福午餐（SK03_LAST 不是那天）＝12:40 群組一張便當照片「欠你的，下週。」，下一個去的週五照樣推過來（ev_sk03_lunch 的 repay）。
        只在共同見過阿勳的玩家也開 SK03（AA-B 2026-10-16），所以便當照片照發、下一個有去的週五推便當 */
@@ -844,15 +1228,15 @@ const STORY = (function(){
     if(F.tutorThinkDay!=null&&!F.JOB_TUTOR){ const d0=CALENDAR.dateOf(F.tutorThinkDay), mdays=[31,28,31,30,31,30,31,31,30,31,30,31][d0.m-1]+((d0.m===2&&d0.y%4===0)?1:0), mEnd=F.tutorThinkDay+(mdays-d0.d), M=t=>({th:'p:classmate_mingxuan',from:'classmate_mingxuan',text:t});
       if(mEnd-7>F.tutorThinkDay&&!PHONE.sent(G,'mx_tutor_ask2')) PHONE.at(G,mEnd-7,21,[Object.assign(M('家教的事，想好了嗎？'),{ask:{until:(mEnd+1)*24,opts:[{t:'好。',set:{JOB_TUTOR:true,tutorFromDay:mEnd-7},say:[M('很好。第一堂我陪你去認門。')]}]}})],'mx_tutor_ask2');
       if(G.day>mEnd&&!PHONE.sent(G,'mx_tutor_gone')){ F.TUTOR_GONE=true; PHONE.at(G,mEnd+1,12,[M('名額給別人了。下次有，我再跟你說。')],'mx_tutor_gone'); } }
-    if(F.JOB_TUTOR&&typeof OUT!=='undefined'){ const T=CALENDAR.termOf(G.day); if(T&&T.id==='Y1S2'){ for(let w=T.week;w<=18;w++){ const d=termDay('Y1S2',w,2); if(d==null||d<=(F.tutorFromDay|0)||d*24+19<G.day*24+G.hour) continue; if(CALENDAR.holiday(d)) continue; const id='tutor_'+d; if(OUT.get(G,id)) break;
+    if(F.JOB_TUTOR&&typeof OUT!=='undefined'){ const T=CALENDAR.termOf(G.day); if(T&&T.id==='Y1S2'){ for(let w=T.week;w<=18;w++){ const d=termDay('Y1S2',w,2); if(d==null||d<=(F.tutorFromDay|0)||d*24+19<G.day*24+G.hour) continue; if(CALENDAR.holiday(d)||(CALENDAR.typhoon&&CALENDAR.typhoon(d))) continue;   /* 颱風假不能打工（AA_160 3-4 D）*/ const id='tutor_'+d; if(OUT.get(G,id)) break;
           OUT.plan(G,{id,ev:'ev_tutor_lesson',day:d,h:19,place:'學生家（公館附近）',title:'家教',travel:'騎車約 10 分鐘',travelH:1/6,no:'這週不去',back:'家教結束。'}); break; } } }
     /* SK05 三閃，販賣機見（大一版；BB_135 第 2 節；AA-B 2026-10-16：期末考週（第 17～18 週，2026-06-15～06-28）第一個晚上玩家在霖澤館（22:55～23:30；23:00 以後才走進去＝一進去就亮））：
-       23:00 阿勳傳訊息說暗號（一年一次）。法律系時期一直沒見過他的玩家（MET_XUN 沒有）先多一則「我是盧正勳。你經濟系那年的室友。」。pact 多兩句、night 多一句（都有＝先 pact 再 night）。
+       23:00 阿勳傳訊息說暗號（一年一次）。法律系時期一直沒見過他的玩家（MET_XUN 沒有）先多一則「盧正勳。你經濟系那年的室友。……你該不會連我都忘了。」。pact 多兩句、night 多一句（都有＝先 pact 再 night）。
        三個回覆：閃三下＝SK05_GO（今晚 23:00～23:45 他在法學院廣場的販賣機前，events.js ev_sk05_vending_y1）；閃一下、只回訊息＝這一年沒有這五分鐘 */
     { const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, hh=h(G);
       if(T&&T.id==='Y1S2'&&(T.week===17||T.week===18)&&(G.zone==='linze'||G.zone==='classroom')&&hh>=22+55/60&&hh<23.5&&!PHONE.sent(G,'sk05_y1')){
         silentContact('econ_zhengxun'); const th='p:econ_zhengxun', X=t=>({th,from:'econ_zhengxun',text:t}), N=t=>({th,who:null,text:t}), d=G.day;
-        const items=[]; if(!F.MET_XUN) items.push(X('我是盧正勳。你經濟系那年的室友。'));
+        const items=[]; if(!F.MET_XUN) items.push(X('盧正勳。你經濟系那年的室友。……你該不會連我都忘了。'));   /* BB-B 2026-10-16 第①級：照 BB_96 10-1 原文（少後半句會變成熟人正經地重新自我介紹）*/
         items.push(X('你們那邊燈還亮著。'),X('我在社科院四樓，窗邊。看對面。'),N('（對面的窗，燈閃了一下。）'),X('一閃是還活著。兩閃是救我。'));
         const last=X('三閃是販賣機見。'); const opts=[{t:'（閃三下）',set:{SK05_GO:d},say:[X('……真的？好，五分鐘。')]},{t:'（閃一下）',set:{SK05_Y1_REPLY:'one'},say:[X('好。活著就好。')]},{t:'還活著。',set:{SK05_Y1_REPLY:'text'},say:[X('用閃的比較快。……好啦，加油。')]}];
         const tail=[]; if(F.XUN_PACT) tail.push(N('（對面的窗又閃了三下。）'),X('我先閃了。')); if(F.XUN_NIGHT) tail.push(X('這次不用等你了。'));
@@ -885,6 +1269,13 @@ const STORY = (function(){
       if(PHONE.inGroup(G,'family_law')&&!PHONE.sent(G,'grad_family')){ const th='g:family_law'; PHONE.at(G,gd,13,[{th,from:'kevin',name:'Kevin',text:'📷（學長姊的畢業照）'},{th,from:'heroine_05',name:'溫學姊',text:'恭喜。'}],'grad_family'); } } }
     /* 芷若 Z5（BB_96 3-5；交接包 v2）：週五答應（zhiruoFilmDay）＝隔天週六 10:00 的早場（出遊 ev_zhiruo_early_show）；「下次妳挑」的回聲：兩天後 21:00 她傳一張很長的片單
        （單身＝私訊；交往中＝三個人的群組，方奕廷回「這張表要看到明年」）*/
+    /* 芷若的午場（BB_96 3-5b）：Z5 拒絕早場（zrDeclineDay，週五）之後第 3 週的週六 09:30 兩則（交往中多一句「方奕廷也去。」）；回覆到 11:25。「起得來。」＝11:40 出遊（ev_zhiruo_matinee）；「今天不行。」這學期不再約 */
+    if(F.zrDeclineDay!=null&&!F.zhiruo_film_date&&typeof OUT!=='undefined'){ const ms=F.zrDeclineDay+22, T3=typeof CALENDAR!=='undefined'?CALENDAR.termOf(ms):null;
+      if(T3&&T3.id==='Y1S2'&&T3.week>=15&&T3.week<=17){ const th='p:heroine_02', Z=t=>({th,from:'heroine_02',text:t});
+        if((G.day>ms||(G.day===ms&&G.hour>=9.5))&&G.day<=ms&&!PHONE.sent(G,'zr_matinee_ask')){ const L=[Z('今天有午場。你上次說早場起不來。'),Z('十一點四十。這個時間，你總起得來了吧。')]; if(F.dating_kexin) L.push(Z('方奕廷也去。'));
+          Object.assign(L[L.length-1],{ask:{id:'zr_matinee',until:ms*24+11.25,opts:[{t:'起得來。',set:{ZR_MATINEE:'yes'},say:[Z('好。戲院門口見。午場也是會開演的。')]},{t:'今天不行。',set:{ZR_MATINEE:'no'},say:[Z('好。……那我自己去。我本來就是自己去的。')]}]}});
+          PHONE.at(G,ms,9.5,L,'zr_matinee_ask'); }
+        if(F.ZR_MATINEE==='yes'&&G.day===ms&&!OUT.get(G,'zr_matinee')) OUT.plan(G,{id:'zr_matinee',ev:'ev_zhiruo_matinee',day:ms,h:11+40/60,late:0.25,place:'公館的二輪戲院門口',title:'公館 11:40：二輪戲院的午場',travel:'走過去約 15 分鐘',travelH:0.25}); } }
     if(F.zhiruo_film_date&&F.zhiruoFilmDay!=null&&typeof OUT!=='undefined'&&!OUT.get(G,'zr_early_show')&&G.day<=F.zhiruoFilmDay+1) OUT.plan(G,{id:'zr_early_show',ev:'ev_zhiruo_early_show',day:F.zhiruoFilmDay+1,h:9+40/60,place:'公館的二輪戲院門口',title:'東京物語的早場（10:00 開演）',travel:'走過去約 15 分鐘',travelH:0.25});   /* AA_147 第 1 節 #3：09:40 在戲院門口碰面、10:00 開演、約 12:00 去豆漿店 */
     if(F.Z5_NEXT==='hers'&&F.zhiruoFilmSeenDay!=null&&!PHONE.sent(G,'zr_film_list')){ const d=F.zhiruoFilmSeenDay+2;
       if(F.dating_kexin){ if(!PHONE.inGroup(G,'zr_film')) PHONE.join(G,'zr_film','東京物語'); PHONE.at(G,d,21,[{th:'g:zr_film',from:'heroine_02',text:'📄（一張很長的片單）'},{th:'g:zr_film',from:'npc_fangyt',text:'這張表要看到明年'}],'zr_film_list'); }
@@ -1016,9 +1407,9 @@ const STORY = (function(){
     if(k!=='noodle'&&grp){ const th='g:noodle_team'; PHONE.at(G,D.d0,20.5,[{th,from:'heroine_01',text:'📷（行程表第二版）'},{th,from:'heroine_01',text:'理由欄寫『雨』。'},{th,from:'zhe',text:'下次你要來。'}],'ndl_spring_photos'); } };
   /* 大一的春節初一（遊戲第一個「春節」、前一天是「除夕」：2026-02-17）；寒假拜年（C3）用 */
   let lunarNY; S.lunarNewYear=function(){ if(lunarNY!==undefined) return lunarNY; lunarNY=null; if(typeof CALENDAR==='undefined'||!CALENDAR.holiday) return null; for(let d=2;d<500;d++){ if(CALENDAR.holiday(d)==='春節'&&CALENDAR.holiday(d-1)==='除夕'){ lunarNY=d; break; } } return lunarNY; };
-  /* 出遊住外面一晚（春假麵店團的兩天一夜，交接包 v2 C9）：日期、星期往後；體力照睡一覺（+65）；天氣晴；不演宿舍的夜晚事件（人不在宿舍）；
+  /* 出遊住外面一晚（春假麵店團的兩天一夜，交接包 v2 C9）：日期、星期往後；天氣晴；不演宿舍的夜晚事件（人不在宿舍）；
      春假沒有課（第 6 週週五～週一），所以不跑早上的課表通知 */
-  S.travelOvernight=function(GM,day,hour){ const G=GM.G, F=G.flags, E=GM.E; while(G.day<day){ G.day++; G.weekday=(G.weekday+1)%7; G.energy=Math.min(100,(G.energy||0)+65); }
+  S.travelOvernight=function(GM,day,hour){ const G=GM.G, F=G.flags, E=GM.E; while(G.day<day){ G.day++; G.weekday=(G.weekday+1)%7; }
     G.hour=hour; if(E) E.hour=hour; G.weather='clear'; if(E&&E.setWeather) E.setWeather('clear'); F.companion=null; F.nightKai=false; if(GM.updateHUD) GM.updateHUD(); };
   S.firstColdDay=()=>termDay('Y1S1',15,1);   /* 第一波寒流（AA_71 十二月；阿哲的薑母鴨、AA_12 紙箱旁白也用這一天，之後接）*/
   /* 成績單先等一下（classes3d.js 的 morning 呼叫；回傳 true＝先不發，晚上視訊一起打開）：只有大一上、和可昕約好的玩家問一次 */
@@ -1123,7 +1514,9 @@ const STORY = (function(){
       .map(([id,w0,w1,t])=>({id,term:T=>T.id==='Y1S2'&&T.week>=w0&&T.week<=w1,h:()=>21+10/60,ok:G=>!!G.flags.dating_kexin,items:()=>[P1('kexin',t)]})),
     {id:'kx2_example',term:T=>T.id==='Y1S2'&&T.week>=10,h:()=>21+10/60,ok:G=>!!G.flags.dating_kexin&&!!(G.flags.KX_DIR&&G.flags.KX_DIR.Y1),   /* K6b 之後 */
       items:()=>[P1('kexin','民總期中考，我的答案被老師拿去當範例。匿名的，可是我認得自己的字。')]},
-    {id:'kx2_coffee',term:T=>T.id==='Y1S2'&&T.week>=15&&T.week<=16,h:()=>21+10/60,ok:G=>!!G.flags.dating_kexin,items:()=>seq('kexin',['📷（書桌，旁邊一杯咖啡）','期末的第一杯。'])} ];
+    {id:'kx2_coffee',term:T=>T.id==='Y1S2'&&T.week>=15&&T.week<=16,h:()=>21+10/60,ok:G=>!!G.flags.dating_kexin,items:()=>seq('kexin',['📷（書桌，旁邊一杯咖啡）','期末的第一杯。'])},
+    /* 自由出行的偶遇以後（DL-07；AA_162、BB_144 第 4 節）：語彤傳那天的照片、可昕說淡水的假設題——遇到的隔天以後，一次 */
+    ...[['enc_yt_photo','ENC_D12_YT','heroine_03',21+20/60],['enc_kx_d13','ENC_D13_KX','kexin',21+10/60]].map(([id,tag,who,hh])=>({id,term:T=>!!T,h:()=>hh,ok:G=>typeof ENC!=='undefined'&&ENC.phoneReady(G,tag),items:G=>{ ENC.markSaid(G,tag); return seq(who,ENC.phoneLines(tag)); }})) ];
   S.DAILY_PHONE=DAILY;
   /* ok(G, day)：那一天條件成立嗎（決定時是今天、補送時是原本那天）。存檔：dpDay（決定過的那天）、dpPick（{id, day}：今天那一則）、dpN（每則出現過幾次）、dpLast（上一次輪到哪一則，輪流用）、dpDayOf（每則上一次是哪一天）；舊存檔沒有＝從頭開始 */
   function dailyPhone(GM){ const G=GM.G, F=G.flags; if(typeof CALENDAR==='undefined') return; const N=()=>F.dpN||(F.dpN={});
@@ -1149,6 +1542,8 @@ const STORY = (function(){
   S.roomItemList=function(G){ const F=(G&&G.flags)||{}, L=ROOM_ITEMS.slice();
     if(F.XMAS_HL3) L.push(['桌上的三色螢光筆',F.GREEN_HIGHLIGHTER?'明軒送的三色螢光筆，和上次那支綠的放在一起。他說他用不到。':'明軒送的三色螢光筆。他說他用不到。']);
     if(G&&S.kaiRoommate(G)) L.push(['阿凱的泡麵評鑑表',S.kaiSheet(G)]);
+    if(typeof SOCIAL!=='undefined'){ if(SOCIAL.has('heroine_02','WATCHED_FILM_GROUP')) L.push(['三張連號的票根',['三張連號的票根，你留著中間那張。','另外兩張在他們那裡。……應該吧。']]);   /* 電影票根（BB_96 3-5c）：同一個存檔只會有一種 */
+      else if(SOCIAL.has('heroine_02','WATCHED_FILM')) L.push(['電影票根',F.ZR_MATINEE_SEEN?['二輪戲院的票根。《晚春》，午場 11:40。','票根的角折了一下。是散場時太陽太大，你拿它擋了一下。']:['二輪戲院的票根。《東京物語》，早場。','你把它夾在民總課本裡。課本換了，票根留著。']]); }
     { const A=F.KX_ANNIV&&F.KX_ANNIV[1]; if(A&&A!=='missed') L.push(['她的週年卡片','假設我們從最高點開始交往。']); }   /* K7 週年去了的玩家（AA-B 2026-10-16：標籤「她的週年卡片」、說明用她卡片第一頁那句，不另寫）*/
     { const T=F.KX_TRIP&&F.KX_TRIP.Y1S2, txt={sea:'海邊。她拎著鞋子站在浪裡，褲管濕到膝蓋。',oldtown:'老街。牆上貼滿發黃的老照片，她站在中間，手上拿著第三家的點心。',stars:'山上。照片幾乎全黑，右上角有一個小白點。她說那是星星。你覺得是路燈。'}[T]; if(txt) L.push(['旅行的照片',txt]); }   /* 可昕 K8 春假旅行（BB_96 9-5，BB 14265eb）*/
     return L; };
@@ -1197,11 +1592,15 @@ const STORY = (function(){
     try{ await EVENTS.run(ev); } finally { await GM.fade(true); } return true; }
   S._v1={kexinFirstMsg:(GM,v)=>kexinFirstMsg(GM,v),familyGroupD1:GM=>familyGroupD1(GM),roomItems:GM=>roomItems(GM),phoneScene:(GM,th,l,a)=>phoneScene(GM,th,l,a),talkSis:(GM,n)=>talkSis(GM,n),pothosScene:GM=>pothosScene(GM),kaiBoxScene:(GM,it)=>kaiBoxScene(GM,it),nightEvent:GM=>nightEvent(GM),talkYu:(GM,n)=>talkYu(GM,n)};   /* 測試用 */
   async function deskScene(GM,it){ const G=GM.G, F=G.flags, E=GM.E, P=E.player; GM.sceneBegin(); await GM.walkTo(P,it.seat.x,it.seat.z+0.5); GM.sitAt(P,it.seat); E.cam.distTarget=3.2; await GM.sleep(300);
-    if(G.day===1&&!F.readCase){ await GM.say(null,'案例影本放在桌上。「'+CASE.title.replace('指定案例：','')+'」。標題底下是兩頁判決節錄。'); const i=await GM.choose([{t:'認真讀完（約 1 小時）',hint:'體力 −10。明天上課可能用得到'},{t:'讀一半就好',hint:'體力 −4'},{t:'不讀了，明天再說'}]); if(i===0){ P.pose='read'; P.idlePose='read'; await GM.fade(true); GM.advance(1.1); GM.energy(-10); await GM.fade(false); F.readCase='full'; GM.addNote(CASE.id,CASE.title,CASE.body); GM.addNote('law_154','民法 §154：要約與要約之引誘','貨物標定賣價陳列者，視為要約；但價目表之寄送，不視為要約。網拍頁面算哪一種，有爭論。'); GM.addNote('law_88','民法 §88：意思表示錯誤','表意人若無過失，得撤銷；撤銷後對信賴者負賠償責任（§91）。'); await GM.say(null,'你讀到最後一頁的時候，阿凱的遊戲已經打到第三場。你在頁邊寫下：「標價陳列 vs 價目表寄送——網頁到底像哪一個？」'); GM.memo('熬夜讀完了網拍相機的案例'); }
-      else if(i===1){ P.pose='read'; P.idlePose='read'; await GM.fade(true); GM.advance(0.5); GM.energy(-4); await GM.fade(false); F.readCase='half'; GM.addNote(CASE.id,CASE.title,CASE.body); await GM.say(null,'你看完事實部分就停了。賣家說自己少打一個零，想撤銷。至於法院怎麼判——明天再說。'); GM.memo('案例只讀了一半'); }
+    if(G.day===1&&!F.readCase){ await GM.say(null,'案例影本放在桌上。「'+CASE.title.replace('指定案例：','')+'」。標題底下是兩頁判決節錄。'); const i=await GM.choose([{t:'認真讀完（約 1 小時）',hint:'明天上課可能用得到'},{t:'讀一半就好'},{t:'不讀了，明天再說'}]); if(i===0){ P.pose='read'; P.idlePose='read'; await GM.fade(true); GM.advance(1.1); await GM.fade(false); F.readCase='full'; GM.addNote(CASE.id,CASE.title,CASE.body); GM.addNote('law_154','民法 §154：要約與要約之引誘','貨物標定賣價陳列者，視為要約；但價目表之寄送，不視為要約。網拍頁面算哪一種，有爭論。'); GM.addNote('law_88','民法 §88：意思表示錯誤','表意人若無過失，得撤銷；撤銷後對信賴者負賠償責任（§91）。'); await GM.say(null,'你讀到最後一頁的時候，阿凱的遊戲已經打到第三場。你在頁邊寫下：「標價陳列 vs 價目表寄送——網頁到底像哪一個？」'); GM.memo('熬夜讀完了網拍相機的案例'); }
+      else if(i===1){ P.pose='read'; P.idlePose='read'; await GM.fade(true); GM.advance(0.5); await GM.fade(false); F.readCase='half'; GM.addNote(CASE.id,CASE.title,CASE.body); await GM.say(null,'你看完事實部分就停了。賣家說自己少打一個零，想撤銷。至於法院怎麼判——明天再說。'); GM.memo('案例只讀了一半'); }
       else { F.readCase='none'; await GM.say(null,'你把影本推到桌角。反正一班六十幾個人，不會那麼剛好。'); GM.memo('沒有讀案例'); }
       GM.setGoal('睡覺（明天 13:20 民法總則）'); }
-    else { const opts=[{t:'讀書（1 小時）',hint:'體力 −8'},{t:'整理今天的筆記（30 分鐘）',hint:'體力 −3'},{t:'起身'}]; const i=await GM.choose(opts); if(i===0){ P.pose='read'; P.idlePose='read'; await GM.studySession(); } else if(i===1){ P.pose='read'; await GM.fade(true); GM.advance(0.5); GM.energy(-3); await GM.fade(false); await GM.say(null,'你把筆記重看一遍。有些地方當時覺得懂，現在看又不太確定。'); } }
+    else { const C=typeof CLS!=='undefined'&&CLS.slotPlan?CLS:null, s1=C?C.slotPlan(G,1,'study'):{ok:true,hint:''}, s2=C?C.slotPlan(G,0.5,'study'):{ok:true,hint:''};   /* 書桌讀書、整理筆記都算一次自習（DL-03 2-3）*/
+      const opts=[{t:'讀書',hint:s1.ok?'選讀多久（1～3 小時只算一次）。'+s1.hint:s1.why,dim:!s1.ok},{t:'整理今天的筆記（30 分鐘）',hint:s2.ok?s2.hint:s2.why,dim:!s2.ok},{t:'起身'}]; const i=await GM.choose(opts);
+      if(i<2&&opts[i].dim) GM.toast(opts[i].hint,3000);
+      else if(i===0){ const L=C&&C.chooseStudy?await C.chooseStudy(GM):{hours:1,uses:[]}; if(L){ P.pose='read'; P.idlePose='read'; await GM.studySession(false,L.hours); if(C) C.slotUse(G,L.uses); } }
+      else if(i===1){ P.pose='read'; await GM.fade(true); GM.advance(0.5); await GM.fade(false); await GM.say(null,'你把筆記重看一遍。有些地方當時覺得懂，現在看又不太確定。'); if(C) C.slotUse(G,s2.uses); } }
     GM.standUp(P); GM.sceneEnd(); }
   async function bedScene(GM){ const G=GM.G, F=G.flags; GM.sceneBegin(); if(G.day===1&&!F.readCase){ const i=await GM.choose([{t:'還沒讀案例，先睡了'},{t:'等等，先去看一下'}]); if(i===1){ GM.sceneEnd(); return; } F.readCase='none'; GM.memo('沒有讀案例就睡了'); } const opts=S.bedOptions(G); const i=await GM.choose(opts.map(o=>({t:o.t,hint:o.hint}))); GM.sceneEnd(); const o=opts[i]; if(!o||o.kind==='stay') return; if(o.kind==='sleep') await sleepNow(GM,o.wake,o.alarm); else if(typeof CLS!=='undefined'&&CLS.skipTo) await CLS.skipTo(GM,o.to,{nap:true}); }
   /* 床的選項（2026-10-13 使用者試玩：「睡覺只能隔天醒來？應該要有小睡一下的選項」「早上睡覺醒來變成下午、下午睡覺起來變成晚上」；AA_110 第 6-5 節，AA 暫定）：
@@ -1214,11 +1613,11 @@ const STORY = (function(){
   S.missText=function(G,day,h0,h1){ if(typeof CLS==='undefined'||typeof CALENDAR==='undefined') return ''; const its=CLS.dayItems(G,day).filter(it=>!it.exam&&!CLS.storyClass(Object.assign({},G,{day}),it)&&it.t0+0.5>h0&&it.t0+0.5<=h1&&!(CLS.rec(G).done[it.key]));
     return its.length?'會錯過：'+its.map(it=>hm(it.t0)+' '+it.c.name).join('、'):''; };
   /* 小睡的長度（30 分鐘、1 小時、2 小時；maxH 以內——圖書館、自習區的桌上趴著睡最多 1 小時）：預設在下一堂課前 20 分鐘叫醒 */
-  S.napOptions=function(G,maxH){ const out=[], hh=h(G); if(G.day<3||G.hour>=24) return out; const nx=typeof CLS!=='undefined'&&CLS.next?CLS.next(G):null, alarm=nx&&nx.t0-1/3>hh+0.05?nx.t0-1/3:null;
+  S.napOptions=function(G,maxH){ const out=[], hh=h(G); if(S.opening(G)||G.hour>=24) return out; const nx=typeof CLS!=='undefined'&&CLS.next?CLS.next(G):null, alarm=nx&&nx.t0-1/3>hh+0.05?nx.t0-1/3:null;
     for(const [d,lab] of [[0.5,'小睡 30 分鐘'],[1,'小睡 1 小時'],[2,'小睡 2 小時']]){ if(d>maxH+1e-6) continue; let to=hh+d, hint='睡到 '+hm(to); if(alarm!=null&&alarm<to){ to=alarm; hint='下一堂 '+hm(nx.t0)+' '+nx.c.name+'前 20 分鐘叫醒你（'+hm(to)+'）'; }
       if(to>hh+0.05&&to<24&&!out.some(o=>Math.abs(o.to-to)<0.02)) out.push({kind:'nap',to,t:lab,hint}); } return out; };
   S.bedOptions=function(G){ const out=[]; const hh=h(G), late=G.hour>=24, night=late||hh>=17.5||hh<5;
-    if(G.day<3){ out.push({kind:'sleep',t:'睡覺',hint:'明天早上醒來'}); out.push({kind:'stay',t:'再撐一下'}); return out; }
+    if(S.opening(G)){ out.push({kind:'sleep',t:'睡覺',hint:'明天早上醒來'}); out.push({kind:'stay',t:'再撐一下'}); return out; }
     if(!night){ out.push(...S.napOptions(G,2));
       if(hh<17.5){ const ms=S.missText(G,G.day,hh,18); out.push({kind:'nap',to:18,t:'睡到傍晚（不設鬧鐘）',hint:'睡到 18:00'+(ms?'。'+ms:'')}); } }
     else { const day=G.day+1, its=typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'?CLS.dayItems(G,day).filter(it=>!CLS.storyClass(Object.assign({},G,{day}),it)):[], first=its.length?its[0]:null, A=S.wakeAlarms(G,day);
@@ -1233,13 +1632,90 @@ const STORY = (function(){
      開局：帳戶約 20,000＋錢包約 2,000（game3d.js defaults 的 money 22000；S.newGame 設 fundsV2）。舊存檔（沒有 fundsV2）：下一個早上補帳戶裡的 20,000 元一次——
      讀檔本身不改錢（tests/save_compat_v7.py 檢查讀檔前後金錢一樣）。睡覺一次只過一天，所以「換月份的第一個早上」就是 1 日。測試：node tests/allowance_unit.js */
   const CAL0={m:9,d:17}, MDAYS=[31,28,31,30,31,30,31,31,30,31,30,31];
-  S.dateOf=function(day){ let m=CAL0.m, d=CAL0.d+(day-1); while(d>MDAYS[m-1]){ d-=MDAYS[m-1]; m=m%12+1; } return {m,d}; };
+  S.dateOf=function(day){ if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf){ const x=CALENDAR.dateOf(day); return {m:x.m,d:x.d}; } let m=CAL0.m, d=CAL0.d+(day-1); while(d>MDAYS[m-1]){ d-=MDAYS[m-1]; m=m%12+1; } return {m,d}; };   /* 有日曆就照日曆（經濟系大一的負天數也對）*/
   S.monthlyFunds=function(G){ const F=G.flags, mo=S.dateOf(G.day).m; if(F.fundsV2!==1){ F.fundsV2=1; F.allowanceMonth=mo; return {amount:20000,text:'帳戶裡還有這個月的生活費：20,000 元'}; }
     if(F.allowanceMonth!==mo){ F.allowanceMonth=mo; return {amount:30000,text:'家裡匯來這個月的生活費：30,000 元'}; } return null; };
   S.sleepNow=(GM,wake,alarm)=>sleepNow(GM,wake,alarm);   /* 測試用（tests/bed_nap_unit.js）*/
-  async function sleepNow(GM,wake,alarm){ const G=GM.G, F=G.flags, E=GM.E; GM.sceneBegin(); await GM.fade(true); await GM.sleep(400); if(G.day>=3){ try{ await nightEvent(GM); }catch(e){ console.warn('nightEvent',e); } }   /* 睡著之後、天亮之前（trigger 'sleep'）*/ G.day++; G.weekday=(G.weekday+1)%7; G.energy=Math.min(100,G.energy+65); if(F.morningEnergyAdj){ G.energy=Math.max(0,Math.min(100,G.energy+(+F.morningEnergyAdj))); F.morningEnergyAdj=0; }   /* 前一晚打電動到兩點（阿凱 K-D2）：隔天早上精力 −10 */ G.weather=(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(G.day))?'rain':(Math.random()<0.7?'clear':(Math.random()<0.7?'cloudy':'rain'));   /* 颱風假整天下雨（calendar.js 的 TYPHOON）*/ E.setWeather(G.weather); F.companion=null; F.nightKai=false;
+  /* 經濟系那一年的固定核心出遊（AA_154 A33③：E14，之後 E19）：當天出發前就去睡覺＝電話把你吵醒——睡到「開始後 15 分鐘」那一刻，不跳到隔天（AA-B 2026-10-16 抽查）*/
+  const CORE_OUT=['y0_e14','y0_e19','y0_e26'];
+  /* T2 唐睿的練習（AA_154 第 127 行）：每次經原下課擲一次 50%（同一天只擲一次，記在 T2_DAY／T2_HIT）；E18 演過就不再觸發 */
+  S.T2_P=0.5;
+  S.t2Due=function(G){ if(!S.isEcon(G)) return false; const F=G.flags; if(G.events&&G.events.done&&G.events.done.ev_y0_e18) return false; if(F.T2_DAY!==G.day){ F.T2_DAY=G.day; F.T2_HIT=Math.random()<S.T2_P; } return !!F.T2_HIT; };
+  /* 重考期的起床選單（AA_154 A39）：3/28（休學後第一天）～7/10（考試前一天）每天醒來：「去博雅，和可昕讀書」＝讀書日／「今天出去走走」＝玩樂日／「先起床再說」＝自由。
+     3/28（R1）、4/2（R5）是讀書日的事件，那天只有前後兩項。從臺北的家出發（3/29 以後）前兩項含捷運＋公車約 30 分鐘。G.flags.RT_DAY＝{day,type}。
+     讀書日：到博雅（自習區的小桌子，E29「同一張桌子」），在博雅讀滿兩小時才算（STORY.onStudy：habit retake:study，一天一次）；在家讀書兩小時也算（home3d.js）。
+     玩樂日：和可昕出門（R3、R6 的出遊；沒有 R 的日子的旁白等 AA-B），habit retake:play。R 系列的事件 AA-B 回了再接 */
+  S.RT_FIXED=['2025-03-28','2025-04-02'];
+  S.retakeOn=G=>{ if(!S.isEcon(G)) return false; const a=S.dayOfKey('2025-03-28'), b=S.dayOfKey('2025-07-10'); return a!=null&&b!=null&&G.day>=a&&G.day<=b; };
+  S.retakeType=G=>{ const r=G.flags&&G.flags.RT_DAY; return r&&r.day===G.day?r.type:null; };
+  S.retakeWake=async function(GM){ const G=GM.G, F=G.flags; if(!S.retakeOn(G)||S.retakeType(G)) return false; const home=typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
+    const fixed=S.RT_FIXED.map(k=>S.dayOfKey(k)).includes(G.day), via=home?'捷運＋公車 約 30 分鐘':'走路';
+    const O=[{t:'去博雅，和可昕讀書',hint:via,k:'study'}]; if(!fixed) O.push({t:'今天出去走走',hint:'和可昕出門',k:'play'}); O.push({t:'先起床再說',k:'free'});
+    let k='free'; GM.sceneBegin(); try{ const i=await GM.choose(O); k=(O[i]||O[O.length-1]).k; } finally { GM.sceneEnd(); }
+    F.RT_DAY={day:G.day,type:k}; if(k==='play') S.rtPlanPlay(G);
+    if(k==='study'){ if(home&&HOME.toSchool){ await HOME.toSchool(GM); } if(GM.enter){ await GM.fade(true); if(GM.titleCard) await GM.titleCard('博雅教學館','自習區的小桌子',1800); await GM.enter('boya'); await GM.fade(false); } return 'left'; }
+    return k; };
+  /* R 系列（BB_112 第 4 節＋4-1 AB-38 台詞，BB-B 4380b0eb；AA_154 A39／A45）
+     可昕不休學：她在自己沒課的時段才來（Y0S2 平日＝她當天最後一堂下課再 10 分鐘，週五、週末、放假、暑假＝10:00；課表照 courses.js Y0S2，法學緒論不算）。
+     讀書日：她第一次到博雅小桌＝R1（3/28）／R5（4/2）／R2（第 8 週第一個讀書日）／其他日子一句輪流（S1～S5）。R1 沒演到＝「我發現我喜歡吵贏……」移到下一次。
+     玩樂日：她下課以後一起出門（2D 出遊）＝R3（3/30～4/1）／R6（第 12 週）／其他日子旁白一句輪流（P1～P6）；habit retake:play。
+     R4（4/19 16:00 總圖外台階，3D）、R7（5/24 14:00 保齡球館，前一晚阿勳在群組問）照日期。沒遇到的照片、私訊在 phoneRules */
+  S.kxFreeAt=function(G,day){ day=day==null?G.day:day; const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(day):null, wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(day).wd:5;
+    if(!T||T.id!=='Y0S2'||wd>=5||(CALENDAR.holiday&&CALENDAR.holiday(day))||typeof COURSES==='undefined') return 10;
+    let end=0; for(const c of COURSES.list||[]) if(c.term==='Y0S2'&&c.id!=='law_intro') for(const sl of c.slots||[]) if(sl.wd===wd){ const b=COURSES.blocks[sl.block]; if(b&&b.t1>end) end=b.t1; }
+    return end?end+1/6:10; };
+  const DD=k=>S.dayOfKey(k), inR=(G,a,b)=>{ const x=DD(a), y=DD(b); return x!=null&&y!=null&&G.day>=x&&G.day<=y; }, rdone=(G,id)=>!!(G.events&&G.events.done&&G.events.done[id]);
+  S.rStudyKind=function(G){ if(G.day===DD('2025-03-28')) return 'r1'; if(G.day===DD('2025-04-02')) return 'r5'; if(inR(G,'2025-04-07','2025-04-13')&&!rdone(G,'ev_y0_r2')) return 'r2'; return 's'; };
+  S.rArrived=G=>S.retakeOn(G)&&S.retakeType(G)==='study'&&G.zone==='boya'&&G.hour>=S.kxFreeAt(G)&&!(G.flags.RT_KX===G.day);
+  S.RS=[{t:['「你又比我早到。……我是去上課，不是去玩。」'],ok:G=>S.kxFreeAt(G)>10},{t:['（她放下包包）','「你讀到哪了？……三章？我才剛上完會計。」'],ok:G=>S.kxFreeAt(G)>10&&CALENDAR.dateOf(G.day).wd===4},
+        {t:['「你的螢光筆快沒水了。你今天到底畫了多少？」']},{t:['「我帶了兩杯飲料。你那杯是賄賂：等一下讓我先問問題。」']},{t:['「你一直坐在這裡，會不會忘記外面有太陽？……好啦，我坐下了。」']}];
+  S.RP=[['2025-03-28','2025-07-10','（你們在公館的二輪戲院看了一部老電影。片尾字幕跑完以前，她不准你站起來。）'],['2025-03-28','2025-05-15','（你們在溫州街的巷子裡亂走。她每經過一隻貓，就停下來打一次招呼。）'],
+        ['2025-04-01','2025-05-31','（你們坐在醉月湖邊吃雞蛋糕。她說湖裡的魚看起來也在準備考試。）'],['2025-04-01','2025-06-30','（你們搭捷運到淡水看海。回程的車上她睡著了，頭一直往你這邊倒。）'],
+        ['2025-05-15','2025-06-30','（下了一整天的雨。你們躲在公館的咖啡店，她用吸管的紙套折了一隻青蛙給你。）'],['2025-06-01','2025-07-10','（熱到柏油路都在發亮。你們分一碗芒果冰，最大塊的芒果她推到你那邊。）']];
+  /* 輪流：取第一句「還沒用過、今天可以用」的；都用過就從頭（只算今天可以用的）*/
+  const rot=(used,n,ok)=>{ used=Array.isArray(used)?used:[]; for(let i=0;i<n;i++) if(ok(i)&&!used.includes(i)) return i; for(let i=0;i<n;i++) if(ok(i)) return i; return -1; };
+  S.rsPick=G=>rot(G.flags.RS_USED,S.RS.length,i=>!S.RS[i].ok||S.RS[i].ok(G));
+  S.rpPick=G=>rot(G.flags.RP_USED,S.RP.length,i=>inR(G,S.RP[i][0],S.RP[i][1]));
+  S.rUse=(G,key,i)=>{ let u=Array.isArray(G.flags[key])?G.flags[key]:[]; const n=key==='RS_USED'?S.RS.length:S.RP.length; if(u.includes(i)) u=[]; u.push(i); if(u.length>=n) u=[]; G.flags[key]=u; };
+  S.rPlayEv=function(G){ if(inR(G,'2025-03-30','2025-04-01')&&!rdone(G,'ev_y0_r3')) return ['ev_y0_r3','椰林大道']; if(inR(G,'2025-05-05','2025-05-10')&&!rdone(G,'ev_y0_r6')&&!G.flags.R6_MISSED) return ['ev_y0_r6','河濱'];   /* 第 12 週的第一個玩樂日，最晚 5/10（六）*/ return ['ev_y0_rp','和可昕出門']; };
+  S.rtPlanPlay=function(G){ if(typeof OUT==='undefined') return; const id='rt_play_'+G.day; if(OUT.get(G,id)) return; const [ev,place]=S.rPlayEv(G), h=Math.max(S.kxFreeAt(G),Math.ceil(G.hour*4)/4);
+    OUT.plan(G,{id,ev,day:G.day,h,late:0.75,place,title:'和可昕出門 '+hm(h),travel:'走過去',travelH:1/6}); };
+  S.onStudy=function(GM,hrs){ const G=GM.G; if(!S.retakeOn(G)||G.zone!=='boya'||hrs<2) return; if(typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('retake:study'); };
+  /* P2b 門口有人在揪（AA_154 2-5a；事件 ev_y0_p2b）：P2 演過（P2_PICK）以後，Y0S1 第 6～16 週（第 8、9 週期中考除外）、Y0S2 第 1～5 週的週四會計下課；
+     每週擲一次（P2B_P＝40%，記在 P2B_WK／P2B_HIT），同一週最多一次（P2B_SEEN）；那天已經約了別的出遊（OUT 排定、邀約答應）不揪。
+     P2B_END：跟去的結束時間（food 19:30、river 17:00、night 21:00／21:30）。 */
+  S.P2B_P=0.4; S.P2B_END=[19.5,17,21,21.5,21.5];
+  S.bikeDay=()=>termDay('Y0S1',10,4);   /* 韋綸的腳踏車（AA_154 2-5b）：固定在 11/7（四，W10）會計下課——那天 P2b 一定揪、去處一定是 river（演腳踏車）*/
+  S.p2bBikeNow=G=>G.day===S.bikeDay()&&!(G.flags||{}).WL_BIKE_SEEN;
+  S.p2bDue=function(G){ if(!S.isEcon(G)||typeof CALENDAR==='undefined') return false; const F=G.flags||{}; if(!F.P2_PICK) return false; const t=CALENDAR.termOf(G.day); if(!t||t.exam) return false;
+    if(!((t.id==='Y0S1'&&t.week>=6&&t.week<=16&&t.week!==8&&t.week!==9)||(t.id==='Y0S2'&&t.week>=1&&t.week<=5))) return false;
+    if(G.day===S.bikeDay()){ F.P2B_WK=t.id+':'+t.week; F.P2B_HIT=true; return !F.P2B_SEEN&&!F.WL_BIKE_SEEN; }   /* 11/7：一定揪（羽球社的社課 19:00 也排得下）*/
+    if(typeof OUT!=='undefined'&&OUT.rec(G).some(q=>q.day===G.day&&q.state==='planned')) return false;
+    if(Array.isArray(G.invites)&&G.invites.some(v=>v.day===G.day&&(v.state==='accepted'||v.state==='going'))) return false;
+    const wk=t.id+':'+t.week; if(F.P2B_WK!==wk){ F.P2B_WK=wk; F.P2B_HIT=Math.random()<S.P2B_P; F.P2B_SEEN=false; } return !!F.P2B_HIT&&!F.P2B_SEEN; };
+  S.p2bSeen=G=>{ const F=G.flags, t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(t) F.P2B_WK=t.id+':'+t.week; F.P2B_SEEN=true; };   /* 這一週揪過了（不管跟不跟）*/
+  const postMid=G=>{ const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !!t&&((t.id==='Y0S1'&&t.week>=10)||t.id==='Y0S2'); };
+  /* river 的順序：11/7 固定是韋綸的腳踏車（事件先接 bike）；Y0S1 其他的 river 第一次＝L5b（11/7 之前沒演到就留到下一次）；腳踏車演過以後的 river 散場接 E13③ */
+  S.p2bL5b=G=>{ const F=G.flags, t=CALENDAR.termOf(G.day); return F.P2B_K===1&&!F.L5B_DONE&&!!t&&t.id==='Y0S1'; };
+  S.p2bE13=G=>{ const F=G.flags, k=F.P2B_K; if(!postMid(G)) return false; if(k===0) return !F.E13_FOOD; if(k===1) return !!F.WL_BIKE_SEEN&&!F.E13_RIVER; return k>=2&&!F.E13_NIGHT; };
+  /* 經濟系大一上最後一場期末考（AA_154 A34：E22b 在那一場考完的下午、E19 同一天 19:00）：照遊戲實際的課表（CLS.lastExamEnd），課表改了就跟著變。
+     算一次要掃整學期，結果依「同一個 G、同一組修的課」記住。e22bFrom：考完 20 分鐘（上午考完＝13:30）*/
+  const FE_CACHE=new WeakMap();
+  S.y0FinalEnd=function(G){ if(typeof CLS==='undefined'||!CLS.lastExamEnd||!CLS.termCourses) return null; const key=CLS.termCourses(G,'Y0S1').map(c=>c.id).join(','); const c=FE_CACHE.get(G);
+    if(c&&c.key===key) return c.v; let v=null; try{ v=CLS.lastExamEnd(G,'Y0S1','final'); }catch(e){ v=null; } FE_CACHE.set(G,{key,v}); return v; };
+  S.e22bFrom=fe=>fe.h<12?13.5:fe.h+20/60;
+  S.coreCallAt=function(G){ if(!S.isEcon(G)||typeof OUT==='undefined') return null; for(const id of CORE_OUT){ const q=OUT.get(G,id); if(q&&q.state!=='done'&&q.day===G.day){ const t=q.h+(q.late!=null?q.late:0.75); if(G.hour<t) return t; } }
+    const d35=S.dayOfKey('2025-07-10'); if(d35!=null&&G.day===d35&&G.flags.E35_ASKED&&!G.flags.E35_DONE&&G.hour<21.5) return 21.5;   /* E35 電話版（AA_154 A41 ④）：睡著＝21:30 電話叫醒 */
+    return null; };
+  S.R4_AT={x:78.6,z:0};   /* R4 可昕坐在總圖外的台階（E27 的總圖門口同一處）*/
+  S.E35_AT={x:-91,z:55.6};   /* E35 可昕站的地方：大一女舍門口長椅（-93,54.2）的東邊（AA_154 A41 ①：D1、D2、E13 用的同一個地方）*/
+  async function sleepNow(GM,wake,alarm){ const G=GM.G, F=G.flags, E=GM.E;
+    { const e24=S.isEcon(G)&&typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id==='ev_y0_e24c'):null, d=S.dayOfKey('2025-03-13');   /* E24c 的邊界情況（AA_169）：3/13 晚上 22:00 以前先睡＝睡前先演 */
+      if(e24&&d!=null&&G.day===d&&G.hour<22&&G.hour>=17&&!(G.events&&G.events.done&&G.events.done.ev_y0_e24c)&&typeof EVENTS!=='undefined'){ await EVENTS.run(e24); } }
+    { const cw=S.coreCallAt(G); if(cw!=null){ GM.sceneBegin(); try{ await GM.fade(true); await GM.sleep(300); GM.advance(cw-G.hour); await GM.fade(false); } finally { GM.sceneEnd(); } if(GM.toast) GM.toast('手機響了。',2400); return; } }
+    GM.sceneBegin(); await GM.fade(true); await GM.sleep(400); if(!S.opening(G)){ try{ await nightEvent(GM); }catch(e){ console.warn('nightEvent',e); } }   /* 睡著之後、天亮之前（trigger 'sleep'）*/ if(G.hour>=25) (G.daily||(G.daily={})).lateNight=G.day+1;   /* 01:00 以後才睡：隔天是「累」的一天（明軒那句；AA-B 10-16）*/ G.day++; G.weekday=(G.weekday+1)%7;   /* DL-02：睡覺不再補體力（前一晚打電動的「隔天精力 −10」也不用了）*/ G.weather=(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(G.day))?'rain':(Math.random()<0.7?'clear':(Math.random()<0.7?'cloudy':'rain'));   /* 颱風假整天下雨（calendar.js 的 TYPHOON）*/ E.setWeather(G.weather); F.companion=null; F.nightKai=false;
     if(G.day===2){ G.hour=13.05; E.hour=G.hour; GM.sceneEnd(); await GM.titleCard('第二天','週四 13:05 · 霖澤館前',2400); await GM.enter('campus',{x:26,z:-90,yaw:Math.PI}); return; }
-    G.hour=wake!=null&&G.day>=3?wake:7.5; E.hour=G.hour; F.morningLine=false;   /* 醒來的時間（AA_110 6-5）：沒給＝07:30（舊行為）*/ if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined') CLS.setGoal(GM); else GM.setGoal(isThu(G)?'13:20 民法總則（霖澤館）':'自由的一天。去圖書館、公館，或找人聊天'); GM.sceneEnd(); await GM.titleCard('第 '+G.day+' 天',['週日','週一','週二','週三','週四','週五','週六'][G.weekday]+' '+hm(G.hour)+(alarm?'・鬧鐘：'+alarm:''),2200); await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); { const f=S.monthlyFunds(G); if(f){ GM.money(f.amount); GM.toast(f.text,3800); } }   /* 生活費（D48）：S.monthlyFunds */ if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ await CLS.morning(GM); }catch(e){ console.warn('CLS.morning',e); } } if(!F.KX_FIRST_MSG&&F.dating_kexin){ GM.sceneBegin(); try{ await GM.say(null,'經濟系的那一年，你不是一個人過的。'); await kexinFirstMsg(GM,'morning'); } finally { GM.sceneEnd(); } }   /* 舊存檔（BB_95 9-0）：已經過了第一天、沒看過可昕的訊息的，下一個早上補一次；只補一次 */ GM.autosave(); }
+    G.hour=wake!=null&&!S.opening(G)?wake:7.5; E.hour=G.hour; F.morningLine=false;   /* 醒來的時間（AA_110 6-5）：沒給＝07:30（舊行為）*/ if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined') CLS.setGoal(GM); else GM.setGoal(isThu(G)?'13:20 民法總則（霖澤館）':'自由的一天。去圖書館、公館，或找人聊天'); GM.sceneEnd(); await GM.titleCard(S.dayTitle(G),['週日','週一','週二','週三','週四','週五','週六'][G.weekday]+' '+hm(G.hour)+(alarm?'・鬧鐘：'+alarm:''),2200); await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); { const f=S.monthlyFunds(G); if(f){ GM.money(f.amount); GM.toast(f.text,3800); } }   /* 生活費（D48）：S.monthlyFunds */ if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ await CLS.morning(GM); }catch(e){ console.warn('CLS.morning',e); } } if(!F.KX_FIRST_MSG&&F.dating_kexin){ GM.sceneBegin(); try{ await GM.say(null,'經濟系的那一年，你不是一個人過的。'); await kexinFirstMsg(GM,'morning'); } finally { GM.sceneEnd(); } }   /* 舊存檔（BB_95 9-0）：已經過了第一天、沒看過可昕的訊息的，下一個早上補一次；只補一次 */ if(typeof CLS!=='undefined'&&CLS.queueWake) CLS.queueWake(GM);   /* 起床選單（DL-01 1-2）：宿舍的晨間事件演完、玩家空下來才出（CLS.oneTick）*/ GM.autosave(); }
   // ---------- 第二天：校園早上（其實是中午）----------
   async function campusMorning(GM){ const G=GM.G, F=G.flags, E=GM.E; const zhe=GM.npc.zhe; GM.sceneBegin(); GM.letterbox(true); await GM.sleep(300); if(zhe){ GM.face(zhe,E.player.obj.position.x,E.player.obj.position.z); GM.cine('two',E.player.obj,zhe.obj); ADV.begin({background:'blur',right:'zhe'}); await GM.say(zhe,'{name}！你走路超慢。周老師那堂我不想坐最前面。',{expr:'smile'}); const i=await GM.choose([{t:'你先進去佔位子啊。'},{t:'昨天的案例你看了嗎？'}]); if(i===1){ if(F.readCase==='full') await GM.say(zhe,'看了一半。你看完了？那等一下被點到你幫我。',{expr:'laugh'}); else await GM.say(zhe,'沒有。我們兩個今天要低調一點。',{expr:'laugh'}); } else { await GM.say(zhe,'好啦好啦。'); } zhe.beh='follow'; zhe.followOff=1.4; GM.rel('zhe',1); } GM.letterbox(false); GM.sceneEnd(); GM.setGoal('進入霖澤館上課（13:20）'); }
   // ---------- 課堂 ----------
@@ -1251,7 +1727,7 @@ const STORY = (function(){
     else if(key==='half'){ F.classAnswer='half'; await GM.say(prof,'你抓到爭點了，但停在一半。一五四條後段——「價目表之寄送」。網頁比較像價目表還是陳列？'); await GM.say(null,'你沒有答案。周教授點了另一個人。'); GM.addNote('law_154','民法 §154：要約與要約之引誘','貨物標定賣價陳列者，視為要約；但價目表之寄送，不視為要約。'); }
     else if(key==='bold'){ F.classAnswer='bold'; await GM.say(prof,'成立。那你怎麼處理一五四條第一項但書？如果每個標錯價的網頁都成立契約，賣家一夜之間要賠多少？'); await GM.say(null,'你說不出來。有人在後面小聲笑。'); await GM.say(prof,'不是錯，是不完整。坐下。'); GM.addNote('law_154','民法 §154：要約與要約之引誘','貨物標定賣價陳列者，視為要約；但價目表之寄送，不視為要約。'); }
     else { F.classAnswer='none'; SOCIAL.remember('heroine_01','CLASS_ANSWER_BAD','民總沒讀案例'); SOCIAL.profEvent('prof_zhou','part',1,'沒讀案例'); await GM.say(prof,'沒讀。……好，下週我還會點你。'); await GM.say(null,'阿哲在旁邊用手肘頂了你一下。'); GM.addNote('law_154','民法 §154：要約與要約之引誘','貨物標定賣價陳列者，視為要約；但價目表之寄送，不視為要約。（上課聽到的）'); }
-    prof.lookAt=null; GM.cine('wide',prof.obj,P.obj); ADV.end(); await GM.say(prof,'實務上，法院看的是網頁有沒有「明確、可以直接成立契約」的表示。這個案子的判決在講義第三頁。下週——錯誤與撤銷。'); await GM.fade(true); GM.advance(15.17-G.hour); F.classDone=true; F.classNow=false; GM.energy(-6); GM.memo('上了民法總則：要約之引誘'); // 下課
+    prof.lookAt=null; GM.cine('wide',prof.obj,P.obj); ADV.end(); await GM.say(prof,'實務上，法院看的是網頁有沒有「明確、可以直接成立契約」的表示。這個案子的判決在講義第三頁。下週——錯誤與撤銷。'); await GM.fade(true); GM.advance(15.17-G.hour); F.classDone=true; F.classNow=false; GM.memo('上了民法總則：要約之引誘'); // 下課
     GM.removeNPC('prof'); for(const n of E.npcs.slice()){ if(n.isExtra){ E.removeNPC(n); } } await GM.fade(false); GM.standUp(P); if(an){ GM.standUp(an); an.beh='idle'; an.frozen=true; } if(zhe){ GM.standUp(zhe); GM.cine('two',P.obj,zhe.obj); await GM.say(zhe,'我要去打球。晚一點公館吃麵？阿鳳麵店，六點半。',{expr:'smile'}); await GM.say(zhe,'還有——你剛剛那個，'+(F.classAnswer==='good'?'很帥。':'很慘。')); GM.rel('zhe',1); zhe.beh='idle'; F.zheInvite=true; } GM.letterbox(false); GM.sceneEnd(); GM.setGoal('走出霖澤館'); if(an){ an.talk=n=>talkAn(GM,n); } GM.autosave(); }
   // ---------- 下課後：小安追上來 ----------
   async function meetAn(GM){ const G=GM.G, F=G.flags, E=GM.E, P=E.player; GM.sceneBegin(); GM.letterbox(true); E.player.path=null; const px=P.obj.position.x, pz=P.obj.position.z, py=P.obj.position.y; const DR=(typeof B3!=='undefined'&&B3.CAMPUS_DOOR)||{x:34,z:-100}; // 從霖澤館門口跑來（v9.4：霖澤館的大廳入口在穿堂西側）
@@ -1301,13 +1777,13 @@ const STORY = (function(){
     else await GM.say(an,'（小聲）「自己選的」。……好。',{expr:'smile'}); GM.rel('an',3);
     await GM.fade(true); GM.advance(17.7-G.hour); await GM.fade(false); await GM.say(null,'窗外的光變成橘色，照在書架上。'); await GM.say(an,'（小聲）我再待一下。今天……謝謝。',{expr:'smile'}); await GM.say(an,'（小聲）你的聯絡方式給我。筆記我拍給你。'); anContactDay2(G); F.afternoonDone=true; F.companion=null; GM.memo('和小安在總圖待到黃昏'); SOCIAL.remember('heroine_01','LIBRARY_AFTERNOON','聊了報告和為什麼念法律'); SOCIAL.remember('heroine_01','WALKED_TOGETHER','從法學院走到總圖'); SOCIAL.adjust('heroine_01',{fam:8,trust:5,comf:5}); GM.standUp(P); an.talk=n=>talkAn(GM,n); an.frozen=true; GM.letterbox(false); GM.sceneEnd(); GM.setGoal(F.zheInvite?'18:30 公館 阿鳳麵店（阿哲）':'今晚去公館吃點東西，或回宿舍'); GM.autosave(); }
   // ---------- 麵店 ----------
-  async function noodleScene(GM,it){ const G=GM.G, F=G.flags, E=GM.E, P=E.player; const zhe=GM.npc.zhe; GM.sceneBegin(); const opts=[{t:'乾麵　60 元',hint:'體力 +22',dim:G.money<60},{t:'餛飩湯　70 元',hint:'體力 +25',dim:G.money<70},{t:'先不吃'}]; const i=await GM.choose(opts); if(i===2){ GM.sceneEnd(); return; } const cost=i===0?60:70; if(G.money<cost){ GM.toast('錢不夠'); GM.sceneEnd(); return; } GM.money(-cost); await GM.walkTo(P,it.seat.x,it.seat.z+0.5); GM.sitAt(P,it.seat); await GM.sleep(300); GM.advance(0.5); GM.energy(i===0?22:25);
+  async function noodleScene(GM,it){ const G=GM.G, F=G.flags, E=GM.E, P=E.player; const zhe=GM.npc.zhe; GM.sceneBegin(); const opts=[{t:'乾麵　60 元',dim:G.money<60},{t:'餛飩湯　70 元',dim:G.money<70},{t:'先不吃'}]; const i=await GM.choose(opts); if(i===2){ GM.sceneEnd(); return; } const cost=i===0?60:70; if(G.money<cost){ GM.toast('錢不夠'); GM.sceneEnd(); return; } GM.money(-cost); await GM.walkTo(P,it.seat.x,it.seat.z+0.5); GM.sitAt(P,it.seat); await GM.sleep(300); GM.advance(0.5);
     if(zhe&&zhe.seat&&Math.hypot(zhe.obj.position.x-it.seat.x,zhe.obj.position.z-it.seat.z)<2.5&&!F.zheNoodleDone){ F.zheNoodleDone=true; GM.letterbox(true); GM.cine('two',P.obj,zhe.obj); ADV.begin({background:'blur',right:'zhe'}); SOCIAL.remember('zhe','SHARED_MEAL','阿鳳麵店'); await GM.say(zhe,'來了。我點了滷蛋，你要不要？',{expr:'smile'}); await GM.say(zhe,'所以下午你跟小安去哪了？我在球場看到你們往校門走。'); const j=await GM.choose([{t:F.plan==='library'?'總圖。她在寫民總報告。':'溫州街的咖啡廳。她在寫民總報告。'},{t:'沒有啊，剛好同路。'}]); if(j===0){ await GM.say(zhe,'寫報告。嗯哼。',{expr:'laugh'}); await GM.say(zhe,'她她說開學這兩個禮拜，每天都在那間店寫東西，寫到店員都認識她。你是第一個被帶去的。'); GM.rel('an',1); } else { await GM.say(zhe,'同路。從霖澤館走到校門要「剛好同路」二十分鐘喔。',{expr:'laugh'}); } await GM.say(zhe,'對了，法服在招人。溫學姊——大三那個——說一年級去會被操，但真的學得到東西。'); if(!F.lawclub) GM.addNote('club_law','法律服務社','週三 19:00 萬才館研討室 A（法服讀書會）。對外服務：隔週週六上午。社長溫學姊。阿哲說一年級去會被操。'); GM.memo('和阿哲在阿鳳麵店吃麵'); GM.rel('zhe',3); GM.letterbox(false); GM.setGoal('吃飽了。晚上自由活動，回宿舍睡覺就到明天'); }   /* 2026-10-11 使用者回報：吃完麵目標還停在「阿鳳麵店（阿哲）」，不知道接下來要幹嘛 */
     else { await GM.say(null,i===0?'乾麵很燙。老闆娘多給了一匙肉燥。':'餛飩湯上面漂著一點油蔥。'); }
     GM.standUp(P); GM.sceneEnd(); }
   // ---------- 對話（自由互動）----------
   /* 舊的對話函式（以安、阿哲、學姊、阿凱、小語固定時段的人）也先說門檻台詞（好感看得見：AA_124 1-6、BB_120）；第一二天、一起走的時候不插 */
-  async function relUp(GM,id,n){ const G=GM.G; if(G.day<=2||G.flags.companion||typeof SOCIAL==='undefined'||!SOCIAL.playUp) return false; if(!(await SOCIAL.playUp(GM,n,id))) return false; if(SOCIAL.activity) SOCIAL.activity(id,'chat'); return true; }
+  async function relUp(GM,id,n){ const G=GM.G; if(S.opening(G)||G.flags.companion||typeof SOCIAL==='undefined'||!SOCIAL.playUp) return false; if(!(await SOCIAL.playUp(GM,n,id))) return false; if(SOCIAL.activity) SOCIAL.activity(id,'chat'); return true; }
   /* Café 的學姊（BB_120 1-1，使用者 2026-10-14「在咖啡廳遇到溫學姊跟他講話好像也沒有增進什麼感情」）：晚上（19 點以後）每晚第一次＝打招呼（照關係）→ 小交流（「今天念了什麼？」和她的小事輪流）
      → 她推過來的便條（件數照關係；W8 以前一律三件：SOCIAL.friendLevel 的 cap）；同一晚再找她只有一句。存檔：flags.SIS_CAFE＝{night, k, s}。台詞在 data/rel_lines.js */
   async function sisCafe(GM,n){ const G=GM.G, F=G.flags, id='heroine_05', D=typeof REL_LINES!=='undefined'&&REL_LINES[id]&&REL_LINES[id].cafe; if(!D||typeof SOCIAL==='undefined'||!SOCIAL.playSteps||G.hour%24<19) return false;
@@ -1347,7 +1823,7 @@ const STORY = (function(){
     if(ch.advance) GM.advance(ch.advance); if(ch.energy) GM.energy(ch.energy); if(ch.rel) for(const id in ch.rel) SOCIAL.adjust(id,ch.rel[id]);
     if(ch.random) await GM.say(n,ch.random[(Math.random()*ch.random.length)|0]); if(ch.count) F[ch.count]=(+F[ch.count]||0)+1; if(ch.inc) F[ch.inc]=(+F[ch.inc]||0)+1;
     if(ch.reply) await GM.say(n,ch.reply); if(ch.narr) await GM.say(null,ch.narr); if(ch.mem) SOCIAL.remember('kai',ch.mem,ev.id);
-    if(ch.nextMorningEnergy) F.morningEnergyAdj=(+F.morningEnergyAdj||0)+ch.nextMorningEnergy; if(ch.clear) F[ch.clear]=false; return {k,ch}; }
+    if(ch.clear) F[ch.clear]=false; return {k,ch}; }
   async function kdFight(GM,n){ const G=GM.G, F=G.flags, ev=KD('K-D4'); if(!ev) return; for(const l of (ev.lines||[])){ if(l.who==='player') await GM.say(ME(G),l.t); else await GM.say(n,l.t); }
     if(ev.narr) await GM.say(null,ev.narr); F.KAI_FIGHT=true; F.KAI_FRICTION=0; kdRec(G).fightDay=G.day; }
   const kaiWho=GM=>GM.npc.kai||{name:SOCIAL.displayName?SOCIAL.displayName('kai'):'阿凱',charId:'kai'};
@@ -1370,7 +1846,7 @@ const STORY = (function(){
       const early=typeof CLS!=='undefined'&&CLS.dayItems&&CLS.dayItems(G).some(it=>it.t0<=9.25); R.d3Roll=G.day; if(!early||Math.random()>=0.3) return;   /* 今天有早上的第一堂課、昨晚沒一起打：30%。BB 寫「早八」；遊戲的大一必修最早是 09:10（第 2 節），只算 08:10 的話這個事件永遠不會發生——早上 9:10 以前的課都算 */
       run(async()=>{ const n=kaiWho(GM); if(d3.narr) await GM.say(null,d3.narr); const r=await kdChoice(GM,n,d3); if(r.ch.goto==='K-D4'||(+F.KAI_FRICTION||0)>=3) await kdFight(GM,n); }); } };
   async function talkKai(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('kai')) return; GM.sceneBegin({adv:'kai'}); SOCIAL.talkedTo('kai'); GM.cine('talk',E.player.obj,n.obj); if(await relUp(GM,'kai',n)){ GM.sceneEnd(); return; } if(await S.kaiDormTalk(GM,n)){ GM.sceneEnd(); return; } if(G.day===1){ await GM.say(n,'案例讀了沒？我等一下要開麥，會很吵。',{expr:'smile'}); } else if(F.afternoonDone&&!F.kaiAsked){ F.kaiAsked=true; await GM.say(n,'今天這麼晚。跟誰出去？'); const i=await GM.choose([{t:'同學。寫報告。'},{t:'沒有啊。'}]); await GM.say(n,i===0?'「寫報告」。好，你們法律系的都很會用這個詞。':'喔。',{expr:'laugh'}); } else { const l=['所以那個賣家可以告嗎？……不能？那法律系在幹嘛。','我明天早八，你走的時候小聲一點。','宿舍網路又斷了，我要去投訴。你們有教這個嗎？']; await GM.say(n,l[(Math.random()*l.length)|0],{expr:'smile'}); } if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'kai',n); GM.sceneEnd(); }
-  async function talkYu(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('yu')) return; GM.sceneBegin({adv:'yu'}); SOCIAL.talkedTo('yu'); GM.cine('talk',E.player.obj,n.obj); if(F.met_yu&&await relUp(GM,'yu',n)){ GM.sceneEnd(); return; } if(!F.met_yu){ F.met_yu=true; F.metYuDay=G.day; await GM.say(n,'你是周老師點的那個！我是小語，坐你前面右邊。',{expr:'smile'}); await GM.say(n,'我參加了三個社團，吉他社、辯論社，還有系學會。你要不要來吉他社？不用會彈。');   /* AA_156 1-3：AA_40 的設定（法服是學姊的讀書會，小語不在裡面）*/ GM.rel('yu',2); } else { const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, hh=((G.hour%24)+24)%24; if(hh>=9.5&&hh<12&&SOCIAL.has('yu','BREAKFAST_YU')&&F.yuBellDay!==G.day&&T&&(T.id==='Y1S1'||T.id==='Y1S2')){ F.yuBellDay=G.day; await GM.say(n,'欸，今天也經過！',{expr:'smile'}); }   /* AA_156 第 2 節：BREAKFAST_YU、大一、早上 9:30～12:00、當天第一次（AA_118 2-2）*/
+  async function talkYu(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('yu')) return; GM.sceneBegin({adv:'yu'}); SOCIAL.talkedTo('yu'); GM.cine('talk',E.player.obj,n.obj); if(F.met_yu&&await relUp(GM,'yu',n)){ GM.sceneEnd(); return; } if(!F.met_yu){ F.met_yu=true; F.metYuDay=G.day; await GM.say(n,'你是周老師點的那個！我是小語，坐你前面右邊。',{expr:'smile'}); await GM.say(n,'我參加了三個社團，吉他社、辯論社，還有系學會。你要不要來吉他社？不用會彈。');   /* AA_156 1-3：AA_40 的設定（法服是學姊的讀書會，小語不在裡面）*/ GM.rel('yu',2); } else { const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, hh=((G.hour%24)+24)%24; if(hh>=8+20/60&&hh<9+5/60&&SOCIAL.has('yu','BREAKFAST_YU')&&F.yuBellDay!==G.day&&T&&(T.id==='Y1S1'||T.id==='Y1S2')){ F.yuBellDay=G.day; await GM.say(n,'欸，今天也經過！',{expr:'smile'}); }   /* AA_156 第 2、4 節：BREAKFAST_YU、大一、早上 08:20～09:05（原 9:30～12:00、當天第一次（AA_118 2-2）*/
       const l=['傅鐘旁邊這張椅子早上曬不到太陽，是全校最好的位子。','辯論社下週辯「網拍標錯價要不要出貨」，你要來看嗎？','溫州街的貓你有看到嗎？咖啡廳門口那隻。']; await GM.say(n,l[(Math.random()*l.length)|0],{expr:'smile'}); } if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'yu',n); GM.sceneEnd(); }
   async function talkProf(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('prof_zhou')) return; GM.sceneBegin({adv:'prof_zhou'}); SOCIAL.talkedTo('prof_zhou'); GM.cine('talk',E.player.obj,n.obj); if(F.classAnswer==='good') await GM.say(n,G.name+'。今天回答得不錯。下週的錯誤與撤銷，先看八十八和九十一。'); else if(F.classAnswer==='none') await GM.say(n,G.name+'。案例要讀。下週我還會點你，這不是威脅，是預告。'); else await GM.say(n,'有問題就來研究室。法律不是背的，是想的。'); GM.sceneEnd(); }
   // ---------- 認識的人現在大概在哪（2026-10-11 使用者：「自由那天根本不知道其他 NPC 在哪，至少給我線索吧」）----------

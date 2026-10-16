@@ -108,7 +108,7 @@ const DM3=(function(){
       const sg=new THREE.Mesh(new THREE.PlaneGeometry(0.42,0.16),new THREE.MeshBasicMaterial({map:TK.signTex(d.plate,{bg:'#f4f2ec',fg:'#2b2b2b'})})); sg.position.set(0,1.85,0.08); dg.add(sg); (d.lv?lv1:lv0).attach(sg);
       return p; };
     for(const d of L.doors){ const p=one(d,false); IT.push({x:p.x+Math.sin(p.ry)*0.75,z:p.z+Math.cos(p.ry)*0.75,radius:1.0,lv:d.lv,label:d.label,look:d.closed}); }
-    const H=L.home; one({x:H.x,lv:H.lv,side:'N',plate:'203'},true);
+    const H=L.home; one({x:H.x,lv:H.lv,side:'N',plate:(typeof GAME!=='undefined'&&GAME.G&&GAME.G.stage==='econ')?'412':'203'},true);   /* 經濟系那一年住 412（AA_168 第 5 節；故事上是另一棟樓）*/
     // 房門口的小東西：鞋架、阿凱掛在門把上的耳機袋（一看就知道是自己的房間）
     { const y=Y1, z=L.corridor.z0+0.25; const b=new TK.Bin(); b.add(M('#3a3f46',{rough:0.6}),TK.boxG(0.7,0.36,0.26),H.x+0.95,y+0.18,z); b.add(M('#e9e4da'),TK.boxG(0.26,0.08,0.11),H.x+0.8,y+0.4,z); b.add(M('#4a6c8c'),TK.boxG(0.26,0.08,0.11),H.x+1.1,y+0.4,z); b.build(fb1); } }
 
@@ -116,10 +116,10 @@ const DM3=(function(){
   function buildFurniture(E,L,lv0,lv1,fb0,fb1,nav0,nav1,zone){ const Y1=L.floors[1].y, MAT=B3.MAT, IT=E.interactables; const b0=new TK.Bin(), b1=new TK.Bin(); const seats=zone.seats=[];
     for(const f of L.furniture){ const b=f.lv?b1:b0, y=f.lv?Y1:0, nav=f.lv?nav1:nav0, ry=f.ry||0, fb=f.lv?fb1:fb0, fx=Math.sin(ry), fz=Math.cos(ry);
       if(f.type==='wardenWindow'){ b.add(MAT.frame(),TK.boxG(0.1,1.0,f.w+0.1),f.x+0.02,y+1.55,f.z); const gp=new THREE.Mesh(new THREE.PlaneGeometry(f.w,0.9),MAT.glass()); gp.position.set(f.x+0.06,y+1.55,f.z); gp.rotation.y=Math.PI/2; fb.add(gp); b.add(MAT.wood(),TK.boxG(0.4,0.05,f.w),f.x+0.2,y+1.02,f.z);
-        IT.push({x:f.x+0.85,z:f.z,radius:1.1,lv:f.lv,label:'舍監室窗口',look:'舍監室窗口：簽收包裹、借鑰匙、訪客登記。值班的工讀生抬頭看了你一眼：「同學，晚上十一點門禁喔。」'}); }
+        IT.push({x:f.x+0.85,z:f.z,radius:1.1,lv:f.lv,label:'舍監室窗口',look:'舍監室窗口：簽收包裹、借鑰匙、訪客登記。值班的工讀生抬頭看了你一眼：「同學，晚上十二點門禁喔。」'}); }
       else if(f.type==='mailboxes'){ const g=new THREE.Group(); g.position.set(f.x,y,f.z); g.rotation.y=ry; const sb=new TK.Bin(); sb.add(M('#8c9196',{rough:0.45}),TK.boxG(f.w,1.5,0.32),0,0.95,0); for(let i=0;i<8;i++) for(let j=0;j<5;j++) sb.add(M('#6b7075',{rough:0.45}),TK.boxG(0.24,0.03,0.02),-f.w/2+0.15+i*(f.w-0.3)/7,0.35+j*0.27,0.17); sb.build(g); fb.add(g); nav.blockRect(f.x,f.z,f.w,0.32,ry,0.05);
         IT.push({x:f.x+fx*0.9,z:f.z+fz*0.9,radius:1.1,lv:f.lv,label:'看信箱',look:'你的信箱裡只有一張披薩店的傳單，和宿舍會費的繳費通知。'}); }
-      else if(f.type==='notice'){ const bb=W3.bulletin(); bb.position.set(f.x,y,f.z); bb.rotation.y=ry; fb.add(bb); nav.blockRect(f.x,f.z,2.4,0.3,ry,0); IT.push({x:f.x+fx*0.8,z:f.z+fz*0.8,radius:1.2,lv:f.lv,label:'看宿舍公告',look:'宿舍公告：門禁 23:00，晚歸請到舍監室登記。週六早上九點消防演練。洗衣間的三號烘衣機故障，報修中。'}); }
+      else if(f.type==='notice'){ const bb=W3.bulletin(); bb.position.set(f.x,y,f.z); bb.rotation.y=ry; fb.add(bb); nav.blockRect(f.x,f.z,2.4,0.3,ry,0); IT.push({x:f.x+fx*0.8,z:f.z+fz*0.8,radius:1.2,lv:f.lv,label:'看宿舍公告',look:'宿舍公告：門禁 24:00，晚歸請到舍監室登記。週六早上九點消防演練。洗衣間的三號烘衣機故障，報修中。'}); }
       else if(f.type==='sofa'){ const sg=new THREE.Group(); sg.position.set(f.x,y,f.z); sg.rotation.y=ry; fb.add(sg); const sb=new TK.Bin(); const fab=M('#6c6455',{rough:0.85}), fab2=M('#5b5447',{rough:0.85});
         sb.add(fab2,new THREE.BoxGeometry(2.2,0.22,0.86),0,0.19,0); for(const sx of [-0.49,0.49]) sb.add(fab,new THREE.BoxGeometry(0.96,0.14,0.66),sx,0.37,0.08); sb.add(fab2,new THREE.BoxGeometry(2.0,0.52,0.2),0,0.56,-0.33); for(const sx of [-1,1]) sb.add(fab2,new THREE.BoxGeometry(0.16,0.34,0.86),sx*1.02,0.43,0); sb.build(sg);
         nav.blockRect(f.x,f.z,2.2,0.9,ry,0.1); if(f.seat) IT.push({x:f.x+fx*0.7,z:f.z+fz*0.7,radius:1.2,lv:f.lv,label:'坐在沙發上',seat:{x:f.x,z:f.z,yaw:ry,lv:f.lv}}); }

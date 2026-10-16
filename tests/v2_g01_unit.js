@@ -47,5 +47,8 @@ const keepOn=(day,h)=>{ G.day=day; G.hour=h; G.weekday=wdOf(day); };
   check('9. 「先上車，車裡沒風。」→「規定」那句以後還是到 BCG-45',r.cgs.includes('cg_birthday_tassel_kexin')&&r.L.some(t=>t.endsWith('……我剛剛訂的規定。')));
   keepOn(BD+1,7.5); run(7.5,8.2); check('10. 去了＝KX_BDAY {1:"visit"}、沒有「我等了一天。」',G.flags.KX_BDAY[1]==='visit'&&!G.msgs.some(m=>m.tag==='kx_bday_none'));
   r=await go({E18B_GIFT:'notebook'},'（點蠟燭'); check('11. 經濟系那年送過筆記本：多一句「那本筆記本，寫到第十二頁了。」',r.L.some(t=>t.endsWith('那本筆記本，寫到第十二頁了。')));
+  r=await go({E18A_DOUHUA:true},'（點蠟燭'); { const i=r.L.findIndex(t=>t.endsWith('第三個……今天你點餐。'));
+    check('11. 經濟系那年吃過豆花（E18A_DOUHUA）：「第三個……今天你點餐。」之後「你第一次跟我單獨吃的，是豆花。」「……今天不准點豆花。」（BB-B a48d7f8a）',i>=0&&r.L[i+1].endsWith('你第一次跟我單獨吃的，是豆花。')&&r.L[i+2].endsWith('……今天不准點豆花。'),JSON.stringify(r.L.slice(i,i+3))); }
+  r=await go({},'（點蠟燭'); check('11. 沒有 E18A_DOUHUA：沒有這兩句',!r.L.some(t=>/豆花/.test(t)));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })();

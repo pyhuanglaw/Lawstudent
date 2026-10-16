@@ -97,7 +97,7 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
     const a=night('linze',22.95,{MET_XUN:true});
     check('6. 期末考週、22:57 在霖澤館：23:00 阿勳說暗號（五則，最後一則三個回覆）',JSON.stringify(a.map(m=>m.text))==='["你們那邊燈還亮著。","我在社科院四樓，窗邊。看對面。","（對面的窗，燈閃了一下。）","一閃是還活著。兩閃是救我。","三閃是販賣機見。"]'&&a[2].who===null&&JSON.stringify(a[4].ask.opts.map(o=>o.t))==='["（閃三下）","（閃一下）","還活著。"]',JSON.stringify(a.map(m=>m.text)));
     const b=night('campus',22.95,{MET_XUN:true}), c=night('linze',23.6,{MET_XUN:true}), d=night('linze',23.2,{}), e=night('linze',22.95,{MET_XUN:true,XUN_PACT:true,XUN_NIGHT:true});
-    check('6. 不在霖澤館、23:30 以後才進去＝沒有；23:12 才走進去＝一進去就亮；沒見過的先「我是盧正勳。…」',!b.length&&!c.length&&d.length&&d[0].text==='我是盧正勳。你經濟系那年的室友。',JSON.stringify([b.length,c.length,d.map(m=>m.text)]));
+    check('6. 不在霖澤館、23:30 以後才進去＝沒有；23:12 才走進去＝一進去就亮；沒見過的先「我是盧正勳。…」',!b.length&&!c.length&&d.length&&d[0].text==='盧正勳。你經濟系那年的室友。……你該不會連我都忘了。',JSON.stringify([b.length,c.length,d.map(m=>m.text)]));
     check('6. pact＋night：「（對面的窗又閃了三下。）」「我先閃了。」「這次不用等你了。」接在暗號後面，回覆在最後一則',JSON.stringify(e.slice(5).map(m=>m.text))==='["（對面的窗又閃了三下。）","我先閃了。","這次不用等你了。"]'&&e[7].ask&&!e[4].ask,JSON.stringify(e.map(m=>m.text)));
     fresh(D17,22.95,'linze',{MET_XUN:true}); STORY.phoneRules(GM); G.hour=23.05; PHONE.tick(G); let q=XM().find(m=>m.ask); PHONE.answer(G,q.ask.id,0);
     G.hour=23.1; G.zone='campus'; const en=STORY.schedEnt(CHARACTERS.econ_zhengxun,G); const r1=XM().map(m=>m.text);

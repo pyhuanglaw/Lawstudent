@@ -22,7 +22,8 @@ const BIKE=(function(){
   function st(G){ if(!G.bike||typeof G.bike!=='object') G.bike=Object.assign({riding:false},HOME); return G.bike; }
   B.state=st;
   function load(){ if(src) return Promise.resolve(src); if(!loading) loading=ASSETS.loadOne('prop.bike_ride').then(c=>{ const s=c&&c.scene; if(!s) return null;
-      s.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.receiveShadow=false; if(o.geometry) o.geometry.userData.shared=true; } });   /* 換區域時 disposeGroup 不要丟掉共用的幾何 */
+      s.traverse(o=>{ if(o.isMesh){ const g=o.geometry, n=g?(g.index?g.index.count:g.attributes.position.count)/3:0; o.castShadow=n>=250&&!/^ride_(alpha|lamp_lens)/.test((o.material&&o.material.name)||''); o.receiveShadow=false; if(g) g.userData.shared=true; } });   /* 換區域時 disposeGroup 不要丟掉共用的幾何。
+         投影只留車架、前叉、輪子（250 個三角形以上）；踏板、曲柄、座墊、車燈、輻條的影子小到看不出來，每台車陰影那一輪少 8 次 draw call（2026-10-16 溫州街效能）*/
       src=s; return s; }).catch(e=>{ console.warn('腳踏車模型載入失敗',e); loading=null; return null; });
     return loading; }
   B.load=load;
@@ -51,7 +52,7 @@ const BIKE=(function(){
     const it={x:s.x,z:s.z,radius:1.3,lv:0,y:0,label:'騎腳踏車',bike:true,onInteract:()=>B.mount(GM)};
     E.interactables.push(it); parked={obj:o,it,zone:G.zone};
     /* 第一次看到自己的車（第三天以後，避開第一二天的劇情）告訴玩家在哪裡、怎麼騎：2026-10-14 使用者試玩 v9.6「我還是不能騎腳踏車」——v9.7 才有騎車，車停在宿舍門口，沒有人說 */
-    const F=G.flags||(G.flags={}); if(!F.BIKE_TIP&&G.day>=3&&GM.toast){ F.BIKE_TIP=true; const home=s.zone===HOME.zone&&Math.hypot(s.x-HOME.x,s.z-HOME.z)<3; setTimeout(()=>GM.toast((home?'宿舍門口東邊停著你的腳踏車':'這附近停著你的腳踏車')+'：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。',5200),1500); } }
+    const F=G.flags||(G.flags={}); if(!F.BIKE_TIP&&!(typeof STORY!=='undefined'&&STORY.opening?STORY.opening(G):G.day<3)&&GM.toast){ F.BIKE_TIP=true; const home=s.zone===HOME.zone&&Math.hypot(s.x-HOME.x,s.z-HOME.z)<3; setTimeout(()=>GM.toast((home?'宿舍門口東邊停著你的腳踏車':'這附近停著你的腳踏車')+'：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。',5200),1500); } }
   /* 找一個站得住的地方（車停的位置：原本的位置不行就往外找；都不行就用原本的）*/
   function spotNear(E,x,z,yaw){ if(!E.canStand||E.canStand(x,z,0.45,0)) return [x,z]; for(const r of [0.5,1,1.5,2,2.5,3]) for(let k=0;k<12;k++){ const a=yaw+k*Math.PI/6, px=x+Math.sin(a)*r, pz=z+Math.cos(a)*r; if(E.canStand(px,pz,0.45,0)) return [px,pz]; } return [x,z]; }
   /* 走進門時車停在門口旁邊、離門 2.2～2.8 m（v9.7 回歸 2026-10-14：停在門的正前方時，走回車旁邊常常是門比車近、按鈕是「進入便利商店」，騎不了）：

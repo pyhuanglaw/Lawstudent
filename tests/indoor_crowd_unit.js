@@ -77,4 +77,12 @@ const walkTo=(n,x,z,lv)=>E.simWalk(n.obj.position.x,n.obj.position.z,x,z,{lv0:n.
     CLS.syncRooms(GM); const out=E.npcs.filter(n=>n.leaving&&n.crowd==='cls').length;
     check('演講開始前坐下選「聽演講」（聽眾還沒排進來）：快轉前聽眾已經坐好；散場時站起來往外走（不是沒有人）',before===0&&seatedAtFF>=5&&out>=5,`坐下時 ${before} 人、快轉前坐好 ${seatedAtFF} 人、散場往外走 ${out} 人`);
     ACTIVITIES.list=[]; }
+  // ---------- 陸續進來（2026-10-16 修：原本第一次排進來的 2～3 人之後就不再增加）----------
+  { const z=load('boya'); const G={day:TUE,hour:9.0,zone:'boya',flags:{},weekday:2}; const GM={G,E}; const cnt=()=>E.npcs.filter(n=>n.clsStudent).length;
+    CLS.syncRooms(GM,{instant:true}); const n1=cnt(); G.hour=9.0+5/60; CLS.syncRooms(GM); const n2=cnt();
+    const free=z.seats.find(st=>st.room==='101'&&(st.kind==='class'||st.kind==='lecture')&&!E.npcs.some(n=>n.seat===st||n.seatTarget===st)); E.player.seat=free; E.player.lv=free.lv|0;
+    G.hour=9.0+9.9/60; CLS.syncRooms(GM); const n3=cnt(); G.hour=9.2; CLS.syncRooms(GM); const n4=cnt(); const seats=E.npcs.filter(n=>n.clsStudent).map(n=>n.seat||n.seatTarget);
+    check('09:00 → 09:05 → 09:10 → 09:12：101 的同學每次同步都補到那個時間該有的人數（15% → 約一半 → 約八成 → 坐滿名額），不會停在第一批',n1>=1&&n2>n1&&n3>n2&&n4>=n3&&n4>=8,[n1,n2,n3,n4].join(' → '));
+    check('補進來的人不坐玩家坐著的位子、也不重複坐同一個位子',!seats.some(st=>st===free||Math.hypot(st.x-free.x,st.z-free.z)<0.35)&&new Set(seats).size===seats.length);
+    E.player.seat=null; }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })();

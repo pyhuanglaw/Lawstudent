@@ -123,7 +123,7 @@ async function await0(){}
     check('13. 每句一次：問過以後不再抽到',G.flags.ZR_FILM_ASK===true&&!G.invites[0].ask&&(()=>{ const pk=INV.walkPick(G,'heroine_02','wenzhou'); return !!pk&&!pk.ask; })()); }
   fresh(TUE,18); rel('kai',25); G.flags.walkChatN={}; let pk2=INV.walkPick(G,'kai','noodle');
   check('13. 阿凱大一去吃飯的路上：「所以你們法律系的，路邊的機車擋住騎樓可以告嗎」（選項句）',!!pk2&&pk2.ask==='KAI_SCOOTER_ASK'&&pk2.lines[0]==='「所以你們法律系的，路邊的機車擋住騎樓可以告嗎」',pk2&&JSON.stringify(pk2));
-  { const e=INV.walkEntry('kai','KAI_SCOOTER_ASK'); check('13. 阿凱的三個選項與回答（BB_70 4-5）',!!e&&e.ch.map(c=>c.t+'→'+c.r[0]).join('／')==='可以檢舉，不一定是告→「所以告跟檢舉不一樣 好 我學到一個字」／你想告誰→「沒有 我只是想知道我有沒有這個能力」／先讓我吃完→「好 你吃 ……吃完了嗎」'); }
+  { const e=INV.walkEntry('kai','KAI_SCOOTER_ASK'); check('13. 阿凱的三個選項與回答（BB_70 4-5；第一個選項 BB-B 法律審查 c36de340 改字）',!!e&&e.ch.map(c=>c.t+'→'+c.r[0]).join('／')==='不一定是告，可以請警察來看→「所以告跟叫警察不一樣 好 我學到一件事」／你想告誰→「沒有 我只是想知道我有沒有這個能力」／先讓我吃完→「好 你吃 ……吃完了嗎」'); }
   G.flags.walkChatN={}; pk2=INV.walkPick(G,'kai','cafe'); check('13. 阿凱去 Café：不是吃飯，不問機車那題',!!pk2&&!pk2.ask,pk2&&JSON.stringify(pk2));
   const y2d=(()=>{ for(let d=300;d<800;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y2S1') return d; } return null; })(); fresh(y2d,18); rel('kai',25); pk2=INV.walkPick(G,'kai','noodle'); check('13. 大二：不問（大一上的題目）',!pk2||!pk2.ask,pk2&&JSON.stringify(pk2));
   /* 子晴「你為什麼換」（BB_70 2-5、BB 2fdef19）：有點熟以上、還沒有 TOLD_HER_CHANGE；說了記憶 TOLD_HER_CHANGE，「下次再講」不記 */

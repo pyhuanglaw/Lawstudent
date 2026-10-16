@@ -2,7 +2,7 @@
 [前置／捷徑] 讀檔站在博雅大廳；每一段前面放一場測試演講到活動清單（遊戲裡的活動清單是空的，內容等 AA、BB）。其餘都走真的介面（點地面、互動按鈕、選項、手機）。
 A. 中途離開：演講已經開始，自己走進 101、坐下 →「坐一下」（20 分鐘）→ 起身 → 自己走出 101 到大廳 → 紀錄是 left（中途離開）、離開的時間在散場前。
 B. 快速前往：第二場開始後坐下 →「坐一下」→ 起身 → 手機「地點」→ 台大校園 → 紀錄是 left、離開的時間是出發的時候（不是到達）。
-C. 座位上跳時間：手機「地點」到博雅門口、按門進去、走進 101；第三場開始前坐下 →「讀書（1 小時）」跨過整場 → 紀錄是 full（聽完）。
+C. 座位上跳時間：手機「地點」到博雅門口、按門進去、走進 101；第三場開始前坐下 →「讀書」→「讀 1 小時」跨過整場 → 紀錄是 full（聽完）。
 D. 自動存檔裡有這三筆紀錄（存檔讀檔帶得走）。
 修改前（只有選「聽演講」才記）A、B、C 都沒有紀錄，這個測試會失敗。
 用法：python3 tests/flow_lecture_attend.py URL [輸出資料夾]"""
@@ -131,7 +131,7 @@ async def main():
         a = await add_lecture(pg, run, 't_skip', 0.15, 0.6)
         pose, opts, s = await sit_and_choose(pg, cdp, run, '讀書', pick_after=0)
         r = await rec(pg, 't_skip')
-        run.check('C 開始前 9 分鐘坐下 →「讀書（1 小時）」跨過整場（36 分鐘）→ 聽完（full）', ok and s['hour'] % 24 >= a['t1'] and r and r.get('end') == 'full', json.dumps(r) + f" t0={a['t0']:.2f} t1={a['t1']:.2f} 現在 {s['hour']:.2f}")
+        run.check('C 開始前 9 分鐘坐下 →「讀書」→「讀 1 小時」跨過整場（36 分鐘）→ 聽完（full）', ok and s['hour'] % 24 >= a['t1'] and r and r.get('end') == 'full', json.dumps(r) + f" t0={a['t0']:.2f} t1={a['t1']:.2f} 現在 {s['hour']:.2f}")
         await run.shot(pg, 'C_after_study')
         # ---------- D：存檔 ----------
         await pg.wait_for_timeout(1500)

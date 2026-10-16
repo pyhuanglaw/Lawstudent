@@ -22,7 +22,8 @@ global.EVENTS={cond:c=>{ if(!c) return true; const G=GG;
   if(c.memory&&!c.memory.every(m=>MEM[m.npc+':'+m.tag])) return false;
   if(c.stage&&ORDER.indexOf(STAGE[c.stage.npc]||'STRANGER')<ORDER.indexOf(c.stage.min)) return false;
   if(c.flags&&!c.flags.every(f=>G.flags[f])) return false; if(c.notFlags&&c.notFlags.some(f=>G.flags[f])) return false;
-  if(c.energy&&(G.energy<(c.energy.min||0)||G.energy>(c.energy.max===undefined?100:c.energy.max))) return false; return true; }};
+  if(c.energy&&(G.energy<(c.energy.min||0)||G.energy>(c.energy.max===undefined?100:c.energy.max))) return false;
+  if(c.lateNight!==undefined&&!!(G.daily&&G.daily.lateNight===G.day)!==!!c.lateNight) return false; return true; }};   /* 和 events3d.js 的 cond 一樣（AA-B 10-16：「累」改看前一晚幾點睡）*/
 global.SOCIAL={displayName:id=>(CHARACTERS[id]&&(CHARACTERS[id].nickname||CHARACTERS[id].name))||id};
 check('有 STORY.smallTalk',typeof STORY.smallTalk==='function');
 if(fails){ console.log('FAILED '+fails); process.exit(1); }
@@ -78,6 +79,13 @@ const talk=id=>STORY.smallTalk(G,id), txt=L=>L.say||L.narr;
 // ---------- unless（測試用的人物）----------
 { CHARACTERS.t_unless={id:'t_unless',name:'測試',social_layer:'A'}; SMALLTALK.t_unless=[{t:'A',unless:{flags:['x']}},'B']; delete G.social.small; G.flags.x=true; const seen=[]; for(let d=0;d<3;d++){ G.day=W+100+d; seen.push(txt(talk('t_unless'))); }
   check('unless：條件成立時不說',!seen.includes('A')&&seen.includes('B'),seen.join(' / ')); }
+// ---------- 明軒「你看起來很累」：前一晚 01:00 以後才睡（AA-B 10-16，取代體力 ≤40；DL-02）----------
+{ const mk=(day,late)=>({day,hour:10,zone:'campus',weekday:CALENDAR.dateOf(day).wd%7,energy:100,social:{rel:{},mem:{}},flags:{},daily:late?{lateNight:day}:{}});
+  const TIRED='「你看起來很累。睡飽比較重要。」'; const say=G2=>{ const keep=GG; GG=G2; try{ return txt(STORY.smallTalk(G2,'classmate_mingxuan')); } finally { GG=keep; } };   /* 替身 EVENTS.cond 讀 GG */
+  const a=mk(W,false); check('明軒：前一晚正常睡，不說「你看起來很累」',say(a)!==TIRED,say(mk(W,false)));
+  const G3=mk(W,true); { const r=say(G3); check('明軒：前一晚 01:00 以後才睡，當天第一次見到他就說「你看起來很累」',r===TIRED,r); }
+  G3.day=W+1; G3.weekday=CALENDAR.dateOf(W+1).wd%7; G3.daily.lateNight=W+1; { const r=say(G3); check('明軒：同一週第二次熬夜不再說（once:week）',r!==TIRED,r); }
+  G3.day=W+7; G3.daily.lateNight=W+7; G3.weekday=CALENDAR.dateOf(W+7).wd%7; { const r=say(G3); check('明軒：下一週熬夜又可以說一次',r===TIRED,r); } }
 // ---------- 舊存檔 ----------
 { const G2={day:W,hour:15,zone:'campus',weekday:3,energy:70,social:{rel:{},mem:{}},flags:{}}; const L=STORY.smallTalk(G2,'zhe');
   check('舊存檔沒有 G.social.small：照常，記下今天聊過',L.fresh&&G2.social.small&&G2.social.small.zhe&&G2.social.small.zhe.day===W,txt(L)); }

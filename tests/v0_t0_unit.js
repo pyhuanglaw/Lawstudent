@@ -1,0 +1,49 @@
+// v0 颱風假：T0b 照常上課的喜劇（手機）、T0a 泡麵之夜、XL-1 阿勳一句（BB_110 第 2 節；AA_154 第 92、93、107 行）——不需要瀏覽器。
+// 修改前：沒有 ev_y0_t0a（第 0 項失敗）。用法：node tests/v0_t0_unit.js
+const fs=require('fs'), vm=require('vm'), path=require('path');
+const ROOT=path.resolve(__dirname,'..');
+global.window=global; global.self=global; global.P3={CAST:{}};
+global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|OUT)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/classes3d.js']) load(f);
+let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
+global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
+global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
+let said=[], picks=[], rels=[], G=null;
+const E={q:{level:'medium'},player:{busy:false,obj:{position:{x:0,y:0,z:0},rotation:{y:0}},lv:0},zone:{roomAt:()=>null,seats:[]},npcs:[],interactables:[],levels:null,setWeather(){},hour:0,endCinematic(){}};
+const GM={get G(){ return G; },E,D:{active:false},npc:{},
+  sceneBegin(){},sceneEnd(){},face(){},cine(){},caption(){},sleep:()=>Promise.resolve(),memo(){},autosave(){},addNote(){},energy(){},money(){},setGoal(){},toast(){},updateHUD(){},letterbox(){},phoneBadge(){},
+  titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(id,d){ rels.push([id,d]); },walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
+  say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
+const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
+const fresh=(day,hour,zone,flags,stage)=>{ G={v:3,day,hour,zone,stage:stage||'econ',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+  SOCIAL.bind(G); EVENTS.bind(GM); said=[]; picks=[]; rels=[]; };
+const run=()=>{ STORY.phoneRules(GM); PHONE.tick(G); };
+const at=(day,hour)=>{ G.day=day; G.hour=hour; G.weekday=wdOf(day); run(); };
+const TH=th=>PHONE.thread(G,th).map(m=>m.text);
+(async()=>{
+  const D29=STORY.dayOfKey('2024-09-29'), D30=STORY.dayOfKey('2024-09-30');
+  const t0a=STORY_EVENTS.find(e=>e.id==='ev_y0_t0a'), xl1=STORY_EVENTS.find(e=>e.id==='ev_y0_xl1');
+  check('0. ev_y0_t0a、ev_y0_xl1 在；9/30 是颱風假',!!t0a&&!!xl1&&CALENDAR.typhoon(D30));
+  if(!t0a||!xl1){ console.log('FAILED '+fails); process.exit(1); }
+  const ck=(e,day,h,zone,fl)=>{ fresh(day,h,zone||'dorm',fl); return EVENTS.check(e); };
+  check('1. T0a：9/30 白天到晚上在宿舍房間；9/29、9/30 在校園、法律系不行',ck(t0a,D30,11)&&ck(t0a,D30,22)&&!ck(t0a,D29,11)&&!ck(t0a,D30,11,'campus')&&!(()=>{ fresh(D30,11,'dorm',{},'law'); return EVENTS.check(t0a); })());
+  { fresh(D30,14,'dorm'); picks=['肉燥']; await EVENTS.run(t0a); const L=said.map(x=>x.t);
+    check('1. T0a 原文：六包泡麵、邊際效用遞減、韋綸「走啦！去看風！」、「現在是六包、四個人。我要重算。」',L[0]==='我們有六包泡麵、三個人、一個颱風。'&&L[2]==='（推門進來，全身濕）走啦！去看風！'&&L[5]==='現在是六包、四個人。我要重算。',JSON.stringify(L.slice(0,6)));
+    check('1. 肉燥：「……這改變了整個模型。」、Y0_SAUCE',L[L.length-1]==='……這改變了整個模型。'&&G.flags.Y0_SAUCE===true);
+    const W8=(()=>{ for(let d=D30;d<D30+40;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y0S1'&&t.week===8) return d; } })();
+    G.day=W8; G.hour=20; G.weekday=wdOf(W8); check('2. XL-1：第 8 週晚上在宿舍，有 Y0_SAUCE 就有阿勳那一句',EVENTS.check(xl1));
+    G.flags.Y0_SAUCE=false; check('2. 沒有 Y0_SAUCE 就沒有',!EVENTS.check(xl1)); }
+  { fresh(D30,14,'dorm'); picks=['猜拳']; await EVENTS.run(t0a); const L=said.map(x=>x.t);
+    check('1. 猜拳：「阿勳輸了三次，第四次說：『這不是機率，是颱風。』」、不記 Y0_SAUCE',L[L.length-1]==='阿勳輸了三次，第四次說：「這不是機率，是颱風。」'&&!G.flags.Y0_SAUCE); }
+  // T0b
+  { fresh(D29,21.9,'dorm'); G.flags.P2_PICK='river'; run(); check('3. T0b：21:58 以前還沒收到信（排著）',!(G.msgs||[]).some(m=>m.text==='若明日停課，作業照常繳交。'));
+    at(D29,22.2); const sys=(G.msgs||[]).filter(m=>(m.th||'sys')==='sys').map(m=>m.text);
+    check('3. 21:58 經原老師的信、22:00 新聞、22:01 第二封信（照順序）',JSON.stringify(sys.slice(-3))===JSON.stringify(['若明日停課，作業照常繳交。','明天停止上班上課。','若明日未停課，作業也照常繳交。']),JSON.stringify(sys));
+    const g=TH('g:econ_friends'); check('3. 「走啦」群組：品妤、唐睿、可昕的假設題',g.includes('這兩封信加起來，資訊量是零。')&&g.includes('老師其實只寫了一封。第二封是回聲。')&&g.includes('假設颱風是一個人，他今天最想做什麼？'),JSON.stringify(g));
+    const k=PHONE.thread(G,'g:econ_friends').find(m=>m.text==='假設颱風是一個人，他今天最想做什麼？');
+    check('3. 可昕那則三個回答、各自的回覆',k&&k.ask&&k.ask.opts.map(o=>o.t).join('/')==='「放假。」/「交作業。」/「看我們會不會真的交。」'&&k.ask.opts[2].say[0].text==='……你比颱風還壞。'); }
+  { fresh(D29,22.2,'dorm'); G.events.done.ev_y0_e02=1; run(); check('3. 還沒有「走啦」：在全班群組',TH('g:econ_class').includes('假設颱風是一個人，他今天最想做什麼？')); }
+  console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
+})().catch(e=>{ console.error(e); process.exit(1); });

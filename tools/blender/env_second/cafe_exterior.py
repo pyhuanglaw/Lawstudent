@@ -350,10 +350,20 @@ for sgn, nm in ((1, 'ABOARD_FACE_front'), (-1, 'ABOARD_FACE_back')):
 # ================================================================ 合併同材質的零件（少很多 draw call）；招牌、立牌、菜單板面要單獨（遊戲換 canvas 貼圖）
 # 純色材質改成三個頂點色材質（第二輪減量，2026-10-10；lib2.vc_consolidate）：亮面（瓷杯、檯面、釉面盆）、霧面、金屬，各一次 draw call。
 # 屋頂板不併（它投影；這三組在遊戲裡都不投影：zones3d.js 的 WZ_NO_SHADOW）
-L.vc_consolidate(root, {**dict.fromkeys(('cafe_ceramic_white', 'cafe_int_bartop', 'cafe_pot_cream', 'cafe_pot_dark'), L.vc_material('cafe_vc_gloss', rough=0.35)),
-                        **dict.fromkeys(('cafe_pot_terracotta', 'cafe_soil', 'cafe_trunk', 'cafe_cake', 'cafe_ac_body', 'cafe_ac_fan', 'cafe_pipe', 'cafe_curtain', 'cafe_room_dark'), L.vc_material('cafe_vc_matte', rough=0.85)),
+L.vc_consolidate(root, {**dict.fromkeys(('cafe_ceramic_white', 'cafe_int_bartop', 'cafe_pot_cream', 'cafe_pot_dark', 'cafe_pl_leaf_dark', 'cafe_pl_leaf_mid'), L.vc_material('cafe_vc_gloss', rough=0.35)),
+                        **dict.fromkeys(('cafe_pot_terracotta', 'cafe_soil', 'cafe_trunk', 'cafe_cake', 'cafe_ac_body', 'cafe_ac_fan', 'cafe_pipe', 'cafe_curtain', 'cafe_room_dark', 'cafe_pl_bark', 'cafe_pl_soil_pot'), L.vc_material('cafe_vc_matte', rough=0.85)),
                         **dict.fromkeys(('cafe_brass', 'cafe_iron_black', 'cafe_steel', 'cafe_grille', 'cafe_tank_steel', 'cafe_alu'), L.vc_metal('cafe_vc_metal', rough=0.4, metal=0.4))})
-L.merge_by_material(root, keep=lambda ob: any(k in ob.name for k in ('SIGN_FACE', 'ABOARD_FACE', 'MENU_FACE')))
+_keep = lambda ob: any(k in ob.name for k in ('SIGN_FACE', 'ABOARD_FACE', 'MENU_FACE'))
+L.realize_small_instances(root, keep=_keep)   # 第三輪減量（2026-10-16）：只擺幾個的 instancing（凳子、桌子、冷氣、鐵窗、雨遮）合進大網格；多材質的零件拆開再合
+L.split_by_material(root, keep=_keep)
+# 效能第二輪（2026-10-16）：玻璃看進去的店內（地板、牆、木頭、天花板、樑、書、層架、吧台）八個貼圖材質合成一張 cafe_int_atlas——
+# 遊戲的 CAFE_BOUNCE（白天店裡也開燈）要加一行 cafe_int_atlas；名字是 cafe_int_ 開頭，WZ_NO_SHADOW 照舊不投影。外面的小貼圖材質另一張。
+L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', 'cafe_int_atlas.png'), 'cafe_int_atlas', only=set(BOUNCE_MATS), max_tris=6000, max_rep=8, cell=256, rough=0.6, keep=_keep)
+L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', 'cafe_ext_small_atlas.png'), 'cafe_ext_small_atlas', protect=set(NIGHT_MATS) | set(BOUNCE_MATS), max_tris=600, keep=_keep)
+L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', 'cafe_int_rows.jpg'), 'cafe_int_rows', only=set(BOUNCE_MATS), max_tris=4000, max_vloss=0.06, keep=_keep)   # 店內剩下的（牆、樑、天花板、木頭）：CAFE_BOUNCE 也要加 cafe_int_rows
+L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', 'cafe_ext_rows.jpg'), 'cafe_ext_rows', protect=set(NIGHT_MATS) | set(BOUNCE_MATS), max_vloss=0.06, keep=_keep, skip=lambda m: m.name.startswith(('cafe_int_atlas', 'cafe_ext_small_atlas')))
+L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', 'cafe_leaf_atlas.png'), 'cafe_leaf_atlas', alpha=True, max_tris=4000, keep=_keep, rough=0.7)   # 效能第三輪：四種葉片卡合一張（名字 cafe_leaf_ 開頭：遊戲照舊雙面＋alphaTest）
+L.merge_by_material(root, keep=_keep)
 info = L.export(OUT, gpu_instances=True)
 info.update({'night_mats': NIGHT_MATS, 'bounce_mats': BOUNCE_MATS})
 L.write_json(OUT[:-4] + '.json', info)

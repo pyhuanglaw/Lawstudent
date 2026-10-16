@@ -27,7 +27,7 @@
    "origin/claude/cool-heisenberg-o8kuqx",
    "origin/claude/elegant-brown-fcos7n"
   ],
-  "updated": "2026-10-16T03:5xZ",
+  "updated": "2026-10-16T09:3xZ",
   "note": "機器讀的任務索引；docs/HANDOFF_GAP_MATRIX.md 是閱讀版，兩邊的 ID 要一致（check_handoff.py 會比對）",
   "aaRef": "企劃線 docs/story_planning/AA_140_v0到v6_交付實作驗收對照表.md：第 0 節＝戀愛現行規則；第 3 節＝企劃缺漏 G01～；本檔管施工與測試，兩邊互指",
   "firstSource": "AA_146（9d994120）＋AA_146 第 1b 節 13 項對齊（510eea1c，人物事件照 BB-B）",
@@ -144,8 +144,8 @@
    "title": "沛珊穿和路人一樣的紅衣（第 26 項）",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
-   "next": "BB-B 驗收沛珊 VRM（ART-05）後改預設",
+   "status": "已整合待測試",
+   "next": "已改預設：char.classmate_peishan＝bl_classmate_peishan.vrm（Blender 版；BB_131 第 9 節：可以整合成預設、還不是 ART_APPROVED）。待遊戲內截圖（BB-B 10:05 確認）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -510,8 +510,8 @@
    "title": "角色 VRM bl_zhe、xinci、bohan、kexin、peishan（只在 ?blchar）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "BB-B 第一輪寫進 BB_131 第 6 節（abac60ac）；等 LAWWW2-B 的遊戲內截圖（每人 5 張）",
+   "status": "已整合待測試",
+   "next": "BB-B 已核對（BB_131 第 9 節 b6270efc，比原預設接近標準圖）；不標 ART_APPROVED；遊戲內截圖給使用者看",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -534,7 +534,8 @@
     "spec": "LAWWW2／LAWWW2-B 交付",
     "acceptance": "BB-B D59 通過 → LAWWW 改預設",
     "ack": "ACK"
-   }
+   },
+   "commit": "cdbf1249"
   },
   {
    "id": "ART-06",
@@ -948,8 +949,8 @@
    "title": "Y0 日曆",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "校定活動",
+   "status": "已整合待測試",
+   "next": "瀏覽器：經濟系開局接好以後（V0-A3）從 2024-09 走一遍",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -962,15 +963,16 @@
     "confirmed": true
    },
    "source": "交接包_v0、BB_104／105／110／112",
-   "authorized": "D79"
+   "authorized": "D79",
+   "evidence": "calendar.js 負的日子、2024-09-30 颱風假；story3d.js termDay／dayOfKey／S.dateOf；tests/v0_a1_unit.js"
   },
   {
    "id": "V0-A2",
    "title": "Y0 課表",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "courses 加 Y0",
+   "status": "已整合待測試",
+   "next": "瀏覽器：V0-A3 開局接好以後上一次經原、會計",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -983,15 +985,16 @@
     "confirmed": true
    },
    "source": "交接包_v0、BB_104／105／110／112",
-   "authorized": "D79"
+   "authorized": "D79",
+   "evidence": "courses.js 14 門 Y0 課（含 specials 週次＝BB 課堂內容）；classes3d.js Y0 學期、y0leave；tests/v0_a1_unit.js、classes_unit、syllabus_unit"
   },
   {
    "id": "V0-A3",
    "title": "存檔分經濟系／法律系階段、開局選擇（法律系大一開局要一直能玩、不破壞舊存檔）",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照 v0 交付清單第 1 節 A1～A6：標題的兩個開局、存檔 stage 欄位；舊存檔沒有 stage 一律當法律系開局（AA-B 02:13）",
+   "status": "進行中",
+   "next": "第 1 部分做完：G.stage（預設 law、舊存檔 migrate 補 law）、STORY.opening（法律系第 1、2 天／經濟系 9/1；取代寫死的 G.day<3）、事件 stage 閘門（法律系事件在經濟系那年不觸發）、法律系開局先放 AA_106 3b ④＋③、經濟系開局 2024-09-01 21:00 男宿（網址 ?y0 才出現，D81）。還沒：E01 稿（已問 AA-B）、舊存檔第一次讀檔放④（已問 AA-B 要不要）、經濟系的人物作息與 presence（法律系的人不在場）、手機群組與 phoneRules 的 stage 閘門",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -1004,7 +1007,8 @@
     "confirmed": true
    },
    "source": "交接包_v0、BB_104／105／110／112",
-   "authorized": "D79"
+   "authorized": "D79",
+   "evidence": "tests/v0_a3_unit.js"
   },
   {
    "id": "V0-A4",
@@ -1053,8 +1057,8 @@
    "title": "經濟系開學典禮、系館",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "場景清單等 AA-B",
+   "status": "已整合待測試",
+   "next": "E02 開學典禮（soc_hall → soc_classroom、E02_WORD）照 AA_154 第 79 行、BB_104 第 8 節，排 V0-B1；社科院不做 3D 室內（AA_173）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -1066,8 +1070,10 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "交接包_v0、BB_104／105／110／112",
-   "authorized": "D79"
+   "source": "AA_173 第 1 節（da7088b3）",
+   "authorized": "D79",
+   "commit": "(本批)",
+   "tests": "tests/v0_a6_unit.js"
   },
   {
    "id": "V0-A7",
@@ -1095,8 +1101,8 @@
    "title": "BB_104 E01～E37",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "—",
+   "status": "進行中",
+   "next": "已接：E01、★E02（AA-B 定案 A、兩句旁白 268d529d）、E03（＝BB_105 B1：經原第 2 週那一堂、第 2 週沒去就在之後第一次出席時上，記 Y0_B1_ANSWER＝選項原文；tests/v0_e03_unit.js）、P2（第一次）、★E05、★E06／D2、E08 中秋系烤（BB_153；9/16 全班群組揪、9/21 韋綸私訊→出遊；沒去版；tests/v0_e08_unit.js）＋兩個群組（AA_157：全班群組 E02 加入、「走啦」P2 去成那晚建立；經濟系開局不再第一天就有「走啦」）、E04 微積分（課堂裡，第 2 週）、E07 社團博覽會（Y0_CLUB；沒去＝9/21 12:30 可昕私訊選社團，時間已問 AA-B）、E09 小福午餐（第 4 週平日中午；tests/v0_e07_unit.js）；（颱風 T0a／T0b 記在 V0-B4）P2 補演（今天先回去的玩家下一次會計下課再演，到第 5 週）、P1b 兩種（10/3、10/17；tests/v0_p1b_unit.js）、★E10 去總圖其實沒念（10/15 22:30 可昕邀→10/16 走進總圖三樓；不答應或沒到＝小福那一版；E10_STUDY；tests/v0_e10_unit.js；10/15 群組聚會的內容已問 AA-B）、E11 期中考後（10/31 會計考完；AA_154 寫 11/1 已問 AA-B；tests/v0_e11_unit.js）、★E12 長頸鹿的尾巴（AA_154 A32：17:30 可昕私訊＋出發選單只帶到湖邊、19:45～20:15 她在南岸步道、20:30 手機版一定要回、E12_ANSWER；邀約和手機版開頭兩句是 AA 暫定句，等 BB-B 定稿；tests/v0_e12_unit.js）、★E14 保齡球館（AA_154 A33：11/14 21:00 群組約、出發選單、19:15 沒出發＝韋綸打電話直接進出遊；品妤和韋綸兩句是 AA 暫定；tests/v0_e14_unit.js）、E17 校慶拍賣攤分兩段（AA_154 A36：11/8 12:30 群組約→19:00 社科院備料 2D 出遊、11/9 10～16 椰林攤位；兩天都沒去＝18:00 群組照片；前一晚沒去的開頭句等 BB-B；tests/v0_e17_unit.js）、E15 宿營（11/20 家豪學長兩則、11/21「走啦」兩則〔BB-B e0e7a359〕、11/22 出發選單、三天兩夜到週日 16:00、大合照、沒去版；tests/v0_e15_unit.js、v0_c2_unit.js）、E18 即興劇小公演（A36：11/28 21:00 邀約、出發選單 19:00／Y0_EXTRA 18:30、IMPROV_LINE 沒有就 E12_ANSWER、沒去＝隔天唐睿影片；先 2D 出遊，博雅沒有指定的借用教室；tests/v0_e18_unit.js）、E18a 豆花（12/3 22:00 人在總圖；E18A_DOUHUA；tests/v0_e18a_unit.js）、E16 分組報告（第 15 週分工 E16_ROLE、第 16 週報告、寫報告的前一晚私訊、翹課＝absent；tests/v0_e16_unit.js）、E20 聖誕交換禮物（BB_153＋A36：12/23 邀約、12/25 17:00 兩則、出發選單、−500、GIRAFFE_KEYCHAIN 兩種沒去版；tests/v0_e20_unit.js）、E22 期末通宵（A38：12/22 群組、出發選單 22:00、01:00 演、02:00 回宿舍；沒去照片）、E21a 跨年（12/31 群組三則、19～22 在總圖或出發選單、跳到 23:00、E21A_WENT；沒去照片＋私訊）——總圖 B1 還沒有 3D，先 2D 出遊；tests/v0_e22_unit.js、E22b 法律入門書（1/2 下午總圖二樓，E22B_TOLD）、★E19 誤會（1/2 群組、出發選單、19:15 電話、E19_ASK、不問版 1/4 私訊；開頭三句旁白取自 BB_104 3-1 的描述，等 BB-B 確認；tests/v0_e19_unit.js）；下一批 A2、T1、B2、C1、E10、E12、E20、E28、E34；定稿換字（10:55 AA-B／BB-B）：10/15 聚會先桌遊後夜市、E10 沒去版 22:30 兩則、E12 邀約／手機版開頭／收尾、E14 品妤與韋綸電話；E17 群組兩則＋只演後半的開頭（BB-B 定稿 76eed22b）；E14 睡覺邊界：19:15 前上床＝19:15 被電話吵醒（STORY.coreCallAt，E19 共用）；E19 開頭換成 BB-B 定稿（0afc435d）；E22b、E19 日期照課表最後一場期末考（A34，662b25d2，STORY.y0FinalEnd）；C2、E15 換成定稿（a0203a9d）；E13 大家走了以後三種（接在 P2b 散場，60bedabc）；寒假（F1、★E21、E24、★E23，ffbf3a8f／09ae6f95；tests/v0_winter_unit.js）、★E24b（3c89ff51）、★E24c（AA_169 完整稿，c996e5f3）、★E25（891c3fbd）、★E26（c595353c，CG 還沒有）、★E27（187785e0）、E28（441cd77a）、★E30＋便利貼（c996e5f3）已接；下一步 A3 搬家、1-3b 從家裡出發、A39 重考期起床選單、R1～R8、E18b、E31～E37、2-4b 換階段（v9.9 之後）；★E35 考試的前一晚（AA_154 A41＋BB_104 8b-18：7/10 18:00 可昕私訊兩則、出發選單「女舍門口 21:00」從臺北的家 30 分鐘、20:45～21:15 走到她旁邊＝3D 版（演完直接回家）、沒到＝21:30 電話版（在家＝home3d 那一輪、睡著＝電話叫醒 coreCallAt、在外面＝當場）；E35_PLAN／E35_MET；tests/v0_e35_unit.js）已接；E35_PLAN 的回聲「你說考完要去（那裡）。我查好了。」三個選項各自的「那裡」等 AA-B",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -1116,8 +1122,8 @@
    "title": "BB_105 P1、B1、B2、D2",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "—",
+   "status": "進行中",
+   "next": "P1 已接（classes3d.js S.p1Due：選座位 Y0_P1_SEAT、BB_105 2-3 四句、課表第 1 週的 C 類；第 1 週沒去就在之後第一次出席時；遲到超過 15 分鐘＝略過一句旁白——「可跳過」的意思已問 AA-B；tests/v0_p1_unit.js）；B1＝E03 已接；D2 已接（ec12d21c）；B2 小桌子的午後已接（坐在博雅自習區就開始：STORY.onSeat、trigger:'seat'；第 6～7 週週一中午；熟悉度沒給數字先不加；tests/v0_b2_unit.js）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -1137,8 +1143,8 @@
    "title": "BB_112 阿勳、唐睿／品妤、韋綸、重考日常 R1～R8",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "等 AA-REQ-06（D86：AA 分派 BB）",
+   "status": "進行中",
+   "next": "A1、T1、A2 已接；T2 唐睿的練習已接（268cd7c9：W10～W13 週一經原下課 50%；說漏嘴那一句的位置等 BB-B 確認；tests/v0_t2_unit.js）；韋綸的腳踏車已接（9356501a：11/7 固定、沒去版、11/21 後續；AA_154 2-5b、BB-B 法律審查 7cf231c3；tests/v0_p2b_unit.js）；T3 已接（3c89ff51）；XL-2 已接（93d95ccb）；A3（退宿 3/29）、R1～R8 待開工；重考期 R 系列已接（AB-38 BB-B 4380b0eb＋AA_154 A39／A45）：可昕到博雅＝她 Y0S2 最後一堂下課＋10 分鐘（週五、週末、放假、暑假 10:00）；讀書日 R1（3/28）、R5（4/2）、R2（第 8 週第一個讀書日）、其他日子 S1～S5 輪流（每天一次；R1 沒演到＝那句移到下一次）；玩樂日＝她下課以後的 2D 出遊：R3（3/30～4/1）、R6（第 12 週，最晚 5/10）、其他日子 P1～P6 旁白輪流，habit retake:play；R4 4/19 16:00～18:00 總圖外台階（3D，E32_COMFORT）；R7 5/23 21:00 阿勳群組＋5/24 14:00 保齡球館；沒遇到的照片、私訊（當天 21:00，R7 17:00）；2D 出遊從家裡出發的演完回家（之前回到宿舍）；tests/v0_retake_r_unit.js。待 AA-B：R4 沒有邀約（玩家怎麼知道她在總圖外台階）、R7 沒有便利貼（Y0_STICKY_HOME false）時群組怎麼說",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -1158,8 +1164,8 @@
    "title": "BB_110 F1、T0a、T0b、C1、C2、L5a、L5b",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "—",
+   "status": "進行中",
+   "next": "T0b（9/29 21:58 兩封信＋新聞＋群組，可昕的假設題三種回）、T0a 泡麵之夜（9/30 颱風假在宿舍，Y0_SAUCE；阿勳那天整天在房間）、XL-1（第 8 週阿勳問肉燥）已接（tests/v0_t0_unit.js）；C1 即興劇社的熱身已接（第 6 週第一個平日 17:30 可昕邀→19:00 博雅；IMPROV_LINE；沒去 22:00「你錯過了一隻企鵝」；tests/v0_c1_unit.js）；C2 自己的社團已接（AA_154 A37：社團群組＋出發選單，吉他社萬才館 3D、登山社 2D、羽球社新體 3D、不參加＝唐睿私訊 Y0_EXTRA；tests/v0_c2_unit.js）；P2b 門口有人在揪＋L5b 已接（60bedabc：AA_154 2-5a、BB-B 6d59df01；tests/v0_p2b_unit.js）；F1 小年夜已接（d833d3a5；tests/v0_f1_unit.js；Y0_UNCLE 回聲的時間已問 AA-B）；L5a 待開工（時間已問 AA-B）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -1374,7 +1380,7 @@
    "area": "V1",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "照 AA_156 做完（tests/v1_batch6_unit.js A10b）：坐下來一起吃＝YU_CLUB_INVITE＋筆記；子晴第一次社課前小語兩句（只有小語的入口、小語在場）；「欸，今天也經過！」；第一次見面改「吉他社、辯論社，還有系學會」；小語週一、週三 19～21 在吉他社。傅鐘旁的揮手（第 2 項）、同行聊天（第 3 項）之後做",
+   "next": "照 AA_156 做完（tests/v1_batch6_unit.js A10b）：坐下來一起吃＝YU_CLUB_INVITE＋筆記；子晴第一次社課前小語兩句（只有小語的入口、小語在場）；「欸，今天也經過！」；第一次見面改「吉他社、辯論社，還有系學會」；小語週一、週三 19～21 在吉他社。傅鐘旁的揮手（第 2 項）、同行聊天（第 3 項）之後做；AA_156 第 4 節（15b50992）：小語在傅鐘改平日 08:20～09:05（spawn、talkYu「欸，今天也經過！」、語 1 ev_yu_breakfast、語 2 ① 豆漿都改；週末不在）；大二以後「那天早上有課才在」還沒做",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -1415,8 +1421,8 @@
    "title": "法服每兩週週六早上（方案 A）：週六值班本身沒有活動",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
-   "next": "AA_131 第 6 節只記錄、沒給大一週六值班的內容；2026-10-16 05:2x 問 AA-B 四題（大一能不能旁觀、NPC、去了幾次要不要記、學姊的台詞）",
+   "status": "已整合待測試",
+   "next": "做完（tests/v1f_fafu_sat_unit.js）：值班週六 9～12 萬才館一樓學姊、研究所學長／學姊、民眾一到兩位（路人底模）；大一「在旁邊看法服值班」第一次 AA_163 旁白＋BB_145 第 1 節（LAWCLUB_SAT_FIRST）、之後 AA 四句＋BB 三句輪流、五次那句、時間 +30 分到 12:00、LAWCLUB_SAT_VISITS 同一週六一次；門口告示寫下一次日期。點頭那一句寫成「（學姊點頭，回到圓桌。）」（AA_163「加學姊點頭」＋BB_145「點頭、回到圓桌」）。待瀏覽器：互動點走得到、截圖",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -1482,7 +1488,7 @@
    "area": "V2",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "最小版做完（tests/v2_b32_unit.js）：明軒邀約、月底期限、月底前一週再問、名額給別人；每週二 19:00 家教（可以這週不去）；第一堂國中生的問題、柳丁兩堂；明軒手機小事原本就有。等 AA-B：哪一天、做多久、沒去那週、「為什麼要念書」的選項、薪水",
+   "next": "AA_163 定案（d64110e1）：答應時選週二或週四 19:00～21:00；溫州街學生家 BG wenzhou_tutoring（先 dark＋字幕）；做到 2027 年 5 月會考；寒暑假與祐廷期末考週停；沒去不扣分、下一堂一句、連三週沒去明軒問；第 4 堂「為什麼要念法律」TUTOR_WHY；時薪 600、一堂 1,200；18:30 OUT.prompt 提醒；跟 DL-03 時段次數的關係照 AA_163",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -1529,7 +1535,7 @@
    "first": {
     "term": "Y1S2",
     "week": 2,
-    "earliest": "P4d 第 2 週週五起；SK03 照 `BB_106` 是「法律系大一，每週五」——大一上就有週五的重修經原（`AA_106`），SK03 要不要從大一上開始請 BB-B 確認（目前照 v2 的範圍排）",
+    "earliest": "P4d 第 2 週週五起；SK03＝法律系大一下第 2 週 P4d 之後的每個週五（BB-B 10:05 確認：不從大一上開始；P4d 沒發生的玩家，大一下第一次去重修課的週五在走廊直接遇到）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
@@ -1609,7 +1615,7 @@
    "area": "V2",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "瀏覽器實玩驗收（使用者 10-16：v2 驗收和 BUG-01、02 一起持續推進）",
+   "next": "v9.8 候選 2（9508b534）回歸跑中：含 BUG-15（座位上課的課前／課後事件）；v2 經濟系朋友、可昕大一下、家教、K8 等都在候選裡",
    "priority": "P0",
    "first": {
     "term": "Y1S2",
@@ -6613,8 +6619,8 @@
    "title": "美國篇 CG（BCG-32、BCG-17、雪裡的台階、BCG-09）",
    "area": "SCN",
    "owner": "BB",
-   "status": "等待其他AI／素材",
-   "next": "BB-B 清單",
+   "status": "待開工",
+   "next": "CG 齊、等施工（BB-B 2d1d2ab9）：BCG-14、32、17、23、09（cg_approved/…heroine05）、送機 BCG-31；2D 與立繪（SCN-US-2D／CH）在使用者下一批第 2 項",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -6718,8 +6724,8 @@
    "title": "日本線 CG（CG-13、17、22、23）",
    "area": "SCN",
    "owner": "BB",
-   "status": "等待其他AI／素材",
-   "next": "BB-B 清單",
+   "status": "待開工",
+   "next": "CG 齊、等施工（BB-B 2d1d2ab9）：CG-22、13、17、23（…heroine01）；2D 與立繪（SCN-JP-2D／CH）在使用者下一批第 2 項",
    "priority": "P2",
    "first": {
     "term": "Y3S1",
@@ -6816,8 +6822,8 @@
    "title": "經濟系開學典禮、小福、重考生活、摩天輪、保齡球",
    "area": "SCN",
    "owner": "BB",
-   "status": "等待其他AI／素材",
-   "next": "AA-B 的 v0 場景清單",
+   "status": "待開工",
+   "next": "圖都有（BB-B e8af89ff 第 0a 節）：soc_hall、soc_classroom、xiaofu、home_room／living／balcony、ferris_wheel、bowling；重考讀書在博雅 3D，不需要補習班底圖。施工跟 V0 事件批次（已用 soc_hall、soc_classroom、xiaofu）",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -6865,8 +6871,8 @@
    "title": "v3 新 2D（河堤夜景、山屋步道、研究室門口、政大小教室、老街、畢業典禮人潮）",
    "area": "SCN",
    "owner": "BB",
-   "status": "等待其他AI／素材",
-   "next": "BB-B 清單",
+   "status": "待開工",
+   "next": "圖都有、等施工（BB-B e8af89ff）：河堤＝riverside、山屋步道＝cypress_trail、研究室門口＝linze_prof_hall、政大小教室＝classroom_small、回程公車＝bus_night、畢業典禮＝graduation_avenue；K12b 老街用 date_system/art/d18_base_dusk.webp（字幕「老街」）",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -6936,7 +6942,7 @@
    "area": "SCN",
    "owner": "BB",
    "status": "等待其他AI／素材",
-   "next": "BB-B 清單；機場 3D 與否待 AA-B",
+   "next": "車內已接（car_*）；行政法院不畫（AA_173）；等使用者生成兩張：地方法院 court_criminal（BB_132 第 58 組）、機場 airport_departure／arrival（第 60、63 組）",
    "priority": "P2",
    "first": {
     "term": "Y3S1",
@@ -7930,7 +7936,7 @@
    "area": "V2",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "第 2 級：P4d 對話框看得到兩人的立繪；品妤立繪等 LAWWW2-B 重切後換；唐睿、韋綸（econ_tangrui、econ_weilun，立繪已通過）等 SK03 或 v0 用到再加；作息等 BB-B 給時間",
+   "next": "第 2 級：P4d 對話框看得到兩人的立繪；品妤立繪等 LAWWW2-B 重切後換；唐睿、韋綸（econ_tangrui、econ_weilun，立繪已通過）等 SK03 或 v0 用到再加；作息：唐睿、韋綸法律系時期照 AA_159 第 56 行（跟 V0-SK 一起），阿勳、品妤照 AA_155 已接（BB-B 10:13：BB 不用另外交）",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -8234,7 +8240,7 @@
    "area": "V2",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "BCG-04、BCG-11 已接（BB_117 的那一拍）；第 2 級：Z3、Q5 演到 CG 截圖；BCG-27（K1）要 BB-B 給旁白改句（骰子→長頸鹿）；BCG-28 已接（12/3）、BCG-29 跟 V2-K8D、BCG-21 跟 V2-Z5M、BCG-45 已接（4/24）",
+   "next": "BCG-04、BCG-11 已接（BB_117 的那一拍）；第 2 級：Z3、Q5 演到 CG 截圖；BCG-27（K1）旁白已是 BB_95 第 672 行定稿「……今天是一隻小長頸鹿。」（BB-B 10:13 確認）；BCG-28 已接（12/3）、BCG-29 跟 V2-K8D、BCG-21 跟 V2-Z5M、BCG-45 已接（4/24）",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -8865,8 +8871,8 @@
    "title": "2D 背景 ntu_soc「台大・社科院門口」（BG 追蹤表 BG-15）：ev_kexin_visits_ntu（K2）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "社科院正式 GLB 取鏡頭；傍晚（AA_147）",
+   "status": "已整合待測試",
+   "next": "在事件裡看到背景（明軒家教／品妤那段／可昕我們的一天）",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -8885,8 +8891,9 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
-    "ack": "DELIVERED"
-   }
+    "ack": "ACTIONED"
+   },
+   "commit": "d2c8809c"
   },
   {
    "id": "ART-BG16",
@@ -8949,8 +8956,8 @@
    "title": "2D 背景 wenzhou_tutoring「溫州街・課輔班門口」（BG 追蹤表 BG-13）：ev_peishan_tutoring（大一下第 5 週起週二、四）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "溫州街正式 GLB 選一棟一樓改課輔班門口（招牌虛構）；晚上",
+   "status": "已整合待測試",
+   "next": "在事件裡看到背景（明軒家教／品妤那段／可昕我們的一天）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -8969,8 +8976,9 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
-    "ack": "DELIVERED"
-   }
+    "ack": "ACTIONED"
+   },
+   "commit": "d2c8809c"
   },
   {
    "id": "ART-BG08",
@@ -9005,8 +9013,8 @@
    "title": "2D 背景 trip_mountain「山上（看星星）」（BG 追蹤表 BG-11）：ev_kexin_trip_spring_y1",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "約會底圖 D09 做夜晚版（星星、月亮、幾乎全黑），AA-B 已確認（AA-B 03:43：山上照舊夜晚）",
+   "status": "已整合待測試",
+   "next": "LAWWW2-B 10c49bf8 已換上（0f8f6a45：trip_mountain.webp 夜晚版）；待 D09 約會遊戲內截圖",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -9547,8 +9555,8 @@
    "title": "LAWWW → AA 的劇情需求：學姊 W7 窗口與關係台詞（V3-G08「等 BB-B 確認」）——照 D86 經 AA 協調",
    "area": "AA",
    "owner": "AA",
-   "status": "待開工",
-   "next": "AA 判斷自己做或分派 BB（D86）；交付後 LAWWW 接線",
+   "status": "已驗收",
+   "next": "—（AA-B 04:33 交、BB-B 04:22 確認 AB-11；V3-G08 已用）",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -9567,8 +9575,10 @@
     "branch": "claude/cool-heisenberg-o8kuqx",
     "spec": "AA_140 G08",
     "acceptance": "BB-B 確認的定稿（窗口、台詞不卡「有點熟」）",
-    "ack": "DELIVERED"
-   }
+    "ack": "ACTIONED"
+   },
+   "evidence": "AA-B 04:33 交（AB-11，BB-B 04:22 確認）；V3-G08 已用",
+   "sha": "AB-11"
   },
   {
    "id": "AA-REQ-08",
@@ -10085,7 +10095,7 @@
    "area": "BUG",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "classes3d.js 拿掉 inScene 的限制；tests/v2_b10b_unit.js 第 9 項；瀏覽器：大一上第 4 週週四坐 201 上民總→ev_an_report_split 有演（v9.8 回歸）",
+   "next": "瀏覽器已過：tests/smoke_release.py 在候選 2 9508b534（＝v9.8 發布版 1d0ff40f 的遊戲檔案）坐 201 上民總 → ev_an_report_split 有演（06:14～06:19 ALL PASS）。剩發布後完整回歸的 flow_classes A 段",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -10099,9 +10109,1091 @@
    },
    "source": "AA-B 2026-10-16 05:17 回報",
    "authorized": "D79",
-   "sha": "",
+   "sha": "9508b534",
    "cause": "v9.7 起就有（main 的 classes3d.js 一樣跳過）",
-   "evidence": ""
+   "evidence": "smoke_release ALL PASS 2026-10-16 06:19；v9.8 發布 1d0ff40f"
+  },
+  {
+   "id": "ART-POLISH",
+   "title": "現有 3D 美術品質修復與精修（人物五官與臉型、2D 設定圖辨識度、材質與光影、場景、遊戲視角下的比例遮擋穿模、效能）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "next": "LAWWW2-B：第 0 批遊戲內基準截圖 → 第 1 批人物臉、材質、臉部照明（人物交 BB-B 驗收 D59；src/ 共用程式做 patch 給 LAWWW-B）；新製作排到精修後面",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "開局",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 05:1x 直接給 LAWWW2-B（LAWWW2-B 轉述，05:14）",
+   "authorized": "使用者直接指示（LAWWW2-B）",
+   "sha": "",
+   "evidence": "",
+   "xai": {
+    "receiver": "LAWWW-B",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "使用者 05:1x 指示（LAWWW2-B 05:14 訊息）",
+    "acceptance": "每批遊戲實機畫面前後比較；人物 BB-B 驗收",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "DL-00",
+   "title": "座位上課也跑課前、課後事件",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "就是 BUG-15（9508b534，v9.8 候選 2）",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系第一週坐 3D 座位上課",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
+   "authorized": "D79（AA-B 定案的系統規格）"
+  },
+  {
+   "id": "DL-01",
+   "title": "一鍵上課：起床選單、直接去上課、選位子、下課選單",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "第 1 批完成：起床選單（sleepNow、小睡醒來；晨間事件之後）、直接去上課（出門時間、跳過時間停點→繼續去上課、進教室區域、選位子：老位子／坐中間、坐在認識的人旁邊、自己找；坐下自動上課）、門口上課、下課選單（<60 三項、≥60 四項：吃飯 40 分、在附近讀書）、翹課（plan_skip、手機「翹課」「反悔」、30 分提醒不出）、期末考前 10 分鐘自動進考場（AA_126 1-1）、手機「直接去上課／去聽後半堂」、設定「起床時問我要不要去上課」。下課選單等這一區的事件（97e34807）；還沒做：路上【固】【必】事件停下來（等 AA_160 3-4 盤點表）、翹課確認的「你會錯過」、在家醒來（DL-05）、人在宿舍車在宿舍照騎車算。瀏覽器：1-8 驗收",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "第一個有課的早上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
+   "authorized": "D79（AA-B 定案的系統規格）",
+   "evidence": "tests/dl01_oneclick_unit.js（30 項）；playlib.skip_wake_menu"
+  },
+  {
+   "id": "DL-02",
+   "title": "拿掉體力（HUD、選單提示、吃與睡補體力）；GM.energy 留空函式、G.energy 固定 100",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "瀏覽器：HUD 沒有體力條、選單提示（flow_playtest_fixes C 已改）",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "遊戲一開始",
+    "mainline": true,
+    "blocks": false,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
+   "authorized": "D79（AA-B 定案的系統規格）",
+   "evidence": "83883668；tests/dl02_energy_unit.js"
+  },
+  {
+   "id": "DL-03",
+   "title": "時段次數制（上午 1、下午 2、晚上 2；考試週 +1 只能自習）G.slots",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "做完：G.slots、上午 1／下午 2／晚上 2、考試週 +1 只給自習、跨時段 30 分鐘兩邊扣、用完變灰、自習長度選單（1～3 小時／讀到○○前、閉館前讀不完、會錯過的課 R1）、座位／Café／宿舍書桌／整理筆記／下課「在附近讀書」都算一次、家教去了填滿晚上、手機「今天」最上面一行。還沒：自由出行（DL-06）扣次數。瀏覽器：flow_study_legal 等四支已跟上",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "遊戲一開始",
+    "mainline": false,
+    "blocks": false,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
+   "authorized": "D79（AA-B 定案的系統規格）",
+   "evidence": "tests/dl03_slots_unit.js"
+  },
+  {
+   "id": "DL-04",
+   "title": "劇情保護（時段次數不擋劇情）",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "AA_160",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "遊戲一開始",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
+   "authorized": "D79（AA-B 定案的系統規格）"
+  },
+  {
+   "id": "DL-05",
+   "title": "從家裡出發：週日住家裡、週一直接去上課",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "做完：週日晚上「今晚住家裡，明天一早直接去學校」（週一第一堂期末考變灰）、週日 21:30 提醒也可選；週一在家醒（第一堂前 1.5 小時、最早 06:30）、在家起床選單（捷運＋公車 40 分鐘；直接去／今天不去／先在家）、goClass fromHome；週末學校有固定行程（課、約在學校）提早醒（前 50 分鐘）。還沒：法服對外服務（大二起）、參加的活動算固定行程；住家裡前列宿舍那晚會錯過的【固】【必】（R1，等 keep 標記）",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一個週日回家",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
+   "authorized": "D79（AA-B 定案的系統規格）",
+   "evidence": "tests/dl05_home_unit.js"
+  },
+  {
+   "id": "DL-06",
+   "title": "捷運公館站＋四個景點（D04、D06、D12、D13）自由出行",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "瀏覽器真實流程（公館站 → 景點 → 回公館）在 v9.9 候選回歸裡跑；第二批景點 spots_v2（AA_161 第 4 節）",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次自由出行",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
+   "authorized": "D79（AA-B 定案的系統規格）",
+   "commit": "348aeb1c",
+   "tests": "tests/dl06_trip_unit.js、bg_images_unit、quick_travel_unit"
+  },
+  {
+   "id": "DL-07",
+   "title": "偶遇（一）",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "第三批（一起走一段、重訪、支線）＝DL-08；可昕走向 C 在西門町沒有台詞（只在淡水），已記",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
+   "authorized": "D79（AA-B 定案的系統規格）",
+   "commit": "f9945904",
+   "tests": "tests/dl07_enc_unit.js"
+  },
+  {
+   "id": "DL-08",
+   "title": "偶遇（二）",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "瀏覽器：自由出行遇到人選「一起走一段」→ 走路旁白、離開、重訪；followUp 四個景點在 DL-07 encounters.js，其餘跟第二批景點／DL-13",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
+   "authorized": "D79（AA-B 定案的系統規格）",
+   "commit": "95222efd",
+   "tests": "tests/dl08_walk_unit.js"
+  },
+  {
+   "id": "LADDER-Y3Y4",
+   "title": "BB 五位的閒聊階梯 大三上～大四下（ladder_bb_y3s1／y3s2／y4s1／y4s2.json）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "next": "檔案在企劃線 claude/cool-heisenberg-o8kuqx（a27e354c；BB_140～143；build_ladder_bb_y*.py --check 通過；AA 核對）。大三開放時接（D81）。注意：學姊大三上 1/5 出發去美國，作息 1/5 以後 away",
+   "priority": "P2",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "大三上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 05:42（D86 轉交 BB-B）",
+   "authorized": "D79"
+  },
+  {
+   "id": "DL-09",
+   "title": "溫州街三家新店（半熟早午餐、阿德影印輸出、一盞茶屋）3D 室內區域＋店門互動、冰店、公園互動、places.js",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "瀏覽器走一遍三家店（點餐、喝茶、印東西、文具）；打工的句子、有班那天的黑板等 DL-10（JOBS.at）；一盞「看院子」「看床之間」等 AA 的旁白",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "溫州街新店（AA_164）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_164（企劃線 a64200d4→1fca4391→d410ec1a→5aef9605）；AA_172（企劃線 1ac07ac6）",
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示",
+   "commit": "74c1eef8",
+   "tests": "tests/wz_shops_unit.js、tests/dl09_shop_menu_unit.js"
+  },
+  {
+   "id": "DL-10",
+   "title": "打工系統（三家店＋家教共用 G.jobs，在 3D 店裡進行）",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "AA_164＋AA_165；家教（V2-B32）併進來；時段次數：約好的打工不被擋（AA_163）",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "第一次打工",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_164（企劃線 a64200d4→1fca4391→d410ec1a→5aef9605）、AA_165",
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示"
+  },
+  {
+   "id": "DL-11",
+   "title": "溫州街四條故事線＋單一事件（AA_166、AA_167；BB 人物 BB_148）",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "AA_167（81bae366）的腳本照 STORY_EVENT_SCHEMA 轉；第 7 節新旗標（G.flags）、法服兩件新案件、既有事件 linesIf 一句、四門課的回想與準備 +1；LEGAL_REVIEW 交 BB-B 審；BB_148 第 8b 節（36f1115a）六個事件的觸發已交；LEGAL_REVIEW＝BB_115 L460～L464（第 21 批）全部通過；AA_167 新版 43ac6a69（L461 改句）",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "AA_166 各線第一段",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_166（830d03b3）、AA_167（81bae366）",
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示"
+  },
+  {
+   "id": "DL-12",
+   "title": "invites 新地點 brunch、teahouse",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "瀏覽器：約芷若去半熟、學姊有伴侶時約一盞（partnerTea＋她的一句）；明軒週六的「週日可以」等 AA 回覆",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_164 2-1、2-3；BB_158（AA 核對 c640b487）；AA_172 3b",
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示",
+   "commit": "5a17d0a9、dcb34a0c",
+   "tests": "tests/dl12_invite_unit.js、tests/dl12_bb158_unit.js"
+  },
+  {
+   "id": "DL-13",
+   "title": "溫州街小公園 NPC 時段、貓的四年",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "公園的導航、座位、季節已接（ART-WZ1 整合）；NPC 時段、貓的四年、5-4 互動等 AA-B 的文字（已提 D79 需求 07:5x）",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_164（企劃線 a64200d4→1fca4391→d410ec1a→5aef9605）",
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示"
+  },
+  {
+   "id": "DL-04B",
+   "title": "DL-04 劇情保護：AA_160 3-4 盤點（f4105bfb）的施工",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "第 2 批（本批）：家族聚餐窗口 18:00～19:30＋先到旁白、前一天 21:00 群組提醒、當天 17:30 toast；校慶前一天法服群組提醒、沒加入法服的公告欄旁白（BB_95 3-7、3-8；AA_173 第 3 節）。還沒：v0 keep must、捷運出遊 R1",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 3-4（f4105bfb）",
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示"
+  },
+  {
+   "id": "V0-LADDER",
+   "title": "v0 閒聊階梯 ladder_bb_y0s1／y0s2.json（BB-B 82b61711、f70b4e87、19ee72d5；AA 核對）",
+   "area": "V0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "v0 第 2 批以後接",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系開學",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 06:08、06:15",
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示"
+  },
+  {
+   "id": "V0-KXPHONE",
+   "title": "v0 可昕手機小事 8 則（BB_113「經濟系那一年的可昕」，BB-B 5b6e88fb）",
+   "area": "V0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "大一上 4 則（E06 以後、E19 以前，一則限雨天）、大一下 4 則（dating_kexin、E27 3/26 以後、7/10 以前）；寒假與大一下第 1～5 週不放",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "E06 以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 06:15",
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示"
+  },
+  {
+   "id": "ART-CG41-45",
+   "title": "BB-B 通過的 CG／人物圖：cg_three_things_heroine05（BCG-44）、cg_no_plan_heroine05（BCG-39）、cg_doorbell（BCG-36，取代作廢的 cg_bar_line）、日文班三人、邵鈞、許教授、詹靖、學姊面試服",
+   "area": "ART",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "next": "跟著各學期事件接（ART-15 規則）；要切對話立繪的排給 LAWWW2-B；cg_bar_line 作廢、不整合（BB-B 05:56 P1，已 ACK）",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S1",
+    "week": 1,
+    "earliest": "大二上起",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "BB-B 013e7662、0b4cb6d3、3bddb7df（claude/elegant-brown-fcos7n）",
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示"
+  },
+  {
+   "id": "ART-WZ1",
+   "title": "溫州街小公園擴大版（LAWWW2-B 的 wz_park.glb v3＋wz_park_layout.js v2）接進遊戲",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "next": "使用者看畫面標 ART_APPROVED；公寓背面（A3、A4、S1、P1、P2）下一批；互動文字等 AA-B（DL-09／DL-13）",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "第一次走到溫州街",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 48aed1c9（交付）、ceb545f2（名牌修正）；AA_164 第 5 節",
+   "authorized": "D84、D86",
+   "commit": "b0d66fea",
+   "tests": "tests/wz_park_unit.js、wz_street_integration.py、touch_flow_wenzhou.py",
+   "xai": {
+    "spec": "AA_164 第 5 節；wz_park_layout.js v2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "可以走、可以坐、季節節點、和導航一致；使用者看畫面",
+    "receiver": "LAWWW-B",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "V0-ART-DORM",
+   "title": "v0 宿舍 412 的房間道具：三個紙箱（床上／床尾兩箱）、阿勳的筆電與計算紙、床下的保齡球球袋、書架上的《經濟學原理》",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "next": "v0_dorm_props.glb 已接（E01 四個時間點的紙箱、阿勳的書桌與保齡球袋；ROOMMATE_KAI 藏起來）；筆電朝向等 LAWWW2-B 截圖確認",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系開局第一晚（E01）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_168 第 1、4、5 節",
+   "authorized": "D84",
+   "xai": {
+    "spec": "AA_168 第 1、4、5 節（企劃線 cdaf8a9f）",
+    "branch": "LAWWW2-B 自己的交付分支",
+    "acceptance": "GLB＋各物件的節點名稱與座標表；Blender 渲染＋遊戲內截圖",
+    "receiver": "LAWWW-B",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "V2-G50S2",
+   "title": "以安早上七點的日文課（大一下～大三上，週一三五 07:00～07:50 在上課、07:50～08:00 總圖門口）",
+   "area": "V2",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "瀏覽器看大一下週一 07:55 總圖門口有她",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": 1,
+    "earliest": "大一下第一個週一早上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_140 G50 S-2（企劃線 c7f3ba45）",
+   "authorized": "D79（AA-B 定案）",
+   "commit": "348aeb1c",
+   "tests": "tests/g50_an_japanese_unit.js"
+  },
+  {
+   "id": "ART-WZ4",
+   "title": "兩點半 Café ART-WZ4：GLB 換新（第四張吧檯椅、四人桌、角落沙發、門鈴、傘桶、班表）＋座位、導航",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "next": "使用者看畫面；WZ4b（盆栽葉片卡、牆面對比、傘桶角度）LAWWW2-B 下一版；「看班表」的字、門鈴聲等 AA／BB",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "第一次進兩點半 Café",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B bbc566da＋patches/cafe_wz4.md；AA_164 第 4 節",
+   "authorized": "D84",
+   "commit": "0e34ab93",
+   "tests": "tests/cafe_wz4_unit.js",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "patches/cafe_wz4.md",
+    "acceptance": "座位只增不減、站位不動、新座位走得到",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "ART-WZ5",
+   "title": "溫州街的貓的正式模型（wz_cat.glb：三姿勢、名牌、繃帶、fat、老貓材質）接進小公園",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "next": "v2 小修（走路的腿、趴著的前腳）LAWWW2-B 排在 V0-ART-DORM 之後；瀏覽器裡已確認在老樹圓椅上（y 0.45～0.70）",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "第一次走到溫州街小公園",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 製作、LAWWW2-B 驗收 6a05f12d；AA_171 第 7 節",
+   "authorized": "D84、D86",
+   "commit": "0050847b",
+   "tests": "tests/wz_cat_unit.js",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "aa_support/README.md ART-WZ5",
+    "acceptance": "照學期換樣子；套件的貓是備用",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "ART-GYM1",
+   "title": "新體育館第一階段（大廳＋1F 多功能球場）：gym 區域、門口走得進來、體育課集合",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "next": "1F、B1 已接；B1 v5（5a5a52af）、v6 隔間牆 WALL_ partition（a16bc93b，LAWWW2-B 53c57931；淡出照「鏡頭和玩家在不同邊」）；天花板 BackSide 拿掉（e0747682，遊戲內射線確認）；3F 主球場（3effc0e0、f1e732f8）未接；GLOW_* 光暈還沒接",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上第 1 週週一下午體育課",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_151；LAWWW2-B 4d19c88d（gym_layout.js v2＋gym_interior.glb）",
+   "authorized": "使用者直接指示（BB-B 轉達）、D84",
+   "commit": "bc0a0ada",
+   "tests": "tests/gym_unit.js",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "test_shots/gym/README.md",
+    "acceptance": "走得進來、導航和配置一致、第二會場平常藏起來",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "FIX-CLS-ARRIVE",
+   "title": "建築教室的同學陸續進來：第一批 2～3 人之後不再補人（classes3d.js syncRooms）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "候選版回歸 flow_classes 已過（42 項）",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次在共同、博雅上課",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "2026-10-16 flow_classes 回歸追查",
+   "authorized": "技術修正",
+   "commit": "74c1eef8",
+   "tests": "tests/indoor_crowd_unit.js、tests/flow_classes.py"
+  },
+  {
+   "id": "TXT-1016",
+   "title": "第①級文字修正：清葉茶行、日日便利、溫學姊「二月要交」、阿凱「可以請警察來看」、物權「買房子要登記」、公園路過旁白",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已驗收",
+   "next": "BB-B 核對通過（2026-10-16 08:50）",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "公館、溫州街",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 法律審查 c36de340、BB_149 第 3 節、AA 定稿",
+   "authorized": "第①級",
+   "commit": "3d54451b",
+   "tests": "tests/text_fixes_1016_unit.js",
+   "evidence": "tests/text_fixes_1016_unit.js 通過；BB-B 逐字核對通過（2026-10-16 08:50 訊息）；SHA 3d54451b"
+  },
+  {
+   "id": "FIX-WZ-NAVRNG",
+   "title": "溫州街導航格：正式模型和 ?nobldg 差一格（盆栽一排的長度跟著共用亂數走）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "wz_street_integration「導航格完全相同」已過；效能（draw call 351～401，目標 310）請 LAWWW2-B 減量",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "溫州街（正式模型載入失敗時）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "2026-10-16 wz_street_integration 回歸",
+   "authorized": "技術修正（D38 ③：備用模型導航要一致）",
+   "commit": "(本批)",
+   "tests": "tests/wz_street_integration.py"
+  },
+  {
+   "id": "ART-WZ3",
+   "title": "溫州街 wenzhou_street.glb v5（設計稿招牌 13 張、店門門廊、B5 立體小店、B7 半熟、A1 阿德）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "next": "使用者看畫面；v6（麵攤去積木）LAWWW2-B WIP",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "溫州街",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "LAWWW2-B 31323eb9、ce586623",
+   "authorized": "D84",
+   "commit": "(之前的整合批)",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "LAWWW2-B 31323eb9、ce586623",
+    "acceptance": "遊戲內截圖、導航一致",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "ART-WZ6",
+   "title": "故事小物件 wz6_items.glb（半熟計時器、阿德的筆記本、茶罐、卡片、白板影印、吉他社海報、貓碗）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已實作待整合",
+   "next": "等 DL-13／AA_167 溫州街故事線實作時一起放",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "溫州街",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 製作、LAWWW2-B 驗收 8d8fe7d4",
+   "authorized": "D84",
+   "commit": "—",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA-B 製作、LAWWW2-B 驗收 8d8fe7d4",
+    "acceptance": "遊戲內截圖、導航一致",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "ART-YT1",
+   "title": "祐廷 VRM 精修第 1 批（vroid_yuting.vrm：頭髮、圓領、下巴投影、上衣、寬直筒褲）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "next": "BB_131 第 8 節（BB-B 5c4670d2）：祐廷精修第 1 批五項通過、可以整合；三項小修是下一批",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "開場",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "LAWWW2-B da737424",
+   "authorized": "D84",
+   "commit": "(檔案已和 da737424 相同)",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "LAWWW2-B da737424",
+    "acceptance": "遊戲內截圖、導航一致",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "V1-MX-FM1",
+   "title": "明軒 F-M1「公館一百元以內」清單：M1（SAW_HIM_STUDY）以後私訊傳手機筆記，七家店用遊戲裡的店名（第 7 名＝日日便利）；地圖「100」小標記做不到就只放筆記",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 BB_70 5-6、BB_134 第 3 節實作",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "明軒 M1 之後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_70 5-6；BB_134 第 3 節；BB-B 2026-10-16 比對漏項（a10d53be）",
+   "authorized": "D79（交接包 v1／v2，BB 定稿）"
+  },
+  {
+   "id": "V2-ZR-MATINEE",
+   "title": "芷若的午場（ev_zhiruo_matinee）：拒絕 Z5 早場以後 3～4 週的邀約、午場 11:40、散場 13:30；支線第 4 環",
+   "area": "V2",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "0e722815：邀約、出遊、散場、票根（tests/v2_bb96_z5_unit.js）；兩處排法請 BB-B 抽查；底圖 gongguan_cinema 共用 Z5",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "拒絕 Z5 早場以後 3～4 週",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_96 3-5b；BB-B 2026-10-16 比對漏項",
+   "authorized": "D79（交接包 v1／v2，BB 定稿）"
+  },
+  {
+   "id": "V2-TICKET",
+   "title": "電影票根（房間物件）：兩人早場／午場／三人三種文字",
+   "area": "V2",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 BB_96 3-5c 實作",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "看過芷若的早場或午場以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_96 3-5c；BB-B 2026-10-16 比對漏項",
+   "authorized": "D79（交接包 v1／v2，BB 定稿）"
+  },
+  {
+   "id": "ART-WZ7",
+   "title": "溫州街路邊小物（AA-B 做、LAWWW2-B 驗收 97f315ca）：安全帽、傘桶等",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已實作待整合",
+   "next": "wz7_street_props.glb 跟 DL-13／AA_167 溫州街故事線一起放",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "溫州街",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 製作、LAWWW2-B 驗收 8d8fe7d4",
+   "authorized": "D84",
+   "commit": "—",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA-B 製作（2fc00ced）、LAWWW2-B 驗收 97f315ca",
+    "acceptance": "遊戲內截圖、導航一致",
+    "ack": "DELIVERED"
+   }
+  },
+  {
+   "id": "V3-AA170",
+   "title": "AA_170 大二：社團博覽會（站在攤位後面，第一次被叫學長）、大二暑假（營隊或打工、宿舍抽籤）",
+   "area": "V3",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 AA_170 轉事件；打工錢 +22000（7524e492，BB_115 L467）；要說話的句子標「（BB）」的等 BB-B 補",
+   "priority": "P3",
+   "first": {
+    "term": "Y2S1",
+    "week": 2,
+    "earliest": "社團博覽會大二版（2026-09-16、17）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_170（企劃線 7524e492）",
+   "authorized": "D79"
+  },
+  {
+   "id": "FIX-WZ-PERF",
+   "title": "溫州街效能：主巷 draw call 降到 310 左右（wz_street_integration 的 351～401 對 310）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "next": "第三輪 e680d48a 收進 v9.9（LAWWW-B 選 A：第二輪的貼圖集把木紋、磁磚壓糊；第三輪畫面正確）：瀏覽器 303／286／321 次、43.1／40.7／44.3 萬三角形；wz_street_integration 只有效能一項沒過（已知、不改門檻），cafe_glb_integration 全過。第四輪（v9.9 之後）：合併同一種貼圖的店、刪店內看不到的面、遠景店內改頂點色，目標 ≤ 310 次、≤ 42 萬",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走溫州街",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 製作、LAWWW2-B 驗收 8d8fe7d4",
+   "authorized": "D84",
+   "commit": "—",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "tests/wz_street_integration.py 的效能門檻；docs/art-rebuild/second_ai/test_shots/wz_perf/README.md",
+    "acceptance": "三個鏡頭 draw call ≤ 310 左右、看起來不變、節點名不變",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "ART-SOY1",
+   "title": "豆漿店道具組（AA-B 222472d2 做、LAWWW2-B 驗收 12a33672）＋寶特瓶袋 v2（wz7_street_props）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已實作待整合",
+   "next": "soy_props.glb 等豆漿店場景（AA-B 的故事線）一起放；寶特瓶袋 v2 跟 ART-WZ7 一起放",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "豆漿店（溫州街故事線）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 製作 222472d2、LAWWW2-B 驗收 12a33672",
+   "authorized": "D84",
+   "commit": "—",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA-B 製作 222472d2、寶特瓶袋 v2 6209692d",
+    "acceptance": "遊戲內截圖、導航一致",
+    "ack": "DELIVERED"
+   }
+  },
+  {
+   "id": "TXT-1016B",
+   "title": "K1b 予樂及格三處旁白與接句（BB_95 9-2，BB-B e0e7a359 第①級）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "BB-B 逐字核對（下一次抽查）",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "公館、溫州街",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 法律審查 c36de340、BB_149 第 3 節、AA 定稿",
+   "authorized": "第①級",
+   "commit": "3d54451b",
+   "tests": "tests/text_fixes_1016_unit.js",
+   "evidence": "events.js ev_kexin_yule_pass 照改；單元測試 text_fixes_1016 通過"
+  },
+  {
+   "id": "ART-TUTOR1",
+   "title": "家教客廳道具組（BB-B 939421a4 做、LAWWW2-B 驗收 eb9f392e）：用在 BG-21 學生家的客廳",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "next": "BG-21 已用這組道具（d5f15981）",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "明軒介紹的家教（大一下）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "BB-B 939421a4；LAWWW2-B 驗收",
+   "authorized": "D84",
+   "commit": "—",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "BB-B 939421a4",
+    "acceptance": "遊戲內截圖、導航一致",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "ART-US1",
+   "title": "美國公寓客廳家具組（AA-B 99e758f9 做、LAWWW2-B 驗收 eb9f392e）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已實作待整合",
+   "next": "美國公寓（V4 美國線）施工時一起放",
+   "priority": "P2",
+   "first": {
+    "term": "Y3S2",
+    "week": null,
+    "earliest": "美國交換的公寓（大三下）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 99e758f9；LAWWW2-B 驗收",
+   "authorized": "D84",
+   "commit": "—",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA-B 99e758f9",
+    "acceptance": "遊戲內截圖、導航一致",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "ART-US3",
+   "title": "美國公寓臥室家具（BB-B d2378c1d 做、LAWWW2-B 收進 586eface、BB-B 驗收 523e4e39）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已實作待整合",
+   "next": "V4 美國線接 SCN-US-01 區域時一起接（和 ART-US1、ART-US2 同一間公寓）",
+   "priority": "P2",
+   "first": {
+    "term": "Y3S2",
+    "week": null,
+    "earliest": "美國交換的公寓（大三下）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 99e758f9；LAWWW2-B 驗收",
+   "authorized": "D84",
+   "commit": "—",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "LAWWW2-B 12:14 派工（擺放建議：床頭櫃 ry −π/2、行李箱 (2.12,−2.45)）",
+    "acceptance": "遊戲內截圖、導航一致",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "ART-US2",
+   "title": "美國公寓廚房（AA-B 7b509b39 做、LAWWW2-B 驗收 439763c6）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已實作待整合",
+   "next": "美國公寓（V4 美國線）施工時一起放",
+   "priority": "P2",
+   "first": {
+    "term": "Y3S2",
+    "week": null,
+    "earliest": "美國交換的公寓（大三下）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 7b509b39；LAWWW2-B 驗收",
+   "authorized": "D84",
+   "commit": "—",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA-B 7b509b39",
+    "acceptance": "遊戲內截圖、導航一致",
+    "ack": "ACK"
+   }
   }
  ]
 }

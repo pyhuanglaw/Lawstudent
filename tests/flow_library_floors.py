@@ -111,7 +111,7 @@ async def main():
             if s['choices']: sat = s; break
             await pg.wait_for_timeout(500)
         await run.shot(pg, 'sit_study'); txt = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
-        run.check('走過去坐下（坐姿、在二樓 5.0 m、選項有「讀書（1 小時）」）', bool(sat) and sat['pose'] == 'sit' and abs(sat['y'] - Y1) < 0.3 and any(t.startswith('讀書') for t in txt), json.dumps(dict(sat or {}, texts=txt), ensure_ascii=False))
+        run.check('走過去坐下（坐姿、在二樓 5.0 m、選項有「讀書」，再選「讀 1 小時」）', bool(sat) and sat['pose'] == 'sit' and abs(sat['y'] - Y1) < 0.3 and any(t.startswith('讀書') for t in txt), json.dumps(dict(sat or {}, texts=txt), ensure_ascii=False))
         await tap_choice(pg, cdp, '讀書')
         s = await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['busy'] and not q['dlg'] and not q['choices'], max_steps=60)
         await pg.wait_for_timeout(1500); s = await L.state(pg); h1 = await pg.evaluate("GAME.G.hour")

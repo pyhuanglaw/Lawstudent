@@ -19,8 +19,10 @@ const extra=[...Object.keys(SYLLABUS.courses),...Object.keys(SYLLABUS.pools)].fi
 const itOf=(day,cid)=>CLS.dayItems({day,hour:8,flags:{}}).find(it=>it.c.id===cid);
 // 法律審查（AA_122 第 0a 節，使用者 2026-10-14 同意）：還沒審查的週不用 BB 的內容。reviewed 由 tools/syllabus/import_syllabus.py 照 BB_115 產生：
 // 那一週的審查項目全部通過、或那一週沒有項目才開（AA 2026-10-14）。其他週只用寫主題的一般句子
-{ const allKeys=[]; for(const id in SYLLABUS.courses) for(const w of SYLLABUS.courses[id]) allKeys.push(id+'|'+w.w); const R=SYLLABUS.reviewed||[];
-  check('法律審查：reviewed 照 BB_115 產生（'+R.length+'／'+allKeys.length+' 週開；每一筆都對得上課表的週；有的週還沒開）',R.length>0&&R.length<allKeys.length&&R.every(k=>allKeys.includes(k)),R.filter(k=>!allKeys.includes(k)).slice(0,3).join(','));
+{ const allKeys=[]; for(const id in SYLLABUS.courses) for(const w of SYLLABUS.courses[id]) allKeys.push(id+'|'+w.w); let R=SYLLABUS.reviewed||[];
+  check('法律審查：reviewed 照 BB_115 產生（'+R.length+'／'+allKeys.length+' 週開；每一筆都對得上課表的週）',R.length>0&&R.length<=allKeys.length&&R.every(k=>allKeys.includes(k)),R.filter(k=>!allKeys.includes(k)).slice(0,3).join(','));
+  /* 2026-10-16 BB_115 第 22 批以後 608 週全部通過：沒有關著的週時，拿掉每 7 週一週，確認「沒審查的週不用 BB 內容」這條規則本身還在 */
+  if(R.length===allKeys.length){ R=allKeys.filter((k,i)=>i%7!==3); SYLLABUS.reviewed=R; }
   const shown=[], hidden=[]; let n=0, m=0; for(let d=1;d<1500;d++){ for(const it of CLS.dayItems({day:d,hour:8,flags:{}})){ if(it.exam||it.c.kind==='service') continue; const sy=(SYLLABUS.courses[it.c.id]||[]).find(q=>q.w===it.week); if(!sy) continue; const ct=CLS.content(it); if(ct.second) continue;
       const bb=(!!sy.line&&ct.line===sy.line)||(sy.board||[]).slice(1).some(b=>b&&ct.board.includes(b));
       if(!R.includes(it.c.id+'|'+it.week)){ n++; if(bb||ct.tpl||ct.obs||ct.call) shown.push(d+' '+it.c.id+' W'+it.week); } else { m++; if(!bb&&(sy.line||(sy.board||[]).slice(1).some(Boolean))) hidden.push(d+' '+it.c.id+' W'+it.week); } } }

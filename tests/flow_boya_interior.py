@@ -89,7 +89,7 @@ async def main():
         await run.shot(pg, 'B_study_desk')
         h0 = s['hour']
         pose, opts, s = await sit_and_choose(pg, cdp, run, '讀書')
-        run.check('坐下（姿勢 sit）、選「讀書（1 小時）」', pose == 'sit' and any('讀書' in o for o in opts), f'pose={pose} ' + json.dumps(opts, ensure_ascii=False))
+        run.check('坐下（姿勢 sit）、選「讀書」→「讀 1 小時」', pose == 'sit' and any('讀書' in o for o in opts), f'pose={pose} ' + json.dumps(opts, ensure_ascii=False))
         run.check('讀完：時間過了約 1 小時、起身站得住', s['hour'] >= h0 + 0.9 and s['stand'], f"{h0} → {s['hour']}")
         # ---------- C：沙發區、討論桌 ----------
         seat = await seat_of(pg, "q=>q.kind==='sofa'&&q.x<0")   # 西邊那扇窗下的沙發

@@ -138,7 +138,7 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
     check('走近攤位（學姊在）才有；沒加入法服的玩家也會被叫住',can(sat,10.5,true,true));
     check('別的週六、12 點以後、學姊不在都不會',!can(sat+7,10.5,true,true)&&!can(sat,12.2,true,true)&&!can(sat,10.5,true,false));
     const HEAD=['你。過來。','兩件事。一，顧十分鐘。二，不會的不要亂答，叫我。','少年仔，隔壁的樹長到我家這邊，我可以自己剪嗎？'];
-    for(const [pick,tail,d,helped] of [['幫妳問學姊',['阿嬤，先跟鄰居講，請他剪。講了一直沒剪，週六早上來萬才館，我們一起看。'],{fam:2},false],['翻民總',['翻了半天找不到。學姊探頭。','那是物權。你們大二才上。','物權是什麼？','……阿嬤，週三晚上來。','原來法律是分科的。'],{fam:2},false],['一起查',['你和阿嬤用手機一起查。學姊在旁邊看完。','……還可以。'],{fam:3,resp:2},true]]){
+    for(const [pick,tail,d,helped] of [['幫妳問學姊',['阿嬤，先跟鄰居講，請他剪。講了一直沒剪，兩週後的週六早上，九點到十二點，來萬才館。我們一起看。'],{fam:2},false],['翻民總',['翻了半天找不到。學姊探頭。','那是物權。你們大二才上。','物權是什麼？','……阿嬤，下一次值班，週六早上來。','原來法律是分科的。'],{fam:2},false],['一起查',['你和阿嬤用手機一起查。學姊在旁邊看完。','……還可以。'],{fam:3,resp:2},true]]){
       fresh(sat,10.5,'campus'); sisN(); SOCIAL.meet('heroine_05','wancai'); const r0=Object.assign({},SOCIAL.rel('heroine_05'));   /* 已經認識學姊（第一次見面的熟悉度另外算）*/ picks=[pick]; await EVENTS.run(e); const L=lines(), r1=SOCIAL.rel('heroine_05'); const got={}; for(const k in r1){ const dd=(r1[k]||0)-(r0[k]||0); if(dd&&typeof dd==='number') got[k]=dd; }
       check('校慶 選「'+pick+'」：BB_95 原文、學姊 '+JSON.stringify(d)+(helped?'、HELPED':''),JSON.stringify(L)===JSON.stringify(HEAD.concat(tail))&&Object.keys(d).every(k=>got[k]===d[k])&&SOCIAL.has('heroine_05','HELPED')===helped,JSON.stringify({L,got})); }
     check('校慶 阿嬤用名字顯示（路人，不是人物資料）',said.some(x=>x.who==='阿嬤'));
@@ -154,16 +154,23 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
   /* ---------- 家族聚餐（BB_95 3-8）---------- */
   { const e=ev('ev_sis_family_dinner'), fri=STORY.termDay('Y1S1',14,5), grp=()=>PHONE.join(G,'family_law','法律系直屬家族'), T=()=>PHONE.thread(G,'g:family_law').map(m=>(m.name||m.from)+'：'+m.text);
     const can=(day,h)=>{ fresh(day,h,'gongguan'); return EVENTS.check(e); };
-    check('家族聚餐：第 14 週週五 18:18–19:00 在公館',!!fri&&can(fri,18.4)&&!can(fri,19.1)&&!can(fri-7,18.4)&&!can(fri+1,18.4));
+    check('家族聚餐：第 14 週週五 18:00–19:30 在公館（DL-04B 放寬，AA_160 3-4、BB_95 3-8）',!!fri&&can(fri,18.05)&&can(fri,19.4)&&!can(fri,19.6)&&!can(fri,17.9)&&!can(fri-7,18.4)&&!can(fri+1,18.4));
     fresh(fri-7,21,'campus'); grp(); STORY.phoneRules(GM); PHONE.tick(G);
     check('前一週 Kevin 在家族群組約（BB_95 原文）＋學姊「收到。」',JSON.stringify(T())===JSON.stringify(['Kevin：家族聚餐！週五 18:30，阿鳳麵店。學姊說她會來（截圖為證）','溫學姊：收到。']),JSON.stringify(T()));
     const HEAD=['18:31。她跑進來，有點喘。','抱歉。抱歉。……抱歉，我遲到了。','一分鐘。學姊，一分鐘。','一分鐘也是遲到。','她坐下，從包包拿出一個資料夾。','三件事。','一，周老師歷年的考古題。我整理過，錯的地方用紅筆改了。','二，下學期的書，開學前我會分。書上標紅的地方是修法了，自己查新的。','三——','三是傳統！直屬學姊要講一個自己大一的糗事！','……','我大一第一次被點名，老師問什麼是「善意第三人」。我說：心地善良的第三人。','老師說：「那心地不好的第三人，是不是就不用保護了？」','全桌笑。她也笑了一下。','重點是，「善意」在法律上是「不知道」的意思。下學期你們就會學到。'];
     for(const [pick,tail,sticker] of [['手心的汗',['那一題大家都會卡。重點是你有回答。'],false],['收到',['因為收到了。','她連過年都回收到。','……不然要回什麼？','貼圖啊！','我沒有貼圖。'],true],['資料夾收進書包',['學姊看了一眼。','資料夾回去再看。現在吃麵。','學姊說吃麵耶！'],false]]){
-      fresh(fri,18.4,'gongguan',{classDone:true,classAnswer:'good'}); grp(); picks=[pick]; await EVENTS.run(e); const L=lines();
+      fresh(fri,18.55,'gongguan',{classDone:true,classAnswer:'good'}); grp(); picks=[pick]; await EVENTS.run(e); const L=lines();
       check('家族聚餐 選「'+pick+'」：BB_95 原文、散會「下學期的書，我會留給你。」、SHARED_MEAL'+(sticker?'、SIS_NO_STICKER':''),JSON.stringify(L)===JSON.stringify(HEAD.concat(tail,['下學期的書，我會留給你。']))&&SOCIAL.has('heroine_05','SHARED_MEAL')&&!!G.flags.SIS_NO_STICKER===sticker,JSON.stringify(L.slice(-6))); }
-    fresh(fri,18.4,'gongguan',{classAnswer:'absent'}); picks=[0]; await EVENTS.run(e); check('家族聚餐 第二天沒上課（absent）：沒有「被周老師點名」那個選項；不在家族群組：沒有「收到」那個選項',opts[0].length===1&&/資料夾/.test(opts[0][0]),JSON.stringify(opts[0]));
-    fresh(fri,18.4,'gongguan',{}); grp(); picks=['資料夾']; await EVENTS.run(e); G.hour=22.6; STORY.phoneRules(GM); PHONE.tick(G);
+    fresh(fri,18.55,'gongguan',{classAnswer:'absent'}); picks=[0]; await EVENTS.run(e); check('家族聚餐 第二天沒上課（absent）：沒有「被周老師點名」那個選項；不在家族群組：沒有「收到」那個選項',opts[0].length===1&&/資料夾/.test(opts[0][0]),JSON.stringify(opts[0]));
+    fresh(fri,18.55,'gongguan',{}); grp(); picks=['資料夾']; await EVENTS.run(e); G.hour=22.6; STORY.phoneRules(GM); PHONE.tick(G);
     check('家族聚餐 去了：當晚 22:30 學姊在群組訂正（BB_95 原文）、沒有「沒來的人自己拿」',T().includes('溫學姊：考古題第七題，我的紅筆改錯了。正確的在附件。')&&!T().some(t=>/沒來的人/.test(t)),JSON.stringify(T()));
+    fresh(fri,18.1,'gongguan',{}); grp(); picks=['資料夾']; await EVENTS.run(e); { const L=lines(); check('家族聚餐 18:00～18:30 先到：先旁白「你先到了。麵店的阿姨把你們那一桌的椅子擺好。」，再接 18:31 她跑進來',L[0]==='你先到了。麵店的阿姨把你們那一桌的椅子擺好。'&&L[1]==='18:31。她跑進來，有點喘。',JSON.stringify(L.slice(0,2))); }
+    fresh(fri-1,21.1,'campus',{}); grp(); STORY.phoneRules(GM); PHONE.tick(G); check('家族聚餐 前一天 21:00 學姊提醒一次「明天六點半，公館。三件事：準時、帶胃、不要帶作業。」',T().filter(t=>t==='溫學姊：明天六點半，公館。三件事：準時、帶胃、不要帶作業。').length===1,JSON.stringify(T()));
+    fresh(fri,17.6,'campus',{}); grp(); toasts=[]; STORY.phoneRules(GM); STORY.phoneRules(GM); check('家族聚餐 當天 17:30 一則 toast「今天 18:30 家族聚餐（公館）」（只一次）',toasts.filter(t=>t==='今天 18:30 家族聚餐（公館）').length===1,JSON.stringify(toasts));
+    fresh(fri,17.6,'campus',{}); toasts=[]; STORY.phoneRules(GM); check('不在家族群組：沒有當天的 toast',!toasts.some(t=>/家族聚餐/.test(t)));
+    { const fsat=STORY.termDay('Y1S1',11,6); fresh(fsat-1,21.1,'campus',{}); PHONE.join(G,'lawclub_study','法服讀書會'); STORY.phoneRules(GM); PHONE.tick(G); const L=PHONE.thread(G,'g:lawclub_study').map(m=>m.text);
+      check('校慶前一天（週五）21:00 法服群組：學姊「明天校慶，問答攤十點開。輪班表在記事本。」',L.includes('明天校慶，問答攤十點開。輪班表在記事本。'),JSON.stringify(L));
+      const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('沒加入法服：校慶前一天走過大道的公告欄，旁白「公告欄：明天校慶，各社團擺攤。」（AMBIENT festEve）',/key:'festEve'[^]*?PHONE\.inGroup\(G,'lawclub_study'\)\)\) return null; return \['公告欄：明天校慶，各社團擺攤。'\]/.test(src)); }
     fresh(fri,19.2,'campus',{}); grp(); STORY.phoneRules(GM); G.hour=22.6; STORY.phoneRules(GM); PHONE.tick(G);
     check('家族聚餐 沒去：22:00 Kevin 貼資料夾「學姊整理的，沒來的人自己拿。」、學姊「下學期的書，我會留給學弟。」、22:30 的訂正照樣',T().some(t=>/學姊整理的，沒來的人自己拿。/.test(t))&&T().includes('溫學姊：下學期的書，我會留給學弟。')&&T().includes('溫學姊：考古題第七題，我的紅筆改錯了。正確的在附件。'),JSON.stringify(T())); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

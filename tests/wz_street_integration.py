@@ -24,11 +24,11 @@ URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'art-rebuild', 'second_ai', 'test_shots', 'wz_street_integration')
 IDS = ['A1', 'A2', 'A3', 'A4', 'A5', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'C1', 'C2', 'W0',
        'F1', 'F2', 'F3', 'F4', 'S1', 'S2', 'S3', 'S4', 'N1', 'N2', 'N3', 'N4', 'W1', 'W2']   # 近景 15 棟（含巷底 W0）＋遠景 14 棟（巷口兩端、Café 往南／往北的路）
-SHOPS = ['A1', 'A3', 'A4', 'A5', 'B2', 'B3', 'B5', 'B6']          # 一樓是店面（招牌＋店內景深卡）
+SHOPS_INT = ['A1', 'A3', 'A4', 'A5', 'B2', 'B3', 'B6', 'B7']      # 原本有店內景深卡的 8 家店；溫州街 v6c（LAWWW2-B b7a091b8）起都改成立體淺店內，每家兩盞店內燈（GLOW_shopin_*）
 VERT = ['A1', 'A3', 'A4', 'B3']                                    # 有直立招牌
 
 GLBS = ['wenzhou_street_glb', 'wz_jphouse_glb', 'wz_props_glb', 'wz_park_glb', 'wz_scooters_glb']
-TAGS = {'wzApt': 29, 'wzJp': 2, 'wzProp': 12, 'wzPark': 5}                    # 套件物件的數量：公寓 29 棟（近景 15、遠景 14）；宿舍＋院牆；電線桿 6＋反光鏡 3＋路名牌＋紅磚道 2 片
+TAGS = {'wzApt': 29, 'wzJp': 2, 'wzProp': 12, 'wzPark': 28}                  # 套件物件的數量：公寓 29 棟（近景 15、遠景 14）；宿舍＋院牆；電線桿 6＋反光鏡 3＋路名牌＋紅磚道 2 片
 WAIT_FORMAL = "(async()=>{ const want=%s; for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&want.every(n=>z.group.children.some(o=>o.name===n))) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()" % json.dumps(GLBS)
 NAV_HASH = "(()=>{ const n=GAME.E.nav; let h=0; for(let i=0;i<n.b.length;i++){ h=(h*31+n.b[i]+i%7)>>>0; } return [n.cols,n.rows,h, n.b.reduce((a,v)=>a+(v?1:0),0)]; })()"
 STATE = """(()=>{ const E=GAME.E, z=E.zone; const r=v=>Math.round(v*100)/100;
@@ -51,7 +51,9 @@ async def check(pg, run, formal):
     tags = await pg.evaluate("""(()=>{ const out={}; for(const t of %s){ const objs=GAME.E.zone.group.children.filter(o=>o.userData&&o.userData[t]);
         out[t]={n:objs.length, formal:objs.filter(o=>o.userData.formal).length, dyn:objs.filter(o=>o.userData.dyn).length,
           shown:objs.filter(o=>o.isMesh?o.visible:o.children.some(m=>(m.isMesh||m.isSprite)&&m.visible)).length}; } return out; })()""" % json.dumps(list(TAGS)))
-    run.check('套件物件都有標記（公寓 29、宿舍＋院牆 2、街道細節 12、小公園 5）', all(tags[t]['n'] == n for t, n in TAGS.items()), json.dumps(tags))
+    # ?nobldg：小公園的備用外觀沒有 dyn，單一網格的會被整區靜態合併吃掉（本來就要合併，draw call 才會少），所以只剩群組還數得到（2026-10-16：19 個）
+    okn = all(tags[t]['n'] == n for t, n in TAGS.items()) if formal else all(tags[t]['n'] == n for t, n in TAGS.items() if t != 'wzPark') and 10 <= tags['wzPark']['n'] <= TAGS['wzPark']
+    run.check('套件物件都有標記（公寓 29、宿舍＋院牆 2、街道細節 12、小公園 28＝擴大版的備用外觀：草地 2、樹 5、長椅 4、路燈 2、涼亭等 11、花籬 4；?nobldg 的小公園單一網格已合併）', okn, json.dumps(tags))
     if formal:
         run.check('標記的套件物件都接上正式模型、外觀全部藏起來', all(tags[t]['formal'] == n and tags[t]['shown'] == 0 for t, n in TAGS.items()), json.dumps(tags))
     else:
@@ -81,27 +83,22 @@ async def check(pg, run, formal):
               const rep=m?m.repeat.x:1; out[o.name]={canvas:!!(m&&(m.isCanvasTexture||(img&&img.getContext))), board:+(Math.max(s.x,s.z)/s.y).toFixed(3), tex:img?+(img.width*rep/img.height).toFixed(3):0, night:+o.material.emissiveIntensity.toFixed(2)}; });
             out.__atlas=at?{visible:at.visible, w:at.userData.atlas.w, h:at.userData.atlas.h, n:at.userData.atlas.items.length, tris:at.geometry.index.count/3}:null; return out; })()""")
         atl = faces.pop('__atlas')
-        run.check('招牌合成一張 atlas、一個網格（16 面＝8 家橫招牌＋4 塊直立招牌兩面；原本各自一次 draw call）', bool(atl) and atl['visible'] and atl['n'] == 16 and atl['tris'] == 32 and not any(k.startswith(('SIGN_FACE_', 'VSIGN_FACE_')) and not v.get('atlas') for k, v in faces.items()), json.dumps(atl))
-        run.check('招牌 atlas 不超過 2048×1024（直的招牌轉 90° 排；原本分開的貼圖加起來約 1.75M 像素）', bool(atl) and atl['w'] * atl['h'] <= 2048 * 1024, json.dumps(atl))
-        signs = {k: v for k, v in faces.items() if k.startswith('SIGN_FACE_')}; vs = {k: v for k, v in faces.items() if k.startswith('VSIGN_FACE_')}; ints = {k: v for k, v in faces.items() if k.startswith('INTERIOR_FACE_')}
-        run.check('8 家店的橫招牌都有 canvas 字', sorted(k[10:] for k in signs) == sorted(SHOPS) and all(v['canvas'] for v in signs.values()), json.dumps(signs))
-        run.check('4 家店的直立招牌兩面都有 canvas 字', len(vs) == 8 and all(v['canvas'] for v in vs.values()), json.dumps(vs))
-        run.check('8 家店的店內景深卡都有貼圖', sorted(k[14:] for k in ints) == sorted(SHOPS) and all(v['canvas'] for v in ints.values()), json.dumps(ints))
-        ratio = lambda v: v['tex'] / v['board']
-        run.check('招牌貼圖比例＝板面比例（±8%，字不被拉寬）', all(0.92 < ratio(v) < 1.08 for v in list(signs.values()) + list(vs.values())), json.dumps({k: round(ratio(v), 3) for k, v in list(signs.items()) + list(vs.items())}))
-        run.check('店內景深卡：貼圖重複後的比例和板面差不到一半', all(0.6 < ratio(v) < 1.6 for v in ints.values()), json.dumps({k: round(ratio(v), 3) for k, v in ints.items()}))
-        # 自我檢查（TESTING.md 規則 3）：套件原本的招牌貼圖（TK.signTex 512×128）放到同樣的板面上，比例檢查必須失敗
-        kit = [512 / 128 / v['board'] for v in signs.values()]
-        run.check('（自我檢查）套件原本 512×128 的招牌貼圖，比例檢查會失敗', any(not (0.92 < r < 1.08) for r in kit), json.dumps([round(r, 2) for r in kit]))
+        # 溫州街 v5（LAWWW2-B 31323eb9）：有設計稿的店（A1、A3、A4、A5、B2、B3、B5、B5i、B6、B7）招牌字在貼圖裡（wz_signs／wz_signs_lit），沒有 SIGN_FACE、VSIGN_FACE，遊戲不畫招牌
+        run.check('v5：沒有 SIGN_FACE／VSIGN_FACE（招牌是設計稿貼圖），也就沒有 wz_signs_atlas', atl is None and not any(k.startswith(('SIGN_FACE_', 'VSIGN_FACE_')) for k in faces), json.dumps([k for k in faces if 'SIGN' in k]))
+        ints = {k: v for k, v in faces.items() if k.startswith('INTERIOR_FACE_')}
+        shal = await pg.evaluate("""(()=>{ const root=GAME.E.zone.group.children.find(o=>o.name==='wenzhou_street_glb'); let lamps=0; const sf={};
+            root.traverse(o=>{ if(/^GLOW_shopin_/.test(o.name)) lamps++; if(o.isMesh&&o.material&&/^wz_sf_/.test(o.material.name||'')) sf[o.material.name]=true; }); return {lamps, sf:Object.keys(sf).length}; })()""")
+        # 效能第二輪（LAWWW2-B 35513f11）起淺店內的小貼圖合成貼圖集，wz_sf_* 材質變少（13 → 3），不再拿材質數量當條件
+        run.check('v6c：店內景深卡換成立體淺店內（沒有 INTERIOR_FACE_；8 家店各兩盞店內燈）', not ints and shal['lamps'] >= 2 * len(SHOPS_INT), json.dumps({'cards': sorted(ints), **shal}))
         night = await pg.evaluate("""(()=>{ const z=GAME.E.zone, root=z.group.children.find(o=>o.name==='wenzhou_street_glb'); const mats={};
-            root.traverse(o=>{ if(o.isMesh) for(const m of [o.material]) mats[m.name]=m; }); const sign=root.getObjectByName('wz_signs_atlas');
-            const read=()=>({lit:+(mats.wz_room_lit?mats.wz_room_lit.emissiveIntensity:-1).toFixed(2), tube:+(mats.wz_tube?mats.wz_tube.emissiveIntensity:-1).toFixed(2), sign:+sign.material.emissiveIntensity.toFixed(2)});
+            root.traverse(o=>{ if(o.isMesh) for(const m of [o.material]) mats[m.name]=m; }); 
+            const read=()=>({lit:+(mats.wz_room_lit?mats.wz_room_lit.emissiveIntensity:-1).toFixed(2), tube:+(mats.wz_tube?mats.wz_tube.emissiveIntensity:-1).toFixed(2), sign:+(mats.wz_signs_lit?mats.wz_signs_lit.emissiveIntensity:-1).toFixed(2)});
             z.applyTimeOutdoor(11,GAME.E); const day=read(); z.applyTimeOutdoor(21,GAME.E); const nt=read(); z.applyTimeOutdoor(17.5,GAME.E);
             return {day, night:nt, pillarSeeThrough:!!(mats.wz_pillar_tile&&mats.wz_pillar_tile.userData._st)}; })()""")
         run.check('亮燈的窗：晚上發光、白天不發光', night['night']['lit'] > 0.3 and night['day']['lit'] < 0.05, json.dumps(night))
-        run.check('招牌：晚上比白天亮', night['night']['sign'] > night['day']['sign'] + 0.3, json.dumps(night))
+        run.check('燈箱招牌（wz_signs_lit）：晚上比白天亮', night['night']['sign'] > night['day']['sign'] + 0.3, json.dumps(night))
         run.check('騎樓柱子有樹幹透視（擋住玩家時網點透空）', night['pillarSeeThrough'], json.dumps(night))
-        extra = await pg.evaluate("""(()=>{ const z=GAME.E.zone; const out={plates:{}}; for(const n of ['wz_jphouse_glb','wz_props_glb']){ const r=z.group.children.find(o=>o.name===n);
+        extra = await pg.evaluate("""(()=>{ const z=GAME.E.zone; const out={plates:{}}; for(const n of ['wz_jphouse_glb','wz_props_glb','wz_park_glb']){ const r=z.group.children.find(o=>o.name===n);
               r.traverse(o=>{ if(o.isMesh&&/^PLATE_FACE_/.test(o.name)){ const m=o.material.map; out.plates[o.name]=!!(m&&m.image&&m.image.getContext); } });
               const at=r.getObjectByName('wz_plates_atlas'); if(at){ const m=at.material.map; for(const it of at.userData.atlas.items) out.plates[it.name]=!!(m&&m.image&&m.image.getContext)&&at.visible&&it.w>8&&it.h>8; } }
             const mats={}; for(const n of ['wz_jphouse_glb','wz_props_glb']) z.group.children.find(o=>o.name===n).traverse(o=>{ if(o.isMesh) mats[o.material.name]=o.material; });
@@ -111,7 +108,7 @@ async def check(pg, run, formal):
             out.glows=z.group.children.filter(o=>o.isSprite&&o.visible).length; out.wires=z.group.children.filter(o=>o.isLine||o.isLineSegments||(o.isMesh&&o.geometry&&o.geometry.type==='TubeGeometry')).length;
             return out; })()""")
         pl = extra['plates']
-        run.check('門牌、告示牌、6 個桿號牌、路牌兩面、路名牌兩面都有 canvas 字（每個 GLB 合成一張 atlas）', len(pl) == 12 and all(pl.values()), json.dumps(pl))
+        run.check('門牌、6 個桿號牌、路牌兩面、路名牌兩面、小公園名牌都有 canvas 字（每個 GLB 合成一張 atlas；名牌 2026-10-16 起在小公園的 GLB 裡）', len(pl) == 12 and 'PLATE_FACE_parksign' in pl and all(pl.values()), json.dumps(pl))
         run.check('路燈燈罩、玄關燈、紙拉門：晚上亮、白天暗', all(extra['night'][k] > extra['day'][k] + 0.3 for k in ('lens', 'genkan', 'shoji')), json.dumps([extra['day'], extra['night']]))
         run.check('電線桿有樹幹透視', extra['poleST'], json.dumps(extra['poleST']))
         run.note('看得到的光暈 sprite：%d 個（玄關燈、路燈、Café…，套件的光暈不屬於被藏起來的物件）' % extra['glows'])
@@ -131,12 +128,16 @@ async def check(pg, run, formal):
         vc = await pg.evaluate("""(()=>{ const z=GAME.E.zone, OLD=/^(cafe_alu|cafe_iron_black|cafe_brass|cafe_grille|cafe_tank_steel|cafe_ac_body|cafe_ac_fan|cafe_roof_slab|cafe_pipe|cafe_curtain|wz_mailbox|wz_door_|wz_frame_|wz_awning_|wz_arcade_ceiling|wz_laundry|jp_ridge|jp_gutter|jp_meter|wz_galv|wz_porcelain|wz_stripe_|wz_poster|wz_transformer|wz_signpole|wz_lamp_body|wz_mirror_orange|park_steel|park_bar_green)/;
             const out={old:[], vc:{}, win:{}}; for(const n of ['wenzhou_street_glb','wz_jphouse_glb','wz_props_glb','wz_park_glb']){ const r=z.group.getObjectByName(n); if(!r) continue;
               r.traverse(o=>{ if(!o.isMesh) return; const mn=o.material.name; if(OLD.test(mn)) out.old.push(n+':'+mn); if(/^wz_vc_/.test(mn)) out.vc[n+':'+mn+(o.isInstancedMesh?'[inst]':'')]=o.castShadow;
-                if(n==='wenzhou_street_glb'&&o.isInstancedMesh&&/^(wz_stain|wz_room_lit|cafe_room_dark)$/.test(mn)){ const e=out.win[mn]||(out.win[mn]={meshes:0,count:0}); e.meshes++; e.count+=o.count; } }); }
+                if(n==='wenzhou_street_glb'&&/^(wz_stain|wz_room_lit|cafe_room_dark)$/.test(mn)){ const k=mn+(o.isInstancedMesh?'':'[merged]'); const e=out.win[k]||(out.win[k]={meshes:0,count:0}); e.meshes++; e.count+=o.isInstancedMesh?o.count:1; } }); }
             return out; })()""")
         run.check('純色零件都合成頂點色材質（門、雨遮、鋁框、鐵件、窗簾、曬的衣服…沒有剩下原本的單獨材質）', not vc['old'] and any(k.startswith('wenzhou_street_glb:wz_vc_matte') for k in vc['vc']) and any(k.startswith('wenzhou_street_glb:wz_vc_metal') for k in vc['vc']), json.dumps(vc, ensure_ascii=False))
         run.check('頂點色合併的網格（不是 instancing）會投影、instancing 的不投影', all(v == (not k.endswith('[inst]')) for k, v in vc['vc'].items()), json.dumps(vc['vc'], ensure_ascii=False))
         wn = vc['win']; st_, li_, da_ = wn.get('wz_stain', {}), wn.get('wz_room_lit', {}), wn.get('cafe_room_dark', {})
-        run.check('窗戶：所有的窗共用一個窗框原型（一個 InstancedMesh），窗內只有亮燈／沒亮燈兩個原型，扇數對得上', st_.get('meshes') == 1 and li_.get('meshes') == 1 and da_.get('meshes') == 1 and st_.get('count', 0) > 100 and st_.get('count') == li_.get('count', 0) + da_.get('count', 0), json.dumps(wn))
+        # 效能第一輪（LAWWW2-B 86df67a3）起：亮燈的窗內合成一個網格（wz_room_lit[merged]），沒亮燈的窗內改成頂點色（沒有 cafe_room_dark）；之前是兩個 InstancedMesh、扇數相加＝窗框
+        lim_ = wn.get('wz_room_lit[merged]', {})
+        inst_ok = li_.get('meshes') == 1 and da_.get('meshes') == 1 and st_.get('count') == li_.get('count', 0) + da_.get('count', 0)
+        merged_ok = lim_.get('meshes') == 1 and not li_ and not da_ and not wn.get('cafe_room_dark[merged]')
+        run.check('窗戶：所有的窗共用一個窗框原型（一個 InstancedMesh）；窗內是兩個原型（扇數對得上），或亮燈的窗內合成一個網格、沒亮燈的進頂點色', st_.get('meshes') == 1 and st_.get('count', 0) > 100 and (inst_ok or merged_ok), json.dumps(wn))
     draws = {}
     for name, eye, look in VIEWS:
         draws[name] = await pg.evaluate(DRAW + '(%s,%s)' % (json.dumps(eye), json.dumps(look)))

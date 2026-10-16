@@ -182,8 +182,10 @@ async def main():
                 e0 = await pg.evaluate("GAME.G.energy")
                 await choose(pg, cdp, '小睡 2 小時'); await pg.wait_for_timeout(4000)
                 q = await pg.evaluate("({hour:GAME.G.hour, day:GAME.G.day, energy:GAME.G.energy, cap:(document.getElementById('caption')||{}).textContent||''})")
-                run.check('C 小睡 2 小時到 12:00、還是同一天、體力有回', abs(q['hour'] - 12.0) < 0.05 and q['day'] == 7 and q['energy'] > e0, json.dumps(q, ensure_ascii=False))
+                run.check('C 小睡 2 小時到 12:00、還是同一天（體力拿掉了，DL-02：右上角沒有體力條）', abs(q['hour'] - 12.0) < 0.05 and q['day'] == 7 and not await pg.evaluate("!!document.getElementById('energy')"), json.dumps(q, ensure_ascii=False))
                 await run.shot(pg, 'C_after_nap')
+                woke = await L.skip_wake_menu(pg, cdp)   # DL-01：小睡醒來、13:20 還有課 → 起床選單
+                run.check('C 小睡醒來：出起床選單（DL-01 一鍵上課），選「先起床再說」交回操作', woke)
                 await pg.wait_for_timeout(2000)
                 s = await L.state(pg)
                 if s['interact'].startswith('睡覺'):

@@ -60,7 +60,7 @@ function napGM(day,hour){ const gm=newGM('dorm',day,hour,F0); const G=gm.G; G.en
   Object.assign(gm,{fade:async()=>{},sleep:async()=>{},sceneBegin(){},sceneEnd(){},advance:hh=>{ G.hour+=hh; },energy:d=>{ G.energy=Math.max(0,Math.min(100,G.energy+d)); },caption:(a,t)=>log.push(t),toast:t=>log.push('toast:'+t),choose:async()=>0,autosave(){},setGoal(){}}); gm.log=log; return gm; }
 (async()=>{
   { const gm=napGM(6,9.0); const ok=await CLS.skipTo(gm,13,{nap:true});
-    check('09:00 小睡到下午：醒來 13:00、體力 +32（每小時 +8）、旁白寫醒來',ok&&Math.abs(gm.G.hour-13)<0.01&&gm.G.energy===72&&gm.log.some(t=>/睡了一下，醒來是 13:00/.test(t)),`${gm.G.hour} 體力 ${gm.G.energy} ${gm.log.join(' / ')}`); }
+    check('09:00 小睡到下午：醒來 13:00、旁白寫醒來；不再補體力（DL-02，AA_160 2-8）',ok&&Math.abs(gm.G.hour-13)<0.01&&gm.G.energy===40&&gm.log.some(t=>/睡了一下，醒來是 13:00/.test(t)),`${gm.G.hour} 體力 ${gm.G.energy} ${gm.log.join(' / ')}`); }
   { const gm=napGM(6,14.0); gm.G.invites=[{who:'zhe',day:6,h:16,accepted:true,done:false,label:'和阿哲約在 Café'}]; const ok=await CLS.skipTo(gm,18,{nap:true});
     check('14:00 小睡、16:00 有約：15:50 先醒（和手機跳過時間一樣）',ok&&Math.abs(gm.G.hour-(16-1/6))<0.01&&gm.log.some(t=>/約好的時間/.test(t)),`${gm.G.hour.toFixed(3)} ${gm.log.join(' / ')}`); }
   { const gm=napGM(2,9.0); const ok=await CLS.skipTo(gm,13,{nap:true}); check('第二天不能小睡跳時間（劇情）',!ok&&gm.G.hour===9,gm.log.join(' / ')); }

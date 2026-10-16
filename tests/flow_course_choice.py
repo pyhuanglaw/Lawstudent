@@ -80,6 +80,8 @@ async def sleep_in_bed(pg, cdp, run, label):
         if st['day'] == d0 + 1 and st['zone'] == 'dorm' and abs(st['hour'] - 7.5) < 0.05: break
         await pg.wait_for_timeout(1000)
     await pg.wait_for_timeout(3500)   # 起床的標題卡、進宿舍、早上的提示（CLS.morning）
+    if st.get('day') and await pg.evaluate("CLS.goList(GAME.G).length>0"):
+        await L.skip_wake_menu(pg, cdp)   # DL-01：有課的早上（9/4 開學）出起床選單，選「先起床再說」
     return st
 
 

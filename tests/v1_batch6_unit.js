@@ -74,8 +74,8 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A10 第一次和小語說話：自我介紹（不是語 1），記下 metYuDay',G.flags.met_yu===true&&G.flags.metYuDay===W4TUE&&lines()[0]==='你是周老師點的那個！我是小語，坐你前面右邊。',JSON.stringify(lines()));
     check('A10 自我介紹那天不演語 1（她剛講過三個社團）',!EVENTS.check(e));
     const at=(day,hour,flags,zone)=>{ fresh(day,hour,zone||'campus',Object.assign({met_yu:true,metYuDay:W4TUE},flags||{})); return EVENTS.check(e); };
-    const r={next:at(W4TUE+1,10),w3:at(3,10,{metYuDay:2}),w5:at(W5THU,11.5),w6:at(W6MON,10),pm:at(W4TUE+1,13),notmet:at(W4TUE+1,10,{met_yu:false}),oldsave:at(W4TUE+1,10,{metYuDay:undefined}),lib:at(W4TUE+1,10,{},'library')};
-    check('A10 第 3～5 週的早上在校園：有（隔天、第 3 週、第 5 週 11:30；舊存檔沒有 metYuDay 也算）；第 6 週、下午、沒認識、在總圖：沒有',r.next&&r.w3&&r.w5&&r.oldsave&&!r.w6&&!r.pm&&!r.notmet&&!r.lib,JSON.stringify(r));
+    const r={next:at(W4TUE+1,8.6),w3:at(3,8.6,{metYuDay:2}),w5:at(W5THU,9),w6:at(W6MON,8.6),pm:at(W4TUE+1,9.3),notmet:at(W4TUE+1,8.6,{met_yu:false}),oldsave:at(W4TUE+1,8.6,{metYuDay:undefined}),lib:at(W4TUE+1,8.6,{},'library')};   /* AA_156 第 4 節：平日上課前 08:20～09:05（原本 9:30～12:00）*/
+    check('A10 第 3～5 週上課前（08:20～09:05）在校園：有（隔天、第 3 週、第 5 週 09:00；舊存檔沒有 metYuDay 也算）；第 6 週、09:18（去上課了）、沒認識、在總圖：沒有',r.next&&r.w3&&r.w5&&r.oldsave&&!r.w6&&!r.pm&&!r.notmet&&!r.lib,JSON.stringify(r));
     const intro=['欸，你要不要坐？','我一個人吃很怪。……不是怪，是很安靜。我不喜歡安靜。','對了，你有參加社團嗎？我有三個。你要不要加一個？吉他社缺人，辯論社也缺人，系學會永遠缺人。'];
     for(const [pick,after,mem] of [['坐下來',['她講了十五分鐘，關於三個社團。','欸你有沒有群組？沒有？我拉你。','明天你也會經過嗎？'],true],['要遲到',['喔，好！','她揮手。等你走遠，她把耳機戴上。'],false],['不會累',['累啊。','可是累就不會想東想西。'],false]]){
       fresh(W4TUE+1,10,'campus',{met_yu:true,metYuDay:W4TUE}); npc('yu',0,1); const h0=G.hour; picks=[pick]; await EVENTS.run(e); const L=lines();
@@ -90,9 +90,9 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
       fresh(W4TUE,10,'campus'); npc('yu',0,1); await STORY._v1.talkYu(GM,GM.npc.yu);
       check('A10b 第一次見面：「我參加了三個社團，吉他社、辯論社，還有系學會。…」（AA_156 1-3）',lines()[1]==='我參加了三個社團，吉他社、辯論社，還有系學會。你要不要來吉他社？不用會彈。',JSON.stringify(lines()));
       const bell=async(day,hour,mem)=>{ fresh(day,hour,'campus',{met_yu:true,metYuDay:2,yuSmallTalkDay:day}); if(mem) SOCIAL.remember('yu','BREAKFAST_YU','x'); npc('yu',0,1); await STORY._v1.talkYu(GM,GM.npc.yu); return lines(); };
-      const b1=await bell(W6MON,10,true); const again=(await (async()=>{ said=[]; await STORY._v1.talkYu(GM,GM.npc.yu); return lines(); })());
-      const b2=await bell(W6MON,12.5,true), b3=await bell(W6MON,10,false);
-      check('A10b BREAKFAST_YU 大一早上 10:00 找她：第一次「欸，今天也經過！」、同一天第二次不說；12:00 以後、沒有記憶不說',b1.includes('欸，今天也經過！')&&!again.includes('欸，今天也經過！')&&!b2.includes('欸，今天也經過！')&&!b3.includes('欸，今天也經過！'),JSON.stringify([b1,again,b2,b3]));
+      const b1=await bell(W6MON,8.6,true); const again=(await (async()=>{ said=[]; await STORY._v1.talkYu(GM,GM.npc.yu); return lines(); })());
+      const b2=await bell(W6MON,9.2,true), b3=await bell(W6MON,8.6,false);
+      check('A10b BREAKFAST_YU 大一平日 08:36 找她：第一次「欸，今天也經過！」、同一天第二次不說；09:05 以後、沒有記憶不說（AA_156 第 4 節）',b1.includes('欸，今天也經過！')&&!again.includes('欸，今天也經過！')&&!b2.includes('欸，今天也經過！')&&!b3.includes('欸，今天也經過！'),JSON.stringify([b1,again,b2,b3]));
       const zc=ev('ev_ziqing_club'), club=async(flags,yuHere)=>{ fresh(W6MON,19.2,'wancai',flags); if(yuHere) npc('yu',0,1); npc('heroine_04',1,1); picks=[]; await EVENTS.run(zc); return lines(); };
       const z1=await club({YU_CLUB_INVITE:true},true), z2=await club({guitar_invite:true},true), z3=await club({YU_CLUB_INVITE:true,guitar_invite:true},true), z4=await club({YU_CLUB_INVITE:true},false);
       check('A10b 吉他社第一次：只有小語的入口＝小語兩句再「新人？……法律系的？…」；只有阿凱＝「你就是阿凱的室友？」沒有小語；兩個都有＝照阿凱；小語不在場＝沒有那兩句',z1[0]==='欸！你真的來了！'&&z1[1]==='學姊，他是我拉來的。'&&/新人？/.test(z1[2])&&!z2.includes('欸！你真的來了！')&&/阿凱的室友/.test(z2[0])&&!z3.includes('欸！你真的來了！')&&!z4.includes('欸！你真的來了！'),JSON.stringify([z1.slice(0,3),z2[0],z3[0],z4[0]]));
