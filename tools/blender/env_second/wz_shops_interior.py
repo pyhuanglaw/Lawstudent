@@ -40,7 +40,7 @@ def img_mat(name, fn, rough=0.6, emit=0.0, clip=False):
 
 P = 'wzs_'
 M = {
-    'wood_lt': L.pbr(P + 'wood_light', 'fine_grained_wood', tile=0.8, target='#b48a5e', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.55),
+    'wood_lt': L.pbr(P + 'wood_light', 'walnut_veneer', tile=0.9, target='#b48a5e', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.55),
     'wood_dk': L.pbr(P + 'wood_dark', 'dark_wood', tile=0.8, target='#5a3c28', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.6),
     'steel': L.flat(P + 'steel', '#b9bdc0', rough=0.28, metal=0.45), 'black': L.flat(P + 'black_metal', '#2a2a2c', rough=0.45, metal=0.3),
     'white': L.flat(P + 'white', '#f1efe9', rough=0.4), 'ceramic': L.flat(P + 'ceramic', '#f4f1ea', rough=0.25),
@@ -362,7 +362,7 @@ def build_teahouse():
               'tatami': img_mat(P + 'tatami', 'tatami_weave.png', rough=0.85), 'heri': L.flat(P + 'heri', '#24302a', rough=0.8),
               'plaster': L.pbr(P + 'jurakukabe', 'white_plaster_02', tile=1.5, target='#d9c9a6', normal=0.5, maps=('diff', 'nor'), res=256, rough_value=0.95),
               'post': L.pbr(P + 'post', 'dark_wood', tile=0.8, target='#4a3222', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.55),
-              'ceil': L.pbr(P + 'ceiling_boards', 'fine_grained_wood', tile=1.2, target='#a4855e', maps=('diff',), res=256, rough_value=0.7),
+              'ceil': L.pbr(P + 'ceiling_boards', 'walnut_veneer', tile=1.2, target='#a4855e', maps=('diff',), res=256, rough_value=0.7),
               'shoji': L.pbr(P + 'shoji', 'jp_shoji', tile=1.0, maps=('diff',), res=512, rough_value=0.8), 'fusuma': L.flat(P + 'fusuma', '#e7dcc4', rough=0.85),
               'washi': L.flat(P + 'washi', '#f6efdc', rough=0.7, emit=B.srgb('#7a6a50')), 'cushion': L.flat(P + 'zabuton', '#3c4a6a', rough=0.9),
               'cushion2': L.flat(P + 'zabuton2', '#7a4a3a', rough=0.9), 'lacquer': L.flat(P + 'lacquer', '#3a2418', rough=0.3),

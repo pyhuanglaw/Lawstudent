@@ -462,7 +462,7 @@ def apartment(spec):
     if SET == 'wenzhou' and 'sf' not in spec:   # ART-WZ0（2026-10-16）：溫州街的店面組件（wz_shopkit.py）；公館、118 巷照舊
         sfx = SF.get(spec['id']) or SF_HOUSE.get(spec['id']) or SF_SHUTTER.get(spec['id'])
         if sfx: spec = dict(spec, sf=sfx)
-    if gt == 'shop' and spec.get('sf'): rec = spec['sf'].get('recess', 0.9) + 1.3   # 店門退縮成門廊：一樓牆體從玻璃後 1.3 m 開始
+    if gt == 'shop' and spec.get('sf'): rec = spec['sf'].get('recess', 0.9) + (2.7 if spec['sf'].get('inner') else 1.3)   # 店門退縮成門廊；有立體淺店內的，一樓牆體從玻璃後 2.7 m 開始
     if gt == 'arcade' and spec.get('sf', {}).get('split'): rec = 3.0 + 2.6   # B5：騎樓 3 m＋後面兩間 2.6 m 深的立體小店
     W = Wd; D = Dd
     # ---- 樓上的窗：每層 n 扇（和套件相同的算法：n＝round(W/3.6)）

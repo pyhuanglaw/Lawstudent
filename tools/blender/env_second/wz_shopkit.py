@@ -47,7 +47,7 @@ SK = {
     'f_floral': L.pbr('wz_sf_floral', 'floor_tiles_06', tile=0.7, target='#b0a48e', normal=0.5, maps=('diff', 'nor'), res=256, rough_value=0.5),
     'f_concrete': L.pbr('wz_sf_concrete', 'concrete_floor_painted', tile=1.4, target='#8f8b84', normal=0.5, maps=('diff', 'nor'), res=256, rough_value=0.85),
     'wood_dk': L.pbr('wz_sf_wood_dark', 'dark_wood', tile=0.8, target='#5a3c28', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.6),
-    'wood_lt': L.pbr('wz_sf_wood_light', 'fine_grained_wood', tile=0.8, target='#a07850', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.6),
+    'wood_lt': L.pbr('wz_sf_wood_light', 'walnut_veneer', tile=0.9, target='#a07850', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.6),
     'steel': flat('wz_sf_steel', '#b9bcbf', rough=0.3, metal=0.45),
     'alu2': flat('wz_sf_alu', '#c9ccce', rough=0.35, metal=0.4),
     'black': flat('wz_sf_black', '#2a2a2c', rough=0.5, metal=0.2),
@@ -255,9 +255,11 @@ def shopfront_v2(spec, xf, W, gt, wall):
     s = spec['shop']; sf = spec['sf']; R = sf.get('recess', 0.9); gz = -R
     iw = W - 0.6; ih = GH - 0.9; fr = frame_mat(s.get('frame', '#3b2a1e')); top = ih + 0.4
     # 店內景深卡（退到玻璃後 1.2 m）＋店內地板、兩側的牆
-    face(f'INTERIOR_FACE_{spec["id"]}', M['board'], xf, [(-iw / 2, 0.15, gz - 1.2), (iw / 2, 0.15, gz - 1.2), (iw / 2, ih + 0.15, gz - 1.2), (-iw / 2, ih + 0.15, gz - 1.2)], {'interior': s['type']})
-    xf.box(acc(M['gwall']), -iw / 2, iw / 2, 0, 0.15, gz - 1.3, gz)
-    for sx in (-1, 1): xf.box(acc(M['plaster']), sx * iw / 2 - 0.03, sx * iw / 2 + 0.03, 0.15, ih + 0.15, gz - 1.2, gz)
+    if sf.get('inner'): shallow_interior(spec, xf, iw, gz, ih)                                  # 立體的淺店內（深 2.6 m）
+    else:
+        face(f'INTERIOR_FACE_{spec["id"]}', M['board'], xf, [(-iw / 2, 0.15, gz - 1.2), (iw / 2, 0.15, gz - 1.2), (iw / 2, ih + 0.15, gz - 1.2), (-iw / 2, ih + 0.15, gz - 1.2)], {'interior': s['type']})
+        xf.box(acc(M['gwall']), -iw / 2, iw / 2, 0, 0.15, gz - 1.3, gz)
+        for sx in (-1, 1): xf.box(acc(M['plaster']), sx * iw / 2 - 0.03, sx * iw / 2 + 0.03, 0.15, ih + 0.15, gz - 1.2, gz)
     # 門廊：地坪（這家的磁磚）＋門檻、兩側壁柱（外牆材質）、天花板、門楣（招牌底下那一段牆）
     xf.box(acc(SK[sf['floor']]), -W / 2 + 0.28, W / 2 - 0.28, 0.0, 0.03, gz, 0.0)
     st = sf.get('step', 0.0)
@@ -284,9 +286,15 @@ def shopfront_v2(spec, xf, W, gt, wall):
         w = acc(SK['wood_dk'])
         for x in (-iw / 2, dx - dw / 2, dx, dx + dw / 2, iw / 2): xf.box(w, x - 0.06, x + 0.06, 0.08, ih + 0.18, gz - 0.06, gz + 0.06)
         xf.box(w, -iw / 2, iw / 2, 0.08, 0.55, gz - 0.04, gz + 0.04)                                                  # 下半部木板
-        if door == 'lattice':                                                                                         # 木格拉門（定食、茶屋）
-            for k in range(1, 8): y = 0.55 + k * (ih - 0.45) / 8; xf.box(w, -iw / 2, iw / 2, y - 0.012, y + 0.012, gz - 0.03, gz + 0.03)
-            for k in range(1, int(iw / 0.3)): x = -iw / 2 + k * 0.3; xf.box(w, x - 0.012, x + 0.012, 0.55, ih + 0.1, gz - 0.03, gz + 0.03)
+        if door == 'lattice':                                                                                         # 木格拉門（定食、茶屋）：只有門那一段是格子，其他是木框玻璃窗（v5 整面格子像籠子）
+            l0, l1 = dx - dw / 2, dx + dw / 2
+            for k in range(1, 8): y = 0.55 + k * (ih - 0.45) / 8; xf.box(w, l0, l1, y - 0.012, y + 0.012, gz - 0.03, gz + 0.03)
+            for k in range(1, int((l1 - l0) / 0.15)): x = l0 + k * 0.15; xf.box(w, x - 0.012, x + 0.012, 0.55, ih + 0.1, gz - 0.03, gz + 0.03)
+            for x0_, x1_ in ((-iw / 2, l0), (l1, iw / 2)):                                                         # 窗：中間一道橫框、每 1.2 m 一根直框
+                if x1_ - x0_ < 0.3: continue
+                xf.box(w, x0_, x1_, 1.45, 1.5, gz - 0.04, gz + 0.04)
+                n_ = max(1, round((x1_ - x0_) / 1.2))
+                for j in range(1, n_): x = x0_ + j * (x1_ - x0_) / n_; xf.box(w, x - 0.03, x + 0.03, 0.55, ih + 0.1, gz - 0.04, gz + 0.04)
         for x in (dx - 0.1, dx + 0.07): xf.box(acc(M['brass']), x, x + 0.03, 1.0, 1.2, gz + 0.06, gz + 0.1)
     elif door == 'auto':
         a = acc(SK['alu2']); dw = sf.get('door_w', 2.4)
@@ -447,6 +455,141 @@ def shutter_v2(spec, xf, W, rec):
     for (cn, x, y, w, h) in sf.get('notes', []): note(xf, cn, x, y, w, h, -rec + 0.06)
     for it in sf.get('clutter', []):
         k, x, z = it[0], it[1], it[2]; inst(PROTO[k], f'sk_{k}_{spec["id"]}', xf, x, 0.0, -rec + z)
+
+
+# ---------------- 店裡（玻璃後面 2.6 m 深的立體淺店內；取代平面的景深卡 INTERIOR_FACE）----------------
+# 使用者：「招牌字體太假」「不要很像積木」——街上最假的剩下玻璃後面那張平面的店內圖。改成真的有深度的店：櫃台、貨架、桌椅、燈。
+DI = 2.6
+
+
+def books_mat():
+    m = bpy.data.materials.new('wz_in_books'); m.use_nodes = True; nt = m.node_tree; bs = nt.nodes['Principled BSDF']; bs.inputs['Roughness'].default_value = 0.7
+    tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(os.path.join(GEN, 'lawlib_books.png'), check_existing=True); nt.links.new(tx.outputs['Color'], bs.inputs['Base Color']); return m
+
+
+IN_MAT = {}
+def in_mat(key):
+    if key not in IN_MAT:
+        IN_MAT[key] = {'books': books_mat, 'price': lambda: _img_mat('wz_in_price', 'print_price.png', rough=0.6),
+                       'board': lambda: _img_mat('wz_in_board', 'brunch_board.png', rough=0.85), 'menu_tea': lambda: SK['menu_tea']}[key]()
+    return IN_MAT[key]
+
+
+def uvq(name, mat, px, pts, uv):
+    uvquad(name, mat, [px.p(*q) for q in pts], uv)
+
+
+def shallow_interior(spec, xf, iw, gz, ih):
+    """玻璃後面的店（深 DI）：地板、牆、天花板、燈，加上每一種店自己的東西"""
+    kind = spec['shop']['type']; pid = spec['id']; y0 = 0.15; yt = ih + 0.15; zb = gz - DI; cm = _cm(f'sk_in_{pid}')
+    rr = random.Random(sum(ord(c) for c in pid) * 31)
+    flo = {'noodle': 'f_mosaic', 'cvs': 'f_white', 'print': 'f_granite', 'laundry': 'f_terrazzo', 'teishoku': 'wood_dk', 'books': 'wood_lt', 'fruit': 'f_concrete', 'brunch': 'wood_lt'}.get(kind, 'f_white')
+    xf.box(acc(SK[flo]), -iw / 2, iw / 2, 0.0, y0, zb, gz)
+    wallc = {'noodle': '#f1e7d6', 'cvs': '#f4f4f0', 'print': '#eef0ee', 'laundry': '#dceaf0', 'teishoku': '#e8dcc4', 'books': '#e6dcc8', 'fruit': '#efe8d8', 'brunch': '#f3ede2'}.get(kind, '#eeeeea')
+    vb = lambda *a, **k: xf_vbox(cm, xf, *a, **k)
+    vb(-iw / 2, iw / 2, y0, yt, zb - 0.05, zb, wallc, r=0)
+    for sx in (-1, 1): vb(sx * iw / 2 - 0.04, sx * iw / 2 + 0.04, y0, yt, zb, gz, wallc, r=0)
+    xf.box(acc(M['ceilA']), -iw / 2, iw / 2, yt, yt + 0.05, zb, gz)
+    warm = kind in ('teishoku', 'books', 'brunch', 'fruit', 'noodle')
+    for lx in ([-iw / 4, iw / 4] if iw > 5 else [0.0]):
+        xf.box(acc(M['tube']), lx - 0.5, lx + 0.5, yt - 0.03, yt, zb + DI * 0.45 - 0.05, zb + DI * 0.45 + 0.05)
+        CL.glow(root, 'shopin', *xf.p(lx, yt - 0.3, zb + DI * 0.5), color='rgba(255,226,180,1)' if warm else 'rgba(244,250,255,1)', size=1.7, day=0.1, night=0.85)
+    if kind == 'noodle':                                                                                    # 麵店：後面的煮麵台、紅紙菜單、兩張桌子
+        vb(-iw / 2 + 0.3, iw / 2 - 1.2, y0, y0 + 0.88, zb, zb + 0.6, '#b9bdc0', r=0.01)
+        for x in (-iw / 2 + 0.8, -iw / 2 + 1.5): _lathe(acc(SK['steel']), xf, [(0.0, 0.0), (0.24, 0.0), (0.25, 0.35), (0.23, 0.36)], x, y0 + 0.88, zb + 0.3)   # 湯鍋
+        for j in range(8): x = -iw / 2 + 0.6 + j * 0.42; vb(x - 0.15, x + 0.15, 1.55, 2.25, zb + 0.005, zb + 0.015, '#b8322a', r=0)
+        for (tx, tz) in ((-0.8, gz - 1.2), (1.6, gz - 1.0)):
+            vb(tx - 0.4, tx + 0.4, y0 + 0.7, y0 + 0.74, tz - 0.3, tz + 0.3, '#f1efe9', r=0.008); xf_cyl(acc(M['metal']), xf, (tx, y0, tz), (tx, y0 + 0.7, tz), 0.03)
+            for sx in (-0.55, 0.55): inst(P_STOOL_R, f'sk_instool_{pid}', xf, tx + sx, y0, tz)
+    elif kind == 'cvs':                                                                                     # 便利商店：後牆的飲料冰箱、兩排貨架、櫃台
+        n = int((iw - 0.6) / 0.62)
+        for j in range(n):
+            x0 = -iw / 2 + 0.3 + j * 0.62; vb(x0, x0 + 0.6, y0, y0 + 2.0, zb, zb + 0.55, '#3a3d40', r=0.0)
+            xf.box(acc(SK['lamp_cool']), x0 + 0.04, x0 + 0.56, y0 + 0.1, y0 + 1.9, zb + 0.5, zb + 0.505)
+            for t in range(5):
+                for b in range(4): vb(x0 + 0.06 + b * 0.13, x0 + 0.15 + b * 0.13, y0 + 0.15 + t * 0.36, y0 + 0.38 + t * 0.36, zb + 0.43, zb + 0.5, rr.choice(['#d84a3a', '#3a8ad8', '#f0d040', '#5ab05a', '#f4f4f0', '#8a3a2a']), r=0)
+            xf.quad(acc(M['glass']), [(x0, y0, zb + 0.56), (x0 + 0.6, y0, zb + 0.56), (x0 + 0.6, y0 + 2.0, zb + 0.56), (x0, y0 + 2.0, zb + 0.56)])
+        for gx_ in (-1.0, 1.0):
+            vb(gx_ - 0.3, gx_ + 0.3, y0, y0 + 1.35, gz - 2.0, gz - 0.7, '#e8e8e4', r=0.01)
+            for t in range(4):
+                for sd in (-1, 1):
+                    for b in range(6): vb(gx_ + sd * 0.3 - (0.06 if sd > 0 else -0.0), gx_ + sd * 0.3 + (0.0 if sd > 0 else 0.06), y0 + 0.2 + t * 0.3, y0 + 0.4 + t * 0.3, gz - 1.95 + b * 0.21, gz - 1.78 + b * 0.21, rr.choice(['#e05a3a', '#f0c040', '#4a90d0', '#60b060', '#f4f0e8', '#c060a0']), r=0)
+        vb(iw / 2 - 1.3, iw / 2 - 0.2, y0, y0 + 0.95, gz - 1.6, gz - 0.9, '#f2f2ee', r=0.01); vb(iw / 2 - 1.0, iw / 2 - 0.6, y0 + 0.95, y0 + 1.25, gz - 1.4, gz - 1.2, '#2c2c2e', r=0.01)
+    elif kind == 'print':                                                                                   # 影印：兩台影印機、櫃台、價目表
+        for x in (-iw / 2 + 0.8, -iw / 2 + 1.8):
+            vb(x - 0.35, x + 0.35, y0, y0 + 1.05, zb + 0.1, zb + 0.72, '#e4e4e0', r=0.03); vb(x - 0.33, x + 0.33, y0 + 1.05, y0 + 1.11, zb + 0.13, zb + 0.69, '#4a4e54', r=0.015)
+            vb(x + 0.35, x + 0.6, y0 + 0.45, y0 + 0.95, zb + 0.2, zb + 0.62, '#e4e4e0', r=0.02)
+        vb(-0.6, iw / 2 - 0.4, y0, y0 + 0.98, gz - 1.3, gz - 0.75, '#5d7286', r=0.015); vb(-0.62, iw / 2 - 0.38, y0 + 0.98, y0 + 1.02, gz - 1.32, gz - 0.73, '#f2f0ea', r=0.01)
+        for j in range(4): vb(0.4 + j * 0.02, 0.7 + j * 0.02, y0 + 1.02 + j * 0.012, y0 + 1.032 + j * 0.012, gz - 1.2, gz - 0.9, '#f8f8f4', r=0)
+        uvq(f'sk_in_price_{pid}', in_mat('price'), xf, [(0.6, 1.5, zb + 0.01), (2.1, 1.5, zb + 0.01), (2.1, 2.27, zb + 0.01), (0.6, 2.27, zb + 0.01)], (0, 0, 1, 1))
+        for j in range(3): vb(iw / 2 - 1.6 + j * 0.36, iw / 2 - 1.3 + j * 0.36, y0, y0 + 0.27 * (1 + j % 2), zb + 0.1, zb + 0.5, '#b08a5c', r=0.01)
+    elif kind == 'laundry':                                                                                 # 洗衣：後牆一排洗衣機＋上面疊烘衣機、摺衣桌、椅子
+        n = int((iw - 0.8) / 0.7)
+        for j in range(n):
+            x = -iw / 2 + 0.55 + j * 0.7
+            for lvl, (ya, yb_) in enumerate(((y0, y0 + 0.9), (y0 + 0.92, y0 + 1.82))):
+                vb(x - 0.32, x + 0.32, ya, yb_, zb, zb + 0.65, '#f4f4f2', r=0.02)
+                c = (ya + yb_) / 2 - 0.05; xf_cyl(acc(M['metal']), xf, (x, c, zb + 0.65), (x, c, zb + 0.68), 0.22, seg=16)
+                xf_cyl(acc(SK['black']), xf, (x, c, zb + 0.68), (x, c, zb + 0.69), 0.17, seg=16)
+                vb(x - 0.25, x + 0.25, yb_ - 0.12, yb_ - 0.04, zb + 0.65, zb + 0.66, '#9aa8b0', r=0)
+        vb(-0.9, 0.9, y0 + 0.82, y0 + 0.86, gz - 1.55, gz - 0.95, '#f2f0ea', r=0.01)
+        for sx in (-0.8, 0.8): xf_cyl(acc(M['metal']), xf, (sx, y0, gz - 1.25), (sx, y0 + 0.82, gz - 1.25), 0.025)
+        for j in range(3): inst(P_STOOL_B, f'sk_inchair_{pid}', xf, iw / 2 - 0.45, y0, gz - 0.6 - j * 0.5)
+    elif kind == 'teishoku':                                                                                # 定食：木吧台＋高腳凳、後面的碗盤架、暖簾、紙燈籠
+        vb(-iw / 2 + 0.6, iw / 2 - 1.2, y0, y0 + 0.95, zb + 1.0, zb + 1.5, '#5a3c28', r=0.015); vb(-iw / 2 + 0.55, iw / 2 - 1.15, y0 + 0.95, y0 + 1.0, zb + 0.98, zb + 1.62, '#a07850', r=0.01)
+        for j in range(int((iw - 1.8) / 0.8)):
+            x = -iw / 2 + 1.0 + j * 0.8; _lathe(acc(SK['wood_dk']), xf, [(0.0, 0.62), (0.18, 0.62), (0.18, 0.66), (0.0, 0.66)], x, y0, zb + 1.85, seg=12); xf_cyl(acc(SK['black']), xf, (x, y0, zb + 1.85), (x, y0 + 0.62, zb + 1.85), 0.025)
+        for t in range(3):
+            vb(-iw / 2 + 0.6, iw / 2 - 1.2, y0 + 1.3 + t * 0.35, y0 + 1.33 + t * 0.35, zb, zb + 0.3, '#5a3c28', r=0)
+            for b in range(14): vb(-iw / 2 + 0.8 + b * 0.75, -iw / 2 + 0.95 + b * 0.75, y0 + 1.33 + t * 0.35, y0 + 1.42 + t * 0.35, zb + 0.08, zb + 0.22, rr.choice(['#f4f1ea', '#2f4a6a', '#7a5a3a', '#e8e0d0']), r=0)
+        for j in range(3): vb(iw / 2 - 1.0 + j * 0.27, iw / 2 - 0.76 + j * 0.27, y0 + 1.3, y0 + 2.2, zb + 0.4, zb + 0.41, '#22324e', r=0)
+        for x in (-iw / 4, iw / 4): _lathe(acc(SK['lamp']), xf, [(0.0, 0.0), (0.12, 0.0), (0.16, 0.12), (0.16, 0.28), (0.12, 0.4), (0.0, 0.4)], x, yt - 0.75, zb + 1.3, seg=12)
+    elif kind == 'books':                                                                                   # 二手書：整面書牆（書背貼圖）、中間的平台、櫃台
+        bm_ = in_mat('books')
+        for t in range(6):
+            yy = y0 + 0.1 + t * 0.36; vb(-iw / 2 + 0.2, iw / 2 - 0.2, yy - 0.025, yy, zb, zb + 0.32, '#6a4a30', r=0)
+            v1 = 1 - (t % 6) * 0.155; uvq(f'sk_in_books_{pid}_{t}', bm_, xf, [(-iw / 2 + 0.2, yy, zb + 0.1), (iw / 2 - 0.2, yy, zb + 0.1), (iw / 2 - 0.2, yy + 0.32, zb + 0.1), (-iw / 2 + 0.2, yy + 0.32, zb + 0.1)], (0, v1 - 0.15, (iw - 0.4) / 2.2, v1))
+        vb(-1.6, 0.6, y0, y0 + 0.75, gz - 1.7, gz - 1.0, '#7a5a3a', r=0.015)
+        for j in range(9): vb(-1.5 + (j % 3) * 0.7, -1.0 + (j % 3) * 0.7, y0 + 0.75, y0 + 0.75 + 0.04 * (1 + j // 3), gz - 1.6 + (j // 3) * 0.2, gz - 1.45 + (j // 3) * 0.2, rr.choice(['#2f4a6a', '#6a2f2f', '#e8e0d0', '#3a5a3a', '#c9a46a']), r=0.004)
+        vb(iw / 2 - 1.4, iw / 2 - 0.3, y0, y0 + 0.95, gz - 1.0, gz - 0.5, '#5a3c28', r=0.015)
+    elif kind == 'fruit':                                                                                   # 水果：三層木架、一籃一籃的水果、後面的冰箱（果汁）、吊燈
+        for k, x in enumerate((-iw / 2 + 1.4, 0.0, iw / 2 - 1.4)):
+            for t in range(3):
+                zz = gz - 0.6 - t * 0.45; yy = y0 + 0.35 + t * 0.3; vb(x - 1.0, x + 1.0, yy - 0.04, yy, zz - 0.2, zz + 0.2, '#8a6a4a', r=0.008)
+                for b in range(5):
+                    col = rr.choice(['#e04a2a', '#f0b030', '#7ab040', '#f0d050', '#c02a4a', '#f08030']); cx = x - 0.8 + b * 0.4
+                    for q in range(3): acc_fruit(col).sphere(xf.p(cx + (q - 1) * 0.1, yy + 0.06, zz + (q % 2) * 0.06 - 0.03), 0.055, seg=8, rings=5)
+        vb(-iw / 2 + 0.4, -iw / 2 + 2.2, y0, y0 + 1.9, zb, zb + 0.6, '#e8e8e4', r=0.02); xf.box(acc(SK['lamp_cool']), -iw / 2 + 0.5, -iw / 2 + 2.1, y0 + 0.1, y0 + 1.8, zb + 0.6, zb + 0.605)
+        for x in (-iw / 3, 0.0, iw / 3): acc(SK['lamp']).sphere(xf.p(x, yt - 0.45, gz - 1.0), 0.07, seg=8, rings=5); xf_cyl(acc(SK['black']), xf, (x, yt, gz - 1.0), (x, yt - 0.38, gz - 1.0), 0.004, seg=4)
+    elif kind == 'brunch':                                                                                  # 半熟：兩張小桌、吊燈、後面的吧台＋咖啡機、黑板
+        for (tx, tz) in ((-iw / 2 + 1.1, gz - 1.0), (-iw / 2 + 2.6, gz - 1.0), (iw / 2 - 1.2, gz - 1.6)):
+            vb(tx - 0.33, tx + 0.33, y0 + 0.72, y0 + 0.76, tz - 0.33, tz + 0.33, '#b48a5e', r=0.012); xf_cyl(acc(SK['black']), xf, (tx, y0, tz), (tx, y0 + 0.72, tz), 0.03)
+            for sz in (-0.5, 0.5):
+                vb(tx - 0.2, tx + 0.2, y0 + 0.43, y0 + 0.47, tz + sz - 0.2, tz + sz + 0.2, '#a07850', r=0.012); vb(tx - 0.19, tx + 0.19, y0 + 0.7, y0 + 0.86, tz + sz + (0.2 if sz > 0 else -0.23), tz + sz + (0.23 if sz > 0 else -0.2), '#a07850', r=0.008)
+            acc(SK['lamp']).sphere(xf.p(tx, y0 + 1.95, tz), 0.06, seg=8, rings=5); xf_cyl(acc(SK['black']), xf, (tx, yt, tz), (tx, y0 + 2.0, tz), 0.004, seg=4)
+            _lathe(acc(SK['black']), xf, [(0.02, 0.16), (0.04, 0.14), (0.14, 0.0), (0.15, 0.0)], tx, y0 + 1.97, tz, seg=14)
+        vb(-iw / 2 + 0.4, iw / 2 - 0.4, y0, y0 + 0.95, zb, zb + 0.55, '#5a3c28', r=0.015); vb(-iw / 2 + 0.35, iw / 2 - 0.35, y0 + 0.95, y0 + 0.99, zb, zb + 0.6, '#b48a5e', r=0.01)
+        vb(0.4, 0.95, y0 + 0.99, y0 + 1.4, zb + 0.05, zb + 0.5, '#b9bdc0', r=0.03)
+        uvq(f'sk_in_board_{pid}', in_mat('board'), xf, [(-1.6, 1.55, zb + 0.01), (0.2, 1.55, zb + 0.01), (0.2, 2.15, zb + 0.01), (-1.6, 2.15, zb + 0.01)], (0, 0, 1, 1))
+    cm.finish(root, uv=False)
+
+
+FRUIT = {}
+def acc_fruit(col):
+    if col not in FRUIT: FRUIT[col] = L.flat(f'wz_fruit_{col[1:]}', col, rough=0.45)
+    return acc(FRUIT[col])
+
+
+def xf_vbox(cm, xf, x0, x1, y0, y1, z0, z1, col, k=1.0, r=0.015):
+    a = xf.p(x0, y0, z0); b = xf.p(x1, y1, z1); args = (min(a[0], b[0]), max(a[0], b[0]), y0, y1, min(a[2], b[2]), max(a[2], b[2]), col, k)
+    cm.crbox(*args, r=r, seg=2) if r > 0 else cm.cbox(*args)
+
+
+def xf_cyl(m, xf, a, b, r, seg=8): xf.cyl(m, a, b, r, seg=seg); return m
+
+
+def _lathe(m, xf, prof, x, y, z, seg=14):
+    bm = L.lathe(prof, seg=seg); m.add_bm(bm, Matrix.Translation(g2b(*xf.p(x, y, z)))); bm.free()
 
 
 # ---------------- 騎樓下的兩間小店（B5：巷口茶飲＋夏日冰菓室，AA-B 10-16）----------------
@@ -651,32 +794,32 @@ def rear_facade(spec, xf, W, D, F, totalH):
 # ---------------- 每一間的樣式（7b-2：相鄰的店至少三樣不同）----------------
 # 門廊雜物的 z：從玻璃（−recess）往外量，0.1～0.8；x：建築自己的座標（−W/2..W/2）
 SF = {
-    'A1': dict(door='alu', sign='lightbox', awning='metal', floor='f_granite', step=0.06, light='cool', ac=2.6, meter=-3.5,
+    'A1': dict(inner=True, door='alu', sign='lightbox', awning='metal', floor='f_granite', step=0.06, light='cool', ac=2.6, meter=-3.5,
                notes=[('copyprice', -2.6, 0.9, 0.62, 0.62), ('copyprice2', -1.9, 0.9, 0.62, 0.62), ('nobook', 1.6, 1.3, 0.5, 0.5), ('pay', 2.3, 1.45, 0.34, 0.34)],
                clutter=[('vend', -3.0, 0.42), ('boxes', 2.9, 0.35)]),
-    'A3': dict(door='wood', sign='wood', awning='stripe_green', floor='f_quarry', step=0.1, door_x=1.4,
+    'A3': dict(inner=True, door='wood', sign='wood', awning='stripe_green', floor='f_quarry', step=0.1, door_x=1.4,
                notes=[('hours', -1.2, 1.2, 0.36, 0.36), ('poster', 3.6, 1.0, 0.5, 0.6)],
                clutter=[('bookcart', -3.4, 0.35), ('aboard', 3.9, 0.45, 'menu'), ('pot', -4.9, 0.3, 'broad'), ('pot', 5.0, 0.3)]),
-    'A4': dict(door='open', sign='panel', awning='stripe_red', floor='f_mosaic', light='warm', ac=-2.7, duct=3.4,
+    'A4': dict(inner=True, door='open', sign='panel', awning='stripe_red', floor='f_mosaic', light='warm', ac=-2.7, duct=3.4,
                notes=[('menu', 2.4, 1.2, 0.6, 0.66)],
                clutter=[('noodle', -1.6, 0.42), ('stool_r', 0.6, 0.55), ('stool_b', 1.1, 0.4), ('stool_r', 2.9, 0.55)]),
-    'A5': dict(door='auto', sign='lightbox', awning=None, floor='f_white', light='cool', door_x=-1.4, rollbox=False,
+    'A5': dict(inner=True, door='auto', sign='lightbox', awning=None, floor='f_white', light='cool', door_x=-1.4, rollbox=False,
                notes=[('hours2', 0.6, 1.25, 0.42, 0.42), ('pay', 1.2, 1.3, 0.34, 0.34), ('hiring', 2.6, 1.1, 0.42, 0.46)],
                clutter=[('bins', 2.6, 0.32), ('umb', 0.3, 0.3), ('fridge', 3.3, 0.36)]),
-    'B2': dict(door='alu', sign='panel', awning='#3a6f8c', floor='f_terrazzo', light='cool', door_w=1.0, door_x=-1.6, meter=2.6,
+    'B2': dict(inner=True, door='alu', sign='panel', awning='#3a6f8c', floor='f_terrazzo', light='cool', door_w=1.0, door_x=-1.6, meter=2.6,
                notes=[('hours2', -0.6, 1.2, 0.4, 0.4), ('lostcat', 1.4, 1.1, 0.4, 0.42)],
                clutter=[('bench', 0.9, 0.35)]),
-    'B3': dict(door='lattice', sign='wood', awning='stripe_navy', floor='f_floral', step=0.12, noren=True, light='warm', door_x=-2.0, ac=4.8,
+    'B3': dict(inner=True, door='lattice', sign='wood', awning='stripe_navy', floor='f_floral', step=0.12, noren=True, light='warm', door_x=-2.0, door_w=1.8, ac=4.8,
                notes=[('menu', 2.2, 1.0, 0.58, 0.62), ('hours', 3.0, 1.2, 0.34, 0.34)],
                clutter=[('aboard', 4.4, 0.45, 'menu'), ('pot', -5.8, 0.3, 'broad'), ('pot', -5.2, 0.32), ('umb', 5.6, 0.3)]),
     'B5': dict(split=[dict(id='B5', kind='tea', x0=-7.0, x1=0.0, floor='f_white', shop=dict(name='巷口茶飲', sub='手搖飲・現煮珍珠', signBg='#f4ead8', signColor='#5c3a21', band='#7a9a5a'),
                            notes=[('pay', -2.9, 0.62, 0.26, 0.26), ('hiring', 2.75, 1.1, 0.4, 0.44)], clutter=[('bins', 3.0, 0.4)]),
                       dict(id='B5i', kind='ice', x0=0.0, x1=7.0, floor='f_terrazzo', shop=dict(name='夏日冰菓室', sub='剉冰・豆花・古早味', signBg='#f7efe0', signColor='#b0322a', band='#2f7a8a', serif=True),
                            notes=[('hours', 2.95, 1.3, 0.34, 0.34)], clutter=[('aboard', 3.0, 0.5, 'menu')])]),
-    'B7': dict(door='wood', sign='wood', awning=None, floor='f_terrazzo', step=0.08, light='warm', door_x=-2.0, door_w=1.0, ac=3.2,   # 半熟：新裝潢的小店（原木、大片玻璃、黑板菜單）
+    'B7': dict(inner=True, door='wood', sign='wood', awning=None, floor='f_terrazzo', step=0.08, light='warm', door_x=-2.0, door_w=1.0, ac=3.2,   # 半熟：新裝潢的小店（原木、大片玻璃、黑板菜單）
                notes=[('hours', -1.0, 1.25, 0.34, 0.34), ('pay', -0.55, 1.3, 0.26, 0.26)],
                clutter=[('aboard', 2.2, 0.5, 'chalk'), ('pot', -3.4, 0.35, 'broad'), ('pot', 3.3, 0.35, 'broad'), ('bench', 0.9, 0.45)]),
-    'B6': dict(door='open', sign='panel', awning='stripe_orange', floor='f_concrete', light='warm', ac=-3.7,
+    'B6': dict(inner=True, door='open', sign='panel', awning='stripe_orange', floor='f_concrete', light='warm', ac=-3.7,
                notes=[('pay', 3.5, 1.6, 0.32, 0.32)],
                clutter=[('crates', -1.2, 0.55), ('boxes', 3.4, 0.35), ('stool_b', 2.4, 0.45)]),
 }
