@@ -1386,7 +1386,8 @@ const STORY_EVENTS=[
     after:(G,GM)=>{ if(G.hour%24<15) GM.advance(15-G.hour%24); if(G.zone!=='campus'&&GM.enter) GM.enter('campus',{x:97.0,z:-66.5,yaw:-Math.PI/2}); } },
   /* P2 下課後的一群人（BB_105 第 137 行；AA_154 第 101 行）：Y0S1 第 3～5 週週四，初等會計學下課（普通教學館門口的腳踏車停放區）；第一次（之後的 P2b 另做）。
      選公館＝接 ★E05（同一天）；選別的、今天先回去、沒去＝E05 在 9/20（五）傍晚照自己的觸發（ev_y0_e05 的 auto 條件）。韋綸、唐睿還沒有人物資料，先用名字說話 */
-  { id:'ev_y0_p2', stage:'econ', title:'下課後的一群人', participants:['kexin'], location:'any', trigger:'class', afterClass:'acct_y0', term:['Y0S1'], weeks:[3,4,5], once:true, background:'blur',
+  { id:'ev_y0_p2', stage:'econ', title:'下課後的一群人', participants:['kexin'], location:'any', trigger:'class', afterClass:'acct_y0', term:['Y0S1'], weeks:[3,4,5], background:'blur',
+    prereq:{custom:G=>!G.flags.P2_PICK||G.flags.P2_PICK==='home'},   /* 去成一次就不再演；「今天先回去」的玩家下一次會計課下課再演一次（BB_105 P2「那下次！」＝P2b 補上第一次聚會），到第 5 週為止 */
     dialogue:[ {speaker:'韋綸',text:'走啦！'},{speaker:'econ_pinyu',expression:'neutral',text:'去哪？先說好，我只有一百五。'},{speaker:'唐睿',text:'我有兩百，但要留五十給明天。'},{speaker:'kexin',expression:'neutral',text:'（牽著腳踏車）你決定。'},
       {choice:[{text:'公館吃飯',set:{P2_PICK:'gongguan'},goto:'end'},{text:'河濱騎腳踏車',set:{P2_PICK:'river'},goto:'river'},{text:'總圖念書',set:{P2_PICK:'library'},goto:'lib'},{text:'「今天先回去。」',set:{P2_PICK:'home'},goto:'home'}]},
       {label:'river'},{speaker:null,text:'韋綸的鏈子掉了兩次。'},{speaker:'kexin',expression:'smile',text:'你的車，跟我的一起去修。'},{goto:'end'},
@@ -1481,6 +1482,20 @@ const STORY_EVENTS=[
   { id:'ev_y0_xl1', stage:'econ', title:'那罐肉燥', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S1'], weeks:[8], time:[18,24], once:true, background:'blur',
     prereq:{custom:G=>!!(G.flags&&G.flags.Y0_SAUCE)},
     dialogue:[ {speaker:'econ_zhengxun',text:'那罐肉燥還有嗎？我期中需要它。'} ] },
+  /* P1b 會計作業：平衡不了的那一行（BB_105 P1b；AA_154 第 96、105 行）：會計課下課後的走廊，兩種輪流——第 1 次（10/3，第 5 週；和誰對答案）、第 2 次（10/17，第 7 週，有韋綸）。
+     同一堂課下課 P2 還要演（「今天先回去」的玩家）的話 P2 先（afterClass 一堂只演一件）；第 1 次沒趕上第 5 週就在第 7 週，那樣第 2 次就沒有 */
+  { id:'ev_y0_p1b1', stage:'econ', title:'平衡不了的那一行', participants:['econ_pinyu','econ_zhengxun'], location:'any', trigger:'class', afterClass:'acct_y0', term:['Y0S1'], weeks:[5,6,7], once:true, background:'blur',
+    dialogue:[ {speaker:'econ_pinyu',text:'（翻作業）借貸不平衡。差一百元。'},
+      {speaker:'econ_zhengxun',text:'……你把折舊記成收入了。'},
+      {choice:[{text:'和阿勳對',goto:'x'},{text:'和品妤對',goto:'p'},{text:'自己再算一次',goto:'s'}]},
+      {label:'x'},{speaker:null,text:'阿勳只指了第五行。你就懂了。'},{goto:'end'},
+      {label:'p'},{speaker:'econ_pinyu',text:'差一百元，就是差三杯紅茶。去找。'},{goto:'end'},
+      {label:'s'},{speaker:null,text:'（算到第三次，平了。）'},{speaker:'econ_pinyu',text:'恭喜，你花了二十分鐘。'},
+      {label:'end'} ],
+    consequences:{stamp:['P1B1_DAY']} },
+  { id:'ev_y0_p1b2', stage:'econ', title:'平衡不了的那一行（二）', participants:['econ_zhengxun'], location:'any', trigger:'class', afterClass:'acct_y0', term:['Y0S1'], weeks:[7], once:true, background:'blur',
+    prereq:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_y0_p1b1)&&G.flags.P1B1_DAY!==G.day},
+    dialogue:[ {speaker:'韋綸',text:'我的平衡了！'},{speaker:'econ_zhengxun',text:'（看了一眼）……你兩邊都寫零。'} ] },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、
