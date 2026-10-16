@@ -310,8 +310,9 @@ def grille_mesh(w_, h_, dep=0.42):
     for y in (0.0, 0.32, h_ * 0.55, h_ - b * 1.6): xbar(m, (-w_ / 2, y + b * 0.8, dep - b / 2), (w_ / 2, y + b * 0.8, dep - b / 2), b * 1.6)
     for s in (-1, 1):
         x = s * w_ / 2
-        for k in (0, 2): xbar(m, (x, 0.0, dep * k / 3), (x, h_, dep * k / 3), b)
-        for y in (0.0, h_ * 0.55, h_ - b * 1.6): xbar(m, (x, y + b * 0.8, 0.0), (x, y + b * 0.8, dep), b * 1.6)
+        # 兩側籠子：一片朝外的薄片（效能第五輪；側面的條子從正面看是側邊、看不出厚度，從巷子斜看是正面）
+        for k in (0, 2): m.quad([(x, 0.0, dep * k / 3 - b / 2), (x, 0.0, dep * k / 3 + b / 2), (x, h_, dep * k / 3 + b / 2), (x, h_, dep * k / 3 - b / 2)])
+        for y in (0.0, h_ * 0.55, h_ - b * 1.6): m.quad([(x, y, 0.0), (x, y, dep), (x, y + b * 1.6, dep), (x, y + b * 1.6, 0.0)])
     for k in range(3):   # 底下的三條踏板：一條一片（雙面材質；第一版整片底板從街上看是一條黑帶）
         zc = dep * (k + 0.5) / 3; m.quad([(-w_ / 2, 0.03, zc - 0.03), (w_ / 2, 0.03, zc - 0.03), (w_ / 2, 0.03, zc + 0.03), (-w_ / 2, 0.03, zc + 0.03)])
     return proto(m.finish(None))
@@ -338,7 +339,7 @@ def ac_mesh(lite=False):
 
 
 def tank_mesh():
-    t = Mesh('tank', M['tank']); bmt = L.lathe([(0.0, 0.0), (0.55, 0.0), (0.6, 0.08), (0.6, 1.1), (0.55, 1.2), (0.25, 1.38), (0.0, 1.42)], seg=12)
+    t = Mesh('tank', M['tank']); bmt = L.lathe([(0.0, 0.0), (0.55, 0.0), (0.6, 0.08), (0.6, 1.1), (0.55, 1.2), (0.25, 1.38), (0.0, 1.42)], seg=10)   # 屋頂水塔：10 邊（效能第五輪）
     t.add_bm(bmt, Matrix.Translation(Vector((0, 0, 0.55)))); bmt.free()
     st = Mesh('tank_stand', M['metal'])
     for sx in (-1, 1):
@@ -404,7 +405,7 @@ def window_proto(wh, part):
 def potted_proto(kind, r, h, lift, size, n, seed):
     """盆栽（instancing）：陶盆＋葉片卡。原點＝盆底中央"""
     random.seed(seed)
-    pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper', y0=0.0, seg=8)   # 街上的盆栽：8 邊（Café 裡 18）
+    pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper4', y0=0.0, seg=8)   # 街上的盆栽：8 邊、4 點輪廓（Café 裡 18 邊）
     lv = Mesh('leaves', M[kind]); bush(lv, 0.0, lift, 0.0, size, n=n, span=0.45)
     return combine([pm.finish(None, smooth=True), lv.finish(None, uv=False)], f'potted_{kind}_{seed}')
 
@@ -435,10 +436,10 @@ def broad_proto(r, h, seed):
     import plants as PL_
     if '_PLM_ST' not in globals(): globals()['_PLM_ST'] = PL_.materials('wz_pl_')
     random.seed(seed)
-    pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper', y0=0.0, seg=8); parts = [pm.finish(None, smooth=True)]
+    pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper4', y0=0.0, seg=8); parts = [pm.finish(None, smooth=True)]
     tmp = B.group('tmp_pl', None)
     bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=12, radius1=r * 0.95, radius2=r * 0.95, depth=0.02); bmesh.ops.translate(bm, verts=bm.verts, vec=g2b(0.0, h - 0.03, 0.0)); B.mesh_obj('tmp_pl_soil', bm, _PLM_ST['soil'], tmp)
-    PL_.broad_plant(B.mesh_obj, _PLM_ST, 'tmp_pl', tmp, 0.0, h - 0.02, 0.0, 0.62, 0.42, seed, stems=3)   # 街上的盆栽遠看：3 根莖（室內 5 根）
+    PL_.broad_plant(B.mesh_obj, _PLM_ST, 'tmp_pl', tmp, 0.0, h - 0.02, 0.0, 0.62, 0.42, seed, stems=3, leaf_n=4)   # 街上的盆栽遠看：3 根莖（室內 5 根）、葉子 4 段（室內 6）
     for ob in list(tmp.children):
         ob.parent = None
         if ob.data.materials and 'leaf_' in ob.data.materials[0].name: L.smooth_mesh(ob, angle=1.2)
@@ -776,6 +777,15 @@ if os.environ.get('WZ_DIAG'):   # 效能診斷：合併前每個材質畫出來�
             mn = ob.data.materials[pg.material_index].name if ob.data.materials else '-'; _tc[mn] += len(pg.vertices) - 2; _no[(mn, ob.name.split('.')[0])] += len(pg.vertices) - 2
     for k, v in _tc.most_common(45): print('DIAG', v, k, '->', WZ_VC[k].name if k in WZ_VC else '')
     for k, v in _no.most_common(60): print('DIAGO', v, k)
+# 效能第五輪：店面組件（sk_*）離地 0.95 m 以下、朝下的面刪掉——放在地上、層架上的箱子、桌椅、櫃子的底面，鏡頭（1.5 m 以上往下看）看不到
+_cull = 0
+for _ob in [o for o in root.children_recursive if o.type == 'MESH' and o.name.startswith('sk_') and o.data.users == 1]:
+    _bm = bmesh.new(); _bm.from_mesh(_ob.data); _mw = _ob.matrix_world; _n3 = _mw.to_3x3().inverted().transposed()
+    _del = [f for f in _bm.faces if (_n3 @ f.normal).normalized().z < -0.95 and (_mw @ f.calc_center_median()).z < 0.95]
+    if _del:
+        _cull += sum(len(f.verts) - 2 for f in _del); bmesh.ops.delete(_bm, geom=_del, context='FACES_ONLY'); _bm.to_mesh(_ob.data)
+    _bm.free()
+print('{"cull_bottoms_tris": %d}' % _cull)
 L.vc_consolidate(root, WZ_VC)
 L.split_by_material(root, keep=_keep)
 # 小貼圖材質（店內地板、條紋雨遮、菜單、書背…）合成一張貼圖集（效能第二輪，2026-10-16）
