@@ -5037,6 +5037,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "只取檔案；gym_arena、gongguan 整合測試 LAWWW-B 跑；公館整合測試（23:4x）：載入、導航、碰撞、互動點、效能 PASS；招牌三項 FAIL 是之前就有的（G03 招牌不見，3ccc781e 之前就 49 面）"
+  },
+  {
+   "id": "DL-AA-CAMPL1",
+   "date": "2026-10-16",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx + claude/elegant-brown-fcos7n",
+   "sha": "AA_205 37e34086；BB_177 v5 eee886d8（含 e627d747）",
+   "what": "CAMP-L1 正式交付：開學前迎新宿營 8/22～24（強制參加、新遊戲從 8/22 開始、經濟系也強制）、每天兩個以上活動、臥底＝Kevin（凱文，四個破綻，CAMP_MOLE_CLUE 計數）、小隊七人 FIRST_MET where:'camp'、小語 CAMP_SEEN、以安不在；茶會（AA_195 4-5＋BB_168 第 7 節、6-3）；9/1 阿哲宿營版（AA_205 6-2）；拿掉舊 9/8 報名、9/26 名單、9/27～28 camp、9/28 阿哲私訊；沒去宿營的舊版本只當開發起點防呆",
+   "task": "CAMP-L1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "AA、BB 互審完成（AA_200 第 6 節）；驗收照 AA_197 1-7 大一上那一列"
   }
  ],
  "ignored": [
