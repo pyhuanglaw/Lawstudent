@@ -264,7 +264,7 @@ const GAME = (function(){
   function ls(){ try{ return window.localStorage; }catch(e){ return null; } }
   function write(key,obj){ const st=ls(); if(!st) return false; try{ st.setItem(key,JSON.stringify(obj)); return true; }catch(e){ return false; } }
   function read(key){ const st=ls(); if(!st) return null; try{ const t=st.getItem(key); return t?JSON.parse(t):null; }catch(e){ return null; } }
-  function autosave(){ if(!G||!E.player||D.busyDepth>0||GM.titleIdle) return; /* 標題畫面（還沒開始或讀檔）不能自動存檔：否則會用空白的第一天蓋掉玩家真正的進度 */ write(KEY_AUTO,snapshot()); GM.lastAuto=performance.now(); }
+  function autosave(force){ if(!G||!E.player||(D.busyDepth>0&&!force)||GM.titleIdle) return;   /* force：劇情中途的存檔點（出遊到了那裡，outings3d.js）*/ /* 標題畫面（還沒開始或讀檔）不能自動存檔：否則會用空白的第一天蓋掉玩家真正的進度 */ write(KEY_AUTO,snapshot()); GM.lastAuto=performance.now(); }
   GM.autosave=autosave;
   /* 不可逆的轉換之前先備份（CLAUDE.md 存檔規則第 9 點；例：經濟系 8/31 換到法律系，AA_154 2-4b 第 4 點）：寫 fatiao3d_backup，另外寫一份之後不會被蓋掉的 fatiao3d_backup_<key> */
   GM.backupNow=function(label,key){ const s=snapshot(); s.backupLabel=label||''; const ok=write(KEY_BACKUP,s); if(key) write(KEY_BACKUP+'_'+key,s); return ok; };

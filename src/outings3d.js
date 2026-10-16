@@ -58,9 +58,10 @@ const OUT=(function(){
     if(q.goto){ await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title,tr.travel,2400); const arrive=Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)-(q.early||0)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.updateHUD) GM.updateHUD();
       if(GM.enter) await GM.enter(q.goto.zone,{x:q.goto.x,z:q.goto.z,yaw:q.goto.yaw||0,lv:q.goto.lv|0}); await GM.fade(false); if(GM.autosave) GM.autosave(); return true; }   /* goto：只帶到那個地點（3D 的事件在那裡等，例：v0 E12 醉月湖；AA_154 A32）；early＝比 h 早幾小時到 */
     if(!ev||typeof EVENTS==='undefined') return false;
+    GM.sceneBegin(); try{   /* 整趟出遊是一段劇情：路上、演完、回程的轉場中間，校園的自動事件（偶遇、打招呼）不能插進來（使用者 2026-10-16：和可昕走完「回到台大」就卡住，畫面疊了偶遇的旁白）*/
     await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title,tr.travel,2400);
     const arrive=q.arrived?t(G.day,G.hour):Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.updateHUD) GM.updateHUD();
-    q.arrived=true; if(GM.autosave) GM.autosave();   /* 到了再存一次：中途被踢回標題，讀檔就是到了那裡、重新演這一段（不用再搭一次車）*/
+    q.arrived=true; if(GM.autosave) GM.autosave(true);   /* 到了再存一次：中途被踢回標題，讀檔就是到了那裡、重新演這一段（不用再搭一次車）*/
     if(typeof ADV!=='undefined'){ ADV.begin({background:ev.background||'dark'}); }
     await GM.fade(false); if(typeof ev.beforeOuting==='function') await ev.beforeOuting(G,GM,q);   /* 演之前在同一個畫面先做的事（例：可昕的視訊讀書先選讀哪一科，BB_95 9-5）*/
     try{ await EVENTS.run(ev); } finally { running.delete(q.id); } q.state='done'; delete q.arrived; if(typeof ev.afterOuting==='function') await ev.afterOuting(G,GM,q);   /* 演完以後在同一個畫面接著做的事（例：可昕的視訊之後發成績單）*/
@@ -68,6 +69,7 @@ const OUT=(function(){
     if((ev.participants||[]).includes('kexin')&&typeof STORY!=='undefined'&&STORY.ladNext){ const md=q.verb==='接起來'||q.place==='視訊'?'video':'meet', st=STORY.ladNext(G,'kexin',md);   /* 可昕的閒聊階梯（BB_130：只在見面／視訊推進，路上不推進）：演完那一段接著聊一層；今天推進過或條件不到就不聊（不用短招呼）*/
       if(st) await STORY.ladPlay(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin',st); }
     await GM.fade(true); GM.advance(ev.hours||2); await GM.fade(false); if(GM.caption&&!(o&&o.fromHome&&typeof HOME!=='undefined'&&(HOME.livesHome?HOME.livesHome(G):HOME.baseMode&&HOME.baseMode(G)))) GM.caption('',q.back||'回到台大。',2400);   /* 休學後從家裡出發的：回家（home3d.js 的選單接著）*/
+    } finally { GM.sceneEnd(); }
     if(GM.autosave) GM.autosave(); return true; };
   return S;
 })();

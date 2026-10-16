@@ -12435,6 +12435,27 @@
    },
    "source": "使用者 2026-10-16 22:3x（「去找可昕就會跳到標題…自動存檔是還沒去政大之前我要一直重來」）",
    "authorized": "使用者（P0 bug）"
+  },
+  {
+   "id": "BUG-OUTING-STUCK",
+   "title": "和可昕出遊（再去走走）演完「回到台大」就卡住：畫面疊了校園偶遇的旁白（兩次）和可昕的閒聊",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "next": "原因：出遊演完到回程轉場之間不在劇情狀態，校園的自動事件（ev_pool_greet 偶遇）插進來，和可昕的閒聊階梯同時跑、搶同一個對話框。修：outings3d.js S.go 整趟包 sceneBegin／sceneEnd（到了的存檔用 autosave(true)）；v0_c1_unit 第 6 項；等瀏覽器",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去政大找可昕",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 22:3x 截圖",
+   "authorized": "使用者（P0 bug）"
   }
  ]
 }

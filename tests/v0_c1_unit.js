@@ -37,6 +37,10 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
     const keep=G; G=s1; SOCIAL.bind(G); EVENTS.bind(GM); const qd=OUT.due(G); check('5. 讀「到了」那一份存檔：還是這一趟（可以重新演），不再加一次車程',!!qd&&qd.id==='y0_c1',JSON.stringify(qd&&qd.id));
     if(qd){ saves.length=0; said=[]; picks=['欠我錢']; await OUT.go(GM,qd); const r0=saves[0]&&JSON.parse(saves[0]); check('5. 重新演：時間從到的時間開始（19:00），演完 done',r0&&Math.abs(r0.hour-19)<1e-6&&OUT.get(G,'y0_c1').state==='done',r0&&String(r0.hour)); }
     G=keep; SOCIAL.bind(G); EVENTS.bind(GM); GM.autosave=()=>{}; }
+  { let depth=0, maxD=0, minDuring=99, inEv=false; const sb=GM.sceneBegin, se=GM.sceneEnd; GM.sceneBegin=()=>{ depth++; maxD=Math.max(maxD,depth); }; GM.sceneEnd=()=>{ depth--; };
+    const oldRun=EVENTS.run; EVENTS.run=async ev=>{ minDuring=Math.min(minDuring,depth); return oldRun(ev); }; const q2=OUT.get(G,'y0_c1'); q2.state='planned'; picks=['欠我錢']; said=[]; await OUT.go(GM,q2);
+    EVENTS.run=oldRun; GM.sceneBegin=sb; GM.sceneEnd=se;
+    check('6. 整趟出遊包在一段劇情裡（演的時候、回程轉場都不插校園的自動事件；使用者 2026-10-16：和可昕走完「回到台大」就卡住）',minDuring>=1&&depth===0,JSON.stringify({minDuring,depth,maxD})); }
   check('2. 原文：社長的規則、唐睿「我是一隻迷路的企鵝。」、祐廷「對，而且……」',L[0]==='熱身。規則只有一個：對方說什麼，你都說「對，而且——」。'&&L[1]==='（對祐廷）我是一隻迷路的企鵝。'&&L[2]==='對，而且……',JSON.stringify(L.slice(0,3)));
   check('2. 「而且……你欠我錢。」→ 唐睿「……這是討債。」全場笑；IMPROV_LINE 記這一句',L.includes('對，而且——（停住）——這不是熱身，這是討債。')&&L.includes('全場笑。')&&G.flags.IMPROV_LINE==='而且……你欠我錢。');
   check('2. 可昕「（小聲）你接得比我想的好。」、社長「新來的，下次還來嗎？」',L.includes('（小聲）你接得比我想的好。')&&L.includes('新來的，下次還來嗎？'));
