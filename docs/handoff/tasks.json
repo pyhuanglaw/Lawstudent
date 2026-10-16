@@ -12609,9 +12609,9 @@
    "title": "兩點半 Café 地板改自流坪水泥灰（原本人字拼木地板和桌子顏色太近）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "LAWWW2-B 改 cafe_interior.glb 的 int_floor 材質（cafe_layout.py 295、cafe_interior.py mat['floor']）→ 交件附修改前後遊戲截圖 → LAWWW-B 整合。程序化備用地板 LAWWW-B 已改水泥灰（zones3d.js）",
+   "next": "ef689b67 整合（GLB＋修改前後截圖 docs/art-rebuild/second_ai/test_shots/cafe_floor/）；待 cafe_glb_integration＋使用者看",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12630,7 +12630,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "遊戲內 Café 吧檯一帶白天，修改前後同角度截圖；地板和桌子明顯區分",
     "receiver": "LAWWW-B",
-    "ack": "ACK"
+    "ack": "ACTIONED"
    }
   },
   {
