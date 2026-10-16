@@ -1175,6 +1175,13 @@ const STORY = (function(){
       if(PHONE.inGroup(G,'family_law')&&!PHONE.sent(G,'grad_family')){ const th='g:family_law'; PHONE.at(G,gd,13,[{th,from:'kevin',name:'Kevin',text:'📷（學長姊的畢業照）'},{th,from:'heroine_05',name:'溫學姊',text:'恭喜。'}],'grad_family'); } } }
     /* 芷若 Z5（BB_96 3-5；交接包 v2）：週五答應（zhiruoFilmDay）＝隔天週六 10:00 的早場（出遊 ev_zhiruo_early_show）；「下次妳挑」的回聲：兩天後 21:00 她傳一張很長的片單
        （單身＝私訊；交往中＝三個人的群組，方奕廷回「這張表要看到明年」）*/
+    /* 芷若的午場（BB_96 3-5b）：Z5 拒絕早場（zrDeclineDay，週五）之後第 3 週的週六 09:30 兩則（交往中多一句「方奕廷也去。」）；回覆到 11:25。「起得來。」＝11:40 出遊（ev_zhiruo_matinee）；「今天不行。」這學期不再約 */
+    if(F.zrDeclineDay!=null&&!F.zhiruo_film_date&&typeof OUT!=='undefined'){ const ms=F.zrDeclineDay+22, T3=typeof CALENDAR!=='undefined'?CALENDAR.termOf(ms):null;
+      if(T3&&T3.id==='Y1S2'&&T3.week>=15&&T3.week<=17){ const th='p:heroine_02', Z=t=>({th,from:'heroine_02',text:t});
+        if((G.day>ms||(G.day===ms&&G.hour>=9.5))&&G.day<=ms&&!PHONE.sent(G,'zr_matinee_ask')){ const L=[Z('今天有午場。你上次說早場起不來。'),Z('十一點四十。這個時間，你總起得來了吧。')]; if(F.dating_kexin) L.push(Z('方奕廷也去。'));
+          Object.assign(L[L.length-1],{ask:{id:'zr_matinee',until:ms*24+11.25,opts:[{t:'起得來。',set:{ZR_MATINEE:'yes'},say:[Z('好。戲院門口見。午場也是會開演的。')]},{t:'今天不行。',set:{ZR_MATINEE:'no'},say:[Z('好。……那我自己去。我本來就是自己去的。')]}]}});
+          PHONE.at(G,ms,9.5,L,'zr_matinee_ask'); }
+        if(F.ZR_MATINEE==='yes'&&G.day===ms&&!OUT.get(G,'zr_matinee')) OUT.plan(G,{id:'zr_matinee',ev:'ev_zhiruo_matinee',day:ms,h:11+40/60,late:0.25,place:'公館的二輪戲院門口',title:'公館 11:40：二輪戲院的午場',travel:'走過去約 15 分鐘',travelH:0.25}); } }
     if(F.zhiruo_film_date&&F.zhiruoFilmDay!=null&&typeof OUT!=='undefined'&&!OUT.get(G,'zr_early_show')&&G.day<=F.zhiruoFilmDay+1) OUT.plan(G,{id:'zr_early_show',ev:'ev_zhiruo_early_show',day:F.zhiruoFilmDay+1,h:9+40/60,place:'公館的二輪戲院門口',title:'東京物語的早場（10:00 開演）',travel:'走過去約 15 分鐘',travelH:0.25});   /* AA_147 第 1 節 #3：09:40 在戲院門口碰面、10:00 開演、約 12:00 去豆漿店 */
     if(F.Z5_NEXT==='hers'&&F.zhiruoFilmSeenDay!=null&&!PHONE.sent(G,'zr_film_list')){ const d=F.zhiruoFilmSeenDay+2;
       if(F.dating_kexin){ if(!PHONE.inGroup(G,'zr_film')) PHONE.join(G,'zr_film','東京物語'); PHONE.at(G,d,21,[{th:'g:zr_film',from:'heroine_02',text:'📄（一張很長的片單）'},{th:'g:zr_film',from:'npc_fangyt',text:'這張表要看到明年'}],'zr_film_list'); }
@@ -1441,6 +1448,8 @@ const STORY = (function(){
   S.roomItemList=function(G){ const F=(G&&G.flags)||{}, L=ROOM_ITEMS.slice();
     if(F.XMAS_HL3) L.push(['桌上的三色螢光筆',F.GREEN_HIGHLIGHTER?'明軒送的三色螢光筆，和上次那支綠的放在一起。他說他用不到。':'明軒送的三色螢光筆。他說他用不到。']);
     if(G&&S.kaiRoommate(G)) L.push(['阿凱的泡麵評鑑表',S.kaiSheet(G)]);
+    if(typeof SOCIAL!=='undefined'){ if(SOCIAL.has('heroine_02','WATCHED_FILM_GROUP')) L.push(['三張連號的票根',['三張連號的票根，你留著中間那張。','另外兩張在他們那裡。……應該吧。']]);   /* 電影票根（BB_96 3-5c）：同一個存檔只會有一種 */
+      else if(SOCIAL.has('heroine_02','WATCHED_FILM')) L.push(['電影票根',F.ZR_MATINEE_SEEN?['二輪戲院的票根。《晚春》，午場 11:40。','票根的角折了一下。是散場時太陽太大，你拿它擋了一下。']:['二輪戲院的票根。《東京物語》，早場。','你把它夾在民總課本裡。課本換了，票根留著。']]); }
     { const A=F.KX_ANNIV&&F.KX_ANNIV[1]; if(A&&A!=='missed') L.push(['她的週年卡片','假設我們從最高點開始交往。']); }   /* K7 週年去了的玩家（AA-B 2026-10-16：標籤「她的週年卡片」、說明用她卡片第一頁那句，不另寫）*/
     { const T=F.KX_TRIP&&F.KX_TRIP.Y1S2, txt={sea:'海邊。她拎著鞋子站在浪裡，褲管濕到膝蓋。',oldtown:'老街。牆上貼滿發黃的老照片，她站在中間，手上拿著第三家的點心。',stars:'山上。照片幾乎全黑，右上角有一個小白點。她說那是星星。你覺得是路燈。'}[T]; if(txt) L.push(['旅行的照片',txt]); }   /* 可昕 K8 春假旅行（BB_96 9-5，BB 14265eb）*/
     return L; };

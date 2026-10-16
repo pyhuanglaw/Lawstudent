@@ -71,5 +71,27 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     at(17,2,12.5); await EVENTS.run(z6); const F=CHARACTERS.npc_fangyt.name;
     check('Z6 台詞照原文；FANG_HINT',JSON.stringify(lines())===JSON.stringify([F+'：你最近常去兩點半？',F+'：芷若跟我高中同班。',F+'：她高中每天放學都去看二輪電影。一個人。',F+'：她都不跟人講。我是有一次剛好在戲院遇到她。',F+'：（停了一下）……她喜歡小津。你如果要約她，不要約好萊塢的。',F+'：我不是叫你約她。我只是說。'])&&SOCIAL.has('npc_fangyt','FANG_HINT'),JSON.stringify(lines()));
     check('記憶的中文說明：WATCHED_FILM、WATCHED_FILM_GROUP、FANG_HINT',['WATCHED_FILM','WATCHED_FILM_GROUP','FANG_HINT'].every(k=>!!SOCIAL.MEMORY_LABEL[k])); }
+  // 芷若的午場（BB_96 3-5b）、電影票根（3-5c）
+  { const mat=ev('ev_zhiruo_matinee'); check('午場：事件在',!!mat);
+    prep(FRI,20); picks=['起不來']; await EVENTS.run(inv); check('午場：拒絕早場記 zrDeclineDay（週五）',G.flags.zrDeclineDay===FRI);
+    const MS=FRI+22; check('午場：三週後的週六（第 15 週）',CALENDAR.dateOf(MS).wd===6&&CALENDAR.termOf(MS).week===15);
+    const base=JSON.stringify(G); const back=()=>{ G=JSON.parse(base); SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; picks=[]; };
+    back(); G.day=MS; G.weekday=6; run(9.0,9.4); check('午場：09:30 以前沒有訊息',!TH('p:heroine_02').some(m=>m.text==='今天有午場。你上次說早場起不來。'));
+    run(9.45,9.6); const T=TH('p:heroine_02').map(m=>m.text);
+    check('午場：09:30 兩則「今天有午場。你上次說早場起不來。」「十一點四十。這個時間，你總起得來了吧。」、回覆到 11:25',T.includes('今天有午場。你上次說早場起不來。')&&T.includes('十一點四十。這個時間，你總起得來了吧。')&&TH('p:heroine_02').find(m=>m.ask).ask.until===MS*24+11.25,JSON.stringify(T));
+    const s2=JSON.stringify(G);
+    PHONE.answer(G,'zr_matinee',0); run(9.65,9.7); const q=OUT.get(G,'zr_matinee');
+    check('午場：「起得來。」→「好。戲院門口見。午場也是會開演的。」＋11:40 出遊',TH('p:heroine_02').some(m=>m.text==='好。戲院門口見。午場也是會開演的。')&&!!q&&Math.abs(q.h-(11+40/60))<1e-6&&q.ev==='ev_zhiruo_matinee');
+    const a0=SOCIAL.rel('heroine_02').aff|0; G.hour=11.7; said=[]; picks=['下午要做什麼']; await EVENTS.run(mat); const L=lines(), nm=CHARACTERS.heroine_02.name;
+    check('午場：散場「散場的時候，外面還是白天。」→ 三句 →「那下午要做什麼？」→ 溫州街 →「今天這部，叫《晚春》。……」',L[0]==='散場的時候，外面還是白天。'&&L.includes(nm+'：……可是也有好處。看完，還有一整個下午。')&&L.includes(nm+'：我兩點要去溫州街。……還有半小時。你決定。')&&L.includes('你們沿著新生南路慢慢走到溫州街。她一路在講剛剛那個父親說的話，講到一半停下來。')&&L[L.length-1]===nm+'：今天這部，叫《晚春》。你不用記片名。記得是午場就好。',JSON.stringify(L));
+    check('午場：單身＝WATCHED_FILM、aff +3；票根是《晚春》那張',SOCIAL.has('heroine_02','WATCHED_FILM')&&(SOCIAL.rel('heroine_02').aff|0)>=a0+3&&STORY.roomItemList(G).some(r=>r[0]==='電影票根'&&r[1][0]==='二輪戲院的票根。《晚春》，午場 11:40。'));
+    G=JSON.parse(s2); SOCIAL.bind(G); EVENTS.bind(GM); said=[]; PHONE.answer(G,'zr_matinee',1); run(9.65,12);
+    check('午場：「今天不行。」→「好。……那我自己去。我本來就是自己去的。」、沒有出遊、不扣分',TH('p:heroine_02').some(m=>m.text==='好。……那我自己去。我本來就是自己去的。')&&!OUT.get(G,'zr_matinee'));
+    back(); G.flags.dating_kexin=true; G.day=MS; G.weekday=6; run(9.45,9.6); check('午場：交往中多一句「方奕廷也去。」（回覆掛在這一句）',TH('p:heroine_02').some(m=>m.text==='方奕廷也去。'&&m.ask));
+    PHONE.answer(G,'zr_matinee',1); picks=['早場起得來']; said=[]; G.hour=11.7; await EVENTS.run(mat); const L2=lines(), fy=CHARACTERS.npc_fangyt.name;
+    check('午場：交往中＝方奕廷「午場出來太陽還在。我每次都覺得被騙。」→「……你們兩個想的一樣。」；「下次我早場起得來。」＝ZR_EARLY_PROMISE；WATCHED_FILM_GROUP；票根三張',L2.includes(fy+'：午場出來太陽還在。我每次都覺得被騙。')&&L2.includes(nm+'：……你們兩個想的一樣。')&&G.flags.ZR_EARLY_PROMISE===true&&SOCIAL.has('heroine_02','WATCHED_FILM_GROUP')&&STORY.roomItemList(G).some(r=>r[0]==='三張連號的票根'),JSON.stringify(L2));
+    back(); G.day=FRI+29; run(9.4,10); check('午場：第 4 週以後不會補發',!TH('p:heroine_02').some(m=>m.text==='今天有午場。你上次說早場起不來。'));
+    fresh(FRI+5,20,'dorm'); SOCIAL.remember('heroine_02','WATCHED_FILM','《東京物語》的早場'); check('票根：Z5 兩人版＝《東京物語》那張',STORY.roomItemList(G).some(r=>r[0]==='電影票根'&&r[1][0]==='二輪戲院的票根。《東京物語》，早場。'));
+    fresh(FRI+5,20,'dorm'); check('票根：沒看過電影＝沒有',!STORY.roomItemList(G).some(r=>/票根/.test(r[0])&&r[0]!=='摩天輪的票根（夾在桌墊下）')); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });
