@@ -309,7 +309,20 @@ def register(args):
     x = roles.get(r) or {}
     head = git(args.root, 'rev-parse', '--short=8', 'HEAD')[1] or '?'
     if x.get('account') == me and x.get('state') == 'on' and x.get('session') == args.session:
-        print(f'{r} 已經是帳號 {me}（{args.session}）在值班，不用再登記')
+        rp = os.path.join(args.root, ROLE_FILE.format(role=r))
+        if os.path.exists(rp) and not getattr(args, 'wip', None):
+            print(f'{r} 已經是帳號 {me}（{args.session}）在值班，不用再登記')
+            return 0
+        # 補登記：duty.json 已經是你，但自己分支上還沒有 duty_<職位>.json（舊制度接班的職位），或要更新 WIP 清單
+        reg = {'role': r, 'account': me, 'session': args.session, 'branch': args.branch, 'since': x.get('since') or now(), 'state': 'on',
+               'sinceSha': x.get('sinceSha') or x.get('sha') or head, 'userOk': False}
+        if getattr(args, 'wip', None):
+            reg['wip'] = args.wip
+        _write(args.root, ROLE_FILE.format(role=r), reg)
+        if r == 'LAWWW' and getattr(args, 'wip', None):
+            x['wip'] = args.wip
+            _write(args.root, DUTY, d)
+        print(f'補登記：{r} 已經是帳號 {me}（{args.session}）在值班；寫了自己的 {ROLE_FILE.format(role=r)}' + ('（含 WIP：' + '、'.join(args.wip) + '）' if getattr(args, 'wip', None) else '') + '——commit＋push 以後，值班 LAWWW 跑 duty sync')
         return 0
     prev_acc = x.get('account')
     no_handoff = prev_acc and prev_acc != me and x.get('state') != 'handed-off'
