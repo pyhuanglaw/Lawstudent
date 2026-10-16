@@ -9555,8 +9555,8 @@
    "title": "D85、D86、D87 規則送達值班的三個職位並取得 ACK（LAWWW2-B、AA-B、BB-B）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "ACK：AA-B D86 收到（03:41／03:43），D87、D88 待回；BB-B D85～D87 收到（04:01），D88 待回；LAWWW2-B 04:01 主動轉來 D88 並開始做，正式派工（04:03、04:0x）待回",
+   "status": "已驗收",
+   "next": "—",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -9569,7 +9569,8 @@
     "confirmed": true
    },
    "source": "使用者 2026-10-16 03:4x～03:5x",
-   "authorized": "D85、D86"
+   "authorized": "D85、D86",
+   "evidence": "ACK：AA-B（D86、D87、D88）、BB-B（D85～D88）、LAWWW2-B（D84～D88，04:18）"
   },
   {
    "id": "V3-B134",

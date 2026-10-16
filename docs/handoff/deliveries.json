@@ -4,7 +4,7 @@
  "pattern": "交付|ART_APPROVED|READY_FOR_ART_REVIEW|MODEL_READY|通過|驗收|閒聊階梯|交接包|法律審查|盤點|清查|裁定|規則檔|AA_1\\d\\d|BB_1\\d\\d",
  "scannedThrough": {
   "origin/claude/funny-albattani-iawshm": "6e5a02b6",
-  "origin/claude/cool-heisenberg-o8kuqx": "88337c3d",
+  "origin/claude/cool-heisenberg-o8kuqx": "ccf231e1",
   "origin/claude/elegant-brown-fcos7n": "12d0f473"
  },
  "deliveries": [
@@ -1483,6 +1483,30 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "LAWWW2-B ART-19 疊九格"
+  },
+  {
+   "id": "DLV-1016-124",
+   "date": "2026-10-16T04:5xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "7e4b6e35",
+   "what": "AB-09②：v0 文件時間標註照 AA_154 改；AB-10、AB-12 BB_139 併進 AA_159",
+   "task": "V0-B1、V0-B3",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "v0 開工時用"
+  },
+  {
+   "id": "DLV-1016-125",
+   "date": "2026-10-16T04:5xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "9c5a8dad",
+   "what": "AB-07 法律審查第 10 批（大四下 17 項）",
+   "task": "V4-SYL",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "大四課堂內容匯入時一起用"
   }
  ],
  "ignored": [
@@ -1520,6 +1544,11 @@
    "sha": "19b192f8",
    "branch": "origin/claude/elegant-brown-fcos7n",
    "why": "BB-B 自己的進度紀錄"
+  },
+  {
+   "sha": "ccf231e1",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "LAWWW-B 沒有寫進永久規則：這是放寬使用者自己訂的 P0 考題禁令，由另一個 AI 轉述，等使用者直接向 LAWWW-B 確認；確認前 LAWWW 不整合 AI 題"
   }
  ]
 }
