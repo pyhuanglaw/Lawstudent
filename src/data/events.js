@@ -2139,7 +2139,7 @@ const STORY_EVENTS_V11=[
   { id:'ev_zhiruo_matinee', title:'晚春的午場', participants:['heroine_02'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,   /* 11:40 開演 → 13:30 散場 → 走到溫州街約 14:00 */
     dialogue:[ {scene:'公館・二輪戲院',bg:'gongguan_cinema'},
       {speaker:null,text:'散場的時候，外面還是白天。'},
-      {if:{flags:['dating_kexin']},speaker:'npc_fangyt',text:'午場出來太陽還在。我每次都覺得被騙。'},{if:{flags:['dating_kexin']},speaker:'heroine_02',expression:'smile',text:'……你們兩個想的一樣。'},
+      {if:{flags:['dating_kexin']},speaker:'npc_fangyt',text:'午場出來太陽還在。我每次都覺得被騙。'},{if:{flags:['dating_kexin']},speaker:'heroine_02',expression:'smile',text:'……我也是。'},
       {speaker:'heroine_02',expression:'thinking',text:'（瞇起眼睛）午場最可惜的就是這個。'},
       {speaker:'heroine_02',expression:'thinking',text:'看完一部電影出來，世界應該要變一點。結果太陽還在原來的地方。'},
       {speaker:'heroine_02',expression:'smile',text:'……可是也有好處。看完，還有一整個下午。'},
