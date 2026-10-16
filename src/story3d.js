@@ -182,7 +182,8 @@ const STORY = (function(){
       else if(act==='desk'){ /* legacy kai */ }
       else if(act==='follow'){ const P=E.player.obj; n=GM.spawnCharacter(id,P.position.x-Math.sin(P.rotation.y)*1.2+0.5,P.position.z-Math.cos(P.rotation.y)*1.2,{beh:'follow',lv:E.player.lv|0}); if(n) n.followOff=1.1; }   /* 和你一起走過去的人（邀約「現在一起過去」）*/
       else if(act==='wait'&&ent.invite){ const sp=E.zone.spawn||{x:0,z:0}; let x=sp.x+1.6, z=sp.z+1.2; if(E.canStand&&!E.canStand(x,z,0.32,0)){ x=sp.x; z=sp.z+1.6; } n=GM.spawnCharacter(id,x,z,{pose:'idle'}); if(n){ n.frozen=true; if(GM.face) GM.face(n,sp.x,sp.z); } }   /* 約在路上碰面（溫州街）：在入口附近等 */
-      else { const rs=walkRoutes[zoneId]||[]; if(!rs.length){ n=GM.spawnCharacter(id,0,0,{}); return n; } const r=rs[(routeI++)%rs.length]; let wp=r[(Math.random()*r.length)|0];
+      else { const rs=walkRoutes[zoneId]||[]; if(!rs.length){ n=GM.spawnCharacter(id,0,0,{}); return n; } const nr=ent.near, dq=q=>Math.hypot(q[0]-nr[0],q[1]-nr[1]), dr=r=>Math.min(...r.map(dq));
+        const r=nr?rs.slice().sort((a,b)=>dr(a)-dr(b))[0]:rs[(routeI++)%rs.length]; let wp=nr?r.slice().sort((a,b)=>dq(a)-dq(b))[0]:r[(Math.random()*r.length)|0];   /* 作息寫了 near（例：芷若「外文系的課後在傅鐘附近」）：走離那一點最近的路線、從最近的點出現——原本路線輪流分配，v9.8 多了幾個人以後她被分到校園另一頭（v9.8 回歸 flow_first_meet A）*/
         if(refresh){ const P=E.player.obj.position; for(const q of r) if(Math.hypot(q[0]-P.x,q[1]-P.z)>Math.hypot(wp[0]-P.x,wp[1]-P.z)) wp=q; }   /* 待在區域裡補人：從路線上離玩家最遠的點走出來，不在眼前憑空出現 */
         n=GM.spawnCharacter(id,wp[0],wp[1],{beh:'wander',waypoints:r}); } return n; };
     // 教授：依課表
