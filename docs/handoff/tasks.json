@@ -12357,9 +12357,9 @@
    "title": "電梯裡鏡頭卡到牆外：畫面右側一片橘紅色（閱覽室電梯）",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "查電梯車廂裡跟隨鏡頭的碰撞（E.colliders 有沒有包含電梯井的牆、閱覽室外牆）；車廂裡鏡頭拉近或改固定角度",
+   "next": "已修：buildElevator 在井道沒有門的三面放看不見的鏡頭碰撞盒（zone.elevCams），followCam 當隔間牆——車廂裡鏡頭拉近、抬高，不會退出井道玻璃、穿出房間（霖澤館、總圖大廳、閱覽室、萬才館的電梯都適用）。teach_cam_walls、nav_buildings 通過；待瀏覽器截圖（閱覽室電梯車廂裡）",
    "first": {
     "term": "Y1S1",
     "week": 1,

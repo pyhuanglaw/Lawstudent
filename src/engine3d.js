@@ -365,7 +365,8 @@ const E3 = (function(){
      被隔間牆拉近時鏡頭抬高（拉得越近抬越多、最多 0.9 m：看得到腳下，不是只看到後腦；原本最多 1.1 m，LAWWW2 量到貼牆時鏡頭在頭頂上方 1.0–1.35 m、畫面只剩頭頂——現在由 autoSwing 轉開、往前看，抬高少一點）。out＝鏡頭位置；回傳 {dist, inner}。測試：node tests/teach_cam_walls_unit.js */
   const fcDir=new THREE.Vector3();
   function followCam(target,yaw,pitch,dist0,lv,out){ out.set(Math.sin(yaw)*dist0*Math.cos(pitch),Math.sin(pitch)*dist0+0.2,Math.cos(yaw)*dist0*Math.cos(pitch)).add(target);
-    let dist=dist0, inner=false; const LC=E.zone&&E.zone.camCols?E.zone.camCols[lv|0]:null;
+    let dist=dist0, inner=false; let LC=E.zone&&E.zone.camCols?E.zone.camCols[lv|0]:null; const EC=E.zone&&E.zone.elevCams;   /* 電梯井道（building3d.js buildElevator）也當隔間牆 */
+    if(EC&&EC.length){ const ck=E.zone._lcAll||(E.zone._lcAll={}); LC=ck[lv|0]||(ck[lv|0]=(LC&&LC.length?LC.concat(EC):EC)); }
     if(E.colliders.length||(LC&&LC.length)){ fcDir.copy(out).sub(target); const len=fcDir.length(); fcDir.normalize(); E.ray.set(target,fcDir); E.ray.far=len; let hd=Infinity;
       if(E.colliders.length){ const hits=E.ray.intersectObjects(E.colliders,false); if(hits.length) hd=hits[0].distance; }
       if(LC&&LC.length){ const h2=E.ray.intersectObjects(LC,false); if(h2.length&&h2[0].distance<hd){ hd=h2[0].distance; inner=true; } }

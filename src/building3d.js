@@ -133,6 +133,10 @@ const B3=(function(){
     /* 換區域之後：車廂停在玩家那一層、人在車廂裡；hold＝先讓車廂的格子可以走（出生點在車廂裡，門之後才打開）*/
     el.placeAt=(lv,hold)=>{ el.lv=lv; el.y=Y[lv]; car.position.y=Y[lv]-Y[0]; drawInd(lv+base); if(hold){ el.isOpen=true; } el.setCells(); };
     el.update=(dt)=>{ for(const tw of el.tweens.slice()){ tw.t+=dt; const k=Math.min(1,tw.t/tw.dur); tw.fn(k); if(k>=1){ el.tweens.splice(el.tweens.indexOf(tw),1); tw.res(); } } };
+    /* 鏡頭碰撞（BUG-CAM-ELEV，使用者 2026-10-16 閱覽室電梯：車廂裡鏡頭退到井道玻璃外、穿出房間，畫面一片橘紅）：井道沒有門的三面（東、西、北玻璃）
+       放看不見的碰撞盒，交給 engine3d.js 的 followCam 當隔間牆（zone.elevCams；和 zone.camCols 一起查）——車廂裡鏡頭拉近、抬高，從上面看車廂 */
+    if(zone){ const inv=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}); zone.elevCams=zone.elevCams||[];
+      for(const [x,z,bw,bd] of [[EL.x0-0.08,cz,0.24,d+0.4],[EL.x1+0.08,cz,0.24,d+0.4],[cx,EL.z1+0.08,w+0.4,0.24]]){ const m=new THREE.Mesh(new THREE.BoxGeometry(bw,RY,bd),inv); m.position.set(x,RY/2,z); m.name='ELEV_CAMCOL'; m.userData.dyn=true; grp.add(m); zone.elevCams.push(m); } }
     setDoor(0); drawInd(base); el.setCells(); return el; }
 
   // ---- 區域 ----
