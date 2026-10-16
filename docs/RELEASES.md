@@ -16,7 +16,7 @@
 | v9.5 | `a4f2760`（就是測試過的候選本身） | 2026-10-13 16:54:06 | `dfd2618` |
 | v9.6 | `e88bda5`（就是測試過的候選 15 本身） | 2026-10-14 07:46:55 | `a4f2760` |
 | v9.7 | `313d620`（就是測試過的候選 19 本身） | 2026-10-14 12:32:31 | `e88bda5` |
-| v9.8 | `1d0ff40f`（PR [pyhuanglaw/Lawstudent#3](https://github.com/pyhuanglaw/Lawstudent/pull/3) 的合併 commit；遊戲檔案＝測試過的候選 2 `9508b534`，只多了 README） | 部署確認中 | `313d620`（v9.7） |
+| v9.8 | `1d0ff40f`（PR [pyhuanglaw/Lawstudent#3](https://github.com/pyhuanglaw/Lawstudent/pull/3) 的合併 commit；遊戲檔案＝測試過的候選 2 `9508b534`，只多了 README） | 2026-10-16 06:22:15 | `313d620`（v9.7） |
 
 ---
 
@@ -81,6 +81,13 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - `save_compat_v7.py`（舊版那邊做存檔、新版讀）：**v9.7**（`06d8f9c2`＝main）各區域 48 個位置 ALL PASS（05:52～05:58）；**v7** ALL PASS（05:58～06:04）。
 - `tests/smoke_release.py`（新的冒煙測試，`?turbo`）：ALL PASS（06:14～06:19）——標題開新遊戲、宿舍開場演完、搖桿走得動；手機六個分頁；第 9 天霖澤館 201 坐下上民總、記出席、**課後以安的報告分工有演（BUG-15）**；選單存欄位 1 → 重新整理 → 讀取，課表紀錄一樣、走得動；沒有 JS 例外。前三輪失敗都是測試流程（按下新遊戲後第 18 幀就檢查、讀檔後的對話沒點掉、讀回座位旁只往前推撞到桌子），遊戲程式沒有改。
 - 第三層完整回歸（`joystick_direction` 以後）為了讓出瀏覽器先停，發布後照 `docs/TESTING.md` 第五節跑完、補在這裡。
+
+**發布**：
+- PR [pyhuanglaw/Lawstudent#3](https://github.com/pyhuanglaw/Lawstudent/pull/3)：`claude/release-v9.8-rc2`（候選 2 `9508b534`＋只改 README 的 `1ebfefcb`）合併到 main，合併 commit `1d0ff40f38f3a7d95cca194e5615e5a4c2956c0e`。沒有強制推送；main 原本的 `06d8f9c2` 是候選的祖先，沒有衝突。
+- 核對：main 和候選 2 的差別只有 README.md（`git diff --stat 9508b534 1d0ff40f`）。
+- GitHub Pages 第 20 次部署（pages build and deployment run 38860694771）2026-10-16 06:22:15 UTC success，head＝`1d0ff40f`。
+- 回復目標：v9.7 `313d620`（照上面「緊急回復」：`git commit-tree 313d620^{tree} -p origin/main`，快轉推上去）。
+- 這個沙盒連不到 `*.github.io`：以 Actions 的部署紀錄＋本機同一份遊戲檔案（候選 2 的乾淨 worktree）的測試為準。
 
 ## v9.7（2026-10-14 12:32:31 UTC 發布 `313d620`）——CG 劇情版
 
