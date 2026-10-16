@@ -13,6 +13,7 @@ const load=(f,names)=>vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf
 load('src/data/characters.js','CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS'); load('src/social3d.js','SOCIAL');
 for(const f of ['src/data/rel_lines.js','src/data/places.js','src/data/calendar.js','src/data/courses.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f,'REL_LINES|PLACES|CALENDAR|COURSES|STORY|CLS');
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
+if(typeof STORY!=='undefined') STORY.sisW8=()=>W8;   /* W8 之後＝STORY.sisW8（AA_177 第 8 節①：演過或過了大二上第 12 週）；這個測試直接控制 W8，時間的部分在 tests/v3_sis_w8_unit.js */
 check('STORY.sisCafe 存在',typeof STORY.sisCafe==='function'); if(typeof STORY.sisCafe!=='function'){ console.log('FAILED: '+fails); process.exit(1); }
 const G={rel:{},flags:{met_sis:true},social:null,day:30,weekday:1,hour:20,name:'祐廷',zone:'cafe'}; SOCIAL.bind(G);
 const R=(fam,trust,comf)=>{ const r=SOCIAL.rel('heroine_05'); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };

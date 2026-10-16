@@ -2934,8 +2934,42 @@ const STORY_EVENTS_V11=[
       {label:'drink'},{speaker:'heroine_04',expression:'smile',text:'欸不是，你也喝？'},{speaker:'player',text:'嗯。'},{speaker:'heroine_04',expression:'smile',text:'……你很奇怪。'},{speaker:null,text:'（她第一次沒有吐槽下去。）'},
       {label:'end'},{speaker:'heroine_04',expression:'smile',text:'……第四罐。你請。'} ], consequences:{money:-35} },
   // ── 溫學姊 arc ──
-  { id:'ev_sis_collapse', title:'她撐不住的那天', off:'交接包 v1 關閉（改寫版在之後的交接包）', participants:['heroine_05'], location:'cafe', trigger:'interact', priority:10, once:true, time:[20,24], prereq:{stage:{npc:'heroine_05',min:'FRIEND'},memory:[{npc:'heroine_05',tag:'IMPORTANT_CONVERSATION'}]}, background:'blur',
-    dialogue:[ {speaker:'heroine_05',expression:'tired',text:'……你來得剛好。或者剛不好。'},{speaker:'heroine_05',expression:'sad',text:'研究計畫被退回來。許老師說「你自己不相信這個題目」。他說對了。'},{speaker:'heroine_05',expression:'serious',text:'我做了三年法服、社長、公法組……然後我今天在這裡想，我是不是根本不想念法律。'},{choice:[{text:'「那妳想做什麼？」',consequences:{rel:{heroine_05:{trust:9,aff:4,comf:5}},mem:[{npc:'heroine_05',tag:'SHARED_SECRET',note:'她不確定要不要繼續念法律'}]},goto:'what'},{text:'「休息一天再想。」',consequences:{rel:{heroine_05:{comf:6,trust:4}},mem:[{npc:'heroine_05',tag:'SHARED_SECRET',note:'她不確定要不要繼續念法律'}]},goto:'rest'},{text:'「學姊，妳只是累了。」',consequences:{rel:{heroine_05:{comf:-3,trust:2}},mem:[{npc:'heroine_05',tag:'SHARED_SECRET',note:'你說她只是累了'}]},goto:'tired'}]},{label:'what'},{speaker:'heroine_05',expression:'thinking',text:'……我不知道。這是三年來第一次有人問我這個，而不是問我「下一步」。'},{goto:'end'},{label:'rest'},{speaker:'heroine_05',expression:'tired',text:'我不會休息。……好吧，一天。'},{goto:'end'},{label:'tired'},{speaker:'heroine_05',expression:'annoyed',text:'每個人都這樣說。'},{speaker:'heroine_05',expression:'sad',text:'……對不起。你沒有錯。'},{label:'end'},{speaker:'heroine_05',expression:'neutral',text:'不要跟法服的人講。我明天還是社長。'} ] },
+  /* W8「今天先不改了」（BB_97 2-3 完整替換舊的「她撐不住的那天」；AA_177 第 8 節①）：大二上第 12 週她在 Café 的每一晚（週一、二、四 19～22），走到她旁邊就開始。
+     前置：和她「朋友」以上，或有 NOTICED_HER／HELPED／GAVE_HER_NOTE 其中一個；HEARD_PROF_XU 不是前置（沒有的人「許老師說得對」換成「今天被問了一句話，我答不出來」）。
+     四個選項都出必要 CG「熱水」（BCG-01，BB 第二版通過）；不崩潰、不哭、不寫「不想念法律」；表情 tired → smile。後面讀 W8 的條件改讀「第 12 週以後」（STORY.sisW8）。
+     沒演到的玩家（不熟或沒到）：11/27（五）21:00 讀書會群組她請假、Kevin 在家族群組問（story3d.js phoneRules）*/
+  { id:'ev_sis_collapse', title:'今天先不改了', participants:['heroine_05'], location:'cafe', trigger:'auto', term:['Y2S1'], weeks:[12], weekday:[1,2,4], time:[19,22], once:true, priority:10, near:{npc:'heroine_05',r:3.5},
+    prereq:{custom:G=>{ if(typeof SOCIAL==='undefined') return false; const r=G.social&&G.social.rel&&G.social.rel.heroine_05; return !!(r&&r.fam>=40&&r.trust>=25)||['NOTICED_HER','HELPED','GAVE_HER_NOTE'].some(t=>SOCIAL.has('heroine_05',t)); }}, background:'blur', cg_id:'cg_hot_water_heroine05',   /* 「朋友」看實際的數值：friendLevel 在 W8 以前把學姊壓在「有點熟」（BB_120 1-1 的台詞上限），不能拿來當 W8 的前置 */
+    dialogue:[ {speaker:null,text:'（吧檯旁的單人座。研究計畫攤開，紅筆劃了半頁。保溫瓶是空的。）'},
+      {speaker:'heroine_05',expression:'tired',text:'你怎麼會在這。'},{speaker:'heroine_05',expression:'tired',text:'……坐吧。我剛好想要一個不是法服的人。'},
+      {if:{memory:[{npc:'heroine_05',tag:'HEARD_PROF_XU'}]},speaker:'heroine_05',expression:'tired',text:'我改了七次。許老師說得對。'},
+      {unless:{memory:[{npc:'heroine_05',tag:'HEARD_PROF_XU'}]},speaker:'heroine_05',expression:'tired',text:'我改了七次。今天被問了一句話，我答不出來。'},
+      {speaker:'heroine_05',expression:'tired',text:'我選這個題目，是因為它會過。'},{speaker:'heroine_05',expression:'tired',text:'我從高中開始，每一步都選會過的。'},
+      {speaker:'heroine_05',expression:'tired',text:'三件事。一，這份計畫今天要改完。二……'},
+      {speaker:'heroine_05',expression:'tired',text:'（停住，看著空的保溫瓶）……二，我好像有點累。'},
+      {speaker:'heroine_05',expression:'neutral',text:'三，我想試一件從來沒做過的事：今天先不改了。'},
+      {choice:[{text:'「那妳想做什麼？」',consequences:{rel:{heroine_05:{trust:9}},mem:[{npc:'heroine_05',tag:'SHARED_SECRET',note:'W8：她說「不知道」的感覺還不錯'}]},set:{SIS_W8:'what'},goto:'a'},
+        {text:'「學姊，妳只是累了。」',consequences:{mem:[{npc:'heroine_05',tag:'IMPORTANT_CONVERSATION',note:'W8：「我只是累了。這句話我以前不讓自己說。」'}]},set:{SIS_W8:'tired'},goto:'b'},
+        {text:'「今天不要改了。」',consequences:{mem:[{npc:'heroine_05',tag:'TOLD_HER_STOP',note:'W8：叫她今天不要改了'}]},set:{SIS_W8:'stop'},goto:'c'},
+        {text:'（把她的保溫瓶拿去吧檯，裝滿熱水，不是咖啡）',consequences:{mem:[{npc:'heroine_05',tag:'HELPED',note:'W8：保溫瓶裝了熱水'}]},set:{SIS_W8:'water',HOT_WATER:true},goto:'d'}]},
+      {label:'a'},{speaker:null,text:'她想了很久。'},{speaker:'heroine_05',expression:'neutral',text:'……我不知道。'},{speaker:null,text:'然後笑了。'},{speaker:'heroine_05',expression:'smile',text:'說『不知道』的感覺，還不錯。'},{goto:'cg'},
+      {label:'b'},{speaker:'heroine_05',expression:'neutral',text:'對。'},{speaker:null,text:'她點頭。'},{speaker:'heroine_05',expression:'smile',text:'我只是累了。這句話我以前不讓自己說。'},{goto:'cg'},
+      {label:'c'},{speaker:'heroine_05',expression:'smile',text:'我剛剛就這樣說了。'},{speaker:null,text:'她把計畫闔上。'},{speaker:'heroine_05',expression:'neutral',text:'……我要回家了。你也早點回去。'},{goto:'cg'},
+      {label:'d'},{speaker:null,text:'她喝了一口，愣住。'},{speaker:'heroine_05',expression:'surprised',text:'……是熱水。'},{speaker:'player',text:'嗯。'},{speaker:null,text:'她雙手抱著保溫瓶，笑了。'},{speaker:'heroine_05',expression:'smile',text:'好。今天就喝這個。'},
+      {label:'cg'},{cg:'cg_hot_water_heroine05'},
+      {speaker:'heroine_05',expression:'smile',text:'明天我還是會列三件事。'},{speaker:'heroine_05',expression:'smile',text:'今天，先列到二。'} ] },
+  /* W9「她沒有去面試」（BB_97 2-4；AA_177 第 8 節③）：11/28（六）9:00～10:00 總圖門口的台階（她這一天的作息），和她「有點熟」以上；所有玩家都是偶遇、沒有訊息；
+     沒遇到＝沒有這一場（寒假 M2 照樣發生）。記 SKIPPED_INTERVIEW（之後的回聲讀，不是 M2 的前置）*/
+  { id:'ev_sis_skip_interview', title:'她沒有去面試', participants:['heroine_05'], location:'campus', trigger:'auto', term:['Y2S1'], weeks:[12], weekday:[6], time:[9,10], once:true, near:{npc:'heroine_05',r:4},
+    prereq:{stage:{npc:'heroine_05',min:'FAMILIAR'}}, background:'blur',
+    dialogue:[ {speaker:'heroine_05',expression:'serious',text:'面試九點半。'},{speaker:'heroine_05',expression:'serious',text:'我八點就到了。在門口站了二十分鐘，然後走來這裡。'},
+      {speaker:'heroine_05',expression:'serious',text:'（看著進出總圖的人）我從來沒有不去過任何一件事。'},{speaker:'heroine_05',expression:'serious',text:'第一次沒做完一件事。像少穿了一隻鞋。'},
+      {choice:[{text:'「現在去還來得及。」',goto:'a'},{text:'「那就不要去。」',goto:'b'},{text:'「我要進去念書。」',goto:'c'}]},
+      {label:'a'},{speaker:'heroine_05',expression:'serious',text:'我知道。'},{speaker:null,text:'她沒有動。'},{speaker:'heroine_05',expression:'serious',text:'我在等自己想去。等了二十分鐘，沒有等到。'},{goto:'end'},
+      {label:'b'},{speaker:'heroine_05',expression:'smile',text:'你說得好簡單。'},{speaker:null,text:'她笑了。'},{speaker:'heroine_05',expression:'smile',text:'……可是好像真的這麼簡單。'},{goto:'end'},
+      {label:'c'},{speaker:null,text:'她站起來：'},{speaker:'heroine_05',expression:'neutral',text:'我也進去。'},{speaker:null,text:'她坐在閱覽室另一排。九點半，她看了一下手錶，把手錶拿下來，放進口袋。'},
+      {label:'end'},{speaker:'heroine_05',expression:'neutral',text:'我會再考一次。一般考試，二月。'},{speaker:'heroine_05',expression:'smile',text:'這次，我要先想好為什麼。'},
+      {mem:[{npc:'heroine_05',tag:'SKIPPED_INTERVIEW',note:'11/28 她沒有進面試的門'}]} ] },
   { id:'ev_sis_office_together', title:'許教授的研究室', participants:['heroine_05','prof_xu'], location:'wancai', trigger:'interact', priority:8, once:true, prereq:{memory:[{npc:'heroine_05',tag:'GRAD_SCHOOL_DISCUSSION'}],grad:{min:'CURIOUS'}}, background:'blur',
     dialogue:[ {speaker:'heroine_05',expression:'neutral',text:'我等一下要去許老師那邊。你要跟嗎？他喜歡一年級的問笨問題。'},{choice:[{text:'「好。」',consequences:{grad:{bump:'跟學姊去許教授研究室',field:'公法'},prof:{prof_xu:{kind:'office',delta:3,note:'跟溫書瑀來研究室'}},mem:[{npc:'heroine_05',tag:'GRAD_SCHOOL_DISCUSSION',note:'一起去研究室'},{npc:'prof_xu',tag:'FIRST_MET'}]},goto:'go'},{text:'「我還沒準備好問問題。」',consequences:{rel:{heroine_05:{fam:1}}},end:true}]},{label:'go'},{speaker:'prof_xu',expression:'neutral',text:'「書瑀，這位是？……一年級。你為什麼來？」'},{choice:[{text:'「想知道研究所在做什麼。」',consequences:{prof:{prof_xu:{kind:'research',delta:2}}}},{text:'「學姊叫我來的。」',consequences:{prof:{prof_xu:{kind:'office',delta:1}}}}]},{speaker:'prof_xu',expression:'smile',text:'「好。研究所在做的事就是：找到一個你不問會睡不著的問題。你有嗎？」'},{speaker:'player',text:'……還沒有。'},{speaker:'prof_xu',expression:'neutral',text:'「那就先上課。有了再來。」'},{speaker:'heroine_05',expression:'smile',text:'（小聲）他對你算客氣了。'} ] },
   // ── 教授 ──

@@ -1504,9 +1504,14 @@ const STORY = (function(){
        校慶（法服問答攤）：法服成員 11/13（五）21:00 語彤在法服讀書會群組「明天九點半，攤位集合。」（攤位的事件 ev_fair_booth_y2）。
        哲 2：第 10 週週四 11/12 20:30，和阿哲「朋友」以上，他私訊「沒事啦，在練球」；回「我去找你。」＝出發選單「籃球場 21:00」→ 2D ev_zhe_court_y2。
          不回、不去：下週二起第一次在麵店遇到他，只說「上次沒事啦。」（ev_zhe_court_skip），沒有三種幫法、LENT_NOTES_Y2 沒有值 */
+    /* 學姊 W8 沒演到的玩家（不熟或沒到，BB_97 2-3、AA_177 第 8 節①）：11/27（五）21:00 讀書會群組她請假；Kevin 在家族群組問（不靠語彤轉述）*/
+    { const d27=S.dayOfKey('2026-11-27'); if(d27!=null&&G.day===d27&&!(G.events&&G.events.done&&G.events.done.ev_sis_collapse)&&!PHONE.sent(G,'sis_w8_leave')){ const it=[];
+        if(PHONE.inGroup(G,'lawclub_study')) it.push({th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'這週讀書會我請假。……第一次。'});
+        if(PHONE.inGroup(G,'family_law')) it.push({th:'g:family_law',from:'kevin',name:'Kevin',text:'學姊請假了？？',dt:2/60});
+        if(it.length){ const L=it.map((x,k)=>{ const y=Object.assign({},x); delete y.dt; return y; }); PHONE.at(G,d27,21,L,'sis_w8_leave'); } } }
     { const d13=S.dayOfKey('2026-11-13'); if(d13!=null&&G.day===d13&&S.fafuMember(G)&&PHONE.inGroup(G,'lawclub_study')&&!PHONE.sent(G,'fair_y2_call')) PHONE.at(G,d13,21,[{th:'g:lawclub_study',from:'heroine_03',text:'明天九點半，攤位集合。'}],'fair_y2_call');
-      const d12=S.dayOfKey('2026-11-12'), fr=['FRIEND','CLOSE_FRIEND'].includes(typeof SOCIAL!=='undefined'&&SOCIAL.friendLevel?SOCIAL.friendLevel('zhe'):'');
-      if(d12!=null&&G.day===d12&&!F.ZHE2_ASKED&&fr&&!PHONE.sent(G,'zhe2_msg')){ F.ZHE2_ASKED=d12; PHONE.at(G,d12,20.5,[{th:'p:zhe',from:'zhe',text:'沒事啦，在練球',ask:{id:'zhe2_go',until:d12*24+21.5,opts:[{t:'我去找你。',set:{ZHE2_GO:d12}}]}}],'zhe2_msg'); }
+      const d12=S.dayOfKey('2026-11-12'), fr=()=>['FRIEND','CLOSE_FRIEND'].includes(typeof SOCIAL!=='undefined'&&SOCIAL.friendLevel?SOCIAL.friendLevel('zhe'):'');   /* 只在那一天問（friendLevel 會替沒有紀錄的人建一筆空的關係）*/
+      if(d12!=null&&G.day===d12&&!F.ZHE2_ASKED&&!PHONE.sent(G,'zhe2_msg')&&fr()){ F.ZHE2_ASKED=d12; PHONE.at(G,d12,20.5,[{th:'p:zhe',from:'zhe',text:'沒事啦，在練球',ask:{id:'zhe2_go',until:d12*24+21.5,opts:[{t:'我去找你。',set:{ZHE2_GO:d12}}]}}],'zhe2_msg'); }
       if(typeof OUT!=='undefined'&&F.ZHE2_GO===G.day&&!OUT.get(G,'zhe2_court')&&!F.ZHE2) OUT.plan(G,{id:'zhe2_court',ev:'ev_zhe_court_y2',day:G.day,h:21,late:0.5,place:'新體育館旁的籃球場',title:'籃球場（阿哲）',travel:'走過去約 10 分鐘',travelH:1/6}); }
     /* ===== 大二（交接包 v3）的群戲：邀約＋出發選單＋沒去的群組照片（AA_143、AA_177 第 6 節、AA_176 R5）=====
        不在麵店團群組的玩家：阿哲私訊（R5「沒有那個群組就用私訊」）。19:15／18:15 還沒出發＝沒去（OUT 的 late 15 分鐘），21:30 照片 */
@@ -1856,12 +1861,13 @@ const STORY = (function(){
         ['y0_wl_newbike',Y0('Y0S2',4),20+40/60,G=>!!G.flags.WL_BIKE,()=>[WL('新車騎了三個月，鏈子一次都沒掉。我有點想念以前那台。')]] ];
       return L.map(([id,term,hh,ok,items])=>({id,term,h:()=>hh,ok:(G,day)=>S.isEcon(G)&&ok(G,day==null?G.day:day),items})); })(),
     /* 大二的手機小事（BB_97 第 5 節＋9-16；任務 V3-B22）：BB 寫的是「摘要日的手機小事」，大二還沒有摘要日（SYS-08），照大一的做法放進每天的手機小事。每則一次；時間沒寫的是技術預設。
-       接的事件還沒做的那幾則先不放（學姊 HOT_WATER、M2 之後、上榜、畢業；沛珊 P4b；方奕廷的暑假；可昕 K10c 之後；長頸鹿貼圖）——那些事件做好時在這裡加 */
+       接的事件還沒做的那幾則先不放（學姊 M2 之後、上榜、畢業；沛珊 P4b；方奕廷的暑假；可昕 K10c 之後；長頸鹿貼圖）——那些事件做好時在這裡加 */
     ...(()=>{ const Y2=T=>!!T&&/^Y2S[12]$/.test(T.id), Y2a=(w0)=>T=>!!T&&T.id==='Y2S1'&&T.week>=(w0||1), Y2b=T=>!!T&&T.id==='Y2S2', done=(G,id)=>!!(G.events&&G.events.done&&G.events.done[id]);
       const dAny=G=>Object.keys(G.flags||{}).some(k=>/^dating_/.test(k)&&G.flags[k]===true), kx=G=>!!G.flags.dating_kexin;
       const L=[
         ['y2_sis_shift',Y2,20+40/60,G=>done(G,'ev_sis_handover')&&PHONE.inGroup(G,'lawclub_study'),()=>[{th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'今天的值班表，柏翰排錯了。我沒說。……我說了。'}]],
         ['y2_kevin_retire',Y2,20,G=>done(G,'ev_sis_handover')&&PHONE.inGroup(G,'family_law'),()=>[{th:'g:family_law',from:'kevin',name:'Kevin',text:'學姊卸任了！'},{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'收到',dt:2/60}]],
+        ['y2_sis_hotwater',Y2,17+5/60,G=>!!G.flags.HOT_WATER&&PHONE.inGroup(G,'family_law'),()=>[{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'📷（一個保溫瓶）'},{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'今天裝熱水。咖啡喝太多了，換一天。',dt:1/60},{th:'g:family_law',from:'kevin',name:'Kevin',text:'學姊妳改喝熱水了？',dt:3/60},{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'偶爾。',dt:5/60}]],   /* W8 選了熱水以後（BB_97 第 5 節；理由大家都懂、不是只對某一個人的暗示）*/
         ['y2_zq_lab',Y2,22+10/60,G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_04','LAB_LETTER')&&gotBefore(G,'heroine_04'),()=>seq('heroine_04',['我回信了','說不要','教授說好','就這樣','好簡單喔'])],
         ['y2_zr_order',Y2,null,G=>done(G,'ev_zhiruo_applied')&&!done(G,'ev_zhiruo_last_shift')&&gotBefore(G,'heroine_02'),()=>[P1('heroine_02','今天第三個客人點錯。我記得他上週點什麼。我沒說。')]],
         ['y2_kx_usual',Y2a(),21+10/60,kx,()=>[P1('kexin','老樣子。你知道是哪個老樣子。')]],
@@ -2276,6 +2282,8 @@ const STORY = (function(){
   /* 大一下期中那兩週（第 8～9 週，語彤顧店的那一週，AA_11 事件 4）有沒有去過總圖：Y1_MID_LIB；舊存檔沒有這個旗標就看習慣記錄（place:library…）*/
   S.y1MidLib=function(G){ const F=G.flags||{}; if(F.Y1_MID_LIB) return true; const a=termDay('Y1S2',8,1), b=termDay('Y1S2',9,7); if(a==null||b==null) return false;
     const H=G.habits||{}; return Object.keys(H).some(k=>/^place:library(_hall)?:/.test(k)&&(H[k].days||[]).some(d=>d>=a&&d<=b)); };
+  /* 學姊 W8「今天先不改了」之後（AA_177 第 8 節①：後面讀 W8 的條件改讀「第 12 週以後」，不讀 W8 有沒有發生）：演過，或已經過了大二上第 12 週 */
+  S.sisW8=function(G,day){ const d=day!=null?day:G.day; if(G.events&&G.events.done&&G.events.done.ev_sis_collapse) return true; const w13=termDay('Y2S1',13,1); return w13!=null&&d>=w13; };
   S.reachable=(id,G)=>{ const p=S.presence(id,G); return p.here||p.kind==='taipei'; };   /* 約得到、在這個世界上（在臺北、不在台大也算：沛珊重考那一學期起、子晴畢業以後，BB_163）；present 是「在台大」*/
   S.whereIs=function(GM,id){ const G=GM.G, F=G.flags, hr=h(G), wd=G.weekday; const c=(typeof CHARACTERS!=='undefined')&&CHARACTERS[id]; if(!c) return null;
     const pr0=S.presence(id,G); if(!pr0.here&&pr0.kind!=='taipei') return pr0.away?{zone:null,act:'',away:pr0.away}:null;

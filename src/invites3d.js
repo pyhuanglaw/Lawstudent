@@ -97,7 +97,7 @@ const INV=(function(){
     const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(day):null, F=G.flags||{};
     const c={pid:P.id,P,day,h,wd:wdOf(G,day),band:bandOf(id),year:t?(+String(t.id).charAt(1)||1):1,term:t,
       first:!(G.invites||[]).some(iv=>iv.who===id&&iv.place===P.id&&(iv.state==='done'||iv.state==='accepted'||iv.state==='going'||iv.state==='missed')),
-      w8:typeof EVENTS!=='undefined'&&!!EVENTS.cond&&!!EVENTS.cond({events:['ev_sis_collapse']}),
+      w8:typeof STORY!=='undefined'&&STORY.sisW8?STORY.sisW8(G):(typeof EVENTS!=='undefined'&&!!EVENTS.cond&&!!EVENTS.cond({events:['ev_sis_collapse']})),
       dating:Object.keys(F).some(k=>/^dating_/.test(k)&&!!F[k]),r};
     const out=Object.assign({},r), q=p.rule?p.rule(G,c,S):null;
     if(q){ Object.assign(out,q); if(out.res==='resched'&&!out.alt){ out.res='decline'; } return out; }
@@ -178,7 +178,7 @@ const INV=(function(){
   S._later=(f,ms)=>setTimeout(f,ms);
   S.walkPick=function(G,id,pid){ const p=(D().people||{})[id], w=p&&p.walk; if(!w) return null; const F=G.flags||(G.flags={});
     const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null;
-    const c={year:t?(+String(t.id).charAt(1)||1):1,w8:typeof EVENTS!=='undefined'&&!!EVENTS.cond&&!!EVENTS.cond({events:['ev_sis_collapse']})};
+    const c={year:t?(+String(t.id).charAt(1)||1):1,w8:typeof STORY!=='undefined'&&STORY.sisW8?STORY.sisW8(G):(typeof EVENTS!=='undefined'&&!!EVENTS.cond&&!!EVENTS.cond({events:['ev_sis_collapse']}))};
     if(G.weather==='rain'&&w.rain) return {lines:w.rain,next(){}};
     const norm=e=>typeof e==='string'?{l:[e]}:(Array.isArray(e)?{l:e}:e);
     const L=oneW(w[pid]).concat(oneW(w.any)).map(norm).filter(e=>e&&e.l&&(!e.if||e.if(G,c))&&!(e.once&&F[e.once])); if(!L.length) return null;

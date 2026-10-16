@@ -15,6 +15,7 @@ let W8=false; global.EVENTS={cond:c=>!!(c&&c.events&&c.events[0]==='ev_sis_colla
 const load=(f,names)=>vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(new RegExp('^const ('+names+')\\s*=','mg'),'global.$1='),{filename:f});
 load('src/data/calendar.js','CALENDAR'); load('src/data/places.js','PLACES'); load('src/data/characters.js','CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS'); load('src/social3d.js','SOCIAL');
 for(const f of ['src/data/rel_lines.js','src/data/courses.js','src/data/invites.js','src/invites3d.js','src/story3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f,'REL_LINES|COURSES|INVITE_DATA|INV|STORY');
+if(typeof STORY!=='undefined') STORY.sisW8=()=>W8;   /* W8 之後＝STORY.sisW8（AA_177 第 8 節①：演過或過了大二上第 12 週）；這個測試直接控制 W8，時間的部分在 tests/v3_sis_w8_unit.js */
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 check('INV.personal 存在、INVITE_DATA.people 有資料',typeof INV.personal==='function'&&Object.keys(INVITE_DATA.people||{}).length>=13,Object.keys(INVITE_DATA.people||{}).length);
 if(typeof INV.personal!=='function'){ console.log('FAILED: '+fails); process.exit(1); }
