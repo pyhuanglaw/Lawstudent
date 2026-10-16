@@ -2174,11 +2174,11 @@
    "from": "BB-B",
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "445f5d3c",
-   "what": "課表重新匯入：BB_115 第 11～22 批（472 項全部通過）→ 608 週全部開（多開 99 週，大三大四選修為主）；L472 國民法官句；物權第 3 週「房子要登記」",
+   "what": "課表重新匯入：BB_115 第 11～22 批（472 項全部通過）→ 608 週全部開（多開 99 週，大三大四選修為主）；L472 國民法官句",
    "task": "TXT-1016",
    "msg": "ACTIONED",
    "integration": "已整合待測試",
-   "note": "LAWWW-B 用 tools/syllabus/import_syllabus.py origin/claude/elegant-brown-fcos7n 重新匯入；開著的週只變 4 週（經原 W6、物權 W3、日文一二 W12）；syllabus_unit 改成沒有關著的週時模擬關週。排進 v9.9。"
+   "note": "LAWWW-B 用 tools/syllabus/import_syllabus.py origin/claude/elegant-brown-fcos7n 重新匯入；開著的週只變 4 週（經原 W6、物權 W3、日文一二 W12）；syllabus_unit 改成沒有關著的週時模擬關週。排進 v9.9。　物權第 3 週：BB 的 Y2S1.json 還是舊句「房子要登記」（_src/y2s1.py 已改成 L459 的「買房子」），匯入後手改回「買房子要登記」（L459 已修正），已請 BB-B 重新產生 Y2S1.json。"
   }
  ],
  "ignored": [

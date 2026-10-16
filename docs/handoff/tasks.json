@@ -1102,7 +1102,7 @@
    "area": "V0",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "已接：E01、★E02（AA-B 定案 A、兩句旁白 268d529d）、P2（第一次）、★E05、★E06／D2；下一批 E03（BB_105 B1）、E08（BB_153）、P2b、E12",
+   "next": "已接：E01、★E02（AA-B 定案 A、兩句旁白 268d529d）、E03（＝BB_105 B1：經原第 2 週那一堂、第 2 週沒去就在之後第一次出席時上，記 Y0_B1_ANSWER＝選項原文；tests/v0_e03_unit.js）、P2（第一次）、★E05、★E06／D2、E08 中秋系烤（BB_153；9/16 全班群組揪、9/21 韋綸私訊→出遊；沒去版；tests/v0_e08_unit.js）＋兩個群組（AA_157：全班群組 E02 加入、「走啦」P2 去成那晚建立；經濟系開局不再第一天就有「走啦」）；下一批 P2b、E12、E20、E28、E34（BB_153）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -1122,8 +1122,8 @@
    "title": "BB_105 P1、B1、B2、D2",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "—",
+   "status": "進行中",
+   "next": "B1＝E03 已接（classes3d.js S.e03Due）；D2 已接（ec12d21c，和 E06 一起）；P1、B2（博雅小桌子的午後）待開工",
    "priority": "P2",
    "first": {
     "term": "Y0S1",

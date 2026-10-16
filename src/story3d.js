@@ -646,6 +646,19 @@ const STORY = (function(){
         PHONE.at(G,G.day,G.hour,[K('你剛剛經過我們宿舍。'),K('我在三樓看到一個人騎腳踏車騎得很認真。'),K('是你嗎？',{ask:{opts:[{t:'是我。',say:[K('我就知道。你騎腳踏車的樣子很好認。')]},{t:'不是。',say:[K('好。那那個人很像你。')]},{t:'妳在監視我？',say:[K('我在吹頭髮。窗戶剛好在那邊。')]}]}})],'y0_d2'); }
       else if(hh>=22.5){ F.E06_DONE='e06'; const first={carry:'你今天說要載我，',fix:'你今天說要幫我修車，',steady:'你今天說你車很穩，'}[F.E05_OPEN]||'你今天說要載我，';
         PHONE.at(G,G.day,22.5,[K('問你一件事。'),K(first+'是真心的，還是經濟學上的「廉價訊號」？'),K('（廉價訊號：說了不用付出代價的話。我剛學的，想用用看。）',{ask:{opts:[{t:'真心的。',say:[K('好。那下次我的車鏈掉，你要負責。')]},{t:'妳猜。',say:[K('我猜了。我猜你在想要怎麼回。')]},{t:'那妳傳這則訊息，是什麼訊號？',say:[K('……你很會。晚安。')]}]}})],'y0_e06'); } }
+    /* 經濟系那一年的兩個群組（AA_157）：全班群組 econ_class「經濟系 大一（全班）」在 E02 迎新那天加入（寫法照法律系的全班群組：不發訊息）；
+       「走啦」econ_friends 在 P2 第一次去成的那晚由韋綸建立（第一則是系統訊息，照麵店團）。今天先回去的玩家等下一次（P2b，還沒做）*/
+    if(S.isEcon(G)){ const e02=termDay('Y0S1',1,1), mon3=termDay('Y0S1',3,1), sat3=termDay('Y0S1',3,6);
+      if(e02!=null&&!PHONE.inGroup(G,'econ_class')&&(G.day>e02||(G.events&&G.events.done&&G.events.done.ev_y0_e02))) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+      if(F.P2_PICK&&F.P2_PICK!=='home'&&!PHONE.inGroup(G,'econ_friends')){ PHONE.join(G,'econ_friends','走啦'); PHONE.post(G,{th:'g:econ_friends',text:'韋綸建立了群組「走啦」，把你加了進來。',tag:'econ_friends_new'}); }
+      /* ★E08 中秋系烤（BB_153；AA_154 第 88 行）：9/16（一）21:00 全班群組揪；9/21（六）16:00～17:00 韋綸私訊，回「好」＝出遊 17:00 河濱（ev_y0_e08）；
+         「今天不行」、沒回、出發選單選不去＝沒去：21:30 群組一張照片＋可昕私訊（BB_104 AB-09，不用回、不扣分）*/
+      if(mon3!=null&&sat3!=null&&PHONE.inGroup(G,'econ_class')&&G.day<=sat3) PHONE.at(G,mon3,21,[{th:'g:econ_class',text:'中秋系烤：9/21（六）17:00，河濱。自備餐具。'},{th:'g:econ_class',from:'econ_weilun',name:'韋綸',text:'走啦！'}],'y0_e08_grp');
+      if(sat3!=null&&G.day===sat3&&G.hour>=16&&G.hour<17&&!PHONE.sent(G,'y0_e08_dm')) PHONE.at(G,sat3,Math.max(16,G.hour),[{th:'p:econ_weilun',from:'econ_weilun',name:'韋綸',text:'走啦！我在舟山路門口。',ask:{until:sat3*24+17,opts:[{t:'好',set:{E08_GO:'yes'}},{t:'今天不行',set:{E08_GO:'no'}}]}}],'y0_e08_dm');
+      if(F.E08_GO==='yes'&&typeof OUT!=='undefined'&&sat3!=null&&G.day===sat3&&!OUT.get(G,'y0_e08')) OUT.plan(G,{id:'y0_e08',ev:'ev_y0_e08',day:sat3,h:17,place:'河濱',title:'中秋系烤',travel:'和韋綸走過去',travelH:0.25});
+      const q8=typeof OUT!=='undefined'?OUT.get(G,'y0_e08'):null;
+      if(sat3!=null&&!(q8&&q8.state==='done')&&(G.day>sat3||(G.day===sat3&&G.hour>=18))&&G.day<=sat3+2&&!PHONE.sent(G,'y0_e08_missed'))
+        PHONE.at(G,sat3,21.5,[{th:'g:econ_class',text:'📷（河濱的烤肉架、一圈人、一盤烤焦的玉米）'},{th:'p:kexin',from:'kexin',text:'你沒來。火很小，月亮很晚才出來。'}],'y0_e08_missed'); }
     /* 校慶問答攤（BB_95 3-7，DL-04B）：前一天（週五）21:00 法服群組，學姊提醒；沒加入法服的玩家改成校園公告欄的旁白（AMBIENT 的 festEve）*/
     if(PHONE.inGroup(G,'lawclub_study')){ const fs=termDay('Y1S1',11,6); if(fs&&G.day===fs-1) PHONE.at(G,fs-1,21,[{th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'明天校慶，問答攤十點開。輪班表在記事本。'}],'fest_eve_lawclub'); }
     /* 家族聚餐（BB_95 3-8）：前一週 Kevin 在家族群組約；當晚 22:30 學姊訂正考古題；沒去的玩家 22:00 Kevin 貼資料夾、學姊說書會留給學弟 */
@@ -918,8 +931,8 @@ const STORY = (function(){
     { const yr=(()=>{ for(let d=G.day;d>G.day-200;d--){ const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(d):null; if(T){ const y=+String(T.id).charAt(1); return y>=1&&y<=4?y:0; } } return 1; })();
       if(yr>=1){ const nm='法律系 '+['大一','大二','大三','大四'][yr-1]+'（全班）'; const g=PHONE.join(G,'law_class',nm); if(g&&g.name!==nm) g.name=nm; } }
     /* 經濟系那群的群組「走啦」econ_friends（AA_157 第 1 節，AA-B 2026-10-16）：韋綸建的；從法律系開始的玩家、舊存檔第一天就在手機裡，裡面只有 2025-08-13 放榜那晚的一張照片（只有照片說明、沒有台詞）。
-       之後的訊息照各事件（AA_115 xun_met、BB_96 10-4 沒去午餐）。v0（經濟系開局）由 P2 那晚建立，等 v0 做 */
-    if(!PHONE.inGroup(G,'econ_friends')){ const g=PHONE.join(G,'econ_friends','走啦'); g.day=Math.min(g.day,-34); if(!PHONE.sent(G,'econ_photo_0813')) PHONE.postAt(G,{th:'g:econ_friends',from:'econ_weilun',name:'韋綸',text:'📷（公館的宵夜攤，六個人和準備收攤的老闆）',tag:'econ_photo_0813'},-34,23.5); if(PHONE.markSeen) PHONE.markSeen(G,'g:econ_friends'); }   /* 一年多前的舊照片：不算未讀 */
+       之後的訊息照各事件（AA_115 xun_met、BB_96 10-4 沒去午餐）。經濟系開局的玩家：P2 那晚建立（上面 econ_class 那一段）；8/13 的照片等經濟系那一年接到法律系時再補（還沒做）*/
+    if(!S.isEcon(G)&&!PHONE.inGroup(G,'econ_friends')){ const g=PHONE.join(G,'econ_friends','走啦'); g.day=Math.min(g.day,-34); if(!PHONE.sent(G,'econ_photo_0813')) PHONE.postAt(G,{th:'g:econ_friends',from:'econ_weilun',name:'韋綸',text:'📷（公館的宵夜攤，六個人和準備收攤的老闆）',tag:'econ_photo_0813'},-34,23.5); if(PHONE.markSeen) PHONE.markSeen(G,'g:econ_friends'); }   /* 一年多前的舊照片：不算未讀 */
     /* 10-3 之後（AA_115 第 2 節、BB_96 10-3／10-4、AA_157）：「聊兩句就走」（xun_met）＝阿勳在「走啦」說一句；「期末考一起讀？」（pact）＝他私訊期末的行程表；
        「一起讀到閉館」（night）的玩家第 11 週週五沒有去小福午餐（SK03_LAST 不是那天）＝12:40 群組一張便當照片「欠你的，下週。」，下一個去的週五照樣推過來（ev_sk03_lunch 的 repay）。
        只在共同見過阿勳的玩家也開 SK03（AA-B 2026-10-16），所以便當照片照發、下一個有去的週五推便當 */

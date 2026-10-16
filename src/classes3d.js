@@ -142,6 +142,7 @@ const CLS=(function(){
   /* 法律審查（AA_122 第 0a 節，使用者 2026-10-14 同意）：還沒審查的課堂法律內容，不能當作已確認的法律結論發布。每週的黑板、教授一句、同學反應、觀察／被點到的選擇，
      只有審查過的那一週才用（SYLLABUS.reviewed：['課程代號|週次']，匯入時照 BB_115 的審查結果產生）；其他週用不含法律結論的一般句子（STYLE／GENERAL：只寫這週的主題）。
      v9.6 的課堂內容是審查之前的版本，沒有 reviewed：法律系的課全部用一般句子。國文、英文、體育、實習的台詞池、第二格的短片段（不在審查清單裡）照舊 */
+  S.e03Due=(G,it)=>!!(it&&it.c&&it.c.id==='econ_principles_y0'&&!it.exam&&(it.week|0)>=2&&!(G.flags&&G.flags.Y0_B1_ANSWER));   /* 經濟系那一年：E03 還沒上過（BB_105 B1；第 1 週不算）*/
   S.sylReviewed=(c,w)=>!!(typeof SYLLABUS!=='undefined'&&Array.isArray(SYLLABUS.reviewed)&&SYLLABUS.reviewed.includes(c.id+'|'+w));
   S.content=function(it){ attachSyllabus(); const c=it.c, t=S.topic(c,it.week)||c.name; const sy=c.syllabus&&S.sylReviewed(c,it.week)&&c.syllabus.find(q=>q.w===it.week);
     if(c.second&&c.second.length&&S.slotOrder(it).i>=1&&!S.earlierSlotsOff(it)){ const L=c.second; return {board:[c.name+'：'+t,'（這週的第二堂）',''],line:L[(it.day+it.week)%L.length],react:'',second:true}; }
@@ -189,7 +190,7 @@ const CLS=(function(){
     return n; };
   // ---------- 上課（普通課堂；考試週＝考試）----------
   S.attend=async function(GM,it,o){ o=o||{}; const G=GM.G, E=GM.E, R=S.rec(G), c=it.c; if(R.done[it.key]) return false;
-    const exam=it.exam, prof=c.prof&&typeof EVENTS!=='undefined'?EVENTS.npcOf(c.prof):null; const ct=S.content(it); const door=!!o.door;
+    const exam=it.exam, prof=c.prof&&typeof EVENTS!=='undefined'?EVENTS.npcOf(c.prof):null; const e03=S.e03Due(G,it); const ct=S.content(e03&&it.week!==2?Object.assign({},it,{week:2}):it); const door=!!o.door;   /* E03＝BB_105 B1：經原第 2 週那一堂（機會成本），第 2 週沒去就在之後第一次出席時上（AA_154 第 97 行）*/
     const lateAbs=!exam&&c.kind!=='service'&&S.isLateAbsent(G,it);
     if(lateAbs&&!o.lateOk){ const k=await (async()=>{ if(!o.inScene) GM.sceneBegin(); try{ await GM.say(null,'已經開始 '+Math.floor(S.lateMin(G,it))+' 分鐘了。現在進去會記缺席。'); return await GM.choose([{t:'還是進去聽',hint:'記缺席；聽得到後半堂'},{t:'算了'}]); } finally { if(!o.inScene) GM.sceneEnd(); } })(); if(k!==0) return false; }
     if(c.kind!=='service'&&!lateAbs) await S.beforeClassEvent(GM,it);   /* 上課前的人物事件（BB_135 1-4：芯慈在重修教室上課前）。坐在 3D 座位上課（inScene）也要演：原本只有門口上課才演，座位教室（201、普通 101…）的課前、課後事件從來不會出現（AA-B 2026-10-16 回報）*/
@@ -213,7 +214,7 @@ const CLS=(function(){
         /* B：觀察的小選擇（只顯示一行結果，不影響數值）；C：被點到（三個選項共用收尾）——BB 的 syllabus（AA_104）*/
         if(ct.tpl==='B'&&ct.obs&&ct.obs.kind==='discuss'&&ct.obs.options&&ct.obs.options.length){ await S.discuss(GM,it,ct,prof); if(ct.obs.disc&&ct.obs.disc.qid) await S.classAsk(GM,it,prof,ct,ct.obs.disc.qid); }   /* 討論課的題目（BB-B 64406c8，使用者 2026-10-15：討論課的題目要進期末考）：討論收尾之後教授在黑板寫這一題，流程和課堂提問一樣 */
         else if(ct.tpl==='B'&&ct.obs&&ct.obs.options&&ct.obs.options.length){ if(ct.obs.prompt) await GM.say(null,ct.obs.prompt); const i=await GM.choose(ct.obs.options.map(o=>({t:o.text}))); const r=ct.obs.options[i]&&ct.obs.options[i].result; if(r) await GM.say(null,r); }
-        else if(ct.tpl==='C'&&ct.call&&ct.call.options&&ct.call.options.length){ await GM.say(null,(c.prof?S.profName(c):'老師')+'點到你。'); await GM.choose(ct.call.options.map(o=>({t:'「'+o+'」'}))); for(const f of (ct.call.follow||[])) await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+f); }
+        else if(ct.tpl==='C'&&ct.call&&ct.call.options&&ct.call.options.length){ await GM.say(null,(c.prof?S.profName(c):'老師')+'點到你。'); const ci=await GM.choose(ct.call.options.map(o=>({t:'「'+o+'」'}))); if(e03){ G.flags=G.flags||{}; G.flags.Y0_B1_ANSWER=ct.call.options[ci]||ct.call.options[0]; }   /* 記玩家的回答（選項原文，例「睡覺。」）：法律系 P4 的旁白「那時候你答的是——」讀它（BB_105 L98）*/ for(const f of (ct.call.follow||[])) await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+f); }
         if(!ct.second&&!(ct.obs&&ct.obs.disc&&S.askOf(it)&&S.askOf(it).id===ct.obs.disc.qid)) await S.classAsk(GM,it,prof,ct); }
       if(E.zone&&E.zone.layout) S.syncRooms(GM);   /* 快轉前同學先坐好（人流每 15 分鐘才排一次；剛好在那之前坐下的話，下課時沒有人站起來走出去）*/
       await GM.fade(true); const h=hr(G); if(h<it.t1) GM.advance(it.t1-h); keepCrowd(G); R.done[it.key]=1; if(lateAbs) R.abs[it.key]=1; else if(!exam){ R.attend[c.id]=(R.attend[c.id]||0)+1; R.prep[c.id]=(R.prep[c.id]||0)+1; if(S.isLate(G,it)) R.late[it.key]=1; } await GM.fade(false);

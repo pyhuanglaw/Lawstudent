@@ -1405,6 +1405,29 @@ const STORY_EVENTS=[
       {label:'steady'},{speaker:'kexin',expression:'teasing',text:'穩不穩，要看坐後面的人。'},
       {label:'end'},{if:{flagIs:{P2_PICK:'gongguan'}},speaker:null,text:'品妤挑了一家一百二十元吃到飽的。阿勳吃了四碗白飯。'} ],
     after:(G,GM)=>{ GM.advance(1.5); G.flags.E05_DAY=G.day; G.flags.E05_END=G.hour%24; } },
+  /* ★E08 中秋系烤（BB_153，AA-B 核對通過、數值照 BB 建議定案；AA_154 第 88 行、A3：中秋後的週六 9/21 17:00 河濱）：9/16 全班群組揪、9/21 16:00 韋綸私訊，回「好」＝出遊（story3d.js）。
+     誰生火、月亮收租的回答都不記（BB_104）。數值：可昕熟悉 +2；品妤、阿勳 +1（韋綸、唐睿還沒有人物資料——AA_159 建好時補 +1）。
+     participants 不放可昕：演完不接她的閒聊階梯（結尾是回宿舍的路上）*/
+  { id:'ev_y0_e08', stage:'econ', title:'中秋系烤', participants:['econ_zhengxun','econ_pinyu'], location:'any', trigger:'outing', once:true, background:'dark', hours:4,
+    dialogue:[ {scene:'河濱',bg:'riverside'},
+      {speaker:null,text:'星期六傍晚。河濱的草地上，經濟系的人圍成好幾圈。'},
+      {speaker:null,text:'烤肉架是系學會借來的。炭還是黑的。'},
+      {speaker:'韋綸',text:'走啦！誰要生火？'},
+      {speaker:'econ_pinyu',text:'生火的人先吃。這叫誘因設計。'},
+      {speaker:'唐睿',text:'我負責分肉。誰不吃什麼，我都記得。'},
+      {choice:[{text:'「阿勳來。」',goto:'f1'},{text:'「韋綸來。」',goto:'f2'},{text:'「我來。」',goto:'f3'}]},
+      {label:'f1'},{speaker:null,text:'阿勳擺了三塊炭，劃了一根火柴。火一次就起來了。'},{speaker:'econ_zhengxun',text:'熱力學。'},{speaker:'韋綸',text:'……我帶了一整包報紙耶。'},{goto:'meat'},
+      {label:'f2'},{speaker:null,text:'火起來的那一秒，韋綸的瀏海也捲起來了。'},{speaker:'韋綸',text:'沒事！走啦！……有沒有人聞到頭髮的味道？'},{speaker:'econ_pinyu',text:'有。是你的。'},{goto:'meat'},
+      {label:'f3'},{speaker:'kexin',text:'假設我們把報紙捲成一根一根的——'},{speaker:'kexin',text:'……假設我們再搧大力一點——'},{speaker:null,text:'她每出一個主意，火就小一點。'},{speaker:null,text:'最後是阿勳接手的。他只說了一句。'},{speaker:'econ_zhengxun',text:'熱力學。'},
+      {label:'meat'},{speaker:null,text:'肉烤好了，玉米烤焦了一面。'},{speaker:'econ_pinyu',text:'焦的那一面朝下放。拍照不會拍到。'},{speaker:null,text:'唐睿把每個人的盤子都放對了。沒有人拿到不吃的東西。'},
+      {speaker:null,text:'八點多，月亮才從對岸的大樓後面出來。比中秋那天瘦一點。'},{speaker:null,text:'可昕拿著一串烤玉米，坐到你旁邊。'},
+      {speaker:'kexin',text:'如果月亮收租，我們要付多少？'},
+      {choice:[{text:'「照坪數算？」',goto:'m1'},{text:'「照了一整晚，應該很貴。」',goto:'m2'},{text:'「中秋過了，應該打折。」',goto:'m3'}]},
+      {label:'m1'},{speaker:'kexin',text:'那地球很虧。我們整顆都被照到了。'},{goto:'end'},
+      {label:'m2'},{speaker:'kexin',text:'那今天只付一半。她遲到了。'},{goto:'end'},
+      {label:'m3'},{speaker:'kexin',text:'……你很適合念經濟。'},
+      {label:'end'},{speaker:null,text:'九點，大家把烤肉架抬回系學會的車上。'},{speaker:null,text:'回宿舍的路上，你的衣服都是炭的味道。'},
+      {rel:{kexin:{fam:2},econ_pinyu:{fam:1},econ_zhengxun:{fam:1}}} ] },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、
