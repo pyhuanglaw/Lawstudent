@@ -1496,6 +1496,39 @@ const STORY_EVENTS=[
   { id:'ev_y0_p1b2', stage:'econ', title:'平衡不了的那一行（二）', participants:['econ_zhengxun'], location:'any', trigger:'class', afterClass:'acct_y0', term:['Y0S1'], weeks:[7], once:true, background:'blur',
     prereq:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_y0_p1b1)&&G.flags.P1B1_DAY!==G.day},
     dialogue:[ {speaker:'韋綸',text:'我的平衡了！'},{speaker:'econ_zhengxun',text:'（看了一眼）……你兩邊都寫零。'} ] },
+  /* T1 全系的秘密（BB_112 T1；AA_154 第 111 行）：Y0S1 第 5～6 週平日中午在校園，切到小福（E09 之後的那幾週；9/30 颱風假、10/10 國慶沒有）。記 KNOWS_TANG（法律系 BB_106 4-2① 的選項讀它）。
+     沒去：沒有這件，第一次聽說在 T2（唐睿自己說漏嘴，還沒做）*/
+  { id:'ev_y0_t1', stage:'econ', title:'全系的秘密', participants:['econ_pinyu'], location:'campus', trigger:'auto', term:['Y0S1'], weeks:[5,6], weekday:[1,2,3,4,5], time:[12.1,13.25], once:true, background:'blur',
+    prereq:{custom:G=>typeof CALENDAR==='undefined'||!CALENDAR.holiday(G.day)},
+    dialogue:[ {scene:'小福',bg:'xiaofu'},
+      {speaker:'韋綸',text:'（壓低聲音）你知道唐睿喜歡品妤嗎？'},
+      {speaker:'player',text:'……不知道。'},
+      {speaker:'韋綸',text:'全系都知道。只有品妤不知道。'},
+      {speaker:'韋綸',text:'所以現在你也是全系了。'},
+      {speaker:'econ_pinyu',text:'（端著餐盤走過來）你們在講什麼？'},
+      {speaker:'韋綸',text:'在講……經濟學。'},
+      {speaker:'econ_pinyu',text:'你們兩個的對話，經濟效益是零。'},
+      {set:{KNOWS_TANG:true}} ],
+    after:(G,GM)=>{ GM.advance(0.5); } },
+  /* A1 凌晨兩點的微積分（BB_112 A1；AA_154 第 119 行）：Y0S1 第 7 週平日的深夜（10/15 群組聚會、10/16 E10 那兩晚除外），在宿舍房間、阿勳在。
+     「我覺得很好。數字有溫度。」記 XUN_WARM（法律系大三 SK13 多一句）。沒去：期中考完（11/1 以後）門上的紙條（ev_y0_a1_note）*/
+  { id:'ev_y0_a1', stage:'econ', title:'凌晨兩點的微積分', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S1'], weeks:[7], weekday:[1,4,5], time:[24,27], once:true, background:'blur',
+    dialogue:[ {speaker:'econ_zhengxun',text:'你那題，答案是零。'},
+      {speaker:'player',text:'你怎麼知道我在寫哪一題？'},
+      {speaker:'econ_zhengxun',text:'你嘆氣的方式，是第四題的嘆氣。'},
+      {speaker:'econ_zhengxun',text:'（把椅子轉過來）我教你。十分鐘。'},
+      {speaker:null,text:'（四十分鐘後。）'},
+      {speaker:'econ_zhengxun',text:'經濟是我唯一覺得數字有溫度的東西。'},
+      {speaker:'econ_zhengxun',text:'……這句話不要寫進你的筆記。很丟臉。'},
+      {choice:[{text:'「我覺得很好。數字有溫度。」',set:{XUN_WARM:true},goto:'w'},{text:'「你以後會一直念經濟嗎？」',goto:'q'},{text:'「十分鐘是四十分鐘。」',goto:'t'}]},
+      {label:'w'},{speaker:'econ_zhengxun',text:'……你也是怪人。'},{goto:'end'},
+      {label:'q'},{speaker:'econ_zhengxun',text:'會。我想不到別的。……不對，是不想想別的。'},{goto:'end'},
+      {label:'t'},{speaker:'econ_zhengxun',text:'經濟系的十分鐘。邊際的。'},
+      {label:'end'} ],
+    after:(G,GM)=>{ GM.advance(2/3); } },
+  { id:'ev_y0_a1_note', stage:'econ', title:'門上的紙條', participants:[], location:'dorm', trigger:'auto', term:['Y0S1'], weeks:[9,10,11], once:true, background:'blur',
+    prereq:{custom:G=>!(G.events&&G.events.done&&G.events.done.ev_y0_a1)&&typeof CALENDAR!=='undefined'&&CALENDAR.dateOf(G.day).key>='2024-11-01'&&(CALENDAR.dateOf(G.day).key>'2024-11-01'||G.hour>=12)},
+    dialogue:[ {speaker:null,text:'期中考完，阿勳在門上貼了一張紙：「第四題，答案是零。」'} ] },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、
