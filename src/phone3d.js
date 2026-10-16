@@ -12,7 +12,10 @@
 'use strict';
 const PHONE=(function(){
   const S={};
-  const nm=id=>{ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(c&&c.phoneName) return c.phoneName; return (typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(id):((c&&c.name)||id); };   /* phoneName：手機上的名字（可昕）*/
+  const nm=id=>{ const cn=typeof SOCIAL!=='undefined'&&SOCIAL.contactName?SOCIAL.contactName(id):null;   /* 手機聯絡人的名字跟著關係（AA_124 1-6、BB_120：到「朋友」時改叫法）——
+      名字已經知道了才用（還沒見過的女主角照舊「不認識的女生」，不能因為聯絡人名稱提前露出名字）*/
+    if(cn&&SOCIAL.displayName&&typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&SOCIAL.displayName(id)===CHARACTERS[id].name) return cn;
+    const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(c&&c.phoneName) return c.phoneName; return (typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(id):((c&&c.name)||id); };   /* phoneName：手機上的名字（可昕）*/
   S.rec=function(G){ if(typeof INV!=='undefined') INV.rec(G); else if(!Array.isArray(G.msgs)) G.msgs=[];
     if(!G.phone||typeof G.phone!=='object') G.phone={}; const P=G.phone; if(!P.groups||typeof P.groups!=='object') P.groups={}; if(!P.seen||typeof P.seen!=='object') P.seen={}; if(!Array.isArray(P.q)) P.q=[]; if(typeof P.n!=='number') P.n=0; return P; };
   S.th=m=>m.th||(m.who?'p:'+m.who:'sys');
@@ -23,7 +26,7 @@ const PHONE=(function(){
   S.who=m=>m.from==='player'?'你':(m.name||(m.from?nm(m.from):''));
   const mk=(G,it,day,h)=>{ const hh=((h%24)+24)%24, dd=day+Math.floor(h/24); const th=it.th||(it.who?'p:'+it.who:'sys');
     const m={day:dd,h:+hh.toFixed(2),who:it.who!==undefined?it.who:(th.startsWith('p:')&&it.from!=='player'?th.slice(2):null),text:it.text,iv:null,th};
-    if(it.from) m.from=it.from; if(it.name) m.name=it.name; if(it.pin) m.pin=true; if(it.tag) m.tag=it.tag;
+    if(it.from) m.from=it.from; if(it.name) m.name=it.name; if(it.pin) m.pin=true; if(it.tag) m.tag=it.tag; if(Array.isArray(it.fold)) m.fold=it.fold.slice();   /* fold：折起來的長訊息（手機上點開看全文；W3b）*/
     if(it.ask){ const P=S.rec(G); P.n++; m.ask=Object.assign({},it.ask,{id:it.ask.id||('a'+P.n)}); } return m; };
   const put=(G,m)=>{ let i=G.msgs.length; while(i>0&&abs(G.msgs[i-1].day,G.msgs[i-1].h)>abs(m.day,m.h)) i--; G.msgs.splice(i,0,m); if(G.msgs.length>200) G.msgs.splice(0,G.msgs.length-200); return m; };
   /* 現在送出（時間＝現在）；postAt：補在過去的時間（照時間排進去）*/
@@ -39,7 +42,7 @@ const PHONE=(function(){
       if(notify) notify(out,q); }
     return n; };
   /* 可以回的訊息 */
-  /* 回覆的期限（ask.until＝絕對時間 day*24+h；例：可昕生日「祐廷的草稿」當天 23:59 前可以傳，BB_95 9-6）：過了就不能回、按鈕不顯示 */
+  /* 回覆的期限（ask.until＝絕對時間 day*24+h；例：12/3 可昕「祐廷的草稿」當天 23:59 前可以傳，BB_95 9-6）：過了就不能回、按鈕不顯示 */
   S.askOpen=(G,m)=>!!(m&&m.ask&&m.ans==null&&!(m.ask.until!=null&&abs(G.day,G.hour)>m.ask.until));
   S.pending=G=>{ S.rec(G); return G.msgs.filter(m=>S.askOpen(G,m)); };
   S.byAsk=(G,id)=>{ S.rec(G); return G.msgs.find(m=>m.ask&&m.ask.id===id)||null; };

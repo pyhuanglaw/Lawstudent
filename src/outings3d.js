@@ -8,10 +8,18 @@
 'use strict';
 const OUT=(function(){
   const S={};
-  /* 2D 背景（AA_112 3-1：政大四個＋停車場；河濱和子晴的河堤夜景共用）：image 是圖片路徑，還沒有圖＝null（深色底＋地點字幕）*/
-  S.BG={ car:{label:'車上',image:null}, nccu_gate:{label:'政大・校門口',image:null}, nccu_food:{label:'政大・山下的小吃街',image:null}, nccu_river:{label:'政大・河堤',image:null},
-    nccu_lib:{label:'政大・圖書館',image:null}, nccu_park:{label:'政大・停車場',image:null}, riverside:{label:'河濱',image:null}, dorm_roof:{label:'宿舍頂樓',image:null}, video:{label:'視訊',image:null}, gongguan_luwei:{label:'公館・滷味攤',image:null},
-    ntu_soc:{label:'台大・社科院門口',image:null}, ntu_linze:{label:'台大・霖澤館前',image:null}, ntu_avenue:{label:'台大・椰林大道',image:null} };   /* K2 可昕來台大（BB_95 9-3 的最小版本：依序換 2D 背景；之後可以換成遊戲校園的畫面）*/
+  /* 2D 背景（AA_112 3-1：政大四個＋停車場；河濱和子晴的河堤夜景共用）：image 是圖片路徑，還沒有圖＝null（深色底＋地點字幕）。
+     home_living＝平常週末回家的客廳（還沒有圖）；home_living_cny＝除夕的年夜飯（BB-B 第 25 組，桌上是年夜飯、牆上中國結，只用在除夕）。
+     政大只做主要校園＋宿舍（自強十舍）（使用者 2026-10-16 對 LAWWW2-B）：河堤、圖書館、停車場不做，那幾幕照 AA_137 7-1 改到校門、校園裡的路、宿舍樓下 */
+  S.BG={ car:{label:'車上',image:null}, nccu_gate:{label:'政大・校門口',image:'assets/bg/nccu_gate.webp'}, nccu_food:{label:'政大・山下的小吃街',image:'assets/bg/nccu_food.webp'}, nccu_dorm:{label:'政大・宿舍樓下',image:null}, nccu_campus:{label:'政大・校園裡的路',image:'assets/bg/nccu_campus.webp'},
+    riverside:{label:'河濱',image:'assets/bg/riverside.webp'}, dorm_roof:{label:'宿舍頂樓',image:'assets/bg/dorm_roof.webp'}, video:{label:'視訊',image:'assets/bg/video.webp'}, gongguan_luwei:{label:'公館・滷味攤',image:'assets/bg/gongguan_luwei.webp'},
+    ntu_soc:{label:'台大・社科院門口',image:null}, ferris_wheel:{label:'摩天輪',image:'assets/bg/ferris_wheel.webp'}, gongguan:{label:'公館',image:null}, wenzhou:{label:'溫州街',image:null}, ntu_linze:{label:'台大・霖澤館前',image:null}, ntu_avenue:{label:'台大・椰林大道',image:null},
+    trip_sea:{label:'海邊',image:null}, trip_oldtown:{label:'老街',image:null}, trip_mountain:{label:'山上',image:null},
+    home_living:{label:'臺北・家裡的客廳',image:'assets/bg/home_living.webp'}, home_living_day:{label:'臺北・家裡的客廳',image:'assets/bg/home_living_day.webp'}, home_living_cny:{label:'臺北・家裡的客廳（除夕）',image:'assets/bg/home_living_cny.webp'}, home_balcony:{label:'臺北・家裡的陽台',image:'assets/bg/home_balcony.webp'}, home_room:{label:'臺北・家裡的房間',image:'assets/bg/home_room.webp'},
+    econ_camp:{label:'宿營・青年活動中心',image:'assets/bg/econ_camp.webp'}, econ_camp_room:{label:'宿營・八人寢室',image:'assets/bg/econ_camp_room.webp'}, gongguan_douhua:{label:'公館・豆花店',image:'assets/bg/gongguan_douhua.webp'}, gongguan_hotpot:{label:'公館・火鍋店',image:'assets/bg/gongguan_hotpot.webp'}, newyear_crowd:{label:'跨年的人潮',image:'assets/bg/newyear_crowd.webp'}, soc_library:{label:'社科院圖書館・閱覽區',image:'assets/bg/soc_library.webp'}, soc_office:{label:'經濟系系辦',image:'assets/bg/soc_office.webp'}, classroom_small:{label:'小教室',image:'assets/bg/classroom_small.webp'},
+    wenzhou_tutoring:{label:'溫州街・課輔班門口',image:null}, yongkang_curry:{label:'永康街・咖哩店',image:null},
+    gongguan_cinema:{label:'公館・二輪戲院',image:null}, soymilk_shop:{label:'豆漿店',image:null}, tutor_home:{label:'學生家的客廳',image:null},
+    noodle_table:{label:'阿鳳麵店・長桌',image:'assets/bg/noodle_table.webp'}, soc_hall:{label:'社科院・大講堂',image:'assets/bg/soc_hall.webp'}, soc_classroom:{label:'社科院・系上的教室',image:'assets/bg/soc_classroom.webp'}, xiaofu:{label:'小福',image:'assets/bg/xiaofu.webp'}, girls_dorm_gate:{label:'女生宿舍門口',image:'assets/bg/girls_dorm_gate.webp'}, bowling:{label:'保齡球館',image:'assets/bg/bowling.webp'}, seaside_town:{label:'春假・海邊的小鎮',image:null} };   /* 期中考完的晚餐（交接包 v2 C11、C21）：麵店有 3D 區域，長桌這一幕先用 2D 底 */   /* 春假 K8 的三個目的地（BB_96 9-5；交接包 v2 C9）、嘉義老家（AA_12 主線 2；C2）：圖還沒有＝深色底＋地點字幕 */   /* K2 可昕來台大（BB_95 9-3 的最小版本：依序換 2D 背景；之後可以換成遊戲校園的畫面）*/
   S.bg=id=>{ const b=S.BG[id]; return b&&b.image?{image:b.image}:'dark'; };
   S.rec=G=>{ if(!Array.isArray(G.outings)) G.outings=[]; return G.outings; };
   S.get=(G,id)=>S.rec(G).find(q=>q.id===id)||null;
@@ -41,6 +49,8 @@ const OUT=(function(){
     if(typeof ADV!=='undefined'){ ADV.begin({background:ev.background||'dark'}); }
     await GM.fade(false); if(typeof ev.beforeOuting==='function') await ev.beforeOuting(G,GM,q);   /* 演之前在同一個畫面先做的事（例：可昕的視訊讀書先選讀哪一科，BB_95 9-5）*/
     await EVENTS.run(ev); if(typeof ev.afterOuting==='function') await ev.afterOuting(G,GM,q);   /* 演完以後在同一個畫面接著做的事（例：可昕的視訊之後發成績單）*/
+    if((ev.participants||[]).includes('kexin')&&typeof STORY!=='undefined'&&STORY.ladNext){ const md=q.verb==='接起來'||q.place==='視訊'?'video':'meet', st=STORY.ladNext(G,'kexin',md);   /* 可昕的閒聊階梯（BB_130：只在見面／視訊推進，路上不推進）：演完那一段接著聊一層；今天推進過或條件不到就不聊（不用短招呼）*/
+      if(st) await STORY.ladPlay(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin',st); }
     await GM.fade(true); GM.advance(ev.hours||2); await GM.fade(false); if(GM.caption) GM.caption('',q.back||'回到台大。',2400);
     if(GM.autosave) GM.autosave(); return true; };
   return S;

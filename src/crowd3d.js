@@ -29,7 +29,7 @@ const CROWD=(function(){
       /* 平日早上出門（07:40–08:50）、傍晚回來（17:20–19:00）、晚上在門口等人或講電話（20:00–22:30）；週末白天零星；深夜沒有人 */
       slots(G){ if(!schoolDay(G)) return []; const wk=typeof CALENDAR!=='undefined'&&CALENDAR.weekend(G.day);
         return wk?[{key:'wkday',t0:10.5,t1:17.5,n:[1,2],pose:'idle',talk:0.3,enter:'door',leave:'road'},{key:'wkeve',t0:19.5,t1:22,n:[1,3],pose:'talk',talk:0.6,enter:'road',leave:'door'}]
-                 :[{key:'am',t0:7+40/60,t1:8+50/60,n:[2,4],pose:'idle',talk:0.3,enter:'door',leave:'road'},{key:'eve',t0:17+20/60,t1:19,n:[2,5],pose:'talk',talk:0.6,enter:'road',leave:'door'},{key:'night',t0:20,t1:22.5,n:[1,3],pose:'read',talk:0.2,enter:'door',leave:'door'}]; } } ];
+                 :[{key:'am',t0:7+40/60,t1:8+50/60,n:[2,4],pose:'idle',talk:0.3,enter:'door',leave:'road'},{key:'eve',t0:17+20/60,t1:19,n:[2,5],pose:'talk',talk:0.6,enter:'road',leave:'door'},{key:'night',t0:20,t1:22.5,n:[1,3],pose:'idle',talk:0.2,enter:'door',leave:'door'}]; } } ];   /* night 原本是 read（坐姿），門口沒有座位＝坐在空中（LAWWW2 10-14 C13 回報）：改站著 */
   /* 教學館室內的等候點（layout 的 waitSpots）：door＝教室門裡面一點（下課的人從這裡出來）、road＝建築出口（從這裡進來、走出去）、seatRoom＝走進去坐的那一間 */
   function insideDoor(r){ if(r.kind==='lecture'&&r.door){ const d=r.door, m=(d.a0+d.a1)/2; return d.wall==='W'?[d.x+0.9,m]:(d.wall==='E'?[d.x-0.9,m]:[m,d.z]); }
     if(r.doorFront){ const dz=r.doorZ!=null?r.doorZ:-0.4, ins=(r.z0+r.z1)/2<dz?-1:1; return [(r.doorFront[0]+r.doorFront[1])/2,dz+ins*0.9]; } return [(r.x0+r.x1)/2,(r.z0+r.z1)/2]; }

@@ -40,7 +40,7 @@ const walkTo=(n,x,z,lv)=>E.simWalk(n.obj.position.x,n.obj.position.z,x,z,{lv0:n.
   const bad=[]; for(const n of goers){ const st=n.seat, ap=CROWD.seatSide(E,st); const r=walkTo(n,ap[0],ap[1],st.lv|0); if(!r.ok||Math.abs(r.y-st.y)>0.05) bad.push(JSON.stringify(r).slice(0,80)); }
   check('走得到座位旁邊（真的移動模擬）、高度＝那一排的平台',!bad.length,bad.join(' | '));
   for(const n of goers){ const p=n.path[n.path.length-1]; n.obj.position.set(p[0],0,p[1]); n.path=null; if(n.onArrive){ const f=n.onArrive; n.onArrive=null; f(); } }
-  check('坐下：姿勢 sit、在座位上、那堂課的同學（clsKey 一樣）',goers.every(n=>n.pose==='sit'&&n.frozen&&Math.abs(n.obj.position.x-n.seat.x)<0.01&&Math.abs(n.obj.position.y-n.seat.y)<0.01&&n.clsKey===E.npcs.find(m=>m.clsStudent&&m!==n&&!goers.includes(m)).clsKey),goers.map(n=>n.pose).join(','));
+  check('坐下：姿勢 sit、在座位上、那堂課的同學（clsKey 一樣）',goers.every(n=>n.pose==='sit'&&n.frozen&&Math.abs(n.obj.position.x-n.seat.x)<0.01&&Math.abs(n.obj.position.y-n.seat.y)<0.01&&n.clsKey===TUE+':chinese_y1:am'),goers.map(n=>n.pose+':'+n.clsKey).join(','));   /* 2026-10-16：08:55 教室裡還沒有人坐（AA_137 第 8 節：上課前 10 分鐘起陸續進來），改成直接比那堂課的 key */
   // 下課：時間正常往前（每 15 分鐘同步一次）
   G.hour=12.0; CLS.syncRooms(GM); const n0=E.npcs.filter(n=>n.clsStudent).length; G.hour=12.25; CLS.syncRooms(GM);
   const out=E.npcs.filter(n=>n.crowd==='cls'); check('12:15（下課，時間正常往前）：坐著的 '+n0+' 個同學站起來、走向建築出口（不是瞬間消失）',out.length===n0&&!E.npcs.some(n=>n.clsStudent)&&out.every(n=>n.leaving&&n.path&&n.path.length&&!n.seat),out.length+' 人');

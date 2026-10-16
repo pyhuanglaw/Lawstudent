@@ -65,8 +65,14 @@ const D2=fri('Y1S2',5);   // 大一下第 5 週的週五（芷若週五 11–15 
     check('見面：時間過去（1 小時）、記憶「咖啡廳的下午」、熟一點點（fam +2，不是戀愛）、習慣記憶 place:cafe:with',Math.abs(G.hour-h0-1)<1e-6&&MEM.some(m=>m[1]==='CAFE_AFTERNOON')&&ADJ.some(a=>a[1].fam===2&&!a[1].rom)&&HAB.includes('place:cafe:with:heroine_01')&&mv.state==='done',`${h0}→${G.hour} ${JSON.stringify(MEM)}`); }); }
 // ---------- 沒赴約 ----------
 { GM=newGM('campus',D2,18); const G=GM.G; INV.accept(G,'zhe','noodle',D2,19); MEM.length=0;
-  G.hour=19.5; INV.tick(GM); check('19:30 還沒到（45 分鐘內）：還算約著',G.invites[0].state==='accepted');
-  G.hour=19.8; INV.tick(GM); check('過了 45 分鐘＝沒赴約：不扣分、留一筆「放過鴿子」、訊息',G.invites[0].state==='missed'&&MEM.some(m=>m[1]==='MISSED_DINNER')&&/沒有赴約/.test(G.msgs[G.msgs.length-1].text)&&!ADJ.some(a=>a[1].fam<0||a[1].trust<0)); }
+  G.hour=19.4; INV.tick(GM); check('19:24 還沒到（30 分鐘內）：還算約著',G.invites[0].state==='accepted');   /* AA_137 第 7 節：等 30 分鐘（原本 45）*/
+  G.hour=19.55; INV.tick(GM); check('過了 30 分鐘＝沒赴約（她自己走掉）：不扣分、留一筆「放過鴿子」、訊息',G.invites[0].state==='missed'&&MEM.some(m=>m[1]==='MISSED_DINNER')&&/沒有赴約/.test(G.msgs[G.msgs.length-1].text)&&!ADJ.some(a=>a[1].fam<0||a[1].trust<0)); }
+// ---------- 提醒、「你在哪？」（AA_137 第 7 節）----------
+{ GM=newGM('campus',D2,18); const G=GM.G; INV.accept(G,'zhe','noodle',D2,19); const posted=[], toasts=[]; global.PHONE={post:(GG,m)=>posted.push(m)}; GM.toast=t=>toasts.push(t); G.contacts=G.contacts||{}; G.contacts.zhe=1;
+  G.hour=18.4; INV.tick(GM); check('18:24（30 分鐘前以前）：還不提醒',!toasts.length);
+  G.hour=18.6; INV.tick(GM); check('18:36（約定前 30 分鐘內）：提醒一次',toasts.length===1&&/提醒/.test(toasts[0]),toasts.join('|')); INV.tick(GM); check('不重複提醒',toasts.filter(t=>/提醒/.test(t)).length===1);
+  G.hour=19.3; G.zone='campus'; INV.tick(GM); check('19:18（過了 15 分鐘、你不在麵店）：他傳「你在哪？」',posted.length===1&&posted[0].text==='你在哪？'&&posted[0].from==='zhe'&&posted[0].th==='p:zhe',JSON.stringify(posted));
+  delete global.PHONE; }
 // ---------- 現在一起走過去 ----------
 { GM=newGM('campus',D2,16); const G=GM.G; const iv=INV.accept(G,'yu','wenzhou',D2,16,{now:true});
   const e=INV.entryFor(G,'yu'); check('一起走過去：作息被覆寫成「和你在一起」（在玩家這一區）',iv.state==='going'&&e&&e.act==='follow'&&e.zone==='campus');

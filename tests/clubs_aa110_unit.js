@@ -25,7 +25,7 @@ let G;
 const GM={get G(){ return G; },E:{zone:null,interactables:[],player:{busy:false,obj:{position:{x:0,z:0}}}},D:{active:false},S:{},
   sceneBegin(){},sceneEnd(){},say:async(n,t)=>{ log.push(t); },toast(){},caption:(a,t)=>{ caps.push(t); log.push('〔字幕〕'+t); },autosave(){},setGoal(){},
   choose:async o=>{ chose.push(o.map(q=>q.t)); return answers.length?answers.shift():0; },fade:async on=>{ if(on) log.push('〔轉暗〕'); },sleep:async()=>{},advance(h){ G.hour+=h; },energy(){},money(){}};
-const fresh=(day,hour)=>{ G={day,hour,weekday:CALENDAR.dateOf(day).wd%7,zone:'wancai',flags:{},events:{done:{},last:{}},energy:80,goal:'',goalDest:null}; log=[]; chose=[]; caps=[]; answers=[]; return G; };
+const fresh=(day,hour)=>{ G={day,hour,weekday:CALENDAR.dateOf(day).wd%7,zone:'wancai',flags:{},events:{done:{},last:{}},energy:80,goal:'',goalDest:null}; EVENTS.bind(GM); log=[]; chose=[]; caps=[]; answers=[]; return G; };
 const A=id=>ACTIVITIES.list.find(a=>a.id===id);
 const dOf=(w,wd)=>{ for(let d=1;d<200;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y1S1'&&t.week===w&&CALENDAR.dateOf(d).wd===wd) return d; } return null; };
 const W=[5,6,7,10,11,12,13,14,15,16];

@@ -9,13 +9,14 @@
 // 用法：node tests/v1_batch7_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
+const ADV_CG_FILE=id=>{ const m=fs.readFileSync(path.join(ROOT,'src/adv3d.js'),'utf8').match(new RegExp(id+":\\{file:'([^']+)'")); return m&&m[1]; };   /* adv3d.js 的 CG_REGISTRY（不載入 adv3d，靜態讀）*/
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|OUT|COURSES|CLS|ACTIVITIES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/classes3d.js']) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
-let bgs=[]; global.ADV={active:false,preload(){},begin(o){ this.active=true; bgs.push('begin:'+(o&&o.background)); },end(){ this.active=false; },log(){},speaker(){},cg(){},setBg(m){ bgs.push(typeof m==='object'?'img':m); }};
+let bgs=[], cgs=[]; global.ADV={active:false,preload(){},begin(o){ this.active=true; bgs.push('begin:'+(o&&o.background)); },end(){ this.active=false; },log(){},speaker(){},cg(id){ cgs.push(id); },setBg(m){ bgs.push(typeof m==='object'?'img':m); }};
 global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
 let said=[], opts=[], picks=[], caps=[], titles=[], G=null;
@@ -65,9 +66,12 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
   { const play=async(pk)=>{ fresh(SAT3,13.5,'dorm'); OUT.plan(G,{id:'kx_tour',ev:'ev_kexin_tour_nccu',day:SAT3,h:14,place:'政大',title:'去政大找可昕',travel:'開車約 30 分鐘',travelH:0.5}); picks=['出發'].concat(pk); const r=await tickOut(); return r; };
     const r=await play(['影子不會講話','她推薦']); const L=lines();
     check('出發：轉場（標題卡「去政大找可昕｜開車約 30 分鐘」）、深色底開始',r==='go'&&titles[0]==='去政大找可昕｜開車約 30 分鐘'&&bgs[0]==='begin:dark',JSON.stringify({titles,bgs:bgs.slice(0,3)}));
-    check('三個場景：政大・校門口 → 政大・山下的小吃街 → 政大・停車場（字幕；2D 背景還沒有圖＝深色底）',JSON.stringify(caps.filter(c=>c.startsWith('政大')))==='["政大・校門口","政大・山下的小吃街","政大・停車場"]'&&bgs.filter(b=>b==='dark').length>=3,JSON.stringify({caps,bgs}));
-    const K1=['校門口。她在揮手，只戴一邊的耳環，今天是一顆小骰子。','歡迎來到政大。我是今天的導遊。','我在這裡念了三個禮拜，所以比你懂這裡三個禮拜。','她指了左邊、右邊、後面。','法學院。山。也是山。政大的地圖重點就是：山。','假設你的影子先到政大，它可以幫你點餐嗎？'];
+    check('三個場景：政大・校門口 → 政大・山下的小吃街 → 政大・校門口（字幕；AA_137 7-1：停車場改成校門；校門、小吃街有 2D 背景（LAWWW2-B 825c038））',JSON.stringify(caps.filter(c=>c.startsWith('政大')))==='["政大・校門口","政大・山下的小吃街","政大・校門口"]'&&JSON.stringify(bgs.slice(2))==='["img","img","img"]',JSON.stringify({caps,bgs}));
+    const K1=['校門口。她在揮手，只戴一邊的耳環，今天是一隻小長頸鹿。',   /* 2026-10-16 BB_95 9-1：所有玩家都是長頸鹿（BCG-27）*/
+      '暑假那次學校沒人，不算。今天才是真的政大。我是今天的導遊。',   /* 第二句 2026-10-16 照 AA_140 3-5 F 改（BB-B 的句子）*/
+      '我在這裡念了三個禮拜，所以比你懂這裡三個禮拜。','她指了左邊、右邊、後面。','法學院。山。也是山。政大的地圖重點就是：山。','假設你的影子先到政大，它可以幫你點餐嗎？'];
     check('校門口：開場六句（BB_95 9-1 原文，舞台說明改旁白）',JSON.stringify(L.slice(0,6))===JSON.stringify(K1),JSON.stringify(L.slice(0,6)));
+    check('BCG-27「我是今天的導遊」：旁白之後、「我是今天的導遊」那一句之前換成 CG（圖檔在、有登錄）',cgs.includes('cg_tour_guide_kexin')&&(()=>{ const D=STORY_EVENTS.find(e=>e.id==='ev_kexin_tour_nccu').dialogue, i=D.findIndex(l=>l.cg==='cg_tour_guide_kexin'); return i>0&&/我是今天的導遊/.test(D[i+1].text)&&/長頸鹿/.test(D[i-1].text); })()&&fs.existsSync(path.join(ROOT,'assets/cg/kexin/cg_tour_guide.webp'))&&ADV_CG_FILE('cg_tour_guide_kexin')==='assets/cg/kexin/cg_tour_guide.webp',JSON.stringify(cgs));
     check('影子三個選項（原文）',JSON.stringify(opts[1])===JSON.stringify(['「可以，它跟我點一樣的。」','「不行，影子不會講話。」','「它會先幫妳點。」']),JSON.stringify(opts[1]));
     check('選「不行」：「那它比你安靜。我考慮一下要帶哪一個。」',L.includes('那它比你安靜。我考慮一下要帶哪一個。'));
     check('小吃街三個選項；選她推薦的：「好，信任導遊。」＋「她點了兩碗酸辣湯餃。」、K1_ORDER=hers',JSON.stringify(opts[2])===JSON.stringify(['（吃她推薦的）','（自己挑一家）','「妳幫我點。」'])&&L.includes('好，信任導遊。')&&L.includes('她點了兩碗酸辣湯餃。')&&G.flags.K1_ORDER==='hers',JSON.stringify(opts[2]));
@@ -101,7 +105,7 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
     /* 演出 */
     fresh(W6MON+1,19,'dorm',{NCCU_VISITED:true}); OUT.plan(G,{id:'kx_yule',ev:'ev_kexin_yule_pass',day:W6MON+1,h:19.5,place:'政大',title:'去政大見予樂',travel:'開車約 30 分鐘',travelH:0.5}); picks=['出發','所以我來政大','要先問我','週末換妳'];
     await tickOut(); const L=lines();
-    check('K1b 演出：五個場景（校門口、小吃街、河堤、圖書館、停車場）',JSON.stringify(caps.filter(c=>c.startsWith('政大')))==='["政大・校門口","政大・山下的小吃街","政大・河堤","政大・圖書館","政大・停車場"]',JSON.stringify(caps));
+    check('K1b 演出：五個場景（AA_137 7-1：校門口、小吃街、校園裡的路、宿舍樓下、校門口）',JSON.stringify(caps.filter(c=>c.startsWith('政大')))==='["政大・校門口","政大・山下的小吃街","政大・校園裡的路","政大・宿舍樓下","政大・校門口"]',JSON.stringify(caps));
     check('K1b：校門「停車場只剩最邊邊的一格。」＋她的訊息「再十分鐘！你先去山下那間，幫我點酸辣湯餃。」（手機）',L[0]==='停車場只剩最邊邊的一格。'&&L[1]==='再十分鐘！你先去山下那間，幫我點酸辣湯餃。'&&said[1].who==='可昕（手機）',JSON.stringify(said.slice(0,2)));
     check('K1b：予樂的第一句（原文）、三個選項（第三個帶玩家的名字）、選「是。所以我來政大聊。」→「……可以，你很老實。」、YL_IMPRESSION=honest',L[2]==='你就是那個……開車的？'&&L[3]==='我問你，台大法律系是不是都很難聊？'&&said[2].who==='予樂'&&JSON.stringify(opts[1])==='["「司機兼男朋友。」","「是。所以我來政大聊。」","「妳好，我是祐廷。」"]'&&L.includes('……可以，你很老實。')&&G.flags.YL_IMPRESSION==='honest',JSON.stringify({o:opts[1],L:L.slice(2,6)}));
     check('K1b：河堤的假設題（玩笑、不給結論）＋三個回應（BB 2026-10-14）：「要先問我。」→「好。我現在問了：可以嗎？」',L.includes('假設我把你的筆記借給予樂，算無權處分嗎？')&&JSON.stringify(opts[2])==='["「要先問我。」","「借吧，反正她看不懂。」","（笑）"]'&&L.includes('好。我現在問了：可以嗎？')&&!L.includes('……這句我會轉告她。'),JSON.stringify(opts[2]));

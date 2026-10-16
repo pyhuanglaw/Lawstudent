@@ -1,0 +1,27 @@
+{
+ "glb": "assets/models/env/second_ai/luwei_stall.glb",
+ "bytes": 635320,
+ "tris": 10040,
+ "origin": "攤車前緣中間的地面；攤車朝 −z",
+ "table_center": [
+  2.25,
+  -0.35
+ ],
+ "bulbs": [
+  [
+   -0.35,
+   2.05,
+   0.0
+  ],
+  [
+   0.45,
+   2.05,
+   0.0
+  ]
+ ],
+ "textures": [
+  "tools/blender/env_second/textures/gen/luwei_sign.png（本作）",
+  "tools/blender/env_second/textures/gen/luwei_paper.png（本作）",
+  "Poly Haven laminate_floor_02（CC0）"
+ ]
+}

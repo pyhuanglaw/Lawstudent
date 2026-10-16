@@ -13,7 +13,7 @@ global.window=global; global.self=global;
 const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
 global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
 global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
-const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js'];
+const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/data/dorm_layout.js','src/dorm3d.js'];
 for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
 const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
@@ -168,8 +168,34 @@ r=both([0,7,0],[ec.x,ec.z,0]); check('總圖：閱覽室：入口 → 電梯門�
 const er=zr.elev; er.isOpen=true; er.setCells(); r=both([er.cx,er.outZ,0],[er.cx,er.inZ,0]); check('總圖：閱覽室電梯門開著：走得進車廂',r.ok,fmt(r)); er.isOpen=false; er.setCells();
 check('總圖：閱覽室電梯：1F、2F（大廳區域）、3F（這裡）、4F 以上關著',er.floors.length===4&&er.floors[0].zone==='library_hall'&&er.floors[2].lv===0&&!er.floors[2].zone,JSON.stringify(er.floors.map(f=>[f.label,f.lv,f.zone||''])));
 bad=[]; for(const s of zr.seats){ const ap=[s.x-Math.sin(s.yaw)*0.6,s.z-Math.cos(s.yaw)*0.6]; if(!E.canStand(ap[0],ap[1],0.3,0)) bad.push(`(${s.x},${s.z})`); } check('總圖：閱覽室：座位後面還是站得住（加了電梯沒擋到）',!bad.length,bad.join(' ')); }
+// ---------- 男生宿舍（宿舍走廊，D44）：大門 → 門廳 → 走廊 → 雙跑樓梯 → 二樓走廊 → 自己的房門；房間的出口 → 二樓走廊 ----------
+{ const z=loadZone('dorm_hall'); const L=DORM_LAYOUT, Y1=L.floors[1].y, IT=E.interactables, H0=(x,zz)=>z.levels[0].heightAt(x,zz), H1=(x,zz)=>z.levels[1].heightAt(x,zz), S=L.stair;
+check('宿舍：兩層、二樓 3.6',z.levels.length===2&&z.levels[1].y0===Y1);
+const EN=L.entrance.spawn, HM=L.home.spawn; check('宿舍：大門出生點、房門外的出生點站得住',E.canStand(EN.x,EN.z,0.32,0)&&E.canStand(HM.x,HM.z,0.32,1)&&Math.abs(H1(HM.x,HM.z)-Y1)<1e-6);
+const ex=IT.find(i=>i.label==='離開宿舍'), hd=IT.find(i=>i.exit&&i.exit.to==='dorm');
+check('宿舍：出生點離「離開宿舍」、房門外離「回房間」≥ 半徑＋0.3（一進來不會就跳出離開的按鈕）',!!ex&&!!hd&&Math.hypot(EN.x-ex.x,EN.z-ex.z)>=ex.radius+0.3&&Math.hypot(HM.x-hd.x,HM.z-hd.z)>=hd.radius+0.3,ex&&hd&&`${Math.hypot(EN.x-ex.x,EN.z-ex.z).toFixed(2)}／${Math.hypot(HM.x-hd.x,HM.z-hd.z).toFixed(2)}`);
+const ax=(S.A.x0+S.A.x1)/2, bx=(S.B.x0+S.B.x1)/2;
+{ const za=S.A.z1-0.14, zb=S.B.z1-0.07; check('宿舍：高度：A 跑最下面一階 ≈0.16、平台 1.8、B 跑最上面 3.6（兩層相同）、走廊 0／3.6',Math.abs(H0(ax,za)-0.16)<0.17&&Math.abs(H0(0,-5.2)-1.8)<1e-6&&Math.abs(H0(bx,zb)-Y1)<0.02&&Math.abs(H1(bx,zb)-Y1)<0.02&&H0(0,0)===0&&Math.abs(H1(0,0)-Y1)<1e-6,[H0(ax,za),H0(0,-5.2),H0(bx,zb),H1(bx,zb)].map(v=>v.toFixed(3)).join(' ')); }
+const W2=[-9.5,0,1], E2=[11,0,1], HOME=[HM.x,HM.z,1];
+let r=both([EN.x,EN.z,0],HOME); check('宿舍：大門 → 門廳 → 走廊 → 樓梯 → 二樓 → 自己的房門前',r.ok&&r.lv===1&&Math.abs(r.y-Y1)<0.05,fmt(r));
+r=both(HOME,[EN.x,EN.z,0]); check('宿舍：房門前 → 樓梯 → 一樓 → 大門',r.ok&&r.lv===0&&Math.abs(r.y)<0.05,fmt(r));
+r=both(HOME,W2); const r2=both(HOME,E2); check('宿舍：二樓走廊兩端都走得到（不用下樓）',r.ok&&r.lv===1&&r2.ok&&r2.lv===1,fmt(r)+' '+fmt(r2));
+r=run([EN.x,EN.z,0],HOME); check('宿舍：跑步＋低幀率：大門 → 房門前',r.ok,fmt(r));
+r=run(HOME,[EN.x,EN.z,0]); check('宿舍：跑步＋低幀率：房門前 → 大門',r.ok,fmt(r));
+check('宿舍：二樓：A 跑上方、樓梯間外、寢室裡站不住',!E.canStand(ax,-2.5,0.3,1)&&!E.canStand(-6,-4,0.3,1)&&!E.canStand(6,4,0.3,1)&&!E.canStand(0,-5.2,0.3,1));
+check('宿舍：一樓：寢室裡、B 跑最上面那一排從一樓走廊進不去、兩跑中間的牆站不住',!E.canStand(-8,-4,0.3,0)&&!E.canStand(bx,-1.4,0.3,0)&&!E.canStand(0.2,-3,0.3,0));
+check('宿舍：一樓：走廊、門廳、交誼廳站得住',E.canStand(-12,0,0.3,0)&&E.canStand(12,0,0.3,0)&&E.canStand(0,4,0.3,0)&&E.canStand(7,6,0.3,0));
+let bad=[]; for(const it of IT){ const lv=it.lv|0; const target=[it.x,it.z,lv]; let ok=E.canStand(it.x,it.z,0.3,lv); let rr=null; if(!ok){ let best=null; for(let a=0;a<16&&!best;a++){ for(const d of [0.6,0.9,1.2]){ const x=it.x+Math.sin(a*Math.PI/8)*d, zz=it.z+Math.cos(a*Math.PI/8)*d; if(d<=it.radius&&E.canStand(x,zz,0.3,lv)){ best=[x,zz,lv]; break; } } } if(best){ target[0]=best[0]; target[1]=best[1]; ok=true; } }
+  if(ok){ rr=both([EN.x,EN.z,0],target); ok=rr.ok&&(rr.lv|0)===lv; } if(!ok) bad.push(`${it.label}(${it.x.toFixed(1)},${it.z.toFixed(1)},${lv}) ${fmt(rr)}`); }
+check(`宿舍：互動點都走得到（${IT.length} 個）`,!bad.length,bad.slice(0,5).join(' | '));
+bad=[]; for(const s of z.seats){ const ap=[s.x-Math.sin(s.yaw)*0.6,s.z-Math.cos(s.yaw)*0.6]; const st=E.canStand(ap[0],ap[1],0.3,s.lv|0); const rr=st?both([EN.x,EN.z,0],[ap[0],ap[1],s.lv|0]):{ok:false,reason:'站不住'}; if(!rr.ok) bad.push(`(${s.x.toFixed(2)},${s.z.toFixed(2)}) ${fmt(rr)}`); }
+check(`宿舍：交誼廳長桌 ${z.seats.length} 個座位：椅子後面站得住、走得到`,z.seats.length>=4&&!bad.length,bad.slice(0,4).join(' | '));
+check('宿舍：走廊兩側的牆是鏡頭碰撞',E.colliders.length>=6,`${E.colliders.length} 個`);
+// 房間（dorm）的出口 → 二樓走廊
+const zr=loadZone('dorm'); const out=E.interactables.find(i=>i.exit&&i.exit.to==='dorm_hall'); check('宿舍：房間的「走出房間」→ 二樓走廊（第 1 層、房門外）',!!out&&out.exit.spawn.lv===1&&Math.abs(out.exit.spawn.x-HM.x)<1e-6,out&&JSON.stringify(out.exit));
+check('宿舍：房間裡的床、書桌、睡覺照舊',!!E.interactables.find(i=>i.sleep)&&!!E.interactables.find(i=>i.deskStudy)); }
 // ---------- 點樓梯走完一跑（任務 #42）：每一跑樓梯（點地面的透明斜面）兩端站得住、上下走得通 ----------
-for(const id of ['linze','wancai','library_hall']){ const z=loadZone(id); const ms=z.walkMeshes.filter(m=>m.userData.stairEnds); const bad=[];
+for(const id of ['linze','wancai','library_hall','dorm_hall']){ const z=loadZone(id); const ms=z.walkMeshes.filter(m=>m.userData.stairEnds); const bad=[];
   for(const m of ms){ const [a,b]=m.userData.stairEnds; for(const e of [a,b]) if(!E.canStand(e.x,e.z,0.32,e.lv)) bad.push('站不住 '+JSON.stringify(e)); const r=both([a.x,a.z,a.lv],[b.x,b.z,b.lv]); if(!r.ok||(r.lv|0)!==b.lv) bad.push('往上 '+fmt(r)); const r2=both([b.x,b.z,b.lv],[a.x,a.z,a.lv]); if(!r2.ok||(r2.lv|0)!==a.lv) bad.push('往下 '+fmt(r2)); }
   check(`${id}：點樓梯走完一跑——${ms.length} 跑樓梯的兩端站得住、上下走得通（下面那一端比上面那一端低）`,ms.length>=2&&!bad.length&&ms.every(m=>{ const [a,b]=m.userData.stairEnds; return E.heightAt(a.x,a.z,a.lv)<E.heightAt(b.x,b.z,b.lv); }),bad.slice(0,3).join(' | ')); }
 // ---------- 201 階梯教室 ----------

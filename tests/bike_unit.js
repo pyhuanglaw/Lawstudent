@@ -22,7 +22,8 @@ const objs=J.nodes.map(n=>{ const o=new THREE.Object3D(); o.name=n.name; if(n.tr
 J.nodes.forEach((n,i)=>{ for(const c of n.children||[]) objs[i].add(objs[c]); }); const bikeScene=new THREE.Group(); for(const i of J.scenes[0].nodes) bikeScene.add(objs[i]);
 const frameMat=new THREE.MeshStandardMaterial({color:'#7a8f7e'}); frameMat.name='ride_frame'; objs.find(o=>o.name==='frame').add(new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),frameMat));   /* 車架的材質（GLB 裡的名稱 ride_frame）：路上的騎士改色用 */
 { const nm=n=>J.nodes.findIndex(q=>q.name===n), kids=n=>(J.nodes[nm(n)].children||[]).map(i=>J.nodes[i].name).sort().join(',');
-  check('1 GLB 的節點：frame 底下 crank、fork、wheel_r；fork 底下 wheel_f；crank 底下兩個踏板',kids('frame')==='crank,fork,wheel_r'&&kids('fork')==='wheel_f'&&kids('crank')==='pedal_l,pedal_r',J.nodes.map(n=>n.name).join(',')); }
+  { const fk=kids('frame').split(',');   /* 2026-10-16 載妹墊（LAWWW2-B aed5e46、4c7feb7）：frame 底下多了 rear_cushion 和乘客的定位節點，原本的樞紐不變 */
+  check('1 GLB 的節點：frame 底下 crank、fork、wheel_r（＋載妹墊 rear_cushion、passenger_side／astride）；fork 底下 wheel_f；crank 底下兩個踏板',['crank','fork','wheel_r','rear_cushion','passenger_side','passenger_astride'].every(k=>fk.includes(k))&&kids('fork')==='wheel_f'&&kids('crank')==='pedal_l,pedal_r',J.nodes.map(n=>n.name).join(',')); } }
 ASSETS.loadOne=k=>k==='prop.bike_ride'?Promise.resolve({scene:bikeScene}):Promise.reject(new Error('no '+k));
 // ---- 遊戲的最小替身：區域載入、玩家、GM ----
 let toasts=[]; const G={zone:'campus',day:5,hour:15,flags:{}}; const GM={E,G,toast:t=>toasts.push(t)};
@@ -40,6 +41,8 @@ const step=(dist,turn,n)=>{ for(let i=0;i<n;i++){ P.obj.rotation.y+=turn/n; P.ob
   const s=G.bike, door=E.interactables.find(i=>i.exit&&i.exit.to==='dorm');
   check('2 舊存檔／新遊戲沒有 G.bike：車停在宿舍門口（站得住、和「回宿舍」的範圍不重疊）',!!s&&s.zone==='campus'&&!s.riding&&E.canStand(s.x,s.z,0.45,0)&&!!door&&Math.hypot(s.x-door.x,s.z-door.z)>door.radius+1.3,JSON.stringify(s));
   check('2 停著的車擺在校園、有「騎腳踏車」',!!parkedObj()&&!!parkedIt()&&parkedIt().label==='騎腳踏車'&&Math.hypot(parkedObj().position.x-s.x,parkedObj().position.z-s.z)<1e-6);
+  await new Promise(r=>setTimeout(r,1700));
+  check('2b 第一次看到自己的車（第三天以後）：告訴玩家車在宿舍門口、怎麼騎（使用者 10-14「我還是不能騎腳踏車」；只說一次）',toasts.some(t=>/宿舍門口東邊停著你的腳踏車/.test(t))&&G.flags.BIKE_TIP===true,toasts.join('／'));
   // ---- 3 上車：先走過去 ----
   P.obj.position.set(s.x-1.0,0,s.z-0.6);
   const r1=BIKE.mount(GM);
@@ -65,10 +68,11 @@ const step=(dist,turn,n)=>{ for(let i=0;i<n;i++){ P.obj.rotation.y+=turn/n; P.ob
   check('5 按「下車」：車停在下車的地方、方向不變；人往左邊讓開 0.65 m；按鈕收起來',!P.riding&&!bikeOn()&&!!parkedObj()&&Math.hypot(parkedObj().position.x-pb.x,parkedObj().position.z-pb.z)<1e-6&&Math.abs(parkedObj().rotation.y-yb)<1e-6&&Math.hypot(P.obj.position.x-(pb.x+lx*0.65),P.obj.position.z-(pb.z+lz*0.65))<1e-6&&btn.cls.has('hide')&&P.obj.rotation.z===0&&P.pose==='idle');
   check('5 存檔裡的車：位置、方向、沒在騎',G.bike.zone==='campus'&&!G.bike.riding&&Math.abs(G.bike.x-pb.x)<1e-6&&Math.abs(G.bike.z-pb.z)<1e-6);
   // ---- 6 有人跟著走：不能騎；騎到一半有人開始跟：下車 ----
+  /* 2026-10-15 使用者：「腳踏車要可以載人」——一起走的人坐後座（engine3d.js 的 beh 'passenger'），不再擋上車、不再自動下車；不坐後座的（noRide）照舊 */
   E.npcs.push({beh:'follow',obj:new THREE.Object3D()}); P.obj.position.set(G.bike.x,0,G.bike.z); toasts=[];
-  check('6 有人跟著一起走：不能上車（說明為什麼）',BIKE.mount(GM)===false&&!P.riding&&toasts.some(t=>/一起走/.test(t)),toasts.join('／'));
-  E.npcs.length=0; BIKE.mount(GM); check('6 （沒人跟了）上車',P.riding);
-  E.npcs.push({beh:'follow',obj:new THREE.Object3D()}); BIKE.tick(GM,1/30); check('6 騎著、有人開始跟著走：自動下車',!P.riding&&!!parkedObj()); E.npcs.length=0;
+  check('6 有人跟著一起走：照樣可以上車（他會坐後座）',BIKE.mount(GM)!==false&&P.riding,toasts.join('／'));
+  BIKE.tick(GM,1/30); check('6 騎著、有人跟著：不會自動下車',P.riding); E.npcs.length=0; BIKE.dismount(GM);
+  E.npcs.push({beh:'follow',noRide:true,obj:new THREE.Object3D()}); P.obj.position.set(G.bike.x,0,G.bike.z); BIKE.mount(GM); BIKE.tick(GM,1/30); check('6 跟著的人不坐後座（noRide）：自動下車',!P.riding&&!!parkedObj()); E.npcs.length=0;
   // ---- 7 劇情開始（busy）：下車 ----
   P.obj.position.set(G.bike.x,0,G.bike.z); BIKE.mount(GM); P.busy=true; BIKE.tick(GM,1/30); check('7 劇情開始（busy）：自動下車',!P.riding&&!!parkedObj()); P.busy=false;
   // ---- 8 樓梯：萬才館大樓梯（第 1 層）——車停在樓梯前 ----
@@ -85,7 +89,9 @@ const step=(dist,turn,n)=>{ for(let i=0;i<n;i++){ P.obj.rotation.y+=turn/n; P.ob
   { const shop=E.interactables.find(i=>i.exit&&i.exit.to==='cvs'); P.obj.position.set(shop.x,0,shop.z+1.2); await enter('cvs',shop.exit.spawn);
     check('10 騎到便利商店門口、進店：車停在公館的門口（站得住）、不在店裡',!P.riding&&!bikeOn()&&G.bike.zone==='gongguan'&&Math.hypot(G.bike.x-shop.x,G.bike.z-(shop.z+1.2))<3.1&&!parkedObj(),JSON.stringify(G.bike));
     const out=E.interactables.find(i=>i.exit&&i.exit.to==='gongguan'); await enter('gongguan',out.exit.spawn);
-    check('10 出店：車停在門口、有「騎腳踏車」',!!parkedObj()&&!!parkedIt()&&E.canStand(G.bike.x,G.bike.z,0.45,0)); }
+    check('10 出店：車停在門口、有「騎腳踏車」',!!parkedObj()&&!!parkedIt()&&E.canStand(G.bike.x,G.bike.z,0.45,0));
+    { const dd=Math.hypot(G.bike.x-shop.x,G.bike.z-shop.z), ux=(G.bike.x-shop.x)/dd, uz=(G.bike.z-shop.z)/dd, sx=G.bike.x+ux*0.8, sz=G.bike.z+uz*0.8;
+      check('10b 車停在門口旁邊、離門 2 m 以上（停在門正前方時，走回車旁按鈕常是「進入便利商店」；v9.7 回歸 2026-10-14）；站在車旁（離門遠的那邊 0.8 m）車比門近',dd>=2&&dd<=3&&Math.hypot(sx-G.bike.x,sz-G.bike.z)<Math.hypot(sx-shop.x,sz-shop.z)-1,JSON.stringify({dd:+dd.toFixed(2)})); } }
   // ---- 11 快速前往室內（離門口很遠）：車停到那棟建築的門外 ----
   { P.obj.position.set(G.bike.x,0,G.bike.z); BIKE.mount(GM); P.obj.position.x-=3; await enter('library_hall');
     const ex=E.interactables.find(i=>i.exit&&BIKE.ok(i.exit.to)); const sp=ex.exit.spawn;
@@ -109,5 +115,14 @@ const step=(dist,turn,n)=>{ for(let i=0;i<n;i++){ P.obj.rotation.y+=turn/n; P.ob
     const last=calls[calls.length-1]; check('13 人物用 pose ride、給曲柄角度、握點、車的尺寸（rideIK）',!!last&&last.pose==='ride'&&Math.abs(last.ride.crank-r.crank)<1e-9&&last.ride.grips.length===2&&last.ride.scale===k);
     check('13 照路線騎（離路線 < 1 cm）、轉角不瞬間轉向（每秒最多 2 rad）',maxOff<0.01&&maxTurn<=2.0001,`離路線 ${(maxOff*100).toFixed(2)} cm、最快 ${maxTurn.toFixed(2)} rad/s`);
     check('13 輪子照騎的距離轉',Math.abs(r.wheel-r.speed*dt*150/(0.333*k))<1e-6&&Math.abs(r.crank-r.wheel*0.45)<1e-6); }
+  // ---- 14 載人騎車（AA_137 第 5 節第 3、5 步；AA_140 G49）：騎 6 秒以後她一句短話（一趟最多一句）；中途按「下車」她說「……我還是走一下好了。」 ----
+  { await enter('campus',{x:20,z:54,yaw:Math.PI}); const caps=[]; GM.caption=(w,t)=>caps.push((w||'')+t);
+    const oldS=global.STORY, oldSo=global.SOCIAL; let greetN=0; global.STORY=Object.assign({},oldS||{},{ladGreet:(g,id)=>{ greetN++; return '短招呼（'+id+'）'; }}); global.SOCIAL=Object.assign({},oldSo||{},{displayName:id=>id==='heroine_01'?'沈以安':id});
+    const her={beh:'passenger',charId:'heroine_01',name:'沈以安',obj:new THREE.Object3D()}; P.obj.position.set(G.bike.x,0,G.bike.z); BIKE.mount(GM); E.npcs.push(her);
+    step(30,0,150); const c5=caps.length; step(30,0,150); const c10=caps.length; step(60,0,300);
+    check('14 載人騎：騎了 5 秒還沒說、超過 6 秒說一句（她的短招呼池），一趟只說一句',c5===0&&c10===1&&caps.length===1&&caps[0]==='沈以安：短招呼（heroine_01）'&&greetN===1,JSON.stringify({c5,c10,caps}));
+    BIKE.manualDismount(GM); check('14 中途按「下車」：她說「……我還是走一下好了。」',!P.riding&&caps[caps.length-1]==='沈以安：……我還是走一下好了。',JSON.stringify(caps));
+    E.npcs.length=0; P.obj.position.set(G.bike.x,0,G.bike.z); BIKE.mount(GM); caps.length=0; BIKE.manualDismount(GM); check('14 一個人騎時按「下車」：沒有那一句',caps.length===0);
+    global.STORY=oldS; global.SOCIAL=oldSo; }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

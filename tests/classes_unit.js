@@ -25,35 +25,39 @@ const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
   check('同一學期（選修照預設）沒有撞課',!clash.length,clash.join(' | '));
   for(const t of terms){ const n=CLS.termCourses(G,t).filter(c=>c.kind==='required').length; if(n<1) bad.push(t); } check('八個學期都有必修',terms.every(t=>CLS.termCourses(G,t).some(c=>c.kind==='required')));
   const cell=(t,wd,b)=>{ const c=CLS.termCourses(G,t).find(q=>q.slots.some(s=>s.wd===wd&&s.block===b)); return c?c.name+'｜'+(CLS.roomName(c)):'—'; };
-  const want=[['Y1S1',1,'am','憲法（上）｜霖澤館 201'],['Y1S1',1,'pm2','體育｜體育館'],['Y1S1',2,'am','大一國文（上）｜博雅教學館 101'],['Y1S1',4,'am','大一英文（上）｜共同教學館 102'],['Y1S1',5,'am','經濟學原理（上）｜普通教學館 101'],['Y1S1',3,'am','刑法總則（一）｜霖澤館 201'],['Y1S1',4,'pm1','民法總則｜霖澤館 201'],['Y1S1',5,'pm1','法律與社會｜霖澤館 201'],
+  const want=[['Y1S1',1,'am','憲法（上）｜霖澤館 201'],['Y1S1',1,'pm2','體育｜體育館'],['Y1S1',2,'am','大一國文（上）｜博雅教學館 101'],['Y1S1',4,'am','大一英文（上）｜共同教學館 102'],['Y1S1',5,'am','經濟學原理（上）｜普通教學館 101'],['Y1S1',3,'am','刑法總則（一）｜霖澤館 201'],['Y1S1',4,'pm1','民法總則｜霖澤館 201'],['Y1S1',5,'pm1','—'],
     ['Y2S1',2,'pm1','民法物權｜霖澤館 201'],['Y3S1',1,'am','民事訴訟法甲上｜霖澤館 201'],['Y3S1',4,'am','民事訴訟法甲上｜霖澤館 201'],['Y3S1',2,'am','刑事訴訟法｜霖澤館 201'],['Y3S1',5,'am','刑事訴訟法｜霖澤館 201'],['Y4S1',2,'pm1','法律倫理｜萬才館研討室']];
   const wbad=want.filter(([t,wd,b,w])=>cell(t,wd,b)!==w).map(([t,wd,b,w])=>t+CLS.WD[wd]+b+'：'+cell(t,wd,b)+'≠'+w); check('AA_103 第 8 節的課表抽查（14 格；方案 A：國文在博雅 101、經濟學原理在普通 101）',!wbad.length,wbad.join(' | '));
-  const ex=CLS.termCourses(G,'Y1S2').map(c=>c.name); check('大一下：重修的經濟學原理（下）一定在課表上；法律與社會（下）預設有修（AA_110：不再二選一）',ex.includes('法律與社會（下）')&&ex.includes('經濟學原理（下）'),ex.join('、'));
-  G.courses={electives:{Y1S2_ls:'none'}}; const ex2=CLS.termCourses(G,'Y1S2').map(c=>c.name); check('選擇不修法律與社會（下）：課表沒有它，經濟學原理（下）還在',!ex2.includes('法律與社會（下）')&&ex2.includes('經濟學原理（下）'),ex2.join('、'));
+  const ex=CLS.termCourses(G,'Y1S2').map(c=>c.name); check('大一下：重修的經濟學原理（下）一定在課表上；法律與社會（下）沒有了（2026-10-14 課程調整刪掉，AA_130）',!ex.includes('法律與社會（下）')&&ex.includes('經濟學原理（下）'),ex.join('、'));
+  G.courses={electives:{Y1S2_ls:'none'}}; const ex2=CLS.termCourses(G,'Y1S2').map(c=>c.name); check('舊的選修紀錄 Y1S2_ls 還在也不影響：課表沒有法律與社會（下），經濟學原理（下）還在',!ex2.includes('法律與社會（下）')&&ex2.includes('經濟學原理（下）'),ex2.join('、'));
   const jp=CLS.termCourses(G,'Y2S1').find(c=>c.id==='japanese_1'), jp2=CLS.termCourses(G,'Y2S2').find(c=>c.id==='japanese_2');
   check('日文上、下：大二上、下週一下午一，共同教學館（使用者 2026-10-13 遊戲安排）',jp&&jp2&&jp.slots[0].wd===1&&jp.slots[0].block==='pm1'&&CLS.roomName(jp).startsWith('共同教學館')&&CLS.roomName(jp2).startsWith('共同教學館'));
   const ep=['econ_principles_1','econ_principles_2'].map(id=>COURSES.list.find(c=>c.id===id)); check('重修經濟學原理（上下）：必修、retake、週五上午',ep.every(c=>c&&c.kind==='required'&&c.retake&&c.slots[0].wd===5&&c.slots[0].block==='am'));
   const sem=CLS.termCourses(G,'Y4S1').filter(c=>c.choice&&c.choice.group==='Y4S1_sem').map(c=>c.id); check('大四上判決研討二選一：預設刑事',sem.length===1&&sem[0]==='crim_judgment_sem',sem.join(',')); }
 // ---------- 日曆上的課 ----------
 { const names=(day)=>CLS.dayItems(mkG(day,8)).map(it=>CLS.hhmm(it.t0)+' '+it.c.name).join('、');
-  check('第 1 天（9/17 週三）：09:10 刑法總則（一）',names(1)==='09:10 刑法總則（一）',names(1));
+  check('第 1 天（9/17 週三）：遊戲晚上才開始，白天的課不排、不算沒去（使用者 2026-10-15）',names(1)==='',names(1));
   check('第 2 天（週四）：09:10 大一英文（上）、13:20 民法總則',names(2)==='09:10 大一英文（上）、13:20 民法總則',names(2));
   const G2=mkG(2,8); check('第二天的民法總則是劇情課（story3d.js 處理），下一堂不是它',CLS.storyClass(G2,CLS.dayItems(G2)[1])&&CLS.next(mkG(2,12.5))===null,JSON.stringify(CLS.next(mkG(2,12.5))));
-  check('第 3 天（週五）：09:10 經濟學原理（上）（重修）、13:20 法律與社會',names(3)==='09:10 經濟學原理（上）、13:20 法律與社會',names(3));
+  check('第 3 天（週五）：09:10 經濟學原理（上）（重修）；下午一原本是法律與社會，2026-10-14 刪掉以後沒有課',names(3)==='09:10 經濟學原理（上）',names(3));
   check('週末沒有課',!CLS.dayItems(mkG(4,8)).length&&!CLS.dayItems(mkG(5,8)).length);
   check('國慶日（10/10 週五）沒有課',!CLS.dayItems(mkG(dayOf('2025-10-10'),8)).length);
   check('寒假（2026-01-14）沒有課',!CLS.dayItems(mkG(dayOf('2026-01-14'),8)).length);
   const ex=CLS.dayItems(mkG(dayOf('2025-10-22'),8)); check('第 8 週（期中考週）的課是考試',ex.length&&ex.every(it=>it.exam==='mid'),JSON.stringify(ex.map(i=>i.exam)));
   const y3=CLS.dayItems(mkG(dayOf('2027-09-09'),8)).map(it=>it.c.name).join('、'); check('大三上的週四：民訴甲上（第二格）、證券交易法',y3==='民事訴訟法甲上、證券交易法',y3); }
 // ---------- 狀態、教授的位置、目標 ----------
-{ const D=dayOf('2025-09-26');   /* 週五：13:20 法律與社會 */ const st=h=>{ const G=mkG(D,h); const it=CLS.dayItems(G).find(q=>q.c.id==='law_society'); return CLS.status(G,it); };   /* 週五還有 09:10 的經濟學原理（上）：取 13:20 那一堂 */
-  check('開始前 30 分鐘以前＝還沒開始；12:50～13:50＝可以進教室；13:50 以後＝沒來',st(12.5)==='upcoming'&&st(12.84)==='open'&&st(13.8)==='open'&&st(13.85)==='missed'&&st(16)==='missed',[st(12.5),st(12.84),st(13.8),st(13.85)].join(','));
-  const G=mkG(D,13); const it=CLS.dayItems(G).find(q=>q.c.id==='law_society'); CLS.rec(G).done[it.key]=1; check('上過的＝done（之後一直是 done）',CLS.status(G,it)==='done'&&CLS.status(Object.assign({},G,{hour:16}),it)==='done');
+{ const D=dayOf('2025-10-02');   /* 週四第 5 週：13:20 民法總則（原本用週五的法律與社會，2026-10-14 刪掉了）*/ const st=h=>{ const G=mkG(D,h); const it=CLS.dayItems(G).find(q=>q.c.id==='civ_general'); return CLS.status(G,it); };   /* 週四上午還有大一英文：取 13:20 那一堂 */
+  check('開始前 30 分鐘以前＝還沒開始；12:50 起可以進教室；13:50 以後＝遲到（照樣可以進，使用者 2026-10-15）；下課前 30 分鐘（14:40）以後＝沒來',st(12.5)==='upcoming'&&st(12.84)==='open'&&st(13.8)==='open'&&st(13.85)==='open'&&st(14.6)==='open'&&st(14.7)==='missed'&&st(16)==='missed',[st(12.5),st(12.84),st(13.8),st(13.85),st(14.6),st(14.7)].join(','));
+  { const lt=h=>{ const G=mkG(D,h); const it=CLS.dayItems(G).find(q=>q.c.id==='civ_general'); return [CLS.isLate(G,it),CLS.isLateAbsent(G,it)].map(Number).join(''); };   /* AA_137 第 4 節：1～15 分鐘＝遲到（出席）；超過 15 分鐘＝進去會記缺席 */
+    check('AA_137 遲到：13:20 準時＝不算；13:25＝遲到；13:35＝遲到；13:36＝超過 15 分鐘（記缺席）',lt(13+20/60)==='00'&&lt(13+25/60)==='10'&&lt(13+35/60)==='10'&&lt(13+36.5/60)==='01',[lt(13+20/60),lt(13+25/60),lt(13+35/60),lt(13+36.5/60)].join(',')); }
+  { const af=h=>{ const G=mkG(D,h); const it=CLS.dayItems(G).find(q=>q.c.id==='civ_general'); return +CLS.arriveFrac(G,it).toFixed(2); };   /* AA_137 第 8 節第 3 點：上課前 10 分鐘起陸續進來、開始時八成、開始後坐滿 */
+    check('AA_137 教室的人：13:05＝0、13:10＝0.15、13:15＝約一半、13:19＝快八成、13:20 以後＝坐滿',af(13+5/60)===0&&af(13+10.01/60)>=0.15&&af(13+10.01/60)<0.16&&Math.abs(af(13+15/60)-0.475)<0.01&&af(13+19.9/60)>0.75&&af(13+20/60)===1&&af(14)===1,[af(13+5/60),af(13+10.01/60),af(13+15/60),af(13+19.9/60),af(13+20/60)].join(',')); }
+  const G=mkG(D,13); const it=CLS.dayItems(G).find(q=>q.c.id==='civ_general'); CLS.rec(G).done[it.key]=1; check('上過的＝done（之後一直是 done）',CLS.status(G,it)==='done'&&CLS.status(Object.assign({},G,{hour:16}),it)==='done');
   const T=dayOf('2025-10-02');   /* 週四第 5 週：民法總則 */ const pw=h=>JSON.stringify(CLS.profWhere(mkG(T,h),'prof_zhou'));
   check('周教授：上課時（13:00～15:10）在 201、下課後 1.5 小時在萬才館、其他時間不在這兩個地方',pw(13)==='{"zone":"classroom","act":"class"}'&&pw(15.5)==='{"zone":"wancai","act":"office"}'&&pw(17)==='null'&&pw(10)==='null',[pw(10),pw(13),pw(15.5),pw(17)].join(' '));
   check('林教授（刑訴在大三）大一不會出現在教室',JSON.stringify(CLS.profWhere(mkG(dayOf('2025-09-23'),10.5),'prof_lin'))==='null');
   const g=CLS.goalFor(mkG(T,8)); check('起床時的目標：今天的課＋往下一堂教室的導航（不是「自由的一天」）',/今天的課：09:10 大一英文（上）、13:20 民法總則/.test(g.text)&&g.dest&&g.dest.zone==='gongtong'&&g.dest.label==='看看共同 102',JSON.stringify(g));
-  const g2=CLS.goalFor(mkG(T,10)); check('英文開始超過 30 分鐘：目標導航改指 201（民法總則）',g2.dest&&g2.dest.zone==='classroom',JSON.stringify(g2.dest));
+  const g2=CLS.goalFor(mkG(T,11.75)); check('英文下課前 30 分鐘以後（11:45）：目標導航改指 201（民法總則）',g2.dest&&g2.dest.zone==='classroom',JSON.stringify(g2.dest));
   const g3=CLS.goalFor(mkG(dayOf('2025-09-27'),8)); check('週六：今天沒有課、自由活動（不指路）',/今天沒有課/.test(g3.text)&&!g3.dest,JSON.stringify(g3)); }
 /* 遊戲實際用的 refreshGoal（不是只測 goalFor）：週二 08:30 目標指 09:10 國文（博雅 101）；12:30 國文已經過了——目的地要換成 13:20 通識的教室（普通 101）。
    今天的課那一行整天都一樣，修改前只比文字，目的地一直停在博雅（2026-10-13 審查第 3 項） */
@@ -131,8 +135,8 @@ function finish(){
 { const G=mkG(30,10); G.courses={done:{'7:chinese1:am':1,'9:con_law1:am':1,'9:crim_gen1:am':1},attend:{chinese1:3,con_law1:2,anglo_law:1,legal_english:2},prep:{gened1:4},grades:{Y1S1:{con_law1:'很好',civ_general:'過了'}},
     electives:{Y1S2_elec:'econ',Y1S1_ls:'law_society'},note:{'rem_7:chinese1:am':1,'exam_Y1S1_mid':1}};
   const R=CLS.rec(G); const ok=R.done['7:chinese_y1:am']===1&&R.done['9:const_1:am']===1&&R.done['9:crim_gen1:am']===1&&!R.done['7:chinese1:am']&&R.attend.chinese_y1===3&&R.attend.const_1===2&&R.attend.legal_english===3&&R.prep.ge_film_y1s1===4&&
-    R.grades.Y1S1.const_1==='很好'&&R.grades.Y1S1.civ_general==='過了'&&R.electives.Y1S2_ls==='none'&&R.electives.Y1S1_ls===undefined&&R.note['rem_7:chinese_y1:am']===1&&R.note.exam_Y1S1_mid===1&&R.idv===2;
-  check('舊存檔：上課紀錄、出席、準備、成績、提醒換成新代號（英美法併進法學英文、次數相加）；選了經濟學原理的＝不修法律與社會（下）',ok,JSON.stringify(R).slice(0,300));
+    R.grades.Y1S1.const_1==='很好'&&R.grades.Y1S1.civ_general==='過了'&&R.electives.Y1S2_ls===undefined&&R.electives.Y1S1_ls===undefined&&R.note['rem_7:chinese_y1:am']===1&&R.note.exam_Y1S1_mid===1&&R.idv===3;
+  check('舊存檔：上課紀錄、出席、準備、成績、提醒換成新代號（英美法併進法學英文、次數相加）；法律與社會（下）的選修紀錄跟著課一起刪（idv 3，2026-10-14 課程調整）',ok,JSON.stringify(R).slice(0,300));
   const before=JSON.stringify(R); CLS.rec(G); check('轉換只做一次（再讀一次不變）',JSON.stringify(CLS.rec(G))===before); }
 // 五年日曆（D56）：經濟系那一年的日期標示（畫面只寫學年、學期、日期、星期，不寫西元年份）
 { const lab=CLS.dayLabel(mkG(1,8),dayOf('2024-09-18')), lab2=CLS.dayLabel(mkG(1,8),dayOf('2025-07-15'));

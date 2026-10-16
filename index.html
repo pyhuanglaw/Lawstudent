@@ -75,6 +75,7 @@ button{font-family:var(--font);cursor:pointer}
 .phrow{display:flex;align-items:center;justify-content:space-between;gap:10px}.phrow .btn{flex:none;min-height:44px}
 /* 手機的對話（交接包 v1：src/phone3d.js）：自己傳的靠右、群組置頂、手機按鈕上的未讀數字 */
 .phone .item.me{margin-left:18%;background:rgba(120,160,220,.16)}
+.phone details.fold summary{cursor:pointer;color:inherit}.phone details.fold[open] summary{margin-bottom:4px}
 .phone .item.pin{border-left:3px solid #c9a24a}
 #btnPhone{position:relative}.pbadge{position:absolute;top:-2px;right:-2px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:#d2463c;color:#fff;font-size:11px;line-height:18px;text-align:center;pointer-events:none}.pbadge.hide{display:none}
 .tt{display:grid;grid-template-columns:52px repeat(5,1fr);gap:3px;font-size:12px;line-height:1.35}
@@ -136,7 +137,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
   </div></div>
   <div id="menu" class="panel hide"><div class="card">
     <div class="row2" style="justify-content:space-between"><h2 id="menuTitle">筆記本</h2><button class="btn" id="btnClose">返回遊戲</button></div>
-    <div class="tabs"><button data-tab="notes" class="on">筆記</button><button data-tab="people">人物</button><button data-tab="legal">法律</button><button data-tab="map">地圖</button><button data-tab="save">存檔</button><button data-tab="settings">設定</button><button data-tab="help">說明</button></div>
+    <div class="tabs"><button data-tab="notes" class="on">筆記</button><button data-tab="legal">法律</button><button data-tab="save">存檔</button><button data-tab="settings">設定</button><button data-tab="help">說明</button></div>
     <div class="tab on" id="tab-notes"><div class="list" id="notesList"></div></div>
     <div class="tab" id="tab-people"><div class="list" id="peopleList"></div></div>
     <div class="tab" id="tab-legal"><div class="list" id="legalList"></div></div>
@@ -166,64 +167,72 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
     <h1>法條之外</h1><div class="sub">台灣法律人生 · 3D 原型</div>
     <div class="row2" style="justify-content:center;margin-bottom:14px"><span class="muted">你的名字</span><input type="text" id="nameInput" value="祐廷" maxlength="6" style="width:120px;text-align:center"></div>
     <button class="btn pri" id="btnNew">開始新的一天</button>
-    <button class="btn" id="btnContinue">繼續（自動存檔）</button>
+    <div id="resumeNote" class="hide" style="margin:6px 0 8px;font-size:13px;line-height:1.5;color:#ffe9a8"></div><button class="btn" id="btnContinue">繼續（自動存檔）</button>
     <button class="btn" id="btnLoadMenu">讀取／匯入存檔</button>
     <div class="muted" style="margin-top:16px;font-size:12px">建議橫向遊玩。點地面移動、拖曳旋轉鏡頭。<br>所有人物與故事皆為虛構。</div>
-    <div class="muted" id="verLabel" style="margin-top:8px;font-size:11px;opacity:.7">版本 v9.7（2026-10-14）</div>
+    <div class="muted" id="verLabel" style="margin-top:8px;font-size:11px;opacity:.7">版本 v9.8（2026-10-16）</div>
   </div></div>
   <div id="rotate" class="want"><div>請把手機轉成橫向<br><span class="muted">（或直接點這裡繼續直向遊玩）</span></div></div>
   <div id="loading"><div style="font-family:var(--serif);letter-spacing:.2em;font-size:18px">法條之外</div><div id="bar"><i></i></div><div id="loadMsg">載入中…</div><button class="btn hide" id="btnRetry">重試</button></div>
 </div>
-<script src="lib/three.bundle.js?v=9.7-1"></script>
-<script src="lib/three.jsm.bundle.js?v=9.7-1"></script>
-<script src="lib/three-vrm.bundle.js?v=9.7-1"></script>
-<script src="src/people3d.js?v=9.7-1"></script>
-<script src="src/assets3d.js?v=9.7-1"></script>
-<script src="src/character3d.js?v=9.7-1"></script>
-<script src="src/props3d.js?v=9.7-1"></script>
-<script src="src/world3d.js?v=9.7-1"></script>
-<script src="src/engine3d.js?v=9.7-1"></script>
-<script src="src/townkit3d.js?v=9.7-1"></script>
-<script src="src/campuskit3d.js?v=9.7-1"></script>
-<script src="src/zones3d.js?v=9.7-1"></script>
-<script src="src/data/linze_layout.js?v=9.7-1"></script>
-<script src="src/data/classroom_layout.js?v=9.7-1"></script>
-<script src="src/building3d.js?v=9.7-1"></script>
-<script src="src/data/wancai_layout.js?v=9.7-1"></script>
-<script src="src/wancai3d.js?v=9.7-1"></script>
-<script src="src/data/library_layout.js?v=9.7-1"></script>
-<script src="src/library3d.js?v=9.7-1"></script>
-<script src="src/data/lawlib_layout.js?v=9.7-1"></script>
-<script src="src/lawlib3d.js?v=9.7-1"></script>
-<script src="src/data/soclib_layout.js?v=9.7-1"></script>
-<script src="src/soclib3d.js?v=9.7-1"></script>
-<script src="src/data/gongtong_layout.js?v=9.7-1"></script>
-<script src="src/data/boya_layout.js?v=9.7-1"></script>
-<script src="src/data/putong_layout.js?v=9.7-1"></script>
-<script src="src/teach3d.js?v=9.7-1"></script>
-<script src="src/audio3d.js?v=9.7-1"></script>
-<script src="src/data/characters.js?v=9.7-1"></script>
-<script src="src/data/portrait_manifest.js?v=9.7-1"></script>
-<script src="src/data/legal_qbank.js?v=9.7-1"></script>
-<script src="src/data/events.js?v=9.7-1"></script>
-<script src="src/social3d.js?v=9.7-1"></script>
-<script src="src/adv3d.js?v=9.7-1"></script>
-<script src="src/legal3d.js?v=9.7-1"></script>
-<script src="src/events3d.js?v=9.7-1"></script>
-<script src="src/data/calendar.js?v=9.7-1"></script>
-<script src="src/data/places.js?v=9.7-1"></script>
-<script src="src/data/activities.js?v=9.7-1"></script>
-<script src="src/data/invites.js?v=9.7-1"></script>
-<script src="src/invites3d.js?v=9.7-1"></script>
-<script src="src/phone3d.js?v=9.7-1"></script>
-<script src="src/outings3d.js?v=9.7-1"></script>
-<script src="src/game3d.js?v=9.7-1"></script>
-<script src="src/guide3d.js?v=9.7-1"></script>
-<script src="src/story3d.js?v=9.7-1"></script>
-<script src="src/data/courses.js?v=9.7-1"></script>
-<script src="src/data/syllabus.js?v=9.7-1"></script>
-<script src="src/classes3d.js?v=9.7-1"></script>
-<script src="src/crowd3d.js?v=9.7-1"></script>
-<script src="src/bike3d.js?v=9.7-1"></script>
+<script src="lib/three.bundle.js?v=9.8-1"></script>
+<script src="lib/three.jsm.bundle.js?v=9.8-1"></script>
+<script src="lib/three-vrm.bundle.js?v=9.8-1"></script>
+<script src="src/people3d.js?v=9.8-1"></script>
+<script src="src/assets3d.js?v=9.8-1"></script>
+<script src="src/character3d.js?v=9.8-1"></script>
+<script src="src/props3d.js?v=9.8-1"></script>
+<script src="src/world3d.js?v=9.8-1"></script>
+<script src="src/engine3d.js?v=9.8-1"></script>
+<script src="src/townkit3d.js?v=9.8-1"></script>
+<script src="src/campuskit3d.js?v=9.8-1"></script>
+<script src="src/zones3d.js?v=9.8-1"></script>
+<script src="src/data/linze_layout.js?v=9.8-1"></script>
+<script src="src/data/classroom_layout.js?v=9.8-1"></script>
+<script src="src/building3d.js?v=9.8-1"></script>
+<script src="src/data/wancai_layout.js?v=9.8-1"></script>
+<script src="src/wancai3d.js?v=9.8-1"></script>
+<script src="src/data/library_layout.js?v=9.8-1"></script>
+<script src="src/library3d.js?v=9.8-1"></script>
+<script src="src/data/dorm_layout.js?v=9.8-1"></script>
+<script src="src/dorm3d.js?v=9.8-1"></script>
+<script src="src/data/lawlib_layout.js?v=9.8-1"></script>
+<script src="src/lawlib3d.js?v=9.8-1"></script>
+<script src="src/data/soclib_layout.js?v=9.8-1"></script>
+<script src="src/soclib3d.js?v=9.8-1"></script>
+<script src="src/data/gongtong_layout.js?v=9.8-1"></script>
+<script src="src/data/boya_layout.js?v=9.8-1"></script>
+<script src="src/data/putong_layout.js?v=9.8-1"></script>
+<script src="src/teach3d.js?v=9.8-1"></script>
+<script src="src/audio3d.js?v=9.8-1"></script>
+<script src="src/data/characters.js?v=9.8-1"></script>
+<script src="src/data/portrait_manifest.js?v=9.8-1"></script>
+<script src="src/data/legal_qbank.js?v=9.8-1"></script>
+<script src="src/data/events.js?v=9.8-1"></script>
+<script src="src/data/ladder.js?v=9.8-1"></script>
+<script src="src/social3d.js?v=9.8-1"></script>
+<script src="src/adv3d.js?v=9.8-1"></script>
+<script src="src/legal3d.js?v=9.8-1"></script>
+<script src="src/events3d.js?v=9.8-1"></script>
+<script src="src/data/calendar.js?v=9.8-1"></script>
+<script src="src/data/places.js?v=9.8-1"></script>
+<script src="src/data/activities.js?v=9.8-1"></script>
+<script src="src/data/invites.js?v=9.8-1"></script>
+<script src="src/data/rel_lines.js?v=9.8-1"></script>
+<script src="src/invites3d.js?v=9.8-1"></script>
+<script src="src/phone3d.js?v=9.8-1"></script>
+<script src="src/outings3d.js?v=9.8-1"></script>
+<script src="src/data/home_lines.js?v=9.8-1"></script>
+<script src="src/home3d.js?v=9.8-1"></script>
+<script src="src/romance3d.js?v=9.8-1"></script>
+<script src="src/game3d.js?v=9.8-1"></script>
+<script src="src/guide3d.js?v=9.8-1"></script>
+<script src="src/story3d.js?v=9.8-1"></script>
+<script src="src/data/courses.js?v=9.8-1"></script>
+<script src="src/data/syllabus.js?v=9.8-1"></script>
+<script src="src/data/exam_bank.js?v=9.8-1"></script>
+<script src="src/classes3d.js?v=9.8-1"></script>
+<script src="src/crowd3d.js?v=9.8-1"></script>
+<script src="src/bike3d.js?v=9.8-1"></script>
 <script>GAME.boot();</script>
 </body></html>

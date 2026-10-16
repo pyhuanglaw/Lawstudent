@@ -69,7 +69,7 @@ const E3 = (function(){
     scene.fog=new THREE.Fog(0xdbe6ea,40,150); E.sky=makeSky(); scene.add(E.sky); E.skyline=makeSkyline(); scene.add(E.skyline);
     E.groundPlane=new THREE.Plane(new THREE.Vector3(0,1,0),0); E.ray=new THREE.Raycaster(); E.ndc=new THREE.Vector2();
     E.cam={yaw:Math.PI,pitch:0.22,dist:6.0,distTarget:6.0,target:new THREE.Vector3(),mode:'follow',shake:0}; E.player=null; E.npcs=[]; E.extras=[]; E.zone=null; E.colliders=[]; E.interactables=[]; E.hour=8.5; E.weather='clear'; E.paused=false; E.lampGlows=[]; E.windowsLit=false;
-    setupInput(); E.setQuality(opts.quality||'medium'); E.resize(); window.addEventListener('resize',E.resize); return E; };
+    setupInput(); E.setQuality(opts.quality||'medium'); E.resize(); window.addEventListener('resize',E.resize); window.addEventListener('orientationchange',()=>{ for(const t of [60,250,600]) setTimeout(E.resize,t); }); if(window.visualViewport) window.visualViewport.addEventListener('resize',E.resize); canvas.addEventListener('webglcontextlost',()=>{ E.ctxLost=(E.ctxLost|0)+1; console.warn('WEBGL_CONTEXT_LOST',E.ctxLost); }); canvas.addEventListener('webglcontextrestored',()=>{ console.warn('WEBGL_CONTEXT_RESTORED'); scene.traverse(o=>{ const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms){ m.needsUpdate=true; for(const k in m){ const v=m[k]; if(v&&v.isTexture) v.needsUpdate=true; } } }); });   /* 使用者 2026-10-15「很少見：畫面大部分變黑、臉只剩面膜的形狀」——還沒重現；先記下 WebGL 有沒有掉（E.ctxLost，?debug 面板），恢復時把材質、貼圖重新上傳 */ return E; };
   // 天空（v9.2）：漸層＋地平線霧氣＋會隨時間變色的雲（程序雜訊，緩慢飄動）＋夜晚星星
   function makeSky(){ const geo=new THREE.SphereGeometry(120,32,16); const mat=new THREE.ShaderMaterial({side:THREE.BackSide,depthWrite:false,fog:false,
       uniforms:{top:{value:new THREE.Color(0x7fb0d8)},mid:{value:new THREE.Color(0xd8e8ef)},bot:{value:new THREE.Color(0xf1e7d6)},sunDir:{value:new THREE.Vector3(0,1,0)},sunCol:{value:new THREE.Color(0xffe6b0)},sunAmt:{value:0.3},
@@ -153,7 +153,7 @@ const E3 = (function(){
       if(E.skyline){ const fc=scene.fog.color; const haze=fc.clone().lerp(sk.mid.value,0.35); const U=E.skyline.userData; U.mount.material.color.copy(haze).lerp(new THREE.Color(0x67798c),0.7*(1-nk)).lerp(new THREE.Color(0x8a6f80),dusk*0.3).lerp(new THREE.Color(0x232a3c),nk*0.8); U.city.material.color.copy(haze).lerp(new THREE.Color(0x6f7c8c),0.45*(1-nk)).lerp(new THREE.Color(0x7a5e6c),dusk*0.35).lerp(new THREE.Color(0x121827),nk*0.9); U.win.material.opacity=Math.max(0,Math.min(1,(nk-0.15)*1.4)); } }
     const lamps=lerp(A[13],B[13])>0.5; if(lamps!==E.lampsOn){ E.lampsOn=lamps; E.setLamps(lamps); }
     if(!E.indoor&&E.zone&&E.zone.def&&E.zone.def.cityLight&&E.lampsOn){ const cl=E.zone.def.cityLight; E.hemi.intensity+=0.45*cl; E.hemi.color.lerp(new THREE.Color(0xffd9a8),0.5*cl); scene.fog.color.lerp(new THREE.Color(0x4a4058),0.4*cl); }
-    if(E.indoor){ const night=(h<6.5||h>=18); const dusk=(h>=16.5&&h<18.4); const warm=!!(E.zone&&E.zone.warm), cool=!!(E.zone&&E.zone.cool); E.hemi.intensity=night?(warm?0.8:(cool?1.05:0.95)):(dusk?1.1:1.2); E.hemi.color.set(night?(warm?0xffdcb0:(cool?0xe6ecfa:0xfff0dc)):(dusk?0xf9e6c8:(h<8?0xeef2f8:0xf4f1ea))); E.hemi.groundColor.set(night?0x6e5f52:(dusk?0xa08a6a:0x9a8a78)); E.sun.intensity=night?0.12:(dusk?0.7:0.9); if(E.sun.color) E.sun.color.set(dusk?0xffc07a:0xffffff); renderer.toneMappingExposure=1.0; scene.fog.far=E.q.far; if(E.zone&&E.zone.applyTime) E.zone.applyTime(h,E.weather); return; }
+    if(E.indoor){ const night=(h<6.5||h>=18); const dusk=(h>=16.5&&h<18.4); const warm=!!(E.zone&&E.zone.warm), cool=!!(E.zone&&E.zone.cool); E.hemi.intensity=night?(warm?0.8:(cool?1.05:0.95)):(dusk?1.1:1.2); E.hemi.color.set(night?(warm?0xffdcb0:(cool?0xe6ecfa:0xfff0dc)):(dusk?0xf9e6c8:(h<8?0xeef2f8:0xf4f1ea))); E.hemi.groundColor.set(night?0x6e5f52:(dusk?0xa08a6a:0x9a8a78)); E.sun.intensity=night?0:(dusk?0.7:0.9);   /* 室內晚上原本 0.12：太陽在地平線附近、會投影，陰影範圍的邊界在牆上留下一塊方形亮區（博雅一樓圓桌後牆，LAWWW2 10-14 C13 回報；關掉投影就不見）*/ if(E.sun.color) E.sun.color.set(dusk?0xffc07a:0xffffff); renderer.toneMappingExposure=1.0; scene.fog.far=E.q.far; if(E.zone&&E.zone.applyTime) E.zone.applyTime(h,E.weather); return; }
     if(E.zone&&E.zone.applyTimeOutdoor) E.zone.applyTimeOutdoor(h,E);
     if(E.weather==='rain'||E.weather==='cloudy'){ E.sun.intensity*=E.weather==='rain'?0.35:0.55; E.hemi.intensity*=0.9; sk.sunAmt.value*=0.2; sk.cover.value=E.weather==='rain'?0.22:0.32; sk.cloudLit.value.lerp(new THREE.Color(0xb7bec8),0.6); sk.cloudDark.value.lerp(new THREE.Color(0x6d7682),0.6); sk.top.value.lerp(new THREE.Color(0x7f8a99),0.7); sk.mid.value.lerp(new THREE.Color(0xa9b3bd),0.6); scene.fog.color.lerp(new THREE.Color(0xa9b3bd),0.5); scene.fog.far=(E.fogFar||E.q.far)*0.7; } else scene.fog.far=E.fogFar||E.q.far; };   /* v9.3 第二十批：原本這裡每次都重設成畫質預設的 E.q.far，區域的 viewFar（applyViewFar）實際上沒有生效 */
   E.setLamps=function(on){ for(const l of E.lampGlows){ l.visible=on; } if(E.zone&&E.zone.onLamps) E.zone.onLamps(on); };
@@ -163,12 +163,18 @@ const E3 = (function(){
   // 視距與霧（v9.3 第十八批）：區域可以要求更遠的視距（viewFar）與較晚開始的霧（fogNear）——椰林大道從中段要看得到盡頭的總圖（照片）；
   // 低畫質打 75 折。室內與沒有設定的區域照畫質預設（near 40、far＝畫質的 far）
   E.applyViewFar=function(){ const zd=E.zone&&E.zone.def; let far=E.q.far; if(zd&&!E.indoor&&zd.viewFar) far=Math.max(far,Math.round(zd.viewFar*(E.q.level==='low'?0.75:1))); scene.fog.far=far; E.fogFar=far; scene.fog.near=(zd&&!E.indoor&&zd.fogNear)||40; camera.far=far+40; camera.updateProjectionMatrix(); if(E.sky){ E.sky.scale.setScalar((camera.far-10)/120); } };
-  E.loadZone=function(zoneDef,spawn){ if(E.zone){ scene.remove(E.zone.group); disposeGroup(E.zone.group); for(const n of E.npcs){ scene.remove(n.obj); if(CHAR.release) CHAR.release(n.obj); } for(const x of E.extras) scene.remove(x.obj); } E.npcs=[]; E.extras=[]; E.colliders=[]; E.interactables=[]; E.lampGlows=[]; E.seats=[]; E.exits=[];
+  E.loadZone=function(zoneDef,spawn){ if(E.zone){ scene.remove(E.zone.group); disposeGroup(E.zone.group); for(const n of E.npcs){ scene.remove(n.obj); if(CHAR.release) CHAR.release(n.obj); } for(const x of E.extras){ scene.remove(x.obj); if(x.rider&&CHAR.release) CHAR.release(x.rider); } }   /* 騎腳踏車的路人（BIKE.rider）的人物也要還給 VRM pool：原本只拿出場景，複製的模型一直留在 ASSETS 的 clones 裡（2026-10-14 zone_memory：校園來回一次貼圖約 +110）*/ E.npcs=[]; E.extras=[]; E.colliders=[]; E.interactables=[]; E.lampGlows=[]; E.seats=[]; E.exits=[];
     E.spawnHint=spawn||null;   /* 區域建立時看得到玩家要出現在哪裡（總圖：搭電梯換區域時，車廂要停在那一層、人在車廂裡）*/
     const z=zoneDef.build(E); z.def=zoneDef; E.zone=z; if(P3.mergeStatic&&!zoneDef.noMerge){ const t0=performance.now(); const n=P3.mergeStatic(z.group); z.mergedCount=n; z.mergeMs=performance.now()-t0; } scene.add(z.group); E.roadMats=[]; z.group.traverse(o=>{ if(o.isMesh&&o.material){ for(const m of (Array.isArray(o.material)?o.material:[o.material])){ if(m.userData&&m.userData.seeThrough) patchSeeThrough(m); if(m.map&&m.map.userData&&m.map.userData.asphalt&&E.roadMats.indexOf(m)<0) E.roadMats.push(m); } } }); E.levels=z.levels||null; if(E.levels) for(const n of E.levels) n._cm=null; E.nav=z.nav; if(E.nav) E.nav._cm=null; z.seatFit=fitSeatRadius(); E.indoor=!!zoneDef.indoor; E.applyViewFar(); E.cam.distTarget=E.indoor?(zoneDef.camDist||3.8):(zoneDef.camDist||6.0); E.cam.pitch=E.indoor?0.38:0.22; E.cam.pitchAdd=0;
     if(E.player){ const sp=spawn||z.spawn||{x:0,z:0,yaw:0}; E.player.lv=E.levels?Math.max(0,Math.min(E.levels.length-1,sp.lv|0)):0; E.nav=navOf(E.player.lv); E.player.obj.position.set(sp.x,0,sp.z); E.player.obj.rotation.y=sp.yaw||0; let moved=false; if(E.unstick(E.player,16)){ moved=true; console.warn('spawn was inside a blocked cell:',zoneDef.id,sp); } if(E.nav&&!canStand(E.player.obj.position.x,E.player.obj.position.z,0.3)){ moved=true; /* 舊存檔的位置在區域改版後落在新建築裡（8 m 內沒有空地）：擴大搜尋，再不行就回到區域預設出生點 */ if(!(E.unstick(E.player,90)&&canStand(E.player.obj.position.x,E.player.obj.position.z,0.3))&&z.spawn){ E.player.obj.position.set(z.spawn.x,0,z.spawn.z); setLv(E.player,E.levels?(z.spawn.lv|0):0); } console.warn('spawn relocated (old layout):',zoneDef.id,sp,'→',E.player.obj.position.x.toFixed(1),E.player.obj.position.z.toFixed(1)); } /* 移過去的空地要走得到區域出生點（不能是新建築後面的封閉小空地，否則玩家被關在裡面）*/ if(moved&&E.nav&&z.spawn){ const p=E.player.obj.position; if(Math.hypot(p.x-z.spawn.x,p.z-z.spawn.z)>1&&!E.pathTo(p.x,p.z,E.player.lv,z.spawn.x,z.spawn.z,z.spawn.lv|0)){ console.warn('relocated spot is cut off → zone spawn:',zoneDef.id,p.x.toFixed(1),p.z.toFixed(1)); p.set(z.spawn.x,0,z.spawn.z); setLv(E.player,E.levels?(z.spawn.lv|0):0); } } settleY(E.player); E.lastSpawn={zone:zoneDef.id,x:sp.x,z:sp.z,lv:E.player.lv|0,fixed:[+E.player.obj.position.x.toFixed(2),+E.player.obj.position.z.toFixed(2)]}; E.player.path=null; E.player.target=null; E.cam.yaw=(sp.yaw||0)+Math.PI; E.cam.target.copy(E.player.obj.position); tmpV.copy(E.player.obj.position); tmpV.y+=1.4; camera.position.copy(tmpV).add(new THREE.Vector3(Math.sin(E.cam.yaw)*E.cam.distTarget*Math.cos(E.cam.pitch),Math.sin(E.cam.pitch)*E.cam.distTarget,Math.cos(E.cam.yaw)*E.cam.distTarget*Math.cos(E.cam.pitch))); }
     E.applyTime(E.hour); E.setLamps(E.lampsOn); if(E.zone.onWeather) E.zone.onWeather(E.weather); if(E.rain) E.rain.visible=(E.weather==='rain'&&!E.indoor); return z; };
-  function disposeGroup(g){ g.traverse(o=>{ if(o.geometry&&!o.geometry.userData.shared) o.geometry.dispose(); }); }
+  /* 換區域：舊區域的幾何、材質、貼圖都釋放（2026-10-14 使用者 iPhone 試玩 v9.6：「有時候換地點…會跳出跑到進入遊戲的畫面，顯示請把手機轉為橫向」——
+     原本只釋放幾何，材質和貼圖（例如校園每一條步道都複製一張路面貼圖）留在顯示記憶體裡，每換一次區域就多一批；iOS Safari 記憶體到上限會把整個網頁重新載入）。
+     之後再用到同一個材質／貼圖（快取的正式模型、共用的材質），three.js 會自動重新上傳——只是第一次出現時慢一點。標了 userData.shared 的不釋放 */
+  function disposeGroup(g){ const mats=new Set(), texs=new Set(); g.traverse(o=>{ if(o.geometry&&!o.geometry.userData.shared) o.geometry.dispose();
+    const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms){ if(!m||!m.isMaterial||(m.userData&&m.userData.shared)) continue; mats.add(m); for(const k in m){ const v=m[k]; if(v&&v.isTexture&&!(v.userData&&v.userData.shared)) texs.add(v); } } });
+    for(const m of mats) m.dispose(); for(const t of texs) t.dispose(); E.lastDispose={materials:mats.size,textures:texs.size}; }
+  E.disposeGroup=disposeGroup;   /* 測試用 */
   // ---------- 實體 ----------
   E.setPlayer=function(obj){ if(E.player) scene.remove(E.player.obj); E.player={obj,speed:0,path:null,target:null,pose:'idle',run:false,busy:false,radius:0.32,lv:0}; scene.add(obj); };
   E.addNPC=function(n){ n.path=null; n.speed=0; n.pose=n.pose||'idle'; n.radius=0.32; n.timer=0; n.lodPhase=E.npcs.length; n.lv=n.lv|0; /* 多樓層：坐著的放在座位的高度、其他的放在所在那一層的地板上 */ { const o=n.obj.position; if(n.seat&&n.seat.y!=null) o.y=n.seat.y; else { const nv=navOf(n.lv); if(nv&&(nv.surf||nv.y0)) o.y=nv.heightAt(o.x,o.z); } } scene.add(n.obj); E.npcs.push(n); if(n.pose==='sit'||n.pose==='read') prePose(n); return n; };
@@ -197,6 +203,17 @@ const E3 = (function(){
   E.screenRay=function(x,y){ E.ndc.set(x/E.w*2-1,-(y/E.h)*2+1); E.ray.setFromCamera(E.ndc,camera); return E.ray; };
   // ---------- 更新 ----------
   E.onTapGround=null; E.onInteractNear=null; E.frame=0;
+  /* 玩家沿路線走一步（點地面、劇情 walkTo 都走這裡）；回傳這一幀有沒有在走。
+     點地面點到人過不去的地方（v9.7 回歸 LAWWW2：201 點到下一排長桌的邊，人的半徑 0.33 m 到不了，會靠著桌子一直原地走）：
+     玩家自己點的路線（沒有 onArrive、不是劇情）連續 1.5 秒（遊戲時間）幾乎沒有前進，就放掉路線、站好。劇情的 walkTo 照舊（它有自己的 4 秒保底）。
+     E.stallStop=false＝舊的做法（測試對照用）*/
+  E.stallStop=true;
+  function pathStep(P,dt){ const t=P.path[0]; const dx=t[0]-P.obj.position.x, dz=t[1]-P.obj.position.z; const d=Math.hypot(dx,dz);
+    if(wpReached(P,d,0.25,dt)){ P.path.shift(); if(!P.path.length){ P.path=null; if(P.onArrive){ const f=P.onArrive; P.onArrive=null; f(); } } return false; }
+    const sp=P.riding?E.bikeSp():(P.run?E.SPD.run:E.SPD.walk), st=stepSp(sp,d,dt), x0=P.obj.position.x, z0=P.obj.position.z; stepEntity(P,dx/d,dz/d,st,dt); P.pose=P.riding?'ride':(P.run?'run':'walk'); P.speed=sp;
+    if(E.stallStop&&!P.onArrive&&!P.busy&&st*dt>1e-4){ const mv=Math.hypot(P.obj.position.x-x0,P.obj.position.z-z0); P._stall=mv<st*dt*0.15?(P._stall||0)+dt:0; if(P._stall>1.5){ P._stall=0; P.path=null; return false; } }
+    return true; }
+  E.playerPathStep=pathStep;   /* 測試用 */
   E.update=function(dt){ E.time+=dt; E.frame++; const P=E.player; if(!P) return;
     // 點擊
     if(input.tap&&!E.paused){ const tp=input.tap; input.tap=null; let handled=false; if(E.onTap) handled=E.onTap(tp); if(!handled&&!P.busy&&E.cam.mode==='follow'){ const hit=E.screenToFloor(tp.x,tp.y); if(hit&&E.nav){ let tx=hit.x, tz=hit.z, tlv=hit.lv;
@@ -209,8 +226,8 @@ const E3 = (function(){
     let mv=tmpV.set(0,0,0); if(!P.busy&&E.cam.mode==='follow'){ if(input.keys['w']||input.keys['arrowup']) mv.z-=1; if(input.keys['s']||input.keys['arrowdown']) mv.z+=1; if(input.keys['a']||input.keys['arrowleft']) mv.x-=1; if(input.keys['d']||input.keys['arrowright']) mv.x+=1; if(input.joy.active){ mv.x+=input.joy.x; mv.z+=input.joy.y; } }
     const spdWalk=E.SPD.walk, spdRun=E.SPD.run; let moving=false;
     E.cam.ctl=mv.lengthSq()>0.02; if(!E.cam.ctl) E.cam.swingAcc=0;   /* 推著搖桿時鏡頭自動轉開的角度（swingAcc）不算進方向：放開再推才照新的鏡頭方向 */
-    if(E.cam.ctl){ mv.normalize(); const ang=E.cam.yaw-(E.cam.swingAcc||0); /* 搖桿／鍵盤的方向換成世界方向（v9.3 第二十五批修正，2026-10-10 線上回報「霖澤館外面跑的方向相反」）：鏡頭在玩家的 (sin yaw, cos yaw) 那一側，畫面的「前」是 (-sin yaw,-cos yaw)、「右」是 (cos yaw,-sin yaw)；推 (x,y)（y 往下為正）＝ x·右 − y·前。原本旋轉方向寫反：只有鏡頭朝正北／正南時對，鏡頭轉 45° 時偏 90°、轉到側面時整個相反（往鏡頭這邊跑）*/ const dx=mv.x*Math.cos(ang)+mv.z*Math.sin(ang); const dz=-mv.x*Math.sin(ang)+mv.z*Math.cos(ang); const run=input.runToggle||input.joy.run||P.runHold; const sp=P.riding?E.SPD.bike:(run?spdRun:spdWalk); P.path=null; P.target=null; stepEntity(P,dx,dz,sp,dt); moving=true; P.pose=P.riding?'ride':(run?'run':'walk'); P.speed=sp; }   /* P.riding：騎腳踏車（src/bike3d.js）*/
-    else if(P.path){ const t=P.path[0]; const dx=t[0]-P.obj.position.x, dz=t[1]-P.obj.position.z; const d=Math.hypot(dx,dz); if(wpReached(P,d,0.25,dt)){ P.path.shift(); if(!P.path.length){ P.path=null; if(P.onArrive){ const f=P.onArrive; P.onArrive=null; f(); } } } else { const sp=P.riding?E.SPD.bike:(P.run?spdRun:spdWalk); stepEntity(P,dx/d,dz/d,stepSp(sp,d,dt),dt); moving=true; P.pose=P.riding?'ride':(P.run?'run':'walk'); P.speed=sp; } }
+    if(E.cam.ctl){ mv.normalize(); const ang=E.cam.yaw-(E.cam.swingAcc||0); /* 搖桿／鍵盤的方向換成世界方向（v9.3 第二十五批修正，2026-10-10 線上回報「霖澤館外面跑的方向相反」）：鏡頭在玩家的 (sin yaw, cos yaw) 那一側，畫面的「前」是 (-sin yaw,-cos yaw)、「右」是 (cos yaw,-sin yaw)；推 (x,y)（y 往下為正）＝ x·右 − y·前。原本旋轉方向寫反：只有鏡頭朝正北／正南時對，鏡頭轉 45° 時偏 90°、轉到側面時整個相反（往鏡頭這邊跑）*/ const dx=mv.x*Math.cos(ang)+mv.z*Math.sin(ang); const dz=-mv.x*Math.sin(ang)+mv.z*Math.cos(ang); const run=input.runToggle||input.joy.run||P.runHold; const sp=P.riding?E.bikeSp():(run?spdRun:spdWalk); P.path=null; P.target=null; stepEntity(P,dx,dz,sp,dt); moving=true; P.pose=P.riding?'ride':(run?'run':'walk'); P.speed=sp; }   /* P.riding：騎腳踏車（src/bike3d.js）*/
+    else if(P.path) moving=pathStep(P,dt);
     if(!moving){ if(P.pose==='walk'||P.pose==='run'){ P.pose='idle'; } P.speed=0; }
     CHAR.animate(P.obj,dt,{pose:P.busy?P.pose:(P.pose),speed:P.speed,handsPockets:P.pocketsIdle&&P.pose==='idle',lookAt:P.lookAt,ground:groundFn(P),ride:P.ride});
     // NPC
@@ -263,7 +280,10 @@ const E3 = (function(){
   // 目前位置本身就不合法（起身位置太靠近桌子、舊存檔、資料錯誤）時：允許「不會變更糟」的移動，讓玩家走出來；不允許穿牆（分數變低的方向仍擋）
   function escapeOK(ent,nx,nz,r){ const o=ent.obj.position; return stuckIn(ent)&&freeScore(nx,nz,r,ent.lv|0)>=freeScore(o.x,o.z,r,ent.lv|0); }
   E.canStand=canStand; E.freeScore=freeScore; E.navOf=navOf; E.setLv=setLv; E.settleY=settleY;
-  E.SPD={walk:1.8,run:4.8,bike:6.2};   /* 玩家走路／跑步／騎腳踏車速度（m/s）。2026-10-11 使用者：「走路又很慢完全不想玩遊戲」——原本 1.45／4.1（真實步行速度），校園一頭到另一頭要走兩三分鐘；動畫播放速度跟著速度調整（character3d.js：速度／1.45），不會滑步 */
+  E.SPD={walk:1.8,run:4.8,bike:8.5};
+  /* 騎車的速度：載人時 85%（AA_137 第 5 節）；一起走、不坐後座的人走在旁邊（rideMode 'walk'，目前沒有人用；使用者 10-16 要學姊也坐後座）時騎慢，跟走路差不多 */
+  E.bikeSp=function(){ let k=1, cap=Infinity; for(const n of E.npcs){ if(n.beh==='passenger') k=0.85; else if(n.beh==='follow'&&E.rideMode&&E.rideMode(n)==='walk') cap=2.4; } return Math.min(E.SPD.bike*k,cap); };
+  E.PASSENGER={back:0.52,side:0.03,backAstride:0.54,y:0.334,mount:[0.55,-0.75],mountT:1.5};   /* 後座的位置（車的座標，乘上車的縮放）：LAWWW2-B 的載妹墊坐墊頂面在 (0, 0.784, −0.50)；坐姿的人物原點放在坐墊表面往下 0.45 m（坐姿把模型往下 0.47）——正式 GLB 交付後改讀 passenger_side 節點 */   /* 腳踏車 6.2 → 8.5（使用者 2026-10-15：「騎腳踏車還是好慢」）*/   /* 玩家走路／跑步／騎腳踏車速度（m/s）。2026-10-11 使用者：「走路又很慢完全不想玩遊戲」——原本 1.45／4.1（真實步行速度），校園一頭到另一頭要走兩三分鐘；動畫播放速度跟著速度調整（character3d.js：速度／1.45），不會滑步 */
   E.heightAt=function(x,z,lv){ const n=navOf(lv===undefined?(E.player?E.player.lv|0:0):lv); return n?n.heightAt(x,z):0; };
   // 把人物放到某一層的 (x,z)，高度照地板（劇情、讀檔、坐下、電梯用）
   E.placeAt=function(ent,x,z,lv){ if(lv!==undefined&&lv!==null) setLv(ent,lv|0); const o=ent.obj.position; o.x=x; o.z=z; const n=navOf(ent.lv|0); o.y=n?n.heightAt(x,z):0; };
@@ -301,6 +321,17 @@ const E3 = (function(){
       if((dd<(n.held?3.5:2.8)&&!E.player.busy)||(n.held&&E.player.busy)){ if(n.path){ n.path=null; n.onArrive=null; } n.timer=Math.max(n.timer,1.5); if(!n.held){ n.held=true; if(!n.lookAt) n.lookAt=pp; } }
       else if(n.held){ n.held=false; if(n.lookAt===pp) n.lookAt=null; } }
     if(n.beh==='chat'&&n.chatWith){ if(!(E.player&&E.player.busy)){ const c=n.chatWith.obj; const ty=Math.atan2(c.position.x-o.position.x,c.position.z-o.position.z); let dd=ty-o.rotation.y; dd=Math.atan2(Math.sin(dd),Math.cos(dd)); if(Math.abs(dd)>0.05) o.rotation.y+=dd*Math.min(1,dt*3); if(!n.lookAt||n.lookAt!==c.position) n.lookAt=c.position; } if(n.chatLead&&!(E.player&&E.player.busy)&&n.timer<=0){ const b=n.chatWith; const aTalks=n.pose!=='talk'; n.pose=aTalks?'talk':'idle'; n.idlePose=n.pose; b.pose=aTalks?'idle':'talk'; b.idlePose=b.pose; n.timer=1.8+Math.random()*3.5; } }
+    else if(n.beh==='passenger'&&E.player){ const P=E.player.obj, y=P.rotation.y, k=(E.player.ride&&E.player.ride.scale)||1, PS=E.PASSENGER, fx=Math.sin(y), fz=Math.cos(y), rx=Math.cos(y), rz=-Math.sin(y);   /* 載妹墊（使用者 2026-10-15、AA_137 第 5 節）：女生側坐（臉朝車的左邊 +x）、男生跨坐（朝車頭）；車的座標：+z 車頭、+x 左邊 */
+      const lp=(bx,bz)=>[P.position.x+rx*bx*k+fx*bz*k,P.position.z+rz*bx*k+fz*bz*k];   /* 車的座標 → 世界 */
+      if(!E.player.riding){ const [mx,mz]=lp(PS.mount[0],PS.mount[1]); n.beh='follow'; n.mountT=null; o.position.x=mx; o.position.z=mz; o.position.y=P.position.y; o.rotation.set(0,y,0); n.pose=n.idlePose='idle'; n.lv=E.player.lv|0; if(E.onRide) E.onRide(n,false); }   /* 下車：站到車的左後方（mount_point），照舊跟著走 */
+      else { const back=n.astride?PS.backAstride:PS.back, [sx,sz]=lp(n.astride?0:PS.side,-back), sy=y+(n.astride?0:Math.PI/2);
+        if(n.mountT!=null&&n.mountT<PS.mountT){ n.mountT+=dt; const t=n.mountT;   /* 上車（約 1.5 秒）：先走到車子左後方、轉身、坐上去——不是瞬間出現在車上 */
+          if(!n.mount0) n.mount0={x:o.position.x,z:o.position.z,ry:o.rotation.y}; const [mx,mz]=lp(PS.mount[0],PS.mount[1]);
+          if(t<0.9){ const u=t/0.9; o.position.x=n.mount0.x+(mx-n.mount0.x)*u; o.position.z=n.mount0.z+(mz-n.mount0.z)*u; o.position.y=P.position.y; o.rotation.set(0,Math.atan2(mx-n.mount0.x,mz-n.mount0.z)||y,0); n.pose='walk'; n.speed=1.4; }
+          else { const u=Math.min(1,(t-0.9)/0.6); o.position.set(mx+(sx-mx)*u,P.position.y+PS.y*k*u,mz+(sz-mz)*u); let dr=sy-y; o.rotation.set(0,y+dr*u,P.rotation.z*u); n.pose=u<0.5?'idle':'sit'; n.idlePose=n.pose; n.speed=0; }
+          n.lv=E.player.lv|0; }
+        else { n.mount0=null; o.position.set(sx,P.position.y+PS.y*k,sz); o.rotation.set(0,sy,P.rotation.z); n.pose='sit'; n.idlePose='sit'; n.speed=0; n.lv=E.player.lv|0; } } }
+    else if(n.beh==='follow'&&E.player&&E.player.riding&&!n.noRide&&(!E.rideMode||E.rideMode(n)==='ride')&&(E.player.speed||0)<0.2&&Math.hypot(E.player.obj.position.x-o.position.x,E.player.obj.position.z-o.position.z)<3.0){ n.beh='passenger'; n.path=null; n.mountT=0; n.mount0=null; if(E.onRide) E.onRide(n,true); }   /* 一起走的人：你騎著車停在她旁邊（3 m 內、停下來），她自己走到後座坐上去（AA_137 第 5 節）；沒裝載妹墊、不願意的人照舊走路（rideMode）*/
     else if((n.beh==='follow'&&E.player)||(n.beh==='buddy'&&n.buddy)){ if(followStep(n,dt)) moving=true; }
     else if(n.path){ const t=n.path[0]; const dx=t[0]-o.position.x, dz=t[1]-o.position.z; const d=Math.hypot(dx,dz); if(wpReached(n,d,0.3,dt)){ n.path.shift(); if(!n.path.length){ n.path=null; if(n.onArrive){ const f=n.onArrive; n.onArrive=null; f(n); } } } else { const sp=n.run?4.0:(n.walkSpeed||1.35); stepEntity(n,dx/d,dz/d,stepSp(sp,d,dt),dt); moving=true; n.pose=n.run?'run':'walk'; n.speed=sp; } }
     else if(n.beh==='wander'&&n.timer<=0&&!n.frozen){ const w=n.waypoints; if(w&&w.length){ const wp=w[(Math.random()*w.length)|0]; E.moveTo(n,wp[0]+(Math.random()-0.5)*1.5,wp[1]+(Math.random()-0.5)*1.5,null,wp[2]); n.timer=4+Math.random()*8; } }
@@ -355,7 +386,7 @@ const E3 = (function(){
     for(const off of SW_OFF){ const r=followCam(C.target,C.yaw+off,pitch,C.dist,P.lv,swV); const v=sc(C.yaw+off,r.dist)-Math.abs(off)*0.25+(C.swing&&Math.sign(off)===Math.sign(C.swing)?0.3:0); if(v>bs){ bs=v; best=off; } }
     C.swing=best; if(!best) return 0; const st=Math.sign(best)*Math.min(Math.abs(best),1.3*dt); C.yaw+=st; if(C.ctl) C.swingAcc=(C.swingAcc||0)+st; return st; }
   E.autoSwing=autoSwing;
-  function updateCamera(dt){ const C=E.cam; const P=E.player; if(C.mode==='cinematic'&&C.cine){ const s=C.cine; camera.position.lerp(s.pos,Math.min(1,dt*4)); C.look=C.look||new THREE.Vector3(); C.look.lerp(s.look,Math.min(1,dt*4)); slabClip(C.look,camera.position,0.9); camera.lookAt(C.look); if(E.zone&&E.zone.fadeWalls) E.zone.fadeWalls(camera,P.obj.position); updateLevelVis(); ST.uSeeR.value=0; return; }
+  function updateCamera(dt){ const C=E.cam; const P=E.player; if(C.mode==='cinematic'&&C.cine){ const s=C.cine; camera.position.lerp(s.pos,Math.min(1,dt*2.4)); C.look=C.look||new THREE.Vector3(); C.look.lerp(s.look,Math.min(1,dt*2.4));   /* 原本 dt*4（約 0.25 秒就轉過去）：轉太快會暈（使用者 2026-10-15），放慢一點 */ slabClip(C.look,camera.position,0.9); camera.lookAt(C.look); if(E.zone&&E.zone.fadeWalls) E.zone.fadeWalls(camera,P.obj.position); updateLevelVis(); ST.uSeeR.value=0; return; }
     C.dist+=(C.distTarget-C.dist)*Math.min(1,dt*4); if(C.manualT>0) C.manualT-=dt; C.target.lerp(tmpV2.copy(P.obj.position).add(tmpV3.set(0,1.45,0)),Math.min(1,dt*7));
     /* 往下走樓梯時鏡頭抬高（戶外：萬才館大樓梯；萬才館第二階段的真實玩家測試抓到）：鏡頭在玩家背後 2.7 m 高，往下走的時候平台邊緣擋住下面的台階，
        畫面上看不到要走去的地方（點下面的台階會點到平台、又走回去）。前方 3～5.5 m 的地面比腳下低超過 0.4 m 時，俯角最多加 0.32（約 18°），平順地變化；室內維持原本的鏡頭 */
@@ -403,7 +434,9 @@ const E3 = (function(){
       for(let R=0.3;R<=1.3+1e-6&&best===null;R+=0.05) for(let a=0;a<48;a++){ const x=it.x+Math.cos(a*Math.PI/24)*R, z=it.z+Math.sin(a*Math.PI/24)*R; if(standL(x,z,0.32,lv)){ best=R; break; } }
       if(best!==null&&best+0.3>r0+1e-6){ it.radiusFit=r0; it.radius=Math.min(1.3,best+0.3); n++; } } return n; }
   E.fitSeatRadius=fitSeatRadius;
-  E.render=function(){ renderer.render(scene,camera); };
+  /* 手機轉向（使用者 2026-10-15：先橫再直，人物變細／變扁，要重開才正常）：iOS 的 resize 事件常在版面還沒換好時就來，讀到舊的寬高。
+     每一幀比一次畫布的實際大小，不一樣就重設（只讀兩個數字，很便宜）；另外 orientationchange、visualViewport 也接上 */
+  E.render=function(){ const w=E.canvas.clientWidth||innerWidth, h=E.canvas.clientHeight||innerHeight; if(w!==E.w||h!==E.h) E.resize(); renderer.render(scene,camera); };
   E.recenter=function(){ if(E.player){ E.cam.yaw=E.player.obj.rotation.y+Math.PI; E.cam.manualT=0; } };
   E.faceEachOther=function(a,b){ const dx=b.position.x-a.position.x, dz=b.position.z-a.position.z; a.rotation.y=Math.atan2(dx,dz); b.rotation.y=Math.atan2(-dx,-dz); };
   return E;

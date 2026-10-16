@@ -54,6 +54,7 @@ run flow_classes          python3 tests/flow_classes.py "$URL" "$OUT/flow_classe
 run flow_teaching_bldgs   python3 tests/flow_teaching_buildings.py "$URL" "$OUT/flow_teaching_buildings"   # 公共教學館（D55）：走到正門、大地圖、手機快速前往、舊存檔
 run guide_flow            python3 tests/guide_flow.py "$URL?turbo" "$OUT/guide_flow"           # 導航、大地圖、入口名牌、開放時間（2026-10-11 使用者回報）
 run levels_no_sky         python3 tests/levels_no_sky.py "$URL?turbo" "$OUT/levels_no_sky"     # 霖澤館上下樓梯、搭電梯不看到大片天空（2026-10-11）
+run flow_dorm_hall        python3 tests/flow_dorm_hall.py "$URL" "$OUT/flow_dorm_hall"         # 宿舍走廊（D44）
 run flow_main_day12      python3 tests/flow_main_day12.py "$URL" "$OUT/flow_main_day12"   # TESTING.md 第五節第 6 項（第一、二天主線，20–40 分鐘）：2026-10-11 才補進來，之前的發布都沒跑
 [ -n "$V7" ]   && run save_compat_v7   python3 tests/save_compat_v7.py "$V7" "$URL"
 [ -n "$LIVE" ] && run save_compat_live python3 tests/save_compat_v7.py "$LIVE" "$URL"

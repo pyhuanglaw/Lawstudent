@@ -115,7 +115,7 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     check('G 選「我知道誰會知道」：祐廷傳給學姊兩則（AA 2026-10-14 的原文，不用括號說明），學姊的回覆排在當晚 22:30',JSON.stringify(q.map(m=>m.from+'：'+m.text))===JSON.stringify(['player：學姊，想請問一件事。麵店的阿姨被客人說吃壞肚子，要賠三萬。','player：客人還錄了跟阿姨吵架的聲音，說要告。這種事可以去法服問嗎？'])&&G.phone.q.some(x=>x.tag==='sis_yutong'&&x.day===80&&Math.abs(x.h-22.5)<1e-6),JSON.stringify(q.map(m=>m.text)));
     check('G 語彤第二句拆成兩句（AA：一句 40 字以內）',L.includes('上週有客人說他在我們店吃壞肚子，要我阿姨賠三萬。')&&L.includes('他還錄了跟我阿姨吵架的聲音，說要拿去告。')&&L.every(t=>[...t].length<=40),JSON.stringify(L.filter(t=>[...t].length>40)));
     G.hour=22.55; PHONE.tick(G); STORY.phoneRules(GM); const W=KX('p:heroine_05').filter(m=>m.from==='heroine_05').map(m=>m.text);
-    check('G 學姊 22:30 的四句（BB_95 4-3）',JSON.stringify(W)===JSON.stringify(['三件事。','一，叫阿姨週三晚上來萬才館，法服有值班。','二，發票、那天的進貨單、監視器的時間，全部留著。','三，叫阿姨先睡覺。這種事，準備好就不可怕。']),JSON.stringify(W));
+    check('G 學姊 22:30 的四句（BB_95 4-3；第 80 天是第 14 週＝雙週，這週六法服沒有值班 → 雙週版「下週六」，AA_140 G47）',JSON.stringify(W)===JSON.stringify(['三件事。','一，叫阿姨下週六早上九點來萬才館，法服有值班。','二，發票、那天的進貨單、監視器的時間，全部留著。','三，叫阿姨先睡覺。這種事，準備好就不可怕。']),JSON.stringify(W));
     check('G 沒有語彤的聯絡方式：下次在麵店當面給她看（ev_yutong_fwd）',G.flags.yutongFwdInPerson===true&&EVENTS.check(ev('ev_yutong_fwd'))===true);
     said=[]; await EVENTS.run(ev('ev_yutong_fwd')); check('G 當面：「你把學姊的回覆給語彤看。」「……法服是什麼？」',JSON.stringify(lines())===JSON.stringify(['你把學姊的回覆給語彤看。','……法服是什麼？'])); }
   { const e=ev('ev_yutong_customer'); fresh(80,20.5,'noodle',{dating_kexin:true}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x'); INV.rec(G); G.contacts.heroine_03=70; picks=['我不知道']; await EVENTS.run(e);
@@ -124,14 +124,30 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
   { const e=ev('ev_yutong_customer'); fresh(80,20.5,'noodle',{}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x'); picks=['我覺得不能用']; await EVENTS.run(e); const L=lines();
     check('G 裝懂：「語彤看了你三秒。」「你剛剛停頓了。」……「那你一開始就說不知道就好。」、記下 BLUFFED',L.includes('語彤看了你三秒。')&&L.includes('你剛剛停頓了。')&&L.includes('……對，我不知道。')&&L.includes('嗯。那你一開始就說不知道就好。')&&SOCIAL.has('heroine_03','BLUFFED'));
     STORY.phoneRules(GM); check('G 裝懂、說只是嚇人：不會私訊學姊',!KX('p:heroine_05').length);
-    const after=ev('ev_yutong_customer_after'), d=G.flags.yutongCustomerDay, w=CALENDAR.dateOf(d).wd, wed=d+(((3-w)+7)%7||7);
+    const after=ev('ev_yutong_customer_after'), d=G.flags.yutongCustomerDay, wed=STORY.fafuSat(d).day;   /* 2026-10-15 法服方案 A：週六（變數名沿用 wed）；G47：下一個值班的週六（第 80 天第 14 週 → 第 15 週的週六）*/
     G.day=wed; G.weekday=wdOf(wed); G.zone='noodle'; const a=EVENTS.check(after); G.day=wed+1; G.weekday=wdOf(wed+1); const b=EVENTS.check(after);
-    check('G 結果（阿姨週三去了法服）：那個週三還不出現、之後才出現',a===false&&b===true,JSON.stringify({d,wed,a,b}));
-    said=[]; await EVENTS.run(after); check('G 結果的旁白（三種選擇都一樣）',lines()[0]==='阿姨週三去了法服。溫學姊幫她把那天的進貨單、發票、監視器的時間整理好。'&&lines()[1]==='客人看到阿姨準備得這麼齊，就沒有再來了。'); }
+    check('G 結果（阿姨那個週六早上去了法服）：那個週六還不出現、之後才出現',a===false&&b===true,JSON.stringify({d,wed,a,b}));
+    said=[]; await EVENTS.run(after); check('G 結果的旁白（三種選擇都一樣）',lines()[0]==='阿姨那個週六早上去了法服。溫學姊幫她把那天的進貨單、發票、監視器的時間整理好。'&&lines()[1]==='客人看到阿姨準備得這麼齊，就沒有再來了。'); }
+  /* AA_140 G47：單週（第 15 週）＝「這週六」、事件 3 只在大一 */
+  { const termDay=(t,w,d)=>STORY.termDay(t,w,d), e=ev('ev_yutong_customer'), D15=termDay('Y1S1',15,3); fresh(D15,20.5,'noodle',{dating_kexin:true}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x'); picks=['我不知道']; await EVENTS.run(e);
+    STORY.phoneRules(GM); G.hour=22.55; PHONE.tick(G); STORY.phoneRules(GM); const W=KX('p:heroine_05').filter(m=>m.from==='heroine_05').map(m=>m.text);
+    const fs=STORY.fafuSat(D15);
+    check('G47 第 15 週（單週）：「這週六」；值班週六就是這一週的週六',W[1]==='一，叫阿姨這週六早上九點來萬才館，法服有值班。'&&fs.thisWeek&&fs.day===termDay('Y1S1',15,6),JSON.stringify({W:W[1],fs}));
+    const f16=STORY.fafuSat(termDay('Y1S1',16,2)), f8=STORY.fafuSat(termDay('Y1S2',8,2)), f1=STORY.fafuSat(termDay('Y1S2',1,2));
+    check('G47 法服值班的週六：第 16 週 → 不是這週；考試週（大一下第 8、9 週）跳過；第 1 週 → 第 3 週',!f16.thisWeek&&CALENDAR.termOf(f8.day).week===11&&CALENDAR.termOf(f1.day).week===3,JSON.stringify([f16,f8&&CALENDAR.termOf(f8.day),f1&&CALENDAR.termOf(f1.day)]));
+    fresh(termDay('Y2S1',15,3),20.5,'noodle',{dating_kexin:true}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x');
+    check('G47 事件 3 只在大一：大二上第 15 週不觸發',EVENTS.check(e)===false);
+    /* AA-B G47 邊界：下一個值班週六在這週或下週才演；當天是週六＝從下週算（不會說「這週六」） */
+    const can=(day)=>{ fresh(day,20.5,'noodle',{dating_kexin:true}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x'); return EVENTS.check(e); };
+    const sat15=termDay('Y1S1',15,6), fsat=STORY.fafuSat(sat15), y2w8=termDay('Y1S2',8,2), y2w1=termDay('Y1S2',1,2), f8b=STORY.fafuSat(y2w8), f1b=STORY.fafuSat(y2w1);
+    check('G47 邊界：第 15 週週六晚上 → 值班週六是下週以後（不是今天），不說「這週六」',fsat&&fsat.day>sat15&&!fsat.thisWeek,JSON.stringify(fsat));
+    check('G47 邊界：大一下第 8 週二（期中考週，下一個值班週六在第 11 週）、第 1 週二（第 3 週）不演；第 15 週（這週六值班）演',f8b&&f8b.wk===3&&f1b&&f1b.wk===2&&can(y2w8)===false&&can(y2w1)===false&&can(D15)===true,JSON.stringify({f8b,f1b}));
+    const okDays=[]; for(let d=termDay('Y1S2',1,1);d<=termDay('Y1S2',18,7);d++){ const f=STORY.fafuSat(d); if(can(d)) okDays.push(d); if(can(d)&&!(f&&f.wk<=1)) { okDays.length=0; break; } }
+    check('G47 邊界：大一下會演的每一天，值班週六都在這週或下週',okDays.length>0,String(okDays.length)); }
   /* ---------- H 房間物件 ---------- */
-  { fresh(5,20,'dorm',{dating_kexin:true}); picks=[0,1,2,3,4,5]; await STORY._v1.roomItems(GM);
+  { fresh(5,20,'dorm',{dating_kexin:true}); picks=[0,1,2,3,4,6]; await STORY._v1.roomItems(GM);   /* 大一同房時多一樣「阿凱的泡麵評鑑表」（BB_120 1-7c，在固定的五樣後面；內容在 bb120_fixed_unit）*/
     const W=['以前翻過。看得到字，看不懂意思。','經濟系那一年的課本。邊角都翻軟了。','重考那段時間的筆記。一半是你的字，一半是她的。','摩天輪的票根。兩個人開始交往的那一天。','河堤邊停著幾台腳踏車。那一群人，那一年。'];
-    check('H 五個物件的旁白（AA_12 原文）、「不看了」結束',JSON.stringify(lines())===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['書架上的舊《民法》','經濟學原理（一年前的課本）','寫滿的筆記本','摩天輪的票根（夾在桌墊下）','手機相簿的一張照片','不看了']),JSON.stringify(lines()));
+    check('H 五個物件的旁白（AA_12 原文）、「不看了」結束',JSON.stringify(lines())===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['書架上的舊《民法》','經濟學原理（一年前的課本）','寫滿的筆記本','摩天輪的票根（夾在桌墊下）','手機相簿的一張照片','阿凱的泡麵評鑑表','不看了']),JSON.stringify(lines()));
     const zsrc=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8'); check('H 宿舍有「看看房間裡的東西」的互動點',/label:'看看房間裡的東西',roomItems:true/.test(zsrc)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

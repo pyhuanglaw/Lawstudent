@@ -1,7 +1,7 @@
 """BB 的普通課堂內容（企劃分支 docs/story_planning/syllabus/*.json，格式見 AA_104 第 1 節）→ src/data/syllabus.js。
 匯入法律系八學期（Y1S1～Y4S2）、日文（JP）、經濟系那一年（Y0S1、Y0S2；AA 2026-10-14 要求一起匯入——遊戲裡還沒有經濟系那一年的課，內容先放著、不會出現）。
 拿掉給法律審查的 review、給企劃的 ref（不顯示）；其他欄位照原樣（board 三行、line、react[{who,text}]、tpl A／B（obs）／C（call）、special、skip、pools、second＝一週兩格的課第二格的短片段 second_slot_lines）。
-大一下的 recall（AA_119 的回聲）先不匯入（AA 2026-10-14）。
+週層級的 recall（例：大一下憲法二第 12 週回想 B4 演講）照匯入（v2 C15；AA-B 2026-10-16：帳號 A 的「先不匯入」是 v2 解除暫緩以前的事，作廢）。
 法律審查（AA_122 第 0a 節）：SYLLABUS.reviewed＝可以顯示 BB 內容的週（'課程代號|週次'），照 BB_115_法律審查清單.json 產生——那一週的審查項目
 全部通過（review.result 是 無誤／已修正／補充）才開；沒有審查項目的週可以開（BB 的快速抽查已經掃過，AA 2026-10-14）。其他週遊戲裡只用寫主題的一般句子（src/classes3d.js 的 S.sylReviewed）。
 用法：python3 tools/syllabus/import_syllabus.py [企劃分支的 ref，預設 origin/claude/story-planning]
@@ -13,12 +13,16 @@ TERMS = ['Y0S1', 'Y0S2', 'Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1',
 PASS = ('無誤', '已修正', '補充')   # BB_115 的 review.result：通過的三種（沒有 result＝還沒審）
 sha = subprocess.check_output(['git', '-C', ROOT, 'rev-parse', '--short', REF], text=True).strip()
 show = lambda p: subprocess.check_output(['git', '-C', ROOT, 'show', f'{REF}:{p}'], text=True)
-out = {'source': 'claude/story-planning ' + sha, 'courses': {}, 'skip': {}, 'pools': {}, 'second': {}, 'reviewed': [], 'y0': []}   # y0：經濟系那一年的課與台詞池（遊戲裡還沒有）
-KEEP = ('w', 'tpl', 'board', 'line', 'react', 'obs', 'call', 'special', 'second_slot_lines')
+out = {'source': REF.replace('origin/', '') + ' ' + sha, 'courses': {}, 'skip': {}, 'pools': {}, 'second': {}, 'reviewed': [], 'y0': []}   # y0：經濟系那一年的課與台詞池（遊戲裡還沒有）
+KEEP = ('w', 'tpl', 'board', 'line', 'react', 'obs', 'call', 'special', 'second_slot_lines', 'ask', 'recall')   # recall＝週層級的回想（例：大一下憲法二第 12 週回想 B4 演講；v2 C15，AA-B 2026-10-16：要匯入）   # ask＝課堂提問 {qid}（AA_130 第 3 節第 3 點；題目從 EXAM_BANK 讀）
 owner = {}
+# 2026-10-14 課程調整（使用者 16:15，企劃分支 AA_130）：刪掉的 7 門課——就算舊的 JSON 還有，也不匯入
+DROPPED = ('law_society', 'law_society_2', 'juris', 'intl_public', 'legal_history', 'fair_trade', 'conflict_laws')
+dropped_seen = []
 for t in TERMS:
     d = json.loads(show(f'docs/story_planning/syllabus/{t}.json'))
     for c in d.get('courses', []):
+        if c['id'] in DROPPED: dropped_seen.append(c['id']); continue
         if c['id'] in owner: sys.exit(f"課程代號重複：{c['id']}（{owner[c['id']]}、{t}）")
         owner[c['id']] = t
         if t.startswith('Y0'): out['y0'].append(c['id'])
@@ -57,3 +61,4 @@ nweeks = sum(len(v) for v in out['courses'].values())
 print('wrote', dst, 'courses', len(out['courses']), 'weeks', nweeks, 'reviewed', len(out['reviewed']), 'closed', len(closed), 'pools', len(out['pools']), 'skip', len(out['skip']), 'second', len(out['second']), 'bytes', os.path.getsize(dst))
 print('審查項目', len(rv['items']), '通過', sum(1 for it in rv['items'] if ((it.get('review') or {}).get('result')) in PASS))
 if stray: print('指到課表裡沒有的週（', len(stray), '）：', '、'.join(stray[:20]) + ('…' if len(stray) > 20 else ''))
+if dropped_seen: print('略過刪掉的課（AA_130）：', '、'.join(dropped_seen))

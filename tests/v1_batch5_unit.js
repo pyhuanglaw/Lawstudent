@@ -26,7 +26,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
-  SOCIAL.bind(G); EVENTS.bind(GM); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; };
+  SOCIAL.bind(G); { const rk=SOCIAL.rel('kai'); rk.fam=25; }   /* 阿凱的「宵夜？」要有點熟以後（BB_120 1-5）：室友到第 4 週通常已經有點熟 */ EVENTS.bind(GM); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; };
 /* 一天裡每 3 分鐘（st：可以更細）跑一次（S.tick 的手機部分：phoneRules＋PHONE.tick）*/
 const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.toFixed(3); STORY.phoneRules(GM); PHONE.tick(G); } };
 const dp=()=>G.msgs.filter(m=>m.tag&&m.tag.startsWith('dp_'));
@@ -95,6 +95,7 @@ const W4MON=termDay(4,1), W5MON=termDay(5,1), W5TUE=termDay(5,2);
     check('芷若：今天才拿到聯絡方式（第一則私訊那天）不送；沒有聯絡方式不送',only('zhiruo_latte',{},()=>{ G.contacts={heroine_02:W5TUE}; }).length===0&&only('zhiruo_latte',{}).length===0);
     check('阿凱：醒著待在宿舍（他的位子上看得到他）不送、改天',only('kai_snack',{},null,7.5,26.5,'dorm').length===0&&!(G.flags.dpN&&G.flags.dpN.kai_snack));
     check('阿凱：在便利商店也不送',only('kai_snack',{},null,7.5,26.5,'cvs').length===0);
+    { const save=SOCIAL.rel('kai').fam; const r=only('kai_snack',{},()=>{ SOCIAL.rel('kai').fam=10; },7.5,26.5,'campus'); check('阿凱：還不到「有點熟」（熟悉 10）——「宵夜？」沒有你的份（BB_120 1-5 固定的改變）',r.length===0,JSON.stringify(r)); }
     { const r=only('kai_snack',{},null,7.5,21,'dorm'); const F0=Object.assign({},G.flags); const msgs=G.msgs, phone=G.phone; fresh(W5TUE+1,7.5,'dorm',F0); G.msgs=msgs; G.phone=phone;
       const keep=STORY.DAILY_PHONE.slice(); STORY.DAILY_PHONE.splice(0,STORY.DAILY_PHONE.length,...keep.filter(d=>d.id==='kai_snack')); try{ run(7.5,8); } finally { STORY.DAILY_PHONE.splice(0,STORY.DAILY_PHONE.length,...keep); }
       const k=dp(); check('阿凱：21:00 就睡了（睡過 22:42）→ 醒來時照原本的時間補在昨晚（第 '+W5TUE+' 天 22:42 起）',r.length===0&&k.length===4&&k.every(m=>m.day===W5TUE)&&Math.abs(k[0].h-22.7)<0.02,JSON.stringify(k.map(m=>[m.day,m.h]))); }
@@ -106,7 +107,7 @@ const W4MON=termDay(4,1), W5MON=termDay(5,1), W5TUE=termDay(5,2);
       check('那天已經有排好時間的劇情訊息就不加',dp().length===0&&G.msgs.some(m=>m.tag==='story_x')); } }
   /* ---------- 舊存檔 ---------- */
   { fresh(W5TUE,7.5,'campus',{}); delete G.phone; G.msgs=[{day:3,h:20,who:'zhe',text:'舊訊息',iv:null}]; PHONE.join(G,'lawclub_study','法服讀書會'); run(7.5,26.5);
-    check('舊存檔（沒有 dp 欄位、舊訊息格式）照常：舊訊息還在、今天的一則送到（從第一則開始輪：條件成立的是學姊讀書會前一天——今天週二、在讀書會群組）',G.msgs[0].text==='舊訊息'&&dp().length===1&&dp()[0].th==='g:lawclub_study'&&dp()[0].from==='heroine_05',JSON.stringify(txt(dp()))); }
+    check('舊存檔（沒有 dp 欄位、舊訊息格式）照常：舊訊息還在、今天的一則送到（從第一則開始輪：條件成立的是學姊讀書會前一天——今天週二、在讀書會群組）（「走啦」群組 2025-08-13 的照片排在更前面，AA_157）',G.msgs.some(m=>m.text==='舊訊息'&&m.day===3)&&dp().length===1&&dp()[0].th==='g:lawclub_study'&&dp()[0].from==='heroine_05',JSON.stringify(txt(dp()))); }
   /* ---------- 大一上以外沒有 ---------- */
   { const d=termDay(18,2)||null; let after=null; for(let x=100;x<400;x++){ const t=CALENDAR.termOf(x); if(t&&t.id!=='Y1S1'){ after=x; break; } }
     fresh(after,7.5,'campus',{}); PHONE.join(G,'lawclub_study','法服讀書會'); run(7.5,26.5); check('大一下（第 '+after+' 天）沒有（4-4 是大一上的）',dp().length===0); }

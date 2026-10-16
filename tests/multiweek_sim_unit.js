@@ -73,7 +73,7 @@ const sizes=[];
     check('成績照準備次數（≥10 很好、≥5 不錯、其他 過了）',okv&&Object.keys(rep).length>=5,JSON.stringify(rep)); }
   { const sel=log.say.filter(s=>/選課結果出來了/.test(s)); const d0=dayOf('2026-02-22');
     check('大一下的選課結果：只問一次、在開學前一天（2026-02-22）',sel.length===1&&sel[0].startsWith(d0+':'),sel.join(' | '));
-    check('選了不修：大一下的課表沒有法律與社會（下）、週二下午沒有課',R().electives.Y1S2_ls==='none'&&!CLS.dayItems(G,dayOf('2026-03-03')).some(it=>it.c.id==='law_society_2'),JSON.stringify(R().electives)); }
+    check('大一下的課表沒有法律與社會（下）（2026-10-14 課程調整刪掉，AA_130）、週二下午沒有課；也沒有那個選修群組',R().electives.Y1S2_ls===undefined&&!CLS.dayItems(G,dayOf('2026-03-03')).some(it=>it.c.id==='law_society_2'||(it.slot&&it.slot.wd===2&&it.slot.block==='pm1')),JSON.stringify(R().electives)); }
   { const ex=log.toast.filter(s=>/考週開始了/.test(s)).map(s=>s.split(':')[0]);
     check('期中、期末考週的提醒：大一上各一次（共兩次）',ex.length===2,ex.join(',')); }
   { const st=log.toast.filter(s=>/開學了/.test(s)); check('「大一下開學了」只提醒一次（2026-02-23）',st.length===1&&st[0].startsWith(dayOf('2026-02-23')+':'),st.join(' | ')); }

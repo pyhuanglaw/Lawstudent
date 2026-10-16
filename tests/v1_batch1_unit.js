@@ -8,6 +8,7 @@
 //   關掉 ev_mingxuan_money、ev_sis_collapse：條件都成立也不觸發；舊存檔演過的備註照常顯示（off 不是 retired）。
 //   Z1 ev_cafe_barista_zhiruo（BB_95 2-2）：點五次，名字只出現一次；第 2～4 次「老樣子？」；第 5 次她先做（第一次點的東西）＋集點卡＋店裡的聯絡方式；
 //      先在經原分組認識的，第一次點餐開場是「……經原那組的。」、不說名字；舊存檔（點過、沒有計數）讀檔補成 1。
+//      好朋友以上（BB_120 1-2）：開場、點餐之後多一句「（紙杯上多了一行字……）」、記 zhiruoCupNote；朋友以下、只是看看都沒有。
 //   引擎：flagNum、inc、setOnce、stamp、{flag:key|預設}。
 // 用法：node tests/v1_batch1_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -53,7 +54,10 @@ const Y1S1=dayIn('Y1S1'), Y1S2=dayIn('Y1S2');
   /* ---------- A7 ---------- */
   for(const id of ['ev_yutong_absent','ev_yutong_thanks']){ const e=ev(id);
     const setup=day=>{ fresh(day,18,id==='ev_yutong_absent'?'noodle':'library'); while(![2,4].includes(G.weekday)){ G.day++; G.weekday=wdOf(G.day); } SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','TALKED_FAMILY','x'); G.flags.yutong_hospital=true; };
-    setup(Y1S1+14); const a=EVENTS.check(e); setup(Y1S2+14); const b=EVENTS.check(e);
+    /* 語彤 4 從交接包 v2 起放在期中這兩週（第 8～9 週，AA_11 事件 4）：大一上、下都用第 8 週比 */
+    const wk=(term,w)=>{ for(let d=1;d<2000;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===w) return d; } return null; };
+    const dA=id==='ev_yutong_absent'?wk('Y1S1',8):Y1S1+14, dB=id==='ev_yutong_absent'?wk('Y1S2',8):Y1S2+14;
+    setup(dA); const a=EVENTS.check(e); setup(dB); const b=EVENTS.check(e);
     check('A7 '+id+'：大一上條件都成立也不觸發，大一下才會',a===false&&b===true,JSON.stringify({Y1S1:a,Y1S2:b})); }
   /* ---------- A8 ---------- */
   { const e=ev('ev_course_selection'); fresh(Y1S1+3,8,'dorm'); picks=[1]; await EVENTS.run(e); const L=lines(), o=opts[0]||[];
@@ -94,7 +98,17 @@ const Y1S1=dayIn('Y1S1'), Y1S2=dayIn('Y1S2');
     check('Z1 先在經原分組認識：第一次點餐「……經原那組的。法律系的。……」、不說名字、沒有「妳是外文系的？」',L[0]==='……經原那組的。法律系的。你們系的人點餐都像在念條文。'&&!L.some(t=>NAME.test(t))&&!o.some(t=>/外文系/.test(t)),JSON.stringify({L0:L[0],o}));
     /* SHARED_SECRET 的開場（第 2～4 次優先）*/
     fresh(Y1S1+2,15,'cafe'); SOCIAL.meet('heroine_02','cafe'); G.flags.CAFE_VISITS=2; SOCIAL.remember('heroine_02','SHARED_SECRET','x'); await EVENTS.run(e);
-    check('Z1 有 SHARED_SECRET 的第 2～4 次：「又來了。今天要「老樣子」嗎？我記得你的。」',lines()[0]==='又來了。今天要「老樣子」嗎？我記得你的。',lines()[0]); }
+    check('Z1 有 SHARED_SECRET 的第 2～4 次：「又來了。今天要「老樣子」嗎？我記得你的。」',lines()[0]==='又來了。今天要「老樣子」嗎？我記得你的。',lines()[0]);
+    /* 好朋友以上：開場、點餐之後多一句紙杯旁白（BB_120 1-2，2026-10-14 對齊 Z1）；朋友以下沒有；第 5 次以後直接做的那種也有 */
+    const CUP='（紙杯上多了一行字，寫的是一部電影裡的一個場景。）', setRel=(f,t,c)=>{ const r=SOCIAL.rel('heroine_02'); r.fam=f; r.trust=t; r.comf=c; };
+    fresh(Y1S1+3,15,'cafe'); SOCIAL.meet('heroine_02','cafe'); G.flags.CAFE_VISITS=2; setRel(45,30,20); picks=['拿鐵']; await EVENTS.run(e);
+    check('Z1 朋友（還不是好朋友）：沒有紙杯那一句',lines()[0]==='老樣子？'&&!lines().includes(CUP)&&!G.flags.zhiruoCupNote,JSON.stringify(lines()));
+    fresh(Y1S1+3,15,'cafe'); SOCIAL.meet('heroine_02','cafe'); G.flags.CAFE_VISITS=2; setRel(70,50,45); picks=['拿鐵']; await EVENTS.run(e); const Lc=lines();
+    check('Z1 好朋友：開場「老樣子？」、點了以後多一句紙杯旁白（在「杯子放著就好」之前）、記 zhiruoCupNote',Lc[0]==='老樣子？'&&Lc.indexOf(CUP)>0&&Lc.indexOf(CUP)<Lc.indexOf('杯子放著就好，慢慢來。')&&G.flags.zhiruoCupNote===true,JSON.stringify(Lc));
+    fresh(Y1S1+3,15,'cafe'); SOCIAL.meet('heroine_02','cafe'); G.flags.CAFE_VISITS=7; G.flags.zhiruoFirstOrder='拿鐵'; setRel(70,50,45); await EVENTS.run(e); const Ld=lines();
+    check('Z1 好朋友、第 8 次（直接做）：「拿鐵。……我已經在做了。」之後是紙杯旁白',Ld[0]==='拿鐵。……我已經在做了。'&&Ld[1]===CUP,JSON.stringify(Ld));
+    fresh(Y1S1+3,15,'cafe'); SOCIAL.meet('heroine_02','cafe'); G.flags.CAFE_VISITS=2; setRel(70,50,45); picks=['只是看看']; await EVENTS.run(e);
+    check('Z1 好朋友「只是看看」：沒點就沒有紙杯',!lines().includes(CUP)&&!G.flags.zhiruoCupNote,JSON.stringify(lines())); }
   /* ---------- 舊存檔：點過、沒有計數 → 讀檔補成 1 ---------- */
   { const src=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); const a=src.indexOf('  function migrate(s){'), b=src.indexOf('  function ls(){',a); const body=src.slice(a,b);
     const migrate=new Function('defaults','SAVE_VER',body+'; return migrate;')(()=>({rel:{}}),3);

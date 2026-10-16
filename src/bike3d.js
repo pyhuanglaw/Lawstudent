@@ -18,7 +18,7 @@ const BIKE=(function(){
   let ride=null;      /* {obj,parts,crank,wheel,steer,lean,yaw,lastFlat}：騎著的車（掛在玩家底下）*/
   let pendingPark=false, opts_walked=false;
   B.ok=z=>!!ZONES[z];
-  B.SPEED=6.2;
+  B.SPEED=8.5;   /* 和 engine3d.js 的 E.SPD.bike 一樣 */
   function st(G){ if(!G.bike||typeof G.bike!=='object') G.bike=Object.assign({riding:false},HOME); return G.bike; }
   B.state=st;
   function load(){ if(src) return Promise.resolve(src); if(!loading) loading=ASSETS.loadOne('prop.bike_ride').then(c=>{ const s=c&&c.scene; if(!s) return null;
@@ -49,12 +49,21 @@ const BIKE=(function(){
   function placeParked(GM){ const E=GM.E, G=GM.G, s=st(G); removeParked(E); if(s.riding||s.zone!==G.zone||!E.zone||!src) return;
     const o=make(); if(!o) return; pose(o.userData.parts,0,0,0); o.position.set(s.x,0,s.z); o.rotation.y=s.yaw; E.zone.group.add(o);
     const it={x:s.x,z:s.z,radius:1.3,lv:0,y:0,label:'騎腳踏車',bike:true,onInteract:()=>B.mount(GM)};
-    E.interactables.push(it); parked={obj:o,it,zone:G.zone}; }
+    E.interactables.push(it); parked={obj:o,it,zone:G.zone};
+    /* 第一次看到自己的車（第三天以後，避開第一二天的劇情）告訴玩家在哪裡、怎麼騎：2026-10-14 使用者試玩 v9.6「我還是不能騎腳踏車」——v9.7 才有騎車，車停在宿舍門口，沒有人說 */
+    const F=G.flags||(G.flags={}); if(!F.BIKE_TIP&&G.day>=3&&GM.toast){ F.BIKE_TIP=true; const home=s.zone===HOME.zone&&Math.hypot(s.x-HOME.x,s.z-HOME.z)<3; setTimeout(()=>GM.toast((home?'宿舍門口東邊停著你的腳踏車':'這附近停著你的腳踏車')+'：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。',5200),1500); } }
   /* 找一個站得住的地方（車停的位置：原本的位置不行就往外找；都不行就用原本的）*/
   function spotNear(E,x,z,yaw){ if(!E.canStand||E.canStand(x,z,0.45,0)) return [x,z]; for(const r of [0.5,1,1.5,2,2.5,3]) for(let k=0;k<12;k++){ const a=yaw+k*Math.PI/6, px=x+Math.sin(a)*r, pz=z+Math.cos(a)*r; if(E.canStand(px,pz,0.45,0)) return [px,pz]; } return [x,z]; }
+  /* 走進門時車停在門口旁邊、離門 2.2～2.8 m（v9.7 回歸 2026-10-14：停在門的正前方時，走回車旁邊常常是門比車近、按鈕是「進入便利商店」，騎不了）：
+     從門往外（門→玩家）的方向左右轉 30～90°，找站得住的地方；都不行才照舊停在玩家旁邊 */
+  function parkBeside(E,door,P,yaw){ const vx=P.x-door.x, vz=P.z-door.z, l=Math.hypot(vx,vz), a0=l>0.1?Math.atan2(vx,vz):yaw+Math.PI;
+    for(const r of [2.4,2.8,2.2]) for(const d of [Math.PI/3,-Math.PI/3,Math.PI/2,-Math.PI/2,Math.PI/6,-Math.PI/6]){ const a=a0+d, px=door.x+Math.sin(a)*r, pz=door.z+Math.cos(a)*r; if(!E.canStand||E.canStand(px,pz,0.45,0)) return [px,pz]; }
+    return spotNear(E,P.x,P.z,yaw); }
   B.mount=function(GM){ const E=GM.E, G=GM.G, P=E.player, s=st(G); if(s.riding||P.busy||!B.ok(G.zone)) return false;
+    /* 一起走的人還不願意坐後座：不上車，一起走路（AA_137 第 5 節；載妹墊開局就有，使用者 2026-10-16）*/
+    if(typeof STORY!=='undefined'&&STORY.rideBlock){ for(const n of E.npcs){ if(n.beh!=='follow'||n.noRide) continue; const why=STORY.rideBlock(GM,n); if(why){ if(GM.caption) GM.caption('',why,3200); else if(GM.toast) GM.toast(why,3200); return false; } } }
     if(!src){ load().then(()=>{ if(src) B.mount(GM); }); return false; }
-    if(E.npcs.some(n=>n.beh==='follow')){ if(GM.toast) GM.toast('（有人跟著一起走，先用走的。）'); return false; }
+    /* 有人跟著一起走：照樣上車，他會坐到後座（engine3d.js 的 beh 'passenger'；使用者 2026-10-15「腳踏車要可以載人」）——原本「有人跟著一起走，先用走的」*/
     { const p=P.obj.position; if(Math.hypot(p.x-s.x,p.z-s.z)>0.5&&!opts_walked&&E.moveTo(P,s.x,s.z,()=>{ opts_walked=true; try{ B.mount(GM); } finally { opts_walked=false; } })) return false; }   /* 先走到車旁邊再上車（不瞬移）*/
     removeParked(E);
     P.path=null; P.target=null; P.onArrive=null; P.obj.position.set(s.x,0,s.z); P.obj.rotation.y=s.yaw; if(E.setLv) E.setLv(P,0); else P.lv=0; if(E.settleY) E.settleY(P);
@@ -75,7 +84,7 @@ const BIKE=(function(){
     if(!s.riding){ parked=null; return; }
     if(B.ok(to)){ s.zone=to; return; }   /* 騎著過去（車還掛在玩家底下；afterEnter 重新接上）*/
     const P=E.player.obj.position; const door=E.interactables.find(i=>i.exit&&i.exit.to===to&&Math.hypot(i.x-P.x,i.z-P.z)<(i.radius||1.5)+3);
-    if(door){ const [x,z]=spotNear(E,P.x,P.z,E.player.obj.rotation.y); B.dismount(GM,{at:{x,z,yaw:E.player.obj.rotation.y},away:true}); }   /* 走進門：車停在門口 */
+    if(door){ const [x,z]=parkBeside(E,door,P,E.player.obj.rotation.y); B.dismount(GM,{at:{x,z,yaw:E.player.obj.rotation.y},away:true}); }   /* 走進門：車停在門口旁邊（parkBeside）*/
     else { B.dismount(GM,{away:true}); pendingPark=true; }   /* 快速前往（或劇情帶過去）：車停到那棟建築的門外（afterEnter 找出口）*/
     parked=null; };
   /* 換區域之後（populate 之後）：騎著就重新接上；停在這裡就擺出來；快速前往進了建築就把車移到這棟的門外 */
@@ -88,7 +97,7 @@ const BIKE=(function(){
   B.tick=function(GM,dt){ const E=GM.E, G=GM.G; if(!G||!E||!E.player) return; const P=E.player, s=st(G); if(!ride) return; const o=P.obj;
     if(ride.obj.parent!==o){ o.add(ride.obj); ride.obj.position.set(0,0,0); ride.obj.rotation.set(0,0,0); }   /* 正式人物模型晚到時玩家的 obj 會換新（game3d.js 的 upgradeModels）：車跟著換過去 */
     // 自動下車
-    const follow=E.npcs.some(n=>n.beh==='follow');
+    const follow=E.npcs.some(n=>n.beh==='follow'&&(n.noRide||(E.rideMode&&E.rideMode(n)==='refuse')));   /* 一起走的人會坐後座（beh 'passenger'）；不坐後座的（noRide、還不願意）要下車一起走 */
     if(P.busy||follow||P.seat||(P.pose!=='ride'&&P.pose!=='idle'&&P.pose!=='walk'&&P.pose!=='run')){ B.dismount(GM); return; }
     if((P.lv|0)!==0||o.position.y>0.12){ const lf=ride.lastFlat; B.dismount(GM,{at:lf}); if(GM.toast) GM.toast('（樓梯不能騎，車停在下面。）',2200); return; }
     ride.lastFlat.x=o.position.x; ride.lastFlat.z=o.position.z; ride.lastFlat.yaw=o.rotation.y;
@@ -101,7 +110,10 @@ const BIKE=(function(){
     ride.steer+=(steerT-ride.steer)*k; ride.lean+=(leanT-ride.lean)*k;
     pose(ride.parts,ride.wheel,ride.crank,ride.steer); o.rotation.z=ride.lean;
     P.ride=P.ride||{}; P.ride.crank=ride.crank; P.ride.grips=grips(ride.steer,ride.k); P.ride.scale=ride.k;
-    if(P.pose!=='ride') P.pose='ride'; };
+    if(P.pose!=='ride') P.pose='ride';
+    /* AA_137 第 5 節第 3 步（AA_140 G49）：載著人一起騎，實際騎了 6 秒以後，她隨機一句短話（她的閒聊短招呼池 STORY.ladGreet），一趟（上車到下車）最多一句；字幕，不打斷騎車 */
+    const pas=E.npcs.find(n=>n.beh==='passenger'&&n.charId);
+    if(pas){ if(v>1) ride.tripT=(ride.tripT||0)+dt; if(!ride.tripSaid&&ride.tripT>6){ ride.tripSaid=true; const t=typeof STORY!=='undefined'&&STORY.ladGreet?STORY.ladGreet(G,pas.charId):null; if(t&&GM.caption) GM.caption((typeof SOCIAL!=='undefined'?SOCIAL.displayName(pas.charId):pas.name)+'：',t,3600); } } };
   /* 路上騎腳踏車的人（game3d.js 的 spawnRider）：一個群組＝人＋車（同一個座標，和玩家一樣）；照路線一段一段騎，轉角不瞬間轉向（每秒最多轉 2 rad）；
      輪子、曲柄照距離轉，轉彎時把手轉、車身往內側傾；人物用 pose 'ride'（rideIK）。車的模型還沒載好時人先不顯示。
      o＝CHAR.build 出來的人（模型晚到時 upgradeModels 會換掉 x.rider，所以每一幀用 this.rider）*/
@@ -121,6 +133,9 @@ const BIKE=(function(){
   B.parkedAt=G=>{ if(!G) return null; const s=G.bike||HOME; return s.riding?null:{zone:s.zone,x:s.x,z:s.z}; };
   B.debug=()=>ride?{wheel:ride.wheel,crank:ride.crank,steer:ride.steer,lean:ride.lean,k:ride.k}:null;   /* 測試用（tests/bike_unit.js）*/
   /* 下車按鈕 */
-  B.bindUI=function(GM){ const b=btn(); if(b) b.onclick=()=>{ if(ride&&!GM.E.player.busy) B.dismount(GM); }; };
+  B.bindUI=function(GM){ const b=btn(); if(b) b.onclick=()=>B.manualDismount(GM); };
+  /* 按「下車」（AA_137 第 5 節第 5 步，AA_140 G49）：載著人的時候中途下車＝她先下車、站在旁邊說一句；之後騎到她旁邊停下，她照第 2 步再坐上來 */
+  B.manualDismount=function(GM){ if(!ride||GM.E.player.busy) return false; const pas=GM.E.npcs.find(n=>n.beh==='passenger'&&n.charId); B.dismount(GM);
+    if(pas&&GM.caption) GM.caption((typeof SOCIAL!=='undefined'?SOCIAL.displayName(pas.charId):pas.name)+'：','……我還是走一下好了。',3200); return true; };
   return B;
 })();

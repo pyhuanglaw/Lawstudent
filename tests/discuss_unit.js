@@ -49,13 +49,20 @@ const attendAt=async(it,ans)=>{ G.day=it.day; G.hour=it.t0; said.length=0; chose
     check('大一選了第二個看法：大四上那一堂，選項前多一句「'+want+'」',j>=0&&j<i,JSON.stringify(L.slice(0,i+1))); }
   { const {L,i}=await runC(3); const j=L.indexOf(rc.listened); check('大一選「先聽別人說」：「'+rc.listened+'」',j>=0&&j<i); }
   { const {L,i}=await runC(null); const j=L.indexOf(rc.missed); check('大一那一堂沒去：「'+rc.missed+'」',!!rc.missed&&j>=0&&j<i); }
-  /* D：回想 attended（after 某位同學）：公平交易法第 15 週，芯慈的回應之後，讀大一上經原第 10 週 */
-  const obD=obsOf('fair_trade',15), rd=obD.recall[0];
-  check('公平交易法第 15 週的回想：attended Y1S1:econ_principles_1:w10、after classmate_xinci',rd.attended==='Y1S1:econ_principles_1:w10'&&rd.after==='classmate_xinci');
-  const runD=async went=>{ fresh(); if(went){ const e=itemOf('Y1S1',10,'econ_principles_1'); CLS.rec(G).done[e.key]=1; } const it=itemOf(obD.record.split('_')[1],15,'fair_trade'); return attendAt(it,0); };
+  /* D：回想 attended（after 某位同學）——測試專用的假資料（2026-10-14 課程調整刪了公平交易法，AA_130 第 6 節：改用假資料）：
+     把原本公平交易法第 15 週那一堂（討論型，芯慈的回應之後讀大一上經原第 10 週）只在這個測試裡掛到同一個時段的勞動法第 15 週（大三下週四上午）*/
+  const FAKE_W15={w:15,tpl:'B',board:['案例討論','（測試用）','三家早餐店同一天漲價'],line:'（測試用）三家早餐店，同一天漲五元。',react:[],
+    obs:{kind:'discuss',prompt:'（測試用）你們覺得呢？',options:[{text:'有約好',result:'（測試用）'},{text:'剛好同一天',result:'（測試用）'},{text:'看有沒有交換價格',result:'（測試用）'},{text:'我想先聽別人說。',result:'（測試用）'}],
+      replies:[{who:'classmate_xinci',text:'（測試用）大一經原的早餐店賽局。'},{who:'zhe',text:'（測試用）麵店早上沒開。'}],close:'（測試用）',record:'B_Y3S2_labor_law_w15',
+      recall:[{attended:'Y1S1:econ_principles_1:w10',say:'（測試用）你想起經原老師說的：囚犯困境的早餐版。',after:'classmate_xinci'}]}};
+  const LW=SYLLABUS.courses.labor_law, LWi=LW.findIndex(q=>q.w===15), LW0=LW[LWi]; LW[LWi]=FAKE_W15; const RV=SYLLABUS.reviewed, rvAdd=!RV.includes('labor_law|15'); if(rvAdd) RV.push('labor_law|15');
+  const obD=obsOf('labor_law',15), rd=obD.recall[0];
+  check('（假資料）大三下週四上午第 15 週的回想：attended Y1S1:econ_principles_1:w10、after classmate_xinci',rd.attended==='Y1S1:econ_principles_1:w10'&&rd.after==='classmate_xinci');
+  const runD=async went=>{ fresh(); if(went){ const e=itemOf('Y1S1',10,'econ_principles_1'); CLS.rec(G).done[e.key]=1; } const it=itemOf(obD.record.split('_')[1],15,'labor_law'); return attendAt(it,0); };
   { const L=await runD(true); const ix=L.findIndex(t=>t.includes(obD.replies.find(r=>r.who==='classmate_xinci').text)), j=L.indexOf(rd.say);
     check('去過大一上經原第 10 週：芯慈的回應之後接「'+rd.say+'」',ix>=0&&j===ix+1,JSON.stringify(L.slice(ix,ix+2))); }
   { const L=await runD(false); check('沒去過：沒有那一句',!L.includes(rd.say)); }
+  LW[LWi]=LW0; if(rvAdd) RV.splice(RV.indexOf('labor_law|15'),1);   /* 還原：假資料只在這一段 */
   check('attendedWeek：用上課紀錄（日期:課程:時段）找學期與週次',(()=>{ fresh(); const e=itemOf('Y1S1',10,'econ_principles_1'); CLS.rec(G).done[e.key]=1; return CLS.attendedWeek(G,'Y1S1:econ_principles_1:w10')&&!CLS.attendedWeek(G,'Y1S1:econ_principles_1:w11')&&!CLS.attendedWeek(G,'Y1S2:econ_principles_1:w10'); })());
   /* E：回想 memory（行政救濟第 13 週：語彤 LAW_MEETS_LIFE）*/
   const obE=obsOf('admin_remedy',13), re=obE.recall[0];
