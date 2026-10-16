@@ -47,7 +47,7 @@
 | V3-B02 | 學姊 W6 handover | Y2S1 第 None 週 | Y2S1 第 1 週 | 大二上第 1 週週三法服（到第 2 週）；沒加入法服的人看家族群組 |
 | V3-B03 | W7 prof_xu_door | Y2S1 第 None 週 | Y2S1 第 6 週 | 大二上第 6～9 週平日 15～17（學姊 FAMILIAR 以上；G08） |
 | V3-B04 | W8 ev_sis_collapse（BCG-01） | Y2S1 第 None 週 | Y2S1 第 12 週 | 大二上第 12 週週四 21:00 Café（完整場景要 FRIEND；不熟的看群組） |
-| V3-B05 | W9 skip_interview | Y2S1 第 None 週 | Y2S1 第 13 週 | 大二上第 13 週 9～10 點總圖門口 |
+| V3-B05 | W9 skip_interview | Y2S1 第 None 週 | Y2S1 第 12 週 | 大二上第 12 週**週六 11/28** 9～10 點總圖門口（2026-10-16 從第 13 週提早，`BB_97` 81f3dd35） |
 | V3-B07 | 模擬法庭的學姊台詞 | Y2S1 第 None 週 | Y2S2 第 1 週 | 大二下第 1 週模 1 抽籤；模 4 第 8 週、模 5 第 10 週 5/1 |
 | V3-B08 | M3 results＋上榜聚餐 | Y2S1 第 None 週 | Y2S2 第 6 週 | M3 大二下第 6 週（家族群組）；聚餐第 7～8 週週五 |
 | V3-B09 | W10 graduation＋重訪日 2 | Y2S1 第 None 週 | Y2S2 第 15 週 | 6/5（六）畢業典禮；重訪日 2 第 18 週 |
