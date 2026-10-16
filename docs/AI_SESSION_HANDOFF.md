@@ -83,42 +83,44 @@
 - **只有值班中的 LAWWW 或 LAWWW-B 可以正式發布**（main／GitHub Pages），自主決定、對品質負責（D85）。**三小時間隔 2026-10-16 使用者正式取消**：看功能完成度、測試結果、版本穩定性，不看時間；換班後不得恢復舊限制。
 - 已批准和未批准要分開：使用者批准的決策在 `docs/PROJECT_DECISIONS.md`；草案在 `docs/proposals/`，劇情企劃在 `docs/story_planning/`，兩者都是 PROPOSAL。
 
-## 0a. 有效規則來源（RULE_SOURCE；A、B 共用一份；D49 修訂 2026-10-16）
+## 0a. 唯一的值班狀態與有效規則來源（RULE_SOURCE；A、B、C 共用一份；D92／HV-10，2026-10-16）
 
-- **永久規則檔（五份）**：`CLAUDE.md`、`docs/AI_SESSION_HANDOFF.md`（本檔）、**`docs/HANDOFF_GAP_MATRIX.md`（唯一的跨帳號永久任務總表）**、`docs/PROJECT_DECISIONS.md`、`docs/USER_INSTRUCTION_LOG.md`。各職位交接檔見第 1 節最後一欄，只寫自己的狀態並引用任務 ID，不重複維護總表的內容。
-- **任務資料（D82，HV-4）**：`docs/handoff/tasks.json`（機器讀的任務索引，**以它為準**；總表 MD 是閱讀版，工具會比對兩邊的 ID）、`docs/handoff/deliveries.json`（交付登記＋各交付分支已看到哪個 commit）、`docs/handoff/snapshots/`（交班快照）、對帳工具 `tools/handoff/check_handoff.py`（只讀，不改任務）。和五份規則檔一樣只有值班的 LAWWW 寫。
-- **RULE_SOURCE＝值班 LAWWW 的開發分支。現在：`origin/claude/modest-rubin-2lyp7g`（LAWWW-B，帳號 B）。**
-  - `main` 只在正式發布時更新，**不是**規則來源（常常比較舊）。
-  - 帳號 A 的 `claude/confident-ritchie-8rwh7t`、`claude/second-ai-env-art`、`claude/story-planning` 停在交班那一刻，上面的 `CLAUDE.md` 是舊版（`story-planning` 上的甚至沒有接班規則）。工作階段啟動時自動載入的 `CLAUDE.md`、還有很長的舊對話記憶，**都可能是舊的**：接班時一律以 RULE_SOURCE 的版本為準，衝突時照 RULE_SOURCE。
-  - **只有值班的 LAWWW 改這五份檔**（不會出現 A、B 兩個版本）。其他職位要改規則或總表：在自己的交接檔用任務 ID 寫、或傳給 LAWWW，由 LAWWW 抄進來。
-  - 換帳號後，新的 LAWWW 接班時第一件事就是把這一行改成自己的分支（第 4 節第 9 步）。
-- **找法（任何帳號、任何職位都一樣）**：
+**接班者永遠以 GitHub 上最近一次正式有效的值班與交班紀錄為準**——不照 A→B→C 的固定順序、不靠自己上次值班的記憶、不看哪條分支的 commit 時間最新（使用者 2026-10-16 21:35）。
+
+- **唯一的值班狀態：`docs/handoff/duty.json`**（在 RULE_SOURCE 分支上；只有值班的 LAWWW 寫）。裡面一定有九樣：
+  1. 現在哪個帳號值班（`onDuty`）；2. 上一任是哪個帳號（`previous`）；3. 四個職位各由哪個工作階段負責（`roles.<職位>.session`）；4. 各職位的有效分支（`roles.<職位>.branch`）；5. 各職位最後確認的 SHA（`roles.<職位>.sha`）；6. 哪些帳號休班中、哪些還沒啟用（`accountState`：on／off／unused）；7. RULE_SOURCE 分支、規則版本、規則 SHA（`ruleSource`、`ruleVersion`）；8. 最近一次交班的快照（`lastHandoff.snapshots`）；9. 還沒完成的交班、異常（`pending`、`anomalies`）。
+  - 每個職位在**自己的分支**上另有一份 `docs/handoff/duty_<職位>.json`（自己的登記：帳號、工作階段、分支、交班時間與快照）。LAWWW 用 `duty sync` 收進 `duty.json`；兩邊對不起來＝異常，不能當正常。
+  - `duty.json` 有一條**登記鏈**（`seq`＋`chain`：每次接班、交班加一筆）。新的一班一定包含上一班的整條鏈；**兩條鏈互不包含＝分岔，工具不選、回報使用者**。
+- **RULE_SOURCE＝值班 LAWWW 的開發分支＝`duty.json` 的 `ruleSource.branch`。現在：`origin/claude/modest-rubin-2lyp7g`（LAWWW-B，帳號 B）。**
+  - `main` 只在正式發布時更新，**不是**規則來源。休班帳號的分支停在它交班那一刻，上面的 `CLAUDE.md` 是舊版。工作階段啟動時載入的 `CLAUDE.md`、很長的舊對話記憶**都可能是舊的**：一律以 RULE_SOURCE 為準。
+  - **只有值班的 LAWWW 改五份永久規則檔**（`CLAUDE.md`、本檔、`docs/HANDOFF_GAP_MATRIX.md`、`docs/PROJECT_DECISIONS.md`、`docs/USER_INSTRUCTION_LOG.md`）和 `docs/handoff/` 的任務資料、`duty.json`。其他職位在自己的交接檔用任務 ID 寫，或傳給 LAWWW 抄進來。
+- **找法（任何帳號、任何職位都一樣；不要寫死分支名）**：
 ```bash
 git fetch origin '+refs/heads/*:refs/remotes/origin/*' --prune
-git log --all -1 --format='%H %ci' -- docs/HANDOFF_GAP_MATRIX.md        # 最新一次改總表的 commit
-git branch -r --contains <上一行的 commit>                               # 應該包含 RULE_SOURCE 那條分支
-git show <上一行的 commit>:docs/AI_SESSION_HANDOFF.md | sed -n '/^## 0a/,/^## 1\./p'   # 確認 RULE_SOURCE 寫的是哪條分支
+python3 tools/handoff/check_handoff.py duty find          # 掃所有遠端分支的 duty.json，照登記鏈找出 RULE_SOURCE；分岔或找不到 → 結束碼 1，回報使用者
 git log -1 --format='%h %ci' origin/<RULE_SOURCE> -- docs/AI_SESSION_HANDOFF.md   # 「規則 SHA」：值班登記要寫這個
 ```
-  找到的 commit 不在 RULE_SOURCE 分支上＝有人在別的分支改了規則檔：以 RULE_SOURCE 分支的最新版為準，接班確認寫明。git 不能用時，用 GitHub 工具讀 `pyhuanglaw/Lawstudent` 在 RULE_SOURCE 分支上的同名檔案。
-- **讀法**：
-  - LAWWW：把 RULE_SOURCE 合併進自己的分支（它就是開發線）。
-  - LAWWW2、AA、BB：**不合併開發分支的程式**。用 `git show origin/<RULE_SOURCE>:<檔>` 讀五份規則檔；需要放進自己分支時，`git checkout origin/<RULE_SOURCE> -- CLAUDE.md docs/AI_SESSION_HANDOFF.md docs/HANDOFF_GAP_MATRIX.md docs/PROJECT_DECISIONS.md` 當副本，副本以來源為準、不自己改。
+  - 舊的 checkout 還沒有 `duty find`：`git log --all -1 --format='%H %ci' -- docs/handoff/duty.json` → `git branch -r --contains <commit>` → `git show origin/<分支>:docs/handoff/duty.json` 看 `ruleSource.branch`；再 `git checkout origin/<那條分支> -- tools/handoff/` 取得新工具，跑 `duty find` 用登記鏈核對（**不能只看 commit 時間**）。git 不能用時，用 GitHub 工具讀 `pyhuanglaw/Lawstudent` 各分支的 `docs/handoff/duty.json`。
+  - 舊制度（D49，HV-3～HV-9）只有本節的一行文字：還沒有 `duty.json` 的分支，照那一行；和 `duty.json` 衝突時以 `duty.json` 的登記鏈為準。
+- **檢查**：`python3 tools/handoff/check_handoff.py duty verify`（LAWWW 以外的職位加 `--ref origin/<RULE_SOURCE>`）。只讀不改，查 11 項：①帳號狀態合法、只有一個值班 ②四個職位都有登記 ③RULE_SOURCE＝值班 LAWWW 的分支 ④各職位的分支存在、記錄的 SHA 在歷史上（沒被改寫）⑤職位自己的登記和 `duty.json` 一致 ⑥**同一職位兩個帳號同時寫入**（別的帳號交班以後它的分支還有新的實質 commit）⑦上一次交班的快照存在、讀得出來 ⑧沒完成的交班 ⑨值班表寫的值班帳號一致 ⑩還沒處理的異常 ⑪登記的 WIP 分支還沒整合。結束碼 0＝正常；1＝有異常（**不能自己猜哪一班最新、不能覆寫，查不清楚回報使用者**）；2＝快照不存在或壞掉（寫 `REMEDIAL_FULL_AUDIT`，補做一次全面盤點）。
+- **讀法**：LAWWW 把 RULE_SOURCE 合併進自己的分支（它就是開發線）。LAWWW2、AA、BB **不合併開發分支的程式**：用 `git show origin/<RULE_SOURCE>:<檔>` 讀規則檔，工具加 `--ref origin/<RULE_SOURCE>`。
 - **規則版本**：第 13 節（HV 編號＋SHA）。值班登記寫「規則 SHA／HV 版本」，接班時核對自己上次讀的版本之後新增了哪些規則。
-- **跨帳號只用 GitHub**（D75）：不傳訊息、不喚醒另一個帳號的工作階段。規則修改不需要、也不准為此合併遊戲內容到 `main`。
+- **跨帳號只用 GitHub**（D75，HV-10 擴大到所有休班帳號）：值班帳號不傳訊息、不 `interrupt_session`、不替它排 `send_later`／排程、不傳「測試訊息」給**任何**休班帳號。規則修改不需要、也不准為此合併遊戲內容到 `main` 或發布。
 
-## 1. 值班表（換班時由值班的 LAWWW／LAWWW-B 更新；各職位的登記以自己進度檔裡的「值班登記」為準）
+## 1. 值班表（閱讀版；**以 `docs/handoff/duty.json` 為準**，兩邊不一致時 `duty verify` 第 9 項會報；換班時由值班的 LAWWW 更新）
 
-| 職位 | 職責 | 帳號 A | 帳號 B | 現在值班 | 分支（2026-10-11 10:06 UTC 的最新 commit） | 進度檔（在各自的分支上） |
+**現在：帳號 B 值班中**（2026-10-15 23:02 UTC 起；上一任帳號 A，2026-10-14 17:40 UTC 交班；帳號 C 還沒啟用）。
+
+| 職位 | 職責 | 帳號 A | 帳號 B | 帳號 C | 有效分支（現在值班的） | 進度檔（在各自的分支上） |
 |---|---|---|---|---|---|---|
-| **LAWWW** | 開發負責人：核心系統、人物、建築室內、整合、測試、**正式發布**、分派 LAWWW2 | LAWWW `session_01Eds6msqpsuzNEw98sdw8JX`（2026-10-14 約 17:40 交班，最後 commit `78402e1`） | **LAWWW-B `session_01DvRVNNnivf7da7qqWuGmw6`（2026-10-15 23:02 UTC 接班，接班基準 `c8b3eab`）** | **B 值班中** | **`claude/modest-rubin-2lyp7g`**（LAWWW-B；接班合併 `450ffdb`）；A 的 `claude/confident-ritchie-8rwh7t` 停在 `c8b3eab`，B 值班期間不寫入；本機半成品備份在 `wip_backup/` | `docs/ART_REBUILD_PROGRESS.md` 最上面「交接（最新）」（在 LAWWW-B 的分支上） |
-| **LAWWW2** | 環境美術：Blender、3D 場景（Café、溫州街、公館、街道道具、校園地標、行道樹、獨立室內） | LAWWW2 `session_01AC1WVgJSmoJK1uRsPK2Zn1`（2026-10-14 17:38Z 交班，最後 commit `8e1061a`） | **LAWWW2-B `session_01GV1WG3UeT2DhuDpxeWJsvD`（2026-10-15 接班，接班基準 `8e1061a`，值班登記 `613ce86`）** | **B 值班中** | **`claude/funny-albattani-iawshm`**（LAWWW2-B）；A 的 `claude/second-ai-env-art` 停在 `8e1061a`，B 值班期間不寫入；WIP 分支照舊（便利商店商品 WIP 不整合） | `docs/art-rebuild/second_ai/HANDOFF.md` |
-| **AA** | 劇情企劃：四年故事架構、主線、系統與劇情規劃 | AA `session_019Y3emYqxxC4Ch1GGf4fMzw`（**2026-10-13 12:34Z 回到值班**；接班基準、值班登記見右欄的交接紀錄） | **AA-B `session_016ACZaD4oB9tX94WqQR4dkS`（2026-10-15 23:1x 接班，基準 `0d278bb`，值班登記 `13e8d43`）** | **B 值班中** | **`claude/cool-heisenberg-o8kuqx`**（帳號 B 值班期間的企劃線，BB-B 也合到這裡；`claude/story-planning` 停在 `0d278bb` 不寫入） | `docs/story_planning/AA_交接紀錄.md` |
-| **BB** | 劇情企劃：角色、人物關係、事件、對話與支線 | BB `session_01XVHYLaK9Vcnae3U1aAJoZv`（**2026-10-13 12:34Z 回到值班**；接班基準、值班登記見右欄的交接紀錄） | **BB-B `session_01J1g2TPcPzWrihXSY2WvseV`（2026-10-15 23:1x 接班，基準 `13e8d43`，值班登記 `b8cbcd5`）** | **B 值班中** | **`claude/elegant-brown-fcos7n`**（交付由 AA-B 合進 `claude/cool-heisenberg-o8kuqx`） | `docs/story_planning/BB_00_協作規範與交接紀錄.md` |
+| **LAWWW** | 開發負責人：核心系統、人物、建築室內、整合、測試、**正式發布**（D85）、派工 | 休班：LAWWW `session_01Eds6msqpsuzNEw98sdw8JX`（2026-10-14 約 17:40 交班，最後 commit `78402e1`；分支 `claude/confident-ritchie-8rwh7t` 停在 `c8b3eab`） | **值班中：LAWWW-B `session_01DvRVNNnivf7da7qqWuGmw6`**（2026-10-15 23:02 UTC 接班，基準 `c8b3eab`） | 未啟用：LAWWW-C | **`claude/modest-rubin-2lyp7g`**（＝RULE_SOURCE） | `docs/ART_REBUILD_PROGRESS.md` 最上面「交接（最新）」＋`docs/HANDOFF_GAP_MATRIX.md` 第 1 節 |
+| **LAWWW2** | 環境美術：Blender、3D 場景、角色模型調整、2D 背景 | 休班：LAWWW2 `session_01AC1WVgJSmoJK1uRsPK2Zn1`（2026-10-14 17:38Z 交班，最後 commit `8e1061a`；`claude/second-ai-env-art`） | **值班中：LAWWW2-B `session_01GV1WG3UeT2DhuDpxeWJsvD`**（2026-10-15 接班，基準 `8e1061a`） | 未啟用：LAWWW2-C | **`claude/funny-albattani-iawshm`**（WIP 分支見 `docs/handoff/BRANCH_INVENTORY.md`） | `docs/art-rebuild/second_ai/HANDOFF.md` |
+| **AA** | 劇情企劃：四年故事架構、主線、時間線、系統與劇情規劃；可以分派 BB（D86） | 休班：AA `session_019Y3emYqxxC4Ch1GGf4fMzw`（`claude/story-planning` 停在 `0d278bb`） | **值班中：AA-B `session_016ACZaD4oB9tX94WqQR4dkS`**（2026-10-15 23:1x 接班，基準 `0d278bb`） | 未啟用：AA-C | **`claude/cool-heisenberg-o8kuqx`**（企劃線，BB 的交付也合到這裡） | `docs/story_planning/AA_交接紀錄.md` |
+| **BB** | 劇情企劃：角色、人物關係、事件、對話與支線；角色美術驗收（D59） | 休班：BB `session_01XVHYLaK9Vcnae3U1aAJoZv`（`claude/story-planning`） | **值班中：BB-B `session_01J1g2TPcPzWrihXSY2WvseV`**（2026-10-15 23:1x 接班，基準 `13e8d43`） | 未啟用：BB-C | **`claude/elegant-brown-fcos7n`**（交付由 AA 合進企劃線） | `docs/story_planning/BB_00_協作規範與交接紀錄.md` |
 
-- 表上的 SHA 只是更新當時的值，**真正的最新以遠端為準**：`git fetch origin --prune` 後跑 `git log -1 --format='%h %ci %s' origin/<分支>`。
-- 帳號 B 的工作階段由系統指定分支名稱，那也沒關係：接班時把最新的進度合併進去，再登記在這張表。
-- 劇情組和開發組之間的交接板：`docs/story_planning/給開發組_交接板.md`（企劃分支）。兩個開發 AI 之間的看板：`docs/DUAL_AI_BOARD.md`；分工與檔案所有權：`docs/SECOND_AI_HANDOFF.md`。
+- 表上的 SHA 只是更新當時的值，**真正的最新以 `duty.json` 和遠端為準**：`git fetch origin --prune` 後 `python3 tools/handoff/check_handoff.py duty verify`（各職位分支在記錄的 SHA 之後又有幾個 commit 都會列出來）。
+- 新帳號的工作階段由系統指定分支名稱，那也沒關係：接班時把上一任的分支合併進去，再用 `duty register` 登記（第 4 節）。**任務的負責人（`tasks.json` 的 `owner`）永遠寫職位（LAWWW／LAWWW2／AA／BB），不寫帳號**；交付登記（`deliveries.json`）另外寫帳號、分支、commit（`account`、`branch`、`sha`）。
+- 劇情組和開發組之間的交接板：`docs/story_planning/給開發組_交接板.md`（企劃線）。兩個開發 AI 之間的看板：`docs/DUAL_AI_BOARD.md`；分工與檔案所有權：`docs/SECOND_AI_HANDOFF.md`。
 
 ## 2. 每個職位的狀態放在哪（都要能在 GitHub 查證）
 
