@@ -12035,9 +12035,9 @@
    "title": "閃爍（z-fighting）：溫州街新增店面的牆、舊路書店書架、總圖電梯地板；溫州街新店面不能進、沒有店員",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "①總圖電梯地板：已修（74c5a194）。②溫州街新店面牆、舊路書店書架：LAWWW2-B 用 check_coplanar.py 找到 GLB 裡的同向疊面（wenzhou_street.glb 北側店面 z −10.60 店內磁磚／貨架貼圖／外牆磁磚；bookstore_interior.glb 書架背板和牆腳框 z −4.77、x ±5.77；相鄰兩棟背對背側牆），LAWWW2-B 修 GLB（排在 ART-GYM-BG1 前），交 SHA 後我整合截圖。③店面能不能進：問 AA-B",
+   "next": "三處都修了：總圖電梯地板（74c5a194）、舊路書店書架（a5de0c2e → 20429b81）、溫州街店面牆與窗（37a11639 整合）。等使用者 iPhone 看；店面能不能進要問 AA-B（另開）",
    "first": {
     "term": "Y1S1",
     "week": 1,

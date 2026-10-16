@@ -4959,6 +4959,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-B 直接取 GLB 與腳本（不合併整條分支）；遊戲內截圖 LAWWW2-B 補"
+  },
+  {
+   "id": "DL-LW2-WZFLICK",
+   "date": "2026-10-16",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "37a11639",
+   "what": "BUG-WZFLICKER 溫州街：B5 小店一樓牆退 2 cm、住家窗玻璃前移 1.4 cm＋窗簾（housedoor、housefront_v2）；check_coplanar 23→7（剩 7 對在 3.4 m 水平面看不到）",
+   "task": "BUG-WZFLICKER",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "只換 GLB（8dc8e5f8）；真機待使用者看"
   }
  ],
  "ignored": [
