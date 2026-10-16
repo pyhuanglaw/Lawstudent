@@ -1699,6 +1699,22 @@ const STORY_EVENTS=[
       {label:'b'},{speaker:'唐睿',text:'她什麼都接得住。除了直球。'},{goto:'end'},
       {label:'c'},{speaker:'唐睿',text:'好。不說話也是一種回答。'},
       {label:'end'} ] },
+  /* E18a 第一次兩個人吃宵夜（BB_104 8b-11a；AA_154 第 132 行；可以錯過）：12/3（二）22:00 前後人在總圖（任何一層）——讀到十點、其他人先走了，她收書包。
+     公館的豆花店兩碗；記 E18A_DOUHUA（法律系 4/24 她的生日那一句讀它）。那晚不在總圖就沒有、不記 */
+  { id:'ev_y0_e18a', stage:'econ', title:'豆花', participants:['kexin'], location:'any', trigger:'auto', term:['Y0S1'], weeks:[14], weekday:[2], time:[21.75,22.5], once:true, background:'blur',
+    prereq:{custom:G=>G.zone==='library'||G.zone==='library_hall'},
+    dialogue:[ {speaker:null,text:'總圖讀到十點，其他人先走了。她收書包。'},
+      {speaker:'kexin',expression:'neutral',text:'豆花店還開著。……我只是餓了。'},
+      {scene:'公館・豆花店',bg:'gongguan_douhua'},
+      {speaker:null,text:'公館的豆花店，兩碗。'},
+      {speaker:'kexin',expression:'neutral',text:'假設今天大家都沒先走，我們會在這裡嗎？'},
+      {speaker:'kexin',expression:'smile',text:'……不要回答。豆花要冷了。'},
+      {choice:[{text:'「會。只是位子比較擠。」',goto:'a'},{text:'「不會。」',goto:'b'},{text:'（吃豆花，不回答）',goto:'c'}]},
+      {label:'a'},{speaker:'kexin',expression:'smile',text:'好答案。可是不是我要的那一個。'},{goto:'end'},
+      {label:'b'},{speaker:'kexin',expression:'neutral',text:'……嗯。所以要謝謝他們先走。'},{goto:'end'},
+      {label:'c'},{speaker:'kexin',expression:'teasing',text:'你很會不回答。這是一種才能。'},
+      {label:'end'},{set:{E18A_DOUHUA:true}} ],
+    after:(G,GM)=>{ GM.advance(0.75); } },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、
