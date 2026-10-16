@@ -1,0 +1,123 @@
+"""把九格表情的頭疊到全身立繪（同一個角度）上 → assets/portraits/<id>/<outfit>/<expression>.webp。
+LAWWW2-B 2026-10-16：BB-B 交付芷若九個表情（docs/story_planning/date_system/art/heroine_02_expr9.webp，3×3，BB 已驗收），
+請疊到 campus 姿勢①（assets/portraits/heroine_02/campus/neutral.webp）身上；接不起來的不放、要說明。
+
+做法（不重畫、不換臉：頭、頭髮、眼鏡、表情全部是使用者那張圖的原圖，只縮放、平移、微轉）：
+1. 每一格去掉灰底（底色固定，用和底色的距離做柔和的去背）。
+2. 對齊：用每一格的「眼睛＋眼鏡」那一塊，在全身圖的頭部附近找最像的位置（縮放 × 小角度 × 平移，正規化互相關），每一格各自找。
+3. 疊上去：頭與頭髮整個換掉；下巴以下（脖子、領口）漸漸淡出，保留全身圖原本的脖子與衣服；全身圖舊的頭髮在新頭的範圍裡擦掉，避免兩層頭髮。
+4. 每一格輸出對照圖（原本／疊好／差異），由人判斷接不接得起來。
+用法：python3 tools/portraits/overlay_expressions.py [--only smile,laugh] [--out <資料夾>]（預設輸出到 scratch，確認後再加 --write 寫進 assets/portraits）
+"""
+import argparse, os, sys
+import numpy as np
+from PIL import Image, ImageFilter, ImageDraw
+from skimage.feature import match_template
+
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+SHEET = os.path.join(ROOT, 'docs/story_planning/date_system/art/heroine_02_expr9.webp')
+BODY = os.path.join(ROOT, 'assets/portraits/heroine_02/campus/neutral.webp')
+NAMES = ['smile', 'laugh', 'surprised', 'embarrassed', 'annoyed', 'sad', 'serious', 'tired', 'thinking']
+CELL = 418
+
+
+def cell(sheet, i):
+    r, c = divmod(i, 3); return sheet.crop((c * CELL, r * CELL, c * CELL + CELL, r * CELL + CELL))
+
+
+def key_alpha(rgb, bg):
+    """灰底去背：和底色的距離 < 10 全透明、> 34 不透明，中間線性"""
+    a = np.asarray(rgb).astype(float); d = np.sqrt(((a - bg) ** 2).sum(axis=2))
+    return np.clip((d - 10) / 24, 0, 1)
+
+
+def gray(im): return np.asarray(im.convert('L')).astype(float) / 255
+
+
+def find(body, cimg, eye_box, search_box, scales, angles):
+    """cimg 的 eye_box（格子座標）縮放旋轉後在 body 的 search_box 裡找最像的地方；回傳 (score, s, ang, tx, ty)：格子座標 (x,y) → body 座標 s·R(ang)·(x,y)+(tx,ty)"""
+    B = gray(body.convert('RGB').crop(search_box)); best = None
+    for ang in angles:
+        rc = cimg.rotate(ang, resample=Image.BICUBIC, center=((eye_box[0] + eye_box[2]) / 2, (eye_box[1] + eye_box[3]) / 2))
+        patch = rc.crop(eye_box)
+        for s in scales:
+            w, h = max(8, round(patch.width * s)), max(8, round(patch.height * s))
+            if w >= B.shape[1] or h >= B.shape[0]: continue
+            T = gray(patch.resize((w, h), Image.LANCZOS))
+            res = match_template(B, T); k = np.unravel_index(np.argmax(res), res.shape); sc = res[k]
+            if best is None or sc > best[0]:
+                best = (sc, s, ang, search_box[0] + k[1], search_box[1] + k[0], w, h)
+    sc, s, ang, px, py, w, h = best
+    # patch 左上角在 body 的 (px,py)；patch 中心＝旋轉中心 → body 座標
+    cx, cy = (eye_box[0] + eye_box[2]) / 2, (eye_box[1] + eye_box[3]) / 2
+    return dict(score=float(sc), s=s, ang=ang, cbx=px + w / 2, cby=py + h / 2, ccx=cx, ccy=cy)
+
+
+def place(cimg_rgba, t, size):
+    """格子（RGBA）照 t 轉到 body 座標（size＝body 尺寸）"""
+    a = np.deg2rad(t['ang']); s = t['s']
+    # PIL 的 rotate(ang) 是逆時針（影像座標 y 往下時是畫面上的逆時針）；先繞 (ccx,ccy) 轉、再縮放、再把 (ccx,ccy) 移到 (cbx,cby)
+    # 反向映射：body (X,Y) → cell (x,y)：(x,y) = R(ang)^-1 … PIL 的 transform 用 AFFINE 係數 (a,b,c,d,e,f)：x = aX+bY+c
+    ca, sa = np.cos(a), np.sin(a)
+    # rotate(ang) 在影像座標（y 下）把點 p 繞中心 c 轉成 c + M(p-c)，M = [[cos, sin],[-sin, cos]]
+    # body = cb + s·M·(p - cc) → p = cc + M^-1·(body - cb)/s，M^-1 = [[cos, -sin],[sin, cos]]
+    A = np.array([[ca, -sa], [sa, ca]]) / s
+    off = np.array([t['ccx'], t['ccy']]) - A @ np.array([t['cbx'], t['cby']])
+    return cimg_rgba.transform(size, Image.AFFINE, (A[0, 0], A[0, 1], off[0], A[1, 0], A[1, 1], off[1]), resample=Image.BICUBIC)
+
+
+def main():
+    ap = argparse.ArgumentParser(); ap.add_argument('--only'); ap.add_argument('--out', default='/tmp/expr_out'); ap.add_argument('--write', action='store_true')
+    ap.add_argument('--fade0', type=float, default=285); ap.add_argument('--fade1', type=float, default=330)
+    a = ap.parse_args(); os.makedirs(a.out, exist_ok=True)
+    sheet = Image.open(SHEET).convert('RGB'); body = Image.open(BODY).convert('RGBA')
+    bg = np.asarray(sheet).astype(float)[4, 4]
+    eye_box = (150, 120, 350, 255)                         # 格子裡「眼睛＋眼鏡＋鼻子」那一塊（九格大致同位置；每格自己對齊）
+    search = (200, 40, 420, 230)                          # 全身圖頭部附近
+    names = a.only.split(',') if a.only else NAMES
+    report = []
+    for i, nm in enumerate(NAMES):
+        if nm not in names: continue
+        c = cell(sheet, i)
+        t = find(body, c, eye_box, search, scales=np.linspace(0.44, 0.66, 23), angles=[-8, -6, -4, -2, 0, 2, 4, 6, 8])
+        # 細調：在最佳附近再細一點
+        t = find(body, c, eye_box, search, scales=np.linspace(t['s'] - 0.012, t['s'] + 0.012, 9), angles=np.linspace(t['ang'] - 1.5, t['ang'] + 1.5, 7))
+        al = key_alpha(c, bg)
+        # 邊緣去灰：半透明的頭髮邊緣混到灰底的顏色 → 還原成頭髮本身的顏色 c = (obs − (1−α)·bg)/α
+        cr = np.asarray(c).astype(float); m = (al > 0.02) & (al < 1)
+        cr[m] = np.clip((cr[m] - (1 - al[m])[:, None] * bg) / al[m][:, None], 0, 255)
+        ys = np.arange(CELL)[:, None] * np.ones((1, CELL))
+        fade = np.clip((a.fade1 - ys) / (a.fade1 - a.fade0), 0, 1)       # 下巴以下淡出
+        head = np.dstack([cr.astype(np.uint8), (al * fade * 255).astype(np.uint8)])
+        H = place(Image.fromarray(head, 'RGBA'), t, body.size)
+        # 全身圖舊的頭（在新頭範圍裡、淡出線以上）擦掉：用新頭不淡出的輪廓（稍微放大）當範圍
+        zone = np.dstack([np.zeros((CELL, CELL, 3), np.uint8), ((ys < a.fade0) * 255).astype(np.uint8)])
+        Z = np.asarray(place(Image.fromarray(zone, 'RGBA'), t, body.size))[..., 3].astype(float) / 255
+        Hn = np.asarray(H).astype(float) / 255
+        B = np.asarray(body).astype(float) / 255
+        Bal = np.where(Z > 0, B[..., 3] * (1 - Z), B[..., 3])      # 新頭範圍裡（淡出線以上）舊的頭、頭髮整個擦掉
+        # 淡出帶（髮尾那一段）：全身圖原本髮尾外緣有一圈半透明的灰邊，新頭的位置稍微不同就會露出來 → 淡出帶裡半透明（< 0.85）的舊像素擦掉
+        band = np.dstack([np.zeros((CELL, CELL, 3), np.uint8), (((ys >= a.fade0 - 10) & (ys < a.fade1 + 25)) * 255).astype(np.uint8)])
+        Bd = np.asarray(place(Image.fromarray(band, 'RGBA'), t, body.size))[..., 3] > 127
+        Bal = np.where(Bd & (Bal < 0.85), 0, Bal)
+        # 淡出帶裡、全身圖原本透明的地方：表情圖的肩膀與衣服（比全身圖高）會淡淡透出一道弧線 → 那裡只留深色的頭髮
+        lum = Hn[..., :3] @ np.array([0.299, 0.587, 0.114])
+        Hn[..., 3] = np.where(Bd & (B[..., 3] < 0.5) & (lum > 0.42), 0, Hn[..., 3])
+        # 合成（新頭在上）
+        oa = Hn[..., 3] + Bal * (1 - Hn[..., 3])
+        rgb = (Hn[..., :3] * Hn[..., 3:4] + B[..., :3] * (Bal * (1 - Hn[..., 3]))[..., None]) / np.maximum(oa, 1e-6)[..., None]
+        out = Image.fromarray(np.dstack([rgb * 255, oa * 255]).clip(0, 255).astype(np.uint8), 'RGBA')
+        out.save(os.path.join(a.out, nm + '.png'))
+        # 對照：原本／疊好（頭部放大）
+        box = (130, 0, 470, 330); sh = Image.new('RGB', (680 * 2 + 20, 660), (255, 255, 255))
+        for k, im in enumerate((body, out)):
+            bgw = Image.new('RGBA', im.size, (255, 255, 255, 255)); bgw.alpha_composite(im); sh.paste(bgw.crop(box).resize((680, 660)).convert('RGB'), (k * 700, 0))
+        sh.save(os.path.join(a.out, 'cmp_' + nm + '.png'))
+        report.append((nm, round(t['score'], 3), round(t['s'], 3), round(t['ang'], 2), round(t['cbx'], 1), round(t['cby'], 1)))
+        print(report[-1], flush=True)
+        if a.write:
+            d = os.path.join(ROOT, 'assets/portraits/heroine_02/campus'); out.save(os.path.join(d, nm + '.webp'), quality=92, method=6)
+
+
+if __name__ == '__main__':
+    main()
