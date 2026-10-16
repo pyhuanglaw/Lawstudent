@@ -128,7 +128,7 @@ D['characters'][TR] = {'friendOnly': True, 'steps': [
              ch('「阿土可以再等等。」','對吧。阿土也這樣想。……阿土等很久了。')],'rel':{'fam':2,'comf':1},'mem':'TR0B_ATU_SAYS',
   'note':'唐睿喜歡品妤（喜劇背景）；有 KNOWS_TANG 的玩家換一套'},
  {'id':'TR0b-L5','if':st(TR,'FAMILIAR'),'week':[10,18],
-  'lines':['劇社有人問我，你朋友休學去哪了。','我說，他去追一個比經濟更難的東西。'],
+  'lines':['劇社有人問我，你朋友休學去哪了。','我說他去重考。對方說好勇敢。……我說，他自己不覺得。'],
   'choices':[ch('「法律比經濟難嗎？」','不知道。可是你追的樣子，看起來比較難。'),
              ch('「你說得很好。」','我練過。……騙你的，那是即興。',rel={'comf':1})],'rel':{'fam':2,'trust':1},'mem':'TR0B_HARDER'},
  {'id':'TR0b-L6','if':st(TR,'FAMILIAR'),'week':[12,18],
