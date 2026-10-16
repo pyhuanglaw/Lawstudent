@@ -51,8 +51,8 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
     fresh(WED,12.4,'campus',{}); PHONE.join(G,'noodle_team','麵店團'); run(12.4,12.6); check('A20：週三 12:20 以後才加入＝不傳（活動已經開始）',grp().length===0); }
   /* ---------- 什麼時候開始 ---------- */
   { const e=ev('ev_xmas_exchange'); const ok=(day,hour,lv,grp)=>{ fresh(day,hour,'linze',{}); if(grp) PHONE.join(G,'noodle_team','麵店團'); E.player.lv=lv; return EVENTS.check(e); };
-    check('A20：12/24（週三）12:20～13:10 在霖澤館一樓、有群組＝開始',CALENDAR.dateOf(WED).key.endsWith('12-24')&&ok(WED,12.34,0,true)&&ok(WED,13.1,0,true));
-    check('A20：12:19、13:10 以後、二樓、沒有群組、前一週的週三都不會',!ok(WED,12.3,0,true)&&!ok(WED,13.17,0,true)&&!ok(WED,12.5,1,true)&&!ok(WED,12.5,0,false)&&!ok(WED-7,12.5,0,true));
+    check('A20：12/24（週三）12:10～13:40 在霖澤館一樓、有群組＝開始（AA_160 3-4 B 放寬窗口，原本 12:20～13:10）',CALENDAR.dateOf(WED).key.endsWith('12-24')&&ok(WED,12.17,0,true)&&ok(WED,13.6,0,true));
+    check('A20：12:09、13:40 以後、二樓、沒有群組、前一週的週三都不會',!ok(WED,12.15,0,true)&&!ok(WED,13.67,0,true)&&!ok(WED,12.5,1,true)&&!ok(WED,12.5,0,false)&&!ok(WED-7,12.5,0,true));
     fresh(WED,12.5,'campus',{}); PHONE.join(G,'noodle_team','麵店團'); E.player.lv=0; check('A20：不在霖澤館（校園）不會',!EVENTS.check(e));
     E.player.lv=0; }
   /* ---------- 七個人、三種禮物的反應（AA 原文） ---------- */

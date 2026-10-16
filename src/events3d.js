@@ -73,6 +73,7 @@ const EVENTS = (function(){
     if(c.knowledge&&typeof LEGAL!=='undefined'){ for(const k of c.knowledge){ const st=LEGAL.stateOf(k.qid); const order=LEGAL.STATES; if(k.min&&order.indexOf(st)<order.indexOf(k.min)) return false; if(k.max&&order.indexOf(st)>order.indexOf(k.max)) return false; } }
     if(c.grad){ const gi=SOCIAL.GRAD.indexOf(G.social.grad.interest); if(c.grad.min&&gi<SOCIAL.GRAD.indexOf(c.grad.min)) return false; if(c.grad.max&&gi>SOCIAL.GRAD.indexOf(c.grad.max)) return false; }
     if(c.energy&&(G.energy<(c.energy.min||0)||G.energy>(c.energy.max||100))) return false;   /* 體力拿掉了（DL-02）：G.energy 固定 100，現有事件沒有用這個條件 */
+    if(c.typhoon!==undefined&&!!(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(G.day))!==!!c.typhoon) return false;   /* 颱風假（打工、出遊等不在颱風假發生：AA_160 3-4 D）*/
     if(c.lateNight!==undefined&&!!(G.daily&&G.daily.lateNight===G.day)!==!!c.lateNight) return false;   /* 前一晚 01:00 以後才睡（AA-B 10-16：「累」改看前一晚幾點睡，不另外做數值；sleepNow 記 G.daily.lateNight）*/ if(c.money&&(G.money<(c.money.min||-1e9))) return false; if(c.choice){ for(const k in c.choice){ if((G.choices||{})[k]!==c.choice[k]) return false; } }
     if(c.custom&&typeof c.custom==='function'&&!c.custom(G,GM)) return false; return true; };
   // ---- 觸發：tick（auto）----

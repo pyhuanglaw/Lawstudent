@@ -20,14 +20,17 @@ const PLACES={
   windowOf(zone,day){ const o=PLACES.hours[zone]; if(!o||!o.rules) return undefined; if(day==null) day=(typeof GAME!=='undefined'&&GAME.G&&GAME.G.day)||1; if(typeof CALENDAR==='undefined') return o.rules.term.wd;
     const k=CALENDAR.kind(day); if(k==='holiday') return o.rules.holiday||null; const r=o.rules[k]; if(!r) return null; if(!CALENDAR.weekend(day)) return r.wd;
     const wd=CALENDAR.dateOf(day).wd; if(wd===6&&'sat' in r) return r.sat; if(wd===7&&'sun' in r) return r.sun; return r.we; },   /* 週六、週日不一樣的地點寫 sat／sun（社科院圖書館）；一樣的寫 we */
-  isOpen(zone,h,day){ const o=PLACES.hours[zone]; if(!o) return true; if(h<0||h>=24) h=((h%24)+24)%24; if(o.rules){ const w=PLACES.windowOf(zone,day); return !!w&&h>=w[0]-1e-6&&h<w[1]-1e-6; }   /* 1e-6：08:10 剛好的時候（8+10/60 的浮點誤差）算開 */ if(o.open==null) return true; return o.close>24?(h>=o.open||h<o.close-24):(h>=o.open&&h<o.close); },
+  /* 颱風假店家不開（AA_160 3-4 D，AA-B 2026-10-16：颱風假不能搭捷運、店家不開、不能打工、不能回家）；便利商店照開 */
+  typhoonShops:['cafe','noodle','bookstore'],
+  typhoonClosed(zone,day){ if(!PLACES.typhoonShops.includes(zone)) return false; if(day==null) day=(typeof GAME!=='undefined'&&GAME.G)?GAME.G.day:null; return day!=null&&typeof CALENDAR!=='undefined'&&!!CALENDAR.typhoon&&CALENDAR.typhoon(day); },
+  isOpen(zone,h,day){ if(PLACES.typhoonClosed(zone,day)) return false; const o=PLACES.hours[zone]; if(!o) return true; if(h<0||h>=24) h=((h%24)+24)%24; if(o.rules){ const w=PLACES.windowOf(zone,day); return !!w&&h>=w[0]-1e-6&&h<w[1]-1e-6; }   /* 1e-6：08:10 剛好的時候（8+10/60 的浮點誤差）算開 */ if(o.open==null) return true; return o.close>24?(h>=o.open||h<o.close-24):(h>=o.open&&h<o.close); },
   hhmm(x){ return String(Math.floor(x+1e-6)).padStart(2,'0')+':'+String(Math.round((x%1)*60)%60).padStart(2,'0'); },
   /* 今天的開放時間（一行）：「今天 08:10–21:45」「今天不開放（國定假日）」；沒有 rules 的地點＝原本的 text */
   todayText(zone,day){ const o=PLACES.hours[zone]; if(!o) return ''; if(!o.rules) return o.text||''; const w=PLACES.windowOf(zone,day); if(w) return '今天 '+PLACES.hhmm(w[0])+'–'+PLACES.hhmm(w[1]);
     if(day==null) day=(typeof GAME!=='undefined'&&GAME.G&&GAME.G.day)||1; const hn=typeof CALENDAR!=='undefined'&&CALENDAR.holiday(day); const wn=typeof CALENDAR!=='undefined'?['','週一','週二','週三','週四','週五','週六','週日'][CALENDAR.dateOf(day).wd]:'';
     return '今天不開放'+(hn?'（'+hn+'）':(typeof CALENDAR!=='undefined'&&!CALENDAR.termOf(day)?'（寒暑假的'+wn+'）':'')); },   /* 「寒暑假的週日」：社科院圖書館寒暑假週六有開、週日不開，不能寫「週末」 */
   // 閉館時的說明：開放時間＋幾點開（今天還是明天）
-  closedText(zone,h,day){ const o=PLACES.hours[zone], nm=PLACES.names[zone]||zone; if(o&&o.rules){ if(day==null) day=(typeof GAME!=='undefined'&&GAME.G&&GAME.G.day)||1; h=((h%24)+24)%24;
+  closedText(zone,h,day){ const o=PLACES.hours[zone], nm=PLACES.names[zone]||zone; if(PLACES.typhoonClosed(zone,day)) return nm+'：颱風假，今天沒開。'; if(o&&o.rules){ if(day==null) day=(typeof GAME!=='undefined'&&GAME.G&&GAME.G.day)||1; h=((h%24)+24)%24;
       /* 下一次開館：今天還沒開＝今天；不然往後找（最多兩週：寒假可能連著好幾天不開）*/ let nx=null; const w0=PLACES.windowOf(zone,day); if(w0&&h<w0[0]) nx=[0,w0[0]]; else for(let k=1;k<=14&&!nx;k++){ const w=PLACES.windowOf(zone,day+k); if(w) nx=[k,w[0]]; }
       const wdn=['','週一','週二','週三','週四','週五','週六','週日']; let when=''; if(nx){ if(nx[0]===0) when='今天'; else if(nx[0]===1) when='明天'; else if(typeof CALENDAR==='undefined') when=nx[0]+' 天後'; else { const a=CALENDAR.dateOf(day), b=CALENDAR.dateOf(day+nx[0]); when=nx[0]<=6?((a.wd+nx[0]<=7?'這':'下')+wdn[b.wd]):(b.m+'/'+b.d+'（'+wdn[b.wd]+'）'); } when+=' '+PLACES.hhmm(nx[1]); }
       const alt=PLACES.isOpen('library_hall',h,day)?'可以去總圖（開到 22:00），或回宿舍讀書。':'可以回宿舍讀書。';
