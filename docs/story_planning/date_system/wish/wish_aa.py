@@ -94,7 +94,8 @@ W[Y] = dict(
     unknown=['……淡水？', '……好。'],
     extraIf=[{'if': {'unless': {'events': [YT_EV13]}}, 'lines': ['我跟阿姨講一下。……她說好。'], 'note': '事件 13 以前約她：可以去（週六），她先跟阿姨說'}],
     note='還不知道的這一次也算完成心願'),
-  arrive=dict(narr='捷運的終點站。河的另一邊是一座山。', lines=['……跟小時候一樣。', '人比較多。']),
+  arrive=dict(narr='捷運的終點站。河的另一邊是一座山。', lines=['……跟小時候一樣。', '人比較多。'],
+              extraIf=[{'if': {'freeVisited': 'D13'}, 'lines': ['……你一個人來過。', '那今天，換我帶你走一次。'], 'note': '玩家自己來過淡水（自由出行，G.places.free.D13≥1，AA_160 4-4）。只多這兩句，心願的內容不變；不讀 ENC_（R7）'}]),
   hotspots={
     'D13.drink': dict(name='飲料攤', minutes=20, cost=60, costNote='祐廷那杯，各付各的（AA_128 5-2）', like='normal',
       lines=['我點……跟你一樣的。', '＊她喝了一口。', '……太甜了。', '但是可以。'],

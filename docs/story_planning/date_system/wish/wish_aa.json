@@ -845,6 +845,24 @@
       "who": "heroine_03",
       "text": "人比較多。"
      }
+    ],
+    "extraIf": [
+     {
+      "if": {
+       "freeVisited": "D13"
+      },
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "……你一個人來過。"
+       },
+       {
+        "who": "heroine_03",
+        "text": "那今天，換我帶你走一次。"
+       }
+      ],
+      "note": "玩家自己來過淡水（自由出行，G.places.free.D13≥1，AA_160 4-4）。只多這兩句，心願的內容不變；不讀 ENC_（R7）"
+     }
     ]
    },
    "hotspots": {

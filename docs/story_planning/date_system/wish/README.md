@@ -72,6 +72,7 @@
 | `dateTime:'sunset-2'` | 她主動約 | 夕陽前約兩小時（`AA_128` 第 8 節的每月日落表） |
 | `memory:{tag,text}` | 選項、互動點 | 選了或做了就記（`SOCIAL.remember`） |
 | `timeline[].replace` | 收尾 | 條件成立時，把某一句換成這幾句 |
+| `freeVisited:'D13'` | 條件 | 玩家自己（自由出行）去過那個地方：`G.places.free[地點]≥1`（`AA_160` 4-4）；約會、心願的次數不算 |
 
 - **暫名**：請 LAWWW-B 換成實際的 id，告訴 AA-B。
   - `ev_an_admin_answer`：以安新 9，行政法「我要改我的答案」。
