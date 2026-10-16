@@ -1,0 +1,77 @@
+{
+ "objects": 4,
+ "unique_meshes": 4,
+ "tris": 6704,
+ "tris_drawn": 6704,
+ "materials": 1,
+ "out": "out/park_play_props.glb",
+ "bytes": 300852,
+ "texres": 1024,
+ "modules": {
+  "PARK_SLIDE": {
+   "tris": 2924,
+   "min": [
+    -0.952,
+    -0.008,
+    -0.62
+   ],
+   "max": [
+    2.9,
+    2.36,
+    0.62
+   ]
+  },
+  "PARK_SPRING_A": {
+   "tris": 1540,
+   "min": [
+    -0.3713,
+    0.0,
+    -0.215
+   ],
+   "max": [
+    0.4912,
+    0.8962,
+    0.215
+   ]
+  },
+  "PARK_SPRING_B": {
+   "tris": 1492,
+   "min": [
+    -0.3825,
+    0.0,
+    -0.215
+   ],
+   "max": [
+    0.4263,
+    0.8675,
+    0.215
+   ]
+  },
+  "PARK_SANDBOX": {
+   "tris": 748,
+   "min": [
+    -0.905,
+    0.0,
+    -0.655
+   ],
+   "max": [
+    0.905,
+    0.3209,
+    0.655
+   ]
+  }
+ },
+ "tris_total": 6704,
+ "atlas": [
+  "tools/blender/env_second/bb_support/textures/gen/park_play_props_atlas.png",
+  "tools/blender/env_second/bb_support/textures/gen/park_play_props_orm.png"
+ ],
+ "origins": {
+  "*": "原點都在地面；GLB 裡的位置照 LAWWW2-B 給的遊戲場本地座標（SPREAD），擺放時用各自的原點",
+  "PARK_SLIDE": "原點＝平台中心的地面；平台 0.9×0.9、上緣 1.10；滑道往 +x，出口到 x 2.90（高 0.22）；階梯在 −x，底端到 x −0.87（擺在 (−1.55, 0) 時到 −2.42）；z 約 ±0.47（扶手 ±0.36）；屋頂最高 2.36",
+  "PARK_SPRING_A": "搖搖馬：原點＝底盤中心；頭朝 +x；座高 0.50；身體 x −0.39～+0.45（含尾巴、鼻子）、厚 0.15；握把、腳踏兩端到 z ±0.21",
+  "PARK_SPRING_B": "搖搖小鴨：原點＝底盤中心；頭朝 +x；座高 0.50；身體 x −0.38～+0.44（含尾巴、嘴）、厚 0.19；握把、腳踏兩端到 z ±0.21",
+  "PARK_SANDBOX": "沙坑：原點＝中心地面；外框 1.8（x）×1.3（z）、框高 0.25＋座板 0.03；沙面約 0.17；水桶在 (+0.52, +0.32)、鏟子在 (+0.28, +0.42)"
+ },
+ "note": "一個材質 park_play（底色 1024＋ORM 256，metal 最高 0.40：鋼彈簧、握把鋼管）；沙＝Poly Haven granular_concrete、木框＝Poly Haven dark_planks（都是 CC0）；塑膠和烤漆是單色＋很淡的起伏；畫上去的只有眼睛、鬃毛、馬鞍、翅膀、嘴、平台打孔、滑道出口的磨痕（粗糙度也低一點）、底盤的髒邊。沒有字、品牌、標誌"
+}
