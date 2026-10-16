@@ -203,6 +203,37 @@ const STORY = (function(){
      記在 G.social.small[id]＝{day, used:[已經說過的句子], last}（新欄位，舊存檔沒有就從頭開始）*/
   /* 2026-10-13 AA_120：⑤ 條件鍵和事件一致——if／unless、term、week:[a,b]、location、time:[a,b]、weekday、once（true 一次；'term' 每學期一次，記在 r.once）；
      ⑥ 不熟的同學（B 層）說完自己的句子就只點頭或短招呼（AA_120 7-2：三句整個存檔各說一次，換學期不重播；見下面的 greetB）；他們的旁白只用 facts[0]（facts[1] 是心事，要等他自己說「其實……」）*/
+  /* 閒聊階梯（AA_135、AA_136、BB_130；src/data/ladder.js；使用者 2026-10-15「要一層一層聊天認識彼此……可以限制每天只能多認識多少，但不要一直講一樣的話」，全案通過直接實作）：
+     每人每天最多推進一層（G.social.ladder[id]＝已經聊過幾層、ladderDay[id]＝哪一天推進的；舊存檔從第 1 層開始）。條件不到、今天推進過＝短招呼（情境句優先、一天同一句只說一次；
+     基本句輪替、不連續重複）。芷若在吧檯上班不推進；可昕（dateOnly）只在見面／視訊推進，路上不推進；學姊只有朋友的話（資料已經這樣寫） */
+  S.LADDER_ON=G=>typeof LADDER!=='undefined';
+  const ladRec=G=>{ const so=G.social||(G.social={}); if(!so.ladder||typeof so.ladder!=='object') so.ladder={}; if(!so.ladderDay||typeof so.ladderDay!=='object') so.ladderDay={}; if(!so.greetUsed||typeof so.greetUsed!=='object') so.greetUsed={}; return so; };
+  const ladCtxOk=(G,e,id)=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, hh=G.hour%24, ec=typeof EVENTS!=='undefined'&&EVENTS.cond;
+    if(e.if&&!(ec&&EVENTS.cond(e.if))) return false; if(e.unless&&ec&&EVENTS.cond(e.unless)) return false; if(e.any&&!(ec&&e.any.some(c=>EVENTS.cond(c)))) return false;
+    if(e.term&&!(T&&[].concat(e.term).includes(T.id))) return false; if(e.week&&!(T&&T.week>=e.week[0]&&T.week<=e.week[1])) return false;
+    if(e.location&&!(Array.isArray(e.location)?e.location:[e.location]).includes(G.zone)) return false; if(e.time&&!(hh>=e.time[0]&&hh<e.time[1])) return false;
+    if(e.weekday&&!e.weekday.includes(G.weekday)) return false; if(e.weather&&![].concat(e.weather).includes(G.weather)) return false; if(e.dayMin&&G.day<e.dayMin) return false;
+    if(e.locTime&&e.locTime[G.zone]){ const lt=e.locTime[G.zone]; if(lt.weekday&&!lt.weekday.includes(G.weekday)) return false; if(lt.time&&!(hh>=lt.time[0]&&hh<lt.time[1])) return false; }
+    if(e.unlessWeekdayTime){ const u=e.unlessWeekdayTime; if((!u.weekday||u.weekday.includes(G.weekday))&&(!u.time||(hh>=u.time[0]&&hh<u.time[1]))) return false; }
+    if(e.unlessWorking&&S.ladWorking(G,id)) return false; return true; };
+  S.ladWorking=(G,id)=>{ try{ const en=schedEnt(CHARACTERS[id],G); return !!(en&&en.act==='barista'); }catch(e){ return false; } };
+  S.ladNext=function(G,id,mode){ if(!S.LADDER_ON(G)) return null; const L=LADDER.characters[id]; if(!L) return null; const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, tm=LADDER.terms&&LADDER.terms[id];
+    if(tm&&!(T&&T.id===tm)) return null; const so=ladRec(G); if(so.ladderDay[id]===G.day) return null; const st=L.steps[so.ladder[id]|0]; if(!st) return null;
+    if(L.context==='date'||st.dateOnly){ if(!mode||(st.dateOnly&&st.dateOnly!==mode)) return null; if(!(G.flags&&G.flags.dating_kexin)&&id==='kexin') return null; }
+    return ladCtxOk(G,st,id)?st:null; };
+  S.ladGreet=function(G,id){ const L=S.LADDER_ON(G)&&LADDER.characters[id]; if(!L||!L.greet) return null; const so=ladRec(G), u=so.greetUsed[id]&&so.greetUsed[id].day===G.day?so.greetUsed[id]:(so.greetUsed[id]={day:G.day,list:[],last:(so.greetUsed[id]||{}).last}); const g=L.greet;
+    const work=S.ladWorking(G,id); for(const w of (g.when||[])){ if(w.working&&!work) continue; if(!w.working&&work) continue; if(u.list.includes(w.t)) continue; if(ladCtxOk(G,Object.assign({},w,{t:undefined}),id)){ u.list.push(w.t); u.last=w.t; return w.t; } }
+    const B=g.base||[]; if(!B.length) return null; const n=(G.day*7+(so.ladder[id]|0)+u.list.length)%B.length; let t=B[n]; if(t===u.last&&B.length>1) t=B[(n+1)%B.length]; u.list.push(t); u.last=t; return t; };
+  /* 播一層：她說的話 → 玩家的回答（最多 2）→ 她的收尾；rel、mem 照資料；推進一層（今天不再推進）*/
+  S.ladPlay=async function(GM,who,id,st){ const G=GM.G, so=ladRec(G); for(const l of (st.lines||[])) await GM.say(who,typeof l==='string'?l:l.t);
+    let ch=null; if(st.choices&&st.choices.length){ const k=await GM.choose(st.choices.map(c=>({t:c.t}))); ch=st.choices[k]||st.choices[0]; if(ch.reply) await GM.say(who,ch.reply); }
+    const rel=Object.assign({},st.rel||{}); if(ch&&ch.rel) for(const k in ch.rel) rel[k]=(rel[k]||0)+ch.rel[k]; if(Object.keys(rel).length&&SOCIAL.adjust) SOCIAL.adjust(id,rel);
+    for(const m of [st.mem,ch&&ch.mem]) if(m&&SOCIAL.remember) SOCIAL.remember(id,m,st.id);
+    so.ladder[id]=(so.ladder[id]|0)+1; so.ladderDay[id]=G.day; if(SOCIAL.activity){ SOCIAL.activity(id,'chat'); SOCIAL.activity(id,'chatNew'); } return true; };
+  /* 和她說話時：有下一層就播；沒有就短招呼。回傳 true＝處理了（呼叫的人不要再接舊的閒聊）*/
+  S.ladderTalk=async function(GM,who,id,mode){ const G=GM.G; if(!S.LADDER_ON(G)||!LADDER.characters[id]) return false; const tm=LADDER.terms&&LADDER.terms[id], T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(tm&&!(T&&T.id===tm)) return false;
+    const st=S.ladNext(G,id,mode); if(st) return S.ladPlay(GM,who,id,st);
+    const g=S.ladGreet(G,id); if(!g) return false; await GM.say(who,g); if(SOCIAL.activity) SOCIAL.activity(id,'chat'); return true; };
   S.smallTalk=function(G,id){ const c=CHARACTERS[id]||{}, nm=SOCIAL.displayName(id); const R=G.social.small||(G.social.small={}), r=R[id]||(R[id]={day:0,used:[],last:null});
     if(r.day===G.day) return {narr:'（'+nm+'跟你打了個招呼，又忙自己的事。）',fresh:false};
     const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, tid=T?T.id:'none', hh=G.hour%24;
@@ -259,6 +290,7 @@ const STORY = (function(){
     if(first){ SOCIAL.meet(id,G.zone); if(c.social_layer==='B'){ const py=SOCIAL.playerYear?SOCIAL.playerYear():1, cy=SOCIAL.yearOf?SOCIAL.yearOf(id):(c.year||1); await GM.say(who,cy>py?'「你是大'+['','一','二','三','四'][py]+'的吧？」':(py===1?['「……嗯？喔，你是我們班的吧。」','「你好。……我們是不是修同一堂民總？」','「欸，你是周老師點過的那個。」'][(Math.random()*3)|0]:'「……嗯？喔，你是我們班的吧。」'));   /* 年級跟著遊戲走（AA_120 7-3）*/   /* 學長姊不會說「同一堂民總」（AA_120 3-4）*/ await GM.say(who,'「我是'+c.name+'。」'); if(c.facts&&c.facts[0]) await GM.say(who,'「'+c.facts[0]+'。……你呢？」'); } else { await GM.say(who,'「你好，我是'+c.name+'。'+(c.department||'')+'的。」',{expr:'smile'}); if(c.personality) await GM.say(null,c.personality.split('；')[0]+'。'); } SOCIAL.adjust(id,{fam:3}); }
     else { const rv=SOCIAL.reveal(id); if(SOCIAL.playUp&&await SOCIAL.playUp(GM,who,id)){ if(SOCIAL.activity) SOCIAL.activity(id,'chat'); }   /* 升到有點熟／朋友／好朋友以後的下一次見面：先說門檻台詞（AA_124 1-6、BB_120 第 1 節），這次就不閒聊 */
       else if(c.social_layer==='B'&&rv==='ACQUAINTANCE'&&c.facts&&c.facts[1]&&S.secretReady(G,id)&&!SOCIAL.has(id,'SHARED_SECRET')){ await GM.say(who,'「其實……'+String(c.facts[1]).replace(/^其實/,'')+'。沒跟很多人講過。」'); SOCIAL.remember(id,'SHARED_SECRET',c.facts[1]); SOCIAL.adjust(id,{fam:4,trust:4}); const SM=G.social.small||(G.social.small={}); (SM[id]||(SM[id]={day:0,used:[],last:null})).day=G.day; }
+      else if(await S.ladderTalk(GM,who,id)){}   /* 閒聊階梯（大一上的七位＋之後的）：有資料的人走階梯，沒有的照舊閒聊 */
       else { const L=S.smallTalk(G,id); if(L.say) await GM.say(who,L.say,{expr:'smile'}); else await GM.say(null,L.narr); if(SOCIAL.activity){ SOCIAL.activity(id,'chat'); if(L.fresh) SOCIAL.activity(id,'chatNew'); } else if(L.fresh) SOCIAL.adjust(id,{fam:1}); } }   /* AA_124 1-2：今天第一次聊天熟悉 +2、聽到新的一句自在 +1（一天一次、有上限）*/
     if(!first) await S.offerInvite(GM,id,n,who);
     n.name=SOCIAL.displayName(id); n.talkLabel='和'+n.name+'說話'; GM.sceneEnd(); };
