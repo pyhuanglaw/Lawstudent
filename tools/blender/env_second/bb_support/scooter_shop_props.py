@@ -629,11 +629,15 @@ def paint_drum_side():
     lum = a.mean(-1); med = blur(lum, 30)
     streak = np.clip((med - lum) / (0.45 * med + 1), 0, 1)                         # 來源貼圖的深色流痕 → 黑色油痕
     ang = S_ * 2 * math.pi; dfun = np.abs(((ang - math.pi) + math.pi) % (2 * math.pi) - math.pi)   # 離漏斗那一側（左邊、u 0.5）的角度
-    wgt = 0.25 + 0.75 * np.exp(-(dfun / 0.9) ** 2)
-    streak = streak * wgt * np.clip((T_ - 0.12) / 0.2, 0, 1)
+    dfront = np.abs((ang - math.pi / 2 + math.pi) % (2 * math.pi) - math.pi)          # 抹布那一側（前面，u 0.25）也滴了一些
+    wgt = 0.45 + 0.55 * np.exp(-(dfun / 1.0) ** 2) + 0.35 * np.exp(-(dfront / 0.6) ** 2)
+    streak = np.clip(1.6 * streak * wgt * np.clip((T_ - 0.1) / 0.25, 0, 1), 0, 1)
     n = soft(w, h, 131, 16, 4, wrap='x')
-    col = rgb(DRUM_BLUE, n, 0.04)
-    col = mix(col, (28, 26, 24), 0.85 * streak)
+    col = rgb(DRUM_BLUE, n, 0.05)
+    col *= (1 - 0.18 * np.clip((0.3 - T_) / 0.3, 0, 1) * (0.7 + 0.3 * np.clip(soft(w, h, 134, 8, 2, wrap='x'), -1, 1)))[..., None]   # 下半截髒
+    sc2 = scratches(w, h, 135, 30, 0.01, 0.05, width=1)
+    col = mix(col, (128, 140, 156), 0.35 * sc2)                                        # 刮痕
+    col = mix(col, (24, 22, 20), 0.88 * streak)
     topoil = np.clip((T_ - 0.93) / 0.07, 0, 1) * wgt
     col = mix(col, (30, 28, 26), 0.6 * topoil)
     hoops = sum(np.exp(-((T_ - fr[i]) / 0.006) ** 2) for i in (7, 12))
