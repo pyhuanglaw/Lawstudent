@@ -166,7 +166,7 @@ H['kexin']=dict(  # 可昕：今天不假設
 
 # G33（AA-B 2026-10-16，AA_140）：心願本人第一次來＝心願事件（wish/wish_heroine_01.json），和 D03、D05、D06、D13、D15、D25 同一個做法；
 # 以安原本寫在 first 的句子本來就是「再來一次」的內容，搬進 normal（第二次以後輪流用）。
-_h=H['heroine_01']; _h['wish_first']='wish/wish_heroine_01.json（AA_127 第 1 節）'
+_h=H['heroine_01']; _h['wish_first']='wish_heroine_01'
 for _k in ('arrive','close'):
     _h[_k]['normal'].insert(0,_h[_k]['first']); _h[_k]['first']=None
 for _q in _h['points'].values():

@@ -1,0 +1,497 @@
+{
+ "_comment": "DATE_LINES_COMMON（BB_128 2-9、3-6）：BB 五位。每個 key 是好幾套，擇一、輪流（排除最近用過的）。一行 {who,text}。以安、語彤由 AA-B 另做。",
+ "rules": {
+  "cancel": "取消不扣分",
+  "flaked": "放鴿子照 AA_128 4-3（自在 -2，只扣一次）；只說一次，她不追問；之後的邀約回覆照 BB_123"
+ },
+ "lines": {
+  "heroine_02": {
+   "depart": [
+    {
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "我到了。……我早到了，不要說。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "捷運上。這班很空，我在看書。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "今天我沒有班。這句話很少見。"
+      }
+     ]
+    }
+   ],
+   "enough": [
+    {
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "……今天夠了。不是不好玩。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "天黑了。散場的感覺。"
+      }
+     ]
+    }
+   ],
+   "cancel": [
+    {
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "好。……我一個人去也可以，我很習慣。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "好。下次。"
+      }
+     ]
+    }
+   ],
+   "flaked": [
+    {
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "……第二次了。"
+      },
+      {
+       "who": "heroine_02",
+       "text": "我不會說什麼。我會記得。"
+      }
+     ]
+    }
+   ],
+   "leaveEarly": [
+    {
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "……就這樣？好吧，法律系的，就這樣。"
+      }
+     ]
+    }
+   ],
+   "noPair": [
+    {
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "拍照？……我拍你就好。我不上鏡。"
+      }
+     ]
+    }
+   ]
+  },
+  "heroine_04": {
+   "depart": [
+    {
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "欸不是，我已經到了。你在哪。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "我出門了。下午兩點出門，算早。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "今天我有睡飽。這很重要。"
+      }
+     ]
+    }
+   ],
+   "enough": [
+    {
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "好，我電量剩一格。存檔回家。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "腳好痠。欸不是，我沒有在撒嬌。"
+      }
+     ]
+    }
+   ],
+   "cancel": [
+    {
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "欸不是，臨時取消？……好啦，下次你請。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "好。我自己去打。"
+      }
+     ]
+    }
+   ],
+   "flaked": [
+    {
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "第二次了。我記下來了，這不是問句。"
+      }
+     ]
+    }
+   ],
+   "leaveEarly": [
+    {
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "欸不是，才剛到？……好。下次補。"
+      }
+     ]
+    }
+   ],
+   "noPair": [
+    {
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "合照？先不要。我今天的瀏海不行。"
+      }
+     ]
+    }
+   ]
+  },
+  "heroine_05": {
+   "depart": [
+    {
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "我到了。重點是，不用跑。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "三件事。一，我出門了。二，……沒有二。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "學弟，車停哪裡？我在路口。"
+      }
+     ]
+    }
+   ],
+   "enough": [
+    {
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "……今天差不多了。重點是，很好。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "明天八點有課。我不是想走。"
+      }
+     ]
+    }
+   ],
+   "cancel": [
+    {
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "好。……這一格我空著，不排別的。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "好。下次再說。"
+      }
+     ]
+    }
+   ],
+   "flaked": [
+    {
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "第二次了。"
+      },
+      {
+       "who": "heroine_05",
+       "text": "重點是，那一格我劃掉了。"
+      }
+     ]
+    }
+   ],
+   "leaveEarly": [
+    {
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "……就回去了？好。今天也算出來過。"
+      }
+     ]
+    }
+   ],
+   "noPair": [
+    {
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "照片？……我拍你。我不習慣在照片裡。"
+      }
+     ]
+    }
+   ]
+  },
+  "classmate_peishan": {
+   "depart": [
+    {
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "我到了。……我早到二十分鐘，每次都這樣。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "我在車上了。你可以慢慢來。不是叫你慢。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "今天我帶了一本書。不會拿出來。"
+      }
+     ]
+    }
+   ],
+   "enough": [
+    {
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "……我有點累了。是好的那種累。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "好奇怪，時間過得好快。"
+      }
+     ]
+    }
+   ],
+   "cancel": [
+    {
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "好。……我回去讀書。剛好。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "好。下次。"
+      }
+     ]
+    }
+   ],
+   "flaked": [
+    {
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "第二次了。……我不問為什麼。我只是記得。"
+      }
+     ]
+    }
+   ],
+   "leaveEarly": [
+    {
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "……回去了嗎？好。我本來也不知道要做什麼。"
+      }
+     ]
+    }
+   ],
+   "noPair": [
+    {
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "合照……我還不會。你可以等嗎？"
+      }
+     ]
+    }
+   ]
+  },
+  "kexin": {
+   "depart": [
+    {
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "我到了。這是告知。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "假設你遲到——不對，你不會。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "火車票我買了。這不是行程表。"
+      }
+     ]
+    }
+   ],
+   "enough": [
+    {
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "好，我沒電了。手機。……我也是。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "回去吧。明天還要出一題假設題。"
+      }
+     ]
+    }
+   ],
+   "cancel": [
+    {
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "好。你的告知，我收到了。"
+      }
+     ]
+    },
+    {
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "好。我去找予樂吃宵夜。"
+      }
+     ]
+    }
+   ],
+   "flaked": [
+    {
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "第二次了。"
+      },
+      {
+       "who": "kexin",
+       "text": "假設還有第三次——……我不想假設。"
+      }
+     ]
+    }
+   ],
+   "leaveEarly": [
+    {
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "……來了就走？好吧。坐車也算約會。"
+      }
+     ]
+    }
+   ],
+   "noPair": [
+    {
+     "if": {
+      "flags": [
+       "EX_kexin"
+      ]
+     },
+     "note": "交往中一定可以合照；分開以後才說這句",
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "先不要。……等我們又是那樣了。"
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

@@ -3160,8 +3160,16 @@
    }
   },
   "heroine_03": {
-   "arrive": {},
-   "closing": {},
+   "arrive": {
+    "first": {
+     "wishEvent": "wish_heroine_03"
+    }
+   },
+   "closing": {
+    "first": {
+     "wishEvent": "wish_heroine_03"
+    }
+   },
    "hotspots": {
     "D13.drink": {
      "normal": [
@@ -3216,7 +3224,10 @@
         }
        ]
       }
-     ]
+     ],
+     "first": {
+      "wishEvent": "wish_heroine_03"
+     }
     },
     "D13.rail": {
      "normal": [
@@ -3275,7 +3286,10 @@
         }
        ]
       }
-     ]
+     ],
+     "first": {
+      "wishEvent": "wish_heroine_03"
+     }
     },
     "D13.bench": {
      "normal": [
@@ -3330,7 +3344,10 @@
         }
        ]
       }
-     ]
+     ],
+     "first": {
+      "wishEvent": "wish_heroine_03"
+     }
     },
     "D13.photo": {
      "normal": [
@@ -3381,7 +3398,10 @@
         }
        ]
       }
-     ]
+     ],
+     "first": {
+      "wishEvent": "wish_heroine_03"
+     }
     }
    }
   }

@@ -88,4 +88,8 @@ for w in NAME.values():
 DIS={'heroine_04':{'D13.bench':'坐著？欸不是，才剛到。'},'heroine_05':{'D13.drink':'我有帶保溫瓶。……好，買一杯。重點是，不要甜的。'},'classmate_peishan':{'D13.photo':'我不太會拍照。……不是叫你不要拍，是手不知道放哪裡。'}}
 for w,d in DIS.items(): res['dislikeLine'][w]=d
 res['_note']='kexin 的 normal＝交往中的版本（她開場是女友），afterBreakup＝分開以後；heroine_03（語彤）第一次單獨來淡水是她的心願事件（AA_127），這裡沒有 first；extra:合照＝第 6 階以上或交往才有的合照句；who:note＝給開發的註記（不顯示）。'
+# G33（AA-B 2026-10-16）：語彤第一次單獨來＝心願事件 wish_heroine_03（wish/wish_aa.json），和其他六處同一個做法（first＝{"wishEvent": …}）
+_y=res['lines']['heroine_03']; _W={'wishEvent':'wish_heroine_03'}
+_y['arrive']['first']=_W; _y['closing']['first']=_W
+for _p in _y['hotspots'].values(): _p['first']=_W
 json.dump(res,open(os.path.join(HERE,'D13.json'),'w',encoding='utf-8'),ensure_ascii=False,indent=1)
