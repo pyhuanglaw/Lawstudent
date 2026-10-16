@@ -3,9 +3,9 @@
  "note": "交付登記（D82）：每一筆交付都要對到 tasks.json 的任務；msg＝SENT／DELIVERED／ACK／ACTIONED（接收方有沒有回 ACK）；integration＝未整合／已整合待測試／已驗收／不整合／參考用。scannedThrough＝每條交付分支已經看過的最後一個 commit：check_handoff.py 只掃它以後的 commit（增量）。看過、不是交付的 commit 放 ignored。　**scannedThrough 只在 check 跑完、列出的 commit 都登記或放進 ignored 之後才往前移**（2026-10-16：先移再跑會什麼都掃不到）。",
  "pattern": "交付|ART_APPROVED|READY_FOR_ART_REVIEW|MODEL_READY|通過|驗收|閒聊階梯|交接包|法律審查|盤點|清查|裁定|規則檔|AA_1\\d\\d|BB_1\\d\\d",
  "scannedThrough": {
-  "origin/claude/funny-albattani-iawshm": "54ff20d5",
-  "origin/claude/cool-heisenberg-o8kuqx": "4217e696",
-  "origin/claude/elegant-brown-fcos7n": "af06c21b"
+  "origin/claude/funny-albattani-iawshm": "f0c2bfec",
+  "origin/claude/cool-heisenberg-o8kuqx": "f73d6690",
+  "origin/claude/elegant-brown-fcos7n": "44220616"
  },
  "deliveries": [
   {
@@ -3567,9 +3567,9 @@
    "sha": "11218c13",
    "what": "AA_184 法服週六值班大二起的一般日（ab663b90 定稿：BB_160 的學姊句子、四處小改）",
    "task": "V3-D25",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "D25 下一批",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "2fbde086（tests/v3_fafu_duty_unit.js）",
    "date": "2026-10-16T17:2xZ"
   },
   {
@@ -3579,9 +3579,9 @@
    "sha": "51a5d106",
    "what": "BB_160（AB-50）：法服值班學姊 11 句與出現條件、AA_184 法律查核通過",
    "task": "V3-D25",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "AA_184 定稿 ab663b90 已併入",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "2fbde086（tests/v3_fafu_duty_unit.js）",
    "date": "2026-10-16T17:2xZ"
   },
   {
@@ -3759,9 +3759,9 @@
    "sha": "3579a954",
    "what": "AA_154 A49：E36 白天放榜旁白、E29 habit 旁白位置、換階段不加錢",
    "task": "V0-B1",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "v0 收尾批核對",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "已在程式裡（A49 E36 白天旁白、E29 habit 旁白、不加錢；A50 重考期 DAILY 到 7/10；A51 P4／P4b／P4c）",
    "date": "2026-10-16T17:3xZ"
   },
   {
@@ -3771,9 +3771,9 @@
    "sha": "14af045d",
    "what": "AA_154 A50：BB_113 經濟系手機小事定稿、重考期 DAILY 到 7/10",
    "task": "V0-B1",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "v0 收尾批核對",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "已在程式裡（A49 E36 白天旁白、E29 habit 旁白、不加錢；A50 重考期 DAILY 到 7/10；A51 P4／P4b／P4c）",
    "date": "2026-10-16T17:3xZ"
   },
   {
@@ -3783,9 +3783,9 @@
    "sha": "494fda63",
    "what": "AA_154 A51 ③：P1 本來就記 Y0_P1_SEAT",
    "task": "V0-B1",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "v0 收尾批核對",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "已在程式裡（A49 E36 白天旁白、E29 habit 旁白、不加錢；A50 重考期 DAILY 到 7/10；A51 P4／P4b／P4c）",
    "date": "2026-10-16T17:3xZ"
   },
   {
@@ -3795,9 +3795,9 @@
    "sha": "d879d1d7",
    "what": "AA_154 A53：總表三件等 AA-B 的已回",
    "task": "V0-B1",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "v0 收尾批核對",
+   "msg": "ACTIONED",
+   "integration": "參考用",
+   "note": "不用改程式（A53：三件照現在的做法）",
    "date": "2026-10-16T17:3xZ"
   },
   {
@@ -3807,9 +3807,9 @@
    "sha": "d2cfbed3",
    "what": "AA_154 時間線表同步 A46～A48",
    "task": "V0-B1",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "v0 收尾批核對",
+   "msg": "ACTIONED",
+   "integration": "參考用",
+   "note": "不用改程式（A53：三件照現在的做法）",
    "date": "2026-10-16T17:3xZ"
   },
   {
@@ -3975,9 +3975,9 @@
    "sha": "ab663b90",
    "what": "AA_184 定稿（BB_160 學姊句子、法律查核、四處小改）",
    "task": "V3-D25",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "D25 下一批",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "2fbde086（tests/v3_fafu_duty_unit.js）",
    "date": "2026-10-16T17:3xZ"
   },
   {
@@ -4147,6 +4147,30 @@
    "integration": "已整合待測試",
    "note": "aa892055",
    "date": "2026-10-16T17:5xZ"
+  },
+  {
+   "id": "DLV-1016-346",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "acf89d8a",
+   "what": "AA_183 補：D79 四題（字卡照年、跳過旁白多一句、大二寒假停點 3-2b、SK03 同意）",
+   "task": "SYS-LBREAK",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "2fbde086",
+   "date": "2026-10-16T18:0xZ"
+  },
+  {
+   "id": "DLV-1016-347",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "44220616",
+   "what": "美術支援 SOP 存進 BB-B 規則；BB_162 保存使用者給 AA-B／BB-B 的 P0 原文（3D 美術施工方法：LAWWW2-B 的 Blender 工具、倒角、材質、驗收）",
+   "task": "ART-19",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "使用者指示的對象是 AA-B、BB-B（做美術支援時照做）；LAWWW 整合美術時照同一套驗收（D38）",
+   "date": "2026-10-16T18:0xZ"
   }
  ],
  "ignored": [
