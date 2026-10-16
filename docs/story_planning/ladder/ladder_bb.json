@@ -64,19 +64,30 @@
       "stage": {
        "npc": "heroine_02",
        "min": "ACQUAINTANCE"
-      },
-      "events": [
-       "ev_zhiruo_ge_group"
-      ]
+      }
      },
      "unlessWorking": true,
      "lines": [
+      "週五的經原，我坐在你後面兩排。……你沒發現吧。",
       "經原我是第二次修。第一次期中考完，我就沒去了。",
       "……不是因為難。是那學期很亂。"
      ],
+     "linesIf": [
+      {
+       "if": {
+        "events": [
+         "ev_zhiruo_ge_group"
+        ]
+       },
+       "lines": [
+        "經原我是第二次修。第一次期中考完，我就沒去了。",
+        "……不是因為難。是那學期很亂。"
+       ]
+      }
+     ],
      "choices": [
       {
-       "t": "「這次我們同組，不會讓妳再翹。」",
+       "t": "「這次我盯著妳，不讓妳翹。」",
        "reply": "你很有自信。我先記下來。"
       },
       {
@@ -87,7 +98,8 @@
      ],
      "rel": {
       "fam": 3
-     }
+     },
+     "note": "2026-10-16 BB-B：原本 if 要 ev_zhiruo_ge_group（Y1S1 一次性的 auto 事件，錯過就永遠卡在 Z-L3）→ 拿掉；分組過的玩家（linesIf）不說「坐你後面兩排」那句；選項改成兩種玩家都說得通"
     },
     {
      "id": "Z-L4",
@@ -370,24 +382,36 @@
       "stage": {
        "npc": "heroine_04",
        "min": "ACQUAINTANCE"
-      },
-      "events": [
-       "ev_ziqing_club"
-      ],
-      "notMemory": [
+      }
+     },
+     "time": [
+      14,
+      24
+     ],
+     "skipIf": {
+      "memory": [
        {
         "npc": "heroine_04",
         "tag": "INVITED_CLUB"
        }
       ]
      },
-     "time": [
-      14,
-      24
-     ],
      "lines": [
-      "你剛剛在社課的時候，手指按很用力。",
-      "新手都這樣。按到痛，就代表你有在按。"
+      "你看過我手指嗎？這裡，都是繭。",
+      "按吉他弦按出來的。新手按到痛，就代表有在按。"
+     ],
+     "linesIf": [
+      {
+       "if": {
+        "events": [
+         "ev_ziqing_club"
+        ]
+       },
+       "lines": [
+        "你上次在社課的時候，手指按很用力。",
+        "新手都這樣。按到痛，就代表你有在按。"
+       ]
+      }
      ],
      "choices": [
       {
@@ -395,14 +419,14 @@
        "reply": "正常。痛兩週。之後就不痛了。很像人生。……我亂講的。"
       },
       {
-       "t": "「我只是去看看。」",
-       "reply": "看看的人不會按到手痛。"
+       "t": "「我的手指不行。」",
+       "reply": "每個人一開始都不行。這不是安慰，是統計。"
       }
      ],
      "rel": {
       "fam": 2
      },
-     "note": "有 INVITED_CLUB 的玩家已經聽過 SMALLTALK「手指好了沒」，這層跳過（直接算過）"
+     "note": "2026-10-16 BB-B（AA-B 指出）：原本 if 用 notMemory INVITED_CLUB＋要 ev_ziqing_club，有 INVITED_CLUB 或沒去過社課的玩家會永遠卡在 Q-L3 → 有 INVITED_CLUB（聽過 SMALLTALK「手指好了沒」）的用 skipIf 直接算過；沒去過社課的照一般 lines，去過的用 linesIf；選項改成兩種都說得通"
     },
     {
      "id": "Q-L4",
@@ -532,13 +556,29 @@
       "你玩我的遊戲的時候，卡在第二關卡了很久。",
       "我看到了。我在旁邊。我沒說話。這很難得。"
      ],
+     "linesIf": [
+      {
+       "unless": {
+        "memory": [
+         {
+          "npc": "heroine_04",
+          "tag": "PLAYTESTED"
+         }
+        ]
+       },
+       "lines": [
+        "你還沒玩過我的遊戲。下次你來測。",
+        "我會在旁邊看你卡在哪裡。不說話。這很難得。"
+       ]
+      }
+     ],
      "choices": [
       {
-       "t": "「第二關的插座藏太好了。」",
-       "reply": "那是故意的。……好吧，可能太故意了。我改。"
+       "t": "「我很容易卡關。」",
+       "reply": "那很好。會卡關的人，才看得出哪裡做壞了。"
       },
       {
-       "t": "「妳一直看我，我很緊張。」",
+       "t": "「妳一直看，我會緊張。」",
        "reply": "緊張是好事。代表你在乎。我是說在乎遊戲。"
       }
      ],
@@ -546,7 +586,7 @@
       "fam": 2,
       "trust": 2
      },
-     "note": "沒有 PLAYTESTED（沒測過她的遊戲）、但已經 FRIEND 的玩家：第一句改成「你下次要測我的遊戲。我會看你卡在哪裡。」，選項照用"
+     "note": "2026-10-16 BB-B：沒有 PLAYTESTED、但已經 FRIEND 的玩家用 linesIf 換整套開場（原本寫在 note）；選項改成兩種都說得通"
     },
     {
      "id": "Q-L8",
@@ -720,6 +760,16 @@
        "ev_studygroup_wed"
       ]
      },
+     "skipIf": {
+      "stage": {
+       "npc": "heroine_05",
+       "min": "FAMILIAR"
+      },
+      "notEvents": [
+       "ev_studygroup_wed"
+      ]
+     },
+     "note": "2026-10-16 BB-B：沒去週三讀書會（沒加法服）的玩家原本會永遠卡在 S-L3 → 到 FAMILIAR 還沒去過就 skipIf 直接算過",
      "lines": [
       "你第一次來讀書會，坐在門邊。",
       "新人都坐門邊。方便逃走。我第一年也是。"
@@ -815,6 +865,11 @@
       20.5,
       23
      ],
+     "skipIf": {
+      "notFlags": [
+       "lawclub"
+      ]
+     },
      "lines": [
       "今天那題，你回答得不對。",
       "可是你回答的方式是對的：先說你不確定的地方。"
@@ -1023,6 +1078,16 @@
        }
       ]
      },
+     "skipIf": {
+      "stage": {
+       "npc": "classmate_peishan",
+       "min": "FAMILIAR"
+      },
+      "notEvents": [
+       "ev_studygroup_wed"
+      ]
+     },
+     "note": "2026-10-16 BB-B：沒去週三讀書會的玩家原本會永遠卡在 P-L3 → 到 FAMILIAR 還沒去過就 skipIf 直接算過",
      "lines": [
       "讀書會的學姊講話好快。我抄到一半就跟不上了。",
       "你有抄到嗎？"
@@ -1351,7 +1416,7 @@
      },
      "week": [
       7,
-      9
+      18
      ],
      "dateOnly": "video",
      "lines": [

@@ -24,9 +24,11 @@ D['characters'][ZR] = {'steps': [
  {'id':'Z-L2','if':st(ZR,'ACQUAINTANCE'),'unlessWorking':True,
   'lines':['法律系是不是每天都在背東西？','外文系也背。單字、詩、別人的名字。'],
   'choices':[ch('「我們背條文，你們背詩。」','詩比較短。可是比較難懂。'),ch('「我比較怕考申論。」','申論就是寫很長的「我覺得」。我們也是。')],'rel':{'fam':2}},
- {'id':'Z-L3','if':{**st(ZR,'ACQUAINTANCE'),'events':['ev_zhiruo_ge_group']},'unlessWorking':True,
-  'lines':['經原我是第二次修。第一次期中考完，我就沒去了。','……不是因為難。是那學期很亂。'],
-  'choices':[ch('「這次我們同組，不會讓妳再翹。」','你很有自信。我先記下來。'),ch('「那學期怎麼了？」','沒怎麼了。就是亂。……下一題。',mem='ZR_ASKED_MESSY')],'rel':{'fam':3}},
+ {'id':'Z-L3','if':st(ZR,'ACQUAINTANCE'),'unlessWorking':True,
+  'lines':['週五的經原，我坐在你後面兩排。……你沒發現吧。','經原我是第二次修。第一次期中考完，我就沒去了。','……不是因為難。是那學期很亂。'],
+  'linesIf':[{'if':{'events':['ev_zhiruo_ge_group']},'lines':['經原我是第二次修。第一次期中考完，我就沒去了。','……不是因為難。是那學期很亂。']}],
+  'choices':[ch('「這次我盯著妳，不讓妳翹。」','你很有自信。我先記下來。'),ch('「那學期怎麼了？」','沒怎麼了。就是亂。……下一題。',mem='ZR_ASKED_MESSY')],'rel':{'fam':3},
+  'note':'2026-10-16 BB-B：原本 if 要 ev_zhiruo_ge_group（Y1S1 一次性的 auto 事件，錯過就永遠卡在 Z-L3）→ 拿掉；分組過的玩家（linesIf）不說「坐你後面兩排」那句；選項改成兩種玩家都說得通'},
  {'id':'Z-L4','if':st(ZR,'FAMILIAR'),'unlessWorking':True,
   'lines':['你知道嗎，店裡最常被點的不是咖啡，是「跟上次一樣」。','我最喜歡聽人家這樣說。'],
   'choices':[ch('「因為妳都記得。」','……那是工作。（她低頭擦杯子）'),ch('「那我下次也說這句。」','你要先有「上次」。')],'rel':{'fam':2,'comf':2}},
@@ -55,10 +57,11 @@ D['characters'][ZQ] = {'steps': [
  {'id':'Q-L2','if':st(ZQ,'ACQUAINTANCE'),'time':[14,24],
   'lines':['你知道資工系館晚上幾點會熄燈嗎？','十二點。可是三樓的門禁卡我有。不要告訴別人。這是祕密。'],
   'choices':[ch('「法律系館八點就鎖了。」','那你們很慘。我同情你們。'),ch('「半夜在系館做什麼？」','寫程式。晚上的系館很安靜，只剩伺服器在叫。這不是比喻。')],'rel':{'fam':2}},
- {'id':'Q-L3','if':{**st(ZQ,'ACQUAINTANCE'),'events':['ev_ziqing_club'],'notMemory':[{'npc':ZQ,'tag':'INVITED_CLUB'}]},'time':[14,24],
-  'lines':['你剛剛在社課的時候，手指按很用力。','新手都這樣。按到痛，就代表你有在按。'],
-  'choices':[ch('「會痛很正常嗎？」','正常。痛兩週。之後就不痛了。很像人生。……我亂講的。'),ch('「我只是去看看。」','看看的人不會按到手痛。')],'rel':{'fam':2},
-  'note':'有 INVITED_CLUB 的玩家已經聽過 SMALLTALK「手指好了沒」，這層跳過（直接算過）'},
+ {'id':'Q-L3','if':st(ZQ,'ACQUAINTANCE'),'time':[14,24],'skipIf':{'memory':[{'npc':ZQ,'tag':'INVITED_CLUB'}]},
+  'lines':['你看過我手指嗎？這裡，都是繭。','按吉他弦按出來的。新手按到痛，就代表有在按。'],
+  'linesIf':[{'if':{'events':['ev_ziqing_club']},'lines':['你上次在社課的時候，手指按很用力。','新手都這樣。按到痛，就代表你有在按。']}],
+  'choices':[ch('「會痛很正常嗎？」','正常。痛兩週。之後就不痛了。很像人生。……我亂講的。'),ch('「我的手指不行。」','每個人一開始都不行。這不是安慰，是統計。')],'rel':{'fam':2},
+  'note':'2026-10-16 BB-B（AA-B 指出）：原本 if 用 notMemory INVITED_CLUB＋要 ev_ziqing_club，有 INVITED_CLUB 或沒去過社課的玩家會永遠卡在 Q-L3 → 有 INVITED_CLUB（聽過 SMALLTALK「手指好了沒」）的用 skipIf 直接算過；沒去過社課的照一般 lines，去過的用 linesIf；選項改成兩種都說得通'},
  {'id':'Q-L4','if':st(ZQ,'FAMILIAR'),'time':[14,24],
   'lines':['我早上不起床。不是懶。我晚上的腦比較好用。','你早八？……我為你默哀。'],
   'choices':[ch('「我也是晚上比較清醒。」','好。那你是自己人。'),ch('「早八其實還好。」','你說謊的時候會看旁邊。我看到了。')],'rel':{'fam':2,'comf':2}},
@@ -70,8 +73,9 @@ D['characters'][ZQ] = {'steps': [
   'choices':[ch('「成績好就好了吧？」','教授不這樣想。我家也不這樣想。……好，下一題。'),ch('「妳不去上課在做什麼？」','做遊戲。睡覺。做遊戲。這是順序。')],'rel':{'fam':2}},
  {'id':'Q-L7','if':{'any':[st(ZQ,'FRIEND'),{**st(ZQ,'FAMILIAR'),'memory':[{'npc':ZQ,'tag':'PLAYTESTED'}]}]},'time':[14,24],
   'lines':['你玩我的遊戲的時候，卡在第二關卡了很久。','我看到了。我在旁邊。我沒說話。這很難得。'],
-  'choices':[ch('「第二關的插座藏太好了。」','那是故意的。……好吧，可能太故意了。我改。'),ch('「妳一直看我，我很緊張。」','緊張是好事。代表你在乎。我是說在乎遊戲。')],'rel':{'fam':2,'trust':2},
-  'note':'沒有 PLAYTESTED（沒測過她的遊戲）、但已經 FRIEND 的玩家：第一句改成「你下次要測我的遊戲。我會看你卡在哪裡。」，選項照用'},
+  'linesIf':[{'unless':{'memory':[{'npc':ZQ,'tag':'PLAYTESTED'}]},'lines':['你還沒玩過我的遊戲。下次你來測。','我會在旁邊看你卡在哪裡。不說話。這很難得。']}],
+  'choices':[ch('「我很容易卡關。」','那很好。會卡關的人，才看得出哪裡做壞了。'),ch('「妳一直看，我會緊張。」','緊張是好事。代表你在乎。我是說在乎遊戲。')],'rel':{'fam':2,'trust':2},
+  'note':'2026-10-16 BB-B：沒有 PLAYTESTED、但已經 FRIEND 的玩家用 linesIf 換整套開場（原本寫在 note）；選項改成兩種都說得通'},
  {'id':'Q-L8','if':st(ZQ,'FRIEND'),'time':[14,24],
   'lines':['欸不是，你下次社課要來。不是因為缺人。','是因為你在的時候，阿凱比較不會遲到。'],
   'choices':[ch('「這是問句嗎？」','不是。（她笑了）'),ch('「好，我去。」','我記下來了。你不能反悔。這不是問句。')],'rel':{'fam':2,'comf':2}},
@@ -88,7 +92,8 @@ D['characters'][SIS] = {'friendOnly':True,'steps': [
  {'id':'S-L2','if':st(SIS,'ACQUAINTANCE'),
   'lines':['你們民總現在上到哪？','……第幾章不重要。重要的是你看不看得懂那一章在問什麼。'],
   'choices':[ch('「我還在背定義。」','定義先背。可是背完要問自己：這個定義在防什麼？',rel={'resp':2}),ch('「我還在找問題在哪。」','那你已經比背定義的人快一步。',rel={'resp':2})],'rel':{'fam':2}},
- {'id':'S-L3','if':{**st(SIS,'ACQUAINTANCE'),'flags':['lawclub'],'events':['ev_studygroup_wed']},
+ {'id':'S-L3','if':{**st(SIS,'ACQUAINTANCE'),'flags':['lawclub'],'events':['ev_studygroup_wed']},'skipIf':{**st(SIS,'FAMILIAR'),'notEvents':['ev_studygroup_wed']},
+  'note':'2026-10-16 BB-B：沒去週三讀書會（沒加法服）的玩家原本會永遠卡在 S-L3 → 到 FAMILIAR 還沒去過就 skipIf 直接算過',
   'lines':['你第一次來讀書會，坐在門邊。','新人都坐門邊。方便逃走。我第一年也是。'],
   'choices':[ch('「學姊也想過逃走？」','每個週三。……可是我沒有逃。所以現在我是社長。這不是勵志故事，是警告。'),ch('「門邊比較涼。」','好理由。可是下次往前坐一排。')],'rel':{'fam':3,'comf':2}},
  {'id':'S-L4','if':st(SIS,'FAMILIAR'),
@@ -97,7 +102,7 @@ D['characters'][SIS] = {'friendOnly':True,'steps': [
  {'id':'S-L5','if':st(SIS,'FAMILIAR'),
   'lines':['我爸媽都是公務員。從小他們就說，考上司法官很好。','我也覺得很好。……我是說，我一直都這樣覺得。'],
   'choices':[ch('「那學姊想當司法官嗎？」','三件事。一，想。二，大概。三，下一題。'),ch('「妳說『一直都』。」','你很會聽重點。這是誇獎。也是警告。')],'rel':{'fam':2,'trust':3},'mem':'SIS_PARENTS_HEARD'},
- {'id':'S-L6','if':{**st(SIS,'FAMILIAR'),'flags':['lawclub']},'location':['wancai'],'weekday':[3],'time':[20.5,23],
+ {'id':'S-L6','if':{**st(SIS,'FAMILIAR'),'flags':['lawclub']},'location':['wancai'],'weekday':[3],'time':[20.5,23],'skipIf':{'notFlags':['lawclub']},
   'lines':['今天那題，你回答得不對。','可是你回答的方式是對的：先說你不確定的地方。'],
   'choices':[ch('「那對的答案是什麼？」','回去查。查到了明天告訴我。不是考你，是我也想再確認一次。',rel={'resp':3}),ch('「我很怕講錯。」','法服最不怕的就是講錯。最怕的是講錯了不說。',rel={'resp':3})],'rel':{'fam':2},
   'note':'週三晚上法服讀書會之後（萬才館）'},
@@ -120,7 +125,8 @@ D['characters'][PS] = {'steps': [
  {'id':'P-L2','if':st(PS,'ACQUAINTANCE'),
   'lines':['我爸媽在桃園開早餐店。','所以我早上六點會自己醒來。不是因為認真，是身體記得要煎蛋。'],
   'choices':[ch('「好羨慕。」','你不會羨慕的。週末四點半起床的那種。'),ch('「那妳早八都不會遲到。」','不會遲到。可是會睡著。')],'rel':{'fam':2},'mem':'PS_FAMILY_SHOP'},
- {'id':'P-L3','if':{**st(PS,'ACQUAINTANCE'),'events':['ev_studygroup_wed'],'memory':[{'npc':PS,'tag':'FIRST_MET'}]},
+ {'id':'P-L3','if':{**st(PS,'ACQUAINTANCE'),'events':['ev_studygroup_wed'],'memory':[{'npc':PS,'tag':'FIRST_MET'}]},'skipIf':{**st(PS,'FAMILIAR'),'notEvents':['ev_studygroup_wed']},
+  'note':'2026-10-16 BB-B：沒去週三讀書會的玩家原本會永遠卡在 P-L3 → 到 FAMILIAR 還沒去過就 skipIf 直接算過',
   'lines':['讀書會的學姊講話好快。我抄到一半就跟不上了。','你有抄到嗎？'],
   'choices':[ch('「我抄到一半。」','我們拼起來，就是一整份了。',mem='PS_NOTES_SHARED'),ch('「我沒抄，我在聽。」','……我也想變成那樣的人。')],'rel':{'fam':3}},
  {'id':'P-L4','if':st(PS,'FAMILIAR'),
@@ -159,7 +165,7 @@ D['characters'][KX] = {'context':'date','steps': [
  {'id':'K-L5','if':{'flags':['dating_kexin']},'dateOnly':'meet',
   'lines':['你知道我最喜歡我們見面的哪個時候嗎？','不是見到的時候。是要分開、還沒分開的那五分鐘。','因為那五分鐘我們都在想，下次要說什麼。'],
   'choices':[ch('「那下次多留五分鐘。」','不行。多留就會變成十分鐘，十分鐘就會錯過公車。……我算過了。'),ch('（不說話，陪她等公車）','（她靠在你肩上一下）好。這次的五分鐘很好。')],'rel':{'comf':3},'mem':'KX_FIVE_MINUTES'},
- {'id':'K-L6','if':{'flags':['dating_kexin']},'week':[7,9],'dateOnly':'video',
+ {'id':'K-L6','if':{'flags':['dating_kexin']},'week':[7,18],'dateOnly':'video',
   'lines':['（她把手機立在書堆旁邊，只看得到她的額頭）不要講話。我們各自念。','（二十分鐘後）……你翻頁的聲音好大。','我不是在抱怨。是我聽得到，所以知道你還在。'],'note':'視訊一起讀書；精力照一般讀書'},
  {'id':'K-L7','if':{'flags':['dating_kexin']},'dateOnly':'meet',
   'lines':['予樂問我，你是什麼樣的人。','我說：他會在我講完話以後，等兩秒才回答。她說這樣很好。我說我知道。'],
@@ -208,8 +214,9 @@ def check(d):
         ids=[s['id'] for s in c['steps']]
         if len(ids)!=len(set(ids)): err.append(cid+' 層 id 重複')
         for s in c['steps']:
-            for l in s['lines']:
+            for l in s['lines']+[x for li in s.get('linesIf',[]) for x in li['lines']]+[x for li in s.get('extraIf',[]) for x in li['lines']]:
                 if len(l)>60: err.append(f"{s['id']} 台詞太長：{l}")
+            if 'notMemory' in json.dumps(s.get('if',{})): err.append(s['id']+' if 用 notMemory 會讓階梯卡住，改 skipIf（README）')
             for x in s.get('choices',[]):
                 if len(x)==0: err.append(s['id']+' 空選項')
             if len(s.get('choices',[]))>2: err.append(s['id']+' 選項超過 2')
