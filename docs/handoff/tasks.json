@@ -12310,9 +12310,9 @@
    "title": "總圖大廳的柱子沒有碰撞：玩家走進柱子裡",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "比對 library_layout.js 的柱子位置和 library_interior.glb 的柱子（模型改過位置、或導航格漏了那一根）；補 blockRect／圓形阻擋；跑 node tests/nav_buildings_unit.js、tests/flow_library_floors.py、tools/dev_scratch/nav_islands.py",
+   "next": "原因：中庭四角柱子的導航阻擋 blockCircle 半徑 0.35，0.5 m 格子只擋一兩格，斜著走（clear 只看四個方向）會穿進柱子 0.2 m。改 0.62；nav_buildings_unit 加「站得到的位置離柱子中心 ≥ 0.5 m」（舊值失敗、新值最近 0.86 m）。待跑 tests/flow_library_floors.py、reachability_all（瀏覽器）",
    "first": {
     "term": "Y1S1",
     "week": 1,

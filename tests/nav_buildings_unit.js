@@ -122,6 +122,8 @@ const fmt=(r)=>JSON.stringify(r).slice(0,220);
   check('點地面：一樓地板、二樓地板、樓梯都打得到',['0','1'].every(lv=>z.walkMeshes.some(m=>String(m.userData.walkLv|0)===lv))&&z.walkMeshes.length>=8,`${z.walkMeshes.length} 片`); }
 // ---------- 總圖大廳（總圖第一階段：大廳＋大樓梯＋二樓自習區，D43）----------
 { const z=loadZone('library_hall'); const L=LIBRARY_LAYOUT, Y1=L.floors[1].y, IT=E.interactables, H0=(x,zz)=>z.levels[0].heightAt(x,zz), H1=(x,zz)=>z.levels[1].heightAt(x,zz);
+  { const CO=L.core, U=L.upper, GT=L.gates; let worst=9, at=null; for(const [cx,cz] of [[-CO.x1,U.band.z1],[CO.x1,U.band.z1],[-CO.x1,GT.z],[CO.x1,GT.z]]) for(let a=0;a<32;a++){ const ang=a/32*Math.PI*2; for(let d=0.2;d<=1.2;d+=0.02){ const x=cx+Math.cos(ang)*d, zz=cz+Math.sin(ang)*d; if(z.levels[0].clear(x,zz,0.33)){ if(d<worst){ worst=d; at=[cx,cz,a]; } break; } } }
+    check('總圖：中庭四角的柱子（半徑 0.3、柱座 0.36）：玩家（0.33）站得到的位置離柱子中心至少 0.5 m，不會穿進柱子（使用者 2026-10-16 截圖）',worst>=0.5,'最近 '+worst.toFixed(2)+' '+JSON.stringify(at)); }
 check('總圖：兩層、二樓 5.0',z.levels.length===2&&z.levels[1].y0===Y1);
 const EN=L.entrance.spawn; check('總圖：入口出生點站得住',E.canStand(EN.x,EN.z,0.32,0)&&H0(EN.x,EN.z)===0);
 { const ex=IT.find(i=>i.label==='離開總圖'); check('總圖：入口出生點離「離開總圖」≥ 半徑＋0.3（一進來不會就跳出離開的按鈕）',!!ex&&Math.hypot(EN.x-ex.x,EN.z-ex.z)>=ex.radius+0.3,ex&&`距離 ${Math.hypot(EN.x-ex.x,EN.z-ex.z).toFixed(2)}、半徑 ${ex.radius}`); }
