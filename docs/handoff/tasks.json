@@ -7558,8 +7558,8 @@
    "title": "可昕生日 4/24 事件（每年週次：大一下 W9、大二下 W9、大三下 W11、大四下 W10）；BCG-45 已通過",
    "area": "V2",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "新增 4/24 事件＋接 BCG-45（BB-B ac2cce83）；舊存檔 KX_BDAY 保留成記憶",
+   "status": "已整合待測試",
+   "next": "第 2 級：4/24 去政大三個選項（BCG-45 畫面）；大二下第 9 週、大三下第 11 週、大四下第 10 週跟 v3～v5 做",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -8000,7 +8000,7 @@
    "area": "V2",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "BCG-04、BCG-11 已接（BB_117 的那一拍）；第 2 級：Z3、Q5 演到 CG 截圖；BCG-27（K1）要 BB-B 給旁白改句（骰子→長頸鹿）；BCG-28 已接（12/3）、BCG-29 跟 V2-K8D、BCG-21 跟 V2-Z5M、BCG-45 跟 V2-G01",
+   "next": "BCG-04、BCG-11 已接（BB_117 的那一拍）；第 2 級：Z3、Q5 演到 CG 截圖；BCG-27（K1）要 BB-B 給旁白改句（骰子→長頸鹿）；BCG-28 已接（12/3）、BCG-29 跟 V2-K8D、BCG-21 跟 V2-Z5M、BCG-45 已接（4/24）",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
