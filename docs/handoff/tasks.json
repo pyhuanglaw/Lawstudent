@@ -12032,12 +12032,12 @@
   },
   {
    "id": "BUG-WZFLICKER",
-   "title": "溫州街新增店面的牆一直閃（z-fighting）；店面不能進、沒有店員",
+   "title": "閃爍（z-fighting）：溫州街新增店面的牆、舊路書店的書和後面的書架；溫州街新店面不能進、沒有店員",
    "area": "BUG",
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P1",
-   "next": "①閃爍：找重疊的牆面（新店面 GLB 和舊程序化立面／TK.apartment 疊在一起？），技術修正；②能不能進、店員：列出是哪幾家，問 AA-B 劇情用途（D79），要做室內派 LAWWW2-B",
+   "next": "①閃爍：鏡頭 near 0.1、far ≤ 300 不算極端，先逐個查疊在一起的面（新店面 GLB 和舊立面、書店書背和層板背板），技術修正；兩處都改完在 iPhone 尺寸截圖比對；②能不能進、店員：列出是哪幾家，問 AA-B 劇情用途（D79，AA-B 21:53 已說查清楚再問），要做室內派 LAWWW2-B",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12048,7 +12048,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "使用者 2026-10-16 21:5x 試玩",
+   "source": "使用者 2026-10-16 21:5x 試玩；使用者 21:5x 第二張（舊路書店書架）",
    "authorized": "使用者（bug 回報）；②的劇情用途待 AA-B"
   },
   {
@@ -12098,6 +12098,27 @@
     "confirmed": true
    },
    "source": "使用者 2026-10-16 21:5x 試玩截圖（9/18 17:50 兩點半 Café）",
+   "authorized": "使用者（bug 回報）"
+  },
+  {
+   "id": "BUG-GOALSTALE",
+   "title": "目標過了時間沒更新：19:42 還顯示「18:30 公館 阿鳳麵店（阿哲）」",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "查第二天阿哲的麵店約：過了 18:30（或錯過）以後目標要換（錯過的處理照既有劇情，有沒有錯過的台詞要查企劃；沒有就問 AA-B，不自己寫）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第二天晚上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 21:5x 試玩截圖（9/18 19:42 舊路書房）",
    "authorized": "使用者（bug 回報）"
   }
  ]
