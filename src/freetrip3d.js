@@ -62,7 +62,8 @@ const TRIP=(function(){
   S.loop=async function(GM){ const G=GM.G, T=G.trip; if(!T||busy) return; const s=S.spot(T.spot); if(!s){ G.trip=null; return; } busy=true; const P=S.rec(G);
     GM.sceneBegin();
     try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:typeof OUT!=='undefined'&&OUT.bg?OUT.bg(s.bg):'dark'}); await GM.fade(false);
-      if(!T.said){ T.said=true; const n=P.free[s.id]|0; P.free[s.id]=n+1; const a=s.arrive||[]; if(a.length) await GM.say(null,a[Math.min(n,a.length-1)]); }   /* 第一次來、第二次、第三次以後（arriveIndex）*/
+      if(!T.said){ T.said=true; const n=P.free[s.id]|0; P.free[s.id]=n+1; const a=s.arrive||[]; if(a.length) await GM.say(null,a[Math.min(n,a.length-1)]);
+        if(typeof ENC!=='undefined'&&ENC.atArrive){ try{ await ENC.atArrive(GM,s); }catch(e){ console.warn('ENC',e); } } }   /* 偶遇（DL-07）：到達的那一刻 */   /* 第一次來、第二次、第三次以後（arriveIndex）*/
       for(let guard=0;guard<40;guard++){ const ok=crossCheck(G), closed=G.hour>=s.open[1]-1e-6; const O=[];
         if(!ok||closed){ await GM.say(null,closed?'這裡要關了。':'差不多該回去了。'); O.push({t:'回去',k:'back'}); }
         else { const w=s.walk; if(w&&(T.walk|0)<(w.times||1)) O.push({t:w.label,hint:w.minutes+' 分鐘',k:'walk'});

@@ -345,6 +345,7 @@ const STORY = (function(){
     if(first){ SOCIAL.meet(id,G.zone); if(c.social_layer==='B'){ const py=SOCIAL.playerYear?SOCIAL.playerYear():1, cy=SOCIAL.yearOf?SOCIAL.yearOf(id):(c.year||1); await GM.say(who,cy>py?'「你是大'+['','一','二','三','四'][py]+'的吧？」':(py===1?['「……嗯？喔，你是我們班的吧。」','「你好。……我們是不是修同一堂民總？」','「欸，你是周老師點過的那個。」'][(Math.random()*3)|0]:'「……嗯？喔，你是我們班的吧。」'));   /* 年級跟著遊戲走（AA_120 7-3）*/   /* 學長姊不會說「同一堂民總」（AA_120 3-4）*/ await GM.say(who,'「我是'+c.name+'。」'); if(c.facts&&c.facts[0]) await GM.say(who,'「'+c.facts[0]+'。……你呢？」'); } else { await GM.say(who,'「你好，我是'+c.name+'。'+(c.department||'')+'的。」',{expr:'smile'}); if(c.personality) await GM.say(null,c.personality.split('；')[0]+'。'); } SOCIAL.adjust(id,{fam:3}); }
     else { const rv=SOCIAL.reveal(id); if(SOCIAL.playUp&&await SOCIAL.playUp(GM,who,id)){ if(SOCIAL.activity) SOCIAL.activity(id,'chat'); }   /* 升到有點熟／朋友／好朋友以後的下一次見面：先說門檻台詞（AA_124 1-6、BB_120 第 1 節），這次就不閒聊 */
       else if(c.social_layer==='B'&&rv==='ACQUAINTANCE'&&c.facts&&c.facts[1]&&S.secretReady(G,id)&&!SOCIAL.has(id,'SHARED_SECRET')){ await GM.say(who,'「其實……'+String(c.facts[1]).replace(/^其實/,'')+'。沒跟很多人講過。」'); SOCIAL.remember(id,'SHARED_SECRET',c.facts[1]); SOCIAL.adjust(id,{fam:4,trust:4}); const SM=G.social.small||(G.social.small={}); (SM[id]||(SM[id]={day:0,used:[],last:null})).day=G.day; }
+      else if(typeof ENC!=='undefined'&&ENC.schoolTalk&&await ENC.schoolTalk(GM,who,id)){}   /* 自由出行遇到以後，下一次聊天說一句（DL-07；AA_162、BB_144 第 4 節）*/
       else if(await S.ladderTalk(GM,who,id)){}   /* 閒聊階梯（大一上的七位＋之後的）：有資料的人走階梯，沒有的照舊閒聊 */
       else { const L=S.smallTalk(G,id); if(L.say) await GM.say(who,L.say,{expr:'smile'}); else await GM.say(null,L.narr); if(SOCIAL.activity){ SOCIAL.activity(id,'chat'); if(L.fresh) SOCIAL.activity(id,'chatNew'); } else if(L.fresh) SOCIAL.adjust(id,{fam:1}); } }   /* AA_124 1-2：今天第一次聊天熟悉 +2、聽到新的一句自在 +1（一天一次、有上限）*/
     if(!first) await S.offerInvite(GM,id,n,who);
@@ -1143,7 +1144,9 @@ const STORY = (function(){
       .map(([id,w0,w1,t])=>({id,term:T=>T.id==='Y1S2'&&T.week>=w0&&T.week<=w1,h:()=>21+10/60,ok:G=>!!G.flags.dating_kexin,items:()=>[P1('kexin',t)]})),
     {id:'kx2_example',term:T=>T.id==='Y1S2'&&T.week>=10,h:()=>21+10/60,ok:G=>!!G.flags.dating_kexin&&!!(G.flags.KX_DIR&&G.flags.KX_DIR.Y1),   /* K6b 之後 */
       items:()=>[P1('kexin','民總期中考，我的答案被老師拿去當範例。匿名的，可是我認得自己的字。')]},
-    {id:'kx2_coffee',term:T=>T.id==='Y1S2'&&T.week>=15&&T.week<=16,h:()=>21+10/60,ok:G=>!!G.flags.dating_kexin,items:()=>seq('kexin',['📷（書桌，旁邊一杯咖啡）','期末的第一杯。'])} ];
+    {id:'kx2_coffee',term:T=>T.id==='Y1S2'&&T.week>=15&&T.week<=16,h:()=>21+10/60,ok:G=>!!G.flags.dating_kexin,items:()=>seq('kexin',['📷（書桌，旁邊一杯咖啡）','期末的第一杯。'])},
+    /* 自由出行的偶遇以後（DL-07；AA_162、BB_144 第 4 節）：語彤傳那天的照片、可昕說淡水的假設題——遇到的隔天以後，一次 */
+    ...[['enc_yt_photo','ENC_D12_YT','heroine_03',21+20/60],['enc_kx_d13','ENC_D13_KX','kexin',21+10/60]].map(([id,tag,who,hh])=>({id,term:T=>!!T,h:()=>hh,ok:G=>typeof ENC!=='undefined'&&ENC.phoneReady(G,tag),items:G=>{ ENC.markSaid(G,tag); return seq(who,ENC.phoneLines(tag)); }})) ];
   S.DAILY_PHONE=DAILY;
   /* ok(G, day)：那一天條件成立嗎（決定時是今天、補送時是原本那天）。存檔：dpDay（決定過的那天）、dpPick（{id, day}：今天那一則）、dpN（每則出現過幾次）、dpLast（上一次輪到哪一則，輪流用）、dpDayOf（每則上一次是哪一天）；舊存檔沒有＝從頭開始 */
   function dailyPhone(GM){ const G=GM.G, F=G.flags; if(typeof CALENDAR==='undefined') return; const N=()=>F.dpN||(F.dpN={});
