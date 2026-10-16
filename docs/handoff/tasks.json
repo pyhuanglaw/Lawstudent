@@ -1102,7 +1102,7 @@
    "area": "V0",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "E01 已做（b0d66fea 之後的 commit）；接著 E02 開學典禮（AA_154）、E08／E20／E28／E34（BB_153）、E24c／E30（AA_169）",
+   "next": "E01 已接（v0 開局）；★E02 開學典禮與迎新已接（ev_y0_e02，時段暫定 12:15～17:00，問 AA-B：9/2 上午是經濟學原理）；下一批 E03（BB_105 B1）、E05、E06",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
