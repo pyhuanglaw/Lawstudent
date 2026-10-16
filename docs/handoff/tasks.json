@@ -7786,8 +7786,8 @@
    "title": "週末回家：校門口也有「回家」入口（週五 17:00～週日 21:30）",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "zones3d 校門口加互動點，條件同 HOME.canGo",
+   "status": "已整合待測試",
+   "next": "第 2 級：校門口按「回臺北的家」→ 家 → 回宿舍（瀏覽器）；第 3 級 reachability_all 會走到這個互動點",
    "priority": "P1",
    "first": {
     "term": "Y1S1",

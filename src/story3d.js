@@ -35,7 +35,10 @@ const STORY = (function(){
   function h(G){ return G.hour%24; }
   function isThu(G){ return G.weekday===4; }
   function classTime(G){ return isThu(G)&&h(G)>=13.1&&h(G)<15.2; }
-  S.populate=function(zoneId,GM){ const E=GM.E, G=GM.G; const hr=h(G); const day=hr>=6.5&&hr<23; const F=G.flags; const tm=(key,to)=>{ const n=GM.npc[key]; if(n&&F.afternoonDone) n.until=to; };   /* 舊的固定時段（第三天以後）：時段結束時 refreshSchedule 讓他離開（不在玩家眼前）；第一、二天的劇情人物不標 */ let xi=0;
+  S.populate=function(zoneId,GM){ const E=GM.E, G=GM.G; const hr=h(G); const day=hr>=6.5&&hr<23; const F=G.flags; const tm=(key,to)=>{ const n=GM.npc[key]; if(n&&F.afternoonDone) n.until=to; };
+    /* 週末回家的第二個入口：校門口（AA_134 第 3 節「宿舍或校門口的『回家』選項」；AA-B 2026-10-16 確認，時段同宿舍：週五 17:00～週日 21:30）。
+       位置在校門內側、從公館進校園的出生點 (-119,0) 旁邊（站得住、走得到、不和「走出校門」(-126,0) 半徑 3 重疊；scratchpad gate_check 用 Node 的校園導航格量過）*/
+    if(zoneId==='campus'&&typeof HOME!=='undefined') E.interactables.push({x:-120.5,z:2.4,radius:1.0,lv:0,label:'回臺北的家',home:true,get hidden(){ return !HOME.canGo(GM.G); }});   /* 舊的固定時段（第三天以後）：時段結束時 refreshSchedule 讓他離開（不在玩家眼前）；第一、二天的劇情人物不標 */ let xi=0;
     const qf=E.q.level==='low'?0.5:(E.q.level==='medium'?0.75:1); const extras=(n,pockets)=>{ n=Math.max(2,Math.round(n*qf)); const rs=walkRoutes[zoneId]||[]; for(let i=0;i<n&&rs.length;i++){ const r=rs[i%rs.length]; GM.spawnExtra(extraSpec(xi++),r.map(p=>[p[0]+(rnd()-0.5)*2,p[1]+(rnd()-0.5)*2,p[2]]),{pockets:pockets&&i%3===0}); } };   /* 牽腳踏車的路人拿掉（2026-10-14 使用者試玩 v9.6：「邊走路邊牽腳踏車的人還是很奇怪跟腳踏車重疊」——車掛在走路的人旁邊，手沒有握把手）；路上的腳踏車改成真的在騎的人（riders） */
     const riders=(n)=>{ if(/[?&]noriders\b/.test(location.search)) return;   /* 2026-10-11 使用者回報：騎腳踏車的人其實是「坐姿的人＋腳踏車」一起平移，腳沒踩踏板、看起來像人和車重疊——之後一直關著。
        2026-10-14：騎士換成 BIKE.rider（88c9cdc：和玩家騎車同一套，腳踝在踏板上、手腕在把手上、曲柄照走的距離轉）→ 預設打開，網址加 ?noriders 可以關掉。v9.7 回歸 flow_bike 量過玩家的騎姿（≤5 cm）；路人騎士的瀏覽器畫面還沒看 */ const rs=bikeRoutes[zoneId]||[]; for(let i=0;i<n&&rs.length;i++){ GM.spawnRider(extraSpec(xi+++20),rs[i%rs.length],['#3a6fb0','#8c3b47','#2f5d50','#e0b95b'][i%4]); } };
