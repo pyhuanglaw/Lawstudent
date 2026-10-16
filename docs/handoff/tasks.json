@@ -1680,8 +1680,8 @@
    "title": "開學第一頓／中秋／迎新（大二）",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "開學第一頓（9/17 19:00 麵店長桌 2D：17:00 阿哲邀約、21:30 沒去照片；AA_143 1-1＋AA_177）、中秋烤肉大二版（9/25 18:00 河濱：9/24 21:00 邀約、沒去照片；AA_143 1-2）已接（tests/v3_batch1_unit.js）。迎新（小隊輔）等 AA-B：新生第 3 題「為什麼念法律？」的選項與筆記、「法律系一年級」群組（遊戲裡沒有）",
+   "status": "已整合待測試",
+   "next": "開學第一頓、中秋烤肉（a7dfebf0）；迎新（小隊輔）aa892055：10/1 系學會在 law_class 邀、10/3 13:00 2D 出遊（社科院門口→椰林大道→霖澤館前→傅鐘下）三題、MENTOR_STYLE／MENTOR_WHY、筆記、沒去 21:30 照片；law_class 改「法律系（全班）」。3D 帶隊之後再做（AA_177 第 9 節）",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -1695,7 +1695,7 @@
    },
    "source": "交接包_v3",
    "authorized": "D79",
-   "tests": "tests/v3_batch1_unit.js"
+   "tests": "tests/v3_batch1_unit.js、tests/v3_welcome_unit.js、tests/v2_b37_unit.js"
   },
   {
    "id": "V3-D4",
@@ -11327,9 +11327,9 @@
    "title": "AA_178 大一下 AA 事件實作核對：五件要改",
    "area": "V2",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "照 AA_178（企劃線 cc40f441）改五件（語彤事件 4 說話人與學期、事件 5 時段、以安和小語…）",
+   "next": "5dced4d4（2026-10-16 14:17，在 v9.9 之前就改了，總表這次補登）：語彤 4 阿姨的說話人、只在大一下；圖書館三樓 21～22；吵架在場版要以安、小語都認識；重訪日「每個禮拜二、四」＝麵店 ≥10 天；博雅小桌常客「你又在這裡。」。瀏覽器還沒實玩",
    "first": {
     "term": "Y1S2",
     "week": 1,
@@ -11341,16 +11341,17 @@
     "confirmed": true
    },
    "source": "AA_178",
-   "authorized": "D79"
+   "authorized": "D79",
+   "tests": "tests/v2_aa178_unit.js"
   },
   {
    "id": "V2-BB161",
    "title": "BB_161 大一下 BB 人物事件實作核對：要改程式 18 件",
    "area": "V2",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "照 BB_161（elegant-brown 99480ff2）改 18 件（W2b 時序、Z5 窗口第 12～15 週…）",
+   "next": "aa892055：18 件全部（⑱ AA-B 確認，BB-B 063ab633）＋三處 LEGAL_REVIEW_REQUIRED 拿掉。瀏覽器還沒實玩",
    "first": {
     "term": "Y1S2",
     "week": 1,
@@ -11362,7 +11363,8 @@
     "confirmed": true
    },
    "source": "BB_161",
-   "authorized": "D79"
+   "authorized": "D79",
+   "tests": "tests/v2_bb161_unit.js（24 項）、v2_b32、v2_b9、v2_bb96_w5、v2_bb96_zp、v2_w3b、v2_c14、v2_econ"
   }
  ]
 }

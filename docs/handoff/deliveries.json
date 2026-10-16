@@ -3555,9 +3555,9 @@
    "sha": "14d04258",
    "what": "AA_177 第 9 節：迎新新生短版回答、law_class 群組、先做 2D",
    "task": "V3-D3",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "下一批",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "aa892055 迎新＋law_class（tests/v3_welcome_unit.js）",
    "date": "2026-10-16T17:2xZ"
   },
   {
@@ -3651,9 +3651,9 @@
    "sha": "cc40f441",
    "what": "AA_178 大一下 AA 事件實作核對（五件要改）",
    "task": "V2-AA178",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "P0（v2 驗收）：新任務 V2-AA178",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "5dced4d4 已照改（tests/v2_aa178_unit.js）",
    "date": "2026-10-16T17:3xZ"
   },
   {
@@ -3663,9 +3663,9 @@
    "sha": "99480ff2",
    "what": "BB_161 大一下 BB 人物事件實作核對（要改程式 18 件）",
    "task": "V2-BB161",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "P0（v2 驗收）：新任務 V2-BB161",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "aa892055 18 件全改（tests/v2_bb161_unit.js）",
    "date": "2026-10-16T17:3xZ"
   },
   {
@@ -4135,6 +4135,18 @@
    "integration": "參考用",
    "note": "",
    "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-345",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "063ab633",
+   "what": "BB_161 ⑱ SK03 定案（AA-B 16:22 確認：P4d 沒發生的玩家第一次去重修的週五走廊遇到阿勳）",
+   "task": "V2-BB161",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "aa892055",
+   "date": "2026-10-16T17:5xZ"
   }
  ],
  "ignored": [
