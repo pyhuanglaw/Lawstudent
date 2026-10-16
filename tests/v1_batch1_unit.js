@@ -62,7 +62,7 @@ const Y1S1=dayIn('Y1S1'), Y1S2=dayIn('Y1S2');
   /* ---------- A8 ---------- */
   { const e=ev('ev_course_selection'); fresh(Y1S1+3,8,'dorm'); picks=[1]; await EVENTS.run(e); const L=lines(), o=opts[0]||[];
     check('A8 「選課結果出來了。通識「城市與散步」——沒選上。備取十七。」',L[0]==='選課結果出來了。通識「城市與散步」——沒選上。備取十七。',L[0]);
-    check('A8 選項：加簽、「算了，下學期再選。」（沒有「經濟學原理」）',o.length===2&&o[0].startsWith('加簽')&&o[1]==='算了，下學期再選。'&&!o.some(t=>/經濟學原理/.test(t)),JSON.stringify(o));
+    check('A8 選項：第二階段再上網加（AA_195 4-7 B8：114 學年起取消人工加簽）、「算了，下學期再選。」（沒有「經濟學原理」）',o.length===2&&o[0]==='沒選到的那堂，等第二階段有人退選，再上網加加看。'&&o[1]==='算了，下學期再選。'&&!o.some(t=>/經濟學原理/.test(t)),JSON.stringify(o));
     check('A8 選「下學期再選」不設 ge_econ',!G.flags.ge_econ);
     fresh(Y1S1+3,8,'dorm'); picks=[0]; await EVENTS.run(e); check('A8 選「加簽」：記下備取（ge_walk_waitlist）',G.flags.ge_walk_waitlist===true&&!G.flags.ge_econ); }
   /* ---------- 關掉的兩件 ---------- */
