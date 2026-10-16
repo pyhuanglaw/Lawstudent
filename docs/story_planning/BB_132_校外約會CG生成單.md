@@ -121,6 +121,7 @@
 | 48 | `country_road` 鄉間小路（**通過**，`bg_approved/country_road.webp`；販賣機的小貼紙 BB 補掉） | `bus_night` 夜裡的客運車廂（**通過**，`bg_approved/bus_night.webp`） |
 | 49 | `linze_auditorium` 霖澤館一樓大禮堂（**通過**，`bg_approved/linze_auditorium.webp`） | `cypress_trail` 檜木林步道和巨木（**通過**，`bg_approved/cypress_trail.webp`） |
 | 50～55 | 溫州街招牌十二張（`BB_149`；**全部通過**，`signs_approved/`） | |
+| 下一批 | 公館南側招牌七張（`BB_149` 3-0 清葉茶行、3-1 六家；使用者回來時和第 56～67 組一起給） | |
 | 56 | 學姊 碩一日常版（G5-10） | 芷若明信片① 九月（G5-04） |
 | 57 | 沛珊 書店圍裙（G5-12） | 芷若明信片② 十月（G5-04） |
 | 58 | `court_criminal` 地方法院的刑事法庭（G4-11） | 芷若明信片③ 十一月（G5-04） |
