@@ -1,0 +1,82 @@
+// 芷若 Z7「23:59」（BB_97 3-4；AA-B b95cea49 截止日 12/10；任務 V3-B18）——不需要瀏覽器。
+// 檢查：12/10 23:59 私訊（要 Z4、有聯絡方式、祐廷沒有在交往）；12/11～12/17 第一次走進 Café（22:00 以前）演；台詞、三個選項（家裡那句要 Z4 選家裡）、交往中的回應；媽媽那句＝當晚 22:15；七天以後不演；Z7 之後 bell 不再問交換申請。用法：node tests/v3_z7_unit.js
+const fs=require('fs'), vm=require('vm'), path=require('path');
+const ROOT=path.resolve(__dirname,'..');
+global.window=global; global.self=global; global.P3={CAST:{}};
+global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|ROM)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/romance3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
+global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
+global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
+let said=[], opts=[], picks=[], G=null;
+const E={q:{level:'medium'},player:{busy:false,obj:{position:{x:0,y:0,z:0},rotation:{y:0}},lv:0},zone:{roomAt:()=>null,seats:[]},npcs:[],interactables:[],levels:null,setWeather(){},hour:0};
+const GM={get G(){ return G; },E,D:{active:false},npc:{},
+  sceneBegin(){},sceneEnd(){},face(){},cine(){},caption(){},sleep:()=>Promise.resolve(),memo(){},autosave(){},addNote(){},energy(){},money(){},setGoal(){},toast(){},updateHUD(){},letterbox(){},phoneBadge(){},
+  titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
+  say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
+const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+  SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
+const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };
+const LV={ACQ:[10],FAM:[25],FRI:[45,30],CLO:[65,50,45]};
+const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.toFixed(3); STORY.phoneRules(GM); PHONE.tick(G); } };
+const termDay=(term,w,wd)=>STORY.termDay(term,w,wd);
+const ev=id=>STORY_EVENTS.find(e=>e.id===id);
+const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
+const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
+const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
+const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
+const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
+let cards=[], entered=[];
+GM.titleCard=async(a,b)=>{ cards.push([a,b]); }; GM.enter=async(z)=>{ entered.push(z); G.zone=z; };
+GM.money=function(n){ G.money+=n; };
+
+(async()=>{
+  const NM={'林芷若':'芷若'}; const L0=()=>lines().map(t=>t.replace(/^([^：]+)：/,(m,n)=>(NM[n]||n)+'：'));
+  const Z7=ev('ev_zhiruo_applied'), BELL=STORY_EVENTS.find(e=>e.dialogue&&e.dialogue.some(l=>l.choice&&l.choice.some(c=>/交換申請交了嗎/.test(c.text))));
+  check('0. Z7 打開了（不是 off）、大二上、Café、ROM 有載入',!!Z7&&!Z7.off&&Z7.term.includes('Y2S1')&&Z7.location==='cafe'&&typeof ROM!=='undefined');
+  const d=D('2026-12-10');
+  check('0. 12/10 是星期四、在大二上第 14 週',wdOf(d)===4&&termDay('Y2S1',14,4)===d,termDay('Y2S1',14,4)+' '+d);
+  const base=(day,hour,zone,o)=>{ o=o||{}; fresh(day,hour,zone,o.flags); meet('heroine_02'); R('heroine_02',...LV.FAM); if(o.z4!==false){ G.events.done.ev_zhiruo_secret=1; SOCIAL.remember('heroine_02','SHARED_SECRET',''); } if(o.contact!==false){ G.contacts=G.contacts||{}; G.contacts.heroine_02=day-30; } if(o.dating) G.flags['dating_'+o.dating]=true; };
+  const ZTH='p:heroine_02';
+  base(d,23.5,'dorm'); run(23.5,23.95);
+  check('1. 12/10 23:57 還沒有',!PHONE.sent(G,'zr_z7_msg'));
+  run(23.98,23.99); run(23.99,23.995,0.004);
+  check('1. 23:59 她私訊「我交了。」',PHONE.sent(G,'zr_z7_msg')&&txt(ZTH).slice(-1)[0]==='heroine_02:我交了。',JSON.stringify(txt(ZTH)));
+  base(d,23.5,'dorm',{dating:'kexin'}); run(23.5,23.99);
+  check('2. 祐廷交往中：沒有 23:59 的訊息',!PHONE.sent(G,'zr_z7_msg'));
+  base(d,23.5,'dorm',{z4:false}); run(23.5,23.99);
+  check('2. 沒演過 Z4：沒有',!PHONE.sent(G,'zr_z7_msg'));
+  base(d,23.5,'dorm',{contact:false}); run(23.5,23.99);
+  check('2. 沒有她的聯絡方式：沒有',!PHONE.sent(G,'zr_z7_msg'));
+  base(d+2,10,'dorm'); run(10,10.1);
+  check('2. 舊存檔 12/12 才讀：補在 12/10 23:59',PHONE.sent(G,'zr_z7_msg'));
+  const at=(day,hh,o)=>{ base(day,hh,'cafe',o); return EVENTS.check(Z7); };
+  check('3. 12/10 當天（截止日）在 Café：不演；12/11 15:00：演；12/17：演；12/18：不演',!at(d,15)&&at(d+1,15)&&at(d+7,15)&&!at(d+8,15));
+  check('3. 22:00 以後不演（媽媽那句是「今天十點，她會打來」）；11:00 開門就可以',!at(d+1,22.5)&&at(d+1,11.2));
+  check('3. 沒演過 Z4 不演；在溫州街不演',!at(d+1,15,{z4:false})&&(()=>{ base(d+1,15,'wenzhou'); return !EVENTS.check(Z7); })());
+  check('3. 交往中也會演（只是沒有深夜訊息）',at(d+1,15,{dating:'kexin'}));
+  const play=async(pick,o)=>{ base(d+1,15,'cafe',o); said=[]; opts=[]; picks=[pick]; await EVENTS.run(Z7); return {L:L0(),O:opts[0]||[]}; };
+  let r=await play(0);
+  check('4. 開場三句（「那天晚上十一點五十九分」）',r.L.slice(0,3).join('｜')==='芷若：我交了。交換申請。那天晚上十一點五十九分。｜芷若：交完手在抖。｜芷若：如果沒錄取，就永遠不用說。……很膽小吧。',JSON.stringify(r.L.slice(0,3)));
+  check('4. Z4 沒選家裡：兩個選項',r.O.length===2&&r.O[0]==='「不會。」'&&r.O[1]==='「妳跟妳媽說了嗎？」',JSON.stringify(r.O));
+  check('4. 「不會。」（單身）→「……你這樣講，我會當真。」；結尾「今天的咖啡我請。」',r.L.includes('芷若：……你這樣講，我會當真。')&&!r.L.includes('芷若：……好。那我先不要怕。')&&r.L.slice(-1)[0]==='芷若：今天的咖啡我請。');
+  r=await play(0,{dating:'kexin'});
+  check('5. 交往中「不會。」→「……好。那我先不要怕。」',r.L.includes('芷若：……好。那我先不要怕。')&&!r.L.includes('芷若：……你這樣講，我會當真。'));
+  r=await play(1); const day1=G.day;
+  check('6. 「妳跟妳媽說了嗎？」→「還沒。今天十點，她會打來。」',r.L.includes('芷若：還沒。今天十點，她會打來。')&&G.flags.ZR_Z7_MOM===true&&G.flags.zrAppliedDay===day1);
+  run(15.2,22.2);
+  check('6. 22:14 還沒有',!PHONE.sent(G,'zr_z7_mom'));
+  run(22.25,22.4);
+  check('6. 當晚 22:15「我說了。她說『那妳要穿暖一點』。」',txt(ZTH).slice(-1)[0]==='heroine_02:我說了。她說『那妳要穿暖一點』。');
+  r=await play(2,{flags:{Z4_PICK:'family'}});
+  check('7. Z4 選家裡：三個選項，第三個「妳那時候說的家裡……」',r.O.length===3&&r.O[2]==='「妳那時候說的家裡……」');
+  check('7. →「你那時候說家裡比較重要。我想了很久。」「後來我發現，我就是家裡的一部分。我去，家也跟著我去。」',r.L.includes('芷若：你那時候說家裡比較重要。我想了很久。')&&r.L.includes('芷若：後來我發現，我就是家裡的一部分。我去，家也跟著我去。'));
+  base(d+1,15,'cafe'); G.events.done.ev_zhiruo_applied=1; run(15,15.1);
+  check('8. 演過 Z7 以後沒補 23:59 那則（已經當面說了）',!PHONE.sent(G,'zr_z7_msg'));
+  const bellOpt=BELL&&BELL.dialogue.find(l=>l.choice).choice.find(c=>/交換申請交了嗎/.test(c.text));
+  check('8. ev_zhiruo_bell 的「妳的交換申請交了嗎？」Z7 之後不出現（unless events）',!!bellOpt&&bellOpt.unless&&JSON.stringify(bellOpt.unless.events)==='["ev_zhiruo_applied"]'&&!EVENTS.cond(bellOpt.unless)===false);
+  console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
+})().catch(e=>{ console.error(e); process.exit(1); });

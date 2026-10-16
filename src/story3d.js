@@ -1526,6 +1526,12 @@ const STORY = (function(){
           opts.push({t:'三，不管考得怎樣，都要跟我說。',say:[W('好。放榜那天就說。')],set:{SIS_M2:'tell'},mem:[{npc:'heroine_05',tag:'ASKED_TELL_ME',note:'M2：不管考得怎樣都要跟我說'}]});
           PHONE.at(G,d,21,[W('📷（一張讀書計畫）'),W('三件事。'),W('一，這次的題目是我自己選的。法律扶助制度。'),W('二，Kevin 幫我看第一段，學弟看第二段。'),W('三……第三件你們來想。',{ask:{id:'sis_m2',until:(d+1)*24+9,opts}})],'sis_m2'); }
         if(PHONE.sent(G,'sis_m2')&&!F.SIS_M2&&G.day*24+G.hour>=(d+1)*24+9&&!PHONE.sent(G,'sis_m2_kevin')){ F.SIS_M2='none'; PHONE.at(G,d+1,9,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'三，考完請吃飯！'},W('……好。')],'sis_m2_kevin'); } } }
+    /* 芷若 Z7（BB_97 3-4、AA-B b95cea49）：交換申請截止 12/10（四）那晚 23:59 私訊「我交了。」——要演過 Z4（ev_zhiruo_secret）、有她的聯絡方式；祐廷交往中沒有這則（AA_112 8-1，她隔天在 Café 才說）。
+       Café 裡選「妳跟妳媽說了嗎？」＝那晚 22:15 再一則（ev_zhiruo_applied 只在 22:00 以前演）*/
+    { const d=S.dayOfKey('2026-12-10'), Zp=t=>({th:'p:heroine_02',from:'heroine_02',text:t}); if(d!=null){
+        if((G.day>d||(G.day===d&&G.hour>=23+59/60))&&G.day<=d+7&&G.events&&G.events.done&&G.events.done.ev_zhiruo_secret&&!G.events.done.ev_zhiruo_applied&&G.contacts&&G.contacts.heroine_02!=null&&!(typeof ROM!=='undefined'&&ROM.partners(G).length>0)&&!PHONE.sent(G,'zr_z7_msg'))
+          PHONE.at(G,d,23+59/60,[Zp('我交了。')],'zr_z7_msg');
+        if(F.ZR_Z7_MOM&&F.zrAppliedDay!=null&&!PHONE.sent(G,'zr_z7_mom')&&(G.day>F.zrAppliedDay||G.hour>=22.25)) PHONE.at(G,F.zrAppliedDay,22.25,[Zp('我說了。她說『那妳要穿暖一點』。')],'zr_z7_mom'); } }
     /* 學姊 W8 沒演到的玩家（不熟或沒到，BB_97 2-3、AA_177 第 8 節①）：11/27（五）21:00 讀書會群組她請假；Kevin 在家族群組問（不靠語彤轉述）*/
     { const d27=S.dayOfKey('2026-11-27'); if(d27!=null&&G.day===d27&&!(G.events&&G.events.done&&G.events.done.ev_sis_collapse)&&!PHONE.sent(G,'sis_w8_leave')){ const it=[];
         if(PHONE.inGroup(G,'lawclub_study')) it.push({th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'這週讀書會我請假。……第一次。'});

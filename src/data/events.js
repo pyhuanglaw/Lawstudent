@@ -152,7 +152,7 @@ const STORY_EVENTS=[
   /* AA_120 7-5 第 3 項（BB 2026-10-13 的最小改字；已知資訊矛盾）：芷若的經原在週五、和祐廷同一堂，週二、週四在傅鐘附近是剛下外文系的課。經原那個選項要有 Z2（ev_zhiruo_ge_group）之後才有 */
   /* AA 2026-10-13 P1-2：傅鐘這段是「已經認識」的日常（她直接講下課的事），要先見過芷若（兩點半或經原分組）；沒見過時在傅鐘找她說話只有旁白（story3d.js 的 talkCharacter），也不會變成第一次見面 */
   { id:'ev_zhiruo_bell', title:'傅鐘旁邊', participants:['heroine_02'], location:'campus', trigger:'interact', priority:3, cooldown_days:1, prereq:{memory:[{npc:'heroine_02',tag:'FIRST_MET'}]}, background:'blur',
-    dialogue:[ {speaker:'heroine_02',expression:'smile',text:'剛下外文系的課。今天一句詩翻了一整堂。'},{choice:[{text:'「週五的經原，妳聽得懂供給曲線嗎？」',if:{events:['ev_zhiruo_ge_group']},consequences:{rel:{heroine_02:{fam:3,comf:3}}}},{text:'「妳上完課都在這裡發呆？」',consequences:{rel:{heroine_02:{fam:3}}}},{text:'「妳的交換申請交了嗎？」',if:{memory:[{npc:'heroine_02',tag:'SHARED_SECRET'}]},consequences:{rel:{heroine_02:{trust:4}}},goto:'ex'}]},{speaker:'heroine_02',expression:'laugh',text:'發呆是下課最重要的部分。'},{goto:'end'},{label:'ex'},{speaker:'heroine_02',expression:'embarrassed',text:'……還沒。你不要每次都問這個。'},{speaker:'heroine_02',expression:'serious',text:'我會交。這週。大概。'},{mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'催她交交換申請'}]},{label:'end'} ] },
+    dialogue:[ {speaker:'heroine_02',expression:'smile',text:'剛下外文系的課。今天一句詩翻了一整堂。'},{choice:[{text:'「週五的經原，妳聽得懂供給曲線嗎？」',if:{events:['ev_zhiruo_ge_group']},consequences:{rel:{heroine_02:{fam:3,comf:3}}}},{text:'「妳上完課都在這裡發呆？」',consequences:{rel:{heroine_02:{fam:3}}}},{text:'「妳的交換申請交了嗎？」',if:{memory:[{npc:'heroine_02',tag:'SHARED_SECRET'}]},unless:{events:['ev_zhiruo_applied']},consequences:{rel:{heroine_02:{trust:4}}},goto:'ex'}]},{speaker:'heroine_02',expression:'laugh',text:'發呆是下課最重要的部分。'},{goto:'end'},{label:'ex'},{speaker:'heroine_02',expression:'embarrassed',text:'……還沒。你不要每次都問這個。'},{speaker:'heroine_02',expression:'serious',text:'我會交。這週。大概。'},{mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'催她交交換申請'}]},{label:'end'} ] },
   /* 芷若 Z4「十點的電話」（BB_96 3-4，交接包 v2；原本的「週末的咖啡廳」改寫）：原本在 Café 週末——她週末不在 Café（週六 14–18 在溫州街），走不到；
      也拿掉企劃組禁用的「我跟你講一件事，你不要跟別人說」、「家裡的事比較重要吧」的 comf:-3（不扣分）。改成大一下第 12 週以後的週六 14～18、溫州街、有點熟以上、只一次。
      交往中：台詞照舊（週六下午街上的偶遇，朋友之間講家裡的事），第一個選項只有 trust:8（沒有 aff）。三個選項都記 SHARED_SECRET（note 不同）＋ Z4_PICK（大二 Z7 回來講第三個選項那一句）*/
@@ -2938,9 +2938,24 @@ const STORY_EVENTS_V11=[
       {speaker:'npc_fangyt',expression:'neutral',text:'（停了一下）……她喜歡小津。你如果要約她，不要約好萊塢的。'},
       {speaker:'npc_fangyt',expression:'smile',text:'我不是叫你約她。我只是說。'},
       {mem:[{npc:'npc_fangyt',tag:'FANG_HINT',note:'他說了芷若高中的事'}]} ] },
-  /* 芷若 Z7 舊版：沒有學期限制，大一下就可能觸發（她交換申請是大二的事）。BB_134 1-8、AA-B 2026-10-16：先關（off），V3-B18 照新版改寫時再開 */
-  { id:'ev_zhiruo_applied', off:true, title:'她交件了', participants:['heroine_02'], location:['cafe','campus'], trigger:'interact', priority:9, once:true, day_min:6, prereq:{memory:[{npc:'heroine_02',tag:'SHARED_SECRET'}],events:['ev_zhiruo_secret']}, background:'blur',
-    dialogue:[ {speaker:'heroine_02',expression:'serious',text:'我交了。交換申請。昨天晚上十一點五十九分。'},{speaker:'heroine_02',expression:'embarrassed',text:'交完手在抖。跟我媽還沒說。'},{choice:[{text:'「恭喜。錄取再煩惱。」',consequences:{rel:{heroine_02:{trust:5,resp:3}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請，你說恭喜'}]}},{text:'「什麼時候跟家裡說？」',consequences:{rel:{heroine_02:{trust:4,comf:2}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請，你問家裡'}]},goto:'fam'}]},{goto:'end'},{label:'fam'},{speaker:'heroine_02',expression:'thinking',text:'錄取通知來的那天。如果沒錄取，就永遠不用說。……很懦弱吧。'},{speaker:'player',text:'不會。'},{label:'end'},{speaker:'heroine_02',expression:'smile',text:'謝謝。今天的咖啡我請。'} ] },
+  /* 芷若 Z7「23:59」（BB_97 3-4，舊版改寫；V3-B18）：外文系交換申請截止 2026-12-10（四）（AA-B b95cea49，AA_177 第 14 週；避開 12/11 可昕 K10b 的電影夜），
+     那晚 23:59 她私訊「我交了。」（story3d.js；祐廷交往中沒有這則，AA_112 8-1）；12/11～12/17 第一次走進 Café 就演（她在店裡；七天內沒去就不演）。
+     台詞一律「那天晚上」，不分隔天或晚幾天。「妳跟妳媽說了嗎？」＝當晚 22:15 她再傳一則（所以只在 22:00 以前演：她說「今天十點，她會打來」）。
+     之後 ev_zhiruo_bell 的「妳的交換申請交了嗎？」不再出現 */
+  { id:'ev_zhiruo_applied', title:'她交件了', participants:['heroine_02'], location:'cafe', trigger:'auto', priority:9, once:true, term:['Y2S1'], time:[11,22], background:'blur',
+    prereq:{events:['ev_zhiruo_secret'],memory:[{npc:'heroine_02',tag:'SHARED_SECRET'}],custom:G=>{ if(typeof STORY==='undefined'||!STORY.dayOfKey) return false; const d=STORY.dayOfKey('2026-12-10'); return d!=null&&G.day>d&&G.day<=d+7; }},
+    spawn:{npc:'heroine_02',dist:1.6,pose:'idle'},
+    dialogue:[ {speaker:'heroine_02',expression:'serious',text:'我交了。交換申請。那天晚上十一點五十九分。'},{speaker:'heroine_02',expression:'embarrassed',text:'交完手在抖。'},
+      {speaker:'heroine_02',expression:'thinking',text:'如果沒錄取，就永遠不用說。……很膽小吧。'},
+      {choice:[{text:'「不會。」',consequences:{rel:{heroine_02:{trust:5,comf:2}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請，你說「不會」'}]},goto:'no'},
+        {text:'「妳跟妳媽說了嗎？」',set:{ZR_Z7_MOM:true},consequences:{rel:{heroine_02:{trust:4,comf:2}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請，你問她跟媽媽說了沒'}]},goto:'mom'},
+        {text:'「妳那時候說的家裡……」',if:{flagIs:{Z4_PICK:'family'}},consequences:{rel:{heroine_02:{trust:6}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請：「我去，家也跟著我去。」'}]},goto:'fam'}]},
+      {label:'no'},{unless:{custom:G=>typeof ROM!=='undefined'&&ROM.partners(G).length>0},speaker:'heroine_02',expression:'embarrassed',text:'……你這樣講，我會當真。'},
+        {if:{custom:G=>typeof ROM!=='undefined'&&ROM.partners(G).length>0},speaker:'heroine_02',expression:'smile',text:'……好。那我先不要怕。'},{goto:'end'},
+      {label:'mom'},{speaker:'heroine_02',expression:'neutral',text:'還沒。今天十點，她會打來。'},{goto:'end'},
+      {label:'fam'},{speaker:'heroine_02',expression:'neutral',text:'你那時候說家裡比較重要。我想了很久。'},{speaker:'heroine_02',expression:'smile',text:'後來我發現，我就是家裡的一部分。我去，家也跟著我去。'},
+      {label:'end'},{speaker:'heroine_02',expression:'smile',text:'今天的咖啡我請。'} ],
+    consequences:{stamp:['zrAppliedDay']} },
   // ── 語彤 arc ──
   { id:'ev_yutong_customer', title:'麵店的糾紛', participants:['heroine_03'], location:'noodle', trigger:'interact', priority:9, once:true, minWeek:{term:'Y1S1',week:15}, term:['Y1S1','Y1S2'],   /* 只在大一（大一上第 15 週～大一下第 18 週；AA_140 G47 AA-B 裁定：沒觸發就不演，大二的事件 7 不依賴它）*/   /* 交接包 v1 A6 的週次：第 15 週起（v1 稽核：原本沒有下限）*/ prereq:{memory:[{npc:'heroine_03',tag:'SHARED_MEAL'}],custom:G=>{ if(typeof STORY==='undefined'||!STORY.fafuSat) return true; const f=STORY.fafuSat(G.day); return !!f&&f.wk<=1; }}, background:'blur',   /* AA-B 2026-10-16（G47 邊界）：下一個法服值班的週六在這週或下週才演；更遠（例如期中考週、寒假前）就先等，等到值班週六進到兩週內 */
     /* 語彤事件 3 改寫版（AA_11 事件 3；交接包 v1 第 1 節，2026-10-14）：大一的祐廷誠實地「不知道」。不出任何法律題目、不給錄音證據的法律結論。
