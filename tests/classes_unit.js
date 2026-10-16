@@ -37,8 +37,9 @@ const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
 // ---------- 日曆上的課 ----------
 { const names=(day)=>CLS.dayItems(mkG(day,8)).map(it=>CLS.hhmm(it.t0)+' '+it.c.name).join('、');
   check('第 1 天（9/17 週三）：遊戲晚上才開始，白天的課不排、不算沒去（使用者 2026-10-15）',names(1)==='',names(1));
-  check('第 2 天（週四）：09:10 大一英文（上）、13:20 民法總則',names(2)==='09:10 大一英文（上）、13:20 民法總則',names(2));
-  const G2=mkG(2,8); check('第二天的民法總則是劇情課（story3d.js 處理），下一堂不是它',CLS.storyClass(G2,CLS.dayItems(G2)[1])&&CLS.next(mkG(2,12.5))===null,JSON.stringify(CLS.next(mkG(2,12.5))));
+  check('第 2 天（週四）：遊戲 13:05 才開始，只有 13:20 民法總則（09:10 大一英文不排、不算沒去；使用者 2026-10-16）',names(2)==='13:20 民法總則',names(2));
+  check('之後的週四（第 9 天）：09:10 大一英文（上）、13:20 民法總則',names(9)==='09:10 大一英文（上）、13:20 民法總則',names(9));
+  const G2=mkG(2,8); check('第二天的民法總則是劇情課（story3d.js 處理），下一堂不是它',CLS.storyClass(G2,CLS.dayItems(G2)[0])&&CLS.next(mkG(2,12.5))===null,JSON.stringify(CLS.next(mkG(2,12.5))));
   check('第 3 天（週五）：09:10 經濟學原理（上）（重修）；下午一原本是法律與社會，2026-10-14 刪掉以後沒有課',names(3)==='09:10 經濟學原理（上）',names(3));
   check('週末沒有課',!CLS.dayItems(mkG(4,8)).length&&!CLS.dayItems(mkG(5,8)).length);
   check('國慶日（10/10 週五）沒有課',!CLS.dayItems(mkG(dayOf('2025-10-10'),8)).length);

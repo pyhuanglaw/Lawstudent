@@ -68,6 +68,7 @@ const CLS=(function(){
   const TEACH=[1,2,3,4,5,6,7,10,11,12,13,14,15,16];
   S.topic=function(c,week){ const i=TEACH.indexOf(week); const T=c.topics||[]; if(!T.length) return ''; if(i<0) return T[T.length-1]; return T[Math.min(T.length-1,Math.floor(i*T.length/TEACH.length))]; };
   // ---------- 某一天的課 ----------
+  S.DAY2_START=13+5/60;   /* 第 2 天開始的時間（story3d.js sleepNow：「第二天 週四 13:05 · 霖澤館前」）*/
   S.dayItems=function(G,day){ if(day==null) day=G.day; if(typeof CALENDAR==='undefined'||CALENDAR.holiday(day)) return []; if(day<=1&&!(t0=>t0&&/^Y0/.test(t0.id))(CALENDAR.termOf(day))) return [];   /* 經濟系大一（Y0，負的天數）照常排課（v0）；法律系大一上第 1～2 週在遊戲開始之前（從經濟系來的玩家用摘要帶過，AA_106 第 3 節）。第 1 天（9/17 週三）遊戲從晚上 21:12 開始：那天白天的課在遊戲開始之前，不排、不算沒去（使用者 2026-10-15：「第一天就有一個刑法課顯示沒去？」）*/ const t=CALENDAR.termOf(day); if(!t) return []; const wd=CALENDAR.dateOf(day).wd; const out=[];
     const R0=G.courses&&typeof G.courses==='object'?G.courses:null;
     for(const c of S.termCourses(G,t.id)){ if(c.weeks&&!c.weeks.includes(t.week)){ const att=R0&&R0.attend?(R0.attend[c.id]||0):0; if(!(c.makeupWeeks&&c.makeupWeeks.includes(t.week)&&att<c.weeks.length)) continue; }   /* 只有某幾週的課（服務學習：AA_110 6-1）；次數不夠時補做週也排 */
@@ -77,6 +78,8 @@ const CLS=(function(){
       for(const c of S.termCourses(G,t.id)){ if(!S.isExamCourse(c)||out.some(it=>it.c===c)) continue; const d=S.examDay(G,c,t.id,t.exam); if(!d||!d.makeup||d.day!==day) continue; const b=B(d.block);
         out.push({c,slot:{wd,block:d.block},t0:b.t0,t1:b.t1,day,key:day+':'+c.id+':'+d.block,room:COURSES.rooms[c.room]||{},week:t.week,exam:t.exam,term:t.id,examMain:true,makeup:true}); } }
     out.sort((a,b)=>a.t0-b.t0);
+    /* 第 2 天（9/18 週四）遊戲從 13:05 霖澤館前開始（story3d.js 的 sleepNow）：早上的大一英文在那之前，不排、不算沒去（使用者 2026-10-16：「第二天……卻顯示當天早上有一堂課沒有參加」；第 1 天同理，見上）*/
+    if(day===2&&!/^Y0/.test(t.id)) for(let i=out.length-1;i>=0;i--) if(out[i].t0<S.DAY2_START) out.splice(i,1);
     /* 同一門課同一天連著兩格（大四下的實習整天）：合併成一格 */
     for(let i=out.length-1;i>0;i--){ if(out[i].c===out[i-1].c){ out[i-1].t1=out[i].t1; out.splice(i,1); } }
     return out; };
