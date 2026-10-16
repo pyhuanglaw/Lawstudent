@@ -10,6 +10,61 @@
 > - **狀態**：美術最多到 `READY_FOR_REVIEW`，LAWWW2-B 確認前不算完成。
 > - **ART-GYM-P1：LAWWW2-B 2026-10-16 09:01 驗收通過、merge（`f2bebf72`）**。之後交 LAWWW-B 整合；建築、場景的 `ART_APPROVED` 只有使用者能標。
 
+## BB-B 的做法（方法交接；2026-10-16 21:3x，LAWWW2-B 21:26 要求）
+
+> 照 `docs/art-rebuild/second_ai/ART_SOP.md` v1（LAWWW2-B 分支）。完整的範例是下面的 **ART-SHOP1**（SOP v1 第一件驗證件，LAWWW2-B 21:26 驗收通過）。新做的件照 ART-SHOP1 的寫法；舊件的狀態見本節最後的表。
+
+### 工具
+- **Blender 5.2.2**（bpy）：`/opt/blenv/bin/python <腳本>.py`（安裝照 `docs/art-rebuild/TOOLCHAIN_AUDIT.md`）。
+- **Python 套件**：numpy、PIL（畫貼圖集、ORM、轉 WebP）。
+- **LAWWW2-B 的共用檔**：只讀、不改：`lib2.py`、`b3lib.py`、`render_cycles.py`。BB-B 分支上的 `lib2.py` 可能是舊版：腳本裡放一份同樣的 `_rbox_bm`，`lib2` 有就用 `lib2` 的。
+- **Poly Haven（CC0）1k 貼圖**：放在 `textures/<名稱>/`，只取明暗，照目標色校色後畫進貼圖集。來源寫在各件的「授權」小節，`LICENSES.md` 由 LAWWW2-B 合併。
+
+### 流程（每一件都一樣；SOP 第 1～6 節）
+1. **參考與尺寸**：腳本檔頭寫參考（照片或常見款式）和尺寸表（SOP 2-1）。
+2. **建模**（不拼方塊）：
+   - 圓的用旋轉體：`lathe`／`lathe_parts`。輪胎、桶子這類 24～30 邊；看得到輪廓的小件 14 邊以上；看不到輪廓的 6～8 邊（SCENE_RULES 9-1）。
+   - 管、線、軟管用掃掠：`sweep`。
+   - 平面的用倒角方塊：`rbox`（`_rbox_bm`）。倒角金屬 3～6 mm、木頭 6 mm、塑膠 10～30 mm；比倒角薄的板子在紀錄裡寫原因。
+   - 板件、凹形用擠出：`extrude`（`bevel` 參數加側面倒角）。
+   - 每件 `remove_doubles` 以後 `smooth_mesh`（0.6 弧度以上保留硬邊）。
+3. **材質**：
+   - **一個材質**：1024 底色貼圖集＋256 ORM（R＝255、G＝粗糙度、B＝金屬度）。區塊 `REG`、小色塊 `SW`。
+   - 金屬度上限 0.45（`b3lib.MAX_METAL`）；工具類 0.40。
+   - 常摸的地方粗糙度低一點。
+4. **AO**：畫進底色，乘 0.75～0.9（SOP 2-5 第 1 種）。畫在接觸處、下緣、折邊下面。
+5. **磨損、生活痕跡**：
+   - 集中在常碰的地方，不均勻撒。
+   - 東西不對齊：掛歪、轉角度、空位。
+6. **比例**：渲染放 1.75 m 參考柱（每 0.5 m 一道刻度）。
+7. **匯出**：GLB＋同名 `.json`，`.json` 裡寫各件三角形、bbox、原點、`checks`。三角形照該件預算（ART-SHOP1 是 30,000）。
+
+### 渲染與檢查指令
+```bash
+# 模型＋貼圖
+/opt/blenv/bin/python tools/blender/env_second/bb_support/<件>_props.py
+# 渲染（傍晚／白天各一組；鏡頭在 <件>_views.json）
+/opt/blenv/bin/python tools/blender/env_second/bb_support/render_dusk.py -- <glb> <輸出資料夾> <前綴> <views.json> [--day] [--scale 0.5 --samples 16] [--only 名稱,名稱]
+```
+- 每件拍 3/4、側面、特寫三張，傍晚、白天兩組。
+- 背景用的件加：試擺圖（眼睛高度）、遊戲鏡頭（離地 2.85 m、往下約 21°）。
+- **八項紀錄**（SOP 3-2）照 ART-SHOP1 的表寫：輪廓與倒角、材質、AO、磨損、生活痕跡、比例、效能、遊戲截圖。每項寫做法和數字；沒做到的寫原因。
+- 交件：狀態寫 `READY_FOR_REVIEW`，附 SHA，傳 LAWWW2-B。環境美術的 `ART_APPROVED` 只有使用者能標。
+
+### 舊成果的狀態（SOP v1 以前做的）
+
+| 件 | 狀態 | LAWWW2-B 驗收 |
+|---|---|---|
+| ART-GYM-P1 健身器材 | 舊標準已通過 | 09:0x |
+| ART-GYM-P2／P3a 櫃台、置物櫃等 | 舊標準已通過 | 09:4x、09:5x |
+| ART-TUTOR1 家教學生家客廳 | 舊標準已通過 | 12:2x（v2） |
+| ART-US3 美國公寓臥室 | 舊標準已通過 | 紀錄在 LAWWW2-B 分支的這份 README（下次 merge 帶回來） |
+| ART-PARK1 小公園遊戲場 | 舊標準已通過 | 同上 |
+| ART-PARK3 象棋桌、直飲台、腳踏車架 | 舊標準已通過 | 同上 |
+| **ART-SHOP1 機車行道具組 v2** | **新標準已通過**（SOP v1 第一件驗證件） | 21:26（`5d5bb8aa` 合併） |
+
+- 「舊標準已通過」的件：要重做時照上面的流程，補八項紀錄。
+
 ## ART-GYM-P1 新體育館 B1 健身中心的器材：`gym_b1_props.py` → `assets/models/env/second_ai/bb_support/gym_b1_props.glb`
 
 ```
