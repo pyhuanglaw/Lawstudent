@@ -460,9 +460,9 @@ elif SCENE == 'campus':
         HAZE.update(color=(0.040, 0.045, 0.062), dist=300.0, maxk=0.55); sc.view_settings.exposure = 0.7   # 夜晚整體提亮（劇情背景上面要疊人物、對話框，太暗看不出地方）
     else:                                                                 # 傍晚：太陽很低、暖色；山要有空氣透視（遠、偏藍、偏淡），不是一團亮黃綠
         sky(2.5, 235, 0.32)
-        sun = bpy.data.lights.new('sun', 'SUN'); sun.energy = 0.6; sun.color = (1.0, 0.6, 0.38); so = bpy.data.objects.new('sun', sun)
+        sun = bpy.data.lights.new('sun', 'SUN'); sun.energy = 0.55; sun.color = (1.0, 0.7, 0.48); so = bpy.data.objects.new('sun', sun)
         so.rotation_euler = (math.radians(86), 0, math.radians(235)); sc.collection.objects.link(so)
-        HAZE.update(color=(0.40, 0.48, 0.60), dist=300.0, maxk=0.62)
+        HAZE.update(color=(0.48, 0.56, 0.68), dist=300.0, maxk=0.5)   # v8：v6 傍晚的山被暖光＋偏灰的樹色混成岩石的土黃色 → 霧淡一點、偏藍
     PAVE = mat_tex('path', 'granite_tile_03', scale=0.45, tint=(0.74, 0.72, 0.68), rough=0.75)
     CONC = mat_tex('rev_conc', 'granular_concrete', scale=0.5, tint=(0.70, 0.69, 0.66), rough=0.85)
     STONE = mat_tex('rev_stone', 'granite_tile_03', scale=1.4, tint=(0.46, 0.46, 0.44), rough=0.85)
@@ -535,9 +535,10 @@ elif SCENE == 'campus':
     # 指南山：校園就在山腳，山很近、很高
     hills(-185, 420, [(0, 105, (0.045, 0.095, 0.04), 2.4), (80, 165, (0.08, 0.13, 0.11), 4.1), (200, 230, (0.15, 0.19, 0.25), 6.3)], crown=0.2, lumpy=0.6)   # 山往後退（原本 −125 太近，像一道牆）；lumpy＝小起伏＋空氣透視
     EYE = (1.4, 1.7, 9.0)                                                    # 鏡頭（下面 camera() 用同一個）
-    forest_cards(5600, -220, 300, -186, -300, 0.8, 1.2, EYE, seed=21, names=('hill0',), tint=(0.48, 0.58, 0.48))                 # 近的山：滿滿的樹（指南山麓）；v6 顏色壓暗、偏冷（v5 太亮太黃綠，像一團近的灌木）
-    forest_cards(3200, -300, 400, -265, -400, 1.3, 1.8, EYE, seed=22, names=('hill1',), tint=(0.44, 0.54, 0.56))   # 第二層：樹大一點、顏色淡一點（空氣透視）
-    forest_cards(1800, -420, 520, -380, -560, 1.8, 2.4, EYE, seed=23, names=('hill2',), tint=(0.42, 0.50, 0.56))   # 第三層（山頂）：v5 沒種樹，山頂露出一塊光禿的地
+    TINT = [(0.48, 0.58, 0.48), (0.44, 0.54, 0.56), (0.42, 0.50, 0.56)] if NIGHT else [(0.40, 0.62, 0.34), (0.38, 0.56, 0.46), (0.40, 0.52, 0.55)]   # 傍晚：綠一點、飽和一點（不然在暖光下變土黃）
+    forest_cards(5600, -220, 300, -186, -300, 0.8, 1.2, EYE, seed=21, names=('hill0',), tint=TINT[0])                 # 近的山：滿滿的樹（指南山麓）；v6 顏色壓暗、偏冷（v5 太亮太黃綠，像一團近的灌木）
+    forest_cards(3200, -300, 400, -265, -400, 1.3, 1.8, EYE, seed=22, names=('hill1',), tint=TINT[1])   # 第二層：樹大一點、顏色淡一點（空氣透視）
+    forest_cards(1800, -420, 520, -380, -560, 1.8, 2.4, EYE, seed=23, names=('hill2',), tint=TINT[2])   # 第三層（山頂）：v5 沒種樹，山頂露出一塊光禿的地
     load_lib('street_trees.glb', {'tree_camphor_a', 'tree_camphor_b', 'tree_banyan_a'}); load_lib('street_props.glb', {'lamp_post', 'bench_park'})
     for z in range(2, -110, -8): place(rng.choice(['tree_camphor_a', 'tree_camphor_b', 'tree_banyan_a']), -11 + rng.uniform(-3, 3), z + rng.uniform(-3, 3), yaw=rng.uniform(0, 6.28), s=rng.uniform(1.0, 1.3))   # 步道後面第二排（校園裡樹很多）
     for z in range(-4, -110, -10): place(rng.choice(['tree_camphor_a', 'tree_camphor_b']), -19 + rng.uniform(-3, 3), z + rng.uniform(-3, 3), yaw=rng.uniform(0, 6.28), s=rng.uniform(1.1, 1.4))
