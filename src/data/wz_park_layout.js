@@ -72,8 +72,8 @@ const WZ_PARK_LAYOUT = {
     {x: 28.34, z: 9.0, yaw: -Math.PI / 2, label: '坐在小公園的長椅'},
     {x: 19.26, z: 21.4, yaw: Math.PI / 2, label: '坐在長椅上看孩子玩'},
     {x: 29.6, z: 26.54, yaw: Math.PI, label: '坐在後面的長椅'},
-    {x: 31.7, z: 24.2, yaw: Math.PI, label: '盪鞦韆', kind: 'swing'},
-    {x: 33.5, z: 24.2, yaw: Math.PI, label: '盪鞦韆', kind: 'swing'},
+    {x: 31.7, z: 25.0, yaw: Math.PI, label: '盪鞦韆', kind: 'swing'},   // 鞦韆座位＝模型裡座板的中心（ART-PARK2：A 停在 z 25.0、B 停在 24.8，座面 0.48 m）；原本 z 24.2，人坐在鞦韆前面 0.6～0.8 m 的空中（QA-W1-VISUAL 座位檢查）
+    {x: 33.5, z: 24.8, yaw: Math.PI, label: '盪鞦韆', kind: 'swing'},
     {x: 14.6, z: 24.25, yaw: 0, label: '坐在涼亭的石凳'},
     {x: 14.6, z: 26.15, yaw: Math.PI, label: '坐在涼亭的石凳'}
   ],
