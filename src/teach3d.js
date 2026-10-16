@@ -32,7 +32,7 @@ const TB3=(function(){
   // ---- 導航：兩層 ----
   function buildNav(L){ const W=L.W, D=L.D, Y1=L.floors[1].y, S=L.stair, A=S.A, B=S.B, LD=S.landing; const ss=stairSurfs(L);
     /* 格子中心要落在格子大小的倍數上（配置裡的牆都在 0.4 的倍數）：原本 z 方向的格子中心在 0.4k+0.2，橫的牆（走廊牆 z=-0.4、2.4）壓在格子邊界上、一格都擋不到，人可以直接穿牆走進教室（2026-10-13 發現，tests/nav_teach_unit.js「牆擋得住」）*/
-    const c=L.cell, al=v=>(Math.floor(v/c+1e-9)-0.5)*c; const mk=()=>new E3.NavGrid(W+3,D+3,c,al(-W/2-1),al(-D/2-1)); const nav0=mk(), nav1=mk().setFloor(Y1); const navs=[nav0,nav1];
+    const c=L.cell, al=v=>(Math.floor(v/c+1e-9)-0.5)*c, BR=L.bridge, ext=BR?BR.len+0.8:0; const mk=()=>new E3.NavGrid(W+3,D+3+ext,c,al(-W/2-1),al(-D/2-1-ext));   /* 有空橋（普通二樓往北）：格子往北多 len+0.8 m */ const nav0=mk(), nav1=mk().setFloor(Y1); const navs=[nav0,nav1];
     nav0.blockOutside(-W/2+0.3,-D/2+0.3,W/2-0.3,D/2-0.3);
     nav1.fillBlocked();
     // 二樓走得到的地方：整層，扣掉樓梯井（A 跑、平台、兩跑中間的牆）；B 跑最上面接到走廊
@@ -68,6 +68,9 @@ const TB3=(function(){
       if(r.lectern) nav.blockRect(r.lectern.x,r.lectern.z,r.lectern.w,r.lectern.d,0,0.05); }
     for(const b of (L.benches||[])) navs[b.lv].blockRect(b.x,b.z,Math.abs(Math.sin(b.ry))>0.5?0.6:1.5,Math.abs(Math.sin(b.ry))>0.5?1.5:0.6,0,0);
     for(const b of (L.boards||[])) navs[b.lv].blockRect(b.x,b.z,Math.abs(Math.sin(b.ry))>0.5?0.2:b.w,Math.abs(Math.sin(b.ry))>0.5?b.w:0.2,0,0);
+    /* 空橋（2026-10-16，使用者試玩回報「空橋是一扇門」；LAWWW2-B skybridge.glb）：北牆的門洞（1.8 m）＋橋面（x ±half）；兩端各 flat 公尺的平台、中間緩坡升 rise（沒有台階）*/
+    if(BR){ const bx=BR.x, z0=BR.z, hw=BR.doorW/2, xa=bx-BR.half-0.2, xb=bx+BR.half+0.2; nav1.freeRect(bx-hw+0.05,z0-0.3,bx+hw-0.05,z0+0.35); nav1.freeRect(bx-BR.half+0.05,z0-BR.len+0.1,bx+BR.half-0.05,z0-0.25);
+      nav1.addSurf({x0:xa,x1:xb,z0:z0-BR.len+BR.flat,z1:z0-BR.flat,axis:'z',ya:Y1+BR.rise,yb:Y1}); nav1.addSurf({x0:xa,x1:xb,z0:z0-BR.len-0.4,z1:z0-BR.len+BR.flat,y:Y1+BR.rise}); }
     nav0._cm=null; nav1._cm=null; return {nav0,nav1,ss}; }
   // ---- 程序化備用模型（BLOCKOUT）----
   function buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,slabs,innerM){ const W=L.W, D=L.D, Y1=L.floors[1].y, RY=L.roofY, T=L.wallT, ST=L.slabT, S=L.stair, A=S.A, B=S.B, LD=S.landing, MAT=B3.MAT;
@@ -94,13 +97,22 @@ const TB3=(function(){
     // 外牆（兩層，一層一塊：剖面視角藏二樓時一起藏；擋住鏡頭時淡出）
     const wall=(x,z,w,h,y,ry,dir,m,grp)=>{ const ms=new THREE.Mesh(TK.boxG(w,h,T,2.4),m.clone()); ms.material.transparent=true; ms.position.set(x,y+h/2,z); ms.rotation.y=ry; ms.userData.dir=dir; ms.userData.noMerge=true; grp.add(ms); walls.push(ms); return ms; };
     const outer=M('#e9e3d8'); const EN=L.entrance;
-    for(const [grp,y,h] of [[fb0,0,Y1],[fb1,Y1,RY-Y1]]){ wall(0,-D/2,W,h,y,0,new THREE.Vector3(0,0,1),outer,grp); wall(-W/2,0,D,h,y,Math.PI/2,new THREE.Vector3(1,0,0),outer,grp); wall(W/2,0,D,h,y,Math.PI/2,new THREE.Vector3(-1,0,0),outer,grp); }
+    const BR=L.bridge;
+    for(const [grp,y,h] of [[fb0,0,Y1],[fb1,Y1,RY-Y1]]){
+      if(BR&&grp===fb1){ const a=BR.x-BR.doorW/2, b=BR.x+BR.doorW/2, nd=new THREE.Vector3(0,0,1); wall((-W/2+a)/2,-D/2,a+W/2,h,y,0,nd,outer,grp); wall((b+W/2)/2,-D/2,W/2-b,h,y,0,nd,outer,grp); wall(BR.x,-D/2,BR.doorW,h-BR.clear,y+BR.clear,0,nd,outer,grp); }   /* 二樓北牆：往空橋的門洞 */
+      else wall(0,-D/2,W,h,y,0,new THREE.Vector3(0,0,1),outer,grp);
+      wall(-W/2,0,D,h,y,Math.PI/2,new THREE.Vector3(1,0,0),outer,grp); wall(W/2,0,D,h,y,Math.PI/2,new THREE.Vector3(-1,0,0),outer,grp); }
     wall(0,D/2,W,RY-Y1,Y1,0,new THREE.Vector3(0,0,-1),outer,fb1);
     for(const [a,b] of [[-W/2,EN.a0],[EN.a1,W/2]]) wall((a+b)/2,D/2,b-a,Y1,0,0,new THREE.Vector3(0,0,-1),outer,fb0);
     wall((EN.a0+EN.a1)/2,D/2,EN.a1-EN.a0,Y1-2.6,2.6,0,new THREE.Vector3(0,0,-1),outer,fb0);
     /* 入口門框跟著南牆淡出（2026-10-13 LAWWW2 審查：剛進門時鏡頭在南牆外、牆淡出了、門框沒有，前景一大條黑色）*/
     { const fm=MAT.frame(); const fr=(w,h,x,y)=>{ const ms=new THREE.Mesh(TK.boxG(w,h,0.16),fm.clone()); ms.material.transparent=true; ms.position.set(x,y,D/2-0.12); ms.userData.dir=new THREE.Vector3(0,0,-1); ms.userData.noMerge=true; fb0.add(ms); walls.push(ms); };
       for(const x of [EN.a0,EN.a1]) fr(0.1,2.65,x,1.325); fr(EN.a1-EN.a0,0.1,(EN.a0+EN.a1)/2,2.6); }
+    /* 往空橋的玻璃門（博雅二樓南牆，linkDoor）：門框跟著牆淡出；按門口的互動＝走上空橋（落在普通教學館區域的空橋上，要走過整條空橋）*/
+    for(const r of L.rooms){ const ld=r.linkDoor; if(!ld) continue; const yb=L.floors[r.lv|0].y, sgn=ld.z>0?1:-1, zz=sgn*(D/2-0.12), dir=new THREE.Vector3(0,0,-sgn), grp=r.lv?fb1:fb0, fm=MAT.frame();
+      const pc=(w,h,x,y)=>{ const ms=new THREE.Mesh(TK.boxG(w,h,0.16),fm.clone()); ms.material.transparent=true; ms.position.set(x,y,zz); ms.userData.dir=dir; ms.userData.noMerge=true; grp.add(ms); walls.push(ms); };
+      for(const x of [ld.x-ld.w/2,ld.x+ld.w/2]) pc(0.1,2.45,x,yb+1.225); pc(ld.w,0.1,ld.x,yb+2.4);
+      const gl=new THREE.Mesh(new THREE.PlaneGeometry(ld.w-0.1,2.35),MAT.glass()); gl.position.set(ld.x,yb+1.175,zz-sgn*0.02); if(sgn>0) gl.rotation.y=Math.PI; grp.add(gl); }
     // 窗框（景在牆的內側）
     for(const w of L.windows){ const bb=bins[w.lv], n=w.n, len=w.a1-w.a0, zz=w.wall==='S'?D/2-T/2-0.06:-D/2+T/2+0.06; for(let i=0;i<=n;i++) bb.add(MAT.frame(),TK.boxG(0.06,w.y1-w.y0,0.06),w.a0+len*i/n,(w.y0+w.y1)/2,zz); for(const y of [w.y0,w.y1]) bb.add(MAT.frame(),TK.boxG(len,0.08,0.08),(w.a0+w.a1)/2,y,zz); }
     // 天花板
@@ -115,6 +127,11 @@ const TB3=(function(){
       for(const [a,b] of segs){ if(b-a>=0.05) box(lv,horiz,a,b,c,y,y+h); } if(h>2.4) for(const [g0,g1] of (w.gaps||[])) box(lv,horiz,Math.min(g0,g1),Math.max(g0,g1),c,y+2.4,y+h); }
     /* 高的家具也擋鏡頭（LAWWW2 CAMERA_WALLS §1(2)：普通 1F 門廳，鏡頭被牆拉近、抬高後停在公告欄的雨遮正上方 0.22 m，畫面一大塊深色）：
        公告欄（W3.bulletin 和正式模型同尺寸：寬 2.6、高 2.5、雨遮往前凸 0.35 m）；講座資訊螢幕貼在牆上（牆已經擋），不另外加 */
+    /* 空橋：二樓北牆（門洞兩側＋門楣）、橋的兩側、博雅那一端的牆與門廳的後牆——鏡頭留在橋裡面（外面是空的）*/
+    const BR=L.bridge; if(BR){ const a=BR.x-BR.doorW/2, b=BR.x+BR.doorW/2, z0=BR.z, za=z0-BR.len, hw=BR.outerW/2, yt=Y1+BR.rise+3.6;
+      box(1,true,-L.W/2,a,z0,Y1,RY); box(1,true,b,L.W/2,z0,Y1,RY); box(1,true,a,b,z0,Y1+BR.clear,RY);
+      box(1,false,za,z0,BR.x-hw+0.1,Y1-0.5,yt); box(1,false,za,z0,BR.x+hw-0.1,Y1-0.5,yt);
+      box(1,true,BR.x-hw-1.5,a,za-0.12,Y1,yt); box(1,true,b,BR.x+hw+1.5,za-0.12,Y1,yt); box(1,true,a,b,za-0.12,Y1+BR.rise+BR.clear,yt); box(1,true,a-0.5,b+0.5,za-2.45,Y1,yt); }
     for(const bd of (L.boards||[])){ if(bd.style==='screen') continue; const lv=bd.lv|0, m=new THREE.Mesh(new THREE.BoxGeometry(2.6,2.5,0.5),inv);
       m.position.set(bd.x+Math.sin(bd.ry)*0.1,(lv?Y1:0)+1.25,bd.z+Math.cos(bd.ry)*0.1); m.rotation.y=bd.ry; m.userData.noMerge=true; m.userData.camFurn='bulletin'; g.add(m); (out[lv]=out[lv]||[]).push(m); }
     return out; }
@@ -146,6 +163,7 @@ const TB3=(function(){
       if(r.kind==='closed'){ const dz=r.doorZ!=null?r.doorZ:r.z0, out=Math.abs(dz-r.z1)<1e-6?1:-1; const dx=(r.door[0]+r.door[1])/2; bb.add(MAT.woodD(),TK.boxG(r.door[1]-r.door[0]-0.1,2.3,0.06),dx,y+1.15,dz+out*0.13);
         /* link：門後面是通到別棟的空橋（普通二樓 ⇄ 博雅二樓，方案 A）——按了就走過去（區域切換、落在對面那棟的二樓）；其他關著的房間：門口的說明 */
         if(r.link) IT.push({x:dx,z:dz+out*0.9,radius:1.0,lv:r.lv,label:r.link.label,exit:{to:r.link.to,spawn:Object.assign({},r.link.spawn)}}); else IT.push({x:dx,z:dz+out*0.9,radius:1.0,lv:r.lv,label:r.label,look:r.look}); continue; }
+      if(r.kind==='passage'){ if(r.link&&r.linkDoor) IT.push({x:r.linkDoor.x,z:(r.linkDoor.z>0?1:-1)*(L.D/2-0.6),radius:0.8,lv:r.lv,label:r.link.label,exit:{to:r.link.to,spawn:Object.assign({},r.link.spawn)}}); continue; }   /* 打開的通道（往空橋）：沒有門板；博雅那一端的玻璃門＝走上空橋 */
       if(r.kind==='lecture'){ buildLecture(L,r,grpOf(r.lv),bb,IT,r.lv?lv1:lv0,zone); continue; }
       if(r.kind!=='classroom') continue;
       const s=r.board==='W'?1:-1; bb.add(M('#2f4a3a',{rough:0.6}),TK.boxG(0.04,1.2,r.blackboard.len),r.blackboard.x,y+1.6,r.blackboard.z); bb.add(MAT.frame(),TK.boxG(0.06,0.08,r.blackboard.len+0.1),r.blackboard.x+s*0.02,y+0.98,r.blackboard.z);
@@ -213,6 +231,31 @@ const TB3=(function(){
     if(r.screen){ const sc=r.screen; const p=new THREE.Mesh(new THREE.PlaneGeometry(sc.w,sc.y1-sc.y0),new THREE.MeshBasicMaterial({color:0xf2f0ea})); p.position.set(sc.x,(sc.y0+sc.y1)/2,wz+up*0.12); p.rotation.y=up<0?Math.PI:0; grp.add(p); bb.add(MAT.frame(),TK.boxG(sc.w+0.2,0.1,0.12),sc.x,Y+sc.y1+0.05,wz+up*0.12); }
     if(r.door){ const d=r.door, mid=(d.a0+d.a1)/2, o={W:[-0.6,0],E:[0.6,0],N:[0,-0.6],S:[0,0.6]}[d.wall]||[0,0], vert=d.wall==='W'||d.wall==='E';   // 門外（走廊、大廳那一側）
       IT.push({x:(vert?d.x:mid)+o[0],z:(vert?mid:d.z)+o[1],radius:0.9,lv:r.lv,label:r.lookLabel,room:r.id,look:r.look}); } }
+  /* ---- 空橋（普通二樓 → 北邊的博雅二樓；2026-10-16）：正式模型 LAWWW2-B skybridge.glb（原點＝普通那一端門口中心的地板、往北 len 公尺）；
+     載入前、載入失敗用程序化備用（橋面、矮牆、玻璃、屋頂）。點得到的橋面（點地移動）、兩側窗外的景、燈；博雅那一端有一小段門廳（看得到門裡面是亮的），
+     走到門口按「進博雅教學館」才換區域（落在博雅的空橋通道裡）。高度和導航同一組數字（L.bridge）---- */
+  function buildBridge(E,L,lv1,walkMeshes,zone,outs,lights){ const BR=L.bridge; if(!BR) return; const Y1=L.floors[BR.lv].y, bx=BR.x, z0=BR.z, len=BR.len, R=BR.rise, F=BR.flat, MAT=B3.MAT;
+    const fb=new THREE.Group(); fb.name='bridge_fallback'; lv1.add(fb); const hw=BR.outerW/2;
+    const floorM=M('#cfc8ba',{rough:0.7}); const za=z0-len, zs0=z0-len+F, zs1=z0-F, d=zs1-zs0, tilt=Math.atan2(R,d);
+    const plane=(w,dd,x,y,z,rx,m,vis)=>{ const p=new THREE.Mesh(new THREE.PlaneGeometry(w,dd),m); p.position.set(x,y,z); p.rotation.x=rx; return p; };
+    // 備用模型：橋面（兩段平台＋緩坡）、樓板、矮牆、玻璃、屋頂
+    fb.add(plane(2*hw-0.3,F,bx,Y1+0.004,z0-F/2,-Math.PI/2,floorM)); fb.add(plane(2*hw-0.3,Math.hypot(d,R),bx,Y1+R/2+0.004,(zs0+zs1)/2,-Math.PI/2+tilt,floorM)); fb.add(plane(2*hw-0.3,F,bx,Y1+R+0.004,za+F/2,-Math.PI/2,floorM));
+    const bin=new TK.Bin(); bin.add(MAT.plaster(),TK.boxG(2*hw,0.45,len,1.2),bx,Y1-0.23,z0-len/2); bin.add(MAT.plaster(),TK.boxG(2*hw+0.2,0.2,len,1.2),bx,Y1+3.55,z0-len/2);
+    for(const sx of [-1,1]) bin.add(MAT.plaster(),TK.boxG(0.15,1.5,len,1.2),bx+sx*(hw-0.1),Y1+0.75,z0-len/2); bin.build(fb);
+    for(const sx of [-1,1]){ const g=new THREE.Mesh(new THREE.PlaneGeometry(len,2.0),MAT.glass()); g.position.set(bx+sx*(hw-0.1),Y1+2.5,z0-len/2); g.rotation.y=Math.PI/2; fb.add(g); }
+    // 點得到的橋面（看不見；點地移動、點一下走過去）
+    for(const [w,dd,y,z,rx] of [[2*BR.half,F,Y1,z0-F/2,-Math.PI/2],[2*BR.half,Math.hypot(d,R),Y1+R/2,(zs0+zs1)/2,-Math.PI/2+tilt],[2*BR.half,F,Y1+R,za+F/2,-Math.PI/2]]){ const m=plane(w,dd,bx,y+0.01,z,rx,new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.userData.walkLv=BR.lv; m.userData.dyn=true; lv1.add(m); walkMeshes.push(m); }
+    // 博雅那一端：南牆（門洞＝空橋的寬）＋門裡面一小段亮的門廳（只是看得到，走不進去；按門口的互動才換到博雅）
+    { const yb=Y1+R, wm=M('#d9d5cb'), inM=M('#ece6da'), vb=new TK.Bin(), dw=BR.doorW;
+      for(const sx of [-1,1]) vb.add(wm,TK.boxG(3.0,4.0,0.25,1.2),bx+sx*(dw/2+1.5),yb+1.6,za-0.12); vb.add(wm,TK.boxG(dw,4.0-BR.clear,0.25,1.2),bx,yb+BR.clear+(4.0-BR.clear)/2-0.4,za-0.12);
+      for(const sx of [-1,1]) vb.add(inM,TK.boxG(0.15,3.0,2.2,1.2),bx+sx*(dw/2+0.4),yb+1.5,za-1.35); vb.add(inM,TK.boxG(dw+1.0,3.0,0.15,1.2),bx,yb+1.5,za-2.45); vb.add(MAT.plaster(),TK.boxG(dw+1.0,0.1,2.4,1.2),bx,yb+3.0,za-1.35); vb.build(lv1);
+      lv1.add(plane(dw+0.8,2.3,bx,yb+0.004,za-1.35,-Math.PI/2,floorM)); }
+    // 兩側窗外的景、燈
+    for(const sx of [-1,1]){ const p=B3.outView('east',null,len+1.5,14,bx+sx*7,Y1+2.0,z0-len/2-0.75,-sx*Math.PI/2,20,lv1); outs.push(p); }
+    { const l=new THREE.PointLight(0xfff4e6,3,14,2); l.position.set(bx,Y1+3.0,z0-len/2); l.userData.on=5; l.userData.off=3; zone.group.add(l); lights.push(l);
+      const l2=new THREE.PointLight(0xfff4e6,2,6,2); l2.position.set(bx,Y1+R+2.6,za-1.3); l2.userData.on=3; l2.userData.off=2; zone.group.add(l2); lights.push(l2); }
+    E.interactables.push({x:bx,z:za+0.45,radius:0.8,lv:BR.lv,label:BR.label,exit:{to:BR.to,spawn:Object.assign({},BR.spawn)}});
+    if(BR.glb&&typeof ASSETS!=='undefined'&&ASSETS.manifest&&ASSETS.manifest[BR.glb]) ASSETS.loadOne(BR.glb).then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const sc=c.scene.clone(true); sc.position.set(bx,Y1,z0); sc.traverse(o=>{ if(o.isMesh){ o.receiveShadow=true; o.userData.dyn=true; } }); lv1.add(sc); fb.visible=false; zone.bridgeGLB=true; }).catch(e=>console.warn('空橋正式模型載入失敗，用備用模型',e)); }
   // ---- 窗外的景（B3.outView；照片還沒拍的用程序化的景）----
   function windowViews(L,lv0,lv1,outs){ const W=L.W, D=L.D, T=L.wallT;
     for(const w of L.windows){ const grp=w.lv?lv1:lv0, a=(w.a0+w.a1)/2, len=w.a1-w.a0, h=w.y1-w.y0, yc=(w.y0+w.y1)/2-(w.lv?L.floors[1].y:0);
@@ -230,11 +273,12 @@ const TB3=(function(){
       roomAt(x,z,lv){ for(const r of L.rooms){ if((r.lv|0)!==(lv|0)) continue; if(x>r.x0&&x<r.x1&&z>r.z0&&z<r.z1) return r.id; } for(const a of (L.areas||[])){ if((a.lv|0)===(lv|0)&&x>a.x0&&x<a.x1&&z>a.z0&&z<a.z1) return a.id; } return 'hall'; },   /* 房間 → 範圍（areas）→ 大廳 */
       spaceAt(x,z,lv){ for(const r of L.rooms){ if((r.lv|0)!==(lv|0)) continue; if(x>r.x0&&x<r.x1&&z>r.z0&&z<r.z1) return r.id; } return 'public'; } };   /* 同一個空間嗎：關起來的房間各自一間，走廊、門廳、自習區這些開放的地方算同一個（events3d.js「在她附近」用）*/
     buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,slabs,innerM); buildFurniture(E,L,lv0,lv1,fb0,fb1,zone); windowViews(L,lv0,lv1,outs);
+    const lights=[]; buildBridge(E,L,lv1,walkMeshes,zone,outs,lights);
     zone.camCols=camColliders(L,g);   /* 跟隨鏡頭撞到隔間牆就拉近（LAWWW2 審查 P1）*/
     // 樓梯可以點的面（點一跑樓梯＝走完那一跑，engine3d.js 任務 #42）
     for(const s of [ss.a,ss.ld,ss.b,ss.top]){ const w=s.x1-s.x0, d=s.z1-s.z0; const ya=s.y!==undefined?s.y:s.ya, yb=s.y!==undefined?s.y:s.yb; const m=new THREE.Mesh(new THREE.PlaneGeometry(w,Math.hypot(d,yb-ya)),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set((s.x0+s.x1)/2,(ya+yb)/2+0.01,(s.z0+s.z1)/2); m.rotation.x=-Math.PI/2-Math.atan2(yb-ya,d); m.userData.walkLv=(s===ss.b||s===ss.top)?1:0; m.userData.dyn=true; lv0.add(m); walkMeshes.push(m);
       const ax=(S.A.x0+S.A.x1)/2, bx=(S.B.x0+S.B.x1)/2, ldz=(S.landing.z0+S.landing.z1)/2; if(s===ss.a) m.userData.stairEnds=[{x:ax,z:S.A.z1+0.5,lv:0},{x:ax,z:ldz,lv:0}]; if(s===ss.b) m.userData.stairEnds=[{x:bx,z:ldz,lv:0},{x:bx,z:S.B.z1+0.6,lv:1}]; }
-    const lights=[]; for(const [x,y,z,on,off] of L.lights){ const l=new THREE.PointLight(0xfff4e6,off,16,2); l.position.set(x,y,z); l.userData.on=on; l.userData.off=off; g.add(l); lights.push(l); }
+    for(const [x,y,z,on,off] of L.lights){ const l=new THREE.PointLight(0xfff4e6,off,16,2); l.position.set(x,y,z); l.userData.on=on; l.userData.off=off; g.add(l); lights.push(l); }
     const EN=L.entrance; E.interactables.push({x:EN.exit.x,z:EN.exit.z,radius:EN.exit.r,lv:0,label:'走出'+L.name,exit:{to:'campus',spawn:EN.campus?Object.assign({},EN.campus):undefined}});   /* campus 還沒定（博雅：校園的位置等使用者決定）＝校園的預設出生點 */
     return zone; } }; }
   const ZONES={ gongtong:makeZone('gongtong') }; if(typeof BOYA_LAYOUT!=='undefined') ZONES.boya=makeZone('boya'); if(typeof PUTONG_LAYOUT!=='undefined') ZONES.putong=makeZone('putong');

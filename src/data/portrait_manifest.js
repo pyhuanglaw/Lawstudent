@@ -36,7 +36,15 @@ const PORTRAIT_FILES={
    "neutral"
   ],
   "campus": [
-   "neutral"
+   "annoyed",
+   "embarrassed",
+   "laugh",
+   "neutral",
+   "sad",
+   "serious",
+   "smile",
+   "surprised",
+   "tired"
   ]
  },
  "heroine_03": {

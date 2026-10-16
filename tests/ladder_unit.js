@@ -118,5 +118,13 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('17. skipIf 成立：跳過 T1、這次就是 T2',nx&&nx.id==='T2'&&G.social.ladder.t_skip===1&&G.social.ladderDay.t_skip===undefined,JSON.stringify(G.social.ladder));
   fresh(D0,12,'campus',{}); check('17. skipIf 不成立：照樣是 T1',(STORY.ladNext(G,'t_skip')||{}).id==='T1');
   delete LADDER.characters.t_skip;
+  // BB-B 599c8cd（企劃線 36375b69）：會永久卡住的條件改成 skipIf（在 if 之前判斷）——已經被邀過社課（INVITED_CLUB）的玩家，子晴 Q-L3 跳過、Q-L4 照常出現
+  { const LQ2=LADDER.characters[QZ], i3=LQ2.steps.findIndex(s=>s.id==='Q-L3');
+    fresh(D0,15,'campus',{introDone:true,classDone:true,afternoonDone:true}); meet(QZ); R(QZ,30,10,10); (G.social.ladder||(G.social.ladder={}))[QZ]=i3;   /* Q-L4 要熟悉以上 */ SOCIAL.remember(QZ,'INVITED_CLUB','');
+    const nx=STORY.ladNext(G,QZ); check('18. 已經有 INVITED_CLUB：Q-L3 跳過、這次是 Q-L4（不會永久卡在 Q-L3）',!!LQ2.steps[i3].skipIf&&nx&&nx.id==='Q-L4',nx&&nx.id);
+    // S-L3／P-L3：if 不成立時才用到 skipIf（skipIf 要在 if 之前判斷）——熟悉以上、沒參加過週三讀書會＝跳過
+    for(const [id,sid] of [['heroine_05','S-L3'],[PS,'P-L3']]){ const LL=LADDER.characters[id], k=LL.steps.findIndex(s=>s.id===sid); if(k<0||!LL.steps[k].skipIf){ check('18. '+sid+' 有 skipIf',false); continue; }
+      fresh(D0,15,'library',{introDone:true,classDone:true,afternoonDone:true}); meet(id); R(id,30,10,10); (G.social.ladder||(G.social.ladder={}))[id]=k; G.weekday=3;
+      const n2=STORY.ladNext(G,id); check('18. '+sid+'：熟悉以上、沒參加過週三讀書會＝跳過（不卡住）',(G.social.ladder[id]|0)>k||(n2&&n2.id!==sid),n2?n2.id:('ladder '+G.social.ladder[id])); } }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();

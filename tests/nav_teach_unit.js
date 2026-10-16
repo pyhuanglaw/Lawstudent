@@ -105,15 +105,23 @@ if(!only||only==='boya'){ const z=runZone('boya',BOYA_LAYOUT,150); const L=BOYA_
 if(!only||only==='putong'){ const z=runZone('putong',PUTONG_LAYOUT,110);
   check('roomAt：走廊、門廳、101、103、201 認得出來',z.roomAt(0,0.2,0)==='corridor'&&z.roomAt(0,5,0)==='lobby'&&z.roomAt(-10,-4,0)==='101'&&z.roomAt(-10,4,0)==='103'&&z.roomAt(-10,-4,1)==='201',[z.roomAt(0,0.2,0),z.roomAt(0,5,0),z.roomAt(-10,-4,0),z.roomAt(-10,4,0),z.roomAt(-10,-4,1)].join(','));
   check('spaceAt（「在她附近」用）：走廊、門廳是同一個開放空間，101、103 各自一間',z.spaceAt(0,0.2,0)==='public'&&z.spaceAt(0,5,0)==='public'&&z.spaceAt(-10,-4,0)==='101'&&z.spaceAt(-10,4,0)==='103',[z.spaceAt(0,0.2,0),z.spaceAt(0,5,0),z.spaceAt(-10,-4,0),z.spaceAt(-10,4,0)].join(','));
-  const br=E.interactables.find(i=>/空橋/.test(i.label||'')); const sp=br&&br.exit&&br.exit.spawn;
-  check('往博雅的空橋（方案 A）：二樓門口「走空橋到博雅教學館」→ 落在博雅二樓',!!br&&br.lv===1&&br.exit&&br.exit.to==='boya'&&sp&&sp.lv===1,br&&br.label+' '+JSON.stringify(br.exit));
-  check('空橋門口從一樓大廳走得到（上樓梯、二樓走廊）',!!br&&walk([PUTONG_LAYOUT.entrance.spawn.x,PUTONG_LAYOUT.entrance.spawn.z,0],[br.x,br.z,1]).ok);
+  /* 空橋（2026-10-16 使用者試玩回報「空橋是一扇門」）：二樓走廊 → 通道 → 北牆門洞 → 走過整條空橋（緩坡升 0.6 m）→ 博雅那一端的門「進博雅教學館」→ 落在博雅二樓 */
+  const BR=PUTONG_LAYOUT.bridge, br=E.interactables.find(i=>i.exit&&i.exit.to==='boya'); const sp=br&&br.exit&&br.exit.spawn;
+  check('空橋的資料（L.bridge）在',!!BR&&BR.len>7&&Math.abs(BR.rise-(BOYA_LAYOUT.floors[1].y-PUTONG_LAYOUT.floors[1].y))<1e-6,BR&&JSON.stringify({len:BR.len,rise:BR.rise}));
+  check('往博雅的門在空橋的另一端（不是二樓走廊上的一扇門）：「進博雅教學館」→ 落在博雅二樓',!!br&&br.lv===1&&br.exit.to==='boya'&&sp&&sp.lv===1&&br.z<BR.z-BR.len+1,br&&br.label+' '+JSON.stringify({x:br.x,z:br.z}));
+  check('空橋另一端的門從一樓大廳走得到（上樓梯、二樓走廊、通道、走過整條空橋）',!!br&&walk([PUTONG_LAYOUT.entrance.spawn.x,PUTONG_LAYOUT.entrance.spawn.z,0],[br.x,br.z,1]).ok);
+  { const hs=[]; for(let zz=BR.z-0.3;zz>=BR.z-BR.len+0.3;zz-=0.5) hs.push(+E.heightAt(BR.x,zz,1).toFixed(3)); const mono=hs.every((h,i)=>!i||h>=hs[i-1]-1e-6), stepMax=Math.max(...hs.slice(1).map((h,i)=>h-hs[i]));
+    check('空橋的高度：從 4.2 慢慢升到 4.8（沒有台階：每 0.5 m 最多升 0.06 m）',Math.abs(hs[0]-PUTONG_LAYOUT.floors[1].y)<0.01&&Math.abs(hs[hs.length-1]-BOYA_LAYOUT.floors[1].y)<0.01&&mono&&stepMax<=0.06,hs.join(','));
+    { const on=[-0.5,-2,-4,-6,-6.9].map(dz=>E.canStand(BR.x,BR.z+dz,0.32,1)), off=[E.canStand(BR.x+BR.half+0.4,BR.z-3,0.3,1),E.canStand(BR.x-BR.half-0.4,BR.z-3,0.3,1)];
+    check('空橋的橋面站得住（中線）、兩側的玻璃外站不住',on.every(Boolean)&&!off.some(Boolean),JSON.stringify({on,off})); } }
+  check('二樓北牆：門洞以外站不住（不能從牆穿出去）',!E.canStand(BR.x+BR.doorW/2+0.6,BR.z,0.3,1)&&!E.canStand(BR.x-BR.doorW/2-0.6,BR.z,0.3,1)&&!E.canStand(-10,BR.z-0.5,0.3,1)&&E.canStand(BR.x,BR.z,0.3,1));
+  check('一樓不受影響：一樓北牆外站不住',!E.canStand(BR.x,BR.z-2,0.3,0)&&!E.canStand(BR.x,BR.z,0.3,0));
   /* 對面（博雅二樓）的落點：站得住，而且走得到博雅那邊回普通的空橋門口、一樓出口 */
   if(sp){ loadZone('boya'); const back=E.interactables.find(i=>i.exit&&i.exit.to==='putong');
     check('落在博雅二樓：離回普通的空橋門口 ≥ 半徑＋0.2 m（一走過來不會又跳出「走空橋到普通教學館」，2026-10-13 審查）',!!back&&Math.hypot(sp.x-back.x,sp.z-back.z)>=back.radius+0.2,back?`距離 ${Math.hypot(sp.x-back.x,sp.z-back.z).toFixed(2)}`:'');
     check('落在博雅二樓：站得住；回普通的空橋門口、博雅一樓出口都走得到',E.canStand(sp.x,sp.z,0.32,1)&&!!back&&walk([sp.x,sp.z,1],[back.x,back.z,1]).ok&&walk([sp.x,sp.z,1],[BOYA_LAYOUT.entrance.exit.x,BOYA_LAYOUT.entrance.exit.z-0.6,0]).ok,JSON.stringify(sp));
     const bs=back&&back.exit.spawn; loadZone('putong'); { const br2=E.interactables.find(i=>i.exit&&i.exit.to==='boya'); check('從博雅走回來：落點離普通的空橋門口 ≥ 半徑＋0.2 m',!!bs&&!!br2&&Math.hypot(bs.x-br2.x,bs.z-br2.z)>=br2.radius+0.2,bs&&br2?`距離 ${Math.hypot(bs.x-br2.x,bs.z-br2.z).toFixed(2)}`:''); }
-    check('從博雅走回來：落在普通二樓走廊、站得住、走得到普通一樓出口',!!bs&&bs.lv===1&&E.canStand(bs.x,bs.z,0.32,1)&&walk([bs.x,bs.z,1],[PUTONG_LAYOUT.entrance.exit.x,PUTONG_LAYOUT.entrance.exit.z-0.6,0]).ok,JSON.stringify(bs)); } }
+    check('從博雅走回來：落在空橋博雅那一端（要走過整條空橋）、站得住、走得到普通一樓出口',!!bs&&bs.lv===1&&bs.z<BR.z-BR.len+2&&E.canStand(bs.x,bs.z,0.32,1)&&walk([bs.x,bs.z,1],[PUTONG_LAYOUT.entrance.exit.x,PUTONG_LAYOUT.entrance.exit.z-0.6,0]).ok,JSON.stringify(bs)); } }
 /* 日程寫的站位（act:'linger' 的 at；AA 2026-10-13 P1-3：芷若經原 12:10 下課後在普通 101 門口的走廊）：站得住、不在教室裡、從大門走得到、從前一個時段的教室座位旁走得到 */
 { vm.runInThisContext(fs.readFileSync(path.join(ROOT,'src/data/characters.js'),'utf8').replace(/^const (CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS)\s*=/mg,'globalThis.$1='),{filename:'src/data/characters.js'});
   const LS={gongtong:GONGTONG_LAYOUT,boya:BOYA_LAYOUT,putong:PUTONG_LAYOUT}; let nSpots=0;
