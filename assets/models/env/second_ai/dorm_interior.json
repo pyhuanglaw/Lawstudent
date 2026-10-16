@@ -1,10 +1,11 @@
 {
- "objects": 39,
- "unique_meshes": 39,
+ "objects": 43,
+ "unique_meshes": 43,
  "tris": 8144,
  "tris_drawn": 8144,
  "materials": 28,
  "out": "assets/models/env/second_ai/dorm_interior.glb",
- "bytes": 679228,
- "texres": 512
+ "bytes": 682028,
+ "texres": 512,
+ "roommate_node": "ROOMMATE_KAI"
 }

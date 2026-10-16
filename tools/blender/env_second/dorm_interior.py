@@ -283,16 +283,21 @@ add_painted(L.lathe([(0.0, 0.0), (0.035, 0.0), (0.035, 0.1), (0.03, 0.1), (0.03,
 for k in range(4): it.cbox(1.42 + k * 0.006, 1.425 + k * 0.006, Y + 0.08, Y + 0.17, -2.745, -2.74, ['#c23f35', '#2f6db0', '#202225', '#e0b95b'][k])
 it.cbox(2.0, 2.075, Y, Y + 0.008, -2.33, -2.18, '#16181b')                                         # 手機
 
-# 室友的書桌上：兩台螢幕、鍵盤、滑鼠、耳機、零食、飲料
+# 室友的書桌上：兩台螢幕、鍵盤、滑鼠、耳機、零食、飲料——v2（V0-ART-DORM2，LAWWW-B）：全部放進 ROOMMATE_KAI 一個節點（經濟系那一年的 412 藏起來，換阿勳的 XUN_DESK）
+KAI = B.group('ROOMMATE_KAI', root, {'kind': 'roommate_items', 'who': 'kai'})
+kblk = Mesh('ROOMMATE_KAI_black', M['black']); kit = CMesh('ROOMMATE_KAI_items', M['items'])
 for (mx, mz, ry) in ((1.8, 1.27, 0.0), (1.22, 1.33, 0.3)):
-    bmM = bmesh.new(); L.bm_box(bmM, -0.3, 0.3, 0.06, 0.4, -0.02, 0.0); blk.add_bm(bmM, Matrix.Translation(g2b(mx, Y + 0.08, mz)) @ Matrix.Rotation(ry, 4, 'Z')); bmM.free()
+    bmM = bmesh.new(); L.bm_box(bmM, -0.3, 0.3, 0.06, 0.4, -0.02, 0.0); kblk.add_bm(bmM, Matrix.Translation(g2b(mx, Y + 0.08, mz)) @ Matrix.Rotation(ry, 4, 'Z')); bmM.free()
     bmN = bmesh.new(); L.bm_box(bmN, -0.29, 0.29, 0.07, 0.39, 0.0, 0.002)
-    scr = Mesh(f'dorm_monitor_screen_{mx}', M['lcd']); scr.add_bm(bmN, Matrix.Translation(g2b(mx, Y + 0.08, mz)) @ Matrix.Rotation(ry, 4, 'Z')); bmN.free(); fin(scr, uv=False)
-    blk.cyl((mx, Y, mz - 0.05), (mx, Y + 0.012, mz - 0.05), 0.09, seg=12); blk.box(mx - 0.02, mx + 0.02, Y, Y + 0.16, mz - 0.06, mz - 0.03)
-blk.box(1.55, 2.0, Y, Y + 0.02, 1.62, 1.77); it.cbox(2.1, 2.16, Y, Y + 0.02, 1.64, 1.74, '#d9d6cf')       # 鍵盤、滑鼠
-sweep(blk, [(2.35, Y + 0.02, 1.35), (2.35, Y + 0.2, 1.38), (2.35, Y + 0.02, 1.41)], 0.012, seg=5)        # 耳機（掛著的頭帶）
-it.cbox(1.05, 1.3, Y, Y + 0.05, 1.55, 1.8, '#d65a3a'); it.cbox(2.33, 2.4, Y, Y + 0.12, 1.6, 1.67, '#2f6db0')   # 零食、飲料
-it.cbox(2.42, 2.48, Y, Y + 0.2, 1.42, 1.48, '#e8eef0')
+    scr = Mesh(f'dorm_monitor_screen_{mx}', M['lcd']); scr.add_bm(bmN, Matrix.Translation(g2b(mx, Y + 0.08, mz)) @ Matrix.Rotation(ry, 4, 'Z')); bmN.free(); scr.finish(KAI, uv=False)
+    kblk.cyl((mx, Y, mz - 0.05), (mx, Y + 0.012, mz - 0.05), 0.09, seg=12); kblk.box(mx - 0.02, mx + 0.02, Y, Y + 0.16, mz - 0.06, mz - 0.03)
+kblk.box(1.55, 2.0, Y, Y + 0.02, 1.62, 1.77); kit.cbox(2.1, 2.16, Y, Y + 0.02, 1.64, 1.74, '#d9d6cf')       # 鍵盤、滑鼠
+sweep(kblk, [(2.35, Y + 0.02, 1.35), (2.35, Y + 0.2, 1.38), (2.35, Y + 0.02, 1.41)], 0.012, seg=5)        # 耳機（掛著的頭帶）
+kit.cbox(1.05, 1.3, Y, Y + 0.05, 1.55, 1.8, '#d65a3a'); kit.cbox(2.33, 2.4, Y, Y + 0.12, 1.6, 1.67, '#2f6db0')   # 零食、飲料
+kit.cbox(2.42, 2.48, Y, Y + 0.2, 1.42, 1.48, '#e8eef0')
+ob_ = kblk.finish(KAI, uv=False)
+if ob_ is not None: L.smooth_mesh(ob_, angle=0.9)
+kit.bm.normal_update(); kit.finish(KAI, uv=False)
 
 fin(wood); fin(woodd); fin(met, smooth=0.9, uv=False); fin(blk, smooth=0.9, uv=False); fin(fab, smooth=0.8, uv=False)
 it.bm.normal_update(); it.finish(root, uv=False)
@@ -320,6 +325,6 @@ for side, ms in walls.items():
         key = m.name.split('_', 1)[1]; m.name = f'WALL_{m.name}'; bmesh.ops.recalc_face_normals(m.bm, faces=m.bm.faces)
         ob = m.finish(root, uv=True, props={'dir': DIRS[side]})
         if key in WALL_SMOOTH: L.smooth_mesh(ob, angle=WALL_SMOOTH[key])
-L.merge_by_material(root, keep=lambda ob: False, key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
+L.merge_by_material(root, keep=lambda ob: ob.name.startswith('ROOMMATE_') or (ob.parent is not None and ob.parent.name.startswith('ROOMMATE_')), key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
 info = L.export(OUT, gpu_instances=True)
 L.write_json(OUT[:-4] + '.json', info)
