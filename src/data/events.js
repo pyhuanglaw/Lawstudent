@@ -1620,7 +1620,7 @@ const STORY_EVENTS=[
       {speaker:'kexin',expression:'teasing',text:'而且我想知道，有尾巴的人怎麼坐椅子。'},
       {choice:[{text:'「那上課要訂特別的椅子。」',set:{E12_ANSWER:'chair'},goto:'c'},{text:'「我要第三隻手，幫妳拿尾巴。」',set:{E12_ANSWER:'hand'},goto:'h'},{text:'「為什麼不是貓的？」',set:{E12_ANSWER:'cat'},goto:'t'}]},
       {label:'c'},{speaker:'kexin',expression:'laugh',text:'對！所以學校要多一筆預算。你們經濟系的，算一下。'},{goto:'end'},
-      {label:'h'},{speaker:'kexin',expression:'surprise',text:'……這是我聽過最好的回答。'},{goto:'end'},
+      {label:'h'},{speaker:'kexin',expression:'surprised',text:'……這是我聽過最好的回答。'},{goto:'end'},
       {label:'t'},{speaker:'kexin',expression:'neutral',text:'貓的太常見了。我想要一個大家都沒想過的東西。'},
       {label:'end'} ] },
   /* ★E14 保齡球館：交換穿高中制服（BB_104 8-5；AA_154 第 130 行、A33；固定核心）：11/14 21:00 群組約（story3d.js；品妤那句是 AA 暫定）、出發選單 11/15 19:00；
@@ -1800,6 +1800,44 @@ const STORY_EVENTS=[
     dialogue:[ {speaker:'學姊',text:'羽球最重要的是，不要打到自己的頭。'},
       {speaker:null,text:'三分鐘後，你打到自己的頭。'} ],
     after:(G,GM)=>{ GM.advance(1.5); } },
+  /* E22 期末考週（BB_104 8b-13；AA_154 A38）：12/22（日）20:00 經濟系群組（韋綸、品妤，BB-B 草稿、AA-B 照用）＋出發選單「總圖 B1 22:00：期末通宵」（story3d.js）。
+     總圖 B1 的 24 小時自習室還沒有 3D：2D 出遊（沒有底圖，深色＋地點字幕）。01:00 演；02:00 收東西回宿舍、晚歸登記。隔天 12/23 是經原期末考。沒去：01:00 群組照片 */
+  { id:'ev_y0_e22', stage:'econ', title:'期末通宵', participants:['econ_pinyu','econ_zhengxun','kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1/60,
+    beforeOuting:(G,GM)=>{ if(G.hour<25) GM.advance(25-G.hour); },
+    dialogue:[ {scene:'總圖 B1・24 小時自習室'},
+      {speaker:null,text:'（凌晨一點，總圖 B1 的自習室。整排的桌子都有人，只聽得到翻頁和鍵盤的聲音。）'},
+      {speaker:'econ_pinyu',text:'（看你和可昕交換的筆記）你們兩個的筆記，經濟效益是零。'},
+      {speaker:'econ_pinyu',text:'一個畫長頸鹿，一個畫箭頭。'},
+      {speaker:'kexin',expression:'neutral',text:'箭頭是重點。'},
+      {speaker:'econ_pinyu',text:'箭頭指向長頸鹿。'},
+      {speaker:'econ_zhengxun',text:'（沒抬頭）第七章會考。第八章不會。'},
+      {speaker:'韋綸',text:'你怎麼知道？'},
+      {speaker:'econ_zhengxun',text:'……機率。'},
+      {choice:[{text:'相信阿勳，讀第七章',goto:'a'},{text:'兩章都讀',goto:'b'},{text:'去買宵夜給大家',goto:'c'}]},
+      {label:'a'},{speaker:null,text:'考出來了。阿勳只說：「機率。」'},{goto:'end'},
+      {label:'b'},{speaker:null,text:'第八章沒考。'},{speaker:'kexin',expression:'smile',text:'你的保險買太多了。'},{goto:'end'},
+      {label:'c'},{speaker:'econ_pinyu',text:'這是今晚唯一有效率的事。'},
+      {label:'end'},{speaker:null,text:'（兩點，大家收東西。你走回宿舍，在舍監室登記晚歸。）'} ],
+    afterOuting:async(G,GM)=>{ if(G.hour<26) GM.advance(26-G.hour); if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); } },
+  /* E21a 期末考中間的跨年（BB_104 8b-12；AA_154 A36、A38；可以錯過）：12/31（二）19:00 經濟系群組三則（story3d.js）。19:00～22:00 人在總圖（任何一層）就開始（旁白帶到 B1、時間跳到 23:00），
+     也可以從出發選單「總圖 B1 19:00：期末衝刺」直接去。記 E21A_WENT。演完回宿舍（01:00）。沒去：00:05 群組人潮照片＋可昕私訊 */
+  { id:'ev_y0_e21a', stage:'econ', title:'跨年', participants:['kexin'], location:'any', trigger:'auto', term:['Y0S1'], weeks:[18], weekday:[2], time:[19,22], once:true, background:'blur',
+    prereq:{custom:G=>G.zone==='library'||G.zone==='library_hall'},
+    dialogue:[ {scene:'總圖 B1・24 小時自習室'},
+      {speaker:null,text:'（總圖 B1 的二十四小時自習室，大家讀到一半。十點總圖閉館以後，大家搬下來繼續讀。）',advance:G=>23-(G.hour%24)},
+      {speaker:'韋綸',text:'（看手機）跨年還有一個小時。走啦！'},
+      {speaker:'econ_pinyu',text:'後天考會計。'},
+      {speaker:'韋綸',text:'會計會等我們。煙火不會。'},
+      {scene:'信義區',bg:'newyear_crowd'},
+      {speaker:null,text:'（信義區的人潮。人多到走不動。可昕抓住你的手。）'},
+      {speaker:'kexin',expression:'embarrassed',text:'……我怕走散。'},
+      {speaker:null,text:'（倒數。煙火。過了零點，她沒有放開。你也沒有。）',advance:G=>24-(G.hour%24)},
+      {speaker:'kexin',expression:'smile',text:'（看著煙火）新年快樂。'},
+      {choice:[{text:'「新年快樂。」',goto:'a'},{text:'「會計會等我們。」',goto:'b'}]},
+      {label:'a'},{speaker:'kexin',expression:'smile',text:'……明天考會計。'},{goto:'end'},
+      {label:'b'},{speaker:'kexin',expression:'laugh',text:'（笑出聲）你學韋綸。'},
+      {label:'end'},{set:{E21A_WENT:true}} ],
+    after:async(G,GM)=>{ if(G.hour<25) GM.advance(25-G.hour); if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); } },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、

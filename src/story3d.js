@@ -808,6 +808,18 @@ const STORY = (function(){
       const tue10=termDay('Y0S1',10,2);
       if(F.Y0_CLUB==='none'&&tue10!=null&&(G.day>tue10||(G.day===tue10&&G.hour>=21))&&G.day<=tue10+3&&!PHONE.sent(G,'y0_c2_extra')){ const TR=t=>({th:'p:econ_tangrui',from:'econ_tangrui',name:'唐睿',text:t});
         PHONE.at(G,tue10,21,[Object.assign(TR('劇社缺一個會站著不動的人。你很適合。'),{ask:{opts:[{t:'答應',post:'好。',set:{Y0_EXTRA:true}},{t:'不要',post:'不要。'}]}})],'y0_c2_extra'); } }
+    /* E22 期末通宵（AA_154 A38）：12/22（日）20:00 經濟系群組韋綸、品妤＋出發選單「總圖 B1 22:00：期末通宵」；沒去＝01:00 群組照片（桌上四杯咖啡）。
+       E21a 跨年（A36、A38）：12/31（二）19:00 群組三則＋出發選單「總圖 B1 19:00：期末衝刺」；沒去＝00:05 群組人潮照片＋可昕私訊 */
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const sun22=termDay('Y0S1',16,7), tue31=termDay('Y0S1',18,2), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, D=id=>!!(G.events&&G.events.done&&G.events.done[id]);
+      if(sun22!=null&&G.day===sun22&&G.hour>=20&&!PHONE.sent(G,'y0_e22_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,sun22,20,[{th:T,from:'econ_weilun',name:'韋綸',text:'今晚 B1 通宵。明天那科，我需要一點奇蹟。'},{th:T,from:'econ_pinyu',text:'奇蹟不是讀書方法。……十點，B1 門口。咖啡我帶。'}],'y0_e22_ask');
+        if(!OUT.get(G,'y0_e22')&&G.hour<22.25) OUT.plan(G,{id:'y0_e22',ev:'ev_y0_e22',day:sun22,h:22,late:0.25,place:'總圖 B1',title:'總圖 B1 22:00：期末通宵',travel:'走過去約 10 分鐘',travelH:1/6,back:'回到宿舍。'}); }
+      const q22=OUT.get(G,'y0_e22');
+      if(sun22!=null&&q22&&q22.state!=='done'&&(G.day>sun22||G.hour>=25)&&G.day<=sun22+2&&!PHONE.sent(G,'y0_e22_missed')) PHONE.at(G,sun22,25,[{th:T,from:'econ_weilun',name:'韋綸',text:'📷（凌晨一點，總圖 B1。桌上四杯咖啡）'}],'y0_e22_missed');
+      if(tue31!=null&&G.day===tue31&&G.hour>=19&&!PHONE.sent(G,'y0_e21a_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,tue31,19,[{th:T,from:'econ_weilun',name:'韋綸',text:'今晚總圖，期末衝刺！走啦！'},{th:T,from:'econ_pinyu',text:'讀到幾點？'},{th:T,from:'econ_weilun',name:'韋綸',text:'讀到……我說停為止。'}],'y0_e21a_ask');
+        if(!OUT.get(G,'y0_e21a')&&G.hour<22) OUT.plan(G,{id:'y0_e21a',ev:'ev_y0_e21a',day:tue31,h:19,late:3,place:'總圖 B1',title:'總圖 B1 19:00：期末衝刺',travel:'走過去約 10 分鐘',travelH:1/6,back:'回到宿舍。'}); }
+      if(tue31!=null&&!D('ev_y0_e21a')&&!F.E21A_WENT&&(G.day>tue31||G.hour>=24+5/60)&&G.day<=tue31+2&&!PHONE.sent(G,'y0_e21a_missed')) PHONE.at(G,tue31,24+5/60,[{th:T,from:'econ_weilun',name:'韋綸',text:'📷（信義區的人潮）'},{th:'p:kexin',from:'kexin',text:'你錯過了一場人潮。……下次。'}],'y0_e21a_missed'); }
     /* 校慶問答攤（BB_95 3-7，DL-04B）：前一天（週五）21:00 法服群組，學姊提醒；沒加入法服的玩家改成校園公告欄的旁白（AMBIENT 的 festEve）*/
     if(PHONE.inGroup(G,'lawclub_study')){ const fs=termDay('Y1S1',11,6); if(fs&&G.day===fs-1) PHONE.at(G,fs-1,21,[{th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'明天校慶，問答攤十點開。輪班表在記事本。'}],'fest_eve_lawclub'); }
     /* 家族聚餐（BB_95 3-8）：前一週 Kevin 在家族群組約；當晚 22:30 學姊訂正考古題；沒去的玩家 22:00 Kevin 貼資料夾、學姊說書會留給學弟 */
