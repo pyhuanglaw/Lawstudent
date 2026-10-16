@@ -1,4 +1,4 @@
-"""ART-US2 美國公寓臥室家具組（SCN-US-01 祐廷租的校外學生公寓，大三下美國交換，D47；LAWWW2-B 分派 2026-10-16 12:14；BB-B 支援製作；
+"""ART-US3 美國公寓臥室家具組（SCN-US-01 祐廷租的校外學生公寓，大三下美國交換，D47；LAWWW2-B 分派 2026-10-16 12:14、12:25 改名 ART-US3；BB-B 支援製作；
 做法同 AA-B 的 ART-US1 aa_support/us_living_props.py：一張底色貼圖集＋ORM、網格工具照抄）
   /opt/blenv/bin/python tools/blender/env_second/bb_support/us_bedroom_props.py [-- --out assets/models/env/second_ai/bb_support/us_bedroom_props.glb]
 
@@ -138,10 +138,10 @@ def paint(P):
     put(P, 'duvet', Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)))
     # 床單、被子反面、枕頭、床座：亞麻纖維（rough_linen 一張 27 cm）
     for name, base, k, size in (('sheet', (236, 235, 230), 0.05, (1.37, 1.91)), ('duvet_back', (228, 228, 224), 0.05, (0.5, 0.5)),
-                                ('pillow', (214, 216, 218), 0.05, (0.66, 0.46)), ('boxspring', (176, 176, 172), 0.08, (1.4, 0.4))):
+                                ('pillow', (204, 206, 210), 0.05, (0.66, 0.46)), ('boxspring', (176, 176, 172), 0.08, (1.4, 0.4))):
         w, h = sz(name); z = lum(SRC['linen'], w, h, tile=(max(1, int(round(size[0] / 0.27))), max(1, int(round(size[1] / 0.27)))), blur=0.8)
         img = tint(z, base, k); d = ImageDraw.Draw(img)
-        if name == 'pillow': d.rectangle([0, 0, w - 1, h - 1], outline=(186, 188, 192), width=3 * SS)          # 枕頭套邊上的縫線
+        if name == 'pillow': d.rectangle([0, 0, w - 1, h - 1], outline=(172, 174, 180), width=3 * SS)          # 枕頭套邊上的縫線
         if name == 'boxspring':
             for yy in (0.08, 0.92): d.line([(0, h * yy), (w, h * yy)], fill=(120, 120, 118), width=2 * SS)   # 上下的滾邊
         put(P, name, img)
@@ -393,7 +393,7 @@ def pillow(fn_name, W, H, thick, n=(8, 6), M=None):
     """床的枕頭（AA-B 的抱枕改成長方形）：前後兩片曲面在邊上接起來，中間鼓、邊往內收一點；W＝x、H＝y、厚度沿 z"""
     pm = PM(); hx, hy, ht = W / 2, H / 2, thick / 2; fn = R(fn_name); us = np.linspace(-1, 1, n[0] + 1); vs = np.linspace(-1, 1, n[1] + 1)
     def P(u, v, side):
-        puff = ((1 - u * u) * (1 - v * v)) ** 0.5
+        puff = ((1 - u * u) * (1 - v * v)) ** 0.38
         return (u * hx * (1 - 0.05 * (1 - v * v)), v * hy * (1 - 0.06 * (1 - u * u)), side * ht * puff)
     for side in (1, -1):
         for i in range(n[0]):
@@ -521,7 +521,7 @@ def bed():
         leg(pm, x, z, 0.1, 0.016, 0.016, mb, n=8, y0=0.012); leg(pm, x, z, 0.012, 0.024, 0.026, S('black_plastic'), n=8)   # 腳＋黑色腳墊
     pm.add(mattress_pm())
     for sx, ry in ((-1, 0.05), (1, -0.04)):   # 兩個枕頭：躺在床頭、後緣靠著床頭板翹起來一點
-        pm.add(pillow('pillow', 0.66, 0.46, 0.15, M=T(sx * 0.335, MT + 0.075, -0.69) @ Ry(ry) @ Rx(-math.pi / 2 + 0.22)))
+        pm.add(pillow('pillow', 0.66, 0.46, 0.18, M=T(sx * 0.335, MT + 0.088, -0.69) @ Ry(ry) @ Rx(-math.pi / 2 + 0.18)))
     pm.add(duvet())
     return pm
 

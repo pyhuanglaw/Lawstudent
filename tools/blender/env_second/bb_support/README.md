@@ -139,14 +139,14 @@
 - 渲染兩輪改過：外套貼合扶手（v2 再換成布料模擬）；坐墊釘扣貼回凹下去的頂面；課本內頁從淡色塊改成一行一行的字；練習簿格線加深；日曆月份條和格子重疊（閃爍）移開；相框裡的人從長條改成剪影。
 - 窗、窗簾、落地窗外的對面公寓不在這裡（`bg_home.py` 的場景本身）。
 
-## ART-US2：美國公寓臥室的家具：`us_bedroom_props.py` → `assets/models/env/second_ai/bb_support/us_bedroom_props.glb`
+## ART-US3：美國公寓臥室的家具：`us_bedroom_props.py` → `assets/models/env/second_ai/bb_support/us_bedroom_props.glb`
 
-- **派工**：LAWWW2-B 2026-10-16 12:14「要不要接美國公寓臥室那一組（床、床頭櫃、書桌、椅子、行李箱、吸頂燈；規格照 src/data/us_apartment_layout.js 的 furniture，和 AA-B 的 ART-US1 同一套做法）？」BB-B 12:1x 回「接」＋規格確認（三個問題：床頭板、椅子款式、桌上檯燈；沒回覆就照括號做：要矮的深色木床頭板、辦公椅、檯燈＋筆電）。
+- **派工**：LAWWW2-B 2026-10-16 12:14「要不要接美國公寓臥室那一組（床、床頭櫃、書桌、椅子、行李箱、吸頂燈；規格照 src/data/us_apartment_layout.js 的 furniture，和 AA-B 的 ART-US1 同一套做法）？」BB-B 12:1x 回「接」＋規格確認（三個問題）。LAWWW2-B 12:25 回：a 床頭板要（矮的深色木板）、b 辦公椅、c 檯燈＋闔上的筆電要（燈罩內面 `US_DESK_GLOW` 用 US_glow）；**改名 ART-US3**（AA-B 接了廚房＝ART-US2）；渲染放 `test_shots/us_apartment/us3_*.webp`。
 - **場景**：SCN-US-01，大三下美國交換時祐廷租的校外學生公寓（D47）。外觀照 `docs/art-rebuild/second_ai/research/us_apartment_photos.md` 的照片一（從客廳看進臥室：米灰色地毯、灰白人字紋被子、黑色小方格櫃、吸頂燈）；位置、尺寸照 `us_apartment_layout.js` v2 的 `furniture`（`room:'bedroom'`）。
 
 ```
 /opt/blenv/bin/python tools/blender/env_second/bb_support/us_bedroom_props.py
-/opt/blenv/bin/python tools/blender/env_second/render_cycles.py -- assets/models/env/second_ai/bb_support/us_bedroom_props.glb <輸出資料夾> us2 tools/blender/env_second/bb_support/us2_views.json --res 1280x640 --samples 48 --ground --view Standard --exposure -2.5
+/opt/blenv/bin/python tools/blender/env_second/render_cycles.py -- assets/models/env/second_ai/bb_support/us_bedroom_props.glb <輸出資料夾> us3 tools/blender/env_second/bb_support/us3_views.json --res 1280x640 --samples 48 --ground --view Standard --exposure -2.5
 ```
 
 - **做法和 AA-B 的 ART-US1（`aa_support/us_living_props.py`）一樣**：兩個材質 `us_bedroom`（不透明：1024 底色貼圖集＋256 ORM，金屬度最高 0.40）、`US_glow`（燈罩內面、吸頂燈玻璃罩：奶油色＋發光，亮度由遊戲控制）；網格工具（`PM`、`rbox`、`lathe`、`sweep`、`box`、`cushion`）照抄，另外加了 `Rz`、`rrect`（圓角長方形）、`drape`（沿折線的布條，可以有皺褶）。貼圖集在 `tools/blender/env_second/bb_support/textures/gen/us_bedroom_props_{atlas,orm}.png`。
@@ -165,7 +165,7 @@
 - **合計**：10,468 三角形（上限 12k）；2 個材質；8 個網格（6 件＋2 個發光子節點）；GLB 約 0.52 MB。
 - **原點**：每件的底面中心，y=0 是地面，正面（坐的人臉朝的方向、櫃子開口那一面）朝 +z；吸頂燈的原點貼天花板。
 - **GLB 裡的位置只是排成臥室給人看**：照 layout 的位置減 (3.2, −1.0)（床 ry −90°、書桌 0、椅子 180°、吸頂燈 y=2.6）；床頭櫃、行李箱用下面建議的擺法。遊戲端用每件的節點自己擺。
-- **渲染**（`render_cycles.py`，Cycles CPU 48 spp、Standard、曝光 −2.5）：總覽、床、床頭（枕頭＋床頭板＋床頭櫃）、書桌、椅子、行李箱、床頭櫃、吸頂燈（從下面看），8 張 1280×640，在 `docs/art-rebuild/second_ai/blender_renders/bb_support/us2_*.webp`；鏡頭在 `us2_views.json`。
+- **渲染**（`render_cycles.py`，Cycles CPU 48 spp、Standard、曝光 −2.5）：總覽、床、床頭（枕頭＋床頭板＋床頭櫃）、書桌、椅子、行李箱、床頭櫃、吸頂燈（從下面看），8 張 1280×640，在 `docs/art-rebuild/second_ai/test_shots/us_apartment/us3_*.webp`（和 AA-B 的 us1 放在一起）；鏡頭在 `us3_views.json`。
 
 ### 擺放要注意的（和 layout 不一樣的地方，給 LAWWW2-B 決定）
 

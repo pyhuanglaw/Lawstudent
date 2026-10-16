@@ -5,7 +5,7 @@
  "tris_drawn": 10468,
  "materials": 2,
  "out": "assets/models/env/second_ai/bb_support/us_bedroom_props.glb",
- "bytes": 522772,
+ "bytes": 522404,
  "texres": 1024,
  "modules": {
   "US_BED": {
