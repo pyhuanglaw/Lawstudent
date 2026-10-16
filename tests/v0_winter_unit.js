@@ -39,7 +39,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   script=['過幾天']; said=[]; try{ await HOME.winterStart(GM); }catch(e){ if(e.message!=='STOP') throw e; }
   check('2. 轉場：在家、寒假模式、選單沒有「回宿舍」',HOME.at(G)&&G.home.winter===true&&G.flags.Y0_WINTER_START&&!menus[0].some(t=>/回宿舍/.test(t))&&menus[0].includes('過幾天')&&menus[0].includes('睡覺'),JSON.stringify(menus[0]));
   check('2. 「過幾天」跳到 1/27（一）21:00（F1），手機收到小年夜的群組',G.day===J27&&Math.abs(G.hour-21)<1e-6&&PHONE.sent(G,'y0_f1'),G.day+' '+G.hour);
-  check('2. 跳過的日子：E24 照時間戳記收在可昕的私訊裡（1/10「跳過哪一天」、1/18「什麼湯」；2/2 那則還沒到）',TH('p:kexin').some(m=>m.text==='假設寒假有一天可以跳過，你要跳哪一天？'&&m.ask.until===(K('2025-01-10')+1)*24+18)&&TH('p:kexin').some(m=>m.text==='今天的假設題：如果你是一碗湯，你是什麼湯？')&&!TH('p:kexin').some(m=>m.text==='我媽說我寒假胖了。我說這是存糧。'));
+  check('2. 跳過的日子：E24 照時間戳記收在可昕的私訊裡（1/10「跳過哪一天」、1/18「什麼湯」；2/2 那則還沒到）',TH('p:kexin').some(m=>m.text==='假設寒假有一天可以跳過，你要跳哪一天？'&&m.ask.until===(K('2025-01-10')+1)*24+18)&&TH('p:kexin').some(m=>m.text==='今天的假設題：如果你是一碗湯，你是什麼湯？'&&m.ask&&m.ask.opts.map(o=>o.t).join('/')==='玉米濃湯。/貢丸湯。/……白開水算湯嗎？')&&!TH('p:kexin').some(m=>m.text==='我媽說我寒假胖了。我說這是存糧。'));
   check('2. 第一次「過幾天」：字卡後面「寒假。你睡到中午，下午幫媽媽跑腿。」「年前的家裡，一直有人在打掃。」（AA_154 A44）',said.map(x=>x.t).join('|')==='寒假。你睡到中午，下午幫媽媽跑腿。|年前的家裡，一直有人在打掃。',JSON.stringify(said));
   // 睡覺會停在 E21 22:00 → E21 自動演
   menus=[]; said=[]; script=['睡覺','過幾天','好。','過幾天']; G.home.eat={day:J27}; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }

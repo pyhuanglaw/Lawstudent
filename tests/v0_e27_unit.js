@@ -31,8 +31,10 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   G.hour=14.05; run(); G.hour=14.1; run(); check('3. 14:00 沒到：「我在總圖門口。」、窗口延到 15:00',TH('p:kexin').includes('我在總圖門口。')&&EVENTS.check(ev));
   G.zone='dorm'; G.hour=15.05; run(); check('4. 15:00 還沒到：帶到場',!!G.flags.E27_FORCE&&EVENTS.check(ev));
   said=[]; await EVENTS.run(ev); const L=said.map(x=>x.t);
-  check('4. 帶到場：「（你到總圖門口的時候，她坐在台階上，在手機上記東西。）」→「我也要考。法律。台大法律。」…「還有，你不可以偷偷比我早起。」',L[0]==='（你到總圖門口的時候，她坐在台階上，在手機上記東西。）'&&L[1]==='我也要考。法律。台大法律。'&&L[L.length-1]==='還有，你不可以偷偷比我早起。'&&L.length===7,JSON.stringify(L));
-  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.zone='campus'; G.hour=13.4; said=[]; await EVENTS.run(ev); check('5. 準時到：沒有帶到場那句、六句、E27_DAY',said[0].t==='我也要考。法律。台大法律。'&&said.length===6&&G.flags.E27_DAY===D&&!EVENTS.check(ev));
+  check('4. 帶到場：「（你到總圖門口的時候，她坐在台階上，在手機上記東西。）」→「我也要考。法律。台大法律。」…「還有，你不可以偷偷比我早起。」',L[0]==='（你到總圖門口的時候，她坐在台階上，在手機上記東西。）'&&L[1]==='我也要考。法律。台大法律。'&&L[L.length-1]==='還有，你不可以偷偷比我早起。'&&L.length===8,JSON.stringify(L));
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.zone='campus'; G.hour=13.4; said=[]; await EVENTS.run(ev); check('5. 準時到：沒有帶到場那句、七句（含第一個反應）、E27_DAY',said[0].t==='我也要考。法律。台大法律。'&&said.length===7&&G.flags.E27_DAY===D&&!EVENTS.check(ev));
+  for(const [pk,line] of [['欸','你那什麼表情？我也可以很突然。'],['笑出來','你笑什麼？……好啦，我也很開心。'],['確定','確定。我比你早確定。']]){ G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.zone='campus'; G.hour=13.4; said=[]; picks=[pk]; await EVENTS.run(ev); const L3=said.map(x=>x.t);
+    check('7. 反應「'+pk+'」→「'+line+'」→「……因為我？」',L3[1]===line&&L3[2]==='……因為我？',JSON.stringify(L3.slice(0,3))); }
   for(const [v,line] of [[true,'你那本法律入門，我那時候就看到了。'],[false,'你說那本是『沒什麼』。我那時候就知道是什麼了。']]){ G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.flags.E22B_TOLD=v; G.zone='campus'; G.hour=13.4; said=[]; await EVENTS.run(ev); const L2=said.map(x=>x.t); const i=L2.indexOf('不是。我寒假就在查了。你只是剛好比我早說。');
     check('6. E22B_TOLD＝'+v+'：「我寒假就在查了」之後「'+line+'」',i>=0&&L2[i+1]===line); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

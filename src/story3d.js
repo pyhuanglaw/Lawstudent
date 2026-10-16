@@ -906,10 +906,10 @@ const STORY = (function(){
       if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）'); PHONE.at(G,d,21,[{th:T,from:'econ_pinyu',name:'品妤',text:'今天收到一台計算機。很實用。'},{th:T,from:'econ_weilun',name:'韋綸',text:'……全系都在笑。'}],'y0_t3_miss'); } }
     /* E24 每晚的訊息（BB_104 8b-16；AA_154 A44）：寒假（E19 之後）可昕私訊，順序固定：1/10 22:30「跳過哪一天」（選項有除夕，排在除夕前）、1/18 22:30「什麼湯」、
        2/2 22:30「寒假胖了是存糧」（過年吃完以後）；那一晚 2/8（六）23:00「如果可以重來一次選科系，你會選什麼？」三選一，回答不記錄（「還是經濟。」＝15 分鐘後才回「好。」）。
-       回覆開到隔天 18:00。寒假模式跳過的日子：照時間戳記收在手機裡。「什麼湯」的回覆選項等 BB-B（「玩家任答」），先只有她的問題 */
+       回覆開到隔天 18:00。寒假模式跳過的日子：照時間戳記收在手機裡 */
     if(S.isEcon(G)){ const K=t=>({th:'p:kexin',from:'kexin',text:t}), D=k=>S.dayOfKey(k), end=S.dayOfKey('2025-02-17'), past=(d,h)=>d!=null&&(G.day>d||(G.day===d&&G.hour>=h))&&(end==null||G.day<=end), until=d=>(d+1)*24+18;   /* 寒假結束（2/17 開學）以後不補發 */
       { const d=D('2025-01-10'); if(past(d,22.5)&&!PHONE.sent(G,'y0_e24a')) PHONE.at(G,d,22.5,[Object.assign(K('假設寒假有一天可以跳過，你要跳哪一天？'),{ask:{id:'y0_e24a',until:until(d),opts:[{t:'今天。',say:[K('……今天有跟我聊天，不能跳。')]},{t:'除夕。',say:[K('除夕有紅包。你很奇怪。')]}]}})],'y0_e24a'); }
-      { const d=D('2025-01-18'); if(past(d,22.5)&&!PHONE.sent(G,'y0_e24c')) PHONE.at(G,d,22.5,[K('今天的假設題：如果你是一碗湯，你是什麼湯？')],'y0_e24c'); }
+      { const d=D('2025-01-18'); if(past(d,22.5)&&!PHONE.sent(G,'y0_e24c')) PHONE.at(G,d,22.5,[Object.assign(K('今天的假設題：如果你是一碗湯，你是什麼湯？'),{ask:{id:'y0_e24c',until:until(d),opts:[{t:'玉米濃湯。',say:[K('好。我是味噌湯。很鹹，但對身體好。')]},{t:'貢丸湯。',say:[K('好。我是味噌湯。很鹹，但對身體好。')]},{t:'……白開水算湯嗎？',say:[K('不算。……好啦，算。我是味噌湯。很鹹，但對身體好。')]}]}})],'y0_e24c'); }   /* 回覆按鈕：BB-B c65b84f0 */
       { const d=D('2025-02-02'); if(past(d,22.5)&&!PHONE.sent(G,'y0_e24b')) PHONE.at(G,d,22.5,[K('我媽說我寒假胖了。我說這是存糧。')],'y0_e24b'); }
       { const d=D('2025-02-08'); if(past(d,23)&&!PHONE.sent(G,'y0_e24n')) PHONE.at(G,d,23,[Object.assign(K('如果可以重來一次選科系，你會選什麼？'),{ask:{id:'y0_e24n',until:until(d),opts:[{t:'還是經濟。'},{t:'我不知道。',say:[K('我也不知道。……晚安。')]},{t:'妳呢？',say:[K('我先問的。……算了，晚安。')]}]}})],'y0_e24n');
         const m=PHONE.byAsk&&PHONE.byAsk(G,'y0_e24n'); if(m&&m.ans===0&&!PHONE.sent(G,'y0_e24n_late')) PHONE.at(G,G.day,G.hour+0.25,[K('好。')],'y0_e24n_late'); } }

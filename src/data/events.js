@@ -1586,7 +1586,12 @@ const STORY_EVENTS=[
     prereq:{custom:G=>{ const F=G.flags; if(!F.E27_ASKED) return false; if(F.E27_FORCE) return true; const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-03-26'):null; if(G.day!==d||G.zone!=='campus'||G.hour<13.25||G.hour>=(F.E27_LATE?15:14)) return false;
       const P=typeof GAME!=='undefined'&&GAME.E&&GAME.E.player&&GAME.E.player.obj; if(!P) return true; const dx=P.position.x-78.6, dz=P.position.z; return dx*dx+dz*dz<=25; }},
     dialogue:[ {if:{flags:['E27_FORCE']},speaker:null,text:'（你到總圖門口的時候，她坐在台階上，在手機上記東西。）'},
-      {speaker:'kexin',expression:'serious',text:'我也要考。法律。台大法律。'},{speaker:'player',text:'……因為我？'},{speaker:'kexin',expression:'neutral',text:'不是。我寒假就在查了。你只是剛好比我早說。'},
+      {speaker:'kexin',expression:'serious',text:'我也要考。法律。台大法律。'},
+      {choice:[{text:'「……欸？」',goto:'r1'},{text:'（忍不住笑出來）',goto:'r2'},{text:'「妳確定？」',goto:'r3'}]},   /* 三種反應（BB-B c8637b3f，BB_104 8-10 併好的版本；不記旗標）*/
+      {label:'r1'},{speaker:'kexin',expression:'annoyed',text:'你那什麼表情？我也可以很突然。'},{goto:'r_end'},
+      {label:'r2'},{speaker:'kexin',expression:'smile',text:'你笑什麼？……好啦，我也很開心。'},{goto:'r_end'},
+      {label:'r3'},{speaker:'kexin',expression:'serious',text:'確定。我比你早確定。'},
+      {label:'r_end'},{speaker:'player',text:'……因為我？'},{speaker:'kexin',expression:'neutral',text:'不是。我寒假就在查了。你只是剛好比我早說。'},
       {if:{flagIs:{E22B_TOLD:true}},speaker:'kexin',expression:'smile',text:'你那本法律入門，我那時候就看到了。'},{if:{flagIs:{E22B_TOLD:false}},speaker:'kexin',expression:'teasing',text:'你說那本是『沒什麼』。我那時候就知道是什麼了。'},   /* E22B_TOLD 有值才多一句（BB_104 3-3 E27 那一列；位置待 BB-B 確認）*/
       {speaker:'kexin',expression:'serious',text:'理由是我自己的。我說不出最想念哪一科，可是我很確定，我想要。'},
       {speaker:'kexin',expression:'smile',text:'所以我們說好——一起準備。同一張桌子。你畫架構，我出假設題。'},{speaker:'kexin',expression:'smile',text:'還有，你不可以偷偷比我早起。'},
