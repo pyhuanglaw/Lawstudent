@@ -1715,6 +1715,23 @@ const STORY_EVENTS=[
       {label:'c'},{speaker:'kexin',expression:'teasing',text:'你很會不回答。這是一種才能。'},
       {label:'end'},{set:{E18A_DOUHUA:true}} ],
     after:(G,GM)=>{ GM.advance(0.75); } },
+  /* E16 經濟學原理的分組報告：囚犯困境（BB_104 8b-8；AA_154 第 133、134 行）：第 15 週（12/9）經原下課在博雅小桌分工（E16_ROLE：slides／report／stage）；
+     第 16 週（12/16）經原那堂上台報告（角色那一句＋報告結束＋魏教授）。寫報告的玩家 12/15 23:00 可昕私訊兩則（story3d.js）。第 16 週翹課＝品妤群組一句、E16_ROLE:'absent' */
+  { id:'ev_y0_e16a', stage:'econ', title:'分組', participants:['econ_pinyu','kexin'], location:'any', trigger:'class', afterClass:'econ_principles_y0', term:['Y0S1'], weeks:[15], once:true, background:'blur',
+    dialogue:[ {speaker:null,text:'（第 15 週，經原教到囚犯困境。下課後，四個人在博雅的小桌子。）'},
+      {speaker:'econ_pinyu',text:'下週上台：囚犯困境。我們分一下工。'},
+      {speaker:'韋綸',text:'我負責……（手機響了）我先接一下。'},
+      {speaker:null,text:'（韋綸消失了。）'},
+      {speaker:'kexin',expression:'neutral',text:'好。我們來設計一個機制：最晚交的人，請宵夜。'},
+      {speaker:'econ_pinyu',text:'重複賽局。很好，我喜歡。'},
+      {speaker:'kexin',expression:'neutral',text:'（看你）你要做哪一塊？'},
+      {choice:[{text:'做簡報',set:{E16_ROLE:'slides'}},{text:'寫報告',set:{E16_ROLE:'report'}},{text:'上台',set:{E16_ROLE:'stage'}}]} ] },
+  { id:'ev_y0_e16b', stage:'econ', title:'分組報告', participants:['kexin'], location:'any', trigger:'class', afterClass:'econ_principles_y0', term:['Y0S1'], weeks:[16], once:true, background:'blur',
+    dialogue:[ {if:{flagIs:{E16_ROLE:'report'}},speaker:null,text:'韋綸那段由你補。'},
+      {if:{flagIs:{E16_ROLE:'slides'}},speaker:null,text:'簡報最後一頁，可昕偷放了一題：「假設兩個囚犯是朋友，還會背叛嗎？」'},
+      {if:{flagIs:{E16_ROLE:'stage'}},speaker:null,text:'魏教授問了最難的一題。台下的可昕比了一個「慢慢來」。'},
+      {speaker:null,text:'（報告結束。韋綸最晚交，請了大家宵夜。）'},
+      {speaker:'魏教授',text:'（看完簡報）這一組四個人，只有一個背叛。比例不錯。'} ] },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、
