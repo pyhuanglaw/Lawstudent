@@ -1622,6 +1622,21 @@ const STORY_EVENTS=[
       {label:'h'},{speaker:'kexin',expression:'surprise',text:'……這是我聽過最好的回答。'},{goto:'end'},
       {label:'t'},{speaker:'kexin',expression:'neutral',text:'貓的太常見了。我想要一個大家都沒想過的東西。'},
       {label:'end'} ] },
+  /* ★E14 保齡球館：交換穿高中制服（BB_104 8-5；AA_154 第 130 行、A33；固定核心）：11/14 21:00 群組約（story3d.js；品妤那句是 AA 暫定）、出發選單 11/15 19:00；
+     開始後 15 分鐘還沒出發＝韋綸打電話（AA 暫定句）→ 直接進出遊。只用文字，不做制服 CG。沒有旗標 */
+  { id:'ev_y0_e14', stage:'econ', title:'保齡球館', participants:['econ_pinyu','econ_zhengxun'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
+    dialogue:[ {scene:'保齡球館',bg:'bowling'},
+      {speaker:'econ_pinyu',text:'大家都帶了吧？高中制服。抽籤交換。'},
+      {speaker:'kexin',expression:'neutral',text:'我不抽。'},
+      {speaker:'kexin',expression:'smile',text:'（拿起祐廷的那一件）我要這件。'},
+      {speaker:'player',text:'……為什麼？'},
+      {speaker:'kexin',expression:'teasing',text:'你的學號繡在上面。我想知道當你是什麼感覺。'},
+      {speaker:'econ_zhengxun',text:'（打出全倒，沒有人看到）'},
+      {choice:[{text:'「這件妳穿太大了。」',goto:'a'},{text:'「那我穿妳的？」',goto:'b'},{text:'（拿起手機拍照）',goto:'c'}]},
+      {label:'a'},{speaker:'kexin',expression:'smile',text:'這樣比較好。可以藏東西。'},{goto:'end'},
+      {label:'b'},{speaker:'econ_pinyu',text:'她的你穿不下。'},{goto:'end'},
+      {label:'c'},{speaker:'kexin',expression:'laugh',text:'拍好看一點。這是證據。'},
+      {label:'end'},{speaker:null,text:'手機裡多了一張照片。她穿著你高中的外套，袖子太長，正在比一個勝利手勢。'} ] },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、
