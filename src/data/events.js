@@ -1541,6 +1541,19 @@ const STORY_EVENTS=[
       {label:'c'},{speaker:null,text:'四十分鐘過去，誰都沒有翻頁。'},{set:{B2_PICK:'chat'}},
       {label:'end'} ],
     after:(G,GM)=>{ GM.advance(G.flags.B2_PICK==='chat'?2/3:1/6); } },
+  /* C1 即興劇社的熱身（BB_110 第 3 節；AA_154 第 113 行）：Y0S1 第 6 週晚上（10/10 除外），可昕邀（story3d.js：17:30 私訊，回好＝出遊 19:00 博雅借用的教室）。不管 E07 選了什麼都可以去。
+     記 IMPROV_LINE＝祐廷接的那一句（E18 小公演可昕接住它）。沒去：22:00 可昕「你錯過了一隻企鵝。」*/
+  { id:'ev_y0_c1', stage:'econ', title:'即興劇社的熱身', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+    dialogue:[ {scene:'博雅・借用的教室',bg:'classroom_small'},
+      {speaker:'社長',text:'熱身。規則只有一個：對方說什麼，你都說「對，而且——」。'},
+      {speaker:'唐睿',text:'（對祐廷）我是一隻迷路的企鵝。'},
+      {speaker:'player',text:'對，而且……'},
+      {choice:[{text:'「而且你迷路的地方是公館。」',set:{IMPROV_LINE:'而且你迷路的地方是公館。'},goto:'a'},{text:'「而且我是來接你的計程車。」',set:{IMPROV_LINE:'而且我是來接你的計程車。'},goto:'b'},{text:'「而且……你欠我錢。」',set:{IMPROV_LINE:'而且……你欠我錢。'},goto:'c'}]},
+      {label:'a'},{speaker:'唐睿',text:'對，而且公館的企鵝都要排隊吃豆花。'},{goto:'end'},
+      {label:'b'},{speaker:'唐睿',text:'對，而且我沒帶錢——等一下。'},{goto:'end'},
+      {label:'c'},{speaker:'唐睿',text:'對，而且——（停住）——這不是熱身，這是討債。'},{speaker:null,text:'全場笑。'},
+      {label:'end'},{speaker:'kexin',expression:'smile',text:'（小聲）你接得比我想的好。'},
+      {speaker:'社長',text:'新來的，下次還來嗎？'} ] },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、
