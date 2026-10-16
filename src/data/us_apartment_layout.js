@@ -81,7 +81,7 @@ const US_APARTMENT_LAYOUT={
   "spawns":{
     "fromOutside":{"x":0.4,"z":4.0,"yaw":-1.5708,"note":"從外面回來：剛爬上樓梯，面向西（看得到大門）"},
     "entry":{"x":-1.0,"z":2.2,"yaw":3.1416,"note":"一進門：走道，面向北（客廳）"},
-    "bedroom":{"x":2.6,"z":-1.0,"yaw":1.5708,"note":"早上醒來：床邊，面向東（床）"}
+    "bedroom":{"x":2.4,"z":-1.0,"yaw":1.5708,"note":"早上醒來：床尾，面向東（床）；床尾的被子垂到 x 2.73，人的半徑 0.33，所以站 2.4"}
   },
   "furniture":[
     {"type":"fridge","room":"kitchen","x":-4.2,"z":1.8,"w":0.8,"d":0.75,"ry":1.5708,"use":"fridge","note":"白色"},
@@ -102,12 +102,12 @@ const US_APARTMENT_LAYOUT={
     {"type":"tvStand","room":"living","x":0.8,"z":-2.4,"w":1.1,"ry":-1.33,"note":"角落、斜放，面向沙發；黑色"},
     {"type":"ceilingFan","room":"living","x":-1.6,"z":-1.0,"note":"白色五葉＋四個燈罩（照片一、三）"},
     {"type":"thermostat","room":"living","x":1.3,"z":0.4,"y":1.5,"ry":-1.5708},
-    {"type":"bed","room":"bedroom","x":4.0,"z":-1.0,"w":1.4,"d":2.0,"ry":-1.5708,"use":"sleep","note":"Full；床頭靠東牆、床尾朝西（模型的床尾朝 +z）；灰白人字紋被子（照片一）"},
-    {"type":"nightstand","room":"bedroom","x":4.7,"z":-2.1,"note":"黑色方格櫃"},
-    {"type":"desk","room":"bedroom","x":3.2,"z":-2.7,"w":1.2,"d":0.55,"ry":0,"use":"study","note":"北窗下"},
-    {"type":"deskChair","room":"bedroom","x":3.2,"z":-2.1,"ry":3.1416,"seat":true},
+    {"type":"bed","room":"bedroom","x":3.93,"z":-1.0,"w":1.4,"d":2.0,"ry":-1.5708,"use":"sleep","note":"Full；床頭靠東牆（床頭板貼東牆的室內面：x 3.93）、床尾朝西（模型的床尾朝 +z）；灰白人字紋被子（照片一）"},
+    {"type":"nightstand","room":"bedroom","x":4.7,"z":-2.1,"ry":-1.5708,"note":"黑色方格櫃；開口朝西（和床尾同方向；BB-B ART-US3 建議，LAWWW2-B 同意）"},
+    {"type":"desk","room":"bedroom","x":3.2,"z":-2.66,"w":1.2,"d":0.55,"ry":0,"use":"study","note":"北窗下（背面貼北牆的室內面）"},
+    {"type":"deskChair","room":"bedroom","x":3.2,"z":-2.15,"ry":3.1416,"seat":true,"note":"往北 5 cm：離床的被子留空隙"},
     {"type":"ceilingLight","room":"bedroom","x":3.2,"z":-1.0,"note":"吸頂燈（照片一的臥室看得到）"},
-    {"type":"suitcase","room":"bedroom","x":1.8,"z":-2.55,"w":0.45,"d":0.7,"ry":0.4,"note":"還沒拆完的行李箱"},
+    {"type":"suitcase","room":"bedroom","x":2.12,"z":-2.45,"w":0.95,"d":0.99,"ry":0,"cx":-0.21,"cz":0.065,"note":"還沒拆完的行李箱，攤平在地上（BB-B ART-US3：蓋子在西邊，整體 x −0.68～+0.27、z −0.43～+0.56；cx、cz＝佔地中心相對原點的位移）；原本 (1.8,−2.55) ry 0.4 蓋子會穿過西牆"},
     {"type":"tub","room":"bath","x0":0.6,"x1":2.1,"z0":2.25,"z1":3.0,"note":"浴缸淋浴兩用（南牆）"},
     {"type":"toilet","room":"bath","x":0.95,"z":1.45,"ry":1.5708,"note":"靠西牆、面向東"},
     {"type":"vanity","room":"bath","x0":2.45,"x1":3.0,"z0":1.4,"z1":2.6,"note":"洗手台＋鏡子（東牆、面向西）"},
