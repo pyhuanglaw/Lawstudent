@@ -1,24 +1,24 @@
 {
  "objects": 8,
  "unique_meshes": 8,
- "tris": 29782,
- "tris_drawn": 29782,
+ "tris": 29862,
+ "tris_drawn": 29862,
  "materials": 1,
  "out": "assets/models/env/second_ai/bb_support/scooter_shop_props.glb",
- "bytes": 1069268,
+ "bytes": 1073936,
  "texres": 1024,
  "modules": {
   "SHOP_TIRE_STACK": {
    "tris": 8112,
    "min": [
-    -0.4874,
+    -0.4934,
     -0.003,
-    -0.2641
+    -0.271
    ],
    "max": [
-    0.5054,
-    0.7089,
-    0.4138
+    0.5124,
+    0.7087,
+    0.4058
    ]
   },
   "SHOP_TOOL_WALL": {
@@ -87,33 +87,33 @@
    ]
   },
   "SHOP_STOOL_RED": {
-   "tris": 356,
+   "tris": 396,
    "min": [
-    -0.172,
-    0.0,
-    -0.172
+    -0.162,
+    -0.0004,
+    -0.162
    ],
    "max": [
-    0.172,
+    0.162,
     0.26,
-    0.172
+    0.162
    ]
   },
   "SHOP_STOOL_BLUE": {
-   "tris": 356,
+   "tris": 396,
    "min": [
-    -0.172,
-    0.0,
-    -0.172
+    -0.162,
+    -0.0004,
+    -0.162
    ],
    "max": [
-    0.172,
+    0.162,
     0.26,
-    0.172
+    0.162
    ]
   }
  },
- "tris_total": 29782,
+ "tris_total": 29862,
  "atlas": [
   "tools/blender/env_second/bb_support/textures/gen/scooter_shop_props_atlas.png",
   "tools/blender/env_second/bb_support/textures/gen/scooter_shop_props_orm.png"
@@ -169,19 +169,19 @@
   ]
  },
  "checks": {
-  "stack_A_top": 0.7088,
-  "stack_B_top": 0.6042,
+  "stack_A_top": 0.7087,
+  "stack_B_top": 0.5789,
   "lean": {
    "center": [
     0.285,
-    0.2154,
-    0.317
+    0.2153,
+    0.315
    ],
    "lean_deg": 14,
-   "min_gap_to_stack_B_m": 0.0055,
-   "top_y": 0.4338
+   "contact_gap_m": 0.003,
+   "top_y": 0.4336
   },
-  "peg_smudge_cells": 8,
+  "peg_smudge_cells": 10,
   "socket_rail_x": [
    -0.12,
    0.173
