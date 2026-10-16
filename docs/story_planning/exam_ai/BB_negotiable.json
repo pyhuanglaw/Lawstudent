@@ -1,5 +1,5 @@
 {
- "_comment": "大一～大三 AI 補題（使用者 2026-10-16 約 05:0x 授權；exam_ai/README.md）。作者 BB；BB 自審完成（AI_SELF_REVIEWED）；AA 交叉審通過後改 AI_CROSS_REVIEWED、crossReviewedBy＝AA，才會被抽。只借考點與題型，情境、問法、選項全部自己寫。原稿 BB_ai_src.py。",
+ "_comment": "大一～大三 AI 補題（使用者 2026-10-16 約 05:0x 授權；exam_ai/README.md）。作者 BB；BB 自審完成，AA-B 2026-10-16 交叉審通過（AI_CROSS_REVIEWED、crossReviewedBy＝AA）；進遊戲前仍要 LAWWW-B 取得使用者的直接確認。只借考點與題型，情境、問法、選項全部自己寫。原稿 BB_ai_src.py。",
  "course": "negotiable",
  "term": "Y3S2",
  "name": "票據及支付工具法",
@@ -38,8 +38,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（票據法 民國 76 年 06 月 29 日修正）"
   },
@@ -75,8 +75,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（票據法 民國 76 年 06 月 29 日修正）"
   },
@@ -112,8 +112,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（票據法 民國 76 年 06 月 29 日修正）"
   },
@@ -149,8 +149,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（票據法 民國 76 年 06 月 29 日修正）"
   },
@@ -181,8 +181,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（票據法 民國 76 年 06 月 29 日修正）"
   },
@@ -213,8 +213,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（票據法 民國 76 年 06 月 29 日修正）"
   },
@@ -250,8 +250,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（票據法 民國 76 年 06 月 29 日修正）"
   },
@@ -287,8 +287,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（票據法 民國 76 年 06 月 29 日修正）"
   },
@@ -324,8 +324,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（票據法 民國 76 年 06 月 29 日修正）"
   },
@@ -356,8 +356,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（票據法 民國 76 年 06 月 29 日修正）"
   }

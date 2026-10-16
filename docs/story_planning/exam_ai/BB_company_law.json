@@ -1,5 +1,5 @@
 {
- "_comment": "大一～大三 AI 補題（使用者 2026-10-16 約 05:0x 授權；exam_ai/README.md）。作者 BB；BB 自審完成（AI_SELF_REVIEWED）；AA 交叉審通過後改 AI_CROSS_REVIEWED、crossReviewedBy＝AA，才會被抽。只借考點與題型，情境、問法、選項全部自己寫。原稿 BB_ai_src.py。",
+ "_comment": "大一～大三 AI 補題（使用者 2026-10-16 約 05:0x 授權；exam_ai/README.md）。作者 BB；BB 自審完成，AA-B 2026-10-16 交叉審通過（AI_CROSS_REVIEWED、crossReviewedBy＝AA）；進遊戲前仍要 LAWWW-B 取得使用者的直接確認。只借考點與題型，情境、問法、選項全部自己寫。原稿 BB_ai_src.py。",
  "course": "company_law",
  "term": "Y3S1",
  "name": "商事法總論及公司法",
@@ -38,8 +38,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（公司法 民國 114 年 12 月 26 日修正）"
   },
@@ -75,8 +75,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（公司法 民國 114 年 12 月 26 日修正）"
   },
@@ -112,8 +112,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（公司法 民國 114 年 12 月 26 日修正）"
   },
@@ -154,8 +154,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（公司法 民國 114 年 12 月 26 日修正）"
   },
@@ -186,8 +186,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（公司法 民國 114 年 12 月 26 日修正）"
   },
@@ -223,8 +223,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（公司法 民國 114 年 12 月 26 日修正）"
   },
@@ -255,8 +255,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（公司法 民國 114 年 12 月 26 日修正）"
   },
@@ -292,8 +292,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（公司法 民國 114 年 12 月 26 日修正）"
   },
@@ -303,7 +303,7 @@
    "term": "Y3S1",
    "scopeWeek": 11,
    "type": "mc",
-   "q": "股份有限公司的董事長戊，想把自己名下的一塊土地賣給公司。這份買賣契約，公司這一方應該由誰代表簽約？",
+   "q": "股份有限公司的董事長戊（這家公司設有監察人），想把自己名下的一塊土地賣給公司。這份買賣契約，公司這一方應該由誰代表簽約？",
    "options": {
     "A": "監察人",
     "B": "董事長戊自己",
@@ -324,8 +324,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（公司法 民國 114 年 12 月 26 日修正）"
   },
@@ -356,8 +356,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（公司法 民國 114 年 12 月 26 日修正）"
   }

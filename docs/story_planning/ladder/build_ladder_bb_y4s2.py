@@ -1,0 +1,213 @@
+# -*- coding: utf-8 -*-
+"""大四下（Y4S2）的閒聊階梯：溫學姊（heroine_05）、沛珊（classmate_peishan）、可昕（kexin）→ ladder_bb_y4s2.json。
+作者：BB-B 2026-10-16（D81）。原稿說明：../BB_143_閒聊階梯_大四下_學姊沛珊可昕.md。格式同 ladder_bb_y4s1.json，term＝'Y4S2'。
+**芷若、子晴這學期沒有階梯**：芷若在英國念電影研究一年（畢業典禮那天只傳票根照片，BB_99 第 6 節）；子晴在工作室上班，只有手機。
+大四大家都在台灣；交換延畢的玩家（EXCHANGE_ROUTE 'JP'／'US'）6/2 照常參加畢業典禮、證書晚半年（BB_99 第 6 節），學姊 S7-L8 用 linesIf 換一句。
+依據 BB_99（大四下）：學姊 2-7c 自己放的一天假（第 10 週，交往中才有）、M9 口試（第 15 週 5/29）、W15 保溫瓶（6/2）；
+沛珊 P6 媽媽來看她的公開課（第 8 週）；可昕 春假（第 7 週）、生日（第 10 週 4/24）、K25 讀書會的最後一晚（第 13 週）、K24 兩個畢業典禮（6/2、6/9）、手機小事（9-20）。
+**防卡關**：`if` 只放階段；事件、記憶、旗標的差別放 linesIf／extraIf；週次放寬到第 18 週。
+**第 15 週以後是畢業以後**：週次放寬到 18 的層，台詞要在畢業前、畢業後都說得通（不寫「快畢業了」「還有幾天」）。
+**學姊**：單身、和祐廷交往、還和顧承遠在一起三種狀態都通（friendOnly）；戀人的戲在 2-7c、M9、W15。
+**不重複事件的台詞**（build 擋，見 BAN）。
+用法：python3 build_ladder_bb_y4s2.py → ladder_bb_y4s2.json；--check 只檢查。"""
+import json, sys, os
+Y='Y4S2'
+def st(npc, mn): return {'stage': {'npc': npc, 'min': mn}}
+def mem(npc, tag): return {'memory': [{'npc': npc, 'tag': tag}]}
+def fl(*f): return {'flags': list(f)}
+def route(r): return {'flagIs': {'EXCHANGE_ROUTE': r}}
+def ch(t, reply, rel=None, mem=None):
+    c = {'t': t, 'reply': reply}
+    if rel: c['rel'] = rel
+    if mem: c['mem'] = mem
+    return c
+
+SIS='heroine_05'; PS='classmate_peishan'; KX='kexin'
+D = {'_comment': __doc__, 'term': Y, 'characters': {}}
+
+# ───────── 溫書瑀（碩二下；論文最後一學期；第 15 週口試）─────────
+D['characters'][SIS] = {'friendOnly': True, 'steps': [
+ {'id':'S7-L1','if':st(SIS,'ACQUAINTANCE'),
+  'lines':['研究室的白板上，有人寫了口試倒數。九十八天。','……不是我寫的。每天都有人擦掉，改一個數字。'],
+  'choices':[ch('「是誰寫的？」','不知道。我懷疑是全部的人。'),
+             ch('「學姊會緊張嗎？」','會。所以我每天看它一次，然後轉身寫論文。',rel={'trust':1})],'rel':{'fam':2},'mem':'SIS7_COUNTDOWN',
+  'note':'M9 口試（第 15 週）的前情；不說結果'},
+ {'id':'S7-L2','if':st(SIS,'ACQUAINTANCE'),
+  'lines':['寒假我放了一天假。寫在計畫本上的那種。','那一格，我畫了一個勾。'],
+  'choices':[ch('「那天做了什麼？」','什麼都沒做。……很難。我差一點去研究室。'),
+             ch('「學姊做到了。」','嗯。第一次。……下次應該會比較容易。',rel={'trust':1})],'rel':{'fam':2,'comf':1},'mem':'SIS7_DAYOFF_DONE',
+  'note':'大四上 S6-L8（寒假放一天假）的後來；交往中的玩家第 10 週另有 2-7c（口試前那一天），兩件不衝突'},
+ {'id':'S7-L3','if':st(SIS,'FAMILIAR'),'week':[3,18],
+  'lines':['老師在我第三章的旁邊，寫了一個字：好。','……我看了很久。'],
+  'choices':[ch('「只有一個字？」','一個字。我以前會覺得不夠。現在覺得剛好。'),
+             ch('「學姊值得。」','……謝謝。我把那一頁影印了。不要笑。',rel={'comf':1})],'rel':{'fam':2,'trust':1},'mem':'SIS7_ONE_WORD'},
+ {'id':'S7-L4','if':st(SIS,'FAMILIAR'),'week':[5,18],
+  'lines':['研究室來了一個碩一的學妹。她問我，論文怎麼開始。','我說：先寫妳最想知道的那一句。'],
+  'choices':[ch('「學姊以前也這樣？」','不是。我以前先寫目錄。……寫了三個月的目錄。'),
+             ch('「學姊變成前輩了。」','……前輩。我還在習慣這兩個字。',rel={'comf':1})],'rel':{'fam':2,'comf':1},'mem':'SIS7_JUNIOR'},
+ {'id':'S7-L5','if':st(SIS,'FAMILIAR'),'week':[7,18],
+  'lines':['一位受訪的阿姨打電話來，問論文寫完了沒。','她說，她想看自己的那一段。'],
+  'choices':[ch('「學姊會給她看嗎？」','會。我改了三次，讓她看得懂。……最難的一次修改。',rel={'trust':1}),
+             ch('「她很在意。」','嗯。那是她的事。我只是把它寫下來。')],'rel':{'fam':2,'trust':1},'mem':'SIS7_INTERVIEWEE',
+  'note':'大四上 S6-L7「人聽得懂的才是答案」的延伸；不說是誰的話'},
+ {'id':'S7-L6','if':st(SIS,'FAMILIAR'),'week':[9,18],
+  'lines':['我爸傳訊息，問論文幾頁了。我說一百四十二頁。','他回：比我們的公文長。'],
+  'choices':[ch('「妳爸在等。」','嗯。他說辦公室的書架，已經清出一個位子。'),
+             ch('「一百四十二頁很多。」','重點是，每一頁我都知道它為什麼在那裡。',rel={'trust':1})],'rel':{'fam':2,'comf':1},'mem':'SIS7_PAGES',
+  'note':'大四上 S6-L6（爸爸要一本論文放在辦公室）的後來'},
+ {'id':'S7-L7','if':st(SIS,'FAMILIAR'),'week':[12,18],
+  'lines':['口試委員裡，有一位是我大一的老師。','他上課的時候，我坐第一排。……這次他坐我對面。'],
+  'choices':[ch('「學姊會坐得很直。」','嗯。……我想像了一下，已經坐直了。'),
+             ch('「學姊準備好了。」','過不過，是他們決定的。準備，是我決定的。',rel={'trust':1})],'rel':{'fam':2,'trust':1},'mem':'SIS7_COMMITTEE',
+  'note':'第 15 週以後看到也通（講的是委員是誰，不說結果）'},
+ {'id':'S7-L8','if':st(SIS,'FRIEND'),'week':[13,18],
+  'lines':['六月，我們同一個月畢業。我碩士，你學士。','……不同的典禮。可是同一個夏天。'],
+  'linesIf':[{'if':route('JP'),'lines':['六月，我們同一天穿上畢業服。你的證書晚一點。','……沒關係。典禮是真的。']},
+             {'if':route('US'),'lines':['六月，我們同一天穿上畢業服。你的證書晚一點。','……沒關係。典禮是真的。']}],
+  'choices':[ch('「一起畢業。」','嗯。……我以前以為，我會比你早很多。'),
+             ch('「學姊畢業要做什麼？」','下一本計畫本，我還沒買。這次想先空著幾天。',rel={'trust':1})],'rel':{'fam':2,'comf':1},'mem':'SIS7_SAME_SUMMER',
+  'note':'交換延畢的玩家（EXCHANGE_ROUTE JP／US）換一句（BB_99 第 6 節：同一天參加典禮、證書晚半年）；畢業前後都通'},
+],'greet':{'base':['學弟。……第四章。','（她抱著一疊列印出來的論文，邊走邊看）','研究室的咖啡機又壞了。我現在喝茶，沒差。','兩件事。一，吃飯。二，你決定。','今天寫了三頁。……刪了兩頁。淨賺一頁。'],
+ 'when':[{'location':['library','library_hall'],'week':[8,9],'t':'期中。我沒有考試。……可是我有指導教授。'},
+         {'weather':'rain','t':'下雨。兩件事。一，帶傘。二，論文不要淋濕。'},
+         {'time':[20,24],'t':'這麼晚。……研究室的燈，今天換你提醒我關。'},
+         {'week':[13,14],'t':'口試前兩週。……我現在講話會先停一下。'},
+         {'week':[16,18],'t':'畢業了。……我還是每天去研究室。習慣。'}]},
+ 'note':'碩二下；三種狀態都通的朋友的話（friendOnly）；口試與畢業的戲在 BB_99 2-5、2-6、2-7c'}
+
+# ───────── 郭沛珊（教育相關科系大二下；課輔班帶第二年；週末舊路書房）─────────
+D['characters'][PS] = {'friendOnly': True, 'steps': [
+ {'id':'P8-L1','if':st(PS,'ACQUAINTANCE'),
+  'lines':['這學期，課輔班讓我帶一整班。十二個孩子。','我把他們的名字寫在手上，背了一個週末。'],
+  'choices':[ch('「背起來了嗎？」','背起來了。手洗了三天才洗掉。'),
+             ch('「十二個很多。」','嗯。可是每一個都只有一個。……我是說，都不一樣。',rel={'trust':1})],'rel':{'fam':2},'mem':'PS8_WHOLE_CLASS'},
+ {'id':'P8-L2','if':st(PS,'ACQUAINTANCE'),
+  'lines':['課輔班要排公開課，家長會來看。','……我說好的時候，手在抖。'],
+  'choices':[ch('「妳一定可以。」','……你這樣說，我比較不抖了。',rel={'trust':1}),
+             ch('「手抖也可以上課。」','嗯。粉筆拿穩就好。……上次斷了。')],'rel':{'fam':2,'comf':1},'mem':'PS8_SAID_YES',
+  'note':'P6 公開課（第 8 週）的前情；「上次斷了」接大三下 P6-L1（粉筆斷了）'},
+ {'id':'P8-L3','if':st(PS,'FAMILIAR'),'week':[3,18],
+  'lines':['童書區的留言本，有一個小孩寫：我長大要當書店老闆。','老闆看到，在下面寫：我等你。'],
+  'choices':[ch('「老闆很可愛。」','他說這是祕密。……我只告訴你。'),
+             ch('「那個小孩會回來。」','嗯。我也這樣想。所以我把那一頁折起來了。')],'rel':{'fam':2,'comf':1},'mem':'PS8_GUESTBOOK'},
+ {'id':'P8-L4','if':st(PS,'FAMILIAR'),'week':[5,18],
+  'lines':['我算了一下：等我真的站上國中的講台，','你已經畢業好幾年了。'],
+  'choices':[ch('「我去看妳上課。」','好。那你要坐在學生旁邊。……跟他們一起舉手。',rel={'comf':1}),
+             ch('「妳慢慢來。」','嗯。我現在的速度，剛好。')],'rel':{'fam':2,'trust':1},'mem':'PS8_FAR_AHEAD',
+  'note':'大三下 P6-L7（「我覺得剛好」）的回聲；不寫實習的制度細節'},
+ {'id':'P8-L5','if':st(PS,'FAMILIAR'),'week':[9,18],
+  'lines':['公開課以後，有一個家長來問我：','老師，妳明年還在嗎？'],
+  'choices':[ch('「妳還在嗎？」','在。我說在。……說出口才發現，我想在。',rel={'trust':2}),
+             ch('「家長喜歡妳。」','他喜歡他的小孩喜歡我。……這樣就夠了。')],'rel':{'fam':2,'trust':1},'mem':'PS8_NEXT_YEAR',
+  'note':'P6（第 8 週）之後；去不去公開課都通'},
+ {'id':'P8-L6','if':st(PS,'FAMILIAR'),'week':[11,18],
+  'lines':['讀書會有人問我，為什麼重考一次，念教育。','我說：因為我想站在前面。'],
+  'choices':[ch('「這個答案很好。」','我練習了很久。……第一次說出來，比想的簡單。'),
+             ch('「妳本來就站在前面。」','……以前是被推上去的。現在是我自己走上去的。',rel={'trust':2})],'rel':{'fam':2,'trust':1},'mem':'PS8_WHY_EDU'},
+ {'id':'P8-L7','if':st(PS,'FAMILIAR'),'week':[13,18],
+  'lines':['我的學生問我：老師，大學念完，會怎樣？','……我想到你。'],
+  'choices':[ch('「妳怎麼回答？」','我說：我還在念，不知道。……我去問一個人。'),
+             ch('「會長大一點。」','……好。我就這樣跟他說。說是你說的。',rel={'comf':1})],'rel':{'fam':2,'comf':1},'mem':'PS8_STUDENT_ASKS',
+  'note':'畢業前後都通'},
+ {'id':'P8-L8','if':st(PS,'FRIEND'),'week':[14,18],
+  'lines':['暑假我又要上山帶營隊。這次我是小隊長。','……我第一次被叫「隊長」。'],
+  'choices':[ch('「書要帶夠。」','帶了。這次兩箱。郵費我已經算好了。'),
+             ch('「恭喜升官。」','不是升官。是要比較早起床。……我本來就早起。')],'rel':{'fam':2,'comf':1},'mem':'PS8_CAMP_LEADER',
+  'note':'大三下 P6-L8、大四上 P7-L1（營隊）的後來'},
+],'greet':{'base':['嗨！……我剛從課輔班回來。手上還有粉筆灰。','（她在書店童書區，把一張畫貼在矮書架旁邊）','你吃早餐了嗎？……這句我要問到你畢業以後。','十二個孩子。今天全部都有交作業。……奇蹟。','我今天在白板上寫了一個很大的問號。'],
+ 'when':[{'location':['bookstore'],'weekday':[0,6],'t':'（她在童書區，對你揮手，小聲）……這裡要小聲。'},
+         {'week':[7,8],'t':'公開課快到了。……我晚上都在對著鏡子講。'},
+         {'weather':'rain','t':'下雨天，童書區會坐滿小孩。'},
+         {'time':[6,8],'t':'早。……今天也比學生早。'},
+         {'week':[16,18],'t':'期末。暑假我要上山。'}]},
+ 'note':'教育相關科系大二下；課輔班帶整班、週末舊路書房童書區；戀愛事件照 BB_100 2-5，階梯只有朋友的話'}
+
+# ───────── 杜可昕（政大法律四下；準備律師考試；只在「我們的日子」推進——見面或視訊都算）─────────
+DK = {'flags': ['dating_kexin']}
+D['characters'][KX] = {'context':'date','steps': [
+ {'id':'K8-L1','if':DK,
+  'lines':['開學第一天，邵鈞把考古題目錄的第三冊帶來了。','他說這是最後一冊。'],
+  'choices':[ch('「真的最後？」','他每次都這樣說。……我不信。'),
+             ch('「邵鈞很認真。」','嗯。予樂幫他取了名字：目錄先生。')],'rel':{'comf':2},'mem':'KX8_THIRD_VOLUME',
+  'note':'BB_99 9-20 大四上手機小事「目錄有第二冊」的後來'},
+ {'id':'K8-L2','if':DK,'week':[3,18],
+  'lines':['讀書計畫表的格子越來越小。我換了比較細的筆。'],
+  'linesIf':[{'if':fl('KX_STUDY_PLAN'),'lines':['你的那幾格，我也照樣畫小了。','……可是「我們的日子」那一格，我畫大一點。']}],
+  'choices':[ch('「換一本大的？」','不換。小格子才寫得完。這是我的理論。'),
+             ch('「格子小，事情多。」','對。……所以要留一格大的。',rel={'comf':1})],'rel':{'comf':2},'mem':'KX8_FINE_PEN',
+  'note':'有 KX_STUDY_PLAN（K21 共用的讀書計畫表）的玩家用 linesIf'},
+ {'id':'K8-L3','if':DK,'week':[5,18],
+  'lines':['予樂開始做我們三個人的畢業紀念冊。','她說，每個人交一頁。'],
+  'choices':[ch('「妳那一頁寫什麼？」','還沒寫。……假設題不行。她說太長。'),
+             ch('「我幫妳拍照。」','好。拍讀書會那一桌。……不要拍我。',rel={'comf':1})],'rel':{'comf':2},'mem':'KX8_YEARBOOK'},
+ {'id':'K8-L4','if':DK,'week':[6,18],
+  'lines':['今天走樓梯，我第一次沒有數。','……走到上面才發現。'],
+  'choices':[ch('「不用數了。」','嗯。好像終於變成我的樓梯了。',rel={'comf':1}),
+             ch('「幾階？」','一百二十七。不用數也知道。')],'rel':{'comf':2,'trust':1},'mem':'KX8_STAIRS',
+  'note':'大三上 K5-L1、大四上 K7-L1（一百二十七階）的回聲'},
+ {'id':'K8-L5','if':DK,'week':[11,18],
+  'lines':['長頸鹿耳環的扣子鬆了。我拿去修。','老闆說：這一隻，戴很久了喔。'],
+  'choices':[ch('「修好了嗎？」','修好了。另一隻我還是沒買。……一隻就夠了。'),
+             ch('「牠聽過很多事。」','嗯。很多假設題。……還有一些不是假設的。',rel={'comf':2})],'rel':{'comf':2},'mem':'KX8_EARRING',
+  'note':'她只戴一邊的長頸鹿耳環（角色識別）；生日（第 10 週）之後，不提生日'},
+ {'id':'K8-L6','if':DK,'week':[12,18],
+  'lines':['最近讀到半夜，我會在筆記的角落畫一個小勾。','一天一個。'],
+  'choices':[ch('「勾很多了。」','嗯。勾多了，就不怕了。……一點點。'),
+             ch('「我幫妳畫一個。」','好。今天這個是你的。畫歪一點，比較好認。',rel={'comf':1})],'rel':{'comf':2,'trust':1},'mem':'KX8_CHECKS'},
+ {'id':'K8-L7','if':DK,'week':[14,18],
+  'lines':['讀書會結束以後，三個人還是會坐同一桌。','……各坐各的角落，不說話。'],
+  'choices':[ch('「那還算讀書會嗎？」','算。不說話的讀書會。予樂說這是最高級的。'),
+             ch('「我陪妳讀。」','視訊也算。……不要說話。你一說話我就看你。',rel={'comf':2})],'rel':{'comf':2},'mem':'KX8_SAME_TABLE',
+  'note':'K25（第 13 週讀書會的最後一晚）之後；去不去 K25 都通；不重複 K25 那幾句'},
+ {'id':'K8-L8','if':DK,'week':[15,18],
+  'lines':['長頸鹿肚子上的日期，越來越近了。','……我第一次，不想假設考完的那一天。'],
+  'choices':[ch('「那就不假設。」','好。考完再說。……你要記得問我。',rel={'trust':1}),
+             ch('「我陪妳數。」','不用數。陪我就好。',rel={'comf':2})],'rel':{'comf':2,'trust':1},'mem':'KX8_NO_ASSUME',
+  'note':'大四上 K7-L4（考試日期寫在長頸鹿肚子上）的後來；國考在八月（BB_99 9-19）；畢業前後都通'},
+],'greet':None,'note':'同前：交往中不在路上遇到；短招呼用手機池；分開就停。沒有 dateOnly，見面、視訊都推進'}
+
+BAN=['大家都只問','謝謝你沒有','不要跟別人講','不要跟別人說','你不用那個表情','我可以問一個奇怪的問題嗎','你是第一個','熱可可','加一份濃縮','我請你',
+     '後面排你','累了就停下來','停一下，不會怎樣','裡面是熱水','把明天空下來','這是我自己決定的','在口試前停下來','今天不吵了','叫我書瑀','致謝裡有你','你們怎麼都還在',
+     '坐最後面','坐最後一排','榜單還貼著','法官加油','回家再看',
+     '今年不要慶祝','這不算慶祝','不排行程表','明天開始，各自讀','這一格空著','最右邊那一格','你要來被看嗎','脖子還是很短','不知道怎麼休息','快了','你的那天我會到','最後一題你選哪一個']
+BRANDS=['麥當勞','摩斯','星巴克','7-11','統一超商','全家便利','萊爾富','誠品','路易莎','50嵐','五十嵐','迷客夏','寶可夢','任天堂','Switch','iPhone','Instagram','Google','YouTube','Netflix','迪士尼']
+def texts(s):
+    out=list(s['lines'])+[x for li in s.get('linesIf',[])+s.get('extraIf',[]) for x in li['lines']]
+    for c in s.get('choices',[]): out+= [c['t'], c['reply']]
+    return out
+def check(d):
+    err=[]
+    for cid,c in d['characters'].items():
+        ids=[s['id'] for s in c['steps']]
+        if len(ids)!=len(set(ids)): err.append(cid+' 層 id 重複')
+        if len(ids)!=8: err.append(cid+' 不是 8 層')
+        for s in c['steps']:
+            for l in texts(s):
+                if len(l)>48: err.append(f"{s['id']} 台詞太長（{len(l)}）：{l}")
+                for b in BAN+BRANDS:
+                    if b in l: err.append(f"{s['id']} 禁用字樣「{b}」：{l}")
+            for ch_ in s.get('choices',[]):
+                if len(ch_['t'])>20: err.append(f"{s['id']} 選項超過 20 字：{ch_['t']}")
+            if len(s.get('choices',[]))>2: err.append(s['id']+' 選項超過 2')
+            cond=s.get('if',{})
+            bad=[k for k in cond if k not in ('stage','any')]
+            if cid==KX and cond!={'flags':['dating_kexin']}: err.append(s['id']+' 可昕的 if 只能是 dating_kexin')
+            elif cid!=KX and bad: err.append(f"{s['id']} 的 if 只能放階段（防卡關）：{bad}")
+            if cid==KX and False: pass
+            if 'week' in s and s['week'][1]<18 and not s.get('skipIf'): err.append(f"{s['id']} 週次沒有放寬到第 18 週（會卡關）")
+        g=c.get('greet')
+        if g and len(g['base'])!=5: err.append(cid+' 短招呼不是 5 句')
+        if g:
+            for w in g['when']:
+                if len(w['t'])>48: err.append(f"{cid} 情境句太長：{w['t']}")
+                for b in BAN+BRANDS:
+                    if b in w['t']: err.append(f"{cid} 情境句禁用字樣「{b}」")
+            for b in g['base']:
+                if len(b)>48: err.append(f"{cid} 短招呼太長：{b}")
+    return err
+e=check(D)
+if e: sys.exit('\n'.join(e))
+if '--check' not in sys.argv:
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'ladder_bb_y4s2.json'),'w',encoding='utf-8') as f:
+        json.dump(D,f,ensure_ascii=False,indent=1); f.write('\n')
+print('ok', {k:len(v['steps']) for k,v in D['characters'].items()})
