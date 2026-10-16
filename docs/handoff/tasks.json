@@ -10161,8 +10161,8 @@
    "title": "一鍵上課：起床選單、直接去上課、選位子、下課選單",
    "area": "DL",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "AA_160 1-1～1-8；起床選單在宿舍晨間事件（含 K-D3）之後出（STORY.tick 沒有演事件那一輪）；小睡、在家醒來同一套",
+   "status": "已整合待測試",
+   "next": "第 1 批完成：起床選單（sleepNow、小睡醒來；晨間事件之後）、直接去上課（出門時間、跳過時間停點→繼續去上課、進教室區域、選位子：老位子／坐中間、坐在認識的人旁邊、自己找；坐下自動上課）、門口上課、下課選單（<60 三項、≥60 四項：吃飯 40 分、在附近讀書）、翹課（plan_skip、手機「翹課」「反悔」、30 分提醒不出）、期末考前 10 分鐘自動進考場（AA_126 1-1）、手機「直接去上課／去聽後半堂」、設定「起床時問我要不要去上課」。還沒做：路上【固】【必】事件停下來（等 AA_160 3-4 盤點表）、翹課確認的「你會錯過」、在家醒來（DL-05）、人在宿舍車在宿舍照騎車算。瀏覽器：1-8 驗收",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -10175,15 +10175,16 @@
     "confirmed": false
    },
    "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
-   "authorized": "D79（AA-B 定案的系統規格）"
+   "authorized": "D79（AA-B 定案的系統規格）",
+   "evidence": "tests/dl01_oneclick_unit.js（30 項）；playlib.skip_wake_menu"
   },
   {
    "id": "DL-02",
    "title": "拿掉體力（HUD、選單提示、吃與睡補體力）；GM.energy 留空函式、G.energy 固定 100",
    "area": "DL",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "AA_160 2-8 表；健身的「體能」保留",
+   "status": "已整合待測試",
+   "next": "瀏覽器：HUD 沒有體力條、選單提示（flow_playtest_fixes C 已改）",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -10196,7 +10197,8 @@
     "confirmed": false
    },
    "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
-   "authorized": "D79（AA-B 定案的系統規格）"
+   "authorized": "D79（AA-B 定案的系統規格）",
+   "evidence": "83883668；tests/dl02_energy_unit.js"
   },
   {
    "id": "DL-03",

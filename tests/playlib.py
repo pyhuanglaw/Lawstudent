@@ -156,6 +156,25 @@ async def advance_dialogs(pg, cdp, run, until, max_steps=200, pick=0, step_wait=
     return await state(pg)
 
 
+
+async def skip_wake_menu(pg, cdp, wait_s=15):
+    """DL-01 起床選單（AA_160 1-2）：睡醒、小睡醒來後，玩家空下來約 4 秒才出（「早安。今天的課：…」＋直接去上課／翹這堂課／先起床再說）。
+    出現就點完旁白、選「先起床再說」（期末考那天是「先起床」）；回傳有沒有出現。沒課的日子、第一二天、設定關掉時不會出現（等滿 wait_s 回 False）"""
+    for _ in range(int(wait_s * 2)):
+        s = await state(pg)
+        if s['choices']:
+            opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
+            for i, o in enumerate(opts):
+                if o.startswith('先起床'):
+                    c = await pg.evaluate("(i=>{ const e=document.querySelectorAll('#choices button')[i]; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%d)" % i)
+                    await touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1200)
+                    return True
+            return False
+        if s['dlg'] and (s['dtext'].startswith('早安') or s['dtext'].startswith('今天還有')):
+            await tap(pg, cdp, '#dlg')
+        await pg.wait_for_timeout(500)
+    return False
+
 def angle_deg(dx, dy):
     """畫面座標（y 往下）的方向角：0＝正上方、90＝右、180＝下、270＝左"""
     return (math.degrees(math.atan2(dx, -dy)) + 360) % 360
