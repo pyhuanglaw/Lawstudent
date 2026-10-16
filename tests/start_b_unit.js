@@ -94,5 +94,14 @@ GM.money=function(n){ G.money+=n; };
     check('16. 選 1：9/3 晚上 8 點以前回宿舍不演',!w0.lines.length&&!w0.cards.length,JSON.stringify(w0).slice(0,200));
     const old=await play(1,21.2,{});
     check('16. 舊局：第 1 天照舊（「第一天」標題卡、「開學第三週」、DAY1_NARR）',(old.cards[0]||[])[0]==='第一天'&&old.lines.some(t=>/開學第三週/.test(t))&&old.lines.some(t=>/以前遇到事情/.test(t))&&!old.lines.some(t=>/例外/.test(t)),JSON.stringify(old).slice(0,300)); }
+  { const e=ev('ev_zhe_w1_meet'); const W1={LAW_START_DAY:-18,MAIN_D1:-13};
+    const ok=(day,hour,flags)=>{ fresh(day,hour,'classroom',flags); G.stage='law'; return EVENTS.check(e,{chain:true}); };
+    check('17. 阿哲初遇：新局 9/1 上課前（09:00）在 201 坐下會演、9/3 也會；9/2、上課以後（09:30）、已經認識、舊局都不演',
+      ok(D('2025-09-01'),9,W1)&&ok(D('2025-09-03'),8.9,W1)&&!ok(D('2025-09-02'),9,W1)&&!ok(D('2025-09-01'),9.5,W1)&&!ok(D('2025-09-01'),9,Object.assign({MET_ZHE:true},W1))&&!ok(D('2025-09-01'),9,{}));
+    fresh(D('2025-09-01'),9,'classroom',W1); G.stage='law'; check('17. 新局還沒遇到：STORY.knows(zhe) 是 false；舊局是 true',!STORY.knows('zhe',G)&&(()=>{ const g0=G; fresh(5,10,'campus',{}); const r=STORY.knows('zhe',G); G=g0; return r; })());
+    fresh(D('2025-09-01'),9,'classroom',W1); G.stage='law'; picks=[0]; await EVENTS.run(e);
+    check('17. 9/1 演完：MET_ZHE、選麵店記 ZHE_W1_NOODLE、FIRST_MET、knows(zhe)；第二句是「昨天在公館繞了半小時」',G.flags.MET_ZHE===true&&G.flags.ZHE_W1_NOODLE===true&&SOCIAL.has('zhe','FIRST_MET')&&STORY.knows('zhe',G)&&lines().some(t=>/昨天在公館繞了半小時/.test(t))&&lines().some(t=>/我阿哲。張哲維。/.test(t)),lines().join('｜').slice(0,300));
+    fresh(D('2025-09-03'),9,'classroom',W1); G.stage='law'; picks=[2]; await EVENTS.run(e);
+    check('17. 9/3 備案：第二句換「這幾天中午都在便利商店解決」、選「還在找」沒有 ZHE_W1_NOODLE',G.flags.MET_ZHE===true&&!G.flags.ZHE_W1_NOODLE&&lines().some(t=>/這幾天中午都在便利商店解決/.test(t))&&!lines().some(t=>/昨天在公館/.test(t))); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
