@@ -82,8 +82,22 @@ GM.money=function(n){ G.money+=n; };
     G.day=termDay('Y2S2',1,1); G.hour=12.5; STORY.phoneRules(GM); PHONE.tick(G); check('7. 下學期第一週：再問一次',(G.msgs||[]).some(x=>x.tag==='fafu_bohan_Y2S2')&&!G.flags.FAFU_OFF); }
   { mem(sat('Y2S1',7)-1,20); STORY.phoneRules(GM); for(const w of [7,11]){ G.day=sat('Y2S1',w); G.hour=12.5; STORY.phoneRules(GM); } G.day=sat('Y2S1',13); G.hour=9.5; G.flags.LAWCLUB_SAT_LAST=G.day; G.hour=12.5; STORY.phoneRules(GM); PHONE.tick(G);
     check('7. 兩次沒去、第三次有去＝不算連續三次',!(G.msgs||[]).some(x=>x.tag==='fafu_bohan_Y2S1')); }
-  // 8. 大二起沒加入法服的旁觀：只輪旁白（學姊大一那幾句不說）
-  { fresh(sat('Y2S1',7),9.5,'wancai',{LAWCLUB_SAT_FIRST:true}); G.stage='law'; said=[]; for(let i=0;i<4;i++){ G.flags.LAWCLUB_SAT_LAST=null; G.hour=9.5; await STORY.fafuWatch(GM); } const W=lines();
-    check('8. 大二起沒加入的旁觀：四次都是旁白，沒有學姊的句子',W.length>=4&&!W.some(t=>/^溫學姊：|^溫書瑀：/.test(t))&&!W.includes('（學姊點頭，回到圓桌。）'),JSON.stringify(W)); }
+  // 8. 大二起沒加入法服的旁觀（BB_160 第 5 節，BB-B 00fdb990）：學姊在場那天最多一句、和旁白池一起輪；每個年級第一次排最前面
+  const watch=async(day,flags,n)=>{ fresh(day,9.5,'wancai',Object.assign({},flags)); G.stage='law'; said=[]; const out=[]; for(let i=0;i<(n||1);i++){ G.flags.LAWCLUB_SAT_LAST=null; G.hour=9.5; said=[]; await STORY.fafuWatch(GM); out.push(lines()); } return out; };
+  const SIS=/^溫學姊：|^溫書瑀：/, sisOf=L=>L.filter(t=>SIS.test(t)).map(t=>t.replace(SIS,''));
+  { const R=await watch(sat('Y2S1',7),{LAWCLUB_SAT_FIRST:true,FAFU_Y1_SEEN:true,LAWCLUB_SAT_FIVE:true},1);
+    check('8. 大一聽過「明年記得報名」、大二沒報名：大二第一次旁觀出 ⓐ1「我說過，明年記得報名。」「……你沒報。也好。站那邊，看得最清楚。」',JSON.stringify(sisOf(R[0]))===JSON.stringify(STORY.FAFU_W1.a1),JSON.stringify(R[0])); }
+  { const R=await watch(sat('Y2S1',7),{LAWCLUB_SAT_FIRST:true,FAFU_Y1_SEEN:true},1);
+    check('8. 大一來過、沒聽過那一句：ⓐ2「學弟。沒報名，也還是來。」',JSON.stringify(sisOf(R[0]))===JSON.stringify(STORY.FAFU_W1.a2),JSON.stringify(R[0])); }
+  { const R=await watch(sat('Y2S1',7),{},2);
+    check('8. 大一一次都沒來、大二才來：第一次是 BB_145 第 1 節那兩句（ⓐ3）；第二次不再有 ⓐ',JSON.stringify(sisOf(R[0]))===JSON.stringify(STORY.FAFU_W1.a3)&&!sisOf(R[1]).some(t=>STORY.FAFU_W1.a1.concat(STORY.FAFU_W1.a2,STORY.FAFU_W1.a3).includes(t)),JSON.stringify(R)); }
+  { const R=await watch(sat('Y2S1',7),{LAWCLUB_SAT_FIRST:true,FAFU_Y1_SEEN:true},7); const S2=R.map(sisOf);
+    check('8. 大二：一天最多一句（同一天沒有兩組學姊的句子）；ⓑ「哪天想坐下來，跟我說。」和旁白池一起輪；不勸加入、沒有志工才有的句子',R.every(L=>L.filter(t=>t==='（學姊點頭，回到圓桌。）').length<=1)&&S2.some(x=>x[0]==='哪天想坐下來，跟我說。')&&R.some(L=>L.some(t=>/^（?今天來的是|一位阿嬤|上午很安靜|和解書/.test(t)))&&!S2.flat().some(t=>/今年換你寫|簽|範本|路過/.test(t)),JSON.stringify(S2)); }
+  { const R=await watch(sat('Y3S1',7),{LAWCLUB_SAT_FIRST:true,FAFU_Y1_SEEN:true,FAFU_W:{y2:1}},6); const S3=R.map(sisOf);
+    check('8. 大三上第一次她在場：ⓒ「學弟，還是旁邊？」「……兩件事。看我怎麼問。看他在哪裡停下來。」；同一天沒有⑦（簽名）；之後⑧（阿伯問升官）在輪',JSON.stringify(S3[0])===JSON.stringify(STORY.FAFU_W1.c)&&!S3.flat().some(t=>/學長簽/.test(t))&&S3.some(x=>x[0]==='帶橘子的阿伯問我是不是升官了。'),JSON.stringify(S3)); }
+  { const k1=STORY.termDay('Y4S1',3,6); const R=await watch(k1,{LAWCLUB_SAT_FIRST:true,FAFU_Y1_SEEN:true,FAFU_W:{y2:1,y3:1}},1); const here=STORY.fafuSisHere(G);
+    check('8. 大四第一次她在場：ⓓ「一件事。」「……下次換你告訴我，今天哪一句最重要。」；沒有⑨（我只是路過）、⑩（範本）',!here||(JSON.stringify(sisOf(R[0]))===JSON.stringify(STORY.FAFU_W1.d)&&!R[0].some(t=>/路過|範本|坐到十二點/.test(t))),JSON.stringify([here,R[0]])); }
+  { const d=STORY.termDay('Y3S2',5,6); const R=await watch(d,{LAWCLUB_SAT_FIRST:true,FAFU_W:{y2:1}},2);
+    check('8. 大三下她在美國：只有旁白',R.every(L=>!sisOf(L).length),JSON.stringify(R)); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

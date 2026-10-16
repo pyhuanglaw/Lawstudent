@@ -4215,9 +4215,9 @@
    "sha": "00fdb990",
    "what": "BB_160 第 5 節：沒加入法服、大二起旁觀的玩家，學姊的句子（ⓐ1／ⓐ2／ⓐ3、ⓑ、ⓒ、ⓓ）",
    "task": "V3-D25",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "AA-B 沒意見就照這版接（BB-B 17:09）；排在佇列",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "S.fafuWatchLine／FAFU_W1（story3d.js）；tests/v3_fafu_duty_unit.js 第 8 項（7 條）；AA-B 有改再跟",
    "date": "2026-10-16T17:0xZ"
   }
  ],

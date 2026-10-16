@@ -431,18 +431,39 @@ const STORY = (function(){
     {t:'一位阿嬤來問家裡的事，說到一半開始講她先生年輕的時候。學姊沒有打斷她。'},{sis:'今天那位，你回去想想看，第一個問題應該問什麼。……不用告訴我。'},
     {t:'上午很安靜，只來了一位。學長趁空檔教新的志工怎麼寫初談紀錄。'},{sis:'（她在初談紀錄上劃了一條線）一件事。字要寫得讓下一個人看得懂。'},
     {t:'有人拿著一張和解書來，問能不能簽。學姊說：「我們先一起看一下，上面寫了什麼。」'}];   /* AA_163 的旁白池四句、BB_145 的學姊三句，輪流、不重複到用完 */
+  /* 沒加入法服、大二起還在旁邊看的玩家：學姊的句子（BB_160 第 5 節，BB-B 00fdb990；第②級）。原則和 BB_145 一樣：不講法律結論、不勸他加入。
+     她在場那天（S.fafuSisHere）最多一句，和 AA_163 的旁白池一起輪、不重複到用完；每個年級第一次她在場排最前面、只一次（大二 ⓐ1／ⓐ2／ⓐ3、大三上 ⓒ、大四 ⓓ）。
+     ⓐ 照大一的紀錄分：聽過「明年記得報名」（LAWCLUB_SAT_FIVE）＝ⓐ1；大一來過＝ⓐ2；大一沒來過＝ⓐ3（BB_145 第 1 節那兩句，在第一次來的那一場說）。⑦ 簽名、⑨ ⑩ 只有志工有 */
+  S.fafuWYear=G=>{ const t=(CALENDAR.termOf(G.day)||{}).id||''; return /^Y2/.test(t)?'y2':(t==='Y3S1'?'y3':(/^Y4/.test(t)?'y4':null)); };
+  const FAFU_W1={a1:['我說過，明年記得報名。','……你沒報。也好。站那邊，看得最清楚。'],a2:['學弟。沒報名，也還是來。','……三件事。站那邊。不要插話。回去寫下來。'],
+    a3:['學弟。旁聽可以。三件事。','一，不要插話。二，不要給意見。三，看學長怎麼問。……問題問對了，事情就清楚一半。'],c:['學弟，還是旁邊？','……兩件事。看我怎麼問。看他在哪裡停下來。'],d:['一件事。','……下次換你告訴我，今天哪一句最重要。']};
+  S.FAFU_W1=FAFU_W1;
+  S.fafuWatchLine=function(G){ const F=G.flags, W=F.FAFU_W||(F.FAFU_W={}), yr=S.fafuWYear(G), here=S.fafuSisHere(G);
+    if(here&&yr&&!W[yr]){ W[yr]=G.day; if(yr==='y2'){ const y1seen=!!F.FAFU_Y1_SEEN||(!!F.LAWCLUB_SAT_FIRST&&!F.FAFU_FIRST_Y2PLUS); return {sis:F.LAWCLUB_SAT_FIVE?FAFU_W1.a1:(y1seen?FAFU_W1.a2:FAFU_W1.a3)}; } return {sis:yr==='y3'?FAFU_W1.c:FAFU_W1.d}; }
+    const m3=S.dayOfKey('2027-03-19'), extra=[];
+    if(here&&yr==='y2'){ extra.push({id:'wb',sis:['哪天想坐下來，跟我說。','……不說也沒關係。']}); if(m3!=null&&G.day>=m3) extra.push({id:'w5',sis:['一件事。九月我還在這裡。……換一個身分。']}); }
+    if(here&&yr==='y3') extra.push({id:'w8',sis:['帶橘子的阿伯問我是不是升官了。','……我說，是升學。']});
+    if(here&&yr==='y4') extra.push({id:'w11',sis:['我論文的第三章，是在這張圓桌旁邊想出來的。']});
+    const pool=FAFU_POOL.map((q,i)=>q.sis?null:{id:'n'+i,t:q.t}).filter(Boolean).concat(extra);
+    const used=Array.isArray(F.fafuWUsed)?F.fafuWUsed:(F.fafuWUsed=[]); let cand=pool.filter(q=>!used.includes(q.id)); if(!cand.length){ used.length=0; cand=pool; }
+    const it=cand[0]; used.push(it.id); return it; };
   S.fafuWatch=async function(GM){ const G=GM.G, F=G.flags; if(!S.fafuWatchable(G)||G.hour>=12) return false; const sis={name:'溫學姊',charId:'heroine_05'}, y1=/^Y1/.test((CALENDAR.termOf(G.day)||{}).id||'');
+    if(y1) F.FAFU_Y1_SEEN=true;   /* 大一來看過（BB_160 第 5 節 ⓐ2 用）*/
     if(F.LAWCLUB_SAT_LAST!==G.day){ F.LAWCLUB_SAT_LAST=G.day; F.LAWCLUB_SAT_VISITS=(F.LAWCLUB_SAT_VISITS|0)+1; }   /* 同一個週六只算一次（AA_132 落點 A 讀它；大二起的值班也算）*/
     GM.sceneBegin(); try{
       if(!F.LAWCLUB_SAT_FIRST){ F.LAWCLUB_SAT_FIRST=true;   /* 第一次（AA_163 的旁白＋研究所學長；BB_145 第 1 節）*/
         await GM.say(null,'圓桌旁坐著一位阿伯，手上一疊影印的紙。他說房東不還押金。');
         await GM.say(null,'學姊沒有馬上回答。她先問：「租約還在嗎？什麼時候搬走的？當初押金付了多少？」研究所的學長在旁邊一項一項寫下來。');
         await GM.say(null,'阿伯講到一半，忽然說：「我是不是很麻煩？」'); await GM.say({name:'研究所學長'},'不會。您慢慢說，我們先把事情弄清楚。');
-        if(y1){ await GM.say(null,'（阿伯被學長帶去填表。學姊走到大廳角落，在祐廷旁邊停下來，聲音壓得很低。）');
-          await GM.say(sis,'學弟。旁聽可以。三件事。'); await GM.say(sis,'一，不要插話。二，不要給意見。三，看學長怎麼問。……問題問對了，事情就清楚一半。'); } }   /* 大二起才第一次來看的（沒加入法服）：學姊那幾句是大一的，不說 */
+        if(!y1) F.FAFU_FIRST_Y2PLUS=true;
+        if(y1||S.fafuSisHere(G)){ await GM.say(null,'（阿伯被學長帶去填表。學姊走到大廳角落，在祐廷旁邊停下來，聲音壓得很低。）');
+          await GM.say(sis,'學弟。旁聽可以。三件事。'); await GM.say(sis,'一，不要插話。二，不要給意見。三，看學長怎麼問。……問題問對了，事情就清楚一半。');
+          if(!y1){ const W=F.FAFU_W||(F.FAFU_W={}); W[S.fafuWYear(G)]=G.day; } } }   /* 大二起才第一次來看（沒加入法服）、學姊在場：BB_160 第 5 節 ⓐ3＝BB_145 第 1 節那兩句（第一次來的人，大幾都一樣）*/
       else { let it=null; if(y1&&(F.LAWCLUB_SAT_VISITS|0)>=5&&!F.LAWCLUB_SAT_FIVE){ F.LAWCLUB_SAT_FIVE=true; it={sis:'你來了五次了。……明年記得報名。'}; }   /* BB_145 第 4 句：只一次、排最前 */
-        else { const ok=i=>y1||!FAFU_POOL[i].sis; const used=Array.isArray(F.fafuPoolUsed)?F.fafuPoolUsed:[]; let cand=FAFU_POOL.map((q,i)=>i).filter(i=>ok(i)&&!used.includes(i)); if(!cand.length){ for(let i=used.length-1;i>=0;i--) if(ok(used[i])) used.splice(i,1); cand=FAFU_POOL.map((q,i)=>i).filter(ok); } const k=cand[0]; used.push(k); F.fafuPoolUsed=used; it=FAFU_POOL[k]; }   /* 大二起（沒加入法服、四年都可以來看，AA_184）：學姊大一的那三句不用，只輪旁白 */
-        if(it.sis) await GM.say(sis,it.sis); else await GM.say(null,it.t); if(y1) await GM.say(null,'（學姊點頭，回到圓桌。）'); }
+        else if(y1){ const used=Array.isArray(F.fafuPoolUsed)?F.fafuPoolUsed:[]; let cand=FAFU_POOL.map((q,i)=>i).filter(i=>!used.includes(i)); if(!cand.length){ used.length=0; cand=FAFU_POOL.map((q,i)=>i); } const k=cand[0]; used.push(k); F.fafuPoolUsed=used; it=FAFU_POOL[k]; }
+        else it=S.fafuWatchLine(G);   /* 大二起（沒加入法服、四年都可以來看，AA_184）：學姊對旁觀的人說的話（BB_160 第 5 節）和旁白池一起輪 */
+        const sayIt=async x=>{ for(const l of [].concat(x)) await GM.say(sis,l); };
+        if(it.sis) await sayIt(it.sis); else await GM.say(null,it.t); if(y1||it.sis) await GM.say(null,'（學姊點頭，回到圓桌。）'); }
     } finally { GM.sceneEnd(); }
     await GM.fade(true); GM.advance(Math.min(0.5,Math.max(0,12-G.hour))); await GM.fade(false); return true; };   /* 時間推進 30 分鐘，可以待到 12:00；不扣時段次數（AA_160 第 2 節）*/
   S.ladLines=function(st,g,id){ const G=g||(typeof GAME!=='undefined'&&GAME.G)||null; const alt=(st.linesIf||[]).find(x=>ladAlt(G,x,id)); const L=(alt?alt.lines:st.lines||[]).slice(); for(const x of (st.extraIf||[])) if(ladAlt(G,x,id)) L.push(...(x.lines||[])); return L; };   /* linesIf：第一個成立的那一套取代 lines；extraIf：成立就在後面多說（AA 2026-10-16）*/
