@@ -12120,6 +12120,34 @@
    },
    "source": "使用者 2026-10-16 21:5x 試玩截圖（9/18 19:42 舊路書房）",
    "authorized": "使用者（bug 回報）"
+  },
+  {
+   "id": "ART-GG-SIGNS",
+   "title": "公館店面招牌重新設計（35 面：21 橫式＋14 種直立）：BB 寫生圖提示詞 → 使用者生成 → LAWWW2 換成圖片貼圖",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "等待其他AI",
+   "priority": "P1",
+   "next": "①LAWWW2-B 量 35 面的長寬、解析度、夜間發光給 BB-B；②BB-B 寫提示詞（含整條街風格總則）給使用者；③使用者生成；④LAWWW2-B 換上（extras 欄位）、LAWWW-B 改 zones3d.js wzSignTex 接圖片；⑤公館白天／夜間截圖給使用者看",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一天就會走公館",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 21:5x 直接指示（「公館店面的招牌也要給我設計 不要用這麼醜的字體 BB給我提示詞我生成 lawww2改」）",
+   "authorized": "使用者",
+   "xai": {
+    "spec": "使用者 21:5x；BB-B 的提示詞檔（待交）",
+    "branch": "BB-B claude/elegant-brown-fcos7n（提示詞）；LAWWW2-B 交付分支（GLB）",
+    "acceptance": "35 面都換成使用者生成的圖、沒有系統預設字、沒有真實商標；公館白天夜間截圖",
+    "receiver": "BB-B、LAWWW2-B",
+    "ack": "SENT"
+   }
   }
  ]
 }
