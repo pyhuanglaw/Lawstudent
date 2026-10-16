@@ -102,7 +102,7 @@
 | `BB_99` 的 5 小段：研究助理每週的內容、學姊幫看讀書計畫、明信片其他月份與回寄、方奕廷上山的場面、可昕寒假旅行三個題目 | `BB_134c` 第 3 節 | 大四 | BB-B 補 |
 | 多段感情的裂縫小事件（四人各三件）、芷若／子晴／可昕「分開後第一次見面」那一句 | `BB_119` 2-1～2-4、第 4 節 | 多段感情 | BB-B 補 |
 | `BB_105` 只有表格一列的 15 件：G2～G4c、B6、B8～B10b、B13、D4c、D5、D6、D8 | `BB_134d` 2-1 | 跨學年 | BB-B 補（先問 AA-B 要不要排） |
-| BB 五位心願事件轉成 JSON；`DATE_LINES_COMMON` 轉成 JSON | `BB_128` §3、L1141～1150 | 約會系統 | **完成（2026-10-16）**：`date_system/wish/wish_bb.json`、`common_bb.json`（README 說明欄位；`build_wish.py` 逐句比對原文） |
+| BB 五位心願事件轉成 JSON；`DATE_LINES_COMMON` 轉成 JSON | `BB_128` §3、L1141～1150 | 約會系統 | **完成（2026-10-16）**：`date_system/wish/wish_bb.json`（`build_wish.py` 逐句比對原文；AA-B 的 `wish_aa.json` 同格式）、`common_bb.json` |
 | 透明人物疊圖、表情 | — | 約會系統 | LAWWW2-B 去背中（BB-B 02:0x 給了規格）；表情只有芷若有，其他六位等排圖 |
 | 18 個地點的底圖 | `BB_132` 第 13 組起 | 約會系統 | BB-B 照順序向使用者要 |
 
