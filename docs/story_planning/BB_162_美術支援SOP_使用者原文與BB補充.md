@@ -283,3 +283,19 @@
    - 底色乘 (1 − 0.56×遮罩)。
    - 遮罩往光的反方向位移 2 px，那一圈加一點亮，看起來就是淺淺刻進去的線，不用加幾何。
 6. **停背景渲染不要用 `pkill -f <含路徑的字串>`**：同一行指令自己也會被比對到，整個 shell 被停掉，後面的修改沒有執行。改用 `pgrep` 找到 PID 再停。
+
+## 4. 提議中的方法（**等 LAWWW2-B 同意**；同意以後才寫進共用 SOP 第 13 節）
+
+> 照 SOP 第 12 節：先向 LAWWW2 提議，附前後對照。兩條都在 ART-PARK3 實際做過（2026-10-16 16:5x～17:3x），比較圖在 `tools/blender/env_second/bb_support/README.md` 的 ART-PARK3「遊戲內截圖」一節。
+
+7. **白鐵、鍍鋅的明度以遊戲內截圖為準**：
+   - 遊戲沒有環境貼圖。金屬度 0.30～0.35、底色 #74～#80 的白鐵、鍍鋅，在遊戲裡幾乎是黑的：金屬的部分只剩直射光的高光，舊的程序化版本反而比較亮。
+   - 改成底色 #a2～#ae、金屬度 0.15～0.20，遊戲內才是銀灰。
+   - Blender 預覽會偏白（第 4 條的 #a0a0a0 門檻是 Blender 的），照遊戲內的結果走。
+   - 和 SOP 第 11 節第 10 點（白鐵、鍍鋅調暗到鋼材的明度）的關係：那一條是 Blender 預覽量出來的。遊戲內要再拍一次，兩邊都不能太偏。
+   - 驗證：`park3_game_fount_p.webp`、`park3_game_rack_p.webp`、`park3_game_fr2_l.webp`。第二版發黑的截圖在 scratchpad，沒有進 repo。
+8. **同角度的前後對照**（支援的人自己拍遊戲內截圖，不用等整合）：
+   - 在 scratchpad 開整合者分支的 detached 工作樹，套整合 patch，重跑整合腳本。**不推到別人的分支。**
+   - 用 Node Playwright（這個環境的 Python 沒有 playwright）。「之前」＝`page.route` 把整合後的 GLB 換回原本那一份。
+   - 同一次執行、同鏡頭、同時段拍兩版，排成「三個時段 × 之前／之後」一張圖。
+   - 工具：`tools/blender/env_second/bb_support/park3_game_shots.js`，環境變數 `QUICK`、`VER`、`ONLY`、`VIEWS`、`POST` 可以先試鏡頭、只拍一種，或量東西（例：用射線量到路燈桿的位置）。
