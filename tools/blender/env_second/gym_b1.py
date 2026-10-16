@@ -3,7 +3,8 @@
   /opt/blenv/bin/python tools/blender/env_second/gym_b1.py [-- --out assets/models/env/second_ai/gym_b1.glb]
 配置：src/data/gym_layout.js 的 b1。座標＝gym_b1 區域座標（中心在原點、x 往東、z 往南、y＝B1 地板 0）。
 - 大廳（樓梯從 1F 下來、閘門三道、服務櫃台的位置）、走廊（北邊游泳池的牆＋更衣室的門、南邊健身中心的玻璃牆）。
-- 健身中心：黑色橡膠地墊、南牆整面鏡子；器材是 BB-B 的 bb_support/gym_b1_props.glb（GYM-P1），照 layout 的 equipment 擺（GPU instancing）。
+- 健身中心：黑色橡膠地墊、南牆整面鏡子；器材是 BB-B 的 bb_support/gym_b1_props.glb（GYM-P1），照 layout 的 equipment 擺（GPU instancing）；
+  服務櫃台、置物櫃、體重計、毛巾回收籃是 bb_support/gym_b1_entry.glb（GYM-P2），照 entryProps 擺。
 - 游泳池：25 m × 7 水道、池底馬賽克＋水道線、水面（半透明）、水道繩、出發台、扶梯、仰泳旗；只到池邊（池子不能走）。
 - 關著的門：更衣室、壁球室・桌球室（PLATE_FACE_door_*：門牌字由遊戲畫）。
 會淡出的牆：WALL_<side>_*（dir）。「日系加一點寫實 不要很像積木」：出發台、扶梯、欄杆、閘門都倒角／圓管。"""
@@ -51,6 +52,7 @@ M = {
     'rope_r': L.flat(P + 'rope_red', '#c8352c', rough=0.45), 'rope_b': L.flat(P + 'rope_blue', '#2a5fb0', rough=0.45), 'rope_w': L.flat(P + 'rope_white', '#f2f2ee', rough=0.45),
     'flag': L.flat(P + 'flags', '#e8c53a', rough=0.7), 'fascia': L.flat(P + 'fascia', '#23395e', rough=0.6),
     'hours': img_mat(P + 'hours', 'gym_hours.png', rough=0.5), 'notice': img_mat(P + 'notice', 'gym_notice.png', rough=0.8),
+    'desk_sign': img_mat(P + 'desk_sign', 'b1_desk_sign.png', rough=0.5),
 }
 
 
@@ -181,7 +183,12 @@ for x in (ST['x0'] - 0.1, ST['x1'] + 0.1): acc('plaster').box(x - 0.1, x + 0.1, 
 for x in (ST['x0'] - 0.005, ST['x1'] + 0.005):                     # 樓梯側面的斜板（蓋住一階一階的方塊斷面）
     for xx in (x, x + (-0.06 if x < ST['x0'] else 0.06)): acc('white').quad([(xx, 0.0, ST['z0']), (xx, 0.0, ST['z1']), (xx, H, ST['z1']), (xx, H / n, ST['z0'])])
     acc('steel_dk').quad([(x, H / n, ST['z0']), (x, H, ST['z1']), (x + (-0.06 if x < ST['x0'] else 0.06), H, ST['z1']), (x + (-0.06 if x < ST['x0'] else 0.06), H / n, ST['z0'])])
-# 大廳：開館時間、公告欄、長椅、盆栽；櫃台的位置留給 BB-B 的 GYM2_DESK
+# 大廳：開館時間、公告欄、長椅、盆栽；服務櫃台是 BB-B 的 GYM2_COUNTER（下面跟器材一起擺）
+DK = G['desk']                                                       # 服務台後面：靠北牆的矮櫃（文件、鑰匙）＋牆上的牌子；櫃台本身是 BB-B 的 GYM2_COUNTER
+xf = Xf(DK['x'], CO['z0'] + 0.15); xf.rbox(acc('white'), -1.4, 1.4, 0.0, 0.86, -0.15, 0.15, r=0.02, seg=2); xf.rbox(acc('wood'), -1.42, 1.42, 0.86, 0.9, -0.16, 0.16, r=0.01, seg=1)
+for sx in (-0.7, 0.0, 0.7): xf.rbox(acc('steel_dk'), sx - 0.12, sx + 0.12, 0.62, 0.64, 0.15, 0.17, r=0.005, seg=1)   # 抽屜把手
+img_quad('desk_sign', M['desk_sign'], [(DK['x'] - 1.2, 2.0, CO['z0'] + 0.03), (DK['x'] + 1.2, 2.0, CO['z0'] + 0.03), (DK['x'] + 1.2, 2.6, CO['z0'] + 0.03), (DK['x'] - 1.2, 2.6, CO['z0'] + 0.03)])
+acc('steel_dk').box(DK['x'] - 1.24, DK['x'] + 1.24, 1.96, 2.64, CO['z0'], CO['z0'] + 0.02)
 img_quad('hours', M['hours'], [(X1 - 0.03, 1.4, 3.6), (X1 - 0.03, 1.4, 2.2), (X1 - 0.03, 2.44, 2.2), (X1 - 0.03, 2.44, 3.6)])
 acc('steel_dk').box(X1 - 0.05, X1 - 0.02, 1.35, 2.49, 2.15, 3.65)
 img_quad('notice', M['notice'], [(X1 - 0.03, 1.3, 7.6), (X1 - 0.03, 1.3, 4.4), (X1 - 0.03, 2.5, 4.4), (X1 - 0.03, 2.5, 7.6)])
@@ -240,6 +247,20 @@ if os.path.exists(EQ):
             for k, me in enumerate(protos.get(e['node'], [])): B.instance(me, f"{e['node']}_{n_eq}_{k}", x, 0.0, z, eq_g, ry=e['ry'])
             n_eq += 1
     for o in new: bpy.data.objects.remove(o)
+# 大廳的服務櫃台、健身中心的置物櫃、體重計、毛巾回收籃（BB-B 的 gym_b1_entry.glb，GYM-P2；照 layout 的 entryProps）
+EN = os.path.join(L.ROOT, 'assets/models/env/second_ai/bb_support/gym_b1_entry.glb'); n_en = 0
+if os.path.exists(EN):
+    before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=EN); new = [o for o in bpy.data.objects if o not in before]
+    protos = {}
+    for o in new:
+        top = o.parent
+        while top is not None and not top.name.startswith('GYM2_'): top = top.parent
+        if o.type == 'MESH' and top is not None: protos.setdefault(top.name.split('.')[0], []).append(o.data)
+    for e in G['entryProps']:
+        for (x, z) in e['at']:
+            for k, me in enumerate(protos.get(e['node'], [])): B.instance(me, f"{e['node']}_{n_en}_{k}", x, 0.0, z, eq_g, ry=e['ry'])
+            n_en += 1
+    for o in new: bpy.data.objects.remove(o)
 
 # ======================== 收尾 ========================
 for k_, m in _acc.items(): m.finish(root, uv=True, smooth=(k_.startswith(P + 'rope') or k_ == P + 'steel'))
@@ -257,6 +278,6 @@ for ob in list(root.children):
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or (ob.parent is not None and ob.parent.name == 'b1_equipment'),
                     key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
 info = L.export(OUT, gpu_instances=True)
-info.update({'layout': LAY['version'], 'equipment': n_eq})
+info.update({'layout': LAY['version'], 'equipment': n_eq, 'entryProps': n_en})
 L.write_json(OUT[:-4] + '.json', info)
 print(json.dumps(info, ensure_ascii=False))

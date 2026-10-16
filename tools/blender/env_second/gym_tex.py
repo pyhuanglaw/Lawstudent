@@ -92,12 +92,21 @@ def score():
 def wayfind():
     """大廳的指標（開口上方三塊，1024×128 一條）：深藍底白字＋箭頭。不寫館名（D77）"""
     W, H = 1024, 384; im = Image.new('RGB', (W, H), (26, 44, 74)); d = ImageDraw.Draw(im)
-    rows = [('←', '3F 主球場', '典禮・演講・演唱會（整修中）'), ('↑', '1F 多功能球場', '羽球・籃球・體育課'), ('→', 'B1 健身中心・游泳池', '（整修中）')]
+    rows = [('←', '3F 主球場', '典禮・演講・演唱會'), ('↑', '1F 多功能球場', '羽球・籃球・體育課'), ('→', 'B1 健身中心・游泳池', '溫水游泳池・重量訓練')]
     for i, (ar, a, b) in enumerate(rows):
         y = i * 128; d.rectangle([0, y, W - 1, y + 127], fill=(26, 44, 74)); d.rectangle([0, y + 120, W, y + 127], fill=(232, 176, 60))
         d.ellipse([22, y + 16, 110, y + 104], fill=(255, 255, 255)); d.text((40, y + 14), ar, font=f(66), fill=(26, 44, 74))
         d.text((136, y + 18), a, font=f(54), fill=(255, 255, 255)); d.text((140, y + 80), b, font=f(28), fill=(196, 210, 230))
     im.save(os.path.join(GEN, 'gym_wayfind.png'))
+
+
+def b1_desk():
+    """B1 服務台後面牆上的牌子（1024×256）：深藍底白字、底下一條黃線（和 1F 指標同一套）。不寫館名（D77）"""
+    W, H = 1024, 256; im = Image.new('RGB', (W, H), (26, 44, 74)); d = ImageDraw.Draw(im)
+    d.rectangle([0, H - 12, W, H], fill=(232, 176, 60))
+    d.text((60, 34), '服務台', font=f(120), fill=(255, 255, 255))
+    d.text((500, 52), '學生證進場・會員申辦', font=f(46), fill=(220, 230, 244)); d.text((500, 124), '失物招領・置物櫃鑰匙', font=f(46), fill=(220, 230, 244))
+    im.save(os.path.join(GEN, 'b1_desk_sign.png'))
 
 
 def directory():
@@ -224,4 +233,4 @@ def pool_floor():
 
 
 if __name__ == '__main__':
-    floor(); hours(); score(); wayfind(); directory(); notice(); arena_floor(); arena_screen(); ceremony_banner(); b1_rubber(); pool_floor(); print('saved gym textures')
+    floor(); hours(); score(); wayfind(); directory(); notice(); arena_floor(); arena_screen(); ceremony_banner(); b1_rubber(); pool_floor(); b1_desk(); print('saved gym textures')

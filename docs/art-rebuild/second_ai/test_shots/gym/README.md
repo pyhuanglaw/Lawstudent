@@ -171,3 +171,25 @@ v1 的預覽有三個問題：
   - 服務櫃台、置物櫃、飲水機、救生員椅：BB-B 的 GYM-P2／P3a 交件、我驗收後擺進來。這一版櫃台的位置是空的。
   - 更衣室、壁球室、桌球室：門關著，門牌是 `PLATE_FACE_door_b1_*`（`plate:'door'`）。
 - 劇情、體育課（`pe_y1s1` 游泳）怎麼用，由 LAWWW-B 和 AA-B／BB-B 決定。
+
+## 第三階段 v5（B1：BB-B 的櫃台、置物櫃擺進來；LAWWW2-B 2026-10-16）
+
+- **BB-B 的 GYM-P2**（`bb_support/gym_b1_entry.glb`，我驗收通過、merge 97f315ca）照 `gym_layout.js` v5 的 `b1.entryProps` 擺進 `gym_b1.glb`（GPU instancing，和健身器材同一個 `b1_equipment` 節點）：
+  - `GYM2_COUNTER` 服務櫃台：大廳 (21, 0.95)，客人站南邊；`desk` 改成 2.4 × 0.75（原本留的 4.0 × 0.7 是佔位）。
+  - `GYM2_LOCKERS` 置物櫃兩組：健身中心東牆 (9.755, 4.4)、(9.755, 6.3)，面向西邊。
+  - `GYM2_SCALE` 體重計：置物櫃旁 (9.7, 7.85)；`GYM2_TOWEL_BIN` 毛巾回收籃：健身中心門口內側 (5.6, 3.45)。
+  - `GYM2_MIRROR`、`GYM2_FLOOR` 沒用（南牆已經是整面鏡子、地墊是整片橡膠），留給以後。
+- 服務台後面：靠北牆的矮櫃（抽屜）＋牆上「服務台／學生證進場・會員申辦／失物招領・置物櫃鑰匙」牌子（`gym_tex.py` 的 `b1_desk()`）。
+- **修正**：兩台划船機 v4 擺在同一條線上、頭尾重疊 0.8 m → 改並排 (7.4, 8.5)、(7.4, 9.9)。
+- `equipment`、`entryProps` 每件加 `size: [x 寬, z 長]`（旋轉前），遊戲端擋導航照 `ry` 轉；平放的運動墊 `walk: true` 不擋。
+- 1F 指標（`gym_wayfind.png`）拿掉「（整修中）」：3F、B1 都已經有模型；開不開放由遊戲的互動點決定（`closed_3f` 照 LAWWW-B 的建議改到 (−16.0, 17.4)）。`gym_interior.glb` 重新匯出，只換了這張貼圖。
+- `gym_b1.glb`：3.5 MB、49k 三角形，畫出來 70k（v4 63k）。
+- **狀態**：`MODEL_READY`，只有 Blender 預覽。
+
+| 服務台（櫃台＝BB-B 的 GYM2_COUNTER） | 大廳（從樓梯下來） |
+|---|---|
+| ![](b1_desk_v5.webp) | ![](b1_lobby_v5.webp) |
+
+健身中心東邊（置物櫃、體重計、毛巾回收籃；划船機改並排）：
+
+![](b1_lockers_v5.webp)
