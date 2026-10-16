@@ -1030,8 +1030,10 @@ const Z3 = (function(){
     const lights=[]; const cols=Math.max(1,Math.round(W/6)), rows=Math.max(1,Math.round(D/6)); for(let i=0;i<cols;i++) for(let j=0;j<rows;j++){ const p=new THREE.Mesh(new THREE.BoxGeometry(1.2,0.06,0.3),new THREE.MeshBasicMaterial({color:0xfff6e0})); p.position.set(-W/2+(i+0.5)*W/cols,H-0.05,-D/2+(j+0.5)*D/rows); g.add(p); lights.push(p); }
     const ceilLight=new THREE.PointLight(0xfff0d8,12,Math.max(W,D)*1.4,2); ceilLight.position.set(0,H-0.3,0); g.add(ceilLight);
     const zone={group:g,nav,walls,lights,ceilLight,warm:!!o.warm,cool:!!o.cool,spawn:o.spawn||{x:0,z:D/2-1.5,yaw:Math.PI},
-      fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity= facing?1:0.12; w.material.depthWrite=facing; }
-        /* 窗的零件（窗、框、窗台、窗簾）跟著所在的牆：牆淡出時一起隱藏，不然會浮在半空中擋住房間 */ if(this.winParts) for(const wp of this.winParts){ const toCam=new THREE.Vector3().subVectors(cam.position,wp.at); wp.obj.visible=toCam.dot(wp.dir)>0; } },
+      fadeWalls(cam,pp){ for(const w of walls){ const c=w.userData.center||w.position, toCam=new THREE.Vector3().subVectors(cam.position,c); let facing=toCam.dot(w.userData.dir)>0;
+          if(w.userData.partition&&pp) facing=facing===(new THREE.Vector3().subVectors(pp,c).dot(w.userData.dir)>0);   /* 隔間牆（GLB 的 partition＝1，例：新體育館 B1 v6）：鏡頭和玩家在牆的不同邊才淡出 */
+          w.material.opacity= facing?1:0.12; w.material.depthWrite=facing; }
+        /* 窗的零件（窗、框、窗台、窗簾）跟著所在的牆：牆淡出時一起隱藏，不然會浮在半空中擋住房間 */ if(this.winParts) for(const wp of this.winParts){ const toCam=new THREE.Vector3().subVectors(cam.position,wp.at); let v=toCam.dot(wp.dir)>0; if(wp.partition&&pp) v=v===(new THREE.Vector3().subVectors(pp,wp.at).dot(wp.dir)>0); wp.obj.visible=v; } },
       onLamps(on){ ceilLight.intensity=on?28:12; for(const l of lights) l.material.color.set(on?0xfff6e0:0xf4efe6); }, bounds:{w:W,d:D} };
     // 窗（外牆上的假窗，帶天光）
     if(o.windows!==false){ zone.wins=[]; zone.sunPatches=[]; const nW=Math.max(1,Math.round(W/5)); const xs=o.winXs||Array.from({length:nW},(_,i)=>-W/2+(i+0.5)*W/nW); const WW=o.winWall||'back'; const ry=WW==='left'?Math.PI/2:(WW==='right'?-Math.PI/2:(WW==='front'?Math.PI:0)); const half=(WW==='left'||WW==='right')?W/2:D/2;
@@ -1132,7 +1134,7 @@ const Z3 = (function(){
     root.traverse(o=>{ if(o.isMesh&&/WALL_/.test(o.name)){ const see=o.material.transparent&&o.material.opacity<0.9; o.material=o.material.clone(); o.material.transparent=true; const d=o.userData.dir||[0,0,1]; o.userData.dir=new THREE.Vector3(d[0],d[1],d[2]); o.geometry.computeBoundingBox(); o.userData.center=o.geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(o.matrixWorld); if(see){ o.material.depthWrite=false; glassy.push(o); } else nw.push(o); } });
     /* 窗外的景（白天／夜景貼圖、隨時段變色，room() 的 applyTime 照舊換）：從備用模型的窗框組裡拿出來，放到正式模型的玻璃外面 0.3 m（放大一點：斜著看窗洞也看不到外面的空白）；牆淡出時一起藏（不然鏡頭在牆外時會擋住房間）*/
     const wp=[]; if(z.wins) for(const w of z.wins){ const part=w.parent; const ent=z.winParts&&z.winParts.find(p=>p.obj===part); const d=ent?ent.dir:new THREE.Vector3(1,0,0); w.position.addScaledVector(d,-0.42); w.scale.set(1.35,1.4,1); if(w.material.uniforms&&w.material.uniforms.sxy) w.material.uniforms.sxy.value.set(1.35,1.4); part.remove(w); g0.add(w); wp.push({obj:w,at:ent?ent.at:w.position.clone(),dir:d}); }
-    for(const o of glassy) wp.push({obj:o,at:o.userData.center,dir:o.userData.dir});
+    for(const o of glassy) wp.push({obj:o,at:o.userData.center,dir:o.userData.dir,partition:!!o.userData.partition});
     fb.visible=false; z.walls.length=0; for(const w of nw) z.walls.push(w); z.winParts=wp; z.formal=true; }
   // ---------- 萬才館大廳／研討室 ----------
   // 萬才館（室內兩層樓）：src/wancai3d.js（萬才館第三階段，D42；一樓大廳的座標和 v9.3 一樣）
