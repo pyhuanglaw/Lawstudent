@@ -1434,8 +1434,8 @@
    "title": "經濟系的朋友：SK03、10-3 阿勳、10-4 小福還債、SK05、P4e",
    "area": "V2",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "先建 V2-CHR（阿勳、曾品妤）→ SK03、10-3、10-4 小福（2D 背景＋compact）、SK05、P4e；第一次見面先說「盧正勳。你經濟系那年的室友。……」",
+   "status": "進行中",
+   "next": "照 BB_135（BB-B d49c7606）定稿台詞實作：SK03 平常的週五（輪替句、第一次午餐、芯慈走進小福 1-3、沒去 1-4）、SK05 大一版、P4e",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -8077,7 +8077,7 @@
    },
    "source": "AA_140 3-5 F；AA-B 02:13；BB_95 9-1（2026-10-16 BB-B 定稿：長頸鹿、BCG-27 位置）",
    "authorized": "D79",
-   "sha": "（本批）",
+   "sha": "1d4c3caf",
    "evidence": "tests/v1_batch7_unit.js：開場六句、BCG-27 位置與圖檔（第 1 級）"
   },
   {
@@ -8233,7 +8233,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
-   "next": "學姊 heroine_05 已接（LAWWW2-B 2ac3c4bf，BB-B D59 通過：底圖換姿勢①＋7 格，本批）；沛珊、可昕 9 格等 BB-B 驗收；子晴、語彤、以安等使用者生正面全身新圖（BB-B 決定）",
+   "next": "芷若（724643c）、學姊（2ac3c4bf）、沛珊與可昕（0f373b49）已接；子晴、以安、語彤暫停：等使用者生正面全身新圖（BB 第 23、24 組），之前立繪維持現狀",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -8463,6 +8463,27 @@
    },
    "source": "AA_140 G32；BB-B ef96df49",
    "authorized": "D79 第 7 點（v5、v6）"
+  },
+  {
+   "id": "V4-SYL",
+   "title": "大三課堂內容（syllabus y3s1、y3s2）＋法律審查第 8、9 批的修正（L346～L378）",
+   "area": "V4",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 tools/syllabus/import_syllabus.py 匯入大三的週（法律審查通過的才放）；跟 v4 一起",
+   "priority": "P3",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "大三上第 1 週上課",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 法律審查第 8 批 95743dd8、第 9 批 64c24854",
+   "authorized": "D79 第 7 點（v4）"
   }
  ]
 }

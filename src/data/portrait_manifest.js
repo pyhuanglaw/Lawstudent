@@ -13,7 +13,16 @@ const PORTRAIT_FILES={
  },
  "classmate_peishan": {
   "campus": [
-   "neutral"
+   "annoyed",
+   "embarrassed",
+   "laugh",
+   "neutral",
+   "sad",
+   "serious",
+   "smile",
+   "surprised",
+   "thinking",
+   "tired"
   ]
  },
  "classmate_xinci": {
@@ -86,7 +95,16 @@ const PORTRAIT_FILES={
  },
  "kexin": {
   "campus": [
-   "neutral"
+   "annoyed",
+   "embarrassed",
+   "laugh",
+   "neutral",
+   "sad",
+   "serious",
+   "smile",
+   "surprised",
+   "thinking",
+   "tired"
   ]
  },
  "npc_fangyt": {

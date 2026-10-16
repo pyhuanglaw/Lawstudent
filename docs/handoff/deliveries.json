@@ -3,9 +3,9 @@
  "note": "交付登記（D82）：每一筆交付都要對到 tasks.json 的任務；msg＝SENT／DELIVERED／ACK／ACTIONED（接收方有沒有回 ACK）；integration＝未整合／已整合待測試／已驗收／不整合／參考用。scannedThrough＝每條交付分支已經看過的最後一個 commit：check_handoff.py 只掃它以後的 commit（增量）。看過、不是交付的 commit 放 ignored。　**scannedThrough 只在 check 跑完、列出的 commit 都登記或放進 ignored 之後才往前移**（2026-10-16：先移再跑會什麼都掃不到）。",
  "pattern": "交付|ART_APPROVED|READY_FOR_ART_REVIEW|MODEL_READY|通過|驗收|閒聊階梯|交接包|法律審查|盤點|清查|裁定|規則檔|AA_1\\d\\d|BB_1\\d\\d",
  "scannedThrough": {
-  "origin/claude/funny-albattani-iawshm": "2ac3c4bf",
-  "origin/claude/cool-heisenberg-o8kuqx": "b79a32a7",
-  "origin/claude/elegant-brown-fcos7n": "c228fd02"
+  "origin/claude/funny-albattani-iawshm": "0f373b49",
+  "origin/claude/cool-heisenberg-o8kuqx": "47de50fc",
+  "origin/claude/elegant-brown-fcos7n": "64c24854"
  },
  "deliveries": [
   {
@@ -976,6 +976,78 @@
    "sha": "09eaeddf",
    "what": "AA_140：G11、G41、G43 企劃完成",
    "task": "V3-G11、V0-B1、V0-B3",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-82",
+   "date": "2026-10-16T03:2xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "0f373b49",
+   "what": "ART-19 第二批：沛珊、可昕各 9 格表情（BB-B D59 03:19 通過）",
+   "task": "ART-19",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "本批接進 assets、manifest 重產"
+  },
+  {
+   "id": "DLV-1016-83",
+   "date": "2026-10-16T03:2xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "47de50fc",
+   "what": "AA_140 G45 已修（LAWWW-B b4525e0e）登記",
+   "task": "V1-LADFIX",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "AA-B 的對帳紀錄"
+  },
+  {
+   "id": "DLV-1016-84",
+   "date": "2026-10-16T03:2xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "95743dd8",
+   "what": "法律審查第 8 批（大三上）L346～L357",
+   "task": "V4-SYL",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-85",
+   "date": "2026-10-16T03:2xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "0db57126",
+   "what": "ART-19：沛珊、可昕九格 D59 通過；以安、語彤也要正面全身新圖（第 23、24 組）",
+   "task": "ART-19",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-86",
+   "date": "2026-10-16T03:2xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "d49c7606",
+   "what": "BB_135 經濟系朋友大一下（V2-B10）定稿台詞",
+   "task": "V2-B10",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "實作中"
+  },
+  {
+   "id": "DLV-1016-87",
+   "date": "2026-10-16T03:2xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "64c24854",
+   "what": "法律審查第 9 批（大三下）L367～L378",
+   "task": "V4-SYL",
    "msg": "DELIVERED",
    "integration": "未整合",
    "note": ""
