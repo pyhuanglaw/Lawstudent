@@ -53,11 +53,19 @@ SRC = {
         {'Y2': {'rail': True, 'note': '手掌在腰兩側：只疊矮牆或比較低的欄杆'}}),
 }
 TOP, SIDE = 0.04, 0.02
+# BB-B 2026-10-16 驗收（3aeef829）退件的 8 張：原底灰白沒去乾淨的地方（範圍＝高度比例，y0～y1）；其他照舊
+FIX = {('classmate_peishan', 'H1'): dict(y0=0.0, y1=0.35), ('classmate_peishan', 'H3'): dict(y0=0.0, y1=0.35),
+       ('classmate_peishan', 'head_neutral'): dict(y0=0.35, y1=1.0), ('classmate_peishan', 'head_smile'): dict(y0=0.35, y1=1.0),
+       ('heroine_01', 'head_neutral'): dict(y0=0.35, y1=0.8, sat=14), ('heroine_01', 'head_smile'): dict(y0=0.35, y1=0.8, sat=14),
+       ('heroine_05', 'head_thinking'): dict(y0=0.3, y1=0.85, d=26, sat=14, xside=0.5, tight=0),
+       ('heroine_01', 'H1'): dict(y0=0.0, y1=0.4), ('heroine_01', 'H3'): dict(y0=0.0, y1=0.4)}
+# BB-B：以安的高馬尾比頭頂高 17 px，h 量到馬尾頂端會矮約 3 cm → 用頭頂量（H1 h＝963；H3、H4 同比例）
+H_FIX = {'heroine_01': dict(H1=963)}
 # 坐高 seatY：自動估計（seat_y()）在膝蓋抬高、側坐、往後坐的姿勢會錯（子晴量到膝蓋、祐廷量到肩膀）→ 目視校正（±20 px，該張圖的像素；BB-B 依各地點 *_coords.json 再核）
 SEAT_FIX = {'classmate_peishan': 540, 'heroine_01': 565, 'heroine_02': 565, 'heroine_03': 395, 'heroine_04': 520, 'heroine_05': 480, 'kexin': 515, 'player': 535}
 
 
-def cut(crop, sess, remove, head=False):
+def cut(crop, sess, remove, head=False, fix=None):
     # 頭像：isnet-anime＋alpha matting（u2net 會把頭髮、臉的一部分當背景：可昕 head_embarrassed 幾乎整張半透明）；身體照舊 u2net
     kw = dict(alpha_matting=True, alpha_matting_foreground_threshold=240, alpha_matting_background_threshold=10, alpha_matting_erode_size=6) if head else {}
     rgba = np.array(remove(crop, session=sess, **kw)).astype(np.float32); al = rgba[..., 3] / 255.0
@@ -65,9 +73,25 @@ def cut(crop, sess, remove, head=False):
     bd = np.concatenate([c0[:3].reshape(-1, 3), c0[-3:].reshape(-1, 3), c0[:, :3].reshape(-1, 3), c0[:, -3:].reshape(-1, 3)]); bgc = np.median(bd, 0)
     m = al > 0.5; band = m & ~ndimage.binary_erosion(m, iterations=4); near_bg = np.abs(c0 - bgc).max(2) < 26          # u2net 的遮罩比人物寬 1～3 px：邊緣接近背景色的拿掉
     al = np.where(band & near_bg, 0.0, al); al = ndimage.gaussian_filter(al, 0.6) * (al > 0)
+    lum = c0.mean(2); sat = c0.max(2) - c0.min(2); dbg = np.abs(c0 - bgc).max(2)
     if head:                                                                                            # AI 圖在頭髮外圍畫了一圈比灰底還亮的光暈：又亮又沒顏色、和外面連在一起的那一片當背景（只在上面 55%：下面的白襯衫、淺色毛衣不動）
-        lum = c0.mean(2); sat = c0.max(2) - c0.min(2); lt = (lum > 140) & (sat < 30); lt[int(0.55 * lt.shape[0]):] = False; ext = al < 0.1
+        lt = (lum > 140) & (sat < 30); lt[int(0.55 * lt.shape[0]):] = False; ext = al < 0.1
         lb, _n = ndimage.label(lt | ext); tch = np.unique(lb[ext]); al = np.where(lt & np.isin(lb, tch[tch > 0]), 0.0, al)
+    if fix:                                                                                             # BB-B 3aeef829 退件的幾張：髮絲間、脖子兩側、手旁邊的原底（灰白、接近背景色、沒有顏色）
+        y0f = int(fix.get('y0', 0) * al.shape[0]); y1f = int(fix.get('y1', 1) * al.shape[0])
+        bgl = (dbg < fix.get('d', 30)) & (sat < fix.get('sat', 22)) & (al > 0.02); bgl[:y0f] = False; bgl[y1f:] = False
+        if 'xside' in fix: bgl[:, :int(fix['xside'] * al.shape[1])] = False                             # 學姊 thinking：只看右半邊（手的右邊），左邊是白襯衫
+        ext = al < 0.1; lb, _n = ndimage.label(bgl | ext); tch = np.unique(lb[ext]); kill = bgl & np.isin(lb, tch[tch > 0])
+        if fix.get('islands', True):
+            hl, nh = ndimage.label(bgl & ~kill)
+            for i_, sl in enumerate(ndimage.find_objects(hl), 1):                                       # 夾在髮絲之間、不和外面相連的小塊灰白（面積 30～3000）也算；大片的是白襯衫、毛衣
+                if sl is not None and 30 <= int((hl[sl] == i_).sum()) <= fix.get('maxi', 3000):
+                    ring = ndimage.binary_dilation(hl == i_, iterations=3) & ~(hl == i_) & (al > 0.9)
+                    if ring.any() and lum[ring].mean() < 110: kill |= hl == i_                          # 四周是頭髮（暗）才算；四周是皮膚、衣服的不算（眼白、領口）
+        kill |= bgl & (dbg < fix.get('tight', 12))                                                       # 和背景色只差 12 以內的中性灰：就是原底（眼白、白襯衫至少差 16 以上）
+        al = np.where(kill, 0.0, al)
+        near = ndimage.binary_dilation(kill, iterations=2) & ~kill & (sat < 26)                         # 洞邊 2 px 依亮度重算半透明
+        al = np.where(near, np.minimum(al, np.clip((bgc.mean() - lum) / 80.0 + 0.35, 0, 1)), al)
     lab, n = ndimage.label(al > 0.25)
     if n > 1:                                                                                           # 只留最大的一塊（旁邊姿勢伸過來的手、格子的邊）
         sz = ndimage.sum(np.ones_like(al), lab, range(1, n + 1)); al = al * ndimage.binary_dilation(lab == 1 + int(np.argmax(sz)), iterations=2)
@@ -119,10 +143,14 @@ def main():
         if only and cid not in only: continue
         im = Image.open(os.path.join(a.src, fn)).convert('RGB'); od = os.path.join(a.out, cid); os.makedirs(od, exist_ok=True); report[cid] = {'source': 'docs/story_planning/date_system/art/' + fn}
         for pose, box in boxes.items():
-            hd = pose.startswith('head_'); can = frame(cut(im.crop(box), hsess if hd else sess, remove, head=hd), head=hd)
+            hd = pose.startswith('head_'); can = frame(cut(im.crop(box), hsess if hd else sess, remove, head=hd, fix=FIX.get((cid, pose))), head=hd)
             Image.fromarray(can, 'RGBA').save(os.path.join(od, pose + '.webp'), quality=92, method=6, exact=False)
             an = anchors(can, pose) if not pose.startswith('head_') else {'w': int(can.shape[1]), 'hpx': int(can.shape[0])}
             an.update(extra.get(pose, {})); an['crop'] = list(box)
+            if cid in H_FIX and not hd:                                                         # 以安：h 用頭頂（不是馬尾頂端）量
+                if pose in H_FIX[cid]: an['h_auto'] = an['h']; an['h'] = H_FIX[cid][pose]
+                elif 'H1' in report[cid]: k = H_FIX[cid]['H1'] / report[cid]['H1']['h_auto']; an['h_auto'] = an['h']; an['h'] = int(round(an['h'] * k))
+                an['h_note'] = '頭頂量（高馬尾不算）；BB-B 3aeef829'
             if an.get('rail') is False: an.pop('handY', None)                                   # 回頭的背影：沒有扶欄杆的手
             if 'seatY' in an and cid in SEAT_FIX: an['seatY_auto'] = an['seatY']; an['seatY'] = SEAT_FIX[cid]; an['seatY_note'] = '目視校正 ±20 px'
             report[cid][pose] = an

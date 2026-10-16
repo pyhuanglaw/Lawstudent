@@ -35,8 +35,10 @@ def main():
         for hs in C.get('hotspots', []): r = hs['rect']; d.rectangle((r[0], r[1], r[0] + r[2], r[1] + r[3]), outline=(255, 255, 255, 160), width=2)
         if 'horizonY' in C: d.line((0, C['horizonY'], 1920, C['horizonY']), fill=(255, 80, 80, 200), width=2)
         d.line((0, 1080 - C['uiSafe']['bottom'], 1920, 1080 - C['uiSafe']['bottom']), fill=(80, 160, 255, 200), width=2)
-        if 'you' in comp: p, x, y, s = comp['you']; place(cv, a.cut, A, 'player', p, x, y, s)
-        if 'her' in comp: p, x, y, s = comp['her']; place(cv, a.cut, A, a.her, p, x, y, s)
+        if comp.get('bodies') is not False:                                      # bodies:false＝這個互動點只用頭像（BB-B D13 C3）
+            if 'you' in comp: p, x, y, s = comp['you']; place(cv, a.cut, A, 'player', p, x, y, s)
+            if 'her' in comp: p, x, y, s = comp['her']; place(cv, a.cut, A, a.her, p, x, y, s)
+        else: ImageDraw.Draw(cv).text((60, 900), '（bodies:false：只用頭像）', fill=(255, 255, 255, 255), font=f)
         d = ImageDraw.Draw(cv); d.rectangle((0, 0, 1920, 46), fill=(0, 0, 0, 150)); d.text((14, 6), f"{cn}  {comp.get('_note', '')}", fill=(255, 255, 255, 255), font=f)
         tiles.append(cv)
     if a.all_heights:                                                            # 八個人並排（前景 y 1000、縮放 1.0）：比身高

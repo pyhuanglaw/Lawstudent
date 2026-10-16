@@ -3,9 +3,9 @@
   "source": "docs/story_planning/date_system/art/classmate_peishan_date_casual.webp",
   "H1": {
    "w": 380,
-   "hpx": 1027,
+   "hpx": 1024,
    "footX": 210,
-   "footY": 1025,
+   "footY": 1022,
    "h": 980,
    "crop": [
     0,
@@ -16,9 +16,9 @@
   },
   "H3": {
    "w": 281,
-   "hpx": 924,
+   "hpx": 922,
    "footX": 152,
-   "footY": 895,
+   "footY": 893,
    "h": 855,
    "rail": false,
    "note": "回頭的背影，不是扶欄杆（疊欄杆時改用 H1）",
@@ -46,7 +46,7 @@
    "seatY_note": "目視校正 ±20 px"
   },
   "head_neutral": {
-   "w": 247,
+   "w": 246,
    "hpx": 391,
    "crop": [
     1008,
@@ -56,7 +56,7 @@
    ]
   },
   "head_smile": {
-   "w": 254,
+   "w": 253,
    "hpx": 388,
    "crop": [
     1258,
@@ -90,24 +90,26 @@
   "source": "docs/story_planning/date_system/art/heroine_01_date_knit.webp",
   "H1": {
    "w": 382,
-   "hpx": 1030,
+   "hpx": 1025,
    "footX": 142,
-   "footY": 1026,
-   "h": 980,
+   "footY": 1021,
+   "h": 963,
    "crop": [
     0,
     0,
     378,
     1000
-   ]
+   ],
+   "h_auto": 980,
+   "h_note": "頭頂量（高馬尾不算）；BB-B 3aeef829"
   },
   "H3": {
    "w": 297,
-   "hpx": 996,
+   "hpx": 992,
    "footX": 132,
-   "footY": 992,
-   "h": 948,
-   "handY": 422,
+   "footY": 988,
+   "h": 932,
+   "handY": 418,
    "rail": true,
    "note": "手掌在腰兩側：只疊矮牆或比較低的欄杆",
    "crop": [
@@ -115,14 +117,16 @@
     0,
     662,
     1000
-   ]
+   ],
+   "h_auto": 948,
+   "h_note": "頭頂量（高馬尾不算）；BB-B 3aeef829"
   },
   "H4": {
    "w": 350,
    "hpx": 879,
    "footX": 237,
    "footY": 876,
-   "h": 838,
+   "h": 823,
    "seatY": 565,
    "crop": [
     646,
@@ -130,6 +134,8 @@
     1000,
     1000
    ],
+   "h_auto": 838,
+   "h_note": "頭頂量（高馬尾不算）；BB-B 3aeef829",
    "seatY_auto": 557,
    "seatY_note": "目視校正 ±20 px"
   },
@@ -144,7 +150,7 @@
    ]
   },
   "head_smile": {
-   "w": 280,
+   "w": 278,
    "hpx": 351,
    "crop": [
     1258,
@@ -504,7 +510,7 @@
    ]
   },
   "head_thinking": {
-   "w": 276,
+   "w": 274,
    "hpx": 414,
    "crop": [
     556,
