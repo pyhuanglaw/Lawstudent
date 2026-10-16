@@ -5,8 +5,8 @@
 這支腳本（系統 python3，numpy＋PIL）把這些「畫進」一張整條路的貼圖（世界座標定位，和遊戲的導航、建築位置一致），wz_props.py 把它貼在路面上。
 柏油底色維持使用者指定的淺灰（D30，約 #acacaa）。全部程序產生（不用外部貼圖）。
 
-輸出 textures/gen/wz_road_main.jpg（主巷 x −37..47.3、z −5..5）、wz_road_ns.jpg（Café 前的南北向路 x 47.3..55.3、z −46..49.5）、
-wz_road_side.jpg＋.json（三條側巷四塊，一張貼圖集；json 是每塊的世界範圍和 UV，wz_props.py 讀）。
+輸出 textures/gen/wz_road_atlas.jpg＋.json：主巷（x −37..47.3、z −5..5）、Café 前的南北向路（x 47.3..55.3、z −46..49.5）、三條側巷四塊，
+合成一張貼圖（一個材質、一次 draw call）；json 是每塊的世界範圍和四個角的 UV，wz_props.py 讀。另外 wz_road_grain_nor.png：每公尺重複的柏油顆粒法線。
 用法：python3 tools/blender/env_second/wz_road_tex.py
 """
 import math, os
@@ -204,7 +204,7 @@ def zebra(R):
 # ======================== 主巷：x −37..47.3、z −5..5 ========================
 def main_lane():
     X0, X1, Z0, Z1 = -37.0, 47.3, -5.0, 5.0
-    W, H = 4096, 480; pu = W / (X1 - X0); pv = H / (Z1 - Z0)
+    W, H = 4064, 480; pu = W / (X1 - X0); pv = H / (Z1 - Z0)
     to_px = lambda x, z: (int(round((x - X0) * pu)), int(round((z - Z0) * pv)))
     R = Road(W, H, to_px, (pu + pv) / 2, seed=1016)
     R.from_px = lambda col, row: (X0 + col / pu, Z0 + row / pv)
@@ -238,7 +238,7 @@ def main_lane():
         return np.minimum(dA, dB)
     R.ao_edge(dist_wall, width=0.45, dL=-24.0)
     # 水溝（兩邊 38 cm）＋白線（距牆 0.55 m）；巷口斷開。禁停紅線：便利商店前（A 側 40..47.3）、路口前 8 m（B 側 39..47.3）
-    shrink = lambda M: [(a + 0.38, b - 0.38) for a, b in M]     # 巷口兩邊各留一節水溝（38 cm）：接上側巷沿牆的水溝（wz_road_side）
+    shrink = lambda M: [(a + 0.38, b - 0.38) for a, b in M]     # 巷口兩邊各留一節水溝（38 cm）：接上側巷沿牆的水溝
     R.gutter(X0, X1, 5.0, 4.62, gap=shrink(mouthA))
     R.gutter(X0, X1, -5.0, -4.62, gap=shrink(mouthB))
     def edge_line(z, mouths, red):
@@ -274,13 +274,13 @@ def main_lane():
     R.text('慢', -16.0, -1.8, 2.6, 1.5, 0.0); R.text('慢', 13.0, 1.8, 2.6, 1.5, math.pi)
     # 路口停止線（斑馬線在上面先畫了）
     R.line([(44.75, -4.35), (44.75, 4.35)], 0.3, (233, 231, 225), wear=0.35)
-    R.render(os.path.join(GEN, 'wz_road_main.jpg'))
+    return R.render(None), (X0, X1, Z0, Z1), (lambda x, z: ((x - X0) * pu, (z - Z0) * pv))
 
 
 # ======================== Café 前的南北向路：x 47.3..55.3、z −46..49.5 ========================
 def ns_road():
     X0, X1, Z0, Z1 = 47.3, 55.3, -46.0, 49.5
-    W, H = 4096, 344; pu = W / (Z1 - Z0); pv = H / (X1 - X0)
+    W, H = 4064, 344; pu = W / (Z1 - Z0); pv = H / (X1 - X0)
     to_px = lambda x, z: (int(round((z - Z0) * pu)), int(round((X1 - x) * pv)))    # 欄＝z（往北）、列 0＝東邊（Café 那一側）
     R = Road(W, H, to_px, (pu + pv) / 2, seed=1017)
     R.from_px = lambda col, row: (X1 - row / pv, Z0 + col / pu)
@@ -316,12 +316,12 @@ def ns_road():
     R.line([(52.75, 14.0), (52.75, Z1 - 0.3)], 0.1, (233, 231, 225), wear=0.3)
     R.manhole(50.6, -8.5); R.manhole(51.2, 24.0, r=0.38); R.handhole(48.3, 11.0, ang=math.pi / 2)
     zebra(R)
-    R.render(os.path.join(GEN, 'wz_road_ns.jpg'))
+    return R.render(None), (X0, X1, Z0, Z1), (lambda x, z: ((z - Z0) * pu, (X1 - x) * pv))
 
 
 # ======================== 側巷（北巷、南巷、西端南北向巷的兩段）：一張貼圖集 ========================
 # 套件的側巷路面（zones3d.js 溫州街 roads[1..3]）：北巷 x 3.25..8.25、z 4..21；南巷 x −14.75..−9.75、z −20..−4；西端 x −36.9..−29.9、z −16..16。
-# 主巷那一段（z ±5）在 wz_road_main 裡，這裡只畫主巷外面的部分；四塊排成一列，塊和塊之間留 16 px 邊（mipmap 不會混到隔壁）。
+# 主巷那一段（z ±5）在主巷那一塊裡，這裡只畫主巷外面的部分；四塊在 build_atlas 轉 90° 排成一列。
 SIDE_PPM = 40.0
 SIDE = [  # 名字、X0、X1、Z0、Z1、牆在哪幾邊（'x0'、'x1'＝沿 z 的兩側牆；'z0'、'z1'＝巷底）、接主巷的那一邊、種子
     ('n', 3.25, 8.25, 5.0, 21.0, ('x0', 'x1', 'z1'), 'z0', 2101),
@@ -361,21 +361,46 @@ def side_piece(X0, X1, Z0, Z1, walls, joint, seed):
     return R.render(None)
 
 
-def side_lanes():
-    pad = 16; ims = [side_piece(*p[1:]) for p in SIDE]
-    AW = sum(im.width for im in ims) + pad * (len(ims) + 1); AH = max(im.height for im in ims) + pad * 2
-    AW = int(math.ceil(AW / 64) * 64); AH = int(math.ceil(AH / 64) * 64)
-    atlas = Image.new('RGB', (AW, AH), (168, 168, 166)); rects = {}; ox = pad
-    for (nm, X0, X1, Z0, Z1, *_), im in zip(SIDE, ims):
-        oy = pad; ext = im.resize((im.width + 2 * pad, im.height + 2 * pad), Image.NEAREST)   # 邊緣往外延伸（mipmap 用）
-        atlas.paste(ext, (ox - pad, oy - pad)); atlas.paste(im, (ox, oy))
-        rects[nm] = {'x0': X0, 'x1': X1, 'z0': Z0, 'z1': Z1, 'u0': ox / AW, 'u1': (ox + im.width) / AW, 'v0': 1 - oy / AH, 'v1': 1 - (oy + im.height) / AH}   # v：Blender 的 UV（圖的上緣＝1）；z0 在圖的上面
-        ox += im.width + pad
-    atlas.save(os.path.join(GEN, 'wz_road_side.jpg'), quality=88)
-    import json; json.dump(rects, open(os.path.join(GEN, 'wz_road_side.json'), 'w'), indent=1)
-    print('saved wz_road_side.jpg', atlas.size)
+def build_atlas():
+    """三種路面合成一張貼圖、一個材質（wz_road）：原本三個材質＝三次 draw call，溫州街 arcade 鏡頭因此到 311（LAWWW 的目標 ≤310）。
+    排法（AW 4096）：主巷 4064×480、南北向路 4064×344、側巷四塊轉 90°（沿 z 的長邊放橫的）排一列；每塊四周 16 px 邊緣延伸（mipmap 不會混到隔壁）。
+    wz_road_atlas.json：每塊的世界範圍和四個角的 UV（Blender 的 UV，圖的上緣 v＝1），wz_props.py 照這個鋪四邊形。"""
+    pad = 16; AW = 4096
+    parts = [('main',) + main_lane(), ('ns',) + ns_road()]
+    for nm, X0, X1, Z0, Z1, walls, joint, seed in SIDE:
+        im = side_piece(X0, X1, Z0, Z1, walls, joint, seed).transpose(Image.TRANSPOSE)          # 轉 90°：欄＝z、列＝x
+        parts.append((nm, im, (X0, X1, Z0, Z1), (lambda X0, Z0: (lambda x, z: ((z - Z0) * SIDE_PPM, (x - X0) * SIDE_PPM)))(X0, Z0)))
+    place = {}; y = pad; place['main'] = (pad, y); y += parts[0][1].height + 2 * pad; place['ns'] = (pad, y); y += parts[1][1].height + 2 * pad
+    x = pad; rowh = 0
+    for nm, im, *_ in parts[2:]: place[nm] = (x, y); x += im.width + 2 * pad; rowh = max(rowh, im.height)
+    assert x - pad <= AW, x
+    AH = int(math.ceil((y + rowh + pad) / 16) * 16)
+    atlas = np.zeros((AH, AW, 3), np.uint8) + np.array([168, 168, 166], np.uint8); quads = []
+    for nm, im, (X0, X1, Z0, Z1), lpx in parts:
+        ox, oy = place[nm]; a = np.pad(np.asarray(im), ((pad, pad), (pad, pad), (0, 0)), mode='edge')       # 邊緣往外延伸
+        atlas[oy - pad:oy - pad + a.shape[0], ox - pad:ox - pad + a.shape[1]] = a
+        uv = lambda x, z: ((ox + lpx(x, z)[0]) / AW, 1 - (oy + lpx(x, z)[1]) / AH)
+        quads.append({'name': nm, 'x0': X0, 'x1': X1, 'z0': Z0, 'z1': Z1, 'uv': [uv(X0, Z0), uv(X1, Z0), uv(X1, Z1), uv(X0, Z1)]})
+    Image.fromarray(atlas, 'RGB').save(os.path.join(GEN, 'wz_road_atlas.jpg'), quality=88)
+    import json; json.dump({'size': [AW, AH], 'grain_ppm': 45.0, 'quads': quads}, open(os.path.join(GEN, 'wz_road_atlas.json'), 'w'), indent=1)
+    print('saved wz_road_atlas.jpg', (AW, AH))
+
+
+def grain_normal(path, N=512, tile_m=1.0, seed=1018):
+    """柏油顆粒的法線貼圖（可以無縫重複；一張＝tile_m 公尺）：路面大貼圖約 2 cm／像素，近景（手機直向下半部）是平的，
+    這張用 KHR_texture_transform 每公尺重複一次，斜光下有細細的石子凹凸。全部程式產生（wrap 模糊，四邊接得起來）。"""
+    r = np.random.default_rng(seed); ppm = N / tile_m
+    h = gaussian_filter(r.standard_normal((N, N)).astype(np.float32), 0.7, mode='wrap') * 1.0          # 細砂
+    st = (r.random((N, N)) > 0.9965).astype(np.float32)                                                    # 小石子（約 5～8 mm）
+    h += gaussian_filter(st, 2.2, mode='wrap') * 9.0
+    h -= gaussian_filter(r.standard_normal((N, N)).astype(np.float32), 0.004 * ppm * 3, mode='wrap') * 0.4  # 石子之間的縫
+    h = (h - h.mean()) / (h.std() + 1e-6)
+    gx = (np.roll(h, -1, 1) - np.roll(h, 1, 1)) * 0.5; gy = (np.roll(h, -1, 0) - np.roll(h, 1, 0)) * 0.5
+    k = 0.35; nx, ny, nz = -gx * k, gy * k, np.ones_like(h)                                                 # OpenGL 法線（+y 往上）
+    ln = np.sqrt(nx * nx + ny * ny + nz * nz); n = np.stack([nx / ln, ny / ln, nz / ln], -1)
+    Image.fromarray(((n * 0.5 + 0.5) * 255).clip(0, 255).astype(np.uint8), 'RGB').save(path); print('saved', path)
 
 
 if __name__ == '__main__':
     os.makedirs(GEN, exist_ok=True)
-    main_lane(); ns_road(); side_lanes()
+    build_atlas(); grain_normal(os.path.join(GEN, 'wz_road_grain_nor.png'))

@@ -13,13 +13,19 @@ LAWWW2-B，2026-10-16 16:1x UTC。狀態：**READY_FOR_ART_REVIEW**（場景美�
 
 ## 做了什麼
 
-`tools/blender/env_second/wz_road_tex.py`（系統 python3，numpy＋PIL，全部程式畫，不用外部貼圖）畫三張整條路的貼圖。用世界座標定位，和遊戲的建築、機車、人孔位置一致。`wz_props.py` 把它們鋪在套件的路面上面（y 0.016）。
+`tools/blender/env_second/wz_road_tex.py`（系統 python3，numpy＋PIL，全部程式畫，不用外部貼圖）畫整條路的貼圖。用世界座標定位，和遊戲的建築、機車、人孔位置一致。`wz_props.py` 把它鋪在套件的路面上面（y 0.016）。
 
-| 貼圖 | 範圍 | 大小 |
+**一張貼圖、一個材質 `wz_road`**（`textures/gen/wz_road_atlas.jpg` 4096×1200＋`.json`：每塊的世界範圍和四個角的 UV）：
+
+| 一塊 | 範圍 | 解析度 |
 |---|---|---|
-| `wz_road_main.jpg` | 主巷 x −37～47.3、z ±5 | 4096×480（約 2 cm／像素） |
-| `wz_road_ns.jpg` | Café 前的南北向路 x 47.3～55.3、z −46～49.5 | 4096×344 |
-| `wz_road_side.jpg`（＋`.json`：每塊的世界範圍和 UV） | 三條側巷四塊：北巷、南巷、西端巷子南北兩段，一張貼圖集 | 1088×704（2.5 cm／像素） |
+| 主巷 | x −37～47.3、z ±5 | 4064×480（約 2 cm／像素） |
+| Café 前的南北向路 | x 47.3～55.3、z −46～49.5 | 4064×344 |
+| 三條側巷四塊（北巷、南巷、西端巷子南北兩段） | 轉 90° 排成一列 | 每公尺 40 像素 |
+
+- 每塊四周 16 像素邊緣延伸：mipmap 不會混到隔壁那塊。
+- 第一版是三張貼圖、三個材質。LAWWW-B 的整合測試量到 arcade 鏡頭 311 次 draw call（目標 ≤310），所以合成一張。
+- **柏油顆粒法線** `wz_road_grain_nor.png`（512×512，程式產生、可無縫重複）用 KHR_texture_transform 約每公尺重複一次。路面大貼圖每像素 2 cm，近景本來是平的，加了這張斜光下有細細的石子凹凸。
 
 路面上有：
 
@@ -39,22 +45,22 @@ LAWWW2-B，2026-10-16 16:1x UTC。狀態：**READY_FOR_ART_REVIEW**（場景美�
 
 ## 數字
 
-- 三個材質（`wz_road_main`、`wz_road_ns`、`wz_road_side`），各一個四邊形網格，貼地不投影（`wzCastsShadow` 的貼地規則）。
-- `wz_props.glb` 292 KB → 799 KB；同鏡頭 draw call +2～3、三角形 +4～8。
+- 一個材質 `wz_road`、一個網格（六個四邊形），貼地不投影（`wzCastsShadow` 的貼地規則）。
+- `wz_props.glb` 292 KB → 約 900 KB；同鏡頭 draw call +1、三角形 +12。
 - 套件的路面照舊在下面（被蓋住）：`wz_props.glb` 載入失敗時，畫面和以前一樣（D38 ③）。
 
 ## LAWWW-B 要做的
 
 套 `docs/art-rebuild/second_ai/patches/wz_road_nightdark.patch`（`zones3d.js` 的 attachWenzhouModel 加一行）：
 
-- 這三個材質入夜變暗，和套件的柏油一樣進 `E.roadMats`；
+- `wz_road` 入夜變暗，和套件的柏油一樣進 `E.roadMats`；
 - 斜看不糊（anisotropy 8）。
 
 沒套也不會壞：只是晚上路面照白天的亮度。
 
 ## 截圖（遊戲內，`tools/blender/env_second/shots/fast_shots.py`，LAWWW-B f1651491＋我的 GLB＋patch）
 
-`road_cmp_*.webp`：同鏡頭、同時段，左舊（套件路面）右新。
+`road_cmp_*.webp`：同鏡頭、同時段，左舊（套件路面）右新。右邊的新版：主巷西、Café 前、主巷晚上、手機直向、北巷口、西端巷子六組是合成一張貼圖之後拍的；主巷東、停車格、南巷晚上三組是三張貼圖那一版拍的（貼圖內容相同，只差顆粒法線）。
 
 | 檔案 | 鏡頭 |
 |---|---|
@@ -74,7 +80,6 @@ LAWWW2-B，2026-10-16 16:1x UTC。狀態：**READY_FOR_ART_REVIEW**（場景美�
 
 ## 還沒做、已知
 
-- 路面沒有法線貼圖：柏油的顆粒在斜光下沒有凹凸，只有顏色。要加的話用一張重複的柏油法線（KHR_texture_transform），多一次取樣。
 - 遠處（50 m 以上）的路面細節會糊成一片淺灰；這是 mipmap 的正常結果。
 - 側巷的巷底（北巷 z 21 是 F1 的牆）有暗角，南巷、西端巷子的盡頭沒有。
 - 套件的路面在下面照樣畫（被蓋住）：每個 draw call 都還在。要省的話，可以在模型載入後把套件路面藏起來（`zones3d.js`，LAWWW-B 的檔案），目前沒做。

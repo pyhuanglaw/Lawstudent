@@ -168,28 +168,35 @@ for sd in (1, -1):
 # ---- 路面（精修第 3 批，LAWWW2-B 2026-10-16）：wz_road_tex.py 畫好的整條路貼圖（補丁、灌縫、輪跡、油漬、水溝蓋、白線紅線、人孔、慢字、牆腳暗角）
 #      蓋在套件的路面（TK.road，y 0～0.013 的柏油、白線、鐵柵、人孔、慢字）上面：y 0.016。套件的斑馬線（y 0.012，polygonOffset −2）照舊疊在上面。
 GEN = os.path.join(HERE, 'textures', 'gen')
-def road_mat(name, fn):
+def road_mat(name, fn, grain=None):
+    """grain＝(u 方向幾公尺, v 方向幾公尺)：加柏油顆粒的法線貼圖 wz_road_grain_nor.png，每公尺重複一次（Mapping 節點 → glTF KHR_texture_transform）。
+    路面大貼圖約 2 cm／像素，近景是平的；這張讓斜光下有細細的石子凹凸。"""
     m = L.flat(name, '#ffffff', rough=0.93); nt = m.node_tree; bs = nt.nodes['Principled BSDF']
     tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(os.path.join(GEN, fn)); tx.interpolation = 'Linear'
-    nt.links.new(tx.outputs['Color'], bs.inputs['Base Color']); return m
+    nt.links.new(tx.outputs['Color'], bs.inputs['Base Color'])
+    if grain:
+        tc = nt.nodes.new('ShaderNodeTexCoord'); mp = nt.nodes.new('ShaderNodeMapping'); mp.inputs['Scale'].default_value = (grain[0], grain[1], 1.0)
+        gi = nt.nodes.new('ShaderNodeTexImage'); gi.image = bpy.data.images.load(os.path.join(GEN, 'wz_road_grain_nor.png')); gi.image.colorspace_settings.name = 'Non-Color'; gi.interpolation = 'Linear'
+        nm = nt.nodes.new('ShaderNodeNormalMap'); nm.inputs['Strength'].default_value = 1.0
+        nt.links.new(tc.outputs['UV'], mp.inputs['Vector']); nt.links.new(mp.outputs['Vector'], gi.inputs['Vector'])
+        nt.links.new(gi.outputs['Color'], nm.inputs['Color']); nt.links.new(nm.outputs['Normal'], bs.inputs['Normal'])
+    return m
 RY = 0.016
-rd = Mesh('wz_road_main', road_mat('wz_road_main', 'wz_road_main.jpg'))
-rd.quad([(-37.0, RY, 5.0), (47.3, RY, 5.0), (47.3, RY, -5.0), (-37.0, RY, -5.0)])
-uv01(rd.finish(root, uv=True))
-rn = Mesh('wz_road_ns', road_mat('wz_road_ns', 'wz_road_ns.jpg'))
-rn.quad([(47.3, RY, -46.0), (47.3, RY, 49.5), (55.3, RY, 49.5), (55.3, RY, -46.0)])
-uv01(rn.finish(root, uv=True))
-# 三條側巷（北巷、南巷、西端巷子的兩段）：一張貼圖集 wz_road_side.jpg，每塊的世界範圍和 UV 在 wz_road_side.json（wz_road_tex.py 寫的）
-SR = json.load(open(os.path.join(GEN, 'wz_road_side.json')))
-rs = Mesh('wz_road_side', road_mat('wz_road_side', 'wz_road_side.jpg'))
-for r in SR.values(): rs.quad([(r['x0'], RY, r['z1']), (r['x1'], RY, r['z1']), (r['x1'], RY, r['z0']), (r['x0'], RY, r['z0'])])
-ob = rs.finish(root, uv=True, merge=False); uvl = ob.data.uv_layers.active
+# 主巷、Café 前的南北向路、三條側巷四塊：一張貼圖 wz_road_atlas.jpg、一個材質 wz_road（一次 draw call；分三個材質時 arcade 鏡頭到 311 次）。
+# 每塊的世界範圍和四個角的 UV 在 wz_road_atlas.json（wz_road_tex.py 寫的）
+RA = json.load(open(os.path.join(GEN, 'wz_road_atlas.json'))); AW, AH = RA['size']; GP = RA['grain_ppm']
+rd = Mesh('wz_road', road_mat('wz_road', 'wz_road_atlas.jpg', grain=(AW / GP, AH / GP)))   # 顆粒法線約每公尺重複一次（各塊每公尺 40～48 像素）
+for q in RA['quads']: rd.quad([(q['x0'], RY, q['z0']), (q['x0'], RY, q['z1']), (q['x1'], RY, q['z1']), (q['x1'], RY, q['z0'])])
+ob = rd.finish(root, uv=True, merge=False); uvl = ob.data.uv_layers.active
 for poly in ob.data.polygons:
+    if poly.normal.z < 0: print('路面四邊形朝下', poly.index)
     cx, cz = poly.center.x, -poly.center.y
-    r = next(r for r in SR.values() if r['x0'] < cx < r['x1'] and r['z0'] < cz < r['z1'])
+    q = next(q for q in RA['quads'] if q['x0'] < cx < q['x1'] and q['z0'] < cz < q['z1'])
     for li in poly.loop_indices:
         co = ob.data.vertices[ob.data.loops[li].vertex_index].co; x, z = co.x, -co.y
-        uvl.data[li].uv = (r['u0'] + (x - r['x0']) / (r['x1'] - r['x0']) * (r['u1'] - r['u0']), r['v0'] + (z - r['z0']) / (r['z1'] - r['z0']) * (r['v1'] - r['v0']))
+        tx = (x - q['x0']) / (q['x1'] - q['x0']); tz = (z - q['z0']) / (q['z1'] - q['z0'])
+        c = q['uv']; u0, v0 = c[0]; u1, v1 = c[1]; u3, v3 = c[3]                              # 四角 (x0,z0)、(x1,z0)、(x1,z1)、(x0,z1)：仿射
+        uvl.data[li].uv = (u0 + (u1 - u0) * tx + (u3 - u0) * tz, v0 + (v1 - v0) * tx + (v3 - v0) * tz)
 
 # ---- Café 門前的紅磚人行道（平的，不改導航）＋低路緣
 bw = Mesh('cafe_brick_walk', M['brick']); bw.box(53.35, 55.25, 0.0, 0.03, -6.7, 6.7); bw.finish(root)   # 頂面 0.016 → 0.03：比新路面（0.016）高一點，不會 z-fighting
