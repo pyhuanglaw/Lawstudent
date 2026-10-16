@@ -42,7 +42,7 @@ const PHONE=(function(){
       if(notify) notify(out,q); }
     return n; };
   /* 可以回的訊息 */
-  /* 回覆的期限（ask.until＝絕對時間 day*24+h；例：可昕生日「祐廷的草稿」當天 23:59 前可以傳，BB_95 9-6）：過了就不能回、按鈕不顯示 */
+  /* 回覆的期限（ask.until＝絕對時間 day*24+h；例：12/3 可昕「祐廷的草稿」當天 23:59 前可以傳，BB_95 9-6）：過了就不能回、按鈕不顯示 */
   S.askOpen=(G,m)=>!!(m&&m.ask&&m.ans==null&&!(m.ask.until!=null&&abs(G.day,G.hour)>m.ask.until));
   S.pending=G=>{ S.rec(G); return G.msgs.filter(m=>S.askOpen(G,m)); };
   S.byAsk=(G,id)=>{ S.rec(G); return G.msgs.find(m=>m.ask&&m.ask.id===id)||null; };

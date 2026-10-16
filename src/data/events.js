@@ -1126,14 +1126,16 @@ const STORY_EVENTS=[
       {label:'n4'},{if:{notFlags:['kxVsN']},speaker:'kexin',expression:'smile',text:'你今天好認真。我有點寂寞。……繼續。'},{set:{kxVsN:true}},
       {label:'q4'} ],
     consequences:{mem:[{npc:'kexin',tag:'VIDEO_STUDY',note:'第一次視訊一起讀書'}],flags:{KX_VIDEO_DONE:true},memo:'和可昕視訊一起讀書'} },
-  /* 可昕的生日（BB_95 9-6，2026-10-14 同意 LAWWW 的提案）：12/3（第 14 週週三）。早上跳「行事曆：今天是可昕的生日。」；她的對話串多一則「祐廷的草稿」（「生日快樂。」當天 23:59 前可以傳）；
-     18:00 出遊提示「開車去政大」（story3d.js 的 phoneRules）。這是去的那一段：校門 → 山下的小吃街。「問予樂的。」只有見過予樂（K1b）才有；
-     予樂見過：「好，我先走。司機，載好她。」；沒見過：她看了祐廷一眼才說「好，我先走。」（予樂的第一句留到第一次正式見面）。
-     K1、K1b 都去過、K1 讓她點（K1_ORDER:'let_her'）＝第三次去，老闆記得點法。記 KX_BDAY_VISIT（phoneRules 換成 KX_BDAY:{1:'visit'}）*/
-  { id:'ev_kexin_birthday_y1', title:'她的生日', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
+  /* 第一份報告交出去的晚上（BB_95 9-6 改版；2026-10-15 BB-B：可昕生日改 4/24，這一晚不再是生日；AA_140 G01）：12/3（第 14 週週三）。id 不改（舊存檔）。
+     前一晚她傳「明天交第一份期末報告……」；當天她的對話串多一則「祐廷的草稿」（「交出去了嗎？」23:59 前可以傳）；18:00 出遊提示「開車去政大」（story3d.js 的 phoneRules）。
+     這是去的那一段：校門 → 山下的小吃街。「問予樂的。」只有見過予樂（K1b）才有；予樂見過：「好，我先走。司機，載好她。」；沒見過：她看了祐廷一眼才說「好，我先走。」。
+     K1、K1b 都去過、K1 讓她點（K1_ORDER:'let_her'）＝第三次去，老闆記得點法。BCG-28（cg_birthday_kexin，十二月、冬裝，圖照用）放在「……你怎麼知道我幾點下課？」。
+     記 KX_DEC3_VISIT（phoneRules 換成 KX_DEC3:{1:'visit'}）。遊戲裡 12/3 不再出現「生日」兩個字 */
+  { id:'ev_kexin_birthday_y1', title:'第一份報告交出去的晚上', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
     dialogue:[ {scene:'政大・校門口',bg:'nccu_gate'},
       {speaker:null,text:'政大的晚上，山上的風比台大冷一點。'},
       {speaker:null,text:'她和予樂下課走出來，看到車，停下來。'},
+      {cg:'cg_birthday_kexin'},
       {speaker:'kexin',expression:'surprised',text:'……你怎麼知道我幾點下課？'},
       {choice:[{text:'「妳的課表在我手機裡。」',goto:'a'},{text:'「問予樂的。」',if:{events:['ev_kexin_yule_pass']},goto:'b'},{text:'「猜的。」',goto:'c'}]},
       {label:'a'},{speaker:'kexin',expression:'smile',text:'那張是我開玩笑傳給你的。……你真的存了。'},{goto:'yl'},
@@ -1145,9 +1147,10 @@ const STORY_EVENTS=[
       {unless:{events:['ev_kexin_yule_pass']},speaker:'予樂',text:'好，我先走。'},
       {scene:'政大・山下的小吃街',bg:'nccu_food'},
       {if:{flagIs:{K1_ORDER:'let_her'},events:['ev_kexin_tour_nccu','ev_kexin_yule_pass']},speaker:null,text:'老闆記得你的點法。'},
-      {speaker:'kexin',expression:'smile',text:'生日願望有三個。第一個：明年也這樣。第二個：不能說。'},
-      {speaker:'kexin',expression:'smile',text:'第三個……今天你點餐。'} ],
-    consequences:{flags:{KX_BDAY_VISIT:true},memo:'可昕的生日（政大）'} },
+      {speaker:'kexin',expression:'smile',text:'假設今天是一個普通的週三。'},
+      {speaker:'kexin',expression:'smile',text:'……你開車上山，就不普通了。'},
+      {speaker:'kexin',expression:'smile',text:'今天你點餐。'} ],
+    consequences:{flags:{KX_DEC3_VISIT:true},memo:'第一份報告交出去的晚上（政大）'} },
   /* 期末成績：寒假第一天晚上和可昕視訊一起打開（BB_95 9-8）。等的玩家：她數完以後成績單接著出來；先看的玩家：照樣一起打開。沒接（錯過、今天先不要）：成績隔天早上照常出來 */
   { id:'ev_kexin_grades_open', title:'一起打開', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {scene:'視訊',bg:'video'},

@@ -1305,8 +1305,8 @@
    "title": "可昕 12/3 改成「第一份期末報告交出去的晚上」＋KX_DEC3 搬移",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "12/3 改 KX_DEC3「第一份報告交出去的晚上」；舊存檔 KX_BDAY[1]→KX_DEC3（不然 4/24 會被當成過了）；改 v1_batch10",
+   "status": "已整合待測試",
+   "next": "第 2 級：12/3 去政大（BCG-28 畫面）、只傳訊息、什麼都沒做三種；舊存檔 KX_BDAY[1]→KX_DEC3[1] 已在 migrate",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -8000,7 +8000,7 @@
    "area": "V2",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "BCG-04、BCG-11 已接（BB_117 的那一拍）；第 2 級：Z3、Q5 演到 CG 截圖；BCG-27（K1）要 BB-B 給旁白改句（骰子→長頸鹿）；BCG-28 跟 V1-B9-6、BCG-29 跟 V2-K8D、BCG-21 跟 V2-Z5M、BCG-45 跟 V2-G01",
+   "next": "BCG-04、BCG-11 已接（BB_117 的那一拍）；第 2 級：Z3、Q5 演到 CG 截圖；BCG-27（K1）要 BB-B 給旁白改句（骰子→長頸鹿）；BCG-28 已接（12/3）、BCG-29 跟 V2-K8D、BCG-21 跟 V2-Z5M、BCG-45 跟 V2-G01",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
