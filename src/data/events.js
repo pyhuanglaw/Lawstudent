@@ -1838,6 +1838,33 @@ const STORY_EVENTS=[
       {label:'b'},{speaker:'kexin',expression:'laugh',text:'（笑出聲）你學韋綸。'},
       {label:'end'},{set:{E21A_WENT:true}} ],
     after:async(G,GM)=>{ if(G.hour<25) GM.advance(25-G.hour); if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); } },
+  /* E22b 總圖借了一本法律入門書（BB_104 8b-14；AA_154 第 138 行、A12、A13、A34；可以錯過）：1/2（四）會計期末考完的下午（15:30～18:30）走到總圖二樓（library_hall 二樓）。
+     E22B_TOLD：true（說實話）／false（說沒什麼）；沒去不記（E27、A2 讀它）。畫面不出現書名 */
+  { id:'ev_y0_e22b', stage:'econ', title:'法律入門書', participants:['kexin'], location:'library_hall', trigger:'auto', term:['Y0S1'], weeks:[18], weekday:[4], time:[15.5,18.5], once:true, background:'blur',
+    prereq:{custom:G=>{ const P=typeof GAME!=='undefined'&&GAME.E&&GAME.E.player; return !P||(P.lv|0)===1; }},
+    dialogue:[ {speaker:null,text:'（總圖二樓的書架。你拿了一本法律入門書。）'},
+      {speaker:'kexin',expression:'surprised',text:'（從書架另一邊探頭）你在讀什麼？'},
+      {choice:[{text:'「法律的書。」',set:{E22B_TOLD:true},goto:'t'},{text:'「沒什麼。」',set:{E22B_TOLD:false},goto:'f'}]},
+      {label:'t'},{speaker:'kexin',expression:'thinking',text:'……經濟系的讀法律？'},{speaker:'kexin',expression:'smile',text:'好，我不問。等你想說再說。'},{goto:'end'},
+      {label:'f'},{speaker:'kexin',expression:'neutral',text:'沒什麼的書，你拿得很緊。'},{speaker:null,text:'她沒有再問。'},
+      {label:'end'} ] },
+  /* ★E19 誤會（BB_104 8-6、第 3-1 節 E19 那一列；AA_154 第 139 行、A33、A34；固定核心）：1/2（四）會計考完，群組韋綸約（story3d.js）＋出發選單 19:00；19:15 沒出發＝韋綸打電話直接進出遊。
+     E19_ASK：direct／joke／none（E25、E28 讀它）。開頭三句旁白與品妤那句取自 BB_104 第 3-1 節 E19 那一列的描述（等 BB-B 確認或給定稿）；不問的版本她之後傳一則（story3d.js） */
+  { id:'ev_y0_e19', stage:'econ', title:'誤會', participants:['econ_pinyu','kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
+    dialogue:[ {scene:'公館'},
+      {speaker:null,text:'聚餐上，可昕和唐睿聊劇社聊得很開心。'},
+      {speaker:'econ_pinyu',text:'可昕說她喜歡很會講話的人。'},
+      {speaker:null,text:'散場前，唐睿先走了。'},
+      {choice:[{text:'「妳是不是喜歡唐睿？」',set:{E19_ASK:'direct'},goto:'d'},{text:'「唐睿很會講話喔。」',set:{E19_ASK:'joke'},goto:'j'},{text:'（不問）',set:{E19_ASK:'none'},goto:'n'}]},
+      {label:'d'},{speaker:'kexin',expression:'neutral',text:'……你覺得呢？'},
+      {speaker:'player',text:'我在問妳。'},
+      {speaker:'kexin',expression:'serious',text:'……不是唐睿。'},
+      {speaker:'player',text:'那——'},
+      {speaker:'kexin',expression:'neutral',text:'（她自己站起來）我要趕捷運了。寒假快樂。'},
+      {speaker:null,text:'誤會解開了一半。另一半，你沒有問。'},{goto:'end'},
+      {label:'j'},{speaker:'kexin',expression:'annoyed',text:'對啊。比某些人會。'},{goto:'end'},
+      {label:'n'},
+      {label:'end'} ] },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、

@@ -820,6 +820,16 @@ const STORY = (function(){
         PHONE.at(G,tue31,19,[{th:T,from:'econ_weilun',name:'韋綸',text:'今晚總圖，期末衝刺！走啦！'},{th:T,from:'econ_pinyu',text:'讀到幾點？'},{th:T,from:'econ_weilun',name:'韋綸',text:'讀到……我說停為止。'}],'y0_e21a_ask');
         if(!OUT.get(G,'y0_e21a')&&G.hour<22) OUT.plan(G,{id:'y0_e21a',ev:'ev_y0_e21a',day:tue31,h:19,late:3,place:'總圖 B1',title:'總圖 B1 19:00：期末衝刺',travel:'走過去約 10 分鐘',travelH:1/6,back:'回到宿舍。'}); }
       if(tue31!=null&&!D('ev_y0_e21a')&&!F.E21A_WENT&&(G.day>tue31||G.hour>=24+5/60)&&G.day<=tue31+2&&!PHONE.sent(G,'y0_e21a_missed')) PHONE.at(G,tue31,24+5/60,[{th:T,from:'econ_weilun',name:'韋綸',text:'📷（信義區的人潮）'},{th:'p:kexin',from:'kexin',text:'你錯過了一場人潮。……下次。'}],'y0_e21a_missed'); }
+    /* ★E19 誤會（AA_154 A33、A34）：1/2（四）會計期末考完（15:10）群組韋綸「考完了！今晚七點，公館。寒假前最後一次，走啦！」＋出發選單 19:00；19:15 沒出發＝韋綸打電話（固定核心，同 E14）；
+       不問（E19_ASK＝none）＝她之後傳「你最近很有禮貌。我不習慣。」（BB_104 8-6；時間 1/4 22:00 是暫定，等 BB-B）*/
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const thu18=termDay('Y0S1',18,4), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class';
+      if(thu18!=null&&G.day===thu18&&G.hour>=15+10/60&&!PHONE.sent(G,'y0_e19_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,thu18,Math.max(15+10/60,Math.min(G.hour,18)),[{th:'g:'+gid,from:'econ_weilun',name:'韋綸',text:'考完了！今晚七點，公館。寒假前最後一次，走啦！'}],'y0_e19_ask');
+        if(!OUT.get(G,'y0_e19')) OUT.plan(G,{id:'y0_e19',ev:'ev_y0_e19',day:thu18,h:19,late:0.25,place:'公館',title:'公館 19:00：寒假前最後一次',travel:'走過去約 15 分鐘',travelH:0.25}); }
+      const q19=OUT.get(G,'y0_e19');
+      if(q19&&q19.state!=='done'&&thu18!=null&&(G.day>thu18||(G.day===thu18&&G.hour>=19.25))&&G.day<=thu18+1&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!y0CallBusy){ y0CallBusy=true;
+        (async()=>{ try{ GM.sceneBegin(); try{ await GM.say({name:'韋綸（電話）'},'你在哪？大家都到了。我們等你，快點！'); } finally { GM.sceneEnd(); } q19.state='planned'; await OUT.go(GM,q19); } catch(e){ console.warn('E19 call',e); } finally { y0CallBusy=false; } })(); }
+      if(thu18!=null&&F.E19_ASK==='none'&&(G.day>thu18+2||(G.day===thu18+2&&G.hour>=22))&&G.day<=thu18+6&&!PHONE.sent(G,'y0_e19_none')) PHONE.at(G,thu18+2,22,[{th:'p:kexin',from:'kexin',text:'你最近很有禮貌。我不習慣。'}],'y0_e19_none'); }
     /* 校慶問答攤（BB_95 3-7，DL-04B）：前一天（週五）21:00 法服群組，學姊提醒；沒加入法服的玩家改成校園公告欄的旁白（AMBIENT 的 festEve）*/
     if(PHONE.inGroup(G,'lawclub_study')){ const fs=termDay('Y1S1',11,6); if(fs&&G.day===fs-1) PHONE.at(G,fs-1,21,[{th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'明天校慶，問答攤十點開。輪班表在記事本。'}],'fest_eve_lawclub'); }
     /* 家族聚餐（BB_95 3-8）：前一週 Kevin 在家族群組約；當晚 22:30 學姊訂正考古題；沒去的玩家 22:00 Kevin 貼資料夾、學姊說書會留給學弟 */
