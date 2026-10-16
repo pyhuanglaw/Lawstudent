@@ -1838,10 +1838,10 @@ const STORY_EVENTS=[
       {label:'b'},{speaker:'kexin',expression:'laugh',text:'（笑出聲）你學韋綸。'},
       {label:'end'},{set:{E21A_WENT:true}} ],
     after:async(G,GM)=>{ if(G.hour<25) GM.advance(25-G.hour); if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); } },
-  /* E22b 總圖借了一本法律入門書（BB_104 8b-14；AA_154 第 138 行、A12、A13、A34；可以錯過）：1/2（四）會計期末考完的下午（15:30～18:30）走到總圖二樓（library_hall 二樓）。
+  /* E22b 總圖借了一本法律入門書（BB_104 8b-14；AA_154 第 138 行、A12、A13、A34；可以錯過）：最後一場期末考考完的下午（現在的課表是 1/2（四）會計：15:30～18:30；STORY.y0FinalEnd、e22bFrom）走到總圖二樓（library_hall 二樓）。
      E22B_TOLD：true（說實話）／false（說沒什麼）；沒去不記（E27、A2 讀它）。畫面不出現書名 */
-  { id:'ev_y0_e22b', stage:'econ', title:'法律入門書', participants:['kexin'], location:'library_hall', trigger:'auto', term:['Y0S1'], weeks:[18], weekday:[4], time:[15.5,18.5], once:true, background:'blur',
-    prereq:{custom:G=>{ const P=typeof GAME!=='undefined'&&GAME.E&&GAME.E.player; return !P||(P.lv|0)===1; }},
+  { id:'ev_y0_e22b', stage:'econ', title:'法律入門書', participants:['kexin'], location:'library_hall', trigger:'auto', term:['Y0S1'], once:true, background:'blur',
+    prereq:{custom:G=>{ const fe=typeof STORY!=='undefined'&&STORY.y0FinalEnd?STORY.y0FinalEnd(G):null; if(!fe||G.day!==fe.day||G.hour<STORY.e22bFrom(fe)||G.hour>=18.5) return false; const P=typeof GAME!=='undefined'&&GAME.E&&GAME.E.player; return !P||(P.lv|0)===1; }},
     dialogue:[ {speaker:null,text:'（總圖二樓的書架。你拿了一本法律入門書。）'},
       {speaker:'kexin',expression:'surprised',text:'（從書架另一邊探頭）你在讀什麼？'},
       {choice:[{text:'「法律的書。」',set:{E22B_TOLD:true},goto:'t'},{text:'「沒什麼。」',set:{E22B_TOLD:false},goto:'f'}]},

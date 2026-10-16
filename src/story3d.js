@@ -820,11 +820,11 @@ const STORY = (function(){
         PHONE.at(G,tue31,19,[{th:T,from:'econ_weilun',name:'韋綸',text:'今晚總圖，期末衝刺！走啦！'},{th:T,from:'econ_pinyu',text:'讀到幾點？'},{th:T,from:'econ_weilun',name:'韋綸',text:'讀到……我說停為止。'}],'y0_e21a_ask');
         if(!OUT.get(G,'y0_e21a')&&G.hour<22) OUT.plan(G,{id:'y0_e21a',ev:'ev_y0_e21a',day:tue31,h:19,late:3,place:'總圖 B1',title:'總圖 B1 19:00：期末衝刺',travel:'走過去約 10 分鐘',travelH:1/6,back:'回到宿舍。'}); }
       if(tue31!=null&&!D('ev_y0_e21a')&&!F.E21A_WENT&&(G.day>tue31||G.hour>=24+5/60)&&G.day<=tue31+2&&!PHONE.sent(G,'y0_e21a_missed')) PHONE.at(G,tue31,24+5/60,[{th:T,from:'econ_weilun',name:'韋綸',text:'📷（信義區的人潮）'},{th:'p:kexin',from:'kexin',text:'你錯過了一場人潮。……下次。'}],'y0_e21a_missed'); }
-    /* ★E19 誤會（AA_154 A33、A34）：1/2（四）會計期末考完（15:10）群組韋綸「考完了！今晚七點，公館。寒假前最後一次，走啦！」＋出發選單 19:00；19:15 沒出發＝韋綸打電話（固定核心，同 E14）；
+    /* ★E19 誤會（AA_154 A33、A34）：最後一場期末考那一天（現在的課表是 1/2（四）會計，15:10 考完；S.y0FinalEnd）考完群組韋綸「考完了！今晚七點，公館。寒假前最後一次，走啦！」＋出發選單 19:00；19:15 沒出發＝韋綸打電話（固定核心，同 E14）；
        不問（E19_ASK＝none）＝她之後傳「你最近很有禮貌。我不習慣。」（BB_104 8-6；時間 1/4 22:00 是暫定，等 BB-B）*/
-    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const thu18=termDay('Y0S1',18,4), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class';
-      if(thu18!=null&&G.day===thu18&&G.hour>=15+10/60&&!PHONE.sent(G,'y0_e19_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
-        PHONE.at(G,thu18,Math.max(15+10/60,Math.min(G.hour,18)),[{th:'g:'+gid,from:'econ_weilun',name:'韋綸',text:'考完了！今晚七點，公館。寒假前最後一次，走啦！'}],'y0_e19_ask');
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const fe=S.y0FinalEnd(G), thu18=fe?fe.day:null, feH=fe?fe.h:15+10/60, gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class';
+      if(thu18!=null&&G.day===thu18&&G.hour>=feH&&!PHONE.sent(G,'y0_e19_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,thu18,Math.max(feH,Math.min(G.hour,18)),[{th:'g:'+gid,from:'econ_weilun',name:'韋綸',text:'考完了！今晚七點，公館。寒假前最後一次，走啦！'}],'y0_e19_ask');
         if(!OUT.get(G,'y0_e19')) OUT.plan(G,{id:'y0_e19',ev:'ev_y0_e19',day:thu18,h:19,late:0.25,place:'公館',title:'公館 19:00：寒假前最後一次',travel:'走過去約 15 分鐘',travelH:0.25}); }
       const q19=OUT.get(G,'y0_e19');
       if(q19&&q19.state!=='done'&&thu18!=null&&(G.day>thu18||(G.day===thu18&&G.hour>=19.25))&&G.day<=thu18+1&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!y0CallBusy){ y0CallBusy=true;
@@ -1518,6 +1518,12 @@ const STORY = (function(){
   S.sleepNow=(GM,wake,alarm)=>sleepNow(GM,wake,alarm);   /* 測試用（tests/bed_nap_unit.js）*/
   /* 經濟系那一年的固定核心出遊（AA_154 A33③：E14，之後 E19）：當天出發前就去睡覺＝電話把你吵醒——睡到「開始後 15 分鐘」那一刻，不跳到隔天（AA-B 2026-10-16 抽查）*/
   const CORE_OUT=['y0_e14','y0_e19'];
+  /* 經濟系大一上最後一場期末考（AA_154 A34：E22b 在那一場考完的下午、E19 同一天 19:00）：照遊戲實際的課表（CLS.lastExamEnd），課表改了就跟著變。
+     算一次要掃整學期，結果依「同一個 G、同一組修的課」記住。e22bFrom：考完 20 分鐘（上午考完＝13:30）*/
+  const FE_CACHE=new WeakMap();
+  S.y0FinalEnd=function(G){ if(typeof CLS==='undefined'||!CLS.lastExamEnd||!CLS.termCourses) return null; const key=CLS.termCourses(G,'Y0S1').map(c=>c.id).join(','); const c=FE_CACHE.get(G);
+    if(c&&c.key===key) return c.v; let v=null; try{ v=CLS.lastExamEnd(G,'Y0S1','final'); }catch(e){ v=null; } FE_CACHE.set(G,{key,v}); return v; };
+  S.e22bFrom=fe=>fe.h<12?13.5:fe.h+20/60;
   S.coreCallAt=function(G){ if(!S.isEcon(G)||typeof OUT==='undefined') return null; for(const id of CORE_OUT){ const q=OUT.get(G,id); if(q&&q.state!=='done'&&q.day===G.day){ const t=q.h+(q.late!=null?q.late:0.75); if(G.hour<t) return t; } } return null; };
   async function sleepNow(GM,wake,alarm){ const G=GM.G, F=G.flags, E=GM.E;
     { const cw=S.coreCallAt(G); if(cw!=null){ GM.sceneBegin(); try{ await GM.fade(true); await GM.sleep(300); GM.advance(cw-G.hour); await GM.fade(false); } finally { GM.sceneEnd(); } if(GM.toast) GM.toast('手機響了。',2400); return; } }

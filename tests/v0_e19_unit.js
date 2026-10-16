@@ -24,6 +24,9 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
 (async()=>{
   const K=k=>STORY.dayOfKey(k), J2=K('2025-01-02');
   const eb=STORY_EVENTS.find(e=>e.id==='ev_y0_e22b'), e19=STORY_EVENTS.find(e=>e.id==='ev_y0_e19'); check('0. E22b、E19 在',!!eb&&!!e19); if(!eb){ console.log('FAILED '+fails); process.exit(1); }
+  { fresh(J2-3,10,'dorm'); const t0=Date.now(), fe=STORY.y0FinalEnd(G), dt=Date.now()-t0; const t1=Date.now(); STORY.y0FinalEnd(G); const dt2=Date.now()-t1;
+    check('0. A34：最後一場期末考照課表算＝1/2（四）15:10（會計）；第二次用記住的結果（'+dt+' ms → '+dt2+' ms）',!!fe&&fe.day===J2&&Math.abs(fe.h-(15+10/60))<1e-6&&dt2<=2);
+    check('0. A34：上午考完的話 E22b 從 13:30 開始；下午考完＝考完 20 分鐘',STORY.e22bFrom({h:11})===13.5&&Math.abs(STORY.e22bFrom({h:15+10/60})-15.5)<1e-6); }
   const ck=(day,h,zone,lv)=>{ fresh(day,h,zone); E.player.lv=lv|0; global.GAME={E}; return EVENTS.check(eb); };
   check('1. E22b：1/2（四）15:30～18:30 在總圖二樓；一樓、15:00、1/3、在閱覽室不行',ck(J2,16,'library_hall',1)&&!ck(J2,16,'library_hall',0)&&!ck(J2,15,'library_hall',1)&&!ck(J2+1,16,'library_hall',1)&&!ck(J2,16,'library',1));
   fresh(J2,16,'library_hall'); picks=['法律的書']; said=[]; await EVENTS.run(eb); let L=said.map(x=>x.t);
