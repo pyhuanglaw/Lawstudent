@@ -4,6 +4,7 @@
 > **刪除規則**：只刪「已完整合併、確定沒有人再用」的分支。刪之前在下表記下 SHA（還原：`git push origin <SHA>:refs/heads/<分支名>`）。
 > - **禁止只因為很久沒更新就刪。**
 > - **休班帳號的工作分支，沒有確認交接依賴前不刪。** 判斷靠 GitHub 的交接紀錄：值班表（AI_SESSION_HANDOFF.md 第 1 節）、各職位的進度檔，**不叫醒休班帳號問**（D75）。
+> **三帳號（D92／HV-10，2026-10-16）**：帳號 A、B、C 的分支都照這張表管。**誰在用哪條分支以 `docs/handoff/duty.json` 為準**（`roles.<職位>.branch`、`history` 裡各帳號交班時的分支與 SHA；`python3 tools/handoff/check_handoff.py duty verify` 會列出各分支在記錄的 SHA 之後又多了幾個 commit、還沒整合的 WIP）。休班帳號（現在：A）的分支一律保留到它下一次接班或使用者另外指示；帳號 C 啟用後，它的分支也加進這張表。WIP 分支用 `duty register --wip <分支>` 登記，沒整合前不刪。
 > **盤點時間**：2026-10-16 03:5x UTC，LAWWW-B（帳號 B 值班中）。基準：`git fetch --prune` 後的 17 條遠端分支。
 > 「在開發線」＝整個分支都已經包含在 RULE_SOURCE `claude/modest-rubin-2lyp7g` 裡（`git merge-base --is-ancestor`）。
 

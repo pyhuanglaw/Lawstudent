@@ -26,7 +26,9 @@
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 
-**目前沒有交班**（帳號 B 值班中）。帳號 B 的對帳基準快照：`docs/handoff/snapshots/` 最新一份（2026-10-16 HV-4 時存的 checkpoint）；帳號 A 2026-10-14 的交班快照重建在 `snapshots/2026-10-14T1740Z_A_LAWWW.json`。下一次交班的人照 `AI_SESSION_HANDOFF.md` 第 5 節，在這裡列：本班完成的 ID、未完成的全部 ID（含狀態）、做到一半的、已完成待整合／待測試的、本班新增的 ID、因新指示改優先級的 ID、本班新增或修訂的規則（編號＋SHA）、跨 AI 協作狀態（SENT／DELIVERED／ACK／ACTIONED）。
+**目前沒有交班**（帳號 B 值班中；帳號 A 休班；帳號 C 未啟用——以 `docs/handoff/duty.json` 為準，D92）。帳號 B 的對帳基準快照：`docs/handoff/snapshots/` 最新一份；帳號 A 2026-10-14 的交班快照重建在 `snapshots/2026-10-14T1740Z_A_LAWWW.json`。下一次交班（交給 A 或 C 都一樣）的人照 `AI_SESSION_HANDOFF.md` 第 5 節，在這裡寫六類 A～F：A 本班完成的 ID（SHA、測試、整合與發布狀態）、B 未完成的全部 ID（含狀態：做到一半、待整合、待測試、等其他 AI、等素材或使用者、暫停）、C 交班當下正在做的、D 本班新增或修訂的決策與規則（編號＋SHA）、E 跨 AI 協作狀態（SENT／DELIVERED／ACK／ACTIONED）、F 未完成的測試與已知問題；再跑 `check_handoff.py snapshot --role LAWWW --account <A|B|C>` 和 `duty handoff`。
+
+**三帳號交接模擬（HANDOFF-ABC，D92／HV-10）**：19／19 PASS，結果表 `docs/handoff/HANDOFF_SIM_HV10.md`（六個方向、A→B→C→A、A→C→B→A、帳號休很久、沒交班、職位資料缺漏、WIP 未整合、交付沒 ACK、規則來源不一致、登記和 commit 時間衝突、同職位兩帳號寫入、快照不見或壞掉）。
 
 ## 2. 試玩 Bug 與技術問題（BUG）
 

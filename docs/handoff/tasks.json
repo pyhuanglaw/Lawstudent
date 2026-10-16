@@ -11853,7 +11853,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "盤點寫死 A／B 的地方 → 值班狀態檔設計（安全性評估）→ check_handoff.py 支援 C＋duty 對帳＋模擬 → 規則文件（D92／HV-10）→ 第 7 節提示詞 → 模擬測試 → 交付五項成果",
+   "next": "已完成：duty.json＋duty 子指令、模擬 19／19 PASS（HANDOFF_SIM_HV10.md）、五份規則檔與 BRANCH_INVENTORY、第 7 節三帳號提示詞＋C 四份、第 8 節換班說的話。剩：同帳號 LAWWW2-B／AA-B／BB-B 用 duty register 補登記並 ACK HV-10 → duty sync → 交付五項成果給使用者",
    "first": {
     "term": "META",
     "week": 0,
