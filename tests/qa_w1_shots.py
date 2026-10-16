@@ -9,6 +9,7 @@ from playwright.async_api import async_playwright
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import playlib as PL
 URL = (sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html') + '?turbo'
+CODES = sys.argv[2:]   # 只拍這幾個編號（例：A2 B6e）；不給就全部
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'shots', 'qa_w1')
 SEATS = [   # (編號, 區域, 座位的 label 正規式或 'lift', 說明)
     ('A2', 'dorm', '書桌', '宿舍書桌'),
@@ -41,6 +42,7 @@ async def main():
         await pg.evaluate("()=>GUIDE.openMap()"); await pg.wait_for_timeout(800); await pg.screenshot(path=os.path.join(OUT, 'A4_大地圖.png')); await pg.evaluate("()=>GUIDE.closeMap()")
         # ---- 座位 ----
         for code, zone, pat, why in SEATS:
+            if CODES and code not in CODES: continue
             try:
                 if (await pg.evaluate("()=>GAME.G.zone")) != zone:
                     await pg.evaluate("(z)=>{ void GAME.enter(z) }", zone); await pg.wait_for_function("(z)=>GAME.G.zone===z", arg=zone, timeout=120000)
@@ -57,13 +59,14 @@ async def main():
             except Exception as e:
                 fails += 1; rep.append(('%s %s：%s' % (code, why, str(e)[:160]), False)); print('FAIL ' + rep[-1][0], flush=True)
         # ---- 閱覽室電梯車廂裡的鏡頭（BUG-CAM-ELEV）：人站在車廂裡、鏡頭轉到井道背面那一側 ----
-        try:
+        if not CODES or 'B6e' in CODES:
+          try:
             await pg.evaluate("()=>{ void GAME.enter('library') }"); await pg.wait_for_function("GAME.G.zone==='library'", timeout=120000); await pg.wait_for_timeout(20000)
             r = await pg.evaluate("""async()=>{ const E=GAME.E, P=E.player, z=E.zone, el=z.elev; if(P.seat) GAME.standUp(P); P.obj.position.set(el.cx,0,el.inZ); P.obj.rotation.y=Math.PI; E.cam.yaw=0; await new Promise(r=>setTimeout(r,2500));
               const c=E.camera||GAME.E.camera; const cp=c?c.position:null; const EL=z.elev; return {cam:cp?[+cp.x.toFixed(2),+cp.y.toFixed(2),+cp.z.toFixed(2)]:null, car:[el.cx,el.inZ], cols:(z.elevCams||[]).length}; }""")
             await pg.screenshot(path=os.path.join(OUT, 'B6e_閱覽室電梯車廂.png'))
             rep.append(('B6e 閱覽室電梯車廂：%s' % json.dumps(r), True)); print('SHOT ' + rep[-1][0], flush=True)
-        except Exception as e:
+          except Exception as e:
             fails += 1; rep.append(('B6e 閱覽室電梯：%s' % str(e)[:160], False)); print('FAIL ' + rep[-1][0], flush=True)
         if errs: print('頁面錯誤：', errs[:5])
         await b.close()
