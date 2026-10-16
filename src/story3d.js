@@ -1465,8 +1465,8 @@ const STORY = (function(){
       if(G.events.done.ev_plg_rules&&!PHONE.sent(G,'plg_sat_ask')&&(G.day>thu||h(G)>=22)){ PHONE.at(G,thu,G.day===thu?Math.max(22,h(G)):22,[N('heroine_01','週六下午補讀一次。規則三條。')],'plg_sat_ask');
         if(typeof OUT!=='undefined'&&!OUT.get(G,'plg_sat')&&(G.day<sat||h(G)<14.25)) OUT.plan(G,{id:'plg_sat',ev:'ev_plg_rules_after',day:sat,h:14,late:0.25,place:'萬才館研討室',title:'公法讀書會的補讀',travel:'走過去約 10 分鐘',travelH:1/6}); }
       if(!(F.PUBLIC_LAW_GROUP||F.CLUB_public_law_group)&&!G.events.done.ev_plg_rules&&!PHONE.sent(G,'plg_torn')&&(G.day>thu||h(G)>=22)&&G.day<=thu+2){ PHONE.at(G,thu,G.day===thu?Math.max(22,h(G)):22,[N('yu','我把以安的規則撕掉一半了。'),N('heroine_01','……剩下的那一半是對的。')],'plg_torn'); if(typeof SOCIAL!=='undefined') SOCIAL.remember('heroine_01','HEARD_ABOUT','讀書會的規則被小語撕掉一半（聽說）'); } } }
-    /* 學姊 W6 交接（BB_97 2-1）的家族群組那句：沒加入法服＝大二上第 1 週週三 21:30；社員到第 2 週都沒去讀書會＝第 2 週週三 21:30（照 AA_176 R7 的時段）*/
-    if(PHONE.inGroup(G,'family_law')&&!PHONE.sent(G,'sis_handover_group')&&!(G.events.done&&G.events.done.ev_sis_handover)){ const mem=!!(F.lawclub||F.CLUB_lawclub_study), d=termDay('Y2S1',mem?2:1,3);
+    /* 學姊 W6 交接（BB_97 2-1；BB-B 75c1b2b1 改第 6 週）的家族群組那句：沒加入法服＝大二上第 6 週週三 21:30；社員第 6、7 週都沒去讀書會＝第 7 週週三 21:30（照 AA_176 R7 的時段）*/
+    if(PHONE.inGroup(G,'family_law')&&!PHONE.sent(G,'sis_handover_group')&&!(G.events.done&&G.events.done.ev_sis_handover)){ const mem=!!(F.lawclub||F.CLUB_lawclub_study), d=termDay('Y2S1',mem?7:6,3);
       if(d!=null&&(G.day>d||(G.day===d&&h(G)>=21.5))&&G.day<=d+14) PHONE.at(G,d,21.5,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'學姊卸任了！'},{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'收到。'}],'sis_handover_group'); }
     /* 阿凱 K3 宿舍分開了，宵夜沒有（BB_97 4-1，BB-B 定稿）：大二搬完房間（ROOM_Y2）以後，大二上每個週日 23:00、大二下每個月第一個週日 23:00 阿凱私訊；
        第一次多一句「我這棟樓下的滷味比較好吃……」。去＝出發選單（宿舍旁的滷味攤，2D，ev_kai_sunday_supper）；「這週不行」＝「好。下週日。」；不回＝下週日照樣問，

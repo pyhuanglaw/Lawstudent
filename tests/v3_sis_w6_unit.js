@@ -30,25 +30,25 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
 const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
 (async()=>{
   if(!ev('ev_sis_handover')){ console.log('FAIL 0'); console.log('FAILED 1'); process.exit(1); }
-  const A=ACTIVITIES.list.find(a=>a.id==='lawclub_study'), w1=termDay('Y2S1',1,3), w2=termDay('Y2S1',2,3), w3=termDay('Y2S1',3,3);
-  check('0. 法服讀書會大二上第 1 週週三也有',ACTIVITIES.on(A,w1)&&ACTIVITIES.on(A,w2));
+  const A=ACTIVITIES.list.find(a=>a.id==='lawclub_study'), w1=termDay('Y2S1',6,3), w2=termDay('Y2S1',7,3), w3=termDay('Y2S1',8,3);   /* BB-B 75c1b2b1：交接改大二上第 6 週，到第 7 週 */
+  check('0. 法服讀書會大二上第 6、7 週週三有',ACTIVITIES.on(A,w1)&&ACTIVITIES.on(A,w2));
   global.STORY.present=()=>true;
   fresh(w1,19,'wancai',{lawclub:true}); G.stage='law'; meet('heroine_05'); said=[];
-  const e=CLS.clubEvent(G,A); check('1. 第 1 週週三讀書會：先演交接',!!e&&e.id==='ev_sis_handover',e&&e.id);
+  const e=CLS.clubEvent(G,A); check('1. 第 6 週週三讀書會：先演交接',!!e&&e.id==='ev_sis_handover',e&&e.id);
   await EVENTS.run(e); const L=lines();
   const want=['交接三件事。','一，週六的值班表在雲端。','二，指導律師的聯絡方式在資料夾。','三……','（三個人在等她。）','……三，我想不起來了。','大家笑了，以為她在開玩笑。她也笑了。','你看見她的手在找保溫瓶。'];
   check('1. 逐字',JSON.stringify(L.map(t=>t.replace(/^[^：（]*：/,'')))===JSON.stringify(want),JSON.stringify(L));
   check('1. 只一次（之後的讀書會不再演）',!(CLS.clubEvent(G,A)&&CLS.clubEvent(G,A).id==='ev_sis_handover'));
-  fresh(w2,19,'wancai',{lawclub:true}); G.stage='law'; check('2. 第 1 週沒去：第 2 週演',(CLS.clubEvent(G,A)||{}).id==='ev_sis_handover');
-  fresh(w3,19,'wancai',{lawclub:true}); G.stage='law'; check('2. 第 3 週不演',!(CLS.clubEvent(G,A)&&CLS.clubEvent(G,A).id==='ev_sis_handover'));
+  fresh(w2,19,'wancai',{lawclub:true}); G.stage='law'; check('2. 第 6 週沒去：第 7 週演',(CLS.clubEvent(G,A)||{}).id==='ev_sis_handover');
+  fresh(w3,19,'wancai',{lawclub:true}); G.stage='law'; check('2. 第 8 週不演',!(CLS.clubEvent(G,A)&&CLS.clubEvent(G,A).id==='ev_sis_handover'));
   check('2. 大一的第一次讀書會（ev_studygroup_wed）不在大二演',!CLS.clubEvent(G,A));
   fresh(w1,19,'wancai',{}); G.stage='law'; check('2. 不是社員不演',!(CLS.clubEvent(G,A)&&CLS.clubEvent(G,A).id==='ev_sis_handover'));
   // 家族群組
   const fam=()=>txt('g:family_law');
-  fresh(w1,20,'dorm',{}); G.stage='law'; PHONE.join(G,'family_law','法律系直屬家族'); run(20,21.4); check('3. 沒加入法服：第 1 週週三 21:30 以前沒有',!fam().some(t=>/卸任/.test(t)));
-  run(21.5,21.6); check('3. 沒加入法服：第 1 週週三 21:30 Kevin「學姊卸任了！」學姊「收到。」',fam().includes('kevin:學姊卸任了！')&&fam().includes('heroine_05:收到。'),JSON.stringify(fam()));
-  fresh(w1,20,'dorm',{lawclub:true}); G.stage='law'; PHONE.join(G,'family_law','法律系直屬家族'); run(20,23); check('4. 社員：第 1 週沒去還不發',!fam().some(t=>/卸任/.test(t)));
-  G.day=w2; G.weekday=3; run(21.5,21.6); check('4. 社員到第 2 週都沒去：第 2 週週三 21:30 發',fam().includes('kevin:學姊卸任了！'));
+  fresh(w1,20,'dorm',{}); G.stage='law'; PHONE.join(G,'family_law','法律系直屬家族'); run(20,21.4); check('3. 沒加入法服：第 6 週週三 21:30 以前沒有',!fam().some(t=>/卸任/.test(t)));
+  run(21.5,21.6); check('3. 沒加入法服：第 6 週週三 21:30 Kevin「學姊卸任了！」學姊「收到。」',fam().includes('kevin:學姊卸任了！')&&fam().includes('heroine_05:收到。'),JSON.stringify(fam()));
+  fresh(w1,20,'dorm',{lawclub:true}); G.stage='law'; PHONE.join(G,'family_law','法律系直屬家族'); run(20,23); check('4. 社員：第 6 週沒去還不發',!fam().some(t=>/卸任/.test(t)));
+  G.day=w2; G.weekday=3; run(21.5,21.6); check('4. 社員第 6、7 週都沒去：第 7 週週三 21:30 發',fam().includes('kevin:學姊卸任了！'));
   fresh(w2,22,'dorm',{lawclub:true}); G.stage='law'; PHONE.join(G,'family_law','法律系直屬家族'); G.events.done.ev_sis_handover=1; run(22,22.1); check('4. 去了交接的社員：沒有群組那句',!fam().some(t=>/卸任/.test(t)));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
