@@ -44,15 +44,19 @@ GM.money=function(n){ G.money+=n; };
   // 2. 攤位
   const B=ev('ev_fair_booth_y2');
   fresh(d14,11,'campus',{lawclub:true}); check('2. 攤位：11/14 11:00 法服成員會演、不是成員不演',EVENTS.check(B,{skipNear:true})||(()=>{ const n=B.near; B.near=null; const r=EVENTS.check(B); B.near=n; return r; })());
-  { fresh(d14,11,'campus',{}); const n=B.near; B.near=null; const r=EVENTS.check(B); B.near=n; check('2. 沒加入法服：攤位那一場不演（路過版本等 AA-B）',!r); }
+  { fresh(d14,11,'campus',{}); const n=B.near; B.near=null; const r=EVENTS.check(B); B.near=n; check('2. 沒加入法服：攤位裡那一場不演',!r); }
+  { const P=ev('ev_fair_booth_y2_pass'); fresh(d14,11,'campus',{}); const n=P.near; P.near=null; const r1=EVENTS.check(P); fresh(d14,11,'campus',{lawclub:true}); const r2=EVENTS.check(P); P.near=n;
+    fresh(d14,11,'campus',{}); meet('heroine_03'); meet('heroine_05'); R('heroine_03',...LV.FAM); R('heroine_05',...LV.FAM); said=[]; await EVENTS.run(P); const L=L0().map(t=>t.replace(/^陳語彤：/,'語彤：'));
+    check('2. 沒加入法服＝路過版（AA-B 682d911f）：旁白、阿嬤三句、語彤「……三件。答案不一樣。我寫下來。」「隔週週六早上，萬才館一樓，有學長姊值班。」、學姊、阿嬤、語彤「……你要芭樂嗎？」；沒有選項；GRANDMA_TREE_Y2:heard；法服成員不演',r1&&!r2&&L[0]==='（法服的攤位前，一個阿嬤在說話。顧攤的是語彤。）'&&L.includes('語彤：……三件。答案不一樣。我寫下來。')&&L.includes('語彤：隔週週六早上，萬才館一樓，有學長姊值班。')&&L.includes('學姊：問得很好。先問事實，再找條文。')&&L[L.length-1]==='語彤：……你要芭樂嗎？'&&!P.dialogue.some(l=>l.choice)&&G.flags.GRANDMA_TREE_Y2==='heard',JSON.stringify(L)); }
   const booth=async(met,fam,pick)=>{ fresh(d14,11,'campus',{lawclub:true}); if(met) G.events.done.ev_sis_festival_booth=1; R('heroine_05',...(fam?LV.FAM:LV.ACQ)); meet('heroine_05'); said=[]; opts=[]; picks=[pick||0]; await EVENTS.run(B); return {L:L0(),O:opts[0]||[]}; };
   let r=await booth(true,true,1);
-  check('2. 大一遇過阿嬤：「少年欸，去年那棵樹，你記得嗎？」；三選一；阿嬤三件都講了；祐廷兩句；學姊「問得很好。先問事實，再找條文。」；芭樂',r.L[0]==='阿嬤：少年欸，去年那棵樹，你記得嗎？'&&r.O.length===3&&r.L.includes('阿嬤三件都講了：掉下來的有，樹上的也有；擋到她曬衣服；這次還沒講。')&&r.L.includes('祐廷：這幾件，答案不一樣。我寫下來。')&&r.L.includes('祐廷：隔週週六早上，值班的學長姊會在萬才館一樓。')&&r.L.includes('學姊：問得很好。先問事實，再找條文。')&&r.L.slice(-2).join('｜')==='阿嬤：好啦。這顆給你們。｜（一顆掉下來的芭樂）'&&G.flags.GRANDMA_TREE_Y2===true&&G.flags.GRANDMA_Y2_ASK==='block',JSON.stringify(r));
+  check('2. 大一遇過阿嬤：「少年欸，去年那棵樹，你記得嗎？」；三選一；阿嬤自己的三句（AA-B 682d911f）；祐廷兩句；學姊「問得很好。先問事實，再找條文。」；芭樂',r.L[0]==='阿嬤：少年欸，去年那棵樹，你記得嗎？'&&r.O.length===3&&r.L.includes('阿嬤：掉下來的有，樹上的也有。')&&r.L.includes('阿嬤：樹枝擋到我曬衣服。')&&r.L.includes('阿嬤：這次……還沒跟隔壁講。')&&r.L.includes('祐廷：這幾件，答案不一樣。我寫下來。')&&r.L.includes('祐廷：隔週週六早上，值班的學長姊會在萬才館一樓。')&&r.L.includes('學姊：問得很好。先問事實，再找條文。')&&r.L.slice(-2).join('｜')==='阿嬤：好啦。這顆給你們。｜（一顆掉下來的芭樂）'&&G.flags.GRANDMA_TREE_Y2==='asked'&&G.flags.GRANDMA_Y2_ASK==='block',JSON.stringify(r));
   r=await booth(false,false,0);
   check('2. 沒遇過：「少年欸，去年你們這攤有個學姊，幫我看過樹的事。」；和學姊不熟＝她不說話',r.L[0]==='阿嬤：少年欸，去年你們這攤有個學姊，幫我看過樹的事。'&&!r.L.some(t=>/^學姊：/.test(t)),JSON.stringify(r.L));
   check('2. 台詞裡沒有人直接說出法律答案（不出現「可以剪」「是妳的」「條文」以外的結論字）',!r.L.some(t=>/可以剪|是妳的|可以吃/.test(t.replace('我可以吃嗎？',''))));
   // 3. 哲 2 手機
   fresh(d12,19,'campus',{}); R('zhe',...LV.FRI); run(19,20.6); const zm=TH('p:zhe').filter(m=>m.tag==='zhe2_msg');
+  check('3. 11/12 20:15 祐廷的訊息自動送出「今天週四，你沒去麵店？」（AA-B 682d911f）',TH('p:zhe').some(m=>m.from==='player'&&m.text==='今天週四，你沒去麵店？'&&Math.abs(m.h-20.25)<0.06));
   check('3. 11/12 20:30 阿哲（朋友）私訊「沒事啦，在練球」，可以回「我去找你。」',zm.length===1&&zm[0].text==='沒事啦，在練球'&&zm[0].ask&&zm[0].ask.opts[0].t==='我去找你。'&&Math.abs(zm[0].h-20.5)<0.06,JSON.stringify(zm));
   PHONE.answer(G,'zhe2_go',0); run(20.65,20.75); const o=OUT.get(G,'zhe2_court');
   check('3. 回「我去找你。」＝出發選單「籃球場 21:00」（2D ev_zhe_court_y2）',!!o&&o.h===21&&o.ev==='ev_zhe_court_y2',JSON.stringify(o));

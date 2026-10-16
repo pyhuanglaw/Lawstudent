@@ -4243,6 +4243,42 @@
    "integration": "已整合待測試",
    "note": "invites.js heroine_04 rule；bb163_taipei_unit 加一條",
    "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-354",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "682d911f",
+   "what": "D8 缺字：校慶大二版阿嬤三句、沒加入法服的路過版、GRANDMA_TREE_Y2 兩種值；哲 2 20:15 祐廷自動送出的訊息；AA_179 兩點確認",
+   "task": "V3-D8",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "ev_fair_booth_y2_pass；tests/v3_d8_unit.js",
+   "date": "2026-10-16T17:5xZ"
+  },
+  {
+   "id": "DLV-1016-355",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "d85c1309",
+   "what": "AA_185 全學年缺口補完 v0～v6（四件使用者授權 AA 定案：多重交往選擇、尾聲前任、研究所看準備、被當延畢）",
+   "task": "V6-P456",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "照 D81 各學年施工時接；大一大二的幾件先做",
+   "date": "2026-10-16T17:5xZ"
+  },
+  {
+   "id": "DLV-1016-356",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "7e84496c",
+   "what": "ART-01 社科院：晚上蓮花柱自發光漸層（ck_glass_lit emissiveTexture）",
+   "task": "ART-01",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "campus_socsci.glb／.json＋腳本、ramp 貼圖；廣場夜景重拍排隊",
+   "date": "2026-10-16T17:5xZ"
   }
  ],
  "ignored": [
