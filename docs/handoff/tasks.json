@@ -7803,8 +7803,8 @@
    "title": "子晴 Q4 改 15～18 點，錯過延到下一個週六",
    "area": "V2",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "查 Q4 在哪一包、改條件",
+   "status": "已整合待測試",
+   "next": "Q4 改 15～18；錯過第 8 週延到第 9 週週六（「上週六是那個比賽」那一版、第二個選項換成「妳後來有點開群組嗎？」）；tests/v2_batch1_unit.js",
    "priority": "P2",
    "first": {
     "term": "Y1S2",

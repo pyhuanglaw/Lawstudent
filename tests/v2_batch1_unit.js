@@ -85,9 +85,9 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   /* ---------- 子晴 Q4 比賽那天（BB_96 4-1 改寫）---------- */
   { const e=ev('ev_ziqing_contest_day'); check('子晴 Q4：事件在',!!e);
     if(e){ const at=(term,w,wd,h,zone,noMem)=>{ fresh(wk(term,w,wd),h,zone||'gongguan'); SOCIAL.meet('heroine_04','campus'); if(!noMem) SOCIAL.remember('heroine_04','ARGUED_ABOUT_CAREER','x'); return EVENTS.check(e); };
-      const r={ok:at('Y1S2',8,6,14),h13:at('Y1S2',8,6,13.2),noMem:at('Y1S2',8,6,14,null,true),w7:at('Y1S2',7,6,14),w9:at('Y1S2',9,6,14),fri:at('Y1S2',8,5,14),sun:at('Y1S2',8,7,14),eve:at('Y1S2',8,6,16.5),cafe:at('Y1S2',8,6,14,'cafe'),y1s1:at('Y1S1',8,6,14)};
-      check('子晴 Q4：只在大一下第 8 週的週六 13～16、公館、問過比賽（ARGUED_ABOUT_CAREER）（沒問過、第 7／9 週、週五、週日、16:30、Café、大一上都沒有）',r.ok&&r.h13&&!r.noMem&&!r.w7&&!r.w9&&!r.fri&&!r.sun&&!r.eve&&!r.cafe&&!r.y1s1,JSON.stringify(r));
-      const play=async k=>{ fresh(wk('Y1S2',8,6),14,'gongguan'); SOCIAL.meet('heroine_04','campus'); SOCIAL.remember('heroine_04','ARGUED_ABOUT_CAREER','x'); picks=[k]; await EVENTS.run(e); return lines(); };
+      const r={ok:at('Y1S2',8,6,15.5),h14:at('Y1S2',8,6,14.5),noMem:at('Y1S2',8,6,15.5,null,true),w7:at('Y1S2',7,6,15.5),w9:at('Y1S2',9,6,15.5),w10:at('Y1S2',10,6,15.5),fri:at('Y1S2',8,5,15.5),sun:at('Y1S2',8,7,15.5),eve:at('Y1S2',8,6,18.5),cafe:at('Y1S2',8,6,15.5,'cafe'),y1s1:at('Y1S1',8,6,15.5)};
+      check('子晴 Q4：大一下第 8 週週六 15～18（AA_140 G05：她 15:00 以後才出門）、公館、問過比賽；錯過就第 9 週週六；14:30、沒問過、第 7／10 週、週五、週日、18:30、Café、大一上都沒有',r.ok&&!r.h14&&!r.noMem&&!r.w7&&r.w9&&!r.w10&&!r.fri&&!r.sun&&!r.eve&&!r.cafe&&!r.y1s1,JSON.stringify(r));
+      const play=async (k,w)=>{ fresh(wk('Y1S2',w||8,6),15.5,'gongguan'); SOCIAL.meet('heroine_04','campus'); SOCIAL.remember('heroine_04','ARGUED_ABOUT_CAREER','x'); picks=[k]; await EVENTS.run(e); return lines(); };
       let L=await play(0);
       check('子晴 Q4：旁白「（她坐在騎樓的長椅，旁邊三個空的咖啡罐。）」＋三句（第三罐咖啡）；三個選項（原文）',L[0]==='（她坐在騎樓的長椅，旁邊三個空的咖啡罐。）'&&/……今天是那個比賽。系上的人現在都在會場。$/.test(L[1])&&/我在這裡喝第三罐咖啡。$/.test(L[2])&&/你說，我是不是很爛。$/.test(L[3])&&JSON.stringify(opts[0])==='["「妳不想去，就不是爛。」","「現在去還來得及嗎？」","（陪她喝第四罐）"]',JSON.stringify([L.slice(0,4),opts[0]]));
       const m=SOCIAL.memories('heroine_04').find(x=>x.tag==='CONTEST_DAY');
@@ -95,8 +95,10 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       L=await play(1); check('子晴 Q4 選 2：「來不及了。第一輪已經結束了。」（她把手機蓋在長椅上。）「……好爽。好爛。兩個都有。」→ 第四罐、CONTEST_DAY',L.some(t=>/來不及了。第一輪已經結束了。$/.test(t))&&L.includes('（她把手機蓋在長椅上。）')&&L.some(t=>/……好爽。好爛。兩個都有。$/.test(t))&&/……第四罐。你請。$/.test(L[L.length-1])&&SOCIAL.has('heroine_04','CONTEST_DAY')&&!L.some(t=>/勇敢|你也喝/.test(t)),JSON.stringify(L.slice(4)));
       L=await play(2); check('子晴 Q4 選 3：「欸不是，你也喝？」你「嗯。」「……你很奇怪。」（她第一次沒有吐槽下去。）→ 第四罐、CONTEST_DAY',L.some(t=>/欸不是，你也喝？$/.test(t))&&L.includes('祐廷：嗯。')&&L.some(t=>/……你很奇怪。$/.test(t))&&L.includes('（她第一次沒有吐槽下去。）')&&/……第四罐。你請。$/.test(L[L.length-1])&&SOCIAL.has('heroine_04','CONTEST_DAY')&&!L.some(t=>/勇敢|來不及/.test(t)),JSON.stringify(L.slice(4)));
       const T=JSON.stringify(e.dialogue);
-      check('子晴 Q4：舊版刪掉的選項「有一點。但明年還有。」與舊的 IMPORTANT_CONVERSATION 備註都不在；錢：罐裝咖啡 −35，「陪她喝第四罐」再 −35（BB 382e9e2）',!/有一點。但明年還有。/.test(T)&&!/IMPORTANT_CONVERSATION/.test(T)&&e.consequences&&e.consequences.money===-35&&e.dialogue.find(l=>l.choice).choice[2].consequences.money===-35&&!e.dialogue.find(l=>l.choice).choice[0].consequences.money);
-      check('子晴 Q4：只一次',!EVENTS.check(e)); } }
+      check('子晴 Q4：舊版刪掉的選項「有一點。但明年還有。」與舊的 IMPORTANT_CONVERSATION 備註都不在；錢：罐裝咖啡 −35，「陪她喝第四罐」再 −35（BB 382e9e2）',!/有一點。但明年還有。/.test(T)&&!/IMPORTANT_CONVERSATION/.test(T)&&e.consequences&&e.consequences.money===-35&&e.dialogue.find(l=>l.choice).choice.find(c=>c.text==='（陪她喝第四罐）').consequences.money===-35&&!e.dialogue.find(l=>l.choice).choice[0].consequences.money);
+      check('子晴 Q4：只一次',!EVENTS.check(e));
+      L=await play(1,9);
+      check('子晴 Q4 錯過延到第 9 週週六（BB-B 4ab575c7）：「……上週六是那個比賽。…貼獎狀。」「我上週六也坐在這裡。喝了三罐咖啡。」；第二個選項換成「妳後來有點開群組嗎？」→「沒有。……通知有九十九則…」；結尾照樣「第四罐。你請。」、記 CONTEST_DAY',/上週六是那個比賽。系上的人都回來了，大家在群組裡貼獎狀。$/.test(L[0])&&/我上週六也坐在這裡。喝了三罐咖啡。$/.test(L[1])&&JSON.stringify(opts[0])==='["「妳不想去，就不是爛。」","「妳後來有點開群組嗎？」","（陪她喝第四罐）"]'&&L.some(t=>/沒有。……通知有九十九則，我一則都沒點。好爽。好爛。兩個都有。$/.test(t))&&/……第四罐。你請。$/.test(L[L.length-1])&&SOCIAL.has('heroine_04','CONTEST_DAY')&&!L.includes('（她坐在騎樓的長椅，旁邊三個空的咖啡罐。）'),JSON.stringify([L,opts[0]])); } }
   /* ---------- 子晴 Q6 測試我的遊戲。現在。（BB_96 4-2 改門檻）---------- */
   { const e=ev('ev_ziqing_secret_game'); check('子晴 Q6：事件在',!!e);
     if(e){ const Z4=(fam)=>{ const r=SOCIAL.rel('heroine_04'); r.fam=fam; };
