@@ -1,6 +1,6 @@
 """法律系的寒假：在家模式（AA_183，SYS-LBREAK）的瀏覽器流程：大一上最後一天（2026-01-04 週日）晚上在宿舍 → 走到床邊睡覺 →
 1/5 早上起床（成績單）→ 旁白「宿舍的房間留著。……」→ 字卡「回臺北的家」→ 家裡的選單（過幾天、睡覺，沒有回宿舍）→ 一路「過幾天」：
-1/20 → 2/5 → 2/16 除夕（主線 2 在家演）→ 2/17 → 2/22 17:00「明天開學。你回宿舍。」→ 宿舍房間。全程沒有 JS 例外、黑幕不擋對話。
+1/20 → 2/5 →（交往中：2/14 可昕的情人節視訊）→ 2/16 除夕（主線 2 在家演）→ 2/17 → 2/22 17:00「明天開學。你回宿舍。」→ 宿舍房間。全程沒有 JS 例外、黑幕不擋對話。
 [前置／捷徑]：用遊戲自己的讀檔（GAME.applySave）把玩家放到 1/4 22:00 宿舍房間；之後都用觸控（走路、點床、點對話、點選項）；用 ?turbo。
 用法：python3 tests/flow_law_break.py URL [輸出資料夾]"""
 import asyncio, json, sys
@@ -64,7 +64,9 @@ async def main():
         ok, seen = await drive(pg, cdp, "!HOME.at(GAME.G)&&GAME.G.zone==='dorm'&&GAME.G.day===STORY.dayOfKey('2026-02-22')", ['過幾天'], 900)
         said = await pg.evaluate("window.__said||[]"); cards = await pg.evaluate("window.__cards||[]")
         dates = [c.split('｜')[0] for c in cards if c.endswith('臺北的家')]
-        run.check('一路「過幾天」：字卡 1/20 → 2/5 → 2/16 → 2/17 → 2/22（臺北的家）', dates[-5:] == ['1/20（二）18:30', '2/5（四）18:30', '2/16（一）12:00', '2/17（二）11:00', '2/22（日）17:00'], json.dumps(dates, ensure_ascii=False))
+        dating = await pg.evaluate("!!GAME.G.flags.dating_kexin")
+        exp = ['1/20（二）18:30', '2/5（四）18:30'] + (['2/14（六）19:45'] if dating else []) + ['2/16（一）12:00', '2/17（二）11:00', '2/22（日）17:00']   # 交往中：2/14 20:00 可昕的情人節視訊是要停的日子（AA_183：出遊變成停點；出遊系統提前 15 分鐘）
+        run.check('一路「過幾天」：字卡 1/20 → 2/5 →（交往中 2/14 情人節視訊）→ 2/16 → 2/17 → 2/22（臺北的家）', dates[-len(exp):] == exp, json.dumps(dates, ensure_ascii=False))
         run.check('除夕在家演主線 2（FAMILY_LAND_Y1 有值）', await pg.evaluate("!!GAME.G.flags.FAMILY_LAND_Y1"))
         g = await pg.evaluate("({day:GAME.G.day,h:+GAME.G.hour.toFixed(2),zone:GAME.G.zone,lb:GAME.G.home.lbreak||null})")
         run.check('2/22：「明天開學。你回宿舍。」→ 字卡「回宿舍」→ 宿舍房間、放假模式結束', ok and '明天開學。你回宿舍。' in said and any(c.startswith('回宿舍') for c in cards) and g['zone'] == 'dorm' and g['h'] >= 17.6 and not g['lb'], json.dumps([g, said[-3:], cards[-2:]], ensure_ascii=False))
