@@ -1206,8 +1206,8 @@
    "title": "回聲 P4、P4b、P4c、P4e、D1",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "—",
+   "status": "等待其他AI／素材",
+   "next": "P4d、P4e 已接（V0-E2、9-9）；P4（大一上第 3 週週五第一次重修經原，beforeClass econ_principles_1，BB_105 第 3 節的字）、P4b、P4c 還沒做——10-16 14:3x 問 AA-B：Q11 已經 full 的玩家 P4 怎麼演、Q12 P4b 台詞誰寫、Q13 P4c 的 Y0_P1_SEAT（P1 沒有記座位）；D1 照 BB_105",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -1220,7 +1220,9 @@
     "confirmed": true
    },
    "source": "交接包_v0、BB_104／105／110／112",
-   "authorized": "D79"
+   "authorized": "D79",
+   "pausedReason": "AA-B Q11～Q13",
+   "resumeWhen": "AA-B 回覆（P4 的 full 版本、P4b 台詞、P4c 座位）"
   },
   {
    "id": "V0-E3",
