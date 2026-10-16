@@ -61,7 +61,7 @@ const sisN={id:'sis',charId:'heroine_05',name:'溫學姊',obj:{position:{x:1,y:0
     fresh(wed,19.2,'wancai',{lawclub:true}); picks=['收書包']; await EVENTS.run(e); const S2=said.map(s=>s.t), L=lines(); const q1=S2.indexOf('〔題目〕');
     check('W2 開場、柏翰照舊；三題 legal',L[0]==='來了？坐。今天讀刑訴——一年級聽不懂沒關係，先聽爭點怎麼吵。'&&legalAsked===3);
     check('W2 沛珊 P1 四句在第一題之後（BB_95 2-5 原文）、設 PEISHAN_ASKED_WHY',JSON.stringify(S2.slice(q1+1,q1+5))===JSON.stringify(P1)&&G.flags.PEISHAN_ASKED_WHY===true,JSON.stringify(S2.slice(q1,q1+6)));
-    check('W2 「……我下週要交大專生研究計畫。你們大三就會知道那是什麼東西。」（沒有「公法組」）',L.includes('今天先到這裡。……我下週要交大專生研究計畫。你們大三就會知道那是什麼東西。')&&!L.some(t=>/公法組/.test(t)));
+    check('W2 「……我二月要交大專生研究計畫。你們大三就會知道那是什麼東西。」（沒有「公法組」）',L.includes('今天先到這裡。……我二月要交大專生研究計畫。你們大三就會知道那是什麼東西。')&&!L.some(t=>/公法組/.test(t)));
     check('W2 選「收書包」也走到散會：便條（一，論點不清。二，引用錯頁。三，字太醜。）',L.some(t=>/便條/.test(t)&&/一，論點不清。二，引用錯頁。三，字太醜。/.test(t)));
     check('W2 沒認識沛珊：散會時「郭沛珊。法律一。剛剛那個問題是我問的。」、記 FIRST_MET',L[L.length-1]==='郭沛珊。法律一。剛剛那個問題是我問的。'&&SOCIAL.has('classmate_peishan','FIRST_MET'),L[L.length-1]);
     STORY.phoneRules(GM); G.hour=22.55; PHONE.tick(G); const T=PHONE.thread(G,'g:lawclub_study');
