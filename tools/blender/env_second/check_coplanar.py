@@ -11,7 +11,8 @@
   再算凸多邊形真正的交集面積（Sutherland–Hodgman），≥ min-area 平方公尺才算疊面。
 - 跳過同一個物件裡共用頂點的相鄰面。
 - facing：
-  - same＝同一面朝外：**一定會閃**。
+  - same＝同一面朝外：兩個平面相差 < 0.5 mm（--exact）**一定會閃**；0.5 mm～tol（預設 2 mm）只有在遠處才閃
+    （遊戲鏡頭 near 0.1、24 位元深度：20 m 外分得出約 0.24 mm、60 m 外約 2 mm），標「遠處」。
   - back-to-back＝背對背：兩個材質都是單面（背面剔除）就看不到另一面、不閃；有一個是雙面材質（glTF doubleSided）時，
     鏡頭要看得到其中一面的背面才會閃——通常是相鄰兩棟的側牆、夾在牆裡面，看不到。清單只把 same 算「一定會閃」，背對背＋雙面另外計數（ds）。
   - 注意：本專案 Blender 匯出的材質幾乎都是 doubleSided（Blender 預設不剔除背面）。
@@ -25,7 +26,7 @@ A = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 TARGET = A[0]
 def opt(k, d):
     return type(d)(A[A.index(k) + 1]) if k in A else d
-MIN_AREA = opt('--min-area', 0.01); TOL = opt('--tol', 0.002); ONLY = opt('--only', ''); OUT = opt('--json', ''); MD = opt('--md', ''); TOP = opt('--top', 8)
+MIN_AREA = opt('--min-area', 0.01); TOL = opt('--tol', 0.002); EXACT = opt('--exact', 0.0005); ONLY = opt('--only', ''); OUT = opt('--json', ''); MD = opt('--md', ''); TOP = opt('--top', 8)
 SKIP = [s for s in opt('--skip', '').split(',') if s]
 
 
@@ -75,6 +76,7 @@ def scan(glb):
             n = (NM @ p.normal)
             if n.length < 1e-9: continue
             n = n.normalized()
+            if n.z < -0.5 and max(v.z for v in (M @ me.vertices[i].co for i in p.vertices)) <= 0.01: continue   # 地面高度、朝下的面（底面）：在地底下，看不到
             s = 1                                        # 正規化方向（n 與 −n 視為同一個平面）
             for c in (n.x, n.y, n.z):
                 if abs(c) > 1e-6: s = 1 if c > 0 else -1; break
@@ -112,13 +114,14 @@ def scan(glb):
                 kk = tuple(sorted([(fi[1], fi[2]), (fj[1], fj[2])])) + (round(c.x, 1), round(c.y, 1), round(c.z, 1))
                 same = fi[7].dot(fj[7]) > 0
                 if kk not in pairs or pairs[kk]['area'] < ar:
+                    gap = abs(fi[6] - fj[6])
                     pairs[kk] = dict(a=fi[1], amat=fi[2], b=fj[1], bmat=fj[2], at=[round(c.x, 2), round(-c.y, 2), round(c.z, 2)], area=round(ar, 3),
-                                     facing='same' if same else 'back-to-back', visible=same, ds=fi[8] or fj[8])
+                                     facing='same' if same else 'back-to-back', gap_mm=round(gap * 1000, 2), visible=same and gap < EXACT, ds=fi[8] or fj[8])
     return len(faces), sorted(pairs.values(), key=lambda r: -r['area'])
 
 
 def line(r):
-    return '%(a)s[%(amat)s] × %(b)s[%(bmat)s]  遊戲座標≈(%(x)s)  %(area)s m²  %(facing)s%(vis)s' % dict(r, x='%.2f, %.2f, %.2f' % (r['at'][0], r['at'][2], r['at'][1]), vis='（一定會閃）' if r['facing'] == 'same' else ('（雙面材質：看得到背面才會閃）' if r['ds'] else '（單面：不閃）'))
+    return '%(a)s[%(amat)s] × %(b)s[%(bmat)s]  遊戲座標≈(%(x)s)  %(area)s m²  %(facing)s%(vis)s' % dict(r, x='%.2f, %.2f, %.2f' % (r['at'][0], r['at'][2], r['at'][1]), vis=('（一定會閃）' if r['visible'] else '（相差 %s mm：遠處才閃）' % r['gap_mm']) if r['facing'] == 'same' else ('（雙面材質：看得到背面才會閃）' if r['ds'] else '（單面：不閃）'))
 
 
 if os.path.isdir(TARGET):
@@ -131,8 +134,9 @@ if os.path.isdir(TARGET):
             print('FAIL', g, e); report.append(dict(file=g, error=str(e))); continue
         vis = [r for r in res if r['visible']]
         report.append(dict(file=g, faces=nf, pairs=len(res), visible=len(vis), visible_area=round(sum(r['area'] for r in vis), 2),
-                           ds=sum(1 for r in res if not r['visible'] and r['ds']), top=vis[:TOP]))
-        print('%-70s faces %6d  疊面 %5d  一定會閃 %4d（%.1f m²）  背對背雙面 %5d  %.0fs' % (g, nf, len(res), len(vis), report[-1]['visible_area'], report[-1]['ds'], time.time() - t0), flush=True)
+                           far=sum(1 for r in res if r['facing'] == 'same' and not r['visible']),
+                           ds=sum(1 for r in res if r['facing'] != 'same' and r['ds']), top=vis[:TOP]))
+        print('%-70s faces %6d  疊面 %5d  一定會閃 %4d（%.1f m²）  遠處才閃 %4d  背對背雙面 %5d  %.0fs' % (g, nf, len(res), len(vis), report[-1]['visible_area'], report[-1]['far'], report[-1]['ds'], time.time() - t0), flush=True)
     report.sort(key=lambda r: -r.get('visible_area', 1e9))
     if OUT: json.dump(report, open(OUT, 'w'), ensure_ascii=False, indent=1)
     if MD:
@@ -140,10 +144,11 @@ if os.path.isdir(TARGET):
             f.write('# 共平面（z-fighting）掃描：%s\n\n- 工具：`tools/blender/env_second/check_coplanar.py`（min-area %s m²、tol %s m）\n'
                     '- 「一定會閃」＝兩個面同一面朝外、疊在同一個平面：從哪裡看都會閃。依它的面積排序。\n'
                     '- 「背對背雙面」＝背對背、有一個是雙面材質：鏡頭看得到背面才會閃（通常夾在牆裡，看不到），只計數。\n\n'
-                    '| 檔案 | 面數 | 疊面（全部） | 一定會閃 | 面積 m² | 背對背雙面 |\n|---|---:|---:|---:|---:|---:|\n' % (TARGET, MIN_AREA, TOL))
+                    '- 「遠處才閃」＝同一面朝外、兩個平面相差 0.5 mm～%s m：60 m 外才會閃，只計數。\n\n'
+                    '| 檔案 | 面數 | 疊面（全部） | 一定會閃 | 面積 m² | 遠處才閃 | 背對背雙面 |\n|---|---:|---:|---:|---:|---:|---:|\n' % (TARGET, MIN_AREA, TOL, TOL))
             for r in report:
-                if 'error' in r: f.write('| `%s` | 讀取失敗：%s | | | | |\n' % (r['file'], r['error'])); continue
-                f.write('| `%s` | %d | %d | %d | %.2f | %d |\n' % (r['file'], r['faces'], r['pairs'], r['visible'], r['visible_area'], r['ds']))
+                if 'error' in r: f.write('| `%s` | 讀取失敗：%s | | | | | |\n' % (r['file'], r['error'])); continue
+                f.write('| `%s` | %d | %d | %d | %.2f | %d | %d |\n' % (r['file'], r['faces'], r['pairs'], r['visible'], r['visible_area'], r['far'], r['ds']))
             for r in report:
                 if r.get('top'):
                     f.write('\n## `%s`（一定會閃的前 %d 對）\n' % (r['file'], len(r['top'])))
@@ -152,6 +157,6 @@ if os.path.isdir(TARGET):
 else:
     nf, res = scan(TARGET)
     vis = [r for r in res if r['visible']]
-    print('faces', nf, 'overlap pairs', len(res), '一定會閃', len(vis), '背對背雙面', sum(1 for r in res if not r['visible'] and r['ds']))
+    print('faces', nf, 'overlap pairs', len(res), '一定會閃', len(vis), '遠處才閃', sum(1 for r in res if r['facing'] == 'same' and not r['visible']), '背對背雙面', sum(1 for r in res if r['facing'] != 'same' and r['ds']))
     for r in (vis + [r for r in res if not r['visible']])[:60]: print('  ' + line(r))
     if OUT: json.dump(vis + [r for r in res if not r['visible']][:200], open(OUT, 'w'), ensure_ascii=False, indent=1)   # 一定會閃的全部列出＋背對背的前 200 對

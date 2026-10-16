@@ -392,11 +392,14 @@ def window_proto(wh, part):
         so = stn.finish(None, uv=True); uv01(so)                                              # 窗台下的雨痕（整張貼圖）
         _WIN[key] = combine([al.finish(None), sl.finish(None), so], 'window_shell'); return _WIN[key]
     rm = Mesh('win_room', M['room_lit'] if lit else M['room_dark'])
-    rm.quad([(x0, y0, bk), (x1, y0, bk), (x1, y1, bk), (x0, y1, bk)])                    # 後牆（朝外）
-    rm.quad([(x0, y0, fz), (x1, y0, fz), (x1, y0, bk), (x0, y0, bk)])                    # 地板（朝上）
-    rm.quad([(x0, y1, bk), (x1, y1, bk), (x1, y1, fz), (x0, y1, fz)])                    # 天花板（朝下）
-    rm.quad([(x0, y0, fz), (x0, y0, bk), (x0, y1, bk), (x0, y1, fz)])                    # 左牆（朝 +x）
-    rm.quad([(x1, y0, bk), (x1, y0, fz), (x1, y1, fz), (x1, y1, bk)])                    # 右牆（朝 −x）
+    # 窗內房間的四面（地板、天花板、左右）往內縮 6 mm：原本剛好在窗洞的四個側面上（牆在 z −0.25～0），
+    # 從玻璃斜著看進去，窗洞側面的牆磚和房間一直閃（BUG-WZFLICKER，check_coplanar：一扇窗 4 條，整條巷子上千條）
+    e = 0.006; rx0, rx1, ry0, ry1 = x0 + e, x1 - e, y0 + e, y1 - e
+    rm.quad([(rx0, ry0, bk), (rx1, ry0, bk), (rx1, ry1, bk), (rx0, ry1, bk)])            # 後牆（朝外）
+    rm.quad([(rx0, ry0, fz), (rx1, ry0, fz), (rx1, ry0, bk), (rx0, ry0, bk)])            # 地板（朝上）
+    rm.quad([(rx0, ry1, bk), (rx1, ry1, bk), (rx1, ry1, fz), (rx0, ry1, fz)])            # 天花板（朝下）
+    rm.quad([(rx0, ry0, fz), (rx0, ry0, bk), (rx0, ry1, bk), (rx0, ry1, fz)])            # 左牆（朝 +x）
+    rm.quad([(rx1, ry0, bk), (rx1, ry0, fz), (rx1, ry1, fz), (rx1, ry1, bk)])            # 右牆（朝 −x）
     gl = Mesh('win_glass', M['glass_lit'] if lit else M['win_glass']); gl.quad([(x0 + t, y0 + t, fz - 0.01), (x1 - t, y0 + t, fz - 0.01), (x1 - t, y1 - t, fz - 0.01), (x0 + t, y1 - t, fz - 0.01)])
     _WIN[key] = combine([rm.finish(None, uv=False), gl.finish(None)], f'window_{part}')
     return _WIN[key]
@@ -518,8 +521,8 @@ def apartment(spec):
         ws = sorted([w for w in wins if w['f'] == f], key=lambda w: w['x'])
         xs = [-W / 2] + [v for w in ws for v in (w['x'] - ww / 2, w['x'] + ww / 2)] + [W / 2]
         for k in range(0, len(xs), 2): xf.box(wall, xs[k], xs[k + 1], y0, y1, -0.25, 0)
-        for w in ws:
-            xf.box(wall, w['x'] - ww / 2, w['x'] + ww / 2, y0, w['y0'], -0.25, 0); xf.box(wall, w['x'] - ww / 2, w['x'] + ww / 2, w['y1'], y1, -0.25, 0)
+        for w in ws:   # 窗下的牆停在窗台裡面（低 1 cm）：原本牆頂和窗台頂同一個平面，一直閃（BUG-WZFLICKER）
+            xf.box(wall, w['x'] - ww / 2, w['x'] + ww / 2, y0, w['y0'] - 0.01, -0.25, 0); xf.box(wall, w['x'] - ww / 2, w['x'] + ww / 2, w['y1'], y1, -0.25, 0)
     xf.box(wall, -W / 2, W / 2, totalH, totalH + 0.9, -0.2, 0)                                   # 女兒牆
     band = acc(M['band'])
     for sd in (-1, 1):
@@ -531,6 +534,7 @@ def apartment(spec):
     xf.box(band, -W / 2 - 0.04, W / 2 + 0.04, totalH + 0.9, totalH + 0.97, -0.26, 0.05)
     xf.box(acc(M['roof']), -W / 2 + 0.2, W / 2 - 0.2, totalH - 0.05, totalH + 0.05, -D + 0.2, -0.2)
     # ---- 窗（instancing）＋窗簾；鐵窗／雨遮／冷氣／陽台
+    ac_at = []
     for w in wins:
         x0, x1, y0, y1, cx = w['x'] - ww / 2, w['x'] + ww / 2, w['y0'], w['y1'], w['x']
         inst(window_proto(wh, 'shell'), f'win_{spec["id"]}', xf, cx, y0, 0.0, sx=ww / WIN_W)
@@ -557,8 +561,8 @@ def apartment(spec):
             inst(HOOD, f'hood_{spec["id"]}', xf, cx, y1 + 0.18, 0.0)
         if w['ac'] and w['kind'] != 'balcony':
             ax = cx + w['acs'] * (ww / 2 + 0.55)
-            if -W / 2 + 0.5 < ax < W / 2 - 0.5:
-                inst(AC, f'ac_{spec["id"]}', xf, ax, y0 - 0.2, 0.0)
+            if -W / 2 + 0.5 < ax < W / 2 - 0.5 and not any(f_ == w['f'] and abs(ax - x_) < 0.9 for (f_, x_) in ac_at):   # 兩扇窗中間只放一台（原本左右兩扇各放一台、疊在一起，會閃）
+                ac_at.append((w['f'], ax)); inst(AC, f'ac_{spec["id"]}', xf, ax, y0 - 0.2, 0.0)
                 xf.cyl(acc(M['pipe']), (ax + 0.3, y0 - 0.2, 0.04), (ax + 0.3, GH + 0.1, 0.04), 0.018, seg=6)
     # ---- 頂樓：水塔、頂樓加蓋
     if spec.get('roofAdd'):
@@ -576,7 +580,12 @@ def apartment(spec):
         # 公館的騎樓：店與店之間的壁柱貼和柱子一樣的磁磚（磨石子在騎樓裡近看是一大片斑點，像髒汙；溫州街照舊）
         pm = acc(M['pillar']) if (gt == 'arcade' and SET == 'gongguan') else gw
         for sx in (-1, 1): xf.box(pm, sx * (W / 2 - 0.15) - 0.15, sx * (W / 2 - 0.15) + 0.15, 0, GH, -rec, -r0)
-    else: xf.box(gw, -W / 2, W / 2, 0, 0.9, -rec - 0.02, -rec + 0.04)                              # 住家／鐵捲門：牆腳的磨石子護牆
+    else:                                                                                          # 住家／鐵捲門：牆腳的磨石子護牆
+        # 鐵捲門、住家鐵門的地方不做護牆：原本護牆整條橫過去，門片／捲門片正好在護牆正面的同一個平面上，下面 0.9 m 一直閃（BUG-WZFLICKER）
+        gaps = [(-W / 2 + 0.4, W / 2 - 0.4)] if gt == 'shutter' else ([(-W * 0.2 - 0.72, -W * 0.2 + 0.72)] if not spec.get('sf') else [])
+        xs_ = [-W / 2] + [v for g_ in gaps for v in g_] + [W / 2]
+        for k in range(0, len(xs_), 2):
+            if xs_[k + 1] - xs_[k] > 0.01: xf.box(gw, xs_[k], xs_[k + 1], 0, 0.9, -rec - 0.02, -rec + 0.04)
     xf.box(band, -W / 2, W / 2, GH - 0.12, GH, -0.25, 0.06)
     if gt == 'arcade' and spec.get('sf', {}).get('split'): arcade_split_v2(spec, xf, W, wall)
     elif gt in ('shop', 'arcade'): shopfront_v2(spec, xf, W, gt, wall) if (spec.get('sf') and gt == 'shop') else shopfront(spec, xf, W, gt)
@@ -630,11 +639,12 @@ def side_windows(spec, xf, wall, band, W, D, F, totalH, sd, rng):
         y0 = GH + (f - 1) * FH; y1 = y0 + FH; ws = sorted([w for w in wins if w['f'] == f], key=lambda w: w['x'])
         xs = [-Ls / 2] + [v for w in ws for v in (w['x'] - ww / 2, w['x'] + ww / 2)] + [Ls / 2]
         for k in range(0, len(xs), 2): sx_.box(wall, xs[k], xs[k + 1], y0, y1, -T, 0)
-        for w in ws: sx_.box(wall, w['x'] - ww / 2, w['x'] + ww / 2, y0, w['y0'], -T, 0); sx_.box(wall, w['x'] - ww / 2, w['x'] + ww / 2, w['y1'], y1, -T, 0)
+        for w in ws: sx_.box(wall, w['x'] - ww / 2, w['x'] + ww / 2, y0, w['y0'] - 0.01, -T, 0); sx_.box(wall, w['x'] - ww / 2, w['x'] + ww / 2, w['y1'], y1, -T, 0)   # 窗下的牆停在窗台裡面
         # 樓板線：往正面多伸 0.325 m 接到正面的樓板線（側牆座標 sd<0 時正面在 +x'）。比正面的薄 1 cm、停在正面樓板線的前緣後 5 mm：
         # 重疊的地方不能有同一個平面上的面（Cycles 會變黑、遊戲裡會閃爍）
         if f > 1: sx_.box(band, -Ls / 2 - (0.325 if sd > 0 else 0), Ls / 2 + (0.325 if sd < 0 else 0), y0 - 0.085, y0 + 0.085, -T, 0.08)
     sx_.box(wall, -Ls / 2 - (0.05 if sd > 0 else 0), Ls / 2 + (0.05 if sd < 0 else 0), totalH, totalH + 0.9, -T, 0)   # 女兒牆：接到正面的女兒牆（正面的在 z −0.2…0，原本中間有 5 cm 的縫）
+    ac_at = []
     for w in wins:
         cx, y0, y1 = w['x'], w['y0'], w['y1']; x0, x1 = cx - ww / 2, cx + ww / 2
         inst(window_proto(wh, 'shell'), f'swin_{spec["id"]}', sx_, cx, y0, 0.0, sx=ww / WIN_W)
@@ -645,8 +655,8 @@ def side_windows(spec, xf, wall, band, W, D, F, totalH, sd, rng):
         if w['grille']: inst(GRILLE, f'sgrille_{spec["id"]}', sx_, cx, y0 - 0.14, 0.0); inst(HOOD, f'sghood_{spec["id"]}', sx_, cx, y0 - 0.14 + 1.77, 0.0)
         elif w['ac']:
             ax = cx + w['acs'] * (ww / 2 + 0.55)
-            if -Ls / 2 + 0.5 < ax < Ls / 2 - 0.5:
-                inst(AC, f'sac_{spec["id"]}', sx_, ax, y0 - 0.2, 0.0); sx_.cyl(acc(M['pipe']), (ax + 0.3, y0 - 0.2, 0.04), (ax + 0.3, GH + 0.1, 0.04), 0.018, seg=6)
+            if -Ls / 2 + 0.5 < ax < Ls / 2 - 0.5 and not any(f_ == w['f'] and abs(ax - x_) < 0.9 for (f_, x_) in ac_at):
+                ac_at.append((w['f'], ax)); inst(AC, f'sac_{spec["id"]}', sx_, ax, y0 - 0.2, 0.0); sx_.cyl(acc(M['pipe']), (ax + 0.3, y0 - 0.2, 0.04), (ax + 0.3, GH + 0.1, 0.04), 0.018, seg=6)
 
 
 def shopfront(spec, xf, W, gt):
