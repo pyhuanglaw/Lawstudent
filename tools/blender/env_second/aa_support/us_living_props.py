@@ -32,6 +32,7 @@ ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 OUT = ARGS[ARGS.index('--out') + 1] if '--out' in ARGS else 'assets/models/env/second_ai/aa_support/us_living_props.glb'
 GEN = os.path.join(PARENT, 'textures', 'gen')
 ATLAS, ATLAS_ORM = (os.path.join(GEN, f'us_living_props_{k}.png') for k in ('atlas', 'orm'))
+AO_PNG = os.path.join(GEN, 'us_living_props_ao.png')   # 第 9 節補強：沙發、電視櫃底下的地面 AO（黑色＋透明度漸層，另一個材質 US_ao）
 TEX = os.path.join(L.ROOT, 'tools', 'blender', 'textures')
 TEX2 = os.path.join(PARENT, 'textures')
 SRC = {'leather': os.path.join(TEX, 'fabric_leather_02', 'fabric_leather_02_diff_1k.jpg'),
@@ -53,6 +54,9 @@ REG = {
     'tv_screen': (896, 256, 1024, 384),   # 電視正面：很窄的黑框＋關著的黑螢幕（左上一點反光）
     'frame_a': (384, 384, 512, 512),      # 相框：黑框、白卡紙、天空和海的色塊
     'frame_b': (512, 384, 640, 512),      # 相框：木框、樹和草地的色塊
+    # ---- 第 9 節補強（2026-10-16，LAWWW2-B 16:29 的清單第 2 項）----
+    'blanket': (640, 384, 896, 512),      # 披在沙發扶手上的毯子：灰藍色的針織紋＋兩端米色條紋和流蘇（s 沿著披的方向、t 沿毯子的寬）
+    'remote': (896, 384, 960, 512),       # 遙控器的正面：黑色、灰色圓按鈕、方向鍵的圈、一個紅點（沒有字）
 }
 SW = {
     'chrome': ((198, 200, 204), 0.18, METAL), 'black_plastic': ((24, 24, 26), 0.55, 0.0), 'leg_dark': ((38, 31, 26), 0.5, 0.0),
@@ -63,12 +67,16 @@ SW = {
     'book_green': ((52, 84, 64), 0.7, 0.0), 'book_gray': ((122, 124, 128), 0.7, 0.0), 'book_mustard': ((184, 148, 70), 0.7, 0.0), 'book_white': ((228, 226, 218), 0.75, 0.0),
     'page': ((236, 230, 214), 0.85, 0.0), 'frame_black': ((26, 26, 28), 0.4, 0.0), 'tv_black': ((18, 18, 20), 0.35, 0.0),
     'leather_sw': ((30, 30, 32), 0.45, 0.0), 'rug_back': ((168, 150, 120), 0.95, 0.0), 'knob': ((60, 60, 64), 0.3, METAL),
+    # ---- 第 9 節補強 ----
+    'mug': ((206, 160, 66), 0.3, 0.0), 'mug_in': ((236, 232, 222), 0.22, 0.0), 'pen': ((40, 70, 140), 0.35, 0.0), 'pen_cap': ((210, 210, 206), 0.3, 0.0),
 }
 SW_CELL, SW_Y0 = 32, 896
 for i, k in enumerate(SW):
     REG['sw_' + k] = ((i % 32) * SW_CELL, SW_Y0 + (i // 32) * SW_CELL, (i % 32) * SW_CELL + SW_CELL, SW_Y0 + (i // 32) * SW_CELL + SW_CELL)
 ORM_REG = {'leather_top': (0.42, 0.0), 'leather_plain': (0.45, 0.0), 'wood_dark': (0.55, 0.0), 'blackwood': (0.5, 0.0), 'rug': (0.95, 0.0),
-           'shade': (0.85, 0.0), 'pillow_a': (0.85, 0.0), 'pillow_b': (0.85, 0.0), 'tv_screen': (0.12, 0.0), 'frame_a': (0.35, 0.0), 'frame_b': (0.45, 0.0)}
+           'shade': (0.85, 0.0), 'pillow_a': (0.85, 0.0), 'pillow_b': (0.85, 0.0), 'tv_screen': (0.12, 0.0), 'frame_a': (0.35, 0.0), 'frame_b': (0.45, 0.0),
+           'blanket': (0.92, 0.0), 'remote': (0.5, 0.0)}
+ROUGH_MASKS = []   # 第 9 節補強：(區塊名, 遮罩（區塊大小、0～1）, 粗糙度)，make_textures 畫進 ORM
 
 
 # ================= 貼圖：皮、木、地毯的質感來自 Poly Haven（CC0）；只有本來就是畫上去的東西（縫線、花紋、色塊）是畫的 =================
@@ -170,6 +178,73 @@ def paint(P):
     d.rectangle([w * 0.1, h * 0.1, w * 0.9, h * 0.9], fill=(196, 214, 222)); d.rectangle([w * 0.1, h * 0.62, w * 0.9, h * 0.9], fill=(108, 146, 84))
     d.ellipse([w * 0.5, h * 0.26, w * 0.78, h * 0.64], fill=(60, 102, 64)); d.rectangle([w * 0.62, h * 0.58, w * 0.66, h * 0.7], fill=(92, 70, 52))
     P.paste(img, (REG['frame_b'][0] * SS, REG['frame_b'][1] * SS))
+    wear(P)
+
+
+# ================= 第 9 節補強：皮的光澤和皺褶、地毯走道那一側比較舊、毯子、遙控器、地面 AO 的貼圖 =================
+def soft(w, h, shapes, blur, noise=0.0, seed=0):
+    """0～1 的遮罩：shapes＝[(cx, cy, rx, ry, 強度)]（像素）；邊緣模糊、加一點不均勻"""
+    m = Image.new('L', (w, h), 0); d = ImageDraw.Draw(m)
+    for (cx, cy, rx, ry, k) in shapes: d.ellipse([cx - rx, cy - ry, cx + rx, cy + ry], fill=int(255 * k))
+    a = np.asarray(m.filter(ImageFilter.GaussianBlur(blur)), np.float32) / 255
+    if noise:
+        g = np.random.default_rng(seed); n = np.asarray(Image.fromarray((g.random((max(2, h // 8), max(2, w // 8))) * 255).astype(np.uint8)).resize((w, h), Image.BICUBIC), np.float32) / 255
+        a = a * (1 - noise + noise * 2 * n)
+    return np.clip(a, 0, 1)
+
+
+def region_arr(P, name):
+    x0, y0, x1, y1 = REG[name]; return np.asarray(P.crop((x0 * SS, y0 * SS, x1 * SS, y1 * SS)), np.float32)
+
+
+def put(P, name, a): P.paste(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)), (REG[name][0] * SS, REG[name][1] * SS))
+
+
+def wear(P):
+    # --- 皮（座墊上面、靠墊正面、扶手上面共用 leather_top）：坐的地方磨亮（中間偏前）、前緣磨得最多、幾條皺褶 ---
+    a = region_arr(P, 'leather_top'); h, w = a.shape[:2]   # 座墊上面：s＝x、t＝z（t=1 是前緣）→ 圖的上面是前緣
+    m = soft(w, h, [(0.5 * w, 0.36 * h, 0.3 * w, 0.24 * h, 0.85), (0.5 * w, 0.08 * h, 0.4 * w, 0.06 * h, 0.7)], 9 * SS, noise=0.5, seed=31)
+    a = a + 10 * m[..., None]                                                        # 磨亮：黑皮變成深灰一點
+    cr = Image.new('L', (w, h), 0); d = ImageDraw.Draw(cr); g = np.random.default_rng(32)
+    for k in range(7):   # 皺褶：坐出來的弧線，大多和前緣平行，在磨亮那一塊裡
+        y0 = (0.2 + 0.05 * k + g.normal(0, 0.012)) * h; x0, x1 = (0.24 + g.uniform(-0.04, 0.06)) * w, (0.76 + g.uniform(-0.06, 0.04)) * w
+        d.line([(x0 + (x1 - x0) * t, y0 + math.sin(t * math.pi) * (0.035 + 0.01 * k) * h * (1 if k % 2 else -0.6)) for t in np.linspace(0, 1, 24)], fill=150 + 15 * (k % 3), width=int(1.4 * SS))
+    c = np.asarray(cr.filter(ImageFilter.GaussianBlur(1.2 * SS)), np.float32) / 255
+    a = a * (1 - 0.4 * c[..., None]); put(P, 'leather_top', a)
+    ROUGH_MASKS.extend([('leather_top', m, 0.28), ('leather_top', c * 0.6, 0.55)])
+    # --- 地毯：走道那一側（本地 +x 那一邊、+z 那一端，翹起來的 +x+z 角最舊）顏色淡、絨毛壓平 ---
+    a = region_arr(P, 'rug'); h, w = a.shape[:2]; yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)   # s＝(x+1)/2（右＝+x）、t＝(1.3−z)/2.6（圖的下面＝+z）
+    band = np.clip((xx / w - 0.78) / 0.2, 0, 1) ** 1.5 + np.clip((yy / h - 0.82) / 0.16, 0, 1) ** 1.5
+    corner = np.exp(-(((xx / w - 0.98) / 0.22) ** 2 + ((yy / h - 0.98) / 0.18) ** 2))
+    mr = np.clip(0.55 * band + 0.6 * corner, 0, 1)
+    g = np.random.default_rng(34); n = np.asarray(Image.fromarray((g.random((h // 16, w // 16)) * 255).astype(np.uint8)).resize((w, h), Image.BICUBIC), np.float32) / 255
+    mr = np.clip(mr * (0.7 + 0.6 * n), 0, 1)
+    flat_ = np.asarray(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.5 * SS)), np.float32)   # 絨毛壓平：纖維的明暗變小
+    grey = np.array((176, 120, 96), np.float32)
+    a = a * (1 - mr[..., None]) + (flat_ * 0.72 + grey * 0.28) * mr[..., None]; put(P, 'rug', a)
+    ROUGH_MASKS.append(('rug', mr, 0.86))
+    # --- 毯子：灰藍色針織（橫的細紋＋一點起伏）、兩端米色條紋、流蘇 ---
+    w, h = sz('blanket'); yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    a = np.zeros((h, w, 3), np.float32); a[:] = (104, 122, 140)
+    a *= (1 + 0.07 * np.sin(yy / (1.6 * SS) * math.pi))[..., None] * (1 + 0.04 * np.sin(xx / (2.2 * SS) * math.pi + np.sin(yy / (1.6 * SS))))[..., None]
+    for s0 in (0.05, 0.1, 0.9, 0.95):
+        msk = np.abs(xx / w - s0) < 0.012; a[msk] = (214, 204, 182)
+    fr = (xx / w < 0.025) | (xx / w > 0.975); a[fr] = a[fr] * 0.75 + np.array((214, 204, 182)) * 0.25 * ((yy[fr] // (2 * SS)) % 2)[..., None]
+    put(P, 'blanket', a)
+    # --- 遙控器 ---
+    w, h = sz('remote'); img = Image.new('RGB', (w, h), (22, 22, 24)); d = ImageDraw.Draw(img)
+    d.ellipse([w * 0.4, h * 0.06, w * 0.6, h * 0.11], fill=(170, 40, 36))
+    d.ellipse([w * 0.22, h * 0.2, w * 0.78, h * 0.38], outline=(110, 110, 112), width=2 * SS); d.ellipse([w * 0.4, h * 0.26, w * 0.6, h * 0.32], fill=(96, 96, 98))
+    for r_ in range(5):
+        for c_ in range(3): d.ellipse([w * (0.2 + c_ * 0.24), h * (0.46 + r_ * 0.09), w * (0.34 + c_ * 0.24), h * (0.51 + r_ * 0.09)], fill=(84, 84, 86))
+    put(P, 'remote', np.asarray(img, np.float32))
+
+
+def make_ao_png():
+    """地面 AO 貼片（九宮格用）：u、v 在 0.25～0.75 是裡面（透明度 0.55），外圈 0～0.25 漸層到 0"""
+    n = 64; t = np.linspace(0, 1, n); e = np.clip(np.minimum(t, 1 - t) / 0.25, 0, 1); e = e * e * (3 - 2 * e)
+    al = np.outer(e, e) * 0.55; img = np.zeros((n, n, 4), np.uint8); img[..., 3] = (al * 255).astype(np.uint8)
+    Image.fromarray(img, 'RGBA').save(AO_PNG)
 
 
 def make_textures():
@@ -186,7 +261,12 @@ def make_textures():
     for name in ('leather_top', 'leather_plain'):
         x0, y0, x1, y1 = (int(v * f) for v in REG[name]); base = ORM_REG[name][0]
         orm[y0:y1, x0:x1, 1] = np.clip((base + 0.18 * (rl - rl.mean())) * 255, 0, 255).astype(np.uint8)
+    for name, m, rough in ROUGH_MASKS:   # 第 9 節補強：坐的地方磨亮、皺褶、地毯壓平
+        x0, y0, x1, y1 = REG[name]; X0, Y0, X1, Y1 = int(x0 * f), int(y0 * f), int(math.ceil(x1 * f)), int(math.ceil(y1 * f))
+        mm = np.asarray(Image.fromarray((np.clip(m, 0, 1) * 255).astype(np.uint8)).resize((X1 - X0, Y1 - Y0), Image.BILINEAR), np.float32) / 255
+        g = orm[Y0:Y1, X0:X1, 1].astype(np.float32); orm[Y0:Y1, X0:X1, 1] = np.clip(g * (1 - mm) + rough * 255 * mm, 0, 255).astype(np.uint8)
     Image.fromarray(orm).save(ATLAS_ORM)
+    make_ao_png()
 
 
 # ================= 網格工具（同 wz6_items.py）=================
@@ -471,8 +551,34 @@ def leather_seat(W, D, H, arm, n_seat, seat_y=0.45, back_top=0.86):
     return pm
 
 
+def throw():
+    """第 9 節補強（生活痕跡）：披在右邊扶手上的毯子——從座墊上爬過扶手內側、蓋過扶手上面、垂到外側；兩面（正面針織、背面同一張）；
+    剖面沿扶手的形狀（離扶手、座墊 1～1.5 cm），沿 z 有一點波浪，垂下來的那一端長短不一"""
+    pm = PM(); fn = R('blanket')
+    prof = [(0.58, 0.462), (0.7, 0.466), (0.765, 0.482), (0.782, 0.53), (0.787, 0.6), (0.812, 0.636), (0.9, 0.644), (0.99, 0.636), (1.019, 0.6), (1.023, 0.5), (1.021, 0.41), (1.014, 0.34)]
+    L_ = np.concatenate([[0], np.cumsum([math.hypot(b[0] - a[0], b[1] - a[1]) for a, b in zip(prof, prof[1:])])]); sv = L_ / L_[-1]
+    zs = [0.02, 0.15, 0.28, 0.41]
+    def P(i, j, off):
+        x, y = prof[i]; z = zs[j]; wv = 0.008 * math.sin(z * 19 + i * 0.7) * (sv[i] > 0.15) * (1 - abs(2 * sv[i] - 1.2))
+        if i == len(prof) - 1: y += 0.035 * math.sin(z * 11 + 1.0)        # 垂下來的那一端長短不一
+        if i <= 1: x -= 0.03 * math.sin(z * 9)                              # 座墊上那一端斜的
+        # 往外（離開沙發）的方向＝剖面的切線逆時針轉 90°：座墊上朝上、扶手內側朝 −x、上面朝上、外側朝 +x
+        a, b = prof[max(0, i - 1)], prof[min(len(prof) - 1, i + 1)]; tx, ty = b[0] - a[0], b[1] - a[1]; ln = math.hypot(tx, ty); nx, ny = -ty / ln, tx / ln
+        return (x + nx * (wv + off), y + ny * (wv + off), z)
+    for side, off in ((1, 0.0), (-1, -0.004)):
+        for i in range(len(prof) - 1):
+            for j in range(len(zs) - 1):
+                pts = [P(i, j, off), P(i + 1, j, off), P(i + 1, j + 1, off), P(i, j + 1, off)]
+                a, b = prof[i], prof[i + 1]; tx, ty = b[0] - a[0], b[1] - a[1]
+                n_out = np.array((-ty, tx, 0.0)) * side
+                uvs = [fn(sv[i], (zs[j] - 0.02) / 0.39), fn(sv[i + 1], (zs[j] - 0.02) / 0.39), fn(sv[i + 1], (zs[j + 1] - 0.02) / 0.39), fn(sv[i], (zs[j + 1] - 0.02) / 0.39)]
+                pm.poly(pts if side > 0 else pts[::-1], uvs if side > 0 else uvs[::-1], tuple(n_out))
+    return pm
+
+
 def sofa():
     pm = leather_seat(2.0, 0.9, 0.85, 0.2, 3)
+    pm.add(throw())
     pm.add(pillow('pillow_a', T(-0.56, 0.62, -0.02) @ Rx(math.radians(-18)) @ Ry(math.radians(12))))     # 黑白抱枕兩個（照片一）
     pm.add(pillow('pillow_b', T(0.58, 0.6, -0.02) @ Rx(math.radians(-20)) @ Ry(math.radians(-16)) @ np.diag([0.92, 0.92, 0.92, 1.0])))
     return pm
@@ -497,8 +603,23 @@ def wood_table(W, D, H, top_t=0.03, legw=0.045, shelf_y=0.11, fn=None):
     return pm
 
 
+def mug(r=0.04, h=0.095, seg=14):
+    q = PM(); MG, MI = S('mug'), S('mug_in')
+    lathe(q, [(r, 0.0, r, h, MG, 'out'), (r, h, r - 0.004, h, MG, 'up'), (r - 0.004, h, r - 0.004, 0.012, MI, 'in')], seg, caps=[(r - 0.004, 0.012, MI, 'up'), (r, 0.0, MG, 'down')])
+    sweep(q, [(r - 0.002, 0.075, 0), (r + 0.022, 0.072, 0), (r + 0.028, 0.05, 0), (r + 0.022, 0.027, 0), (r - 0.002, 0.025, 0)], 0.0055, 6, MG)
+    return q
+
+
 def coffee():
-    return wood_table(0.6, 1.1, 0.45)
+    pm = wood_table(0.6, 1.1, 0.45); top = 0.45
+    # 第 9 節補強（生活痕跡）：遙控器、馬克杯、兩本疊著的書＋一支筆（桌子長邊沿 z）
+    rbox(pm, -0.023, 0.023, 0.0, 0.018, -0.085, 0.085, {'t': R('remote'), '*': S('black_plastic')}, r=0.006, seg=1, M=T(0.14, top, -0.28) @ Ry(0.45))
+    pm.add(mug(), T(-0.14, top, 0.24) @ Ry(2.6))
+    box(pm, -0.085, 0.085, 0.0, 0.026, -0.12, 0.12, {'*': S('book_navy'), 'r': S('page'), 'l': S('page'), 'f': S('page')}, M=T(0.02, top, -0.02) @ Ry(0.12))
+    box(pm, -0.075, 0.075, 0.0, 0.02, -0.105, 0.105, {'*': S('book_mustard'), 'r': S('page'), 'l': S('page'), 'f': S('page')}, M=T(0.03, top + 0.026, -0.03) @ Ry(-0.2))
+    q = PM(); sweep(q, [(-0.07, 0.0, 0), (0.06, 0.0, 0)], 0.0045, 6, S('pen')); sweep(q, [(0.06, 0.0, 0), (0.075, 0.0, 0)], 0.0048, 6, S('pen_cap'))
+    pm.add(q, T(0.03, top + 0.046 + 0.0045, -0.05) @ Ry(0.9))
+    return pm
 
 
 def endtable():
@@ -649,11 +770,23 @@ def ceilingfan():
 ITEMS = {'US_SOFA': sofa, 'US_ARMCHAIR': armchair, 'US_COFFEE': coffee, 'US_ENDTABLE': endtable, 'US_RUG': rug, 'US_LADDER': ladder,
          'US_TVSTAND': tvstand, 'US_BARSTOOL': barstool, 'US_CEILINGFAN': ceilingfan}
 GLOW = {'US_ENDTABLE': 'US_ENDTABLE_GLOW', 'US_CEILINGFAN': 'US_CEILINGFAN_GLOW'}
+# 第 9 節補強：家具底下地面的 AO（子節點，材質 US_ao：黑色＋透明度漸層）：(子節點名, 寬 x, 深 z, 往外漸層的距離)；離地 1.1 cm（地毯頂面 0.8 cm 之上）
+AO = {'US_SOFA': ('US_SOFA_AO', 2.0, 0.9, 0.11), 'US_TVSTAND': ('US_TVSTAND_AO', 1.1, 0.4, 0.08)}
+
+
+def ao_decal(W, D, m, y=0.011):
+    """九宮格的貼片：裡面（家具底下）透明度 0.55，往外 m 公尺漸層到 0；邊在家具外緣往內 2 cm 開始淡"""
+    pm = PM(); xs = [-W / 2 - m, -W / 2 + 0.02, W / 2 - 0.02, W / 2 + m]; zs = [-D / 2 - m, -D / 2 + 0.02, D / 2 - 0.02, D / 2 + m]; us = [0.0, 0.25, 0.75, 1.0]
+    for i in range(3):
+        for j in range(3):
+            pts = [(xs[i], y, zs[j]), (xs[i + 1], y, zs[j]), (xs[i + 1], y, zs[j + 1]), (xs[i], y, zs[j + 1])]
+            pm.poly(pts, [(us[i], us[j]), (us[i + 1], us[j]), (us[i + 1], us[j + 1]), (us[i], us[j + 1])], (0, 1, 0))
+    return pm
 # GLB 裡的位置只是排成一個客廳給人看（遊戲裡的位置照 us_apartment_layout.js）：(x, y, z, 轉角°)
 SPREAD = {'US_RUG': (0.0, 0.0, 0.0, -90), 'US_SOFA': (0.0, 0.0, -1.1, 0), 'US_COFFEE': (0.0, 0.0, 0.15, 90), 'US_ARMCHAIR': (1.65, 0.0, -0.75, -40),
           'US_ENDTABLE': (-1.4, 0.0, -1.2, 0), 'US_LADDER': (-2.3, 0.0, -1.4, 0), 'US_TVSTAND': (2.5, 0.0, 0.85, -90), 'US_BARSTOOL': (-2.2, 0.0, 0.6, 30),
           'US_CEILINGFAN': (0.0, 2.6, 0.1, 0)}
-BUDGET = {'US_SOFA': 3600, 'US_ARMCHAIR': 1700, 'US_COFFEE': 650, 'US_ENDTABLE': 1500, 'US_RUG': 500, 'US_LADDER': 1400, 'US_TVSTAND': 900, 'US_BARSTOOL': 950, 'US_CEILINGFAN': 1500}
+BUDGET = {'US_SOFA': 3750, 'US_ARMCHAIR': 1700, 'US_COFFEE': 800, 'US_ENDTABLE': 1500, 'US_RUG': 500, 'US_LADDER': 1400, 'US_TVSTAND': 900, 'US_BARSTOOL': 950, 'US_CEILINGFAN': 1500}
 TOTAL_BUDGET = 12000
 SMOOTH = {'US_SOFA': 0.9, 'US_ARMCHAIR': 0.9, 'US_BARSTOOL': 0.9, 'US_LADDER': 0.9, 'US_ENDTABLE': 1.0, 'US_CEILINGFAN': 1.0}   # 座墊、抱枕、葉子是格子或體素網格：角度放寬，不留稜
 
@@ -673,6 +806,12 @@ def build():
     for key in ('Emission Color', 'Emission'):
         if key in gb.inputs: gb.inputs[key].default_value = (1.0, 0.82, 0.58, 1.0); break
     if 'Emission Strength' in gb.inputs: gb.inputs['Emission Strength'].default_value = 1.5
+    ao = bpy.data.materials.new('US_ao'); ao.use_nodes = True; ab = ao.node_tree.nodes['Principled BSDF']
+    ab.inputs['Base Color'].default_value = (0.0, 0.0, 0.0, 1.0); ab.inputs['Roughness'].default_value = 1.0
+    if 'Specular IOR Level' in ab.inputs: ab.inputs['Specular IOR Level'].default_value = 0.0
+    at = ao.node_tree.nodes.new('ShaderNodeTexImage'); at.image = bpy.data.images.load(AO_PNG); at.image.pack(); ao.node_tree.links.new(at.outputs['Alpha'], ab.inputs['Alpha'])
+    try: ao.surface_render_method = 'BLENDED'
+    except Exception: ao.blend_method = 'BLEND'
     mods = {}; over = []
     for name, fn in ITEMS.items():
         r = fn(); pm, gl = r if isinstance(r, tuple) else (r, None)
@@ -681,13 +820,16 @@ def build():
         if gl is not None:
             gob = to_blender(gl, GLOW[name], (glow,), ob, 0.9); gob.location = (0, 0, 0)
             gt = sum(len(p.vertices) - 2 for p in gob.data.polygons); mods[name]['glow'] = {'node': GLOW[name], 'tris': gt}; mods[name]['tris_total'] = tris + gt
+        if name in AO:
+            an, W, D, m = AO[name]; aob = to_blender(ao_decal(W, D, m), an, (ao,), ob, 0.1); aob.location = (0, 0, 0)
+            at_ = sum(len(p.vertices) - 2 for p in aob.data.polygons); mods[name]['ao'] = {'node': an, 'tris': at_}; mods[name]['tris_total'] = mods[name].get('tris_total', tris) + at_
         if mods[name].get('tris_total', tris) > BUDGET[name]: over.append((name, mods[name].get('tris_total', tris)))
     total = sum(m.get('tris_total', m['tris']) for m in mods.values())
     print('TRIS', json.dumps({k: v.get('tris_total', v['tris']) for k, v in mods.items()}), total, flush=True)
     assert not over, over
     assert total <= TOTAL_BUDGET, total
     info = L.export(out, gpu_instances=False)
-    info['materials'] = 2
+    info['materials'] = 3
     info['modules'] = mods
     info['tris_total'] = total
     info['atlas'] = [os.path.relpath(p, L.ROOT) for p in (ATLAS, ATLAS_ORM)]
@@ -695,7 +837,8 @@ def build():
                        'US_COFFEE': '0.6（x）×1.1（z），長邊沿 z', 'US_RUG': '2.0（x）×2.6（z），+x+z 的角和 −x 的邊微翹',
                        'US_LADDER': '背面（貼牆）朝 −z：後面兩支直的在 z=−0.21，前面兩支斜到 z=+0.21；寬 0.6、高 1.8',
                        'US_ENDTABLE': '桌燈在桌面上（底座中心在 x=−0.04、z=−0.05）；子節點 US_ENDTABLE_GLOW＝燈罩內面（US_glow 材質）',
-                       'US_TVSTAND': '電視在櫃子上（螢幕朝 +z）', 'US_BARSTOOL': '椅面高 0.76；椅背在 −z',
+                       'US_TVSTAND': '電視在櫃子上（螢幕朝 +z）；子節點 US_TVSTAND_AO＝櫃子底下的地面 AO（US_ao）',
+                       'US_SOFA': '右邊扶手上披著一條毯子（生活痕跡）；子節點 US_SOFA_AO＝沙發底下的地面 AO（US_ao：黑色＋透明度漸層，離地 1.1 cm；不要投影）', 'US_BARSTOOL': '椅面高 0.76；椅背在 −z',
                        'US_CEILINGFAN': '原點＝吸頂座的頂面中央（貼天花板），往 −y 長 0.42；葉片直徑 1.32；子節點 US_CEILINGFAN_GLOW＝四個燈罩內面'}
     info['note'] = ('兩個材質：us_living（底色 1024＋ORM 256，metal 最高 0.40；皮＝Poly Haven fabric_leather_02、木＝walnut_veneer、地毯纖維＝dirty_carpet，都是 CC0）、'
                     'US_glow（燈罩內面，奶油色＋發光，亮度由遊戲控制）；每件一個網格，兩件有發光的子節點')

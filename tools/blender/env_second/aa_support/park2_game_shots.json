@@ -1,0 +1,359 @@
+[
+ {
+  "w": 390,
+  "h": 844,
+  "mobile": true,
+  "dpr": 2,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "wait": 3000,
+  "out": "park2_shots/before_p_1100.png",
+  "state": {
+   "zone": "wenzhou",
+   "hour": 11,
+   "pos": {
+    "x": 29.0,
+    "z": 20.0,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    28.6,
+    3.4,
+    18.6
+   ],
+   "look": [
+    33.4,
+    0.9,
+    22.6
+   ]
+  }
+ },
+ {
+  "w": 390,
+  "h": 844,
+  "mobile": true,
+  "dpr": 2,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "wait": 3000,
+  "out": "park2_shots/after_p_1100.png",
+  "state": {
+   "zone": "wenzhou",
+   "hour": 11,
+   "pos": {
+    "x": 29.0,
+    "z": 20.0,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    28.6,
+    3.4,
+    18.6
+   ],
+   "look": [
+    33.4,
+    0.9,
+    22.6
+   ]
+  },
+  "js": "@park2_game_place.js",
+  "post": "window.__park2"
+ },
+ {
+  "w": 390,
+  "h": 844,
+  "mobile": true,
+  "dpr": 2,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "wait": 3000,
+  "out": "park2_shots/after_p_1730.png",
+  "state": {
+   "zone": "wenzhou",
+   "hour": 17.5,
+   "pos": {
+    "x": 29.0,
+    "z": 20.0,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    28.6,
+    3.4,
+    18.6
+   ],
+   "look": [
+    33.4,
+    0.9,
+    22.6
+   ]
+  },
+  "js": "@park2_game_place.js",
+  "post": "window.__park2"
+ },
+ {
+  "w": 390,
+  "h": 844,
+  "mobile": true,
+  "dpr": 2,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "wait": 3000,
+  "out": "park2_shots/after_p_2030.png",
+  "state": {
+   "zone": "wenzhou",
+   "hour": 20.5,
+   "pos": {
+    "x": 29.0,
+    "z": 20.0,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    28.6,
+    3.4,
+    18.6
+   ],
+   "look": [
+    33.4,
+    0.9,
+    22.6
+   ]
+  },
+  "js": "@park2_game_place.js",
+  "post": "window.__park2"
+ },
+ {
+  "w": 390,
+  "h": 844,
+  "mobile": true,
+  "dpr": 2,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "wait": 3000,
+  "out": "park2_shots/after_p_1730_swings.png",
+  "state": {
+   "zone": "wenzhou",
+   "hour": 17.5,
+   "pos": {
+    "x": 29.0,
+    "z": 20.0,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    31.0,
+    1.9,
+    21.2
+   ],
+   "look": [
+    32.8,
+    0.9,
+    24.6
+   ]
+  },
+  "js": "@park2_game_place.js"
+ },
+ {
+  "w": 390,
+  "h": 844,
+  "mobile": true,
+  "dpr": 2,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "wait": 3000,
+  "out": "park2_shots/after_p_1730_fitness.png",
+  "state": {
+   "zone": "wenzhou",
+   "hour": 17.5,
+   "pos": {
+    "x": 29.0,
+    "z": 20.0,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    31.6,
+    1.7,
+    19.6
+   ],
+   "look": [
+    34.6,
+    0.7,
+    20.4
+   ]
+  },
+  "js": "@park2_game_place.js"
+ },
+ {
+  "w": 844,
+  "h": 390,
+  "mobile": true,
+  "dpr": 2,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "wait": 3000,
+  "out": "park2_shots/after_l_1100.png",
+  "state": {
+   "zone": "wenzhou",
+   "hour": 11,
+   "pos": {
+    "x": 29.0,
+    "z": 20.0,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    27.8,
+    3.0,
+    19.6
+   ],
+   "look": [
+    33.4,
+    0.9,
+    22.8
+   ]
+  },
+  "js": "@park2_game_place.js",
+  "post": "window.__park2"
+ },
+ {
+  "w": 844,
+  "h": 390,
+  "mobile": true,
+  "dpr": 2,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "wait": 3000,
+  "out": "park2_shots/after_l_1730.png",
+  "state": {
+   "zone": "wenzhou",
+   "hour": 17.5,
+   "pos": {
+    "x": 29.0,
+    "z": 20.0,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    27.8,
+    3.0,
+    19.6
+   ],
+   "look": [
+    33.4,
+    0.9,
+    22.8
+   ]
+  },
+  "js": "@park2_game_place.js",
+  "post": "window.__park2"
+ },
+ {
+  "w": 844,
+  "h": 390,
+  "mobile": true,
+  "dpr": 2,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "wait": 3000,
+  "out": "park2_shots/after_l_2030.png",
+  "state": {
+   "zone": "wenzhou",
+   "hour": 20.5,
+   "pos": {
+    "x": 29.0,
+    "z": 20.0,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    27.8,
+    3.0,
+    19.6
+   ],
+   "look": [
+    33.4,
+    0.9,
+    22.8
+   ]
+  },
+  "js": "@park2_game_place.js",
+  "post": "window.__park2"
+ },
+ {
+  "w": 844,
+  "h": 390,
+  "mobile": true,
+  "dpr": 2,
+  "hideNPCs": true,
+  "hidePlayer": true,
+  "wait": 3000,
+  "out": "park2_shots/before_l_1100.png",
+  "state": {
+   "zone": "wenzhou",
+   "hour": 11,
+   "pos": {
+    "x": 29.0,
+    "z": 20.0,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    27.8,
+    3.0,
+    19.6
+   ],
+   "look": [
+    33.4,
+    0.9,
+    22.8
+   ]
+  }
+ },
+ {
+  "w": 390,
+  "h": 844,
+  "mobile": true,
+  "dpr": 2,
+  "hideNPCs": true,
+  "hidePlayer": false,
+  "wait": 3000,
+  "out": "park2_shots/after_p_1730_scale.png",
+  "state": {
+   "zone": "wenzhou",
+   "hour": 20.5,
+   "pos": {
+    "x": 31.2,
+    "z": 23.4,
+    "yaw": 0.6
+   }
+  },
+  "cam": {
+   "pos": [
+    29.2,
+    2.2,
+    20.4
+   ],
+   "look": [
+    32.2,
+    1.0,
+    24.0
+   ]
+  },
+  "js": "@park2_game_place.js",
+  "post": "window.__park2"
+ }
+]
