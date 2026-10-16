@@ -730,6 +730,15 @@ const STORY = (function(){
             {t:'好。',set:{PS_TABLE_REPLY:'ok'},say:[ps('（貼圖：比 OK）')]},{t:'我不一定會去演講。',set:{PS_TABLE_REPLY:'maybe'},say:[ps('那你經過女舍的時候說一聲。')]}]}})],'ps_table_ask');
         if(G.day>=thu&&G.day<=thu+1&&!(G.day===thu&&h(G)<20+40/60)&&!PHONE.sent(G,'ps_table_cancel')) PHONE.at(G,thu,20+40/60,[ps('對不起。課輔班的作業還沒改完，明天要發回去。'),ps('今天下不去了。')],'ps_table_cancel');
         if(F.PS_CANCEL==='waited'&&G.day>=thu+1&&G.day<=thu+3&&!PHONE.sent(G,'ps_table_waited')) PHONE.at(G,Math.max(thu+1,G.day),G.day>thu+1?G.hour+0.05:12,[ps('你真的等了十分鐘？……下次我會先說。')],'ps_table_waited'); } }
+    /* 法律系的班級群組 law_class（AA-B 2026-10-16，AA_140 第 4 節 B10；台詞歸 BB-B）：所有玩家大一上第 1 天自動加入（舊存檔讀檔時補）；名稱照年級「法律系 大一（全班）」→ 大二、大三、大四。
+       會說話的只有同班（阿哲、小語、柏翰、明軒、芯慈、宥辰、沛珊、以安）；只在事件或手機小事指定時出現、不隨機洗版；玩家不能自由發言，只在選項裡回 */
+    { const yr=(()=>{ for(let d=G.day;d>G.day-200;d--){ const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(d):null; if(T){ const y=+String(T.id).charAt(1); return y>=1&&y<=4?y:0; } } return 1; })();
+      if(yr>=1){ const nm='法律系 '+['大一','大二','大三','大四'][yr-1]+'（全班）'; const g=PHONE.join(G,'law_class',nm); if(g&&g.name!==nm) g.name=nm; } }
+    /* 沛珊「欠的，還了。」（BB_96 3-7；BB-B 2026-10-16 02:00）：大一下第 16 週週日 21:00 在班級群組，只有沛珊說話、沒有別人接話。第 11 週選「沒關係」（PS_CANCEL:'ok'）的玩家看到「欠的，還了。」，
+       其他玩家（另外兩個選項、沒去女舍、不回）看到「期末加油。」——同一則公開訊息，只有後半句不同。沒有沛珊聯絡方式的玩家，整條線不發生。玩家三選一（貼圖／「謝謝！」／不回），沒有後續、不記數值 */
+    { const sun=termDay('Y1S2',16,7);   /* 週日：CALENDAR 的 wd 是 1～7（7＝週日）*/
+      if(sun&&G.day>=sun&&G.day<=sun+1&&!(G.day===sun&&h(G)<21)&&!PHONE.sent(G,'ps_owed')&&typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,'classmate_peishan')&&PHONE.inGroup(G,'law_class'))
+        PHONE.at(G,sun,21,[{th:'g:law_class',from:'classmate_peishan',text:'📄 刑總二重點。'+(F.PS_CANCEL==='ok'?'欠的，還了。':'期末加油。'),ask:{opts:[{t:'（貼一個貼圖）',post:'（貼圖）'},{t:'謝謝！'}]}}],'ps_owed'); }
     /* W3b 不讓步的晚上（BB_96 2-4；文章 BB 137bf31，不是法律、不需法律審查）：ev_grad_debate 之後每兩週一次，20:30，大一下到大二（學期中）。
        她這段期間有伴侶＝發在讀書會群組（不在群組的玩家那一次就沒有）。三篇輪流；第一次的開頭依 W3_STANCE 換一句（BB_96 2-3 回聲）；
        玩家的三個反例都打第二點，她的回應依反例、長回覆折起來（fold：手機上點開看全文）；記 ARGUED_GOOD（累計）。三篇都輪過以後：「這篇你讀過了。」玩家選哪一點有問題（第二點＝「對。」，其他＝「再讀一次。」，不扣分）。
