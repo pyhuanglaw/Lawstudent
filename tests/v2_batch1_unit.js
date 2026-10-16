@@ -9,7 +9,7 @@ const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}}; global.THREE={Vector3:function(){}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|ACTIVITIES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
-for(const f of ['src/data/calendar.js','src/data/characters.js','src/data/events.js','src/data/activities.js','src/social3d.js','src/events3d.js']) load(f);
+for(const f of ['src/data/calendar.js','src/data/characters.js','src/data/events.js','src/data/activities.js','src/data/ladder.js','src/social3d.js','src/events3d.js']) load(f);   /* ladder.js 在 social3d 前面（index.html 的順序；階梯記憶的中文名稱 LADDER.labels）*/
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};

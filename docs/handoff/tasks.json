@@ -1572,7 +1572,7 @@
    "area": "V2",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "第 2 級局部瀏覽器測試；記憶名稱 BB_133 §7、AA_139 已加",
+   "next": "第 2 級局部瀏覽器測試；記憶名稱 BB_133 §7、AA_139 已加；10-16 重新匯入（企劃線 d5a9bc96）：大一下七人都在；大二上～大四下 BB-B 的人物（芷若、子晴、學姊、沛珊、可昕）也匯入了；記憶的中文名稱由匯入工具從階梯文件表格抓（LADDER.labels，230 個）",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -10501,8 +10501,8 @@
    "title": "v0 閒聊階梯 ladder_bb_y0s1／y0s2.json（BB-B 82b61711、f70b4e87、19ee72d5；AA 核對）",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "v0 第 2 批以後接",
+   "status": "等待其他AI／素材",
+   "next": "匯入工具已支援（Y0S1／Y0S2 各 40 個記憶）；BB_146 沒有「| `代號` | 名稱 |」的記憶名稱表，先不匯入（不然人物面板會顯示英文代號）——已請 BB-B 補表；補了以後重跑 tools/ladder/import_ladder.py 就會進來",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -10515,7 +10515,9 @@
     "confirmed": false
    },
    "source": "AA-B 06:08、06:15",
-   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示"
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示",
+   "pausedReason": "BB_146 缺記憶名稱表（80 個）",
+   "resumeWhen": "BB-B 在 BB_146 補表"
   },
   {
    "id": "V0-KXPHONE",
