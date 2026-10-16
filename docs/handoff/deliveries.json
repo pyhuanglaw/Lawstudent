@@ -3,9 +3,9 @@
  "note": "交付登記（D82）：每一筆交付都要對到 tasks.json 的任務；msg＝SENT／DELIVERED／ACK／ACTIONED（接收方有沒有回 ACK）；integration＝未整合／已整合待測試／已驗收／不整合／參考用。scannedThrough＝每條交付分支已經看過的最後一個 commit：check_handoff.py 只掃它以後的 commit（增量）。看過、不是交付的 commit 放 ignored。　**scannedThrough 只在 check 跑完、列出的 commit 都登記或放進 ignored 之後才往前移**（2026-10-16：先移再跑會什麼都掃不到）。",
  "pattern": "交付|ART_APPROVED|READY_FOR_ART_REVIEW|MODEL_READY|通過|驗收|閒聊階梯|交接包|法律審查|盤點|清查|裁定|規則檔|AA_1\\d\\d|BB_1\\d\\d",
  "scannedThrough": {
-  "origin/claude/funny-albattani-iawshm": "0f373b49",
-  "origin/claude/cool-heisenberg-o8kuqx": "47de50fc",
-  "origin/claude/elegant-brown-fcos7n": "64c24854"
+  "origin/claude/funny-albattani-iawshm": "20adecf4",
+  "origin/claude/cool-heisenberg-o8kuqx": "67251112",
+  "origin/claude/elegant-brown-fcos7n": "93b06e1d"
  },
  "deliveries": [
   {
@@ -1048,6 +1048,114 @@
    "sha": "64c24854",
    "what": "法律審查第 9 批（大三下）L367～L378",
    "task": "V4-SYL",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-88",
+   "date": "2026-10-16T03:5xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "20adecf4",
+   "what": "約會人物圖去背 v1：女主角 7＋祐廷，身體 3 姿勢＋頭像 4 張 → assets/date/<id>/<pose>.webp＋anchors.json",
+   "task": "ART-14、SYS-03",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "約會核心 SYS-03 做的時候接；本批 ACK"
+  },
+  {
+   "id": "DLV-1016-89",
+   "date": "2026-10-16T03:5xZ",
+   "from": "BB-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "222fcfaf",
+   "what": "BB_134 第 3 節（大二）",
+   "task": "V3-B134",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-90",
+   "date": "2026-10-16T03:5xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "1bc752e4",
+   "what": "AA_140 G46～G50 驗收發現",
+   "task": "BUG-14、V1-G47、V1-G48、V1-G49",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "G46 已修 a0d74e8b；G47～G49 待開工"
+  },
+  {
+   "id": "DLV-1016-91",
+   "date": "2026-10-16T03:5xZ",
+   "from": "BB-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "20954596",
+   "what": "BB_134 第 3 節（大三）",
+   "task": "V4-B134",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-92",
+   "date": "2026-10-16T03:5xZ",
+   "from": "BB-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "93b06e1d",
+   "what": "E15 宿營改三天兩夜青年活動中心（使用者更正）",
+   "task": "V0-B1、AA-REQ-04",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v0 實作時用"
+  },
+  {
+   "id": "DLV-1016-93",
+   "date": "2026-10-16T03:5xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "17a02fe8",
+   "what": "E15 照使用者更正：AA_145 econ_camp 改活動中心夜景、新增 econ_camp_room",
+   "task": "V0-B1、ART-18、AA-REQ-04",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-94",
+   "date": "2026-10-16T03:5xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "4b8151ef",
+   "what": "AA、BB 互助任務板 AB-02～08",
+   "task": "SYS-22",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "D86 互助流程已在企劃線運作"
+  },
+  {
+   "id": "DLV-1016-95",
+   "date": "2026-10-16T03:5xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "c32c6b33",
+   "what": "AA_153（AB-05）BB_105 一列的 15 件規格骨架",
+   "task": "V3-B105",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "台詞等 BB-B"
+  },
+  {
+   "id": "DLV-1016-96",
+   "date": "2026-10-16T03:5xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "67251112",
+   "what": "AA_153 第 6 節 B10、D6 台詞（AA 的人物）",
+   "task": "V3-B105",
    "msg": "DELIVERED",
    "integration": "未整合",
    "note": ""

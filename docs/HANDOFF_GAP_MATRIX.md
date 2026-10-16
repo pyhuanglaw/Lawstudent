@@ -20,6 +20,7 @@
 8. **排序（D81）：玩家越早遇到越先做**——P0（嚴重 Bug、大一下 v2 驗收）→ v0 → v1 → v2 → v3 → v4（臺灣／日本／美國照劇情順序）→ v5；跨學年系統在第一次可能用到的學期做；美國篇並行但不擠掉 v0～v2。每項任務在 `tasks.json` 有首次出現時間（`first`：term、week、earliest、mainline、blocks、prereq、parallel、confirmed；時間線以 AA-B 為準，`confirmed:false`＝還沒請 AA-B 核對）。階段完成＝玩家玩得完整。
 9. **增量（D82）**：收到交付就在 `deliveries.json` 登記一筆，新任務直接加進 `tasks.json`；交班跑 `check_handoff.py snapshot`、接班跑 `check_handoff.py check`。工具只列異常、不改任務。
 10. **平行開發的派工（D84）**：每個開發階段開工時先盤點美術、建 LAWWW2 任務；跨 AI 任務在 tasks.json 寫 `xai`（接收者、分支、規格來源、交付標準、ACK）；LAWWW2 用 `check_handoff.py queue --owner LAWWW2` 主動領工作；LAWWW 每批跑 check（第 10、11 項：欄位不齊、派工不足、交付沒 ACK）。2026-10-16 的稽核與重排：`docs/handoff/DISPATCH_AUDIT_2026-10-16.md`。
+11. **四角色主動派工與協作（D86）、main 與發布（D85）**：LAWWW 的劇情需求給 AA，AA 自己做或分派 BB；沒工作時照詢問順序找事做；值班的 LAWWW 自己決定合併 main、整理分支（`docs/handoff/BRANCH_INVENTORY.md`）、發布，並對品質負責。
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 

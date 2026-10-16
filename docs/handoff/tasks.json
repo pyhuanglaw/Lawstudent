@@ -11,7 +11,7 @@
   "取消／被取代"
  ],
  "meta": {
-  "rule": "D80、D81、D82、D84；docs/AI_SESSION_HANDOFF.md 第 0a、4、5、6b 節",
+  "rule": "D80、D81、D82、D84、D85、D86；docs/AI_SESSION_HANDOFF.md 第 0a、4、5、6b、6c 節",
   "stageOrder": [
    "P0",
    "Y0",
@@ -1135,7 +1135,7 @@
    "area": "V0",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "經濟系四人＋家豪角色資料（BB-B）",
+   "next": "等 AA-REQ-06（D86：AA 分派 BB）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -1371,7 +1371,7 @@
    "area": "V1",
    "owner": "LAWWW",
    "status": "等待其他AI／素材",
-   "next": "問 AA-B 吉他社入口的接法（D79）",
+   "next": "等 AA-REQ-01（D86：已交 AA）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -6318,7 +6318,7 @@
    "area": "SYS",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "AA-B 回覆交換條件、返台銜接",
+   "next": "等 AA-REQ-08（D86）",
    "priority": "P2",
    "first": {
     "term": "Y3S1",
@@ -7864,7 +7864,7 @@
    "area": "V3",
    "owner": "LAWWW",
    "status": "等待其他AI／素材",
-   "next": "等 BB-B 確認",
+   "next": "等 AA-REQ-07（D86：經 AA 協調 BB）",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -9281,6 +9281,314 @@
     "confirmed": true
    },
    "source": "AA_140 G49（AA-B 03:26，企劃線 1bc752e4）",
+   "authorized": "D79 第 7 點"
+  },
+  {
+   "id": "AA-REQ-01",
+   "title": "LAWWW → AA 的劇情需求：吉他社入口（語 1）怎麼接、BREAKFAST_YU 誰讀（V1-A10 卡住）",
+   "area": "AA",
+   "owner": "AA",
+   "status": "待開工",
+   "next": "AA 判斷自己做或分派 BB（D86）；交付後 LAWWW 接線",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "小語的吉他社線（大一上）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "D86 需求清點 2026-10-16",
+   "authorized": "D79、D86",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "spec": "V1-A10；交接包 v1 語 1",
+    "acceptance": "可以直接實作的觸發條件、地點、台詞來源（現有企劃的出處或 BB 補的定稿）",
+    "ack": "DELIVERED"
+   }
+  },
+  {
+   "id": "AA-REQ-02",
+   "title": "LAWWW → AA 的劇情需求：阿勳、品妤的作息（V2-CHR）：大一下 10-3 第 11 週週四 20:50 後在共同教學館自習區；SK05 期末考週 23:00 社科院四樓窗邊；P4d、SK03 週五普通教學館",
+   "area": "AA",
+   "owner": "AA",
+   "status": "待開工",
+   "next": "AA 判斷自己做或分派 BB（D86）；交付後 LAWWW 接線",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S2",
+    "week": 11,
+    "earliest": "10-3 可玩切片（第 11 週週四）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "D86 需求清點 2026-10-16",
+   "authorized": "D79、D86",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "spec": "BB_96 第 10 節、BB_135、AA_115",
+    "acceptance": "characters.js 能用的作息表（星期、時間、地點）；或確認只在事件時出現",
+    "ack": "DELIVERED"
+   }
+  },
+  {
+   "id": "AA-REQ-03",
+   "title": "LAWWW → AA 的劇情需求：經濟系那一屆的手機群組名稱（BB_96 10-4 阿勳傳便當照片、AA_115 xun_met 那句、BB_106 4-2）；大一下「這次也一起打開」的暑假第一天要不要有視訊事件（BB_96 9-9 只寫旗標）",
+   "area": "AA",
+   "owner": "AA",
+   "status": "待開工",
+   "next": "AA 判斷自己做或分派 BB（D86）；交付後 LAWWW 接線",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": 11,
+    "earliest": "10-4 小福的還債（第 11 週週五）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "D86 需求清點 2026-10-16",
+   "authorized": "D79、D86",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "spec": "BB_96 9-9、10-4；BB_106 4-2",
+    "acceptance": "群組顯示名稱；9-9 暑假第一天的演出（有或沒有、台詞）",
+    "ack": "DELIVERED"
+   }
+  },
+  {
+   "id": "AA-REQ-04",
+   "title": "LAWWW → AA 的劇情需求：v0 經濟系那一年的場景、人物、背景、動畫清單（V0-ARTPLAN、V0-A6、SCN-V0-01；含 E15 青年活動中心、econ_camp_room）",
+   "area": "AA",
+   "owner": "AA",
+   "status": "待開工",
+   "next": "AA 判斷自己做或分派 BB（D86）；交付後 LAWWW 接線",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系開學（2024-09-02）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "D86 需求清點 2026-10-16",
+   "authorized": "D79、D86",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "spec": "交接包 v0、AA_145、BB_104／110／112",
+    "acceptance": "每項標 2D 或 3D、第一次出現的週次、用途；LAWWW 據此建 LAWWW2 任務",
+    "ack": "DELIVERED"
+   }
+  },
+  {
+   "id": "AA-REQ-05",
+   "title": "LAWWW → AA 的劇情需求：春假開車旅行的海邊、老街要白天還是照用約會底圖的黃昏（ART-BG09、BG10；AA_147 寫白天，D25 夕陽、D18 黃昏）",
+   "area": "AA",
+   "owner": "AA",
+   "status": "待開工",
+   "next": "AA 判斷自己做或分派 BB（D86）；交付後 LAWWW 接線",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": 6,
+    "earliest": "春假開車旅行",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "D86 需求清點 2026-10-16",
+   "authorized": "D79、D86",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "spec": "AA_147、BG_TRACKER",
+    "acceptance": "一句話：白天（LAWWW2 調色或另外生成）或照用黃昏",
+    "ack": "DELIVERED"
+   }
+  },
+  {
+   "id": "AA-REQ-06",
+   "title": "LAWWW → AA 的劇情需求：經濟系四人＋家豪學長、魏教授的人物資料（V0-B3、V0-G40；characters.js 要的欄位）——人物部分由 AA 分派 BB",
+   "area": "AA",
+   "owner": "AA",
+   "status": "待開工",
+   "next": "AA 判斷自己做或分派 BB（D86）；交付後 LAWWW 接線",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系開學",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "D86 需求清點 2026-10-16",
+   "authorized": "D79、D86",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "spec": "BB_104、BB_112、AA_114",
+    "acceptance": "characters.js 欄位：名字、身高、科系年級、外觀（立繪已通過的照立繪）、個性一句",
+    "ack": "DELIVERED"
+   }
+  },
+  {
+   "id": "AA-REQ-07",
+   "title": "LAWWW → AA 的劇情需求：學姊 W7 窗口與關係台詞（V3-G08「等 BB-B 確認」）——照 D86 經 AA 協調",
+   "area": "AA",
+   "owner": "AA",
+   "status": "待開工",
+   "next": "AA 判斷自己做或分派 BB（D86）；交付後 LAWWW 接線",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S1",
+    "week": 6,
+    "earliest": "學姊 W7（大二上第 6～9 週）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "D86 需求清點 2026-10-16",
+   "authorized": "D79、D86",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "spec": "AA_140 G08",
+    "acceptance": "BB-B 確認的定稿（窗口、台詞不卡「有點熟」）",
+    "ack": "DELIVERED"
+   }
+  },
+  {
+   "id": "AA-REQ-08",
+   "title": "LAWWW → AA 的劇情需求：交換路線的條件、返台銜接（SYS-10 卡住）",
+   "area": "AA",
+   "owner": "AA",
+   "status": "待開工",
+   "next": "AA 判斷自己做或分派 BB（D86）；交付後 LAWWW 接線",
+   "priority": "P3",
+   "first": {
+    "term": "Y3S1",
+    "week": null,
+    "earliest": "交換說明會、志願表（大三上）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "D86 需求清點 2026-10-16",
+   "authorized": "D79、D86",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "spec": "交接包 v4、AA_30、AA_144",
+    "acceptance": "狀態機要的條件與轉場規格",
+    "ack": "DELIVERED"
+   }
+  },
+  {
+   "id": "SYS-22",
+   "title": "D85、D86 規則送達值班的三個職位並取得 ACK（LAWWW2-B、AA-B、BB-B）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "03:5x 送出；ACK：LAWWW2-B 未回、AA-B 未回、BB-B 未回",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "制度（全遊戲）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 03:4x～03:5x",
+   "authorized": "D85、D86"
+  },
+  {
+   "id": "V3-B134",
+   "title": "BB_134 第 3 節（大二）：阿凱 K3 週日宵夜、可昕春假「迷路到的地方」、予樂的老街綽號",
+   "area": "V3",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 D81 排在該學期；跟著該學期一起做",
+   "priority": "P3",
+   "first": {
+    "term": "Y2S1",
+    "week": 1,
+    "earliest": "阿凱 K3（大二上第 1 週）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 222fcfaf",
+   "authorized": "D79 第 7 點"
+  },
+  {
+   "id": "V4-B134",
+   "title": "BB_134 第 3 節（大三）：學姊 M6 六題每週爭論、芷若 Z10 回寄與 Z11、可昕 K18 台灣路線那一趟",
+   "area": "V4",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 D81 排在該學期；跟著該學期一起做",
+   "priority": "P3",
+   "first": {
+    "term": "Y3S1",
+    "week": null,
+    "earliest": "大三",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "BB-B 20954596",
+   "authorized": "D79 第 7 點"
+  },
+  {
+   "id": "V3-B105",
+   "title": "BB_105 只有表格一列的 15 件（日文班 G2～G4c、博雅 B6～B13、女舍 D4c～D8）：AA_153 規格骨架已交，台詞等 BB-B",
+   "area": "V3",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "next": "照 D81 排在該學期；BB-B 台詞交了再做",
+   "priority": "P3",
+   "first": {
+    "term": "Y2S1",
+    "week": null,
+    "earliest": "各件週次見 AA_153",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B c32c6b33、67251112（AA_BB 互助任務板 AB-05）",
    "authorized": "D79 第 7 點"
   }
  ]
