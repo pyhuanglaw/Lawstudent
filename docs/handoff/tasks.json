@@ -12524,10 +12524,10 @@
    "id": "BUG-COPLANAR-DEV",
    "title": "開發組自己的 GLB 有同向疊面（會閃）：萬才館外觀、霖澤館外觀、宿舍大廳等",
    "area": "BUG",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "進行中",
    "priority": "P1",
-   "next": "宿舍大廳已修（e4b6b55e，271 → 10 m²）。總圖套同一個 wall_cut 修正但沒觸發（重新匯出一模一樣，只改腳本）。霖澤館外觀 294 m²（y 14.9 整層樓板面）、萬才館外觀那些大面積多半是建築量體裡面互相包住的面（從外面看不到）——掃描工具不知道遮擋，要用遊戲截圖確認真的看得到再修；先排到 QA-W1 瀏覽器巡檢 B3～B5 一起看。｜宿舍大廳修了：一樓天花板低 1 cm（原本和二樓樓板底面同高）、wall_cut 開口在這一段上下時不再長出段外的牆（樓梯井北牆腰牆疊白牆）→「一定會閃」271 → 10 m²（剩牆角小疊面）。Blender：/opt/blenv（bpy 4.2，2026-10-16 23:2x 用 uv 裝；重新匯出未改的 dorm_hall 和原檔差 4 bytes）。下一個：總圖同一個 wall_cut、霖澤館外觀、萬才館外觀。｜tools/glb_coplanar.py（純 Python，不用 Blender）掃了 8 個開發組 GLB，「一定會閃」面積：萬才館外觀 1,892 m²（台階 riser 自己疊、屋頂花崗石）、霖澤館外觀 575（屋頂 precast×brick、花崗石兩色）、宿舍大廳 271（一樓天花板頂面和二樓地板同高＝二樓走廊地板會閃）、法圖 106、總圖 39、霖澤室內 27、萬才室內 21、201 教室 6。先修第一週會看到的：宿舍大廳二樓地板、霖澤館外觀、萬才館外觀；改 tools/blender/ 腳本、重新匯出（/opt/blenv 背景安裝 bpy 4.2 中）；萬才館 1,192 m² 那對要先確認是不是重複的幾何。",
+   "next": "【使用者 2026-10-17 00:1x：美術相關一律給 LAWWW2，照遊戲出現順序】轉給 LAWWW2-B：tools/glb_coplanar.py（不用 Blender）掃開發組 GLB；宿舍大廳 LAWWW-B 已修（e4b6b55e，271 → 10 m²）；剩霖澤館外觀／室內、萬才館外觀／室內、總圖、法圖、201 教室——先用遊戲截圖確認看得到的再改腳本重新匯出（/opt/blenv bpy 4.2 已裝）；第一週會看到的先做。｜宿舍大廳已修（e4b6b55e，271 → 10 m²）。總圖套同一個 wall_cut 修正但沒觸發（重新匯出一模一樣，只改腳本）。霖澤館外觀 294 m²（y 14.9 整層樓板面）、萬才館外觀那些大面積多半是建築量體裡面互相包住的面（從外面看不到）——掃描工具不知道遮擋，要用遊戲截圖確認真的看得到再修；先排到 QA-W1 瀏覽器巡檢 B3～B5 一起看。｜宿舍大廳修了：一樓天花板低 1 cm（原本和二樓樓板底面同高）、wall_cut 開口在這一段上下時不再長出段外的牆（樓梯井北牆腰牆疊白牆）→「一定會閃」271 → 10 m²（剩牆角小疊面）。Blender：/opt/blenv（bpy 4.2，2026-10-16 23:2x 用 uv 裝；重新匯出未改的 dorm_hall 和原檔差 4 bytes）。下一個：總圖同一個 wall_cut、霖澤館外觀、萬才館外觀。｜tools/glb_coplanar.py（純 Python，不用 Blender）掃了 8 個開發組 GLB，「一定會閃」面積：萬才館外觀 1,892 m²（台階 riser 自己疊、屋頂花崗石）、霖澤館外觀 575（屋頂 precast×brick、花崗石兩色）、宿舍大廳 271（一樓天花板頂面和二樓地板同高＝二樓走廊地板會閃）、法圖 106、總圖 39、霖澤室內 27、萬才室內 21、201 教室 6。先修第一週會看到的：宿舍大廳二樓地板、霖澤館外觀、萬才館外觀；改 tools/blender/ 腳本、重新匯出（/opt/blenv 背景安裝 bpy 4.2 中）；萬才館 1,192 m² 那對要先確認是不是重複的幾何。",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12539,7 +12539,15 @@
     "confirmed": true
    },
    "source": "LAWWW2-B 2026-10-16 23:0x check_coplanar 整批掃描（17986bd3）",
-   "authorized": "使用者（BUG-WZFLICKER 同類問題）"
+   "authorized": "使用者（BUG-WZFLICKER 同類問題）",
+   "xai": {
+    "spec": "tools/glb_coplanar.py 掃描結果（tasks next）",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "重掃「一定會閃」大幅下降；遊戲內同角度修改前後截圖；導航、碰撞不變",
+    "receiver": "LAWWW-B",
+    "ack": "SENT"
+   }
   },
   {
    "id": "BUG-TEA-SEIZA",

@@ -23,6 +23,8 @@ import playlib as PL
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'art-rebuild', 'second_ai', 'test_shots', 'gongguan_glb_integration')
 IDS = ['G%02d' % i for i in range(16)]
+DESIGNED = ['G03']    # 招牌用設計稿（日日便利 riri_mart_h，和溫州街同一張；LAWWW2-B b7a091b8 拿掉 SIGN_FACE_G03）：沒有 canvas 字的橫招牌，改檢查設計稿招牌 sk_sign_G03 在
+IDS_CANVAS = [i for i in IDS if i not in DESIGNED]
 VERT = ['G00', 'G02', 'G04', 'G06', 'G10', 'G11']                     # 店的直立招牌
 TENANT = ['G01', 'G04', 'G06', 'G07', 'G08', 'G10', 'G12', 'G14']      # 樓上住戶的直立招牌
 SIGN2F = ['G02', 'G05', 'G09', 'G11', 'G13']                          # 二樓整面大招牌
@@ -33,7 +35,7 @@ SETTLED = "(async()=>{ for(let i=0;i<480;i++){ const A=ASSETS; const n=Object.ke
 SC_GROUPS = {'N0': 6, 'N1': 6, 'N2': 8, 'N3': 7, 'N4': 9, 'S0': 6, 'S1': 9, 'S2': 9}
 SC_VIS = """(()=>{ const E=GAME.E, cam=E.camera; cam.updateMatrixWorld(); const fr=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse));
     const out=E.zone.group.children.find(o=>o.name==='gg_scooters_glb'); if(!out) return null; const seen=new Set(), all=new Set(); const sp=new THREE.Sphere();
-    out.children.forEach(m=>{ if(!m.isInstancedMesh||!m.userData.scGroup) return; all.add(m.userData.scGroup); m.updateMatrixWorld(); sp.copy(m.boundingSphere).applyMatrix4(m.matrixWorld); if(fr.intersectsSphere(sp)) seen.add(m.userData.scGroup); });
+    out.children.forEach(o=>{ const m=o.isLOD?o.levels[0].object:o; if(!(m.isInstancedMesh||o.isLOD)||!o.userData.scGroup) return; all.add(o.userData.scGroup); o.updateMatrixWorld(true); if(!m.boundingSphere&&m.geometry) m.geometry.computeBoundingSphere(); sp.copy(m.boundingSphere||m.geometry.boundingSphere).applyMatrix4(m.matrixWorld); if(fr.intersectsSphere(sp)) seen.add(o.userData.scGroup); });   /* 機車 v2：每組一個 THREE.LOD（近的那一層的範圍） */
     return {seen:[...seen].sort(), all:all.size}; })()"""
 WAIT_FORMAL = "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&z.group.children.some(o=>o.name==='%s')) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()" % GLB
 NAV_HASH = "(()=>{ const n=GAME.E.nav; let h=0; for(let i=0;i<n.b.length;i++){ h=(h*31+n.b[i]+i%7)>>>0; } return [n.cols,n.rows,h, n.b.reduce((a,v)=>a+(v?1:0),0)]; })()"
@@ -85,8 +87,8 @@ async def check(pg, run, formal):
               const rep=m?m.repeat.x:1; out[o.name]={canvas:!!(m&&(m.isCanvasTexture||(img&&img.getContext))), board:+(Math.max(s.x,s.z)/s.y).toFixed(3), tex:img?+(img.width*rep/img.height).toFixed(3):0}; });
             out.__atlas=at?{visible:at.visible, w:at.userData.atlas.w, h:at.userData.atlas.h, n:at.userData.atlas.items.length, tris:at.geometry.index.count/3}:null; return out; })()""" % GLB)
         atl = faces.pop('__atlas')
-        nface = len(IDS) + len(SIGN2F) + len(ROOF) + 2 * (len(VERT) + len(TENANT))
-        run.check('招牌合成一張 atlas、一個網格（%d 面＝店的橫招牌 16＋二樓大招牌 5＋屋頂看板 1＋直立招牌 %d 塊×2 面）' % (nface, len(VERT) + len(TENANT)),
+        nface = len(IDS_CANVAS) + len(SIGN2F) + len(ROOF) + 2 * (len(VERT) + len(TENANT))
+        run.check('招牌合成一張 atlas、一個網格（%d 面＝店的橫招牌 %d（另外 %d 家用設計稿）＋二樓大招牌 5＋屋頂看板 1＋直立招牌 %d 塊×2 面）' % (nface, len(IDS_CANVAS), len(DESIGNED), len(VERT) + len(TENANT)),
                   bool(atl) and atl['visible'] and atl['n'] == nface and atl['tris'] == 2 * nface and not any(k.startswith(('SIGN_FACE_', 'VSIGN_FACE_')) and not v.get('atlas') for k, v in faces.items()), json.dumps(atl))
         run.check('招牌 atlas 不超過 2048×2048', bool(atl) and atl['w'] <= 2048 and atl['h'] <= 2048, json.dumps(atl))
         cells = await pg.evaluate("""(()=>{ const at=GAME.E.zone.group.children.find(o=>o.name==='%s').getObjectByName('wz_signs_atlas'); const u=at.userData.atlas, pos={};
@@ -95,8 +97,10 @@ async def check(pg, run, formal):
         run.check('直立招牌的兩面共用 atlas 的同一格（%d 塊；不同內容的板面各自一格：%d 格）' % (len(pairs), nface - len(pairs)),
                   len(pairs) == len(VERT) + len(TENANT) and all(cells['pos'][a] == cells['pos'][b] for a, b in pairs) and cells['cells'] == nface - len(pairs), json.dumps({'cells': cells['cells'], 'pairs': len(pairs)}))
         signs = {k: v for k, v in faces.items() if k.startswith('SIGN_FACE_')}; vs = {k: v for k, v in faces.items() if k.startswith('VSIGN_FACE_')}; ints = {k: v for k, v in faces.items() if k.startswith('INTERIOR_FACE_')}
-        want = sorted(['SIGN_FACE_' + i for i in IDS] + ['SIGN_FACE_%s_2F' % i for i in SIGN2F] + ['SIGN_FACE_%s_roof' % i for i in ROOF])
-        run.check('橫招牌（店 16、二樓 5、屋頂 1）都有 canvas 字', sorted(signs) == want and all(v['canvas'] for v in signs.values()), json.dumps(sorted(signs)))
+        want = sorted(['SIGN_FACE_' + i for i in IDS_CANVAS] + ['SIGN_FACE_%s_2F' % i for i in SIGN2F] + ['SIGN_FACE_%s_roof' % i for i in ROOF])
+        run.check('橫招牌（店 %d、二樓 5、屋頂 1）都有 canvas 字' % len(IDS_CANVAS), sorted(signs) == want and all(v['canvas'] for v in signs.values()), json.dumps(sorted(signs)))
+        dsg = await pg.evaluate("(ids=>{ const r=GAME.E.zone.group.children.find(o=>o.name==='%s'); return ids.map(i=>{ const o=r.getObjectByName('sk_sign_'+i); let vis=!!o; for(let p=o;p&&vis;p=p.parent) vis=p.visible; return [i, vis, !!r.getObjectByName('SIGN_FACE_'+i)]; }); })" % GLB, DESIGNED)
+        run.check('設計稿招牌（%s）看得到、沒有被 canvas 字蓋過去' % '、'.join(DESIGNED), all(v and not f for _, v, f in dsg), json.dumps(dsg))
         wantv = sorted(['VSIGN_FACE_%s_%s' % (i, s) for i in VERT for s in 'ab'] + ['VSIGN_FACE_%s_t_%s' % (i, s) for i in TENANT for s in 'ab'])
         run.check('直立招牌（店 6 塊、樓上住戶 8 塊）兩面都有 canvas 字', sorted(vs) == wantv and all(v['canvas'] for v in vs.values()), json.dumps(sorted(vs)))
         run.check('16 棟的店內景深卡都有貼圖', sorted(k[14:] for k in ints) == IDS and all(v['canvas'] for v in ints.values()), json.dumps(sorted(ints)))
@@ -125,15 +129,24 @@ async def check(pg, run, formal):
         run.check('窗戶：所有的窗共用一個窗框原型，窗內只有亮燈／沒亮燈兩個原型，扇數對得上', st_.get('meshes') == 1 and li_.get('meshes') == 1 and da_.get('meshes') == 1 and st_.get('count', 0) > 100 and st_.get('count') == li_.get('count', 0) + da_.get('count', 0), json.dumps(wn))
         await pg.evaluate("(async()=>{ for(let i=0;i<240;i++){ if(GAME.E.zone.group.children.some(o=>o.name==='gg_scooters_glb')) return; await new Promise(r=>setTimeout(r,250)); } })()")
         sc = await pg.evaluate("""(()=>{ const z=GAME.E.zone; const kit=z.group.children.find(o=>o.name==='gg_kit_scooters'); const out=z.group.children.find(o=>o.name==='gg_scooters_glb');
-            const n=kit?kit.children.filter(o=>o.isGroup).length:-1; const ims=out?out.children.filter(o=>o.isInstancedMesh):[];
+            const n=kit?kit.children.filter(o=>o.isGroup).length:-1; const ims=out?out.children.filter(o=>o.isInstancedMesh):[]; const lods=out?out.children.filter(o=>o.isLOD):[];
+            if(lods.length){   /* 機車 v2（scooters_v2.py，12 款）：每組一個 THREE.LOD（近：完整、遠：_lod1），合成網格、頂點色 */
+              const pick=out.userData.scPick||{}; const ms=[]; lods.forEach(l=>l.levels.forEach(v=>ms.push(v.object)));
+              return {kitScooters:n, kitHidden:kit?!kit.visible:null, lods:lods.length, placed:Object.values(pick).reduce((a,b)=>a+b,0), kinds:Object.keys(pick).length, pick, colors:out.userData.scColors||0, perGroup:out.userData.scPerGroup||{},
+                levelsOK:lods.every(l=>l.levels.length===2&&l.levels[1].distance>0), castShadow:ms.some(m=>m.castShadow)}; }
             const paint=ims.filter(m=>m.material.name==='scooter_paint'); const per={}; for(const m of paint){ const k=m.userData.scGroup||'?'; per[k]=(per[k]||0)+m.count; }
             const glbCols=[], c=new THREE.Color(); for(const m of paint) for(let i=0;i<m.count;i++){ m.getColorAt(i,c); glbCols.push(c.getHexString()); }
             const rad={}; for(const m of ims){ if(m.userData.scGroup) rad[m.userData.scGroup]=Math.max(rad[m.userData.scGroup]||0,+m.boundingSphere.radius.toFixed(1)); }
             return {kitScooters:n, kitHidden:kit?!kit.visible:null, instanced:ims.length, paintInstances:paint.reduce((a,m)=>a+m.count,0), perGroup:per, radius:rad,
               colors:new Set(glbCols).size, hasColor:paint.every(m=>!!m.instanceColor), castShadow:ims.some(m=>m.castShadow&&m.name!=='wz_scooter_shadows')}; })()""")
-        run.check('機車：60 台套件機車整組藏起來、換成正式模型的 InstancedMesh（台數相同、車殼有每台的顏色、不進陰影那一輪）',
-                  sc['kitHidden'] is True and sc['kitScooters'] == 60 and sc['paintInstances'] == 60 and sc['hasColor'] and sc['colors'] >= 5 and not sc['castShadow'], json.dumps(sc))
-        run.check('機車分組：北側 N0–N4、南側 S0–S2，每組 6～9 台（每組各自一套 InstancedMesh）', sc['perGroup'] == SC_GROUPS, json.dumps({'perGroup': sc['perGroup'], 'radius': sc['radius']}))
+        if sc.get('lods'):
+            run.check('機車（v2 多車型）：60 台套件機車整組藏起來、換成正式模型（台數相同、至少 6 款、至少 5 種車殼顏色、每組近／遠兩層、不進陰影那一輪）',
+                      sc['kitHidden'] is True and sc['kitScooters'] == 60 and sc['placed'] == 60 and sc['kinds'] >= 6 and sc['colors'] >= 5 and sc['levelsOK'] and not sc['castShadow'], json.dumps(sc, ensure_ascii=False))
+            run.check('機車分組：北側 N0–N4、南側 S0–S2，每組 6～9 台（每組一個 THREE.LOD）', sc['perGroup'] == SC_GROUPS, json.dumps({'perGroup': sc['perGroup']}))
+        else:
+            run.check('機車：60 台套件機車整組藏起來、換成正式模型的 InstancedMesh（台數相同、車殼有每台的顏色、不進陰影那一輪）',
+                      sc['kitHidden'] is True and sc['kitScooters'] == 60 and sc['paintInstances'] == 60 and sc['hasColor'] and sc['colors'] >= 5 and not sc['castShadow'], json.dumps(sc))
+            run.check('機車分組：北側 N0–N4、南側 S0–S2，每組 6～9 台（每組各自一套 InstancedMesh）', sc['perGroup'] == SC_GROUPS, json.dumps({'perGroup': sc['perGroup'], 'radius': sc['radius']}))
         neg = await pg.evaluate("""(()=>{ const b=GAME.E.zone.group.children.find(o=>o.userData&&o.userData.ggShop==='G07'); const m=b.children.find(o=>o.isMesh); m.visible=true;
             const n=b.children.filter(o=>(o.isMesh||o.isSprite)&&o.visible).length; m.visible=false; return n; })()""")
         run.check('（自我檢查）故意打開 G07 的套件外觀時，會被數到', neg > 0, json.dumps(neg))
