@@ -640,6 +640,12 @@ const STORY_EVENTS=[
       const h=G.hour%24; if(h<13&&GM.advance) GM.advance(13-h); if(GM.caption) GM.caption('','午休結束。',2400); } },
   /* SK03 1-4 沒去時（BB_135 1-4；AA-B 2026-10-16：第 8 週週五重修經原（下）期中考前、在重修教室，舞台說明「（考卷還沒發。）」）：沒有 ECON_LAW_BRIDGE 的玩家，芯慈說阿勳認識你。
      第 8 週沒去重修就延到下一個有去的週五（第 9、11 週…；不是考試的那幾週沒有「考卷還沒發。」）；整學期都沒去就沒有（ECON_LAW_BRIDGE 留到大二 SK09）。記 ECON_LAW_BRIDGE：之後的週五午餐芯慈已經在桌上 */
+  /* P4c 坐過的位子（BB_105 P4c；AA-B 10-16）：法律系第一次上重修的經濟學原理（普通教學館 101，P1 的同一間大教室）進教室時一句旁白，只一次。
+     玩過經濟系大一的玩家多半句，讀 P1 選的座位 Y0_P1_SEAT（xun／front／window；略過 P1 的沒有值＝只有前半句）。P4 的對話等 AA-B Q11、Q12 */
+  { id:'ev_p4c_seat', title:'坐過的位子', participants:[], location:'any', trigger:'class', beforeClass:'econ_principles_1', term:['Y1S1'], once:true, background:'blur',
+    dialogue:[ {unless:{custom:G=>['xun','front','window'].includes(G.flags.Y0_P1_SEAT)},speaker:null,text:'這間教室，你一年前坐過。'},
+      {if:{flagIs:{Y0_P1_SEAT:'xun'}},speaker:null,text:'這間教室，你一年前坐過。那時候你坐在阿勳旁邊。'},{if:{flagIs:{Y0_P1_SEAT:'front'}},speaker:null,text:'這間教室，你一年前坐過。那時候你坐在前排。'},
+      {if:{flagIs:{Y0_P1_SEAT:'window'}},speaker:null,text:'這間教室，你一年前坐過。那時候你坐在靠窗。'} ] },
   { id:'ev_sk03_xinci_class', title:'統計課那個人', participants:['classmate_xinci'], location:'any', trigger:'class', beforeClass:'econ_principles_2', term:['Y1S2'], weekday:[5], once:true, background:'blur',
     prereq:{custom:G=>{ if(!G.flags.P4D_ANSWER||G.flags.ECON_LAW_BRIDGE||typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); return !!t&&t.week>=8; }},
     dialogue:[ {if:{custom:G=>typeof CALENDAR!=='undefined'&&(CALENDAR.termOf(G.day)||{}).week===8},speaker:null,text:'考卷還沒發。'},
