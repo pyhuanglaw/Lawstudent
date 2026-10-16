@@ -1,15 +1,15 @@
 {
  "objects": 8,
  "unique_meshes": 8,
- "tris": 29862,
- "tris_drawn": 29862,
+ "tris": 29936,
+ "tris_drawn": 29936,
  "materials": 1,
  "out": "assets/models/env/second_ai/bb_support/scooter_shop_props.glb",
- "bytes": 1073936,
+ "bytes": 1055088,
  "texres": 1024,
  "modules": {
   "SHOP_TIRE_STACK": {
-   "tris": 8112,
+   "tris": 6864,
    "min": [
     -0.4934,
     -0.003,
@@ -22,7 +22,7 @@
    ]
   },
   "SHOP_TOOL_WALL": {
-   "tris": 9416,
+   "tris": 10326,
    "min": [
     -1.2,
     0.9,
@@ -35,7 +35,7 @@
    ]
   },
   "SHOP_PARTS_SHELF": {
-   "tris": 2652,
+   "tris": 2900,
    "min": [
     -0.6,
     -0.0,
@@ -48,7 +48,7 @@
    ]
   },
   "SHOP_LIFT": {
-   "tris": 1948,
+   "tris": 2076,
    "min": [
     -0.9873,
     -0.0068,
@@ -61,20 +61,20 @@
    ]
   },
   "SHOP_AIR_PUMP": {
-   "tris": 4538,
+   "tris": 4506,
    "min": [
     -0.275,
     0.0,
     -0.19
    ],
    "max": [
-    0.7653,
+    0.7666,
     0.5805,
     0.4735
    ]
   },
   "SHOP_OIL_DRUM": {
-   "tris": 2404,
+   "tris": 2344,
    "min": [
     -0.386,
     0.002,
@@ -87,7 +87,7 @@
    ]
   },
   "SHOP_STOOL_RED": {
-   "tris": 396,
+   "tris": 460,
    "min": [
     -0.162,
     -0.0004,
@@ -100,7 +100,7 @@
    ]
   },
   "SHOP_STOOL_BLUE": {
-   "tris": 396,
+   "tris": 460,
    "min": [
     -0.162,
     -0.0004,
@@ -113,7 +113,7 @@
    ]
   }
  },
- "tris_total": 29862,
+ "tris_total": 29936,
  "atlas": [
   "tools/blender/env_second/bb_support/textures/gen/scooter_shop_props_atlas.png",
   "tools/blender/env_second/bb_support/textures/gen/scooter_shop_props_orm.png"
@@ -192,7 +192,7 @@
   "batteries": 2,
   "spray_cans": 2,
   "ramp_end_x": -0.989,
-  "hose_points": 133
+  "hose_points": 125
  },
  "origins": {
   "*": "原點都在底部中央（地面）；遊戲座標 y 上、+z 朝前（朝觀眾）。GLB 裡先排成店的一角（spread：x, y, z, yaw°；牆面 z −1.8），擺放時用各自的原點",

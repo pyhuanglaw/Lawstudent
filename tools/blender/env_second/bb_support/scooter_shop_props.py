@@ -55,15 +55,16 @@ SRC = {'plate_n': os.path.join(TEXB, 'metal_plate', 'metal_plate_nor_gl_1k.jpg')
        'plate': os.path.join(TEXB, 'metal_plate', 'metal_plate_diff_1k.jpg'),
        'rusty': os.path.join(TEXB, 'rusty_painted_metal', 'rusty_painted_metal_diff_1k.jpg'),
        'green': os.path.join(TEXB, 'green_metal_rust', 'green_metal_rust_diff_1k.jpg'),
-       'rubber': os.path.join(TEXB, 'rubber_tiles', 'rubber_tiles_diff_1k.jpg')}
+       'rubber': os.path.join(TEXB, 'rubber_tiles', 'rubber_tiles_diff_1k.jpg'),
+       'wood': os.path.join(os.path.dirname(PARENT), 'textures', 'fine_grained_wood', 'fine_grained_wood_diff_1k.jpg')}
 N, SS, ORM_N = 1024, 2, 256
-METAL = 0.45          # 遊戲上限（b3lib.MAX_METAL）；v2 起工具的金屬度用 0.45（LAWWW2-B）
+METAL = 0.40          # SOP 寫上限 0.45（b3lib.MAX_METAL）、SCENE_RULES 9-2 寫 ≤0.40：取 0.40 兩邊都符合
 
 # ---- 顏色（sRGB）：底色不要太暗（遊戲沒有環境貼圖）；輪胎本來就暗 ----
 RUB_NEW = (31, 31, 33)
 RUB_OLD = (47, 46, 44)
 DUST = (150, 143, 130)
-STEEL = (125, 128, 132)          # #7d8084：扳手、起子桿、鉗子頭、撬棒、套筒（金屬度 0.45；v1 是 #aeb0b4／0.2，暖光下偏米白）
+STEEL = (125, 128, 132)          # #7d8084：扳手、起子桿、鉗子頭、撬棒、套筒（金屬度 0.40；v1 是 #aeb0b4／0.2，暖光下偏米白）
 PEG = (116, 94, 74)              # 咖啡色硬質纖維板（用舊了：偏暗、偏灰）
 GRIME = (52, 40, 30)             # 手、油的髒
 SHELF_GG = (128, 145, 131)       # 灰綠烤漆
@@ -146,6 +147,7 @@ REG = {
     'stool_side_blue': (384, 672, 448, 736),
     'gauge': (448, 672, 512, 736),        # 壓力錶錶面
     'socket_face': (0, 704, 32, 736),     # 套筒前面（暗色六角孔）
+    'pedal_top': (32, 704, 96, 736),      # 升降台踏板的橡膠面：中間被踩亮
     'funnel_out': (704, 640, 832, 704),
     'funnel_in': (704, 704, 832, 768),
     'stool_top_red': (832, 640, 960, 768),
@@ -158,11 +160,11 @@ for _k in range(4):                        # 常拿工具的地方：那一列�
     REG['ps%d' % _k] = (256 + 64 * _k, 800, 320 + 64 * _k, 864)
 SW = {   # 小色塊：(顏色, 粗糙度, 金屬度)
     'rub_in': ((26, 26, 28), 0.9, 0.0), 'wire': ((168, 170, 174), 0.4, 0.2), 'board_edge': ((88, 70, 54), 0.85, 0.0),
-    'board_back': ((96, 74, 54), 0.9, 0.0), 'batten': ((152, 120, 84), 0.8, 0.0), 'chrome': ((178, 180, 184), 0.24, 0.2), 'tool_chrome': ((125, 128, 132), 0.3, 0.45),
+    'board_back': ((96, 74, 54), 0.9, 0.0), 'batten': ((152, 120, 84), 0.8, 0.0), 'chrome': ((178, 180, 184), 0.24, 0.2), 'tool_chrome': ((125, 128, 132), 0.36, 0.40),
     'sd_red': ((190, 42, 40), 0.35, 0.0), 'sd_yellow': ((226, 182, 42), 0.35, 0.0), 'sd_black': ((44, 44, 46), 0.4, 0.0),
     'sd_blue': ((42, 90, 170), 0.35, 0.0), 'pl_red': ((184, 42, 38), 0.65, 0.0), 'pl_blue': ((44, 92, 168), 0.65, 0.0),
     'rail': ((84, 86, 90), 0.5, 0.0), 'tape_body': ((92, 96, 100), 0.55, 0.0), 'tape_bump': ((42, 42, 44), 0.85, 0.0),
-    'tape_blade': ((216, 188, 76), 0.4, 0.1), 'ham_head': ((70, 72, 76), 0.5, 0.0), 'ham_face': ((125, 128, 132), 0.3, 0.45),
+    'tape_blade': ((216, 188, 76), 0.4, 0.1), 'ham_head': ((70, 72, 76), 0.5, 0.0), 'ham_face': ((125, 128, 132), 0.32, 0.40),
     'grip_black': ((40, 40, 42), 0.85, 0.0), 'hole_dark': ((20, 20, 22), 0.9, 0.0), 'shelf_edge': ((112, 126, 114), 0.6, 0.0),
     'shelf_under': ((104, 116, 106), 0.7, 0.0), 'foot': ((52, 52, 54), 0.8, 0.0), 'bottle_w': ((214, 212, 204), 0.5, 0.0),
     'bottle_g': ((46, 88, 62), 0.45, 0.0), 'bottle_k': ((144, 146, 144), 0.5, 0.0), 'cap_k': ((38, 38, 40), 0.5, 0.0),
@@ -183,7 +185,7 @@ SW_CELL, SW_X0, SW_Y0, SW_COLS = 32, 0, 896, 16
 for i, k in enumerate(SW):
     REG['sw_' + k] = (SW_X0 + (i % SW_COLS) * SW_CELL, SW_Y0 + (i // SW_COLS) * SW_CELL, SW_X0 + (i % SW_COLS) * SW_CELL + SW_CELL, SW_Y0 + (i // SW_COLS) * SW_CELL + SW_CELL)
 CONST = {'post': None}
-METALS = {'tool_steel': 0.45, 'deck': 0.15, 'socket_face': 0.45, 'motor_fins': 0.15}
+METALS = {'tool_steel': 0.40, 'deck': 0.15, 'socket_face': 0.40, 'motor_fins': 0.15}
 
 
 def check_regions():
@@ -341,6 +343,7 @@ def paint_tread(name, old):
     m = np.maximum(wrap_lines(w, h, lines, gw, b=0.8 * SS), 0.6 * wrap_lines(w, h, small, max(2, gw // 2), b=0.6 * SS))
     cg = np.exp(-((T_ - 0.5) / (0.0058 / PT * 0.6)) ** 2)            # 中間一條直溝
     grain = rubber_grain(w, h, 4); big = soft(w, h, 3 + old, 40, 10, wrap='x')
+    sh_ao = 1 - 0.15 * np.clip(1 - np.minimum(T_, 1 - T_) / 0.08, 0, 1)              # AO：胎面兩側（接近疊起來的接觸處）
     if old:
         center = np.exp(-((T_ - 0.5) / 0.17) ** 2)
         mo = np.maximum(m * (1 - 0.45 * center), 0.8 * cg)                                 # 胎面中間磨淺
@@ -349,12 +352,12 @@ def paint_tread(name, old):
         col = mix(col, DUST, 0.12 * mo + 0.18 * dust_top + 0.02)
         cr = cracks(w, h, 8, 10, 0.15, 0.85, (0.02, 0.05))
         col *= (1 - 0.35 * cr)[..., None]
-        rough = 0.88 + 0.06 * mo
+        rough = 0.88 + 0.06 * mo; col *= sh_ao[..., None]
     else:
         mm = np.maximum(m, cg)
         col = rgb(RUB_NEW, 0.7 * grain + 0.3 * big, 0.06) * (1 - 0.7 * mm)[..., None]
         hi = np.clip(np.roll(mm, -2 * SS, axis=0) - mm, 0, 1)                             # 溝的上緣一點亮邊
-        col += 9 * hi[..., None]
+        col += 9 * hi[..., None]; col *= sh_ao[..., None]
         rough = 0.7 + 0.22 * mm + 0.04 * np.clip(big, -1, 1)                               # 新胎一點脫模光澤（太亮會反射天空、變灰）
     return to_img(col), rough
 
@@ -365,11 +368,12 @@ def paint_sidewall(name, old, dusty):
     rings = sum(np.exp(-((T_ - ti) / 0.008) ** 2) * wi for ti, wi in ((0.12, 1.0), (0.155, 0.8), (0.42, 0.6), (0.45, 0.6), (0.73, 0.9)))
     ser = blur(((np.abs(((S_ * 56) % 1.0) - 0.5) < 0.16) & (T_ > 0.86)).astype(np.float32), 0.7 * SS)   # 胎肩的鋸齒（每圈 224 個）
     bead = np.clip((0.09 - T_) / 0.09, 0, 1)
+    ao = 1 - 0.18 * np.clip((T_ - 0.86) / 0.14, 0, 1) ** 1.5                        # AO：最寬那一圈（疊起來的接觸處）暗一點
     if not old:
-        col = rgb(RUB_NEW, 0.7 * grain + 0.3 * big, 0.05) * (1 - 0.22 * rings - 0.3 * ser - 0.1 * bead)[..., None]
+        col = rgb(RUB_NEW, 0.7 * grain + 0.3 * big, 0.05) * (1 - 0.22 * rings - 0.3 * ser - 0.1 * bead)[..., None] * ao[..., None]
         rough = 0.66 + 0.12 * rings + 0.1 * ser - 0.08 * bead
         return to_img(col), rough
-    col = rgb(RUB_OLD, 0.6 * grain + 0.5 * big, 0.05) * (1 - 0.14 * rings - 0.2 * ser)[..., None]
+    col = rgb(RUB_OLD, 0.6 * grain + 0.5 * big, 0.05) * (1 - 0.14 * rings - 0.2 * ser)[..., None] * ao[..., None]
     cr = cracks(w, h, 13 + dusty, 9, 0.25, 0.85)
     col *= (1 - 0.4 * cr)[..., None]
     n = np.clip(soft(w, h, 17 + dusty, 8, 2, wrap='x'), -1.5, 1.5)
@@ -475,7 +479,9 @@ def paint_tool_steel():
     big = soft(w, h, 32, 30, 8); sm = np.clip(soft(w, h, 33, 12, 4) - 0.8, 0, 2) / 2              # 手摸的地方
     col = rgb(STEEL, st, 0.035) * (1 + 0.03 * big)[..., None]
     col = mix(col, (96, 92, 86), 0.35 * sm)
-    return to_img(col), 0.24 + 0.04 * np.clip(st, -2, 2) / 2 + 0.25 * sm
+    grip = np.exp(-((S_ - 0.45) / 0.16) ** 2)                                       # 扳手、撬棒中段（手握的地方）：比較亮、比較滑
+    col *= (1 + 0.06 * grip)[..., None]
+    return to_img(col), 0.44 - 0.12 * grip + 0.04 * np.clip(st, -2, 2) / 2 + 0.12 * sm
 
 
 def paint_socket_face():
@@ -489,11 +495,20 @@ def paint_socket_face():
 
 
 def paint_wood():
-    w, h, S_, T_ = grid('wood'); rng = np.random.default_rng(41)
-    g = rng.normal(0, 1, (max(2, h // 2), max(2, w // 32))).astype(np.float32)
-    g = norm(np.asarray(Image.fromarray(u8(g)).resize((w, h), Image.BICUBIC), np.float32))
-    col = rgb((186, 148, 100), g, 0.08) * (1 + 0.04 * soft(w, h, 42, 20, 5))[..., None]
-    return to_img(col), 0.42 + 0.03 * g
+    """鐵鎚木柄：Poly Haven fine_grained_wood 的明暗（木紋沿柄），校到淺木色；中間握的地方亮一點"""
+    w, h, S_, T_ = grid('wood'); a = src_phys('wood', w, h, 0.3, 0.08, 0.5, mode='L')
+    g = norm(a - blur(a, 30) * 0.5)
+    hand = np.exp(-((S_ - 0.75) / 0.2) ** 2)
+    col = rgb((186, 148, 100), g, 0.09) * (1 + 0.05 * hand)[..., None]
+    return to_img(col), 0.45 + 0.03 * np.clip(g, -2, 2) - 0.1 * hand
+
+
+def paint_pedal():
+    """踏板的橡膠：橫紋防滑條；中間被腳踩亮、比較滑"""
+    w, h, S_, T_ = grid('pedal_top'); rib = 0.5 + 0.5 * np.cos(T_ * 2 * math.pi * 7)
+    worn = np.exp(-(((S_ - 0.5) / 0.3) ** 2 + ((T_ - 0.5) / 0.35) ** 2))
+    col = rgb((46, 46, 48), fine(w, h, 181), 0.05) * (1 - 0.3 * rib * (1 - 0.6 * worn))[..., None] + 14 * worn[..., None]
+    return to_img(col), 0.88 - 0.35 * worn
 
 
 def paint_gauge():
@@ -537,6 +552,7 @@ def paint_post():
     edge = np.clip(1 - np.minimum(S_, 1 - S_) / 0.1, 0, 1) * np.clip(soft(w, h, 52, 6, 2) - 0.2, 0, 1.5)
     col = mix(col, (154, 158, 152), 0.5 * edge)
     col = mix(col, (64, 62, 56), 0.45 * np.clip((0.06 - Ym) / 0.06, 0, 1))
+    col *= (1 - sum(0.14 * np.exp(-((Ym - (ys - 0.035)) / 0.012) ** 2) for ys in SHELF_Y))[..., None]   # AO：層板折邊下面
     col = mix(col, (26, 28, 26), slot)
     col = mix(col, (128, 130, 128), bolt); col += 22 * (bhi * bolt)[..., None]
     return to_img(col), 0.55 + 0.2 * rust + 0.35 * slot - 0.1 * edge
@@ -557,8 +573,10 @@ def paint_shelf_top():
         ring = np.maximum(ring, np.exp(-((np.hypot(X - cx, Z - cz) - rr) / 0.003) ** 2) * rng.uniform(0.5, 1))
         oil = np.maximum(oil, blob(X, Z, cx + rng.uniform(-0.05, 0.05), cz + rng.uniform(-0.04, 0.04), rng.uniform(0.012, 0.03)) * rng.uniform(0.3, 0.8))
     col = mix(col, OILC, 0.5 * ring + 0.5 * oil)
-    edge = np.clip(1 - np.minimum(np.minimum(S_, 1 - S_) * 1.2, np.minimum(T_, 1 - T_) * 0.45) / 0.012, 0, 1)
-    col = mix(col, (150, 154, 148), 0.35 * edge * np.clip(n + 0.5, 0, 1))
+    dmin = np.minimum(np.minimum(S_, 1 - S_) * 1.2, np.minimum(T_, 1 - T_) * 0.45)
+    edge = np.clip(1 - dmin / 0.012, 0, 1)
+    col *= (1 - 0.16 * np.clip(1 - dmin / 0.03, 0, 1) ** 1.6)[..., None]             # AO：靠折邊、靠角鋼的地方
+    col = mix(col, (150, 154, 148), 0.3 * edge * np.clip(n + 0.5, 0, 1) * (T_ > 0.9))  # 前緣被東西刮的地方
     return to_img(col), 0.6 + 0.15 * dust - 0.3 * oil - 0.15 * ring + 0.1 * sc
 
 
@@ -671,6 +689,7 @@ def paint_lift_blue():
     col = mix(col, (30, 28, 24), 0.5 * oil)
     dust = np.clip(soft(w, h, 104, 10, 3) * 0.3 + 0.15, 0, 1)
     col = mix(col, DUST, 0.12 * dust)
+    col *= (1 - 0.15 * np.clip((0.12 - T_) / 0.12, 0, 1))[..., None]                 # AO：每個零件的下緣（接地、接合）
     return to_img(col), 0.5 + 0.12 * chip - 0.2 * oil + 0.1 * dust
 
 
@@ -735,6 +754,8 @@ def paint_drum_side():
     col = mix(col, RUST, 0.85 * np.clip(bot, 0, 1))
     seam = np.exp(-((S_ - 0.15) / 0.002) ** 2)
     col *= (1 - 0.15 * seam)[..., None]
+    ao = 0.22 * np.clip((0.035 - T_) / 0.035, 0, 1) + sum(0.12 * np.exp(-((T_ - (fr[i] - 0.012)) / 0.008) ** 2) for i in (5, 10))   # AO：桶底、滾筋下面
+    col *= (1 - ao)[..., None]
     return to_img(col), np.clip(0.5 - 0.25 * streak + 0.35 * bot + 0.05 * n, 0.15, 1)
 
 
@@ -789,12 +810,13 @@ def paint_stool_top(name, color):
     dust = np.clip(soft(w, h, 163 + len(name), 8, 2.5) * 0.35 + 0.2, 0, 1)
     col = mix(col, (190, 182, 170), 0.22 * dust)
     edge = np.clip((np.maximum(np.abs(X), np.abs(Z)) - 0.125) / 0.015, 0, 1)
-    col *= (1 - 0.1 * edge)[..., None]
-    return to_img(col), 0.56 + 0.2 * sc + 0.18 * dust + 0.35 * hole                   # 塑膠：粗糙度偏高、微微的光澤
+    col *= (1 + 0.05 * edge)[..., None]                                              # 座面邊緣（搬椅子、坐下時手抓的地方）：亮一點、滑一點
+    return to_img(col), 0.58 + 0.2 * sc + 0.18 * dust * (1 - edge) + 0.35 * hole - 0.16 * edge   # 塑膠：粗糙度偏高、微微的光澤
 
 
 def paint_stool_side(name, color):
     w, h, S_, T_ = grid(name); col = rgb(color, soft(w, h, 171 + len(name), 10, 3), 0.03)
+    col *= (1 - 0.2 * np.clip((0.06 - T_) / 0.06, 0, 1) - 0.14 * np.clip((T_ - 0.88) / 0.12, 0, 1))[..., None]   # AO：腳落地處、座面底下
     low = np.clip((0.2 - T_) / 0.2, 0, 1)
     col = mix(col, (96, 88, 80), 0.35 * low * np.clip(soft(w, h, 172 + len(name), 5, 1.5) + 0.6, 0, 1.5))
     sc = scratches(w, h, 173 + len(name), 10, 0.05, 0.2, width=1)
@@ -818,7 +840,7 @@ def make_textures():
         hk = hole(*snap(x, y)); c, j = peg_cell(hk[0], hk[1] - 0.04)
         add('ps%d' % (8 + k), paint_peg_tile('ps%d' % (8 + k), j, kind=kd, c=c, hk=hk))
     add('peg_edge', paint_peg_edge()); add('zipties', paint_zipties())
-    add('tool_steel', paint_tool_steel()); add('socket_face', paint_socket_face()); add('wood', paint_wood()); add('gauge', paint_gauge())
+    add('tool_steel', paint_tool_steel()); add('pedal_top', paint_pedal()); add('socket_face', paint_socket_face()); add('wood', paint_wood()); add('gauge', paint_gauge())
     add('post', paint_post()); add('shelf_top', paint_shelf_top()); add('shelf_lip', paint_shelf_lip())
     for nm in ('carton_side', 'carton_end', 'carton_top'): add(nm, paint_carton(nm))
     add('bin_top_blue', paint_bin_top('bin_top_blue', SW['bin_blue'][0])); add('bin_top_yellow', paint_bin_top('bin_top_yellow', SW['bin_yellow'][0]))
@@ -993,20 +1015,42 @@ def smooth_open(pts, it=2):
     return pts
 
 
-def extrude(pm, base, E, cap_fn, side_fn=None, M=None, caps=(True, True), skip=()):
-    """平面多邊形（3D 點，可以凹）沿 E 擠出：兩個端面（多邊形交給 to_blender 的 triangulate）＋側面四邊形。
-    cap_fn(p)→uv；side_fn(第幾條邊, 沿邊 0~1, 沿 E 0~1)→uv（沒給就用 cap_fn）"""
-    Bp = [np.array(p, float) for p in base]; E = np.array(E, float); Tp = [b + E for b in Bp]; n = len(Bp)
-    En = E / np.linalg.norm(E); sgn = 1.0 if np.dot(newell(Bp), En) > 0 else -1.0
-    sub = PM()
-    if caps[0]: sub.poly(Bp, [cap_fn(p) for p in Bp], tuple(-E))
-    if caps[1]: sub.poly(Tp, [cap_fn(p) for p in Tp], tuple(E))
+def inset_ring(P, En, sgn, b):
+    """平面多邊形往裡縮 b（每個頂點沿兩條邊的內法線合成的方向；尖角限制 3 倍）"""
+    n = len(P); outs = []
     for i in range(n):
-        if i in skip: continue
-        j = (i + 1) % n; out = np.cross(Bp[j] - Bp[i], En) * sgn
-        if side_fn: uvs = [side_fn(i, 0, 0), side_fn(i, 1, 0), side_fn(i, 1, 1), side_fn(i, 0, 1)]
-        else: uvs = [cap_fn(Bp[i]), cap_fn(Bp[j]), cap_fn(Tp[j]), cap_fn(Tp[i])]
-        sub.poly([Bp[i], Bp[j], Tp[j], Tp[i]], uvs, tuple(out))
+        o = np.cross(P[(i + 1) % n] - P[i], En) * sgn; L_ = np.linalg.norm(o); outs.append(o / L_ if L_ > 1e-12 else o)
+    Q = []
+    for i in range(n):
+        d = (outs[i - 1] + outs[i]) / max(1e-6, 1 + float(np.dot(outs[i - 1], outs[i]))); L_ = np.linalg.norm(d)
+        Q.append(P[i] - b * (d / L_ * min(L_, 3.0) if L_ > 1e-9 else d))
+    return Q
+
+
+def extrude(pm, base, E, cap_fn, side_fn=None, M=None, caps=(True, True), skip=(), bevel=(0.0, 0.0)):
+    """平面多邊形（3D 點，可以凹）沿 E 擠出：兩個端面（多邊形交給 to_blender 的 triangulate）＋側面四邊形。
+    cap_fn(p)→uv；side_fn(第幾條邊, 沿邊 0~1, 沿 E 0~1)→uv（沒給就用 cap_fn）。
+    bevel＝(底, 頂) 的倒角寬（公尺）：端面往裡縮、側面多一圈斜面（去積木化：硬邊看得到倒角）"""
+    Bp = [np.array(p, float) for p in base]; E = np.array(E, float); n = len(Bp); Ln = np.linalg.norm(E)
+    En = E / Ln; sgn = 1.0 if np.dot(newell(Bp), En) > 0 else -1.0; b0, b1 = bevel
+    rings, tags = [], []                                                            # tags：這一圈到下一圈的斜面方向（−1 底、0 直、+1 頂）
+    if b0 > 0: rings += [inset_ring(Bp, En, sgn, b0), [p + En * b0 for p in Bp]]; tags += [-1]
+    else: rings += [Bp]
+    tags += [0]
+    if b1 > 0: rings += [[p + E - En * b1 for p in Bp], [q + E for q in inset_ring(Bp, En, sgn, b1)]]; tags += [1]
+    else: rings += [[p + E for p in Bp]]
+    sub = PM()
+    if caps[0]: sub.poly(rings[0], [cap_fn(p) for p in rings[0]], tuple(-E))
+    if caps[1]: sub.poly(rings[-1], [cap_fn(p) for p in rings[-1]], tuple(E))
+    nr = len(rings) - 1
+    for r in range(nr):
+        A, Bv = rings[r], rings[r + 1]
+        for i in range(n):
+            if i in skip: continue
+            j = (i + 1) % n; out = np.cross(Bp[j] - Bp[i], En) * sgn; out = out / max(1e-12, np.linalg.norm(out)) + En * tags[r]
+            if side_fn: uvs = [side_fn(i, 0, r / nr), side_fn(i, 1, r / nr), side_fn(i, 1, (r + 1) / nr), side_fn(i, 0, (r + 1) / nr)]
+            else: uvs = [cap_fn(A[i]), cap_fn(A[j]), cap_fn(Bv[j]), cap_fn(Bv[i])]
+            sub.poly([A[i], A[j], Bv[j], Bv[i]], uvs, tuple(out))
     return pm.add(sub, M)
 
 
@@ -1033,7 +1077,7 @@ def tire_profile(ri, ro, w):
     """機車胎的橫截面（r, y），逆時針：下胎側（胎唇 → 最寬處，往外變寬）、胎面（半徑 w/2 的半圓：最寬處 → 胎冠 → 最寬處，胎肩是圓的）、
     上胎側、內圈。最寬處在 r＝ro − w/2；胎唇窄（0.32w）。最後一個值是疊起來時接觸的半徑（最寬那一圈）"""
     hw, bw = w / 2, 0.32 * w; rm = ro - hw; d = rm - ri
-    bot = [(ri, -bw)] + [(ri + d * t, -(bw + (hw - bw) * math.sin(t * math.pi / 2))) for t in (0.4, 0.75, 1.0)]
+    bot = [(ri, -bw)] + [(ri + d * t, -(bw + (hw - bw) * math.sin(t * math.pi / 2))) for t in (0.5, 1.0)]
     crown = [(rm + hw * math.cos(a), hw * math.sin(a)) for a in np.linspace(-math.pi / 2, math.pi / 2, 7)]
     top = [(r, -y) for r, y in reversed(bot)]
     return bot, crown, top, [(ri, bw), (ri, -bw)], rm
@@ -1146,13 +1190,13 @@ def wrench(pm, i, j, d, Lt, tilt=0.0):
     v0, v1 = cy - 0.72 * ro, cy - Lc + 0.7 * Rj; vm = (v0 + v1) / 2
     wb, ws, wn = 1.05 * ro, 0.5 * ro + 0.002, 1.15 * Rj
     sh = [(hx - wb / 2, v0), (hx - ws / 2, vm), (hx - wn / 2, v1), (hx + wn / 2, v1), (hx + ws / 2, vm), (hx + wb / 2, v0)]
-    extrude(sub, [(x, y, zm - ts / 2) for x, y in sh], (0, 0, ts), uvf)
+    extrude(sub, [(x, y, zm - ts / 2) for x, y in sh], (0, 0, ts), uvf, bevel=(0.0, 0.0012))
     oc = cy - Lc; jt = 0.0025 + 0.12 * d; ph = math.acos(min(0.97, (d / 2 + jt) / Rj)); al = math.radians(35)
     pts = [(hx + Rj * math.cos(f), oc + Rj * math.sin(f)) for f in np.linspace(math.pi / 2 + al, math.pi + ph, 3)]
     yt = oc - Rj * math.sin(ph) + 0.0006
     pts += [(hx - d / 2, yt), (hx - d / 2, oc), (hx - 0.3 * d, oc + 0.14 * d), (hx, oc + 0.19 * d), (hx + 0.3 * d, oc + 0.14 * d), (hx + d / 2, oc), (hx + d / 2, yt)]
     pts += [(hx + Rj * math.cos(f), oc + Rj * math.sin(f)) for f in np.linspace(2 * math.pi - ph, 2 * math.pi + math.pi / 2 - al, 3)]
-    extrude(sub, [(x, y, zm - to / 2) for x, y in pts], (0, 0, to), uvf)
+    extrude(sub, [(x, y, zm - to / 2) for x, y in pts], (0, 0, to), uvf, bevel=(0.0, 0.0012))
     pm.add(sub, T(hx, wy, 0) @ Rz(tilt) @ T(-hx, -wy, 0))
 
 
@@ -1174,7 +1218,7 @@ def pliers(pm, i, j, col, kind='comb', tilt=0.0):
     hx, hy = hole(i, j); hook(pm, hx, hy, 0.065); top_pm = pm; pm = PM()
     zc = BOARD_Z1 + 0.002 + 0.0065; yp = wire_y(hy, zc) + WIRE_R + 0.0135; k = HANDLE_K[kind]
     uvf = lambda p: ruv('tool_steel', (yp + 0.08 - p[1]) / 0.26, 0.5 + (p[0] - hx) / 0.05)
-    extrude(pm, [(hx + u, yp + v, zc - 0.005) for u, v in JAWS[kind]], (0, 0, 0.010), uvf)
+    extrude(pm, [(hx + u, yp + v, zc - 0.005) for u, v in JAWS[kind]], (0, 0, 0.010), uvf, bevel=(0.0, 0.0012))
     if JAW_LEN[kind]:
         zf = zc + 0.0053; L_ = JAW_LEN[kind]
         quad(pm, [(hx - 0.0006, yp + 0.009, zf), (hx + 0.0006, yp + 0.009, zf), (hx + 0.0004, yp + L_, zf), (hx - 0.0004, yp + L_, zf)], [S('hole_dark')()] * 4, (0, 0, 1))
@@ -1194,7 +1238,7 @@ def socket_rail(pm, x0, y, socks=None):
     xs, x = [], x0 + 0.025
     for ro, _ in socks: x += ro; xs.append(x); x += ro + 0.009
     x1 = x + 0.016; zr = BOARD_Z1 + 0.010
-    rbox(pm, x0, x1, y - 0.011, y + 0.011, BOARD_Z1, zr, {'*': S('rail')}, r=0.002)
+    rbox(pm, x0, x1, y - 0.011, y + 0.011, BOARD_Z1, zr, {'*': S('rail')}, r=0.003)
     for (ro, Lq), xc in zip(socks, xs):
         n = 8; rf = 0.94 * ro
         M = T(xc, y, zr) @ Rx(math.pi / 2)
@@ -1233,10 +1277,10 @@ def tire_lever(pm, i, j, L_=0.28, tilt=0.0, paint=None):
     reg = (lambda p: ruv('tool_steel', (yh - p[1]) / 0.3, 0.5 + (p[0] - hx) / 0.05)) if paint is None else S(paint)
     top = [(hx + 0.011 * math.cos(a), yh + 0.011 * math.sin(a)) for a in np.linspace(0, math.pi, 5)]
     shaft = top + [(hx - 0.0105, yh - 0.8 * L_), (hx + 0.0105, yh - 0.8 * L_)]
-    extrude(sub, [(x, y, zb) for x, y in shaft], (0, 0, t_), reg)
+    extrude(sub, [(x, y, zb) for x, y in shaft], (0, 0, t_), reg, bevel=(0.0, 0.0012))
     yj = yh - 0.8 * L_; Lt = 0.2 * L_
     tip = [(hx - 0.0105, yj), (hx + 0.0105, yj), (hx + 0.0135, yj - 0.5 * Lt), (hx + 0.011, yj - 0.88 * Lt), (hx, yj - Lt), (hx - 0.011, yj - 0.88 * Lt), (hx - 0.0135, yj - 0.5 * Lt)]
-    extrude(sub, [(x, y, zb) for x, y in tip], (0, 0, t_), reg, M=T(0, yj, zb) @ Rx(-0.32) @ T(0, -yj, -zb))
+    extrude(sub, [(x, y, zb) for x, y in tip], (0, 0, t_), reg, M=T(0, yj, zb) @ Rx(-0.32) @ T(0, -yj, -zb), bevel=(0.0, 0.0012))
     disk(sub, rh, 0.0, 8, S('hole_dark'), M=T(hx, yh, zb + t_ + 0.0003) @ Rx(math.pi / 2))
     pm.add(sub, T(hx, wy, 0) @ Rz(tilt) @ T(-hx, -wy, 0))
 
@@ -1274,7 +1318,7 @@ def tape_rolls(pm, i, j):
     for k, col in enumerate(('grip_black', 'tape_red', 'tape_blue')):
         zc = BOARD_Z1 + 0.004 + w / 2 + k * (w + 0.0015); cy = wire_y(hy, zc) + WIRE_R - ri
         prof = [(ri, -w / 2), (ro, -w / 2), (ro, w / 2), (ri, w / 2), (ri, -w / 2)]
-        lathe_parts(pm, [(prof[:4], S(col)), (prof[3:], S('tape_core'))], 10, 1, M=T(hx + 0.002 * (k - 1), cy, zc) @ Rx(math.pi / 2))
+        lathe_parts(pm, [(prof[:4], S(col)), (prof[3:], S('tape_core'))], 14, 1, M=T(hx + 0.002 * (k - 1), cy, zc) @ Rx(math.pi / 2))
 
 
 def hose_coil(pm, i, j):
@@ -1328,7 +1372,7 @@ def screw_box(pm, i, j, color):
         sx_, sy_ = hole(i + di, j); sweep(pm, [(sx_, sy_, 0.014), (sx_, sy_, 0.03)], WIRE_R, 6, S('wire'), caps=False)
     prof = [(0.0, 0.0), (0.075, 0.0), (0.09, 0.05), (0.082, 0.056), (0.0, 0.075)]
     side = lambda k, s_, t: ruv('bin_top_' + color, t, s_) if k == 3 else ruv('sw_bin_' + color, .5, .5)
-    extrude(pm, [(hx - 0.05, hy - 0.06 + v, BOARD_Z1 + 0.001 + u) for u, v in prof], (0.10, 0, 0), S('bin_' + color), side)
+    extrude(pm, [(hx - 0.05, hy - 0.06 + v, BOARD_Z1 + 0.001 + u) for u, v in prof], (0.10, 0, 0), S('bin_' + color), side, bevel=(0.004, 0.004))
 
 
 def socket_case(pm, i, j):
@@ -1350,7 +1394,7 @@ HEAD = [(-0.050, 0.003), (-0.034, 0.0), (0.030, 0.0), (0.040, 0.007), (0.050, 0.
 def hammer(pm, i, j):
     (x1, hy), (x2, _) = hole(i, j), hole(i + 2, j); hook(pm, x1, hy, 0.07); hook(pm, x2, hy, 0.07)
     xe = (x1 + x2) / 2; z0, z1 = 0.031, 0.057; zc = (z0 + z1) / 2; y0 = wire_y(hy, z1) + WIRE_R
-    extrude(pm, [(xe + u, y0 + v, z0) for u, v in HEAD], (0, 0, z1 - z0), S('ham_head'))
+    extrude(pm, [(xe + u, y0 + v, z0) for u, v in HEAD], (0, 0, z1 - z0), S('ham_head'), bevel=(0.0, 0.002))
     face = [(0.0112, 0.0), (0.0135, 0.004), (0.0135, 0.010), (0.0118, 0.0128), (0.0, 0.0128)]
     lathe_parts(pm, [(face[:4], S('ham_head')), (face[3:], S('ham_face'))], 12, 1, M=T(xe - 0.046, y0 + 0.0148, zc) @ Rz(math.pi / 2))
     sweep(pm, [(xe, y0 + 0.022, zc), (xe, y0 - 0.1, zc), (xe, y0 - 0.2, zc)], 0.0125, 8, lambda s, t: ruv('wood', s, t), caps=False)
@@ -1372,7 +1416,8 @@ def tool_wall():
         hk = hole(*snap(x, y)); c = peg_cell(hk[0], hk[1] - 0.04); assert c not in special, (kd, c); special[c] = 'ps%d' % (8 + k)
     for xa, xb in zip(xs, xs[1:]):
         for ya, yb in zip(ys, ys[1:]):
-            corners = [(xa, ya), (xb, ya), (xb, yb), (xa, yb)]
+            cl = lambda v, lo, hi: min(max(v, lo + 0.002), hi - 0.002)                 # 板面最外圈讓出 2 mm 給倒角
+            corners = [(cl(x, BOARD_X0, BOARD_X1), cl(y, BOARD_Y0, BOARD_Y1)) for x, y in ((xa, ya), (xb, ya), (xb, yb), (xa, yb))]
             if xa < G0X - 1e-9 or xb > gxe + 1e-9 or ya < G0Y - 1e-9 or yb > gye + 1e-9:   # 板邊沒有孔的一圈：磨損的那一塊
                 if xa < G0X - 1e-9: fn = lambda x, y, ya=ya: ((x - BOARD_X0) / mx, (y - ya) / tw)
                 elif xb > gxe + 1e-9: fn = lambda x, y, ya=ya: ((BOARD_X1 - x) / mx, (y - ya) / tw)
@@ -1388,9 +1433,12 @@ def tool_wall():
             quad(pm, [(x, y, BOARD_Z1) for x, y in corners], uvs, (0, 0, 1))
     INFO['peg_smudge_cells'] = len(special)
     quad(pm, [(BOARD_X0, BOARD_Y0, BOARD_Z0), (BOARD_X1, BOARD_Y0, BOARD_Z0), (BOARD_X1, BOARD_Y1, BOARD_Z0), (BOARD_X0, BOARD_Y1, BOARD_Z0)], [S('board_back')()] * 4, (0, 0, -1))
-    for (p0, p1, wv) in (((BOARD_X0, BOARD_Y1), (BOARD_X1, BOARD_Y1), (0, 1, 0)), ((BOARD_X0, BOARD_Y0), (BOARD_X1, BOARD_Y0), (0, -1, 0)),
-                         ((BOARD_X0, BOARD_Y0), (BOARD_X0, BOARD_Y1), (-1, 0, 0)), ((BOARD_X1, BOARD_Y0), (BOARD_X1, BOARD_Y1), (1, 0, 0))):
-        quad(pm, [(p0[0], p0[1], BOARD_Z0), (p1[0], p1[1], BOARD_Z0), (p1[0], p1[1], BOARD_Z1), (p0[0], p0[1], BOARD_Z1)], [S('board_edge')()] * 4, wv)
+    cb = 0.002                                                                      # 板邊 2 mm 倒角（硬質纖維板 6 mm 厚）
+    for (p0, p1, wv, d) in (((BOARD_X0, BOARD_Y1), (BOARD_X1, BOARD_Y1), (0, 1, 0), (0, -cb)), ((BOARD_X0, BOARD_Y0), (BOARD_X1, BOARD_Y0), (0, -1, 0), (0, cb)),
+                            ((BOARD_X0, BOARD_Y0), (BOARD_X0, BOARD_Y1), (-1, 0, 0), (cb, 0)), ((BOARD_X1, BOARD_Y0), (BOARD_X1, BOARD_Y1), (1, 0, 0), (-cb, 0))):
+        quad(pm, [(p0[0], p0[1], BOARD_Z0), (p1[0], p1[1], BOARD_Z0), (p1[0], p1[1], BOARD_Z1 - cb), (p0[0], p0[1], BOARD_Z1 - cb)], [S('board_edge')()] * 4, wv)
+        quad(pm, [(p0[0], p0[1], BOARD_Z1 - cb), (p1[0], p1[1], BOARD_Z1 - cb), (p1[0] + d[0], p1[1] + d[1], BOARD_Z1), (p0[0] + d[0], p0[1] + d[1], BOARD_Z1)],
+             [S('board_edge')()] * 4, (wv[0] * 0.7, wv[1] * 0.7, 0.7))
     tl = lambda: math.radians(rng.uniform(-4.5, 4.5))
     n_tools = 0
     # ---- 上排：扳手 6 支、起子架、套筒軌道、棘輪扳手、輪胎撬棒 3 支、黃油槍 ----
@@ -1398,9 +1446,9 @@ def tool_wall():
     for k, (d, Lt) in enumerate(((0.008, 0.125), (0.010, 0.145), (0.012, 0.165), (0.014, 0.19), (0.017, 0.215), (0.019, 0.24))):
         i, j = snap(x, 1.95); wrench(pm, i, j + (0, 1, -1, 0, 1, -1)[k], d, Lt, tl()); x += 0.058 + 1.4 * d; n_tools += 1
     ry, rx0, rx1 = 1.86, -0.58, -0.20
-    rbox(pm, rx0, rx1, ry - 0.012, ry, 0.030, 0.088, {'*': S('rail')}, r=0.002)
+    rbox(pm, rx0, rx1, ry - 0.012, ry, 0.030, 0.088, {'*': S('rail')}, r=0.003)
     for bx in (rx0 + 0.006, rx1 - 0.021):
-        rbox(pm, bx, bx + 0.015, ry - 0.05, ry, BOARD_Z1, 0.034, {'*': S('rail')}, r=0.0)
+        rbox(pm, bx, bx + 0.015, ry - 0.05, ry, BOARD_Z1, 0.034, {'*': S('rail')}, r=0.003)
     for k, (hl, sl, col) in enumerate(((0.10, 0.10, 'sd_red'), (0.09, 0.075, 'sd_yellow'), (0.11, 0.15, 'sd_black'), (0.10, 0.125, 'sd_blue'), (0.085, 0.10, 'sd_red'))):
         screwdriver(pm, rx0 + 0.05 + k * 0.07, ry, 0.059, hl, sl, col); n_tools += 1
     INFO['socket_rail_x'] = [-0.12, round(socket_rail(pm, -0.12, 2.00), 3)]; n_tools += 1
@@ -1483,13 +1531,13 @@ def battery(pm, x, y, z, yaw):
 def spray_can(pm, x, y, z, cap):
     """素面噴罐（防鏽油、化油器清潔劑那種，沒有字）"""
     lathe_parts(pm, [([(0.0, 0.0), (0.03, 0.0), (0.033, 0.005), (0.033, 0.16), (0.029, 0.176), (0.016, 0.186), (0.016, 0.19)], S('spray_gray')),
-                     ([(0.017, 0.188), (0.017, 0.222), (0.013, 0.226), (0.0, 0.227)], S(cap))], 10, 1, M=T(x, y, z))
+                     ([(0.017, 0.188), (0.017, 0.222), (0.013, 0.226), (0.0, 0.227)], S(cap))], 14, 1, M=T(x, y, z))
 
 
 def part_bin(pm, x, y, z, color):
     prof = [(-0.085, 0.0), (0.075, 0.0), (0.092, 0.064), (0.083, 0.072), (-0.085, 0.10)]       # 側面（z, y）：後高前低、前面一片斜的擋板
     side = lambda i, s, t: ruv('bin_top_' + color, t, s) if i == 3 else ruv('sw_bin_' + color, .5, .5)
-    extrude(pm, [(x - 0.0525, y + v, z + u) for u, v in prof], (0.105, 0, 0), S('bin_' + color), side)
+    extrude(pm, [(x - 0.0525, y + v, z + u) for u, v in prof], (0.105, 0, 0), S('bin_' + color), side, bevel=(0.004, 0.004))   # 塑膠一體成型的圓邊
 
 
 def cloth_grid(pm, G, reg):
@@ -1581,9 +1629,9 @@ def lift():
     # 前端 U 形夾座
     rbox(pm, 0.62, 0.90, DECK_TOP, DECK_TOP + 0.012, -0.11, 0.11, bl, r=0.003)
     U = smooth_open([(0.82, 0.62, -0.085), (0.82, 0.37, -0.085), (0.82, 0.36, -0.07), (0.82, 0.36, 0.07), (0.82, 0.37, 0.085), (0.82, 0.62, 0.085)], 1)
-    sweep(pm, U, 0.016, 4, R('lift_blue'))
+    sweep(pm, U, 0.016, 8, R('lift_blue'))
     for zs in (1, -1):
-        sweep(pm, [(0.815, 0.55, zs * 0.085), (0.66, 0.355, zs * 0.085)], 0.011, 4, R('lift_blue'))
+        sweep(pm, [(0.815, 0.55, zs * 0.085), (0.66, 0.355, zs * 0.085)], 0.011, 8, R('lift_blue'))
     rbox(pm, 0.83, 0.845, 0.37, 0.58, -0.076, 0.076, bl, r=0.003)
     rbox(pm, 0.818, 0.83, 0.42, 0.56, -0.06, 0.06, {'*': S('rubber')}, r=0.003)        # 擋板內側的橡膠墊
     # 後端斜坡板（鉸在檯面後緣、斜到地上）
@@ -1597,7 +1645,7 @@ def lift():
     rbox(pm, px - 0.07, px + 0.07, 0.0, 0.012, 0.30, 0.42, bl, r=0.003)
     lathe_parts(pm, [([(0.05, 0.0), (0.05, 0.012), (0.036, 0.016), (0.035, 0.19), (0.04, 0.195), (0.04, 0.215), (0.0, 0.218)], R('lift_blue'))], 12, 1, M=T(px, 0.012, pz))
     sweep(pm, [(px + 0.01, 0.215, pz), (px + 0.12, 0.17, pz + 0.02), (px + 0.22, 0.12, pz + 0.04)], 0.011, 6, R('lift_blue'))
-    rbox(pm, -0.06, 0.06, -0.008, 0.008, -0.045, 0.045, {'t': S('tread_pad'), '*': S('rubber')}, r=0.004, M=T(px + 0.26, 0.115, pz + 0.045) @ Rz(-0.2))
+    rbox(pm, -0.06, 0.06, -0.008, 0.008, -0.045, 0.045, {'t': R('pedal_top'), '*': S('rubber')}, r=0.004, M=T(px + 0.26, 0.115, pz + 0.045) @ Rz(-0.2))
     hose = smooth_open([(px - 0.02, 0.03, pz - 0.035), (-0.42, 0.035, 0.36), (-0.55, 0.062, 0.33), (-0.56, 0.088, 0.18), (-0.52, 0.062, 0.05),
                         (-0.47, 0.045, 0.01), (-0.42, 0.047, 0.0), (-0.39, 0.052, 0.0)], 2)                       # 從底座橫梁上面、剪刀臂軸下面穿過去
     sweep(pm, hose, 0.0065, 6, S('hose_blk'))
@@ -1655,11 +1703,11 @@ def air_pump():
         rbox(pm, -0.205, -0.175, 0.05, 0.11, zs * 0.09 - 0.006, zs * 0.09 + 0.006, {'*': S('red_paint')}, r=0.002)
         lathe_parts(pm, [([(0.012, -0.016), (0.04, -0.02)], S('hub')),
                          ([(0.04, -0.02), (0.055, -0.02), (0.06, -0.012), (0.06, 0.012), (0.055, 0.02), (0.04, 0.02)], S('rubber')),
-                         ([(0.04, 0.02), (0.012, 0.016), (0.012, -0.016)], S('hub'))], 12, 1, M=T(-0.19, 0.06, zs * 0.165) @ Rx(math.pi / 2))
+                         ([(0.04, 0.02), (0.012, 0.016), (0.012, -0.016)], S('hub'))], 14, 1, M=T(-0.19, 0.06, zs * 0.165) @ Rx(math.pi / 2))
         rbox(pm, 0.17, 0.20, 0.018, 0.105, zs * 0.09 - 0.012, zs * 0.09 + 0.012, {'*': S('red_paint')}, r=0.003)
         lathe_parts(pm, [([(0.016, 0.0), (0.018, 0.004), (0.018, 0.016), (0.014, 0.02), (0.0, 0.02)], S('rubber'))], 8, 1, M=T(0.185, 0.0, zs * 0.09))
     # 紅色風管：旁邊地上捲 4 圈（螺旋）
-    hr = 0.008; cx, cz = 0.58, 0.12; turns = 4; per = 22; pts = []
+    hr = 0.008; cx, cz = 0.58, 0.12; turns = 4; per = 20; pts = []
     for k in range(turns * per + 1):
         th = 2 * math.pi * k / per + math.pi / 2                                    # 從前面（+z）開始、往左繞
         rr = 0.165 + 0.012 * math.sin(th * 0.5 + 1.0) + 0.006 * math.sin(th * 1.7)
@@ -1679,7 +1727,7 @@ def air_pump():
 def oil_drum():
     pm = PM()
     lathe_parts(pm, [(DRUM_PROF, R('drum_side'))], 30, 1)
-    disk(pm, DRUM_LID_R, DRUM_LID_Y, 30, lambda X, Z: ruv('drum_top', 0.5 + X / 0.6, 0.5 + Z / 0.6), rings=3)
+    disk(pm, DRUM_LID_R, DRUM_LID_Y, 30, lambda X, Z: ruv('drum_top', 0.5 + X / 0.6, 0.5 + Z / 0.6), rings=2)
     bx, bz = BUNG_BIG; sx, sz_ = BUNG_SMALL
     lathe_parts(pm, [([(0.032, 0.0), (0.033, 0.004), (0.033, 0.009), (0.026, 0.011), (0.018, 0.011)], S('drum_bung'))], 12, 1, M=T(bx, DRUM_LID_Y - 0.001, bz))
     lathe_parts(pm, [([(0.022, 0.0), (0.023, 0.004), (0.023, 0.009), (0.018, 0.011), (0.0, 0.0115)], S('drum_bung'))], 10, 1, M=T(sx, DRUM_LID_Y - 0.001, sz_))
@@ -1745,10 +1793,11 @@ def stool(color):
     HB, AT, AB, RC, TH = 0.256, 0.136, 0.162, 0.03, 0.0035          # 殼：頂（座面底下）、上半寬、下半寬、圓角、厚
     a = lambda y: AB + (AT - AB) * y / HB
     # 座面＋往下翻的薄邊（2.2 cm）
-    o_t, o_b = rsq(AS, RS, HS), rsq(AS + 0.002, RS + 0.002, HS - 0.022)
+    o_t, o_r, o_s, o_b = rsq(AS - 0.010, RS - 0.010, HS), rsq(AS - 0.0029, RS - 0.0029, HS - 0.0029), rsq(AS, RS, HS - 0.010), rsq(AS + 0.002, RS + 0.002, HS - 0.022)
     i_b, i_t = rsq(AS - 0.0005, RS - 0.0025, HS - 0.022), rsq(AS - 0.0025, RS - 0.0025, HS - 0.004)
     pm.poly(o_t, [ruv(top, 0.5 + q[0] / (2 * AS), 0.5 + q[2] / (2 * AS)) for q in o_t], (0, 1, 0))
-    loft(pm, o_t, o_b, sfn, True); loft(pm, i_t, i_b, sfn, False)
+    efn = lambda q: ruv(top, 0.5 + q[0] / (2 * AS), 0.5 + q[2] / (2 * AS))         # 座面邊緣 1 cm 圓角（用座面的貼圖：邊上被摸亮）
+    loft(pm, o_t, o_r, efn, True); loft(pm, o_r, o_s, efn, True); loft(pm, o_s, o_b, sfn, True); loft(pm, i_t, i_b, sfn, False)
     for i in range(16):
         j = (i + 1) % 16; pm.poly([o_b[i], o_b[j], i_b[j], i_b[i]], [sfn(o_b[i])] * 4, (0, -1, 0))
     pm.poly(i_t, [sfn(q) for q in i_t], (0, -1, 0))
@@ -1777,9 +1826,10 @@ ITEMS = {'SHOP_TIRE_STACK': tire_stack, 'SHOP_TOOL_WALL': tool_wall, 'SHOP_PARTS
 SPREAD = {'SHOP_TOOL_WALL': (-0.35, 0.0, -1.8, 0), 'SHOP_PARTS_SHELF': (1.75, 0.0, -1.545, 0), 'SHOP_TIRE_STACK': (-2.25, 0.0, -1.42, 8),
           'SHOP_LIFT': (-0.05, 0.0, 0.05, 0), 'SHOP_AIR_PUMP': (1.45, 0.0, 0.62, -18), 'SHOP_OIL_DRUM': (2.4, 0.0, -0.55, 25),
           'SHOP_STOOL_RED': (-1.75, 0.0, 0.85, 22), 'SHOP_STOOL_BLUE': (0.95, 0.0, 1.35, -38)}
-BUDGET = {'SHOP_TIRE_STACK': 10000, 'SHOP_TOOL_WALL': 9500, 'SHOP_PARTS_SHELF': 4500, 'SHOP_LIFT': 2500, 'SHOP_AIR_PUMP': 5500,
-          'SHOP_OIL_DRUM': 2500, 'SHOP_STOOL_RED': 400, 'SHOP_STOOL_BLUE': 400}
-# 工具牆原本 5000；BB-B 19:3x 中途意見要工具多一倍以上（約 30 件），5000 放不下 → 9500。總數上限 30000 不變（輪胎 28 → 24 邊讓出 1352）
+BUDGET = {'SHOP_TIRE_STACK': 8000, 'SHOP_TOOL_WALL': 10500, 'SHOP_PARTS_SHELF': 3000, 'SHOP_LIFT': 2200, 'SHOP_AIR_PUMP': 4800,
+          'SHOP_OIL_DRUM': 2500, 'SHOP_STOOL_RED': 470, 'SHOP_STOOL_BLUE': 470}
+# 預算在總數 30000 裡重新分配（LAWWW2-B v2：可以）：工具牆原本 5000 → 中途意見工具多一倍 9500 → SOP 倒角 10500；
+# 凳子 400 → 470（座面邊 1 cm 圓角）；輪胎 10000 → 8000（胎側 2 段、24 邊，圓的輪廓不變）；其他壓到實際用量附近
 TOTAL_BUDGET = 30000
 SMOOTH = {'SHOP_TIRE_STACK': 0.8, 'SHOP_TOOL_WALL': 1.1, 'SHOP_PARTS_SHELF': 1.1, 'SHOP_LIFT': 1.1, 'SHOP_AIR_PUMP': 1.1,
           'SHOP_OIL_DRUM': 1.1, 'SHOP_STOOL_RED': 0.9, 'SHOP_STOOL_BLUE': 0.9}   # 6 邊的鉤子、風管要 ≥1.1 rad 才是圓的（SOP 第 11 節第 3 點）
