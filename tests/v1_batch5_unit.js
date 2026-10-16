@@ -107,7 +107,7 @@ const W4MON=termDay(4,1), W5MON=termDay(5,1), W5TUE=termDay(5,2);
       check('那天已經有排好時間的劇情訊息就不加',dp().length===0&&G.msgs.some(m=>m.tag==='story_x')); } }
   /* ---------- 舊存檔 ---------- */
   { fresh(W5TUE,7.5,'campus',{}); delete G.phone; G.msgs=[{day:3,h:20,who:'zhe',text:'舊訊息',iv:null}]; PHONE.join(G,'lawclub_study','法服讀書會'); run(7.5,26.5);
-    check('舊存檔（沒有 dp 欄位、舊訊息格式）照常：舊訊息還在、今天的一則送到（從第一則開始輪：條件成立的是學姊讀書會前一天——今天週二、在讀書會群組）',G.msgs[0].text==='舊訊息'&&dp().length===1&&dp()[0].th==='g:lawclub_study'&&dp()[0].from==='heroine_05',JSON.stringify(txt(dp()))); }
+    check('舊存檔（沒有 dp 欄位、舊訊息格式）照常：舊訊息還在、今天的一則送到（從第一則開始輪：條件成立的是學姊讀書會前一天——今天週二、在讀書會群組）（「走啦」群組 2025-08-13 的照片排在更前面，AA_157）',G.msgs.some(m=>m.text==='舊訊息'&&m.day===3)&&dp().length===1&&dp()[0].th==='g:lawclub_study'&&dp()[0].from==='heroine_05',JSON.stringify(txt(dp()))); }
   /* ---------- 大一上以外沒有 ---------- */
   { const d=termDay(18,2)||null; let after=null; for(let x=100;x<400;x++){ const t=CALENDAR.termOf(x); if(t&&t.id!=='Y1S1'){ after=x; break; } }
     fresh(after,7.5,'campus',{}); PHONE.join(G,'lawclub_study','法服讀書會'); run(7.5,26.5); check('大一下（第 '+after+' 天）沒有（4-4 是大一上的）',dp().length===0); }

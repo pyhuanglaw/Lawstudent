@@ -82,5 +82,46 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
     const a=await before(F3,{}), b=await before(F8,{}), brB=G.flags.ECON_LAW_BRIDGE===true, c=await before(F8,{ECON_PAST_SHARED:'full'}), d=await before(F9,{}), e=await before(F8,{ECON_LAW_BRIDGE:true}), f=await before(F8,{P4D_ANSWER:null});
     check('5. 第 8 週之前沒有；第 8 週（期中考）先「考卷還沒發。」再芯慈四句、記 ECON_LAW_BRIDGE',!a.length&&b[0]==='考卷還沒發。'&&b.includes('吳芯慈：盧正勳。他說你以前每天講一個冷笑話。')&&b.includes('吳芯慈：你沒說過。……沒關係，不用說。')&&b[b.length-1]==='吳芯慈：下次週五，帶我去小福。'&&brB,JSON.stringify([a,b]));
     check('5. full＝「……原來是你室友。」；第 9 週（延到下一個有去的週五）沒有「考卷還沒發。」；已經有 ECON_LAW_BRIDGE、沒有 P4d＝沒有',c.includes('吳芯慈：……原來是你室友。')&&d.length&&d[0]!=='考卷還沒發。'&&!e.length&&!f.length,JSON.stringify([c,d,e,f])); }
+  /* 6. SK05 三閃，販賣機見（大一版） */
+  { const D17=termDay('Y1S2',17,2), XM=()=>G.msgs.filter(m=>m.th==='p:econ_zhengxun');
+    const night=(zone,hour,flags)=>{ fresh(D17,hour,zone,flags); STORY.phoneRules(GM); G.hour=Math.max(hour,23)+0.05; PHONE.tick(G); STORY.phoneRules(GM); return XM(); };
+    const a=night('linze',22.95,{MET_XUN:true});
+    check('6. 期末考週、22:57 在霖澤館：23:00 阿勳說暗號（五則，最後一則三個回覆）',JSON.stringify(a.map(m=>m.text))==='["你們那邊燈還亮著。","我在社科院四樓，窗邊。看對面。","（對面的窗，燈閃了一下。）","一閃是還活著。兩閃是救我。","三閃是販賣機見。"]'&&a[2].who===null&&JSON.stringify(a[4].ask.opts.map(o=>o.t))==='["（閃三下）","（閃一下）","還活著。"]',JSON.stringify(a.map(m=>m.text)));
+    const b=night('campus',22.95,{MET_XUN:true}), c=night('linze',23.6,{MET_XUN:true}), d=night('linze',23.2,{}), e=night('linze',22.95,{MET_XUN:true,XUN_PACT:true,XUN_NIGHT:true});
+    check('6. 不在霖澤館、23:30 以後才進去＝沒有；23:12 才走進去＝一進去就亮；沒見過的先「我是盧正勳。…」',!b.length&&!c.length&&d.length&&d[0].text==='我是盧正勳。你經濟系那年的室友。',JSON.stringify([b.length,c.length,d.map(m=>m.text)]));
+    check('6. pact＋night：「（對面的窗又閃了三下。）」「我先閃了。」「這次不用等你了。」接在暗號後面，回覆在最後一則',JSON.stringify(e.slice(5).map(m=>m.text))==='["（對面的窗又閃了三下。）","我先閃了。","這次不用等你了。"]'&&e[7].ask&&!e[4].ask,JSON.stringify(e.map(m=>m.text)));
+    fresh(D17,22.95,'linze',{MET_XUN:true}); STORY.phoneRules(GM); G.hour=23.05; PHONE.tick(G); let q=XM().find(m=>m.ask); PHONE.answer(G,q.ask.id,0);
+    G.hour=23.1; G.zone='campus'; const en=STORY.schedEnt(CHARACTERS.econ_zhengxun,G); const r1=XM().map(m=>m.text);
+    check('6. 閃三下：「……真的？好，五分鐘。」、SK05_GO＝今天、阿勳在法學院廣場的販賣機前',r1.includes('……真的？好，五分鐘。')&&G.flags.SK05_GO===D17&&en&&en.zone==='campus'&&en.label==='法學院廣場的販賣機前',JSON.stringify(en));
+    const v=ev('ev_sk05_vending_y1'); said=[]; await EVENTS.run(v); const L=lines();
+    check('6. 走到販賣機前（npcNear）：五分鐘的台詞、記 SK05_Y1',!!v&&v.npcNear==='econ_zhengxun'&&L[0]==='阿勳：法律系考試考什麼？'&&L.includes('他按了兩罐一樣的飲料，丟一罐給你。')&&L[L.length-1]==='阿勳：明年也閃三下。'&&G.flags.SK05_Y1,JSON.stringify(L));
+    fresh(D17,22.95,'linze',{MET_XUN:true}); STORY.phoneRules(GM); G.hour=23.05; PHONE.tick(G); q=XM().find(m=>m.ask); PHONE.answer(G,q.ask.id,0); G.hour=23.8; STORY.phoneRules(GM); PHONE.tick(G);
+    check('6. 閃了三下沒去：23:45「……你閃了三下又不來。」「明年再說。」',JSON.stringify(XM().slice(-2).map(m=>m.text))==='["……你閃了三下又不來。","明年再說。"]');
+    fresh(D17,22.95,'linze',{MET_XUN:true}); STORY.phoneRules(GM); G.hour=23.05; PHONE.tick(G); q=XM().find(m=>m.ask); PHONE.answer(G,q.ask.id,2); G.hour=23.1; G.zone='campus'; const en2=STORY.schedEnt(CHARACTERS.econ_zhengxun,G);
+    check('6. 只回「還活著。」：「用閃的比較快。……好啦，加油。」、不在販賣機前',XM().some(m=>m.text==='用閃的比較快。……好啦，加油。')&&!(en2&&en2.zone),JSON.stringify(en2));
+    fresh(termDay('Y1S2',18,3),23.0,'linze',{MET_XUN:true}); PHONE.at(G,D17,23,[{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'x'}],'sk05_y1'); STORY.phoneRules(GM); G.hour=23.1; PHONE.tick(G);
+    check('6. 一年一次：已經說過就不再說',XM().filter(m=>m.text==='你們那邊燈還亮著。').length===0); }
+  /* 7. 9-9 大一下＋P4e＋暑假第一天（AA_157 第 2 節、BB_139 第 2 節、BB_135 第 3 節） */
+  { const last=termDay('Y1S2',18,5), sum1=termDay('Y1S2',18,7)+1, KM=()=>G.msgs.filter(m=>m.th==='p:kexin').map(m=>m.text), SM=()=>G.msgs.filter(m=>m.th==='sys');
+    check('7. 日期：6/26 是第 18 週週五、暑假第一天是 6/29（一）',CALENDAR.dateOf(last).key==='2026-06-26'&&CALENDAR.dateOf(sum1).key==='2026-06-29',CALENDAR.dateOf(last).key+' '+CALENDAR.dateOf(sum1).key);
+    const s99=(flags)=>{ fresh(last,20,'dorm',Object.assign({dating_kexin:true},flags)); STORY.phoneRules(GM); G.hour=21.05; PHONE.tick(G); return KM(); };
+    const a=s99({}), a2=G.flags.KX_GRADES_Y1S2, b=s99({KX_GRADES_PACT:'peeked'}), b2=G.flags.KX_GRADES_Y1S2, c=s99({KX_GRADES_PACT:'kept'});
+    check('7. 9-9：舊存檔／kept＝「這次也一起打開？暑假第一天。」together；peeked＝「這次換個方式：…」best_one',a.slice(-1)[0]==='這次也一起打開？暑假第一天。'&&a2==='together'&&b.slice(-1)[0]==='這次換個方式：各自先看，然後各說一科最滿意的。'&&b2==='best_one'&&c.slice(-1)[0]==='這次也一起打開？暑假第一天。',JSON.stringify([a,b]));
+    const p4e=(att,flags,pick)=>{ fresh(last+1,9.9,'dorm',flags); CLS.rec(G).attend.econ_principles_2=att; STORY.phoneRules(GM); G.hour=10.05; PHONE.tick(G); const sys=SM(); const q=sys.find(m=>m.ask); if(q&&pick!=null) PHONE.answer(G,q.ask.id,pick); return {sys:SM().map(m=>m.text),xc:G.msgs.filter(m=>m.th==='p:classmate_xinci').map(m=>(m.from==='player'?'我：':'')+m.text),k:KM(),q}; };
+    const r1=p4e(8,{}), r2=p4e(3,{});
+    check('7. P4e 6/27 10:00：去了 6 堂以上＝「一年前沒拿到的，這次拿到了。」；單身＝「你把成績單收進抽屜。」',JSON.stringify(r1.sys)==='["經濟學原理（下）的成績公布了。","一年前沒拿到的，這次拿到了。","你把成績單收進抽屜。"]'&&!r1.q,JSON.stringify(r1.sys));
+    check('7. P4e 5 堂以下：芯慈「過了吧？……」→ 我「請妳吃飯。」→「兩次。」＋「……靠一本借來的筆記拿到了。」',JSON.stringify(r2.xc)==='["過了吧？……我的筆記功不可沒。","我：請妳吃飯。","兩次。"]'&&r2.sys.includes('一年前沒拿到的，這次靠一本借來的筆記拿到了。'),JSON.stringify(r2));
+    const r3=p4e(8,{dating_kexin:true,KX_GRADES_Y1S2:'together'},0), r4=p4e(8,{dating_kexin:true,KX_GRADES_PACT:'peeked'},0), r5=p4e(8,{dating_kexin:true,KX_GRADES_Y1S2:'together'},1);
+    check('7. P4e 交往中傳給可昕：長頸鹿貼圖＋together「這一科可以先說。…」／best_one「這科就是你最滿意的那一科吧。」；不傳＝「你把成績單收進抽屜。」',JSON.stringify(r3.k.slice(-3))==='["📷（經濟學原理（下）的成績）","（貼圖：長頸鹿）","這一科可以先說。其他的，暑假第一天一起開。"]'&&r4.k.slice(-1)[0]==='這科就是你最滿意的那一科吧。'&&r5.sys.slice(-1)[0]==='你把成績單收進抽屜。'&&!r5.k.some(t=>t.startsWith('📷')),JSON.stringify([r3.k,r4.k,r5.sys]));
+    const BO=['說好的，各說一科。我先：憲法。老師說我的答案像在寫信。','換你。'], bo=(flags)=>{ fresh(sum1,20.9,'dorm',Object.assign({dating_kexin:true,KX_GRADES_Y1S2:'best_one'},flags)); STORY.phoneRules(GM); G.hour=21.05; PHONE.tick(G); return G.msgs.filter(m=>m.th==='p:kexin'&&BO.includes(m.text)); };
+    const m1=bo({}); const q=m1.find(m=>m.ask), ko=q?q.ask.opts.map(o=>o.t):[];
+    check('7. best_one 6/29 21:00：「說好的，各說一科。我先：憲法。…」「換你。」、選這學期的一科（短名）',m1.length===2&&m1[0].text==='說好的，各說一科。我先：憲法。老師說我的答案像在寫信。'&&ko.includes('經濟學原理')&&ko.includes('刑法總則')&&!ko.some(t=>t.includes('（')),JSON.stringify(ko));
+    PHONE.answer(G,q.ask.id,ko.indexOf('經濟學原理')); const e1=KM().slice(-1)[0]; bo({}); const q2=G.msgs.find(m=>m.ask&&m.th==='p:kexin'&&m.text==='換你。'); PHONE.answer(G,q2.ask.id,ko.indexOf('刑法總則')); const e2=KM().slice(-1)[0];
+    check('7. 選經原＝「經原？……那一科，我們以前坐在同一間教室。它也替你高興。」；其他＝「「刑法總則」。好，我記下來了。……明年再比一次。」',e1==='經原？……那一科，我們以前坐在同一間教室。它也替你高興。'&&e2==='「刑法總則」。好，我記下來了。……明年再比一次。',JSON.stringify([e1,e2]));
+    check('7. P4e 已經傳給她的 best_one：6/29 不問',bo({KX_P4E:'sent'}).length===0);
+    fresh(sum1,8,'dorm',{dating_kexin:true,KX_GRADES_Y1S2:'together'}); picks=['等到晚上']; let held=await STORY.holdGrades(GM,'Y1S2'); const plan=(G.outings||[]).find(o=>o.id==='kx_grades2');
+    fresh(sum1,8,'dorm',{dating_kexin:true,KX_GRADES_Y1S2:'best_one'}); const held2=await STORY.holdGrades(GM,'Y1S2');
+    const ev2=ev('ev_kexin_grades_open_y1s2');
+    check('7. together 暑假第一天早上：「大一下的成績出來了。」先看／等到晚上、21:00 視訊（「……都過了。好，暑假開始。」）；best_one 照常發',held===true&&!!plan&&plan.h===21&&held2===false&&!!ev2&&ev2.dialogue.some(l=>l.text==='……都過了。好，暑假開始。'),JSON.stringify([held,plan,held2])); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });
