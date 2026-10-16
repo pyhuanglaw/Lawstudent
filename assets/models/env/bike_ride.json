@@ -129,16 +129,18 @@
   "wheel_r": "frame 的子節點；原點＝後輪軸心；繞本地 X 轉",
   "crank": "frame 的子節點；原點＝五通；繞本地 X 轉",
   "pedal_r": "crank 的子節點；原點＝右踏板軸；繞本地 X 轉（轉負的曲柄角度保持水平）",
-  "pedal_l": "crank 的子節點；原點＝左踏板軸；同上"
+  "pedal_l": "crank 的子節點；原點＝左踏板軸；同上",
+  "rear_cushion": "frame 的子節點（網格：後座軟墊＋兩條綁帶）；原點＝軟墊中心；沒有裝載妹墊時 visible=false（定位節點照舊在 frame 底下）"
  },
  "tris": {
-  "frame": 1504,
+  "frame": 1340,
   "crank": 248,
   "pedal_l": 136,
   "pedal_r": 136,
   "fork": 946,
   "wheel_f": 984,
+  "rear_cushion": 164,
   "wheel_r": 984
  },
- "bytes": 248184
+ "bytes": 245520
 }
