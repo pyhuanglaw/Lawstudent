@@ -34,6 +34,33 @@ const GY3=(function(){
   function paintPlate(o,lines){ const g=o.geometry; if(!g.attributes.uv){ g.computeBoundingBox(); const bb=g.boundingBox, p=g.attributes.position, uv=new Float32Array(p.count*2), wx=bb.max.x-bb.min.x, wz=bb.max.z-bb.min.z, h=bb.max.y-bb.min.y||1, alongX=wx>=wz;
       for(let i=0;i<p.count;i++){ const a=alongX?(p.getX(i)-bb.min.x)/(wx||1):(p.getZ(i)-bb.min.z)/(wz||1); uv[i*2]=a; uv[i*2+1]=1-(p.getY(i)-bb.min.y)/h; } g.setAttribute('uv',new THREE.BufferAttribute(uv,2)); }
     const t=plateTex(lines); const m=o.material.clone(); m.map=t; m.color=new THREE.Color(0xffffff); m.needsUpdate=true; o.material=m; }
+  /* ---------- 一個人打羽球、販賣機、直飲台（AA-B AA_174，93c0bce9）----------
+     體能（AA_126 6-1：0～100，玩家看不到數字；這一版只有打羽球會加，其他來源之後接）。存檔：G.daily.gym＝{fit, wk, wkN, joined, seen:[], serveN, sportDay, drinkDay}（舊存檔沒有＝全部 0）*/
+  const rec=G=>{ G.daily=G.daily||{}; const r=G.daily.gym=G.daily.gym||{}; if(!Array.isArray(r.seen)) r.seen=[]; return r; };
+  const wkOf=G=>{ const wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd:((G.weekday|0)||7); return G.day-(wd-1); };   /* 這一週的週一 */
+  const isWeekend=G=>typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd>=6:[0,6].includes(G.weekday|0);
+  const fitStage=f=>f>=75?'經常鍛鍊':(f>=50?'結實':(f>=25?'有在運動':'普通'));
+  const secondHallOn=G=>!!(G&&G.flags&&G.flags.GYM_SECONDHALL);   /* 第二會場打開的日子（畢業典禮；那個事件做好時設）*/
+  const JOIN=['你和兩個研究生、一個大一的湊成雙打。研究生說：「你殺球很直。」','對面戴護腕的學長，每一球都回到底線。你輸了，可是學到一點。','打到第三局，大家都不說話了，只剩鞋子摩擦地板的聲音。','你和一個很強的人同一隊。他一直喊「你的」「我的」。你們贏了。','打完，T 恤濕透了。走出球場，大廳的冷氣很冷。'];
+  const SERVE=['你把十顆球發完，撿回來，再發一次。','發到第三十顆，球終於不再掛網了。','旁邊的場地在比賽。你一邊撿球，一邊看了一下。'];
+  const VEND=[['運動飲料',25,'你一口氣喝了半瓶。'],['礦泉水',20,'冰的。瓶子上馬上凝了一層水。'],['無糖綠茶',25,'你看了一下成分表。……就是茶。'],['罐裝咖啡',30,'下午還有課。你把拉環拉開。']];
+  async function badminton(GM){ const G=GM.G, h=G.hour%24, r=rec(G), we=isWeekend(G), h0=we?9:12, h1=we?17:21;
+    if(secondHallOn(G)){ await GM.say(null,'今天這裡有活動，不開放打球。'); return; }
+    if(h<h0){ await GM.say(null,'早上的場地是體育課在用。中午以後再來。'); return; }
+    if(h>=h1){ await GM.say(null,'場地要收了。網子已經放下來一半。'); return; }
+    const C=typeof CLS!=='undefined'?CLS:null, plan=C&&C.slotPlan?C.slotPlan(G,1,'gym'):{ok:true,uses:[]};
+    const i=await GM.choose([{t:'去場邊等人併場',hint:'60 分鐘',dim:!plan.ok},{t:'自己練發球',hint:'20 分鐘'},{t:'算了'}]);
+    if(i===0){ if(!plan.ok){ GM.toast(plan.why||'今天這個時段已經排滿了',3000); return; }
+      if(!r.joined){ r.joined=1; await GM.say(null,'場邊有一塊白板，你把名字寫在最下面，排在三個人後面。'); }
+      GM.advance(1); if(C&&C.slotUse) C.slotUse(G,plan.uses); r.sportDay=G.day;
+      const wk=wkOf(G); if(r.wk!==wk){ r.wk=wk; r.wkN=0; r.seen=[]; } if((r.wkN|0)<2){ r.wkN=(r.wkN|0)+1; r.fit=Math.min(100,(r.fit|0)+1); }   /* 體能 +1，每週最多算 2 次（和健身的 3 次分開）*/
+      let cand=JOIN.filter(l=>!r.seen.includes(l)); if(!cand.length){ r.seen=[]; cand=JOIN.slice(); } const l=cand[Math.floor(Math.random()*cand.length)]; r.seen.push(l); await GM.say(null,l);
+      if((r.fit|0)>=50){ r.strongN=((r.strongN|0)+1)%3; if(r.strongN===0) await GM.say(null,'以前追不到的球，你現在追得到了。'); } }   /* 結實以上：三次裡一次 */
+    else if(i===1){ GM.advance(1/3); r.sportDay=G.day; r.serveN=((r.serveN|0)+1)%SERVE.length; await GM.say(null,SERVE[r.serveN]); } }
+  async function vending(GM){ const G=GM.G, r=rec(G), sport=r.sportDay===G.day; const i=await GM.choose(VEND.map(v=>({t:v[0]+'　'+v[1]+' 元',dim:G.money<v[1]})).concat([{t:'不用了'}]));
+    if(i>=VEND.length) return; const v=VEND[i]; if(G.money<v[1]){ GM.toast('錢不夠'); return; } GM.money(-v[1]); await GM.say(null,i===0&&sport?'運動完的那一罐，總是喝得特別快。':v[2]); }   /* 只是一句旁白，不放進背包 */
+  async function fountain(GM){ const G=GM.G, r=rec(G); if(r.drinkDay===G.day) return; r.drinkDay=G.day; await GM.say(null,r.sportDay===G.day?'你喝了很久。後面排隊的人在等你。':'你按下按鈕，彎腰喝了幾口。'); }   /* 一天第二次以後不再說話 */
+  async function scene(GM,f){ GM.sceneBegin(); try{ await f(GM); } finally { GM.sceneEnd(); } }
   /* 球場中圈「體育課集合」：這堂體育課現在可以上 → 上課（和門口同一套）；不然寫今天的體育課 */
   async function peClass(GM){ const G=GM.G; if(typeof CLS==='undefined') return; const it=CLS.liveDoor?CLS.liveDoor(G,'gym'):null;
     if(it&&CLS.status(G,it)==='open'){ let ch=1; GM.sceneBegin(); try{ ch=await GM.choose([{t:'上課：'+it.c.name},{t:'等一下'}]); } finally { GM.sceneEnd(); } if(ch===0) await CLS.attend(GM,it,{door:true}); return; }
@@ -53,7 +80,8 @@ const GY3=(function(){
     const IT=E.interactables; z.seats=[];
     for(const st of Ly.seats){ const seat={x:st.x,z:st.z,yaw:st.yaw}; if(st.y!=null) seat.y=st.y; z.seats.push(Object.assign({kind:'gym'},seat)); IT.push({x:st.x,z:st.z,radius:0.8,lv:0,label:st.label||'坐下',seat}); }
     const AT={closed_3f:{x:-16.0,z:17.4}};   /* 配置的 (−18,18.6) 在樓梯量體和前牆之間（站不住）：移到樓梯口朝大廳的那一側 */
-    for(const q0 of Ly.interact){ const q=Object.assign({},q0,AT[q0.kind]||{}); if(LOOK[q.kind]) IT.push({x:q.x,z:q.z,radius:1.2,lv:0,label:q.label,look:LOOK[q.kind]}); else if(q.kind==='pe_class') IT.push({x:q.x,z:q.z,radius:1.4,lv:0,label:'體育課集合',mark:true,onInteract:()=>peClass(GAME)}); }   /* 打羽球、販賣機、直飲台：還沒有內容（要 AA 的規格），先不開 */
+    for(const q0 of Ly.interact){ const q=Object.assign({},q0,AT[q0.kind]||{}); if(LOOK[q.kind]) IT.push({x:q.x,z:q.z,radius:1.2,lv:0,label:q.label,look:LOOK[q.kind]}); else if(q.kind==='pe_class') IT.push({x:q.x,z:q.z,radius:1.4,lv:0,label:'體育課集合',mark:true,onInteract:()=>peClass(GAME)});
+      else if(q.kind==='badminton'||q.kind==='vending'||q.kind==='fountain'){ const f={badminton,vending,fountain}[q.kind]; IT.push({x:q.x,z:q.z,radius:1.2,lv:0,label:q.label,gym:q.kind,onInteract:()=>scene(GAME,f)}); } }   /* AA_174 */
     IT.push({x:Ly.exit.at.x,z:18.5,radius:0.8,lv:0,label:Ly.exit.label,exit:{to:'campus',spawn:Object.assign({},CAMPUS)}});   /* 出生點 z 17.6：出口範圍 0.8 m，一進來不會先看到「離開」*/
     // 正式模型（GLB）：第二會場平常藏起來；樓梯口的告示畫字
     z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_interior']){ ASSETS.loadOne('bldg.gym_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
@@ -63,6 +91,6 @@ const GY3=(function(){
         if(o.material&&o.material.name==='gym_window_sky'&&!skyMats.includes(o.material)){ if(o.material.userData.gyBase==null) o.material.userData.gyBase=o.material.emissiveIntensity||1; skyMats.push(o.material); } });
       const G=typeof GAME!=='undefined'?GAME.G:null; if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('體育館正式模型載入失敗，用程序化備用模型',e)); }
     return z; } };
-  return {gym,CAMPUS,buildNav,LOOK};
+  return {gym,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec};
 })();
 Z3.ZONES.gym=GY3.gym;
