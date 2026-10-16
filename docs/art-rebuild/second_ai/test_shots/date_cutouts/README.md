@@ -77,3 +77,12 @@
 - **對照**：
   - `fix_8_v2.webp`：修好的 9 張，深色底、紅底各一張；
   - `d13_overlay_heroine01_v2.webp`：照 BB-B `29d6b676` 的新 D13_coords 重疊。C1 站在攤車右端前；C3 是 bodies:false，只用頭像。
+
+## v1.2（BB-B v1.1 驗收：7 張通過，學姊 head_thinking 還要修）
+
+- **原因**：BB-B 看的 `fix_8_v2.webp`，是我把學姊 thinking 改成不挖襯衫之前產生的對照圖，所以它看到了襯衫上的洞。
+  - v1.1 寫進 assets 的那張其實沒有大洞，但襯衫下緣還有一小塊半透明，約 60 px。
+- **改法**：`FIX` 加 `solid_below=0.6`。
+  - 襯衫內部（高度 60% 以下、離外緣 6 px 以上）的 alpha 一律補回 255；
+  - 顏色用原圖的襯衫顏色，不再去背。
+- 對照：`fix_h5_thinking_v12.webp`（深色底、紅底）。

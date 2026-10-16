@@ -57,7 +57,7 @@ TOP, SIDE = 0.04, 0.02
 FIX = {('classmate_peishan', 'H1'): dict(y0=0.0, y1=0.35), ('classmate_peishan', 'H3'): dict(y0=0.0, y1=0.35),
        ('classmate_peishan', 'head_neutral'): dict(y0=0.35, y1=1.0), ('classmate_peishan', 'head_smile'): dict(y0=0.35, y1=1.0),
        ('heroine_01', 'head_neutral'): dict(y0=0.35, y1=0.8, sat=14), ('heroine_01', 'head_smile'): dict(y0=0.35, y1=0.8, sat=14),
-       ('heroine_05', 'head_thinking'): dict(y0=0.3, y1=0.85, d=26, sat=14, xside=0.5, tight=0),
+       ('heroine_05', 'head_thinking'): dict(y0=0.3, y1=0.85, d=26, sat=14, xside=0.5, tight=0, solid_below=0.6),
        ('heroine_01', 'H1'): dict(y0=0.0, y1=0.4), ('heroine_01', 'H3'): dict(y0=0.0, y1=0.4)}
 # BB-B：以安的高馬尾比頭頂高 17 px，h 量到馬尾頂端會矮約 3 cm → 用頭頂量（H1 h＝963；H3、H4 同比例）
 H_FIX = {'heroine_01': dict(H1=963)}
@@ -95,6 +95,9 @@ def cut(crop, sess, remove, head=False, fix=None):
     lab, n = ndimage.label(al > 0.25)
     if n > 1:                                                                                           # 只留最大的一塊（旁邊姿勢伸過來的手、格子的邊）
         sz = ndimage.sum(np.ones_like(al), lab, range(1, n + 1)); al = al * ndimage.binary_dilation(lab == 1 + int(np.argmax(sz)), iterations=2)
+    if fix and fix.get('solid_below'):                                                                   # 學姊 thinking：襯衫裡面（離外緣 6 px 以上、在這個高度以下）alpha 補回 1，顏色用原圖（BB-B：被吃掉的不是殘底）
+        yb = int(fix['solid_below'] * al.shape[0]); inner = ndimage.binary_erosion(ndimage.binary_fill_holes(al > 0.2), iterations=6); inner[:yb] = False
+        al = np.where(inner, 1.0, al)
     a3 = np.clip(al, 1e-3, 1)[..., None]; fg = np.clip((c0 - (1 - a3) * bgc) / a3, 0, 255); edge = ((al > 0.02) & (al < 0.98))[..., None]
     rgb = np.where(edge, fg, c0); al = np.where(al < 0.06, 0, al)
     return np.dstack([rgb, al * 255]).astype(np.uint8)
