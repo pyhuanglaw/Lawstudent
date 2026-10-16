@@ -11979,6 +11979,35 @@
    },
    "source": "BB-B a4ccf909（AA-B 互審通過）；AA_200",
    "authorized": "AA_193、AA_197（使用者）、D86"
+  },
+  {
+   "id": "VAC-A2",
+   "title": "3D 機場（桃園機場出境大廳／報到櫃台／出境安檢前；交換出發、送機、寒暑假出國共用）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "排在 ART-GYM-BG1 之後。範圍等 AA_201 規格（AA-B 下一單位）；先做出境大廳＋報到櫃台＋送機的道別點（真實機場名稱照查證，航空公司、店名改虛構／諧音，D77）。Blender → GLB，走得進去（D38）。旅館、街景不做 3D：使用者給 CG，BB-B 去拿",
+   "first": {
+    "term": "Y3S2",
+    "week": 6,
+    "earliest": "日本交換路線 3 月底出發（以安送機）；美國路線照舊",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_199 6-0 Q4（使用者 21:49）；AA-B 2026-10-16 21:50 訊息",
+   "authorized": "使用者 21:49（AA_199 6-0）、D84",
+   "xai": {
+    "spec": "AA_199 6-0 Q4；AA_201（待交付）",
+    "branch": "LAWWW2-B 的交付分支",
+    "acceptance": "GLB＋遊戲內截圖；可走、有碰撞；沒有真實航空公司商標",
+    "receiver": "LAWWW2-B",
+    "ack": "SENT"
+   },
+   "note": "第二條線（D84 第 5 點）：不擠掉 v0～v2 的美術"
   }
  ]
 }

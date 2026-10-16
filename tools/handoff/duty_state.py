@@ -183,9 +183,13 @@ def verify(args, d=None, out=None):
         for r in ROLES:
             x = roles.get(r) or {}
             since = x.get('sinceSha')
+            latest = {}   # 同一條分支只看最後一次交班（帳號休班又回來、再交班的，以後一次為準）
             for h in d.get('history') or []:
                 hb = ((h.get('roles') or {}).get(r) or {}).get('branch')
-                if not hb or h.get('account') == x.get('account') or hb == x.get('branch'):
+                if hb:
+                    latest[hb] = h
+            for hb, h in latest.items():
+                if h.get('account') == x.get('account') or hb == x.get('branch'):
                     continue
                 href = remote_ref(hb, not getattr(args, 'local', False))
                 last = ((h.get('roles') or {}).get(r) or {}).get('sha')

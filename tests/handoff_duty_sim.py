@@ -327,6 +327,7 @@ def anomalies():
         rc, out = w.tool(lb, 'duty', 'verify')
         check('同職位兩個帳號疑似同時寫入（A 交班後還 commit 到 LAWWW 分支）：verify 報異常 6、要求查清楚以前不合併不覆寫', rc == 1 and 'LAWWW：帳號 A 的分支 lawww-A 在它交班' in out, out[-300:])
         da = w.clone('AA', 'A'); w.wtext(da, 'work/AA.txt', 'A 的 AA 還在寫\n'); w.push(da, 'AA late')
+        lb = w.clone('LAWWW', 'B')   # 先 fetch（接班程序第 1 步）
         rc, out = w.tool(lb, 'duty', 'verify')
         check('同職位兩個帳號同時寫入（AA）：verify 也抓得到', rc == 1 and 'AA：帳號 A 的分支 aa-A 在它交班' in out, out[-300:])
     finally:
