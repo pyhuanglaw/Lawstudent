@@ -32,6 +32,9 @@ const PORTRAIT_FILES={
   ]
  },
  "heroine_02": {
+  "cafe": [
+   "neutral"
+  ],
   "campus": [
    "neutral"
   ]
