@@ -107,3 +107,14 @@ v2 遊戲內截圖的狀況：
 - 鞦韆、三件體健器材：AA-B 的 ART-PARK2（16:0x 確認規格，正在做）。
 - 涼亭的象棋石桌、石凳、直飲台、腳踏車架：BB-B 的 ART-PARK3（16:1x 派工，等她確認規格）。
 - 公布欄：我自己做（有遊戲的海報互動）。
+
+## v6：鞦韆、健身器材換成 AA-B 的 ART-PARK2（LAWWW2-B 2026-10-16 17:2x UTC）
+
+- **換掉的**：`wz_park.py` 用圓柱、方塊拼的鞦韆（A 字架＋方塊座位）和三件健身器材（各一塊 0.9 m 石板）。
+- **換成**：AA-B 做的 `aa_support/park2_props.glb`（7930daf8，8,836 三角形、1 個貼圖材質 `park2`）。
+  - 鞦韆：鑄鐵三通夾座、U 型螺栓吊環、鏈條＋PVC 護套、橡膠彎座；一個座位停在 7°。
+  - 扭腰盤（掛一條淺藍毛巾）、肩部大轉輪、漫步機（腳邊一瓶水）：綠漆鋼管、黃色轉盤和踏板、掉漆、小混凝土基座。
+- **驗收時改的**：毛巾白 → 淺藍；綠漆調亮約 12%（見 `aa_support/README.md` 驗收紀錄）。
+- **擺放**：新的通用函式 `place_support()`（也給之後的 ART-PARK3 用）照 layout 擺；layout、導航不變。
+- **數字**：三角形 37,580 → 45,608；draw call +1（`park2`）。
+- **截圖**：`v6_park2_fit_swings.webp`（從環狀步道看）、`v6_park2_fit_close.webp`、`v6_park2_swings_close.webp`、`v6_park2_portrait.webp`（手機直向）。AA-B 的前後對照：`park2_game_before_*`、`park2_game_after_*`。

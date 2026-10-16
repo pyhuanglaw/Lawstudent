@@ -362,34 +362,63 @@ else:   # 舊的程序化版本（v3）
     xf.box(acc('sand'), 0.6, 2.2, 0.0, 0.16, -1.45, -0.35)
 
 
-# ======================== 鞦韆 ×2 ========================
-sw = next(i for i in LAY['items'] if i['kind'] == 'swings'); xf = Xf(sw['x'], sw['z'], sw.get('yaw', 0)); W2 = sw['w'] / 2
-for sx in (-W2, W2):
-    for sz in (-0.7, 0.7): xf.cyl(acc('steel'), (sx, 0.0, sz), (sx, 2.35, 0.0), 0.045, seg=8)
-xf.cyl(acc('steel'), (-W2, 2.35, 0.0), (W2, 2.35, 0.0), 0.05, seg=10)
-for cx in (-0.9, 0.9):
-    for dx in (-0.22, 0.22): xf.cyl(acc('chain'), (cx + dx, 2.33, 0.0), (cx + dx, 0.5, 0.0), 0.008, seg=4)
-    xf.box(acc('rubber_k'), cx - 0.25, cx + 0.25, 0.45, 0.5, -0.11, 0.11)
+# ======================== 鞦韆 ×2、健身器材 ×3 ========================
+def place_support(path, plan, group):
+    """支援組的 GLB（每件一個頂層節點，GLB 裡照自己的原點排開）→ 照 layout 擺：plan＝[(節點, layout 項目, 錨點節點)]。
+    節點相對錨點節點的位置與旋轉（例如鞦韆座位掛在框架的吊點、毛巾和扭腰盤同一個原點）照 GLB 保留，整組轉到 layout 的位置和 yaw。回傳擺了幾件。"""
+    if not os.path.exists(path): return 0
+    _before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=path); _new = [o for o in bpy.data.objects if o not in _before]
+    tops = {o.name.split('.')[0]: o for o in _new if o.type == 'MESH'}; gp = B.group(group, root); n = 0
+    for nd, it, anchor in plan:
+        src, anc = tops.get(nd), tops.get(anchor)
+        if src is None or anc is None: print(group, '沒有', nd); continue
+        rel = anc.matrix_world.inverted() @ src.matrix_world; t = rel.to_translation(); e = rel.to_euler('XYZ')
+        xf = Xf(it['x'], it['z'], it.get('yaw', 0))
+        ob = src.copy(); bpy.context.scene.collection.objects.link(ob); ob.parent = gp; ob.matrix_parent_inverse.identity()
+        ob.rotation_mode = 'XYZ'; ob.location = g2b(*xf.p(t.x, t.z, -t.y)); ob.rotation_euler = (e.x, e.y, e.z + xf.ry); ob.scale = (1, 1, 1); n += 1
+    for _o in _new:
+        if _o.name in bpy.data.objects: bpy.data.objects.remove(_o)
+    return n
 
-# ======================== 健身器材 ×3 ========================
-for it in LAY['items']:
-    if not it['kind'].startswith('fitness'): continue
-    xf = Xf(it['x'], it['z'], it.get('yaw', 0)); k = it['kind']
-    xf.box(acc('stone'), -0.45, 0.45, 0.0, 0.06, -0.45, 0.45)
-    if k == 'fitness_waist':     # 扭腰盤：中柱＋握把＋地上的轉盤
-        xf.cyl(acc('blue'), (0, 0.06, -0.25), (0, 1.25, -0.25), 0.05, seg=10); xf.cyl(acc('yellow'), (-0.3, 1.2, -0.25), (0.3, 1.2, -0.25), 0.025, seg=8)
-        xf.cyl(acc('yellow'), (0, 0.06, 0.15), (0, 0.12, 0.15), 0.25, seg=16)
-    elif k == 'fitness_shoulder':  # 肩關節輪：柱子＋直立的輪子
-        xf.cyl(acc('green'), (0, 0.06, 0), (0, 1.75, 0), 0.06, seg=10)
-        bm = acc('yellow').bm; ring = []
-        for i in range(16):
-            a = i / 16 * 2 * math.pi; ring.append((math.cos(a) * 0.45, 1.35 + math.sin(a) * 0.45))
-        for (x0, y0), (x1, y1) in zip(ring, ring[1:] + ring[:1]): xf.cyl(acc('yellow'), (x0, y0, 0.12), (x1, y1, 0.12), 0.022, seg=5)
-        xf.cyl(acc('yellow'), (0, 1.35, 0.06), (0, 1.35, 0.14), 0.05, seg=8)
-    else:                          # 踏步機：兩支柱、扶手、兩個踏板
-        for sx in (-0.3, 0.3): xf.cyl(acc('orange'), (sx, 0.06, -0.2), (sx, 1.2, -0.2), 0.045, seg=8)
-        xf.cyl(acc('orange'), (-0.3, 1.2, -0.2), (0.3, 1.2, -0.2), 0.03, seg=8)
-        for sx in (-0.15, 0.15): xf.box(acc('blue'), sx - 0.1, sx + 0.1, 0.25, 0.3, -0.05, 0.3)
+
+# AA-B 的 ART-PARK2（aa_support/park2_props.glb，8.8k 三角形、一個貼圖材質 park2；LAWWW2-B 驗收 2026-10-16：綠漆調亮、毛巾改淺藍）。
+# 鞦韆框架、兩個座位（原點＝吊點，SEAT_B 停在 7°）；扭腰盤＋毛巾、肩部大轉輪、漫步機＋水瓶。器材自己有混凝土小基座，舊的 0.9 m 石板拿掉。缺檔時用舊的程序化版本（v3）
+_IT = {i['id']: i for i in LAY['items']}
+_n2 = place_support(os.path.join(L.ROOT, 'assets/models/env/second_ai/aa_support/park2_props.glb'), [
+    ('PARK_SWINGS', _IT['swings'], 'PARK_SWINGS'), ('PARK_SWING_SEAT_A', _IT['swings'], 'PARK_SWINGS'), ('PARK_SWING_SEAT_B', _IT['swings'], 'PARK_SWINGS'),
+    ('PARK_FIT_WAIST', _IT['fit1'], 'PARK_FIT_WAIST'), ('PARK_FIT_TOWEL', _IT['fit1'], 'PARK_FIT_WAIST'),
+    ('PARK_FIT_SHOULDER', _IT['fit2'], 'PARK_FIT_SHOULDER'),
+    ('PARK_FIT_LEG', _IT['fit3'], 'PARK_FIT_LEG'), ('PARK_FIT_BOTTLE', _IT['fit3'], 'PARK_FIT_LEG')], 'park2')
+print('ART-PARK2 擺了', _n2, '件')
+if not _n2:   # 舊的程序化版本（v3）
+    # ======================== 鞦韆 ×2 ========================
+    sw = next(i for i in LAY['items'] if i['kind'] == 'swings'); xf = Xf(sw['x'], sw['z'], sw.get('yaw', 0)); W2 = sw['w'] / 2
+    for sx in (-W2, W2):
+        for sz in (-0.7, 0.7): xf.cyl(acc('steel'), (sx, 0.0, sz), (sx, 2.35, 0.0), 0.045, seg=8)
+    xf.cyl(acc('steel'), (-W2, 2.35, 0.0), (W2, 2.35, 0.0), 0.05, seg=10)
+    for cx in (-0.9, 0.9):
+        for dx in (-0.22, 0.22): xf.cyl(acc('chain'), (cx + dx, 2.33, 0.0), (cx + dx, 0.5, 0.0), 0.008, seg=4)
+        xf.box(acc('rubber_k'), cx - 0.25, cx + 0.25, 0.45, 0.5, -0.11, 0.11)
+
+    # ======================== 健身器材 ×3 ========================
+    for it in LAY['items']:
+        if not it['kind'].startswith('fitness'): continue
+        xf = Xf(it['x'], it['z'], it.get('yaw', 0)); k = it['kind']
+        xf.box(acc('stone'), -0.45, 0.45, 0.0, 0.06, -0.45, 0.45)
+        if k == 'fitness_waist':     # 扭腰盤：中柱＋握把＋地上的轉盤
+            xf.cyl(acc('blue'), (0, 0.06, -0.25), (0, 1.25, -0.25), 0.05, seg=10); xf.cyl(acc('yellow'), (-0.3, 1.2, -0.25), (0.3, 1.2, -0.25), 0.025, seg=8)
+            xf.cyl(acc('yellow'), (0, 0.06, 0.15), (0, 0.12, 0.15), 0.25, seg=16)
+        elif k == 'fitness_shoulder':  # 肩關節輪：柱子＋直立的輪子
+            xf.cyl(acc('green'), (0, 0.06, 0), (0, 1.75, 0), 0.06, seg=10)
+            bm = acc('yellow').bm; ring = []
+            for i in range(16):
+                a = i / 16 * 2 * math.pi; ring.append((math.cos(a) * 0.45, 1.35 + math.sin(a) * 0.45))
+            for (x0, y0), (x1, y1) in zip(ring, ring[1:] + ring[:1]): xf.cyl(acc('yellow'), (x0, y0, 0.12), (x1, y1, 0.12), 0.022, seg=5)
+            xf.cyl(acc('yellow'), (0, 1.35, 0.06), (0, 1.35, 0.14), 0.05, seg=8)
+        else:                          # 踏步機：兩支柱、扶手、兩個踏板
+            for sx in (-0.3, 0.3): xf.cyl(acc('orange'), (sx, 0.06, -0.2), (sx, 1.2, -0.2), 0.045, seg=8)
+            xf.cyl(acc('orange'), (-0.3, 1.2, -0.2), (0.3, 1.2, -0.2), 0.03, seg=8)
+            for sx in (-0.15, 0.15): xf.box(acc('blue'), sx - 0.1, sx + 0.1, 0.25, 0.3, -0.05, 0.3)
 
 # ======================== 土地公小廟 ========================
 sh = next(i for i in LAY['items'] if i['kind'] == 'tudigong_shrine'); xf = Xf(sh['x'], sh['z'], sh.get('yaw', 0))
