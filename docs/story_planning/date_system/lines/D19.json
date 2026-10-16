@@ -1,0 +1,3149 @@
+{
+ "loc": "D19",
+ "points": {
+  "D19.museum": "黃金博物館",
+  "D19.houses": "日式宿舍群",
+  "D19.shrine": "山上的神社遺址",
+  "D19.view": "遠眺陰陽海"
+ },
+ "likes": {
+  "heroine_01": {
+   "D19.museum": "like",
+   "D19.houses": "like",
+   "D19.shrine": "normal",
+   "D19.view": "normal"
+  },
+  "heroine_02": {
+   "D19.museum": "normal",
+   "D19.houses": "like",
+   "D19.shrine": "like",
+   "D19.view": "like"
+  },
+  "heroine_03": {
+   "D19.museum": "normal",
+   "D19.houses": "like",
+   "D19.shrine": "normal",
+   "D19.view": "like"
+  },
+  "heroine_04": {
+   "D19.museum": "like",
+   "D19.houses": "normal",
+   "D19.shrine": "dislike",
+   "D19.view": "like"
+  },
+  "heroine_05": {
+   "D19.museum": "like",
+   "D19.houses": "like",
+   "D19.shrine": "normal",
+   "D19.view": "normal"
+  },
+  "classmate_peishan": {
+   "D19.museum": "like",
+   "D19.houses": "like",
+   "D19.shrine": "normal",
+   "D19.view": "like"
+  },
+  "kexin": {
+   "D19.museum": "like",
+   "D19.houses": "normal",
+   "D19.shrine": "normal",
+   "D19.view": "like"
+  }
+ },
+ "dislikeLine": {
+  "heroine_01": {},
+  "heroine_02": {},
+  "heroine_03": {},
+  "heroine_04": {
+   "D19.shrine": "步道好陡……我的體力條見底了。我在這裡等你。好啦，一起走。"
+  },
+  "heroine_05": {},
+  "classmate_peishan": {},
+  "kexin": {}
+ },
+ "lines": {
+  "heroine_01": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_01",
+       "text": "金瓜石。以前是礦山。我查過。"
+      },
+      {
+       "who": "heroine_01",
+       "text": "比九份安靜。我比較喜歡這邊。理由：人少。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "山上的路很彎。我有一點暈。……一下就好。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "今天霧有點大。我查了，下午會散。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "跟你出來，手帳的「預計時間」都會超過。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "今天不排順序。你走哪裡，我跟哪裡。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_01",
+       "text": "結論：這座山，有很多人的生活。"
+      },
+      {
+       "who": "heroine_01",
+       "text": "……今天想得比較多。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "天暗了。山路要小心。……再五分鐘。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "手帳今天要寫兩頁。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "今天右欄寫的是：山，還有你。……不要看。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D19.museum": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "（博物館裡有一塊很大的金磚，大家都在摸）……摸了會有好運。說明牌沒有這樣寫。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "是大家自己說的。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我們也摸。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……好。理由：大家都摸了。……這不是好理由。可是摸了。"
+         }
+        ]
+       },
+       {
+        "t": "「妳不信？」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……不信。可是摸一下不會怎樣。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "展覽在講礦工的工作。……很辛苦。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "有一張礦工的薪水單。我看了很久。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "課本上的「勞工」只有兩個字。今天看到了真的工作。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次摸的那塊金磚，今天又被摸得更亮了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "（她摸完金磚，把手放在你的手上）……分你一點好運。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.houses": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "（日式宿舍群）……以前礦山的職員住在這裡。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "每一間都一樣大。……不對，主管的比較大。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「規則寫在房子上。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……對。你這句很好。"
+         }
+        ]
+       },
+       {
+        "t": "「現在都一樣了。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……嗯。現在誰都可以進來。這樣比較好。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "木頭的房子，走起來會有聲音。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "院子裡有一棵很老的樹。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "我喜歡老房子。它們的規則，很多人遵守過。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次說規則寫在房子上。……今天又看了一次。還是。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "（她走在木頭走廊上，回頭等你）……走太慢了。……我也是。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.shrine": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "（往山上的步道）……神社只剩下柱子了。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "我想走上去看。理由：完整。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「好，走上去。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "好。不准半途回頭。……我是說我。"
+         }
+        ]
+       },
+       {
+        "t": "「好陡喔。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……陡。可是有扶手。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "步道好陡。我在喘。……不要計時。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "柱子上的痕跡，是風吹出來的。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "平常爬到一半我會算還剩幾階。今天沒算。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次走到頂了。今天也要。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "（她走到頂，在柱子旁邊停下來，牽著你的手）……看。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.view": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "（觀景台，海一半黃一半藍）……陰陽海。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "我查過，是礦物讓海水變色。不是傳說。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「可是名字很好聽。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……嗯。名字可以好聽，理由要對。"
+         }
+        ]
+       },
+       {
+        "t": "「妳每次都查。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……習慣。今天只查了這個。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "海的顏色有一條線。很清楚。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "風好大。我的馬尾一直亂。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "以前我不太看風景。理由：沒有理由。現在有了。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次那條線很清楚。今天比較淡。……我查了，跟下雨有關。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "（她靠著欄杆，你站在她旁邊）……再看一下。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_02": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "金瓜石。……很像老電影裡的山城。"
+      },
+      {
+       "who": "heroine_02",
+       "text": "我想看看真的長什麼樣子。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "今天有霧。山會很好看。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "我換了一雙好走的鞋。……我有在準備。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "我把今天的班換掉了。……不要問為什麼。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "今天不拍照。用眼睛記就好。……好，拍一張。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "天要暗了。山上的燈，一盞一盞亮。"
+      },
+      {
+       "who": "heroine_02",
+       "text": "……很像老電影的最後一場。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "回去吧。……下山的路，我想慢慢走。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "下次，我想看霧散開的那一刻。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "今天的片尾，有山有海。……很好。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D19.museum": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "（黃金博物館）……大家都在摸金磚。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "我想拍拍照的人，不想拍金磚。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我們也摸一下。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……好。一下就好。"
+         }
+        ]
+       },
+       {
+        "t": "「那妳拍我。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……好。你摸，我拍。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "展覽裡有老照片。那時候的人都沒有笑。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "博物館的燈打在金磚上，好刺眼。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "跟你看展，我不會一直想構圖。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次拍的那張，你摸金磚的表情很認真。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "（她舉起手機，又放下）……不拍了。（她跟你一起摸了金磚）"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.houses": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "（日式宿舍群）……這裡的光很好。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "木頭窗框，把光切成一格一格。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳又在看光。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……職業病。我還沒有職業，可是有病。"
+         }
+        ]
+       },
+       {
+        "t": "「我們坐一下。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……好。坐在走廊上看院子。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "榻榻米的味道。……很懷念。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "院子的樹好老。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "我想在這裡拍一個沒有台詞的片段。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次坐在走廊上看院子。今天也要。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "（她坐在走廊上，靠著你）……就這樣。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.shrine": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "（往山上的步道）……神社只剩柱子了。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "很像一部片拍完以後，布景拆掉剩下的骨架。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳想到片場。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……對。可是這裡是真的。"
+         }
+        ]
+       },
+       {
+        "t": "「我們走上去看。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……好。慢慢走。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "霧從山下慢慢上來。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "步道好陡。……鞋子換對了。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "霧裡的你，像在畫面的另一邊。……過來一點。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次走到頂，霧剛好散開。今天霧比較大。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "（她在柱子旁邊，靠近你）……這個構圖，我留著。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.view": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "（陰陽海）……海有兩種顏色。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "很像兩個鏡頭接在一起。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「剪接得很好。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……嗯。大自然是很好的剪接師。"
+         }
+        ]
+       },
+       {
+        "t": "「哪一邊比較好看？」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……中間那條線最好看。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "海的顏色，在陽光下會變。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "風好大。頭髮一直亂。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "跟你看海，我不太會想鏡頭。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次說中間那條線最好看。……今天也是。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "（她靠著你的肩膀）……這是今天的最後一個鏡頭。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_03": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_03",
+       "text": "……嗯。金瓜石。"
+      },
+      {
+       "who": "heroine_03",
+       "text": "好安靜。比九份安靜。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "今天不用顧店。……阿姨說，山上要多穿一件。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "……霧好大。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "跟你出來，我好像不用一直看時間。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（她把髮圈綁好，走到你旁邊）……走吧。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_03",
+       "text": "……今天很好。"
+      },
+      {
+       "who": "heroine_03",
+       "text": "我會跟我媽說，這座山以前有很多人。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "要回去了。……路上小心。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "……嗯。下次。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（回到台北，她沒有馬上走）……今天，比較長。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D19.museum": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（她看著礦工的老照片）……他們好年輕。"
+       },
+       {
+        "who": "heroine_03",
+        "text": "……下班以後，回家吃什麼？"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳都在想這種事。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。社會系的壞習慣。"
+         }
+        ]
+       },
+       {
+        "t": "「應該很簡單。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。一碗麵吧。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……金磚好亮。大家的手都很亮。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "有一張礦工家人的照片。……他們在等他回家。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "以後我想寫一點東西。關於一座山的人。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次那張礦工家人的照片……今天又看了一次。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "（她摸金磚的時候，小指碰到你的手，沒有移開）……嗯。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.houses": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（日式宿舍群）……好安靜。"
+       },
+       {
+        "who": "heroine_03",
+        "text": "以前住在這裡的人，每天都走同一條路去上班。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「很像妳每天去店裡。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。一樣的路。"
+         }
+        ]
+       },
+       {
+        "t": "「現在只剩房子。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。可是路還在。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……木頭的味道。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "院子好小。可是很乾淨。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "跟你走，安靜也不尷尬。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次說一樣的路。……我走去店裡的時候，想到這裡。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "（她坐在走廊上，靠著你的肩膀）……嗯。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.shrine": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（往山上的步道）……好陡。"
+       },
+       {
+        "who": "heroine_03",
+        "text": "……我走慢一點。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我等妳。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。"
+         }
+        ]
+       },
+       {
+        "t": "「拉著我。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……霧好大。山下的房子不見了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……柱子上有青苔。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "我可以在這裡站很久。……你可以嗎？"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次你拉著我上來。……今天我想走在你前面一點。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "（霧裡，她拉著你的袖子）……看不清楚。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.view": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（陰陽海）……海有兩種顏色。"
+       },
+       {
+        "who": "heroine_03",
+        "text": "……好像店裡的湯，加了醬油那一邊。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳每次都想到店裡。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。從小在店裡。"
+         }
+        ]
+       },
+       {
+        "t": "「很漂亮。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。很漂亮。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……風好大。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "有一艘小船，在顏色的線上。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "跟你看海，我不會一直想店裡的事。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次說像醬油。……我跟阿姨說了。她笑了好久。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "（她靠著你的肩膀，沒有說話）"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_04": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "欸不是，這裡好像遊戲裡的礦山關卡。"
+      },
+      {
+       "who": "heroine_04",
+       "text": "我要找寶箱。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "我十一點起床。為了你。這是犧牲。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "今天的任務：摸金磚。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "你今天有帶零食。你好會準備。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "今天的任務：沒有任務。……好，有一個，摸金磚。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "今天的地圖探索率：百分之七十。"
+      },
+      {
+       "who": "heroine_04",
+       "text": "剩下的，下次開。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "天黑了。我的腦開始醒了。回程我負責講話。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "電量剩一格。回家。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "今天的存檔點在金瓜石。……我是說，我記住了。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D19.museum": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "金磚！欸不是，好大！"
+       },
+       {
+        "who": "heroine_04",
+        "text": "我要摸。這是寶箱。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「好運加一。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……好運加一。這不是問句。"
+         }
+        ]
+       },
+       {
+        "t": "「摸了也不會變有錢。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……我知道。可是會開心。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "展覽裡有礦坑的模型。我想做成遊戲地圖。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "金磚被摸得好亮。很像高光貼圖。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "跟你來這種地方，我會想把它做進遊戲裡。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次的好運，我拿去抽卡了。……沒中。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "（她抓著你的手一起按在金磚上）……雙人模式。好運乘二。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.houses": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "（日式宿舍群）……這裡好安靜。"
+       },
+       {
+        "who": "heroine_04",
+        "text": "……我小聲講話。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「坐一下。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……好。我腳好痠。"
+         }
+        ]
+       },
+       {
+        "t": "「進去看看。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……好。我看榻榻米。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "木頭地板會叫。我想錄下來做音效。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "院子裡有一隻貓在睡覺。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "……好啦，老房子也可以。跟你來的話。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次錄的地板聲，我用在遊戲裡了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "（她坐在走廊上，靠著你）……我休息五分鐘。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.shrine": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "步道好陡。"
+       },
+       {
+        "who": "heroine_04",
+        "text": "……我的體力條要見底了。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我拉妳。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……好。不是因為我弱。是物理。"
+         }
+        ]
+       },
+       {
+        "t": "「慢慢走。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……好。一步一步。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "霧好大。很像遊戲的視距限制。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "柱子上面以前有屋頂嗎？我要查。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "我想做一關，主角要爬一座有霧的山。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次你拉我上來。……今天也要。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "（她拉著你的手）……我不是怕。是物理。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.view": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "欸不是，海有兩種顏色！"
+       },
+       {
+        "who": "heroine_04",
+        "text": "這是兩張貼圖接在一起。……好，是礦物。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳每次都想到遊戲。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……對。停不下來。你在笑。"
+         }
+        ]
+       },
+       {
+        "t": "「很漂亮。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……對。很漂亮。我承認。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "海的顏色，我在記色碼。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "風好大。我的帽子要飛了。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "跟你看海，我會想睡。……是好的意思。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次記的色碼，我用在遊戲的海了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "（她靠著你的肩膀）……存檔。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_05": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "一件事：我第一次來金瓜石。"
+      },
+      {
+       "who": "heroine_05",
+       "text": "重點是，我以為這裡只有九份。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "我把保溫瓶裝滿了。今天要走很久。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "門票我買了。下次換你。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "今天手機調靜音了。我真的沒看。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "今天不談論文。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "今天……我沒有想論文。"
+      },
+      {
+       "who": "heroine_05",
+       "text": "可是很好。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "回程你可以睡。到了我叫你。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "下次，我想早一點來。看山醒過來。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "今天的行程表上，只有你。……這句不要記。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D19.museum": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "（黃金博物館）……一件事：這裡有礦工的薪資單。"
+       },
+       {
+        "who": "heroine_05",
+        "text": "我想看那時候的工時。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「學姊在想勞動法。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……一點點。今天不寫筆記。"
+         }
+        ]
+       },
+       {
+        "t": "「我們看金磚。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……好。金磚。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "大家都在摸金磚。……我也摸了。不要說出去。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "展覽的說明寫得很清楚。我給它九十分。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "以前我只看課本。今天看到真的人。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次看的那張薪資單，我回去查了那時候的工時。好長。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "（她摸金磚的時候，你的手在旁邊。她把手疊上來）……一件事。沒事。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.houses": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "（日式宿舍群）……這裡好安靜。"
+       },
+       {
+        "who": "heroine_05",
+        "text": "重點是，我可以聽到自己在想什麼。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「在想什麼？」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……在想，以前住在這裡的人，有沒有休假。"
+         }
+        ]
+       },
+       {
+        "t": "「什麼都不想。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……好。我試試看。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "木頭地板走起來會叫。我喜歡。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "院子的樹好老。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "我最近學會了：安靜也是一種休息。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次說的休假……我查了。很少。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "（她坐在走廊上，靠著你）五分鐘就好。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.shrine": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "（往山上的步道）……好陡。"
+       },
+       {
+        "who": "heroine_05",
+        "text": "我很少爬山。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「慢慢走。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……好。不要走太快。"
+         }
+        ]
+       },
+       {
+        "t": "「我拉學姊。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……好。今天可以。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "霧好大。看不到下面。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "只剩柱子。以前一定很壯觀。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "以前我爬山都在想下山以後要做什麼。今天沒有。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次你拉我上來。……今天我想自己走。你走後面。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "（霧裡，她握了一下你的手）……風好大。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.view": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "（陰陽海）……海有兩種顏色。"
+       },
+       {
+        "who": "heroine_05",
+        "text": "我以為是傳說。原來是礦物。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「學姊也會被騙。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……偶爾。今天不介意。"
+         }
+        ]
+       },
+       {
+        "t": "「很漂亮。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……嗯。很漂亮。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "海的顏色有一條線。很清楚。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "風好大。……我把外套穿上了。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "跟你看海，我不用一直想下一件事。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次那條線，我後來跟助教講了。他說他沒去過。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "（她靠著欄杆，肩膀碰著你）……再看一下。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_peishan": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "金瓜石！我第一次來。"
+      },
+      {
+       "who": "classmate_peishan",
+       "text": "以前這裡挖金子。好像童話。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "我帶了一本小書。可能不會看。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "山上的空氣好好。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "跟你出來，我發現我話變多了。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "今天不帶書。……真的沒帶。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "今天好像什麼都沒做，可是很滿。"
+      },
+      {
+       "who": "classmate_peishan",
+       "text": "我想帶我爸媽來摸金磚。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "回去要讀書了。……可是今天值得。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "今天走好多路。下次我帶便當。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "今天的問題，我留到下次問。……這樣下次你就要來。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D19.museum": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "（金磚）……大家都在摸。"
+       },
+       {
+        "who": "classmate_peishan",
+        "text": "摸了真的會有好運嗎？"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「不知道，可是摸一下。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……好。（她摸了一下）……好像有一點。"
+         }
+        ]
+       },
+       {
+        "t": "「是大家的心願。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……那這塊金磚，背了好多人的心願。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "礦工的老照片，他們好年輕。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "我想買一張明信片給我爸媽。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "以前我覺得讀書就是背。現在我想知道東西從哪裡來。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次的好運……我那週的小考考得很好。不知道是不是。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "（她摸完金磚，拉起你的手也去摸一下）……分你。今天問題比較少，因為很開心。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.houses": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "（日式宿舍群）……住在這裡的小孩，每天都看得到海嗎？"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「應該看得到。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……那他們好幸福。"
+         }
+        ]
+       },
+       {
+        "t": "「他們可能不在意。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……對。每天看到的東西，就不會在意了。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "木頭的房子好好聞。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "院子好小。可是很漂亮。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "在這裡，我好像可以不用想下一堂課。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次說的「每天看到就不在意」……我在想我爸媽的早餐店。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "我們在走廊上坐到天暗。……問題等一下再問。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.shrine": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "（往山上的步道）……好陡。"
+       },
+       {
+        "who": "classmate_peishan",
+        "text": "我可以休息一下嗎？"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「可以。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……謝謝。（她坐在石階上）……好，走吧。"
+         }
+        ]
+       },
+       {
+        "t": "「我等妳。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……謝謝。你好有耐心。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "霧好濕。我的瀏海捲起來了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "柱子好高。以前的人怎麼搬上來的？"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "跟你一起，陡的地方好像比較短。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次休息了三次。今天只休息兩次。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "（她拉著你的手走到頂）……今天好好。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.view": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "（陰陽海）……海有兩種顏色。"
+       },
+       {
+        "who": "classmate_peishan",
+        "text": "它們會混在一起嗎？"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「慢慢會。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……那中間那條線，每天都在變。"
+         }
+        ]
+       },
+       {
+        "t": "「不會。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……那它們就一直在旁邊。好像好朋友。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "風好大。我的帽子差點飛走。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "有一艘小船在顏色的線上。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "跟你看海，我好安心。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次說它們是好朋友。……今天看，還是在旁邊。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "（她靠著你的肩膀）……五分鐘。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "kexin": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "金瓜石。假設我們在這裡挖到金子，算誰的？"
+      },
+      {
+       "who": "kexin",
+       "text": "……不要回答。我們讀過。不是我們的。這是告知。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "今天的行程表只有一頁。……好，兩頁。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "我帶了你喜歡的那個餅乾。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "予樂說我們很像老夫老妻。我說我們只是很會分工。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "今天的問題，我放在觀景台。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "今天走了一萬兩千步。我的手機說的。"
+      },
+      {
+       "who": "kexin",
+       "text": "你比我累的話，晚餐我請。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "回程我要睡。到了叫我。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "下次再說。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "今天的假設題：假設明天也這樣。……不用回答。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D19.museum": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "（金磚）……大家都在摸。"
+       },
+       {
+        "who": "kexin",
+        "text": "如果用經濟學算，這塊金磚現在值多少？……不要算。摸就好。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我們一起摸。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……好。一起的好運，要平分。"
+         }
+        ]
+       },
+       {
+        "t": "「妳想算吧。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……好，我想。可是今天不算。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "展覽在講礦業的歷史。予樂會睡著。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "礦工的薪資單……我們老師一定會拿來上課。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "以後我們每年來摸一次，看好運有沒有累積。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次的好運，我拿去考期中考了。……有用。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "（她把你的手按在金磚上，自己的手疊上去）……平分。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.houses": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "（日式宿舍群）……這裡的房子，主管的比較大。"
+       },
+       {
+        "who": "kexin",
+        "text": "規則寫在房子上。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳跟以安說的一樣。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……誰？……好，法律系的人都這樣想。我也是。"
+         }
+        ]
+       },
+       {
+        "t": "「現在都一樣了。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……嗯。所以才可以進來看。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "木頭的地板，走起來會叫。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "院子裡有一隻貓。……我想抱。不行。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "以後我們的家，要有一個這樣的走廊。……如果有我們家。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次那隻貓，今天換了一個地方睡。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "（她坐在走廊上，靠著你）……就這樣坐一下。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.shrine": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "（往山上的步道）……好陡。"
+       },
+       {
+        "who": "kexin",
+        "text": "我們比賽誰先到。……開玩笑的。慢慢走。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「慢慢走。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……嗯。今天不比賽。"
+         }
+        ]
+       },
+       {
+        "t": "「比就比。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……好。可是你要讓我。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "霧好大。……我的耳環濕了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "柱子上面以前有屋頂。我查過。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "跟你走，我會走比較慢。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次說不比賽。……今天也不比。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "（霧裡，她牽著你的手）……看不到路。所以牽著。"
+        }
+       ]
+      }
+     ]
+    },
+    "D19.view": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "（陰陽海）……海有兩種顏色。"
+       },
+       {
+        "who": "kexin",
+        "text": "像兩個學校的老師。講同一件事，顏色不一樣。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「中間那條線呢？」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……那是我們。在中間吵。"
+         }
+        ]
+       },
+       {
+        "t": "「哪一邊是政大？」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……藍的。……開玩笑的。都很好。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "風好大。我的耳環一直在晃。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "海上有一艘小船，在顏色的線上。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "以後我們每年來看一次，看我們有沒有變。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次說我們是中間那條線。……我還是這樣覺得。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "（她靠著你的肩膀）……不用回答，我知道。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  }
+ }
+}
