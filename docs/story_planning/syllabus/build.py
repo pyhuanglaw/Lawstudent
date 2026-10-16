@@ -133,7 +133,9 @@ def main(key):
                     if len(keys)!=1 or not r.get('say'): problems.append(f'{tag}：回想要剛好一個條件（attended／flag／activity）和 say'); continue
                     k=keys[0]; chk(r['say'],40,tag+' 回想')
                     if k=='attended': attends.append((tag,r[k]))
-                    e['recall'].append({k:r[k],'say':r['say'],'after':'line'})
+                    rr={k:r[k],'say':r['say'],'after':'line'}
+                    if r.get('full'): rr['full']=True   # 只有聽完的玩家（activity:'B4' 中途離開的不算；交接包_v2 L200，2026-10-16 AA-B）
+                    e['recall'].append(rr)
             if wk.get('ask'):
                 # 課堂提問（AA_126 1-5 A、AA_130 §3；2026-10-14）：使用者題庫的一題，那堂課最後由教授問；一週最多一題，
                 # 題目只寫 qid（從 exam_official/ 讀原文，這裡不重抄）；題目檔的 askedIn 由 exam_official/tools/sync_asked.py 從這裡同步
