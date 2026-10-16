@@ -12016,7 +12016,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P0",
-   "next": "查打開地圖時做了什麼（大地圖另開 renderer／render target？貼圖重建？），重現 WebGL context lost；修好後 iPhone 模擬＋真機請使用者確認",
+   "next": "查打開地圖時做了什麼（大地圖另開 renderer／render target？貼圖重建？），重現 WebGL context lost；修好後 iPhone 模擬＋真機請使用者確認；2026-10-16 23:2x：大地圖每打開一次就新開一張導航格 canvas 不釋放、入口標籤換色也不釋放 canvas、小地圖換區域不釋放 → 改成每個導航格只畫一張、換區域釋放、關地圖釋放大地圖畫布（guide3d.js、game3d.js）。待瀏覽器確認（打開地圖 5 次 canvas 數不增加）＋使用者 iPhone",
    "first": {
     "term": "Y1S1",
     "week": 1,
