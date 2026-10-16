@@ -1679,8 +1679,8 @@
    "title": "開學第一頓／中秋／迎新（大二）",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照交接包_v3 實作",
+   "status": "進行中",
+   "next": "開學第一頓（9/17 19:00 麵店長桌 2D：17:00 阿哲邀約、21:30 沒去照片；AA_143 1-1＋AA_177）、中秋烤肉大二版（9/25 18:00 河濱：9/24 21:00 邀約、沒去照片；AA_143 1-2）已接（tests/v3_batch1_unit.js）。迎新（小隊輔）等 AA-B：新生第 3 題「為什麼念法律？」的選項與筆記、「法律系一年級」群組（遊戲裡沒有）",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -1693,15 +1693,16 @@
     "confirmed": true
    },
    "source": "交接包_v3",
-   "authorized": "D79"
+   "authorized": "D79",
+   "tests": "tests/v3_batch1_unit.js"
   },
   {
    "id": "V3-D4",
    "title": "語彤 7 法服第一次值班",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照交接包_v3 實作",
+   "status": "已整合待測試",
+   "next": "9/26（AA_177 改期）萬才館一樓走到圓桌旁＝在場版（AA_11 事件 7 逐字、兩個選項、YT_DUTY_SEEN、SHARED_CLASS）；不管在不在 YT_LEGALAID_Y2；不在場、有點熟以上＝第 4 週在麵店遇到她轉述兩句（YT_DUTY_HEARD）；語彤值班週六 9～12 在萬才館一樓的作息。tests/v3_batch1_unit.js 10～11；瀏覽器",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -1714,7 +1715,8 @@
     "confirmed": true
    },
    "source": "交接包_v3",
-   "authorized": "D79"
+   "authorized": "D79",
+   "tests": "tests/v3_batch1_unit.js"
   },
   {
    "id": "V3-D5",
@@ -10989,8 +10991,8 @@
    "title": "AA_170 大二：社團博覽會（站在攤位後面，第一次被叫學長）、大二暑假（營隊或打工、宿舍抽籤）",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照 AA_170 轉事件；打工錢 +22000（7524e492，BB_115 L467）；標「（BB）」的句子 BB-B 已補（BB_157 第 1 節：子晴「欸不是，新手最好。我到現在，還在新手村。」、學姊「……順序對了。」＋兩句旁白），不用再等",
+   "status": "進行中",
+   "next": "X02 社團博覽會大二版已接（9/16～9/17 11～17 椰林大道攤位那一排；五種攤位＋沒加入；Y2_EXPO_BOOTH、Y2_EXPO_SENIOR、同社團熟悉 +1；帳篷在大二兩天也擺；tests/v3_batch1_unit.js 1～5）。X15 大二暑假（營隊或打工、宿舍抽籤）等暑假的做法（已問 AA-B：法律系暑假要不要回家）",
    "priority": "P3",
    "first": {
     "term": "Y2S1",
@@ -11223,6 +11225,49 @@
    },
    "source": "AA_180（AA-B 9413a569）、BB_110 T3（BB-B 48e74be8，AB-47）、AA_181（AA-B 0dc38d62）",
    "authorized": "D79"
+  },
+  {
+   "area": "V3",
+   "owner": "LAWWW",
+   "priority": "P2",
+   "authorized": "D79",
+   "id": "V3-D24",
+   "title": "社團博覽會大二版（祐廷站在攤位後面；交付清單 D24，AA_140 G11）",
+   "status": "已整合待測試",
+   "next": "＝V3-AA170 的 X02（AA_170 第 1 節）：已接，tests/v3_batch1_unit.js 1～5；瀏覽器",
+   "first": {
+    "term": "Y2S1",
+    "week": 2,
+    "earliest": "2026-09-16 椰林大道",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "交接包_v3_交付清單 D24、AA_170",
+   "tests": "tests/v3_batch1_unit.js"
+  },
+  {
+   "area": "V3",
+   "owner": "LAWWW",
+   "priority": "P2",
+   "authorized": "D79",
+   "id": "V3-D25",
+   "title": "法服的對外值班（系統）：大二起祐廷值班做紀錄（交付清單 D25；AA_132、AA_137 §8、AA_163）",
+   "status": "待開工",
+   "next": "大一的旁觀已接（V1-F）；大二起「祐廷值班做紀錄」每一次值班的內容（旁白池、時間、LAWCLUB_SAT_VISITS、只有法服成員？）文件沒有，已問 AA-B（2026-10-16）",
+   "first": {
+    "term": "Y2S1",
+    "week": 3,
+    "earliest": "2026-09-26 起單週週六 9～12",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "交接包_v3_交付清單 D25"
   }
  ]
 }
