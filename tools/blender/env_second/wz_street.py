@@ -428,7 +428,7 @@ def laundry_proto(seed):
 
 
 LAUNDRY = [laundry_proto(s) for s in (21, 22, 23)]
-POT_FERN = [potted_proto('fern', 0.09, 0.16, 0.33, 0.32, 4, s) for s in (11, 12)]
+POT_FERN = [potted_proto('fern', 0.09, 0.16, 0.33, 0.32, 4, 11)] * 2   # 效能第二輪：兩個種子的蕨類盆栽合成一個原型（每個原型 2 次 draw call；擺的時候本來就各自轉向）
 def broad_proto(r, h, seed):
     """大葉盆栽（instancing）：陶盆＋土＋plants.py 的模型葉子（v6d：葉片卡的大葉子遠看像折紙）。原點＝盆底中央"""
     import plants as PL_
@@ -759,11 +759,20 @@ for _m in bpy.data.materials:
     if not _fi or _fi['color'] is None: continue
     _r = _m.node_tree.nodes['Principled BSDF'].inputs['Roughness'].default_value
     WZ_VC[_m.name] = VC_SMETAL if _fi['metal'] > 0.1 else (VC_GLOSS if _r < 0.5 else VC_SMATTE)
+# 第二輪（效能，2026-10-16）：貼在牆上的薄零件（門、窗框、鋁框、窗簾、曬的衣服、水管、信箱、門把）的影子從上往下看不到——
+# 改到不投影的那一組；會投影的只剩雨遮、屋頂板、騎樓天花板（還有 instancing 的冷氣、水塔，本來就不投影）
+for _n, _v in list(WZ_VC.items()):
+    if _v in (VC_MATTE, VC_METAL) and (_n.startswith(('wz_door_', 'wz_frame_')) or _n in ('cafe_pipe', 'cafe_curtain', 'wz_laundry', 'cafe_alu', 'cafe_iron_black', 'cafe_brass', 'wz_mailbox')):
+        WZ_VC[_n] = VC_SMETAL if _v is VC_METAL else VC_SMATTE
 print('vc_consolidate:', len(WZ_VC), 'materials ->', sorted({v.name for v in WZ_VC.values()}), sorted(k for k, v in WZ_VC.items() if v.name.startswith('cafe_vc_wz')))
 _keep = lambda ob: 'FACE' in ob.name or 'SEASON' in ob.name or (ob.parent is not None and 'SEASON' in ob.parent.name)
 L.realize_small_instances(root, keep=_keep)   # 只擺一兩個的店面小物（店裡的冰箱、販賣機、麵攤、傘架、電表…）不用 instancing，合進大網格
 L.vc_consolidate(root, WZ_VC)
 L.split_by_material(root, keep=_keep)
+# 小貼圖材質（店內地板、條紋雨遮、菜單、書背…）合成一張貼圖集（效能第二輪，2026-10-16）
+WZ_TEXT = {'wz_signs', 'wz_in_board', 'wz_in_price', 'wz_menu_ice', 'wz_menu_tea', 'wz_noren', 'wz_shop_notes'}   # 有字的（招牌設計稿、菜單、價目、告示）不進貼圖集：縮小以後字糊掉（第一次試：招牌整片灰）
+if L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', f'wz_small_atlas_{SET}.png'), f'wz_small_atlas_{SET}', protect=WZ_KEEP | WZ_TEXT, keep=_keep): pass
+L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', f'wz_rows_atlas_{SET}.jpg'), f'wz_rows_atlas_{SET}', protect=WZ_KEEP | WZ_TEXT, keep=_keep, skip=lambda m: m.name.startswith('wz_small_atlas'))   # 沿 u 重複很多次的（條紋雨遮、店內地板、木頭）
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or 'SEASON' in ob.name or (ob.parent is not None and 'SEASON' in ob.parent.name))
 info = L.export(OUT, gpu_instances=True)
 info.update({'buildings': [s['id'] for s in SPECS]})

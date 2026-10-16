@@ -493,6 +493,8 @@ def _season_key(ob):   # 楓香兩棵：同一個季節狀態、同材質的合�
 L.vc_consolidate(root, L.auto_vc_groups(root, bpy.data.materials['wz_vc_matte'], bpy.data.materials['wz_vc_metal'], protect={'wz_lamp_lens', 'jp_lamp', 'cafe_bulb'}))
 L.realize_small_instances(root, keep=_keep)
 L.split_by_material(root, keep=_keep)
+L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', 'wz_park_small_atlas.png'), 'wz_park_small_atlas', protect={'wz_lamp_lens', 'park_lamp_glass', 'cafe_bulb'}, max_tris=1600, keep=_keep)   # 效能第二輪：小貼圖材質合一張
+L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', 'wz_park_rows.jpg'), 'wz_park_rows', protect={'wz_lamp_lens', 'park_lamp_glass', 'cafe_bulb', 'park_grass', 'park_stone'}, keep=_keep, skip=lambda m: m.name.startswith('wz_park_small_atlas'))
 L.merge_by_material(root, keep=_keep, key=_season_key)
 info = L.export(OUT, gpu_instances=True)
 info['layout'] = LAY['version']

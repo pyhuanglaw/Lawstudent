@@ -356,6 +356,8 @@ _keep = lambda ob: 'FACE' in ob.name   # 第三輪減量（2026-10-16）：其�
 L.vc_consolidate(root, L.auto_vc_groups(root, bpy.data.materials['wz_vc_matte'], bpy.data.materials['wz_vc_metal'], protect={'jp_lamp', 'jp_shoji', 'wz_lamp_lens', 'wz_yizhan_lantern'}))
 L.realize_small_instances(root, keep=_keep)
 L.split_by_material(root, keep=_keep)
+L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', 'wz_jp_small_atlas.png'), 'wz_jp_small_atlas', protect={'jp_lamp', 'jp_shoji', 'wz_lamp_lens', 'wz_yizhan_lantern', 'wz_yizhan_plaque'}, max_tris=600, keep=_keep)   # 效能第二輪：小貼圖材質合一張
+L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', 'wz_jp_rows.jpg'), 'wz_jp_rows', protect={'jp_lamp', 'jp_shoji', 'wz_lamp_lens', 'wz_yizhan_lantern', 'wz_yizhan_plaque'}, keep=_keep, skip=lambda m: m.name.startswith('wz_jp_small_atlas'))
 L.merge_by_material(root, keep=_keep)
 info = L.export(OUT, gpu_instances=True)
 L.write_json(OUT[:-4] + '.json', info)

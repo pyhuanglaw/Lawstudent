@@ -356,6 +356,12 @@ L.vc_consolidate(root, {**dict.fromkeys(('cafe_ceramic_white', 'cafe_int_bartop'
 _keep = lambda ob: any(k in ob.name for k in ('SIGN_FACE', 'ABOARD_FACE', 'MENU_FACE'))
 L.realize_small_instances(root, keep=_keep)   # 第三輪減量（2026-10-16）：只擺幾個的 instancing（凳子、桌子、冷氣、鐵窗、雨遮）合進大網格；多材質的零件拆開再合
 L.split_by_material(root, keep=_keep)
+# 效能第二輪（2026-10-16）：玻璃看進去的店內（地板、牆、木頭、天花板、樑、書、層架、吧台）八個貼圖材質合成一張 cafe_int_atlas——
+# 遊戲的 CAFE_BOUNCE（白天店裡也開燈）要加一行 cafe_int_atlas；名字是 cafe_int_ 開頭，WZ_NO_SHADOW 照舊不投影。外面的小貼圖材質另一張。
+L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', 'cafe_int_atlas.png'), 'cafe_int_atlas', only=set(BOUNCE_MATS), max_tris=6000, max_rep=8, cell=256, rough=0.6, keep=_keep)
+L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', 'cafe_ext_small_atlas.png'), 'cafe_ext_small_atlas', protect=set(NIGHT_MATS) | set(BOUNCE_MATS), max_tris=600, keep=_keep)
+L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', 'cafe_int_rows.jpg'), 'cafe_int_rows', only=set(BOUNCE_MATS), max_tris=4000, keep=_keep)   # 店內剩下的（牆、樑、天花板、木頭）：CAFE_BOUNCE 也要加 cafe_int_rows
+L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', 'cafe_ext_rows.jpg'), 'cafe_ext_rows', protect=set(NIGHT_MATS) | set(BOUNCE_MATS), keep=_keep, skip=lambda m: m.name.startswith(('cafe_int_atlas', 'cafe_ext_small_atlas')))
 L.merge_by_material(root, keep=_keep)
 info = L.export(OUT, gpu_instances=True)
 info.update({'night_mats': NIGHT_MATS, 'bounce_mats': BOUNCE_MATS})
