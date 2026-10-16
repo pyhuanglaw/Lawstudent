@@ -30,7 +30,7 @@ OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/' + {'gongg
 SHOP = lambda **k: k
 SPECS = [
     # A 側（z>0，立面朝 −z）：aptA(x0,x1,spec) → 位置 ((x0+x1)/2, 5)、rotation.y=π、深 12
-    dict(id='A1', side='A', x0=-12, x1=-4, floors=4, wall='tile', color='#d9c9a8', ground='shop', shop=SHOP(type='print', name='大學影印', sub='影印・裝訂・論文輸出', signBg='#f4f1ea', signColor='#1f4e8c', band='#1f4e8c', vertical='影印', vBg='#ffffff', vColor='#1f4e8c', vBand='#1f4e8c')),
+    dict(id='A1', side='A', x0=-12, x1=-4, floors=4, wall='tile', color='#d9c9a8', ground='shop', shop=SHOP(type='print', name='阿德影印輸出', sub='影印・膠裝・大圖輸出', signBg='#f4f1ea', signColor='#1f4e8c', band='#1f4e8c', vertical='影印', vBg='#ffffff', vColor='#1f4e8c', vBand='#1f4e8c')),
     dict(id='A2', side='A', x0=-4, x1=3.1, floors=5, wall='mosaic', color='#cfd8d0', ground='door', door='#9c2f2a'),
     dict(id='A3', side='A', x0=8.4, x1=20, floors=4, wall='tile', color='#c9b49a', balcony=True, ground='shop', shop=SHOP(type='books', name='巷口書房', sub='二手書・人文社會・法律', signBg='#2f4a3a', signColor='#f4ead8', serif=True, awning='#2f4a3a', vertical='書', vBg='#f4ead8', vColor='#2f4a3a', vBand='#2f4a3a')),
     dict(id='A4', side='A', x0=32, x1=40, floors=4, wall='plaster', color='#e8e1d4', ground='shop', shop=SHOP(type='noodle', name='林家乾麵', sub='乾麵・餛飩・滷味', signBg='#f4ead8', signColor='#9c2f2a', vertical='麵', vBg='#ffffff', vColor='#9c2f2a', vBand='#9c2f2a', awning='#9c2f2a')),
@@ -42,7 +42,7 @@ SPECS = [
     dict(id='B4', side='B', x0=4, x1=16, floors=4, wall='mosaic', color='#d8d2c6', ground='door', door='#2f4a3a'),
     dict(id='B5', side='B', x0=16, x1=30, floors=4, wall='tile', color='#cbbba3', ground='arcade', shop=SHOP(type='tea', name='巷口茶飲', sub='手搖飲・現煮珍珠', signBg='#f4ead8', signColor='#5c3a21', band='#7a9a5a')),
     dict(id='B6', side='B', x0=30, x1=40, floors=5, wall='plaster', color='#e6dccb', ground='shop', shop=SHOP(type='fruit', name='阿忠水果', sub='當季水果・果汁', signBg='#f2b33e', signColor='#5c2a1a')),
-    dict(id='B7', side='B', x0=40, x1=48, floors=4, wall='tile', color='#a89a88', ground='door', door='#8a3a2a'),
+    dict(id='B7', side='B', x0=40, x1=48, floors=4, wall='tile', color='#a89a88', ground='shop', shop=SHOP(type='brunch', name='半熟', sub='早午餐', signBg='#a07850', signColor='#ffffff', frame='#6b4a30')),   # ART-WZ2：原本是住家，改成早午餐店（AA_164）
     # Café 南北兩側（立面朝西，rotation.y=−π/2）
     dict(id='C1', pos=(55.4, -12.4), ry=-math.pi / 2, w=10, d=12, floors=5, wall='tile', color='#cbbba6', ground='shutter'),
     dict(id='C2', pos=(55.4, 11.2), ry=-math.pi / 2, w=7, d=12, floors=4, wall='mosaic', color='#d3cbbd', balcony=True, ground='door', door='#2f4a3a'),
@@ -66,6 +66,9 @@ SPECS = [
     # 西端巷口兩側
     dict(id='W1', pos=(-37.2, 11.0), ry=math.pi / 2, w=10, d=12, floors=4, wall='tile', color='#d4c6b0', ground='door', far=True),
     dict(id='W2', pos=(-37.2, -13.0), ry=math.pi / 2, w=10, d=12, floors=4, wall='tile', color='#cbbfae', ground='door', far=True),
+    # 小公園北側（ART-WZ1）：兩棟公寓（導航格外面 z>30，走不到），正面對著公園
+    dict(id='P1', pos=(18.0, 30.9), ry=math.pi, w=12.2, d=10, floors=5, wall='tile', color='#cbbfac', ground='door', door='#4a4f52', far=True, p_grille=0.6),
+    dict(id='P2', pos=(30.6, 30.9), ry=math.pi, w=12.6, d=10, floors=4, wall='mosaic', color='#d5cfc2', ground='door', door='#6a3a2a', far=True, p_grille=0.55),
 ]
 GH, FH = 3.4, 3.1          # TK.apartment 的預設一樓高、樓高
 
@@ -460,6 +463,7 @@ def apartment(spec):
         sfx = SF.get(spec['id']) or SF_HOUSE.get(spec['id']) or SF_SHUTTER.get(spec['id'])
         if sfx: spec = dict(spec, sf=sfx)
     if gt == 'shop' and spec.get('sf'): rec = spec['sf'].get('recess', 0.9) + 1.3   # 店門退縮成門廊：一樓牆體從玻璃後 1.3 m 開始
+    if gt == 'arcade' and spec.get('sf', {}).get('split'): rec = 3.0 + 2.6   # B5：騎樓 3 m＋後面兩間 2.6 m 深的立體小店
     W = Wd; D = Dd
     # ---- 樓上的窗：每層 n 扇（和套件相同的算法：n＝round(W/3.6)）
     n = max(1, round(W / 3.6)); ww = min(2.2, W / n - 0.9); wh = 1.5
@@ -536,6 +540,7 @@ def apartment(spec):
         xf.box(band, -aw / 2 - 0.15, aw / 2 + 0.15, totalH + 2.4, totalH + 2.5, -D * 0.5 - ad / 2 - 0.15, -D * 0.5 + ad / 2 + 0.15)
     elif spec.get('tank', True):
         tx = rng.uniform(-W / 2 + 1.5, W / 2 - 1.5); wx, _, wz = xf.p(tx, 0, -D * 0.45); B.instance(TANK, f'tank_{spec["id"]}', wx, totalH, wz, root, ry=xf.ry)
+    if SET == 'wenzhou' and spec['id'] in REAR: rear_facade(spec, xf, W, D, F, totalH)   # 背面對著小公園（ART-WZ1）
     upper_signs(spec, xf, W, totalH)
     # ---- 一樓：牆體和樓上同一種外牆（側面露在巷口時不會變成另一種材質）；店面兩側的石材壁柱
     xf.box(wall, -W / 2, W / 2, 0, GH, -D, -rec)                                                  # 一樓牆體（店面退縮）
@@ -547,13 +552,13 @@ def apartment(spec):
         for sx in (-1, 1): xf.box(pm, sx * (W / 2 - 0.15) - 0.15, sx * (W / 2 - 0.15) + 0.15, 0, GH, -rec, -r0)
     else: xf.box(gw, -W / 2, W / 2, 0, 0.9, -rec - 0.02, -rec + 0.04)                              # 住家／鐵捲門：牆腳的磨石子護牆
     xf.box(band, -W / 2, W / 2, GH - 0.12, GH, -0.25, 0.06)
-    if gt in ('shop', 'arcade'): shopfront_v2(spec, xf, W, gt, wall) if (spec.get('sf') and gt == 'shop') else shopfront(spec, xf, W, gt)
+    if gt == 'arcade' and spec.get('sf', {}).get('split'): arcade_split_v2(spec, xf, W, wall)
+    elif gt in ('shop', 'arcade'): shopfront_v2(spec, xf, W, gt, wall) if (spec.get('sf') and gt == 'shop') else shopfront(spec, xf, W, gt)
     elif gt == 'shutter':
         shutter(spec, xf, W, rec)
         if spec.get('sf'): shutter_v2(spec, xf, W, rec)
     else:
-        housedoor(spec, xf, W, rng, rec)
-        if spec.get('sf'): housefront_v2(spec, xf, W, rng, rec)
+        housefront_v2(spec, xf, W, rng, rec) if spec.get('sf') else housedoor(spec, xf, W, rng, rec)
     set_tint(wall.finish(root), spec['color'], kind)
 
 
@@ -691,7 +696,9 @@ def housedoor(spec, xf, W, rng, rec):
 SF, SF_HOUSE, SF_SHUTTER = {}, {}, {}
 if SET == 'wenzhou': exec(open(os.path.join(HERE, 'wz_shopkit.py'), encoding='utf-8').read())   # ART-WZ0 店面組件（同一個命名空間）
 for sp in SPECS: apartment(sp)
-if SET == 'wenzhou': build_notes()
+if SET == 'wenzhou':
+    build_notes()
+    acc(M['sidewalk']).box(11.8, 37.2, -0.01, 0.015, 29.3, 31.0)   # 小公園北牆和 P1、P2 之間的地（區域地面到 z=30 為止）
 for k, m in _acc.items():
     m.finish(root, uv=(k not in ('cafe_leaf_fern', 'cafe_leaf_broad', 'cafe_leaf_olive', 'cafe_leaf_ivy')), smooth=k in ('cafe_pot_terracotta', 'cafe_bulb'))
 for m, props in faces: uv01(m.finish(root, uv=True, props=props))
@@ -708,7 +715,7 @@ for _m in bpy.data.materials:   # 門、窗框、雨遮的顏色是每棟自己�
     if _m.name.startswith(('wz_door_', 'wz_frame_', 'wz_awning_')) and _m.name not in WZ_VC and L.flat_info(_m):
         WZ_VC[_m.name] = VC_METAL if L.flat_info(_m)['metal'] > 0.1 else VC_MATTE
 L.vc_consolidate(root, WZ_VC)
-L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
+L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or 'SEASON' in ob.name or (ob.parent is not None and 'SEASON' in ob.parent.name))
 info = L.export(OUT, gpu_instances=True)
 info.update({'buildings': [s['id'] for s in SPECS]})
 L.write_json(OUT[:-4] + '.json', info)

@@ -99,5 +99,33 @@ def awnings():
     print('saved awnings')
 
 
+def menus():
+    """手搖飲店的燈箱菜單（三欄：茶、奶茶、鮮果；中杯／大杯）與冰菓室的長條木牌菜單（直書紅字）。品項、價錢都是一般的、虛構的"""
+    W, H = 1024, 384; im = Image.new('RGB', (W, H), (250, 248, 240)); d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, W, 54], fill=(122, 154, 90)); d.text((24, 8), '飲 品 菜 單', font=f(36), fill=(255, 255, 255)); d.text((W - 300, 14), '中杯 M ／ 大杯 L', font=f(26), fill=(255, 255, 255))
+    cols = [('原 味 茶', [('紅茶', 25, 30), ('綠茶', 25, 30), ('青茶', 25, 30), ('烏龍茶', 30, 35), ('冬瓜茶', 25, 30), ('蕎麥茶', 30, 35)]),
+            ('奶 茶', [('奶茶', 40, 50), ('珍珠奶茶', 50, 60), ('紅茶拿鐵', 55, 65), ('烏龍奶茶', 45, 55), ('布丁奶茶', 55, 65), ('仙草凍奶茶', 50, 60)]),
+            ('鮮 果', [('檸檬綠', 45, 55), ('冬瓜檸檬', 45, 55), ('柳橙綠', 55, 65), ('百香綠', 50, 60), ('葡萄柚綠', 55, 65), ('金桔檸檬', 45, 55)])]
+    cw = W / 3
+    for i, (hd, items) in enumerate(cols):
+        x0 = int(i * cw) + 22
+        d.ellipse([x0, 70, x0 + 30, 100], fill=[(176, 96, 56), (196, 160, 120), (232, 196, 60)][i]); d.text((x0 + 40, 66), hd, font=f(30), fill=(70, 60, 50))
+        for k, (nm, m, l) in enumerate(items):
+            y = 116 + k * 42; d.text((x0, y), nm, font=f(28), fill=(50, 44, 40)); d.text((x0 + 200, y), f'{m}', font=f(28), fill=(160, 70, 50)); d.text((x0 + 262, y), f'{l}', font=f(28), fill=(160, 70, 50))
+        if i: d.line([int(i * cw), 66, int(i * cw), H - 14], fill=(210, 204, 190), width=2)
+    im.save(os.path.join(GEN, 'shop_menu_tea.png'))
+    # 冰菓室：深色木板上掛一排米色長條木牌，直書紅字，下面是價錢
+    W, H = 1024, 320; im = Image.new('RGB', (W, H), (92, 60, 38)); d = ImageDraw.Draw(im)
+    for y in range(0, H, 3): d.line([0, y, W, y], fill=(92 + rnd.randint(-8, 8), 60 + rnd.randint(-6, 6), 38 + rnd.randint(-5, 5)))
+    items = [('紅豆牛奶冰', 60), ('綜合剉冰', 55), ('四果冰', 55), ('花生豆花', 45), ('愛玉檸檬', 40), ('粉圓冰', 50), ('八寶冰', 65), ('芋圓冰', 60), ('杏仁豆腐', 45), ('芒果冰', '時價')]
+    n = len(items); sw = W / n
+    for i, (nm, pr) in enumerate(items):
+        x0 = int(i * sw + 8); x1 = int((i + 1) * sw - 8); d.rectangle([x0, 14, x1, H - 14], fill=(236, 222, 190)); d.rectangle([x0, 14, x1, H - 14], outline=(70, 46, 30), width=2)
+        fs = min(40, int((H - 100) / len(nm)) - 2); yy = 26
+        for ch in nm: d.text(((x0 + x1) / 2 - fs / 2, yy), ch, font=f(fs), fill=(178, 36, 30)); yy += fs + 1
+        pt = str(pr); d.text(((x0 + x1) / 2 - len(pt) * 9, H - 56), pt, font=f(30 if isinstance(pr, int) else 22), fill=(40, 30, 24))
+    im.save(os.path.join(GEN, 'shop_menu_ice.png')); print('saved menus')
+
+
 if __name__ == '__main__':
-    os.makedirs(GEN, exist_ok=True); atlas(); awnings()
+    os.makedirs(GEN, exist_ok=True); atlas(); awnings(); menus()
