@@ -280,7 +280,7 @@ def wall_cut(prefix, parent, axis, at, a0, a1, y0, y1, holes, dirv, mat):
         else: box(f'{prefix}_WALL_{k}', mat, pa, pb, ya, yb, at - T / 2, at + T / 2, parent, props={'dir': dirv})
         k += 1
     for (ha, hb, hy0, hy1) in holes:
-        piece(cur, ha, y0, y1); piece(ha, hb, y0, max(y0, hy0)); piece(ha, hb, min(y1, hy1), y1); cur = hb
+        piece(cur, ha, y0, y1); piece(ha, hb, y0, min(y1, max(y0, hy0))); piece(ha, hb, max(y0, min(y1, hy1)), y1); cur = hb   # 開口在這一段的上面或下面：不超出 y0～y1（同 dorm_hall.py，BUG-COPLANAR-DEV）
     piece(cur, a1, y0, y1)
 
 def window(prefix, parent, axis, at, a, b, ya, yb, inward, fade=None):
