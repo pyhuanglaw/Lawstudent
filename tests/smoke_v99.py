@@ -18,17 +18,23 @@ TURBO = URL + ('&' if '?' in URL else '?') + 'turbo'
 FLAGS = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True}
 SAT = 20   # 法律系第 20 天＝週六（半熟、一盞都開）
 
-CLICK_JS = """(want=>{ const bs=[...document.querySelectorAll('#choices button')]; const b=bs.find(x=>x.textContent.includes(want)); if(!b) return bs.map(x=>x.textContent.trim().slice(0,24)); b.click(); return true; })"""
-
-
-async def choices(pg, max_s=60):
+async def choices(pg, cdp, max_s=60):
+    """等選單出現；中間的對話用觸控點過去（和 playlib.advance_dialogs 一樣）"""
     for _ in range(int(max_s * 2)):
-        t = await pg.evaluate("[...document.querySelectorAll('#choices:not(.hide) button')].map(b=>b.textContent.trim())")
-        if t: return t
-        # 對話：點一下往下
-        await pg.evaluate("(()=>{ const d=document.getElementById('dlg'); if(d&&!d.classList.contains('hide')) d.click(); })()")
+        s = await L.state(pg)
+        if s['choices']:
+            return await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())")
+        if s['dlg']: await L.tap(pg, cdp, '#dlg')
         await pg.wait_for_timeout(500)
     return []
+
+
+async def pick(pg, cdp, want):
+    """用觸控點選含 want 的選項；沒有就回傳目前的選項文字"""
+    c = await pg.evaluate("(w=>{ const bs=[...document.querySelectorAll('#choices button')]; const e=bs.find(x=>x.textContent.includes(w)); if(!e) return bs.map(x=>x.textContent.trim().slice(0,24)); e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%s)" % json.dumps(want))
+    if c and isinstance(c[0], (int, float)):
+        await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(800); return True
+    return c
 
 
 async def main():
@@ -57,16 +63,15 @@ async def main():
         run.setup(f'讀檔到公館站入口（第 {sat} 天週六 13:00），直接呼叫 TRIP.go 第一個能去的景點')
         await L.load_state(pg, {'zone': 'gongguan', 'day': sat, 'weekday': 6, 'hour': 13, 'flags': FLAGS, 'money': 3000, 'pos': {'x': -35.6, 'z': 13, 'yaw': 0}}, quiet_events=True)
         spot = await pg.evaluate("(()=>{ const s=TRIP.list().find(x=>TRIP.check(GAME.G,x).ok); if(!s) return 'NONE:'+TRIP.list().slice(0,3).map(x=>(x.id||x.name)+'='+TRIP.check(GAME.G,x).why).join(' / '); void TRIP.go(GAME,s); return s.id||s.name; })()")
-        ch = await choices(pg)
+        ch = await choices(pg, cdp)
         trip = await pg.evaluate("GAME.G.trip&&GAME.G.trip.spot")
         run.check('出行：有能去的景點、出發後到了有選單', bool(spot) and not str(spot).startswith('NONE') and bool(trip) and len(ch) > 0, json.dumps({'spot': spot, 'trip': trip, 'choices': ch[:6]}, ensure_ascii=False))
         await run.shot(pg, 'trip')
-        r = await pg.evaluate(CLICK_JS + "('回去')")
+        r = await pick(pg, cdp, '回去')
         for _ in range(8):
-            ch = await choices(pg, 20)
-            if not ch: break
-            await pg.evaluate("(()=>{ const b=document.querySelector('#choices button'); if(b) b.click(); })()")
-            await pg.wait_for_timeout(800)
+            ch = await choices(pg, cdp, 15)
+            if not ch or await pg.evaluate("!GAME.G.trip"): break
+            await pick(pg, cdp, ch[0])
         await pg.wait_for_timeout(3000)
         s = await L.state(pg); trip2 = await pg.evaluate("!!GAME.G.trip")
         run.check('出行：選「回去」→ 回到公館或宿舍、G.trip 清掉', r is True and not trip2 and s['zone'] in ('gongguan', 'dorm', 'dorm_hall'), json.dumps({'click': r, 'zone': s['zone'], 'trip': trip2}, ensure_ascii=False))
@@ -74,14 +79,15 @@ async def main():
         run.setup(f'讀檔到宿舍房間（第 {sat - 1} 天週五 19:00），直接呼叫 HOME.go')
         await L.load_state(pg, {'zone': 'dorm', 'day': sat - 1, 'weekday': 5, 'hour': 19, 'flags': FLAGS, 'pos': {'x': 0, 'z': 1.5, 'yaw': 3.14}}, quiet_events=True)
         await pg.evaluate("void HOME.go(GAME)")
-        ch = await choices(pg)
+        ch = await choices(pg, cdp)
         at_home = await pg.evaluate("HOME.at(GAME.G)&&!(GAME.G.home&&GAME.G.home.winter)")
         run.check('回家：在家、家裡的選單有「回宿舍」、不是寒假模式', at_home and any('回宿舍' in c for c in ch), json.dumps(ch, ensure_ascii=False))
         await run.shot(pg, 'home')
-        r = await pg.evaluate(CLICK_JS + "('回宿舍')")
+        r = await pick(pg, cdp, '回宿舍')
         for _ in range(60):
             if not await pg.evaluate("HOME.at(GAME.G)"): break
-            await pg.evaluate("(()=>{ const d=document.getElementById('dlg'); if(d&&!d.classList.contains('hide')) d.click(); })()")
+            st = await L.state(pg)
+            if st['dlg']: await L.tap(pg, cdp, '#dlg')
             await pg.wait_for_timeout(500)
         await pg.wait_for_timeout(2500)
         s = await L.state(pg)
