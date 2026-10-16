@@ -57,6 +57,8 @@
 | 13 | CG-24 以安 西洋情人節 | CG-25 語彤 中秋 |
 | 14 | D11 新北投 底圖（AA） | D12 大稻埕 底圖（AA） |
 | 15 | D14 漁人碼頭 底圖（AA） | D16 北海岸 底圖（AA） |
+| 16 | D17 野柳 底圖（AA） | D19 金瓜石 底圖（AA） |
+| 17 | D20 烏來 底圖（AA） | D15 以外 BB 剩下的底圖（D24、D26～D32，BB 之後寫規格） |
 | 13～ | 其餘底圖（D08、D10…D32，照 `AA_128` 第 7 節）為主，每三組插一組事件 CG：BCG-37＋BCG-38 → BCG-39＋BCG-40 → BCG-41＋BCG-36 → BCG-42＋BCG-44 | |
 
 - **第 3、4 組的檔案**：使用者在對話裡貼的圖不會自動變成檔案（之前 3～5 號會，00:45 以後不會）。LAWWW2-B 教的做法：從自己工作階段的對話紀錄（`/root/.claude/projects/…/<session>.jsonl`，使用者訊息和 `queued_command` 附件裡的 base64）解出原檔，逐位元組相同。BB-B 已取出四張存進 `date_system/art/`：`heroine_05_date_shirt.webp`（1122×1402）、`heroine_02_expr9.webp`（1254×1254）、`d09_base_dusk.webp`、`d01_base_afternoon.webp`（1672×941），D01、D09 座標用原圖疊框複核過。
