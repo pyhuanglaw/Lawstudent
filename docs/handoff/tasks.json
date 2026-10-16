@@ -1242,8 +1242,8 @@
    "title": "考古題沒有限制第 7 週",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "加週次條件",
+   "status": "已整合待測試",
+   "next": "第 7 週起（minWeek）",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -1263,8 +1263,8 @@
    "title": "麵店的糾紛沒有第 15 週下限",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "加週次條件",
+   "status": "已整合待測試",
+   "next": "第 15 週起（minWeek）；阿姨去法服那段台詞照 G03（ebf636ad）另外改",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -7621,8 +7621,8 @@
    "title": "語彤雨天總圖事件加條件：不在週二、四 17:30～20:30（台詞不改）",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "改事件 time 條件",
+   "status": "已整合待測試",
+   "next": "週二、四 17:30～20:30 不觸發（tests/v1_conditions_unit.js）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
