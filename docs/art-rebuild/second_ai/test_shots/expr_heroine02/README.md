@@ -1,5 +1,10 @@
 # 林芷若 campus 表情立繪 8 張（LAWWW2-B 2026-10-16；角色美術由 BB 驗收，D59）
 
+> **BB-B 01:04Z 驗收通過：ART_APPROVED**（D59；和 10/14 確認圖、使用者 10/16 生成的九格表情一致）。thinking 不放，BB-B 同意，之後向使用者要「不帶手的思考」頭像。
+> BB-B 要的兩個小修已做（不用再給 BB-B 看）：
+> 1. **neutral 的頭頂補完整**（`tools/portraits/recut_top.py`）：原本從 date_warm 的第 20 列開始裁，切到頭髮。現在往上延伸到第 0 列重新去背，**照原本那一張的縮放與位置**貼回去，只換頭頂（第 120 列以上，120～140 列漸變）。頭頂以下和原本的平均差是 1.8/255（去背的細微差），身體不動；頭頂從第 40 列變成第 32 列，和 8 張表情一樣是完整的弧形，切換表情時不會跳（`neutral_top_fix.webp`：左＝原本、中＝修好、右＝smile）。
+> 2. **laugh、serious、tired 左側髮絲外緣的白點**：細髮絲的邊緣還帶著淺灰底 → 透明交界 3 px 內、低彩度又偏亮的像素拿掉，再只留最大的一塊（浮在外面的小點）。膚色彩度高，右邊的臉頰、下巴不受影響。8 張都用同一個做法重新產生（對齊結果不變）。
+
 - **來源**：
   - 使用者產生的芷若九格表情 `docs/story_planning/date_system/art/heroine_02_expr9.webp`（1254×1254，3×3，BB-B 已驗收，BB_132 第 3 組）。
   - 全身立繪 campus 姿勢① `assets/portraits/heroine_02/campus/neutral.webp`（600×1000）。
@@ -51,4 +56,4 @@
 - 遊戲還不會讀到這 8 張：`src/data/portrait_manifest.js` 要重新產生（`python3 tools/gen_portrait_manifest.py`，或 `build.py`），由 LAWWW-B 整合時做。
 - 沒有在遊戲的 ADV 畫面裡實際截圖。
 - 新頭的線條比全身圖稍微清楚一點（原圖解析度較高），並排時看得出來；單張對話時不明顯。
-- 原本 neutral 的頭頂被裁成平的（之前切圖留下的），這 8 張的頭頂是完整的弧形；neutral 要不要重切由 BB-B 決定。
+- ~~原本 neutral 的頭頂被裁成平的~~：已補（見最上面）。

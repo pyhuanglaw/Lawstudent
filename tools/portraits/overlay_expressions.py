@@ -86,6 +86,15 @@ def main():
         # 邊緣去灰：半透明的頭髮邊緣混到灰底的顏色 → 還原成頭髮本身的顏色 c = (obs − (1−α)·bg)/α
         cr = np.asarray(c).astype(float); m = (al > 0.02) & (al < 1)
         cr[m] = np.clip((cr[m] - (1 - al[m])[:, None] * bg) / al[m][:, None], 0, 255)
+        # 白點（BB-B 驗收時指出 laugh、serious、tired 左側髮絲外緣）：細髮絲邊緣還帶著淺灰底 → 透明交界 3 px 內、低彩度（灰白）又偏亮的像素拿掉
+        # （膚色是暖色、彩度高，右邊的臉頰下巴不會被清到）；再只留最大的一塊（浮在外面的小點）
+        from scipy import ndimage
+        band = ndimage.binary_dilation(al < 0.1, iterations=3) & (al > 0)
+        sat = cr.max(axis=2) - cr.min(axis=2); lum = cr @ np.array([0.299, 0.587, 0.114])
+        al = np.where(band & (sat < 28) & (lum > 115), 0, al)
+        lab, n = ndimage.label(al > 0.2)
+        if n > 1:
+            sz = ndimage.sum(np.ones_like(al), lab, range(1, n + 1)); al = al * ndimage.binary_dilation(lab == 1 + int(np.argmax(sz)), iterations=1)
         ys = np.arange(CELL)[:, None] * np.ones((1, CELL))
         fade = np.clip((a.fade1 - ys) / (a.fade1 - a.fade0), 0, 1)       # 下巴以下淡出
         head = np.dstack([cr.astype(np.uint8), (al * fade * 255).astype(np.uint8)])
