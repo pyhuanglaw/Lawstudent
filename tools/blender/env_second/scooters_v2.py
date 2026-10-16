@@ -23,6 +23,7 @@ def arg(name, default=None):
     return ARGS[ARGS.index(name) + 1] if name in ARGS else default
 OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/scooter.glb'))
 ONLY = [s for s in (arg('--only', '') or '').split(',') if s]
+PREVIEW_COL = {}   # --preview：渲染用，車殼直接寫這一型的代表色（遊戲版是白色、由遊戲乘顏色）
 
 B.reset(texres=256)
 root = B.group('scooters', props={'kind': 'scooters', 'version': 2})
@@ -67,7 +68,7 @@ def finish_all(parts, name, loc_z):
         if getattr(p, 'smooth', False): subdiv_decimate(ob, p.target)
         L.smooth_mesh(ob, angle=1.0)
         if '--parts' in ARGS: print('   part', name, col, ob.name, sum(len(q.vertices) - 2 for q in ob.data.polygons))
-        hx, met = ('#ffffff', 0) if col == 'paint' else COL[col]
+        hx, met = (PREVIEW_COL.get(name, '#ffffff'), 0) if col == 'paint' else COL[col]
         c = [lin(int(hx[i:i + 2], 16) / 255) for i in (1, 3, 5)] + [1.0]
         at = ob.data.color_attributes.new('Col', 'FLOAT_COLOR', 'CORNER')
         for d in at.data: d.color = c
@@ -106,13 +107,13 @@ def loft(m, rings, cap=True):
     return m
 
 
-def wheel(parts, x, r, w, rim='disc', seg=14):
+def wheel(parts, x, r, w, rim='disc', seg=18):
     """輪胎（車胎截面是圓弧：機車胎窄而圓）＋輪框；rim：disc（壓鑄多輻，簡化成兩面圓盤）、spoke（鋼絲輪：細的框＋輪轂）"""
     t = Part('tire'); hub = r * (0.47 if rim == 'disc' else 0.82)
     prof = [(hub + 0.012, -w / 2 * 0.8), (r - w * 0.3, -w / 2), (r, 0.0), (r - w * 0.3, w / 2), (hub + 0.012, w / 2 * 0.8)]
     bm = L.lathe(prof, seg=seg); t.add_bm(bm, Matrix.Translation(g2b(x, r, 0)) @ Matrix.Rotation(math.pi / 2, 4, 'X')); bm.free(); parts.append(t)
     if rim == 'disc':
-        rm = Part('alloy'); bm = L.lathe([(0.0, -w / 2 * 0.75), (hub + 0.014, -w / 2 * 0.75), (hub + 0.014, w / 2 * 0.75), (0.0, w / 2 * 0.75)], seg=8)
+        rm = Part('alloy'); bm = L.lathe([(0.0, -w / 2 * 0.62), (hub * 0.55, -w / 2 * 0.72), (hub + 0.014, -w / 2 * 0.75), (hub + 0.014, w / 2 * 0.75), (hub * 0.55, w / 2 * 0.72), (0.0, w / 2 * 0.62)], seg=12)
         rm.add_bm(bm, Matrix.Translation(g2b(x, r, 0)) @ Matrix.Rotation(math.pi / 2, 4, 'X')); bm.free(); parts.append(rm)
     else:   # 鋼絲輪：鍍鉻輪圈（細環）＋輪轂；輻條用 6 根細桿暗示
         rm = Part('chrome'); bm = L.lathe([(hub, -0.016), (hub + 0.016, -0.016), (hub + 0.016, 0.016), (hub, 0.016)], seg=12)
@@ -144,6 +145,17 @@ def shield(x, y, hw, df, db, p=2.6, n=10):
     return out
 
 
+def interp(rows, k=1):
+    """斷面表的每兩列之間插 k 列（Catmull-Rom，每個欄位各自內插）：車身沿長度方向的輪廓才圓順，不是一段一段的折線"""
+    R = [list(r) for r in rows]; out = []
+    for i in range(len(R) - 1):
+        p0, p1, p2, p3 = R[max(i - 1, 0)], R[i], R[i + 1], R[min(i + 2, len(R) - 1)]
+        for j in range(k + 1):
+            t = j / (k + 1)
+            out.append(tuple(0.5 * (2 * b + (-a + c) * t + (2 * a - 5 * b + 4 * c - d) * t * t + (-a + 3 * b - 3 * c + d) * t ** 3) for a, b, c, d in zip(p0, p1, p2, p3)))
+    out.append(tuple(R[-1])); return out
+
+
 def arc_band(part, cx, cy, r, a0, a1, w, th=0.012, n=7, nz=4):
     """包著輪子的弧形片（土除）：圓心 (cx, cy)、半徑 r、角度 a0→a1（度，0＝正上方、往 +x 為正）、寬 ±w、厚 th"""
     rings = []
@@ -166,28 +178,28 @@ def arc_band(part, cx, cy, r, a0, a1, w, th=0.012, n=7, nz=4):
 ARCH = {
     'S1A': dict(name='國民通勤 125（舊款：頭燈在龍頭）', wb=0.61, rf=0.212, rr=0.212, tw=0.09, fl=0.30, fx=0.3,
                 rear=[(0.0, 0.29, 0.70, 0.165, 0.13), (-0.14, 0.29, 0.73, 0.175, 0.14), (-0.36, 0.34, 0.745, 0.18, 0.15), (-0.6, 0.47, 0.745, 0.17, 0.145), (-0.8, 0.54, 0.735, 0.15, 0.13), (-0.92, 0.585, 0.71, 0.11, 0.095), (-0.96, 0.62, 0.68, 0.06, 0.05)], rp=3.0,
-                apron=[(0.27, 0.31, 0.2, 0.06, 0.02), (0.45, 0.34, 0.19, 0.08, 0.025), (0.62, 0.37, 0.165, 0.08, 0.03), (0.78, 0.40, 0.13, 0.065, 0.035), (0.92, 0.42, 0.095, 0.05, 0.04)], app=2.6,
+                apron=[(0.28, 0.31, 0.205, 0.07, 0.03), (0.46, 0.35, 0.2, 0.1, 0.035), (0.63, 0.385, 0.19, 0.11, 0.04), (0.79, 0.415, 0.17, 0.1, 0.045), (0.93, 0.435, 0.13, 0.07, 0.045)], app=2.6,
                 cover=[(0.33, 0.985, 0.08, 0.04), (0.39, 1.0, 0.17, 0.06), (0.47, 0.99, 0.17, 0.055), (0.54, 0.965, 0.1, 0.04)], lamp='handle',
                 seat=[(0.0, 0.70, 0.745, 0.13), (-0.1, 0.725, 0.785, 0.15), (-0.45, 0.74, 0.8, 0.155), (-0.72, 0.735, 0.81, 0.14), (-0.86, 0.72, 0.785, 0.1)],
                 exh='normal', tail='wide', mirror='round', two_tone=False, extras=['rear_box', 'grab'],
                 palette=['#e9e9e6', '#1d1f22', '#8c9095', '#b8bcc0', '#22344f', '#8f1f24', '#d9cdb6'], weight=0.22),
     'S1B': dict(name='國民通勤 125（新款：頭燈在前擋）', wb=0.62, rf=0.22, rr=0.212, tw=0.095, fl=0.31, fx=0.3,
                 rear=[(0.0, 0.3, 0.71, 0.17, 0.13), (-0.14, 0.3, 0.74, 0.18, 0.14), (-0.36, 0.35, 0.755, 0.185, 0.15), (-0.6, 0.48, 0.755, 0.175, 0.145), (-0.8, 0.55, 0.745, 0.155, 0.13), (-0.93, 0.6, 0.72, 0.115, 0.095), (-0.975, 0.63, 0.69, 0.065, 0.05)], rp=3.4,
-                apron=[(0.28, 0.31, 0.205, 0.065, 0.02), (0.46, 0.345, 0.2, 0.09, 0.025), (0.63, 0.38, 0.175, 0.09, 0.03), (0.79, 0.41, 0.14, 0.07, 0.035), (0.93, 0.43, 0.1, 0.05, 0.04)], app=3.0,
+                apron=[(0.29, 0.31, 0.21, 0.075, 0.03), (0.47, 0.35, 0.205, 0.11, 0.035), (0.64, 0.39, 0.195, 0.115, 0.04), (0.8, 0.42, 0.175, 0.1, 0.045), (0.94, 0.44, 0.135, 0.07, 0.045)], app=3.0,
                 cover=[(0.34, 0.995, 0.08, 0.035), (0.4, 1.005, 0.16, 0.05), (0.47, 0.995, 0.15, 0.045), (0.53, 0.975, 0.09, 0.03)], lamp='apron',
                 seat=[(0.0, 0.71, 0.755, 0.13), (-0.1, 0.735, 0.795, 0.15), (-0.45, 0.75, 0.81, 0.155), (-0.74, 0.745, 0.82, 0.14), (-0.88, 0.73, 0.795, 0.1)],
                 exh='normal', tail='wide', mirror='round', two_tone=False, extras=['hook_bag', 'grab'],
                 palette=['#f1f1ee', '#141517', '#6f7378', '#a9adb2', '#334a6b', '#c9c1b3', '#5d6a5a'], weight=0.24),
     'S2': dict(name='運動型 125～158', wb=0.67, rf=0.232, rr=0.232, tw=0.115, fl=0.32, fx=0.31,
                rear=[(0.0, 0.31, 0.72, 0.16, 0.12), (-0.16, 0.31, 0.75, 0.175, 0.13), (-0.4, 0.37, 0.77, 0.18, 0.14), (-0.66, 0.52, 0.79, 0.16, 0.125), (-0.86, 0.62, 0.82, 0.12, 0.095), (-0.98, 0.7, 0.85, 0.07, 0.055), (-1.03, 0.75, 0.86, 0.03, 0.025)], rp=4.6,
-               apron=[(0.29, 0.32, 0.17, 0.07, 0.02), (0.47, 0.36, 0.18, 0.1, 0.025), (0.64, 0.41, 0.165, 0.1, 0.03), (0.8, 0.46, 0.12, 0.08, 0.035), (0.95, 0.5, 0.07, 0.055, 0.04)], app=4.4,
+               apron=[(0.3, 0.32, 0.18, 0.08, 0.03), (0.48, 0.37, 0.19, 0.12, 0.035), (0.65, 0.42, 0.18, 0.12, 0.04), (0.81, 0.47, 0.15, 0.1, 0.045), (0.96, 0.51, 0.1, 0.065, 0.045)], app=4.4,
                cover=[(0.37, 1.03, 0.08, 0.045), (0.44, 1.045, 0.15, 0.055), (0.52, 1.03, 0.13, 0.045), (0.6, 0.995, 0.05, 0.025)], lamp='vled',
                seat=[(0.0, 0.72, 0.765, 0.12), (-0.12, 0.745, 0.805, 0.145), (-0.5, 0.765, 0.825, 0.15), (-0.74, 0.79, 0.86, 0.125), (-0.92, 0.82, 0.875, 0.07)],
                exh='big', tail='sharp', mirror='poly', two_tone=True, extras=['phone', 'grab'],
                palette=['#1b1c1e', '#3b3f44', '#20427a', '#e8e8e6', '#6e7276', '#7a1c22', '#2f5a3c'], weight=0.2),
     'S5': dict(name='電動換電型', wb=0.63, rf=0.222, rr=0.222, tw=0.095, fl=0.29, fx=0.29,
                rear=[(0.0, 0.28, 0.7, 0.15, 0.12), (-0.14, 0.28, 0.73, 0.16, 0.13), (-0.36, 0.33, 0.745, 0.165, 0.135), (-0.6, 0.45, 0.745, 0.155, 0.13), (-0.8, 0.52, 0.735, 0.135, 0.115), (-0.92, 0.57, 0.715, 0.1, 0.085), (-0.955, 0.6, 0.69, 0.05, 0.04)], rp=3.8,
-               apron=[(0.26, 0.29, 0.165, 0.05, 0.018), (0.44, 0.32, 0.16, 0.065, 0.022), (0.61, 0.35, 0.145, 0.065, 0.027), (0.77, 0.38, 0.115, 0.055, 0.032), (0.91, 0.4, 0.085, 0.045, 0.036)], app=3.6,
+               apron=[(0.27, 0.29, 0.17, 0.06, 0.025), (0.45, 0.325, 0.17, 0.085, 0.03), (0.62, 0.36, 0.16, 0.09, 0.035), (0.78, 0.39, 0.145, 0.08, 0.04), (0.92, 0.41, 0.115, 0.06, 0.04)], app=3.6,
                cover=[(0.33, 0.985, 0.07, 0.035), (0.39, 0.995, 0.14, 0.04), (0.46, 0.985, 0.13, 0.035), (0.51, 0.97, 0.08, 0.025)], lamp='strip',
                seat=[(0.0, 0.70, 0.74, 0.12), (-0.1, 0.725, 0.78, 0.14), (-0.45, 0.74, 0.795, 0.145), (-0.72, 0.735, 0.8, 0.13), (-0.85, 0.72, 0.775, 0.09)],
                exh='none', tail='strip', mirror='round', two_tone=False, extras=['grab'],
@@ -204,18 +216,23 @@ def build(code):
     wl = []
     wb, rf, rr, tw, fl, fx = A['wb'], A['rf'], A['rr'], A['tw'], A['fl'], A['fx']
     wheel(wl, wb, rf, tw); wheel(wl, -wb, rr, tw * (1.12 if code == 'S2' else 1.0))
-    paint = part('paint', True, 480); rear = A['rear']
+    paint = part('paint'); rear = interp(A['rear'], 2)
     # 後車身：圓角梯形斷面，下緣越往後越高（讓出後輪）
     loft(paint, [tsect(x, yb, yt, w0, w1, p=A['rp']) for (x, yb, yt, w0, w1) in rear])
     if A['two_tone']:   # 運動型：側板下半部黑色塑件（比車殼寬一點點，蓋在下緣）
         loft(part('black'), [tsect(x, yb - 0.005, yb + (yt - yb) * 0.38, w0 + 0.006, w0 * 0.96 + 0.004, p=A['rp']) for (x, yb, yt, w0, w1) in rear[1:-1]])
     # 座墊：坐的地方低、後座高一點；外緣一圈車線（深一點的顏色）
-    seat = A['seat']; loft(part('seat', True, 120), [tsect(x, yb, yt, hw, hw * 0.9, p=2.8, n=8, bulge=0.03) for (x, yb, yt, hw) in seat])
+    seat = A['seat']; loft(part('seat'), [tsect(x, yb, yt, hw, hw * 0.9, p=2.8, n=8, bulge=0.03) for (x, yb, yt, hw) in interp(seat, 1)])
     # 踏板：平的腳踏板＋橡膠紋（深灰）＋兩側的車殼裙邊
     part('dark').box(-0.02, fx, fl - 0.012, fl, -0.165, 0.165)
     loft(paint, [tsect(x, fl - 0.11, fl - 0.008, 0.17, 0.172, p=4) for x in (-0.03, fx * 0.5, fx + 0.01)])
     # 前擋：前面鼓、後面平，往上往前傾
-    loft(paint, [shield(x, y, hw, df, db, p=A['app']) for (y, x, hw, df, db) in A['apron']])
+    apr = interp(A['apron'], 1)
+    loft(paint, [shield(x, y, hw, df, db, p=A['app']) for (y, x, hw, df, db) in apr])
+    loft(part('black'), [shield(x - 0.004, y, hw * 0.93, 0.01, db + 0.005, p=A['app']) for (y, x, hw, df, db) in apr[1:-1]])   # 膝蓋那面的黑色內板
+    # 後車身的分模線：一圈很細的深色帶（側蓋和下半部的接縫），從座墊前緣下方到車尾
+    lv = 0.42
+    loft(part('black'), [tsect(x, yb + (yt - yb) * lv, yb + (yt - yb) * lv + 0.007, (w0 + (w1 - w0) * lv) * 1.075 + 0.003, (w0 + (w1 - w0) * lv) * 1.075 + 0.003, p=A['rp'] + 1, n=8, bulge=0.0) for (x, yb, yt, w0, w1) in rear[2:-2]])
     # 前土除：貼著前輪（間隙約 3 cm），從前輪後上方包到前方
     arc_band(paint, wb, rf, rf + 0.035, -35, 75, tw * 0.62 + 0.012, th=0.008)
     # 前叉：下半截露出來（從輪軸往上到前擋下緣），上半截在前擋裡
@@ -303,6 +320,9 @@ def build(code):
 
 meta = {}
 codes = ONLY or list(ARCH)
+if '--preview' in ARGS:
+    PICK = {'S1A': 5, 'S1B': 4, 'S2': 2, 'S5': 3}
+    for c in codes: PREVIEW_COL[f'scooter_{c}'] = ARCH[c]['palette'][PICK.get(c, 0)]
 for i, code in enumerate(codes):
     parts = build(code); ob = finish_all(parts, f'scooter_{code}', i * 1.2)
     A = ARCH[code]; ob['archetype'] = code; ob['weight'] = A['weight']; ob['palette'] = json.dumps(A['palette']); ob['label'] = A['name']
