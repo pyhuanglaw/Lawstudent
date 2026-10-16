@@ -12640,7 +12640,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "讀 AA_205（37e34086）、BB_177 v5（eee886d8）、AA_195 4-5、BB_168 第 7 節 → 設計：新局起點 8/22（第 −25 天）、宿營用 OUT 2D 場景（econ_camp、econ_camp_room、遊覽車沿用）、旗標、拿掉舊 9/8～9/28 camp → 實作 → 單元測試 → 從標題開新遊戲的瀏覽器流程",
+   "next": "【使用者 23:4x（AA_205 2-3，ed1a052a）】經濟系路線不演三天、不走 OUT：8/22 在家醒來 → 字卡「8 月 22 日～24 日　迎新宿營」→ CG 小隊合照（cg_law_camp_squad.webp，沒有之前用 econ_camp）＋四句旁白 → 8/24 下午家；旗標照參加過（六人 FIRST_MET where:'camp'、CAMP_MOLE_REVEALED、camp_squad_y1、CAMP_SEEN yu），要選的不記；8/24 21:00 群組、可昕 8/23 三則 8/24 回家才看到。法律系新局照舊完整演。｜讀 AA_205（37e34086）、BB_177 v5（eee886d8）、AA_195 4-5、BB_168 第 7 節 → 設計：新局起點 8/22（第 −25 天）、宿營用 OUT 2D 場景（econ_camp、econ_camp_room、遊覽車沿用）、旗標、拿掉舊 9/8～9/28 camp → 實作 → 單元測試 → 從標題開新遊戲的瀏覽器流程",
    "first": {
     "term": "Y1S1",
     "week": 0,
@@ -12653,6 +12653,35 @@
    },
    "source": "使用者 2026-10-16 23:1x～23:3x 決定（AA 對話、LAWWW-B 對話「不用特別報名 強制參加」）；AA-B 正式交付 23:42",
    "authorized": "使用者決定＋AA、BB 互審定稿（D79：照定稿實作）"
+  },
+  {
+   "id": "ART-CG-CAMPSQUAD",
+   "title": "CG：迎新宿營小隊合照 cg_law_camp_squad.webp（經濟系路線用 CG 帶過宿營）",
+   "area": "ART",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "負責人待 AA-B 決定（BB 寫提示詞給使用者生成，或 LAWWW2-B）；沒有之前程式用 econ_camp 背景",
+   "first": {
+    "term": "Y0S2",
+    "week": 0,
+    "earliest": "經濟系路線 8/22",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 23:4x「經濟系不用像法律也要宿營啦，或用 CG 圖帶過」（AA_205 2-3 ed1a052a）",
+   "authorized": "使用者",
+   "xai": {
+    "spec": "AA_205 2-3（ed1a052a）：小隊七人（祐廷、阿哲、沛珊、明軒、柏翰、芯慈、Kevin）營地合照",
+    "owner": "BB",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "BB 角色驗收（D59）；檔名 assets/cg/cg_law_camp_squad.webp",
+    "receiver": "LAWWW-B",
+    "ack": "未派"
+   }
   }
  ]
 }
