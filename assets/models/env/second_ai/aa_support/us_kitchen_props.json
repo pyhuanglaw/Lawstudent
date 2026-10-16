@@ -1,0 +1,131 @@
+{
+ "objects": 8,
+ "unique_meshes": 8,
+ "tris": 4750,
+ "tris_drawn": 4750,
+ "materials": 1,
+ "out": "assets/models/env/second_ai/aa_support/us_kitchen_props.glb",
+ "bytes": 307260,
+ "texres": 1024,
+ "modules": {
+  "US_FRIDGE": {
+   "tris": 600,
+   "min": [
+    -0.4,
+    0.0,
+    -0.375
+   ],
+   "max": [
+    0.4,
+    1.75,
+    0.435
+   ]
+  },
+  "US_COUNTER": {
+   "tris": 1428,
+   "min": [
+    -1.4,
+    0.0,
+    -0.3
+   ],
+   "max": [
+    1.4,
+    1.02,
+    0.318
+   ]
+  },
+  "US_RANGE": {
+   "tris": 1038,
+   "min": [
+    -0.38,
+    0.02,
+    -0.33
+   ],
+   "max": [
+    0.38,
+    1.85,
+    0.379
+   ]
+  },
+  "US_SINK": {
+   "tris": 302,
+   "min": [
+    -0.27,
+    -0.2,
+    -0.226
+   ],
+   "max": [
+    0.27,
+    0.3109,
+    0.21
+   ]
+  },
+  "US_DISHWASHER": {
+   "tris": 112,
+   "min": [
+    -0.295,
+    0.0,
+    -0.29
+   ],
+   "max": [
+    0.295,
+    0.87,
+    0.318
+   ]
+  },
+  "US_UPPER": {
+   "tris": 958,
+   "min": [
+    -1.4,
+    1.45,
+    -0.3
+   ],
+   "max": [
+    1.4,
+    2.2,
+    0.058
+   ]
+  },
+  "US_PASSSHELF": {
+   "tris": 108,
+   "min": [
+    -0.9,
+    1.02,
+    -0.15
+   ],
+   "max": [
+    0.9,
+    1.05,
+    0.15
+   ]
+  },
+  "US_BAR": {
+   "tris": 204,
+   "min": [
+    -1.0,
+    0.8,
+    -0.192
+   ],
+   "max": [
+    1.0,
+    1.05,
+    0.18
+   ]
+  }
+ },
+ "tris_total": 4750,
+ "atlas": [
+  "tools/blender/env_second/textures/gen/us_kitchen_props_atlas.png",
+  "tools/blender/env_second/textures/gen/us_kitchen_props_orm.png"
+ ],
+ "origins": {
+  "*": "地面上的底部中央、正面（人站的那一側）朝 +z；GLB 裡的位置見 SPREAD（流理台一組照組好的樣子擺）",
+  "US_COUNTER": "本地 x −1.4～1.4、z −0.3（靠牆）～0.31；layout 是 ry=π（本地 +x＝房間西邊）。爐子在本地 x 0.2（寬 0.76）、水槽 x −0.5、洗碗機 x −1.1（寬 0.6）",
+  "US_RANGE": "和 US_COUNTER 一樣靠牆（z −0.3）；微波爐離地 1.45～1.85，在同一個節點",
+  "US_SINK": "原點＝檯面的高度（放在 US_COUNTER 的 x −0.5、y 0.92），槽往 −y",
+  "US_UPPER": "原點在地面，本地 x 和 US_COUNTER 相同；吊櫃底 1.45、頂 2.2、深 0.33",
+  "US_PASSSHELF": "檯面頂 1.05；1.8×0.3",
+  "US_BAR": "檯面頂 1.05；靠牆那一側在 −z，坐的人在 +z（layout 的高腳椅在客廳那一側，放的時候 ry=π）"
+ },
+ "note": "一個材質：us_kitchen（底色 1024＋ORM 256，metal 最高 0.40；花崗石＝Poly Haven granite_tile_03、楓木＝walnut_veneer 改色，都是 CC0）"
+}
