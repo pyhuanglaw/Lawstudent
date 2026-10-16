@@ -14,7 +14,7 @@ const ROOT=path.resolve(__dirname,'..');
 global.window=global;
 vm.runInThisContext(fs.readFileSync(path.join(ROOT,'src/data/characters.js'),'utf8').replace(/^const (CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS)\s*=/mg,'globalThis.$1='),{filename:'characters.js'});
 vm.runInThisContext(fs.readFileSync(path.join(ROOT,'src/social3d.js'),'utf8').replace(/^const SOCIAL\s*=/m,'global.SOCIAL='),{filename:'social3d.js'});
-for(const f of ['src/data/invites.js','src/invites3d.js']){ if(fs.existsSync(path.join(ROOT,f))) vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (\w+)\s*=/mg,'globalThis.$1='),{filename:f}); }
+for(const f of ['src/romance3d.js','src/data/invites.js','src/invites3d.js']){ if(fs.existsSync(path.join(ROOT,f))) vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (\w+)\s*=/mg,'globalThis.$1='),{filename:f}); }
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const G={rel:{},flags:{},social:null,day:20,weekday:1,hour:10,contacts:{},invites:[]}; SOCIAL.bind(G);
 const I=globalThis.INV, W=(INVITE_DATA.why||{});
@@ -52,14 +52,20 @@ check('8. 芷若「有點熟」、單身：吃飯可以、散步「散步要等�
 SOCIAL.rel('heroine_03').fam=8;
 check('8. 語彤「認識」：吃飯「再熟一點，才約得出去吃飯。」',I.placeWhy(G,'heroine_03',P('noodle'))==='再熟一點，才約得出去吃飯。',I.placeWhy(G,'heroine_03',P('noodle')));
 G.flags.dating_kexin=true;
-check('8. 祐廷和可昕交往中：芷若吃飯「兩個人單獨去吃飯不太好。約在 Café 或總圖吧。」、散步「……散步不太好……」（AA 2026-10-14 換句話）；Café、總圖照常',W.partnerMeal==='兩個人單獨去吃飯不太好。約在 Café 或總圖吧。'&&W.partnerWalk==='兩個人單獨去散步不太好。約在 Café 或總圖吧。'&&I.placeWhy(G,'heroine_02',P('noodle'))===W.partnerMeal&&I.placeWhy(G,'heroine_02',P('wenzhou'))===W.partnerWalk&&I.placeWhy(G,'heroine_02',P('cafe'))===''&&I.placeWhy(G,'heroine_02',P('library'))==='',
+/* 2026-10-16 改（AA_128 4-5、AA_140 0-2 X2）：祐廷有伴侶，只有「她知道」才擋；可昕交往中：以安、語彤、沛珊知道（麵店團 K3 起），芷若、子晴、學姊不知道 */
+check('8. 祐廷和可昕交往中、芷若不知道：吃飯照常（X2：她不知道就照常約）',I.placeWhy(G,'heroine_02',P('noodle'))==='',I.placeWhy(G,'heroine_02',P('noodle')));
+ROM.learn(G,'heroine_02','kexin');
+check('8. 芷若知道以後：吃飯「兩個人單獨去吃飯不太好。約在 Café 或總圖吧。」、散步「……散步不太好……」（AA 2026-10-14 換句話）；Café、總圖照常',W.partnerMeal==='兩個人單獨去吃飯不太好。約在 Café 或總圖吧。'&&W.partnerWalk==='兩個人單獨去散步不太好。約在 Café 或總圖吧。'&&I.placeWhy(G,'heroine_02',P('noodle'))===W.partnerMeal&&I.placeWhy(G,'heroine_02',P('cafe'))===''&&I.placeWhy(G,'heroine_02',P('library'))==='',
   [I.placeWhy(G,'heroine_02',P('noodle')),I.placeWhy(G,'heroine_02',P('library'))].join('｜'));
 const r=I.decide(G,'heroine_02','noodle',21,12+10/60);
 check('8. decide 回 partner、旁白是同一句',r.res==='decline'&&r.why==='partner'&&I.reply(G,'heroine_02','noodle',r)===W.partnerMeal,JSON.stringify(r)+' '+I.reply(G,'heroine_02','noodle',r));
+check('8. 語彤：K3 以前不知道（不擋）；中秋烤肉可昕來過（KX_MET_NOODLE_TEAM）以後知道＝擋',I.placeWhy(G,'heroine_03',P('noodle'))!==W.partnerMeal&&(G.flags.KX_MET_NOODLE_TEAM=true,I.placeWhy(G,'heroine_03',P('noodle'))===W.partnerMeal),I.placeWhy(G,'heroine_03',P('noodle')));
 check('8. 阿哲（男生）照常吃飯',I.placeWhy(G,'zhe',P('noodle'))==='',I.placeWhy(G,'zhe',P('noodle')));
-G.flags.dating_kexin=false; G.flags.dating_heroine_02=true;
+G.flags.dating_kexin=false; delete G.flags.KX_MET_NOODLE_TEAM; G.flags.dating_heroine_02=true;
 check('8. 約交往的對象本人照常（和芷若交往中：約芷若吃飯可以）',I.placeWhy(G,'heroine_02',P('noodle'))==='',I.placeWhy(G,'heroine_02',P('noodle')));
-check('8. 和芷若交往中：約語彤吃飯「兩個人單獨去吃飯不太好」',I.placeWhy(G,'heroine_03',P('noodle'))===W.partnerMeal,I.placeWhy(G,'heroine_03',P('noodle')));
+check('8. 和芷若交往中、語彤不知道：約語彤吃飯不會被「兩個人單獨」擋（只看熟不熟）',I.placeWhy(G,'heroine_03',P('noodle'))!==W.partnerMeal,I.placeWhy(G,'heroine_03',P('noodle')));
+ROM.learn(G,'heroine_03','heroine_02');
+check('8. 語彤知道以後：「兩個人單獨去吃飯不太好」',I.placeWhy(G,'heroine_03',P('noodle'))===W.partnerMeal,I.placeWhy(G,'heroine_03',P('noodle')));
 G.flags.dating_heroine_02=false; SOCIAL.rel('heroine_05').fam=25;
 global.STORY={inTerms:(GG,rr)=>rr.from==='Y1S1',presence:()=>({here:true}),present:()=>true};
 check('8. 祐廷單身、學姊這學期有伴侶（characters.js partner）：學姊吃飯「兩個人單獨去吃飯不太好」',I.placeWhy(G,'heroine_05',P('noodle'))===W.partnerMeal,I.placeWhy(G,'heroine_05',P('noodle')));

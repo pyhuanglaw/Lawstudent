@@ -52,12 +52,14 @@ const INV=(function(){
   /* 關係夠不夠去這個地方：階段到了，或是已經一起做過這件事（那個地方會留下的記憶，例如一起吃過飯 SHARED_MEAL）——
      2026-10-13 批次 3：第一天和阿哲吃過麵（story3d.js 記下 SHARED_MEAL），第三天約他吃飯卻說「還不太熟」*/
   const placeOk=(id,P)=>stageOk(id,P.minStage)||(!!P.memory&&typeof SOCIAL!=='undefined'&&!!SOCIAL.memories&&SOCIAL.memories(id).some(m=>m.tag===P.memory));
-  /* 兩個人單獨的邀約（BB_70 0-2、AA_125 第 1 節）：吃飯、散步（soloKinds），祐廷交往中、或對方這學期有伴侶（CHARACTERS[id].partner＝{from,until} 學期），就不約——
-     約交往的對象本人照常。只看女生（祐廷是男生；「兩個人單獨」說的是男女兩個人，阿哲、阿凱這些照常吃飯：AA 確認中）*/
+  /* 兩個人單獨的邀約（BB_70 0-2、AA_125 第 1 節）：吃飯、散步（soloKinds）。只看女生（「兩個人單獨」說的是男女兩個人，阿哲、阿凱這些照常吃飯）；約交往的對象本人照常。
+     擋的只有兩種（AA_128 4-5；AA_140 0-2 X2，2026-10-16 取代「祐廷交往中一律擋」）：①她自己這學期有伴侶（CHARACTERS[id].partner＝{from,until} 學期）；
+     ②祐廷有伴侶、而且她知道（ROM.knows：法律系開場可昕交往中，以安、語彤、沛珊知道）。她不知道就照常約（懷疑照 AA_126 9-2 累積）*/
   S.partnerBlock=function(G,id,P){ if(!P||!(D().soloKinds||[]).includes(P.kind)) return false; const F=G.flags||{}; if(F['dating_'+id]) return false;
     const c=(typeof CHARACTERS!=='undefined'&&CHARACTERS[id])||{}; if(c.gender!=='f') return false;
-    if(Object.keys(F).some(k=>k.indexOf('dating_')===0&&F[k])) return true;
-    return !!(c.partner&&typeof STORY!=='undefined'&&(STORY.partnerOn?STORY.partnerOn(G,c.partner):(STORY.inTerms&&STORY.inTerms(G,c.partner)))); };
+    if(c.partner&&typeof STORY!=='undefined'&&(STORY.partnerOn?STORY.partnerOn(G,c.partner):(STORY.inTerms&&STORY.inTerms(G,c.partner)))) return true;
+    if(typeof ROM!=='undefined'&&ROM.knows) return ROM.knows(G,id).length>0;
+    return Object.keys(F).some(k=>k.indexOf('dating_')===0&&F[k]); };   /* 沒有 ROM（舊的測試環境）：照舊 */
   /* 這個地方約不約得到、為什麼（選地點時的說明；可以就空字串）*/
   S.placeWhy=function(G,id,P){ const W=D().why||{}; if(S.partnerBlock(G,id,P)) return (P.kind==='meal'?W.partnerMeal:(P.kind==='walk'?W.partnerWalk:null))||W.partner||'';   /* AA 2026-10-14：照吃飯／散步分開說、告訴玩家可以怎麼約 */
     if(!placeOk(id,P)) return (P.kind==='meal'?W.meal:(P.kind==='walk'?W.walk:W.stranger))||'還不太熟'; return ''; };

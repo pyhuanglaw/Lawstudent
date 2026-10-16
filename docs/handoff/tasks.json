@@ -37,8 +37,8 @@
    "title": "zone_memory 貼圖持續增加（推測 iPhone 跳回標題）",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "第 2 級實際渲染驗證中：tex_leak3（來回 4 次）＋tests/zone_memory.py；之後請使用者 iPhone 實測（TEST-05）",
+   "status": "已驗收",
+   "next": "iPhone 實機（TEST-05）：請使用者在換區域多次後確認不再跳回標題",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -53,9 +53,10 @@
    "source": "LAWWW 交班第 4 點",
    "authorized": "D79",
    "sha": [
-    "b2ca5b6c"
+    "db483b80"
    ],
-   "cause": "GPU 貼圖追蹤（tools/dev_scratch/tex_leak3.py）：回到校園一次多 70～80 張活著的 GPU 貼圖，全部是路人 VRM 骨架 clone 的 Skeleton.boneTexture（每人約 16 張）；ASSETS.releaseVRM 只從池子拿掉、沒釋放"
+   "cause": "GPU 貼圖追蹤（tools/dev_scratch/tex_leak3.py）：回到校園一次多 70～80 張活著的 GPU 貼圖，全部是路人 VRM 骨架 clone 的 Skeleton.boneTexture（每人約 16 張）；ASSETS.releaseVRM 只從池子拿掉、沒釋放",
+   "evidence": "2026-10-16 實際渲染（Playwright＋SwiftShader，不是 iPhone）：tools/dev_scratch/tex_leak3.py 來回 4 次，回到校園的 GPU 貼圖 337→338→354→354（修正前 483→594→…→732，每次 +80～110）；tests/zone_memory.py ALL PASS（貼圖 [321,354,338,354]、幾何 [424,433,439,445]）；tests/vrm_release_unit.js（修正前失敗）。iPhone 實機尚未驗證"
   },
   {
    "id": "BUG-02",
@@ -353,7 +354,7 @@
    "area": "TEST",
    "owner": "USER",
    "status": "等待其他AI／素材",
-   "next": "請使用者實測",
+   "next": "請使用者 iPhone 實測：換區域多次（BUG-01 修正 db483b80 之後）不再跳回標題；全黑／面膜臉（BUG-02）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -4271,8 +4272,8 @@
    "title": "交往狀態照 AA_126 §9（romance[id]，允許多段同時）",
    "area": "V6",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "romance3d 改成 romance[id]={status,since,knows,suspicion,history}，允許多段同時；X1 canStart 不因已有伴侶擋；CLEANUP_DONE 只擋分開後開始新的一段",
+   "status": "已整合待測試",
+   "next": "第 1 級過（romance_unit 14 項：修改前 3、10、12 失敗）；告白事件（SYS-02）做好時一起瀏覽器驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -4293,7 +4294,7 @@
    "area": "V6",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "V6-S1b 之後（每一段關係各自計算）",
+   "next": "ROMANCE_HISTORY 照舊（romance3d v2 保留）；V6-S4 收拾的時刻接著做",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -4314,7 +4315,7 @@
    "area": "V6",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "V6-S1b 之後（每一段關係各自計算）",
+   "next": "EX_<id>＋romance[id].status=ex（v2 已有）；分手事件跟各人路線做",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5975,8 +5976,8 @@
    "title": "多重交往",
    "area": "D14",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "＝V6-S1b＋V6-X2、V6-X3、V6-CATCH",
+   "status": "已整合待測試",
+   "next": "＝V6-S1b＋V6-X2；V6-X3（告白條件）、V6-CATCH 接著做",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -7446,8 +7447,8 @@
    "title": "邀約的 partnerBlock：只有她自己有伴侶、或她知道祐廷有伴侶才擋正式單獨約會",
    "area": "V6",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "改 invites3d.js；她不知道就照常約、懷疑照 AA_126 9-2 累積；法律系開場可昕交往中：以安、語彤、沛珊知道，芷若、子晴、學姊不知道",
+   "status": "已整合待測試",
+   "next": "invite_whynot_unit 改照新規則（修改前失敗）；第 2 級：手機約芷若吃飯（可昕交往中）→ 可以約、約以安（K3 以後）→ 婉拒",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -7488,8 +7489,8 @@
    "title": "文件把 v6 寫成「等使用者」的地方改掉",
    "area": "V6",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "ART_REBUILD_PROGRESS.md 第 208、301、320、334、368 行、USER_INSTRUCTION_LOG.md 第 37 行；第 123 行「確認新生日表之前不要動」拿掉",
+   "status": "已驗收",
+   "next": "—",
    "priority": "P2",
    "first": {
     "term": "META",
@@ -7502,7 +7503,8 @@
     "confirmed": false
    },
    "source": "AA_140 §0（企劃線 f1213a26）；AA-B 10-16 02:09",
-   "authorized": "D79"
+   "authorized": "D79",
+   "evidence": "ART_REBUILD_PROGRESS.md 第 123、208、301、320、334、368 行、USER_INSTRUCTION_LOG.md「v6 等使用者」那一行都加了作廢註記（2026-10-16，這個 commit）"
   },
   {
    "id": "V6-CATCH",
