@@ -596,9 +596,9 @@ const STORY_EVENTS=[
      10-4 小福的還債（BB_96 10-4）：10-3 選「一起讀到閉館」（XUN_NIGHT）的玩家，第 11 週週五下課走廊阿勳先說「昨天那題我想通了。」；那天去了午餐＝還債；沒去＝「走啦」群組一張便當照片「欠你的，下週。」（story3d.js phoneRules），
      下一個去的週五照樣推過來（只發生一次，XUN_REPAID）*/
   { id:'ev_sk03_lunch', title:'週五的小福', participants:[], location:'any', trigger:'class', afterClass:'econ_principles_2', term:['Y1S2'], weekday:[5], background:'blur',
-    prereq:{custom:G=>!!G.flags.P4D_ANSWER&&G.flags.ECON_HALLWAY_DAY!=null&&G.day>G.flags.ECON_HALLWAY_DAY&&G.flags.SK03_ASKED!==G.day},
+    prereq:{custom:G=>{ const F=G.flags; if(F.SK03_ASKED===G.day) return false; if(F.P4D_ANSWER) return F.ECON_HALLWAY_DAY!=null&&G.day>F.ECON_HALLWAY_DAY; return !!F.MET_XUN&&F.XUN_DAY!=null&&G.day>F.XUN_DAY; }},   /* AA-B 2026-10-16：只在 10-3 見過阿勳（沒有 P4d）的玩家也算重新認識，第 11 週週五起開 SK03 */
     dialogue:[ {if:{custom:G=>!!G.flags.XUN_NIGHT&&G.flags.XUN_DAY!=null&&G.day===G.flags.XUN_DAY+1},speaker:'阿勳',text:'昨天那題我想通了。'},   /* 10-4 走廊（第 11 週週五＝10-3 的隔天）*/
-      {speaker:'阿勳',text:'小福。走不走？'},
+      {if:{custom:G=>!G.flags.P4D_ANSWER&&!G.flags.SK03_INV1},speaker:'阿勳',text:'週五中午，我們在小福。你要來就來。'},{unless:{custom:G=>!G.flags.P4D_ANSWER&&!G.flags.SK03_INV1},speaker:'阿勳',text:'小福。走不走？'},{set:{SK03_INV1:true}},   /* 只在 10-3 見過的玩家第一次邀約照用 P4d 原句（AA-B）*/
       {choice:[{text:'「一起去」',consequences:{stamp:['SK03_LAST']},goto:'go'},{text:'「今天不行」',goto:'end'}]},
       {label:'go'},{scene:'小福',bg:'xiaofu'},
       {if:{custom:G=>!!G.flags.XUN_NIGHT&&!G.flags.XUN_REPAID},unless:{flags:['SK03_FIRST']},goto:'first'},{if:{custom:G=>!!G.flags.XUN_NIGHT&&!G.flags.XUN_REPAID},goto:'repay'},
@@ -606,9 +606,10 @@ const STORY_EVENTS=[
       {if:{custom:G=>!G.flags.ECON_LAW_BRIDGE&&typeof EVENTS!=='undefined'&&EVENTS.habitCount({key:'meal:xiaofu:fri'})>=2},goto:'xinci'},
       {goto:'usual'},
       {label:'first'},{speaker:null,text:'週五的小福。阿勳占了靠窗的四人桌，品妤已經在吃了。'},
+      {unless:{flags:['MET_PINYU']},speaker:'品妤',text:'曾品妤。經濟系，可昕以前的室友。'},{set:{MET_PINYU:true}},   /* 品妤還沒見過（只在 10-3 見過阿勳的玩家）：照 v1 K2 的規則先介紹自己（AA-B）*/
       {speaker:'品妤',text:'重修生？你看起來很有覺悟。'},{speaker:'阿勳',text:'他去年也很有覺悟。只是方向不一樣。'},{speaker:'品妤',text:'……經濟系的冷笑話，還是你最多。'},
       {set:{SK03_FIRST:true}},{if:{custom:G=>!!G.flags.XUN_NIGHT&&!G.flags.XUN_REPAID},goto:'repay'},{goto:'end'},
-      {label:'repay'},{speaker:'阿勳',text:'（把一個便當推過來）昨天那題的。還債。'},{speaker:'品妤',text:'他從來沒請過我。'},{speaker:'阿勳',text:'妳又沒教過我統計。'},
+      {label:'repay'},{if:{custom:G=>G.flags.XUN_DAY!=null&&G.day===G.flags.XUN_DAY+1},speaker:'阿勳',text:'（把一個便當推過來）昨天那題的。還債。'},{unless:{custom:G=>G.flags.XUN_DAY!=null&&G.day===G.flags.XUN_DAY+1},speaker:'阿勳',text:'（把一個便當推過來）上週那題的。還債。'},   /* 延後一週：AA-B 改一個詞（第①級）*/{speaker:'品妤',text:'他從來沒請過我。'},{speaker:'阿勳',text:'妳又沒教過我統計。'},
       {if:{flags:['ECON_LAW_BRIDGE']},speaker:'classmate_xinci',text:'……經濟系的人也會還債。'},{set:{XUN_REPAID:true}},{goto:'end'},
       {label:'xinci'},{speaker:null,text:'芯慈端著餐盤走進來，看見阿勳，停住了。'},
       {speaker:'classmate_xinci',text:'……你。統計課冷笑話很多的那個人。'},{speaker:'阿勳',text:'我。統計課唯一會笑的那個人。'},{speaker:'classmate_xinci',text:'（看向你）你們認識？'},

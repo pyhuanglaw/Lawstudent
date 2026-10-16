@@ -12,7 +12,7 @@ const OUT=(function(){
      home_living＝平常週末回家的客廳（還沒有圖）；home_living_cny＝除夕的年夜飯（BB-B 第 25 組，桌上是年夜飯、牆上中國結，只用在除夕）。
      政大只做主要校園＋宿舍（自強十舍）（使用者 2026-10-16 對 LAWWW2-B）：河堤、圖書館、停車場不做，那幾幕照 AA_137 7-1 改到校門、校園裡的路、宿舍樓下 */
   S.BG={ car:{label:'車上',image:null}, nccu_gate:{label:'政大・校門口',image:'assets/bg/nccu_gate.webp'}, nccu_food:{label:'政大・山下的小吃街',image:'assets/bg/nccu_food.webp'}, nccu_dorm:{label:'政大・宿舍樓下',image:null}, nccu_campus:{label:'政大・校園裡的路',image:'assets/bg/nccu_campus.webp'},
-    riverside:{label:'河濱',image:'assets/bg/riverside.webp'}, dorm_roof:{label:'宿舍頂樓',image:'assets/bg/dorm_roof.webp'}, video:{label:'視訊',image:null}, gongguan_luwei:{label:'公館・滷味攤',image:'assets/bg/gongguan_luwei.webp'},
+    riverside:{label:'河濱',image:'assets/bg/riverside.webp'}, dorm_roof:{label:'宿舍頂樓',image:'assets/bg/dorm_roof.webp'}, video:{label:'視訊',image:'assets/bg/video.webp'}, gongguan_luwei:{label:'公館・滷味攤',image:'assets/bg/gongguan_luwei.webp'},
     ntu_soc:{label:'台大・社科院門口',image:null}, ferris_wheel:{label:'摩天輪',image:'assets/bg/ferris_wheel.webp'}, gongguan:{label:'公館',image:null}, wenzhou:{label:'溫州街',image:null}, ntu_linze:{label:'台大・霖澤館前',image:null}, ntu_avenue:{label:'台大・椰林大道',image:null},
     trip_sea:{label:'海邊',image:null}, trip_oldtown:{label:'老街',image:null}, trip_mountain:{label:'山上',image:null},
     home_living:{label:'臺北・家裡的客廳',image:'assets/bg/home_living.webp'}, home_living_day:{label:'臺北・家裡的客廳',image:'assets/bg/home_living_day.webp'}, home_living_cny:{label:'臺北・家裡的客廳（除夕）',image:'assets/bg/home_living_cny.webp'}, home_balcony:{label:'臺北・家裡的陽台',image:'assets/bg/home_balcony.webp'}, home_room:{label:'臺北・家裡的房間',image:'assets/bg/home_room.webp'},

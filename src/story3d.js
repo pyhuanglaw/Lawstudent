@@ -833,11 +833,11 @@ const STORY = (function(){
     if(!PHONE.inGroup(G,'econ_friends')){ const g=PHONE.join(G,'econ_friends','走啦'); g.day=Math.min(g.day,-34); if(!PHONE.sent(G,'econ_photo_0813')) PHONE.postAt(G,{th:'g:econ_friends',from:'econ_weilun',name:'韋綸',text:'📷（公館的宵夜攤，六個人和準備收攤的老闆）',tag:'econ_photo_0813'},-34,23.5); if(PHONE.markSeen) PHONE.markSeen(G,'g:econ_friends'); }   /* 一年多前的舊照片：不算未讀 */
     /* 10-3 之後（AA_115 第 2 節、BB_96 10-3／10-4、AA_157）：「聊兩句就走」（xun_met）＝阿勳在「走啦」說一句；「期末考一起讀？」（pact）＝他私訊期末的行程表；
        「一起讀到閉館」（night）的玩家第 11 週週五沒有去小福午餐（SK03_LAST 不是那天）＝12:40 群組一張便當照片「欠你的，下週。」，下一個去的週五照樣推過來（ev_sk03_lunch 的 repay）。
-       便當照片只給有週五午餐的玩家（P4d 之後）；只在共同見過阿勳的玩家沒有午餐，這一則先不發（待 AA-B） */
+       只在共同見過阿勳的玩家也開 SK03（AA-B 2026-10-16），所以便當照片照發、下一個有去的週五推便當 */
     if(F.XUN_DAY!=null){ const xd=F.XUN_DAY, fri=xd+1;
       if(F.XUN_MET_Y1S2&&!PHONE.sent(G,'xun_met_grp')) PHONE.at(G,xd,21.2,[{th:'g:econ_friends',from:'econ_zhengxun',text:'我在共同遇到他。法律系果然比較累。'}],'xun_met_grp');
       if(F.XUN_PACT&&!PHONE.sent(G,'xun_pact_plan')){ silentContact('econ_zhengxun'); PHONE.at(G,xd,21.2,[{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'📄（期末考那兩週的行程表）'}],'xun_pact_plan'); }
-      if(F.XUN_NIGHT&&F.P4D_ANSWER&&!F.XUN_REPAID&&F.SK03_LAST!==fri&&(G.day>fri||(G.day===fri&&h(G)>=12+40/60))&&!PHONE.sent(G,'xun_repay_photo'))
+      if(F.XUN_NIGHT&&!F.XUN_REPAID&&F.SK03_LAST!==fri&&(G.day>fri||(G.day===fri&&h(G)>=12+40/60))&&!PHONE.sent(G,'xun_repay_photo'))
         PHONE.at(G,fri,12+40/60,[{th:'g:econ_friends',from:'econ_zhengxun',text:'📷（一個便當）'},{th:'g:econ_friends',from:'econ_zhengxun',text:'欠你的，下週。'}],'xun_repay_photo'); }
     /* SK05 三閃，販賣機見（大一版；BB_135 第 2 節；AA-B 2026-10-16：期末考週（第 17～18 週，2026-06-15～06-28）第一個晚上玩家在霖澤館（22:55～23:30；23:00 以後才走進去＝一進去就亮））：
        23:00 阿勳傳訊息說暗號（一年一次）。法律系時期一直沒見過他的玩家（MET_XUN 沒有）先多一則「我是盧正勳。你經濟系那年的室友。」。pact 多兩句、night 多一句（都有＝先 pact 再 night）。

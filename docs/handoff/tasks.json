@@ -1524,7 +1524,7 @@
    "area": "V2",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "全部做完（tests/v2_b10_unit.js、v2_b10b_unit.js）：SK03 1-1～1-4、10-4 還債、SK05 大一版（期末考週霖澤館 23:00 三閃、法學院廣場販賣機 npcNear）、P4e（6/27 10:00）、AA_155 作息、「走啦」群組。等 AA-B 兩題（只在共同見過阿勳的玩家要不要開 SK03、延後一週還債的那一句）；第 2 級：販賣機站位、共同二樓走近阿勳",
+   "next": "全部做完＋AA-B 兩題已做（只在 10-3 見過阿勳的玩家第 11 週週五開 SK03、邀約用 P4d 原句、1-1 品妤先介紹自己；延後一週「上週那題的。還債。」）。第 2 級：販賣機站位、共同二樓走近阿勳",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -8835,8 +8835,8 @@
    "title": "2D 背景 video「視訊（可昕那一端）」（BG 追蹤表 BG-18）：ev_kexin_video_study、ev_kexin_grades_open、情人節",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "可昕那一端：書桌一角＋檯燈，看不出是宿舍還是家；晚上",
+   "status": "已整合待測試",
+   "next": "video.webp 已接（所有可昕的視訊）；場景美術由使用者驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -8856,7 +8856,8 @@
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
     "ack": "DELIVERED"
-   }
+   },
+   "sha": "3a85d367"
   },
   {
    "id": "ART-BG15",
