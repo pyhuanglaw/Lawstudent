@@ -156,6 +156,7 @@ async function await0(){}
     const caps2=[]; fresh(MON,10); G.contacts.classmate_bohan=1; rel('classmate_bohan',25,8,4); gm=GMk(['兩點半','15:30','好，就']); gm.G=G; gm.caption=(w,t)=>caps2.push(t); await INV.flow(gm,'classmate_bohan',null,false);
     check('G49 手機約：沒有當面的第一句、沒有動作字幕',!gm.out.some(t=>/有空嗎/.test(t))&&caps2.length===0,JSON.stringify({o:gm.out.slice(0,2),caps2})); }
   const s3=fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8'); check('INV.flow 用 INV.personal（decide 之後）',/S\.personal\(G,id,P,W\.day,W\.h,S\.decide\(/.test(s3));
+  { const se=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8'); check('跟著走的人停下來是站姿，不退回作息的坐姿（使用者 2026-10-16：郭沛珊我停下來她就坐回去）',/n\.pose=n\.beh==='follow'\?'idle':\(n\.idlePose\|\|'idle'\)/.test(se)); }
   check('「現在一起過去」：坐著的人先起身再跟（使用者 2026-10-16：Café 約吃麵，以安坐姿跟著走）',/if\(W\.now&&n\)\{ if\(GM\.standUp\) GM\.standUp\(n\); n\.beh='follow'/.test(s3));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

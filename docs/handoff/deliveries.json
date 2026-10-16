@@ -4920,6 +4920,32 @@
    "msg": "ACK",
    "integration": "不需整合（給 BB-B 的規格）",
    "note": "BB-B 22:00 ACK，寫提示詞中"
+  },
+  {
+   "id": "DL-LW2-BIKES2",
+   "date": "2026-10-16",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "945fd4d2",
+   "what": "腳踏車 v2：street_props.glb 多 6 款＋bikes_v2.patch（world3d.js bikeAny、zones3d.js 路邊停車、腳踏車行指定款式、street_props_integration 測試）",
+   "task": "ART-BIKES2-INT",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "疊在 scooters_v2.patch 之後；broken 組失敗是既有問題"
+  },
+  {
+   "id": "DL-BB177",
+   "date": "2026-10-16",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "d4436c7f",
+   "what": "BB_177 迎新宿營 BB 人物（遊覽車明軒、小隊 Kevin、大地遊戲兩人三腳 MX_CAMP_PAIR、沛珊 P0＋FIRST_MET＋交換聯絡方式（BB_95 3-3 作廢）、晚會學姊延長線、夜談明軒；ev_mingxuan_ball 宿營版開頭）；骨架 AA_195 4-9、4-10",
+   "task": "START-WEEK",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "AA-B 互審通過；排在開局（8/29～9/3）實作"
   }
  ],
  "ignored": [

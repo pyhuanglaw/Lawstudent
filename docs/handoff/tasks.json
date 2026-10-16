@@ -12081,12 +12081,12 @@
   },
   {
    "id": "BUG-FOLLOWSIT",
-   "title": "坐著被約「現在一起過去」：以安維持坐姿懸空跟著走（Café 喝完咖啡再約吃麵）",
+   "title": "跟著走的人坐姿：以安（Café 約吃麵）坐姿懸空跟著走；郭沛珊一起去總圖，玩家停下來她就坐回去",
    "area": "BUG",
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "src/invites3d.js S.flow：跟著走之前先 GM.standUp(n)；單元 invite_people_unit 通過；等瀏覽器重現使用者的流程（第二天 Café 黃昏 → 約以安吃麵 → 現在一起過去）",
+   "next": "①invites3d.js S.flow 跟之前 GM.standUp（eb9e8cc2）②engine3d.js：beh follow 停下來一律站姿（不退回作息的 idlePose；換區域重新產生的跟隨者也一樣）；單元 invite_people_unit、bike_seat_unit、presence_unit 通過；等瀏覽器重現",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12097,7 +12097,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "使用者 2026-10-16 21:5x 試玩截圖（9/18 17:50 兩點半 Café）",
+   "source": "使用者 2026-10-16 21:5x 試玩截圖（9/18 17:50 兩點半 Café）；使用者 22:1x 第二張（郭沛珊，總圖閱覽室）",
    "authorized": "使用者（bug 回報）"
   },
   {
@@ -12365,6 +12365,27 @@
    },
    "source": "使用者 2026-10-16 22:1x 截圖（9/19 閱覽室）",
    "authorized": "使用者（bug 回報）"
+  },
+  {
+   "id": "ART-BIKES2-INT",
+   "title": "整合 LAWWW2-B 腳踏車 v2（7 款：淑女、媽媽車、公共單車形式、公路、登山、小折、老鐵馬；bikes_v2.patch 疊在 scooters_v2.patch 之後）",
+   "area": "ART",
+   "owner": "LAWWW",
+   "status": "已實作待整合",
+   "priority": "P2",
+   "next": "先套 ART-SCOOTER2 scooters_v2.patch → bikes_v2.patch（945fd4d2）→ street_props_integration、campus_glb_integration、nav（老鐵馬、登山車 1.83～1.86 m vs 路邊阻擋 1.7 m）→ 回 SHA 給 LAWWW2-B；broken 組（擋 street_props.glb）183 秒沒載入完、applySave busy null，62cb7307 原樣也失敗→另開 BUG 查",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一天校園停車架",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 2026-10-16 22:19 交件（945fd4d2，READY_FOR_ART_REVIEW）；使用者 20:2x「腳踏車機車全部都是同一個款式」",
+   "authorized": "使用者 20:2x、D84"
   }
  ]
 }
