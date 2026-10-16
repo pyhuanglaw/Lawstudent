@@ -1963,7 +1963,7 @@
    "title": "模擬法庭 模 1～6",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "照交接包_v3 實作",
    "priority": "P2",
    "first": {
@@ -1977,7 +1977,9 @@
     "confirmed": true
    },
    "source": "交接包_v3",
-   "authorized": "D79"
+   "authorized": "D79",
+   "tests": "tests/v3_moot_unit.js",
+   "note": "2026-10-16：模 1～6 照 AA_177 4-7、AA_143 第 3 節（3-3 新字 AA-B ee2c901d）、AA_96 4-3、BB_97 2-6：公告、模 1（201，自我介紹、學姊三件事）／沒到私訊、群組「模擬法庭・賣家組」、三次邀約＋模 5 邀約；moot_2～4（研討室 B 門口參加）；模 5 固定核心（09:45 電話）、結辯三選一、準備分（STORY.mootScore）輸贏與筆記；模 6 出遊輸贏兩版、沒去照片；MOOT_TOGETHER（第 8～10 週公法讀書會或總圖／法圖自習時以安、柏翰在場）。還沒做：可昕 9-19（KX_MOOT）、201 法庭擺法（SCN-V3-03）、機車行 2D 背景。瀏覽器未測。"
   },
   {
    "id": "V3-D17",
@@ -2261,7 +2263,7 @@
    "title": "模擬法庭的學姊台詞",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "照 BB_97 實作",
    "priority": "P2",
    "first": {
@@ -2275,7 +2277,9 @@
     "confirmed": true
    },
    "source": "BB_97",
-   "authorized": "D79"
+   "authorized": "D79",
+   "tests": "tests/v3_moot_unit.js",
+   "note": "2026-10-16：模 1～6 照 AA_177 4-7、AA_143 第 3 節（3-3 新字 AA-B ee2c901d）、AA_96 4-3、BB_97 2-6：公告、模 1（201，自我介紹、學姊三件事）／沒到私訊、群組「模擬法庭・賣家組」、三次邀約＋模 5 邀約；moot_2～4（研討室 B 門口參加）；模 5 固定核心（09:45 電話）、結辯三選一、準備分（STORY.mootScore）輸贏與筆記；模 6 出遊輸贏兩版、沒去照片；MOOT_TOGETHER（第 8～10 週公法讀書會或總圖／法圖自習時以安、柏翰在場）。還沒做：可昕 9-19（KX_MOOT）、201 法庭擺法（SCN-V3-03）、機車行 2D 背景。瀏覽器未測。"
   },
   {
    "id": "V3-B08",
@@ -6333,7 +6337,7 @@
    "title": "模擬法庭",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "—",
    "priority": "P2",
    "first": {
@@ -6347,7 +6351,9 @@
     "confirmed": true
    },
    "source": "稽核 10-16",
-   "authorized": "D79"
+   "authorized": "D79",
+   "tests": "tests/v3_moot_unit.js",
+   "note": "2026-10-16：模 1～6 照 AA_177 4-7、AA_143 第 3 節（3-3 新字 AA-B ee2c901d）、AA_96 4-3、BB_97 2-6：公告、模 1（201，自我介紹、學姊三件事）／沒到私訊、群組「模擬法庭・賣家組」、三次邀約＋模 5 邀約；moot_2～4（研討室 B 門口參加）；模 5 固定核心（09:45 電話）、結辯三選一、準備分（STORY.mootScore）輸贏與筆記；模 6 出遊輸贏兩版、沒去照片；MOOT_TOGETHER（第 8～10 週公法讀書會或總圖／法圖自習時以安、柏翰在場）。還沒做：可昕 9-19（KX_MOOT）、201 法庭擺法（SCN-V3-03）、機車行 2D 背景。瀏覽器未測。"
   },
   {
    "id": "SYS-10",

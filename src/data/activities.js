@@ -63,6 +63,11 @@ const ACTIVITIES={
        坐下選「聽說明會」＝ev_exchange_expo_y2（選坐哪一區，記 EXPO_COUNTRY）；3/15 09:00 學校信箱、以安的群組那一句、沒去的 20:00 簡報照片在 story3d.js */
     {id:'EXPO_Y2',title:'交換學生甄選說明會',verb:'聽說明會',kind:'lecture',zone:'boya',room:'101',roomName:'博雅 101',term:['Y2S2'],weeks:[4],weekday:4,t0:12+20/60,t1:13+10/60,once:true,crowd:{n:30},event:'ev_exchange_expo_y2',
       desc:'國際事務處辦的交換學生甄選說明會。',story:true},
+    /* 模擬法庭的小組討論（V3-D16；AA_177 4-7、AA_143 3-3）：模 2 3/11、模 3 4/1、模 4 4/15，都是週四 19:00，萬才館研討室（B：研討室 A 週四 20:00 是公法讀書會）。
+       門口參加＝ev_moot_2／3／4（2D）。邀約是前一晚 21:00 以安在小組群組（story3d.js）；沒去＝那一場的準備分 +0（AA_143 3-2，不另外懲罰）*/
+    {id:'moot_2',title:'模擬法庭・找資料',verb:'參加',kind:'event',zone:'wancai',room:'seminarB',door:true,roomName:'萬才館 研討室 B',term:['Y2S2'],weeks:[3],weekday:4,t0:19,t1:21,once:true,event:'ev_moot_2',desc:'模擬法庭・賣家組的討論。',story:true},
+    {id:'moot_3',title:'模擬法庭・寫書狀',verb:'參加',kind:'event',zone:'wancai',room:'seminarB',door:true,roomName:'萬才館 研討室 B',term:['Y2S2'],weeks:[6],weekday:4,t0:19,t1:21,once:true,event:'ev_moot_3',desc:'模擬法庭・賣家組的討論。',story:true},
+    {id:'moot_4',title:'模擬法庭・演練',verb:'參加',kind:'event',zone:'wancai',room:'seminarB',door:true,roomName:'萬才館 研討室 B',term:['Y2S2'],weeks:[8],weekday:4,t0:19,t1:21,once:true,event:'ev_moot_4',desc:'學姊當法官的演練。',story:true},
     {id:'dept_ball_game_y1s2',title:'系籃比賽',kind:'event',zone:'campus',roomName:'籃球場（醉月湖東側）',spot:{x:3.3,z:-112.7,lv:0,label:'系籃比賽'},verb:'去看',term:['Y1S2'],weeks:[14],weekday:6,t0:14,t1:16,once:true,event:'ev_zhe_game_y1',
      desc:'系上的系籃比賽，阿哲上場。觀眾可以拍手、記分或送水。',story:true},
     {id:'dept_basketball',title:'系籃練球',clubName:'系籃（系學會）',kind:'club',zone:'campus',roomName:'籃球場（醉月湖東側）',spot:{x:3.3,z:-112.7,lv:0,label:'系籃練球'},verb:'去練球',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15,16],weekday:5,t0:17.5,t1:19,

@@ -1555,6 +1555,20 @@ const STORY = (function(){
         const went=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,'EXPO_Y2',d);   /* 中途離開也算去了 */
         if(!went&&PHONE.inGroup(G,'noodle_team')&&(G.day>d||(G.day===d&&G.hour>=20))&&G.day<=d+3&&!PHONE.sent(G,'y2_expo_missed'))
           PHONE.at(G,d,20,[{th:'g:noodle_team',from:'heroine_01',text:'📷（說明會的簡報）'},{th:'g:noodle_team',from:'heroine_01',text:'重點在第七頁。'}],'y2_expo_missed'); } }
+    /* 模擬法庭（V3-D16；AA_177 4-7、AA_143 3-3）：2/23（二）09:00 系上公告；模 1 沒到＝2/25 13:30 以安私訊兩則；小組群組「模擬法庭・賣家組」（模 1 演完或 13:30）；
+       模 2～5 的邀約前一晚 21:00 以安在小組群組；模 5 散場（演完）阿哲當面約＝排 19:00 麵店出遊（模 6）；沒去＝21:30 麵店團群組一張照片 */
+    { const dA=S.dayOfKey('2027-02-23'), d1=S.dayOfKey('2027-02-25'), d5=S.dayOfKey('2027-05-01'), ED=id=>!!(G.events&&G.events.done&&G.events.done[id]); if(dA!=null&&d1!=null&&d5!=null&&G.day>=dA&&G.day<=d5+1){
+        const MG='g:moot_seller', A=t=>({th:MG,from:'heroine_01',text:t}), H=t=>({th:MG,from:'classmate_bohan',text:t});
+        if((G.day>dA||G.hour>=9)&&G.day<=d1&&!PHONE.sent(G,'moot_notice')) PHONE.at(G,dA,9,[{th:'sys',name:'系上公告',text:'法律系：大二模擬法庭抽籤，2/25（四）12:20，霖澤館 201。全體大二同學參加。'}],'moot_notice');
+        if(ED('ev_moot_1')||G.day>d1||(G.day===d1&&G.hour>=13.5)){ if(!PHONE.inGroup(G,'moot_seller')) PHONE.join(G,'moot_seller','模擬法庭・賣家組');
+          if(!ED('ev_moot_1')&&!PHONE.sent(G,'moot_1_missed')) PHONE.at(G,d1,13.5,[{th:'p:heroine_01',from:'heroine_01',text:'抽籤結果出來了。我、你、柏翰。我們是賣家。'},{th:'p:heroine_01',from:'heroine_01',text:'分工表明天給你。'}],'moot_1_missed'); }
+        if(PHONE.inGroup(G,'moot_seller')) for(const [k,inv] of [['2027-03-10',[A('明天晚上七點，萬才館研討室。'),A('題目是二手機車的買賣。每個人帶一個做法來。'),H('做法是指……要背的範圍嗎。'),A('不是。')]],
+            ['2027-03-31',[A('明天七點，研討室。書狀要寫到第三段。'),A('理由：再不寫，四月就沒了。'),H('我寫了一版。照考古題的格式。'),A('……明天再說。')]],
+            ['2027-04-14',[A('明天七點，研討室。學姊答應來當法官。'),A('她說會手下留情。'),H('她上次也這樣說。')]],['2027-04-30',[A('明天九點半，201。穿正式一點。')]]]){
+          const di=S.dayOfKey(k); if(di!=null&&(G.day>di||(G.day===di&&G.hour>=21))&&G.day<=di+1&&!PHONE.sent(G,'moot_inv_'+k)) PHONE.at(G,di,21,inv,'moot_inv_'+k); }
+        if(ED('ev_moot_5')&&typeof OUT!=='undefined'&&!OUT.get(G,'moot_6')&&G.day===d5&&G.hour<19.25) OUT.plan(G,{id:'moot_6',ev:'ev_moot_6',day:d5,h:19,late:0.25,place:'阿鳳麵店',title:'模擬法庭之後的麵店',travel:'走過去約 15 分鐘',travelH:0.25});
+        const o=typeof OUT!=='undefined'?OUT.get(G,'moot_6'):null; if(ED('ev_moot_5')&&!ED('ev_moot_6')&&(G.day>d5||G.hour>=21.5)&&!PHONE.sent(G,'moot_6_photo')){ const th=PHONE.inGroup(G,'noodle_team')?'g:noodle_team':MG;
+          PHONE.at(G,d5,21.5,[{th,from:'zhe',text:'📷（阿哲分的滷味）'}],'moot_6_photo'); } } }
     /* 大二過年（V3-D13；AA_143 2-1 新的字，AA-B 9035ede0：不重用大一的原句）：初一 2027-02-06 11:00 麵店團群組——阿哲、以安、小語的照片（小語那三則所有成員都看得到，
        他們交往在麵店團是公開的事）；祐廷三選一：年夜飯照片／「醜的水餃比較好吃」／貼圖（不回就只是沒回）*/
     { const ny=S.dayOfKey('2027-02-06'); if(ny!=null&&PHONE.inGroup(G,'noodle_team')&&(G.day>ny||(G.day===ny&&G.hour>=11))&&G.day<=ny+4&&!PHONE.sent(G,'cny_noodle_y2')){ const th='g:noodle_team', M=(f,t,o)=>Object.assign({th,from:f,text:t},o||{});
@@ -1814,6 +1828,11 @@ const STORY = (function(){
       if(k==='kexin'){ PHONE.at(G,G.day,G.hour+0.05,[me('p:kexin','好。我們去。')].concat(grp?[me(ng,'我這次有約了。'),{th:ng,from:'zhe',text:'……喔～'}]:[]),'spring_pick_msg'); }
       if(k==='dorm'&&grp) PHONE.at(G,G.day,G.hour+0.05,[me(ng,'我這次留在宿舍。'),{th:ng,from:'zhe',text:'好啦，照片會傳給你。'}],'spring_pick_msg'); }
     if(k!=='noodle'&&grp){ const th='g:noodle_team'; PHONE.at(G,D.d0,20.5,[{th,from:'heroine_01',text:'📷（行程表第二版）'},{th,from:'heroine_01',text:'理由欄寫『雨』。'},{th,from:'zhe',text:'下次你要來。'}],'ndl_spring_photos'); } };
+  /* 模擬法庭的準備分（AA_143 3-2；0～4，不顯示數字）：模 2 去了機車行、模 3 提第三種寫法、模 4 有去、第 8～10 週和以安或柏翰一起準備（MOOT_TOGETHER） */
+  S.mootScore=function(G){ const F=G.flags||{}; return (F.MOOT_BIKE_SHOP?1:0)+(F.MOOT_THIRD?1:0)+(F.MOOT_DRILL?1:0)+(F.MOOT_TOGETHER?1:0); };
+  /* MOOT_TOGETHER（AA_143 3-3 第 8 項：照 LAWWW-B 的讀法）：大二下第 8～10 週去了公法讀書會，或在總圖、法圖自習時以安或柏翰在場 */
+  S.mootTogetherCheck=function(G,kind){ if(!G||!G.flags||G.flags.MOOT_TOGETHER) return; const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!T||T.id!=='Y2S2'||T.week<8||T.week>10) return;
+    if(kind==='plg'||((kind==='study')&&['library','library_hall','lawlib'].includes(G.zone)&&['heroine_01','classmate_bohan'].some(id=>S.present(id,G)&&(()=>{ const e=schedEnt(CHARACTERS[id],G); return !!e&&e.zone===G.zone; })()))) G.flags.MOOT_TOGETHER=true; };
   /* 大一去過幾次法服讀書會（BB_97 4-3 P4「我接。」要 5 次以上）：G.acts.att 的 lawclub_study@<天>，那一天在大一（Y1S1、Y1S2）；中途離開也算去過 */
   S.lawclubY1Count=function(G){ const A=(G.acts&&G.acts.att)||{}; let n=0; for(const k in A){ const m=/^lawclub_study@(-?\d+)$/.exec(k); if(!m) continue; const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(+m[1]):null; if(t&&/^Y1S[12]$/.test(t.id)) n++; } return n; };
   /* 大一的春節初一（遊戲第一個「春節」、前一天是「除夕」：2026-02-17）；寒假拜年（C3）用 */
@@ -2184,7 +2203,7 @@ const STORY = (function(){
   S.rPlayEv=function(G){ if(inR(G,'2025-03-30','2025-04-01')&&!rdone(G,'ev_y0_r3')) return ['ev_y0_r3','椰林大道']; if(inR(G,'2025-05-05','2025-05-10')&&!rdone(G,'ev_y0_r6')&&!G.flags.R6_MISSED) return ['ev_y0_r6','河濱'];   /* 第 12 週的第一個玩樂日，最晚 5/10（六）*/ return ['ev_y0_rp','和可昕出門']; };
   S.rtPlanPlay=function(G){ if(typeof OUT==='undefined') return; const id='rt_play_'+G.day; if(OUT.get(G,id)) return; const [ev,place]=S.rPlayEv(G), h=Math.max(S.kxFreeAt(G),Math.ceil(G.hour*4)/4);
     OUT.plan(G,{id,ev,day:G.day,h,late:0.75,place,title:'和可昕出門 '+hm(h),travel:'走過去',travelH:1/6}); };
-  S.onStudy=function(GM,hrs){ const G=GM.G; if(!S.retakeOn(G)||G.zone!=='boya'||hrs<2) return; if(typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('retake:study'); };
+  S.onStudy=function(GM,hrs){ const G=GM.G; S.mootTogetherCheck(G,'study'); if(!S.retakeOn(G)||G.zone!=='boya'||hrs<2) return; if(typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('retake:study'); };
   /* P2b 門口有人在揪（AA_154 2-5a；事件 ev_y0_p2b）：P2 演過（P2_PICK）以後，Y0S1 第 6～16 週（第 8、9 週期中考除外）、Y0S2 第 1～5 週的週四會計下課；
      每週擲一次（P2B_P＝40%，記在 P2B_WK／P2B_HIT），同一週最多一次（P2B_SEEN）；那天已經約了別的出遊（OUT 排定、邀約答應）不揪。
      P2B_END：跟去的結束時間（food 19:30、river 17:00、night 21:00／21:30）。 */
