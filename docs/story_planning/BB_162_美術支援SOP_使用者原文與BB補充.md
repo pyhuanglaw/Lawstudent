@@ -260,7 +260,7 @@
 5. **b3lib.py**：原文寫 `tools/blender/env_second/b3lib.py`。BB-B 查到 repo 裡實際的位置是 `tools/blender/b3lib.py`，`lib2.py` 從那裡 import。照實際位置用。
 6. **規格衝突時**：標註具體差異，不阻礙其他確定可以進行的工作。
 
-## 3. BB-B 實際做過的方法（提議中；照 SOP 第 12 節先給 LAWWW2-B，採用後再寫進共用 SOP）
+## 3. BB-B 實際做過的方法（**LAWWW2-B 16:33 UTC 六條都同意**，已寫進共用 SOP 第 13 節；第 4 條加了適用範圍，第 2 條加了 u 來回翻）
 
 > 每一條都在 ART-PARK1（`82eb09b8`）或 ART-PARK3（`3ce32a55`）實際做過，附驗證的渲染。
 
