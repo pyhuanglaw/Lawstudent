@@ -293,6 +293,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 5. 合併（不 rebase、不 force push；第 4 節第 7 步）、確認輪到你寫入、在自己的進度檔寫值班登記（含規則 SHA／HV 版本與對帳結果），commit＋push、核對遠端 SHA。
 6. 回覆使用者「接班確認」（第 6 節的格式），然後接著做總表與進度檔裡輪到你的工作，不用使用者再說開工。
 不要傳訊息給另一個帳號的任何工作階段（D75）；跨帳號只用 GitHub。同一個帳號裡值班中的職位可以用 send_message。
+**美術標準與精修 SOP（使用者 2026-10-16 20:2x 直接給 LAWWW2-B：「得遊戲大獎的標準、不要像廉價拼接、不要有方塊感」；ART-SOP）**：開始任何美術工作以前，先 fetch claude/funny-albattani-iawshm（帳號 B 的 LAWWW2-B 分支；d8cfa784 起），讀 docs/art-rebuild/second_ai/ART_SOP.md（工具鏈、製作順序、八項驗收、審查方式、新方法登記表）、docs/art-rebuild/second_ai/sop_demo/README.md（溫州街路面示範）、SCENE_RULES.md 第 9 節、HANDOFF.md 與 WORK_RULES.md 最上方的「⛔ 強制閱讀」；把有效成果合併進自己的分支，確認理解後才開始美術工作（任何接環境美術的工作階段都一樣）。
 你的進度檔：docs/art-rebuild/second_ai/HANDOFF.md（表裡的 WIP 分支要一起看）。把上一班 LAWWW2 的分支和要接著做的 WIP 合併進系統指定給你的分支；不合併 LAWWW 開發分支的程式（規則檔用 git show 讀，必要時 git checkout <RULE_SOURCE> -- 五份規則檔 當副本）。總表的 ART-* 任務是你的範圍：交班時在 HANDOFF.md 用任務 ID 寫狀態。不得因換班覆蓋還沒整合的模型。
 權限：只 push 系統指定給你的分支；不碰 main、不正式發布、不改 LAWWW 負責的檔案；成果交給 LAWWW 整合；建築與場景美術只有使用者能標 ART_APPROVED。
 ```
@@ -396,6 +397,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 版本 | 日期（UTC） | 內容 | 使用者決策來源 | 寫在哪 | SHA |
 |---|---|---|---|---|---|
+| **HV-9a** | 2026-10-17 | **美術精修 SOP 入口（ART-SOP）**：使用者 2026-10-16 20:2x 直接給 LAWWW2-B「美術標準是得遊戲大獎、不要像廉價拼接、不要有方塊感；精修方法寫成 SOP，支援的 AI、交接後原本帳號的 LAWWW2 都要照著做」→ 第 7.2 節 LAWWW2 啟動提示詞：開工前先讀 funny-albattani 的 ART_SOP.md 等四份、合併有效成果 | 使用者經 LAWWW2-B 轉達（LAWWW2-B 20:21 訊息） | 本檔第 7.2 節；LAWWW2-B 分支 d8cfa784（69e4b181、644a322f、1c3bdefd） | （本 commit） |
 | **HV-9** | 2026-10-17 | **D90 使用者訊息優先協定（全部帳號、全部 AI、子代理）**：平台在回合結束時才送使用者訊息（LAWWW-B 用工作階段紀錄查證）→ 短回合（最多約 10 分鐘／30 次工具）、長工作放背景不輪詢、結束前 commit＋push、send_later 自己接續、回合開始先回使用者再讀通知；`tools/handoff/turn_check.py` 自我檢查；第 14 節 ACK 表 | 使用者 2026-10-17 約 04:0x 台北（UTC 20:01） | CLAUDE.md D90 一節、本檔第 4、7、14 節、PROJECT_DECISIONS D90、USER_INSTRUCTION_LOG | （本 commit） |
 | **HV-8** | 2026-10-16 | **D88 GitHub 分支收斂與生命週期**：有效成果都要保存、整合、驗證；建立 → 工作 → 交付 → 整合 → 驗證 → 清理；8 條美術 WIP 由 LAWWW2 逐條確認整合、LAWWW 複核刪除（權限受阻就標記、不重試）；休班帳號的交接分支保留；換班、發布、大型任務結案時增量盤點；交班第 5 件「分支狀態」 | 使用者 2026-10-16 約 04:1x | CLAUDE.md D88 一節、本檔第 4 節必讀清單與第 5 節、BRANCH_INVENTORY.md、PROJECT_DECISIONS D88 | （本 commit） |
 | **HV-7** | 2026-10-16 | **D87 四角色自主連續工作、禁止無故待命**（做完自動接下一項、回報不是終點、使用者回覆與執行分開、可以停的五種情況、不製造假工作）；**取消一般發布的三小時間隔**（D85 修訂：看完成度、測試、穩定性）；分支刪不了就保留盤點紀錄、不重試同一個失敗操作 | 使用者 2026-10-16 約 04:0x（回覆 LAWWW-B 的派工回報） | CLAUDE.md D87 一節與 D85 第 7、8 點、本檔第 4 節第 2 步、6c、10 節、7.1～7.4、RELEASES.md、PROJECT_DECISIONS D87 | cacf9994 |
