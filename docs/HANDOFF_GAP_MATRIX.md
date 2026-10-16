@@ -21,6 +21,7 @@
 9. **增量（D82）**：收到交付就在 `deliveries.json` 登記一筆，新任務直接加進 `tasks.json`；交班跑 `check_handoff.py snapshot`、接班跑 `check_handoff.py check`。工具只列異常、不改任務。
 10. **平行開發的派工（D84）**：每個開發階段開工時先盤點美術、建 LAWWW2 任務；跨 AI 任務在 tasks.json 寫 `xai`（接收者、分支、規格來源、交付標準、ACK）；LAWWW2 用 `check_handoff.py queue --owner LAWWW2` 主動領工作；LAWWW 每批跑 check（第 10、11 項：欄位不齊、派工不足、交付沒 ACK）。2026-10-16 的稽核與重排：`docs/handoff/DISPATCH_AUDIT_2026-10-16.md`。
 11. **四角色主動派工與協作（D86）、main 與發布（D85）**：LAWWW 的劇情需求給 AA，AA 自己做或分派 BB；沒工作時照詢問順序找事做；值班的 LAWWW 自己決定合併 main、整理分支（`docs/handoff/BRANCH_INVENTORY.md`）、發布，並對品質負責。
+12. **自主連續工作（D87）**：做完一項自動接下一項，回報不是終點；卡住換一項；沒工作照 D86 問隊友；只在 CLAUDE.md D87 第 6 點的情況停。發布不再有三小時間隔（D85 修訂）。
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 

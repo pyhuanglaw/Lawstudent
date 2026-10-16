@@ -8357,7 +8357,7 @@
    "area": "ART",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "soc_hall、soc_classroom、xiaofu 已接（BB-B 第 19、20 組）；其他 id 沒有圖照舊深色底＋字幕；girls_dorm_gate、bowling（BB-B 第 21 組 a7ef2afa）已放進 assets/bg 與 S.BG（本批，v0 E13、E14 用）",
+   "next": "soc_hall、soc_classroom、xiaofu 已接（BB-B 第 19、20 組）；其他 id 沒有圖照舊深色底＋字幕；girls_dorm_gate、bowling（BB-B 第 21 組 a7ef2afa）已放進 assets/bg 與 S.BG（本批，v0 E13、E14 用）；econ_camp、econ_camp_room 通過（BB-B 329ed732），v0 時接",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -8440,8 +8440,8 @@
    "title": "六位女主角＋沛珊、可昕的九格表情（BB-B D59 通過：子晴、學姊 d69dd5f6；沛珊、可昕 ad98f813；以安、語彤 488af276）接進對話立繪",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "芷若（724643c）、學姊（2ac3c4bf）、沛珊與可昕（0f373b49）已接；子晴、以安、語彤暫停：等使用者生正面全身新圖（BB 第 23、24 組），之前立繪維持現狀",
+   "status": "待開工",
+   "next": "子晴、以安的正面全身圖 BB-B 第 23 組通過（e69036b8，date_system/art/heroine_0{4,1}_portrait_full.webp）→ LAWWW2-B 切底圖＋疊九格；語彤等第 24 組",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -8460,7 +8460,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "BB-B D59 驗收（企劃線）",
     "acceptance": "九格表情 webp（BB-B D59）",
-    "ack": "ACK"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -9512,7 +9512,7 @@
   },
   {
    "id": "SYS-22",
-   "title": "D85、D86 規則送達值班的三個職位並取得 ACK（LAWWW2-B、AA-B、BB-B）",
+   "title": "D85、D86、D87 規則送達值班的三個職位並取得 ACK（LAWWW2-B、AA-B、BB-B）",
    "area": "SYS",
    "owner": "LAWWW",
    "status": "進行中",

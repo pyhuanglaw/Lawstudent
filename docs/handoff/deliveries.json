@@ -4,8 +4,8 @@
  "pattern": "交付|ART_APPROVED|READY_FOR_ART_REVIEW|MODEL_READY|通過|驗收|閒聊階梯|交接包|法律審查|盤點|清查|裁定|規則檔|AA_1\\d\\d|BB_1\\d\\d",
  "scannedThrough": {
   "origin/claude/funny-albattani-iawshm": "20adecf4",
-  "origin/claude/cool-heisenberg-o8kuqx": "67251112",
-  "origin/claude/elegant-brown-fcos7n": "93b06e1d"
+  "origin/claude/cool-heisenberg-o8kuqx": "c2406865",
+  "origin/claude/elegant-brown-fcos7n": "3992440c"
  },
  "deliveries": [
   {
@@ -1159,6 +1159,42 @@
    "msg": "DELIVERED",
    "integration": "未整合",
    "note": ""
+  },
+  {
+   "id": "DLV-1016-97",
+   "date": "2026-10-16T04:0xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "e864eeb0",
+   "what": "AA_145 §5 V0-ARTPLAN、§6 春假海邊老街調白天版",
+   "task": "V0-ARTPLAN、ART-BG09、ART-BG10",
+   "msg": "ACTIONED",
+   "integration": "參考用",
+   "note": "已據此建 ART-V0-DORM、ART-CH-*"
+  },
+  {
+   "id": "DLV-1016-98",
+   "date": "2026-10-16T04:0xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "329ed732",
+   "what": "第 22b 組：econ_camp、econ_camp_room 通過（bg_approved）",
+   "task": "ART-18",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v0 背景，跟 ART-18 一起接"
+  },
+  {
+   "id": "DLV-1016-99",
+   "date": "2026-10-16T04:0xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "e69036b8",
+   "what": "第 23 組 D59：子晴、以安正面全身對話立繪通過（date_system/art/heroine_0{4,1}_portrait_full.webp），交 LAWWW2-B 做 ART-19",
+   "task": "ART-19",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW2-B 疊九格表情後交 LAWWW"
   }
  ],
  "ignored": [
@@ -1181,6 +1217,11 @@
    "sha": "b4e46402",
    "branch": "origin/claude/cool-heisenberg-o8kuqx",
    "why": "AA-B 自己的交接紀錄"
+  },
+  {
+   "sha": "fd49dd13",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 自己的 WIP checkpoint（大二上 BB 五位閒聊階梯，說明文件還沒寫）；交付時再登記（V3-L1）"
   }
  ]
 }
