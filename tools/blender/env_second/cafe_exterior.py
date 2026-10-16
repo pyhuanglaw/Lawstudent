@@ -65,7 +65,7 @@ for f in range(1, NF):     # 正面牆：窗間牆＋窗下牆＋窗上牆（留
     for k in range(0, len(xs), 2): wall.box(xs[k], xs[k + 1], y0, y1, -0.25, 0)
     for w in ws:
         x0, x1 = w[1] - w[2] / 2, w[1] + w[2] / 2
-        if w[4] > y0 + 0.01: wall.box(x0, x1, y0, w[4], -0.25, 0)
+        if w[4] > y0 + 0.01: wall.box(x0, x1, y0, w[4] - 0.01, -0.25, 0)   # 停在窗台裡面（低 1 cm）：原本牆頂和窗台頂同一個平面，會閃（BUG-WZFLICKER）
         if w[4] + w[3] < y1 - 0.01: wall.box(x0, x1, w[4] + w[3], y1, -0.25, 0)
 wall.box(-W / 2, W / 2, TOP, TOP + 0.95, -0.22, 0)          # 女兒牆
 wall.finish(facade)
@@ -81,7 +81,7 @@ for s in (-1, 1):
         for c in CL.RIGHT_WINS:
             za, zb = c + IZ - CL.WIN_W / 2, c + IZ + CL.WIN_W / 2
             side.box(x0, x1, 0, WY0, za, zb); side.box(x0, x1, WY1, GH, za, zb)
-side.box(-W / 2, W / 2, 0, TOP + 0.95, -D, -D + 0.25)         # 背面
+side.box(-W / 2 + 0.25, W / 2 - 0.25, 0, TOP + 0.95, -D, -D + 0.25)   # 背面（夾在兩面側牆中間：原本伸到側牆外緣，兩端的面和側牆外面同一個平面，從路口看後面的轉角會閃）
 side.box(-W / 2 + 0.25, W / 2 - 0.25, TOP, TOP + 0.95, -D + 0.25, -D + 0.45)
 side.box(-W / 2 + 0.25, W / 2 - 0.25, CL.RH + 0.02, GH - 0.1, -D + 0.25, -0.13)   # 一樓天花板上方的樓板
 side.finish(facade)
@@ -110,8 +110,9 @@ for (f, cx, w_, h_, sill, kind) in WINS:
     x0, x1, y0, y1 = cx - w_ / 2, cx + w_ / 2, sill, sill + h_
     fz = -0.12
     dark.box(x0, x1, y0, y1, -0.92, -0.88)
-    dark.box(x0, x1, y0 - 0.02, y0, -0.9, fz); dark.box(x0, x1, y1, y1 + 0.02, -0.9, fz)
-    dark.box(x0, x0 + 0.02, y0, y1, -0.9, fz); dark.box(x1 - 0.02, x1, y0, y1, -0.9, fz)
+    e = 0.006   # 窗內房間往內縮 6 mm：原本地板、天花板、左右剛好在窗洞的四個側面上（和窗台頂、牆同一個平面），從玻璃斜看會閃（BUG-WZFLICKER）
+    dark.box(x0 + e, x1 - e, y0 - 0.02 + e, y0 + e, -0.9, fz); dark.box(x0 + e, x1 - e, y1 - e, y1 + 0.02 - e, -0.9, fz)
+    dark.box(x0 + e, x0 + 0.02 + e, y0 + e, y1 - e, -0.9, fz); dark.box(x1 - 0.02 - e, x1 - e, y0 + e, y1 - e, -0.9, fz)
     cm = curl if (f, cx) in LIT else cur
     cw = w_ * random.uniform(0.35, 0.55)
     if random.random() < 0.5:

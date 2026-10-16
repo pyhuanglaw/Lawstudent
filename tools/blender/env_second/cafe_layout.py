@@ -389,7 +389,7 @@ def interior(mat, parent, lite=False, walls=None, half_w=RW / 2):
     # 書牆（後牆右段）：木格（6 欄 × 6 層）＋書（色票）＋幾個小盆栽與相框
     BK0, BK1 = BOOKCASE[0], min(BOOKCASE[1], X1 - 0.02); DP = 0.38
     bk = wall_mesh('back', 'bookcase', mat['shelf'])
-    bk.box(BK0, BK1, 0, 0.12, Z0, Z0 + DP); bk.box(BK0, BK1, 3.0, 3.08, Z0, Z0 + DP); bk.box(BK0, BK1, 0, 3.08, Z0, Z0 + 0.02)
+    bk.box(BK0, BK1, 0, 0.12, Z0, Z0 + DP); bk.box(BK0, BK1, 3.0, 3.08, Z0, Z0 + DP); bk.box(BK0, BK1, 0, 3.08, Z0, Z0 + 0.025)   # 背板正面在木護牆前 5 mm（原本同一個平面，從書的空隙看進去會閃，BUG-WZFLICKER）
     ncol = 6; cols = [BK0 + (BK1 - BK0) * k / ncol for k in range(ncol + 1)]
     for x in cols: bk.box(x - 0.03, x + 0.03, 0, 3.08, Z0, Z0 + DP)
     rows = [0.12, 0.6, 1.08, 1.56, 2.04, 2.52, 3.0]
