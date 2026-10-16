@@ -1,0 +1,278 @@
+[
+ {
+  "out": "/tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/tm_scenes/avenue_day_aces.png",
+  "w": 390,
+  "h": 844,
+  "dpr": 2,
+  "mobile": true,
+  "state": {
+   "zone": "campus",
+   "hour": 10.5,
+   "pos": {
+    "x": -30,
+    "z": -1.5,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "yaw": -1.5707963267948966,
+   "pitch": 0.22,
+   "dist": 6
+  },
+  "js": "GAME.E.renderer.toneMapping=THREE.ACESFilmicToneMapping; GAME.E.scene.traverse(o=>{ if(o.isMesh||o.isSprite||o.isPoints) (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if(m) m.needsUpdate=true; }); });",
+  "wait": 3000
+ },
+ {
+  "out": "/tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/tm_scenes/avenue_dusk_aces.png",
+  "w": 390,
+  "h": 844,
+  "dpr": 2,
+  "mobile": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -30,
+    "z": -1.5,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "yaw": -1.5707963267948966,
+   "pitch": 0.22,
+   "dist": 6
+  },
+  "js": "GAME.E.renderer.toneMapping=THREE.ACESFilmicToneMapping; GAME.E.scene.traverse(o=>{ if(o.isMesh||o.isSprite||o.isPoints) (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if(m) m.needsUpdate=true; }); });",
+  "wait": 3000
+ },
+ {
+  "out": "/tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/tm_scenes/wenzhou_night_aces.png",
+  "w": 390,
+  "h": 844,
+  "dpr": 2,
+  "mobile": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 20.5,
+   "pos": {
+    "x": 50.2,
+    "z": -0.3,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "yaw": -1.5707963267948966,
+   "pitch": 0.22,
+   "dist": 5.2
+  },
+  "js": "GAME.E.renderer.toneMapping=THREE.ACESFilmicToneMapping; GAME.E.scene.traverse(o=>{ if(o.isMesh||o.isSprite||o.isPoints) (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if(m) m.needsUpdate=true; }); });",
+  "wait": 3000
+ },
+ {
+  "out": "/tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/tm_scenes/cafe_inside_aces.png",
+  "w": 390,
+  "h": 844,
+  "dpr": 2,
+  "mobile": true,
+  "state": {
+   "zone": "cafe",
+   "hour": 15,
+   "pos": {
+    "x": 0.3,
+    "z": -0.6,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "yaw": 3.141592653589793,
+   "pitch": 0.3,
+   "dist": 4.2
+  },
+  "js": "GAME.E.renderer.toneMapping=THREE.ACESFilmicToneMapping; GAME.E.scene.traverse(o=>{ if(o.isMesh||o.isSprite||o.isPoints) (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if(m) m.needsUpdate=true; }); });",
+  "wait": 3000
+ },
+ {
+  "out": "/tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/tm_scenes/dorm_room_aces.png",
+  "w": 390,
+  "h": 844,
+  "dpr": 2,
+  "mobile": true,
+  "state": {
+   "zone": "dorm",
+   "hour": 7.5,
+   "pos": {
+    "x": 0,
+    "z": 1.2,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "yaw": 3.141592653589793,
+   "pitch": 0.38,
+   "dist": 3.6
+  },
+  "js": "GAME.E.renderer.toneMapping=THREE.ACESFilmicToneMapping; GAME.E.scene.traverse(o=>{ if(o.isMesh||o.isSprite||o.isPoints) (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if(m) m.needsUpdate=true; }); });",
+  "wait": 3000
+ },
+ {
+  "out": "/tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/tm_scenes/gongguan_aces.png",
+  "w": 390,
+  "h": 844,
+  "dpr": 2,
+  "mobile": true,
+  "state": {
+   "zone": "gongguan",
+   "hour": 11,
+   "pos": {
+    "x": -40,
+    "z": 16,
+    "yaw": -1.5707963267948966
+   }
+  },
+  "cam": {
+   "yaw": 2.0,
+   "pitch": 0.18,
+   "dist": 6.5
+  },
+  "js": "GAME.E.renderer.toneMapping=THREE.ACESFilmicToneMapping; GAME.E.scene.traverse(o=>{ if(o.isMesh||o.isSprite||o.isPoints) (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if(m) m.needsUpdate=true; }); });",
+  "wait": 3000
+ },
+ {
+  "out": "/tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/tm_scenes/avenue_day_neutral.png",
+  "w": 390,
+  "h": 844,
+  "dpr": 2,
+  "mobile": true,
+  "state": {
+   "zone": "campus",
+   "hour": 10.5,
+   "pos": {
+    "x": -30,
+    "z": -1.5,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "yaw": -1.5707963267948966,
+   "pitch": 0.22,
+   "dist": 6
+  },
+  "js": "GAME.E.renderer.toneMapping=THREE.NeutralToneMapping; GAME.E.scene.traverse(o=>{ if(o.isMesh||o.isSprite||o.isPoints) (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if(m) m.needsUpdate=true; }); });",
+  "wait": 3000
+ },
+ {
+  "out": "/tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/tm_scenes/avenue_dusk_neutral.png",
+  "w": 390,
+  "h": 844,
+  "dpr": 2,
+  "mobile": true,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": -30,
+    "z": -1.5,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "yaw": -1.5707963267948966,
+   "pitch": 0.22,
+   "dist": 6
+  },
+  "js": "GAME.E.renderer.toneMapping=THREE.NeutralToneMapping; GAME.E.scene.traverse(o=>{ if(o.isMesh||o.isSprite||o.isPoints) (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if(m) m.needsUpdate=true; }); });",
+  "wait": 3000
+ },
+ {
+  "out": "/tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/tm_scenes/wenzhou_night_neutral.png",
+  "w": 390,
+  "h": 844,
+  "dpr": 2,
+  "mobile": true,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 20.5,
+   "pos": {
+    "x": 50.2,
+    "z": -0.3,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "yaw": -1.5707963267948966,
+   "pitch": 0.22,
+   "dist": 5.2
+  },
+  "js": "GAME.E.renderer.toneMapping=THREE.NeutralToneMapping; GAME.E.scene.traverse(o=>{ if(o.isMesh||o.isSprite||o.isPoints) (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if(m) m.needsUpdate=true; }); });",
+  "wait": 3000
+ },
+ {
+  "out": "/tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/tm_scenes/cafe_inside_neutral.png",
+  "w": 390,
+  "h": 844,
+  "dpr": 2,
+  "mobile": true,
+  "state": {
+   "zone": "cafe",
+   "hour": 15,
+   "pos": {
+    "x": 0.3,
+    "z": -0.6,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "yaw": 3.141592653589793,
+   "pitch": 0.3,
+   "dist": 4.2
+  },
+  "js": "GAME.E.renderer.toneMapping=THREE.NeutralToneMapping; GAME.E.scene.traverse(o=>{ if(o.isMesh||o.isSprite||o.isPoints) (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if(m) m.needsUpdate=true; }); });",
+  "wait": 3000
+ },
+ {
+  "out": "/tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/tm_scenes/dorm_room_neutral.png",
+  "w": 390,
+  "h": 844,
+  "dpr": 2,
+  "mobile": true,
+  "state": {
+   "zone": "dorm",
+   "hour": 7.5,
+   "pos": {
+    "x": 0,
+    "z": 1.2,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "yaw": 3.141592653589793,
+   "pitch": 0.38,
+   "dist": 3.6
+  },
+  "js": "GAME.E.renderer.toneMapping=THREE.NeutralToneMapping; GAME.E.scene.traverse(o=>{ if(o.isMesh||o.isSprite||o.isPoints) (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if(m) m.needsUpdate=true; }); });",
+  "wait": 3000
+ },
+ {
+  "out": "/tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/tm_scenes/gongguan_neutral.png",
+  "w": 390,
+  "h": 844,
+  "dpr": 2,
+  "mobile": true,
+  "state": {
+   "zone": "gongguan",
+   "hour": 11,
+   "pos": {
+    "x": -40,
+    "z": 16,
+    "yaw": -1.5707963267948966
+   }
+  },
+  "cam": {
+   "yaw": 2.0,
+   "pitch": 0.18,
+   "dist": 6.5
+  },
+  "js": "GAME.E.renderer.toneMapping=THREE.NeutralToneMapping; GAME.E.scene.traverse(o=>{ if(o.isMesh||o.isSprite||o.isPoints) (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if(m) m.needsUpdate=true; }); });",
+  "wait": 3000
+ }
+]
