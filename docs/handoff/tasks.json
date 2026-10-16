@@ -6619,8 +6619,8 @@
    "title": "美國篇 CG（BCG-32、BCG-17、雪裡的台階、BCG-09）",
    "area": "SCN",
    "owner": "BB",
-   "status": "等待其他AI／素材",
-   "next": "BB-B 清單",
+   "status": "待開工",
+   "next": "CG 齊、等施工（BB-B 2d1d2ab9）：BCG-14、32、17、23、09（cg_approved/…heroine05）、送機 BCG-31；2D 與立繪（SCN-US-2D／CH）在使用者下一批第 2 項",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -6724,8 +6724,8 @@
    "title": "日本線 CG（CG-13、17、22、23）",
    "area": "SCN",
    "owner": "BB",
-   "status": "等待其他AI／素材",
-   "next": "BB-B 清單",
+   "status": "待開工",
+   "next": "CG 齊、等施工（BB-B 2d1d2ab9）：CG-22、13、17、23（…heroine01）；2D 與立繪（SCN-JP-2D／CH）在使用者下一批第 2 項",
    "priority": "P2",
    "first": {
     "term": "Y3S1",
@@ -6822,8 +6822,8 @@
    "title": "經濟系開學典禮、小福、重考生活、摩天輪、保齡球",
    "area": "SCN",
    "owner": "BB",
-   "status": "等待其他AI／素材",
-   "next": "AA-B 的 v0 場景清單",
+   "status": "待開工",
+   "next": "圖都有（BB-B e8af89ff 第 0a 節）：soc_hall、soc_classroom、xiaofu、home_room／living／balcony、ferris_wheel、bowling；重考讀書在博雅 3D，不需要補習班底圖。施工跟 V0 事件批次（已用 soc_hall、soc_classroom、xiaofu）",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -6871,8 +6871,8 @@
    "title": "v3 新 2D（河堤夜景、山屋步道、研究室門口、政大小教室、老街、畢業典禮人潮）",
    "area": "SCN",
    "owner": "BB",
-   "status": "等待其他AI／素材",
-   "next": "BB-B 清單",
+   "status": "待開工",
+   "next": "圖都有、等施工（BB-B e8af89ff）：河堤＝riverside、山屋步道＝cypress_trail、研究室門口＝linze_prof_hall、政大小教室＝classroom_small、回程公車＝bus_night、畢業典禮＝graduation_avenue；K12b 老街用 date_system/art/d18_base_dusk.webp（字幕「老街」）",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -6942,7 +6942,7 @@
    "area": "SCN",
    "owner": "BB",
    "status": "等待其他AI／素材",
-   "next": "BB-B 清單；機場 3D 與否待 AA-B",
+   "next": "車內已接（car_*）；行政法院不畫（AA_173）；等使用者生成兩張：地方法院 court_criminal（BB_132 第 58 組）、機場 airport_departure／arrival（第 60、63 組）",
    "priority": "P2",
    "first": {
     "term": "Y3S1",

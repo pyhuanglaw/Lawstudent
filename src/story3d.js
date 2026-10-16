@@ -978,12 +978,12 @@ const STORY = (function(){
     if(F.JOB_TUTOR&&typeof OUT!=='undefined'){ const T=CALENDAR.termOf(G.day); if(T&&T.id==='Y1S2'){ for(let w=T.week;w<=18;w++){ const d=termDay('Y1S2',w,2); if(d==null||d<=(F.tutorFromDay|0)||d*24+19<G.day*24+G.hour) continue; if(CALENDAR.holiday(d)||(CALENDAR.typhoon&&CALENDAR.typhoon(d))) continue;   /* 颱風假不能打工（AA_160 3-4 D）*/ const id='tutor_'+d; if(OUT.get(G,id)) break;
           OUT.plan(G,{id,ev:'ev_tutor_lesson',day:d,h:19,place:'學生家（公館附近）',title:'家教',travel:'騎車約 10 分鐘',travelH:1/6,no:'這週不去',back:'家教結束。'}); break; } } }
     /* SK05 三閃，販賣機見（大一版；BB_135 第 2 節；AA-B 2026-10-16：期末考週（第 17～18 週，2026-06-15～06-28）第一個晚上玩家在霖澤館（22:55～23:30；23:00 以後才走進去＝一進去就亮））：
-       23:00 阿勳傳訊息說暗號（一年一次）。法律系時期一直沒見過他的玩家（MET_XUN 沒有）先多一則「我是盧正勳。你經濟系那年的室友。」。pact 多兩句、night 多一句（都有＝先 pact 再 night）。
+       23:00 阿勳傳訊息說暗號（一年一次）。法律系時期一直沒見過他的玩家（MET_XUN 沒有）先多一則「盧正勳。你經濟系那年的室友。……你該不會連我都忘了。」。pact 多兩句、night 多一句（都有＝先 pact 再 night）。
        三個回覆：閃三下＝SK05_GO（今晚 23:00～23:45 他在法學院廣場的販賣機前，events.js ev_sk05_vending_y1）；閃一下、只回訊息＝這一年沒有這五分鐘 */
     { const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, hh=h(G);
       if(T&&T.id==='Y1S2'&&(T.week===17||T.week===18)&&(G.zone==='linze'||G.zone==='classroom')&&hh>=22+55/60&&hh<23.5&&!PHONE.sent(G,'sk05_y1')){
         silentContact('econ_zhengxun'); const th='p:econ_zhengxun', X=t=>({th,from:'econ_zhengxun',text:t}), N=t=>({th,who:null,text:t}), d=G.day;
-        const items=[]; if(!F.MET_XUN) items.push(X('我是盧正勳。你經濟系那年的室友。'));
+        const items=[]; if(!F.MET_XUN) items.push(X('盧正勳。你經濟系那年的室友。……你該不會連我都忘了。'));   /* BB-B 2026-10-16 第①級：照 BB_96 10-1 原文（少後半句會變成熟人正經地重新自我介紹）*/
         items.push(X('你們那邊燈還亮著。'),X('我在社科院四樓，窗邊。看對面。'),N('（對面的窗，燈閃了一下。）'),X('一閃是還活著。兩閃是救我。'));
         const last=X('三閃是販賣機見。'); const opts=[{t:'（閃三下）',set:{SK05_GO:d},say:[X('……真的？好，五分鐘。')]},{t:'（閃一下）',set:{SK05_Y1_REPLY:'one'},say:[X('好。活著就好。')]},{t:'還活著。',set:{SK05_Y1_REPLY:'text'},say:[X('用閃的比較快。……好啦，加油。')]}];
         const tail=[]; if(F.XUN_PACT) tail.push(N('（對面的窗又閃了三下。）'),X('我先閃了。')); if(F.XUN_NIGHT) tail.push(X('這次不用等你了。'));
