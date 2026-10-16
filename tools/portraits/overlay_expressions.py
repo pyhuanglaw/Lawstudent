@@ -31,6 +31,9 @@ CFG = {
                        eye=(160, 150, 330, 235), search=(180, 20, 440, 240), scales=(0.22, 0.55), fade=(290, 325), skip=(), anchor=(120, 5, 350, 120)),
     'kexin': dict(sheet='kexin_expr9.webp', cell=(437, 400), body='assets/portraits/kexin/campus/neutral.webp',
                        eye=(165, 120, 310, 200), search=(180, 20, 440, 240), scales=(0.22, 0.55), fade=(255, 290), skip=(), anchor=(130, 5, 350, 100)),
+    'yule': dict(sheet='yule_portrait_sheet.webp', cell=(420, 450), body='assets/portraits/yule/campus/neutral.webp',
+                 boxes=[('neutral', (570, 50, 990, 500)), ('smile', (570, 530, 990, 980)), ('surprised', (570, 1000, 990, 1450))],
+                 eye=(110, 150, 310, 260), search=(180, 20, 440, 240), scales=(0.22, 0.55), fade=(295, 335), skip=(), anchor=(60, 0, 360, 110), band=6, speck_lum=95),
     'heroine_04': dict(sheet='heroine_04_expr9.webp', cell=(512, 341), body='assets/portraits/heroine_04/campus/neutral.webp',
                        eye=(215, 115, 360, 205), search=(200, 20, 420, 230), scales=(0.22, 0.50), fade=(252, 282), skip=(),
                        anchor=(180, 5, 440, 110)),
@@ -107,7 +110,11 @@ def main():
     bg = np.asarray(sheet).astype(float)[4, 4]
     eye_box = cf['eye']                                    # 格子裡「眼睛＋（眼鏡）＋鼻子」那一塊（九格大致同位置；每格自己對齊）
     search = cf['search']                                  # 全身圖頭部附近
-    names = [n for n in (a.only.split(',') if a.only else NAMES) if n not in cf['skip']]
+    BOX = cf.get('boxes')                                  # 表情不是 3×3 九格、而是幾個頭各自的框（予樂：全身旁邊直排三個頭）：[(檔名, (x0,y0,x1,y1)), …]，框要一樣大
+    NM = [n for n, _ in BOX] if BOX else NAMES
+    if BOX: CW, CH = BOX[0][1][2] - BOX[0][1][0], BOX[0][1][3] - BOX[0][1][1]
+    getcell = (lambda i: sheet.crop(BOX[i][1])) if BOX else (lambda i: cell(sheet, i))
+    names = [n for n in (a.only.split(',') if a.only else NM) if n not in cf['skip']]
     report = []
 
     def fit(c):
@@ -116,11 +123,11 @@ def main():
         return find(body, c, eye_box, search, scales=np.linspace(t['s'] - 0.012, t['s'] + 0.012, 9), angles=np.linspace(t['ang'] - 1.5, t['ang'] + 1.5, 7))
     ref = None
     if cf.get('anchor'):
-        fits = {nm: fit(cell(sheet, i)) for i, nm in enumerate(NAMES) if nm not in cf['skip']}
-        rn = max(fits, key=lambda n: fits[n]['score']); ref = (cell(sheet, NAMES.index(rn)), fits[rn]); print('anchor cell', rn, round(fits[rn]['score'], 3), flush=True)
-    for i, nm in enumerate(NAMES):
+        fits = {nm: fit(getcell(i)) for i, nm in enumerate(NM) if nm not in cf['skip']}
+        rn = max(fits, key=lambda n: fits[n]['score']); ref = (getcell(NM.index(rn)), fits[rn]); print('anchor cell', rn, round(fits[rn]['score'], 3), flush=True)
+    for i, nm in enumerate(NM):
         if nm not in names: continue
-        c = cell(sheet, i)
+        c = getcell(i)
         if ref is None: t = fit(c)
         else:
             d, sc = shift_to(ref[0], c, cf['anchor']); t = dict(ref[1]); t['ccx'] -= d[0]; t['ccy'] -= d[1]; t['score'] = sc
@@ -146,9 +153,9 @@ def main():
         # 白點（BB-B 驗收時指出 laugh、serious、tired 左側髮絲外緣）：細髮絲邊緣還帶著淺灰底 → 透明交界 3 px 內、低彩度（灰白）又偏亮的像素拿掉
         # （膚色是暖色、彩度高，右邊的臉頰下巴不會被清到）；再只留最大的一塊（浮在外面的小點）
         from scipy import ndimage
-        band = ndimage.binary_dilation(al < 0.1, iterations=4 if cf.get('anchor') else 3) & (al > 0)
+        band = ndimage.binary_dilation(al < 0.1, iterations=cf.get('band', 4 if cf.get('anchor') else 3)) & (al > 0)
         sat = cr.max(axis=2) - cr.min(axis=2); lum = cr @ np.array([0.299, 0.587, 0.114])
-        al = np.where(band & (sat < 28) & (lum > 115), 0, al)
+        al = np.where(band & (sat < 28) & (lum > cf.get('speck_lum', 115)), 0, al)   # 予樂：淺棕色的亂髮（飽和度高）外面一圈灰白細毛 → 帶寬 6、亮度門檻 95
         if cf.get('anchor'):                                              # AI 圖在頭髮外面畫了一圈比灰底還亮的光暈（亮、沒有顏色）：和外面連在一起的那一片全部當背景（眼白被睫毛、皮膚包著，不會連到外面）
             lt = (lum > 140) & (sat < 30); ext = al < 0.1
             lb, _n = ndimage.label(lt | ext); touch = np.unique(lb[ext]); al = np.where(lt & np.isin(lb, touch[touch > 0]), 0, al)

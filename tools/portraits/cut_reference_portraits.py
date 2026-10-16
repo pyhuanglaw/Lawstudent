@@ -43,7 +43,7 @@ SRC = {
     'xun': ('R:xun.webp', (52, 503, 302, 1142)),
     'tangrui': ('R:tangrui.webp', (10, 348, 180, 814)),
     'jiahao': ('R:jiahao.webp', (48, 548, 302, 1208)),
-    'yule': ('R:yule.webp', (18, 368, 180, 810)),
+    'yule': ('D:yule_portrait_sheet.webp', (40, 10, 530, 1475)),   # BB-B 2026-10-16 c383df3b（D59 通過）：予樂的正式立繪表（左邊全身、右邊三個頭）；原本 art_reference/yule.webp (18,368,180,810) 的版本不再用
 }
 CW, CH, TOP, FILL = 600, 1000, 0.04, 0.94
 MATTING = {'heroine_05'}                                 # 學姊約會圖：白襯衫和灰底只差 7，一般去背會在髮絲邊留一圈淺灰；alpha matting（pymatting）髮絲乾淨、衣領完整
