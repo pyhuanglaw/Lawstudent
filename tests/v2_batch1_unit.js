@@ -160,7 +160,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       L=await play(2); check('C16 送水：（中場你把一箱水搬到場邊。阿哲一口氣喝掉半瓶。）「你是我們的後勤部長。」',L.includes('（中場你把一箱水搬到場邊。阿哲一口氣喝掉半瓶。）')&&L.some(t=>/你是我們的後勤部長。$/.test(t))&&SOCIAL.has('zhe','WATCHED_GAME'),JSON.stringify(L.slice(1))); } }
   /* ---------- 人物面板：每一種記憶都有中文名稱（沒有的話面板直接顯示英文代號）---------- */
   { const src=fs.readdirSync(path.join(ROOT,'src')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src',f),'utf8')).join('\n')+fs.readdirSync(path.join(ROOT,'src/data')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src/data',f),'utf8')).join('\n');
-    const used=new Set(); for(const m of src.matchAll(/tag:'([A-Z_0-9]+)'/g)) used.add(m[1]); for(const m of src.matchAll(/remember\([^,()]+,'([A-Z_0-9]+)'/g)) used.add(m[1]); used.delete('ADJUST');
+    const used=new Set(); for(const m of src.matchAll(/tag:'([A-Z_0-9]+)'/g)) used.add(m[1]); for(const m of src.matchAll(/remember\([^,()]+,'([A-Z_0-9]+)'/g)) used.add(m[1]); for(const m of src.matchAll(/"mem":\s*"([A-Z_0-9]+)"/g)) used.add(m[1]); used.delete('ADJUST');   /* 閒聊階梯、阿凱宿舍事件（src/data/ladder.js 的 "mem"）也算 */
     const miss=[...used].filter(t=>!SOCIAL.MEMORY_LABEL[t]);
     check('人物面板：遊戲裡用到的 '+used.size+' 種記憶都有中文名稱（ADJUST 不顯示）',used.size>30&&!miss.length,miss.join(' ')); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
