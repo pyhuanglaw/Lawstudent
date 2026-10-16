@@ -1896,7 +1896,7 @@
    "title": "過年（大二）",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "照交接包_v3 實作",
    "priority": "P2",
    "first": {
@@ -1910,7 +1910,9 @@
     "confirmed": true
    },
    "source": "交接包_v3",
-   "authorized": "D79"
+   "authorized": "D79",
+   "tests": "tests/v3_d13_unit.js",
+   "note": "2026-10-16：初一 2/6 11:00 麵店團十則＋三個回覆（AA_143 2-1 新字，AA-B 9035ede0）；小語三則所有成員都看得到。瀏覽器未測。"
   },
   {
    "id": "V3-D14",
@@ -2515,7 +2517,7 @@
    "source": "BB_97",
    "authorized": "D79",
    "tests": "tests/v3_z7_unit.js",
-   "note": "2026-10-16：改寫完成——12/10 23:59「我交了。」（要 Z4、有聯絡方式、沒在交往）；12/11～12/17 第一次進 Café（11～22 點）演；三選項（家裡那句要 Z4_PICK family）、交往中「……好。那我先不要怕。」；媽媽那句當晚 22:15；bell 的交換申請選項 Z7 後拿掉。瀏覽器未測。"
+   "note": "2026-10-16：改寫完成——12/10 23:59「我交了。」（要 Z4、有聯絡方式、沒在交往）；12/11～12/17 第一次進 Café（11～22 點）演；三選項（家裡那句要 Z4_PICK family）、交往中「……好。那我先不要怕。」；媽媽那句當晚 22:15；bell 的交換申請選項 Z7 後拿掉。瀏覽器未測。 2026-10-16 18:5x 照 BB_97 3-4／3-4b 最終版改（BB-B cc244c4a＋2c38f7bf；使用者「台詞不能沒有上下文」）：深夜三則、窗口到大二上結束、兩種 Café 開頭、寒假第一天一則、Z7b 1/28 21:00（ZR_NOMINATED）；「她知道」讀 ROM.knows。Z8 照 3-5 新字等做到大二下。"
   },
   {
    "id": "V3-B19",
@@ -10615,7 +10617,7 @@
     "receiver": "LAWWW-B",
     "ack": "ACTIONED"
    },
-   "note": "2026-10-16：v7（LAWWW2-B 5e688f34，ART-PARK3 象棋桌凳、直飲台、車架）接進開發分支；wz_street_integration 排隊中。"
+   "note": "2026-10-16：v7（LAWWW2-B 5e688f34，ART-PARK3 象棋桌凳、直飲台、車架）接進開發分支；wz_street_integration 排隊中。 2026-10-16 18:46：v7 在開發分支 wz_street_integration ALL PASS（draw call 291／273／306、三角形 41.7／39.0 萬…）。v8（a4c05720，名牌改公布欄橫板）待接。"
   },
   {
    "id": "V0-ART-DORM",
@@ -11536,6 +11538,34 @@
    },
    "source": "AA_185（AA-B d85c1309）",
    "authorized": "D79"
+  },
+  {
+   "id": "ART-PT-SIS-FORMAL",
+   "title": "學姊 formal 對話立繪（W9 面試西裝外套；大四 M9 口試）：heroine_05/formal/neutral（能的話 serious、smile）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "從 art_reference/heroine05_interview.webp（ART-16，BB 已通過）切正面全身去背 → assets/portraits/heroine_05/formal/neutral.webp；頭像換出 serious、smile（做不到就只有 neutral）；BB-B 照 D59 驗收；LAWWW 在 W9 每一句加 outfit:'formal'",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S1",
+    "week": 12,
+    "earliest": "學姊 W9 11/28（六）09:00～10:00 總圖門口",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 2026-10-16 18:20（BB_97 2-4 美術）",
+   "authorized": "D59、D84",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "BB_97 2-4 美術；art_reference/heroine05_interview.webp",
+    "acceptance": "去背、和 campus 立繪同構圖同頭部位置；BB-B ART_APPROVED",
+    "ack": "SENT"
+   }
   }
  ]
 }

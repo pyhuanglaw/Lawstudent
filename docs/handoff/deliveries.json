@@ -4371,8 +4371,8 @@
    "sha": "2c38f7bf",
    "what": "芷若 Z7 最終版（BB_97 3-4、3-4b；cc244c4a＋2c38f7bf）：三則深夜訊息、窗口到第 18 週、兩種 Café 開頭、寒假第一天一則、Z7b 1/28",
    "task": "V3-B18",
-   "msg": "ACK",
-   "integration": "未整合",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
    "note": "使用者 18:2x：台詞不能沒有上下文（「我交了。」）",
    "date": "2026-10-16T18:5xZ"
   },
@@ -4383,8 +4383,8 @@
    "sha": "9035ede0",
    "what": "V3-D13 大二過年群組新字（AA_143 2-1，選 C）",
    "task": "V3-D13",
-   "msg": "ACK",
-   "integration": "未整合",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
    "note": "小語三則所有成員都看得到",
    "date": "2026-10-16T18:5xZ"
   },

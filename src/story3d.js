@@ -1555,12 +1555,31 @@ const STORY = (function(){
         const went=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,'EXPO_Y2',d);   /* 中途離開也算去了 */
         if(!went&&PHONE.inGroup(G,'noodle_team')&&(G.day>d||(G.day===d&&G.hour>=20))&&G.day<=d+3&&!PHONE.sent(G,'y2_expo_missed'))
           PHONE.at(G,d,20,[{th:'g:noodle_team',from:'heroine_01',text:'📷（說明會的簡報）'},{th:'g:noodle_team',from:'heroine_01',text:'重點在第七頁。'}],'y2_expo_missed'); } }
-    /* 芷若 Z7（BB_97 3-4、AA-B b95cea49）：交換申請截止 12/10（四）那晚 23:59 私訊「我交了。」——要演過 Z4（ev_zhiruo_secret）、有她的聯絡方式；祐廷交往中沒有這則（AA_112 8-1，她隔天在 Café 才說）。
-       Café 裡選「妳跟妳媽說了嗎？」＝那晚 22:15 再一則（ev_zhiruo_applied 只在 22:00 以前演）*/
-    { const d=S.dayOfKey('2026-12-10'), Zp=t=>({th:'p:heroine_02',from:'heroine_02',text:t}); if(d!=null){
-        if((G.day>d||(G.day===d&&G.hour>=23+59/60))&&G.day<=d+7&&G.events&&G.events.done&&G.events.done.ev_zhiruo_secret&&!G.events.done.ev_zhiruo_applied&&G.contacts&&G.contacts.heroine_02!=null&&!(typeof ROM!=='undefined'&&ROM.partners(G).length>0)&&!PHONE.sent(G,'zr_z7_msg'))
-          PHONE.at(G,d,23+59/60,[Zp('我交了。')],'zr_z7_msg');
-        if(F.ZR_Z7_MOM&&F.zrAppliedDay!=null&&!PHONE.sent(G,'zr_z7_mom')&&(G.day>F.zrAppliedDay||G.hour>=22.25)) PHONE.at(G,F.zrAppliedDay,22.25,[Zp('我說了。她說『那妳要穿暖一點』。')],'zr_z7_mom'); } }
+    /* 大二過年（V3-D13；AA_143 2-1 新的字，AA-B 9035ede0：不重用大一的原句）：初一 2027-02-06 11:00 麵店團群組——阿哲、以安、小語的照片（小語那三則所有成員都看得到，
+       他們交往在麵店團是公開的事）；祐廷三選一：年夜飯照片／「醜的水餃比較好吃」／貼圖（不回就只是沒回）*/
+    { const ny=S.dayOfKey('2027-02-06'); if(ny!=null&&PHONE.inGroup(G,'noodle_team')&&(G.day>ny||(G.day===ny&&G.hour>=11))&&G.day<=ny+4&&!PHONE.sent(G,'cny_noodle_y2')){ const th='g:noodle_team', M=(f,t,o)=>Object.assign({th,from:f,text:t},o||{});
+        PHONE.at(G,ny,11,[M('zhe','📷（高雄老家的廚房，媽媽在包水餃）'),M('zhe','我媽說今年要包一百個。'),M('zhe','我包到第四十個就被趕出廚房。……你們在幹嘛？'),
+          M('heroine_01','📷（台中阿嬤家門口的春聯，字有一點歪）'),M('heroine_01','新年快樂。今年的春聯是我寫的。'),M('heroine_01','理由：阿嬤說我的字最工整。……歪是照片的角度。'),
+          M('yu','📷（和阿哲視訊的截圖，兩個人各舉著一顆水餃）'),M('yu','我們隔著三百公里吃年夜飯。'),M('zhe','她包的比較醜。'),
+          M('yu','你閉嘴。',{ask:{id:'cny_noodle_y2_reply',opts:[{t:'（傳家裡的年夜飯照片）',post:'📷（家裡的年夜飯，滿桌的菜）',say:[{from:'zhe',text:'哥，你家也太多菜！'},{from:'heroine_01',text:'左下角那盤是什麼？……記下來了。'}]},
+            {t:'新年快樂。小語，醜的水餃比較好吃。',say:[{from:'yu',text:'連你也！'},{from:'zhe',text:'哥懂我。'}]},
+            {t:'（傳一張貼圖）',post:'（貼圖：新年快樂）',say:[{from:'zhe',text:'（貼圖：新年快樂）'}]}]}})],'cny_noodle_y2'); } }
+    /* 芷若 Z7（BB_97 3-4 最終版、AA-B b95cea49）：交換申請截止 12/10（四）那晚 23:59 私訊三則——要演過 Z4、有她的聯絡方式；祐廷有伴侶而且她知道＝沒有（AA_112 8-1，Café 才說）。
+       Café 裡選「妳跟妳媽說了嗎？」＝那晚 22:15 再一則。大二上結束都沒去 Café（收到深夜訊息的）＝寒假第一天 21:00 一則。
+       Z7b 學校這一關（BB_97 3-4b）：寒假 1/28（四）21:00（摘要日，AA-B 定）；Z7 演過或收到寒假那則；記 ZR_NOMINATED（Z8、ev_zhiruo_admitted 讀）*/
+    { const d=S.dayOfKey('2026-12-10'), Zp=t=>({th:'p:heroine_02',from:'heroine_02',text:t}), ED=id=>!!(G.events&&G.events.done&&G.events.done[id]), knowsP=typeof ROM!=='undefined'&&ROM.knows(G,'heroine_02').length>0; if(d!=null){
+        let bk=null; for(let x=d+1;x<d+80;x++){ if(typeof CALENDAR!=='undefined'&&!CALENDAR.termOf(x)){ bk=x; break; } }   /* 大二上結束後的第一天（寒假第一天）*/
+        if((G.day>d||(G.day===d&&G.hour>=23+59/60))&&(bk==null||G.day<bk)&&ED('ev_zhiruo_secret')&&!ED('ev_zhiruo_applied')&&G.contacts&&G.contacts.heroine_02!=null&&!knowsP&&!PHONE.sent(G,'zr_z7_msg'))
+          PHONE.at(G,d,23+59/60,[Zp('交換申請，剛剛按了送出。英國那一間。'),Zp('截止是十二點。我在十一點五十九分按的。'),Zp('……手還在抖。下次你來店裡，再跟你說。')],'zr_z7_msg');
+        if(F.ZR_Z7_MOM&&F.zrAppliedDay!=null&&!PHONE.sent(G,'zr_z7_mom')&&(G.day>F.zrAppliedDay||G.hour>=22.25)) PHONE.at(G,F.zrAppliedDay,22.25,[Zp('我說了。她說『那妳要穿暖一點』。')],'zr_z7_mom');
+        if(bk!=null&&(G.day>bk||(G.day===bk&&G.hour>=21))&&G.day<=bk+20&&PHONE.sent(G,'zr_z7_msg')&&!ED('ev_zhiruo_applied')&&!PHONE.sent(G,'zr_z7_break'))
+          PHONE.at(G,bk,21,[Zp('交換的事，還沒跟你說完。……一月底學校會公布。')],'zr_z7_break');
+        const nb=S.dayOfKey('2027-01-28'); if(nb!=null&&(G.day>nb||(G.day===nb&&G.hour>=21))&&G.day<=nb+20&&(ED('ev_zhiruo_applied')||PHONE.sent(G,'zr_z7_break'))&&!PHONE.sent(G,'zr_z7b')){
+          const opts=[knowsP?{t:'恭喜。五月見分曉。',say:[Zp('嗯。五月。')],set:{ZR_Z7B:'congrats'}}:{t:'恭喜。五月我陪妳一起等。',say:[Zp('你又不能幫我等。……好。謝謝。')],set:{ZR_Z7B:'wait'}}];
+          if(F.ZR_Z7_MOM) opts.push({t:'妳媽有說『穿暖一點』嗎？',say:[Zp('有。她說了兩次。')],set:{ZR_Z7B:'mom'}});
+          opts.push({t:'（貼圖：一隻舉著咖啡杯的貓）',post:'（貼圖：一隻舉著咖啡杯的貓）',say:[Zp('……這隻貓的杯子拿反了。')],set:{ZR_Z7B:'sticker'}});
+          const L=[Zp('學校那一關過了。'),Zp('還要等英國那邊。他們說五月。')]; if(!knowsP) L.push(Zp('……所以先不哭。五月再說。'));
+          L[L.length-1]=Object.assign(L[L.length-1],{ask:{id:'zr_z7b',opts}}); PHONE.at(G,nb,21,L,'zr_z7b'); F.ZR_NOMINATED=true; } } }
     /* 學姊 M3 放榜（BB_97 2-7；大二下第 4 週週五 3/19 20:00，AA-B 定第 4 週）：所有玩家看到的都是家族群組（她先告訴家人和伴侶，畫面外）。
        ASKED_TELL_ME（M2 選了「不管考得怎樣都要說」）＝她 @祐廷 多一則；玩家可以回三個（咖哩那個要有 FAMILY_DINNER 記憶）；回了或到 22:00 沒回，她最後對全家族一句 */
     { const d=S.dayOfKey('2027-03-19'); if(d!=null&&PHONE.inGroup(G,'family_law')){ const W=t=>({th:'g:family_law',from:'heroine_05',name:'溫學姊',text:t}), K=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t}), LAST='這次的第三件，我想好了。聚餐那天說。';

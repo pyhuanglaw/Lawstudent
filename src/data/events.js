@@ -2979,20 +2979,23 @@ const STORY_EVENTS_V11=[
       {speaker:'npc_fangyt',expression:'neutral',text:'（停了一下）……她喜歡小津。你如果要約她，不要約好萊塢的。'},
       {speaker:'npc_fangyt',expression:'smile',text:'我不是叫你約她。我只是說。'},
       {mem:[{npc:'npc_fangyt',tag:'FANG_HINT',note:'他說了芷若高中的事'}]} ] },
-  /* 芷若 Z7「23:59」（BB_97 3-4，舊版改寫；V3-B18）：外文系交換申請截止 2026-12-10（四）（AA-B b95cea49，AA_177 第 14 週；避開 12/11 可昕 K10b 的電影夜），
-     那晚 23:59 她私訊「我交了。」（story3d.js；祐廷交往中沒有這則，AA_112 8-1）；12/11～12/17 第一次走進 Café 就演（她在店裡；七天內沒去就不演）。
-     台詞一律「那天晚上」，不分隔天或晚幾天。「妳跟妳媽說了嗎？」＝當晚 22:15 她再傳一則（所以只在 22:00 以前演：她說「今天十點，她會打來」）。
-     之後 ev_zhiruo_bell 的「妳的交換申請交了嗎？」不再出現 */
+  /* 芷若 Z7「23:59」（BB_97 3-4，2026-10-16 18:2x 最終版：使用者「不要出現『交了』沒有上下文的台詞」；V3-B18）：外文系交換申請截止 2026-12-10（四）（AA-B b95cea49）。
+     那晚 23:59 她私訊三則（英國那一間、十一點五十九分、下次你來店裡再說；story3d.js；祐廷有伴侶而且她知道＝沒有這三則，AA_112 8-1）。
+     截止之後第一次走進 Café 就演，到大二上結束（第 18 週）都可以（原本七天）；開頭分「收到深夜訊息／沒收到」兩版。「妳跟妳媽說了嗎？」＝當晚 22:15 再一則（所以只在 22:00 以前演）。
+     大二上結束都沒去：寒假第一天 21:00 一則；之後 Z7b（1/28，story3d.js）。之後 ev_zhiruo_bell 的「妳的交換申請交了嗎？」不再出現 */
   { id:'ev_zhiruo_applied', title:'她交件了', participants:['heroine_02'], location:'cafe', trigger:'auto', priority:9, once:true, term:['Y2S1'], time:[11,22], background:'blur',
-    prereq:{events:['ev_zhiruo_secret'],memory:[{npc:'heroine_02',tag:'SHARED_SECRET'}],custom:G=>{ if(typeof STORY==='undefined'||!STORY.dayOfKey) return false; const d=STORY.dayOfKey('2026-12-10'); return d!=null&&G.day>d&&G.day<=d+7; }},
+    prereq:{events:['ev_zhiruo_secret'],memory:[{npc:'heroine_02',tag:'SHARED_SECRET'}],custom:G=>{ if(typeof STORY==='undefined'||!STORY.dayOfKey) return false; const d=STORY.dayOfKey('2026-12-10'); return d!=null&&G.day>d; }},
     spawn:{npc:'heroine_02',dist:1.6,pose:'idle'},
-    dialogue:[ {speaker:'heroine_02',expression:'serious',text:'我交了。交換申請。那天晚上十一點五十九分。'},{speaker:'heroine_02',expression:'embarrassed',text:'交完手在抖。'},
-      {speaker:'heroine_02',expression:'thinking',text:'如果沒錄取，就永遠不用說。……很膽小吧。'},
+    dialogue:[ {if:{custom:G=>!!(G.msgs&&G.msgs.some(m=>m.tag==='zr_z7_msg'))},speaker:'heroine_02',expression:'neutral',text:'（看到你，放下手上的杯子）那天晚上那則，你看到了吧。'},
+      {unless:{custom:G=>!!(G.msgs&&G.msgs.some(m=>m.tag==='zr_z7_msg'))},speaker:'heroine_02',expression:'neutral',text:'（看到你，放下手上的杯子）交換申請，我交了。截止那天晚上，英國那一間。'},
+      {speaker:'heroine_02',expression:'serious',text:'十一點五十九分。我差一分鐘，就不交了。'},
+      {speaker:'heroine_02',expression:'embarrassed',text:'交完手在抖，抖到十二點半。'},
+      {speaker:'heroine_02',expression:'thinking',text:'如果沒錄取，就永遠不用跟我媽說。……很膽小吧。'},
       {choice:[{text:'「不會。」',consequences:{rel:{heroine_02:{trust:5,comf:2}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請，你說「不會」'}]},goto:'no'},
         {text:'「妳跟妳媽說了嗎？」',set:{ZR_Z7_MOM:true},consequences:{rel:{heroine_02:{trust:4,comf:2}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請，你問她跟媽媽說了沒'}]},goto:'mom'},
         {text:'「妳那時候說的家裡……」',if:{flagIs:{Z4_PICK:'family'}},consequences:{rel:{heroine_02:{trust:6}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請：「我去，家也跟著我去。」'}]},goto:'fam'}]},
-      {label:'no'},{unless:{custom:G=>typeof ROM!=='undefined'&&ROM.partners(G).length>0},speaker:'heroine_02',expression:'embarrassed',text:'……你這樣講，我會當真。'},
-        {if:{custom:G=>typeof ROM!=='undefined'&&ROM.partners(G).length>0},speaker:'heroine_02',expression:'smile',text:'……好。那我先不要怕。'},{goto:'end'},
+      {label:'no'},{unless:{custom:G=>typeof ROM!=='undefined'&&ROM.knows(G,'heroine_02').length>0},speaker:'heroine_02',expression:'embarrassed',text:'……你這樣講，我會當真。'},
+        {if:{custom:G=>typeof ROM!=='undefined'&&ROM.knows(G,'heroine_02').length>0},speaker:'heroine_02',expression:'smile',text:'……好。那我先不要怕。'},{goto:'end'},
       {label:'mom'},{speaker:'heroine_02',expression:'neutral',text:'還沒。今天十點，她會打來。'},{goto:'end'},
       {label:'fam'},{speaker:'heroine_02',expression:'neutral',text:'你那時候說家裡比較重要。我想了很久。'},{speaker:'heroine_02',expression:'smile',text:'後來我發現，我就是家裡的一部分。我去，家也跟著我去。'},
       {label:'end'},{speaker:'heroine_02',expression:'smile',text:'今天的咖啡我請。'} ],
