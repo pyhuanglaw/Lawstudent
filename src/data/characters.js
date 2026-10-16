@@ -66,6 +66,16 @@ const CHARACTERS = {
   // ---------- C. 其他系 ----------
   kai:{ id:'kai', presence:{from:'Y1S1'}, name:'阿凱', fullname:'王凱翔', age:19, gender:'m', department:'資工系', year:1, social_layer:'C', visual_tier:2, personality:'室友；不是打遊戲就是寫程式；對法律的理解停留在「所以可以告嗎」', career_goal:'想進遊戲公司', social_style:'宅但真誠', char3d:{spec:'kai'}, portrait:'kai',
     daily_schedule:[{days:[0,1,2,3,4,5,6],from:18,to:32,zone:'dorm',act:'desk'}] },
+  /* 經濟系的朋友（法律系大一下第一次露面：P4d；BB_104 2-2、BB_112 第 1 節、AA_114 第 4 列；BB-B 2026-10-16 02:00 的人物資料；id 照企劃 syllabus 的 econ_*，AA_140 G40）。
+     alias：BB 台詞寫的稱呼（'阿勳'、'品妤'）＝這個人（立繪照 id、對話框名字照原文）。作息這一版不放（只在事件裡出現；作息等 BB-B 給時間）；3D 先用路人 */
+  econ_zhengxun:{ id:'econ_zhengxun', name:'盧正勳', alias:['阿勳'], gender:'m', department:'經濟系', year:2, height:180, social_layer:'C', visual_tier:1,
+    personality:'祐廷經濟系那年的室友。安靜、話少、冷笑話；外表冷淡其實很照顧人；真心喜歡經濟、保齡球很強。手指間轉一支 0.3 自動鉛筆', career_goal:'',
+    look:'乾淨的短髮、單眼皮、冷淡的表情；素色長袖 T＋卡其褲／灰色毛衣（灰、白、卡其），全作最高、有點駝背',
+    char3d:{spec:{id:'econ_zhengxun',height:1.80,build:'slim',sex:'m',skin:'#e3c2a2',hair:{color:'#1c1612',style:'shortClean'},face:{iris:'#2e231c',brow:'thin',lash:false},outfit:{top:{type:'tee',color:'#d9d6cf',inner:'#d9d6cf'},bottom:{type:'slacks',color:'#b8a77e'},shoes:{type:'sneaker',color:'#6b6b6b',sole:'#ffffff'}},posture:{sway:0.02}}}, portrait:'econ_zhengxun', daily_schedule:[] },
+  econ_pinyu:{ id:'econ_pinyu', name:'曾品妤', alias:['品妤'], gender:'f', department:'經濟系', height:158, social_layer:'C', visual_tier:1,
+    personality:'可昕大一的室友、在台大最好的朋友。最毒舌、不帶表情、會算；打工是補習班櫃台；想當精算師', career_goal:'精算師',
+    look:'黑髮、頭頂隨手綁的丸子頭、瓜子臉、細長半睜的眼睛、面無表情；素色帽 T＋直筒褲（灰、黑、一點芥末黃）；工程計算機、保溫杯',
+    char3d:{spec:{id:'econ_pinyu',height:1.58,build:'slim',sex:'f',skin:'#ecd0b6',hair:{color:'#141110',style:'bun'},face:{iris:'#2a201a',brow:'thin',lash:true},outfit:{top:{type:'hoodie',color:'#5b5b5d',inner:'#c9a43a'},bottom:{type:'slacks',color:'#2b2b2d'},shoes:{type:'sneaker',color:'#e8e6e1',sole:'#ffffff'}},posture:{sway:0.02}}}, portrait:'econ_pinyu', daily_schedule:[] },
   npc_fangyt:{ id:'npc_fangyt', name:'方奕廷', age:20, gender:'m', department:'森林系', year:2, social_layer:'C', visual_tier:1, personality:'宿舍隔壁房；愛爬山、講植物講不停；跟芷若是高中同學', career_goal:'林務局', char3d:{spec:{id:'npc_fangyt',height:1.74,build:'athletic',sex:'m',skin:'#e6c3a4',hair:{color:'#2a1d16',style:'shortTextured'},face:{iris:'#3a2a22',brow:'thick',lash:false},outfit:{top:{type:'tee',color:'#e0b95b',inner:'#e0b95b'},bottom:{type:'jeans',color:'#4a5a78'},shoes:{type:'sneaker',color:'#3a6fb0',sole:'#ffffff'},bag:'backpack',bagColor:'#2f5d50'},posture:{sway:0.03}}}, portrait:'npc_fangyt',
     daily_schedule:[{days:[1,2,3,4,5],from:12,to:13,zone:'campus',act:'wander'},{days:[6],from:9,to:12,zone:'campus',act:'wander'}] },
   npc_huangxh:{ id:'npc_huangxh', presence:{from:'Y1S1'}, name:'黃筱涵', age:19, gender:'f', department:'心理系', year:1, social_layer:'C', visual_tier:1, personality:'通識課同組；問問題很直接；跟語彤是高中同學', career_goal:'臨床心理', char3d:{spec:{id:'npc_huangxh',height:1.6,build:'slim',sex:'f',skin:'#f9e3d1',hair:{color:'#3b2a1e',style:'softMid'},face:{iris:'#4a3020',brow:'soft',lash:true},outfit:{top:{type:'knit',color:'#c9a24f',inner:'#ffffff'},bottom:{type:'jeans',color:'#2b2b3a'},shoes:{type:'canvas',color:'#ffffff',sole:'#ffffff'},bag:'tote',bagColor:'#3b2a1e'},posture:{sway:0.015}}}, portrait:'npc_huangxh',

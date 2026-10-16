@@ -26,6 +26,16 @@ const PORTRAIT_FILES={
    "neutral"
   ]
  },
+ "econ_pinyu": {
+  "campus": [
+   "neutral"
+  ]
+ },
+ "econ_zhengxun": {
+  "campus": [
+   "neutral"
+  ]
+ },
  "heroine_01": {
   "campus": [
    "neutral"

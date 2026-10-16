@@ -594,7 +594,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
-   "next": "xun、pinyu 接 V2-CHR；jiahao、tangrui、weilun、yule 等 V0",
+   "next": "阿勳、品妤已接（econ_zhengxun、econ_pinyu）；韋綸、唐睿、家豪 BB-B 通過，等用到的事件（SK03／v0）；予樂等 K1b 人物資料；品妤重切中",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -7725,8 +7725,8 @@
    "title": "新增人物：盧正勳（阿勳）、曾品妤（BB-B 02:00 資料）；SK03 需要的話唐睿、韋綸",
    "area": "V2",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "characters.js；立繪 xun、pinyu（LAWWW2-B 8fbe1e1a）；3D 先用路人",
+   "status": "已整合待測試",
+   "next": "第 2 級：P4d 對話框看得到兩人的立繪；品妤立繪等 LAWWW2-B 重切後換；唐睿、韋綸（econ_tangrui、econ_weilun，立繪已通過）等 SK03 或 v0 用到再加；作息等 BB-B 給時間",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
