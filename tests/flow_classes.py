@@ -87,8 +87,9 @@ async def main():
         run.check('周教授在講台（課表：週四下午一 民法總則）', prof)
         studs0 = await pg.evaluate("GAME.E.npcs.filter(n=>n.clsStudent).length")
         run.check('12:55（上課前 25 分鐘）同學還沒進來（AA_137 第 8 節：上課前 10 分鐘起才陸續進來，54146f5c）', studs0 == 0, str(studs0))
+        await L.advance_dialogs(pg, cdp, run, lambda q: not q['dlg'] and not q['choices'], max_steps=40)   # 進教室時的人物事件（BUG-15：課前事件照常演）先點完，作息和教室排人才會跑
         run.setup('時間推到 13:12（上課前 8 分鐘），等教室排人（每 2 遊戲分鐘一次）')
-        await pg.evaluate("GAME.advance(13.2-GAME.G.hour)"); await pg.wait_for_timeout(6000)
+        await pg.evaluate("GAME.advance(13.2-GAME.G.hour)"); await pg.wait_for_timeout(8000)
         studs = await pg.evaluate("GAME.E.npcs.filter(n=>n.clsStudent&&(n.seat||n.seatTarget)).length")
         run.check('13:12 同學陸續走進來坐（座位上或正走向座位）', studs >= 6, str(studs))
         await run.shot(pg, 'A_classroom_before')
@@ -127,6 +128,14 @@ async def main():
         ok = await L.tap(pg, cdp, '#phoneBody [data-go]')
         run.check('點「去教室」', ok)
         await pg.wait_for_timeout(5000)
+        # DL-01 一鍵上課：到教室以後先問坐哪裡（老位子／坐在誰旁邊／自己找位子）；這一段測的是自己走到座位，選「自己找位子」
+        for _ in range(30):
+            q = await L.state(pg)
+            if q['choices']:
+                c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#choices button')]; const e=b.find(x=>x.textContent.includes('自己找位子'))||b[b.length-1]; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent]; })()")
+                run.note('坐哪裡的選單：選「%s」' % c[2]); await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500); break
+            if q['dlg']: await L.tap(pg, cdp, '#dlg')
+            await pg.wait_for_timeout(700)
         s = await L.state(pg)
         run.check('到 201、時間過了約 15 分鐘（不是瞬間）', s['zone'] == 'classroom' and 9.0 <= s['hour'] < 9.3, json.dumps(s, ensure_ascii=False))
         h0, s = await sit_and_attend(pg, cdp, run, '憲法', (1, 4))
@@ -144,8 +153,9 @@ async def main():
         s = await L.state(pg)
         run.check('按門：走進共同教學館（課在館內的教室，不是門口的 2D 畫面）', s['zone'] == 'gongtong' and s['stand'], json.dumps(s, ensure_ascii=False))
         await run.shot(pg, 'C_gongtong_lobby')
+        await L.advance_dialogs(pg, cdp, run, lambda q: not q['dlg'] and not q['choices'], max_steps=40)
         run.setup('時間推到 09:05（上課前 5 分鐘；AA_137 第 8 節：上課前 10 分鐘起同學才陸續進來）')
-        await pg.evaluate("GAME.advance(9+5/60-GAME.G.hour)"); await pg.wait_for_timeout(6000)
+        await pg.evaluate("GAME.advance(9+5/60-GAME.G.hour)"); await pg.wait_for_timeout(8000)
         studs = await pg.evaluate("GAME.E.npcs.filter(n=>n.clsStudent&&((n.seat&&n.seat.room==='102')||(n.seatTarget&&n.seatTarget.room==='102'))).length")
         run.check('102 上課前 5 分鐘已經有同學（坐著或正走向座位；同一間、一半左右的位子）', studs >= 4, str(studs))
         # 空位：沒有同學坐的、離玩家最近的那一個；站的位置用遊戲自己算的（GAME.seatApproach，和按「坐下」時走過去的是同一個點）

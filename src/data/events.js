@@ -878,7 +878,7 @@ const STORY_EVENTS=[
      哪一天（週二或週四）、做多久、沒去那一週、「為什麼要念書」的選項：待 AA-B（2026-10-16 問）；先排週二 19:00～21:00 */
   { id:'ev_mingxuan_tutor_intro', title:'家教的弟弟', participants:['classmate_mingxuan'], location:'campus', trigger:'interact', priority:6, once:true, term:['Y1S2'], weeks:[3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18], weekday:[1,2,3,4,5], time:[15.5,18], background:'blur',
     prereq:{any:[{memory:[{npc:'classmate_mingxuan',tag:'SAW_HIM_STUDY'}]},{stage:{npc:'classmate_mingxuan',min:'FAMILIAR'}}]},
-    dialogue:[ {speaker:'classmate_mingxuan',expression:'neutral',text:'欸，你要不要接一個家教？'},{speaker:'classmate_mingxuan',expression:'neutral',text:'我學生的弟弟，國中，要補公民。我排不下了。'},
+    dialogue:[ {speaker:'classmate_mingxuan',expression:'neutral',text:'欸，你要不要接一個家教？'},{speaker:'classmate_mingxuan',expression:'neutral',text:'我學生的弟弟，國中，要補公民。我排不下了。'},{speaker:'narrator',text:'你想起公園公布欄的那張紙。',if:{custom:G=>typeof PARK!=='undefined'&&PARK.tutorAdEcho(G)}},   /* 看過小公園公布欄的家教廣告（AA_171 第 2 節；一般狀態 G.daily.park.sawTutorAd，只有這句旁白讀）*/
       {speaker:'classmate_mingxuan',expression:'neutral',text:'你們法律系教公民應該沒問題吧？'},{speaker:'classmate_mingxuan',expression:'smile',text:'時薪我幫你談好了。不能比我低。'},
       {choice:[{text:'「好。」',set:{JOB_TUTOR:true},consequences:{stamp:['tutorFromDay']},goto:'y'},{text:'「我先想想。」',consequences:{stamp:['tutorThinkDay']},goto:'n'}]},
       {label:'y'},{speaker:'classmate_mingxuan',expression:'smile',text:'很好。第一堂我陪你去認門。'},{goto:'end'},

@@ -421,7 +421,7 @@ const STORY = (function(){
     if(zoneId==='dorm'&&F.afternoonDone&&!F.nightKai&&GM.npc.kai){ F.nightKai=true; await GM.sleep(800); GM.caption('阿凱','喔，回來了。今天很晚耶。',2600); }
     if(G.social&&!E.player.busy&&!GM.D.active&&!opts.fromLoad){ await GM.sleep(600); if(!E.player.busy&&!GM.D.active) EVENTS.onEnter(zoneId); } };
   // ---------- 每 0.5 秒左右呼叫 ----------
-  const AMBIENT=[{zone:'campus',x:-47,z:13.5,r:7,key:'bellArgue',from:8,to:18,lines:['「……所以網頁標價到底算不算要約？」','「你煩不煩，都下課了。」']},{zone:'campus',x:-18,z:13,r:5,key:'clubTable',from:10,to:17.5,lines:['「同學！法律服務社了解一下？一年級也可以喔。」']},{zone:'campus',x:34,z:-90,r:8,key:'lawPlaza',from:15.2,to:17,lines:['有人在霖澤館前的長椅上翻著判決，旁邊放著一杯沒喝完的飲料。']},{zone:'gongguan',x:-40,z:12,r:7,key:'mrt',from:17,to:22,lines:['捷運站出口湧出一波人，又很快散進巷子裡。']},{zone:'wenzhou',x:26,z:8,r:7,key:'park',from:16,to:21,lines:['小公園的長椅上有隻貓在睡覺。有人蹲在旁邊拍照。']}];
+  const AMBIENT=[{zone:'campus',x:-47,z:13.5,r:7,key:'bellArgue',from:8,to:18,lines:['「……所以網頁標價到底算不算要約？」','「你煩不煩，都下課了。」']},{zone:'campus',x:-18,z:13,r:5,key:'clubTable',from:10,to:17.5,lines:['「同學！法律服務社了解一下？一年級也可以喔。」']},{zone:'campus',x:34,z:-90,r:8,key:'lawPlaza',from:15.2,to:17,lines:['有人在霖澤館前的長椅上翻著判決，旁邊放著一杯沒喝完的飲料。']},{zone:'gongguan',x:-40,z:12,r:7,key:'mrt',from:17,to:22,lines:['捷運站出口湧出一波人，又很快散進巷子裡。']},{zone:'wenzhou',x:26,z:21,r:6,key:'park',from:16,to:21,lines:['小公園的長椅上有隻貓在睡覺。有人蹲在旁邊拍照。']}];
   /* 待在同一個區域時，照行程該出現的人要出現、時段結束的人要離開（2026-10-11 v9.5 審查：populateSchedule 原本只在進入區域時跑，
      人物線索（S.whereIs、大地圖 👥）照時間說「阿哲在校園」，但要出去再進來他才會出現）。每 3 秒看一次（遊戲裡約 1.2 分鐘）：
      該來的人照進入區域時同一套規則補上；時段結束的人（sched，劇情生出來的不算）離玩家 12 m 以上、或不在畫面裡才離開，不在玩家眼前消失 */
@@ -539,6 +539,7 @@ const STORY = (function(){
   S.forceHome=async function(GM){ const G=GM.G; if(G.flags._forcing) return; G.flags._forcing=true; try{ const home=G.zone==='dorm'; GM.sceneBegin(); await GM.say(null,home?'已經凌晨了。你撐不住，躺上床就睡著了。':'已經凌晨了。你的腳自己往宿舍走。'); GM.sceneEnd(); G.flags.companion=null; if(!home) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await sleepNow(GM); } finally { G.flags._forcing=false; } };
   // ---------- 互動 ----------
   S.interact=async function(it,GM){ const G=GM.G, F=G.flags, E=GM.E;
+    if(it.park&&typeof PARK!=='undefined'){ await PARK.interact(GM,it); return true; }   /* 溫州街小公園（AA_171）*/
     if(it.home){ if(typeof HOME!=='undefined') await HOME.go(GM); return true; }   /* 回臺北的家（src/home3d.js）*/
     if(it.deskStudy){ await deskScene(GM,it); return true; }
     if(it.roomItems){ await roomItems(GM); return true; }
@@ -547,7 +548,7 @@ const STORY = (function(){
     if(it.fyPots){ await fyPotsScene(GM); return true; }
     if(it.sleep){ await bedScene(GM); return true; }
     if(it.counter==='cafe'){ await counter(GM,'兩點半 Café',CAFE_MENU); return true; }
-    if(it.shop==='cvs'){ await counter(GM,'便利商店',[['飯糰',35,12],['美式咖啡',45,8],['運動飲料',30,6],['微波義大利麵',75,22]]); return true; }
+    if(it.shop==='cvs'){ await counter(GM,'便利商店',[['飯糰',35,12],['美式咖啡',45,8],['運動飲料',30,6],['微波義大利麵',75,22]].concat(typeof PARK!=='undefined'&&PARK.catName(G)?[['小罐貓罐頭',35,0,G=>{ G.daily=G.daily||{}; G.daily.catCans=(G.daily.catCans|0)+1; }]]:[])); return true; }   /* 貓罐頭（AA_164 5-4、AA_171 第 7 節）：取了名字以後才會想到要買 */
     if(it.shop==='tea'){ await counter(GM,'青葉茶行',[['珍珠奶茶',60,10],['青茶 微糖',40,6]]); return true; }
     if(it.shop==='book'){ await bookshop(GM); return true; }
     if(it.eat==='noodle'){ await noodleScene(GM,it); return true; }
@@ -563,7 +564,7 @@ const STORY = (function(){
     if(it.exit&&(it.exit.to==='library'||it.exit.to==='library_hall')&&G.zone==='campus'&&!PLACES.isOpen('library_hall',h(G))){ GM.toast(PLACES.closedText('library_hall',h(G)),4500); return true; }   /* 2026-10-11 使用者回報：只寫「閉館了」不知道幾點開 */   /* 只擋從校園進去；人在館裡（大廳、閱覽室）之間照樣走得通，不會被關在裡面 */
     return false; };
   const CAFE_MENU=[['拿鐵',120,10],['手沖咖啡',150,12],['檸檬塔',110,14]];
-  async function counter(GM,shop,items){ const G=GM.G; GM.sceneBegin(); const opts=items.map(([n,p])=>({t:n+'　'+p+' 元',dim:G.money<p}));   /* 只寫價錢（DL-02：體力拿掉了）*/ opts.push({t:'不用了'}); const i=await GM.choose(opts); if(i<items.length){ const [n,p]=items[i]; if(G.money<p){ GM.toast('錢不夠'); } else { GM.money(-p); GM.advance(0.15); await GM.say(null,'你買了'+n+'。'+(shop==='兩點半 Café'?'店員把杯子放在你面前的時候，杯底和木桌碰出一聲很小的響。':'')); } } GM.sceneEnd(); }
+  async function counter(GM,shop,items){ const G=GM.G; GM.sceneBegin(); const opts=items.map(([n,p])=>({t:n+'　'+p+' 元',dim:G.money<p}));   /* 只寫價錢（DL-02：體力拿掉了）*/ opts.push({t:'不用了'}); const i=await GM.choose(opts); if(i<items.length){ const [n,p]=items[i]; if(G.money<p){ GM.toast('錢不夠'); } else { GM.money(-p); GM.advance(0.15); if(typeof items[i][3]==='function') items[i][3](G); await GM.say(null,'你買了'+n+'。'+(shop==='兩點半 Café'?'店員把杯子放在你面前的時候，杯底和木桌碰出一聲很小的響。':'')); } } GM.sceneEnd(); }
   async function bookshop(GM){ const G=GM.G, F=G.flags; GM.sceneBegin(); const opts=[{t:'《民法總則》教科書　650 元',hint:F.textbook?'已經有了':'讀書時會多整理一條筆記',dim:F.textbook||G.money<650},{t:'螢光筆一組　80 元',hint:'讓筆記好看一點',dim:G.money<80},{t:'只是看看'}]; const i=await GM.choose(opts); if(i===0&&!F.textbook&&G.money>=650){ GM.money(-650); F.textbook=true; GM.memo('買了民法總則教科書'); await GM.say(null,'很厚。老闆說一年級都會買，然後大部分人到期末都只翻到第三章。'); } else if(i===1&&G.money>=80){ GM.money(-80); GM.toast('買了螢光筆'); } else if(i===2){ await GM.say(null,'架上有一整排判決彙編。有人在角落翻著《法律人的第一堂課》。'); } GM.sceneEnd(); }
   // ---------- 第一天：宿舍 ----------
   async function introDorm(GM){ const G=GM.G, F=G.flags, E=GM.E; GM.sceneBegin(); GM.letterbox(true); await GM.titleCard('第一天','週三 21:12 · 男生宿舍',2600); await GM.say(null,'你是{name}，台大法律系一年級。開學第三週。'); await GM.say(null,'書桌上放著明天民法總則要討論的案例——網拍上標價 1,000 元的相機。老師上週說：「會點人。」'); /* 交接包 v1 第 1 節（AA_12 0-3 第 1 點、0-2）＋可昕的第一則訊息（BB_95 9-0）*/ for(const t of DAY1_NARR) await GM.say(null,t); await kexinFirstMsg(GM,'night'); const kai=GM.npc.kai; if(kai){ GM.cine('two',E.player.obj,kai.obj); ADV.begin({background:'blur',right:'kai'}); await GM.say(kai,'欸，你們法律系是不是每堂課都要先讀一堆東西？',{expr:'smile'}); const i=await GM.choose([{t:'差不多。明天有個案例還沒看。'},{t:'還好，看心情。'}]); if(i===0){ await GM.say(kai,'那你快看啊，我要開遊戲了，等一下會很吵。'); } else { await GM.say(kai,'心情好就會被點到，我室友上學期就是這樣。',{expr:'laugh'}); } GM.rel('kai',2); } GM.letterbox(false); familyGroupD1(GM); F.introDone=true; GM.setGoal('讀（或不讀）明天的案例，然後睡覺'); GM.sceneEnd(); GM.autosave(); }

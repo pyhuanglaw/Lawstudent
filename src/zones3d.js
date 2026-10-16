@@ -850,7 +850,7 @@ const Z3 = (function(){
      SIGN_FACE_<棟>／VSIGN_FACE_<棟>_a|b／INTERIOR_FACE_<棟>＝空白板面（自訂屬性帶店名、顏色、店種）：招牌照套件原本的設計（底色、色帶、粗體字、小字）
      但畫成板面的比例（套件的 512×128 貼在 6.5×0.75 m 的招牌上，字被拉寬）；店內景深卡用套件的 TK.interiorTex 依板面寬度重複 */
   /* 亮燈的窗：深色窗玻璃（55% 不透明）在溫州街夜間的環境光下會變淺灰、把燈光蓋掉——亮燈那戶改用比較透明的玻璃（wz_win_glass_lit，30%）＋晚上自己帶一點暖光，窗內房間與窗簾也要夠亮（1.5–1.9） */
-  const WZ_NIGHT={ext_glass_lit:[0xffcf8f,1.5,0],wz_room_lit:[0xffb866,1.9,0],wz_win_glass_lit:[0xffc070,0.55,0],cafe_bulb:[0xfff1d6,2.2,0.6],wz_tube:[0xffffff,1.3,0.2],jp_lamp:[0xffcf8a,1.6,0.15],jp_shoji:[0xffe2b8,0.7,0],wz_lamp_lens:[0xffe0a0,2.2,0],ck_glass_lit:[0xffd49a,1.0,0],ck_glass:[0xffd49a,1.0,0],ck_pav_dark:[0xffd49a,0.9,0],ck_ceiling:[0xfff2dc,0.04,0.15],ck_bell_lens:[0xfff1d6,1.6,0]};   /* ck_glass_lit：總圖亮燈的窗（約七成，和套件一樣；自發光貼圖由上往下漸暗）；ck_ceiling：拱廊、門廊、屋簷底下白天在陰影裡只有半球光，加一點地面反射上來的光——晚上沒有陽光反射，要比白天暗（第一版晚上 0.3：沒有燈的拱廊天花板整片發亮） */   /* 亮燈的窗（窗簾、房間）、門燈、騎樓日光燈：晚上發光，白天不亮 */   /* ck_bell_lens：傅鐘前面兩盞地燈的燈罩（和套件一樣 1.6） */
+  const WZ_NIGHT={wz_signs_lit:[0xffffff,1.1,0.25],   /* 溫州街 v5 的燈箱招牌（設計稿貼圖、emissiveTexture）：晚上亮、白天微亮 */ ext_glass_lit:[0xffcf8f,1.5,0],wz_room_lit:[0xffb866,1.9,0],wz_win_glass_lit:[0xffc070,0.55,0],cafe_bulb:[0xfff1d6,2.2,0.6],wz_tube:[0xffffff,1.3,0.2],jp_lamp:[0xffcf8a,1.6,0.15],jp_shoji:[0xffe2b8,0.7,0],wz_lamp_lens:[0xffe0a0,2.2,0],ck_glass_lit:[0xffd49a,1.0,0],ck_glass:[0xffd49a,1.0,0],ck_pav_dark:[0xffd49a,0.9,0],ck_ceiling:[0xfff2dc,0.04,0.15],ck_bell_lens:[0xfff1d6,1.6,0]};   /* ck_glass_lit：總圖亮燈的窗（約七成，和套件一樣；自發光貼圖由上往下漸暗）；ck_ceiling：拱廊、門廊、屋簷底下白天在陰影裡只有半球光，加一點地面反射上來的光——晚上沒有陽光反射，要比白天暗（第一版晚上 0.3：沒有燈的拱廊天花板整片發亮） */   /* 亮燈的窗（窗簾、房間）、門燈、騎樓日光燈：晚上發光，白天不亮 */   /* ck_bell_lens：傅鐘前面兩盞地燈的燈罩（和套件一樣 1.6） */
   const WZ_SANS='"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif', WZ_SERIF='"Noto Serif TC","Songti TC",serif';
   function wzSignTex(d,wM,hM,vertical){ const H=vertical?Math.round(128*hM/wM):128, W=vertical?128:Math.min(1536,Math.round(128*wM/hM));
     return cafeCanvas(W,H,(x,w,h)=>{ const bg=vertical?d.vBg:d.bg, band=vertical?d.vBand:d.band; x.fillStyle=bg||'#ffffff'; x.fillRect(0,0,w,h);
@@ -888,19 +888,25 @@ const Z3 = (function(){
      互動點（公布欄、象棋、土地公、直飲台）和貓的事件等 AA-B 的文字（AA_164 5-4、5-6，DL-09／DL-13）。改這裡要跑 node tests/wz_park_unit.js、tests/reachability_all.py、tests/touch_flow_wenzhou.py */
   function buildWzPark(E,g,nav,open,pkTag,pools,place){ const L=WZ_PARK_LAYOUT, A=L.area, f=A.front, b=A.back;
     open(f.x0+0.1,4,f.x1-0.1,f.z1); open(b.x0+0.1,b.z0,b.x1-0.1,b.z1-0.1);
-    if(b.cut) nav.blockRect((b.x0+b.cut.x1)/2,(b.cut.z0+b.z1)/2+0.5,b.cut.x1-b.x0+0.4,b.z1-b.cut.z0+1,0,0);   // 西北角：巷底那棟 F1
+    if(b.cut) nav.blockRect((b.x0+b.cut.x1)/2,(b.cut.z0+b.z1)/2+0.5,b.cut.x1-b.x0,b.z1-b.cut.z0+1,0,0);   // 西北角：巷底那棟 F1（x 8.4～11.8）
     open(A.entranceB.x-0.4,A.entranceB.z0,A.entranceB.x+0.2,A.entranceB.z1);   // 入口 B：北巷接主園區
     const pav=L.items.find(i=>i.kind==='pavilion');
     for(const k of L.blocks){ if(Array.isArray(k)){ if(pav&&Math.abs(k[0]-pav.x)<0.01&&Math.abs(k[1]-pav.z)<0.01) continue; nav.blockRect(k[0],k[1],k[2],k[3],0,0); } else if(k.type==='circle') nav.blockCircle(k.x,k.z,k.r); }
     /* 涼亭走得進去（石凳是座位）：layout 把整個涼亭擋住，改成只擋圓石桌、東西兩張石凳（裝飾）、四根柱子；地台 0.14 m（wz_park.py 的石基座）*/
     if(pav){ const h=pav.w/2-0.2; nav.blockCircle(pav.x,pav.z,0.62); for(const sx of [-0.95,0.95]) nav.blockCircle(pav.x+sx,pav.z,0.22); for(const a of [-1,1]) for(const b of [-1,1]) nav.blockRect(pav.x+a*h,pav.z+b*h,0.4,0.4,0,0);
       nav.addSurf({x0:pav.x-pav.w/2,x1:pav.x+pav.w/2,z0:pav.z-pav.d/2,z1:pav.z+pav.d/2,y:0.14}); }
+    { const fo=L.items.find(i=>i.kind==='drinking_fountain'); if(fo) nav.blockRect(fo.x+1.05,fo.z+0.05,1.5,1.3,0,0); }   /* 直飲台、東側花籬和 A4 之間的小縫（只有一點站得住，滑進去出不來：v9.3 #31 那種孤島）*/
     const hedge=L.items.find(i=>i.kind==='azalea_hedge'); if(hedge) for(const [x0,z0,x1,z1] of hedge.segments) nav.blockRect((x0+x1)/2,(z0+z1)/2,Math.abs(x1-x0)+0.6,Math.abs(z1-z0)+0.6,0,0);   // 杜鵑花籬（layout 的 blocks 沒列）：0.6 m 厚
-    for(const st of L.seats){ if(st.kind==='swing') continue;   /* 鞦韆 20:00 以後才能盪（AA_164 5-4）：等 AA-B 的文字一起做 */
-      E.interactables.push({x:st.x,z:st.z,radius:1.3,label:st.label,seat:{x:st.x,z:st.z,yaw:st.yaw}}); }
+    /* 座位與互動（AA_171，src/wzpark3d.js 的 PARK）：老樹下的圓椅＝坐在樹下（20 分）、鞦韆＝20:00 以後才能盪；公布欄、象棋、土地公、直飲台照 layout 的 interact */
+    for(const st of L.seats){ const pk=st.kind==='swing'?'swing':(/老樹下的圓椅/.test(st.label||'')?'tree':null);
+      E.interactables.push(Object.assign({x:st.x,z:st.z,radius:1.3,label:st.label,seat:{x:st.x,z:st.z,yaw:st.yaw}},pk?{park:pk}:{})); }
+    for(const q of (L.interact||[])) E.interactables.push({x:q.x,z:q.z,radius:1.4,label:q.label,park:q.kind});
+    const G0=typeof GAME!=='undefined'&&GAME.G, catHere=!(typeof PARK!=='undefined'&&G0&&PARK.catLost(G0));   /* 大三上第 9 週貓不見了（AA_166 線四）*/
+    const ring=L.items.find(i=>i.kind==='ring_bench'); const catAt=ring?{x:ring.x,z:ring.z+(ring.r||1.45),yaw:Math.PI}:null;
+    if(catAt&&catHere){ const nm=typeof PARK!=='undefined'&&G0?PARK.catName(G0):null; E.interactables.push({x:catAt.x,z:catAt.z+0.2,radius:1.4,label:nm?'摸摸'+nm:'那隻貓',park:'cat'}); }
     for(const it of L.items) if(it.kind==='park_lamp'){ const pool=TK.lightPool(4.2,'rgba(255,214,150,1)'); pool.position.set(it.x,0.03,it.z); g.add(pool); pools.push(pool); }
-    // 長椅上睡覺的橘貓（AMBIENT「小公園的長椅上有隻貓在睡覺」；入口段東邊那張長椅）
-    { const bf=L.items.find(i=>i.id==='bench_f2'); if(bf){ const cat=new TK.Bin(); const fur=TK.paint('#d98a3c'), furL=TK.paint('#f0c08a'), dk=TK.paint('#5a3a22'); const cy=0.5;
+    // 睡在老樹圓椅上的橘白色胖貓（AA_164 5-1、AA_171 第 7 節；3D 正式模型是 ART-WZ5，到之前用套件的貓）
+    { const bf=catAt&&catHere?{x:catAt.x-0.05,z:catAt.z+0.45,yaw:catAt.yaw-Math.PI/2}:null; if(bf){ const cat=new TK.Bin(); const fur=TK.paint('#d98a3c'), furL=TK.paint('#f0c08a'), dk=TK.paint('#5a3a22'); const cy=0.5;
         const body=new THREE.SphereGeometry(0.2,14,9); body.scale(1.0,0.5,0.72); cat.add(fur,body,0,cy+0.08,0,0.3);
         cat.add(fur,new THREE.SphereGeometry(0.085,12,8),0.15,cy+0.07,-0.07,0); cat.add(furL,new THREE.SphereGeometry(0.04,8,6),0.2,cy+0.05,-0.12,0);
         for(const ex of [-0.04,0.04]) cat.add(fur,new THREE.ConeGeometry(0.028,0.06,4),0.15+ex,cy+0.15,-0.06,0);
