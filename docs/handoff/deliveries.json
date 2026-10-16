@@ -5036,7 +5036,7 @@
    "task": "BUG-WZFLICKER",
    "msg": "ACK",
    "integration": "已整合待測試",
-   "note": "只取檔案；gym_arena、gongguan 整合測試 LAWWW-B 跑"
+   "note": "只取檔案；gym_arena、gongguan 整合測試 LAWWW-B 跑；公館整合測試（23:4x）：載入、導航、碰撞、互動點、效能 PASS；招牌三項 FAIL 是之前就有的（G03 招牌不見，3ccc781e 之前就 49 面）"
   }
  ],
  "ignored": [

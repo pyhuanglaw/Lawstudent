@@ -12135,7 +12135,7 @@
    "owner": "LAWWW2",
    "status": "等待其他AI",
    "priority": "P1",
-   "next": "①尺寸表已交（LAWWW2-B 735f0830）②BB-B 寫提示詞中（22:00 ACK）③使用者生成 ④LAWWW2-B 換上：照 G03 做法 sk_sign_<店> 節點＋拿掉 *_FACE_*（zones3d.js 不用改；公館測試 DESIGNED 清單附 patch）⑤公館白天／夜間截圖",
+   "next": "【2026-10-16 23:4x 整合測試】tests/gongguan_glb_integration.py 招牌三項 FAIL：atlas 49 面（測試要 50）、直立招牌 35 格（要 36）、G03 店的橫招牌沒有 canvas 字——修閃爍之前的 GLB（3ccc781e~1）就是 49，不是這次造成；已問 LAWWW2-B G03 是不是故意拿掉（招牌重做時一起處理、測試一起更新）。｜①尺寸表已交（LAWWW2-B 735f0830）②BB-B 寫提示詞中（22:00 ACK）③使用者生成 ④LAWWW2-B 換上：照 G03 做法 sk_sign_<店> 節點＋拿掉 *_FACE_*（zones3d.js 不用改；公館測試 DESIGNED 清單附 patch）⑤公館白天／夜間截圖",
    "first": {
     "term": "Y1S1",
     "week": 1,
