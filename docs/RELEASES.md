@@ -19,6 +19,7 @@
 | v9.8 | `1d0ff40f`（PR [pyhuanglaw/Lawstudent#3](https://github.com/pyhuanglaw/Lawstudent/pull/3) 的合併 commit；遊戲檔案＝測試過的候選 2 `9508b534`，只多了 README） | 2026-10-16 06:22:15 | `313d620`（v9.7） |
 | v9.9 | `19b97eff`（PR [pyhuanglaw/Lawstudent#4](https://github.com/pyhuanglaw/Lawstudent/pull/4) 的合併 commit；遊戲檔案＝測試過的候選 2 `147c573e`，只多了 README） | 2026-10-16 14:55 UTC | `1d0ff40f`（v9.8） |
 | v9.9.1 | `6d5c3279`（PR [pyhuanglaw/Lawstudent#5](https://github.com/pyhuanglaw/Lawstudent/pull/5) 的合併 commit；遊戲檔案＝測試過的候選 `09630e60`） | 2026-10-16 19:56:07 UTC（GitHub Actions pages build and deployment #22 成功） | `19b97eff`（v9.9） |
+| v9.9.2 | （測試中；開遊戲加速：標題畫面先出來、人物背景下載） | — | `6d5c3279`（v9.9.1） |
 
 ---
 
@@ -31,6 +32,15 @@ C=$(git commit-tree e88bda5^{tree} -p origin/main -m "緊急回復到 v9.6（e88
 git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub Actions 的 pages build and deployment 確認部署
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
+
+## v9.9.2（2026-10-16，測試中）——開遊戲加速
+
+使用者 19:5x：「光打開遊戲超過 20 秒，可以優化嗎」（iPhone 截圖停在「載入主要角色（已下載 7.0 MB）」）。從 v9.9.1（`6d5c3279`）直接改，只多這一項（開發分支 `9cbd0a73`）：
+- **標題畫面先出來**：原本要下載完所有人物（主角＋動作約 4 MB、主要角色 10 位約 31 MB、路人約 11 MB）才出標題；現在主角＋動作＋環境小物到了就出標題，其他人物在背景繼續下載。
+- **按「開始」「繼續」、從標題讀檔**：主要角色還沒到才等（同一個載入畫面，顯示「載入主要角色 n／10」）；路人不等，晚到的原地換上。
+- 版本字樣 v9.9.2；程式檔 `?v=9.9.2`。
+
+**測試**：tests/boot_fast.py（限速 3 MB/s、不用快取；舊版對照）、deploy_check、save_compat_v7（從標題「繼續」舊存檔）、p0_movement、letterbox_dialog——結果見下面。
 
 ## v9.9.1（2026-10-16 發布 `6d5c3279`）——修正版：對話框被黑邊蓋住、第二天早上那堂顯示沒去
 
