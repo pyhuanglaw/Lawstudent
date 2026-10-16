@@ -683,12 +683,12 @@ const CLS=(function(){
   S.skipClass=async function(GM,it){ const G=GM.G; if(it.exam==='final'){ GM.toast('期末考不能翹。',3000); return false; } let k=1; GM.sceneBegin(); try{ await GM.say(null,'翹掉'+it.c.name+'？記「沒去」，不扣分。'); k=await GM.choose([{t:'翹'},{t:'還是去'}]); } finally { GM.sceneEnd(); }
     if(k!==0){ await S.goClass(GM,it); return false; } S.rec(G).note['plan_skip_'+it.key]=1; if(GM.autosave) GM.autosave(); return true; };
   /* 直接去上課（1-3）*/
-  S.goClass=async function(GM,it,o){ o=o||{}; const G=GM.G; if(S.rec(G).done[it.key]) return false; const why=o.forced?'':S.canGo(GM); if(why){ GM.toast(why,3000); return false; }
-    delete S.rec(G).note['plan_skip_'+it.key]; let pl=S.goPlan(GM,it); if(!pl) return false;
-    if(!o.forced&&hr(G)<pl.depart-0.02){ const ok=await S.skipTo(GM,pl.depart); if(!ok) return false; if(hr(G)<pl.depart-0.02){ contP={day:G.day,key:it.key}; return false; } pl=S.goPlan(GM,it); }   /* 等待照跳過時間的規則（停點：約好的時間、特殊課堂、劇情）；停下來的話，劇情演完出「繼續去上課」*/
+  S.goClass=async function(GM,it,o){ o=o||{}; const G=GM.G; if(S.rec(G).done[it.key]) return false; const why=o.forced||o.fromHome?'':S.canGo(GM); if(why){ GM.toast(why,3000); return false; }
+    delete S.rec(G).note['plan_skip_'+it.key]; let pl=S.goPlan(GM,it); if(!pl) return false; if(o.fromHome){ pl=Object.assign({},pl,{mins:o.mins||43,bike:false,mrt:true}); }   /* 從臺北的家出發（DL-05）：捷運＋公車；等待在 HOME.homeWake 做完了 */
+    if(!o.forced&&!o.fromHome&&hr(G)<pl.depart-0.02){ const ok=await S.skipTo(GM,pl.depart); if(!ok) return false; if(hr(G)<pl.depart-0.02){ contP={day:G.day,key:it.key}; return false; } pl=S.goPlan(GM,it); }   /* 等待照跳過時間的規則（停點：約好的時間、特殊課堂、劇情）；停下來的話，劇情演完出「繼續去上課」*/
     if(S.status(G,it)==='missed'){ GM.toast(it.c.name+'已經快下課了，現在進去不算出席。',3600); return false; }
-    const d=pl.d; if(G.zone!==d.zone){ if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.leave) ACTIVITIES.leave(G);
-      GM.sceneBegin(); try{ await GM.fade(true); GM.caption('',o.forced?'期末考快開始了。你收拾東西往考場走。':(pl.bike?'騎腳踏車到':'走路到')+bldName(it)+'。',2400); GM.advance(pl.mins/60); await GM.sleep(500); } finally { GM.sceneEnd(); }
+    const d=pl.d; if(G.zone!==d.zone||o.fromHome){ if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.leave) ACTIVITIES.leave(G);
+      GM.sceneBegin(); try{ await GM.fade(true); GM.caption('',o.forced?'期末考快開始了。你收拾東西往考場走。':(pl.mrt?'坐捷運、轉公車到':(pl.bike?'騎腳踏車到':'走路到'))+bldName(it)+'。',2400); GM.advance(pl.mins/60); await GM.sleep(500); } finally { GM.sceneEnd(); }
       await GM.enter(d.zone); }
     if(d.door) return S.attend(GM,it,{door:true,lateOk:!!o.forced});   /* 門口上課（萬才館研討室、法圖櫃台、服務學習、體育館）：不選座位 */
     return S.seatPick(GM,it,o); };
