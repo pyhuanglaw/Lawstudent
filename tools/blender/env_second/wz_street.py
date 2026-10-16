@@ -329,7 +329,7 @@ def ac_mesh(lite=False):
     """冷氣室外機。效能版（2026-10-16，溫州街、公館都用）：風扇 12 邊、正面格柵 5 條、側面散熱條 6 條都是薄片（每條 2 個三角形；冷氣都在二樓以上，從街上看不出差別）
     → 328 → 約 120 個三角形。lite 參數留著相容（兩邊現在一樣）"""
     body = Mesh('ac_body', M['ac']); body.box(-0.4, 0.4, 0, 0.56, 0, 0.3)
-    fan = Mesh('ac_fan', M['ac_dark']); fan.cyl((0.1, 0.28, 0.3), (0.1, 0.28, 0.305), 0.21, seg=12)
+    fan = Mesh('ac_fan', M['ac_dark']); fan.quad([(0.1 + 0.21 * math.cos(k * math.pi / 6), 0.28 + 0.21 * math.sin(k * math.pi / 6), 0.305) for k in range(12)])   # 風扇：正面一片 12 邊形（效能第三輪：原本 0.5 cm 厚的圓柱，側面和背面看不到，44 → 10 個三角形）
     for k in range(5): fan.quad([(-0.13, 0.12 + k * 0.08, 0.31), (0.33, 0.12 + k * 0.08, 0.31), (0.33, 0.135 + k * 0.08, 0.31), (-0.13, 0.135 + k * 0.08, 0.31)])
     for k in range(6): fan.quad([(-0.38, 0.08 + k * 0.07, 0.303), (-0.2, 0.08 + k * 0.07, 0.303), (-0.2, 0.095 + k * 0.07, 0.303), (-0.38, 0.095 + k * 0.07, 0.303)])
     br = Mesh('ac_bracket', M['metal'])
@@ -382,10 +382,11 @@ def window_proto(wh, part):
     x0, x1, y0, y1, fz, t, bk = -ww / 2, ww / 2, 0.0, wh, -0.12, 0.05, -0.9
     if part == 'shell':
         al = Mesh('win_alu', M['alu'])   # 鋁框：兩端的蓋子藏在窗洞裡、看不到（bar 不做蓋子）
-        bar(al, x0, x1, y0, y0 + t, fz - 0.05, fz + 0.03); bar(al, x0, x1, y1 - t, y1, fz - 0.05, fz + 0.03)
-        bar(al, x0, x0 + t, y0, y1, fz - 0.05, fz + 0.03); bar(al, x1 - t, x1, y0, y1, fz - 0.05, fz + 0.03)
-        bar(al, -0.03, 0.01, y0 + t, y1 - t, fz - 0.03, fz + 0.02)
-        sl = Mesh('win_sill', M['band']); sl.box(x0 - 0.08, x1 + 0.08, y0 - 0.07, y0, -0.25, 0.07)
+        # 效能第三輪：鋁框的五根框條改「十」字薄片（每根 4 個三角形；整條巷子 325 扇窗）
+        xbar(al, (x0, y0 + t / 2, fz - 0.01), (x1, y0 + t / 2, fz - 0.01), t); xbar(al, (x0, y1 - t / 2, fz - 0.01), (x1, y1 - t / 2, fz - 0.01), t)
+        xbar(al, (x0 + t / 2, y0, fz - 0.01), (x0 + t / 2, y1, fz - 0.01), t); xbar(al, (x1 - t / 2, y0, fz - 0.01), (x1 - t / 2, y1, fz - 0.01), t)
+        xbar(al, (-0.01, y0 + t, fz - 0.005), (-0.01, y1 - t, fz - 0.005), 0.04)
+        sl = Mesh('win_sill', M['band']); sl.box(x0 - 0.08, x1 + 0.08, y0 - 0.07, y0, -0.25, 0.07)   # 窗台：水泥色（效能第三輪試過改鋁框材質省一次 draw call，遊戲裡窗台變深灰，看得出差別，退回）
         stn = Mesh('win_stain', M['stain']); stn.quad([(x0 - 0.05, y0 - 1.05, 0.012), (x1 + 0.05, y0 - 1.05, 0.012), (x1 + 0.05, y0 - 0.07, 0.012), (x0 - 0.05, y0 - 0.07, 0.012)])
         so = stn.finish(None, uv=True); uv01(so)                                              # 窗台下的雨痕（整張貼圖）
         _WIN[key] = combine([al.finish(None), sl.finish(None), so], 'window_shell'); return _WIN[key]
@@ -403,7 +404,7 @@ def window_proto(wh, part):
 def potted_proto(kind, r, h, lift, size, n, seed):
     """盆栽（instancing）：陶盆＋葉片卡。原點＝盆底中央"""
     random.seed(seed)
-    pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper', y0=0.0, seg=10)   # 街上的盆栽：10 邊（Café 裡 18）
+    pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper', y0=0.0, seg=8)   # 街上的盆栽：8 邊（Café 裡 18）
     lv = Mesh('leaves', M[kind]); bush(lv, 0.0, lift, 0.0, size, n=n, span=0.45)
     return combine([pm.finish(None, smooth=True), lv.finish(None, uv=False)], f'potted_{kind}_{seed}')
 
@@ -434,7 +435,7 @@ def broad_proto(r, h, seed):
     import plants as PL_
     if '_PLM_ST' not in globals(): globals()['_PLM_ST'] = PL_.materials('wz_pl_')
     random.seed(seed)
-    pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper', y0=0.0, seg=10); parts = [pm.finish(None, smooth=True)]
+    pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper', y0=0.0, seg=8); parts = [pm.finish(None, smooth=True)]
     tmp = B.group('tmp_pl', None)
     bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=12, radius1=r * 0.95, radius2=r * 0.95, depth=0.02); bmesh.ops.translate(bm, verts=bm.verts, vec=g2b(0.0, h - 0.03, 0.0)); B.mesh_obj('tmp_pl_soil', bm, _PLM_ST['soil'], tmp)
     PL_.broad_plant(B.mesh_obj, _PLM_ST, 'tmp_pl', tmp, 0.0, h - 0.02, 0.0, 0.62, 0.42, seed, stems=3)   # 街上的盆栽遠看：3 根莖（室內 5 根）
@@ -767,12 +768,21 @@ for _n, _v in list(WZ_VC.items()):
 print('vc_consolidate:', len(WZ_VC), 'materials ->', sorted({v.name for v in WZ_VC.values()}), sorted(k for k, v in WZ_VC.items() if v.name.startswith('cafe_vc_wz')))
 _keep = lambda ob: 'FACE' in ob.name or 'SEASON' in ob.name or (ob.parent is not None and 'SEASON' in ob.parent.name)
 L.realize_small_instances(root, keep=_keep)   # 只擺一兩個的店面小物（店裡的冰箱、販賣機、麵攤、傘架、電表…）不用 instancing，合進大網格
+if os.environ.get('WZ_DIAG'):   # 效能診斷：合併前每個材質畫出來的三角形數（instancing 每一個都算）
+    import collections; _tc = collections.Counter(); _no = collections.Counter()
+    for ob in root.children_recursive:
+        if ob.type != 'MESH': continue
+        for pg in ob.data.polygons:
+            mn = ob.data.materials[pg.material_index].name if ob.data.materials else '-'; _tc[mn] += len(pg.vertices) - 2; _no[(mn, ob.name.split('.')[0])] += len(pg.vertices) - 2
+    for k, v in _tc.most_common(45): print('DIAG', v, k, '->', WZ_VC[k].name if k in WZ_VC else '')
+    for k, v in _no.most_common(60): print('DIAGO', v, k)
 L.vc_consolidate(root, WZ_VC)
 L.split_by_material(root, keep=_keep)
 # 小貼圖材質（店內地板、條紋雨遮、菜單、書背…）合成一張貼圖集（效能第二輪，2026-10-16）
 WZ_TEXT = {'wz_signs', 'wz_in_board', 'wz_in_price', 'wz_menu_ice', 'wz_menu_tea', 'wz_noren', 'wz_shop_notes'}   # 有字的（招牌設計稿、菜單、價目、告示）不進貼圖集：縮小以後字糊掉（第一次試：招牌整片灰）
 if L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', f'wz_small_atlas_{SET}.png'), f'wz_small_atlas_{SET}', protect=WZ_KEEP | WZ_TEXT, keep=_keep): pass
-L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', f'wz_rows_atlas_{SET}.jpg'), f'wz_rows_atlas_{SET}', protect=WZ_KEEP | WZ_TEXT, keep=_keep, skip=lambda m: m.name.startswith('wz_small_atlas'))   # 沿 u 重複很多次的（條紋雨遮、店內地板、木頭）
+# 有字的小牌子（菜單、價目、告示、門簾）不合貼圖集：效能第三輪試過另一張 512 格的貼圖集，寬的菜單被壓扁、字橫向糊掉（遊戲截圖看得出來），退回各自的材質
+L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', f'wz_rows_atlas_{SET}.jpg'), f'wz_rows_atlas_{SET}', protect=WZ_KEEP | WZ_TEXT, max_vloss=0.06, keep=_keep, skip=lambda m: m.name.startswith('wz_small_atlas'))   # 沿 u 重複很多次的（條紋雨遮、店內地板、木頭）
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or 'SEASON' in ob.name or (ob.parent is not None and 'SEASON' in ob.parent.name))
 info = L.export(OUT, gpu_instances=True)
 info.update({'buildings': [s['id'] for s in SPECS]})

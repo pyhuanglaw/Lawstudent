@@ -360,8 +360,9 @@ L.split_by_material(root, keep=_keep)
 # 遊戲的 CAFE_BOUNCE（白天店裡也開燈）要加一行 cafe_int_atlas；名字是 cafe_int_ 開頭，WZ_NO_SHADOW 照舊不投影。外面的小貼圖材質另一張。
 L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', 'cafe_int_atlas.png'), 'cafe_int_atlas', only=set(BOUNCE_MATS), max_tris=6000, max_rep=8, cell=256, rough=0.6, keep=_keep)
 L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', 'cafe_ext_small_atlas.png'), 'cafe_ext_small_atlas', protect=set(NIGHT_MATS) | set(BOUNCE_MATS), max_tris=600, keep=_keep)
-L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', 'cafe_int_rows.jpg'), 'cafe_int_rows', only=set(BOUNCE_MATS), max_tris=4000, keep=_keep)   # 店內剩下的（牆、樑、天花板、木頭）：CAFE_BOUNCE 也要加 cafe_int_rows
-L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', 'cafe_ext_rows.jpg'), 'cafe_ext_rows', protect=set(NIGHT_MATS) | set(BOUNCE_MATS), keep=_keep, skip=lambda m: m.name.startswith(('cafe_int_atlas', 'cafe_ext_small_atlas')))
+L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', 'cafe_int_rows.jpg'), 'cafe_int_rows', only=set(BOUNCE_MATS), max_tris=4000, max_vloss=0.06, keep=_keep)   # 店內剩下的（牆、樑、天花板、木頭）：CAFE_BOUNCE 也要加 cafe_int_rows
+L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', 'cafe_ext_rows.jpg'), 'cafe_ext_rows', protect=set(NIGHT_MATS) | set(BOUNCE_MATS), max_vloss=0.06, keep=_keep, skip=lambda m: m.name.startswith(('cafe_int_atlas', 'cafe_ext_small_atlas')))
+L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', 'cafe_leaf_atlas.png'), 'cafe_leaf_atlas', alpha=True, max_tris=4000, keep=_keep, rough=0.7)   # 效能第三輪：四種葉片卡合一張（名字 cafe_leaf_ 開頭：遊戲照舊雙面＋alphaTest）
 L.merge_by_material(root, keep=_keep)
 info = L.export(OUT, gpu_instances=True)
 info.update({'night_mats': NIGHT_MATS, 'bounce_mats': BOUNCE_MATS})
