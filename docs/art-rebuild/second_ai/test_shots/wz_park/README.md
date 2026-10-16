@@ -133,3 +133,10 @@ v2 遊戲內截圖的狀況：
 - **數字**：三角形 45,608 → 50,100（石凳 instancing，畫出來 52,200）；draw call +1（`park3`）。
 - **截圖**（在 LAWWW-B 的 f1651491 拍）：`v7_park3_pavilion.webp`、`v7_park3_pavilion_night.webp`、`v7_park3_front_east.webp`（車架、直飲台、長椅）、`v7_park3_fountain.webp`。BB-B 拍的前後對照：`park3_game_*.webp`。
 - 小公園還沒換的：公布欄（有遊戲的海報互動，我做）。
+
+## v8：公園名牌搬到公布欄頂上（LAWWW2-B 2026-10-16 18:2x UTC）
+
+- **問題**：名牌（x 20.46～22.14）和公布欄（x 21.16～22.84）只差 30 cm 前後，從巷子看名牌剛好擋住公布欄的左半邊（「看公布欄」那張海報看不到）。
+- **改法**：拿掉另外立的木頭名牌，公布欄的柱子、屋簷加高到 2.42～2.52 m，中間加一塊橫板，「溫州公園」貼在橫板上（還是 `PLATE_FACE_parksign`，遊戲用 canvas 畫字，props 不變）。台灣社區公園的公布欄常見這樣做。
+- layout、導航、互動點不變；三角形 −376。
+- 截圖：`v8_notice_close.webp`（從巷子看公布欄）、`v8_notice_street.webp`（傍晚從巷子看入口）。

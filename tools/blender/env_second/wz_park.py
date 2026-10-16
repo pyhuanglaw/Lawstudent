@@ -464,9 +464,11 @@ for sx in (-0.42, 0.42): CL.glow(root, 'shrine', *xf.p(sx, 1.02, 0.4), color='rg
 # ======================== 公布欄、直飲台、腳踏車架、長椅、路燈 ========================
 def notice_board(it):
     xf = Xf(it['x'], it['z'], it.get('yaw', 0))
-    for sx in (-0.75, 0.75): xf.rbox(acc('lamppost'), sx - 0.045, sx + 0.045, 0.0, 2.0, -0.045, 0.045, r=0.012)
+    # v8（2026-10-16）：公園名牌搬到公布欄頂上的橫板（原本另立在入口西邊 x 20.5～22.1，從巷子看剛好擋住公布欄的左半邊）；柱子、屋簷加高到 2.42
+    for sx in (-0.75, 0.75): xf.rbox(acc('lamppost'), sx - 0.045, sx + 0.045, 0.0, 2.42, -0.045, 0.045, r=0.012)
     xf.rbox(acc('lamppost'), -0.84, 0.84, 0.84, 1.96, -0.085, -0.02, r=0.02); xf.box(acc('cork'), -0.74, 0.74, 0.92, 1.88, -0.021, -0.015)
-    roof_field(acc('lamppost'), Xf(*xf.p(0, 0, -0.07)[0::2], xf.ry), 0.95, 0.24, 2.0, 2.1, 'gable', lift=0.0, thick=0.025, n=4)   # 小屋簷
+    xf.rbox(acc('lamppost'), -0.86, 0.86, 1.99, 2.38, -0.06, 0.004, r=0.015)   # 名牌橫板（字是遊戲畫的 PLATE_FACE_parksign，貼在前面）
+    roof_field(acc('lamppost'), Xf(*xf.p(0, 0, -0.07)[0::2], xf.ry), 0.95, 0.24, 2.42, 2.52, 'gable', lift=0.0, thick=0.025, n=4)   # 小屋簷
     xf.box(acc('glass'), -0.76, 0.76, 0.9, 1.9, 0.0, 0.01)
     for (cell, x, y, w, h) in (('poster', -0.42, 1.1, 0.5, 0.62), ('lostcat', 0.15, 1.2, 0.42, 0.46), ('tutor', 0.55, 0.98, 0.32, 0.36), ('hiring', 0.52, 1.42, 0.3, 0.32)):
         note([xf.p(x - w / 2, y, -0.01), xf.p(x + w / 2, y, -0.01), xf.p(x + w / 2, y + h, -0.01), xf.p(x - w / 2, y + h, -0.01)], cell)
@@ -558,10 +560,9 @@ for tag, m in hedge.items():
 for w in LAY['walls']:
     if 'x0' in w: acc('wall').box(w['x0'], w['x1'], 0.0, w['h'], w['z'] - 0.1, w['z'] + 0.1); gr.box(w['x0'] - 0.03, w['x1'] + 0.03, w['h'], w['h'] + 0.06, w['z'] - 0.13, w['z'] + 0.13)
     else: acc('wall').box(w['x'] - 0.1, w['x'] + 0.1, 0.0, w['h'], w['z0'], w['z1']); gr.box(w['x'] - 0.13, w['x'] + 0.13, w['h'], w['h'] + 0.06, w['z0'] - 0.03, w['z1'] + 0.03)
-# 名牌在入口 A 西邊（x 20.5～22.1）：v2 放在 19.4～21.0，一半在 A3 的房子裡（A3 到 x=20），「園」被牆吃掉
-for px in (20.6, 22.0): Xf(0, 0).rbox(acc('wood'), px - 0.05, px + 0.05, 0.0, 1.7, 5.96, 6.06, r=0.015)   # 柱子在板子後面（v2 第一版柱子擋到字）
-Xf(0, 0).rbox(acc('wood'), 20.46, 22.14, 1.16, 1.64, 5.94, 5.99, r=0.012)
-fm = Mesh('PLATE_FACE_parksign', M['board']); fm.quad([(22.1, 1.2, 5.935), (20.5, 1.2, 5.935), (20.5, 1.6, 5.935), (22.1, 1.6, 5.935)])
+# 公園名牌：公布欄頂上的橫板（v8）。v2 另立在入口西邊、v3 挪到 x 20.5～22.1，從巷子看擋住公布欄（x 21.2～22.8）的左半邊
+_nb = next(i for i in LAY['items'] if i['kind'] == 'notice_board'); _xn = Xf(_nb['x'], _nb['z'], _nb.get('yaw', 0))
+fm = Mesh('PLATE_FACE_parksign', M['board']); fm.quad([_xn.p(-0.8, 2.03, 0.012), _xn.p(0.8, 2.03, 0.012), _xn.p(0.8, 2.34, 0.012), _xn.p(-0.8, 2.34, 0.012)])   # 第一個點＝看的人的左下（yaw π：本地 −x＝世界 +x＝從巷子看的左邊），面朝巷子
 
 # ======================== 收尾 ========================
 for k, m in _acc.items(): m.finish(root, uv=True, smooth=k not in ('park_grass', 'park_paver', 'park_granite'))
