@@ -3,7 +3,7 @@
   {"name": "tire_side", "eye": [2.6, 0.75, 0.25], "look": [0.0, 0.33, 0.05], "lens": 36, "only": "SHOP_TIRE_STACK", "ref": [-0.3, -0.85]},
   {"name": "tire_close", "eye": [0.75, 0.75, 1.15], "look": [0.15, 0.42, 0.05], "lens": 50, "only": "SHOP_TIRE_STACK"},
   {"name": "tool_wall_34", "eye": [1.2, 1.7, 2.95], "look": [0.0, 1.5, 0.0], "lens": 26, "only": "SHOP_TOOL_WALL", "wall": -0.001, "lamp": [0.0, 2.75, 1.2], "ref": [1.45, 0.35]},
-  {"name": "tool_wall_side", "eye": [2.3, 1.55, 0.75], "look": [0.35, 1.5, 0.0], "lens": 32, "only": "SHOP_TOOL_WALL", "wall": -0.001, "lamp": [0.3, 2.7, 1.0], "lamp_w": 150},
+  {"name": "tool_wall_side", "eye": [2.3, 1.55, 0.75], "look": [0.35, 1.5, 0.0], "lens": 32, "only": "SHOP_TOOL_WALL", "wall": -0.001, "lamp": [0.3, 2.7, 1.0], "lamp_w": 150, "ref": [-1.5, 0.3]},
   {"name": "tool_wall_close", "eye": [0.3, 1.72, 1.45], "look": [-0.3, 1.66, 0.0], "lens": 34, "only": "SHOP_TOOL_WALL", "wall": -0.001, "lamp": [-0.3, 2.8, 1.3], "lamp_w": 120},
   {"name": "shelf_34", "eye": [1.7, 1.6, 2.9], "look": [0.0, 1.0, 0.0], "lens": 24, "only": "SHOP_PARTS_SHELF", "ref": [-1.0, 0.25]},
   {"name": "shelf_side", "eye": [2.7, 1.15, 0.55], "look": [0.0, 1.0, 0.0], "lens": 20, "only": "SHOP_PARTS_SHELF", "ref": [0.0, -0.85]},
