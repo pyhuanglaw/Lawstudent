@@ -92,6 +92,8 @@ async def main():
         rec = await pg.evaluate(REC_JS)
         run.check('上完課：時間快轉到 15:10（下課）', s['hour'] >= 15.15 and s['hour'] < 15.6, f"{h0} → {s['hour']}")
         run.check('紀錄：民法總則 上過了、出席 1 次', any(':civ_general:' in k for k in rec['done']) and rec['attend'].get('civ_general') == 1, json.dumps(rec, ensure_ascii=False))
+        split = await pg.evaluate("(()=>({done:!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_an_report_split), part:GAME.G.flags.REPORT_PARTNER||null}))()")
+        run.check('下課後以安「民總的報告，兩人一組…」有演（BUG-15：坐在座位上課也演課後事件；修之前座位上課永遠不演）', split['done'], json.dumps(split, ensure_ascii=False))
         await run.shot(pg, 'A_after_class')
         # 下課後教授先走到最近的門口才離開（v9.6 的 2e964bb：時段結束的人不會在眼前消失）——原本只等 5 秒就檢查他不在了，跟這個行為對不上；
         # 改成等他走出去，並記下途中是不是「要離開」（走向出口）。判斷標準：他最後要離開教室。最多等 5 分鐘：SwiftShader 約 1 fps、每幀最多 0.1 秒遊戲時間，
