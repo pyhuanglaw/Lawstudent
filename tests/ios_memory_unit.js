@@ -9,4 +9,6 @@ const d=R('src/adv3d.js');
 check('ADV 立繪／背景／CG 快取最多 16 張，超過丟最舊的',/CACHE_MAX=16/.test(d)&&/delete A\.cache\[old\]/.test(d));
 const o=R('src/outings3d.js');
 check('出遊：出發前存一次、到了 autosave(true) 再存一次、整趟包在 sceneBegin／sceneEnd',/GM\.autosave\(\); running\.add\(q\.id\)/.test(o)&&/q\.arrived=true; if\(GM\.autosave\) GM\.autosave\(true\)/.test(o)&&/GM\.sceneBegin\(\); try\{/.test(o));
+const e=R('src/engine3d.js'), g=R('src/game3d.js');
+check('全畫面 2D（深色底、背景圖、CG）蓋住 3D 時不畫 3D；模糊、凍結底照畫',/if\(E\.renderSkip&&E\.renderSkip\(\)\)\{/.test(e)&&/E\.renderSkip=\(\)=>typeof ADV!=='undefined'&&ADV\.active&&!!ADV\.root&&\/\\b\(dark\|image\|cg\)\\b\//.test(g));
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

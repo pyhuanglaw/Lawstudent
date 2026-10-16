@@ -436,7 +436,7 @@ const E3 = (function(){
   E.fitSeatRadius=fitSeatRadius;
   /* 手機轉向（使用者 2026-10-15：先橫再直，人物變細／變扁，要重開才正常）：iOS 的 resize 事件常在版面還沒換好時就來，讀到舊的寬高。
      每一幀比一次畫布的實際大小，不一樣就重設（只讀兩個數字，很便宜）；另外 orientationchange、visualViewport 也接上 */
-  E.render=function(){ const w=E.canvas.clientWidth||innerWidth, h=E.canvas.clientHeight||innerHeight; if(w!==E.w||h!==E.h) E.resize(); renderer.render(scene,camera); };
+  E.render=function(){ const w=E.canvas.clientWidth||innerWidth, h=E.canvas.clientHeight||innerHeight; if(w!==E.w||h!==E.h) E.resize(); if(E.renderSkip&&E.renderSkip()){ E.skipped=(E.skipped|0)+1; return; } renderer.render(scene,camera); };   /* renderSkip：全畫面 2D（出遊、CG、深色底）蓋住 3D 時不畫（P0 BUG-IOS-RELOAD：手機少做一份 GPU 工作，game3d.js 設定）*/
   E.recenter=function(){ if(E.player){ E.cam.yaw=E.player.obj.rotation.y+Math.PI; E.cam.manualT=0; } };
   E.faceEachOther=function(a,b){ const dx=b.position.x-a.position.x, dz=b.position.z-a.position.z; a.rotation.y=Math.atan2(dx,dz); b.rotation.y=Math.atan2(-dx,-dz); };
   return E;
