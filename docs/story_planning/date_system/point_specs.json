@@ -1,0 +1,1169 @@
+{
+ "_comment": "約會互動點的時間與花費（AA_128 5-2；AA-B 2026-10-16 AA_148 補齊 22 處，G33）。min＝分鐘；cost＝祐廷自己那一份；extra＝請客或買東西送她的選項才扣；costByMode＝依交通方式不同的花費；when＝只在這個時段出現；src＝出處（BB_128、AA_127、AA_128 是第一批原本就寫好的，照抄）",
+ "version": 1,
+ "updated": "2026-10-16",
+ "points": {
+  "D01.expo": {
+   "name": "老倉庫裡的展覽",
+   "min": 30,
+   "cost": 250,
+   "extra": 0,
+   "act": "看一個展，聊一件作品",
+   "note": "門票",
+   "src": "BB_128"
+  },
+  "D01.market": {
+   "name": "週末市集",
+   "min": 20,
+   "cost": 0,
+   "extra": 100,
+   "act": "挑手作的小東西",
+   "note": "extra＝買小東西送她",
+   "src": "BB_128"
+  },
+  "D01.lawn": {
+   "name": "大草地",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "坐著，看別人放風箏",
+   "note": "",
+   "src": "BB_128"
+  },
+  "D01.wall": {
+   "name": "紅磚牆前",
+   "min": 15,
+   "cost": 0,
+   "extra": 0,
+   "act": "拍照",
+   "note": "合照照 BB_128 2-4",
+   "src": "BB_128"
+  },
+  "D03.demo": {
+   "name": "獨立遊戲試玩區",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "獨立遊戲試玩",
+   "note": "",
+   "src": "BB_128"
+  },
+  "D03.arcade": {
+   "name": "舊機台的音樂遊戲",
+   "min": 20,
+   "cost": 60,
+   "extra": 0,
+   "act": "舊機台的音樂遊戲",
+   "note": "",
+   "src": "BB_128"
+  },
+  "D03.gacha": {
+   "name": "扭蛋機",
+   "min": 15,
+   "cost": 100,
+   "extra": 0,
+   "act": "扭蛋",
+   "note": "",
+   "src": "BB_128"
+  },
+  "D03.window": {
+   "name": "樓上靠窗的休息區",
+   "min": 20,
+   "cost": 60,
+   "extra": 0,
+   "act": "樓上靠窗休息",
+   "note": "祐廷自己那杯",
+   "src": "BB_128"
+  },
+  "D05.cafe": {
+   "name": "一樓的咖啡館",
+   "min": 30,
+   "cost": 130,
+   "extra": 0,
+   "act": "一樓的咖啡館",
+   "note": "祐廷自己那杯",
+   "src": "BB_128"
+  },
+  "D05.garden": {
+   "name": "院子的大樹下",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "院子的大樹下",
+   "note": "",
+   "src": "BB_128"
+  },
+  "D05.shop": {
+   "name": "電影書店",
+   "min": 20,
+   "cost": 0,
+   "extra": 30,
+   "act": "電影書店",
+   "note": "extra＝買明信片",
+   "src": "BB_128"
+  },
+  "D05.board": {
+   "name": "下個月的片單牆",
+   "min": 15,
+   "cost": 0,
+   "extra": 0,
+   "act": "看下個月的片單",
+   "note": "",
+   "src": "BB_128"
+  },
+  "D06.gallery": {
+   "name": "大展廳",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "大展廳",
+   "note": "",
+   "src": "BB_128"
+  },
+  "D06.frame": {
+   "name": "只有空畫框的作品",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "只有空畫框的作品",
+   "note": "",
+   "src": "BB_128"
+  },
+  "D06.cafe": {
+   "name": "館內的咖啡廳",
+   "min": 30,
+   "cost": 160,
+   "extra": 0,
+   "act": "館內的咖啡廳",
+   "note": "祐廷自己那杯",
+   "src": "BB_128"
+  },
+  "D06.lawn": {
+   "name": "館外的草地",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "館外的草地",
+   "note": "",
+   "src": "BB_128"
+  },
+  "D07.court": {
+   "name": "法庭",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "法庭",
+   "note": "",
+   "src": "AA_127"
+  },
+  "D07.cell": {
+   "name": "看守所的走廊",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "看守所的走廊",
+   "note": "",
+   "src": "AA_127"
+  },
+  "D07.wall": {
+   "name": "名字的牆",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "名字的牆",
+   "note": "",
+   "src": "AA_127"
+  },
+  "D07.path": {
+   "name": "園區的小路",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "園區的小路",
+   "note": "紀念園區：不放合照",
+   "src": "AA_127"
+  },
+  "D09.gondola": {
+   "name": "纜車車廂",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "坐一趟纜車",
+   "note": "**2026-10-16 改（G33）**：纜車錢併進交通費（捷運 60＋纜車來回 120＝180），互動點不再另扣；開車來的才在這裡扣 120",
+   "src": "BB_128",
+   "costByMode": {
+    "car": 120
+   }
+  },
+  "D09.tea": {
+   "name": "茶館的座位",
+   "min": 40,
+   "cost": 250,
+   "extra": 0,
+   "act": "泡一壺茶",
+   "note": "祐廷那一份",
+   "src": "BB_128"
+  },
+  "D09.view": {
+   "name": "茶館外的步道",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "看夜景",
+   "note": "傍晚以後",
+   "src": "BB_128"
+  },
+  "D09.path": {
+   "name": "茶園小路",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "茶園小路",
+   "note": "",
+   "src": "BB_128"
+  },
+  "D13.drink": {
+   "name": "飲料攤",
+   "min": 20,
+   "cost": 60,
+   "extra": 60,
+   "act": "買飲料",
+   "note": "記住她點的口味",
+   "src": "AA_128"
+  },
+  "D13.rail": {
+   "name": "河邊欄杆",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "一起看河景",
+   "note": "",
+   "src": "AA_128"
+  },
+  "D13.photo": {
+   "name": "拍照位置",
+   "min": 15,
+   "cost": 0,
+   "extra": 0,
+   "act": "拍照",
+   "note": "合照要第 6 階或交往中",
+   "src": "AA_128"
+  },
+  "D13.bench": {
+   "name": "長椅",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "坐著休息",
+   "note": "語彤的心願事件在這裡",
+   "src": "AA_128"
+  },
+  "D15.rail": {
+   "name": "觀景台的欄杆",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "觀景台看夜景",
+   "note": "",
+   "src": "BB_128"
+  },
+  "D15.car": {
+   "name": "車裡",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "車裡聊天",
+   "note": "",
+   "src": "BB_128"
+  },
+  "D15.store": {
+   "name": "山路邊的便利商店",
+   "min": 20,
+   "cost": 60,
+   "extra": 15,
+   "act": "山路邊的便利商店",
+   "note": "「茶葉蛋我買。」extra 15",
+   "src": "BB_128"
+  },
+  "D15.sky": {
+   "name": "停車場邊的草地",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "停車場邊的草地看天空",
+   "note": "",
+   "src": "BB_128"
+  },
+  "D18.snack": {
+   "name": "老街的小吃（芋圓）",
+   "min": 20,
+   "cost": 60,
+   "extra": 0,
+   "act": "芋圓一人一碗",
+   "note": "",
+   "src": "BB_128"
+  },
+  "D18.steps": {
+   "name": "階梯和燈籠",
+   "min": 15,
+   "cost": 0,
+   "extra": 0,
+   "act": "階梯拍照、看燈",
+   "note": "",
+   "src": "BB_128"
+  },
+  "D18.teahouse": {
+   "name": "茶樓的窗邊",
+   "min": 40,
+   "cost": 250,
+   "extra": 0,
+   "act": "茶樓喝茶看海",
+   "note": "祐廷那一份",
+   "src": "BB_128"
+  },
+  "D18.shop": {
+   "name": "小店",
+   "min": 20,
+   "cost": 0,
+   "extra": 150,
+   "act": "挑小禮物",
+   "note": "extra＝買禮物送她",
+   "src": "BB_128"
+  },
+  "D25.shore": {
+   "name": "浪邊",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "浪邊",
+   "note": "",
+   "src": "BB_128"
+  },
+  "D25.cafe": {
+   "name": "海邊的咖啡館",
+   "min": 30,
+   "cost": 150,
+   "extra": 150,
+   "act": "海邊的咖啡館",
+   "note": "「這杯我請。」extra 150",
+   "src": "BB_128"
+  },
+  "D25.surf": {
+   "name": "堤防上看衝浪的人",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "堤防上看衝浪",
+   "note": "",
+   "src": "BB_128"
+  },
+  "D25.station": {
+   "name": "外澳車站的月台",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "外澳車站的月台",
+   "note": "",
+   "src": "BB_128"
+  },
+  "D02.pond": {
+   "name": "生態池",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "繞生態池走一圈、看水鳥",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D02.corridor": {
+   "name": "製菸工廠的長廊",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "走製菸工廠的長廊",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D02.garden": {
+   "name": "巴洛克花園",
+   "min": 15,
+   "cost": 0,
+   "extra": 0,
+   "act": "巴洛克花園拍照",
+   "note": "合照照 BB_128 2-4",
+   "src": "AA_148"
+  },
+  "D02.books": {
+   "name": "園區裡的書店",
+   "min": 30,
+   "cost": 0,
+   "extra": 300,
+   "act": "在書店翻書",
+   "note": "extra＝買一本送她",
+   "src": "AA_148"
+  },
+  "D04.lobby": {
+   "name": "散場的電影院大廳",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "散場後在大廳聊電影",
+   "note": "電影本身是固定段落（120 分、300，`date_locations.json` fixed）；請她看那張票＝extra 300 在固定段落",
+   "src": "AA_148",
+   "when": "fixed後"
+  },
+  "D04.street": {
+   "name": "西門町徒步區",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "逛西門町徒步區",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D04.redhouse": {
+   "name": "西門紅樓",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "西門紅樓前",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D04.snack": {
+   "name": "老店小吃",
+   "min": 20,
+   "cost": 80,
+   "extra": 80,
+   "act": "老店小吃",
+   "note": "「這碗我請。」extra 80",
+   "src": "AA_148"
+  },
+  "D08.panda": {
+   "name": "貓熊館",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "貓熊館",
+   "note": "門票 60 抵達時扣",
+   "src": "AA_148"
+  },
+  "D08.penguin": {
+   "name": "企鵝館",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "企鵝館",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D08.giraffe": {
+   "name": "長頸鹿與非洲動物區",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "長頸鹿與非洲動物區",
+   "note": "可昕：長頸鹿是她的題目（E12），有專屬反應",
+   "src": "AA_148"
+  },
+  "D08.train": {
+   "name": "遊園列車",
+   "min": 15,
+   "cost": 10,
+   "extra": 10,
+   "act": "坐遊園列車",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D10.bridge": {
+   "name": "碧潭吊橋",
+   "min": 15,
+   "cost": 0,
+   "extra": 0,
+   "act": "走碧潭吊橋",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D10.boat": {
+   "name": "天鵝船",
+   "min": 30,
+   "cost": 200,
+   "extra": 200,
+   "act": "踩天鵝船",
+   "note": "一艘的錢兩人分；「我付。」extra 200",
+   "src": "AA_148"
+  },
+  "D10.walk": {
+   "name": "河岸步道",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "河岸步道",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D10.snack": {
+   "name": "河邊的小吃攤",
+   "min": 20,
+   "cost": 60,
+   "extra": 60,
+   "act": "河邊小吃攤",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D11.museum": {
+   "name": "溫泉博物館",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "溫泉博物館",
+   "note": "週一休館",
+   "src": "AA_148"
+  },
+  "D11.valley": {
+   "name": "地熱谷",
+   "min": 15,
+   "cost": 0,
+   "extra": 0,
+   "act": "地熱谷",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D11.library": {
+   "name": "北投圖書館",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "北投圖書館",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D11.footbath": {
+   "name": "溫泉旅館的泡腳池",
+   "min": 30,
+   "cost": 100,
+   "extra": 100,
+   "act": "溫泉旅館的泡腳池",
+   "note": "不演泡湯",
+   "src": "AA_148"
+  },
+  "D12.street": {
+   "name": "迪化街",
+   "min": 30,
+   "cost": 0,
+   "extra": 150,
+   "act": "逛迪化街",
+   "note": "extra＝買南北貨送她",
+   "src": "AA_148"
+  },
+  "D12.tea": {
+   "name": "老茶行",
+   "min": 30,
+   "cost": 150,
+   "extra": 150,
+   "act": "老茶行試茶、買一小包",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D12.pier": {
+   "name": "大稻埕碼頭",
+   "min": 15,
+   "cost": 0,
+   "extra": 0,
+   "act": "大稻埕碼頭",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D12.sunset": {
+   "name": "河邊看夕陽",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "河邊看夕陽",
+   "note": "",
+   "src": "AA_148",
+   "when": "傍晚以後"
+  },
+  "D14.bridge": {
+   "name": "情人橋",
+   "min": 15,
+   "cost": 0,
+   "extra": 0,
+   "act": "走情人橋",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D14.boardwalk": {
+   "name": "木棧道",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "木棧道",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D14.ferry": {
+   "name": "渡輪",
+   "min": 30,
+   "cost": 60,
+   "extra": 60,
+   "act": "坐渡輪到淡水再回來",
+   "note": "來回",
+   "src": "AA_148"
+  },
+  "D14.sunset": {
+   "name": "海風與夕陽",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "海風與夕陽",
+   "note": "",
+   "src": "AA_148",
+   "when": "傍晚以後"
+  },
+  "D16.drive": {
+   "name": "沿海公路（車上）",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "沿海公路（車上聊天）",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D16.beach": {
+   "name": "白沙灣沙灘",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "白沙灣沙灘",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D16.lighthouse": {
+   "name": "富貴角燈塔步道",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "富貴角燈塔步道",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D16.rest": {
+   "name": "海邊停車休息",
+   "min": 20,
+   "cost": 50,
+   "extra": 50,
+   "act": "海邊停車，買兩罐飲料",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D17.queen": {
+   "name": "女王頭",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "排隊看女王頭",
+   "note": "門票 120 抵達時扣",
+   "src": "AA_148"
+  },
+  "D17.mushroom": {
+   "name": "蕈狀岩區",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "蕈狀岩區",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D17.platform": {
+   "name": "海蝕平台",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "海蝕平台",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D17.trail": {
+   "name": "海邊步道",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "海邊步道",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D19.museum": {
+   "name": "黃金博物館",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "黃金博物館",
+   "note": "門票 80 抵達時扣；每月第一個週一休館",
+   "src": "AA_148"
+  },
+  "D19.houses": {
+   "name": "日式宿舍群",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "日式宿舍群",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D19.shrine": {
+   "name": "山上的神社遺址",
+   "min": 40,
+   "cost": 0,
+   "extra": 0,
+   "act": "爬到山上的神社遺址",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D19.view": {
+   "name": "遠眺陰陽海",
+   "min": 15,
+   "cost": 0,
+   "extra": 0,
+   "act": "遠眺陰陽海",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D20.street": {
+   "name": "烏來老街",
+   "min": 30,
+   "cost": 80,
+   "extra": 80,
+   "act": "烏來老街的小吃",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D20.bridge": {
+   "name": "覽勝大橋與南勢溪",
+   "min": 15,
+   "cost": 0,
+   "extra": 0,
+   "act": "覽勝大橋看南勢溪",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D20.trolley": {
+   "name": "烏來台車",
+   "min": 20,
+   "cost": 100,
+   "extra": 100,
+   "act": "坐烏來台車",
+   "note": "來回",
+   "src": "AA_148"
+  },
+  "D20.falls": {
+   "name": "烏來瀑布",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "烏來瀑布",
+   "note": "不演泡湯",
+   "src": "AA_148"
+  },
+  "D21.street": {
+   "name": "三峽老街",
+   "min": 30,
+   "cost": 60,
+   "extra": 60,
+   "act": "三峽老街（金牛角）",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D21.temple": {
+   "name": "祖師廟",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "祖師廟",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D21.dye": {
+   "name": "藍染體驗",
+   "min": 40,
+   "cost": 300,
+   "extra": 300,
+   "act": "藍染體驗（各染一條方巾）",
+   "note": "染好的方巾是房間物件",
+   "src": "AA_148"
+  },
+  "D21.bridge": {
+   "name": "三峽拱橋",
+   "min": 15,
+   "cost": 0,
+   "extra": 0,
+   "act": "三峽拱橋",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D22.dam": {
+   "name": "大壩頂",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "大壩頂",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D22.maple": {
+   "name": "楓林步道",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "楓林步道",
+   "note": "11～12 月楓紅有季節反應",
+   "src": "AA_148"
+  },
+  "D22.lake": {
+   "name": "湖畔觀景",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "湖畔觀景",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D22.fish": {
+   "name": "活魚料理",
+   "min": 40,
+   "cost": 300,
+   "extra": 300,
+   "act": "活魚料理",
+   "note": "一人份",
+   "src": "AA_148"
+  },
+  "D23.market": {
+   "name": "漁貨市場",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "逛漁貨市場",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D23.cook": {
+   "name": "代客料理",
+   "min": 40,
+   "cost": 350,
+   "extra": 350,
+   "act": "代客料理",
+   "note": "一人份",
+   "src": "AA_148"
+  },
+  "D23.boats": {
+   "name": "港邊的漁船",
+   "min": 15,
+   "cost": 0,
+   "extra": 0,
+   "act": "看港邊的漁船",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D23.seawall": {
+   "name": "堤防看夕陽",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "堤防看夕陽",
+   "note": "",
+   "src": "AA_148",
+   "when": "傍晚以後"
+  },
+  "D24.footbath": {
+   "name": "湯圍溝的泡腳池",
+   "min": 30,
+   "cost": 80,
+   "extra": 80,
+   "act": "湯圍溝的泡腳池",
+   "note": "不演泡湯",
+   "src": "AA_148"
+  },
+  "D24.street": {
+   "name": "溫泉街的小吃",
+   "min": 30,
+   "cost": 100,
+   "extra": 100,
+   "act": "溫泉街的小吃",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D24.park": {
+   "name": "公園裡的步道和小木橋",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "公園步道和小木橋",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D24.station": {
+   "name": "車站前的廣場",
+   "min": 15,
+   "cost": 0,
+   "extra": 0,
+   "act": "車站前的廣場",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D26.path": {
+   "name": "草悟道",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "走草悟道",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D26.museum": {
+   "name": "國立臺灣美術館",
+   "min": 40,
+   "cost": 0,
+   "extra": 0,
+   "act": "國美館",
+   "note": "免費",
+   "src": "AA_148"
+  },
+  "D26.village": {
+   "name": "審計新村",
+   "min": 30,
+   "cost": 100,
+   "extra": 100,
+   "act": "審計新村的小店",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D26.plaza": {
+   "name": "市民廣場",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "市民廣場",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D27.veranda": {
+   "name": "木屋的緣側",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "木屋的緣側坐著",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D27.shop": {
+   "name": "檜木小店",
+   "min": 20,
+   "cost": 0,
+   "extra": 150,
+   "act": "檜木小店",
+   "note": "extra＝買檜木小物送她",
+   "src": "AA_148"
+  },
+  "D27.tree": {
+   "name": "院子的老樹",
+   "min": 15,
+   "cost": 0,
+   "extra": 0,
+   "act": "院子的老樹",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D27.rail": {
+   "name": "舊鐵道和小火車",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "舊鐵道和小火車",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D28.museum": {
+   "name": "文學館的大廳",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "文學館大廳",
+   "note": "免費",
+   "src": "AA_148"
+  },
+  "D28.circle": {
+   "name": "館前的圓環綠地",
+   "min": 15,
+   "cost": 0,
+   "extra": 0,
+   "act": "館前的圓環綠地",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D28.alley": {
+   "name": "安平的老巷",
+   "min": 30,
+   "cost": 60,
+   "extra": 60,
+   "act": "安平老巷的小吃",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D28.sunset": {
+   "name": "海堤的夕陽",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "海堤的夕陽",
+   "note": "",
+   "src": "AA_148",
+   "when": "傍晚以後"
+  },
+  "D29.warehouse": {
+   "name": "倉庫改的展間",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "倉庫改的展間",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D29.sculpture": {
+   "name": "巨大的戶外雕塑",
+   "min": 15,
+   "cost": 0,
+   "extra": 0,
+   "act": "巨大的戶外雕塑",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D29.harbor": {
+   "name": "港邊的步道",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "港邊步道",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D29.rail": {
+   "name": "舊鐵道的草地",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "舊鐵道的草地",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D30.pebble": {
+   "name": "礫石海灘的浪邊",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "礫石海灘的浪邊",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D30.bike": {
+   "name": "海岸自行車道",
+   "min": 40,
+   "cost": 100,
+   "extra": 100,
+   "act": "租腳踏車騎海岸自行車道",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D30.stars": {
+   "name": "看星星",
+   "min": 40,
+   "cost": 0,
+   "extra": 0,
+   "act": "看星星",
+   "note": "",
+   "src": "AA_148",
+   "when": "晚上（兩天一夜的第一晚）"
+  },
+  "D30.stall": {
+   "name": "海邊的小攤",
+   "min": 20,
+   "cost": 60,
+   "extra": 60,
+   "act": "海邊的小攤",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D31.trail": {
+   "name": "湖邊步道",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "湖邊步道",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D31.pier": {
+   "name": "碼頭和遊湖船",
+   "min": 40,
+   "cost": 300,
+   "extra": 300,
+   "act": "坐遊湖船",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D31.ropeway": {
+   "name": "山上的纜車",
+   "min": 40,
+   "cost": 300,
+   "extra": 300,
+   "act": "坐山上的纜車",
+   "note": "來回",
+   "src": "AA_148"
+  },
+  "D31.egg": {
+   "name": "湖邊的茶葉蛋攤",
+   "min": 15,
+   "cost": 10,
+   "extra": 10,
+   "act": "湖邊的茶葉蛋",
+   "note": "「我買。」extra 10",
+   "src": "AA_148"
+  },
+  "D32.meadow": {
+   "name": "大草原",
+   "min": 30,
+   "cost": 200,
+   "extra": 200,
+   "act": "大草原（看羊）",
+   "note": "草原門票在這裡扣",
+   "src": "AA_148"
+  },
+  "D32.trail": {
+   "name": "高山步道",
+   "min": 30,
+   "cost": 0,
+   "extra": 0,
+   "act": "高山步道",
+   "note": "",
+   "src": "AA_148"
+  },
+  "D32.cloud": {
+   "name": "觀景台看雲海",
+   "min": 20,
+   "cost": 0,
+   "extra": 0,
+   "act": "觀景台看雲海",
+   "note": "",
+   "src": "AA_148",
+   "when": "清晨（兩天一夜的第二天）"
+  },
+  "D32.stall": {
+   "name": "山上的小攤",
+   "min": 20,
+   "cost": 60,
+   "extra": 60,
+   "act": "山上的小攤",
+   "note": "",
+   "src": "AA_148"
+  }
+ }
+}

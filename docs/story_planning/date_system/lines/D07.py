@@ -163,3 +163,11 @@ H['kexin']=dict(  # 可昕：今天不假設
     normal=[('any',['風好大。……新店溪的風。']),('any',['樹下有一張長椅。我們坐一下。']),('high',['跟你來這裡，我覺得我們會一起變成好的法律人。'])],
     remember=('any',['上次那個沒有回答的問題，我自己想了答案。……不會。']),dating=[('any',['（她靠著你的肩膀，走了一段）'])]),
  })
+
+# G33（AA-B 2026-10-16，AA_140）：心願本人第一次來＝心願事件（wish/wish_heroine_01.json），和 D03、D05、D06、D13、D15、D25 同一個做法；
+# 以安原本寫在 first 的句子本來就是「再來一次」的內容，搬進 normal（第二次以後輪流用）。
+_h=H['heroine_01']; _h['wish_first']='wish/wish_heroine_01.json（AA_127 第 1 節）'
+for _k in ('arrive','close'):
+    _h[_k]['normal'].insert(0,_h[_k]['first']); _h[_k]['first']=None
+for _q in _h['points'].values():
+    _q['normal'].insert(0,_q['first']); _q['first']=None
