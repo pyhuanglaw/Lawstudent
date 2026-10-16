@@ -25,13 +25,13 @@ def build(loc):
         out['likes'][who]=h['likes']; out['dislikeLine'][who]=h.get('dislike_line',{})
         for p,v in h['likes'].items():
             if v=='dislike' and p not in h.get('dislike_line',{}): err.append(f'{loc} {who} {p} 不太喜歡卻沒有那一句')
-        L={'arrive':{'first':conv(h['arrive']['first'],who),'normal':[conv(x,who) for x in h['arrive']['normal']],'dating':[conv(x,who) for x in h['arrive']['dating']]},
-           'closing':{'first':conv(h['close']['first'],who),'normal':[conv(x,who) for x in h['close']['normal']],'dating':[conv(x,who) for x in h['close']['dating']]},'hotspots':{}}
+        L={'arrive':{'first':(conv(h['arrive']['first'],who) if h['arrive']['first'] else {'wishEvent':h.get('wish_first')}),'normal':[conv(x,who) for x in h['arrive']['normal']],'dating':[conv(x,who) for x in h['arrive']['dating']]},
+           'closing':{'first':(conv(h['close']['first'],who) if h['close']['first'] else {'wishEvent':h.get('wish_first')}),'normal':[conv(x,who) for x in h['close']['normal']],'dating':[conv(x,who) for x in h['close']['dating']]},'hotspots':{}}
         for p in m.POINTS:
             q=h['points'].get(p)
             if not q: err.append(f'{loc} {who} 缺 {p}'); continue
             if len(q['normal'])<3: err.append(f'{loc} {who} {p} 普通不到 3 套')
-            L['hotspots'][p]={'first':conv(q['first'],who),'normal':[conv(x,who) for x in q['normal']],'remember':conv(q['remember'],who),'dating':[conv(x,who) for x in q['dating']]}
+            L['hotspots'][p]={'first':(conv(q['first'],who) if q['first'] else {'wishEvent':h.get('wish_first')}),'normal':[conv(x,who) for x in q['normal']],'remember':conv(q['remember'],who),'dating':[conv(x,who) for x in q['dating']]}
         out['lines'][who]=L
     txt=json.dumps(out,ensure_ascii=False)
     for b in BAN:
