@@ -1587,8 +1587,8 @@
    "title": "重訪日 1 可昕那句永遠走假設題（K6 沒做）",
    "area": "V2",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "跟 V2-B9 一起",
+   "status": "已整合待測試",
+   "next": "K6 互考演完記 KX_K6_EXAM，重訪日 1 她那一句照有沒有做過分兩種（舊存檔只有 KX_QUIZ 也算；tests/v2_b9_unit.js 第 8 段）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",

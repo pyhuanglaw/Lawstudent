@@ -970,7 +970,7 @@ const STORY_EVENTS=[
   /* 重訪日 1（交接包 v2 C20；草稿第 3 節、AA_12）——可昕的版本（BB_96 9-10）：大一最後一天（第 18 週最後一天，STORY.revisitDay），交往中的玩家
      她中午傳「最後一天。你說的那張桌子，我六點到。」（story3d.js phoneRules），18:00 以後人在兩點半 Café 就演（auto；早到的等到六點）。
      題目、選項照第 3 節的表（REVISIT_Y1_OPTS：只出經歷過的事，最多三個＋一定有的那一個）；她的回應照 BB 的表；中秋烤肉看 K3 有沒有來（KX_MET_NOODLE_TEAM）；
-     她自己的那一件：做過 K6 互考（KX_K6_EXAM，K6 還沒做）是「考古題」，沒有是「假設題的答案」。記 REVISIT_Y1:{who:'kexin',pick}（大四主線 10 讀它）。
+     她自己的那一件：做過 K6 互考（KX_K6_EXAM，ev_kexin_quiz 演完時記；舊存檔有 KX_QUIZ 也算）是「考古題」，沒有是「假設題的答案」。記 REVISIT_Y1:{who:'kexin',pick}（大四主線 10 讀它）。
      冷戰（AA_112 第 6 節的裂縫）還沒有系統：目前交往中都算她能來。麵店團併桌、單身的版本：邀約的台詞等 AA（已問）*/
   { id:'ev_revisit_y1_kexin', title:'重訪日', participants:['kexin'], location:'cafe', trigger:'auto', priority:8, term:['Y1S2'], weeks:[18], time:[18,22], once:true, background:'blur',
     prereq:{flags:['dating_kexin'],custom:G=>typeof STORY!=='undefined'&&!!STORY.revisitDay&&G.day===STORY.revisitDay()&&!G.flags.REVISIT_Y1},
@@ -986,8 +986,8 @@ const STORY_EVENTS=[
       {label:'k_show'},{speaker:'kexin',expression:'teasing',text:'拍手也算參加。……你一定拍得很用力。'},{goto:'mine'},
       {label:'k_daily'},{speaker:null,text:'她嘴角先動了。'},{speaker:'kexin',expression:'smile',text:'……這題答得太好。我要記下來。'},
       {label:'mine'},{speaker:'kexin',expression:'smile',text:'我的最意外？我以為我們會常常吵架。'},
-      {if:{flags:['KX_K6_EXAM']},speaker:'kexin',expression:'teasing',text:'結果我們吵最多的，是考古題。'},
-      {unless:{flags:['KX_K6_EXAM']},speaker:'kexin',expression:'teasing',text:'結果我們吵最多的，是假設題的答案。'} ],
+      {if:{custom:G=>!!G.flags.KX_K6_EXAM||!!(G.flags.KX_QUIZ&&((G.flags.KX_QUIZ.win|0)+(G.flags.KX_QUIZ.lose|0)+(G.flags.KX_QUIZ.draw|0))>0)},speaker:'kexin',expression:'teasing',text:'結果我們吵最多的，是考古題。'},
+      {unless:{custom:G=>!!G.flags.KX_K6_EXAM||!!(G.flags.KX_QUIZ&&((G.flags.KX_QUIZ.win|0)+(G.flags.KX_QUIZ.lose|0)+(G.flags.KX_QUIZ.draw|0))>0)},speaker:'kexin',expression:'teasing',text:'結果我們吵最多的，是假設題的答案。'} ],
     after:G=>{ G.flags.REVISIT_Y1={who:'kexin',pick:G.flags.REVISIT_Y1_PICK||'daily'}; } },
   /* 重訪日 1（交接包 v2 C20）——麵店團併桌的版本（AA 50da3a9：沒有和可昕交往、在麵店團）：17:00 阿哲在群組「學期最後一天。兩點半，六點，併桌。」（story3d.js phoneRules）。
      題目（AA 草稿第 3 節的原句，寫成旁白）→ 玩家的選項（REVISIT_Y1_OPTS）→ 麵店團回一句（一般：阿哲「……好。這個可以。」；「麵店的第一碗。」：阿哲「那碗是我推薦的。」；
@@ -1333,7 +1333,7 @@ const STORY_EVENTS=[
       {label:'m'},{speaker:null,text:'她想了很久，答對一半。'},{speaker:'kexin',expression:'laugh',text:'……好，你贏。我請。'},{goto:'end'},
       {label:'h'},{speaker:'kexin',expression:'teasing',text:'犯規。冷門學說是犯規。'},{speaker:null,text:'她判你輸。'},{speaker:'kexin',expression:'teasing',text:'你請。'},
       {label:'end'} ],
-    after:G=>{ const F=G.flags, k=F._kxQ; delete F._kxQ; if(!k) return; const Q=F.KX_QUIZ=Object.assign({win:0,lose:0,draw:0},F.KX_QUIZ||{}); Q[k]=(Q[k]|0)+1; } },
+    after:G=>{ const F=G.flags, k=F._kxQ; delete F._kxQ; F.KX_K6_EXAM=true; if(!k) return; const Q=F.KX_QUIZ=Object.assign({win:0,lose:0,draw:0},F.KX_QUIZ||{}); Q[k]=(Q[k]|0)+1; } },   /* KX_K6_EXAM：做過 K6 互考（重訪日 1 她那一句讀它，BB_96 9-10）*/
   { id:'ev_dorm_late_kai', title:'半夜', participants:['kai'], location:'dorm', trigger:'enter', time:[23,26], day_min:3, cooldown_days:2, random_weight:0.7, background:'blur',
     dialogue:[ {speaker:'kai',expression:'neutral',text:'（頭沒回）欸，你回來了。我這個 bug 追到第三小時。'},{choice:[{text:'「去睡啦。」',consequences:{rel:{kai:{fam:1,comf:1}}}},{text:'「什麼 bug？」',consequences:{rel:{kai:{fam:2,trust:1}}},goto:'bug'},{text:'（戴上耳機）',consequences:{}}]},{goto:'end'},{label:'bug'},{speaker:'kai',expression:'tired',text:'一個值應該是 0 結果是 undefined。……你們法律系有這種東西嗎？'},{speaker:'player',text:'有。叫「法無明文」。'},{speaker:'kai',expression:'laugh',text:'幹，好爛。'},{label:'end'} ] },
   { id:'ev_library_closing', title:'閉館', participants:[], location:'library', trigger:'auto', time:[21.6,22.2], cooldown_days:1, background:'freeze',
