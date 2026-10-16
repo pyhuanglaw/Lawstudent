@@ -6,7 +6,7 @@
    座標：和現有室內區域一樣（room()：中心在原點、x 往東、z 往南、入口在 +z）；單位公尺。yaw：人面向 (sin yaw, cos yaw)。
    不放校名、館名、校徽（D77）；記分板、看板沒有品牌。 */
 const GYM_LAYOUT = {
-  version: 2,
+  version: 3,
   id: 'gym', name: '綜合體育館', glb: 'assets/models/env/second_ai/gym_interior.glb',
   w: 40.0, d: 38.0, h: 9.0, note: '區域 x −20～20、z −19～19；球場 z −19～11（挑高 9 m）、大廳 z 11～19（天花板 4.2 m）',
   hall: {x0: -20, x1: 20, z0: -19, z1: 11, h: 9.0},
@@ -71,6 +71,41 @@ const GYM_LAYOUT = {
     {x: -5.0, z: 11.9, kind: 'gym_notice', label: '看公告欄'},
     {x: 5.0, z: 11.9, kind: 'gym_directory', label: '看樓層指引'}
   ],
-  wallsFade: {front: [0, 0, -1], back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}
+  wallsFade: {front: [0, 0, -1], back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]},
+  /* ===== 第二階段（v3，LAWWW2-B 2026-10-16）：3F 主球場＝另一個區域 gym_arena（tools/blender/env_second/gym_arena.py → gym_arena.glb）=====
+     BB_151 第 4b 節：樓板 51×42 m、挑高約 23 m；3～5 樓看台（固定座位＋伸縮看台）；典禮、演講、演唱會都在這裡，畢業生坐在場地上、家長坐 4、5 樓。
+     這一版：場地（44×39 m，北端 z −22～−17 是活動時放舞台的地方）＋東、西、南三面的下層看台（3F，12 排，走道可以走上去坐）＋上層看台（4、5F，看得到、走不到：
+     樓梯口在看台後面的走廊，這一版不做走廊）。玩家從 1F 大廳西側的樓梯上來，走南邊看台中間的入口通道（vomitory）進到場地。
+     座標：區域中心在原點、x 往東、z 往南；y＝場地地板 0。 */
+  arena: {
+    id: 'gym_arena', name: '綜合體育館 3F 主球場', glb: 'assets/models/env/second_ai/gym_arena.glb', h: 23.0,
+    floor: {x0: -22, x1: 22, z0: -22, z1: 17, note: '整片場地都能走（木地板）；北端 z −22～−17 平常空著，活動時放舞台'},
+    court: {basketball: {x: 0, z: -2, len: 28, wid: 15, axis: 'z'}, volleyball: {x: 0, z: -2, len: 18, wid: 9}, hoops: [[0, -14.43], [0, 10.43]], note: '籃架：從屋頂吊下來（地上沒東西擋路）'},
+    stands: [
+      {side: 'east', axis: 'x', dir: 1, front: 22, along: [-17, 17], yaw: -Math.PI / 2},
+      {side: 'west', axis: 'x', dir: -1, front: -22, along: [-17, 17], yaw: Math.PI / 2},
+      {side: 'south', axis: 'z', dir: 1, front: 17, along: [-22, 22], yaw: Math.PI, gap: [-2.0, 2.0]}
+    ],
+    standRows: {rows: 12, tread: 0.85, rise: 0.42, h0: 0.6, seatPitch: 0.5, seatH: 0.44,
+      note: '第 r 排（0 起）：平台頂 y＝h0＋r×rise、深度 tread；座位在平台後半（離前緣 0.5 m），面向場地（yaw 見 stands）。最前面一排前緣有 1.0 m 的玻璃欄杆（擋住不能從場地爬上去）'},
+    aisles: {w: 1.2, east: [-9, 0, 9], west: [-9, 0, 9], south: [-12, 12],
+      note: '走道（樓梯）從場地 y 0 走到最上排 y 5.22：導航做斜面 {axis, ya:0, yb:5.22}（畫面上 20 階，tread 0.51、rise 0.26），兩側是座位、不能穿過。走道中間有扶手'},
+    vomitory: {x0: -2.0, x1: 2.0, z0: 17.0, z1: 24.5, note: '南看台中間的入口通道（場地高度）；兩側是看台的側牆'},
+    upper: {rows: 10, tread: 0.8, rise: 0.5, h0: 7.6, front: 32.6, note: '4、5 樓看台：在下層看台後面、高 7.6～12.1 m（只有畫面，走不到；典禮時家長坐這裡）'},
+    spawn: {x: 0, z: 23.6, yaw: Math.PI},
+    exit: {at: {x: 0, z: 24.2}, label: '下樓回大廳', to: 'gym', spawn: {x: -18.0, z: 17.6, yaw: 0}, note: '接 1F 大廳往 3F 的樓梯（stairs_up）；第一階段的「往 3F 的樓梯（今天不開放）」改成上樓'},
+    sets: {
+      stage: {node: 'SET_STAGE', x0: -10, x1: 10, z0: -21.6, z1: -15.6, h: 1.2, note: '舞台（共用）：深藍布幕背板、兩側上台的樓梯（x ±10.6）。典禮、演講、演唱會都要先打開這一組'},
+      ceremony: {node: 'SET_CEREMONY', chairs: {x: [-17.4, 17.4], z: [-12.5, 13.5], pitch: [0.62, 1.05], aisles: [[-0.9, 0.9], [-9.4, -8.4], [8.4, 9.4]]},
+        note: '畢業典禮：舞台上講台、花、背板上的米色長布（不寫校名）；場地上整片折疊椅（畢業生）'},
+      lecture: {node: 'SET_LECTURE', chairs: {x: [-9.0, 9.0], z: [-12.5, -2.0], pitch: [0.62, 1.05], aisles: [[-0.9, 0.9]]}, note: '演講：講台＋投影幕；椅子少一點'},
+      concert: {node: 'SET_CONCERT', barrier: {z: -12.6, x: [-12, 12]}, foh: {x: 0, z: 6.0, w: 4.0, d: 3.0}, note: '演唱會：兩座燈架塔＋上方桁架、喇叭、舞台前的鐵馬（隔出搖滾區）、場地中間的控台'}
+    },
+    interact: [
+      {x: 0.0, z: 15.6, kind: 'arena_look', label: '看主球場'},
+      {x: 0.0, z: -14.8, kind: 'arena_screen', label: '大螢幕'}
+    ],
+    note: '每一套布置打開時：導航加椅子區的阻擋（留走道）、座位照 chairs 產生（面向舞台 yaw 0 → 面向 −z）；演唱會的鐵馬、控台要擋'
+  }
 };
 if (typeof module !== 'undefined') module.exports = GYM_LAYOUT;

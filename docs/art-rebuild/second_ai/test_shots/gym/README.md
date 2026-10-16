@@ -62,3 +62,58 @@ v1 的預覽有三個問題：
 - 公告欄、樓層指引的文字是氣氛用的一般公告，沒有日期，不牽涉劇情。要放劇情公告（例如期末成發）時再加一張貼紙。
 - 羽球網是半透明平面（`gym_net`），近看沒有網格。
 - 實機手機效能沒有量過：三角形 31k／畫出來 77k，和萬才館室內同一級。
+
+---
+
+# 第二階段：3F 主球場（`gym_arena` 區域）——交付說明（LAWWW2-B 2026-10-16）
+
+- **配置**：`src/data/gym_layout.js` 的 `arena` 段（version 3），給遊戲和 Blender 共用。內容有：
+  - 場地、球場；
+  - 三面下層看台：12 排，排高 0.42、排深 0.85；
+  - 走道（樓梯）、入口通道、上層看台；
+  - 出生點 (0, 23.6)，面向北；
+  - 出口：回 1F 大廳西側樓梯口 (−18, 17.6)；
+  - 四組布置。
+- **模型**：`tools/blender/env_second/gym_arena.py` → `assets/models/env/second_ai/gym_arena.glb`
+  - 3.4 MB、52k 三角形。
+  - 平常（布置都藏起來）畫出約 13 萬個三角形：下層看台 2,256 張座位，GPU instancing，每張 36 個三角形。
+  - 典禮那天：再加 1,250 張折疊椅，每張 48 個三角形。
+- **貼圖**：
+  - `gym_tex.py` 程式畫：`arena_floor.jpg`（44×39 m：籃球＋排球的線、深色外圍色帶、藍色禁區）、`arena_screen.png`（大螢幕待機畫面）、`arena_banner.png`（典禮的米色長布，金邊，沒有字、沒有校徽）。
+  - Poly Haven CC0：`concrete_floor_painted`、`white_plaster_02`、`dark_planks`、`walnut_veneer`。
+- **狀態**：`MODEL_READY`，只有 Blender 預覽，還沒有遊戲區域。
+
+| 從入口通道走出來（往北：大螢幕、布旗、吸音板） | 看台（東、南兩面；上層是 4、5F） |
+|---|---|
+| ![](arena_entry.webp) | ![](arena_stands.webp) |
+| **畢業典禮（SET_STAGE＋SET_CEREMONY）** | **演唱會（SET_STAGE＋SET_CONCERT）** |
+| ![](arena_ceremony.webp) | ![](arena_concert.webp) |
+
+演講（SET_STAGE＋SET_LECTURE）：
+
+![](arena_lecture.webp)
+
+## 給 LAWWW-B 的節點說明
+
+| 節點 | 用途 |
+|---|---|
+| `SET_STAGE` | 舞台、兩側上台的樓梯、深藍布幕。典禮、演講、演唱會都要先打開這一組 |
+| `SET_CEREMONY` | 講台、花、盆栽、來賓桌椅、背板上的米色長布；場地上 1,250 張折疊椅（instancing），面向舞台 |
+| `SET_LECTURE` | 講台、投影幕、308 張椅子 |
+| `SET_CONCERT` | 兩座燈架塔＋上方桁架、20 盞搖頭燈（光暈 `GLOW_movinghead_*`）、吊掛喇叭、地上喇叭、鐵馬（z −12.6）、控台帳篷 |
+| `arena_seats_lower` | 下層看台的座位（instancing）。座位點照 `standRows` 的說明算（第 r 排：平台頂 y＝0.6＋0.42r，座位在離前緣 0.5 m 的地方） |
+| `GLOW_led_*`、`GLOW_screen_*`、`GLOW_vomitory_*` | 燈的光暈 |
+
+- **導航建議**：
+  - 場地整片可以走。
+  - 看台只開走道。東、西各 3 條，南 2 條，寬 1.2 m。
+    - 斜面從場地 y 0 到最上排 5.22（`addSurf` 的 `{axis, ya, yb}`）。
+    - 畫面上是每排兩階（踏面 0.425、級高 0.21），最前面多一階 0.3。
+  - 座位從走道進去。
+  - 入口通道 x −2～2、z 17～24.5 是平地。
+- 1F 大廳的「往 3F 的樓梯（今天不開放）」改成上樓：走到樓梯平台（2.1 m）就換區域，到 `gym_arena` 的出生點。
+- **已知、還沒做**：
+  - 看台後面的走廊：走道頂端的門關著。
+  - 上層看台走不到：只有畫面，座位是貼圖畫的座位帶，近看是平的。
+  - 東西看台和南看台之間的四個角落是兩面白牆圍起來的空間（看不到裡面）。
+  - 籃架吊在大螢幕上面（收起來的樣子）。

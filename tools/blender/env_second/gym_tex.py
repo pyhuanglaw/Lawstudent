@@ -5,6 +5,7 @@
 - gym_hours.png：開館時間牌（BB_151 4b：週一～五 8:00～22:00、週六 9:00～22:00、週日 9:00～18:00；每月第四個週一健身中心、游泳池休館）。不寫校名、館名（D77）
 - gym_score.png：記分板面板（沒有品牌）
 - gym_wayfind.png、gym_directory.png、gym_notice.png：大廳的指標、樓層指引、公告欄（v2）
+- arena_floor.jpg、arena_screen.png、arena_banner.png：3F 主球場的地板（籃球＋排球）、大螢幕待機畫面、典禮背板的長布（第二階段）
 座標和 gym_layout.js 一致：球場地板 x −20～20、z −19～11（區域座標）。
 用法：python3 tools/blender/env_second/gym_tex.py"""
 import math, os, random
@@ -135,5 +136,68 @@ def notice():
     im.filter(ImageFilter.GaussianBlur(0.4)).save(os.path.join(GEN, 'gym_notice.png'))
 
 
+def arena_floor():
+    """3F 主球場的地板（x −22～22、z −22～17，44×39 m；2048×1816）：楓木＋籃球場（深藍，長邊沿 z）＋排球場（黃）；北端 z −22～−17 是活動時放舞台的地方（沒有線）"""
+    AX0, AX1, AZ0, AZ1 = -22.0, 22.0, -22.0, 17.0; W_, H_ = 2048, int(2048 * (AZ1 - AZ0) / (AX1 - AX0))
+    kx = W_ / (AX1 - AX0); kz = H_ / (AZ1 - AZ0)
+    def Q(x, z): return ((x - AX0) * kx, (z - AZ0) * kz)
+    rng = np.random.default_rng(23)
+    a = np.zeros((H_, W_, 3), np.float32) + np.array([210, 162, 104], np.float32)
+    strip = int(0.6 * kz)
+    for j in range(0, H_, strip): a[j:j + strip] *= rng.uniform(0.97, 1.03)          # 木條沿 x（和 1F 垂直，看得出是不同的場地）
+    for i in range(0, W_, int(0.057 * kx) or 2): a[:, i:i + 1] *= 0.94
+    g = rng.normal(0, 1, (H_, W_ // 6 + 1)).astype(np.float32); a += np.repeat(g, 6, 1)[:, :W_, None] * 4.0
+    cx, cz = 0.0, -2.0; Bl = (36, 60, 118); L_, Wd = 28.0, 15.0                        # 籃球場：長邊沿 z
+    (qx0, qz0), (qx1, qz1) = Q(cx - Wd / 2 - 2.0, cz - L_ / 2 - 2.0), Q(cx + Wd / 2 + 2.0, cz + L_ / 2 + 2.0)   # 場外 2 m 以外上深一點的漆（體育館常見的外圍色帶）
+    m_ = np.ones((H_, W_), np.float32) * 0.78; m_[int(qz0):int(qz1), int(qx0):int(qx1)] = 1.0; a *= m_[..., None]
+    for s in (-1, 1):                                                                   # 禁區上一層淡藍
+        ez = cz + s * L_ / 2; (kx0, kz0), (kx1, kz1) = Q(cx - 2.45, min(ez, ez - s * 5.8)), Q(cx + 2.45, max(ez, ez - s * 5.8))
+        a[int(kz0):int(kz1), int(kx0):int(kx1)] = a[int(kz0):int(kz1), int(kx0):int(kx1)] * 0.25 + np.array([38, 74, 150], np.float32) * 0.75
+    im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)); d = ImageDraw.Draw(im); lw = max(3, int(0.06 * kx))
+    def line(p, q, col): d.line([Q(*p), Q(*q)], fill=col, width=lw)
+    def rect(x0, z0, x1, z1, col):
+        for p_, q_ in (((x0, z0), (x1, z0)), ((x1, z0), (x1, z1)), ((x1, z1), (x0, z1)), ((x0, z1), (x0, z0))): line(p_, q_, col)
+    def arc(cx, cz, r, a0, a1, col, n=48): d.line([Q(cx + r * math.cos(a0 + (a1 - a0) * k / n), cz + r * math.sin(a0 + (a1 - a0) * k / n)) for k in range(n + 1)], fill=col, width=lw)
+    Bl = (246, 246, 240)                                                                # 線改白色（在深藍禁區、深色外圍上都看得到）
+    rect(cx - Wd / 2, cz - L_ / 2, cx + Wd / 2, cz + L_ / 2, Bl); line((cx - Wd / 2, cz), (cx + Wd / 2, cz), Bl); arc(cx, cz, 1.8, 0, 2 * math.pi, Bl)
+    for s in (-1, 1):
+        ez = cz + s * L_ / 2; hz = ez - s * 1.575
+        rect(cx - 2.45, min(ez, ez - s * 5.8), cx + 2.45, max(ez, ez - s * 5.8), Bl)
+        if s < 0: arc(cx, ez - s * 5.8, 1.8, 0, math.pi, Bl)
+        else: arc(cx, ez - s * 5.8, 1.8, math.pi, 2 * math.pi, Bl)
+        a0 = math.asin(6.6 / 6.75)
+        if s < 0: arc(cx, hz, 6.75, math.pi / 2 - a0, math.pi / 2 + a0, Bl)
+        else: arc(cx, hz, 6.75, -math.pi / 2 - a0, -math.pi / 2 + a0, Bl)
+        for sx in (-1, 1): line((cx + sx * 6.6, ez), (cx + sx * 6.6, ez - s * 2.99), Bl)
+    Y_ = (232, 196, 60); rect(cx - 4.5, cz - 9, cx + 4.5, cz + 9, Y_); line((cx - 4.5, cz), (cx + 4.5, cz), Y_)   # 排球場
+    for s in (-1, 1): line((cx - 4.5, cz + s * 3), (cx + 4.5, cz + s * 3), Y_)
+    im = im.filter(ImageFilter.GaussianBlur(0.4))
+    v = np.asarray(im).astype(np.float32); yy, xx = np.mgrid[0:H_, 0:W_]; r = np.hypot((xx - W_ / 2) / W_, (yy - H_ * 0.55) / H_)
+    v *= (1.05 - 0.14 * r)[..., None]; Image.fromarray(np.clip(v, 0, 255).astype(np.uint8)).save(os.path.join(GEN, 'arena_floor.jpg'), quality=86)
+
+
+def arena_screen():
+    """北牆的大螢幕（平常的待機畫面）：深藍漸層＋細的光線，沒有字、沒有標誌"""
+    W, H = 1024, 448; y, x = np.mgrid[0:H, 0:W].astype(np.float32)
+    a = np.zeros((H, W, 3), np.float32); a[..., 0] = 14 + 20 * (y / H); a[..., 1] = 34 + 40 * (y / H); a[..., 2] = 84 + 70 * (1 - y / H)
+    for k in range(7):
+        ph = k * 0.9; yy = H * (0.25 + 0.08 * k) + 40 * np.sin(x / W * 6.28 * 1.3 + ph)
+        a += (np.exp(-((y - yy) / 3.0) ** 2) * (60 + 10 * k))[..., None] * np.array([0.6, 0.85, 1.0], np.float32)
+    Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)).save(os.path.join(GEN, 'arena_screen.png'))
+
+
+def ceremony_banner():
+    """典禮的舞台背板：深藍布幕上方的一條米色長布（金邊、中間一圈月桂葉的線條），不寫校名、不放校徽（D77）"""
+    W, H = 1600, 260; im = Image.new('RGB', (W, H), (238, 230, 210)); d = ImageDraw.Draw(im)
+    for k, c in ((10, (176, 140, 60)), (20, (206, 176, 96))): d.rectangle([k, k, W - k, H - k], outline=c, width=4)
+    cx, cy = W / 2, H / 2
+    for s in (-1, 1):
+        for i in range(9):
+            t = i / 8; ang = math.pi * (0.15 + 0.7 * t); px = cx + s * 230 * math.cos(ang) * 0.9; py = cy + 70 * math.sin(ang) - 30
+            d.ellipse([px - 16, py - 7, px + 16, py + 7], outline=(176, 140, 60), width=3)
+    d.ellipse([cx - 34, cy - 34, cx + 34, cy + 34], outline=(176, 140, 60), width=4)
+    im.save(os.path.join(GEN, 'arena_banner.png'))
+
+
 if __name__ == '__main__':
-    floor(); hours(); score(); wayfind(); directory(); notice(); print('saved gym textures')
+    floor(); hours(); score(); wayfind(); directory(); notice(); arena_floor(); arena_screen(); ceremony_banner(); print('saved gym textures')
