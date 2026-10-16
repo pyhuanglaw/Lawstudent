@@ -112,20 +112,18 @@ if SET == 'gongguan':
 # 巷子南北向（x 往東、z 往南）：西側立面在 x=facade.west、朝東（ry=π/2：建築的 +x＝世界 −z）；東側在 x=facade.east、朝西（ry=−π/2：建築的 +x＝世界 +z）。
 # 配置裡的 9 間店照 z0～z1 蓋（店門在中間）；店與店之間的空檔補上沒有互動的樓房：寬度不到 2.6 m 的是住家樓梯間（紅／綠鐵門），其他是住家、鐵捲門、一般小店；
 # 兩條小巷（alleys）不蓋（走不進去的背景巷由遊戲做）；靠小巷、靠和平東路／辛亥路的那一面開側窗。店名是虛構的（配置裡的名字）。
-# 政大山下的小吃街（--set nccu_food；LAWWW2-B 2026-10-15：使用者「去政大找可昕完全沒有畫面」，outings3d.js 的 nccu_food 背景）：
-# 不是遊戲區域（沒有導航），只給 bg_nccu.py 算 2D 背景。參考政大山下（指南路往山上的方向）學生小吃巷的生活感，**店名全部虛構**、不放真實店名或校徽；
-# 和 118 巷同一套產生方式（兩側老公寓、一樓小吃店），巷子比較短、店更密，巷底看得到山（bg_nccu.py 另外放山）。
-NCCU_FOOD = {"lane": {"x0": -3.0, "x1": 3.0, "z0": -46.0, "z1": 10.0}, "facade": {"west": -4.6, "east": 4.6}, "floorH": 3.1, "groundH": 3.5, "alleys": [{"side": "E", "z0": -21.0, "z1": -19.0}],
-             "shops": [{"id": "dump", "side": "W", "z0": 0.0, "z1": 5.5, "floors": 4, "name": "山下湯餃", "type": "麵店"},
-                       {"id": "luwei", "side": "W", "z0": -6.5, "z1": -1.0, "floors": 4, "name": "阿嬤滷味", "type": "滷味"},
-                       {"id": "bento", "side": "W", "z0": -14.0, "z1": -7.5, "floors": 5, "name": "指南便當", "type": "家常菜"},
-                       {"id": "tofu", "side": "W", "z0": -19.0, "z1": -15.0, "floors": 4, "name": "豆花・仙草", "type": "甜湯"},
-                       {"id": "pan", "side": "W", "z0": -27.0, "z1": -21.5, "floors": 4, "name": "水煎包", "type": "早餐"},
-                       {"id": "tea", "side": "E", "z0": 3.0, "z1": 6.5, "floors": 4, "name": "山城茶飲", "type": "手搖飲"},
-                       {"id": "noodle", "side": "E", "z0": -4.5, "z1": 2.0, "floors": 4, "name": "牛肉麵", "type": "麵店"},
-                       {"id": "fried", "side": "E", "z0": -11.0, "z1": -6.0, "floors": 5, "name": "鹹酥雞", "type": "鹹酥雞"},
-                       {"id": "curry", "side": "E", "z0": -18.0, "z1": -12.0, "floors": 4, "name": "咖哩飯", "type": "家常菜"},
-                       {"id": "cafe", "side": "E", "z0": -28.0, "z1": -22.0, "floors": 4, "name": "小山咖啡", "type": "咖啡"}]}
+# 政大山下（--set nccu_food；LAWWW2-B 2026-10-16；outings3d.js 的 nccu_food「政大・山下的小吃街」）：只給 bg_nccu.py 算 2D 背景（沒有導航）。
+# 使用者 2026-10-16：「政大附近有麥當勞 和主要什麼學生會去的店你要實際查 不要虛構」→ 照查證（docs/art-rebuild/second_ai/research/nccu_real_shops.md）：
+# 指南路二段 57～67 號（政大側門「麥側」斜對面、學生人流最多的一段）由南往北：敏忠小吃 57、迷客夏 59、50嵐 63、一樓甜品店＋二樓四川飯館 65、麥當勞 67（三層）。
+# 店面寬度、樓層數、配色是推估（沒有看到照片）；只有一側（W）有房子，對面是指南路和校園（bg_nccu.py 做）。招牌只寫店名，不畫商標圖形。
+NCCU_FOOD = {"sides": ["W"], "lane": {"x0": -3.0, "x1": 3.0, "z0": -40.0, "z1": 14.0}, "facade": {"west": -4.6, "east": 4.6}, "floorH": 3.1, "groundH": 3.5, "alleys": [],
+             "shops": [{"id": "minzhong", "side": "W", "z0": 6.0, "z1": 11.0, "floors": 4, "name": "敏忠小吃", "type": "家常菜"},
+                       {"id": "milksha", "side": "W", "z0": 2.0, "z1": 6.0, "floors": 4, "name": "迷客夏", "type": "手搖飲"},
+                       {"id": "fifty", "side": "W", "z0": -2.0, "z1": 2.0, "floors": 4, "name": "50嵐", "type": "手搖飲"},
+                       {"id": "sichuan", "side": "W", "z0": -7.0, "z1": -2.0, "floors": 4, "name": "冰品・甜湯", "type": "甜湯", "vsign": "四川飯館"},
+                       {"id": "mcd", "side": "W", "z0": -15.0, "z1": -7.0, "floors": 3, "name": "麥當勞", "type": "速食"},
+                       {"id": "mos", "side": "W", "z0": -25.0, "z1": -19.0, "floors": 4, "name": "摩斯漢堡", "type": "速食"}]}
+# 麥當勞和摩斯中間：一棟鐵門長年拉下的公寓（關鍵評論網）；其他查不到的門面只放住家鐵門、鐵捲門，不編店名
 if SET in ('lane118', 'nccu_food'):
     import json as _json
     if SET == 'lane118':
@@ -135,14 +133,13 @@ if SET in ('lane118', 'nccu_food'):
         LJ = NCCU_FOOD
     GH, FH = LJ['groundH'], LJ['floorH']
     _TYPE = {'滇緬料理': 'teishoku', '自助餐': 'teishoku', '手搖飲': 'tea', '家常菜': 'teishoku', '咖啡': 'cafe', '義大利麵': 'cafe', '韓式': 'teishoku', '蛋包飯': 'cafe', '麵店': 'noodle',
-             '滷味': 'noodle', '甜湯': 'teishoku', '早餐': 'teishoku', '鹹酥雞': 'noodle'}
+             '滷味': 'noodle', '甜湯': 'teishoku', '早餐': 'teishoku', '鹹酥雞': 'noodle', '速食': 'cafe'}
     # 招牌底色、字色、色帶、雨遮（虛構店家，配色照店的類型）
     _LOOK = {'dian': ('#2f5d50', '#f4ead8', '#c9a24a', '#2f5d50'), 'self': ('#c9463d', '#ffffff', '', '#c9463d'), 'tea': ('#f4ead8', '#2f7d5b', '#2f7d5b', None),
              'home': ('#8c3b2a', '#f4ead8', '', '#3b5a8c'), 'cafe2': ('#3b2a1e', '#f4ead8', '', None), 'pasta': ('#f4f1ea', '#8c3b47', '#2f5d50', '#2f5d50'),
              'korea': ('#ffffff', '#c9463d', '#1f4e8c', '#c9463d'), 'omu': ('#f2c230', '#5c3a21', '', '#e0a030'), 'noodle2': ('#f4ead8', '#9c2f2a', '', '#9c2f2a'),
-             'dump': ('#f4ead8', '#9c2f2a', '#9c2f2a', '#9c2f2a'), 'luwei': ('#3b2a1e', '#f2c230', '', '#8c3b2a'), 'bento': ('#ffffff', '#2f5d50', '#2f5d50', '#2f5d50'),
-             'tofu': ('#f4ead8', '#5c3a21', '#c9a24a', None), 'pan': ('#f2b33e', '#3b2a1e', '', '#c9463d'), 'noodle': ('#9c2f2a', '#ffffff', '', '#9c2f2a'),
-             'fried': ('#f2c230', '#9c2f2a', '#9c2f2a', '#e0a030'), 'curry': ('#e0a030', '#3b2a1e', '', None), 'cafe': ('#2f3a44', '#f4ead8', '', None)}
+             'minzhong': ('#b8231c', '#ffffff', '', '#b8231c'), 'milksha': ('#2f7d5b', '#ffffff', '', None), 'fifty': ('#ffffff', '#1f4e8c', '#1f4e8c', None),
+             'sichuan': ('#f4ead8', '#9c2f2a', '', None), 'mcd': ('#c8102e', '#ffc72c', '', None), 'mos': ('#ffffff', '#c8102e', '#2f7d5b', None)}
     _FILL = [('早餐店', 'teishoku', '#f2b33e', '#3b2a1e'), ('影印・輸出', 'print', '#2f3a44', '#ffffff'), ('自助洗衣', 'laundry', '#e9f2f6', '#2a5f8a'),
              ('水果行', 'fruit', '#e0a030', '#3b2a1e'), ('二手書', 'books', '#2f4a3a', '#f4ead8'), ('文具', 'books', '#8c3b47', '#ffffff')]
     _WALLC = ['#d9cbb0', '#cfc5b2', '#e3ddd0', '#c8bca8', '#d6c3a5', '#e6dfd0', '#bfb2a0', '#cdbfa8']; _WALLT = ['tile', 'mosaic', 'tile', 'plaster']
@@ -150,7 +147,7 @@ if SET in ('lane118', 'nccu_food'):
     _P = dict(p_grille=0.6, p_pot=0.45, p_ac=0.6)
     Z0, Z1 = LJ['lane']['z0'], LJ['lane']['z1']
     SPECS = []; _n = 0; _fi = 0
-    for _side in ('W', 'E'):
+    for _side in LJ.get('sides', ('W', 'E')):
         _fx = LJ['facade']['west'] if _side == 'W' else LJ['facade']['east']; _ry = math.pi / 2 if _side == 'W' else -math.pi / 2
         _shops = sorted([q for q in LJ['shops'] if q['side'] == _side], key=lambda q: q['z0'])
         _gaps = sorted([(a['z0'], a['z1']) for a in LJ['alleys'] if a['side'] == _side])
@@ -177,11 +174,12 @@ if SET in ('lane118', 'nccu_food'):
             if sw: base['side_wins'] = sw
             if q:
                 bg, fg, band, awn = _LOOK.get(q['id'], ('#f4ead8', '#3b2a1e', '', None))
-                shop = SHOP(type=_TYPE.get(q['type'], 'teishoku'), name=q['name'], sub=q['type'], signBg=bg, signColor=fg, band=band,
-                            vertical=q['name'][:4] if len(q['name']) <= 6 else None, vBg='#ffffff', vColor=bg if bg not in ('#ffffff', '#f4f1ea', '#f4ead8') else fg, vBand=fg)
+                shop = SHOP(type=_TYPE.get(q['type'], 'teishoku'), name=q['name'], sub=q.get('sub', q['type'] if SET == 'lane118' else ''), signBg=bg, signColor=fg, band=band,
+                            vertical=q.get('vsign', q['name'][:4] if len(q['name']) <= 6 else None), vBg='#ffffff', vColor=bg if bg not in ('#ffffff', '#f4f1ea', '#f4ead8') else fg, vBand=fg)
                 if awn: shop['awning'] = awn
                 base.update(ground='shop', shop=shop, lane118=q['id'])
             elif w < 2.6: base.update(ground='door', door=_DOOR[_n % 4], floors=max(3, base['floors']))
+            elif SET == 'nccu_food': base.update(ground=['shutter', 'door'][_n % 2], door=_DOOR[_n % 4])
             else:
                 g = ['door', 'shutter', 'shop'][_n % 3]
                 if g == 'shop':

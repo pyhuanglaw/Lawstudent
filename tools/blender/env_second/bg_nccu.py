@@ -287,42 +287,45 @@ ASPH = mat_tex('asphalt', 'granular_concrete', scale=0.35, tint=(0.62, 0.64, 0.6
 WHITE_PAINT = mat_flat('roadpaint', (0.82, 0.82, 0.78), rough=0.6)
 RED = mat_flat('stool_red', srgb('#c9463d'), rough=0.45)
 
-# ================================================================ 山下的小吃街
+# ================================================================ 山下（指南路二段 57～67 號那一段）
 if SCENE == 'food':
+    # 照查證（docs/art-rebuild/second_ai/research/nccu_real_shops.md）：店在路的西側（x=-4.6 的立面、朝東），窄人行道（約 1.2 m），
+    # 指南路雙向約 12 m（x -3.4～8.6），對面是政大（矮牆、樹、側門「麥側」），再過去是指南山。
     bpy.ops.import_scene.gltf(filepath=os.path.abspath(GLB))
     paint_faces()
-    # 店面玻璃：傍晚從外面看要看得到店裡（玻璃很透）
     for m in bpy.data.materials:
         if 'glass' in m.name.lower() and m.use_nodes and 'Principled BSDF' in m.node_tree.nodes:
             m.node_tree.nodes['Principled BSDF'].inputs['Alpha'].default_value = 0.12
-    # 地面：巷子的柏油（淺灰，D30）＋兩側水溝蓋的線
-    quad('lane', (-4.6, 0, 16), (4.6, 0, 16), (4.6, 0, -50), (-4.6, 0, -50), ASPH)
-    for x in (-3.2, 3.2): quad('line', (x - 0.06, 0.005, 16), (x + 0.06, 0.005, 16), (x + 0.06, 0.005, -50), (x - 0.06, 0.005, -50), WHITE_PAINT)
-    quad('far_ground', (-60, -0.02, -50), (60, -0.02, -50), (60, -0.02, -120), (-60, -0.02, -120), ASPH)
+    CONC = mat_tex('walk', 'granular_concrete', scale=0.5, tint=(0.74, 0.72, 0.68), rough=0.85)
+    STONE = mat_tex('curb', 'granite_tile_03', scale=0.6, tint=(0.80, 0.78, 0.74), rough=0.7)
+    BRICK = mat_tex('campus_wall', 'red_brick', scale=0.9, tint=(0.85, 0.8, 0.78), rough=0.85)
+    GRASS = mat_flat('grass', (0.09, 0.16, 0.06), rough=0.95)
+    quad('road', (-3.4, 0, 30), (8.6, 0, 30), (8.6, 0, -90), (-3.4, 0, -90), ASPH)
+    for z0 in range(-90, 30, 6): quad('center', (2.52, 0.004, z0), (2.68, 0.004, z0), (2.68, 0.004, z0 + 3), (2.52, 0.004, z0 + 3), mat_flat('yellow', (0.8, 0.6, 0.12), 0.6))
+    for x in (-3.15, 8.35): quad('edge', (x - 0.06, 0.004, 30), (x + 0.06, 0.004, 30), (x + 0.06, 0.004, -90), (x - 0.06, 0.004, -90), WHITE_PAINT)
+    box('walk_w', -4.6, -3.4, 0, 0.15, -90, 30, CONC); box('curb_w', -3.5, -3.4, 0, 0.16, -90, 30, STONE)
+    box('walk_e', 8.6, 10.2, 0, 0.15, -90, 30, CONC); box('curb_e', 8.6, 8.7, 0, 0.16, -90, 30, STONE)
+    for z0, z1 in ((-90, -12.0), (-4.0, 30)):                            # 政大的矮牆；中間（麥當勞斜對面）是側門
+        box('cwall', 10.2, 10.6, 0.15, 1.3, z0, z1, BRICK); box('cwall_cap', 10.15, 10.65, 1.3, 1.42, z0, z1, STONE)
+    quad('campus', (10.6, 0.12, 30), (90, 0.12, 30), (90, 0.12, -90), (10.6, 0.12, -90), GRASS)
     hills(-58, 300, [(0, 30, (0.07, 0.15, 0.06), 1.3), (60, 55, (0.12, 0.19, 0.15), 2.7), (160, 85, (0.26, 0.32, 0.36), 4.1)])
-    # 機車：兩側騎樓前停一排（斜停），偶爾空一格
-    load_lib('scooter.glb', {'scooter_a', 'scooter_b'}); load_lib('street_props.glb', {'lamp_post', 'planter_box', 'bike_city'}); vcol_fix()
-    for side, x in ((-1, -3.75), (1, 3.75)):
-        z = 9.5
-        while z > -40:
-            if rng.random() > 0.15: place(rng.choice(['scooter_a', 'scooter_b']), x + rng.uniform(-0.1, 0.1), z, yaw=math.radians(90 + side * 70 + rng.uniform(-8, 8)))
-            z -= rng.uniform(0.85, 1.1)
-            if rng.random() < 0.06: z -= 2.5
-    # 店門口的紅色圓凳、小桌（湯餃、滷味門口）
-    tbl = mat_flat('table_steel', (0.62, 0.62, 0.6), rough=0.35, metal=0.5)
-    for cz in (3.0, -3.5):
-        box('tbl', -3.05, -2.45, 0.72, 0.75, cz - 0.4, cz + 0.4, tbl)
-        for dz in (-0.45, 0.45): stool(-2.75, cz + dz, RED)
-    # 店門口的暖色燈、路燈
-    for q, x in ((('dump', 2.7), ('luwei', -3.7), ('bento', -10.7), ('tofu', -17.0), ('pan', -24.2)), -4.0), ((('tea', 4.7), ('noodle', -1.2), ('fried', -8.5), ('curry', -15.0), ('cafe', -25.0)), 4.0):
-        for _, z in q: light_point('shop', x, 2.6, z, 110, (1.0, 0.84, 0.64), 0.5)   # 第二版 220 W 偏橘：整條巷子連機車都被染成橘色
-    for z in (6.0, -14.0, -34.0):
-        place('lamp_post', 3.9, z, yaw=math.radians(90))
-        light_point('lamp', 3.15, 3.9, z, 380, (1.0, 0.86, 0.68), 0.15)
+    nh = len([o for o in sc.objects if o.name.startswith('hill')])
+    hills(-60, 260, [(0, 60, (0.07, 0.15, 0.06), 5.3), (55, 100, (0.12, 0.19, 0.15), 6.7)])   # 東邊（校園後面）的指南山：轉到 +x
+    for o in [o for o in sc.objects if o.name.startswith('hill')][nh:]: o.rotation_euler = (0, 0, -math.pi / 2)
+    load_lib('scooter.glb', {'scooter_a', 'scooter_b'}); load_lib('street_props.glb', {'lamp_post'}); vcol_fix()
+    load_lib('street_trees.glb', {'tree_camphor_a', 'tree_camphor_b', 'tree_banyan_a'})
+    z = 13.5                                                              # 店門口的路邊停滿機車（斜停）
+    while z > -38:
+        if rng.random() > 0.12: place(rng.choice(['scooter_a', 'scooter_b']), -2.85 + rng.uniform(-0.08, 0.08), z, yaw=math.radians(90 - 70 + rng.uniform(-8, 8)))
+        z -= rng.uniform(0.85, 1.05)
+        if rng.random() < 0.05: z -= 2.2
+    for z in (24, 14, 4, -16, -26, -36, -48, -60): place(rng.choice(['tree_camphor_a', 'tree_camphor_b', 'tree_banyan_a']), 12.5 + rng.uniform(-0.8, 0.8), z + rng.uniform(-1.5, 1.5), yaw=rng.uniform(0, 6.28), y=0.12)
+    for z in (10.0, -10.0, -30.0): place('lamp_post', 9.3, z, yaw=math.radians(-90), y=0.15); light_point('lamp', 8.55, 3.9, z, 380, (1.0, 0.86, 0.68), 0.15)
+    for q in (8.5, 4.0, 0.0, -4.5, -11.0, -22.0): light_point('shop', -4.0, 2.6, q, 110, (1.0, 0.84, 0.64), 0.5)
     sky(1.5, 205, 0.45)
     sun = bpy.data.lights.new('sun', 'SUN'); sun.energy = 0.25; sun.color = (1.0, 0.72, 0.52); so = bpy.data.objects.new('sun', sun)
     so.rotation_euler = (math.radians(86), 0, math.radians(205)); sc.collection.objects.link(so)
-    camera((0.2, 1.6, 14.5), (-0.4, 3.2, -40.0), float(opt('--lens', '28')))
+    camera((8.2, 1.6, 6.0), (-4.6, 3.4, -16.0), float(opt('--lens', '24')))   # 從政大這一側的人行道（側門附近）斜看對街那一排：敏忠、迷客夏、50嵐、四川飯館、麥當勞、摩斯
 
 # ================================================================ 校門口
 else:
@@ -335,12 +338,13 @@ else:
     GRASS = mat_flat('grass', (0.09, 0.16, 0.06), rough=0.95)
     METAL = mat_flat('metal_dark', (0.06, 0.06, 0.065), rough=0.4, metal=0.6)
     # 指南路：東西向，路中心 z=0；北側（−z）是校門
-    quad('road', (-80, 0, 8), (80, 0, 8), (80, 0, -8), (-80, 0, -8), ASPH)
+    # 指南路二段：雙向約 12 m（查證：各約 6 m）、人行道窄（約 1.2 m）
+    quad('road', (-80, 0, 6), (80, 0, 6), (80, 0, -6), (-80, 0, -6), ASPH)
     for x0 in range(-80, 80, 6): quad('lane_dash', (x0, 0.004, -0.08), (x0 + 3, 0.004, -0.08), (x0 + 3, 0.004, 0.08), (x0, 0.004, 0.08), mat_flat('yellow', (0.8, 0.6, 0.12), 0.6))
     for k in range(9):                                                   # 斑馬線（往校門口）
-        x = -4.0 + k * 1.0; quad('zebra', (x, 0.005, 7.2), (x + 0.5, 0.005, 7.2), (x + 0.5, 0.005, -7.2), (x, 0.005, -7.2), WHITE_PAINT)
-    box('curb_n', -80, 80, 0, 0.16, -8.3, -8.0, STONE); box('walk_n', -80, 80, 0, 0.15, -12.5, -8.3, CONC)
-    box('curb_s', -80, 80, 0, 0.16, 8.0, 8.3, STONE); box('walk_s', -80, 80, 0, 0.15, 8.3, 14, CONC)
+        x = -4.0 + k * 1.0; quad('zebra', (x, 0.005, 5.4), (x + 0.5, 0.005, 5.4), (x + 0.5, 0.005, -5.4), (x, 0.005, -5.4), WHITE_PAINT)
+    box('curb_n', -80, 80, 0, 0.16, -6.3, -6.0, STONE); box('walk_n', -80, 80, 0, 0.15, -12.5, -6.3, CONC)
+    box('curb_s', -80, 80, 0, 0.16, 6.0, 6.3, STONE); box('walk_s', -80, 80, 0, 0.15, 6.3, 7.5, CONC)
     # 校門：中間 12 m 寬的入口（兩根石柱＋上方一道鋼構雨遮）、兩側低矮的紅磚牆＋石材壓頂（沒有校名、校徽）
     for x0, x1 in ((-40, -6.4), (6.4, 40)):
         box('wall', x0, x1, 0.15, 1.35, -13.4, -12.9, BRICK); box('wall_cap', x0 - 0.05, x1 + 0.05, 1.35, 1.48, -13.5, -12.8, STONE)
@@ -357,15 +361,32 @@ else:
     box('bar', 6.6, 9.5, 0.95, 1.05, -14.1, -14.0, mat_flat('barrier', (0.85, 0.2, 0.15), 0.5))           # 汽車的柵欄（舉起來的那一段不做）
     # 門後：校園的草地、大樹、系館（現代的白色建築，窗戶亮著幾格），再後面是山
     quad('campus_ground', (-80, 0.12, -13.5), (80, 0.12, -13.5), (80, 0.12, -90), (-80, 0.12, -90), GRASS)
-    box('campus_road', -6.0, 6.0, 0.13, 0.16, -60, -13.4, CONC)
-    BLD = mat_flat('bld_white', (0.80, 0.79, 0.75), 0.8)
-    for (x0, x1, z0, z1, h) in ((-34, -12, -52, -36, 13.0), (16, 40, -58, -40, 16.0), (-8, 10, -82, -66, 19.0)):
-        box('bld', x0, x1, 0.12, h, z0, z1, BLD)
-        for fl in range(1, int(h // 3.4)):
-            for xi in range(int((x1 - x0) // 3)):
-                x = x0 + 1.2 + xi * 3; lit = rng.random() < 0.35
-                quad('win', (x, fl * 3.4 - 1.7, z1 + 0.02), (x + 1.6, fl * 3.4 - 1.7, z1 + 0.02), (x + 1.6, fl * 3.4 - 0.4, z1 + 0.02), (x, fl * 3.4 - 0.4, z1 + 0.02),
-                     mat_flat('win_lit', (0.9, 0.8, 0.6), 0.3, (1.0, 0.8, 0.55), 3.0) if lit else mat_flat('win_dark', (0.12, 0.15, 0.18), 0.15, metal=0.3))
+    # 門內（查證：2004 年改成石材鋪面的 T 字形行人徒步區「都會林蔭廣場」、果夫樓與志希樓之間的橢圓形噴水池、盡頭是方正的四維堂）。建築外觀沒有照片，是推估的量體
+    PAVE = mat_tex('plaza', 'granite_tile_03', scale=0.35, tint=(0.78, 0.76, 0.72), rough=0.75)
+    box('plaza', -7.0, 7.0, 0.12, 0.17, -62, -13.4, PAVE); box('plaza_t', -24, 24, 0.12, 0.17, -40, -32, PAVE)
+    import bmesh as _bm
+    bm = _bm.new(); _bm.ops.create_circle(bm, cap_ends=True, segments=48, radius=1.0); me = bpy.data.meshes.new('fountain'); bm.to_mesh(me); bm.free()
+    for nm, r, y0, y1, mt in (('basin', 1.0, 0.17, 0.62, STONE), ('water', 0.94, 0.55, 0.56, mat_flat('water', (0.10, 0.16, 0.18), 0.05, metal=0.2))):
+        ob = bpy.data.objects.new(nm, me.copy()); sc.collection.objects.link(ob); ob.location = g2b(0, y1, -36); ob.scale = (9.0 * r, 4.5 * r, 1); ob.data.materials.append(mt)
+        if nm == 'basin':
+            ob2 = bpy.data.objects.new('basin_wall', None); sol = ob.modifiers.new('s', 'SOLIDIFY'); sol.thickness = y1 - y0; sol.offset = -1
+    BLD = mat_flat('bld_beige', (0.78, 0.74, 0.66), 0.8); WIN_D = mat_flat('win_dark', (0.12, 0.15, 0.18), 0.15, metal=0.3); WIN_L = mat_flat('win_lit', (0.9, 0.8, 0.6), 0.3, (1.0, 0.8, 0.55), 3.0)
+    def building(x0, x1, z0, z1, h, fh=3.6):
+        box('bld', x0, x1, 0.12, h, z0, z1, BLD); box('bld_roof', x0 - 0.3, x1 + 0.3, h, h + 0.4, z0 - 0.3, z1 + 0.3, BLD)
+        for fl in range(int(h // fh)):
+            for xi in range(int((x1 - x0 - 1.0) // 2.6)):
+                x = x0 + 0.9 + xi * 2.6; y0 = fl * fh + 1.0
+                quad('win', (x, y0, z1 + 0.02), (x + 1.5, y0, z1 + 0.02), (x + 1.5, y0 + 1.6, z1 + 0.02), (x, y0 + 1.6, z1 + 0.02), WIN_L if rng.random() < 0.3 else WIN_D)
+    building(-11, 11, -82, -62, 14.0)            # 四維堂（方正）
+    building(-36, -16, -50, -30, 13.0)           # 果夫樓、志希樓（廣場兩側）
+    building(16, 36, -50, -30, 13.0)
+    # 公車站牌「政大」（查證：站名「政大」「政大一」；路線 236、237、282、295、530、611、1503、小10…）——鏡頭這一側的人行道
+    sign = Image.new('RGB', (360, 520), '#1f4e8c'); dd = ImageDraw.Draw(sign); fbig = ImageFont.truetype(FONT, 110); fsm = ImageFont.truetype(FONT, 46)
+    dd.rectangle([0, 0, 360, 150], fill='#ffffff'); dd.text((180, 78), '政大', fill='#1f4e8c', font=fbig, anchor='mm')
+    for k, rt in enumerate(('236', '237', '282', '295', '530', '611', '1503', '小10')): dd.text((90 + (k % 2) * 180, 200 + (k // 2) * 78), rt, fill='#ffffff', font=fsm, anchor='mm')
+    sp = os.path.join(TMP, 'bus_sign.png'); sign.save(sp)
+    box('bus_pole', -6.05, -5.95, 0.15, 3.2, 6.55, 6.65, METAL)
+    quad('bus_sign', (-6.45, 2.05, 6.7), (-5.55, 2.05, 6.7), (-5.55, 3.35, 6.7), (-6.45, 3.35, 6.7), mat_img('bus_sign_m', sp, 0.4))
     hills(-92, 380, [(0, 70, (0.07, 0.15, 0.06), 1.9), (60, 125, (0.12, 0.19, 0.15), 3.3), (170, 170, (0.26, 0.32, 0.38), 5.2)])   # 「法學院。山。也是山。」：山要比系館高很多
     load_lib('street_trees.glb', {'tree_camphor_a', 'tree_camphor_b', 'tree_banyan_a'}); load_lib('scooter.glb', {'scooter_a', 'scooter_b'}); load_lib('street_props.glb', {'lamp_post'}); vcol_fix()
     for x in (-30, -21, -13, 13, 21, 30): place(rng.choice(['tree_camphor_a', 'tree_camphor_b']), x + rng.uniform(-1, 1), -17.5 + rng.uniform(-1.5, 1), yaw=rng.uniform(0, 6.28), y=0.12)
@@ -380,7 +401,7 @@ else:
     while x < 30:
         if rng.random() > 0.18: place(rng.choice(['scooter_a', 'scooter_b']), x, -9.2, yaw=math.radians(rng.uniform(-10, 10)), y=0.15)
         x += rng.uniform(0.85, 1.05)
-    camera((-2.5, 1.6, 11.0), (1.0, 4.2, -20.0), float(opt('--lens', '24')))
+    camera((-2.5, 1.6, 9.5), (1.0, 4.6, -20.0), float(opt('--lens', '24')))
 
 sc.render.filepath = os.path.abspath(OUT); sc.render.image_settings.file_format = 'PNG'
 bpy.ops.render.render(write_still=True)
