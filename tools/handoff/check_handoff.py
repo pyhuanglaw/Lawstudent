@@ -5,7 +5,8 @@
 唯一會寫檔的是 `snapshot` 指令（在 docs/handoff/snapshots/ 新增一個快照檔）。
 
   python3 tools/handoff/check_handoff.py check   [--role LAWWW] [--snapshot 檔] [--ref origin/<規則來源分支>] [--no-git]
-  python3 tools/handoff/check_handoff.py snapshot --role LAWWW --account B [--kind handoff|checkpoint]
+  python3 tools/handoff/check_handoff.py snapshot --role LAWWW --account <A|B|C> [--kind handoff|checkpoint]
+  python3 tools/handoff/check_handoff.py duty verify|plan|register|handoff …   值班狀態（D92／HV-10，tools/handoff/duty_state.py）
   python3 tools/handoff/check_handoff.py queue   [--owner LAWWW] [-n 15]
 
 check 的七項（使用者 2026-10-16 指示）＋兩項補充：
@@ -29,6 +30,8 @@ check 的七項（使用者 2026-10-16 指示）＋兩項補充：
         2＝找不到上次快照或快照壞掉 → REMEDIAL_FULL_AUDIT（要補做一次全面盤點，見總入口第 4 節）。
 """
 import argparse, hashlib, json, os, re, subprocess, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import duty_state   # 值班狀態（D92／HV-10）
 from datetime import datetime, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -396,14 +399,15 @@ def main(argv=None):
     c.add_argument('--no-git', action='store_true')
     s = sub.add_parser('snapshot')
     s.add_argument('--role', required=True, choices=['LAWWW', 'LAWWW2', 'AA', 'BB'])
-    s.add_argument('--account', required=True, choices=['A', 'B'])
+    s.add_argument('--account', required=True, choices=list(duty_state.ACCOUNTS))   # 帳號 A／B／C（D92；職位永遠四個）
     s.add_argument('--kind', default='handoff', choices=['handoff', 'checkpoint'])
     q = sub.add_parser('queue')
     q.add_argument('--owner')
     q.add_argument('--ref')
     q.add_argument('-n', type=int, default=15)
+    duty_state.add_parser(sub)
     a = ap.parse_args(argv)
-    return {'check': check, 'snapshot': snapshot, 'queue': queue}[a.cmd](a)
+    return {'check': check, 'snapshot': snapshot, 'queue': queue, 'duty': duty_state.run}[a.cmd](a)
 
 
 if __name__ == '__main__':
