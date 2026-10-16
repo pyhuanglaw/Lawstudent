@@ -1,0 +1,33 @@
+[
+ {
+  "w": 1920,
+  "h": 1080,
+  "hidePlayer": true,
+  "hideNPCs": true,
+  "wait": 3000,
+  "js": "(async()=>{ const E=GAME.E; const ld=new THREE_JSM.GLTFLoader.GLTFLoader(); const g=await new Promise((r,j)=>ld.load('assets/models/env/second_ai/luwei_stall.glb',r,undefined,j));\n const SX=-12.6; const o=g.scene; o.position.set(SX,0,21.4); E.scene.add(o);\n for(const bx of [-0.35,0.45]){ const L=new THREE.PointLight(0xffc98a,24,8,2); L.position.set(SX+bx,1.9,21.4); E.scene.add(L); }\n const F=new THREE.PointLight(0xffd6a0,10,7,2); F.position.set(SX+2.0,2.4,20.2); E.scene.add(F); return 1; })()",
+  "state": {
+   "zone": "gongguan",
+   "hour": 20.5,
+   "pos": {
+    "x": -6.0,
+    "z": 16.5,
+    "yaw": 0.0,
+    "lv": 0
+   }
+  },
+  "out": "/tmp/bg_gongguan_luwei.png",
+  "cam": {
+   "pos": [
+    -14.6,
+    1.5,
+    14.2
+   ],
+   "look": [
+    -11.0,
+    1.9,
+    21.2
+   ]
+  }
+ }
+]
