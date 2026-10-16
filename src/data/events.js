@@ -2499,6 +2499,14 @@ const STORY_EVENTS=[
       {if:EV_KNOWS('heroine_01','classmate_bohan'),speaker:'heroine_01',expression:'neutral',text:'我查過了。你夠。'},
       {if:EV_KNOWS('heroine_01','classmate_bohan'),speaker:'classmate_bohan',expression:'neutral',text:'……我是問妳。'} ],
     consequences:{memo:'博雅 101：交換學生甄選說明會'} },
+  /* 學姊上榜的家族聚餐（BB_97 2-7b；大二下第 5 週週五 3/26 19:00；家族群組 Kevin 揪、「去。」才排出遊，story3d.js）：有 FAMILY_DINNER 記憶＝永康街那家咖哩，沒有＝公館。
+     她的三件事：第三件看 ASKED_TELL_ME（BB_108 第 1 節）*/
+  { id:'ev_sis_results_dinner', title:'學姊上榜聚餐', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
+    dialogue:[ {if:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER')},scene:'永康街・咖哩店',bg:'yongkang_curry'},{unless:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER')},scene:'公館'},
+      {speaker:'heroine_05',expression:'smile',text:'一，謝謝大家。二，這次的題目，是我自己選的。三……'},
+      {if:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','ASKED_TELL_ME')},speaker:'heroine_05',expression:'smile',text:'有人叫我考得怎樣都要說。我說了。下次換他。'},
+      {unless:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','ASKED_TELL_ME')},speaker:'heroine_05',expression:'neutral',text:'三，今天我請。不要跟我搶。'} ],
+    consequences:{memo:'學姊上榜的家族聚餐'} },
   /* D11 系籃（大二上，AA_143 1-5、AA_177 4-4）＋語 3「在一起」（AA_40）：12/18（五）21:00 麵店團群組阿哲揪 → 出發選單「新體育館 12/19 14:00」→ 2D（新體育館室內 3D 做好以前，用 2D＋旁白）；
      祐廷坐觀眾席三選一（拍手、記分、送水；大二版的字 AA-B c2f1c5aa）；記 WATCHED_GAME_Y2；明軒的句子等 BB-B（AB-59）；以安、小語在觀眾席（AA_143 1-5 的描述）。
      賽後 18:30～21:00 走進麵店＝語 3（小語坐到你對面）。系籃和賽後麵店都沒去：22:00 認識小語＝她私訊三則；不認識、在麵店團＝阿哲的照片（story3d.js phoneRules）*/

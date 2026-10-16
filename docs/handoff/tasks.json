@@ -2280,13 +2280,13 @@
    "title": "M3 results＋上榜聚餐",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "照 BB_97 實作",
    "priority": "P2",
    "first": {
     "term": "Y2S2",
-    "week": 6,
-    "earliest": "M3 大二下第 6 週（家族群組）；聚餐第 7～8 週週五",
+    "week": 4,
+    "earliest": "M3 大二下第 4 週週五 3/19 20:00（家族群組；AA-B 改第 4 週）；聚餐第 5 週週五 3/26 19:00（BB_97 2-7b）",
     "mainline": true,
     "blocks": false,
     "prereq": false,
@@ -2294,7 +2294,9 @@
     "confirmed": true
    },
    "source": "BB_97",
-   "authorized": "D79"
+   "authorized": "D79",
+   "tests": "tests/v3_sis_m3_unit.js",
+   "note": "2026-10-16：M3＝3/19 20:00 家族群組六則＋ASKED_TELL_ME 的 @、三個回覆＋最後一句（22:00 沒回也有）；聚餐＝當晚 21:00 Kevin 揪（「去。」排出遊；FAMILY_DINNER 記憶＝永康街，沒有＝公館）、ev_sis_results_dinner 三件事兩版、沒去 21:30 合照。Kevin 第二句（時間地點）照大一家聚那句的格式，已告訴 BB-B。另修 M2：FAMILY_DINNER 是記憶不是旗標。瀏覽器未測。"
   },
   {
    "id": "V3-B09",

@@ -36,17 +36,17 @@ GM.money=function(n){ G.money+=n; };
 (async()=>{
   const d=D('2027-01-20'); const FAM='g:family_law';
   const setup=(flags)=>{ fresh(d,20.5,'dorm',flags); meet('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); };
-  setup(); run(20.5,20.95);
+  setup({FAMILY_DINNER:true}); run(20.5,20.95);   /* FAMILY_DINNER 是記憶（SOCIAL），旗標不算 */
   check('0. 1/20 是星期三（寒假）、21:00 以前沒有',wdOf(d)===3&&!PHONE.sent(G,'sis_m2'));
   run(21,21.2); const t=txt(FAM);
   check('1. 21:00 家族群組：照片＋三件事（五則），最後一則可以回',t.join('｜')==='heroine_05:📷（一張讀書計畫）｜heroine_05:三件事。｜heroine_05:一，這次的題目是我自己選的。法律扶助制度。｜heroine_05:二，Kevin 幫我看第一段，學弟看第二段。｜heroine_05:三……第三件你們來想。',JSON.stringify(t));
   let m=TH(FAM).slice(-1)[0];
-  check('1. 沒有 FAMILY_DINNER：兩個選項（不熬夜、要跟我說），沒有咖哩',!!m&&!!m.ask&&m.ask.opts.length===2&&!m.ask.opts.some(o=>/咖哩/.test(o.t))&&PHONE.askOpen(G,m));
+  check('1. 沒有 FAMILY_DINNER 記憶（旗標 FAMILY_DINNER 不算）：兩個選項（不熬夜、要跟我說），沒有咖哩',!!m&&!!m.ask&&m.ask.opts.length===2&&!m.ask.opts.some(o=>/咖哩/.test(o.t))&&PHONE.askOpen(G,m));
   PHONE.answer(G,'sis_m2',1); const t2=txt(FAM);
   check('2. 回「不管考得怎樣，都要跟我說。」→「好。放榜那天就說。」；SIS_M2=tell、ASKED_TELL_ME',t2.slice(-1)[0]==='heroine_05:好。放榜那天就說。'&&G.flags.SIS_M2==='tell'&&SOCIAL.has('heroine_05','ASKED_TELL_ME'),JSON.stringify(t2.slice(-2)));
   G.day=d+1; G.weekday=wdOf(d+1); run(8.5,9.5);
   check('2. 回過的：隔天 9:00 Kevin 不會再說',!PHONE.sent(G,'sis_m2_kevin'));
-  setup({FAMILY_DINNER:true}); run(20.5,21.2); m=TH(FAM).slice(-1)[0];
+  setup(); SOCIAL.remember('heroine_05','FAMILY_DINNER','永康街的咖哩'); run(20.5,21.2); m=TH(FAM).slice(-1)[0];
   check('3. 有 FAMILY_DINNER：三個選項，第一個是咖哩',!!m&&m.ask.opts.length===3&&/咖哩/.test(m.ask.opts[0].t));
   PHONE.answer(G,'sis_m2',0);
   check('3. 咖哩 →「……好。考完那天我請。你們不要跟我搶。」',txt(FAM).slice(-1)[0]==='heroine_05:……好。考完那天我請。你們不要跟我搶。'&&G.flags.SIS_M2==='curry');

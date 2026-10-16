@@ -1521,7 +1521,7 @@ const STORY = (function(){
        祐廷可以回第三件（咖哩那句要有 FAMILY_DINNER）；到隔天 9:00 還沒回＝Kevin「三，考完請吃飯！」她「……好。」 */
     { const d=S.dayOfKey('2027-01-20'); if(d!=null&&PHONE.inGroup(G,'family_law')){ const W=(t,o)=>Object.assign({th:'g:family_law',from:'heroine_05',name:'溫學姊',text:t},o||{});
         if((G.day>d||(G.day===d&&G.hour>=21))&&G.day<=d+3&&!PHONE.sent(G,'sis_m2')){ const opts=[];
-          if(F.FAMILY_DINNER) opts.push({t:'三，考完全家族去吃永康街那家咖哩。',say:[W('……好。考完那天我請。你們不要跟我搶。')],set:{SIS_M2:'curry'}});
+          if(typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER')) opts.push({t:'三，考完全家族去吃永康街那家咖哩。',say:[W('……好。考完那天我請。你們不要跟我搶。')],set:{SIS_M2:'curry'}});
           opts.push({t:'三，考前一天不要熬夜。',say:[W('你在用我的句型管我。'),W('……好。收到。')],set:{SIS_M2:'sleep'}});
           opts.push({t:'三，不管考得怎樣，都要跟我說。',say:[W('好。放榜那天就說。')],set:{SIS_M2:'tell'},mem:[{npc:'heroine_05',tag:'ASKED_TELL_ME',note:'M2：不管考得怎樣都要跟我說'}]});
           PHONE.at(G,d,21,[W('📷（一張讀書計畫）'),W('三件事。'),W('一，這次的題目是我自己選的。法律扶助制度。'),W('二，Kevin 幫我看第一段，學弟看第二段。'),W('三……第三件你們來想。',{ask:{id:'sis_m2',until:(d+1)*24+9,opts}})],'sis_m2'); }
@@ -1542,6 +1542,22 @@ const STORY = (function(){
         if((G.day>d||(G.day===d&&G.hour>=23+59/60))&&G.day<=d+7&&G.events&&G.events.done&&G.events.done.ev_zhiruo_secret&&!G.events.done.ev_zhiruo_applied&&G.contacts&&G.contacts.heroine_02!=null&&!(typeof ROM!=='undefined'&&ROM.partners(G).length>0)&&!PHONE.sent(G,'zr_z7_msg'))
           PHONE.at(G,d,23+59/60,[Zp('我交了。')],'zr_z7_msg');
         if(F.ZR_Z7_MOM&&F.zrAppliedDay!=null&&!PHONE.sent(G,'zr_z7_mom')&&(G.day>F.zrAppliedDay||G.hour>=22.25)) PHONE.at(G,F.zrAppliedDay,22.25,[Zp('我說了。她說『那妳要穿暖一點』。')],'zr_z7_mom'); } }
+    /* 學姊 M3 放榜（BB_97 2-7；大二下第 4 週週五 3/19 20:00，AA-B 定第 4 週）：所有玩家看到的都是家族群組（她先告訴家人和伴侶，畫面外）。
+       ASKED_TELL_ME（M2 選了「不管考得怎樣都要說」）＝她 @祐廷 多一則；玩家可以回三個（咖哩那個要有 FAMILY_DINNER 記憶）；回了或到 22:00 沒回，她最後對全家族一句 */
+    { const d=S.dayOfKey('2027-03-19'); if(d!=null&&PHONE.inGroup(G,'family_law')){ const W=t=>({th:'g:family_law',from:'heroine_05',name:'溫學姊',text:t}), K=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t}), LAST='這次的第三件，我想好了。聚餐那天說。';
+        if((G.day>d||(G.day===d&&G.hour>=20))&&G.day<=d+3&&!PHONE.sent(G,'sis_m3')){ const tell=typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','ASKED_TELL_ME'), curry=typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER');
+          const opts=[{t:'恭喜學姊！',say:[W('謝謝。'),W(LAST)],set:{SIS_M3_REPLY:'congrats'}},{t:'我就知道。',say:[W('你不知道。你只是希望。……謝謝。'),W(LAST)],set:{SIS_M3_REPLY:'knew'}}];
+          if(curry) opts.push({t:'（貼一張咖哩的照片）',post:'📷（咖哩）',say:[W('……好。考完說好的那家。'),W(LAST)],set:{SIS_M3_REPLY:'curry'}});
+          const L=[W('上了。'),W('換了題目的那個。'),K('學姊上榜了！！！'),W('收到。'),K('學姊妳可以多講兩個字'),W('謝謝。')]; if(tell) L.push(W('@'+(G.name||'祐廷')+' 你說不管考得怎樣都要說。我說了。'));
+          L[L.length-1]=Object.assign(L[L.length-1],{ask:{id:'sis_m3',until:d*24+22,opts}}); PHONE.at(G,d,20,L,'sis_m3'); }
+        if(PHONE.sent(G,'sis_m3')&&!F.SIS_M3_REPLY&&G.day*24+G.hour>=d*24+22&&!PHONE.sent(G,'sis_m3_last')){ F.SIS_M3_REPLY='none'; PHONE.at(G,d,22,[W(LAST)],'sis_m3_last'); } } }
+    /* 上榜的家族聚餐（BB_97 2-7b；大二下第 5 週週五 3/26 19:00）：M3 那晚 21:00 Kevin 在家族群組揪（「去。」才排出遊，照大一家聚的做法）；
+       有 FAMILY_DINNER 記憶＝永康街那家咖哩，沒有＝公館。沒去（沒答應或沒到）＝21:30 群組合照＋Kevin 一句 */
+    { const d=S.dayOfKey('2027-03-26'), m3=S.dayOfKey('2027-03-19'); if(d!=null&&m3!=null&&PHONE.inGroup(G,'family_law')&&G.day>=m3&&G.day<=d+1){ const K=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t}), curry=typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER');
+        if(!PHONE.sent(G,'sis_m3_dinner_inv')&&(G.day>m3||G.hour>=21)) PHONE.at(G,m3,21,[K('學姊上榜聚餐！'),Object.assign(K(curry?'下週五七點，永康街那家咖哩。全家族。':'下週五七點，公館。全家族。'),{ask:{id:'sis_m3_dinner',until:d*24+18,opts:[{t:'去。',set:{SIS_M3_DINNER_GO:true}},{t:'這次不行。',set:{SIS_M3_DINNER_GO:false}}]}})],'sis_m3_dinner_inv');
+        if(F.SIS_M3_DINNER_GO===true&&typeof OUT!=='undefined'&&!OUT.get(G,'sis_m3_dinner')) OUT.plan(G,{id:'sis_m3_dinner',ev:'ev_sis_results_dinner',day:d,h:19,late:0.25,place:curry?'永康街的咖哩店':'公館',title:'學姊上榜聚餐',travel:curry?'約 20 分鐘':'走過去約 10 分鐘',travelH:curry?1/3:1/6});
+        if(!(G.events&&G.events.done&&G.events.done.ev_sis_results_dinner)&&(G.day>d||G.hour>=21.5)&&!PHONE.sent(G,'sis_m3_dinner_photo'))
+          PHONE.at(G,d,21.5,[K('📷（合照。學姊坐中間，難得笑得很開。）'),K('沒來的人錯過學姊請客。千載難逢。')],'sis_m3_dinner_photo'); } }
     /* 學姊 W8 沒演到的玩家（不熟或沒到，BB_97 2-3、AA_177 第 8 節①）：11/27（五）21:00 讀書會群組她請假；Kevin 在家族群組問（不靠語彤轉述）*/
     { const d27=S.dayOfKey('2026-11-27'); if(d27!=null&&G.day===d27&&!(G.events&&G.events.done&&G.events.done.ev_sis_collapse)&&!PHONE.sent(G,'sis_w8_leave')){ const it=[];
         if(PHONE.inGroup(G,'lawclub_study')) it.push({th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'這週讀書會我請假。……第一次。'});
