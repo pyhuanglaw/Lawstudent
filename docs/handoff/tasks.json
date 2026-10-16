@@ -871,8 +871,8 @@
    "title": "LAWWW2 帳號 A 的 8 條 -wip-* 分支",
    "area": "WIP",
    "owner": "LAWWW2",
-   "status": "暫停",
-   "next": "保留",
+   "status": "進行中",
+   "next": "拆成 WIP-02-BIKE～TREES（D88，LAWWW2-B 逐條確認後由 LAWWW-B 複核刪除）",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -893,7 +893,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "遠端",
     "acceptance": "保留（不整合）",
-    "ack": "ACK"
+    "ack": "SENT"
    }
   },
   {
@@ -9733,6 +9733,251 @@
     "acceptance": "GLB 或貼圖＋說明（哪些節點換）；遊戲內截圖",
     "ack": "DELIVERED"
    }
+  },
+  {
+   "id": "WIP-02-BIKE",
+   "title": "WIP 分支 claude/second-ai-env-art-wip-bike（HEAD fb23c7db）：⑫ 騎車用的腳踏車（VISUAL_REVIEW 第 19 節）——逐項確認、有效的整合進交付分支、驗證後才標可以刪（D88）",
+   "area": "WIP",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2-B：列 HEAD、獨有 commit（內容比對，cherry-pick 過的 SHA 會不同）、檔案與資產；沒整合的照 cherry-pick／選擇性檔案整合進 claude/funny-albattani-iawshm；不讓舊模型蓋新模型；Blender／GLB 載入、貼圖齊全、符合規格；更新任務與交付 SHA；報告交 LAWWW-B 複核刪除",
+   "priority": "P2",
+   "first": {
+    "term": "META",
+    "week": null,
+    "earliest": "分支收斂（D88）；資產本身照各自的任務排",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 D88；BRANCH_INVENTORY.md",
+   "authorized": "D88",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "D88 第一節 7 步；docs/handoff/BRANCH_INVENTORY.md；LAWWW2-B 清查 ASSET_AUDIT_2026-10-16.md",
+    "acceptance": "整合報告：每條 HEAD、獨有內容、整合目的地 SHA、驗證結果、保留或可刪；未完成但有價值的保留完整資產與任務",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "WIP-02-LANE118",
+   "title": "WIP 分支 claude/second-ai-env-art-wip-lane118（HEAD 0b1788b9）：⑭ 118 巷街景（ART-03 暫停中）——逐項確認、有效的整合進交付分支、驗證後才標可以刪（D88）",
+   "area": "WIP",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2-B：列 HEAD、獨有 commit（內容比對，cherry-pick 過的 SHA 會不同）、檔案與資產；沒整合的照 cherry-pick／選擇性檔案整合進 claude/funny-albattani-iawshm；不讓舊模型蓋新模型；Blender／GLB 載入、貼圖齊全、符合規格；更新任務與交付 SHA；報告交 LAWWW-B 複核刪除",
+   "priority": "P2",
+   "first": {
+    "term": "META",
+    "week": null,
+    "earliest": "分支收斂（D88）；資產本身照各自的任務排",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 D88；BRANCH_INVENTORY.md",
+   "authorized": "D88",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "D88 第一節 7 步；docs/handoff/BRANCH_INVENTORY.md；LAWWW2-B 清查 ASSET_AUDIT_2026-10-16.md",
+    "acceptance": "整合報告：每條 HEAD、獨有內容、整合目的地 SHA、驗證結果、保留或可刪；未完成但有價值的保留完整資產與任務",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "WIP-02-LAWLIB",
+   "title": "WIP 分支 claude/second-ai-env-art-wip-lawlib（HEAD 3ba83057）：法律學院圖書館重新匯出——逐項確認、有效的整合進交付分支、驗證後才標可以刪（D88）",
+   "area": "WIP",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2-B：列 HEAD、獨有 commit（內容比對，cherry-pick 過的 SHA 會不同）、檔案與資產；沒整合的照 cherry-pick／選擇性檔案整合進 claude/funny-albattani-iawshm；不讓舊模型蓋新模型；Blender／GLB 載入、貼圖齊全、符合規格；更新任務與交付 SHA；報告交 LAWWW-B 複核刪除",
+   "priority": "P2",
+   "first": {
+    "term": "META",
+    "week": null,
+    "earliest": "分支收斂（D88）；資產本身照各自的任務排",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 D88；BRANCH_INVENTORY.md",
+   "authorized": "D88",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "D88 第一節 7 步；docs/handoff/BRANCH_INVENTORY.md；LAWWW2-B 清查 ASSET_AUDIT_2026-10-16.md",
+    "acceptance": "整合報告：每條 HEAD、獨有內容、整合目的地 SHA、驗證結果、保留或可刪；未完成但有價值的保留完整資產與任務",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "WIP-02-PAVSOC",
+   "title": "WIP 分支 claude/second-ai-env-art-wip-pavsoc（HEAD 8c6f1fe0）：合併 AI-1 v9.4.2（9 個獨有 commit）——逐項確認、有效的整合進交付分支、驗證後才標可以刪（D88）",
+   "area": "WIP",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2-B：列 HEAD、獨有 commit（內容比對，cherry-pick 過的 SHA 會不同）、檔案與資產；沒整合的照 cherry-pick／選擇性檔案整合進 claude/funny-albattani-iawshm；不讓舊模型蓋新模型；Blender／GLB 載入、貼圖齊全、符合規格；更新任務與交付 SHA；報告交 LAWWW-B 複核刪除",
+   "priority": "P2",
+   "first": {
+    "term": "META",
+    "week": null,
+    "earliest": "分支收斂（D88）；資產本身照各自的任務排",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 D88；BRANCH_INVENTORY.md",
+   "authorized": "D88",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "D88 第一節 7 步；docs/handoff/BRANCH_INVENTORY.md；LAWWW2-B 清查 ASSET_AUDIT_2026-10-16.md",
+    "acceptance": "整合報告：每條 HEAD、獨有內容、整合目的地 SHA、驗證結果、保留或可刪；未完成但有價值的保留完整資產與任務",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "WIP-02-PROPS",
+   "title": "WIP 分支 claude/second-ai-env-art-wip-props（HEAD fa626b9d）：⑥ 販賣機等道具 WIP——逐項確認、有效的整合進交付分支、驗證後才標可以刪（D88）",
+   "area": "WIP",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2-B：列 HEAD、獨有 commit（內容比對，cherry-pick 過的 SHA 會不同）、檔案與資產；沒整合的照 cherry-pick／選擇性檔案整合進 claude/funny-albattani-iawshm；不讓舊模型蓋新模型；Blender／GLB 載入、貼圖齊全、符合規格；更新任務與交付 SHA；報告交 LAWWW-B 複核刪除",
+   "priority": "P2",
+   "first": {
+    "term": "META",
+    "week": null,
+    "earliest": "分支收斂（D88）；資產本身照各自的任務排",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 D88；BRANCH_INVENTORY.md",
+   "authorized": "D88",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "D88 第一節 7 步；docs/handoff/BRANCH_INVENTORY.md；LAWWW2-B 清查 ASSET_AUDIT_2026-10-16.md",
+    "acceptance": "整合報告：每條 HEAD、獨有內容、整合目的地 SHA、驗證結果、保留或可刪；未完成但有價值的保留完整資產與任務",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "WIP-02-PROPS6",
+   "title": "WIP 分支 claude/second-ai-env-art-wip-props6（HEAD 49d32ed8）：⑥ 法學院廣場花台、公告欄、販賣機驗收——逐項確認、有效的整合進交付分支、驗證後才標可以刪（D88）",
+   "area": "WIP",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2-B：列 HEAD、獨有 commit（內容比對，cherry-pick 過的 SHA 會不同）、檔案與資產；沒整合的照 cherry-pick／選擇性檔案整合進 claude/funny-albattani-iawshm；不讓舊模型蓋新模型；Blender／GLB 載入、貼圖齊全、符合規格；更新任務與交付 SHA；報告交 LAWWW-B 複核刪除",
+   "priority": "P2",
+   "first": {
+    "term": "META",
+    "week": null,
+    "earliest": "分支收斂（D88）；資產本身照各自的任務排",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 D88；BRANCH_INVENTORY.md",
+   "authorized": "D88",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "D88 第一節 7 步；docs/handoff/BRANCH_INVENTORY.md；LAWWW2-B 清查 ASSET_AUDIT_2026-10-16.md",
+    "acceptance": "整合報告：每條 HEAD、獨有內容、整合目的地 SHA、驗證結果、保留或可刪；未完成但有價值的保留完整資產與任務",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "WIP-02-SOCLIB",
+   "title": "WIP 分支 claude/second-ai-env-art-wip-soclib（HEAD af7de02e）：⑬ 社科院辜振甫圖書館一樓正式 GLB——逐項確認、有效的整合進交付分支、驗證後才標可以刪（D88）",
+   "area": "WIP",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2-B：列 HEAD、獨有 commit（內容比對，cherry-pick 過的 SHA 會不同）、檔案與資產；沒整合的照 cherry-pick／選擇性檔案整合進 claude/funny-albattani-iawshm；不讓舊模型蓋新模型；Blender／GLB 載入、貼圖齊全、符合規格；更新任務與交付 SHA；報告交 LAWWW-B 複核刪除",
+   "priority": "P2",
+   "first": {
+    "term": "META",
+    "week": null,
+    "earliest": "分支收斂（D88）；資產本身照各自的任務排",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 D88；BRANCH_INVENTORY.md",
+   "authorized": "D88",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "D88 第一節 7 步；docs/handoff/BRANCH_INVENTORY.md；LAWWW2-B 清查 ASSET_AUDIT_2026-10-16.md",
+    "acceptance": "整合報告：每條 HEAD、獨有內容、整合目的地 SHA、驗證結果、保留或可刪；未完成但有價值的保留完整資產與任務",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "WIP-02-TREES",
+   "title": "WIP 分支 claude/second-ai-env-art-wip-trees（HEAD 22ff594d）：⑦ 行道樹 WIP——逐項確認、有效的整合進交付分支、驗證後才標可以刪（D88）",
+   "area": "WIP",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2-B：列 HEAD、獨有 commit（內容比對，cherry-pick 過的 SHA 會不同）、檔案與資產；沒整合的照 cherry-pick／選擇性檔案整合進 claude/funny-albattani-iawshm；不讓舊模型蓋新模型；Blender／GLB 載入、貼圖齊全、符合規格；更新任務與交付 SHA；報告交 LAWWW-B 複核刪除",
+   "priority": "P2",
+   "first": {
+    "term": "META",
+    "week": null,
+    "earliest": "分支收斂（D88）；資產本身照各自的任務排",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 D88；BRANCH_INVENTORY.md",
+   "authorized": "D88",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "D88 第一節 7 步；docs/handoff/BRANCH_INVENTORY.md；LAWWW2-B 清查 ASSET_AUDIT_2026-10-16.md",
+    "acceptance": "整合報告：每條 HEAD、獨有內容、整合目的地 SHA、驗證結果、保留或可刪；未完成但有價值的保留完整資產與任務",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "SYS-23",
+   "title": "D88 分支收斂：8 條 WIP 的整合報告複核、刪除（或標「已整合、可刪、權限受阻」）、A／B 換班流程寫進規則",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "等 LAWWW2-B 的整合報告；刪除權限：這個工作階段的 git 只能 push 指定分支（03:5x 實測），GitHub 工具沒有刪分支的功能",
+   "priority": "P2",
+   "first": {
+    "term": "META",
+    "week": null,
+    "earliest": "分支收斂（D88）；資產本身照各自的任務排",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 D88",
+   "authorized": "D85、D88"
   }
  ]
 }

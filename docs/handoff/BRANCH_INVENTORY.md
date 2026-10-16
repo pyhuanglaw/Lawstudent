@@ -34,6 +34,12 @@
 | 2026-10-16 03:5x | LAWWW-B | 刪 friendly-brahmagupta | eb53fd75 | **沒刪成**：這個工作階段的 git 只能 push 系統指定的分支，`git push --delete` 兩次都被斷線（unexpected disconnect）。分支照留。請使用者在 GitHub 網頁刪，或之後有權限時再刪 |
 | 2026-10-16 03:5x | LAWWW-B | 盤點 17 條；只有 friendly-brahmagupta 可以刪 | — | 見上表 |
 
+## D88 生命週期與 8 條 WIP 的收斂（2026-10-16 04:1x 起）
+
+- 生命週期：建立 → 工作 → 交付 → 整合 → 驗證 → 清理。每次換班、發布、大型任務結案時增量更新這份表。
+- 8 條 `second-ai-env-art-wip-*`：LAWWW2-B 逐條確認（任務 WIP-02-BIKE～TREES），整合報告交 LAWWW-B 複核（SYS-23）。用 SHA 粗算，每條和 funny、開發線、second-ai-env-art 比，都還有 9～173 個「獨有」commit，大多應該是 cherry-pick 過的；**要用內容比對確認**。
+- 刪除：複核通過才刪；權限受阻就在上表標「已整合、可刪、權限受阻」，不重試。
+
 ## 下次整理的條件
 
 - 帳號 A 的 WIP 八條：等 LAWWW2（A 或 B）在 HANDOFF.md 說明每一條已經接進交付分支或確定放棄（使用者同意），才整理。
