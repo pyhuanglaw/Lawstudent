@@ -12280,9 +12280,9 @@
    "title": "玩家主動傳訊息給朋友（選題目、各人各階段回覆、回覆時間）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "等待其他AI",
+   "status": "待開工",
    "priority": "P1",
-   "next": "等 AA-B 規格（形式、題目、每天幾次、各人各關係階段的回覆原文、和階梯聊天／可昕遠距線的關係）；到了接成對話串的「傳訊息」按鈕",
+   "next": "AA_202（468ef3f7）系統規格到了：對話串「傳訊息」→ 四個話題（在幹嘛／問課／分享（照片三選一）／晚安 21:30 後 CLOSE_FRIEND 以上或曖昧交往）；同一人一天一次（可再回一句）；回覆照對方作息排程（有空 1～10 分、上課打工社團家教結束後、睡覺隔天早上、國外照時差、考試週短）；熟悉度一天 +1、一週 3 次以上不加；不推進階梯；可昕另一條。先做骨架＋佔位台詞，回覆池（AA MSG-A1、BB MSG-B1）到了再換",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12295,14 +12295,12 @@
    },
    "source": "使用者 2026-10-16 22:1x「還是沒有跟朋友傳訊息的功能？」",
    "authorized": "使用者提出；內容待 AA-B（D79、D86）",
-   "pausedReason": "台詞與規則要 AA-B／BB-B 定",
-   "resumeWhen": "AA-B 交規格",
    "xai": {
-    "spec": "待 AA-B",
+    "spec": "AA_202（企劃線 468ef3f7）；回覆池 MSG-A1、MSG-B1 待交",
     "branch": "claude/cool-heisenberg-o8kuqx",
     "acceptance": "可以從朋友清單／對話串主動傳訊息、對方照規格回",
     "receiver": "AA-B",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
@@ -12324,6 +12322,48 @@
     "confirmed": true
    },
    "source": "使用者 2026-10-16 22:1x 截圖（9/19 18:34 總圖大廳）",
+   "authorized": "使用者（bug 回報）"
+  },
+  {
+   "id": "BUG-OUTLET-SEAT",
+   "title": "閱覽室「插座」事件在走進閱覽室時就演（還沒坐下就問旁邊的人能不能分一格）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "next": "ev_library_outlet trigger enter → seat（坐下才演，台詞不動）；seat 事件也照 random_weight（story3d.js）；已通知 AA-B（事件觸發屬 AA 範圍，台詞沒改）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第三天起進閱覽室",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 22:1x 截圖",
+   "authorized": "使用者（bug 回報）"
+  },
+  {
+   "id": "BUG-CAM-ELEV",
+   "title": "電梯裡鏡頭卡到牆外：畫面右側一片橘紅色（閱覽室電梯）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "查電梯車廂裡跟隨鏡頭的碰撞（E.colliders 有沒有包含電梯井的牆、閱覽室外牆）；車廂裡鏡頭拉近或改固定角度",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次搭電梯",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 22:1x 截圖（9/19 閱覽室）",
    "authorized": "使用者（bug 回報）"
   }
  ]

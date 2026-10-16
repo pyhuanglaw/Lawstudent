@@ -230,7 +230,7 @@ const STORY_EVENTS=[
   // ────────────────────────────────────────── 生活小事件（auto / enter）
   { id:'ev_rain_no_umbrella', title:'下雨了', participants:[], location:'campus', trigger:'enter', weather:'rain', day_min:3, cooldown_days:2, random_weight:0.6, background:'freeze',
     dialogue:[ {speaker:null,text:'走出建築的瞬間，雨。你的傘在宿舍的桌上。'},{choice:[{text:'跑去便利商店買一把（150 元）',consequences:{money:-150,energy:-3,memo:'買了第三把傘'}},{text:'淋回去',consequences:{energy:-8,memo:'淋雨'}},{text:'在屋簷下等十分鐘',consequences:{advance:0.2}}]} ] },
-  { id:'ev_library_outlet', title:'插座', participants:[], location:'library', trigger:'enter', time:[13,21], day_min:3, cooldown_days:3, random_weight:0.5, background:'freeze',
+  { id:'ev_library_outlet', title:'插座', participants:[], location:'library', trigger:'seat', time:[13,21],   /* 坐下才演（原本走進閱覽室就演：還沒坐下就「問旁邊的人能不能分一格」，使用者 2026-10-16）*/ day_min:3, cooldown_days:3, random_weight:0.5, background:'freeze',
     dialogue:[ {speaker:null,text:'閱覽室裡每一個靠插座的位子都有人。有人把充電線拉到桌子中央，像在宣示主權。'},{choice:[{text:'問旁邊的人能不能分一格',consequences:{energy:-1},goto:'ask'},{text:'算了，用電池',consequences:{}}]},{label:'ask'},{speaker:null,text:'對方看了你一眼，把充電線往旁邊挪了三公分。'} ] },
   // ────────────────────────────────────────── 交接包 v1 第 4 批（BB_95 第 3 節：新事件）
   /* 方奕廷 F1：黃金葛（BB_95 3-1）。他平日 12–13 在校園走走（characters.js 的日程）；和他說話就觸發，只一次。植物知識需查證（BB）。
