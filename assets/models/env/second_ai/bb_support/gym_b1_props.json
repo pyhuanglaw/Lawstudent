@@ -1,0 +1,23 @@
+{
+ "objects": 16,
+ "unique_meshes": 16,
+ "tris": 13744,
+ "tris_drawn": 13744,
+ "materials": 2,
+ "out": "assets/models/env/second_ai/bb_support/gym_b1_props.glb",
+ "bytes": 679868,
+ "texres": 256,
+ "items_tris": {
+  "GYM_TREADMILL": 1456,
+  "GYM_BIKE": 1992,
+  "GYM_ROWER": 1820,
+  "GYM_SQUAT_RACK": 2044,
+  "GYM_SMITH": 2152,
+  "GYM_DB_RACK": 2236,
+  "GYM_BENCH": 1792,
+  "GYM_MAT": 108,
+  "GYM_MAT_ROLL": 144
+ },
+ "tris_total": 13744,
+ "note": "每件一個頂層節點；原點底部中央、正面 +z；GLB 裡的位置只是排開給人看"
+}
