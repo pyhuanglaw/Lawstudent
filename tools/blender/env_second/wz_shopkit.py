@@ -745,7 +745,7 @@ def _ice(px, w, zf, zb, cm, pid, yo):
         a_ = k * 2 * math.pi / 3 + 0.4; ex, ez = math.cos(a_) * 0.62, math.sin(a_) * 0.62
         px.quad(acc(SK['wood_dk']), [(fx, 2.63, fz), (fx + ex, 2.63, fz + ez), (fx + ex * 1.0 - ez * 0.16, 2.63, fz + ez + ex * 0.16), (fx - ez * 0.12, 2.63, fz + ex * 0.12)])
     # 冬天：拉下鐵捲門＋「冬天休息」紙條（季節節點；夏天這組藏起來）
-    grp = B.group(f'SEASON_ICECLOSED_on_{pid}', root, {'season': 'iceclosed', 'state': 'on'})   # 和公園一樣：_on＝那個季節的樣子（11～3 月冬天休息）
+    grp = B.group(f'SEASON_ICECLOSED_on_{pid}', root, {'season': 'iceclosed', 'state': 'on'})   # 和公園一樣：_on＝那個季節的樣子（AA_164 1-2：只在 5～9 月開，10～4 月鐵門拉下、冬天休息）
     sh = Mesh(f'SEASON_ICECLOSED_on_{pid}_shutter', M['shutter']); px.quad(sh, [(-w / 2 + 0.27, 0.05, zf + 0.06), (w / 2 - 0.27, 0.05, zf + 0.06), (w / 2 - 0.27, yo - 0.28, zf + 0.06), (-w / 2 + 0.27, yo - 0.28, zf + 0.06)])
     sh.finish(grp, uv=True)
     uvquad(f'SEASON_ICECLOSED_on_{pid}_note', SK['notes'], [px.p(-0.35, 1.25, zf + 0.07), px.p(0.35, 1.25, zf + 0.07), px.p(0.35, 1.95, zf + 0.07), px.p(-0.35, 1.95, zf + 0.07)], note_uv('winter'), parent=grp)
