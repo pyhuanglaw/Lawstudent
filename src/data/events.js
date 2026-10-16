@@ -335,14 +335,14 @@ const STORY_EVENTS=[
      第 4 週週四沒去的玩家，順延到之後第一次在麵店遇到他（BB_95 第 5 節第 4 點：不能永久錯過）；只一次。麵店的長桌從這裡開始：
      阿哲建「麵店團」群組（AA_70 2-3），之後每個上課週的週二、週四 17:30 他在群組裡揪（story3d.js 的 phoneRules）。阿姨＝麵店的老闆娘（店員是路人模型，沒有名字）*/
   { id:'ev_zhe_long_table', title:'不用約，來就有人', participants:['zhe'], location:'noodle', trigger:'auto', near:{npc:'zhe',r:6}, term:['Y1S1'], weekday:[2,4], time:[17.5,20.5], once:true, background:'blur',
-    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.termDay&&G.day>=STORY.termDay('Y1S1',4,4)},
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.termDay&&G.day>=STORY.termDay('Y1S1',STORY.week1Start&&STORY.week1Start(G)?2:4,4)},   /* A13（AA_195 4-7）：開學改 9/1 的局是第 2 週週四（9/11，遊戲裡的第二個週四）；舊局照舊第 4 週週四（第 2 週在第 1 天以前，提早會撞到主線第二天的麵店）*/
     dialogue:[ {speaker:'zhe',expression:'smile',text:'（把兩張桌子併起來）阿姨，我們以後週二週四都來。'},{speaker:'阿姨',text:'你們？你們是誰？'},
       {speaker:'zhe',expression:'laugh',text:'法律系一年級。現在是四個，之後會更多。'},{speaker:'zhe',expression:'smile',text:'（對你）規矩很簡單：週二週四，麵店。不用約，來就有人。'} ],
     consequences:{stamp:['noodleTableDay']} },
   /* 語 1：傅鐘旁邊的早餐（AA_40 語 1；交付清單 A10）：大一上第 3～5 週的早上，小語坐在傅鐘旁邊的長椅（她的日程：平日上課前 08:20～09:05，AA_156 第 4 節；原本 9:30–12:00），找她說話時；
      要先認識她（第一次說話是 talkYu 的自我介紹），而且不是認識的同一天（自我介紹已經講過三個社團）；只一次。
      「坐下來一起吃」記憶 BREAKFAST_YU（之後早上經過傅鐘她會先揮手：AA_118，之後再做）。吉他社的入口之一（另一個是阿凱）*/
-  { id:'ev_yu_breakfast', title:'傅鐘旁邊的早餐', participants:['yu'], location:'campus', trigger:'interact', priority:6, term:['Y1S1'], weeks:[3,4,5], time:[8+20/60,9+5/60], once:true, background:'blur',
+  { id:'ev_yu_breakfast', title:'傅鐘旁邊的早餐', participants:['yu'], location:'campus', trigger:'interact', priority:6, term:['Y1S1'], weeks:[2,3,4,5], time:[8+20/60,9+5/60], once:true, background:'blur',   /* A14（AA_195 4-7）：第 2～5 週（舊局的第 2 週在第 1 天以前，等於照舊）*/
     prereq:{flags:['met_yu'],custom:G=>G.flags.metYuDay==null||G.flags.metYuDay<G.day},
     dialogue:[ {speaker:'yu',expression:'smile',text:'欸，你要不要坐？'},{speaker:'yu',expression:'neutral',text:'我一個人吃很怪。……不是怪，是很安靜。我不喜歡安靜。'},
       {speaker:'yu',expression:'smile',text:'對了，你有參加社團嗎？我有三個。你要不要加一個？吉他社缺人，辯論社也缺人，系學會永遠缺人。'},

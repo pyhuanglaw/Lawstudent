@@ -29,4 +29,8 @@ check('A10 新局的錢 7,000（帳戶約 5,000＋錢包約 2,000）、allowance
   const on=(G,k)=>ACTIVITIES.on(a,D(k),G);
   check('A12 總圖新生導覽：開學改 9/1 的局在第 2 週（9/8、9/10、9/12、9/16），9/19 以後沒有',on(Gw1,'2025-09-08')&&on(Gw1,'2025-09-10')&&on(Gw1,'2025-09-12')&&on(Gw1,'2025-09-16')&&!on(Gw1,'2025-09-19'));
   check('A12 舊局照舊 9/19、9/23、9/25、9/26（舊存檔不會因為提早而錯過）',on(Gold,'2025-09-19')&&on(Gold,'2025-09-26')&&!on(Gold,'2025-09-08')); }
+{ const e=ev('ev_zhe_long_table'); const W1={day:D('2025-09-11'),flags:{LAW_START_DAY:-18,MAIN_D1:-13}}, W1b={day:D('2025-09-09'),flags:{LAW_START_DAY:-18,MAIN_D1:-13}}, OLD={day:2,flags:{}}, OLD4={day:D('2025-09-25'),flags:{}};
+  check('A13 阿哲長桌：新局第 2 週週四（9/11）起、9/9 還不行；舊局照舊第 4 週週四（9/25）起，主線第二天（9/18）不會撞',e.prereq.custom(W1)&&!e.prereq.custom(W1b)&&!e.prereq.custom(OLD)&&e.prereq.custom(OLD4)); }
+{ const e=ev('ev_yu_breakfast'); check('A14 小語早餐：大一上第 2～5 週',JSON.stringify(e.weeks)==='[2,3,4,5]'&&JSON.stringify(e.term)==='["Y1S1"]'); }
+check('A7 同理：新局 9/4 下午以前小語不在傅鐘長椅（舊局照舊）',/G\.weekday>=1&&G\.weekday<=5&&\(F\.afternoonDone\|\|!S\.week1Start\(G\)\)\)\{ GM\.spawnNPC\('yu'/.test(st));
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

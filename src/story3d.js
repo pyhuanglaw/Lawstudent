@@ -167,7 +167,7 @@ const STORY = (function(){
       if(isThu(G)&&!F.classDone&&hr>=12.5&&hr<13.4){ GM.spawnNPC('zhe',C.zhe,30,-93,{yaw:Math.PI,pockets:true,talk:n=>talkZhe(GM,n)}); }
       // 下課後小安（劇情：由 tick 觸發）；之後在椰林大道散步
       if(F.afternoonDone&&hr>=18&&hr<20.5&&F.companion!=='an'){ GM.spawnNPC('an',AN,-20,6,{beh:'wander',waypoints:[[-20,6],[-60,6],[-90,-6],[-40,-6]],talk:n=>talkAn(GM,n)}); tm('an',20.5); }
-      if(hr>=8+20/60&&hr<9+5/60&&G.weekday>=1&&G.weekday<=5){ GM.spawnNPC('yu',C.yu,-46,20.94,{seat:{x:-46,z:20.94,yaw:Math.PI},talk:n=>talkYu(GM,n)}); tm('yu',9+5/60); }   /* 傅鐘旁的長椅：平日上課前 08:20～09:05（AA_156 第 4 節，AA-B 15b50992：原本 9:30～12:00 等於每天翹課）；09:10 去上課、週末不在。大二以後「那天早上有課才在」還沒做 */ else if(hr>=15.2&&hr<17.5){ GM.spawnNPC('yu',C.yu,20,-80,{beh:'wander',waypoints:[[20,-80],[40,-78],[10,-60],[48,-70]],talk:n=>talkYu(GM,n)}); tm('yu',17.5); }
+      if(hr>=8+20/60&&hr<9+5/60&&G.weekday>=1&&G.weekday<=5&&(F.afternoonDone||!S.week1Start(G))){ GM.spawnNPC('yu',C.yu,-46,20.94,{seat:{x:-46,z:20.94,yaw:Math.PI},talk:n=>talkYu(GM,n)}); tm('yu',9+5/60); }   /* 傅鐘旁的長椅：平日上課前 08:20～09:05（AA_156 第 4 節，AA-B 15b50992：原本 9:30～12:00 等於每天翹課）；09:10 去上課、週末不在。大二以後「那天早上有課才在」還沒做 */ else if(hr>=15.2&&hr<17.5){ GM.spawnNPC('yu',C.yu,20,-80,{beh:'wander',waypoints:[[20,-80],[40,-78],[10,-60],[48,-70]],talk:n=>talkYu(GM,n)}); tm('yu',17.5); }
       if(F.afternoonDone&&hr>=15.5&&hr<17.5&&F.companion!=='an'&&!F.zheAtNoodle){ GM.spawnNPC('zhe',C.zhe,-60,3,{beh:'wander',waypoints:[[-60,3],[-30,-6],[-90,3],[-20,3]],talk:n=>talkZhe(GM,n)}); tm('zhe',17.5); }
       if(F.companion==='an'){ spawnCompanion(GM); } }
     if(zoneId==='gongguan'){ extras(hr<22?8:4,true); if(hr>=10&&hr<23) riders(1); if(F.companion==='an') spawnCompanion(GM); }
