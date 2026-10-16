@@ -2489,6 +2489,16 @@ const STORY_EVENTS=[
   { id:'ev_peishan_split', title:'我們上週分開了', participants:['classmate_peishan'], location:'linze', trigger:'auto', term:['Y2S1'], weeks:[6], weekday:[1,2,3,4,5], time:[12+10/60,12+40/60], once:true, near:{npc:'classmate_peishan',r:3.5}, background:'blur',
     prereq:{memory:[{npc:'classmate_peishan',tag:'FIRST_MET'}]},
     dialogue:[ {speaker:'classmate_peishan',expression:'neutral',text:'柏翰說他不懂。……他沒有錯。我們想要的東西不一樣。'},{speaker:'classmate_peishan',expression:'neutral',text:'我們上週分開了。我自己說的。'},{set:{HEARD_PS_SPLIT:true}} ] },
+  /* 交換說明會（主線 8，大二下第 4 週 3/18 12:20；AA_177 4-2、AA_143 2-3、AA_30 大二下、BB_105 B9）：坐在博雅 101 選「聽說明會」才演（activities.js EXPO_Y2）。
+     以安坐第一排（AA_30：「日本。我國中就決定了。」）；你坐哪一區＝EXPO_COUNTRY（日本／美國／台灣；大三上填志願表那天的旁白讀它，AA_30 場景 0）；
+     散場柏翰和以安那三句（大二版，AA_143 2-3）只給兩個人都認識的玩家。明軒、采蓁的句子 BB 沒寫，先不放 */
+  { id:'ev_exchange_expo_y2', title:'交換學生甄選說明會', participants:[], location:'boya', trigger:'activity', once:true, background:'blur',
+    dialogue:[ {if:EV_KNOWS('heroine_01'),speaker:null,text:'（以安坐在第一排。）'},{if:EV_KNOWS('heroine_01'),speaker:'heroine_01',expression:'neutral',text:'日本。我國中就決定了。'},
+      {choice:[{text:'（坐到日本那一區）',set:{EXPO_COUNTRY:'日本'}},{text:'（坐到美國那一區）',set:{EXPO_COUNTRY:'美國'}},{text:'（坐到台灣那一區）',set:{EXPO_COUNTRY:'台灣'}}]},
+      {if:EV_KNOWS('heroine_01','classmate_bohan'),speaker:'classmate_bohan',expression:'neutral',text:'交換要成績多少？'},
+      {if:EV_KNOWS('heroine_01','classmate_bohan'),speaker:'heroine_01',expression:'neutral',text:'我查過了。你夠。'},
+      {if:EV_KNOWS('heroine_01','classmate_bohan'),speaker:'classmate_bohan',expression:'neutral',text:'……我是問妳。'} ],
+    consequences:{memo:'博雅 101：交換學生甄選說明會'} },
   /* D11 系籃（大二上，AA_143 1-5、AA_177 4-4）＋語 3「在一起」（AA_40）：12/18（五）21:00 麵店團群組阿哲揪 → 出發選單「新體育館 12/19 14:00」→ 2D（新體育館室內 3D 做好以前，用 2D＋旁白）；
      祐廷坐觀眾席三選一（拍手、記分、送水；大二版的字 AA-B c2f1c5aa）；記 WATCHED_GAME_Y2；明軒的句子等 BB-B（AB-59）；以安、小語在觀眾席（AA_143 1-5 的描述）。
      賽後 18:30～21:00 走進麵店＝語 3（小語坐到你對面）。系籃和賽後麵店都沒去：22:00 認識小語＝她私訊三則；不認識、在麵店團＝阿哲的照片（story3d.js phoneRules）*/

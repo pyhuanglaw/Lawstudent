@@ -1917,7 +1917,7 @@
    "title": "杜鵑花第二張、主線 8 交換說明會",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "照交接包_v3 實作",
    "priority": "P2",
    "first": {
@@ -1931,7 +1931,9 @@
     "confirmed": true
    },
    "source": "交接包_v3",
-   "authorized": "D79"
+   "authorized": "D79",
+   "tests": "tests/v3_d14_unit.js",
+   "note": "2026-10-16：杜鵑花第二張＝3/11 12:40 以安麵店團照片；交換說明會＝activities EXPO_Y2（3/18 12:20～13:10 博雅 101，坐下選「聽說明會」）、ev_exchange_expo_y2（選區記 EXPO_COUNTRY 日本／美國／台灣、柏翰和以安三句）、3/15 09:00 學校信箱＋以安一句、沒去 20:00 簡報照片。照片說明文字和選區字樣已請 AA-B 確認。瀏覽器未測。"
   },
   {
    "id": "V3-D15",

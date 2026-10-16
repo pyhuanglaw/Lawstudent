@@ -1526,6 +1526,16 @@ const STORY = (function(){
           opts.push({t:'三，不管考得怎樣，都要跟我說。',say:[W('好。放榜那天就說。')],set:{SIS_M2:'tell'},mem:[{npc:'heroine_05',tag:'ASKED_TELL_ME',note:'M2：不管考得怎樣都要跟我說'}]});
           PHONE.at(G,d,21,[W('📷（一張讀書計畫）'),W('三件事。'),W('一，這次的題目是我自己選的。法律扶助制度。'),W('二，Kevin 幫我看第一段，學弟看第二段。'),W('三……第三件你們來想。',{ask:{id:'sis_m2',until:(d+1)*24+9,opts}})],'sis_m2'); }
         if(PHONE.sent(G,'sis_m2')&&!F.SIS_M2&&G.day*24+G.hour>=(d+1)*24+9&&!PHONE.sent(G,'sis_m2_kevin')){ F.SIS_M2='none'; PHONE.at(G,d+1,9,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'三，考完請吃飯！'},W('……好。')],'sis_m2_kevin'); } } }
+    /* 杜鵑花第二張（AA_177 第 6 節、AA_143 2-2）：大二下第 3 週週四 3/11 12:40 以安在麵店團群組傳照片（照片本身就是事件）*/
+    { const d=S.dayOfKey('2027-03-11'); if(d!=null&&PHONE.inGroup(G,'noodle_team')&&(G.day>d||(G.day===d&&G.hour>=12+40/60))&&G.day<=d+7&&!PHONE.sent(G,'y2_azalea'))
+        PHONE.at(G,d,12+40/60,[{th:'g:noodle_team',from:'heroine_01',text:'📷（杜鵑花。和去年同一個位置。）'}],'y2_azalea'); }
+    /* 交換說明會（AA_177 4-2）：3/15（一）09:00 學校信箱；以安在麵店團群組「我會去。坐第一排。」；沒去（沒有聽說明會）＝3/18 20:00 她傳簡報的照片「重點在第七頁。」*/
+    { const d=S.dayOfKey('2027-03-18'), m=S.dayOfKey('2027-03-15'); if(d!=null&&m!=null){
+        if((G.day>m||(G.day===m&&G.hour>=9))&&G.day<=d&&!PHONE.sent(G,'y2_expo_mail')){ const it=[{th:'sys',name:'學校信箱',text:'國際事務處：交換學生甄選說明會，3/18 中午，博雅教學館大教室。'}];
+          PHONE.at(G,m,9,it,'y2_expo_mail'); if(PHONE.inGroup(G,'noodle_team')) PHONE.at(G,m,9+20/60,[{th:'g:noodle_team',from:'heroine_01',text:'我會去。坐第一排。'}],'y2_expo_an'); }
+        const went=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,'EXPO_Y2',d);   /* 中途離開也算去了 */
+        if(!went&&PHONE.inGroup(G,'noodle_team')&&(G.day>d||(G.day===d&&G.hour>=20))&&G.day<=d+3&&!PHONE.sent(G,'y2_expo_missed'))
+          PHONE.at(G,d,20,[{th:'g:noodle_team',from:'heroine_01',text:'📷（說明會的簡報）'},{th:'g:noodle_team',from:'heroine_01',text:'重點在第七頁。'}],'y2_expo_missed'); } }
     /* 芷若 Z7（BB_97 3-4、AA-B b95cea49）：交換申請截止 12/10（四）那晚 23:59 私訊「我交了。」——要演過 Z4（ev_zhiruo_secret）、有她的聯絡方式；祐廷交往中沒有這則（AA_112 8-1，她隔天在 Café 才說）。
        Café 裡選「妳跟妳媽說了嗎？」＝那晚 22:15 再一則（ev_zhiruo_applied 只在 22:00 以前演）*/
     { const d=S.dayOfKey('2026-12-10'), Zp=t=>({th:'p:heroine_02',from:'heroine_02',text:t}); if(d!=null){

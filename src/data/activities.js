@@ -59,6 +59,10 @@ const ACTIVITIES={
        id 用 'B4'：AA_115 的 attended:B4／missed:B4、BB 課表的回想（syllabus recall activity:'B4'）都用這個名字。選「聽演講」＝ev_b4_lecture；散場＝ev_b4_after；小桌子＝ev_b5_table（src/data/events.js）*/
     {id:'B4',title:'政府可以為了大家，限制一個人嗎？',kind:'lecture',zone:'boya',room:'101',roomName:'博雅 101',term:['Y1S2'],weeks:[11],weekday:4,t0:19,t1:20.5,once:true,crowd:{n:30},poster:{daysBefore:7},event:'ev_b4_lecture',
       desc:'博雅午後講座（每月一到兩場）。這一場的主題是法律。',story:true},
+    /* 交換學生甄選說明會（主線 8 的固定節點、可以錯過；AA_177 4-2、AA_143 2-3、BB_105 B9）：大二下第 4 週週四 3/18 12:20～13:10，國際事務處辦、在博雅大教室（101）。
+       坐下選「聽說明會」＝ev_exchange_expo_y2（選坐哪一區，記 EXPO_COUNTRY）；3/15 09:00 學校信箱、以安的群組那一句、沒去的 20:00 簡報照片在 story3d.js */
+    {id:'EXPO_Y2',title:'交換學生甄選說明會',verb:'聽說明會',kind:'lecture',zone:'boya',room:'101',roomName:'博雅 101',term:['Y2S2'],weeks:[4],weekday:4,t0:12+20/60,t1:13+10/60,once:true,crowd:{n:30},event:'ev_exchange_expo_y2',
+      desc:'國際事務處辦的交換學生甄選說明會。',story:true},
     {id:'dept_ball_game_y1s2',title:'系籃比賽',kind:'event',zone:'campus',roomName:'籃球場（醉月湖東側）',spot:{x:3.3,z:-112.7,lv:0,label:'系籃比賽'},verb:'去看',term:['Y1S2'],weeks:[14],weekday:6,t0:14,t1:16,once:true,event:'ev_zhe_game_y1',
      desc:'系上的系籃比賽，阿哲上場。觀眾可以拍手、記分或送水。',story:true},
     {id:'dept_basketball',title:'系籃練球',clubName:'系籃（系學會）',kind:'club',zone:'campus',roomName:'籃球場（醉月湖東側）',spot:{x:3.3,z:-112.7,lv:0,label:'系籃練球'},verb:'去練球',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15,16],weekday:5,t0:17.5,t1:19,
