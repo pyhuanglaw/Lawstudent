@@ -23,6 +23,14 @@ NAMES = ['smile', 'laugh', 'surprised', 'embarrassed', 'annoyed', 'sad', 'seriou
 CFG = {
     'heroine_02': dict(sheet='heroine_02_expr9.webp', cell=(418, 418), body='assets/portraits/heroine_02/campus/neutral.webp',
                        eye=(150, 120, 350, 255), search=(200, 40, 420, 230), scales=(0.44, 0.66), fade=(285, 330), skip=()),
+    'heroine_01': dict(sheet='heroine_01_expr9.webp', cell=(437, 400), body='assets/portraits/heroine_01/campus/neutral.webp',
+                       eye=(140, 150, 290, 240), search=(180, 20, 440, 240), scales=(0.22, 0.55), fade=(300, 335), skip=(), anchor=(110, 5, 330, 120)),
+    'heroine_03': dict(sheet='heroine_03_expr9.webp', cell=(410, 426), body='assets/portraits/heroine_03/campus/neutral.webp',
+                       eye=(140, 160, 295, 250), search=(180, 20, 440, 240), scales=(0.22, 0.55), fade=(305, 340), skip=(), anchor=(110, 5, 330, 130)),
+    'classmate_peishan': dict(sheet='classmate_peishan_expr9.webp', cell=(437, 400), body='assets/portraits/classmate_peishan/campus/neutral.webp',
+                       eye=(160, 150, 330, 235), search=(180, 20, 440, 240), scales=(0.22, 0.55), fade=(290, 325), skip=(), anchor=(120, 5, 350, 120)),
+    'kexin': dict(sheet='kexin_expr9.webp', cell=(437, 400), body='assets/portraits/kexin/campus/neutral.webp',
+                       eye=(165, 120, 310, 200), search=(180, 20, 440, 240), scales=(0.22, 0.55), fade=(255, 290), skip=(), anchor=(130, 5, 350, 100)),
     'heroine_04': dict(sheet='heroine_04_expr9.webp', cell=(512, 341), body='assets/portraits/heroine_04/campus/neutral.webp',
                        eye=(215, 115, 360, 205), search=(200, 20, 420, 230), scales=(0.22, 0.50), fade=(252, 282), skip=(),
                        anchor=(180, 5, 440, 110)),
@@ -116,21 +124,34 @@ def main():
         if ref is None: t = fit(c)
         else:
             d, sc = shift_to(ref[0], c, cf['anchor']); t = dict(ref[1]); t['ccx'] -= d[0]; t['ccy'] -= d[1]; t['score'] = sc
-        al = key_alpha(c, bg)
+        al = key_alpha(c, bg); bgl = bg
+        if cf.get('anchor'):                                              # 灰底不是完全均勻：用「附近的背景色」重新去背、去邊（不然髮絲外緣留一圈灰，紅底上很明顯）
+            from scipy import ndimage as _nd
+            c0 = np.asarray(c).astype(float); m_bg = (al < 0.05).astype(float)
+            num = np.dstack([_nd.gaussian_filter(c0[..., k] * m_bg, 18) for k in range(3)]); den = _nd.gaussian_filter(m_bg, 18)[..., None]
+            bgl = np.where(den > 0.02, num / np.maximum(den, 1e-6), bg)
+            al = np.clip((np.sqrt(((c0 - bgl) ** 2).sum(axis=2)) - 10) / 24, 0, 1)
         if cf.get('anchor'):                                              # 眼白和灰底顏色接近、被當成背景：四周都是人物的小洞（< 600 px）補回不透明（髮絲和脖子中間的大空隙不補）
             from scipy import ndimage as _nd
             m0 = al > 0.5; hl, _n = _nd.label(_nd.binary_fill_holes(m0) & ~m0)
+            lumc = np.asarray(c.convert('L')).astype(float)
             for k, sl in enumerate(_nd.find_objects(hl), 1):
-                if sl is not None and int((hl[sl] == k).sum()) < 600: al = np.where(_nd.binary_dilation(hl == k, iterations=1), 1.0, al)
+                if sl is None or int((hl[sl] == k).sum()) >= 600: continue
+                hk = hl == k; ring = _nd.binary_dilation(hk, iterations=3) & ~hk & (al > 0.9)
+                if ring.any() and lumc[ring].mean() > 100: al = np.where(_nd.binary_dilation(hk, iterations=1), 1.0, al)   # 眼白：周圍是皮膚、睫毛（亮）；髮絲之間的空隙周圍是頭髮（暗）→ 不補
         # 邊緣去灰：半透明的頭髮邊緣混到灰底的顏色 → 還原成頭髮本身的顏色 c = (obs − (1−α)·bg)/α
         cr = np.asarray(c).astype(float); m = (al > 0.02) & (al < 1)
-        cr[m] = np.clip((cr[m] - (1 - al[m])[:, None] * bg) / al[m][:, None], 0, 255)
+        bgm = bgl[m] if np.ndim(bgl) == 3 else bg
+        cr[m] = np.clip((cr[m] - (1 - al[m])[:, None] * bgm) / al[m][:, None], 0, 255)
         # 白點（BB-B 驗收時指出 laugh、serious、tired 左側髮絲外緣）：細髮絲邊緣還帶著淺灰底 → 透明交界 3 px 內、低彩度（灰白）又偏亮的像素拿掉
         # （膚色是暖色、彩度高，右邊的臉頰下巴不會被清到）；再只留最大的一塊（浮在外面的小點）
         from scipy import ndimage
-        band = ndimage.binary_dilation(al < 0.1, iterations=3) & (al > 0)
+        band = ndimage.binary_dilation(al < 0.1, iterations=4 if cf.get('anchor') else 3) & (al > 0)
         sat = cr.max(axis=2) - cr.min(axis=2); lum = cr @ np.array([0.299, 0.587, 0.114])
         al = np.where(band & (sat < 28) & (lum > 115), 0, al)
+        if cf.get('anchor'):                                              # AI 圖在頭髮外面畫了一圈比灰底還亮的光暈（亮、沒有顏色）：和外面連在一起的那一片全部當背景（眼白被睫毛、皮膚包著，不會連到外面）
+            lt = (lum > 140) & (sat < 30); ext = al < 0.1
+            lb, _n = ndimage.label(lt | ext); touch = np.unique(lb[ext]); al = np.where(lt & np.isin(lb, touch[touch > 0]), 0, al)
         lab, n = ndimage.label(al > 0.2)
         if n > 1:
             sz = ndimage.sum(np.ones_like(al), lab, range(1, n + 1)); al = al * ndimage.binary_dilation(lab == 1 + int(np.argmax(sz)), iterations=1)

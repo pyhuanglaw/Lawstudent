@@ -22,8 +22,7 @@ SRC = {
     'heroine_02@cafe': ('H:heroine_02_sheet.webp', (322, 0, 480, 538)),         # 圍裙版＝Café 當班（heroine_02/cafe/neutral）
     'heroine_03': ('H:heroine_03_sheet.webp', (320, 0, 462, 532)),
     'heroine_04': ('H:heroine_04_sheet.webp', (320, 0, 472, 532)),
-    'heroine_05': ('H:heroine_05_sheet.webp', (320, 0, 462, 532)),
-    'heroine_05@campus_v2': ('D:heroine_05_date_shirt.webp', (30, 0, 385, 975)),   # 試疊用（BB-B 2026-10-16 建議：學姊對話立繪比照芷若換成約會圖姿勢①，表情頭才對得上；BB-B 驗收前不寫進 assets）
+    'heroine_05': ('D:heroine_05_date_shirt.webp', (30, 0, 385, 975)),          # BB-B 2026-10-16 驗收（D59）：學姊平常（campus）比照芷若改用約會圖姿勢①（表情頭的角度才對得上）；原本的 06 標準圖單人大圖版本（H:heroine_05_sheet.webp (320,0,462,532)）不再用
     'kexin': ('R:kexin.webp', (358, 120, 544, 636)),
     'classmate_peishan': ('R:classmate_peishan.webp', (405, 80, 600, 695)),
     'zhe': ('R:zhe.webp', (572, 8, 800, 714)),
@@ -47,8 +46,8 @@ SRC = {
     'yule': ('R:yule.webp', (18, 368, 180, 810)),
 }
 CW, CH, TOP, FILL = 600, 1000, 0.04, 0.94
-MATTING = {'heroine_05@campus_v2'}                                 # 學姊約會圖：白襯衫和灰底只差 7，一般去背會在髮絲邊留一圈淺灰；alpha matting（pymatting）髮絲乾淨、衣領完整
-PATCH_HOLES = {'heroine_05@campus_v2'}                                     # 學姊約會圖姿勢①：衣領的白色被挖掉
+MATTING = {'heroine_05'}                                 # 學姊約會圖：白襯衫和灰底只差 7，一般去背會在髮絲邊留一圈淺灰；alpha matting（pymatting）髮絲乾淨、衣領完整
+PATCH_HOLES = {'heroine_05'}                                     # 學姊約會圖姿勢①：衣領的白色被挖掉
 HOLES = {'pinyu'}                                                   # BB-B 2026-10-16 D59 退件：曾品妤耳朵高度的白邊、兩腿中間的灰底
 
 
@@ -87,7 +86,7 @@ def main():
     a = ap.parse_args(); only = [s for s in a.only.split(',') if s]
     from rembg import new_session, remove
     sess = {m: new_session(m) for m in ('isnet-anime', 'u2net')}; tiles = []
-    REAL = {'heroine_01', 'heroine_02@cafe', 'heroine_03', 'heroine_04', 'heroine_05', 'kexin'}
+    REAL = {'heroine_01', 'heroine_02@cafe', 'heroine_03', 'heroine_04', 'kexin'}
     for gid, (src, box) in SRC.items():
         if only and gid not in only: continue
         kind, fn = src.split(':', 1); path = os.path.join({'H': HS, 'D': a.date or a.ref}.get(kind, a.ref), fn)
