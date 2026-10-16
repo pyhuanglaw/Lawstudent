@@ -1,11 +1,11 @@
 {
  "objects": 11,
  "unique_meshes": 11,
- "tris": 15970,
- "tris_drawn": 15970,
+ "tris": 15990,
+ "tris_drawn": 15990,
  "materials": 12,
  "out": "assets/models/env/second_ai/campus_freshman.glb",
- "bytes": 1332856,
+ "bytes": 1334736,
  "texres": 512,
  "note": "依文字資料的遊戲化設計（沒有照片）；本體、門廊位置照 CK.hall，導航不用改；v9.7 合併材質（12 → 7）"
 }

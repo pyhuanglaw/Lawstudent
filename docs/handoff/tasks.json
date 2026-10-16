@@ -30,7 +30,7 @@
   "updated": "2026-10-16T02:40Z",
   "note": "機器讀的任務索引；docs/HANDOFF_GAP_MATRIX.md 是閱讀版，兩邊的 ID 要一致（check_handoff.py 會比對）",
   "aaRef": "企劃線 docs/story_planning/AA_140_v0到v6_交付實作驗收對照表.md：第 0 節＝戀愛現行規則；第 3 節＝企劃缺漏 G01～；本檔管施工與測試，兩邊互指",
-  "firstSource": "AA_146（企劃線 9d994120）＋BB-B 10-16 02:30；兩邊不同的 13 項先照 BB-B（人物事件），已請 AA-B、BB-B 互核"
+  "firstSource": "AA_146（9d994120）＋AA_146 第 1b 節 13 項對齊（510eea1c，人物事件照 BB-B）"
  },
  "tasks": [
   {
@@ -545,8 +545,8 @@
    "title": "便利商店商品第二版",
    "area": "ART",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "合併 LAWWW2-B a41c52e7、看截圖",
+   "status": "已整合待測試",
+   "next": "第 2 級：tests/cvs_glb_integration.py＋便利商店直向、橫向截圖（實際渲染）；使用者看過才算美術通過",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -569,8 +569,8 @@
    "title": "女舍門廊吸頂燈加大",
    "area": "ART",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "合併 6f982441；點光源 (−108,2.9,61)、(−78,2.9,59)",
+   "status": "已整合待測試",
+   "next": "第 2 級：校園 20:40 大一女舍 A、B 門口截圖（?noporch 對照）；使用者看過才算美術通過",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -585,7 +585,8 @@
    "source": "LAWWW2／LAWWW2-B 交付",
    "authorized": "D79",
    "sha": [
-    "6f982441"
+    "6f982441",
+    "fe8d016d"
    ]
   },
   {
@@ -2130,9 +2131,9 @@
    "next": "照 BB_97 實作",
    "priority": "P2",
    "first": {
-    "term": "Y2S2",
+    "term": "Y2S1",
     "week": null,
-    "earliest": "M2（大二寒假）",
+    "earliest": "M2 大二寒假",
     "mainline": false,
     "blocks": false,
     "prereq": false,
@@ -2467,13 +2468,13 @@
    "priority": "P2",
    "first": {
     "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "week": 1,
+    "earliest": "大二上第 1 週（BB-B 文件）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -3013,8 +3014,8 @@
    "priority": "P2",
    "first": {
     "term": "Y3S1",
-    "week": null,
-    "earliest": "Z10 起每 3～4 週一張（芷若在英國）",
+    "week": 3,
+    "earliest": "Z10 大三上第 3 週",
     "mainline": false,
     "blocks": false,
     "prereq": false,
@@ -3118,8 +3119,8 @@
    "priority": "P2",
    "first": {
     "term": "Y2S2",
-    "week": null,
-    "earliest": "同 V4-G34：學姊的伴侶期照 `BB_122` 檢查點，最早大二暑假",
+    "week": 8,
+    "earliest": "學姊 C1（大二下第 8 週，BB_122 第 164 行）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
@@ -4617,8 +4618,8 @@
    "priority": "P2",
    "first": {
     "term": "Y4S1",
-    "week": null,
-    "earliest": "芷若英國（大四寒假）",
+    "week": 16,
+    "earliest": "芷若英國（大四上第 16 週邀約、大四寒假）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
@@ -4721,9 +4722,9 @@
    "next": "跟著 v3～v5 事件接",
    "priority": "P2",
    "first": {
-    "term": "Y2S1",
-    "week": 7,
-    "earliest": "通則，跟著各段",
+    "term": "Y1S2",
+    "week": 12,
+    "earliest": "BCG-21 芷若早場兩人版（大一下第 12～13 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
@@ -5957,7 +5958,7 @@
    "area": "D14",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "週末回家取車已有",
+   "next": "G04（0c85eca2）：T12 開放事件作廢、租車刪；開車照 SYS-18（從宿舍出發自動加回家取車時間）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -6083,7 +6084,7 @@
    "area": "SYS",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "約會核心（DATE-S2～S5）；互動點的時間、花費、請客照 AA_148＋date_system/point_specs.json（128 個點；D09 纜車 costByMode）",
+   "next": "約會核心（DATE-S2～S5）；互動點的時間、花費、請客照 AA_148＋date_system/point_specs.json（128 個點；D09 纜車 costByMode）；心願事件定版 date_system/wish/（wish_aa.json、wish_bb.json、common_bb.json，d0fb8cdb；地點檔裡心願本人的 first＝{\"wishEvent\":\"wish_<id>\"}）；AA、BB 的暫名事件 id 換成實際的要回報",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -7810,7 +7811,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
-   "next": "用途、時段、站位、變體照 AA_147 第 2 節：3D 拍 6 張（LAWWW2-B）；video＝她那一端書桌一角＋檯燈（宿舍、寒假在家同一張）；car：K1 週六下午、K1b 平日晚上、K8 早上出發晚上回；riverside：中秋 10/4 15:00～傍晚、跨年 23:30；trip_*＝約會底圖 D25／D18／D09 夜／D13",
+   "next": "riverside 已接（BB-B 第 20 組）；3D 拍 6 張由 LAWWW2-B（滷味攤、宿舍頂樓改由 LAWWW2-B 拍）；其他照 AA_147",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -8146,7 +8147,7 @@
    "area": "ART",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "outings3d.js S.BG 加 id（沒有圖＝深色底＋字幕，字幕照 AA_145）；E17、E19／E28、E24c、E29、E30、主線 7、classroom_small 的對應跟著各事件做",
+   "next": "soc_hall、soc_classroom、xiaofu 已接（BB-B 第 19、20 組）；其他 id 沒有圖照舊深色底＋字幕",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -8244,6 +8245,69 @@
    },
    "source": "BB-B D59 驗收（企劃線）",
    "authorized": "D59"
+  },
+  {
+   "id": "V3-G12",
+   "title": "明軒 M2 的以安那一邊：玩家知道了（明軒 FRIEND 以上聽他講、或阿哲私訊）才多一次性選項「明軒的事……」，以安答「他問了，我答了。我們還是朋友。」記 AN_MX_ASKED",
+   "area": "V3",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "跟 M2（大二下第 16 週，BB-B 定版）一起做；v3 骨架第 18 週醉月湖版作廢",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S2",
+    "week": 16,
+    "earliest": "M2（大二下第 16 週）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_113 9-2；AA-B 9d1aa277",
+   "authorized": "D79"
+  },
+  {
+   "id": "V4-G02",
+   "title": "大三中秋＝以安生日 2027-09-15（大三上第 2 週）21:00 公館河濱、烤到 23:00；沒來的玩家群組一張照片；芷若在英國不出現",
+   "area": "V4",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 AA_71 2-2 大三版（v4 E5 中秋的大三版）",
+   "priority": "P2",
+   "first": {
+    "term": "Y3S1",
+    "week": 2,
+    "earliest": "2027-09-15",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B f4801dc3（G02）",
+   "authorized": "D79"
+  },
+  {
+   "id": "V5-G02",
+   "title": "6/2 畢業典禮那一天的順序（08:30 家人到、09～11 典禮、11～13 拍照與學姊 W15、13:00 午餐、17:30 重訪日 5、20:30 學姊生日在研究室：Kevin 家族群組，學姊 FRIEND 以上，交往中 BCG-39）",
+   "area": "V5",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 v5 骨架第 15 週；交換延畢的玩家同一天照常",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S2",
+    "week": null,
+    "earliest": "2029-06-02 畢業典禮",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B f4801dc3（G02）",
+   "authorized": "D79"
   }
  ]
 }

@@ -3,9 +3,9 @@
  "note": "交付登記（D82）：每一筆交付都要對到 tasks.json 的任務；msg＝SENT／DELIVERED／ACK／ACTIONED（接收方有沒有回 ACK）；integration＝未整合／已整合待測試／已驗收／不整合／參考用。scannedThrough＝每條交付分支已經看過的最後一個 commit：check_handoff.py 只掃它以後的 commit（增量）。看過、不是交付的 commit 放 ignored。　**scannedThrough 只在 check 跑完、列出的 commit 都登記或放進 ignored 之後才往前移**（2026-10-16：先移再跑會什麼都掃不到）。",
  "pattern": "交付|ART_APPROVED|READY_FOR_ART_REVIEW|MODEL_READY|通過|驗收|閒聊階梯|交接包|法律審查|盤點|清查|裁定|規則檔|AA_1\\d\\d|BB_1\\d\\d",
  "scannedThrough": {
-  "origin/claude/funny-albattani-iawshm": "acf5ff5d",
-  "origin/claude/cool-heisenberg-o8kuqx": "9d1aa277",
-  "origin/claude/elegant-brown-fcos7n": "488af276"
+  "origin/claude/funny-albattani-iawshm": "fe8d016d",
+  "origin/claude/cool-heisenberg-o8kuqx": "d0fb8cdb",
+  "origin/claude/elegant-brown-fcos7n": "0eea1bc3"
  },
  "deliveries": [
   {
@@ -703,6 +703,78 @@
    "msg": "DELIVERED",
    "integration": "未整合",
    "note": "從企劃線看到（掃描找到）"
+  },
+  {
+   "id": "DLV-1016-59",
+   "date": "2026-10-16T02:5xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "a608127a",
+   "what": "子晴、學姊九格表情試疊（學姊底圖改約會圖姿勢①）",
+   "task": "ART-19",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "試疊，等八位做完一起交"
+  },
+  {
+   "id": "DLV-1016-60",
+   "date": "2026-10-16T02:5xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "fe8d016d",
+   "what": "ART-08 女舍門燈第二步 patch（光暈＋門廊地坪光圈＋門口地面光圈）",
+   "task": "ART-08",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "這一輪套"
+  },
+  {
+   "id": "DLV-1016-61",
+   "date": "2026-10-16T02:5xZ",
+   "from": "BB-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "1eb9998e／5f75e15b",
+   "what": "2D 背景通過：soc_hall、soc_classroom、riverside、xiaofu（bg_approved/）",
+   "task": "ART-17、ART-18",
+   "msg": "DELIVERED",
+   "integration": "已整合待測試",
+   "note": "已放進 assets/bg、S.BG"
+  },
+  {
+   "id": "DLV-1016-62",
+   "date": "2026-10-16T02:5xZ",
+   "from": "BB-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "a87fa889／0eea1bc3",
+   "what": "心願事件 JSON（BB 五位）",
+   "task": "SYS-03",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "定版以 d0fb8cdb 為準"
+  },
+  {
+   "id": "DLV-1016-63",
+   "date": "2026-10-16T02:5xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "510eea1c",
+   "what": "AA_146 和 BB-B 對齊 13 項",
+   "task": "SYS-17",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "已套用"
+  },
+  {
+   "id": "DLV-1016-64",
+   "date": "2026-10-16T02:5xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "0c85eca2",
+   "what": "G04 AA 的部分：T12 開放事件作廢、v4 租車刪、「租的車位」改",
+   "task": "SYS-18、D14-T12",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": ""
   }
  ],
  "ignored": [
@@ -720,6 +792,11 @@
    "sha": "6c7d94b2",
    "branch": "origin/claude/cool-heisenberg-o8kuqx",
    "why": "AA-B 的指示紀錄（不是交付）；D79 確認流程已在 CLAUDE.md"
+  },
+  {
+   "sha": "b4e46402",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "AA-B 自己的交接紀錄"
   }
  ]
 }
