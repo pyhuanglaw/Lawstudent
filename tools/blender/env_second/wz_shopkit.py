@@ -505,8 +505,11 @@ def shallow_interior(spec, xf, iw, gz, ih):
     elif kind == 'cvs':                                                                                     # 便利商店：後牆的飲料冰箱、兩排貨架、櫃台
         n = int((iw - 0.6) / 0.62)
         for j in range(n):
-            x0 = -iw / 2 + 0.3 + j * 0.62; vb(x0, x0 + 0.6, y0, y0 + 2.0, zb, zb + 0.55, '#3a3d40', r=0.0)
-            xf.box(acc(SK['lamp_cool']), x0 + 0.04, x0 + 0.56, y0 + 0.1, y0 + 1.9, zb + 0.5, zb + 0.505)
+            x0 = -iw / 2 + 0.3 + j * 0.62                                                                    # 冰箱：背板（發光）＋兩側＋上下框，飲料在前面（v6 第一版做成實心方塊，飲料被包在裡面）
+            xf.box(acc(SK['lamp_cool']), x0 + 0.02, x0 + 0.58, y0 + 0.05, y0 + 1.95, zb, zb + 0.03)
+            for (a_, b_) in ((x0, x0 + 0.03), (x0 + 0.57, x0 + 0.6)): vb(a_, b_, y0, y0 + 2.0, zb, zb + 0.56, '#3a3d40', r=0.0)
+            vb(x0, x0 + 0.6, y0 + 1.95, y0 + 2.0, zb, zb + 0.56, '#3a3d40', r=0.0); vb(x0, x0 + 0.6, y0, y0 + 0.1, zb, zb + 0.56, '#3a3d40', r=0.0)
+            for t in range(5): vb(x0 + 0.03, x0 + 0.57, y0 + 0.12 + t * 0.36, y0 + 0.14 + t * 0.36, zb + 0.03, zb + 0.5, '#c8ccd0', r=0.0)   # 層架
             for t in range(5):
                 for b in range(4): vb(x0 + 0.06 + b * 0.13, x0 + 0.15 + b * 0.13, y0 + 0.15 + t * 0.36, y0 + 0.38 + t * 0.36, zb + 0.43, zb + 0.5, rr.choice(['#d84a3a', '#3a8ad8', '#f0d040', '#5ab05a', '#f4f4f0', '#8a3a2a']), r=0)
             xf.quad(acc(M['glass']), [(x0, y0, zb + 0.56), (x0 + 0.6, y0, zb + 0.56), (x0 + 0.6, y0 + 2.0, zb + 0.56), (x0, y0 + 2.0, zb + 0.56)])
