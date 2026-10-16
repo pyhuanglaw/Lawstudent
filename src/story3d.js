@@ -655,6 +655,20 @@ const STORY = (function(){
         const OD=F.KX_OUR_DAY; if(OD&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_our_day1')){ const wd={fri:5,sat:6,sun:7}[OD.day], hh={fri:19,sat:14,sun:14}[OD.day]; let d=termDay('Y1S2',2,wd); if(d!=null&&(G.day>d||(G.day===d&&G.hour>hh))) d=termDay('Y1S2',3,wd);
           const P={nccu:['政大・山下的小吃街','我們的日子：開車去政大','開車約 30 分鐘',0.5],ntu:['社科院門口','我們的日子：她來台大','走過去約 10 分鐘',1/6],mid:['公館','我們的日子：約在公館','騎車約 10 分鐘',1/6],video:['視訊','我們的日子：視訊','',0]}[OD.mode];
           if(d!=null&&P) OUT.plan(G,Object.assign({id:'kx_our_day1',ev:'ev_kexin_our_day',day:d,h:hh,place:P[0],title:P[1],travel:P[2],travelH:P[3]},OD.mode==='video'?{verb:'接起來',no:'今天先不要',back:'視訊結束。'}:{})); } } }
+    /* K6 她第一次因為自己的事改期（BB_96 9-6）：第 7 週週三 21:00 她提兩校互考（回「好」或「視訊可以嗎」，KX_QUIZ_MODE）；第 8 週週四 21:00 改期（三種回應記 K6_RESPONSE）；
+       週日 14:00 互考（出遊；時間是 AA-B 確認前的提案值）。沒去：考古題的照片「下次你逃不掉。」（ev_kexin_reschedule 的 outingMissed）。之後改「我們的日子」的回聲等每週固定格（AA-B）*/
+    { const w7=termDay('Y1S2',7,3), w8=termDay('Y1S2',8,4), sun=termDay('Y1S2',8,7); if(w7&&w8&&sun&&F.dating_kexin&&G.day>=w7-1&&G.day<=sun+1){ const th='p:kexin', K=t=>({th,from:'kexin',text:t});
+        if(!PHONE.sent(G,'kx_quiz_ask')) PHONE.at(G,w7,21,[K('期中前，兩校互考。'),K('只能出老師上課講過的。冷門學說算犯規。'),Object.assign(K('輸的人請山下那一攤。週六下午，山下。'),{ask:{opts:[{t:'好。',set:{KX_QUIZ_MODE:'meet'}},{t:'視訊可以嗎？',set:{KX_QUIZ_MODE:'video'}}]}})],'kx_quiz_ask');
+        if(!PHONE.sent(G,'kx_k6')) PHONE.at(G,w8,21,[K('對不起，週六可以改週日嗎？'),Object.assign(K('我們讀書會的報告被退回來，週六要重做。'),{ask:{opts:[
+          {t:'好，週日。報告加油。',set:{K6_RESPONSE:'understand'},say:[K('好。週日我請一攤，當改期費。')]},{t:'為什麼被退？',set:{K6_RESPONSE:'ask'},say:[K('老師說我們的理由跳太快。……我也覺得。週日跟你說。')]},
+          {t:'我週六都空下來了。',set:{K6_RESPONSE:'sulk'},say:[K('……我知道。對不起。週日你多出一題。')]}]}})],'kx_k6');
+        if(PHONE.sent(G,'kx_k6')&&G.day*24+G.hour>=w8*24+21&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_quiz1')){ const v=F.KX_QUIZ_MODE==='video';   /* 改期那則傳出以後才排（那時候已經知道見面還是視訊）*/
+          OUT.plan(G,Object.assign({id:'kx_quiz1',ev:'ev_kexin_reschedule',day:sun,h:14,place:v?'視訊':'政大・山下的小吃街',title:v?'可昕的視訊：兩校互考':'兩校互考：開車去政大',travel:v?'':'開車約 30 分鐘',travelH:v?0:0.5},v?{verb:'接起來',no:'今天先不要',back:'視訊結束。'}:{})); } } }
+    /* K6b 第一次寫申論題（BB_96 9-7）：第 9 週週三 21:00 她考完民總期中（時間是提案值）；只一次；記 KX_DIR {Y1:'reasons'}（第 10 週以後手機小事「答案被拿去當範例」）*/
+    { const w9=termDay('Y1S2',9,3); if(w9&&F.dating_kexin&&G.day>=w9&&G.day<=w9+6&&!PHONE.sent(G,'kx_essay')&&G.day*24+G.hour>=w9*24+21){ const th='p:kexin', K=t=>({th,from:'kexin',text:t});
+        PHONE.at(G,w9,21,[K('剛考完。四頁。手好痛。'),Object.assign(K('原來法律不是背答案，是把理由說給一個不認識你的人聽。'),{ask:{opts:[
+          {t:'那妳說給誰聽？',say:[K('改考卷的老師。他不認識我。……寫完的時候，我覺得他懂了。')]},{t:'我也是這學期才發現。',say:[K('那我們發現得一樣晚。很好，沒有人贏。')]},{t:'四頁？',say:[K('老師說兩頁就夠。我停不下來。')]}]}})],'kx_essay');
+        F.KX_DIR=Object.assign({},F.KX_DIR||{},{Y1:'reasons'}); } }
     /* K7 交往週年（BB_96 9-4）：2026-03-22（週日）。一週前 3/15 21:00 她傳、玩家選地點（KX_ANNIV_PLACE）；當天 18:00 出遊（提案時間，AA-B 確認中），出門前選準備的東西（K7_GIFT）。
        沒選地點、沒去、婉拒＝當晚卡片的照片「週年快樂。下次你準備。」，記 KX_ANNIV {1:'missed'}（ev_kexin_anniversary_y1 的 outingMissed）*/
     { const a0=S.dayOfKey('2026-03-15'), a1=S.dayOfKey('2026-03-22'); if(a0&&a1&&F.dating_kexin&&G.day>=a0-1&&G.day<=a1+1){ const th='p:kexin', K=t=>({th,from:'kexin',text:t});
@@ -1029,7 +1043,14 @@ const STORY = (function(){
       items:()=>[P1('npc_fangyt','黃金葛可以剪一段水耕。要不要我教你。三分鐘。')]},
     /* 阿凱的泡麵評鑑表：大一同房時是房間物件（S.roomItemList）；大二起分開住，偶爾傳照片（四次、至少隔四週）*/
     {id:'kai_sheet',term:t=>!/^Y1/.test(t.id),max:()=>4,gap:28,h:()=>21.8,ok:()=>fl('kai')!=='STRANGER',
-      items:()=>seq('kai',['表更新了','📷（泡麵評鑑表）'])} ];
+      items:()=>seq('kai',['表更新了','📷（泡麵評鑑表）'])},
+    /* 可昕大一下的手機小事（BB_96 9-8；交往中；每則一次、照週次）。時間 21:10（她傳訊息的時段，技術預設）*/
+    ...[['kx2_late',1,2,'開學了。予樂說這學期要每天早到。今天她遲到。'],['kx2_azalea',3,3,'政大也有杜鵑花。可是開在山上，要爬上去才看得到。'],['kx2_steps',3,5,'我數過了，一百二十七階。四年後我會比你強壯。'],
+        ['kx2_yule_hand',4,7,'予樂今天在課堂上舉手，問老師能不能下課。老師說可以。'],['kx2_apology',10,14,'你們老師對強制道歉怎麼講？我們老師講了兩節。'],['kx2_dumpling',12,18,'今天的酸辣湯餃，老闆多給一顆。他一定覺得我很可憐。']]
+      .map(([id,w0,w1,t])=>({id,term:T=>T.id==='Y1S2'&&T.week>=w0&&T.week<=w1,h:()=>21+10/60,ok:G=>!!G.flags.dating_kexin,items:()=>[P1('kexin',t)]})),
+    {id:'kx2_example',term:T=>T.id==='Y1S2'&&T.week>=10,h:()=>21+10/60,ok:G=>!!G.flags.dating_kexin&&!!(G.flags.KX_DIR&&G.flags.KX_DIR.Y1),   /* K6b 之後 */
+      items:()=>[P1('kexin','民總期中考，我的答案被老師拿去當範例。匿名的，可是我認得自己的字。')]},
+    {id:'kx2_coffee',term:T=>T.id==='Y1S2'&&T.week>=15&&T.week<=16,h:()=>21+10/60,ok:G=>!!G.flags.dating_kexin,items:()=>seq('kexin',['📷（書桌，旁邊一杯咖啡）','期末的第一杯。'])} ];
   S.DAILY_PHONE=DAILY;
   /* ok(G, day)：那一天條件成立嗎（決定時是今天、補送時是原本那天）。存檔：dpDay（決定過的那天）、dpPick（{id, day}：今天那一則）、dpN（每則出現過幾次）、dpLast（上一次輪到哪一則，輪流用）、dpDayOf（每則上一次是哪一天）；舊存檔沒有＝從頭開始 */
   function dailyPhone(GM){ const G=GM.G, F=G.flags; if(typeof CALENDAR==='undefined') return; const N=()=>F.dpN||(F.dpN={});

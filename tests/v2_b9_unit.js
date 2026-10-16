@@ -1,6 +1,6 @@
 // V2-B9 可昕的大一下（BB_96 第 9 節，BB 2026-10-14）——不需要瀏覽器。
 // 9-1 情人節：2/14 20:00 視訊（出遊「接起來」）；三種天氣、三種回答；KX_VDAY、KX_VDAY_WX、選「我想見妳」記 KX_VDAY_SEE；沒接＝窗戶的照片＋一句，KX_VDAY missed。
-// 9-3 K5、9-4 K7（時間、地點是 AA-B 確認前的提案值）。修改前沒有 ev_kexin_valentine_y1（第 1 項失敗）。
+// 9-3 K5、9-4 K7、9-6 K6、9-7 K6b、9-8 手機小事（時間、地點是 AA-B 確認前的提案值）。修改前沒有 ev_kexin_valentine_y1（第 1 項失敗）。
 // 用法：node tests/v2_b9_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -72,5 +72,27 @@ const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.t
     L=await play(['什麼都沒','不用算']); check('7. 什麼都沒準備：「你人來了。……這題我放水一次。」；不用算：「好。那就一直轉。」',L.includes('杜可昕：你人來了。……這題我放水一次。')&&L.includes('杜可昕：好。那就一直轉。'));
     fresh(A0,20.9,'dorm',{introDone:true,dating_kexin:true}); run(20.9,21.1); G.day=A1; run(18.9,19.2);
     check('7. 沒選地點：3/22 晚上卡片的照片「週年快樂。下次你準備。」、KX_ANNIV {1:missed}',TH('p:kexin').some(m=>m.text==='週年快樂。下次你準備。')&&G.flags.KX_ANNIV&&G.flags.KX_ANNIV[1]==='missed'); }
+  // ---- 9-6 K6 改期＋兩校互考 ----
+  { const W7=termDay('Y1S2',7,3), W8=termDay('Y1S2',8,4), SUN=termDay('Y1S2',8,7); fresh(W7,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true}); run(20.9,21.1);
+    let P=TH('p:kexin').filter(m=>m.tag==='kx_quiz_ask'); check('8. K6 第 7 週週三 21:00：互考三句（原文）、回「好。」／「視訊可以嗎？」',P.map(m=>m.text).join('｜')==='期中前，兩校互考。｜只能出老師上課講過的。冷門學說算犯規。｜輸的人請山下那一攤。週六下午，山下。'&&JSON.stringify(P[2].ask.opts.map(o=>o.t))==='["好。","視訊可以嗎？"]');
+    PHONE.answer(G,P[2].ask.id,1); G.day=W8; run(20.9,21.1); P=TH('p:kexin').filter(m=>m.tag==='kx_k6');
+    check('8. 第 8 週週四 21:00 改期：兩句、三種回應',P.map(m=>m.text).join('｜')==='對不起，週六可以改週日嗎？｜我們讀書會的報告被退回來，週六要重做。'&&P[1].ask.opts.length===3);
+    PHONE.answer(G,P[1].ask.id,2); run(21.1,21.2); const q=OUT.get(G,'kx_quiz1');
+    check('8. 選「我週六都空下來了。」：「……我知道。對不起。週日你多出一題。」、K6_RESPONSE sulk；選了視訊＝週日 14:00 視訊（接起來）',TH('p:kexin').some(m=>m.text==='……我知道。對不起。週日你多出一題。')&&G.flags.K6_RESPONSE==='sulk'&&!!q&&q.day===SUN&&q.verb==='接起來',JSON.stringify(q));
+    const play=async(pk)=>{ said=[]; opts=[]; picks=pk.slice(); G.day=SUN; G.hour=13.9; q.state='planned'; G.events.done.ev_kexin_reschedule=0; await OUT.go(GM,q); return lines(); };
+    let L=await play(['中等']); check('8. 出中等的題：「她想了很久，答對一半。」「……好，你贏。我請。」、KX_QUIZ win 1',L.includes('她想了很久，答對一半。')&&L.includes('杜可昕：……好，你贏。我請。')&&G.flags.KX_QUIZ.win===1&&JSON.stringify(opts[0])==='["簡單的（上課講過的定義）","中等的（課本後面的例題）","冷門的（某一說的少數見解）"]',JSON.stringify(L));
+    L=await play(['冷門']); check('8. 冷門的：「犯規。冷門學說是犯規。」「她判你輸。」「你請。」、lose 1（累計，win 還是 1）',L.includes('杜可昕：犯規。冷門學說是犯規。')&&L.includes('她判你輸。')&&G.flags.KX_QUIZ.lose===1&&G.flags.KX_QUIZ.win===1);
+    L=await play(['簡單']); check('8. 簡單的：「平手。各付各的。」、draw 1',L.includes('杜可昕：平手。各付各的。')&&G.flags.KX_QUIZ.draw===1);
+    q.state='planned'; G.day=SUN; G.hour=15; const ex=OUT.expire(G); for(const x of ex) OUT.onMissed(GM,x); run(15,15.1);
+    check('8. 沒去週日的互考：考古題的照片「下次你逃不掉。」',TH('p:kexin').some(m=>m.text==='下次你逃不掉。')); }
+  // ---- 9-7 K6b ----
+  { const W9=termDay('Y1S2',9,3); fresh(W9,20.9,'dorm',{introDone:true,dating_kexin:true}); run(20.9,21.1); const P=TH('p:kexin').filter(m=>m.tag==='kx_essay');
+    check('9. K6b 第 9 週週三 21:00：「剛考完。四頁。手好痛。」「原來法律不是背答案……」三個回覆；記 KX_DIR {Y1:reasons}',P.map(m=>m.text).join('｜')==='剛考完。四頁。手好痛。｜原來法律不是背答案，是把理由說給一個不認識你的人聽。'&&JSON.stringify(P[1].ask.opts.map(o=>o.t))==='["那妳說給誰聽？","我也是這學期才發現。","四頁？"]'&&G.flags.KX_DIR.Y1==='reasons',JSON.stringify(P.map(m=>m.text)));
+    PHONE.answer(G,P[1].ask.id,2); run(21.1,21.2); check('9. 「四頁？」→「老師說兩頁就夠。我停不下來。」',TH('p:kexin').some(m=>m.text==='老師說兩頁就夠。我停不下來。')); }
+  // ---- 9-8 手機小事 ----
+  { const D=STORY.DAILY_PHONE, ids=['kx2_late','kx2_azalea','kx2_steps','kx2_yule_hand','kx2_example','kx2_apology','kx2_dumpling','kx2_coffee'];
+    check('10. 9-8 八則都在每天的手機小事裡（交往中、照週次）',ids.every(id=>D.some(d=>d.id===id)),ids.filter(id=>!D.some(d=>d.id===id)).join(','));
+    const ex=D.find(d=>d.id==='kx2_example'); fresh(termDay('Y1S2',10,2),10,'dorm',{dating_kexin:true}); const T=CALENDAR.termOf(G.day);
+    check('10. 「答案被拿去當範例」：K6b 之後才成立',ex.term(T)&&!ex.ok(G,G.day)&&(G.flags.KX_DIR={Y1:'reasons'},ex.ok(G,G.day))); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });
