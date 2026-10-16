@@ -104,6 +104,15 @@ SIDE = [
     ], 'note': 'R7 精確版：只有名單那一行純文字讀 ENC_D12_ZQ3，不改 Q12 的觸發、分支、結果'},
 ]
 
+FOLLOWUP = [  # BB_144 第 4 節：第一次在那個地方遇到她，之後她下一次正常聊天時說一次（AA_160 5-3）；只放在一般聊天，劇情事件不讀（R7）
+    {'mem': 'ENC_D04_ZR', 'who': 'heroine_02', 'where': 'Café 的閒聊', 'line': '上次在西門町，你看完是什麼表情？……我從後面看到了。'},
+    {'mem': 'ENC_D12_ZQ', 'who': 'heroine_04', 'where': '一般聊天', 'line': '欸不是，上次大稻埕那個第三關，我改簡單了。因為你。'},
+    {'mem': 'ENC_D06_SIS', 'who': 'heroine_05', 'where': '一般聊天', 'line': '上次在美術館。……一件事。你在那幅畫前面站很久。'},
+    {'mem': 'ENC_D12_PS', 'who': 'classmate_peishan', 'where': '一般聊天', 'line': '上次你選的那本繪本，課輔班的小孩很喜歡。',
+     'lineIf': {'cond': '大一、大二上（她還沒去課輔班）', 'line': '上次那本繪本，我送給鄰居的小孩了。'}},
+    {'mem': 'ENC_D13_KX', 'who': 'kexin', 'where': '一般聊天（只有交往中）', 'line': '上次淡水那個假設題，我還沒說完。下次說。'},
+]
+
 RULES = {
     'values': '一起走一段照 AA_124 1-2「一起去 Café 坐坐」（熟悉 +3、信任 +1、自在 +2），受每天上限；同一個人一天一次；不加戀愛，不算約會（AA-B 2026-10-16）',
     'join': {'heroine_02': '朋友以上，19:30 以後', 'heroine_04': '不限關係', 'heroine_05': '朋友以上；有伴侶時只陪一件事',
@@ -129,6 +138,9 @@ def check():
     for e in LEAVE + REVISIT:
         for k in ('friend', 'dating', 'normal', 'afterBreakup'):
             if e.get(k): L(e[k], f'{e["who"]}/{e["spot"]}/{k}')
+    for e in FOLLOWUP:
+        L(e['line'], e['mem'])
+        if e.get('lineIf'): L(e['lineIf']['line'], e['mem']+'/if')
     for s in SIDE:
         for st in s['steps']:
             for t in st['lines']: L(t, f'{s["id"]}#{st["step"]}')
@@ -140,8 +152,8 @@ if __name__ == '__main__':
     for e in errs: print('ERR', e)
     if errs: sys.exit(1)
     out = {'source': 'BB_147（AB-18），BB-B 2026-10-16；AA_160 第 6 節', 'status': 'PROPOSAL（AA-B 已定五條規則與欄位，等 AA-B 統一轉 LAWWW-B）',
-           'rules': RULES, 'walk': WALK, 'leave': LEAVE, 'intro': INTRO, 'revisit': REVISIT, 'side': SIDE}
+           'rules': RULES, 'walk': WALK, 'leave': LEAVE, 'intro': INTRO, 'revisit': REVISIT, 'side': SIDE, 'followUp': FOLLOWUP}
     if '--check' not in sys.argv:
         with open(os.path.join(HERE, 'bb_walk_v1.json'), 'w', encoding='utf-8') as f:
             json.dump(out, f, ensure_ascii=False, indent=1)
-    print('ok', {'walk': len(WALK), 'leave': len(LEAVE), 'revisit': len(REVISIT), 'side': len(SIDE)})
+    print('ok', {'walk': len(WALK), 'leave': len(LEAVE), 'revisit': len(REVISIT), 'side': len(SIDE), 'followUp': len(FOLLOWUP)})

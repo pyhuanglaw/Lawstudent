@@ -13,6 +13,7 @@
 >   - 欄位照 AA-B 的格式：`walk:{who, spot, act, friend:[…], dating:[…]}`、`revisit:{who, spot, normal, afterBreakup}`、`side:{id, who, spot, steps:[{step, cond, lines, mem}]}`。
 >   - `act` 用 `spots_v1.json` 的 `walk` 或地點代號（例如 `D04.redhouse`）。
 >   - 和 AA-B 格式不同的兩處：每件事 `friend`、`dating` 各一句，不是兩句；離開的一句另外放在 `leave:{who, spot, friend, dating}`，因為朋友和交往中的離開不一樣。
+> - 資料檔另外收了 `followUp`：`BB_144` 第 4 節五個 `ENC_` 記憶「之後在學校提一次」的那一句（`AA_160` 5-3；只放一般聊天，劇情事件不讀）。
 > - 等 AA-B 和 AB-21 一起轉 LAWWW-B。
 > **等級**：第②級（一般日常）。不改任何約會、戀愛的條件（`AA_160` 5-6 第 1 點），不寫劇情旗標（`AA_160` R7）。
 
