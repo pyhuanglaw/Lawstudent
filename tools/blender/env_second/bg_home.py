@@ -161,6 +161,8 @@ if SCENE == 'living':
         'skirt': L.flat('home_skirt', '#b9ab95', rough=0.6),
         'wood': L.pbr('home_wood', 'wood_table_001', tile=0.8, target='#7a5236', maps=('diff', 'nor'), rough_value=0.45),
         'wood_l': L.pbr('home_wood_l', 'fine_grained_wood', tile=0.8, target='#a8825c', maps=('diff', 'nor'), rough_value=0.5),
+        'chair_wood': L.pbr('home_chair_wood', 'fine_grained_wood', tile=0.35, target='#6a4630', maps=('diff', 'nor'), rough_value=0.42),   # 椅子、桌面：細木紋、深一點的柚木色（v1 用 wood_table_001 tile 0.8，薄板上的木紋太大、像夾板）
+        'table_wood': L.pbr('home_table_wood', 'fine_grained_wood', tile=0.5, target='#74503a', maps=('diff', 'nor'), rough_value=0.35),
         'alu': L.flat('home_alu', '#b9bec2', rough=0.35, metal=0.45),
         'glass': L.flat('home_glass', '#c9d6dc', rough=0.04, alpha=0.12),
         'grille': L.flat('home_grille', '#e8e6e0', rough=0.5, metal=0.2),
@@ -291,7 +293,7 @@ if SCENE == 'living':
     except Exception as e: print('pothos', e)
     # ---- 飯廳：大圓桌（直徑 1.5 m、轉盤）＋圍爐＋年菜；八張木椅＋兩張紅色塑膠椅（親戚多）
     TX, TZ, TR, TH = -0.9, 0.35, 0.78, 0.76
-    tb = Mesh('table_top', M['wood']); bmT = L.lathe([(0.0, TH - 0.04), (TR, TH - 0.04), (TR, TH), (0.0, TH)], 48)
+    tb = Mesh('table_top', M['table_wood']); bmT = L.lathe([(0.0, TH - 0.04), (TR, TH - 0.04), (TR, TH), (0.0, TH)], 48)
     tb.add_bm(bmT, __import__('mathutils').Matrix.Translation(g2b(TX, 0, TZ))); bmT.free()
     tb.cyl((TX, 0.0, TZ), (TX, TH - 0.04, TZ), 0.07, seg=16); tb.cyl((TX, 0.0, TZ), (TX, 0.03, TZ), 0.36, seg=24); tb.finish(uv=True, smooth=True)
     lathe_obj('lazy_susan', [(0.0, 0.0), (0.48, 0.0), (0.48, 0.012), (0.0, 0.012)], M['tablecloth'], (TX, TH + 0.02, TZ), seg=48)
@@ -383,17 +385,26 @@ if SCENE == 'living':
         if VAR == 'cny' and k in (3, 7):                                          # 紅色塑膠椅（除夕親戚多，加位子的時候從陽台搬進來的那種）
             lathe_obj('red_stool', [(0.0, 0.0), (0.16, 0.0), (0.155, 0.02), (0.13, 0.42), (0.16, 0.44), (0.16, 0.46), (0.0, 0.46)], M['red_stool'], (cx, 0.0, cz), seg=20, smooth=True)
             continue
-        ch = Mesh('chair', M['wood']); w, d = 0.21, 0.21
+        ch = Mesh('chair', M['chair_wood']); w, d = 0.21, 0.205
         rot = lambda px, pz: (cx + px * math.cos(a) - pz * math.sin(a), cz + px * math.sin(a) + pz * math.cos(a))
         def rbox(px0, px1, y0, y1, pz0, pz1):
             pts = [rot(px0, pz0), rot(px1, pz0), rot(px1, pz1), rot(px0, pz1)]
             b2 = bmesh.new(); vs = [b2.verts.new(g2b(p[0], yy, p[1])) for yy in (y0, y1) for p in pts]
             for f in ((0, 1, 2, 3), (7, 6, 5, 4), (0, 4, 5, 1), (1, 5, 6, 2), (2, 6, 7, 3), (3, 7, 4, 0)): b2.faces.new([vs[i] for i in f])
             ch.add_bm(b2); b2.free()
-        rbox(-w, w, 0.43, 0.47, -d, d)
-        for px, pz in ((-w + 0.03, -d + 0.03), (w - 0.03, -d + 0.03), (-w + 0.03, d - 0.03), (w - 0.03, d - 0.03)): rbox(px - 0.02, px + 0.02, 0, 0.43, pz - 0.02, pz + 0.02)
-        rbox(w - 0.04, w, 0.47, 0.95, -d + 0.01, d - 0.01)                         # 椅背在離桌子遠的那一側（+r 方向）
-        ch.finish()
+        def rcyl(px, pz, y0, y1, r0, r1):
+            p0 = rot(px, pz); ch.cyl((p0[0], y0, p0[1]), (p0[0], y1, p0[1]), r0, seg=10, r2=r1)
+        # 台灣常見的實木餐椅：座板（前緣倒角）＋座板下的牽板、圓的錐形腳、後腳往上延伸成椅背立柱、上橫木＋三根直條、腳之間的低橫撐
+        rbox(-w, w, 0.435, 0.462, -d, d); rbox(-w + 0.01, w - 0.01, 0.462, 0.468, -d + 0.01, d - 0.01)
+        for (px0, px1, pz0, pz1) in ((-w + 0.02, w - 0.02, -d + 0.02, -d + 0.04), (-w + 0.02, w - 0.02, d - 0.04, d - 0.02), (-w + 0.02, -w + 0.04, -d + 0.02, d - 0.02), (w - 0.04, w - 0.02, -d + 0.02, d - 0.02)):
+            rbox(px0, px1, 0.37, 0.435, pz0, pz1)
+        for pz in (-d + 0.035, d - 0.035):
+            rcyl(-w + 0.035, pz, 0.0, 0.435, 0.014, 0.019)                         # 前腳（離桌子近）
+            rcyl(w - 0.035, pz, 0.0, 0.93, 0.015, 0.018)                           # 後腳＝椅背立柱
+            rbox(-w + 0.04, w - 0.04, 0.13, 0.15, pz - 0.009, pz + 0.009)          # 側面的低橫撐
+        rbox(w - 0.05, w - 0.02, 0.84, 0.92, -d + 0.03, d - 0.03)                  # 上橫木
+        for pz in (-0.09, 0.0, 0.09): rbox(w - 0.045, w - 0.028, 0.47, 0.84, pz - 0.016, pz + 0.016)   # 三根直條
+        ch.finish(smooth=False)
     # ---- 燈：餐桌上方的吊燈（暖色）＋客廳的吸頂燈；窗外的夜景自己發光
     lathe_obj('pendant_shade', [(0.05, 0.0), (0.3, -0.18), (0.31, -0.19), (0.06, -0.01)], M['lamp'], (TX, 2.32, TZ), seg=40)
     cord = Mesh('pendant_cord', M['black']); cord.cyl((TX, 2.32, TZ), (TX, HT, TZ), 0.005, seg=6); cord.finish()
