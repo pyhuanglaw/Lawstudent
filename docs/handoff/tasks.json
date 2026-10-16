@@ -618,8 +618,8 @@
    "title": "6 張新立繪 jiahao、pinyu、tangrui、weilun、xun、yule",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "阿勳、品妤已接（econ_zhengxun、econ_pinyu）；韋綸、唐睿、家豪 BB-B 通過，等用到的事件（SK03／v0）；予樂等 K1b 人物資料；品妤重切中；品妤立繪漂浮碎片修正版（LAWWW2-B 97af63cf）已換進 econ_pinyu（本批）",
+   "status": "已整合待測試",
+   "next": "予樂立繪 3 張已接（5ad7a862，BB-B 驗收 e8e49415）；其他 5 位（jiahao、pinyu、tangrui、weilun、xun 的表情）照 BB_131",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -706,8 +706,8 @@
    "title": "台北的家 2D：home_living、home_balcony",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
-   "next": "注意重複：BB-B 第 25 組 home_living（除夕）已通過（c57e39ad），第 26 組 home_balcony 的提示詞已給使用者——LAWWW-B 04:1x 協調中（除夕版用 BB-B 通過的；平常版、白天版、陽台由 LAWWW2-B 交，BB-B 第 26 組陽台先停）",
+   "status": "已整合待測試",
+   "next": "平常版客廳 home_living 已接（1fc16c76）；陽台用 BB-B 生成圖（home_balcony）；除夕用 home_living_cny",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -5481,7 +5481,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "底圖 BB-B 驗收通過（企劃線 date_system/art/d17_base_*.webp）；等 DATE-S6 半互動約會系統一起接",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5523,7 +5523,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "底圖 BB-B 驗收通過（企劃線 date_system/art/d19_base_*.webp）；等 DATE-S6 半互動約會系統一起接",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5544,7 +5544,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "底圖 BB-B 驗收通過（企劃線 date_system/art/d20_base_*.webp）；等 DATE-S6 半互動約會系統一起接",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5565,7 +5565,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "底圖 BB-B 驗收通過（企劃線 date_system/art/d21_base_*.webp）；等 DATE-S6 半互動約會系統一起接",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5586,7 +5586,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "底圖 BB-B 驗收通過（企劃線 date_system/art/d22_base_*.webp）；等 DATE-S6 半互動約會系統一起接",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5607,7 +5607,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "底圖 BB-B 驗收通過（企劃線 date_system/art/d23_base_*.webp）；等 DATE-S6 半互動約會系統一起接",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5628,7 +5628,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "底圖 BB-B 驗收通過（企劃線 date_system/art/d24_base_*.webp）；等 DATE-S6 半互動約會系統一起接",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -8467,7 +8467,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "待開工",
-   "next": "子晴、以安的正面全身圖 BB-B 第 23 組通過（e69036b8，date_system/art/heroine_0{4,1}_portrait_full.webp）→ LAWWW2-B 切底圖＋疊九格；語彤等第 24 組；語彤正面全身第 24 組通過（3c983b8b）",
+   "next": "第二批已接（e1365734）：以安、語彤、子晴新底圖＋九格、學姊 embarrassed、芷若 thinking；BB-B 在遊戲裡看合成結果（D59）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -8599,6 +8599,29 @@
    "evidence": "tests/ladder_unit.js 19、20（記憶名稱、學期檔）"
   },
   {
+   "id": "V4-L2",
+   "title": "大三閒聊階梯：BB 四位（ladder_bb_y3s1：Q5、S5、P5、K5；ladder_bb_y3s2：Z5、Q6、P6、K6）＋MEMORY_LABEL",
+   "area": "V4",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "重跑 import_ladder 匯入、補記憶 tag 標籤；照 D81 在那一學年做",
+   "priority": "P3",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "大三上開學和以安、語彤說話",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_140（1e56c380）、BB_141（6f83dc11）",
+   "authorized": "D79 第 7 點（v4）",
+   "sha": "",
+   "evidence": ""
+  },
+  {
    "id": "V5-L1",
    "title": "大四閒聊階梯：以安 A7／A8、語彤 Y7／Y8（ladder_aa_y4s1.json、ladder_aa_y4s2.json）",
    "area": "V5",
@@ -8620,6 +8643,29 @@
    "authorized": "D79 第 7 點（v5）",
    "sha": "b4525e0e",
    "evidence": "tests/ladder_unit.js 19、20"
+  },
+  {
+   "id": "V5-L2",
+   "title": "大四閒聊階梯：BB 三位（ladder_bb_y4s1：S6、P7、K7）＋MEMORY_LABEL",
+   "area": "V5",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "重跑 import_ladder 匯入、補記憶 tag 標籤；照 D81 在那一學年做",
+   "priority": "P3",
+   "first": {
+    "term": "Y4S1",
+    "week": 1,
+    "earliest": "大四上開學和以安、語彤說話",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_142（1dc86e73）",
+   "authorized": "D79 第 7 點（v5）",
+   "sha": "",
+   "evidence": ""
   },
   {
    "id": "V3-G09",
