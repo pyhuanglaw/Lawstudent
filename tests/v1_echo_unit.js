@@ -51,5 +51,12 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
     const run2=(flags)=>{ fresh(nye,23.8,'dorm',flags); PHONE.join(G,'family_law','法律系直屬家族'); STORY.phoneRules(GM); G.hour=24.1; PHONE.tick(G); return FM(); };
     const a=run2({SIS_NO_STICKER:true}), b=run2({});
     check('5. 有 SIS_NO_STICKER：跨年夜家族群組 學姊（貼圖）→ Kevin「？？？」→ 學姊「……學弟說過。」；沒有不觸發',JSON.stringify(a)==='["（貼圖）","？？？","……學弟說過。"]'&&!b.length,JSON.stringify([a,b])); }
+  /* 4. V1-K2P：K2 霖澤館前品妤還在、椰林大道她先走（AA_147；events3d 的 leave） */
+  { const k2=ev('ev_kexin_visits_ntu'); const slots={left:null,right:null}, log=[]; const A0=global.ADV;
+    global.ADV=Object.assign({},A0,{slots,begin(o){ slots.right=o&&o.right?{charId:o.right.charId}:null; slots.left=null; },speaker(id){ if(!id||id==='player') return; if(slots.right&&slots.right.charId===id) return; if(slots.left&&slots.left.charId===id) return; if(!slots.left) slots.left={charId:id}; },hide(sl){ slots[sl]=null; },setBg(){},log(){},end(){}});
+    const snap=[]; const sayO=GM.say; GM.say=async(who,t)=>{ snap.push([t,slots.left&&slots.left.charId]); said.push({who:who?(who.name||String(who)):null,t}); };
+    fresh(termDay('Y1S1',6,6),16,'campus',{dating_kexin:true}); picks=['又是你']; await EVENTS.run(k2); GM.say=sayO; global.ADV=A0;
+    const at=t=>(snap.find(x=>x[0]===t)||[])[1];
+    check('6. K2：霖澤館前品妤的立繪還在（不說話）；椰林大道「品妤先回去了」那句時已經收起來',at('所以這就是你每天說的霖澤館。……比照片高。')==='econ_pinyu'&&at('品妤先回去了。你們沿著椰林大道，一路走到公館吃晚餐。')==null,JSON.stringify(snap.map(x=>[x[0].slice(0,12),x[1]]))); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

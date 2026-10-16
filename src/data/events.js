@@ -1159,7 +1159,7 @@ const STORY_EVENTS=[
       {unless:{flags:['MET_PINYU']},speaker:'品妤',text:'曾品妤。經濟系，可昕以前的室友。……一個暑假沒見，你不會忘了吧。'},
       {if:{flags:['MET_PINYU']},speaker:'品妤',text:'你來了。'},
       {speaker:'kexin',expression:'teasing',text:'這是我的舊系館。你的新系館在對面，我知道。'},
-      {scene:'台大・霖澤館前',bg:'ntu_linze'},
+      {scene:'台大・霖澤館前',bg:'ntu_linze'},{speaker:'品妤',expression:'neutral'},
       {speaker:'kexin',expression:'neutral',text:'所以這就是你每天說的霖澤館。……比照片高。'},
       {speaker:'kexin',expression:'teasing',text:'假設霖澤館會說話，它看到你每天第一堂遲到，第一句會說什麼？'},
       {choice:[{text:'「又是你。」',goto:'a'},{text:'「今天也辛苦了。」',goto:'b'},{text:'「我沒有每天遲到。」',goto:'c'}]},
@@ -1167,7 +1167,7 @@ const STORY_EVENTS=[
       {label:'b'},{speaker:'kexin',expression:'smile',text:'……你對建築物比對我溫柔。'},{speaker:null,text:'她笑。'},{goto:'e'},
       {label:'c'},{speaker:'kexin',expression:'teasing',text:'它會說：『證據呢？』'},
       {label:'e'},
-      {scene:'台大・椰林大道',bg:'ntu_avenue'},
+      {scene:'台大・椰林大道',bg:'ntu_avenue'},{leave:'品妤'},   /* AA_147：霖澤館前品妤還在（在旁邊看手機＝立繪留著、不說話）；椰林大道她先走、剩兩人 */
       {speaker:null,text:'品妤先回去了。你們沿著椰林大道，一路走到公館吃晚餐。'},
       {unless:{events:['ev_kexin_tour_nccu']},speaker:'kexin',expression:'smile',text:'下次換你來，我當導遊。'} ],
     consequences:{flags:{MET_PINYU:true},memo:'可昕第一次來台大'} },

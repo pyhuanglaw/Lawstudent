@@ -8445,8 +8445,8 @@
    "title": "K2 可昕來台大：霖澤館前品妤還在旁邊看手機，走到椰林大道她才先走",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "K2 的 2D 場景加品妤立繪（pinyu，品妤重切中先用現在這張）",
+   "status": "已整合待測試",
+   "next": "K2 霖澤館前品妤立繪留著（不說話）、椰林大道先收起來（events3d 新增 leave 指令；tests/v1_echo_unit.js 第 6 項）。背景 ntu_* 還沒有圖（LAWWW2-B BG15～17）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
