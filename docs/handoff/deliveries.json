@@ -2907,8 +2907,8 @@
    "sha": "4380b0eb",
    "what": "AB-38 BB_112 4-1 重考期 R 系列缺的台詞（R1 憲法第七條三個按鈕＋法律審查、R3、R4 E32_COMFORT、R6、R7、玩樂日旁白 P1～P6、讀書日開場 S1～S5）",
    "task": "V0-B3",
-   "msg": "ACK",
-   "integration": "未整合",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
    "note": "第②級（AA-B 同意結構，AA_154 A39）；LAWWW-B 接著做",
    "date": "2026-10-16T13:24Z"
   },
@@ -2931,8 +2931,8 @@
    "sha": "372821e4",
    "what": "AA_154 A45 重考期 R 系列缺的台詞的結構（互助板 AB-38）",
    "task": "V0-B3",
-   "msg": "ACK",
-   "integration": "未整合",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
    "note": "台詞在 BB-B 4380b0eb，一起接",
    "date": "2026-10-16T13:3xZ"
   },
