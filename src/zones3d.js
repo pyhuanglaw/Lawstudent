@@ -1319,7 +1319,17 @@ const Z3 = (function(){
     E.interactables.push({x:-0.7,z:-2.45,radius:0.75,label:'看看房間裡的東西',roomItems:true});   /* 交接包 v1 第 1 節「房間物件」（書架前面；story3d.js 的 roomItems）*/
     P3.mergeStatic(g);   /* 備用模型自己合併（外層合併會跳過它，正式模型載入後要能整組藏起來）*/
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_interior']) ASSETS.loadOne('bldg.dorm_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachDormInterior(z,g0,root); }).catch(e=>console.warn('宿舍室內正式模型載入失敗，用程序化備用模型',e));
+    /* 經濟系那一年（412）：開學那晚的紙箱、經濟學原理（V0-ART-DORM，AA-B 製作、LAWWW2-B 驗收；AA_168）。紙箱三種狀態照 E01（story3d.js 的 y0FirstNight）：
+       開場三箱疊在床上 → 22:00 被子鋪好、兩箱在床邊地上 → 先睡＝推到床尾（隔天晚上拆完）／拆完＝不見。阿勳的書桌、保齡球袋等宿舍正式模型把室友那一半分開再放 */
+    z.setV0Box=()=>{};
+    if(typeof GAME!=='undefined'&&GAME.G&&GAME.G.stage==='econ'&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.v0_dorm_props']){ const vg=new THREE.Group(); vg.name='v0_dorm_props'; vg.userData.dyn=true; g0.add(vg);
+      z.v0Box=v0BoxFromFlags(GAME.G.flags||{}); z.setV0Box=s=>{ z.v0Box=s; for(const [k,n] of [['onbed','BOXES_ONBED'],['bed','BOXES_BED'],['foot','BOXES_FOOT']]){ const o=vg.getObjectByName(n); if(o) o.visible=s===k; } };
+      ASSETS.loadOne('bldg.v0_dorm_props').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
+        const put=(n,x,y,zz,ry)=>{ const o=root.getObjectByName(n); if(!o) return; o.position.set(x,y,zz); o.rotation.set(0,ry||0,0); o.traverse(m=>{ if(m.isMesh){ m.castShadow=false; m.receiveShadow=true; } }); vg.add(o); };
+        put('BOXES_ONBED',-2.2,0.58,-1.15,0); put('BOXES_BED',-1.45,0,-0.55,0.3); put('BOXES_FOOT',-2.2,0.58,-0.78,0.1); put('BOOK_ECON',1.45,0.77,-2.55,0.2);   /* 床（−2.2,−1.5）的被子頂 0.58；書桌頂 0.77 */
+        z.setV0Box(z.v0Box); }).catch(e=>console.warn('經濟系宿舍的小物件載入失敗',e)); }
     return z; } };
+  function v0BoxFromFlags(F){ if(!F.E01_NIGHT) return 'onbed'; if(F.E01_NIGHT==='sleep'&&!F.E01_BOXES) return 'foot'; return 'none'; }
   /* 宿舍房間的正式模型（第二個 AI：tools/blender/env_second/dorm_interior.py）：日光燈管、檯燈燈泡、筆電與螢幕一直亮；
      牆、地板、木家具有燈光感（TK.bounce）；書、雜物的顏色在頂點色（自發光也照頂點色加一點） */
   const DORM_BOUNCE={dorm_wall:[0.4,0.5],dorm_floor:[0.32,0.42],dorm_wood:[0.3,0.4],dorm_wood_dark:[0.25,0.35],dorm_door:[0.25,0.35],dorm_sheet:[0.3,0.4],dorm_duvet:[0.25,0.35],dorm_pillow:[0.3,0.4],dorm_curtain:[0.3,0.4],dorm_ac:[0.3,0.4]};
@@ -1363,5 +1373,5 @@ const Z3 = (function(){
       return z; } }; }
   const wz_brunch=wzShop('brunch'), wz_print=wzShop('print'), wz_teahouse=wzShop('teahouse');
   const ZONES={campus,gongguan,wenzhou,classroom,library,cafe,cvs,noodle,bookstore,dorm,wz_brunch,wz_print,wz_teahouse};   /* wancai：src/wancai3d.js；linze：src/building3d.js；wz_*：溫州街三家新店（WZ_SHOPS_LAYOUT）*/   /* wancai：src/wancai3d.js；linze：src/building3d.js */
-  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,wzParkSeason,wzCatModel};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 */
+  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,wzParkSeason,wzCatModel,v0BoxFromFlags};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 */
 })();

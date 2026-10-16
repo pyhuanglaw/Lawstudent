@@ -49,10 +49,11 @@ const STORY = (function(){
      演到一半關掉遊戲：E01_DONE 還沒記，下次在房間裡從頭演（y0Tick）。房間的紙箱、阿勳的筆電、保齡球袋等 LAWWW2-B 的模型（V0-ART-DORM）。測試：node tests/v0_e01_unit.js */
   const XUN='econ_zhengxun';
   const xunWho=GM=>{ const n=GM.npc[XUN]; return n?{name:'阿勳',obj:n.obj,charId:XUN}:{name:'阿勳',charId:XUN}; };
+  const v0Box=(GM,st)=>{ const z=GM.E&&GM.E.zone; if(z&&z.setV0Box) z.setV0Box(st); };   /* 412 的紙箱（zones3d.js dorm 的 V0-ART-DORM）*/
   async function y0FirstNight(GM){ const G=GM.G, F=G.flags, E=GM.E; if(!S.isEcon(G)||F.E01_DONE||y0Busy) return false; y0Busy=true; let night=null;
     GM.sceneBegin(); GM.letterbox(true);
     try{ G.hour=21; E.hour=G.hour; if(GM.updateHUD) GM.updateHUD();
-      for(const t of ['開學前一天，晚上九點。男生宿舍四樓，四一二。','媽媽傍晚才走。她把三個紙箱疊在你的床上。','她說：「先拆被子。」被子在最下面那一箱。']) await GM.say(null,t);
+      v0Box(GM,'onbed'); for(const t of ['開學前一天，晚上九點。男生宿舍四樓，四一二。','媽媽傍晚才走。她把三個紙箱疊在你的床上。','她說：「先拆被子。」被子在最下面那一箱。']) await GM.say(null,t);
       GM.advance(2/60); if(typeof PHONE!=='undefined') await phoneScene(GM,'p:mom',[{from:'mom',name:'媽媽',text:'到了要記得吃晚餐。'}]); else await GM.say({name:'媽媽（手機）'},'到了要記得吃晚餐。');
       await GM.say(null,'你已經吃過了。媽媽也知道。');
       await GM.say(null,'門開了。一個很高的男生拿著臉盆走進來，看了你的紙箱一眼。');
@@ -70,10 +71,10 @@ const STORY = (function(){
       if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(XUN,{fam:2});   /* 兩個選項一樣（不記旗標）*/
       await GM.say(who,'被子在最下面那一箱，對不對。'); await GM.say(null,'他幫你把上面兩箱搬到地上，然後回去自己的桌子，戴上耳機。');
       await GM.fade(true); GM.advance(Math.max(0,22-G.hour)); { const m=GM.npc[XUN]; if(m){ const st={x:1.8,z:2.2,yaw:Math.PI}; GM.sitAt(m,st); m.seat=st; m.pose=m.idlePose='sit'; m.frozen=true; } } await GM.fade(false);   /* 時間跳到 22:00（不用旁白說）*/
-      await GM.say(null,'十點了。被子鋪好了，地上還有兩個箱子沒拆。');
+      v0Box(GM,'bed'); await GM.say(null,'十點了。被子鋪好了，地上還有兩個箱子沒拆。');
       const j=await GM.choose([{t:'先睡。明天再拆。'},{t:'今天拆完。'}]);
-      if(j===0){ F.E01_NIGHT='sleep'; await GM.say(null,'你把兩個箱子推到床尾。燈還沒關，你就睡著了。'); night='sleep'; }
-      else { F.E01_NIGHT='unpack'; if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(XUN,{comf:1});
+      if(j===0){ F.E01_NIGHT='sleep'; v0Box(GM,'foot'); await GM.say(null,'你把兩個箱子推到床尾。燈還沒關，你就睡著了。'); night='sleep'; }
+      else { F.E01_NIGHT='unpack'; v0Box(GM,'none'); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(XUN,{comf:1});
         for(const t of ['你拆到第三箱的時候，阿勳已經躺下了。','他的桌燈沒有關。他把燈轉過來，照著你那一邊。','最後一本書放上書架，是兩點。']) await GM.say(null,t);
         GM.advance(Math.max(0,26-G.hour)); night='unpack'; }   /* 02:00 睡：G.hour 26＝01:00 以後才睡（sleepNow 記 lateNight）*/
       F.E01_DONE=true; }
@@ -90,7 +91,7 @@ const STORY = (function(){
   S.y0Tick=function(GM){ const G=GM.G, F=G.flags, d1=S.y0Day1(); if(!S.isEcon(G)||G.zone!=='dorm'||y0Busy||GM.E.player.busy||(GM.D&&GM.D.active)) return false;
     if(G.day===d1&&!F.E01_DONE){ y0FirstNight(GM); return true; }
     if(G.day===d1+1&&F.E01_NIGHT&&!F.E01_MORNING&&h(G)<12){ y0Morning(GM); return true; }
-    if(F.E01_NIGHT==='sleep'&&!F.E01_BOXES&&(G.day>d1+1||(G.day===d1+1&&h(G)>=17))){ F.E01_BOXES=true; y0Busy=true; GM.sceneBegin(); GM.say(null,'你終於把箱子拆完了。阿勳說，比他預測的早。').finally(()=>{ GM.sceneEnd(); y0Busy=false; }); return true; }
+    if(F.E01_NIGHT==='sleep'&&!F.E01_BOXES&&(G.day>d1+1||(G.day===d1+1&&h(G)>=17))){ F.E01_BOXES=true; v0Box(GM,'none'); y0Busy=true; GM.sceneBegin(); GM.say(null,'你終於把箱子拆完了。阿勳說，比他預測的早。').finally(()=>{ GM.sceneEnd(); y0Busy=false; }); return true; }
     return false; };
   S.y0FirstNight=y0FirstNight; S.y0Morning=y0Morning;
   // ---------- 日程與路人 ----------
