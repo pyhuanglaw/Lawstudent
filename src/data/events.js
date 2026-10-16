@@ -1532,15 +1532,23 @@ const STORY_EVENTS=[
       {speaker:null,text:'（台上在講一個案子。前排一個綁低馬尾的女生舉手，說了一段話，大家都在抄。）'},
       {speaker:null,text:'（下課鐘響。你是第一個走的。沒有人認識你。）'},{speaker:null,text:'（走出穿堂時，你回頭看了一眼。）'} ],
     after:async(G,GM)=>{ if(G.hour<12+10/60) GM.advance(12+10/60-G.hour); if(GM.enter) await GM.enter('campus',{x:30.0,z:-107.4,yaw:Math.PI/2}); } },
-  /* ★E24c 決定（BB_104 3-3 第 180 行、5-1；AA_154 第 227 行）：3/13（四）22:00 宿舍頂樓，祐廷一個人做的決定，阿勳在旁邊。玩家選重考的理由（AA_12 0-2 的三種說法）記 E24C_REASON
-     （understand／should／later；法律系時期朋友問「你為什麼重考？」預設同一句）。阿勳那句：有 XUN_KNEW（A2）換成「你確定了？……我早就看到那本書了。……」。
-     核心：3/13 22:00 起、到 3/18 為止的晚上（20:00～02:00）一定會演（那晚早睡的話，隔天晚上演）*/
+  /* ★E24c 決定（AA_169 完整稿；AA_154 第 227 行）：3/13（四）22:00 宿舍頂樓（3D 頂樓還沒有：先用 dorm_roof 背景），祐廷一個人做的決定、整段不提可昕。
+     邊界情況（AA_169）：22:00 不在男宿＝那天晚上第一次走進男宿時開始；22:00 以前先睡＝按下睡覺時先演（story3d.js 的 sleepNow 前面）。
+     寫 E24C_REASON（understand／ought／unsaid；AA_12 0-2 讀它）；讀 XUN_KNEW（阿勳那句的原文兩個版本）；阿勳信任 +2 */
   { id:'ev_y0_e24c', stage:'econ', title:'決定', participants:['econ_zhengxun'], location:'any', trigger:'auto', term:['Y0S2'], once:true, background:'dark',
-    prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-03-13'):null; if(d==null) return false; const h=G.hour; return (G.day===d&&h>=22)||(G.day>d&&G.day<=d+5&&(h>=20||h<2)); }},
+    prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-03-13'):null; if(d==null) return false; const h=G.hour; return (G.zone==='dorm'||G.zone==='dorm_hall')&&((G.day===d&&h>=22)||(G.day===d+1&&h<6)); }},
     dialogue:[ {scene:'宿舍頂樓',bg:'dorm_roof'},
-      {choice:[{text:'「經濟很有趣。可是我一直想回來弄懂小時候看不懂的東西。」',set:{E24C_REASON:'understand'}},{text:'「經濟在問『會怎麼樣』，我比較想知道『應該怎麼樣』。」',set:{E24C_REASON:'should'}},{text:'「說來話長。……下次跟你說。」',set:{E24C_REASON:'later'}}]},
+      {speaker:null,text:'星期四晚上十點，你睡不著，走上宿舍頂樓。'},{speaker:null,text:'風很大。對面那棟樓，還有幾扇窗是亮的。'},
+      {speaker:null,text:'口袋裡是法學緒論的講義。黃教授上週那一段，你聽了兩遍。'},{speaker:null,text:'你想起寒假最後一天，在家裡翻開的那本民法。'},
+      {speaker:null,text:'小時候看不懂。現在還是看不太懂。'},{speaker:null,text:'可是你想看懂。'},{speaker:null,text:'如果有人問你為什麼，你會怎麼說？'},
+      {choice:[{text:'「我一直想回來，弄懂小時候看不懂的東西。」',set:{E24C_REASON:'understand'}},{text:'「經濟在問『會怎麼樣』，我比較想知道『應該怎麼樣』。」',set:{E24C_REASON:'ought'}},{text:'「說不清楚。……可是我知道。」',set:{E24C_REASON:'unsaid'}}]},
+      {speaker:null,text:'你說出口，才發現自己已經決定了。'},{speaker:null,text:'鐵門被推開。阿勳拿著兩罐麥茶走上來。'},
+      {speaker:'econ_zhengxun',text:'你不在床上。我以為你被風吹走了。'},{speaker:null,text:'他把一罐麥茶遞給你。'},{speaker:'player',text:'我要重考。法律。'},
       {unless:{flags:['XUN_KNEW']},speaker:'econ_zhengxun',text:'你確定？……好。你確定的樣子比較好看。'},
-      {if:{flags:['XUN_KNEW']},speaker:'econ_zhengxun',text:'你確定了？……我早就看到那本書了。好。你確定的樣子比較好看。'} ] },
+      {if:{flags:['XUN_KNEW']},speaker:'econ_zhengxun',text:'你確定了？……我早就看到那本書了。好。你確定的樣子比較好看。'},
+      {speaker:'player',text:'你不問為什麼？'},{speaker:'econ_zhengxun',text:'你在這裡站了二十分鐘。答案應該已經很完整了。'},
+      {speaker:null,text:'你們喝完那罐麥茶，才下樓。'},{speaker:null,text:'這件事，你還沒有告訴任何人。除了他。'},
+      {rel:{econ_zhengxun:{trust:2}}} ] },
   /* ★E25「我想重考法律。」（BB_104 8-8、第 4 節「痕跡」；AA_154 A35）：3/19（三）19:45～20:15（晚到＝延到 21:30）醉月湖南岸步道走到她旁邊就演；21:30 還沒到＝帶到場（E25_FORCE，story3d.js）。
      「不是唐睿」只給 E19 直接問或開玩笑問的玩家。三個回答都是接受，記 E25_ANSWER（first_day／only_me／new_year）。回答之後她說一句「痕跡」（只說一句，順序：E19 直接問 ＞ E21 認真回答「好」 ＞
      常常主動約她（invite:kexin 5 次以上）＞ 都用玩笑帶過（E19、E21 都是玩笑）＞ E19 不問 ＞ 預設）。之後接 E26 摩天輪 */
@@ -1583,6 +1591,28 @@ const STORY_EVENTS=[
       {speaker:'kexin',expression:'serious',text:'理由是我自己的。我說不出最想念哪一科，可是我很確定，我想要。'},
       {speaker:'kexin',expression:'smile',text:'所以我們說好——一起準備。同一張桌子。你畫架構，我出假設題。'},{speaker:'kexin',expression:'smile',text:'還有，你不可以偷偷比我早起。'},
       {stamp:['E27_DAY']} ] },
+  /* ★E30 辦休學的那天，朋友還在上課（AA_169 完整稿；AA_154 第 232 行）：3/27（四）14:40 自動（在別的事件或出遊裡＝結束後馬上；15:10 以後就只剩「先走」）。
+     寫 LEAVE_WEEK＝6、E30_WAITED；等他們下課＝阿勳、品妤熟悉 +1（韋綸、唐睿沒有人物資料）。先走的群組訊息在 story3d.js（15:12）*/
+  { id:'ev_y0_e30', stage:'econ', title:'辦休學的那天', participants:['econ_zhengxun'], location:'any', trigger:'auto', term:['Y0S2'], once:true, background:'blur',
+    prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-03-27'):null; return d!=null&&G.day===d&&G.hour>=14+40/60; }},
+    dialogue:[ {scene:'行政大樓'},{speaker:null,text:'星期四下午，行政大樓。你把申請書交出去。'},{speaker:'承辦人',text:'好了。這學期的課，就都不用去了。'},
+      {speaker:null,text:'手續比你想的快。十五分鐘。'},{speaker:null,text:'你走到普通教學館外面。初等會計學還在上課。'},
+      {speaker:null,text:'從窗外看進去：韋綸在睡，品妤在抄，唐睿在看窗外。'},{speaker:null,text:'阿勳在裡面，對你舉了一下筆。'},
+      {set:{LEAVE_WEEK:6}},
+      {choice:[{text:'「等他們下課。」',if:{custom:G=>G.hour<15+10/60},set:{E30_WAITED:true},goto:'w'},{text:'「先走。」',set:{E30_WAITED:false},goto:'l'}]},
+      {label:'w'},{speaker:null,text:'你在走廊的長椅上坐到三點十分。下課鐘響了。'},
+      {speaker:'econ_zhengxun',text:'你在窗外站很久。我以為你要來上課。'},{speaker:'econ_pinyu',text:'辦完了？'},{speaker:'player',text:'辦完了。'},
+      {speaker:'econ_pinyu',text:'……好。那今天的筆記，我不借你了。你用不到。'},{speaker:'韋綸',text:'欸，那你以後還會來社科院嗎？'},
+      {speaker:'player',text:'會啊。宿舍這週末要搬。……可是我會回來。'},{speaker:'唐睿',text:'那就不算走。'},
+      {rel:{econ_zhengxun:{fam:1},econ_pinyu:{fam:1}}},{goto:'end'},
+      {label:'l'},{speaker:null,text:'你沒有等下課，先走了。'},
+      {label:'end'} ],
+    after:(G,GM)=>{ if(G.flags.E30_WAITED&&G.hour<15+10/60) GM.advance(15+10/60-G.hour); } },
+  /* E30 當晚：檯燈上的便利貼（AA_169；BB_112 A3 原文）：3/27 22:00 以後第一次在宿舍房間。E30_WAITED 的玩家多一行小字。記 Y0_STICKY（A3 跟著裝箱、R7 讀它）*/
+  { id:'ev_y0_e30_note', stage:'econ', title:'便利貼', participants:[], location:'dorm', trigger:'auto', term:['Y0S2'], once:true, background:'blur',
+    prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-03-27'):null; return d!=null&&G.flags.LEAVE_WEEK===6&&((G.day===d&&G.hour>=22)||(G.day===d+1&&G.hour<6)); }},
+    dialogue:[ {speaker:null,text:'檯燈上多了一張便利貼。阿勳的字。'},{speaker:'便利貼',text:'保齡球欠我一場。'},
+      {if:{flags:['E30_WAITED']},speaker:null,text:'下面還有一行小字：「今天的下課，算你有來。」'},{set:{Y0_STICKY:true}} ] },
   /* XL-2 阿勳一句（表叔；BB_110 F1 的回聲，AA_154 A28、A43）：Y0S2 第 1 週第一次在宿舍遇到阿勳（和 XL-1 同一套），F1 選了「轉給表叔」（Y0_UNCLE）才說 */
   { id:'ev_y0_xl2', stage:'econ', title:'表叔的變異數', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S2'], weeks:[1], time:[18,24], once:true, background:'blur',
     prereq:{custom:G=>!!(G.flags&&G.flags.Y0_UNCLE)},

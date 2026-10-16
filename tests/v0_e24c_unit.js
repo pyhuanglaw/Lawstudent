@@ -1,5 +1,5 @@
-// v0 ★E24c 決定（BB_104 3-3、5-1；AA_154 第 227 行）：3/13 22:00 起的晚上、三個理由、阿勳兩個版本——不需要瀏覽器。
-// 修改前沒有 ev_y0_e24c（全部失敗）。用法：node tests/v0_e24c_unit.js
+// v0 ★E24c 決定（AA_169 完整稿；AA_154 第 227 行）：3/13 22:00 在男宿、不在男宿回來才演、先睡睡前先演；七句旁白、三個理由、阿勳兩個版本——不需要瀏覽器。
+// 用法：node tests/v0_e24c_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -24,12 +24,18 @@ const at=(day,hour)=>{ G.day=day; G.hour=hour; G.weekday=wdOf(day); run(); };
 const TH=th=>PHONE.thread(G,th).map(m=>m.text);
 (async()=>{
   const D=STORY.dayOfKey('2025-03-13'); const ev=STORY_EVENTS.find(e=>e.id==='ev_y0_e24c'); check('0. E24c 在',!!ev); if(!ev){ console.log('FAILED '+fails); process.exit(1); }
-  const ck=(d,h)=>{ fresh(d,h,'dorm'); return EVENTS.check(ev); };
-  check('1. 3/13 22:00 起演；21:00、3/12 不演；3/14 晚上 20:00、凌晨 01:00 補演；3/14 中午、3/19 不演',ck(D,22.1)&&!ck(D,21)&&!ck(D-1,22.5)&&ck(D+1,20.5)&&ck(D+1,1)&&!ck(D+1,12)&&!ck(D+6,22));
-  fresh(D,22.1,'dorm'); picks=['應該怎麼樣']; await EVENTS.run(ev); let L=said.map(x=>x.t);
-  check('2. 選「經濟在問『會怎麼樣』……」→ E24C_REASON＝should；阿勳「你確定？……好。你確定的樣子比較好看。」',G.flags.E24C_REASON==='should'&&L.join('|')==='你確定？……好。你確定的樣子比較好看。',JSON.stringify(L));
-  fresh(D,22.1,'dorm',{XUN_KNEW:true}); picks=['說來話長']; await EVENTS.run(ev); L=said.map(x=>x.t);
-  check('3. 有 XUN_KNEW：阿勳「你確定了？……我早就看到那本書了。好。你確定的樣子比較好看。」；later',G.flags.E24C_REASON==='later'&&L.join('|')==='你確定了？……我早就看到那本書了。好。你確定的樣子比較好看。');
-  check('3. 一次',!EVENTS.check(ev));
+  const ck=(d,h,z)=>{ fresh(d,h,z||'dorm'); return EVENTS.check(ev); };
+  check('1. 3/13 22:00 在男宿（房間、走廊）演；21:00、3/12 不演',ck(D,22.1)&&ck(D,22.1,'dorm_hall')&&!ck(D,21)&&!ck(D-1,22.5));
+  check('1. 邊界：22:00 在外面不演，回男宿（當晚、過了午夜）才演；3/14 白天不演',!ck(D,22.5,'gongguan')&&ck(D,23.8,'dorm_hall')&&ck(D+1,0.5,'dorm')&&!ck(D+1,12));
+  fresh(D,22.1,'dorm'); SOCIAL.meet('econ_zhengxun','x'); const t0=SOCIAL.rel('econ_zhengxun').trust|0; picks=['應該怎麼樣']; await EVENTS.run(ev); let L=said.map(x=>x.t);
+  check('2. 七句旁白「星期四晚上十點，你睡不著，走上宿舍頂樓。」…「如果有人問你為什麼，你會怎麼說？」→ 選項',L[0]==='星期四晚上十點，你睡不著，走上宿舍頂樓。'&&L[6]==='如果有人問你為什麼，你會怎麼說？',JSON.stringify(L.slice(0,7)));
+  check('2. 選「經濟在問『會怎麼樣』……」→ ought；「你說出口，才發現自己已經決定了。」→ 阿勳上頂樓 →「我要重考。法律。」→「你確定？……好。你確定的樣子比較好看。」→「你不問為什麼？」… 最後「這件事，你還沒有告訴任何人。除了他。」',G.flags.E24C_REASON==='ought'&&L[7]==='你說出口，才發現自己已經決定了。'&&L.includes('我要重考。法律。')&&L.includes('你確定？……好。你確定的樣子比較好看。')&&L.includes('你在這裡站了二十分鐘。答案應該已經很完整了。')&&L[L.length-1]==='這件事，你還沒有告訴任何人。除了他。'&&!L.some(t=>/可昕/.test(t)),JSON.stringify(L));
+  check('2. 阿勳信任 +2',(SOCIAL.rel('econ_zhengxun').trust|0)===t0+2);
+  fresh(D,22.1,'dorm',{XUN_KNEW:true}); picks=['說不清楚']; await EVENTS.run(ev); L=said.map(x=>x.t);
+  check('3. 有 XUN_KNEW：「你確定了？……我早就看到那本書了。好。你確定的樣子比較好看。」；unsaid',G.flags.E24C_REASON==='unsaid'&&L.includes('你確定了？……我早就看到那本書了。好。你確定的樣子比較好看。'));
+  fresh(D,22.1,'dorm'); picks=['弄懂小時候']; await EVENTS.run(ev); check('3. 第一個理由＝understand；一次',G.flags.E24C_REASON==='understand'&&!EVENTS.check(ev));
+  // 先睡＝睡前先演
+  fresh(D,21,'dorm'); picks=['弄懂小時候']; GM.enter=async z=>{ G.zone=z; }; GM.setGoal=()=>{}; GM.titleCard=async()=>{}; try{ await STORY.sleepNow(GM,7.5); }catch(e){}
+  check('4. 3/13 21:00 先睡：睡前先演 E24c',G.flags.E24C_REASON==='understand'&&!!(G.events.done.ev_y0_e24c));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
