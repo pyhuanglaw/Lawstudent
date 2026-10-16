@@ -216,6 +216,7 @@ def merge_by_material(root, keep=lambda ob: False, key=lambda ob: ''):
     groups = {}
     for ob in [o for o in root.children_recursive if o.type == 'MESH']:
         if keep(ob) or ob.data.users > 1 or len(ob.data.materials) != 1: continue
+        if ob.data.materials[0] is None: print('merge_by_material：沒有材質的物件', ob.name); continue
         groups.setdefault((ob.data.materials[0].name, key(ob)), []).append(ob)
     n_before = sum(len(v) for v in groups.values()); made = 0
     for (mname, k), obs in groups.items():

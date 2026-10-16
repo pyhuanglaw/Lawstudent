@@ -464,7 +464,8 @@ DI = 2.6
 
 def books_mat():
     m = bpy.data.materials.new('wz_in_books'); m.use_nodes = True; nt = m.node_tree; bs = nt.nodes['Principled BSDF']; bs.inputs['Roughness'].default_value = 0.7
-    tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(os.path.join(GEN, 'lawlib_books.png'), check_existing=True); nt.links.new(tx.outputs['Color'], bs.inputs['Base Color']); return m
+    tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(os.path.join(GEN, 'wz_books_spines.jpg'), check_existing=True)   # lawlib_books.png 縮成 768 的 JPG（小一半以上）
+    nt.links.new(tx.outputs['Color'], bs.inputs['Base Color']); return m
 
 
 IN_MAT = {}
@@ -556,9 +557,10 @@ def shallow_interior(spec, xf, iw, gz, ih):
         for k, x in enumerate((-iw / 2 + 1.4, 0.0, iw / 2 - 1.4)):
             for t in range(3):
                 zz = gz - 0.6 - t * 0.45; yy = y0 + 0.35 + t * 0.3; vb(x - 1.0, x + 1.0, yy - 0.04, yy, zz - 0.2, zz + 0.2, '#8a6a4a', r=0.008)
-                for b in range(5):
-                    col = rr.choice(['#e04a2a', '#f0b030', '#7ab040', '#f0d050', '#c02a4a', '#f08030']); cx = x - 0.8 + b * 0.4
-                    for q in range(3): acc_fruit(col).sphere(xf.p(cx + (q - 1) * 0.1, yy + 0.06, zz + (q % 2) * 0.06 - 0.03), 0.055, seg=8, rings=5)
+                for b in range(4):                                                                       # 一籃：竹籃（扁圓柱）＋堆起來的水果（兩顆）
+                    col = rr.choice(['#e04a2a', '#f0b030', '#7ab040', '#f0d050', '#c02a4a', '#f08030']); cx = x - 0.75 + b * 0.5
+                    xf_cyl(acc(SK['wood_lt']), xf, (cx, yy, zz), (cx, yy + 0.06, zz), 0.16, seg=10)
+                    for q in range(2): acc_fruit(col).sphere(xf.p(cx + (q - 0.5) * 0.12, yy + 0.1, zz + (q % 2) * 0.05 - 0.02), 0.07, seg=7, rings=4)
         vb(-iw / 2 + 0.4, -iw / 2 + 2.2, y0, y0 + 1.9, zb, zb + 0.6, '#e8e8e4', r=0.02); xf.box(acc(SK['lamp_cool']), -iw / 2 + 0.5, -iw / 2 + 2.1, y0 + 0.1, y0 + 1.8, zb + 0.6, zb + 0.605)
         for x in (-iw / 3, 0.0, iw / 3): acc(SK['lamp']).sphere(xf.p(x, yt - 0.45, gz - 1.0), 0.07, seg=8, rings=5); xf_cyl(acc(SK['black']), xf, (x, yt, gz - 1.0), (x, yt - 0.38, gz - 1.0), 0.004, seg=4)
     elif kind == 'brunch':                                                                                  # 半熟：兩張小桌、吊燈、後面的吧台＋咖啡機、黑板

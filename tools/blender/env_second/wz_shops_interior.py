@@ -370,7 +370,8 @@ def build_teahouse():
               'moss': L.pbr(P + 'moss', 'grass_ground', tile=1.5, target='#5d6a3c', normal=0.6, maps=('diff', 'nor'), res=256, rough_value=0.95),
               'gravel': L.pbr(P + 'gravel', 'granular_concrete', tile=0.6, target='#a9a49a', maps=('diff',), res=256, rough_value=0.95),
               'scroll': img_mat(P + 'scroll', 'scroll_cha.png', rough=0.8), 'fence': L.pbr(P + 'fence', 'dark_wood', tile=0.6, target='#5e4632', maps=('diff',), res=256, rough_value=0.7),
-              'neighbor': L.pbr(P + 'neighbor', 'plaster_grey_04', tile=2.0, target='#bdb5a6', maps=('diff',), res=256, rough_value=0.9)})
+              'neighbor': L.pbr(P + 'neighbor', 'plaster_grey_04', tile=2.0, target='#bdb5a6', maps=('diff',), res=256, rough_value=0.9),
+              'azalea': img_mat(P + 'azalea', 'azalea_leaves.png', rough=0.7, clip=True), 'maple': CL.leaf_mat(P + 'leaf_maple', 'tree_leaves_sweetgum_g.png')})
     it = LAY['items']; xf0 = Xf(0, 0)
     # 地板：茶席、緣側＝深色木地板；和室＝榻榻米（每間 2×4 張，深色緣）；玄關＝石材
     Mesh(P + 'floor', M['planks']).box(X0, X1, -0.02, 0.0, -0.6, Z1).finish(root)
@@ -476,8 +477,13 @@ def build_teahouse():
     for j in range(14): a = j / 14 * math.pi - math.pi / 2; acc('post').cyl((bx + 0.02, -0.0, gz1 - 0.15), (bx + 0.05 + math.sin(a) * 0.18, -0.4, gz1 - 0.2 + math.cos(a) * 0.08), 0.006, seg=3)
     for x in [X0 + k * 0.12 for k in range(int(W / 0.12) + 1)]: acc('fence').box(x, x + 0.1, -0.44, 1.1, gz1, gz1 + 0.04)   # 矮木牆
     acc('fence').box(X0, X1, 0.9, 0.98, gz1 + 0.04, gz1 + 0.1)
-    Mesh(P + 'neighbor', M['neighbor']).box(X0 - 2, X1 + 2, -0.44, 7.5, gz1 + 1.6, gz1 + 1.8).finish(root)                 # 隔壁公寓的牆（背景）
-    for sx in (X0 - 2.2, X1 + 2.2): Mesh(P + 'neighbor_side', M['neighbor']).box(sx - 0.1, sx + 0.1, -0.44, 7.5, Z1, gz1 + 1.8).finish(root)
+    Mesh(P + 'neighbor', M['neighbor']).box(X0 - 4, X1 + 4, -0.44, 5.2, gz1 + 4.5, gz1 + 4.7).finish(root)                 # 隔壁公寓的牆（背景；退後、降低，院子才看得到天空）
+    for sx in (X0 - 0.3, X1 + 0.3): Mesh(P + 'neighbor_side', M['fence']).box(sx - 0.05, sx + 0.05, -0.44, 1.6, Z1 + 1.2, gz1).finish(root)   # 院子兩側的竹籬
+    random.seed(77); lf = acc('leaf')
+    for k in range(9): x = X0 + 0.6 + k * (W - 1.2) / 8; bush(lf, x, 0.3, gz1 - 0.45, 0.55, n=7, span=0.5, flat_y=0.9)        # 矮木牆前的灌木
+    for (bx, bz, r) in ((-3.4, 7.2, 0.5), (-0.6, 7.6, 0.45), (1.0, 8.6, 0.55), (-2.6, 9.0, 0.4)): bush(acc('azalea'), bx, -0.1, bz, r, n=8, span=0.5, flat_y=0.8)   # 修剪過的圓形杜鵑
+    mp = Xf(-2.4, 8.4); mp.cyl(acc('post'), (0, -0.4, 0), (0.15, 1.6, 0.05), 0.05, seg=6); mp.cyl(acc('post'), (0.1, 1.2, 0.03), (0.6, 2.0, -0.1), 0.03, seg=5)   # 小楓樹
+    bush(acc('maple'), -2.2, 2.0, 8.4, 0.9, n=14, span=0.5, flat_y=0.7)
     try:                                                                                                                    # 老樟樹（和街道同一個模型）
         bpy.ops.import_scene.gltf(filepath=os.path.join(L.ROOT, 'assets', 'models', 'env', 'second_ai', 'street_trees.glb'))
         for part in ('bark', 'leaf'):
