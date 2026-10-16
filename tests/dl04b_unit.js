@@ -43,6 +43,12 @@ let caps=[]; GM.caption=(w,t)=>caps.push(t);
     const wed=termDay('Y1S1',17,3); fresh(wed,12.05,'campus',{introDone:true,classDone:true,afternoonDone:true}); PHONE.join(G,'noodle_team','麵店團'); const toasts=[]; GM.toast=t=>toasts.push(t);
     STORY.phoneRules(GM); check('2. 當天 12:00 以後一則提醒（只有一次）',toasts.filter(t=>/聖誕交換禮物/.test(t)).length===1,toasts.join(' / ')); STORY.phoneRules(GM); check('2. 同一天不重複提醒',toasts.filter(t=>/聖誕交換禮物/.test(t)).length===1);
     G.hour=11.9; G.daily={}; toasts.length=0; STORY.phoneRules(GM); check('2. 12:00 以前不提醒',!toasts.some(t=>/聖誕交換禮物/.test(t))); GM.toast=()=>{}; }
+  /* 2b. 週二晚上的第二則提醒（AA-B 10-16）*/
+  { const tue=termDay('Y1S1',17,2); fresh(tue,21.9,'dorm',{introDone:true,classDone:true,afternoonDone:true}); PHONE.join(G,'noodle_team','麵店團'); STORY.phoneRules(GM); check('2b. 週二 21:54：還沒傳',!PHONE.sent(G,'xmas_eve1'));
+    G.hour=22.01; STORY.phoneRules(GM); G.hour=22.06; PHONE.tick(G); const m=G.msgs.filter(x=>x.th==='g:noodle_team'&&/十二點十分|還沒買|十點半/.test(x.text)).map(x=>x.from+'：'+x.text);
+    check('2b. 22:00 小語「明天中午十二點十分，霖澤館一樓！禮物記得包起來。」→ 22:02 阿哲「我還沒買。」→ 22:03 小語「……書店開到十點半。」',m.length===3&&m[0]==='yu：明天中午十二點十分，霖澤館一樓！禮物記得包起來。'&&m[1]==='zhe：我還沒買。'&&m[2]==='yu：……書店開到十點半。',JSON.stringify(m));
+    const fresh2=()=>{ fresh(tue+1,9,'dorm',{introDone:true,classDone:true,afternoonDone:true}); PHONE.join(G,'noodle_team','麵店團'); STORY.phoneRules(GM); }; fresh2(); check('2b. 週三早上才加入群組（或才讀到）：照樣看到',PHONE.sent(G,'xmas_eve1'));
+    fresh(tue+1,13,'dorm',{introDone:true,classDone:true,afternoonDone:true}); PHONE.join(G,'noodle_team','麵店團'); G.events.done.ev_xmas_exchange=1; STORY.phoneRules(GM); check('2b. 交換禮物演過以後不傳',!PHONE.sent(G,'xmas_eve1')); }
   /* 3. 颱風假 */
   { const ty=termDay('Y1S1',7,1); check('3. 前提：大一上第 7 週週一是颱風假',CALENDAR.typhoon(ty));
     check('3. 颱風假：Café、麵店、書店不開；便利商店照開',!PLACES.isOpen('cafe',15,ty)&&!PLACES.isOpen('noodle',15,ty)&&!PLACES.isOpen('bookstore',15,ty)&&PLACES.isOpen('cvs',15,ty));

@@ -739,7 +739,10 @@ const STORY = (function(){
     /* 聖誕交換禮物（A20、AA_71 2-6）：阿哲在麵店團群組揪（第 17 週週一 12/22 21:00；之後才加入群組的，加入時看到）。活動本身是 ev_xmas_exchange（12/24 週三中午霖澤館一樓）*/
     { const mon=termDay('Y1S1',17,1); if(mon&&PHONE.inGroup(G,'noodle_team')&&G.day>=mon&&(G.day<mon+2||(G.day===mon+2&&h(G)<12+10/60))&&!PHONE.sent(G,'xmas_ask')){ const late=G.day>mon||h(G)>=21;
         PHONE.at(G,late?G.day:mon,late?h(G):21,[{th:'g:noodle_team',from:'zhe',text:'聖誕交換禮物，週三中午，霖澤館一樓。一百五以內。'}],'xmas_ask'); } }
-    { const wed=termDay('Y1S1',17,3); if(wed&&G.day===wed&&h(G)>=12&&h(G)<13+40/60&&PHONE.inGroup(G,'noodle_team')&&!(G.events&&G.events.done&&G.events.done.ev_xmas_exchange)){ const D=G.daily||(G.daily={}); if(D.xmasToast!==wed){ D.xmasToast=wed; GM.toast('今天 12:10～13:40：聖誕交換禮物（霖澤館一樓）',4800); } } }   /* 當天 12:00 一則提醒（AA_160 3-4 B）；前一晚的群組提醒等 AA-B 的台詞 */
+    /* 週二晚上的第二則提醒（AA-B 10-16，AA_160 3-4 B）：22:00 小語、22:02 阿哲、22:03 小語；條件和 xmas_ask 一樣（在群組、還沒演）；之後才加入的在加入時看到。書店真的開到 22:30 */
+    { const mon=termDay('Y1S1',17,1), tue=mon!=null?mon+1:null; if(tue!=null&&PHONE.inGroup(G,'noodle_team')&&!(G.events&&G.events.done&&G.events.done.ev_xmas_exchange)&&(G.day>tue||(G.day===tue&&h(G)>=22))&&(G.day<tue+1||(G.day===tue+1&&h(G)<12+10/60))&&!PHONE.sent(G,'xmas_eve1')){ const late=G.day>tue||h(G)>=22.1;
+        const d0=late?G.day:tue, t0=late?h(G):22; PHONE.at(G,d0,t0,[{th:'g:noodle_team',from:'yu',text:'明天中午十二點十分，霖澤館一樓！禮物記得包起來。'}],'xmas_eve1'); PHONE.at(G,d0,t0+2/60,[{th:'g:noodle_team',from:'zhe',text:'我還沒買。'}],'xmas_eve2'); PHONE.at(G,d0,t0+3/60,[{th:'g:noodle_team',from:'yu',text:'……書店開到十點半。'}],'xmas_eve3'); } }
+    { const wed=termDay('Y1S1',17,3); if(wed&&G.day===wed&&h(G)>=12&&h(G)<13+40/60&&PHONE.inGroup(G,'noodle_team')&&!(G.events&&G.events.done&&G.events.done.ev_xmas_exchange)){ const D=G.daily||(G.daily={}); if(D.xmasToast!==wed){ D.xmasToast=wed; GM.toast('今天 12:10～13:40：聖誕交換禮物（霖澤館一樓）',4800); } } }   /* 當天 12:00 一則提醒（AA_160 3-4 B）*/
     /* 跨年（A21、BB_95 9-7）：一週前（第 17 週週三 12/24 21:00）可昕問；KX_NYE_PICK 換成 KX_NYE:{1:…}（每年一筆）；12/31 排出遊：河堤 23:30（開車）、頂樓 23:45（走上去）；
        沒有回她、在麵店團群組的玩家：頂樓（AA 的群戲，沒有視訊）。河堤回來的路上（00:12）麵店團群組：頂樓的照片＋阿哲「我們就說有看到。」*/
     { const nye=termDay('Y1S1',18,3);
