@@ -8,6 +8,7 @@
 「日系加一點寫實 不要很像積木」：舞台、講台、欄杆、座位都倒角；布幕是有皺褶的曲面；植物用模型葉子（plants.py）。
 參考：BB_151 第 4b 節的公開資料（樓板、挑高、看台層數、用途）；沒有室內照片——看台排數、舞台、布置是一般體育館的做法。"""
 import json, math, os, random, subprocess, sys
+import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE); sys.path.insert(0, os.path.join(HERE, '..'))
 import lib2 as L   # noqa: E402
@@ -34,6 +35,19 @@ def img_mat(name, fn, rough=0.6, emit=0.0):
     m['tile'] = 1.0; return m
 
 
+def soft_plaster(name, target, tile, k=0.35):
+    """white_plaster_02 降低對比（只留 35% 的明暗）再校正到 target：大牆在這個尺度看得出一塊一塊的斑（BB-B）"""
+    W_ = 512; src = bpy.data.images.load(os.path.join(HERE, 'textures', 'white_plaster_02', 'white_plaster_02_diff_1k.jpg'), check_existing=True)
+    w, h = src.size; px = np.empty(w * h * 4, dtype=np.float32); src.pixels.foreach_get(px); px = px.reshape(-1, 4)
+    mu = px[:, :3].mean(axis=0); px[:, :3] = mu + (px[:, :3] - mu) * k
+    t = np.array([int(target.lstrip('#')[i:i + 2], 16) / 255 for i in (0, 2, 4)], dtype=np.float32) ** 2.2
+    px[:, :3] *= t / np.maximum(px[:, :3].mean(axis=0), 1e-4)
+    im = bpy.data.images.new(name + '_soft', w, h, alpha=False); im.pixels.foreach_set(np.clip(px, 0, 1).ravel()); im.scale(W_, W_)
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; bs = nt.nodes['Principled BSDF']; bs.inputs['Roughness'].default_value = 0.85
+    tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = im; nt.links.new(tx.outputs['Color'], bs.inputs['Base Color']); m['tile'] = tile
+    return m
+
+
 def seat_strip_mat():
     """上層看台的座位帶：一格＝一張椅子（藍色椅面、深色縫、椅背上緣亮一點）；u 每 1.0＝一張"""
     import numpy as np
@@ -50,7 +64,7 @@ M = {
     'floor': img_mat(P + 'floor', 'arena_floor.jpg', rough=0.3),
     'slab': L.pbr(P + 'slab', 'concrete_floor_painted', tile=2.0, target='#7e7c78', normal=0.5, maps=('diff', 'nor'), res=256, rough_value=0.8),
     'riser': L.pbr(P + 'riser', 'concrete_floor_painted', tile=1.6, target='#9a9894', normal=0.5, maps=('diff', 'nor'), res=256, rough_value=0.8),
-    'plaster': L.pbr(P + 'plaster', 'white_plaster_02', tile=3.0, target='#d8d5ce', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.85),
+    'plaster': soft_plaster(P + 'plaster', '#d8d5ce', 6.0),   # v5：降對比、放大（v4 的大牆看得出一塊一塊的斑）
     'fascia': L.flat(P + 'fascia', '#23395e', rough=0.6), 'nosing': L.flat(P + 'nosing', '#e8b83a', rough=0.5),
     'steel': L.flat(P + 'steel', '#8a9096', rough=0.4, metal=0.45), 'steel_dk': L.flat(P + 'steel_dark', '#3a3e42', rough=0.45, metal=0.35),
     'roof': L.flat(P + 'roof', '#4c5156', rough=0.85, cull=True), 'glass': base['glass'],
@@ -259,8 +273,21 @@ def stand(sd):
 for sd in A['stands']: stand(sd)
 # 南看台中間的入口通道（vomitory）：兩側牆、上方的橫樑、通道盡頭的門（回 1F 的樓梯）
 V = A['vomitory']
-for x in (V['x0'], V['x1']): acc('plaster').box(x - (0.25 if x < 0 else 0), x + (0 if x < 0 else 0.25), 0.0, SR['h0'] + SR['rows'] * SR['rise'] + 0.6, V['z0'], 17 + DEPTH)
+VW = Mesh(P + 'vomitory_wall', L.flat(P + 'vomitory_wall', '#8e9196', rough=0.8))   # v5：側牆照看台的斜度收邊、素面灰漆（v4 是比座位高一大截的白牆，從場地看像隔板）
+ztop = 17 + DEPTH; yb, yt = SR['h0'] + 1.0, SR['h0'] + (SR['rows'] - 1) * SR['rise'] + 1.6
+for x in (V['x0'], V['x1']):
+    xo = x - 0.25 if x < 0 else x + 0.25
+    for xx in (x, xo): VW.quad([(xx, 0.0, V['z0']), (xx, 0.0, ztop), (xx, yt, ztop), (xx, yb, V['z0'])])
+    VW.quad([(x, yb, V['z0']), (x, yt, ztop), (xo, yt, ztop), (xo, yb, V['z0'])])                      # 斜的上緣
+    VW.quad([(x, 0.0, V['z0']), (x, yb, V['z0']), (xo, yb, V['z0']), (xo, 0.0, V['z0'])])              # 正面
+    acc('fascia').box(min(x, xo) - 0.02, max(x, xo) + 0.02, 0.0, 1.0, V['z0'], ztop)
+VW.finish(root, uv=False)
 acc('fascia').box(V['x0'] - 0.25, V['x1'] + 0.25, 2.8, 3.4, V['z0'] - 0.2, V['z0'] + 0.2)
+EXIT_M = L.flat(P + 'exit_sign', '#2a9a4a', rough=0.4, emit=B.srgb('#3ccf6a'))   # 通道口上方的綠色出口燈（白色小人＝亮一點的方塊，不寫字）
+Xf(0, 0).rbox(acc('steel_dk'), -0.42, 0.42, 3.42, 3.78, V['z0'] - 0.24, V['z0'] - 0.16, r=0.01, seg=1)
+ex = Mesh(P + 'exit_face', EXIT_M); ex.box(-0.38, 0.38, 3.46, 3.74, V['z0'] - 0.26, V['z0'] - 0.24); ex.finish(root, uv=False)
+exw = Mesh(P + 'exit_figure', M['light']); exw.box(-0.22, -0.08, 3.5, 3.7, V['z0'] - 0.265, V['z0'] - 0.26); exw.box(-0.02, 0.3, 3.57, 3.63, V['z0'] - 0.265, V['z0'] - 0.26); exw.finish(root, uv=False)
+CL.glow(root, 'exit', 0.0, 3.6, V['z0'] - 0.5, color='rgba(80,230,120,1)', size=1.2, day=0.3, night=0.8)
 acc('plaster').box(V['x0'], V['x1'], 2.8, UP['h0'], 17 + DEPTH, 17 + DEPTH + 0.3)
 acc('slab').quad([(V['x0'], 0.002, 17 + DEPTH), (V['x1'], 0.002, 17 + DEPTH), (V['x1'], 0.002, V['z0']), (V['x0'], 0.002, V['z0'])])
 for k in range(3): CL.glow(root, 'vomitory', 0.0, 2.6, V['z0'] + 1.5 + k * 2.6, color='rgba(255,240,220,1)', size=1.6, day=0.3, night=0.8)

@@ -40,6 +40,7 @@ const GYM_LAYOUT = {
     {kind: 'directory', x: 5.0, y: 1.93, z: 11.23, w: 0.9, h: 1.2, note: 'v2：樓層指引（3F 主球場、1F 多功能球場、B1 健身中心・游泳池；目前位置 1F 大廳）'}
   ],
   sets: {
+    nets: {node: 'SET_NETS', note: 'v3：羽球網＋網柱（6 面）。平常顯示；第二會場（SET_SECONDHALL）打開時藏起來（BB-B：辦活動前會收網）。網柱的導航阻擋在 blocks 最後 12 個，收網時一起拿掉'},
     second_hall: {node: 'SET_SECONDHALL', note: '1F 第二會場（畢業典禮坐不下的家長、未滿 12 歲的小孩看轉播）：西牆的大螢幕＋整片折疊椅（面向西）。平常藏起來，典禮那天顯示',
       blocks: [[-6.0, -4.0, 18.0, 20.0]], seats: 'chairs: x −14.5～4.5 每 1.0 m、z −13.5～5.5 每 1.2 m，面向 −x（yaw −π/2）'}
   },

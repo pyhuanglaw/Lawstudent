@@ -128,13 +128,17 @@ for k in range(6):
 for k in range(8): st.cyl((X0, HH + 0.4, ZH0 + k * 4.0), (X1, HH + 0.4, ZH0 + k * 4.0), 0.04, seg=5)       # 屋頂的次樑
 
 # ======================== 羽球網、吊掛式籃架 ========================
+nets_g = B.group('SET_NETS', root, {'set': 'nets', 'default': 'on'})   # v3：羽球網＋網柱自己一組（平常顯示；第二會場打開時收起來——BB-B：辦活動前會收網）
+nm_base, nm_post, nm_net, nm_tape = Mesh('SET_NETS_base', M['steel_dk']), Mesh('SET_NETS_post', M['steel']), Mesh('SET_NETS_net', M['net']), Mesh('SET_NETS_tape', M['tape'])
 for (cx, cz) in LAY['courts']['badminton']:
     for sx in (-3.1, 3.1):
-        X0_.lathe(acc('steel_dk'), [(0.0, 0.0), (0.2, 0.0), (0.2, 0.05), (0.06, 0.07), (0.0, 0.07)], cx + sx, 0.0, cz, seg=14)   # 底座
-        acc('steel').cyl((cx + sx, 0.05, cz), (cx + sx, 1.55, cz), 0.022, seg=8)
-    acc('net').quad([(cx - 3.08, 0.79, cz), (cx + 3.08, 0.79, cz), (cx + 3.08, 1.52, cz), (cx - 3.08, 1.52, cz)])
-    acc('net').quad([(cx + 3.08, 0.79, cz), (cx - 3.08, 0.79, cz), (cx - 3.08, 1.52, cz), (cx + 3.08, 1.52, cz)])
-    acc('tape').box(cx - 3.08, cx + 3.08, 1.5, 1.55, cz - 0.01, cz + 0.01)
+        X0_.lathe(nm_base, [(0.0, 0.0), (0.2, 0.0), (0.2, 0.05), (0.06, 0.07), (0.0, 0.07)], cx + sx, 0.0, cz, seg=14)   # 底座
+        nm_post.cyl((cx + sx, 0.05, cz), (cx + sx, 1.55, cz), 0.022, seg=8)
+    nm_net.quad([(cx - 3.08, 0.79, cz), (cx + 3.08, 0.79, cz), (cx + 3.08, 1.52, cz), (cx - 3.08, 1.52, cz)])
+    nm_net.quad([(cx + 3.08, 0.79, cz), (cx - 3.08, 0.79, cz), (cx - 3.08, 1.52, cz), (cx + 3.08, 1.52, cz)])
+    nm_tape.box(cx - 3.08, cx + 3.08, 1.5, 1.55, cz - 0.01, cz + 0.01)
+for m_ in (nm_base, nm_post, nm_tape): m_.finish(nets_g, uv=False, smooth=True)
+nm_net.finish(nets_g, uv=False)
 for (hx, hz) in LAY['courts']['basketball']['hoops']:
     s = 1 if hx < 0 else -1; bx = hx - s * 0.375                                                      # 籃板在籃框後面 0.375 m（籃框中心離籃板 0.15＋半徑 0.225）
     acc('board_glass').box(bx - 0.025, bx + 0.025, 2.9, 3.95, hz - 0.9, hz + 0.9)
