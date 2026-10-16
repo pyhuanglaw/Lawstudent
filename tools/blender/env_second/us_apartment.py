@@ -250,19 +250,22 @@ for d in LAY['doors']:
 acc('backsplash').quad([(-4.6 + T / 2, 0.92, 3.0 - T / 2 - 0.005), (-1.8 - T / 2, 0.92, 3.0 - T / 2 - 0.005), (-1.8 - T / 2, 1.45, 3.0 - T / 2 - 0.005), (-4.6 + T / 2, 1.45, 3.0 - T / 2 - 0.005)][::-1])
 
 # ======================== 衛浴（浴缸、馬桶、洗手台＋鏡子） ========================
+# AA-B 的 ART-US4（us_bath_props.glb）交件以後用它（下面「衛浴＝ART-US4」）；沒有那個檔才做這裡的簡單版
+US4 = os.path.join(L.ROOT, 'assets/models/env/second_ai/aa_support/us_bath_props.glb'); US4_OK = os.path.exists(US4)
 F = {f['type']: f for f in LAY['furniture']}
-tb = F['tub']; acc('porcelain').rbox(tb['x0'], tb['x1'], 0.0, 0.52, tb['z0'], tb['z1'], r=0.04, seg=3)
-acc('tile').quad([(tb['x0'] + 0.08, 0.36, tb['z1'] - 0.08), (tb['x1'] - 0.08, 0.36, tb['z1'] - 0.08), (tb['x1'] - 0.08, 0.36, tb['z0'] + 0.08), (tb['x0'] + 0.08, 0.36, tb['z0'] + 0.08)])
-acc('chrome').cyl((tb['x0'] + 0.3, 1.0, tb['z1'] - 0.02), (tb['x0'] + 0.3, 1.0, tb['z1'] - 0.12), 0.018, seg=8)
-acc('chrome').cyl((tb['x0'] + 0.1, 2.05, tb['z0'] - 0.02), (tb['x1'] - 0.1, 2.05, tb['z0'] - 0.02), 0.012, seg=8)   # 浴簾桿
-acc('curtain').quad([(tb['x0'] + 0.15, 0.6, tb['z0'] + 0.01), (tb['x0'] + 0.75, 0.6, tb['z0'] + 0.01), (tb['x0'] + 0.75, 2.03, tb['z0'] + 0.01), (tb['x0'] + 0.15, 2.03, tb['z0'] + 0.01)][::-1])
-tl = F['toilet']; tx_, tz_ = tl['x'], tl['z']
-bm = L.lathe([(0.0, 0.0), (0.12, 0.0), (0.14, 0.2), (0.2, 0.38), (0.18, 0.4), (0.0, 0.4)], seg=20); acc('porcelain').add_bm(bm, Matrix.Translation(g2b(tx_ + 0.05, 0.0, tz_)) @ Matrix.Scale(1.25, 4, (1.0, 0.0, 0.0))); bm.free()
-acc('porcelain').rbox(tx_ - 0.22, tx_ - 0.06, 0.4, 0.78, tz_ - 0.22, tz_ + 0.22, r=0.03, seg=2)
-vn = F['vanity']; acc('door').rbox(vn['x0'], vn['x1'], 0.0, 0.84, vn['z0'], vn['z1'], r=0.01, seg=1)
-acc('porcelain').rbox(vn['x0'] - 0.02, vn['x1'], 0.84, 0.88, vn['z0'] - 0.02, vn['z1'] + 0.02, r=0.01, seg=1)
-acc('chrome').cyl(((vn['x0'] + vn['x1']) / 2 + 0.18, 0.88, (vn['z0'] + vn['z1']) / 2), ((vn['x0'] + vn['x1']) / 2 + 0.18, 1.02, (vn['z0'] + vn['z1']) / 2), 0.015, seg=8)
-acc('mirror').quad([(3.0 - T / 2 - 0.01, 1.0, vn['z1'] - 0.05), (3.0 - T / 2 - 0.01, 1.0, vn['z0'] + 0.05), (3.0 - T / 2 - 0.01, 1.85, vn['z0'] + 0.05), (3.0 - T / 2 - 0.01, 1.85, vn['z1'] - 0.05)])
+if not US4_OK:
+    tb = F['tub']; acc('porcelain').rbox(tb['x0'], tb['x1'], 0.0, 0.52, tb['z0'], tb['z1'], r=0.04, seg=3)
+    acc('tile').quad([(tb['x0'] + 0.08, 0.36, tb['z1'] - 0.08), (tb['x1'] - 0.08, 0.36, tb['z1'] - 0.08), (tb['x1'] - 0.08, 0.36, tb['z0'] + 0.08), (tb['x0'] + 0.08, 0.36, tb['z0'] + 0.08)])
+    acc('chrome').cyl((tb['x0'] + 0.3, 1.0, tb['z1'] - 0.02), (tb['x0'] + 0.3, 1.0, tb['z1'] - 0.12), 0.018, seg=8)
+    acc('chrome').cyl((tb['x0'] + 0.1, 2.05, tb['z0'] - 0.02), (tb['x1'] - 0.1, 2.05, tb['z0'] - 0.02), 0.012, seg=8)   # 浴簾桿
+    acc('curtain').quad([(tb['x0'] + 0.15, 0.6, tb['z0'] + 0.01), (tb['x0'] + 0.75, 0.6, tb['z0'] + 0.01), (tb['x0'] + 0.75, 2.03, tb['z0'] + 0.01), (tb['x0'] + 0.15, 2.03, tb['z0'] + 0.01)][::-1])
+    tl = F['toilet']; tx_, tz_ = tl['x'], tl['z']
+    bm = L.lathe([(0.0, 0.0), (0.12, 0.0), (0.14, 0.2), (0.2, 0.38), (0.18, 0.4), (0.0, 0.4)], seg=20); acc('porcelain').add_bm(bm, Matrix.Translation(g2b(tx_ + 0.05, 0.0, tz_)) @ Matrix.Scale(1.25, 4, (1.0, 0.0, 0.0))); bm.free()
+    acc('porcelain').rbox(tx_ - 0.22, tx_ - 0.06, 0.4, 0.78, tz_ - 0.22, tz_ + 0.22, r=0.03, seg=2)
+    vn = F['vanity']; acc('door').rbox(vn['x0'], vn['x1'], 0.0, 0.84, vn['z0'], vn['z1'], r=0.01, seg=1)
+    acc('porcelain').rbox(vn['x0'] - 0.02, vn['x1'], 0.84, 0.88, vn['z0'] - 0.02, vn['z1'] + 0.02, r=0.01, seg=1)
+    acc('chrome').cyl(((vn['x0'] + vn['x1']) / 2 + 0.18, 0.88, (vn['z0'] + vn['z1']) / 2), ((vn['x0'] + vn['x1']) / 2 + 0.18, 1.02, (vn['z0'] + vn['z1']) / 2), 0.015, seg=8)
+    acc('mirror').quad([(3.0 - T / 2 - 0.01, 1.0, vn['z1'] - 0.05), (3.0 - T / 2 - 0.01, 1.0, vn['z0'] + 0.05), (3.0 - T / 2 - 0.01, 1.85, vn['z0'] + 0.05), (3.0 - T / 2 - 0.01, 1.85, vn['z1'] - 0.05)])
 
 # ======================== 陽台、樓梯平台 ========================
 for x in (BAL['x0'], BAL['x1']):
@@ -271,7 +274,7 @@ rz = BAL['z0'] + 0.05
 acc('rail_wood').box(BAL['x0'], BAL['x1'], BAL['rail'] - 0.05, BAL['rail'], rz - 0.04, rz + 0.04)
 for k in range(int((BAL['x1'] - BAL['x0']) / 0.12) + 1): x = BAL['x0'] + 0.06 + k * 0.12; acc('rail_wood').box(x - 0.018, x + 0.018, 0.0, BAL['rail'] - 0.05, rz - 0.018, rz + 0.018)
 acc('roof').quad([(BAL['x0'], H + 0.3, BAL['z0']), (BAL['x1'], H + 0.3, BAL['z0']), (BAL['x1'], H + 0.3, BAL['z1']), (BAL['x0'], H + 0.3, BAL['z1'])])
-for (cx, cz) in ((-2.1, -4.0), (-1.3, -4.1)):   # 兩張戶外椅（金屬框＋網面）
+for (cx, cz) in (((-2.1, -4.0), (-1.3, -4.1)) if not US4_OK else ()):   # 兩張戶外椅（金屬框＋網面）：簡單版，有 ART-US4 就用它的椅子
     acc('black').rbox(cx - 0.25, cx + 0.25, 0.42, 0.46, cz - 0.25, cz + 0.25, r=0.02, seg=1); acc('black').box(cx - 0.25, cx + 0.25, 0.46, 0.9, cz - 0.27, cz - 0.24)
     for sx in (-1, 1):
         for sz in (-1, 1): acc('black').cyl((cx + sx * 0.22, 0.0, cz + sz * 0.22), (cx + sx * 0.22, 0.44, cz + sz * 0.22), 0.012, seg=6)
@@ -357,6 +360,38 @@ if res:
     cl = [f for f in LAY['furniture'] if f['type'] == 'ceilingLight'][0]; place(tops, 'US_CEILINGLIGHT', cl['x'], H, cl['z'], 0.0)
     for o in new:
         if o.name in bpy.data.objects: bpy.data.objects.remove(o)
+
+# ======================== 衛浴＝AA-B 的 ART-US4（＋陽台的椅子、小圓桌） ========================
+def gbounds(top):
+    """節點（含子節點）在自己座標系裡的遊戲座標範圍：(xmin, xmax, zmin, zmax)"""
+    inv = top.matrix_world.inverted(); xs, zs = [], []
+    for o in [top] + list(top.children_recursive):
+        if o.type != 'MESH': continue
+        m = inv @ o.matrix_world
+        for v in o.data.vertices:
+            p = m @ v.co; xs.append(p.x); zs.append(-p.y)
+    return min(xs), max(xs), min(zs), max(zs)
+if US4_OK:
+    res = import_props(US4, 'US_')
+    if res:
+        tops, new = res
+        bx = {k: gbounds(v) for k, v in tops.items()}
+        WB, EB, SB, NB = 0.6 + T / 2, 3.0 - T / 2, 3.0 - T / 2, 1.0 + T / 2   # 浴室四面牆的室內面
+        if 'US_TUB' in bx:        # 貼南牆、ry=π（本地 −z 靠牆轉到南邊）；西端貼西牆
+            x0, x1, z0, z1 = bx['US_TUB']; place(tops, 'US_TUB', WB + x1 + 0.005, 0.0, SB + z0 - 0.005, math.pi)
+        if 'US_TOILET' in bx:     # 靠西牆、面向東：ry=π/2（本地 −z 的水箱轉到西邊）
+            x0, x1, z0, z1 = bx['US_TOILET']; place(tops, 'US_TOILET', WB - z0 + 0.01, 0.0, F['toilet']['z'], math.pi / 2)
+        if 'US_VANITY' in bx:     # 貼東牆、面向西：ry=−π/2（本地 −z 的牆面那一側轉到東邊）
+            x0, x1, z0, z1 = bx['US_VANITY']; vn = F['vanity']; place(tops, 'US_VANITY', EB + z0 - 0.005, 0.0, (vn['z0'] + vn['z1']) / 2, -math.pi / 2)
+        if 'US_TOWELBAR' in bx:   # 北牆、門的西邊（馬桶上方偏東），面向南
+            x0, x1, z0, z1 = bx['US_TOWELBAR']; place(tops, 'US_TOWELBAR', 1.3, 0.0, NB - z0 + 0.005, 0.0)
+        if 'US_BATHMAT' in bx:    # 浴缸前面，長邊和浴缸平行
+            x0, x1, z0, z1 = bx['US_BATHMAT']; place(tops, 'US_BATHMAT', 1.5, 0.0, 1.92, 0.0 if (x1 - x0) >= (z1 - z0) else math.pi / 2)
+        bc = F.get('balconyChairs', {})
+        for (cx, cz, a) in bc.get('chairs', [(-2.15, -4.1, 0.2), (-1.05, -4.1, -0.2)]): place(tops, 'US_BALCONY_CHAIR', cx, 0.0, cz, math.pi + a)   # 面向欄杆（北）
+        if 'US_BALCONY_TABLE' in tops: tb_ = bc.get('table', {'x': -1.6, 'z': -4.15}); place(tops, 'US_BALCONY_TABLE', tb_['x'], 0.0, tb_['z'], 0.0)
+        for o in new:
+            if o.name in bpy.data.objects: bpy.data.objects.remove(o)
 
 # ======================== 收尾 ========================
 for k_, m in _acc.items(): m.finish(root, uv=True, smooth=k_ in ('porcelain', 'chrome'))
