@@ -411,8 +411,8 @@
    "title": "campus_socsci 新社科院外觀接線",
    "area": "ART",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "v0 的前置：v2 剩下的程式做完、v0 開工前接線（照 second_ai/VISUAL_REVIEW.md:2025）",
+   "status": "已整合待測試",
+   "next": "2026-10-16 LAWWW-B 接線：src/data/socsci_layout.js（tools/gen_socsci_layout.py 從 campus_socsci.json 產生）；導航 22 阻擋＋樹穴、鏡頭碰撞 3、圖書館門改南牆 (101,-69.3)／出來 (101,-67.6) 面向南、中庭長椅 4、舊白色樓與 7 根柱拿掉、備用量體同尺寸（ckTag soc）；經濟系那年的「社會科學院」說明、SK02 系辦移到大樓西面主入口 (96.6,-50)；大地圖：社會科學院 (110,-50)、社科院圖書館 (110,-81)；路人第 6 條終點改中庭。tests/nav_soclib_unit.js（新外觀 9 項）＋10 個建校園的單元測試改載新配置。瀏覽器（排隊中）：前後截圖 5 組＋手機、flow_soclib、campus_layout_nav；之後 reachability_all。使用者看畫面才 ART_APPROVED",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -428,7 +428,8 @@
    "authorized": "D79",
    "sha": [
     "2a316b76"
-   ]
+   ],
+   "tests": "tests/nav_soclib_unit.js、tests/flow_soclib.py、tests/campus_layout_nav.py"
   },
   {
    "id": "ART-02",
@@ -6804,7 +6805,7 @@
    "area": "SCN",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "ART-01 接線；AA-B 確認用途",
+   "next": "ART-01 已接線（外觀、圖書館的門、大樓的門不開）；大樓室內（一樓大廳、系辦、迎新教室）等 SOCSCI_PLAN 第③步：AA-B 確認用途後排",
    "priority": "P1",
    "first": {
     "term": "Y0S1",

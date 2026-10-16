@@ -719,11 +719,11 @@ const STORY_EVENTS=[
     prereq:{custom:G=>G.flags.SK01_CHOICE==='home'&&G.day>=4&&G.day>(G.flags.SK01_DAY|0)},
     dialogue:[ {speaker:null,text:'社科院二樓的窗口，有人在對你揮手。是阿勳。……他揮完就轉身進去了。'} ] },
   /* SK02 你的系外套還在這裡（BB_106 SK02，BB-B 2026-10-16 定稿 d5224961；AA_154 A52 ②）：SK01 之後，大一上第 4～7 週平日 13:00～17:00（系辦開門），
-     阿勳第 4 週週一 15:00 的私訊（story3d.js phoneRules 'sk02_dm'；SK01 比週一晚的，排在 SK01 隔天以後第一個平日）→ 走到社科院門口〔3D〕→ 2D 系辦（soc_office）。
+     阿勳第 4 週週一 15:00 的私訊（story3d.js phoneRules 'sk02_dm'；SK01 比週一晚的，排在 SK01 隔天以後第一個平日）→ 走到社科院大樓的門口〔3D，西面主入口〕→ 2D 系辦（soc_office）。
      三個選擇記 ECON_JACKET（wear／xun／closet）；領了外套就記 SOC_WRONG_BUILDING（經濟系那群之後說「走錯棟」）。①隔天起七天內下一次霖澤館的課，阿哲一句（ev_sk02_spy）；
      ②阿勳在旁邊（npcNear）當面說，不在＝旁白＋當晚 21:00 私訊（phoneRules 'sk02_gift'）。阿勳那句「真的重三倍」也只有他在旁邊才有（大一上他還沒有作息，實際上不會出現）。
      沒去：第 8 週週一以後回到男生宿舍門廳，阿勳的紙條（STORY.sk02W8；BB-B 補字前先只有紙條）*/
-  { id:'ev_sk02_jacket', title:'你的系外套還在這裡', participants:[], location:'campus', trigger:'auto', term:['Y1S1'], weeks:[4,5,6,7], weekday:[1,2,3,4,5], time:[13,17], once:true, background:'blur', near:{x:97.9,z:-67.5,r:4.5},
+  { id:'ev_sk02_jacket', title:'你的系外套還在這裡', participants:[], location:'campus', trigger:'auto', term:['Y1S1'], weeks:[4,5,6,7], weekday:[1,2,3,4,5], time:[13,17], once:true, background:'blur', near:{x:96,z:-50,r:3.5},   /* 社科院大樓西面的主入口（柱廊裡；src/data/socsci_layout.js 的 westDoor (96.6,−50)，ART-01）*/
     prereq:{custom:G=>typeof STORY!=='undefined'&&STORY.sk02Open(G)},
     dialogue:[ {speaker:null,text:'你還記得哪一台電梯比較快。只是公告欄上，已經沒有一張是寫給你的。'},
       {scene:'經濟系系辦',bg:'soc_office'},
