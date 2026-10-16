@@ -3,9 +3,9 @@
  "note": "交付登記（D82）：每一筆交付都要對到 tasks.json 的任務；msg＝SENT／DELIVERED／ACK／ACTIONED（接收方有沒有回 ACK）；integration＝未整合／已整合待測試／已驗收／不整合／參考用。scannedThrough＝每條交付分支已經看過的最後一個 commit：check_handoff.py 只掃它以後的 commit（增量）。看過、不是交付的 commit 放 ignored。　**scannedThrough 只在 check 跑完、列出的 commit 都登記或放進 ignored 之後才往前移**（2026-10-16：先移再跑會什麼都掃不到）。",
  "pattern": "交付|ART_APPROVED|READY_FOR_ART_REVIEW|MODEL_READY|通過|驗收|閒聊階梯|交接包|法律審查|盤點|清查|裁定|規則檔|AA_1\\d\\d|BB_1\\d\\d",
  "scannedThrough": {
-  "origin/claude/funny-albattani-iawshm": "1fc16c76",
+  "origin/claude/funny-albattani-iawshm": "464ddd54",
   "origin/claude/cool-heisenberg-o8kuqx": "a59b8b2d",
-  "origin/claude/elegant-brown-fcos7n": "fd14c2b6"
+  "origin/claude/elegant-brown-fcos7n": "694dc89c"
  },
  "deliveries": [
   {
@@ -1735,6 +1735,162 @@
    "msg": "ACTIONED",
    "integration": "已整合待測試",
    "note": "接進 S.BG.video"
+  },
+  {
+   "id": "DLV-1016-145",
+   "date": "2026-10-16T05:3xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "f3531c61",
+   "what": "芷若 thinking 修頭髮描邊；學姊約會 head_thinking v1.3",
+   "task": "ART-19、ART-14",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "芷若 thinking 接進開發線；約會去背等 DATE-S6"
+  },
+  {
+   "id": "DLV-1016-146",
+   "date": "2026-10-16T05:3xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "9857114d",
+   "what": "ART-19 第二批 ART_APPROVED（以安、語彤、子晴 10 張、學姊 embarrassed）；約會去背 8 張 ART_APPROVED",
+   "task": "ART-19、ART-14",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "依據 ADV 截圖 94b4e3dd"
+  },
+  {
+   "id": "DLV-1016-147",
+   "date": "2026-10-16T05:3xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "c86cd8cf",
+   "what": "BB_96 3-5 芷若 Z5 戲院門口碰面的台詞（兩人版＋BCG-21、三人版）",
+   "task": "V2-Z5M",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "接進 ev_zhiruo_early_show"
+  },
+  {
+   "id": "DLV-1016-148",
+   "date": "2026-10-16T05:3xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "b2cbf871",
+   "what": "第 34 組：D26 臺中、D27 嘉義約會底圖通過",
+   "task": "DATE-L26、DATE-L27",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "照 D81 在那一學年／系統做時接"
+  },
+  {
+   "id": "DLV-1016-149",
+   "date": "2026-10-16T05:3xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "66c0f090",
+   "what": "第 35 組：D28a 臺南文學館、D28b 安平約會底圖通過",
+   "task": "DATE-L28",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "照 D81 在那一學年／系統做時接"
+  },
+  {
+   "id": "DLV-1016-150",
+   "date": "2026-10-16T05:3xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "76747bfa",
+   "what": "第 36 組：D29 駁二、D30 七星潭約會底圖通過",
+   "task": "DATE-L29、DATE-L30",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "照 D81 在那一學年／系統做時接"
+  },
+  {
+   "id": "DLV-1016-151",
+   "date": "2026-10-16T05:3xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "e52695bc",
+   "what": "第 37 組：D31 日月潭、D32 清境通過——約會底圖全部完成；事件 CG 照 D81 重排",
+   "task": "DATE-L31、DATE-L32",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "照 D81 在那一學年／系統做時接"
+  },
+  {
+   "id": "DLV-1016-152",
+   "date": "2026-10-16T05:3xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "64b3a582",
+   "what": "大四下閒聊階梯 BB 三位（S7、P8、K8）",
+   "task": "V5-L2",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "照 D81 在那一學年／系統做時接"
+  },
+  {
+   "id": "DLV-1016-153",
+   "date": "2026-10-16T05:3xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "869b9415",
+   "what": "BB_119 多段感情：四人各三件裂縫小事件台詞（提案）",
+   "task": "V6-S5",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "照 D81 在那一學年／系統做時接"
+  },
+  {
+   "id": "DLV-1016-154",
+   "date": "2026-10-16T05:3xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "542ef988",
+   "what": "BB_99 大四五小段補完（研究助理摘要日、讀書計畫、芷若明信片…）",
+   "task": "V5-B01",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "照 D81 在那一學年／系統做時接"
+  },
+  {
+   "id": "DLV-1016-155",
+   "date": "2026-10-16T05:3xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "280d5a35",
+   "what": "第 38 組：BCG-41 可昕七夕、BCG-37 芷若聖誕通過",
+   "task": "V6-S6",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "照 D81 在那一學年／系統做時接"
+  },
+  {
+   "id": "DLV-1016-156",
+   "date": "2026-10-16T05:3xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "694dc89c",
+   "what": "照 AA_140 3-5 改 BB 檔：告白前置、學姊分手條件式",
+   "task": "V6-CATCH",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "照 D81 在那一學年／系統做時接"
+  },
+  {
+   "id": "DLV-1016-157",
+   "date": "2026-10-16T05:3xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "aee707f3",
+   "what": "AA-B 法律審查第 11 批交 BB 三項（大四上強制執行法台詞）",
+   "task": "V4-SYL",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "照 D81 在那一學年／系統做時接"
   }
  ],
  "ignored": [
@@ -1782,6 +1938,26 @@
    "sha": "4ac22f0d",
    "branch": "origin/claude/elegant-brown-fcos7n",
    "why": "BB-B 自己的待生成圖片清單更新"
+  },
+  {
+   "sha": "25fa1a82",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "AB-14 交叉審 AA 的 51 題：AI 補題（D89）等使用者直接向 LAWWW-B 確認，確認前不整合"
+  },
+  {
+   "sha": "c9f7e61e",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "AB-13 收尾（AI 補題交叉審）：同上，等使用者確認"
+  },
+  {
+   "sha": "cb5f2c29",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 自己的進度紀錄（BB_00）"
+  },
+  {
+   "sha": "3234c59f",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 自己的清查表（BB_134 第 3 節）標完成"
   }
  ]
 }

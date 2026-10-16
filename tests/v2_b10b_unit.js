@@ -132,5 +132,12 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
     fresh(sum1,8,'dorm',{dating_kexin:true,KX_GRADES_Y1S2:'best_one'}); const held2=await STORY.holdGrades(GM,'Y1S2');
     const ev2=ev('ev_kexin_grades_open_y1s2');
     check('7. together 暑假第一天早上：「大一下的成績出來了。」先看／等到晚上、21:00 視訊（「……都過了。好，暑假開始。」）；best_one 照常發',held===true&&!!plan&&plan.h===21&&held2===false&&!!ev2&&ev2.dialogue.some(l=>l.text==='……都過了。好，暑假開始。'),JSON.stringify([held,plan,held2])); }
+  /* 8. 坐在 3D 座位上課（inScene）也演課前／課後事件（AA-B 2026-10-16 回報：原本只有門口上課才演） */
+  { const seat=async(day,hour,flags)=>{ fresh(day,hour,'putong',Object.assign({introDone:true,classDone:true,afternoonDone:true},flags)); said=[]; opts=[]; caps=[]; picks=['今天不行']; if(flags.P4D_ANSWER) G.events.done.ev_econ_hallway=1; const it=CLS.dayItems(G).find(x=>x.c.id==='econ_principles_2'); if(!it) return null; await CLS.attend(GM,it,{inScene:true}); return lines(); };
+    const F3=termDay('Y1S2',3,5), F8=termDay('Y1S2',8,5);
+    const a=await seat(F3,9.05,{P4D_ANSWER:'retake',ECON_HALLWAY_DAY:termDay('Y1S2',2,5),MET_XUN:true,MET_PINYU:true});
+    check('9. 坐在普通 101 的座位上「上課：經原（下）」：下課後照樣演 SK03（「小福。走不走？」）',!!a&&a.includes('阿勳：小福。走不走？'),JSON.stringify(a&&a.slice(-4)));
+    const b=await seat(F8,9.05,{P4D_ANSWER:'retake',ECON_HALLWAY_DAY:termDay('Y1S2',2,5),MET_XUN:true});
+    check('9. 坐著上第 8 週（期中考）：考卷發下來之前先演 1-4「考卷還沒發。」芯慈那段（課前事件）',!!b&&b[0]==='考卷還沒發。'&&b.includes('吳芯慈：下次週五，帶我去小福。'),JSON.stringify(b&&b.slice(0,3))); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

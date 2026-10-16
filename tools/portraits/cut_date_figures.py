@@ -57,7 +57,7 @@ TOP, SIDE = 0.04, 0.02
 FIX = {('classmate_peishan', 'H1'): dict(y0=0.0, y1=0.35), ('classmate_peishan', 'H3'): dict(y0=0.0, y1=0.35),
        ('classmate_peishan', 'head_neutral'): dict(y0=0.35, y1=1.0), ('classmate_peishan', 'head_smile'): dict(y0=0.35, y1=1.0),
        ('heroine_01', 'head_neutral'): dict(y0=0.35, y1=0.8, sat=14), ('heroine_01', 'head_smile'): dict(y0=0.35, y1=0.8, sat=14),
-       ('heroine_05', 'head_thinking'): dict(y0=0.3, y1=0.85, d=26, sat=14, xside=0.5, tight=0, solid_below=0.6),
+       ('heroine_05', 'head_thinking'): dict(y0=0.3, y1=0.85, d=26, sat=14, xside=0.5, tight=0, solid_below=0.6, zero=[(245, 274, 260, 281)]),
        ('heroine_01', 'H1'): dict(y0=0.0, y1=0.4), ('heroine_01', 'H3'): dict(y0=0.0, y1=0.4)}
 # BB-B：以安的高馬尾比頭頂高 17 px，h 量到馬尾頂端會矮約 3 cm → 用頭頂量（H1 h＝963；H3、H4 同比例）
 H_FIX = {'heroine_01': dict(H1=963)}
@@ -147,6 +147,8 @@ def main():
         im = Image.open(os.path.join(a.src, fn)).convert('RGB'); od = os.path.join(a.out, cid); os.makedirs(od, exist_ok=True); report[cid] = {'source': 'docs/story_planning/date_system/art/' + fn}
         for pose, box in boxes.items():
             hd = pose.startswith('head_'); can = frame(cut(im.crop(box), hsess if hd else sess, remove, head=hd, fix=FIX.get((cid, pose))), head=hd)
+            for (zx0, zy0, zx1, zy1) in (FIX.get((cid, pose)) or {}).get('zero', []):            # 裁好以後的座標：BB-B 指出的殘留細線（手右邊、alpha 60～90）清成 0
+                blk = can[zy0:zy1, zx0:zx1, 3]; can[zy0:zy1, zx0:zx1, 3] = np.where(blk < 128, 0, blk)
             Image.fromarray(can, 'RGBA').save(os.path.join(od, pose + '.webp'), quality=92, method=6, exact=False)
             an = anchors(can, pose) if not pose.startswith('head_') else {'w': int(can.shape[1]), 'hpx': int(can.shape[0])}
             an.update(extra.get(pose, {})); an['crop'] = list(box)

@@ -104,6 +104,7 @@ def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--id', default='heroine_02', choices=sorted(CFG)); ap.add_argument('--only'); ap.add_argument('--out', default='/tmp/expr_out'); ap.add_argument('--write', action='store_true')
     ap.add_argument('--sheet', help='九格表情圖（預設 docs/story_planning/date_system/art/<設定的檔名>）'); ap.add_argument('--body', help='全身立繪（預設 assets 裡的 campus/neutral；試疊時指定別的）')
     ap.add_argument('--fade0', type=float); ap.add_argument('--fade1', type=float)
+    ap.add_argument('--edge', type=float, default=0, help='頭的外緣往內收幾 px 再柔化（芷若 thinking：原圖頭髮最外圈是淺色描邊，收 1.5 px、柔化，邊緣才像 neutral 那樣暗而軟；BB-B 26d07e78）')
     ap.add_argument('--single', help='--sheet 是單獨一個頭（已縮到和九格一格同樣的頭寬）：這個頭的表情名稱（BB-B 第 28 組：學姊 embarrassed、芷若 thinking）')
     a = ap.parse_args(); os.makedirs(a.out, exist_ok=True); cf = CFG[a.id]; CW, CH = cf['cell']
     a.fade0 = cf['fade'][0] if a.fade0 is None else a.fade0; a.fade1 = cf['fade'][1] if a.fade1 is None else a.fade1
@@ -116,6 +117,7 @@ def main():
     if BOX: CW, CH = BOX[0][1][2] - BOX[0][1][0], BOX[0][1][3] - BOX[0][1][1]
     getcell = (lambda i: sheet.crop(BOX[i][1])) if BOX else (lambda i: cell(sheet, i))
     names = [n for n in (a.only.split(',') if a.only else NM) if a.single or n not in cf['skip']]
+    CLEAN = bool(cf.get('anchor') or a.single)            # 2026-10-16 第二批起的去背做法（附近背景色、外圍亮暈、眼白補洞）；芷若原本九格（heroine_02 沒有 anchor）照舊，第 28 組單張頭也用新做法（BB-B 26d07e78：thinking 的淺色描邊）
     report = []
 
     def fit(c):
@@ -133,13 +135,13 @@ def main():
         else:
             d, sc = shift_to(ref[0], c, cf['anchor']); t = dict(ref[1]); t['ccx'] -= d[0]; t['ccy'] -= d[1]; t['score'] = sc
         al = key_alpha(c, bg); bgl = bg
-        if cf.get('anchor'):                                              # 灰底不是完全均勻：用「附近的背景色」重新去背、去邊（不然髮絲外緣留一圈灰，紅底上很明顯）
+        if CLEAN:                                                         # 灰底不是完全均勻：用「附近的背景色」重新去背、去邊（不然髮絲外緣留一圈灰，紅底上很明顯）
             from scipy import ndimage as _nd
             c0 = np.asarray(c).astype(float); m_bg = (al < 0.05).astype(float)
             num = np.dstack([_nd.gaussian_filter(c0[..., k] * m_bg, 18) for k in range(3)]); den = _nd.gaussian_filter(m_bg, 18)[..., None]
             bgl = np.where(den > 0.02, num / np.maximum(den, 1e-6), bg)
             al = np.clip((np.sqrt(((c0 - bgl) ** 2).sum(axis=2)) - 10) / 24, 0, 1)
-        if cf.get('anchor'):                                              # 眼白和灰底顏色接近、被當成背景：四周都是人物的小洞（< 600 px）補回不透明（髮絲和脖子中間的大空隙不補）
+        if CLEAN:                                                         # 眼白和灰底顏色接近、被當成背景：四周都是人物的小洞（< 600 px）補回不透明（髮絲和脖子中間的大空隙不補）
             from scipy import ndimage as _nd
             m0 = al > 0.5; hl, _n = _nd.label(_nd.binary_fill_holes(m0) & ~m0)
             lumc = np.asarray(c.convert('L')).astype(float)
@@ -154,12 +156,24 @@ def main():
         # 白點（BB-B 驗收時指出 laugh、serious、tired 左側髮絲外緣）：細髮絲邊緣還帶著淺灰底 → 透明交界 3 px 內、低彩度（灰白）又偏亮的像素拿掉
         # （膚色是暖色、彩度高，右邊的臉頰下巴不會被清到）；再只留最大的一塊（浮在外面的小點）
         from scipy import ndimage
-        band = ndimage.binary_dilation(al < 0.1, iterations=cf.get('band', 4 if cf.get('anchor') else 3)) & (al > 0)
+        band = ndimage.binary_dilation(al < 0.1, iterations=cf.get('band', 4 if CLEAN else 3)) & (al > 0)
         sat = cr.max(axis=2) - cr.min(axis=2); lum = cr @ np.array([0.299, 0.587, 0.114])
         al = np.where(band & (sat < 28) & (lum > cf.get('speck_lum', 115)), 0, al)   # 予樂：淺棕色的亂髮（飽和度高）外面一圈灰白細毛 → 帶寬 6、亮度門檻 95
-        if cf.get('anchor'):                                              # AI 圖在頭髮外面畫了一圈比灰底還亮的光暈（亮、沒有顏色）：和外面連在一起的那一片全部當背景（眼白被睫毛、皮膚包著，不會連到外面）
+        if CLEAN:                                                         # AI 圖在頭髮外面畫了一圈比灰底還亮的光暈（亮、沒有顏色）：和外面連在一起的那一片全部當背景（眼白被睫毛、皮膚包著，不會連到外面）
             lt = (lum > 140) & (sat < 30); ext = al < 0.1
             lb, _n = ndimage.label(lt | ext); touch = np.unique(lb[ext]); al = np.where(lt & np.isin(lb, touch[touch > 0]), 0, al)
+        if CLEAN:                                                         # 半透明的邊用最近的不透明像素的顏色（頭髮本身的顏色）：原圖頭髮外緣有一圈淺色描邊，去背後邊緣偏亮（BB-B 26d07e78 量過：芷若 thinking 邊緣亮度 105、neutral 94）
+            solid = al >= 0.95; semi = (al > 0) & ~solid
+            core = ndimage.binary_erosion(solid, iterations=3)                # 從裡面 3 px 取顏色：原圖頭髮最外圈本身就是淺色描邊（不透明），取最近的不透明像素還是淺的
+            if core.any() and semi.any():
+                _, (iy, ix) = ndimage.distance_transform_edt(~core, return_indices=True)
+                near = cr[iy, ix]; lum_s = cr[semi] @ np.array([0.299, 0.587, 0.114]); lum_n = near[semi] @ np.array([0.299, 0.587, 0.114])
+                take = (lum_s > lum_n)                                    # 只換比裡面亮的邊（不把深色的邊變亮）
+                tmp = cr[semi]; tmp[take] = near[semi][take]; cr[semi] = tmp
+                clear = al <= 0; cr[clear] = near[clear]                   # 全透明的地方也填頭髮的顏色：place() 縮放、旋轉時會內插到邊上（原本留著灰底的顏色 → 邊緣一圈淺灰，真正的原因）
+        if a.edge > 0:
+            inside = ndimage.distance_transform_edt(al > 0.5)                # 到外緣的距離（px）
+            al = al * np.clip((inside - a.edge) / 1.5, 0, 1); al = ndimage.gaussian_filter(al, 0.7)
         lab, n = ndimage.label(al > 0.2)
         if n > 1:
             sz = ndimage.sum(np.ones_like(al), lab, range(1, n + 1)); al = al * ndimage.binary_dilation(lab == 1 + int(np.argmax(sz)), iterations=1)

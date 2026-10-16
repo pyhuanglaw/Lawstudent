@@ -72,6 +72,7 @@ const PORTRAIT_FILES={
    "serious",
    "smile",
    "surprised",
+   "thinking",
    "tired"
   ]
  },

@@ -8424,8 +8424,8 @@
    "title": "Z5 早場：09:40 戲院門口碰面那一拍（BB_96 3-5）＋BCG-21 放在碰面那一拍；10:00 開演、約 12:00 去豆漿店",
    "area": "V2",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
-   "next": "時間已改（09:40 戲院門口碰面、10:00 開演；tests/v2_bb96_z5_unit.js）。碰面那一拍的台詞（BB_96 3-5 沒有）與 BCG-21（cg_approved 裡沒有）已問 BB-B（2026-10-16）",
+   "status": "已整合待測試",
+   "next": "做完：09:40 碰面、BB-B c86cd8cf 的碰面台詞（兩人版＋BCG-21、三人版）；adv3d 換場景時收起 CG",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -8467,7 +8467,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "已整合待測試",
-   "next": "第二批已接（BB-B 通過成品 26d07e78）：以安、語彤、子晴 10 張、學姊 embarrassed；芷若 thinking 要修（LAWWW2-B）。ART_APPROVED 還差遊戲內 ADV 截圖（四人各 neutral＋smile/laugh，直向、橫向）→ LAWWW-B 拍給 BB-B",
+   "next": "芷若 thinking 已接（f3531c61），補 ADV 截圖給 BB-B 標 ART_APPROVED；學姊 thinking 等之後的批次",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -8487,7 +8487,8 @@
     "spec": "BB-B D59 驗收（企劃線）",
     "acceptance": "九格表情 webp（BB-B D59）",
     "ack": "DELIVERED"
-   }
+   },
+   "evidence": "BB-B ART_APPROVED（BB_131 7-1，9857114d；ADV 截圖 94b4e3dd）"
   },
   {
    "id": "V3-G12",
@@ -10077,6 +10078,30 @@
    "source": "使用者 2026-10-16 D88",
    "authorized": "D85、D88",
    "evidence": "LAWWW2-B 清查報告 6ac09c6e（BRANCH_CLEANUP_D88.md：逐檔比內容、13 個 GLB 驗證、bundle 備份）＋LAWWW-B 複核（BRANCH_INVENTORY.md 2026-10-16 05:0x）"
+  },
+  {
+   "id": "BUG-15",
+   "title": "坐在 3D 座位上課時，課前／課後人物事件從來不會觸發（只有門口上課才演）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "classes3d.js 拿掉 inScene 的限制；tests/v2_b10b_unit.js 第 9 項；瀏覽器：大一上第 4 週週四坐 201 上民總→ev_an_report_split 有演（v9.8 回歸）",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 4,
+    "earliest": "Y1S1W04 民總下課（ev_an_report_split）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-16 05:17 回報",
+   "authorized": "D79",
+   "sha": "",
+   "cause": "v9.7 起就有（main 的 classes3d.js 一樣跳過）",
+   "evidence": ""
   }
  ]
 }

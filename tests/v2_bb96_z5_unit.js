@@ -47,14 +47,15 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     r=await invite('看過了',true); check('劇透那一條（交往中）：算答應、沒有 aff',G.flags.zhiruo_film_date===true&&G.flags.zhiruoFilmDay===FRI&&r.d.aff===0,JSON.stringify(r.d));
     await invite('幾點'); run(20,20.2); const q=OUT.get(G,'zr_early_show'); check('答應：排出遊——隔天週六 09:40 戲院門口碰面、10:00 開演（AA_147 #3；ev_zhiruo_early_show）',!!q&&q.day===FRI+1&&Math.abs(q.h-(9+40/60))<0.01&&/10:00 開演/.test(q.title)&&q.ev==='ev_zhiruo_early_show',JSON.stringify(q)); }
   /* 早場 */
-  const go=async(pick,dating)=>{ fresh(FRI+1,10,'dorm',dating?{dating_kexin:true}:{}); SOCIAL.meet('heroine_02','cafe'); picks=[pick]; await EVENTS.run(show); return lines(); };
-  { let L=await go('妳挑');
+  let meet=[]; const MEET=['九點四十，巷子裡的二輪戲院。她已經到了。',nm+'：（把兩張票舉到臉旁邊）早。……票我先買了。',nm+'：早場的人比較少。我喜歡。'], MEET3=[nm+'：（看了一下手錶）方奕廷已經進去了。……他坐倒數第三排。我教的。'];
+  const go=async(pick,dating)=>{ fresh(FRI+1,10,'dorm',dating?{dating_kexin:true}:{}); SOCIAL.meet('heroine_02','cafe'); picks=[pick]; await EVENTS.run(show); const L=lines(); const k=dating?1:3; meet=L.slice(0,k); return L.slice(k); };   /* 戲院門口碰面那一拍（BB-B c86cd8cf）另外檢查；其他照原本的位置比 */
+  { let L=await go('妳挑'); check('戲院門口碰面（雙方單身，BB_96 3-5 BB-B c86cd8cf）：「九點四十，巷子裡的二輪戲院。她已經到了。」＋兩句；BCG-21 疊在這一拍',JSON.stringify(meet)===JSON.stringify(MEET)&&show.dialogue.some(l=>l.cg==='cg_two_tickets_heroine02'),JSON.stringify(meet));
     const base=[nm+'：我每次看都在想，那個媽媽到東京看小孩，大家都很忙。',nm+'：最後對她最好的，是一個不是她小孩的人。',nm+'：……我在想，我媽會不會也是這樣。',nm+'：我在台北，對每個客人都很好。',nm+'：（喝豆漿）好了，太沉重了。',nm+'：你覺得那個老闆，像不像笠智眾？'];
     check('早場台詞照原文',JSON.stringify(L.slice(0,6))===JSON.stringify(base),JSON.stringify(L.slice(0,6)));
     check('單身：祐廷「誰？」→「……沒事。下次帶你看別部。」；三個選項照原文；「下次妳挑。」→「好。我列一張表給你。很長。」；WATCHED_FILM；Z5_NEXT hers',/誰？$/.test(L[6])&&L[7]===nm+'：……沒事。下次帶你看別部。'&&JSON.stringify(opts[0])==='["「下次妳挑。」","「下次我挑。」","「我下次帶我室友來。」"]'&&L[8]===nm+'：好。我列一張表給你。很長。'&&SOCIAL.has('heroine_02','WATCHED_FILM')&&!SOCIAL.has('heroine_02','WATCHED_FILM_GROUP')&&G.flags.Z5_NEXT==='hers',JSON.stringify(L.slice(6)));
     L=await go('我挑'); check('「下次我挑。」→「你？你看過幾部電影？」（她笑。）「……好，你挑。我不笑你。大概。」',JSON.stringify(L.slice(8))===JSON.stringify([nm+'：你？你看過幾部電影？','她笑。',nm+'：……好，你挑。我不笑你。大概。']),JSON.stringify(L.slice(8)));
     L=await go('室友'); check('「我下次帶我室友來。」→「……好。」（不扣分，只是錯過）',JSON.stringify(L.slice(8))===JSON.stringify([nm+'：……好。']),JSON.stringify(L.slice(8)));
-    L=await go('妳挑',true); check('交往中：三個人——問「笠智眾是誰？」的是方奕廷；記 WATCHED_FILM_GROUP（不是 WATCHED_FILM）',L[6]===CHARACTERS.npc_fangyt.name+'：笠智眾是誰？'&&SOCIAL.has('heroine_02','WATCHED_FILM_GROUP')&&!SOCIAL.has('heroine_02','WATCHED_FILM'),JSON.stringify(L.slice(6,8))); }
+    L=await go('妳挑',true); check('交往中（三個人、不出 CG）：門口一句「（看了一下手錶）方奕廷已經進去了。…」',JSON.stringify(meet)===JSON.stringify(MEET3),JSON.stringify(meet)); check('交往中：三個人——問「笠智眾是誰？」的是方奕廷；記 WATCHED_FILM_GROUP（不是 WATCHED_FILM）',L[6]===CHARACTERS.npc_fangyt.name+'：笠智眾是誰？'&&SOCIAL.has('heroine_02','WATCHED_FILM_GROUP')&&!SOCIAL.has('heroine_02','WATCHED_FILM'),JSON.stringify(L.slice(6,8))); }
   /* 回聲 */
   { await go('妳挑'); const d0=G.day; G.day=d0+2; run(20,21.5); check('「下次妳挑」：兩天後 21:00 私訊一張很長的片單',txt('p:heroine_02').slice(-1)[0]==='heroine_02:📄（一張很長的片單）',JSON.stringify(txt('p:heroine_02').slice(-1)));
     await go('妳挑',true); G.day=G.day+2; run(20,21.5); check('交往中：傳到三個人的群組，方奕廷「這張表要看到明年」',JSON.stringify(txt('g:zr_film'))==='["heroine_02:📄（一張很長的片單）","npc_fangyt:這張表要看到明年"]',JSON.stringify(txt('g:zr_film')));
