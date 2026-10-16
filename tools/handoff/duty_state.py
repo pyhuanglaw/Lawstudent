@@ -193,13 +193,25 @@ def verify(args, d=None, out=None):
                     rc, n = git(args.root, 'rev-list', '--count', f'{last}..{href}')
                     if rc == 0 and n.isdigit() and int(n) > 0:
                         A(6, f'{r}：帳號 {h.get("account")} 的分支 {hb} 在它交班（{last}）以後還有 {n} 個 commit——疑似兩個帳號同時寫同一個職位；查清楚以前不要合併、不要覆寫，回報使用者')
+    # 11 職位登記的 WIP 分支：還沒整合進自己的分支＝未整合（不能當作完成，也不能刪）
+    if not getattr(args, 'no_git', False):
+        for r in ROLES:
+            x = roles.get(r) or {}
+            for w in x.get('wip') or []:
+                wref, bref = remote_ref(w, not getattr(args, 'local', False)), remote_ref(x.get('branch') or '', not getattr(args, 'local', False))
+                if not ref_exists(args.root, wref):
+                    A(11, f'{r}：登記的 WIP 分支 {w} 不存在（被刪了？成果可能遺失）')
+                elif ref_exists(args.root, bref) and not is_ancestor(args.root, wref, bref):
+                    rc, n = git(args.root, 'rev-list', '--count', f'{bref}..{wref}')
+                    A(11, f'{r}：WIP 分支 {w} 還有 {n} 個 commit 沒整合進 {x.get("branch")}——接班要先整合或登記，不能刪')
     # 7 上一次交班的快照
     lh = d.get('lastHandoff') or {}
     if d.get('previous') and not lh:
         A(7, f'有上一任（{d["previous"]}），但沒有 lastHandoff 紀錄')
-    for r, fn in (lh.get('snapshots') or {}).items():
+    for r, ent in (lh.get('snapshots') or {}).items():
+        fn, sref = (ent.get('file'), ent.get('ref')) if isinstance(ent, dict) else (ent, None)
         try:
-            s = json.loads(src.read(f'{SNAPDIR}/{fn}', ((roles.get(r) or {}).get('handoffRef') or None) or src.ref))
+            s = json.loads(src.read(f'{SNAPDIR}/{fn}', sref or src.ref))
             for k in ('version', 'taken', 'role', 'account', 'open', 'status'):
                 if k not in s:
                     raise ValueError(f'缺 {k}')
@@ -305,7 +317,7 @@ def register(args):
     if no_handoff:
         d.setdefault('anomalies', []).append({'kind': 'no-handoff', 'role': r, 'from': prev_acc, 'to': me, 'at': now(),
                                               'note': f'{r} 上一任 {prev_acc} 沒有正式交班，使用者指示接班；以遠端最後 push 的狀態為準', 'resolved': False})
-    roles[r] = {'account': me, 'session': args.session, 'branch': args.branch, 'sha': head, 'sinceSha': head, 'since': now(), 'state': 'on',
+    roles[r] = {'account': me, 'session': args.session, 'branch': args.branch, 'sha': head, 'sinceSha': head, 'since': now(), 'state': 'on', **({'wip': args.wip} if getattr(args, 'wip', None) else {}),
                 'prev': {'account': prev_acc, 'session': x.get('session'), 'branch': x.get('branch'), 'sha': x.get('sha')} if prev_acc else None}
     if r == 'LAWWW':
         st = d.setdefault('accountState', {})
@@ -323,6 +335,8 @@ def register(args):
         if d.get('pending'):
             d['pending'] = None
     reg = {'role': r, 'account': me, 'session': args.session, 'branch': args.branch, 'since': now(), 'state': 'on', 'sinceSha': head, 'userOk': bool(no_handoff)}
+    if getattr(args, 'wip', None):
+        reg['wip'] = args.wip
     _write(args.root, ROLE_FILE.format(role=r), reg)
     if r != 'LAWWW':
         print(f'登記：{session_name(r, me)}（帳號 {me}）接 {r}，分支 {args.branch} @ {head}——只寫了自己的 {ROLE_FILE.format(role=r)}；commit＋push 以後，值班 LAWWW 跑 duty sync 收進 duty.json')
@@ -449,7 +463,8 @@ def sync(args):
             new['handedOffAt'] = reg['handedOffAt']
         if reg.get('snapshot'):
             new['handoffSnapshot'] = reg['snapshot']
-            new['handoffRef'] = ref
+        if reg.get('wip') is not None:
+            new['wip'] = reg['wip']
         if cur.get('account') and cur.get('account') != new['account']:
             d.setdefault('history', []).append({'account': cur['account'], 'role': r, 'roles': {r: {k: cur.get(k) for k in ('session', 'branch', 'sha', 'state', 'handedOffAt')}}, 'until': now()})
             if cur.get('state') != 'handed-off' and not reg.get('userOk'):
@@ -457,8 +472,14 @@ def sync(args):
         if {k: cur.get(k) for k in new} != new:
             d.setdefault('roles', {})[r] = {**cur, **new}
             changed.append(r)
-            if new['state'] == 'handed-off' and d.get('lastHandoff', {}).get('from') == new['account'] and reg.get('snapshot'):
-                d['lastHandoff'].setdefault('snapshots', {})[r] = reg['snapshot']
+            if new['state'] == 'handed-off' and new['account'] == d.get('onDuty'):
+                lh = d.get('lastHandoff') or {}
+                if lh.get('from') != new['account'] or lh.get('closed'):
+                    lh = {'from': new['account'], 'at': now(), 'kind': 'handoff', 'snapshots': {}}
+                if reg.get('snapshot'):
+                    lh.setdefault('snapshots', {})[r] = {'file': reg['snapshot'], 'ref': ref}
+                d['lastHandoff'] = lh
+                d['pending'] = {'from': new['account'], 'rolesHandedOff': sorted(k for k, v in (d.get('roles') or {}).items() if v.get('state') == 'handed-off' and v.get('account') == new['account'])}
     if changed:
         _chain(d, d.get('onDuty') or '-', ','.join(changed), 'sync')
         _write(args.root, DUTY, d)
@@ -483,6 +504,7 @@ def add_parser(sub):
     rg.add_argument('--session', required=True)
     rg.add_argument('--branch', required=True)
     rg.add_argument('--user-ok', action='store_true')
+    rg.add_argument('--wip', action='append', help='這個職位還沒整合的 WIP 分支（可以多個）')
     ho = ds.add_parser('handoff')
     ho.add_argument('--account', required=True, choices=ACCOUNTS)
     ho.add_argument('--role', required=True, choices=ROLES)
