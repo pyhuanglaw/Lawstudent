@@ -11503,7 +11503,7 @@
     "acceptance": "和其他 2D 背景同規格（webp、橫向、沒有人物）；ART_APPROVED 由使用者",
     "ack": "SENT"
    },
-   "note": "2026-10-16：LAWWW2-B 6e72e346 接進 outings3d S.BG（BB-B 驗收三點通過）。"
+   "note": "2026-10-16：LAWWW2-B 6e72e346 接進 outings3d S.BG（BB-B 驗收三點通過）。；2026-10-16 18:56 BB-B 內容核對三點通過（6e72e346）；場景美術的 ART_APPROVED 只有使用者能標（D59）。"
   },
   {
    "id": "BUG-20",
@@ -11615,7 +11615,7 @@
    "title": "學姊 formal 對話立繪（W9 面試西裝外套；大四 M9 口試）：heroine_05/formal/neutral（能的話 serious、smile）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已實作待整合",
    "next": "從 art_reference/heroine05_interview.webp（ART-16，BB 已通過）切正面全身去背 → assets/portraits/heroine_05/formal/neutral.webp；頭像換出 serious、smile（做不到就只有 neutral）；BB-B 照 D59 驗收；LAWWW 在 W9 每一句加 outfit:'formal'",
    "priority": "P2",
    "first": {
@@ -11635,8 +11635,12 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "BB_97 2-4 美術；art_reference/heroine05_interview.webp",
     "acceptance": "去背、和 campus 立繪同構圖同頭部位置；BB-B ART_APPROVED",
-    "ack": "SENT"
-   }
+    "ack": "ACTIONED"
+   },
+   "sha": [
+    "4e812ce5"
+   ],
+   "note": "2026-10-16 19:08 LAWWW2-B 交付（claude/funny-albattani-iawshm 4e812ce5）：heroine_05/formal neutral、serious、smile 600×1000 透明；READY_FOR_ART_REVIEW，BB-B 驗收中。BB-B 通過後 LAWWW 合入、重產立繪清單、W9 每句加 outfit:formal。"
   },
   {
    "id": "AA186-FIX",
@@ -11681,6 +11685,54 @@
    "source": "使用者 2026-10-16 試玩截圖",
    "authorized": "使用者直接回報",
    "tests": "tests/legal_page_unit.js"
+  },
+  {
+   "id": "BUG-22",
+   "title": "第二天：早上的大一英文顯示沒去、以安叫住之後畫面卡住、開局在第三週（使用者 2026-10-16 19:3x）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "next": "①第 2 天 13:05 以前的課不排（982b389e，已修、單元測試）②以安追上來（meetAn）之後卡住：瀏覽器重現中（第一段對話、選項、恢復操作正常；Café／總圖段落重現中）③開局週次是時間線（D79）：已問 AA-B、也問使用者，決定前不改",
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "第 2 天 13:05",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 19:3x 直接回報",
+   "authorized": "D79",
+   "tests": "tests/discuss_unit.js、tests/classes_unit.js",
+   "sha": [
+    "982b389e"
+   ]
+  },
+  {
+   "id": "PLAN-1016-ROM",
+   "title": "七位的戀愛故事補完（使用者 18:2x「七位都要有完整的戀愛故事」）：AA_187 以安／語彤、BB_165 芷若／子晴／沛珊／學姊／可昕（AB-61）",
+   "area": "V6",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "next": "企劃組互審中；新寫的台詞照使用者 19:1x 暫停，等口語指引確認後交付再實作",
+   "pausedReason": "使用者 19:1x：新寫的台詞先暫停，等 AA-B／BB-B 的口語指引與對照表經使用者確認",
+   "resumeWhen": "AA-B 交付使用者確認後的版本",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "跨學年（各人戀愛線第一次可能出現的學期）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "企劃線 b20e614b、22b60a7d、21e748d6、bdc441d6、62bc90b1",
+   "authorized": "D79"
   }
  ]
 }
