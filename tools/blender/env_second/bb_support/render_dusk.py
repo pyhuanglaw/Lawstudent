@@ -19,7 +19,8 @@
         docs/art-rebuild/second_ai/test_shots/bb_support/scooter_shop shop1_day tools/blender/env_second/bb_support/scooter_shop_views.json --day
 views.json（遊戲座標：y 上、+z 朝前）：[{"name": 名稱, "eye": [x,y,z], "look": [x,y,z], "lens": 焦距mm, "res": "1280x640", "samples": 40,
   "only": 頂層節點名稱（只渲染這一件，並把它搬到原點、不轉）或 {名稱: [x, z, yaw°], ...}（只渲染這幾件、擺在指定位置）,
-  "wall": 背牆的 z, "ref": [x, z], "set": "bg", "lamp": [x,y,z]（點光位置；不給就在看的點上方 2.5 m、往前 0.8 m）, "lamp_w": 點光瓦數}, ...]
+  "wall": 背牆的 z, "ref": [x, z], "set": "bg", "lamp": [x,y,z]（點光位置；不給就在看的點上方 2.5 m、往前 0.8 m）, "lamp_w": 點光瓦數,
+  "cut": [試擺場景的物件名稱]（鏡頭看不到、但照樣擋光：遊戲的室內鏡頭會把擋住玩家的牆淡出，game_cam 用它拿掉騎樓的梁和鐵捲門）}, ...]
 --only：只渲染這幾個鏡頭（名稱用逗號分開）；--scale：解析度倍率（試算用）。
 """
 import json, math, os, sys
@@ -208,7 +209,8 @@ for v in views:
             else: o.hide_render = True
     in_set = v.get('set') == 'bg'
     if in_set:
-        for o in build_set(): o.hide_render = False
+        cut = set(v.get('cut', []))                                                  # 剖面：鏡頭看不到這些（還是會擋光、有陰影），像遊戲室內鏡頭把擋住的牆淡出
+        for o in build_set(): o.hide_render = False; o.visible_camera = o.name not in cut
         if tube_lamp is None and not DAY:                                          # 傍晚：天花板的日光燈亮（偏暖的面光）
             tube_lamp = bpy.data.objects.new('tube', bpy.data.lights.new('tube', 'AREA')); tube_lamp.data.shape = 'RECTANGLE'
             tube_lamp.data.size, tube_lamp.data.size_y = 1.6, 0.08; tube_lamp.data.energy = 160; tube_lamp.data.color = (1.0, 0.9, 0.78)
