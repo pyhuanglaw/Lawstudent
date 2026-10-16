@@ -65,19 +65,22 @@
   "heroine_01": {
    "arrive": {
     "first": {
-     "tier": "any",
-     "lines": [
-      {
-       "who": "heroine_01",
-       "text": "又來了。理由：上次沒看完。"
-      },
-      {
-       "who": "heroine_01",
-       "text": "今天不寫筆記。……可能寫一行。"
-      }
-     ]
+     "wishEvent": "wish/wish_heroine_01.json（AA_127 第 1 節）"
     },
     "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "又來了。理由：上次沒看完。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "今天不寫筆記。……可能寫一行。"
+       }
+      ]
+     },
      {
       "tier": "any",
       "lines": [
@@ -120,19 +123,22 @@
    },
    "closing": {
     "first": {
-     "tier": "any",
-     "lines": [
-      {
-       "who": "heroine_01",
-       "text": "回去吧。行政法的報告，我想再改一個例子。"
-      },
-      {
-       "who": "heroine_01",
-       "text": "……今天的理由欄，還是三個字。"
-      }
-     ]
+     "wishEvent": "wish/wish_heroine_01.json（AA_127 第 1 節）"
     },
     "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "回去吧。行政法的報告，我想再改一個例子。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "……今天的理由欄，還是三個字。"
+       }
+      ]
+     },
      {
       "tier": "any",
       "lines": [
@@ -167,39 +173,42 @@
    "hotspots": {
     "D07.court": {
      "first": {
-      "tier": "any",
-      "lines": [
-       {
-        "who": "heroine_01",
-        "text": "（她又在旁聽席同一個位置坐下）……上次我坐這裡。"
-       },
-       {
-        "who": "heroine_01",
-        "text": "今天想坐久一點。"
-       }
-      ],
-      "choice": [
-       {
-        "t": "（陪她坐）",
-        "reply": [
-         {
-          "who": "heroine_01",
-          "text": "……謝謝。安靜一點比較好。"
-         }
-        ]
-       },
-       {
-        "t": "「妳在想什麼？」",
-        "reply": [
-         {
-          "who": "heroine_01",
-          "text": "想：坐在上面的人，那時候有沒有先聽。"
-         }
-        ]
-       }
-      ]
+      "wishEvent": "wish/wish_heroine_01.json（AA_127 第 1 節）"
      },
      "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "（她又在旁聽席同一個位置坐下）……上次我坐這裡。"
+        },
+        {
+         "who": "heroine_01",
+         "text": "今天想坐久一點。"
+        }
+       ],
+       "choice": [
+        {
+         "t": "（陪她坐）",
+         "reply": [
+          {
+           "who": "heroine_01",
+           "text": "……謝謝。安靜一點比較好。"
+          }
+         ]
+        },
+        {
+         "t": "「妳在想什麼？」",
+         "reply": [
+          {
+           "who": "heroine_01",
+           "text": "想：坐在上面的人，那時候有沒有先聽。"
+          }
+         ]
+        }
+       ]
+      },
       {
        "tier": "any",
        "lines": [
@@ -251,39 +260,42 @@
     },
     "D07.cell": {
      "first": {
-      "tier": "any",
-      "lines": [
-       {
-        "who": "heroine_01",
-        "text": "（走廊很窄）憲法第八條。我現在背得出來，也懂一點了。"
-       },
-       {
-        "who": "heroine_01",
-        "text": "……一點點。"
-       }
-      ],
-      "choice": [
-       {
-        "t": "「一點點就夠了。」",
-        "reply": [
-         {
-          "who": "heroine_01",
-          "text": "不夠。可是是開始。"
-         }
-        ]
-       },
-       {
-        "t": "「要先出去嗎？」",
-        "reply": [
-         {
-          "who": "heroine_01",
-          "text": "……好。你說得對，我需要一下。"
-         }
-        ]
-       }
-      ]
+      "wishEvent": "wish/wish_heroine_01.json（AA_127 第 1 節）"
      },
      "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "（走廊很窄）憲法第八條。我現在背得出來，也懂一點了。"
+        },
+        {
+         "who": "heroine_01",
+         "text": "……一點點。"
+        }
+       ],
+       "choice": [
+        {
+         "t": "「一點點就夠了。」",
+         "reply": [
+          {
+           "who": "heroine_01",
+           "text": "不夠。可是是開始。"
+          }
+         ]
+        },
+        {
+         "t": "「要先出去嗎？」",
+         "reply": [
+          {
+           "who": "heroine_01",
+           "text": "……好。你說得對，我需要一下。"
+          }
+         ]
+        }
+       ]
+      },
       {
        "tier": "any",
        "lines": [
@@ -335,39 +347,42 @@
     },
     "D07.wall": {
      "first": {
-      "tier": "any",
-      "lines": [
-       {
-        "who": "heroine_01",
-        "text": "上次你讀的那個名字，我回去查了。"
-       },
-       {
-        "who": "heroine_01",
-        "text": "他有一封信，寫給他的家人。我讀了三次。"
-       }
-      ],
-      "choice": [
-       {
-        "t": "「信裡寫什麼？」",
-        "reply": [
-         {
-          "who": "heroine_01",
-          "text": "寫「天氣涼了，記得加衣服」。……就這樣。"
-         }
-        ]
-       },
-       {
-        "t": "（安靜地聽）",
-        "reply": [
-         {
-          "who": "heroine_01",
-          "text": "……嗯。普通的話，最難讀。"
-         }
-        ]
-       }
-      ]
+      "wishEvent": "wish/wish_heroine_01.json（AA_127 第 1 節）"
      },
      "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "上次你讀的那個名字，我回去查了。"
+        },
+        {
+         "who": "heroine_01",
+         "text": "他有一封信，寫給他的家人。我讀了三次。"
+        }
+       ],
+       "choice": [
+        {
+         "t": "「信裡寫什麼？」",
+         "reply": [
+          {
+           "who": "heroine_01",
+           "text": "寫「天氣涼了，記得加衣服」。……就這樣。"
+          }
+         ]
+        },
+        {
+         "t": "（安靜地聽）",
+         "reply": [
+          {
+           "who": "heroine_01",
+           "text": "……嗯。普通的話，最難讀。"
+          }
+         ]
+        }
+       ]
+      },
       {
        "tier": "any",
        "lines": [
@@ -419,39 +434,42 @@
     },
     "D07.path": {
      "first": {
-      "tier": "any",
-      "lines": [
-       {
-        "who": "heroine_01",
-        "text": "走一走。剛剛那裡，我需要一點空氣。"
-       },
-       {
-        "who": "heroine_01",
-        "text": "說理由，要有人願意聽。……我上次說過。"
-       }
-      ],
-      "choice": [
-       {
-        "t": "「我在聽。」",
-        "reply": [
-         {
-          "who": "heroine_01",
-          "text": "……我知道。"
-         }
-        ]
-       },
-       {
-        "t": "（陪她走完）",
-        "reply": [
-         {
-          "who": "heroine_01",
-          "text": "……謝謝。安靜也是一種聽。"
-         }
-        ]
-       }
-      ]
+      "wishEvent": "wish/wish_heroine_01.json（AA_127 第 1 節）"
      },
      "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "走一走。剛剛那裡，我需要一點空氣。"
+        },
+        {
+         "who": "heroine_01",
+         "text": "說理由，要有人願意聽。……我上次說過。"
+        }
+       ],
+       "choice": [
+        {
+         "t": "「我在聽。」",
+         "reply": [
+          {
+           "who": "heroine_01",
+           "text": "……我知道。"
+          }
+         ]
+        },
+        {
+         "t": "（陪她走完）",
+         "reply": [
+          {
+           "who": "heroine_01",
+           "text": "……謝謝。安靜也是一種聽。"
+          }
+         ]
+        }
+       ]
+      },
       {
        "tier": "any",
        "lines": [
