@@ -111,7 +111,7 @@ const CHAR = (function(){
     // 彈簧骨（頭髮、馬尾）在人物自己的座標系模擬：瞬移、換區域、坐下起身時頭髮不會被甩飛（要在 root.userData 設定之後：three-vrm 把反矩陣快取放在 center.userData）
     const sbm=vrm.springBoneManager; if(sbm){ try{ sbm.reset(); sbm.joints.forEach(j=>{ j.center=root; }); root.updateMatrixWorld(true); sbm.setInitState(); }catch(err){ console.warn('spring bone center',err); } }
     return root; }
-  C.MODEL_PROPS={'char.classmate_bohan':[{name:'glasses',glb:'prop.glasses_bohan'},'backpack'],   /* 許柏翰（?blchar）：方框眼鏡＋後背包（LAWWW2 VISUAL_REVIEW 32.4 的設定）*/
+  C.MODEL_PROPS={'char.classmate_bohan':[{name:'glasses',glb:'prop.glasses_bohan'},'backpack'],'char.classmate_peishan':[{name:'glasses',glb:'prop.glasses_peishan'}],   /* 許柏翰（?blchar）：方框眼鏡＋後背包（LAWWW2 VISUAL_REVIEW 32.4 的設定）*/
     'char.yuting':['backpack'],'char.heroine_01':['tote'],'char.heroine_02':['glasses','earrings','apron'],'char.heroine_03':[{name:'backpack',drop:-0.07,flat:[0.04,0.008],strap:[[0.075,0.05,0.086],[0.092,0.096,0.05],[0.1,0.117,0.0],[0.103,0.097,-0.03],[0.106,0.072,-0.062],[0.11,0.04,-0.086],[0.118,0.0,-0.112],[0.13,-0.045,-0.1],[0.145,-0.085,-0.055],[0.142,-0.115,0.0],[0.13,-0.2,0.06],[0.12,-0.27,0.09]]}],'char.heroine_04':[{name:'guitar',x:0.0,z:0.235,tilt:-0.05,flat:[0.042,0.008],straps:[[0.07,0.06,0.15],[0.1,0.128,0.075],[0.105,0.146,0.03],[0.105,0.136,0.0],[0.105,0.126,-0.03],[0.105,0.094,-0.062],[0.107,0.06,-0.088],[0.108,0.02,-0.12],[0.112,-0.04,-0.132],[0.13,-0.09,-0.127],[0.155,-0.13,-0.085],[0.172,-0.17,-0.02],[0.162,-0.25,0.07],[0.12,-0.33,0.15]]}],'char.heroine_05':['folder','hairtie']};
   // 切換配件（例：林芷若在 Café 工作時才穿圍裙）
   C.setProp=function(h,name,on){ const u=h&&h.userData; const o=u&&u.props&&u.props[name]; if(!o) return false; o.visible=!!on; (u.propOn=u.propOn||{})[name]=!!on; return true; };
@@ -229,7 +229,7 @@ const CHAR = (function(){
   // 建立順序：VRM（spec.model）→ GLB（spec.model 或 spec.fallbackModel，例如主角的 TEMP_PLAYER_DEV_MODEL）→ 程序化 placeholder
   /* 角色 → 正式 3D 模型（VRoid CC0 改作）。主要角色各自一個模型；其他人（含路人、教授、不熟同學）用路人底模，
      顏色沿用各自原本的穿搭設定（髮色、上衣、褲裙），用材質顏色相乘。這裡只決定「外觀」，不影響移動、碰撞、存檔。 */
-  C.CAST={hero_m:{model:'char.yuting'},an:{model:'char.heroine_01'},hero_f:{model:'char.heroine_01'},heroine_01:{model:'char.heroine_01'},zhe:{model:'char.zhe'},heroine_02:{model:'char.heroine_02'},heroine_03:{model:'char.heroine_03'},heroine_04:{model:'char.heroine_04'},heroine_05:{model:'char.heroine_05'},sis:{model:'char.heroine_05'},classmate_xinci:{model:'char.classmate_xinci'},classmate_bohan:{model:'char.classmate_bohan'},kexin:{model:'char.kexin'}};   /* 芯慈：manifest 有才用（?blchar，blOnly）*/
+  C.CAST={hero_m:{model:'char.yuting'},an:{model:'char.heroine_01'},hero_f:{model:'char.heroine_01'},heroine_01:{model:'char.heroine_01'},zhe:{model:'char.zhe'},heroine_02:{model:'char.heroine_02'},heroine_03:{model:'char.heroine_03'},heroine_04:{model:'char.heroine_04'},heroine_05:{model:'char.heroine_05'},sis:{model:'char.heroine_05'},classmate_xinci:{model:'char.classmate_xinci'},classmate_peishan:{model:'char.classmate_peishan'},classmate_bohan:{model:'char.classmate_bohan'},kexin:{model:'char.kexin'}};   /* 芯慈：manifest 有才用（?blchar，blOnly）*/
   const AMB={f:['char.npc_f1','char.npc_f2'],m:['char.npc_m1','char.npc_m2']};
   /* 沒有名字的路人（STORY.extraSpec 的 id 'x0'、'x1'…：教室聽眾、自習區、路上的人）另外一組：LAWWW2 的路人底模（各自的臉與穿搭、不換色；網址加 ?npcnew 才載入，assets3d.js）。
      有名字的人物（方奕廷、教授、不熟同學…）照舊用 AMB＋自己的顏色（tint），不會因為分到新模型失去穿搭（CLAUDE.md：角色不能因為共用路人模型而失去識別）*/
