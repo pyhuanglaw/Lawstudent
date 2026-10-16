@@ -10162,7 +10162,7 @@
    "area": "DL",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "第 1 批完成：起床選單（sleepNow、小睡醒來；晨間事件之後）、直接去上課（出門時間、跳過時間停點→繼續去上課、進教室區域、選位子：老位子／坐中間、坐在認識的人旁邊、自己找；坐下自動上課）、門口上課、下課選單（<60 三項、≥60 四項：吃飯 40 分、在附近讀書）、翹課（plan_skip、手機「翹課」「反悔」、30 分提醒不出）、期末考前 10 分鐘自動進考場（AA_126 1-1）、手機「直接去上課／去聽後半堂」、設定「起床時問我要不要去上課」。還沒做：路上【固】【必】事件停下來（等 AA_160 3-4 盤點表）、翹課確認的「你會錯過」、在家醒來（DL-05）、人在宿舍車在宿舍照騎車算。瀏覽器：1-8 驗收",
+   "next": "第 1 批完成：起床選單（sleepNow、小睡醒來；晨間事件之後）、直接去上課（出門時間、跳過時間停點→繼續去上課、進教室區域、選位子：老位子／坐中間、坐在認識的人旁邊、自己找；坐下自動上課）、門口上課、下課選單（<60 三項、≥60 四項：吃飯 40 分、在附近讀書）、翹課（plan_skip、手機「翹課」「反悔」、30 分提醒不出）、期末考前 10 分鐘自動進考場（AA_126 1-1）、手機「直接去上課／去聽後半堂」、設定「起床時問我要不要去上課」。下課選單等這一區的事件（97e34807）；還沒做：路上【固】【必】事件停下來（等 AA_160 3-4 盤點表）、翹課確認的「你會錯過」、在家醒來（DL-05）、人在宿舍車在宿舍照騎車算。瀏覽器：1-8 驗收",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -10346,6 +10346,195 @@
    },
    "source": "AA-B 05:42（D86 轉交 BB-B）",
    "authorized": "D79"
+  },
+  {
+   "id": "DL-09",
+   "title": "溫州街三家新店（半熟早午餐、阿德影印輸出、一盞茶屋）3D 室內區域＋店門互動、冰店、公園互動、places.js",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "next": "LAWWW2-B 交 GLB＋src/data/<店>_layout.js（房間、出生點、出口、阻擋框、座位、互動點）後做區域、導航、門口、出口；美術沒到前可用暫時空房間測流程（玩家版不出現）；小公園擴到約 28×18（使用者 06:19），範圍和 LAWWW2-B 一起定，我改導航格、碰撞、店門、騎樓",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "溫州街新店（AA_164）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_164（企劃線 a64200d4→1fca4391→d410ec1a→5aef9605）",
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示"
+  },
+  {
+   "id": "DL-10",
+   "title": "打工系統（三家店＋家教共用 G.jobs，在 3D 店裡進行）",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "AA_164＋AA_165；家教（V2-B32）併進來；時段次數：約好的打工不被擋（AA_163）",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "第一次打工",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_164（企劃線 a64200d4→1fca4391→d410ec1a→5aef9605）、AA_165",
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示"
+  },
+  {
+   "id": "DL-11",
+   "title": "溫州街四條故事線＋單一事件（AA_166、AA_167；BB 人物 BB_148）",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "AA_167（81bae366）的腳本照 STORY_EVENT_SCHEMA 轉；第 7 節新旗標（G.flags）、法服兩件新案件、既有事件 linesIf 一句、四門課的回想與準備 +1；LEGAL_REVIEW 交 BB-B 審；BB_148 觸發等 BB-B",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "AA_166 各線第一段",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_166（830d03b3）、AA_167（81bae366）",
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示"
+  },
+  {
+   "id": "DL-12",
+   "title": "invites 新地點 brunch、teahouse",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "AA_164；店做好以後",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_164（企劃線 a64200d4→1fca4391→d410ec1a→5aef9605）",
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示"
+  },
+  {
+   "id": "DL-13",
+   "title": "溫州街小公園 NPC 時段、貓的四年",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "AA_164；線四貓不見（大三上第 9 週）在 DL-11",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_164（企劃線 a64200d4→1fca4391→d410ec1a→5aef9605）",
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示"
+  },
+  {
+   "id": "DL-04B",
+   "title": "DL-04 劇情保護：AA_160 3-4 盤點（f4105bfb）的施工",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "①v0 的 17 個核心標 keep:'must' ②ev_xmas_exchange：前一晚群組提醒、當天 12:00 toast、窗口 12:10～13:40 ③颱風假：不能搭捷運、店家不開、不能打工、不能回家 ④ev_an_report_split 兩週都翹的補救台詞（第 6 週起第一次遇到以安，REPORT_PARTNER=assigned_absent）⑤下課選單等這一區的事件（97e34807 已做）⑥捷運出遊前列 R1、有【必】不能出發 ⑦BB 兩件（家族聚餐、校慶問答攤）等 BB-B",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 3-4（f4105bfb）",
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示"
+  },
+  {
+   "id": "V0-LADDER",
+   "title": "v0 閒聊階梯 ladder_bb_y0s1／y0s2.json（BB-B 82b61711、f70b4e87、19ee72d5；AA 核對）",
+   "area": "V0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "v0 第 2 批以後接",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系開學",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 06:08、06:15",
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示"
+  },
+  {
+   "id": "V0-KXPHONE",
+   "title": "v0 可昕手機小事 8 則（BB_113「經濟系那一年的可昕」，BB-B 5b6e88fb）",
+   "area": "V0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "大一上 4 則（E06 以後、E19 以前，一則限雨天）、大一下 4 則（dating_kexin、E27 3/26 以後、7/10 以前）；寒假與大一下第 1～5 週不放",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "E06 以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 06:15",
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示"
+  },
+  {
+   "id": "ART-CG41-45",
+   "title": "BB-B 通過的 CG／人物圖：cg_three_things_heroine05（BCG-44）、cg_no_plan_heroine05（BCG-39）、cg_doorbell（BCG-36，取代作廢的 cg_bar_line）、日文班三人、邵鈞、許教授、詹靖、學姊面試服",
+   "area": "ART",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "next": "跟著各學期事件接（ART-15 規則）；要切對話立繪的排給 LAWWW2-B；cg_bar_line 作廢、不整合（BB-B 05:56 P1，已 ACK）",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S1",
+    "week": 1,
+    "earliest": "大二上起",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "BB-B 013e7662、0b4cb6d3、3bddb7df（claude/elegant-brown-fcos7n）",
+   "authorized": "D79（AA-B 定案）；使用者 10-16 對 AA-B／LAWWW2-B 的溫州街指示"
   }
  ]
 }
