@@ -129,7 +129,8 @@ def scan(glb):
                 if kk not in pairs or pairs[kk]['area'] < ar:
                     gap = abs(fi[6] - fj[6])
                     pairs[kk] = dict(a=fi[1], amat=fi[2], b=fj[1], bmat=fj[2], at=[round(c.x, 2), round(-c.y, 2), round(c.z, 2)], area=round(ar, 3),
-                                     facing='same' if same else 'back-to-back', gap_mm=round(gap * 1000, 2), visible=same and gap < EXACT, ds=fi[8] or fj[8])
+                                     facing='same' if same else 'back-to-back', gap_mm=round(gap * 1000, 2), visible=same and gap < EXACT, ds=fi[8] or fj[8],
+                                     n=[round(fi[7].x, 2), round(fi[7].z, 2), round(-fi[7].y, 2)])   # 第一個面的法線（遊戲座標 x, y, z）：室內可以看它朝不朝房間裡面
     return len(faces), sorted(pairs.values(), key=lambda r: -r['area'])
 
 
