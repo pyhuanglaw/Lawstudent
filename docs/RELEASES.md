@@ -17,6 +17,7 @@
 | v9.6 | `e88bda5`（就是測試過的候選 15 本身） | 2026-10-14 07:46:55 | `a4f2760` |
 | v9.7 | `313d620`（就是測試過的候選 19 本身） | 2026-10-14 12:32:31 | `e88bda5` |
 | v9.8 | `1d0ff40f`（PR [pyhuanglaw/Lawstudent#3](https://github.com/pyhuanglaw/Lawstudent/pull/3) 的合併 commit；遊戲檔案＝測試過的候選 2 `9508b534`，只多了 README） | 2026-10-16 06:22:15 | `313d620`（v9.7） |
+| v9.9 | `19b97eff`（PR [pyhuanglaw/Lawstudent#4](https://github.com/pyhuanglaw/Lawstudent/pull/4) 的合併 commit；遊戲檔案＝測試過的候選 2 `147c573e`，只多了 README） | 2026-10-16 14:55 UTC | `1d0ff40f`（v9.8） |
 
 ---
 
@@ -30,7 +31,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.9（2026-10-16，候選版測試中）——溫州街與日常版
+## v9.9（2026-10-16 發布 `19b97eff`）——溫州街與日常版
 
 **玩家會看到的改變**（v9.8 之後；法律系開局）
 
@@ -69,9 +70,25 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - 溫州街效能沒有達到 LAWWW 的目標（draw call ≤ 310、三角形 ≤ 42 萬）：arcade 鏡頭 321 次、44.3 萬，超過約 3～5%；第四輪處理。新體育館 3F 主球場還沒接。
 - 很多 3D 模型、背景還是 READY_FOR_ART_REVIEW。
 
-**發布前測試**：（凍結後填）
+**發布前測試**（候選 2 `147c573e`，乾淨 checkout `git worktree`、port 8766；2026-10-16 13:45～14:53 UTC）：
+- 單元測試 197 個：0 失敗；nav_levels_unit、nav_buildings_unit、stairs_feet_unit 全過。
+- 全部通過：
+  - deploy_check（v9.9 字樣、快取參數）
+  - smoke_release
+  - smoke_v99：三家新店、新體育館一樓與 B1、捷運出行、週末回家，全程沒有 JS 例外
+  - p0_movement
+  - save_compat：v9.8、v9.7、v7 的存檔都讀得進來
+  - cafe_glb_integration
+- wz_street_integration：只有效能那一項沒過（303／286／321 次 draw call、43.1／40.7／44.3 萬三角形，目標 ≤ 310 次、≤ 42 萬）。這是已知問題，不改門檻；第四、五輪在開發分支（289／272／307 次、42.1／39.7／43.3 萬），下一版。
+- 凍結前回歸（`d833d3a5`，13:00 前後）也跑過：zone_transitions、touch_flow_wenzhou、flow_class_real、flow_invite_phone、flow_b4_lecture、minimap_direction、joystick_direction、flow_wancai_floors 全過。movement_regression 的 TEST E 第一次在 PAGE 跳轉時中斷（Execution context destroyed），單獨重跑 26/26 通過；發布後的完整回歸會再跑一次。
+- iPhone 實機沒有測（Playwright 手機模擬＋SwiftShader）。
 
-**發布**：（凍結後填）
+**發布**：
+- PR [pyhuanglaw/Lawstudent#4](https://github.com/pyhuanglaw/Lawstudent/pull/4) 合併，main＝`19b97eff`。
+- 發布 commit `6ff9ac21`：內容＝候選 2＋v9.9 README，父節點是開發分支和 origin/main，所以合併是快轉。
+- 開發分支接著 `34a9dabf`，把候選之後的開發成果放回來。
+- GitHub Pages：pages build and deployment run 21 成功（2026-10-16 14:55 UTC；head_sha＝`19b97eff`。沙盒的代理擋 github.io（403），沒辦法直接抓線上頁面比對，以 Pages 部署的 head_sha 為準）。
+- 回復目標：v9.8 `1d0ff40f`。
 
 ## v9.8（2026-10-16）——大一下版
 
