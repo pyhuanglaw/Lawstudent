@@ -41,7 +41,23 @@
 值班登記：帳號 B｜LAWWW2-B｜session_01GV1WG3UeT2DhuDpxeWJsvD｜分支 claude/funny-albattani-iawshm｜接班基準 origin/claude/second-ai-env-art 的 8e1061a（合併進 main 4e203e8 開出的分支）｜2026-10-15 23:1x UTC
 上一班：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜最後 commit 8e1061a（2026-10-14 17:38 UTC，「LAWWW2（帳號 A）交班」）｜正常交班
 
-## 進度（LAWWW2-B，2026-10-16 00:0x UTC）——最新
+## 進度（LAWWW2-B，2026-10-16 01:2x UTC）——最新
+
+佇列（LAWWW-B 00:56Z）：自強十舍（等使用者照片；畫「宿舍樓下、有長椅」的角度）→ **nccu_campus「政大・校園裡的路」**（等照片時先做）→ 後備 A（公館腳踏車行、台北的家 2D 兩張）→ 便利商店 v2 收尾。
+
+| 項目 | 狀態 | SHA／位置 |
+|---|---|---|
+| 空橋 skybridge.glb | 已交付；LAWWW-B 決定 RISE 維持 0.6，Y0＝4.2（室內）／4.0（外觀）由 LAWWW-B 處理 | `a22ba0e` |
+| 載妹墊 bike_ride.glb | 已交付；LAWWW-B 整合中 | `aed5e46` |
+| 政大 nccu_gate、nccu_food | LAWWW-B 已整合（`00179902`） | `825c038` |
+| **公館腳踏車行「輪轉單車」**（G06，原「眼鏡・手機維修」，正對校門） | WIP：程式、GLB 已改（`f77d7c5`），遊戲截圖拍好，**導航測試還沒跑**；店內景深卡的牆調暗了還沒 commit | `f77d7c5`＋本機 |
+| **nccu_campus**（醉夢溪畔的步道） | WIP：`bg_nccu.py campus` 場景寫好、低解析度試算三版，**還沒 commit、還沒算正式圖**；查證 `research/nccu_campus_path.md`（沒有照片，外觀推估） | 本機 |
+| 芷若 campus 表情 8 張 | **BB-B ART_APPROVED**（01:04Z）；thinking 不放；neutral 頭頂補完整、白點清掉；**等 LAWWW-B 整合（manifest 重產）** | `724643c`、`824f063` |
+| 轉給 BB-B 的使用者圖 | 學姊約會圖、芷若九表情存在 `docs/story_planning/date_system/art/`（BB-B 也自己存在 `2fd84e1`）；取圖工具 `tools/extract_chat_images.py` | `6c3ab9b`、`d84501a` |
+
+- 本機 worktree：`/home/user/bike_before`（`6c3ab9b`，腳踏車行改之前的截圖用，伺服器 8841；8842＝工作目錄）。容器重開就沒了，沒有獨有的成果。
+
+## 進度（LAWWW2-B，2026-10-16 00:0x UTC）
 
 **LAWWW-B 23:34Z P1 新分派**（使用者 10-15 試玩 v9.7 的 26 項，原話在 LAWWW-B 分支 `docs/USER_INSTRUCTION_LOG.md` `10826bd`），排在便利商店之前：
 - **A 郭沛珊自己的 VRM**：`MODEL_READY`，已交（`78db4a6`）。
