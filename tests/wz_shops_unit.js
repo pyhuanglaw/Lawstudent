@@ -31,6 +31,12 @@ for(const k of ['brunch','print','teahouse']){ const L=WZ_SHOPS_LAYOUT[k]; const
   check('2. '+L.name+'：每個座位旁邊站得住、從門口走得到',!bad.length,bad.join('、'));
   const ex=E.interactables.find(i=>i.exit&&i.exit.to==='wenzhou'); const p=ex&&nearStand(ex.x,ex.z,ex.radius-0.05); const r=p&&walk([L.seats[0].x,L.seats[0].z-0.0],p);
   check('2. '+L.name+'：「'+(ex&&ex.label)+'」走得到',!!ex&&!!p&&(Math.hypot(p[0]-sp[0],p[1]-sp[1])<0.05||walk(sp,p).ok));
+  { const want={brunch:'點餐,看今日推薦',print:'印東西,買文具',teahouse:'喝茶'}[k]; const mi=E.interactables.filter(i=>i.wzShop===k);
+    /* 選單的按鈕真的出現：範圍內站得住、走得到，而且站在那裡時最近的互動點是它（不被座位、出口蓋過；引擎照距離挑）*/
+    const shows=i=>{ const R=i.radius-0.05; for(let dx=-R;dx<=R+1e-9;dx+=0.1) for(let dz=-R;dz<=R+1e-9;dz+=0.1){ if(dx*dx+dz*dz>R*R) continue; const x=i.x+dx, zz=i.z+dz; if(!E.canStand(x,zz,0.32,0)) continue;
+      let best=null, bd=1e9; for(const q of E.interactables){ const d=Math.hypot(q.x-x,q.z-zz); if(d<=q.radius&&d<bd){ bd=d; best=q; } } if(best===i&&(Math.hypot(x-sp[0],zz-sp[1])<0.05||walk(sp,[x,zz]).ok)) return true; } return false; };
+    const bad2=mi.filter(i=>!shows(i)).map(i=>i.label);
+    check('2b. '+L.name+'：客人的選單（AA_172）「'+want+'」有互動點、按鈕走得到也真的出現；打工用的（出餐檯、廚房、櫃台、膠裝、水屋）還沒有',mi.map(i=>i.label).join(',')===want&&!bad2.length&&!E.interactables.some(i=>/打工/.test(i.label||'')),mi.map(i=>i.label).join(',')+(bad2.length?'；按鈕不出現：'+bad2.join('、'):'')); }
   WZ[k]={ex,L};
   if(k==='teahouse'){ check('3. 一盞：緣側 (1,5.6) 站得住、從玄關走得到；前院 (0,7.9)、(3,8.8) 走不到',E.canStand(1,5.6,0.32,0)&&walk(sp,[1,5.6]).ok&&!E.canStand(0,7.9,0.1,0)&&!E.canStand(3,8.8,0.1,0));
     check('3. 一盞：茶席、水屋擋住；和室從紙拉門的開口走得進去',!E.canStand(-1.6,1.7,0.1,0)&&!E.canStand(3.75,1.3,0.1,0)&&walk(sp,[-2.1,-1.6]).ok); } }

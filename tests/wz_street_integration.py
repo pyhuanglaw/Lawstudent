@@ -95,7 +95,7 @@ async def check(pg, run, formal):
         run.check('亮燈的窗：晚上發光、白天不發光', night['night']['lit'] > 0.3 and night['day']['lit'] < 0.05, json.dumps(night))
         run.check('燈箱招牌（wz_signs_lit）：晚上比白天亮', night['night']['sign'] > night['day']['sign'] + 0.3, json.dumps(night))
         run.check('騎樓柱子有樹幹透視（擋住玩家時網點透空）', night['pillarSeeThrough'], json.dumps(night))
-        extra = await pg.evaluate("""(()=>{ const z=GAME.E.zone; const out={plates:{}}; for(const n of ['wz_jphouse_glb','wz_props_glb']){ const r=z.group.children.find(o=>o.name===n);
+        extra = await pg.evaluate("""(()=>{ const z=GAME.E.zone; const out={plates:{}}; for(const n of ['wz_jphouse_glb','wz_props_glb','wz_park_glb']){ const r=z.group.children.find(o=>o.name===n);
               r.traverse(o=>{ if(o.isMesh&&/^PLATE_FACE_/.test(o.name)){ const m=o.material.map; out.plates[o.name]=!!(m&&m.image&&m.image.getContext); } });
               const at=r.getObjectByName('wz_plates_atlas'); if(at){ const m=at.material.map; for(const it of at.userData.atlas.items) out.plates[it.name]=!!(m&&m.image&&m.image.getContext)&&at.visible&&it.w>8&&it.h>8; } }
             const mats={}; for(const n of ['wz_jphouse_glb','wz_props_glb']) z.group.children.find(o=>o.name===n).traverse(o=>{ if(o.isMesh) mats[o.material.name]=o.material; });
@@ -105,7 +105,7 @@ async def check(pg, run, formal):
             out.glows=z.group.children.filter(o=>o.isSprite&&o.visible).length; out.wires=z.group.children.filter(o=>o.isLine||o.isLineSegments||(o.isMesh&&o.geometry&&o.geometry.type==='TubeGeometry')).length;
             return out; })()""")
         pl = extra['plates']
-        run.check('門牌、告示牌、6 個桿號牌、路牌兩面、路名牌兩面都有 canvas 字（每個 GLB 合成一張 atlas）', len(pl) == 12 and all(pl.values()), json.dumps(pl))
+        run.check('門牌、6 個桿號牌、路牌兩面、路名牌兩面、小公園名牌都有 canvas 字（每個 GLB 合成一張 atlas；名牌 2026-10-16 起在小公園的 GLB 裡）', len(pl) == 12 and 'PLATE_FACE_parksign' in pl and all(pl.values()), json.dumps(pl))
         run.check('路燈燈罩、玄關燈、紙拉門：晚上亮、白天暗', all(extra['night'][k] > extra['day'][k] + 0.3 for k in ('lens', 'genkan', 'shoji')), json.dumps([extra['day'], extra['night']]))
         run.check('電線桿有樹幹透視', extra['poleST'], json.dumps(extra['poleST']))
         run.note('看得到的光暈 sprite：%d 個（玄關燈、路燈、Café…，套件的光暈不屬於被藏起來的物件）' % extra['glows'])
