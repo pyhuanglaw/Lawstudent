@@ -19,6 +19,9 @@ check 的七項（使用者 2026-10-16 指示）＋兩項補充：
   8 首次出現時間欄位齊全（D81）
   9 閱讀版 docs/HANDOFF_GAP_MATRIX.md 提到的 ID 在 tasks.json 都有（區間如 V5-F1～F27 會展開）
 
+增量掃描的順序：先 check → 把列出的 commit 登記進 deliveries 或放進 ignored → 再 check 到 OK → 最後才把 scannedThrough 移到各分支現在的 commit。
+先移 scannedThrough 再 check，什麼都掃不到（2026-10-16 犯過一次）。
+
 結束碼：0＝七項都檢查了、沒有異常；1＝有異常、或有一項沒辦法檢查（不虛報正常）；
         2＝找不到上次快照或快照壞掉 → REMEDIAL_FULL_AUDIT（要補做一次全面盤點，見總入口第 4 節）。
 """

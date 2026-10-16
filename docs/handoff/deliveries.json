@@ -1,11 +1,11 @@
 {
  "version": 1,
- "note": "交付登記（D82）：每一筆交付都要對到 tasks.json 的任務；msg＝SENT／DELIVERED／ACK／ACTIONED（接收方有沒有回 ACK）；integration＝未整合／已整合待測試／已驗收／不整合／參考用。scannedThrough＝每條交付分支已經看過的最後一個 commit：check_handoff.py 只掃它以後的 commit（增量）。看過、不是交付的 commit 放 ignored。",
- "pattern": "交付|ART_APPROVED|READY_FOR_ART_REVIEW|MODEL_READY|組.{0,12}通過|閒聊階梯|交接包|法律審查|盤點|清查|裁定|規則檔",
+ "note": "交付登記（D82）：每一筆交付都要對到 tasks.json 的任務；msg＝SENT／DELIVERED／ACK／ACTIONED（接收方有沒有回 ACK）；integration＝未整合／已整合待測試／已驗收／不整合／參考用。scannedThrough＝每條交付分支已經看過的最後一個 commit：check_handoff.py 只掃它以後的 commit（增量）。看過、不是交付的 commit 放 ignored。　**scannedThrough 只在 check 跑完、列出的 commit 都登記或放進 ignored 之後才往前移**（2026-10-16：先移再跑會什麼都掃不到）。",
+ "pattern": "交付|ART_APPROVED|READY_FOR_ART_REVIEW|MODEL_READY|通過|驗收|閒聊階梯|交接包|法律審查|盤點|清查|裁定|規則檔|AA_1\\d\\d|BB_1\\d\\d",
  "scannedThrough": {
-  "origin/claude/funny-albattani-iawshm": "3cc72780",
-  "origin/claude/cool-heisenberg-o8kuqx": "453e093d",
-  "origin/claude/elegant-brown-fcos7n": "ad98f813"
+  "origin/claude/funny-albattani-iawshm": "acf5ff5d",
+  "origin/claude/cool-heisenberg-o8kuqx": "9d1aa277",
+  "origin/claude/elegant-brown-fcos7n": "488af276"
  },
  "deliveries": [
   {
@@ -607,6 +607,102 @@
    "msg": "DELIVERED",
    "integration": "未整合",
    "note": "AA_140 裁定（從企劃線看到）"
+  },
+  {
+   "id": "DLV-1016-51",
+   "date": "2026-10-16T02:4xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "3cc72780",
+   "what": "美國公寓 v2 補：浴室從臥室進、衛浴重排、衣帽櫃",
+   "task": "SCN-US-01",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-52",
+   "date": "2026-10-16T02:4xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "85b60338",
+   "what": "A4-L2 改「地方是早就決定的」＋AN4_EXCHANGE_TALK 字樣",
+   "task": "V3-L1",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "重新匯入＋字樣已改"
+  },
+  {
+   "id": "DLV-1016-53",
+   "date": "2026-10-16T02:4xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "4a135c36",
+   "what": "AA_147：20 張背景的用途、時段、站位；K8 祐廷開車、視訊書桌一角、Z5 碰面那一拍；K2 品妤",
+   "task": "ART-17、V2-K8D、V2-Z5M、V1-K2P",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-54",
+   "date": "2026-10-16T02:4xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "9d994120",
+   "what": "AA_146：tasks.json 首次出現核對 344 項（JSON 可整批套用）",
+   "task": "SYS-17",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "328 項已套用；和 BB-B 不同的 13 項先照 BB-B、請兩邊互核"
+  },
+  {
+   "id": "DLV-1016-55",
+   "date": "2026-10-16T02:4xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "dae42964",
+   "what": "AA_148＋date_system/point_specs.json：128 個約會互動點的時間、花費、請客",
+   "task": "SYS-03",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-56",
+   "date": "2026-10-16T02:4xZ",
+   "from": "BB-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "d69dd5f6／ad98f813／488af276",
+   "what": "九格表情 D59 通過：子晴、學姊、沛珊、可昕、以安、語彤",
+   "task": "ART-19",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "從企劃線看到（掃描找到）"
+  },
+  {
+   "id": "DLV-1016-57",
+   "date": "2026-10-16T02:4xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "6bf79d16",
+   "what": "G27 明軒 M3 移到大三下第 11 週；交換路線補充",
+   "task": "V4-B04、V4-X18",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "從企劃線看到（掃描找到）"
+  },
+  {
+   "id": "DLV-1016-58",
+   "date": "2026-10-16T02:4xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "9d1aa277",
+   "what": "G12 以安那一邊確認（AA_113 9-2）；v3 骨架、AA_116",
+   "task": "V3-B06",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "從企劃線看到（掃描找到）"
   }
  ],
  "ignored": [
