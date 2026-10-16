@@ -1,5 +1,7 @@
 # 閒聊階梯資料（大一上；使用者 2026-10-15 全案通過，直接實作。大一下起一學期一個檔，2026-10-16）
 
+- **經濟系大一（Y0S1、Y0S2，v0）**：可昕、品妤、唐睿、阿勳、韋綸：`ladder_bb_y0s1.json`（K0／PY0／TR0／XN0／WL0-L1～8）、`ladder_bb_y0s2.json`（K0b／PY0b／TR0b／XN0b／WL0b-L1～8；可昕交往後才有，第 6 週起）；原稿說明 `../BB_146`；`build_ladder_bb_y0s1.py`、`build_ladder_bb_y0s2.py`；BB-B 2026-10-16（AB-20）。
+
 - `ladder_bb.json`：BB-B 的芷若（heroine_02）、子晴（heroine_04）、溫學姊（heroine_05）、沛珊（classmate_peishan）、可昕（kexin）＋室友阿凱宿舍事件（`kaiDorm`）。原稿 `../BB_130_閒聊階梯_芷若子晴學姊沛珊_室友阿凱.md`；由 `build_ladder_bb.py` 產生（改台詞改 .py，再跑一次）。
 - `ladder_aa.json`：AA-B 的以安（heroine_01）、語彤（heroine_03）。原稿 `../AA_135`、`../AA_136`；由 `build_ladder_aa.py` 產生。
 - **大一下（Y1S2）**：`ladder_aa_y1s2.json`（以安 A2-L1～8、語彤 Y2-L1～8；原稿說明 `../AA_139`；`build_ladder_aa_y1s2.py`）。芷若、子晴、學姊、沛珊、可昕的大一下：`ladder_bb_y1s2.json`（Z2／Q2／S2／P2／K2-L1～8；原稿說明 `../BB_133`；`build_ladder_bb_y1s2.py`；BB-B 2026-10-16）。
