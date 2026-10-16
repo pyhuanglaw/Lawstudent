@@ -5,6 +5,7 @@
 來源（都要是 BB 驗收過的版本，見 BB_116 第 10～13 節、BB_131 第 1 節）：
   五位女主角：docs/art-rebuild/references/heroine_sheets/heroine_0X_sheet.webp（使用者 2026-10-16 提供的 06 標準圖單人大圖）
   其他人：企劃線 docs/story_planning/art_reference/<id>.webp（--ref 指定資料夾）
+  芷若平常（campus）：企劃線 date_system/art/heroine_02_date_warm.webp 姿勢①（--date 指定資料夾；BB-B 驗收時指定）；圍裙版放 cafe
 用法：python3 tools/portraits/cut_reference_portraits.py --ref <art_reference 資料夾> --out <輸出資料夾> [--only id,id]
 輸出：<out>/<遊戲 id>/campus/neutral.webp（600×1000，透明）＋ <out>/_contact.png（全部並排，給 BB 對照）"""
 import argparse, os
@@ -17,7 +18,8 @@ HS = os.path.join(ROOT, 'docs/art-rebuild/references/heroine_sheets')
 # 遊戲 id → (來源, 正面全身的裁切範圍 x0,y0,x1,y1（原圖像素，含一點邊）)
 SRC = {
     'heroine_01': ('H:heroine_01_sheet.webp', (322, 0, 480, 532)),
-    'heroine_02': ('H:heroine_02_sheet.webp', (322, 0, 480, 538)),
+    'heroine_02': ('D:heroine_02_date_warm.webp', (60, 20, 362, 992)),          # BB-B 驗收（BB_131 第 5 節）：芷若平常用約會圖 heroine_02_date_warm 的姿勢①（左邊站姿）
+    'heroine_02@cafe': ('H:heroine_02_sheet.webp', (322, 0, 480, 538)),         # 圍裙版＝Café 當班（heroine_02/cafe/neutral）
     'heroine_03': ('H:heroine_03_sheet.webp', (320, 0, 462, 532)),
     'heroine_04': ('H:heroine_04_sheet.webp', (320, 0, 472, 532)),
     'heroine_05': ('H:heroine_05_sheet.webp', (320, 0, 462, 532)),
@@ -47,14 +49,15 @@ CW, CH, TOP, FILL = 600, 1000, 0.04, 0.94
 
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument('--ref', required=True); ap.add_argument('--out', required=True); ap.add_argument('--only', default='')
+    ap = argparse.ArgumentParser(); ap.add_argument('--ref', required=True); ap.add_argument('--out', required=True); ap.add_argument('--only', default=''); ap.add_argument('--date', default='', help='企劃線 docs/story_planning/date_system/art 資料夾')
     a = ap.parse_args(); only = [s for s in a.only.split(',') if s]
     from rembg import new_session, remove
     sess = {m: new_session(m) for m in ('isnet-anime', 'u2net')}; tiles = []
-    REAL = {'heroine_01', 'heroine_02', 'heroine_03', 'heroine_04', 'heroine_05', 'kexin'}
+    REAL = {'heroine_01', 'heroine_02@cafe', 'heroine_03', 'heroine_04', 'heroine_05', 'kexin'}
     for gid, (src, box) in SRC.items():
         if only and gid not in only: continue
-        kind, fn = src.split(':', 1); path = os.path.join(HS if kind == 'H' else a.ref, fn)
+        kind, fn = src.split(':', 1); path = os.path.join({'H': HS, 'D': a.date or a.ref}.get(kind, a.ref), fn)
+        gdir, outfit = (gid.split('@') + ['campus'])[:2]
         im = Image.open(path).convert('RGB'); x0, y0, x1, y1 = box
         crop = im.crop((max(0, x0), max(0, y0), min(im.width, x1), min(im.height, y1)))
         rgba = np.array(remove(crop, session=sess['u2net' if gid in REAL else 'isnet-anime'])).astype(np.float32)
@@ -79,7 +82,7 @@ def main():
         if fw > CW * 0.98: s = CW * 0.98 / fig.width; fw, fh = round(fig.width * s), round(fig.height * s)
         fig = fig.resize((fw, fh), Image.LANCZOS)
         can = Image.new('RGBA', (CW, CH), (0, 0, 0, 0)); can.paste(fig, ((CW - fw) // 2, round(CH * TOP)), fig)
-        od = os.path.join(a.out, gid, 'campus'); os.makedirs(od, exist_ok=True)
+        od = os.path.join(a.out, gdir, outfit); os.makedirs(od, exist_ok=True)
         can.save(os.path.join(od, 'neutral.webp'), quality=92, method=6)
         print(gid, 'source', fn, 'crop', box, 'figure px', fig.size, 'native height', fy1 - fy0, 'scale %.2f' % s)
         tiles.append((gid, can))

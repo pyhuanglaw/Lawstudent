@@ -33,3 +33,16 @@
 4. 學姊手上拿著書／資料夾、柏翰拿書、周教授拿六法、品妤拿計算機與保溫杯：照標準圖保留。
 5. 舊立繪 `assets/portraits/heroine_0X/campus/neutral.png`（9/27 舊圖）**沒有刪**；`portrait_manifest.js`、`build/` 由 LAWWW-B 重新產生（`python3 build.py`），並確認遊戲不再讀舊 png。
 6. 只有 Python 端檢查，**還沒接進遊戲、沒有遊戲內 ADV 截圖、沒有手機實機**（BB_131 第 4 節的對照截圖由 LAWWW-B 拍）。
+
+## 第二次（BB-B 驗收後，2026-10-16 00:3x）
+
+- BB-B 驗收：**人物一致性通過**（`BB_131` 第 5 節）。照 BB-B 的指定改芷若：
+  - `heroine_02/cafe/neutral.webp`：06 大圖的圍裙版，Café 當班時用。
+  - `heroine_02/campus/neutral.webp`：約會圖 `date_system/art/heroine_02_date_warm.webp`（企劃線 `claude/elegant-brown-fcos7n`）的姿勢①（左邊站姿）去背。原圖人物高 972 px，比 06 大圖清楚。
+- **表情（smile／thinking／embarrassed）沒有做**：
+  - BB-B 建議「同一個身體＋換臉」。但姿勢①的臉是朝她左邊轉約 45° 的四分之三側臉，下方四個頭像是正面。
+  - 硬貼會讓眼鏡、耳朵、髮線錯位，看得出是拼的，不符合「不重畫、不冒充」。
+  - 已經回報 BB-B，三個選項等它決定：
+    - ① 請使用者照姿勢①生成同一姿勢、不同表情的圖。
+    - ② 表情改用頭像那種胸上取景。這樣同一角色取景會不同，違反 `CHARACTER_ART_SPEC`。
+    - ③ 先只有 neutral，遊戲照舊退回 neutral。
