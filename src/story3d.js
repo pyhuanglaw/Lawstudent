@@ -763,6 +763,14 @@ const STORY = (function(){
         if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_e17a')&&G.hour<19.25) OUT.plan(G,{id:'y0_e17a',ev:'ev_y0_e17a',day:fri10,h:19,late:0.25,place:'社科院',title:'社科院 19:00：備料',travel:'走過去約 10 分鐘',travelH:1/6,back:'備料結束。'}); }
       if(sat10!=null&&!D('ev_y0_e17')&&!D('ev_y0_e17a')&&(G.day>sat10||(G.day===sat10&&G.hour>=18))&&G.day<=sat10+2&&!PHONE.sent(G,'y0_e17_missed')){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class'; if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
         PHONE.at(G,sat10,18,[{th:'g:'+gid,from:'econ_pinyu',text:'📷（攤位前排隊的照片）'},{th:'g:'+gid,from:'econ_pinyu',text:'今天的營收，我會做成報表。'}],'y0_e17_missed'); } }
+    /* E15 經濟系宿營（BB_104 8b-7）：11/22（五）出發選單「社科院門口 12:00：經濟系宿營（三天兩夜）」（15 分鐘沒出發＝沒去；邀約句等 AA-B）；去了＝11/24 09:00 群組大合照；
+       沒去＝11/24 18:00 群組大合照（第二排空一個位子，韋綸在旁邊比手勢）＋阿勳私訊「冷笑話我留了一個給你。」*/
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const fri12=termDay('Y0S1',12,5), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class';
+      if(fri12!=null&&G.day===fri12&&G.hour<12.25&&!OUT.get(G,'y0_e15')) OUT.plan(G,{id:'y0_e15',ev:'ev_y0_e15',day:fri12,h:12,late:0.25,place:'社科院門口',title:'社科院門口 12:00：經濟系宿營（三天兩夜）',travel:'坐遊覽車到山邊的青年活動中心',travelH:1/6,back:'回到學校。'});
+      if(fri12!=null&&F.E15_WENT&&!PHONE.sent(G,'y0_e15_photo')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）'); PHONE.at(G,fri12+2,9,[{th:'g:'+gid,from:'econ_weilun',name:'韋綸',text:'📷（活動中心門口的大合照）'}],'y0_e15_photo'); }
+      const q15=OUT.get(G,'y0_e15');
+      if(fri12!=null&&!F.E15_WENT&&(G.day>fri12+2||(G.day===fri12+2&&G.hour>=18))&&G.day<=fri12+4&&!PHONE.sent(G,'y0_e15_missed')&&!(q15&&q15.state==='done')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,fri12+2,18,[{th:'g:'+gid,from:'econ_weilun',name:'韋綸',text:'📷（大合照。第二排有一個空位，韋綸在旁邊比了一個手勢。）'},{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'冷笑話我留了一個給你。'}],'y0_e15_missed'); } }
     /* 校慶問答攤（BB_95 3-7，DL-04B）：前一天（週五）21:00 法服群組，學姊提醒；沒加入法服的玩家改成校園公告欄的旁白（AMBIENT 的 festEve）*/
     if(PHONE.inGroup(G,'lawclub_study')){ const fs=termDay('Y1S1',11,6); if(fs&&G.day===fs-1) PHONE.at(G,fs-1,21,[{th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'明天校慶，問答攤十點開。輪班表在記事本。'}],'fest_eve_lawclub'); }
     /* 家族聚餐（BB_95 3-8）：前一週 Kevin 在家族群組約；當晚 22:30 學姊訂正考古題；沒去的玩家 22:00 Kevin 貼資料夾、學姊說書會留給學弟 */
