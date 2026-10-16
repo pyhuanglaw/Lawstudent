@@ -1461,6 +1461,26 @@ const STORY_EVENTS=[
       {label:'b3'},{speaker:'econ_pinyu',text:'自己帶便當，零元。'},{speaker:'kexin',text:'她媽媽做的，不算零元。'},{speaker:'econ_pinyu',text:'……邊際成本是零。'},
       {label:'end'} ],
     after:(G,GM)=>{ GM.advance(0.75); GM.money&&GM.money(-95); } },
+  /* T0a 泡麵之夜（BB_110 第 2 節；AA_154 第 93 行、A2）：經濟系大一上第 5 週颱風假（2024-09-30 週一，calendar.js 的 TYPHOON），白天到晚上在宿舍房間、阿勳在。
+     韋綸全身濕推門進來；三個選項，肉燥那個記 Y0_SAUCE（第 8 週 XL-1 阿勳問「那罐肉燥還有嗎？」）。跳過時間的玩家不補演（BB_110 第 0 節）*/
+  { id:'ev_y0_t0a', stage:'econ', title:'泡麵之夜', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S1'], weeks:[5], weekday:[1], time:[10,23], once:true, background:'blur',
+    prereq:{custom:G=>typeof CALENDAR!=='undefined'&&CALENDAR.typhoon(G.day)},
+    dialogue:[ {speaker:'econ_zhengxun',text:'我們有六包泡麵、三個人、一個颱風。'},
+      {speaker:'econ_zhengxun',text:'第三包會比第一包難吃。這叫邊際效用遞減。'},
+      {speaker:'韋綸',text:'（推門進來，全身濕）走啦！去看風！'},
+      {speaker:null,text:'阿勳、祐廷：不要。'},
+      {speaker:'韋綸',text:'……那有泡麵嗎？'},
+      {speaker:'econ_zhengxun',text:'現在是六包、四個人。我要重算。'},
+      {choice:[{text:'把自己那包給韋綸',goto:'give'},{text:'提議猜拳',goto:'rps'},{text:'拿出週末從家裡帶來的一罐肉燥',set:{Y0_SAUCE:true},goto:'sauce'}]},
+      {label:'give'},{speaker:'econ_zhengxun',text:'你的效用函數有問題。'},{speaker:'韋綸',text:'他的效用函數很好！'},{goto:'end'},
+      {label:'rps'},{speaker:null,text:'阿勳輸了三次，第四次說：「這不是機率，是颱風。」'},{goto:'end'},
+      {label:'sauce'},{speaker:'econ_zhengxun',text:'……這改變了整個模型。'},
+      {label:'end'} ],
+    consequences:{memo:'颱風假：宿舍的泡麵之夜（經濟系那一年）'} },
+  /* XL-1 阿勳一句（AA_154 第 107 行、A28；BB_110 T0a 的記憶）：泡麵之夜拿出肉燥的玩家（Y0_SAUCE），第 8 週第一次在宿舍遇到阿勳（他晚上在房間）*/
+  { id:'ev_y0_xl1', stage:'econ', title:'那罐肉燥', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S1'], weeks:[8], time:[18,24], once:true, background:'blur',
+    prereq:{custom:G=>!!(G.flags&&G.flags.Y0_SAUCE)},
+    dialogue:[ {speaker:'econ_zhengxun',text:'那罐肉燥還有嗎？我期中需要它。'} ] },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、

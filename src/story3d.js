@@ -174,7 +174,7 @@ const STORY = (function(){
       if(zoneId==='library_hall'&&typeof LIBRARY_LAYOUT!=='undefined'){ const d=(LIBRARY_LAYOUT.furniture||[]).find(f=>f.type==='desk'); if(d) clerk(d.x,d.z+d.d/2+0.45,Math.PI,45); } }   // 服務台後面（兩片隔板中間），面向借書的人
     if(zoneId==='noodle') noodleRegulars(GM,true);   /* 週二、週四傍晚的固定客人（AA_110 6-3）：進店時已經坐著 */
     if(zoneId==='noodle'){ if(F.afternoonDone&&hr>=17.5&&hr<20.5&&!F.zheNoodleDone){ GM.spawnNPC('zhe',C.zhe,0,0,{seat:{x:0,z:-0.3,yaw:0},talk:n=>talkZhe(GM,n)}); F.zheAtNoodle=true; } }
-    if(zoneId==='dorm'&&S.isEcon(G)){ if((hr>=18||hr<8)&&F.E01_DONE) GM.spawnCharacter(XUN,1.8,2.2,{seat:{x:1.8,z:2.2,yaw:Math.PI},pose:'sit'}); }   /* 經濟系那一年的室友是阿勳（AA_168 第 5 節；阿凱這一年不出現）；E01 還沒演完時由 E01 自己帶他進門 */
+    if(zoneId==='dorm'&&S.isEcon(G)){ if((hr>=18||hr<8||(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon(G.day)))&&F.E01_DONE) GM.spawnCharacter(XUN,1.8,2.2,{seat:{x:1.8,z:2.2,yaw:Math.PI},pose:'sit'}); }   /* 經濟系那一年的室友是阿勳（AA_168 第 5 節；阿凱這一年不出現）；E01 還沒演完時由 E01 自己帶他進門 */
     else if(zoneId==='dorm'){ if(hr>=18||hr<8){ GM.spawnNPC('kai',C.kai,0,0,{seat:{x:1.8,z:2.2,yaw:Math.PI},talk:n=>talkKai(GM,n)}); }
       if(typeof HOME!=='undefined') E.interactables.push({x:2.35,z:-0.9,radius:0.6,lv:0,label:'收拾背包回臺北的家',home:true,get hidden(){ return !HOME.canGo(GM.G); }}); }   /* 週末回家（AA_137 第 6 節）：週五 17:00 以後到週日 21:30 才出現（背包在 2.55,-1.6）*/
     if(zoneId==='wancai'){ if(hr>=15.2&&hr<17){ GM.spawnNPC('sis',C.sis,4,-5,{yaw:Math.PI,talk:n=>talkSis(GM,n)}); tm('sis',17); } if(isThu(G)&&hr>=15.2&&hr<16.2){ GM.spawnNPC('prof',PROF,-5,1.2,{yaw:0,talk:n=>talkProf(GM,n)}); } if(G.weekday===3&&hr>=18.8&&hr<21){ GM.spawnNPC('sis',C.sis,-3,3.6,{yaw:Math.PI,talk:n=>talkSis(GM,n)}); tm('sis',21); }
@@ -665,6 +665,18 @@ const STORY = (function(){
       if(sat3!=null&&G.day>=sat3&&G.day<=sat3+6&&!(G.day===sat3&&G.hour<12.5)&&!PHONE.sent(G,'y0_e07_missed')){ const K=t=>({th:'p:kexin',from:'kexin',text:t});
         PHONE.at(G,G.day===sat3?sat3:G.day,G.day===sat3?12.5:G.hour,[Object.assign(K('我加了即興劇社。你呢？'),{ask:{opts:[{t:'吉他社',set:{Y0_CLUB:'guitar'},say:[K('好。那你以後要彈一首給劇社配樂。')]},{t:'登山社',set:{Y0_CLUB:'hiking'},say:[K('你要去爬山？……記得帶伴手禮回來。')]},
           {t:'羽球社',set:{Y0_CLUB:'badminton'},say:[K('羽球社的人都很早起。你可以嗎？')]},{t:'不參加',set:{Y0_CLUB:'none'},say:[K('也好。那你週五晚上都有空了。……我是說大家。')]}]}})],'y0_e07_missed'); } }
+    /* T0b 照常上課的喜劇（BB_110 第 2 節；AA_154 第 92 行、A2）：颱風假（9/30）前一晚 9/29（日）21:58 經原老師的信、22:00 新聞、22:01 第二封信（通知），
+       之後品妤、唐睿、可昕在群組（「走啦」，還沒有就在全班群組）；可昕那一則可以回三種（玩笑，不推進感情）。睡著、跳過時間的玩家照原本的時間補收 */
+    if(S.isEcon(G)&&typeof CALENDAR!=='undefined'){ const ty=termDay('Y0S1',5,1); if(ty!=null&&CALENDAR.typhoon(ty)&&G.day>=ty-1&&G.day<=ty&&!PHONE.sent(G,'ty0_k')){ const eve=ty-1;
+        PHONE.at(G,eve,21+58/60,[{th:'sys',name:'經原老師（信）',text:'若明日停課，作業照常繳交。'}],'ty0_mail1');
+        PHONE.at(G,eve,22,[{th:'sys',name:'新聞',text:'明天停止上班上課。'}],'ty0_news');
+        PHONE.at(G,eve,22+1/60,[{th:'sys',name:'經原老師（信）',text:'若明日未停課，作業也照常繳交。'}],'ty0_mail2');
+        const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':(PHONE.inGroup(G,'econ_class')?'econ_class':null);
+        if(gid){ const T='g:'+gid, K=t=>({th:T,from:'kexin',text:t});
+          PHONE.at(G,eve,22+3/60,[{th:T,from:'econ_pinyu',text:'這兩封信加起來，資訊量是零。'}],'ty0_g1');
+          PHONE.at(G,eve,22+5/60,[{th:T,from:'econ_tangrui',name:'唐睿',text:'老師其實只寫了一封。第二封是回聲。'}],'ty0_g2');
+          PHONE.at(G,eve,22+8/60,[Object.assign(K('假設颱風是一個人，他今天最想做什麼？'),{ask:{until:ty*24+24,opts:[
+            {t:'「放假。」',post:'放假。',say:[K('你好誠實。')]},{t:'「交作業。」',post:'交作業。',say:[K('你被老師洗腦了。')]},{t:'「看我們會不會真的交。」',post:'看我們會不會真的交。',say:[K('……你比颱風還壞。')]}]}})],'ty0_k'); } } }
     /* 校慶問答攤（BB_95 3-7，DL-04B）：前一天（週五）21:00 法服群組，學姊提醒；沒加入法服的玩家改成校園公告欄的旁白（AMBIENT 的 festEve）*/
     if(PHONE.inGroup(G,'lawclub_study')){ const fs=termDay('Y1S1',11,6); if(fs&&G.day===fs-1) PHONE.at(G,fs-1,21,[{th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'明天校慶，問答攤十點開。輪班表在記事本。'}],'fest_eve_lawclub'); }
     /* 家族聚餐（BB_95 3-8）：前一週 Kevin 在家族群組約；當晚 22:30 學姊訂正考古題；沒去的玩家 22:00 Kevin 貼資料夾、學姊說書會留給學弟 */
