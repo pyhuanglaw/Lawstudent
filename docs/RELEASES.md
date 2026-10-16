@@ -18,6 +18,7 @@
 | v9.7 | `313d620`（就是測試過的候選 19 本身） | 2026-10-14 12:32:31 | `e88bda5` |
 | v9.8 | `1d0ff40f`（PR [pyhuanglaw/Lawstudent#3](https://github.com/pyhuanglaw/Lawstudent/pull/3) 的合併 commit；遊戲檔案＝測試過的候選 2 `9508b534`，只多了 README） | 2026-10-16 06:22:15 | `313d620`（v9.7） |
 | v9.9 | `19b97eff`（PR [pyhuanglaw/Lawstudent#4](https://github.com/pyhuanglaw/Lawstudent/pull/4) 的合併 commit；遊戲檔案＝測試過的候選 2 `147c573e`，只多了 README） | 2026-10-16 14:55 UTC | `1d0ff40f`（v9.8） |
+| v9.9.1 | （測試中；只修兩個 P0：劇情黑邊蓋住對話框、第二天早上那堂顯示沒去） | — | `19b97eff`（v9.9） |
 
 ---
 
@@ -30,6 +31,17 @@ C=$(git commit-tree e88bda5^{tree} -p origin/main -m "緊急回復到 v9.6（e88
 git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub Actions 的 pages build and deployment 確認部署
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
+
+## v9.9.1（2026-10-16，測試中）——修正版：對話框被黑邊蓋住、第二天早上那堂顯示沒去
+
+只改兩件事，從 v9.9（`19b97eff`）直接改（開發分支上的大二內容、小公園 v8 等等不在這一版，等 v9.10）：
+- **劇情演出時的下方黑邊不再蓋住對話框**（使用者 iPhone 直向截圖：以安「你要不要一起？……還是你比較想去總圖？」第二行被切掉、點下面那一條沒有反應，看起來像卡住）：黑邊放到對話框與選項下面、不接點擊（點黑邊＝點一下繼續）。
+- **第二天早上的大一英文不再顯示「沒去」**：第二天（9/18 週四）遊戲從 13:05 霖澤館前開始，在那之前的課不排、不算缺席。
+- 版本字樣 v9.9.1；程式檔網址版本 `?v=9.9.1`（避免手機快取混用新舊檔）。
+
+**測試**（乾淨 checkout，見下面的實際結果）：tests/letterbox_dialog.py（直向、橫向）、tests/deploy_check.py、tests/p0_movement.py、tests/flow_day2_an.py（從標題玩到第二天 Café 聊完）、全部 Node 單元測試。
+
+**還沒做**：開局在第三週（等使用者決定方向、AA-B 評估）；v9.10 的內容照舊在開發分支。
 
 ## v9.9（2026-10-16 發布 `19b97eff`）——溫州街與日常版
 
