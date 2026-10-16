@@ -78,5 +78,12 @@ const THU=dayOf('2025-09-25');
   // ---------- 6. 手機的按鈕 ----------
   { const gm=mkGM('dorm',THU,8,[]); const html=CLS.todayHTML(gm.G); check('6. 手機「今天」：按鈕是「直接去上課」（原本「去教室」）',/直接去上課/.test(html)&&!/>去教室</.test(html));
     gm.G.hour=9+10/60+20/60; const h2=CLS.todayHTML(gm.G); check('6. 開始超過 15 分鐘：按鈕「去聽後半堂（記缺席）」',/去聽後半堂（記缺席）/.test(h2)); }
+  // ---------- 7. 待出的選單：玩家空下來才出（晨間事件、這一區的事件先演）----------
+  { const gm=mkGM('dorm',THU,7.5,[2]); const real=Date.now; let T=1e12; Date.now=()=>T; CLS.clearPending();
+    try{ CLS.queueWake(gm); T+=1000; for(let i=0;i<4;i++) CLS.oneTick(gm); check('7. 醒來 1 秒內不出起床選單（晨間事件先檢查）',!gm.menus.length);
+      gm.E.player.busy=true; T+=3000; CLS.oneTick(gm); gm.E.player.busy=false; check('7. 有劇情在演（busy）時不出',!gm.menus.length);
+      CLS.oneTick(gm); T+=800; CLS.oneTick(gm); check('7. 剛空下來（不到 1.5 秒、不到 3 次 tick）還不出',!gm.menus.length);
+      T+=1000; CLS.oneTick(gm); await new Promise(r=>setTimeout(r,20)); check('7. 空下來 1.5 秒以上、3 次 tick：出起床選單',gm.menus.length===1&&gm.menus[0][0].startsWith('直接去上課'),JSON.stringify(gm.menus));
+    } finally { Date.now=real; CLS.clearPending(); } }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();
