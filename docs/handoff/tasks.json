@@ -12148,6 +12148,27 @@
     "receiver": "BB-B、LAWWW2-B",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "V1-INV-WORDING",
+   "title": "邀約台詞定稿：AA_194 第 4 節（AA 六位 23 處、兩處規則）＋BB_172（阿凱、明軒、可昕、方奕廷）一起換",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "照 AA_194 第 4 節表格換 src/data/invites.js（23 處）；規則：以安大一約散步只有第一次問目的、之後「好。」、大二起「好啊，剛好想走走。」；芯慈兩句；語彤第一次約散步週六／非週六；BB_172 等 BB-B 交；做完回 SHA 給 AA-B",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次約人",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-16 21:58（AA_194 第 4 節 6e94d8d7，AA、BB 互審）；BB_172（bc760ae3、3b0d8dfb）",
+   "authorized": "AA_193（使用者自然口語六項）、D86；排在 HANDOFF-ABC 之後"
   }
  ]
 }
