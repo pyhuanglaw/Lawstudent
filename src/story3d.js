@@ -1526,6 +1526,12 @@ const STORY = (function(){
           opts.push({t:'三，不管考得怎樣，都要跟我說。',say:[W('好。放榜那天就說。')],set:{SIS_M2:'tell'},mem:[{npc:'heroine_05',tag:'ASKED_TELL_ME',note:'M2：不管考得怎樣都要跟我說'}]});
           PHONE.at(G,d,21,[W('📷（一張讀書計畫）'),W('三件事。'),W('一，這次的題目是我自己選的。法律扶助制度。'),W('二，Kevin 幫我看第一段，學弟看第二段。'),W('三……第三件你們來想。',{ask:{id:'sis_m2',until:(d+1)*24+9,opts}})],'sis_m2'); }
         if(PHONE.sent(G,'sis_m2')&&!F.SIS_M2&&G.day*24+G.hour>=(d+1)*24+9&&!PHONE.sent(G,'sis_m2_kevin')){ F.SIS_M2='none'; PHONE.at(G,d+1,9,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'三，考完請吃飯！'},W('……好。')],'sis_m2_kevin'); } } }
+    /* 沛珊 P4 沒去（BB_97 4-3）：大二下第 1 週週三那晚 21:30，讀書會群組她的最後一則（題目整理交給柏翰）。
+       翰 3 祐廷接的版本（AA_40）：第 2 週週三 21:00 柏翰在全班群組貼一張全班小考的分數分布圖，自己那一格用紅框圈起來，沒有字（AA_118）*/
+    { const w1=termDay('Y2S2',1,3); if(w1!=null&&G.day>=w1&&G.day<=w1+3&&(G.day>w1||G.hour>=21.5)&&!(G.events&&G.events.done&&G.events.done.ev_peishan_handover)&&PHONE.inGroup(G,'lawclub_study')&&!PHONE.sent(G,'ps_p4_missed'))
+        PHONE.at(G,w1,21.5,[{th:'g:lawclub_study',from:'classmate_peishan',text:'題目整理交給柏翰了。不要變成比分數的地方。'}],'ps_p4_missed');
+      const w2=termDay('Y2S2',2,3); if(w2!=null&&F.STUDYGROUP_LEADER&&G.day>=w2&&G.day<=w2+3&&(G.day>w2||G.hour>=21)&&PHONE.inGroup(G,'law_class')&&!PHONE.sent(G,'han3_chart'))
+        PHONE.at(G,w2,21,[{th:'g:law_class',from:'classmate_bohan',text:'📷（全班小考的分數分布圖。他自己那一格用紅框圈起來。）'}],'han3_chart'); }
     /* 杜鵑花第二張（AA_177 第 6 節、AA_143 2-2）：大二下第 3 週週四 3/11 12:40 以安在麵店團群組傳照片（照片本身就是事件）*/
     { const d=S.dayOfKey('2027-03-11'); if(d!=null&&PHONE.inGroup(G,'noodle_team')&&(G.day>d||(G.day===d&&G.hour>=12+40/60))&&G.day<=d+7&&!PHONE.sent(G,'y2_azalea'))
         PHONE.at(G,d,12+40/60,[{th:'g:noodle_team',from:'heroine_01',text:'📷（杜鵑花。和去年同一個位置。）'}],'y2_azalea'); }
@@ -1776,6 +1782,8 @@ const STORY = (function(){
       if(k==='kexin'){ PHONE.at(G,G.day,G.hour+0.05,[me('p:kexin','好。我們去。')].concat(grp?[me(ng,'我這次有約了。'),{th:ng,from:'zhe',text:'……喔～'}]:[]),'spring_pick_msg'); }
       if(k==='dorm'&&grp) PHONE.at(G,G.day,G.hour+0.05,[me(ng,'我這次留在宿舍。'),{th:ng,from:'zhe',text:'好啦，照片會傳給你。'}],'spring_pick_msg'); }
     if(k!=='noodle'&&grp){ const th='g:noodle_team'; PHONE.at(G,D.d0,20.5,[{th,from:'heroine_01',text:'📷（行程表第二版）'},{th,from:'heroine_01',text:'理由欄寫『雨』。'},{th,from:'zhe',text:'下次你要來。'}],'ndl_spring_photos'); } };
+  /* 大一去過幾次法服讀書會（BB_97 4-3 P4「我接。」要 5 次以上）：G.acts.att 的 lawclub_study@<天>，那一天在大一（Y1S1、Y1S2）；中途離開也算去過 */
+  S.lawclubY1Count=function(G){ const A=(G.acts&&G.acts.att)||{}; let n=0; for(const k in A){ const m=/^lawclub_study@(-?\d+)$/.exec(k); if(!m) continue; const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(+m[1]):null; if(t&&/^Y1S[12]$/.test(t.id)) n++; } return n; };
   /* 大一的春節初一（遊戲第一個「春節」、前一天是「除夕」：2026-02-17）；寒假拜年（C3）用 */
   let lunarNY; S.lunarNewYear=function(){ if(lunarNY!==undefined) return lunarNY; lunarNY=null; if(typeof CALENDAR==='undefined'||!CALENDAR.holiday) return null; for(let d=2;d<500;d++){ if(CALENDAR.holiday(d)==='春節'&&CALENDAR.holiday(d-1)==='除夕'){ lunarNY=d; break; } } return lunarNY; };
   /* 出遊住外面一晚（春假麵店團的兩天一夜，交接包 v2 C9）：日期、星期往後；天氣晴；不演宿舍的夜晚事件（人不在宿舍）；

@@ -2432,7 +2432,7 @@
    "title": "P4 handover",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "照 BB_97 實作",
    "priority": "P2",
    "first": {
@@ -2446,7 +2446,9 @@
     "confirmed": true
    },
    "source": "BB_97",
-   "authorized": "D79"
+   "authorized": "D79",
+   "tests": "tests/v3_p4_han3_unit.js",
+   "note": "2026-10-16：ev_peishan_handover（大二下第 1 週週三法服讀書會的 clubEvent；她 reachable）、「我接。」要大一讀書會 5 次以上＝STUDYGROUP_LEADER；沒去 21:30 群組最後一則；翰 3（AA_40、AA_177 第 5 節）一併做：ev_bohan_scores 第 2 週、一個月後旁白、祐廷接＝全班群組分布圖。瀏覽器未測。"
   },
   {
    "id": "V3-B16",

@@ -256,6 +256,8 @@ const CLS=(function(){
     if(a.id==='club_guitar'){ const met=typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_04','FIRST_MET'); if(!met) return here('heroine_04')?ev('ev_ziqing_club'):null;
       { const q7=ev('ev_ziqing_lab_letter'); if(q7&&here('heroine_04')&&EVENTS.check(q7,{chain:true})) return q7; }   /* 大二上第 3 週：子晴 Q7 實驗室的信（BB_97 3-1）*/ return null; }
     if(a.id==='lawclub_study'){ { const w6=ev('ev_sis_handover'); if(w6&&here('heroine_05')&&EVENTS.check(w6,{chain:true})) return w6; }   /* 大二上第 6～7 週：學姊交接（BB_97 2-1 W6；BB-B 75c1b2b1）*/
+      { const p4=ev('ev_peishan_handover'); if(p4&&(typeof STORY==='undefined'||!STORY.reachable||STORY.reachable('classmate_peishan',G))&&EVENTS.check(p4,{chain:true})) return p4; }   /* 大二下第 1 週：沛珊 P4 交接讀書會（BB_97 4-3；她這學期休學、人在臺北＝reachable 不是 present，作息那一晚在萬才館）*/
+      for(const id of ['ev_bohan_scores','ev_bohan_scores_month']){ const e=ev(id); if(e&&(id!=='ev_bohan_scores'||here('classmate_bohan'))&&EVENTS.check(e,{chain:true})) return e; }   /* 翰 3 分數表（柏翰接的版本，AA_40、AA_177 第 5 節）*/
       const done=!!(G.events&&G.events.done&&G.events.done.ev_studygroup_wed); if(!done) return here('heroine_05')&&!/^Y2/.test((typeof CALENDAR!=='undefined'&&CALENDAR.termOf(G.day)||{}).id||'')?ev('ev_studygroup_wed'):null;   /* 大一的第一次讀書會：大二才第一次來的不演 */
       /* 第一次之後：沛珊問「為什麼要背」（P1）的下一次讀書會，學姊回答（BB_95 3-4）；隔週沒來的，之後第一次來時沛珊轉述一句——讀書會一開始，代替這一次的旁白＋題目（事件裡自己有兩題）*/
       if(G.flags&&G.flags.PEISHAN_ASKED_WHY&&here('classmate_peishan')&&here('heroine_05')) for(const id of ['ev_studygroup_p1b','ev_studygroup_p1b_missed']){ const e=ev(id); if(e&&EVENTS.check(e,{chain:true})) return e; }

@@ -2507,6 +2507,23 @@ const STORY_EVENTS=[
       {if:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','ASKED_TELL_ME')},speaker:'heroine_05',expression:'smile',text:'有人叫我考得怎樣都要說。我說了。下次換他。'},
       {unless:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','ASKED_TELL_ME')},speaker:'heroine_05',expression:'neutral',text:'三，今天我請。不要跟我搶。'} ],
     consequences:{memo:'學姊上榜的家族聚餐'} },
+  /* 沛珊 P4 交接讀書會（BB_97 4-3；大二下第 1 週週三的法服讀書會，只在這一週；classes3d.js 的 clubEvent）：她休學重考前最後一次；交出去的是每週的題目整理（讀書會本身由研究所學長姐帶）。
+     「我接。」只給大一去過法服讀書會 5 次以上的玩家＝STUDYGROUP_LEADER；不說話＝柏翰接（不設）。沒去的：那晚 21:30 讀書會群組她的最後一則（story3d.js）*/
+  { id:'ev_peishan_handover', title:'交接讀書會', participants:['classmate_peishan'], location:'wancai', trigger:'club', term:['Y2S2'], weeks:[1], weekday:[3], once:true, background:'blur',
+    prereq:{memory:[{npc:'classmate_peishan',tag:'FIRST_MET'}]},
+    dialogue:[ {speaker:'classmate_peishan',expression:'neutral',text:'下週起，我就不在這裡了。'},{speaker:'classmate_peishan',expression:'neutral',text:'每週的題目整理……（看柏翰，又看祐廷）誰要接？'},
+      {speaker:'classmate_peishan',expression:'serious',text:'只有一個條件：不要變成比分數的地方。'},
+      {choice:[{text:'「我接。」',if:{custom:G=>typeof STORY!=='undefined'&&STORY.lawclubY1Count&&STORY.lawclubY1Count(G)>=5},set:{STUDYGROUP_LEADER:true}},{text:'（不說話）'}]} ] },
+  /* 柏翰 翰 3 分數表（AA_40、AA_177 第 5 節；柏翰接題目整理的版本）：第二次聚會＝大二下第 2 週週三 3/3 的讀書會，白板上多了一張分數表；可以去找他談，或什麼都不做（都不改變翰 4）。
+     沒去讀書會＝沒有。一個月後（第 6 週起第一次去讀書會）：來對題目的人從十二個變五個。祐廷接的版本：3/3 21:00 柏翰在全班群組貼分布圖（story3d.js）*/
+  { id:'ev_bohan_scores', title:'分數表', participants:['classmate_bohan'], location:'wancai', trigger:'club', term:['Y2S2'], weeks:[2], weekday:[3], once:true, background:'blur',
+    prereq:{memory:[{npc:'classmate_bohan',tag:'FIRST_MET'}],custom:G=>!G.flags.STUDYGROUP_LEADER},
+    dialogue:[ {speaker:null,text:'（白板上多了一張表：每個人上週小考的分數。）'},{speaker:'classmate_bohan',expression:'neutral',text:'這樣比較有效率。'},
+      {choice:[{text:'「沛珊說不要變成比分數的地方。」',set:{HAN3_TALKED:true},goto:'talk'},{text:'（什麼都不做）'}]},{goto:'end'},
+      {label:'talk'},{speaker:'classmate_bohan',expression:'neutral',text:'她走了。'},{label:'end'} ] },
+  { id:'ev_bohan_scores_month', title:'讀書會', participants:[], location:'wancai', trigger:'club', term:['Y2S2'], weeks:[6,7,8,9,10,11,12,13,14,15,16,17,18], weekday:[3], once:true, background:'blur',
+    prereq:{custom:G=>!G.flags.STUDYGROUP_LEADER},
+    dialogue:[ {speaker:null,text:'（來對題目的人從十二個變五個。）'} ] },
   /* D11 系籃（大二上，AA_143 1-5、AA_177 4-4）＋語 3「在一起」（AA_40）：12/18（五）21:00 麵店團群組阿哲揪 → 出發選單「新體育館 12/19 14:00」→ 2D（新體育館室內 3D 做好以前，用 2D＋旁白）；
      祐廷坐觀眾席三選一（拍手、記分、送水；大二版的字 AA-B c2f1c5aa）；記 WATCHED_GAME_Y2；明軒的句子等 BB-B（AB-59）；以安、小語在觀眾席（AA_143 1-5 的描述）。
      賽後 18:30～21:00 走進麵店＝語 3（小語坐到你對面）。系籃和賽後麵店都沒去：22:00 認識小語＝她私訊三則；不認識、在麵店團＝阿哲的照片（story3d.js phoneRules）*/
