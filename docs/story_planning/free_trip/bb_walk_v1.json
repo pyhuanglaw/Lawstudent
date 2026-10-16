@@ -625,6 +625,27 @@
    "who": "kexin",
    "where": "一般聊天（只有交往中）",
    "line": "上次淡水那個假設題，我還沒說完。下次說。"
+  },
+  {
+   "mem": "SIS_SAW_BRUNCH",
+   "who": "heroine_05",
+   "where": "一般聊天",
+   "line": "週六早上的蛋，還是三分四十秒？……我只是確認。",
+   "src": "WZ-B4"
+  },
+  {
+   "mem": "SIS_TEAHOUSE",
+   "who": "heroine_05",
+   "where": "一般聊天",
+   "line": "茶屋那壺水，我後來查了。八十五度。",
+   "src": "WZ-T4（SIS_TEAHOUSE 是旗標，這一句用一次）"
+  },
+  {
+   "mem": "ENC_PARK_ZQ",
+   "who": "heroine_04",
+   "where": "一般聊天",
+   "line": "昨天那個 bug，鞦韆解決了。……今天換你盪。",
+   "src": "WZ-P5"
   }
  ]
 }

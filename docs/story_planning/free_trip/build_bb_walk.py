@@ -111,6 +111,10 @@ FOLLOWUP = [  # BB_144 第 4 節：第一次在那個地方遇到她，之後她
     {'mem': 'ENC_D12_PS', 'who': 'classmate_peishan', 'where': '一般聊天', 'line': '上次你選的那本繪本，課輔班的小孩很喜歡。',
      'lineIf': {'cond': '大一、大二上（她還沒去課輔班）', 'line': '上次那本繪本，我送給鄰居的小孩了。'}},
     {'mem': 'ENC_D13_KX', 'who': 'kexin', 'where': '一般聊天（只有交往中）', 'line': '上次淡水那個假設題，我還沒說完。下次說。'},
+    # BB_148 第 8b 節（溫州街，AB-21 的觸發）
+    {'mem': 'SIS_SAW_BRUNCH', 'who': 'heroine_05', 'where': '一般聊天', 'line': '週六早上的蛋，還是三分四十秒？……我只是確認。', 'src': 'WZ-B4'},
+    {'mem': 'SIS_TEAHOUSE', 'who': 'heroine_05', 'where': '一般聊天', 'line': '茶屋那壺水，我後來查了。八十五度。', 'src': 'WZ-T4（SIS_TEAHOUSE 是旗標，這一句用一次）'},
+    {'mem': 'ENC_PARK_ZQ', 'who': 'heroine_04', 'where': '一般聊天', 'line': '昨天那個 bug，鞦韆解決了。……今天換你盪。', 'src': 'WZ-P5'},
 ]
 
 RULES = {
