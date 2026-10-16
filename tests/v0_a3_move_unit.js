@@ -50,6 +50,23 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // 不請
   fresh(D,10,'dorm',{LEAVE_WEEK:6}); G.stage='econ'; said=[]; script=['不請']; try{ await EVENTS.run(ev); await new Promise(r=>setTimeout(r,20)); }catch(e){}
   check('7. 不請：阿勳傳一張照片；沒有便利貼那句（沒有 Y0_STICKY）',PHONE.thread(G,'p:econ_zhengxun').some(m=>m.text==='📷（他自己買的便當）')&&G.flags.A3_TREAT===false&&!said.some(x=>/便利貼/.test(x.t)));
+  // A46 ①：3/29 週末在家（還沒搬）→ 下一輪選單之前先回宿舍演 A3 → 搬回家
+  const homeWeekend=(day,h)=>{ fresh(day,h,'campus',{LEAVE_WEEK:6}); G.stage='econ'; const H=HOME.rec(G); H.at=true; H.day=day; H.base=false; };
+  homeWeekend(D,8.6); said=[]; menus=[]; script=['請阿勳']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; } await new Promise(r=>setTimeout(r,20));
+  let L2=said.map(x=>x.t);
+  check('9. A46：3/29 早上在家（週末回家、還沒搬）→ 先「今天要搬出宿舍。阿勳說他十點會在房間。」→ 回宿舍（40 分鐘）→ A3 → 搬回臺北的家',L2[0]==='今天要搬出宿舍。阿勳說他十點會在房間。'&&L2.includes('箱子我幫你封。你的膠帶貼得很醜。')&&G.flags.Y0_MOVED_OUT===true&&HOME.at(G)&&G.home.base===true,JSON.stringify(L2.slice(0,3)));
+  homeWeekend(D+1,10); said=[]; script=['不請']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; } await new Promise(r=>setTimeout(r,20));
+  L2=said.map(x=>x.t); check('9. 3/30 才在家：「宿舍還沒退完。阿勳說，箱子還在房間等你。」→ A3 → 搬回家',L2[0]==='宿舍還沒退完。阿勳說，箱子還在房間等你。'&&L2.includes('箱子我幫你封。你的膠帶貼得很醜。')&&G.flags.Y0_MOVED_OUT===true,JSON.stringify(L2.slice(0,3)));
+  { fresh(D+1,10,'dorm',{LEAVE_WEEK:6}); G.stage='econ'; const a=EVENTS.check(ev); G.flags.Y0_MOVED_OUT=true; const b=EVENTS.check(ev); check('9. 3/30 在宿舍（當天沒演到）：A3 照演；搬過了不演',a&&!b); }
+  // A46 ②：搬回家以後，出遊從家裡出發一律 30 分鐘（例：E18b 原本「走過去約 15 分鐘」）
+  fresh(D+5,18.2,'campus',{LEAVE_WEEK:6,Y0_MOVED_OUT:true}); G.stage='econ'; { const H=HOME.rec(G); H.at=true; H.base=true; H.day=G.day; }
+  OUT.plan(G,{id:'t_a46',ev:'ev_y0_e18b',day:G.day,h:19,late:0.25,place:'公館豆花店',title:'公館豆花店 19:00',travel:'走過去約 15 分鐘',travelH:0.25});
+  const dueA=!OUT.due(G); G.hour=18.3; const dueB=OUT.due(G)&&OUT.due(G).id==='t_a46'; const tr=OUT.trip(G,OUT.get(G,'t_a46'));
+  check('10. A46 ②：在家（休學後）＝「捷運＋公車 約 30 分鐘」、0.5 小時；問出發的時間跟著提早到 18:15',dueA&&dueB&&tr.travelH===0.5&&tr.travel==='捷運＋公車 約 30 分鐘');
+  menus=[]; script=['豆花店',0,0,0,0,0,0,0,0]; let card=null; const tc=GM.titleCard; GM.titleCard=async(a,b)=>{ if(card==null) card=b; }; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; } GM.titleCard=tc;
+  check('10. 從家裡的選單出發：選單提示、字卡都是 30 分鐘；18:18 出發＝19:00 到（不早於約好的時間）',(menus[0]||[]).some(t=>t.includes('豆花店'))&&card==='捷運＋公車 約 30 分鐘',JSON.stringify(menus[0])+' '+card);
+  fresh(D+5,18.6,'campus',{LEAVE_WEEK:6,Y0_MOVED_OUT:true}); G.stage='econ'; OUT.plan(G,{id:'t_a46b',ev:'ev_y0_e18b',day:G.day,h:19,late:0.25,place:'公館',title:'公館',travel:'走過去約 15 分鐘',travelH:0.25});
+  check('10. 人在學校（不在家）：照原本的「走過去約 15 分鐘」',OUT.trip(G,OUT.get(G,'t_a46b')).travelH===0.25);
   // 法律系：不受影響
   fresh(termDay('Y1S1',4,3),19,'dorm'); check('8. 法律系的存檔：週三晚上不能回家（baseMode 不成立）',!HOME.baseMode(G)&&!HOME.canGo(G));
   GM.choose=choose0;

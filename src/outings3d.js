@@ -32,7 +32,10 @@ const OUT=(function(){
   const t=(day,h)=>day*24+h;
   /* 該問了：該出發的時間（約好的時間減車程）前 15 分鐘起、約好的時間後 45 分鐘內；「晚一點」之後等到 ask 那個時間 */
   const lateEnd=q=>t(q.day,q.h)+(q.late!=null?q.late:0.75);   /* late：開始後多久還能出發（小時；預設 45 分鐘。AA_154 2-1b 的聚會是 15 分鐘）*/
-  S.due=function(G){ const now=t(G.day,G.hour); return S.rec(G).find(q=>q.state==='planned'&&now>=t(q.day,q.h)-(q.travelH||0)-0.25&&now<=lateEnd(q)&&(q.ask==null||now>=q.ask))||null; };
+  /* 休學以後住在家裡（經濟系 Y0_MOVED_OUT，AA_154 1-3b、A46 ②）：所有出遊、約好的見面（含只帶到校園某處的 goto）從家裡出發＝捷運＋公車 約 30 分鐘、0.5 小時；問要不要出發的時間跟著提早。視訊不用出門 */
+  const baseHome=G=>typeof HOME!=='undefined'&&HOME.baseMode&&HOME.baseMode(G)&&HOME.at&&HOME.at(G);
+  S.trip=(G,q,fromHome)=>(fromHome||baseHome(G))&&q.verb!=='接起來'&&q.place!=='視訊'?{travelH:0.5,travel:'捷運＋公車 約 30 分鐘'}:{travelH:q.travelH||0,travel:q.travel||''};
+  S.due=function(G){ const now=t(G.day,G.hour); return S.rec(G).find(q=>q.state==='planned'&&now>=t(q.day,q.h)-S.trip(G,q).travelH-0.25&&now<=lateEnd(q)&&(q.ask==null||now>=q.ask))||null; };
   /* 過了時間（後 45 分鐘以上）還沒出發＝missed */
   S.expire=function(G){ const now=t(G.day,G.hour), out=[]; for(const q of S.rec(G)) if(q.state==='planned'&&now>lateEnd(q)){ q.state='missed'; out.push(q); } return out; };
   const evOf=id=>typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id===id)||null:null;
@@ -48,12 +51,12 @@ const OUT=(function(){
     if(k!==0){ q.state='missed'; S.onMissed(GM,q); return 'no'; }
     await S.go(GM,q); return 'go'; };
   /* 出發：轉場 → 抵達（不早於約好的時間）→ 演事件（深色底開始，避免看到原本的 3D 畫面）→ 時間往後 → 回到原本的地方 */
-  S.go=async function(GM,q){ const G=GM.G, ev=evOf(q.ev); q.state='done';
-    if(q.goto){ await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title,q.travel||'',2400); const arrive=Math.max(t(G.day,G.hour)+(q.travelH||0), t(q.day,q.h)-(q.early||0)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.updateHUD) GM.updateHUD();
+  S.go=async function(GM,q,o){ const G=GM.G, ev=evOf(q.ev), tr=S.trip(G,q,o&&o.fromHome); q.state='done';   /* o.fromHome：從家裡的選單出發（選單先把「在家」關掉了）*/
+    if(q.goto){ await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title,tr.travel,2400); const arrive=Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)-(q.early||0)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.updateHUD) GM.updateHUD();
       if(GM.enter) await GM.enter(q.goto.zone,{x:q.goto.x,z:q.goto.z,yaw:q.goto.yaw||0,lv:q.goto.lv|0}); await GM.fade(false); if(GM.autosave) GM.autosave(); return true; }   /* goto：只帶到那個地點（3D 的事件在那裡等，例：v0 E12 醉月湖；AA_154 A32）；early＝比 h 早幾小時到 */
     if(!ev||typeof EVENTS==='undefined') return false;
-    await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title,q.travel||'',2400);
-    const arrive=Math.max(t(G.day,G.hour)+(q.travelH||0), t(q.day,q.h)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.updateHUD) GM.updateHUD();
+    await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title,tr.travel,2400);
+    const arrive=Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.updateHUD) GM.updateHUD();
     if(typeof ADV!=='undefined'){ ADV.begin({background:ev.background||'dark'}); }
     await GM.fade(false); if(typeof ev.beforeOuting==='function') await ev.beforeOuting(G,GM,q);   /* 演之前在同一個畫面先做的事（例：可昕的視訊讀書先選讀哪一科，BB_95 9-5）*/
     await EVENTS.run(ev); if(typeof ev.afterOuting==='function') await ev.afterOuting(G,GM,q);   /* 演完以後在同一個畫面接著做的事（例：可昕的視訊之後發成績單）*/
