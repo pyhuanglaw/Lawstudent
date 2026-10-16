@@ -76,7 +76,7 @@ for m in bpy.data.materials:
             if n.type == 'TEX_IMAGE': n.image = bpy.data.images.load(BAN)
 
 # ======================== 人群 ========================
-def mat_rand(name, cols, k, rough=0.75, sss=0.0, sheen=0.0):
+def mat_rand(name, cols, k, rough=0.75, sss=0.0, sheen=0.0, bump=None):
     """每個人不一樣的顏色：Object Info 的 Random × k 取小數 → 色表（等間隔、不內插）"""
     m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N = nt.nodes; bs = N['Principled BSDF']
     bs.inputs['Roughness'].default_value = rough
@@ -92,7 +92,15 @@ def mat_rand(name, cols, k, rough=0.75, sss=0.0, sheen=0.0):
     while len(cr.elements) < len(cols): cr.elements.new(0.5)
     for i, c in enumerate(cols):
         e = cr.elements[i]; e.position = i / len(cols); h = c.lstrip('#'); e.color = tuple((int(h[j:j + 2], 16) / 255.0) ** 2.2 for j in (0, 2, 4)) + (1.0,)
-    nt.links.new(rp.outputs['Color'], bs.inputs['Base Color']); return m
+    nt.links.new(rp.outputs['Color'], bs.inputs['Base Color'])
+    if bump:                                                            # 布的皺褶（雜訊）、頭髮的髮絲（波紋）：只是凹凸，不改顏色
+        kind, scale, strength = bump; tc = N.new('ShaderNodeTexCoord')
+        if kind == 'hair': tx = N.new('ShaderNodeTexWave'); tx.bands_direction = 'X'; tx.inputs['Distortion'].default_value = 6.0; tx.inputs['Detail'].default_value = 3.0
+        else: tx = N.new('ShaderNodeTexNoise'); tx.inputs['Detail'].default_value = 4.0
+        tx.inputs['Scale'].default_value = scale; nt.links.new(tc.outputs['Object'], tx.inputs['Vector'])
+        bp = N.new('ShaderNodeBump'); bp.inputs['Strength'].default_value = strength; bp.inputs['Distance'].default_value = 0.004
+        nt.links.new(tx.outputs['Fac'], bp.inputs['Height']); nt.links.new(bp.outputs['Normal'], bs.inputs['Normal'])
+    return m
 
 
 SKIN = ['#e9c3a4', '#e2b896', '#dcae8c', '#d4a582', '#e6bc9c', '#c99877']
@@ -102,8 +110,8 @@ TOPS = ['#f3f1ec'] * 4 + ['#1d1f24'] * 3 + ['#8d9096', '#c7c9cc', '#26324d', '#3
 BOTS = ['#2f3d57'] * 3 + ['#1c1d21'] * 3 + ['#4d6487', '#8a7f6c', '#c6bba5', '#5a5c60', '#e9e6df', '#6f5844', '#2a2d33']
 SHOE = ['#f2f2ef'] * 4 + ['#1c1c1e'] * 3 + ['#8b8f96', '#c8b79c', '#3a4a6a']
 ACC = ['#1d1f24', '#f3f1ec', '#26324d', '#b54a3c', '#7a8a6a', '#c8b79c']
-MATS = [mat_rand('crowd_skin', SKIN, 3.71, rough=0.55, sss=0.08), mat_rand('crowd_hair', HAIR, 7.13, rough=0.42),
-        mat_rand('crowd_top', TOPS, 1.0, rough=0.85, sheen=0.3), mat_rand('crowd_bottom', BOTS, 5.29, rough=0.8, sheen=0.2),
+MATS = [mat_rand('crowd_skin', SKIN, 3.71, rough=0.55, sss=0.08), mat_rand('crowd_hair', HAIR, 7.13, rough=0.55, sheen=0.4, bump=('hair', 150.0, 0.22)),
+        mat_rand('crowd_top', TOPS, 1.0, rough=0.85, sheen=0.3, bump=('cloth', 9.0, 0.35)), mat_rand('crowd_bottom', BOTS, 5.29, rough=0.8, sheen=0.2, bump=('cloth', 11.0, 0.3)),
         mat_rand('crowd_shoe', SHOE, 11.3, rough=0.6), mat_rand('crowd_acc', ACC, 13.7, rough=0.6)]
 SK, HR, TP, BT, SH, AC = range(6)
 
