@@ -191,6 +191,7 @@ const CLS=(function(){
     const exam=it.exam, prof=c.prof&&typeof EVENTS!=='undefined'?EVENTS.npcOf(c.prof):null; const ct=S.content(it); const door=!!o.door;
     const lateAbs=!exam&&c.kind!=='service'&&S.isLateAbsent(G,it);
     if(lateAbs&&!o.lateOk){ const k=await (async()=>{ if(!o.inScene) GM.sceneBegin(); try{ await GM.say(null,'已經開始 '+Math.floor(S.lateMin(G,it))+' 分鐘了。現在進去會記缺席。'); return await GM.choose([{t:'還是進去聽',hint:'記缺席；聽得到後半堂'},{t:'算了'}]); } finally { if(!o.inScene) GM.sceneEnd(); } })(); if(k!==0) return false; }
+    if(!o.inScene&&c.kind!=='service'&&!lateAbs) await S.beforeClassEvent(GM,it);   /* 上課前的人物事件（BB_135 1-4：芯慈在重修教室上課前）*/
     if(!o.inScene) GM.sceneBegin(door?{adv:true}:undefined);
     try{
       /* 服務學習（AA_110 第 6-1 節，AA 暫定）：0 學分、只記次數；在櫃台報到，2D 畫面每次一句（不帶人物）——第 n 次報到用第 n 句：第 1、9 句固定在第一次和最後一次，
@@ -249,6 +250,8 @@ const CLS=(function(){
   /* 這學期最後一科考完的時間（{day, h}：期末考的最後一場結束；沒有考試＝null）——期末最後一頓（交接包 v1 A22）用 */
   S.lastExamEnd=function(G,termId,kind){ kind=kind||'final'; let best=null; for(let d=1;d<1500;d++){ const t=CALENDAR.termOf(d); if(!t){ if(best) break; continue; } if(t.id!==termId) continue;
       for(const it of S.dayItems(G,d)) if(it.exam===kind&&(!best||d>best.day||(d===best.day&&it.t1>best.h))) best={day:d,h:it.t1}; } return best; };
+  /* 上課前的人物事件（BB_135 1-4）：事件寫 beforeClass:'課的 id'（＋一般條件）；人進了教室、要開始上課（不是遲到缺席）就先演 */
+  S.beforeClassEvent=async function(GM,it){ if(typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined'||!it||!it.c) return false; const ev=STORY_EVENTS.find(e=>e.beforeClass===it.c.id&&EVENTS.check(e,{chain:true})); if(!ev) return false; await EVENTS.run(ev); return true; };
   S.afterClassEvent=async function(GM,it){ if(typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined'||!it||!it.c) return false; const ev=STORY_EVENTS.find(e=>e.afterClass===it.c.id&&(e.afterExam?e.afterExam===it.exam:!it.exam)&&EVENTS.check(e,{chain:true})); if(!ev) return false; await EVENTS.run(ev); return true; };   /* afterExam:'mid'／'final'＝那一科考完（G1 考完試走出教室）；沒寫＝一般的課 */
   /* 總圖新生導覽（AA_134 第 2 節，使用者 2026-10-15「開始到結束就是一個按鈕？」）：館員走在前面，玩家自己用搖桿跟上（走太遠她停下來等），每站一到兩句（字幕，不擋操作）；
      同場的新生 2 個跟在館員後面（buddy）；9/19 那一場、還沒走過「總圖的下午」（第二天和以安約總圖）的話，以安站在最前面，最後一站對玩家說一句。

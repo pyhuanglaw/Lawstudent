@@ -587,6 +587,41 @@ const STORY_EVENTS=[
       {label:'end'},{speaker:'阿勳',text:'週五中午，我們在小福。你要來就來。'} ],
     consequences:{flags:{MET_XUN:true,MET_PINYU:true},memo:'重修經原（下）下課，走廊上遇到經濟系那年的室友阿勳（盧正勳）'},
     after:G=>{ G.flags.ECON_HALLWAY_DAY=G.day; } },
+  /* 經濟系的朋友（BB_96 10-2、BB_135 第 1 節，BB-B 2026-10-16 定稿）——SK03 週五的小福午餐：P4d 之後每個有課的週五，重修經原（下）下課，阿勳一句「小福。走不走？」，玩家選「一起去」／「今天不行」（不扣分，下週照問）。
+     去了：第一次＝1-1；去過兩次以上的下一次＝1-3 芯慈走進小福（照 ECON_PAST_SHARED，記 ECON_LAW_BRIDGE）；其他＝1-2（一句旁白＋一句輪替，芯慈加入前／加入後兩組，不連續重複）；之後快轉到 13:00「午休結束。」。
+     習慣記憶 meal:xiaofu:fri 每次 +1（after）。BB_135 的舞台說明改旁白。
+     待 AA-B（2026-10-16 04:2x 問）：1-3 和 10-4 撞在同一個週五的先後（現在先 1-3）、午餐後人在哪裡（現在留在原地）。10-4 還債等 10-3（V2-C13）的 xun_study 做好一起接 */
+  { id:'ev_sk03_lunch', title:'週五的小福', participants:[], location:'any', trigger:'class', afterClass:'econ_principles_2', term:['Y1S2'], weekday:[5], background:'blur',
+    prereq:{custom:G=>!!G.flags.P4D_ANSWER&&G.flags.ECON_HALLWAY_DAY!=null&&G.day>G.flags.ECON_HALLWAY_DAY&&G.flags.SK03_ASKED!==G.day},
+    dialogue:[ {speaker:'阿勳',text:'小福。走不走？'},
+      {choice:[{text:'「一起去」',consequences:{stamp:['SK03_LAST']},goto:'go'},{text:'「今天不行」',goto:'end'}]},
+      {label:'go'},{scene:'小福',bg:'xiaofu'},
+      {unless:{flags:['SK03_FIRST']},goto:'first'},
+      {if:{custom:G=>!G.flags.ECON_LAW_BRIDGE&&typeof EVENTS!=='undefined'&&EVENTS.habitCount({key:'meal:xiaofu:fri'})>=2},goto:'xinci'},
+      {goto:'usual'},
+      {label:'first'},{speaker:null,text:'週五的小福。阿勳占了靠窗的四人桌，品妤已經在吃了。'},
+      {speaker:'品妤',text:'重修生？你看起來很有覺悟。'},{speaker:'阿勳',text:'他去年也很有覺悟。只是方向不一樣。'},{speaker:'品妤',text:'……經濟系的冷笑話，還是你最多。'},
+      {set:{SK03_FIRST:true}},{goto:'end'},
+      {label:'xinci'},{speaker:null,text:'芯慈端著餐盤走進來，看見阿勳，停住了。'},
+      {speaker:'classmate_xinci',text:'……你。統計課冷笑話很多的那個人。'},{speaker:'阿勳',text:'我。統計課唯一會笑的那個人。'},{speaker:'classmate_xinci',text:'（看向你）你們認識？'},
+      {choice:[{text:'「他是我以前的室友。」',if:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'x1'},{text:'「我們一起住過一年。」',unless:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'x2'},{text:'（笑一笑帶過）',unless:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'x3'}]},
+      {label:'x1'},{speaker:'classmate_xinci',text:'……原來是你室友。'},{speaker:'classmate_xinci',text:'難怪他的冷笑話跟你的一樣冷。'},{goto:'xend'},
+      {label:'x2'},{speaker:'player',text:'他每天講一個冷笑話。'},{speaker:'classmate_xinci',text:'我要聽那一年的全部。'},{set:{ECON_PAST_SHARED:'full'}},{goto:'xend'},
+      {label:'x3'},{speaker:'阿勳',text:'我們住過同一間。他沒說？'},{speaker:'classmate_xinci',text:'……他什麼都沒說。'},
+      {label:'xend'},{speaker:'品妤',text:'好，多一個人。這桌要換大一點的。'},{speaker:'阿勳',text:'每週五，同一桌。'},{set:{ECON_LAW_BRIDGE:true}},{goto:'end'},
+      {label:'usual'},{speaker:null,text:'週五的小福。品妤點的永遠是同一個便當，阿勳永遠在講統計。'},
+      {if:{custom:G=>!G.flags.ECON_LAW_BRIDGE},goto:'pre'},{goto:'post'},
+      {label:'pre'},
+      {if:{custom:G=>(G.flags.SK03_N|0)%3===0},speaker:'阿勳',text:'統計這週講變異數。我的人生也是。'},
+      {if:{custom:G=>(G.flags.SK03_N|0)%3===1},speaker:'品妤',text:'你們法律系的期中考，也要背那麼多嗎？'},
+      {if:{custom:G=>(G.flags.SK03_N|0)%3===2},speaker:'阿勳',text:'今天的冷笑話我想好了。……算了，下週。'},{goto:'end'},
+      {label:'post'},
+      {if:{custom:G=>(G.flags.SK03_N|0)%3===0},speaker:'classmate_xinci',text:'統計的筆記我帶來了。誰要先吵？'},
+      {if:{custom:G=>(G.flags.SK03_N|0)%3===1},speaker:'品妤',text:'芯慈，妳的雙主修還活著嗎？'},{if:{custom:G=>(G.flags.SK03_N|0)%3===1},speaker:'classmate_xinci',text:'活著。只是很累。'},
+      {if:{custom:G=>(G.flags.SK03_N|0)%3===2},speaker:'阿勳',text:'法律系的，今天輪你講冷笑話。'},
+      {label:'end'} ],
+    after:(G,GM)=>{ G.flags.SK03_ASKED=G.day; if(G.flags.SK03_LAST!==G.day) return; if(typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('meal:xiaofu:fri'); G.flags.SK03_N=(G.flags.SK03_N|0)+1;
+      const h=G.hour%24; if(h<13&&GM.advance) GM.advance(13-h); if(GM.caption) GM.caption('','午休結束。',2400); } },
   /* 可玩切片（交接包 v2 C13；AA_115 第 1、2 節、BB_105 4-5）——B4 博雅午後講座「政府可以為了大家，限制一個人嗎？」：第 11 週週四 19:00～20:30 博雅 101（activities.js 的 B4）。
      以安揪人（週二在麵店團群組，story3d.js phoneRules）；以安、小語、阿哲照作息在 101（characters.js），散場後以安、小語去博雅的圓桌。
      去不去看玩家週四有沒有走進博雅 101：坐下選「聽演講」＝這一段（之後快轉到 20:30）；坐著待到結束也算聽完（沒有這一段）；結束前走出 101＝中途離開（沒有這一段，之後以安說一句）。
