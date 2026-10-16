@@ -139,6 +139,61 @@
 - 渲染兩輪改過：外套貼合扶手（v2 再換成布料模擬）；坐墊釘扣貼回凹下去的頂面；課本內頁從淡色塊改成一行一行的字；練習簿格線加深；日曆月份條和格子重疊（閃爍）移開；相框裡的人從長條改成剪影。
 - 窗、窗簾、落地窗外的對面公寓不在這裡（`bg_home.py` 的場景本身）。
 
+## ART-US2：美國公寓臥室的家具：`us_bedroom_props.py` → `assets/models/env/second_ai/bb_support/us_bedroom_props.glb`
+
+- **派工**：LAWWW2-B 2026-10-16 12:14「要不要接美國公寓臥室那一組（床、床頭櫃、書桌、椅子、行李箱、吸頂燈；規格照 src/data/us_apartment_layout.js 的 furniture，和 AA-B 的 ART-US1 同一套做法）？」BB-B 12:1x 回「接」＋規格確認（三個問題：床頭板、椅子款式、桌上檯燈；沒回覆就照括號做：要矮的深色木床頭板、辦公椅、檯燈＋筆電）。
+- **場景**：SCN-US-01，大三下美國交換時祐廷租的校外學生公寓（D47）。外觀照 `docs/art-rebuild/second_ai/research/us_apartment_photos.md` 的照片一（從客廳看進臥室：米灰色地毯、灰白人字紋被子、黑色小方格櫃、吸頂燈）；位置、尺寸照 `us_apartment_layout.js` v2 的 `furniture`（`room:'bedroom'`）。
+
+```
+/opt/blenv/bin/python tools/blender/env_second/bb_support/us_bedroom_props.py
+/opt/blenv/bin/python tools/blender/env_second/render_cycles.py -- assets/models/env/second_ai/bb_support/us_bedroom_props.glb <輸出資料夾> us2 tools/blender/env_second/bb_support/us2_views.json --res 1280x640 --samples 48 --ground --view Standard --exposure -2.5
+```
+
+- **做法和 AA-B 的 ART-US1（`aa_support/us_living_props.py`）一樣**：兩個材質 `us_bedroom`（不透明：1024 底色貼圖集＋256 ORM，金屬度最高 0.40）、`US_glow`（燈罩內面、吸頂燈玻璃罩：奶油色＋發光，亮度由遊戲控制）；網格工具（`PM`、`rbox`、`lathe`、`sweep`、`box`、`cushion`）照抄，另外加了 `Rz`、`rrect`（圓角長方形）、`drape`（沿折線的布條，可以有皺褶）。貼圖集在 `tools/blender/env_second/bb_support/textures/gen/us_bedroom_props_{atlas,orm}.png`。
+- **貼圖**（Poly Haven CC0，下載到 `tools/blender/env_second/bb_support/textures/<id>/`）：被子＝`poly_wool_herringbone` 的纖維明暗＋畫上去的人字紋印花（白底灰色斜紋，一欄 5.5 cm、斜紋間距 2.2 cm）；床單、枕頭、床座、收納籃、椅墊、行李箱襯布、盥洗包＝`rough_linen` 的纖維明暗；T 恤＝`cotton_jersey`；牛仔褲＝`denim_fabric`（原色，只取兩條縫線中間那一塊）；木頭＝`walnut_veneer`（`env_second/textures/` 已經有的，加深；方格櫃更深）。畫的只有本來就是畫上去的東西：人字紋印花、便條本的橫線、T 恤的領口、收納籃的提把洞、行李箱殼的凹凸紋（只有明暗）、網背的網目。
+- **D77**：沒有字、品牌、校名、校徽。筆電闔著、沒有標誌；書是色塊；便條本只有橫線。
+
+| 節點 | 物件 | 尺寸（約） | 三角形 | 說明 |
+|---|---|---|---|---|
+| `US_BED` | Full 床 | 床架 1.40（x）× 2.00（z），床頭板高 1.03，床墊上緣 0.58 | 3,552 | 床頭在 −z：深色胡桃木床頭板（兩支柱子直紋、中間板子橫紋、中段一條橫木、頂蓋）；黑色鐵床架（角鐵＋三條橫的）＋五支腳＋黑腳墊；灰色床座、白色床單包的床墊（側面鼓一點）；兩個淺灰枕頭（後緣靠床頭板翹起來）。**被子用 Blender 布料模擬**：1.97 × 1.69 的布放在床墊上（床墊上面中間一塊固定，不然 Blender 的布會整條往床尾滑掉），兩側和床尾自己垂下約 0.3 m，再做厚度（中間 3.2 cm、邊上 1 cm），壓在床墊上看不到的底面不做 |
+| `US_NIGHTSTAND` | 黑色方格櫃（兩格疊起來） | 0.40 × 0.39 × 0.62 | 408 | 開口朝 +z；上格四本直立的書（最後一本斜靠）＋一本平放；下格灰色帆布收納籃（上緣包邊、正面提把洞）；頂上手機（螢幕朝下）、一本平裝書 |
+| `US_DESK` | 書桌＋桌上的東西 | 1.20 × 0.55 × 0.75 | 1,196 | 胡桃木：左邊側板、右邊兩個抽屜的櫃子（金屬拉把、內縮的踢腳板）、後面的擋板。桌上：闔上的筆電（銀色、中間一條縫）、黃色橫線便條本（藍線、左邊兩條紅線、上面深紅膠裝）＋藍色原子筆、兩本厚的教科書、白色馬克杯（裡面有咖啡）、黑色檯燈（圓底座、兩段燈臂、圓錐燈罩朝下往前）。**燈罩內面＝子節點 `US_DESK_GLOW`**（36 三角形） |
+| `US_DESKCHAIR` | 黑色辦公椅 | 腳的半徑 0.31，座面上緣 0.46，椅背頂 1.10 | 1,946 | 五爪腳（一爪朝前）＋五個輪子、氣壓桿＋伸縮蓋、座墊下的機構和調高度的把手、布面座墊（中間塌一點）、網背（兩側往前包、往後仰 8°）＋一圈框、支架、兩邊扶手（上緣 0.65，比桌面低）。椅背在 −z |
+| `US_SUITCASE` | 攤平在地上的硬殼行李箱 | 每一半 0.45 × 0.70 × 0.13 | 2,814 | 深藍綠的殼（側面圓角）、灰藍襯布、開口一圈拉鍊、−z 端兩個輪子、+x 側邊提把。放東西的那一半在原點：後半折好的牛仔褲＋深藍 T 恤＋橄欖綠盥洗包＋一捲深灰襪子，前半折好的灰 T 恤；**一件淺藍 T 恤拉出來，越過 +z 那一端垂到地上**（`drape`：三條順著布走的皺褶、布邊往外翹，攤在地上的那一段是衣服的寬度、末端是領口）。蓋子攤在 −x 那一邊，裡面一片黑色網狀隔層（鼓起來一點） |
+| `US_CEILINGLIGHT` | 吸頂燈 | 直徑 0.37、高 0.156 | 552 | **原點＝頂面中央（貼天花板），往 −y 長**。白色底盤、鎳色金屬圈、中間的小螺帽；**霧面玻璃罩＝子節點 `US_CEILINGLIGHT_GLOW`**（312 三角形；整個罩子都是 US_glow，白天也會亮，亮度要遊戲控制） |
+
+- **合計**：10,468 三角形（上限 12k）；2 個材質；8 個網格（6 件＋2 個發光子節點）；GLB 約 0.52 MB。
+- **原點**：每件的底面中心，y=0 是地面，正面（坐的人臉朝的方向、櫃子開口那一面）朝 +z；吸頂燈的原點貼天花板。
+- **GLB 裡的位置只是排成臥室給人看**：照 layout 的位置減 (3.2, −1.0)（床 ry −90°、書桌 0、椅子 180°、吸頂燈 y=2.6）；床頭櫃、行李箱用下面建議的擺法。遊戲端用每件的節點自己擺。
+- **渲染**（`render_cycles.py`，Cycles CPU 48 spp、Standard、曝光 −2.5）：總覽、床、床頭（枕頭＋床頭板＋床頭櫃）、書桌、椅子、行李箱、床頭櫃、吸頂燈（從下面看），8 張 1280×640，在 `docs/art-rebuild/second_ai/blender_renders/bb_support/us2_*.webp`；鏡頭在 `us2_views.json`。
+
+### 擺放要注意的（和 layout 不一樣的地方，給 LAWWW2-B 決定）
+
+- **行李箱比 layout 的 0.45 × 0.70 大**：攤平以後整體約 x −0.68～+0.27（蓋子在 −x）、z −0.43～+0.56（輪子往 −z、T 恤往 +z）、最高 0.17。layout 原本的 (1.8, −2.55) ry 0.4 會讓蓋子穿過西牆（x=1.4）。建議 **(2.12, −2.45) ry 0**：輪子朝北牆、蓋子靠西牆（離牆約 5 cm）、T 恤朝房間；在書桌（x≥2.6）的左邊，不擋路。只想要 0.45 × 0.70 的話，要另外做一個闔著或蓋子立起來的版本（蓋子立起來要靠牆才站得住）。
+- **床頭櫃**：layout 沒有 ry；ry=0 的話開口正對床的側邊（只隔 20 cm，看不到裡面）。建議 **ry=−π/2**（開口朝西，和床尾同方向）。
+- **床**：床頭板在模型的 −z，layout 的 ry −π/2 讓床頭靠東牆 ✓。被子垂到兩側（離地約 0.28 m），模型的 x 範圍比床架多約 5 cm（−0.80～+0.90，床尾兩個角的布往外散一點），床尾到 z≈+1.2（角）／+1.0（中間）。碰撞用 1.40 × 2.00 就好。
+- **椅子**：layout 的 (3.2, −2.1) ry π 和書桌前緣（z=−2.425）之間約 9 cm，扶手比桌面低，可以推進去。
+
+### 授權（給 LAWWW2-B 合併進 `LICENSES.md`；BB-B 不改 LICENSES.md）
+
+| 來源 | 下載 | 授權 | 用在 |
+|---|---|---|---|
+| Poly Haven `poly_wool_herringbone`（colormass 攝影、Rico Cilliers 處理） | https://polyhaven.com/a/poly_wool_herringbone ，`fetch_polyhaven.fetch()` 下載 1k JPG 到 `tools/blender/env_second/bb_support/textures/` | CC0 | 美國公寓臥室的被子：纖維明暗（人字紋印花是畫的）（`us_bedroom_props.glb`） |
+| Poly Haven `rough_linen`（colormass 攝影、Rico Cilliers 處理） | https://polyhaven.com/a/rough_linen | CC0 | 床單、枕頭套、床座、收納籃、辦公椅座墊、行李箱襯布、盥洗包的纖維明暗 |
+| Poly Haven `cotton_jersey`（colormass 攝影、Rico Cilliers 處理） | https://polyhaven.com/a/cotton_jersey | CC0 | 行李箱裡的 T 恤 |
+| Poly Haven `denim_fabric`（Rob Tuytel） | https://polyhaven.com/a/denim_fabric | CC0 | 行李箱裡的牛仔褲（原色） |
+| Poly Haven `walnut_veneer` | 已在 `tools/blender/env_second/textures/`（LICENSES.md 已登記） | CC0 | 床頭板、書桌、方格櫃（加深） |
+
+### 還沒做、要注意的
+
+- **沒有遊戲內截圖**：只有 Blender 渲染（D38 第 8 點）。整合、遊戲內驗收照原流程：LAWWW2-B 驗收、組裝房間，再交 LAWWW-B。
+- 渲染是戶外的太陽光、米色地面；室內吸頂燈下被子的灰白和人字紋會比渲染圖清楚、偏暗。
+- 被子是一整片：沒有往下折的被頭、沒有床裙；床尾兩個角的布垂下來是自然的錐形，近看邊緣是 1 cm 的薄邊。
+- 拉出來的 T 恤是一條有皺褶的布（沒有袖子），2D／遊戲的距離看起來是衣服垂在箱子外面；近看會覺得像一塊布。
+- 吸頂燈的玻璃罩整個是發光材質：白天要遊戲把亮度關小，不然會比天花板亮。
+- **重跑不會逐位元相同**：被子是布料模擬，倒角也用 Python set；三角形數、材質、節點相同，比對請用三角形數和渲染圖。
+- 下載的貼圖只留 diff（nor_gl、rough 沒用到，沒有 commit）。
+
 ## LAWWW2-B 驗收紀錄
 
 ### ART-GYM-P1（2026-10-16 09:0x UTC）：通過
@@ -160,3 +215,9 @@
 - 飲水機：不鏽鋼水槽、出水口、按鈕、後擋板，比例對。救生員椅：白色鋼管、五階梯子、橘色座墊，沒有字。浮板架藍黃交錯。
 - 擺進 B1（`gym_layout.js` v5 `b1.entryProps`、`gym_b1.glb`）：櫃台 (21, 0.95)、置物櫃兩組健身中心東牆、體重計、毛巾籃、飲水機（走廊北牆）、救生員椅（東邊池畔）、浮板架（泳池門口）。鏡牆、地墊沒用。
 - 這次 README 又把 `## LAWWW2-B 驗收紀錄` 蓋掉了（你的改版是從 merge 之前的版本改的），我接回來了。之後請先 `git fetch origin claude/funny-albattani-iawshm`，從我的版本接著改，或只改你自己那一節。
+
+### ART-TUTOR1 家教學生家客廳的道具組（v2 939421a4，2026-10-16 12:2x UTC）：通過
+
+- 八件照規格：矮桌、兩個坐墊（鼠尾草綠、土黃，中間凹）、桌上一組（課本、練習簿、筆、橡皮擦、半杯麥茶）、米灰三人布沙發（和臺北的家那張不同款）、電視櫃＋電視＋相框＋小盆栽、立燈（TUTOR_LAMP_GLOW）、牆上的時鐘（七點二十分）和日曆、小地毯。11,956 三角形、2 材質、沒有字。
+- v2 的外套用布料模擬順著扶手垂下，比 v1 自然；近看還是有一點厚，2D 背景的距離看不出來。
+- 下一步：我用 bg_home.py 組 tutor_home 客廳（三房兩廳的公寓、晚上七點多的吸頂燈＋立燈、落地窗外對面公寓的窗），算成 `assets/bg/tutor_home.webp`。

@@ -1,0 +1,115 @@
+{
+ "objects": 8,
+ "unique_meshes": 8,
+ "tris": 10468,
+ "tris_drawn": 10468,
+ "materials": 2,
+ "out": "assets/models/env/second_ai/bb_support/us_bedroom_props.glb",
+ "bytes": 522772,
+ "texres": 1024,
+ "modules": {
+  "US_BED": {
+   "tris": 3552,
+   "min": [
+    -0.7974,
+    0.0,
+    -1.008
+   ],
+   "max": [
+    0.8952,
+    1.03,
+    1.1989
+   ]
+  },
+  "US_NIGHTSTAND": {
+   "tris": 408,
+   "min": [
+    -0.2,
+    0.0,
+    -0.195
+   ],
+   "max": [
+    0.2,
+    0.642,
+    0.195
+   ]
+  },
+  "US_DESK": {
+   "tris": 1160,
+   "min": [
+    -0.6,
+    -0.0,
+    -0.275
+   ],
+   "max": [
+    0.6,
+    1.2027,
+    0.2849
+   ],
+   "glow": {
+    "node": "US_DESK_GLOW",
+    "tris": 36
+   },
+   "tris_total": 1196
+  },
+  "US_DESKCHAIR": {
+   "tris": 1946,
+   "min": [
+    -0.3011,
+    0.0022,
+    -0.3073
+   ],
+   "max": [
+    0.3011,
+    1.0964,
+    0.313
+   ]
+  },
+  "US_SUITCASE": {
+   "tris": 2814,
+   "min": [
+    -0.675,
+    0.0,
+    -0.431
+   ],
+   "max": [
+    0.2637,
+    0.167,
+    0.56
+   ]
+  },
+  "US_CEILINGLIGHT": {
+   "tris": 240,
+   "min": [
+    -0.185,
+    -0.156,
+    -0.185
+   ],
+   "max": [
+    0.185,
+    0.0,
+    0.185
+   ],
+   "glow": {
+    "node": "US_CEILINGLIGHT_GLOW",
+    "tris": 312
+   },
+   "tris_total": 552
+  }
+ },
+ "tris_total": 10468,
+ "atlas": [
+  "tools/blender/env_second/bb_support/textures/gen/us_bedroom_props_atlas.png",
+  "tools/blender/env_second/bb_support/textures/gen/us_bedroom_props_orm.png"
+ ],
+ "origins": {
+  "*": "底部中央、y=0＝地面、正面（坐的人臉朝的方向、櫃子開口那一面）朝 +z；GLB 裡的位置只是排成臥室給人看（SPREAD＝layout 位置減 (3.2, −1.0)）",
+  "US_BED": "Full：床架 1.40（x）×2.00（z），床頭板在 −z（z=−1.0～−0.93，高 1.03），床墊上緣 0.58；被子垂到兩側和床尾（離地約 0.28），床尾的被子到 z≈+1.0",
+  "US_NIGHTSTAND": "0.40×0.39×0.62，開口朝 +z；建議 ry=−π/2（開口朝西，和床尾同方向；ry=0 的話開口正對床的側邊，只隔 20 cm）",
+  "US_DESK": "1.20×0.55×0.75，桌面上緣 0.75；抽屜櫃在 +x；子節點 US_DESK_GLOW＝檯燈燈罩內面（US_glow）",
+  "US_DESKCHAIR": "座面上緣約 0.46；腳的半徑 0.31（含輪子）；扶手上緣 0.65（比桌面低，可以推進桌子底下）；椅背在 −z",
+  "US_SUITCASE": "攤平在地上：放東西的那一半 0.45（x）×0.70（z）在原點，蓋子攤在 −x 那一邊（x=−0.675～−0.225）；輪子往 −z 凸出 8 cm、側邊提把往 +x 凸出 4 cm；拉出來的淺藍 T 恤往 +z 垂到地上（到 z≈+0.56）。整體約 x −0.68～+0.27、z −0.43～+0.56、最高 0.17。layout 原本的 (1.8, −2.55) ry 0.4 會讓蓋子穿過西牆：建議 (2.12, −2.45) ry 0（輪子朝北牆、T 恤朝房間）",
+  "US_CEILINGLIGHT": "原點＝頂面中央（貼天花板），往 −y 長 0.156；直徑 0.37；子節點 US_CEILINGLIGHT_GLOW＝整個玻璃罩（白天也看得到，亮度由遊戲控制）"
+ },
+ "note": "兩個材質：us_bedroom（底色 1024＋ORM 256，metal 最高 0.40；被子纖維＝Poly Haven poly_wool_herringbone、床單枕頭等＝rough_linen、T 恤＝cotton_jersey、牛仔褲＝denim_fabric、木＝walnut_veneer，都是 CC0）、US_glow（檯燈燈罩內面、吸頂燈玻璃罩；奶油色＋發光，亮度由遊戲控制）；每件一個網格，兩件有發光的子節點；被子是布料模擬（Blender cloth，60 格），重跑會有一點點差異"
+}
