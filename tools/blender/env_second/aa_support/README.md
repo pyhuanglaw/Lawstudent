@@ -7,6 +7,50 @@
 > - **品質標準（使用者 2026-10-16 約 15:50 UTC，對 AA-B 說）**：「美術3D標準要參考遊戲大獎，可以問lawww2」。AA 支援的素材照 LAWWW2-B 的得獎遊戲方向（`docs/art-rebuild/second_ai/HANDOFF.md`「得獎、Steam 上會賣的遊戲」那一節：繪本感半寫實環境＝《Season: A Letter to the Future》《Lake》的烘焙光、暖色暮光、空氣感；人物＝《Persona 5 Royal》《Atelier Ryza》；目標畫面參考圖 07），不是只對 D38 的底線。具體的驗收清單已經問 LAWWW2-B（15:5x），回覆後補在這裡。
 > - **施工 SOP（使用者 2026-10-16 約 16:20 UTC 轉來 LAWWW2-B 的實際做法，永久）**：`docs/story_planning/美術支援SOP_3D施工方法.md`。驗收清單是 LAWWW2-B 的 `SCENE_RULES.md` 第 9 節（`1c3bdefd`）；每一組交件時在這份 README 寫第 9 節每一項「做了／沒做＋原因」，並附遊戲內截圖（`fast_shots.py`，或請 LAWWW2-B 組裝後拍）。
 
+## AA-B 的做法（2026-10-16 20:2x UTC，回 LAWWW2-B 的新標準：讀過 `ART_SOP.md`、`SCENE_RULES.md` 第 9 節、`sop_demo/README.md`，到 `d8cfa784`）
+
+> 標準：使用者 20:2x「得遊戲大獎，不要像廉價拼接遊戲，不要有方塊感」。照 `docs/art-rebuild/second_ai/ART_SOP.md` 做，交件 README 一定有第 3-2 節的八項紀錄。
+
+- **建模函式**（各腳本開頭的共用段，從 `wz6_items.py` 起沿用）：
+  - `rbox(w,h,d,r,seg)`：倒角方塊（所有方的東西都用這個，`r` 至少 3～8 mm）。
+  - `lathe(profile,n)`：旋轉體（碗、杯、罐、燭、香爐）。
+  - `sweep(path,section)`：管狀（把手、鐵架、電線）。
+  - `to_blender()` 合併重疊頂點（`remove_doubles` 1e-6，LAWWW2-B 08:2x 修的）＋`smooth_mesh`。
+- **材質**：
+  - Poly Haven 1k（`tools/blender/fetch_polyhaven.py`），id 寫進 README；金屬度 ≤0.45。
+  - 一個 GLB 一張貼圖集＋ORM（`美術支援SOP_3D施工方法.md` 第 4 節）。
+- **AO、磨損、生活痕跡**：
+  - 接地、接牆用 AO 貼片（`*_ao` 材質，例 `US_ao`）。
+  - 磨損畫在常碰的地方（把手、扶手、檯面邊），不均勻撒（US2 的 door_tr/tl/br/bl 做法）。
+  - 生活痕跡放在人會放的位置，不對齊。
+- **渲染**：`/opt/blenv/bin/python <腳本>.py`→`render_cycles.py`（3/4、側、特寫；傍晚、白天；預設 Standard、曝光 −3.5，前後要同設定）。
+- **遊戲內截圖**：`fast_shots.py`（`--block=新.glb` 拍修改前），11:00／17:30／20:30，390×844、844×390，含平常玩的鏡頭。同一組的鏡頭要同一頁；不要從別組抄座標（PARK2 的教訓）。
+- **八項自己怎麼查**：
+  - 輪廓：遊戲鏡頭截圖看剪影，列出 rbox／lathe／sweep 用在哪裡。
+  - 材質：列 Poly Haven id、tile。
+  - AO：截圖看接觸處。
+  - 磨損、生活痕跡：列位置和東西。
+  - 比例：截圖放人物，附尺寸表。
+  - 效能：`glbstat.py` 看三角形、材質數、大小。
+  - 截圖：列檔名。
+
+**舊成果分類**（照 `ART_SOP.md` 3-3；都是 20:2x 以前驗收的，沒有八項紀錄，所以都是「舊標準」）
+
+| 件 | 狀態 |
+|---|---|
+| ART-WZ6 故事線小物件 | 舊標準已通過（08:2x） |
+| ART-WZ5 貓 v2 | 舊標準已通過（09:2x） |
+| V0-ART-DORM | 舊標準已通過（09:0x） |
+| ART-WZ7 溫州街路邊小物 | 舊標準已通過（09:4x） |
+| ART-SOY1 豆漿店 | 舊標準已通過（11:2x）；第 9 節補強暫停 |
+| ART-US1 客廳家具 | 第一版交件；第 9 節補強是 WIP、暫停，GLB 和腳本還沒對上（見本檔 ART-US1 一節） |
+| ART-US2 廚房 | 舊標準已通過（12:4x）；第 9 節補強 `48393461` 18:0x 通過（舊標準） |
+| ART-US4 衛浴＋陽台 | 舊標準已通過（13:2x） |
+| ART-PARK2 鞦韆＋體健器材 | 舊標準已通過（17:2x） |
+| 新標準已通過 | 目前沒有 |
+
+**下一批怎麼採用**：從下一件起照 `ART_SOP.md` 的製作順序做；交件 README 照第 6 節的格式，附八項紀錄、遊戲內前後截圖，沒有就不交。使用者 17:0x 要 AA 以劇情為主，所以美術排在劇情之後；第一件驗證件是土地公廟的供品組（`sop_demo` 案例 B 的缺口：水果盤、茶杯、紅燭＋燭淚、香爐燻痕、金紙桶＋灰燼）。
+
 ## ART-WZ6 故事線的小物件：`wz6_items.py` → `assets/models/env/second_ai/aa_support/wz6_items.glb`
 
 ```
