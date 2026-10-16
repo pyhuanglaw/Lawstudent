@@ -157,7 +157,11 @@ const ASSETS = (function(){
     if(tv.meta&&tv.meta.metaVersion==='0') scene.rotation.y=Math.PI;
     return {scene,humanoid,meta:tv.meta,expressionManager:null,lookAt:null,lite:true,update(){ humanoid.update(); }}; }
   A.acquireVRM=function(key){ const c=A.cache[key]; if(!c||!c.tpl) return null; if(!c.tpl.inUse){ c.tpl.inUse=true; return c.tpl; } try{ const e={vrm:cloneVRM(c),inUse:true,full:false}; c.clones.push(e); return e; }catch(err){ console.error('VRM clone failed',key,err); A.errors.push(key+': clone '+err.message); return null; } };
-  A.releaseVRM=function(key,vrm){ const c=A.cache[key]; if(!c) return; if(c.tpl.vrm===vrm){ c.tpl.inUse=false; } else { c.clones=c.clones.filter(e=>e.vrm!==vrm); } if(vrm.scene.parent) vrm.scene.parent.remove(vrm.scene); };
+  /* 還一個實例：原本那一個（tpl）留著重用；骨架 clone 丟掉——它的每個 SkinnedMesh 有自己的 Skeleton，畫過一次就有一張骨架貼圖（boneTexture，DataTexture）在顯示記憶體裡。
+     原本只從 clones 拿掉，骨架貼圖沒釋放：VRoid 人物一個約 16 張，換區域時每個路人都留下一批（2026-10-16 BUG-01 zone_memory：GPU 貼圖追蹤找到的就是這個——
+     回到校園一次多 70～80 張、溫州街的路人 2×16 張；iOS Safari 記憶體到上限會重新載入網頁＝跳回標題）。幾何、材質是和 tpl 共用的，不能釋放 */
+  const disposeClone=vrm=>{ try{ vrm.scene.traverse(o=>{ if(o.isSkinnedMesh&&o.skeleton&&o.skeleton.boneTexture) o.skeleton.dispose(); }); }catch(e){ console.warn('VRM clone dispose',e); } };
+  A.releaseVRM=function(key,vrm){ const c=A.cache[key]; if(!c) return; if(c.tpl.vrm===vrm){ c.tpl.inUse=false; } else { const had=c.clones.some(e=>e.vrm===vrm); c.clones=c.clones.filter(e=>e.vrm!==vrm); if(had) disposeClone(vrm); } if(vrm.scene.parent) vrm.scene.parent.remove(vrm.scene); };
   A.vrmFree=function(key){ const c=A.cache[key]; return c&&c.tpl?99:0; };
   // 清單（給 REVIEW / LICENSES 用）
   A.report=function(){ const out=[]; for(const k in A.manifest){ const m=A.manifest[k]; out.push({key:k,url:m.url,loaded:!!A.cache[k],source:m.source,license:m.license}); } return out; };

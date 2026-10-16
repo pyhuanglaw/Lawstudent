@@ -37,8 +37,8 @@
    "title": "zone_memory 貼圖持續增加（推測 iPhone 跳回標題）",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "tex_leak2 找真正來源 → 修 → tests/zone_memory.py＋iPhone",
+   "status": "已整合待測試",
+   "next": "第 2 級實際渲染驗證中：tex_leak3（來回 4 次）＋tests/zone_memory.py；之後請使用者 iPhone 實測（TEST-05）",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -54,7 +54,8 @@
    "authorized": "D79",
    "sha": [
     "b2ca5b6c"
-   ]
+   ],
+   "cause": "GPU 貼圖追蹤（tools/dev_scratch/tex_leak3.py）：回到校園一次多 70～80 張活著的 GPU 貼圖，全部是路人 VRM 骨架 clone 的 Skeleton.boneTexture（每人約 16 張）；ASSETS.releaseVRM 只從池子拿掉、沒釋放"
   },
   {
    "id": "BUG-02",
@@ -62,7 +63,7 @@
    "area": "BUG",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "可能和 BUG-01 同源；重現、看 WebGL 掉線紀錄",
+   "next": "BUG-01 修好後重新看：全黑／面膜臉如果是 WebGL context lost（記憶體）會一起消失；仍要在現場重現（試玩第 24 項）",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -594,14 +595,14 @@
    "next": "xun、pinyu 接 V2-CHR；jiahao、tangrui、weilun、yule 等 V0",
    "priority": "P2",
    "first": {
-    "term": "Y0S1",
-    "week": null,
-    "earliest": "經濟系大一開學",
+    "term": "Y1S1",
+    "week": 6,
+    "earliest": "予樂 K1b（第 6～8 週）；阿勳、品妤在法律系開場是大一下 P4d",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "LAWWW2／LAWWW2-B 交付",
    "authorized": "D79",
@@ -619,13 +620,13 @@
    "priority": "P2",
    "first": {
     "term": "Y1S1",
-    "week": 7,
-    "earliest": "K1b（第 6～8 週）",
+    "week": 3,
+    "earliest": "K1（第 3 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "LAWWW2／LAWWW2-B 交付",
    "authorized": "D79"
@@ -640,13 +641,13 @@
    "priority": "P2",
    "first": {
     "term": "Y1S1",
-    "week": 7,
-    "earliest": "K1b",
+    "week": 3,
+    "earliest": "K1（第 3 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "LAWWW2／LAWWW2-B 交付",
    "authorized": "D79"
@@ -834,8 +835,8 @@
    "title": "貼圖追蹤工具（tex_leak.py、tex_leak2.py）沒有 commit",
    "area": "WIP",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "BUG-01 找到原因後放進 tools/dev_scratch/",
+   "status": "已整合待測試",
+   "next": "tex_leak3.py 已進 tools/dev_scratch/；舊的 tex_leak、tex_leak2 不收（被第三版取代）",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -1306,13 +1307,13 @@
    "priority": "P1",
    "first": {
     "term": "Y1S1",
-    "week": 12,
-    "earliest": "Y1S1W12",
+    "week": 14,
+    "earliest": "12/3（第 14 週週三）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "AA_140 G01（企劃線 b860d9ef）；AA-B 10-16 02:09",
    "authorized": "D79"
@@ -1351,13 +1352,13 @@
    "priority": "P1",
    "first": {
     "term": "Y1S2",
-    "week": 4,
-    "earliest": "Y1S2W04",
+    "week": 11,
+    "earliest": "第 11 週週四（AA_115）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "交接包_v2、BB_96",
    "authorized": "D79"
@@ -1393,13 +1394,13 @@
    "priority": "P2",
    "first": {
     "term": "Y1S2",
-    "week": 6,
-    "earliest": "Y1S2W06",
+    "week": 3,
+    "earliest": "第 3 週起（要等打工系統 SYS-13）",
     "mainline": false,
     "blocks": false,
-    "prereq": false,
+    "prereq": true,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_96 3-2；AA-B 10-16 01:47（AA_140 §4，企劃線 fd7c2744） B7",
    "authorized": "D79"
@@ -1414,13 +1415,13 @@
    "priority": "P1",
    "first": {
     "term": "Y1S2",
-    "week": 18,
-    "earliest": "Y1S2W18",
+    "week": 16,
+    "earliest": "第 16 週週日 21:00",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_96 3-7；AA-B 10-16 01:47（AA_140 §4，企劃線 fd7c2744） B10；BB-B 10-16 02:00",
    "authorized": "D79"
@@ -1435,13 +1436,13 @@
    "priority": "P2",
    "first": {
     "term": "Y1S2",
-    "week": 5,
-    "earliest": "Y1S2W05",
+    "week": 2,
+    "earliest": "SK03 第 2 週起有課的週五；10-3、10-4 W11；SK05 期末考週；P4e 期末成績",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_96 §10；AA-B 10-16 01:47（AA_140 §4，企劃線 fd7c2744） B8；BB-B 10-16 02:00",
    "authorized": "D79"
@@ -1456,13 +1457,13 @@
    "priority": "P1",
    "first": {
     "term": "Y1S2",
-    "week": 1,
-    "earliest": "Y1S2W01",
+    "week": null,
+    "earliest": "2/14 情人節（寒假，大一下開學前）；K5 W2、K7 3/22 W4、K6 W7～8、K6b W9、生日 4/24 W9",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_96 §9；AA-B 10-16 01:47（AA_140 §4，企劃線 fd7c2744） B9",
    "authorized": "D79"
@@ -2023,13 +2024,13 @@
    "priority": "P2",
    "first": {
     "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "week": 1,
+    "earliest": "K3 大二上每週日",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2044,13 +2045,13 @@
    "priority": "P2",
    "first": {
     "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "week": 1,
+    "earliest": "W6 交接（第 1～2 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2065,13 +2066,13 @@
    "priority": "P2",
    "first": {
     "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "week": 6,
+    "earliest": "W7（第 6～9 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2086,13 +2087,13 @@
    "priority": "P2",
    "first": {
     "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "week": 12,
+    "earliest": "W8（第 12 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2107,13 +2108,13 @@
    "priority": "P2",
    "first": {
     "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "week": 13,
+    "earliest": "W9（第 13 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2127,14 +2128,14 @@
    "next": "照 BB_97 實作",
    "priority": "P2",
    "first": {
-    "term": "Y2S1",
+    "term": "Y2S2",
     "week": null,
-    "earliest": "Y2S1",
+    "earliest": "M2（大二寒假）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2148,14 +2149,14 @@
    "next": "照 BB_97 實作",
    "priority": "P2",
    "first": {
-    "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "term": "Y2S2",
+    "week": 1,
+    "earliest": "模擬法庭（第 1～10 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2169,14 +2170,14 @@
    "next": "照 BB_97 實作",
    "priority": "P2",
    "first": {
-    "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "term": "Y2S2",
+    "week": 6,
+    "earliest": "M3 第 6 週、上榜聚餐第 7～8 週",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2190,14 +2191,14 @@
    "next": "照 BB_97 實作",
    "priority": "P2",
    "first": {
-    "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "term": "Y2S2",
+    "week": 15,
+    "earliest": "W10 學姊畢業（第 15 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2212,13 +2213,13 @@
    "priority": "P2",
    "first": {
     "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "week": 3,
+    "earliest": "Q7（第 3 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2232,14 +2233,14 @@
    "next": "照 BB_97 實作",
    "priority": "P2",
    "first": {
-    "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "term": "Y2S2",
+    "week": 13,
+    "earliest": "Q8（第 13 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2253,14 +2254,14 @@
    "next": "照 BB_97 實作",
    "priority": "P2",
    "first": {
-    "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "term": "Y2S2",
+    "week": 14,
+    "earliest": "Q9（第 14 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2275,13 +2276,13 @@
    "priority": "P2",
    "first": {
     "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "week": 5,
+    "earliest": "P3（第 5 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2296,13 +2297,13 @@
    "priority": "P2",
    "first": {
     "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "week": 6,
+    "earliest": "第 6 週",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2316,14 +2317,14 @@
    "next": "照 BB_97 實作",
    "priority": "P2",
    "first": {
-    "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "term": "Y2S2",
+    "week": 1,
+    "earliest": "P4（第 1 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2337,14 +2338,14 @@
    "next": "照 BB_97 實作",
    "priority": "P2",
    "first": {
-    "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "term": "Y2S2",
+    "week": 2,
+    "earliest": "P4b（第 2 週起）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2358,14 +2359,14 @@
    "next": "照 BB_97 實作",
    "priority": "P2",
    "first": {
-    "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "term": "Y2S2",
+    "week": 6,
+    "earliest": "P5（第 6～7 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2380,13 +2381,13 @@
    "priority": "P2",
    "first": {
     "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "week": 14,
+    "earliest": "Z7（第 14 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2400,14 +2401,14 @@
    "next": "照 BB_97 實作",
    "priority": "P2",
    "first": {
-    "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "term": "Y2S2",
+    "week": 12,
+    "earliest": "Z8（第 12 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2421,14 +2422,14 @@
    "next": "照 BB_97 實作",
    "priority": "P2",
    "first": {
-    "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "term": "Y2S2",
+    "week": 17,
+    "earliest": "Z9（第 17～18 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2442,14 +2443,14 @@
    "next": "照 BB_97 實作",
    "priority": "P2",
    "first": {
-    "term": "Y2S1",
+    "term": "Y2S2",
     "week": null,
-    "earliest": "Y2S1",
+    "earliest": "F2（大二暑假）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -2484,14 +2485,14 @@
    "next": "照 BB_97 實作",
    "priority": "P2",
    "first": {
-    "term": "Y2S1",
+    "term": "Y1S2",
     "week": null,
-    "earliest": "Y2S1",
+    "earliest": "9-1 大一暑假開車旅行、BCG-41 七夕（比大二上早）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_97",
    "authorized": "D79"
@@ -3011,12 +3012,12 @@
    "first": {
     "term": "Y3S1",
     "week": null,
-    "earliest": "Y3S1",
+    "earliest": "Z10 起每 3～4 週一張（芷若在英國）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_98",
    "authorized": "D79"
@@ -3031,13 +3032,13 @@
    "priority": "P2",
    "first": {
     "term": "Y3S1",
-    "week": null,
-    "earliest": "Y3S1",
+    "week": 9,
+    "earliest": "感冒週 W9（比志願表 W11 早）；W15c 送機 W18 1/5；US1 1/19",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_98",
    "authorized": "D79"
@@ -3052,13 +3053,13 @@
    "priority": "P2",
    "first": {
     "term": "Y3S1",
-    "week": null,
-    "earliest": "Y3S1",
+    "week": 5,
+    "earliest": "Q8b（第 5 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_98",
    "authorized": "D79"
@@ -3073,13 +3074,13 @@
    "priority": "P2",
    "first": {
     "term": "Y3S1",
-    "week": null,
-    "earliest": "Y3S1",
+    "week": 6,
+    "earliest": "P5b（第 6 週）；M3 第 15 週",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_98",
    "authorized": "D79"
@@ -3094,13 +3095,13 @@
    "priority": "P2",
    "first": {
     "term": "Y3S1",
-    "week": null,
-    "earliest": "Y3S1",
+    "week": 3,
+    "earliest": "可昕 K15（第 3 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_98",
    "authorized": "D79"
@@ -3170,7 +3171,7 @@
   },
   {
    "id": "V4-R-US",
-   "title": "美國路線（3D 宿舍等、時差 −14、香港朋友名字等使用者）",
+   "title": "美國路線（校外公寓社區、美東時差 −13／3/12 起 −12、香港朋友何俊朗）",
    "area": "V4",
    "owner": "LAWWW",
    "status": "待開工",
@@ -3178,13 +3179,13 @@
    "priority": "P2",
    "first": {
     "term": "Y3S2",
-    "week": 1,
-    "earliest": "Y3S2W01",
+    "week": null,
+    "earliest": "US1 1/19（台灣寒假，Y3S2 第 1 週前）",
     "mainline": true,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "交接包_v4、AA_30",
    "authorized": "D79"
@@ -4593,13 +4594,13 @@
    "priority": "P2",
    "first": {
     "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "week": 7,
+    "earliest": "沛珊（大二上第 7 週起）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_119",
    "authorized": "D79"
@@ -4613,14 +4614,14 @@
    "next": "跟著 v3～v5 事件接",
    "priority": "P2",
    "first": {
-    "term": "Y2S1",
+    "term": "Y4S1",
     "week": null,
-    "earliest": "Y2S1",
+    "earliest": "芷若英國（大四寒假）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_119",
    "authorized": "D79"
@@ -4634,14 +4635,14 @@
    "next": "跟著 v3～v5 事件接",
    "priority": "P2",
    "first": {
-    "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "term": "Y3S2",
+    "week": 16,
+    "earliest": "子晴學士帽（大三下第 16 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_119",
    "authorized": "D79"
@@ -4655,14 +4656,14 @@
    "next": "跟著 v3～v5 事件接",
    "priority": "P2",
    "first": {
-    "term": "Y2S1",
+    "term": "Y3S1",
     "week": null,
-    "earliest": "Y2S1",
+    "earliest": "裂縫（大三起）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_119",
    "authorized": "D79"
@@ -4676,14 +4677,14 @@
    "next": "跟著 v3～v5 事件接",
    "priority": "P2",
    "first": {
-    "term": "Y2S1",
+    "term": "Y3S2",
     "week": null,
-    "earliest": "Y2S1",
+    "earliest": "晚一點的窗口（大三下起）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_119",
    "authorized": "D79"
@@ -4698,13 +4699,13 @@
    "priority": "P2",
    "first": {
     "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "week": 7,
+    "earliest": "通則，跟著各段",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_119",
    "authorized": "D79"
@@ -4719,13 +4720,13 @@
    "priority": "P2",
    "first": {
     "term": "Y2S1",
-    "week": null,
-    "earliest": "Y2S1",
+    "week": 7,
+    "earliest": "通則，跟著各段",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "BB_119",
    "authorized": "D79"
@@ -5999,14 +6000,14 @@
    "next": "學姊伴侶期間改條件式（BB_122 4-2）；分手照 BB_122 C1～C4 檢查點（V4-G34）",
    "priority": "P2",
    "first": {
-    "term": "Y1S1",
-    "week": null,
-    "earliest": "Y1S1",
+    "term": "Y2S2",
+    "week": 8,
+    "earliest": "學姊戀愛線 C1（大二下第 8 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "交接包_1014決策",
    "authorized": "D79"
@@ -6395,22 +6396,23 @@
    "area": "SCN",
    "owner": "LAWWW2",
    "status": "進行中",
-   "next": "配置以 LAWWW2-B 的 src/data/us_apartment_layout.js（2b79dfc）為準；LAWWW-B 寫可以走的區域（並行）；LAWWW2-B Blender",
+   "next": "配置以 LAWWW2-B us_apartment_layout.js v2（e30bf43f：戶外樓梯平台 breezeway、獨立廚房＋窗口吧台、8 房、yaw 照 atan2(dx,dz)）為準；學姊 C 棟合租戶另一份配置；會所自習室、校園一段、超市",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
-    "week": 4,
-    "earliest": "Y3S2W04",
+    "week": null,
+    "earliest": "US1 1/19 搬進公寓",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "使用者 10-16 經 LAWWW2-B 轉達；AA-B 8f9408eb；BB_98 4517c707",
    "authorized": "D79",
    "sha": [
-    "2b79dfc3"
+    "2b79dfc3",
+    "e30bf43f"
    ]
   },
   {
@@ -6423,13 +6425,13 @@
    "priority": "P2",
    "first": {
     "term": "Y3S2",
-    "week": 1,
-    "earliest": "Y3S2W01",
+    "week": null,
+    "earliest": "US1 1/19（巴士站→超市→公寓）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
    "authorized": "D79"
@@ -6444,13 +6446,13 @@
    "priority": "P2",
    "first": {
     "term": "Y3S2",
-    "week": 1,
-    "earliest": "Y3S2W01",
+    "week": null,
+    "earliest": "US1 1/19 之後的校園",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
    "authorized": "D79"
@@ -6465,13 +6467,13 @@
    "priority": "P2",
    "first": {
     "term": "Y3S2",
-    "week": 1,
-    "earliest": "Y3S2W01",
+    "week": null,
+    "earliest": "BCG-14 巴士站／US1 1/19",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
    "authorized": "D79"
@@ -6486,13 +6488,13 @@
    "priority": "P2",
    "first": {
     "term": "Y3S2",
-    "week": 4,
-    "earliest": "Y3S2W04",
+    "week": null,
+    "earliest": "BCG-14 巴士站（US1 1/19）；US4 4/1 前後最後一場雪＝BCG-09",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
    "authorized": "D79"
@@ -6507,13 +6509,13 @@
    "priority": "P2",
    "first": {
     "term": "Y3S2",
-    "week": 1,
-    "earliest": "Y3S2W01",
+    "week": null,
+    "earliest": "US1 1/19",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
    "authorized": "D79"
@@ -6524,7 +6526,7 @@
    "area": "SCN",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "時間用美國學期日期（AA_140 G24）：1/5 學姊抵達 US0、1/19 US1（巴士站→超市→搬進公寓）、第 4～5 週 US2（學姊那戶共用廚房，BCG-32）、第 6 週芝加哥、春假 US3、US4 先不做（等 BB-B 改雪與學姊回國）；香港朋友何俊朗（Long）同社區另一棟；交誼區＝社區會所自習室",
+   "next": "美國日期（AA_144 §5、BB_98 4517c707）：US1 1/19（巴士站→超市→搬進公寓）、US2 2 月上旬～中旬（學姊 C 棟合租戶廚房，BCG-32）、芝加哥 2/26～27、US3 3/11～19（BCG-23）、US4 4/1 前後那年最後一場雪（BCG-09，學姊台詞「我留到八月」）、5 月初學期結束；W15c 送機 BCG-31；何俊朗 B 棟；聚會在會所自習室",
    "priority": "P2",
    "first": {
     "term": "Y3S1",
@@ -7598,13 +7600,13 @@
    "priority": "P2",
    "first": {
     "term": "Y1S2",
-    "week": null,
-    "earliest": "Q4（待核對學期）",
+    "week": 8,
+    "earliest": "Q4（第 8～9 週，比賽那個週六）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "AA_140 §3（企劃線 e11d3807） G05",
    "authorized": "D79"
@@ -7681,14 +7683,14 @@
    "next": "和 D14-T14 一起",
    "priority": "P2",
    "first": {
-    "term": "Y3S1",
-    "week": null,
-    "earliest": "學姊交往中",
+    "term": "Y2S2",
+    "week": 8,
+    "earliest": "學姊伴侶期最早的檢查點 C1（大二下第 8 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "AA_140 §3（企劃線 e11d3807） G34",
    "authorized": "D79"
@@ -7725,7 +7727,7 @@
    "first": {
     "term": "Y1S2",
     "week": null,
-    "earliest": "SK03／10-3（大一下）",
+    "earliest": "P4d（阿勳、品妤第一次露面，大一下）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
@@ -7829,13 +7831,13 @@
    "priority": "P3",
    "first": {
     "term": "Y1S1",
-    "week": 7,
-    "earliest": "K1b",
+    "week": 3,
+    "earliest": "K1（第 3 週）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    },
    "source": "LAWWW2-B 清查 e3d6779",
    "authorized": "D79"
@@ -8060,8 +8062,8 @@
    "priority": "P2",
    "first": {
     "term": "Y1S1",
-    "week": 7,
-    "earliest": "K1",
+    "week": 3,
+    "earliest": "K1（第 3 週週五約、週六去；沒答應第 4 週再約）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
@@ -8098,7 +8100,7 @@
    "area": "V4",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "照 AA_144；SYS-12 大五上日曆",
+   "next": "照 AA_144 §1～§3（X1～X8、大五上 SYS-12、以安研究所 2030-02-16、國考 8 月一次考完）；被當延畢等使用者",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -8133,6 +8135,27 @@
    },
    "source": "使用者 10-16 測試效率指示",
    "authorized": "D83"
+  },
+  {
+   "id": "ART-18",
+   "title": "S.BG 新增 AA_145 的 2D 背景 id（v0 11 個、法律系 3 個、大三 5 個）＋場景對應",
+   "area": "ART",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "outings3d.js S.BG 加 id（沒有圖＝深色底＋字幕，字幕照 AA_145）；E17、E19／E28、E24c、E29、E30、主線 7、classroom_small 的對應跟著各事件做",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "v0 事件（soc_hall 等）；法律系 classroom_small 在可昕線",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_145（AA-B 10-16 02:31）",
+   "authorized": "D79"
   }
  ]
 }

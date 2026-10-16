@@ -3,9 +3,9 @@
  "note": "交付登記（D82）：每一筆交付都要對到 tasks.json 的任務；msg＝SENT／DELIVERED／ACK／ACTIONED（接收方有沒有回 ACK）；integration＝未整合／已整合待測試／已驗收／不整合／參考用。scannedThrough＝每條交付分支已經看過的最後一個 commit：check_handoff.py 只掃它以後的 commit（增量）。看過、不是交付的 commit 放 ignored。",
  "pattern": "交付|ART_APPROVED|READY_FOR_ART_REVIEW|MODEL_READY|組.{0,12}通過|閒聊階梯|交接包|法律審查|盤點|清查|裁定|規則檔",
  "scannedThrough": {
-  "origin/claude/funny-albattani-iawshm": "2b79dfc3",
-  "origin/claude/cool-heisenberg-o8kuqx": "56d5f1ec",
-  "origin/claude/elegant-brown-fcos7n": "4517c707"
+  "origin/claude/funny-albattani-iawshm": "3cc72780",
+  "origin/claude/cool-heisenberg-o8kuqx": "453e093d",
+  "origin/claude/elegant-brown-fcos7n": "ad98f813"
  },
  "deliveries": [
   {
@@ -499,6 +499,114 @@
    "msg": "DELIVERED",
    "integration": "參考用",
    "note": ""
+  },
+  {
+   "id": "DLV-1016-42",
+   "date": "2026-10-16T02:31Z",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "f9feaa72",
+   "what": "AA_144（延畢 X1～X8、以安研究所、國考新制、國外路線 §5、首次出現 §6）、AA_145（2D 底圖用途與新 id）",
+   "task": "V4-X18、ART-18、SCN-US-EV",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-43",
+   "date": "2026-10-16T02:30Z",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "（訊息）",
+   "what": "tasks.json 首次出現時間核對（BB 人物）",
+   "task": "V2-B9、V3-B01、V4-B02、V6-B1",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "已套用到 tasks.json first（confirmed）"
+  },
+  {
+   "id": "DLV-1016-44",
+   "date": "2026-10-16T02:33Z",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "e30bf43f",
+   "what": "美國公寓配置 v2（照使用者照片：戶外平台、獨立廚房、8 房、方向更正）",
+   "task": "SCN-US-01",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "以 v2 為準"
+  },
+  {
+   "id": "DLV-1016-45",
+   "date": "2026-10-16T02:34Z",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "453e093d／1d7ea581",
+   "what": "BB_98 美國篇轉達：住處、US1 搬進公寓、US4 4/1 最後一場雪（BCG-09）、學姊留到八月、大三 CG 全表",
+   "task": "SCN-US-EV、SCN-US-CG",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-46",
+   "date": "2026-10-16T02:3xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "346ee228",
+   "what": "BB_00 加接班先讀區塊；BB_119 重新開始的規則（抓包退回朋友一定可以重建）",
+   "task": "SYS-16、V6-CATCH",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "AA_140 裁定（從企劃線看到）"
+  },
+  {
+   "id": "DLV-1016-47",
+   "date": "2026-10-16T02:3xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "ebf636ad",
+   "what": "G03 法服單週週六（BB_95 阿嬤兩週後週六、4-3「下週六」）；BB_97 沛珊 P4 交出題目整理",
+   "task": "V1-F、V3-B15",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "AA_140 裁定（從企劃線看到）"
+  },
+  {
+   "id": "DLV-1016-48",
+   "date": "2026-10-16T02:3xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "11023215",
+   "what": "G01 BB_124 可昕生日 4/24；G02 芷若 9/28（2027、2028 在英國）、學姊 6/2（2028 在美國）手機版",
+   "task": "V2-G01、D14-T11",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "AA_140 裁定（從企劃線看到）"
+  },
+  {
+   "id": "DLV-1016-49",
+   "date": "2026-10-16T02:3xZ",
+   "from": "AA-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "4ab575c7",
+   "what": "G05 子晴 Q4 錯過延到下一個週六（新台詞）；G12 明軒 M2 以 BB_40 為準、排進大二下",
+   "task": "V2-G05、V3-B06",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "AA_140 裁定（從企劃線看到）"
+  },
+  {
+   "id": "DLV-1016-50",
+   "date": "2026-10-16T02:3xZ",
+   "from": "AA-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "ef96df49",
+   "what": "H 可昕大二～大四的政大地點字幕對照",
+   "task": "SCN-KX-01",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "AA_140 裁定（從企劃線看到）"
   }
  ],
  "ignored": [
