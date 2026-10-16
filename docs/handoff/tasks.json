@@ -510,7 +510,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "待開工",
-   "next": "BB-B 03:44 接了：先看 VISUAL_REVIEW 第 32 節做第一輪；最後要 LAWWW2-B 拍遊戲內截圖每人 5 張（正面全身待機、斜前 45° 全身、頭肩特寫正面、走路側面、坐下；白天、?blchar、背景單純、旁邊並排 BB_131 參考圖）；可昕要確認是不是照 art_reference/kexin.webp 做的",
+   "next": "BB-B 第一輪寫進 BB_131 第 6 節（abac60ac）；等 LAWWW2-B 的遊戲內截圖（每人 5 張）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -705,7 +705,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "進行中",
-   "next": "LAWWW2-B 在做：bg_home.py living／balcony 腳本完成，算正式圖、交付",
+   "next": "注意重複：BB-B 第 25 組 home_living（除夕）已通過（c57e39ad），第 26 組 home_balcony 的提示詞已給使用者——LAWWW-B 04:1x 協調中（除夕版用 BB-B 通過的；平常版、白天版、陽台由 LAWWW2-B 交，BB-B 第 26 組陽台先停）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -765,7 +765,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
-   "next": "BB-B／使用者",
+   "next": "BB-B／使用者；去背 v1 BB-B 驗收（3aeef829）：身體 22/24、頭像 23/28 通過，要修沛珊 H1/H3 與四張頭像、學姊 thinking、以安 H1 的 h 改 963",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -1370,8 +1370,8 @@
    "title": "語 1：吉他社入口沒接、BREAKFAST_YU 沒人讀",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
-   "next": "等 AA-REQ-01（D86：已交 AA）",
+   "status": "待開工",
+   "next": "照 AA_156（企劃線 7b198ed6）實作",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -1521,7 +1521,7 @@
    "area": "V2",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "照 BB_135（BB-B d49c7606）定稿台詞實作：SK03 平常的週五（輪替句、第一次午餐、芯慈走進小福 1-3、沒去 1-4）、SK05 大一版、P4e",
+   "next": "照 BB_135（BB-B d49c7606）定稿台詞實作：SK03 平常的週五（輪替句、第一次午餐、芯慈走進小福 1-3、沒去 1-4）、SK05 大一版、P4e；阿勳、品妤作息照 AA_155（325aa8fc）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -8441,7 +8441,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "待開工",
-   "next": "子晴、以安的正面全身圖 BB-B 第 23 組通過（e69036b8，date_system/art/heroine_0{4,1}_portrait_full.webp）→ LAWWW2-B 切底圖＋疊九格；語彤等第 24 組",
+   "next": "子晴、以安的正面全身圖 BB-B 第 23 組通過（e69036b8，date_system/art/heroine_0{4,1}_portrait_full.webp）→ LAWWW2-B 切底圖＋疊九格；語彤等第 24 組；語彤正面全身第 24 組通過（3c983b8b）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -8622,7 +8622,7 @@
    "area": "V4",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "照 AA_12 主線 7 實作；背景 gongguan_hotpot 等 ART-18／LAWWW2-B",
+   "next": "照 AA_12 主線 7 實作；背景 gongguan_hotpot 等 ART-18／LAWWW2-B；gongguan_hotpot 第 24 組通過（BB-B 3c983b8b）",
    "priority": "P3",
    "first": {
     "term": "Y3S1",
@@ -9242,7 +9242,7 @@
    "source": "AA_140 G47（AA-B 03:26，企劃線 1bc752e4）",
    "authorized": "D79 第 7 點",
    "evidence": "tests/v1_batch2_unit.js G47 三項＋原本 G 段改成雙週版（第 1 級）",
-   "sha": "（本批）"
+   "sha": "ff6515c0"
   },
   {
    "id": "V1-G48",
@@ -9265,7 +9265,7 @@
    "source": "AA_140 G48（AA-B 03:26，企劃線 1bc752e4）",
    "authorized": "D79 第 7 點",
    "evidence": "tests/home_unit.js 12～15（修改前 12、13 失敗、14 例外）",
-   "sha": "（本批）"
+   "sha": "f7280564"
   },
   {
    "id": "V1-G49",
@@ -9288,14 +9288,14 @@
    "source": "AA_140 G49（AA-B 03:26，企劃線 1bc752e4）",
    "authorized": "D79 第 7 點",
    "evidence": "tests/v2_c20_unit.js G49 兩項、home_unit G49、bike_unit 14 三項、invite_people_unit G49 兩項",
-   "sha": "（本批）"
+   "sha": "f7280564"
   },
   {
    "id": "AA-REQ-01",
    "title": "LAWWW → AA 的劇情需求：吉他社入口（語 1）怎麼接、BREAKFAST_YU 誰讀（V1-A10 卡住）",
    "area": "AA",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已驗收",
    "next": "AA 判斷自己做或分派 BB（D86）；交付後 LAWWW 接線",
    "priority": "P2",
    "first": {
@@ -9315,15 +9315,16 @@
     "branch": "claude/cool-heisenberg-o8kuqx",
     "spec": "V1-A10；交接包 v1 語 1",
     "acceptance": "可以直接實作的觸發條件、地點、台詞來源（現有企劃的出處或 BB 補的定稿）",
-    "ack": "DELIVERED"
-   }
+    "ack": "ACTIONED"
+   },
+   "evidence": "AA-B 交 AA_156（企劃線 7b198ed6）：坐下來吃＝YU_CLUB_INVITE＋社團筆記、小語吉他社作息、第一次社課"
   },
   {
    "id": "AA-REQ-02",
    "title": "LAWWW → AA 的劇情需求：阿勳、品妤的作息（V2-CHR）：大一下 10-3 第 11 週週四 20:50 後在共同教學館自習區；SK05 期末考週 23:00 社科院四樓窗邊；P4d、SK03 週五普通教學館",
    "area": "AA",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已驗收",
    "next": "AA 判斷自己做或分派 BB（D86）；交付後 LAWWW 接線",
    "priority": "P1",
    "first": {
@@ -9343,8 +9344,9 @@
     "branch": "claude/cool-heisenberg-o8kuqx",
     "spec": "BB_96 第 10 節、BB_135、AA_115",
     "acceptance": "characters.js 能用的作息表（星期、時間、地點）；或確認只在事件時出現",
-    "ack": "DELIVERED"
-   }
+    "ack": "ACTIONED"
+   },
+   "evidence": "AA-B 交 AA_155（企劃線 325aa8fc）：Y1S2 作息（週五普通走廊、週四共同自習區、期末考週 away）"
   },
   {
    "id": "AA-REQ-03",
@@ -9522,7 +9524,7 @@
    "area": "SYS",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "ACK：AA-B 03:41／03:43 收到（最新版照做）；BB-B 03:44 收到；LAWWW2-B 03:45 轉來同一份、說正式通知到了回 ACK（03:47 已送，等回覆）",
+   "next": "ACK：AA-B D86 收到（03:41／03:43），D87、D88 待回；BB-B D85～D87 收到（04:01），D88 待回；LAWWW2-B 04:01 主動轉來 D88 並開始做，正式派工（04:03、04:0x）待回",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -9584,8 +9586,8 @@
    "title": "BB_105 只有表格一列的 15 件（日文班 G2～G4c、博雅 B6～B13、女舍 D4c～D8）：AA_153 規格骨架已交，台詞等 BB-B",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
-   "next": "照 D81 排在該學期；BB-B 台詞交了再做",
+   "status": "待開工",
+   "next": "台詞已交 BB_137（BB-B 5fd33acb），照 AA_153＋BB_137 做，排在該學期",
    "priority": "P3",
    "first": {
     "term": "Y2S1",

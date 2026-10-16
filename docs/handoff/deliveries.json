@@ -3,9 +3,9 @@
  "note": "交付登記（D82）：每一筆交付都要對到 tasks.json 的任務；msg＝SENT／DELIVERED／ACK／ACTIONED（接收方有沒有回 ACK）；integration＝未整合／已整合待測試／已驗收／不整合／參考用。scannedThrough＝每條交付分支已經看過的最後一個 commit：check_handoff.py 只掃它以後的 commit（增量）。看過、不是交付的 commit 放 ignored。　**scannedThrough 只在 check 跑完、列出的 commit 都登記或放進 ignored 之後才往前移**（2026-10-16：先移再跑會什麼都掃不到）。",
  "pattern": "交付|ART_APPROVED|READY_FOR_ART_REVIEW|MODEL_READY|通過|驗收|閒聊階梯|交接包|法律審查|盤點|清查|裁定|規則檔|AA_1\\d\\d|BB_1\\d\\d",
  "scannedThrough": {
-  "origin/claude/funny-albattani-iawshm": "20adecf4",
-  "origin/claude/cool-heisenberg-o8kuqx": "c2406865",
-  "origin/claude/elegant-brown-fcos7n": "3992440c"
+  "origin/claude/funny-albattani-iawshm": "16339d8e",
+  "origin/claude/cool-heisenberg-o8kuqx": "7b198ed6",
+  "origin/claude/elegant-brown-fcos7n": "19b192f8"
  },
  "deliveries": [
   {
@@ -1195,6 +1195,114 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "LAWWW2-B 疊九格表情後交 LAWWW"
+  },
+  {
+   "id": "DLV-1016-100",
+   "date": "2026-10-16T04:1xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "cb745409",
+   "what": "AA_154 v0 時間線開發與驗收規格（G40）",
+   "task": "V0-A1、V0-G40、V0-B1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v0 開工直接用；PLAYED_Y0 旗標名由 LAWWW 定"
+  },
+  {
+   "id": "DLV-1016-101",
+   "date": "2026-10-16T04:1xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "325aa8fc",
+   "what": "AA_155 阿勳、品妤的作息（AA-REQ-02）",
+   "task": "V2-B10、V2-CHR",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "V2-B10 一起做"
+  },
+  {
+   "id": "DLV-1016-102",
+   "date": "2026-10-16T04:1xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "7b198ed6",
+   "what": "AA_156 語 1 吉他社入口與 BREAKFAST_YU（AA-REQ-01）",
+   "task": "V1-A10",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-103",
+   "date": "2026-10-16T04:1xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "5fd33acb",
+   "what": "BB_137 AA_153 十五件的台詞（AB-05）",
+   "task": "V3-B105",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-104",
+   "date": "2026-10-16T04:1xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "3c983b8b",
+   "what": "第 24 組：語彤正面全身（D59）、gongguan_hotpot 通過",
+   "task": "ART-19、V4-G26",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "語彤交 LAWWW2-B 疊九格"
+  },
+  {
+   "id": "DLV-1016-105",
+   "date": "2026-10-16T04:1xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "3aeef829",
+   "what": "約會人物去背 v1 驗收（D59）：要修 8 張",
+   "task": "ART-14",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW2-B 修"
+  },
+  {
+   "id": "DLV-1016-106",
+   "date": "2026-10-16T04:1xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "c57e39ad",
+   "what": "第 25 組：newyear_crowd、home_living（除夕）通過；第 26 組 home_balcony、home_room 提示詞",
+   "task": "ART-12、ART-18",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "和 LAWWW2-B 的 ART-12 重複，協調中"
+  },
+  {
+   "id": "DLV-1016-107",
+   "date": "2026-10-16T04:1xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "abac60ac",
+   "what": "ART-05 第一輪（BB_131 第 6 節）",
+   "task": "ART-05",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "等遊戲內截圖"
+  },
+  {
+   "id": "DLV-1016-108",
+   "date": "2026-10-16T04:1xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "fa4ce043",
+   "what": "大二上閒聊階梯 BB 五位（BB_136、ladder_bb_y2s1）",
+   "task": "V3-L1",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "重跑 import_ladder 就進來（v3）"
   }
  ],
  "ignored": [
@@ -1222,6 +1330,16 @@
    "sha": "fd49dd13",
    "branch": "origin/claude/elegant-brown-fcos7n",
    "why": "BB-B 自己的 WIP checkpoint（大二上 BB 五位閒聊階梯，說明文件還沒寫）；交付時再登記（V3-L1）"
+  },
+  {
+   "sha": "16339d8e",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "why": "LAWWW2-B 的 WIP（nccu_campus 夜晚）；交付時再登記（ART-11）"
+  },
+  {
+   "sha": "19b192f8",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 自己的進度紀錄"
   }
  ]
 }
