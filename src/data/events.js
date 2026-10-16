@@ -590,18 +590,24 @@ const STORY_EVENTS=[
   /* 經濟系的朋友（BB_96 10-2、BB_135 第 1 節，BB-B 2026-10-16 定稿）——SK03 週五的小福午餐：P4d 之後每個有課的週五，重修經原（下）下課，阿勳一句「小福。走不走？」，玩家選「一起去」／「今天不行」（不扣分，下週照問）。
      去了：第一次＝1-1；去過兩次以上的下一次＝1-3 芯慈走進小福（照 ECON_PAST_SHARED，記 ECON_LAW_BRIDGE）；其他＝1-2（一句旁白＋一句輪替，芯慈加入前／加入後兩組，不連續重複）；之後快轉到 13:00「午休結束。」。
      習慣記憶 meal:xiaofu:fri 每次 +1（after）。BB_135 的舞台說明改旁白。
-     待 AA-B（2026-10-16 04:2x 問）：1-3 和 10-4 撞在同一個週五的先後（現在先 1-3）、午餐後人在哪裡（現在留在原地）。10-4 還債等 10-3（V2-C13）的 xun_study 做好一起接 */
+     AA-B 2026-10-16 裁定：同一個週五的先後＝10-4 還債 ＞ 1-1 第一次 ＞ 1-3 芯慈 ＞ 1-2 平常（還債那天也是第一次去＝先 1-1，再接 10-4 三句；芯慈那一句只在 1-3 之後才有）；午餐後人留在原地。
+     10-4 小福的還債（BB_96 10-4）：10-3 選「一起讀到閉館」（XUN_NIGHT）的玩家，第 11 週週五下課走廊阿勳先說「昨天那題我想通了。」；那天去了午餐＝還債；沒去＝「走啦」群組一張便當照片「欠你的，下週。」（story3d.js phoneRules），
+     下一個去的週五照樣推過來（只發生一次，XUN_REPAID）*/
   { id:'ev_sk03_lunch', title:'週五的小福', participants:[], location:'any', trigger:'class', afterClass:'econ_principles_2', term:['Y1S2'], weekday:[5], background:'blur',
     prereq:{custom:G=>!!G.flags.P4D_ANSWER&&G.flags.ECON_HALLWAY_DAY!=null&&G.day>G.flags.ECON_HALLWAY_DAY&&G.flags.SK03_ASKED!==G.day},
-    dialogue:[ {speaker:'阿勳',text:'小福。走不走？'},
+    dialogue:[ {if:{custom:G=>!!G.flags.XUN_NIGHT&&G.flags.XUN_DAY!=null&&G.day===G.flags.XUN_DAY+1},speaker:'阿勳',text:'昨天那題我想通了。'},   /* 10-4 走廊（第 11 週週五＝10-3 的隔天）*/
+      {speaker:'阿勳',text:'小福。走不走？'},
       {choice:[{text:'「一起去」',consequences:{stamp:['SK03_LAST']},goto:'go'},{text:'「今天不行」',goto:'end'}]},
       {label:'go'},{scene:'小福',bg:'xiaofu'},
+      {if:{custom:G=>!!G.flags.XUN_NIGHT&&!G.flags.XUN_REPAID},unless:{flags:['SK03_FIRST']},goto:'first'},{if:{custom:G=>!!G.flags.XUN_NIGHT&&!G.flags.XUN_REPAID},goto:'repay'},
       {unless:{flags:['SK03_FIRST']},goto:'first'},
       {if:{custom:G=>!G.flags.ECON_LAW_BRIDGE&&typeof EVENTS!=='undefined'&&EVENTS.habitCount({key:'meal:xiaofu:fri'})>=2},goto:'xinci'},
       {goto:'usual'},
       {label:'first'},{speaker:null,text:'週五的小福。阿勳占了靠窗的四人桌，品妤已經在吃了。'},
       {speaker:'品妤',text:'重修生？你看起來很有覺悟。'},{speaker:'阿勳',text:'他去年也很有覺悟。只是方向不一樣。'},{speaker:'品妤',text:'……經濟系的冷笑話，還是你最多。'},
-      {set:{SK03_FIRST:true}},{goto:'end'},
+      {set:{SK03_FIRST:true}},{if:{custom:G=>!!G.flags.XUN_NIGHT&&!G.flags.XUN_REPAID},goto:'repay'},{goto:'end'},
+      {label:'repay'},{speaker:'阿勳',text:'（把一個便當推過來）昨天那題的。還債。'},{speaker:'品妤',text:'他從來沒請過我。'},{speaker:'阿勳',text:'妳又沒教過我統計。'},
+      {if:{flags:['ECON_LAW_BRIDGE']},speaker:'classmate_xinci',text:'……經濟系的人也會還債。'},{set:{XUN_REPAID:true}},{goto:'end'},
       {label:'xinci'},{speaker:null,text:'芯慈端著餐盤走進來，看見阿勳，停住了。'},
       {speaker:'classmate_xinci',text:'……你。統計課冷笑話很多的那個人。'},{speaker:'阿勳',text:'我。統計課唯一會笑的那個人。'},{speaker:'classmate_xinci',text:'（看向你）你們認識？'},
       {choice:[{text:'「他是我以前的室友。」',if:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'x1'},{text:'「我們一起住過一年。」',unless:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'x2'},{text:'（笑一笑帶過）',unless:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'x3'}]},
@@ -622,6 +628,26 @@ const STORY_EVENTS=[
       {label:'end'} ],
     after:(G,GM)=>{ G.flags.SK03_ASKED=G.day; if(G.flags.SK03_LAST!==G.day) return; if(typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('meal:xiaofu:fri'); G.flags.SK03_N=(G.flags.SK03_N|0)+1;
       const h=G.hour%24; if(h<13&&GM.advance) GM.advance(13-h); if(GM.caption) GM.caption('','午休結束。',2400); } },
+  /* SK03 1-4 沒去時（BB_135 1-4；AA-B 2026-10-16：第 8 週週五重修經原（下）期中考前、在重修教室，舞台說明「（考卷還沒發。）」）：沒有 ECON_LAW_BRIDGE 的玩家，芯慈說阿勳認識你。
+     第 8 週沒去重修就延到下一個有去的週五（第 9、11 週…；不是考試的那幾週沒有「考卷還沒發。」）；整學期都沒去就沒有（ECON_LAW_BRIDGE 留到大二 SK09）。記 ECON_LAW_BRIDGE：之後的週五午餐芯慈已經在桌上 */
+  { id:'ev_sk03_xinci_class', title:'統計課那個人', participants:['classmate_xinci'], location:'any', trigger:'class', beforeClass:'econ_principles_2', term:['Y1S2'], weekday:[5], once:true, background:'blur',
+    prereq:{custom:G=>{ if(!G.flags.P4D_ANSWER||G.flags.ECON_LAW_BRIDGE||typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); return !!t&&t.week>=8; }},
+    dialogue:[ {if:{custom:G=>typeof CALENDAR!=='undefined'&&(CALENDAR.termOf(G.day)||{}).week===8},speaker:null,text:'考卷還沒發。'},
+      {speaker:'classmate_xinci',text:'我們統計課那個人說他認識你。'},{speaker:'classmate_xinci',text:'盧正勳。他說你以前每天講一個冷笑話。'},
+      {if:{flagIs:{ECON_PAST_SHARED:'full'}},speaker:'classmate_xinci',text:'……原來是你室友。'},{unless:{flagIs:{ECON_PAST_SHARED:'full'}},speaker:'classmate_xinci',text:'你沒說過。……沒關係，不用說。'},
+      {speaker:'classmate_xinci',text:'下次週五，帶我去小福。'},{set:{ECON_LAW_BRIDGE:true}} ] },
+  /* V2-C13 可玩切片：共同教學館的阿勳（BB_96 10-3、AA_115 選擇④）：大一下第 11 週週四 20:48 以後，阿勳在共同教學館二樓自習區讀統計（AA_155 作息，沒見過也在）；走到他旁邊（npcNear）才開始。
+     還沒在法律系時期見過他的玩家（沒有 MET_XUN）先說 10-1 那句。三個選項記 AA_115 的 xun_study:night／xun_met:Y1S2／xun_study:pact＝XUN_NIGHT／XUN_MET_Y1S2／XUN_PACT（XUN_DAY＝這一天）。
+     一起讀到閉館：之後時間到 23:00（after）。之後：xun_met＝「走啦」群組一句（AA_157）；pact＝阿勳私訊行程表；night＝隔天週五走廊、小福還債（10-4，ev_sk03_lunch）。不在場的人（沛珊、以安）不知道：不寫進她們的記憶 */
+  { id:'ev_xun_gongtong', title:'共同教學館的阿勳', participants:[], location:'gongtong', trigger:'auto', npcNear:'econ_zhengxun', time:[20.8,23], term:['Y1S2'], weeks:[11], weekday:[4], once:true, background:'blur',
+    dialogue:[ {unless:{flags:['MET_XUN']},speaker:'阿勳',text:'盧正勳。你經濟系那年的室友。……你該不會連我都忘了。'},
+      {speaker:'阿勳',text:'（抬頭）法律系的也來共同讀書？你們不是有自己的館？'},{speaker:'阿勳',text:'統計。這題的信賴區間我算了三次，三次答案都不一樣。'},
+      {choice:[{text:'一起讀到閉館',set:{XUN_NIGHT:true},goto:'n'},{text:'聊兩句就走',set:{XUN_MET_Y1S2:true},goto:'m'},{text:'「期末考一起讀？」',set:{XUN_PACT:true},goto:'p'}]},
+      {label:'n'},{speaker:null,text:'23:00 閉館的音樂響起。'},{speaker:'阿勳',text:'你一頁都沒讀到你自己的。'},{speaker:'阿勳',text:'……謝了。'},{goto:'end'},
+      {label:'m'},{speaker:'阿勳',text:'好。法律系的去忙。'},{goto:'end'},
+      {label:'p'},{speaker:'阿勳',text:'你們期末也是那兩週吧？……好，我把行程傳給你。'},
+      {label:'end'},{set:{MET_XUN:true}} ],
+    after:(G,GM)=>{ G.flags.XUN_DAY=G.day; if(G.flags.XUN_NIGHT){ const hh=G.hour%24; if(hh<23&&GM.advance) GM.advance(23-hh); } } },
   /* 可玩切片（交接包 v2 C13；AA_115 第 1、2 節、BB_105 4-5）——B4 博雅午後講座「政府可以為了大家，限制一個人嗎？」：第 11 週週四 19:00～20:30 博雅 101（activities.js 的 B4）。
      以安揪人（週二在麵店團群組，story3d.js phoneRules）；以安、小語、阿哲照作息在 101（characters.js），散場後以安、小語去博雅的圓桌。
      去不去看玩家週四有沒有走進博雅 101：坐下選「聽演講」＝這一段（之後快轉到 20:30）；坐著待到結束也算聽完（沒有這一段）；結束前走出 101＝中途離開（沒有這一段，之後以安說一句）。
@@ -1392,7 +1418,7 @@ const STORY_EVENTS_V11=[
   { id:'ev_zhiruo_applied', off:true, title:'她交件了', participants:['heroine_02'], location:['cafe','campus'], trigger:'interact', priority:9, once:true, day_min:6, prereq:{memory:[{npc:'heroine_02',tag:'SHARED_SECRET'}],events:['ev_zhiruo_secret']}, background:'blur',
     dialogue:[ {speaker:'heroine_02',expression:'serious',text:'我交了。交換申請。昨天晚上十一點五十九分。'},{speaker:'heroine_02',expression:'embarrassed',text:'交完手在抖。跟我媽還沒說。'},{choice:[{text:'「恭喜。錄取再煩惱。」',consequences:{rel:{heroine_02:{trust:5,resp:3}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請，你說恭喜'}]}},{text:'「什麼時候跟家裡說？」',consequences:{rel:{heroine_02:{trust:4,comf:2}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請，你問家裡'}]},goto:'fam'}]},{goto:'end'},{label:'fam'},{speaker:'heroine_02',expression:'thinking',text:'錄取通知來的那天。如果沒錄取，就永遠不用說。……很懦弱吧。'},{speaker:'player',text:'不會。'},{label:'end'},{speaker:'heroine_02',expression:'smile',text:'謝謝。今天的咖啡我請。'} ] },
   // ── 語彤 arc ──
-  { id:'ev_yutong_customer', title:'麵店的糾紛', participants:['heroine_03'], location:'noodle', trigger:'interact', priority:9, once:true, minWeek:{term:'Y1S1',week:15}, term:['Y1S1','Y1S2'],   /* 只在大一（大一上第 15 週～大一下第 18 週；AA_140 G47 AA-B 裁定：沒觸發就不演，大二的事件 7 不依賴它）*/   /* 交接包 v1 A6 的週次：第 15 週起（v1 稽核：原本沒有下限）*/ prereq:{memory:[{npc:'heroine_03',tag:'SHARED_MEAL'}]}, background:'blur',
+  { id:'ev_yutong_customer', title:'麵店的糾紛', participants:['heroine_03'], location:'noodle', trigger:'interact', priority:9, once:true, minWeek:{term:'Y1S1',week:15}, term:['Y1S1','Y1S2'],   /* 只在大一（大一上第 15 週～大一下第 18 週；AA_140 G47 AA-B 裁定：沒觸發就不演，大二的事件 7 不依賴它）*/   /* 交接包 v1 A6 的週次：第 15 週起（v1 稽核：原本沒有下限）*/ prereq:{memory:[{npc:'heroine_03',tag:'SHARED_MEAL'}],custom:G=>{ if(typeof STORY==='undefined'||!STORY.fafuSat) return true; const f=STORY.fafuSat(G.day); return !!f&&f.wk<=1; }}, background:'blur',   /* AA-B 2026-10-16（G47 邊界）：下一個法服值班的週六在這週或下週才演；更遠（例如期中考週、寒假前）就先等，等到值班週六進到兩週內 */
     /* 語彤事件 3 改寫版（AA_11 事件 3；交接包 v1 第 1 節，2026-10-14）：大一的祐廷誠實地「不知道」。不出任何法律題目、不給錄音證據的法律結論。
        選「我知道誰會知道」：祐廷第一次私訊學姊（yutongAskSisDay），學姊當晚 22:30 回（BB_95 4-3），截圖轉給語彤：「……法服是什麼？」（大二她加入法服的伏筆；story3d.js 的 phoneRules）。
        裝懂：她記得（BLUFFED；大二在法服第一次看到玩家時會問「這次你會說不知道嗎？」）。結果三種都一樣：阿姨週三去了法服（ev_yutong_customer_after）*/

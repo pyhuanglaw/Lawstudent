@@ -223,7 +223,8 @@ async def main():
             q0 = await L.state(pg)
             if q0['dlg'] or q0['choices'] or q0['busy']:   # 前一段的對話還開著：先像玩家一樣說完（選「就這樣」）
                 await dialog_through(pg, cdp, run)
-            run.check('E 開手機之前沒有開著的對話', not any((await L.state(pg))[k] for k in ('dlg', 'choices')), json.dumps(await L.state(pg), ensure_ascii=False)[:200])
+            q1 = await L.state(pg)
+            run.check('E 開手機之前沒有開著的對話', not any(q1[k] for k in ('dlg', 'choices')), json.dumps(q1, ensure_ascii=False)[:200])
             await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
             await L.tap(pg, cdp, '#phoneTabs button[data-ptab="places"]'); await pg.wait_for_timeout(800)
             sel = '#phoneBody [data-place="library_hall|總圖書館（大廳）"]'

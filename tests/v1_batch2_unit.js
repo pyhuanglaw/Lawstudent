@@ -136,7 +136,14 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     const f16=STORY.fafuSat(termDay('Y1S1',16,2)), f8=STORY.fafuSat(termDay('Y1S2',8,2)), f1=STORY.fafuSat(termDay('Y1S2',1,2));
     check('G47 法服值班的週六：第 16 週 → 不是這週；考試週（大一下第 8、9 週）跳過；第 1 週 → 第 3 週',!f16.thisWeek&&CALENDAR.termOf(f8.day).week===11&&CALENDAR.termOf(f1.day).week===3,JSON.stringify([f16,f8&&CALENDAR.termOf(f8.day),f1&&CALENDAR.termOf(f1.day)]));
     fresh(termDay('Y2S1',15,3),20.5,'noodle',{dating_kexin:true}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x');
-    check('G47 事件 3 只在大一：大二上第 15 週不觸發',EVENTS.check(e)===false); }
+    check('G47 事件 3 只在大一：大二上第 15 週不觸發',EVENTS.check(e)===false);
+    /* AA-B G47 邊界：下一個值班週六在這週或下週才演；當天是週六＝從下週算（不會說「這週六」） */
+    const can=(day)=>{ fresh(day,20.5,'noodle',{dating_kexin:true}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x'); return EVENTS.check(e); };
+    const sat15=termDay('Y1S1',15,6), fsat=STORY.fafuSat(sat15), y2w8=termDay('Y1S2',8,2), y2w1=termDay('Y1S2',1,2), f8b=STORY.fafuSat(y2w8), f1b=STORY.fafuSat(y2w1);
+    check('G47 邊界：第 15 週週六晚上 → 值班週六是下週以後（不是今天），不說「這週六」',fsat&&fsat.day>sat15&&!fsat.thisWeek,JSON.stringify(fsat));
+    check('G47 邊界：大一下第 8 週二（期中考週，下一個值班週六在第 11 週）、第 1 週二（第 3 週）不演；第 15 週（這週六值班）演',f8b&&f8b.wk===3&&f1b&&f1b.wk===2&&can(y2w8)===false&&can(y2w1)===false&&can(D15)===true,JSON.stringify({f8b,f1b}));
+    const okDays=[]; for(let d=termDay('Y1S2',1,1);d<=termDay('Y1S2',18,7);d++){ const f=STORY.fafuSat(d); if(can(d)) okDays.push(d); if(can(d)&&!(f&&f.wk<=1)) { okDays.length=0; break; } }
+    check('G47 邊界：大一下會演的每一天，值班週六都在這週或下週',okDays.length>0,String(okDays.length)); }
   /* ---------- H 房間物件 ---------- */
   { fresh(5,20,'dorm',{dating_kexin:true}); picks=[0,1,2,3,4,6]; await STORY._v1.roomItems(GM);   /* 大一同房時多一樣「阿凱的泡麵評鑑表」（BB_120 1-7c，在固定的五樣後面；內容在 bb120_fixed_unit）*/
     const W=['以前翻過。看得到字，看不懂意思。','經濟系那一年的課本。邊角都翻軟了。','重考那段時間的筆記。一半是你的字，一半是她的。','摩天輪的票根。兩個人開始交往的那一天。','河堤邊停著幾台腳踏車。那一群人，那一年。'];
