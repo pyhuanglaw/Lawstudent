@@ -710,6 +710,8 @@ const STORY = (function(){
       if(!PLACES.isOpen('soclib',hr,G.day)&&!S._slOut){ S._slOut=true; (async()=>{ try{ GM.sceneBegin(); await GM.say(null,'館員：「同學，我們閉館了喔。」你收好東西，走出圖書館。'); GM.sceneEnd(); await GM.enter('campus',Object.assign({},SL3.CAMPUS)); GM.toast(PLACES.closedText('soclib',h(G),G.day),6000); } finally { S._slOut=false; } })(); return; } }
     /* 之後的週四：13:20 民法總則的目標，下課以後換成自由活動（v9.5 審查：F.classDone 第二天之後一直是 true，不會再有上課劇情來換目標，導航整晚指著空的 201）*/
     if(G.weekday===4&&F.classDone&&h(G)>=15.2&&G.goal==='13:20 民法總則（霖澤館）') GM.setGoal('下課後自由活動。去圖書館、公館，或找人聊天');
+    /* 阿哲約的麵：過了 18:30 還沒到，目標的字不要停在「18:30」（使用者 2026-10-16 21:5x：19:42 還顯示 18:30，看起來像沒更新）——阿哲在店裡待到 20:30（populate），改成還在等、幾點前要到（BUG-GOALSTALE）*/
+    if(F.zheInvite&&!F.zheNoodleDone&&h(G)>=18.5&&h(G)<20.5&&G.goal==='18:30 公館 阿鳳麵店（阿哲）') GM.setGoal('公館 阿鳳麵店（阿哲）：他還在等，20:30 前到',G.goalDest);
     /* 阿哲約的麵：20:30 以後阿哲就不在麵店了（populate 只在 17:30–20:30 放他），目標不能一直停在「阿鳳麵店」（2026-10-11 使用者：吃完麵目標沒更新、不知道接下來要幹嘛）*/
     if(F.zheInvite&&!F.zheNoodleDone&&h(G)>=20.5&&G.goal&&G.goal.indexOf('阿鳳麵店（阿哲）')>=0&&!(G.zone==='noodle'&&GM.npc.zhe)) GM.setGoal('今晚沒去吃麵。回宿舍休息（睡覺就到明天）');   /* 阿哲還在店裡（20:30 前進來的）就先不換 */
     // 環境事件（每天一次）
