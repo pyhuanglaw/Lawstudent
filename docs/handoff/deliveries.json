@@ -4467,8 +4467,8 @@
    "sha": "4e812ce5",
    "what": "學姊 formal 立繪 neutral／serious／smile（ART-PT-SIS-FORMAL）",
    "task": "ART-PT-SIS-FORMAL",
-   "msg": "ACK",
-   "integration": "未整合",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
    "note": "等 BB-B 驗收（D59）；通過後合入＋W9 outfit:formal",
    "date": "2026-10-16T19:08Z"
   },

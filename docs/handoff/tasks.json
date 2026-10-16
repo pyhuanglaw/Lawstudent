@@ -11615,7 +11615,7 @@
    "title": "學姊 formal 對話立繪（W9 面試西裝外套；大四 M9 口試）：heroine_05/formal/neutral（能的話 serious、smile）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "next": "從 art_reference/heroine05_interview.webp（ART-16，BB 已通過）切正面全身去背 → assets/portraits/heroine_05/formal/neutral.webp；頭像換出 serious、smile（做不到就只有 neutral）；BB-B 照 D59 驗收；LAWWW 在 W9 每一句加 outfit:'formal'",
    "priority": "P2",
    "first": {
@@ -11640,7 +11640,7 @@
    "sha": [
     "4e812ce5"
    ],
-   "note": "2026-10-16 19:08 LAWWW2-B 交付（claude/funny-albattani-iawshm 4e812ce5）：heroine_05/formal neutral、serious、smile 600×1000 透明；READY_FOR_ART_REVIEW，BB-B 驗收中。BB-B 通過後 LAWWW 合入、重產立繪清單、W9 每句加 outfit:formal。"
+   "note": "2026-10-16 19:08 LAWWW2-B 交付（claude/funny-albattani-iawshm 4e812ce5）：heroine_05/formal neutral、serious、smile 600×1000 透明；READY_FOR_ART_REVIEW，BB-B 驗收中。BB-B 通過後 LAWWW 合入、重產立繪清單、W9 每句加 outfit:formal。；2026-10-16 20:2x LAWWW-B 合入（立繪三張＋gen_portrait_manifest）、W9 ev_sis_skip_interview 學姊 11 句 outfit:formal；BB-B 19:16 ART_APPROVED（LAWWW2-B 轉達）；tests/v3_sis_w8_unit.js"
   },
   {
    "id": "AA186-FIX",

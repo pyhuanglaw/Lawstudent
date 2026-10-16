@@ -69,5 +69,8 @@ GM.money=function(n){ G.money+=n; };
   const play9=async(pick)=>{ fresh(d28,9.5,'campus'); meet('heroine_05'); R('heroine_05',...LV.FAM); said=[]; opts=[]; picks=[pick]; await EVENTS.run(W9); return L0(); };
   let w=await play9(0); check('7. 「現在去還來得及。」→「我知道。」「她沒有動。」…；結尾「我會再考一次。一般考試，二月。」「這次，我要先想好為什麼。」；SKIPPED_INTERVIEW',w[0]==='學姊：面試九點半。'&&w.includes('學姊：我知道。')&&w.includes('她沒有動。')&&w.slice(-2).join('｜')==='學姊：我會再考一次。一般考試，二月。｜學姊：這次，我要先想好為什麼。'&&SOCIAL.has('heroine_05','SKIPPED_INTERVIEW'),JSON.stringify(w));
   w=await play9(2); check('7. 「我要進去念書。」→「我也進去。」、手錶放進口袋',w.includes('學姊：我也進去。')&&w.some(t=>/把手錶拿下來，放進口袋/.test(t)));
+  /* 立繪：W9 學姊每一句都用面試的西裝（heroine_05/formal，LAWWW2-B 4e812ce5、BB-B ART_APPROVED）；立繪清單有 formal 的三種表情 */
+  { const sl=W9.dialogue.filter(l=>l.speaker==='heroine_05'); check('W9：學姊 '+sl.length+' 句都是 outfit formal',sl.length>0&&sl.every(l=>l.outfit==='formal'));
+    const fs=require('fs'), mf=fs.readFileSync(path.join(ROOT,'src/data/portrait_manifest.js'),'utf8'); check('立繪清單有 heroine_05/formal 的 neutral、serious、smile',/"formal":\s*\[\s*"neutral",\s*"serious",\s*"smile"\s*\]/.test(mf)&&['neutral','serious','smile'].every(e=>fs.existsSync(path.join(ROOT,'assets/portraits/heroine_05/formal/'+e+'.webp')))); }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

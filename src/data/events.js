@@ -3166,16 +3166,16 @@ const STORY_EVENTS_V11=[
       {label:'cg'},{cg:'cg_hot_water_heroine05'},
       {speaker:'heroine_05',expression:'smile',text:'明天我還是會列三件事。'},{speaker:'heroine_05',expression:'smile',text:'今天，先列到二。'} ] },
   /* W9「她沒有去面試」（BB_97 2-4；AA_177 第 8 節③）：11/28（六）9:00～10:00 總圖門口的台階（她這一天的作息），和她「有點熟」以上；所有玩家都是偶遇、沒有訊息；
-     沒遇到＝沒有這一場（寒假 M2 照樣發生）。記 SKIPPED_INTERVIEW（之後的回聲讀，不是 M2 的前置）*/
+     沒遇到＝沒有這一場（寒假 M2 照樣發生）。記 SKIPPED_INTERVIEW（之後的回聲讀，不是 M2 的前置）。立繪：面試的西裝 heroine_05/formal（LAWWW2-B 4e812ce5、BB-B ART_APPROVED，每句 outfit:'formal'）*/
   { id:'ev_sis_skip_interview', title:'她沒有去面試', participants:['heroine_05'], location:'campus', trigger:'auto', term:['Y2S1'], weeks:[12], weekday:[6], time:[9,10], once:true, near:{npc:'heroine_05',r:4},
     prereq:{stage:{npc:'heroine_05',min:'FAMILIAR'}}, background:'blur',
-    dialogue:[ {speaker:'heroine_05',expression:'serious',text:'面試九點半。'},{speaker:'heroine_05',expression:'serious',text:'我八點就到了。在門口站了二十分鐘，然後走來這裡。'},
-      {speaker:'heroine_05',expression:'serious',text:'（看著進出總圖的人）我從來沒有不去過任何一件事。'},{speaker:'heroine_05',expression:'serious',text:'第一次沒做完一件事。像少穿了一隻鞋。'},
+    dialogue:[ {speaker:'heroine_05',outfit:'formal',expression:'serious',text:'面試九點半。'},{speaker:'heroine_05',outfit:'formal',expression:'serious',text:'我八點就到了。在門口站了二十分鐘，然後走來這裡。'},
+      {speaker:'heroine_05',outfit:'formal',expression:'serious',text:'（看著進出總圖的人）我從來沒有不去過任何一件事。'},{speaker:'heroine_05',outfit:'formal',expression:'serious',text:'第一次沒做完一件事。像少穿了一隻鞋。'},
       {choice:[{text:'「現在去還來得及。」',goto:'a'},{text:'「那就不要去。」',goto:'b'},{text:'「我要進去念書。」',goto:'c'}]},
-      {label:'a'},{speaker:'heroine_05',expression:'serious',text:'我知道。'},{speaker:null,text:'她沒有動。'},{speaker:'heroine_05',expression:'serious',text:'我在等自己想去。等了二十分鐘，沒有等到。'},{goto:'end'},
-      {label:'b'},{speaker:'heroine_05',expression:'smile',text:'你說得好簡單。'},{speaker:null,text:'她笑了。'},{speaker:'heroine_05',expression:'smile',text:'……可是好像真的這麼簡單。'},{goto:'end'},
-      {label:'c'},{speaker:null,text:'她站起來：'},{speaker:'heroine_05',expression:'neutral',text:'我也進去。'},{speaker:null,text:'她坐在閱覽室另一排。九點半，她看了一下手錶，把手錶拿下來，放進口袋。'},
-      {label:'end'},{speaker:'heroine_05',expression:'neutral',text:'我會再考一次。一般考試，二月。'},{speaker:'heroine_05',expression:'smile',text:'這次，我要先想好為什麼。'},
+      {label:'a'},{speaker:'heroine_05',outfit:'formal',expression:'serious',text:'我知道。'},{speaker:null,text:'她沒有動。'},{speaker:'heroine_05',outfit:'formal',expression:'serious',text:'我在等自己想去。等了二十分鐘，沒有等到。'},{goto:'end'},
+      {label:'b'},{speaker:'heroine_05',outfit:'formal',expression:'smile',text:'你說得好簡單。'},{speaker:null,text:'她笑了。'},{speaker:'heroine_05',outfit:'formal',expression:'smile',text:'……可是好像真的這麼簡單。'},{goto:'end'},
+      {label:'c'},{speaker:null,text:'她站起來：'},{speaker:'heroine_05',outfit:'formal',expression:'neutral',text:'我也進去。'},{speaker:null,text:'她坐在閱覽室另一排。九點半，她看了一下手錶，把手錶拿下來，放進口袋。'},
+      {label:'end'},{speaker:'heroine_05',outfit:'formal',expression:'neutral',text:'我會再考一次。一般考試，二月。'},{speaker:'heroine_05',outfit:'formal',expression:'smile',text:'這次，我要先想好為什麼。'},
       {mem:[{npc:'heroine_05',tag:'SKIPPED_INTERVIEW',note:'11/28 她沒有進面試的門'}]} ] },
   { id:'ev_sis_office_together', title:'許教授的研究室', participants:['heroine_05','prof_xu'], location:'wancai', trigger:'interact', priority:8, once:true, prereq:{memory:[{npc:'heroine_05',tag:'GRAD_SCHOOL_DISCUSSION'}],grad:{min:'CURIOUS'}}, background:'blur',
     dialogue:[ {speaker:'heroine_05',expression:'neutral',text:'我等一下要去許老師那邊。你要跟嗎？他喜歡一年級的問笨問題。'},{choice:[{text:'「好。」',consequences:{grad:{bump:'跟學姊去許教授研究室',field:'公法'},prof:{prof_xu:{kind:'office',delta:3,note:'跟溫書瑀來研究室'}},mem:[{npc:'heroine_05',tag:'GRAD_SCHOOL_DISCUSSION',note:'一起去研究室'},{npc:'prof_xu',tag:'FIRST_MET'}]},goto:'go'},{text:'「我還沒準備好問問題。」',consequences:{rel:{heroine_05:{fam:1}}},end:true}]},{label:'go'},{speaker:'prof_xu',expression:'neutral',text:'「書瑀，這位是？……一年級。你為什麼來？」'},{choice:[{text:'「想知道研究所在做什麼。」',consequences:{prof:{prof_xu:{kind:'research',delta:2}}}},{text:'「學姊叫我來的。」',consequences:{prof:{prof_xu:{kind:'office',delta:1}}}}]},{speaker:'prof_xu',expression:'smile',text:'「好。研究所在做的事就是：找到一個你不問會睡不著的問題。你有嗎？」'},{speaker:'player',text:'……還沒有。'},{speaker:'prof_xu',expression:'neutral',text:'「那就先上課。有了再來。」'},{speaker:'heroine_05',expression:'smile',text:'（小聲）他對你算客氣了。'} ] },
