@@ -56,3 +56,38 @@
 - 立柱沒有打孔（真的深蹲架、史密斯機有一排調整孔）：用貼圖或法線比較省，幾何做孔會超過預算。
 - 跑步機、划船機的螢幕是純色面板，沒有發光；要晚上亮的話可以改成 `emit`，或加 `GLOW_` 空節點。
 - 數量：真的健身中心有氧機 40 台、深蹲架 3 組、史密斯機 2 組（`BB_151` 4b），這裡每種一件，擺放時用 instancing 重複。
+
+## ART-GYM-P2／P3a 第一部分：B1 健身中心的入口與周邊：`gym_b1_entry.py` → `assets/models/env/second_ai/bb_support/gym_b1_entry.glb`
+
+- **派工**：LAWWW2-B 2026-10-16 HANDOFF（`d58dfec5`）「BB-B：GYM-P2／P3a 合併，B1 服務櫃台、置物櫃、鏡牆、地墊、泳池邊」。
+  - 這是第一部分（櫃台、置物櫃、鏡牆、地墊）。
+  - 泳池邊等 LAWWW2-B 確認範圍，另一支腳本。
+  - BB-B 原本提的閘門、飲水機拿掉：共用 1F 大廳的閘門和直飲台。
+
+```
+/opt/blenv/bin/python tools/blender/env_second/bb_support/gym_b1_entry.py
+/opt/blenv/bin/python tools/blender/env_second/render_cycles.py -- assets/models/env/second_ai/bb_support/gym_b1_entry.glb <輸出資料夾> gym_b1e tools/blender/env_second/bb_support/gym_entry_views.json --res 1280x640 --samples 48 --ground --view Standard --exposure -2.5
+```
+
+- 工具、做法、兩個頂點色材質（`gymb2_metal`、`gymb2_vc`）的規則都和 P1 一樣；沒有貼圖、沒有 Poly Haven，`LICENSES.md` 不用加。
+- **D77**：沒有字、品牌、標誌。刷卡機、平板、螢幕、體重計的顯示都是沒有字的暗色面板；置物櫃的號碼牌是空白的。
+
+| 節點 | 物件 | 尺寸（約） | 三角形 | 說明 |
+|---|---|---|---|---|
+| `GYM2_COUNTER` | 服務櫃台 | 2.4（x）× 0.75（z）× 1.05 m | 2,860 | 客人站 +z、櫃台人員在 −z。客人那面是淺色美耐板加 15 根木條，有深色踢腳；檯面深灰，往客人那邊多出 3 cm。檯面上有刷卡機、報到用平板（立架）、筆筒、五條摺好的毛巾。櫃台人員那邊有坐著高度的工作檯，螢幕背對客人 |
+| `GYM2_LOCKERS` | 置物櫃 | 1.8 × 0.45 × 1.05 m | 1,800 | 上下兩層 × 6 格＝12 格；淺灰本體、藍灰門、不鏽鋼把手、空白號碼牌；0.1 m 深色底座 |
+| `GYM2_MIRROR` | 鏡牆 | 3.0 × 2.0 m，離地 0.3 m | 308 | 鋁框＋三片拼接；**鏡面是獨立的網格 `gymb2_mirror_pane`**，藍灰金屬色，LAWWW2-B 可以換成自己的鏡面材質；遊戲沒有環境貼圖，金屬度照上限 0.40 |
+| `GYM2_FLOOR` | 橡膠地墊拼塊 | 2 × 2 m（16 塊 0.5 m），厚 15 mm | 704 | 兩種深灰交錯，可以重複鋪 |
+| `GYM2_SCALE` | 體重計（**備用**） | 0.4 × 0.5 × 1.45 m | 468 | 立柱式；不要可以直接刪 |
+| `GYM2_TOWEL_BIN` | 毛巾回收籃（**備用**） | 直徑 0.46、高 0.62 m | 456 | 裡面露出兩條毛巾；不要可以直接刪 |
+
+- **合計**：6,596 三角形（上限 15k）；每件都在 3k 以下；2 個材質；11 個網格；GLB 約 0.4 MB。
+- **原點**：每件的底面中心，y=0 是地面，正面朝 +z。GLB 裡的位置只是排開給人看（`SPREAD`）。
+- **渲染**（Cycles 48 spp、Standard、曝光 −2.5，和 P1 相同）：總覽、櫃台（客人那面）、櫃台（櫃台人員那面）、置物櫃＋鏡牆、地墊＋備用兩件，在 `docs/art-rebuild/second_ai/blender_renders/bb_support/gym_b1e_*.webp`。
+- **狀態**：`READY_FOR_REVIEW`，等 LAWWW2-B 驗收；沒有遊戲內截圖（B1 區域還沒建）。
+
+### 還沒做、要注意的
+
+- **泳池邊**：等 LAWWW2-B 確認範圍。BB-B 的理解是：池體、地坪是 LAWWW2-B 的，BB-B 只做池邊的道具。
+- 櫃台後面的開館時間牌、健身中心的規定告示，沒有做。LAWWW2-B 要的話，留一塊空白面板讓程式畫字。
+- 置物櫃只有一組 12 格；真的健身中心有好幾排，用 instancing 重複。
