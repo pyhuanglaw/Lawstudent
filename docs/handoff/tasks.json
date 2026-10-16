@@ -6368,8 +6368,8 @@
    "title": "交換路線狀態機＋出發／返台轉場",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "AA_158 規格已交（19c58119）：EXCHANGE_ROUTE、舊存檔補 TW、錄取 11/29、出發 1/8；照 D81 在 v4 做",
+   "status": "進行中",
+   "next": "第 1 段（2026-10-16 20:3x）：S.route／abroad／movedOut／routeWeek／tzOffset／routeBackfill（AA_158 第 1、3、4 節）、presence 的 absentDates（以安 2028-01-08～07-15 日本、學姊 1/5 起美國）；tests/sys10_route_unit.js。下一段：志願表事件（V4-E10，AA_30 場景 0）、錄取通知 11/29、出發／返台轉場（AA_158 第 5 節、CG-22）、國外期間台灣區域進不去、日本 2D 據點、存讀檔回國外據點、台灣大三下的課不排",
    "priority": "P2",
    "first": {
     "term": "Y3S1",

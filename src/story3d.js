@@ -659,6 +659,7 @@ const STORY = (function(){
   S.refreshSchedule=refreshSchedule;
   let roomY2Busy=false;
   S.tick=function(GM,dt){ const G=GM.G, F=G.flags, E=GM.E; if(E.player.busy||GM.D.active) return; const P=E.player.obj.position;
+    if(!F.EXCHANGE_ROUTE&&G.day>=0) S.routeBackfill(G);   /* 交換路線：志願表那一週過了還沒選的補 TW（AA_158 第 1 節）*/
     schedT-=dt; if(schedT<=0){ schedT=3; refreshSchedule(GM); }
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ CLS.tick(GM); }catch(e){ console.warn('CLS.tick',e); } }   /* 課表（D52）*/
     if(typeof PHONE!=='undefined'){ try{ S.phoneRules(GM); PHONE.tick(G,out=>{ if(out.length) GM.toast('手機｜'+PHONE.notice(G,out[0]),3800); if(GM.phoneBadge) GM.phoneBadge(); }); }catch(e){ console.warn('PHONE',e); } }   /* 手機：排定時間的訊息（交接包 v1）*/
@@ -2401,9 +2402,25 @@ const STORY = (function(){
      沒有 presence 的人物照舊（現在的資料都還沒填：內容要 AA 確認、使用者批准，見 docs/STORY_EVENT_SCHEMA.md）。 */
   const TERM_ORDER=['Y0S1','Y0S2','Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
   S.termAt=function(day){ if(typeof CALENDAR==='undefined') return null; for(let d=day; d>day-200; d--){ const t=CALENDAR.termOf(d); if(t) return t.id; } return null; };
-  S.presence=function(id,G){ const c=(typeof CHARACTERS!=='undefined')&&CHARACTERS[id]; const P=c&&c.presence; if(!P) return {here:true}; const t=S.termAt(G.day); if(!t) return {here:true}; const i=TERM_ORDER.indexOf(t);
+  S.presence=function(id,G){ const c=(typeof CHARACTERS!=='undefined')&&CHARACTERS[id]; const P=c&&c.presence; if(!P) return {here:true};
+    if(P.absentDates&&S.dayOfKey) for(const [a,b,away,kind] of P.absentDates){ const d0=S.dayOfKey(a), d1=S.dayOfKey(b); if(d0!=null&&d1!=null&&G.day>=d0&&G.day<d1) return {here:false,away:away||'',kind:kind||'abroad'}; }   /* 用日期算的不在（交換：以安 2028-01-08～07-15 在日本、學姊 2028-01-05 起在美國，AA_158 第 4 節；學期中間出發、放假也算）*/
+    const t=S.termAt(G.day); if(!t) return {here:true}; const i=TERM_ORDER.indexOf(t);
     const A=P.away||{}, K=P.kinds||{}; if(P.from&&i<TERM_ORDER.indexOf(P.from)) return {here:false,away:A.before||'',kind:'before'}; if(P.until&&i>TERM_ORDER.indexOf(P.until)) return {here:false,away:A[t]||A.after||'',kind:K[t]||K.after||'after'};
     if(P.absent&&P.absent.includes(t)) return {here:false,away:A[t]||'',kind:K[t]||'absent'}; return {here:true}; };   /* kinds：覆寫原因的種類（taipei＝在臺北、不在台大：沛珊大二下起、子晴大四，BB_163——校園作息換成她那份、邀約照她的規則，不先擋）*/   /* kind：手機「約不了的原因」（AA_125 第 1 節：交換＝國外、until 過了＝畢業）*/
+  /* 交換路線（SYS-10；AA_158，AA-B 2026-10-16）：G.flags.EXCHANGE_ROUTE＝'TW'／'JP'／'US'（大三上第 11 週志願表，AA_30 場景 0；AA_90 的值）。
+     準備出發、在國外、回來了都用日期算，不另存。台灣路線的事件寫「不是 JP、也不是 US」（未決定也算在台灣）。
+     日期（AA_158 第 3 節）：JP 1/7 退宿、1/8 出發（和以安同一班）、7/15 返台；US 1/18 退宿、1/19 出發、6/24 返台。時差（第 4 節）：日本 +1；美國 −13，2028-03-12 起 −12 */
+  const ROUTE_DATES={ JP:{out:'2028-01-07',dep:'2028-01-08',arrive:'2028-01-08',ret:'2028-07-15',place:'日本關西的大學城'}, US:{out:'2028-01-18',dep:'2028-01-19',arrive:'2028-01-19',ret:'2028-06-24',place:'美國印第安納'} };
+  S.ROUTE_DATES=ROUTE_DATES;
+  S.route=G=>{ const r=G&&G.flags&&G.flags.EXCHANGE_ROUTE; return r==='JP'||r==='US'||r==='TW'?r:null; };
+  S.routeAbroadRoute=G=>{ const r=S.route(G); return r==='JP'||r==='US'?r:null; };   /* 國外路線（JP／US）；台灣、未決定＝null */
+  S.abroad=function(G){ const R=ROUTE_DATES[S.routeAbroadRoute(G)]; if(!R) return false; const d0=S.dayOfKey(R.dep), d1=S.dayOfKey(R.ret); return d0!=null&&d1!=null&&G.day>=d0&&G.day<d1; };   /* 出發日 ≦ 今天 ＜ 返台日 */
+  S.movedOut=function(G){ const R=ROUTE_DATES[S.routeAbroadRoute(G)]; if(!R) return false; const d0=S.dayOfKey(R.out), d1=S.dayOfKey(R.ret); return d0!=null&&d1!=null&&G.day>=d0&&G.day<d1; };   /* X1 退宿以後到返台：台灣沒有宿舍 */
+  S.routeWeek=function(G){ const R=ROUTE_DATES[S.routeAbroadRoute(G)]; if(!R||!S.abroad(G)) return null; const a=S.dayOfKey(R.arrive); return Math.floor((G.day-a)/7)+1; };   /* 國外事件的週次：(今天 − 抵達日) ÷ 7 ＋ 1 */
+  S.tzOffset=function(G,day){ if(day==null) day=G.day; const r=S.routeAbroadRoute(G); if(!r||!S.abroad(Object.assign({},G,{day}))) return 0; if(r==='JP') return 1; const dst=S.dayOfKey('2028-03-12'); return dst!=null&&day>=dst?-12:-13; };   /* 手機、視訊的當地時間＝台灣時間＋這個數（小時）*/
+  /* 舊存檔：大三上第 11 週（志願表那一週）過了還沒有路線的，補 'TW'（AA_158 第 1 節）*/
+  S.routeBackfill=function(G){ if(!G||!G.flags||G.flags.EXCHANGE_ROUTE||typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); const ord=['Y3S1','Y3S2','Y4S1','Y4S2'];
+    const after=t?((t.id==='Y3S1'&&t.week>=12)||ord.indexOf(t.id)>0):(()=>{ const d=S.dayOfKey('2027-11-22'); return d!=null&&G.day>=d; })(); if(!after) return false; G.flags.EXCHANGE_ROUTE='TW'; return true; };
   /* 現在的學期在不在 {from, until} 裡（例：人物有伴侶的那幾個學期，invites3d.js 的 partnerBlock）*/
   /* 伴侶期間（AA 2026-10-14：照劇情事件，不照整學期；事件還沒發生、或玩家沒看到時，照日期當保底）：
      {from, until}＝學期（舊格式照舊）；fromWeek／untilWeek＝{term, week}（untilWeek 那一週結束算分開）；startEvent／endEvent＝事件 id（演過就開始／結束；那些事件做好時填）*/
