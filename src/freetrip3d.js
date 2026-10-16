@@ -63,6 +63,7 @@ const TRIP=(function(){
     GM.sceneBegin();
     try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:typeof OUT!=='undefined'&&OUT.bg?OUT.bg(s.bg):'dark'}); await GM.fade(false);
       if(!T.said){ T.said=true; const n=P.free[s.id]|0; P.free[s.id]=n+1; const a=s.arrive||[]; if(a.length) await GM.say(null,a[Math.min(n,a.length-1)]);
+        if(typeof ENC!=='undefined'&&ENC.revisit){ try{ await ENC.revisit(GM,s); }catch(e){ console.warn('ENC',e); } }   /* 重訪（DL-08）*/
         if(typeof ENC!=='undefined'&&ENC.atArrive){ try{ await ENC.atArrive(GM,s); }catch(e){ console.warn('ENC',e); } } }   /* 偶遇（DL-07）：到達的那一刻 */   /* 第一次來、第二次、第三次以後（arriveIndex）*/
       for(let guard=0;guard<40;guard++){ const ok=crossCheck(G), closed=G.hour>=s.open[1]-1e-6; const O=[];
         if(!ok||closed){ await GM.say(null,closed?'這裡要關了。':'差不多該回去了。'); O.push({t:'回去',k:'back'}); }
@@ -73,14 +74,16 @@ const TRIP=(function(){
         const o=O[await GM.choose(O)]||O[O.length-1];
         if(o.k==='back'){ await S.back(GM,s); return; }
         if(o.dim){ if(GM.toast) GM.toast(o.hint,2600); continue; }
-        if(o.k==='walk'){ const w=s.walk; const pool=(rainy(G)&&w.rain)?[].concat(w.rain):(w.lines||[]); const t=pool.length?pool[((P.free[s.id]|0)-1+(T.walk|0))%pool.length]:null; T.walk=(T.walk|0)+1; GM.advance((w.minutes||30)/60); if(t) await GM.say(null,t);
+        const cmp=typeof ENC!=='undefined'&&ENC.companionBefore&&G.trip&&G.trip.with;   /* 一起走一段（DL-08）*/
+        if(cmp&&(o.k==='walk'||o.k==='pt')) await ENC.companionBefore(GM,s,o.k==='walk'?'walk':o.p.id);
+        if(o.k==='walk'){ const w=s.walk; const pool=(rainy(G)&&w.rain)?[].concat(w.rain):(w.lines||[]); const t=pool.length?pool[((P.free[s.id]|0)-1+(T.walk|0))%pool.length]:null; T.walk=(T.walk|0)+1; GM.advance((w.minutes||30)/60); if(t) await GM.say(null,t); if(G.trip&&G.trip.with&&typeof ENC!=='undefined') await ENC.companionAfter(GM,s,'walk');
           if(typeof ENC!=='undefined'&&ENC.afterWalk){ try{ await ENC.afterWalk(GM,s); }catch(e){ console.warn('ENC',e); } } }   /* 偶遇（DL-07）*/
-        else if(o.k==='pt'){ const p=o.p; T.done.push(p.id); if(p.cost) GM.money(-p.cost); GM.advance((p.minutes||0)/60); const t=lineOf(p,G,s); if(t) await GM.say(null,t); if(p.photo){ T.photo=true; P.photos.push({spot:s.id,day:G.day,h:+G.hour.toFixed(2)}); if(GM.toast) GM.toast('照片存進相簿',2200); } }
+        else if(o.k==='pt'){ const p=o.p; T.done.push(p.id); if(p.cost) GM.money(-p.cost); GM.advance((p.minutes||0)/60); const t=lineOf(p,G,s); if(t) await GM.say(null,t); if(G.trip&&G.trip.with&&typeof ENC!=='undefined') await ENC.companionAfter(GM,s,p.id); if(p.photo){ T.photo=true; P.photos.push({spot:s.id,day:G.day,h:+G.hour.toFixed(2)}); if(GM.toast) GM.toast('照片存進相簿',2200); } }
         else if(o.k==='photo'){ T.photo=true; P.photos.push({spot:s.id,day:G.day,h:+G.hour.toFixed(2)}); if(GM.toast) GM.toast('照片存進相簿',2200); }
         if(GM.autosave) GM.autosave(); } }
     finally { busy=false; GM.sceneEnd(); } };
   /* 回程（4-6）：回公館（捷運站口）／直接回宿舍（多 10 分鐘的步行）*/
-  S.back=async function(GM,s){ const G=GM.G; let j=0; j=await GM.choose([{t:'回公館',hint:'捷運站口'},{t:'直接回宿舍',hint:'多走 10 分鐘'}]); if(s.leave) await GM.say(null,s.leave);
+  S.back=async function(GM,s){ const G=GM.G; let j=0; if(typeof ENC!=='undefined'&&ENC.leave) await ENC.leave(GM,s);   /* 還一起走著：她先說離開的一句 */ j=await GM.choose([{t:'回公館',hint:'捷運站口'},{t:'直接回宿舍',hint:'多走 10 分鐘'}]); if(s.leave) await GM.say(null,s.leave);
     await GM.fade(true); if(GM.titleCard) await GM.titleCard(s.transit.line,s.transit.to+' → 公館　'+s.transit.minutes+' 分鐘',2000); GM.advance(s.transit.minutes/60+(j===1?10/60:0)); GM.money(-Math.floor(s.transit.fareRound/2)); G.trip=null;
     if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); if(j===1) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); else await GM.enter('gongguan',{x:-35.6,z:13.2,yaw:0}); if(GM.autosave) GM.autosave(); };
   /* 讀檔時人在景點：回到景點的選單（story3d.js 的 S.tick）*/
