@@ -150,7 +150,8 @@ const INVITE_DATA={
         if(c.pid==='library') return {res:'resched',why:'tutor',lines:['「七點家教，六點半前可以」'],alt:I.nextFree(G,'classmate_mingxuan',c.P,c.day+1,10)};
         if(c.pid==='noodle'){ const a=I.nextFree(G,'classmate_mingxuan',c.P,c.day,21.5); return {res:'resched',why:'tutor',lines:[a&&a.day===c.day?'「家教完，{zh}，便宜的那家」':'「九點以後」'],alt:a}; }
         return null; } },
-    classmate_peishan:{ walk:{any:[{once:'PS_LAW_ASK',l:['「如果一條法律大家都不遵守，它還是法律嗎？」'],
+    classmate_peishan:{ afterMeet:(G,iv,pid)=>pid==='library'&&typeof STORY!=='undefined'&&STORY.termAt&&STORY.termAt(iv.day)==='Y2S2'&&typeof PHONE!=='undefined'&&PHONE.sent(G,'ps_p4b')?[G.flags.PS_P4B_GROUP?'（她遞過來一張便條：「今天念了 42 頁。你們呢？」）':'（她遞過來一張便條：「今天念了 42 頁。你呢？」）']:null,   /* P4b（BB_97 4-4）：大二下週末陪她在總圖念，每次一張便條（小組版寫「你們呢？」）*/
+      walk:{any:[{once:'PS_LAW_ASK',l:['「如果一條法律大家都不遵守，它還是法律嗎？」'],
         ch:[{t:'還是法律，只是沒人守。',r:['「所以寫下來的那一刻就算數。」','「……那寫下來的人責任好大。」']},{t:'那它可能該改了。',r:['「所以大家不遵守，也是一種投票？」']},{t:'要看大家為什麼不守。',r:['「……對。不想守，和守不起，是兩件事。」']}],
         after:[{if:G=>typeof CALENDAR==='undefined'||!CALENDAR.TERMS||(T=>!T||CALENDAR.tOf(G.day)<T.t0)(CALENDAR.TERMS.find(t=>t.id==='Y1S2')),l:['「好。我要拿這題去問讀書會的人，看看他們怎麼說。」']},{l:['「好。我要拿這題去問課輔班的小孩，看看他們怎麼說。」']}]}]},
       firstAt:{brunch:['「她翻蛋的時候，手腕不動。我媽也是。……我還學不會。」'],teahouse:['「這裡好安靜。……我的問題，會不會太大聲？」']}, acc:{brunch:{A:['「早餐店的女兒，去吃別人的早午餐。……好，我去研究。」'],R:['「好。我想看他們的蛋怎麼翻。」']},teahouse:{R:['「一盞？好。我可以帶問題去嗎？很多個。」']},cafe:{A:['「好。但我會一直問你問題。」']},noodle:{A:['「我吃很慢。你不能催我。」']}}, first:{wenzhou:['「散步是最好的思考。……我在書上看到的。」']}, rule:(G,c,I)=>{ const r=c.r, ok=r.res==='accept'||r.res==='resched'||r.why==='away';

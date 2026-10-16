@@ -2524,6 +2524,12 @@ const STORY_EVENTS=[
   { id:'ev_bohan_scores_month', title:'讀書會', participants:[], location:'wancai', trigger:'club', term:['Y2S2'], weeks:[6,7,8,9,10,11,12,13,14,15,16,17,18], weekday:[3], once:true, background:'blur',
     prereq:{custom:G=>!G.flags.STUDYGROUP_LEADER},
     dialogue:[ {speaker:null,text:'（來對題目的人從十二個變五個。）'} ] },
+  /* 沛珊 P4b 在 Café 的那一次（BB_97 4-4、AA_177 第 8 節②）：第 8 週週六 4/17，12:30 她傳「總圖滿了。兩點半，靠窗。」（story3d.js）→ 13:00～15:00 走進 Café 就演；可以錯過。
+     只有兩個人的版本（祐廷在和別人交往＝小組版，照舊在總圖，沒有這一次）。CG BCG-35 放在她把便條推過來的那一拍 */
+  { id:'ev_peishan_cafe_42', title:'今天念了 42 頁', participants:['classmate_peishan'], location:'cafe', trigger:'auto', once:true, term:['Y2S2'], time:[13,15], background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey('2027-04-17')&&!G.flags.PS_P4B_GROUP&&!!(G.msgs&&G.msgs.some(m=>m.tag==='ps_p4b_cafe'))},
+    spawn:{npc:'classmate_peishan',dist:1.6,pose:'idle'},
+    dialogue:[ {cg:'cg_cafe_42pages_peishan'},{speaker:null,text:'（她把便條推過來：「今天念了 42 頁。你呢？」）'} ] },
   /* D11 系籃（大二上，AA_143 1-5、AA_177 4-4）＋語 3「在一起」（AA_40）：12/18（五）21:00 麵店團群組阿哲揪 → 出發選單「新體育館 12/19 14:00」→ 2D（新體育館室內 3D 做好以前，用 2D＋旁白）；
      祐廷坐觀眾席三選一（拍手、記分、送水；大二版的字 AA-B c2f1c5aa）；記 WATCHED_GAME_Y2；明軒的句子等 BB-B（AB-59）；以安、小語在觀眾席（AA_143 1-5 的描述）。
      賽後 18:30～21:00 走進麵店＝語 3（小語坐到你對面）。系籃和賽後麵店都沒去：22:00 認識小語＝她私訊三則；不認識、在麵店團＝阿哲的照片（story3d.js phoneRules）*/

@@ -2455,7 +2455,7 @@
    "title": "P4b study_with",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "照 BB_97 實作",
    "priority": "P2",
    "first": {
@@ -2469,7 +2469,9 @@
     "confirmed": true
    },
    "source": "BB_97",
-   "authorized": "D79"
+   "authorized": "D79",
+   "tests": "tests/v3_p4b_unit.js",
+   "note": "2026-10-16：第 2 週週五 3/5 21:00 私訊兩版（知道重考／不知道）、選項 3～4 個；交往中（別人）＝小組「陪重考生念書」＋阿哲；總圖見面後的便條（invites.js afterMeet）；4/17 12:30「總圖滿了」→ Café 13～15 點 ev_peishan_cafe_42（CG BCG-35 已接）。放榜那天（大二暑假）的日子待 AA-B。瀏覽器未測。"
   },
   {
    "id": "V3-B17",
@@ -7897,7 +7899,7 @@
    "title": "學姊 W7 窗口放寬到大二上第 6～9 週；學姊關係台詞不卡在「有點熟」",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "AA-REQ-07 已交（AA-B 04:33）：W7 窗口大二上第 6～9 週平日 15～17 霖澤館教授研究室走廊、FAMILIAR 以上、once；W8 兩種回聲句；程式裡沒有「W8 以前不升過 FAMILIAR」的檢查（2026-10-16 查過 social3d／story3d）。大二實作",
    "priority": "P2",
    "first": {
@@ -7911,7 +7913,9 @@
     "confirmed": true
    },
    "source": "AA_140 §3（企劃線 e11d3807） G08",
-   "authorized": "D79"
+   "authorized": "D79",
+   "tests": "tests/v3_sis_w8_unit.js、tests/sis_cafe_unit.js",
+   "note": "2026-10-16 核對：W7 ev_sis_prof_xu_door 已是大二上第 6～9 週平日 15～17 霖澤館、FAMILIAR、once；W8 沒有 W7（HEARD_PROF_XU）用另一句（v3_sis_w8_unit 3.）；學姊的關係台詞不再卡在「有點熟」：friendLevel 的上限改讀 STORY.sisW8（W8 演過或過了第 12 週，AA_177 第 8 節①）。瀏覽器未測。"
   },
   {
    "id": "V4-G34",
