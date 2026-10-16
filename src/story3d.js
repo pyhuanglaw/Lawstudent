@@ -1564,16 +1564,51 @@ const STORY = (function(){
     {id:'kx2_example',term:T=>T.id==='Y1S2'&&T.week>=10,h:()=>21+10/60,ok:G=>!!G.flags.dating_kexin&&!!(G.flags.KX_DIR&&G.flags.KX_DIR.Y1),   /* K6b 之後 */
       items:()=>[P1('kexin','民總期中考，我的答案被老師拿去當範例。匿名的，可是我認得自己的字。')]},
     {id:'kx2_coffee',term:T=>T.id==='Y1S2'&&T.week>=15&&T.week<=16,h:()=>21+10/60,ok:G=>!!G.flags.dating_kexin,items:()=>seq('kexin',['📷（書桌，旁邊一杯咖啡）','期末的第一杯。'])},
+    /* 經濟系那一年的手機小事（BB_113 第 2 節「經濟系大一上」「經濟系那一年的可昕」「經濟系大一下」；AA-B 10-16 確認定稿）：每則一次；時間是技術預設（可昕 21:10、其他 20:40～21:40）。
+       可昕大一上＝E06 以後、E19 以前（一則只在下雨的日子）；可昕大一下＝交往中（Y0_DATING）、E27（3/26）以後、7/10 以前；寒假沒有學期週次本來就不放；Y0S2 第 1～5 週可昕不放。
+       重考期的暑假（6/23～7/10）照 AA-B：接著第 18 週往下算（S.dpTerm）*/
+    ...(()=>{ const Y0=(t0,w0,w1)=>T=>!!T&&T.id===t0&&T.week>=(w0||1)&&T.week<=(w1||99), done=(G,id)=>!!(G.events&&G.events.done&&G.events.done[id]), DK=k=>S.dayOfKey(k);
+      const grp=G=>PHONE.inGroup(G,'econ_friends')?'g:econ_friends':'g:econ_class', X=(who,name)=>(t,th)=>({th:th||('p:'+who),from:who,name,text:t,dt:0});
+      const TR=X('econ_tangrui','唐睿'), PY=X('econ_pinyu','品妤'), XU=X('econ_zhengxun','阿勳'), WL=X('econ_weilun','韋綸');
+      const kx1=G=>!!G.flags.E06_DONE&&!done(G,'ev_y0_e19'), kx2=(G,day)=>!!(G.flags.Y0_DATING||G.flags.dating_kexin)&&day>=DK('2025-03-26')&&day<=DK('2025-07-10');
+      const L=[
+        ['y0_tr_meeting',Y0('Y0S1',4),20+40/60,G=>PHONE.inGroup(G,'econ_class'),G=>[TR('明天系學會開會，來的人有便當。……我說的便當是『可能有』。','g:econ_class')]],
+        ['y0_tr_office',Y0('Y0S1',4),21.5,()=>true,()=>[TR('今天在系辦幫忙，學姊說我講話像在主持節目。我說謝謝。她說那不是稱讚。')]],
+        ['y0_py_app',Y0('Y0S1',4),21+10/60,()=>true,()=>[PY('📷（記帳 App 截圖）'),Object.assign(PY('這週支出，飲料佔百分之三十一。我需要一個人管我。'),{dt:1/60})]],
+        ['y0_py_rain',Y0('Y0S1',4),21+40/60,()=>true,()=>[PY('我室友今天問我：如果雨可以退貨，要不要附發票。我說先查保固。')]],
+        ['y0_xu_alarm',Y0('Y0S1',4),21.5,()=>true,()=>[XU('你的鬧鐘第二次響的時候，我已經在刷牙了。我們的作息差八分鐘。這很好。')]],
+        ['y0_xu_calc',Y0('Y0S1',7,8),22,()=>true,()=>[XU('微積分第五題，我用三種方法算出三個答案。我要去睡了，明天再選一個。')]],
+        ['y0_wl_go',Y0('Y0S1',4),21,G=>PHONE.inGroup(G,'econ_friends')||PHONE.inGroup(G,'econ_class'),G=>{ const th=grp(G); return ['走啦！','宵夜！','十點公館！','……有人嗎'].map((t,k)=>Object.assign(WL(t,th),{dt:k/60})); }],
+        ['y0_wl_chain',Y0('Y0S1',4),20+40/60,G=>!G.flags.WL_BIKE,()=>[WL('我的腳踏車鏈子今天掉了第七次。我覺得它想要自由。')]],
+        ['y0_kx_luroufan',Y0('Y0S1',4),21+10/60,kx1,()=>[P1('kexin','品妤說小福的滷肉飯是全校效用最高的。她算的時候沒有算排隊。')]],
+        ['y0_kx_obvious',Y0('Y0S1',4),21+10/60,kx1,()=>[P1('kexin','微積分老師今天說了九次『顯然』。我一次都沒有顯然。')]],
+        ['y0_kx_laugh',Y0('Y0S1',4),21+10/60,kx1,()=>[P1('kexin','劇社的學長說我笑場的時間太長。我說那是在醞釀。')]],
+        ['y0_kx_rain',Y0('Y0S1',4),21+10/60,G=>kx1(G)&&G.weather==='rain',()=>[P1('kexin','假設今天下雨，你會走去總圖還是騎車？……沒事，我在決定要不要帶傘。')]],
+        ['y0_kx_table',Y0('Y0S2',6),21+10/60,kx2,()=>[P1('kexin','同一張桌子，我把你的位子擦了。不是因為想你，是有咖啡漬。')]],
+        ['y0_kx_eight',Y0('Y0S2',6),21+10/60,kx2,()=>[P1('kexin','品妤問我們幾點起床。我說八點。她說那是我的鬧鐘，不是我起床。')]],
+        ['y0_kx_prof',Y0('Y0S2',6),21+10/60,kx2,()=>[P1('kexin','在博雅門口遇到經原的老師。他問我還好嗎。我說我在學新的語言。')]],
+        ['y0_kx_drink',Y0('Y0S2',6),21+10/60,kx2,()=>[P1('kexin','晚安。明天的桌子，我比你早到的話，你買飲料。')]],
+        ['y0_tr_group',Y0('Y0S2',4),20+40/60,G=>PHONE.inGroup(G,'econ_class')||PHONE.inGroup(G,'econ_friends'),G=>[TR('這學期的分組報告，題目我想好了。組員還沒想好。',grp(G))]],
+        ['y0_tr_voice',Y0('Y0S2',4),21.5,()=>true,()=>[TR('（語音）我在練長劇的台詞，對著鏡子。室友問我在跟誰講話。')]],
+        ['y0_py_notes',Y0('Y0S2',6),21+10/60,G=>done(G,'ev_y0_e28'),()=>[PY('我高中的筆記還在，掃描放雲端了。你要的話自己拿。不是同情，是效率。')]],
+        ['y0_py_beef',Y0('Y0S2',4),21+40/60,()=>true,()=>[PY('今天唐睿請我吃飯，說是謝謝筆記。我說折現。……我們吃了牛肉麵。')]],
+        ['y0_xu_lamp',Y0('Y0S2',6),22,G=>!!G.flags.Y0_MOVED_OUT,()=>[XU('你搬走以後，宿舍變暗了。因為你把檯燈帶走了。我只是陳述事實。')]],
+        ['y0_xu_seat',Y0('Y0S2',6),21.5,G=>!!G.flags.LEAVE_WEEK,()=>[XU('微積分老師問我，常坐我旁邊的那個人呢。我說他去念更難的東西了。')]],
+        ['y0_wl_wait',Y0('Y0S2',6),21,G=>!!G.flags.LEAVE_WEEK&&(PHONE.inGroup(G,'econ_friends')||PHONE.inGroup(G,'econ_class')),G=>[WL('走啦！……喔你在念書。那念完再走！我等！',grp(G))]],
+        ['y0_wl_newbike',Y0('Y0S2',4),20+40/60,G=>!!G.flags.WL_BIKE,()=>[WL('新車騎了三個月，鏈子一次都沒掉。我有點想念以前那台。')]] ];
+      return L.map(([id,term,hh,ok,items])=>({id,term,h:()=>hh,ok:(G,day)=>S.isEcon(G)&&ok(G,day==null?G.day:day),items})); })(),
     /* 自由出行的偶遇以後（DL-07；AA_162、BB_144 第 4 節）：語彤傳那天的照片、可昕說淡水的假設題——遇到的隔天以後，一次 */
     ...[['enc_yt_photo','ENC_D12_YT','heroine_03',21+20/60],['enc_kx_d13','ENC_D13_KX','kexin',21+10/60]].map(([id,tag,who,hh])=>({id,term:T=>!!T,h:()=>hh,ok:G=>typeof ENC!=='undefined'&&ENC.phoneReady(G,tag),items:G=>{ ENC.markSaid(G,tag); return seq(who,ENC.phoneLines(tag)); }})) ];
   S.DAILY_PHONE=DAILY;
+  /* 每天的手機小事用的學期週次：照日曆；經濟系重考期的暑假（6/23～7/10）沒有學期週次，AA-B 10-16：接著第 18 週往下算 */
+  S.dpTerm=function(G){ const t=CALENDAR.termOf(G.day); if(t||!S.isEcon(G)) return t; const a=S.dayOfKey('2025-06-23'), b=S.dayOfKey('2025-07-10'); if(a==null||b==null||G.day<a||G.day>b) return null; return {id:'Y0S2',week:18+Math.floor((G.day-a)/7)+1,exam:null}; };
   /* ok(G, day)：那一天條件成立嗎（決定時是今天、補送時是原本那天）。存檔：dpDay（決定過的那天）、dpPick（{id, day}：今天那一則）、dpN（每則出現過幾次）、dpLast（上一次輪到哪一則，輪流用）、dpDayOf（每則上一次是哪一天）；舊存檔沒有＝從頭開始 */
   function dailyPhone(GM){ const G=GM.G, F=G.flags; if(typeof CALENDAR==='undefined') return; const N=()=>F.dpN||(F.dpN={});
     const p=F.dpPick; if(p){ const d=DAILY.find(x=>x.id===p.id); if(!d) F.dpPick=null; else { const h0=d.h(G), t=p.day*24+h0, now=G.day*24+G.hour;
         if(now>=t){ F.dpPick=null; const late=now-t>0.25; if(d.ok(G,p.day)&&(late||!d.live||d.live(G))){ const n=N()[d.id]|0; N()[d.id]=n+1; F.dpLast=d.id; (F.dpDayOf||(F.dpDayOf={}))[d.id]=p.day; const h1=late?h0:G.hour;
             d.items(G,n).forEach((it,k)=>{ const x=Object.assign({},it), dt=x.dt||0; delete x.dt; PHONE.at(G,late?p.day:G.day,h1+dt,[x],'dp_'+d.id+'_'+n+'_'+k); }); }
           else F.dpLast=d.id; } } }   /* 那天不傳（例：阿凱那則你醒著待在宿舍）：輪到下一則，改天再輪回來——不然每天都挑到它，別人的小事永遠輪不到 */
-    if(F.dpDay===G.day) return; F.dpDay=G.day; const t=CALENDAR.termOf(G.day); if(!t||t.week<4||F.dpPick) return;   /* 每學期第 4 週起；條目沒寫 term 的只在大一上（BB_95 4-4），寫了的照它自己的（阿凱大二起的評鑑表照片）*/
+    if(F.dpDay===G.day) return; F.dpDay=G.day; const t=S.dpTerm(G); if(!t||t.week<4||F.dpPick) return;   /* 每學期第 4 週起；條目沒寫 term 的只在大一上（BB_95 4-4），寫了的照它自己的（阿凱大二起的評鑑表照片）*/
     if(PHONE.rec(G).q.some(q=>q.day===G.day&&!(q.tag&&q.tag.startsWith('rt_')))) return;   /* 今天已經有排好的劇情訊息（rt_ 例行訊息不算）*/
     const i0=DAILY.findIndex(d=>d.id===F.dpLast)+1;
     const last=F.dpDayOf||{};
