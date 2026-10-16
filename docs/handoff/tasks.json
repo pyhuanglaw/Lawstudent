@@ -707,7 +707,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "已整合待測試",
-   "next": "平常版客廳 home_living 已接（1fc16c76）；陽台用 BB-B 生成圖（home_balcony）；除夕用 home_living_cny",
+   "next": "平常版（1fc16c76）、白天版（2a0a7ff4，home3d 7～17 點）已接；陽台用 BB-B 生成圖；除夕用 home_living_cny",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -8466,8 +8466,8 @@
    "title": "六位女主角＋沛珊、可昕的九格表情（BB-B D59 通過：子晴、學姊 d69dd5f6；沛珊、可昕 ad98f813；以安、語彤 488af276）接進對話立繪",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "第二批（e1365734：以安、語彤、子晴新底圖＋九格、學姊 embarrassed、芷若 thinking）等 BB-B 驗收成品後再接（LAWWW2-B 04:48 要求；BB-B 已請看）",
+   "status": "已整合待測試",
+   "next": "第二批已接（BB-B 通過成品 26d07e78）：以安、語彤、子晴 10 張、學姊 embarrassed；芷若 thinking 要修（LAWWW2-B）。ART_APPROVED 還差遊戲內 ADV 截圖（四人各 neutral＋smile/laugh，直向、橫向）→ LAWWW-B 拍給 BB-B",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -8806,8 +8806,8 @@
    "title": "2D 背景 dorm_roof「宿舍頂樓」（BG 追蹤表 BG-05）：ev_nye_roof 跨年；v0 E24c",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "Blender 做男一舍頂樓：水泥平台、矮牆、水塔、一盞昏黃的燈",
+   "status": "已整合待測試",
+   "next": "dorm_roof 已接（大一上跨年）；場景美術由使用者驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -8827,7 +8827,8 @@
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
     "ack": "DELIVERED"
-   }
+   },
+   "sha": "2a0a7ff4"
   },
   {
    "id": "ART-BG18",

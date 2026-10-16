@@ -1528,9 +1528,9 @@
    "sha": "e1365734",
    "what": "ART-19 第二批：子晴、以安、語彤新的正面全身底圖＋九格；學姊 embarrassed、芷若 thinking",
    "task": "ART-19",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW2-B 04:48 要求等 BB-B 驗收疊好的成品再接（這批連 neutral 都換了）：792946fd 先接了、下一個 commit 退回，等 BB-B 回覆"
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "BB-B 驗收成品通過（26d07e78）：以安、語彤、子晴 10 張、學姊 embarrassed 接進開發線；芷若 thinking 要修，沒接"
   },
   {
    "id": "DLV-1016-128",
@@ -1699,6 +1699,30 @@
    "msg": "DELIVERED",
    "integration": "未整合",
    "note": ""
+  },
+  {
+   "id": "DLV-1016-142",
+   "date": "2026-10-16T05:0xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "2a0a7ff4",
+   "what": "ART-BG05 宿舍頂樓 dorm_roof、ART-12 白天版客廳 home_living_day；bg_video.py（BG18 算圖中）",
+   "task": "ART-BG05、ART-12",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "接進 S.BG；home3d 白天 7～17 點用白天版"
+  },
+  {
+   "id": "DLV-1016-143",
+   "date": "2026-10-16T05:0xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "26d07e78",
+   "what": "ART-19 第二批成品驗收（BB_131 第 7 節）：以安、語彤、子晴、學姊 embarrassed 通過；芷若 thinking、學姊約會 head_thinking 要修",
+   "task": "ART-19",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "ART_APPROVED 還差遊戲內 ADV 截圖（四人各 neutral＋smile/laugh，直向、橫向）"
   }
  ],
  "ignored": [
