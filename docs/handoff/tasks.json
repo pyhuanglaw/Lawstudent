@@ -767,7 +767,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
-   "next": "BB-B／使用者；去背 v1 BB-B 驗收（3aeef829）：身體 22/24、頭像 23/28 通過，要修沛珊 H1/H3 與四張頭像、學姊 thinking、以安 H1 的 h 改 963",
+   "next": "去背 v1.1（d93b47e2，含 anchors.json）、v1.2（50152b12）BB-B 都 ART_APPROVED；整組等 DATE-S6 一起接（遊戲還沒有半互動約會）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -8467,7 +8467,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "待開工",
-   "next": "第二批已接（e1365734）：以安、語彤、子晴新底圖＋九格、學姊 embarrassed、芷若 thinking；BB-B 在遊戲裡看合成結果（D59）",
+   "next": "第二批（e1365734：以安、語彤、子晴新底圖＋九格、學姊 embarrassed、芷若 thinking）等 BB-B 驗收成品後再接（LAWWW2-B 04:48 要求；BB-B 已請看）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",

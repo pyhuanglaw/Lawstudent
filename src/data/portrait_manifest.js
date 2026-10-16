@@ -47,16 +47,7 @@ const PORTRAIT_FILES={
  },
  "heroine_01": {
   "campus": [
-   "annoyed",
-   "embarrassed",
-   "laugh",
-   "neutral",
-   "sad",
-   "serious",
-   "smile",
-   "surprised",
-   "thinking",
-   "tired"
+   "neutral"
   ]
  },
  "heroine_02": {
@@ -72,42 +63,22 @@ const PORTRAIT_FILES={
    "serious",
    "smile",
    "surprised",
-   "thinking",
    "tired"
   ]
  },
  "heroine_03": {
   "campus": [
-   "annoyed",
-   "embarrassed",
-   "laugh",
-   "neutral",
-   "sad",
-   "serious",
-   "smile",
-   "surprised",
-   "thinking",
-   "tired"
+   "neutral"
   ]
  },
  "heroine_04": {
   "campus": [
-   "annoyed",
-   "embarrassed",
-   "laugh",
-   "neutral",
-   "sad",
-   "serious",
-   "smile",
-   "surprised",
-   "thinking",
-   "tired"
+   "neutral"
   ]
  },
  "heroine_05": {
   "campus": [
    "annoyed",
-   "embarrassed",
    "laugh",
    "neutral",
    "sad",

@@ -1528,9 +1528,9 @@
    "sha": "e1365734",
    "what": "ART-19 第二批：子晴、以安、語彤新的正面全身底圖＋九格；學姊 embarrassed、芷若 thinking",
    "task": "ART-19",
-   "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "已接進開發線（本批）"
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW2-B 04:48 要求等 BB-B 驗收疊好的成品再接（這批連 neutral 都換了）：792946fd 先接了、下一個 commit 退回，等 BB-B 回覆"
   },
   {
    "id": "DLV-1016-128",
@@ -1540,9 +1540,9 @@
    "sha": "50152b12",
    "what": "約會去背 v1.2（學姊 head_thinking 襯衫 alpha 補回）",
    "task": "ART-14",
-   "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "BB-B v1.1 驗收；已接進開發線（本批）"
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "約會去背整組（含 v1.1 d93b47e2 的 anchors.json）等 DATE-S6 半互動約會系統一起接；BB-B 說 8 張都 ART_APPROVED"
   },
   {
    "id": "DLV-1016-129",
