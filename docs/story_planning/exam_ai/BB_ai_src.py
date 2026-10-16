@@ -8,7 +8,7 @@
 用法：
   python3 -I BB_ai_src.py <法條 HTML 快取資料夾>   # 從 law.moj.gov.tw 的 LawAll 頁面（law_<pcode>.html）取出用到的條文，寫 basis_bb_ai.json
   python3 -I BB_ai_src.py                         # 之後：只用 basis_bb_ai.json 檢查並輸出 BB_<課程>.json
-任何一項檢查不過就停止，不輸出。作者 BB-B 2026-10-16；狀態 AI_SELF_REVIEWED（AA-B 交叉審通過才改 AI_CROSS_REVIEWED）。"""
+任何一項檢查不過就停止，不輸出。作者 BB-B 2026-10-16；狀態 AI_CROSS_REVIEWED（AA-B 2026-10-16 交叉審 40 題全部通過，exam_ai/REVIEW_AA_on_BB.md、AA-B 分支 c98fe9d4；照建議改 LAB_08 的代號「未」→「酉」、COM_09 題幹補「這家公司設有監察人」）。進遊戲前仍要 LAWWW-B 取得使用者的直接確認。"""
 import json, os, re, sys, html
 from collections import Counter
 
@@ -22,8 +22,8 @@ NAME = {'company_law': '商事法總論及公司法', 'insurance': '保險法', 
 def Q(id, course, week, q, A, B, C, D, ans, core, why, basis, ref, verify):
     return dict(id=id, course=course, term=TERM[course], scopeWeek=week, type='mc', q=q,
                 options=dict(A=A, B=B, C=C, D=D), answer=ans, core=core, explanation=why, basis=basis,
-                refPoint=ref, verify=verify, source='AI_Y1Y3', author='BB', status='AI_SELF_REVIEWED',
-                crossReviewedBy=None, flags=[])
+                refPoint=ref, verify=verify, source='AI_Y1Y3', author='BB', status='AI_CROSS_REVIEWED',
+                crossReviewedBy='AA', flags=[])
 
 QS = [
  # ───────── 商事法總論及公司法（大三上）─────────
@@ -67,7 +67,7 @@ QS = [
    'B','公司法・董事的忠實義務與注意義務','公司負責人（股份有限公司是董事，§8 I）應忠實執行業務並盡善良管理人之注意義務；違反致公司受有損害者，負損害賠償責任（§23 I）。標準是善良管理人的注意，不是處理自己事務的注意，也不以故意為限。',
    '公司法 §8 I、§23 I','參考考點：律師一試／高考常考的公司負責人忠實義務、善良管理人注意義務',
    [('J0080001','23','公司負責人應忠實執行業務並盡善良管理人之注意義務'),('J0080001','8','在有限公司、股份有限公司為董事')]),
- Q('BBAI_COM_09','company_law',11,'股份有限公司的董事長戊，想把自己名下的一塊土地賣給公司。這份買賣契約，公司這一方應該由誰代表簽約？',
+ Q('BBAI_COM_09','company_law',11,'股份有限公司的董事長戊（這家公司設有監察人），想把自己名下的一塊土地賣給公司。這份買賣契約，公司這一方應該由誰代表簽約？',
    '監察人','董事長戊自己','公司的經理人','持股最多的股東',
    'A','公司法・董事與公司的自己交易','董事為自己或他人與公司為買賣、借貸或其他法律行為時，由監察人為公司之代表（§223），避免董事一個人同時站在交易的兩邊。',
    '公司法 §223','參考考點：律師一試／高考常考的董事自己交易、監察人代表公司',
@@ -218,7 +218,7 @@ QS = [
    'D','勞動法・未休特休的工資','勞工之特別休假，因年度終結或契約終止而未休之日數，雇主應發給工資（勞基法 §38 IV）。',
    '勞動基準法 §38 IV','參考考點：律師一試／高考常考的特休未休折算工資',
    [('N0030001','38','因年度終結或契約終止而未休之日數，雇主應發給工資')]),
- Q('BBAI_LAB_08','labor_law',10,'未在一家公司工作得好好的。老闆因為看他不順眼，就預告要終止勞動契約，但公司沒有歇業、虧損或業務緊縮，未也沒有不能勝任的情形。依勞動基準法第11條，下列何者正確？',
+ Q('BBAI_LAB_08','labor_law',10,'酉在一家公司工作得好好的。老闆因為看他不順眼，就預告要終止勞動契約，但公司沒有歇業、虧損或業務緊縮，酉也沒有不能勝任的情形。依勞動基準法第11條，下列何者正確？',
    '可以，雇主有隨時解僱的自由','可以，只要提早預告','雇主非有第11條所列情事之一者，不得預告勞工終止勞動契約','可以，只要多給一個月薪水',
    'C','勞動法・預告解僱的法定事由','非有歇業或轉讓、虧損或業務緊縮、不可抗力暫停工作一個月以上、業務性質變更有減少勞工之必要又無適當工作可供安置、勞工對於所擔任之工作確不能勝任等情事之一者，雇主不得預告勞工終止勞動契約（勞基法 §11）。「看不順眼」不是法定事由。',
    '勞動基準法 §11','參考考點：律師一試／高考常考的解僱事由法定原則',
@@ -291,7 +291,7 @@ if __name__ == '__main__':
         cq = [q for q in QS if q['course'] == c]
         for q in cq:
             q['checked'] = '全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（' + '；'.join(sorted({f"{snap[pc]['name']} {snap[pc]['amended']}修正" for (pc, _, _) in q['verify']})) + '）'
-        out = {'_comment': '大一～大三 AI 補題（使用者 2026-10-16 約 05:0x 授權；exam_ai/README.md）。作者 BB；BB 自審完成（AI_SELF_REVIEWED）；AA 交叉審通過後改 AI_CROSS_REVIEWED、crossReviewedBy＝AA，才會被抽。只借考點與題型，情境、問法、選項全部自己寫。原稿 BB_ai_src.py。',
+        out = {'_comment': '大一～大三 AI 補題（使用者 2026-10-16 約 05:0x 授權；exam_ai/README.md）。作者 BB；BB 自審完成，AA-B 2026-10-16 交叉審通過（AI_CROSS_REVIEWED、crossReviewedBy＝AA）；進遊戲前仍要 LAWWW-B 取得使用者的直接確認。只借考點與題型，情境、問法、選項全部自己寫。原稿 BB_ai_src.py。',
                'course': c, 'term': TERM[c], 'name': NAME[c], 'count': len(cq),
                'answerDistribution': dict(sorted(Counter(q['answer'] for q in cq).items())), 'questions': cq}
         json.dump(out, open(os.path.join(HERE, f'BB_{c}.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)

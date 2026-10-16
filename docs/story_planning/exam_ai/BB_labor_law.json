@@ -1,5 +1,5 @@
 {
- "_comment": "大一～大三 AI 補題（使用者 2026-10-16 約 05:0x 授權；exam_ai/README.md）。作者 BB；BB 自審完成（AI_SELF_REVIEWED）；AA 交叉審通過後改 AI_CROSS_REVIEWED、crossReviewedBy＝AA，才會被抽。只借考點與題型，情境、問法、選項全部自己寫。原稿 BB_ai_src.py。",
+ "_comment": "大一～大三 AI 補題（使用者 2026-10-16 約 05:0x 授權；exam_ai/README.md）。作者 BB；BB 自審完成，AA-B 2026-10-16 交叉審通過（AI_CROSS_REVIEWED、crossReviewedBy＝AA）；進遊戲前仍要 LAWWW-B 取得使用者的直接確認。只借考點與題型，情境、問法、選項全部自己寫。原稿 BB_ai_src.py。",
  "course": "labor_law",
  "term": "Y3S2",
  "name": "勞動法",
@@ -38,8 +38,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（勞動基準法 民國 113 年 07 月 31 日修正）"
   },
@@ -70,8 +70,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（勞動基準法 民國 113 年 07 月 31 日修正）"
   },
@@ -102,8 +102,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（勞動基準法 民國 113 年 07 月 31 日修正）"
   },
@@ -134,8 +134,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（勞動基準法 民國 113 年 07 月 31 日修正）"
   },
@@ -166,8 +166,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（勞動基準法 民國 113 年 07 月 31 日修正）"
   },
@@ -198,8 +198,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（勞動基準法 民國 113 年 07 月 31 日修正）"
   },
@@ -230,8 +230,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（勞動基準法 民國 113 年 07 月 31 日修正）"
   },
@@ -241,7 +241,7 @@
    "term": "Y3S2",
    "scopeWeek": 10,
    "type": "mc",
-   "q": "未在一家公司工作得好好的。老闆因為看他不順眼，就預告要終止勞動契約，但公司沒有歇業、虧損或業務緊縮，未也沒有不能勝任的情形。依勞動基準法第11條，下列何者正確？",
+   "q": "酉在一家公司工作得好好的。老闆因為看他不順眼，就預告要終止勞動契約，但公司沒有歇業、虧損或業務緊縮，酉也沒有不能勝任的情形。依勞動基準法第11條，下列何者正確？",
    "options": {
     "A": "可以，雇主有隨時解僱的自由",
     "B": "可以，只要提早預告",
@@ -267,8 +267,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（勞動基準法 民國 113 年 07 月 31 日修正）"
   },
@@ -299,8 +299,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（勞工退休金條例 民國 108 年 05 月 15 日修正）"
   },
@@ -331,8 +331,8 @@
    ],
    "source": "AI_Y1Y3",
    "author": "BB",
-   "status": "AI_SELF_REVIEWED",
-   "crossReviewedBy": null,
+   "status": "AI_CROSS_REVIEWED",
+   "crossReviewedBy": "AA",
    "flags": [],
    "checked": "全國法規資料庫現行條文，BB-B 2026-10-16 逐字核對（性別平等工作法 民國 112 年 08 月 16 日修正）"
   }
