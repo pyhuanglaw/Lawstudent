@@ -42,14 +42,18 @@ async def main():
         ok, log = await drive(pg, cdp, run, "GAME.G&&GAME.G.stage==='econ'&&GAME.G.zone==='dorm'&&!!GAME.G.flags.E01_DONE&&!GAME.E.player.busy&&!GAME.D.active", [], 400)
         d = await pg.evaluate("(()=>{ const G=GAME.G, k=CALENDAR.dateOf(G.day).key; return {stage:G.stage, day:G.day, key:k, hour:+G.hour.toFixed(2), zone:G.zone}; })()")
         await run.shot(pg, 'e01_done')
-        run.check('經濟系開局：2024-09-01 男宿第一晚（E01）演完、恢復控制', ok and d['stage'] == 'econ' and d['key'] == '2024-09-01', json.dumps(d) + ' ' + json.dumps(log[-6:], ensure_ascii=False))
-        bed = await L.find_it(pg, '睡覺')
-        ok = bool(bed) and await L.go_to(pg, cdp, run, bed['x'], bed['z'], bed['r'] * 0.8, '床')
-        run.check('走到床邊（點地面／搖桿）', ok, str(bed))
+        # E01 的最後一個選項「先睡。明天再拆。」直接睡到 9/2 早上（劇情設計，AA_154 A24）；選「再拆一箱」的話停在 9/1 晚上，要自己走到床邊睡
+        run.check('經濟系開局：2024-09-01 男宿第一晚（E01）演完、恢復控制（9/1 晚上，或 E01 結尾睡著到 9/2 早上）', ok and d['stage'] == 'econ' and d['key'] in ('2024-09-01', '2024-09-02'), json.dumps(d) + ' ' + json.dumps(log[-6:], ensure_ascii=False))
+        ok = True
+        if d['key'] == '2024-09-01':
+            bed = await L.find_it(pg, '睡覺')
+            ok = bool(bed) and await L.go_to(pg, cdp, run, bed['x'], bed['z'], bed['r'] * 0.8, '床')
+            run.check('走到床邊（點地面／搖桿）', ok, str(bed))
+            if ok:
+                await pg.wait_for_timeout(800); s = await L.state(pg)
+                run.check('床邊出現「睡覺」', s['interact'].startswith('睡覺'), s['interact'])
+                await L.tap(pg, cdp, '#interact')
         if ok:
-            await pg.wait_for_timeout(800); s = await L.state(pg)
-            run.check('床邊出現「睡覺」', s['interact'].startswith('睡覺'), s['interact'])
-            await L.tap(pg, cdp, '#interact')
             # 睡覺可能先問要幾點起床／確認：照第一個選項
             ok, log = await drive(pg, cdp, run, "(()=>{ const G=GAME.G; return CALENDAR.dateOf(G.day).key==='2024-09-02'&&!!document.querySelector('#choices button')&&[...document.querySelectorAll('#choices button')].some(b=>b.textContent.includes('直接去上課')); })()", ['睡覺', '七點', '7', '好'], 300)
             await run.shot(pg, 'wake_902')
