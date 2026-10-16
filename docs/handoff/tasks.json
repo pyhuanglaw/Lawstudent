@@ -12032,12 +12032,12 @@
   },
   {
    "id": "BUG-WZFLICKER",
-   "title": "閃爍（z-fighting）：溫州街新增店面的牆、舊路書店的書和後面的書架；溫州街新店面不能進、沒有店員",
+   "title": "閃爍（z-fighting）：溫州街新增店面的牆、舊路書店書架、總圖電梯地板；溫州街新店面不能進、沒有店員",
    "area": "BUG",
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P1",
-   "next": "①閃爍：鏡頭 near 0.1、far ≤ 300 不算極端，先逐個查疊在一起的面（新店面 GLB 和舊立面、書店書背和層板背板），技術修正；兩處都改完在 iPhone 尺寸截圖比對；②能不能進、店員：列出是哪幾家，問 AA-B 劇情用途（D79，AA-B 21:53 已說查清楚再問），要做室內派 LAWWW2-B",
+   "next": "鏡頭 near 固定 0.1、far ≤ 約 300（24-bit 深度在 10 m 只差 0.06 mm，不像整體精度問題）→ 逐個找共平面：程序化的電梯車廂地板／店面立面／書背貼片和 Blender GLB 的面疊在同一個高度或平面；修法：拿掉被 GLB 取代的那一片、或位移 ≥ 1 cm、或 polygonOffset。iPhone 尺寸截圖前後比對。②店面能不能進：問 AA-B",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12048,7 +12048,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "使用者 2026-10-16 21:5x 試玩；使用者 21:5x 第二張（舊路書店書架）",
+   "source": "使用者 2026-10-16 21:5x 試玩；使用者 21:5x 第二張（舊路書店書架）；使用者 22:1x 第三張（總圖電梯地板）",
    "authorized": "使用者（bug 回報）；②的劇情用途待 AA-B"
   },
   {
@@ -12304,6 +12304,27 @@
     "receiver": "AA-B",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "BUG-LIB-PILLAR",
+   "title": "總圖大廳的柱子沒有碰撞：玩家走進柱子裡",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "比對 library_layout.js 的柱子位置和 library_interior.glb 的柱子（模型改過位置、或導航格漏了那一根）；補 blockRect／圓形阻擋；跑 node tests/nav_buildings_unit.js、tests/flow_library_floors.py、tools/dev_scratch/nav_islands.py",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次進總圖",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 22:1x 截圖（9/19 18:34 總圖大廳）",
+   "authorized": "使用者（bug 回報）"
   }
  ]
 }
