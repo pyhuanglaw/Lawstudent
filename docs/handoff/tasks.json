@@ -992,8 +992,8 @@
    "title": "存檔分經濟系／法律系階段、開局選擇（法律系大一開局要一直能玩、不破壞舊存檔）",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照 v0 交付清單第 1 節 A1～A6：標題的兩個開局、存檔 stage 欄位；舊存檔沒有 stage 一律當法律系開局（AA-B 02:13）",
+   "status": "進行中",
+   "next": "第 1 部分做完：G.stage（預設 law、舊存檔 migrate 補 law）、STORY.opening（法律系第 1、2 天／經濟系 9/1；取代寫死的 G.day<3）、事件 stage 閘門（法律系事件在經濟系那年不觸發）、法律系開局先放 AA_106 3b ④＋③、經濟系開局 2024-09-01 21:00 男宿（網址 ?y0 才出現，D81）。還沒：E01 稿（已問 AA-B）、舊存檔第一次讀檔放④（已問 AA-B 要不要）、經濟系的人物作息與 presence（法律系的人不在場）、手機群組與 phoneRules 的 stage 閘門",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -1006,7 +1006,8 @@
     "confirmed": true
    },
    "source": "交接包_v0、BB_104／105／110／112",
-   "authorized": "D79"
+   "authorized": "D79",
+   "evidence": "tests/v0_a3_unit.js"
   },
   {
    "id": "V0-A4",

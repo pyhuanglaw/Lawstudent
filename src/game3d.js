@@ -7,7 +7,7 @@ const GAME = (function(){
   let E=null; let G=null; let S={quality:'medium',joystick:true,volume:0.6,textSpeed:2,fps:false,guide:true};
   const GM={E:null,G:null,S,npc:{},extras:[],running:false,hourRate:1/150,lastAuto:0};
   // ---------- 狀態 ----------
-  function defaults(name){ return {v:SAVE_VER,name:name||'祐廷',day:1,weekday:3,hour:21.2,energy:100,money:22000,zone:'dorm',pos:null,weather:'clear',flags:{dating_kexin:true,KX_DEC3_MIGRATED:true},rel:{an:6,zhe:12,sis:2,kai:8,yu:3},notes:[],memo:[],visited:{dorm:true},stats:{steps:0,classes:0,study:0},choices:{},social:null,events:null,legal:null,cg:{unlocked:[]},savedAt:0}; }
+  function defaults(name){ return {v:SAVE_VER,stage:'law',name:name||'祐廷',day:1,weekday:3,hour:21.2,energy:100,money:22000,zone:'dorm',pos:null,weather:'clear',flags:{dating_kexin:true,KX_DEC3_MIGRATED:true},rel:{an:6,zhe:12,sis:2,kai:8,yu:3},notes:[],memo:[],visited:{dorm:true},stats:{steps:0,classes:0,study:0},choices:{},social:null,events:null,legal:null,cg:{unlocked:[]},savedAt:0}; }
   function bindSystems(){ SOCIAL.bind(G); EVENTS.bind(GM); LEGAL.bind(G,GM); if(!G.cg) G.cg={unlocked:[]}; }
   GM.bindSystems=bindSystems;
   GM.defaults=defaults;
@@ -460,6 +460,8 @@ const GAME = (function(){
     $('importFile').onchange=e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ $('importText').value=r.result; }; r.readAsText(f); };
     $('btnImportGo').onclick=async()=>{ try{ const obj=parseImport($('importText').value); const cur=read(KEY_AUTO); if(cur) write(KEY_BACKUP,cur); write(KEY_AUTO,obj); $('importMsg').textContent='匯入成功，已備份原本進度。'; await loadFrom(obj); }catch(err){ $('importMsg').textContent='匯入失敗：'+err.message; } };
     $('btnNew').onclick=async()=>{ A3.start(); const name=($('nameInput').value||'祐廷').trim().slice(0,6); G=defaults(name); GM.G=G; bindSystems(); $('titleScreen').classList.add('hide'); GM.running=true; await STORY.newGame(GM); };
+    if($('btnNewEcon')){ if(/[?&]y0\b/.test(location.search)) $('btnNewEcon').classList.remove('hide');   /* 經濟系開局（交接包 v0）：v0 做完以前只在網址 ?y0 出現（D81：開局照舊）*/
+      $('btnNewEcon').onclick=async()=>{ A3.start(); const name=($('nameInput').value||'祐廷').trim().slice(0,6); G=defaults(name); GM.G=G; bindSystems(); $('titleScreen').classList.add('hide'); GM.running=true; await STORY.newGameEcon(GM); }; }
     $('btnContinue').onclick=async()=>{ A3.start(); const s=read(KEY_AUTO); if(!s){ toast('沒有自動存檔'); return; } GM.running=true; await loadFrom(s); };
     $('btnLoadMenu').onclick=()=>{ A3.start(); if(!G){ G=defaults(); GM.G=G; } openMenu('save'); };
     $('rotate').onclick=()=>$('rotate').classList.remove('want');
