@@ -1015,8 +1015,8 @@
    "title": "經濟系存檔帶到法律系",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "—",
+   "status": "已整合待測試",
+   "next": "經濟系 → 法律系已接（AA_154 2-4b 第 4、5 點）：8/31 早上（在家＝home3d 那一輪、不在家＝S.tick）3b② → GM.backupNow「經濟系那一年的最後一天」（fatiao3d_backup、fatiao3d_backup_y0end）→ 字卡「2025 年 9 月　臺大法律系　大一」→ 3b③ → stage law、9/17 21:12 宿舍（接 introDorm）；dating_kexin＝true、KX_FIRST_MSG＝false、MET_XUN、MET_PINYU、KNOWS_TANG、PLAYED_Y0；可昕第一則多「第二次的大一。我們都是重考上來的。」；tests/v0_tolaw_unit.js。待：瀏覽器從 ?y0 開局一路玩到 8/31 換階段的流程測試；標題畫面開放經濟系開局（之後一版）；備份檔還沒有讀取的按鈕；AA-B 問「錢（暑假 +22000）」是什麼",
    "priority": "P2",
    "first": {
     "term": "Y0S2",

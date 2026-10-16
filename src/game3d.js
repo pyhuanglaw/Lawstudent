@@ -259,6 +259,8 @@ const GAME = (function(){
   function read(key){ const st=ls(); if(!st) return null; try{ const t=st.getItem(key); return t?JSON.parse(t):null; }catch(e){ return null; } }
   function autosave(){ if(!G||!E.player||D.busyDepth>0||GM.titleIdle) return; /* 標題畫面（還沒開始或讀檔）不能自動存檔：否則會用空白的第一天蓋掉玩家真正的進度 */ write(KEY_AUTO,snapshot()); GM.lastAuto=performance.now(); }
   GM.autosave=autosave;
+  /* 不可逆的轉換之前先備份（CLAUDE.md 存檔規則第 9 點；例：經濟系 8/31 換到法律系，AA_154 2-4b 第 4 點）：寫 fatiao3d_backup，另外寫一份之後不會被蓋掉的 fatiao3d_backup_<key> */
+  GM.backupNow=function(label,key){ const s=snapshot(); s.backupLabel=label||''; const ok=write(KEY_BACKUP,s); if(key) write(KEY_BACKUP+'_'+key,s); return ok; };
   function saveSlot(i){ const prev=read(KEY_SLOT+i); if(prev) write(KEY_BACKUP,prev); const ok=write(KEY_SLOT+i,snapshot()); toast(ok?'已存到欄位 '+i:'存檔失敗（瀏覽器儲存不可用）'); renderSlots(); }
   /* 舊存檔的女主角初遇（AA_120 7-4 第 7 點，使用者 2026-10-13 批准）：舊版的一般自我介紹已經記了 FIRST_MET、她的相遇事件卻一次都沒播過——
      這筆 FIRST_MET 改標成「一般招呼」（GREETED），相遇事件就當還沒見過（不會永久錯過）；熟悉度、其他紀錄都不動。
