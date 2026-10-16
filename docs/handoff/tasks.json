@@ -11693,7 +11693,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "①第 2 天 13:05 以前的課不排（982b389e，已修、單元測試）②以安追上來（meetAn）之後卡住：瀏覽器重現中（第一段對話、選項、恢復操作正常；Café／總圖段落重現中）③開局週次是時間線（D79）：已問 AA-B、也問使用者，決定前不改",
+   "next": "①第 2 天 13:05 以前的課不排（982b389e）②「卡住」＝劇情黑邊蓋住對話框最後一行與「點一下繼續」、點黑邊沒反應（使用者截圖）：黑邊改 z-index 5、不接點擊；tests/letterbox_dialog.py、tests/flow_day2_an.py（瀏覽器跑中）③開局週次：已問 AA-B、也問使用者，決定前不改",
    "first": {
     "term": "Y1S1",
     "week": 3,
@@ -11706,7 +11706,7 @@
    },
    "source": "使用者 2026-10-16 19:3x 直接回報",
    "authorized": "D79",
-   "tests": "tests/discuss_unit.js、tests/classes_unit.js",
+   "tests": "tests/discuss_unit.js、tests/classes_unit.js、tests/letterbox_dialog.py、tests/flow_day2_an.py",
    "sha": [
     "982b389e"
    ]

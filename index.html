@@ -44,13 +44,14 @@ button{font-family:var(--font);cursor:pointer}
 #toast{position:absolute;left:50%;top:calc(max(8px,env(safe-area-inset-top)) + 56px);transform:translateX(-50%);background:rgba(233,185,106,.95);color:#1c1a17;padding:8px 16px;border-radius:16px;max-width:calc(100% - 32px);width:max-content;text-align:center;line-height:1.45;font-size:13px;pointer-events:none;transition:opacity .3s;box-shadow:0 6px 18px rgba(0,0,0,.3)}
 #letter{position:absolute;left:0;right:0;height:0;background:#000;transition:height .6s}
 #letterT{top:0}#letterB{bottom:0}
+/* 劇情黑邊（GM.letterbox）在對話框、選項（z-index 6）下面，而且不接點擊：原本 z-index 7 蓋住對話框最下面一行和「▶」、點黑邊也沒反應，看起來像卡住（使用者 2026-10-16 iPhone 直向截圖，BUG-22）*/
 #fade{position:absolute;inset:0;background:#000;opacity:0;transition:opacity .45s;pointer-events:none}
 #fade.on{opacity:1;pointer-events:auto}
 #title3{position:absolute;left:50%;top:38%;transform:translateX(-50%);font-family:var(--serif);font-size:22px;color:#f4efe6;letter-spacing:.15em;text-shadow:0 2px 12px rgba(0,0,0,.6);pointer-events:none;opacity:0;transition:opacity .8s;text-align:center;white-space:nowrap}
 #title3 small{display:block;font-family:var(--font);font-size:12px;letter-spacing:.3em;color:#e9b96a;margin-top:6px}
 /* panels */
 .panel{position:absolute;inset:0;background:rgba(10,12,16,.82);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);z-index:8}
-#fade{z-index:9}#title3{z-index:10}#toast{z-index:10}#loading{z-index:11}#rotate{z-index:12}#menu{z-index:9}#letterT,#letterB{z-index:7}#caption{z-index:6}
+#fade{z-index:9}#title3{z-index:10}#toast{z-index:10}#loading{z-index:11}#rotate{z-index:12}#menu{z-index:9}#ui #letterT,#ui #letterB{z-index:5;pointer-events:none}#caption{z-index:6}
 .card{width:min(720px,calc(100% - 24px));max-height:calc(100% - 24px);overflow:auto;background:#161a22;border:1px solid var(--line);border-radius:16px;padding:16px 18px;color:#f4efe6;-webkit-user-select:text;user-select:text}
 .card h2{font-family:var(--serif);font-size:18px;margin:0 0 10px;color:var(--accent);letter-spacing:.1em}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
