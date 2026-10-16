@@ -89,7 +89,7 @@ DECK_X0, DECK_X1, DECK_Z = -0.62, 0.98, 0.275
 DECK_TOP = 0.34
 TANK_L, TANK_R, TANK_Y = 0.55, 0.14, 0.20
 DRUM_LID_Y, DRUM_LID_R = 0.866, 0.274
-BUNG_BIG, BUNG_SMALL, RAG_DRUM = (-0.185, 0.03), (0.17, -0.10), (0.07, 0.13)
+BUNG_BIG, BUNG_SMALL, RAG_DRUM = (-0.185, 0.03), (0.17, -0.10), (0.11, 0.17)
 
 TANK_PROF = [(0.0, -0.275), (0.055, -0.268), (0.095, -0.252), (0.122, -0.232), (0.137, -0.213), (0.14, -0.2),
              (0.14, 0.2), (0.137, 0.213), (0.122, 0.232), (0.095, 0.252), (0.055, 0.268), (0.0, 0.275)]
@@ -227,7 +227,9 @@ def mix(a, c, t):
 def to_img(a): return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
 
 
-def put(P, name, img): P.paste(img, (REG[name][0] * SS, REG[name][1] * SS))
+def put(P, name, img):
+    """每塊各自縮到 1024 的大小再貼（整張一起縮，邊上會混到隔壁區塊的顏色：會接的區塊（洞洞板、胎紋）接縫看得出一條線）"""
+    x0, y0, x1, y1 = REG[name]; P.paste(img.resize((x1 - x0, y1 - y0), Image.LANCZOS), (x0, y0))
 
 
 def blob(X, Y, cx, cy, s): return np.exp(-((X - cx) ** 2 + (Y - cy) ** 2) / (2 * s * s))
@@ -344,8 +346,8 @@ def paint_sidewall(name, old, dusty):
 def paint_peg(name, oily, holes=True):
     w, h = sz(name); X, Y = np.meshgrid(np.arange(w) + 0.5, np.arange(h) + 0.5)
     cell = w / 8.0 if holes else w / 2.5
-    fib = soft(w, h, 101, 3, 0.8, wrap='xy'); mot = soft(w, h, 102 + oily, 40, 10, wrap='xy')
-    col = rgb(PEG, 0.5 * fib + 0.6 * mot, 0.05)
+    fib = soft(w, h, 101, 3, 0.8, wrap='xy')                                     # 只留細纖維：格子會隨機轉向，大塊明暗接不起來會看出方格
+    col = rgb(PEG, 0.6 * fib, 0.04)
     rough = np.full((h, w), 0.74, np.float32); sm = np.zeros((h, w), np.float32)
     if oily:
         rng = np.random.default_rng(7); sm = np.zeros((h, w), np.float32)
@@ -377,7 +379,7 @@ def paint_tool_steel():
     big = soft(w, h, 32, 30, 8); sm = np.clip(soft(w, h, 33, 12, 4) - 0.8, 0, 2) / 2              # 手摸的地方
     col = rgb(STEEL, st, 0.035) * (1 + 0.03 * big)[..., None]
     col = mix(col, (96, 92, 86), 0.35 * sm)
-    return to_img(col), 0.3 + 0.04 * np.clip(st, -2, 2) / 2 + 0.25 * sm
+    return to_img(col), 0.24 + 0.04 * np.clip(st, -2, 2) / 2 + 0.25 * sm
 
 
 def paint_socket_face():
@@ -525,7 +527,7 @@ def paint_rag():
     w, h, S_, T_ = grid('rag'); X, Y = S_ * w, T_ * h
     weave = 0.5 * np.sin(X / SS * 2.6) * np.sin(Y / SS * 2.6)
     wr = soft(w, h, 81, 14, 4) + 0.5 * soft(w, h, 82, 5, 1.5)
-    col = rgb((112, 118, 128), 0.4 * wr + 0.3 * weave + 0.4 * fine(w, h, 83), 0.07)
+    col = rgb((86, 92, 102), 0.4 * wr + 0.35 * weave + 0.4 * fine(w, h, 83), 0.09)
     rng = np.random.default_rng(84); oil = np.zeros_like(S_)
     for _ in range(8):
         oil = np.maximum(oil, blob(S_, T_, rng.uniform(0.15, 0.85), rng.uniform(0.15, 0.85), rng.uniform(0.07, 0.17)) * rng.uniform(0.6, 1.0))
@@ -666,7 +668,7 @@ def paint_funnel(name):
     col = rgb((22, 20, 17), n, 0.1)
     film = np.clip((T_ - 0.86) / 0.1, 0, 1) * (0.6 + 0.4 * np.clip(soft(w, h, 155, 6, 2, wrap='x'), -1, 1))
     col = mix(col, (176, 140, 36), 0.7 * film)
-    return to_img(col), 0.12 + 0.3 * film
+    return to_img(col), 0.26 + 0.3 * film
 
 
 # ---- 塑膠椅 ----
@@ -700,7 +702,7 @@ def paint_stool_side(name, color):
 
 def make_textures():
     check_regions()
-    P = Image.new('RGB', (N * SS, N * SS), (128, 128, 128)); rough_full = {}
+    P = Image.new('RGB', (N, N), (128, 128, 128)); rough_full = {}
 
     def add(name, res):
         img, r = res if isinstance(res, tuple) else (res, None)
@@ -721,8 +723,8 @@ def make_textures():
     add('stool_side_red', paint_stool_side('stool_side_red', STOOL_RED)); add('stool_side_blue', paint_stool_side('stool_side_blue', STOOL_BLUE))
     d = ImageDraw.Draw(P)
     for k, (c, _, _) in SW.items():
-        x0, y0, x1, y1 = REG['sw_' + k]; d.rectangle([x0 * SS, y0 * SS, x1 * SS - 1, y1 * SS - 1], fill=c)
-    os.makedirs(GEN, exist_ok=True); P.resize((N, N), Image.LANCZOS).save(ATLAS)
+        x0, y0, x1, y1 = REG['sw_' + k]; d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=c)
+    os.makedirs(GEN, exist_ok=True); P.save(ATLAS)
     orm = np.zeros((ORM_N, ORM_N, 3), np.uint8); orm[..., 0] = 255; orm[..., 1] = 200; f = ORM_N / N
     for name, (x0, y0, x1, y1) in REG.items():
         a0, b0, a1, b1 = int(x0 * f), int(y0 * f), int(math.ceil(x1 * f)), int(math.ceil(y1 * f))
@@ -1052,6 +1054,7 @@ def pliers(pm, i, j, col):
     uvf = lambda p: ruv('tool_steel', (yp + 0.06 - p[1]) / 0.26, 0.5 + (p[0] - hx) / 0.05)
     jaw = [(-0.0105, 0.0), (-0.0098, 0.018), (-0.0068, 0.040), (-0.0035, 0.054), (0.0, 0.057), (0.0035, 0.054), (0.0068, 0.040), (0.0098, 0.018), (0.0105, 0.0), (0.0075, -0.0085), (-0.0075, -0.0085)]
     extrude(pm, [(hx + u, yp + v, zc - 0.005) for u, v in jaw], (0, 0, 0.010), uvf)
+    zf = zc + 0.0053; quad(pm, [(hx - 0.0006, yp + 0.009, zf), (hx + 0.0006, yp + 0.009, zf), (hx + 0.0004, yp + 0.055, zf), (hx - 0.0004, yp + 0.055, zf)], [S('hole_dark')()] * 4, (0, 0, 1))   # 鉗口中間的縫
     lathe_parts(pm, [([(0.0, -0.0066), (0.0085, -0.0066), (0.0092, -0.005), (0.0092, 0.005), (0.0085, 0.0066), (0.0, 0.0066)], S('chrome'))], 10, 1, M=T(hx, yp, zc) @ Rx(math.pi / 2))
     for sg in (-1, 1):
         sweep(pm, [(hx + sg * 0.0047, yp - 0.006, zc), (hx + sg * 0.0085, yp - 0.022, zc), (hx + sg * 0.0118, yp - 0.04, zc)], 0.0042, 6, S('chrome'))
@@ -1228,13 +1231,13 @@ def cloth_grid(pm, G, reg):
 
 def shelf_rag(pm, ys):
     """第三層前緣掛的舊抹布：一半鋪在層板上、一半從折邊垂下來（有皺褶）"""
-    rng = np.random.default_rng(5); xs = np.linspace(0.37, 0.56, 7); G = []
+    rng = np.random.default_rng(5); xs = np.linspace(0.37, 0.56, 8); G = []
     path = [(0.09, ys + 0.004), (0.15, ys + 0.005), (0.205, ys + 0.004), (0.226, ys - 0.004), (0.229, ys - 0.035), (0.232, ys - 0.08), (0.236, ys - 0.125)]
     for a, (zp, yp) in enumerate(path):
         row = []; hang = max(0.0, (ys - yp) / 0.12)
         for b, x in enumerate(xs):
-            fold = 0.008 * math.sin(b * 1.9 + a * 0.7) * hang + (0.003 * abs(math.sin(b * 2.3 + a)) if hang == 0 else 0)
-            dy = (0.0 if hang == 0 else rng.uniform(-0.01, 0.01) * hang) + (0.003 * abs(math.sin(b * 1.3)) if hang == 0 else 0)
+            fold = (0.016 * math.sin(b * 1.7 + a * 0.5) + 0.006 * math.sin(b * 3.9 + 1.0)) * hang + (0.004 * abs(math.sin(b * 2.3 + a)) if hang == 0 else 0)
+            dy = (0.0 if hang == 0 else (0.018 * math.sin(b * 1.3 + 0.4) + rng.uniform(-0.006, 0.006)) * hang) + (0.003 * abs(math.sin(b * 1.3)) if hang == 0 else 0)
             row.append((x + (0.006 * math.sin(a * 1.1 + b) if hang > 0 else 0), yp + dy, zp + fold))
         G.append(row)
     cloth_grid(pm, G, 'rag')
@@ -1388,33 +1391,42 @@ def air_pump():
 # ================= 6. 廢油桶 =================
 def oil_drum():
     pm = PM()
-    lathe_parts(pm, [(DRUM_PROF, R('drum_side'))], 32, 1)
-    disk(pm, DRUM_LID_R, DRUM_LID_Y, 32, lambda X, Z: ruv('drum_top', 0.5 + X / 0.6, 0.5 + Z / 0.6), rings=3)
+    lathe_parts(pm, [(DRUM_PROF, R('drum_side'))], 30, 1)
+    disk(pm, DRUM_LID_R, DRUM_LID_Y, 30, lambda X, Z: ruv('drum_top', 0.5 + X / 0.6, 0.5 + Z / 0.6), rings=3)
     bx, bz = BUNG_BIG; sx, sz_ = BUNG_SMALL
     lathe_parts(pm, [([(0.032, 0.0), (0.033, 0.004), (0.033, 0.009), (0.026, 0.011), (0.018, 0.011)], S('drum_bung'))], 12, 1, M=T(bx, DRUM_LID_Y - 0.001, bz))
     lathe_parts(pm, [([(0.022, 0.0), (0.023, 0.004), (0.023, 0.009), (0.018, 0.011), (0.0, 0.0115)], S('drum_bung'))], 10, 1, M=T(sx, DRUM_LID_Y - 0.001, sz_))
     out = [(0.0175, 0.80), (0.0185, 0.87), (0.026, 0.89), (0.07, 0.93), (0.13, 0.985), (0.19, 1.04), (0.199, 1.05), (0.201, 1.058), (0.196, 1.064)]
     inn = [(0.196, 1.064), (0.188, 1.056), (0.12, 0.99), (0.06, 0.935), (0.02, 0.895), (0.0145, 0.85), (0.0145, 0.80)]
     lathe_parts(pm, [(out, R('funnel_out')), (inn, lambda s, t: ruv('funnel_in', s, 1 - t))], 24, 2, M=T(bx, 0.0, bz))
-    # 桶蓋上一團沾油的抹布：皺成一團（輪廓不規則、幾道摺痕），邊緣貼著桶蓋
-    rx, rz = RAG_DRUM; Ng = 9; G = []
-    for a in range(Ng):
+    # 桶蓋上一塊沾油的抹布（0.30×0.24）：隨手丟在桶蓋上、皺起幾道摺痕，靠桶邊的一角翻過捲邊、垂在桶子外面
+    rx, rz = RAG_DRUM; NU, NV = 13, 10; ang = math.radians(28); ca, sa = math.cos(ang), math.sin(ang)
+    folds = [(0.02, -0.01, 0.4, 0.016, 0.024), (-0.06, 0.03, 1.9, 0.012, 0.02), (0.05, 0.05, 2.6, 0.01, 0.018), (-0.03, -0.06, 1.1, 0.008, 0.016)]
+    G = []
+    for a in range(NV):
         row = []
-        for b_ in range(Ng):
-            u, v = -1 + 2 * b_ / (Ng - 1), -1 + 2 * a / (Ng - 1)
-            dx, dz = u * math.sqrt(1 - v * v / 2), v * math.sqrt(1 - u * u / 2)        # 方格 → 圓盤
-            rho = min(1.0, math.hypot(dx, dz)); th = math.atan2(dz, dx)
-            Rr = 1 + 0.22 * math.sin(2 * th + 1.0) + 0.12 * math.sin(3 * th + 2.2)
-            x, z = rx + dx * 0.105 * Rr, rz + dz * 0.08 * Rr
-            crease = 0.011 * abs(math.sin(5.0 * dx + 2.0 * dz + 0.5)) + 0.008 * abs(math.sin(3.0 * dz - 4.0 * dx + 1.3))
-            hgt = (0.036 * (1 - rho ** 2) ** 0.8 + crease * (1 - rho ** 3)) if rho < 0.999 else 0.0
-            row.append((x, DRUM_LID_Y + 0.002 + hgt, z))
+        for b_ in range(NU):
+            u, v = (b_ / (NU - 1) - 0.5) * 0.30, (a / (NV - 1) - 0.5) * 0.24
+            u += 0.012 * math.sin(v * 31 + 1.0); v += 0.01 * math.sin(u * 27 + 2.0)          # 布邊不直
+            x, z = rx + u * ca - v * sa, rz + u * sa + v * ca; r = math.hypot(x, z)
+            if r < DRUM_LID_R - 0.004:                                                     # 桶蓋上：摺痕（三角形的脊）
+                hgt = 0.003
+                for fx, fz, fa, fh, fw in folds:
+                    dist = abs((u - fx) * math.sin(fa) - (v - fz) * math.cos(fa)); hgt += fh * max(0.0, 1 - dist / fw)
+                row.append((x, DRUM_LID_Y + hgt, z))
+            elif r < 0.293:                                                                # 翻過捲邊
+                row.append((x, 0.884 + 0.004 * math.sin(u * 40), z))
+            else:                                                                          # 垂在桶子外面
+                e = r - 0.293; k = 0.297 / r
+                row.append((x * k, 0.882 - e * 1.1, z * k))
         G.append(row)
     sub = PM()
-    for a in range(Ng - 1):
-        for b_ in range(Ng - 1):
+    for a in range(NV - 1):
+        for b_ in range(NU - 1):
             p_ = [G[a][b_], G[a][b_ + 1], G[a + 1][b_ + 1], G[a + 1][b_]]
-            sub.poly(p_, [ruv('rag', 0.5 + (q[0] - rx) / 0.3, 0.5 + (q[2] - rz) / 0.3) for q in p_], (0, 1, 0))
+            c = np.mean(np.array(p_), 0); wv = (0, 1, 0) if math.hypot(c[0], c[2]) < 0.29 else (c[0], 0.3, c[2])
+            sub.poly(p_, [ruv('rag', b_ / (NU - 1), a / (NV - 1)), ruv('rag', (b_ + 1) / (NU - 1), a / (NV - 1)),
+                          ruv('rag', (b_ + 1) / (NU - 1), (a + 1) / (NV - 1)), ruv('rag', b_ / (NU - 1), (a + 1) / (NV - 1))], wv)
     pm.add(sub)
     return pm
 

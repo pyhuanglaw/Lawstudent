@@ -1,11 +1,11 @@
 {
  "objects": 8,
  "unique_meshes": 8,
- "tris": 25908,
- "tris_drawn": 25908,
+ "tris": 25922,
+ "tris_drawn": 25922,
  "materials": 1,
  "out": "assets/models/env/second_ai/bb_support/scooter_shop_props.glb",
- "bytes": 893800,
+ "bytes": 893752,
  "texres": 1024,
  "modules": {
   "SHOP_TIRE_STACK": {
@@ -22,7 +22,7 @@
    ]
   },
   "SHOP_TOOL_WALL": {
-   "tris": 4956,
+   "tris": 4960,
    "min": [
     -1.2,
     0.9,
@@ -35,7 +35,7 @@
    ]
   },
   "SHOP_PARTS_SHELF": {
-   "tris": 2136,
+   "tris": 2148,
    "min": [
     -0.6,
     -0.0,
@@ -44,7 +44,7 @@
    "max": [
     0.6,
     1.98,
-    0.2442
+    0.253
    ]
   },
   "SHOP_LIFT": {
@@ -74,16 +74,16 @@
    ]
   },
   "SHOP_OIL_DRUM": {
-   "tris": 2406,
+   "tris": 2404,
    "min": [
     -0.386,
     0.002,
-    -0.292
+    -0.2904
    ],
    "max": [
     0.292,
     1.064,
-    0.292
+    0.2904
    ]
   },
   "SHOP_STOOL_RED": {
@@ -113,7 +113,7 @@
    ]
   }
  },
- "tris_total": 25908,
+ "tris_total": 25922,
  "atlas": [
   "tools/blender/env_second/bb_support/textures/gen/scooter_shop_props_atlas.png",
   "tools/blender/env_second/bb_support/textures/gen/scooter_shop_props_orm.png"
