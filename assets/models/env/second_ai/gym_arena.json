@@ -1,13 +1,13 @@
 {
  "objects": 3877,
  "unique_meshes": 58,
- "tris": 52350,
- "tris_drawn": 246138,
+ "tris": 51678,
+ "tris_drawn": 245466,
  "materials": 88,
- "out": "assets/models/env/second_ai/gym_arena.json",
- "bytes": 3410108,
+ "out": "assets/models/env/second_ai/gym_arena.glb",
+ "bytes": 3363200,
  "texres": 512,
- "layout": 3,
+ "layout": 5,
  "seats_lower": 2256,
  "ceremony_chairs": 1250,
  "lecture_chairs": 308

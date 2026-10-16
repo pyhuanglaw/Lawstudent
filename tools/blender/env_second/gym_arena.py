@@ -173,7 +173,7 @@ while z < SZ - 1:
     for x in range(-18, 19, 6):                                     # 場地上方的 LED 燈（燈罩＋發光面）
         if abs(z - (-2)) < 30:
             bm = L.lathe([(0.08, 0.5), (0.14, 0.45), (0.42, 0.06), (0.45, 0.0), (0.0, 0.0)], seg=14); acc('steel_dk').add_bm(bm, Matrix.Translation(g2b(x, HH - 2.6, z))); bm.free()
-            acc('light').cyl((x, HH - 2.601, z), (x, HH - 2.6, z), 0.41, seg=14); acc('steel_dk').cyl((x, HH - 2.1, z), (x, HH - 1.8, z), 0.012, seg=4)
+            acc('light').cyl((x, HH - 2.606, z), (x, HH - 2.602, z), 0.41, seg=14)   # 發光面在燈罩底面下面 2～6 mm（原本 1 mm，從場地看會閃）; acc('steel_dk').cyl((x, HH - 2.1, z), (x, HH - 1.8, z), 0.012, seg=4)
             CL.glow(root, 'led', x, HH - 3.0, z, color='rgba(245,250,255,1)', size=4.0, day=0.5, night=1.0)
     z += 6.0
 # 中央吊掛的記分板（四面）
@@ -230,7 +230,7 @@ def stand(sd):
         y = H0 + r * R; z0, z1 = r * T, (r + 1) * T
         for (a, b) in cut(t0, t1):
             xf.box(acc('riser'), a, b, 0.0, y, z0, z1)                                     # 一排的實心量體（前面＝踢面，上面＝平台）
-            xf.box(acc('nosing'), a, b, y - 0.03, y + 0.004, z0, z0 + 0.04)               # 階梯前緣的黃色止滑條
+            xf.box(acc('nosing'), a, b, y - 0.03, y + 0.004, z0 - 0.003, z0 + 0.04)       # 階梯前緣的黃色止滑條（往外凸 3 mm：原本正面和踢面同一個平面，會閃）
             n = int((b - a - 0.1) / SR['seatPitch'])
             for k in range(n):
                 sx = a + 0.05 + (k + 0.5) * (b - a - 0.1) / n
@@ -241,7 +241,7 @@ def stand(sd):
         for r in range(SR['rows']):
             y = H0 + r * R; z0 = r * T
             xf.box(acc('riser'), a, b, 0.0, y - R / 2 if r else H0 * 0.75, z0, z0 + T / 2); xf.box(acc('riser'), a, b, 0.0, y, z0 + T / 2, z0 + T)
-            xf.box(acc('nosing'), a, b, (y - R / 2 if r else H0 * 0.75) - 0.03, (y - R / 2 if r else H0 * 0.75) + 0.004, z0, z0 + 0.04)
+            xf.box(acc('nosing'), a, b, (y - R / 2 if r else H0 * 0.75) - 0.03, (y - R / 2 if r else H0 * 0.75) + 0.004, z0 - 0.003, z0 + 0.04)
         xf.cyl(acc('steel'), (c, H0 / 2 + 0.9, -0.3), (c, H0 + (SR['rows'] - 1) * R + 0.9, DEPTH - 0.3), 0.025, seg=8)
         for k in range(0, SR['rows'], 3): xf.cyl(acc('steel'), (c, H0 + k * R, k * T + 0.3), (c, H0 + k * R + 0.9, k * T + 0.3), 0.02, seg=6)
         xf.box(acc('door'), a + 0.05, b - 0.05, H0 + (SR['rows'] - 1) * R, H0 + (SR['rows'] - 1) * R + 2.2, DEPTH - 0.02, DEPTH + 0.05)   # 走道頂端通往走廊的門（這一版關著）
@@ -250,7 +250,7 @@ def stand(sd):
         xf.box(acc('fascia'), a, b, 0.0, H0, -0.15, 0.0)
         xf.box(acc('glass'), a, b, H0, H0 + 1.0, -0.06, -0.04); xf.box(acc('steel'), a, b, H0 + 0.98, H0 + 1.04, -0.08, -0.02)
     # 看台後牆（走廊在後面，這一版不做）＋上層看台（4、5F）
-    xf.box(acc('plaster'), t0, t1, 0.0, UP['h0'], DEPTH, DEPTH + 0.3)
+    xf.box(acc('plaster'), t0, t1, 0.0, UP['h0'] - 0.01, DEPTH, DEPTH + 0.3)   # 頂比上層看台前面的色帶低 1 cm（原本兩個頂面同一個平面）
     U0 = U0L
     xf.box(acc('fascia'), t0, t1, UP['h0'] - 1.2, UP['h0'], U0 - 0.2, U0)                  # 上層看台前面的深藍色帶
     xf.box(acc('glass'), t0, t1, UP['h0'], UP['h0'] + 0.9, U0 - 0.12, U0 - 0.1)
@@ -264,7 +264,7 @@ def stand(sd):
     uv_strip(f'arena_upper_seats_{side}', M['seat_strip'], quads, root)
     # 看台兩端的側牆（封住階梯的斷面）
     prof = [(-0.15, 0.0), (-0.15, H0 + 1.0), (U0 - 0.2, UP['h0'] + 0.9), (U0 + UD, UP['h0'] + UP['rows'] * UP['rise'] + 0.9), (U0 + UD, 0.0)]   # v2：照看台的斜度收邊（v1 是整片 12 m 高的白牆，從場地看擋住看台）
-    for t in (t0, t1):
+    for t in (t0 - 0.005, t1 + 0.005):                               # 往外 5 mm：原本和每一排的端面同一個平面，會閃
         acc('plaster').quad([xf.p(t, y, u) for (u, y) in prof])
         for (ua, ya), (ub, yb) in zip(prof[1:3], prof[2:4]):                                # 斜邊上一條深藍收邊
             acc('fascia').quad([xf.p(t + (0.02 if t == t1 else -0.02), ya, ua), xf.p(t + (0.02 if t == t1 else -0.02), yb, ub), xf.p(t + (0.02 if t == t1 else -0.02), yb - 0.35, ub), xf.p(t + (0.02 if t == t1 else -0.02), ya - 0.35, ua)])
@@ -277,6 +277,7 @@ VW = Mesh(P + 'vomitory_wall', L.flat(P + 'vomitory_wall', '#8e9196', rough=0.8)
 ztop = 17 + DEPTH; yb, yt = SR['h0'] + 1.0, SR['h0'] + (SR['rows'] - 1) * SR['rise'] + 1.6
 for x in (V['x0'], V['x1']):
     xo = x - 0.25 if x < 0 else x + 0.25
+    x = x + (0.005 if x < 0 else -0.005)                             # 通道內側的牆往通道裡 5 mm：原本和看台每一排的端面同一個平面，會閃
     for xx in (x, xo): VW.quad([(xx, 0.0, V['z0']), (xx, 0.0, ztop), (xx, yt, ztop), (xx, yb, V['z0'])])
     VW.quad([(x, yb, V['z0']), (x, yt, ztop), (xo, yt, ztop), (xo, yb, V['z0'])])                      # 斜的上緣
     VW.quad([(x, 0.0, V['z0']), (x, yb, V['z0']), (xo, yb, V['z0']), (xo, 0.0, V['z0'])])              # 正面
