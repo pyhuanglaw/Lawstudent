@@ -152,6 +152,9 @@ def main(key):
             if wk.get('review'): e['review'] = wk['review']
             if wk.get('special'):
                 e['special'] = True; cj['special'].append({'w':w,'ref':wk['special']['ref']})
+            if wk.get('off'):
+                # 停課（國定假日、颱風假；AA_154 1-1、1-2）：那一週這門課不播、內容不補；遊戲以 calendar.js 為準，這裡只是標記
+                e['off'] = wk['off']
             cj['syllabus'].append(e)
         if c.get('second'):
             cj['second_slot_lines'] = c['second']
@@ -213,7 +216,7 @@ def render(m, out):
     L.append("")
     L.append("- 每門課每週一筆：**黑板三行＋教授一句＋同學反應**（A 類大多沒有同學發言，有的話一句）。模板：**A** 一句開場、一個例子、下課（沒有選項）；**B** 觀察（不影響數值的小選擇，選了只顯示一行結果）；**B（討論）** 有爭點的互動課（`AA_119`）：教授問一題 → 玩家選三個看法之一或「我想先聽別人說」→ 兩三個同學依序回應 → 教授收尾、不說誰對，記下玩家的看法（有些週有**回想**：照玩家之前的看法、去過的課、旗標、人物記憶或聽過的演講，在選項前或某位同學之後多一句旁白；A、C 類和觀察型 B 也可以有回想，放在教授那句之後）；**C** 被點到，但沒有對錯（三個立場都接同一個收尾）。")
     if term=='Y0S1':
-        L.append("- 第 8～9、17～18 週考試，不上課。經濟系那一年從第 1 週開始（E01～E05、P1、B1 都在第 1～2 週），不是法律系的「第 3 週週三」。")
+        L.append("- 第 8～9、17～18 週考試，不上課。經濟系那一年從第 1 週開始（E01～E04、P1、B1 在第 1～2 週；E05 在第 3 週 9/19，`AA_154`），不是法律系的「第 3 週週三」。**停課**：9/17（二）中秋節、9/30（一）颱風假（`AA_154` 1-2）——那一天的課不播、內容不補，課表標 `off`。")
     elif term=='Y0S2':
         L.append(f"- 第 8～9、17～18 週考試，不上課；從第 1 週開始。**第 {out.get('leave_week')} 週辦休學**：之後經濟系的課不排進課表，第 {out.get('leave_week',0)+1} 週以後的內容（標「休學後」）只當同學在群組、走廊說起的素材，沒有要玩家選的東西；法學緒論休學後不上，之後的週不放進遊戲（交接包_v0 第 0 節第 5 點）。")
     else:
@@ -255,6 +258,7 @@ def render(m, out):
                 extra += f"<br>**課堂提問**：`{e['ask']['qid']}`（{q.get('core') or q.get('difficulty','')}；答案 {q.get('answer','')}）"
             r = '<br>'.join(f"{WHO.get(x['who'],x['who'])}：「{x['text']}」" for x in e['react'])
             sp = '（特殊事件週）' if e.get('special') else ''
+            if e.get('off'): sp += '（停課：'+e['off']+'）'
             tl = e['tpl'] + ('（休學後：群組、走廊）' if e.get('after_leave') else '')
             L.append(f"| {e['w']}{sp} | {tl} | {b} | 「{e['line']}」{extra} | {r} | {e.get('review','')} |")
         L.append("")
