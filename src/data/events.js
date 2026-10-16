@@ -14,7 +14,7 @@ const YU2_Q=arcade=>[ {speaker:'yu',expression:'neutral',text:'欸，阿哲是�
   {label:'end'},{mem:[{npc:'yu',tag:'ASKED_ABOUT_ZHE',note:'她問：阿哲是不是對每個人都這麼好？'}]} ];
 const YU2_QUESTION=YU2_Q(false);   /* 騎樓版她沒有背吉他（AA 50da3a9）：「調弦」換成「滑手機」、「彈了一個和弦」換成「哼了一段成發要彈的旋律」，台詞不變 */
 /* 重訪日 1 的選項（交接包 v2 C20 第 3 節的表）：只從玩家真的經歷過的事裡出，最多三個（照表的順序），再加一個一定有的「每天都差不多。可是我很喜歡。」
-   那場演講（C13 的 B4）、成發拍手（BB_96 Q5 的 CLAPPED）還沒做：做的時候記 B4_ATTENDED、CLAPPED，這裡就會出現 */
+   那場演講（C13 的 B4：B4_ATTENDED／出席紀錄）、成發拍手（BB_96 Q5 的 CLAPPED）都已接：有經歷過才會出現 */
 const REVISIT_Y1_OPTS=[
   {k:'retake',t:'「重修的第一堂，坐回同一間教室。」',ok:G=>{ const A=G.courses&&G.courses.attend||{}; return ((A.econ_principles_1|0)+(A.econ_principles_2|0))>0; }},
   {k:'bbq',t:'「中秋烤肉，借來的烤肉架。」',ok:G=>!!(G.events&&G.events.done&&G.events.done.ev_mid_autumn_bbq)},
@@ -285,7 +285,7 @@ const STORY_EVENTS=[
     consequences:{mem:[{npc:'classmate_peishan',tag:'NOT_FOR_ME',note:'三段論那天'}],flags:{NOTE_PAGE1:1},toast:'📓 筆記的第一頁：你改寫了一行'} },
   /* 明軒 M1：公車站的筆記（BB_95 3-6，v1 版）：週二、週四 21–22 點，他家教完剛下公車，在公館騎樓的公車站把民總筆記畫完（characters.js 的日程：linger）。
      和他至少 ACQUAINTANCE、大一上第 7 週（期中前一週）起、只一次。SAW_HIM_STUDY：期中後麵店團的聚餐（A15）阿哲說「明軒從來不念書」時多一個選項。
-     解鎖他的聯絡方式；「公館一百元以內」的店家清單（地圖小標，BB_70 F-M1）還沒做。公車站的長椅還沒有（站著）——環境細節那一批（D70） */
+     解鎖他的聯絡方式；「公館一百元以內」的店家清單（BB_70 F-M1）那晚 23:00 私訊、進筆記本（地圖上的小標先不做）。公車站的長椅還沒有（站著）——環境細節那一批（D70） */
   { id:'ev_mingxuan_notes', title:'公車站的筆記', participants:['classmate_mingxuan'], location:'gongguan', trigger:'interact', priority:6, weekday:[2,4], time:[21,22], term:['Y1S1'], once:true, prereq:{stage:{npc:'classmate_mingxuan',min:'ACQUAINTANCE'},custom:G=>{ const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf(G.day); return !!t&&t.week>=7; }}, background:'blur',
     dialogue:[ {speaker:null,text:'明軒戴著耳機，膝蓋上攤著民總的筆記，三種顏色的螢光筆。'},{speaker:null,text:'他看到你，把筆記蓋起來。'},{speaker:'classmate_mingxuan',expression:'embarrassed',text:'……你沒看到。'},{speaker:'classmate_mingxuan',expression:'laugh',text:'（笑）我是說，你什麼都沒看到喔。我是在看漫畫。'},
       {choice:[{text:'「我什麼都沒看到。」',goto:'nothing'},{text:'「你從哪裡回來？」',goto:'where'},{text:'（坐到他旁邊，也拿出筆記）',goto:'sit'}]},
@@ -293,7 +293,7 @@ const STORY_EVENTS=[
       {label:'where'},{speaker:'classmate_mingxuan',expression:'neutral',text:'……家教。三個。'},{speaker:null,text:'他看馬路。'},{speaker:'classmate_mingxuan',expression:'neutral',text:'我爸的店最近比較忙不過來，我多接一點。'},{speaker:null,text:'然後轉回來，笑了。'},{speaker:'classmate_mingxuan',expression:'smile',text:'好，這個話題結束。你要不要看漫畫？'},{mem:[{npc:'classmate_mingxuan',tag:'SHARED_SECRET',note:'他多接了家教'}]},{goto:'end'},
       {label:'sit'},{speaker:null,text:'兩個人一路沒講話。'},{speaker:'classmate_mingxuan',expression:'laugh',text:'你的螢光筆只有一種顏色？很可憐耶。'},{speaker:null,text:'他給你一支綠色的。'},{set:{GREEN_HIGHLIGHTER:true}},
       {label:'end'} ],
-    consequences:{mem:[{npc:'classmate_mingxuan',tag:'SAW_HIM_STUDY'}],contact:'classmate_mingxuan',memo:'在公館的公車站遇到明軒'} },
+    consequences:{mem:[{npc:'classmate_mingxuan',tag:'SAW_HIM_STUDY'}],contact:'classmate_mingxuan',stamp:['MX_M1_DAY'],memo:'在公館的公車站遇到明軒'} },   /* MX_M1_DAY：那晚 23:00 他傳「公館一百元以內」的清單（story3d.js phoneRules 'mx_fm1'，BB_70 F-M1）*/
   /* 校慶：法服的法律問答攤（BB_95 3-7）：大一上第 11 週週六（11/15，校慶日期需查證）10–12 點，走近椰林大道上法服的帳篷（zones3d.js：校慶那天擺出社團博覽會的同一排帳篷；
      學姊的日程那兩小時站在攤前）。沒加入法服的玩家經過也會被她叫住；攤位上還有阿嬤和法服的人，不是兩個人單獨相處。主線不會主動把玩家帶過去（BB_90 第 1 節）。
      阿嬤的問題只引導到「先溝通、再來法服」，不給法律結論、不引用條號（需法律審查；學生不能獨立給法律意見）。
@@ -1912,7 +1912,7 @@ const STORY_EVENTS=[
     prereq:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_y0_p1b1)&&G.flags.P1B1_DAY!==G.day},
     dialogue:[ {speaker:'韋綸',text:'我的平衡了！'},{speaker:'econ_zhengxun',text:'（看了一眼）……你兩邊都寫零。'} ] },
   /* T1 全系的秘密（BB_112 T1；AA_154 第 111 行）：Y0S1 第 5～6 週平日中午在校園，切到小福（E09 之後的那幾週；9/30 颱風假、10/10 國慶沒有）。記 KNOWS_TANG（法律系 BB_106 4-2① 的選項讀它）。
-     沒去：沒有這件，第一次聽說在 T2（唐睿自己說漏嘴，還沒做）*/
+     沒去：沒有這件，第一次聽說在 T2（唐睿自己說漏嘴，ev_y0_t2）*/
   { id:'ev_y0_t1', stage:'econ', title:'全系的秘密', participants:['econ_pinyu'], location:'campus', trigger:'auto', term:['Y0S1'], weeks:[5,6], weekday:[1,2,3,4,5], time:[12.1,13.25], once:true, background:'blur',
     prereq:{custom:G=>typeof CALENDAR==='undefined'||!CALENDAR.holiday(G.day)},
     dialogue:[ {scene:'小福',bg:'xiaofu'},

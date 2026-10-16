@@ -3463,6 +3463,66 @@
    "integration": "已整合待測試",
    "note": "階梯已重跑 import（v9.9 之前）",
    "date": "2026-10-16T15:2xZ"
+  },
+  {
+   "id": "DLV-1016-289",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "b0077e30",
+   "what": "小公園 v4：土地公小廟去積木化（供桌、神龕看得到神桌與金身、石材＋紅牆、匾與對聯；花籬南段改從廟東邊開始）；只換 wz_park.glb＋.json",
+   "task": "ART-WZ1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "下一版；layout 沒改",
+   "date": "2026-10-16T15:3xZ"
+  },
+  {
+   "id": "DLV-1016-290",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "66cf3ed4",
+   "what": "BB_106 SK02 兩句：房間「經濟系的系外套」三版、第 8 週櫃台旁白；「先回宿舍」不傳送",
+   "task": "V0-SK",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "tests/v1_sk01_unit.js 13",
+   "date": "2026-10-16T15:3xZ"
+  },
+  {
+   "id": "DLV-1016-291",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "619193a6",
+   "what": "BB_98 第 10 節：大三 BB 事件的到場缺字（邀約／沒到版 16 項、時段表、旗標、照 AA_180 改）",
+   "task": "V4-E1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v4 開工時用（BB_98 第 10 節，整個大三的到場缺字）",
+   "date": "2026-10-16T15:3xZ"
+  },
+  {
+   "id": "DLV-1016-292",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "3a7348aa",
+   "what": "BB_99 第 10 節：大四 BB 事件的到場缺字（18 項、時段、旗標）",
+   "task": "V4-E1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v5 開工時用",
+   "date": "2026-10-16T15:3xZ"
+  },
+  {
+   "id": "DLV-1016-293",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "0dc38d62",
+   "what": "AA_181 v5 預先回答（大四、交換延畢、畢業後、尾聲）＋AA_180 大三兩處更正（e923c0e3：冠軍賽 4/29 19:00、美國路線 6/2 學姊生日改 2D 出遊）",
+   "task": "CAL-TY-Y2Y3",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v5／v4 開工時用；日曆 2028-09-18 颱風另列 CAL-TY-Y2Y3",
+   "date": "2026-10-16T15:3xZ"
   }
  ],
  "ignored": [
