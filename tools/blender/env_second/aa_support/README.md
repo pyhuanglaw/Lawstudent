@@ -418,6 +418,8 @@
 - **合計**：7,408 三角形（≤ 12k）；仍是 1 個材質（1024 底色＋256 ORM）。新的貼圖區塊：四種門片、砧板、三張紙、捲筒紙巾；新的色塊：瓷、藍邊、馬克杯、壺、電線、鐵絲、托盤、海綿、磁鐵等。
 - **渲染**：`docs/art-rebuild/second_ai/test_shots/us_apartment/us2b_*.webp`（原本的八張同角度重拍＋遊戲鏡頭高度、瀝水架、水壺、冰箱門）；舊的 `us2_*.webp` 留著對照。
 - **沒做**：碗盤不會動、水龍頭沒有水；遊戲內截圖由 LAWWW2-B 組裝後拍（我沒有 `us_apartment` 區域的組裝）。
+- **看到的、還沒達到的**：水槽左槽的白碗在灰色的槽裡不太明顯（從正面看會被盤子擋一點），要的話換成有顏色的碗（改一個色塊）。牆的 AO 要在房間那邊加。
+- **狀態**：`READY_FOR_REVIEW`（等 LAWWW2-B 驗收）。
 
 ## ART-US4 美國公寓衛浴＋陽台小物：`us_bath_props.py` → `assets/models/env/second_ai/aa_support/us_bath_props.glb`
 
