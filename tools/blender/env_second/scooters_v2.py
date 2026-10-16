@@ -33,16 +33,29 @@ M = {
 }
 M['metalvc'].node_tree.nodes['Principled BSDF'].inputs['Metallic'].default_value = 0.45
 # 零件顏色（寫進頂點色）：(顏色, 金屬)
-COL = {'dark': ('#2a2b2d', 0), 'black': ('#17181a', 0), 'seat': ('#1d1c1c', 0), 'tire': ('#191919', 0), 'lamp': ('#e8edf0', 0), 'lamp_warm': ('#f2e6c8', 0),
+COL = {'cvt': ('#46494e', 1), 'dark': ('#2a2b2d', 0), 'black': ('#17181a', 0), 'seat': ('#1d1c1c', 0), 'tire': ('#191919', 0), 'lamp': ('#e8edf0', 0), 'lamp_warm': ('#f2e6c8', 0),
        'tail': ('#a1231b', 0), 'amber': ('#d98a1e', 0), 'plate': ('#f1f1ec', 0), 'smoke': ('#3b4148', 0), 'box': ('#2e3033', 0), 'box_grey': ('#8e9196', 0),
        'deliv': ('#31373d', 0), 'helmet_w': ('#e9e7e2', 0), 'helmet_b': ('#2a3a55', 0), 'helmet_r': ('#9b2c2c', 0), 'visor': ('#252a30', 0),
        'metal': ('#7d8186', 1), 'chrome': ('#b9bec3', 1), 'alloy': ('#5d6166', 1), 'gold': ('#a8873e', 1)}
 
 
 class Part(Mesh):
-    """零件：一個顏色（paint＝車殼，白色）。最後全部寫頂點色、換成三個共用材質"""
-    def __init__(self, col='paint'):
-        super().__init__('p_' + col, M['paint']); self.col = col
+    """零件：一個顏色（paint＝車殼，白色）。最後全部寫頂點色、換成三個共用材質。
+    smooth＝曲面零件（車殼、座墊）：細分一次（Subdivision Surface）讓曲面圓順，再減面（Decimate）回到預算 target 個三角形"""
+    def __init__(self, col='paint', smooth=False, target=None):
+        super().__init__('p_' + col + ('_s' if smooth else ''), M['paint']); self.col = col; self.smooth = smooth; self.target = target
+
+
+def subdiv_decimate(ob, target, levels=1):
+    """細分＋減面（用 depsgraph 算出結果再換掉網格，不靠 UI 的 modifier_apply）"""
+    sub = ob.modifiers.new('sub', 'SUBSURF'); sub.levels = levels; sub.render_levels = levels
+    dg = bpy.context.evaluated_depsgraph_get(); me = bpy.data.meshes.new_from_object(ob.evaluated_get(dg)); ob.modifiers.remove(sub)
+    old = ob.data; ob.data = me; bpy.data.meshes.remove(old)
+    n = sum(len(p.vertices) - 2 for p in me.polygons)
+    if target and n > target:
+        dec = ob.modifiers.new('dec', 'DECIMATE'); dec.ratio = target / n; dec.use_collapse_triangulate = True
+        dg = bpy.context.evaluated_depsgraph_get(); me2 = bpy.data.meshes.new_from_object(ob.evaluated_get(dg)); ob.modifiers.remove(dec)
+        old = ob.data; ob.data = me2; bpy.data.meshes.remove(old)
 
 
 def finish_all(parts, name, loc_z):
@@ -50,7 +63,10 @@ def finish_all(parts, name, loc_z):
     obs = []
     for p in parts:
         if p.empty(): p.bm.free(); continue
-        col = p.col; ob = p.finish(None, uv=False); L.smooth_mesh(ob, angle=1.0)
+        col = p.col; ob = p.finish(None, uv=False)
+        if getattr(p, 'smooth', False): subdiv_decimate(ob, p.target)
+        L.smooth_mesh(ob, angle=1.0)
+        if '--parts' in ARGS: print('   part', name, col, ob.name, sum(len(q.vertices) - 2 for q in ob.data.polygons))
         hx, met = ('#ffffff', 0) if col == 'paint' else COL[col]
         c = [lin(int(hx[i:i + 2], 16) / 255) for i in (1, 3, 5)] + [1.0]
         at = ob.data.color_attributes.new('Col', 'FLOAT_COLOR', 'CORNER')
@@ -90,10 +106,10 @@ def loft(m, rings, cap=True):
     return m
 
 
-def wheel(parts, x, r, w, rim='disc', seg=12):
+def wheel(parts, x, r, w, rim='disc', seg=14):
     """輪胎（車胎截面是圓弧：機車胎窄而圓）＋輪框；rim：disc（壓鑄多輻，簡化成兩面圓盤）、spoke（鋼絲輪：細的框＋輪轂）"""
     t = Part('tire'); hub = r * (0.47 if rim == 'disc' else 0.82)
-    prof = [(hub + 0.012, -w / 2 * 0.8), (r - w * 0.32, -w / 2), (r - w * 0.08, -w * 0.3), (r, 0.0), (r - w * 0.08, w * 0.3), (r - w * 0.32, w / 2), (hub + 0.012, w / 2 * 0.8)]
+    prof = [(hub + 0.012, -w / 2 * 0.8), (r - w * 0.3, -w / 2), (r, 0.0), (r - w * 0.3, w / 2), (hub + 0.012, w / 2 * 0.8)]
     bm = L.lathe(prof, seg=seg); t.add_bm(bm, Matrix.Translation(g2b(x, r, 0)) @ Matrix.Rotation(math.pi / 2, 4, 'X')); bm.free(); parts.append(t)
     if rim == 'disc':
         rm = Part('alloy'); bm = L.lathe([(0.0, -w / 2 * 0.75), (hub + 0.014, -w / 2 * 0.75), (hub + 0.014, w / 2 * 0.75), (0.0, w / 2 * 0.75)], seg=8)
@@ -107,13 +123,13 @@ def wheel(parts, x, r, w, rim='disc', seg=12):
         parts.append(rm)
 
 
-def tsect(x, yb, yt, wb, wt, p=3.0, n=10):
+def tsect(x, yb, yt, wb, wt, p=3.0, n=10, bulge=0.07):
     """後車身的橫斷面：圓角梯形（下寬 wb、上寬 wt 的半寬；底 yb、頂 yt）；p 越大角越方"""
     cy, hh = (yb + yt) / 2, (yt - yb) / 2; pts = []
     for i in range(n):
         t = 2 * math.pi * i / n; c, s = math.cos(t), math.sin(t)
         v = math.copysign(abs(s) ** (2 / p), s); u = math.copysign(abs(c) ** (2 / p), c)
-        w = wb + (wt - wb) * (v + 1) / 2
+        w = (wb + (wt - wb) * (v + 1) / 2) * (1 + bulge * (1 - ((v + 0.25) / 1.25) ** 2))   # 側蓋往外鼓（最寬在下 40% 的高度）
         pts.append((x, cy + hh * v, u * w))
     return pts
 
@@ -181,21 +197,22 @@ ARCH = {
 
 def build(code):
     A = ARCH[code]; P = {}
-    def part(col):
-        if col not in P: P[col] = Part(col)
-        return P[col]
+    def part(col, smooth=False, target=None):
+        k = col + ('_s' if smooth else '')
+        if k not in P: P[k] = Part(col, smooth, target)
+        return P[k]
     wl = []
     wb, rf, rr, tw, fl, fx = A['wb'], A['rf'], A['rr'], A['tw'], A['fl'], A['fx']
     wheel(wl, wb, rf, tw); wheel(wl, -wb, rr, tw * (1.12 if code == 'S2' else 1.0))
-    paint = part('paint'); rear = A['rear']
+    paint = part('paint', True, 480); rear = A['rear']
     # 後車身：圓角梯形斷面，下緣越往後越高（讓出後輪）
     loft(paint, [tsect(x, yb, yt, w0, w1, p=A['rp']) for (x, yb, yt, w0, w1) in rear])
     if A['two_tone']:   # 運動型：側板下半部黑色塑件（比車殼寬一點點，蓋在下緣）
         loft(part('black'), [tsect(x, yb - 0.005, yb + (yt - yb) * 0.38, w0 + 0.006, w0 * 0.96 + 0.004, p=A['rp']) for (x, yb, yt, w0, w1) in rear[1:-1]])
     # 座墊：坐的地方低、後座高一點；外緣一圈車線（深一點的顏色）
-    seat = A['seat']; loft(part('seat'), [tsect(x, yb, yt, hw, hw * 0.92, p=3.2, n=10) for (x, yb, yt, hw) in seat])
+    seat = A['seat']; loft(part('seat', True, 120), [tsect(x, yb, yt, hw, hw * 0.9, p=2.8, n=8, bulge=0.03) for (x, yb, yt, hw) in seat])
     # 踏板：平的腳踏板＋橡膠紋（深灰）＋兩側的車殼裙邊
-    part('dark').rbox(-0.02, fx, fl - 0.012, fl, -0.165, 0.165, r=0.006, seg=1)
+    part('dark').box(-0.02, fx, fl - 0.012, fl, -0.165, 0.165)
     loft(paint, [tsect(x, fl - 0.11, fl - 0.008, 0.17, 0.172, p=4) for x in (-0.03, fx * 0.5, fx + 0.01)])
     # 前擋：前面鼓、後面平，往上往前傾
     loft(paint, [shield(x, y, hw, df, db, p=A['app']) for (y, x, hw, df, db) in A['apron']])
@@ -212,7 +229,7 @@ def build(code):
     for s in (-1, 1):
         gr.cyl((0.4, cy_c + 0.005, s * 0.15), (0.385, cy_c + 0.015, s * 0.33), 0.017, seg=6)
         part('black').cyl((0.42, cy_c + 0.02, s * 0.2), (0.45, cy_c + 0.01, s * 0.31), 0.006, seg=3)
-    part('smoke').rbox(cov[1][0] - 0.03, cov[1][0] + 0.03, cy_c + 0.035, cy_c + 0.06, -0.07, 0.07, r=0.01, seg=1)
+    part('smoke').box(cov[1][0] - 0.03, cov[1][0] + 0.03, cy_c + 0.035, cy_c + 0.06, -0.07, 0.07)
     # 後照鏡
     mr = part('dark')
     for s in (-1, 1):
@@ -220,7 +237,7 @@ def build(code):
             mr.cyl((0.4, cy_c + 0.03, s * 0.22), (0.39, cy_c + 0.11, s * 0.26), 0.008, seg=4)
             mr.quad([(0.38, cy_c + 0.1, s * 0.21), (0.395, cy_c + 0.1, s * 0.33), (0.395, cy_c + 0.15, s * 0.32), (0.38, cy_c + 0.155, s * 0.24)][::s])
         else:
-            mr.cyl((0.4, cy_c + 0.03, s * 0.22), (0.37, cy_c + 0.2, s * 0.27), 0.008, seg=4); mr.ell((0.37, cy_c + 0.22, s * 0.285), 0.014, 0.04, 0.052, seg=6, rings=3)
+            mr.cyl((0.4, cy_c + 0.03, s * 0.22), (0.37, cy_c + 0.2, s * 0.27), 0.008, seg=4); mr.box(0.362, 0.378, cy_c + 0.185, cy_c + 0.255, s * 0.285 - 0.05, s * 0.285 + 0.05)
     # 頭燈、方向燈
     lp = part('lamp'); ap = A['apron']
     if A['lamp'] == 'handle':
@@ -240,7 +257,7 @@ def build(code):
     tx, tyb, tyt = rear[-2][0], rear[-2][1], rear[-2][2]
     tl = part('tail')
     if A['tail'] == 'wide':
-        tl.rbox(tx - 0.045, tx - 0.01, tyt - 0.09, tyt - 0.03, -0.085, 0.085, r=0.012, seg=1)
+        tl.box(tx - 0.045, tx - 0.01, tyt - 0.09, tyt - 0.03, -0.085, 0.085)
         for s in (-1, 1): am.box(tx - 0.04, tx - 0.01, tyt - 0.12, tyt - 0.095, s * 0.085 - 0.022, s * 0.085 + 0.022)
     elif A['tail'] == 'sharp':
         for s in (-1, 1): tl.quad([(tx - 0.04, tyb + 0.02, s * 0.005), (tx + 0.08, tyb + 0.0, s * 0.1), (tx + 0.08, tyb + 0.035, s * 0.11), (tx - 0.04, tyb + 0.055, s * 0.01)][::s])
@@ -252,14 +269,14 @@ def build(code):
     part('dark').box(px, px + 0.06, 0.38, 0.4, -0.03, 0.03)
     # 傳動箱（左邊、鋁色、圓角長殼）或電動的輪轂馬達
     if A['exh'] != 'none':
-        loft(part('alloy'), [sect(x, cy, hw, hh, p=2.6, n=8, dz=0.13) for (x, cy, hw, hh) in [(-wb - 0.07, rr, 0.03, 0.06), (-wb + 0.02, rr + 0.005, 0.045, 0.1), (-0.3, 0.27, 0.05, 0.1), (-0.08, 0.26, 0.045, 0.085), (0.0, 0.25, 0.03, 0.055)]])
+        loft(part('cvt'), [sect(x, cy, hw, hh, p=2.6, n=8, dz=0.115) for (x, cy, hw, hh) in [(-wb - 0.05, rr, 0.025, 0.05), (-wb + 0.03, rr + 0.01, 0.035, 0.08), (-0.32, 0.27, 0.04, 0.085), (-0.12, 0.27, 0.035, 0.075), (-0.06, 0.26, 0.022, 0.05)]])
     else:
         part('dark').cyl((-wb, rr, 0.0), (-wb, rr, 0.075), rr * 0.48, seg=12); part('dark').cyl((-wb, rr, 0.085), (-0.12, 0.28, 0.095), 0.024, seg=5)
         part('dark').rbox(-0.3, -0.05, 0.2, 0.3, -0.12, 0.12, r=0.02, seg=1)   # 踏板下的電池艙底殼
     part('dark').box(-0.42, -0.02, 0.18, 0.3, -0.1, 0.08)
     # 排氣管：從引擎下方往後接到右側的消音器（短胖罐＋隔熱片），不是一根長管
     if A['exh'] != 'none':
-        big = A['exh'] == 'big'; mx0, mx1, my, mz, mr_ = -0.4, -wb - (0.24 if big else 0.2), 0.3 if big else 0.27, -0.165, 0.07 if big else 0.058
+        big = A['exh'] == 'big'; mx0, mx1, my, mz, mr_ = -0.46, -wb - (0.2 if big else 0.12), 0.33 if big else 0.31, -0.15, 0.062 if big else 0.052
         part('dark').cyl((-0.06, 0.13, -0.04), (mx0 + 0.02, my - 0.04, mz + 0.02), 0.022, seg=5)
         part('alloy' if big else 'black').cyl((mx0, my, mz), (mx1, my + (0.07 if big else 0.04), mz - 0.005), mr_, seg=10, r2=mr_ * (1.12 if big else 0.92))
         part('chrome' if not big else 'black').quad([(mx0 + 0.05, my + 0.07, mz - mr_ - 0.008), (mx1 + 0.08, my + 0.1, mz - mr_ - 0.012), (mx1 + 0.08, my + 0.0, mz - mr_ - 0.015), (mx0 + 0.05, my - 0.035, mz - mr_ - 0.01)])
@@ -274,7 +291,7 @@ def build(code):
         for s in (-1, 1): g.cyl((seat[2][0] - 0.1, sy - 0.02, s * 0.155), (sx_end - 0.02, sy - 0.01, s * 0.12), 0.012, seg=5)
         g.cyl((sx_end - 0.02, sy - 0.01, -0.12), (sx_end - 0.02, sy - 0.01, 0.12), 0.012, seg=5)
     if 'rear_box' in ex:  # 後箱（約 32 L，倒角、上蓋分模線）＋支架
-        bx0 = sx_end - 0.06; part('box').rbox(bx0 - 0.36, bx0, sy + 0.03, sy + 0.33, -0.19, 0.19, r=0.05, seg=2)
+        bx0 = sx_end - 0.06; part('box').rbox(bx0 - 0.36, bx0, sy + 0.03, sy + 0.33, -0.19, 0.19, r=0.05, seg=1)
         part('black').box(bx0 - 0.362, bx0 + 0.002, sy + 0.2, sy + 0.212, -0.192, 0.192); part('tail').box(bx0 - 0.37, bx0 - 0.36, sy + 0.12, sy + 0.16, -0.1, 0.1)
         part('metal').box(bx0 - 0.3, bx0 - 0.04, sy - 0.005, sy + 0.03, -0.11, 0.11)
     if 'hook_bag' in ex:  # 前掛勾掛的塑膠袋（便當、飲料）
