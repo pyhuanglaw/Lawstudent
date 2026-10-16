@@ -640,12 +640,35 @@ const STORY_EVENTS=[
       const h=G.hour%24; if(h<13&&GM.advance) GM.advance(13-h); if(GM.caption) GM.caption('','午休結束。',2400); } },
   /* SK03 1-4 沒去時（BB_135 1-4；AA-B 2026-10-16：第 8 週週五重修經原（下）期中考前、在重修教室，舞台說明「（考卷還沒發。）」）：沒有 ECON_LAW_BRIDGE 的玩家，芯慈說阿勳認識你。
      第 8 週沒去重修就延到下一個有去的週五（第 9、11 週…；不是考試的那幾週沒有「考卷還沒發。」）；整學期都沒去就沒有（ECON_LAW_BRIDGE 留到大二 SK09）。記 ECON_LAW_BRIDGE：之後的週五午餐芯慈已經在桌上 */
-  /* P4c 坐過的位子（BB_105 P4c；AA-B 10-16）：法律系第一次上重修的經濟學原理（普通教學館 101，P1 的同一間大教室）進教室時一句旁白，只一次。
-     玩過經濟系大一的玩家多半句，讀 P1 選的座位 Y0_P1_SEAT（xun／front／window；略過 P1 的沒有值＝只有前半句）。P4 的對話等 AA-B Q11、Q12 */
-  { id:'ev_p4c_seat', title:'坐過的位子', participants:[], location:'any', trigger:'class', beforeClass:'econ_principles_1', term:['Y1S1'], once:true, background:'blur',
+  /* P4 第二次大一＋P4c 坐過的位子（BB_105 第 3 節「P4 第二次大一」、P4c；AA_154 A51）：法律系第一次上重修的經濟學原理（大一上第 3 週週五，普通教學館 101＝P1 的同一間大教室），進教室、要開始上課時演。
+     開頭 P4c 一句旁白（玩過經濟系大一的多半句，讀 P1 的座位 Y0_P1_SEAT；沒有值＝只有前半句）。ECON_PAST_SHARED 只升不降（none → half → full）：
+     已經是 full＝阿哲知情的版本、不選；其他＝芯慈「你看起來好像來過這間教室。」三選一（① 升 full；② none 升 half、half 不變；③ 不變）。老師那兩句、B1 的旁白在課表第 1 週（syllabus）*/
+  { id:'ev_p4_retake', title:'第二次大一', participants:['zhe','classmate_xinci'], location:'any', trigger:'class', beforeClass:'econ_principles_1', term:['Y1S1'], once:true, background:'blur',
     dialogue:[ {unless:{custom:G=>['xun','front','window'].includes(G.flags.Y0_P1_SEAT)},speaker:null,text:'這間教室，你一年前坐過。'},
       {if:{flagIs:{Y0_P1_SEAT:'xun'}},speaker:null,text:'這間教室，你一年前坐過。那時候你坐在阿勳旁邊。'},{if:{flagIs:{Y0_P1_SEAT:'front'}},speaker:null,text:'這間教室，你一年前坐過。那時候你坐在前排。'},
-      {if:{flagIs:{Y0_P1_SEAT:'window'}},speaker:null,text:'這間教室，你一年前坐過。那時候你坐在靠窗。'} ] },
+      {if:{flagIs:{Y0_P1_SEAT:'window'}},speaker:null,text:'這間教室，你一年前坐過。那時候你坐在靠窗。'},
+      {speaker:'zhe',text:'這門課你選的？經濟學原理？'},{speaker:'player',text:'……我得修。'},
+      {if:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'known'},
+      {speaker:'classmate_xinci',text:'你看起來好像來過這間教室。'},
+      {choice:[{text:'「我念過一年。重考進來的。」',set:{ECON_PAST_SHARED:'full'},goto:'a'},{text:'「我自學過。」',goto:'b'},{text:'（笑一笑）',goto:'c'}]},
+      {label:'a'},{speaker:'zhe',text:'所以你是留級生？'},{speaker:'player',text:'是重修生。'},{speaker:'classmate_xinci',text:'難怪。'},{goto:'end'},
+      {label:'b'},{if:{custom:G=>G.flags.ECON_PAST_SHARED!=='half'},set:{ECON_PAST_SHARED:'half'}},{speaker:'classmate_xinci',text:'……自學的人不會知道這間教室的冷氣很冷。'},{goto:'end'},
+      {label:'c'},{speaker:'zhe',text:'好神祕。我喜歡。'},{goto:'end'},
+      {label:'known'},{speaker:'zhe',text:'對齁，你念過一年。所以你是留級生？'},{speaker:'player',text:'是重修生。'},{speaker:'classmate_xinci',text:'那你來幫我看這題。'},
+      {label:'end'} ] },
+  /* P4b「你怎麼這麼熟？」（BB_105 P4b；台詞與機率 AA_154 A51）：大一上第 4、5、7 週經原下課，各 50%（同一週擲一次、最多一次）；ECON_PAST_SHARED 是 full 就不再觸發；觸發過記 P4B_SEEN（AA_40 慈 2 讀它）。
+     「念過一年。重考進來的。」＝升 full；「……還好啦。」＝不變，芯慈照 half／none 說 BB_105 2-2 那一句（阿哲問的那週也是芯慈在旁邊說）*/
+  { id:'ev_p4b_familiar', title:'你怎麼這麼熟？', participants:['classmate_xinci','zhe'], location:'any', trigger:'class', afterClass:'econ_principles_1', term:['Y1S1'], weeks:[4,5,7], background:'blur',
+    prereq:{custom:G=>{ const F=G.flags, t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!t||F.ECON_PAST_SHARED==='full'||F.P4B_WK===t.week) return false;
+      if(!F.P4B_ROLL||F.P4B_ROLL.wk!==t.week) F.P4B_ROLL={wk:t.week,hit:Math.random()<0.5}; return !!F.P4B_ROLL.hit; }},
+    dialogue:[ {if:{custom:G=>(CALENDAR.termOf(G.day)||{}).week===4},speaker:'classmate_xinci',text:'你怎麼這麼熟？老師還沒講到的圖，你已經畫好了。'},
+      {if:{custom:G=>(CALENDAR.termOf(G.day)||{}).week===5},speaker:'zhe',text:'欸，你怎麼都知道老師下一句要講什麼？'},
+      {if:{custom:G=>(CALENDAR.termOf(G.day)||{}).week===7},speaker:'classmate_xinci',text:'期中考的範圍，你好像不用看。'},
+      {choice:[{text:'「念過一年。重考進來的。」',set:{ECON_PAST_SHARED:'full'},goto:'a'},{text:'「……還好啦。」',goto:'b'}]},
+      {label:'a'},{speaker:'classmate_xinci',text:'……難怪。那你來幫我看這題。'},{goto:'end'},
+      {label:'b'},{if:{flagIs:{ECON_PAST_SHARED:'half'}},speaker:'classmate_xinci',text:'你不是自學的吧。……沒關係，不用說。'},{unless:{flagIs:{ECON_PAST_SHARED:'half'}},speaker:'classmate_xinci',text:'你一定念過。……沒關係，不用說。'},
+      {label:'end'},{set:{P4B_SEEN:true}} ],
+    after:G=>{ const t=CALENDAR.termOf(G.day); if(t) G.flags.P4B_WK=t.week; } },
   { id:'ev_sk03_xinci_class', title:'統計課那個人', participants:['classmate_xinci'], location:'any', trigger:'class', beforeClass:'econ_principles_2', term:['Y1S2'], weekday:[5], once:true, background:'blur',
     prereq:{custom:G=>{ if(!G.flags.P4D_ANSWER||G.flags.ECON_LAW_BRIDGE||typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); return !!t&&t.week>=8; }},
     dialogue:[ {if:{custom:G=>typeof CALENDAR!=='undefined'&&(CALENDAR.termOf(G.day)||{}).week===8},speaker:null,text:'考卷還沒發。'},

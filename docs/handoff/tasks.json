@@ -1206,8 +1206,8 @@
    "title": "回聲 P4、P4b、P4c、P4e、D1",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
-   "next": "P4d、P4e 已接（V0-E2、9-9）；P4（大一上第 3 週週五第一次重修經原，beforeClass econ_principles_1，BB_105 第 3 節的字）、P4b、P4c 還沒做——10-16 14:3x 問 AA-B：Q11 已經 full 的玩家 P4 怎麼演、Q12 P4b 台詞誰寫、Q13 撤回（Y0_P1_SEAT 在 classes3d.js）；D1 照 BB_105；P4c 已接（ev_p4c_seat，beforeClass econ_principles_1，tests/v1_p4c_unit.js）；P4 和 P4c 同一堂：P4 接進來時把 P4c 的旁白放在 P4 開頭",
+   "status": "已整合待測試",
+   "next": "P4＋P4c（ev_p4_retake：大一上第 3 週週五第一次重修經原 beforeClass；full 版本、三選一、ECON_PAST_SHARED 只升不降）、P4b（ev_p4b_familiar：第 4、5、7 週下課 50%）照 AA_154 A51 接了；P1 座位按鈕改成「（坐在阿勳旁邊）」等；tests/v1_p4_unit.js；P4d、P4e 之前已接；D1 照 BB_105（另排）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -1220,9 +1220,7 @@
     "confirmed": true
    },
    "source": "交接包_v0、BB_104／105／110／112",
-   "authorized": "D79",
-   "pausedReason": "AA-B Q11～Q13",
-   "resumeWhen": "AA-B 回覆（P4 的 full 版本、P4b 台詞、P4c 座位）"
+   "authorized": "D79"
   },
   {
    "id": "V0-E3",

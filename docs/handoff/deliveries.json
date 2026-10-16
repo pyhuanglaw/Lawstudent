@@ -3231,8 +3231,8 @@
    "sha": "8d66014f",
    "what": "AA_154 A51：P4 full 版本、P4b 台詞與機率、P1 座位按鈕",
    "task": "V0-E1",
-   "msg": "ACK",
-   "integration": "未整合",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
    "note": "LAWWW-B 接著做",
    "date": "2026-10-16T14:3xZ"
   },
