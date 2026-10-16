@@ -1,11 +1,11 @@
 {
  "objects": 5,
  "unique_meshes": 5,
- "tris": 5768,
- "tris_drawn": 5768,
+ "tris": 5848,
+ "tris_drawn": 5848,
  "materials": 1,
  "out": "assets/models/env/second_ai/aa_support/wz7_street_props.glb",
- "bytes": 224892,
+ "bytes": 226232,
  "texres": 1024,
  "modules": {
   "WZ7_helmet": {
@@ -61,15 +61,15 @@
    ]
   },
   "WZ7_RECYCLE": {
-   "tris": 1200,
+   "tris": 1280,
    "min": [
     -0.2943,
     -0.0048,
     -0.2352
    ],
    "max": [
-    0.5105,
-    0.1993,
+    0.4886,
+    0.1421,
     0.241
    ]
   }

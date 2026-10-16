@@ -330,18 +330,29 @@ def ribbon(pm, P, hw, ht, fn):
 
 
 # ---------------- 回收紙箱捆＋一袋寶特瓶 ----------------
-def blob_pm(elems, voxel, target, fn):
+def blob_pm(elems, voxel, target, fn, smooth_iter=7, hull=None, hull_shrink=0.96):
     """橢球合體 → 體素重建 → 保體積平滑 → 減面（和 wz_cat.py 同一個做法）；回傳 PM（UV 全部指到 fn 的色塊）"""
     bm = bmesh.new()
-    for e in elems:
+    def add_ell(e):
         c, rad = e[0], e[1]; ry, rz = (math.radians(e[2]), math.radians(e[3])) if len(e) > 2 else (0.0, 0.0)
         Rm = (Ry(ry) @ np.array([[math.cos(rz), -math.sin(rz), 0, 0], [math.sin(rz), math.cos(rz), 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]))[:3, :3]
         res = bmesh.ops.create_uvsphere(bm, u_segments=14, v_segments=9, radius=1.0)
         for v in res['verts']:
             p = Rm @ (np.array([v.co.x, v.co.z, -v.co.y]) * np.array(rad)) + np.array(c); v.co = g2b(*p)
+        return res['verts']
+    if hull:   # 袋子：瓶子堆的凸包，往中心縮一點，再和瓶子本身合在一起——袋子包住整堆，瓶子只在表面撐出淺淺的稜
+        hv = []
+        for e in hull: hv += add_ell(e)
+        h = bmesh.ops.convex_hull(bm, input=hv)
+        bmesh.ops.delete(bm, geom=[g for g in h['geom_interior'] + h['geom_unused'] if isinstance(g, bmesh.types.BMVert)], context='VERTS')
+        hull_v = [g for g in h['geom'] if isinstance(g, bmesh.types.BMVert) and g.is_valid]
+        cen = sum((v.co for v in hull_v), hull_v[0].co * 0) / len(hull_v)
+        for v in hull_v: v.co = cen + (v.co - cen) * hull_shrink
+        for e in hull: add_ell(e)
+    for e in elems: add_ell(e)
     me = bpy.data.meshes.new('_blob'); bm.to_mesh(me); bm.free(); ob = bpy.data.objects.new('_blob', me); B.scene().collection.objects.link(ob)
     rm = ob.modifiers.new('r', 'REMESH'); rm.mode = 'VOXEL'; rm.voxel_size = voxel
-    sm = ob.modifiers.new('s', 'LAPLACIANSMOOTH'); sm.lambda_factor = 0.6; sm.iterations = 7; sm.use_volume_preserve = True
+    sm = ob.modifiers.new('s', 'LAPLACIANSMOOTH'); sm.lambda_factor = 0.6; sm.iterations = smooth_iter; sm.use_volume_preserve = True
     dg = bpy.context.evaluated_depsgraph_get(); me2 = bpy.data.meshes.new_from_object(ob.evaluated_get(dg)); bpy.data.objects.remove(ob); bpy.data.meshes.remove(me)
     ob2 = bpy.data.objects.new('_dec', me2); B.scene().collection.objects.link(ob2); tris = sum(len(p.vertices) - 2 for p in me2.polygons)
     if tris > target:
@@ -365,13 +376,19 @@ def recycle_bundle():
         else: loop = [(0.0, -0.002, -hz - 0.004), (0.0, ht, -hz - 0.004), (0.0, ht, hz + 0.004), (0.0, -0.002, hz + 0.004)]
         sweep(pm, loop, 0.0028, 4, S('twine'), caps=False, closed=True)
     sphere(pm, (0.0, ht + 0.006, 0.0), 0.009, S('twine'), seg=8, rings=5)
-    # 一袋壓扁的寶特瓶：矮矮的一袋，瓶子（扁的長橢球、方向亂）只在袋子表面撐出淺淺的稜；袋口收緊、打一個結，兩條袋耳往兩側垂下來（不要立起來，不然像動物的耳朵）
-    elems = [((0.40, 0.072, 0.0), (0.115, 0.072, 0.10)), ((0.40, 0.125, 0.0), (0.08, 0.05, 0.072))]
-    for (x, y, z, ry, rz) in ((0.34, 0.06, 0.035, 20, 80), (0.46, 0.065, -0.03, -35, 75), (0.40, 0.09, 0.055, 70, 12), (0.385, 0.10, -0.05, -10, 20), (0.445, 0.12, 0.025, 45, -25), (0.36, 0.125, -0.01, 100, -15)):
-        elems.append(((x, y, z), (0.026, 0.015, 0.075), ry, rz))
-    elems += [((0.40, 0.17, 0.0), (0.017, 0.02, 0.015)), ((0.40, 0.188, 0.0), (0.016, 0.011, 0.014)),
-              ((0.376, 0.186, 0.0), (0.024, 0.005, 0.012), 0, 18), ((0.424, 0.184, 0.0), (0.024, 0.005, 0.012), 0, -22)]
-    pm.add(blob_pm(elems, 0.006, 720, S('pe_bag')))
+    # 一袋壓扁的寶特瓶（v2）：七支壓扁的 600 ml 瓶子（瓶身扁、瓶肩、瓶頸、瓶蓋）兩層亂疊；袋子是整堆的凸包往內縮 4%、再和瓶子合在一起，
+    # 所以袋子包住整堆、表面看得出一支一支的稜；袋口收緊、打一個結，兩條袋耳往兩側垂下來
+    def bottle(c, ry, rz=0.0):
+        a, t = math.radians(ry), math.radians(rz); d = np.array([math.cos(a) * math.cos(t), math.sin(t), -math.sin(a) * math.cos(t)]); c = np.array(c)
+        return [(tuple(c), (0.062, 0.015, 0.03), ry, rz), (tuple(c + d * 0.066), (0.018, 0.012, 0.02), ry, rz),
+                (tuple(c + d * 0.084), (0.01, 0.01, 0.01), ry, rz), (tuple(c + d * 0.096), (0.006, 0.013, 0.013), ry, rz)]
+    pile = []
+    for (x, y, z, ry, rz) in ((0.37, 0.02, 0.03, 15, 0), (0.43, 0.02, -0.03, 170, 0), (0.40, 0.022, -0.055, 95, 4), (0.42, 0.024, 0.055, -80, 4),
+                              (0.38, 0.052, -0.01, 40, 8), (0.425, 0.054, 0.012, 210, 6), (0.40, 0.082, 0.02, 120, 10)):
+        pile += bottle((x, y, z), ry, rz)
+    elems = [((0.40, 0.108, 0.0), (0.024, 0.016, 0.021)), ((0.40, 0.124, 0.0), (0.011, 0.012, 0.01)), ((0.40, 0.134, 0.0), (0.011, 0.008, 0.01)),   # 袋口收緊、小小的結
+             ((0.386, 0.13, 0.004), (0.02, 0.0035, 0.009), 0, 48), ((0.414, 0.129, -0.004), (0.02, 0.0035, 0.009), 0, -52)]   # 兩條袋耳往下垂（不要立起來）
+    pm.add(blob_pm(elems, 0.0045, 800, S('pe_bag'), smooth_iter=3, hull=pile, hull_shrink=0.9))   # 平滑三次：凸包的稜角磨圓；凸包縮 10%，瓶子的稜才看得到
     return pm
 
 
