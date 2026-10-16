@@ -34,7 +34,7 @@ M = {
 }
 M['metalvc'].node_tree.nodes['Principled BSDF'].inputs['Metallic'].default_value = 0.45
 # 零件顏色（寫進頂點色）：(顏色, 金屬)
-COL = {'cloth': ('#9aa0a6', 0), 'seat_brown': ('#5a3a28', 0), 'cvt': ('#46494e', 1), 'dark': ('#2a2b2d', 0), 'black': ('#17181a', 0), 'seat': ('#1d1c1c', 0), 'tire': ('#191919', 0), 'lamp': ('#e8edf0', 0), 'lamp_warm': ('#f2e6c8', 0),
+COL = {'cloth': ('#9aa0a6', 0), 'seat_brown': ('#5a3a28', 0), 'cvt': ('#46494e', 1), 'dark': ('#2a2b2d', 0), 'black': ('#17181a', 0), 'seat': ('#1d1c1c', 0), 'tire': ('#191919', 0), 'lamp': ('#d3dbe2', 0), 'lamp_warm': ('#f2e6c8', 0),
        'tail': ('#a1231b', 0), 'amber': ('#d98a1e', 0), 'plate': ('#f1f1ec', 0), 'smoke': ('#3b4148', 0), 'box': ('#2e3033', 0), 'box_grey': ('#8e9196', 0),
        'deliv': ('#31373d', 0), 'helmet_w': ('#e9e7e2', 0), 'helmet_b': ('#2a3a55', 0), 'helmet_r': ('#9b2c2c', 0), 'visor': ('#252a30', 0),
        'metal': ('#7d8186', 1), 'chrome': ('#b9bec3', 1), 'alloy': ('#5d6166', 1), 'gold': ('#a8873e', 1)}
@@ -364,7 +364,7 @@ def build(code):
     if A['two_tone']:   # 運動型：側板下半部黑色塑件（比車殼寬一點點，蓋在下緣）
         loft(part('black'), [tsect(x, yb - 0.005, yb + (yt - yb) * 0.38, w0 + 0.006, w0 * 0.96 + 0.004, p=A['rp']) for (x, yb, yt, w0, w1) in rear[1:-1]])
     # 座墊：坐的地方低、後座高一點；外緣一圈車線（深一點的顏色）
-    seat = A['seat']; loft(part(A.get('seat_col', 'seat')), [tsect(x, yb, yt, hw, hw * 0.9, p=2.8, n=8, bulge=0.03) for (x, yb, yt, hw) in interp(seat, 1)])
+    seat = A['seat']; loft(part(A.get('seat_col', 'seat')), [tsect(x, yb - 0.01, yt + 0.025, hw * 1.05, hw * 0.93, p=2.8, n=8, bulge=0.04) for (x, yb, yt, hw) in interp(seat, 1)])   # 座墊有厚度（約 10 cm、坐進車殼頂）、比車殼寬一點點
     # 踏板：平的腳踏板（深灰橡膠）＋兩側的車殼裙邊，從座墊前緣到腳踏內板的圓弧
     F0 = A['front']; FR = front_rows(A); Fp, Fpb = F0.get('p', 3.0), F0.get('pb', 6.0); xt_, yt_ = F0['top']
     x0f, x1f = rear[0][0] - 0.03, fx - F0.get('fillet', 0.06) + 0.01
@@ -410,7 +410,8 @@ def build(code):
     elif lt == 'round':
         part('chrome').cyl((xn - 0.03, cyn, 0), (xn + 0.02, cyn, 0), 0.07, seg=14); lp.cyl((xn + 0.019, cyn, 0), (xn + 0.026, cyn, 0), 0.058, seg=14)
     elif lt == 'apron':   # 前擋左右兩顆
-        for (a0, a1) in ((0.3 * PI, 0.44 * PI), (0.56 * PI, 0.7 * PI)): patch(lp, FS, ul(yt_ - 0.2), ul(yt_ - 0.08), a0, a1)
+        for (a0, a1) in ((0.3 * PI, 0.44 * PI), (0.56 * PI, 0.7 * PI)):
+            patch(part('black'), FS, ul(yt_ - 0.212), ul(yt_ - 0.068), a0 - 0.02 * PI, a1 + 0.02 * PI, nu=1, off=0.0015); patch(lp, FS, ul(yt_ - 0.2), ul(yt_ - 0.08), a0, a1)   # 燈殼的黑邊＋燈
     elif lt == 'vled':    # 運動型：V 字形的燈（從中間下方往兩側上方）
         u0, u1 = ul(yt_ - 0.34), ul(yt_ - 0.06)
         for s in (1, -1):
@@ -419,7 +420,8 @@ def build(code):
     elif lt == 'strip':   # 電動：前擋中間一條直的燈
         patch(lp, FS, ul(fl + 0.22), ul(yt_ - 0.05), 0.47 * PI, 0.53 * PI, nu=4, nt=1)
     elif lt == 'stack':   # 越野風：中間上下兩顆方燈
-        for (y0, y1) in ((yt_ - 0.23, yt_ - 0.15), (yt_ - 0.12, yt_ - 0.04)): patch(lp, FS, ul(y0), ul(y1), 0.38 * PI, 0.62 * PI, nu=1, nt=3, off=0.006)
+        for (y0, y1) in ((yt_ - 0.23, yt_ - 0.15), (yt_ - 0.12, yt_ - 0.04)):
+            patch(part('black'), FS, ul(y0 - 0.012), ul(y1 + 0.012), 0.36 * PI, 0.64 * PI, nu=1, nt=3, off=0.003); patch(lp, FS, ul(y0), ul(y1), 0.38 * PI, 0.62 * PI, nu=1, nt=3, off=0.006)
     if lt in ('strip', 'apron', 'vled', 'stack'):   # 龍頭罩前端的小燈（位置燈）
         loft(lp, [sect(xn - 0.004, cyn, hwn * 0.5, hhn * 0.4, p=C.get('p', 3.0)), sect(xn + 0.008, cyn, hwn * 0.45, hhn * 0.32, p=C.get('p', 3.0))])
     for (a0, a1) in ((0.1 * PI, 0.22 * PI), (0.78 * PI, 0.9 * PI)): patch(am, FS, ul(yt_ - 0.11), ul(yt_ - 0.03), a0, a1, nu=1, nt=2)   # 前方向燈
@@ -539,6 +541,17 @@ def build_cub(A):
     return out + list(P.values())
 
 
+def make_lod(ob, target=600):
+    """遠處用的簡化版（節點名稱加 _lod1）：Decimate（collapse）到約 target 個三角形；頂點色、材質跟著原本的"""
+    n = sum(len(p.vertices) - 2 for p in ob.data.polygons)
+    dup = ob.copy(); dup.data = ob.data.copy(); dup.name = ob.name + '_lod1'; bpy.context.scene.collection.objects.link(dup); dup.parent = root
+    dec = dup.modifiers.new('dec', 'DECIMATE'); dec.ratio = min(1.0, target / n); dec.use_collapse_triangulate = True
+    dg = bpy.context.evaluated_depsgraph_get(); me = bpy.data.meshes.new_from_object(dup.evaluated_get(dg)); dup.modifiers.remove(dec)
+    old = dup.data; dup.data = me; bpy.data.meshes.remove(old)
+    dup.location = (ob.location[0], ob.location[1] - 3.0, 0.0) if '--layx' in ARGS else (ob.location[0] + 3.0, ob.location[1], 0.0)
+    return dup, sum(len(p.vertices) - 2 for p in me.polygons)
+
+
 meta = {}
 codes = ONLY or list(ARCH)
 if '--preview' in ARGS:
@@ -547,8 +560,9 @@ if '--preview' in ARGS:
 for i, code in enumerate(codes):
     parts = build(code); ob = finish_all(parts, f'scooter_{code}', i * 1.2)
     A = ARCH[code]; ob['archetype'] = code; ob['weight'] = A['weight']; ob['palette'] = json.dumps(A['palette']); ob['label'] = A['name']
-    tris = sum(len(p.vertices) - 2 for p in ob.data.polygons); meta[code] = dict(name=A['name'], tris=tris, weight=A['weight'], palette=A['palette'])
-    print('scooter', code, A['name'], 'tris', tris)
+    tris = sum(len(p.vertices) - 2 for p in ob.data.polygons); lod, lt = make_lod(ob)
+    meta[code] = dict(name=A['name'], tris=tris, lod1=lt, weight=A['weight'], palette=A['palette'])
+    print('scooter', code, A['name'], 'tris', tris, 'lod1', lt)
 # 舊名稱（遊戲還沒套新接法時用）：scooter_a＝S1 新款、scooter_b＝S4 復古（S4 還沒做時暫時用 S1 舊款）
 alias = {'a': 'S1B', 'b': 'S4' if 'S4' in ARCH else 'S1A'}
 for k, code in alias.items():
@@ -558,4 +572,4 @@ for k, code in alias.items():
 info = L.export(OUT, gpu_instances=False)
 info['variants'] = meta; info['alias'] = alias
 L.write_json(OUT[:-4] + '.json', info)
-print('avg tris', round(sum(v['tris'] for v in meta.values()) / max(len(meta), 1)))
+print('avg tris', round(sum(v['tris'] for v in meta.values()) / max(len(meta), 1)), 'weighted', round(sum(v['tris'] * v['weight'] for v in meta.values()) / sum(v['weight'] for v in meta.values())), 'lod1 weighted', round(sum(v['lod1'] * v['weight'] for v in meta.values()) / sum(v['weight'] for v in meta.values())))
