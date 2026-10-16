@@ -139,8 +139,9 @@ async def main():
                 if await pg.evaluate("(GAME.G.stage||'law')==='law'&&!(GAME.D&&GAME.D.active)"): break
             await drain(pg, 120, 6)
             g = await pg.evaluate(G_JS)
-            run.check(f"經濟系 8/30 存檔 → 睡到 8/31 → 轉進法律系{'（?start1）' if q else '（沒有 ?start1）'}：第 {want['day']} 天、mainD1 {want['m1']}",
-                      g['stage'] == 'law' and g['day'] == want['day'] and g['m1'] == want['m1'] and g['zone'] == 'dorm', json.dumps(g, ensure_ascii=False))
+            okday = g['day'] == want['day'] if not q else g['day'] in (-17, -16)   # ?start1：8/30 的經濟系存檔一讀進來就轉（8/29 已過），不倒退
+            run.check(f"經濟系 8/30 存檔 → 轉進法律系{'（?start1：讀檔就轉，留在 8/30～8/31，不倒退回 8/29）' if q else '（沒有 ?start1：睡到 8/31 才轉、第 1 天）'}：mainD1 {want['m1']}",
+                      g['stage'] == 'law' and okday and g['m1'] == want['m1'] and g['zone'] == 'dorm', json.dumps(g, ensure_ascii=False))
             run.check(f"經濟系轉場{'（?start1）' if q else ''}沒有 JS 例外", not en, json.dumps(en[:3], ensure_ascii=False))
         await b.close()
     sys.exit(run.finish())
