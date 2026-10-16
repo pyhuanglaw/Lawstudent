@@ -11659,6 +11659,28 @@
    "source": "AA_186 第 6 節（AA-B d99a2a9f）；AA-B 19:01 分法",
    "authorized": "D79",
    "tests": "tests/aa186_unit.js"
+  },
+  {
+   "id": "BUG-21",
+   "title": "選單「法律」頁一開始就列出刑訴三大類（共 84 個爭點），而且只有刑訴（使用者 2026-10-16 iPhone 試玩截圖）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "原因：v7 的法律頁只認得使用者提供的刑訴題庫（Q001–Q084），開局就把三大類全部列出、全是 0；刑訴是大三的課。改法：只列上過的法律課（CLS.legalCourses：每一門上過幾週、每週主題，考試週、缺席、國文體育經濟不算；這學期在前）；刑訴題庫只在讀書會或課堂真的遇到過才列；什麼都沒有時寫「還沒上過課……」。tests/legal_page_unit.js；瀏覽器截圖排隊中",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "開局打開選單",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 試玩截圖",
+   "authorized": "使用者直接回報",
+   "tests": "tests/legal_page_unit.js"
   }
  ]
 }

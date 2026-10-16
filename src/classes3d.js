@@ -157,6 +157,15 @@ const CLS=(function(){
     const k=await GM.choose([{t:'硬著頭皮寫'},{t:'回頭看阿勳'},{t:'「我不會。」'}]);
     await GM.say(null,['寫到一半卡住。阿勳在台下用嘴形說：「分子分母同除。」','阿勳已經寫完了，把筆記本轉過來給你看。','老師：「誠實。下課前我們一起會。」'][k]||'');
     await GM.say(null,'老師：……好，答案對。下去吧。'); await GM.say(null,'（回到座位，韋綸睡得很熟，筆還握在手上。）'); await GM.say(null,XN()+'：（小聲）他第一分鐘就睡了。這是天分。'); };
+  /* 選單「法律」頁（使用者 2026-10-16 試玩：一開始就列出刑訴三大類、而且只有刑訴）：只列玩家真的上過的法律課——每一門寫上過幾堂、每一週的主題
+     （審查過的週＝黑板第一行；還沒審查＝課表的主題）；考試週、缺席不算。現在這學期在前，之前的學期在後。經濟、日文、體育、國文、通識不列 */
+  const LAWNAME=/法|憲|刑|民|債|物權|親屬|繼承|訴訟|行政|票據|勞動|財稅|海商|判決|證券|智慧財產/, NOTLAW=/經濟|日文|微積分|會計|體育|國文|英文（|通識/;
+  S.legalCourses=function(G){ attachSyllabus(); const R=S.rec(G), by={};
+    for(const k in R.done){ const p=k.split(':'); if(p.length<3||R.abs[k]) continue; const day=+p[0], cid=p[1], t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(day):null; if(!t||!TEACH.includes(t.week)) continue;
+      const c=COURSES.list.find(x=>x.id===cid); if(!c||!LAWNAME.test(c.name)||NOTLAW.test(c.name)) continue; const e=by[cid]||(by[cid]={c,term:t.id,weeks:new Set()}); e.weeks.add(t.week); }
+    const cur=typeof CALENDAR!=='undefined'?(CALENDAR.termOf(G.day)||{}).id:null, ord=id=>{ const m=/^Y(\d)S(\d)$/.exec(id||''); return m?(+m[1])*2+(+m[2]):0; };
+    return Object.values(by).map(e=>({c:e.c,term:e.term,current:e.term===cur,topics:[...e.weeks].sort((a,b)=>a-b).map(w=>{ const sy=(e.c.syllabus||[]).find(x=>x.w===w); return {w,title:S.sylReviewed(e.c,w)&&sy&&sy.board&&sy.board[0]?sy.board[0]:e.c.name+'：'+(S.topic(e.c,w)||'第 '+w+' 週')}; })}))
+      .sort((a,b)=>(b.current-a.current)||(ord(b.term)-ord(a.term))||a.c.name.localeCompare(b.c.name)); };
   S.sylReviewed=(c,w)=>!!(typeof SYLLABUS!=='undefined'&&Array.isArray(SYLLABUS.reviewed)&&SYLLABUS.reviewed.includes(c.id+'|'+w));
   S.content=function(it){ attachSyllabus(); const c=it.c, t=S.topic(c,it.week)||c.name; const sy=c.syllabus&&S.sylReviewed(c,it.week)&&c.syllabus.find(q=>q.w===it.week);
     if(c.second&&c.second.length&&S.slotOrder(it).i>=1&&!S.earlierSlotsOff(it)){ const L=c.second; return {board:[c.name+'：'+t,'（這週的第二堂）',''],line:L[(it.day+it.week)%L.length],react:'',second:true}; }

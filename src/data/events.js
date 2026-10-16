@@ -601,7 +601,7 @@ const STORY_EVENTS=[
       {label:'r'},{speaker:'阿勳',text:'重修。……你看起來比去年清醒。'},{goto:'end'},
       {label:'g'},{speaker:'阿勳',text:'看得出來。你走路變快了。'},{goto:'end'},
       {label:'l'},{speaker:'阿勳',text:'那下次說。'},
-      {label:'end'},{speaker:'阿勳',text:'週五中午，我們在小福。你要來就來。'} ],
+      {label:'end'},{speaker:'阿勳',text:'週五中午，我們在活大。你要來就來。'} ],   /* 大一下＝2026 春，小福已經拆了（AA_186 4-4）*/
     consequences:{flags:{MET_XUN:true,MET_PINYU:true},memo:'重修經原（下）下課，走廊上遇到經濟系那年的室友阿勳（盧正勳）'},
     after:G=>{ G.flags.ECON_HALLWAY_DAY=G.day; } },
   /* 經濟系的朋友（BB_96 10-2、BB_135 第 1 節，BB-B 2026-10-16 定稿）——SK03 週五的小福午餐：P4d 之後每個有課的週五，重修經原（下）下課，阿勳一句「小福。走不走？」，玩家選「一起去」／「今天不行」（不扣分，下週照問）。
@@ -752,7 +752,7 @@ const STORY_EVENTS=[
     dialogue:[ {if:{custom:G=>typeof CALENDAR!=='undefined'&&(CALENDAR.termOf(G.day)||{}).week===8},speaker:null,text:'考卷還沒發。'},
       {speaker:'classmate_xinci',text:'我們統計課那個人說他認識你。'},{speaker:'classmate_xinci',text:'盧正勳。他說你以前每天講一個冷笑話。'},
       {if:{flagIs:{ECON_PAST_SHARED:'full'}},speaker:'classmate_xinci',text:'……原來是你室友。'},{unless:{flagIs:{ECON_PAST_SHARED:'full'}},speaker:'classmate_xinci',text:'你沒說過。……沒關係，不用說。'},
-      {speaker:'classmate_xinci',text:'下次週五，帶我去小福。'},{set:{ECON_LAW_BRIDGE:true}} ] },
+      {speaker:'classmate_xinci',text:'下次週五，帶我去活大。'},{set:{ECON_LAW_BRIDGE:true}} ] },
   /* SK05 三閃，販賣機見（大一版；BB_135 第 2 節、BB_96 10-5、BB_106 SK05）：期末考週玩家閃三下（story3d.js phoneRules 的 23:00 訊息）→ 阿勳在法學院廣場的販賣機前（作息 SK05_GO），
      走到他旁邊（npcNear）才算「去」；只回訊息不算。記 SK05_Y1；大二、大三照 BB_106 SK05（之後做）。走到一半回頭＝23:45 阿勳傳「……你閃了三下又不來。」「明年再說。」（不扣分）*/
   { id:'ev_sk05_vending_y1', title:'三閃，販賣機見', participants:[], location:'campus', trigger:'auto', npcNear:'econ_zhengxun', time:[23,23.75], term:['Y1S2'], weeks:[17,18], once:true, background:'blur',
