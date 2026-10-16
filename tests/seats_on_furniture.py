@@ -2,11 +2,12 @@
 瀏覽器裡（GLB 正式模型都載入）逐區進去，每個座位點從上往下打射線（中心＋前後左右 7 cm，取最高；木板座椅有縫）：第一個碰到的面要在「地面＋0.30～0.65 m」（高腳椅加 lift）（椅面、長椅面）；
 碰到地面（＋0.15 m 以下）＝座位底下沒有椅子（人會坐在空中）；碰到 0.65 以上＝座位被桌子、牆、樹蓋住（人會坐進東西裡）。
 也檢查：從座位往前、往兩側（肩膀高度）0.45 m 內沒有樹幹、柱子、路燈、牆（長椅貼著椰子樹那種）；坐墊（floor）的座位要在坐墊頂（跪坐）。
-用法：python3 tests/seats_on_furniture.py http://127.0.0.1:8765/index.html  （?turbo；約 10 分鐘）
+用法：python3 tests/seats_on_furniture.py http://127.0.0.1:8765/index.html [區域 ...]  （?turbo；全部區域約 40 分鐘）
 """
 import asyncio, json, sys
 from playwright.async_api import async_playwright
 URL=(sys.argv[1] if len(sys.argv)>1 else 'http://127.0.0.1:8765/index.html')+'?turbo'
+ONLY=sys.argv[2:]   # 只跑這幾個區域（例：wenzhou wz_teahouse）
 ZONES=['dorm','dorm_hall','campus','gongguan','wenzhou','cafe','noodle','bookstore','cvs','wz_brunch','wz_teahouse','library_hall','library','linze','classroom','wancai','gongtong','lawlib','soclib','gym']
 CHECK="""()=>{ const E=GAME.E, T=THREE; const skip=new Set(); for(const n of (E.npcs||[])) if(n.obj) n.obj.traverse(o=>skip.add(o)); if(E.player&&E.player.obj) E.player.obj.traverse(o=>skip.add(o));
   const meshes=[]; E.scene.traverse(o=>{ if(!(o.isMesh||o.isInstancedMesh)||skip.has(o)) return; if(/skyline|^sky/i.test(o.name||'')) return; let p=o, vis=true; while(p){ if(p.visible===false){ vis=false; break; } p=p.parent; } if(!vis) return; const m=Array.isArray(o.material)?o.material[0]:o.material; if(m&&m.transparent&&m.opacity<0.3) return; meshes.push(o); });
@@ -33,8 +34,10 @@ async def main():
         await pg.wait_for_function("(()=>{ const l=document.getElementById('loading'); return !l||l.style.display==='none'||getComputedStyle(l).display==='none'||getComputedStyle(l).opacity==='0'||l.classList.contains('hide'); })()",timeout=180000)
         await pg.wait_for_timeout(2000); await pg.evaluate("()=>document.getElementById('btnNew').click()")
         await pg.wait_for_function("GAME.G&&GAME.G.zone&&(GAME.E||{}).scene",timeout=180000); await pg.wait_for_timeout(15000)
-        res=[]; bad=0
-        for z in ZONES:
+        res=[]; nbad=0
+        allz=await pg.evaluate("()=>Object.keys(Z3.ZONES)")
+        zones=ONLY or (ZONES+[z for z in allz if z not in ZONES])   # 寫在 ZONES 的先跑（玩家第一週會去的），其餘區域接在後面
+        for z in zones:
             try:
                 if (await pg.evaluate("()=>GAME.G.zone"))!=z:
                     await pg.evaluate("(z)=>{ void GAME.enter(z) }",z); await pg.wait_for_function("(z)=>GAME.G.zone===z",arg=z,timeout=120000)
@@ -45,10 +48,10 @@ async def main():
             except Exception as e:
                 res.append({'zone':z,'err':str(e)[:160]}); continue
             probs=[q for q in r['out'] if bad(q)]
-            bad+=len(probs); res.append({'zone':z,'seats':r['n'],'problems':probs})
+            nbad+=len(probs); res.append({'zone':z,'seats':r['n'],'problems':probs})
             print(('OK  ' if not probs else 'BAD ')+z+'：座位 '+str(r['n'])+'，有問題 '+str(len(probs)),flush=True)
             for q in probs[:40]: print('     ',json.dumps(q,ensure_ascii=False),flush=True)
-        print(json.dumps({'bad':bad},ensure_ascii=False))
+        print(json.dumps({'bad':nbad},ensure_ascii=False))
         await b.close()
-        sys.exit(1 if bad else 0)
+        sys.exit(1 if nbad else 0)
 asyncio.run(main())

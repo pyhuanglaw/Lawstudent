@@ -12506,7 +12506,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "暫停新內容。①巡檢清單（docs/handoff/VISUAL_WALKTHROUGH_W1.md）：開新遊戲照玩家會做的事逐項走＋截圖：每種座位坐一次（教室、長椅、Café、麵店、總圖、宿舍）、NPC 坐的位置、約人到每個地點、一起走、快速移動、出遊、地圖、電梯、樓梯、店面 ②自動檢查：全部座位點在家具上、全部 GLB 共平面掃描（LAWWW2-B check_coplanar）、坐著的 NPC 旁邊有座位、柱子家具有碰撞 ③找到的問題進總表、修、截圖",
+   "next": "座位自動檢查（tests/seats_on_furniture.py）三輪：真的問題 3 個已修——Café 吧檯高腳椅（0123cfd3）、小公園鞦韆座位在空中、茶屋坐墊改跪坐（30430910）；測試誤判 3 種已改。第四輪（全部區域、改好的測試）在跑；然後照 VISUAL_WALKTHROUGH_W1.md A～E 一項一項截圖",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12540,6 +12540,48 @@
    },
    "source": "LAWWW2-B 2026-10-16 23:0x check_coplanar 整批掃描（17986bd3）",
    "authorized": "使用者（BUG-WZFLICKER 同類問題）"
+  },
+  {
+   "id": "BUG-TEA-SEIZA",
+   "title": "茶屋「一盞」和室、緣側的坐墊：人用坐椅子的姿勢浮在坐墊上 0.4 m、小腿插進地板",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "next": "已修（30430910）：跪坐姿勢 SEIZA_VRM＋sitFloorFit；tests/sit_floor_unit.js（修正前 FAIL）。待瀏覽器截圖（一盞和室坐下）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一週走溫州街進一盞",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "QA-W1-VISUAL 座位檢查第三輪（2026-10-16 23:1x）",
+   "authorized": "使用者（QA-W1：肉眼可見的問題）"
+  },
+  {
+   "id": "BUG-SWING-SEAT",
+   "title": "小公園鞦韆：坐的位置在鞦韆前面 0.6～0.8 m 的空中",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "next": "已修（30430910）：wz_park_layout.js 鞦韆座位改成模型座板中心；待瀏覽器截圖（20:00 以後盪鞦韆）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一週晚上去小公園",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "QA-W1-VISUAL 座位檢查第二、三輪",
+   "authorized": "使用者（QA-W1）"
   }
  ]
 }
