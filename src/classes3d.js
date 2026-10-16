@@ -207,10 +207,10 @@ const CLS=(function(){
       else { if(lateAbs) await GM.say(null,'（你從後門進去，在最後面的空位坐下。前半堂已經講完了。）'); else if(S.isLate(G,it)) await GM.say(prof||null,(prof?'':S.profName(c)+'：')+'後面有位子。');   /* AA_137 第 4 節：遲到 1～15 分鐘，教授一句、課照常；超過 15 分鐘選了還是進去聽：記缺席、看得到後半堂、課堂提問照常 */
         await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+ct.line); if(ct.react) await GM.say(null,ct.react);
         /* B：觀察的小選擇（只顯示一行結果，不影響數值）；C：被點到（三個選項共用收尾）——BB 的 syllabus（AA_104）*/
-        if(ct.tpl==='B'&&ct.obs&&ct.obs.kind==='discuss'&&ct.obs.options&&ct.obs.options.length) await S.discuss(GM,it,ct,prof);
+        if(ct.tpl==='B'&&ct.obs&&ct.obs.kind==='discuss'&&ct.obs.options&&ct.obs.options.length){ await S.discuss(GM,it,ct,prof); if(ct.obs.disc&&ct.obs.disc.qid) await S.classAsk(GM,it,prof,ct,ct.obs.disc.qid); }   /* 討論課的題目（BB-B 64406c8，使用者 2026-10-15：討論課的題目要進期末考）：討論收尾之後教授在黑板寫這一題，流程和課堂提問一樣 */
         else if(ct.tpl==='B'&&ct.obs&&ct.obs.options&&ct.obs.options.length){ if(ct.obs.prompt) await GM.say(null,ct.obs.prompt); const i=await GM.choose(ct.obs.options.map(o=>({t:o.text}))); const r=ct.obs.options[i]&&ct.obs.options[i].result; if(r) await GM.say(null,r); }
         else if(ct.tpl==='C'&&ct.call&&ct.call.options&&ct.call.options.length){ await GM.say(null,(c.prof?S.profName(c):'老師')+'點到你。'); await GM.choose(ct.call.options.map(o=>({t:'「'+o+'」'}))); for(const f of (ct.call.follow||[])) await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+f); }
-        if(!ct.second) await S.classAsk(GM,it,prof,ct); }
+        if(!ct.second&&!(ct.obs&&ct.obs.disc&&S.askOf(it)&&S.askOf(it).id===ct.obs.disc.qid)) await S.classAsk(GM,it,prof,ct); }
       if(E.zone&&E.zone.layout) S.syncRooms(GM);   /* 快轉前同學先坐好（人流每 15 分鐘才排一次；剛好在那之前坐下的話，下課時沒有人站起來走出去）*/
       await GM.fade(true); const h=hr(G); if(h<it.t1) GM.advance(it.t1-h); keepCrowd(G); R.done[it.key]=1; if(lateAbs) R.abs[it.key]=1; else if(!exam){ R.attend[c.id]=(R.attend[c.id]||0)+1; R.prep[c.id]=(R.prep[c.id]||0)+1; if(S.isLate(G,it)) R.late[it.key]=1; } GM.energy(exam?-10:-6); await GM.fade(false);
       GM.caption('',exam?'考完了。':'下課了。'+(c.prof?S.profName(c)+'收起講義。':''),2400);
@@ -334,7 +334,7 @@ const CLS=(function(){
      題目：大一～大三＝使用者確認的正式題目（exam_official/，status USER_CONFIRMED）＋刑訴 QBANK；大四＝交叉審通過的題目（Y4_CROSS_REVIEWED）。AI 不出題、不補題、不改寫。
      兩堆：課堂題（askedIn＝這學期這門課在課堂上問過，或 source:'CLASS_DISC'）優先，不夠才從題庫題補（EXAM_MIX）。兩堆加起來不到 5 題＝不開考。
      抽到的題號存進存檔：讀檔再考是同一份。選項不洗牌、答案不動。 */
-  S.EXAM_MIX='class_first';   /* 'class_first'（預設：課堂題最多 5 題，不夠才補）／'3_2'（課堂 3＋題庫 2，任一邊不夠由另一邊補）——使用者選了再改 */
+  S.EXAM_MIX='class_first';   /* 課堂題最多 5 題，不夠才從題庫補（AA_126 1-5 方案一定案，2026-10-15；3_2 已拿掉）*/
   S.EXAM_WEEKS={mid:[8,9],final:[17,18]};
   S.isExamCourse=c=>!!c&&typeof EXAM_BANK!=='undefined'&&!!EXAM_BANK.courseMap[c.id]&&EXAM_BANK.courseMap[c.id].exam==='mc5';
   const examDayMemo={};
@@ -363,18 +363,17 @@ const CLS=(function(){
     if(R.exam[key]&&Array.isArray(R.exam[key].qs)&&R.exam[key].qs.length===5){ const all=pool.cls.concat(pool.bank); const qs=R.exam[key].qs.map(id=>all.find(q=>q.id===id)).filter(Boolean); if(qs.length===5) return {ok:true,n,key,qs,saved:R.exam[key]}; }
     if(!G.flags) G.flags={}; if(G.flags.examSeed==null) G.flags.examSeed=Math.floor(Math.random()*1e9);   /* 這份存檔的亂數種子（存在存檔裡）*/
     const r=rng(hashStr(G.flags.examSeed+'|'+key)); const cls=shuffled(pool.cls,r), bank=shuffled(pool.bank,r); let pick=[];
-    if(S.EXAM_MIX==='3_2'){ pick=cls.slice(0,3).concat(bank.slice(0,2)); const restC=cls.slice(3), restB=bank.slice(2); while(pick.length<5&&(restC.length||restB.length)) pick.push(restC.length?restC.shift():restB.shift()); }
-    else { pick=cls.slice(0,5); for(const q of bank){ if(pick.length>=5) break; pick.push(q); } }
+    pick=cls.slice(0,5); for(const q of bank){ if(pick.length>=5) break; pick.push(q); }   /* 課堂題（課堂提問、討論課）優先，不夠才從題庫補（AA_126 1-5 方案一定案，2026-10-15：拿掉 3_2）*/
     /* 期末不排除期中用過的題，除非排除以後仍有 5 題以上 */
-    if(kind==='final'){ const used=new Set(((R.exam[termId+':'+courseId+':mid']||{}).qs)||[]); if(used.size){ const fresh=cls.concat(bank).filter(q=>!used.has(q.id)); if(fresh.length>=5){ const fc=cls.filter(q=>!used.has(q.id)), fb=bank.filter(q=>!used.has(q.id)); pick=S.EXAM_MIX==='3_2'?fc.slice(0,3).concat(fb.slice(0,2)):fc.slice(0,5); for(const q of fc.slice(3).concat(fb)) { if(pick.length>=5) break; if(!pick.includes(q)) pick.push(q); } } } }
+    if(kind==='final'){ const used=new Set(((R.exam[termId+':'+courseId+':mid']||{}).qs)||[]); if(used.size){ const fresh=cls.concat(bank).filter(q=>!used.has(q.id)); if(fresh.length>=5){ const fc=cls.filter(q=>!used.has(q.id)), fb=bank.filter(q=>!used.has(q.id)); pick=fc.slice(0,5); for(const q of fc.slice(3).concat(fb)) { if(pick.length>=5) break; if(!pick.includes(q)) pick.push(q); } } } }
     pick=pick.slice(0,5); R.exam[key]={qs:pick.map(q=>q.id)}; return {ok:true,n,key,qs:pick}; };
   /* 課堂提問（AA_130 第 3 節第 3 點，BB 提議、AA 同意）：syllabus 那一週的 ask:{qid} 指到 EXAM_BANK 的使用者題目（題幹、選項、答案、考點照題庫，一字不改）。
      那堂課的最後（A：教授那句之後；B：討論收尾之後；C：點名收尾之後）——黑板角落一題 → 玩家選 → 「答案是（X）。」→ 有使用者給的考點或解析才顯示 →
      這學期第一次課堂提問時教授說「期末考，會考這樣的題目。」。不計分、不影響成績；沒去上課就不演（期末考照樣算課堂題）。第二格的短片段不問。
      題目是使用者給的、AA 逐題對過那一週的主題，所以不看 SYLLABUS.reviewed（那是 BB 寫的課堂內容的審查）。玩家選的記在 R.ask['學期:題號']（舊存檔從空的開始）*/
-  S.askOf=function(it){ attachSyllabus(); const c=it.c; if(!c.syllabus||typeof EXAM_BANK==='undefined') return null; const sy=c.syllabus.find(q=>q.w===it.week); const qid=sy&&sy.ask&&sy.ask.qid; if(!qid) return null;
+  S.askOf=function(it,qidIn){ attachSyllabus(); const c=it.c; if(!c.syllabus||typeof EXAM_BANK==='undefined') return null; const sy=c.syllabus.find(q=>q.w===it.week); const qid=qidIn||(sy&&sy.ask&&sy.ask.qid); if(!qid) return null;
     return EXAM_BANK.questions.find(q=>q.id===qid&&q.course===c.id&&q.term===it.term&&q.status==='USER_CONFIRMED')||null; };
-  S.classAsk=async function(GM,it,prof,ct){ const q=S.askOf(it); if(!q) return false; const R=S.rec(GM.G), c=it.c, pre=prof?'':((ct&&ct.prof)||S.profName(c))+'：';
+  S.classAsk=async function(GM,it,prof,ct,qidIn){ const q=S.askOf(it,qidIn); if(!q) return false; const R=S.rec(GM.G), c=it.c, pre=prof?'':((ct&&ct.prof)||S.profName(c))+'：';
     const first=!Object.keys(R.ask).some(k=>k.startsWith(it.term+':'));
     await GM.say(null,'（下課前，教授在黑板角落寫了一題。）'); await GM.say(null,q.q);
     const opts=optList(q); const j=await GM.choose(opts.map(o=>({t:o.t}))); const v=(opts[j]||opts[0]).v; R.ask[it.term+':'+q.id]=v;

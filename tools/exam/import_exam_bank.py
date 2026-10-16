@@ -13,7 +13,7 @@ REF = sys.argv[1] if len(sys.argv) > 1 else 'origin/claude/story-planning'
 sha = subprocess.check_output(['git', '-C', ROOT, 'rev-parse', '--short', REF], text=True).strip()
 show = lambda p: subprocess.check_output(['git', '-C', ROOT, 'show', f'{REF}:{p}'], text=True)
 ls = lambda d: [l for l in subprocess.check_output(['git', '-C', ROOT, 'ls-tree', '--name-only', f'{REF}:{d}'], text=True).split('\n') if l]
-KEEP = ('id', 'course', 'term', 'scopeWeek', 'type', 'q', 'options', 'answer', 'core', 'explanation', 'status', 'askedIn', 'source')
+KEEP = ('id', 'course', 'term', 'scopeWeek', 'type', 'q', 'options', 'answer', 'core', 'explanation', 'status', 'askedIn', 'source', 'lang')   # lang：法學英文 'en'（題幹、選項英文；BB-B 796319d）
 KEEP_Y4 = KEEP + ('basis',)
 DROPPED = ('law_society', 'law_society_2', 'juris', 'intl_public', 'legal_history', 'fair_trade', 'conflict_laws')
 out = {'source': 'claude/story-planning ' + sha, 'files': [], 'questions': [], 'courseMap': {}}

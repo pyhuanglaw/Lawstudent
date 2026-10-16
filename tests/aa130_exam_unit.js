@@ -3,7 +3,7 @@
 //   5. 題庫夠的課（民法身分法）：5 題都出自這門課、這學期；
 //   6. 不足 5 題（行政救濟法 4 題、憲法（上）0 題）：不開考、顯示題庫不足的訊息、錯誤碼、成績單「未開考（題庫不足）」、沒有任何補題、不算被當；
 //   7. 一門課一學期只考一次；大一上民法總則（週四的兩堂都放假）排在 1/2 週五下午一；
-//   另外：課堂題（askedIn／CLASS_DISC）優先、EXAM_MIX '3_2'、期中練習只抽第 1～7 週、答對題數的分數、交卷後答錯的題目顯示考點。
+//   另外：課堂題（askedIn／CLASS_DISC）優先（3_2 已拿掉）、期中練習只抽第 1～7 週、答對題數的分數、交卷後答錯的題目顯示考點。
 // 修改前：EXAM_BANK、CLS.drawExam 都不存在（第 0 項就失敗）。用法：node tests/aa130_exam_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -22,8 +22,8 @@ function mkGM(G,answer){ const log=[]; return {G,log,D:{active:false},E:{player:
   // 4. 刑訴
   { const G=mkG(dayOf('2027-12-28'),9); const r=CLS.drawExam(G,'crimpro','Y3S1','final'); const ids=(r.qs||[]).map(q=>q.id);
     check('4. 刑訴期末考：抽 5 題、不重複',r.ok&&ids.length===5&&new Set(ids).size===5,JSON.stringify(ids));
-    const same=r.qs&&r.qs.every(q=>{ const o=QBANK.find(x=>x.id===q.id); return o&&o.q===q.q&&JSON.stringify(o.options)===JSON.stringify(q.options)&&o.answer===q.answer&&o.core===q.core; });
-    check('4. 題目、選項、答案、考點和 QBANK 一模一樣',!!same);
+    const same=r.qs&&r.qs.every(q=>{ if(q.source==='CLASS_DISC') return q.course==='crimpro'&&q.status==='USER_CONFIRMED'; const o=QBANK.find(x=>x.id===q.id); return o&&o.q===q.q&&JSON.stringify(o.options)===JSON.stringify(q.options)&&o.answer===q.answer&&o.core===q.core; });   /* 2026-10-15 起刑訴多一題討論課題目（BB-B 64406c8，使用者確認）*/
+    check('4. 題目、選項、答案、考點和 QBANK 一模一樣（討論課題目是使用者確認的刑訴題）',!!same);
     const back=JSON.parse(JSON.stringify(G)); const r2=CLS.drawExam(back,'crimpro','Y3S1','final');
     check('4. 讀檔（JSON 來回）再考是同一份',r2.ok&&JSON.stringify(r2.qs.map(q=>q.id))===JSON.stringify(ids),JSON.stringify(r2.qs&&r2.qs.map(q=>q.id)));
     const G3=mkG(dayOf('2027-12-28'),9); G3.flags.examSeed=G.flags.examSeed+1; const r3=CLS.drawExam(G3,'crimpro','Y3S1','final');
@@ -31,18 +31,19 @@ function mkGM(G,answer){ const log=[]; return {G,log,D:{active:false},E:{player:
   // 5. 題庫夠的課
   { const G=mkG(dayOf('2027-06-20'),9); const pool=CLS.examPool('family_law','Y2S2','final'); const r=CLS.drawExam(G,'family_law','Y2S2','final');
     check('5. 民法身分法：5 題都出自這門課、這學期（題庫 '+(pool.cls.length+pool.bank.length)+' 題）',r.ok&&r.qs.length===5&&r.qs.every(q=>q.course==='family_law'&&q.term==='Y2S2')); }
-  // 6. 不足 5 題
-  { const G=mkG(dayOf('2027-06-20'),9); const n=CLS.examPool('admin_remedy','Y2S2','final'); const tot=n.cls.length+n.bank.length;
-    const it={c:CLS.byId('admin_remedy'),exam:'final',term:'Y2S2',key:'x'}; const GM=mkGM(G); errs.length=0; const res=await CLS.runExam(GM,it);
-    check('6. 行政救濟法（'+tot+' 題）：不開考，顯示「這一科的期末考題庫還沒準備好（正式題目 '+tot+'／5）。這學期不舉行期末考。」',tot<5&&res.held===false&&GM.log.includes('這一科的期末考題庫還沒準備好（正式題目 '+tot+'／5）。這學期不舉行期末考。'),GM.log.join(' | '));
-    check('6. 錯誤碼 EXAM_BANK_INSUFFICIENT admin_remedy',errs.some(e=>e.startsWith('EXAM_BANK_INSUFFICIENT admin_remedy')),errs.join(' | '));
+  // 6. 不足 5 題（2026-10-15 重新匯入後：行政救濟法 5 題可以開考了；改用憲法（上）——只有 1 題討論課題目；大一下憲法（下）0 題）
+  { const G=mkG(dayOf('2025-12-22'),9); const n=CLS.examPool('const_1','Y1S1','final'); const tot=n.cls.length+n.bank.length;
+    const it={c:CLS.byId('const_1'),exam:'final',term:'Y1S1',key:'x'}; const GM=mkGM(G); errs.length=0; const res=await CLS.runExam(GM,it);
+    check('6. 憲法（上）（'+tot+' 題）：不開考，顯示「這一科的期末考題庫還沒準備好（正式題目 '+tot+'／5）。這學期不舉行期末考。」',tot<5&&tot>0&&res.held===false&&GM.log.includes('這一科的期末考題庫還沒準備好（正式題目 '+tot+'／5）。這學期不舉行期末考。'),GM.log.join(' | '));
+    check('6. 錯誤碼 EXAM_BANK_INSUFFICIENT const_1',errs.some(e=>e.startsWith('EXAM_BANK_INSUFFICIENT const_1')),errs.join(' | '));
     check('6. 沒有任何補題（沒有出現選項）',!GM.log.some(t=>t.startsWith('choose:')));
-    const rep=CLS.reportFor(G,'Y2S2'); check('6. 成績單：行政救濟法「未開考（題庫不足）」（不算被當）',rep.admin_remedy==='未開考（題庫不足）',JSON.stringify(rep));
-    const G0=mkG(dayOf('2025-12-22'),9); const r0=CLS.drawExam(G0,'const_1','Y1S1','final'); check('6. 憲法（上）沒有正式題目：不開考',r0.ok===false&&r0.n===0); }
+    const rep=CLS.reportFor(G,'Y1S1'); check('6. 成績單：憲法（上）「未開考（題庫不足）」（不算被當）',rep.const_1==='未開考（題庫不足）',JSON.stringify(rep));
+    const G0=mkG(dayOf('2026-06-15'),9); const r0=CLS.drawExam(G0,'const_2','Y1S2','final'); check('6. 憲法（下）沒有正式題目：不開考',r0.ok===false&&r0.n===0); }
   // 6. ?dev 的除錯面板列出這學期不開考的課（game3d.js 的 devAssetReport 讀 CLS.examShort）
-  { const G=mkG(dayOf('2027-06-20'),9); const sh=typeof CLS.examShort==='function'?CLS.examShort(G,'Y2S2'):null;
-    check('6. ?dev 清單（CLS.examShort）：大二下有行政救濟法（不到 5 題）、沒有民法身分法（夠 5 題）',!!sh&&sh.some(e=>e.id==='admin_remedy'&&e.n<5)&&!sh.some(e=>e.id==='family_law'),JSON.stringify(sh));
-    const sh2=typeof CLS.examShort==='function'?CLS.examShort(G):null; check('6. 不給學期就用今天的學期（2027-06-20＝大二下）',JSON.stringify(sh2)===JSON.stringify(sh)); }
+  { const G=mkG(dayOf('2025-12-22'),9); const sh=typeof CLS.examShort==='function'?CLS.examShort(G,'Y1S1'):null;
+    check('6. ?dev 清單（CLS.examShort）：大一上有憲法（上）（不到 5 題）、沒有民法總則（夠 5 題）',!!sh&&sh.some(e=>e.id==='const_1'&&e.n<5)&&!sh.some(e=>e.id==='civ_general'),JSON.stringify(sh));
+    const sh2=typeof CLS.examShort==='function'?CLS.examShort(G):null; check('6. 不給學期就用今天的學期（2025-12-22＝大一上）',JSON.stringify(sh2)===JSON.stringify(sh)); }
+  { const G=mkG(dayOf('2027-06-20'),9); const r=CLS.drawExam(G,'admin_remedy','Y2S2','final'); check('6. 行政救濟法（BB-B cd62e99 補到 5 題）：可以開考',r.ok&&r.qs.length===5); }
   // 7. 一門課一學期只考一次；民法總則補考日
   { const G=mkG(dayOf('2025-12-22'),8); const d=CLS.examDay(G,CLS.byId('civ_general'),'Y1S1','final'); const dt=d&&CALENDAR.dateOf(d.day);
     check('7. 大一上民法總則（週四 12/25、1/1 都放假）：期末考排在 1/2 週五下午一',!!d&&d.makeup&&dt.m===1&&dt.d===2&&d.block==='pm1',JSON.stringify({d,dt}));
@@ -56,9 +57,8 @@ function mkGM(G,answer){ const log=[]; return {G,log,D:{active:false},E:{player:
     const a=qs[qs.length-1], b=qs[qs.length-2]; a.askedIn={term:'Y2S2',course:'family_law',week:3}; b.source='CLASS_DISC';
     const G=mkG(dayOf('2027-06-20'),9); const r=CLS.drawExam(G,'family_law','Y2S2','final'); const ids=r.qs.map(q=>q.id);
     check('課堂題優先（class_first）：課堂上問過的兩題一定在考卷上',ids.includes(a.id)&&ids.includes(b.id),JSON.stringify(ids));
-    CLS.EXAM_MIX='3_2'; const G2=mkG(dayOf('2027-06-20'),9); G2.flags.examSeed=7; const r2=CLS.drawExam(G2,'family_law','Y2S2','final'); CLS.EXAM_MIX='class_first';
-    check('EXAM_MIX 3_2：課堂題只有 2 題＝都上，其餘 3 題從題庫補',r2.ok&&r2.qs.length===5&&r2.qs.includes(a)&&r2.qs.includes(b));
-    delete a.askedIn; delete b.source; for(const [q,v] of real) q.askedIn=v; }
+    /* EXAM_MIX 3_2 已拿掉（AA_126 1-5 方案一定案，2026-10-15）：課堂題夠 5 題就全部是課堂題 */
+    delete a.askedIn; delete b.source; for(const [q,v] of real) q.askedIn=v; { const G3=mkG(dayOf('2027-06-20'),9); G3.flags.examSeed=11; const pool=CLS.examPool('family_law','Y2S2','final'); const r3=CLS.drawExam(G3,'family_law','Y2S2','final'); check('課堂題 '+pool.cls.length+' 題（≥5）：考卷 5 題全是課堂上問過的',pool.cls.length>=5&&r3.ok&&r3.qs.every(q=>pool.cls.includes(q)),JSON.stringify(r3.qs&&r3.qs.map(q=>q.id))); } }
   // 期中練習只抽第 1～7 週
   { const G=mkG(dayOf('2027-04-12'),9); const p=CLS.examPool('family_law','Y2S2','mid'); check('期中練習：只收第 1～7 週範圍的題目',p.cls.concat(p.bank).every(q=>q.scopeWeek==null||q.scopeWeek<=7)); }
   // 作答與分數

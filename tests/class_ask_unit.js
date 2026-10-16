@@ -17,7 +17,7 @@ function itemFor(cid,week){ for(let d=1;d<1500;d++){ const t=CALENDAR.termOf(d);
   const Q={}; for(const q of EXAM_BANK.questions) Q[q.id]=q;
   let n=0, bad=[]; const asks=[];
   for(const cid in SYLLABUS.courses) for(const w of SYLLABUS.courses[cid]) if(w.ask){ n++; asks.push([cid,w.w,w.ask.qid]); const q=Q[w.ask.qid]; if(!q||!q.askedIn||q.askedIn.course!==cid||q.askedIn.week!==w.w||q.status!=='USER_CONFIRMED') bad.push(w.ask.qid); }
-  check('1. syllabus 有 ask 的週 69 個，每一題都在 EXAM_BANK（USER_CONFIRMED），askedIn 和那一週一致',n===69&&!bad.length,'n='+n+' 不一致 '+JSON.stringify(bad));
+  check('1. syllabus 有 ask 的週 76 個（69＋法學英文 6＋行政救濟法 1，2026-10-15 重新匯入），每一題都在 EXAM_BANK（USER_CONFIRMED），askedIn 和那一週一致',n===76&&!bad.length,'n='+n+' 不一致 '+JSON.stringify(bad));
   check('2. CLS.classAsk、CLS.askOf 存在',typeof CLS.classAsk==='function'&&typeof CLS.askOf==='function');
   if(typeof CLS.classAsk!=='function'){ console.log('FAILED '+fails); process.exit(1); }
   // 大一上民法總則：第一題（第 5 週）、第二題
@@ -41,5 +41,12 @@ function itemFor(cid,week){ for(let d=1;d<1500;d++){ const t=CALENDAR.termOf(d);
   check('3. 沒有 ask 的週（第 '+noAsk+' 週）不問',!GM3.log.some(t=>/黑板角落/.test(t)));
   // 舊存檔（沒有 ask 欄位）
   const G4=mkG(it1.day,it1.t0+0.1); G4.courses={idv:3,done:{},attend:{}}; check('3. 舊存檔：CLS.rec 補上空的 ask',typeof CLS.rec(G4).ask==='object');
+  // 討論課的題目（BB-B 64406c8）：syllabus 的 obs.disc 指到 EXAM_BANK 的 CLASS_DISC 題，討論收尾之後問
+  const discs=[]; for(const cid in SYLLABUS.courses) for(const w of SYLLABUS.courses[cid]) if(w.obs&&w.obs.disc) discs.push([cid,w.w,w.obs.disc.qid,CLS.sylReviewed({id:cid},w.w)]);
+  check('5. 討論課題目：syllabus 有 obs.disc 的週 10 個，每一題都在 EXAM_BANK（source CLASS_DISC、USER_CONFIRMED）',discs.length===10&&discs.every(d=>{ const q=Q[d[2]]; return q&&q.source==='CLASS_DISC'&&q.status==='USER_CONFIRMED'&&q.course===d[0]; }),JSON.stringify(discs));
+  const dsc=discs.find(d=>d[0]==='crim_gen1'); const itD=dsc&&itemFor(dsc[0],dsc[1]);
+  if(itD&&dsc[3]){ const GD=mkG(itD.day,itD.t0+0.1); const GMD=mkGM(GD); await CLS.attend(GMD,itD,{inScene:true}); const qd=Q[dsc[2]];
+    check('5. 刑總（一）第 '+dsc[1]+' 週：討論之後問 '+dsc[2]+'（題幹原文）、答案＋考點',GMD.log.includes(qd.q)&&GMD.log.some(t=>t.startsWith('答案是（'+qd.answer+'）。')),JSON.stringify(GMD.log.slice(-6))); }
+  else check('5. 刑總（一）討論課那一週（審查過、排得到）',false,JSON.stringify(dsc));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });
