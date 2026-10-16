@@ -10,13 +10,13 @@
 | 人物 | 狀態 | 檔案 |
 |---|---|---|
 | 學姊 heroine_05 | **BB-B 通過**，已寫進 `assets/portraits/heroine_05/campus/`：底圖換成約會圖姿勢①（`neutral.webp`）＋ 7 格 smile、laugh、surprised、annoyed、sad、serious、tired。embarrassed、thinking 不用，遊戲自動用 neutral | 試疊紀錄 `../expr_heroine04_05/` |
-| 沛珊 classmate_peishan | **等 BB-B 驗收**：現在的對話立繪，整個頭換掉，9 格 | `classmate_peishan/<表情>.webp`、`classmate_peishan_heads.png`、`classmate_peishan_full.png` |
-| 可昕 kexin | **等 BB-B 驗收**：同上，9 格 | `kexin/<表情>.webp`、`kexin_heads.png`、`kexin_full.png` |
+| 沛珊 classmate_peishan | **BB-B 通過**（03:19），已複製進 `assets/portraits/classmate_peishan/campus/`：現在的對話立繪，整個頭換掉，9 格 | `classmate_peishan/<表情>.webp`、`classmate_peishan_heads.png`、`classmate_peishan_full.png` |
+| 可昕 kexin | **BB-B 通過**（03:19），已複製進 `assets/portraits/kexin/campus/`：9 格（小事：左側髮尾肩膀高度的去背邊緣有一點鋸齒，之後順手柔） | `kexin/<表情>.webp`、`kexin_heads.png`、`kexin_full.png` |
 | 子晴 heroine_04 | **暫停**（BB-B 決定）：等使用者生成正面全身高解析度圖，再一次切底圖＋疊頭；立繪先不換 | `../expr_heroine04_05/` |
-| 語彤 heroine_03 | **對得上，但身體偏糊**（和子晴一樣，是 768 標準圖切的）；建議同子晴，等新的正面全身 | `heroine_03_heads.png`、`heroine_03_full.png`（只是參考，沒有輸出單張） |
-| 以安 heroine_01 | **疊不起來**：現在的對話立繪頭轉向她的左邊，約會圖姿勢①的頭轉向另一邊，都不是正面；九格表情是正面。要正面全身的新圖 | — |
+| 語彤 heroine_03 | **暫停**（BB-B 決定）：身體偏糊，等使用者生成正面全身（BB 第 24 組） | `heroine_03_heads.png`、`heroine_03_full.png`（只是參考，沒有輸出單張） |
+| 以安 heroine_01 | **暫停**（BB-B 決定，第 23 組和子晴一起生）。疊不起來：現在的對話立繪頭轉向她的左邊，約會圖姿勢①的頭轉向另一邊，都不是正面；九格表情是正面。要正面全身的新圖 | — |
 
-BB-B 驗收通過後，沛珊、可昕的單張直接複製到 `assets/portraits/<id>/campus/`。
+子晴、以安、語彤的對話立繪在新圖來之前維持現在這張，不疊表情。
 
 ## 這一輪修的去背問題（腳本）
 
