@@ -52,9 +52,12 @@ for za, zb in zip(ZS, ZS[1:]):
     fl.quad([(-WI, ya, za), (WI, ya, za), (WI, yb, zb), (-WI, yb, zb)])
 fl.finish(root)
 st = Mesh('sb_structure', M['conc'])
-for za, zb in zip(ZS, ZS[1:]):                                       # 地板下面的結構板（從外面看到厚度）：每一段一個斜的盒子
-    ya, yb = floor_y(za), floor_y(zb); ym = min(ya, yb)
-    st.box(-WO, WO, ym - 0.45, ym - 0.005, zb, za)
+st.box(-WO, WO, -0.45, -0.005, -LEN, 0)                               # 結構板（平的，在低的那一端地板下）
+for za, zb in zip(ZS, ZS[1:]):                                       # 兩側的裙板：從結構板頂到地板（跟著坡度；外面看是一整片）
+    ya, yb = floor_y(za), floor_y(zb)
+    for sx in (-1, 1):
+        x = sx * WO; q = [(x, -0.005, za), (x, -0.005, zb), (x, yb, zb), (x, ya, za)]
+        st.quad(q); st.quad(q[::-1])
 st.finish(root)
 
 # ---- 兩側：矮牆（地板上 0.9 m，混凝土）＋上面整片玻璃（直框每 1.25 m）＋天花板／屋頂（外面是平屋頂、薄的屋簷）

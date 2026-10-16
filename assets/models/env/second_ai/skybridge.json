@@ -1,0 +1,44 @@
+{
+ "objects": 14,
+ "unique_meshes": 14,
+ "tris": 1388,
+ "tris_drawn": 1388,
+ "materials": 9,
+ "out": "assets/models/env/second_ai/skybridge.glb",
+ "bytes": 307892,
+ "texres": 512,
+ "local": "原點＝普通那一端門口中心的地板；往北（−z）7.5 m 到博雅；x 東、y 上",
+ "world_place": {
+  "x": -41.2,
+  "z": -66.5,
+  "y": "由遊戲決定（普通二樓地板高）"
+ },
+ "walk": {
+  "x0": -1.15,
+  "x1": 1.15,
+  "z0": -7.5,
+  "z1": 0.0
+ },
+ "doors": {
+  "putong": {
+   "x0": -0.9,
+   "x1": 0.9,
+   "z": 0.0,
+   "y": 0.0
+  },
+  "boya": {
+   "x0": -0.9,
+   "x1": 0.9,
+   "z": -7.5,
+   "y": 0.6
+  }
+ },
+ "ramp": {
+  "flat_each_end": 1.0,
+  "rise": 0.6,
+  "slope": 0.109,
+  "formula": "y = rise * clamp((-z - flat) / (len - 2*flat), 0, 1)"
+ },
+ "clear_height": 2.8,
+ "outer_width": 3.2
+}

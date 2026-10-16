@@ -6,6 +6,10 @@
   - 校門提供了實景照片。
   - 「店名為了不侵權要取諧音或替代」。
 - 檔案：`assets/bg/nccu_gate.webp`、`assets/bg/nccu_food.webp`，1920×1080，畫面上沒有人。
+- 縮圖：![](nccu_gate_preview.webp) ![](nccu_food_preview.webp)
+- **範圍（使用者 10-16）**：「政大不用做的跟台大一樣完整，主要校園、宿舍」；已做完的保留；宿舍是自強十舍。
+  - 這兩張之後，只再做「政大・宿舍（自強十舍）」，已經向使用者要照片。
+  - nccu_river、nccu_lib、nccu_park 不做；圖書館（達賢）的場景草稿留在 `bg_nccu.py`。
 - 接法：`src/outings3d.js` 的 `S.BG.nccu_gate.image`、`nccu_food.image` 填路徑，做法同 noodle_table（LAWWW-B 的檔案，我沒改）。
 - 時間：傍晚（店和路燈已經亮了，天空還有一點亮）。下午出發（K1 導遊）和晚上 19:30（K1b）都說得通。
 - 腳本：
