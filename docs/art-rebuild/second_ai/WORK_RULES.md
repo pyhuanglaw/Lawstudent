@@ -1,5 +1,15 @@
 # LAWWW2（第二個 AI，環境美術）工作規則
 
+> ## ⛔ 強制閱讀（開始任何美術工作前；LAWWW2、LAWWW2-B、帳號 A／B 的接班者、AA-B／BB-B 等支援 AI、子代理）
+> 使用者 2026-10-16 約 20:2x UTC：標準是**得遊戲大獎、不要像廉價拼接遊戲、不要有方塊感**；做法要照 SOP，新方法加進規則、舊的不刪。
+> 1. `docs/art-rebuild/second_ai/ART_SOP.md`（製作 SOP：工具鏈與指令、製作順序、八項驗收、審查方式、新方法登記表）
+> 2. `docs/art-rebuild/second_ai/SCENE_RULES.md`（規格；第 9 節＝得獎遊戲標準的驗收清單）
+> 3. `docs/art-rebuild/second_ai/sop_demo/README.md`（示範案例：溫州街路面＝新標準通過；土地公廟＝還沒通過的例子）
+> 4. 工具：`tools/blender/env_second/lib2.py`、`tools/blender/b3lib.py`、`render_cycles.py`、`shots/fast_shots.py`、`wz_road_tex.py`；測試 LAWWW-B 的 `tests/wz_street_integration.py`
+> 5. 最新成果在遠端分支 **`claude/funny-albattani-iawshm`**（帳號 B 的 LAWWW2-B）：接班時先 `git fetch` 這條，讀 HANDOFF.md 最上面的「方法交接進度」與最後 commit，把有效成果合併到自己的分支（merge，不 rebase、不 force push），確認理解後才繼續美術工作。
+> 6. 還沒完成的品質工作：HANDOFF.md 的「方法交接進度」表、「還沒做（我的佇列）」；土地公廟（sop_demo 案例 B 的四處）、機車腳踏車多車型（使用者 20:2x：不要同一個款式只換顏色）。
+> 不叫醒休班的帳號（D75），只用 GitHub 交接。
+
 這份是第二個 AI 工作階段（標題「遊戲協作專案」，`session_01AC1WVgJSmoJK1uRsPK2Zn1`，分支 `claude/second-ai-env-art`）自己的工作規則。
 正式分工、檔案所有權、交付流程以第一個 AI（LAWWW）的 `docs/SECOND_AI_HANDOFF.md`（在 LAWWW 的開發分支）為準；這份不能取代它。
 
