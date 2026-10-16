@@ -41,7 +41,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   G.day=MON2; G.weekday=1; G.hour=22.5; said=[]; picks=[0,0];
   await STORY.kaiDormTalk(GM,KAI); const t2=lines().join('｜');
   check('4. K-D2 第二次、打完 23:30：一場變三場（時間到 02:00）',t2.includes('一場變三場')&&t2.includes('你明天第一堂幾點')&&t2.includes('九點以前都叫早八')&&Math.abs(G.hour-26)<1e-6,t2.slice(-80)+' h='+G.hour);
-  check('4. 選「九點十分。」（BB-B b1884460 改版）：隔天早上精力 −10（morningEnergyAdj）',G.flags.morningEnergyAdj===-10);
+  check('4. 選「九點十分。」（BB-B b1884460 改版）：DL-02 拿掉體力以後，不再記隔天早上精力 −10（morningEnergyAdj 不用）',!G.flags.morningEnergyAdj);
   // K-D3：有早八的早上、昨晚沒一起打（30%：Math.random 固定 0）
   let D3=null; for(let d=termDay('Y1S1',5,1);d<termDay('Y1S1',6,1);d++){ G.day=d; if(CLS.dayItems(G,d).some(it=>it.t0<=9.25)){ D3=d; break; } }
   check('5. 找得到有早上第一堂課（9:10 以前）的日子',!!D3);
