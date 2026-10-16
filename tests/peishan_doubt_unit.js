@@ -27,7 +27,7 @@ const PS='classmate_peishan', rel=()=>Object.assign({},SOCIAL.rel(PS));
   const want=[
     {opt:'「我想知道事情『應該』怎麼處理。」',react:['應該。','她重複一次。','我喜歡這個詞。……可是我常常想，是誰說的應該。'],d:{fam:3,comf:3},mem:false},
     {opt:'「想幫人。」',react:['我以前也這樣說。後來發現想幫人的方法很多，不一定要背條文。'],d:{fam:3,resp:2},mem:false},
-    {opt:'「妳呢？」',react:['我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在霖澤館兩個月都自在。','……我還沒跟家裡說。','她停了一下。','好奇怪。我第一次講出來，聲音比我想的還大。'],d:{fam:4,trust:3},mem:true}];
+    {opt:'「妳呢？」',react:['我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在霖澤館這一個多月都自在。','……我還沒跟家裡說。','她停了一下。','好奇怪。我第一次講出來，聲音比我想的還大。'],d:{fam:4,trust:3},mem:true}];
   for(let k=0;k<3;k++){ at('library',2,15); SOCIAL.meet(PS,'library'); const r0=rel(); pick=k; await EVENTS.run(ev); const L=lines(), r1=rel(), w=want[k];
     check('選項 '+(k+1)+'：三個選項的文字（第一個換成 BB 寫好的）',JSON.stringify(opts[0])===JSON.stringify(want.map(x=>x.opt)),JSON.stringify(opts[0]));
     const q=L.indexOf('你為什麼念法律？……這個問題很普通。我想聽普通以外的答案。');
