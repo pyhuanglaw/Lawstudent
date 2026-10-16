@@ -46,6 +46,8 @@ for t in ('NISHITA', 'MULTIPLE_SCATTERING', 'SINGLE_SCATTERING'):
     except Exception: continue
 try: sky.sun_elevation = math.radians(SUN_ELEV); sky.sun_rotation = math.radians((SUN_AZ + 180 + 360) % 360)
 except Exception: pass
+try: sky.sun_disc = False                # 太陽交給太陽燈：天空裡的太陽圓盤是物理亮度，會整片過曝
+except Exception: pass
 nt.links.new(sky.outputs['Color'], nt.nodes['Background'].inputs['Color']); nt.nodes['Background'].inputs['Strength'].default_value = float(opt('--sky', 0.35))
 # 太陽燈（偏橘、低）
 sun = bpy.data.objects.new('sun', bpy.data.lights.new('sun', 'SUN')); sc.collection.objects.link(sun)
