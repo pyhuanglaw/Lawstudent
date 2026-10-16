@@ -509,8 +509,8 @@
    "title": "角色 VRM bl_zhe、xinci、bohan、kexin、peishan（只在 ?blchar）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "03:4x 已向 BB-B 提出 D59 驗收（之前沒有提出，稽核 1-2）；要截圖的話 LAWWW2-B 用 ?blchar 拍；通過後改預設",
+   "status": "待開工",
+   "next": "BB-B 03:44 接了：先看 VISUAL_REVIEW 第 32 節做第一輪；最後要 LAWWW2-B 拍遊戲內截圖每人 5 張（正面全身待機、斜前 45° 全身、頭肩特寫正面、走路側面、坐下；白天、?blchar、背景單純、旁邊並排 BB_131 參考圖）；可昕要確認是不是照 art_reference/kexin.webp 做的",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -754,7 +754,7 @@
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/funny-albattani-iawshm",
-    "spec": "LAWWW2／LAWWW2-B 交付",
+    "spec": "企劃線 art_reference/classmate_mingxuan.webp、yu.webp（BB-B 03:44 確認）；帳號 A 的 WIP 腳本 ae6e4dfa、0205552d",
     "acceptance": "VRM＋BB-B D59",
     "ack": "ACK"
    }
@@ -8930,7 +8930,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "待開工",
-   "next": "約會底圖 D09 做夜晚版（星星、月亮、幾乎全黑），AA-B 已確認",
+   "next": "約會底圖 D09 做夜晚版（星星、月亮、幾乎全黑），AA-B 已確認（AA-B 03:43：山上照舊夜晚）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -9041,8 +9041,8 @@
    "title": "2D 背景 trip_sea「海邊」：春假開車旅行（用約會底圖 D25（夕陽））",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "等 AA-B 回答要白天還是照用 D25（夕陽）（AA_147 寫白天、她拎著鞋站在浪裡）；LAWWW-B 本批已問",
+   "status": "待開工",
+   "next": "AA-B 03:43 裁定：照用約會底圖、調成白天版（調色、燈籠不亮，不重新生成）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -9060,7 +9060,7 @@
     "receiver": "LAWWW",
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147＋BG_TRACKER",
-    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名；白天版另外生成或調色",
+    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名；白天版另外生成或調色；白天版＝調色，不重新生成",
     "ack": "DELIVERED"
    }
   },
@@ -9069,8 +9069,8 @@
    "title": "2D 背景 trip_oldtown「別的城市的老街」：春假開車旅行（用約會底圖 D18（黃昏））",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "等 AA-B 回答要白天還是照用 D18（黃昏）（AA_147 寫白天、牆上貼滿發黃的老照片）；LAWWW-B 本批已問",
+   "status": "待開工",
+   "next": "AA-B 03:43 裁定：照用約會底圖、調成白天版（調色、燈籠不亮，不重新生成）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -9088,7 +9088,7 @@
     "receiver": "LAWWW",
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147＋BG_TRACKER",
-    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名；白天版另外生成或調色",
+    "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名；白天版另外生成或調色；白天版＝調色，不重新生成",
     "ack": "DELIVERED"
    }
   },
@@ -9136,8 +9136,8 @@
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/funny-albattani-iawshm",
-    "spec": "BB_131 標準圖、characters.js econ_zhengxun（180 cm、slim）",
-    "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模）；BB-B D59 通過；LAWWW 接進 CHARACTERS[id].char3d.model",
+    "spec": "企劃線 docs/story_planning/art_reference/xun.webp（BB_131 人物標準圖；設定 BB_116 第 12 節；BB-B 03:44 確認）；做法照 AA_145 §5：路人底模改臉、髮型、衣服",
+    "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
     "ack": "DELIVERED"
    }
   },
@@ -9164,8 +9164,8 @@
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/funny-albattani-iawshm",
-    "spec": "BB_131 標準圖、characters.js econ_pinyu（158 cm）",
-    "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模）；BB-B D59 通過；LAWWW 接進 CHARACTERS[id].char3d.model",
+    "spec": "企劃線 docs/story_planning/art_reference/pinyu.webp（BB_131 人物標準圖；設定 BB_116 第 11 節；BB-B 03:44 確認）；做法照 AA_145 §5：路人底模改臉、髮型、衣服",
+    "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
     "ack": "DELIVERED"
    }
   },
@@ -9174,7 +9174,7 @@
    "title": "v0 經濟系那一年的美術盤點：場景、人物、背景、動畫清單 → 建 LAWWW2 任務（D84 第 1 條）",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已驗收",
    "next": "03:4x 已問 AA-B（清單草稿 9 項＋人物 3D 7 位，請刪改、標 2D／3D 與首次週次）；AA-B 回了就建 v0 的美術任務",
    "priority": "P1",
    "first": {
@@ -9194,8 +9194,9 @@
     "branch": "claude/cool-heisenberg-o8kuqx",
     "spec": "交接包 v0、AA_145、BB_104／110／112",
     "acceptance": "任務總表有 ART-V0-* 任務（每項有 xai）；AA-B 確認清單",
-    "ack": "DELIVERED"
-   }
+    "ack": "ACTIONED"
+   },
+   "evidence": "AA-B 03:43 回答（AA_145 §5）：經濟系那年的室內一律 2D；3D 只要宿舍第 0 間＋現有校園、公館；人物 3D 用路人底模改；補習班不需要。已建 ART-V0-DORM、ART-CH-WEILUN／TANGRUI／JIAHAO／WEI（XUN、PINYU 已有）"
   },
   {
    "id": "BUG-14",
@@ -9372,7 +9373,7 @@
    "title": "LAWWW → AA 的劇情需求：v0 經濟系那一年的場景、人物、背景、動畫清單（V0-ARTPLAN、V0-A6、SCN-V0-01；含 E15 青年活動中心、econ_camp_room）",
    "area": "AA",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已驗收",
    "next": "AA 判斷自己做或分派 BB（D86）；交付後 LAWWW 接線",
    "priority": "P1",
    "first": {
@@ -9392,15 +9393,16 @@
     "branch": "claude/cool-heisenberg-o8kuqx",
     "spec": "交接包 v0、AA_145、BB_104／110／112",
     "acceptance": "每項標 2D 或 3D、第一次出現的週次、用途；LAWWW 據此建 LAWWW2 任務",
-    "ack": "DELIVERED"
-   }
+    "ack": "ACTIONED"
+   },
+   "evidence": "同 V0-ARTPLAN（AA-B 03:43）"
   },
   {
    "id": "AA-REQ-05",
    "title": "LAWWW → AA 的劇情需求：春假開車旅行的海邊、老街要白天還是照用約會底圖的黃昏（ART-BG09、BG10；AA_147 寫白天，D25 夕陽、D18 黃昏）",
    "area": "AA",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已驗收",
    "next": "AA 判斷自己做或分派 BB（D86）；交付後 LAWWW 接線",
    "priority": "P2",
    "first": {
@@ -9420,8 +9422,9 @@
     "branch": "claude/cool-heisenberg-o8kuqx",
     "spec": "AA_147、BG_TRACKER",
     "acceptance": "一句話：白天（LAWWW2 調色或另外生成）或照用黃昏",
-    "ack": "DELIVERED"
-   }
+    "ack": "ACTIONED"
+   },
+   "evidence": "AA-B 03:43：海邊 D25、老街 D18 調成白天版；山上夜晚"
   },
   {
    "id": "AA-REQ-06",
@@ -9513,7 +9516,7 @@
    "area": "SYS",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "03:5x 送出；ACK：LAWWW2-B 未回、AA-B 未回、BB-B 未回",
+   "next": "ACK：AA-B 03:41／03:43 收到（最新版照做）；BB-B 03:44 收到；LAWWW2-B 03:45 轉來同一份、說正式通知到了回 ACK（03:47 已送，等回覆）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -9590,6 +9593,146 @@
    },
    "source": "AA-B c32c6b33、67251112（AA_BB 互助任務板 AB-05）",
    "authorized": "D79 第 7 點"
+  },
+  {
+   "id": "ART-CH-WEILUN",
+   "title": "韋綸（econ_weilun）的 3D 人物：路人底模改臉、髮型、衣服（AA_145 §5）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "v0 用；人物 id 等 AA-REQ-06（characters.js）；先照立繪做",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系那一年（v0）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 03:43（AA_145 §5）；派工 D84／D86",
+   "authorized": "D79 第 7 點、D84、D86",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "企劃線 art_reference/weilun.webp（BB_131 標準圖，立繪 8fbe1e1a 已通過）；AA_145 §5",
+    "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
+    "ack": "DELIVERED"
+   }
+  },
+  {
+   "id": "ART-CH-TANGRUI",
+   "title": "唐睿（econ_tangrui）的 3D 人物：路人底模改臉、髮型、衣服（AA_145 §5）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "v0 用；人物 id 等 AA-REQ-06（characters.js）；先照立繪做",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系那一年（v0）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 03:43（AA_145 §5）；派工 D84／D86",
+   "authorized": "D79 第 7 點、D84、D86",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "企劃線 art_reference/tangrui.webp（BB_131 標準圖，立繪 8fbe1e1a 已通過）；AA_145 §5",
+    "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
+    "ack": "DELIVERED"
+   }
+  },
+  {
+   "id": "ART-CH-JIAHAO",
+   "title": "家豪學長（econ_jiahao）的 3D 人物：路人底模改臉、髮型、衣服（AA_145 §5）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "v0 用；人物 id 等 AA-REQ-06（characters.js）；先照立繪做",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系那一年（v0）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 03:43（AA_145 §5）；派工 D84／D86",
+   "authorized": "D79 第 7 點、D84、D86",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "企劃線 art_reference/jiahao.webp（BB_131 標準圖，立繪 8fbe1e1a 已通過）；AA_145 §5",
+    "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
+    "ack": "DELIVERED"
+   }
+  },
+  {
+   "id": "ART-CH-WEI",
+   "title": "魏教授（prof_wei）的 3D 人物：講台老師底模改（AA_145 §5）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "v0 經濟學原理（大講堂）用；外觀等 AA-REQ-06",
+   "priority": "P3",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟學原理第一堂（v0）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 03:43（AA_145 §5）",
+   "authorized": "D79 第 7 點、D84",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA_145 §5；人物資料等 AA-REQ-06（BB）",
+    "acceptance": "VRM（講台老師底模改）；BB-B D59",
+    "ack": "DELIVERED"
+   }
+  },
+  {
+   "id": "ART-V0-DORM",
+   "title": "經濟系那年祐廷的宿舍房間（第 0 間）：沿用 203 的模型，換房號、窗景，室友阿勳的床（AA_145 §5）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2：房號牌、窗景圖、阿勳那一側的床鋪佈置（GLB 節點或貼圖）；LAWWW：v0 的 dorm 區域變體接線",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系開學第一晚（v0）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 03:43（AA_145 §5）",
+   "authorized": "D79 第 7 點、D84",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA_145 §5",
+    "acceptance": "GLB 或貼圖＋說明（哪些節點換）；遊戲內截圖",
+    "ack": "DELIVERED"
+   }
   }
  ]
 }

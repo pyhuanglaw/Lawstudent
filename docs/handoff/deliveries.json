@@ -1107,7 +1107,7 @@
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "93b06e1d",
    "what": "E15 宿營改三天兩夜青年活動中心（使用者更正）",
-   "task": "V0-B1、AA-REQ-04",
+   "task": "V0-B1",
    "msg": "ACK",
    "integration": "未整合",
    "note": "v0 實作時用"
@@ -1119,7 +1119,7 @@
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "17a02fe8",
    "what": "E15 照使用者更正：AA_145 econ_camp 改活動中心夜景、新增 econ_camp_room",
-   "task": "V0-B1、ART-18、AA-REQ-04",
+   "task": "V0-B1、ART-18",
    "msg": "ACK",
    "integration": "未整合",
    "note": ""
