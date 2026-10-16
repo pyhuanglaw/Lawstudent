@@ -12128,7 +12128,7 @@
    "owner": "LAWWW2",
    "status": "等待其他AI",
    "priority": "P1",
-   "next": "①LAWWW2-B 量 35 面的長寬、解析度、夜間發光給 BB-B；②BB-B 寫提示詞（含整條街風格總則）給使用者；③使用者生成；④LAWWW2-B 換上（extras 欄位）、LAWWW-B 改 zones3d.js wzSignTex 接圖片；⑤公館白天／夜間截圖給使用者看",
+   "next": "①尺寸表已交（LAWWW2-B 735f0830）②BB-B 寫提示詞中（22:00 ACK）③使用者生成 ④LAWWW2-B 換上：照 G03 做法 sk_sign_<店> 節點＋拿掉 *_FACE_*（zones3d.js 不用改；公館測試 DESIGNED 清單附 patch）⑤公館白天／夜間截圖",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12146,7 +12146,7 @@
     "branch": "BB-B claude/elegant-brown-fcos7n（提示詞）；LAWWW2-B 交付分支（GLB）",
     "acceptance": "35 面都換成使用者生成的圖、沒有系統預設字、沒有真實商標；公館白天夜間截圖",
     "receiver": "BB-B、LAWWW2-B",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {

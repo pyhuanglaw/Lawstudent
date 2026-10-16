@@ -4894,6 +4894,32 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "AA-B 互審通過；排在使用者 P0 之後"
+  },
+  {
+   "id": "DL-BB172",
+   "date": "2026-10-16",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "2cba17cb",
+   "what": "BB_172 邀約、一起走、交換聯絡方式（invites.js 的 BB 九位；第 10 節取代表格同 id 的改稿；10-3 實作清單：Z2、Q4 分兩版、F4 要 FANG_HINT、K9 週次和 16 週同 commit、Z11／S10／X3 first.teahouse、訊息體手機版／當面版）",
+   "task": "V1-INV-WORDING",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "AA-B 互審通過；含 bc760ae3、3b0d8dfb；排在 HANDOFF-ABC 之後"
+  },
+  {
+   "id": "DL-LW2-GGSIGN-SIZE",
+   "date": "2026-10-16",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "735f0830",
+   "what": "ART-GG-SIGNS 尺寸表（docs/art-rebuild/second_ai/requests/ART-GG-SIGNS_尺寸表.md）：21 面橫式、14 塊直立的尺寸與生成規格；遊戲端照 G03 做法（sk_sign_<店> 節點、拿掉 *_FACE_*），zones3d.js 不用改",
+   "task": "ART-GG-SIGNS",
+   "msg": "ACK",
+   "integration": "不需整合（給 BB-B 的規格）",
+   "note": "BB-B 22:00 ACK，寫提示詞中"
   }
  ],
  "ignored": [
