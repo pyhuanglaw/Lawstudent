@@ -669,6 +669,25 @@ const STORY_EVENTS=[
       {label:'b'},{if:{flagIs:{ECON_PAST_SHARED:'half'}},speaker:'classmate_xinci',text:'你不是自學的吧。……沒關係，不用說。'},{unless:{flagIs:{ECON_PAST_SHARED:'half'}},speaker:'classmate_xinci',text:'你一定念過。……沒關係，不用說。'},
       {label:'end'},{set:{P4B_SEEN:true}} ],
     after:G=>{ const t=CALENDAR.termOf(G.day); if(t) G.flags.P4B_WK=t.week; } },
+  /* SK04 便利貼（BB_106 SK04；AA_154 A52）：法律系大一上第 3～16 週，週四上午大一英文（english_y1，共同教學館）。同一個座位下午是經濟系大二的統計學，唐睿坐；兩個人都不知道對方是誰。
+     第一張（第 3～5 週第一次上課）三選一：回了（chair／law）才有之後的兩張和第 15 週的揭曉（那週沒來延到第 16 週；兩次都沒來就不揭曉）；不回＝不再出現。揭曉記 STICKY_NOTES（SK06、SK10 讀它）。
+     之後的兩張回不回都可以，不影響揭曉。沒玩經濟系大一的玩家，唐睿多一句自我介紹 */
+  ...(()=>{ const wk=G=>typeof CALENDAR!=='undefined'?(CALENDAR.termOf(G.day)||{}).week|0:0, on=G=>['chair','law'].includes(G.flags.SK04_REPLY);
+    const base={ participants:[], location:'any', trigger:'class', beforeClass:'english_y1', term:['Y1S1'], once:true, background:'blur' };
+    return [
+      Object.assign({},base,{ id:'ev_sk04_note1', title:'便利貼', prereq:{custom:G=>{ const w=wk(G); return w>=3&&w<=5&&!G.flags.SK04_REPLY; }},
+        dialogue:[ {speaker:null,text:'桌角貼著一張便利貼。'},{speaker:'便利貼',text:'這個位子的插座是壞的。'},
+          {choice:[{text:'「椅子也是。」',set:{SK04_REPLY:'chair'}},{text:'「已報修。——法律系」',set:{SK04_REPLY:'law'}},{text:'（不回）',set:{SK04_REPLY:'none'}}]} ],
+        after:G=>{ G.flags.SK04_WK=wk(G); G.flags.SK04_N=1; } }),
+      Object.assign({},base,{ id:'ev_sk04_note2', title:'便利貼', prereq:{custom:G=>on(G)&&G.flags.SK04_N===1&&wk(G)>(G.flags.SK04_WK|0)&&wk(G)<=14},
+        dialogue:[ {speaker:'便利貼',text:'統計好難。'},{choice:[{text:'「英文也是。」'},{text:'（不回）',set:{SK04_QUIET:true}}]} ],
+        after:G=>{ G.flags.SK04_WK=wk(G); G.flags.SK04_N=2; } }),
+      Object.assign({},base,{ id:'ev_sk04_note3', title:'便利貼', prereq:{custom:G=>on(G)&&G.flags.SK04_N===2&&!G.flags.SK04_QUIET&&wk(G)>(G.flags.SK04_WK|0)&&wk(G)<=14},
+        dialogue:[ {speaker:'便利貼',text:'你們法律系也要考英文？'},{choice:[{text:'「我們什麼都要考。」'},{text:'（不回）'}]} ],
+        after:G=>{ G.flags.SK04_WK=wk(G); G.flags.SK04_N=3; } }),
+      Object.assign({},base,{ id:'ev_sk04_reveal', title:'是你？', participants:[], prereq:{custom:G=>{ const w=wk(G); return on(G)&&(w===15||w===16)&&!G.flags.STICKY_NOTES; }},
+        dialogue:[ {speaker:'唐睿',text:'……是你？'},{speaker:'player',text:'……是你？'},
+          {unless:{flags:['PLAYED_Y0']},speaker:'唐睿',text:'唐睿。全系最會講話的那個。……你真的忘了我？'},{set:{STICKY_NOTES:true,KNOWS_TANG:true}} ] }) ]; })(),
   { id:'ev_sk03_xinci_class', title:'統計課那個人', participants:['classmate_xinci'], location:'any', trigger:'class', beforeClass:'econ_principles_2', term:['Y1S2'], weekday:[5], once:true, background:'blur',
     prereq:{custom:G=>{ if(!G.flags.P4D_ANSWER||G.flags.ECON_LAW_BRIDGE||typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); return !!t&&t.week>=8; }},
     dialogue:[ {if:{custom:G=>typeof CALENDAR!=='undefined'&&(CALENDAR.termOf(G.day)||{}).week===8},speaker:null,text:'考卷還沒發。'},
