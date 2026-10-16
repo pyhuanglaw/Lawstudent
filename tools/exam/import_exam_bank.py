@@ -16,7 +16,7 @@ ls = lambda d: [l for l in subprocess.check_output(['git', '-C', ROOT, 'ls-tree'
 KEEP = ('id', 'course', 'term', 'scopeWeek', 'type', 'q', 'options', 'answer', 'core', 'explanation', 'status', 'askedIn', 'source', 'lang')   # lang：法學英文 'en'（題幹、選項英文；BB-B 796319d）
 KEEP_Y4 = KEEP + ('basis',)
 DROPPED = ('law_society', 'law_society_2', 'juris', 'intl_public', 'legal_history', 'fair_trade', 'conflict_laws')
-out = {'source': 'claude/story-planning ' + sha, 'files': [], 'questions': [], 'courseMap': {}}
+out = {'source': REF.replace('origin/', '') + ' ' + sha, 'files': [], 'questions': [], 'courseMap': {}}
 seen = set(); skipped = []
 def take(path, need):
     d = json.loads(show(path)); qs = d.get('questions') or []

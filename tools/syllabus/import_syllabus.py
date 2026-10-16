@@ -13,7 +13,7 @@ TERMS = ['Y0S1', 'Y0S2', 'Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1',
 PASS = ('無誤', '已修正', '補充')   # BB_115 的 review.result：通過的三種（沒有 result＝還沒審）
 sha = subprocess.check_output(['git', '-C', ROOT, 'rev-parse', '--short', REF], text=True).strip()
 show = lambda p: subprocess.check_output(['git', '-C', ROOT, 'show', f'{REF}:{p}'], text=True)
-out = {'source': 'claude/story-planning ' + sha, 'courses': {}, 'skip': {}, 'pools': {}, 'second': {}, 'reviewed': [], 'y0': []}   # y0：經濟系那一年的課與台詞池（遊戲裡還沒有）
+out = {'source': REF.replace('origin/', '') + ' ' + sha, 'courses': {}, 'skip': {}, 'pools': {}, 'second': {}, 'reviewed': [], 'y0': []}   # y0：經濟系那一年的課與台詞池（遊戲裡還沒有）
 KEEP = ('w', 'tpl', 'board', 'line', 'react', 'obs', 'call', 'special', 'second_slot_lines', 'ask')   # ask＝課堂提問 {qid}（AA_130 第 3 節第 3 點；題目從 EXAM_BANK 讀）
 owner = {}
 # 2026-10-14 課程調整（使用者 16:15，企劃分支 AA_130）：刪掉的 7 門課——就算舊的 JSON 還有，也不匯入
