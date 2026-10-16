@@ -143,7 +143,7 @@
 | Poly Haven `brick_pavement_04`（Charlotte Baglioni） | https://polyhaven.com/a/brick_pavement_04 | CC0 | 溫州街 Café 門前的紅磚人行道 |
 | Poly Haven `grey_roof_tiles`（Rob Tuytel） | https://polyhaven.com/a/grey_roof_tiles | CC0 | 總圖書館的四坡屋頂（校正成深褐灰）。日式宿舍的黑瓦沒有用它（改用本作程式產生的貼圖） |
 | 溫州街日式宿舍＋院牆 `assets/models/env/second_ai/wz_jphouse.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_jphouse.py` | 本作 | 溫州街 A 側的日式宿舍（取代套件 `TK.japaneseHouse`、`TK.wall` 的外觀） |
-| 溫州街電線桿、反光鏡、路名牌、Café 門前紅磚道 `assets/models/env/second_ai/wz_props.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_props.py` | 本作 | 溫州街主巷與東端路口 |
+| 溫州街電線桿、反光鏡、路名牌、Café 門前紅磚道、路面 `assets/models/env/second_ai/wz_props.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_props.py`；路面貼圖 `textures/gen/wz_road_{main,ns,side}.jpg` 是程式畫的（`wz_road_tex.py`，numpy＋PIL，不用外部貼圖；「慢」字用系統字型 **WenQuanYi Zen Hei**（GPL-2.0，附字型嵌入例外）畫成點陣圖，**沒有附字型檔**） | 本作 | 溫州街主巷、東端路口、三條側巷 |
 | 溫州街小公園 `assets/models/env/second_ai/wz_park.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_park.py` | 本作 | 溫州街 A 側的小公園（草地、鋪面、路緣、樹穴、樹圍座椅、單槓、名牌） |
 | 黑瓦、紙拉門貼圖 `tools/blender/env_second/textures/jp_kawara/`、`jp_shoji/` | 本作程式產生 `tools/blender/env_second/gen_jp_textures.py`（固定亂數種子） | 本作 | 日式宿舍的屋瓦、院牆瓦頂、窗後的紙拉門 |
 | 窗台下的雨痕貼圖 `tools/blender/env_second/textures/gen/wz_stain.png` | 本作程式產生 `tools/blender/env_second/gen_street_textures.py`（固定亂數種子） | 本作 | 溫州街公寓每扇窗下的水漬 |
@@ -194,3 +194,4 @@
 | 2D 背景 車上（`assets/bg/car_morning.webp`、`car_night.webp`、`car_rain.webp`，BG-08） | 本作 Blender `tools/blender/env_second/bg_car.py`（LAWWW2-B，駕駛座視角；儀表板沒有品牌） | 本作 | ADV 背景（春假開車旅行，出遊 `car`） |
 | 新體育館 B1 健身器材 `assets/models/env/second_ai/bb_support/gym_b1_props.glb`（跑步機、飛輪、划船機、深蹲架、史密斯機、啞鈴架、臥推椅、運動墊） | 本作 Blender 腳本 `tools/blender/env_second/bb_support/gym_b1_props.py`（BB-B 製作、LAWWW2-B 驗收）；頂點色，沒有貼圖、沒有品牌 | 本作 | 體育館第三階段（B1）用；還沒接 |
 | 新體育館 B1（大廳、健身中心、游泳池）`assets/models/env/second_ai/gym_b1.glb` | 本作 Blender 腳本 `tools/blender/env_second/gym_b1.py`；健身器材是 BB-B 的 `bb_support/gym_b1_props.glb`（本作）；橡膠地墊、池底 `textures/gen/b1_rubber.jpg`、`pool_floor.jpg` 由 `gym_tex.py` 程式畫；貼圖 Poly Haven CC0（`granite_tile`、`rounded_square_tiled_wall`、`long_white_tiles`、`white_plaster_02`、`walnut_veneer`） | 本作；貼圖 CC0 | `gym_b1` 室內區域（LAWWW-B 接；還沒接） |
+| 溫州街小公園遊戲場 `assets/models/env/second_ai/bb_support/park_play_props.glb`（ART-PARK1：溜滑梯、搖搖馬、搖搖小鴨、沙坑） | 本作 Blender 腳本 `tools/blender/env_second/bb_support/park_play_props.py`（BB-B 做、LAWWW2-B 驗收）；貼圖 Poly Haven CC0（`granular_concrete`、`dark_planks`，repo 裡已有）烘進 `bb_support/textures/gen/park_play_props_atlas.png`；沒有字、品牌 | 本作；貼圖 CC0 | 擺進 `wz_park.glb` |
