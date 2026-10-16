@@ -582,9 +582,9 @@ def acc_fruit(col):
     return acc(FRUIT[col])
 
 
-def xf_vbox(cm, xf, x0, x1, y0, y1, z0, z1, col, k=1.0, r=0.015):
+def xf_vbox(cm, xf, x0, x1, y0, y1, z0, z1, col, k=1.0, r=0.0):   # 預設直角（小東西倒角看不出來，一個要多 100 個三角形）；櫃台、桌子在呼叫時給 r
     a = xf.p(x0, y0, z0); b = xf.p(x1, y1, z1); args = (min(a[0], b[0]), max(a[0], b[0]), y0, y1, min(a[2], b[2]), max(a[2], b[2]), col, k)
-    cm.crbox(*args, r=r, seg=2) if r > 0 else cm.cbox(*args)
+    cm.crbox(*args, r=r, seg=1) if r > 0 else cm.cbox(*args)   # 店裡的東西隔著玻璃看：倒角一段就夠
 
 
 def xf_cyl(m, xf, a, b, r, seg=8): xf.cyl(m, a, b, r, seg=seg); return m

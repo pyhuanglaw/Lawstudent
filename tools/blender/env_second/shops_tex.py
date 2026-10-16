@@ -93,5 +93,26 @@ def egg_print():
     im.save(os.path.join(GEN, 'egg_print.png'))
 
 
+def cafe_roster():
+    """兩點半 Café 吧檯後面牆上的班表（BB_141 Z5-L8「我的名字還會在店裡的班表上嗎？」）：夾板上的一張紙，一週七天、早晚兩班，鉛筆寫的名字。
+    名字只寫店裡的人（芷若、老闆、虛構的工讀生），不寫其他角色。"""
+    W, H = 600, 800; im = Image.new('RGB', (W, H), (176, 140, 96)); d = ImageDraw.Draw(im)
+    d.rectangle([30, 70, W - 30, H - 30], fill=(246, 243, 233))
+    d.rectangle([W / 2 - 90, 30, W / 2 + 90, 95], fill=(150, 150, 152)); d.rectangle([W / 2 - 60, 40, W / 2 + 60, 85], fill=(196, 196, 198))   # 夾子
+    d.text((60, 110), '班表', font=f(40), fill=(60, 60, 64)); d.text((300, 120), '十月　第三週', font=f(26), fill=(90, 90, 96))
+    days = ['一', '二', '三', '四', '五', '六', '日']; x0, y0 = 44, 190; cw, ch = 64, 70
+    for i, dname in enumerate(days): d.text((x0 + 80 + i * cw + 18, y0), dname, font=f(28), fill=(70, 70, 76))
+    for r, lab in enumerate(('早', '晚')): d.text((x0 + 10, y0 + 50 + r * (ch * 3) + 70), lab, font=f(30), fill=(70, 70, 76))
+    for i in range(8): d.line([x0 + 70 + i * cw, y0 + 40, x0 + 70 + i * cw, y0 + 40 + ch * 6], fill=(180, 180, 186), width=2)
+    for r in range(3): d.line([x0 + 70, y0 + 40 + r * ch * 3, x0 + 70 + 7 * cw, y0 + 40 + r * ch * 3], fill=(180, 180, 186), width=2)
+    names = {(0, 0): '阿文', (1, 0): '老闆', (2, 0): '阿文', (3, 0): '小婷', (4, 0): '老闆', (5, 0): '小婷', (6, 0): '老闆',
+             (0, 1): '芷若', (1, 1): '小婷', (2, 1): '芷若', (3, 1): '阿文', (4, 1): '芷若', (5, 1): '芷若', (6, 1): '阿文'}
+    for (i, r), n in names.items():                                       # 鉛筆字（灰、有點歪）
+        x = x0 + 70 + i * cw + 8; y = y0 + 60 + r * ch * 3 + rnd.randint(20, 120)
+        for k, ch_ in enumerate(n): d.text((x + rnd.uniform(-2, 2), y + k * 30 + rnd.uniform(-2, 2)), ch_, font=f(26), fill=(98, 98, 104))
+    d.text((60, H - 90), '換班請先問過老闆', font=f(24), fill=(110, 110, 116))
+    im.filter(ImageFilter.GaussianBlur(0.5)).save(os.path.join(GEN, 'cafe_roster.png'))
+
+
 if __name__ == '__main__':
-    tatami(); brunch_board(); print_price(); scroll(); clock_face(); egg_print(); print('saved shops textures')
+    tatami(); brunch_board(); print_price(); scroll(); clock_face(); egg_print(); cafe_roster(); print('saved shops textures')
