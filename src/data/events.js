@@ -1484,6 +1484,10 @@ const STORY_EVENTS=[
   { id:'ev_y0_xl1', stage:'econ', title:'那罐肉燥', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S1'], weeks:[8], time:[18,24], once:true, background:'blur',
     prereq:{custom:G=>!!(G.flags&&G.flags.Y0_SAUCE)},
     dialogue:[ {speaker:'econ_zhengxun',text:'那罐肉燥還有嗎？我期中需要它。'} ] },
+  /* XL-2 阿勳一句（表叔；BB_110 F1 的回聲，AA_154 A28、A43）：Y0S2 第 1 週第一次在宿舍遇到阿勳（和 XL-1 同一套），F1 選了「轉給表叔」（Y0_UNCLE）才說 */
+  { id:'ev_y0_xl2', stage:'econ', title:'表叔的變異數', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S2'], weeks:[1], time:[18,24], once:true, background:'blur',
+    prereq:{custom:G=>!!(G.flags&&G.flags.Y0_UNCLE)},
+    dialogue:[ {speaker:'econ_zhengxun',text:'表叔今年給了兩倍。我的模型壞了。'} ] },
   /* P1b 會計作業：平衡不了的那一行（BB_105 P1b；AA_154 第 96、105 行）：會計課下課後的走廊，兩種輪流——第 1 次（10/3，第 5 週；和誰對答案）、第 2 次（10/17，第 7 週，有韋綸）。
      同一堂課下課 P2 還要演（「今天先回去」的玩家）的話 P2 先（afterClass 一堂只演一件）；第 1 次沒趕上第 5 週就在第 7 週，那樣第 2 次就沒有 */
   { id:'ev_y0_p1b1', stage:'econ', title:'平衡不了的那一行', participants:['econ_pinyu','econ_zhengxun'], location:'any', trigger:'class', afterClass:'acct_y0', term:['Y0S1'], weeks:[5,6,7], once:true, background:'blur',

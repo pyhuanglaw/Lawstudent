@@ -36,5 +36,8 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); at(FD+1,18.1); check('3. 沒打開手機：群組留著、沒有人追問、沒有記號；1/28 18:00 以後不能回',!TH('g:econ_friends').includes('祐廷已讀不回。這也是一種答案。')&&!G.flags.Y0_F1_SEEN&&!PHONE.answer(G,'y0_f1',0));
   fresh(FD,21.1,'home'); run(); check('4. 沒有「走啦」：發在全班群組',TH('g:econ_class').includes('假設紅包可以轉讓，你們會轉給誰？'));
   fresh(FD,21.1,'home',{},'law'); run(); check('4. 法律系開局的玩家：沒有',!PHONE.sent(G,'y0_f1'));
+  { const x2=STORY_EVENTS.find(e=>e.id==='ev_y0_xl2'), W1=STORY.dayOfKey('2025-02-18'); const ck=(f,d,h)=>{ fresh(d||W1,h||20,'dorm',f); return !!x2&&EVENTS.check(x2); };
+    check('5. XL-2：Y0S2 第 1 週晚上在宿舍、有 Y0_UNCLE 才觸發（沒有、第 2 週、在別的地方都不觸發）',ck({Y0_UNCLE:true})&&!ck({})&&!ck({Y0_UNCLE:true},W1+7)&&(()=>{ fresh(W1,20,'campus',{Y0_UNCLE:true}); return !EVENTS.check(x2); })());
+    fresh(W1,20,'dorm',{Y0_UNCLE:true}); await EVENTS.run(x2); check('5. XL-2：阿勳「表叔今年給了兩倍。我的模型壞了。」、一次',said.map(x=>x.t).join('|')==='表叔今年給了兩倍。我的模型壞了。'&&!EVENTS.check(x2)); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
