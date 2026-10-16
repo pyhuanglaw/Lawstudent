@@ -554,6 +554,7 @@ const STORY = (function(){
       const ap=(GM.seatApproach&&GM.seatApproach(seat))||[x,z+(yaw?0.6:-0.6)]; if(!E.moveTo(n,ap[0],ap[1],()=>{ if(GM.sitAt) GM.sitAt(n,seat); })&&GM.sitAt) GM.sitAt(n,seat); } }
   S.noodleRegulars=noodleRegulars;
   S.refreshSchedule=refreshSchedule;
+  let roomY2Busy=false;
   S.tick=function(GM,dt){ const G=GM.G, F=G.flags, E=GM.E; if(E.player.busy||GM.D.active) return; const P=E.player.obj.position;
     schedT-=dt; if(schedT<=0){ schedT=3; refreshSchedule(GM); }
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ CLS.tick(GM); }catch(e){ console.warn('CLS.tick',e); } }   /* 課表（D52）*/
@@ -563,7 +564,7 @@ const STORY = (function(){
     if(typeof HOME!=='undefined'&&HOME.winterStartDue&&HOME.winterStartDue(G)){ HOME.winterStart(GM).catch(e=>console.warn('HOME.winterStart',e)); return; }   /* 經濟系大一的寒假：回臺北的家（AA_154 A16）*/
     if(S.toLawDue(G)&&!(typeof HOME!=='undefined'&&HOME.at(G))){ S.toLaw(GM).catch(e=>console.warn('STORY.toLaw',e)); return; }   /* 經濟系 → 法律系（8/31；在家的在 home3d.js）*/
     if(typeof HOME!=='undefined'&&HOME.at(G)){ HOME.tick(GM); return; }   /* 讀檔時人在臺北的家：回到家的選單（在家的時候宿舍、校園的事件不發生）*/
-    if(G.zone==='dorm'){ if(S.isEcon(G)&&S.y0Tick(GM)) return; S.dormItems(GM); if(fyPotsTick(GM,dt)) return; }
+    if(G.zone==='dorm'){ if(S.isEcon(G)&&S.y0Tick(GM)) return; if(S.roomY2Due(G)&&!roomY2Busy){ roomY2Busy=true; S.unboxY2(GM).catch(e=>console.warn('ROOM_Y2',e)).finally(()=>{ roomY2Busy=false; }); return; }   /* ★主線 3 第二個房間 */ S.dormItems(GM); if(fyPotsTick(GM,dt)) return; }
     if(S.sk02W8Due(G)){ S.sk02W8(GM).catch(e=>console.warn('SK02 W8',e)); return; }   /* SK02 沒去系辦的玩家（BB_106）*/
     S.kaiDormTick(GM);   /* 室友阿凱的宿舍事件（K-D3 鍵盤聲、K-D5 和解；吵架第 4 天自己和好）*/   /* 房間裡跟著劇情出現的東西（黃金葛、阿凱的鍵盤盒子、方奕廷的三盆植物）*/
     if(typeof CROWD!=='undefined'){ try{ CROWD.tick(GM,dt); }catch(e){ console.warn('CROWD.tick',e); } }   /* 公共場景的人流（D55）*/
@@ -1678,10 +1679,10 @@ const STORY = (function(){
   /* 阿凱的泡麵評鑑表（BB_120 1-7c）：大一同房時，他書桌上方牆上貼的一張紙；口味用通稱。朋友的門檻台詞（F-K2「泡麵第一名是這個 你可以知道了」）那天起第一名填上了，
      多一欄你的名字（他替你填的分數，BB 沒有寫分數：只描述、不編數字）*/
   const KAI_SHEET='「紅燒牛肉 8.5」「蔥燒排骨 8」「麻辣 7.5（太辣扣分）」「海鮮 6（有一隻蝦）」';
-  S.kaiRoommate=function(G){ if(typeof CALENDAR==='undefined'||!CALENDAR.TERMS) return true; const T=CALENDAR.TERMS.find(t=>t.id==='Y2S1'); return !T||CALENDAR.tOf(G.day)<T.t0; };   /* 大一同房（大二上開學以前）*/
+  S.kaiRoommate=function(G){ if(G&&G.flags&&G.flags.ROOM_Y2) return false; if(typeof CALENDAR==='undefined'||!CALENDAR.TERMS) return true;   /* 主線 3 搬進第二個房間以後（9/6）阿凱就在別棟 */ const T=CALENDAR.TERMS.find(t=>t.id==='Y2S1'); return !T||CALENDAR.tOf(G.day)<T.t0; };   /* 大一同房（大二上開學以前）*/
   S.kaiSheet=function(G){ const up=((G&&G.social&&G.social.relUp)||{}).kai|0;
     return up>=3?['「第一名：沙茶 9.5」'+KAI_SHEET,'（多了一欄「{name}」，裡面是他替你填的分數。最下面一行：「不準的話自己改」）']:['「第一名：不能說（怕被搶）」'+KAI_SHEET]; };
-  S.roomItemList=function(G){ const F=(G&&G.flags)||{}, L=ROOM_ITEMS.slice();
+  S.roomItemList=function(G){ const F=(G&&G.flags)||{}, L=ROOM_ITEMS.slice(); if(F.ROOM_Y2) L[0]=['書架上的舊《民法》','現在知道，要先問是誰、向誰、依據什麼、要什麼。'];   /* AA_12 0-3 第 2 點：每一年拿起來的旁白不同（大二）*/
     if(F.XMAS_HL3) L.push(['桌上的三色螢光筆',F.GREEN_HIGHLIGHTER?'明軒送的三色螢光筆，和上次那支綠的放在一起。他說他用不到。':'明軒送的三色螢光筆。他說他用不到。']);
     if(G&&S.kaiRoommate(G)) L.push(['阿凱的泡麵評鑑表',S.kaiSheet(G)]);
     if(typeof SOCIAL!=='undefined'){ if(SOCIAL.has('heroine_02','WATCHED_FILM_GROUP')) L.push(['三張連號的票根',['三張連號的票根，你留著中間那張。','另外兩張在他們那裡。……應該吧。']]);   /* 電影票根（BB_96 3-5c）：同一個存檔只會有一種 */
@@ -1691,6 +1692,32 @@ const STORY = (function(){
       else if(J==='closet') L.push(['經濟系的系外套',F.SK02_W8!=null?['經濟系的系外套。口袋裡還夾著阿勳那張紙條。']:['經濟系的系外套。摺好的，還沒穿過。','領的時候，系辦助理說它等你半年了。']]); }   /* SK02 系外套（BB_106 66cf3ed4）：①穿去上課／③收進衣櫃／第 8 週阿勳代領；②送給阿勳＝沒有 */   /* K7 週年去了的玩家（AA-B 2026-10-16：標籤「她的週年卡片」、說明用她卡片第一頁那句，不另寫）*/
     { const T=F.KX_TRIP&&F.KX_TRIP.Y1S2, txt={sea:'海邊。她拎著鞋子站在浪裡，褲管濕到膝蓋。',oldtown:'老街。牆上貼滿發黃的老照片，她站在中間，手上拿著第三家的點心。',stars:'山上。照片幾乎全黑，右上角有一個小白點。她說那是星星。你覺得是路燈。'}[T]; if(txt) L.push(['旅行的照片',txt]); }   /* 可昕 K8 春假旅行（BB_96 9-5，BB 14265eb）*/
     return L; };
+  /* ★主線 3 第二個房間（AA_12 主線 3；AA_177 第 7 節；劇情事實 AA_176 R8）：大二上開學前一天 9/6（日）以後、還沒搬（ROOM_Y2）。
+     在臺北的家（週末回家）＝下一輪選單之前：旁白「明天開學。今天搬進新的房間。」→ 字卡「回宿舍」「捷運＋公車 約 40 分鐘」→ 新房間（home3d.js 的 loop）；
+     人在宿舍房間＝直接拆箱。四個紙箱，物件一件一件拿出來（只有大一經歷過的才有，AA_12 的表；驗收要點：不能出現玩家沒經歷過的東西），
+     全部放好以後「一年。房間比去年滿一點。」。記 ROOM_Y2（第幾天），沒有數值。新房號、窗外景等 AA-B（已問）；同一個宿舍模型 */
+  S.roomY2Due=G=>{ if(!G||(G.stage||'law')!=='law'||(G.flags&&G.flags.ROOM_Y2)) return false; const d=S.dayOfKey('2026-09-06'); return d!=null&&G.day>=d; };
+  S.ROOM_Y2_TEXT={film:['一張《東京物語》的電影票根','票根上的日期，是星期六早上十點。'],pick:['一片吉他彈片','C 和弦。手指上的繭已經沒了。'],civ:['一本只讀了三分之一的民總課本','這本還有三分之二，跟去年九月一樣新。'],
+    report:['一張周老師寫評語的報告影本',null],noodle:['阿凱留下的一包泡麵','紙箱裡夾著一張便條：「宵夜基金。過期前吃完。——凱」'],duty:['法服的值班表','單週週六，早上九點。'],
+    pothos:['一盆黃金葛',null],green:['一支綠色螢光筆','你的螢光筆本來只有一種顏色。'],sticky:['一張便利貼：「第 12 頁，要件少一個。」','她改了你的筆記。……她改得對。']};
+  S.roomY2Items=function(G){ const F=G.flags||{}, T=S.ROOM_Y2_TEXT, has=(id,tag)=>typeof SOCIAL!=='undefined'&&SOCIAL.has(id,tag), att=id=>typeof ACTIVITIES!=='undefined'&&!!ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,id), L=[];
+    if(has('heroine_02','WATCHED_FILM')&&!F.ZR_MATINEE_SEEN&&!has('heroine_02','WATCHED_FILM_GROUP')) L.push(['film',T.film[0],[T.film[1]]]);   /* 和芷若看過早場（兩個人）*/
+    if(att('club_guitar')) L.push(['pick',T.pick[0],[T.pick[1]]]);   /* 去過吉他社 */
+    L.push(['civ',T.civ[0],[T.civ[1]]]);
+    if(G.events&&G.events.done&&G.events.done.ev_an_report_feedback){ const c={A:'『兩邊的利益都有看到。』',B:'『反方意見比正方精彩。』',C:'『無過失的判斷標準寫得好。』'}[F.cafeView]; if(c) L.push(['report',T.report[0],[c,'不是寫給你的，可是你留著。']]); }   /* 看過以安的「報告發回來」；照 cafeView */
+    L.push(['noodle',T.noodle[0],[T.noodle[1]]]);
+    if(att('lawclub_study')||(F.LAWCLUB_SAT_VISITS|0)>0) L.push(['duty',T.duty[0],[T.duty[1]]]);   /* 參加過法服（讀書會或週六值班）*/
+    if(F.POTHOS) L.push(['pothos',T.pothos[0],[(F.pothosWaterN|0)>0?'比去年長了一點。':'他說忘記澆也不會死。他說對了。']]);   /* 大一和方奕廷說過話（黃金葛）；有沒有澆過水 */
+    if(F.GREEN_HIGHLIGHTER) L.push(['green',T.green[0],[T.green[1]]]);   /* 公車站坐到明軒旁邊 */
+    if(has('classmate_xinci','LENT_NOTES')) L.push(['sticky',T.sticky[0],[T.sticky[1]]]);   /* 借筆記給芯慈（慈 1）*/
+    const R=S.roomItemList(Object.assign({},G,{flags:Object.assign({},F,{ROOM_Y2:true})})).slice(0,ROOM_ITEMS.length);   /* 大一房間的五件（交接包 v1 第 1 節）：舊《民法》用大二那句，其他四件沿用大一的旁白 */
+    R.forEach((r,i)=>L.push(['y1_'+i,r[0],[].concat(r[1])]));
+    return L; };
+  S.unboxY2=async function(GM){ const G=GM.G, F=G.flags; if(!S.roomY2Due(G)) return false; F.ROOM_Y2=G.day; const L=S.roomY2Items(G); GM.sceneBegin();
+    try{ for(let guard=0;guard<40&&L.length;guard++){ const i=await GM.choose(L.map(r=>({t:'（拿出'+r[1]+'）'}))); const r=L.splice(i>=0&&i<L.length?i:0,1)[0]; for(const t of r[2]) await GM.say(null,t); }
+      await GM.say(null,'一年。房間比去年滿一點。'); }
+    finally{ GM.sceneEnd(); }
+    GM.memo('搬進第二個房間'); if(GM.autosave) GM.autosave(); return true; };
   async function roomItems(GM){ GM.sceneBegin(); try{ const L=S.roomItemList(GM.G); for(let n=0;n<12;n++){ const i=await GM.choose([...L.map(r=>({t:r[0]})),{t:'不看了'}]); if(i<0||i>=L.length) break; for(const t of [].concat(L[i][1])) await GM.say(null,t); } } finally { GM.sceneEnd(); } }
   /* 宿舍房間裡跟著劇情出現的東西（交接包 v1 第 4 批，BB_95 3-1、3-2）：黃金葛（POTHOS，方奕廷送的，書桌旁）、阿凱書桌下的鍵盤盒子（KAI_SILENT_KB；看過就收起來）。
      進宿舍、待在宿舍時（S.tick）補上，同一個東西不重複加。3D 模型：黃金葛的小盆栽還沒有——先只有互動點；小道具集中成一批「環境細節」，主要工作穩定後一起做（D70，使用者 2026-10-14：低優先）*/
