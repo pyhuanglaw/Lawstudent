@@ -78,11 +78,16 @@ async def main():
         await drain(pg, 500, 6)
         g = await pg.evaluate(G_JS)
         run.check('舊版經濟系開局：stage econ、負的天數', g['stage'] == 'econ' and g['day'] < 0, json.dumps(g, ensure_ascii=False))
-        await pg.evaluate("(async()=>{ const s=GAME.snapshot(); s.day=STORY.dayOfKey('2025-08-30'); s.weekday=6; s.hour=22.5; s.zone='dorm'; s.pos={x:0,z:2.4,yaw:3.14}; EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; await GAME.applySave(s); })()")
-        await pg.wait_for_timeout(2000); await pg.evaluate("GAME.autosave()")
+        err = None
+        for _try in range(4):   # 經濟系開場剛演完，劇情流程可能還沒收尾：等空閒再套，套完確認日期（2026-10-16 重跑時第一次沒套上）
+            await drain(pg, 40, 4)
+            err = await pg.evaluate("(async()=>{ try{ const s=GAME.snapshot(); s.day=STORY.dayOfKey('2025-08-30'); s.weekday=6; s.hour=22.5; s.zone='dorm'; s.pos={x:0,z:2.4,yaw:3.14}; EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; await GAME.applySave(s); return null; }catch(e){ return String(e&&e.message||e); } })()")
+            await pg.wait_for_timeout(2000)
+            if await pg.evaluate("GAME.G.day") == -17: break
+        await pg.evaluate("GAME.autosave()")
         saves['econ830'] = await pg.evaluate("localStorage.getItem('fatiao3d_auto')")
         e8 = json.loads(saves['econ830']) if saves['econ830'] else {}
-        run.check('舊版經濟系 8/30 晚上的存檔', e8.get('stage') == 'econ' and e8.get('day') == -17, json.dumps({k: e8.get(k) for k in ['stage', 'day', 'hour', 'zone']}, ensure_ascii=False))
+        run.check('舊版經濟系 8/30 晚上的存檔', e8.get('stage') == 'econ' and e8.get('day') == -17, json.dumps({k: e8.get(k) for k in ['stage', 'day', 'hour', 'zone']}, ensure_ascii=False) + (f'　applySave：{err}' if err else ''))
         await b.close()
 
         # ---- 2. 新版：同一個網址升級，一個一個讀 ----
