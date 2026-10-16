@@ -13,6 +13,10 @@
 值班登記：帳號 B｜LAWWW-B｜session_01DvRVNNnivf7da7qqWuGmw6｜分支 claude/modest-rubin-2lyp7g｜接班基準 origin/claude/confident-ritchie-8rwh7t 的 c8b3eab（合併 commit 450ffdb）｜2026-10-15 23:02 UTC
 上一班：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜最後 commit 78402e1（交班補記，2026-10-14 17:38 UTC；之後 c8b3eab／effb148 是使用者推的 P0 換班規則）｜正常交班
 
+### D76（2026-10-16 00:00 UTC，使用者 P0 永久規則）
+
+- 工作中也要主動讀使用者與其他 AI 的訊息（七個時機、P0／P1／P2、GitHub 交接板也要同步）；全文在 `CLAUDE.md` 最上面。LAWWW-B 的做法：每一批工具呼叫之間先 `ReadNotifications`；開始新任務前 fetch 企劃線 `claude/cool-heisenberg-o8kuqx`、LAWWW2-B 的 `claude/funny-albattani-iawshm` 並重讀交接板。
+
 ### 使用者試玩回報（2026-10-15 23:55 UTC，26 項；原話與分類在 `docs/USER_INSTRUCTION_LOG.md`）——處理狀態
 
 - **已修（開發分支，單元測試過；瀏覽器只看過標 ✔ 的）**：說話鏡頭不大轉（`cine 'talk'`、轉慢）；手機轉向每幀檢查畫布；同班同學必修課在教室（`STORY.classmateClass`）、不在場的人沒有反應句；第 1 天白天的課不排；可以遲到（下課前 30 分鐘以前）；讀某科只出那一科；HUD 幾月幾號 ✔；當面約（以安、阿哲、學姊、阿凱、小語）；手機朋友頁「過去」「訊息」「約」；可昕寫「在政大」；腳踏車 8.5 m/s；載人（後座位置待調、等 LAWWW2 的坐墊）；阿哲「上學期」→「開學才三個禮拜」（**請 AA-B 確認這句**）；法服的人只在讀書會有開的週出現；博雅牆上光斑 ✔；長椅路燈 ✔；咖啡廳店員（10-14 就修了，v9.7 沒有）。
