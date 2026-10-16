@@ -12232,6 +12232,27 @@
    },
    "source": "使用者 2026-10-16 21:5x、22:1x 兩張截圖",
    "authorized": "使用者（bug 回報）"
+  },
+  {
+   "id": "BUG-SLOTJUMP",
+   "title": "時段次數用完（例：下午 2／2）就該直接到下一個時段（晚上），不要卡在下午",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "用掉當時段最後一次（CLS.slotUse 之後）→ 自動淡出、時間跳到下一個時段開始（上午→12:00、下午→18:00）；今天在那之前有約（G.invites accepted）、還沒上的課（CLS.dayItems）→ 只跳到那之前；晚上用完不跳（照舊去睡）。字幕說明，不加新台詞（只用系統字）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一天下午讀兩次書",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 22:1x 試玩截圖（總圖二樓座位：讀書「這個下午已經排滿了（2／2）」）：「下午還剩0次 就應該跳晚上」",
+   "authorized": "使用者"
   }
  ]
 }
