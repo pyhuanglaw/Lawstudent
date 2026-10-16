@@ -1,6 +1,6 @@
 """實際遊戲截圖（和 tools/shots/scene_shot.py 同一種 JSON），但同一種畫面大小只載入一次遊戲、連拍多張（SwiftShader 每次載入要一兩分鐘）。
 同一個區域內換鏡頭只改：時段（GAME.G.hour＋E.applyTime）、玩家位置、鏡頭；換區域才重新讀檔（GAME.applySave）。
-支援的欄位：out、w、h、mobile、hud、hidePlayer、hideNPCs、state{zone,hour,pos,flags}、cam{pos,look}|{yaw,pitch,dist}、js、wait（毫秒，另外至少等引擎畫 6 格）、post（拍完之後執行的 JS，結果印成「post <out> <JSON>」一行）。
+支援的欄位：out、w、h、dpr（裝置像素比，預設 1；手機截圖用 2 才看得清楚）、mobile、hud、hidePlayer、hideNPCs、state{zone,hour,pos,flags}、cam{pos,look}|{yaw,pitch,dist}、js、wait（毫秒，另外至少等引擎畫 6 格）、post（拍完之後執行的 JS，結果印成「post <out> <JSON>」一行）。
 不支援 scene_shot 的 companion／player／spawn／walk（要拍人物站位時用 scene_shot.py）。
 用法：python3 tools/blender/env_second/shots/fast_shots.py <URL> <shots.json> [--block=檔名]（--block：擋掉那個檔案的下載，例如 street_props.glb，只關掉那一個正式模型）"""
 import asyncio, json, sys
@@ -17,11 +17,11 @@ async def frames(pg, n=6):
 async def main():
     url = sys.argv[1]; shots = json.load(open(sys.argv[2])); block = [a.split('=', 1)[1] for a in sys.argv[3:] if a.startswith('--block=')]
     groups = {}
-    for s in shots: groups.setdefault((s.get('w', 1536), s.get('h', 1024), bool(s.get('mobile'))), []).append(s)
+    for s in shots: groups.setdefault((s.get('w', 1536), s.get('h', 1024), bool(s.get('mobile')), s.get('dpr', 1)), []).append(s)
     async with async_playwright() as p:
         b = await p.chromium.launch(executable_path='/opt/pw-browsers/chromium', args=['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'])
-        for (w, h, mobile), L in groups.items():
-            ctx = await b.new_context(viewport={'width': w, 'height': h}, device_scale_factor=1, has_touch=mobile, is_mobile=mobile, user_agent=UA if mobile else None)
+        for (w, h, mobile, dpr), L in groups.items():
+            ctx = await b.new_context(viewport={'width': w, 'height': h}, device_scale_factor=dpr, has_touch=mobile, is_mobile=mobile, user_agent=UA if mobile else None)
             pg = await ctx.new_page(); errs = []
             for pat in block: await pg.route('**/' + pat, lambda route: route.abort())
             pg.on('pageerror', lambda e: errs.append(str(e)))
