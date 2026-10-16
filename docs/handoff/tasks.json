@@ -11387,6 +11387,35 @@
    },
    "source": "BB_163（BB-B 9c1d72a5）",
    "authorized": "D79"
+  },
+  {
+   "id": "ART-BG-COURT",
+   "title": "2D 背景 ntu_court_night：新體育館旁的戶外籃球場，晚上（哲 2）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "照 AA_177 第 5 節「哲 2」：晚上、路燈、一個籃框；webp 放 assets/bg/ntu_court_night.webp（outings3d.js S.BG 已登記，沒有圖時是深色底＋地點字幕）",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S1",
+    "week": 10,
+    "earliest": "大二上第 10 週週四 11/12 21:00（哲 2）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_177 第 5 節（AA-B）；BB-B 待生成清單",
+   "authorized": "D84",
+   "commit": "—",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA_177 第 5 節 哲 2；AA_40 哲 2",
+    "acceptance": "和其他 2D 背景同規格（webp、橫向、沒有人物）；ART_APPROVED 由使用者",
+    "ack": "SENT"
+   }
   }
  ]
 }
