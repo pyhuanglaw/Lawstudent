@@ -1,0 +1,3143 @@
+{
+ "loc": "D01",
+ "points": {
+  "D01.expo": "老倉庫裡的展覽",
+  "D01.market": "週末市集",
+  "D01.lawn": "大草地",
+  "D01.wall": "紅磚牆前"
+ },
+ "likes": {
+  "heroine_01": {
+   "D01.expo": "like",
+   "D01.market": "dislike",
+   "D01.lawn": "normal",
+   "D01.wall": "normal"
+  },
+  "heroine_02": {
+   "D01.expo": "like",
+   "D01.market": "normal",
+   "D01.lawn": "like",
+   "D01.wall": "normal"
+  },
+  "heroine_03": {
+   "D01.expo": "normal",
+   "D01.market": "like",
+   "D01.lawn": "like",
+   "D01.wall": "normal"
+  },
+  "heroine_04": {
+   "D01.expo": "like",
+   "D01.market": "like",
+   "D01.lawn": "dislike",
+   "D01.wall": "like"
+  },
+  "heroine_05": {
+   "D01.expo": "like",
+   "D01.market": "dislike",
+   "D01.lawn": "like",
+   "D01.wall": "normal"
+  },
+  "classmate_peishan": {
+   "D01.expo": "like",
+   "D01.market": "normal",
+   "D01.lawn": "like",
+   "D01.wall": "dislike"
+  },
+  "kexin": {
+   "D01.expo": "normal",
+   "D01.market": "like",
+   "D01.lawn": "normal",
+   "D01.wall": "like"
+  }
+ },
+ "dislikeLine": {
+  "heroine_01": {
+   "D01.market": "選擇太多，沒有理由的選擇。……我先不買。"
+  },
+  "heroine_02": {},
+  "heroine_03": {},
+  "heroine_04": {
+   "D01.lawn": "坐草地？欸不是，太陽好大。我是晚上的生物。"
+  },
+  "heroine_05": {
+   "D01.market": "人好多。……重點是，我不知道要買什麼。看一下就好。"
+  },
+  "classmate_peishan": {
+   "D01.wall": "拍照……我手不知道要放哪裡。你拍牆就好。"
+  },
+  "kexin": {}
+ },
+ "lines": {
+  "heroine_01": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_01",
+       "text": "老酒廠改的。我查過了。"
+      },
+      {
+       "who": "heroine_01",
+       "text": "手帳上寫的是：兩點到，五點走。……今天可以不照。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "今天的展，我有看評論。一半說好，一半說看不懂。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "捷運比我想的快。我們早到了。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "今天手帳是空的。我故意的。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "今天不准看手機。……我說我自己。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_01",
+       "text": "今天的結論：比我想的好。"
+      },
+      {
+       "who": "heroine_01",
+       "text": "理由下次說。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "五點了。……好，五點半。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "回去寫一下今天。手帳要記。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "今天的理由那一欄，我寫好了。不給你看。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D01.expo": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "（她在作品前站很久，然後看說明）我先猜，再看答案。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "……這次猜錯了。藝術家比我想的生氣。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳猜什麼？」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "我猜是在講等待。他說是在講被打斷。"
+         }
+        ]
+       },
+       {
+        "t": "「錯了也好。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "嗯。錯了才會記得。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "這個作品的名字，比作品還長。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "我喜歡說明寫得短的展覽。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "你看展會先看哪裡？……我想知道你的順序。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次那個「被打斷」的作品，我後來一直想到。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "你在這張前面站最久。我記下來了。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.market": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "（她看了三個攤位，什麼都沒拿）……每一個都想要，就是都不需要。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「不需要也可以買。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……你這個論點，我要想一下。（她買了一枝筆）"
+         }
+        ]
+       },
+       {
+        "t": "「那就看看。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "嗯。看看。這是最有效率的逛法。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "手帳的貼紙，我已經有了。……不，這個沒有。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "這家老闆說話很快。我跟不上。"
+        }
+       ]
+      },
+      {
+       "tier": "mid",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "我買了一個東西。理由還在想。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次那枝筆，還很好寫。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "這個給你。理由是：我覺得你需要。……理由很充分。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.lawn": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "（她坐下，背很直）坐在草地上，要怎麼放鬆？"
+       },
+       {
+        "who": "heroine_01",
+        "text": "……我在問真的。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「往後靠。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "（她往後靠了一點）……這樣？好。"
+         }
+        ]
+       },
+       {
+        "t": "「什麼都不想。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "這很難。我試試看。（她看著天空）"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "有人在野餐。三明治切得很整齊。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "草的味道，跟操場不一樣。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "我發現放鬆也可以練習。今天是第二次。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次我坐得很直。今天我有往後靠。進步了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "……借我靠一下。理由：草地太軟。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.wall": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "紅磚牆。……大家都在拍。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "好，拍一張。我站這裡，你拍。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「笑一下。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……我有笑。你看不出來是你的問題。"
+         }
+        ]
+       },
+       {
+        "t": "「好，不笑也好看。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……那就這樣。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "馬尾要往右邊放。這樣比較好看。"
+        }
+       ]
+      },
+      {
+       "tier": "mid",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "再一張。剛剛眨眼了。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "這張我要印出來，貼在手帳裡。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次那張，我真的貼進手帳了。九月那一頁。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "合照。……這次你也要笑。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_02": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "老酒廠。牆上還留著以前的管線。"
+      },
+      {
+       "who": "heroine_02",
+       "text": "……拍電影的人會很喜歡這裡。不用搭景。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "今天人比較少。很好。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "這裡的光，下午三點最好。我們剛好。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "我今天沒有把圍裙帶出來。我檢查過了。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "今天不看展也可以。走一走就好。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "這裡關門的時候，燈會一盞一盞熄。"
+      },
+      {
+       "who": "heroine_02",
+       "text": "很像散場。……我是說，好的那種。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "天暗了。回去吧。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "下次來，應該又換了一個展。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "今天的片尾，我想慢慢走。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D01.expo": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "（她在一張黑白照片前站很久）這張的光，是從窗戶進來的。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "拍的人等了很久。等光剛好。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳也會等嗎？」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "會。在店裡也是。等一杯剛好的時候。"
+         }
+        ]
+       },
+       {
+        "t": "「妳看得好仔細。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……職業病。我看什麼都在找光。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "展覽的說明我都先不看。先看東西，再看字。"
+        }
+       ]
+      },
+      {
+       "tier": "mid",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "這個展的最後一張，放錯位置了。……好啦，是我覺得。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "我以前想過，自己的照片會不會掛在這種牆上。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次那張黑白照片，換掉了。……有點失落。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "你看展的時候會發呆。我看到了。我也是。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.market": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "市集的東西都很可愛。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "可是我家很小，買了沒地方放。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「那我送妳一個小的。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……好。要很小的。小到放得進口袋。"
+         }
+        ]
+       },
+       {
+        "t": "「看看就好。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "嗯。看看就好。這是我的強項。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "這家的杯墊，我們店裡也想要一組。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "手做的東西，每一個都不一樣。我喜歡這件事。"
+        }
+       ]
+      },
+      {
+       "tier": "mid",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "（她拿起一個陶杯，又放下）……太好看了，不敢用。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次那個攤位不在了。……攤位也會搬家。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "這兩個杯子一組。……我只是在說它們是一組。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.lawn": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "（坐下）草地上的人都好放鬆。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "我很少坐在地上。在店裡，地上是要拖的。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「今天不用拖。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……對。今天不用。"
+         }
+        ]
+       },
+       {
+        "t": "「坐這裡會髒嗎？」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "會。可是可以。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "有人在放風箏。線好長。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "草的味道。……很像暑假。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "躺下來看天空，會很像電影的最後一個鏡頭。不要笑。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次坐這裡，你一直在看風箏。今天也是。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "（她靠著你的肩膀，很輕）……三分鐘就好。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.wall": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "紅磚牆。……很適合拍照，很多人都在拍。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "我拍你。我習慣在鏡頭後面。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我拍妳。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……好。不要叫我笑。"
+         }
+        ]
+       },
+       {
+        "t": "「一起拍牆就好。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "好。牆不會不自然。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "藤蔓比上次多。"
+        }
+       ]
+      },
+      {
+       "tier": "mid",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "你往右一步。……好，這樣光比較好。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "這張我會留著。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次那張，我還留著。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "這次拍正面。……好啦，一張。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_03": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_03",
+       "text": "……嗯。"
+      },
+      {
+       "who": "heroine_03",
+       "text": "（她看了一圈）週末，大家都出來了。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "今天不用顧店。……阿姨說的。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "人好多。我們走旁邊。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "我很少週末出門。……今天是例外。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（她走在你旁邊，比平常近一點）……嗯。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_03",
+       "text": "……今天很好。"
+      },
+      {
+       "who": "heroine_03",
+       "text": "我很少說這句。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "要回去幫阿姨了。……還有一點時間。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "……嗯。下次。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（她在捷運站前停下來）……今天的十分鐘，比較長。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D01.expo": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（她看的不是作品，是看作品的人）……那個阿伯，在每一張前面都站一樣久。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳在看人？」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。社會系的壞習慣。"
+         }
+        ]
+       },
+       {
+        "t": "「那是他的看法。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。每個人都有自己的速度。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "這張畫的是一家店。……很像我們家。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……我看不懂。可是我喜歡顏色。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "以後我想做一個展。關於老店。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次那個阿伯，今天也在。……好奇怪，我記得他。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……你看那張的時候，在想什麼？"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.market": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（她停在一個賣手寫招牌的攤位）……阿姨的店，需要一塊新的招牌。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我們幫她挑。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。她會說不用。可是她會掛。"
+         }
+        ]
+       },
+       {
+        "t": "「妳自己寫？」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……我字不好看。（她還是拿了一張空白的）"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "做生意的人，看一眼就知道誰會買。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……這個老闆跟阿姨好像。都不太笑，可是很照顧人。"
+        }
+       ]
+      },
+      {
+       "tier": "mid",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "我買了一個髮圈。黑色的。……跟舊的一樣。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次那塊招牌，阿姨掛在櫃台旁邊了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……這個，給你。我只是剛好看到。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.lawn": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（她坐下，抱著膝蓋）……好安靜。"
+       },
+       {
+        "who": "heroine_03",
+        "text": "雖然人很多。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳喜歡這樣？」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。人多，可是沒有人需要我。"
+         }
+        ]
+       },
+       {
+        "t": "（陪她坐）",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "（風吹過草地。她把髮圈拿下來，又綁回去）"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……有人在睡覺。好羨慕。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "草地上的陽光，跟店裡的燈不一樣。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "我可以在這裡坐很久。……你可以嗎？"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次我們坐了四十分鐘。……我有數。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "（她靠著你的肩膀，沒有說話）"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.wall": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "……拍照？"
+       },
+       {
+        "who": "heroine_03",
+        "text": "（她站到牆前，雙手拿著包包）……這樣？"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「很好。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。"
+         }
+        ]
+       },
+       {
+        "t": "「放鬆一點。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……我很放鬆。這是我放鬆的樣子。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "這面牆很多人拍。……我們換一個角度。"
+        }
+       ]
+      },
+      {
+       "tier": "mid",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……再一張。我剛剛閉眼了。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "這張……可以傳給我媽嗎？"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次那張，我媽說我在笑。……我有嗎？"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……合照。（她站得很近）"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_04": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "欸不是，這裡好大。像遊戲的大廳地圖。"
+      },
+      {
+       "who": "heroine_04",
+       "text": "每一棟都可以進去嗎？……好，全部進去。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "我下午兩點起床，三點到。很準時。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "今天有新的展。我查過了。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "欸不是，你今天穿得比較認真。……不是在誇你。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "今天我們分頭找彩蛋。……好啦，一起找。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "今天的地圖，我們解鎖了大概七成。"
+      },
+      {
+       "who": "heroine_04",
+       "text": "剩下的下次。這不是問句。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "電量剩一格。回家。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "欸不是，天黑了？好快。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "今天的存檔點在這裡。……我是說，我記住了。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D01.expo": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "（是一個互動藝術展，地上的光會跟著人走）欸不是，這個會動！"
+       },
+       {
+        "who": "heroine_04",
+        "text": "我想知道它怎麼偵測人。……不要拉我，我要看感應器在哪。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我幫妳找感應器。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "好。你找左邊。這是分工。"
+         }
+        ]
+       },
+       {
+        "t": "「先玩再拆。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……好。先玩。拆是下一關。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "這個展的互動，延遲大概零點三秒。可以再快。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "欸不是，那個作品是用一台很舊的投影機。好帥。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "以後我的遊戲也要在這種地方展。……這不是問句，是預告。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次那個會動的光，換掉了。我好想念它。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "你走過去，地上的光會跟著你。我拍下來了。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.market": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "貼紙！欸不是，這攤全部都是貼紙。"
+       },
+       {
+        "who": "heroine_04",
+        "text": "我要找一張可以貼在手機殼上的。……位置剩不多了。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「這張貓的？」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……不是插座貓，可是可以。它看起來很想睡。"
+         }
+        ]
+       },
+       {
+        "t": "「妳的手機殼還有位置嗎？」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "沒有。所以要換手機殼。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "這家的鑰匙圈，像素風的。我可以做得更好。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "欸不是，這攤的老闆在做黏土。我看一下。"
+        }
+       ]
+      },
+      {
+       "tier": "mid",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "你買的那個，我也想要。……好，不要。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次那個貼紙攤，今天沒來。……我要追蹤它。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "我們買一樣的貼紙。一人一半。……這不是問句。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.lawn": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "（她在草地邊緣蹲下，沒坐）太陽好大。"
+       },
+       {
+        "who": "heroine_04",
+        "text": "我蹲一下就好。……好，你可以坐。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「去樹下？」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……好。樹下可以。你很會找存檔點。"
+         }
+        ]
+       },
+       {
+        "t": "「我們去室內。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "好。欸不是，你懂我。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "草地上的人都好健康。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "有人在野餐。三明治看起來很好吃。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "……好啦，坐五分鐘。五分鐘。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次你在這裡曬到臉紅。不要再來了。……好啦，坐樹下。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "你坐，我躺在你影子裡。這樣就不會曬到。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.wall": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "紅磚牆！這個背景很適合當遊戲的封面。"
+       },
+       {
+        "who": "heroine_04",
+        "text": "你站過去。不對，我站過去，你拍。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「好，我拍。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "（她比了一個很怪的姿勢）……這張很好。不准刪。"
+         }
+        ]
+       },
+       {
+        "t": "「我們一起拍。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "好。欸不是，你的表情好僵。再一張。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "這面牆的藤蔓，像一個長得很慢的進度條。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "我拍十張，挑一張。這是我的規則。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "這張我要當桌布。……三天。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次那張你笑得很僵。今天放鬆。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "合照。我按快門。你負責不要眨眼。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_05": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "老酒廠。以前在這裡做的東西，是讓人忘記事情的。"
+      },
+      {
+       "who": "heroine_05",
+       "text": "現在拿來展覽，讓人記得。……這個轉變很好。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "三件事。一，今天不看手機。二，……沒有二。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "今天的展覽，我先查過了。重點是，你不用查。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "我很少有一整個下午不排事情。今天是一個。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "一件事：今天走慢一點。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "今天……很好。重點是，我沒有一直看時間。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "回去吧。明天八點有課。……我不是想走。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "下次還來。我寫進計畫。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "今天的計畫，只有一行：和你。……寫完了。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D01.expo": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "（她在每一段說明前都停下來）我看展會看說明。全部。"
+       },
+       {
+        "who": "heroine_05",
+        "text": "不是認真。是我不看，會覺得自己漏了什麼。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「漏了也沒關係。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……我知道。我在練習。"
+         }
+        ]
+       },
+       {
+        "t": "「我陪妳看完。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "好。重點是，你不用每一段都說好看。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "這個藝術家，畫了三十年同一棵樹。"
+        },
+        {
+         "who": "heroine_05",
+         "text": "……我懂那種感覺。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "展覽最後一間，通常是最好的。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "我以前覺得，看展是浪費時間。我錯了。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次那棵樹的畫，我回去查了。他還在畫。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "你看那張的時候，在想什麼？……我想知道。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.market": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "（她拿起一個手縫的書套）……這個，裝得下判決節錄嗎？"
+       },
+       {
+        "who": "heroine_05",
+        "text": "重點是，我沒有要買。只是問。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我送妳。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……一件事：謝謝。我會用。"
+         }
+        ]
+       },
+       {
+        "t": "「量量看？」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "（她從包包拿出判決節錄，剛好）……好吧，我買。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "市集的老闆都好會聊天。我不太會。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "這家的筆記本，紙很好。……不行，我筆記本太多了。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "我買了一個小東西。不給你看。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次的書套，我每天都在用。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "這個你用得到。……我買了。重點是，不准拒絕。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.lawn": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "（她在草地上坐下，把保溫瓶放旁邊）……我好久沒有坐著不做事了。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「那今天就不做事。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……好。一件事：不做事。"
+         }
+        ]
+       },
+       {
+        "t": "「要不要躺下來？」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……不要得寸進尺。（她還是往後靠了一點）"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "風箏飛得好高。線不會斷嗎？"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "草地上的時間，好像比較慢。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "以前我覺得休息要排進計畫。現在……不用了。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次坐在這裡，我差點睡著。今天也可能。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "你肩膀借我。……重點是，十分鐘。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.wall": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "照片？……我不習慣在照片裡。"
+       },
+       {
+        "who": "heroine_05",
+        "text": "你拍牆就好。牆比較上鏡。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「拍一張就好。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……一張。重點是，不要叫我笑。"
+         }
+        ]
+       },
+       {
+        "t": "「好，拍牆。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "（她站在旁邊看你拍）……你拍得很認真。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "這面牆比我還老。"
+        }
+       ]
+      },
+      {
+       "tier": "mid",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "好，拍。……我站這裡可以嗎？"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "這張……可以。我會留著。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次那張，我設成鎖定畫面了。不要說出去。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "合照。一件事：你靠近一點。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_peishan": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "這裡以前是酒廠？"
+      },
+      {
+       "who": "classmate_peishan",
+       "text": "好奇怪，同一個地方，換一個用途，大家就換一種心情來。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "我早到了二十分鐘。在對面的長椅看書。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "今天的展，我在網路上看到一張圖。想看真的。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "我發現我跟你出來，都不會看時間。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "今天不想問問題。……騙你的，等一下就問。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "今天好像什麼都沒做，又好像做了很多。"
+      },
+      {
+       "who": "classmate_peishan",
+       "text": "這種一天，我很少有。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "回去要讀書了。……可是今天值得。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "下次換我帶路。我會先查。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "今天的答案：很開心。這是我第一次這麼快就有答案。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D01.expo": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "（是一個關於「家」的攝影展）每一張都是別人的家。"
+       },
+       {
+        "who": "classmate_peishan",
+        "text": "我在想，我們家的早餐店，可以拍成一張嗎？"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「可以，早上五點的那張。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……對。煎台剛熱的時候。你怎麼知道？"
+         }
+        ]
+       },
+       {
+        "t": "「妳想拍嗎？」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "想。可是我爸會叫我先去翻蛋餅。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "這張照片裡的人，不知道自己被展出來。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "我喜歡看別人怎麼看一張作品。比作品本身還好看。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "以後我想帶一群小孩來看展。……不知道為什麼突然想到。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次那個「家」的展換了。我有點捨不得。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "這張你覺得是什麼？……我先不說我的。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.market": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "（她拿起一個手做的書籤）……這個好便宜。"
+       },
+       {
+        "who": "classmate_peishan",
+        "text": "可是我書籤已經有七個了。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「第八個？」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……好。第八個。這個給你的書用。"
+         }
+        ]
+       },
+       {
+        "t": "「送妳。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……謝謝。我會夾在最常讀的那一本。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "做東西的人都好專心。我好羨慕。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "這家的明信片，可以寄給我爸媽。"
+        }
+       ]
+      },
+      {
+       "tier": "mid",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "我想學做這個。……等我有時間。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次的書籤，我夾在民總裡。……第三章。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "我們一人挑一張明信片，寄給對方。到的時候才看。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.lawn": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "（她看著一群在草地上跑的小孩）小孩跑步的時候，都不看前面。"
+       },
+       {
+        "who": "classmate_peishan",
+        "text": "可是他們很少跌倒。……好奇怪。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「因為他們不怕。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……對。我們長大以後，就開始怕了。"
+         }
+        ]
+       },
+       {
+        "t": "「跌倒了就爬起來。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "嗯。他們爬得比我們快。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "草地好軟。我想躺下來。……可以嗎？"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "那個小孩的風箏卡在樹上了。他沒有哭。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "在這裡，我好像可以不用當一個考生。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次那個卡在樹上的風箏，還在嗎？……還在。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "我們坐到天暗。……問題等一下再問。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.wall": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "大家都在這面牆前面拍照。"
+       },
+       {
+        "who": "classmate_peishan",
+        "text": "……我拍你好了。我不太會被拍。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「拍一張就好。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "（她站好，手放在書包帶子上）……這樣可以嗎？"
+         }
+        ]
+       },
+       {
+        "t": "「那拍牆。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "好。牆很好看。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "這面牆的磚，每一塊顏色都不一樣。"
+        }
+       ]
+      },
+      {
+       "tier": "mid",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "……好，一張。不要拍到我的手。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "我好像比較會被拍了。是你拍得好。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次那張，我傳給我媽了。她問你是誰。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "合照。……我還是不知道手放哪裡。放這裡可以嗎？"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "kexin": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "假設這裡還在釀酒，我們現在會醉嗎？"
+      },
+      {
+       "who": "kexin",
+       "text": "……開玩笑的。我查過了，是米酒。所以會。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "今天我沒有做行程表。……好啦，只有一頁。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "華山的停車場很難找。所以我們搭捷運。這是告知。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "予樂說這裡適合約會。我說我們不是來約會，是來散步。……她不信。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "今天的假設題，我放在最後。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "今天走了一萬兩千步。我的手錶說的。"
+      },
+      {
+       "who": "kexin",
+       "text": "……假設你比我少，你要請客。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "回去吧。明天兩邊都有早八。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "下次來，假設——好，下次再假設。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "今天的假設題：假設今天可以重來一次。……我會照一樣的走。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D01.expo": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "這個展叫「看不見的規則」。"
+       },
+       {
+        "who": "kexin",
+        "text": "……假設我們是作品，我們是哪一條規則？"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「互相等兩秒。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……好答案。你說完之前，我也等了兩秒。"
+         }
+        ]
+       },
+       {
+        "t": "「我不想當規則。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "那你是例外。例外也是一種規則。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "說明文字寫得好難懂。我要假設它其實很簡單。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "我們兩個看同一張，看到的不一樣。……很好。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "以後我們的書房，要掛一張像這樣的。……假設有書房。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次那個「規則」的展，我後來跟予樂講了。她說我們好奇怪。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "你在看作品，我在看你看作品。……這也算看展。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.market": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "（她停在一個賣耳環的攤位）……這個好奇怪。我喜歡。"
+       },
+       {
+        "who": "kexin",
+        "text": "只戴一邊的話，買一隻就好。老闆說不行。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「那我買另一隻。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……好。你留著。等我想戴的時候跟你借。"
+         }
+        ]
+       },
+       {
+        "t": "「一對都買，輪流戴。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "這是很好的經濟學。……我是說，好。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "市集的價錢，用經濟學看都不合理。可是很開心。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "這個攤位的老闆會跟你玩猜拳，贏了打折。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "假設我們以後也擺攤，賣什麼？……我賣假設題。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次那隻耳環，我戴過一次。予樂說很怪。所以很成功。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "我們買一樣的東西。……不是情侶款，是統一採購。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.lawn": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "（她坐下，把托特包當枕頭）假設這片草地是我們的，誰負責割草？"
+       },
+       {
+        "who": "kexin",
+        "text": "……不要回答。我會吵贏。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳負責。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "好。那你負責看我割。"
+         }
+        ]
+       },
+       {
+        "t": "「我們請人。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "你很會管理。……這是誇獎。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "有一隻狗在追泡泡。我好想當那隻狗。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "草地上躺著看天，跟在山上看天，不一樣。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "我好想就這樣睡著。……你負責叫我。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次我在這裡真的睡著了。你沒有叫我。……謝謝。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "（她躺在你腿上）這是告知，不是問句。"
+        }
+       ]
+      }
+     ]
+    },
+    "D01.wall": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "紅磚牆。全台北的情侶都在這裡拍過。"
+       },
+       {
+        "who": "kexin",
+        "text": "所以我們要拍不一樣的。……你背對鏡頭。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「為什麼背對？」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "因為正面大家都有了。背影比較少。"
+         }
+        ]
+       },
+       {
+        "t": "「好，聽妳的。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "（她拍完看了很久）……這張很好。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "今天換你想姿勢。我只負責按。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "這面牆，我們拍第幾次了？……我數過。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "以後每次來，都在這裡拍一張。看我們有沒有變。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次那張背影，我設成桌布了。予樂說看不出來是誰。剛好。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "合照。這次正面。……好啦，我也有正面。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  }
+ }
+}
