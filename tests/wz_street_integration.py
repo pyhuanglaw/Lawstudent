@@ -88,7 +88,8 @@ async def check(pg, run, formal):
         ints = {k: v for k, v in faces.items() if k.startswith('INTERIOR_FACE_')}
         shal = await pg.evaluate("""(()=>{ const root=GAME.E.zone.group.children.find(o=>o.name==='wenzhou_street_glb'); let lamps=0; const sf={};
             root.traverse(o=>{ if(/^GLOW_shopin_/.test(o.name)) lamps++; if(o.isMesh&&o.material&&/^wz_sf_/.test(o.material.name||'')) sf[o.material.name]=true; }); return {lamps, sf:Object.keys(sf).length}; })()""")
-        run.check('v6c：店內景深卡換成立體淺店內（沒有 INTERIOR_FACE_；8 家店各兩盞店內燈、淺店內的材質都在）', not ints and shal['lamps'] >= 2 * len(SHOPS_INT) and shal['sf'] >= 8, json.dumps({'cards': sorted(ints), **shal}))
+        # 效能第二輪（LAWWW2-B 35513f11）起淺店內的小貼圖合成貼圖集，wz_sf_* 材質變少（13 → 3），不再拿材質數量當條件
+        run.check('v6c：店內景深卡換成立體淺店內（沒有 INTERIOR_FACE_；8 家店各兩盞店內燈）', not ints and shal['lamps'] >= 2 * len(SHOPS_INT), json.dumps({'cards': sorted(ints), **shal}))
         night = await pg.evaluate("""(()=>{ const z=GAME.E.zone, root=z.group.children.find(o=>o.name==='wenzhou_street_glb'); const mats={};
             root.traverse(o=>{ if(o.isMesh) for(const m of [o.material]) mats[m.name]=m; }); 
             const read=()=>({lit:+(mats.wz_room_lit?mats.wz_room_lit.emissiveIntensity:-1).toFixed(2), tube:+(mats.wz_tube?mats.wz_tube.emissiveIntensity:-1).toFixed(2), sign:+(mats.wz_signs_lit?mats.wz_signs_lit.emissiveIntensity:-1).toFixed(2)});
