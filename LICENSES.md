@@ -143,7 +143,7 @@
 | Poly Haven `brick_pavement_04`（Charlotte Baglioni） | https://polyhaven.com/a/brick_pavement_04 | CC0 | 溫州街 Café 門前的紅磚人行道 |
 | Poly Haven `grey_roof_tiles`（Rob Tuytel） | https://polyhaven.com/a/grey_roof_tiles | CC0 | 總圖書館的四坡屋頂（校正成深褐灰）。日式宿舍的黑瓦沒有用它（改用本作程式產生的貼圖） |
 | 溫州街日式宿舍＋院牆 `assets/models/env/second_ai/wz_jphouse.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_jphouse.py` | 本作 | 溫州街 A 側的日式宿舍（取代套件 `TK.japaneseHouse`、`TK.wall` 的外觀） |
-| 溫州街電線桿、反光鏡、路名牌、Café 門前紅磚道、路面 `assets/models/env/second_ai/wz_props.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_props.py`；路面貼圖 `textures/gen/wz_road_{main,ns,side}.jpg` 是程式畫的（`wz_road_tex.py`，numpy＋PIL，不用外部貼圖；「慢」字用系統字型 **WenQuanYi Zen Hei**（GPL-2.0，附字型嵌入例外）畫成點陣圖，**沒有附字型檔**） | 本作 | 溫州街主巷、東端路口、三條側巷 |
+| 溫州街電線桿、反光鏡、路名牌、Café 門前紅磚道、路面 `assets/models/env/second_ai/wz_props.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_props.py`；路面貼圖 `textures/gen/wz_road_atlas.jpg`、顆粒法線 `wz_road_grain_nor.png` 是程式畫的（`wz_road_tex.py`，numpy＋PIL，不用外部貼圖；「慢」字用系統字型 **WenQuanYi Zen Hei**（GPL-2.0，附字型嵌入例外）畫成點陣圖，**沒有附字型檔**） | 本作 | 溫州街主巷、東端路口、三條側巷 |
 | 溫州街小公園 `assets/models/env/second_ai/wz_park.glb` | 本作 Blender 腳本 `tools/blender/env_second/wz_park.py` | 本作 | 溫州街 A 側的小公園（草地、鋪面、路緣、樹穴、樹圍座椅、單槓、名牌） |
 | 黑瓦、紙拉門貼圖 `tools/blender/env_second/textures/jp_kawara/`、`jp_shoji/` | 本作程式產生 `tools/blender/env_second/gen_jp_textures.py`（固定亂數種子） | 本作 | 日式宿舍的屋瓦、院牆瓦頂、窗後的紙拉門 |
 | 窗台下的雨痕貼圖 `tools/blender/env_second/textures/gen/wz_stain.png` | 本作程式產生 `tools/blender/env_second/gen_street_textures.py`（固定亂數種子） | 本作 | 溫州街公寓每扇窗下的水漬 |
