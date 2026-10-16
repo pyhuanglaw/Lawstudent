@@ -3,7 +3,7 @@
    - 不扣時段次數（AA_160 2-3：吃飯、買東西都不算）；店名、品項都是虛構（D77）。營業時間在 src/data/places.js（AA_164 1-2）。
    - 打工的玩家（熟練 3 以上）多的那一句、有班那天的黑板：等 DL-10 的打工系統（全域 JOBS.at(G,'brunch'|'print'|'teahouse') → {lv, today, board}）；還沒有 JOBS 時不播。
    - 和人約的早午餐（invites3d.js 的 brunch）不走這裡（AA_172 1-1：約會的台詞之後再寫）。
-   存檔：G.daily.wzs＝{printWk, printUsed:[]}（影印旁白「同一週不重複」）。 */
+   存檔：G.daily.wzs＝{printWk, printUsed:[], brunchW, gardenN, tokoN}（影印旁白「同一週不重複」；其餘是輪流的位置）。 */
 const WZS=(()=>{
   const S={};
   const T_=G=>typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null;
@@ -31,6 +31,11 @@ const WZS=(()=>{
   S.teaSeason=G=>{ const m=month(G); return m>=3&&m<=5?'院子的老樟樹在換葉子。新葉是淺綠的，舊葉掉在石板上。':(m>=6&&m<=8?'緣側的風鈴一直在響。蘇姨說，風鈴響，就不用開冷氣。':(m>=9&&m<=11?'竹掃把靠在牆邊。院子裡的落葉，蘇姨說明天再掃。':'下午三點的陽光，剛好照到緣側的坐墊上。你不想起來。')); };
   S.TEA_WORK='蘇姨看了一眼你泡的那一壺。……沒有說話。你知道那是可以的意思。';
   S.teaMenu=G=>S.TEA.filter(t=>!t[4]||t[4](G));
+  /* 看院子、看床之間的掛軸（AA_172 2-2，0 分鐘）：院子白天兩句輪流、18:00 以後換石燈籠那一句；掛軸兩句輪流 */
+  S.GARDEN=['踏石一塊一塊排到緣側前面。石縫裡的苔很綠，像是有人每天澆水。','杜鵑、小楓樹、一棵老樟樹。院子不大，每一棵都站得剛剛好。','石燈籠亮了。院子裡只剩那一小團光，和老樟樹的影子。'];
+  S.TOKONOMA=['掛軸上只有一個字：茶。寫得很慢，最後一筆特別長。','下面的花器插著一枝花，看起來是院子剪的。床之間不放東西，也不坐人。'];
+  S.gardenLine=G=>{ if(hr(G)>=18) return S.GARDEN[2]; const r=S.rec(G); r.gardenN=((r.gardenN|0)+1)%2; return S.GARDEN[r.gardenN]; };
+  S.tokonomaLine=G=>{ const r=S.rec(G); r.tokoN=((r.tokoN|0)+1)%2; return S.TOKONOMA[r.tokoN]; };
 
   // ---------- 3. 阿德影印輸出 ----------
   S.printMenu=G=>{ const t=T_(G), out=[['印筆記（黑白，約 30 頁）',30]];
@@ -61,6 +66,8 @@ const WZS=(()=>{
       if(k==='brunch'&&kind==='cashier'){ await buy(GM,S.BRUNCH,40/60,async x=>{ await GM.say(null,x[2]); const j=job(G,'brunch'); if(j&&j.lv>=3){ const r=S.rec(G); r.brunchW=((r.brunchW|0)+1)%S.BRUNCH_WORK.length; await GM.say(null,S.BRUNCH_WORK[r.brunchW]); } }); }
       else if(k==='brunch'&&kind==='chalkboard'){ for(const l of S.boardLines(G)) await GM.say(null,l); }
       else if(k==='teahouse'&&kind==='tea'){ await buy(GM,S.teaMenu(G),x=>x[2],async x=>{ await GM.say(null,x[3]); await GM.say(null,S.teaSeason(G)); const j=job(G,'teahouse'); if(j&&j.lv>=3) await GM.say(null,S.TEA_WORK); }); }
+      else if(k==='teahouse'&&kind==='garden'){ await GM.say(null,S.gardenLine(G)); }
+      else if(k==='teahouse'&&kind==='tokonoma'){ await GM.say(null,S.tokonomaLine(G)); }
       else if(k==='print'&&kind==='print'){ const j=job(G,'print'); if(j&&j.today&&j.lv!=null&&j.shiftNow){ GM.toast('今天是你的班。'); return; }   /* 他的班剛好是那一天：不能當客人（DL-10 接「上班」）*/
         if(j&&j.lv>=1) await GM.say(null,'阿德：「自己印吧。你知道機器在哪裡。」');
         await buy(GM,S.printMenu(G),1/6,async()=>{ await GM.say(null,S.printLine(G)); }); }

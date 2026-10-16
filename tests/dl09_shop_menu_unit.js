@@ -57,6 +57,9 @@ const near=(a,b)=>Math.abs(a-b)<1e-6;
   { const G=mk(dayOf('2025-10-15'),14); const g=mkGM(G,[0]); await WZS.interact(g,{wzShop:'teahouse',kind:'tea'}); const none=g.L.says.length===2;
     global.JOBS={at:(G,k)=>k==='teahouse'?{lv:3}:null}; const g2=mkGM(G,[0]); await WZS.interact(g2,{wzShop:'teahouse',kind:'tea'}); delete global.JOBS;
     check('7. 打工的那一句：沒有打工系統時不播；在一盞打工、熟練 3 時，喝完多蘇姨那一句',none&&g2.L.says[2]===WZS.TEA_WORK); }
+  { const G=mk(dayOf('2025-10-15'),14); const a=mkGM(G), b=mkGM(G); await WZS.interact(a,{wzShop:'teahouse',kind:'garden'}); await WZS.interact(b,{wzShop:'teahouse',kind:'garden'}); G.hour=19; const c=mkGM(G); await WZS.interact(c,{wzShop:'teahouse',kind:'garden'});
+    const t1=mkGM(G), t2=mkGM(G); await WZS.interact(t1,{wzShop:'teahouse',kind:'tokonoma'}); await WZS.interact(t2,{wzShop:'teahouse',kind:'tokonoma'});
+    check('7b. 一盞：看院子白天兩句輪流、18:00 以後石燈籠那一句；看掛軸兩句輪流；都是 0 分鐘（AA_172 2-2）',a.L.says[0]!==b.L.says[0]&&WZS.GARDEN.slice(0,2).includes(a.L.says[0])&&WZS.GARDEN.slice(0,2).includes(b.L.says[0])&&c.L.says[0]===WZS.GARDEN[2]&&t1.L.says[0]!==t2.L.says[0]&&WZS.TOKONOMA.includes(t1.L.says[0])&&a.L.adv+c.L.adv+t1.L.adv===0); }
   { const src=fs.readFileSync(path.join(ROOT,'src/wzshops3d.js'),'utf8'); check('8. 不扣時段次數（WZS 不呼叫 slotUse／slotPlan）',!/slotUse|slotPlan/.test(src)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });
