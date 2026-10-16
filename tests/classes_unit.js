@@ -48,6 +48,8 @@ const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
 // ---------- 狀態、教授的位置、目標 ----------
 { const D=dayOf('2025-10-02');   /* 週四第 5 週：13:20 民法總則（原本用週五的法律與社會，2026-10-14 刪掉了）*/ const st=h=>{ const G=mkG(D,h); const it=CLS.dayItems(G).find(q=>q.c.id==='civ_general'); return CLS.status(G,it); };   /* 週四上午還有大一英文：取 13:20 那一堂 */
   check('開始前 30 分鐘以前＝還沒開始；12:50 起可以進教室；13:50 以後＝遲到（照樣可以進，使用者 2026-10-15）；下課前 30 分鐘（14:40）以後＝沒來',st(12.5)==='upcoming'&&st(12.84)==='open'&&st(13.8)==='open'&&st(13.85)==='open'&&st(14.6)==='open'&&st(14.7)==='missed'&&st(16)==='missed',[st(12.5),st(12.84),st(13.8),st(13.85),st(14.6),st(14.7)].join(','));
+  { const lt=h=>{ const G=mkG(D,h); const it=CLS.dayItems(G).find(q=>q.c.id==='civ_general'); return [CLS.isLate(G,it),CLS.isLateAbsent(G,it)].map(Number).join(''); };   /* AA_137 第 4 節：1～15 分鐘＝遲到（出席）；超過 15 分鐘＝進去會記缺席 */
+    check('AA_137 遲到：13:20 準時＝不算；13:25＝遲到；13:35＝遲到；13:36＝超過 15 分鐘（記缺席）',lt(13+20/60)==='00'&&lt(13+25/60)==='10'&&lt(13+35/60)==='10'&&lt(13+36.5/60)==='01',[lt(13+20/60),lt(13+25/60),lt(13+35/60),lt(13+36.5/60)].join(',')); }
   const G=mkG(D,13); const it=CLS.dayItems(G).find(q=>q.c.id==='civ_general'); CLS.rec(G).done[it.key]=1; check('上過的＝done（之後一直是 done）',CLS.status(G,it)==='done'&&CLS.status(Object.assign({},G,{hour:16}),it)==='done');
   const T=dayOf('2025-10-02');   /* 週四第 5 週：民法總則 */ const pw=h=>JSON.stringify(CLS.profWhere(mkG(T,h),'prof_zhou'));
   check('周教授：上課時（13:00～15:10）在 201、下課後 1.5 小時在萬才館、其他時間不在這兩個地方',pw(13)==='{"zone":"classroom","act":"class"}'&&pw(15.5)==='{"zone":"wancai","act":"office"}'&&pw(17)==='null'&&pw(10)==='null',[pw(10),pw(13),pw(15.5),pw(17)].join(' '));
