@@ -12422,7 +12422,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "①止血（已做）：出遊出發前、到了各自動存檔一次，演完才標 done（outings3d.js；v0_c1_unit 第 5 項）——被踢回標題讀檔就從到了那裡重新演 ②根治：量各區域的貼圖記憶體（renderer.info、貼圖尺寸總和）、VRM 人物貼圖、ADV 立繪快取（adv3d.js loadImage 永久快取）、出遊時 3D 場景照樣在背景；手機把超過 1024 的貼圖縮小、ADV 快取改有上限、出遊（全畫面 2D）時暫停 3D ③和 BUG-MAPBLACK（WebGL context lost）同一個根源，一起驗",
+   "next": "①止血（2e30f326、a73e27f9、f0a0fb30）②手機貼圖上限（1051004f）量測：校園 262→199 MB、溫州街 276→208、公館 123→107、總圖 95→56（Playwright ?texcap，貼圖含 mipmap 估算；遊戲照常跑）③還要做：貼圖上傳後釋放 CPU 端的圖片、ADV 立繪／CG 快取設上限、出遊（全畫面 2D）時停 3D 渲染、查起始宿舍時場景裡為什麼有校園的全部模型（量到 269 張貼圖和校園一樣）④iPhone 實機請使用者確認（需要發版）",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12498,6 +12498,27 @@
    },
    "source": "使用者 2026-10-16 22:3x 截圖（9/20 17:50 溫州街）",
    "authorized": "使用者（bug 回報）"
+  },
+  {
+   "id": "QA-W1-VISUAL",
+   "title": "第一週肉眼巡檢＋美術接縫自動檢查（使用者 22:4x：為什麼這麼多肉眼就看得出來的 bug）",
+   "area": "QA",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "next": "暫停新內容。①巡檢清單（docs/handoff/VISUAL_WALKTHROUGH_W1.md）：開新遊戲照玩家會做的事逐項走＋截圖：每種座位坐一次（教室、長椅、Café、麵店、總圖、宿舍）、NPC 坐的位置、約人到每個地點、一起走、快速移動、出遊、地圖、電梯、樓梯、店面 ②自動檢查：全部座位點在家具上、全部 GLB 共平面掃描（LAWWW2-B check_coplanar）、坐著的 NPC 旁邊有座位、柱子家具有碰撞 ③找到的問題進總表、修、截圖",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "開新遊戲",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 22:4x「為什麼這麼多奇怪的bug啊？這種肉眼就可以分辨的事情」",
+   "authorized": "使用者（D81 P0 先做）"
   }
  ]
 }
