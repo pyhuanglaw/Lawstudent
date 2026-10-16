@@ -183,7 +183,7 @@ def sphere(pm, c, r, fn, seg=20, rings=12, M=None):
 
 
 
-def to_blender(pm, name, mat, parent):
+def to_blender(pm, name, mat, parent, angle=0.6):
     me = bpy.data.meshes.new(name)
     me.from_pydata([tuple(g2b(*p)) for p in pm.v], [], [tuple(f) for f in pm.f])
     uvl = me.uv_layers.new(name='UVMap')
@@ -192,7 +192,7 @@ def to_blender(pm, name, mat, parent):
     me.validate(clean_customdata=False); me.update(); me.materials.append(mat)
     bm = bmesh.new(); bm.from_mesh(me); bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-6); bm.to_mesh(me); bm.free(); me.update()   # 合併重疊頂點（LAWWW2-B 驗收 WZ6 的修正）
     ob = bpy.data.objects.new(name, me); B.scene().collection.objects.link(ob); ob.parent = parent; ob['module'] = name
-    L.smooth_mesh(ob, angle=0.6)
+    L.smooth_mesh(ob, angle=angle)
     return ob
 
 
@@ -379,6 +379,7 @@ ITEMS = {'WZ7_helmet': helmet, 'WZ7_umbrella_stand': umbrella_stand, 'WZ7_bike_l
 SPREAD = {'WZ7_helmet': (-0.9, 0.0), 'WZ7_umbrella_stand': (-0.35, 0.0), 'WZ7_bike_lock': (0.15, 0.0), 'WZ7_delivery_box': (0.75, 0.0), 'WZ7_RECYCLE': (-0.2, 0.75)}
 BUDGET = {'WZ7_helmet': 1400, 'WZ7_umbrella_stand': 1700, 'WZ7_bike_lock': 1500, 'WZ7_delivery_box': 900, 'WZ7_RECYCLE': 1300}
 TOTAL_BUDGET = 6000
+SMOOTH = {'WZ7_RECYCLE': 1.2}   # 袋子是減面後的體素網格，0.6 rad 會留下一格一格的稜；紙箱的角是 90°，照樣是硬邊
 
 
 def build():
@@ -393,7 +394,7 @@ def build():
     nt.links.new(sp.outputs['Green'], bsdf.inputs['Roughness']); nt.links.new(sp.outputs['Blue'], bsdf.inputs['Metallic'])
     mods = {}
     for name, fn in ITEMS.items():
-        pm = fn(); ob = to_blender(pm, name, mat, root); x, z = SPREAD[name]; ob.location = g2b(x, 0, z)
+        pm = fn(); ob = to_blender(pm, name, mat, root, SMOOTH.get(name, 0.6)); x, z = SPREAD[name]; ob.location = g2b(x, 0, z)
         mn, mx = pm.bbox(); tris = sum(len(p.vertices) - 2 for p in ob.data.polygons); mods[name] = {'tris': tris, 'min': mn, 'max': mx}
         assert tris <= BUDGET[name], (name, tris)
     assert sum(m['tris'] for m in mods.values()) <= TOTAL_BUDGET, sum(m['tris'] for m in mods.values())

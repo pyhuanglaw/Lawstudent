@@ -1,0 +1,89 @@
+{
+ "objects": 5,
+ "unique_meshes": 5,
+ "tris": 5768,
+ "tris_drawn": 5768,
+ "materials": 1,
+ "out": "assets/models/env/second_ai/aa_support/wz7_street_props.glb",
+ "bytes": 224892,
+ "texres": 1024,
+ "modules": {
+  "WZ7_helmet": {
+   "tris": 1060,
+   "min": [
+    -0.1276,
+    0.0,
+    -0.1618
+   ],
+   "max": [
+    0.1276,
+    0.175,
+    0.1481
+   ]
+  },
+  "WZ7_umbrella_stand": {
+   "tris": 1688,
+   "min": [
+    -0.121,
+    0.0,
+    -0.121
+   ],
+   "max": [
+    0.1425,
+    0.9119,
+    0.121
+   ]
+  },
+  "WZ7_bike_lock": {
+   "tris": 1328,
+   "min": [
+    -0.088,
+    -0.001,
+    -0.0305
+   ],
+   "max": [
+    0.223,
+    0.2845,
+    0.0705
+   ]
+  },
+  "WZ7_delivery_box": {
+   "tris": 492,
+   "min": [
+    -0.2,
+    -0.0,
+    -0.196
+   ],
+   "max": [
+    0.2,
+    0.464,
+    0.16
+   ]
+  },
+  "WZ7_RECYCLE": {
+   "tris": 1200,
+   "min": [
+    -0.2943,
+    -0.0048,
+    -0.2352
+   ],
+   "max": [
+    0.5105,
+    0.1993,
+    0.241
+   ]
+  }
+ },
+ "atlas": [
+  "tools/blender/env_second/textures/gen/wz7_street_props_atlas.png",
+  "tools/blender/env_second/textures/gen/wz7_street_props_orm.png"
+ ],
+ "origins": {
+  "*": "底面中心、y=0＝放的那個面、正面朝 +z",
+  "WZ7_helmet": "臉的那一面朝 +z；掛在把手上就繞 x 轉、讓帽頂朝外",
+  "WZ7_bike_lock": "U 型鎖立著、原點在橫桿下方；鋼纜鎖在 +x 那一側的地上",
+  "WZ7_delivery_box": "背帶在 −z；放在機車後座就讓 −z 朝前",
+  "WZ7_RECYCLE": "紙箱捆在原點，寶特瓶袋在 +x 約 0.4 m"
+ },
+ "note": "一個材質 wz7_street_props（底色 1024＋ORM 256）；每件一個網格；GLB 裡的位置只是排開給人看（SPREAD）。擺在溫州街哪裡由 LAWWW-B／LAWWW2-B 決定"
+}
