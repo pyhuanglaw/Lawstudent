@@ -1,0 +1,132 @@
+{
+ "objects": 8,
+ "unique_meshes": 8,
+ "tris": 8836,
+ "tris_drawn": 8836,
+ "materials": 1,
+ "out": "assets/models/env/second_ai/aa_support/park2_props.glb",
+ "bytes": 434688,
+ "texres": 1024,
+ "modules": {
+  "PARK_SWINGS": {
+   "tris": 2508,
+   "min": [
+    -2.03,
+    -0.03,
+    -0.7916
+   ],
+   "max": [
+    2.03,
+    2.42,
+    0.7916
+   ]
+  },
+  "PARK_SWING_SEAT_A": {
+   "tris": 464,
+   "min": [
+    -0.257,
+    -1.767,
+    -0.094
+   ],
+   "max": [
+    0.257,
+    0.0,
+    0.094
+   ]
+  },
+  "PARK_SWING_SEAT_B": {
+   "tris": 492,
+   "min": [
+    -0.257,
+    -1.767,
+    -0.094
+   ],
+   "max": [
+    0.257,
+    0.0,
+    0.094
+   ]
+  },
+  "PARK_FIT_WAIST": {
+   "tris": 1366,
+   "min": [
+    -0.25,
+    -0.03,
+    -0.3589
+   ],
+   "max": [
+    0.25,
+    1.205,
+    0.37
+   ]
+  },
+  "PARK_FIT_SHOULDER": {
+   "tris": 1738,
+   "min": [
+    -0.419,
+    -0.03,
+    -0.359
+   ],
+   "max": [
+    0.419,
+    1.739,
+    0.359
+   ]
+  },
+  "PARK_FIT_LEG": {
+   "tris": 1812,
+   "min": [
+    -0.572,
+    -0.03,
+    -0.3394
+   ],
+   "max": [
+    0.572,
+    1.2394,
+    0.142
+   ]
+  },
+  "PARK_FIT_TOWEL": {
+   "tris": 264,
+   "min": [
+    -0.13,
+    0.766,
+    -0.1036
+   ],
+   "max": [
+    0.15,
+    1.106,
+    -0.0193
+   ]
+  },
+  "PARK_FIT_BOTTLE": {
+   "tris": 192,
+   "min": [
+    -0.034,
+    0.0,
+    -0.0331
+   ],
+   "max": [
+    0.034,
+    0.228,
+    0.0331
+   ]
+  }
+ },
+ "tris_total": 8836,
+ "atlas": [
+  "tools/blender/env_second/textures/gen/park2_props_atlas.png",
+  "tools/blender/env_second/textures/gen/park2_props_orm.png"
+ ],
+ "origins": {
+  "*": "地面上的底部中央、正面（人站的那一側）朝 +z；GLB 裡的位置只是排開給人看（SPREAD）",
+  "PARK_SWINGS": "A 字腳 x ±1.9、z ±0.7；橫桿 y 2.35（含兩端圓頂蓋 x ±2.01）；layout swings yaw π",
+  "PARK_SWING_SEAT_A/B": "原點＝吊點中心：框架本地 (x ∓0.9, y 2.230, z 0)；繞本地 x 軸轉就是盪；座面中間高 0.47、兩端 0.52",
+  "PARK_FIT_WAIST": "柱子在 z −0.24、轉盤中心 z 0.12（直徑 0.5，盤面高 0.195）；扶手 y 1.08",
+  "PARK_FIT_SHOULDER": "柱子在原點，高 1.62；輪子前後各一（z ±0.17，直徑 0.8，軸心 1.32）；握把往外伸到 z ±0.34",
+  "PARK_FIT_LEG": "兩根側柱 x ±0.45、z −0.04；扶手往前（−z）彎到 z −0.3、高 1.2；擺臂的軸 y 0.98；踏板 y 0.26",
+  "PARK_FIT_TOWEL": "和 PARK_FIT_WAIST 同一個原點（掛在扶手前面那一段）",
+  "PARK_FIT_BOTTLE": "水瓶，底部中央；建議放在漫步機右前方的地上"
+ },
+ "note": "一個材質：park2（底色 1024＋ORM 256，metal 最高 0.40；混凝土＝Poly Haven concrete_wall_006 的明暗，CC0；其他都是 numpy／PIL 畫的）"
+}

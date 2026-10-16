@@ -9,7 +9,7 @@
 > **適用**：AA、BB、LAWWW2（含帳號 B 的 AA-B、BB-B、LAWWW2-B）。LAWWW 整合時也照第 9、10 節看。
 > **和其他規則的關係**：
 > - `CLAUDE.md` 的 D38（MANDATORY 3D ART PRODUCTION RULES）是底線，本檔是實際做法。
-> - LAWWW2-B 的驗收清單：`docs/art-rebuild/second_ai/SCENE_RULES.md` 第 9 節（`claude/funny-albattani-iawshm` `1c3bdefd`）。交件時那一節每一項都要在 README 寫「做了／沒做＋原因」。
+> - LAWWW2-B 的驗收清單：`docs/art-rebuild/second_ai/SCENE_RULES.md` 第 9 節（`claude/funny-albattani-iawshm` `1c3bdefd`；`54ff20d5` 起第 9 節開頭指向本檔，寫明驗收以第 9 節為準）。BB 的入口：`BB_00` 最前面（`063ab633`）。交件時那一節每一項都要在 README 寫「做了／沒做＋原因」。
 > - 兩邊衝突時，以 LAWWW2-B 分支上較新的 SCENE_RULES 為準，並回來改本檔。
 
 ## 0. 先記住的五件事
@@ -157,7 +157,7 @@ python3 tools/blender/env_second/shots/fast_shots.py <URL> <shots.json> [--block
 
 1. **掉漆小白點會變雜訊**：PARK2 第一版白點太多太大，遠看像撒鹽。改成密度 0.0025、大小 ×1.1，鋼材底色調深（約 RGB 100,100,98），白點才像「有人在維護」的掉漆。
 2. **泥土區被基座吃掉**：腳下的泥畫在 0～5 cm，可是混凝土基座就有 5 cm 高，渲染完看不到。泥的範圍要從**基座頂面**往上算（PARK2 的腳從 y 0.05 開始）；泥色約 RGB 106,90,72、混合 0.75。
-3. **6 邊的細管要平滑角度 ≥ 1.1 rad**（`smooth_mesh(ob, 1.12)`）：預設 0.75 會看到一條條的稜。看得到輪廓的粗管還是要 14 邊以上，平滑角度救不了剪影（第 3 節）。
+3. **6 邊的細管要平滑角度 ≥ 1.1 rad**（`smooth_mesh(ob, 1.12)`）：預設 0.75 會看到一條條的稜。理由（LAWWW2-B 補）：6 邊管相鄰兩面差 60°＝1.047 rad，平滑角要大於它才會整圈平滑；1.12 剛好。看得到輪廓的粗管還是要 14 邊以上，平滑角度救不了剪影（第 3 節）。
 4. **布、毛巾的 UV 照弧長攤開**，條紋才不會被拉歪；再加一點折的波浪，才不會像硬紙板。
 5. **鐵鍊不要用透明貼圖**（alpha 在手機上排序會錯、也貴）：用 6 邊的細桿＋畫上去的鍊環圖案，遠近都可以。
 6. **螺絲要做成六角頭＋墊片**，不然遠看像插銷；橫樑和柱子的接合加鑄造套環，結構才講得通。
