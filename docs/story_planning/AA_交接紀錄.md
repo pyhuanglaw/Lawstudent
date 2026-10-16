@@ -87,6 +87,12 @@
 - 沒處理的使用者指示：無。等使用者回覆的：`AA_192` 六件確認事項、`AA_191` 開局 A／B。
 - 正在跑的長工作：無（子代理都已回報）。
 
+## HV-10（D92：A／B／C 三帳號任意輪值）ACK（AA-B，2026-10-16 22:1x UTC）
+
+- LAWWW-B 22:07 轉達使用者 21:35 的 P0。規則在 RULE_SOURCE `claude/modest-rubin-2lyp7g`（`ca8f91ef`）的 `AI_SESSION_HANDOFF.md` 第 0a、4、5、7、8 節，`PROJECT_DECISIONS` D92。
+- AA-B 跑了 `tools/handoff/check_handoff.py duty register`，回報「AA 已經是帳號 B 在值班，不用再登記」。`tools/handoff/` 副本 commit `6e0640e7`。
+- **之後交班**：照第 5 節，`snapshot --role AA --account B` → `duty handoff`。D75 擴大：不聯絡、不喚醒任何休班帳號。
+
 ## 使用者指示紀錄（P0 第 4 點）
 
 | 收到（UTC） | 使用者要求 | 取代的舊規則 | 停止／修改／保留 | 受影響 | 通知與確認 | commit | 完成情況 |
