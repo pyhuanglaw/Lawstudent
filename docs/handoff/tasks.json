@@ -12582,6 +12582,27 @@
    },
    "source": "QA-W1-VISUAL 座位檢查第二、三輪",
    "authorized": "使用者（QA-W1）"
+  },
+  {
+   "id": "BUG-GYM-SEATS",
+   "title": "體育館座位在椅子外面：大廳、場邊長椅在前緣外 0.05～0.2 m，看台在第一排前面的空中、高 0.9 m",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "next": "已修：gym_layout.js 座位照 gym_interior.glb 的座面（長椅中心往前 0.06 m、看台第一排木板 z −16.37 從地面坐）；gym_unit 6 改成檢查第一排。待瀏覽器座位檢查第四輪＋截圖",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一週體育課",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "QA-W1-VISUAL 座位檢查第三輪（gym 12/12）",
+   "authorized": "使用者（QA-W1）"
   }
  ]
 }
