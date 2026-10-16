@@ -33,6 +33,9 @@ run indoor_crowd_unit     node tests/indoor_crowd_unit.js       # 教學館室�
 run syllabus_unit         node tests/syllabus_unit.js           # BB 的普通課堂內容（AA_104 syllabus）＋課程代號同步（AA_110）：每門課都有內容、字數、不講案號、B／C 樣板
 run activities_unit      node tests/activities_unit.js         # 活動與演講（資料格式、海報、進行中）＋事件的 room／activity／npcHere 條件（D55）
 run events_interface_unit node tests/events_interface_unit.js  # 事件介面五種狀況：一次性／冷卻、不同學期、關係與旗標的值、跳過時間與快速前往（錯過就錯過、tier 上限）、演講到場（AA_107 第 10-1 節）
+# 其他所有 Node 單元測試（TEST-06，2026-10-16：上面點名的之外，新寫的 *_unit.js 自動跟著跑——戀愛、閒聊階梯、回家、阿凱宿舍、載妹墊、經濟系那一年、各學期事件…）
+for f in tests/*_unit.js; do n=$(basename "$f" .js); grep -q "^run $n " "$0" && continue; [ "$n" = stairs_feet_unit ] && continue; run "$n" node "$f"; done
+run handoff_check_unit    python3 tests/handoff_check_unit.py     # 交接對帳工具（D82）
 run deploy_check          python3 tests/deploy_check.py "$URL" $VER
 run model_upgrade         python3 tests/model_upgrade.py "$URL" "$OUT/model_upgrade"
 run zone_transitions      python3 tests/zone_transitions.py "$URL"

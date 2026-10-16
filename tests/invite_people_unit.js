@@ -15,6 +15,7 @@ let W8=false; global.EVENTS={cond:c=>!!(c&&c.events&&c.events[0]==='ev_sis_colla
 const load=(f,names)=>vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(new RegExp('^const ('+names+')\\s*=','mg'),'global.$1='),{filename:f});
 load('src/data/calendar.js','CALENDAR'); load('src/data/places.js','PLACES'); load('src/data/characters.js','CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS'); load('src/social3d.js','SOCIAL');
 for(const f of ['src/data/rel_lines.js','src/data/courses.js','src/data/invites.js','src/invites3d.js','src/story3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f,'REL_LINES|COURSES|INVITE_DATA|INV|STORY');
+if(typeof STORY!=='undefined') STORY.sisW8=()=>W8;   /* W8 之後＝STORY.sisW8（AA_177 第 8 節①：演過或過了大二上第 12 週）；這個測試直接控制 W8，時間的部分在 tests/v3_sis_w8_unit.js */
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 check('INV.personal 存在、INVITE_DATA.people 有資料',typeof INV.personal==='function'&&Object.keys(INVITE_DATA.people||{}).length>=13,Object.keys(INVITE_DATA.people||{}).length);
 if(typeof INV.personal!=='function'){ console.log('FAILED: '+fails); process.exit(1); }
@@ -60,12 +61,12 @@ fresh(MON,9); rel('classmate_xinci',25,8,4); r=ask('classmate_xinci','noodle',MO
 check('6. 芯慈當天約吃飯：「我要先算時間。……好，可以。」→ 改到明天',r.res==='resched'&&L(r)==='「我要先算時間。……好，可以。」'&&r.alt&&r.alt.day===MON+1,r.res+' '+JSON.stringify(r.alt));
 r=ask('classmate_xinci','noodle',MON+1,18.5); check('6. 芯慈隔天的吃飯（週二 18:30）：答應（同一句）',r.res==='accept'&&L(r)==='「我要先算時間。……好，可以。」',r.res+' '+L(r));
 // 7 學姊
-const Y3=(wd)=>{ for(let d=600;d<1600;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y3S2'&&wdOf(d)===wd&&t.week===5) return d; } };
+const Y3=(wd)=>{ for(let d=600;d<1600;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y4S1'&&wdOf(d)===wd&&t.week===5) return d; } };   /* 原本用大三下；SYS-21 起學姊大三下在美國（約不到），改用大四上 */
 fresh(MON,9); rel('heroine_05',65,50,45); W8=true; r=ask('heroine_05','wenzhou',SAT,15.5);
 check('7. 學姊大一（有男朋友，partner Y1S1～Y3S1）約散步：照「兩個人單獨」的規則婉拒（不是個性台詞）',r.res==='decline'&&r.why==='partner'&&!r.lines,r.res+' '+r.why);
 const SAT3=Y3(6), MON3=Y3(1); fresh(SAT3,9); rel('heroine_05',65,50,45); W8=false; r=ask('heroine_05','wenzhou',SAT3,10);
 check('7. 學姊 W8 以前約散步：「散步沒有目的。……我還不會。」「週三讀書會可以。」（婉拒，不給改天）',r.res==='decline'&&L(r)==='「散步沒有目的。……我還不會。」｜「週三讀書會可以。」'&&!r.alt,r.res+' '+L(r));
-W8=true; r=ask('heroine_05','wenzhou',SAT3,15.5); check('7. 學姊 W8 以後（大三下的週六）：「散步。好。我第一次為了散步而散步。」',r.res==='accept'&&L(r)==='「散步。好。我第一次為了散步而散步。」',r.res+' '+L(r));
+W8=true; r=ask('heroine_05','wenzhou',SAT3,15.5); check('7. 學姊 W8 以後（大四上的週六）：「散步。好。我第一次為了散步而散步。」',r.res==='accept'&&L(r)==='「散步。好。我第一次為了散步而散步。」',r.res+' '+L(r));
 fresh(MON,9); rel('heroine_05',65,50,45); r=ask('heroine_05','cafe',MON,12+10/60); check('7. 學姊平日中午（在總圖）約 Café：「五點以後。重點是我要先把這段寫完。」→ 17:00 以後',r.res==='resched'&&L(r)==='「五點以後。重點是我要先把這段寫完。」'&&r.alt&&r.alt.h>=17,r.res+' '+JSON.stringify(r.alt));
 r=ask('heroine_05','library',MON,12+10/60); check('7. 學姊平日約總圖：「我就在總圖。三樓。不要講話，傳訊息。」',r.res==='here'&&L(r)==='「我就在總圖。三樓。不要講話，傳訊息。」',r.res+' '+L(r));
 r=ask('heroine_05','cafe',MON,19); check('7. 學姊 W8 以後、朋友以上約 Café（晚上）：「今天不看筆記。」',r.res==='accept'&&L(r)==='「今天不看筆記。」',r.res+' '+L(r));

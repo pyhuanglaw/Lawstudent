@@ -27,12 +27,12 @@ const ACTIVITIES={
      narr:['（今天講裝備：三層穿法、頭燈、雨衣。學長把一個背包裡的東西全倒在桌上。）','（今天看天氣圖：鋒面、午後雷陣雨、什麼時候該撤退。）','（今天講路線：等高線怎麼看，哪裡是陡上。）',
            '（今天練打結。看起來很簡單，你綁錯了兩次。）','（下一次出隊的名單貼出來了。社長說：報名前，先問問自己的腳。）']},
     /* 6-8：吉他社（萬才館一樓多功能教室；企劃寫萬才館旁的社辦，遊戲還沒有社辦）、法服讀書會（萬才館二樓研討室 A）——門口參加。週三晚上兩個只能選一個：走到哪一間的門口就是哪一個 */
-    {id:'club_guitar',title:'吉他社社課',clubName:'吉他社',kind:'club',zone:'wancai',room:'multi',door:true,roomName:'萬才館 多功能教室',term:['Y1S1','Y1S2'],weeks:[5,6,7,10,11,12,13,14,15,16],weekdays:[1,3],t0:19,t1:21,
+    {id:'club_guitar',title:'吉他社社課',clubName:'吉他社',kind:'club',zone:'wancai',room:'multi',door:true,roomName:'萬才館 多功能教室',term:['Y1S1','Y1S2','Y2S1','Y2S2'],weeks:[5,6,7,10,11,12,13,14,15,16],termWeeks:{Y2S1:[3,4,5,6,7,10,11,12,13,14,15,16]},weekdays:[1,3],t0:19,t1:21,
      desc:'練和弦、輪流彈一首。',story:false,
      narr:['（今天練 C、G、Am 三個和弦。換和弦的時候，整間教室都慢了半拍。）','（今天輪流彈一首。你彈錯了第二小節，大家笑得比你大聲。）','（有人帶了洋芋片。練習的時間，比吃東西的時間短一點。）',
            '（今天練刷法：下、下、上、上、下、上。你的右手比左手聽話。）','（學長示範一首老歌。大家安靜聽完，然後各自練回自己的和弦。）','（手指上的紅痕沒那麼痛了。你多撐了兩首歌。）']},
     /* 大一下也有（交接包 v2：第 4 週讀書會結束後的沛珊和柏翰、第 14 週和成發同一晚、第 15 週「最後幾次」）；大一下的週次原文沒寫，先排第 2～7、10～16 週（期中、期末沒有；已問 AA）*/
-    {id:'lawclub_study',title:'法服讀書會',clubName:'法服（法律服務社）',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S1','Y1S2'],weeks:[5,6,7,10,11,12,13,14,15,16],termWeeks:{Y1S2:[2,3,4,5,6,7,10,11,12,13,14,15,16]},weekday:3,t0:19,t1:21,
+    {id:'lawclub_study',title:'法服讀書會',clubName:'法服（法律服務社）',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S1','Y1S2','Y2S1','Y2S2'],weeks:[5,6,7,10,11,12,13,14,15,16],termWeeks:{Y1S2:[2,3,4,5,6,7,10,11,12,13,14,15,16],Y2S1:[1,2,3,4,5,6,7,10,11,12,13,14,15,16],Y2S2:[1,2,3,4,5,6,7,10,11,12,13,14,15,16]},weekday:3,t0:19,t1:21,
      desc:'刑訴題庫每次兩三題（讀書會的方式：先聽爭點怎麼吵）。',story:false,narrAt:'start',
      narr:['（白板上寫著今天的兩個爭點。大家先安靜讀五分鐘。）','（今天的題目是學長姊從題庫裡挑的。一年級坐後面，先聽。）','（研討室的冷氣很強。有人把外套借給隔壁，然後開始吵第一題。）',
            '（今天來的人比上週少兩個。題目反而讀得比較深。）','（結束前，每個人把今天的爭點用一句話寫在白板上。）']},
@@ -46,7 +46,7 @@ const ACTIVITIES={
      desc:'系上的新生迎新：自我介紹、分組玩大地遊戲。學長姊帶隊。',story:true},
     /* 6-8 (c)：系籃——2026-10-14 搬到球場（LAWWW2 9428f9f，醉月湖東側；zones3d.js 的 bballCourt）：活動點在場邊兩張長椅中間、面向場內；id 不變（原本先放在體育館門口）*/
     /* 公法讀書會（交接包 v2 C14 以安新 7 後半；草稿第 2 節「固定節奏」）：大一下第 12 週起每週四 20:00，萬才館研討室 A（和法服週三讀書會同一類：加入就每週有一格）；第一次＝ev_public_law_group。結束時間原文沒寫，先 21:30 */
-    {id:'public_law_group',title:'公法讀書會',clubName:'公法讀書會',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S2'],weeks:[12,13,14,15,16],weekday:4,t0:20,t1:21.5,
+    {id:'public_law_group',title:'公法讀書會',clubName:'公法讀書會',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S2','Y2S1','Y2S2'],weeks:[12,13,14,15,16],termWeeks:{Y2S1:[2,3,4,5,6,7,10,11,12,13,14,15,16],Y2S2:[2,3,4,5,6,7,10,11,12,13,14,15,16]},weekday:4,t0:20,t1:21.5,
      desc:'以安和小語發起的讀書會。每人十分鐘。',story:true},
     /* 大一的系籃比賽（交接包 v2 C16；AA_71 2-11「大一的系籃比賽（v2 C16，第 14 週）」）：AA 只寫第 14 週，日子、時間是 LAWWW 定的（週六 14～16，和練球同一個球場；已告訴 AA）；去看＝演 ev_zhe_game_y1 */
     /* 法服學期檢討會（BB_96 2-6 學姊 W5；交接包 v2）：大一下第 17 週週三 19:00–21:00，萬才館研討室 A（門口參加）；群戲用旁白，會後接 W5（afterActivity）*/
@@ -59,6 +59,15 @@ const ACTIVITIES={
        id 用 'B4'：AA_115 的 attended:B4／missed:B4、BB 課表的回想（syllabus recall activity:'B4'）都用這個名字。選「聽演講」＝ev_b4_lecture；散場＝ev_b4_after；小桌子＝ev_b5_table（src/data/events.js）*/
     {id:'B4',title:'政府可以為了大家，限制一個人嗎？',kind:'lecture',zone:'boya',room:'101',roomName:'博雅 101',term:['Y1S2'],weeks:[11],weekday:4,t0:19,t1:20.5,once:true,crowd:{n:30},poster:{daysBefore:7},event:'ev_b4_lecture',
       desc:'博雅午後講座（每月一到兩場）。這一場的主題是法律。',story:true},
+    /* 交換學生甄選說明會（主線 8 的固定節點、可以錯過；AA_177 4-2、AA_143 2-3、BB_105 B9）：大二下第 4 週週四 3/18 12:20～13:10，國際事務處辦、在博雅大教室（101）。
+       坐下選「聽說明會」＝ev_exchange_expo_y2（選坐哪一區，記 EXPO_COUNTRY）；3/15 09:00 學校信箱、以安的群組那一句、沒去的 20:00 簡報照片在 story3d.js */
+    {id:'EXPO_Y2',title:'交換學生甄選說明會',verb:'聽說明會',kind:'lecture',zone:'boya',room:'101',roomName:'博雅 101',term:['Y2S2'],weeks:[4],weekday:4,t0:12+20/60,t1:13+10/60,once:true,crowd:{n:30},event:'ev_exchange_expo_y2',
+      desc:'國際事務處辦的交換學生甄選說明會。',story:true},
+    /* 模擬法庭的小組討論（V3-D16；AA_177 4-7、AA_143 3-3）：模 2 3/11、模 3 4/1、模 4 4/15，都是週四 19:00，萬才館研討室（B：研討室 A 週四 20:00 是公法讀書會）。
+       門口參加＝ev_moot_2／3／4（2D）。邀約是前一晚 21:00 以安在小組群組（story3d.js）；沒去＝那一場的準備分 +0（AA_143 3-2，不另外懲罰）*/
+    {id:'moot_2',title:'模擬法庭・找資料',verb:'參加',kind:'event',zone:'wancai',room:'seminarB',door:true,roomName:'萬才館 研討室 B',term:['Y2S2'],weeks:[3],weekday:4,t0:19,t1:21,once:true,event:'ev_moot_2',desc:'模擬法庭・賣家組的討論。',story:true},
+    {id:'moot_3',title:'模擬法庭・寫書狀',verb:'參加',kind:'event',zone:'wancai',room:'seminarB',door:true,roomName:'萬才館 研討室 B',term:['Y2S2'],weeks:[6],weekday:4,t0:19,t1:21,once:true,event:'ev_moot_3',desc:'模擬法庭・賣家組的討論。',story:true},
+    {id:'moot_4',title:'模擬法庭・演練',verb:'參加',kind:'event',zone:'wancai',room:'seminarB',door:true,roomName:'萬才館 研討室 B',term:['Y2S2'],weeks:[8],weekday:4,t0:19,t1:21,once:true,event:'ev_moot_4',desc:'學姊當法官的演練。',story:true},
     {id:'dept_ball_game_y1s2',title:'系籃比賽',kind:'event',zone:'campus',roomName:'籃球場（醉月湖東側）',spot:{x:3.3,z:-112.7,lv:0,label:'系籃比賽'},verb:'去看',term:['Y1S2'],weeks:[14],weekday:6,t0:14,t1:16,once:true,event:'ev_zhe_game_y1',
      desc:'系上的系籃比賽，阿哲上場。觀眾可以拍手、記分或送水。',story:true},
     {id:'dept_basketball',title:'系籃練球',clubName:'系籃（系學會）',kind:'club',zone:'campus',roomName:'籃球場（醉月湖東側）',spot:{x:3.3,z:-112.7,lv:0,label:'系籃練球'},verb:'去練球',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15,16],weekday:5,t0:17.5,t1:19,

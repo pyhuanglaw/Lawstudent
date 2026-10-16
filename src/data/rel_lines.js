@@ -10,7 +10,7 @@
    cap：這個人的階段在台詞上最多算到哪裡（學姊：W8「今天先不改了」ev_sis_collapse 以前一律算「有點熟」，BB_120 1-1）。
    台詞的格式：字串以（開頭＝旁白，其他＝那個人說的話；{n:'…',solo:true}＝任一方有伴侶時拿掉的旁白；{name}＝玩家的名字。 */
 const REL_LINES=(function(){
-  const W8=G=>typeof EVENTS!=='undefined'&&!!EVENTS.cond&&EVENTS.cond({events:['ev_sis_collapse']});
+  const W8=G=>typeof STORY!=='undefined'&&STORY.sisW8?STORY.sisW8(G):(typeof EVENTS!=='undefined'&&!!EVENTS.cond&&EVENTS.cond({events:['ev_sis_collapse']}));   /* AA_177 第 8 節①：W8 演過，或過了大二上第 12 週 */
   const tutorNight=G=>[2,4,6].includes(G.weekday);   /* 明軒二四六晚上家教（BB_120 1-7b 他的那一句） */
   return {
   /* ---------- AA 的六位（AA_124 1-6） ---------- */

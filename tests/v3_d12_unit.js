@@ -1,0 +1,54 @@
+// 交接包 v3 D12：大二的聖誕交換禮物、跨年、期末最後一頓（AA_143 1-6～1-8、AA_177 第 6 節）——不需要瀏覽器。
+// 檢查：邀約時間與字（12/23 21:00、12/31 21:00、最後一科考完那天 17:00）、出發選單時間（12:20、23:50）、沒去的照片（21:30／跨年 00:05 照片＋阿哲）；聖誕兩個保溫杯、抽到誰的禮物；跨年大二版那兩句；期末那一頓的大二版。用法：node tests/v3_d12_unit.js
+const fs=require('fs'), vm=require('vm'), path=require('path');
+const ROOT=path.resolve(__dirname,'..');
+global.window=global; global.self=global; global.P3={CAST:{}};
+global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
+global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
+global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
+let said=[], opts=[], picks=[], G=null;
+const E={q:{level:'medium'},player:{busy:false,obj:{position:{x:0,y:0,z:0},rotation:{y:0}},lv:0},zone:{roomAt:()=>null,seats:[]},npcs:[],interactables:[],levels:null,setWeather(){},hour:0};
+const GM={get G(){ return G; },E,D:{active:false},npc:{},
+  sceneBegin(){},sceneEnd(){},face(){},cine(){},caption(){},sleep:()=>Promise.resolve(),memo(){},autosave(){},addNote(){},energy(){},money(){},setGoal(){},toast(){},updateHUD(){},letterbox(){},phoneBadge(){},
+  titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
+  say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
+const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+  SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
+const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };
+const LV={ACQ:[10],FAM:[25],FRI:[45,30],CLO:[65,50,45]};
+const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.toFixed(3); STORY.phoneRules(GM); PHONE.tick(G); } };
+const termDay=(term,w,wd)=>STORY.termDay(term,w,wd);
+const ev=id=>STORY_EVENTS.find(e=>e.id===id);
+const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
+const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
+const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
+const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
+const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
+let cards=[], entered=[];
+GM.titleCard=async(a,b)=>{ cards.push([a,b]); }; GM.enter=async(z)=>{ entered.push(z); G.zone=z; };
+GM.money=function(n){ G.money+=n; };
+
+(async()=>{
+  const d23=D('2026-12-23'), d24=D('2026-12-24'), d31=D('2026-12-31');
+  fresh(d23,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); let o=OUT.get(G,'y2_xmas');
+  check('1. 聖誕：12/23 21:00 阿哲「聖誕交換禮物，明天中午，霖澤館一樓。兩百以內。」；出發選單 12/24 12:20',txt('g:noodle_team').includes('zhe:聖誕交換禮物，明天中午，霖澤館一樓。兩百以內。')&&o&&o.day===d24&&Math.abs(o.h-(12+20/60))<1e-6,JSON.stringify([txt('g:noodle_team'),o]));
+  const X=ev('ev_y2_xmas'); fresh(d24,12.4,'campus'); const k0=STORY.knows; STORY.knows=id=>['zhe','yu','heroine_01'].includes(id); meet('heroine_01'); said=[]; G.flags.Y2_XMAS_FROM=null; const r0=Math.random; Math.random=()=>0; await EVENTS.run(X); Math.random=r0; STORY.knows=k0; let L=lines();
+  check('2. 兩個一樣的保溫杯「……為什麼有兩個一樣的保溫杯？」阿哲、小語「不是我們。」；抽到以安＝空白手帳「理由欄是空的。給你自己寫。」',L.includes('拆到的人：……為什麼有兩個一樣的保溫杯？')&&L.includes('阿哲、小語：不是我們。')&&L.includes('你抽到以安的：一本空白手帳。')&&L.some(t=>/理由欄是空的。給你自己寫。/.test(t)),JSON.stringify(L));
+  fresh(d31,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); o=OUT.get(G,'y2_newyear');
+  check('3. 跨年：12/31 21:00 阿哲「十一點五十，頂樓。十分鐘就好。」；出發選單 23:50',txt('g:noodle_team').includes('zhe:十一點五十，頂樓。十分鐘就好。')&&o&&Math.abs(o.h-(23+50/60))<1e-6);
+  OUT.get(G,'y2_newyear').state='missed'; G.hour=24.2; STORY.phoneRules(GM); PHONE.tick(G); const nm=TH('g:noodle_team').filter(m=>m.tag==='y2_newyear_photo');
+  check('3. 沒去：00:05 照片「（遠方的煙火，很小。）」＋阿哲「我們就說有看到。」',nm.length===2&&nm[0].text==='📷（遠方的煙火，很小。）'&&nm[1].text==='我們就說有看到。',JSON.stringify(nm.map(m=>[m.day,m.h,m.text])));
+  const N=ev('ev_y2_newyear'); fresh(d31,23.9,'dorm'); meet('heroine_01'); said=[]; await EVENTS.run(N); L=lines();
+  check('3. 跨年大二版：以安「好。新的一年的第一件事：回去念。」阿哲「新的一年的第一件事是宵夜。」',L.some(t=>/新的一年的第一件事：回去念。/.test(t))&&L.includes('阿哲：新的一年的第一件事是宵夜。'),JSON.stringify(L));
+  const e=CLS.lastExamEnd({flags:{},day:1},'Y2S1','final'); check('4. 大二上最後一科考完的時間算得出來（第 18 週）',!!e&&CALENDAR.termOf(e.day).id==='Y2S1',JSON.stringify(e));
+  if(e){ fresh(e.day,16,'campus',{noodleTableDay:3}); PHONE.join(G,'noodle_team','麵店團'); run(16,17.1); check('4. 那天 17:00 阿哲「考完了。七點，麵店。」',txt('g:noodle_team').includes('zhe:考完了。七點，麵店。'),JSON.stringify(txt('g:noodle_team')));
+    run(17.2,21.8,0.3); check('4. 21:30 還沒去＝「（空碗疊成一座塔。）」',txt('g:noodle_team').includes('zhe:📷（空碗疊成一座塔。）'));
+    const M=ev('ev_term_last_meal_y2s1'); fresh(e.day,19,'noodle',{noodleTableDay:3,YU_ZHE_TOLD:'msg'}); G.hour=Math.max(19,e.h+0.1); const ok=EVENTS.check(M); meet('heroine_01'); meet('heroine_03'); const k1=STORY.knows; STORY.knows=id=>['zhe','yu','heroine_01','heroine_03'].includes(id); said=[]; await EVENTS.run(M); STORY.knows=k1; L=lines();
+    check('4. 期末最後一頓（大二上）：阿姨「考完了，吃好一點。」；小語和阿哲坐一起；以安「大二上：完成」；語彤「……今天阿姨說我不用端。」',ok&&L.includes('阿姨：考完了，吃好一點。')&&L.includes('（小語和阿哲坐在一起。）')&&L.includes('（以安在手帳上寫：「大二上：完成」。）')&&L.some(t=>/今天阿姨說我不用端。/.test(t)),JSON.stringify(L)); }
+  console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
+})().catch(e=>{ console.error(e); process.exit(1); });

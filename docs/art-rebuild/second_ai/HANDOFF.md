@@ -1,11 +1,555 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-值班登記：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜分支 claude/second-ai-env-art｜接班基準 `1f20126`（＋合併 LAWWW `cb399ea`）｜2026-10-13 12:35 UTC（使用者：「我回來了，請同步 GitHub 最新進度，接續工作。」）
+## ⚠ 使用者 2026-10-16 05:1x～05:2x UTC 正式指示（三則）：現有 3D 美術品質修復與精修——「玩家打開遊戲覺得畫面漂亮」才算完成
+
+- **要求**：
+  - 修好、精修**現有的** 3D（人物臉部五官與辨識度、材質與光影、場景細節、遊戲實際視角下的構圖／遮擋／穿模、效能）。
+  - 不換引擎、不換工具（不改用 VRoid／Unreal／Unity）、不重做全部人物、不推倒場景、不以新增模型或道具代替修復、不用加面數／堆物件／加 bloom 掩蓋問題。
+  - 必要時可以局部重建，要說明原因、維持相容。
+  - 研究資料**只讀免費公開的內容**，付費一律跳過，不繞過限制。
+- **流程（Visual Feedback Loop）**：
+  1. 用實際遊戲畫面（Playwright）診斷：A 人物造型、B 人物材質渲染、C 場景、D Three.js 呈現（color space、tone mapping、陰影、FOV、霧）。
+  2. 一次一個角色或場景，保留修改前的畫面。
+  3. 修改後用同鏡頭、同時間、同光線截圖，並和 2D 設定比較；變差就退回。
+  4. **先完成一個看得出明顯進步的完整案例**，再套用到其他資產。
+- **優先順序**：
+  1. 玩家和主要 NPC 的臉、頭髮、身形
+  2. 最常出現的校園
+  3. 人物與場景的光影協調
+  4. 宿舍、教室、街道
+  5. 其他
+  - LAWWW-B 提醒：先做 v0／v1 玩家最先看到的畫面（D81）。
+- **每批驗收**：
+  - 功能不退化、模型能載入；
+  - 遊戲截圖可以比較；
+  - 列出修正前的問題、採取的修正；
+  - 修正後真的有改善，沒改善的繼續修，不硬說完成。
+- **分工**：
+  - 渲染管線和 src/ 共用程式做成 patch，給 LAWWW-B 整合、跑回歸。
+  - 人物交 BB-B 驗收（D59），只向 BB-B 確認角色設定，修復責任不轉給 BB。
+  - 場景的 ART_APPROVED 照舊由使用者確認。
+- **對佇列的影響**：
+  - LAWWW-B 05:15Z ACK：新製作（BG15～17、阿勳 3D、美國公寓、BG13…）沒有卡劇情，排到精修後面。
+  - ART-05 的遊戲內人物截圖改成精修第 0 批的人物基準。
+- **研究來源的可及性（照實記錄）**：
+  - 沙盒對外只通 GitHub：threejs.org、threejs-journey.com 都連不到。
+  - Three.js Color Management 讀的是 three.js 官方 GitHub 上同一份手冊（r160 `docs/manual/en/introduction/Color-management.html`）。
+  - blender-skills 的 anime-style SKILL.md 讀到了；它引用的兩份參考檔不在頁面上，沒讀到。
+  - ArtStation 的 Stylized Anime Room 是付費商品，跳過。
+  - Three.js Journey、Blender Studio 課程的付費部分跳過，網站本身也連不到。
+- **進度**：見下方「精修」各批（隨時更新）。
+
+## ⚠ 使用者 2026-10-16 07:0x UTC：招牌的字體太假，要參考正常招牌的設計；需要設計圖請 BB 跟使用者要
+
+- 原話：「招牌的字體就太假了　請參考正常招牌　通常會有設計　需要我設計圖請BB跟我要　先繼續做別的　我不會馬上回」。
+- 07:0x 已經請 BB-B 寫提示詞，向使用者要溫州街 12 間店（含新店）的招牌正面平面圖，格式和清單在那則訊息裡；公館的排在之後。
+- 圖到了之前：招牌照舊由遊戲用字畫（SIGN_FACE），先做小公園、三家店外觀、室內。圖到了，LAWWW2-B 切圖做成招牌貼圖（燈箱晚上會亮），取代 SIGN_FACE。
+
+## ⚠ 使用者 2026-10-16 06:3x～06:4x UTC：精修排後面，先做 AA-B 發包的溫州街；三家店室內都要 3D
+
+- 06:3x 原話：「精修可以排後面再做　AA有發包給你溫州街新店面那個先來」。
+- 06:4x 原話：「三家店室內都要3D!」
+- **AA-B 發包**：`AA_164`（企劃線 `a64200d4`、`1fca4391`）第 7b、8 節，美術全部由 LAWWW2-B 負責。
+  - ART-WZ0：舊店面翻修；先盤點，列出每間缺哪幾層。
+  - ART-WZ1：小公園。
+  - ART-WZ2：三家新店外觀＋冰店。
+  - ART-WZ3：三家店的 **3D 室內**（使用者 06:4x）。我交付 GLB＋`src/data/<店>_layout.js`；區域程式、導航由 LAWWW-B 接。
+  - ART-WZ4：Café 配置，座位總數不減。
+  - ART-WZ5：貓。
+- **暫停**（都是 checkpoint `28deae9e`，不整合）：
+  - 精修：post3d.js、溫州街路面貼圖、人物精修第 2 批以後。
+  - 祐廷精修第 1 批 `da737424`：BB-B 驗收五項通過，可以整合；要修的三項（圓領收高收窄、右肩亮區、褲腳）之後再做。
+- **向 AA-B 確認中的四點**（先照括號做）：
+  - A1 大學影印 → 阿德影印輸出。
+  - A 側日式宿舍 → 一盞茶屋。
+  - 小公園在現有 11.6×10.4 範圍內照 5-2 排；要不要擴大，等 LAWWW-B 決定。
+  - 早午餐、冰店放在東端附近。
+
+## ⚠ 使用者 2026-10-16 07:3x UTC（給四個 AI）：接下來約十小時不回覆，照已授權的清單自主推進
+
+- **LAWWW2 的優先順序**：溫州街店面、小公園、三家 3D 室內。
+- **每完成一個可整合的部分就交給 LAWWW-B，不要整包做完才交。**
+- 完成一項、commit、寫報告、等截圖、等回覆，都不是停下來的理由。沒有工作就向其他值班的 AI 要。
+- 不新增沒授權的重大設定；不替其他 AI 決定它負責的美術或故事。
+- 使用者回來要看：實際新增的可玩內容、已交付的美術資產、還沒完成的清單、正式版本狀態。
+
+### 十小時自主期間的交付紀錄（LAWWW2-B；隨時更新；分支 `claude/funny-albattani-iawshm`）
+
+| 時間（UTC） | 交付給 LAWWW-B | commit | 狀態 |
+|---|---|---|---|
+| 07:4x | 小公園 v3（去積木化） | 48aed1c9、ceb545f2 | LAWWW-B 已接（861ec9f1） |
+| 07:5x | 溫州街 v5（13 張設計稿招牌、B5 茶飲＋冰菓室、公寓大門、背面）＋一盞茶屋外觀 | 31323eb9 | LAWWW-B 已接（861ec9f1） |
+| 08:0x | 三家新店 3D 室內（半熟、阿德影印、一盞）＋配置 | ce586623 | LAWWW-B 已接成 wz_brunch／wz_print／wz_teahouse 三個區域（861ec9f1） |
+| 08:2x | ART-WZ6 故事小物件 7 件（AA-B 做、我驗收；修平滑著色） | 8d8fe7d4 | 已交，等 LAWWW-B 擺 |
+| 08:2x | 新體育館第一階段（大廳＋1F 球場）GLB＋配置 v2 | 4d19c88d | 已交，等 LAWWW-B 建區域 |
+| 08:3x | ART-WZ5 溫州街的貓 v1（AA-B 做、我驗收） | 6a05f12d | 已交；v2 小修排在 AA-B 的 V0-ART-DORM 之後 |
+| 08:3x | 2D 背景 BG-13／15／16／17（課輔班門口、社科院、霖澤館、椰林大道） | adf126c5 | 已交 |
+| 08:4x | 兩點半 Café ART-WZ4（座位 +7、沙發、門鈴、傘桶、班表）＋patch 說明 | bbc566da | 已交，LAWWW-B 要照 `patches/cafe_wz4.md` 改 zones3d |
+| 08:5x | 新體育館第二階段：3F 主球場（看台、上層看台、大螢幕、吊掛記分板；舞台＋典禮／演講／演唱會三套布置） | 3effc0e0 | 已交，等 LAWWW-B 建 gym_arena 區域 |
+| 09:0x | 溫州街 v6c、三家店室內 v2（一盞天花板單面、影印店、模型葉子）、公館清葉茶行／日日便利、Café WZ4b | b7a091b8 | 已交；在 LAWWW-B 的 861ec9f1 版上拍過遊戲內截圖 |
+| 09:0x | V0-ART-DORM（AA-B 做、我驗收）；GYM-P1 健身器材（BB-B 做、我驗收，第三階段才用） | f2bebf72 | DORM 已交 |
+| 09:1x | BG-11 山上看星星（D09 調成夜晚） | 10c49bf8 | 已交 |
+| 09:1x | 溫州街 v6d（定食店碗盤架＋布暖簾、模型葉子盆栽）、一盞 v3（緣側橫樑淡出）、冰菓室冬天驗收 | f799ba65 | 已交 |
+| 09:2x | 貓 v2（AA-B 做、我驗收） | 9ec16071 | 已交 |
+| 09:2x | 體育館：1F SET_NETS、3F 大牆、入口通道（BB-B 規格核對） | f1e732f8 | 已交 |
+| 09:3x | 新體育館第三階段 B1（大廳、閘門、走廊、健身中心、游泳池）layout v4＋gym_b1.glb | f3180c69 | 已交 |
+| 09:3x | V0-ART-DORM2：阿凱的東西分成 ROOMMATE_KAI 節點 | e8c4aaf0 | 已交 |
+| 09:3x | BG-08 車上（早上、晚上、雨天） | 702a2838 | 已交 |
+| 09:3x | ART-WZ7 溫州街路邊小物（AA-B 做、我驗收） | 97f315ca | 已交；擺上溫州街等效能目標達到後再做 |
+| 09:4x～09:5x | B1 v5（櫃台、置物櫃、體重計、毛巾籃、飲水機、救生員椅）；GYM-P2／P3a v2（BB-B） | cfd5b0f8、5a5a52af | 已交 |
+| 10:5x | 溫州街效能第一輪（392／355／448 → 337／301／372） | 86df67a3 | LAWWW-B 已接 |
+| 11:0x～11:1x | B1 天花板單面實測；B1 v6 隔間牆 WALL_（partition）；XUN_DESK 遊戲內截圖 | 52f00c94、53c57931、cc4f94ef | 已交 |
+| 11:2x | ART-SOY1 豆漿店道具（AA-B）、寶特瓶袋 v2 驗收 | 12a33672 | 已收 |
+| 12:1x | BG-20 豆漿店 | aca65794 | 已交（READY_FOR_ART_REVIEW） |
+| 12:1x | ART-TUTOR1 家教道具（BB-B）、ART-US1 美國公寓客廳家具（AA-B）驗收 | eb9f392e | 已收 |
+| 12:2x | 溫州街效能第二輪（LAWWW-B 量 280／258／298 次 draw call、44.4／42.0／45.6 萬三角形） | 35513f11 | LAWWW-B 已接（0b41a1e8），v9.9 用這一版 |
+| 12:4x | BG-21 學生家的客廳（tutor_home） | 1c025d9a | 已交（READY_FOR_ART_REVIEW） |
+| 12:4x～12:5x | ART-US2 廚房（AA-B）、ART-US3 臥室（BB-B）驗收；LICENSES.md 補今天八件 | 439763c6、586eface | 已收 |
+| 13:0x | SCN-US-01 美國公寓室內（客廳、廚房、臥室家具都擺進去） | da9fb2b6 | 已交（MODEL_READY），不趕 v9.9 |
+| 13:2x | ART-US4 衛浴＋陽台小物（AA-B）驗收、擺進美國公寓；浴缸短牆、白磁磚、窗外地面 | 4a22c067 | 已交（MODEL_READY） |
+| 13:3x | 溫州街效能第三輪：修第二輪的貼圖糊掉（木紋、磁磚、馬賽克…直條紋）＋三角形 −1.3 萬；LAWWW-B 的測試 303／286／321 次 draw call、43.1／40.7／44.3 萬三角形 | e680d48a | LAWWW-B 選 A，進 v9.9 RC2（147c573e） |
+| 13:4x | 三家新店室內的遊戲內截圖（READY_FOR_ART_REVIEW）；一盞和室土牆去污漬（b3lib `contrast`） | dc869911 | 截圖已登記；土牆下一版 |
+| 14:0x | 溫州街效能第四輪：lib2 `atlas_tiles` 2D 貼圖集（不糊），draw call 289／272／307（三個都 ≤310） | 5a78a151 | 已交，下一版 |
+| 14:1x | 溫州街效能第五輪（三角形 43.3／40.9／44.5 → 42.1／39.7／43.3 萬，draw call 不變） | f4c8551c | 已交 |
+| 14:2x | ART-WZ7 路邊小物擺上溫州街三件（外送保溫箱＋安全帽、回收紙箱捆） | 1e7c9a04 | 已交 |
+| 14:4x | 小公園 v4：土地公廟去積木化（供桌、神桌、金身、匾、對聯；花籬不穿廟） | b0077e30 | 已交 |
+| 16:0x | SCENE_RULES 第 9 節：支援素材的驗收清單（得獎遊戲標準；回 AA-B 的 P1） | 1c3bdefd | AA-B 已收 |
+| 16:1x | 精修第 3 批：溫州街路面（主巷、Café 前、三條側巷；機車停車格、斑馬線、水溝蓋、紅線）＋入夜變暗 patch；ART-PARK1 遊戲場（BB-B）擺進小公園、橡膠地墊改顆粒貼圖；機車輪胎 14 邊 | （這一批） | 見下面「進行中」 |
+
+**進行中（16:1x UTC）**：
+- 精修第 3 批溫州街路面：`wz_road_tex.py` 畫三張貼圖（主巷 4096×480、Café 前南北向路 4096×344、三條側巷一張 1088×704），`wz_props.py` 鋪在套件路面上（y 0.016）。
+  - 有：補丁、灌縫、輪跡、油漬、一節一節的混凝土水溝蓋＋鐵柵、白線、禁停紅線、人孔、手孔、「慢」字、靠牆暗角；機車停車格（照遊戲裡 scRow 的位置）；巷口斑馬線（套件那片被蓋住了，畫進貼圖）。
+  - 遊戲內前後截圖拍過（主巷東、西、Café 前、晚上、手機直向、停車格、北巷口、西端巷子、南巷晚上）；draw call +2～3、三角形 +4。
+  - LAWWW-B 要套 `patches/wz_road_nightdark.patch`（入夜變暗＋anisotropy；三個材質 `wz_road_main|ns|side`）。沒套也不會壞：只是晚上路面不會變暗。
+- ART-PARK1（BB-B 82eb09b8）驗收通過，擺進 `wz_park.py`：沙坑往南挪 0.1 m（滑道出口和沙坑木框重疊 2 cm）；溜滑梯下的地墊改磚紅（和滑道的綠分開）；兩塊地墊用顆粒貼圖。
+- 機車輪胎 10 → 14 邊（停車格近景看得出多邊形），每台 +64 三角形。
+
+**派給支援的 AI**（都交我驗收）：
+- BB-B：ART-PARK1 已收（82eb09b8）。
+- AA-B：16:0x 回了「得獎遊戲標準」的驗收清單；提了 US4b 浴室生活小物（不急）、ART-PARK2 鞦韆＋三件體健器材（等她回「確認規格」才算派工）。
+
+**還沒做（我的佇列）**：
+- 溫州街效能：arcade 鏡頭三角形約 43.6 萬（目標 42 萬，第五輪＋WZ7 之後）；draw call 三個鏡頭都 ≤310。剩下大的：機車 4.9 萬（已經精簡）、鐵窗 1.9 萬、店內小東西約 2 萬。
+- WZ7 另外兩件（傘桶、腳踏車鎖）：等三角形預算。
+- 小公園其他還像積木的：鞦韆、體健器材（ART-PARK2 給 AA-B，等她確認規格）、象棋桌、公布欄。
+- 精修第 2 批：全域光影（LAWWW-B 已經有 C.LOOK）。
+- 美國公寓、體育館：LAWWW-B 接好區域後拍遊戲內截圖。
+- BG-04（等照片）；BG-14 永康街咖哩店、BG-19 公館二輪戲院改成使用者生成（BB-B 第 55c 組）。
+
+## ⚠ 使用者 2026-10-16 07:1x UTC：「這次公園看起來蠻好的 我覺得很重要就是 日系加一點寫實 不要很像積木」
+
+- 小公園 v2（老茄苳＋圓椅、修剪過的杜鵑花籬、樹穴、步道收邊）方向對了，照這個方向做下去。
+- **每一批的檢查項目**：近景主要物件不准是方塊拼起來的。
+  - 用倒角、圓弧、旋轉體、斷面拉伸，加一點不規則（高低、寬窄、顏色的小變化）。
+  - 材質與顏色柔和、統一，偏日系。
+  - 寫實的地方：比例、收邊、生活痕跡（樹穴、緣石、磨損、雜物）。
+- 已知還像積木、要重做的：公園的搖搖馬、溜滑梯、土地公廟的廟身；店面的櫃台、冰櫃。
+
+## ⚠ 使用者 2026-10-16 06:2x UTC：美術要像「得獎、Steam 上會賣的遊戲」；美術方向由 LAWWW2-B 自己決定（「你自己決定不要再叫我決定」）
+
+- 使用者原話：「你這個既有的骨架去修根本不會差太多 我要的是參考得獎的遊戲 真的像是STEAM會賣的遊戲 的美術」，接著「你自己決定不要再叫我決定」。
+- **LAWWW2-B 的決定**：美術方向＝**繪本感半寫實環境＋日系動畫人物**。
+  - 參考的技法：環境學《Season: A Letter to the Future》、《Lake》的烘焙光、暖色暮光、空氣感；人物學《Persona 5 Royal》、《Atelier Ryza》的卡通光影、描邊、邊緣光。
+  - 目標畫面是已定的 2D 參考圖 `07`（溫州街 Café 前，黃昏）。
+- **做法**：先做一個垂直切片（溫州街 Café 前黃昏），整套做到商業水準，再推到全遊戲。
+  - 後製：HDR → 光暈 → 色調映射 → 調色 → 暗角。新模組 `src/post3d.js`，LAWWW2-B 的檔案，交 LAWWW-B 接線。
+  - 黃昏光線。
+  - 街道的烘焙環境光遮蔽（AO）和路面細節，放在我的 GLB。
+  - 人物：動畫式臉部光影、頭髮高光。
+- **權限照舊**：
+  - 改引擎的部分做成 patch 交 LAWWW-B 整合，不直接改它的檔案。
+  - 沒驗收的不接進正式遊戲；發布由 LAWWW-B 負責。
+  - 原本「黃昏調色 KEY_GOLDEN 等使用者決定」那一項，現在由 LAWWW2-B 依這個方向決定。
+
+## ⚠ 不停工規則（使用者 2026-10-16 06:1x UTC，永久）：提交半成品、截圖還在跑、等待素材、寫完計畫、回報進度，都不是停止工作的理由——全文見 `WORK_RULES.md` 第 0-1 節。流程是：診斷 → 實際修改 → 截圖比較 → 修正 → 驗收 → 交付 → 主動接下一項。
+
+## 精修進度（LAWWW2-B，2026-10-16 06:0x UTC）——WORK_IN_PROGRESS
+
+- **第 0 批：修改前基準截圖（遊戲內）**
+  - 場景 12 張：`tools/blender/env_second/shots/polish0_before.json`。
+  - 人物：`tools/shots/char_review.py`，開發線 `5ec6a388`，11 人 × 預設版／?blchar；截圖在工作階段暫存區，還沒 commit。
+  - 看到的問題：
+    - 地面：手機直向時下半部是空的灰色地面。
+    - 椰林大道：椰子樹幹白得像油漆桿，樹影又黑又重。
+    - 宿舍：門變半透明，一大片鬼影蓋住畫面。
+    - Café：窗外街景是白方盒。
+    - 人物：臉和脖子一樣亮；頭髮一整塊黑；連帽衫改的領口留著翻領和尖刺（祐廷、以安）。
+- **第 1 批：祐廷（進行中）**
+  - `tools/char_polish.py` 在 `vroid_build.py` 的建置結果上做局部修正，不改 vroid_build.py 本身。重建的網格和貼圖和現行模型逐位元組相同（只差 13 個 accessor 的 min/max）。
+  - 修正內容：
+    - 頭髮：深棕黑。
+    - 領口：剪掉翻領和尖刺，改成圓領加羅紋。
+    - 脖子：畫上下巴投影。
+    - 上衣：淺燕麥灰。
+    - 褲子：霧面炭灰，改寬直筒。
+  - 遊戲內同鏡頭比較 p1～p3 有改善；p4（上衣顏色、寬褲）的截圖正在拍。**還沒換進遊戲、還沒交 LAWWW-B**。
+- **以安**：V 領版試作兩次都不好（第一次領口一圈變成髒灰帶，第二次露出帽口內襯）。使用者 06:0x 中斷，已經停下，`polish_heroine_01` 只是試作。
+- **第 2 批（全域光影）**：ld1 A/B 結果如下，還沒做 patch。
+  - Neutral 色調映射：白天人物膚色、背景比較好；室內變暗。原因是 three.js 的 ACES 內建約 1.67 倍曝光補償，要和曝光表一起調，不能直接換。
+  - AgX：比較灰。
+  - 皮膚陰影加深：臉側有立體感。
+  - receiveShadow：沒有差別。
+- **使用者 06:0x 新問題「街道能不能更像真實的？」**
+  - 回答：可以。從溫州街 Café 前那一段開始，依序處理路面細節（保留 D30 淺灰）、牆面髒污、生活痕跡、光影，然後同鏡頭比較。
+
+## ⚠ 使用者 2026-10-16 01:4x UTC 正式指示：清查原帳號美術交班缺漏（支援完整五學年遊戲）
+
+- **要求**：
+  - 回頭核對舊帳號 LAWWW2 的交接紀錄、舊分支、WIP 分支、`SECOND_AI_HANDOFF.md`、`DUAL_AI_BOARD.md`、LAWWW-B 排程。
+  - 逐項比對已交付、待驗收、WIP、未整合的素材。
+  - 特別查：便利商店第二版、其他 WIP、MODEL_READY／READY_FOR_ART_REVIEW 但沒整合的、覆蓋或遺失或重複製作、各學年與交換與尾聲的新場景、32 處約會的底圖與人物疊圖。
+- **原則**：
+  - 已完成的不要重新建模。
+  - 新場景的劇情用途經 LAWWW-B 或既有流程向 AA-B 確認；純美術技術自主處理。
+  - 每件素材標清楚狀態、來源、位置、規格、遊戲內測試、交付對象、SHA。
+  - 優先順序：嚴重影響玩家體驗的 → LAWWW-B 已排的場景與 32 處約會素材 → 舊 WIP（不放棄）。
+- **做了**：清查報告 **`docs/art-rebuild/second_ai/ASSET_AUDIT_2026-10-16.md`**（`e3d6779`）。
+- **通知**：
+  - LAWWW-B：P1，01:5x 送達，等 ACK；提議把 20 個黑畫面背景排進佇列。
+  - BB-B：P1，問約會人物圖去背的規格。
+- **沒有停止的工作**：nccu_campus、home_living／home_balcony 照舊繼續。
+
+## ⚠ 使用者 2026-10-16（永久）：真實店家的店名一律改成諧音或替代名稱
+
+- 地點、店的種類、排列照真實的畫（要實際查、不要虛構）。
+- **招牌店名改成諧音或替代名**，不畫商標、不照抄品牌配色。
+- 詳見 `WORK_RULES.md` 第 0 節。
+
+## ⚠ D76（使用者 2026-10-16 P0 永久規則）：工作中也要一直收件——LAWWW2 的每個繼任者先讀這一節
+
+全文：`CLAUDE.md` 與 `docs/AI_SESSION_HANDOFF.md` 最上面「P0 永久規則：工作中仍須優先讀取使用者及其他 AI 的新訊息」（LAWWW-B 寫入，`b2d498e`；LAWWW2-B 已合併）。LAWWW2 要特別注意：
+1. **Blender 建模、Cycles 算圖、Playwright 截圖都是長工作**：
+   - 拆成小段，每段之間讀通知。有 queued notifications 就立刻 `ReadNotifications`，讀到 0。
+   - 長的算圖放背景跑。等的時候不要用一個長時間的 `sleep` 迴圈把自己鎖住（等的期間收不到訊息）。
+2. **這次的教訓（LAWWW2-B 2026-10-16 00:02Z）**：
+   - 我在算政大背景、做沛珊模型時，連續跑了一長串工具呼叫。
+   - BB-B（立繪 P0）和 LAWWW-B 的 4 則訊息在佇列裡等了最久 13 分鐘才讀到，使用者因此訂了這條規則。
+3. **分級**：
+   - P0 立刻處理：使用者的新指示、停止或換班、更正；其他 AI 通報衝突或重大 bug。
+   - P1 最近的安全節點：LAWWW-B 的分派、驗收請求；企劃組交付；交接板更新。
+   - P2 可以合併處理。
+   - 收到先回 ACK，說明怎麼排進工作。
+4. **GitHub 也要同步**：開始新的主要任務前，fetch 並重讀以下文件，不靠啟動時讀過的舊版：
+   - LAWWW-B 分支的 `docs/AI_SESSION_HANDOFF.md`、`docs/DUAL_AI_BOARD.md`。
+   - 企劃線的 `docs/story_planning/給開發組_交接板.md`。帳號 B 值班期間在 `claude/cool-heisenberg-o8kuqx`。
+
+## 使用者 2026-10-16 更正（P0）：政大的背景要用真實的店，不要虛構
+
+- 原話：「政大附近有麥當勞 和主要什麼學生會去的店你要實際查 不要虛構」。
+- 這條**取代** LAWWW-B 23:34Z 分派裡「不放真實店名」的做法。校徽、校名照舊不放，除非使用者另外說。
+- 要上網實際查證：政大附近的麥當勞、學生常去的山下店家、校門口的樣子。每一項都要記下來源。
+- 已經停掉用虛構店名算的 1920×1080 正式版（沒有算完、沒有交付）。腳本裡虛構的 `NCCU_FOOD` 店名要換掉。
+
+## ⚠ D75（使用者 2026-10-15 直接指示 LAWWW2-B）：不傳訊息給已交班的另一個帳號
+
+- 另一個帳號是**每週用量到上限才交班**的。對它的任何工作階段 `send_message`（包括「測試」「不用回覆」）、`interrupt_session`、替它排 `send_later`／排程，都會叫醒它、讓它又開始工作、消耗它的額度。**一律不做。**
+- 跨帳號只用 GitHub 文件交接（這份 HANDOFF、總入口、看板）。
+- 只有同一個帳號、而且正在值班的職位之間，才用 `send_message`（例：帳號 B 的 LAWWW2-B → LAWWW-B）。
+- 紀錄：LAWWW2-B 接班時只傳了一則給 LAWWW-B（帳號 B，`session_01DvRVNNnivf7da7qqWuGmw6`，已抄進值班表 `6212adb`），沒有傳給帳號 A 的任何工作階段。
+
+值班登記：帳號 B｜LAWWW2-B｜session_01GV1WG3UeT2DhuDpxeWJsvD｜分支 claude/funny-albattani-iawshm｜接班基準 origin/claude/second-ai-env-art 的 8e1061a（合併進 main 4e203e8 開出的分支）｜2026-10-15 23:1x UTC
+上一班：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜最後 commit 8e1061a（2026-10-14 17:38 UTC，「LAWWW2（帳號 A）交班」）｜正常交班
+
+## 進度（LAWWW2-B，2026-10-16 01:2x UTC）——最新
+
+佇列（LAWWW-B 00:56Z）：自強十舍（等使用者照片；畫「宿舍樓下、有長椅」的角度）→ **nccu_campus「政大・校園裡的路」**（等照片時先做）→ 後備 A（公館腳踏車行、台北的家 2D 兩張）→ 便利商店 v2 收尾。
+
+| 項目 | 狀態 | SHA／位置 |
+|---|---|---|
+| 空橋 skybridge.glb | 已交付；LAWWW-B 決定 RISE 維持 0.6，Y0＝4.2（室內）／4.0（外觀）由 LAWWW-B 處理 | `a22ba0e` |
+| 載妹墊 bike_ride.glb | 已交付；LAWWW-B 整合中 | `aed5e46` |
+| 政大 nccu_gate、nccu_food | LAWWW-B 已整合（`00179902`） | `825c038` |
+| **公館腳踏車行「輪轉單車」**（G06，原「眼鏡・手機維修」，正對校門） | WIP：程式、GLB 已改（`f77d7c5`），遊戲截圖拍好，**導航測試還沒跑**；店內景深卡的牆調暗了還沒 commit | `f77d7c5`＋本機 |
+| **nccu_campus**（醉夢溪畔的步道） | WIP：`bg_nccu.py campus` 場景寫好、低解析度試算三版，**還沒 commit、還沒算正式圖**；查證 `research/nccu_campus_path.md`（沒有照片，外觀推估） | 本機 |
+| 芷若 campus 表情 8 張 | **BB-B ART_APPROVED**（01:04Z）；thinking 不放；neutral 頭頂補完整、白點清掉；**等 LAWWW-B 整合（manifest 重產）** | `724643c`、`824f063` |
+| 轉給 BB-B 的使用者圖 | 學姊約會圖、芷若九表情存在 `docs/story_planning/date_system/art/`（BB-B 也自己存在 `2fd84e1`）；取圖工具 `tools/extract_chat_images.py` | `6c3ab9b`、`d84501a` |
+
+- 本機 worktree：`/home/user/bike_before`（`6c3ab9b`，腳踏車行改之前的截圖用，伺服器 8841；8842＝工作目錄）。容器重開就沒了，沒有獨有的成果。
+
+## 進度（LAWWW2-B，2026-10-16 00:0x UTC）
+
+**LAWWW-B 23:34Z P1 新分派**（使用者 10-15 試玩 v9.7 的 26 項，原話在 LAWWW-B 分支 `docs/USER_INSTRUCTION_LOG.md` `10826bd`），排在便利商店之前：
+- **A 郭沛珊自己的 VRM**：`MODEL_READY`，已交（`78db4a6`）。
+  - 照 BB 已 ART_APPROVED 的參考圖。
+  - 檢視圖、缺點、接法在 `test_shots/peishan_v1/README.md`。
+  - 等 LAWWW-B 接進遊戲、拍遊戲內截圖給 BB 驗收。
+- **B 政大 2D 背景**：`WORK_IN_PROGRESS`，nccu_gate、nccu_food 正在算 1920×1080。
+  - 腳本 `tools/blender/env_second/bg_nccu.py`。
+  - 小吃街：`wz_street.py --set nccu_food`，店名虛構。
+  - 校門：原創石牆＋門柱＋山，沒有校名、校徽。
+  - 之後：nccu_river、nccu_lib、nccu_park。
+- **C 空橋**：已回報現況（不是我的 GLB；zones3d.js 第 193 行的方塊＋teach3d 的 link 門瞬移），等 LAWWW-B 決定要不要做成能走的。
+- 舊佇列已交：
+  - 便利商店第二版（`a41c52e`）。
+  - 女舍門燈（`6f98244`）。
+  - 兩項都是 READY_FOR_ART_REVIEW，整合時間由 LAWWW-B 依使用者排的順序決定。
+- 這個容器的環境：
+  - 已裝：`/opt/blenv`（bpy 5.2.2）、VRM Add-on（`/opt/vrmaddon`）、VRoid 樣本（`tools/vroid_src/`，git 忽略）、python playwright、EGL 函式庫。
+  - 本機 worktree `/home/user/cvs_wt`（LAWWW-B `6212adb`＋本機換的 GLB，**不 commit**，伺服器 8830）。
+
+## 盤點：等使用者驗收的 LAWWW2 成果（佇列③，LAWWW2-B 2026-10-15 23:2x UTC）
+
+查法：`assets/models/env/second_ai/*.glb`、`assets/models/char/second_ai/*`，對 `origin/main`（v9.7 `313d620`＋P0 文件）和 LAWWW-B 開發分支 `claude/modest-rubin-2lyp7g`（`6212adb`）的 `src/` 搜尋檔名與 manifest key。章節＝`VISUAL_REVIEW.md` 的節號（裡面有規格、截圖、缺點）。**下面全部都還沒經使用者驗收**（建築、場景只有使用者能標 ART_APPROVED；人物由 BB 驗收，D59）。VISUAL_REVIEW 各節的「整合」欄有些停在當時的狀態（寫「還沒接」但後來 LAWWW 接了），以這張表為準。
+
+**A. 已經在線上版（v9.7）、等使用者看**——使用者可以直接在 GitHub Pages 走到那裡看：
+
+| 成果 | 檔案 | VISUAL_REVIEW |
+|---|---|---|
+| 兩點半 Café 外觀＋室內 | `cafe_exterior.glb`、`cafe_interior.glb` | 1 |
+| 溫州街近景：主巷公寓、日式宿舍、小公園、街道小物 | `wenzhou_street.glb`、`wz_jphouse.glb`、`wz_park.glb`、`wz_props.glb` | 2、5 |
+| 便利商店室內（**舊版商品**；第二版是 WIP，見「交班（最新）」） | `cvs_interior.glb` | 3 |
+| 阿鳳麵店、舊路書房、宿舍房間 | `noodle_interior.glb`、`bookstore_interior.glb`、`dorm_interior.glb` | 4 |
+| 街道道具（淑女車、路燈、長椅）＋法學院廣場花台、公告欄、販賣機 | `street_props.glb` | 6、14 |
+| 公館騎樓店面街、機車 | `gongguan_shops.glb`、`scooter.glb` | 7、12 |
+| 校園地標：總圖、傅鐘、行政大樓、文學院、校史館、洞洞館、社會科學院 | `campus_library/bell/admin/arts/hist/pavilion/modern.glb` | 8～11、13 |
+| 行道樹（樟樹、榕樹、大王椰子） | `street_trees.glb` | 15 |
+| 新社科院外觀、社科院圖書館一樓 | `campus_socsci.glb`、`soclib_interior.glb` | 16、22 |
+| 萬才館法律學院圖書館 | `lawlib_interior.glb`（在 `assets/models/env/`） | 17 |
+| 騎車用的腳踏車 | `bike_ride.glb`（在 `assets/models/env/`） | 19 |
+| 教學館家具、坐著的聽眾、桌上小物 | `furniture_study.glb`、`seated_figures.glb`、`desk_props.glb` | 23、24、27 |
+| 社團博覽會攤位、系籃半場、總圖 3F、醉月湖 | `club_fair.glb`、`bball_court.glb`、`library_3f.glb`、`campus_lake.glb` | 28～31 |
+| 人物：吳芯慈、許柏翰、阿哲、芷若和柏翰的眼鏡（BB 驗收） | `bl_classmate_xinci/bohan.vrm`、`bl_zhe.vrm`、`glasses_*.glb` | 32 |
+
+**B. 只在開發分支、還沒發布**：
+- 共同教學館外觀（`campus_gongtong.glb`，第 20、33 節）、大一女舍 A／B 棟＋天橋（`campus_freshman.glb`，第 21、33 節）：main 的 `zones3d.js` 有接線，但 manifest 沒有這兩個 key，**線上版看不到**；開發分支有。
+- 杜可昕（`bl_kexin.vrm`，第 32 節，`blOnly`）、8 個路人底模（`bl_npc_*.vrm`，只在 `?npcnew`）。
+
+**C. 還沒接進遊戲**：
+- 118 巷街景 `lane118_street.glb`（第 18 節，等 LAWWW 做區域）。
+- 黃金葛盆栽 `prop_pothos.glb`（manifest 沒有；劇情 `ev_fangyt_pothos` 已經在 main）。
+- 2D 背景 `assets/bg/noodle_table.webp`（`outings3d.js` 的 `noodle_table` 還是 `image:null`）。
+- 便利商店商品第二版（WIP）。
+
+## 接班（LAWWW2-B 帳號 B，2026-10-15 23:1x UTC）
+
+- 使用者在帳號 B 貼 7.2 啟動提示詞。系統指定的分支 `claude/funny-albattani-iawshm` 從 `main`（`4e203e8`）開出；`origin/claude/second-ai-env-art`（`8e1061a`）用 `git merge --no-edit` 合進來，沒有衝突，`src/`、`tests/`、`CLAUDE.md` 跟 main 相同（我的分支只多 LAWWW2 自己的檔案）。
+- 離開期間（10-14 17:38 → 10-15 23:1x UTC）：`claude/second-ai-env-art` 和 WIP 分支都沒有新 commit；開發這邊只有使用者推的 P0 換班規則，以及 LAWWW-B 接班（`claude/modest-rubin-2lyp7g`，`ba8b225`，D75）。沒有發布。
+- **LAWWW 現在是 LAWWW-B**（帳號 B，`session_01DvRVNNnivf7da7qqWuGmw6`，分支 `claude/modest-rubin-2lyp7g`）。我的交付以那條分支為準；`claude/confident-ritchie-8rwh7t` 這段期間不寫入。
+- **D75**：不傳訊息給帳號 A 的任何工作階段（LAWWW、LAWWW2 A），跨帳號只用 GitHub。帳號 B 內正在值班的 LAWWW-B 可以用 `send_message`。
+- 我的分支：`claude/funny-albattani-iawshm`（之後 LAWWW2-B 的成果都 push 這裡；`claude/second-ai-env-art` 這段期間不寫入）。
+- 接下來照下面「交班（最新）」的順序：①便利商店商品第二版（WIP）→ ②女舍門燈罩加大 → ③盤點 READY_FOR_ART_REVIEW 成果；④汽車／約會美術不開工。以 LAWWW-B 的分派為準。
+- 本機 worktree（`/home/user/bg_wt`、`npc_wt`…）是帳號 A 容器上的，這個容器沒有；要重建。
+
+## ⚠ P0：使用者新訊息優先（2026-10-14 使用者給四個 AI 的永久工作規則，D72）——先讀這一節
+
+來源：開發分支 `CLAUDE.md` 最上面「P0 使用者新訊息優先與期末考素材來源」一節（使用者自己寫的 f6c836e／ace5d7e 為準；LAWWW 補註 ccb2edd）、`docs/AI_SESSION_HANDOFF.md` 第 0、4、7 節、`docs/PROJECT_DECISIONS.md` D72、`docs/USER_INSTRUCTION_LOG.md`。LAWWW 15:06Z P0 轉達，LAWWW2 15:08Z 讀過原文確認。
+
+1. **使用者新訊息是 P0**：任何工作中、接班中，使用者一傳訊息，在下一個能處理訊息的時點先完整讀、直接回覆，判斷是提問、討論、糾正、停止命令還是新任務，再決定要不要恢復原本的工作。不能把自己的待辦（Blender 建模、渲染、測試、截圖）排在使用者訊息前面。
+2. **被糾正就立刻停**：收到糾正或「不要做 X」，先停掉衝突的 X，不能嘴上答應卻繼續；已做的成果**只保存、不整合**。不能安全中斷的原子操作（匯出、Git）先完成並保存。工具執行期間讀不到訊息時，不宣稱能即時監控。
+3. **重大指示用固定格式確認**（【新指示確認】）：收到的新指示／對既有工作的影響／立即停止或修改／需要同步的 AI／GitHub 紀錄狀態／接下來處理。不只回「收到」；寫進 GitHub（這份交接最前面、工作清單）並記 commit SHA，沒同步前不說「規則已落實」。
+4. **溝通不等於已讀**：send_message 的 SENT／DELIVERED 不是 ACK；重要更正要同步到 GitHub 交接文件，等對方實際確認；聯絡不到就寫「待確認」，不說對方已處理。
+5. **跨帳號接班**（LAWWW2-B 也一樣）：讀舊待辦之前，先讀這一節和最新交接。GitHub 更新不會自動中斷已經在跑的工作階段，只有實際同步／讀檔後才算採用。
+6. 期末考題庫的緊急停止線是給 AA、BB 的（LAWWW2 不出題）；LAWWW2 只要不把任何考題寫進自己的成果。
+
+**待正式分派（LAWWW 15:06Z 預告，現在不用動）**：使用者 10/14 的新決策（健身體態、汽車、跨縣市約會、校外單獨約會 32 處、半互動 2D 約會場景）之後可能要 LAWWW2 做人物透明素材、道具、腳踏車與汽車相關美術；等 AA、BB 互審交接後 LAWWW 正式分派。
+
+## 交班（最新）：2026-10-14 17:4x UTC｜帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜正常交班
+
+- **原因**：使用者 17:3xZ：「現在換班，請依照既定交班規則完成交班。」
+- **最後 commit**：分支 `claude/second-ai-env-art` 上訊息開頭為「LAWWW2（帳號 A）交班」的那個 commit。
+  - 查法：`git fetch origin --prune && git log -1 --format='%h %ci %s' origin/claude/second-ai-env-art`。
+  - 交班前的上一個 commit 是 `208f242`（便利商店商品 WIP 腳本）。
+- **之後**：不再寫入 LAWWW2 的範圍，直到使用者叫回來（帳號 A 說「我回來了…」，或帳號 B 開 LAWWW2-B）。
+- **接班的人先讀**：上面的 P0 一節 → 這一節 → `test_shots/cvs_goods_wip/README.md`。
+
+### 正在做，停在 WIP（不能整合、不能發布）
+
+1. **便利商店商品第二版**（LAWWW 17:22Z 佇列①；使用者 10-14 回饋⑦「貨架像模板複製貼上」）：`WORK_IN_PROGRESS`／`CHECKPOINT_SAVED`。
+   - 已做：腳本 `tools/blender/env_second/cvs_goods.py`（新）、`cvs_interior.py`（改用它），在 `208f242`。
+   - 遊戲內新舊截圖：入口、零食貨架兩個角度＋並排比較，在 `test_shots/cvs_goods_wip/`（桌機 SwiftShader，不是實機）。
+   - **正式 GLB 沒換**。注意：現在跑 `cvs_interior.py` 會產生 WIP 版，不要輸出到正式路徑。
+   - 還沒做（README 有細節與順序）：
+     - 海報換成貼圖集海報。
+     - 洋芋片、麵包改成鼓起來的袋子。
+     - 依分類畫包裝插圖，並照每個面的長寬比畫（現在袋麵字被拉寬、洗髮精字被壓扁）。
+     - 圓柱平滑著色、接縫對齊側面。
+     - 寶特瓶標籤加高。
+     - 後牆密度。
+     - 四角度＋手機直向／橫向截圖、預算量測，然後交付。
+
+### LAWWW 17:22Z 佇列，還沒開始
+
+2. **女舍門燈罩加大**：我的 `campus_freshman.glb`，腳本 `tools/blender/env_second/campus_freshman.py`，零件 `wz_lamp_lens`，現在 0.36 m。
+   - README 要寫「長椅附近適合加燈的位置」，給 LAWWW 整合時加燈。
+   - 長椅在 C13 截圖 B 的 (−93, 51.5) 附近，建議見 `test_shots/c13_night/README.md` 第 28 行（`W3.lampPost()`＋地面光圈，長椅下鋪一小塊地磚接到步道）。
+3. **盤點**我這邊 READY_FOR_ART_REVIEW、還沒給使用者看的成果清單（檔案、commit、截圖路徑），寫進這份 HANDOFF，方便下次給使用者驗收。
+4. **汽車／約會美術**：**不要開工**，等 AA、BB 交接＋LAWWW 正式分派。
+
+### 其他待辦（順序由 LAWWW 排）
+
+- **普通、博雅 Blender 外觀＋空橋**（舊清單 #43）：
+  - 位置不用再等使用者選：v9.6 已照**方案 A** 發布（開發分支 `docs/RELEASES.md` v9.6「校園方案 A」：醉月湖往北移，普通、博雅在文學院後面，二樓空橋）。
+  - 外觀還是套件方盒（`BLOCKOUT`），沒排進佇列。
+  - 交班時使用者問過 A／B 是什麼，已回答：v9.6 已照 A。使用者想改成 B 就跟 LAWWW 說。
+- 博雅官方平面圖對照 R2（#67，只寫文件，等平面圖）。
+- 小語、明軒模型（暫停中）；路人底模的缺點；溫州街多一兩家店；男宿交誼廳家具。
+
+### 本機狀態（容器重開就沒了；沒有獨有的成果）
+
+- 測試用 worktree，**不要 commit**，交付的東西都已在分支上：
+  - `/home/user/bg_wt`：開發分支 `e6ca3e2`，加本機 noodle_table 接線，cvs 換成 WIP GLB；伺服器 8820。
+  - `/home/user/npc_wt`、`/home/user/v97rc16_wt`、`/home/user/v97rc19_wt`、`/home/user/v97rc5_wt`。
+- scratchpad：cvs WIP 測試 GLB（可以用腳本重建）、截圖原檔（已轉 webp 進 repo）。
+- 沒有跑到一半的 Blender 匯出或背景測試；沒有排程（send_later）。
+
+### 不能合併／發布
+
+- 便利商店 WIP（同上）。
+- 我所有成果都要 LAWWW merge 進開發分支、跑回歸後才能發布。commit／push 只是保存，不是核准，也不是發布。我不碰 `main`、不 force push、不標 ART_APPROVED。
+
+### 通訊
+
+- LAWWW 17:22Z P1（下一段佇列）已在 17:34Z 讀到，寫在上面。
+- 交班通知＋ACK 用 claude-code-remote `send_message` 傳給 LAWWW。狀態以工具結果為準（SENT／DELIVERED 不是 ACK）。
+
+值班登記：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜分支 claude/second-ai-env-art｜接班基準 `1f20126`（＋合併 LAWWW `cb399ea`）｜2026-10-13 12:35 UTC（使用者：「我回來了，請同步 GitHub 最新進度，接續工作。」）→ **2026-10-14 17:4x UTC 交班**（見上一節）
 上一班：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜最後 commit `1f20126`（2026-10-11 10:14 UTC）｜正常交班；中間沒有人接班（LAWWW2-B 沒有建立，遠端沒有別的 LAWWW2 分支）
 交班紀錄：2026-10-11 10:13 UTC 交班（`1f20126`）→ 2026-10-13 回到帳號 A。
 使用者 2026-10-13：帳號 B 暫時沒有開，從上次停下來的地方接著做。
 
-**2026-10-14 05:4xZ（最新）**：
+**2026-10-14 17:00Z**：
+- **LAWWW 16:00Z 佇列**：
+  - ① 2D 背景 noodle_table：**v2 已交**。
+    - 檔案：`assets/bg/noodle_table.webp`，備用 `noodle_table_window.webp`。commit dcc4cf7；腳本 `tools/blender/env_second/bg_noodle_table.py`、`noodle_interior.py --layout longtable`。
+    - 遊戲內 ADV 截圖、LICENSES 一列、接法、自評都在 `test_shots/bg_noodle_table/README.md`。
+    - 狀態 READY_FOR_ART_REVIEW。
+  - ② C13 兩個晚上場景：**已交**（ce301b6，`test_shots/c13_night/README.md`）。不自然處都在 LAWWW 的檔案：
+    - 博雅後牆方形光斑。
+    - 長椅附近沒有燈。
+    - 女舍門口路人坐在空中。
+    - 女舍門燈罩（我的 GLB）可以加大，等 LAWWW 決定。
+  - ③ 汽車／約會美術：等 AA、BB 交接後 LAWWW 正式分派。
+- **已問 LAWWW 下一項**（17:00Z）：女舍門燈罩加大，或便利商店商品（09:53Z 舊佇列，使用者抱怨過「便利商店貨架像模板複製貼上」）。
+- **路人底模**：LAWWW 已整合進開發分支 26c6553，只在 `?npcnew` 下、只給沒名字的路人用；美術 READY_FOR_ART_REVIEW。
+- **給 LAWWW 的遊戲問題**：麵店價目板的字被切掉（zones3d.js attachNoodleInterior 沒有縮字）。
+- **本機 worktree**（都不 commit）：`/home/user/bg_wt`（e6ca3e2＋outings3d.js 一行，伺服器 8820）、`/home/user/npc_wt`（伺服器 8817）。
+
+**2026-10-14 12:41Z（使用者用量約 12:50 UTC 用完，下一個工作階段從這裡接）**：
+- **v9.7 發布測試，我跑的全部 ALL PASS**（log＋截圖在 `test_logs/`）：
+
+  | 測試 | 基準 | 結果 | 秒數 | commit |
+  |---|---|---|---|---|
+  | flow_first_meet | 候選 14 fd46e14＋我的測試 patch（＝候選 16 的測試） | 21 PASS | 901 | d22d317 |
+  | flow_discuss_class | 同上 | 9 PASS | 352 | 57e89fe |
+  | flow_lecture_attend | 同上 | 11 PASS | 869 | f265316 |
+  | see_through | 候選 16 52f288e | 12 PASS | 58 | 5576908 |
+  | flow_library_scene | 候選 16 | 13 PASS | 528 | 60c2e48、1764ab4 |
+  | flow_library_floors | 候選 16 | 27 PASS | 899 | bef3d7c |
+  | flow_boya_interior | 候選 16 | 24 PASS | 1114 | 4985b0a |
+
+  - 測試 patch：`patches/v97_tests_fd46e14.patch`，LAWWW 已做成候選 16。細節見 `test_logs/v97_rc14_fd46e14/README.md`。
+- **v9.7 已發布**（LAWWW 12:32:31 UTC，main＝313d620＝候選 19）。
+  - 候選 19 上的 flow_boya_interior：**ALL PASS**（24 項、1067 秒、不用 turbo），log 在 `test_logs/v97_rc19_313d620/`（d7ffa8c），已回 LAWWW。
+  - LAWWW 要下一個 LAWWW 工作階段把這個結果補進 RELEASES.md。
+  - 這支沒有「手機橫向＋長選單」的情境，不能當成 choose 選單修正本身的驗證。
+- **給 LAWWW 的遊戲問題**（不卡發布，LAWWW 會修引擎）：201 階梯教室點到走不到的地方（下一排桌子邊緣）時，人會原地一直走。證據在 v97_rc14 的 README。
+- **路人底模（LAWWW 09:53Z ①，進行中）**：
+  - VRM：8 個都在 `assets/models/char/second_ai/bl_npc_*.vrm`，2.41–2.74 MB。
+    - nm1、nf1、nf2：f84bee8。
+    - nm2、nm4、nf3、nf4：d972896。
+    - nm3：4af64d9。
+    - 衣服貼圖顏色都核對過。
+  - 接法建議 patch：`patches/npc_ambient_1ca527d.patch`（127d36d）。
+    - assets3d.js 加 8 筆 ambient、沒有 tintBase。
+    - AMB 是新 8 個＋原本 4 個。
+    - **還沒進開發分支**，LAWWW 發布後才看。
+  - 遊戲內對照截圖：腳本 `drafts/npc_crowd_shot.py`，拍共同教學館門口的人流，比較原本和加上 `?npcnew`。
+    - 只在本機 worktree `/home/user/npc_wt` 試接（1ca527d＋本機修改，**不 commit**）。
+    - 第 1 版：同一批 5 個人，原本 2 種模型，加上新的變成 5 種。但鏡頭多是背面，還有樹幹擋住。
+    - 第 2 版：加了整群、側面、正面臉部三種鏡頭。舊模型那一半拍到了（臉部近拍可用），新模型那一半為了跑候選 19 停掉了。
+    - **12:40Z 第 2 版完成 13:05 那一組**：同一批 5 個人，原本 2 種模型，加上新的變成 5 種。
+      - 對照圖 `shots/npc_ingame_g1305_old_vs_new.webp`：左舊右新；四列是整群、側面、正面臉 1、正面臉 2（9c50fdd）。
+      - 單張：`shots/ingame_npc_g1305_*.webp`。
+      - 正面臉 2 被前面的人擋住了。
+      - 15:12 那一組只拍了加上新路人的版本（`shots/ingame_npc_g1512_new_*.webp`，1a59273）：5 人 5 種模型，聊天的那一群看起來是不同的人。
+      - 這組新發現的缺點：nm1 後頸的髮尾有方塊狀的黑邊。可能是髮片貼圖縮到 512 後，透明邊緣變粗。下一版考慮把髮片貼圖留 1024，或把髮尾的 alpha 做柔一點。
+    - 下一步：
+      - 補拍 15:12 那一組的「原本」版本：`python3 drafts/npc_crowd_shot.py http://127.0.0.1:8817/index.html <輸出> both`，伺服器要開在 npc_wt。
+      - 挑圖放 VISUAL_REVIEW，給 LAWWW，標 READY_FOR_ART_REVIEW。
+  - 已知缺點：
+    - 女生四個都是空氣瀏海，側邊髮束細。
+    - nm4 不是設定的「很短的黑髮」。
+    - nm3 側臉左眉外有一片脫離的髮片。
+  - 狀態：MODEL_READY 前的 WIP，還沒進遊戲正式驗收。
+- **之後的佇列**（LAWWW 09:53Z）：②便利商店商品 ③溫州街多一兩家店 ④男宿交誼廳家具 ⑤健身房（先不做）。
+- **暫停的人物**：小語 `yu*.py`、明軒 `mingxuan*.py`（腳本 WIP，還沒跑 Blender）。
+
+**2026-10-14 10:45Z**：
+- **正在做（LAWWW 10:31Z P1，11:40 前）**：v9.7 發布前最後三支測試，只改 tests/。
+  - 基準：fd46e14（候選 14）＝候選 8 遊戲＋候選 7／8／9 的這三支測試（LAWWW 10:42Z 確認）。
+  - 修改：`patches/v97_tests_fd46e14.patch`（`d972896`，WIP）。
+    - flow_first_meet：讀整句台詞 GAME.D.full；追人用跑的、每 2 秒重新瞄準、最多 90 次；追不到寫她的位置與作息。
+    - flow_discuss_class：A 等路線走完、停下來才看「坐下」，卡住時寫 log 再用搖桿推；B 等遊戲時間走過 2 分鐘再開手機，照手機現在的格式比對內容＋說話的人。
+    - flow_lecture_attend：坐下後等選單出來、選項印進 log、照文字選「坐一下」。
+  - 正在跑：worktree `/home/user/v97rc5_wt`（fd46e14＋修改，還沒 commit 到那邊），伺服器 8813。
+    - 排程：`scratchpad/v97fix14/chain.sh`，順序 first_meet → discuss_class → lecture_attend；log 在 `scratchpad/v97fix14/`。
+  - 跑完：log 複製到 `test_logs/v97_rc14_fd46e14/`，push，回 LAWWW SHA。
+- **路人底模（LAWWW 09:53Z ①，暫停到測試做完）**：
+  - 第一批 nm1、nf1、nf2（f84bee8）。
+  - 第二批 nm2 v2、nm4、nf3、nf4（d972896）：貼圖顏色都核對過，和設定相同。
+  - nm3 匯出失敗：五個一起建時，h01_clothes 的 `WIP/clothes_Trouser.png` 被互相覆蓋，打包到寫到一半的檔案。
+    - 已改 npc.py：每個路人用自己的暫存資料夾。nm3 要重建。
+  - 已知缺點：女生都是空氣瀏海、側邊髮束細；nm4 不是設定的「很短的黑髮」，是側分長瀏海。
+  - 下一步：重建 nm3、在遊戲裡拍路人群的截圖、給 manifest／AMB 接法建議，標 MODEL_READY。
+
+**2026-10-14 09:0xZ（使用者 09:00：用量快到，兩小時內一定要存檔）**：
+- **做到哪**：
+  - v9.6：我跑的三項（flow_main_day12、flow_teaching_buildings、flow_soclib）全部 PASS；LAWWW 07:46 已發布 v9.6（main e88bda5）。
+  - v9.7 已回報 LAWWW 的結果：
+    - flow_typhoon PASS（候選 4＝我的 patch）。
+    - cg_rain_shots PASS（直向、橫向）。
+    - flow_invite_phone PASS。
+    - flow_first_meet：候選 6 是 16 PASS／4 FAIL，LAWWW 在候選 8 修了遊戲（按鈕名字）和測試。
+    - flow_lecture_attend、flow_discuss_class：都是測試的問題（座位有人），LAWWW 在候選 6、7 修了測試。
+  - 紀錄：`test_logs/v97_rc3_8ac75f6/`、`test_logs/v97_rc6_7c5d4c2/`。
+  - patch：`patches/playlib_rotate_8ac75f6.patch`、`flow_typhoon_bed_course_a8f05de.patch`（LAWWW 已套進候選 4）。
+- **正在跑**（`/home/user/v97rc5_wt` checkout 候選 8 `3e5201d`，伺服器 8813，排程 `scratchpad/v97rc5/chain8.sh`）：
+  1. flow_lecture_attend（候選 6/7 的遊戲，08:47 開始）
+  2. adv_cg_layout
+  3. flow_main_day12
+  4. flow_teaching_buildings
+  5. flow_soclib
+  6. campus_glb_integration
+  7. flow_first_meet（候選 8 重跑）
+  8. flow_discuss_class
+  - 結果在 `scratchpad/v97rc5/summary.txt`；每項跑完回報 LAWWW、推紀錄。
+  - LAWWW 那邊跑：flow_class_real、campus_layout_nav、joystick_direction、flow_classes、flow_linze_floors。
+- **沒測**：上面 8 項還沒跑完的部分；手機實機都沒測（全部是 Playwright＋SwiftShader 模擬）。
+- **下一步**（LAWWW 08:46Z 派的，v9.7 測完才開始）：
+  1. 便利商店商品：Blender 做多種虛構包裝、貨架分區、冷藏櫃玻璃；instancing／合併材質；修改前後截圖；MODEL_READY。
+  2. （候補）宿舍交誼廳家具組：沙發、長桌、自習桌、電視、飲水機、公告欄、洗衣間一角、信箱。
+- **人物（暫停，使用者 06:52「只跑測試、不做新模型」）**：
+  - 小語 `yu*.py`、明軒 `mingxuan*.py` 腳本 WIP，都還沒跑 Blender。
+  - 沛珊的參考圖看過：低馬尾、深色圓框眼鏡、酒紅 T 紮進深藍長裙、黑帆布鞋。
+- **注意**：等待排程不要用 `pgrep -f <測試名>`（會比到啟動它的 shell，08:33–08:46 因此卡住）；改用等 PID（`kill -0`）。
+
+**2026-10-14 06:4xZ**：
+- **LAWWW 06:09Z 更正（ACK 已回）**：先幫 v9.6 收尾，再做 v9.7。
+  - v9.6 候選 13 `ba435d5`（bundle 在開發分支 `wip_backup/v96-rc13.bundle`），乾淨 worktree `/home/user/rc13_wt`，伺服器 8811。
+  - flow_main_day12：**ALL PASS**（29 項，06:20–06:33，已回報）。
+  - flow_teaching_buildings：06:33 開始，跑完要立刻回報。
+- **v9.7（636688f）**：
+  - flow_typhoon FAIL，看起來是三個原因連鎖（紀錄＋分析在 `test_logs/v97_636688f/README.md`，`19a96bb`，已回報）。
+  - 「手機點不開」的診斷腳本：`scratchpad/v97/diag/phone_diag.py`。等候選 13 跑完才開瀏覽器。
+  - 之後從 cg_rain_shots 起跑其餘 6 項；flow_main_day12 等 LAWWW 給合併 commit 再跑。
+- **小語**：
+  - `yu.py`、`yu_face.py`、`yu_hair.py` 已 commit（WIP）。
+  - `yu_clothes.py` 已寫好，還沒跑 Blender：拼色貼圖照 3D 位置烘、直褶裙＋腰帶＋扣子＋帶尾、立領合併進外套。
+  - 回歸跑完才開 Blender。
+
+**2026-10-14 06:1xZ**：
+- **交付**：
+  - 杜可昕 `0171f66`（MODEL_READY，VISUAL_REVIEW 32.5）。
+  - 共同教學館、大一女舍合併材質 `8902c5f`：開發分支實測 ALL PASS，gate_avenue ×1.097；VISUAL_REVIEW 33。測試要換 `patches/campus_glb_integration_dev_636688f.patch`。修改前後截圖還沒拍：`drafts/gt_fd_shots.py`；舊 GLB 備份在 `scratchpad/t96/campus_*_before.glb`。
+- **LAWWW 06:02Z P1（進行中）**：在 `/home/user/v97_wt`（636688f）、伺服器 8810 跑 v9.7 回歸 8 項，一次一個（`scratchpad/v97/chain1.sh`；結果在 `scratchpad/v97/summary.txt`、`*.log`）。每 3–4 項回報 LAWWW。第二步要等 LAWWW 的合併 commit，再跑發布前清單的後半段。
+- **LAWWW 已接**：測試清單 `f7dbd96`、蒲葵 0.45 `c9c2ea7`、總圖 3F 正式模型 `bc02c5d`、柏翰 `0f11222`。
+- **下一位人物**：小語，參考圖 `yu.webp`。
+  - 棕色中長捲髮、金色髮夾。
+  - 淡黃／白／灰藍拼色風衣外套、白 T 紮進酒紅百褶過膝裙。
+  - 白帆布鞋、黑斜背包＋三個吊飾。
+  - 回歸跑完、對照截圖拍完再開工。
+
+**2026-10-14 05:4xZ**：
 - **v9.6 測試**：
   - LAWWW 已把 campus_layout_nav patch 套進 v9.6 候選 11（ACTIONED）。
   - 合併版 campus_glb_integration（RC9／開發分支兩份 patch）在 `c2d893c`：RC9 ALL PASS；開發分支只剩效能。

@@ -27,7 +27,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   const s3=satOf('Y1S1',3), s4=satOf('Y1S1',4), s1=satOf('Y1S1',1), s5=satOf('Y1S1',5), y2=satOf('Y2S1',3);
   const mk=(day,h,stage)=>{ fresh(day,h,'wancai',{},stage||'law'); return G; };
   check('1. 值班的週六：第 3、5 週（單週、第 3 週起）；第 1、4 週不是；經濟系那一年不是',STORY.fafuDuty(mk(s3,10))&&STORY.fafuDuty(mk(s5,10))&&!STORY.fafuDuty(mk(s1,10))&&!STORY.fafuDuty(mk(s4,10))&&!STORY.fafuDuty(mk(STORY.dayOfKey('2024-09-21'),10,'econ')));
-  check('1. 大一可以旁觀；大二上的值班週六不能（志工從大二開始，另外做）',STORY.fafuWatchable(mk(s3,10))&&!STORY.fafuWatchable(mk(y2,10)));
+  check('1. 大一可以旁觀；大二上：沒加入法服的照樣可以旁觀（AA_184：四年都可以），加入法服的社員改做紀錄、不旁觀',STORY.fafuWatchable(mk(s3,10))&&STORY.fafuWatchable(mk(y2,10))&&(()=>{ const g=mk(y2,10); g.flags.lawclub=true; return !STORY.fafuWatchable(g); })());
   const d5=CALENDAR.dateOf(s5);
   check('2. 告示：值班的上午只寫「法律服務　隔週週六 9:00～12:00　萬才館一樓」；第 4 週寫下一次（第 5 週週六）',STORY.fafuNotice(mk(s3,10))==='法律服務　隔週週六 9:00～12:00　萬才館一樓'&&STORY.fafuNotice(mk(s4,10))==='法律服務　隔週週六 9:00～12:00　萬才館一樓　下一次：'+d5.m+'/'+d5.d+'（六）',STORY.fafuNotice(mk(s4,10)));
   mk(s3,9.5); said=[]; await STORY.fafuWatch(GM); let L=said.map(x=>x.t);
