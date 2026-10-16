@@ -231,7 +231,7 @@ def check(args):
             for s in re.split(r'[／/、,\s]+', d.get('sha', '')):
                 if s:
                     known.add(s[:7])
-            for tid in re.split(r'[、,，\s]+', d.get('task', '')):
+            for tid in re.split(r'[、,，\s]+', d.get('task') or ''):
                 if tid and tid not in byid:
                     A(6, f'交付 {did}：任務 {tid} 不在任務表（交付沒有登記到任務）')
                 elif tid and byid[tid]['status'] == '已驗收':

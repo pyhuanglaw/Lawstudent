@@ -1015,8 +1015,8 @@
    "title": "經濟系存檔帶到法律系",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "—",
+   "status": "已整合待測試",
+   "next": "經濟系 → 法律系已接（AA_154 2-4b 第 4、5 點）：8/31 早上（在家＝home3d 那一輪、不在家＝S.tick）3b② → GM.backupNow「經濟系那一年的最後一天」（fatiao3d_backup、fatiao3d_backup_y0end）→ 字卡「2025 年 9 月　臺大法律系　大一」→ 3b③ → stage law、9/17 21:12 宿舍（接 introDorm）；dating_kexin＝true、KX_FIRST_MSG＝false、MET_XUN、MET_PINYU、KNOWS_TANG、PLAYED_Y0；可昕第一則多「第二次的大一。我們都是重考上來的。」；tests/v0_tolaw_unit.js。待：瀏覽器從 ?y0 開局一路玩到 8/31 換階段的流程測試；標題畫面開放經濟系開局（之後一版）；備份檔還沒有讀取的按鈕；AA-B 問「錢（暑假 +22000）」是什麼",
    "priority": "P2",
    "first": {
     "term": "Y0S2",
@@ -1102,7 +1102,7 @@
    "area": "V0",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "已接：E01、★E02（AA-B 定案 A、兩句旁白 268d529d）、E03（＝BB_105 B1：經原第 2 週那一堂、第 2 週沒去就在之後第一次出席時上，記 Y0_B1_ANSWER＝選項原文；tests/v0_e03_unit.js）、P2（第一次）、★E05、★E06／D2、E08 中秋系烤（BB_153；9/16 全班群組揪、9/21 韋綸私訊→出遊；沒去版；tests/v0_e08_unit.js）＋兩個群組（AA_157：全班群組 E02 加入、「走啦」P2 去成那晚建立；經濟系開局不再第一天就有「走啦」）、E04 微積分（課堂裡，第 2 週）、E07 社團博覽會（Y0_CLUB；沒去＝9/21 12:30 可昕私訊選社團，時間已問 AA-B）、E09 小福午餐（第 4 週平日中午；tests/v0_e07_unit.js）；（颱風 T0a／T0b 記在 V0-B4）P2 補演（今天先回去的玩家下一次會計下課再演，到第 5 週）、P1b 兩種（10/3、10/17；tests/v0_p1b_unit.js）、★E10 去總圖其實沒念（10/15 22:30 可昕邀→10/16 走進總圖三樓；不答應或沒到＝小福那一版；E10_STUDY；tests/v0_e10_unit.js；10/15 群組聚會的內容已問 AA-B）、E11 期中考後（10/31 會計考完；AA_154 寫 11/1 已問 AA-B；tests/v0_e11_unit.js）、★E12 長頸鹿的尾巴（AA_154 A32：17:30 可昕私訊＋出發選單只帶到湖邊、19:45～20:15 她在南岸步道、20:30 手機版一定要回、E12_ANSWER；邀約和手機版開頭兩句是 AA 暫定句，等 BB-B 定稿；tests/v0_e12_unit.js）、★E14 保齡球館（AA_154 A33：11/14 21:00 群組約、出發選單、19:15 沒出發＝韋綸打電話直接進出遊；品妤和韋綸兩句是 AA 暫定；tests/v0_e14_unit.js）、E17 校慶拍賣攤分兩段（AA_154 A36：11/8 12:30 群組約→19:00 社科院備料 2D 出遊、11/9 10～16 椰林攤位；兩天都沒去＝18:00 群組照片；前一晚沒去的開頭句等 BB-B；tests/v0_e17_unit.js）、E15 宿營（11/20 家豪學長兩則、11/21「走啦」兩則〔BB-B e0e7a359〕、11/22 出發選單、三天兩夜到週日 16:00、大合照、沒去版；tests/v0_e15_unit.js、v0_c2_unit.js）、E18 即興劇小公演（A36：11/28 21:00 邀約、出發選單 19:00／Y0_EXTRA 18:30、IMPROV_LINE 沒有就 E12_ANSWER、沒去＝隔天唐睿影片；先 2D 出遊，博雅沒有指定的借用教室；tests/v0_e18_unit.js）、E18a 豆花（12/3 22:00 人在總圖；E18A_DOUHUA；tests/v0_e18a_unit.js）、E16 分組報告（第 15 週分工 E16_ROLE、第 16 週報告、寫報告的前一晚私訊、翹課＝absent；tests/v0_e16_unit.js）、E20 聖誕交換禮物（BB_153＋A36：12/23 邀約、12/25 17:00 兩則、出發選單、−500、GIRAFFE_KEYCHAIN 兩種沒去版；tests/v0_e20_unit.js）、E22 期末通宵（A38：12/22 群組、出發選單 22:00、01:00 演、02:00 回宿舍；沒去照片）、E21a 跨年（12/31 群組三則、19～22 在總圖或出發選單、跳到 23:00、E21A_WENT；沒去照片＋私訊）——總圖 B1 還沒有 3D，先 2D 出遊；tests/v0_e22_unit.js、E22b 法律入門書（1/2 下午總圖二樓，E22B_TOLD）、★E19 誤會（1/2 群組、出發選單、19:15 電話、E19_ASK、不問版 1/4 私訊；開頭三句旁白取自 BB_104 3-1 的描述，等 BB-B 確認；tests/v0_e19_unit.js）；下一批 A2、T1、B2、C1、E10、E12、E20、E28、E34；定稿換字（10:55 AA-B／BB-B）：10/15 聚會先桌遊後夜市、E10 沒去版 22:30 兩則、E12 邀約／手機版開頭／收尾、E14 品妤與韋綸電話；E17 群組兩則＋只演後半的開頭（BB-B 定稿 76eed22b）；E14 睡覺邊界：19:15 前上床＝19:15 被電話吵醒（STORY.coreCallAt，E19 共用）；E19 開頭換成 BB-B 定稿（0afc435d）；E22b、E19 日期照課表最後一場期末考（A34，662b25d2，STORY.y0FinalEnd）；C2、E15 換成定稿（a0203a9d）；E13 大家走了以後三種（接在 P2b 散場，60bedabc）；寒假（F1、★E21、E24、★E23，ffbf3a8f／09ae6f95；tests/v0_winter_unit.js）、★E24b（3c89ff51）、★E24c（AA_169 完整稿，c996e5f3）、★E25（891c3fbd）、★E26（c595353c，CG 還沒有）、★E27（187785e0）、E28（441cd77a）、★E30＋便利貼（c996e5f3）已接；下一步 A3 搬家、1-3b 從家裡出發、A39 重考期起床選單、R1～R8、E18b、E31～E37、2-4b 換階段（v9.9 之後）；★E35 考試的前一晚（AA_154 A41＋BB_104 8b-18：7/10 18:00 可昕私訊兩則、出發選單「女舍門口 21:00」從臺北的家 30 分鐘、20:45～21:15 走到她旁邊＝3D 版（演完直接回家）、沒到＝21:30 電話版（在家＝home3d 那一輪、睡著＝電話叫醒 coreCallAt、在外面＝當場）；E35_PLAN／E35_MET；tests/v0_e35_unit.js）已接；E35_PLAN 的回聲「你說考完要去（那裡）。我查好了。」三個選項各自的「那裡」等 AA-B",
+   "next": "已接：E01、★E02（AA-B 定案 A、兩句旁白 268d529d）、E03（＝BB_105 B1：經原第 2 週那一堂、第 2 週沒去就在之後第一次出席時上，記 Y0_B1_ANSWER＝選項原文；tests/v0_e03_unit.js）、P2（第一次）、★E05、★E06／D2、E08 中秋系烤（BB_153；9/16 全班群組揪、9/21 韋綸私訊→出遊；沒去版；tests/v0_e08_unit.js）＋兩個群組（AA_157：全班群組 E02 加入、「走啦」P2 去成那晚建立；經濟系開局不再第一天就有「走啦」）、E04 微積分（課堂裡，第 2 週）、E07 社團博覽會（Y0_CLUB；沒去＝9/21 12:30 可昕私訊選社團，時間已問 AA-B）、E09 小福午餐（第 4 週平日中午；tests/v0_e07_unit.js）；（颱風 T0a／T0b 記在 V0-B4）P2 補演（今天先回去的玩家下一次會計下課再演，到第 5 週）、P1b 兩種（10/3、10/17；tests/v0_p1b_unit.js）、★E10 去總圖其實沒念（10/15 22:30 可昕邀→10/16 走進總圖三樓；不答應或沒到＝小福那一版；E10_STUDY；tests/v0_e10_unit.js；10/15 群組聚會的內容已問 AA-B）、E11 期中考後（10/31 會計考完；AA_154 寫 11/1 已問 AA-B；tests/v0_e11_unit.js）、★E12 長頸鹿的尾巴（AA_154 A32：17:30 可昕私訊＋出發選單只帶到湖邊、19:45～20:15 她在南岸步道、20:30 手機版一定要回、E12_ANSWER；邀約和手機版開頭兩句是 AA 暫定句，等 BB-B 定稿；tests/v0_e12_unit.js）、★E14 保齡球館（AA_154 A33：11/14 21:00 群組約、出發選單、19:15 沒出發＝韋綸打電話直接進出遊；品妤和韋綸兩句是 AA 暫定；tests/v0_e14_unit.js）、E17 校慶拍賣攤分兩段（AA_154 A36：11/8 12:30 群組約→19:00 社科院備料 2D 出遊、11/9 10～16 椰林攤位；兩天都沒去＝18:00 群組照片；前一晚沒去的開頭句等 BB-B；tests/v0_e17_unit.js）、E15 宿營（11/20 家豪學長兩則、11/21「走啦」兩則〔BB-B e0e7a359〕、11/22 出發選單、三天兩夜到週日 16:00、大合照、沒去版；tests/v0_e15_unit.js、v0_c2_unit.js）、E18 即興劇小公演（A36：11/28 21:00 邀約、出發選單 19:00／Y0_EXTRA 18:30、IMPROV_LINE 沒有就 E12_ANSWER、沒去＝隔天唐睿影片；先 2D 出遊，博雅沒有指定的借用教室；tests/v0_e18_unit.js）、E18a 豆花（12/3 22:00 人在總圖；E18A_DOUHUA；tests/v0_e18a_unit.js）、E16 分組報告（第 15 週分工 E16_ROLE、第 16 週報告、寫報告的前一晚私訊、翹課＝absent；tests/v0_e16_unit.js）、E20 聖誕交換禮物（BB_153＋A36：12/23 邀約、12/25 17:00 兩則、出發選單、−500、GIRAFFE_KEYCHAIN 兩種沒去版；tests/v0_e20_unit.js）、E22 期末通宵（A38：12/22 群組、出發選單 22:00、01:00 演、02:00 回宿舍；沒去照片）、E21a 跨年（12/31 群組三則、19～22 在總圖或出發選單、跳到 23:00、E21A_WENT；沒去照片＋私訊）——總圖 B1 還沒有 3D，先 2D 出遊；tests/v0_e22_unit.js、E22b 法律入門書（1/2 下午總圖二樓，E22B_TOLD）、★E19 誤會（1/2 群組、出發選單、19:15 電話、E19_ASK、不問版 1/4 私訊；開頭三句旁白取自 BB_104 3-1 的描述，等 BB-B 確認；tests/v0_e19_unit.js）；下一批 A2、T1、B2、C1、E10、E12、E20、E28、E34；定稿換字（10:55 AA-B／BB-B）：10/15 聚會先桌遊後夜市、E10 沒去版 22:30 兩則、E12 邀約／手機版開頭／收尾、E14 品妤與韋綸電話；E17 群組兩則＋只演後半的開頭（BB-B 定稿 76eed22b）；E14 睡覺邊界：19:15 前上床＝19:15 被電話吵醒（STORY.coreCallAt，E19 共用）；E19 開頭換成 BB-B 定稿（0afc435d）；E22b、E19 日期照課表最後一場期末考（A34，662b25d2，STORY.y0FinalEnd）；C2、E15 換成定稿（a0203a9d）；E13 大家走了以後三種（接在 P2b 散場，60bedabc）；寒假（F1、★E21、E24、★E23，ffbf3a8f／09ae6f95；tests/v0_winter_unit.js）、★E24b（3c89ff51）、★E24c（AA_169 完整稿，c996e5f3）、★E25（891c3fbd）、★E26（c595353c，CG 還沒有）、★E27（187785e0）、E28（441cd77a）、★E30＋便利貼（c996e5f3）已接；下一步 A3 搬家、1-3b 從家裡出發、A39 重考期起床選單、R1～R8、E18b、E31～E37、2-4b 換階段（v9.9 之後）；★E35 考試的前一晚（AA_154 A41＋BB_104 8b-18：7/10 18:00 可昕私訊兩則、出發選單「女舍門口 21:00」從臺北的家 30 分鐘、20:45～21:15 走到她旁邊＝3D 版（演完直接回家）、沒到＝21:30 電話版（在家＝home3d 那一輪、睡著＝電話叫醒 coreCallAt、在外面＝當場）；E35_PLAN／E35_MET；tests/v0_e35_unit.js）已接；E35 考完以後（AA_154 A47＋BB_104 8b-18：7/14 20:00 可昕私訊兩則、7/19 摘要日字卡＋AA 的旁白、演完到 20:00；tests/v0_e35_unit.js 9）已接；★E36 放榜已接（BB_104 8-11、8b-19＋AA_154 A35、2-4b 第 1 點：8/13 10:00 可昕私訊＋出發選單椰林大道 20:00、19:45～20:30 長椅旁 3D、20:30 帶到場（在家＝home3d 那一輪、睡著＝coreCallAt 叫醒）、E25_ANSWER only_me 多兩句、E36_REPLY／E36_PACT（BB-B 754e7136、ec47463b，第②級等 AA-B 確認）、22:00 放榜的宵夜（AA_106 3b①）、23:30 群組照片；tests/v0_e36_unit.js）；AA_154 A49 已接：白天兩句系統旁白（ev_y0_e36r／rh，之後才有可昕的私訊；睡著 10:00 醒來）、E29 旁白在椰林大道開頭（讀書日多／玩樂日多，一樣多不說）；★E37 第一次一起去政大已接（BB_104 8b-20＋AA_154 A40：8/28 21:00 可昕私訊、出發選單 8/30 政大校門 14:00（從家 40 分鐘，OUT.trip 比 30 分鐘遠的照原本）、14:15 可昕打電話直接進出遊（在家＝STORY.homeCall、睡著＝CORE_OUT、在外面＝phoneRules）、演完回臺北的家；tests/v0_e37_unit.js）；剩 2-4b 8/31 換階段（3b② → 備份 → 字卡 → 3b③ → 法律系 9/17）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -1144,7 +1144,7 @@
    "area": "V0",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "A1、T1、A2 已接；T2 唐睿的練習已接（268cd7c9：W10～W13 週一經原下課 50%；說漏嘴那一句的位置等 BB-B 確認；tests/v0_t2_unit.js）；韋綸的腳踏車已接（9356501a：11/7 固定、沒去版、11/21 後續；AA_154 2-5b、BB-B 法律審查 7cf231c3；tests/v0_p2b_unit.js）；T3 已接（3c89ff51）；XL-2 已接（93d95ccb）；A3（退宿 3/29）、R1～R8 待開工；重考期 R 系列已接（AB-38 BB-B 4380b0eb＋AA_154 A39／A45）：可昕到博雅＝她 Y0S2 最後一堂下課＋10 分鐘（週五、週末、放假、暑假 10:00）；讀書日 R1（3/28）、R5（4/2）、R2（第 8 週第一個讀書日）、其他日子 S1～S5 輪流（每天一次；R1 沒演到＝那句移到下一次）；玩樂日＝她下課以後的 2D 出遊：R3（3/30～4/1）、R6（第 12 週，最晚 5/10）、其他日子 P1～P6 旁白輪流，habit retake:play；R4 4/19 16:00～18:00 總圖外台階（3D，E32_COMFORT）；R7 5/23 21:00 阿勳群組＋5/24 14:00 保齡球館；沒遇到的照片、私訊（當天 21:00，R7 17:00）；2D 出遊從家裡出發的演完回家（之前回到宿舍）；tests/v0_retake_r_unit.js。待 AA-B：R4 沒有邀約（玩家怎麼知道她在總圖外台階）、R7 沒有便利貼（Y0_STICKY_HOME false）時群組怎麼說",
+   "next": "A1、T1、A2 已接；T2 唐睿的練習已接（268cd7c9：W10～W13 週一經原下課 50%；說漏嘴那一句的位置等 BB-B 確認；tests/v0_t2_unit.js）；韋綸的腳踏車已接（9356501a：11/7 固定、沒去版、11/21 後續；AA_154 2-5b、BB-B 法律審查 7cf231c3；tests/v0_p2b_unit.js）；T3 已接（3c89ff51）；XL-2 已接（93d95ccb）；A3（退宿 3/29）、R1～R8 待開工；重考期 R 系列已接（AB-38 BB-B 4380b0eb＋AA_154 A39／A45）：可昕到博雅＝她 Y0S2 最後一堂下課＋10 分鐘（週五、週末、放假、暑假 10:00）；讀書日 R1（3/28）、R5（4/2）、R2（第 8 週第一個讀書日）、其他日子 S1～S5 輪流（每天一次；R1 沒演到＝那句移到下一次）；玩樂日＝她下課以後的 2D 出遊：R3（3/30～4/1）、R6（第 12 週，最晚 5/10）、其他日子 P1～P6 旁白輪流，habit retake:play；R4 4/19 16:00～18:00 總圖外台階（3D，E32_COMFORT）；R7 5/23 21:00 阿勳群組＋5/24 14:00 保齡球館；沒遇到的照片、私訊（當天 21:00，R7 17:00）；2D 出遊從家裡出發的演完回家（之前回到宿舍）；tests/v0_retake_r_unit.js。待 AA-B：R4 沒有邀約（玩家怎麼知道她在總圖外台階）、R7 沒有便利貼（Y0_STICKY_HOME false）時群組怎麼說；AA_154 A48（AA-B d5a9bc96、BB-B 588459e1）：R4 4/19 15:45 可昕兩則；便利貼人人都有（e30_note 窗口放寬到搬走以前、A3 開頭還沒看過先演那一則）；3/29 從家裡帶回宿舍最早 10:00 到",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -1206,8 +1206,8 @@
    "title": "回聲 P4、P4b、P4c、P4e、D1",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "—",
+   "status": "已整合待測試",
+   "next": "P4＋P4c（ev_p4_retake：大一上第 3 週週五第一次重修經原 beforeClass；full 版本、三選一、ECON_PAST_SHARED 只升不降）、P4b（ev_p4b_familiar：第 4、5、7 週下課 50%）照 AA_154 A51 接了；P1 座位按鈕改成「（坐在阿勳旁邊）」等；tests/v1_p4_unit.js；P4d、P4e 之前已接；D1 照 BB_105（另排）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -1446,7 +1446,7 @@
    "area": "V2",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "10-3 共同教學館的阿勳已做（ev_xun_gongtong；tests/v2_b10b_unit.js）：三個選項、xun_met 群組一句、pact 行程表。第 2 級：真的走到共同二樓自習區、走近阿勳觸發",
+   "next": "10-3 共同教學館的阿勳已做（ev_xun_gongtong；tests/v2_b10b_unit.js）：三個選項、xun_met 群組一句、pact 行程表。第 2 級：真的走到共同二樓自習區、走近阿勳觸發；剩下的「交往中可昕週四『演講怎樣？』」已接（AA_172 第 5 節＋BB-B 4087b3b7：第 11 週週四 22:00 兩則、三個回覆、第一個照 B4 聽完／前半／沒去、開到隔天 18:00；tests/v2_c13_kxb4_unit.js）",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -1467,7 +1467,7 @@
    "area": "V2",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "第 2 級：讀檔到大一下第 12 週憲法二（聽過／沒聽 B4 各一次）看回想那一句",
+   "next": "第 2 級：讀檔到大一下第 12 週憲法二（聽過／沒聽 B4 各一次）看回想那一句；AA-B 10-16 13:48：條件改成「聽完」（recall full:true → ACTIVITIES.attended；中途離開沒有，交接包_v2 L200）＋旁白補後半句（交接包_v2 L199）；BB-B 的 syllabus 原檔也要補（AA-B 轉了）；tests/v2_c15_unit.js 3c",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -1509,7 +1509,7 @@
    "area": "V2",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "第 2 級：讀檔到大一下第 16 週週日 20:50，等到 21:00 看手機（PS_CANCEL ok／其他各一次）",
+   "next": "第 2 級：讀檔到大一下第 16 週週日 20:50，等到 21:00 看手機（PS_CANCEL ok／其他各一次）；AA-B 10-16 13:47（AA_172 改正 3fd2d5fc）：照 v9.8 上線的做，不改程式；BB_96 3-7 文件照上線的改（BB-B）",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -1572,7 +1572,7 @@
    "area": "V2",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "第 2 級局部瀏覽器測試；記憶名稱 BB_133 §7、AA_139 已加",
+   "next": "第 2 級局部瀏覽器測試；記憶名稱 BB_133 §7、AA_139 已加；10-16 重新匯入（企劃線 d5a9bc96）：大一下七人都在；大二上～大四下 BB-B 的人物（芷若、子晴、學姊、沛珊、可昕）也匯入了；記憶的中文名稱由匯入工具從階梯文件表格抓（LADDER.labels，230 個）",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -6453,8 +6453,8 @@
    "title": "帳號 A 的 AA、BB 接班讀得到新規則：企劃線固定區塊＋規則檔副本",
    "area": "SYS",
    "owner": "AA",
-   "status": "已整合待測試",
-   "next": "AA-B ea004808 已放副本＋「接班先讀」區塊；下次 A 帳號 AA／BB 接班時確認讀得到（HV-4 後副本要更新）",
+   "status": "已驗收",
+   "next": "AA-B ea004808 已放副本＋「接班先讀」區塊；下次 A 帳號 AA／BB 接班時確認讀得到（HV-4 後副本要更新）；AA-B：ea004808、05d44eb0，規則副本最新核到 09fb4b7c（4452bab1）",
    "priority": "P1",
    "first": {
     "term": "META",
@@ -6474,7 +6474,8 @@
     "spec": "HV-3 靜態驗證",
     "acceptance": "企劃交付＋LAWWW 確認",
     "ack": "ACK"
-   }
+   },
+   "evidence": "AA-B ea004808、05d44eb0（企劃線固定區塊＋規則副本），4452bab1 核到 09fb4b7c"
   },
   {
    "id": "SYS-17",
@@ -6592,7 +6593,7 @@
    "area": "SCN",
    "owner": "BB",
    "status": "等待其他AI／素材",
-   "next": "BB-B 待生成清單",
+   "next": "BB-B 待生成清單；AA_174 用途已確認（G5-07 七張＋us_chapel_steps）；下一步 BB-B 改清單（9187e49b 已改）、使用者生成",
    "priority": "P2",
    "first": {
     "term": "Y3S1",
@@ -6697,7 +6698,7 @@
    "area": "SCN",
    "owner": "BB",
    "status": "等待其他AI／素材",
-   "next": "AA-B 清單",
+   "next": "AA-B 清單；AA_145 3-6 已確認（BB_132 G5-08 四張）；等使用者生成",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -6822,8 +6823,8 @@
    "title": "經濟系開學典禮、小福、重考生活、摩天輪、保齡球",
    "area": "SCN",
    "owner": "BB",
-   "status": "待開工",
-   "next": "圖都有（BB-B e8af89ff 第 0a 節）：soc_hall、soc_classroom、xiaofu、home_room／living／balcony、ferris_wheel、bowling；重考讀書在博雅 3D，不需要補習班底圖。施工跟 V0 事件批次（已用 soc_hall、soc_classroom、xiaofu）",
+   "status": "已驗收",
+   "next": "圖都有（BB-B e8af89ff 第 0a 節）：soc_hall、soc_classroom、xiaofu、home_room／living／balcony、ferris_wheel、bowling；重考讀書在博雅 3D，不需要補習班底圖。施工跟 V0 事件批次（已用 soc_hall、soc_classroom、xiaofu）；AA_172 第 4 節＋AA_173：不需要新 3D（社科院外觀 3D；soc_hall、soc_classroom 2D；家、摩天輪、保齡球、河濱 2D；沒有補習班）",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -6843,7 +6844,8 @@
     "spec": "場景施工表（總表第 14 節）",
     "acceptance": "使用者生成、BB-B 檢查通過（D59）存企劃線 *_approved/",
     "ack": "未派"
-   }
+   },
+   "evidence": "AA_172 第 4 節（31308179、更正 b70fb387）＋AA_173 第 1 節：不需要新 3D，用到的 2D 都已在 bg_approved"
   },
   {
    "id": "SCN-V3-01",
@@ -6871,8 +6873,8 @@
    "title": "v3 新 2D（河堤夜景、山屋步道、研究室門口、政大小教室、老街、畢業典禮人潮）",
    "area": "SCN",
    "owner": "BB",
-   "status": "待開工",
-   "next": "圖都有、等施工（BB-B e8af89ff）：河堤＝riverside、山屋步道＝cypress_trail、研究室門口＝linze_prof_hall、政大小教室＝classroom_small、回程公車＝bus_night、畢業典禮＝graduation_avenue；K12b 老街用 date_system/art/d18_base_dusk.webp（字幕「老街」）",
+   "status": "已驗收",
+   "next": "圖都有、等施工（BB-B e8af89ff）：河堤＝riverside、山屋步道＝cypress_trail、研究室門口＝linze_prof_hall、政大小教室＝classroom_small、回程公車＝bus_night、畢業典禮＝graduation_avenue；K12b 老街用 date_system/art/d18_base_dusk.webp（字幕「老街」）；AA_175：六個都有底圖或定了不畫，結案",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -6892,7 +6894,8 @@
     "spec": "場景施工表（總表第 14 節）",
     "acceptance": "使用者生成、BB-B 檢查通過（D59）存企劃線 *_approved/",
     "ack": "ACK"
-   }
+   },
+   "evidence": "AA_175（e14e9260）：六個都有通過的底圖或定了不畫"
   },
   {
    "id": "SCN-V3-03",
@@ -6970,7 +6973,7 @@
    "area": "SCN",
    "owner": "BB",
    "status": "等待其他AI／素材",
-   "next": "AA-B 清單",
+   "next": "AA-B 清單；AA_175：麵店門口、書店用現有 3D；新 2D gongguan_market、gongguan_cobbler（BB-B 96daf8e7 加進清單）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -7040,7 +7043,7 @@
    "area": "SCN",
    "owner": "BB",
    "status": "等待其他AI／素材",
-   "next": "ART-15",
+   "next": "ART-15；AA_175：尾聲是兩點半 Café（不是麵店），Café 3D 現有＋CG-10",
    "priority": "P2",
    "first": {
     "term": "Y4S2",
@@ -7068,7 +7071,7 @@
    "area": "SCN",
    "owner": "BB",
    "status": "等待其他AI／素材",
-   "next": "AA-B 清單",
+   "next": "AA-B 清單；AA_175：考場用臺大教學館 3D；新 2D legal_aid_office、publisher_office；注意兩試合成一次（AA_126 第 3 節）",
    "priority": "P2",
    "first": {
     "term": "Y4S2",
@@ -7441,7 +7444,7 @@
    "area": "DONE",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "瀏覽器實玩驗收",
+   "next": "瀏覽器實玩驗收；AA_172 第 3 節：旁白與數值確認（40 分鐘＝到校門 30＋走回男宿）；剩瀏覽器實玩驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -10498,8 +10501,8 @@
    "title": "v0 閒聊階梯 ladder_bb_y0s1／y0s2.json（BB-B 82b61711、f70b4e87、19ee72d5；AA 核對）",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "v0 第 2 批以後接",
+   "status": "已整合待測試",
+   "next": "已匯入（BB-B 6227de53 補了 BB_146 第 3 節的記憶名稱表；匯入來源 claude/elegant-brown-fcos7n 16bd2c03）：Y0S1、Y0S2 可昕、品妤、唐睿、阿勳、韋綸各 8 層；第 2 級：經濟系開局後實際聊一次",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -10519,8 +10522,8 @@
    "title": "v0 可昕手機小事 8 則（BB_113「經濟系那一年的可昕」，BB-B 5b6e88fb）",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "大一上 4 則（E06 以後、E19 以前，一則限雨天）、大一下 4 則（dating_kexin、E27 3/26 以後、7/10 以前）；寒假與大一下第 1～5 週不放",
+   "status": "已整合待測試",
+   "next": "已接（AA-B 10-16 確認 BB_113 三段定稿）：經濟系大一上 8 則、可昕 8 則（大一上 E06 以後 E19 以前、一則雨天；大一下 Y0_DATING、3/26～7/10）、經濟系大一下 8 則；重考期暑假 6/23～7/10 接著第 18 週算（STORY.dpTerm）；時間技術預設；tests/v0_kxphone_unit.js",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -11003,7 +11006,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "進行中",
-   "next": "第三輪 e680d48a 收進 v9.9（LAWWW-B 選 A：第二輪的貼圖集把木紋、磁磚壓糊；第三輪畫面正確）：瀏覽器 303／286／321 次、43.1／40.7／44.3 萬三角形；wz_street_integration 只有效能一項沒過（已知、不改門檻），cafe_glb_integration 全過。第四輪（v9.9 之後）：合併同一種貼圖的店、刪店內看不到的面、遠景店內改頂點色，目標 ≤ 310 次、≤ 42 萬",
+   "next": "第三輪 e680d48a 收進 v9.9（LAWWW-B 選 A：第二輪的貼圖集把木紋、磁磚壓糊；第三輪畫面正確）：瀏覽器 303／286／321 次、43.1／40.7／44.3 萬三角形；wz_street_integration 只有效能一項沒過（已知、不改門檻），cafe_glb_integration 全過。第四輪（v9.9 之後）：合併同一種貼圖的店、刪店內看不到的面、遠景店內改頂點色，目標 ≤ 310 次、≤ 42 萬；第四輪 5a78a151 收進開發分支（9735698a，下一版）：LAWWW2-B 量 289／272／307 次（≤ 310）、三角形 43.3／40.9／44.5 萬（還超 42 萬）；LAWWW 這邊待跑 wz_street_integration",
    "priority": "P2",
    "first": {
     "term": "Y1S1",

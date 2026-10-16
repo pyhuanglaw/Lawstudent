@@ -147,7 +147,7 @@ const CLS=(function(){
      選坐哪裡（Y0_P1_SEAT：xun／front／window）→ 老師的第一題 → 阿勳、韋綸、品妤、遠處的可昕 → 被點到（課表第 1 週的 C 類三個回答）。
      遲到超過 15 分鐘才進去＝略過：一句旁白、不記座位（BB-B 2026-10-16 補的那一句；「可跳過」的意思等 AA-B 確認）*/
   S.p1Due=(G,it)=>!!(it&&it.c&&it.c.id==='acct_y0'&&!it.exam&&!(G.flags&&G.flags.Y0_P1_DONE));
-  S.P1_SEATS=[['xun','坐阿勳旁邊'],['front','坐前排'],['window','坐靠窗']];
+  S.P1_SEATS=[['xun','（坐在阿勳旁邊）'],['front','（坐前排）'],['window','（坐靠窗）']];   /* 按鈕字照 AA_154 A51 Q13 */
   S.P1_LINES=[()=>(typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName('econ_zhengxun'):'阿勳')+'：「……要看租約。」','韋綸：「負債！我室友打呼。」',()=>(typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName('econ_pinyu'):'品妤')+'：「你的室友是費用。」','（遠處，可昕舉手：「是情緒上的資產，財務上的費用。」全班笑。）'];
   S.P1_SKIP='會計的第一堂。借方在左，貸方在右。阿勳的筆記，比你的整齊。';
   /* E04 微積分初體驗（BB_104 8b-1；AA_154 第 98 行）：Y0S1 第 2 週週三上午的微積分，被叫上台寫一題極限。可以錯過（沒去就沒有這一場，之後不提）；遲到超過 15 分鐘也沒有。記憶：無 */
@@ -180,7 +180,7 @@ const CLS=(function(){
     if(r.attended) ok=S.attendedWeek(G,r.attended);
     else if(r.flag) ok=!!(G.flags&&G.flags[r.flag]);
     else if(r.memory) ok=typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(r.memory.npc,r.memory.tag);
-    else if(r.activity) ok=typeof ACTIVITIES!=='undefined'&&!!ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,r.activity);
+    else if(r.activity) ok=typeof ACTIVITIES!=='undefined'&&(r.full?!!ACTIVITIES.attended&&ACTIVITIES.attended(G,r.activity):!!ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,r.activity));   /* full：要聽完（含 left_after；AA-B 10-16：C15 那句中途離開的沒有）*/
     return ok?(r.say||''):''; };
   S.discuss=async function(GM,it,ct,prof){ const G=GM.G, R=S.rec(G), ob=ct.obs, c=it.c, opts=ob.options||[], rc=ob.recall||[];
     const recall=async who=>{ for(const r of rc) if((r.after||null)===who){ const t=S.recallText(G,r); if(t) await GM.say(null,t); } };

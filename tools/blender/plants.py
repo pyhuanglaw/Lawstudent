@@ -73,11 +73,11 @@ def leaf_mesh(bm, base, yaw, pitch, Lf, Wf, droop, fold=0.18, n=6):
         else: bm.faces.new((a[0], a[1], c[1])); bm.faces.new((a[1], a[2], c[1]))
 
 
-def broad_plant(mesh_obj, PM, pre, parent, x, y0, z, h, r, seed):
-    """大葉盆栽（橡膠樹、琴葉榕一類）：5 根莖從盆裡往上、往外，莖的上半段左右交錯長出 6–9 片模型葉子（深綠、中綠兩種）"""
+def broad_plant(mesh_obj, PM, pre, parent, x, y0, z, h, r, seed, stems=5, leaf_n=6):
+    """大葉盆栽（橡膠樹、琴葉榕一類）：5 根莖（stems：遠看的可以少一點）從盆裡往上、往外，莖的上半段左右交錯長出 6–9 片模型葉子（深綠、中綠兩種）"""
     rnd = random.Random(seed); bms = [bmesh.new(), bmesh.new()]
-    for k in range(5):
-        a = k * 1.256 + rnd.uniform(-0.35, 0.35); lean = rnd.uniform(0.08, 0.28); hh = h * rnd.uniform(0.65, 1.0)
+    for k in range(stems):
+        a = k * 6.283 / stems + rnd.uniform(-0.35, 0.35); lean = rnd.uniform(0.08, 0.28); hh = h * rnd.uniform(0.65, 1.0)
         tx, tz = x + math.cos(a) * hh * lean, z + math.sin(a) * hh * lean
         _cyl(mesh_obj, f'{pre}_stem_{k}', PM['bark'], (x + math.cos(a) * 0.03, y0, z + math.sin(a) * 0.03), (tx, y0 + hh, tz), 0.014, parent, seg=5, r2=0.008)
         nl = rnd.randint(6, 9)
@@ -85,7 +85,7 @@ def broad_plant(mesh_obj, PM, pre, parent, x, y0, z, h, r, seed):
             t = 0.3 + 0.7 * (j + 1) / nl; px, py, pz = x + (tx - x) * t, y0 + hh * t, z + (tz - z) * t
             ya = a + (j % 2 - 0.5) * 2.2 + rnd.uniform(-0.5, 0.5)
             Lf = r * rnd.uniform(0.42, 0.62) * (0.75 + 0.35 * (1 - t)); Wf = Lf * rnd.uniform(0.36, 0.46)
-            leaf_mesh(bms[rnd.random() < 0.4], (px, py, pz), -ya, rnd.uniform(-0.1, 0.55) + (0.35 if j == nl - 1 else 0), Lf, Wf, droop=Lf * rnd.uniform(0.15, 0.4))
+            leaf_mesh(bms[rnd.random() < 0.4], (px, py, pz), -ya, rnd.uniform(-0.1, 0.55) + (0.35 if j == nl - 1 else 0), Lf, Wf, droop=Lf * rnd.uniform(0.15, 0.4), n=leaf_n)
     for bm, mk in zip(bms, ('leaf_dark', 'leaf_mid')):
         bm.normal_update(); mesh_obj(f'{pre}_{mk}', bm, PM[mk], parent)
 

@@ -53,7 +53,7 @@ const Y1S1=dayIn('Y1S1'), Y1S2=dayIn('Y1S2');
     check('A5 不出題（沒有 legal 那一行、演一次沒有問法律題）',legalAsked===0&&!e.dialogue.some(l=>l.legal),String(legalAsked)); }
   /* ---------- A7 ---------- */
   for(const id of ['ev_yutong_absent','ev_yutong_thanks']){ const e=ev(id);
-    const setup=day=>{ fresh(day,18,id==='ev_yutong_absent'?'noodle':'library'); while(![2,4].includes(G.weekday)){ G.day++; G.weekday=wdOf(G.day); } SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','TALKED_FAMILY','x'); G.flags.yutong_hospital=true; };
+    const setup=day=>{ fresh(day,id==='ev_yutong_absent'?18:21.2,id==='ev_yutong_absent'?'noodle':'library');   /* ev_yutong_thanks：20:30～22:00（AA_178 ②）*/ while(![2,4].includes(G.weekday)){ G.day++; G.weekday=wdOf(G.day); } SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','TALKED_FAMILY','x'); G.flags.yutong_hospital=true; };
     /* 語彤 4 從交接包 v2 起放在期中這兩週（第 8～9 週，AA_11 事件 4）：大一上、下都用第 8 週比 */
     const wk=(term,w)=>{ for(let d=1;d<2000;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===w) return d; } return null; };
     const dA=id==='ev_yutong_absent'?wk('Y1S1',8):Y1S1+14, dB=id==='ev_yutong_absent'?wk('Y1S2',8):Y1S2+14;

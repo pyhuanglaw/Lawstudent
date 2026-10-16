@@ -34,7 +34,7 @@ const OUT=(function(){
   const lateEnd=q=>t(q.day,q.h)+(q.late!=null?q.late:0.75);   /* late：開始後多久還能出發（小時；預設 45 分鐘。AA_154 2-1b 的聚會是 15 分鐘）*/
   /* 休學以後住在家裡（經濟系 Y0_MOVED_OUT，AA_154 1-3b、A46 ②）：所有出遊、約好的見面（含只帶到校園某處的 goto）從家裡出發＝捷運＋公車 約 30 分鐘、0.5 小時；問要不要出發的時間跟著提早。視訊不用出門 */
   const baseHome=G=>typeof HOME!=='undefined'&&HOME.baseMode&&HOME.baseMode(G)&&HOME.at&&HOME.at(G);
-  S.trip=(G,q,fromHome)=>(fromHome||baseHome(G))&&q.verb!=='接起來'&&q.place!=='視訊'?{travelH:0.5,travel:'捷運＋公車 約 30 分鐘'}:{travelH:q.travelH||0,travel:q.travel||''};
+  S.trip=(G,q,fromHome)=>(fromHome||baseHome(G))&&q.verb!=='接起來'&&q.place!=='視訊'?((q.travelH||0)>0.5?{travelH:q.travelH,travel:q.travel||''}:{travelH:0.5,travel:'捷運＋公車 約 30 分鐘'}):{travelH:q.travelH||0,travel:q.travel||''};   /* 比 30 分鐘遠的（例：政大 40 分鐘，A40）照原本的 */
   S.due=function(G){ const now=t(G.day,G.hour); return S.rec(G).find(q=>q.state==='planned'&&now>=t(q.day,q.h)-S.trip(G,q).travelH-0.25&&now<=lateEnd(q)&&(q.ask==null||now>=q.ask))||null; };
   /* 過了時間（後 45 分鐘以上）還沒出發＝missed */
   S.expire=function(G){ const now=t(G.day,G.hour), out=[]; for(const q of S.rec(G)) if(q.state==='planned'&&now>lateEnd(q)){ q.state='missed'; out.push(q); } return out; };
