@@ -182,6 +182,12 @@ const STORY = (function(){
       if(typeof HOME!=='undefined') E.interactables.push({x:2.35,z:-0.9,radius:0.6,lv:0,label:'收拾背包回臺北的家',home:true,get hidden(){ return !HOME.canGo(GM.G); }}); }   /* 週末回家（AA_137 第 6 節）：週五 17:00 以後到週日 21:30 才出現（背包在 2.55,-1.6）*/
     if(zoneId==='wancai'){ if(hr>=15.2&&hr<17){ GM.spawnNPC('sis',C.sis,4,-5,{yaw:Math.PI,talk:n=>talkSis(GM,n)}); tm('sis',17); } if(isThu(G)&&hr>=15.2&&hr<16.2){ GM.spawnNPC('prof',PROF,-5,1.2,{yaw:0,talk:n=>talkProf(GM,n)}); } if(G.weekday===3&&hr>=18.8&&hr<21){ GM.spawnNPC('sis',C.sis,-3,3.6,{yaw:Math.PI,talk:n=>talkSis(GM,n)}); tm('sis',21); }
       /* 萬才館室內兩層樓（第三階段，D42）的背景路人：一個照路線上下樓（一樓大廳 → 樓梯 → 二樓門廳 → 走廊的研討室門口 → 走回一樓），一個在二樓走廊靠著欄杆往下看。不是劇情人物、沒有對話 */
+      /* 法服週六值班（V1-F：AA_163 第 1 節、BB_145）：單週週六 9～12、第 3 週起、考試週停（S.fafuDuty）。學姊在圓桌、研究所學長和學姊、民眾一到兩位（路人底模、名字照 AA_163）；
+         大一可以在旁邊看（「在旁邊看法服值班」，S.fafuWatch）。門口的告示照有沒有值班寫下一次的日期 */
+      if(S.fafuDuty(G)&&hr>=9&&hr<12){ const ex=(nm,x,z,ry)=>{ const o=CHAR.build(extraSpec(xi++)); o.position.set(x,0,z); o.rotation.y=ry; E.addNPC({obj:o,name:nm,beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,lv:0}); };
+        GM.spawnNPC('sis',C.sis,0.95,1.25,{yaw:-0.6}); ex('研究所學長',-0.95,1.25,0.6); ex('研究所學姊',-1.2,2.6,1.9); ex('民眾',0,2.85,Math.PI); if(G.day%2===0) ex('民眾',0.95,2.75,-2.2);
+        if(S.fafuWatchable(G)) E.interactables.push({x:2.3,z:3.1,radius:1.3,lv:0,label:'在旁邊看法服值班',fafuWatch:true,get hidden(){ return !S.fafuWatchable(GM.G)||GM.G.hour>=12; }}); }
+      if((G.stage||'law')==='law') E.interactables.push({x:-2.2,z:5.8,radius:0.7,lv:0,label:'看門口的告示',get look(){ return S.fafuNotice(GM.G); }});
       if(E.levels&&hr>=8&&hr<21.5){ GM.spawnExtra(extraSpec(xi++),[[3,4.6,0],[-6.2,5.4,1],[1.5,-6.0,1],[-6.2,5.4,1],[2.5,5.0,0]],{});
         const o=CHAR.build(extraSpec(xi++)); o.position.set(2.6,0,-2.35); o.rotation.y=0; E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,lv:1}); } }
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ if(zoneId==='campus') CLS.addDoors(GM,'campus'); if(CLS.addActSpots) CLS.addActSpots(GM,zoneId);   /* 活動的集合點（AA_110 6-3）*/ if(zoneId==='classroom'&&!F.classNow&&!(isThu(G)&&!F.classDone)) CLS.syncRoom(GM); if(E.zone&&E.zone.layout) CLS.syncRoom(GM);   /* 建築裡的教室（共同教學館…，D55）*/ }catch(e){ console.warn('CLS populate',e); } }   /* 課表（D52）：共同教學館、體育館的門口；201 上課時的同學 */
@@ -320,6 +326,28 @@ const STORY = (function(){
   const dayKeyCache={}; S.dayOfKey=function(k){ if(k in dayKeyCache) return dayKeyCache[k]; let r=null; if(typeof CALENDAR!=='undefined') for(let d=-420;d<2200;d++){ if(CALENDAR.dateOf(d).key===k){ r=d; break; } }   /* 從 2024 年 8 月起（經濟系大一 Y0 是負的天數，v0）*/ dayKeyCache[k]=r; return r; };
   S.fafuSat=function(day){ if(typeof CALENDAR==='undefined'||day==null) return null; const sat0=day+(6-CALENDAR.dateOf(day).wd);
     for(let k=0;k<16;k++){ const s=sat0+7*k; if(s<=day) continue; const t=CALENDAR.termOf(s); if(t&&t.week>=3&&t.week%2===1&&!t.exam) return {day:s,thisWeek:k===0,wk:k}; } return null; };   /* wk：0＝這週六、1＝下週六…（週一開始算一週；當天是週六＝已經過了 9 點的值班，從下週算）*/
+  /* 法服週六值班（V1-F，AA_163 第 1 節、BB_145）：今天是不是值班的週六；大一（Y1S1、Y1S2）可以在旁邊看（志工從大二開始，AA_132）；告示 */
+  S.fafuDuty=function(G){ if(typeof CALENDAR==='undefined'||!G||(G.stage||'law')!=='law') return false; const d=CALENDAR.dateOf(G.day), t=CALENDAR.termOf(G.day); return d.wd===6&&!!t&&t.week>=3&&t.week%2===1&&!t.exam; };
+  S.fafuWatchable=G=>{ if(!S.fafuDuty(G)) return false; const t=CALENDAR.termOf(G.day); return !!t&&/^Y1S[12]$/.test(t.id); };
+  S.fafuNotice=function(G){ const base='法律服務　隔週週六 9:00～12:00　萬才館一樓'; if(S.fafuDuty(G)&&G.hour<12) return base; const n=S.fafuSat(G.day); if(!n) return base; const d=CALENDAR.dateOf(n.day); return base+'　下一次：'+d.m+'/'+d.d+'（六）'; };
+  const FAFU_POOL=[{t:'今天來的是一位媽媽，問孩子打工被扣薪水的事。學長說：「我們先把時間和金額寫下來。」'},{sis:'學弟，又來了。……站那邊，看得比較清楚。'},
+    {t:'一位阿嬤來問家裡的事，說到一半開始講她先生年輕的時候。學姊沒有打斷她。'},{sis:'今天那位，你回去想想看，第一個問題應該問什麼。……不用告訴我。'},
+    {t:'上午很安靜，只來了一位。學長趁空檔教新的志工怎麼寫初談紀錄。'},{sis:'（她在初談紀錄上劃了一條線）一件事。字要寫得讓下一個人看得懂。'},
+    {t:'有人拿著一張和解書來，問能不能簽。學姊說：「我們先一起看一下，上面寫了什麼。」'}];   /* AA_163 的旁白池四句、BB_145 的學姊三句，輪流、不重複到用完 */
+  S.fafuWatch=async function(GM){ const G=GM.G, F=G.flags; if(!S.fafuWatchable(G)||G.hour>=12) return false; const sis={name:'溫學姊',charId:'heroine_05'};
+    if(F.LAWCLUB_SAT_LAST!==G.day){ F.LAWCLUB_SAT_LAST=G.day; F.LAWCLUB_SAT_VISITS=(F.LAWCLUB_SAT_VISITS|0)+1; }   /* 同一個週六只算一次（AA_132 落點 A 讀它；大二起的值班也算）*/
+    GM.sceneBegin(); try{
+      if(!F.LAWCLUB_SAT_FIRST){ F.LAWCLUB_SAT_FIRST=true;   /* 第一次（AA_163 的旁白＋研究所學長；BB_145 第 1 節）*/
+        await GM.say(null,'圓桌旁坐著一位阿伯，手上一疊影印的紙。他說房東不還押金。');
+        await GM.say(null,'學姊沒有馬上回答。她先問：「租約還在嗎？什麼時候搬走的？當初押金付了多少？」研究所的學長在旁邊一項一項寫下來。');
+        await GM.say(null,'阿伯講到一半，忽然說：「我是不是很麻煩？」'); await GM.say({name:'研究所學長'},'不會。您慢慢說，我們先把事情弄清楚。');
+        await GM.say(null,'（阿伯被學長帶去填表。學姊走到大廳角落，在祐廷旁邊停下來，聲音壓得很低。）');
+        await GM.say(sis,'學弟。旁聽可以。三件事。'); await GM.say(sis,'一，不要插話。二，不要給意見。三，看學長怎麼問。……問題問對了，事情就清楚一半。'); }
+      else { let it=null; if((F.LAWCLUB_SAT_VISITS|0)>=5&&!F.LAWCLUB_SAT_FIVE){ F.LAWCLUB_SAT_FIVE=true; it={sis:'你來了五次了。……明年記得報名。'}; }   /* BB_145 第 4 句：只一次、排最前 */
+        else { const used=Array.isArray(F.fafuPoolUsed)?F.fafuPoolUsed:[]; let cand=FAFU_POOL.map((q,i)=>i).filter(i=>!used.includes(i)); if(!cand.length){ used.length=0; cand=FAFU_POOL.map((q,i)=>i); } const k=cand[0]; used.push(k); F.fafuPoolUsed=used; it=FAFU_POOL[k]; }
+        if(it.sis) await GM.say(sis,it.sis); else await GM.say(null,it.t); await GM.say(null,'（學姊點頭，回到圓桌。）'); }
+    } finally { GM.sceneEnd(); }
+    await GM.fade(true); GM.advance(Math.min(0.5,Math.max(0,12-G.hour))); await GM.fade(false); return true; };   /* 時間推進 30 分鐘，可以待到 12:00；不扣時段次數（AA_160 第 2 節）*/
   S.ladLines=function(st,g,id){ const G=g||(typeof GAME!=='undefined'&&GAME.G)||null; const alt=(st.linesIf||[]).find(x=>ladAlt(G,x,id)); const L=(alt?alt.lines:st.lines||[]).slice(); for(const x of (st.extraIf||[])) if(ladAlt(G,x,id)) L.push(...(x.lines||[])); return L; };   /* linesIf：第一個成立的那一套取代 lines；extraIf：成立就在後面多說（AA 2026-10-16）*/
   S.ladPlay=async function(GM,who,id,st){ const G=GM.G, so=ladRec(G), D=S.ladData(G,id), K=D?D.key:id; for(const l of S.ladLines(st,G,id)) await GM.say(who,typeof l==='string'?l:l.t);
     let ch=null; if(st.choices&&st.choices.length){ const k=await GM.choose(st.choices.map(c=>({t:c.t}))); ch=st.choices[k]||st.choices[0]; if(ch.reply) await GM.say(who,ch.reply); }
@@ -550,6 +578,7 @@ const STORY = (function(){
     if(it.roomItems){ await roomItems(GM); return true; }
     if(it.pothos){ await pothosScene(GM); return true; }
     if(it.kaiBox){ await kaiBoxScene(GM,it); return true; }
+    if(it.fafuWatch){ await S.fafuWatch(GM); return true; }   /* 法服週六值班（V1-F）*/
     if(it.fyPots){ await fyPotsScene(GM); return true; }
     if(it.sleep){ await bedScene(GM); return true; }
     if(it.counter==='cafe'){ await counter(GM,'兩點半 Café',CAFE_MENU); return true; }
