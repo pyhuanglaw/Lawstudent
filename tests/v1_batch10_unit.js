@@ -144,7 +144,17 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
     const o3=mig({v:3,name:'x',rel:{},flags:{dating_kexin:true},events:{done:{}}});
     check('舊存檔讀檔：KX_BDAY[1]→KX_DEC3[1]、清掉 KX_BDAY[1]（4/24 不會被當成已經過了）；其他年的照留；當天的暫存旗標改名；沒有的不動',
       o1.flags.KX_DEC3[1]==='visit'&&o1.flags.KX_BDAY===undefined&&o2.flags.KX_DEC3[1]==='message'&&o2.flags.KX_BDAY[2]==='visit'&&o2.flags.KX_BDAY[1]===undefined&&o2.flags.KX_DEC3_MSG===true&&o2.flags.KX_BDAY_MSG===undefined&&o3.flags.KX_DEC3===undefined,
-      JSON.stringify([o1.flags,o2.flags,o3.flags].map(f=>({b:f.KX_BDAY,d:f.KX_DEC3})))); }
+      JSON.stringify([o1.flags,o2.flags,o3.flags].map(f=>({b:f.KX_BDAY,d:f.KX_DEC3})))); 
+    /* AA_140 G46：只轉一次——4/24 記下的結果（KX_BDAY[1]、當天的 KX_BDAY_VISIT／_MSG）存檔、讀檔以後還在 */
+    o1.flags.KX_BDAY={1:'visit'}; const o1b=mig(JSON.parse(JSON.stringify(o1)));
+    const o4=mig({v:3,name:'x',rel:{},flags:{dating_kexin:true,KX_DEC3_MIGRATED:true,KX_BDAY:{1:'visit'},KX_BDAY_MSG:true},events:{done:{}}});
+    const o5=mig({v:3,name:'x',rel:{},flags:{dating_kexin:true,KX_DEC3:{1:'visit'},KX_BDAY:{1:'none'}},events:{done:{}}});
+    const o6=mig({v:3,name:'x',rel:{},flags:{dating_kexin:true,KX_BDAY_VISIT:true},events:{done:{ev_kexin_birthday_y1s2:1}}});
+    check('G46 只轉一次：轉過的再讀檔、新遊戲（KX_DEC3_MIGRATED）、已經有 KX_DEC3、4/24 事件演過的，4/24 的結果都不被搬走',
+      o1.flags.KX_DEC3_MIGRATED===true&&o1b.flags.KX_BDAY[1]==='visit'&&o1b.flags.KX_DEC3[1]==='visit'&&o4.flags.KX_BDAY[1]==='visit'&&o4.flags.KX_BDAY_MSG===true&&o4.flags.KX_DEC3===undefined
+      &&o5.flags.KX_BDAY[1]==='none'&&o5.flags.KX_DEC3[1]==='visit'&&o6.flags.KX_BDAY_VISIT===true&&o6.flags.KX_DEC3_VISIT===undefined,
+      JSON.stringify([o1b,o4,o5,o6].map(o=>({b:o.flags.KX_BDAY,d:o.flags.KX_DEC3,v:o.flags.KX_BDAY_VISIT,m:o.flags.KX_BDAY_MSG}))));
+    check('G46 新遊戲的 defaults 有 KX_DEC3_MIGRATED（不會把第一次讀檔前記的 4/24 搬走）',/flags:\{dating_kexin:true,KX_DEC3_MIGRATED:true\}/.test(src)); }
   /* ---------- 第一份報告交出去的晚上（BB_95 9-6 改版，2026-10-15 BB-B：生日改 4/24；AA_140 G01）---------- */
   { const BD=termDay(14,3); let toasts=[]; GM.toast=(t)=>{ toasts.push(t); };
     const draft=()=>G.msgs.find(m=>m.tag==='kx_dec3_draft');

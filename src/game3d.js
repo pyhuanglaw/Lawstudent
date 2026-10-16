@@ -7,7 +7,7 @@ const GAME = (function(){
   let E=null; let G=null; let S={quality:'medium',joystick:true,volume:0.6,textSpeed:2,fps:false,guide:true};
   const GM={E:null,G:null,S,npc:{},extras:[],running:false,hourRate:1/150,lastAuto:0};
   // ---------- 狀態 ----------
-  function defaults(name){ return {v:SAVE_VER,name:name||'祐廷',day:1,weekday:3,hour:21.2,energy:72,money:22000,zone:'dorm',pos:null,weather:'clear',flags:{dating_kexin:true},rel:{an:6,zhe:12,sis:2,kai:8,yu:3},notes:[],memo:[],visited:{dorm:true},stats:{steps:0,classes:0,study:0},choices:{},social:null,events:null,legal:null,cg:{unlocked:[]},savedAt:0}; }
+  function defaults(name){ return {v:SAVE_VER,name:name||'祐廷',day:1,weekday:3,hour:21.2,energy:72,money:22000,zone:'dorm',pos:null,weather:'clear',flags:{dating_kexin:true,KX_DEC3_MIGRATED:true},rel:{an:6,zhe:12,sis:2,kai:8,yu:3},notes:[],memo:[],visited:{dorm:true},stats:{steps:0,classes:0,study:0},choices:{},social:null,events:null,legal:null,cg:{unlocked:[]},savedAt:0}; }
   function bindSystems(){ SOCIAL.bind(G); EVENTS.bind(GM); LEGAL.bind(G,GM); if(!G.cg) G.cg={unlocked:[]}; }
   GM.bindSystems=bindSystems;
   GM.defaults=defaults;
@@ -241,8 +241,11 @@ const GAME = (function(){
     if(s.flags&&s.flags.dating_kexin){ if(!s.contacts||typeof s.contacts!=='object') s.contacts={}; if(s.contacts.kexin==null) s.contacts.kexin=0; }
     /* 可昕 12/3 改成「第一份報告交出去的晚上」（BB_95 9-6 改版，AA_140 G01）：舊存檔已經記的 KX_BDAY[1] 搬到 KX_DEC3[1]、清掉（大一的生日改在 4/24 記，不然 4/24 會被當成已經過了）；
        12/3 當天的暫存旗標一起改名。不在標題畫面寫存檔（這裡只改讀進來的物件）*/
-    if(s.flags&&typeof s.flags==='object'){ const F=s.flags; if(F.KX_BDAY&&typeof F.KX_BDAY==='object'&&F.KX_BDAY[1]!=null){ F.KX_DEC3=Object.assign({},F.KX_DEC3||{}); if(F.KX_DEC3[1]==null) F.KX_DEC3[1]=F.KX_BDAY[1]; delete F.KX_BDAY[1]; if(!Object.keys(F.KX_BDAY).length) delete F.KX_BDAY; }
+    /* 只轉一次（AA_140 G46，2026-10-16 AA-B 驗收）：4/24 的生日（c7621be3）也用 KX_BDAY[1]／_VISIT／_MSG，原本每次讀檔都搬走＝4/24 去找她、讀一次檔就變成 none、還收到「我等了一天。」。
+       轉過（KX_DEC3_MIGRATED）、已經有 KX_DEC3（之前讀檔轉過、或 12/3 直接記的）、4/24 的事件演過，都不轉；新遊戲的 defaults 一開始就有 KX_DEC3_MIGRATED */
+    if(s.flags&&typeof s.flags==='object'&&!s.flags.KX_DEC3_MIGRATED&&s.flags.KX_DEC3==null&&!(s.events&&s.events.done&&s.events.done.ev_kexin_birthday_y1s2)){ const F=s.flags; if(F.KX_BDAY&&typeof F.KX_BDAY==='object'&&F.KX_BDAY[1]!=null){ F.KX_DEC3=Object.assign({},F.KX_DEC3||{}); if(F.KX_DEC3[1]==null) F.KX_DEC3[1]=F.KX_BDAY[1]; delete F.KX_BDAY[1]; if(!Object.keys(F.KX_BDAY).length) delete F.KX_BDAY; }
       if(F.KX_BDAY_VISIT){ F.KX_DEC3_VISIT=true; delete F.KX_BDAY_VISIT; } if(F.KX_BDAY_MSG){ F.KX_DEC3_MSG=true; delete F.KX_BDAY_MSG; } }
+    if(s.flags&&typeof s.flags==='object') s.flags.KX_DEC3_MIGRATED=true;
     if(typeof ROM!=='undefined'&&s.flags&&typeof s.flags==='object'){ try{ ROM.rec(s); }catch(e){ console.warn('ROM.rec',e); } }   /* 多段感情（v6 S7）：補 ROMANCE_HISTORY、CLEANUP_DONE（有 dating_kexin 的補一筆）*/
     s.v=SAVE_VER; return s; }
   function ls(){ try{ return window.localStorage; }catch(e){ return null; } }

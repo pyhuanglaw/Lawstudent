@@ -510,7 +510,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
-   "next": "LAWWW-B 本批向 BB-B 提出 D59 驗收（之前沒有提出，稽核 1-2）；截圖由 LAWWW2-B 提供；通過後改預設",
+   "next": "03:4x 已向 BB-B 提出 D59 驗收（之前沒有提出，稽核 1-2）；要截圖的話 LAWWW2-B 用 ?blchar 拍；通過後改預設",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -8725,7 +8725,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -8753,7 +8753,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -8781,7 +8781,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -8809,7 +8809,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -8837,7 +8837,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -8865,7 +8865,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -8893,7 +8893,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -8921,7 +8921,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -8949,7 +8949,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -8977,7 +8977,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -9005,7 +9005,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -9033,7 +9033,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -9061,7 +9061,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147＋BG_TRACKER",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名；白天版另外生成或調色",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -9089,7 +9089,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147＋BG_TRACKER",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名；白天版另外生成或調色",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -9138,7 +9138,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "BB_131 標準圖、characters.js econ_zhengxun（180 cm、slim）",
     "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模）；BB-B D59 通過；LAWWW 接進 CHARACTERS[id].char3d.model",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -9166,7 +9166,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "BB_131 標準圖、characters.js econ_pinyu（158 cm）",
     "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模）；BB-B D59 通過；LAWWW 接進 CHARACTERS[id].char3d.model",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -9175,7 +9175,7 @@
    "area": "V0",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "和 AA-B 對交接包 v0、AA_145（v0 11 個背景 id）、BB_104／110／112 的地點與人物；建 ART-V0-* 任務；在 v0 程式開工前完成",
+   "next": "03:4x 已問 AA-B（清單草稿 9 項＋人物 3D 7 位，請刪改、標 2D／3D 與首次週次）；AA-B 回了就建 v0 的美術任務",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -9194,8 +9194,94 @@
     "branch": "claude/cool-heisenberg-o8kuqx",
     "spec": "交接包 v0、AA_145、BB_104／110／112",
     "acceptance": "任務總表有 ART-V0-* 任務（每項有 xai）；AA-B 確認清單",
-    "ack": "未派"
+    "ack": "DELIVERED"
    }
+  },
+  {
+   "id": "BUG-14",
+   "title": "可昕 4/24 生日的結果被讀檔轉換吃掉（migrate 每次讀檔都把 KX_BDAY[1]／_VISIT／_MSG 搬到 KX_DEC3*）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "第 2 級跟著 v2 驗收：4/24 去找她 → 存檔、讀檔 → 沒有「我等了一天。」",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S2",
+    "week": 9,
+    "earliest": "可昕生日 4/24（大一下第 9 週）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_140 G46（AA-B 驗收 c7621be3，企劃線 1bc752e4）",
+   "authorized": "D79 第 3 點（技術修正）",
+   "sha": "（本批）",
+   "evidence": "tests/v1_batch10_unit.js G46 兩項：修改前失敗、修改後通過"
+  },
+  {
+   "id": "V1-G47",
+   "title": "語彤事件 3：學姊那句「下一個值班的週六」照 BB_95 4-3 單週、雙週兩版；事件 3 只在大一（大一上第 15 週～大一下第 18 週）",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 AA_140 G47、BB_95 4-3（企劃線 bda35a09、BB-B 617fcaaf）",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 15,
+    "earliest": "語彤事件 3（大一上第 15 週起）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_140 G47（AA-B 03:26，企劃線 1bc752e4）",
+   "authorized": "D79 第 7 點"
+  },
+  {
+   "id": "V1-G48",
+   "title": "回家的週末：在家也問「該出發了」、從家裡出發（不加取車時間），錯過照延後不扣分；週日晚上在家選睡覺＝先回宿舍",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 AA_140 G48、AA_134 第 3 節",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次週末回家",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_140 G48（AA-B 03:26，企劃線 1bc752e4）",
+   "authorized": "D79 第 7 點"
+  },
+  {
+   "id": "V1-G49",
+   "title": "小項：B4_ATTENDED 改看出席紀錄；晚餐第 6 題姊姊在場的週末不選；載妹墊途中下車、騎車閒聊（AA_137 5 第 3、5 步）；當面邀約的開場句與動作（AA_134 4）",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 AA_140 G49",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "載妹墊、當面邀約（大一上）；B4（大一下第 11 週）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_140 G49（AA-B 03:26，企劃線 1bc752e4）",
+   "authorized": "D79 第 7 點"
   }
  ]
 }
