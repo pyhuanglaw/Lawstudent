@@ -10087,7 +10087,7 @@
    "area": "BUG",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "classes3d.js 拿掉 inScene 的限制；tests/v2_b10b_unit.js 第 9 項；瀏覽器：大一上第 4 週週四坐 201 上民總→ev_an_report_split 有演（v9.8 回歸）",
+   "next": "瀏覽器已過：tests/smoke_release.py 在候選 2 9508b534（＝v9.8 發布版 1d0ff40f 的遊戲檔案）坐 201 上民總 → ev_an_report_split 有演（06:14～06:19 ALL PASS）。剩發布後完整回歸的 flow_classes A 段",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -10103,7 +10103,7 @@
    "authorized": "D79",
    "sha": "9508b534",
    "cause": "v9.7 起就有（main 的 classes3d.js 一樣跳過）",
-   "evidence": ""
+   "evidence": "smoke_release ALL PASS 2026-10-16 06:19；v9.8 發布 1d0ff40f"
   },
   {
    "id": "ART-POLISH",
