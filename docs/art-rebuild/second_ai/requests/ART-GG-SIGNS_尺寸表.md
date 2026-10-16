@@ -67,8 +67,10 @@
   - 晚上照現在的做法：整面招牌當燈箱亮（同一張圖當發光貼圖，入夜調亮）。
   - 想要「只有字亮、底不亮」的霓虹效果，請在那一面註明，我再做字的遮罩。
 
-## 4. 遊戲端（LAWWW-B）
-- 圖片招牌我會直接烤進 `gongguan_shops.glb` 的招牌貼圖集，節點名稱不變（`SIGN_FACE_*`、`VSIGN_FACE_*`）。
-- 節點 extras 加 `signImg: true`。遊戲看到這個旗標就**不要用 `wzSignTex` 的 canvas 字蓋過去**，和 G03 現在的做法一樣：設計稿的那一面，遊戲本來就不蓋。
-- 要改的是 `zones3d.js` 判斷「要不要畫 canvas 字」的那一行：有 `signImg` 就跳過。到時候附 patch。
-- 夜間亮度照現有的 `wz_signs_lit` 做法。
+## 4. 遊戲端（LAWWW-B）：照 G03 的做法，`zones3d.js` 不用改
+- 圖片招牌我直接放進 GLB，用 G03 已經在用的做法：
+  - 設計稿招牌是 `sk_sign_<店>` 節點（`wz_signs` 貼圖集＋夜間發光 `wz_signs_lit`）；
+  - 同時拿掉那一面的 `SIGN_FACE_<店>`／`VSIGN_FACE_<店>`。
+- 遊戲只對 `*_FACE_*` 節點畫 canvas 字，所以拿掉以後就不會再被系統字蓋過去，**`wzSignTex` 不用改**。
+- 只有公館整合測試的招牌數量要跟著改：`DESIGNED` 清單加上換掉的店。這份 patch 我附在交件裡（scooters_v2.patch 已經有 `DESIGNED = ['G03']` 的寫法）。
+- 夜間亮度照現有的 `wz_signs_lit`。
