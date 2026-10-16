@@ -1,0 +1,3143 @@
+{
+ "loc": "D17",
+ "points": {
+  "D17.queen": "女王頭",
+  "D17.mushroom": "蕈狀岩區",
+  "D17.platform": "海蝕平台",
+  "D17.trail": "海邊步道"
+ },
+ "likes": {
+  "heroine_01": {
+   "D17.queen": "dislike",
+   "D17.mushroom": "like",
+   "D17.platform": "like",
+   "D17.trail": "normal"
+  },
+  "heroine_02": {
+   "D17.queen": "normal",
+   "D17.mushroom": "like",
+   "D17.platform": "like",
+   "D17.trail": "like"
+  },
+  "heroine_03": {
+   "D17.queen": "normal",
+   "D17.mushroom": "normal",
+   "D17.platform": "like",
+   "D17.trail": "like"
+  },
+  "heroine_04": {
+   "D17.queen": "normal",
+   "D17.mushroom": "like",
+   "D17.platform": "normal",
+   "D17.trail": "dislike"
+  },
+  "heroine_05": {
+   "D17.queen": "normal",
+   "D17.mushroom": "like",
+   "D17.platform": "like",
+   "D17.trail": "like"
+  },
+  "classmate_peishan": {
+   "D17.queen": "like",
+   "D17.mushroom": "like",
+   "D17.platform": "normal",
+   "D17.trail": "normal"
+  },
+  "kexin": {
+   "D17.queen": "like",
+   "D17.mushroom": "normal",
+   "D17.platform": "like",
+   "D17.trail": "normal"
+  }
+ },
+ "dislikeLine": {
+  "heroine_01": {
+   "D17.queen": "排隊四十分鐘拍一張照片。……效率很差。可是你想拍，就排。"
+  },
+  "heroine_02": {},
+  "heroine_03": {},
+  "heroine_04": {
+   "D17.trail": "步道好長，沒有樹蔭。我在這裡等你。……好啦，一起走。"
+  },
+  "heroine_05": {},
+  "classmate_peishan": {},
+  "kexin": {}
+ },
+ "lines": {
+  "heroine_01": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_01",
+       "text": "野柳。地質公園。我查過，這些岩石是海水和風花了很久做出來的。"
+      },
+      {
+       "who": "heroine_01",
+       "text": "……今天不講課。我只講這一句。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "門票我買好了。學生票。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "今天風很大。我把頭髮綁緊了。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "跟你出來，我比較不會一直看手帳。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "今天不排順序。你走哪裡，我跟哪裡。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_01",
+       "text": "結論：時間是最有耐心的雕刻家。"
+      },
+      {
+       "who": "heroine_01",
+       "text": "……這句太像格言。收回。可是是真的。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "天暗了。回去吧。……再五分鐘。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "手帳今天要寫兩頁。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "今天右欄寫的是：岩石，還有你。……不要看。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D17.queen": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "（女王頭前面排了很長的隊）……大家都在排。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "它的脖子越來越細。說明牌寫，總有一天會斷。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「那要趁現在看。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……嗯。理由很充分。我們排。"
+         }
+        ]
+       },
+       {
+        "t": "「斷了也是自然。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……對。規則就是這樣。可是有點難過。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "旁邊有人在講它像誰。……我不參加。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "告示寫不能碰。大家都遵守。很好。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "以前我會覺得排隊浪費時間。今天還好。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次看的時候，它的脖子……今天看起來一樣。我放心了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "（排隊的時候，她站得離你很近）……人很多。理由很充分。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.mushroom": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "（一整片蕈狀岩）……每一個都長得不一樣。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "可是都是同一種力量做出來的。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「像人一樣。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……這個比喻，我要想一下。……好，接受。"
+         }
+        ]
+       },
+       {
+        "t": "「妳喜歡哪一個？」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……那個歪的。它很努力站著。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "岩石上的紋路，像年輪。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "風好大。我的帽子要飛了。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "我喜歡這種地方。規則很單純：風、水、時間。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次那個歪的，今天還站著。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "（她站在你旁邊，看著那個歪的岩石）……它很努力。我們也是。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.platform": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "（海蝕平台，岩石上有很多小洞）……這些洞，是海浪一次一次打出來的。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "一次不夠。要很多次。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「像讀書。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……你今天的比喻都很好。"
+         }
+        ]
+       },
+       {
+        "t": "「海很有耐心。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "嗯。比我有耐心。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "平台上有小水窪。裡面有小螃蟹。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "浪打上來的時候，聲音很大。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "跟你站在這裡，我不太會想考試。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次那個水窪裡的小螃蟹，今天換了一隻。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "（浪打上來，她拉著你往後退）……一起退。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.trail": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "（海邊步道，往岬角走）……這條步道走到底，可以看到整個海岬。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "我想走到底。理由：完整。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「好，走到底。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "好。不准半途回頭。……我是說我。"
+         }
+        ]
+       },
+       {
+        "t": "「走一半就好。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……不行。理由：完整。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "步道旁邊有很多海鳥。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "走到這裡，人變少了。很好。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "跟你走，不用講話也可以。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次走到底了。今天也要。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "（她走在你旁邊，袖子碰到你的手）……走到盡頭。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_02": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "野柳。……這裡像另一個星球。"
+      },
+      {
+       "who": "heroine_02",
+       "text": "很多科幻片都想拍這種地方。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "今天天氣好。岩石的顏色會很清楚。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "我帶了一頂帽子。……我有在準備。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "我把兩天的班都換掉了。……不要問為什麼。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "今天不拍照。用眼睛記就好。……好，拍一張。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "天要暗了。岩石的影子越來越長。"
+      },
+      {
+       "who": "heroine_02",
+       "text": "……很像片子最後的長鏡頭。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "回去吧。明天早上有班。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "下次，我想看這裡的日落。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "今天的片尾，有岩石和海。……很好。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D17.queen": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "（女王頭）……大家都在同一個角度拍它。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "我想從背面看看。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「背面也好看。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……嗯。背面比較安靜。"
+         }
+        ]
+       },
+       {
+        "t": "「我們排隊拍正面。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……好。一張就好。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "排隊的人，表情都很期待。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "它的側臉，光很好。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "跟你排隊，我不會覺得很久。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次從背面看。……今天也是。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "（排隊的時候，她靠著你）……人很多。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.mushroom": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "（蕈狀岩區）……好像另一個星球。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "如果拍成電影，這裡要用廣角。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳在構圖。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……職業病。我還沒有職業，可是有病。"
+         }
+        ]
+       },
+       {
+        "t": "「我們在畫面裡。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……對。很小的兩個人。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "岩石的顏色，在陽光下會變。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "有一個岩石像一張臉。……不要說我想太多。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "我想在這裡拍一個沒有台詞的片段。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次那個像臉的岩石，今天看起來在笑。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "（她站在你旁邊，看著很遠的地方）……這個構圖剛好。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.platform": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "（海蝕平台）……浪打上來，又退回去。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "很像剪接。一個鏡頭接一個鏡頭。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳又想到拍片。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……停不下來。你不要笑。"
+         }
+        ]
+       },
+       {
+        "t": "「我們看一下。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……好。看三個浪。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "水窪裡的天空，是倒過來的。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "浪的聲音很大。可是很好聽。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "我發現跟你出來，不太會想店裡的事。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次看了三個浪。今天看五個。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "（浪打上來，她握住你的手）……就這樣。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.trail": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "（海邊步道）……好長。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "走在上面，很像片尾跑名單的那種鏡頭。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我們走慢一點。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……好。名單很長。"
+         }
+        ]
+       },
+       {
+        "t": "「片尾之後呢？」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……彩蛋。在步道盡頭。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "海鳥在頭上飛。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "步道的盡頭，可以看到整個海。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "跟你走，時間好像變慢了。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次的彩蛋，是盡頭的那片海。今天也是。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "（她走在你後面一點，拉著你的袖子）……慢一點。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_03": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_03",
+       "text": "……嗯。野柳。"
+      },
+      {
+       "who": "heroine_03",
+       "text": "我國小的時候，學校帶我們來過。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "今天不用顧店。……阿姨說，海邊要多穿一件。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "……我帶了水。兩瓶。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "跟你出來，我好像不用一直看時間。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（她把髮圈綁好，走到你旁邊）……走吧。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_03",
+       "text": "……今天很好。"
+      },
+      {
+       "who": "heroine_03",
+       "text": "我會跟我媽說，女王頭還在。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "要回去了。……八點前要到店裡。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "……嗯。下次。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（她在車上看著窗外）……今天，比較長。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D17.queen": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（她看著排隊的人）……排隊的人，都在聊天。"
+       },
+       {
+        "who": "heroine_03",
+        "text": "……好像店裡等位子的客人。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳都在看人。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。社會系的壞習慣。"
+         }
+        ]
+       },
+       {
+        "t": "「我們也排。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……女王頭好小。比照片小。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "有一個阿嬤在跟女王頭說話。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "我可以在這裡站很久。……你可以嗎？"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次那個跟女王頭說話的阿嬤，今天沒有來。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "（排隊的時候，她拉著你的袖子）……人好多。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.mushroom": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（蕈狀岩區）……好奇怪的石頭。"
+       },
+       {
+        "who": "heroine_03",
+        "text": "……好像蘑菇。阿姨煮湯用的那種。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳每次都想到阿姨。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。從小一直在店裡。"
+         }
+        ]
+       },
+       {
+        "t": "「真的很像。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……風好大。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "石頭上的紋路，好細。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "跟你走，安靜也不尷尬。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次說的蘑菇，我跟阿姨說了。她笑了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "（她走在你旁邊，肩膀碰到你的）……嗯。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.platform": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（海蝕平台）……水窪裡有小螃蟹。"
+       },
+       {
+        "who": "heroine_03",
+        "text": "……牠躲起來了。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「牠怕我們。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。我們太大了。"
+         }
+        ]
+       },
+       {
+        "t": "「等牠出來。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。等一下。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……浪好大。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "有一個小孩在看水窪。看得好認真。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "我很少來海邊。……很好。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次那隻小螃蟹……今天換了一隻。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "（浪打上來，她拉著你的手往後退）……嗯。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.trail": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（海邊步道）……好安靜。"
+       },
+       {
+        "who": "heroine_03",
+        "text": "人都在女王頭那邊。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「這邊比較好。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。"
+         }
+        ]
+       },
+       {
+        "t": "「我們走到底。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。走到底。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……海鳥。好多。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "步道的盡頭，風好大。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "跟你走，我不會一直想店裡的事。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次走到底，我差點被風吹倒。……你拉住我了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "（她靠著你的肩膀，沒有說話）"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_04": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "欸不是，這裡好像外星地圖！"
+      },
+      {
+       "who": "heroine_04",
+       "text": "每一塊石頭的建模都不一樣。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "我十一點起床。為了你。這是犧牲。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "今天的任務：看女王頭。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "你今天有帶零食。你好會準備。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "今天的任務：沒有任務。……好，有一個，看女王頭。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "今天的地圖探索率：百分之九十。"
+      },
+      {
+       "who": "heroine_04",
+       "text": "剩下的，下次開。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "天黑了。我的腦開始醒了。可惜要回去了。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "電量剩一格。回家。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "今天的存檔點在女王頭。……我是說，我記住了。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D17.queen": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "女王頭。……它的脖子好細。"
+       },
+       {
+        "who": "heroine_04",
+        "text": "物理上，它應該撐不了多久。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「所以要趁現在看。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……對。限時活動。我最怕錯過限時活動。"
+         }
+        ]
+       },
+       {
+        "t": "「它撐很久了。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……好。它很強。我尊敬它。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "排隊好久。我在腦中幫它做 3D 模型。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "它的側臉真的很像一個人。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "我想做一關，主角要保護一個快斷掉的石頭。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次的限時活動，我們有參加到。今天也是。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "（排隊的時候，她靠著你）……我休息一下。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.mushroom": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "欸不是，蘑菇石頭！一整片！"
+       },
+       {
+        "who": "heroine_04",
+        "text": "這是程序生成的嗎？……好，是大自然。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「大自然很厲害。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……對。它的演算法比我好。"
+         }
+        ]
+       },
+       {
+        "t": "「妳想做進遊戲？」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……想。已經在想了。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "每一顆的頂部都不一樣大。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "欸不是，那顆好像一個表情符號。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "跟你來這種地方，我會想把它做進遊戲裡。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次那顆像表情符號的，我做成遊戲裡的道具了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "（她拉著你在岩石間走）……這邊。這邊有隱藏道具。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.platform": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "（海蝕平台）……地上的洞好多。"
+       },
+       {
+        "who": "heroine_04",
+        "text": "很像沒載入完的地圖。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「要等它載入。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……好。等一百萬年。"
+         }
+        ]
+       },
+       {
+        "t": "「小心腳下。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……好。我看路。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "水窪裡有小螃蟹。牠的移動路徑很有趣。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "浪的聲音可以拿來做音效。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "跟你在海邊，我會想睡。……是好的意思。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次那隻小螃蟹的路徑，我做成 AI 的參考了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "（浪打上來，她拉著你的手）……我不是怕。是物理。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.trail": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "步道好長。太陽好大。"
+       },
+       {
+        "who": "heroine_04",
+        "text": "……我躲在你的影子裡。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「好，躲吧。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……謝謝。你的影子是遮陽傘。"
+         }
+        ]
+       },
+       {
+        "t": "「走快一點。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……好。快到盡頭。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "海鳥在頭上飛。牠們的飛行路線好穩。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "步道盡頭的風好大。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "……好啦，步道也可以。跟你走的話。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次躲在你的影子裡。今天也要。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "（她撐著你的影子走）……這是戰術。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_05": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "一件事：我國中校外教學來過。"
+      },
+      {
+       "who": "heroine_05",
+       "text": "重點是，那次我在背地理課本上的名詞。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "我把保溫瓶裝滿了。今天要走很久。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "門票我買了。下次換你。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "今天手機調靜音了。我真的沒看。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "今天不談論文。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "今天……我沒有想論文。"
+      },
+      {
+       "who": "heroine_05",
+       "text": "可是很好。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "回去吧。明天要去研究室。……我不是想走。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "下次，我想看這裡的日落。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "今天的行程表上，只有你。……這句不要記。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D17.queen": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "（女王頭）……一件事：它的脖子越來越細。"
+       },
+       {
+        "who": "heroine_05",
+        "text": "總有一天會斷。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「學姊會難過嗎？」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……會。可是那是自然的規則。"
+         }
+        ]
+       },
+       {
+        "t": "「我們好好看。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……嗯。好好看。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "排隊的人好多。我們排了四十分鐘。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "告示寫不能碰。大家都遵守。我給他們九十分。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "以前我覺得排隊是浪費時間。今天還好。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次看的時候，它還在。今天也在。我放心了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "（排隊的時候，她站得離你很近）……一件事。沒事。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.mushroom": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "（蕈狀岩區）……這些岩石花了很久的時間。"
+       },
+       {
+        "who": "heroine_05",
+        "text": "重點是，它們不急。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「學姊也可以不急。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……我在練習。"
+         }
+        ]
+       },
+       {
+        "t": "「它們很有耐心。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……比我有耐心。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "岩石的紋路很清楚。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "風好大。……我把外套穿上了。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "我最近學會了：慢慢來，也會到。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次說在練習不急。……今天有進步。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "（她站在你旁邊）……再看一下。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.platform": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "（海蝕平台）……這些洞，是海浪一次一次打出來的。"
+       },
+       {
+        "who": "heroine_05",
+        "text": "一次不夠。要很多次。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「像讀書。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……你這句，我會記住。"
+         }
+        ]
+       },
+       {
+        "t": "「像寫論文。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……不要提論文。……好，是有點像。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "水窪裡有小螃蟹。牠很忙。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "浪的聲音很大。我聽得到自己在想什麼。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "跟你站在這裡，我不用一直想下一件事。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次你說像讀書。我在研究室跟學弟妹說了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "（浪打上來，她握住你的手）不要放手。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.trail": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "（海邊步道）……這條路沒有岔路。"
+       },
+       {
+        "who": "heroine_05",
+        "text": "我不用一直做決定。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「今天不用決定。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……好。今天只走。"
+         }
+        ]
+       },
+       {
+        "t": "「我決定就好。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……好。不要走太快。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "海鳥在頭上飛。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "步道的盡頭，風很大。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "跟你走，我不用一直想下一件事。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次走到盡頭，我差點被風吹走。……你拉住我了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "（她走在你旁邊，手背碰到你的手）……風好大。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_peishan": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "野柳！我在課本上看過女王頭。"
+      },
+      {
+       "who": "classmate_peishan",
+       "text": "……真的有。好感動。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "我帶了一本小書。可能不會看。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "海的味道好鹹。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "跟你出來，我發現我話變多了。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "今天不帶書。……真的沒帶。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "今天好像什麼都沒做，可是很滿。"
+      },
+      {
+       "who": "classmate_peishan",
+       "text": "我想帶我爸媽來看女王頭。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "回去要讀書了。……可是今天值得。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "下次換我帶路。我會先查好。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "今天的問題，我留到下次問。……這樣下次你就要來。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D17.queen": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "（女王頭）……如果它斷了，還算女王頭嗎？"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「算，名字還在。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……那名字比石頭還久。好奇怪。"
+         }
+        ]
+       },
+       {
+        "t": "「不算了。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……那我們現在看到的，是最後的樣子之一。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "排隊的人好多。每個人都想跟它拍照。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "它的側臉好溫柔。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "在這裡，我好像可以不用想下一堂課。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次那個問題，我問了哲學系的老師。他說，這是一個很老的問題。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "（排隊的時候，她靠著你）……今天問題比較少。因為很開心。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.mushroom": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "（蕈狀岩區）……這些石頭，一開始就長這樣嗎？"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「是慢慢變的。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……那它們以前長什麼樣子？"
+         }
+        ]
+       },
+       {
+        "t": "「我們查一下。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……好。可是先猜。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "有一群小朋友在數石頭。數到一半吵架了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "風好大。我的帽子差點飛走。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "以前我覺得讀書就是背。現在我想知道東西從哪裡來。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次的問題，我查到了。以前它們是平的。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "我們在這裡坐一下。……問題等一下再問。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.platform": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "（海蝕平台）……我有點怕。"
+       },
+       {
+        "who": "classmate_peishan",
+        "text": "因為浪好大。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我在旁邊。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……那我就不怕了。"
+         }
+        ]
+       },
+       {
+        "t": "「我們站遠一點。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……好。謝謝。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "水窪裡有小螃蟹。好可愛。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "浪的聲音好大。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "我想帶我爸媽來看。……他們會說太遠。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次說我有點怕。……今天比較不怕了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "（浪打上來，她拉著你的手往後退）……一起退！"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.trail": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "（海邊步道）……走到盡頭，會看到什麼？"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「整片海。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……那我們走到底。"
+         }
+        ]
+       },
+       {
+        "t": "「走走看就知道。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……好。我喜歡不知道答案的路。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "海鳥好多。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "風好大。我的頭髮一直亂。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "跟你走，我不太會想讀書的事。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次走到盡頭，看到整片海。今天也是。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "（她靠著你的肩膀）……五分鐘。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "kexin": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "野柳。假設女王頭今天斷了，我們就是最後一批看到的人。"
+      },
+      {
+       "who": "kexin",
+       "text": "……不會。我查過了，它還很穩。這是告知。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "今天的行程表只有一頁。……好，兩頁。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "我帶了你喜歡的那個餅乾。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "予樂說我們很像老夫老妻。我說我們只是很會分工。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "今天的問題，我放在女王頭。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "今天走了一萬步。我的手錶說的。"
+      },
+      {
+       "who": "kexin",
+       "text": "你比我少的話，你請晚餐。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "回去吧。明天兩邊都有早八。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "下次再說。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "今天的假設題：假設明天也這樣。……不用回答。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D17.queen": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "（女王頭）……我們要排四十分鐘。"
+       },
+       {
+        "who": "kexin",
+        "text": "如果用經濟學算，這四十分鐘的機會成本很高。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「可是跟妳排。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……好答案。機會成本歸零。"
+         }
+        ]
+       },
+       {
+        "t": "「那不排了。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……不行。我想拍。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "排隊的人都在講它像誰。予樂一定也會講。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "它的脖子好細。……我們拍快一點。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "以後我們每年來一次，看它有沒有變。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次拍的那張，我設成桌布了。予樂說女王頭比你上鏡。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "合照。這次正面。……好啦，我也有正面。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.mushroom": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "（蕈狀岩區）……這些石頭，在這裡站了好久。"
+       },
+       {
+        "who": "kexin",
+        "text": "比任何一部法律都久。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「法律也會變。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……嗯。石頭也會變。只是比較慢。"
+         }
+        ]
+       },
+       {
+        "t": "「妳又在想法律。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……兩個法律系的人出來玩，很難不想。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "有一顆石頭好像長頸鹿。……好，有一點像。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "風好大。我的耳環一直在晃。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "跟你走，我會走比較慢。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次那顆像長頸鹿的，予樂說完全不像。她不懂。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "（她勾著你的手臂）……這是戰術。"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.platform": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "（海蝕平台）……這些洞，是浪一次一次打出來的。"
+       },
+       {
+        "who": "kexin",
+        "text": "很像我們讀判決。一次讀不懂，要讀很多次。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳也讀很多次？」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……三次。第三次才懂。"
+         }
+        ]
+       },
+       {
+        "t": "「我第一次就懂。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……騙人。好，你贏了。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "水窪裡有小螃蟹。牠躲在石頭下面。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "浪的聲音好大。我們講話要很大聲。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "跟你在海邊，我不會想下一件事。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次說讀三次。……這次的判決，我讀了兩次就懂了。進步了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "（浪打上來，她拉著你的手往後退）……一起退！"
+        }
+       ]
+      }
+     ]
+    },
+    "D17.trail": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "（海邊步道）……走到盡頭，可以看到整個海岬。"
+       },
+       {
+        "who": "kexin",
+        "text": "我們比賽誰先到。……開玩笑的。慢慢走。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「慢慢走。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……嗯。今天不比賽。"
+         }
+        ]
+       },
+       {
+        "t": "「比就比。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……好。可是你要讓我。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "海鳥好多。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "步道好長。很適合聊天。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "以後我們每次出來，都走到盡頭。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次說不比賽。……今天也不比。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "（她牽著你的手）……走到那個燈。再走到下一個。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  }
+ }
+}
