@@ -2859,9 +2859,9 @@
    "sha": "da9fb2b6",
    "what": "SCN-US-01 美國公寓室內 MODEL_READY（客廳、廚房、臥室；WALL_ partition、SEASON_SNOW、PLATE_FACE）",
    "task": "ART-US1",
-   "msg": "DELIVERED",
+   "msg": "ACK",
    "integration": "未整合",
-   "note": "V4 美國線時接區域；接上後請 LAWWW2-B 拍遊戲內截圖",
+   "note": "V4 美國線時接區域（排在 v9.9 發布後、v0～v2 之後，D81）；接上後請 LAWWW2-B 拍遊戲內截圖。LAWWW-B 13:30 回 ACK",
    "date": "2026-10-16T13:0xZ"
   },
   {
@@ -2887,6 +2887,30 @@
    "integration": "已整合待測試",
    "note": "E27",
    "date": "2026-10-16T13:0xZ"
+  },
+  {
+   "id": "DLV-1016-241",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "523e4e39",
+   "what": "ART-US3 美國公寓臥室家具驗收通過（LAWWW2-B 586eface，GLB／腳本／渲染和 d2378c1d 相同）",
+   "task": "ART-US3",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "和 ART-US1、ART-US2 一起在 V4 美國線接",
+   "date": "2026-10-16T12:59Z"
+  },
+  {
+   "id": "DLV-1016-242",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "4380b0eb",
+   "what": "AB-38 BB_112 4-1 重考期 R 系列缺的台詞（R1 憲法第七條三個按鈕＋法律審查、R3、R4 E32_COMFORT、R6、R7、玩樂日旁白 P1～P6、讀書日開場 S1～S5）",
+   "task": "V0-B3",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "第②級（AA-B 同意結構，AA_154 A39）；LAWWW-B 接著做",
+   "date": "2026-10-16T13:24Z"
   }
  ],
  "ignored": [

@@ -1670,6 +1670,29 @@ const STORY_EVENTS=[
       {label:'end'},{speaker:null,text:'你們走下樓。走廊的窗外，椰林大道的樹已經是夏天的顏色。'},{speaker:'econ_zhengxun',text:'午餐。小福。'},{speaker:null,text:'一路上，他沒有問你下學期要做什麼。'},
       {rel:{econ_zhengxun:{trust:1}}} ],
     after:(G,GM)=>{ if(G.hour<12.5) GM.advance(12.5-G.hour); } },
+  /* ★E35 考試的前一晚（BB_104 8b-18；AA_154 A41）：7/10（四）21:00 大一女舍門口（3D，她暑假住的宿舍樓下；20:45～21:15 走到她旁邊）；21:15 還沒到＝21:30 電話版（第一句旁白換成電話那句）。
+     記 E35_PLAN（sea／sleep／shop）、E35_MET。私訊、出發選單、可昕的站位、睡著被叫醒在 story3d.js（phoneRules、coreCallAt）。
+     兩個事件同一段台詞：ev_y0_e35＝在外面（3D，或電話版時人不在家）；ev_y0_e35h＝電話版時人在臺北的家（home3d.js 選單那一輪演）。
+     去了的玩家演完直接回家（AA_154 A41 ⑤：22:00 以前到家；旁白不加，LAWWW 定）*/
+  ...(()=>{ const D=G=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-07-10'):null;
+    const lines=[ {if:{flags:['E35_PHONE']},speaker:null,text:'（電話裡，她那邊有翻紙的聲音。）'},{unless:{flags:['E35_PHONE']},speaker:null,text:'（她暑假住的宿舍樓下。路燈。她手上拿著准考證，翻過來又翻回去。）'},
+      {speaker:'kexin',text:'今天的假設題很簡單。'},{speaker:'kexin',text:'考完，要去哪裡？'},
+      {choice:[{text:'「海邊。」',set:{E35_PLAN:'sea'},goto:'a'},{text:'「睡一整天。」',set:{E35_PLAN:'sleep'},goto:'b'},{text:'「吃妳說的那家。」',set:{E35_PLAN:'shop'},goto:'c'}]},
+      {label:'a'},{speaker:'kexin',text:'好。那我帶一顆西瓜。……不要問為什麼。'},{goto:'end'},
+      {label:'b'},{speaker:'kexin',text:'你睡，我在旁邊看書。……開玩笑的，我也要睡。'},{goto:'end'},
+      {label:'c'},{speaker:'kexin',text:'你記得？我說過的店有十家。'},{speaker:'player',text:'第三家。'},{speaker:'kexin',text:'……對。'},
+      {label:'end'},{speaker:'kexin',text:'明天考場見。……不對。考完見。'},
+      {if:{flags:['E35_PHONE']},set:{E35_MET:false}},{unless:{flags:['E35_PHONE']},set:{E35_MET:true}},{set:{E35_DONE:true}} ];
+    const atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
+    return [
+      { id:'ev_y0_e35', stage:'econ', title:'考試的前一晚', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'blur',
+        prereq:{custom:G=>{ const F=G.flags; if(!F.E35_ASKED||F.E35_DONE||atHome(G)) return false; if(F.E35_PHONE) return true; if(G.day!==D(G)||G.zone!=='campus'||G.hour<20.75||G.hour>=21.25) return false;
+          const P=typeof GAME!=='undefined'&&GAME.E&&GAME.E.player&&GAME.E.player.obj, A=STORY.E35_AT; if(!P) return true; const dx=P.position.x-A.x, dz=P.position.z-A.z; return dx*dx+dz*dz<=25; }},
+        dialogue:lines,
+        after:(G,GM)=>{ if(G.flags.E35_MET&&!atHome(G)&&typeof HOME!=='undefined'&&HOME.go) HOME.go(GM).catch(e=>console.warn('E35 HOME.go',e)); } },
+      { id:'ev_y0_e35h', stage:'econ', title:'考試的前一晚', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark',
+        prereq:{custom:G=>{ const F=G.flags; return !!(F.E35_ASKED&&F.E35_PHONE&&!F.E35_DONE); }},
+        dialogue:lines } ]; })(),
   /* XL-2 阿勳一句（表叔；BB_110 F1 的回聲，AA_154 A28、A43）：Y0S2 第 1 週第一次在宿舍遇到阿勳（和 XL-1 同一套），F1 選了「轉給表叔」（Y0_UNCLE）才說 */
   { id:'ev_y0_xl2', stage:'econ', title:'表叔的變異數', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S2'], weeks:[1], time:[18,24], once:true, background:'blur',
     prereq:{custom:G=>!!(G.flags&&G.flags.Y0_UNCLE)},

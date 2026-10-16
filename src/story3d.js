@@ -787,6 +787,13 @@ const STORY = (function(){
     if(S.isEcon(G)){ const d34=S.dayOfKey('2025-06-02'), XU=t=>({th:'p:econ_zhengxun',from:'econ_zhengxun',name:'阿勳',text:t}), done34=!!(G.events&&G.events.done&&G.events.done.ev_y0_e34);
       if(d34!=null&&(G.day>d34-1||(G.day===d34-1&&G.hour>=21))&&G.day<=d34&&!PHONE.sent(G,'y0_e34_ask')) PHONE.at(G,d34-1,21,[XU('明天經原最後一堂。十二點十分下課。')],'y0_e34_ask');
       if(d34!=null&&!done34&&(G.day>d34||(G.day===d34&&G.hour>=12.25))&&G.day<=d34+2&&!PHONE.sent(G,'y0_e34_miss')) PHONE.at(G,d34,12.25,[XU('老師最後說：選了要付什麼。我覺得你付得起。')],'y0_e34_miss'); }
+    /* ★E35 考試的前一晚（BB_104 8b-18；AA_154 A41）：7/10（四）18:00 可昕私訊兩則（BB-B 6d59df01）＋出發選單「女舍門口 21:00」（從臺北的家約 30 分鐘，帶到大一女舍門口的長椅旁）；
+       20:45～21:15 走到她旁邊就演（3D，E35_MET:true）；21:15 還沒到＝21:30 電話版（E35_PHONE：在家＝home3d 選單那一輪演、睡著＝電話叫醒（coreCallAt）、在別的事件裡＝結束後；E35_MET:false）*/
+    if(S.isEcon(G)){ const d35=S.dayOfKey('2025-07-10'), K=t=>({th:'p:kexin',from:'kexin',text:t});
+      if(d35!=null&&G.day===d35&&G.hour>=18&&!PHONE.sent(G,'y0_e35_ask')&&!F.E35_DONE){ F.E35_ASKED=true; PHONE.at(G,d35,18,[K('今晚九點，我宿舍樓下。'),K('五分鐘就好。明天要早睡。')],'y0_e35_ask');
+        if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_e35')&&G.hour<21.25) OUT.plan(G,{id:'y0_e35',goto:{zone:'campus',x:S.E35_AT.x,z:S.E35_AT.z-3,yaw:0},early:0.25,day:d35,h:21,late:0.25,place:'女舍門口',title:'女舍門口 21:00',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}); }
+      if(d35!=null&&F.E35_ASKED&&!F.E35_DONE&&G.zone==='campus'&&G.day===d35&&G.hour>=20.75&&G.hour<21.25&&GM.spawnCharacter&&!(GM.npc&&GM.npc.kexin)){ try{ GM.spawnCharacter('kexin',S.E35_AT.x,S.E35_AT.z,{yaw:Math.PI}); }catch(e){ console.warn('E35 kexin',e); } }
+      if(d35!=null&&F.E35_ASKED&&!F.E35_DONE&&(G.day>d35||G.hour>=21.5)) F.E35_PHONE=true; }
     /* E30 辦休學（AA_169）：3/27（四）起休學（Y0_LEFT：經濟系的課、法學緒論都不排，那天的課不扣出席也不記缺席）；14:40 自動（事件 ev_y0_e30）。
        「先走。」＝15:12 群組阿勳「我在裡面舉筆了。你有看到嗎？」＋回覆「有。」→「好。那就算數。」。當晚 22:00 以後第一次回房間＝檯燈上的便利貼（ev_y0_e30_note）*/
     if(S.isEcon(G)){ const d30=S.dayOfKey('2025-03-27'); if(d30!=null&&G.day>=d30&&!F.Y0_LEFT) F.Y0_LEFT=true;
@@ -1659,7 +1666,10 @@ const STORY = (function(){
   S.y0FinalEnd=function(G){ if(typeof CLS==='undefined'||!CLS.lastExamEnd||!CLS.termCourses) return null; const key=CLS.termCourses(G,'Y0S1').map(c=>c.id).join(','); const c=FE_CACHE.get(G);
     if(c&&c.key===key) return c.v; let v=null; try{ v=CLS.lastExamEnd(G,'Y0S1','final'); }catch(e){ v=null; } FE_CACHE.set(G,{key,v}); return v; };
   S.e22bFrom=fe=>fe.h<12?13.5:fe.h+20/60;
-  S.coreCallAt=function(G){ if(!S.isEcon(G)||typeof OUT==='undefined') return null; for(const id of CORE_OUT){ const q=OUT.get(G,id); if(q&&q.state!=='done'&&q.day===G.day){ const t=q.h+(q.late!=null?q.late:0.75); if(G.hour<t) return t; } } return null; };
+  S.coreCallAt=function(G){ if(!S.isEcon(G)||typeof OUT==='undefined') return null; for(const id of CORE_OUT){ const q=OUT.get(G,id); if(q&&q.state!=='done'&&q.day===G.day){ const t=q.h+(q.late!=null?q.late:0.75); if(G.hour<t) return t; } }
+    const d35=S.dayOfKey('2025-07-10'); if(d35!=null&&G.day===d35&&G.flags.E35_ASKED&&!G.flags.E35_DONE&&G.hour<21.5) return 21.5;   /* E35 電話版（AA_154 A41 ④）：睡著＝21:30 電話叫醒 */
+    return null; };
+  S.E35_AT={x:-91,z:55.6};   /* E35 可昕站的地方：大一女舍門口長椅（-93,54.2）的東邊（AA_154 A41 ①：D1、D2、E13 用的同一個地方）*/
   async function sleepNow(GM,wake,alarm){ const G=GM.G, F=G.flags, E=GM.E;
     { const e24=S.isEcon(G)&&typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id==='ev_y0_e24c'):null, d=S.dayOfKey('2025-03-13');   /* E24c 的邊界情況（AA_169）：3/13 晚上 22:00 以前先睡＝睡前先演 */
       if(e24&&d!=null&&G.day===d&&G.hour<22&&G.hour>=17&&!(G.events&&G.events.done&&G.events.done.ev_y0_e24c)&&typeof EVENTS!=='undefined'){ await EVENTS.run(e24); } }
