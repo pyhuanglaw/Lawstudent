@@ -586,7 +586,11 @@ const STORY_EVENTS=[
      記 P4D_ANSWER（retake／good／long）、MET_XUN（法律系時期見過阿勳：之後的事件不再重新介紹）、MET_PINYU、ECON_HALLWAY_DAY（SK03 小福午餐從下一個週五開始）*/
   { id:'ev_econ_hallway', title:'你怎麼又在這裡？', participants:[], location:'any', trigger:'class', afterClass:'econ_principles_2', term:['Y1S2'], weeks:[2,3,4,5,7], weekday:[5], once:true, background:'blur',
     dialogue:[ {speaker:'阿勳',text:'……你怎麼又在這裡？'},
-      {speaker:'阿勳',text:'盧正勳。你經濟系那年的室友。……你該不會連我都忘了。'},
+      /* 第二句（BB_96 10-1，BB-B 2026-10-16 2c67d4d7，AB-46）：已經聯絡過（MET_XUN：SK01 一律記；玩過經濟系那一年的也有）換成「法律系不是在對面嗎」；
+         另外領過系外套（SOC_WRONG_BUILDING，SK02）＝「又走錯棟了？」；完全沒聯絡過的舊存檔照原本的重新介紹 */
+      {if:{flags:['MET_XUN','SOC_WRONG_BUILDING']},speaker:'阿勳',text:'法律系不是在對面嗎。……又走錯棟了？'},
+      {if:{flags:['MET_XUN']},unless:{flags:['SOC_WRONG_BUILDING']},speaker:'阿勳',text:'法律系不是在對面嗎。你跑來這裡做什麼？'},
+      {unless:{flags:['MET_XUN']},speaker:'阿勳',text:'盧正勳。你經濟系那年的室友。……你該不會連我都忘了。'},
       {if:{flags:['MET_PINYU']},speaker:'品妤',text:'你來了。'},
       {unless:{flags:['MET_PINYU']},speaker:'品妤',text:'曾品妤。經濟系，可昕以前的室友。'},
       {choice:[{text:'「重修。」',set:{P4D_ANSWER:'retake'},goto:'r'},{text:'「我在法律系，很好。」',set:{P4D_ANSWER:'good'},goto:'g'},{text:'「說來話長。」',set:{P4D_ANSWER:'long'},goto:'l'}]},
@@ -688,6 +692,55 @@ const STORY_EVENTS=[
       Object.assign({},base,{ id:'ev_sk04_reveal', title:'是你？', participants:[], prereq:{custom:G=>{ const w=wk(G); return on(G)&&(w===15||w===16)&&!G.flags.STICKY_NOTES; }},
         dialogue:[ {speaker:'唐睿',text:'……是你？'},{speaker:'player',text:'……是你？'},
           {unless:{flags:['PLAYED_Y0']},speaker:'唐睿',text:'唐睿。全系最會講話的那個。……你真的忘了我？'},{set:{STICKY_NOTES:true,KNOWS_TANG:true}} ] }) ]; })(),
+  /* SK01 對面的舊系館（BB_106 SK01，BB-B 2026-10-16 定稿 d5224961；AA_154 A52 ①）：法律系第 2 天（9/18 週四）民總下課、第二天的劇情結束以後，第一次站在霖澤館前
+     （大一上第 3～6 週；社科圖開著、接下來 75 分鐘沒有課：STORY.sk01Ready）。阿勳兩則私訊（沒玩經濟系那一年的先多一則重新介紹）→
+     「去社科圖」＝直接 2D（soc_library，社科院在對面不用走過去；一小時）／「先回宿舍」＝他回一個貼圖，第 4 天以後第一次經過法學院廣場，二樓的窗口揮手（ev_sk01_wave）。
+     去不去都記 MET_XUN（法律系時期第一次聯絡：大一下的 P4d 換成已經聯絡過的開頭）、SK01_CHOICE（go／home）、SK01_DAY。玩過經濟系那一年的玩家多一句保齡球（R7 打過、沒打過都通）*/
+  { id:'ev_sk01_soc', title:'對面的舊系館', participants:[], location:'campus', trigger:'auto', term:['Y1S1'], weeks:[3,4,5,6], once:true, background:'blur', near:{x:33,z:-97,r:10},
+    prereq:{custom:G=>typeof STORY!=='undefined'&&STORY.sk01Ready(G)},
+    dialogue:[ {unless:{flags:['PLAYED_Y0']},phone:'econ_zhengxun',text:'是我，阿勳。你經濟系那年的室友。'},
+      {phone:'econ_zhengxun',text:'你在對面喔？我在二樓看到你了。'},
+      {phone:'econ_zhengxun',text:'下課來圖書館。我幫你佔位。你以前那一罐，我也買了。'},
+      {choice:[{text:'（去社科圖）',set:{SK01_CHOICE:'go'},goto:'go'},{text:'（先回宿舍）',set:{SK01_CHOICE:'home'},goto:'home'}]},
+      {label:'home'},{phone:'econ_zhengxun',text:'（貼圖）'},{goto:'end'},
+      {label:'go'},{scene:'社科院圖書館・閱覽區',bg:'soc_library'},
+      {speaker:null,text:'社科圖二樓，靠窗那一排。阿勳旁邊的位子上，壓著一本統計課本。'},
+      {speaker:null,text:'桌上有一罐飲料。是你以前常喝的那一種。'},
+      {speaker:'阿勳',text:'坐。課本是佔位用的，我沒在讀。'},
+      {speaker:'player',text:'……你還記得。'},
+      {speaker:'阿勳',text:'一年。看也看會了。'},
+      {if:{flags:['PLAYED_Y0']},speaker:'阿勳',text:'保齡球館，我還是每個週末去。……你來的話，就是兩個人。'},
+      {speaker:'阿勳',text:'讀不下去就過來。這裡的位子，我很會佔。'},
+      {advance:1},
+      {label:'end'} ],
+    consequences:{flags:{MET_XUN:true},stamp:['SK01_DAY'],memo:'經濟系那年的室友阿勳，在對面的社科院傳訊息來'} },
+  /* SK01 選了「先回宿舍」：第 4 天以後第一次經過法學院廣場（霖澤館和萬才館之間；看得到社科院的正面），一句旁白（BB_106 SK01 定稿）*/
+  { id:'ev_sk01_wave', title:'', participants:[], location:'campus', trigger:'auto', term:['Y1S1'], once:true, background:'blur', near:{x:61,z:-94,r:22}, time:[8.5,19.5],
+    prereq:{custom:G=>G.flags.SK01_CHOICE==='home'&&G.day>=4&&G.day>(G.flags.SK01_DAY|0)},
+    dialogue:[ {speaker:null,text:'社科院二樓的窗口，有人在對你揮手。是阿勳。……他揮完就轉身進去了。'} ] },
+  /* SK02 你的系外套還在這裡（BB_106 SK02，BB-B 2026-10-16 定稿 d5224961；AA_154 A52 ②）：SK01 之後，大一上第 4～7 週平日 13:00～17:00（系辦開門），
+     阿勳第 4 週週一 15:00 的私訊（story3d.js phoneRules 'sk02_dm'；SK01 比週一晚的，排在 SK01 隔天以後第一個平日）→ 走到社科院門口〔3D〕→ 2D 系辦（soc_office）。
+     三個選擇記 ECON_JACKET（wear／xun／closet）；領了外套就記 SOC_WRONG_BUILDING（經濟系那群之後說「走錯棟」）。①隔天起七天內下一次霖澤館的課，阿哲一句（ev_sk02_spy）；
+     ②阿勳在旁邊（npcNear）當面說，不在＝旁白＋當晚 21:00 私訊（phoneRules 'sk02_gift'）。阿勳那句「真的重三倍」也只有他在旁邊才有（大一上他還沒有作息，實際上不會出現）。
+     沒去：第 8 週週一以後回到男生宿舍門廳，阿勳的紙條（STORY.sk02W8；BB-B 補字前先只有紙條）*/
+  { id:'ev_sk02_jacket', title:'你的系外套還在這裡', participants:[], location:'campus', trigger:'auto', term:['Y1S1'], weeks:[4,5,6,7], weekday:[1,2,3,4,5], time:[13,17], once:true, background:'blur', near:{x:97.9,z:-67.5,r:4.5},
+    prereq:{custom:G=>typeof STORY!=='undefined'&&STORY.sk02Open(G)},
+    dialogue:[ {speaker:null,text:'你還記得哪一台電梯比較快。只是公告欄上，已經沒有一張是寫給你的。'},
+      {scene:'經濟系系辦',bg:'soc_office'},
+      {speaker:'系辦助理',text:'學號給我。……這個學號，不在我們系的名單上了耶。'},
+      {speaker:'player',text:'我現在是法律系的。'},
+      {speaker:'系辦助理',text:'那你走錯棟了。……開玩笑的。外套在這裡，等你半年了。'},
+      {if:{custom:G=>STORY.xunNear()&&!!G.flags.PLAYED_Y0},speaker:'阿勳',text:'家豪學長說得對。真的重三倍。'},
+      {if:{custom:G=>STORY.xunNear()&&!G.flags.PLAYED_Y0},speaker:'阿勳',text:'……法律系的書，真的比較重。'},
+      {choice:[{text:'（穿去霖澤館上課）',set:{ECON_JACKET:'wear'},goto:'end'},{text:'（送給阿勳）',set:{ECON_JACKET:'xun'},goto:'xun'},{text:'（收進衣櫃）',set:{ECON_JACKET:'closet'},goto:'end'}]},
+      {label:'xun'},{if:{custom:()=>STORY.xunNear()},speaker:'阿勳',text:'我現在有兩件，輪流穿。'},
+      {unless:{custom:()=>STORY.xunNear()},speaker:null,text:'你請系辦助理轉交給阿勳。'},{unless:{custom:()=>STORY.xunNear()},set:{SK02_GIFT_DM:true}},
+      {label:'end'},{advance:0.25} ],
+    consequences:{flags:{SOC_WRONG_BUILDING:true},stamp:['SK02_DAY'],memo:'去經濟系系辦領了去年冬天訂的系外套'} },
+  /* SK02 ①穿去霖澤館上課：領外套的隔天起七天內，下一次霖澤館（201）的課上課前，阿哲一句（AA_154 A52 ②）*/
+  { id:'ev_sk02_spy', title:'', participants:['zhe'], location:'any', trigger:'class', beforeClass:it=>!!(it&&it.room&&it.room.zone==='classroom'), term:['Y1S1'], once:true, background:'blur',
+    prereq:{custom:G=>G.flags.ECON_JACKET==='wear'&&G.flags.SK02_DAY!=null&&G.day>G.flags.SK02_DAY&&G.day<=G.flags.SK02_DAY+7},
+    dialogue:[ {speaker:'阿哲',text:'你是經濟系派來的臥底嗎？'} ] },
   { id:'ev_sk03_xinci_class', title:'統計課那個人', participants:['classmate_xinci'], location:'any', trigger:'class', beforeClass:'econ_principles_2', term:['Y1S2'], weekday:[5], once:true, background:'blur',
     prereq:{custom:G=>{ if(!G.flags.P4D_ANSWER||G.flags.ECON_LAW_BRIDGE||typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); return !!t&&t.week>=8; }},
     dialogue:[ {if:{custom:G=>typeof CALENDAR!=='undefined'&&(CALENDAR.termOf(G.day)||{}).week===8},speaker:null,text:'考卷還沒發。'},

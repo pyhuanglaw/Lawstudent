@@ -1177,6 +1177,7 @@ const Z3 = (function(){
     { /* 吧檯椅（v9.3 第十七批：原本是三個實心圓柱）：木坐墊、金屬立柱、腳踏環、底座 */ const sb=new TK.Bin(); const wd=M('#3b2a1e',{rough:0.6}), mt=M('#4a4f55',{rough:0.4}); for(let i=0;i<4;i++){ const sx=-4.5+i*1.6, sz=-3.3; sb.add(wd,new THREE.CylinderGeometry(0.19,0.17,0.06,16),sx,0.7,sz); sb.add(mt,new THREE.CylinderGeometry(0.03,0.03,0.64,8),sx,0.36,sz); sb.add(mt,new THREE.TorusGeometry(0.16,0.012,6,16),sx,0.28,sz,0,{rx:Math.PI/2}); sb.add(mt,new THREE.CylinderGeometry(0.2,0.22,0.03,16),sx,0.015,sz); } sb.build(g); }
     const menu=new THREE.Mesh(new THREE.BoxGeometry(2.4,1.2,0.05),M('#2b2118')); menu.position.set(2,2.4,-5.85); g.add(menu); const mp=W3.signPlane('拿鐵 120 ・ 手沖 150 ・ 檸檬塔 110',2.3,0.5,{color:'#f4ead8',size:44}); mp.position.set(2,2.5,-5.8); g.add(mp); const mp2=W3.signPlane('營業至 02:30 ・ 讀書免低消',2.3,0.4,{color:'#c9a24f',size:40}); mp2.position.set(2,2.05,-5.8); g.add(mp2);
     E.interactables.push({x:-2.5,z:-3.2,radius:1.6,label:'到吧檯點餐',counter:'cafe'});
+    E.interactables.push({x:0.7,z:-3.7,radius:0.9,label:'看班表',cafeRota:true});   /* 牆上的班表（ART-WZ4 的模型；字在 story3d.js S.CAFE_ROTA，BB_159）*/
     E.interactables.push({x:0,z:5.6,radius:1.6,label:'離開咖啡廳',exit:{to:'wenzhou',spawn:{x:51.7,z:0,yaw:-Math.PI/2}}}); z.spawn={x:0,z:4.6,yaw:Math.PI};
     // 正式模型（tools/blender/env_second/cafe_layout.py）多出來的家具：店面玻璃內側的窗邊吧台（兩段）、後牆右段的書牆、三盆大盆栽——導航擋住；
     // 備用模型也放同樣大小的簡單量體（正式模型載入失敗時不會撞到看不見的東西）

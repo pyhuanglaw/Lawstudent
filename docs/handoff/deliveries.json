@@ -3379,6 +3379,90 @@
    "integration": "未整合",
    "note": "v3",
    "date": "2026-10-16T14:3xZ"
+  },
+  {
+   "id": "DLV-1016-282",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "d5224961",
+   "what": "BB_106 SK01、SK02 定稿：LAWWW-B 要的字（社科圖六句、保齡球、揮手、轉交私訊、三個按鈕）",
+   "task": "V0-SK",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "tests/v1_sk01_unit.js",
+   "date": "2026-10-16T15:2xZ"
+  },
+  {
+   "id": "DLV-1016-283",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "2c67d4d7",
+   "what": "BB_96 10-1 AB-46：P4d 已經聯絡過的開頭（MET_XUN／SOC_WRONG_BUILDING）",
+   "task": "V0-E2",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "tests/v1_sk01_unit.js 第 12 項",
+   "date": "2026-10-16T15:2xZ"
+  },
+  {
+   "id": "DLV-1016-284",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "0b917af4",
+   "what": "BB_159 Café 牆上的班表四版",
+   "task": "ART-WZ4",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "tests/cafe_rota_unit.js",
+   "date": "2026-10-16T15:2xZ"
+  },
+  {
+   "id": "DLV-1016-285",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "afb2689e",
+   "what": "ART-19 芷若 thinking ART_APPROVED（BB_131 7-2，ADV 截圖）",
+   "task": "ART-19",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "D59",
+   "date": "2026-10-16T15:2xZ"
+  },
+  {
+   "id": "DLV-1016-286",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "9413a569",
+   "what": "AA_180 大三（v4）AA 事件的預先回答",
+   "task": "CAL-TY-Y2Y3",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v4 開工時用；颱風假兩天另列 CAL-TY-Y2Y3",
+   "date": "2026-10-16T15:2xZ"
+  },
+  {
+   "id": "DLV-1016-287",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "48e74be8",
+   "what": "AB-47：AA_180 大三要 BB 補的五處（重訪日 3 子晴、校慶大三版、T3 2027-10-13、K3 10/18、Q12 發表會）",
+   "task": "CAL-TY-Y2Y3",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v4",
+   "date": "2026-10-16T15:2xZ"
+  },
+  {
+   "id": "DLV-1016-288",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "347ff872",
+   "what": "企劃線合併 BB-B 16bd2c03（BB_146 記憶名稱表、BB_97 第 10/11 節、BB_104、BB_107、BB_112、BB_153、BB_132）",
+   "task": "V0-LADDER",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "階梯已重跑 import（v9.9 之前）",
+   "date": "2026-10-16T15:2xZ"
   }
  ],
  "ignored": [

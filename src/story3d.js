@@ -562,6 +562,7 @@ const STORY = (function(){
     if(S.toLawDue(G)&&!(typeof HOME!=='undefined'&&HOME.at(G))){ S.toLaw(GM).catch(e=>console.warn('STORY.toLaw',e)); return; }   /* 經濟系 → 法律系（8/31；在家的在 home3d.js）*/
     if(typeof HOME!=='undefined'&&HOME.at(G)){ HOME.tick(GM); return; }   /* 讀檔時人在臺北的家：回到家的選單（在家的時候宿舍、校園的事件不發生）*/
     if(G.zone==='dorm'){ if(S.isEcon(G)&&S.y0Tick(GM)) return; S.dormItems(GM); if(fyPotsTick(GM,dt)) return; }
+    if(S.sk02W8Due(G)){ S.sk02W8(GM).catch(e=>console.warn('SK02 W8',e)); return; }   /* SK02 沒去系辦的玩家（BB_106）*/
     S.kaiDormTick(GM);   /* 室友阿凱的宿舍事件（K-D3 鍵盤聲、K-D5 和解；吵架第 4 天自己和好）*/   /* 房間裡跟著劇情出現的東西（黃金葛、阿凱的鍵盤盒子、方奕廷的三盆植物）*/
     if(typeof CROWD!=='undefined'){ try{ CROWD.tick(GM,dt); }catch(e){ console.warn('CROWD.tick',e); } }   /* 公共場景的人流（D55）*/
     if(typeof INV!=='undefined'){ try{ INV.tick(GM); if(INV.walkChat) INV.walkChat(GM,dt); }catch(e){ console.warn('INV.tick',e); } }   /* 邀約：過了時間沒見到＝沒赴約；一起走過去的路上聊一句 */
@@ -603,6 +604,7 @@ const STORY = (function(){
     if(it.fafuWatch){ await S.fafuWatch(GM); return true; }   /* 法服週六值班（V1-F）*/
     if(it.fyPots){ await fyPotsScene(GM); return true; }
     if(it.sleep){ await bedScene(GM); return true; }
+    if(it.cafeRota){ GM.sceneBegin(); try{ for(const l of S.cafeRota(G)) await GM.say(null,l); } finally { GM.sceneEnd(); } return true; }   /* 兩點半 Café 牆上的班表（BB_159）*/
     if(it.counter==='cafe'){ await counter(GM,'兩點半 Café',CAFE_MENU); return true; }
     if(it.shop==='cvs'){ await counter(GM,'便利商店',[['飯糰',35,12],['美式咖啡',45,8],['運動飲料',30,6],['微波義大利麵',75,22]].concat(typeof PARK!=='undefined'&&PARK.catName(G)?[['小罐貓罐頭',35,0,G=>{ G.daily=G.daily||{}; G.daily.catCans=(G.daily.catCans|0)+1; }]]:[])); return true; }   /* 貓罐頭（AA_164 5-4、AA_171 第 7 節）：取了名字以後才會想到要買 */
     if(it.shop==='tea'){ await counter(GM,'清葉茶行',[['珍珠奶茶',60,10],['青茶 微糖',40,6]]); return true; }
@@ -619,6 +621,17 @@ const STORY = (function(){
     if(it.exit&&it.exit.to==='soclib'&&G.zone==='campus'&&!PLACES.isOpen('soclib',h(G),G.day)){ GM.toast(PLACES.closedText('soclib',h(G),G.day),5500); return true; }   /* 社科院圖書館（D62）：只擋從校園進去 */   /* 法律學院圖書館（D46）：只擋從大廳進去；人在館裡照樣走得出來 */
     if(it.exit&&(it.exit.to==='library'||it.exit.to==='library_hall')&&G.zone==='campus'&&!PLACES.isOpen('library_hall',h(G))){ GM.toast(PLACES.closedText('library_hall',h(G)),4500); return true; }   /* 2026-10-11 使用者回報：只寫「閉館了」不知道幾點開 */   /* 只擋從校園進去；人在館裡（大廳、閱覽室）之間照樣走得通，不會被關在裡面 */
     return false; };
+  /* 兩點半 Café 牆上的班表（BB_159，BB-B 2026-10-16 0b917af4；ART-WZ4 的班表模型、互動點在吧檯前 (0.7,-3.7)）：只是物件說明，可以看很多次，不給數值、不記記憶。
+     四版照芷若的時間線：A 預設（經濟系那一年～大二下 Z9 那晚）／B Z9（ev_zhiruo_last_shift）之後到大三上（英國一學期）／C 大三下（回來了）／D 大四以後。A 版的時段照 characters.js heroine_02 的作息 */
+  S.CAFE_ROTA={A:['（牆上的班表。夾板上一張紙，鉛筆寫的。）','（週一到週五晚上，每一格都是同一個名字：芷若。週一、三、五的中午也是。）','（週末那幾格是阿文、小婷。最下面一行：老闆——隨時。）'],
+    B:['（牆上的班表。晚上那幾格，換成了小婷的名字。）','（最上面那一行還是「芷若」，格子是空的。旁邊多了一行小字：英國，一學期。）'],
+    C:['（牆上的班表。芷若的名字回到晚上的格子裡，只是比以前少。）','（空出來的那幾格，是小婷。）'],
+    D:['（牆上的班表。最上面那一行還是「芷若」，後面的格子都是空的。）','（鉛筆寫的。沒有人擦。）']};
+  S.cafeRotaKey=function(G){ if(typeof CALENDAR==='undefined') return 'A'; let t=null; for(let d=G.day; d>G.day-200&&!t; d--) t=CALENDAR.termOf(d);   /* 放假中＝前一個學期 */
+    const m=t&&/^Y(\d)S(\d)$/.exec(t.id), n=m?(+m[1])*2+(+m[2]):0; if(n>=9) return 'D'; if(t&&t.id==='Y3S2') return 'C';
+    const z9=termDay('Y2S2',17,4), afterZ9=!!(G.events&&G.events.done&&G.events.done.ev_zhiruo_last_shift)||(z9!=null&&(G.day>z9||(G.day===z9&&h(G)>=22)));
+    return afterZ9&&n>=6&&n<=7?'B':'A'; };
+  S.cafeRota=G=>S.CAFE_ROTA[S.cafeRotaKey(G)];
   const CAFE_MENU=[['拿鐵',120,10],['手沖咖啡',150,12],['檸檬塔',110,14]];
   async function counter(GM,shop,items){ const G=GM.G; GM.sceneBegin(); const opts=items.map(([n,p])=>({t:n+'　'+p+' 元',dim:G.money<p}));   /* 只寫價錢（DL-02：體力拿掉了）*/ opts.push({t:'不用了'}); const i=await GM.choose(opts); if(i<items.length){ const [n,p]=items[i]; if(G.money<p){ GM.toast('錢不夠'); } else { GM.money(-p); GM.advance(0.15); if(typeof items[i][3]==='function') items[i][3](G); await GM.say(null,'你買了'+n+'。'+(shop==='兩點半 Café'?'店員把杯子放在你面前的時候，杯底和木桌碰出一聲很小的響。':'')); } } GM.sceneEnd(); }
   async function bookshop(GM){ const G=GM.G, F=G.flags; GM.sceneBegin(); const opts=[{t:'《民法總則》教科書　650 元',hint:F.textbook?'已經有了':'讀書時會多整理一條筆記',dim:F.textbook||G.money<650},{t:'螢光筆一組　80 元',hint:'讓筆記好看一點',dim:G.money<80},{t:'只是看看'}]; const i=await GM.choose(opts); if(i===0&&!F.textbook&&G.money>=650){ GM.money(-650); F.textbook=true; GM.memo('買了民法總則教科書'); await GM.say(null,'很厚。老闆說一年級都會買，然後大部分人到期末都只翻到第三章。'); } else if(i===1&&G.money>=80){ GM.money(-80); GM.toast('買了螢光筆'); } else if(i===2){ await GM.say(null,'架上有一整排判決彙編。有人在角落翻著《法律人的第一堂課》。'); } GM.sceneEnd(); }
@@ -649,6 +662,20 @@ const STORY = (function(){
   /* 手機上照旗標排時間的訊息（內容照企劃組原文）。每 0.5 秒（S.tick）；同一則用 tag 只排一次 */
   /* 某學期第幾週星期幾是第幾天（wd：1＝週一…7＝週日）；沒有＝null */
   const termDayCache={}; function termDay(term,week,wd){ const k=term+'|'+week+'|'+wd; if(k in termDayCache) return termDayCache[k]; let r=null; if(typeof CALENDAR!=='undefined') for(let d=(/^Y0/.test(term)?-420:1);d<1500;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===week&&CALENDAR.dateOf(d).wd===wd){ r=d; break; } } return termDayCache[k]=r; }
+  /* SK01 對面的舊系館（events.js ev_sk01_soc）：第二天的劇情結束（afternoonDone、沒有同行的人）以後；社科圖開著（再一小時也還開著）、接下來 75 分鐘沒有課（選「去社科圖」要坐一小時）*/
+  S.sk01Ready=function(G){ const F=G.flags; if(G.day<2||!F.afternoonDone||F.companion||(typeof TRIP!=='undefined'&&TRIP.at&&TRIP.at(G))) return false; const hh=h(G);
+    if(typeof PLACES!=='undefined'&&PLACES.isOpen&&!(PLACES.isOpen('soclib',hh,G.day)&&PLACES.isOpen('soclib',hh+1,G.day))) return false;
+    if(typeof CLS!=='undefined'&&CLS.next){ const n=CLS.next(G); if(n&&n.day===G.day&&n.t0-hh<1.25) return false; } return true; };
+  /* SK02：阿勳的私訊排在哪一天——第 4 週週一起、SK01 隔天以後第一個平日（不是假日），到第 7 週週五為止；還沒到 15:00 的今天也可以 */
+  S.sk02DmDay=function(G){ const F=G.flags, a=termDay('Y1S1',4,1), b=termDay('Y1S1',7,5); if(a==null||b==null||F.SK01_DAY==null) return null;
+    for(let d=Math.max(a,F.SK01_DAY+1); d<=b; d++){ const wd=CALENDAR.dateOf(d).wd; if(wd<1||wd>5||(CALENDAR.holiday&&CALENDAR.holiday(d))) continue; if(d<G.day||(d===G.day&&h(G)>=15)) continue; return d; } return null; };
+  /* SK02 的系辦開著：私訊到了（那天 15:00 以後）、還沒領、不是假日（時段 13:00～17:00、第 4～7 週平日寫在事件上）*/
+  S.sk02Open=function(G){ const F=G.flags; if(F.SK02_DM_DAY==null||F.ECON_JACKET) return false; if(G.day<F.SK02_DM_DAY||(G.day===F.SK02_DM_DAY&&h(G)<15)) return false; return !(typeof CALENDAR!=='undefined'&&CALENDAR.holiday&&CALENDAR.holiday(G.day)); };
+  /* 阿勳在旁邊（BB_106 的 npcNear：同一層、4 m 內）；大一上他還沒有作息，實際上不會出現 */
+  S.xunNear=function(){ const GM=typeof GAME!=='undefined'?GAME:null, n=GM&&GM.npc&&GM.npc.econ_zhengxun; if(!n||!GM.E||!GM.E.npcs||!GM.E.npcs.includes(n)) return false; const P=GM.E.player; return (n.lv|0)===(P.lv|0)&&Math.hypot(n.obj.position.x-P.obj.position.x,n.obj.position.z-P.obj.position.z)<=4; };
+  /* SK02 沒去系辦：第 8 週以後第一次回到男生宿舍門廳，阿勳替你領了，附一張紙條（BB_106 SK02「沒去時」）。外套當作收進衣櫃；沒有「走錯棟」（不記 SOC_WRONG_BUILDING）*/
+  S.sk02W8Due=function(G){ const F=G.flags; if(G.zone!=='dorm_hall'||F.SK02_DM_DAY==null||F.ECON_JACKET||typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); return !!t&&t.id==='Y1S1'&&t.week>=8; };
+  S.sk02W8=async function(GM){ const G=GM.G, F=G.flags; F.ECON_JACKET='closet'; F.SK02_W8=G.day; GM.sceneBegin(); try{ await GM.say({name:'阿勳的紙條'},'你的過去，我幫你領了。'); } finally { GM.sceneEnd(); } GM.memo('阿勳替你去系辦領了經濟系的系外套'); };
   S.termDay=termDay;
   /* 芷若 Z3「妳自己都喝什麼」（BB_96 3-1）：還沒發生、大一下第 3 週起的平日（她 19–22 晚班）、和她有點熟以上——這一天 21:40～22:00「店裡只剩祐廷」：
      之前進來的客人 21:40 起身走出去（until：refreshSchedule 讓他們走到門口才離開，不在眼前消失）、21:40～22:00 不生成客人（populate）；
@@ -1272,6 +1299,11 @@ const STORY = (function(){
       if(G.day>mEnd&&!PHONE.sent(G,'mx_tutor_gone')){ F.TUTOR_GONE=true; PHONE.at(G,mEnd+1,12,[M('名額給別人了。下次有，我再跟你說。')],'mx_tutor_gone'); } }
     if(F.JOB_TUTOR&&typeof OUT!=='undefined'){ const T=CALENDAR.termOf(G.day); if(T&&T.id==='Y1S2'){ for(let w=T.week;w<=18;w++){ const d=termDay('Y1S2',w,2); if(d==null||d<=(F.tutorFromDay|0)||d*24+19<G.day*24+G.hour) continue; if(CALENDAR.holiday(d)||(CALENDAR.typhoon&&CALENDAR.typhoon(d))) continue;   /* 颱風假不能打工（AA_160 3-4 D）*/ const id='tutor_'+d; if(OUT.get(G,id)) break;
           OUT.plan(G,{id,ev:'ev_tutor_lesson',day:d,h:19,place:'學生家（公館附近）',title:'家教',travel:'騎車約 10 分鐘',travelH:1/6,no:'這週不去',back:'家教結束。'}); break; } } }
+    /* SK02 你的系外套還在這裡（BB_106 SK02；AA_154 A52 ②）：SK01 之後，阿勳第 4 週週一 15:00 的私訊（SK01 比那天晚：SK01 隔天以後第一個平日；第 7 週以後就不發）；
+       ②送給阿勳、他不在旁邊＝當晚 21:00 兩則私訊（BB-B d5224961）。SK01 傳過訊息就把阿勳加進聯絡人（不跳通知）*/
+    if(F.SK01_DAY!=null){ silentContact('econ_zhengxun');
+      if(F.SK02_DM_DAY==null&&!F.ECON_JACKET){ const d=S.sk02DmDay(G); if(d!=null){ F.SK02_DM_DAY=d; PHONE.at(G,d,15,[{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'系辦說你去年冬天訂的系外套到了。你休學以後才到的。'}],'sk02_dm'); } }
+      if(F.SK02_GIFT_DM&&F.SK02_DAY!=null&&!PHONE.sent(G,'sk02_gift')) PHONE.at(G,F.SK02_DAY,21,[{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'系辦說你把外套給我了。'},{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'我現在有兩件，輪流穿。'}],'sk02_gift'); }
     /* SK05 三閃，販賣機見（大一版；BB_135 第 2 節；AA-B 2026-10-16：期末考週（第 17～18 週，2026-06-15～06-28）第一個晚上玩家在霖澤館（22:55～23:30；23:00 以後才走進去＝一進去就亮））：
        23:00 阿勳傳訊息說暗號（一年一次）。法律系時期一直沒見過他的玩家（MET_XUN 沒有）先多一則「盧正勳。你經濟系那年的室友。……你該不會連我都忘了。」。pact 多兩句、night 多一句（都有＝先 pact 再 night）。
        三個回覆：閃三下＝SK05_GO（今晚 23:00～23:45 他在法學院廣場的販賣機前，events.js ev_sk05_vending_y1）；閃一下、只回訊息＝這一年沒有這五分鐘 */
