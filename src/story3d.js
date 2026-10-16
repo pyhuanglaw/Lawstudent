@@ -794,6 +794,10 @@ const STORY = (function(){
         if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_e35')&&G.hour<21.25) OUT.plan(G,{id:'y0_e35',goto:{zone:'campus',x:S.E35_AT.x,z:S.E35_AT.z-3,yaw:0},early:0.25,day:d35,h:21,late:0.25,place:'女舍門口',title:'女舍門口 21:00',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}); }
       if(d35!=null&&F.E35_ASKED&&!F.E35_DONE&&G.zone==='campus'&&G.day===d35&&G.hour>=20.75&&G.hour<21.25&&GM.spawnCharacter&&!(GM.npc&&GM.npc.kexin)){ try{ GM.spawnCharacter('kexin',S.E35_AT.x,S.E35_AT.z,{yaw:Math.PI}); }catch(e){ console.warn('E35 kexin',e); } }
       if(d35!=null&&F.E35_ASKED&&!F.E35_DONE&&(G.day>d35||G.hour>=21.5)) F.E35_PHONE=true; }
+    /* E35 考完以後的約定（AA_154 A47；私訊 BB-B BB_104 8b-18「考完以後」）：E35_PLAN 有值＝7/14（一）20:00 可昕私訊兩則（不用回）；7/19（六）摘要日在 events.js（ev_y0_e35s）*/
+    if(S.isEcon(G)&&F.E35_PLAN){ const d=S.dayOfKey('2025-07-14'), K=t=>({th:'p:kexin',from:'kexin',text:t}), M={sea:['你說考完要去海邊。我查好了。','星期六，客運早上八點。西瓜我負責。……不要問為什麼。'],
+        sleep:['你說考完要睡一整天。我查好了。','星期六整天下雨。很適合。……我說過，我也要睡。'],shop:['你說考完要吃第三家。我查好了。','星期六中午有開。我訂位了，兩個人。']}[F.E35_PLAN];
+      if(M&&d!=null&&(G.day>d||(G.day===d&&G.hour>=20))&&G.day<=d+2&&!PHONE.sent(G,'y0_e35_after')) PHONE.at(G,d,20,M.map(K),'y0_e35_after'); }
     /* R 系列沒遇到的照片、私訊（BB_112 第 4 節「沒去時」；時間 LAWWW 定：當天 21:00）＋R4 可昕在總圖外台階、R7 前一晚的群組（S.kxFreeAt 那一段）*/
     if(S.isEcon(G)&&S.dayOfKey('2025-03-28')!=null){ const K=t=>({th:'p:kexin',from:'kexin',text:t}), ED=id=>!!(G.events&&G.events.done&&G.events.done[id]), past=(k,h)=>{ const d=S.dayOfKey(k); return G.day>d||(G.day===d&&G.hour>=h); }, before=(k,n)=>G.day<=S.dayOfKey(k)+(n||2);
       if(!ED('ev_y0_r5')&&past('2025-04-02',21)&&before('2025-04-02')&&!PHONE.sent(G,'y0_r5_miss')) PHONE.at(G,S.dayOfKey('2025-04-02'),21,[K('📷（牆上的倒數：100）')],'y0_r5_miss');
