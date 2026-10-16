@@ -11768,11 +11768,9 @@
    "title": "開局在大一上第三週（9/17）：使用者第二次提（10-15 第 2 項、10-16 19:3x）",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "進行中",
    "priority": "P1",
-   "next": "已問 AA-B（A 維持 9/17、開場交代；B 從第 1 週開始、補第 1～2 週內容），也在對話裡問使用者；兩邊回覆前不改開局日期",
-   "pausedReason": "開局日期是時間線（D79），要 AA-B 評估；可能是第③級要使用者決定",
-   "resumeWhen": "使用者選 A／B、AA-B 給規格",
+   "next": "使用者 20:3x 選 B（D91、AA_193）：程式結構——新遊戲從第 −16 天（2025-08-31 傍晚宿舍）、G.day===1／2 改看日期（story3d 約 13 處）、ladder A-L1 dayMin 改看 meetAn、第 1、2 週出席照常、S.toLaw 接 8/31 同一個開場、不再放 LAW_WEEK12；9/17 晚上標題卡改「民總前一晚」等字（AA_191，第②級，等 AA、BB 的字）；第 1、2 週生活事件等 AA、BB 交",
    "first": {
     "term": "Y1S1",
     "week": 3,
@@ -11786,11 +11784,11 @@
    "source": "使用者 2026-10-15 23:55 第 2 項、2026-10-16 19:3x",
    "authorized": "D79",
    "xai": {
-    "spec": "AA-B 評估中",
+    "spec": "AA_191、AA_193 第 6 節（企劃線 00b713bb）",
     "branch": "claude/cool-heisenberg-o8kuqx",
-    "acceptance": "AA-B 規格＋使用者決定",
+    "acceptance": "新遊戲 8/31 開始、9/17、9/18 主線不變、舊存檔不受影響；第 1、2 週事件 AA、BB 交件",
     "receiver": "AA-B",
-    "ack": "DELIVERED"
+    "ack": "ACK"
    }
   },
   {
