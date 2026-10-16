@@ -1639,7 +1639,7 @@ const STORY_EVENTS=[
       {label:'end'},{speaker:null,text:'手機裡多了一張照片。她穿著你高中的外套，袖子太長，正在比一個勝利手勢。'} ] },
   /* E17 校慶園遊會：經濟系的拍賣攤（BB_104 8b-9；AA_154 第 127 行、A36）：分兩段。
      前半＝11/8（五）19:00 社科院系學會辦公室備料（2D 出遊到 21:00；12:30 群組約＋出發選單，story3d.js）；
-     後半＝11/9（六）10:00～16:00 走到椰林的經濟系攤位（帳篷，zones3d.js isFairDay）。前一晚沒去也演後半（開頭換一句：BB-B 寫，還沒到——先照原文）。兩天都沒去＝18:00 群組照片 */
+     後半＝11/9（六）10:00～16:00 走到椰林的經濟系攤位（帳篷，zones3d.js isFairDay）。前一晚沒去也演後半（開頭換成白板那句＋「你昨天沒來，所以今天你喊。」，BB-B 定稿 AA_154 76eed22b）。兩天都沒去＝18:00 群組照片 */
   { id:'ev_y0_e17a', stage:'econ', title:'備料', participants:['econ_pinyu','econ_zhengxun'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {scene:'社科院・系學會辦公室',bg:'soc_office'},
       {speaker:'econ_pinyu',text:'珍奶一杯成本二十八。要賣多少？'},
@@ -1647,8 +1647,10 @@ const STORY_EVENTS=[
       {speaker:'econ_zhengxun',text:'……第一杯會賣得很貴。'},
       {speaker:'kexin',expression:'smile',text:'對。那是給最想喝的人。'} ] },
   { id:'ev_y0_e17', stage:'econ', title:'經濟系的拍賣攤', participants:['econ_pinyu','kexin'], location:'campus', near:{x:-3,z:14,r:20}, trigger:'auto', term:['Y0S1'], weeks:[10], weekday:[6], time:[10,16], once:true, background:'blur',
-    dialogue:[ {speaker:null,text:'（校慶當天。攤位前排了人。可昕把擴音器交給你。）'},
-      {speaker:'kexin',expression:'teasing',text:'你喊。從一百開始。'},
+    dialogue:[ {if:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_y0_e17a)},speaker:null,text:'（校慶當天。攤位前排了人。可昕把擴音器交給你。）'},
+      {if:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_y0_e17a)},speaker:'kexin',expression:'teasing',text:'你喊。從一百開始。'},
+      {unless:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_y0_e17a)},speaker:null,text:'（校慶當天。經濟系的攤位前排了人。白板上寫著：珍奶，荷蘭式拍賣，從一百往下喊。）'},
+      {unless:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_y0_e17a)},speaker:'kexin',expression:'teasing',text:'你昨天沒來，所以今天你喊。從一百開始。'},
       {choice:[{text:'一百、九十、八十……',goto:'a'},{text:'一百、五十！',goto:'b'},{text:'交給可昕喊',goto:'c'}]},
       {label:'a'},{speaker:null,text:'第一杯在七十元成交。'},{speaker:'econ_pinyu',text:'比成本多四十二。很好。'},{goto:'end'},
       {label:'b'},{speaker:'econ_pinyu',text:'你少賺了四十九元。'},{speaker:'kexin',expression:'laugh',text:'可是大家笑了。'},{goto:'end'},

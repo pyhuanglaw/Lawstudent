@@ -38,6 +38,9 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   check('3. 19:15 還沒出發：韋綸打電話「你在哪？大家都到了。我們等你，快點！」→ 直接進出遊',L[0]==='你在哪？大家都到了。我們等你，快點！'&&L.includes('大家都帶了吧？高中制服。抽籤交換。')&&L.includes('這樣比較好。可以藏東西。'),JSON.stringify(L.slice(0,3)));
   check('3. 出遊記成做過',OUT.get(G,'y0_e14').state==='done');
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); said=[]; GM.D.active=true; at(D15,19.4); await new Promise(r=>setTimeout(r,20)); check('4. 在別的事件裡：先不打',!said.length); GM.D.active=false; run(); for(let i=0;i<30&&!said.length;i++) await new Promise(r=>setTimeout(r,10)); check('4. 事件結束後馬上打',said.length&&said[0].t==='你在哪？大家都到了。我們等你，快點！');
+  // 睡覺：19:15 以前上床＝19:15 被電話吵醒（不跳到隔天）
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.day=D15; G.hour=18.2; G.weekday=wdOf(D15); check('5. 11/15 18:12 睡覺：STORY.coreCallAt＝19:15',Math.abs(STORY.coreCallAt(G)-19.25)<0.01);
+  G.hour=19.3; check('5. 19:15 以後沒有（照平常睡）',STORY.coreCallAt(G)==null); G.day=D15+1; G.hour=10; check('5. 隔天沒有',STORY.coreCallAt(G)==null);
   await new Promise(r=>setTimeout(r,50));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
