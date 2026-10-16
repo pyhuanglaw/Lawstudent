@@ -1,28 +1,28 @@
 {
  "objects": 8,
  "unique_meshes": 8,
- "tris": 25922,
- "tris_drawn": 25922,
+ "tris": 29782,
+ "tris_drawn": 29782,
  "materials": 1,
  "out": "assets/models/env/second_ai/bb_support/scooter_shop_props.glb",
- "bytes": 897012,
+ "bytes": 1069268,
  "texres": 1024,
  "modules": {
   "SHOP_TIRE_STACK": {
-   "tris": 9464,
+   "tris": 8112,
    "min": [
-    -0.4882,
+    -0.4874,
     -0.003,
-    -0.2648
+    -0.2641
    ],
    "max": [
-    0.5062,
+    0.5054,
     0.7089,
-    0.4135
+    0.4138
    ]
   },
   "SHOP_TOOL_WALL": {
-   "tris": 4960,
+   "tris": 9416,
    "min": [
     -1.2,
     0.9,
@@ -31,11 +31,11 @@
    "max": [
     1.2,
     2.1,
-    0.1168
+    0.1248
    ]
   },
   "SHOP_PARTS_SHELF": {
-   "tris": 2148,
+   "tris": 2652,
    "min": [
     -0.6,
     -0.0,
@@ -48,7 +48,7 @@
    ]
   },
   "SHOP_LIFT": {
-   "tris": 1696,
+   "tris": 1948,
    "min": [
     -0.9873,
     -0.0068,
@@ -57,7 +57,7 @@
    "max": [
     1.0,
     0.62,
-    0.45
+    0.712
    ]
   },
   "SHOP_AIR_PUMP": {
@@ -113,7 +113,7 @@
    ]
   }
  },
- "tris_total": 25922,
+ "tris_total": 29782,
  "atlas": [
   "tools/blender/env_second/bb_support/textures/gen/scooter_shop_props_atlas.png",
   "tools/blender/env_second/bb_support/textures/gen/scooter_shop_props_orm.png"
@@ -174,21 +174,23 @@
   "lean": {
    "center": [
     0.285,
-    0.2144,
+    0.2154,
     0.317
    ],
    "lean_deg": 14,
-   "min_gap_to_stack_B_m": 0.0044,
-   "top_y": 0.4318
+   "min_gap_to_stack_B_m": 0.0055,
+   "top_y": 0.4338
   },
-  "peg_cells_oily": 10,
-  "wrenches_end_x": -0.4,
+  "peg_smudge_cells": 8,
   "socket_rail_x": [
-   0.15,
-   0.443
+   -0.12,
+   0.173
   ],
+  "tool_wall_items": 39,
   "cartons": 7,
   "bottles": 8,
+  "batteries": 2,
+  "spray_cans": 2,
   "ramp_end_x": -0.989,
   "hose_points": 133
  },
