@@ -1541,6 +1541,30 @@ const STORY_EVENTS=[
       {choice:[{text:'「經濟很有趣。可是我一直想回來弄懂小時候看不懂的東西。」',set:{E24C_REASON:'understand'}},{text:'「經濟在問『會怎麼樣』，我比較想知道『應該怎麼樣』。」',set:{E24C_REASON:'should'}},{text:'「說來話長。……下次跟你說。」',set:{E24C_REASON:'later'}}]},
       {unless:{flags:['XUN_KNEW']},speaker:'econ_zhengxun',text:'你確定？……好。你確定的樣子比較好看。'},
       {if:{flags:['XUN_KNEW']},speaker:'econ_zhengxun',text:'你確定了？……我早就看到那本書了。好。你確定的樣子比較好看。'} ] },
+  /* ★E25「我想重考法律。」（BB_104 8-8、第 4 節「痕跡」；AA_154 A35）：3/19（三）19:45～20:15（晚到＝延到 21:30）醉月湖南岸步道走到她旁邊就演；21:30 還沒到＝帶到場（E25_FORCE，story3d.js）。
+     「不是唐睿」只給 E19 直接問或開玩笑問的玩家。三個回答都是接受，記 E25_ANSWER（first_day／only_me／new_year）。回答之後她說一句「痕跡」（只說一句，順序：E19 直接問 ＞ E21 認真回答「好」 ＞
+     常常主動約她（invite:kexin 5 次以上）＞ 都用玩笑帶過（E19、E21 都是玩笑）＞ E19 不問 ＞ 預設）。之後接 E26 摩天輪 */
+  { id:'ev_y0_e25', stage:'econ', title:'我想重考法律', participants:['kexin'], location:'any', trigger:'auto', term:['Y0S2'], once:true, background:'blur',
+    prereq:{custom:G=>{ const F=G.flags; if(!F.E25_ASKED) return false; if(F.E25_FORCE) return true; const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-03-19'):null; if(G.day!==d||G.zone!=='campus'||G.hour<19.75||G.hour>=(F.E25_LATE?21.5:20.25)) return false;
+      const P=typeof GAME!=='undefined'&&GAME.E&&GAME.E.player&&GAME.E.player.obj; if(!P) return true; const dx=P.position.x+36, dz=P.position.z+98.5; return dx*dx+dz*dz<=25; }},
+    dialogue:[ {if:{flags:['E25_FORCE']},speaker:null,text:'（你跑到醉月湖的時候，她還坐在那裡。）'},
+      {speaker:'player',text:'我想重考。法律系。'},{speaker:'kexin',expression:'surprised',text:'……'},{speaker:'kexin',expression:'neutral',text:'你要離開經濟系。'},
+      {speaker:'kexin',expression:'serious',text:'那我有一件事，現在不說，好像就沒機會了。'},
+      {if:{flagIs:{E19_ASK:['direct','joke']}},speaker:'kexin',expression:'embarrassed',text:'我一直喜歡的是你。不是唐睿。從來都不是。'},
+      {unless:{flagIs:{E19_ASK:['direct','joke']}},speaker:'kexin',expression:'embarrassed',text:'我一直喜歡的是你。從來都是。'},
+      {speaker:'kexin',expression:'neutral',text:'你不用現在回答。可是你要知道。'},
+      {choice:[{text:'「我也是。從迎新那天。」',set:{E25_ANSWER:'first_day'},goto:'a'},{text:'「……我以為只有我。」',set:{E25_ANSWER:'only_me'},goto:'b'},{text:'「那除夕那天，妳不是開玩笑。」',set:{E25_ANSWER:'new_year'},goto:'c'}]},
+      {label:'a'},{speaker:'kexin',expression:'surprised',text:'迎新那天？我那天說我是『邊際效用遞減』。'},{speaker:'player',text:'妳說妳會越來越好玩。'},{speaker:'kexin',expression:'smile',text:'……結果呢？'},{speaker:'player',text:'沒有遞減。'},{speaker:null,text:'她笑著打他的手臂。'},{goto:'t'},
+      {label:'b'},{speaker:'kexin',expression:'neutral',text:'只有你什麼？'},{speaker:'player',text:'只有我在想。'},{speaker:'kexin',expression:'smile',text:'笨蛋。我們兩個一起想了半年，誰都沒說。'},{speaker:null,text:'她拉住他的袖子，沒有放。'},{goto:'t'},
+      {label:'c'},{speaker:'kexin',expression:'thinking',text:'我是。也不是。'},{speaker:'kexin',expression:'serious',text:'如果你是因為氣氛才說好，那我寧可是開玩笑。'},{speaker:'player',text:'現在沒有氣氛。'},{speaker:'kexin',expression:'embarrassed',text:'……有。湖邊很有氣氛。'},
+      {label:'t'},
+      {if:{flagIs:{E19_ASK:'direct'}},speaker:'kexin',expression:'neutral',text:'你那時候問我是不是唐睿。我說不是。……然後你就沒有問下一句了。我等了一整個寒假。'},{if:{flagIs:{E19_ASK:'direct'}},goto:'end'},
+      {if:{flagIs:{E21_ANSWER:'yes'}},speaker:'kexin',expression:'thinking',text:'除夕那天你說好。我嚇到了，所以先笑。我後來一直想，如果那時候我沒有笑——'},{if:{flagIs:{E21_ANSWER:'yes'}},goto:'end'},
+      {if:{habit:{key:'invite:kexin',min:5}},speaker:'kexin',expression:'smile',text:'你約我的次數，我有在算。我是經濟系的。'},{if:{habit:{key:'invite:kexin',min:5}},goto:'end'},
+      {if:{flagIs:{E19_ASK:'joke',E21_ANSWER:'joke'}},speaker:'kexin',expression:'laugh',text:'我們兩個是不是很笨？明明都知道。'},{if:{flagIs:{E19_ASK:'joke',E21_ANSWER:'joke'}},goto:'end'},
+      {if:{flagIs:{E19_ASK:'none'}},speaker:'kexin',expression:'neutral',text:'你那陣子什麼都沒問，很有禮貌。我差點以為你不在乎。'},{if:{flagIs:{E19_ASK:'none'}},goto:'end'},
+      {speaker:'kexin',expression:'neutral',text:'我想了一整個寒假，要怎麼跟你說。結果你先說了你要走。'},
+      {label:'end'} ] },
   /* XL-2 阿勳一句（表叔；BB_110 F1 的回聲，AA_154 A28、A43）：Y0S2 第 1 週第一次在宿舍遇到阿勳（和 XL-1 同一套），F1 選了「轉給表叔」（Y0_UNCLE）才說 */
   { id:'ev_y0_xl2', stage:'econ', title:'表叔的變異數', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S2'], weeks:[1], time:[18,24], once:true, background:'blur',
     prereq:{custom:G=>!!(G.flags&&G.flags.Y0_UNCLE)},

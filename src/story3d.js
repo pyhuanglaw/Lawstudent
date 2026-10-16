@@ -747,6 +747,16 @@ const STORY = (function(){
           {t:'「為什麼不是貓的？」',post:'為什麼不是貓的？',set:{E12_ANSWER:'cat'},say:[K('貓的太常見了。我想要一個大家都沒想過的東西。'),K('……下次要在湖邊回答。這次先算你的。')]}];
         PHONE.at(G,wed10,20.5,[K('你沒來。……沒關係，問題不會跑。'),K('那我用打的。'),K('假設，你可以多一個身體部位。你要什麼？'),K('我要長頸鹿的尾巴。'),K('不是脖子。是尾巴。牠的尾巴尾端有一撮毛，可以趕蒼蠅。'),Object.assign(K('而且我想知道，有尾巴的人怎麼坐椅子。'),{ask:{must:true,opts}})],'y0_e12_phone'); }
       if(F.E12_PHONE===1&&!F.E12_ANSWER&&GM.openPhone&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&(G.msgs||[]).some(m=>m.text==='而且我想知道，有尾巴的人怎麼坐椅子。')){ F.E12_PHONE=2; GM.openPhone('msg','p:kexin'); } }
+    /* ★E25 我想重考法律（BB_104 8-8；AA_154 A35）：3/19（三）17:30 手機自動打開和可昕的對話，祐廷傳出（不用選）＋她回兩則＋出發選單「醉月湖 20:00」（帶到湖的南岸步道）；
+       19:45～20:15 她在南岸步道，走到她旁邊就演；20:15 還沒到＝20:20「我在湖邊。」、窗口延到 21:30（E25_LATE）；21:30 還沒到＝把玩家帶到場（E25_FORCE：旁白一句再接原文；不改成手機版）*/
+    if(S.isEcon(G)){ const d25=S.dayOfKey('2025-03-19'), K=t=>({th:'p:kexin',from:'kexin',text:t}), done25=!!(G.events&&G.events.done&&G.events.done.ev_y0_e25);
+      if(d25!=null&&G.day===d25&&G.hour>=17.5&&!PHONE.sent(G,'y0_e25_ask')&&!done25){ F.E25_ASKED=true;
+        PHONE.at(G,d25,17.5,[{th:'p:kexin',from:'player',who:null,text:'今天晚上有空嗎？我有一件事想跟妳說。'},K('……八點，醉月湖。'),K('上次是我在那裡問你問題。這次換你。')],'y0_e25_ask');
+        if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_e25')&&G.hour<20.25) OUT.plan(G,{id:'y0_e25',goto:{zone:'campus',x:-34.5,z:-97.2,yaw:Math.PI},early:1/12,day:d25,h:20,late:0.25,place:'醉月湖',title:'醉月湖 20:00',travel:'走過去',travelH:1/6}); }
+      if(F.E25_ASKED&&!F.E25_OPENED&&GM.openPhone&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&(G.msgs||[]).some(m=>m.text==='上次是我在那裡問你問題。這次換你。')){ F.E25_OPENED=true; GM.openPhone('msg','p:kexin'); }
+      if(d25!=null&&G.day===d25&&F.E25_ASKED&&!done25&&G.hour>=20.25&&!PHONE.sent(G,'y0_e25_late')){ F.E25_LATE=true; PHONE.at(G,d25,20+20/60,[K('我在湖邊。')],'y0_e25_late'); }
+      if(d25!=null&&F.E25_ASKED&&!done25&&G.zone==='campus'&&G.day===d25&&G.hour>=19.75&&G.hour<(F.E25_LATE?21.5:20.25)&&GM.spawnCharacter&&!(GM.npc&&GM.npc.kexin)){ try{ GM.spawnCharacter('kexin',-36,-98.5,{yaw:Math.PI}); }catch(e){ console.warn('E25 kexin',e); } }
+      if(d25!=null&&F.E25_ASKED&&!done25&&(G.day>d25||G.hour>=21.5)) F.E25_FORCE=true; }
     /* ★E14 保齡球館（AA_154 A33）：11/14（四）21:00 經濟系群組，品妤（BB-B 審定）＋出發選單 11/15（五）19:00；19:15 還沒出發＝韋綸打電話（BB-B 審定）→ 直接進出遊（2D，不用走路）；
        在別的事件裡＝結束後馬上 */
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const thu11=termDay('Y0S1',11,4), fri11=thu11!=null?thu11+1:null;
@@ -861,7 +871,7 @@ const STORY = (function(){
     /* E24 每晚的訊息（BB_104 8b-16；AA_154 A44）：寒假（E19 之後）可昕私訊，順序固定：1/10 22:30「跳過哪一天」（選項有除夕，排在除夕前）、1/18 22:30「什麼湯」、
        2/2 22:30「寒假胖了是存糧」（過年吃完以後）；那一晚 2/8（六）23:00「如果可以重來一次選科系，你會選什麼？」三選一，回答不記錄（「還是經濟。」＝15 分鐘後才回「好。」）。
        回覆開到隔天 18:00。寒假模式跳過的日子：照時間戳記收在手機裡。「什麼湯」的回覆選項等 BB-B（「玩家任答」），先只有她的問題 */
-    if(S.isEcon(G)){ const K=t=>({th:'p:kexin',from:'kexin',text:t}), D=k=>S.dayOfKey(k), past=(d,h)=>d!=null&&(G.day>d||(G.day===d&&G.hour>=h))&&G.day<=d+40, until=d=>(d+1)*24+18;
+    if(S.isEcon(G)){ const K=t=>({th:'p:kexin',from:'kexin',text:t}), D=k=>S.dayOfKey(k), end=S.dayOfKey('2025-02-17'), past=(d,h)=>d!=null&&(G.day>d||(G.day===d&&G.hour>=h))&&(end==null||G.day<=end), until=d=>(d+1)*24+18;   /* 寒假結束（2/17 開學）以後不補發 */
       { const d=D('2025-01-10'); if(past(d,22.5)&&!PHONE.sent(G,'y0_e24a')) PHONE.at(G,d,22.5,[Object.assign(K('假設寒假有一天可以跳過，你要跳哪一天？'),{ask:{id:'y0_e24a',until:until(d),opts:[{t:'今天。',say:[K('……今天有跟我聊天，不能跳。')]},{t:'除夕。',say:[K('除夕有紅包。你很奇怪。')]}]}})],'y0_e24a'); }
       { const d=D('2025-01-18'); if(past(d,22.5)&&!PHONE.sent(G,'y0_e24c')) PHONE.at(G,d,22.5,[K('今天的假設題：如果你是一碗湯，你是什麼湯？')],'y0_e24c'); }
       { const d=D('2025-02-02'); if(past(d,22.5)&&!PHONE.sent(G,'y0_e24b')) PHONE.at(G,d,22.5,[K('我媽說我寒假胖了。我說這是存糧。')],'y0_e24b'); }
