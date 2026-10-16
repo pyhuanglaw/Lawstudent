@@ -11817,6 +11817,34 @@
    "sha": [
     "27e2fb48"
    ]
+  },
+  {
+   "id": "HOLIDAY-SYS",
+   "title": "16 週制：學期運作／生活運作分開（期末後停課表、固定社課、法服；寒暑假每天能玩、可選快轉；宿舍寒暑假保留；NPC 六種作息；邀約看所在地）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "next": "先設計架構（TERMS 不動）；AA 一學期一學期交規格（先大一上）；必測九項（AA_197 第 0 節第七點）、每學期七件（第八點）",
+   "first": {
+    "term": "Y1S1",
+    "week": 16,
+    "earliest": "大一上期末考後",
+    "mainline": true,
+    "blocks": true,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 約 21:08 UTC（AA_197 第 0 節，AA-B 21:09 轉達）",
+   "authorized": "使用者正式批准的設計方向",
+   "xai": {
+    "spec": "AA_197（企劃線 cool-heisenberg a119fceb；第 1 節以後 AA 撰寫中）",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "AA_197 第 0 節第七點九項測試、第八點每學期七件",
+    "receiver": "AA-B",
+    "ack": "ACK"
+   }
   }
  ]
 }
