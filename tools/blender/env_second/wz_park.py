@@ -53,6 +53,7 @@ M = {
     'board': base['board'], 'glass': base['glass'], 'cork': L.flat('park_cork', '#b8946a', rough=0.95),
     'lamp': L.flat('park_lamp_glass', '#fff1d6', rough=0.3, emit=B.srgb('#ffd9a0')), 'lamppost': L.flat('park_lamppost', '#2f4a3a', rough=0.5, metal=0.35),
     'incense': L.flat('park_incense', '#5a4a3a', rough=0.8),
+    'roof_red': L.pbr('park_roof_red', 'grey_roof_tiles', tile=0.45, target='#9a4a32', normal=0.9, maps=('diff', 'nor'), res=256, rough_value=0.6),
 }
 
 
@@ -108,7 +109,16 @@ def strip(m, a, b, w, y, ext=0.0):
 
 class Xf:
     """物件自己的座標（x 右、z 前、y 上）→ 世界：中心 (px,pz)、轉 ry（yaw：正面朝 (sin ry, cos ry)）"""
-    def __init__(self, px, pz, ry=0.0): self.px, self.pz, self.c, self.s = px, pz, math.cos(ry), math.sin(ry)
+    def __init__(self, px, pz, ry=0.0): self.px, self.pz, self.c, self.s, self.ry = px, pz, math.cos(ry), math.sin(ry), ry
+    def M(self, x, y, z, extra=None):
+        m = Matrix.Translation(g2b(*self.p(x, y, z))) @ Matrix.Rotation(self.ry, 4, 'Z'); return m @ extra if extra is not None else m
+    def rbox(self, m, x0, x1, y0, y1, z0, z1, r=0.03, seg=3):
+        bm = L.rbox_bm(x1 - x0, y1 - y0, z1 - z0, r, seg); m.add_bm(bm, self.M((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2)); bm.free(); return m
+    def ell(self, m, c, rx, ry_, rz, tilt=0.0, seg=10, rings=6):
+        """橢球；tilt＝在 x–y 平面往前（+x 往上）傾斜的角度"""
+        bm = bmesh.new(); bmesh.ops.create_uvsphere(bm, u_segments=seg, v_segments=rings, radius=1.0)
+        for v in bm.verts: v.co = Vector((v.co.x * rx, v.co.y * rz, v.co.z * ry_))
+        m.add_bm(bm, self.M(*c, Matrix.Rotation(-tilt, 4, 'Y'))); bm.free(); return m
     def p(self, x, y, z): return (self.px + x * self.c + z * self.s, y, self.pz - x * self.s + z * self.c)
     def box(self, m, x0, x1, y0, y1, z0, z1):
         cs = [self.p(x, 0, z) for x in (x0, x1) for z in (z0, z1)]
@@ -118,6 +128,38 @@ class Xf:
         for f in ((0, 3, 2, 1), (4, 5, 6, 7), (0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7)): bm.faces.new([vs[i] for i in f])
         return m
     def cyl(self, m, a, b, r, **kw): m.cyl(self.p(*a), self.p(*b), r, **kw); return m
+
+
+def roof_field(m, xf, hx, hz, eh, rh, kind='hip', lift=0.14, thick=0.07, n=14, y_off=0.0):
+    """有厚度、微微內凹、簷角起翹的屋頂（高度場）：hip＝四坡（涼亭）、gable＝兩坡（土地公廟，兩端燕尾起翹）。
+    hx、hz＝半寬（含出挑）；eh＝簷口高、rh＝屋脊高"""
+    bm = m.bm; top, bot = {}, {}
+    for i in range(n + 1):
+        for j in range(n + 1):
+            u, v = -1 + 2 * i / n, -1 + 2 * j / n
+            if kind == 'hip': t = max(abs(u), abs(v)); y = eh + (rh - eh) * (1 - t) ** 1.35 + lift * (abs(u) * abs(v)) ** 3
+            else: t = abs(v); y = eh + (rh - eh) * (1 - t) ** 1.2 + lift * abs(u) ** 6
+            q = xf.p(u * hx, y + y_off, v * hz)
+            top[i, j] = bm.verts.new(g2b(*q)); bot[i, j] = bm.verts.new(g2b(q[0], q[1] - thick, q[2]))
+    for i in range(n):
+        for j in range(n):
+            a, b_, c, d = (i, j), (i + 1, j), (i + 1, j + 1), (i, j + 1)
+            bm.faces.new((top[a], top[d], top[c], top[b_])); bm.faces.new((bot[a], bot[b_], bot[c], bot[d]))
+    edge = [(i, 0) for i in range(n)] + [(n, j) for j in range(n)] + [(i, n) for i in range(n, 0, -1)] + [(0, j) for j in range(n, 0, -1)]
+    for k in range(len(edge)):
+        a, b_ = edge[k], edge[(k + 1) % len(edge)]
+        try: bm.faces.new((top[a], bot[a], bot[b_], top[b_]))
+        except ValueError: pass
+    return lambda u, v: (eh + (rh - eh) * (1 - (max(abs(u), abs(v)) if kind == 'hip' else abs(v))) ** (1.35 if kind == 'hip' else 1.2) + (lift * (abs(u) * abs(v)) ** 3 if kind == 'hip' else lift * abs(u) ** 6))
+
+
+def coil(m, xf, x, z, y0, y1, r=0.07, turns=5, wire=0.012):
+    """彈簧（搖搖馬）"""
+    n = turns * 10; prev = None
+    for k in range(n + 1):
+        a = k / 10 * 2 * math.pi; q = (x + math.cos(a) * r, y0 + (y1 - y0) * k / n, z + math.sin(a) * r)
+        if prev: xf.cyl(m, prev, q, wire, seg=5, caps=False)
+        prev = q
 
 
 # ======================== 地面 ========================
@@ -136,6 +178,21 @@ for p in LAY['paths']:
         strip(pv, p['from'], p['to'], p['w'], 0.021)
 ot = next(i for i in LAY['items'] if i['id'] == 'oldtree'); TX, TZ = ot['x'], ot['z']
 ring_wall(gr, TX, TZ, 0.86, 1.0, 0.0, 0.16, n=28); disc(acc('soil'), TX, TZ, 0.86, 0.06, n=28)
+for it in LAY['items']:                                                   # 其他樹的樹穴：花崗石緣＋泥土
+    if it['kind'] in ('tree_camphor', 'tree_sweetgum'):
+        rp = 0.62 if it['kind'] == 'tree_camphor' else 0.52
+        ring_wall(gr, it['x'], it['z'], rp, rp + 0.1, 0.0, 0.1, n=20); disc(acc('soil'), it['x'], it['z'], rp, 0.04, n=20)
+RINGS = [p for p in LAY['paths'] if 'ring' in p]
+for p in LAY['paths']:                                                     # 直的步道兩側：花崗石收邊
+    if 'ring' in p: continue
+    (ax, az), (bx, bz) = p['from'], p['to']; Ln = math.hypot(bx - ax, bz - az); nx, nz = -(bz - az) / Ln, (bx - ax) / Ln
+    for sd in (-1, 1):
+        o = sd * (p['w'] / 2 + 0.05); a_ = [ax + nx * o, az + nz * o]; b_ = [bx + nx * o, bz + nz * o]
+        for e0, e1 in ((a_, b_), (b_, a_)):                              # 收邊不穿過環狀步道：端點往外退到環的外緣
+            for _ in range(200):
+                if all(math.hypot(e0[0] - rp_['ring'][0], e0[1] - rp_['ring'][1]) > rp_['r'] + rp_['w'] / 2 + 0.1 for rp_ in RINGS): break
+                d_ = math.hypot(e1[0] - e0[0], e1[1] - e0[1]); e0[0] += (e1[0] - e0[0]) / d_ * 0.05; e0[1] += (e1[1] - e0[1]) / d_ * 0.05
+        strip(gr, tuple(a_), tuple(b_), 0.1, 0.03)
 
 # ======================== 樹 ========================
 bpy.ops.import_scene.gltf(filepath=os.path.join(L.ROOT, 'assets', 'models', 'env', 'second_ai', 'street_trees.glb'))
@@ -158,7 +215,7 @@ def tree(name, src, x, z, sx=1.0, sy=1.0, ry=0.0, leaf=None, parent=None):
     return out
 for it in LAY['items']:
     k = it['kind']
-    if k == 'tree_bischofia': tree('park_oldtree', 'camphor_b', it['x'], it['z'], 1.12, 1.05, 0.7, LEAFV['bischofia'])
+    if k == 'tree_bischofia': tree('park_oldtree', 'camphor_b', it['x'], it['z'], 1.38, 1.2, 0.7, LEAFV['bischofia'])
     elif k == 'tree_camphor': tree(f'park_{it["id"]}', 'camphor_a', it['x'], it['z'], 0.72, 0.74, it['x'])
     elif k == 'tree_sweetgum':   # 楓香：細高（樹冠窄）；綠、紅兩份，遊戲依月份切換
         for tag, lv in (('off', LEAFV['sg_g']), ('on', LEAFV['sg_r'])):
@@ -186,16 +243,29 @@ for k in range(10):
 
 # ======================== 涼亭＋石桌石凳 ========================
 pa = next(i for i in LAY['items'] if i['kind'] == 'pavilion'); px, pz, pw = pa['x'], pa['z'], pa['w']; xf = Xf(px, pz)
-xf.box(acc('stone'), -pw / 2, pw / 2, 0.0, 0.12, -pw / 2, pw / 2)                                     # 石基座
+xf.rbox(acc('stone'), -pw / 2, pw / 2, 0.0, 0.14, -pw / 2, pw / 2, r=0.04)                               # 石基座（倒角）
 for sx in (-1, 1):
-    for sz in (-1, 1): xf.box(acc('pillar'), sx * (pw / 2 - 0.2) - 0.11, sx * (pw / 2 - 0.2) + 0.11, 0.12, 2.75, sz * (pw / 2 - 0.2) - 0.11, sz * (pw / 2 - 0.2) + 0.11)
-xf.box(acc('pillar'), -pw / 2 + 0.05, pw / 2 - 0.05, 2.62, 2.82, -pw / 2 + 0.05, pw / 2 - 0.05)   # 樑（實心，從下面看是天花板）
-eh, rh, ov = 2.82, 3.9, 0.45                                                                         # 四坡屋頂：簷 2.82、頂 3.9、出挑 0.45
-bm = acc('roof').bm; c0 = [xf.p(-pw / 2 - ov, eh, -pw / 2 - ov), xf.p(pw / 2 + ov, eh, -pw / 2 - ov), xf.p(pw / 2 + ov, eh, pw / 2 + ov), xf.p(-pw / 2 - ov, eh, pw / 2 + ov)]
-tp = bm.verts.new(g2b(*xf.p(0, rh, 0))); cv = [bm.verts.new(g2b(*q)) for q in c0]
-for i in range(4): bm.faces.new((cv[i], cv[(i + 1) % 4], tp))
-bm.faces.new(cv[::-1])
-acc('gold').sphere(xf.p(0, rh + 0.08, 0), 0.1, seg=8, rings=4)
+    for sz in (-1, 1):
+        cx_, cz_ = sx * (pw / 2 - 0.2), sz * (pw / 2 - 0.2)
+        xf.rbox(acc('stone'), cx_ - 0.17, cx_ + 0.17, 0.14, 0.34, cz_ - 0.17, cz_ + 0.17, r=0.03, seg=2)          # 柱珠（石）
+        xf.rbox(acc('pillar'), cx_ - 0.1, cx_ + 0.1, 0.34, 2.62, cz_ - 0.1, cz_ + 0.1, r=0.025, seg=2)            # 柱子
+for sd in (-1, 1):                                                                                       # 四邊的樑（中間空）＋掛落
+    xf.rbox(acc('pillar'), -pw / 2 + 0.05, pw / 2 - 0.05, 2.6, 2.84, sd * (pw / 2 - 0.2) - 0.1, sd * (pw / 2 - 0.2) + 0.1, r=0.02, seg=1)
+    xf.rbox(acc('pillar'), sd * (pw / 2 - 0.2) - 0.1, sd * (pw / 2 - 0.2) + 0.1, 2.6, 2.84, -pw / 2 + 0.05, pw / 2 - 0.05, r=0.02, seg=1)
+    for k in range(1, 6):
+        t = -pw / 2 + 0.2 + k * (pw - 0.4) / 6
+        xf.cyl(acc('pillar'), (t, 2.42, sd * (pw / 2 - 0.2)), (t, 2.6, sd * (pw / 2 - 0.2)), 0.015, seg=4, caps=False)
+        xf.cyl(acc('pillar'), (sd * (pw / 2 - 0.2), 2.42, t), (sd * (pw / 2 - 0.2), 2.6, t), 0.015, seg=4, caps=False)
+    xf.rbox(acc('pillar'), -pw / 2 + 0.2, pw / 2 - 0.2, 2.38, 2.43, sd * (pw / 2 - 0.2) - 0.03, sd * (pw / 2 - 0.2) + 0.03, r=0.01, seg=1)
+    xf.rbox(acc('pillar'), sd * (pw / 2 - 0.2) - 0.03, sd * (pw / 2 - 0.2) + 0.03, 2.38, 2.43, -pw / 2 + 0.2, pw / 2 - 0.2, r=0.01, seg=1)
+eh, rh, ov = 2.9, 3.95, 0.55                                                                             # 四坡攢尖頂：簷 2.9、頂 3.95、出挑 0.55，四角起翹
+hgt = roof_field(acc('roof'), xf, pw / 2 + ov, pw / 2 + ov, eh, rh, 'hip', lift=0.22, thick=0.09)
+roof_field(acc('pillar'), xf, pw / 2 + ov - 0.04, pw / 2 + ov - 0.04, eh - 0.1, rh - 0.12, 'hip', lift=0.2, thick=0.02, n=8)   # 屋頂底下的木天花（深色）
+for sx in (-1, 1):                                                                                       # 四條垂脊（沿著屋頂的對角線）
+    for sz in (-1, 1):
+        pts = [(sx * t * (pw / 2 + ov), hgt(sx * t, sz * t) + 0.05, sz * t * (pw / 2 + ov)) for t in [k / 6 for k in range(7)]]
+        for q0, q1 in zip(pts, pts[1:]): xf.cyl(acc('roof'), q0, q1, 0.045, seg=6)
+acc('gold').cyl(xf.p(0, rh, 0), xf.p(0, rh + 0.16, 0), 0.07, seg=10); acc('gold').sphere(xf.p(0, rh + 0.26, 0), 0.1, seg=10, rings=6)   # 寶頂
 tb = acc('stone'); tb.cyl(xf.p(0, 0.12, 0), xf.p(0, 0.72, 0), 0.18, seg=12); tb.cyl(xf.p(0, 0.72, 0), xf.p(0, 0.8, 0), 0.5, seg=24)   # 圓石桌
 for (sx, sz) in ((0, -0.95), (0, 0.95), (-0.95, 0), (0.95, 0)): tb.cyl(xf.p(sx, 0.12, sz), xf.p(sx, 0.55, sz), 0.2, seg=14)     # 鼓形石凳
 NOTE_Q = []
@@ -211,33 +281,48 @@ for j in range(-4, 5): acc('incense').box(cb[0] - 0.16, cb[0] + 0.16, 0.8, 0.806
 pg = next(i for i in LAY['items'] if i['kind'] == 'playground'); gx, gz, gw, gd = pg['x'], pg['z'], pg['w'], pg['d']; xf = Xf(gx, gz)
 xf.box(acc('rubber_b'), -gw / 2, gw / 2, 0.0, 0.035, -gd / 2, gd / 2)
 xf.box(acc('rubber_g'), -gw / 2 + 0.3, -gw / 2 + 2.2, 0.035, 0.04, -gd / 2 + 0.3, gd / 2 - 0.3)
-# 溜滑梯：平台 1.1 m（四柱＋護欄）、後面階梯、前面滑道（往 +x）
+# 溜滑梯：平台 1.1 m（四根圓柱、圓角平台、兩側護板）、後面階梯＋扶手、前面 U 形滑道（往 +x），平台上一個小四坡頂
 sx0 = -gw / 2 + 0.6
 for ax in (sx0, sx0 + 0.9):
-    for az in (-0.45, 0.45): xf.cyl(acc('yellow'), (ax, 0.0, az), (ax, 1.9, az), 0.045, seg=8)
-xf.box(acc('blue'), sx0 - 0.05, sx0 + 0.95, 1.05, 1.12, -0.5, 0.5)
-for az in (-0.45, 0.45): xf.box(acc('yellow'), sx0, sx0 + 0.9, 1.6, 1.65, az - 0.03, az + 0.03)
-xf.box(acc('orange'), sx0 - 0.08, sx0 + 0.98, 1.9, 1.98, -0.55, 0.55)                                # 小屋頂
-for k in range(5): y = 0.2 * (k + 1); xf.box(acc('blue'), sx0 - 0.55 + k * 0.1, sx0 - 0.25 + k * 0.1, y - 0.03, y, -0.3, 0.3)  # 階梯
-bm = acc('green').bm; pts = []
-for k in range(9):
-    t = k / 8; x = sx0 + 0.95 + t * 1.9; y = 1.08 - 1.0 * (t * t * (3 - 2 * t)) * 1.0 + 0.04
-    pts.append((x, y))
-prev = None
+    for az in (-0.45, 0.45): xf.cyl(acc('yellow'), (ax, 0.0, az), (ax, 1.9, az), 0.045, seg=10); acc('yellow').sphere(xf.p(ax, 1.9, az), 0.05, seg=8, rings=4)
+xf.rbox(acc('blue'), sx0 - 0.05, sx0 + 0.95, 1.02, 1.1, -0.5, 0.5, r=0.025)
+for az in (-0.47, 0.47):
+    xf.rbox(acc('blue'), sx0 + 0.05, sx0 + 0.85, 1.12, 1.56, az - 0.018, az + 0.018, r=0.015)
+    xf.cyl(acc('yellow'), (sx0, 1.62, az), (sx0 + 0.9, 1.62, az), 0.028, seg=8)
+_c = xf.p(sx0 + 0.45, 0, 0); roof_field(acc('orange'), Xf(_c[0], _c[2], xf.ry), 0.62, 0.62, 1.93, 2.32, 'hip', lift=0.05, thick=0.035, n=8)
+for k in range(5):                                                                                      # 階梯（圓角踏板）＋扶手
+    y = 0.2 * (k + 1); xf.rbox(acc('blue'), sx0 - 0.58 + k * 0.105, sx0 - 0.3 + k * 0.105, y - 0.035, y, -0.28, 0.28, r=0.012)
+for az in (-0.31, 0.31):
+    xf.cyl(acc('yellow'), (sx0 - 0.62, 0.0, az), (sx0 - 0.08, 1.06, az), 0.03, seg=8)
+    xf.cyl(acc('yellow'), (sx0 - 0.62, 0.62, az), (sx0 - 0.02, 1.62, az), 0.022, seg=8)
+pts = []
+for k in range(13):
+    t = k / 12; pts.append((sx0 + 0.95 + t * 1.95, 1.08 - (t * t * (3 - 2 * t)) * 0.94 + 0.04))
+PIN = [(-0.27, 0.2), (-0.27, 0.02), (-0.22, -0.04), (0.0, -0.06), (0.22, -0.04), (0.27, 0.02), (0.27, 0.2)]
+POUT = [(-0.3, 0.2), (-0.3, 0.0), (-0.24, -0.07), (0.0, -0.09), (0.24, -0.07), (0.3, 0.0), (0.3, 0.2)]
+bm = acc('green').bm; rin, rout = [], []
 for (x, y) in pts:
-    a = bm.verts.new(g2b(*xf.p(x, y, -0.3))); b = bm.verts.new(g2b(*xf.p(x, y, 0.3)))
-    if prev: bm.faces.new((prev[0], a, b, prev[1]))
-    prev = (a, b)
-for side in (-0.32, 0.32):
-    for (x0, y0), (x1, y1) in zip(pts, pts[1:]): xf.box(acc('green'), x0, x1, min(y0, y1), max(y0, y1) + 0.15, side - 0.02, side + 0.02)
-# 搖搖馬 ×2（彈簧＋身體）
-for k, (hx, col) in enumerate(((0.9, 'orange'), (1.8, 'yellow'))):
-    xf.cyl(acc('chain'), (hx, 0.04, 0.6), (hx, 0.45, 0.6), 0.09, seg=10)
-    xf.box(acc(col), hx - 0.35, hx + 0.35, 0.45, 0.7, 0.45, 0.75); xf.box(acc(col), hx + 0.22, hx + 0.42, 0.7, 1.0, 0.5, 0.7)
-    xf.cyl(acc('steel'), (hx + 0.2, 0.92, 0.42), (hx + 0.2, 0.92, 0.78), 0.02, seg=6)
+    rin.append([bm.verts.new(g2b(*xf.p(x, y + py, pz_))) for (pz_, py) in PIN]); rout.append([bm.verts.new(g2b(*xf.p(x, y + py, pz_))) for (pz_, py) in POUT])
+for r0, r1, o0, o1 in zip(rin, rin[1:], rout, rout[1:]):
+    for k in range(len(PIN) - 1):
+        bm.faces.new((r0[k], r1[k], r1[k + 1], r0[k + 1])); bm.faces.new((o0[k + 1], o1[k + 1], o1[k], o0[k]))
+    for k in (0, len(PIN) - 1): bm.faces.new((r0[k], o0[k], o1[k], r1[k]) if k == 0 else (r1[k], o1[k], o0[k], r0[k]))
+# 搖搖馬 ×2：彈簧＋橢球的身體、脖子、頭、耳朵、尾巴，握把、腳踏
+for k, (hx, col) in enumerate(((0.9, 'orange'), (1.85, 'yellow'))):
+    hz = 0.6; m = acc(col)
+    xf.cyl(acc('steel'), (hx, 0.0, hz), (hx, 0.04, hz), 0.17, seg=16); coil(acc('chain'), xf, hx, hz, 0.04, 0.44, r=0.065, turns=6, wire=0.011)
+    xf.ell(m, (hx, 0.6, hz), 0.3, 0.13, 0.12)
+    xf.ell(m, (hx + 0.22, 0.78, hz), 0.08, 0.17, 0.075, tilt=0.45)
+    xf.ell(m, (hx + 0.32, 0.92, hz), 0.11, 0.07, 0.068, tilt=-0.25)
+    for ez in (-0.04, 0.04): xf.ell(m, (hx + 0.25, 1.02, hz + ez), 0.02, 0.05, 0.015)
+    xf.ell(acc('rubber_k'), (hx + 0.36, 0.95, hz - 0.055), 0.016, 0.016, 0.01); xf.ell(acc('rubber_k'), (hx + 0.36, 0.95, hz + 0.055), 0.016, 0.016, 0.01)
+    xf.ell(acc('rubber_k'), (hx + 0.2, 0.92, hz), 0.1, 0.03, 0.025, tilt=0.6)                                  # 鬃毛
+    xf.ell(m, (hx - 0.32, 0.62, hz), 0.08, 0.04, 0.035, tilt=-0.7)                                            # 尾巴
+    xf.cyl(acc('steel'), (hx + 0.24, 0.86, hz - 0.15), (hx + 0.24, 0.86, hz + 0.15), 0.018, seg=8)            # 握把
+    xf.cyl(acc('steel'), (hx + 0.08, 0.44, hz - 0.2), (hx + 0.08, 0.44, hz + 0.2), 0.018, seg=8)              # 腳踏
 # 小沙坑（木框）
-xf.box(acc('wood'), 0.5, 2.3, 0.0, 0.25, -1.55, -1.45); xf.box(acc('wood'), 0.5, 2.3, 0.0, 0.25, -0.35, -0.25)
-xf.box(acc('wood'), 0.5, 0.6, 0.0, 0.25, -1.55, -0.25); xf.box(acc('wood'), 2.2, 2.3, 0.0, 0.25, -1.55, -0.25)
+xf.rbox(acc('wood'), 0.5, 2.3, 0.0, 0.25, -1.55, -1.45, r=0.02, seg=2); xf.rbox(acc('wood'), 0.5, 2.3, 0.0, 0.25, -0.35, -0.25, r=0.02, seg=2)   # 木框（不重疊：v2 第一版四個角重疊閃黑）
+xf.rbox(acc('wood'), 0.5, 0.6, 0.0, 0.25, -1.45, -0.35, r=0.02, seg=2); xf.rbox(acc('wood'), 2.2, 2.3, 0.0, 0.25, -1.45, -0.35, r=0.02, seg=2)
 xf.box(acc('sand'), 0.6, 2.2, 0.0, 0.16, -1.45, -0.35)
 
 # ======================== 鞦韆 ×2 ========================
@@ -271,25 +356,36 @@ for it in LAY['items']:
 
 # ======================== 土地公小廟 ========================
 sh = next(i for i in LAY['items'] if i['kind'] == 'tudigong_shrine'); xf = Xf(sh['x'], sh['z'], sh.get('yaw', 0))
-xf.box(acc('stone'), -0.6, 0.6, 0.0, 0.35, -0.45, 0.45)                                               # 台座
-xf.box(acc('red'), -0.48, 0.48, 0.35, 1.25, -0.4, 0.2); xf.box(acc('soil'), -0.3, 0.3, 0.45, 1.05, 0.2, 0.22)   # 廟身＋神龕（暗）
-for sx in (-0.42, 0.42): xf.box(acc('pillar'), sx - 0.05, sx + 0.05, 0.35, 1.25, 0.22, 0.32)
-bm = acc('roof').bm; ry_, eh_ = 1.62, 1.28
-pts = [xf.p(-0.7, eh_, -0.55), xf.p(0.7, eh_, -0.55), xf.p(0.85, ry_ + 0.08, 0.0), xf.p(0.7, eh_, 0.5), xf.p(-0.7, eh_, 0.5), xf.p(-0.85, ry_ + 0.08, 0.0)]   # 兩坡＋翹起的燕尾
-vs = [bm.verts.new(g2b(*q)) for q in pts]; bm.faces.new((vs[0], vs[1], vs[2], vs[5])); bm.faces.new((vs[5], vs[2], vs[3], vs[4]))
-acc('gold').cyl(xf.p(-0.85, ry_ + 0.08, 0.0), xf.p(0.85, ry_ + 0.08, 0.0), 0.03, seg=6)
-xf.box(acc('red'), -0.35, 0.35, 0.35, 0.75, 0.55, 0.85)                                              # 供桌
-acc('gold').cyl(xf.p(0, 0.75, 0.7), xf.p(0, 0.88, 0.7), 0.1, seg=12)                                 # 香爐
-for dx in (-0.03, 0.0, 0.03): acc('incense').cyl(xf.p(dx, 0.88, 0.7), xf.p(dx, 1.08, 0.7), 0.004, seg=3)
-for sx in (-0.55, 0.55): acc('red').sphere(xf.p(sx, 1.0, 0.35), 0.11, seg=10, rings=6, sy=1.3)       # 紅燈籠
-for sx in (-0.55, 0.55): CL.glow(root, 'shrine', *xf.p(sx, 1.0, 0.4), color='rgba(255,90,60,1)', size=0.6, day=0.0, night=0.9)
+xf.rbox(acc('stone'), -0.66, 0.66, 0.0, 0.32, -0.5, 0.42, r=0.03)                                     # 台座＋前面一階
+xf.rbox(acc('stone'), -0.5, 0.5, 0.0, 0.14, 0.42, 0.72, r=0.02)
+xf.rbox(acc('red'), -0.5, 0.5, 0.32, 1.28, -0.42, -0.32, r=0.02)                                        # 後牆、兩側牆
+for sx in (-1, 1): xf.rbox(acc('red'), sx * 0.5 - 0.05, sx * 0.5 + 0.05, 0.32, 1.28, -0.42, 0.18, r=0.02)
+xf.rbox(acc('soil'), -0.45, 0.45, 0.32, 1.25, -0.32, 0.12, r=0.0)                                       # 神龕裡面（暗）
+xf.rbox(acc('red'), -0.36, 0.36, 0.32, 0.5, -0.3, -0.05, r=0.015)                                       # 神桌
+xf.ell(acc('gold'), (0, 0.66, -0.17), 0.09, 0.15, 0.08); xf.ell(acc('gold'), (0, 0.86, -0.17), 0.055, 0.06, 0.055)   # 土地公像（金身）
+for sx in (-1, 1): xf.cyl(acc('pillar'), (sx * 0.47, 0.32, 0.24), (sx * 0.47, 1.26, 0.24), 0.045, seg=12)   # 前面兩根圓柱
+xf.rbox(acc('red'), -0.56, 0.56, 1.22, 1.33, -0.46, 0.3, r=0.02)                                          # 樑
+roof_field(acc('roof_red'), xf, 0.8, 0.62, 1.32, 1.62, 'gable', lift=0.15, thick=0.05, n=12, y_off=0.0)
+for k in range(12):                                                                                       # 屋脊：兩端翹起（燕尾）
+    u0, u1 = -1 + 2 * k / 12, -1 + 2 * (k + 1) / 12
+    q0 = (u0 * 0.86, 1.65 + 0.2 * abs(u0) ** 5, 0.0); q1 = (u1 * 0.86, 1.65 + 0.2 * abs(u1) ** 5, 0.0); xf.cyl(acc('roof_red'), q0, q1, 0.035, seg=6)
+for sx in (-1, 1):
+    for sz in (-0.03, 0.03): xf.cyl(acc('roof_red'), (sx * 0.86, 1.85, 0.0), (sx * 0.98, 1.95, sz * 2.5), 0.018, r2=0.004, seg=5)
+acc('gold').sphere(xf.p(0, 1.75, 0), 0.06, seg=10, rings=6)                                               # 屋脊中間的寶珠
+xf.rbox(acc('red'), -0.34, 0.34, 0.32, 0.72, 0.5, 0.82, r=0.02)                                           # 供桌
+xf.cyl(acc('gold'), (0, 0.72, 0.66), (0, 0.84, 0.66), 0.07, r2=0.1, seg=14)                              # 香爐
+for dx in (-0.03, 0.0, 0.03): acc('incense').cyl(xf.p(dx, 0.84, 0.66), xf.p(dx, 1.06, 0.66), 0.004, seg=3)
+for sx in (-0.42, 0.42):                                                                                  # 紅燈籠（金色上下蓋）
+    xf.ell(acc('red'), (sx, 1.02, 0.34), 0.1, 0.13, 0.1); xf.cyl(acc('gold'), (sx, 1.14, 0.34), (sx, 1.17, 0.34), 0.05, seg=10); xf.cyl(acc('gold'), (sx, 0.87, 0.34), (sx, 0.9, 0.34), 0.05, seg=10)
+    xf.cyl(acc('chain'), (sx, 1.17, 0.34), (sx, 1.24, 0.34), 0.005, seg=4)
+for sx in (-0.42, 0.42): CL.glow(root, 'shrine', *xf.p(sx, 1.02, 0.4), color='rgba(255,90,60,1)', size=0.6, day=0.0, night=0.9)
 
 # ======================== 公布欄、直飲台、腳踏車架、長椅、路燈 ========================
 def notice_board(it):
     xf = Xf(it['x'], it['z'], it.get('yaw', 0))
-    for sx in (-0.75, 0.75): xf.box(acc('lamppost'), sx - 0.04, sx + 0.04, 0.0, 2.0, -0.04, 0.04)
-    xf.box(acc('lamppost'), -0.82, 0.82, 0.85, 1.95, -0.08, -0.02); xf.box(acc('cork'), -0.74, 0.74, 0.92, 1.88, -0.021, -0.015)
-    xf.box(acc('lamppost'), -0.9, 0.9, 1.95, 2.02, -0.2, 0.06)                                          # 小屋簷
+    for sx in (-0.75, 0.75): xf.rbox(acc('lamppost'), sx - 0.045, sx + 0.045, 0.0, 2.0, -0.045, 0.045, r=0.012)
+    xf.rbox(acc('lamppost'), -0.84, 0.84, 0.84, 1.96, -0.085, -0.02, r=0.02); xf.box(acc('cork'), -0.74, 0.74, 0.92, 1.88, -0.021, -0.015)
+    roof_field(acc('lamppost'), Xf(*xf.p(0, 0, -0.07)[0::2], xf.ry), 0.95, 0.24, 2.0, 2.1, 'gable', lift=0.0, thick=0.025, n=4)   # 小屋簷
     xf.box(acc('glass'), -0.76, 0.76, 0.9, 1.9, 0.0, 0.01)
     for (cell, x, y, w, h) in (('poster', -0.42, 1.1, 0.5, 0.62), ('lostcat', 0.15, 1.2, 0.42, 0.46), ('tutor', 0.55, 0.98, 0.32, 0.36), ('hiring', 0.52, 1.42, 0.3, 0.32)):
         note([xf.p(x - w / 2, y, -0.01), xf.p(x + w / 2, y, -0.01), xf.p(x + w / 2, y + h, -0.01), xf.p(x - w / 2, y + h, -0.01)], cell)
@@ -303,10 +399,19 @@ def bike_rack(it):
         z = -1.05 + k * 0.7; xf.cyl(acc('stain'), (-0.25, 0, z), (-0.25, 0.7, z), 0.025, seg=6); xf.cyl(acc('stain'), (0.25, 0, z), (0.25, 0.7, z), 0.025, seg=6)
         xf.cyl(acc('stain'), (-0.25, 0.7, z), (0.25, 0.7, z), 0.025, seg=6)
 def bench(it):
+    """公園長椅：圓角木條（座面四條、椅背三條，椅背微微往後仰）、鑄鐵側架（曲線：前腳、座面下、扶手）"""
     xf = Xf(it['x'], it['z'], it.get('yaw', 0))
-    for k in range(4): z = -0.22 + k * 0.1; xf.box(acc('wood'), -0.75, 0.75, 0.42, 0.46, z, z + 0.08)
-    for k in range(3): y = 0.55 + k * 0.12; xf.box(acc('wood'), -0.75, 0.75, y, y + 0.08, -0.29, -0.25)
-    for sx in (-0.65, 0.65): xf.box(acc('steel'), sx - 0.03, sx + 0.03, 0.0, 0.42, -0.25, 0.22); xf.box(acc('steel'), sx - 0.03, sx + 0.03, 0.42, 0.9, -0.3, -0.24)
+    for k in range(4): z = -0.2 + k * 0.105; xf.rbox(acc('wood'), -0.78, 0.78, 0.42 - k * 0.006, 0.455 - k * 0.006, z, z + 0.085, r=0.012, seg=1)
+    for k in range(3):
+        y = 0.56 + k * 0.13; z = -0.27 - k * 0.03; xf.rbox(acc('wood'), -0.78, 0.78, y, y + 0.08, z - 0.02, z + 0.02, r=0.012, seg=1)
+    for sx in (-0.66, 0.66):
+        pts = [(sx, 0.0, 0.2), (sx, 0.4, 0.18), (sx, 0.4, -0.24), (sx, 0.0, -0.26)]                         # 前腳→座面下→後腳
+        for q0, q1 in zip(pts, pts[1:]): xf.cyl(acc('steel'), q0, q1, 0.025, seg=6)
+        back = [(sx, 0.4, -0.24), (sx, 0.62, -0.29), (sx, 0.88, -0.34)]
+        for q0, q1 in zip(back, back[1:]): xf.cyl(acc('steel'), q0, q1, 0.022, seg=6)
+        arm = [(sx * 1.08, 0.62, 0.16), (sx * 1.08, 0.66, -0.05), (sx * 1.05, 0.62, -0.26)]
+        for q0, q1 in zip(arm, arm[1:]): xf.cyl(acc('steel'), q0, q1, 0.022, seg=6)
+        xf.cyl(acc('steel'), (sx * 1.08, 0.4, 0.16), (sx * 1.08, 0.62, 0.16), 0.02, seg=6)
 def park_lamp(it):
     xf = Xf(it['x'], it['z']); xf.box(acc('stone'), -0.15, 0.15, 0.0, 0.08, -0.15, 0.15)
     xf.cyl(acc('lamppost'), (0, 0.08, 0), (0, 3.3, 0), 0.06, seg=10); xf.cyl(acc('lamppost'), (0, 3.3, 0), (0, 3.4, 0), 0.2, seg=12)
@@ -321,28 +426,51 @@ for it in LAY['items']:
     elif k == 'park_lamp': park_lamp(it)
 
 # ======================== 杜鵑花籬（季節：只有葉／開花） ========================
+# 修剪過的花籬＝實心的圓頂長條（不透明的葉子貼圖，葉縫是深綠）＋表面一層葉片卡（打破輪廓）。只用葉片卡會像散開的羽毛（v2 第一版）。
 hz = next(i for i in LAY['items'] if i['kind'] == 'azalea_hedge')
+def core_mat(name, fn):
+    m = img_mat(name, fn, clip=False, rough=0.75); m['tile'] = 0.8; return m
+CORE = {'off': core_mat('park_azalea_core', 'azalea_leaves.png'), 'on': core_mat('park_azalea_core_fl', 'azalea_flower.png')}
+PROF = [(-0.30, 0.0), (-0.36, 0.30), (-0.34, 0.56), (-0.24, 0.72), (0.0, 0.78), (0.24, 0.72), (0.34, 0.56), (0.36, 0.30), (0.30, 0.0)]
+def hedge_core(bm, x0, z0, x1, z1, seed):
+    rr = random.Random(seed); Ln = math.hypot(x1 - x0, z1 - z0); ux, uz = (x1 - x0) / Ln, (z1 - z0) / Ln; nx, nz = -uz, ux
+    n = max(2, int(Ln / 0.45)); rings = []
+    for i in range(n + 1):
+        t = i / n; cx, cz = x0 + (x1 - x0) * t, z0 + (z1 - z0) * t
+        end = 0.82 if i in (0, n) else 1.0                                      # 兩端收圓一點
+        ring = []
+        for (d, y) in PROF:
+            j = 1.0 + rr.uniform(-0.07, 0.07) if 0 < y < 0.78 else 1.0
+            ring.append(bm.verts.new(g2b(cx + nx * d * end * j, y * (end if y > 0 else 1) * (1 + rr.uniform(-0.04, 0.04) if y > 0 else 1), cz + nz * d * end * j)))
+        rings.append(ring)
+    for a, b in zip(rings, rings[1:]):
+        for k in range(len(PROF) - 1): bm.faces.new((a[k], b[k], b[k + 1], a[k + 1]))
+    for ring, rev in ((rings[0], True), (rings[-1], False)): bm.faces.new(list(reversed(ring)) if rev else ring)
 random.seed(311)
 hedge = {'off': Mesh('SEASON_AZALEA_off_hedge', M['azalea']), 'on': Mesh('SEASON_AZALEA_on_hedge', M['azalea_fl'])}
-for (x0, z0, x1, z1) in hz['segments']:
-    Ln = math.hypot(x1 - x0, z1 - z0); n = max(2, int(Ln / 0.55))
+cores = {tag: Mesh(f'SEASON_AZALEA_{tag}_core', CORE[tag]) for tag in CORE}
+for si, (x0, z0, x1, z1) in enumerate(hz['segments']):
+    for tag in cores: hedge_core(cores[tag].bm, x0, z0, x1, z1, 50 + si)
+    Ln = math.hypot(x1 - x0, z1 - z0); n = max(2, int(Ln / 0.4))
     for i in range(n + 1):
         t = i / n; x, z = x0 + (x1 - x0) * t, z0 + (z1 - z0) * t
         st_ = random.getstate()
-        for tag, m in hedge.items(): random.setstate(st_); bush(m, x, 0.42, z, 0.48, n=5, span=0.5, flat_y=0.7)
+        for tag, m in hedge.items(): random.setstate(st_); bush(m, x, 0.5, z, 0.42, n=4, span=0.35, flat_y=0.8)
 for tag, m in hedge.items():
-    o = m.finish(None, uv=False); grp = B.group(f'SEASON_AZALEA_{tag}', root, {'season': 'azalea', 'state': tag}); o.parent = grp
+    grp = B.group(f'SEASON_AZALEA_{tag}', root, {'season': 'azalea', 'state': tag})
+    o = m.finish(None, uv=False); o.parent = grp
+    oc = cores[tag].finish(None, uv=True, smooth=True); oc.parent = grp
 
 # ======================== 矮牆、名牌 ========================
 for w in LAY['walls']:
     if 'x0' in w: acc('wall').box(w['x0'], w['x1'], 0.0, w['h'], w['z'] - 0.1, w['z'] + 0.1); gr.box(w['x0'] - 0.03, w['x1'] + 0.03, w['h'], w['h'] + 0.06, w['z'] - 0.13, w['z'] + 0.13)
     else: acc('wall').box(w['x'] - 0.1, w['x'] + 0.1, 0.0, w['h'], w['z0'], w['z1']); gr.box(w['x'] - 0.13, w['x'] + 0.13, w['h'], w['h'] + 0.06, w['z0'] - 0.03, w['z1'] + 0.03)
-for px in (19.5, 20.9): acc('wood').box(px - 0.05, px + 0.05, 0.0, 1.66, 5.9, 6.0)
-acc('wood').box(19.36, 21.04, 1.16, 1.64, 5.94, 6.0)
+for px in (19.5, 20.9): Xf(0, 0).rbox(acc('wood'), px - 0.05, px + 0.05, 0.0, 1.7, 5.96, 6.06, r=0.015)   # 柱子在板子後面（v2 第一版柱子擋到字）
+Xf(0, 0).rbox(acc('wood'), 19.36, 21.04, 1.16, 1.64, 5.94, 5.99, r=0.012)
 fm = Mesh('PLATE_FACE_parksign', M['board']); fm.quad([(21.0, 1.2, 5.935), (19.4, 1.2, 5.935), (19.4, 1.6, 5.935), (21.0, 1.6, 5.935)])
 
 # ======================== 收尾 ========================
-for k, m in _acc.items(): m.finish(root, uv=True, smooth=False)
+for k, m in _acc.items(): m.finish(root, uv=True, smooth=k not in ('park_grass', 'park_paver', 'park_granite'))
 uv01(fm.finish(root, uv=True, props={'plate': 'park', 'text': '溫州公園', 'bg': '#2f4a3a', 'color': '#f4ead8'}))
 if NOTE_Q:
     bm = bmesh.new(); uvl = bm.loops.layers.uv.new('UVMap'); NOTES = ['hiring', 'hours', 'pay', 'rent', 'winter', 'copyprice', 'copyprice2', 'nobook', 'chalk', 'menu', 'closed', 'poster', 'lostcat', 'tutor', 'hours2', 'blank']

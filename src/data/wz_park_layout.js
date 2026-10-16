@@ -7,7 +7,7 @@
    blocks：導航阻擋 [x, z, 寬(x), 深(z)] 或圓 [x, z, r]（type:'circle'）。seats：{x,z,yaw,label}（yaw＝面向的方向，atan2(dx,dz)）。
    interact：AA_164 5-4 的互動點（label 與 kind；文字由 AA-B 寫、LAWWW-B 接）。season：材質依季節切換的物件名稱前綴（模型裡的節點名稱）。 */
 const WZ_PARK_LAYOUT = {
-  version: 1,
+  version: 2,   // v2（LAWWW2-B 07:3x）：公布欄、直飲台 yaw 改 π（正面朝主巷）；其他數字沒變
   area: {
     front: {x0: 20.2, x1: 31.8, z0: 5.0, z1: 17.0},
     back: {x0: 8.4, x1: 36.0, z0: 17.0, z1: 29.0, cut: {x1: 11.8, z0: 21.0}},   // cut＝扣掉 F1 的角
@@ -22,8 +22,8 @@ const WZ_PARK_LAYOUT = {
   ],
   items: [
     // 入口段（主巷這一側）
-    {id: 'notice', kind: 'notice_board', x: 22.0, z: 6.3, yaw: 0, note: '社區公布欄（面向主巷，5-4「看公布欄」）'},
-    {id: 'fountain', kind: 'drinking_fountain', x: 29.9, z: 6.3, yaw: 0},
+    {id: 'notice', kind: 'notice_board', x: 22.0, z: 6.3, yaw: Math.PI, note: '社區公布欄（面向主巷，5-4「看公布欄」）'},
+    {id: 'fountain', kind: 'drinking_fountain', x: 29.9, z: 6.3, yaw: Math.PI},
     {id: 'bikes', kind: 'bike_rack', x: 31.0, z: 9.6, yaw: Math.PI / 2, note: '靠東側，可以停 4 台'},
     {id: 'bench_f1', kind: 'bench', x: 23.6, z: 9.0, yaw: Math.PI / 2},
     {id: 'bench_f2', kind: 'bench', x: 28.4, z: 9.0, yaw: -Math.PI / 2},

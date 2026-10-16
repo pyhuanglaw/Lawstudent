@@ -42,17 +42,32 @@ save('tree_leaves_bischofia.png', h - 0.03, s * 1.05, v * 0.82)                 
 save('tree_leaves_sweetgum_g.png', h + 0.02, s * 0.95, v * 1.05)                             # 楓香：夏
 save('tree_leaves_sweetgum_r.png', 0.02 + 0.06 * noise, np.clip(s * 1.2 + 0.25, 0, 1), v * 0.95)   # 楓香：冬
 
-# 杜鵑
-a = np.asarray(Image.open(G + 'fern_leaves.png').convert('RGBA')).astype(np.float32)
-leaf = a.copy(); leaf[..., 0] *= 0.75; leaf[..., 1] *= 0.85; leaf[..., 2] *= 0.7
-Image.fromarray(np.clip(leaf, 0, 255).astype(np.uint8), 'RGBA').save(G + 'azalea_leaves.png')
-fl = Image.fromarray(np.clip(leaf, 0, 255).astype(np.uint8), 'RGBA'); d = ImageDraw.Draw(fl); rng = np.random.default_rng(3)
-W, H = fl.size; alf = a[..., 3]
-pts = [(x, y) for x, y in zip(rng.integers(0, W, 900), rng.integers(0, H, 900)) if alf[y, x] > 128][:420]
-for x, y in pts:
-    r = int(rng.integers(5, 10)); c = [(232, 86, 150), (244, 120, 170), (220, 60, 120), (250, 170, 200)][int(rng.integers(0, 4))]
-    for k in range(5):
-        ang = k * 1.2566 + rng.random(); px, py = x + np.cos(ang) * r * 0.6, y + np.sin(ang) * r * 0.6
-        d.ellipse([px - r * 0.55, py - r * 0.55, px + r * 0.55, py + r * 0.55], fill=c + (255,))
-    d.ellipse([x - 2, y - 2, x + 2, y + 2], fill=(250, 230, 120, 255))
-fl.save(G + 'azalea_flower.png'); print('saved azalea_flower.png', len(pts))
+# 杜鵑（修剪過的花籬）：小橢圓葉密密排列（不再用蕨類葉片：葉片太長，花籬看起來像散開的羽毛）。
+# 透明處的 RGB 填深綠：同一張圖也給花籬的「實心核心」用（不透明、不看 alpha），葉縫露出來的是暗綠而不是黑。
+import math
+S = 1024; rng = np.random.default_rng(11)
+def leaves_img(flowers):
+    im = Image.new('RGBA', (S, S), (38, 58, 34, 0)); d = ImageDraw.Draw(im)
+    for _ in range(5200):
+        x, y = rng.integers(0, S, 2); L_ = rng.uniform(22, 38); W_ = L_ * rng.uniform(0.38, 0.5); a = rng.uniform(0, math.pi)
+        g = rng.uniform(0.75, 1.15); c = (int(48 * g), int(86 * g), int(42 * g), 255)
+        pts = [(x + math.cos(a) * L_ / 2 * math.cos(t) - math.sin(a) * W_ / 2 * math.sin(t), y + math.sin(a) * L_ / 2 * math.cos(t) + math.cos(a) * W_ / 2 * math.sin(t)) for t in np.linspace(0, 2 * math.pi, 14)]
+        d.polygon(pts, fill=c)
+        hl = (min(255, c[0] + 40), min(255, c[1] + 46), min(255, c[2] + 26), 255)      # 葉脈的反光
+        d.line([(x - math.cos(a) * L_ * 0.4, y - math.sin(a) * L_ * 0.4), (x + math.cos(a) * L_ * 0.4, y + math.sin(a) * L_ * 0.4)], fill=hl, width=2)
+    if flowers:
+        cols = [(232, 86, 150), (244, 120, 170), (222, 64, 126), (250, 170, 205), (240, 240, 236)]
+        for _ in range(900):
+            x, y = rng.integers(0, S, 2); r = rng.uniform(9, 15); c = cols[int(rng.integers(0, 4)) if rng.random() > 0.06 else 4]
+            for k in range(5):
+                ang = k * 1.2566 + rng.random() * 0.3; px, py = x + math.cos(ang) * r * 0.62, y + math.sin(ang) * r * 0.62
+                sh = tuple(int(v * rng.uniform(0.86, 1.0)) for v in c)
+                d.ellipse([px - r * 0.58, py - r * 0.58, px + r * 0.58, py + r * 0.58], fill=sh + (255,))
+            d.ellipse([x - 3, y - 3, x + 3, y + 3], fill=(170, 40, 90, 255))
+    im = im.resize((512, 512), Image.LANCZOS)
+    a = np.asarray(im).astype(np.float32); al = a[..., 3:] / 255
+    bg = np.array([38, 58, 34], np.float32)
+    a[..., :3] = np.where(al > 0.02, a[..., :3], bg)          # 完全透明的地方固定填深綠
+    return Image.fromarray(a.astype(np.uint8), 'RGBA')
+leaves_img(False).save(G + 'azalea_leaves.png'); print('saved azalea_leaves.png')
+leaves_img(True).save(G + 'azalea_flower.png'); print('saved azalea_flower.png')

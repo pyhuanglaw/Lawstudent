@@ -108,6 +108,15 @@ def bm_box(bm, x0, x1, y0, y1, z0, z1):
     return list({f for v in vs for f in v.link_faces})
 
 
+def rbox_bm(w, h, d, r=0.03, seg=3):
+    """倒角方塊的 bmesh（Blender 座標，中心在原點）：w＝遊戲 x、h＝遊戲 y、d＝遊戲 z 的長度；r＝倒角半徑"""
+    bm = bmesh.new(); bmesh.ops.create_cube(bm, size=1.0)
+    for v in bm.verts: v.co = Vector((v.co.x * w, v.co.y * d, v.co.z * h))
+    r = min(r, w / 2 - 1e-4, h / 2 - 1e-4, d / 2 - 1e-4)
+    if r > 1e-4: bmesh.ops.bevel(bm, geom=list(bm.edges) + list(bm.verts), offset=r, segments=seg, affect='EDGES', profile=0.5, clamp_overlap=True)
+    return bm
+
+
 class Mesh:
     """同一個材質的很多零件累積成一個網格（一次 draw call）；finish() 時做盒狀 UV"""
     def __init__(self, name, mat, tile=None):
@@ -131,6 +140,18 @@ class Mesh:
         res = bmesh.ops.create_uvsphere(self.bm, u_segments=seg, v_segments=rings, radius=r)
         for v in res['verts']: v.co.z *= sy
         bmesh.ops.translate(self.bm, verts=res['verts'], vec=g2b(*c)); return self
+
+    def rbox(self, x0, x1, y0, y1, z0, z1, r=0.03, seg=3):
+        """倒角方塊（近景的木條、檯面、門框：直角方塊看起來像積木）"""
+        bm = rbox_bm(abs(x1 - x0), abs(y1 - y0), abs(z1 - z0), r, seg)
+        self.add_bm(bm, Matrix.Translation(g2b((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2))); bm.free(); return self
+
+    def ell(self, c, rx, ry, rz, seg=14, rings=8, matrix=None):
+        """橢球（遊戲座標的三個半軸）；matrix＝再套一個旋轉（Blender 座標，繞橢球中心）"""
+        bm = bmesh.new(); bmesh.ops.create_uvsphere(bm, u_segments=seg, v_segments=rings, radius=1.0)
+        for v in bm.verts: v.co = Vector((v.co.x * rx, v.co.y * rz, v.co.z * ry))
+        m = Matrix.Translation(g2b(*c)) @ (matrix if matrix is not None else Matrix.Identity(4))
+        self.add_bm(bm, m); bm.free(); return self
 
     def add_bm(self, other, matrix=None):
         """另一個 bmesh（Blender 座標）複製進來，可以先套 matrix"""
@@ -294,3 +315,12 @@ class CMesh(Mesh):
 
     def cbox(self, x0, x1, y0, y1, z0, z1, hexcol, k=1.0):
         return self.paint(bm_box(self.bm, x0, x1, y0, y1, z0, z1), hexcol, k)
+
+    def crbox(self, x0, x1, y0, y1, z0, z1, hexcol, k=1.0, r=0.02, seg=2):
+        """倒角的頂點色方塊（櫃台、冰櫃這些近景的東西）"""
+        before = set(self.bm.faces); fs = bm_box(self.bm, x0, x1, y0, y1, z0, z1)
+        r = min(r, abs(x1 - x0) / 2 - 1e-4, abs(y1 - y0) / 2 - 1e-4, abs(z1 - z0) / 2 - 1e-4)
+        if r > 1e-4:
+            vs = list({v for f in fs for v in f.verts}); es = list({e for f in fs for e in f.edges})
+            bmesh.ops.bevel(self.bm, geom=es + vs, offset=r, segments=seg, affect='EDGES', profile=0.5, clamp_overlap=True)
+        return self.paint([f for f in self.bm.faces if f not in before], hexcol, k)
