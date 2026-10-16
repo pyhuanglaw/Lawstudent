@@ -830,6 +830,13 @@ const STORY = (function(){
       if(q19&&q19.state!=='done'&&thu18!=null&&(G.day>thu18||(G.day===thu18&&G.hour>=19.25))&&G.day<=thu18+1&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!y0CallBusy){ y0CallBusy=true;
         (async()=>{ try{ GM.sceneBegin(); try{ await GM.say({name:'韋綸（電話）'},'你在哪？大家都到了。我們等你，快點！'); } finally { GM.sceneEnd(); } q19.state='planned'; await OUT.go(GM,q19); } catch(e){ console.warn('E19 call',e); } finally { y0CallBusy=false; } })(); }
       if(thu18!=null&&F.E19_ASK==='none'&&(G.day>thu18+2||(G.day===thu18+2&&G.hour>=22))&&G.day<=thu18+6&&!PHONE.sent(G,'y0_e19_none')) PHONE.at(G,thu18+2,22,[{th:'p:kexin',from:'kexin',text:'你最近很有禮貌。我不習慣。'}],'y0_e19_none'); }
+    /* L5a 長頸鹿拉花（BB_110 L5a；AA_154 A42）：10/11（五）21:00 經濟系群組可昕＋出發選單 10/12「兩點半 Café 14:00」（只帶到 Café，走進去就演 ev_y0_l5a；14:15 還沒到＝沒去）；
+       沒去＝10/12 16:00 群組品妤照片「驗證結果：是馬。」＋可昕「是很努力的長頸鹿。」；不再邀第二次 */
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const ld=S.dayOfKey('2024-10-12'); if(ld!=null){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, done=!!(G.events&&G.events.done&&G.events.done.ev_y0_l5a);
+      if((G.day>ld-1||(G.day===ld-1&&G.hour>=21))&&G.day<=ld&&!PHONE.sent(G,'y0_l5a_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,ld-1,21,[{th:T,from:'kexin',text:'溫州街有一間 Café，聽說拉花會畫長頸鹿。……我沒看過。我們去驗證。'}],'y0_l5a_ask');
+        if(!OUT.get(G,'y0_l5a')&&(G.day<ld||G.hour<14.25)) OUT.plan(G,{id:'y0_l5a',day:ld,h:14,late:0.25,place:'兩點半 Café',title:'兩點半 Café 14:00：長頸鹿拉花',travel:'走過去約 15 分鐘',travelH:0.25,goto:{zone:'cafe',x:0,z:5,yaw:Math.PI},early:1/12}); }
+      if(!done&&(G.day>ld||(G.day===ld&&G.hour>=16))&&G.day<=ld+2&&PHONE.sent(G,'y0_l5a_ask')&&!PHONE.sent(G,'y0_l5a_miss')) PHONE.at(G,ld,16,[{th:T,from:'econ_pinyu',name:'品妤',text:'📷（短脖子的長頸鹿）'},{th:T,from:'econ_pinyu',name:'品妤',text:'驗證結果：是馬。'},{th:T,from:'kexin',text:'是很努力的長頸鹿。'}],'y0_l5a_miss'); } }
     /* 韋綸的腳踏車・沒去版（AA_154 2-5b；BB_112 第 3 節）：11/7 17:30 還沒演腳踏車（沒上會計、或選了「今天先回去」）＝群組韋綸求救，回覆到 18:00：
        「（去總圖查完再回）」＝時間前進一小時，祐廷傳查到的（LEGAL_REVIEW_REQUIRED：BB-B 審過 7cf231c3，改字要再審）＋韋綸回、記 BIKE_LOOKED_UP、WL_BIKE；「（不回）」不記。
        18:00 還沒回或選了不回＝阿勳一句（選了去查的不出現）。兩週後 11/21 21:00 群組韋綸、可昕（去了、沒去都收到）*/
