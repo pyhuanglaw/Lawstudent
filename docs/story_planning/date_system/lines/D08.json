@@ -1,0 +1,3153 @@
+{
+ "loc": "D08",
+ "points": {
+  "D08.panda": "貓熊館",
+  "D08.penguin": "企鵝館",
+  "D08.giraffe": "長頸鹿與非洲動物區",
+  "D08.train": "遊園列車"
+ },
+ "likes": {
+  "heroine_01": {
+   "D08.panda": "normal",
+   "D08.penguin": "like",
+   "D08.giraffe": "normal",
+   "D08.train": "dislike"
+  },
+  "heroine_02": {
+   "D08.panda": "normal",
+   "D08.penguin": "like",
+   "D08.giraffe": "like",
+   "D08.train": "normal"
+  },
+  "heroine_03": {
+   "D08.panda": "normal",
+   "D08.penguin": "normal",
+   "D08.giraffe": "like",
+   "D08.train": "like"
+  },
+  "heroine_04": {
+   "D08.panda": "like",
+   "D08.penguin": "like",
+   "D08.giraffe": "normal",
+   "D08.train": "like"
+  },
+  "heroine_05": {
+   "D08.panda": "normal",
+   "D08.penguin": "like",
+   "D08.giraffe": "like",
+   "D08.train": "normal"
+  },
+  "classmate_peishan": {
+   "D08.panda": "like",
+   "D08.penguin": "normal",
+   "D08.giraffe": "like",
+   "D08.train": "like"
+  },
+  "kexin": {
+   "D08.panda": "normal",
+   "D08.penguin": "normal",
+   "D08.giraffe": "like",
+   "D08.train": "like"
+  }
+ },
+ "dislikeLine": {
+  "heroine_01": {
+   "D08.train": "排隊二十分鐘，坐五分鐘。……效率很差。可是你想坐，就坐。"
+  },
+  "heroine_02": {},
+  "heroine_03": {},
+  "heroine_04": {},
+  "heroine_05": {},
+  "classmate_peishan": {},
+  "kexin": {}
+ },
+ "lines": {
+  "heroine_01": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_01",
+       "text": "動物園。我上一次來，是國小。"
+      },
+      {
+       "who": "heroine_01",
+       "text": "那次我把每一個說明牌都抄下來了。今天不抄。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "捷運坐到底就到了。終點站，很好記。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "今天我穿了好走的鞋。園區很大，我查過。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "跟你來動物園，我比較像小時候。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "今天的行程：沒有行程。……好，有一個，看企鵝。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_01",
+       "text": "結論：企鵝最好。"
+      },
+      {
+       "who": "heroine_01",
+       "text": "理由：牠們排隊排得比人整齊。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "腳好痠。今天走了很多。……可是好。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "回去吧。……下次看夜間的。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "今天右欄寫的是：企鵝，還有你。……不要看。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D08.panda": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "（貓熊在睡覺）……牠在睡覺。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "我們排了二十分鐘，看牠睡覺。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「這也是一種看。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……好。我接受這個論點。"
+         }
+        ]
+       },
+       {
+        "t": "「等牠醒來。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "好。等五分鐘。……好，十分鐘。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "貓熊一天吃十幾個小時的竹子。我查過。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "牠翻身了。……大家都在歡呼。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "我發現我看牠睡覺，也看得很開心。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次牠在睡覺。今天牠在吃竹子。進步了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "（她靠在玻璃前，肩膀碰到你的）……牠醒了。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.penguin": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "（企鵝一隻一隻跳下水）……牠們有順序。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "你看，前面那隻跳了，後面那隻才跳。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳在幫牠們排規則。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……嗯。可是是牠們自己排的。我只是發現。"
+         }
+        ]
+       },
+       {
+        "t": "「也有插隊的。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……真的。那隻插隊了。好，有例外。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "企鵝走路好認真。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "冷氣好強。……我喜歡這裡。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "以後我想養一隻企鵝。……不行，理由太多了。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次那隻插隊的企鵝，今天還在插隊。牠很一致。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "你看那兩隻。一直站在一起。……沒什麼，只是看。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.giraffe": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "長頸鹿的脖子，只有七節骨頭。跟人一樣。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "……我國小抄的說明牌。我還記得。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳記性好好。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "不是記性好。是那時候覺得很奇怪。"
+         }
+        ]
+       },
+       {
+        "t": "「那牠們為什麼那麼長？」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "每一節都很長。……這個答案很無聊，可是是對的。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "長頸鹿吃葉子的時候，舌頭好長。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "斑馬的條紋，每一隻都不一樣。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "以前我只記得說明牌。今天記得的是你在旁邊。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次說的七節骨頭，你有記得嗎？……好，算你有。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "（她靠著欄杆）……風好舒服。再站一下。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.train": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "（遊園列車很慢）……這台車開得比我走路還慢。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "可是坐著看，跟走著看，不一樣。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「哪裡不一樣？」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……坐著的時候，不用決定要去哪裡。"
+         }
+        ]
+       },
+       {
+        "t": "「下次用走的。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……好。可是今天坐完。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "小朋友都在揮手。……好，我也揮一下。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "車上的廣播，講得好快。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "跟你坐這台慢車，不會無聊。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次你說下次用走的。今天我們還是坐了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "（車子晃了一下，她靠到你肩膀上）……車子的問題。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_02": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "動物園。……我小時候家人帶我來過一次。"
+      },
+      {
+       "who": "heroine_02",
+       "text": "那次我一直在看人，不是看動物。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "今天陰天。動物會比較有精神。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "我換了一雙好走的鞋。……我有在準備。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "我早上把班換掉了。……不要問為什麼。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "今天不拍照。用眼睛記就好。……好，拍一張。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "今天的動物，都比我有精神。"
+      },
+      {
+       "who": "heroine_02",
+       "text": "……我是說，很好的一天。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "回去吧。明天早上有班。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "下次來，我想看夜行動物館。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "今天的片尾，有企鵝。……很好。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D08.panda": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "（貓熊抱著竹子，背對大家）……牠背對我們。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "很像不想被拍的演員。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「牠在罷工。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……對。我支持牠。"
+         }
+        ]
+       },
+       {
+        "t": "「等牠轉過來。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……好。我很會等。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "大家都在拍。……我想拍拍照的人。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "貓熊的動作好慢。很適合拍成長鏡頭。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "你看動物的時候會笑。……我有看到。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次牠背對我們。今天牠轉過來了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "（她在人群裡拉著你的袖子）……往前一點。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.penguin": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "（企鵝館很暗，水裡有光）……好像在電影院。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "水的光一直在動。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳又在看光。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……職業病。我還沒有職業。"
+         }
+        ]
+       },
+       {
+        "t": "「企鵝也在看妳。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……真的。那一隻一直在看我。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "企鵝在水裡跟在陸地上，是兩種動物。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "冷氣好冷。……我帶了外套。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "我想拍一部片，主角是一隻走路很慢的企鵝。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次那隻一直看我的企鵝，今天也在看。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "（她站在你旁邊，看著水裡的光）……再看一下。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.giraffe": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "長頸鹿。……牠們的睫毛好長。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "比我的長。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳的也很長。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……你有在看嗎？"
+         }
+        ]
+       },
+       {
+        "t": "「牠們很上鏡。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "嗯。不用找角度。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "斑馬的條紋，在陽光下會晃。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "那隻長頸鹿吃葉子的時候，很像在看我們。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "我發現我跟你出來，不太會想店裡的事。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次那隻睫毛很長的長頸鹿，今天在睡覺。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "（她靠在欄杆上，跟你一起看）……很安靜。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.train": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "遊園列車。……好慢。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "很像一個很長的推軌鏡頭。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳都想到拍片。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……停不下來。你不要笑。"
+         }
+        ]
+       },
+       {
+        "t": "「那我們是演員。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……好。你演看風景的人。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "小朋友都在揮手。……我也揮。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "車子轉彎的時候，風景會換。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "跟你坐慢車，時間好像也慢了。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次你演看風景的人。今天換我演。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "（她靠在你肩膀上）……車太晃了。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_03": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_03",
+       "text": "……嗯。動物園。"
+      },
+      {
+       "who": "heroine_03",
+       "text": "我國小以後就沒來過了。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "今天不用顧店。阿姨說，動物園要走很久，早點出門。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "……門票我買了。下次換你。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "跟你出來，我好像不用一直看時間。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（她把髮圈綁好，走到你旁邊）……走吧。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_03",
+       "text": "……今天很好。"
+      },
+      {
+       "who": "heroine_03",
+       "text": "我會跟我媽說，長頸鹿很高。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "要回去了。……八點前要到店裡。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "……嗯。下次。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（她在捷運站口停了一下）……今天，比較長。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D08.panda": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（她看著排隊的人，不是看貓熊）……大家排了好久。"
+       },
+       {
+        "who": "heroine_03",
+        "text": "一個媽媽一直把小孩抱高。她的手一定很痠。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳都在看人。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。社會系的壞習慣。"
+         }
+        ]
+       },
+       {
+        "t": "「我們也抱不動。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……貓熊在吃。牠吃得好專心。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "人好多。……我們站旁邊。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "我發現我跟你出來，會看比較久。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次那個抱小孩的媽媽，今天換了一個爸爸。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "（她靠近你，在人群裡）……嗯。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.penguin": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（企鵝館裡很涼）……好冷。"
+       },
+       {
+        "who": "heroine_03",
+        "text": "……阿姨的冰箱也是這個溫度。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳要外套嗎？」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。謝謝。"
+         }
+        ]
+       },
+       {
+        "t": "「我們看快一點。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……不用。我想看。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "企鵝都擠在一起。……很像店裡的客人。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……那一隻一直站在角落。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……我喜歡那一隻在角落的。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次那隻在角落的企鵝，今天也在角落。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "（她拉著你的外套袖子）……再看一下。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.giraffe": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（她看著長頸鹿吃葉子）……牠吃得好慢。"
+       },
+       {
+        "who": "heroine_03",
+        "text": "阿姨說，吃飯要慢。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「阿姨說得對。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。可是她自己吃好快。"
+         }
+        ]
+       },
+       {
+        "t": "「牠不用顧店。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……（她笑了一下）對。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……長頸鹿好高。看得到好遠。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "有一隻小的長頸鹿。……跟在媽媽旁邊。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "我可以在這裡站很久。……你可以嗎？"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次那隻小長頸鹿，長大了一點。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "（她靠在欄杆上，肩膀碰到你的）……嗯。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.train": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（她坐在遊園列車上）……好慢。"
+       },
+       {
+        "who": "heroine_03",
+        "text": "……可是我喜歡。不用走。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳很累吧。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……一點。站了一早上。"
+         }
+        ]
+       },
+       {
+        "t": "「我們坐到底。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。坐到底。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……風好舒服。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "小朋友在揮手。……我揮了。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "跟你坐慢車，安靜也很好。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次坐到底，我差點睡著。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "（她靠著你的肩膀，閉上眼睛）……一下就好。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_04": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "欸不是，動物園要早上來？"
+      },
+      {
+       "who": "heroine_04",
+       "text": "……好，我十一點到。這是我的早上。這不是問句。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "我帶了一罐咖啡。這是續命。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "今天的任務：看完所有動物。……好，看完一半。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "欸不是，你今天比我早到。好感動。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "今天的任務：沒有任務。……好，有一個，看企鵝。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "今天的動物圖鑑：收集了百分之五十。"
+      },
+      {
+       "who": "heroine_04",
+       "text": "剩下的下次。這不是問句。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "電量剩一格。……我是說我。回家。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "欸不是，天黑了？好快。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "今天的存檔點在企鵝館。……我是說，我記住了。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D08.panda": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "欸不是，貓熊在睡覺！"
+       },
+       {
+        "who": "heroine_04",
+        "text": "……好，跟我一樣。牠是我的同類。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「牠晚上也醒著嗎？」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……我要查。如果是，牠就是我的偶像。"
+         }
+        ]
+       },
+       {
+        "t": "「等牠醒來。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "好。我很會等人起床。……騙你的，我不會。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "貓熊的動作好慢。很像低幀率的動畫。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "欸不是，牠在滾！大家都在叫。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "我想做一個遊戲，主角是一隻一直在睡的貓熊。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次牠在睡。今天也在睡。牠很穩定。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "你看貓熊，我看你看貓熊。……很好笑。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.penguin": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "欸不是，企鵝館好涼！我要住在這裡。"
+       },
+       {
+        "who": "heroine_04",
+        "text": "……企鵝在水裡好快。在陸地上好笨。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「跟妳一樣。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……什麼意思。……好，我接受。"
+         }
+        ]
+       },
+       {
+        "t": "「牠們有兩種模式。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "對。我也有。白天模式、晚上模式。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "企鵝游泳的路線，可以拿來做 AI 的參考。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "欸不是，那隻跌倒了。……牠自己站起來了。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "跟你在涼的地方，我腦袋比較清楚。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次那隻跌倒的企鵝，今天沒有跌倒。牠升級了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "好冷。你借我外套。這不是問句。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.giraffe": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "長頸鹿。……欸不是，太陽好大。"
+       },
+       {
+        "who": "heroine_04",
+        "text": "我要躲在你的影子裡。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「好，躲吧。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……謝謝。你的影子是遮陽傘。"
+         }
+        ]
+       },
+       {
+        "t": "「我們去陰的地方。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "好。救命。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "長頸鹿的舌頭是紫色的。我查過。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "斑馬的條紋，像沒有載入完的材質。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "……好啦，長頸鹿也很可愛。跟你來的話。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次我躲在你的影子裡。今天也要。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "（她撐著你的影子走）……這是戰術。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.train": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "欸不是，遊園列車！我要坐最後面。"
+       },
+       {
+        "who": "heroine_04",
+        "text": "因為最後面可以看到全部。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「好，最後面。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "好。你坐我旁邊。這是分工。"
+         }
+        ]
+       },
+       {
+        "t": "「最前面比較好。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……好，前面。你很會說服人。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "列車好慢。可是我不用走路。完美。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "欸不是，那個小孩一直在跟我揮手。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "跟你坐車，我會想睡。……是好的意思。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次我們坐最後面。今天坐前面。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "（她靠著你的肩膀）……我睡五分鐘。到了叫我。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_05": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "一件事：我上一次來動物園，是國中校外教學。"
+      },
+      {
+       "who": "heroine_05",
+       "text": "重點是，那次我在看講義。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "我把保溫瓶裝滿了。今天要走很久。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "捷運到終點站。很好記。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "今天手機調靜音了。重點是，我真的沒看。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "一件事：今天不談論文。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "今天……沒有一件事是「有用」的。"
+      },
+      {
+       "who": "heroine_05",
+       "text": "重點是，很好。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "回去吧。明天要去研究室。……我不是想走。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "下次，帶法服的學弟妹來。……騙你的，不帶。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "今天的行程表上，只有你。……這句不要記。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D08.panda": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "（貓熊在睡覺）……一件事：牠睡得好安穩。"
+       },
+       {
+        "who": "heroine_05",
+        "text": "重點是，我很久沒有這樣睡了。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「今天回去早點睡。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……好。我試試看。"
+         }
+        ]
+       },
+       {
+        "t": "「學姊也睡一下。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……在這裡？不行。重點是，有點想。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "排隊的人好多。我們排了十五分鐘。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "牠吃竹子的樣子，很專心。我給牠九十分。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "以前我覺得休息是浪費。現在不覺得了。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次你說早點睡。我那天真的十二點就睡了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "（她靠在玻璃前，肩膀碰到你的）……一件事。沒事。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.penguin": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "（企鵝排隊跳水）……一件事：牠們很守秩序。"
+       },
+       {
+        "who": "heroine_05",
+        "text": "重點是，比法服排班還守秩序。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「學姊在想法服。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……好，今天不想。重點是，我又想了。"
+         }
+        ]
+       },
+       {
+        "t": "「也有插隊的。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……真的。那隻插隊了。我不管。今天不管。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "企鵝館好涼。我把外套穿上了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "那隻企鵝一直站著不動。很像在等人。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "我發現我跟你出來，會笑比較多。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次那隻插隊的，今天排好了。……有人管了吧。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "（她站在你旁邊）一件事：冷。重點是，你靠近一點。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.giraffe": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "長頸鹿。……一件事：牠們看得很遠。"
+       },
+       {
+        "who": "heroine_05",
+        "text": "重點是，我很羨慕。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「學姊也看得很遠。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……我看的是很遠的事，不是很遠的地方。"
+         }
+        ]
+       },
+       {
+        "t": "「我們站高一點看。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……好。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "斑馬好像不太喜歡人。我懂。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "長頸鹿吃得好慢。我吃飯都太快。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "我最近學會一件事：慢一點也沒關係。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次說的「很遠的事」，我後來想了。……今天先不想。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "（她站在你旁邊，看著長頸鹿）……再站一下。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.train": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "遊園列車。……一件事：我不太習慣坐著不做事。"
+       },
+       {
+        "who": "heroine_05",
+        "text": "重點是，今天想試試。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「那就坐著。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……好。我不看手機。"
+         }
+        ]
+       },
+       {
+        "t": "「看風景。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "嗯。看風景。這也是一件事。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "小朋友都在揮手。……我也揮了。不要說出去。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "車子開得好慢。……很好。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "跟你坐車，我會放鬆。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次坐著不做事，我做到了。今天也可以。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "（她靠著你的肩膀）一件事：五分鐘就好。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_peishan": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "動物園！我國小以後就沒來過了。"
+      },
+      {
+       "who": "classmate_peishan",
+       "text": "……我好像比小時候還興奮。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "我早到了十五分鐘。在門口看小朋友排隊。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "桃園也有動物園，可是好小。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "跟你出來，我發現我話變多了。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "今天不帶書。……好啦，帶了一本小的。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "今天好像什麼都沒做，可是很滿。"
+      },
+      {
+       "who": "classmate_peishan",
+       "text": "我想把今天記下來。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "回去要讀書了。……可是今天值得。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "下次換我帶路。我會先查好。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "今天的問題，我留到下次問。……這樣下次你就要來。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D08.panda": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "（貓熊在吃竹子）牠知道自己被這麼多人看嗎？"
+       },
+       {
+        "who": "classmate_peishan",
+        "text": "……我在問貓熊。不用回答。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「牠應該習慣了。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……習慣了，是好事還是壞事？"
+         }
+        ]
+       },
+       {
+        "t": "「牠只在乎竹子。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……那牠很幸福。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "旁邊的小朋友在數貓熊吃了幾根竹子。數到一半吵架了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "牠好專心。我念書的時候也想這麼專心。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "我想帶我教的小孩來這裡。……我還沒有教小孩。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次那群數竹子的小朋友，今天換了一群。一樣吵。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "（她站在你旁邊，看得很認真）……今天問題比較少。因為很開心。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.penguin": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "（企鵝館好涼）企鵝會想念南極嗎？"
+       },
+       {
+        "who": "classmate_peishan",
+        "text": "……我又在問動物了。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「牠們在這裡出生的。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……那牠們沒看過南極。想念沒看過的地方，可以嗎？"
+         }
+        ]
+       },
+       {
+        "t": "「應該會。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……我也會想念桃園。只是很少說。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "企鵝走路好可愛。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "好冷。我帶了外套。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "跟你在這裡，我好像可以不用當一個考生。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次那個「想念沒看過的地方」，我想了好幾天。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "好冷。……我可以靠近一點嗎？"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.giraffe": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "（她仰頭看長頸鹿）牠們從那麼高看我們，我們是什麼樣子？"
+       },
+       {
+        "who": "classmate_peishan",
+        "text": "……很小吧。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「很小，很吵。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……（她笑了）對。很吵。"
+         }
+        ]
+       },
+       {
+        "t": "「很可愛。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……你在說長頸鹿的看法，還是你的？"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "長頸鹿吃葉子的時候，好溫柔。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "有一個爸爸把小孩扛在肩膀上。小孩比長頸鹿矮一點點。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "以前我覺得讀書就是背。現在我想知道東西為什麼長這樣。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次那個「我們很小」的問題，你的答案我記得。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "我們坐在這裡看到牠們吃完。……問題等一下再問。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.train": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "遊園列車！我要坐窗邊。"
+       },
+       {
+        "who": "classmate_peishan",
+        "text": "……好啦，你也可以坐窗邊。一人一邊。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我讓妳。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……謝謝。下次換你。"
+         }
+        ]
+       },
+       {
+        "t": "「一人一邊。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "好。我們各自看一邊，然後講給對方聽。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "車子好慢。可是很舒服。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "我看到一隻孔雀！……你那邊有什麼？"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "跟你坐車，我不太會想讀書的事。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次我們各自看一邊。今天換邊。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "（她靠著窗，又靠著你的肩膀）……今天好好。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "kexin": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "動物園！假設今天長頸鹿在睡覺，我們就白來了。"
+      },
+      {
+       "who": "kexin",
+       "text": "……不會白來。我查過，牠們站著睡。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "今天的行程表只有一頁：長頸鹿。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "捷運坐到底。這是告知。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "予樂說我來動物園只看一種動物。她說對了。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "今天的假設題，我放在長頸鹿那裡。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "今天走了一萬五千步。我的手錶說的。"
+      },
+      {
+       "who": "kexin",
+       "text": "假設你比我少，你請晚餐。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "回去吧。明天兩邊都有早八。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "下次來，假設——好，下次再假設。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "今天的假設題：假設明天也這樣。……不用回答。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D08.panda": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "假設貓熊是一個國家的外交官。"
+       },
+       {
+        "who": "kexin",
+        "text": "……牠今天的工作是睡覺。好輕鬆的外交。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「外交就是要放鬆。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……好答案。我要寫進國際法的筆記。開玩笑的。"
+         }
+        ]
+       },
+       {
+        "t": "「牠很認真睡。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……對。認真睡也是工作。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "排隊二十分鐘。經濟學說這不合理。可是我很開心。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "牠翻身的時候，大家都在叫。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "以後我們每年來看一次，看牠有沒有變胖。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次那個外交官，今天在吃竹子。牠加班了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "（她靠在你身上看）……我不想排隊，可是想跟你排。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.penguin": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "企鵝。假設牠們有法院，誰當法官？"
+       },
+       {
+        "who": "kexin",
+        "text": "……那隻站最高的。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「那隻插隊的呢？」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "被告。……好，我太無聊了。"
+         }
+        ]
+       },
+       {
+        "t": "「沒有法院比較好。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……也對。牠們看起來很和平。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "好冷。……我把你當暖爐了。這是告知。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "企鵝走路的時候，手都打開。很像在平衡。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "你看企鵝的表情，跟看判決的表情一樣認真。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次那隻企鵝法官，今天沒有站最高。換人了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "好冷。你的手借我。這不是問句。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.giraffe": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "（她摸了一下耳朵上的小長頸鹿）……本人。"
+       },
+       {
+        "who": "kexin",
+        "text": "我的耳環，終於看到本人了。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「牠們很像妳的耳環。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……是耳環很像牠們。順序不能錯。"
+         }
+        ]
+       },
+       {
+        "t": "「妳最喜歡長頸鹿？」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……嗯。因為牠們看得很遠，可是不急。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "長頸鹿的舌頭好長。……我要拍下來給予樂看。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "那隻小長頸鹿一直跟著媽媽。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "以後我們家，要有一隻長頸鹿的東西。……假設有我們家。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次那隻小長頸鹿，長高了。我拍了對比照。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "（她靠在欄杆上，牽著你的手）……今天的假設題：假設我們是長頸鹿。……不用回答。"
+        }
+       ]
+      }
+     ]
+    },
+    "D08.train": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "遊園列車。假設我們坐錯方向，會去哪裡？"
+       },
+       {
+        "who": "kexin",
+        "text": "……還是會回到這裡。它是環狀的。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「很像我們。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……什麼意思。……好，我懂了。很肉麻。"
+         }
+        ]
+       },
+       {
+        "t": "「那就坐兩圈。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……好。可是要再排隊。算了，一圈。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "車子好慢。很適合聊天。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "那個小孩一直跟我揮手。我揮回去了。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "跟你坐慢車，我不會想下一件事。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次你說「很像我們」。我後來覺得，對。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "（她靠在你肩膀上）……到了叫我。我要睡五分鐘。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  }
+ }
+}
