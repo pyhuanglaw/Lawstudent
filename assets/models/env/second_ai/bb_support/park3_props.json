@@ -1,0 +1,77 @@
+{
+ "objects": 4,
+ "unique_meshes": 4,
+ "tris": 5228,
+ "tris_drawn": 5228,
+ "materials": 1,
+ "out": "assets/models/env/second_ai/bb_support/park3_props.glb",
+ "bytes": 221288,
+ "texres": 1024,
+ "modules": {
+  "PARK_CHESS_TABLE": {
+   "tris": 1880,
+   "min": [
+    -0.5,
+    0.0,
+    -0.5
+   ],
+   "max": [
+    0.5,
+    0.66,
+    0.5
+   ]
+  },
+  "PARK_STOOL": {
+   "tris": 700,
+   "min": [
+    -0.215,
+    0.0,
+    -0.215
+   ],
+   "max": [
+    0.215,
+    0.41,
+    0.215
+   ]
+  },
+  "PARK_FOUNTAIN": {
+   "tris": 1288,
+   "min": [
+    -0.275,
+    -0.0,
+    -0.275
+   ],
+   "max": [
+    0.275,
+    1.027,
+    0.275
+   ]
+  },
+  "PARK_BIKE_RACK": {
+   "tris": 1360,
+   "min": [
+    -0.34,
+    -0.0,
+    -1.28
+   ],
+   "max": [
+    0.34,
+    0.7545,
+    1.28
+   ]
+  }
+ },
+ "tris_total": 5228,
+ "atlas": [
+  "tools/blender/env_second/bb_support/textures/gen/park3_props_atlas.png",
+  "tools/blender/env_second/bb_support/textures/gen/park3_props_orm.png"
+ ],
+ "origins": {
+  "*": "原點都在底部中央（地面）；GLB 裡先排開（SPREAD），擺放時用各自的原點",
+  "PARK_CHESS_TABLE": "高 0.66、桌面直徑 1.00；河和本地 x 平行，「楚河」給 +z 那一側的人看、「漢界」給 −z",
+  "PARK_STOOL": "高 0.41、最大半徑 0.215；做一個，LAWWW2-B 複製四個",
+  "PARK_FOUNTAIN": "底座 0.55×0.55；盆緣 0.95、出水口頂 1.02；人站 +z（按壓鈕、排水蓋在 +z）",
+  "PARK_BIKE_RACK": "四格沿本地 z（−1.05、−0.35、0.35、1.05），寬 0.5（x ±0.25＋管徑）、高 0.72；墊子 x ±0.34、z ±1.28；U 型鎖在 z −0.35 那一格"
+ },
+ "note": "一個材質 park3（底色 1024＋ORM 256，metal 最高 0.40）；花崗岩＝Poly Haven granite_tile_03、混凝土＝Poly Haven granular_concrete（CC0）；拉絲紋、鋅花、鏽水、泥、水漬、磨亮、杯子印是程式畫的；棋盤的字用文泉驛正黑渲染成貼圖。沒有品牌、標誌"
+}
