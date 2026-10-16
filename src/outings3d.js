@@ -48,7 +48,10 @@ const OUT=(function(){
     if(k!==0){ q.state='missed'; S.onMissed(GM,q); return 'no'; }
     await S.go(GM,q); return 'go'; };
   /* 出發：轉場 → 抵達（不早於約好的時間）→ 演事件（深色底開始，避免看到原本的 3D 畫面）→ 時間往後 → 回到原本的地方 */
-  S.go=async function(GM,q){ const G=GM.G, ev=evOf(q.ev); q.state='done'; if(!ev||typeof EVENTS==='undefined') return false;
+  S.go=async function(GM,q){ const G=GM.G, ev=evOf(q.ev); q.state='done';
+    if(q.goto){ await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title,q.travel||'',2400); const arrive=Math.max(t(G.day,G.hour)+(q.travelH||0), t(q.day,q.h)-(q.early||0)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.updateHUD) GM.updateHUD();
+      if(GM.enter) await GM.enter(q.goto.zone,{x:q.goto.x,z:q.goto.z,yaw:q.goto.yaw||0,lv:q.goto.lv|0}); await GM.fade(false); if(GM.autosave) GM.autosave(); return true; }   /* goto：只帶到那個地點（3D 的事件在那裡等，例：v0 E12 醉月湖；AA_154 A32）；early＝比 h 早幾小時到 */
+    if(!ev||typeof EVENTS==='undefined') return false;
     await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title,q.travel||'',2400);
     const arrive=Math.max(t(G.day,G.hour)+(q.travelH||0), t(q.day,q.h)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.updateHUD) GM.updateHUD();
     if(typeof ADV!=='undefined'){ ADV.begin({background:ev.background||'dark'}); }
