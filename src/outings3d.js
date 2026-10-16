@@ -31,9 +31,10 @@ const OUT=(function(){
   S.plan=function(G,o){ const L=S.rec(G); if(L.some(q=>q.id===o.id)) return false; L.push(Object.assign({state:'planned',ask:null,travelH:0.5},o)); return true; };
   const t=(day,h)=>day*24+h;
   /* 該問了：該出發的時間（約好的時間減車程）前 15 分鐘起、約好的時間後 45 分鐘內；「晚一點」之後等到 ask 那個時間 */
-  S.due=function(G){ const now=t(G.day,G.hour); return S.rec(G).find(q=>q.state==='planned'&&now>=t(q.day,q.h)-(q.travelH||0)-0.25&&now<=t(q.day,q.h)+0.75&&(q.ask==null||now>=q.ask))||null; };
+  const lateEnd=q=>t(q.day,q.h)+(q.late!=null?q.late:0.75);   /* late：開始後多久還能出發（小時；預設 45 分鐘。AA_154 2-1b 的聚會是 15 分鐘）*/
+  S.due=function(G){ const now=t(G.day,G.hour); return S.rec(G).find(q=>q.state==='planned'&&now>=t(q.day,q.h)-(q.travelH||0)-0.25&&now<=lateEnd(q)&&(q.ask==null||now>=q.ask))||null; };
   /* 過了時間（後 45 分鐘以上）還沒出發＝missed */
-  S.expire=function(G){ const now=t(G.day,G.hour), out=[]; for(const q of S.rec(G)) if(q.state==='planned'&&now>t(q.day,q.h)+0.75){ q.state='missed'; out.push(q); } return out; };
+  S.expire=function(G){ const now=t(G.day,G.hour), out=[]; for(const q of S.rec(G)) if(q.state==='planned'&&now>lateEnd(q)){ q.state='missed'; out.push(q); } return out; };
   const evOf=id=>typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id===id)||null:null;
   S.onMissed=function(GM,q){ const ev=evOf(q.ev); if(ev&&typeof ev.outingMissed==='function'){ try{ ev.outingMissed(GM.G,GM,q); }catch(e){ console.warn('outingMissed',q.id,e); } } };
   /* 每 0.5 秒（story3d.js 的 S.tick；劇情、對話進行中 S.tick 不會呼叫）*/

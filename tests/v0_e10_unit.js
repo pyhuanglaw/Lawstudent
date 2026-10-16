@@ -34,7 +34,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   check('2. 答應：10/16 19:00 走進總圖三樓就開始；在宿舍不會',EVENTS.check(e10)&&(()=>{ G.zone='dorm'; const r=!EVENTS.check(e10); G.zone='library'; return r; })());
   check('2. 18:30 以前、20:30 以後不會；10/15 不會',(()=>{ G.hour=18; const a=!EVENTS.check(e10); G.hour=20.6; const b=!EVENTS.check(e10); G.hour=19; G.day=D15; G.weekday=wdOf(D15); const c=!EVENTS.check(e10); G.day=D16; G.weekday=wdOf(D16); return a&&b&&c; })());
   picks=['先念書']; said=[]; G.hour=19; await EVENTS.run(e10); const L=said.map(x=>x.t);
-  check('2. 第一句：前一晚沒去聚會＝「前一天晚上，群組裡一整晚都在聊天。」→ 總圖三樓 → 假設題',L[0]==='前一天晚上，群組裡一整晚都在聊天。'&&L[1]==='（隔天晚上，總圖三樓。她坐你對面，攤開微積分，看了五分鐘。）'&&L[2]==='（小聲）假設總圖的書都會說話。哪一本最吵？',JSON.stringify(L.slice(0,3)));
+  check('2. 第一句：前一晚沒去聚會＝「前一天晚上，群組裡一整晚都在聊天。」→ 總圖三樓 → 假設題',L[0]==='（前一天晚上，群組裡一整晚都在聊天。）'&&L[1]==='（隔天晚上，總圖三樓。她坐你對面，攤開微積分，看了五分鐘。）'&&L[2]==='（小聲）假設總圖的書都會說話。哪一本最吵？',JSON.stringify(L.slice(0,3)));
   check('2. 先念書：長頸鹿、E10_STUDY＝study；九點、去小福',L.includes('她點頭，低頭寫。一個小時後，你發現筆記的邊角多了一隻長頸鹿。')&&G.flags.E10_STUDY==='study'&&L[L.length-1]==='去小福吧。念書的成本，要用點心補。'&&Math.abs(G.hour-21)<0.01,JSON.stringify([G.flags.E10_STUDY,G.hour]));
   G.hour=21; check('2. 演過以後沒有小福那一版',!EVENTS.check(e10b));
   // 前一晚去了聚會

@@ -717,6 +717,13 @@ const STORY = (function(){
       if(F.C1_GO==='yes'&&F.C1_DAY!=null&&G.day===F.C1_DAY&&typeof OUT!=='undefined'&&!OUT.get(G,'y0_c1')) OUT.plan(G,{id:'y0_c1',ev:'ev_y0_c1',day:F.C1_DAY,h:19,place:'博雅教學館',title:'即興劇社的熱身',travel:'走過去約 10 分鐘',travelH:0.2});
       const q1=typeof OUT!=='undefined'?OUT.get(G,'y0_c1'):null;
       if(F.C1_DAY!=null&&!(q1&&q1.state==='done')&&(G.day>F.C1_DAY||G.hour>=20)&&G.day<=F.C1_DAY+1&&!PHONE.sent(G,'y0_c1_missed')) PHONE.at(G,F.C1_DAY,22,[K('今天唐睿演了一隻企鵝。你錯過了一隻企鵝。')],'y0_c1_missed'); }
+    /* 10/15 的群組聚會（AA_154 2-1b）：17:30 經濟系群組兩則（每個玩家都收到）；出發選單 17:30～19:15「公館 19:00：經濟系的聚會」（OUT late 15 分鐘）；沒去的玩家 21:40 群組多一則（選用的那一則）*/
+    if(S.isEcon(G)){ const tue7=termDay('Y0S1',7,2);
+      if(tue7!=null&&G.day===tue7&&G.hour>=17.5&&!PHONE.sent(G,'y0_gather_grp')){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class'; if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）'); const T='g:'+gid;
+        PHONE.at(G,tue7,17.5,[{th:T,from:'econ_weilun',name:'韋綸',text:'今晚七點，公館。期中考前最後一次。走啦！'},{th:T,from:'econ_pinyu',text:'先說好，我還是只有一百五。'}],'y0_gather_grp'); F.Y0_GATHER_TH=T;
+        if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_gather')&&G.hour<19.25) OUT.plan(G,{id:'y0_gather',ev:'ev_y0_gather',day:tue7,h:19,late:0.25,place:'公館',title:'公館 19:00：經濟系的聚會',travel:'走過去約 15 分鐘',travelH:0.25,back:'在公館的路口散了。'}); }
+      const qg=typeof OUT!=='undefined'?OUT.get(G,'y0_gather'):null;
+      if(tue7!=null&&F.Y0_GATHER_TH&&F.E10_EVE!=='went'&&!(qg&&qg.state==='done')&&(G.day>tue7||G.hour>=21+40/60)&&G.day<=tue7+1&&!PHONE.sent(G,'y0_gather_miss')) PHONE.at(G,tue7,21+40/60,[{th:F.Y0_GATHER_TH,from:'econ_weilun',name:'韋綸',text:'唐睿聊到期中了。今天他請。'}],'y0_gather_miss'); }
     /* ★E10 的邀約（BB_104 8b-4；AA_154 第 116、117 行）：10/15（二）22:30 可昕私訊「玩了一整晚。明天去總圖念書吧。期中考快到了。」（回到 10/16 19:00）；
        回「好。」＝10/16 18:00 提醒，晚上走進總圖三樓就開始（events.js ev_y0_e10）；不答應、沒回、20:30 還沒到＝在小福遇到她（ev_y0_e10b）*/
     if(S.isEcon(G)){ const tue7=termDay('Y0S1',7,2);
