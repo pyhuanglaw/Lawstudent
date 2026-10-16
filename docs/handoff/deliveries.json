@@ -3247,6 +3247,138 @@
    "integration": "未整合",
    "note": "LAWWW-B 接著做",
    "date": "2026-10-16T14:3xZ"
+  },
+  {
+   "id": "DLV-1016-271",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "f4c8551c",
+   "what": "溫州街效能第五輪：三角形 42.1／39.7／43.3 萬、draw call 289／272／307",
+   "task": "FIX-WZ-PERF",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "收進開發分支（下一版）；LAWWW-B 的 wz_street_integration 待跑",
+   "date": "2026-10-16T14:2xZ"
+  },
+  {
+   "id": "DLV-1016-272",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "1e7c9a04",
+   "what": "溫州街擺上 ART-WZ7 路邊小物三件（保溫箱＋安全帽、回收紙箱捆、寶特瓶袋）",
+   "task": "ART-WZ7",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "收進開發分支（下一版）",
+   "date": "2026-10-16T14:2xZ"
+  },
+  {
+   "id": "DLV-1016-273",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "c2e3432f",
+   "what": "syllabus const_2 第 12 週回想補後半句（原檔）",
+   "task": "V2-C15",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "和 b082ec10 的字一致；下次重新匯入不會掉",
+   "date": "2026-10-16T14:3xZ"
+  },
+  {
+   "id": "DLV-1016-274",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "b8ad4382",
+   "what": "syllabus const_2 第 12 週 recall 加 full:true（原檔）",
+   "task": "V2-C15",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "和 eb570e7f 一致",
+   "date": "2026-10-16T14:3xZ"
+  },
+  {
+   "id": "DLV-1016-275",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "d10e408e",
+   "what": "BB_97 第 10 節：大二 BB 人物事件到場缺的字",
+   "task": "V3-B01",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "大二（v3）施工時用",
+   "date": "2026-10-16T14:3xZ"
+  },
+  {
+   "id": "DLV-1016-276",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "936c52c5",
+   "what": "syllabus 大二上行政法第 12 週改 C 類",
+   "task": "V3-D19",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "大二上課表重新匯入時一起",
+   "date": "2026-10-16T14:3xZ"
+  },
+  {
+   "id": "DLV-1016-277",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "af0d79fe",
+   "what": "AB-44：BB_97 2-10 學姊 SHARED_SECRET、10-4 六處",
+   "task": "V3-D22",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v3",
+   "date": "2026-10-16T14:3xZ"
+  },
+  {
+   "id": "DLV-1016-278",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "5790f39c",
+   "what": "BB_97：AA-B 對 10-3 的裁定寫回",
+   "task": "V3-B04",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v3",
+   "date": "2026-10-16T14:3xZ"
+  },
+  {
+   "id": "DLV-1016-279",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "44483032",
+   "what": "AB-45：BB_97 第 11 節 主線 4 BB 人物每週訊息",
+   "task": "SYS-07",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v3（AA_179 規格）",
+   "date": "2026-10-16T14:3xZ"
+  },
+  {
+   "id": "DLV-1016-280",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "973d4bef",
+   "what": "BB_97 10-4：沒有 P5 的春假改指向 AA_177 第 6 節",
+   "task": "V3-D18",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v3",
+   "date": "2026-10-16T14:3xZ"
+  },
+  {
+   "id": "DLV-1016-281",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "9dff65cd",
+   "what": "BB_97 第 11 節三處更新（芷若一則、沛珊條件、可昕說法）",
+   "task": "SYS-07",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v3",
+   "date": "2026-10-16T14:3xZ"
   }
  ],
  "ignored": [
@@ -4474,6 +4606,26 @@
    "sha": "0cd68ef7",
    "branch": "origin/claude/cool-heisenberg-o8kuqx",
    "why": "AA 交接紀錄（內容是已登記的交付）"
+  },
+  {
+   "sha": "705d6ed9",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB_00 紀錄（WIP）"
+  },
+  {
+   "sha": "a5069657",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB_00 紀錄"
+  },
+  {
+   "sha": "eae4dd04",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB_00 紀錄（核對、名稱表，已登記 6227de53）"
+  },
+  {
+   "sha": "7edab410",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB_00 紀錄"
   }
  ]
 }

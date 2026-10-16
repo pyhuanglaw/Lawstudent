@@ -9,6 +9,8 @@
 """
 import math, os, random
 import lib2 as L
+import sys as _sys; _sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+import plants as PL   # noqa: E402
 from lib2 import B, Mesh, g2b, bpy, bmesh, Vector, Matrix
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -26,6 +28,13 @@ COUNTER_X = (1.35, 6.2)                                              # 店面玻
 COUNTER_Z, COUNTER_DEP, COUNTER_H = 5.35, 0.42, 1.02
 WC_STOOLS = [2.2, 3.5, 4.8, -2.2, -3.5, -4.8]                        # 窗邊吧台的高腳椅 x（z＝4.95）
 BIG_PLANTS = [(-6.35, 0.4), (6.35, -0.5), (-6.3, -2.6)]
+# ART-WZ4（LAWWW2-B 2026-10-16；AA_164 第 4 節）：劇情一定要有的東西。格局不動（故事站位、存檔），只加：
+STOOL4 = (0.3, -3.3)                                                 # 第四張吧檯椅（吧檯座 ×4）
+FOUR_TOP = (0.0, 1.5)                                                # 中間那張改成四人桌：原本兩張椅子 (0, 0.7)、(0, 2.3) 不動，兩端加 (±0.85, 1.5)
+SOFA = dict(x0=-6.8, x1=-5.9, z0=2.3, z1=4.5)                        # 左前角的沙發（2～3 人；面向 +x）＋矮桌 (−5.3, 3.4)＋立燈
+UMBRELLA = (-1.05, 5.15)                                             # 門口的傘桶（芷若的英國傘）
+BELL = (0.55, 2.42, 5.82)                                            # 門鈴（門一開就響）
+ROSTER = (0.7, 1.6)                                                  # 吧檯後面牆上的班表（鉛筆字），後牆 x、y
 
 # ---------------- 店面（店面座標：玻璃在 z=0，+z 往外） ----------------
 SW = 14.0                     # 店面總寬（＝建築寬）
@@ -67,10 +76,10 @@ def materials():
         'tank': L.flat('cafe_tank_steel', '#c4c8cb', rough=0.3, metal=0.45),
         # 店內
         'floor': M_('cafe_int_floor', 'herringbone_parquet', tile=1.7, target='#8a5f3e', maps=('diff',), rough_value=0.55),
-        'plaster': M_('cafe_int_plaster', 'white_plaster_02', tile=1.0, target='#dcc6a4', maps=('diff',), res=256, rough_value=0.9),   # 暖米色灰泥
+        'plaster': soft_plaster('cafe_int_plaster', '#dcc6a4', 0.9),   # 暖米色灰泥（WZ4b：照片的深色斑對比降到 45%，原本看起來髒）
         'iwood': M_('cafe_int_wood', 'walnut_veneer', tile=1.2, target='#7a5536', maps=('diff',), res=256, rough_value=0.6),
         'shelf': M_('cafe_int_shelf', 'black_walnut_veneer_01', tile=1.0, target='#5a3d26', maps=('diff',), res=256, rough_value=0.65),
-        'ceil': M_('cafe_int_ceiling', 'white_plaster_02', tile=1.4, target='#e6d8bf', maps=('diff',), res=256, rough_value=0.95, cull=True),   # 單面朝下（鏡頭在天花板上面時看不到）
+        'ceil': soft_plaster('cafe_int_ceiling', '#e6d8bf', 0.95, cull=True, tile=1.4),   # 單面朝下（鏡頭在天花板上面時看不到）
         'beam': M_('cafe_int_beam', 'dark_wood', tile=1.6, target='#5e4330', maps=('diff',), res=256, rough_value=0.75, cull=True),
         'bar': M_('cafe_int_bar', 'walnut_veneer', tile=1.0, target='#6a4a30', maps=('diff',), res=256, rough_value=0.6),
         'bartop': L.flat('cafe_int_bartop', '#d8cfc0', rough=0.4),
@@ -95,6 +104,24 @@ def materials():
     bk = bpy.data.materials.new('cafe_int_books'); bk.use_nodes = True; nt = bk.node_tree
     ti = nt.nodes.new('ShaderNodeTexImage'); ti.image = pal; ti.interpolation = 'Closest'; nt.links.new(ti.outputs['Color'], nt.nodes['Principled BSDF'].inputs['Base Color'])
     nt.nodes['Principled BSDF'].inputs['Roughness'].default_value = 0.8; bk['tile'] = 1.0; m['books'] = bk
+    return m
+
+
+def soft_plaster(name, target, rough, cull=False, tile=1.0, k=0.45):
+    """white_plaster_02 的顏色貼圖：明暗變化留 k（0.45），再校正到 target 的平均顏色（WZ4b：原本深色斑太明顯，牆、天花板看起來髒）"""
+    import numpy as np
+    key = f'{name}_soft'
+    im = bpy.data.images.get(key)
+    if im is None:
+        src = bpy.data.images.load(os.path.join(HERE, 'textures', 'white_plaster_02', 'white_plaster_02_diff_1k.jpg'), check_existing=True)
+        w, h = src.size; px = np.empty(w * h * 4, dtype=np.float32); src.pixels.foreach_get(px); px = px.reshape(-1, 4)
+        mu = px[:, :3].mean(axis=0); px[:, :3] = mu + (px[:, :3] - mu) * k
+        t = np.array([int(target.lstrip('#')[i:i + 2], 16) / 255 for i in (0, 2, 4)], dtype=np.float32) ** 2.2   # sRGB → 線性（Blender 圖片的像素是線性）
+        px[:, :3] *= t / np.maximum(px[:, :3].mean(axis=0), 1e-4)
+        im = bpy.data.images.new(key, w, h, alpha=False); im.pixels.foreach_set(np.clip(px, 0, 1).ravel()); im.scale(256, 256)
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; bs = nt.nodes['Principled BSDF']; bs.inputs['Roughness'].default_value = rough
+    tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = im; nt.links.new(tx.outputs['Color'], bs.inputs['Base Color'])
+    m.use_backface_culling = cull; m['tile'] = tile
     return m
 
 
@@ -141,11 +168,12 @@ def bush(m, cx, cy, cz, r, n=10, span=0.5, flat_y=1.0):
         card(m, px, py, pz, s, s, ry=random.uniform(0, math.pi), rx=random.uniform(-0.9, 0.9), uv=rand_uv(span))
 
 
-def pot(m, cx, cz, r, h, profile='taper', y0=0.0):
+def pot(m, cx, cz, r, h, profile='taper', y0=0.0, seg=18):
     if profile == 'bowl': prof = [(r * 0.55, 0), (r * 0.85, h * 0.25), (r, h * 0.75), (r * 1.02, h), (r * 0.92, h)]
     elif profile == 'cyl': prof = [(r * 0.92, 0), (r, 0.03), (r, h), (r * 0.94, h)]
+    elif profile == 'taper4': prof = [(r * 0.74, 0), (r, h * 0.9), (r * 1.06, h), (r * 0.96, h)]   # 街上的盆栽（效能第五輪）：少底座和盆口兩圈
     else: prof = [(r * 0.72, 0), (r * 0.78, 0.02), (r, h * 0.92), (r * 1.06, h * 0.94), (r * 1.06, h), (r * 0.96, h)]
-    bm = L.lathe(prof, seg=18); m.add_bm(bm, Matrix.Translation(g2b(cx, y0, cz))); bm.free()
+    bm = L.lathe(prof, seg=seg); m.add_bm(bm, Matrix.Translation(g2b(cx, y0, cz))); bm.free()
 
 
 def proto(ob):
@@ -389,7 +417,13 @@ def interior(mat, parent, lite=False, walls=None, half_w=RW / 2):
     # 雙人桌 ×4＋曲木椅 ×8（位置與方向照遊戲的 twoTop：z+0.8 的椅子面向 −z、z−0.8 的面向 +z）
     tbm = table_mesh(mat); chm = chair_mesh(mat)
     for k, (tx, tz) in enumerate(TABLES):
-        B.instance(tbm, f'table_{k}', tx, 0, tz, parent)
+        if (tx, tz) == FOUR_TOP and not lite:                                                    # 四人桌：長方桌面（讀書會、P2b 三段論）＋兩端的椅子
+            ft = Mesh('int_four_top', mat['wood']); ft.rbox(tx - 0.55, tx + 0.55, 0.72, 0.77, tz - 0.42, tz + 0.42, r=0.015, seg=2)
+            for sx in (-0.45, 0.45):
+                for sz in (-0.32, 0.32): ft.cyl((tx + sx, 0.0, tz + sz), (tx + sx, 0.72, tz + sz), 0.025, seg=8)
+            ft.finish(parent, smooth=True)
+            B.instance(chm, f'chair_{k}c', tx - 0.85, 0, tz, parent, ry=math.pi / 2); B.instance(chm, f'chair_{k}d', tx + 0.85, 0, tz, parent, ry=-math.pi / 2)
+        else: B.instance(tbm, f'table_{k}', tx, 0, tz, parent)
         B.instance(chm, f'chair_{k}a', tx, 0, tz + 0.8, parent, ry=math.pi); B.instance(chm, f'chair_{k}b', tx, 0, tz - 0.8, parent, ry=0.0)
     tw = Mesh('int_table_items', mat['ceramic'])
     for k, (tx, tz) in enumerate(TABLES):
@@ -407,6 +441,7 @@ def interior(mat, parent, lite=False, walls=None, half_w=RW / 2):
         for xx in (a + 0.1, (a + b_) / 2, b_ - 0.1): wc.box(xx - 0.025, xx + 0.025, 0, COUNTER_H - 0.05, COUNTER_Z + 0.3, COUNTER_Z + 0.35)
     wc.finish(parent)
     for k, sx in enumerate(WC_STOOLS): B.instance(stm, f'winstool_{k}', sx, 0, COUNTER_Z - 0.4, parent)
+    if not lite: wz4_details(mat, parent, stm, wall_mesh, Z0)
     # 吊燈：每張桌子上方一盞玻璃球、吧檯上方三盞金屬燈罩、窗邊吧台上方四盞小燈
     pm = Mesh('int_pendant_metal', mat['brass']); pg = Mesh('int_pendant_glass', mat['lampglass']); pb = Mesh('int_pendant_bulb', mat['bulb']); cord = Mesh('int_pendant_cord', mat['metal'])
     glows = []
@@ -425,10 +460,13 @@ def interior(mat, parent, lite=False, walls=None, half_w=RW / 2):
     cord.finish(parent)
     out['glows'] = glows
     # 植物：大盆栽（琴葉榕一類）＋書牆與窗台的小盆栽
-    ipl = Mesh('int_plants', mat['broad']); ipo = Mesh('int_pots', mat['pot_cream']); itr = Mesh('int_trunks', mat['trunk']); ifern = Mesh('int_ferns', mat['fern'])
-    for (px_, pz_) in BIG_PLANTS:
-        pot(ipo, px_, pz_, 0.24, 0.45, 'cyl'); itr.cyl((px_, 0.42, pz_), (px_ + 0.05, 1.2, pz_), 0.025, seg=6)
-        bush(ipl, px_, 1.45, pz_, 0.6, n=10, span=0.4, flat_y=1.6)
+    ipo = Mesh('int_pots', mat['pot_cream']); ifern = Mesh('int_ferns', mat['fern']); PLM = PL.materials('cafe_pl_')
+    for i_, (px_, pz_) in enumerate(BIG_PLANTS):              # WZ4b：葉片卡的大葉子遠看像折紙 → plants.py 的模型葉子（總圖、霖澤館同一套）
+        pot(ipo, px_, pz_, 0.24, 0.45, 'cyl')
+        PL.potted(B.mesh_obj, PLM, f'cafe_plant_{i_}', parent, px_, 0.45, pz_, 0.24, seed=901 + i_ * 7, h=1.4)   # 土和莖
+        PL.broad_plant(B.mesh_obj, PLM, f'cafe_plant_{i_}b', parent, px_, 0.43, pz_, 1.5, 0.62, seed=905 + i_ * 7)   # 葉子大小照植物的大小（potted 照盆口半徑：太小、像竹竿）
+    for ob in list(parent.children):
+        if ob.type == 'MESH' and ob.name.startswith('cafe_plant_') and ob.data.materials and 'leaf_' in ob.data.materials[0].name: L.smooth_mesh(ob, angle=1.2)
     for (dx, dy, ri) in deco:
         pot(ipo, dx, Z0 + 0.2, 0.07, 0.12, y0=dy); bush(ifern, dx, dy + 0.22, Z0 + 0.2, 0.22, n=3, span=0.45, flat_y=0.6)
     for c in RIGHT_WINS:                                    # 右窗窗台上的小盆栽
@@ -436,7 +474,7 @@ def interior(mat, parent, lite=False, walls=None, half_w=RW / 2):
     for s in (-1, 1):                                       # 窗邊吧台上的小盆栽
         for xx in (2.0, 4.2, 5.8):
             pot(ipo, s * xx, COUNTER_Z + 0.2, 0.065, 0.12, y0=COUNTER_H); bush(ifern, s * xx, COUNTER_H + 0.22, COUNTER_Z + 0.2, 0.2, n=3, span=0.45, flat_y=0.6)
-    ipl.finish(parent, uv=False); ifern.finish(parent, uv=False); ipo.finish(parent, smooth=True); itr.finish(parent)
+    ifern.finish(parent, uv=False); ipo.finish(parent, smooth=True)
     # 左牆：三幅裱框的畫（暖色系版畫，用素色板＋木框）、一段牆上層板＋小盆栽
     if not lite:
         fr = wall_mesh('left', 'frames', mat['shelf']); pr = wall_mesh('left', 'prints', mat['print'])
@@ -451,6 +489,65 @@ def interior(mat, parent, lite=False, walls=None, half_w=RW / 2):
     else:
         for side, me in wall_list: walls.setdefault(side, []).append(me)
     return out
+
+
+def wz4_details(mat, parent, stm, wall_mesh, Z0):
+    """ART-WZ4：第四張吧檯椅、角落沙發＋矮桌＋立燈、門鈴、傘桶（芷若的英國傘）、牆上的班表、吧檯抽屜（店員那一側）、靠窗吧台的插座"""
+    B.instance(stm, 'barstool_3', STOOL4[0], 0, STOOL4[1], parent)
+    so = Mesh('int_sofa', mat['leather']); s0, s1, z0, z1 = SOFA['x0'], SOFA['x1'], SOFA['z0'], SOFA['z1']
+    so.rbox(s0 + 0.15, s1, 0.1, 0.38, z0 + 0.15, z1 - 0.15, r=0.04, seg=2)                       # 座墊底
+    for k in range(3): c0 = z0 + 0.17 + k * (z1 - z0 - 0.34) / 3; so.rbox(s0 + 0.2, s1 + 0.02, 0.38, 0.5, c0 + 0.01, c0 + (z1 - z0 - 0.34) / 3 - 0.01, r=0.05, seg=2)   # 三個坐墊
+    so.rbox(s0, s0 + 0.24, 0.1, 0.95, z0 + 0.12, z1 - 0.12, r=0.06, seg=2)                         # 靠背
+    for zz in (z0, z1 - 0.18): so.rbox(s0, s1 + 0.04, 0.1, 0.66, zz, zz + 0.18, r=0.06, seg=2)      # 扶手
+    so.finish(parent, smooth=True)
+    lg = Mesh('int_sofa_legs', mat['shelf'])
+    for xx in (s0 + 0.08, s1 - 0.06):
+        for zz in (z0 + 0.08, z1 - 0.08): lg.cyl((xx, 0.0, zz), (xx, 0.1, zz), 0.025, seg=6)
+    lg.rbox(-5.55, -5.05, 0.4, 0.44, 3.0, 3.8, r=0.015, seg=2)                                       # 矮桌
+    for xx in (-5.5, -5.1):
+        for zz in (3.05, 3.75): lg.cyl((xx, 0.0, zz), (xx, 0.4, zz), 0.02, seg=6)
+    lg.finish(parent, smooth=True)
+    lm = Mesh('int_floorlamp', mat['brass']); lm.cyl((-6.55, 0.0, 4.85), (-6.55, 0.03, 4.85), 0.16, seg=14); lm.cyl((-6.55, 0.03, 4.85), (-6.55, 1.45, 4.85), 0.015, seg=6)
+    bmx = L.lathe([(0.06, 0.25), (0.08, 0.24), (0.2, 0.0), (0.21, -0.01)], seg=16); lm.add_bm(bmx, Matrix.Translation(g2b(-6.55, 1.4, 4.85))); bmx.free(); lm.finish(parent, smooth=True)
+    Mesh('int_floorlamp_bulb', mat['bulb']).sphere((-6.55, 1.45, 4.85), 0.05, seg=8, rings=4).finish(parent)
+    glow(parent, 'floorlamp', -6.55, 1.4, 4.85, size=1.4)
+    # 門鈴：門上方的黃銅鈴（彎的鐵架掛著）
+    bx, by, bz = BELL; br = Mesh('int_doorbell', mat['brass'])
+    br.cyl((bx, by + 0.22, bz + 0.12), (bx, by + 0.22, bz), 0.008, seg=5); br.cyl((bx, by + 0.22, bz), (bx, by + 0.13, bz), 0.006, seg=5)
+    bmx = L.lathe([(0.0, 0.0), (0.045, 0.0), (0.05, 0.015), (0.035, 0.07), (0.012, 0.1), (0.0, 0.105)], seg=14); br.add_bm(bmx, Matrix.Translation(g2b(bx, by, bz))); bmx.free()
+    br.sphere((bx, by - 0.012, bz), 0.012, seg=6, rings=4); br.finish(parent, smooth=True)
+    # 傘桶＋兩把傘（深綠色、木頭 J 型握把的是芷若的英國傘）
+    ux, uz = UMBRELLA; ub = Mesh('int_umbrella_stand', mat['metal'])
+    bmx = L.lathe([(0.0, 0.0), (0.14, 0.0), (0.15, 0.02), (0.15, 0.5), (0.13, 0.5)], seg=16); ub.add_bm(bmx, Matrix.Translation(g2b(ux, 0.0, uz))); bmx.free(); ub.finish(parent, smooth=True)
+    ums = [Mesh('int_umbrella_green', L.flat('cafe_umbrella_green', '#2c4636', rough=0.7)), Mesh('int_umbrella_black', L.flat('cafe_umbrella_black', '#1e1f22', rough=0.7))]; uw = Mesh('int_umbrella_handle', mat['shelf'])
+    for k, (dx, dz, tilt) in enumerate(((-0.04, -0.03, 0.12), (0.05, 0.03, -0.1))):   # WZ4b：綠傘放在店內那一側、拉高 0.12 m（原本傘布幾乎都在桶子裡，從店內看不到）
+        lift = 0.12 if k == 0 else 0.0; top = (ux + dx + tilt * 0.4, 0.95 + lift, uz + dz); um = ums[k]
+        bmx = L.lathe([(0.0, 0.0), (0.03, 0.05), (0.058, 0.35), (0.042, 0.55), (0.012, 0.62), (0.0, 0.63)], seg=12); um.add_bm(bmx, Matrix.Translation(g2b(ux + dx, 0.05 + lift, uz + dz))); bmx.free()
+        uw.cyl((ux + dx, 0.66 + lift, uz + dz), top, 0.012, seg=6)
+        if k == 0: uw.cyl(top, (top[0] + 0.06, top[1] + 0.05, top[2]), 0.018, seg=6); uw.cyl((top[0] + 0.06, top[1] + 0.05, top[2]), (top[0] + 0.1, top[1] - 0.02, top[2]), 0.018, seg=6)
+        else: uw.cyl(top, (top[0], top[1] + 0.09, top[2]), 0.02, seg=6)
+    for um in ums: um.finish(parent, smooth=True)
+    uw.finish(parent, smooth=True)
+    # 牆上的班表（鉛筆字；夾板＋釘子）
+    rx, ry = ROSTER; rm = bpy.data.materials.new('cafe_roster'); rm.use_nodes = True; nt = rm.node_tree; bs_ = nt.nodes['Principled BSDF']; bs_.inputs['Roughness'].default_value = 0.8
+    tx_ = nt.nodes.new('ShaderNodeTexImage'); tx_.image = bpy.data.images.load(os.path.join(HERE, 'textures', 'gen', 'cafe_roster.png'), check_existing=True); nt.links.new(tx_.outputs['Color'], bs_.inputs['Base Color'])
+    rq = wall_mesh('back', 'roster', rm, uv=False); uvl = rq.bm.loops.layers.uv.verify(); w_, h_ = 0.3, 0.4
+    f = rq.bm.faces.new([rq.bm.verts.new(g2b(*q)) for q in ((rx - w_ / 2, ry - h_ / 2, Z0 + 0.025), (rx + w_ / 2, ry - h_ / 2, Z0 + 0.025), (rx + w_ / 2, ry + h_ / 2, Z0 + 0.025), (rx - w_ / 2, ry + h_ / 2, Z0 + 0.025))])
+    for lp, t in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[uvl].uv = t
+    wall_mesh('back', 'roster_nail', mat['metal']).cyl((rx, ry + h_ / 2 + 0.03, Z0), (rx, ry + h_ / 2 + 0.03, Z0 + 0.04), 0.006, seg=5)
+    # 吧檯抽屜（店員那一側：三格，黃銅把手；三年的便條收在這裡）
+    BX0, BZ0, bh = BAR['x'] - BAR['w'] / 2, BAR['z'] - BAR['d'] / 2, BAR['h']
+    dr = Mesh('int_bar_drawers', mat['bar']); kn = Mesh('int_bar_knobs', mat['brass'])
+    for j in range(3):
+        x0 = BX0 + 2.6 + j * 0.62; dr.rbox(x0, x0 + 0.58, bh - 0.3, bh - 0.08, BZ0 - 0.025, BZ0 + 0.005, r=0.008, seg=1)
+        kn.sphere((x0 + 0.29, bh - 0.19, BZ0 - 0.04), 0.018, seg=8, rings=5)
+    dr.finish(parent); kn.finish(parent, smooth=True)
+    # 靠窗吧台：每個位子一個插座（期末「插座都有人」）
+    ou = Mesh('int_outlets', mat['ceramic']); od = Mesh('int_outlet_slots', mat['metal'])
+    for sx in WC_STOOLS:
+        ou.rbox(sx - 0.05, sx + 0.05, COUNTER_H - 0.17, COUNTER_H - 0.07, COUNTER_Z - 0.012, COUNTER_Z, r=0.006, seg=1)
+        for dx in (-0.018, 0.018): od.box(sx + dx - 0.004, sx + dx + 0.004, COUNTER_H - 0.135, COUNTER_H - 0.105, COUNTER_Z - 0.014, COUNTER_Z - 0.012)
+    ou.finish(parent); od.finish(parent)
 
 
 def finish_walls(walls, parent, dirs):
