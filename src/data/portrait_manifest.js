@@ -69,7 +69,14 @@ const PORTRAIT_FILES={
  },
  "heroine_05": {
   "campus": [
-   "neutral"
+   "annoyed",
+   "laugh",
+   "neutral",
+   "sad",
+   "serious",
+   "smile",
+   "surprised",
+   "tired"
   ]
  },
  "kai": {

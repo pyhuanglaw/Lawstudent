@@ -382,7 +382,8 @@ const STORY_EVENTS=[
      v1 不放經濟系大一的回聲（「上次是假裝的導遊。這次是真的。」）*/
   { id:'ev_kexin_tour_nccu', title:'導遊', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
     dialogue:[ {scene:'政大・校門口',bg:'nccu_gate'},
-      {speaker:null,text:'校門口。她在揮手，只戴一邊的耳環，今天是一顆小骰子。'},
+      {speaker:null,text:'校門口。她在揮手，只戴一邊的耳環，今天是一隻小長頸鹿。'},   /* BB_95 9-1（2026-10-16 BB-B 定稿）：所有玩家都是長頸鹿（她的識別物，和 BCG-27 一致）；「小骰子」作廢 */
+      {cg:'cg_tour_guide_kexin'},   /* BCG-27「我是今天的導遊」：放在含「我是今天的導遊」的那一句（BB_95 9-1、BB_117 第 4d 節）*/
       {speaker:'kexin',expression:'smile',text:'暑假那次學校沒人，不算。今天才是真的政大。我是今天的導遊。'},   /* AA_140 3-5 F（2026-10-16）：同意 BB-B 的句子（和經濟系那年 E37 的暑假那一次不矛盾）*/
       {speaker:'kexin',expression:'smile',text:'我在這裡念了{flag:kxTourWeeks|三}個禮拜，所以比你懂這裡{flag:kxTourWeeks|三}個禮拜。'},   /* AA 審 9-1 第 2 點：K1 延後時照實際的週數（排出遊時記下：story3d.js）*/
       {speaker:null,text:'她指了左邊、右邊、後面。'},

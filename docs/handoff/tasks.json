@@ -595,7 +595,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
-   "next": "阿勳、品妤已接（econ_zhengxun、econ_pinyu）；韋綸、唐睿、家豪 BB-B 通過，等用到的事件（SK03／v0）；予樂等 K1b 人物資料；品妤重切中",
+   "next": "阿勳、品妤已接（econ_zhengxun、econ_pinyu）；韋綸、唐睿、家豪 BB-B 通過，等用到的事件（SK03／v0）；予樂等 K1b 人物資料；品妤重切中；品妤立繪漂浮碎片修正版（LAWWW2-B 97af63cf）已換進 econ_pinyu（本批）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -728,7 +728,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
-   "next": "跟著各學期事件接；圖通過才接",
+   "next": "跟著各學期事件接；圖通過才接；BCG-27 K1 導遊已接（本批）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -740,7 +740,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "LAWWW2／LAWWW2-B 交付",
+   "source": "LAWWW2／LAWWW2-B 交付；AA_140 G28（以通過的 CG 清單為準）",
    "authorized": "D79"
   },
   {
@@ -1019,7 +1019,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "交接包_v0、BB_104／105／110／112",
+   "source": "交接包_v0、BB_104／105／110／112；AA_140 G41、G43（BB-B 308da467、8819934c）",
    "authorized": "D79"
   },
   {
@@ -1061,7 +1061,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "交接包_v0、BB_104／105／110／112",
+   "source": "交接包_v0、BB_104／105／110／112；AA_140 G41、G43",
    "authorized": "D79"
   },
   {
@@ -3098,8 +3098,8 @@
    "priority": "P2",
    "first": {
     "term": "Y3S1",
-    "week": 3,
-    "earliest": "可昕 K15（第 3 週）",
+    "week": 1,
+    "earliest": "大三上第 1 週（AA_146，BB-B 確認；企劃線 0788a99d）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
@@ -3169,7 +3169,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "交接包_v4、AA_30",
+   "source": "交接包_v4、AA_30；AA_140 G24（國外改用日期、日本 +1）",
    "authorized": "D79"
   },
   {
@@ -6096,7 +6096,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "稽核 10-16",
+   "source": "稽核 10-16；AA_140 G33（AA_148＋point_specs.json、心願 JSON）",
    "authorized": "D79"
   },
   {
@@ -6399,7 +6399,7 @@
    "area": "SCN",
    "owner": "LAWWW2",
    "status": "進行中",
-   "next": "配置以 LAWWW2-B us_apartment_layout.js v2（e30bf43f＋3cc72780 浴室從臥室進、衣帽櫃：戶外樓梯平台 breezeway、獨立廚房＋窗口吧台、8 房、yaw 照 atan2(dx,dz)）為準；學姊 C 棟合租戶另一份配置；會所自習室、校園一段、超市",
+   "next": "配置以 LAWWW2-B us_apartment_layout.js v2（e30bf43f＋3cc72780 浴室從臥室進、衣帽櫃：戶外樓梯平台 breezeway、獨立廚房＋窗口吧台、8 房、yaw 照 atan2(dx,dz)）為準；學姊 C 棟合租戶另一份配置；會所自習室、校園一段、超市；社區名 Linden Grove（椴樹林社區）、超市 Prairie Basket（草原超市）（AA_144 5-4，企劃線 d4174bbd，D77 虛構）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -6425,7 +6425,7 @@
    "area": "SCN",
    "owner": "LAWWW2",
    "status": "待開工",
-   "next": "配置＋建模（批次 2）",
+   "next": "配置＋建模（批次 2）；社區名 Linden Grove（椴樹林社區）、超市 Prairie Basket（草原超市）（AA_144 5-4，企劃線 d4174bbd，D77 虛構）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -6500,7 +6500,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "場景施工表（總表第 14 節）",
+   "source": "場景施工表（總表第 14 節）；AA_140 G28",
    "authorized": "D79"
   },
   {
@@ -6542,7 +6542,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "場景施工表（總表第 14 節）",
+   "source": "場景施工表（總表第 14 節）；AA_140 G24、G25（抵達後第 N 週、美東時差、學姊留到八月）",
    "authorized": "D79"
   },
   {
@@ -7463,7 +7463,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "AA_140 §0（企劃線 f1213a26）；AA-B 10-16 02:09",
+   "source": "AA_140 §0（企劃線 f1213a26）；AA-B 10-16 02:09；AA_140 G30",
    "authorized": "D79"
   },
   {
@@ -7527,7 +7527,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "AA_140 §0（企劃線 f1213a26）；AA-B 10-16 02:09",
+   "source": "AA_140 §0（企劃線 f1213a26）；AA-B 10-16 02:09；AA_140 G31（等 BB-B：正常分手後重新開始的條件、不能永久關閉）",
    "authorized": "D79"
   },
   {
@@ -8059,11 +8059,11 @@
   },
   {
    "id": "V1-K1F",
-   "title": "K1 預設版改一行：「暑假那次學校沒人，不算。今天才是真的政大。我是今天的導遊。」",
+   "title": "K1 導遊：預設版第二句「暑假那次學校沒人，不算。今天才是真的政大。我是今天的導遊。」；旁白耳環改長頸鹿（所有玩家）＋BCG-27 接在導遊那一句",
    "area": "V1",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "K1 第二句已改（v1_batch7_unit 照新句子）；BCG-27 的旁白改句等 BB-B",
+   "next": "第 2 級：瀏覽器演一次 K1，看 CG 直向、橫向",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -8075,8 +8075,10 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "AA_140 3-5 F；AA-B 02:13",
-   "authorized": "D79"
+   "source": "AA_140 3-5 F；AA-B 02:13；BB_95 9-1（2026-10-16 BB-B 定稿：長頸鹿、BCG-27 位置）",
+   "authorized": "D79",
+   "sha": "（本批）",
+   "evidence": "tests/v1_batch7_unit.js：開場六句、BCG-27 位置與圖檔（第 1 級）"
   },
   {
    "id": "V3-G11",
@@ -8096,7 +8098,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "AA_143（9a73250e）、3689f8a0、34667526",
+   "source": "AA_143（9a73250e）、3689f8a0、34667526；AA_140 G10、G13",
    "authorized": "D79"
   },
   {
@@ -8117,7 +8119,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "AA_144（56d5f1ec）",
+   "source": "AA_144（56d5f1ec）；AA_140 G20～G23",
    "authorized": "D79"
   },
   {
@@ -8147,7 +8149,7 @@
    "area": "ART",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "soc_hall、soc_classroom、xiaofu 已接（BB-B 第 19、20 組）；其他 id 沒有圖照舊深色底＋字幕",
+   "next": "soc_hall、soc_classroom、xiaofu 已接（BB-B 第 19、20 組）；其他 id 沒有圖照舊深色底＋字幕；girls_dorm_gate、bowling（BB-B 第 21 組 a7ef2afa）已放進 assets/bg 與 S.BG（本批，v0 E13、E14 用）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -8231,7 +8233,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
-   "next": "LAWWW2-B 去背／切表情（子晴、學姊表情試疊在它的佇列）→ LAWWW-B 放進 assets/portraits/<id>/campus/<表情>.webp、跑 manifest",
+   "next": "學姊 heroine_05 已接（LAWWW2-B 2ac3c4bf，BB-B D59 通過：底圖換姿勢①＋7 格，本批）；沛珊、可昕 9 格等 BB-B 驗收；子晴、語彤、以安等使用者生正面全身新圖（BB-B 決定）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -8273,7 +8275,7 @@
    "area": "V4",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "照 AA_71 2-2 大三版（v4 E5 中秋的大三版）",
+   "next": "照 AA_71 2-2 大三版（v4 E5 中秋的大三版）；這個事件要記以安的記憶 AN_BDAY_POMELO（大三上閒聊階梯 A5-L2 的 linesIf 條件，AA_71）",
    "priority": "P2",
    "first": {
     "term": "Y3S1",
@@ -8308,6 +8310,159 @@
    },
    "source": "AA-B f4801dc3（G02）",
    "authorized": "D79"
+  },
+  {
+   "id": "V1-LADFIX",
+   "title": "閒聊階梯兩個程式 bug：linesIf／extraIf 的 week 沒作用、greet 的 weekParity 沒處理（AA_140 G45）",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "第 2 級：瀏覽器播一次大一下以安 A2-L3（第 3 週原本的台詞）與學姊單週六招呼（batch_1016_render D 段已有大一下播放）",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "閒聊階梯（大一上就用；week 條件大一下 A2-L3 起）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_140 G45（企劃線 4254d5a7）；AA-B 03:15",
+   "authorized": "D79 第 3 點（技術修正）",
+   "sha": "b4525e0e",
+   "evidence": "tests/ladder_unit.js 21、22：修改前失敗、修改後通過；單元測試 122 個檔全過（第 1 級）"
+  },
+  {
+   "id": "V4-L1",
+   "title": "大三閒聊階梯：以安 A5、語彤 Y5／Y6（ladder_aa_y3s1.json、ladder_aa_y3s2.json；路線差別 flagIs EXCHANGE_ROUTE）",
+   "area": "V4",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "資料已匯入 src/data/ladder.js（byTerm.Y3S1、Y3S2）、記憶名稱已補；A5-L2 的 AN_BDAY_POMELO 等 V4-G02 寫入；瀏覽器播一次（第 2 級）跟 v4 一起",
+   "priority": "P3",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "大三上開學和以安、語彤說話",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_149、AA_150（企劃線 054ba51e、93e19eb6）",
+   "authorized": "D79 第 7 點（v4）",
+   "sha": "b4525e0e",
+   "evidence": "tests/ladder_unit.js 19、20（記憶名稱、學期檔）"
+  },
+  {
+   "id": "V5-L1",
+   "title": "大四閒聊階梯：以安 A7／A8、語彤 Y7／Y8（ladder_aa_y4s1.json、ladder_aa_y4s2.json）",
+   "area": "V5",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "資料已匯入（byTerm.Y4S1、Y4S2）、記憶名稱已補；瀏覽器播一次跟 v5 一起",
+   "priority": "P3",
+   "first": {
+    "term": "Y4S1",
+    "week": 1,
+    "earliest": "大四上開學和以安、語彤說話",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_151、AA_152（企劃線 1832c57f）",
+   "authorized": "D79 第 7 點（v5）",
+   "sha": "b4525e0e",
+   "evidence": "tests/ladder_unit.js 19、20"
+  },
+  {
+   "id": "V3-G09",
+   "title": "語彤事件 11「想幫她」的前置：事件 9 之後在麵店多三個選項（問打工／先借妳／找了資料），任一個設 YT_HELP_OFFERED，兩週後（第 15 週）事件 11",
+   "area": "V3",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 AA_11（企劃線 b860d9ef）實作；跟 v3 語彤線一起",
+   "priority": "P3",
+   "first": {
+    "term": "Y2S1",
+    "week": 13,
+    "earliest": "語彤事件 9 之後（週次以 AA-B 為準）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_140 G09；AA_11（b860d9ef）",
+   "authorized": "D79 第 7 點（v3）"
+  },
+  {
+   "id": "V4-G26",
+   "title": "主線 7 改成姊姊第一次單獨約祐廷在公館吃飯（2D gongguan_hotpot）；日本路線提前到 1/7（「明天幾點的飛機？……我不送機。我送到這裡。」）",
+   "area": "V4",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 AA_12 主線 7 實作；背景 gongguan_hotpot 等 ART-18／LAWWW2-B",
+   "priority": "P3",
+   "first": {
+    "term": "Y3S1",
+    "week": null,
+    "earliest": "大三寒假（日本路線 1/7）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_140 G26；AA_12 主線 7",
+   "authorized": "D79 第 7 點（v4）"
+  },
+  {
+   "id": "V4-G29",
+   "title": "v4 E5：芷若在英國不視訊、不出現，第 3 週起寄明信片",
+   "area": "V4",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 交接包_v4_交付清單 E5、AA_71 2-2",
+   "priority": "P3",
+   "first": {
+    "term": "Y3S1",
+    "week": 3,
+    "earliest": "大三上第 3 週起（芷若在英國）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_140 G29",
+   "authorized": "D79 第 7 點（v4）"
+  },
+  {
+   "id": "V5-G32",
+   "title": "前任在畢業典禮可以以同學身分在場、不以伴侶身分出現；尾聲的長桌沒有前任",
+   "area": "V5",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 BB_100、BB_99（BB-B ef96df49）；ROM.exes 已有",
+   "priority": "P3",
+   "first": {
+    "term": "Y4S2",
+    "week": null,
+    "earliest": "畢業典禮 6/2、尾聲",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_140 G32；BB-B ef96df49",
+   "authorized": "D79 第 7 點（v5、v6）"
   }
  ]
 }
