@@ -106,11 +106,11 @@ def quad(name, p0, p1, p2, p3, mat):
 
 
 # ---------------------------------------------------------------- 山（巷底、校門後面）
-def hills(z_near, x_span, layers, crown=0.9):
+def hills(z_near, x_span, layers, crown=0.9, lumpy=0.0):
     """山（台北盆地邊緣、長滿樹的圓緩山稜）：每一層是一片從山腳往後升到稜線的曲面；稜線＝幾個頻率的雜訊（圓緩，不是尖錐），
     表面是森林的顏色＋小尺度的雜訊（樹冠一團一團）；越遠越淡、越藍（空氣透視）"""
     for k, (dz, hmax, col, seed) in enumerate(layers):
-        nx, nz = 160, 16; V = []; F = []; depth = 140.0
+        nx, nz = (160, 16) if not lumpy else (420, 60); V = []; F = []; depth = 140.0   # lumpy：網格細一點，表面加樹冠一團一團的起伏（近處的山才看得出是森林）
         def crest(x):
             n = 0.55 * noise.noise(Vector((x / 140.0, seed, 0.3))) + 0.3 * noise.noise(Vector((x / 55.0, seed + 7, 0.1))) + 0.15 * noise.noise(Vector((x / 22.0, seed + 3, 0.7)))
             return hmax * (0.62 + 0.55 * n)
@@ -119,7 +119,8 @@ def hills(z_near, x_span, layers, crown=0.9):
             prof = math.sin(min(1.0, t * 1.25) * math.pi / 2) ** 1.3          # 山腳 0 → 稜線 1（前坡），稜線以後持平
             for i in range(nx + 1):
                 x = -x_span + 2 * x_span * i / nx
-                V.append((x, crest(x) * prof - 3.0 + 2.0 * noise.noise(Vector((x / 9.0, zz / 9.0, seed))), zz))
+                lump = lumpy * (1.0, 0.45, 0.15)[min(k, 2)] * (abs(noise.noise(Vector((x / 8.0, zz / 8.0, seed + 11)))) * 2.0 + 0.5 * noise.noise(Vector((x / 3.5, zz / 3.5, seed + 5)))) * (0.4 + 0.6 * prof) if lumpy else 0.0   # 遠的山起伏小（不然像岩石山）
+                V.append((x, crest(x) * prof - 3.0 + 2.0 * noise.noise(Vector((x / 9.0, zz / 9.0, seed))) + lump, zz))
         for j in range(nz):
             for i in range(nx):
                 a = j * (nx + 1) + i; F.append((a, a + 1, a + nx + 2, a + nx + 1))
@@ -133,7 +134,7 @@ def hills(z_near, x_span, layers, crown=0.9):
         mix = nt.nodes.new('ShaderNodeMath'); mix.operation = 'MULTIPLY_ADD'; mix.inputs[1].default_value = 0.5
         nt.links.new(vo.outputs['Distance'], mix.inputs[0]); nt.links.new(n1.outputs['Fac'], mix.inputs[2])
         nt.links.new(mix.outputs[0], ramp.inputs['Fac']); nt.links.new(ramp.outputs['Color'], b.inputs['Base Color'])
-        bm_ = nt.nodes.new('ShaderNodeBump'); bm_.inputs['Strength'].default_value = 0.45; bm_.inputs['Distance'].default_value = 0.6
+        bm_ = nt.nodes.new('ShaderNodeBump'); bm_.inputs['Strength'].default_value = 0.45 if not lumpy else 0.8; bm_.inputs['Distance'].default_value = 0.6 if not lumpy else 2.5
         nt.links.new(vo.outputs['Distance'], bm_.inputs['Height']); nt.links.new(bm_.outputs['Normal'], b.inputs['Normal'])
         b.inputs['Roughness'].default_value = 0.95
         mesh_obj(f'hill{k}', V, F, mt, smooth=True)
@@ -400,9 +401,9 @@ elif SCENE == 'campus':
     GRASS = mat_flat('grass', (0.08, 0.15, 0.05), rough=0.95)
     RAIL = mat_flat('rail', (0.55, 0.57, 0.58), 0.35, metal=0.45)
     # 溪水：深綠灰、很亮的反射、細碎的漣漪（bump）
-    WATER = mat_flat('creek', (0.035, 0.06, 0.05), 0.04); nt = WATER.node_tree; b = nt.nodes['Principled BSDF']
+    WATER = mat_flat('creek', (0.05, 0.075, 0.06), 0.12); nt = WATER.node_tree; b = nt.nodes['Principled BSDF']
     tn = nt.nodes.new('ShaderNodeTexNoise'); tn.inputs['Scale'].default_value = 6.0; tn.inputs['Detail'].default_value = 6.0
-    bu = nt.nodes.new('ShaderNodeBump'); bu.inputs['Strength'].default_value = 0.12; nt.links.new(tn.outputs['Fac'], bu.inputs['Height']); nt.links.new(bu.outputs['Normal'], b.inputs['Normal'])
+    bu = nt.nodes.new('ShaderNodeBump'); bu.inputs['Strength'].default_value = 0.3; nt.links.new(tn.outputs['Fac'], bu.inputs['Height']); nt.links.new(bu.outputs['Normal'], b.inputs['Normal'])
     # 這一岸：步道沿著溪往北（−z），x −2.0～2.0；左邊（西）草帶＋樹，右邊（東）是護岸，往下 2.2 m 是溪
     quad('path', (-2.0, 0.02, 12), (2.0, 0.02, 12), (2.0, 0.02, -120), (-2.0, 0.02, -120), PAVE)
     box('curb_l', -2.15, -2.0, 0, 0.12, -120, 12, CONC)
@@ -413,18 +414,33 @@ elif SCENE == 'campus':
         box('rail_post', 2.12, 2.2, 0.3, 1.12, z - 0.04, z + 0.04, RAIL)
     box('rail_top', 2.08, 2.24, 1.08, 1.14, -120, 12, RAIL); box('rail_mid', 2.13, 2.19, 0.68, 0.72, -120, 12, RAIL)
     WL = -1.4                                                             # 水面高度（親水的濱溪步道：離水面不高）
-    mesh_obj('bank_e', [(2.35, 0.0, 12), (2.35, 0.0, -120), (4.2, WL, -120), (4.2, WL, 12)], [(0, 1, 2, 3)], STONE, uvs=[(0, 0), (0, 30), (2, 30), (2, 0)])
-    mesh_obj('bank_w', [(15.8, WL, 12), (15.8, WL, -120), (17.6, 0.0, -120), (17.6, 0.0, 12)], [(0, 1, 2, 3)], STONE, uvs=[(0, 0), (0, 30), (2, 30), (2, 0)])
+    # 岸坡（近自然工法）：長草的土坡，草一叢一叢（雜訊混兩種綠和一點土色）
+    BANK = mat_flat('bank_grass', (0.07, 0.12, 0.05), 0.95); nt = BANK.node_tree; bb = nt.nodes['Principled BSDF']; tc = nt.nodes.new('ShaderNodeTexCoord')
+    nz_ = nt.nodes.new('ShaderNodeTexNoise'); nz_.inputs['Scale'].default_value = 1.6; nz_.inputs['Detail'].default_value = 8.0; nt.links.new(tc.outputs['Object'], nz_.inputs['Vector'])
+    rp = nt.nodes.new('ShaderNodeValToRGB'); rp.color_ramp.elements[0].color = (0.035, 0.07, 0.025, 1); rp.color_ramp.elements[1].color = (0.13, 0.17, 0.07, 1)
+    nt.links.new(nz_.outputs['Fac'], rp.inputs['Fac']); nt.links.new(rp.outputs['Color'], bb.inputs['Base Color'])
+    bp = nt.nodes.new('ShaderNodeBump'); bp.inputs['Strength'].default_value = 0.9; nt.links.new(nz_.outputs['Fac'], bp.inputs['Height']); nt.links.new(bp.outputs['Normal'], bb.inputs['Normal'])
+    def slope(name, xa, ya, xb, yb):
+        V = []; F = []; nzs = 132
+        for j in range(nzs + 1):
+            zz = 12 - j; 
+            for t in range(5):
+                u = t / 4; x = xa + (xb - xa) * u; y = ya + (yb - ya) * u + 0.12 * noise.noise(Vector((x * 1.3, zz * 0.7, 3.1))) * math.sin(u * math.pi)
+                V.append((x, y, zz))
+        for j in range(nzs):
+            for t in range(4): a0 = j * 5 + t; F.append((a0, a0 + 1, a0 + 6, a0 + 5) if xa < xb else (a0 + 1, a0, a0 + 5, a0 + 6))
+        mesh_obj(name, V, F, BANK, smooth=True)
+    slope('bank_e', 2.35, 0.0, 4.4, WL); slope('bank_w', 15.6, WL, 17.6, 0.0)
     quad('creek', (4.0, WL - 0.02, 12), (16.0, WL - 0.02, 12), (16.0, WL - 0.02, -120), (4.0, WL - 0.02, -120), WATER)
     quad('bed', (3.5, WL - 0.6, 12), (16.5, WL - 0.6, 12), (16.5, WL - 0.6, -120), (3.5, WL - 0.6, -120), STONE)
     # 坡腳的大石頭（近自然工法）：不規則的石塊，一半在水裡
     ROCK = mat_tex('rock', 'granite_tile_03', scale=2.0, tint=(0.55, 0.54, 0.50), rough=0.9)
-    for k in range(70):
-        side = k % 2; z = 10 - k * 1.8 + rng.uniform(-0.6, 0.6); x = (4.3 + rng.uniform(0, 0.8)) if side == 0 else (15.6 - rng.uniform(0, 0.8))
+    for k in range(150):
+        side = k % 2; z = 10 - (k // 2) * 1.6 + rng.uniform(-0.6, 0.6); x = (4.5 + rng.uniform(-0.2, 1.0)) if side == 0 else (15.5 - rng.uniform(-0.2, 1.0))
         bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=2, radius=1.0)
         for v in bm.verts: v.co = v.co * (1 + 0.25 * noise.noise(v.co * 1.7 + Vector((k, 0, 0))))
         me = bpy.data.meshes.new('rock'); bm.to_mesh(me); bm.free(); ob = bpy.data.objects.new('rock', me); sc.collection.objects.link(ob); ob.data.materials.append(ROCK)
-        r = rng.uniform(0.35, 0.75); ob.scale = (r * rng.uniform(0.9, 1.4), r * rng.uniform(0.9, 1.3), r * rng.uniform(0.55, 0.8)); ob.location = g2b(x, WL + 0.05, z); ob.rotation_euler = (0, 0, rng.uniform(0, 6.28))
+        r = rng.uniform(0.45, 0.9); ob.scale = (r * rng.uniform(0.9, 1.4), r * rng.uniform(0.9, 1.3), r * rng.uniform(0.55, 0.8)); ob.location = g2b(x, WL + 0.05, z); ob.rotation_euler = (0, 0, rng.uniform(0, 6.28))
         me.polygons.foreach_set('use_smooth', [True] * len(me.polygons))
     # 對岸：同樣的步道＋草地＋樹，後面是系館（白色、方正、窗戶亮著幾格）
     quad('path_e', (17.6, 0.02, 12), (21.0, 0.02, 12), (21.0, 0.02, -120), (17.6, 0.02, -120), PAVE)
@@ -449,7 +465,7 @@ elif SCENE == 'campus':
         for x in range(3, 18, 2): box('bridge_post', x - 0.05, x + 0.05, 0.05, 1.05, zr - 0.02, zr + 0.12, RAIL)
     box('bridge_pier', 9.4, 10.4, WL - 0.6, -0.5, -45.5, -43.0, CONC)
     # 指南山：校園就在山腳，山很近、很高
-    hills(-125, 380, [(0, 95, (0.06, 0.12, 0.05), 2.4), (70, 150, (0.10, 0.16, 0.13), 4.1), (180, 200, (0.24, 0.30, 0.36), 6.3)], crown=0.16)
+    hills(-125, 380, [(0, 95, (0.045, 0.095, 0.04), 2.4), (70, 150, (0.08, 0.13, 0.11), 4.1), (180, 200, (0.22, 0.28, 0.34), 6.3)], crown=0.12, lumpy=2.4)
     load_lib('street_trees.glb', {'tree_camphor_a', 'tree_camphor_b', 'tree_banyan_a'}); load_lib('street_props.glb', {'lamp_post', 'bench_park'})
     for k, z in enumerate(range(6, -110, -7)):                               # 這一岸的樹（溪邊的楓香、樟樹；用樟樹的模型）
         place(rng.choice(['tree_camphor_a', 'tree_camphor_b']), -4.2 + rng.uniform(-0.8, 0.6), z + rng.uniform(-1.5, 1.5), yaw=rng.uniform(0, 6.28), s=rng.uniform(0.9, 1.15))
