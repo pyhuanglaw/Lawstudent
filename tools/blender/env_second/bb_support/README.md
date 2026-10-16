@@ -280,7 +280,7 @@
 | 9-3 AO | 畫在底色上：桌面底下、柱子和桌面接合處、圓座和柱子交界、凳子腰下 |
 | 9-4 生活痕跡 | 杯子印、被坐亮的凳面、被按亮的按鈕、盆裡水漬、掛著的 U 型鎖、輪胎泥痕 |
 | 9-5 預算格式 | 見上。原點、朝向、節點名照派工單，每件一個頂層節點 |
-| 9-6 截圖 | Blender 渲染 9 張，含遊戲鏡頭高度一張。遊戲內截圖照流程由 LAWWW2-B 拍 |
+| 9-6 截圖 | Blender 渲染 9 張，含遊戲鏡頭高度一張；**遊戲內截圖 BB-B 自己拍**（下面「遊戲內截圖」一節）：同鏡頭之前／之後，11:00、17:30、20:30，390×844、844×390 |
 
 - **參考的真實樣子**（文字描述）：
   - 台灣社區公園涼亭裡常見的圓形磨光花崗岩象棋桌，配四個鼓形石凳，棋盤直接刻在桌面上。
@@ -303,9 +303,63 @@
 | Poly Haven `granular_concrete` | 已在 `tools/blender/textures/`（LICENSES.md 已登記） | CC0 | 直飲台底座、車架的墊子 |
 | 文泉驛正黑（`/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc`，系統字型） | 不進 repo，只把四個字渲染進貼圖 | GPLv2＋字型例外（嵌入、渲染成圖不受 GPL 影響） | 棋盤的「楚河」「漢界」 |
 
+### 遊戲內截圖（BB-B 自己拍；SOP 第 9 節）
+
+**怎麼拍的**
+- 在 scratchpad 開一個 LAWWW2-B 分支（`f0c2bfec`）的工作樹。
+- 套 `park3_wz_park_integration.patch`（照 ART-PARK1 的接法，見下一節），重跑 `wz_park.py`。**沒有推到 LAWWW2-B 的分支。**
+- `park3_game_shots.js`（Node 版的 fast_shots；這個環境的 Python 沒有 playwright）：
+  - 讀檔進溫州街，藏路人，電影鏡頭。
+  - 「之前」＝用 `page.route` 把 `wz_park.glb` 換回原本那一份。同一個遊戲、同鏡頭、同時段拍兩版。
+- 時段：11:00、17:30、20:30。畫面：390×844（dpr 2）、844×390。
+
+**比較圖**：每張三列（時段）× 兩欄（之前／之後）。
+
+| 鏡頭 | 直向 | 橫向 |
+|---|---|---|
+| 涼亭東邊看石桌、四張石凳；玩家站在象棋的互動點 | ![](../../../../docs/art-rebuild/second_ai/test_shots/wz_park/park3_game_pav_p.webp) | ![](../../../../docs/art-rebuild/second_ai/test_shots/wz_park/park3_game_pav_l.webp) |
+| 涼亭裡看棋盤 | ![](../../../../docs/art-rebuild/second_ai/test_shots/wz_park/park3_game_board_p.webp) | ![](../../../../docs/art-rebuild/second_ai/test_shots/wz_park/park3_game_board_l.webp) |
+| 跟隨鏡頭（玩家平常的角度）朝涼亭 | ![](../../../../docs/art-rebuild/second_ai/test_shots/wz_park/park3_game_follow_p.webp) | ![](../../../../docs/art-rebuild/second_ai/test_shots/wz_park/park3_game_follow_l.webp) |
+| 直飲台（主巷走進入口 A） | ![](../../../../docs/art-rebuild/second_ai/test_shots/wz_park/park3_game_fount_p.webp) | — |
+| 車架 | ![](../../../../docs/art-rebuild/second_ai/test_shots/wz_park/park3_game_rack_p.webp) | — |
+| 公園裡往主巷看：直飲台＋車架 | — | ![](../../../../docs/art-rebuild/second_ai/test_shots/wz_park/park3_game_fr2_l.webp) |
+
+**遊戲內才看得到的問題（已處理）**
+- 白鐵、鍍鋅第二版在遊戲裡幾乎是黑的。原因：遊戲沒有環境貼圖，金屬度 0.3～0.35 的部分只剩直射光的高光。
+- 已改成第三版（上面 9-2 兩列）：底色調亮、金屬度 0.15～0.2，遊戲內是銀灰，和舊版同一個明度。
+
+**給 LAWWW2-B 決定**
+- **車架的位置原本就有一根黑色路燈桿**：
+  - 位置：遊戲內打射線量到大約 (31.0, 9.6)，就是 layout 的車架中心。網格名是空的，是合併過的路燈，應該是 `wz_props` 或 `wenzhou_street` 的。
+  - 舊的程序化車架也穿過它，不是 PARK3 造成的。
+  - 新車架比較長（墊子 2.56 m），燈桿正好在第 2、3 格中間。
+  - 可以：(a) 燈桿移開；(b) 車架往西挪——但 `bench_f2`（28.4, 9.0）擋著，要一起動；(c) 車架轉 90°、靠東牆。
+- 從主巷看，直飲台和車架被行道樹 `tree_f2` 和杜鵑花籬擋住。所以截圖改從公園裡往主巷拍。玩家從主巷走進入口 A 時，直飲台在花籬後面半露，這樣也自然，沒有要改。
+- 兩版的杜鵑花籬開花程度不一樣，和 PARK3 無關：
+  - LAWWW2-B 的分支沒有季節切換（`SEASON_*` 的切換在 LAWWW-B 的 `zones3d.js:971`）。
+  - 所以開花、不開花兩層一起畫，看起來是哪一層要看畫的順序。
+
+### 整合 patch（給 LAWWW2-B 參考）
+
+- `park3_wz_park_integration.patch`：對 `wz_park.py` 的修改，照 ART-PARK1 的寫法。
+  - 匯入 `park3_props.glb`。
+  - 石桌擺在涼亭中心，y 0.135：涼亭石基座頂面 0.14，往下埋 5 mm。
+  - 四張石凳在 (0, ±0.95)、(±0.95, 0)：和 layout 的兩個座位對得上。各轉不同角度（0.35＋1.83k rad），花紋才不會一模一樣。
+  - 直飲台、車架照 layout 的位置和 yaw。
+  - 缺檔時照舊用程序化的版本。
+- 套上以後重跑 `wz_park.py`：
+  - 三角形：37,580 → 42,072；畫出來的 44,172（凳子 instancing）。
+  - 材質：98 → 99（多 `park3`）。
+  - GLB：3.83 → 3.99 MB。
+- 導航：桌、凳、直飲台的範圍和舊版一樣。
+- **車架的阻擋方向是反的**（舊版就這樣）：
+  - layout 的 `[31.0, 9.6, 0.7, 2.6]`＝x 寬 0.7、z 深 2.6。
+  - 可是車架 yaw π/2，長邊在世界 x：x 29.72～32.28、z 9.26～9.94。
+  - 現在玩家可以從車架兩端穿過去。應該是 `[31.0, 9.6, 2.6, 0.7]`（如果車架不搬；給 LAWWW-B）。
+- 要不要用、怎麼擺，由 LAWWW2-B 決定。
+
 ### 還沒做、要注意的
 
-- **沒有遊戲內截圖**：只有 Blender 渲染（D38 第 8 點）。照原流程：LAWWW2-B 驗收、擺進 `wz_park.py`，再交 LAWWW-B。
 - **棋盤的字只有四個**：文泉驛正黑是黑體。石桌常見的是楷書，系統沒有楷書字型，沒有用來源不明的字型。要換楷書的話，需要一個授權清楚的字型。
 - 凳子只做一個，四個方向的擺放由 LAWWW2-B 複製。
 
