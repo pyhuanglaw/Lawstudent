@@ -746,6 +746,25 @@ WZ_VC = {**{n: VC_MATTE for n in ('cafe_ac_body', 'cafe_ac_fan', 'cafe_roof_slab
 for _m in bpy.data.materials:   # 門、窗框、雨遮的顏色是每棟自己的（例如巷底那棟的深咖啡色鐵門）：全部照金屬度分到兩組
     if _m.name.startswith(('wz_door_', 'wz_frame_', 'wz_awning_')) and _m.name not in WZ_VC and L.flat_info(_m):
         WZ_VC[_m.name] = VC_METAL if L.flat_info(_m)['metal'] > 0.1 else VC_MATTE
+# ---------------- ART-WZ7 路邊小物（AA-B 做，LAWWW2-B 擺）：生活痕跡 ----------------
+# 擺在店面退縮的門廊（門面線和店面玻璃之間，建築的導航阻擋範圍內，人走不進去；和 wz_shopkit 的門廊雜物同一個做法）。
+# A 側（z>0）的建築原點在 ((x0+x1)/2, 5)、轉 π：本地 (lx, lz) → 世界 (cx − lx, 5 − lz)。三角形預算：只擺三件（約 2.8k）
+WZ7 = os.path.join(L.ROOT, 'assets/models/env/second_ai/aa_support/wz7_street_props.glb')
+if SET == 'wenzhou' and os.path.exists(WZ7):
+    _before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=WZ7); _new = [o for o in bpy.data.objects if o not in _before]
+    _tops = {o.name.split('.')[0]: o for o in _new if o.type == 'MESH' and o.name.startswith('WZ7_')}   # GLB 裡五件都掛在 wz7_street_props 底下
+    _g7 = B.group('wz7_props', root)
+    def _put7(nd, x, y, z, ry):
+        src = _tops.get(nd)
+        if src is None: print('WZ7 沒有', nd); return
+        ob = src.copy(); bpy.context.scene.collection.objects.link(ob); ob.parent = _g7; ob.matrix_parent_inverse.identity()
+        ob.rotation_mode = 'XYZ'; ob.location = g2b(x, y, z); ob.rotation_euler = (0, 0, ry); ob.scale = (1, 1, 1)
+    _put7('WZ7_delivery_box', 36 + 3.3, 0.0, 5 + 0.5, math.pi + 0.15)    # 林家乾麵（A4）門廊的西端：外送員在等餐，保溫箱放地上
+    _put7('WZ7_helmet', 36 + 3.3, 0.46, 5 + 0.5, math.pi - 0.6)         # 安全帽放在保溫箱上
+    _put7('WZ7_RECYCLE', 44 + 3.2, 0.0, 5 + 0.45, math.pi - 0.08)      # 日日便利（A5）門廊的西端（門在東邊）：要拿去回收的紙箱捆＋一袋寶特瓶
+    for _o in _new:
+        if _o.name in bpy.data.objects: bpy.data.objects.remove(_o)
+
 # 第三輪減量（效能，2026-10-16；LAWWW-B 量到主巷三個鏡頭 355～448 次 draw call、51～55 萬三角形，目標 310／42 萬）：
 # 其他所有純色材質（v6 店面組件的碗盤、水果、木頭、不鏽鋼、盆栽的葉子和土…）也照粗糙度、金屬度分到三個頂點色材質；
 # 遊戲用材質名做事的（晚上發光 WZ_NIGHT、樹幹透視、字牌 *_FACE_ 的材質）不動。
