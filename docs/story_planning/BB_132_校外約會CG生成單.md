@@ -119,7 +119,7 @@
 | 46 | `linze_prof_hall` 研究室門口的走廊（**通過**，`bg_approved/linze_prof_hall.webp`） | 學姊 學士服（**通過**，`art_reference/heroine05_graduation.webp`；黑袍、紫色寬領和流蘇） |
 | 47 | 溫爸爸和溫媽媽（**通過**，`art_reference/wen_parents.webp`；相機機頂的廠牌字 BB 補掉） | `graduation_avenue` 畢業典禮的椰林大道（**通過**，`bg_approved/graduation_avenue.webp`；旗子上的記號 BB 補掉） |
 | 48 | `country_road` 鄉間小路（**通過**，`bg_approved/country_road.webp`；販賣機的小貼紙 BB 補掉） | `bus_night` 夜裡的客運車廂（**通過**，`bg_approved/bus_night.webp`） |
-| 49 | `linze_auditorium` 霖澤館一樓大禮堂（G4-13；法律學院的典禮） | `cypress_trail` 檜木林步道和巨木（傍晚；G4-03；方奕廷 F2，大二暑假） |
+| 49 | `linze_auditorium` 霖澤館一樓大禮堂（**通過**，`bg_approved/linze_auditorium.webp`） | `cypress_trail` 檜木林步道和巨木（**通過**，`bg_approved/cypress_trail.webp`） |
 | 後-8 | （D23 移到第 33 組） | （芷若「思考」頭像移到第 28 組） |
 | 後-9～ | 其餘事件 CG，照 D81（玩家最早遇到的先做）重排：第 38 組 BCG-41（大一暑假）＋BCG-37（聖誕）→ BCG-38（跨年）＋BCG-40（白色情人節，多半大二下）→ BCG-42（分手的晚上，最早大二下第 8 週）＋BCG-36（抓包）→ BCG-44（學姊告白）＋BCG-39（學姊生日，多半大四下） | |
 
