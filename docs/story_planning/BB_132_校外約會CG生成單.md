@@ -86,7 +86,7 @@
 | 25 | `newyear_crowd` 跨年人潮（**通過**，`bg_approved/newyear_crowd.webp`） | `home_living` 臺北的家・客廳（**通過**，`bg_approved/home_living.webp`；電視廠牌字樣 BB 補掉） |
 | 26 | `home_balcony` 臺北的家・陽台（**通過、暫存**，`bg_approved/home_balcony.webp`；LAWWW2-B 的 Blender 陽台 BG-07 交了以後並排比較選一張，LAWWW-B 04:11 分配） | `home_room` 祐廷的房間（**通過**，`bg_approved/home_room.webp`） |
 | 27 | `ferris_wheel` 摩天輪車廂（**通過**，`bg_approved/ferris_wheel.webp`） | 予樂 立繪（**通過**，`date_system/art/yule_portrait_sheet.webp`；交 LAWWW2-B ART-09 切） |
-| 28 | 溫書瑀「害羞」頭像（G1-19；原排第 30 組，提前：背景要先確認沒人在做） | 林芷若「思考」頭像（不帶手；原排後-8，提前） |
+| 28 | 溫書瑀「害羞」頭像（**通過**，`date_system/art/heroine_05_head_embarrassed.webp`） | 林芷若「思考」頭像（**通過**，`date_system/art/heroine_02_head_thinking.webp`） |
 | 28b | ~~`car` 車上・晚上（G1-08）~~ **不生成**：LAWWW2-B 用 Blender 做（BG-08） | `soc_library` 社科院圖書館閱覽區（G1-16；**給之前先請 LAWWW-B 確認沒人在做**） |
 | 29 | `soc_office` 經濟系系辦櫃台（G1-17；同上，先確認） | ~~`video` 視訊・可昕的書桌（G1-13）~~ **不生成**：LAWWW2-B 做（BG-18） |
 | 30 | `classroom_small` 通用小教室（G2-10；先確認） | （學姊「害羞」頭像移到第 28 組） |
@@ -128,6 +128,9 @@
 - **第 21 組檢查（2026-10-16）**：`girls_dorm_gate`——舊式宿舍、玻璃門透出大廳（只看得到信箱、盆栽）、腳踏車停滿、告示牌空白、晾的衣服，沒有名稱，通過。`bowling`——球道、球瓶、記分螢幕只有藍光、球架、座椅和兩杯飲料；兩台回球機上的小紅字（像商標）和右邊那台的圓形徽章 BB 補掉，通過。
 - **第 22 組檢查（2026-10-16）**：`gongguan_douhua` 通過（菜單板只有模糊色塊；門外雨後的騎樓）。`econ_camp` 是帳篷和營火——使用者說宿營住青年活動中心的建築、三天兩夜、分小隊，**這張不用**；E15 照改，背景改成活動中心夜景＋八人寢室兩張（第 22b 組）。
 - **避免重複施工（LAWWW-B 2026-10-16 04:11，D86）**：給使用者背景提示詞之前，先查開發線 `docs/handoff/tasks.json` 的 ART-* 和 LAWWW2-B 的 `docs/art-rebuild/second_ai/BG_TRACKER.md`，有人在做就告訴 LAWWW-B 分配。已經撞到的：`home_balcony`（BG-07）、`riverside`（BG-01，第 20 組已通過）；`car`（BG-08）、`video`（BG-18）從佇列拿掉。
+- **第 28 組檢查（2026-10-16，D59）**：兩張都和各自九格左上「平常」那格並排比過。
+  - **學姊害羞**（1312×1199）：臉的角度、下巴、脖子、白襯衫領子的位置和平常那格幾乎一樣（頭沒有低下去），眼睛往右下看、臉頰淡淡的紅、嘴巴抿著；沒有手。**通過**；交 LAWWW2-B（ART-19）縮到九格同樣大小疊上去，補上 embarrassed。
+  - **芷若思考**（1254×1254）：沒有手；淺色細金屬圓框眼鏡、兩邊小耳環、及肩微捲髮；角度和平常那格一樣，眼睛往右上看、嘴唇輕抿。**通過**；交 LAWWW2-B 換掉九格裡托下巴的那格。
 - **第 27 組檢查（2026-10-16）**：
   - **`ferris_wheel`**：和 BCG-06 同一種車廂（金屬框、弧形大玻璃、深色長椅），空的；窗外是河、橋的車燈、城市、遠山，天邊一點紫；大樓頂只有空白光塊，沒有字和車廂編號。**通過**，原檔照存。
   - **予樂**（1024×1536，D59）：和 `yule.webp` 同一人——栗色中長捲髮半頭、淺藍灰運動髮帶、右手深藍腕帶、白色寬 T（胸口空白）、深藍運動褲裙、白短襪、素面白慢跑鞋；右邊三個頭依序是平常（帶笑）、微笑（大笑露牙）、驚訝。**通過**；存 `date_system/art/yule_portrait_sheet.webp`，交 LAWWW2-B（ART-09）切成全身＋三個頭。
