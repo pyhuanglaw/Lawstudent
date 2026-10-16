@@ -45,7 +45,7 @@ def main():
             is_tool_result = isinstance(c, list) and any(isinstance(x, dict) and x.get('type') == 'tool_result' for x in c)
             if is_tool_result: continue
             txt = c if isinstance(c, str) else ' '.join(x.get('text', '') for x in (c or []) if isinstance(x, dict) and x.get('type') == 'text')
-            if cur: cur['end'] = t; turns.append(cur)
+            if cur: turns.append(cur)   # 回合結束＝最後一個 AI 動作的時間（不算回合結束後的閒置；BB-B 2026-10-16 回報）
             kind = '使用者' if txt and not txt.lstrip().startswith('<') and not txt.startswith('Stop hook') else ('stop hook' if txt.startswith('Stop hook') else '系統／提醒')
             cur = {'start': t, 'end': t, 'tools': 0, 'kind': kind, 'text': (txt or '').replace('\n', ' ')[:40]}
         elif typ == 'assistant' and cur:
