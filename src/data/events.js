@@ -1565,6 +1565,13 @@ const STORY_EVENTS=[
       {if:{flagIs:{E19_ASK:'none'}},speaker:'kexin',expression:'neutral',text:'你那陣子什麼都沒問，很有禮貌。我差點以為你不在乎。'},{if:{flagIs:{E19_ASK:'none'}},goto:'end'},
       {speaker:'kexin',expression:'neutral',text:'我想了一整個寒假，要怎麼跟你說。結果你先說了你要走。'},
       {label:'end'} ] },
+  /* ★E26 摩天輪（BB_104 8-9；AA_154 A40）：3/22（六）出遊（17:30 捷運站 → 坐到摩天輪是晚上）。台詞照原文；CG（車廂、台北夜景，接吻以靠近、淡出處理）還沒有：先用 ferris_wheel 背景。
+     兩人從這裡開始交往：記 Y0_DATING、E26_DAY（dating_kexin 等換到法律系時再設，AA_154 2-4b 第 5 點）。票根＝之後的房間物件（法律系房間「摩天輪的票根」）*/
+  { id:'ev_y0_e26', stage:'econ', title:'摩天輪', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:3.5,
+    dialogue:[ {scene:'摩天輪',bg:'ferris_wheel'},
+      {speaker:'kexin',expression:'smile',text:'坐到最高的時候，台北看起來好小。'},{speaker:'kexin',expression:'thinking',text:'假設，我們從最高點開始交往。'},
+      {speaker:'kexin',expression:'smile',text:'那之後每一圈，都會再回到這裡。'},{speaker:'player',text:'這是妳今天的假設題？'},{speaker:'kexin',expression:'embarrassed',text:'不是問題。是提議。'},
+      {set:{Y0_DATING:true}},{stamp:['E26_DAY']} ] },
   /* XL-2 阿勳一句（表叔；BB_110 F1 的回聲，AA_154 A28、A43）：Y0S2 第 1 週第一次在宿舍遇到阿勳（和 XL-1 同一套），F1 選了「轉給表叔」（Y0_UNCLE）才說 */
   { id:'ev_y0_xl2', stage:'econ', title:'表叔的變異數', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S2'], weeks:[1], time:[18,24], once:true, background:'blur',
     prereq:{custom:G=>!!(G.flags&&G.flags.Y0_UNCLE)},

@@ -757,6 +757,15 @@ const STORY = (function(){
       if(d25!=null&&G.day===d25&&F.E25_ASKED&&!done25&&G.hour>=20.25&&!PHONE.sent(G,'y0_e25_late')){ F.E25_LATE=true; PHONE.at(G,d25,20+20/60,[K('我在湖邊。')],'y0_e25_late'); }
       if(d25!=null&&F.E25_ASKED&&!done25&&G.zone==='campus'&&G.day===d25&&G.hour>=19.75&&G.hour<(F.E25_LATE?21.5:20.25)&&GM.spawnCharacter&&!(GM.npc&&GM.npc.kexin)){ try{ GM.spawnCharacter('kexin',-36,-98.5,{yaw:Math.PI}); }catch(e){ console.warn('E25 kexin',e); } }
       if(d25!=null&&F.E25_ASKED&&!done25&&(G.day>d25||G.hour>=21.5)) F.E25_FORCE=true; }
+    /* ★E26 摩天輪（BB_104 8-9；AA_154 A40）：3/20（四）22:00 可昕私訊「週六傍晚有空嗎？」兩個選項（BB-B 定稿 6d59df01）＋出發選單 3/22（六）「捷運站 17:30」；
+       17:45 還沒出發＝可昕打電話（照 AA 暫定句）→ 直接進出遊（同 E14）。睡著也會被叫醒（CORE_OUT）*/
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const d26=S.dayOfKey('2025-03-22'), K=t=>({th:'p:kexin',from:'kexin',text:t});
+      if(d26!=null&&(G.day>d26-2||(G.day===d26-2&&G.hour>=22))&&G.day<=d26&&!PHONE.sent(G,'y0_e26_ask')){
+        PHONE.at(G,d26-2,22,[Object.assign(K('週六傍晚有空嗎？'),{ask:{id:'y0_e26',opts:[{t:'有。',say:[K('好。五點半，捷運站。'),K('我們去一個很高的地方。')]},{t:'妳要去哪？',say:[K('假設我先說了，你就會開始猜。'),K('……五點半，捷運站。很高的地方。')]}]}})],'y0_e26_ask');
+        if(!OUT.get(G,'y0_e26')) OUT.plan(G,{id:'y0_e26',ev:'ev_y0_e26',day:d26,h:17.5,late:0.25,place:'捷運站',title:'捷運站 17:30',travel:'走過去約 15 分鐘',travelH:0.25}); }
+      const q26=OUT.get(G,'y0_e26');
+      if(q26&&q26.state!=='done'&&d26!=null&&(G.day>d26||(G.day===d26&&G.hour>=17.75))&&G.day<=d26+1&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!y0CallBusy){ y0CallBusy=true;
+        (async()=>{ try{ GM.sceneBegin(); try{ await GM.say({name:'可昕（電話）'},'你在哪？……我在捷運站。我會等，可是我不喜歡等。'); } finally { GM.sceneEnd(); } q26.state='planned'; await OUT.go(GM,q26); } catch(e){ console.warn('E26 call',e); } finally { y0CallBusy=false; } })(); } }
     /* ★E14 保齡球館（AA_154 A33）：11/14（四）21:00 經濟系群組，品妤（BB-B 審定）＋出發選單 11/15（五）19:00；19:15 還沒出發＝韋綸打電話（BB-B 審定）→ 直接進出遊（2D，不用走路）；
        在別的事件裡＝結束後馬上 */
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const thu11=termDay('Y0S1',11,4), fri11=thu11!=null?thu11+1:null;
@@ -1573,7 +1582,7 @@ const STORY = (function(){
     if(F.allowanceMonth!==mo){ F.allowanceMonth=mo; return {amount:30000,text:'家裡匯來這個月的生活費：30,000 元'}; } return null; };
   S.sleepNow=(GM,wake,alarm)=>sleepNow(GM,wake,alarm);   /* 測試用（tests/bed_nap_unit.js）*/
   /* 經濟系那一年的固定核心出遊（AA_154 A33③：E14，之後 E19）：當天出發前就去睡覺＝電話把你吵醒——睡到「開始後 15 分鐘」那一刻，不跳到隔天（AA-B 2026-10-16 抽查）*/
-  const CORE_OUT=['y0_e14','y0_e19'];
+  const CORE_OUT=['y0_e14','y0_e19','y0_e26'];
   /* T2 唐睿的練習（AA_154 第 127 行）：每次經原下課擲一次 50%（同一天只擲一次，記在 T2_DAY／T2_HIT）；E18 演過就不再觸發 */
   S.T2_P=0.5;
   S.t2Due=function(G){ if(!S.isEcon(G)) return false; const F=G.flags; if(G.events&&G.events.done&&G.events.done.ev_y0_e18) return false; if(F.T2_DAY!==G.day){ F.T2_DAY=G.day; F.T2_HIT=Math.random()<S.T2_P; } return !!F.T2_HIT; };
