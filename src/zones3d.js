@@ -717,8 +717,9 @@ const Z3 = (function(){
       const yg=new THREE.Group(); yb.build(yg); g.add(yg);
       for(const [tx,tz,sc] of [[-15.2,8.2,1.3],[-27.5,8.6,1.05],[-13.6,14,0.9]]){ const t=TK.tree(8*sc); place(g,t,tx,tz,0); }
       E.interactables.push({x:-21.5,z:4.2,radius:1.8,label:'看日式宿舍',look:'圍牆後面是一棟日式宿舍。黑瓦、木雨淋板，樹比屋頂還高。門牌旁貼著「私人住宅，請勿進入」。'}); }
-    // 小公園（A 側 x 20–32）
-    { const gr=new THREE.Mesh(new THREE.PlaneGeometry(11.6,10.4),new THREE.MeshStandardMaterial({map:(()=>{ const t=W3.grassTex().clone(); t.needsUpdate=true; t.repeat.set(3,3); return t; })(),roughness:0.95})); gr.rotation.x=-Math.PI/2; gr.position.set(26,0.01,10.2); gr.receiveShadow=true; g.add(gr); pkTag(gr);
+    // 小公園：擴大版照 WZ_PARK_LAYOUT（ART-WZ1，LAWWW2-B；AA_164 第 5 節）；沒有配置檔（舊的測試環境）照舊的小公園
+    if(typeof WZ_PARK_LAYOUT!=='undefined') buildWzPark(E,g,nav,open,pkTag,pools,place);
+    else { const gr=new THREE.Mesh(new THREE.PlaneGeometry(11.6,10.4),new THREE.MeshStandardMaterial({map:(()=>{ const t=W3.grassTex().clone(); t.needsUpdate=true; t.repeat.set(3,3); return t; })(),roughness:0.95})); gr.rotation.x=-Math.PI/2; gr.position.set(26,0.01,10.2); gr.receiveShadow=true; g.add(gr); pkTag(gr);
       // v9.3：鋪面步道（有路緣）→ 圓形小廣場，中間一棵大樹＋樹圍座椅（台北鄰里公園常見）；兩側灌木、伸展架、公園路燈、長椅上睡覺的貓
       const paverT=()=>TK.tex('parkPaver',128,128,(x,w,h)=>{ x.fillStyle='#a79e90'; x.fillRect(0,0,w,h); for(let j=0;j<4;j++) for(let i=0;i<4;i++){ const v=200+((i*7+j*13)%5)*8; x.fillStyle='rgb('+v+','+(v-8)+','+(v-22)+')'; x.fillRect(i*32+2,j*32+2,28,28); } });
       { const t=paverT().clone(); t.needsUpdate=true; t.repeat.set(1.1,2.9); const m=new THREE.Mesh(new THREE.PlaneGeometry(2.2,5.8),new THREE.MeshStandardMaterial({map:t,roughness:0.9})); m.rotation.x=-Math.PI/2; m.position.set(26,0.016,7.9); m.receiveShadow=true; g.add(m); pkTag(m); }
@@ -758,7 +759,7 @@ const Z3 = (function(){
     const scAdd=(o,c)=>{ if(scGLB){ scG.add(o); scList.push({o,color:c}); } else g.add(o); };
     const scColors=['#e8e8e8','#2b2b2b','#8c3b47','#4a6c8c','#c9b48a','#f2f0ea','#3e5a48'];
     const scRow=(x0,n,z,ry)=>{ for(let k=0;k<n;k++){ if(TK.rnd()<0.15) continue; const c=scColors[(k*3+Math.round(x0))%scColors.length], s=TK.scooter(c); const x=x0+k*0.85; s.position.set(x,0,z+(TK.rnd()-0.5)*0.15); s.rotation.y=ry+(TK.rnd()-0.5)*0.12; scAdd(s,c); } nav.blockRect(x0+(n-1)*0.85/2,z,n*0.85,1.7,0,0.05); };
-    scRow(-11.5,7,3.95,0); scRow(5.0,12,-3.95,Math.PI); scRow(31.5,8,-3.95,Math.PI); scRow(-28.5,6,-3.95,Math.PI); scRow(24.4,4,3.95,0);
+    scRow(-11.5,7,3.95,0); scRow(5.0,12,-3.95,Math.PI); scRow(31.5,8,-3.95,Math.PI); scRow(-28.5,6,-3.95,Math.PI); scRow(typeof WZ_PARK_LAYOUT!=='undefined'?16.4:24.4,4,3.95,0);   /* 擴大版小公園：入口 A（x 22.6–29.4）前面不停機車，這一排挪到 A3 巷口書房前面 */
     for(const [bx,bz,ry,c] of [[9.4,4.1,0.1,'#3a6fb0'],[10.3,4.1,-0.08,'#8c3b47'],[18.6,4.1,0.05,'#e0b95b']]){ const bk=W3.bike(c); bk.position.set(bx,0,bz); bk.rotation.y=ry; g.add(bk); nav.blockRect(bx,bz,0.6,1.8,ry,0.05); }
     // 盆栽（住家門口）、郵筒、立牌
     for(const [px,pz,ry,n] of [[-2.6,4.55,Math.PI,6],[9.6,-4.55,0,5],[41.5,-4.55,0,7],[3.6,9.5,-Math.PI/2,5],[-13.5,-9,Math.PI/2,4],[-14.4,4.6,Math.PI,4]]){ const pt=TK.pots(n,Math.round(px)); pt.position.set(px,0,pz); pt.rotation.y=ry; g.add(pt); const L=pt.userData.len; const c=Math.cos(ry), sn=Math.sin(ry); nav.blockRect(px+c*L/2,pz-sn*L/2,Math.abs(c)*L+0.6,Math.abs(sn)*L+0.6,0,0); }
@@ -796,7 +797,7 @@ const Z3 = (function(){
     // 主巷兩側公寓的 Blender 正式模型（第二個 AI：tools/blender/env_second/wz_street.py）：載入後藏起套件外觀；失敗或 ?nobldg 時維持套件
     if(wzGLB) ASSETS.loadOne('bldg.wenzhou_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'wzApt','wenzhou_street_glb'); }).catch(e=>console.warn('溫州街公寓正式模型載入失敗，用套件的外觀',e));
     if(scGLB){ P3.mergeStatic(scG); ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const n=attachWzScooters(g,scG,scList,c.scene); if(!n) console.warn('機車正式模型沒有 scooter_a／scooter_b，用套件的機車'); }).catch(e=>console.warn('機車正式模型載入失敗，用套件的機車',e)); }
-    if(pkGLB) ASSETS.loadOne('bldg.wz_park').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'wzPark','wz_park_glb'); }).catch(e=>console.warn('小公園正式模型載入失敗，用套件的外觀',e));
+    if(pkGLB) ASSETS.loadOne('bldg.wz_park').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); attachWenzhouModel(E,g,root,'wzPark','wz_park_glb'); wzParkSeason(root); for(const o of g.children) if(o.userData.wzParkFb) o.visible=false; }).catch(e=>console.warn('小公園正式模型載入失敗，用套件的外觀',e));
     if(prGLB) ASSETS.loadOne('bldg.wz_props').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'wzProp','wz_props_glb'); }).catch(e=>console.warn('溫州街街道細節正式模型載入失敗，用套件的外觀',e));
     if(jpGLB) ASSETS.loadOne('bldg.wz_jphouse').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'wzJp','wz_jphouse_glb'); }).catch(e=>console.warn('日式宿舍正式模型載入失敗，用套件的外觀',e));
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.cafe_exterior']) ASSETS.loadOne('bldg.cafe_exterior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachCafeExterior(cafeB,c.scene.clone(true),cafeKitProps); }).catch(e=>console.warn('兩點半 Café 正式模型載入失敗，用套件的外觀',e));
@@ -879,6 +880,48 @@ const Z3 = (function(){
       x.fillStyle=d.color||'#222'; x.textAlign='center'; x.textBaseline='middle';
       if(vert){ const ch=[...(d.text||'')], fs=Math.min(w*0.56,h*(d.sub?0.6:0.8)/Math.max(1,ch.length)/1.1); x.font='bold '+fs+'px '+WZ_SANS; ch.forEach((c,i)=>x.fillText(c,w/2,h*0.07+fs*0.62+i*fs*1.1)); if(d.sub){ x.font='bold '+Math.round(Math.min(w*0.3,h*0.14))+'px '+WZ_SANS; x.fillText(d.sub,w/2,h*0.86); } return; }
       x.font='bold '+Math.round(h*(d.sub?0.34:0.5))+'px '+WZ_SANS; x.fillText(d.text||'',w/2,h*(d.sub?0.36:0.52)); if(d.sub){ x.font='bold '+Math.round(h*0.26)+'px '+WZ_SANS; x.fillText(d.sub,w/2,h*0.72); } }); }
+  /* 溫州街小公園（ART-WZ1 擴大版，LAWWW2-B 48aed1c9／ceb545f2；AA_164 第 5 節）：導航格、座位、路燈的地面光圈都照 WZ_PARK_LAYOUT（Blender 模型 tools/blender/env_second/wz_park.py 讀同一份）。
+     入口段 x 20.2–31.8、z 5–17（主巷進來）＋A3、A4 後面的主園區 x 8.4–36、z 17–29（西北角是巷底那棟 F1）；入口 B 從北巷（x 3.3–8.2）進來。
+     外觀是正式模型 bldg.wz_park；載入前、載入失敗時的備用（D38 ③）：草地、樹、長椅、路燈用套件，涼亭、遊戲場這些用低矮的色塊標出位置（不是隱形牆），模型載入後藏起來（userData.wzParkFb）。
+     互動點（公布欄、象棋、土地公、直飲台）和貓的事件等 AA-B 的文字（AA_164 5-4、5-6，DL-09／DL-13）。改這裡要跑 node tests/wz_park_unit.js、tests/reachability_all.py、tests/touch_flow_wenzhou.py */
+  function buildWzPark(E,g,nav,open,pkTag,pools,place){ const L=WZ_PARK_LAYOUT, A=L.area, f=A.front, b=A.back;
+    open(f.x0+0.1,4,f.x1-0.1,f.z1); open(b.x0+0.1,b.z0,b.x1-0.1,b.z1-0.1);
+    if(b.cut) nav.blockRect((b.x0+b.cut.x1)/2,(b.cut.z0+b.z1)/2+0.5,b.cut.x1-b.x0+0.4,b.z1-b.cut.z0+1,0,0);   // 西北角：巷底那棟 F1
+    open(A.entranceB.x-0.4,A.entranceB.z0,A.entranceB.x+0.2,A.entranceB.z1);   // 入口 B：北巷接主園區
+    for(const k of L.blocks){ if(Array.isArray(k)) nav.blockRect(k[0],k[1],k[2],k[3],0,0); else if(k.type==='circle') nav.blockCircle(k.x,k.z,k.r); }
+    const hedge=L.items.find(i=>i.kind==='azalea_hedge'); if(hedge) for(const [x0,z0,x1,z1] of hedge.segments) nav.blockRect((x0+x1)/2,(z0+z1)/2,Math.abs(x1-x0)+0.6,Math.abs(z1-z0)+0.6,0,0);   // 杜鵑花籬（layout 的 blocks 沒列）：0.6 m 厚
+    for(const st of L.seats){ if(st.kind==='swing') continue;   /* 鞦韆 20:00 以後才能盪（AA_164 5-4）：等 AA-B 的文字一起做 */
+      E.interactables.push({x:st.x,z:st.z,radius:1.3,label:st.label,seat:{x:st.x,z:st.z,yaw:st.yaw}}); }
+    for(const it of L.items) if(it.kind==='park_lamp'){ const pool=TK.lightPool(4.2,'rgba(255,214,150,1)'); pool.position.set(it.x,0.03,it.z); g.add(pool); pools.push(pool); }
+    // 長椅上睡覺的橘貓（AMBIENT「小公園的長椅上有隻貓在睡覺」；入口段東邊那張長椅）
+    { const bf=L.items.find(i=>i.id==='bench_f2'); if(bf){ const cat=new TK.Bin(); const fur=TK.paint('#d98a3c'), furL=TK.paint('#f0c08a'), dk=TK.paint('#5a3a22'); const cy=0.5;
+        const body=new THREE.SphereGeometry(0.2,14,9); body.scale(1.0,0.5,0.72); cat.add(fur,body,0,cy+0.08,0,0.3);
+        cat.add(fur,new THREE.SphereGeometry(0.085,12,8),0.15,cy+0.07,-0.07,0); cat.add(furL,new THREE.SphereGeometry(0.04,8,6),0.2,cy+0.05,-0.12,0);
+        for(const ex of [-0.04,0.04]) cat.add(fur,new THREE.ConeGeometry(0.028,0.06,4),0.15+ex,cy+0.15,-0.06,0);
+        cat.add(dk,new THREE.TorusGeometry(0.16,0.026,6,14,Math.PI*1.1),-0.02,cy+0.035,-0.02,0.4,{rx:-Math.PI/2});
+        const cg=new THREE.Group(); cat.build(cg); cg.traverse(o=>{ if(o.isMesh) o.castShadow=false; }); cg.position.set(bf.x+0.05,0,bf.z-0.45); cg.rotation.y=bf.yaw+Math.PI/2; g.add(cg); } }
+    // 備用外觀（模型載入後藏起來）
+    const fb=o=>{ pkTag(o); o.userData.wzParkFb=true; return o; };
+    const grassM=new THREE.MeshStandardMaterial({map:(()=>{ const t=W3.grassTex().clone(); t.needsUpdate=true; t.repeat.set(5,5); return t; })(),roughness:0.95});
+    for(const [x0,z0,x1,z1] of [[f.x0,f.z0,f.x1,f.z1],[b.x0,b.z0,b.x1,b.z1]]){ const m=new THREE.Mesh(new THREE.PlaneGeometry(x1-x0,z1-z0),grassM); m.rotation.x=-Math.PI/2; m.position.set((x0+x1)/2,0.01,(z0+z1)/2); m.receiveShadow=true; g.add(fb(m)); }
+    const box=(c,x,z,w,d,h)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),TK.col(c)); m.position.set(x,h/2,z); m.castShadow=true; g.add(fb(m)); };
+    for(const it of L.items){ const k=it.kind;
+      if(/^tree_/.test(k)){ const t=TK.tree(k==='tree_bischofia'?10.5:7.5,k==='tree_bischofia'?7:undefined); place(g,t,it.x,it.z,0); fb(t); }
+      else if(k==='bench'){ const bn=BENCH(); place(g,bn,it.x,it.z,it.yaw||0); fb(bn); }
+      else if(k==='park_lamp'){ const lp=W3.lampPost(); place(g,lp,it.x,it.z,0); fb(lp); }
+      else if(k==='pavilion') box('#8a3a2a',it.x,it.z,it.w,it.d,0.5);
+      else if(k==='playground') box('#c9784a',it.x,it.z,it.w,it.d,0.35);
+      else if(k==='swings') box('#5a6a7a',it.x,it.z,it.w||3.8,1.6,0.4);
+      else if(/^fitness_/.test(k)) box('#3f7a5a',it.x,it.z,0.8,1.2,0.6);
+      else if(k==='tudigong_shrine') box('#9c2f2a',it.x,it.z,1.1,0.9,0.9);
+      else if(k==='notice_board') box('#2f4a3a',it.x,it.z,1.6,0.25,1.2);
+      else if(k==='drinking_fountain') box('#8c9aa0',it.x,it.z,0.5,0.5,0.9);
+      else if(k==='bike_rack') box('#5a5550',it.x,it.z,0.6,2.4,0.4);
+      else if(k==='ring_bench') box('#8a6a4a',it.x,it.z,3.2,3.2,0.45);
+      else if(k==='azalea_hedge') for(const [x0,z0,x1,z1] of it.segments) box('#3f6a3a',(x0+x1)/2,(z0+z1)/2,Math.abs(x1-x0)+0.6,Math.abs(z1-z0)+0.6,0.8); } }
+  /* 季節節點（LAWWW2-B）：SEASON_AZALEA_on／_off（3 月杜鵑開）、SEASON_SWEETGUM_on_*／_off_*（12～1 月楓香紅葉）；那個季節顯示 _on、藏 _off，其他月份相反。月份照遊戲日期（進區域時決定） */
+  function wzParkSeason(root){ let m=6; try{ const G=typeof GAME!=='undefined'&&GAME.G; if(G&&typeof CALENDAR!=='undefined') m=CALENDAR.dateOf(G.day).m; }catch(e){}
+    root.traverse(o=>{ const k=/^SEASON_([A-Z]+)_(on|off)/.exec(o.name||''); if(!k) return; const on=k[1]==='AZALEA'?m===3:(k[1]==='SWEETGUM'?(m===12||m===1):false); o.visible=(k[2]==='on')===on; }); return m; }
   function attachWenzhouModel(E,g,root,tag,name,tagVal){ let n=0; const box=new THREE.Box3(), sz=new THREE.Vector3(); const signFaces=[], plateFaces=[];   /* tag＝套件建築上的標記（wzApt 公寓、wzJp 日式宿舍與院牆、ggShop 公館店面、ckTag 校園地標）；tagVal：只藏標記等於這個值的（校園一棟一個模型） */
     for(const b of g.children) if(b.userData&&b.userData[tag]&&(tagVal===undefined||b.userData[tag]===tagVal)){ if(b.isMesh) b.visible=false; else for(const m of b.children) if(m.isMesh||m.isSprite){ m.visible=false; if(m.isSprite&&m.userData.nightO!==undefined){ m.userData.nightO=0; m.userData.dayO=0; } } b.userData.formal=true; n++; }   /* 套件的光暈（TK.glowSprite）：TK.setNight 每次會依時段重設 visible，只藏起來的話晚上又會出現（和正式模型的光暈疊在一起）→ 日夜的亮度都設成 0 */
     const glows=[];
@@ -1256,5 +1299,5 @@ const Z3 = (function(){
   function dormWallItems(z,g0){ for(const n of ['dorm_calendar','dorm_flyer']){ const o=g0.getObjectByName(n); if(!o||z.walls.includes(o)) continue;
     o.material.transparent=true; o.userData.dir=new THREE.Vector3(o.position.x<0?1:-1,0,0); o.updateWorldMatrix(true,false); o.userData.center=o.getWorldPosition(new THREE.Vector3()); z.walls.push(o); } }
   const ZONES={campus,gongguan,wenzhou,classroom,library,cafe,cvs,noodle,bookstore,dorm};   /* wancai：src/wancai3d.js；linze：src/building3d.js */
-  return {ZONES,room,desk,chair,glowTex,attachRoomGLB};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 */
+  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,wzParkSeason};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 */
 })();

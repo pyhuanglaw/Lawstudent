@@ -28,7 +28,7 @@ SHOPS = ['A1', 'A3', 'A4', 'A5', 'B2', 'B3', 'B5', 'B6']          # 一樓是店
 VERT = ['A1', 'A3', 'A4', 'B3']                                    # 有直立招牌
 
 GLBS = ['wenzhou_street_glb', 'wz_jphouse_glb', 'wz_props_glb', 'wz_park_glb', 'wz_scooters_glb']
-TAGS = {'wzApt': 29, 'wzJp': 2, 'wzProp': 12, 'wzPark': 5}                    # 套件物件的數量：公寓 29 棟（近景 15、遠景 14）；宿舍＋院牆；電線桿 6＋反光鏡 3＋路名牌＋紅磚道 2 片
+TAGS = {'wzApt': 29, 'wzJp': 2, 'wzProp': 12, 'wzPark': 28}                  # 套件物件的數量：公寓 29 棟（近景 15、遠景 14）；宿舍＋院牆；電線桿 6＋反光鏡 3＋路名牌＋紅磚道 2 片
 WAIT_FORMAL = "(async()=>{ const want=%s; for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&want.every(n=>z.group.children.some(o=>o.name===n))) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()" % json.dumps(GLBS)
 NAV_HASH = "(()=>{ const n=GAME.E.nav; let h=0; for(let i=0;i<n.b.length;i++){ h=(h*31+n.b[i]+i%7)>>>0; } return [n.cols,n.rows,h, n.b.reduce((a,v)=>a+(v?1:0),0)]; })()"
 STATE = """(()=>{ const E=GAME.E, z=E.zone; const r=v=>Math.round(v*100)/100;
@@ -51,7 +51,7 @@ async def check(pg, run, formal):
     tags = await pg.evaluate("""(()=>{ const out={}; for(const t of %s){ const objs=GAME.E.zone.group.children.filter(o=>o.userData&&o.userData[t]);
         out[t]={n:objs.length, formal:objs.filter(o=>o.userData.formal).length, dyn:objs.filter(o=>o.userData.dyn).length,
           shown:objs.filter(o=>o.isMesh?o.visible:o.children.some(m=>(m.isMesh||m.isSprite)&&m.visible)).length}; } return out; })()""" % json.dumps(list(TAGS)))
-    run.check('套件物件都有標記（公寓 29、宿舍＋院牆 2、街道細節 12、小公園 5）', all(tags[t]['n'] == n for t, n in TAGS.items()), json.dumps(tags))
+    run.check('套件物件都有標記（公寓 29、宿舍＋院牆 2、街道細節 12、小公園 28＝擴大版的備用外觀：草地 2、樹 5、長椅 4、路燈 2、涼亭等 11、花籬 4）', all(tags[t]['n'] == n for t, n in TAGS.items()), json.dumps(tags))
     if formal:
         run.check('標記的套件物件都接上正式模型、外觀全部藏起來', all(tags[t]['formal'] == n and tags[t]['shown'] == 0 for t, n in TAGS.items()), json.dumps(tags))
     else:

@@ -173,7 +173,7 @@ const STORY = (function(){
             const ap=(GM.seatApproach&&GM.seatApproach(st))||[st.x,st.z]; if(!E.moveTo(n,ap[0],ap[1],sit,st.lv|0)) sit(); } }
         else { n=GM.spawnCharacter(id,st.x,st.z,{seat:st,pose:pz}); if(n) n.idlePose=pz; } }
       else if(act==='sit'&&ent.seat==='bell'){ n=GM.spawnCharacter(id,-30,20.94,{seat:{x:-30,z:20.94,yaw:Math.PI},pose:'sit'}); }
-      else if(act==='sit'&&zoneId==='wenzhou'){ const st=GM.npc.yu&&GM.npc.yu.seat&&GM.npc.yu.seat.x===23.6?{x:28.4,z:7.94,yaw:Math.PI}:{x:23.6,z:7.94,yaw:Math.PI}; n=GM.spawnCharacter(id,st.x,st.z,{seat:st,pose:'sit'}); }
+      else if(act==='sit'&&zoneId==='wenzhou'){ const B=typeof WZ_PARK_LAYOUT!=='undefined'?WZ_PARK_LAYOUT.seats.filter(q=>q.label==='坐在小公園的長椅').map(q=>({x:q.x,z:q.z,yaw:q.yaw})):[{x:23.6,z:7.94,yaw:Math.PI},{x:28.4,z:7.94,yaw:Math.PI}];   /* 小公園入口段的兩張長椅（擴大版照配置檔）*/ const st=GM.npc.yu&&GM.npc.yu.seat&&GM.npc.yu.seat.x===B[0].x?B[1]:B[0]; n=GM.spawnCharacter(id,st.x,st.z,{seat:st,pose:'sit'}); }
       else if(act==='linger'&&ent.at){ n=GM.spawnCharacter(id,ent.at[0],ent.at[1],{yaw:ent.at[2]||0,pose:'idle',lv:ent.at[3]|0}); }   /* 在日程寫的位置站一下（芷若經原下課後在 101 門口）*/
       else if(act==='barista'){ n=GM.spawnCharacter(id,-2.5,-5.15,{yaw:0,pose:'idle'}); if(n){ n.frozen=true; n.talkLabel='和店員說話'; n.staff='cafe'; } }   /* staff：比吧檯的點餐點優先（engine3d.js nearestInteractable）；沒有事件時和她說話就是點餐（talkCharacter）*/
       else if(act==='help'){ n=GM.spawnCharacter(id,2.6,-3.6,{yaw:-Math.PI/2,pose:'idle'}); if(n) n.frozen=true; }
