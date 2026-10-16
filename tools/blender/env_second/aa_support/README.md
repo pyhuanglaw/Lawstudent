@@ -4,6 +4,7 @@
 > - 分工、規格：LAWWW2-B 的 `docs/art-rebuild/second_ai/SCENE_RULES.md` 第 8 節。
 > - 所有權：仍是 LAWWW2-B 的。AA-B 只在自己的分支（`claude/cool-heisenberg-o8kuqx`）commit；LAWWW2-B 驗收、merge 以後，照原流程交 LAWWW-B。
 > - 不改 `src/`、`zones3d`、`assets3d`。美術狀態最多到 `READY_FOR_REVIEW`（LAWWW2-B 確認前不算完成）。
+> - **品質標準（使用者 2026-10-16 約 15:50 UTC，對 AA-B 說）**：「美術3D標準要參考遊戲大獎，可以問lawww2」。AA 支援的素材照 LAWWW2-B 的得獎遊戲方向（`docs/art-rebuild/second_ai/HANDOFF.md`「得獎、Steam 上會賣的遊戲」那一節：繪本感半寫實環境＝《Season: A Letter to the Future》《Lake》的烘焙光、暖色暮光、空氣感；人物＝《Persona 5 Royal》《Atelier Ryza》；目標畫面參考圖 07），不是只對 D38 的底線。具體的驗收清單已經問 LAWWW2-B（15:5x），回覆後補在這裡。
 
 ## ART-WZ6 故事線的小物件：`wz6_items.py` → `assets/models/env/second_ai/aa_support/wz6_items.glb`
 
@@ -421,3 +422,11 @@
 - 鏡子不反射（遊戲沒有環境貼圖）；鏡面是畫的漸層。
 - 毛巾是對折的一片，沒有厚度的褶；浴簾不會動（靜態網格）。
 - 馬桶蓋、洗手台的門和抽屜都不會開。
+
+### ART-US4 美國公寓衛浴＋陽台小物（bfc4ed68，2026-10-16 13:2x UTC）：LAWWW2-B 驗收通過
+
+- 七件照規格：浴缸淋浴兩用（四面封起、龍頭和蓮蓬頭在西端、浴簾拉開一半）、馬桶、洗手台（楓木櫃＋白檯面＋嵌入臉盆＋藥櫃鏡）、毛巾桿＋淺藍毛巾、米色腳踏墊、陽台木條椅、小圓桌。5,090 三角形、1 材質、沒有字和品牌。
+- 交件前自己修的三件（臉盆裡面黑、浴缸側面看穿、浴簾像百葉）都修對了。
+- AA-B 問浴簾桿東端：選 (a)。LAWWW2-B 在 layout 加了浴缸東端的短牆 `tub_e`（x 2.22，z 2.17～3.0；美國的浴缸通常三面是牆），浴缸改成 x 0.6～2.16。
+- 小意見（不用改，排很後面）：浴簾的褶子遠看還有一點整齊，可以再不規則一點。
+- 已擺進 `us_apartment.py`（浴缸貼南牆、馬桶靠西牆面向東、洗手台貼東牆、毛巾桿在北牆、腳踏墊在浴缸前、陽台兩張椅子面向欄杆＋中間小圓桌）。簡單版衛浴不再做。
