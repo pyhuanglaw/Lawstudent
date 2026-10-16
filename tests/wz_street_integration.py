@@ -51,7 +51,9 @@ async def check(pg, run, formal):
     tags = await pg.evaluate("""(()=>{ const out={}; for(const t of %s){ const objs=GAME.E.zone.group.children.filter(o=>o.userData&&o.userData[t]);
         out[t]={n:objs.length, formal:objs.filter(o=>o.userData.formal).length, dyn:objs.filter(o=>o.userData.dyn).length,
           shown:objs.filter(o=>o.isMesh?o.visible:o.children.some(m=>(m.isMesh||m.isSprite)&&m.visible)).length}; } return out; })()""" % json.dumps(list(TAGS)))
-    run.check('套件物件都有標記（公寓 29、宿舍＋院牆 2、街道細節 12、小公園 28＝擴大版的備用外觀：草地 2、樹 5、長椅 4、路燈 2、涼亭等 11、花籬 4）', all(tags[t]['n'] == n for t, n in TAGS.items()), json.dumps(tags))
+    # ?nobldg：小公園的備用外觀沒有 dyn，單一網格的會被整區靜態合併吃掉（本來就要合併，draw call 才會少），所以只剩群組還數得到（2026-10-16：19 個）
+    okn = all(tags[t]['n'] == n for t, n in TAGS.items()) if formal else all(tags[t]['n'] == n for t, n in TAGS.items() if t != 'wzPark') and 10 <= tags['wzPark']['n'] <= TAGS['wzPark']
+    run.check('套件物件都有標記（公寓 29、宿舍＋院牆 2、街道細節 12、小公園 28＝擴大版的備用外觀：草地 2、樹 5、長椅 4、路燈 2、涼亭等 11、花籬 4；?nobldg 的小公園單一網格已合併）', okn, json.dumps(tags))
     if formal:
         run.check('標記的套件物件都接上正式模型、外觀全部藏起來', all(tags[t]['formal'] == n and tags[t]['shown'] == 0 for t, n in TAGS.items()), json.dumps(tags))
     else:

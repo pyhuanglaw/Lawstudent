@@ -415,7 +415,11 @@ const TK = (function(){
     bin.add(col('#f4f1ea'),boxG(0.22,0.12,0.01),0,0.45,-0.84,0,{noShadow:true});
     bin.build(g); return g; }
   // 盆栽群（住家門口常見的一排盆栽、保麗龍箱種菜）
-  function pots(n,seed){ const g=new THREE.Group(); const bin=new Bin(); const potC=['#a8573a','#8f9399','#e6e3de','#5a4636']; const leaf=['#5f9a5e','#4f8a4e','#7aa860','#3f7a4a']; let x=0; for(let i=0;i<n;i++){ const r=0.12+rnd()*0.16, h=0.18+rnd()*0.3; if(rnd()<0.25){ bin.add(col('#f4f4f2'),boxG(0.5,0.28,0.35),x+0.25,0.14,0); bin.add(col(leaf[i%4]),boxG(0.46,0.12,0.3),x+0.25,0.33,0,0,{noShadow:true}); x+=0.55; continue; } bin.add(col(potC[(i+(seed||0))%4]),new THREE.CylinderGeometry(r,r*0.75,h,10),x+r,h/2,(rnd()-0.5)*0.2); const big=rnd()<0.35; plantClump(bin,x+r,h-0.05,0,big?0.9+rnd()*0.5:0.45+r*1.4,big?6:4); x+=r*2+0.05; } bin.build(g); g.userData.len=x; return g; }
+  /* 盆栽一排（長度 userData.len＝導航阻擋的長度）：用自己的亂數（seed、n 決定）。2026-10-16 修：原本用共用的 rnd，前面的樹有沒有載入正式模型會改變共用亂數的進度，
+     盆栽長度跟著變，?nobldg／載入失敗時的導航格和正式版差一格（tests/wz_street_integration.py「導航格：正式模型和程序化版完全相同」）*/
+  function pots(n,seed){ const g=new THREE.Group(); const bin=new Bin(); const potC=['#a8573a','#8f9399','#e6e3de','#5a4636']; const leaf=['#5f9a5e','#4f8a4e','#7aa860','#3f7a4a']; let x=0;
+    let ls=(((seed|0)+1000)*7919+n*104729)%2147483647||1; const lr=()=>{ ls=(ls*16807)%2147483647; return (ls-1)/2147483646; };
+    for(let i=0;i<n;i++){ const r=0.12+lr()*0.16, h=0.18+lr()*0.3; if(lr()<0.25){ bin.add(col('#f4f4f2'),boxG(0.5,0.28,0.35),x+0.25,0.14,0); bin.add(col(leaf[i%4]),boxG(0.46,0.12,0.3),x+0.25,0.33,0,0,{noShadow:true}); x+=0.55; continue; } bin.add(col(potC[(i+(seed||0))%4]),new THREE.CylinderGeometry(r,r*0.75,h,10),x+r,h/2,(lr()-0.5)*0.2); const big=lr()<0.35; plantClump(bin,x+r,h-0.05,0,big?0.9+lr()*0.5:0.45+r*1.4,big?6:4); x+=r*2+0.05; } bin.build(g); g.userData.len=x; return g; }
   // 郵筒（綠：限時、紅：普通）
   function mailbox(){ const g=new THREE.Group(); const bin=new Bin(); for(const [s,c] of [[-0.3,'#2f7d4a'],[0.3,'#c0392b']]){ bin.add(col(c,{roughness:0.5}),boxG(0.5,1.0,0.45),s,0.55,0); bin.add(col(c,{roughness:0.5}),new THREE.CylinderGeometry(0.25,0.25,0.45,12,1,false,0,Math.PI),s,1.05,0,0,{rx:Math.PI/2,rz:Math.PI/2}); bin.add(col('#2b2b2b'),boxG(0.3,0.05,0.02),s,0.85,0.23,0,{noShadow:true}); } bin.build(g); return g; }
   // 路面：柏油＋白邊線＋排水溝＋人孔＋「慢」字
