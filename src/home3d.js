@@ -296,7 +296,7 @@ const HOME=(function(){
   /* 讀檔時人在家裡：回到家的選單（story3d.js 的 S.tick）*/
   S.tick=function(GM){ const G=GM.G; if(!S.at(G)||busy) return; S.loop(GM).catch(e=>{ console.warn('HOME.loop',e); busy=false; }); };
   /* 家人群組（週四 20:00）：story3d.js 的 S.phoneRules 每次呼叫 */
-  S.phoneRules=function(GM){ const G=GM.G; if(typeof PHONE==='undefined'||!L()) return; const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!T||G.day<2) return;
+  S.phoneRules=function(GM){ const G=GM.G; if(typeof PHONE==='undefined'||!L()) return; const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!T||(typeof STORY!=='undefined'&&STORY.mainDay?STORY.mainDay(G):G.day)<2) return;
     PHONE.join(G,'home','家人'); const th='g:home', tag='home_ask_'+G.day;
     if(G.weekday===4&&G.hour>=20&&!PHONE.sent(G,tag)){ const g=(L().group||[])[(G.day/7|0)%((L().group||[]).length||1)]; const R=L().groupReply||{};
       PHONE.at(G,G.day,20,[{th,from:'mom',name:'媽媽',text:g.t,ask:{id:tag,until:G.day*24+20+2,opts:[{t:'會回去',say:[{from:'mom',name:'媽媽',text:(R.yes||['好'])[0]},{from:'mom',name:'媽媽',text:'（愛心貼圖）'}]},{t:'這週不回',say:[{from:'mom',name:'媽媽',text:(R.no||['好 那下週'])[0]}]}]}}],tag); }

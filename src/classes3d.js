@@ -69,7 +69,7 @@ const CLS=(function(){
   S.topic=function(c,week){ const i=TEACH.indexOf(week); const T=c.topics||[]; if(!T.length) return ''; if(i<0) return T[T.length-1]; return T[Math.min(T.length-1,Math.floor(i*T.length/TEACH.length))]; };
   // ---------- 某一天的課 ----------
   S.DAY2_START=13+5/60;   /* 第 2 天開始的時間（story3d.js sleepNow：「第二天 週四 13:05 · 霖澤館前」）*/
-  S.dayItems=function(G,day){ if(day==null) day=G.day; if(typeof CALENDAR==='undefined'||CALENDAR.holiday(day)) return []; if(!(t0=>t0&&/^Y0/.test(t0.id))(CALENDAR.termOf(day))){ const ls=typeof STORY!=='undefined'&&STORY.lawStart?STORY.lawStart(G):1; if(day<ls||(day===1&&ls===1)) return []; }   /* 經濟系大一（Y0，負的天數）照常排課（v0）；法律系：這一局開始那天（STORY.lawStart：舊存檔與現在的開局＝第 1 天，開局 B＝第 −16 天 8/31，D91）以前的課不排；從第 1 天開始的局，9/17 白天的課在遊戲開始（21:12）之前，不排、不算沒去（使用者 2026-10-15：「第一天就有一個刑法課顯示沒去？」）*/ const t=CALENDAR.termOf(day); if(!t) return []; const wd=CALENDAR.dateOf(day).wd; const out=[];
+  S.dayItems=function(G,day){ if(day==null) day=G.day; if(typeof CALENDAR==='undefined'||CALENDAR.holiday(day)) return []; if(!(t0=>t0&&/^Y0/.test(t0.id))(CALENDAR.termOf(day))){ const ls=typeof STORY!=='undefined'&&STORY.lawStart?STORY.lawStart(G):1, m1=typeof STORY!=='undefined'&&STORY.mainD1?STORY.mainD1(G):1; if(day<ls||(day===m1&&ls===m1)) return []; }   /* 經濟系大一（Y0，負的天數）照常排課（v0）；法律系：這一局開始那天（STORY.lawStart：舊存檔與現在的開局＝第 1 天，開局 B＝第 −16 天 8/31，D91）以前的課不排；從第 1 天開始的局，9/17 白天的課在遊戲開始（21:12）之前，不排、不算沒去（使用者 2026-10-15：「第一天就有一個刑法課顯示沒去？」）*/ const t=CALENDAR.termOf(day); if(!t) return []; const wd=CALENDAR.dateOf(day).wd; const out=[];
     const R0=G.courses&&typeof G.courses==='object'?G.courses:null;
     for(const c of S.termCourses(G,t.id)){ if(c.weeks&&!c.weeks.includes(t.week)){ const att=R0&&R0.attend?(R0.attend[c.id]||0):0; if(!(c.makeupWeeks&&c.makeupWeeks.includes(t.week)&&att<c.weeks.length)) continue; }   /* 只有某幾週的課（服務學習：AA_110 6-1）；次數不夠時補做週也排 */
      for(const s of c.slots){ if(s.wd!==wd) continue; const b=B(s.block); out.push({c,slot:s,t0:b.t0,t1:b.t1,day,key:day+':'+c.id+':'+s.block,room:COURSES.rooms[c.room]||{},week:t.week,exam:c.kind==='service'?null:t.exam,term:t.id}); } }
@@ -79,7 +79,7 @@ const CLS=(function(){
         out.push({c,slot:{wd,block:d.block},t0:b.t0,t1:b.t1,day,key:day+':'+c.id+':'+d.block,room:COURSES.rooms[c.room]||{},week:t.week,exam:t.exam,term:t.id,examMain:true,makeup:true}); } }
     out.sort((a,b)=>a.t0-b.t0);
     /* 第 2 天（9/18 週四）遊戲從 13:05 霖澤館前開始（story3d.js 的 sleepNow）：早上的大一英文在那之前，不排、不算沒去（使用者 2026-10-16：「第二天……卻顯示當天早上有一堂課沒有參加」；第 1 天同理，見上）*/
-    if(day===2&&!/^Y0/.test(t.id)) for(let i=out.length-1;i>=0;i--) if(out[i].t0<S.DAY2_START) out.splice(i,1);
+    if(day===m1d(G)+1&&!/^Y0/.test(t.id)) for(let i=out.length-1;i>=0;i--) if(out[i].t0<S.DAY2_START) out.splice(i,1);   /* 主線第二天（舊存檔 9/18、選 1 的新局 9/4）：13:05 以前睡過去了 */
     /* 同一門課同一天連著兩格（大四下的實習整天）：合併成一格 */
     for(let i=out.length-1;i>0;i--){ if(out[i].c===out[i-1].c){ out[i-1].t1=out[i].t1; out.splice(i,1); } }
     return out; };
@@ -90,7 +90,8 @@ const CLS=(function(){
   S.isLateAbsent=(G,it)=>S.lateMin(G,it)>WIN1*60;
   S.live=(G,it)=>it.day===G.day&&!late(G)&&hr(G)>=it.t0-WIN0&&hr(G)<it.t1;   // 這堂課現在在上（教授在教室、同學在座位上）
   /* 第二天的民法總則（劇情課）：story3d.js 處理 */
-  S.storyClass=(G,it)=>it.c.id==='civ_general'&&it.day===2;   /* 第二天的民總是劇情（story3d.js）；用那一堂的日期（翹課轉述也查前一天）*/
+  const m1d=G=>typeof STORY!=='undefined'&&STORY.mainD1?STORY.mainD1(G):1;   /* 主線第一天（START-WEEK 選 1：舊存檔＝1、新局＝−13）*/
+  S.storyClass=(G,it)=>it.c.id==='civ_general'&&it.day===m1d(G)+1;   /* 第二天的民總是劇情（story3d.js）；用那一堂的日期（翹課轉述也查前一天）*/
   S.next=function(G){ return S.dayItems(G).find(it=>{ const s=S.status(G,it); return (s==='open'||s==='upcoming')&&!S.storyClass(G,it); })||null; };
   S.open=function(G){ return S.dayItems(G).find(it=>S.status(G,it)==='open'&&!S.storyClass(G,it))||null; };
   S.liveIn=function(G,zone){ return S.dayItems(G).filter(it=>S.live(G,it)&&it.room.zone===zone&&!S.storyClass(G,it)); };
@@ -207,7 +208,7 @@ const CLS=(function(){
      沒去的課下課以後，手機「訊息」多一行——討論週：那一週的 skip_line（那堂課發生了什麼，每次都有）；其他週：那門課的 skip 句子，偶爾（這學期第 1、4、7…次沒去那門課）。
      今天的課下課後才發；睡過一整天的，前一天的照那堂課下課的時間補進訊息。考試、服務學習、劇情的課、第一二天不發。R.note 記發過了（skip_<key>）和沒去的次數（skipn_<課>_<學期>）*/
   S.skipNotes=function(GM){ const G=GM.G; if(typeof INV==='undefined'||!INV.msgAt) return 0; const R=S.rec(G), h=hr(G); let n=0;
-    for(const day of [G.day-1,G.day]){ if(day===1||day===2) continue;   /* 第一、二天是劇情（玩家第一天晚上才到宿舍、第二天跟著劇情走）：那兩天的課不算翹課；開局 B 的第 1、2 週（第 1 天以前）照常（D91）*/
+    for(const day of [G.day-1,G.day]){ const m1=m1d(G); if((day===m1&&(typeof STORY!=='undefined'&&STORY.lawStart?STORY.lawStart(G):1)===m1)||day===m1+1) continue;   /* 第一、二天是劇情（玩家第一天晚上才到宿舍、第二天跟著劇情走）：那兩天的課不算翹課；開局 B 的第 1、2 週（第 1 天以前）照常（D91）*/
       for(const it of S.dayItems(G,day)){ const k='skip_'+it.key; if(R.note[k]||R.done[it.key]||it.exam||it.c.kind==='service'||S.storyClass(G,it)) continue; if(day===G.day&&h<it.t1+0.1) continue;
         R.note[k]=1; const ct=S.content(it), sl=ct.obs&&ct.obs.kind==='discuss'?ct.obs.skip_line:null; let text='';
         if(sl&&reactOK(sl,it.day)) text='（群組）'+((typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(sl.who):((CHARACTERS[sl.who]||{}).name||'同學'))+'：'+sl.text;   /* 和 BB 那門課的 skip 句子同一個格式 */

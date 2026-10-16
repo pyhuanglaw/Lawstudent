@@ -47,5 +47,29 @@ GM.money=function(n){ G.money+=n; };
   check('4. 開局 B：9/17（第 1 天）白天有刑總',/刑法總則/.test(names(1)),names(1));
   check('5. 兩種局：第 2 天 13:05 以前的課都不排（只有民總）',names(2)==='13:20 民法總則',names(2));
   G.flags.LAW_START_DAY=-16; check('6. 開局 B：8/31（第 −16 天，週日）沒有課、8/30 以前也沒有',names(-16)===''&&names(-17)==='');
+  /* START-WEEK 選 1（使用者 20:39 對 AA-B；AA-B 20:4x 規格）：主線第一、二天看存檔的 MAIN_D1 */
+  { fresh(1,10,'campus',{}); G.stage='law'; check('7. 舊存檔（沒有 MAIN_D1）：mainD1＝1、mainDay＝G.day',STORY.mainD1(G)===1&&STORY.mainDay(G)===1&&STORY.mainDay(G,40)===40); }
+  { fresh(D('2025-09-03'),10,'campus',{LAW_START_DAY:-16,MAIN_D1:-13}); G.stage='law'; const md=d=>{ G.day=d; return STORY.opening(G); };
+    check('8. 選 1：9/3、9/4 是開場劇情，9/2、9/5、9/17、9/18 不是',md(D('2025-09-03'))&&md(D('2025-09-04'))&&!md(D('2025-09-02'))&&!md(D('2025-09-05'))&&!md(1)&&!md(2));
+    G.day=D('2025-09-03');
+    check('9. 選 1：9/3（主線第一天）白天照常上課（已經住了幾天）',/刑法總則/.test(names(D('2025-09-03'))),names(D('2025-09-03')));
+    check('9. 選 1：9/4（主線第二天）13:05 以前不排，只有民總',names(D('2025-09-04'))==='13:20 民法總則',names(D('2025-09-04')));
+    const thu3=names(2); check('9. 選 1：9/18（第 2 天）是普通的週四，早上的課照排',thu3.split('、').length>1&&/民法總則/.test(thu3),thu3);
+    const civ=d=>CLS.dayItems(G,d).find(it=>it.c.id==='civ_general');
+    check('10. 選 1：劇情課是 9/4 的民總，不是 9/18 的',CLS.storyClass(G,civ(D('2025-09-04')))&&!CLS.storyClass(G,civ(2)));
+    fresh(1,10,'campus',{}); G.stage='law'; check('10. 舊存檔：劇情課照舊是第 2 天的民總',CLS.storyClass(G,civ(2))); }
+  { const e3=STORY_EVENTS.find(e=>e.day_min===3); fresh(D('2025-09-04'),12,'campus',{LAW_START_DAY:-16,MAIN_D1:-13}); G.stage='law';
+    const blocked=STORY.mainDay(G)<e3.day_min; G.day=D('2025-09-05'); const ok=STORY.mainDay(G)>=e3.day_min;
+    check('11. day_min 從主線第一天算：選 1 的 9/4 還不到 day_min 3、9/5 到了（'+e3.id+'）',blocked&&ok);
+    const src=require('fs').readFileSync(require('path').join(ROOT,'src/events3d.js'),'utf8'); check('11. events3d 的 day_min／day_max 用 STORY.mainDay',/md<ev\.day_min/.test(src)&&/md>ev\.day_max/.test(src)); }
+  { const x=STORY_EVENTS.find(e=>e.id==='ev_xinci_double'); const inW=d=>{ const t=CALENDAR.termOf(d); return !!t&&x.term.includes(t.id)&&x.weeks.includes(t.week); };
+    let same=true; for(let d=180;d<=220;d++) if(inW(d)!==(d>=195&&d<=208)) same=false;
+    check('12. ev_xinci_double 改成 Y1S2 第 6～7 週，和原本的第 195～208 天完全一樣（不跟著主線第一天移動）',same&&!x.day_min&&!x.day_max); }
+  { fresh(1,21.2,'title',{}); cards=[]; entered=[]; global.location={search:''}; GM.titleIdle=true; GM.hideHUD=()=>{}; E.endCinematic=()=>{}; GM.D.busyDepth=0; STORY.recap=async()=>{};
+    await STORY.newGame(GM); const old={day:G.day,m1:G.flags.MAIN_D1,zone:G.zone};
+    fresh(1,21.2,'title',{}); global.location={search:'?start1'}; await STORY.newGame(GM);
+    check('13. 新遊戲：沒有 ?start1 照舊從第 1 天（9/17）宿舍開始、沒有 MAIN_D1',old.day===1&&old.m1===undefined&&old.zone==='dorm',JSON.stringify(old));
+    check('13. 新遊戲 ?start1：8/31（第 −16 天，週日）傍晚宿舍、LAW_START_DAY −16、MAIN_D1 −13',G.day===-16&&G.weekday===0&&G.flags.LAW_START_DAY===-16&&G.flags.MAIN_D1===-13&&G.zone==='dorm'&&G.stage==='law',JSON.stringify({d:G.day,w:G.weekday,f:[G.flags.LAW_START_DAY,G.flags.MAIN_D1],z:G.zone}));
+    global.location={search:''}; }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
