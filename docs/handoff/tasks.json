@@ -1370,8 +1370,8 @@
    "title": "演講後回到課堂（recall）",
    "area": "V2",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照 syllabus/_src/y1s2.py 第 12 週的 recall 匯入，只給聽完 B4 的玩家（B4_ATTENDED）",
+   "status": "已整合待測試",
+   "next": "第 2 級：讀檔到大一下第 12 週憲法二（聽過／沒聽 B4 各一次）看回想那一句",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -7641,8 +7641,8 @@
    "title": "B4 演講設 B4_ATTENDED；可昕旗標名用程式的 KX_MET_NOODLE_TEAM",
    "area": "V2",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "和 V2-C15 一起",
+   "status": "已整合待測試",
+   "next": "B4_ATTENDED 在 attendActivity 記；旗標名照程式 KX_MET_NOODLE_TEAM（不用改）；隨 C15 驗",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -7890,11 +7890,11 @@
   },
   {
    "id": "SCN-KX-01",
-   "title": "可昕線還要政大圖書館、河堤、小教室，和「政大只做主要校園＋宿舍」衝突",
+   "title": "可昕線政大地點字幕：圖書館→自強十舍樓下長椅、政大河堤→政大主要校園的路、大家的河堤→riverside、小教室→通用教室（AA_112 442b98cb、AA_140 裁定 H ef96df49）",
    "area": "SCN",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "只改地點字幕、台詞不動：圖書館→自強十舍樓下長椅（nccu_dorm）；政大河堤→政大主要校園的路（nccu_campus）；大家去的河堤→riverside；小教室→通用 2D 教室（不分學校，字幕寫政大）",
+   "next": "企劃衝突已解決（AA-B 標 void 的是企劃面）；程式只改地點字幕、台詞不動；跟著可昕大一下（V2-B9）和大二～大四做",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -7936,7 +7936,7 @@
    "area": "V3",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "從企劃線重新匯入 syllabus（法律審查第 7 批 d9a8a958、21d85ea3、9d3d1c49；BB_115 cf959b8f 一致性通過）",
+   "next": "syllabus 已從企劃線 9d1aa277 重新匯入：法律審查第 7 批後新通過 16 週（行政法、刑分、物權、債總二、債各、親屬、行政救濟、法學英文）、法學英文第 2、4 週照審查改；大二時一起驗收",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
