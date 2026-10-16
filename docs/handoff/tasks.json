@@ -12037,7 +12037,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P1",
-   "next": "①總圖電梯地板：找到原因並修（車廂地板頂面在 y=0、和樓板同一個平面；building3d.js 抬高 1.5 cm，所有用 B3.buildElevator 的電梯都套用：霖澤館、萬才館、總圖大廳與閱覽室）——待截圖。②溫州街新店面牆、舊路書店書架：逐個找共平面（GLB 疊程序化立面／書背貼片疊層板），LAWWW2-B 也會跑共平面掃描。③店面能不能進：問 AA-B",
+   "next": "①總圖電梯地板：已修（74c5a194）。②溫州街新店面牆、舊路書店書架：LAWWW2-B 用 check_coplanar.py 找到 GLB 裡的同向疊面（wenzhou_street.glb 北側店面 z −10.60 店內磁磚／貨架貼圖／外牆磁磚；bookstore_interior.glb 書架背板和牆腳框 z −4.77、x ±5.77；相鄰兩棟背對背側牆），LAWWW2-B 修 GLB（排在 ART-GYM-BG1 前），交 SHA 後我整合截圖。③店面能不能進：問 AA-B",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12049,7 +12049,14 @@
     "confirmed": true
    },
    "source": "使用者 2026-10-16 21:5x 試玩；使用者 21:5x 第二張（舊路書店書架）；使用者 22:1x 第三張（總圖電梯地板）",
-   "authorized": "使用者（bug 回報）；②的劇情用途待 AA-B"
+   "authorized": "使用者（bug 回報）；②的劇情用途待 AA-B",
+   "xai": {
+    "spec": "LAWWW2-B check_coplanar.py 掃描結果",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "重跑掃描沒有同向疊面；閃的兩處白天手機截圖",
+    "receiver": "LAWWW2-B",
+    "ack": "自領"
+   }
   },
   {
    "id": "BUG-INVITE-WEEKEND",
@@ -12386,6 +12393,27 @@
    },
    "source": "LAWWW2-B 2026-10-16 22:19 交件（945fd4d2，READY_FOR_ART_REVIEW）；使用者 20:2x「腳踏車機車全部都是同一個款式」",
    "authorized": "使用者 20:2x、D84"
+  },
+  {
+   "id": "BUG-FOLLOW-WAVE",
+   "title": "一起走到目的地的人對玩家揮手",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "next": "engine3d.js greet：beh follow／passenger 時打招呼冷卻保持 90 秒（到了以後 90 秒內也不揮）；單元檢查；等瀏覽器",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次一起走",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 22:2x",
+   "authorized": "使用者（bug 回報）"
   }
  ]
 }
