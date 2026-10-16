@@ -8,6 +8,7 @@
 > - **所有權**：仍是 LAWWW2-B 的。BB-B 只在自己的分支（`claude/elegant-brown-fcos7n`）commit；LAWWW2-B 驗收、merge 以後，照原流程交 LAWWW-B。
 > - **不改**：`src/`、`zones3d`、`assets3d`、`lib2.py`、`cafe_layout.py`、LAWWW2-B 的腳本。
 > - **狀態**：美術最多到 `READY_FOR_REVIEW`，LAWWW2-B 確認前不算完成。
+> - **ART-GYM-P1：LAWWW2-B 2026-10-16 09:01 驗收通過、merge（`f2bebf72`）**。之後交 LAWWW-B 整合；建築、場景的 `ART_APPROVED` 只有使用者能標。
 
 ## ART-GYM-P1 新體育館 B1 健身中心的器材：`gym_b1_props.py` → `assets/models/env/second_ai/bb_support/gym_b1_props.glb`
 
