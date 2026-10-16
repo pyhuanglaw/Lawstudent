@@ -32,6 +32,11 @@
 手機直向 390×844：
 ![](cmp_wz_portrait.webp)
 
+主巷往東、北側停車排、晚上 20:30：
+![](cmp_wz_lane.webp)
+![](cmp_wz_row_n.webp)
+![](cmp_wz_night.webp)
+
 配色第一版太暗（黑、灰太多），調成台北巷口的比例（白、銀灰多，黑和彩色少）。左第一版、右現在：
 ![](palette_v1_v2_wz_row_e.webp)
 
