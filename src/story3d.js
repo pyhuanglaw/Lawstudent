@@ -855,6 +855,9 @@ const STORY = (function(){
       PHONE.at(G,fd,21,[PY('📷（一張表格）各縣市年菜價格比較。台北最貴。'),TR('妳為什麼要做這個？'),PY('我媽叫我去買。我要讓她知道代價。'),XU('紅包的期望值我算好了。'),XU('三個阿姨、兩個舅舅、一個不知道為什麼會來的表叔。'),XU('表叔的變異數很大。'),
         WL('📷（一張照片：海邊、一台腳踏車）我騎到墾丁了！'),TR('從哪裡騎？'),WL('枋寮。……好啦，坐火車到枋寮。'),
         Object.assign({th:T,from:'kexin',text:'假設紅包可以轉讓，你們會轉給誰？'},{ask:{id:'y0_f1',until:(fd+1)*24+18,opts:[{t:'轉給表叔。增加他的變異數。',set:{Y0_UNCLE:true},say:[XU('……這是今年最好的經濟學。')]},{t:'轉給品妤，讓她付年菜。',say:[PY('收到。不退。')]},{t:'（已讀，不回）',post:false,set:{Y0_F1_SEEN:true},say:[{th:T,from:'kexin',text:(G.name||'祐廷')+'已讀不回。這也是一種答案。'}]}]}})],'y0_f1'); } }
+    /* T3 沒去（BB_112 T3）：第 1 週沒演到＝2/21（五）21:00 群組品妤「今天收到一台計算機。很實用。」韋綸「……全系都在笑。」（時間暫定）*/
+    if(S.isEcon(G)){ const d=S.dayOfKey('2025-02-21'); if(d!=null&&(G.day>d||(G.day===d&&G.hour>=21))&&G.day<=d+3&&!(G.events&&G.events.done&&G.events.done.ev_y0_t3)&&!PHONE.sent(G,'y0_t3_miss')){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid;
+      if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）'); PHONE.at(G,d,21,[{th:T,from:'econ_pinyu',name:'品妤',text:'今天收到一台計算機。很實用。'},{th:T,from:'econ_weilun',name:'韋綸',text:'……全系都在笑。'}],'y0_t3_miss'); } }
     /* E24 每晚的訊息（BB_104 8b-16；AA_154 第 213 行）：寒假（E19 之後）可昕私訊。一般的晚上（暫定 1/10、1/18 的 22:30，等 AA-B；第三則「什麼湯」的回覆選項等 BB-B）：
        「假設寒假有一天可以跳過……」今天。／除夕。；「寒假胖了是存糧」。那一晚（暫定 2/8 23:00）：「如果可以重來一次選科系，你會選什麼？」三選一，回答不記錄；
        「還是經濟。」＝她停了很久才回「好。」（15 分鐘後）。寒假模式跳過的日子：照時間戳記收在手機裡 */
