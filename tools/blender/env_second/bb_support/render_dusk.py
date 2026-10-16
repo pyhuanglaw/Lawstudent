@@ -7,7 +7,7 @@
   - 色彩 Standard（AgX 會把飽和的紅、藍洗淡）。
 場景（只在渲染裡，不進 GLB）：
   - 灰色地面；"wall"：一面背牆（Poly Haven painted_plaster_wall，CC0）；"ref": [x, z]：一根 1.75 m 的參考柱（祐廷的身高，SOP 2-6）。
-  - "set": "bg"：背景試擺的機車行角落（SOP 3-1 第 2 點的遊戲截圖改成這個）：後牆、左側牆、天花板、水泥地（Poly Haven granular_concrete＋程式畫的油漬、
+  - "set": "bg"：背景試擺的機車行角落（SOP 3-1 第 2 點的遊戲截圖改成這個）：後牆、左右側牆、天花板、水泥地（Poly Haven granular_concrete＋程式畫的油漬、
     靠牆暗角、輪胎痕）、前面一根騎樓柱子、拉到一半的鐵捲門（＋捲門箱），升降台上一台機車的灰色量體（比例參考，不精細）。道具照 GLB 裡的位置（SPREAD）。
 用法：
   /opt/blenv/bin/python tools/blender/env_second/bb_support/render_dusk.py -- <glb> <輸出資料夾> <前綴> <views.json>
@@ -159,6 +159,7 @@ def build_set():
     SET.append(fl)
     SET.append(obj_box('set_back', X0, X1, 0, H, ZB - 0.1, ZB - 0.001, plaster))
     SET.append(obj_box('set_side', X0 - 0.1, X0, 0, H, ZB - 0.1, ZF, plaster))
+    SET.append(obj_box('set_side_r', X1 - 0.1, X1, 0, H, ZB - 0.1, ZF - 0.25, plaster))                                # 右邊和隔壁店的隔間牆（接到騎樓柱子）
     SET.append(obj_box('set_skirt', X0, X1, 0, 0.12, ZB - 0.001, ZB + 0.012, mat('skirt', (0.25, 0.24, 0.23), 0.7)))     # 後牆踢腳（磨石子色）
     SET.append(obj_box('set_ceiling', X0, X1, H, H + 0.1, ZB, ZF, mat('ceil', (0.55, 0.55, 0.53), 0.9)))
     SET.append(obj_box('set_beam', X0, X1, H - 0.4, H, ZF - 0.2, ZF + 0.25, mat('beam', (0.6, 0.58, 0.54), 0.85), 0.01))   # 騎樓的梁
@@ -174,7 +175,7 @@ def build_set():
     # 天花板的日光燈（傍晚亮、白天不亮）
     SET.append(obj_box('set_tube', -1.4, 0.2, H - 0.06, H - 0.02, -0.4, -0.35, mat('tube_m', (0.9, 0.9, 0.88), 0.4)))
     # 升降台上一台機車的灰色量體（比例參考；升降台在 SPREAD (−0.05, 0.05)，檯面頂 0.34，前輪頂在夾座的擋板上）
-    g = mat('scooter_ref', (0.24, 0.245, 0.255), 0.6); k = mat('scooter_ref_dk', (0.1, 0.1, 0.11), 0.65)
+    g = mat('scooter_ref', (0.13, 0.135, 0.14), 0.6); k = mat('scooter_ref_dk', (0.05, 0.05, 0.055), 0.65)   # 暗灰：看得出是量體、不搶道具
     zc, top = 0.05, 0.34
     for nm_, xw in (('rear', -0.70), ('front', 0.50)):
         SET.append(obj_cyl('set_wheel_' + nm_, (xw, top + 0.23, zc - 0.055), (xw, top + 0.23, zc + 0.055), 0.23, k, 28))
