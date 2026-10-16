@@ -54,6 +54,7 @@ const EVENTS = (function(){
     if(!ctx.chain&&!X.tierOK(ev)) return false;   /* 續篇（next_event，ctx.chain）是同一段故事接著演：不受層次上限（2026-10-13 審查第 14 項：原本前一段 noteTier 之後，續篇就被上限擋掉）*/
     return X.cond(ev.prereq,ctx); };
   X.cond=function(c,ctx){ if(!c) return true; const F=G.flags||{}; if(c.flags&&!c.flags.every(f=>F[f])) return false; if(c.notFlags&&c.notFlags.some(f=>F[f])) return false;
+    if(c.any&&!c.any.some(q=>X.cond(q,ctx))) return false;   /* 其中一個成立就算（閒聊階梯 README：語彤 Y-L1＝雨天總圖門口或麵店那一次，任一個）*/
     /* 旗標的值（AA_107 第 10-1 節第 3 項）：例如 BB_105 P4 的 ECON_PAST_SHARED 是 'full'／'half'／'none'——flagIs:{ECON_PAST_SHARED:['full','half']} */
     if(c.flagIs){ for(const k in c.flagIs){ const w=c.flagIs[k], v=F[k]; if(Array.isArray(w)?!w.includes(v):v!==w) return false; } }
     if(c.flagNum){ for(const k in c.flagNum){ const v=+F[k]||0, q=c.flagNum[k]; if(q.min!==undefined&&v<q.min) return false; if(q.max!==undefined&&v>q.max) return false; } }   /* 計數（例：Café 點餐次數 CAFE_VISITS，BB_95 2-2）：flagNum:{CAFE_VISITS:{min:1,max:3}}，沒有＝0 */

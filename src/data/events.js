@@ -394,12 +394,13 @@ const STORY_EVENTS=[
       {label:'o1'},{speaker:'kexin',expression:'smile',text:'好，信任導遊。'},{speaker:null,text:'她點了兩碗酸辣湯餃。'},{goto:'park'},
       {label:'o2'},{speaker:'kexin',expression:'smile',text:'你挑的那家，我還沒吃過。……好，今天換你當導遊。'},{goto:'park'},
       {label:'o3'},{speaker:'kexin',expression:'teasing',text:'讓我點的人，第三次老闆就會記得你。'},
-      {label:'park'},{scene:'政大・停車場',bg:'nccu_park'},
+      {label:'park'},{scene:'政大・校門口',bg:'nccu_gate'},   /* 原本是停車場；政大只做主要校園＋宿舍（使用者 10-16），AA_137 7-1：她送你到校門口，台詞照用 */
       {speaker:'kexin',expression:'smile',text:'以後你開車來找我，我負責選宵夜。'},
       {speaker:'kexin',expression:'neutral',text:'……這是分工，不是命令。'} ],
     consequences:{flags:{NCCU_VISITED:true},mem:[{npc:'kexin',tag:'OUR_SHOP_FIRST',note:'政大山下的小吃街'}],memo:'第一次去政大：可昕當導遊'} },
   /* 可昕 K1b 予樂說：及格（BB_95 9-2）：K1 之後第 6～8 週，她在平日下午傳「明天晚上有空嗎？……」（story3d.js 的 phoneRules）；答應＝隔天 19:30、晚一點＝21:00 去政大（出遊）。
      流程照 AA_112 第 12 節：校門 → 山下的小吃街（予樂先到；予樂的第一句三選一＝YL_IMPRESSION）→ 可昕到了 → 河堤（假設題，玩笑、不給結論）→ 圖書館 → 停車場（約下一次）；
+     （2026-10-16 AA_137 7-1：政大只做主要校園＋宿舍——河堤→校園裡的路、圖書館→自強十舍樓下、停車場→校門；台詞不改）
      隔天中午她傳予樂的紙條照片「及格。」（phoneRules）。「這週不行」：她自己去，隔天傳予樂戴紙巾皇冠的照片，予樂的第一句延到第一次見面。
      旁白「可昕到了……」「她在桌下踢你一下……」、圖書館那一句、停車場的兩個選項之後沒有回應，是照 BB 的流程寫成的（等 BB 看）*/
   { id:'ev_kexin_yule_pass', title:'予樂說：及格', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
@@ -414,16 +415,16 @@ const STORY_EVENTS=[
       {label:'y2'},{speaker:'予樂',text:'……可以，你很老實。'},{goto:'arrive'},
       {label:'y3'},{speaker:'予樂',text:'好客氣。可昕，他好客氣。'},
       {label:'arrive'},{speaker:null,text:'可昕到了。桌上聊報告、老師、學校的八卦。'},{speaker:null,text:'她在桌下踢你一下——意思是「你剛剛那句很好笑」。'},
-      {scene:'政大・河堤',bg:'nccu_river'},
+      {scene:'政大・校園裡的路',bg:'nccu_campus'},   /* AA_137 7-1：原本是河堤 → 政大主要校園的路（散步）；假設題照用 */
       {speaker:'kexin',expression:'teasing',text:'假設我把你的筆記借給予樂，算無權處分嗎？'},
       {choice:[{text:'「要先問我。」',goto:'r1'},{text:'「借吧，反正她看不懂。」',goto:'r2'},{text:'（笑）',goto:'r3'}]},
       {label:'r1'},{speaker:'kexin',expression:'smile',text:'好。我現在問了：可以嗎？'},{goto:'lib'},
       {label:'r2'},{speaker:'kexin',expression:'teasing',text:'……這句我會轉告她。'},{goto:'lib'},
       {label:'r3'},{speaker:'kexin',expression:'laugh',text:'笑也是一種回答。我當你答應了。'},
-      {label:'lib'},{scene:'政大・圖書館',bg:'nccu_lib'},
+      {label:'lib'},{scene:'政大・宿舍樓下',bg:'nccu_dorm'},   /* AA_137 7-1：原本是圖書館 → 自強十舍樓下的長椅（不進宿舍）；台詞照用 */
       {speaker:null,text:'她要寫完一段報告。你坐下來一起讀。'},
       {speaker:'kexin',expression:'neutral',text:'你翻頁好大聲。'},
-      {scene:'政大・停車場',bg:'nccu_park'},
+      {scene:'政大・校門口',bg:'nccu_gate'},   /* AA_137 7-1：原本是停車場 → 校門（約下一次）*/
       {choice:[{text:'「週末換妳來台大？」',set:{KX_NTU_ASKED:true},goto:'p1'},{text:'「明天考完傳訊息給我。」',goto:'p2'}]},
       {label:'p1'},{speaker:'kexin',expression:'smile',text:'好。我先去找品妤，再去抓你。'},{goto:'pend'},
       {label:'p2'},{speaker:'kexin',expression:'teasing',text:'好。考爛了也要傳。'},
@@ -752,7 +753,7 @@ const STORY_EVENTS=[
      「好。」＝河堤（出遊，和 K1b 的河堤共用背景；回宿舍的路上麵店團群組傳頂樓的照片）；「我答應麵店團要去頂樓了。」＝宿舍頂樓，零點前一分鐘她打視訊來（不扣分；她不在這裡和麵店團見面）。
      沒有回她、在麵店團群組裡的玩家照 AA 的群戲去頂樓（沒有視訊）。記 KX_NYE:{1:'river'|'roof'}（BB_107 第 13 節：節日每年一筆）*/
   { id:'ev_nye_river', title:'跨年', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
-    dialogue:[ {scene:'河堤',bg:'nccu_river'},
+    dialogue:[ {scene:'河堤',bg:'riverside'},   /* AA_137 7-1：跨年的河堤不是政大，用河濱的背景（和 K1b 共用不再成立）*/
       {speaker:null,text:'河堤上的人不多。煙火在很遠的地方，聲音晚了好幾秒才到。'},
       {speaker:'kexin',expression:'smile',text:'今年我們不去人多的地方。'},
       {speaker:'kexin',expression:'teasing',text:'假設煙火的聲音永遠晚幾秒，那我們聽到的最後一聲，是今年的還是明年的？'},
