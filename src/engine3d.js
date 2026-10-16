@@ -387,7 +387,7 @@ const E3 = (function(){
     for(const off of SW_OFF){ const r=followCam(C.target,C.yaw+off,pitch,C.dist,P.lv,swV); const v=sc(C.yaw+off,r.dist)-Math.abs(off)*0.25+(C.swing&&Math.sign(off)===Math.sign(C.swing)?0.3:0); if(v>bs){ bs=v; best=off; } }
     C.swing=best; if(!best) return 0; const st=Math.sign(best)*Math.min(Math.abs(best),1.3*dt); C.yaw+=st; if(C.ctl) C.swingAcc=(C.swingAcc||0)+st; return st; }
   E.autoSwing=autoSwing;
-  function updateCamera(dt){ const C=E.cam; const P=E.player; if(C.mode==='cinematic'&&C.cine){ const s=C.cine; camera.position.lerp(s.pos,Math.min(1,dt*2.4)); C.look=C.look||new THREE.Vector3(); C.look.lerp(s.look,Math.min(1,dt*2.4));   /* 原本 dt*4（約 0.25 秒就轉過去）：轉太快會暈（使用者 2026-10-15），放慢一點 */ slabClip(C.look,camera.position,0.9); camera.lookAt(C.look); if(E.zone&&E.zone.fadeWalls) E.zone.fadeWalls(camera,P.obj.position); updateLevelVis(); ST.uSeeR.value=0; return; }
+  function updateCamera(dt){ const C=E.cam; const P=E.player; if(C.mode==='cinematic'&&C.cine){ const s=C.cine; camera.position.lerp(s.pos,Math.min(1,dt*2.4)); C.look=C.look||new THREE.Vector3(); C.look.lerp(s.look,Math.min(1,dt*2.4));   /* 原本 dt*4（約 0.25 秒就轉過去）：轉太快會暈（使用者 2026-10-15），放慢一點 */ slabClip(C.look,camera.position,0.9); camera.lookAt(C.look); if(E.zone&&E.zone.fadeWalls){ E.zone.fadeWalls(camera,P.obj.position); hideFaded(); } updateLevelVis(); ST.uSeeR.value=0; return; }
     C.dist+=(C.distTarget-C.dist)*Math.min(1,dt*4); if(C.manualT>0) C.manualT-=dt; C.target.lerp(tmpV2.copy(P.obj.position).add(tmpV3.set(0,1.45,0)),Math.min(1,dt*7));
     /* 往下走樓梯時鏡頭抬高（戶外：萬才館大樓梯；萬才館第二階段的真實玩家測試抓到）：鏡頭在玩家背後 2.7 m 高，往下走的時候平台邊緣擋住下面的台階，
        畫面上看不到要走去的地方（點下面的台階會點到平台、又走回去）。前方 3～5.5 m 的地面比腳下低超過 0.4 m 時，俯角最多加 0.32（約 18°），平順地變化；室內維持原本的鏡頭 */
@@ -397,7 +397,11 @@ const E3 = (function(){
     autoSwing(C,P,pitch,res,dt);   /* 貼牆時轉開（下一幀生效）*/
     /* 被隔間牆拉近時往前看（LAWWW2 §1(1)b）：看的點往鏡頭前方移，最多 0.6 m（再多頭就出畫面：鏡頭在頭的斜上方 0.4 m、橫向的垂直視角 46°）——畫面看得到前面的地板，不是只有頭頂 */
     const ahT=res.inner?Math.max(0,Math.min(1,(1.5-res.dist)/0.8)):0; C.ahead=(C.ahead||0)+(ahT-(C.ahead||0))*Math.min(1,dt*4); const ah=C.ahead*0.6;
-    const fy=P.obj.position.y; if(desired.y<fy+0.6) desired.y=fy+0.6; slabClip(C.target,desired,1.15); camera.position.lerp(desired,Math.min(1,dt*(C.manualT>0?18:7))); slabClip(C.target,camera.position,1.15); camera.lookAt(C.target.x-Math.sin(C.yaw)*ah,C.target.y-0.15,C.target.z-Math.cos(C.yaw)*ah); if(E.zone&&E.zone.fadeWalls) E.zone.fadeWalls(camera,P.obj.position); updateLevelVis(); camera.updateMatrixWorld(); updateSeeThrough(); }
+    const fy=P.obj.position.y; if(desired.y<fy+0.6) desired.y=fy+0.6; slabClip(C.target,desired,1.15); camera.position.lerp(desired,Math.min(1,dt*(C.manualT>0?18:7))); slabClip(C.target,camera.position,1.15); camera.lookAt(C.target.x-Math.sin(C.yaw)*ah,C.target.y-0.15,C.target.z-Math.cos(C.yaw)*ah); if(E.zone&&E.zone.fadeWalls){ E.zone.fadeWalls(camera,P.obj.position); hideFaded(); } updateLevelVis(); camera.updateMatrixWorld(); updateSeeThrough(); }
+  /* 淡出的牆整面藏起來（BUG-LIGHTBAND，使用者 2026-10-16 總圖大廳、舊路書房「畫面中間一道從上到下的半透明直條」）：各區域的 fadeWalls 把鏡頭這一側的牆調成 12% 透明，
+     細長的牆段、門框、壁柱留下的殘影在鏡頭前變成一條條鬼影（Café 早就改成整面藏，zones3d.js）。鏡頭碰撞的射線不看 visible，藏起來不影響 */
+  function hideFaded(){ const W=E.zone&&E.zone.walls; if(!W) return; for(const w of W){ const m=w&&w.material; if(m&&!Array.isArray(m)) w.visible=m.opacity>0.5; } }
+  E.hideFaded=hideFaded;
   // 多樓層的剖面視角（v9.4）：zone.levelGroups＝[{group,y}]（每一層的模型、那一層地板的高度）。玩家所在的那一層和下面的層一定畫；
   // 上面的層只有在鏡頭比那一層的地板低的時候才畫（從下面看得到上面的天花板、走廊欄杆；鏡頭拉高到上一層地板以上時藏起來，才看得到玩家）。
   // 「玩家所在的層」用腳的高度判斷（離上一層地板 0.8 m 以內就算上去了：快走完樓梯時上一層先出現）
