@@ -231,7 +231,8 @@ W[P] = dict(
                     retakeTerm=dict(term='Y2S2', line='這一天不算時間。', note='大二下約她：只有 D06 會答應；其他地點照 BB_123 婉拒')),
   arrive=dict(narr='白色方塊一樣的建築，大片玻璃，裡面很亮。', admission=True,
     lines=['這裡好安靜。像考場。', '……可是沒有人在寫字。'],
-    extraIf=[{'if': DATING, 'lines': ['沙漏我放在家裡。今天不翻。'], 'note': 'BB_119 1b-2 星期日的一小時'},
+    extraIf=[{'if': {'freeVisited': 'D06'}, 'lines': ['……你一個人來過？', '那你知道，哪一幅前面可以站很久，不會有人催。'], 'note': 'AB-25：玩家自己來過北美館（自由出行，G.places.free.D06≥1，AA_160 4-4）；只多這兩句，心願內容不變；不讀 ENC_（R7）'},
+             {'if': DATING, 'lines': ['沙漏我放在家裡。今天不翻。'], 'note': 'BB_119 1b-2 星期日的一小時'},
              {'if': ST6_SINGLE, 'lines': ['今天我沒帶筆記本。……帶了，但不拿出來。']}]),
   hotspots={
     'D06.gallery': dict(name='大展廳（一幅一幅讀說明牌）', minutes=30, cost=0, like='like',
@@ -294,7 +295,8 @@ W[K] = dict(
                     unknown=['外澳？你怎麼會想去那裡？', '……好。我也一直想去。']),
   arrive=dict(narr='火車沿著海開。外澳站很小，月台外面就是海。遠遠的海上有一座島。',
     lines=['……到了。', '接下來要做什麼？——不對，我不問。'],
-    extraIf=[{'if': DATING, 'lines': ['今天你也不要排。這是告知，不是命令。']}]),
+    extraIf=[{'if': {'freeVisited': 'D25'}, 'lines': ['你一個人來過外澳？', '……那你不要告訴我哪裡好玩。今天我要自己找。'], 'note': 'AB-25：玩家自己來過外澳（自由出行，G.places.free.D25≥1，AA_160 4-4）；只多這兩句，心願內容不變；不讀 ENC_（R7）'},
+             {'if': DATING, 'lines': ['今天你也不要排。這是告知，不是命令。']}]),
   hotspots={
     'D25.shore': dict(name='浪邊', minutes=30, cost=0, like='like',
       lines=['＊（她把鞋子脫了，拎在手上，往浪走。）', '假設海浪一直說同一句話——', '……不對，這題問過了。今天換一題。'],
