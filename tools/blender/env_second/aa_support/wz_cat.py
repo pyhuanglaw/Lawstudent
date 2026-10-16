@@ -38,6 +38,10 @@ def tail_chain(points, r0, r1, part='tail'):
     return out
 
 
+TAIL_PTS_WALK = [(0, 0.225, -0.22), (0, 0.25, -0.28), (0, 0.31, -0.315), (0, 0.375, -0.322), (0.0, 0.43, -0.302), (0.0, 0.468, -0.262)]
+TAIL_TUBE = {'walk': (TAIL_PTS_WALK, 0.030, 0.017)}   # v2：走路的尾巴不放進體素重建，改成沿平滑曲線的錐形管（減面不會把細管子削成一節一節）
+
+
 POSES = {
     'sit': [
         ('ELLIPSOID', (0, 0.105, -0.06), 0.13, (0.9, 1.0, 0.95), (0, 0, 0), 'hip'),
@@ -62,6 +66,9 @@ POSES = {
         ('BALL', (0.0, 0.135, 0.165), 0.066, (1, 1, 1), (0, 0, 0), 'head'),
         ('ELLIPSOID', (0, 0.118, 0.185), 0.05, (1.25, 0.8, 0.8), (0, 0, 0), 'cheek'),
         ('ELLIPSOID', (0, 0.112, 0.217), 0.027, (1.2, 0.8, 0.9), (0, 0, 0), 'muzzle'),
+        # v2（LAWWW2-B 驗收）：前臂從胸口下面伸出來接到腳掌（v1 只有兩顆腳掌，看起來和身體分開）
+        ('CAPSULE', (0.03, 0.026, 0.145), 0.021, (0.038, 1, 1), (0, 90, 0), 'arm'),
+        ('CAPSULE', (-0.03, 0.026, 0.142), 0.021, (0.036, 1, 1), (0, 90, 0), 'arm'),
         ('ELLIPSOID', (0.03, 0.022, 0.19), 0.022, (1.0, 0.6, 1.2), (0, 0, 0), 'paw'),
         ('ELLIPSOID', (-0.03, 0.022, 0.185), 0.022, (1.0, 0.6, 1.2), (0, 0, 0), 'paw'),
     ] + tail_chain([(-0.08, 0.03, -0.20), (-0.13, 0.025, -0.13), (-0.15, 0.022, -0.03), (-0.135, 0.02, 0.06), (-0.09, 0.02, 0.13)], 0.024, 0.018),
@@ -73,15 +80,16 @@ POSES = {
         ('ELLIPSOID', (0, 0.272, 0.255), 0.05, (1.25, 0.8, 0.8), (0, 0, 0), 'cheek'),
         ('ELLIPSOID', (0, 0.266, 0.288), 0.027, (1.2, 0.8, 0.9), (0, 0, 0), 'muzzle'),
         # 腳：左前腳、右後腳往前（+z），另外兩隻往後
-        ('CAPSULE', (0.04, 0.10, 0.17), 0.019, (0.075, 1, 1), (0, 0, 90 - 12), 'leg'),
-        ('CAPSULE', (-0.04, 0.10, 0.10), 0.019, (0.075, 1, 1), (0, 0, 90 + 14), 'leg'),
-        ('CAPSULE', (0.05, 0.10, -0.20), 0.022, (0.075, 1, 1), (0, 0, 90 + 14), 'leg'),
-        ('CAPSULE', (-0.05, 0.10, -0.12), 0.022, (0.075, 1, 1), (0, 0, 90 - 12), 'leg'),
-        ('ELLIPSOID', (0.04, 0.014, 0.19), 0.021, (1.0, 0.6, 1.25), (0, 0, 0), 'paw'),
-        ('ELLIPSOID', (-0.04, 0.014, 0.075), 0.021, (1.0, 0.6, 1.25), (0, 0, 0), 'paw'),
-        ('ELLIPSOID', (0.05, 0.014, -0.225), 0.022, (1.0, 0.6, 1.25), (0, 0, 0), 'paw'),
-        ('ELLIPSOID', (-0.05, 0.014, -0.10), 0.022, (1.0, 0.6, 1.25), (0, 0, 0), 'paw'),
-    ] + tail_chain([(0, 0.24, -0.27), (0, 0.30, -0.31), (0, 0.37, -0.32), (0.0, 0.43, -0.30), (0.0, 0.47, -0.26)], 0.024, 0.018),
+        # v2（LAWWW2-B 驗收）：四條腿粗 30%、腳掌粗 15%（v1 像筷子，跟胖身體不搭）
+        ('CAPSULE', (0.04, 0.10, 0.17), 0.025, (0.072, 1, 1), (0, 0, 90 - 12), 'leg'),
+        ('CAPSULE', (-0.04, 0.10, 0.10), 0.025, (0.072, 1, 1), (0, 0, 90 + 14), 'leg'),
+        ('CAPSULE', (0.05, 0.10, -0.20), 0.0285, (0.07, 1, 1), (0, 0, 90 + 14), 'leg'),
+        ('CAPSULE', (-0.05, 0.10, -0.12), 0.0285, (0.07, 1, 1), (0, 0, 90 - 12), 'leg'),
+        ('ELLIPSOID', (0.04, 0.016, 0.19), 0.024, (1.0, 0.6, 1.25), (0, 0, 0), 'paw'),
+        ('ELLIPSOID', (-0.04, 0.016, 0.075), 0.024, (1.0, 0.6, 1.25), (0, 0, 0), 'paw'),
+        ('ELLIPSOID', (0.05, 0.016, -0.225), 0.025, (1.0, 0.6, 1.25), (0, 0, 0), 'paw'),
+        ('ELLIPSOID', (-0.05, 0.016, -0.10), 0.025, (1.0, 0.6, 1.25), (0, 0, 0), 'paw'),
+    ] + tail_chain(TAIL_PTS_WALK, 0.030, 0.017),   # 這串球只給花色、fat 判斷部位用；網格是 tail_tube（TAIL_TUBE）
 }
 HEAD = {'sit': ((0, 0.305, 0.075), 0.068), 'lie': ((0, 0.135, 0.165), 0.066), 'walk': ((0, 0.29, 0.235), 0.066)}
 
@@ -123,6 +131,54 @@ def decimate(me, target):
     return me2
 
 
+TUBE_SIDES, TUBE_STEP = 8, 0.016
+
+
+def catmull(pts, n_per):
+    """Catmull-Rom：通過每個點的平滑曲線（尾巴的折線有角，v1 看起來一節一節）"""
+    P = [np.array(p, float) for p in pts]; P = [P[0] * 2 - P[1]] + P + [P[-1] * 2 - P[-2]]; out = []
+    for i in range(1, len(P) - 2):
+        p0, p1, p2, p3 = P[i - 1], P[i], P[i + 1], P[i + 2]
+        for k in range(n_per):
+            t = k / n_per; t2, t3 = t * t, t * t * t
+            out.append(0.5 * ((2 * p1) + (-p0 + p2) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t2 + (-p0 + 3 * p1 - 3 * p2 + p3) * t3))
+    out.append(P[-2]); return out
+
+
+def tube_samples(pts, r0, r1):
+    dense = catmull(pts, 24); d = [0.0]
+    for a, b in zip(dense, dense[1:]): d.append(d[-1] + np.linalg.norm(b - a))
+    total = d[-1]; n = max(4, int(round(total / TUBE_STEP))); S = []
+    for k in range(n + 1):
+        s_ = total * k / n; j = min(len(d) - 2, int(np.searchsorted(d, s_) - 1 if s_ > 0 else 0)); j = max(0, j)
+        f = (s_ - d[j]) / max(1e-9, d[j + 1] - d[j]); p = dense[j] + (dense[j + 1] - dense[j]) * f; t = s_ / total
+        S.append((p, r0 + (r1 - r0) * (t ** 0.8)))   # 往尾端漸細
+    return S
+
+
+def tube_tris(pts, r0, r1): return (len(tube_samples(pts, r0, r1)) - 1) * TUBE_SIDES * 2 + TUBE_SIDES
+
+
+def tail_tube(bm, pts, r0, r1):
+    """錐形管：每 1.6 cm 一圈、8 邊；起點埋在臀部裡，尾端收成一點"""
+    S = tube_samples(pts, r0, r1); rings = []; prev_u = None
+    for i, (p, r) in enumerate(S):
+        tdir = (S[min(i + 1, len(S) - 1)][0] - S[max(i - 1, 0)][0]); tdir /= max(1e-9, np.linalg.norm(tdir))
+        if prev_u is None: u = np.cross(tdir, np.array([1.0, 0, 0])); u = u if np.linalg.norm(u) > 1e-6 else np.cross(tdir, np.array([0, 0, 1.0]))
+        else: u = prev_u - tdir * np.dot(prev_u, tdir)   # 平行移動的框架：圈不會扭轉
+        u /= np.linalg.norm(u); w = np.cross(tdir, u); prev_u = u
+        rings.append([bm.verts.new(g2b(*(p + (u * math.cos(2 * math.pi * k / TUBE_SIDES) + w * math.sin(2 * math.pi * k / TUBE_SIDES)) * r))) for k in range(TUBE_SIDES)])
+    for A, Bv in zip(rings, rings[1:]):
+        for k in range(TUBE_SIDES): bm.faces.new((A[k], A[(k + 1) % TUBE_SIDES], Bv[(k + 1) % TUBE_SIDES], Bv[k]))
+    p_end, r_end = S[-1]; tip = bm.verts.new(g2b(*(p_end + (S[-1][0] - S[-2][0]) / max(1e-9, np.linalg.norm(S[-1][0] - S[-2][0])) * r_end * 0.9)))
+    last = rings[-1]
+    for k in range(TUBE_SIDES): bm.faces.new((last[k], last[(k + 1) % TUBE_SIDES], tip))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
+
+
+TUBE_TRIS = tube_tris(*TAIL_TUBE['walk'])
+
+
 def ear(bm, base, tip_up, side, s=1.0):
     """有厚度的三角錐耳朵（遊戲座標）：base＝耳根中心、side＝±1（左右）"""
     bx, by, bz = base; w, h, d = 0.022 * s, 0.038 * s, 0.012 * s
@@ -136,23 +192,43 @@ def ear(bm, base, tip_up, side, s=1.0):
 
 def build_pose(pose):
     """回傳 (網格, 範圍)：範圍＝{'body': (0, n), 'ear': (a, b), 'eye': …, 'nose': …} 頂點編號"""
-    me = blob_mesh('CAT_' + pose, POSES[pose])
-    me = decimate(me, TRI_BUDGET - 140)
-    bm = bmesh.new(); bm.from_mesh(me); rng = {'body': (0, len(bm.verts))}
+    tube = TAIL_TUBE.get(pose)
+    me = blob_mesh('CAT_' + pose, [e for e in POSES[pose] if not (tube and e[5] == 'tail')])
+    me = decimate(me, TRI_BUDGET - 140 - (TUBE_TRIS if tube else 0))
+    bm = bmesh.new(); bm.from_mesh(me)
+    if tube: tail_tube(bm, *tube)
+    # v2 修正：bmesh 的頂點是記憶體池，create_uvsphere 內部刪掉的頂點會留下空位，之後新增的頂點（鼻子、反光點）會補進那些空位，
+    # to_mesh 的順序就不是建立的順序——v1 的眼睛、鼻子遮罩因此套錯頂點（左眼邊緣偏粉紅、嘴角和走路姿勢脖子後的小深色點）。
+    # 每一組頂點建好就標上組別，最後照組別排序，範圍才對得上。
+    grp = bm.verts.layers.int.new('grp')
+    def mark(code):
+        for v in bm.verts:
+            if v[grp] == 0: v[grp] = code
+    mark(1)
+    rng = {'body': (0, len(bm.verts))}
     (hx, hy, hz), hr = HEAD[pose]
     a = len(bm.verts)
     for side in (1, -1):   # 耳朵：頭頂兩側，稍微往外、往前
         ear(bm, (hx + side * hr * 0.55, hy + hr * 0.62, hz - hr * 0.05), True, side)
-    rng['ear'] = (a, len(bm.verts)); a = len(bm.verts)
+    mark(2); rng['ear'] = (a, len(bm.verts)); a = len(bm.verts)
     for side in (1, -1):   # 眼睛：半埋在臉上的扁橢球
         r = bmesh.ops.create_uvsphere(bm, u_segments=8, v_segments=5, radius=1.0)
         for v in r['verts']: v.co = Vector((v.co.x * 0.011, v.co.y * 0.006, v.co.z * 0.009))
         bmesh.ops.translate(bm, verts=r['verts'], vec=g2b(hx + side * hr * 0.42, hy + hr * 0.12, hz + hr * 0.86))
-    rng['eye'] = (a, len(bm.verts)); a = len(bm.verts)
+    mark(3); rng['eye'] = (a, len(bm.verts)); a = len(bm.verts)
     r = bmesh.ops.create_uvsphere(bm, u_segments=6, v_segments=4, radius=1.0)   # 鼻子
     for v in r['verts']: v.co = Vector((v.co.x * 0.006, v.co.y * 0.004, v.co.z * 0.004))
     bmesh.ops.translate(bm, verts=r['verts'], vec=g2b(hx, hy - hr * 0.18, hz + hr * 1.32))
-    rng['nose'] = (a, len(bm.verts))
+    mark(4); rng['nose'] = (a, len(bm.verts)); a = len(bm.verts)
+    ER = np.array([0.011, 0.009, 0.006])   # 眼睛橢球的三軸半徑（遊戲座標 x, y, z；上面 Vector 的 x, z, y）
+    for side in (1, -1):   # v2（LAWWW2-B 驗收）：反光點＝眼睛表面上一個 1.6 mm 的小六角形，UV 指到白色（不加第二個材質）
+        c = np.array([hx + side * hr * 0.42, hy + hr * 0.12, hz + hr * 0.86]); t = 1.0 / math.sqrt(float(np.sum((HL_DIR / ER) ** 2)))
+        p = c + HL_DIR * t; n = (p - c) / ER ** 2; n /= np.linalg.norm(n); _, u, w = frame_from(n)
+        ctr = bm.verts.new(g2b(*(p + n * 0.0003)))
+        rim = [bm.verts.new(g2b(*(p + n * 0.0002 + (u * math.cos(math.pi * k / 3) * 1.2 + w * math.sin(math.pi * k / 3)) * 0.0016))) for k in range(6)]
+        for k in range(6): bm.faces.new((ctr, rim[k], rim[(k + 1) % 6]))
+    mark(5); rng['glint'] = (a, len(bm.verts))
+    bm.verts.sort(key=lambda v: v[grp]); bm.verts.index_update(); bm.verts.layers.int.remove(grp)
     bm.normal_update(); bm.to_mesh(me); bm.free(); me.validate(clean_customdata=False); me.name = 'CAT_' + pose
     return me, rng
 
@@ -162,7 +238,7 @@ PAL = {   # sRGB
     'young': {'base': '#df8f45', 'stripe': '#b4612b', 'white': '#f4efe6', 'nose': '#d98a8a', 'eye': '#2c2a1c', 'ear': '#d3843f'},
     'old':   {'base': '#e8b483', 'stripe': '#d49866', 'white': '#f6f3ee', 'nose': '#d6a0a0', 'eye': '#3a3628', 'ear': '#dcae80'},
 }
-FAT = {'torso': 1.0, 'hip': 0.9, 'chest': 0.7, 'cheek': 0.45, 'head': 0.12, 'muzzle': 0.1, 'leg': 0.25, 'paw': 0.0, 'tail': 0.08}
+FAT = {'torso': 1.0, 'hip': 0.9, 'chest': 0.7, 'cheek': 0.45, 'head': 0.12, 'muzzle': 0.1, 'leg': 0.25, 'arm': 0.3, 'paw': 0.0, 'tail': 0.08}
 FAT_D = 0.020   # 最胖的地方往外 2 公分
 
 
@@ -217,6 +293,7 @@ def masks(pose, me, rng, old=False):
             axis = np.array([0, 0.55, 0.45]) if pose == 'sit' else np.array([0, 0, 1.0])
             sc, sg = float(np.dot(p, axis)), max(0.0, min(1.0, (n[1] + 0.25) * 1.3))
         elif part == 'leg': sc, sg = p[1], 0.9
+        elif part == 'arm': sc, sg = p[2], 0.9   # 趴著的前臂：條紋沿著前臂
         elif part == 'tail': sc, sg = abs(p[0]) + abs(p[2]) + p[1], 1.0
         elif part == 'head' and p[1] > hy + hr * 0.3 and n[2] > -0.3: sc, sg = p[0] * (STRIPE_P / 0.022), 0.8   # 頭頂的 M 字紋
         elif part in ('head', 'cheek'): sc, sg = p[1], 0.25 if p[1] > hy else 0.0
@@ -235,7 +312,7 @@ def uv_tile(ob, tile):
     bpy.context.view_layer.objects.active = ob
     for o in bpy.context.view_layer.objects: o.select_set(o == ob)
     bpy.ops.object.mode_set(mode='EDIT'); bpy.ops.mesh.select_all(action='SELECT')
-    bpy.ops.uv.smart_project(angle_limit=math.radians(66), island_margin=0.012, area_weight=0.0)
+    bpy.ops.uv.smart_project(angle_limit=math.radians(66), island_margin=0.035, area_weight=0.0)   # v2：0.012→0.035（v1 走路姿勢眼睛的深色滲到身體那一塊）
     bpy.ops.object.mode_set(mode='OBJECT')
     uv = ob.data.uv_layers.active.data; u0, v0 = tile
     for d in uv: d.uv = (u0 + 0.01 + d.uv[0] * 0.48, v0 + 0.01 + d.uv[1] * 0.48)
@@ -249,8 +326,8 @@ NECK = {   # (中心, 朝頭的方向, 半徑)
 }
 LEG = {    # 左前腳：(中心, 腳的方向, 半徑)
     'sit': ((0.035, 0.065, 0.086), (0, 1, 0), 0.0215),
-    'lie': ((0.03, 0.024, 0.175), (0, 0, 1), 0.024),
-    'walk': ((0.04, 0.085, 0.172), (0, 0.98, 0.2), 0.0215),
+    'lie': ((0.03, 0.024, 0.172), (0, 0, 1), 0.0255),   # v2 前臂接到腳掌
+    'walk': ((0.037, 0.085, 0.172), (0, 0.98, 0.2), 0.0275),   # v2 腿粗了（0.019→0.025）
 }
 ACC_UV = {'collar': (0.52, 0.02, 0.96, 0.10), 'tag': (0.52, 0.12, 0.74, 0.28), 'tag_back': (0.76, 0.12, 0.96, 0.28), 'bandage': (0.52, 0.30, 0.96, 0.46)}
 
@@ -392,6 +469,18 @@ def paint_accessories(path):
     im.save(path)
 
 
+HL_DIR = np.array([0.35, 0.6, 0.72]) / np.linalg.norm([0.35, 0.6, 0.72])   # 眼睛反光的方向（左上前方，兩隻眼睛同一個方向＝同一個光源）
+GLINT_UV = (0.5245, 0.308)   # 反光點的 UV：配件那一格的繃帶白色區域（paint_accessories 會整塊塗白；避開每 4 px 一條的紗布線；一個 UV 小三角形）
+
+
+def set_glint_uv(ob, rng):
+    """反光點的 UV 指到貼圖上白色的那一小塊（smart_project 會把它們展開到別的地方，這裡蓋掉）"""
+    me = ob.data; uvl = me.uv_layers.active.data; a, b = rng['glint']; u0, v0 = GLINT_UV
+    for poly in me.polygons:
+        for k, li in enumerate(poly.loop_indices):
+            if a <= me.loops[li].vertex_index < b: uvl[li].uv = (u0 + 0.002 * (k % 2), v0 + 0.002 * (k // 2 % 2))
+
+
 def fur_material(name, path):
     m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; b = nt.nodes['Principled BSDF']
     tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(path); tx.image.pack(); nt.links.new(tx.outputs['Color'], b.inputs['Base Color'])
@@ -413,7 +502,7 @@ def build():
         ob = bpy.data.objects.new('CAT_' + pose, me); sc.collection.objects.link(ob); ob.parent = root
         L.smooth_mesh(ob, angle=3.1)   # 全部平滑（減面後的細長三角形，角度小一點就會一格一格）
         M, Sp = masks(pose, me, rng); set_attr(me, 'Mask', M); set_attr(me, 'Spec', Sp)
-        uv_tile(ob, TILES[pose])
+        uv_tile(ob, TILES[pose]); set_glint_uv(ob, rng)
         OFF[pose] = fat_offsets(pose, me, rng)   # 存在 Python 裡（自訂屬性存巢狀陣列會壞掉，lib2 merge_by_material 的註解）
         bodies[pose] = ob
     os.makedirs(GEN, exist_ok=True)
@@ -423,7 +512,7 @@ def build():
             ob.data.materials.clear(); ob.data.materials.append(bake_material(f'bake_{pal}_{pose}', img, pal))
         for o in bpy.context.view_layer.objects: o.select_set(o.name in [b.name for b in bodies.values()])
         bpy.context.view_layer.objects.active = bodies['sit']
-        bpy.ops.object.bake(type='EMIT', margin=6, use_clear=True)
+        bpy.ops.object.bake(type='EMIT', margin=4, use_clear=True)   # 島之間至少 8 px，兩邊各往外 4 px 不會碰到
         img.filepath_raw = path; img.file_format = 'PNG'; img.save()
         paint_accessories(path)
     fur, fur_old = fur_material('cat_fur', FUR), fur_material('cat_fur_old', FUR_OLD)
