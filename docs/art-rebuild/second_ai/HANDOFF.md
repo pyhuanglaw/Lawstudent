@@ -118,7 +118,9 @@
 | 16:5x | 路面合成一張貼圖、一個材質＋柏油顆粒法線（draw call 311 → 309） | 26134a0f | LAWWW-B 已收（ACK 17:24） |
 | 17:4x | ART-PARK2 鞦韆＋三件體健器材（AA-B 做、我驗收：毛巾改淺藍、綠漆調亮）擺進小公園 v6（`place_support()`）；溫州街效能第六輪（輪胎 12 邊、定食店碗盤 6 邊）：wz_street_integration **ALL PASS 36 項**，draw call 291／273／307、三角形 41.8／39.1／41.9 萬（第一次三個都 ≤42 萬） | （這一批） | 交 LAWWW-B |
 | 17:5x | ART-01 社科院：晚上圖書館的樹狀柱不再整片白亮（ck_glass_lit 加自發光漸層） | 7e84496c | 交 LAWWW-B |
-| 18:0x | 小公園 v7：ART-PARK3 象棋桌凳、直飲台、腳踏車架（BB-B 做、我驗收；車架 layout yaw π）；美國公寓：ART-US2 第 9 節補強（AA-B）擺進去＋修我 13:0x 的擺放 bug（洗碗機卡在爐子裡） | （這一批） | 交 LAWWW-B |
+| 18:0x | 小公園 v7：ART-PARK3 象棋桌凳、直飲台、腳踏車架（BB-B 做、我驗收；車架 layout yaw π）；美國公寓：ART-US2 第 9 節補強（AA-B）擺進去＋修我 13:0x 的擺放 bug（洗碗機卡在爐子裡） | 5e688f34 | 交 LAWWW-B |
+| 18:1x | 小公園 v8：公布欄加頂上的公園名牌（原本的木牌擋住公告） | a4c05720 | 已交 |
+| 18:5x | ART-BG-COURT `ntu_court_night`（哲 2 的新體育館旁籃球場，晚上；Blender `bg_court.py`）；遊戲內 ADV 截圖 390×844／844×390；第二版鏡頭左轉 6°，手機直向看得到整塊籃板 | （這一批） | 交 BB-B 驗收、交 LAWWW-B 填 `S.BG.ntu_court_night.image` |
 
 **進行中（16:1x UTC）**：
 - 精修第 3 批溫州街路面：`wz_road_tex.py` 畫一張路面貼圖集 `wz_road_atlas.jpg`（主巷、Café 前南北向路、三條側巷；一個材質 `wz_road`，原本三個材質讓 arcade 到 311 次 draw call）＋每公尺重複的顆粒法線，`wz_props.py` 鋪在套件路面上（y 0.016）。
@@ -133,12 +135,14 @@
 - BB-B：ART-PARK1 已收（82eb09b8）。
 - AA-B：ART-PARK2 已收（7930daf8）、US2 第 9 節補強已收（48393461）。US1、SOY1、WZ7 的補強暫停（使用者 17:0x 要 AA 以劇情為主）。
 - BB-B：ART-PARK3 已收（ba3af720，18:0x 驗收）。
+- BB-B：ART-SHOP1 機車行道具組（18:3x 派；`bb_support/scooter_shop_props.py` → `assets/models/env/second_ai/bb_support/scooter_shop_props.glb`；給公館機車行背景用）。
+- BB-B 18:24 派給我：祐廷 3D 臉試做（BB_131 第 11 節，745de7c5；另存 `vroid_yuting_facetest.vrm`，只在 `?facetest` 載入，不換預設）。排在 ART-BG-COURT 之後，LAWWW-B 另有順序照 LAWWW-B。
 
 **還沒做（我的佇列）**：
 - 溫州街效能：17:4x 達標（draw call 291／273／307、三角形 41.8／39.1／41.9 萬）。餘裕只有 1～2 千個三角形：之後在溫州街加東西要先量。
 - WZ7 另外兩件（傘桶、腳踏車鎖）：等三角形預算。
 - 小公園其他還像積木的：公布欄（我做）。
-- 2D 背景佇列：ART-BG-COURT ntu_court_night（LAWWW-B 17:42）；AA_185 第 8 節：公館機車行、老國小操場、視訊的國外住處（美國公寓、日本宿舍）、日本教室。
+- 2D 背景佇列：ART-BG-COURT 18:5x 已交（等 BB-B 驗收）；AA_185 第 8 節：公館機車行、老國小操場、視訊的國外住處（美國公寓、日本宿舍）、日本教室。
 - 社科院：後棟窗戶排列單調、手機直向在中庭鏡頭貼牆（玩家 x 101、z −64，鏡頭 yaw 0.6、pitch 0.35、距離 6）。
 - 精修第 2 批：全域光影（LAWWW-B 已經有 C.LOOK）。
 - 美國公寓、體育館：LAWWW-B 接好區域後拍遊戲內截圖。
