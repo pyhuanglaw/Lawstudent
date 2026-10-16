@@ -66,5 +66,33 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   picks=['今天先回去']; await EVENTS.run(ev); check('9. 「今天先回去。」→ 韋綸「那下次！」、次數不變、時間不跳',said.some(x=>x.t==='那下次！')&&(G.flags.P2B_COUNT|0)===c0&&Math.abs(G.hour-15.2)<1e-6&&!EVENTS.check(ev));
   // 存讀檔
   const snap=JSON.parse(JSON.stringify(G)); check('10. 存讀檔：P2B_COUNT、E13_* 都是一般旗標',snap.flags.P2B_COUNT===G.flags.P2B_COUNT&&snap.flags.P2B_SEEN===true);
+  // 韋綸的腳踏車（AA_154 2-5b）：11/7 固定
+  const BD=K('2024-11-07'); STORY.P2B_P=0;
+  fresh(BD,15.2,'putong',{P2_PICK:'river',Y0_CLUB:'badminton'}); OUT.plan(G,{id:'y0_c2',day:BD,h:19,place:'羽球社',title:'新體 19:00',travelH:1/6});
+  check('11. 11/7：沒擲中、當晚還有羽球社也一定揪',EVENTS.check(ev));
+  SOCIAL.meet('kexin','x'); SOCIAL.meet('econ_pinyu','x'); SOCIAL.meet('econ_zhengxun','x'); const fb=SOCIAL.rel('econ_zhengxun').fam;
+  picks=['跟去','所有權']; await EVENTS.run(ev); const LB=said.map(x=>x.t);
+  check('11. 跟去＝腳踏車：陌生人「這台是我的。上個月被偷的。」…韋綸「……祐廷，你不是在看法律的書嗎？」',LB.includes('這台是我的。上個月被偷的。')&&LB.includes('……祐廷，你不是在看法律的書嗎？')&&!LB.some(t=>/^騎腳踏車到河濱/.test(t)),JSON.stringify(LB));
+  check('11. 總圖三選一（所有權＝十五分鐘）→「你第一次知道，翻法律要先知道翻哪裡。」→ 時間前進一小時',LB.includes('（十五分鐘就找到）')&&LB.includes('你第一次知道，翻法律要先知道翻哪裡。')&&Math.abs(G.hour-16.2)<1e-6);
+  check('11. 「你把查到的，用自己的話說了三件事。」＋祐廷三句（AA_154 2-5b 原文）→ 韋綸「……所以我要還。」… 旁白「答案不是韋綸想聽的。……」',LB.includes('你把查到的，用自己的話說了三件事。')&&LB.includes('被偷的東西，就算你是花錢買的，原主在被偷以後兩年內都可以要回去。')&&LB.includes('可是你可以去找賣你的人。他賣的不是自己的東西，要負責。對話和交易紀錄都留著。')&&LB.includes('先不要吵。跟他說清楚，大家留聯絡方式。要的話，一起去派出所。')&&LB.includes('……所以我要還。')&&LB.includes('……謝謝你們。很少人會這樣。')&&LB[LB.length-1]==='答案不是韋綸想聽的。可是他知道下一步要做什麼了。');
+  check('11. 記 WL_BIKE、BIKE_LOOKED_UP；經濟系朋友 +1；沒有 L5b、沒有 E13',G.flags.WL_BIKE===true&&G.flags.BIKE_LOOKED_UP===true&&SOCIAL.rel('econ_zhengxun').fam===fb+1&&!LB.includes('這條巷子很適合拍電影。')&&!LB.some(t=>/河會記得/.test(t))&&!G.flags.L5B_DONE);
+  run(); G.hour=17.6; run(); check('11. 去了的玩家 17:30 沒有群組求救',!PHONE.sent(G,'y0_bike_ask'));
+  // 之後的 river：L5b（11/7 之前沒演到，留到下一次）→ 再之後 E13③
+  let FB=Object.assign({},G.flags); FB.P2B_COUNT=1; STORY.P2B_P=1; fresh(T11,15.2,'putong',Object.assign(FB,{P2B_SEEN:false}));
+  picks=['跟去','先找路出去']; await EVENTS.run(ev); check('12. 腳踏車之後第一次 river：L5b（還沒演過）',said.some(x=>x.t==='這條巷子很適合拍電影。')&&G.flags.L5B_DONE===true);
+  FB=Object.assign({},G.flags); FB.P2B_COUNT=1; fresh(T13,15.2,'putong',Object.assign(FB,{P2B_SEEN:false}));
+  picks=['跟去','陪大家走到最後','我騎很慢']; await EVENTS.run(ev); check('12. 再下一次 river：E13③ 河濱「假設河會記得……」→「那它會記得很久。」、E13_RIVER',said.some(x=>x.t==='假設河會記得每一個從這裡騎過去的人。')&&said.some(x=>x.t==='那它會記得很久。')&&G.flags.E13_RIVER===true);
+  // 沒去版
+  const bikeAsk=()=>PHONE.thread(G,'g:econ_friends').find(m=>m.text==='我的車被認走了。有沒有人懂法律？');
+  fresh(BD,17.4,'dorm',{P2_PICK:'river'}); PHONE.join(G,'econ_friends','走啦'); run(); check('13. 沒去：17:30 以前沒有',!bikeAsk());
+  at(BD,17.6); const qa=bikeAsk(); check('13. 17:30「走啦」韋綸「我的車被認走了。有沒有人懂法律？」、選項「（去總圖查完再回）」「（不回）」到 18:00',!!qa&&qa.ask.opts.map(o=>o.t).join('/')==='（去總圖查完再回）/（不回）'&&qa.ask.until===BD*24+18);
+  const snapA=JSON.stringify(G); PHONE.answer(G,'y0_bike',0); run(); const TA=TH('g:econ_friends');
+  check('13. 去總圖查：時間前進一小時 → 祐廷傳查到的 → 韋綸「……好。我去派出所。」、記 BIKE_LOOKED_UP、WL_BIKE',Math.abs(G.hour-18.6)<1e-6&&TA.includes('被偷的東西，原主兩年內可以要回去。車要還，可是你可以去找賣你的人。紀錄都留著。')&&TA.includes('……好。我去派出所。')&&!TA.includes('（去總圖查完再回）')&&G.flags.BIKE_LOOKED_UP===true&&G.flags.WL_BIKE===true,JSON.stringify(TA));
+  at(BD,19); check('13. 去查的玩家：阿勳那句不出現',!TH('g:econ_friends').includes('去派出所。留著對話紀錄。'));
+  G=JSON.parse(snapA); SOCIAL.bind(G); EVENTS.bind(GM); PHONE.answer(G,'y0_bike',1); at(BD,17.9); check('14. 不回：18:00 以前阿勳還沒說',!TH('g:econ_friends').includes('去派出所。留著對話紀錄。'));
+  at(BD,18.05); check('14. 不回：18:00 阿勳「去派出所。留著對話紀錄。」、沒有記號',TH('g:econ_friends').includes('去派出所。留著對話紀錄。')&&!G.flags.BIKE_LOOKED_UP&&!G.flags.WL_BIKE);
+  G=JSON.parse(snapA); SOCIAL.bind(G); EVENTS.bind(GM); at(BD,18.2); check('14. 沒回：18:00 阿勳一樣說；選項過期',TH('g:econ_friends').includes('去派出所。留著對話紀錄。')&&!PHONE.answer(G,'y0_bike',0));
+  at(BD+14,20.9); check('15. 兩週後 21:00 以前沒有',!TH('g:econ_friends').includes('賣車的人找到了。錢拿回一半。另一半當學費。'));
+  at(BD+14,21.1); check('15. 11/21 21:00 韋綸「賣車的人找到了。……」可昕「學費的邊際效用很高。」',TH('g:econ_friends').includes('賣車的人找到了。錢拿回一半。另一半當學費。')&&TH('g:econ_friends').includes('學費的邊際效用很高。'));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

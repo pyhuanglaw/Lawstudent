@@ -830,6 +830,16 @@ const STORY = (function(){
       if(q19&&q19.state!=='done'&&thu18!=null&&(G.day>thu18||(G.day===thu18&&G.hour>=19.25))&&G.day<=thu18+1&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!y0CallBusy){ y0CallBusy=true;
         (async()=>{ try{ GM.sceneBegin(); try{ await GM.say({name:'韋綸（電話）'},'你在哪？大家都到了。我們等你，快點！'); } finally { GM.sceneEnd(); } q19.state='planned'; await OUT.go(GM,q19); } catch(e){ console.warn('E19 call',e); } finally { y0CallBusy=false; } })(); }
       if(thu18!=null&&F.E19_ASK==='none'&&(G.day>thu18+2||(G.day===thu18+2&&G.hour>=22))&&G.day<=thu18+6&&!PHONE.sent(G,'y0_e19_none')) PHONE.at(G,thu18+2,22,[{th:'p:kexin',from:'kexin',text:'你最近很有禮貌。我不習慣。'}],'y0_e19_none'); }
+    /* 韋綸的腳踏車・沒去版（AA_154 2-5b；BB_112 第 3 節）：11/7 17:30 還沒演腳踏車（沒上會計、或選了「今天先回去」）＝群組韋綸求救，回覆到 18:00：
+       「（去總圖查完再回）」＝時間前進一小時，祐廷傳查到的（LEGAL_REVIEW_REQUIRED：BB-B 審過 7cf231c3，改字要再審）＋韋綸回、記 BIKE_LOOKED_UP、WL_BIKE；「（不回）」不記。
+       18:00 還沒回或選了不回＝阿勳一句（選了去查的不出現）。兩週後 11/21 21:00 群組韋綸、可昕（去了、沒去都收到）*/
+    if(S.isEcon(G)){ const bd=S.bikeDay(); if(bd!=null){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, WL=t=>({th:T,from:'econ_weilun',name:'韋綸',text:t});
+      if(G.day===bd&&G.hour>=17.5&&!F.WL_BIKE_SEEN&&!PHONE.sent(G,'y0_bike_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,bd,17.5,[Object.assign(WL('我的車被認走了。有沒有人懂法律？'),{ask:{id:'y0_bike',until:bd*24+18,opts:[{t:'（去總圖查完再回）',post:false,set:{WL_BIKE_ASK:'look'}},{t:'（不回）',post:false,set:{WL_BIKE_ASK:'none'}}]}})],'y0_bike_ask'); }
+      if(F.WL_BIKE_ASK==='look'&&!PHONE.sent(G,'y0_bike_look')&&!(GM.D&&GM.D.active)){ F.WL_BIKE_ASK='looked'; F.BIKE_LOOKED_UP=true; F.WL_BIKE=true; if(GM.advance) GM.advance(1);
+        PHONE.at(G,G.day,G.hour,[{th:T,from:'player',who:null,text:'被偷的東西，原主兩年內可以要回去。車要還，可是你可以去找賣你的人。紀錄都留著。'},WL('……好。我去派出所。')],'y0_bike_look'); }
+      if(G.day>=bd&&(G.day>bd||G.hour>=18)&&G.day<=bd+2&&PHONE.sent(G,'y0_bike_ask')&&!/^look/.test(F.WL_BIKE_ASK||'')&&!PHONE.sent(G,'y0_bike_xun')) PHONE.at(G,bd,18,[{th:T,from:'econ_zhengxun',name:'阿勳',text:'去派出所。留著對話紀錄。'}],'y0_bike_xun');
+      if((G.day>bd+14||(G.day===bd+14&&G.hour>=21))&&G.day<=bd+18&&!PHONE.sent(G,'y0_bike_after')) PHONE.at(G,bd+14,21,[WL('賣車的人找到了。錢拿回一半。另一半當學費。'),{th:T,from:'kexin',text:'學費的邊際效用很高。'}],'y0_bike_after'); } }
     /* 校慶問答攤（BB_95 3-7，DL-04B）：前一天（週五）21:00 法服群組，學姊提醒；沒加入法服的玩家改成校園公告欄的旁白（AMBIENT 的 festEve）*/
     if(PHONE.inGroup(G,'lawclub_study')){ const fs=termDay('Y1S1',11,6); if(fs&&G.day===fs-1) PHONE.at(G,fs-1,21,[{th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'明天校慶，問答攤十點開。輪班表在記事本。'}],'fest_eve_lawclub'); }
     /* 家族聚餐（BB_95 3-8）：前一週 Kevin 在家族群組約；當晚 22:30 學姊訂正考古題；沒去的玩家 22:00 Kevin 貼資料夾、學姊說書會留給學弟 */
@@ -1520,17 +1530,20 @@ const STORY = (function(){
   const CORE_OUT=['y0_e14','y0_e19'];
   /* P2b 門口有人在揪（AA_154 2-5a；事件 ev_y0_p2b）：P2 演過（P2_PICK）以後，Y0S1 第 6～16 週（第 8、9 週期中考除外）、Y0S2 第 1～5 週的週四會計下課；
      每週擲一次（P2B_P＝40%，記在 P2B_WK／P2B_HIT），同一週最多一次（P2B_SEEN）；那天已經約了別的出遊（OUT 排定、邀約答應）不揪。
-     P2B_END：跟去的結束時間（food 19:30、river 17:00、night 21:00／21:30）。BIKE_READY：韋綸的腳踏車（BB_112 第 3 節）的台詞到了才開 */
-  S.P2B_P=0.4; S.P2B_END=[19.5,17,21,21.5,21.5]; S.BIKE_READY=false;
+     P2B_END：跟去的結束時間（food 19:30、river 17:00、night 21:00／21:30）。 */
+  S.P2B_P=0.4; S.P2B_END=[19.5,17,21,21.5,21.5];
+  S.bikeDay=()=>termDay('Y0S1',10,4);   /* 韋綸的腳踏車（AA_154 2-5b）：固定在 11/7（四，W10）會計下課——那天 P2b 一定揪、去處一定是 river（演腳踏車）*/
+  S.p2bBikeNow=G=>G.day===S.bikeDay()&&!(G.flags||{}).WL_BIKE_SEEN;
   S.p2bDue=function(G){ if(!S.isEcon(G)||typeof CALENDAR==='undefined') return false; const F=G.flags||{}; if(!F.P2_PICK) return false; const t=CALENDAR.termOf(G.day); if(!t||t.exam) return false;
     if(!((t.id==='Y0S1'&&t.week>=6&&t.week<=16&&t.week!==8&&t.week!==9)||(t.id==='Y0S2'&&t.week>=1&&t.week<=5))) return false;
+    if(G.day===S.bikeDay()){ F.P2B_WK=t.id+':'+t.week; F.P2B_HIT=true; return !F.P2B_SEEN&&!F.WL_BIKE_SEEN; }   /* 11/7：一定揪（羽球社的社課 19:00 也排得下）*/
     if(typeof OUT!=='undefined'&&OUT.rec(G).some(q=>q.day===G.day&&q.state==='planned')) return false;
     if(Array.isArray(G.invites)&&G.invites.some(v=>v.day===G.day&&(v.state==='accepted'||v.state==='going'))) return false;
     const wk=t.id+':'+t.week; if(F.P2B_WK!==wk){ F.P2B_WK=wk; F.P2B_HIT=Math.random()<S.P2B_P; F.P2B_SEEN=false; } return !!F.P2B_HIT&&!F.P2B_SEEN; };
   S.p2bSeen=G=>{ const F=G.flags, t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(t) F.P2B_WK=t.id+':'+t.week; F.P2B_SEEN=true; };   /* 這一週揪過了（不管跟不跟）*/
   const postMid=G=>{ const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !!t&&((t.id==='Y0S1'&&t.week>=10)||t.id==='Y0S2'); };
-  /* river 的順序：Y0S1 第一次＝L5b；W10 起第一次＝韋綸的腳踏車（BIKE_READY 之前照舊演 L5b）；之後散場接 E13③ */
-  S.p2bL5b=G=>{ const F=G.flags, t=CALENDAR.termOf(G.day); if(F.P2B_K!==1||F.L5B_DONE||!t||t.id!=='Y0S1') return false; return !(S.BIKE_READY&&postMid(G)&&!F.WL_BIKE_SEEN); };
+  /* river 的順序：11/7 固定是韋綸的腳踏車（事件先接 bike）；Y0S1 其他的 river 第一次＝L5b（11/7 之前沒演到就留到下一次）；腳踏車演過以後的 river 散場接 E13③ */
+  S.p2bL5b=G=>{ const F=G.flags, t=CALENDAR.termOf(G.day); return F.P2B_K===1&&!F.L5B_DONE&&!!t&&t.id==='Y0S1'; };
   S.p2bE13=G=>{ const F=G.flags, k=F.P2B_K; if(!postMid(G)) return false; if(k===0) return !F.E13_FOOD; if(k===1) return !!F.WL_BIKE_SEEN&&!F.E13_RIVER; return k>=2&&!F.E13_NIGHT; };
   /* 經濟系大一上最後一場期末考（AA_154 A34：E22b 在那一場考完的下午、E19 同一天 19:00）：照遊戲實際的課表（CLS.lastExamEnd），課表改了就跟著變。
      算一次要掃整學期，結果依「同一個 G、同一組修的課」記住。e22bFrom：考完 20 分鐘（上午考完＝13:30）*/

@@ -1883,7 +1883,7 @@ const STORY_EVENTS=[
   /* P2b 門口有人在揪（AA_154 2-5a；台詞 BB_105 P2b，BB-B 定稿 6d59df01；背景、可重複）：P2 演過以後，Y0S1 第 6～16 週（期中考週除外）、Y0S2 第 1～5 週的週四，初等會計真的上完；
      每週擲一次 40%、同一週最多一次；那天已經約了別的出遊不揪（STORY.p2bDue）。韋綸一句（4 句輪流、不連續重複）→「跟去。」／「今天先回去。」（韋綸「那下次！」）。
      跟去＝旁白（5 句輪流）＋經濟系朋友熟悉度各 +1；結束時間照類型（food 19:30、river 17:00、night 21:00／21:30，中間跳過；STORY.P2B_END）。
-     river：Y0S1 第一次接 L5b 牽著車的巷子（BB_110）；W10 起第一次是韋綸的腳踏車（BB_112 第 3 節：祐廷那幾句等 AA-B，STORY.BIKE_READY 之前不開）；之後散場接 E13③。
+     river：11/7（W10 週四）固定是韋綸的腳踏車（AA_154 2-5b：那天一定揪、一定 river）；Y0S1 其他 river 的第一次接 L5b 牽著車的巷子（BB_110）；腳踏車演過以後散場接 E13③。
      E13 大家走了以後（BB_104 8b-6）：W10 起（含 Y0S2），那一類還沒演過，散場多一個選擇「先回去了。」／「（陪大家走到最後）」：food＝①公館的路口、night＝②女舍門口、river＝③河濱（STORY.p2bE13）。
      記 P2B_COUNT（跟去的次數）。錢、回宿舍在 after。放在事件表最後：同一堂會計課有固定事件（P1b 等）時先演固定的 */
   { id:'ev_y0_p2b', stage:'econ', title:'門口有人在揪', participants:['kexin'], location:'any', trigger:'class', afterClass:'acct_y0', term:['Y0S1','Y0S2'], background:'blur',
@@ -1895,7 +1895,8 @@ const STORY_EVENTS=[
       {if:{flagIs:{P2B_LN:3}},speaker:'韋綸',text:'下課就要出去，這是我的會計原則。走啦！'},
       {choice:[{text:'「跟去。」',set:{P2B_GO:true},goto:'go'},{text:'「今天先回去。」',set:{P2B_GO:false},goto:'home'}]},
       {label:'home'},{speaker:'韋綸',text:'那下次！'},{goto:'end'},
-      {label:'go'},{pick:{flag:'P2B_K',from:G=>[(+G.flags.P2B_COUNT||0)%5]}},
+      {label:'go'},{pick:{flag:'P2B_K',from:G=>[typeof STORY!=='undefined'&&STORY.p2bBikeNow&&STORY.p2bBikeNow(G)?1:(+G.flags.P2B_COUNT||0)%5]}},
+      {if:{custom:G=>typeof STORY!=='undefined'&&!!STORY.p2bBikeNow&&STORY.p2bBikeNow(G)},goto:'bike'},
       {if:{flagIs:{P2B_K:0}},speaker:null,text:'公館的滷味攤。可昕每一樣都夾一點，阿勳只夾豆干。品妤：『你們兩個是需求曲線的兩個極端。』'},
       {if:{flagIs:{P2B_K:1}},speaker:null,text:'騎腳踏車到河濱。韋綸騎最前面，一直回頭喊『快一點！』，結果騎錯了一個出口。'},
       {if:{flagIs:{P2B_K:2}},speaker:null,text:'大家去總圖讀到九點。阿勳讀完了一章；韋綸睡著了一次，醒來說：『我在想事情。』'},
@@ -1910,6 +1911,21 @@ const STORY_EVENTS=[
       {label:'l5b'},{scene:'溫州街'},{speaker:null,text:'溫州街的巷子太窄，腳踏車要牽著走。'},{speaker:'韋綸',text:'這條巷子很適合拍電影。'},{speaker:'econ_pinyu',text:'你又沒拍過電影。'},{speaker:'econ_zhengxun',text:'機率上，總有人在這裡拍過。'},
       {choice:[{text:'「拍什麼？」',goto:'l5b_end'},{text:'「先找路出去」',goto:'l5b_end'}]},
       {label:'l5b_end'},{set:{L5B_DONE:true}},{goto:'end'},   /* L5b：只是聊天，沒有旗標（L5B_DONE 只記演過）*/
+      /* 韋綸的腳踏車（BB_112 第 3 節；祐廷的三句 AA_154 2-5b，BB-B 法律審查 7cf231c3）：11/7 的 river 換成這一段；去總圖查（三選一只差時間）＝時間前進一小時 */
+      {label:'bike'},{scene:'椰林大道'},{speaker:'陌生人',text:'這台是我的。上個月被偷的。'},{speaker:'韋綸',text:'我上週在網路上買的！跟一個人買的！'},{speaker:'陌生人',text:'車架下面有我刻的字。你看。'},
+      {speaker:null,text:'（真的有。）'},{speaker:'韋綸',text:'……{name}，你不是在看法律的書嗎？'},
+      {scene:'總圖'},{choice:[{text:'「買賣」',goto:'bk1'},{text:'「所有權」',goto:'bk2'},{text:'「從目錄翻」',goto:'bk3'}]},
+      {label:'bk1'},{speaker:null,text:'（翻了四十分鐘才繞到所有權那一章）'},{goto:'bk_found'},
+      {label:'bk2'},{speaker:null,text:'（十五分鐘就找到）'},{goto:'bk_found'},
+      {label:'bk3'},{speaker:null,text:'（半小時）'},
+      {label:'bk_found'},{speaker:null,text:'你第一次知道，翻法律要先知道翻哪裡。'},{advance:1},
+      {scene:'椰林大道'},{speaker:null,text:'你把查到的，用自己的話說了三件事。'},
+      {speaker:'player',text:'被偷的東西，就算你是花錢買的，原主在被偷以後兩年內都可以要回去。'},   /* LEGAL_REVIEW_REQUIRED（這一句和下一句有法律內容；BB-B 審過 7cf231c3，改字要再審）*/
+      {speaker:'player',text:'可是你可以去找賣你的人。他賣的不是自己的東西，要負責。對話和交易紀錄都留著。'},
+      {speaker:'player',text:'先不要吵。跟他說清楚，大家留聯絡方式。要的話，一起去派出所。'},
+      {speaker:'韋綸',text:'……所以我要還。'},{speaker:'player',text:'要還。可是你可以去找賣你的人。'},{speaker:'韋綸',text:'（看著車很久）好。走啦，陪我去派出所。'},{speaker:'陌生人',text:'……謝謝你們。很少人會這樣。'},
+      {speaker:null,text:'答案不是韋綸想聽的。可是他知道下一步要做什麼了。'},
+      {set:{WL_BIKE:true,BIKE_LOOKED_UP:true,WL_BIKE_SEEN:true}},{rel:{kexin:{fam:1},econ_pinyu:{fam:1},econ_zhengxun:{fam:1}}},{goto:'end'},
       {label:'e13'},{if:{flagIs:{P2B_K:0}},goto:'e13a'},{if:{flagIs:{P2B_K:1}},goto:'e13c'},{goto:'e13b'},
       {label:'e13a'},{scene:'公館的路口'},{speaker:'kexin',expression:'neutral',text:'紅燈九十秒。'},{speaker:'kexin',expression:'thinking',text:'假設這九十秒可以存起來，你要存到哪一天用？'},
       {choice:[{text:'「考試前一天。」',goto:'a1'},{text:'「現在。」',goto:'a2'},{text:'「妳決定。」',goto:'a3'}]},
