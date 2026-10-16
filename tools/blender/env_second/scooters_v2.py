@@ -34,7 +34,7 @@ M = {
 }
 M['metalvc'].node_tree.nodes['Principled BSDF'].inputs['Metallic'].default_value = 0.45
 # 零件顏色（寫進頂點色）：(顏色, 金屬)
-COL = {'cvt': ('#46494e', 1), 'dark': ('#2a2b2d', 0), 'black': ('#17181a', 0), 'seat': ('#1d1c1c', 0), 'tire': ('#191919', 0), 'lamp': ('#e8edf0', 0), 'lamp_warm': ('#f2e6c8', 0),
+COL = {'cloth': ('#9aa0a6', 0), 'seat_brown': ('#5a3a28', 0), 'cvt': ('#46494e', 1), 'dark': ('#2a2b2d', 0), 'black': ('#17181a', 0), 'seat': ('#1d1c1c', 0), 'tire': ('#191919', 0), 'lamp': ('#e8edf0', 0), 'lamp_warm': ('#f2e6c8', 0),
        'tail': ('#a1231b', 0), 'amber': ('#d98a1e', 0), 'plate': ('#f1f1ec', 0), 'smoke': ('#3b4148', 0), 'box': ('#2e3033', 0), 'box_grey': ('#8e9196', 0),
        'deliv': ('#31373d', 0), 'helmet_w': ('#e9e7e2', 0), 'helmet_b': ('#2a3a55', 0), 'helmet_r': ('#9b2c2c', 0), 'visor': ('#252a30', 0),
        'metal': ('#7d8186', 1), 'chrome': ('#b9bec3', 1), 'alloy': ('#5d6166', 1), 'gold': ('#a8873e', 1)}
@@ -113,7 +113,7 @@ def wheel(parts, x, r, w, rim='disc', seg=18):
     prof = [(hub + 0.012, -w / 2 * 0.8), (r - w * 0.3, -w / 2), (r, 0.0), (r - w * 0.3, w / 2), (hub + 0.012, w / 2 * 0.8)]
     bm = L.lathe(prof, seg=seg); t.add_bm(bm, Matrix.Translation(g2b(x, r, 0)) @ Matrix.Rotation(math.pi / 2, 4, 'X')); bm.free(); parts.append(t)
     if rim == 'disc':
-        rm = Part('alloy'); bm = L.lathe([(0.0, -w / 2 * 0.62), (hub * 0.55, -w / 2 * 0.72), (hub + 0.014, -w / 2 * 0.75), (hub + 0.014, w / 2 * 0.75), (hub * 0.55, w / 2 * 0.72), (0.0, w / 2 * 0.62)], seg=12)
+        rm = Part('alloy'); bm = L.lathe([(0.0, -w / 2 * 0.62), (hub + 0.014, -w / 2 * 0.75), (hub + 0.014, w / 2 * 0.75), (0.0, w / 2 * 0.62)], seg=12)
         rm.add_bm(bm, Matrix.Translation(g2b(x, r, 0)) @ Matrix.Rotation(math.pi / 2, 4, 'X')); bm.free(); parts.append(rm)
     else:   # 鋼絲輪：鍍鉻輪圈（細環）＋輪轂；輻條用 6 根細桿暗示
         rm = Part('chrome'); bm = L.lathe([(hub, -0.016), (hub + 0.016, -0.016), (hub + 0.016, 0.016), (hub, 0.016)], seg=12)
@@ -203,12 +203,44 @@ ARCH = {
                cover=[(0.33, 0.985, 0.07, 0.035), (0.39, 0.995, 0.14, 0.04), (0.46, 0.985, 0.13, 0.035), (0.51, 0.97, 0.08, 0.025)], lamp='strip',
                seat=[(0.0, 0.70, 0.74, 0.12), (-0.1, 0.725, 0.78, 0.14), (-0.45, 0.74, 0.795, 0.145), (-0.72, 0.735, 0.8, 0.13), (-0.85, 0.72, 0.775, 0.09)],
                exh='none', tail='strip', mirror='round', two_tone=False, extras=['grab'],
-               palette=['#eef0f0', '#c9cdd0', '#55595e', '#9fc4d2', '#7fb8ab', '#e3a79c', '#1e2023'], weight=0.14),
+               palette=['#eef0f0', '#c9cdd0', '#55595e', '#9fc4d2', '#7fb8ab', '#e3a79c', '#1e2023'], weight=0.1),
+    'S4': dict(name='復古圓弧', wb=0.655, rf=0.228, rr=0.228, tw=0.1, fl=0.3, fx=0.3,
+               rear=[(0.0, 0.29, 0.69, 0.16, 0.12), (-0.14, 0.29, 0.72, 0.18, 0.13), (-0.38, 0.33, 0.735, 0.2, 0.135), (-0.62, 0.44, 0.735, 0.2, 0.13), (-0.8, 0.52, 0.72, 0.17, 0.115), (-0.92, 0.57, 0.69, 0.12, 0.085), (-0.96, 0.6, 0.66, 0.06, 0.045)], rp=2.2, bulge=0.14,
+               apron=[(0.28, 0.31, 0.21, 0.08, 0.03), (0.46, 0.34, 0.205, 0.12, 0.035), (0.63, 0.37, 0.19, 0.12, 0.04), (0.79, 0.4, 0.16, 0.1, 0.045), (0.92, 0.42, 0.11, 0.07, 0.045)], app=2.2,
+               cover=[(0.33, 0.99, 0.08, 0.05), (0.4, 1.005, 0.15, 0.07), (0.48, 0.99, 0.15, 0.065), (0.55, 0.965, 0.08, 0.045)], lamp='round',
+               seat=[(0.0, 0.69, 0.735, 0.12), (-0.1, 0.715, 0.775, 0.145), (-0.45, 0.73, 0.79, 0.15), (-0.72, 0.725, 0.795, 0.135), (-0.86, 0.71, 0.77, 0.09)],
+               exh='normal', tail='round', mirror='chrome', two_tone=False, extras=['chrome_rack'], seat_col='seat_brown',
+               palette=['#efe6cf', '#a9d3c4', '#a9c4dc', '#7b2a32', '#d8c8a8', '#1c1d1f', '#e6b8a8'], weight=0.07),
+    'S7': dict(name='50cc 舊款（綠牌）', base='S1A', scale=0.93, rf=0.2, rr=0.2, tw=0.085, extras=['grab'], lamp='handle', worn=True,
+               palette=['#c7c2b6', '#5d6f86', '#7d2a2a', '#dcd6c8', '#3e4a3c', '#9a9aa0'], weight=0.07),
+    'S3': dict(name='大型速克達', wb=0.7, rf=0.255, rr=0.25, tw=0.12, fl=0.36, fx=0.36,
+               rear=[(0.02, 0.33, 0.74, 0.17, 0.13), (-0.16, 0.33, 0.78, 0.19, 0.145), (-0.42, 0.38, 0.8, 0.2, 0.155), (-0.7, 0.52, 0.8, 0.19, 0.145), (-0.9, 0.6, 0.79, 0.16, 0.12), (-1.03, 0.65, 0.77, 0.11, 0.085), (-1.08, 0.69, 0.75, 0.05, 0.04)], rp=3.4,
+               apron=[(0.34, 0.37, 0.23, 0.08, 0.035), (0.52, 0.42, 0.23, 0.13, 0.04), (0.7, 0.47, 0.21, 0.14, 0.045), (0.86, 0.51, 0.18, 0.12, 0.05), (1.0, 0.54, 0.13, 0.08, 0.05)], app=3.2,
+               cover=[(0.4, 1.06, 0.08, 0.05), (0.47, 1.075, 0.16, 0.06), (0.55, 1.06, 0.15, 0.05), (0.62, 1.03, 0.08, 0.035)], lamp='apron',
+               seat=[(0.0, 0.74, 0.79, 0.15), (-0.12, 0.765, 0.81, 0.17), (-0.45, 0.78, 0.82, 0.17), (-0.6, 0.8, 0.9, 0.16), (-0.78, 0.81, 0.89, 0.15), (-0.94, 0.79, 0.85, 0.1)],
+               floor='tunnel', screen=True, exh='big', tail='wide', mirror='poly', two_tone=True, extras=['grab'],
+               palette=['#141517', '#e9e9e7', '#4a4e54', '#1f2e48', '#6b6f73'], weight=0.04),
+    'S6': dict(name='方塊越野風', wb=0.65, rf=0.232, rr=0.232, tw=0.13, fl=0.33, fx=0.31,
+               rear=[(0.0, 0.31, 0.71, 0.16, 0.13), (-0.14, 0.31, 0.75, 0.175, 0.145), (-0.38, 0.36, 0.77, 0.18, 0.15), (-0.64, 0.5, 0.78, 0.17, 0.145), (-0.84, 0.58, 0.78, 0.15, 0.13), (-0.96, 0.63, 0.77, 0.11, 0.1), (-1.0, 0.66, 0.76, 0.07, 0.065)], rp=6.0, bulge=0.0,
+               apron=[(0.3, 0.32, 0.2, 0.08, 0.03), (0.48, 0.355, 0.2, 0.12, 0.035), (0.66, 0.39, 0.19, 0.12, 0.04), (0.82, 0.42, 0.17, 0.1, 0.045), (0.95, 0.44, 0.14, 0.07, 0.045)], app=6.0,
+               cover=[(0.36, 1.0, 0.07, 0.04), (0.42, 1.01, 0.12, 0.05), (0.5, 1.0, 0.11, 0.045), (0.56, 0.98, 0.06, 0.03)], lamp='stack',
+               seat=[(0.0, 0.71, 0.76, 0.13), (-0.1, 0.74, 0.8, 0.15), (-0.45, 0.76, 0.82, 0.155), (-0.74, 0.77, 0.83, 0.14), (-0.88, 0.77, 0.815, 0.1)],
+               exh='normal', tail='wide', mirror='round', two_tone=True, extras=['rack', 'grab'], bars=True, hi_fender=True,
+               palette=['#1b1c1e', '#4f5a3c', '#b5a27a', '#e3c22b', '#e8e8e6'], weight=0.03),
+    'S9': dict(name='彎樑', cub=True, palette=['#8f2626', '#1f2f4f', '#1c1d1f', '#2f4a36', '#d9d2c2'], weight=0.02),
+    # 同一個車身的配件變化（街上看起來不同、也是生活痕跡）
+    'S1B_D': dict(name='國民通勤＋外送箱', base='S1B', extras=['delivery', 'phone'], weight=0.07, palette=['#141517', '#6f7378', '#334a6b', '#f1f1ee']),
+    'S5_H': dict(name='電動＋掛安全帽', base='S5', extras=['grab', 'helmet'], weight=0.05),
+    'S1A_C': dict(name='國民通勤＋機車罩', base='S1A', extras=['cover'], weight=0.03, palette=['#8e949a', '#2d3a52', '#6d7176']),
 }
+for k, A in list(ARCH.items()):          # base：沿用另一型的車身、只改列出的欄位
+    if 'base' in A:
+        B0 = dict(ARCH[A['base']]); B0.update({kk: vv for kk, vv in A.items() if kk != 'base'}); ARCH[k] = B0
 
 
 def build(code):
     A = ARCH[code]; P = {}
+    if A.get('cub'): return build_cub(A)
     def part(col, smooth=False, target=None):
         k = col + ('_s' if smooth else '')
         if k not in P: P[k] = Part(col, smooth, target)
@@ -218,23 +250,28 @@ def build(code):
     wheel(wl, wb, rf, tw); wheel(wl, -wb, rr, tw * (1.12 if code == 'S2' else 1.0))
     paint = part('paint'); rear = interp(A['rear'], 1)
     # 後車身：圓角梯形斷面，下緣越往後越高（讓出後輪）
-    loft(paint, [tsect(x, yb, yt, w0, w1, p=A['rp']) for (x, yb, yt, w0, w1) in rear])
+    if 'cover' in A['extras']: return wl + cover_shell(A, rear)
+    loft(paint, [tsect(x, yb, yt, w0, w1, p=A['rp'], bulge=A.get('bulge', 0.07)) for (x, yb, yt, w0, w1) in rear])
     if A['two_tone']:   # 運動型：側板下半部黑色塑件（比車殼寬一點點，蓋在下緣）
         loft(part('black'), [tsect(x, yb - 0.005, yb + (yt - yb) * 0.38, w0 + 0.006, w0 * 0.96 + 0.004, p=A['rp']) for (x, yb, yt, w0, w1) in rear[1:-1]])
     # 座墊：坐的地方低、後座高一點；外緣一圈車線（深一點的顏色）
-    seat = A['seat']; loft(part('seat'), [tsect(x, yb, yt, hw, hw * 0.9, p=2.8, n=8, bulge=0.03) for (x, yb, yt, hw) in interp(seat, 1)])
+    seat = A['seat']; loft(part(A.get('seat_col', 'seat')), [tsect(x, yb, yt, hw, hw * 0.9, p=2.8, n=8, bulge=0.03) for (x, yb, yt, hw) in interp(seat, 1)])
     # 踏板：平的腳踏板＋橡膠紋（深灰）＋兩側的車殼裙邊
     part('dark').box(-0.02, fx, fl - 0.012, fl, -0.165, 0.165)
+    if A.get('floor') == 'tunnel':   # 大型速克達：踏板中間的隧道（騎士要跨過去）
+        loft(paint, [tsect(x, fl - 0.01, fl + 0.13, 0.085, 0.06, p=2.6, n=8, bulge=0.0) for x in (-0.03, fx * 0.5, fx + 0.02)])
     loft(paint, [tsect(x, fl - 0.11, fl - 0.008, 0.17, 0.172, p=4) for x in (-0.03, fx * 0.5, fx + 0.01)])
     # 前擋：前面鼓、後面平，往上往前傾
     apr = interp(A['apron'], 1)
     loft(paint, [shield(x, y, hw, df, db, p=A['app']) for (y, x, hw, df, db) in apr])
-    loft(part('black'), [shield(x - 0.004, y, hw * 0.93, 0.01, db + 0.005, p=A['app']) for (y, x, hw, df, db) in apr[1:-1]])   # 膝蓋那面的黑色內板
+    loft(part('black'), [shield(x - 0.004, y, hw * 0.93, 0.01, db + 0.005, p=A['app'], n=6) for (y, x, hw, df, db) in apr[1:-1]])   # 膝蓋那面的黑色內板
     # 後車身的分模線：一圈很細的深色帶（側蓋和下半部的接縫），從座墊前緣下方到車尾
     lv = 0.42
-    loft(part('black'), [tsect(x, yb + (yt - yb) * lv, yb + (yt - yb) * lv + 0.007, (w0 + (w1 - w0) * lv) * 1.075 + 0.003, (w0 + (w1 - w0) * lv) * 1.075 + 0.003, p=A['rp'] + 1, n=8, bulge=0.0) for (x, yb, yt, w0, w1) in rear[2:-2]])
+    loft(part('black'), [tsect(x, yb + (yt - yb) * lv, yb + (yt - yb) * lv + 0.007, (w0 + (w1 - w0) * lv) * 1.075 + 0.003, (w0 + (w1 - w0) * lv) * 1.075 + 0.003, p=A['rp'] + 1, n=6, bulge=0.0) for (x, yb, yt, w0, w1) in rear[2:-2]])
     # 前土除：貼著前輪（間隙約 3 cm），從前輪後上方包到前方
-    arc_band(paint, wb, rf, rf + 0.035, -35, 75, tw * 0.62 + 0.012, th=0.008)
+    if A.get('hi_fender'):   # 越野風：高的前土除（裝在龍頭下面，離輪子很遠）＋黑色前叉護蓋
+        arc_band(part('black'), wb - 0.02, rf, rf + 0.13, -40, 55, tw * 0.6 + 0.02, th=0.009)
+    else: arc_band(paint, wb, rf, rf + 0.035, -35, 75, tw * 0.62 + 0.012, th=0.008)
     # 前叉：下半截露出來（從輪軸往上到前擋下緣），上半截在前擋裡
     top = (A['apron'][0][1] + 0.03, A['apron'][1][0] - 0.02)
     for z in (-0.055, 0.055):
@@ -248,7 +285,7 @@ def build(code):
         part('black').cyl((0.42, cy_c + 0.02, s * 0.2), (0.45, cy_c + 0.01, s * 0.31), 0.006, seg=3)
     part('smoke').box(cov[1][0] - 0.03, cov[1][0] + 0.03, cy_c + 0.035, cy_c + 0.06, -0.07, 0.07)
     # 後照鏡
-    mr = part('dark')
+    mr = part('chrome' if A['mirror'] == 'chrome' else 'dark')
     for s in (-1, 1):
         if A['mirror'] == 'poly':
             mr.cyl((0.4, cy_c + 0.03, s * 0.22), (0.39, cy_c + 0.11, s * 0.26), 0.008, seg=4)
@@ -265,6 +302,11 @@ def build(code):
     elif A['lamp'] == 'vled':
         for s in (-1, 1): lp.quad([(ap[1][1] + 0.098, ap[1][0] + 0.03, s * 0.02), (ap[2][1] + 0.096, ap[2][0] + 0.07, s * 0.125), (ap[2][1] + 0.096, ap[2][0] + 0.105, s * 0.115), (ap[1][1] + 0.098, ap[1][0] + 0.07, s * 0.018)][::s])
         lp.rbox(cov[2][0] + 0.01, cov[2][0] + 0.05, cy_c - 0.03, cy_c - 0.005, -0.06, 0.06, r=0.008, seg=1)
+    elif A['lamp'] == 'round':    # 復古：龍頭罩前面的圓頭燈（鍍鉻燈圈）
+        part('chrome').cyl((cov[2][0] + 0.03, cy_c - 0.01, 0), (cov[2][0] + 0.065, cy_c - 0.01, 0), 0.072, seg=14); lp.cyl((cov[2][0] + 0.064, cy_c - 0.01, 0), (cov[2][0] + 0.068, cy_c - 0.01, 0), 0.06, seg=14)
+    elif A['lamp'] == 'stack':    # 越野風：前擋上下疊的兩顆方燈
+        x = ap[2][1] + ap[2][3] - 0.012
+        for y in (ap[2][0] - 0.02, ap[2][0] + 0.07): lp.box(x, x + 0.025, y, y + 0.055, -0.085, 0.085)
     elif A['lamp'] == 'strip':
         lp.rbox(ap[1][1] + ap[1][3] - 0.006, ap[1][1] + ap[1][3] + 0.01, ap[1][0] - 0.06, ap[3][0], -0.013, 0.013, r=0.005, seg=1)
         lp.rbox(cov[2][0] + 0.02, cov[2][0] + 0.045, cy_c - 0.025, cy_c - 0.005, -0.08, 0.08, r=0.008, seg=1)
@@ -278,6 +320,8 @@ def build(code):
         for s in (-1, 1): am.box(tx - 0.04, tx - 0.01, tyt - 0.12, tyt - 0.095, s * 0.085 - 0.022, s * 0.085 + 0.022)
     elif A['tail'] == 'sharp':
         for s in (-1, 1): tl.quad([(tx - 0.04, tyb + 0.02, s * 0.005), (tx + 0.08, tyb + 0.0, s * 0.1), (tx + 0.08, tyb + 0.035, s * 0.11), (tx - 0.04, tyb + 0.055, s * 0.01)][::s])
+    elif A['tail'] == 'round':
+        tl.cyl((tx - 0.03, tyt - 0.07, 0), (tx - 0.005, tyt - 0.07, 0), 0.045, seg=12)
     elif A['tail'] == 'strip':
         tl.rbox(tx - 0.035, tx - 0.01, tyt - 0.06, tyt - 0.035, -0.095, 0.095, r=0.006, seg=1)
     # 後土除（包著後輪的後上方）＋車牌架
@@ -301,6 +345,13 @@ def build(code):
     cs = part('metal')
     for z in (-0.11, 0.11): cs.cyl((-0.12, 0.19, z), (-0.17, 0.0, z * 1.1), 0.014, seg=4)
     cs.cyl((-0.17, 0.012, -0.12), (-0.17, 0.012, 0.12), 0.014, seg=4)
+    # 擋風鏡（大型速克達）、外露的把手橫桿（越野風）
+    if A.get('screen'):
+        sm = part('smoke'); x0, y0 = cov[2][0] + 0.02, cy_c - 0.02
+        for q in ([(x0, y0, -0.17), (x0, y0, 0.17), (x0 - 0.08, y0 + 0.33, 0.13), (x0 - 0.08, y0 + 0.33, -0.13)], [(x0, y0, 0.17), (x0, y0, -0.17), (x0 - 0.08, y0 + 0.33, -0.13), (x0 - 0.08, y0 + 0.33, 0.13)]): sm.quad(q)
+    if A.get('bars'):
+        bb = part('black'); bb.cyl((0.41, cy_c + 0.06, -0.3), (0.41, cy_c + 0.06, 0.3), 0.012, seg=5); bb.cyl((0.41, cy_c + 0.1, -0.12), (0.41, cy_c + 0.1, 0.12), 0.01, seg=5)
+        for z in (-0.12, 0.12): bb.cyl((0.41, cy_c + 0.06, z), (0.41, cy_c + 0.1, z), 0.01, seg=4)
     # 配件
     ex = A['extras']; sx_end = seat[-1][0]; sy = seat[-1][2]
     if 'grab' in ex:      # 後扶手（座墊後半兩側往後包到車尾）
@@ -313,15 +364,80 @@ def build(code):
         part('metal').box(bx0 - 0.3, bx0 - 0.04, sy - 0.005, sy + 0.03, -0.11, 0.11)
     if 'hook_bag' in ex:  # 前掛勾掛的塑膠袋（便當、飲料）
         part('helmet_w').ell((ap[2][1] - 0.07, ap[2][0] - 0.12, 0.0), 0.06, 0.085, 0.085, seg=8, rings=5)
+    if 'chrome_rack' in ex or 'rack' in ex:   # 後架（復古：鍍鉻；越野：黑色）
+        rk = part('chrome' if 'chrome_rack' in ex else 'black'); x0, x1, y = seat[3][0], sx_end - 0.06, sy + 0.02
+        for z in (-0.12, 0.12): rk.cyl((x0, y - 0.02, z * 1.2), (x0 - 0.04, y, z), 0.01, seg=4); rk.cyl((x0 - 0.04, y, z), (x1, y, z), 0.01, seg=4)
+        for x in (x0 - 0.04, (x0 + x1) / 2 - 0.02, x1): rk.cyl((x, y, -0.12), (x, y, 0.12), 0.009, seg=4)
+    if 'delivery' in ex:  # 外送箱（方形保溫箱、素色、沒有平台的標誌）＋後架
+        x1 = sx_end - 0.02; part('metal').box(x1 - 0.32, x1, sy + 0.0, sy + 0.025, -0.15, 0.15)
+        part('deliv').rbox(x1 - 0.42, x1 + 0.02, sy + 0.025, sy + 0.45, -0.22, 0.22, r=0.03, seg=1)
+        part('black').box(x1 - 0.425, x1 + 0.025, sy + 0.33, sy + 0.345, -0.222, 0.222)
+    if 'helmet' in ex:    # 掛在左後照鏡下的半罩安全帽
+        hx, hy, hz = 0.37, cy_c - 0.08, 0.26; part('helmet_b').ell((hx, hy, hz), 0.12, 0.09, 0.105, seg=10, rings=5)
+        part('visor').box(hx + 0.07, hx + 0.1, hy - 0.02, hy + 0.04, hz - 0.08, hz + 0.08)
     if 'phone' in ex:     # 手機架
         part('black').rbox(cov[1][0] - 0.01, cov[1][0] + 0.01, cy_c + 0.08, cy_c + 0.2, -0.04, 0.04, r=0.005, seg=1)
-    return wl + list(P.values())
+    out = wl + list(P.values())
+    if A.get('scale'):   # 50cc：整台小一號
+        k = A['scale']
+        for prt in out:
+            for v in prt.bm.verts: v.co *= k
+    if A.get('worn'):   # 舊車：座墊破了用膠帶補
+        pass
+    return out
+
+
+def cover_shell(A, rear):
+    """整台蓋上機車罩（銀色、藍色的布罩，下緣露出輪子）：一層包住車身輪廓的殼"""
+    c = Part('cloth'); wb = A['wb']
+    rows = [(wb + 0.18, 0.32, 0.62, 0.1, 0.06), (wb + 0.05, 0.27, 0.88, 0.17, 0.12), (0.42, 0.27, 1.12, 0.3, 0.2), (0.3, 0.26, 0.98, 0.25, 0.2),
+            (0.05, 0.26, 0.86, 0.22, 0.19), (-0.3, 0.27, 0.86, 0.23, 0.19), (-0.65, 0.3, 0.85, 0.22, 0.18), (-0.9, 0.33, 0.8, 0.18, 0.14), (-1.0, 0.36, 0.74, 0.1, 0.08)]
+    loft(c, [tsect(x, yb, yt, w0, w1, p=2.4, n=10, bulge=0.05) for (x, yb, yt, w0, w1) in interp(rows, 1)])
+    return [c]
+
+
+def build_cub(A):
+    """彎樑（Cub 型）：鋼絲輪、彎樑車架、腿部護板、圓頭燈在龍頭、腳踏桿、後貨架、低置的鍍鉻排氣管"""
+    out = []; P = {}
+    def part(col):
+        if col not in P: P[col] = Part(col)
+        return P[col]
+    wb, r = 0.62, 0.29
+    wheel(out, wb, r, 0.075, rim='spoke'); wheel(out, -wb, r, 0.08, rim='spoke')
+    paint = part('paint')
+    # 彎樑車架：從龍頭往下彎到引擎上方、再往後上到座墊下（粗的管狀車殼）
+    path = [(0.47, 0.88, 0.07), (0.38, 0.7, 0.075), (0.25, 0.5, 0.08), (0.08, 0.42, 0.08), (-0.12, 0.45, 0.085), (-0.3, 0.55, 0.11), (-0.5, 0.62, 0.12), (-0.7, 0.66, 0.1), (-0.85, 0.68, 0.06)]
+    loft(paint, [tsect(x, y - rr_ * 0.9, y + rr_ * 0.9, rr_, rr_ * 0.9, p=2.4, n=8, bulge=0.0) for (x, y, rr_) in interp(path, 1)])
+    # 腿部護板（白色塑膠，在腳前面）
+    loft(part('helmet_w'), [shield(x, y, hw, 0.03, 0.015, p=2.4, n=8) for (y, x, hw) in [(0.36, 0.3, 0.16), (0.5, 0.33, 0.2), (0.66, 0.37, 0.19), (0.8, 0.41, 0.12)]])
+    # 前土除、前叉（伸縮、鍍鉻）、龍頭罩、圓頭燈
+    arc_band(paint, wb, r, r + 0.03, -30, 80, 0.06, th=0.007)
+    for z in (-0.06, 0.06): part('chrome').cyl((wb, r, z), (0.47, 0.86, z * 0.8), 0.018, seg=6)
+    loft(paint, [sect(x, cy, hw, hh, p=2.6) for (x, cy, hw, hh) in [(0.42, 0.95, 0.06, 0.04), (0.48, 0.97, 0.13, 0.055), (0.55, 0.96, 0.12, 0.05), (0.6, 0.94, 0.06, 0.035)]])
+    part('chrome').cyl((0.59, 0.93, 0), (0.62, 0.93, 0), 0.075, seg=14); part('lamp').cyl((0.62, 0.93, 0), (0.625, 0.93, 0), 0.062, seg=14)
+    for s in (-1, 1):
+        part('dark').cyl((0.5, 0.98, s * 0.12), (0.47, 0.99, s * 0.33), 0.016, seg=6)
+        part('chrome').cyl((0.49, 0.99, s * 0.2), (0.45, 1.16, s * 0.26), 0.007, seg=4); part('chrome').cyl((0.445, 1.17, s * 0.265), (0.455, 1.17, s * 0.265), 0.04, seg=10)
+    # 引擎（水平汽缸）、鍍鉻排氣管（低置右側）、腳踏桿
+    part('cvt').rbox(-0.18, 0.18, 0.18, 0.4, -0.1, 0.12, r=0.04, seg=1); part('metal').cyl((0.05, 0.3, -0.02), (0.26, 0.33, -0.02), 0.06, seg=8)
+    part('chrome').cyl((0.22, 0.24, -0.08), (-0.1, 0.18, -0.14), 0.022, seg=6); part('chrome').cyl((-0.1, 0.18, -0.14), (-0.75, 0.26, -0.15), 0.04, seg=8, r2=0.035)
+    part('metal').cyl((-0.02, 0.2, -0.24), (-0.02, 0.2, 0.24), 0.012, seg=4)
+    # 座墊（長、平）、側蓋、後土除、後貨架、尾燈、車牌
+    loft(part('seat'), [tsect(x, yb, yt, hw, hw * 0.9, p=2.8, n=8, bulge=0.03) for (x, yb, yt, hw) in [(-0.05, 0.74, 0.78, 0.1), (-0.15, 0.75, 0.8, 0.13), (-0.45, 0.76, 0.81, 0.135), (-0.66, 0.75, 0.8, 0.11)]])
+    part('paint').rbox(-0.45, -0.15, 0.48, 0.7, -0.12, 0.12, r=0.03, seg=1)
+    arc_band(paint, -wb, r, r + 0.035, -110, 5, 0.065, th=0.007)
+    rk = part('black'); y = 0.79
+    for z in (-0.13, 0.13): rk.cyl((-0.66, y, z), (-1.02, y, z), 0.011, seg=4)
+    for x in (-0.7, -0.84, -0.98): rk.cyl((x, y, -0.13), (x, y, 0.13), 0.01, seg=4)
+    for z in (-0.13, 0.13): rk.cyl((-0.98, y, z), (-0.9, 0.55, z * 0.9), 0.011, seg=4)
+    part('tail').box(-0.99, -0.96, 0.62, 0.68, -0.05, 0.05); part('plate').box(-1.0, -0.985, 0.48, 0.58, -0.09, 0.09)
+    return out + list(P.values())
 
 
 meta = {}
 codes = ONLY or list(ARCH)
 if '--preview' in ARGS:
-    PICK = {'S1A': 5, 'S1B': 4, 'S2': 2, 'S5': 3}
+    PICK = {'S1A': 5, 'S1B': 4, 'S2': 2, 'S5': 3, 'S4': 1, 'S7': 1, 'S3': 0, 'S6': 1, 'S9': 0, 'S1B_D': 0, 'S5_H': 4, 'S1A_C': 1}
     for c in codes: PREVIEW_COL[f'scooter_{c}'] = ARCH[c]['palette'][PICK.get(c, 0)]
 for i, code in enumerate(codes):
     parts = build(code); ob = finish_all(parts, f'scooter_{code}', i * 1.2)
