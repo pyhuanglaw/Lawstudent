@@ -70,7 +70,7 @@ const XUN='econ_zhengxun';
     fresh(Y0+1,7.2,'dorm',{}); G.stage='econ'; G.flags={E01_DONE:true,E01_NIGHT:'unpack'}; said=[]; STORY.y0Tick(GM); await new Promise(r=>setTimeout(r,10));
     check('6. 讀檔時 9/2 早上、還沒聽到阿勳那一句：補一次',lines().includes('阿勳：你拆到兩點。我以為你在搬家。')&&G.flags.E01_MORNING===true);
     fresh(30,8,'dorm',{}); G.stage='law'; said=[]; check('6. 法律系的存檔：y0Tick 什麼都不做',STORY.y0Tick(GM)===false&&!lines().length); }
-  check('7. 換日標題：法律系「第 5 天」、經濟系「9 月 3 日」',STORY.dayTitle({day:5})==='第 5 天'&&STORY.dayTitle({stage:'econ',day:Y0+2})==='9 月 3 日');
+  check('7. 換日標題：法律系也寫日期（AA_195 4-7 A3：第 5 天＝「9 月 21 日」）、經濟系「9 月 3 日」',STORY.dayTitle({day:5})==='9 月 21 日'&&STORY.dayTitle({stage:'econ',day:Y0+2})==='9 月 3 日');
   { const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), dm=fs.readFileSync(path.join(ROOT,'src/dorm3d.js'),'utf8'), hm=fs.readFileSync(path.join(ROOT,'src/home3d.js'),'utf8');
     check('8. 經濟系那一年房間裡是阿勳（populate），阿凱不出現；門牌 412；回家睡覺的換日標題也寫日期',/zoneId==='dorm'&&S\.isEcon\(G\)\)\{ if\(\(hr>=18\|\|hr<8(\|\|\(typeof CALENDAR!=='undefined'&&CALENDAR\.typhoon\(G\.day\)\))?\)&&F\.E01_DONE\) GM\.spawnCharacter\(XUN/.test(st)&&/else if\(zoneId==='dorm'\)\{ if\(hr>=18\|\|hr<8\)\{ GM\.spawnNPC\('kai'/.test(st)&&/if\(econ\) h\.plate='412'/.test(dm)&&/STORY\.dayTitle\(G\)/.test(hm)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

@@ -30,7 +30,7 @@ const STORY = (function(){
   /* 經濟系／法律系兩種開局（交接包 v0 A3、AA_106 第 3 節）：G.stage＝'econ'（經濟系那一年）或 'law'（法律系；舊存檔沒有這個欄位＝法律系，migrate 補預設值）。
      開場劇情的日子：法律系第 1、2 天（第一天宿舍、第二天民總），經濟系 2024-09-01（E01 宿舍第一晚，AA_154 A24）——一鍵上課、跳過時間、時段次數、小睡在這幾天不開（原本寫死 G.day<3，經濟系的天數是負的）*/
   S.isEcon=G=>!!G&&G.stage==='econ';
-  S.dayTitle=G=>{ if(S.isEcon(G)&&typeof CALENDAR!=='undefined'){ const d=CALENDAR.dateOf(G.day); return d.m+' 月 '+d.d+' 日'; } return '第 '+G.day+' 天'; };   /* 換日的標題：經濟系那一年的日子是負的（2024-09-01＝第 −380 天），寫日期 */
+  S.dayTitle=G=>{ if(typeof CALENDAR!=='undefined'&&G&&typeof G.day==='number'){ const d=CALENDAR.dateOf(G.day); return d.m+' 月 '+d.d+' 日'; } return '第 '+G.day+' 天'; };   /* A3（AA_195 4-7）：法律系也寫日期（原本只有經濟系那一年）*/   /* 換日的標題：經濟系那一年的日子是負的（2024-09-01＝第 −380 天），寫日期 */
   S.Y0_DAY1=null; S.y0Day1=()=>S.Y0_DAY1!=null?S.Y0_DAY1:(S.Y0_DAY1=S.dayOfKey?S.dayOfKey('2024-09-01'):null);
   S.opening=G=>!!G&&(S.isEcon(G)?G.day===S.y0Day1():(S.mainDay(G)===1||S.mainDay(G)===2));   /* 開局 B（D91）：新遊戲從第 −16 天（8/31）開始以後，第 1 天以前是一般的日子，不是開場劇情 */
   /* 法律系這一局從哪一天開始（D91）：舊存檔、現在的開局＝第 1 天（9/17 晚上）；開局 B＝第 −16 天（2025-08-31 傍晚）。在那之前的課不排、不算沒去 */
@@ -347,7 +347,7 @@ const STORY = (function(){
     if(e.if&&!(ec&&EVENTS.cond(e.if))) return false; if(e.unless&&ec&&EVENTS.cond(e.unless)) return false; if(e.any&&!(ec&&e.any.some(c=>EVENTS.cond(c)))) return false;
     if(e.term&&!(T&&[].concat(e.term).includes(T.id))) return false; if(e.week&&!(T&&T.week>=e.week[0]&&T.week<=e.week[1])) return false;
     if(e.location&&!(Array.isArray(e.location)?e.location:[e.location]).includes(G.zone)) return false; if(e.time&&!(hh>=e.time[0]&&hh<e.time[1])) return false;
-    if(e.weekday&&!e.weekday.includes(G.weekday)) return false; if(e.weather&&![].concat(e.weather).includes(G.weather)) return false; if(e.dayMin&&G.day<e.dayMin) return false;
+    if(e.weekday&&!e.weekday.includes(G.weekday)) return false; if(e.weather&&![].concat(e.weather).includes(G.weather)) return false; if(e.dayMin&&S.mainDay(G)<e.dayMin) return false;   /* A1（AA_195 4-7）：閒聊階梯的 dayMin 和事件的 day_min 一樣，從法律系主線第一天算 */
     if(e.weekParity&&T){ const odd=T.week%2===1; if((e.weekParity==='odd')!==odd) return false; }   /* weekParity（BB，ladder README）：'odd'＝單週、'even'＝雙週（法服值班的短招呼；2026-10-16 AA-B 驗收：原本沒有處理）*/
     if(e.locTime&&e.locTime[G.zone]){ const lt=e.locTime[G.zone]; if(lt.weekday&&!lt.weekday.includes(G.weekday)) return false; if(lt.time&&!(hh>=lt.time[0]&&hh<lt.time[1])) return false; }
     if(e.unlessWeekdayTime){ const u=e.unlessWeekdayTime; if((!u.weekday||u.weekday.includes(G.weekday))&&(!u.time||(hh>=u.time[0]&&hh<u.time[1]))) return false; }
@@ -793,7 +793,7 @@ const STORY = (function(){
     PHONE.post(G,sis('先看置頂。')); if(GM.toast) GM.toast('手機｜法律系直屬家族｜Kevin：第三週了，直屬學弟妹還活著嗎？',4200); if(GM.phoneBadge) GM.phoneBadge(); }
   /* 手機上照旗標排時間的訊息（內容照企劃組原文）。每 0.5 秒（S.tick）；同一則用 tag 只排一次 */
   /* 某學期第幾週星期幾是第幾天（wd：1＝週一…7＝週日）；沒有＝null */
-  const termDayCache={}; function termDay(term,week,wd){ const k=term+'|'+week+'|'+wd; if(k in termDayCache) return termDayCache[k]; let r=null; if(typeof CALENDAR!=='undefined') for(let d=(/^Y0/.test(term)?-420:1);d<1500;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===week&&CALENDAR.dateOf(d).wd===wd){ r=d; break; } } return termDayCache[k]=r; }
+  const termDayCache={}; function termDay(term,week,wd){ const k=term+'|'+week+'|'+wd; if(k in termDayCache) return termDayCache[k]; let r=null; if(typeof CALENDAR!=='undefined') for(let d=(/^Y0/.test(term)?-420:-30);d<1500;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===week&&CALENDAR.dateOf(d).wd===wd){ r=d; break; } } return termDayCache[k]=r; }
   /* 明軒的「公館一百元以內」清單（BB_70 5-6 F-M1；店名照遊戲裡的店，D77）*/
   S.MX_FM1={head:'公館一百元以內（明軒版）。按 CP 值排。不接受申訴。',title:'公館一百元以內（明軒版）',
     rows:[['林家乾麵（溫州街）','小碗乾麵＋貢丸湯','70','飽足感除以價錢，第一名。沒有之一。'],['阿鳳麵店','乾麵＋餛飩湯','85','滷蛋另外算。阿姨有時候多給一顆，這個不能算進排名。'],
