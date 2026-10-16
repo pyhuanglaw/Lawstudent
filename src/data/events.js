@@ -381,7 +381,7 @@ const STORY_EVENTS=[
   { id:'ev_kexin_tour_nccu', title:'導遊', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
     dialogue:[ {scene:'政大・校門口',bg:'nccu_gate'},
       {speaker:null,text:'校門口。她在揮手，只戴一邊的耳環，今天是一顆小骰子。'},
-      {speaker:'kexin',expression:'smile',text:'歡迎來到政大。我是今天的導遊。'},
+      {speaker:'kexin',expression:'smile',text:'暑假那次學校沒人，不算。今天才是真的政大。我是今天的導遊。'},   /* AA_140 3-5 F（2026-10-16）：同意 BB-B 的句子（和經濟系那年 E37 的暑假那一次不矛盾）*/
       {speaker:'kexin',expression:'smile',text:'我在這裡念了{flag:kxTourWeeks|三}個禮拜，所以比你懂這裡{flag:kxTourWeeks|三}個禮拜。'},   /* AA 審 9-1 第 2 點：K1 延後時照實際的週數（排出遊時記下：story3d.js）*/
       {speaker:null,text:'她指了左邊、右邊、後面。'},
       {speaker:'kexin',expression:'laugh',text:'法學院。山。也是山。政大的地圖重點就是：山。'},

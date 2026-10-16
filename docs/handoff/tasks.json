@@ -8062,8 +8062,8 @@
    "title": "K1 預設版改一行：「暑假那次學校沒人，不算。今天才是真的政大。我是今天的導遊。」",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "改 events.js K1 預設版那一行",
+   "status": "已整合待測試",
+   "next": "K1 第二句已改（v1_batch7_unit 照新句子）；BCG-27 的旁白改句等 BB-B",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
