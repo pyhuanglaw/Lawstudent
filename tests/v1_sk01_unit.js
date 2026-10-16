@@ -110,6 +110,13 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   G.day=termDay('Y1S1',8,1); G.weekday=1; G.zone='dorm'; check('11. 第 8 週、在房間＝還沒有',!STORY.sk02W8Due(G));
   G.zone='dorm_hall'; check('11. 第 8 週回到男生宿舍門廳＝有',STORY.sk02W8Due(G));
   said=[]; await STORY.sk02W8(GM); L=lines(); check('11. 紙條「你的過去，我幫你領了。」；外套收進衣櫃、沒有「走錯棟」',L[L.length-1]==='阿勳的紙條：你的過去，我幫你領了。'&&G.flags.ECON_JACKET==='closet'&&!G.flags.SOC_WRONG_BUILDING&&!STORY.sk02W8Due(G),JSON.stringify(L));
+  check('11. 先櫃台的旁白（BB-B 66cf3ed4）',L[0]==='宿舍櫃台叫住你：『有你的東西。一個經濟系的學生放的。』'&&L.length===2,JSON.stringify(L));
+  const jk=()=>STORY.roomItemList(G).filter(r=>r[0]==='經濟系的系外套').map(r=>[].concat(r[1]));
+  check('13. 房間：第 8 週阿勳代領＝「口袋裡還夾著阿勳那張紙條。」',JSON.stringify(jk())===JSON.stringify([['經濟系的系外套。口袋裡還夾著阿勳那張紙條。']]),JSON.stringify(jk()));
+  G.flags.SK02_W8=null; G.flags.ECON_JACKET='closet'; check('13. 房間：③收進衣櫃',JSON.stringify(jk())===JSON.stringify([['經濟系的系外套。摺好的，還沒穿過。','領的時候，系辦助理說它等你半年了。']]),JSON.stringify(jk()));
+  G.flags.ECON_JACKET='wear'; check('13. 房間：①穿去上課',JSON.stringify(jk())===JSON.stringify([['經濟系的系外套。你穿去霖澤館一次，阿哲說你是臥底。','……之後就掛在椅背上了。']]),JSON.stringify(jk()));
+  G.flags.ECON_JACKET='xun'; check('13. 房間：②送給阿勳＝沒有',!jk().length);
+  delete G.flags.ECON_JACKET; check('13. 房間：沒有系外套的劇情＝沒有',!jk().length);
   // 12. P4d 第二句
   const p4d=async f=>{ fresh(termDay('Y1S2',2,5),12.1,'putong',f); G.stage='law'; picks=['重修']; await EVENTS.run(ev('ev_econ_hallway')); return lines(); };
   L=await p4d({MET_XUN:true,SOC_WRONG_BUILDING:true}); check('12. P4d：聯絡過＋領過系外套＝「法律系不是在對面嗎。……又走錯棟了？」',L[0]==='阿勳：……你怎麼又在這裡？'&&L[1]==='阿勳：法律系不是在對面嗎。……又走錯棟了？'&&!L.some(t=>/盧正勳/.test(t)),JSON.stringify(L.slice(0,3)));
