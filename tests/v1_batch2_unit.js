@@ -115,7 +115,7 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     check('G 選「我知道誰會知道」：祐廷傳給學姊兩則（AA 2026-10-14 的原文，不用括號說明），學姊的回覆排在當晚 22:30',JSON.stringify(q.map(m=>m.from+'：'+m.text))===JSON.stringify(['player：學姊，想請問一件事。麵店的阿姨被客人說吃壞肚子，要賠三萬。','player：客人還錄了跟阿姨吵架的聲音，說要告。這種事可以去法服問嗎？'])&&G.phone.q.some(x=>x.tag==='sis_yutong'&&x.day===80&&Math.abs(x.h-22.5)<1e-6),JSON.stringify(q.map(m=>m.text)));
     check('G 語彤第二句拆成兩句（AA：一句 40 字以內）',L.includes('上週有客人說他在我們店吃壞肚子，要我阿姨賠三萬。')&&L.includes('他還錄了跟我阿姨吵架的聲音，說要拿去告。')&&L.every(t=>[...t].length<=40),JSON.stringify(L.filter(t=>[...t].length>40)));
     G.hour=22.55; PHONE.tick(G); STORY.phoneRules(GM); const W=KX('p:heroine_05').filter(m=>m.from==='heroine_05').map(m=>m.text);
-    check('G 學姊 22:30 的四句（BB_95 4-3）',JSON.stringify(W)===JSON.stringify(['三件事。','一，叫阿姨週三晚上來萬才館，法服有值班。','二，發票、那天的進貨單、監視器的時間，全部留著。','三，叫阿姨先睡覺。這種事，準備好就不可怕。']),JSON.stringify(W));
+    check('G 學姊 22:30 的四句（BB_95 4-3）',JSON.stringify(W)===JSON.stringify(['三件事。','一，叫阿姨這週六早上九點來萬才館，法服有值班。','二，發票、那天的進貨單、監視器的時間，全部留著。','三，叫阿姨先睡覺。這種事，準備好就不可怕。']),JSON.stringify(W));
     check('G 沒有語彤的聯絡方式：下次在麵店當面給她看（ev_yutong_fwd）',G.flags.yutongFwdInPerson===true&&EVENTS.check(ev('ev_yutong_fwd'))===true);
     said=[]; await EVENTS.run(ev('ev_yutong_fwd')); check('G 當面：「你把學姊的回覆給語彤看。」「……法服是什麼？」',JSON.stringify(lines())===JSON.stringify(['你把學姊的回覆給語彤看。','……法服是什麼？'])); }
   { const e=ev('ev_yutong_customer'); fresh(80,20.5,'noodle',{dating_kexin:true}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x'); INV.rec(G); G.contacts.heroine_03=70; picks=['我不知道']; await EVENTS.run(e);
@@ -124,10 +124,10 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
   { const e=ev('ev_yutong_customer'); fresh(80,20.5,'noodle',{}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x'); picks=['我覺得不能用']; await EVENTS.run(e); const L=lines();
     check('G 裝懂：「語彤看了你三秒。」「你剛剛停頓了。」……「那你一開始就說不知道就好。」、記下 BLUFFED',L.includes('語彤看了你三秒。')&&L.includes('你剛剛停頓了。')&&L.includes('……對，我不知道。')&&L.includes('嗯。那你一開始就說不知道就好。')&&SOCIAL.has('heroine_03','BLUFFED'));
     STORY.phoneRules(GM); check('G 裝懂、說只是嚇人：不會私訊學姊',!KX('p:heroine_05').length);
-    const after=ev('ev_yutong_customer_after'), d=G.flags.yutongCustomerDay, w=CALENDAR.dateOf(d).wd, wed=d+(((3-w)+7)%7||7);
+    const after=ev('ev_yutong_customer_after'), d=G.flags.yutongCustomerDay, w=CALENDAR.dateOf(d).wd%7, wed=d+(((6-w)+7)%7||7);   /* 2026-10-15 法服方案 A：週六（變數名沿用 wed）*/
     G.day=wed; G.weekday=wdOf(wed); G.zone='noodle'; const a=EVENTS.check(after); G.day=wed+1; G.weekday=wdOf(wed+1); const b=EVENTS.check(after);
-    check('G 結果（阿姨週三去了法服）：那個週三還不出現、之後才出現',a===false&&b===true,JSON.stringify({d,wed,a,b}));
-    said=[]; await EVENTS.run(after); check('G 結果的旁白（三種選擇都一樣）',lines()[0]==='阿姨週三去了法服。溫學姊幫她把那天的進貨單、發票、監視器的時間整理好。'&&lines()[1]==='客人看到阿姨準備得這麼齊，就沒有再來了。'); }
+    check('G 結果（阿姨那個週六早上去了法服）：那個週六還不出現、之後才出現',a===false&&b===true,JSON.stringify({d,wed,a,b}));
+    said=[]; await EVENTS.run(after); check('G 結果的旁白（三種選擇都一樣）',lines()[0]==='阿姨那個週六早上去了法服。溫學姊幫她把那天的進貨單、發票、監視器的時間整理好。'&&lines()[1]==='客人看到阿姨準備得這麼齊，就沒有再來了。'); }
   /* ---------- H 房間物件 ---------- */
   { fresh(5,20,'dorm',{dating_kexin:true}); picks=[0,1,2,3,4,6]; await STORY._v1.roomItems(GM);   /* 大一同房時多一樣「阿凱的泡麵評鑑表」（BB_120 1-7c，在固定的五樣後面；內容在 bb120_fixed_unit）*/
     const W=['以前翻過。看得到字，看不懂意思。','經濟系那一年的課本。邊角都翻軟了。','重考那段時間的筆記。一半是你的字，一半是她的。','摩天輪的票根。兩個人開始交往的那一天。','河堤邊停著幾台腳踏車。那一群人，那一年。'];
