@@ -36,7 +36,7 @@
 | BG-17 | ntu_avenue（台大・椰林大道） | 同上（L1087） | 大一下 | **A** | 椰林大道（遊戲校園）取鏡頭；傍晚 | DONE（LAWWW2-B 2026-10-16 08:4x：遊戲內截圖傍晚，椰林大道往總圖；`assets/bg/ntu_avenue.webp`） |
 | BG-18 | video（視訊） | ev_kexin_video_study（L1099）、ev_kexin_grades_open（L1149）、情人節 | 大一下 | **C** | **可昕那一端：書桌一角＋檯燈**，看不出是宿舍還是家（AA_147、LAWWW-B）；晚上；宿舍和寒假在家用同一張 | **交付** `3a85d367`（`assets/bg/video.webp`）→ LAWWW-B `5ec6a388` 接進 S.BG.video |
 | BG-19 | gongguan_cinema（公館・二輪戲院） | ev_zhiruo_early_show（L1243） | 大一下 | **C** | 公館的二輪戲院（店名照 D77），門口、售票口、海報（海報不放真實電影） | TODO：查證 |
-| BG-20 | soymilk_shop（豆漿店） | 同上（L1243） | 大一下 | **C** | 台式早餐店：店面用街屋構件，室內用麵店構件（不鏽鋼台、豆漿桶、燒餅爐） | TODO |
+| BG-20 | soymilk_shop（豆漿店） | 同上（L1243） | 大一下 | **C** | 台式早餐店：店面用街屋構件，室內用麵店構件（不鏽鋼台、豆漿桶、燒餅爐） | READY_FOR_ART_REVIEW（LAWWW2-B 2026-10-16 12:1x：`assets/bg/soymilk_shop.webp`，Blender `bg_soymilk.py`；道具是 AA-B 的 ART-SOY1；AA_147：Z5 早場散場後約 12:00、老闆不入鏡。從門口往裡看：左邊桌子＋紅凳、右邊前檯（豆漿桶、保溫櫃）和炸鍋、中間走道空著給人物；後牆紅字菜單（沒有店名，D77）、冰箱、往廚房的藍門簾、時鐘 11:58） |
 
 ## 先做的順序
 
