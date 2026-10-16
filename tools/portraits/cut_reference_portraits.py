@@ -17,11 +17,11 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 HS = os.path.join(ROOT, 'docs/art-rebuild/references/heroine_sheets')
 # 遊戲 id → (來源, 正面全身的裁切範圍 x0,y0,x1,y1（原圖像素，含一點邊）)
 SRC = {
-    'heroine_01': ('H:heroine_01_sheet.webp', (322, 0, 480, 532)),
+    'heroine_01': ('D:heroine_01_portrait_full.webp', (0, 0, 1024, 1536)),   # BB-B 2026-10-16 e69036b8（D59）：正面全身對話立繪（和九格表情同角度）；原本 H:heroine_01_sheet.webp (322,0,480,532) 不再用
     'heroine_02': ('D:heroine_02_date_warm.webp', (60, 20, 362, 992)),          # BB-B 驗收（BB_131 第 5 節）：芷若平常用約會圖 heroine_02_date_warm 的姿勢①（左邊站姿）
     'heroine_02@cafe': ('H:heroine_02_sheet.webp', (322, 0, 480, 538)),         # 圍裙版＝Café 當班（heroine_02/cafe/neutral）
-    'heroine_03': ('H:heroine_03_sheet.webp', (320, 0, 462, 532)),
-    'heroine_04': ('H:heroine_04_sheet.webp', (320, 0, 472, 532)),
+    'heroine_03': ('D:heroine_03_portrait_full.webp', (0, 0, 948, 1659)),    # BB-B 3c983b8b（D59）；原本 H:heroine_03_sheet.webp (320,0,462,532)
+    'heroine_04': ('D:heroine_04_portrait_full.webp', (0, 0, 948, 1659)),    # BB-B e69036b8（D59）；原本 H:heroine_04_sheet.webp (320,0,472,532)
     'heroine_05': ('D:heroine_05_date_shirt.webp', (30, 0, 385, 975)),          # BB-B 2026-10-16 驗收（D59）：學姊平常（campus）比照芷若改用約會圖姿勢①（表情頭的角度才對得上）；原本的 06 標準圖單人大圖版本（H:heroine_05_sheet.webp (320,0,462,532)）不再用
     'kexin': ('R:kexin.webp', (358, 120, 544, 636)),
     'classmate_peishan': ('R:classmate_peishan.webp', (405, 80, 600, 695)),
@@ -46,7 +46,7 @@ SRC = {
     'yule': ('D:yule_portrait_sheet.webp', (40, 10, 530, 1475)),   # BB-B 2026-10-16 c383df3b（D59 通過）：予樂的正式立繪表（左邊全身、右邊三個頭）；原本 art_reference/yule.webp (18,368,180,810) 的版本不再用
 }
 CW, CH, TOP, FILL = 600, 1000, 0.04, 0.94
-MATTING = {'heroine_05'}                                 # 學姊約會圖：白襯衫和灰底只差 7，一般去背會在髮絲邊留一圈淺灰；alpha matting（pymatting）髮絲乾淨、衣領完整
+MATTING = {'heroine_05', 'heroine_01', 'heroine_03', 'heroine_04'}                                 # 學姊約會圖：白襯衫和灰底只差 7，一般去背會在髮絲邊留一圈淺灰；alpha matting（pymatting）髮絲乾淨、衣領完整
 PATCH_HOLES = {'heroine_05'}                                     # 學姊約會圖姿勢①：衣領的白色被挖掉
 HOLES = {'pinyu'}                                                   # BB-B 2026-10-16 D59 退件：曾品妤耳朵高度的白邊、兩腿中間的灰底
 
@@ -86,7 +86,7 @@ def main():
     a = ap.parse_args(); only = [s for s in a.only.split(',') if s]
     from rembg import new_session, remove
     sess = {m: new_session(m) for m in ('isnet-anime', 'u2net')}; tiles = []
-    REAL = {'heroine_01', 'heroine_02@cafe', 'heroine_03', 'heroine_04', 'kexin'}
+    REAL = {'heroine_02@cafe', 'kexin'}
     for gid, (src, box) in SRC.items():
         if only and gid not in only: continue
         kind, fn = src.split(':', 1); path = os.path.join({'H': HS, 'D': a.date or a.ref}.get(kind, a.ref), fn)

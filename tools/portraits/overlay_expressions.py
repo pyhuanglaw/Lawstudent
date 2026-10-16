@@ -24,7 +24,7 @@ CFG = {
     'heroine_02': dict(sheet='heroine_02_expr9.webp', cell=(418, 418), body='assets/portraits/heroine_02/campus/neutral.webp',
                        eye=(150, 120, 350, 255), search=(200, 40, 420, 230), scales=(0.44, 0.66), fade=(285, 330), skip=()),
     'heroine_01': dict(sheet='heroine_01_expr9.webp', cell=(437, 400), body='assets/portraits/heroine_01/campus/neutral.webp',
-                       eye=(140, 150, 290, 240), search=(180, 20, 440, 240), scales=(0.22, 0.55), fade=(300, 335), skip=(), anchor=(110, 5, 330, 120)),
+                       eye=(140, 150, 290, 240), search=(180, 20, 440, 240), scales=(0.22, 0.55), fade=(300, 335), skip=(), anchor=(110, 5, 330, 120), face=(218, 215, 80, 84, 16)),   # 只換臉（整個頭換掉，臉頰旁的瀏海接縫看得出來）
     'heroine_03': dict(sheet='heroine_03_expr9.webp', cell=(410, 426), body='assets/portraits/heroine_03/campus/neutral.webp',
                        eye=(140, 160, 295, 250), search=(180, 20, 440, 240), scales=(0.22, 0.55), fade=(305, 340), skip=(), anchor=(110, 5, 330, 130)),
     'classmate_peishan': dict(sheet='classmate_peishan_expr9.webp', cell=(437, 400), body='assets/portraits/classmate_peishan/campus/neutral.webp',
@@ -36,7 +36,7 @@ CFG = {
                  eye=(110, 150, 310, 260), search=(180, 20, 440, 240), scales=(0.22, 0.55), fade=(295, 335), skip=(), anchor=(60, 0, 360, 110), band=6, speck_lum=95),
     'heroine_04': dict(sheet='heroine_04_expr9.webp', cell=(512, 341), body='assets/portraits/heroine_04/campus/neutral.webp',
                        eye=(215, 115, 360, 205), search=(200, 20, 420, 230), scales=(0.22, 0.50), fade=(252, 282), skip=(),
-                       anchor=(180, 5, 440, 110)),
+                       anchor=(180, 5, 440, 110), face=(292, 180, 80, 78, 16)),   # 2026-10-16 新的正面全身底圖（e69036b8）：只換臉，頭髮留底圖的（整個頭換掉，短髮外緣在脖子旁邊留一團灰）
     'heroine_05': dict(sheet='heroine_05_expr9.webp', cell=(437, 400), body='assets/portraits/heroine_05/campus/neutral.webp',
                        eye=(215, 140, 360, 240), search=(200, 20, 440, 230), scales=(0.22, 0.50), fade=(300, 335), skip=('thinking',),
                        anchor=(140, 5, 400, 150), face=(282, 212, 80, 82, 16)),
@@ -104,17 +104,18 @@ def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--id', default='heroine_02', choices=sorted(CFG)); ap.add_argument('--only'); ap.add_argument('--out', default='/tmp/expr_out'); ap.add_argument('--write', action='store_true')
     ap.add_argument('--sheet', help='九格表情圖（預設 docs/story_planning/date_system/art/<設定的檔名>）'); ap.add_argument('--body', help='全身立繪（預設 assets 裡的 campus/neutral；試疊時指定別的）')
     ap.add_argument('--fade0', type=float); ap.add_argument('--fade1', type=float)
+    ap.add_argument('--single', help='--sheet 是單獨一個頭（已縮到和九格一格同樣的頭寬）：這個頭的表情名稱（BB-B 第 28 組：學姊 embarrassed、芷若 thinking）')
     a = ap.parse_args(); os.makedirs(a.out, exist_ok=True); cf = CFG[a.id]; CW, CH = cf['cell']
     a.fade0 = cf['fade'][0] if a.fade0 is None else a.fade0; a.fade1 = cf['fade'][1] if a.fade1 is None else a.fade1
     sheet = Image.open(a.sheet or os.path.join(ART, cf['sheet'])).convert('RGB'); body = Image.open(a.body or os.path.join(ROOT, cf['body'])).convert('RGBA')
     bg = np.asarray(sheet).astype(float)[4, 4]
     eye_box = cf['eye']                                    # 格子裡「眼睛＋（眼鏡）＋鼻子」那一塊（九格大致同位置；每格自己對齊）
     search = cf['search']                                  # 全身圖頭部附近
-    BOX = cf.get('boxes')                                  # 表情不是 3×3 九格、而是幾個頭各自的框（予樂：全身旁邊直排三個頭）：[(檔名, (x0,y0,x1,y1)), …]，框要一樣大
+    BOX = [(a.single, (0, 0, sheet.width, sheet.height))] if a.single else cf.get('boxes')                                  # 表情不是 3×3 九格、而是幾個頭各自的框（予樂：全身旁邊直排三個頭）：[(檔名, (x0,y0,x1,y1)), …]，框要一樣大
     NM = [n for n, _ in BOX] if BOX else NAMES
     if BOX: CW, CH = BOX[0][1][2] - BOX[0][1][0], BOX[0][1][3] - BOX[0][1][1]
     getcell = (lambda i: sheet.crop(BOX[i][1])) if BOX else (lambda i: cell(sheet, i))
-    names = [n for n in (a.only.split(',') if a.only else NM) if n not in cf['skip']]
+    names = [n for n in (a.only.split(',') if a.only else NM) if a.single or n not in cf['skip']]
     report = []
 
     def fit(c):
@@ -123,7 +124,7 @@ def main():
         return find(body, c, eye_box, search, scales=np.linspace(t['s'] - 0.012, t['s'] + 0.012, 9), angles=np.linspace(t['ang'] - 1.5, t['ang'] + 1.5, 7))
     ref = None
     if cf.get('anchor'):
-        fits = {nm: fit(getcell(i)) for i, nm in enumerate(NM) if nm not in cf['skip']}
+        fits = {nm: fit(getcell(i)) for i, nm in enumerate(NM) if a.single or nm not in cf['skip']}
         rn = max(fits, key=lambda n: fits[n]['score']); ref = (getcell(NM.index(rn)), fits[rn]); print('anchor cell', rn, round(fits[rn]['score'], 3), flush=True)
     for i, nm in enumerate(NM):
         if nm not in names: continue
