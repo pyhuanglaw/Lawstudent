@@ -12,6 +12,7 @@ check('2. riverside、xiaofu、soc_hall、soc_classroom、girls_dorm_gate、bowl
   check('2c. LAWWW2-B 的 BG-02 滷味攤（cee40151）、ART-11 政大校園夜晚（6e5a02b6）、ART-12 平常的客廳（1fc16c76）接上',B.gongguan_luwei.image==='assets/bg/gongguan_luwei.webp'&&B.nccu_campus.image==='assets/bg/nccu_campus.webp'&&B.home_living.image==='assets/bg/home_living.webp'&&B.home_living.image!==B.home_living_cny.image);
   check('2e. LAWWW2-B ART-BG05 宿舍頂樓、ART-12 白天版客廳（2a0a7ff4）',B.dorm_roof.image==='assets/bg/dorm_roof.webp'&&B.home_living_day.image==='assets/bg/home_living_day.webp');
   check('2d. BB-B 第 31、32 組：soc_library、soc_office、classroom_small 接上',['soc_library','soc_office','classroom_small'].every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp')); }
+check('2f. 自由出行第一批四個景點的底圖（DL-06，LAWWW2-B）：d04_base_night、d06_base_day、d12_base_sunset、d13_base_sunset',['d04_base_night','d06_base_day','d12_base_sunset','d13_base_sunset'].every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'));
 check('3. OUT.bg(id)：有圖＝{image:路徑}、沒有圖＝深色底',OUT.bg('riverside').image==='assets/bg/riverside.webp'&&OUT.bg('car')==='dark',JSON.stringify([OUT.bg('riverside'),OUT.bg('car')]));
 // CG（adv3d.js 的 CG_REGISTRY）：每一張的檔案都在；BCG-04、BCG-11 接在 BB_117 寫的那一拍
 { const src=fs.readFileSync(path.join(ROOT,'src/adv3d.js'),'utf8'); const m=src.match(/const CG_REGISTRY=\{[\s\S]*?\};/); const reg=m?vm.runInThisContext('('+m[0].slice('const CG_REGISTRY='.length,-1)+')'):{};
