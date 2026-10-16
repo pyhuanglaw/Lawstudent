@@ -1831,8 +1831,8 @@
    "title": "慈 3 第二名",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照交接包_v3 實作",
+   "status": "已整合待測試",
+   "next": "ev_xinci_second（AA_40 慈 3、AA_177 第 5 節）：芯慈作息大二上第 14～18 週週一到週四深夜 00:15～00:45 溫州街便利商店，第一次遇到就演；XINCI_SECOND；主線 4 xc_drama 改讀它。tests/v3_d10_unit.js；瀏覽器未測",
    "priority": "P2",
    "first": {
     "term": "Y2S1",

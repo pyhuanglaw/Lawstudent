@@ -2,7 +2,7 @@
    規則在 story3d.js 的 S.neededDue／neededShow（AA_179 第 1 節：一週最多四則、綁事件的先挑、上週沒出現的人先挑、只挑認識的人、回得了兩則、回了信任 +1、沒回下一次見面說一句）。
    每一則：id、who（人物 id）、term（Y2S1／Y2S2）、w［週次起, 迄］、msg（對方的訊息，可以拆幾則）、reply（祐廷那句，固定）、resp（對方的回應）、
      tie（綁在事件前後＝先挑）、cond（條件；沒寫＝和他 FAMILIAR 以上）、anyone（條件成立就算，不另外看熟不熟：交往中的可昕）、every（每幾週可以再出現一次：語彤「阿姨問你週四來不來」）。
-   條件還做不到的（模擬法庭同一組、語 3、慈 3、Z7、語彤事件 11）：先寫成 false，那幾件做好時改成讀它們的旗標，訊息就會出現。
+   條件還做不到的（模擬法庭同一組、語 3、Z7、語彤事件 11；慈 3＝ev_xinci_second 已接）：先寫成 false，那幾件做好時改成讀它們的旗標，訊息就會出現。
    法律內容（AA_179 第 5 節、BB_97 11-3）：祐廷都不給法律結論。 */
 const NEEDED_MSGS=(function(){
   const F=G=>G.flags||{}, done=(G,id)=>!!(G.events&&G.events.done&&G.events.done[id]), att=(G,id)=>typeof ACTIVITIES!=='undefined'&&!!ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,id);
@@ -42,7 +42,7 @@ const NEEDED_MSGS=(function(){
     // 芯慈（AA_179）
     {id:'xc_econ',who:'classmate_xinci',term:'Y2S1',w:[2,4],tie:true,cond:G=>!!F(G).ECON_TOGETHER,msg:['經濟那邊，這學期你還陪我看嗎？'],reply:'好。',resp:['那週三總圖。']},
     {id:'xc_contract',who:'classmate_xinci',term:'Y2S1',w:[10,12],msg:['幫我看一下這份打工的合約。我朋友要簽的。'],reply:'我只能說我看到什麼。要問的話去法服。',resp:['……法律系的人都這樣講話嗎。好啦。']},
-    {id:'xc_drama',who:'classmate_xinci',term:'Y2S1',w:[14,16],tie:true,cond:NOT_YET,msg:['那部劇大結局了。你不准爆雷。'],reply:'我沒看。',resp:['那最好。']},
+    {id:'xc_drama',who:'classmate_xinci',term:'Y2S1',w:[14,16],tie:true,cond:G=>done(G,'ev_xinci_second'),msg:['那部劇大結局了。你不准爆雷。'],reply:'我沒看。',resp:['那最好。']},
     {id:'xc_grade',who:'classmate_xinci',term:'Y2S2',w:[5,7],tie:true,msg:['這次期中，我不想先看以安的成績。你幫我記著。'],reply:'好。',resp:['如果我問你，你就說你忘了。']},
     {id:'xc_moot',who:'classmate_xinci',term:'Y2S2',w:[11,13],tie:true,cond:NOT_YET,msg:['模擬法庭，你們隊比我們多準備了什麼？'],reply:'我們去問了一個人。',resp:['……下次我也去問。']},
     // 芷若（BB_97 11-1：整年只有這一則、反過來問他「你想」；沒回不提起）

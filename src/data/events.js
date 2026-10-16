@@ -2468,6 +2468,21 @@ const STORY_EVENTS=[
       {label:'b'},{speaker:'heroine_01',expression:'thinking',text:'看理由。……對，先看理由。還有寫期限的那一段。'},{speaker:null,text:'她在理由欄畫了一個框。'},{goto:'end'},
       {label:'c'},{speaker:'heroine_01',expression:'neutral',text:'這不算。'},{speaker:null,text:'她停了一下。'},{speaker:'heroine_01',expression:'smile',text:'……好，算一點。'},
       {label:'end'},{set:{AN_TUTOR_FAMILY:1}} ] },
+  /* D10 慈 3「第二名」（AA_40、AA_177 第 5 節：寫成芯慈的作息）：大二上第 14～18 週，週一到週四的深夜（隔天 00:15～00:45）她在溫州街的便利商店，第一次遇到就演；
+     第 18 週以後沒遇到＝不演。記 XINCI_SECOND（慈 4 的背景；主線 4 xc_drama「那部劇大結局了」在這之後）*/
+  { id:'ev_xinci_second', title:'第二名', participants:['classmate_xinci'], location:'cvs', trigger:'auto', term:['Y2S1'], weeks:[14,15,16,17,18], weekday:[1,2,3,4], time:[0.25,0.75], once:true, near:{npc:'classmate_xinci',r:4}, background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows('classmate_xinci',G)},
+    dialogue:[ {speaker:null,text:'（芯慈在買咖啡，手機在放韓劇，沒有關聲音。）'},
+      {speaker:'classmate_xinci',expression:'neutral',text:'（把手機轉靜音，很鎮定）……這是一部很重要的劇。'},{speaker:'classmate_xinci',expression:'neutral',text:'這是我一天裡唯一不用跟別人比的時間。'},
+      {speaker:'classmate_xinci',expression:'thinking',text:'（停了一下）你知道我高中跟沈以安補同一家補習班嗎。她在台中，我在永和。'},
+      {speaker:'classmate_xinci',expression:'neutral',text:'聯合模考的排名貼在牆上。她第一，我第二。三年。'},
+      {speaker:'classmate_xinci',expression:'neutral',text:'她不記得我。開學第一天，她跟我說「妳好，我是沈以安」。很客氣。'},
+      {speaker:'classmate_xinci',expression:'neutral',text:'（很平靜）我借你的筆記，是想知道第一名以外的人，筆記怎麼寫。……你的比我想的好。'},
+      {choice:[{text:'「妳有跟她說過嗎？」',goto:'a'},{text:'「這部劇在演什麼？」',goto:'b'},{text:'「第二名也很厲害。」',goto:'c'}]},
+      {label:'a'},{speaker:'classmate_xinci',expression:'neutral',text:'說什麼？『妳好，我是三年的第二名』？'},{speaker:null,text:'她笑，很短。'},{speaker:'classmate_xinci',expression:'neutral',text:'不要。'},{goto:'end'},
+      {label:'b'},{speaker:null,text:'她眼睛亮起來，講了十分鐘的劇情。然後停住：'},{speaker:'classmate_xinci',expression:'laugh',text:'啊。我講太多了。'},{speaker:null,text:'她看了一下時間。'},{speaker:'classmate_xinci',expression:'neutral',text:'十二點四十。我今天比了十八個小時，剩下這半小時是我的。'},{goto:'end'},
+      {label:'c'},{speaker:'classmate_xinci',expression:'neutral',text:'我知道。'},{speaker:null,text:'她把咖啡蓋子蓋好。'},{speaker:'classmate_xinci',expression:'thinking',text:'可是第二名是用來跟第一名比的。'},
+      {label:'end'},{mem:[{npc:'classmate_xinci',tag:'XINCI_SECOND',note:'凌晨的便利商店，她說了三年的第二名'}]} ] },
   /* ===================== 大二（交接包 v3）=====================
      D24 社團博覽會大二版（AA_170 第 1 節，AA-B 2026-10-16；第②級）：2026-09-16（三）、09-17（四）11:00～17:00，椰林大道同一排攤位（大一 club_expo_y1s1 的 spot），
      窗口內第一次走到攤位那一排。站哪一攤照大一加入的社團（CLUB_<id>）；加入不只一個＝選單選；站一個小時（不扣時段次數）。都沒加入＝走過、語彤遞傳單。
