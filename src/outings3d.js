@@ -21,7 +21,10 @@ const OUT=(function(){
     gongguan_cinema:{label:'公館・二輪戲院',image:null}, soymilk_shop:{label:'豆漿店',image:null}, tutor_home:{label:'學生家的客廳',image:null},
     noodle_table:{label:'阿鳳麵店・長桌',image:'assets/bg/noodle_table.webp'}, soc_hall:{label:'社科院・大講堂',image:'assets/bg/soc_hall.webp'}, soc_classroom:{label:'社科院・系上的教室',image:'assets/bg/soc_classroom.webp'}, xiaofu:{label:'小福',image:'assets/bg/xiaofu.webp'}, girls_dorm_gate:{label:'女生宿舍門口',image:'assets/bg/girls_dorm_gate.webp'}, bowling:{label:'保齡球館',image:'assets/bg/bowling.webp'}, seaside_town:{label:'春假・海邊的小鎮',image:null},
     d04_base_night:{label:'西門町',image:'assets/bg/d04_base_night.webp'}, d06_base_day:{label:'北美館',image:'assets/bg/d06_base_day.webp'}, d12_base_sunset:{label:'大稻埕',image:'assets/bg/d12_base_sunset.webp'}, d13_base_sunset:{label:'淡水',image:'assets/bg/d13_base_sunset.webp'} };   /* 期中考完的晚餐（交接包 v2 C11、C21）：麵店有 3D 區域，長桌這一幕先用 2D 底 */   /* 春假 K8 的三個目的地（BB_96 9-5；交接包 v2 C9）、嘉義老家（AA_12 主線 2；C2）：圖還沒有＝深色底＋地點字幕 */   /* K2 可昕來台大（BB_95 9-3 的最小版本：依序換 2D 背景；之後可以換成遊戲校園的畫面）*/
-  S.bg=id=>{ const b=S.BG[id]; return b&&b.image?{image:b.image}:'dark'; };
+  S.BG.car_morning={label:'車上（早上）',image:'assets/bg/car_morning.webp'}; S.BG.car_night={label:'車上（晚上）',image:'assets/bg/car_night.webp'}; S.BG.car_rain={label:'車上（雨天）',image:'assets/bg/car_rain.webp'};   /* BG-08（LAWWW2-B 702a2838）*/
+  /* 車上：照當時的天氣、時間挑一張（下雨＝雨天、18:00～05:59＝晚上、其他＝早上）；事件要固定哪一張就直接寫 car_morning／car_night／car_rain */
+  const carVariant=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G) return 'car_morning'; if(G.weather==='rain') return 'car_rain'; const h=G.hour%24; return (h>=18||h<6)?'car_night':'car_morning'; };
+  S.bg=id=>{ if(id==='car') id=carVariant(); const b=S.BG[id]; return b&&b.image?{image:b.image}:'dark'; };
   S.rec=G=>{ if(!Array.isArray(G.outings)) G.outings=[]; return G.outings; };
   S.get=(G,id)=>S.rec(G).find(q=>q.id===id)||null;
   /* 排一個出遊；同一個 id 只排一次（讀檔、重進區域不會重複）*/

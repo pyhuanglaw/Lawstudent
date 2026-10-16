@@ -13,7 +13,9 @@ check('2. riverside、xiaofu、soc_hall、soc_classroom、girls_dorm_gate、bowl
   check('2e. LAWWW2-B ART-BG05 宿舍頂樓、ART-12 白天版客廳（2a0a7ff4）',B.dorm_roof.image==='assets/bg/dorm_roof.webp'&&B.home_living_day.image==='assets/bg/home_living_day.webp');
   check('2d. BB-B 第 31、32 組：soc_library、soc_office、classroom_small 接上',['soc_library','soc_office','classroom_small'].every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp')); }
 check('2f. 自由出行第一批四個景點的底圖（DL-06，LAWWW2-B）：d04_base_night、d06_base_day、d12_base_sunset、d13_base_sunset',['d04_base_night','d06_base_day','d12_base_sunset','d13_base_sunset'].every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'));
-check('3. OUT.bg(id)：有圖＝{image:路徑}、沒有圖＝深色底',OUT.bg('riverside').image==='assets/bg/riverside.webp'&&OUT.bg('car')==='dark',JSON.stringify([OUT.bg('riverside'),OUT.bg('car')]));
+check('3. OUT.bg(id)：有圖＝{image:路徑}、沒有圖＝深色底',OUT.bg('riverside').image==='assets/bg/riverside.webp'&&OUT.bg('nccu_dorm')==='dark',JSON.stringify([OUT.bg('riverside'),OUT.bg('nccu_dorm')]));
+{ const v=[]; for(const [h,w] of [[10,'clear'],[20,'clear'],[10,'rain']]){ global.GAME={G:{hour:h,weather:w}}; v.push(OUT.bg('car').image); } delete global.GAME;
+  check('3. 車上（BG-08）：照天氣、時間挑——早上 car_morning、晚上 car_night、下雨 car_rain',v.join()==='assets/bg/car_morning.webp,assets/bg/car_night.webp,assets/bg/car_rain.webp',v.join()); }
 // CG（adv3d.js 的 CG_REGISTRY）：每一張的檔案都在；BCG-04、BCG-11 接在 BB_117 寫的那一拍
 { const src=fs.readFileSync(path.join(ROOT,'src/adv3d.js'),'utf8'); const m=src.match(/const CG_REGISTRY=\{[\s\S]*?\};/); const reg=m?vm.runInThisContext('('+m[0].slice('const CG_REGISTRY='.length,-1)+')'):{};
   check('4. CG_REGISTRY 每一張的檔案都在',Object.keys(reg).length>0&&Object.values(reg).every(r=>fs.existsSync(path.join(ROOT,r.file))),Object.entries(reg).filter(([k,r])=>!fs.existsSync(path.join(ROOT,r.file))).map(([k])=>k).join(' '));
