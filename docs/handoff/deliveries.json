@@ -3,9 +3,9 @@
  "note": "交付登記（D82）：每一筆交付都要對到 tasks.json 的任務；msg＝SENT／DELIVERED／ACK／ACTIONED（接收方有沒有回 ACK）；integration＝未整合／已整合待測試／已驗收／不整合／參考用。scannedThrough＝每條交付分支已經看過的最後一個 commit：check_handoff.py 只掃它以後的 commit（增量）。看過、不是交付的 commit 放 ignored。　**scannedThrough 只在 check 跑完、列出的 commit 都登記或放進 ignored 之後才往前移**（2026-10-16：先移再跑會什麼都掃不到）。",
  "pattern": "交付|ART_APPROVED|READY_FOR_ART_REVIEW|MODEL_READY|通過|驗收|閒聊階梯|交接包|法律審查|盤點|清查|裁定|規則檔|AA_1\\d\\d|BB_1\\d\\d",
  "scannedThrough": {
-  "origin/claude/funny-albattani-iawshm": "16339d8e",
-  "origin/claude/cool-heisenberg-o8kuqx": "7b198ed6",
-  "origin/claude/elegant-brown-fcos7n": "19b192f8"
+  "origin/claude/funny-albattani-iawshm": "6e5a02b6",
+  "origin/claude/cool-heisenberg-o8kuqx": "88337c3d",
+  "origin/claude/elegant-brown-fcos7n": "12d0f473"
  },
  "deliveries": [
   {
@@ -1303,6 +1303,186 @@
    "msg": "DELIVERED",
    "integration": "未整合",
    "note": "重跑 import_ladder 就進來（v3）"
+  },
+  {
+   "id": "DLV-1016-109",
+   "date": "2026-10-16T04:3xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "6e5a02b6",
+   "what": "ART-11／BG-03 nccu_campus 夜晚主圖（AA_147 21:30）",
+   "task": "ART-11",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "assets/bg/nccu_campus.webp＋S.BG（本批）；傍晚變體 v8 還在算"
+  },
+  {
+   "id": "DLV-1016-110",
+   "date": "2026-10-16T04:3xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "cee40151",
+   "what": "BG-02 公館・滷味攤 gongguan_luwei＋luwei_stall.glb（拍背景用）＋G05 店內圖 luwei 的 patch、gongguan_shops.glb 重建",
+   "task": "ART-BG02",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "背景＋patch（townkit3d luwei、zones3d G05）＋GLB 一起接（本批）；gongguan_glb_integration 等第二層"
+  },
+  {
+   "id": "DLV-1016-111",
+   "date": "2026-10-16T04:3xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "6ac09c6e",
+   "what": "D88 八條 WIP 內容級清查報告（沒有只存在 WIP 的有效美術；13 個 GLB 驗證；bundle 備份 25 MB）",
+   "task": "SYS-23、WIP-02",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW-B 複核中（第 4 節的快照檔）"
+  },
+  {
+   "id": "DLV-1016-112",
+   "date": "2026-10-16T04:3xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "ed10d39f",
+   "what": "AA_157 經濟系群組「走啦」econ_friends、v0 全班群組；大一下暑假第一天 6/29 一起看成績",
+   "task": "V2-B9、V0-B3",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "9-9 暑假細節等 BB AB-12（35a6e252 已交）"
+  },
+  {
+   "id": "DLV-1016-113",
+   "date": "2026-10-16T04:3xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "39e8c06f",
+   "what": "第 26 組 home_balcony、home_room 通過；第 27 組 ferris_wheel、予樂立繪提示詞",
+   "task": "ART-18",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "背景放進 assets/bg（本批）"
+  },
+  {
+   "id": "DLV-1016-114",
+   "date": "2026-10-16T04:3xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "905b1103",
+   "what": "大二下閒聊階梯 BB 五位資料 ladder_bb_y2s2（Z4／Q4／S4／P4／K4）",
+   "task": "V3-L2",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "重跑 import_ladder（v3）"
+  },
+  {
+   "id": "DLV-1016-115",
+   "date": "2026-10-16T04:3xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "cc96e1f2",
+   "what": "BB_138 大二下階梯設計說明（37 個新記憶 tag）",
+   "task": "V3-L2",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "MEMORY_LABEL 跟 V3-L2 一起"
+  },
+  {
+   "id": "DLV-1016-116",
+   "date": "2026-10-16T04:3xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "19c58119",
+   "what": "AA_158 交換路線狀態機（EXCHANGE_ROUTE、舊存檔補 TW、錄取 11/29、出發 1/8）",
+   "task": "SYS-10",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "SYS-10 可以開工（v4，照 D81 排在 v0～v3 之後）（AA-REQ-08 已驗收＝規格交付完成）"
+  },
+  {
+   "id": "DLV-1016-117",
+   "date": "2026-10-16T04:3xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "db3164c9",
+   "what": "AA_159 經濟系四人＋家豪、魏教授的 characters.js 欄位",
+   "task": "V0-B3、V0-G40",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "v0 開工時接（AA-REQ-06 已驗收＝規格交付完成）"
+  },
+  {
+   "id": "DLV-1016-118",
+   "date": "2026-10-16T04:3xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "05d44eb0",
+   "what": "規則副本更新到 fea2171f（D85～D88）；AA_157 補 6/26→6/27 P4e→6/29 的順序",
+   "task": "V2-B10",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "P4e 照這個順序（V2-B10）"
+  },
+  {
+   "id": "DLV-1016-119",
+   "date": "2026-10-16T04:3xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "88337c3d",
+   "what": "AB-05 完成：BB_137 四個決定併進 AA_153",
+   "task": "V3-B105",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "規格＋台詞齊了，大二實作"
+  },
+  {
+   "id": "DLV-1016-120",
+   "date": "2026-10-16T04:3xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "c383df3b",
+   "what": "第 27 組：ferris_wheel、予樂立繪（D59）通過",
+   "task": "ART-18、ART-09",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "ferris_wheel 放進 assets/bg（本批）；予樂立繪等 LAWWW2-B 切圖"
+  },
+  {
+   "id": "DLV-1016-121",
+   "date": "2026-10-16T04:3xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "8cda27f8",
+   "what": "AB-09（AA_154 第 5 節）四句：E08 沒去、P1 略過、P5 保齡球、E18 Y0_EXTRA",
+   "task": "V0-B1、V0-B2、V0-B3",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "v0 實作時用"
+  },
+  {
+   "id": "DLV-1016-122",
+   "date": "2026-10-16T04:3xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "35a6e252",
+   "what": "AB-10、AB-12：BB_139 經濟系四人個性一句、魏教授外觀；大一下暑假第一天 together／best_one",
+   "task": "V0-B3、V2-B9",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "9-9 暑假第一天（V2-B9）"
+  },
+  {
+   "id": "DLV-1016-123",
+   "date": "2026-10-16T04:3xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "894d6670",
+   "what": "第 28 組：學姊「害羞」、芷若「思考」表情頭通過（D59）",
+   "task": "ART-19",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW2-B ART-19 疊九格"
   }
  ],
  "ignored": [
