@@ -4946,6 +4946,19 @@
    "msg": "DELIVERED",
    "integration": "未整合",
    "note": "AA-B 互審通過；排在開局（8/29～9/3）實作"
+  },
+  {
+   "id": "DL-LW2-BOOKFLICK",
+   "date": "2026-10-16",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "a5de0c2e",
+   "what": "BUG-WZFLICKER 舊路書店：靠牆三座書架往房間挪 3.5 cm（背板和牆內面共平面）；bookstore_interior.glb＋腳本",
+   "task": "BUG-WZFLICKER",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 直接取 GLB 與腳本（不合併整條分支）；遊戲內截圖 LAWWW2-B 補"
   }
  ],
  "ignored": [
