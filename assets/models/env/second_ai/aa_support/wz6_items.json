@@ -1,0 +1,113 @@
+{
+ "objects": 7,
+ "unique_meshes": 7,
+ "tris": 3881,
+ "tris_drawn": 3881,
+ "materials": 1,
+ "out": "assets/models/env/second_ai/aa_support/wz6_items.glb",
+ "bytes": 196688,
+ "texres": 1024,
+ "modules": {
+  "WZ6_egg_timer": {
+   "tris": 721,
+   "min": [
+    -0.0322,
+    0.0,
+    -0.0322
+   ],
+   "max": [
+    0.0322,
+    0.0585,
+    0.0322
+   ]
+  },
+  "WZ6_notebook": {
+   "tris": 240,
+   "min": [
+    -0.0746,
+    -0.0003,
+    -0.1052
+   ],
+   "max": [
+    0.074,
+    0.0122,
+    0.1052
+   ]
+  },
+  "WZ6_tea_tin": {
+   "tris": 612,
+   "min": [
+    -0.0337,
+    0.0,
+    -0.0337
+   ],
+   "max": [
+    0.0337,
+    0.08,
+    0.0337
+   ]
+  },
+  "WZ6_card": {
+   "tris": 20,
+   "min": [
+    -0.0525,
+    0.0,
+    -0.0232
+   ],
+   "max": [
+    0.0525,
+    0.0713,
+    0.0232
+   ]
+  },
+  "WZ6_whiteboard_print": {
+   "tris": 254,
+   "min": [
+    -0.1595,
+    -0.0106,
+    0.0
+   ],
+   "max": [
+    0.1595,
+    0.2206,
+    0.0126
+   ]
+  },
+  "WZ6_poster": {
+   "tris": 144,
+   "min": [
+    -0.2222,
+    -0.0122,
+    0.0
+   ],
+   "max": [
+    0.2222,
+    0.6062,
+    0.0028
+   ]
+  },
+  "WZ6_cat_bowl": {
+   "tris": 1890,
+   "min": [
+    -0.106,
+    0.0,
+    -0.07
+   ],
+   "max": [
+    0.1234,
+    0.0462,
+    0.07
+   ]
+  }
+ },
+ "atlas": [
+  "tools/blender/env_second/textures/gen/wz6_items_atlas.png",
+  "tools/blender/env_second/textures/gen/wz6_items_orm.png"
+ ],
+ "origins": {
+  "WZ6_*（桌上、地上的四件）": "底面中心、y=0＝放的那個面、正面朝 +z",
+  "WZ6_whiteboard_print、WZ6_poster": "底邊中央、z=0＝牆面、+z＝離開牆（房間那一側）；紙在 z≈0.0006，紙膠帶在 z≈0.0011",
+  "WZ6_cat_bowl": "兩個碗一起：飼料碗在 x≈−0.036、水碗在 x≈+0.080"
+ },
+ "note": "一個材質 wz6_items（底色 1024＋粗糙度／金屬度 256）；每件一個網格；GLB 裡的物件位置只是排開給人看（SPREAD）"
+}
