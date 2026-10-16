@@ -816,11 +816,11 @@ def paint_stool_top(name, color):
     col *= (1 - 0.12 * blur(dim.astype(np.float32), 0.8))[..., None]
     sc = scratches(w, h, 162 + len(name), 26, 0.04, 0.2, width=1)
     col = mix(col, (230, 226, 220), 0.35 * sc)
-    dust = np.clip(soft(w, h, 163 + len(name), 8, 2.5) * 0.35 + 0.2, 0, 1)
-    col = mix(col, (190, 182, 170), 0.22 * dust)
+    dust = np.clip(soft(w, h, 163 + len(name), 28, 7) * 0.2 + 0.25, 0, 1) + 0.5 * blur(dim.astype(np.float32), 1.2)   # 薄薄一層灰（大片、淡），小凹點裡積多一點
     edge = np.clip((np.maximum(np.abs(X), np.abs(Z)) - 0.125) / 0.015, 0, 1)
+    col = mix(col, (190, 182, 170), np.clip(0.12 * dust * (1 - 0.7 * edge), 0, 1))
     col *= (1 + 0.05 * edge)[..., None]                                              # 座面邊緣（搬椅子、坐下時手抓的地方）：亮一點、滑一點
-    return to_img(col), 0.58 + 0.2 * sc + 0.18 * dust * (1 - edge) + 0.35 * hole - 0.16 * edge   # 塑膠：粗糙度偏高、微微的光澤
+    return to_img(col), 0.58 + 0.2 * sc + 0.08 * dust * (1 - edge) + 0.35 * hole - 0.16 * edge   # 塑膠：粗糙度偏高、微微的光澤
 
 
 def paint_stool_side(name, color):
