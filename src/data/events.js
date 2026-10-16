@@ -1676,6 +1676,29 @@ const STORY_EVENTS=[
       {speaker:null,text:'大地遊戲第三小隊拿了倒數第二。晚會上，品妤的小隊演了一齣經濟學的短劇，唐睿演一條需求曲線。'},
       {speaker:null,text:'週日早上，活動中心門口的大合照。'} ],
     afterOuting:(G,GM,q)=>{ if(typeof STORY!=='undefined'&&STORY.travelOvernight) STORY.travelOvernight(GM,q.day+2,16); G.flags.E15_WENT=true; } },
+  /* E18 即興劇社的小公演（BB_104 8b-10；AA_154 第 131 行、A36；可以錯過）：11/28 21:00 可昕私訊（有 Y0_EXTRA＝唐睿私訊臨時演員六點半到）＋出發選單「博雅 19:00：即興劇小公演」（story3d.js）。
+     A36 寫「走進借用教室就演」（3D）；博雅還沒有指定的借用教室，C1 也是 2D，所以先用 2D 出遊（背景 classroom_small）。她接的是 IMPROV_LINE，沒有就 E12_ANSWER。沒去：隔天唐睿傳影片 */
+  { id:'ev_y0_e18', stage:'econ', title:'即興劇小公演', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+    dialogue:[ {scene:'博雅・借用的教室',bg:'classroom_small'},
+      {if:{flags:['Y0_EXTRA']},speaker:null,text:'你在台上演一棵樹，站在台邊不動。'},
+      {speaker:null,text:'（四十張椅子。燈關掉，只開講台的燈。）'},
+      {speaker:'唐睿',text:'（主持）接下來，請觀眾給我們一句台詞！'},
+      {unless:{flags:['Y0_EXTRA']},speaker:null,text:'（很多人在喊。可昕在台上看著觀眾席，指了你。）'},
+      {unless:{flags:['Y0_EXTRA']},speaker:'kexin',expression:'teasing',text:'那個人剛剛說的那一句。'},
+      {if:{flags:['Y0_EXTRA']},speaker:'kexin',expression:'teasing',text:'（指著台邊的你）那棵樹剛剛偷偷說的那一句。'},
+      {if:{flagIs:{IMPROV_LINE:'而且你迷路的地方是公館。'}},speaker:'kexin',expression:'smile',text:'迷路的企鵝到了公館，排隊吃豆花。排到的時候，牠不想回南極了。'},
+      {if:{flagIs:{IMPROV_LINE:'而且我是來接你的計程車。'}},speaker:'kexin',expression:'smile',text:'計程車停在企鵝旁邊。司機說：『南極？跳表要算到明年。』'},
+      {if:{flagIs:{IMPROV_LINE:'而且……你欠我錢。'}},speaker:'kexin',expression:'smile',text:'企鵝欠了一筆錢。牠說：『我用冰塊還。』債主說：『冰塊會融。』'},
+      {if:{custom:G=>!G.flags.IMPROV_LINE&&G.flags.E12_ANSWER==='chair'},speaker:'kexin',expression:'smile',text:'全校只有一張有洞的椅子。今天，它終於等到主人了。'},
+      {if:{custom:G=>!G.flags.IMPROV_LINE&&G.flags.E12_ANSWER==='hand'},speaker:'kexin',expression:'smile',text:'我多了一條尾巴。旁邊的人多了一隻手，專門幫我拿尾巴。'},
+      {if:{custom:G=>!G.flags.IMPROV_LINE&&G.flags.E12_ANSWER==='cat'},speaker:'kexin',expression:'smile',text:'這條尾巴不是貓的。貓的太常見了。今天它負責趕蒼蠅。'},
+      {if:{flags:['Y0_EXTRA']},speaker:'唐睿',text:'你是今天最好的一棵樹。'},
+      {speaker:'唐睿',text:'（散場後）你那句很好接。……你們排練過？'},
+      {choice:[{text:'「沒有。」',goto:'a'},{text:'「她很會接。」',goto:'b'},{text:'（只是笑）',goto:'c'}]},
+      {label:'a'},{speaker:'唐睿',text:'那更可怕。'},{goto:'end'},
+      {label:'b'},{speaker:'唐睿',text:'她什麼都接得住。除了直球。'},{goto:'end'},
+      {label:'c'},{speaker:'唐睿',text:'好。不說話也是一種回答。'},
+      {label:'end'} ] },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、
