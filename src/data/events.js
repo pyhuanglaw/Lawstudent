@@ -1639,6 +1639,21 @@ const STORY_EVENTS=[
       {label:'n'},{phone:'econ_zhengxun',text:'📷（他自己買的便當）'},
       {label:'end'} ],
     after:(G,GM)=>{ if(typeof HOME!=='undefined'&&HOME.moveOut) HOME.moveOut(GM).catch(e=>console.warn('HOME.moveOut',e)); } },
+  /* E34＝R8 經濟學原理最後一堂的最後一句（BB_153 E34 完整稿；AA_154 第 244 行）：6/2（一）11:50～12:15 在博雅（3D，101 外面的走廊）就演；12:15 以後＝沒去版（story3d.js）。
+     不記旗標；阿勳信任 +1。魏老師只有聲音 */
+  { id:'ev_y0_e34', stage:'econ', title:'最後一堂的最後一句', participants:['econ_zhengxun'], location:'boya', trigger:'auto', term:['Y0S2'], once:true, background:'blur',
+    prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-06-02'):null; return d!=null&&G.day===d&&G.hour>=11+50/60&&G.hour<12.25; }},
+    dialogue:[ {speaker:null,text:'星期一中午，你站在博雅一〇一的後門外。門沒有關緊。'},{speaker:null,text:'這是你沒修完的那門課。最後一堂。'},
+      {speaker:'魏老師（聲音）',text:'……好，最後一句。'},{speaker:'魏老師（聲音）',text:'經濟學不會告訴你該選什麼。它告訴你，選了要付什麼。'},
+      {speaker:null,text:'教室裡響起掌聲。你在門外，也拍了兩下。'},{speaker:null,text:'門開了。阿勳第一個走出來。'},
+      {speaker:'econ_zhengxun',text:'你聽到了？……那你這學期也算上了一堂。'},
+      {choice:[{text:'「我付得起嗎？」',goto:'a'},{text:'（點頭）',goto:'b'},{text:'「期末考加油。」',goto:'c'}]},
+      {label:'a'},{speaker:'econ_zhengxun',text:'你問錯人了。……你問自己的時候，表情是付得起的。'},{goto:'end'},
+      {label:'b'},{speaker:'econ_zhengxun',text:'嗯。點頭也算回答。'},{goto:'end'},
+      {label:'c'},{speaker:'econ_zhengxun',text:'好。我會把第三題寫成零。'},
+      {label:'end'},{speaker:null,text:'你們走下樓。走廊的窗外，椰林大道的樹已經是夏天的顏色。'},{speaker:'econ_zhengxun',text:'午餐。小福。'},{speaker:null,text:'一路上，他沒有問你下學期要做什麼。'},
+      {rel:{econ_zhengxun:{trust:1}}} ],
+    after:(G,GM)=>{ if(G.hour<12.5) GM.advance(12.5-G.hour); } },
   /* XL-2 阿勳一句（表叔；BB_110 F1 的回聲，AA_154 A28、A43）：Y0S2 第 1 週第一次在宿舍遇到阿勳（和 XL-1 同一套），F1 選了「轉給表叔」（Y0_UNCLE）才說 */
   { id:'ev_y0_xl2', stage:'econ', title:'表叔的變異數', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S2'], weeks:[1], time:[18,24], once:true, background:'blur',
     prereq:{custom:G=>!!(G.flags&&G.flags.Y0_UNCLE)},

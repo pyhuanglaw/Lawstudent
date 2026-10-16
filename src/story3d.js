@@ -774,6 +774,11 @@ const STORY = (function(){
         PHONE.at(G,d28,19.5,[{th:T,from:'econ_weilun',name:'韋綸',text:'宵夜！公館！走啦！'},{th:'p:kexin',from:'kexin',text:'今天要講嗎？……我覺得今天可以。'}],'y0_e28_ask');
         if(!OUT.get(G,'y0_e28')&&G.hour<21.5) OUT.plan(G,{id:'y0_e28',ev:'ev_y0_e28',day:d28,h:21,late:0.5,place:'公館',title:'公館 21:00：宵夜',travel:'走過去約 15 分鐘',travelH:0.25}); }
       if(!done28&&PHONE.sent(G,'y0_e28_ask')&&(G.day>d28||G.hour>=22)&&G.day<=d28+2&&!PHONE.sent(G,'y0_e28_miss')){ const L=[{th:T,from:'econ_pinyu',name:'品妤',text:'宣布兩件事：祐廷和可昕。還有，他們要重考。'}]; if(F.E19_ASK==='none') L.push({th:T,from:'econ_tangrui',name:'唐睿',text:'等一下，你們什麼時候開始的？？'}); PHONE.at(G,d28,22,L,'y0_e28_miss'); } } }
+    /* E34＝R8 經濟學原理最後一堂的最後一句（BB_153 E34 完整稿）：6/1（日）21:00 阿勳私訊（不用回）；6/2（一）11:50～12:15 走到博雅就演（ev_y0_e34）；
+       12:15 還沒到＝阿勳私訊沒去版那句（之後到了也不演）*/
+    if(S.isEcon(G)){ const d34=S.dayOfKey('2025-06-02'), XU=t=>({th:'p:econ_zhengxun',from:'econ_zhengxun',name:'阿勳',text:t}), done34=!!(G.events&&G.events.done&&G.events.done.ev_y0_e34);
+      if(d34!=null&&(G.day>d34-1||(G.day===d34-1&&G.hour>=21))&&G.day<=d34&&!PHONE.sent(G,'y0_e34_ask')) PHONE.at(G,d34-1,21,[XU('明天經原最後一堂。十二點十分下課。')],'y0_e34_ask');
+      if(d34!=null&&!done34&&(G.day>d34||(G.day===d34&&G.hour>=12.25))&&G.day<=d34+2&&!PHONE.sent(G,'y0_e34_miss')) PHONE.at(G,d34,12.25,[XU('老師最後說：選了要付什麼。我覺得你付得起。')],'y0_e34_miss'); }
     /* E30 辦休學（AA_169）：3/27（四）起休學（Y0_LEFT：經濟系的課、法學緒論都不排，那天的課不扣出席也不記缺席）；14:40 自動（事件 ev_y0_e30）。
        「先走。」＝15:12 群組阿勳「我在裡面舉筆了。你有看到嗎？」＋回覆「有。」→「好。那就算數。」。當晚 22:00 以後第一次回房間＝檯燈上的便利貼（ev_y0_e30_note）*/
     if(S.isEcon(G)){ const d30=S.dayOfKey('2025-03-27'); if(d30!=null&&G.day>=d30&&!F.Y0_LEFT) F.Y0_LEFT=true;
