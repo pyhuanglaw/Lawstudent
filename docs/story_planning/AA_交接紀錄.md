@@ -295,7 +295,15 @@
   - **完成**：`美術支援SOP_3D施工方法.md`（第 0～10 節是使用者轉來的方法；第 11 節是 AA-B 做 PARK2 學到的十條；第 12 節是新方法的寫入規則）。入口指標：`00_先讀這份.md` 最上面、本檔最上面的 P0 節、`aa_support/README.md` 檔頭、`給開發組_交接板.md` 第 5 節。
   - **通知**：BB-B、LAWWW2-B（帳號 B，不聯絡帳號 A，D75）。對方 ACK 前只算 SENT／DELIVERED。
 - **時間標示更正**：上一段原本寫「約 16:45 UTC」，實際是 14:45（commit `83353558`）。
-- **進行中**：ART-PARK2（LAWWW2-B 派工的公園鞦韆＋健身器材）第二輪渲染完成，接著照 SOP 第 9 節拍遊戲內截圖、交件。
+- **進行中**：ART-PARK2（LAWWW2-B 派工的公園鞦韆＋健身器材）第二輪渲染完成，接著照 SOP 第 9 節拍遊戲內截圖、交件。檔案已 checkpoint 到本分支（`029dade6`）。
+- **ACK**：BB-B（`063ab633`，`BB_00` 加了指標）、LAWWW2-B（`54ff20d5`，SCENE_RULES 第 9 節開頭加了指標；SOP 第 11 節十條都對，第 3 條補了理由）。
+- **LAWWW2-B 排的舊件第 9 節補強**（16:29；PARK2 和劇情之後，一次交一件，每件 README 加「第 9 節補強」一節；造型、尺寸、節點名、原點都不動）：
+  1. ART-US2 廚房：生活痕跡（水槽裡碗盤、瀝水架、熱水壺、砧板、冰箱門上的紙和磁鐵（沒字或手寫）、捲筒紙巾架）；水槽周圍的水漬、爐子周圍的油漬、把手附近比較亮；吊櫃底下、檯面和牆交界的 AO。
+  2. ART-US1 客廳：茶几上遙控器、馬克杯、書，沙發上摺過的毯子；皮沙發座面和扶手的光澤、皺褶；地毯走道那一側舊一點；沙發、電視櫃底下的 AO。
+  3. ART-SOY1 豆漿店：炸台、烤台周圍的油垢，不鏽鋼刮痕、粗糙度變化；大湯杓、抹布、掛著的塑膠袋、一疊紙碗（LAWWW2-B 補完會重算 BG-20）。
+  4. ART-WZ7 路邊小物：只補落地處的泥和水痕（如果還沒有）。
+  5. WZ6、WZ5 貓、V0-DORM：不用補。
+- **環境**：這個容器原本沒有 Python 的 playwright（`fast_shots.py` 要用），16:3x `pip install playwright` 裝了（瀏覽器用 `/opt/pw-browsers`，不要跑 `playwright install`）。
 - **下一班第一步**：讀通知 → 看 PARK2 的狀態（`tools/blender/env_second/aa_support/README.md` 的 ART-PARK2 一節；若還沒有，工作檔在 LAWWW2-B 分支的 worktree，沒有遠端備份）。
 
 ### 進度（AA-B，2026-10-16 約 11:05 UTC；最新 SHA 見 `git log -1 origin/claude/cool-heisenberg-o8kuqx`，寫這段時是 `5dc08b55`）
