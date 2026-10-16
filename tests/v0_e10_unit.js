@@ -25,9 +25,9 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   const K=k=>STORY.dayOfKey(k), D15=K('2024-10-15'), D16=K('2024-10-16');
   const e10=STORY_EVENTS.find(e=>e.id==='ev_y0_e10'), e10b=STORY_EVENTS.find(e=>e.id==='ev_y0_e10b');
   check('0. ev_y0_e10（總圖三樓）、ev_y0_e10b（小福）在',!!e10&&!!e10b&&e10.location==='library'); if(!e10||!e10b){ console.log('FAILED '+fails); process.exit(1); }
-  fresh(D15,22,'dorm'); run(); check('1. 10/15 22:00 還沒有邀約',!TH('p:kexin').includes('玩了一整晚。明天去總圖念書吧。期中考快到了。'));
-  at(D15,22.6); const m=PHONE.thread(G,'p:kexin').find(x=>x.text==='玩了一整晚。明天去總圖念書吧。期中考快到了。');
-  check('1. 10/15 22:30 可昕私訊、好／明天不行',!!m&&m.ask.opts.map(o=>o.t).join('/')==='好。/明天不行。');
+  fresh(D15,22,'dorm'); run(); check('1. 10/15 22:00 還沒有邀約',!TH('p:kexin').includes('明天去總圖念書吧。期中考快到了。'));
+  at(D15,22.6); const m=PHONE.thread(G,'p:kexin').find(x=>x.text==='明天去總圖念書吧。期中考快到了。');
+  check('1. 10/15 22:30 沒去聚會的玩家：兩則「你今天沒來。我們玩了一整晚。」「明天去總圖念書吧。期中考快到了。」、好／明天不行',TH('p:kexin').includes('你今天沒來。我們玩了一整晚。')&&!!m&&m.ask.opts.map(o=>o.t).join('/')==='好。/明天不行。');
   const snap=JSON.stringify(G);
   // 答應
   G.flags.E10_GO='yes'; G.day=D16; G.weekday=wdOf(D16); G.hour=18.9; G.zone='library';

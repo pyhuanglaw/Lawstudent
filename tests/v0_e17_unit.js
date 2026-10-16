@@ -22,14 +22,18 @@ const run=()=>{ STORY.phoneRules(GM); PHONE.tick(G); };
 const at=(day,hour)=>{ G.day=day; G.hour=hour; G.weekday=wdOf(day); run(); };
 const TH=th=>PHONE.thread(G,th).map(m=>m.text);
 (async()=>{
-  const K=k=>STORY.dayOfKey(k), D9=K('2024-11-09'); const e17=STORY_EVENTS.find(e=>e.id==='ev_y0_e17');
-  check('0. ev_y0_e17 在',!!e17); if(!e17){ console.log('FAILED '+fails); process.exit(1); }
+  const K=k=>STORY.dayOfKey(k), D9=K('2024-11-09'); const e17=STORY_EVENTS.find(e=>e.id==='ev_y0_e17'), e17a=STORY_EVENTS.find(e=>e.id==='ev_y0_e17a');
+  check('0. ev_y0_e17（攤位）、ev_y0_e17a（前一晚備料）在',!!e17&&!!e17a); if(!e17){ console.log('FAILED '+fails); process.exit(1); }
   const ck=(day,h,zone)=>{ fresh(day,h,zone||'campus'); return EVENTS.check(e17); };
-  check('1. 11/9（六）10:00～17:00 在校園（攤位那一排）可以；11/8、11/10、09:30、17:30、在宿舍不行',ck(D9,11)&&ck(D9,16.5)&&!ck(D9-1,11)&&!ck(D9+1,11)&&!ck(D9,9.5)&&!ck(D9,17.5)&&!ck(D9,11,'dorm'));
+  check('1. 11/9（六）10:00～16:00 在校園（攤位那一排）可以；11/8、11/10、09:30、16:30、在宿舍不行',ck(D9,11)&&ck(D9,15.5)&&!ck(D9-1,11)&&!ck(D9+1,11)&&!ck(D9,9.5)&&!ck(D9,16.5)&&!ck(D9,11,'dorm'));
   fresh(D9,11,'campus'); picks=['交給可昕']; said=[]; await EVENTS.run(e17); const L=said.map(x=>x.t);
-  check('1. 原文：前一晚系學會、珍奶成本二十八、荷蘭式拍賣、擴音器、「你喊。從一百開始。」',L[0]==='（前一晚，社科院的系學會辦公室。）'&&L[1]==='珍奶一杯成本二十八。要賣多少？'&&L[6]==='你喊。從一百開始。',JSON.stringify(L.slice(0,7)));
+  check('1. 攤位（後半）：「（校慶當天。……擴音器交給你。）」「你喊。從一百開始。」',L[0]==='（校慶當天。攤位前排了人。可昕把擴音器交給你。）'&&L[1]==='你喊。從一百開始。',JSON.stringify(L.slice(0,2)));
   check('1. 交給可昕喊 → 名畫、九十五元、唐睿',L[L.length-1]==='她喊得像在拍賣名畫。第一杯九十五元，買的人是唐睿。'&&L.every(t=>t.length<=40));
-  G.events.done.ev_y0_e17=1; at(D9,18.5); check('2. 去了：沒有群組照片',!PHONE.sent(G,'y0_e17_missed'));
+  G.events.done.ev_y0_e17=1; at(D9,18.5); check('2. 去了攤位：沒有群組照片',!PHONE.sent(G,'y0_e17_missed'));
+  fresh(D9-1,12,'campus'); G.events.done.ev_y0_e02=1; run(); check('3. 11/8 12:30 以前沒有備料的邀約',!PHONE.sent(G,'y0_e17_ask'));
+  at(D9-1,12.6); const qa=OUT.get(G,'y0_e17a'); check('3. 11/8 12:30 群組品妤＋出發選單「社科院 19:00：備料」',TH('g:econ_class').includes('今晚七點系學會辦公室，備料。明天校慶擺攤，經濟系賣珍奶。')&&!!qa&&qa.h===19&&qa.late===0.25);
+  said=[]; G.hour=18.7; await OUT.go(GM,qa); const La=said.map(x=>x.t); check('3. 備料（前半）：品妤成本二十八 … 可昕「對。那是給最想喝的人。」、到 21:00',La[0]==='珍奶一杯成本二十八。要賣多少？'&&La[La.length-1]==='對。那是給最想喝的人。'&&Math.abs(G.hour-21)<0.01,JSON.stringify([La,G.hour]));
+  at(D9,18.5); check('3. 去了備料、沒去攤位：沒有群組照片（兩天都沒去才有）',!PHONE.sent(G,'y0_e17_missed'));
   fresh(D9,17.5,'dorm'); G.events.done.ev_y0_e02=1; run(); check('2. 沒去：18:00 以前沒有',!PHONE.sent(G,'y0_e17_missed')); at(D9,18.2);
   check('2. 沒去：18:00 群組照片＋品妤「今天的營收，我會做成報表。」',TH('g:econ_class').includes('📷（攤位前排隊的照片）')&&TH('g:econ_class').includes('今天的營收，我會做成報表。'));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

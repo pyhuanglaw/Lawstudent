@@ -1555,12 +1555,12 @@ const STORY_EVENTS=[
       {label:'end'},{speaker:'kexin',expression:'smile',text:'（小聲）你接得比我想的好。'},
       {speaker:'社長',text:'新來的，下次還來嗎？'} ] },
   /* 10/15（二）的群組聚會（AA_154 2-1b，AA-B 3828a4dd；第②級、送 BB-B 審）：17:30 群組兩則（story3d.js），17:30～19:15 出發選單「公館 19:00：經濟系的聚會」；去了＝出遊 19:00→22:20。
-     不重演 P2（地點固定公館）。寫 E10_EVE:'went'（E10 第一句讀它）；兩個選項都只有可昕熟悉度 +1；夜市 −100（桌遊錢唐睿出）*/
+     不重演 P2（地點固定公館）；先桌遊（19:00～22:00）後夜市（到 22:20），BB-B 審稿後的順序（AA_154 92e541a9）。寫 E10_EVE:'went'（E10 第一句讀它）；兩個選項都只有可昕熟悉度 +1；夜市 −100（桌遊錢唐睿出）*/
   { id:'ev_y0_gather', stage:'econ', title:'經濟系的聚會', participants:['econ_zhengxun','econ_pinyu'], location:'any', trigger:'outing', once:true, background:'dark', hours:3+1/3,
     dialogue:[ {scene:'公館'},
       {speaker:null,text:'（公館。期中考前的最後一個晚上。）'},
       {speaker:'韋綸',text:'今天不准聊期中。誰聊到，今晚的桌遊錢他出。'},
-      {speaker:null,text:'（夜市吃了一圈，五個人擠進一家桌遊店。一個人一小時五十元。）'},
+      {speaker:null,text:'（五個人擠進一家桌遊店。一個人一小時五十元。）'},
       {speaker:'econ_zhengxun',text:'三個小時，一個人一百五。'},
       {speaker:'econ_pinyu',text:'（看了一下錢包）……剛好。'},
       {speaker:null,text:'（第三局。可昕一直在看你的牌。）'},
@@ -1571,8 +1571,8 @@ const STORY_EVENTS=[
       {speaker:'唐睿',text:'我講一件不是期中的事喔——'},
       {speaker:null,text:'（他講的那件事，講到最後還是微積分。）'},
       {speaker:'韋綸',text:'唐睿請客！'},
-      {speaker:'econ_pinyu',text:'我的一百五保住了。'},
-      {speaker:null,text:'（十點二十，大家在公館的路口散了。）'},
+      {speaker:'econ_pinyu',text:'我的一百五保住了。……那夜市可以吃了。'},
+      {speaker:null,text:'（五個人在夜市吃了一圈。十點二十，大家在公館的路口散了。）'},
       {set:{E10_EVE:'went'}} ],
     afterOuting:(G,GM)=>{ if(GM.money) GM.money(-100); } },
   /* ★E10「我們去總圖念書吧」——其實沒念多少（BB_104 8b-4；AA_154 第 117 行；固定核心）：10/15 22:30 可昕私訊邀（story3d.js），回「好。」＝10/16 晚上走進總圖三樓（library）就開始。
@@ -1637,15 +1637,17 @@ const STORY_EVENTS=[
       {label:'b'},{speaker:'econ_pinyu',text:'她的你穿不下。'},{goto:'end'},
       {label:'c'},{speaker:'kexin',expression:'laugh',text:'拍好看一點。這是證據。'},
       {label:'end'},{speaker:null,text:'手機裡多了一張照片。她穿著你高中的外套，袖子太長，正在比一個勝利手勢。'} ] },
-  /* E17 校慶園遊會：經濟系的拍賣攤（BB_104 8b-9；AA_154 第 127 行）：11/9（六）白天，走到椰林大道的攤位那一排就演（前一晚系學會那段是開場的旁白）。
-     可以錯過：沒去＝當天 18:00 群組一張照片＋品妤一句（story3d.js）。沒有旗標 */
-  { id:'ev_y0_e17', stage:'econ', title:'經濟系的拍賣攤', participants:['econ_pinyu','econ_zhengxun','kexin'], location:'campus', near:{x:-3,z:14,r:20}, trigger:'auto', term:['Y0S1'], weeks:[10], weekday:[6], time:[10,17], once:true, background:'blur',
-    dialogue:[ {speaker:null,text:'（前一晚，社科院的系學會辦公室。）'},
+  /* E17 校慶園遊會：經濟系的拍賣攤（BB_104 8b-9；AA_154 第 127 行、A36）：分兩段。
+     前半＝11/8（五）19:00 社科院系學會辦公室備料（2D 出遊到 21:00；12:30 群組約＋出發選單，story3d.js）；
+     後半＝11/9（六）10:00～16:00 走到椰林的經濟系攤位（帳篷，zones3d.js isFairDay）。前一晚沒去也演後半（開頭換一句：BB-B 寫，還沒到——先照原文）。兩天都沒去＝18:00 群組照片 */
+  { id:'ev_y0_e17a', stage:'econ', title:'備料', participants:['econ_pinyu','econ_zhengxun'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
+    dialogue:[ {scene:'社科院・系學會辦公室',bg:'soc_office'},
       {speaker:'econ_pinyu',text:'珍奶一杯成本二十八。要賣多少？'},
       {speaker:'kexin',expression:'neutral',text:'不定價。用荷蘭式拍賣：從一百往下喊，有人說要就成交。'},
       {speaker:'econ_zhengxun',text:'……第一杯會賣得很貴。'},
-      {speaker:'kexin',expression:'smile',text:'對。那是給最想喝的人。'},
-      {speaker:null,text:'（校慶當天。攤位前排了人。可昕把擴音器交給你。）'},
+      {speaker:'kexin',expression:'smile',text:'對。那是給最想喝的人。'} ] },
+  { id:'ev_y0_e17', stage:'econ', title:'經濟系的拍賣攤', participants:['econ_pinyu','kexin'], location:'campus', near:{x:-3,z:14,r:20}, trigger:'auto', term:['Y0S1'], weeks:[10], weekday:[6], time:[10,16], once:true, background:'blur',
+    dialogue:[ {speaker:null,text:'（校慶當天。攤位前排了人。可昕把擴音器交給你。）'},
       {speaker:'kexin',expression:'teasing',text:'你喊。從一百開始。'},
       {choice:[{text:'一百、九十、八十……',goto:'a'},{text:'一百、五十！',goto:'b'},{text:'交給可昕喊',goto:'c'}]},
       {label:'a'},{speaker:null,text:'第一杯在七十元成交。'},{speaker:'econ_pinyu',text:'比成本多四十二。很好。'},{goto:'end'},
