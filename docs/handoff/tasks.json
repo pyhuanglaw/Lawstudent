@@ -12190,6 +12190,48 @@
    },
    "source": "使用者 2026-10-16 22:0x 試玩截圖（約郭沛珊）",
    "authorized": "使用者（bug 回報）"
+  },
+  {
+   "id": "BUG-MEET-NOSEAT",
+   "title": "約去總圖念書（現在一起過去＋手機直接到達）：一進總圖大廳就演完見面、念完，兩個人都沒坐下",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "src/invites3d.js S.arrive：一起走到有座位的地點（總圖、Café、麵店、茶館、早午餐）時，不在門口直接演 S.meet；她先走去空位坐下（總圖是二樓自習區，不是大廳），玩家走過去坐在旁邊（或和她說話）才開始見面、念書；S.meet 裡玩家也坐下再 fade。只改流程，不改台詞（D79）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次約人念書／吃飯",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 22:1x 試玩截圖（9/19 13:57 總圖大廳，郭沛珊）",
+   "authorized": "使用者（bug 回報）"
+  },
+  {
+   "id": "BUG-LIGHTBAND",
+   "title": "畫面中間一道從上到下的半透明直條（總圖大廳、舊路書房都有）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "查是不是室內的光柱、窗光貼片、鏡頭前的透明面，或樹幹透視 shader；和 BUG-WZFLICKER 一起查；iPhone 尺寸截圖比對",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次進總圖／書店",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 21:5x、22:1x 兩張截圖",
+   "authorized": "使用者（bug 回報）"
   }
  ]
 }
