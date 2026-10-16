@@ -22,7 +22,8 @@ const BIKE=(function(){
   function st(G){ if(!G.bike||typeof G.bike!=='object') G.bike=Object.assign({riding:false},HOME); return G.bike; }
   B.state=st;
   function load(){ if(src) return Promise.resolve(src); if(!loading) loading=ASSETS.loadOne('prop.bike_ride').then(c=>{ const s=c&&c.scene; if(!s) return null;
-      s.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.receiveShadow=false; if(o.geometry) o.geometry.userData.shared=true; } });   /* 換區域時 disposeGroup 不要丟掉共用的幾何 */
+      s.traverse(o=>{ if(o.isMesh){ const g=o.geometry, n=g?(g.index?g.index.count:g.attributes.position.count)/3:0; o.castShadow=n>=250&&!/^ride_(alpha|lamp_lens)/.test((o.material&&o.material.name)||''); o.receiveShadow=false; if(g) g.userData.shared=true; } });   /* 換區域時 disposeGroup 不要丟掉共用的幾何。
+         投影只留車架、前叉、輪子（250 個三角形以上）；踏板、曲柄、座墊、車燈、輻條的影子小到看不出來，每台車陰影那一輪少 8 次 draw call（2026-10-16 溫州街效能）*/
       src=s; return s; }).catch(e=>{ console.warn('腳踏車模型載入失敗',e); loading=null; return null; });
     return loading; }
   B.load=load;
