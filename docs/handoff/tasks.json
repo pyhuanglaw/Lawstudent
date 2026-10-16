@@ -2191,8 +2191,8 @@
    "title": "W8 ev_sis_collapse（BCG-01）",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照 BB_97 實作",
+   "status": "已整合待測試",
+   "next": "ev_sis_collapse 改寫成「今天先不改了」（BB_97 2-3）：第 12 週週一二四 19～22 Café、朋友（看實際數值）或 NOTICED_HER／HELPED／GAVE_HER_NOTE；HEARD_PROF_XU 兩版；四選項；必要 CG cg_hot_water_heroine05（BB 第二版通過，assets/cg/heroine_05/）；HOT_WATER；沒演到＝11/27 讀書會群組請假＋Kevin；STORY.sisW8＝演過或過了第 12 週（rel_lines、invites 改讀它，AA_177 第 8 節①）。tests/v3_sis_w8_unit.js；瀏覽器未測",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -2212,8 +2212,8 @@
    "title": "W9 skip_interview",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照 BB_97 實作",
+   "status": "已整合待測試",
+   "next": "ev_sis_skip_interview（BB_97 2-4）：11/28 9～10 點總圖門口台階（她的作息）、有點熟以上、偶遇；三選項＋結尾；SKIPPED_INTERVIEW。tests/v3_sis_w8_unit.js；瀏覽器未測；學姊 formal 服裝立繪還沒有（用一般的）",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -2573,7 +2573,7 @@
    "area": "V3",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "已接（每天的手機小事，tests/v3_phone_small_unit.js）：學姊值班表、Kevin 學姊卸任、子晴 LAB_LETTER 五則、芷若 Z7～Z9、可昕大二 7 則（含第三隻手、邵鈞兩種、下雨）。還沒：學姊 HOT_WATER（W8）、M2 之後、上榜／畢業 Kevin（M3、W10）、沛珊 P4b、方奕廷暑假、可昕 K10c 之後、長頸鹿貼圖——那些事件做好時加",
+   "next": "已接（每天的手機小事；W8 之後加了學姊 HOT_WATER 保溫瓶那則，tests/v3_phone_small_unit.js）：學姊值班表、Kevin 學姊卸任、子晴 LAB_LETTER 五則、芷若 Z7～Z9、可昕大二 7 則（含第三隻手、邵鈞兩種、下雨）。還沒：M2 之後、上榜／畢業 Kevin（M3、W10）、沛珊 P4b、方奕廷暑假、可昕 K10c 之後、長頸鹿貼圖——那些事件做好時加",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -11416,6 +11416,27 @@
     "acceptance": "和其他 2D 背景同規格（webp、橫向、沒有人物）；ART_APPROVED 由使用者",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "BUG-20",
+   "title": "萬才館室內的房門按鈕範圍太小（1.15 m）：走到門口有時沒出現「多功能教室」「研討室 A」（v9.9 回歸 flow_clubs A、B）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "門的互動範圍 1.15 → 1.5（同一層相鄰的門相距 3.5～4.5 m，不重疊）；重跑 flow_clubs",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 5,
+    "earliest": "大一上第 5 週社課（萬才館）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "v9.9 發布後回歸 post99 flow_clubs",
+   "authorized": "D85"
   }
  ]
 }
