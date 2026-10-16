@@ -456,6 +456,10 @@ def apartment(spec):
     lrng = random.Random(len(spec['id']) * 131 + ord(spec['id'][0]) * 7 + ord(spec['id'][1]))                                # 曬衣服用另一個亂數（不改變窗、冷氣的配置）
     kind = spec['wall']; wall = Mesh(f'wall_{spec["id"]}', wall_mat(kind))     # 這棟的外牆（一個物件，頂點色＝牆色）
     gt = spec['ground']; rec = 1.3 if gt == 'shop' else (4.3 if gt == 'arcade' else 0.2)
+    if SET == 'wenzhou' and 'sf' not in spec:   # ART-WZ0（2026-10-16）：溫州街的店面組件（wz_shopkit.py）；公館、118 巷照舊
+        sfx = SF.get(spec['id']) or SF_HOUSE.get(spec['id']) or SF_SHUTTER.get(spec['id'])
+        if sfx: spec = dict(spec, sf=sfx)
+    if gt == 'shop' and spec.get('sf'): rec = spec['sf'].get('recess', 0.9) + 1.3   # 店門退縮成門廊：一樓牆體從玻璃後 1.3 m 開始
     W = Wd; D = Dd
     # ---- 樓上的窗：每層 n 扇（和套件相同的算法：n＝round(W/3.6)）
     n = max(1, round(W / 3.6)); ww = min(2.2, W / n - 0.9); wh = 1.5
@@ -536,16 +540,20 @@ def apartment(spec):
     # ---- 一樓：牆體和樓上同一種外牆（側面露在巷口時不會變成另一種材質）；店面兩側的石材壁柱
     xf.box(wall, -W / 2, W / 2, 0, GH, -D, -rec)                                                  # 一樓牆體（店面退縮）
     gw = acc(M['gwall'])
-    if gt in ('shop', 'arcade'):
+    if gt in ('shop', 'arcade') and not spec.get('sf'):
         r0 = 3.0 if gt == 'arcade' else 0.0
         # 公館的騎樓：店與店之間的壁柱貼和柱子一樣的磁磚（磨石子在騎樓裡近看是一大片斑點，像髒汙；溫州街照舊）
         pm = acc(M['pillar']) if (gt == 'arcade' and SET == 'gongguan') else gw
         for sx in (-1, 1): xf.box(pm, sx * (W / 2 - 0.15) - 0.15, sx * (W / 2 - 0.15) + 0.15, 0, GH, -rec, -r0)
     else: xf.box(gw, -W / 2, W / 2, 0, 0.9, -rec - 0.02, -rec + 0.04)                              # 住家／鐵捲門：牆腳的磨石子護牆
     xf.box(band, -W / 2, W / 2, GH - 0.12, GH, -0.25, 0.06)
-    if gt in ('shop', 'arcade'): shopfront(spec, xf, W, gt)
-    elif gt == 'shutter': shutter(spec, xf, W, rec)
-    else: housedoor(spec, xf, W, rng, rec)
+    if gt in ('shop', 'arcade'): shopfront_v2(spec, xf, W, gt, wall) if (spec.get('sf') and gt == 'shop') else shopfront(spec, xf, W, gt)
+    elif gt == 'shutter':
+        shutter(spec, xf, W, rec)
+        if spec.get('sf'): shutter_v2(spec, xf, W, rec)
+    else:
+        housedoor(spec, xf, W, rng, rec)
+        if spec.get('sf'): housefront_v2(spec, xf, W, rng, rec)
     set_tint(wall.finish(root), spec['color'], kind)
 
 
@@ -680,7 +688,10 @@ def housedoor(spec, xf, W, rng, rec):
         if rng.random() < 0.5: inst(GRILLE, f'dgrille_{spec["id"]}', xf, wx, 0.95, z)
 
 
+SF, SF_HOUSE, SF_SHUTTER = {}, {}, {}
+if SET == 'wenzhou': exec(open(os.path.join(HERE, 'wz_shopkit.py'), encoding='utf-8').read())   # ART-WZ0 店面組件（同一個命名空間）
 for sp in SPECS: apartment(sp)
+if SET == 'wenzhou': build_notes()
 for k, m in _acc.items():
     m.finish(root, uv=(k not in ('cafe_leaf_fern', 'cafe_leaf_broad', 'cafe_leaf_olive', 'cafe_leaf_ivy')), smooth=k in ('cafe_pot_terracotta', 'cafe_bulb'))
 for m, props in faces: uv01(m.finish(root, uv=True, props=props))
