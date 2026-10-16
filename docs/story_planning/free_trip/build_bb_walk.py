@@ -145,9 +145,9 @@ WALK += [
 ]
 LEAVE += [
     {'batch': 2, 'who': 'kexin', 'spot': 'D09', 'friend': '', 'dating': '我走下山就到宿舍了。……你要搭纜車？那我陪你到站。'},
-    {'batch': 2, 'who': 'heroine_04', 'spot': 'D18', 'friend': '我要搭客運了。燈籠畫了三十個，夠做一關。', 'dating': '下山的客運很晃。你坐靠窗。……我要靠著睡。'},
+    {'batch': 2, 'who': 'heroine_04', 'spot': 'D18', 'friend': '我要搭客運了。燈籠畫了三十個，夠做一關。', 'dating': '下山的客運很晃。你坐靠窗。……我暈車的話，你負責講話。'},
     {'batch': 2, 'who': 'heroine_05', 'spot': 'D24', 'friend': '我們要去吃飯了。下週學校見。', 'dating': '我們要去吃飯了。……晚上傳訊息給你。'},
-    {'batch': 2, 'who': 'classmate_peishan', 'spot': 'D20', 'friend': '我們要回去了。謝謝你。……下次課輔班，來說一個故事？', 'dating': '回程我會睡著。……到了叫我。'},
+    {'batch': 2, 'who': 'classmate_peishan', 'spot': 'D20', 'friend': '我們要回去了。謝謝你。……下次課輔班，來說一個故事？', 'dating': '回程的車上，我要把今天的事寫下來。……你可以看，但不要唸出來。'},
     {'batch': 2, 'who': 'heroine_02', 'spot': 'D25', 'friend': '火車快來了。這卷底片洗出來，給你一張。', 'dating': '火車上我想睡一下。……到了叫我，不要叫太早。'},
 ]
 INTRO += [
