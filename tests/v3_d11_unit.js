@@ -40,7 +40,7 @@ GM.money=function(n){ G.money+=n; };
   fresh(d18,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); const o=OUT.get(G,'y2_ball');
   check('1. 12/18 21:00 麵店團群組阿哲「明天下午兩點，系籃，新體育館。來喊。」＋出發選單 12/19 14:00',txt('g:noodle_team').includes('zhe:明天下午兩點，系籃，新體育館。來喊。')&&!!o&&o.day===d19&&o.h===14&&o.ev==='ev_zhe_game_y2',JSON.stringify([txt('g:noodle_team'),o]));
   const Gm=ev('ev_zhe_game_y2'); fresh(d19,14,'campus'); meet('heroine_01'); const k0=STORY.knows; STORY.knows=id=>['zhe','yu','heroine_01'].includes(id); said=[]; picks=[1]; await EVENTS.run(Gm); STORY.knows=k0; let L=L0();
-  check('2. 系籃：以安、小語在觀眾席；三選一；記分＝「沒事啦，多兩分給對面，算我們請客。」；WATCHED_GAME',L.includes('（以安在觀眾席看規則手冊。）')&&L.includes('（小語拿著自己寫的加油板。）')&&L.includes('阿哲：沒事啦，多兩分給對面，算我們請客。')&&SOCIAL.has('zhe','WATCHED_GAME'),JSON.stringify(L));
+  check('2. 系籃大二版（AA-B c2f1c5aa）：以安、小語在觀眾席、加油板「17 號，不要犯規。」；記分＝「今年一次都沒翻錯。」以安「翻分的規則在第十二頁。我標起來了。」；WATCHED_GAME_Y2',L.includes('（以安在觀眾席看規則手冊。）')&&L.includes('（小語的加油板上寫著：『17 號，不要犯規。』）')&&L.includes('你坐到記分台，今年一次都沒翻錯。')&&L.some(t=>/翻分的規則在第十二頁。我標起來了。/.test(t))&&SOCIAL.has('zhe','WATCHED_GAME_Y2'),JSON.stringify(L));
   const Y=ev('ev_yu_together'); { fresh(d19,19,'noodle'); G.flags.met_yu=true; const a=EVENTS.check(Y); fresh(d19,17,'noodle'); G.flags.met_yu=true; const b=EVENTS.check(Y); fresh(d19+7,19,'noodle'); G.flags.met_yu=true; const c=EVENTS.check(Y);
     check('3. 語 3：12/19 19:00 麵店、認識小語＝會演；17:00、下週六不演',a&&!b&&!c); }
   fresh(d19,19,'noodle'); G.flags.met_yu=true; meet('yu'); said=[]; await EVENTS.run(Y); L=L0();

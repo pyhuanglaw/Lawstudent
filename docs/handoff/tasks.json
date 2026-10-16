@@ -1866,7 +1866,8 @@
     "confirmed": true
    },
    "source": "交接包_v3",
-   "authorized": "D79"
+   "authorized": "D79",
+   "note": "2026-10-16：觀眾席三選一換成 AA-B c2f1c5aa 的大二版字、記 WATCHED_GAME_Y2；明軒的句子等 BB-B（AB-59）。"
   },
   {
    "id": "V3-D12",
@@ -2234,7 +2235,7 @@
    "title": "M2 new_topic",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "照 BB_97 實作",
    "priority": "P2",
    "first": {
@@ -2248,7 +2249,8 @@
     "confirmed": true
    },
    "source": "BB_97",
-   "authorized": "D79"
+   "authorized": "D79",
+   "note": "2026-10-16：1/20（三）21:00 家族群組照片＋三件事、三個回覆（咖哩要 FAMILY_DINNER）、ASKED_TELL_ME、隔天 9:00 沒回＝Kevin；tests/v3_sis_m2_unit.js。瀏覽器未測。"
   },
   {
    "id": "V3-B07",
@@ -2490,7 +2492,7 @@
    "area": "V3",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "照 BB_97 實作",
+   "next": "照 BB_97 實作 AA-B b95cea49：截止日 12/10（四），23:59「我交了。」，12/11～12/17 第一次到 Café 觸發；台詞、選項照 BB_97 3-4。",
    "priority": "P2",
    "first": {
     "term": "Y2S1",

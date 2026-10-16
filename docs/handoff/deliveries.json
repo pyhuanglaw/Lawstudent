@@ -4303,6 +4303,54 @@
    "integration": "已整合待測試",
    "note": "W6 第 6～7 週、Kevin 那句第 6／7 週；Q3 once；重訪日 2、Q8 等那兩件施工時照新版",
    "date": "2026-10-16T18:0xZ"
+  },
+  {
+   "id": "DLV-1016-359",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "c2f1c5aa",
+   "what": "系籃大二版觀眾席三選一的字（AA_143 1-5）、WATCHED_GAME_Y2",
+   "task": "V3-D11",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "明軒的句子等 BB-B（AB-59）",
+   "date": "2026-10-16T18:2xZ"
+  },
+  {
+   "id": "DLV-1016-360",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "b95cea49",
+   "what": "Z7 截止日 12/10（四），23:59「我交了。」，12/11～12/17 第一次到 Café 觸發",
+   "task": "V3-B18",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "施工 Z7 時照這個日子",
+   "date": "2026-10-16T18:2xZ"
+  },
+  {
+   "id": "DLV-1016-361",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "a3a54213",
+   "what": "BB-B AB-51～58 併進企劃線（BB_97/98/99/124/164、14 個約會座標檔）；K23 定 10/20（五）19:00 政大",
+   "task": "AA185-Y3",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "各項施工到那一學期時照新版；K23 用 AA-B 的 10/20，不用 BB-B 一度改的 10/19",
+   "date": "2026-10-16T18:2xZ"
+  },
+  {
+   "id": "DLV-1016-362",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "5e688f34",
+   "what": "小公園 v7（ART-PARK3：涼亭石桌石凳、直飲台、車架換 BB-B park3_props；車架沿南北排）＋美國公寓廚房生活痕跡、爐子洗碗機位置修正",
+   "task": "ART-WZ1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "READY_FOR_ART_REVIEW；小公園 v7 接進來後跑 wz_street_integration；美國公寓廚房（SCN-US-01）等接 SCN-US-01 時一起",
+   "date": "2026-10-16T18:2xZ"
   }
  ],
  "ignored": [
