@@ -92,7 +92,7 @@ async def main():
         pg.on('console', lambda m: errs.append(m.type + ': ' + m.text) if m.type == 'error' and '404' not in m.text and 'fonts.g' not in m.text else None)
         await pg.goto(URL)
         for i in range(240):
-            if await pg.evaluate("document.getElementById('loading').classList.contains('hide')"): break
+            if await pg.evaluate("document.getElementById('loading').classList.contains('hide')&&(typeof GAME==='undefined'||!GAME.charsAllP||!!GAME.charsAll)"): break
             await pg.wait_for_timeout(500)
         # 前置：放一個自動存檔（週六 14:50，溫州街東口），然後重新整理，從標題畫面點「繼續」
         st0 = {'v': 2, 'name': '祐廷', 'day': 8, 'weekday': 6, 'hour': 14.8, 'energy': 80, 'money': 1500, 'zone': 'wenzhou', 'pos': {'x': 44, 'z': -1, 'yaw': -1.5708}, 'weather': 'clear',
@@ -101,7 +101,7 @@ async def main():
         await pg.evaluate("s=>localStorage.setItem('fatiao3d_auto',JSON.stringify(s))", st0)
         await pg.reload()
         for i in range(240):
-            if await pg.evaluate("document.getElementById('loading').classList.contains('hide')"): break
+            if await pg.evaluate("document.getElementById('loading').classList.contains('hide')&&(typeof GAME==='undefined'||!GAME.charsAllP||!!GAME.charsAll)"): break
             await pg.wait_for_timeout(500)
         await pg.screenshot(path='docs/art-rebuild/screenshots/flow_00_title.png')
         await t.tap_el('#rotate')  # 直向提示：點一下繼續直向遊玩
@@ -174,7 +174,7 @@ async def main():
         # 8. 重新整理 → 讀取欄位 1
         await pg.reload()
         for i in range(240):
-            if await pg.evaluate("document.getElementById('loading').classList.contains('hide')"): break
+            if await pg.evaluate("document.getElementById('loading').classList.contains('hide')&&(typeof GAME==='undefined'||!GAME.charsAllP||!!GAME.charsAll)"): break
             await pg.wait_for_timeout(500)
         await t.tap_el('#rotate'); await pg.wait_for_timeout(300)
         await t.tap_el('#btnLoadMenu'); await pg.wait_for_timeout(700)

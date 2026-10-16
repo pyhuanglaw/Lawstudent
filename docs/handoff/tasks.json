@@ -11733,6 +11733,28 @@
    },
    "source": "企劃線 b20e614b、22b60a7d、21e748d6、bdc441d6、62bc90b1",
    "authorized": "D79"
+  },
+  {
+   "id": "PERF-BOOT",
+   "title": "開遊戲加速：主要角色、路人背景下載，標題畫面先出來（使用者 2026-10-16 19:5x「光打開遊戲超過 20 秒」）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "next": "game3d.js boot：g1（主角＋動作）＋環境小物到了就出標題；g2／g3 背景下載；開始／繼續／讀取前 waitChars；tests/boot_fast.py（3 MB/s 限速）新版、v9.9 對照；之後再看 VRM 貼圖壓縮",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "每次打開遊戲",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 19:5x 直接要求",
+   "authorized": "D85",
+   "tests": "tests/boot_fast.py"
   }
  ]
 }

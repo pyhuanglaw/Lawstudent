@@ -31,7 +31,7 @@ async def main():
         await pg.goto(URL + ('&' if '?' in URL else '?') + 'turbo')
         ok = False
         for i in range(360):
-            if await pg.evaluate("!!(typeof GAME!=='undefined'&&document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide'))"): ok = True; break
+            if await pg.evaluate("!!(typeof GAME!=='undefined'&&document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide')&&(typeof GAME==='undefined'||!GAME.charsAllP||!!GAME.charsAll))"): ok = True; break
             await pg.wait_for_timeout(500)
         check('遊戲載入完成（載入畫面消失）', ok)
         info = await pg.evaluate("""(()=>{ const v=document.getElementById('verLabel'); const ss=[...document.scripts].map(s=>s.getAttribute('src')).filter(Boolean);

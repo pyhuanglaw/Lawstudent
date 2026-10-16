@@ -48,8 +48,10 @@ async def launch(p, landscape=True):
 
 
 async def wait_loaded(pg, timeout_s=180):
+    # 2026-10-16 開遊戲加速：主要角色、路人改在標題畫面出來以後背景下載（game3d.js boot）。測試多半用 load_state 直接讀檔（不經過「開始」的 waitChars），
+    # 所以這裡也等人物全部到齊（GAME.charsAll），測試開始時的狀態和以前一樣；量載入時間、標題先出來的測試用 tests/boot_fast.py
     for i in range(int(timeout_s * 2)):
-        if await pg.evaluate("typeof GAME!=='undefined'&&!!document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide')"): return True
+        if await pg.evaluate("typeof GAME!=='undefined'&&!!document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide')&&(!GAME.charsAllP||!!GAME.charsAll)"): return True
         await pg.wait_for_timeout(500)
     return False
 
