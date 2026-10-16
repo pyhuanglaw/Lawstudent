@@ -3,7 +3,7 @@
 光：
   - 傍晚：天空 Nishita（Blender 5 改名 MULTIPLE_SCATTERING，兩個都試；天空裡的太陽圓盤關掉，不然是物理亮度、整張過曝）仰角 8°、強度 0.08；
           太陽燈偏橘 (1.0, 0.72, 0.45)、4.5、從左前方斜射；店裡一盞 3000K 點光 (1.0, 0.70, 0.42) 220 W 在畫面上方；曝光 +0.2。
-  - 白天（--day）：太陽仰角 50°、白光 (1.0, 0.97, 0.92)、4.0；天空 0.35；店裡的燈關掉；曝光 −0.1。
+  - 白天（--day）：太陽仰角 50°、白光 (1.0, 0.97, 0.92)、4.0；天空 0.35；店裡的點光關掉，試擺場景的日光燈照樣開（中性白）；曝光 −0.1。
   - 色彩 Standard（AgX 會把飽和的紅、藍洗淡）。
 場景（只在渲染裡，不進 GLB）：
   - 灰色地面；"wall"：一面背牆（Poly Haven painted_plaster_wall，CC0）；"ref": [x, z]：一根 1.75 m 的參考柱（祐廷的身高，SOP 2-6）。
@@ -173,7 +173,7 @@ def build_set():
     SET.append(obj_box('set_shutter', X0, 2.75, 2.3, H - 0.4, ZF + 0.02, ZF + 0.04, sh))
     SET.append(obj_box('set_shutter_bar', X0, 2.75, 2.27, 2.32, ZF + 0.01, ZF + 0.06, mat('bar', (0.3, 0.3, 0.31), 0.5, 0.3), 0.005))
     SET.append(obj_box('set_shutter_box', X0, 2.75, H - 0.62, H - 0.4, ZF - 0.05, ZF + 0.2, mat('sbox', (0.48, 0.49, 0.5), 0.6, 0.2), 0.01))
-    # 天花板的日光燈（傍晚亮、白天不亮）
+    # 天花板的日光燈（燈管；面光在下面的鏡頭迴圈裡加，傍晚、白天都亮）
     SET.append(obj_box('set_tube', -1.4, 0.2, H - 0.06, H - 0.02, -0.4, -0.35, mat('tube_m', (0.9, 0.9, 0.88), 0.4)))
     # 升降台上一台機車的灰色量體（比例參考；升降台在 SPREAD (−0.05, 0.05)，檯面頂 0.34，前輪頂在夾座的擋板上）
     g = mat('scooter_ref', (0.13, 0.135, 0.14), 0.6); k = mat('scooter_ref_dk', (0.05, 0.05, 0.055), 0.65)   # 暗灰：看得出是量體、不搶道具
@@ -211,9 +211,10 @@ for v in views:
     if in_set:
         cut = set(v.get('cut', []))                                                  # 剖面：鏡頭看不到這些（還是會擋光、有陰影），像遊戲室內鏡頭把擋住的牆淡出
         for o in build_set(): o.hide_render = False; o.visible_camera = o.name not in cut
-        if tube_lamp is None and not DAY:                                          # 傍晚：天花板的日光燈亮（偏暖的面光）
+        if tube_lamp is None:                                                      # 天花板的日光燈（營業中，白天也開）：傍晚偏暖、白天中性白
             tube_lamp = bpy.data.objects.new('tube', bpy.data.lights.new('tube', 'AREA')); tube_lamp.data.shape = 'RECTANGLE'
-            tube_lamp.data.size, tube_lamp.data.size_y = 1.6, 0.08; tube_lamp.data.energy = 160; tube_lamp.data.color = (1.0, 0.9, 0.78)
+            tube_lamp.data.size, tube_lamp.data.size_y = 1.6, 0.08; tube_lamp.data.energy = 160
+            tube_lamp.data.color = (1.0, 0.97, 0.92) if DAY else (1.0, 0.9, 0.78)
             tube_lamp.location = g2b(-0.6, 3.11, -0.375); sc.collection.objects.link(tube_lamp)
     else:
         for o in SET: o.hide_render = True
