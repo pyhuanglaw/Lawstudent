@@ -765,6 +765,13 @@ const STORY = (function(){
       if(d27!=null&&G.day===d27&&F.E27_ASKED&&!done27&&G.hour>=14&&!PHONE.sent(G,'y0_e27_late')){ F.E27_LATE=true; PHONE.at(G,d27,14,[K('我在總圖門口。')],'y0_e27_late'); }
       if(d27!=null&&F.E27_ASKED&&!done27&&G.zone==='campus'&&G.day===d27&&G.hour>=13.25&&G.hour<(F.E27_LATE?15:14)&&GM.spawnCharacter&&!(GM.npc&&GM.npc.kexin)){ try{ GM.spawnCharacter('kexin',78.6,0,{yaw:-Math.PI/2}); }catch(e){ console.warn('E27 kexin',e); } }
       if(d27!=null&&F.E27_ASKED&&!done27&&(G.day>d27||G.hour>=15)) F.E27_FORCE=true; }
+    /* E28 告訴朋友（BB_153 E28；AA_154 A20、AA-B 2026-10-16 改觸發）：3/26（三）19:30 群組韋綸「宵夜！公館！走啦！」＋可昕私訊；出發選單「公館 21:00：宵夜」（2D 出遊）；
+       21:30 還沒出發＝沒去：22:00 群組品妤（E19_ASK＝none 多唐睿一句）*/
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const d28=S.dayOfKey('2025-03-26'); if(d28!=null){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, done28=!!(G.events&&G.events.done&&G.events.done.ev_y0_e28);
+      if(G.day===d28&&G.hour>=19.5&&!PHONE.sent(G,'y0_e28_ask')&&!done28){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,d28,19.5,[{th:T,from:'econ_weilun',name:'韋綸',text:'宵夜！公館！走啦！'},{th:'p:kexin',from:'kexin',text:'今天要講嗎？……我覺得今天可以。'}],'y0_e28_ask');
+        if(!OUT.get(G,'y0_e28')&&G.hour<21.5) OUT.plan(G,{id:'y0_e28',ev:'ev_y0_e28',day:d28,h:21,late:0.5,place:'公館',title:'公館 21:00：宵夜',travel:'走過去約 15 分鐘',travelH:0.25}); }
+      if(!done28&&PHONE.sent(G,'y0_e28_ask')&&(G.day>d28||G.hour>=22)&&G.day<=d28+2&&!PHONE.sent(G,'y0_e28_miss')){ const L=[{th:T,from:'econ_pinyu',name:'品妤',text:'宣布兩件事：祐廷和可昕。還有，他們要重考。'}]; if(F.E19_ASK==='none') L.push({th:T,from:'econ_tangrui',name:'唐睿',text:'等一下，你們什麼時候開始的？？'}); PHONE.at(G,d28,22,L,'y0_e28_miss'); } } }
     /* E30 辦休學（AA_169）：3/27（四）起休學（Y0_LEFT：經濟系的課、法學緒論都不排，那天的課不扣出席也不記缺席）；14:40 自動（事件 ev_y0_e30）。
        「先走。」＝15:12 群組阿勳「我在裡面舉筆了。你有看到嗎？」＋回覆「有。」→「好。那就算數。」。當晚 22:00 以後第一次回房間＝檯燈上的便利貼（ev_y0_e30_note）*/
     if(S.isEcon(G)){ const d30=S.dayOfKey('2025-03-27'); if(d30!=null&&G.day>=d30&&!F.Y0_LEFT) F.Y0_LEFT=true;

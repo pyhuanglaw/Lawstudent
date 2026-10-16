@@ -1591,6 +1591,20 @@ const STORY_EVENTS=[
       {speaker:'kexin',expression:'serious',text:'理由是我自己的。我說不出最想念哪一科，可是我很確定，我想要。'},
       {speaker:'kexin',expression:'smile',text:'所以我們說好——一起準備。同一張桌子。你畫架構，我出假設題。'},{speaker:'kexin',expression:'smile',text:'還有，你不可以偷偷比我早起。'},
       {stamp:['E27_DAY']} ] },
+  /* E28 告訴朋友（BB_153 E28 完整稿；AA_154 A20）：3/26（三）21:00 公館的宵夜（2D 出遊，背景 gongguan_luwei），22:00 結束。讀 E19_ASK 三個版本；品妤、阿勳自在 +1（韋綸、唐睿沒有人物資料）*/
+  { id:'ev_y0_e28', stage:'econ', title:'告訴朋友', participants:['kexin','econ_pinyu'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
+    dialogue:[ {scene:'公館・宵夜攤',bg:'gongguan_luwei'},
+      {speaker:null,text:'晚上九點。公館的宵夜攤，六個人擠一張圓桌。'},{speaker:null,text:'可昕在桌子底下踢了你一下。'},
+      {speaker:'player',text:'我們有兩件事要說。'},{speaker:'kexin',expression:'embarrassed',text:'……第一件。我們在一起了。'},{speaker:'player',text:'第二件。我們要重考。法律。'},
+      {speaker:null,text:'桌上安靜了三秒。'},{speaker:'韋綸',text:'兩個一起？……走啦！我陪你們——'},{speaker:'韋綸',text:'不對，我不考。我陪你們吃宵夜。'},
+      {speaker:'econ_pinyu',text:'祐廷要辦休學吧。手續、學費，我幫你查。'},{speaker:'econ_pinyu',text:'可昕不用。她照常上課，晚上再念。'},{speaker:'econ_zhengxun',text:'……那保齡球誰陪我打。'},
+      {if:{flagIs:{E19_ASK:'direct'}},speaker:'econ_pinyu',text:'所以寒假那時候你問她是不是唐睿？'},{if:{flagIs:{E19_ASK:'direct'}},speaker:'唐睿',text:'我？？'},
+      {if:{flagIs:{E19_ASK:'joke'}},speaker:'kexin',expression:'teasing',text:'他寒假以為我喜歡唐睿。'},{if:{flagIs:{E19_ASK:'joke'}},speaker:'唐睿',text:'等一下，我？？'},
+      {unless:{flagIs:{E19_ASK:['direct','joke']}},speaker:'唐睿',text:'你們什麼時候開始的？我怎麼完全不知道？'},{unless:{flagIs:{E19_ASK:['direct','joke']}},speaker:'econ_pinyu',text:'全系只有你不知道。'},{unless:{flagIs:{E19_ASK:['direct','joke']}},speaker:null,text:'全桌笑倒。'},
+      {speaker:null,text:'唐睿笑得最大聲。笑完，他偷偷看了品妤一眼。'},{speaker:null,text:'品妤在算宵夜的錢，沒有看到。'},
+      {speaker:'econ_pinyu',text:'今天的宵夜，你們兩個請。這是宣布的代價。'},{speaker:'kexin',expression:'laugh',text:'……妳這是命令。'},{speaker:'econ_pinyu',text:'對。'},
+      {speaker:null,text:'可昕和你一起走回去，路上只說了一句。'},{speaker:'kexin',expression:'smile',text:'說出來了。'},
+      {rel:{econ_pinyu:{comf:1},econ_zhengxun:{comf:1}}} ] },
   /* ★E30 辦休學的那天，朋友還在上課（AA_169 完整稿；AA_154 第 232 行）：3/27（四）14:40 自動（在別的事件或出遊裡＝結束後馬上；15:10 以後就只剩「先走」）。
      寫 LEAVE_WEEK＝6、E30_WAITED；等他們下課＝阿勳、品妤熟悉 +1（韋綸、唐睿沒有人物資料）。先走的群組訊息在 story3d.js（15:12）*/
   { id:'ev_y0_e30', stage:'econ', title:'辦休學的那天', participants:['econ_zhengxun'], location:'any', trigger:'auto', term:['Y0S2'], once:true, background:'blur',
