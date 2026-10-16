@@ -36,11 +36,11 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   const met=()=>{ G.flags.met_yu=true; };
   /* ① 傅鐘的早餐 */
   { const at=(term,w,wd,h,zone,known)=>{ fresh(termDay(term,w,wd),h,zone||'campus'); if(known!==false) met(); return EVENTS.check(eA); };
-    const r={w14:at('Y1S2',14,1,10),w16:at('Y1S2',16,5,11.5),w13:at('Y1S2',13,1,10),w17:at('Y1S2',17,1,10),sat:at('Y1S2',14,6,10),noon:at('Y1S2',14,1,12.2),y1s1:at('Y1S1',14,1,10),notMet:at('Y1S2',14,1,10,'campus',false),lib:at('Y1S2',14,1,10,'library')};
-    check('① 豆漿：大一下第 14～16 週平日 9:30–12:00、校園、認識小語（第 13／17 週、週六、12:12、大一上、不認識、總圖都沒有）',r.w14&&r.w16&&!r.w13&&!r.w17&&!r.sat&&!r.noon&&!r.y1s1&&!r.notMet&&!r.lib,JSON.stringify(r));
+    const r={w14:at('Y1S2',14,1,8.6),w16:at('Y1S2',16,5,9),w13:at('Y1S2',13,1,8.6),w17:at('Y1S2',17,1,8.6),sat:at('Y1S2',14,6,8.6),noon:at('Y1S2',14,1,9.2),y1s1:at('Y1S1',14,1,8.6),notMet:at('Y1S2',14,1,8.6,'campus',false),lib:at('Y1S2',14,1,8.6,'library')};   /* AA_156 第 4 節：小語在傅鐘是平日 08:20～09:05 */
+    check('① 豆漿：大一下第 14～16 週平日 08:20～09:05、校園、認識小語（第 13／17 週、週六、09:12、大一上、不認識、總圖都沒有）',r.w14&&r.w16&&!r.w13&&!r.w17&&!r.sat&&!r.noon&&!r.y1s1&&!r.notMet&&!r.lib,JSON.stringify(r));
     check('① 走到小語附近就演（auto、4 m 內，不用特地找她說話）',eA.trigger==='auto'&&eA.near&&eA.near.npc==='yu'&&eA.near.r===4);
     /* 引擎的 auto：小語在傅鐘的長椅（-46, 20.94），玩家 10 m 外不演、3 m 內演 */
-    fresh(termDay('Y1S2',14,2),10,'campus'); met(); GM.npc={yu:{id:'yu',charId:'yu',obj:{position:{x:-46,y:0,z:20.94}},lv:0}}; E.player.obj.position.x=-46; E.player.obj.position.z=31;
+    fresh(termDay('Y1S2',14,2),8.6,'campus'); met(); GM.npc={yu:{id:'yu',charId:'yu',obj:{position:{x:-46,y:0,z:20.94}},lv:0}}; E.player.obj.position.x=-46; E.player.obj.position.z=31;
     const far=EVENTS.tick(0.1); E.player.obj.position.z=23.5; const near=EVENTS.tick(0.1); await new Promise(r=>setTimeout(r,30));
     check('① 引擎：10 m 外不演、2.6 m 內演',!far&&near&&!!G.events.done.ev_yu_sign_soymilk,JSON.stringify({far,near}));
     check('① 台詞：（阿哲出現，帶著兩杯豆漿。）阿哲「剛好路過。」小語「你住公館。」阿哲「……剛好路過。」',JSON.stringify(lines())===JSON.stringify(['阿哲出現，帶著兩杯豆漿。','阿哲：剛好路過。','小語：你住公館。','阿哲：……剛好路過。'])&&G.flags.yu2SoymilkDay===G.day,JSON.stringify(lines()));

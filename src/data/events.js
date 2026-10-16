@@ -334,10 +334,10 @@ const STORY_EVENTS=[
     dialogue:[ {speaker:'zhe',expression:'smile',text:'（把兩張桌子併起來）阿姨，我們以後週二週四都來。'},{speaker:'阿姨',text:'你們？你們是誰？'},
       {speaker:'zhe',expression:'laugh',text:'法律系一年級。現在是四個，之後會更多。'},{speaker:'zhe',expression:'smile',text:'（對你）規矩很簡單：週二週四，麵店。不用約，來就有人。'} ],
     consequences:{stamp:['noodleTableDay']} },
-  /* 語 1：傅鐘旁邊的早餐（AA_40 語 1；交付清單 A10）：大一上第 3～5 週的早上，小語坐在傅鐘旁邊的長椅（她的日程 9:30–12:00），找她說話時；
+  /* 語 1：傅鐘旁邊的早餐（AA_40 語 1；交付清單 A10）：大一上第 3～5 週的早上，小語坐在傅鐘旁邊的長椅（她的日程：平日上課前 08:20～09:05，AA_156 第 4 節；原本 9:30–12:00），找她說話時；
      要先認識她（第一次說話是 talkYu 的自我介紹），而且不是認識的同一天（自我介紹已經講過三個社團）；只一次。
      「坐下來一起吃」記憶 BREAKFAST_YU（之後早上經過傅鐘她會先揮手：AA_118，之後再做）。吉他社的入口之一（另一個是阿凱）*/
-  { id:'ev_yu_breakfast', title:'傅鐘旁邊的早餐', participants:['yu'], location:'campus', trigger:'interact', priority:6, term:['Y1S1'], weeks:[3,4,5], time:[9.5,12], once:true, background:'blur',
+  { id:'ev_yu_breakfast', title:'傅鐘旁邊的早餐', participants:['yu'], location:'campus', trigger:'interact', priority:6, term:['Y1S1'], weeks:[3,4,5], time:[8+20/60,9+5/60], once:true, background:'blur',
     prereq:{flags:['met_yu'],custom:G=>G.flags.metYuDay==null||G.flags.metYuDay<G.day},
     dialogue:[ {speaker:'yu',expression:'smile',text:'欸，你要不要坐？'},{speaker:'yu',expression:'neutral',text:'我一個人吃很怪。……不是怪，是很安靜。我不喜歡安靜。'},
       {speaker:'yu',expression:'smile',text:'對了，你有參加社團嗎？我有三個。你要不要加一個？吉他社缺人，辯論社也缺人，系學會永遠缺人。'},
@@ -414,7 +414,7 @@ const STORY_EVENTS=[
      流程照 AA_112 第 12 節：校門 → 山下的小吃街（予樂先到；予樂的第一句三選一＝YL_IMPRESSION）→ 可昕到了 → 河堤（假設題，玩笑、不給結論）→ 圖書館 → 停車場（約下一次）；
      （2026-10-16 AA_137 7-1：政大只做主要校園＋宿舍——河堤→校園裡的路、圖書館→自強十舍樓下、停車場→校門；台詞不改）
      隔天中午她傳予樂的紙條照片「及格。」（phoneRules）。「這週不行」：她自己去，隔天傳予樂戴紙巾皇冠的照片，予樂的第一句延到第一次見面。
-     旁白「可昕到了……」「她在桌下踢你一下……」、圖書館那一句、停車場的兩個選項之後沒有回應，是照 BB 的流程寫成的（等 BB 看）*/
+     旁白「可昕到了……」「她在桌下踢你一下……」、圖書館那一句、停車場的兩個選項之後沒有回應，是照 BB 的流程寫成的；BB-B 看過（e0e7a359，第①級）：小吃街加予樂口頭禪那句、宿舍樓下改成讀自己的書、校門加兩句 */
   { id:'ev_kexin_yule_pass', title:'予樂說：及格', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
     dialogue:[ {scene:'政大・校門口',bg:'nccu_gate'},
       {speaker:null,text:'停車場只剩最邊邊的一格。'},
@@ -426,7 +426,7 @@ const STORY_EVENTS=[
       {label:'y1'},{speaker:'予樂',text:'好。司機。我記住了。'},{goto:'arrive'},
       {label:'y2'},{speaker:'予樂',text:'……可以，你很老實。'},{goto:'arrive'},
       {label:'y3'},{speaker:'予樂',text:'好客氣。可昕，他好客氣。'},
-      {label:'arrive'},{speaker:null,text:'可昕到了。桌上聊報告、老師、學校的八卦。'},{speaker:null,text:'她在桌下踢你一下——意思是「你剛剛那句很好笑」。'},
+      {label:'arrive'},{speaker:null,text:'可昕到了。桌上聊報告、老師、學校的八卦。'},{speaker:null,text:'予樂學她們老師的口頭禪，你接了一句，全桌都笑了。'},{speaker:null,text:'她在桌下踢你一下——意思是「你剛剛那句很好笑」。'},
       {scene:'政大・校園裡的路',bg:'nccu_campus'},   /* AA_137 7-1：原本是河堤 → 政大主要校園的路（散步）；假設題照用 */
       {speaker:'kexin',expression:'teasing',text:'假設我把你的筆記借給予樂，算無權處分嗎？'},
       {choice:[{text:'「要先問我。」',goto:'r1'},{text:'「借吧，反正她看不懂。」',goto:'r2'},{text:'（笑）',goto:'r3'}]},
@@ -434,9 +434,10 @@ const STORY_EVENTS=[
       {label:'r2'},{speaker:'kexin',expression:'teasing',text:'……這句我會轉告她。'},{goto:'lib'},
       {label:'r3'},{speaker:'kexin',expression:'laugh',text:'笑也是一種回答。我當你答應了。'},
       {label:'lib'},{scene:'政大・宿舍樓下',bg:'nccu_dorm'},   /* AA_137 7-1：原本是圖書館 → 自強十舍樓下的長椅（不進宿舍）；台詞照用 */
-      {speaker:null,text:'她要寫完一段報告。你坐下來一起讀。'},
+      {speaker:null,text:'宿舍樓下的長椅。她說要寫完一段報告，你坐在旁邊讀自己的書。'},
       {speaker:'kexin',expression:'neutral',text:'你翻頁好大聲。'},
       {scene:'政大・校門口',bg:'nccu_gate'},   /* AA_137 7-1：原本是停車場 → 校門（約下一次）*/
+      {speaker:null,text:'校門口。她送你到這裡。'},{speaker:'kexin',expression:'neutral',text:'……下次呢？'},   /* BB-B e0e7a359（第①級）：換了背景先有人開口，再出選項 */
       {choice:[{text:'「週末換妳來台大？」',set:{KX_NTU_ASKED:true},goto:'p1'},{text:'「明天考完傳訊息給我。」',goto:'p2'}]},
       {label:'p1'},{speaker:'kexin',expression:'smile',text:'好。我先去找品妤，再去抓你。'},{goto:'pend'},
       {label:'p2'},{speaker:'kexin',expression:'teasing',text:'好。考爛了也要傳。'},
@@ -1111,11 +1112,11 @@ const STORY_EVENTS=[
   /* 小語 語 2「剛好路過」（交接包 v2 C18；草稿第 3 節、AA_40 語 2）：大一下第 14～16 週，阿哲和小語的三個徵兆。三個選項都不改變結果（大二上兩人在一起），只記 YU2_PICK（之後小語怎麼跟祐廷說）。
      交往中的玩家也一樣（這是小語和阿哲的事）。只有認識小語的玩家有（met_yu）；阿哲開場就認識。
      「徵兆保證觸發」（AA_40 要開發組評估）的做法：
-       ① 傅鐘的早餐：小語早上坐在傅鐘旁邊的長椅（她的作息 9:30–12:00），走到她附近就演（auto＋near，不用特地找她說話）；
+       ① 傅鐘的早餐：小語早上坐在傅鐘旁邊的長椅（她的作息：平日 08:20～09:05，AA_156 第 4 節），走到她附近就演（auto＋near，不用特地找她說話）；
        ② 麵店：麵店日（週二、週四）走進麵店就演一句旁白（麵店團才有）；
        ③ 最後一個（小語問祐廷）：吉他社的玩家在社課結束後（afterActivity），其他玩家在麵店散場後走到騎樓（公館，今天有在麵店）；
           要先看過 ① 或 ② 其中一個——所以看到 ③ 的玩家一定看過兩個以上；麵店團的玩家同一個晚上 ②＋③ 就湊齊。整個存檔只問一次（YU2_PICK）*/
-  { id:'ev_yu_sign_soymilk', title:'剛好路過', participants:['yu','zhe'], location:'campus', trigger:'auto', near:{npc:'yu',r:4}, term:['Y1S2'], weeks:[14,15,16], weekday:[1,2,3,4,5], time:[9.5,12], once:true, background:'blur',
+  { id:'ev_yu_sign_soymilk', title:'剛好路過', participants:['yu','zhe'], location:'campus', trigger:'auto', near:{npc:'yu',r:4}, term:['Y1S2'], weeks:[14,15,16], weekday:[1,2,3,4,5], time:[8+20/60,9+5/60], once:true, background:'blur',
     prereq:{flags:['met_yu']},
     dialogue:[ {speaker:null,text:'阿哲出現，帶著兩杯豆漿。'},{speaker:'zhe',expression:'smile',text:'剛好路過。'},{speaker:'yu',expression:'neutral',text:'你住公館。'},{speaker:'zhe',expression:'neutral',text:'……剛好路過。'} ],
     consequences:{stamp:['yu2SoymilkDay']} },

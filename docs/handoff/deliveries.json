@@ -2443,6 +2443,222 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "開發分支已換檔（節點名不變）；wz_／bike／cafe 單元測試通過；瀏覽器 wz_street_integration 等 v9.9 冒煙測試跑完再跑。不在 v9.9 候選 1"
+  },
+  {
+   "id": "DLV-1016-204",
+   "date": "2026-10-16T11:0xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "3828a4dd",
+   "what": "AA_154 2-1b 10/15 群組聚會",
+   "task": "V0-B1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450"
+  },
+  {
+   "id": "DLV-1016-205",
+   "date": "2026-10-16T11:0xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "ae250436",
+   "what": "AA_154 A31 E11 10/31、A32 E12 私訊約＋手機版",
+   "task": "V0-B1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450"
+  },
+  {
+   "id": "DLV-1016-206",
+   "date": "2026-10-16T11:0xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "fa2d7f75",
+   "what": "AA_154 A33 晚上群體出遊通則",
+   "task": "V0-B1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450"
+  },
+  {
+   "id": "DLV-1016-207",
+   "date": "2026-10-16T11:0xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "92e541a9",
+   "what": "AA_154 2-1b 審稿版、A32 定稿",
+   "task": "V0-B1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450"
+  },
+  {
+   "id": "DLV-1016-208",
+   "date": "2026-10-16T11:0xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "d631934d",
+   "what": "AA_154 A36 可錯過出遊的邀約",
+   "task": "V0-B1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450"
+  },
+  {
+   "id": "DLV-1016-209",
+   "date": "2026-10-16T11:0xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "5a834d1e",
+   "what": "AA_154 A33 三句審定",
+   "task": "V0-B1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450"
+  },
+  {
+   "id": "DLV-1016-210",
+   "date": "2026-10-16T11:0xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "76eed22b",
+   "what": "AA_154 A36 定稿",
+   "task": "V0-B1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450"
+  },
+  {
+   "id": "DLV-1016-211",
+   "date": "2026-10-16T11:0xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "573f8d2c",
+   "what": "BB_104 8b-4 E10 沒去版 22:30 兩則",
+   "task": "V0-B1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "bd2d468e、49163450（E21a 還沒做）"
+  },
+  {
+   "id": "DLV-1016-212",
+   "date": "2026-10-16T11:0xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "a38a22c5",
+   "what": "BB_104 8-4 E12 邀約與手機版開頭、收尾",
+   "task": "V0-B1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "bd2d468e、49163450（E21a 還沒做）"
+  },
+  {
+   "id": "DLV-1016-213",
+   "date": "2026-10-16T11:0xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "6389ec73",
+   "what": "BB_104 8b-9／8b-10／8b-12 E17、E18、E21a 邀約",
+   "task": "V0-B1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "bd2d468e、49163450（E21a 還沒做）"
+  },
+  {
+   "id": "DLV-1016-214",
+   "date": "2026-10-16T11:0xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "9c12c7cb",
+   "what": "AA_169 邊界情況：E24c、E30",
+   "task": "V0-B1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "做到 E24c、E30 時照用"
+  },
+  {
+   "id": "DLV-1016-215",
+   "date": "2026-10-16T11:0xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "15b50992",
+   "what": "AA_156 第 4 節：小語在傅鐘的時間改平日 08:20～09:05",
+   "task": "V1-A10",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "小語傅鐘 08:20～09:05：spawn、talkYu、語 1、語 2 ①；v1_batch6、v2_c18 照改"
+  },
+  {
+   "id": "DLV-1016-216",
+   "date": "2026-10-16T11:0xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "cc13fb27",
+   "what": "AA_154 A37：E15、C2 的邀約與出發選單；A38：E22、E21a 改總圖 B1 自習室",
+   "task": "V0-B1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "E15 已有出發選單，接著補邀約；C2、E21a、E22 接著做"
+  },
+  {
+   "id": "DLV-1016-217",
+   "date": "2026-10-16T11:0xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "e0e7a359",
+   "what": "BB_95 9-2 K1b 予樂及格三處旁白與接句（第①級）；BB_104 8b-7 E15 宿營邀約",
+   "task": "TXT-1016",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "K1b 三處照改（小吃街加一句、宿舍樓下讀自己的書、校門兩句）；E15 邀約見 A37（接著做）"
+  },
+  {
+   "id": "DLV-1016-218",
+   "date": "2026-10-16T11:0xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "0ef3e11c",
+   "what": "BB_104：E19、E22b 改 1/2；E27 改 13:30、12:10 私訊、延到 15:00",
+   "task": "V0-B1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "做到 E19、E27 時照用"
+  },
+  {
+   "id": "DLV-1016-219",
+   "date": "2026-10-16T11:0xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "6c8ce4b2",
+   "what": "BB_104 8-8 E25 怎麼到醉月湖的提案",
+   "task": "V0-B1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "等 AA-B 定機制（A35）"
+  },
+  {
+   "id": "DLV-1016-220",
+   "date": "2026-10-16T11:0xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "83022da9",
+   "what": "BB_104 8-10、8-11 E27、E36 怎麼到的提案",
+   "task": "V0-B1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "等 AA-B 定機制（A35）"
+  },
+  {
+   "id": "DLV-1016-221",
+   "date": "2026-10-16T11:0xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "3a95df7c",
+   "what": "BB_104 8b-12、8b-13 E21a、E22 改在總圖 B1 24 小時自習室",
+   "task": "V0-B1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "照 AA_154 A38 做"
   }
  ],
  "ignored": [
@@ -3480,6 +3696,41 @@
    "sha": "c91b1937",
    "branch": "origin/claude/elegant-brown-fcos7n",
    "why": "BB_131 小語吊飾的社團改正：給 LAWWW2-B 對照"
+  },
+  {
+   "sha": "b6c85e91",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的交接紀錄"
+  },
+  {
+   "sha": "d79c93ad",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "法律審查紀錄 L476（題庫修法篩檢，沒有要改的）"
+  },
+  {
+   "sha": "9edf0378",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "法律審查紀錄 L476 備註"
+  },
+  {
+   "sha": "db293b1a",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "企劃組的進度"
+  },
+  {
+   "sha": "194a2b65",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB_114 待使用者清單"
+  },
+  {
+   "sha": "e492eb08",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "企劃組的進度"
+  },
+  {
+   "sha": "a46218ac",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "企劃組的進度（修法時間效力核對）"
   }
  ]
 }
