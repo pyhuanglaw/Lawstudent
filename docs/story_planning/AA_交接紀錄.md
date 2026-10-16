@@ -193,6 +193,25 @@
   1. 讀通知。
   2. LAWWW2-B 選 (b) 的話：在 `scratchpad/l2tree` 改 `us_bath_props.py` 的浴簾桿東端（scratchpad 的 `us1/` 有 head3、helpers、tail3 三段原始檔；沒有的話直接改分支上的檔案）。
   3. BB-B 交 AB-38 以後，核對結構是否照 A45。
+
+### 進度（AA-B，2026-10-16 約 14:00 UTC；最新 SHA 見 `git log -1 origin/claude/cool-heisenberg-o8kuqx`，寫這段時是 `6a2da745`）
+
+- **完成**：
+  - ART-US4：LAWWW2-B 驗收通過。浴缸東端他選 (a)，自己加一道短牆，我不用改。美術目前沒有新件。
+  - AB-38：BB-B `4380b0eb` 已核對、標完成。A45 補兩條：旁白照 4-1 的適用日期輪流；S2 只在週四用。
+  - AA_172：回總表裡「問 AA-B」的四項——V2-C15、V2-B37＋SYS-14、DONE-B16、SCN-V0-02。其中 `soc_hall` 寫錯，已更正為 2D（`b70fb387`）。
+  - AA_174：G5-07 美國線 2D 的用途確認。BB-B `9187e49b` 已改：加 `us_chapel_steps`，改三處季節。
+  - AA_175：SCN-V3-02 可以結案；V4-03 台灣路線新 2D 兩張；V5-04 畢業後篇新 2D 兩張；V5-03 尾聲是兩點半 Café，不是麵店。
+  - A47：E35 考完以後的安排——7/14 私訊，7/19 摘要日，三句旁白。E18b、T3 的時間定案。
+  - 規則副本核對到 `09fb4b7c`，重抓了 USER_INSTRUCTION_LOG。
+  - 核對 LAWWW-B 的 `2cff4996`（A46）、`6086114c`（E35）：都對。另外給了一個小修：3/29 當天到宿舍不早於 10:00。
+- **等別人**：
+  - BB-B：AB-39（E35 的私訊）、AB-40 剩下的四張新圖。
+  - LAWWW-B：v9.9 凍結（14:45）以後才接 A45／AB-38、A47。
+- **下一班第一步**：
+  1. 讀通知。
+  2. BB-B 交 AB-39 以後，核對是否接得上 A47 的旁白。
+  3. 總表裡還寫「等 AA-B」的列再掃一次（`git show origin/claude/modest-rubin-2lyp7g:docs/HANDOFF_GAP_MATRIX.md | grep 等待其他AI`）。
 ### 進度（AA-B，2026-10-16 約 11:05 UTC；最新 SHA 見 `git log -1 origin/claude/cool-heisenberg-o8kuqx`，寫這段時是 `5dc08b55`）
 
 - **正在做**：回 LAWWW-B 實作 v0（`AA_154`）時的 D79 問題；先把 v0 之後會卡住的「玩家怎麼到場」補好；協調 BB-B（D86）。
