@@ -1608,6 +1608,21 @@ const STORY = (function(){
   /* T2 唐睿的練習（AA_154 第 127 行）：每次經原下課擲一次 50%（同一天只擲一次，記在 T2_DAY／T2_HIT）；E18 演過就不再觸發 */
   S.T2_P=0.5;
   S.t2Due=function(G){ if(!S.isEcon(G)) return false; const F=G.flags; if(G.events&&G.events.done&&G.events.done.ev_y0_e18) return false; if(F.T2_DAY!==G.day){ F.T2_DAY=G.day; F.T2_HIT=Math.random()<S.T2_P; } return !!F.T2_HIT; };
+  /* 重考期的起床選單（AA_154 A39）：3/28（休學後第一天）～7/10（考試前一天）每天醒來：「去博雅，和可昕讀書」＝讀書日／「今天出去走走」＝玩樂日／「先起床再說」＝自由。
+     3/28（R1）、4/2（R5）是讀書日的事件，那天只有前後兩項。從臺北的家出發（3/29 以後）前兩項含捷運＋公車約 30 分鐘。G.flags.RT_DAY＝{day,type}。
+     讀書日：到博雅（自習區的小桌子，E29「同一張桌子」），在博雅讀滿兩小時才算（STORY.onStudy：habit retake:study，一天一次）；在家讀書兩小時也算（home3d.js）。
+     玩樂日：和可昕出門（R3、R6 的出遊；沒有 R 的日子的旁白等 AA-B），habit retake:play。R 系列的事件 AA-B 回了再接 */
+  S.RT_FIXED=['2025-03-28','2025-04-02'];
+  S.retakeOn=G=>{ if(!S.isEcon(G)) return false; const a=S.dayOfKey('2025-03-28'), b=S.dayOfKey('2025-07-10'); return a!=null&&b!=null&&G.day>=a&&G.day<=b; };
+  S.retakeType=G=>{ const r=G.flags&&G.flags.RT_DAY; return r&&r.day===G.day?r.type:null; };
+  S.retakeWake=async function(GM){ const G=GM.G, F=G.flags; if(!S.retakeOn(G)||S.retakeType(G)) return false; const home=typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
+    const fixed=S.RT_FIXED.map(k=>S.dayOfKey(k)).includes(G.day), via=home?'捷運＋公車 約 30 分鐘':'走路';
+    const O=[{t:'去博雅，和可昕讀書',hint:via,k:'study'}]; if(!fixed) O.push({t:'今天出去走走',hint:'和可昕出門',k:'play'}); O.push({t:'先起床再說',k:'free'});
+    let k='free'; GM.sceneBegin(); try{ const i=await GM.choose(O); k=(O[i]||O[O.length-1]).k; } finally { GM.sceneEnd(); }
+    F.RT_DAY={day:G.day,type:k};
+    if(k==='study'){ if(home&&HOME.toSchool){ await HOME.toSchool(GM); } if(GM.enter){ await GM.fade(true); if(GM.titleCard) await GM.titleCard('博雅教學館','自習區的小桌子',1800); await GM.enter('boya'); await GM.fade(false); } return 'left'; }
+    return k; };
+  S.onStudy=function(GM,hrs){ const G=GM.G; if(!S.retakeOn(G)||G.zone!=='boya'||hrs<2) return; if(typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('retake:study'); };
   /* P2b 門口有人在揪（AA_154 2-5a；事件 ev_y0_p2b）：P2 演過（P2_PICK）以後，Y0S1 第 6～16 週（第 8、9 週期中考除外）、Y0S2 第 1～5 週的週四會計下課；
      每週擲一次（P2B_P＝40%，記在 P2B_WK／P2B_HIT），同一週最多一次（P2B_SEEN）；那天已經約了別的出遊（OUT 排定、邀約答應）不揪。
      P2B_END：跟去的結束時間（food 19:30、river 17:00、night 21:00／21:30）。 */
