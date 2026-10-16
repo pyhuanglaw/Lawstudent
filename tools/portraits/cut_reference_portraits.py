@@ -46,6 +46,37 @@ SRC = {
     'yule': ('R:yule.webp', (18, 368, 180, 810)),
 }
 CW, CH, TOP, FILL = 600, 1000, 0.04, 0.94
+HOLES = {'pinyu'}                                                     # BB-B 2026-10-16 D59 退件：曾品妤耳朵高度的白邊、兩腿中間的灰底
+
+
+def key_holes(c0, al, bgc, shoe=0.92):
+    """把「接近背景色的中性淺色」連成一片的地方挖掉（不管遮罩怎麼說）；旁邊 3 px 重算半透明：
+    中性的像素照亮度在「背景」和「附近最暗的人物顏色（褲子、頭髮）」之間的位置給 alpha（不然邊緣留一圈白、而且放大後鋸齒）；
+    有顏色的（臉、手、暖色皮膚）不動。鞋子（最下面 8%）有白色的部分，不碰。"""
+    d = np.abs(c0 - bgc).max(2); sat = c0.max(2) - c0.min(2); L = c0.mean(2); bL = float(bgc.mean()); H = c0.shape[0]
+    bgl = (d < 22) & (sat < 14) & (al > 0.02)
+    lab, n = ndimage.label(bgl); keep = np.zeros_like(bgl)
+    ys = np.nonzero(al > 0.5)[0]; foot = ys.max() if len(ys) else H; top = ys.min() if len(ys) else 0
+    for i, sl in enumerate(ndimage.find_objects(lab), 1):
+        if sl is None: continue
+        if int((lab[sl] == i).sum()) >= 6 and sl[0].start < top + shoe * (foot - top): keep |= lab == i
+    # 頭的高度（上面 17%，到下巴、帽兜以上）：髮絲和脖子之間的背景被皮膚染成偏暖的淺色（飽和度 13～25），第一輪抓不到——只拿「碰到已挖掉的洞或外面」的那幾塊
+    # （淺灰帽兜的亮面飽和度 ≤12，不算；不然帽兜的邊會被咬掉）
+    head = np.zeros_like(bgl); head[top:top + int(0.17 * (foot - top))] = True
+    warm = head & (L > 226) & (sat >= 13) & (sat < 26) & ~keep; out0 = keep | (al < 0.05)
+    wl, _ = ndimage.label(warm); touch = np.unique(wl[ndimage.binary_dilation(out0, iterations=1) & warm]); touch = touch[touch > 0]
+    keep = keep | np.isin(wl, touch)
+    near = ndimage.binary_dilation(keep, iterations=3) & ~keep & (sat < 20)
+    fgL = ndimage.minimum_filter(np.where(keep, 255.0, L), size=9)              # 附近最暗的人物顏色
+    a = np.clip((bL - L) / np.maximum(bL - fgL, 30.0), 0, 1)
+    out = np.where(keep, 0.0, al); out = np.where(near, np.minimum(out, a), out)
+    # 最後：頭的高度、貼著透明區 2 px 以內、又亮又沒顏色的零星像素（髮絲間殘留的白點）也拿掉；皮膚飽和度 ≥25，不受影響
+    # 脖子兩側（到 20%）的白點是被皮膚染成微暖的背景（R−B 8～26）；帽兜是中性灰（R−B < 8）、皮膚 R−B ≥ 30，都不受影響
+    rb = c0[..., 0] - c0[..., 2]; neck = np.zeros_like(bgl); neck[top:top + int(0.20 * (foot - top))] = True
+    edge = ndimage.binary_dilation(out < 0.1, iterations=2) & (out >= 0.1) & (L > 212) & ((head & (sat < 22)) | (neck & (rb >= 8) & (rb < 27) & (sat < 27)))
+    out = np.where(edge, 0.0, out)
+    zone = ndimage.binary_dilation(keep | edge, iterations=4)
+    return np.where(zone, ndimage.gaussian_filter(out, 0.5), out)
 
 
 def main():
@@ -68,6 +99,8 @@ def main():
             m = al > 0.5; band = m & ~ndimage.binary_erosion(m, iterations=4)
             near_bg = np.abs(c0 - bgc).max(2) < 26
             al = np.where(band & near_bg, 0.0, al); al = ndimage.gaussian_filter(al, 0.6) * (al > 0)
+        if gid in HOLES:                                              # 人物裡面露出來的背景（兩腿中間、側邊髮絲和脖子之間）：遮罩把它當成人物，放在深色底上是一塊灰、一圈白邊
+            al = key_holes(c0, al, bgc)
         lab, n = ndimage.label(al > 0.25)
         if n > 1:                                                     # 只留最大的一塊（旁邊人物、字、細節格的邊、浮在頭上的線）
             sizes = ndimage.sum(np.ones_like(al), lab, range(1, n + 1)); keep = ndimage.binary_dilation(lab == (1 + int(np.argmax(sizes))), iterations=2); al = al * keep
