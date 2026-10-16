@@ -66,19 +66,19 @@ const STORY = (function(){
       await GM.fade(true); if(typeof ADV!=='undefined'&&ADV.end) ADV.end();
       Object.assign(F,{dating_kexin:true,KX_FIRST_MSG:false,MET_XUN:true,MET_PINYU:true,KNOWS_TANG:true,PLAYED_Y0:true,LAW_RECAP_SEEN:true});
       if(Array.isArray(G.outings)) G.outings=G.outings.filter(q=>q.state!=='planned');
-      if(S.START1()){ await S.startLawWeek1(GM,null); await GM.fade(false); if(GM.autosave) GM.autosave(); return true; }
+      if(S.START1()){ await S.startLawWeek1(GM,null,{day:G.day,hour:Math.max(h(G),18.5)}); await GM.fade(false); if(GM.autosave) GM.autosave(); return true; }   /* 經濟系 8/31 轉過來：不倒退回 8/29 */
       G.stage='law'; G.day=1; G.weekday=3; G.hour=21.2; if(E) E.hour=G.hour; G.zone='dorm'; G.weather='clear'; if(E&&E.setWeather) E.setWeather('clear');
       if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{}); await GM.fade(false); if(GM.autosave) GM.autosave(); return true; }
     finally{ toLawBusy=false; } };
   /* START-WEEK 選 1 的開局（9/1 開學、8/31 搬進宿舍、主線第一天 9/3）：AA_195 的文字（8/31 搬進來、第一週）還沒交，先藏在網址 ?start1 後面（開發測試用）；
      交了以後改成預設。舊存檔不受影響（沒有 MAIN_D1＝主線第一天是 9/17） */
   S.START1=()=>typeof location!=='undefined'&&/[?&]start1\b/.test(location.search||'');
-  S.LAW_D0=-16; S.MAIN_D1_NEW=-13;   /* 2025-08-31（日）、2025-09-03（三）*/
-  S.startLawWeek1=async function(GM,recap){ const E=GM.E, G=GM.G, F=G.flags; const d=S.LAW_D0;
-    F.LAW_START_DAY=d; F.MAIN_D1=S.MAIN_D1_NEW; G.stage='law'; G.day=d; G.weekday=CALENDAR.dateOf(d).wd%7; G.hour=18.5; if(E) E.hour=G.hour; G.zone='dorm'; G.weather='clear'; if(E&&E.setWeather) E.setWeather('clear');
+  S.LAW_D0=-18; S.MAIN_D1_NEW=-13;   /* 2025-08-29（五）下午搬進宿舍＝新遊戲第一天（使用者 2026-10-16 對 AA-B，AA_195 第 2-0 節 a353a009）；主線第一天 2025-09-03（三）*/
+  S.startLawWeek1=async function(GM,recap,o){ o=o||{}; const E=GM.E, G=GM.G, F=G.flags; const d0=S.dayOfKey('2025-08-29'), d=o.day!=null&&o.day>d0?o.day:d0;   /* 新遊戲＝8/29（S.LAW_D0＝−18）；經濟系轉過來的照當天（不倒退）——經濟系玩家哪一天轉、要不要也 8/29 搬，問 AA */
+    F.LAW_START_DAY=d0; F.MAIN_D1=S.MAIN_D1_NEW; G.stage='law'; G.day=d; G.weekday=CALENDAR.dateOf(d).wd%7; G.hour=o.hour!=null?o.hour:15; if(E) E.hour=G.hour; G.zone='dorm'; G.weather='clear'; if(E&&E.setWeather) E.setWeather('clear');
     F.fundsV2=1; F.allowanceMonth=S.dateOf(d).m; F.LAW_RECAP_SEEN=true;
     if(recap&&recap.length) await S.recap(GM,recap);
-    if(GM.titleCard) await GM.titleCard('2025 年 8 月 31 日（日）','搬進男生宿舍',2000);   /* 文字等 AA_195 */
+    if(GM.titleCard){ const dt=S.dateOf(d); await GM.titleCard('2025 年 '+dt.m+' 月 '+dt.d+' 日（'+'日一二三四五六'[G.weekday%7]+'）',d===d0?'搬進男生宿舍':'',2000); }   /* 文字等 AA_195 第 4 節（8/29～8/31 的事件）*/
     if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{}); };
   S.newGame=async function(GM){ const E=GM.E, G=GM.G; E.player.busy=false; E.endCinematic(); GM.titleIdle=false; GM.D.busyDepth=0; GM.hideHUD(false);
     if(S.START1()){ await S.startLawWeek1(GM,S.LAW_START_RECAP); return; }

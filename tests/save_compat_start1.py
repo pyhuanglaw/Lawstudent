@@ -8,7 +8,7 @@
    - 天數、時間、地點、旗標都一樣；STORY.mainD1＝1（沒有 MAIN_D1）；
    - 讀進來不重播主線：沒有「第一天」「第二天」標題卡、對話框沒有自己跑出宿舍第一晚／民總的台詞；
    - 推進到隔天早上（STORY.sleepNow，[前置／捷徑]）：沒有 JS 例外、天數加一、沒有重播主線；
-   - 經濟系 8/30：推進到 8/31 → 轉進法律系，第 1 天（9/17）宿舍（沒有 ?start1）；?start1 的話是 8/31（第 −16 天）、MAIN_D1 −13。
+   - 經濟系 8/30：推進到 8/31 → 轉進法律系，第 1 天（9/17）宿舍（沒有 ?start1）；?start1 的話留在 8/31（第 −16 天，不倒退回新遊戲的 8/29）、MAIN_D1 −13。
 用法：python3 tests/save_compat_start1.py OLD_URL NEW_URL [OUT]
    （例：http://127.0.0.1:8794/index.html http://127.0.0.1:8765/index.html）"""
 import asyncio, json, sys
