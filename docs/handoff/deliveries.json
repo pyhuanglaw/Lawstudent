@@ -3135,9 +3135,9 @@
    "sha": "dc869911",
    "what": "一盞和室土牆去掉大塊污漬（wz_teahouse_interior.glb）＋三家新店室內遊戲內截圖（READY_FOR_ART_REVIEW）",
    "task": "DL-09",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "v9.9 已凍結，放下一版；wz_print warm:false 也一起",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "收進開發分支（v9.9 之後那一版）；wz_print 改 cool 照明（warm:false）",
    "date": "2026-10-16T13:5xZ"
   },
   {
