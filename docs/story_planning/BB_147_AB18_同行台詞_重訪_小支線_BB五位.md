@@ -6,7 +6,14 @@
 > - 人物、地點、時段：`BB_144` 第 1 節的偶遇表。
 > - 景點的活動：`AA_161` 第 1 節。
 >
-> **狀態**：`PROPOSAL`，台詞草稿。欄位怎麼放由 AA-B 定，AA-B 定案前不交 LAWWW-B。
+> **狀態**：`PROPOSAL`。
+> - AA-B 2026-10-16 已經定案：第 0 節的五條規則（前任不一起走；學姊有伴侶時只陪一件事；沛珊在 D06 不選空畫框；重訪旁白只在這次沒遇到她時說、一個地方說一次；可昕只有交往中才一起走），以及數值和欄位。
+> - 數值：「一起走一段」照 `AA_124` 1-2「一起去 Café 坐坐」（熟悉 +3、信任 +1、自在 +2），受每天上限限制，同一個人一天一次；不加戀愛、不算約會；重訪、支線不加數值，只留 `ENC_` 記憶。
+> - **資料檔**（台詞以它為準）：`free_trip/build_bb_walk.py` → `free_trip/bb_walk_v1.json`。
+>   - 欄位照 AA-B 的格式：`walk:{who, spot, act, friend:[…], dating:[…]}`、`revisit:{who, spot, normal, afterBreakup}`、`side:{id, who, spot, steps:[{step, cond, lines, mem}]}`。
+>   - `act` 用 `spots_v1.json` 的 `walk` 或地點代號（例如 `D04.redhouse`）。
+>   - 和 AA-B 格式不同的兩處：每件事 `friend`、`dating` 各一句，不是兩句；離開的一句另外放在 `leave:{who, spot, friend, dating}`，因為朋友和交往中的離開不一樣。
+> - 等 AA-B 和 AB-21 一起轉 LAWWW-B。
 > **等級**：第②級（一般日常）。不改任何約會、戀愛的條件（`AA_160` 5-6 第 1 點），不寫劇情旗標（`AA_160` R7）。
 
 ## 0. 共同規則（照 `AA_160` 第 6 節）
