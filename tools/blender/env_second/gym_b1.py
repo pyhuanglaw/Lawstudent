@@ -72,8 +72,13 @@ def acc(key):
     return _acc[mat.name]
 
 
-walls = {'front': [], 'back': [], 'left': [], 'right': []}
-DIRS = {'front': [0, 0, -1], 'back': [0, 0, 1], 'left': [1, 0, 0], 'right': [-1, 0, 0]}
+walls = {'front': [], 'back': [], 'left': [], 'right': [], 'poolN': [], 'fitN': [], 'fitE': [], 'stairL': [], 'stairR': []}
+DIRS = {'front': [0, 0, -1], 'back': [0, 0, 1], 'left': [1, 0, 0], 'right': [-1, 0, 0],
+        'poolN': [0, 0, 1], 'fitN': [0, 0, -1], 'fitE': [-1, 0, 0], 'stairL': [-1, 0, 0], 'stairR': [1, 0, 0]}
+# 隔間牆（v6，LAWWW-B 2026-10-16：原本不是 WALL_，鏡頭跑到牆的另一邊整個畫面被擋住）：走廊北牆＝泳池那一面（poolN）、健身中心的玻璃牆（fitN）、
+# 健身中心東牆（fitE）、樓梯兩側的牆（stairL／R）。props partition＝1：鏡頭和玩家在牆的不同邊才淡出（遊戲端的規則）；
+# dir＝遊戲端還沒支援 partition 時的備用（照一般外牆：鏡頭在 dir 那一邊才不透明）——選最常見的情況：人在走廊。
+PARTS = {'poolN', 'fitN', 'fitE', 'stairL', 'stairR'}
 def wm(side, key):
     for m in walls[side]:
         if m.mat == M[key]: return m
@@ -138,16 +143,16 @@ zw = CO['z0']; dx0, dx1 = PO['door']['x0'], PO['door']['x1']
 doors = [(d['x'] - 0.5, d['x'] + 0.5) for d in G['closedDoors'] if abs(d['z'] - zw) < 0.1]
 cuts = sorted([(dx0, dx1)] + doors); xs = [X0] + [v for c in cuts for v in c] + [CO['x1'] + 12]
 for i in range(0, len(xs), 2):
-    acc('tile_wall').box(xs[i], xs[i + 1], 0.0, 2.2, zw - 0.15, zw); acc('plaster').box(xs[i], xs[i + 1], 2.2, 3.0, zw - 0.15, zw)
-acc('plaster').box(X0, X1, 3.0, PH, zw - 0.15, zw)
-for (a, b) in cuts: acc('plaster').box(a, b, 2.2, 3.0, zw - 0.15, zw)
-acc('glass').box(dx0 + 0.05, dx1 - 0.05, 0.0, 2.15, zw - 0.09, zw - 0.06)
-for x in (dx0, dx1): acc('steel_dk').box(x - 0.04, x + 0.04, 0.0, 2.2, zw - 0.16, zw + 0.01)
-acc('steel_dk').box(dx0, dx1, 2.15, 2.22, zw - 0.16, zw + 0.01); acc('steel').cyl(((dx0 + dx1) / 2 + 0.1, 1.0, zw + 0.03), ((dx0 + dx1) / 2 + 0.1, 1.4, zw + 0.03), 0.015, seg=8)
+    wm('poolN', 'tile_wall').box(xs[i], xs[i + 1], 0.0, 2.2, zw - 0.15, zw); wm('poolN', 'plaster').box(xs[i], xs[i + 1], 2.2, 3.0, zw - 0.15, zw)
+wm('poolN', 'plaster').box(X0, X1, 3.0, PH, zw - 0.15, zw)
+for (a, b) in cuts: wm('poolN', 'plaster').box(a, b, 2.2, 3.0, zw - 0.15, zw)
+wm('poolN', 'glass').box(dx0 + 0.05, dx1 - 0.05, 0.0, 2.15, zw - 0.09, zw - 0.06)
+for x in (dx0, dx1): wm('poolN', 'steel_dk').box(x - 0.04, x + 0.04, 0.0, 2.2, zw - 0.16, zw + 0.01)
+wm('poolN', 'steel_dk').box(dx0, dx1, 2.15, 2.22, zw - 0.16, zw + 0.01); wm('poolN', 'steel').cyl(((dx0 + dx1) / 2 + 0.1, 1.0, zw + 0.03), ((dx0 + dx1) / 2 + 0.1, 1.4, zw + 0.03), 0.015, seg=8)
 for d in G['closedDoors']:                                            # 關著的門：門板、門框、門把、門牌（PLATE_FACE_door_*）
     if abs(d['z'] - zw) < 0.1:
-        xf = Xf(d['x'], zw); xf.rbox(acc('door'), -0.46, 0.46, 0.0, 2.1, -0.1, -0.05, r=0.01, seg=1)
-        acc('steel').cyl(xf.p(0.32, 1.0, -0.03), xf.p(0.32, 1.0, 0.03), 0.02, seg=8)
+        xf = Xf(d['x'], zw); xf.rbox(wm('poolN', 'door'), -0.46, 0.46, 0.0, 2.1, -0.1, -0.05, r=0.01, seg=1)
+        wm('poolN', 'steel').cyl(xf.p(0.32, 1.0, -0.03), xf.p(0.32, 1.0, 0.03), 0.02, seg=8)
         PLATE.append((f"PLATE_FACE_door_b1_{d['label']}", [xf.p(-0.25, 1.62, -0.035), xf.p(0.25, 1.62, -0.035), xf.p(0.25, 1.82, -0.035), xf.p(-0.25, 1.82, -0.035)][::-1], {'plate': 'door', 'text': d['label']}))
     else:                                                             # 走廊西端（面向東）
         xf = Xf(d['x'] + 0.02, d['z'], math.pi / 2); xf.rbox(acc('door'), -0.6, 0.6, 0.0, 2.1, -0.02, 0.03, r=0.01, seg=1)
@@ -155,13 +160,13 @@ for d in G['closedDoors']:                                            # 關著�
 # 走廊南牆＝健身中心的玻璃牆（門開著）；健身中心東牆
 zf = FI['z0']; fx0, fx1 = FI['door']['x0'], FI['door']['x1']
 for (a, b) in ((FI['x0'], fx0), (fx1, FI['x1'])):
-    acc('glass').box(a, b, 0.0, 2.6, zf - 0.03, zf + 0.03)
+    wm('fitN', 'glass').box(a, b, 0.0, 2.6, zf - 0.03, zf + 0.03)
     n = max(1, round((b - a) / 1.8))
-    for j in range(n + 1): x = a + j * (b - a) / n; acc('steel_dk').box(x - 0.035, x + 0.035, 0.0, 2.6, zf - 0.05, zf + 0.05)
-acc('steel_dk').box(FI['x0'], FI['x1'], 2.6, 2.68, zf - 0.05, zf + 0.05); acc('plaster').box(FI['x0'], FI['x1'], 2.68, H, zf - 0.08, zf + 0.08)
-acc('steel_dk').box(FI['x0'], FI['x1'], 0.0, 0.08, zf - 0.05, zf + 0.05)
-acc('plaster').box(FI['x1'], FI['x1'] + 0.15, 0.0, H, zf, Z1)
-acc('plaster').box(FI['x1'], CO['x1'], 0.0, H, zf - 0.08, zf + 0.08)
+    for j in range(n + 1): x = a + j * (b - a) / n; wm('fitN', 'steel_dk').box(x - 0.035, x + 0.035, 0.0, 2.6, zf - 0.05, zf + 0.05)
+wm('fitN', 'steel_dk').box(FI['x0'], FI['x1'], 2.6, 2.68, zf - 0.05, zf + 0.05); wm('fitN', 'plaster').box(FI['x0'], FI['x1'], 2.68, H, zf - 0.08, zf + 0.08)
+wm('fitN', 'steel_dk').box(FI['x0'], FI['x1'], 0.0, 0.08, zf - 0.05, zf + 0.05)
+wm('fitE', 'plaster').box(FI['x1'], FI['x1'] + 0.15, 0.0, H, zf, Z1)
+wm('fitN', 'plaster').box(FI['x1'], CO['x1'], 0.0, H, zf - 0.08, zf + 0.08)
 # 鏡牆（南牆、整面）：鏡面＋上下框
 mr = FI['mirror']
 acc('mirror').quad([(mr['x1'], 0.3, mr['z']), (mr['x0'], 0.3, mr['z']), (mr['x0'], 2.4, mr['z']), (mr['x1'], 2.4, mr['z'])])
@@ -179,7 +184,7 @@ for j in range(n): z = ST['z0'] + j * run; X0_.rbox(acc('granite'), ST['x0'], ST
 for x in (ST['x0'] + 0.08, ST['x1'] - 0.08):
     acc('steel').cyl((x, 0.95, ST['z0']), (x, H + 0.95, ST['z1']), 0.022, seg=8)
     for j in range(0, n, 4): z = ST['z0'] + j * run; acc('steel').cyl((x, (j + 1) * H / n, z + run / 2), (x, (j + 1) * H / n + 0.95, z + run / 2), 0.015, seg=6)
-for x in (ST['x0'] - 0.1, ST['x1'] + 0.1): acc('plaster').box(x - 0.1, x + 0.1, 0.0, H, ST['z0'] + 3.0, Z1)
+for x, sd in ((ST['x0'] - 0.1, 'stairL'), (ST['x1'] + 0.1, 'stairR')): wm(sd, 'plaster').box(x - 0.1, x + 0.1, 0.0, H, ST['z0'] + 3.0, Z1)
 for x in (ST['x0'] - 0.005, ST['x1'] + 0.005):                     # 樓梯側面的斜板（蓋住一階一階的方塊斷面）
     for xx in (x, x + (-0.06 if x < ST['x0'] else 0.06)): acc('white').quad([(xx, 0.0, ST['z0']), (xx, 0.0, ST['z1']), (xx, H, ST['z1']), (xx, H / n, ST['z0'])])
     acc('steel_dk').quad([(x, H / n, ST['z0']), (x, H, ST['z1']), (x + (-0.06 if x < ST['x0'] else 0.06), H, ST['z1']), (x + (-0.06 if x < ST['x0'] else 0.06), H / n, ST['z0'])])
@@ -265,7 +270,7 @@ if os.path.exists(EN):
 # ======================== 收尾 ========================
 for k_, m in _acc.items(): m.finish(root, uv=True, smooth=(k_.startswith(P + 'rope') or k_ == P + 'steel'))
 for side, ms in walls.items():
-    for m in ms: m.name = f'WALL_{side}_{m.name}'; m.finish(root, uv=True, props={'dir': DIRS[side]})
+    for m in ms: m.name = f'WALL_{side}_{m.name}'; m.finish(root, uv=True, props={'dir': DIRS[side], **({'partition': 1} if side in PARTS else {})})
 for name, mat, pts, uv in IMGS:
     bm = bmesh.new(); uvl = bm.loops.layers.uv.new('UVMap'); f = bm.faces.new([bm.verts.new(g2b(*q)) for q in pts]); u0, v0, u1, v1 = uv
     for lp, t in zip(f.loops, ((u0, v0), (u1, v0), (u1, v1), (u0, v1))): lp[uvl].uv = t
