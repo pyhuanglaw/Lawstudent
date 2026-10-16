@@ -26,8 +26,9 @@ async def load(pg, zone, hour):
 
 
 async def spawn(pg, cid, x, z, opts):
-    # player＝玩家本人（E.player，祐廷）；其他用 GAME.spawnCharacter 生成
-    await pg.evaluate("((id,x,z,o)=>{ let n; if(id==='player'){ n=GAME.E.player; n.obj.visible=true; n.obj.position.set(x,0,z); n.obj.rotation.y=o.yaw||0; n.path=null; n.seat=null; n.frozen=true; n.pose='idle'; n.idlePose='idle'; } else { n=GAME.spawnCharacter(id,x,z,o); n.frozen=true; n.beh='idle'; } window.__n=n; })(%s,%s,%s,%s)" % (json.dumps(cid), x, z, json.dumps(opts)))
+    # player＝玩家本人（E.player，祐廷）；其他用 GAME.spawnCharacter 生成。
+    # 還沒有 char3d 的人（杜可昕：平常不在台大）只在截圖時補上 manifest 的模型（不改遊戲檔案；2026-10-16 第一輪沒補，拍到的是路人底模）
+    await pg.evaluate("((id,x,z,o)=>{ let n; if(id==='player'){ n=GAME.E.player; n.obj.visible=true; n.obj.position.set(x,0,z); n.obj.rotation.y=o.yaw||0; n.path=null; n.seat=null; n.frozen=true; n.pose='idle'; n.idlePose='idle'; } else { const C=CHARACTERS[id]; if(C&&!C.char3d&&ASSETS.manifest['char.'+id]) C.char3d={spec:id,model:'char.'+id}; n=GAME.spawnCharacter(id,x,z,o); n.frozen=true; n.beh='idle'; } window.__n=n; })(%s,%s,%s,%s)" % (json.dumps(cid), x, z, json.dumps(opts)))
     for _ in range(120):                                                       # 等 VRM 載入（換掉暫時的模型）
         ok = await pg.evaluate("(()=>{ const m=window.__n.obj.userData&&window.__n.obj.userData.model; return !m||!m.userData||m.userData.driver!=='pending'; })()")
         if ok: break
