@@ -36,7 +36,7 @@ const STORY = (function(){
   /* 法律系開局的開頭（AA_106 3b④＋③；AA 2026-10-14）：新遊戲在現有第一天之前放 */
   S.LAW_START_RECAP=['你在台大經濟系念過一年。','那一年，你認識了一群朋友，也認識了她。','她叫杜可昕，很會問奇怪的問題。','寒假，你們錯過了一次。','下學期，你決定重考法律。不是為了誰。','那天她才說，她一直喜歡的是你。','你們一起重考。你考上台大法律，她考上政大法律。','九月，你回到同一個校園，換了一個系。'];
   S.LAW_WEEK12=['開學第一週，你走進霖澤館。沒有人知道你來過這個校園。','選課、新生活動、第一次點名。你又排了一次新生的隊。','這次你知道，這種隊要排多久。','重修的經濟學原理排在週五早上，普通教學館。你閉著眼睛也找得到。'];
-  S.recap=async function(GM,lines){ if(!lines||!lines.length) return; GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'dark'}); for(const t of lines) await GM.say(null,t); } finally { if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); GM.sceneEnd(); } };
+  S.recap=async function(GM,lines,o){ o=o||{}; if(!lines||!lines.length) return; GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'dark'}); for(const t of lines) await GM.say(null,t); } finally { if(!o.keep&&typeof ADV!=='undefined'&&ADV.end) ADV.end(); GM.sceneEnd(); } };   /* keep：播完先不收黑底（接著轉場，不讓 3D 畫面閃一下）*/
   /* 坐下就開始的事件（trigger:'seat'、seatRoom＝座位所在的區（layout 的 groups id，例：博雅的 'study'）；game3d.js 的座位選單在坐下以後、選單出來以前呼叫）*/
   S.onSeat=async function(GM,seat){ if(typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined'||!seat) return false; const G=GM.G;
     const ev=STORY_EVENTS.find(e=>e.trigger==='seat'&&(!e.seatRoom||e.seatRoom===seat.room)&&(!e.location||e.location==='any'||e.location===G.zone)&&EVENTS.check(e,{chain:true})); if(!ev) return false; await EVENTS.run(ev); return true; };
@@ -52,7 +52,10 @@ const STORY = (function(){
       if(GM.backupNow) GM.backupNow('經濟系那一年的最後一天','y0end');
       await GM.fade(true); if(GM.titleCard) await GM.titleCard('2025 年 9 月　臺大法律系　大一','',2400);
       if(typeof HOME!=='undefined'){ const H=HOME.rec(G); H.at=false; H.base=false; H.winter=false; H.wakeAsk=null; }
-      await S.recap(GM,S.LAW_WEEK12);
+      /* 2026-10-16 瀏覽器流程測試抓到：原本黑幕（#fade，z-index 9、會攔點擊）還開著就播③，對話框在黑幕下面——玩家只看到一片黑、點不下去。先開黑底的對話畫面，再拿掉黑幕 */
+      if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'dark'}); await GM.fade(false);
+      await S.recap(GM,S.LAW_WEEK12,{keep:true});
+      await GM.fade(true); if(typeof ADV!=='undefined'&&ADV.end) ADV.end();
       Object.assign(F,{dating_kexin:true,KX_FIRST_MSG:false,MET_XUN:true,MET_PINYU:true,KNOWS_TANG:true,PLAYED_Y0:true,LAW_RECAP_SEEN:true});
       if(Array.isArray(G.outings)) G.outings=G.outings.filter(q=>q.state!=='planned');
       G.stage='law'; G.day=1; G.weekday=3; G.hour=21.2; if(E) E.hour=G.hour; G.zone='dorm'; G.weather='clear'; if(E&&E.setWeather) E.setWeather('clear');
@@ -1310,6 +1313,8 @@ const STORY = (function(){
       if(G.day>mEnd&&!PHONE.sent(G,'mx_tutor_gone')){ F.TUTOR_GONE=true; PHONE.at(G,mEnd+1,12,[M('名額給別人了。下次有，我再跟你說。')],'mx_tutor_gone'); } }
     if(F.JOB_TUTOR&&typeof OUT!=='undefined'){ const T=CALENDAR.termOf(G.day); if(T&&T.id==='Y1S2'){ for(let w=T.week;w<=18;w++){ const d=termDay('Y1S2',w,2); if(d==null||d<=(F.tutorFromDay|0)||d*24+19<G.day*24+G.hour) continue; if(CALENDAR.holiday(d)||(CALENDAR.typhoon&&CALENDAR.typhoon(d))) continue;   /* 颱風假不能打工（AA_160 3-4 D）*/ const id='tutor_'+d; if(OUT.get(G,id)) break;
           OUT.plan(G,{id,ev:'ev_tutor_lesson',day:d,h:19,place:'學生家（公館附近）',title:'家教',travel:'騎車約 10 分鐘',travelH:1/6,no:'這週不去',back:'家教結束。'}); break; } } }
+    /* 颱風假 T2（2026-10-19）：前一晚 20:30 新聞（照大一 T1b 的做法：真的停課是前一晚市政府宣布，沒有群組的玩家也收得到）*/
+    { const ty=S.dayOfKey('2026-10-19'); if(ty!=null&&typeof CALENDAR!=='undefined'&&CALENDAR.typhoon(ty)&&G.day>=ty-1&&G.day<=ty&&!PHONE.sent(G,'ty2_news')&&(G.day>ty-1||h(G)>=20.5)) PHONE.at(G,ty-1,20.5,[{th:'sys',name:'新聞',text:'明天停止上班上課。'}],'ty2_news'); }
     /* 柏翰的考古題小組（AA_40 翰 2、AA_177）：選「好。」以後每週六 16:00～18:00 總圖 B1 討論室（出發選單），到大二上第 16 週；沒去不扣分 */
     if(F.BOHAN_GROUP==='yes'&&F.BOHAN_GROUP_DAY!=null&&typeof OUT!=='undefined'&&typeof CALENDAR!=='undefined'){ const t=CALENDAR.termOf(G.day), x=CALENDAR.dateOf(G.day);
       if(t&&t.id==='Y2S1'&&t.week<=16&&x.wd===6&&G.day>F.BOHAN_GROUP_DAY&&!OUT.get(G,'bohan_group_'+G.day)&&h(G)<16.25) OUT.plan(G,{id:'bohan_group_'+G.day,ev:'ev_bohan_group_session',day:G.day,h:16,late:0.25,place:'總圖 B1 討論室',title:'考古題小組',travel:'走過去約 10 分鐘',travelH:1/6}); }

@@ -11219,8 +11219,8 @@
    "title": "calendar.js 加大二、大三、大四的颱風假：2026-10-19（一，大二 T2，AA_180）、2027-10-13（三，大三 T3，BB_110）、2028-09-18（大四，AA_181）",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "和大二／大三的颱風事件（前一晚的公告、當天）一起接：只加日曆、沒有公告的話玩家會突然放假（大一上第 7 週的做法在 story3d.js termDay('Y1S1',7,1)）",
+   "status": "進行中",
+   "next": "2026-10-19 已加（和 BB_110 T2a、T2b、前一晚 20:30 新聞一起；tests/v3_typhoon2_unit.js）。2027-10-13（大三 T3）、2028-09-18（大四）等 v4、v5 的颱風事件一起加",
    "priority": "P3",
    "first": {
     "term": "Y2S1",
@@ -11277,6 +11277,28 @@
     "confirmed": true
    },
    "source": "交接包_v3_交付清單 D25"
+  },
+  {
+   "id": "V3-T2",
+   "title": "颱風假 T2a 泡麵之夜（第二個房間）、T2b 照常上課的喜劇（行政法）（BB_110；大二上第 7 週週一 2026-10-19）",
+   "area": "V3",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "已接：calendar.js TYPHOON 2026-10-19、前一晚 20:30 新聞、T2b 9:00～12:00 線上的自願討論（三個選項、XU_TYPHOON→兩週內的行政法課前一句）、T2a 21:00 以後在宿舍房間（訊息照稿、三個選項；宿舍之間的訪客規定需查證，先照房間）。tests/v3_typhoon2_unit.js；瀏覽器",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S1",
+    "week": 7,
+    "earliest": "2026-10-19",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_110 T2（BB-B）、AA_177 第 2 節",
+   "authorized": "D79",
+   "tests": "tests/v3_typhoon2_unit.js"
   }
  ]
 }

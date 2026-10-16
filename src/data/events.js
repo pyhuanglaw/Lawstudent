@@ -2567,6 +2567,35 @@ const STORY_EVENTS=[
       {speaker:'heroine_01',expression:'neutral',text:'（回頭看長桌，白板上三行字）……好。開始。每人十分鐘。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:'yu',text:'（舉著撕下來的半張紙）這張我要裱框。'} ],
     consequences:{flags:{PLG_RULES:true},memo:'公法讀書會的週六補讀：人回來了'} },
+  /* 颱風假 T2（BB_110，法律系大二上第 7 週週一 2026-10-19；calendar.js TYPHOON）：前一晚 20:30 新聞（story3d.js phoneRules，照大一的做法）。
+     T2b 照常上課的喜劇（行政法）：當天早上九點線上會議的通知——9:00～12:00 人醒著時演（在哪裡都可以，手機＋線上）；三個選項；進去聽＝許教授 XU_TYPHOON（兩週內的行政法課前一句，ev_y2_xu_typhoon_front）。
+     T2a 泡麵之夜（第二個房間）：當天 21:00 以後人在宿舍房間（宿舍之間的訪客規定需查證，BB 寫「不行的話改在交誼廳」，先照房間）；阿凱的訊息、祐廷的回覆照 BB 的稿；三個選項（拍照傳給方奕廷要認識他）*/
+  { id:'ev_y2_typhoon_xu', title:'照常上課的喜劇', participants:['prof_xu'], location:'any', trigger:'auto', term:['Y2S1'], time:[9,12], once:true, background:'dark',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey('2026-10-19')&&(G.stage||'law')==='law'},
+    dialogue:[ {scene:'視訊',bg:'video'},
+      {speaker:null,text:'（早上九點，線上會議的通知）'},
+      {speaker:'prof_xu',expression:'serious',text:'今天停課，所以這不是上課。'},
+      {speaker:'prof_xu',expression:'serious',text:'這是自願的討論。德國的颱風比較少，我們比較一下。'},
+      {speaker:null,text:'（畫面上：許教授、穿著襯衫的柏翰、芯慈。）'},
+      {choice:[{text:'（進去聽）',goto:'a'},{text:'（不進去，繼續睡）',goto:'b'},{text:'（私訊柏翰「你為什麼穿襯衫」）',goto:'c'}]},
+      {label:'a'},{speaker:'prof_xu',expression:'serious',text:'很好。你對德國的颱風有興趣嗎？'},{speaker:'player',text:'德國有颱風嗎？'},{speaker:'prof_xu',expression:'serious',text:'沒有。這就是重點。'},
+      {mem:[{npc:'prof_xu',tag:'XU_TYPHOON',note:'颱風假那天去了線上的自願討論'}]},{goto:'end'},
+      {label:'b'},{phone:'classmate_bohan',text:'教授問你在哪裡。我說你在颱風裡。'},{goto:'end'},
+      {label:'c'},{phoneMe:'classmate_bohan',text:'你為什麼穿襯衫'},{phone:'classmate_bohan',text:'因為是上課。'},{phoneMe:'classmate_bohan',text:'教授說不是上課。'},{phone:'classmate_bohan',text:'……那是自願的襯衫。'},
+      {label:'end'} ] },
+  { id:'ev_y2_xu_typhoon_front', title:'', participants:['prof_xu'], location:'any', trigger:'class', beforeClass:'admin_law', term:['Y2S1'], once:true, background:'blur',
+    prereq:{memory:[{npc:'prof_xu',tag:'XU_TYPHOON'}],custom:G=>typeof STORY!=='undefined'&&G.day>STORY.dayOfKey('2026-10-19')&&G.day<=STORY.dayOfKey('2026-10-19')+14},
+    dialogue:[ {speaker:'prof_xu',expression:'serious',text:'颱風那天來討論的同學，今天坐前面。'} ] },
+  { id:'ev_y2_typhoon_kai', title:'泡麵之夜', participants:['kai'], location:'dorm', trigger:'auto', term:['Y2S1'], time:[21,24], once:true, background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey('2026-10-19')&&!!G.flags.ROOM_Y2},
+    dialogue:[ {phone:'kai',text:'我要過去。'},{phoneMe:'kai',text:'外面在下雨。'},{phone:'kai',text:'宵夜不分颱風。這是我們的週日宵夜。'},{phoneMe:'kai',text:'今天是週一。'},{phone:'kai',text:'颱風天沒有星期幾。'},
+      {advance:1/3},{speaker:null,text:'（二十分鐘後，阿凱全身濕，抱著一箱泡麵站在門口。）'},
+      {choice:[{text:'（遞毛巾）',goto:'a'},{text:'「你可以傳訊息就好。」',goto:'b'},{text:'（拍照傳給方奕廷）',if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('npc_fangyt',G)},goto:'c'}]},
+      {label:'a'},{speaker:'kai',text:'先不要擦我，先擦泡麵。'},{goto:'end'},
+      {label:'b'},{speaker:'kai',text:'訊息不能吃。'},{goto:'end'},
+      {label:'c'},{phoneMe:'npc_fangyt',text:'📷（全身濕的阿凱，抱著一箱泡麵）'},{phone:'npc_fangyt',text:'他比颱風還堅持。'},
+      {label:'end'} ],
+    consequences:{flags:{TYPHOON_Y2_KAI:true},memo:'颱風假，阿凱抱著一箱泡麵來'} },
   /* 阿凱 K3 的週日宵夜（BB_97 4-1 場面，BB-B 2026-10-16）：宿舍旁的滷味攤（晚上、騎樓下、折疊桌；背景和公館滷味攤共用、字幕換掉）。
      第一次＝夾好的三樣＋三個選項＋「下週日，同一時間。」；第二次以後＝一句旁白＋阿凱輪流一句（筆電那句只在大二上第 13 週 F2 之後）；時間快轉到 00:00。
      story3d.js 的 phoneRules 'kai_sup_<day>' 出發選單。記 habit kai_supper，365 天內 3 次以上＝阿凱 SUNDAY_SUPPER */
