@@ -5,7 +5,7 @@
 LOC='D06'
 POINTS={'D06.gallery':'大展廳','D06.frame':'只有空畫框的作品','D06.cafe':'館內的咖啡廳','D06.lawn':'館外的草地'}
 H={}
-H['classmate_peishan']=dict(wish_first='wish/wish_classmate_peishan.json（BB_128 3-4）',  # 沛珊
+H['classmate_peishan']=dict(wish_first='wish_classmate_peishan',  # 沛珊
  likes={'D06.gallery':'like','D06.frame':'like','D06.cafe':'normal','D06.lawn':'normal'},
  arrive=dict(first=None,normal=[('any',['今天我帶了筆記本。只寫一行：沒有答案。']),('any',['這裡還是好安靜。我現在不覺得像考場了。']),('high',['我現在會看說明牌以外的東西了。'])],
    dating=[('any',['今天只看一幅。看久一點。……跟你一起。'])]),

@@ -1,65 +1,80 @@
-# 心願約會事件（`AA_128` 第 6 節；`AA_140` G33）
+# 心願事件與不分地點的句子（BB 五位；AA_140 G33）
 
-每位女主角一個 `wish_<人物 id>.json`，第一次和她**單獨**去她的心願地點時播。之後再去，照 `lines/<地點>.json` 的一般反應。
+> BB-B 2026-10-16。原稿是 `BB_128` 第 3 節（3-1～3-6），這裡只把它拆成資料，**台詞一字不改**（`build_wish.py` 會逐句比對 BB_128 原文，少一句就失敗）。以安、語彤的心願事件（`AA_127`）由 AA-B 照同一個格式做 `wish_aa.json`。
+> 狀態：`READY_FOR_REVIEW`（給 LAWWW-B 實作；照 AA-B 的交付流程）。
 
-## 規則（七處都一樣）
-
-- `lines/<地點>.json` 裡，心願本人的 `first` 一律是 `{"wishEvent": "<這裡的檔名或規格出處>"}`。
-- 程式看到 `wishEvent`，就改播這裡的事件。
-  - 已經這樣做的：D03、D05、D06、D07、D15、D25。
-  - D13 由 BB-B 的轉換程式補標記。
-
-## 格式
-
-| 欄位 | 內容 |
-|---|---|
-| `learn` | 聊天裡得知（記 `wishKnown`）。`cond.stageMin`＝第幾階以上。`versions[]` 依時間點選一版：`lines`、`choice`、`after`（選完以後接的句子）。`extraIf[]`＝條件成立時多一句 |
-| `invite` | 她主動約。`cond` 列條件、不約的時候（`notWhen`）、傳訊時間、每學期次數、被拒絕後隔幾週。另有 `msg`、`accept`、`decline`，以及 `playerInvite`（玩家主動約她：`known`／`unknown` 或其他版本） |
-| `arrive` | 抵達。`lines`＋`byRel`（`stage5`、`stage6_single`、`dating`） |
-| `hotspots` | 每個互動點：`lines`、`choice[{t,reply}]`、`extraIf`、`set` |
-| `likes` | 她對每個互動點的偏好（結算用，`AA_128` 5-3） |
-| `closing` | 心願場景，第一次一定播。`lines`、`choice`、`byTime`（依時間點換句或加句）、`byRel`、`set`（旗標、記憶）、`album`（Life Album 存什麼）、`settle`（結算） |
-
-- 每一行是 `{who, text}`：
-  - `who` 是人物 id＝她說。
-  - `narr`＝旁白，用第二人稱「你」。
-  - `note`＝給開發的註記，不顯示。
-- 限制：每句 40 字以內，選項 20 字以內（`build_wish_aa.py` 會擋）。
-- 時間、花費照 `point_specs.json`。
-
-## 進度
-
-- `wish_heroine_01.json`：以安，D07「規則之外的人」（`AA_127` 第 1 節；AA-B 2026-10-16）。
-- `wish_heroine_03.json`：語彤，D13「這次只有兩個人」（`AA_127` 第 2 節；AA-B 2026-10-16）。
-- `wish_heroine_02.json`（芷若 D05「這次留兩張票」）、`wish_heroine_04.json`（子晴 D03「最後一關換你」）、`wish_heroine_05.json`（學姊 D15「今晚沒有第三件事」）、`wish_classmate_peishan.json`（沛珊 D06「沒有標準答案的一天」）、`wish_kexin.json`（可昕 D25「如果今天沒有行程表」）：BB-B 2026-10-16，`BB_128` 3-1～3-5。
-  - 原稿 `wish_bb.py`（照 BB_128 一字不改，只拆成資料）→ `python3 -I build_wish_bb.py`。
-  - 檢查：逐句比對 BB_128 原文（少一句就失敗，只允許拆句）、40／20 字、互動點與喜好和 `lines/<地點>.json` 一致、`first` 指到這裡、D77 品牌。
-  - 旁白不加括號（和以安、語彤一致）；BB_128 的旁白原本有括號，拿掉不算改字。
-- D13 語彤的 `first` 標記已補（`lines/md_to_json_D13.py`）；同時補上她第二次以後的抵達、收尾（BB_128 5-1 寫「照 AA_127 2-6」，之前沒轉到）。
-
-## BB 五位多用的欄位（AA 的格式裡沒有的，補充說明）
-
-| 位置 | 欄位 | 意思 |
+| 檔案 | 內容 | 怎麼產生 |
 |---|---|---|
-| `learn.cond`、`invite.cond` | `after` | 前置（事件、旗標，括號裡是 id）；`note` 是補充 |
-| `invite` | `msgIf[]` | 條件成立時換掉整段 `msg`（沛珊大二下重考中） |
-| `invite.playerInvite` | `if`、`retake` | 學姊：`SIS_HEALED` 以後玩家約才會答應；沛珊重考中只答應 D06 |
-| `arrive` | `extraIf[]`、`admission` | 時間點的多一句（子晴大四）；有門票，抵達時扣（沛珊北美館） |
-| `fixed` | — | 芷若的看電影（固定活動，不算互動點） |
-| `hotspots.*.choice[]` | `if` | 不成立就不出現這個選項（例：K8 去過海邊才有「海浪說『回來』」） |
-| | `replyIf[]` | 條件成立時**換掉** `reply`（取第一個成立的） |
-| | `extraIf[]` | 條件成立時在 `reply` 後面**多說** |
-| | `cost`、`extra` | 選了才另外扣的錢（明信片 30、茶葉蛋 15、請她那杯 150） |
-| `closing` | `after` | 選完以後一定說的句子（子晴） |
-| `closing.byTime` | `insertAfter{原句:[行]}`、`replace{原句:[行]}`、`[行]` | 在那一句後面插入；換掉那一句；直接多說 |
-| `closing.byRel` | `dating_afterQ12`、`ex` | 子晴交往中 Q12 以後；可昕分開以後重新追她（可昕的預設是 `dating`） |
-| `closing` | `memoryText` | 記憶的說明（`set` 裡的 `memory:` 那一個） |
+| `wish_bb.json` | 五個心願事件：芷若 D05、子晴 D03、學姊 D15、沛珊 D06、可昕 D25 | `python3 build_wish.py`（原稿 `wish_bb.py`） |
+| `wish_aa.json` | 兩個心願事件：以安 D07、語彤 D13（AA-B；原稿 `AA_127` 第 1、2 節，台詞一字不改） | `python3 build_wish_aa.py`（原稿 `wish_aa.py`；檢查同 `build_wish.py`） |
+| `common_bb.json` | `DATE_LINES_COMMON`：出發、差不多了、取消、放鴿子、一個都沒做就走、合照還不行（五位 × 六種） | `python3 build_common.py`（直接讀 BB_128 3-6 的表） |
 
-- 條件字串裡的 id：`WATCHED_FILM`（芷若記憶，Z5 兩個人看）、`ev_zhiruo_third_row`（Z11b，**還沒實作，id 由 LAWWW-B 定**）、`ATTENDED_SHOW`（子晴 Q12）、`SIS_HEALED`、`ev_sis_empty_flask`（W4）、`SIS_BEEN_US`（**暫名**）、`ev_peishan_syllogism`（P2b）、`ev_kexin_trip_spring_y1`（K8）、`KX_TRIP_DEFERRED_DONE`（**暫名**）、`KX_TRIP_Y1S2=sea`、`ev_kexin_k18`（K18）、`EX_kexin`。暫名的請 LAWWW-B 換成實際旗標、告訴 BB-B。
-- 「第 N 階」＝`AA_126` 4-1 的 1～6 階；「交往中」＝`dating_<id>`。
+## 和地點檔的關係（G33 的「心願本人的 first」）
 
-## 不分地點的句子（`DATE_LINES_COMMON`）
+- **心願本人第一次單獨去她的心願地點，整趟由心願事件取代**（抵達、四個互動點、收尾都用 `wish_bb.json`）。地點檔 `date_system/lines/<LOC>.json` 裡她的 `first` 是 `{"wishEvent":"wish_<id>"}`，指到這裡（`build_wish.py` 會檢查）。
+- 第二次以後照地點檔的一般反應（`normal`、`remember`、`dating`）；BB_128「再去 D0x」的句子已經在地點檔裡。
+- 互動點的 id、時間、花費、她喜不喜歡和地點檔一致（`build_wish.py` 檢查 id 和喜好）。
 
-- `common_bb.json`：BB 五位 × 出發、差不多了、取消、放鴿子、一個都沒做就走、合照還不行（`BB_128` 2-9、3-6）。`python3 -I build_common.py` 直接讀 BB_128 的表，一字不改。
-- `lines[角色][key]`＝好幾套，擇一、輪流。可昕的 `noPair` 只在 `EX_kexin`（分開以後）才說，交往中一定可以合照。
-- 以安、語彤的由 AA-B 做。
+## `wish_bb.json` 的欄位
+
+一行：`{who, text}`；`who:'narr'`＝旁白（用「你」），`who:'note'`＝開發註記，**不顯示**。選項：`{t, reply:[行…]}`。
+
+| 欄位 | 意思 |
+|---|---|
+| `id`、`char`、`loc`、`title`、`source` | 事件 id（`wish_<角色 id>`）、角色、地點、標題、原稿出處 |
+| `wish`、`rule` | 給開發的說明（不顯示）。`rule` 是這一位特別的限制（學姊只在 `SIS_HEALED` 以後；沛珊雙方單身或她是女友；可昕不寫家鄉） |
+| `record` | 完成時記：`flag`＝`WISH_DONE_<id>`（**第一次和她單獨去她的心願地點就算完成，不管哪一年**，`AA_128` 第 6 節）、`memory`（`SOCIAL.remember(她, tag)`，text 是記憶的說明）、`album`（Life Album 那一張） |
+| `mention` | **聊天提到**（記 `SOCIAL.remember(她,'WISH_KNOWN')`）：`if` 條件、`where` 在哪裡說、`lines`、`choices`。只說一次 |
+| `herInvite` | **她主動約**：`if`、`rule`（`AA_128 4-5`：她自己有伴侶、或她知道祐廷有伴侶時不約）、`perTerm`（每學期最多一次；BB_128 第 3 節共同規則：**每位都是每學期最多一次**、玩家拒絕不扣分不鎖線、至少隔 4 週才可能再問）、`dateWeekday`（0＝日）、`dateTime`（約的時間，14.5＝14:30）、`message`（訊息什麼時候傳）、`lines`（訊息）、`accept`（答應：建立行程 `by:'her'`、`wish:true`）、`decline`（這週不行，不扣分）、`linesIf`（換掉整段訊息的版本） |
+| `playerInvite` | **玩家主動約她去**：`known`（已經 `WISH_KNOWN`）、`unknown`（還不知道；**這一次也算完成心願**）。學姊的 `if` 是 `SIS_HEALED`；沛珊大二下 `retakeTerm` 只答應 D06 |
+| `arrive` | 抵達：`narr` 旁白、`lines`、`extraIf`（條件成立的**都**多說，照順序；交往中和第 6 階單身互斥，所以關係那句只會有一句）、`admission`（有門票，抵達時扣，`AA_128`） |
+| `fixed` | 固定活動（芷若的看電影，120 分，不算互動點） |
+| `hotspots` | 四個互動點：`name`、`minutes`、`cost`（祐廷自己的那份）、`like`、`lines`、`choices`。選項可以有 `if`（不成立就不出現）、`cost`／`extra`（選了才另外扣）、`replyIf`（條件成立時**換掉** reply；取第一個成立的）、`extraIf`（條件成立時在 reply 後面**多說**） |
+| `closing` | 收尾（**心願場景，第一次一定播**）：`lines` → `timeline`（`insertAfter:N`＝在第 N 行後面插入；條件成立才有）→ `choices` → `after`（條件成立的都說，照順序）→ `ending`（依關係的結尾，**取第一個成立的**；`if:{}`＝其他情況） |
+| `repeat` | 第二次以後去哪裡找台詞 |
+
+### 條件（`if`）
+
+照 `EVENTS.cond`（`flags`、`notFlags`、`flagIs`、`memory`、`events`、`any`…），另外加四個（給 LAWWW-B 實作）：
+
+| key | 意思 |
+|---|---|
+| `dateStage:{min,max}` | 她的關係階段，照 `AA_126` 4-1 的 1～6 階（第 4 階好朋友、第 5 階願意私下約會、第 6 階能約情人節／告白門檻）。**不是** `SOCIAL.STAGES` 的序號 |
+| `datingHer` | `true`＝她就是祐廷的女友（旗標 `dating_<她的 id>`，`AA_123` 第 2 節）；`false`＝不是 |
+| `term`、`termFrom` | 學期（`Y2S2` 等）；`termFrom:'Y4S1'`＝大四以後（延畢的玩家照遊戲學期算） |
+| `unless` | 放在 `if` 裡：裡面的條件成立時，這一條不成立 |
+
+- 原稿寫「第 5 階」「第 6 階（單身）」「交往中」的地方：交往中＝`datingHer:true`；第 6 階（單身）＝`dateStage.min 6`＋`datingHer:false`；第 5 階＝其他情況（`if:{}`）。
+- 用到的旗標與事件：`WATCHED_FILM`（芷若的記憶，Z5 兩個人看）、`ev_zhiruo_third_row`（Z11b 倒數第三排，**還沒實作，id 由 LAWWW-B 定**）、`ATTENDED_SHOW`（子晴 Q12 發表會）、`SIS_HEALED`、`ev_sis_empty_flask`（W4）、`SIS_BEEN_US`（學姊去過美國以後，**暫名**）、`ev_peishan_syllogism`（P2b）、`ev_kexin_trip_spring_y1`（K8）、`KX_TRIP_DEFERRED_DONE`（K8 延到暑假那一趟走完，**暫名**）、`KX_TRIP_Y1S2:'sea'`（K8 選海邊）、`ev_kexin_k18`（K18）、`EX_kexin`（和可昕分開過，`AA_123`）。暫名的請 LAWWW-B 換成實際的旗標，告訴 BB-B。
+- `abroadBlock`：她在國外（芷若在英國、學姊在美國）時不提、不約。`notExamWeek`：那週不是考試週。`noBreaks`：寒暑假不約。`needsCar`：要開車（祐廷台北有車）。
+
+## `common_bb.json`
+
+`lines[角色][key]`＝好幾套，**擇一、輪流**（排除最近用過的）；一套是依序說的幾行。可昕的 `noPair` 只在 `EX_kexin`（分開以後）才說——交往中一定可以合照。`rules` 是取消、放鴿子的規則（`AA_128` 4-3）。
+
+## 驗收（BB 看的，照 `BB_128` 2-10）
+
+心願事件第一次一定播收尾；`WISH_DONE` 不管哪一年都算；她主動約每學期最多一次、拒絕不扣分；玩家自己約、她還不知道心願時也算完成；第二次去改用地點檔；直向、橫向的對話框不切字。
+
+- **D13 語彤第二次以後**（BB-B 2026-10-16）：`BB_128` 5-1 寫「照 `AA_127` 2-6」的抵達、收尾，之前沒轉進 `lines/D13.json`（是空的）；已在 `lines/md_to_json_D13.py` 補上：抵達三句照 AA_127 2-6、收尾兩句照 BB_128 5-1、`remember`＝「上次看到最後了。今天……也看到最後。」
+
+## AA 的兩位另外用到的（`wish_aa.json`；AA-B 2026-10-16）
+
+**同一個格式**：地點檔 D07、D13 裡以安、語彤的 `first` 都是 `{"wishEvent":"wish_heroine_01"}`、`{"wishEvent":"wish_heroine_03"}`（`build_wish_aa.py` 會檢查）。下面這些 key，`wish_bb.json` 沒有用到：
+
+| key | 在哪裡 | 意思 |
+|---|---|---|
+| `courseWeek:{course,week}` | 條件 | 那門課的第幾週已經上過（以安：`const_1` 第 6 週＝人身自由） |
+| `mention.after` | 聊天提到 | 選項之後接著說的句子 |
+| `mention.linesIf` | 聊天提到 | 條件成立時**整段換掉**（以安大二下以後的版本，沒有選項） |
+| `mention.extraIf`、`playerInvite.extraIf` | 同 `arrive.extraIf` | 條件成立時多說 |
+| `notMomCheckup` | 她主動約 | 不在語彤媽媽回診的那個週六（`AA_11` 第 0 節） |
+| `dateTime:'sunset-2'` | 她主動約 | 夕陽前約兩小時（`AA_128` 第 8 節的每月日落表） |
+| `memory:{tag,text}` | 選項、互動點 | 選了或做了就記（`SOCIAL.remember`） |
+| `timeline[].replace` | 收尾 | 條件成立時，把某一句換成這幾句 |
+
+- **暫名**：請 LAWWW-B 換成實際的 id，告訴 AA-B。
+  - `ev_an_admin_answer`：以安新 9，行政法「我要改我的答案」。
+  - `ev_an_choice_y4`：以安新 18，公法研究所。
+  - `ev_yutong_free_thursday`：語彤事件 13，空出來的週四。
+  - `GROUP_TRIP_TAMSUI_WITH_YUTONG`：玩家揪過一群人去淡水，語彤也去了。

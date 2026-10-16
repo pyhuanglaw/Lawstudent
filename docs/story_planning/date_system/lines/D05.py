@@ -5,7 +5,7 @@
 LOC='D05'
 POINTS={'D05.cafe':'一樓的咖啡館','D05.garden':'院子的大樹下','D05.shop':'電影書店','D05.board':'下個月的片單牆'}
 H={}
-H['heroine_02']=dict(wish_first='wish/wish_heroine_02.json（BB_128 3-1）',  # 芷若
+H['heroine_02']=dict(wish_first='wish_heroine_02',  # 芷若
  likes={'D05.cafe':'normal','D05.garden':'like','D05.shop':'like','D05.board':'normal'},
  arrive=dict(first=None,normal=[('any',['今天這部，我看過三次。','第四次比較好看。']),('any',['今天不聊電影。……騙你的，聊。']),('high',['又是這棟洋房。我們好像只會來這裡。','……我沒有抱怨。'])],
    dating=[('any',['今天坐中間。……以後都坐中間。'])]),

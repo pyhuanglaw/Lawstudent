@@ -3162,7 +3162,7 @@
   "heroine_03": {
    "arrive": {
     "first": {
-     "wishEvent": "wish/wish_heroine_03.json（AA_127 第 2 節）"
+     "wishEvent": "wish_heroine_03"
     },
     "normal": [
      {
@@ -3197,7 +3197,7 @@
    },
    "closing": {
     "first": {
-     "wishEvent": "wish/wish_heroine_03.json（AA_127 第 2 節）"
+     "wishEvent": "wish_heroine_03"
     },
     "remember": {
      "tier": "any",
@@ -3286,7 +3286,7 @@
       }
      ],
      "first": {
-      "wishEvent": "wish/wish_heroine_03.json（AA_127 第 2 節）"
+      "wishEvent": "wish_heroine_03"
      }
     },
     "D13.rail": {
@@ -3348,7 +3348,7 @@
       }
      ],
      "first": {
-      "wishEvent": "wish/wish_heroine_03.json（AA_127 第 2 節）"
+      "wishEvent": "wish_heroine_03"
      }
     },
     "D13.bench": {
@@ -3406,7 +3406,7 @@
       }
      ],
      "first": {
-      "wishEvent": "wish/wish_heroine_03.json（AA_127 第 2 節）"
+      "wishEvent": "wish_heroine_03"
      }
     },
     "D13.photo": {
@@ -3460,7 +3460,7 @@
       }
      ],
      "first": {
-      "wishEvent": "wish/wish_heroine_03.json（AA_127 第 2 節）"
+      "wishEvent": "wish_heroine_03"
      }
     }
    }

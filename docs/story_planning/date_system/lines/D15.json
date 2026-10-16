@@ -1831,7 +1831,7 @@
   "heroine_05": {
    "arrive": {
     "first": {
-     "wishEvent": "wish/wish_heroine_05.json（BB_128 3-3）"
+     "wishEvent": "wish_heroine_05"
     },
     "normal": [
      {
@@ -1876,7 +1876,7 @@
    },
    "closing": {
     "first": {
-     "wishEvent": "wish/wish_heroine_05.json（BB_128 3-3）"
+     "wishEvent": "wish_heroine_05"
     },
     "normal": [
      {
@@ -1913,7 +1913,7 @@
    "hotspots": {
     "D15.rail": {
      "first": {
-      "wishEvent": "wish/wish_heroine_05.json（BB_128 3-3）"
+      "wishEvent": "wish_heroine_05"
      },
      "normal": [
       {
@@ -1967,7 +1967,7 @@
     },
     "D15.car": {
      "first": {
-      "wishEvent": "wish/wish_heroine_05.json（BB_128 3-3）"
+      "wishEvent": "wish_heroine_05"
      },
      "normal": [
       {
@@ -2021,7 +2021,7 @@
     },
     "D15.store": {
      "first": {
-      "wishEvent": "wish/wish_heroine_05.json（BB_128 3-3）"
+      "wishEvent": "wish_heroine_05"
      },
      "normal": [
       {
@@ -2075,7 +2075,7 @@
     },
     "D15.sky": {
      "first": {
-      "wishEvent": "wish/wish_heroine_05.json（BB_128 3-3）"
+      "wishEvent": "wish_heroine_05"
      },
      "normal": [
       {

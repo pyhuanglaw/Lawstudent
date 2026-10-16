@@ -65,7 +65,7 @@
   "heroine_01": {
    "arrive": {
     "first": {
-     "wishEvent": "wish/wish_heroine_01.json（AA_127 第 1 節）"
+     "wishEvent": "wish_heroine_01"
     },
     "normal": [
      {
@@ -123,7 +123,7 @@
    },
    "closing": {
     "first": {
-     "wishEvent": "wish/wish_heroine_01.json（AA_127 第 1 節）"
+     "wishEvent": "wish_heroine_01"
     },
     "normal": [
      {
@@ -173,7 +173,7 @@
    "hotspots": {
     "D07.court": {
      "first": {
-      "wishEvent": "wish/wish_heroine_01.json（AA_127 第 1 節）"
+      "wishEvent": "wish_heroine_01"
      },
      "normal": [
       {
@@ -260,7 +260,7 @@
     },
     "D07.cell": {
      "first": {
-      "wishEvent": "wish/wish_heroine_01.json（AA_127 第 1 節）"
+      "wishEvent": "wish_heroine_01"
      },
      "normal": [
       {
@@ -347,7 +347,7 @@
     },
     "D07.wall": {
      "first": {
-      "wishEvent": "wish/wish_heroine_01.json（AA_127 第 1 節）"
+      "wishEvent": "wish_heroine_01"
      },
      "normal": [
       {
@@ -434,7 +434,7 @@
     },
     "D07.path": {
      "first": {
-      "wishEvent": "wish/wish_heroine_01.json（AA_127 第 1 節）"
+      "wishEvent": "wish_heroine_01"
      },
      "normal": [
       {
