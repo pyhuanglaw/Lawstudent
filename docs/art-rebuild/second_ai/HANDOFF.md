@@ -120,7 +120,8 @@
 | 17:5x | ART-01 社科院：晚上圖書館的樹狀柱不再整片白亮（ck_glass_lit 加自發光漸層） | 7e84496c | 交 LAWWW-B |
 | 18:0x | 小公園 v7：ART-PARK3 象棋桌凳、直飲台、腳踏車架（BB-B 做、我驗收；車架 layout yaw π）；美國公寓：ART-US2 第 9 節補強（AA-B）擺進去＋修我 13:0x 的擺放 bug（洗碗機卡在爐子裡） | 5e688f34 | 交 LAWWW-B |
 | 18:1x | 小公園 v8：公布欄加頂上的公園名牌（原本的木牌擋住公告） | a4c05720 | 已交 |
-| 18:5x | ART-BG-COURT `ntu_court_night`（哲 2 的新體育館旁籃球場，晚上；Blender `bg_court.py`）；遊戲內 ADV 截圖 390×844／844×390；第二版鏡頭左轉 6°，手機直向看得到整塊籃板 | （這一批） | 交 BB-B 驗收、交 LAWWW-B 填 `S.BG.ntu_court_night.image` |
+| 18:5x | ART-BG-COURT `ntu_court_night`（哲 2 的新體育館旁籃球場，晚上；Blender `bg_court.py`）；遊戲內 ADV 截圖 390×844／844×390；第二版鏡頭左轉 6°，手機直向看得到整塊籃板 | 6e72e346 | 交 BB-B 驗收、交 LAWWW-B 填 `S.BG.ntu_court_night.image` |
+| 19:0x | ART-PT-SIS-FORMAL 學姊面試西裝立繪 `heroine_05/formal/`（neutral 全身去背＋serious、smile 換臉；企劃線 heroine05_interview.webp）；遊戲內 ADV 截圖 | （這一批） | 交 BB-B 驗收、LAWWW-B 重跑立繪清單＋W9 加 outfit:'formal' |
 
 **進行中（16:1x UTC）**：
 - 精修第 3 批溫州街路面：`wz_road_tex.py` 畫一張路面貼圖集 `wz_road_atlas.jpg`（主巷、Café 前南北向路、三條側巷；一個材質 `wz_road`，原本三個材質讓 arcade 到 311 次 draw call）＋每公尺重複的顆粒法線，`wz_props.py` 鋪在套件路面上（y 0.016）。

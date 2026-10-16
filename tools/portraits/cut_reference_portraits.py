@@ -43,12 +43,15 @@ SRC = {
     'xun': ('R:xun.webp', (52, 503, 302, 1142)),
     'tangrui': ('R:tangrui.webp', (10, 348, 180, 814)),
     'jiahao': ('R:jiahao.webp', (48, 548, 302, 1208)),
-    'yule': ('D:yule_portrait_sheet.webp', (40, 10, 530, 1475)),   # BB-B 2026-10-16 c383df3b（D59 通過）：予樂的正式立繪表（左邊全身、右邊三個頭）；原本 art_reference/yule.webp (18,368,180,810) 的版本不再用
+    'yule': ('D:yule_portrait_sheet.webp', (40, 10, 530, 1475)),
+    'heroine_05@formal': ('R:heroine05_interview.webp', (172, 0, 488, 1024)),   # LAWWW-B 2026-10-16 ART-PT-SIS-FORMAL：學姊面試的西裝（W9、大四口試）；企劃線 art_reference/heroine05_interview.webp（ART-16，BB 通過）左邊的正面全身   # BB-B 2026-10-16 c383df3b（D59 通過）：予樂的正式立繪表（左邊全身、右邊三個頭）；原本 art_reference/yule.webp (18,368,180,810) 的版本不再用
 }
 CW, CH, TOP, FILL = 600, 1000, 0.04, 0.94
 MATTING = {'heroine_05', 'heroine_01', 'heroine_03', 'heroine_04'}                                 # 學姊約會圖：白襯衫和灰底只差 7，一般去背會在髮絲邊留一圈淺灰；alpha matting（pymatting）髮絲乾淨、衣領完整
 PATCH_HOLES = {'heroine_05'}                                     # 學姊約會圖姿勢①：衣領的白色被挖掉
-HOLES = {'pinyu'}                                                   # BB-B 2026-10-16 D59 退件：曾品妤耳朵高度的白邊、兩腿中間的灰底
+HOLES = {'pinyu'}
+KEY = {'heroine_05@formal'}                                         # 學姊面試西裝：底色是完全一樣的灰（206，誤差 ≤2）。alpha matting 會把右邊下巴和臉旁的髮絲吃掉；
+                                                                    # 改用「和底色的距離」去背（髮絲半透明、可以精確還原顏色），rembg 的遮罩只補人物裡面（白襯衫的陰影接近底色）                                                   # BB-B 2026-10-16 D59 退件：曾品妤耳朵高度的白邊、兩腿中間的灰底
 
 
 def key_holes(c0, al, bgc, shoe=0.92):
@@ -102,6 +105,16 @@ def main():
             m = al > 0.5; band = m & ~ndimage.binary_erosion(m, iterations=4)
             near_bg = np.abs(c0 - bgc).max(2) < 26
             al = np.where(band & near_bg, 0.0, al); al = ndimage.gaussian_filter(al, 0.6) * (al > 0)
+        keyF = None
+        if gid in KEY:
+            # 每個像素＝a·F＋(1−a)·底色，F 取最近的「確定是人物」的像素顏色（rembg 遮罩往內縮 2 px）；a＝(c−底色) 投影到 (F−底色) 的比例。
+            # 髮絲（F 很暗）得到真正的覆蓋率；邊緣比底色亮的一圈（原圖的振鈴白邊）投影是負的 → 透明。
+            core = ndimage.binary_erosion(al > 0.5, iterations=2)
+            near = ndimage.binary_dilation(al > 0.1, iterations=12)
+            _, (iy, ix) = ndimage.distance_transform_edt(~core, return_indices=True)
+            keyF = c0[iy, ix]; v = keyF - bgc
+            ap = np.clip(((c0 - bgc) * v).sum(2) / np.maximum((v * v).sum(2), 25.0 ** 2), 0, 1)
+            al = np.where(core, 1.0, np.where(near, ap, 0.0)).astype(np.float32)
         if gid in HOLES:                                              # 人物裡面露出來的背景（兩腿中間、側邊髮絲和脖子之間）：遮罩把它當成人物，放在深色底上是一塊灰、一圈白邊
             al = key_holes(c0, al, bgc)
         lab, n = ndimage.label(al > 0.25)
@@ -115,6 +128,9 @@ def main():
         a3 = np.clip(al, 1e-3, 1)[..., None]
         fg = np.clip((c0 - (1 - a3) * bgc) / a3, 0, 255); edge = ((al > 0.02) & (al < 0.98))[..., None]
         rgba[..., :3] = np.where(edge, fg, c0)
+        if keyF is not None:                                          # 覆蓋率低的髮絲邊（a<0.4）不反推顏色（雜訊會放大成亮點），直接用最近的人物顏色
+            w = np.clip((al - 0.15) / 0.25, 0, 1)[..., None]
+            rgba[..., :3] = np.where(edge, w * fg + (1 - w) * keyF, rgba[..., :3])
         al = np.where(al < 0.06, 0, al); rgba[..., 3] = al * 255
         ys, xs = np.nonzero(al > 0.05); fy0, fy1, fx0, fx1 = ys.min(), ys.max() + 1, xs.min(), xs.max() + 1
         fig = Image.fromarray(rgba[fy0:fy1, fx0:fx1].astype(np.uint8), 'RGBA')

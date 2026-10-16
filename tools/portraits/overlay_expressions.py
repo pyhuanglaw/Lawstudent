@@ -40,6 +40,11 @@ CFG = {
     'heroine_05': dict(sheet='heroine_05_expr9.webp', cell=(437, 400), body='assets/portraits/heroine_05/campus/neutral.webp',
                        eye=(215, 140, 360, 240), search=(200, 20, 440, 230), scales=(0.22, 0.50), fade=(300, 335), skip=('thinking',),
                        anchor=(140, 5, 400, 150), face=(282, 212, 80, 82, 16)),
+    # 學姊面試西裝（LAWWW-B ART-PT-SIS-FORMAL）：企劃線 art_reference/heroine05_interview.webp 右邊兩個頭（上：平靜、下：微笑），身體是同一張圖左邊的正面全身（cut_reference_portraits.py heroine_05@formal）
+    'heroine_05_formal': dict(sheet='heroine05_interview.webp', cell=(520, 500), body='assets/portraits/heroine_05/formal/neutral.webp', dir='heroine_05/formal',
+                       boxes=[('serious', (920, 5, 1440, 505)), ('smile', (920, 505, 1440, 1005))],
+                       eye=(240, 172, 420, 285), search=(230, 30, 440, 230), scales=(0.30, 0.52), fade=(330, 360), skip=(),
+                       anchor=(130, 10, 430, 150), face=(312, 258, 88, 92, 18), nokey=True),
 }
 # anchor（子晴、學姊）：只用「眼睛最像」的那一格對到全身圖，其他格用頭頂＋耳朵（不隨表情變）對到那一格——閉眼、低頭的格子用眼睛對會跑掉（學姊 embarrassed 差 15 px）
 # keep（學姊）：格子座標 x < 160、y > 215 是垂下來的馬尾 → 保留全身圖自己的馬尾（表情圖的馬尾在那裡淡出、全身圖那裡不擦），接在髮圈的位置
@@ -177,6 +182,8 @@ def main():
         lab, n = ndimage.label(al > 0.2)
         if n > 1:
             sz = ndimage.sum(np.ones_like(al), lab, range(1, n + 1)); al = al * ndimage.binary_dilation(lab == 1 + int(np.argmax(sz)), iterations=1)
+        if cf.get('nokey'):                                               # 只換臉、而且橢圓整個在臉裡面：不用去背（學姊面試頭像的皮膚很白、接近灰底，去背會在臉上挖洞）
+            al = np.ones((CH, CW)); cr = np.asarray(c).astype(float)
         ys = np.arange(CH)[:, None] * np.ones((1, CW)); xs = np.arange(CW)[None, :] * np.ones((CH, 1))
         fade = np.clip((a.fade1 - ys) / (a.fade1 - a.fade0), 0, 1)       # 下巴以下淡出
         kp = np.zeros((CH, CW))
@@ -203,6 +210,8 @@ def main():
         # 淡出帶裡、全身圖原本透明的地方：表情圖的肩膀與衣服（比全身圖高）會淡淡透出一道弧線 → 那裡只留深色的頭髮
         lum = Hn[..., :3] @ np.array([0.299, 0.587, 0.114])
         Hn[..., 3] = np.where(Bd & (B[..., 3] < 0.5) & (lum > 0.42), 0, Hn[..., 3])
+        if cf.get('nokey'):                                               # 沒去背：新臉只蓋在全身圖本來不透明的地方（不然橢圓會把頭像的灰底帶到下巴外面，深色背景上是一道灰色月牙）
+            Hn[..., 3] = Hn[..., 3] * B[..., 3]
         # 合成（新頭在上）
         oa = Hn[..., 3] + Bal * (1 - Hn[..., 3])
         rgb = (Hn[..., :3] * Hn[..., 3:4] + B[..., :3] * (Bal * (1 - Hn[..., 3]))[..., None]) / np.maximum(oa, 1e-6)[..., None]
@@ -216,7 +225,7 @@ def main():
         report.append((nm, round(t['score'], 3), round(t['s'], 3), round(t['ang'], 2), round(t['cbx'], 1), round(t['cby'], 1)))
         print(report[-1], flush=True)
         if a.write:
-            d = os.path.join(ROOT, 'assets/portraits', a.id, 'campus'); out.save(os.path.join(d, nm + '.webp'), quality=92, method=6)
+            d = os.path.join(ROOT, 'assets/portraits', cf.get('dir', a.id + '/campus')); os.makedirs(d, exist_ok=True); out.save(os.path.join(d, nm + '.webp'), quality=92, method=6)
 
 
 if __name__ == '__main__':
