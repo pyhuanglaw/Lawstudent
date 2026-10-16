@@ -361,19 +361,21 @@
  },
  "V2-B32": {
   "term": "Y1S2",
-  "week": 6,
-  "earliest": "Y1S2W06",
+  "week": 3,
+  "earliest": "明軒 F-M4（BB-B 的值）",
   "mainline": false,
   "confirmed": true,
-  "aa": "ok"
+  "aa": "fix",
+  "reconciled": "2026-10-16 和 BB-B 對齊"
  },
  "V2-B37": {
   "term": "Y1S2",
-  "week": 18,
-  "earliest": "Y1S2W18",
+  "week": 16,
+  "earliest": "沛珊「欠的，還了。」（BB-B 的值）",
   "mainline": false,
   "confirmed": true,
-  "aa": "ok"
+  "aa": "fix",
+  "reconciled": "2026-10-16 和 BB-B 對齊"
  },
  "V2-B10": {
   "term": "Y1S2",
@@ -593,11 +595,12 @@
  },
  "V3-B01": {
   "term": "Y2S1",
-  "week": 2,
-  "earliest": "大二上第 2 週起每週日 23:00（阿凱 K3；BB_97 4-1 寫「開學第一個週日」，請 BB-B 統一）",
+  "week": 1,
+  "earliest": "阿凱 K3：開學第一個週日（BB_97 4-1）",
   "mainline": true,
   "confirmed": true,
-  "aa": "fix"
+  "aa": "fix",
+  "reconciled": "2026-10-16 和 BB-B 對齊"
  },
  "V3-B02": {
   "term": "Y2S1",
@@ -637,7 +640,8 @@
   "earliest": "大二寒假（家族群組）",
   "mainline": true,
   "confirmed": true,
-  "aa": "ok"
+  "aa": "fix",
+  "reconciled": "2026-10-16 和 BB-B 對齊"
  },
  "V3-B07": {
   "term": "Y2S2",
@@ -762,10 +766,11 @@
  "V3-B22": {
   "term": "Y2S1",
   "week": 1,
-  "earliest": "大二上第 1～2 週（Kevin「學姊卸任了！」）",
+  "earliest": "大二上第 1～2 週 Kevin「學姊卸任了！」（BB_97 552～564；請 BB-B 確認）",
   "mainline": true,
   "confirmed": true,
-  "aa": "fix"
+  "aa": "fix",
+  "reconciled": "2026-10-16 和 BB-B 對齊"
  },
  "V3-B23": {
   "term": "Y1S2",
@@ -970,10 +975,11 @@
  "V4-B01": {
   "term": "Y3S1",
   "week": 3,
-  "earliest": "大三上第 3 週第一張明信片（FAMILIAR）；Z11 大三下第 1 週、Z11b 第 10 週、Z13 第 15 週、Z12 第 16 週",
+  "earliest": "Z10 第一張明信片大三上第 3 週（BB_98 312；請 BB-B 確認）",
   "mainline": false,
   "confirmed": true,
-  "aa": "fix"
+  "aa": "fix",
+  "reconciled": "2026-10-16 和 BB-B 對齊"
  },
  "V4-B02": {
   "term": "Y3S1",
@@ -1001,19 +1007,21 @@
  },
  "V4-B05": {
   "term": "Y3S1",
-  "week": 1,
-  "earliest": "大三上每週五 17:05 學姊在家族群組；可昕 K15 第 3 週",
+  "week": 3,
+  "earliest": "大三手機小事（BB-B 的值）",
   "mainline": true,
   "confirmed": true,
-  "aa": "fix"
+  "aa": "fix",
+  "reconciled": "2026-10-16 和 BB-B 對齊"
  },
  "V4-B06": {
   "term": "Y2S2",
-  "week": null,
-  "earliest": "同 V4-G34：學姊的伴侶期照 `BB_122` 檢查點，最早大二暑假",
+  "week": 8,
+  "earliest": "同 D14-T14",
   "mainline": false,
   "confirmed": true,
-  "aa": "fix"
+  "aa": "fix",
+  "reconciled": "2026-10-16 和 BB-B 對齊"
  },
  "V4-R-TW": {
   "term": "Y3S2",
@@ -1577,11 +1585,12 @@
  },
  "V6-B2": {
   "term": "Y4S1",
-  "week": 16,
-  "earliest": "**改**：芷若大四上第 16 週左右邀約、寒假一月中出發",
+  "week": null,
+  "earliest": "芷若：大四上第 16 週左右邀約，寒假一月中出發（BB-B 的值：大四寒假）",
   "mainline": false,
   "confirmed": true,
-  "aa": "fix"
+  "aa": "fix",
+  "reconciled": "2026-10-16 和 BB-B 對齊"
  },
  "V6-B3": {
   "term": "Y3S2",
@@ -1594,10 +1603,11 @@
  "V6-B4": {
   "term": "Y3S2",
   "week": null,
-  "earliest": "**改**：大三下或大四上（各人時間見 BB_119）",
+  "earliest": "沛珊談話大三下或大四上（BB_119；BB-B 寫「大三起」，請確認是不是大三下）",
   "mainline": false,
   "confirmed": true,
-  "aa": "fix"
+  "aa": "fix",
+  "reconciled": "2026-10-16 和 BB-B 對齊"
  },
  "V6-B5": {
   "term": "Y3S2",
@@ -1608,20 +1618,22 @@
   "aa": "fix"
  },
  "V6-B6": {
-  "term": "Y3S2",
-  "week": null,
-  "earliest": "**改**：和 BB 的四位之一分開以後（可昕走向 C 可能更早）",
+  "term": "Y2S1",
+  "week": 7,
+  "earliest": "跟著各段（BB-B 的值）",
   "mainline": false,
   "confirmed": true,
-  "aa": "fix"
+  "aa": "fix",
+  "reconciled": "2026-10-16 和 BB-B 對齊"
  },
  "V6-B7": {
   "term": "Y1S2",
   "week": 12,
-  "earliest": "**改**：BCG-21 芷若 Z5 兩人版，大一下第 12～13 週",
+  "earliest": "B7＝戀愛 CG BCG-19～26，最早的是 BCG-21 芷若 Z5 兩人版（大一下第 12～13 週）",
   "mainline": false,
   "confirmed": true,
-  "aa": "fix"
+  "aa": "fix",
+  "reconciled": "2026-10-16 和 BB-B 對齊"
  },
  "DATE-S1": {
   "term": "Y1S1",
@@ -2105,11 +2117,12 @@
  },
  "D14-T14": {
   "term": "Y2S2",
-  "week": null,
-  "earliest": "學姊單身最早大二暑假（`BB_122` C1、C2）",
+  "week": 8,
+  "earliest": "**更正**：學姊 C1 在大二下第 8 週（BB_122 第 164 行），不是大二暑假",
   "mainline": false,
   "confirmed": true,
-  "aa": "fix"
+  "aa": "fix",
+  "reconciled": "2026-10-16 和 BB-B 對齊"
  },
  "D14-T15": {
   "term": "Y1S1",
@@ -2681,11 +2694,12 @@
  },
  "V4-G34": {
   "term": "Y2S2",
-  "week": null,
-  "earliest": "**改**：學姊和伴侶分開的最早檢查點是大二暑假（`BB_122` C1、C2；`AA_128` 第 478 行），不固定在大三上第 9 週",
+  "week": 8,
+  "earliest": "同 D14-T14",
   "mainline": false,
   "confirmed": true,
-  "aa": "fix"
+  "aa": "fix",
+  "reconciled": "2026-10-16 和 BB-B 對齊"
  },
  "ART-17": {
   "term": "Y0S1",
