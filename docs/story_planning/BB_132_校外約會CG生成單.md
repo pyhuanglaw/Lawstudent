@@ -84,10 +84,10 @@
 | 23 | 高子晴 正面全身對話立繪（**通過**，`date_system/art/heroine_04_portrait_full.webp`） | 沈以安 正面全身對話立繪（**通過**，`date_system/art/heroine_01_portrait_full.webp`） |
 | 24 | 陳語彤 正面全身對話立繪（**通過**，`date_system/art/heroine_03_portrait_full.webp`） | `gongguan_hotpot` 公館火鍋店（**通過**，`bg_approved/gongguan_hotpot.webp`） |
 | 25 | `newyear_crowd` 跨年人潮（**通過**，`bg_approved/newyear_crowd.webp`） | `home_living` 臺北的家・客廳（**通過**，`bg_approved/home_living.webp`；電視廠牌字樣 BB 補掉） |
-| 26 | `home_balcony` 臺北的家・陽台（**通過**，`bg_approved/home_balcony.webp`） | `home_room` 祐廷的房間（**通過**，`bg_approved/home_room.webp`） |
+| 26 | `home_balcony` 臺北的家・陽台（**通過、暫存**，`bg_approved/home_balcony.webp`；LAWWW2-B 的 Blender 陽台 BG-07 交了以後並排比較選一張，LAWWW-B 04:11 分配） | `home_room` 祐廷的房間（**通過**，`bg_approved/home_room.webp`） |
 | 27 | `ferris_wheel` 摩天輪車廂（0b-15，已給使用者） | 予樂 立繪（G1-07，已給使用者） |
-| 28 | `car` 車上・晚上（G1-08） | `soc_library` 社科院圖書館閱覽區（G1-16） |
-| 29 | `soc_office` 經濟系系辦櫃台（G1-17） | `video` 視訊・可昕的書桌（G1-13） |
+| 28 | ~~`car` 車上・晚上（G1-08）~~ **不生成**：LAWWW2-B 用 Blender 做（BG-08） | `soc_library` 社科院圖書館閱覽區（G1-16；**給之前先請 LAWWW-B 確認沒人在做**） |
+| 29 | `soc_office` 經濟系系辦櫃台（G1-17；同上，先確認） | ~~`video` 視訊・可昕的書桌（G1-13）~~ **不生成**：LAWWW2-B 做（BG-18） |
 | 30 | `classroom_small` 通用小教室（G2-10） | 溫書瑀「害羞」頭像（頭的角度和約會圖姿勢①相同；九格那格低頭，疊起來右下巴有接縫） |
 | — | 0b-11 滷味攤、0b-14 宿舍頂樓：**LAWWW2-B 用 3D 做**（02:52 回覆），不請使用者生成 | |
 | 後-1 | D17 野柳 底圖（AA；D81 延後） | D19 金瓜石 底圖（AA；D81 延後） |
@@ -126,6 +126,7 @@
 - **第 20 組檢查（2026-10-16）**：`riverside`——草地前景、路燈和腳踏車道、木欄杆、河、橋和車燈、城市夜景（台北 101，地標照原名可以）；右上角有一個小月牙（提示詞要求不畫月亮，中秋是滿月會矛盾）→ BB 補掉，存成 webp。`xiaofu`——長桌上的便當和湯、打菜櫃台、排隊的背影、菜單板空白；排隊的女生是開襟毛衣＋百褶裙，沒有領結、校徽，算便服。**兩張都通過**。
 - **第 21 組檢查（2026-10-16）**：`girls_dorm_gate`——舊式宿舍、玻璃門透出大廳（只看得到信箱、盆栽）、腳踏車停滿、告示牌空白、晾的衣服，沒有名稱，通過。`bowling`——球道、球瓶、記分螢幕只有藍光、球架、座椅和兩杯飲料；兩台回球機上的小紅字（像商標）和右邊那台的圓形徽章 BB 補掉，通過。
 - **第 22 組檢查（2026-10-16）**：`gongguan_douhua` 通過（菜單板只有模糊色塊；門外雨後的騎樓）。`econ_camp` 是帳篷和營火——使用者說宿營住青年活動中心的建築、三天兩夜、分小隊，**這張不用**；E15 照改，背景改成活動中心夜景＋八人寢室兩張（第 22b 組）。
+- **避免重複施工（LAWWW-B 2026-10-16 04:11，D86）**：給使用者背景提示詞之前，先查開發線 `docs/handoff/tasks.json` 的 ART-* 和 LAWWW2-B 的 `docs/art-rebuild/second_ai/BG_TRACKER.md`，有人在做就告訴 LAWWW-B 分配。已經撞到的：`home_balcony`（BG-07）、`riverside`（BG-01，第 20 組已通過）；`car`（BG-08）、`video`（BG-18）從佇列拿掉。
 - **第 26 組檢查（2026-10-16）**：
   - **`home_balcony`**：從落地窗門口看出去，磨石子地、素面拖鞋、小板凳、九層塔和小樹的盆栽、收起來的曬衣架、牆上冷氣室外機（只有一個空白小方塊，沒有標誌）、鐵欄杆外的公寓燈和遠處的 101（地標照原名）。沒有電扇、暖爐，季節中性。**通過**，原檔照存。
   - **`home_room`**：夕陽從窗戶照進來；單人床、書桌（檯燈、攤開的筆記、筆筒）、空白軟木板、書架。**書架最上層平放一本很厚的舊書**（看得到書口，就是那本舊法典）；書脊都讀不出字；架上有組好的機器人和城堡模型；桌上沒有模型盒（X2 才多）；沒有海報、獎狀。**通過**，原檔照存。
