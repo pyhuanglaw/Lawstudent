@@ -1057,8 +1057,8 @@
    "title": "經濟系開學典禮、系館",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "場景清單等 AA-B",
+   "status": "已整合待測試",
+   "next": "E02 開學典禮（soc_hall → soc_classroom、E02_WORD）照 AA_154 第 79 行、BB_104 第 8 節，排 V0-B1；社科院不做 3D 室內（AA_173）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -1070,8 +1070,10 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "交接包_v0、BB_104／105／110／112",
-   "authorized": "D79"
+   "source": "AA_173 第 1 節（da7088b3）",
+   "authorized": "D79",
+   "commit": "(本批)",
+   "tests": "tests/v0_a6_unit.js"
   },
   {
    "id": "V0-A7",
@@ -1142,7 +1144,7 @@
    "area": "V0",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "等 AA-REQ-06（D86：AA 分派 BB）",
+   "next": "AA-REQ-06 已交（AA_159，BB_139 確認）；v0 時間線改：休學那一週退宿、3/29 搬回臺北的家（AA_154 1-3b、A23；7d247c30），R3 杜鵑花 3/30～4/1、R7 前一晚群組問便利貼",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -10474,7 +10476,7 @@
    "area": "DL",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "第 1 批 d8e391fe：報告分組補救、聖誕窗口＋12:00 提醒、颱風假（店家、回家、家教、cond typhoon）。還沒：前一晚群組提醒（等 AA-B 台詞）、v0 keep must、捷運出遊 R1（DL-06）、BB 兩件（等 BB-B）",
+   "next": "第 2 批（本批）：家族聚餐窗口 18:00～19:30＋先到旁白、前一天 21:00 群組提醒、當天 17:30 toast；校慶前一天法服群組提醒、沒加入法服的公告欄旁白（BB_95 3-7、3-8；AA_173 第 3 節）。還沒：v0 keep must、捷運出遊 R1",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
