@@ -1873,7 +1873,7 @@
    "title": "聖誕、跨年、期末最後一頓（大二）",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "照交接包_v3 實作",
    "priority": "P2",
    "first": {
@@ -1887,7 +1887,8 @@
     "confirmed": true
    },
    "source": "交接包_v3",
-   "authorized": "D79"
+   "authorized": "D79",
+   "note": "2026-10-16：ev_y2_xmas（12/24 12:20 霖澤館一樓，抽到誰的禮物照認識的人隨機）、ev_y2_newyear（12/31 23:50 頂樓十分鐘，沒去 00:05 照片＋阿哲一句）、ev_term_last_meal_y2s1（最後一科考完 17:00 邀、19:00 麵店、21:30 沒吃到＝照片）；tests/v3_d12_unit.js。瀏覽器未測。"
   },
   {
    "id": "V3-D13",

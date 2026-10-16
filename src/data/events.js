@@ -2505,6 +2505,29 @@ const STORY_EVENTS=[
     dialogue:[ {speaker:'yu',expression:'embarrassed',text:'（坐到祐廷對面，壓低聲音）欸，跟你說一件事。你不要叫。'},{speaker:'yu',expression:'embarrassed',text:'我跟阿哲在一起了。'},
       {speaker:'yu',expression:'laugh',text:'（看了一眼正在跟阿姨點菜的阿哲）他說「沒事啦，就在一起啊」。哪有人這樣告白的。'},{speaker:'yu',expression:'smile',text:'……可是我覺得很好。以後週二週四，我都有人一起回家了。'},
       {mem:[{npc:'yu',tag:'IMPORTANT_CONVERSATION',note:'系籃賽後的麵店：她和阿哲在一起了'}]},{set:{YU_ZHE_TOLD:'here'}} ] },
+  /* D12（交接包 v3 第 16～18 週；AA_143 1-6～1-8、AA_177 第 6 節的日子）：聖誕交換禮物 12/24（四）12:20 霖澤館一樓（12/25 放假；AA_177 改成中午，晚上是可昕排的行程，不衝突）、
+     跨年 12/31（四）23:50 宿舍頂樓十分鐘、期末最後一頓（最後一科考完那天 19:00 麵店）。邀約、出發選單、沒去的照片在 story3d.js（v3 群戲那張表）。
+     聖誕：阿哲和小語第一次一起出現、買了一樣的保溫杯；祐廷抽到的禮物看抽到誰（在場、認識的人隨機一位）*/
+  { id:'ev_y2_xmas', title:'聖誕交換禮物（大二）', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
+    dialogue:[ {scene:'霖澤館一樓'},
+      {if:EV_KNOWS('yu'),speaker:null,text:'（阿哲和小語一起來。）'},
+      {speaker:'拆到的人',text:'……為什麼有兩個一樣的保溫杯？'},{if:EV_KNOWS('yu'),speaker:'阿哲、小語',text:'不是我們。'},{unless:EV_KNOWS('yu'),speaker:'zhe',expression:'laugh',text:'不是我們。'},
+      {pick:{flag:'Y2_XMAS_FROM',from:G=>{ const k=id=>typeof STORY!=='undefined'&&STORY.knows&&STORY.knows(id,G); return ['heroine_01','heroine_03','classmate_xinci','classmate_bohan','zhe'].filter(k); }}},
+      {if:{flagIs:{Y2_XMAS_FROM:'heroine_01'}},speaker:null,text:'你抽到以安的：一本空白手帳。'},{if:{flagIs:{Y2_XMAS_FROM:'heroine_01'}},speaker:'heroine_01',expression:'smile',text:'理由欄是空的。給你自己寫。'},
+      {if:{flagIs:{Y2_XMAS_FROM:'heroine_03'}},speaker:null,text:'你抽到語彤的：一包阿姨的滷包。'},
+      {if:{flagIs:{Y2_XMAS_FROM:'classmate_xinci'}},speaker:null,text:'你抽到芯慈的：一組螢光筆。'},
+      {if:{flagIs:{Y2_XMAS_FROM:'classmate_bohan'}},speaker:null,text:'你抽到柏翰的：考古題索引卡。'},
+      {if:{flagIs:{Y2_XMAS_FROM:'zhe'}},speaker:null,text:'你抽到阿哲、小語的：保溫杯（同一款）。'} ] },
+  { id:'ev_y2_newyear', title:'跨年（大二）', participants:[], location:'any', trigger:'outing', once:true, background:'dorm_roof', hours:0.25,
+    dialogue:[ {scene:'宿舍頂樓',bg:'dorm_roof'},{speaker:null,text:'（期末考週。大家帶著講義上來。倒數完。）'},
+      {if:EV_KNOWS('heroine_01'),speaker:'heroine_01',expression:'neutral',text:'好。新的一年的第一件事：回去念。'},{speaker:'zhe',expression:'laugh',text:'新的一年的第一件事是宵夜。'} ] },
+  { id:'ev_term_last_meal_y2s1', title:'期末最後一頓（大二上）', participants:[], location:'noodle', trigger:'enter', term:['Y2S1'], time:[17,22], once:true, background:'blur',
+    prereq:{custom:G=>{ if(G.flags.noodleTableDay==null||typeof CLS==='undefined'||!CLS.lastExamEnd) return false; const e=CLS.lastExamEnd(G,'Y2S1','final'); return !!e&&(G.day>e.day||(G.day===e.day&&G.hour>=e.h)); }},
+    dialogue:[ {speaker:null,text:'期末最後一科考完。麵店團一定吃一頓。'},{speaker:null,text:'阿姨多送了一盤小菜。'},{speaker:'阿姨',text:'考完了，吃好一點。'},
+      {if:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_yu_together)||!!G.flags.YU_ZHE_TOLD},speaker:null,text:'（小語和阿哲坐在一起。）'},
+      {if:EV_KNOWS('heroine_01'),speaker:null,text:'（以安在手帳上寫：「大二上：完成」。）'},
+      {if:EV_KNOWS('heroine_03'),speaker:'heroine_03',expression:'smile',text:'……今天阿姨說我不用端。'} ],
+    consequences:{memo:'期末最後一頓（大二上）'} },
   /* ===================== 大二（交接包 v3）=====================
      D24 社團博覽會大二版（AA_170 第 1 節，AA-B 2026-10-16；第②級）：2026-09-16（三）、09-17（四）11:00～17:00，椰林大道同一排攤位（大一 club_expo_y1s1 的 spot），
      窗口內第一次走到攤位那一排。站哪一攤照大一加入的社團（CLUB_<id>）；加入不只一個＝選單選；站一個小時（不扣時段次數）。都沒加入＝走過、語彤遞傳單。
