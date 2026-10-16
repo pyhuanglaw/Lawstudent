@@ -3199,6 +3199,18 @@
    "integration": "已整合待測試",
    "note": "不改程式",
    "date": "2026-10-16T13:5xZ"
+  },
+  {
+   "id": "DLV-1016-267",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "5a78a151",
+   "what": "溫州街效能第四輪：磁磚、木紋等 14 種合成 2D 貼圖集；draw call 289／272／307、三角形 43.3／40.9／44.5 萬",
+   "task": "FIX-WZ-PERF",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "收進開發分支 9735698a（v9.9 之後那一版）；LAWWW-B 這邊的 wz_street_integration 還沒跑",
+   "date": "2026-10-16T14:08Z"
   }
  ],
  "ignored": [
