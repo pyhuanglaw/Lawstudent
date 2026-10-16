@@ -12456,6 +12456,27 @@
    },
    "source": "使用者 2026-10-16 22:3x 截圖",
    "authorized": "使用者（P0 bug）"
+  },
+  {
+   "id": "BUG-SEAT-OCCUPIED",
+   "title": "選坐下直接坐到別人身上；椰林大道南側一張長椅貼著小椰林道的椰子樹",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "next": "game3d.js freeSeat：長椅有人坐另一半（±0.45 m）、坐滿或單人椅有人就提示不坐；zones3d.js 南側 x=25 長椅移到 x=17；seat_occupied_unit、nav_buildings_unit 通過；待跑 tests/campus_layout_nav.py（瀏覽器）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一天校園",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 22:3x 截圖",
+   "authorized": "使用者（bug 回報）"
   }
  ]
 }
