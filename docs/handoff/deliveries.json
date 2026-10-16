@@ -2607,7 +2607,7 @@
    "branch": "claude/elegant-brown-fcos7n",
    "sha": "e0e7a359",
    "what": "BB_95 9-2 K1b 予樂及格三處旁白與接句（第①級）；BB_104 8b-7 E15 宿營邀約",
-   "task": "TXT-1016",
+   "task": "TXT-1016B",
    "msg": "ACTIONED",
    "integration": "已整合待測試",
    "note": "K1b 三處照改（小吃街加一句、宿舍樓下讀自己的書、校門兩句）；E15 邀約見 A37（接著做）"
@@ -2659,6 +2659,78 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "照 AA_154 A38 做"
+  },
+  {
+   "id": "DLV-1016-222",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "6d59df01",
+   "what": "AB-35 P2b 揪人 4 句＋跟去 5 句；AB-36 E26／E35／E37 邀約；E19 開頭定稿；8/13 照片加阿勳",
+   "task": "V0-B4",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "P2b 60bedabc、E19 開頭 0afc435d；E26／E35／E37、8/13 照片待開工（Y0S2、暑假）",
+   "date": "2026-10-16T11:4xZ"
+  },
+  {
+   "id": "DLV-1016-223",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "2e9477d2",
+   "what": "C2 吉他社／羽球社群組句、唐睿私訊兩個選項；E15 合併邀約",
+   "task": "V0-B4",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "a0203a9d",
+   "date": "2026-10-16T11:4xZ"
+  },
+  {
+   "id": "DLV-1016-224",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "20945f09",
+   "what": "AA_154 2-5b 韋綸的腳踏車：祐廷三句、沒去版、11/21；BB-B 法律審查 7cf231c3 通過",
+   "task": "V0-B3",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "9356501a",
+   "date": "2026-10-16T11:4xZ"
+  },
+  {
+   "id": "DLV-1016-225",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "8bb9fa63",
+   "what": "AA_154 2-5a P2b 機制、T2 掛點、A34 補充（照遊戲的最後一場期末考）",
+   "task": "V0-B1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "P2b 60bedabc、T2 268cd7c9、A34 662b25d2",
+   "date": "2026-10-16T11:4xZ"
+  },
+  {
+   "id": "DLV-1016-226",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "53c57931",
+   "what": "新體育館 B1 v6：隔間牆 WALL_ partition",
+   "task": "ART-GYM1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "a16bc93b；cc4f94ef XUN_DESK 截圖確認不用轉",
+   "date": "2026-10-16T11:4xZ"
+  },
+  {
+   "id": "DLV-1016-227",
+   "date": "2026-10-16T11:2xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "12a33672",
+   "what": "ART-SOY1 豆漿店道具組、寶特瓶袋 v2 驗收通過",
+   "task": "ART-SOY1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "等豆漿店場景"
   }
  ],
  "ignored": [
@@ -3731,6 +3803,66 @@
    "sha": "a46218ac",
    "branch": "origin/claude/elegant-brown-fcos7n",
    "why": "企劃組的進度（修法時間效力核對）"
+  },
+  {
+   "sha": "a96bfcc9",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度（AA_154 2-4b、2-5a；已登記為 8bb9fa63 那一筆）"
+  },
+  {
+   "sha": "c9c19ef0",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度（A37 定稿，已登記 2e9477d2）"
+  },
+  {
+   "sha": "9f542080",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度（AA_140 G40 記裁定）"
+  },
+  {
+   "sha": "414cb4db",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度（A39，重考期，待開工）"
+  },
+  {
+   "sha": "2f776461",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度（A39 修正）"
+  },
+  {
+   "sha": "be5c329d",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度（A40 E26／E37，待開工）"
+  },
+  {
+   "sha": "5539ff4d",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度（A41 E35，待開工）"
+  },
+  {
+   "sha": "5e5277d4",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度（2-5a E13，已登記 8bb9fa63）"
+  },
+  {
+   "sha": "5dc08b55",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度（T2 掛點，已登記 8bb9fa63）"
+  },
+  {
+   "sha": "7dc20085",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度（互助板 AB-24）"
+  },
+  {
+   "sha": "245e96fd",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度（2-5b，已登記 20945f09）"
+  },
+  {
+   "sha": "65600a4b",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "企劃組的進度（ntu_lib_b1 提示詞，交使用者生成）"
   }
  ]
 }
