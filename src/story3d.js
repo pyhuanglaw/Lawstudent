@@ -768,7 +768,7 @@ const STORY = (function(){
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const fri12=termDay('Y0S1',12,5), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class';
       /* 邀約（BB_104 8b-7，BB-B e0e7a359；AA_154 A37）：11/20（三）21:00 全班群組家豪學長兩則；11/21（四）22:00「走啦」韋綸、品妤（有這個群組的玩家）*/
       if(fri12!=null&&(G.day>fri12-2||(G.day===fri12-2&&G.hour>=21))&&G.day<=fri12&&!PHONE.sent(G,'y0_e15_ask')){ if(!PHONE.inGroup(G,'econ_class')) PHONE.join(G,'econ_class','經濟系 大一（全班）');
-        PHONE.at(G,fri12-2,21,[{th:'g:econ_class',from:'econ_jiahao',name:'家豪學長',text:'宿營這週五！中午十二點社科院門口集合，遊覽車不等人。'},{th:'g:econ_class',from:'econ_jiahao',name:'家豪學長',text:'第三小隊：'+(G.name||'祐廷')+'、可昕、阿勳、韋綸，小隊輔是我。帶拖鞋、一件保暖的外套。山上晚上很冷。'}],'y0_e15_ask'); }
+        PHONE.at(G,fri12-2,21,[{th:'g:econ_class',from:'econ_jiahao',name:'家豪學長',text:'宿營這週五！中午十二點社科院門口集合，三天兩夜，遊覽車不等人。'},{th:'g:econ_class',from:'econ_jiahao',name:'家豪學長',text:'第三小隊：'+(G.name||'祐廷')+'、可昕、阿勳、韋綸，小隊輔是我。帶拖鞋，外套帶厚一點，山上晚上很冷。'}],'y0_e15_ask'); }
       if(fri12!=null&&PHONE.inGroup(G,'econ_friends')&&(G.day>fri12-1||(G.day===fri12-1&&G.hour>=22))&&G.day<=fri12&&!PHONE.sent(G,'y0_e15_grp')) PHONE.at(G,fri12-1,22,[{th:'g:econ_friends',from:'econ_weilun',name:'韋綸',text:'第三小隊！明天誰遲到，大地遊戲就當鬼！'},{th:'g:econ_friends',from:'econ_pinyu',text:'你上次遲到七分鐘。'}],'y0_e15_grp');
       if(fri12!=null&&G.day===fri12&&G.hour<12.25&&!OUT.get(G,'y0_e15')) OUT.plan(G,{id:'y0_e15',ev:'ev_y0_e15',day:fri12,h:12,late:0.25,place:'社科院門口',title:'社科院門口 12:00：經濟系宿營（三天兩夜）',travel:'坐遊覽車到山邊的青年活動中心',travelH:1/6,back:'回到學校。'});
       if(fri12!=null&&F.E15_WENT&&!PHONE.sent(G,'y0_e15_photo')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）'); PHONE.at(G,fri12+2,9,[{th:'g:'+gid,from:'econ_weilun',name:'韋綸',text:'📷（活動中心門口的大合照）'}],'y0_e15_photo'); }
@@ -798,16 +798,16 @@ const STORY = (function(){
       if(wed17!=null&&!F.GIRAFFE_KEYCHAIN&&!D('ev_y0_e20')&&!D('ev_y0_e20b')&&(G.day>wed17+1||(G.day===wed17+1&&G.hour>=18))&&!PHONE.sent(G,'y0_e20_mail')){ F.E20_MAILBOX=wed17+2; PHONE.at(G,wed17+1,20,[{th:'p:kexin',from:'kexin',text:'你的份，我放在你們宿舍一樓的信箱了。'}],'y0_e20_mail'); }
       if(F.E20_MAILBOX!=null&&!F.GIRAFFE_KEYCHAIN&&G.day>=F.E20_MAILBOX) F.GIRAFFE_KEYCHAIN=true; }
     /* C2 自己的社團（AA_154 A37）：E07 選了社團（Y0_CLUB）就在那個社團的群組；第 10 週社課當天 12:30 群組一則（社長、學長姐不具名）＋出發選單；「不參加」＝11/5 21:00 唐睿私訊（Y0_EXTRA）*/
-    if(S.isEcon(G)&&typeof OUT!=='undefined'&&F.Y0_CLUB){ const C2={guitar:{g:'y0_guitar',n:'吉他社',from:'社長',wd:1,txt:'期中考完了。今晚七點，萬才館一樓，第一堂只教 C 和弦。',title:'萬才館 19:00：吉他社的第一堂',goto:{zone:'wancai',x:0,z:5,yaw:Math.PI}},
+    if(S.isEcon(G)&&typeof OUT!=='undefined'&&F.Y0_CLUB){ const C2={guitar:{g:'y0_guitar',n:'吉他社',from:'社長',wd:1,txt:'期中考完了。今晚七點，萬才館一樓，第一堂社課。沒有吉他也沒關係，社辦有借。',title:'萬才館 19:00：吉他社的第一堂',goto:{zone:'wancai',x:0,z:5,yaw:Math.PI}},
         hiking:{g:'y0_hiking',n:'登山社',from:'學長',wd:2,txt:'今晚七點行前會。帶筆記本，不用帶裝備。',title:'19:00：登山社的行前會',ev:'ev_y0_c2_hiking'},
-        badminton:{g:'y0_badminton',n:'羽球社',from:'學姊',wd:4,txt:'今晚七點新體一樓，球拍社團有借。',title:'新體 19:00：羽球社的第一次',goto:{zone:'gym',x:0,z:17.6,yaw:Math.PI}}}[F.Y0_CLUB];
+        badminton:{g:'y0_badminton',n:'羽球社',from:'學姊',wd:4,txt:'今晚七點新體一樓。球拍社團有借，記得穿運動鞋。',title:'新體 19:00：羽球社的第一次',goto:{zone:'gym',x:0,z:17.6,yaw:Math.PI}}}[F.Y0_CLUB];
       if(C2&&!PHONE.inGroup(G,C2.g)) PHONE.join(G,C2.g,C2.n);
       const dC=C2?termDay('Y0S1',10,C2.wd):null;
       if(C2&&dC!=null&&G.day===dC&&G.hour>=12.5&&!PHONE.sent(G,'y0_c2_ask')){ PHONE.at(G,dC,12.5,[{th:'g:'+C2.g,name:C2.from,text:C2.txt}],'y0_c2_ask');
         if(!OUT.get(G,'y0_c2')&&G.hour<19.25) OUT.plan(G,Object.assign({id:'y0_c2',day:dC,h:19,late:0.25,place:C2.n,title:C2.title,travel:'走過去',travelH:1/6},C2.goto?{goto:C2.goto,early:1/12}:{ev:C2.ev})); }
       const tue10=termDay('Y0S1',10,2);
       if(F.Y0_CLUB==='none'&&tue10!=null&&(G.day>tue10||(G.day===tue10&&G.hour>=21))&&G.day<=tue10+3&&!PHONE.sent(G,'y0_c2_extra')){ const TR=t=>({th:'p:econ_tangrui',from:'econ_tangrui',name:'唐睿',text:t});
-        PHONE.at(G,tue10,21,[Object.assign(TR('劇社缺一個會站著不動的人。你很適合。'),{ask:{opts:[{t:'答應',post:'好。',set:{Y0_EXTRA:true}},{t:'不要',post:'不要。'}]}})],'y0_c2_extra'); } }
+        PHONE.at(G,tue10,21,[Object.assign(TR('劇社缺一個會站著不動的人。你很適合。'),{ask:{opts:[{t:'答應',post:'好。站著不動我很行。',set:{Y0_EXTRA:true},say:[TR('成交。月底小公演，角色之後告訴你。')]},{t:'不要',post:'不要。我會笑場。',say:[TR('可惜。笑場的樹，我們劇社還沒有過。')]}]}})],'y0_c2_extra'); } }
     /* E22 期末通宵（AA_154 A38）：12/22（日）20:00 經濟系群組韋綸、品妤＋出發選單「總圖 B1 22:00：期末通宵」；沒去＝01:00 群組照片（桌上四杯咖啡）。
        E21a 跨年（A36、A38）：12/31（二）19:00 群組三則＋出發選單「總圖 B1 19:00：期末衝刺」；沒去＝00:05 群組人潮照片＋可昕私訊 */
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const sun22=termDay('Y0S1',16,7), tue31=termDay('Y0S1',18,2), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, D=id=>!!(G.events&&G.events.done&&G.events.done[id]);

@@ -947,7 +947,7 @@ const STORY_EVENTS=[
     dialogue:LAND_Y1 },
   /* 春假三選一（交接包 v2 C9；草稿第 3 節「春假」）——可昕 K8 開車旅行（BB_96 9-5）：第 5 週選了「和可昕開車旅行」＝4/3 早上 8:00 出遊（story3d.js 的 springChoose）。一天來回、不演住宿。
      車上的規則 → 目的地三選一（山上看星星只給第 6 週天文課有去的玩家：CLS.attendedWeek 'Y1S2:ge_y1s2:w6'，那一堂有同學說「連假的時候，我要去山上看星星。」）→ 到了（2D，依目的地）一題假設題、
-     怎麼接都可以 → 回程（車上，晚上）。記 KX_TRIP:{Y1S2:'sea'|'oldtown'|'stars'}。旅行的照片（房間物件）：照片上寫什麼等 BB */
+     怎麼接都可以 → 回程（車上，晚上）。記 KX_TRIP:{Y1S2:'sea'|'oldtown'|'stars'}。旅行的照片（房間物件）：照片上寫的字照 BB-B 定稿，在 story3d.js 的房間物件 */
   { id:'ev_kexin_trip_spring_y1', title:'春假：開車旅行', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:13.5,   /* 07:40 政大校門接她 → 08:00 出發 … 晚上送她回政大、車開回家（AA_147 #1；台詞不改）*/
     dialogue:[ {scene:'政大・校門口',bg:'nccu_gate'},{scene:'車上',bg:'car'},
       {speaker:'kexin',expression:'smile',text:'規則。我管音樂，你管方向。'},

@@ -67,7 +67,7 @@ const CHARACTERS = {
   kai:{ id:'kai', presence:{from:'Y1S1'}, name:'阿凱', fullname:'王凱翔', age:19, gender:'m', department:'資工系', year:1, social_layer:'C', visual_tier:2, personality:'室友；不是打遊戲就是寫程式；對法律的理解停留在「所以可以告嗎」', career_goal:'想進遊戲公司', social_style:'宅但真誠', char3d:{spec:'kai'}, portrait:'kai',
     daily_schedule:[{days:[0,1,2,3,4,5,6],from:18,to:32,zone:'dorm',act:'desk'}] },
   /* 經濟系的朋友（法律系大一下第一次露面：P4d；BB_104 2-2、BB_112 第 1 節、AA_114 第 4 列；BB-B 2026-10-16 02:00 的人物資料；id 照企劃 syllabus 的 econ_*，AA_140 G40）。
-     alias：BB 台詞寫的稱呼（'阿勳'、'品妤'）＝這個人（立繪照 id、對話框名字照原文）。作息這一版不放（只在事件裡出現；作息等 BB-B 給時間）；3D 先用路人 */
+     alias：BB 台詞寫的稱呼（'阿勳'、'品妤'）＝這個人（立繪照 id、對話框名字照原文）。阿勳的作息照 AA_155（AA-REQ-02）；其他人只在事件裡出現；3D 先用路人 */
   econ_zhengxun:{ id:'econ_zhengxun', name:'盧正勳', alias:['阿勳'], gender:'m', department:'經濟系', year:2, height:180, social_layer:'C', visual_tier:1,
     personality:'祐廷經濟系那年的室友。安靜、話少、冷笑話；外表冷淡其實很照顧人；真心喜歡經濟、保齡球很強。手指間轉一支 0.3 自動鉛筆', career_goal:'',
     look:'乾淨的短髮、單眼皮、冷淡的表情；素色長袖 T＋卡其褲／灰色毛衣（灰、白、卡其），全作最高、有點駝背',
