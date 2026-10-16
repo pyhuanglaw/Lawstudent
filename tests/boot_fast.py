@@ -2,8 +2,8 @@
 用 CDP 把網路限速成手機網路（預設 3 MB/s、延遲 40 ms；不同網速可以用第三個參數），從乾淨的瀏覽器（沒有快取）打開遊戲：
   1. 標題畫面出來的時間、那時已經下載多少 MB（舊版要等全部人物約 48 MB；新版只等主角＋動作＋環境小物）；
   2. 標題畫面出來時，主要角色還在背景下載（GAME.charsMain 是 false），下載不會停；
-  3. 按「開始新的一天」：主要角色還沒到就出現「載入主要角色 n／10」，等到齊才進遊戲；進遊戲時主要角色都已經載入（ASSETS.has）；
-  4. 之後路人也會到（GAME.charsAll），沒有 JS 例外。
+  3. 按「開始新的一天」：人物還沒到齊就出現「載入人物 n／14」，等主要角色＋路人底模全部到齊才進遊戲（使用者 2026-10-17：不准退化成醜模型）；
+  4. 進遊戲時所有人物模型都已載入、畫面上沒有看得到的備用人物（CHAR.isDegraded）；沒有 JS 例外。
 同一支對舊版（v9.9）跑：只量第 1 項的時間做比較。用法：python3 tests/boot_fast.py URL [輸出資料夾] [MB/s]"""
 import asyncio, json, sys, time
 from playwright.async_api import async_playwright
@@ -49,13 +49,13 @@ async def main():
             if not q['title'] and not q['load']: break
             await pg.wait_for_timeout(300)
         allm = await pg.evaluate("GAME.mainChars.every(k=>ASSETS.has(k))")
-        run.check('按「開始」：主要角色還沒到就顯示「載入主要角色」等它們', seen is not None and seen.startswith('載入主要角色'), str(seen))
+        alla = await pg.evaluate("(GAME.allChars||[]).every(k=>ASSETS.has(k))")
+        run.check('按「開始」：人物還沒到齊就顯示「載入人物」等它們', seen is not None and seen.startswith('載入人物'), str(seen))
         run.check('進遊戲時主要角色都已經載入', allm)
-        t2 = time.time(); done = False
-        while time.time() - t2 < 240:
-            if await pg.evaluate("!!GAME.charsAll"): done = True; break
-            await pg.wait_for_timeout(500)
-        run.check('之後路人也到齊（GAME.charsAll）', done)
+        run.check('進遊戲時路人底模也都已經載入（不等到之後才換）', alla)
+        await pg.wait_for_timeout(3000)
+        vis = await pg.evaluate("(()=>{ const E=GAME.E, bad=[]; const all=[E.player].concat(E.npcs); for(const n of all){ const o=n.obj; if(!o) continue; const u=o.userData||{}; let shown=false; o.traverse(x=>{ if((x.isMesh||x.isSkinnedMesh)&&x.visible){ let p=x, v=true; while(p&&p!==o.parent){ if(!p.visible){ v=false; break; } p=p.parent; } if(v) shown=true; } }); if(CHAR.isDegraded(o)&&shown) bad.push((n.name||n.id||'?')+':'+u.driver); } return {n:all.length, bad}; })()")
+        run.check('進遊戲後畫面上沒有看得到的備用人物', not vis['bad'], json.dumps(vis, ensure_ascii=False))
         await run.shot(pg, 'in_game')
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
         await b.close()

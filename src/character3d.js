@@ -242,10 +242,15 @@ const CHAR = (function(){
   // 人物「想要」的正式模型：spec.model，或主要角色在 CAST 的模型；路人沒有（用路人底模）
   C.wantModel=function(spec){ if(!spec||C.useModels===false) return null; if(spec.model&&ASSETS.manifest[spec.model]) return spec.model; const c=C.CAST[spec.id]; return c?c.model:null; };
   // 建立時記下原本的 spec、想要的模型、建立時自己有哪些子物件（之後外面掛上去的，例如腳踏車，換模型時要搬過去）
-  C.build=function(spec){ const h=buildOne(spec); const u=h.userData; u.buildSpec=spec; u.wantModel=C.wantModel(spec); u.ownKids=new Set(h.children); return h; };
+  C.build=function(spec){ const h=buildOne(spec); const u=h.userData; u.buildSpec=spec; u.wantModel=C.wantModel(spec); u.ownKids=new Set(h.children);
+    /* 不准退化成醜模型（使用者 2026-10-17）：正式模型還沒到時建出來的備用人物（程序化方塊人、主要角色借用的路人底模、主角的開發用模型）先整個隱藏，
+       模型到了由 upgradeModels 原地換成正式的（新的一開始就看得到）。設定裡關掉人物模型（useModels false）時照舊顯示程序化人物 */
+    if(C.isDegraded(h)){ u.degradedHidden=true; for(const c of h.children) c.visible=false; }
+    return h; };
+  C.isDegraded=function(h){ const u=h&&h.userData; if(!u||C.useModels===false||C.hideDegraded===false) return false; if(u.driver==='proc') return true; const got=u.driver==='vrm'?u.key:(u.spec&&u.spec.model); return !!(u.wantModel&&got!==u.wantModel); };
   // 晚到的正式模型（2026-10-10 線上實玩：手機網速慢，VRM 30 秒內沒下載完 → 主角、NPC 用程序化備用人物，而且下載完也不會換回來）：
   // 需要換的情況＝現在是程序化備用人物、但正式模型已經可以用；或主要角色暫時借用了路人底模、自己的模型已經到了
-  C.needsUpgrade=function(h){ const u=h&&h.userData; if(!u||!u.buildSpec||C.useModels===false) return false; if(u.driver!=='proc'&&u.driver!=='vrm') return false; if(u.driver==='vrm'&&(!u.wantModel||u.key===u.wantModel)) return false;
+  C.needsUpgrade=function(h){ const u=h&&h.userData; if(!u||!u.buildSpec||C.useModels===false) return false; if(u.driver!=='proc'&&u.driver!=='vrm'&&!(u.driver==='glb'&&u.wantModel&&(u.spec&&u.spec.model)!==u.wantModel)) return false; if(u.driver==='vrm'&&(!u.wantModel||u.key===u.wantModel)) return false; if(u.driver==='glb'){ const r=C.resolveModel(u.buildSpec); return C.canVRM(r)&&r.model===u.wantModel; }   /* 主角的開發用模型（GLB 備用）：正式 VRM 到了也要換 */
     const r=C.resolveModel(u.buildSpec); if(!C.canVRM(r)) return false; if(u.driver==='proc') return true; return !!(u.wantModel&&u.key!==u.wantModel&&r.model===u.wantModel); };
   // 用同一個 spec 重新建立，放在原本的位置（位置、朝向、姿勢、表情、配件開關、外面掛上去的東西都帶過去），舊的釋放。回傳新的（失敗回 null，舊的不動）
   C.upgrade=function(h){ const u=h.userData; let nh; try{ nh=C.build(u.buildSpec); }catch(e){ console.warn('model upgrade failed',e); return null; } if(nh.userData.driver==='proc'){ return null; }

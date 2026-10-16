@@ -145,6 +145,12 @@ const ASSETS = (function(){
       // 1) 直接抓 .glb；2) 失敗（例如平台不提供 .glb）改抓同名 .glb.json（{b64}）
       fetchBuf(m.url).then(buf=>loader().parse(buf,'',done,fail)).catch(()=>{ fetch(m.url+'.json').then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.json(); }).then(j=>loader().parse(b64ToBuf(j.b64),'',done,fail)).catch(fail); }); });
     return A.status[key]; };
+  /* 一定要載到（使用者 2026-10-17：「不管怎麼樣都不能讓遊戲進入自動退化成醜的模型」）：沒有時間上限；下載或解析失敗就清掉狀態、
+     等一下重抓（2、4、8、16、30 秒…），直到成功。onProgress(已完成, 總數, 最近一次的錯誤或 null)。開遊戲、開始、繼續都用這個等人物（game3d.js）*/
+  A.lastErr=null;
+  A.ensure=function(keys,onProgress){ keys=keys.filter(k=>A.manifest[k]); const total=keys.length; let done=keys.filter(k=>A.cache[k]).length; const report=()=>{ if(onProgress){ try{ onProgress(done,total,A.lastErr); }catch(e){} } };
+    const one=k=>new Promise(res=>{ if(A.cache[k]){ res(); return; } let wait=2000; const go=()=>{ A.loadOne(k).then(()=>{ done++; report(); res(); }).catch(e=>{ A.lastErr=k+': '+(e&&e.message||e); delete A.status[k]; report(); setTimeout(go,wait); wait=Math.min(30000,wait*2); }); }; go(); });
+    report(); return Promise.all(keys.map(one)).then(()=>{ A.lastErr=null; report(); }); };
   // 預載：每個資產有時間上限（預設 20 秒；VRM 30 秒；capMs 可覆寫）。逾時的資產先用 placeholder，背景繼續載；載好之後從 timedOut 拿掉，
   // 已經用 placeholder 建立的人物由 game3d.js 的 upgradeModels 原地換成正式模型（2026-10-10：原本下載完也不會換回來）
   A.timedOut=[];
