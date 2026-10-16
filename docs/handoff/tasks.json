@@ -12245,9 +12245,9 @@
    "title": "時段次數用完（例：下午 2／2）就該直接到下一個時段（晚上），不要卡在下午",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "用掉當時段最後一次（CLS.slotUse 之後）→ 自動淡出、時間跳到下一個時段開始（上午→12:00、下午→18:00）；今天在那之前有約（G.invites accepted）、還沒上的課（CLS.dayItems）→ 只跳到那之前；晚上用完不跳（照舊去睡）。字幕說明，不加新台詞（只用系統字）",
+   "next": "classes3d.js：queueJump／jumpTarget／afterSlot（讀書、運動用掉該時段最後一次 → STORY.tick 跳到 12:00／18:00；今天之前還有課只跳到上課前 10 分鐘；約定、特殊課堂、劇情、閉館照 skipStops）；座位選單在排滿時多「待到晚上（18:00）」；dl03_slots_unit 第 8 項通過；等瀏覽器",
    "first": {
     "term": "Y1S1",
     "week": 1,

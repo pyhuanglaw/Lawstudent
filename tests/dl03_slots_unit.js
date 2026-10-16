@@ -39,5 +39,18 @@ const SAT=dayOf('2025-10-04');   // 大一上第 5 週週六（沒有課）
     const gm=mkGM(G2,[1]); const r=await CLS.chooseStudy(gm); check('6. 選了變灰的長度：不讀、提示原因',r===null&&gm.toasts[0]==='閉館前讀不完',JSON.stringify(gm.toasts));
     const gm2=mkGM(mkG(SAT,9),[0]); const r2=await CLS.chooseStudy(gm2); check('6. 選「讀 1 小時」：回傳 1 小時、上午',r2&&r2.hours===1&&r2.uses.join()==='am'); }
   { const G=mkG(SAT,13); CLS.slotUse(G,['pm']); const h=CLS.slotHTML(G); check('7. 手機「今天」最上面：「上午 ○　下午 ●○　晚上 ○○」',/今天的時間/.test(h)&&/上午 ○　下午 ●○　晚上 ○○/.test(h),h.slice(0,120)); }
+  /* 8. 時段次數用完就到下一個時段（使用者 2026-10-16「下午還剩 0 次，就應該跳晚上」）*/
+  { const GMx=(G)=>{ const caps=[]; const gm={G,E:{player:{obj:{position:{x:0,y:0,z:0}},busy:false}},caps,toast(){},setGoal(){},sceneBegin(){},sceneEnd(){},fade:async()=>{},sleep:async()=>{},advance(h){ G.hour+=h; },caption(w,t){ caps.push(t); },choose:async()=>0,autosave(){}}; return gm; };
+    const G=mkG(SAT,13); CLS._jump=null; CLS.slotUse(G,['pm']); CLS.queueJump(G); check('8. 下午只用了 1 次：不跳',CLS._jump===null);
+    G.hour=15; CLS.slotUse(G,['pm']); CLS.queueJump(G); check('8. 下午 2／2 用完（週六 15:00）：排「到下一個時段」',CLS._jump&&CLS._jump.p==='pm'&&CLS.jumpTarget(G,'pm')===18,JSON.stringify(CLS._jump));
+    const gm=GMx(G); const ok=await CLS.afterSlot(gm); check('8. 跳到 18:00、字幕寫「下午的時間用完了」',ok&&Math.abs(G.hour-18)<1e-6&&/下午的時間用完了/.test(gm.caps[0]||''),G.hour+' '+JSON.stringify(gm.caps));
+    const G2=mkG(SAT,19); G2.slots={day:SAT,used:{am:0,pm:0,ev:2}}; CLS._jump=null; CLS.queueJump(G2); check('8. 晚上用完：不跳（照舊去睡）',CLS._jump===null);
+    const G3=mkG(SAT,10.5); CLS.slotUse(G3,['am']); CLS.queueJump(G3); const gm3=GMx(G3); await CLS.afterSlot(gm3); check('8. 上午 1／1 用完（10:30）：跳到 12:00',Math.abs(G3.hour-12)<1e-6,String(G3.hour));
+    let wd=null, it0=null; for(let d=SAT+2;d<SAT+7&&!wd;d++){ const Gt=mkG(d,13); const its=CLS.dayItems(Gt).filter(it=>it.t0>=12.5&&it.t0<17.5); if(its.length){ wd=d; it0=its[0]; } }
+    if(wd){ const G4=mkG(wd,12.1); G4.slots={day:wd,used:{am:0,pm:1,ev:0}}; CLS.slotUse(G4,['pm']); CLS.queueJump(G4); const t=CLS.jumpTarget(G4,'pm'); check('8. 今天下午還有課（'+it0.c.name+' '+it0.t0.toFixed(2)+'）：只跳到上課前 10 分鐘',Math.abs(t-(it0.t0-1/6))<1e-6,String(t)); }
+    else check('8. 找得到下午有課的平日（測試資料）',false);
+    const G5=mkG(SAT,15); G5.slots={day:SAT,used:{am:0,pm:2,ev:0}}; CLS._jump={day:SAT-1,p:'pm'}; check('8. 排的是昨天的：不跳',!(await CLS.afterSlot(GMx(G5)))&&G5.hour===15); }
+  { const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); check('8. 座位選單：這個時段排滿了，多一個「待到晚上（18:00）／待到中午」選項（照 jumpTarget，選了走 skipTo）',/待到晚上/.test(g3)&&/jumpTo:jt/.test(g3)&&/CLS\.skipTo\(GM,opts\[i\]\.jumpTo/.test(g3));
+    const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('8. 讀完書、運動完排的跳轉在 STORY.tick 執行（不在對話、劇情中）',/CLS\._jump&&!S\._jumping/.test(st)&&/CLS\.afterSlot\(GM\)/.test(st)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();
