@@ -61,15 +61,35 @@ const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.t
     check('6. 視訊也算＋週五晚上：週五 19:00、接起來',!!q2&&q2.day===termDay('Y1S2',2,5)&&q2.h===19&&q2.verb==='接起來');
     G.day=q2.day; G.hour=20; const ex=OUT.expire(G); for(const x of ex) OUT.onMissed(GM,x); run(20,20.1); G.day+=7; OUT.onMissed(GM,q2); run(20,20.1);
     check('6. 第一次那天沒到：「我等了一下。沒關係，下週同一天。」只一次',TH('p:kexin').filter(m=>m.text==='我等了一下。沒關係，下週同一天。').length===1); }
+  // ---- K5 之後每週的「我們的日子」（AA-B 2026-10-16 裁定）----
+  { const wk=(mode,day)=>{ fresh(termDay('Y1S2',2,1),9,'dorm',{introDone:true,dating_kexin:true,KX_OUR_DAY:{day:day||'sat',mode}}); OUT.plan(G,{id:'kx_our_day1',ev:'ev_kexin_our_day',day:termDay('Y1S2',2,6),h:14,place:'x',title:'x'}); OUT.get(G,'kx_our_day1').state='done';
+      const out=[]; for(let w=3;w<=12;w++){ G.day=termDay('Y1S2',w,1); G.hour=9; STORY.phoneRules(GM); } return OUT.rec(G).filter(q=>/^kx_od_/.test(q.id)).sort((a,b)=>a.day-b.day); };
+    const m=wk('mid'), wks=m.map(q=>CALENDAR.termOf(q.day).week);
+    check('7a. 約在中間：第 3 週起每週六 14:00 排一次，第 4 週（週年那一週）不排；地點照公館（第一次）之後「溫州街、河濱、公館…」輪流',!wks.includes(4)&&wks[0]===3&&m.every(q=>q.h===14&&CALENDAR.dateOf(q.day).wd===6)&&JSON.stringify(m.slice(0,4).map(q=>q.place))==='["溫州街","河濱","公館","溫州街"]',JSON.stringify(m.map(q=>[CALENDAR.termOf(q.day).week,q.place])));
+    const v=wk('video'), firsts=v.filter(q=>q.place!=='視訊').map(q=>CALENDAR.dateOf(q.day).key);
+    check('7a. 視訊：每個月第一個「我們的日子」改成見面（地點照約在中間那一輪），其他是視訊、「接起來」',firsts.length>=2&&firsts.every((k,i)=>{ const mo=k.slice(0,7); return v.find(q=>CALENDAR.dateOf(q.day).key.slice(0,7)===mo).place!=='視訊'; })&&v.filter(q=>q.place==='視訊').every(q=>q.verb==='接起來'),JSON.stringify(v.map(q=>[CALENDAR.dateOf(q.day).key,q.place])));
+    fresh(termDay('Y1S2',5,1),9,'dorm',{introDone:true,dating_kexin:true,KX_OUR_DAY:{day:'sat',mode:'nccu'},K7_GIFT:'planner',KX_ANNIV:{1:'wheel'}}); OUT.plan(G,{id:'kx_our_day1',ev:'ev_kexin_our_day',day:termDay('Y1S2',2,6),h:14,place:'x',title:'x'}); OUT.get(G,'kx_our_day1').state='done'; STORY.phoneRules(GM);
+    const q5=OUT.rec(G).find(q=>/^kx_od_/.test(q.id)); said=[]; G.day=q5.day; G.hour=13.5; await OUT.go(GM,q5); const L5=lines();
+    q5.state='done'; G.day+=7; G.hour=9; STORY.phoneRules(GM); const q6=OUT.rec(G).filter(q=>/^kx_od_/.test(q.id)).sort((a,b)=>b.day-a.day)[0]; said=[]; G.day=q6.day; G.hour=13.5; await OUT.go(GM,q6); const L6=lines();
+    check('7a. 第 5 週起第一次（K7 有準備東西）：字幕之後「你送的那個，我放在書桌上。」，只一次',L5.includes('杜可昕：你送的那個，我放在書桌上。')&&!L6.includes('杜可昕：你送的那個，我放在書桌上。'),JSON.stringify([L5,L6]));
+    const q7=OUT.rec(G).filter(q=>/^kx_od_/.test(q.id)).sort((a,b)=>b.day-a.day)[0]; OUT.plan(G,{id:'other_x',ev:'ev_kexin_our_day',day:q7.day,h:12,place:'x',title:'x'}); OUT.get(G,'other_x').state='done'; G.day=q7.day; G.hour=15; q7.state='missed'; OUT.onMissed(GM,q7); run(15,15.1);
+    check('7a. 撞到別的出遊、選了別的：「好，這週換一天。」；單純略過沒有台詞',TH('p:kexin').some(m=>m.text==='好，這週換一天。'));
+    const SW=()=>TH('p:kexin').filter(m=>m.text==='好，這週換一天。'||m.text==='我等了一下。沒關係，下週同一天。').length, before=SW(); G.day+=7; G.hour=9; STORY.phoneRules(GM); const q8=OUT.rec(G).filter(q=>/^kx_od_/.test(q.id)).sort((a,b)=>b.day-a.day)[0]; G.day=q8.day; G.hour=16; q8.state='missed'; OUT.onMissed(GM,q8); run(16,16.1);
+    check('7a. 單純略過：沒有「這週換一天」「我等了一下」、不扣分',SW()===before); }
   // ---- 9-4 K7 週年 ----
   { const A0=STORY.dayOfKey('2026-03-15'), A1=STORY.dayOfKey('2026-03-22'); fresh(A0,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true}); run(20.9,21.1);
     let P=TH('p:kexin').filter(m=>m.tag==='kx_anniv_ask'); check('7. K7 一週前 3/15 21:00：「下週日是我們的週年。」「地點你選。……」三個地點',P.map(m=>m.text).join('｜')==='下週日是我們的週年。｜地點你選。我準備一樣東西，你也準備一樣。'&&JSON.stringify(P[1].ask.opts.map(o=>o.t))==='["摩天輪。","政大山下，我們的店。","河堤。"]');
     PHONE.answer(G,P[1].ask.id,0); run(21.1,21.2); const q=OUT.get(G,'kx_anniv1');
     check('7. 選摩天輪：「……回到最高點。好。」、排 3/22 18:00',TH('p:kexin').some(m=>m.text==='……回到最高點。好。')&&!!q&&q.day===A1&&q.h===18,JSON.stringify(q));
-    const play=async(pk)=>{ said=[]; opts=[]; picks=pk.slice(); G.day=A1; G.hour=17.5; const qq=OUT.get(G,'kx_anniv1'); qq.state='planned'; G.events.done.ev_kexin_anniversary_y1=0; await OUT.go(GM,qq); return lines(); };
+    const play=async(pk)=>{ said=[]; opts=[]; picks=pk.slice(); delete G.flags.K7_GIFT; G.events.done.ev_k7_gift_prep=0; G.day=A1-1; G.hour=21.05; const gp=STORY_EVENTS.find(e=>e.id==='ev_k7_gift_prep'); if(EVENTS.check(gp)) await EVENTS.run(gp); G.day=A1; G.hour=17.5; const qq=OUT.get(G,'kx_anniv1'); qq.state='planned'; G.events.done.ev_kexin_anniversary_y1=0; await OUT.go(GM,qq); return lines(); };
     let L=await play(['票根','第三百六十五圈']);
-    check('7. 出門前選準備的東西（四樣）；票根：「她念背面那題，笑出來。」「你學我。」；第幾圈三選一；「……你算過？」「猜的。」「猜得很準。」；最後旁白；KX_ANNIV {1:wheel}',opts[0].length===4&&L.includes('她念背面那題，笑出來。')&&L.includes('杜可昕：你學我。')&&JSON.stringify(opts[1])==='["「第一圈。」","「第三百六十五圈。」","「不用算。」"]'&&L.includes('杜可昕：……你算過？')&&L.includes('祐廷：猜的。')&&L[L.length-1]==='後面幾頁，她說：『回去再看。』'&&G.flags.K7_GIFT==='ticket'&&G.flags.KX_ANNIV[1]==='wheel',JSON.stringify(L));
+    check('7. 3/21 21:00 選準備的東西（四樣，AA-B 裁定）；票根：「她念背面那題，笑出來。」「你學我。」；第幾圈三選一；「……你算過？」「猜的。」「猜得很準。」；最後旁白；KX_ANNIV {1:wheel}',opts[0].length===4&&L[0]==='明天是週年。你準備的東西：'&&L.includes('她念背面那題，笑出來。')&&L.includes('杜可昕：你學我。')&&JSON.stringify(opts[1])==='["「第一圈。」","「第三百六十五圈。」","「不用算。」"]'&&L.includes('杜可昕：……你算過？')&&L.includes('祐廷：猜的。')&&L[L.length-1]==='後面幾頁，她說：『回去再看。』'&&G.flags.K7_GIFT==='ticket'&&G.flags.KX_ANNIV[1]==='wheel',JSON.stringify(L));
     L=await play(['什麼都沒','不用算']); check('7. 什麼都沒準備：「你人來了。……這題我放水一次。」；不用算：「好。那就一直轉。」',L.includes('杜可昕：你人來了。……這題我放水一次。')&&L.includes('杜可昕：好。那就一直轉。'));
+    { const gp=STORY_EVENTS.find(e=>e.id==='ev_k7_gift_prep'); delete G.flags.K7_GIFT; G.events.done.ev_k7_gift_prep=0; G.day=A1-1; G.hour=20.9; const c0=EVENTS.check(gp); G.hour=21.1; const c1=EVENTS.check(gp); G.day=A1; G.hour=8; const c2=EVENTS.check(gp); G.hour=18.1; const c3=EVENTS.check(gp);
+      said=[]; picks=['行事曆']; G.hour=8; await EVENTS.run(gp); const g8=lines()[0];
+      delete G.flags.K7_GIFT; said=[]; G.day=A1; G.hour=17.5; const qq=OUT.get(G,'kx_anniv1'); qq.state='planned'; G.events.done.ev_kexin_anniversary_y1=0; picks=['第一圈']; await OUT.go(GM,qq); const Ln=lines();
+      check('7. 準備的東西：3/21 21:00 才問、3/22 起床再問（「今天是週年。…」）、18:00 以後不問；都沒選＝什麼都沒準備（不再出門前問）',!c0&&c1&&c2&&!c3&&g8==='今天是週年。你準備的東西：'&&G.flags.K7_GIFT==='none'&&Ln.includes('杜可昕：你人來了。……這題我放水一次。')&&!Ln.includes('出門前，你準備的東西：'),JSON.stringify([c0,c1,c2,c3,g8,Ln.slice(0,2)]));
+      const RI=STORY.roomItemList(G).find(r=>r[0]==='她的週年卡片'); check('7. 去了週年：房間物件「她的週年卡片」＝「假設我們從最高點開始交往。」',!!RI&&RI[1]==='假設我們從最高點開始交往。'); }
     fresh(A0,20.9,'dorm',{introDone:true,dating_kexin:true}); run(20.9,21.1); G.day=A1; run(18.9,19.2);
     check('7. 沒選地點：3/22 晚上卡片的照片「週年快樂。下次你準備。」、KX_ANNIV {1:missed}',TH('p:kexin').some(m=>m.text==='週年快樂。下次你準備。')&&G.flags.KX_ANNIV&&G.flags.KX_ANNIV[1]==='missed'); }
   // ---- 9-6 K6 改期＋兩校互考 ----
