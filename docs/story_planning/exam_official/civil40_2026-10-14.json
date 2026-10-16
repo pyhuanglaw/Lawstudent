@@ -33,11 +33,6 @@
    "course": "civ_general",
    "term": "Y1S1",
    "scopeWeek": 15,
-   "askedIn": {
-    "term": "Y1S1",
-    "course": "civ_general",
-    "week": 16
-   },
    "type": "mc",
    "q": "依民法第144條第1項，消滅時效完成後，債務人取得何種法律地位？",
    "options": {
@@ -761,11 +756,6 @@
    "course": "oblig_spec",
    "term": "Y2S2",
    "scopeWeek": 3,
-   "askedIn": {
-    "term": "Y2S2",
-    "course": "oblig_spec",
-    "week": 16
-   },
    "type": "mc",
    "q": "依民法第354條第1項，物之出賣人原則上應擔保買賣標的物在何時不存在法定瑕疵？",
    "options": {
