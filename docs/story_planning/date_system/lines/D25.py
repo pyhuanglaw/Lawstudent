@@ -4,7 +4,7 @@
 LOC='D25'
 POINTS={'D25.shore':'浪邊','D25.cafe':'海邊的咖啡館','D25.surf':'堤防上看衝浪的人','D25.station':'外澳車站的月台'}
 H={}
-H['kexin']=dict(wish_first='wish_kexin',
+H['kexin']=dict(wish_first='wish/wish_kexin.json（BB_128 3-5）',
  likes={'D25.shore':'like','D25.cafe':'normal','D25.surf':'normal','D25.station':'like'},
  arrive=dict(first=None,normal=[('any',['又來了。……這次我還是沒做行程表。']),('any',['島還在。假設它有一天不在——好，它會在。']),('high',['我發現我在這裡，不太會出假設題。'])],
    dating=[('any',['今天也不排。這是傳統了。'])]),

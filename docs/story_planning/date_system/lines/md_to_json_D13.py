@@ -87,5 +87,11 @@ for w in NAME.values():
         print(w, {p:sorted(hs[p].keys()) for p in hs}, res['likes'][w])
 DIS={'heroine_04':{'D13.bench':'坐著？欸不是，才剛到。'},'heroine_05':{'D13.drink':'我有帶保溫瓶。……好，買一杯。重點是，不要甜的。'},'classmate_peishan':{'D13.photo':'我不太會拍照。……不是叫你不要拍，是手不知道放哪裡。'}}
 for w,d in DIS.items(): res['dislikeLine'][w]=d
+# 語彤（heroine_03）：第一次單獨來＝心願事件；BB_128 5-1 的抵達、收尾寫「照 AA_127 2-6」，表格轉不到，這裡直接補（BB-B 2026-10-16；AA-B 要的 wishEvent 標記一起補）
+_Y='heroine_03'; _W={'wishEvent':'wish/wish_heroine_03.json（AA_127 第 2 節）'}
+def _s(tier,*ls): return {'tier':tier,'lines':[{'who':_Y,'text':t} for t in ls]}
+res['lines'][_Y]['arrive']={'first':_W,'normal':[_s('any','嗯。淡水。'),_s('any','阿姨問我，淡水是不是很好玩。我說，嗯。'),_s('any','今天雲很多。……也可以。')],'dating':[]}
+res['lines'][_Y]['closing']={'first':_W,'remember':_s('any','上次看到最後了。今天……也看到最後。'),'normal':[_s('any','……天黑了。'),_s('high','今天也看到最後。')],'dating':[]}
+for _p in res['lines'][_Y]['hotspots'].values(): _p['first']=_W
 res['_note']='kexin 的 normal＝交往中的版本（她開場是女友），afterBreakup＝分開以後；heroine_03（語彤）第一次單獨來淡水是她的心願事件（AA_127），這裡沒有 first；extra:合照＝第 6 階以上或交往才有的合照句；who:note＝給開發的註記（不顯示）。'
 json.dump(res,open(os.path.join(HERE,'D13.json'),'w',encoding='utf-8'),ensure_ascii=False,indent=1)

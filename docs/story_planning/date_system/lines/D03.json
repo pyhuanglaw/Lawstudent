@@ -1392,7 +1392,7 @@
   "heroine_04": {
    "arrive": {
     "first": {
-     "wishEvent": "wish_heroine_04"
+     "wishEvent": "wish/wish_heroine_04.json（BB_128 3-2）"
     },
     "normal": [
      {
@@ -1437,7 +1437,7 @@
    },
    "closing": {
     "first": {
-     "wishEvent": "wish_heroine_04"
+     "wishEvent": "wish/wish_heroine_04.json（BB_128 3-2）"
     },
     "normal": [
      {
@@ -1474,7 +1474,7 @@
    "hotspots": {
     "D03.demo": {
      "first": {
-      "wishEvent": "wish_heroine_04"
+      "wishEvent": "wish/wish_heroine_04.json（BB_128 3-2）"
      },
      "normal": [
       {
@@ -1528,7 +1528,7 @@
     },
     "D03.arcade": {
      "first": {
-      "wishEvent": "wish_heroine_04"
+      "wishEvent": "wish/wish_heroine_04.json（BB_128 3-2）"
      },
      "normal": [
       {
@@ -1582,7 +1582,7 @@
     },
     "D03.gacha": {
      "first": {
-      "wishEvent": "wish_heroine_04"
+      "wishEvent": "wish/wish_heroine_04.json（BB_128 3-2）"
      },
      "normal": [
       {
@@ -1636,7 +1636,7 @@
     },
     "D03.window": {
      "first": {
-      "wishEvent": "wish_heroine_04"
+      "wishEvent": "wish/wish_heroine_04.json（BB_128 3-2）"
      },
      "normal": [
       {

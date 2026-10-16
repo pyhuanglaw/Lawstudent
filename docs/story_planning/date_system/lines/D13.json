@@ -3160,8 +3160,76 @@
    }
   },
   "heroine_03": {
-   "arrive": {},
-   "closing": {},
+   "arrive": {
+    "first": {
+     "wishEvent": "wish/wish_heroine_03.json（AA_127 第 2 節）"
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "嗯。淡水。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "阿姨問我，淡水是不是很好玩。我說，嗯。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "今天雲很多。……也可以。"
+       }
+      ]
+     }
+    ],
+    "dating": []
+   },
+   "closing": {
+    "first": {
+     "wishEvent": "wish/wish_heroine_03.json（AA_127 第 2 節）"
+    },
+    "remember": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_03",
+       "text": "上次看到最後了。今天……也看到最後。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "……天黑了。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "今天也看到最後。"
+       }
+      ]
+     }
+    ],
+    "dating": []
+   },
    "hotspots": {
     "D13.drink": {
      "normal": [
@@ -3216,7 +3284,10 @@
         }
        ]
       }
-     ]
+     ],
+     "first": {
+      "wishEvent": "wish/wish_heroine_03.json（AA_127 第 2 節）"
+     }
     },
     "D13.rail": {
      "normal": [
@@ -3275,7 +3346,10 @@
         }
        ]
       }
-     ]
+     ],
+     "first": {
+      "wishEvent": "wish/wish_heroine_03.json（AA_127 第 2 節）"
+     }
     },
     "D13.bench": {
      "normal": [
@@ -3330,7 +3404,10 @@
         }
        ]
       }
-     ]
+     ],
+     "first": {
+      "wishEvent": "wish/wish_heroine_03.json（AA_127 第 2 節）"
+     }
     },
     "D13.photo": {
      "normal": [
@@ -3381,7 +3458,10 @@
         }
        ]
       }
-     ]
+     ],
+     "first": {
+      "wishEvent": "wish/wish_heroine_03.json（AA_127 第 2 節）"
+     }
     }
    }
   }

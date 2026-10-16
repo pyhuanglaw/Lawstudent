@@ -2697,7 +2697,7 @@
   "kexin": {
    "arrive": {
     "first": {
-     "wishEvent": "wish_kexin"
+     "wishEvent": "wish/wish_kexin.json（BB_128 3-5）"
     },
     "normal": [
      {
@@ -2742,7 +2742,7 @@
    },
    "closing": {
     "first": {
-     "wishEvent": "wish_kexin"
+     "wishEvent": "wish/wish_kexin.json（BB_128 3-5）"
     },
     "normal": [
      {
@@ -2779,7 +2779,7 @@
    "hotspots": {
     "D25.shore": {
      "first": {
-      "wishEvent": "wish_kexin"
+      "wishEvent": "wish/wish_kexin.json（BB_128 3-5）"
      },
      "normal": [
       {
@@ -2833,7 +2833,7 @@
     },
     "D25.cafe": {
      "first": {
-      "wishEvent": "wish_kexin"
+      "wishEvent": "wish/wish_kexin.json（BB_128 3-5）"
      },
      "normal": [
       {
@@ -2887,7 +2887,7 @@
     },
     "D25.surf": {
      "first": {
-      "wishEvent": "wish_kexin"
+      "wishEvent": "wish/wish_kexin.json（BB_128 3-5）"
      },
      "normal": [
       {
@@ -2941,7 +2941,7 @@
     },
     "D25.station": {
      "first": {
-      "wishEvent": "wish_kexin"
+      "wishEvent": "wish/wish_kexin.json（BB_128 3-5）"
      },
      "normal": [
       {
