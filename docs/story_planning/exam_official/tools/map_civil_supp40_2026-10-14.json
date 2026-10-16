@@ -42,7 +42,7 @@
   "id": "CIVS_06",
   "course": "civ_general",
   "term": "Y1S1",
-  "scopeWeek": 16,
+  "scopeWeek": 15,
   "basis": "民法 §129"
  },
  "7": {
@@ -98,7 +98,7 @@
   "id": "CIVS_14",
   "course": "oblig_gen1",
   "term": "Y1S2",
-  "scopeWeek": 16,
+  "scopeWeek": 15,
   "basis": "民法 §249 ②",
   "notes": [
    "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 16 週（債總（一）沒有講定金那一週，放第 16 週）。"
@@ -206,7 +206,7 @@
   "id": "CIVS_29",
   "course": "oblig_spec",
   "term": "Y2S2",
-  "scopeWeek": 16,
+  "scopeWeek": 15,
   "basis": "民法 §589 I",
   "notes": [
    "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 16 週（民法債編各論沒有講寄託那一週，放回顧週）。"

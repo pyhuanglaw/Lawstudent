@@ -661,7 +661,7 @@
    "id": "SEC40_30",
    "course": "securities",
    "term": "Y3S1",
-   "scopeWeek": 16,
+   "scopeWeek": 15,
    "type": "mc",
    "q": "依證券交易法第28條之2，符合規定的上市或上櫃公司買回自己股份，其買回數量原則上不得超過已發行股份總數的多少？",
    "options": {
@@ -685,7 +685,7 @@
    "id": "SEC40_31",
    "course": "securities",
    "term": "Y3S1",
-   "scopeWeek": 16,
+   "scopeWeek": 15,
    "type": "mc",
    "q": "依證券交易法第28條之2，下列何者屬於上市或上櫃公司得依法買回自己股份的目的？",
    "options": {

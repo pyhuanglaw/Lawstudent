@@ -130,7 +130,7 @@
    "id": "CIVS_06",
    "course": "civ_general",
    "term": "Y1S1",
-   "scopeWeek": 16,
+   "scopeWeek": 15,
    "type": "mc",
    "q": "依民法第129條，下列何者原則上屬於消滅時效中斷事由？",
    "options": {
@@ -331,7 +331,7 @@
    "id": "CIVS_14",
    "course": "oblig_gen1",
    "term": "Y1S2",
-   "scopeWeek": 16,
+   "scopeWeek": 15,
    "type": "mc",
    "q": "依民法第249條，契約因可歸責於付定金當事人的事由致不能履行時，除另有訂定外，定金應如何處理？",
    "options": {
@@ -693,7 +693,7 @@
    "id": "CIVS_29",
    "course": "oblig_spec",
    "term": "Y2S2",
-   "scopeWeek": 16,
+   "scopeWeek": 15,
    "type": "mc",
    "q": "依民法第589條，寄託契約的基本內容為何？",
    "options": {
