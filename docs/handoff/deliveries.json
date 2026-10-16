@@ -4407,8 +4407,8 @@
    "sha": "a3b9d427",
    "what": "AB-59 明軒系籃兩句（BB_97 4-7）",
    "task": "V3-D11",
-   "msg": "ACK",
-   "integration": "未整合",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
    "note": "",
    "date": "2026-10-16T18:5xZ"
   },
@@ -4423,6 +4423,42 @@
    "integration": "未整合",
    "note": "",
    "date": "2026-10-16T18:5xZ"
+  },
+  {
+   "id": "DLV-1016-369",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "6e72e346",
+   "what": "ART-BG-COURT ntu_court_night（新體育館旁的籃球場，晚上；哲 2）",
+   "task": "ART-BG-COURT",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "BB-B 驗收通過",
+   "date": "2026-10-16T19:1xZ"
+  },
+  {
+   "id": "DLV-1016-370",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "20c81473",
+   "what": "上榜聚餐地點（公館的日日定食）、P4b 小組每週揪三句",
+   "task": "V3-B16",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "",
+   "date": "2026-10-16T19:1xZ"
+  },
+  {
+   "id": "DLV-1016-371",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "d99a2a9f",
+   "what": "AA_186 台詞審查第 6 節（程式要改的地方）",
+   "task": "AA186-FIX",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "只做不改字的部分；改字暫停（使用者 19:1x）",
+   "date": "2026-10-16T19:1xZ"
   }
  ],
  "ignored": [

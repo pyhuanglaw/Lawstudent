@@ -1867,7 +1867,7 @@
    },
    "source": "交接包_v3",
    "authorized": "D79",
-   "note": "2026-10-16：觀眾席三選一換成 AA-B c2f1c5aa 的大二版字、記 WATCHED_GAME_Y2；明軒的句子等 BB-B（AB-59）。"
+   "note": "2026-10-16：觀眾席三選一換成 AA-B c2f1c5aa 的大二版字、記 WATCHED_GAME_Y2；明軒的句子等 BB-B（AB-59）。 2026-10-16：明軒兩處（BB_97 4-7，a3b9d427）接好。"
   },
   {
    "id": "V3-D12",
@@ -2302,7 +2302,7 @@
    "source": "BB_97",
    "authorized": "D79",
    "tests": "tests/v3_sis_m3_unit.js",
-   "note": "2026-10-16：M3＝3/19 20:00 家族群組六則＋ASKED_TELL_ME 的 @、三個回覆＋最後一句（22:00 沒回也有）；聚餐＝當晚 21:00 Kevin 揪（「去。」排出遊；FAMILY_DINNER 記憶＝永康街，沒有＝公館）、ev_sis_results_dinner 三件事兩版、沒去 21:30 合照。Kevin 第二句（時間地點）照大一家聚那句的格式，已告訴 BB-B。另修 M2：FAMILY_DINNER 是記憶不是旗標。瀏覽器未測。"
+   "note": "2026-10-16：M3＝3/19 20:00 家族群組六則＋ASKED_TELL_ME 的 @、三個回覆＋最後一句（22:00 沒回也有）；聚餐＝當晚 21:00 Kevin 揪（「去。」排出遊；FAMILY_DINNER 記憶＝永康街，沒有＝公館）、ev_sis_results_dinner 三件事兩版、沒去 21:30 合照。Kevin 第二句（時間地點）照大一家聚那句的格式，已告訴 BB-B。另修 M2：FAMILY_DINNER 是記憶不是旗標。瀏覽器未測。 2026-10-16：聚餐沒有 FAMILY_DINNER＝公館的日日定食、Kevin 一則（BB-B 20c81473）。"
   },
   {
    "id": "V3-B09",
@@ -2477,7 +2477,7 @@
    "source": "BB_97",
    "authorized": "D79",
    "tests": "tests/v3_p4b_unit.js",
-   "note": "2026-10-16：第 2 週週五 3/5 21:00 私訊兩版（知道重考／不知道）、選項 3～4 個；交往中（別人）＝小組「陪重考生念書」＋阿哲；總圖見面後的便條（invites.js afterMeet）；4/17 12:30「總圖滿了」→ Café 13～15 點 ev_peishan_cafe_42（CG BCG-35 已接）。放榜那天（大二暑假）的日子待 AA-B。瀏覽器未測。"
+   "note": "2026-10-16：第 2 週週五 3/5 21:00 私訊兩版（知道重考／不知道）、選項 3～4 個；交往中（別人）＝小組「陪重考生念書」＋阿哲；總圖見面後的便條（invites.js afterMeet）；4/17 12:30「總圖滿了」→ Café 13～15 點 ev_peishan_cafe_42（CG BCG-35 已接）。放榜那天（大二暑假）的日子待 AA-B。瀏覽器未測。 2026-10-16：小組版每週五 21:00 揪（三句輪流，BB-B 20c81473）；手機小事 42 頁。"
   },
   {
    "id": "V3-B17",
@@ -11416,7 +11416,7 @@
    "title": "2D 背景 ntu_court_night：新體育館旁的戶外籃球場，晚上（哲 2）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "照 AA_177 第 5 節「哲 2」：晚上、路燈、一個籃框；webp 放 assets/bg/ntu_court_night.webp（outings3d.js S.BG 已登記，沒有圖時是深色底＋地點字幕）",
    "priority": "P2",
    "first": {
@@ -11438,7 +11438,8 @@
     "spec": "AA_177 第 5 節 哲 2；AA_40 哲 2",
     "acceptance": "和其他 2D 背景同規格（webp、橫向、沒有人物）；ART_APPROVED 由使用者",
     "ack": "SENT"
-   }
+   },
+   "note": "2026-10-16：LAWWW2-B 6e72e346 接進 outings3d S.BG（BB-B 驗收三點通過）。"
   },
   {
    "id": "BUG-20",
@@ -11572,6 +11573,28 @@
     "acceptance": "去背、和 campus 立繪同構圖同頭部位置；BB-B ART_APPROVED",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "AA186-FIX",
+   "title": "AA_186 第 6 節（台詞審查）裡不改字的修正；改字暫停等使用者確認口語準則",
+   "area": "V2",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "已做：ev_noodle_yutong once、ev_an_library_study max_times 2、A2-L6／A5-L6「妳們和好了？」加條件、ev_an_study_group→ev_public_law_group、Y5-L6 等 RENT_RENEWED、E25 旁白「你」、SK03 與午餐選單小福→活大（大一下起）、主線 4 模擬法庭／Z7 接條件。暫停（使用者 19:1x 經 AA-B）：B 改寫句、D 初次見面與招呼、AA_179 第 4 節新句、an_admin／an_rules 新字、AA_187、AA-B 88585540 之後的階梯改句、AB-62 子晴那封信——等 AA-B／BB-B 的對照表經使用者確認後整合",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上（語彤麵店、以安總圖）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_186 第 6 節（AA-B d99a2a9f）；AA-B 19:01 分法",
+   "authorized": "D79",
+   "tests": "tests/aa186_unit.js"
   }
  ]
 }

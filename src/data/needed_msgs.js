@@ -7,13 +7,13 @@
 const NEEDED_MSGS=(function(){
   const F=G=>G.flags||{}, done=(G,id)=>!!(G.events&&G.events.done&&G.events.done[id]), att=(G,id)=>typeof ACTIVITIES!=='undefined'&&!!ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,id);
   const lawclub=G=>!!(F(G).lawclub||F(G).CLUB_lawclub_study), noodle=G=>{ const H=G.habits&&G.habits['meal:noodle']; return !!(H&&(H.days||[]).length)||F(G).noodleTableDay!=null; };
-  const NOT_YET=()=>false;   /* 那一件還沒做（模擬法庭 SYS-09、語 3、慈 3、Z7、語彤事件 11）*/
+  const NOT_YET=()=>false;   /* 那一件還沒做（語彤事件 11）；模擬法庭（an_moot＝在賣家組群組、bh_moot＝模 3 在場、xc_moot＝模 5）、Z7（zr_beans）2026-10-16 接上 */
   const L=[
     // 以安（AA_179）
     {id:'an_lib',who:'heroine_01',term:'Y2S1',w:[1,6],msg:['今天在總圖嗎？'],reply:'在。三樓。',resp:['好。我帶兩本。一本給你。']},
     {id:'an_rules',who:'heroine_01',term:'Y2S1',w:[7,9],tie:true,cond:G=>att(G,'public_law_group'),msg:['讀書會的規則，我寫了一頁。幫我看哪一條可以刪。'],reply:'第五條。',resp:['……我也覺得是第五條。']},
     {id:'an_admin',who:'heroine_01',term:'Y2S1',w:[12,14],tie:true,msg:['駁回的公文，要先看哪一段？我想先自己看懂。'],reply:'先看理由，再看最後寫期限的那一段。',resp:['理由、期限。好，我寫進理由欄。']},
-    {id:'an_moot',who:'heroine_01',term:'Y2S2',w:[3,6],tie:true,cond:NOT_YET,msg:['分工表第二版。你的格子我畫大了一點。'],reply:'為什麼？',resp:['因為你寫得最慢。……我是說，最仔細。']},
+    {id:'an_moot',who:'heroine_01',term:'Y2S2',w:[3,6],tie:true,cond:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'moot_seller'),msg:['分工表第二版。你的格子我畫大了一點。'],reply:'為什麼？',resp:['因為你寫得最慢。……我是說，最仔細。']},
     {id:'an_lead',who:'heroine_01',term:'Y2S2',w:[10,14],cond:G=>att(G,'public_law_group'),msg:['這週讀書會換你帶，可以嗎？'],reply:'好。',resp:['謝謝。我想試試看坐在下面。']},
     // 語彤（AA_179）
     {id:'yt_auntie',who:'heroine_03',term:'Y2S1',w:[1,18],every:4,cond:noodle,msg:['阿姨問你週四來不來。'],reply:'來。',resp:['嗯。她會多切一顆滷蛋。']},
@@ -37,16 +37,16 @@ const NEEDED_MSGS=(function(){
     {id:'bh_handover',who:'classmate_bohan',term:'Y2S1',w:[1,3],tie:true,cond:lawclub,msg:['社長交接的資料有一百頁。你幫我看第一章就好。'],reply:'好。',resp:['……謝謝。我以為社長只要會排值班表。']},
     {id:'bh_q3',who:'classmate_bohan',term:'Y2S1',w:[6,8],tie:true,msg:['刑分考古題第三題，你寫哪一說？'],reply:'兩說都寫。',resp:['……考試時間不夠。']},
     {id:'bh_score',who:'classmate_bohan',term:'Y2S1',w:[11,13],tie:true,cond:G=>F(G).BOHAN_GROUP==='ask',msg:['你上次說分數不夠的人。我還在想。'],reply:'想到了跟我說。',resp:['嗯。']},
-    {id:'bh_moot',who:'classmate_bohan',term:'Y2S2',w:[7,9],tie:true,cond:NOT_YET,msg:['模 3 那天我講話太衝。……沒事。'],reply:'我知道。',resp:['嗯。……下次我先聽以安講完。']},
+    {id:'bh_moot',who:'classmate_bohan',term:'Y2S2',w:[7,9],tie:true,cond:G=>done(G,'ev_moot_3'),msg:['模 3 那天我講話太衝。……沒事。'],reply:'我知道。',resp:['嗯。……下次我先聽以安講完。']},
     {id:'bh_final',who:'classmate_bohan',term:'Y2S2',w:[16,17],msg:['期末的考古題整理好了。要的話自己拿，不用跟我說謝謝。'],reply:'謝謝。',resp:['……我說不用。']},
     // 芯慈（AA_179）
     {id:'xc_econ',who:'classmate_xinci',term:'Y2S1',w:[2,4],tie:true,cond:G=>!!F(G).ECON_TOGETHER,msg:['經濟那邊，這學期你還陪我看嗎？'],reply:'好。',resp:['那週三總圖。']},
     {id:'xc_contract',who:'classmate_xinci',term:'Y2S1',w:[10,12],msg:['幫我看一下這份打工的合約。我朋友要簽的。'],reply:'我只能說我看到什麼。要問的話去法服。',resp:['……法律系的人都這樣講話嗎。好啦。']},
     {id:'xc_drama',who:'classmate_xinci',term:'Y2S1',w:[14,16],tie:true,cond:G=>done(G,'ev_xinci_second'),msg:['那部劇大結局了。你不准爆雷。'],reply:'我沒看。',resp:['那最好。']},
     {id:'xc_grade',who:'classmate_xinci',term:'Y2S2',w:[5,7],tie:true,msg:['這次期中，我不想先看以安的成績。你幫我記著。'],reply:'好。',resp:['如果我問你，你就說你忘了。']},
-    {id:'xc_moot',who:'classmate_xinci',term:'Y2S2',w:[11,13],tie:true,cond:NOT_YET,msg:['模擬法庭，你們隊比我們多準備了什麼？'],reply:'我們去問了一個人。',resp:['……下次我也去問。']},
+    {id:'xc_moot',who:'classmate_xinci',term:'Y2S2',w:[11,13],tie:true,cond:G=>done(G,'ev_moot_5'),msg:['模擬法庭，你們隊比我們多準備了什麼？'],reply:'我們去問了一個人。',resp:['……下次我也去問。']},
     // 芷若（BB_97 11-1：整年只有這一則、反過來問他「你想」；沒回不提起）
-    {id:'zr_beans',who:'heroine_02',term:'Y2S1',w:[15,17],tie:true,cond:NOT_YET,msg:['新的豆子。你想喝喝看嗎？'],reply:'想。',resp:['……你很少說『想』。週四來。']},   /* Café 常客；Z7 之後（Z7 做好再接）*/
+    {id:'zr_beans',who:'heroine_02',term:'Y2S1',w:[15,17],tie:true,cond:G=>done(G,'ev_zhiruo_applied'),msg:['新的豆子。你想喝喝看嗎？'],reply:'想。',resp:['……你很少說『想』。週四來。']},   /* Café 常客；Z7 之後（Z7 做好再接）*/
     // 子晴（BB_97 11-1）
     {id:'zq_game',who:'heroine_04',term:'Y2S1',w:[1,3],msg:['測試我的遊戲。現在。','……這不是問句。'],reply:'好。連結呢？',resp:['已經傳了。第三關不准跳過。']},
     {id:'zq_dad',who:'heroine_04',term:'Y2S1',w:[11,12],tie:true,msg:['欸不是','我爸下週要來台北','他說要看我做的遊戲'],reply:'他會喜歡的。',resp:['你又不認識他。……好啦。謝謝。']},
