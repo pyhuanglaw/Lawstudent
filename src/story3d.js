@@ -105,7 +105,8 @@ const STORY = (function(){
       if(zoneId==='library_hall'&&typeof LIBRARY_LAYOUT!=='undefined'){ const d=(LIBRARY_LAYOUT.furniture||[]).find(f=>f.type==='desk'); if(d) clerk(d.x,d.z+d.d/2+0.45,Math.PI,45); } }   // 服務台後面（兩片隔板中間），面向借書的人
     if(zoneId==='noodle') noodleRegulars(GM,true);   /* 週二、週四傍晚的固定客人（AA_110 6-3）：進店時已經坐著 */
     if(zoneId==='noodle'){ if(F.afternoonDone&&hr>=17.5&&hr<20.5&&!F.zheNoodleDone){ GM.spawnNPC('zhe',C.zhe,0,0,{seat:{x:0,z:-0.3,yaw:0},talk:n=>talkZhe(GM,n)}); F.zheAtNoodle=true; } }
-    if(zoneId==='dorm'){ if(hr>=18||hr<8){ GM.spawnNPC('kai',C.kai,0,0,{seat:{x:1.8,z:2.2,yaw:Math.PI},talk:n=>talkKai(GM,n)}); } }
+    if(zoneId==='dorm'){ if(hr>=18||hr<8){ GM.spawnNPC('kai',C.kai,0,0,{seat:{x:1.8,z:2.2,yaw:Math.PI},talk:n=>talkKai(GM,n)}); }
+      if(typeof HOME!=='undefined') E.interactables.push({x:2.35,z:-0.9,radius:0.6,lv:0,label:'收拾背包回臺北的家',home:true,get hidden(){ return !HOME.canGo(GM.G); }}); }   /* 週末回家（AA_137 第 6 節）：週五 17:00 以後到週日 21:30 才出現（背包在 2.55,-1.6）*/
     if(zoneId==='wancai'){ if(hr>=15.2&&hr<17){ GM.spawnNPC('sis',C.sis,4,-5,{yaw:Math.PI,talk:n=>talkSis(GM,n)}); tm('sis',17); } if(isThu(G)&&hr>=15.2&&hr<16.2){ GM.spawnNPC('prof',PROF,-5,1.2,{yaw:0,talk:n=>talkProf(GM,n)}); } if(G.weekday===3&&hr>=18.8&&hr<21){ GM.spawnNPC('sis',C.sis,-3,3.6,{yaw:Math.PI,talk:n=>talkSis(GM,n)}); tm('sis',21); }
       /* 萬才館室內兩層樓（第三階段，D42）的背景路人：一個照路線上下樓（一樓大廳 → 樓梯 → 二樓門廳 → 走廊的研討室門口 → 走回一樓），一個在二樓走廊靠著欄杆往下看。不是劇情人物、沒有對話 */
       if(E.levels&&hr>=8&&hr<21.5){ GM.spawnExtra(extraSpec(xi++),[[3,4.6,0],[-6.2,5.4,1],[1.5,-6.0,1],[-6.2,5.4,1],[2.5,5.0,0]],{});
@@ -415,6 +416,7 @@ const STORY = (function(){
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ CLS.tick(GM); }catch(e){ console.warn('CLS.tick',e); } }   /* 課表（D52）*/
     if(typeof PHONE!=='undefined'){ try{ S.phoneRules(GM); PHONE.tick(G,out=>{ if(out.length) GM.toast('手機｜'+PHONE.notice(G,out[0]),3800); if(GM.phoneBadge) GM.phoneBadge(); }); }catch(e){ console.warn('PHONE',e); } }   /* 手機：排定時間的訊息（交接包 v1）*/
     if(G.zone==='noodle') noodleRegulars(GM);   /* 麵店的固定客人：時間到了進來、離開 */
+    if(typeof HOME!=='undefined'&&HOME.at(G)){ HOME.tick(GM); return; }   /* 讀檔時人在臺北的家：回到家的選單（在家的時候宿舍、校園的事件不發生）*/
     if(G.zone==='dorm'){ S.dormItems(GM); if(fyPotsTick(GM,dt)) return; }
     S.kaiDormTick(GM);   /* 室友阿凱的宿舍事件（K-D3 鍵盤聲、K-D5 和解；吵架第 4 天自己和好）*/   /* 房間裡跟著劇情出現的東西（黃金葛、阿凱的鍵盤盒子、方奕廷的三盆植物）*/
     if(typeof CROWD!=='undefined'){ try{ CROWD.tick(GM,dt); }catch(e){ console.warn('CROWD.tick',e); } }   /* 公共場景的人流（D55）*/
@@ -448,6 +450,7 @@ const STORY = (function(){
   S.forceHome=async function(GM){ const G=GM.G; if(G.flags._forcing) return; G.flags._forcing=true; try{ const home=G.zone==='dorm'; GM.sceneBegin(); await GM.say(null,home?'已經凌晨了。你撐不住，躺上床就睡著了。':'已經凌晨了。你的腳自己往宿舍走。'); GM.sceneEnd(); G.flags.companion=null; if(!home) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await sleepNow(GM); } finally { G.flags._forcing=false; } };
   // ---------- 互動 ----------
   S.interact=async function(it,GM){ const G=GM.G, F=G.flags, E=GM.E;
+    if(it.home){ if(typeof HOME!=='undefined') await HOME.go(GM); return true; }   /* 回臺北的家（src/home3d.js）*/
     if(it.deskStudy){ await deskScene(GM,it); return true; }
     if(it.roomItems){ await roomItems(GM); return true; }
     if(it.pothos){ await pothosScene(GM); return true; }
@@ -513,7 +516,7 @@ const STORY = (function(){
   S.zhNum=n=>{ const d='零一二三四五六七八九'; n=n|0; if(n<=0) return '零'; if(n<10) return d[n]; if(n<20) return '十'+(n%10?d[n%10]:''); return d[Math.floor(n/10)]+'十'+(n%10?d[n%10]:''); };   /* 3→三、12→十二、20→二十 */
   /* 玩家認識這個人了嗎（群戲只放認識的人：交接包 v1 交付清單第 0 節第 1 點、AA_120 初遇規則）：FIRST_MET；小語的第一次說話是 talkYu（met_yu）；阿哲開場就熟 */
   S.knows=function(id,G){ G=G||(GM_ref&&GM_ref.G); if(id==='zhe') return true; if(id==='yu'&&G&&G.flags&&G.flags.met_yu) return true; return typeof SOCIAL!=='undefined'&&SOCIAL.has(id,'FIRST_MET'); };
-  S.phoneRules=function(GM){ const G=GM.G, F=G.flags; if(typeof PHONE==='undefined') return; const silentContact=id=>{ if(typeof INV==='undefined') return; INV.rec(G); if(G.contacts[id]==null) G.contacts[id]=G.day; };
+  S.phoneRules=function(GM){ const G=GM.G, F=G.flags; if(typeof PHONE==='undefined') return; if(typeof HOME!=='undefined'){ try{ HOME.phoneRules(GM); }catch(e){ console.warn('HOME.phoneRules',e); } }   /* 家人群組（週四 20:00）*/ const silentContact=id=>{ if(typeof INV==='undefined') return; INV.rec(G); if(G.contacts[id]==null) G.contacts[id]=G.day; };
     /* 芷若的第一則私訊（BB_95 4-2）：Café 第五次加了店裡的帳號（zhiruoShopContactDay）→ 那天 22:07；交往中改在隔天 15:10＋友情版的第三句（AA_112 8-1：交往中的玩家不收晚上只傳給他的訊息）*/
     /* 第三句（BB_95 4-2，BB 2026-10-14 654f5dd）：照第一次點的東西——有奶的（拿鐵、卡布奇諾、熱可可）「奶泡我多打了三秒」、手沖「悶蒸我多等了十秒」、
        美式「水我少加了一點」、茶「我多泡了十秒」、點心「挑」；交往中隔天 15:10 才傳：飲料都是「你昨天的那杯，是我做的。好喝的話，跟老闆說。」*/
