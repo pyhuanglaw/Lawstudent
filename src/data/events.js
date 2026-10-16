@@ -166,6 +166,7 @@ const STORY_EVENTS=[
       {speaker:'heroine_02',expression:'neutral',text:'你是——'},
       {speaker:null,text:'（她停住，搖頭，笑了一下。）'},
       {speaker:'heroine_02',expression:'neutral',text:'熱可可。加一份濃縮。'},
+      {cg:'cg_own_drink_heroine02'},   /* BCG-04（BB_117：她說完「熱可可。加一份濃縮。」之後、「不要笑」之前；BB-B 檢查通過）*/
       {speaker:'heroine_02',expression:'embarrassed',text:'很幼稚吧。小孩子的飲料加大人的東西。'},
       {speaker:'heroine_02',expression:'smile',text:'……不要笑。'} ],
     consequences:{mem:[{npc:'heroine_02',tag:'ASKED_HER_DRINK',note:'她下班前，你問她自己都喝什麼'}]} },
@@ -962,6 +963,7 @@ const STORY_EVENTS=[
       {speaker:'heroine_04',expression:'embarrassed',text:'欸不是，我手在抖。'},
       {speaker:'heroine_04',expression:'neutral',text:'我寫程式從來不抖。'},
       {speaker:null,text:'（第二首，她按錯一個和弦。全場安靜一秒。她自己先笑出來。）'},
+      {cg:'cg_bug_fix_heroine04'},   /* BCG-11（BB_117：按錯和弦、她自己先笑出來、對著麥克風說話的那一秒；在場就看得到，拍不拍手都算）*/
       {speaker:'heroine_04',expression:'laugh',text:'（對著麥克風）這個 bug 我下次修。'},
       {speaker:null,text:'（全場笑。）'},
       {choice:[{text:'（拍手）',set:{ZQ_SHOW:'clap'},goto:'clap'},{text:'（坐著聽完）',set:{ZQ_SHOW:'came'},goto:'came'},{text:'（先走）',set:{ZQ_SHOW:'half'},goto:'end'}]},
