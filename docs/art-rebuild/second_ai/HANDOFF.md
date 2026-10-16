@@ -35,9 +35,9 @@
 | 1 | SOP 文件 `ART_SOP.md` | v1 完成 | 69e4b181 |
 | 2 | 示範案例（溫州街）`sop_demo/README.md` | 完成 | 644a322f |
 | 3 | 同步 AA-B、BB-B | 20:2x 已送出（DELIVERED；附 ART_SOP 69e4b181、SCENE_RULES 1c3bdefd／54ff20d5、示範 644a322f、入口 d8cfa784） | |
-| 4 | AA-B、BB-B ACK＋採用計畫＋README 具體做法＋舊成果分舊／新標準 | **等 ACK（未完成）** | |
+| 4 | AA-B、BB-B ACK＋採用計畫＋README 具體做法＋舊成果分舊／新標準 | **BB-B 20:22 ACK**（讀到 d8cfa784；下一批起照 2-1～2-8、附八項表；README「BB-B 的做法」與舊成果分類：v2 交件前完成）；**AA-B 還沒 ACK（未完成）** | |
 | 5 | HANDOFF／WORK_RULES 最上方強制閱讀＋通知 LAWWW-B | 完成：強制閱讀已加；**LAWWW-B 20:22 ACK**，已登記 AI_SESSION_HANDOFF 第 7.2 節（LAWWW2 啟動提示詞）、第 13 節 HV-9a（LAWWW-B 5607bf59） | d8cfa784／5607bf59 |
-| 6 | AA-B、BB-B 照 SOP 實作驗證 | **未完成**：BB-B＝ART-SHOP1 v2（附八項紀錄）；AA-B＝劇情之後，建議土地公廟供品組 | |
+| 6 | AA-B、BB-B 照 SOP 實作驗證 | **未完成**：BB-B＝ART-SHOP1 v2 製作中（附八項紀錄＋機車行角落試擺的 Cycles 白天／傍晚）；AA-B＝劇情之後，建議土地公廟供品組 | |
 | — | 機車、腳踏車多車型（方法交接之後） | 參考研究完成：`research/vehicles_research.md`（9 種機車原型、9 種腳踏車、停車排、建模計畫；數字來自搜尋摘要，標「估」的是估計） | |
 
 ## ⚠ 使用者 2026-10-16 05:1x～05:2x UTC 正式指示（三則）：現有 3D 美術品質修復與精修——「玩家打開遊戲覺得畫面漂亮」才算完成
