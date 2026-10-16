@@ -659,6 +659,12 @@ const STORY = (function(){
       const q8=typeof OUT!=='undefined'?OUT.get(G,'y0_e08'):null;
       if(sat3!=null&&!(q8&&q8.state==='done')&&(G.day>sat3||(G.day===sat3&&G.hour>=18))&&G.day<=sat3+2&&!PHONE.sent(G,'y0_e08_missed'))
         PHONE.at(G,sat3,21.5,[{th:'g:econ_class',text:'📷（河濱的烤肉架、一圈人、一盤烤焦的玉米）'},{th:'p:kexin',from:'kexin',text:'你沒來。火很小，月亮很晚才出來。'}],'y0_e08_missed'); }
+    /* E07 沒去（BB_104 8b-2）：博覽會結束後可昕私訊「我加了即興劇社。你呢？」，玩家在手機上選社團（Y0_CLUB），她照 E07 的表回。
+       時間：9/21（六）12:30（E06 她的第一則私訊在 9/19 或 9/20，這一則排在那之後；AA-B 確認中）*/
+    if(S.isEcon(G)&&!F.Y0_CLUB&&!(G.events&&G.events.done&&G.events.done.ev_y0_e07)){ const sat3=termDay('Y0S1',3,6);
+      if(sat3!=null&&G.day>=sat3&&G.day<=sat3+6&&!(G.day===sat3&&G.hour<12.5)&&!PHONE.sent(G,'y0_e07_missed')){ const K=t=>({th:'p:kexin',from:'kexin',text:t});
+        PHONE.at(G,G.day===sat3?sat3:G.day,G.day===sat3?12.5:G.hour,[Object.assign(K('我加了即興劇社。你呢？'),{ask:{opts:[{t:'吉他社',set:{Y0_CLUB:'guitar'},say:[K('好。那你以後要彈一首給劇社配樂。')]},{t:'登山社',set:{Y0_CLUB:'hiking'},say:[K('你要去爬山？……記得帶伴手禮回來。')]},
+          {t:'羽球社',set:{Y0_CLUB:'badminton'},say:[K('羽球社的人都很早起。你可以嗎？')]},{t:'不參加',set:{Y0_CLUB:'none'},say:[K('也好。那你週五晚上都有空了。……我是說大家。')]}]}})],'y0_e07_missed'); } }
     /* 校慶問答攤（BB_95 3-7，DL-04B）：前一天（週五）21:00 法服群組，學姊提醒；沒加入法服的玩家改成校園公告欄的旁白（AMBIENT 的 festEve）*/
     if(PHONE.inGroup(G,'lawclub_study')){ const fs=termDay('Y1S1',11,6); if(fs&&G.day===fs-1) PHONE.at(G,fs-1,21,[{th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'明天校慶，問答攤十點開。輪班表在記事本。'}],'fest_eve_lawclub'); }
     /* 家族聚餐（BB_95 3-8）：前一週 Kevin 在家族群組約；當晚 22:30 學姊訂正考古題；沒去的玩家 22:00 Kevin 貼資料夾、學姊說書會留給學弟 */
