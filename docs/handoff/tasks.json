@@ -10601,7 +10601,8 @@
     "acceptance": "可以走、可以坐、季節節點、和導航一致；使用者看畫面",
     "receiver": "LAWWW-B",
     "ack": "ACTIONED"
-   }
+   },
+   "note": "2026-10-16：v7（LAWWW2-B 5e688f34，ART-PARK3 象棋桌凳、直飲台、車架）接進開發分支；wz_street_integration 排隊中。"
   },
   {
    "id": "V0-ART-DORM",

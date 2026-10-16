@@ -4347,8 +4347,8 @@
    "sha": "5e688f34",
    "what": "小公園 v7（ART-PARK3：涼亭石桌石凳、直飲台、車架換 BB-B park3_props；車架沿南北排）＋美國公寓廚房生活痕跡、爐子洗碗機位置修正",
    "task": "ART-WZ1",
-   "msg": "ACK",
-   "integration": "未整合",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
    "note": "READY_FOR_ART_REVIEW；小公園 v7 接進來後跑 wz_street_integration；美國公寓廚房（SCN-US-01）等接 SCN-US-01 時一起",
    "date": "2026-10-16T18:2xZ"
   }
