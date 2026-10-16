@@ -2959,6 +2959,174 @@
    "integration": "未整合",
    "note": "美國公寓，V4 一起接",
    "date": "2026-10-16T13:3xZ"
+  },
+  {
+   "id": "DLV-1016-247",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "e680d48a",
+   "what": "溫州街效能第三輪：修第二輪貼圖集把木紋、磁磚變糊；三角形 −1.3 萬（303／286／321 次、43.1／40.7／44.3 萬）",
+   "task": "FIX-WZ-PERF",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "v9.9 RC2 用第三輪（LAWWW-B 選 A）；wz_street_integration 只有效能一項沒過、cafe_glb_integration 全過",
+   "date": "2026-10-16T13:4xZ"
+  },
+  {
+   "id": "DLV-1016-248",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "586eface",
+   "what": "ART-US3 美國公寓臥室家具驗收、merge；LICENSES 補八件",
+   "task": "ART-US3",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "V4 美國線一起接",
+   "date": "2026-10-16T13:4xZ"
+  },
+  {
+   "id": "DLV-1016-249",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "4a22c067",
+   "what": "ART-US4 美國公寓衛浴＋陽台小物擺進美國公寓；浴缸短牆、磁磚、窗外地面",
+   "task": "ART-US1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "V4 美國線一起接",
+   "date": "2026-10-16T13:4xZ"
+  },
+  {
+   "id": "DLV-1016-250",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "31308179",
+   "what": "AA_172：V2-C15 回想用 A 類一行有條件旁白（不改 importer）、V2-B37 刑總二課程群組＋沛珊兩則、DONE-B16 確認、SCN-V0-02 不需要新 3D",
+   "task": "V2-B37",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v9.9 之後改：C15 旁白補後半句、B37 改成刑總二群組（和 BB_96 3-7「期末加油。」的差異已問 AA-B）",
+   "date": "2026-10-16T13:4xZ"
+  },
+  {
+   "id": "DLV-1016-251",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "b70fb387",
+   "what": "AA_172 更正：soc_hall 是 2D 背景",
+   "task": "SCN-V0-02",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "現況就是 2D",
+   "date": "2026-10-16T13:4xZ"
+  },
+  {
+   "id": "DLV-1016-252",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "a0c728d9",
+   "what": "AA_174：美國線 2D 底圖用途確認（SCN-US-2D）",
+   "task": "SCN-US-2D",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "下一步 BB-B 改清單、使用者生成",
+   "date": "2026-10-16T13:4xZ"
+  },
+  {
+   "id": "DLV-1016-253",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "e14e9260",
+   "what": "AA_175：SCN-V3-02 結案、SCN-V4-03／V5-04 新 2D、SCN-V5-03 尾聲改兩點半 Café",
+   "task": "SCN-V3-02",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "總表四列照改",
+   "date": "2026-10-16T13:4xZ"
+  },
+  {
+   "id": "DLV-1016-254",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "0adfc5bf",
+   "what": "AA_154 A47：E35 考完以後的約定（7/14 20:00 私訊、7/19 摘要日、三種旁白）；E18b、T3 時間定案",
+   "task": "V0-B1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "E18b、T3 照現在；7/14 私訊等 BB-B 的字再一起接",
+   "date": "2026-10-16T13:4xZ"
+  },
+  {
+   "id": "DLV-1016-255",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "871ee243",
+   "what": "BB_153 E34 窗口 12:20 改 12:15",
+   "task": "V0-B3",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "程式本來就是 12:15",
+   "date": "2026-10-16T13:4xZ"
+  },
+  {
+   "id": "DLV-1016-256",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "f101420b",
+   "what": "BB_112 4-1：S2 只在週四",
+   "task": "V0-B3",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "b0a7ab24 已照做",
+   "date": "2026-10-16T13:4xZ"
+  },
+  {
+   "id": "DLV-1016-257",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "754e7136",
+   "what": "BB_104 8b-19：E36 放榜那晚「以後怎麼見面」可昕的回應（E36_PACT）",
+   "task": "V0-B1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "E36 一起接（第②級，等 AA-B 確認）",
+   "date": "2026-10-16T13:4xZ"
+  },
+  {
+   "id": "DLV-1016-258",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "ec47463b",
+   "what": "BB_104 8b-19 E36_PACT weekly 那句和 K5 接得上",
+   "task": "V0-B1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "E36 一起接",
+   "date": "2026-10-16T13:4xZ"
+  },
+  {
+   "id": "DLV-1016-259",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "9187e49b",
+   "what": "BB_132 美國線 2D 照 AA_174 改（加 us_chapel_steps 等）",
+   "task": "SCN-US-2D",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "待使用者生成",
+   "date": "2026-10-16T13:4xZ"
+  },
+  {
+   "id": "DLV-1016-260",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "96daf8e7",
+   "what": "BB_132 加 AA_175 的四張 2D",
+   "task": "SCN-V4-03",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "待使用者生成",
+   "date": "2026-10-16T13:4xZ"
   }
  ],
  "ignored": [
@@ -4171,6 +4339,16 @@
    "sha": "ec9d486e",
    "branch": "origin/claude/elegant-brown-fcos7n",
    "why": "企劃組的進度（v0 回聲一覽，換階段時用）"
+  },
+  {
+   "sha": "8f89d922",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "why": "LAWWW2-B 交接紀錄（內容是已登記的交付）"
+  },
+  {
+   "sha": "de776d69",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB_00 紀錄（AA_175 四張 2D，已登記 96daf8e7）"
   }
  ]
 }

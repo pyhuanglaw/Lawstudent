@@ -128,6 +128,51 @@ def hip_roof(xf, W, D, y0, H, r, kawara, ridge, wood):
     return Ls
 
 
+# ---- 一盞茶屋（ART-WZ2，LAWWW2-B 2026-10-16；AA_164 2-3）：院門掛紙燈籠「一盞」、門柱掛木牌、玄關掛素面麻布暖簾。
+# 招牌字是使用者核可的設計稿（BB-B signs_approved/yizhan_lantern.webp），從溫州街招牌貼圖集（sign_atlas.py）取。
+import json as _json
+TEAHOUSE = arg('--teahouse', '1') == '1'
+M['noren'] = L.flat('jp_noren', '#d8ceb6', rough=0.95)   # 素面麻布（yizhan_front_ref 的暖簾）
+_ATL = _json.load(open(os.path.join(HERE, 'textures', 'gen', 'wz_signs_atlas.json'), encoding='utf-8'))
+def _atlas_mat(name, emit):
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N = nt.nodes; bs = N['Principled BSDF']; bs.inputs['Roughness'].default_value = 0.7
+    tx = N.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(os.path.join(HERE, 'textures', 'gen', 'wz_signs_atlas.jpg'), check_existing=True); nt.links.new(tx.outputs['Color'], bs.inputs['Base Color'])
+    if emit: nt.links.new(tx.outputs['Color'], bs.inputs['Emission Color']); bs.inputs['Emission Strength'].default_value = emit
+    return m
+
+
+def paper_lantern(xf, x, y, z, r=0.17, h=0.5):
+    """紙燈籠：燈籠身是旋轉體，正面、背面各包半圈設計稿（字兩面都看得到）；上下木蓋、鐵環、竹骨的橫紋"""
+    u0, v0, u1, v1 = _ATL['yizhan_lantern']['uv']; ub0, ub1 = u0 + (u1 - u0) * 0.1, u0 + (u1 - u0) * 0.9; vb0, vb1 = v0 + (v1 - v0) * 0.12, v0 + (v1 - v0) * 0.86
+    m = Mesh('yizhan_lantern_body', _atlas_mat('wz_yizhan_lantern', 0.25)); bm = m.bm; uvl = bm.loops.layers.uv.new('UVMap')
+    n, rows = 24, 10; rings = []
+    for j in range(rows + 1):
+        t = j / rows; yy = y - h / 2 + t * h; rr = r * (0.72 + 0.28 * math.sin(math.pi * t))
+        rings.append([bm.verts.new(g2b(*xf.p(x + math.sin(2 * math.pi * i / n) * rr, yy, z + math.cos(2 * math.pi * i / n) * rr))) for i in range(n + 1)])
+    for j in range(rows):
+        for i in range(n):
+            f = bm.faces.new((rings[j][i], rings[j][i + 1], rings[j + 1][i + 1], rings[j + 1][i]))
+            for lp, (ii, jj) in zip(f.loops, ((i, j), (i + 1, j), (i + 1, j + 1), (i, j + 1))):
+                a = ii / n; uu = (a + 0.25) % 0.5 * 2                                        # 正面（+z）在半圈的中間
+                if ii == n and uu == 0: uu = 1.0
+                lp[uvl].uv = (ub0 + (ub1 - ub0) * (1 - uu), vb0 + (vb1 - vb0) * jj / rows)
+    m.finish(root, uv=False)
+    cap = acc('wood')
+    for yy in (y - h / 2 - 0.03, y + h / 2):
+        xf.cyl(cap, (x, yy, z), (x, yy + 0.04, z), r * 0.75, seg=16)
+    xf.cyl(acc('metal'), (x, y + h / 2 + 0.04, z), (x, y + h / 2 + 0.16, z), 0.006, seg=4)
+    CL.glow(root, 'lantern', *xf.p(x, y, z + r + 0.05), color='rgba(255,214,150,1)', size=1.3, day=0.0, night=1.0)
+
+
+def wood_plaque(xf, x, y0, z, w=0.15):
+    u0, v0, u1, v1 = _ATL['yizhan_plaque']['uv']; asp = _ATL['yizhan_plaque']['aspect']; hgt = w / asp
+    m = Mesh('yizhan_plaque', _atlas_mat('wz_yizhan_plaque', 0.0)); bm = m.bm; uvl = bm.loops.layers.uv.new('UVMap')
+    f = bm.faces.new([bm.verts.new(g2b(*xf.p(*q))) for q in ((x - w / 2, y0, z), (x + w / 2, y0, z), (x + w / 2, y0 + hgt, z), (x - w / 2, y0 + hgt, z))])
+    for lp, t in zip(f.loops, ((u0, v0), (u1, v0), (u1, v1), (u0, v1))): lp[uvl].uv = t
+    m.finish(root, uv=False); xf.box(acc('wood'), x - w / 2, x + w / 2, y0, y0 + hgt, z - 0.025, z - 0.002)
+    return y0 + hgt
+
+
 def jp_house():
     xf = Xf(-21.5, 12.0, math.pi); w, d, wh, fl = 10.0, 7.0, 3.0, 0.5; hw, hd = w / 2, d / 2; top = fl + wh
     sid, wood, pla, bas = acc('siding'), acc('wood'), acc('plaster'), acc('base')
@@ -222,6 +267,11 @@ def jp_house():
     xf.box(wood, lx - 0.12, lx + 0.12, ly - 0.15, ly + 0.15, lz - 0.12, lz + 0.12); xf.box(acc('lamp'), lx - 0.1, lx + 0.1, ly - 0.13, ly + 0.13, lz - 0.1, lz + 0.1)
     xf.box(wood, lx - 0.14, lx + 0.14, ly + 0.15, ly + 0.19, lz - 0.14, lz + 0.14)
     xf.box(acc('base'), gx - 0.45, gx + 0.45, 0, 0.14, dz + 0.22, dz + 0.78)                      # 沓脫石
+    if TEAHOUSE:                                                                                 # 一盞：玄關的素面麻布暖簾（三片，上面一根竹竿）
+        nr = acc('noren'); y1 = fl + gh - 0.32
+        xf.cyl(acc('wood'), (gx - gw_ / 2 + 0.05, y1 + 0.02, dz + 0.08), (gx + gw_ / 2 - 0.05, y1 + 0.02, dz + 0.08), 0.015, seg=6)
+        for k in range(3):
+            a = gx - gw_ / 2 + 0.12 + k * (gw_ - 0.24) / 3; b = a + (gw_ - 0.24) / 3 - 0.03; xf.box(nr, a, b, y1 - 0.75, y1, dz + 0.07, dz + 0.085)
     # ---- 主屋頂（寄棟）：屋簷比牆多出 0.8 m
     kawara = Mesh('roof_main', M['kawara'])
     W, D, H = w + 1.6, d + 1.6, 1.9
@@ -286,7 +336,12 @@ def jp_wall():
     # 門牌（左門柱正面：藍底白字）、「私人住宅 請勿進入」（門右邊的牆）、鐵信箱
     lp = gx - gw / 2 - 0.11
     face('PLATE_FACE_door', M['board'], xf, [(lp - 0.09, 1.38, 0.115), (lp + 0.09, 1.38, 0.115), (lp + 0.09, 1.7, 0.115), (lp - 0.09, 1.7, 0.115)], {'plate': 'door', 'text': '溫州街', 'sub': '５號', 'bg': '#1f4e8c', 'color': '#ffffff'})
-    face('PLATE_FACE_private', M['board'], xf, [(1.25, 0.62, 0.13), (1.7, 0.62, 0.13), (1.7, 0.86, 0.13), (1.25, 0.86, 0.13)], {'plate': 'notice', 'text': '私人住宅', 'sub': '請勿進入', 'bg': '#f4f1ea', 'color': '#a3262a'})
+    if TEAHOUSE:                                                                                 # 一盞：院門左邊掛紙燈籠、右門柱掛木牌（原本的「私人住宅 請勿進入」拿掉）
+        paper_lantern(xf, gx - gw / 2 + 0.35, 1.5, 0.3); xf.cyl(acc('metal'), (gx - gw / 2 + 0.35, 1.91, 0.3), (gx - gw / 2 + 0.35, gh - 0.25, 0.12), 0.006, seg=4)
+        rp = gx + gw / 2 + 0.11; wood_plaque(xf, rp, 0.95, 0.12)
+        xf.cyl(acc('metal'), (rp, 1.72, 0.1), (rp, 1.8, 0.115), 0.004, seg=3)
+    else:
+        face('PLATE_FACE_private', M['board'], xf, [(1.25, 0.62, 0.13), (1.7, 0.62, 0.13), (1.7, 0.86, 0.13), (1.25, 0.86, 0.13)], {'plate': 'notice', 'text': '私人住宅', 'sub': '請勿進入', 'bg': '#f4f1ea', 'color': '#a3262a'})
     xf.box(acc('metal'), 2.0, 2.32, 0.7, 1.02, 0.125, 0.25); xf.box(acc('metal'), 2.04, 2.28, 0.98, 1.0, 0.25, 0.26)
 
 
@@ -297,6 +352,12 @@ for m, props in faces: uv01(m.finish(root, uv=True, props=props))
 L.vc_consolidate(root, {
                         **dict.fromkeys(('jp_ridge', 'cafe_ac_body', 'cafe_ac_fan', 'cafe_room_dark'), L.vc_material('wz_vc_matte', rough=0.85)),
                         **dict.fromkeys(('cafe_iron_black', 'jp_gutter', 'jp_meter'), L.vc_metal('wz_vc_metal', rough=0.45, metal=0.35))})
-L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
+_keep = lambda ob: 'FACE' in ob.name   # 第三輪減量（2026-10-16）：其他純色材質也進頂點色、只擺幾個的 instancing 合進大網格、多材質的零件拆開再合
+L.vc_consolidate(root, L.auto_vc_groups(root, bpy.data.materials['wz_vc_matte'], bpy.data.materials['wz_vc_metal'], protect={'jp_lamp', 'jp_shoji', 'wz_lamp_lens', 'wz_yizhan_lantern'}))
+L.realize_small_instances(root, keep=_keep)
+L.split_by_material(root, keep=_keep)
+L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', 'wz_jp_small_atlas.png'), 'wz_jp_small_atlas', protect={'jp_lamp', 'jp_shoji', 'wz_lamp_lens', 'wz_yizhan_lantern', 'wz_yizhan_plaque'}, max_tris=600, keep=_keep)   # 效能第二輪：小貼圖材質合一張
+L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', 'wz_jp_rows.jpg'), 'wz_jp_rows', protect={'jp_lamp', 'jp_shoji', 'wz_lamp_lens', 'wz_yizhan_lantern', 'wz_yizhan_plaque'}, max_vloss=0.06, keep=_keep, skip=lambda m: m.name.startswith('wz_jp_small_atlas'))
+L.merge_by_material(root, keep=_keep)
 info = L.export(OUT, gpu_instances=True)
 L.write_json(OUT[:-4] + '.json', info)

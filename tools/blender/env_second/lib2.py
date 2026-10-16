@@ -253,7 +253,8 @@ def auto_vc_groups(root, matte, metal, gloss=None, protect=(), skip=lambda m: Fa
     return out
 
 
-def atlas_small(root, out_png, mat_name, protect=(), max_tris=600, max_rep=4, cell=256, rough=0.6, keep=lambda ob: False, skip=lambda m: False, only=None):
+def atlas_small(root, out_png, mat_name, protect=(), max_tris=600, max_rep=4, cell=256, rough=0.6, keep=lambda ob: False, skip=lambda m: False, only=None, alpha=False):
+    # alpha=True：只收「透明貼圖」的葉片卡（Base Color 和 Alpha 都接同一張圖，Alpha 可以經過一個 Math 節點）；貼圖集帶 alpha、材質 DITHERED、雙面
     """小的貼圖材質（店內地板、條紋雨遮、菜單、書背…每個幾十個三角形、一個材質一次 draw call）合成一張貼圖集、一個材質。
     只收：Base Color 接一張貼圖（可以經過一個乘色的 Mix）、不透明、不發光、沒有 alpha 貼圖、三角形 ≤ max_tris、UV 範圍 ≤ max_rep 格（重複的貼圖在格子裡先鋪好）。
     法線、粗糙度貼圖不收（小東西看不出來；粗糙度用 rough）。protect（遊戲用材質名做事的）、字牌 *FACE* 的材質、keep(ob) 的物件不動。
@@ -266,7 +267,13 @@ def atlas_small(root, out_png, mat_name, protect=(), max_tris=600, max_rep=4, ce
     def src_of(m):
         if not (m and m.use_nodes) or m.name in protect or m.name in face_m or skip(m) or (only is not None and m.name not in only): return None
         b = m.node_tree.nodes.get('Principled BSDF')
-        if b is None or b.inputs['Alpha'].is_linked or b.inputs['Alpha'].default_value < 0.999 or not b.inputs['Base Color'].is_linked: return None
+        if b is None or not b.inputs['Base Color'].is_linked: return None
+        if alpha:
+            if not b.inputs['Alpha'].is_linked: return None
+            an = b.inputs['Alpha'].links[0].from_node
+            if an.bl_idname == 'ShaderNodeMath' and an.inputs[0].is_linked: an = an.inputs[0].links[0].from_node
+            if an.bl_idname != 'ShaderNodeTexImage': return None
+        elif b.inputs['Alpha'].is_linked or b.inputs['Alpha'].default_value < 0.999: return None
         es = b.inputs.get('Emission Strength')
         if b.inputs['Emission Color'].is_linked or (es is not None and es.default_value > 0 and max(b.inputs['Emission Color'].default_value[:3]) > 0): return None
         n = b.inputs['Base Color'].links[0].from_node; tint = (1.0, 1.0, 1.0)
@@ -275,6 +282,7 @@ def atlas_small(root, out_png, mat_name, protect=(), max_tris=600, max_rep=4, ce
             if not l6 or n.inputs[7].is_linked: return None
             tint = tuple(n.inputs[7].default_value[:3]); n = l6[0].from_node
         if n.bl_idname != 'ShaderNodeTexImage' or n.image is None or n.inputs['Vector'].is_linked: return None   # 用 Mapping 節點挑貼圖一塊的（招牌設計稿）不收
+        if alpha and an.image != n.image: return None
         return n.image, tint
     cand = {}   # 材質名 → [image, tint, tris, [(ob, poly idx)…], uv bbox]
     for ob in objs:
@@ -301,23 +309,30 @@ def atlas_small(root, out_png, mat_name, protect=(), max_tris=600, max_rep=4, ce
     print(json.dumps({'atlas_small_skipped': skipped}, ensure_ascii=False))
     if len(sel) < 2: print(json.dumps({'atlas_small': 0})); return []
     n = len(sel); cols = math.ceil(math.sqrt(n)); rows = math.ceil(n / cols); W, Hh = cols * cell, rows * cell; pad = 3
-    atlas = np.zeros((Hh, W, 4), np.float32); atlas[..., 3] = 1.0
+    atlas = np.zeros((Hh, W, 4), np.float32); atlas[..., 3] = 0.0 if alpha else 1.0
     for k, (nm, c, u0, v0, ru, rv) in enumerate(sel):
-        img, tint = c[0], c[1]; w0, h0 = img.size; px = np.array(img.pixels[:], np.float32).reshape(h0, w0, img.channels)[..., :3]   # Blender 的像素：第 0 列在下面
+        img, tint = c[0], c[1]; w0, h0 = img.size; raw = np.array(img.pixels[:], np.float32).reshape(h0, w0, img.channels)   # Blender 的像素：第 0 列在下面
+        px = raw[..., :3]; al = raw[..., 3:4] if img.channels == 4 else np.ones((h0, w0, 1), np.float32)
         if img.colorspace_settings.name == 'sRGB': px = np.where(px <= 0.04045, px / 12.92, ((px + 0.055) / 1.055) ** 2.4)
-        px = px * np.array(tint, np.float32)
+        px = np.concatenate([px * np.array(tint, np.float32), al], -1)
         tiled = np.tile(px, (rv, ru, 1)); inner = cell - 2 * pad
         yi = (np.arange(inner) + 0.5) / inner * tiled.shape[0]; xi = (np.arange(inner) + 0.5) / inner * tiled.shape[1]
         cellimg = tiled[yi.astype(int)[:, None], xi.astype(int)[None, :]]
         cellimg = np.pad(cellimg, ((pad, pad), (pad, pad), (0, 0)), mode='edge')
         cx, cy = (k % cols) * cell, (k // cols) * cell
-        atlas[cy:cy + cell, cx:cx + cell, :3] = cellimg
+        atlas[cy:cy + cell, cx:cx + cell, :] = cellimg
         c.append((cx, cy))
     srgb = np.where(atlas[..., :3] <= 0.0031308, atlas[..., :3] * 12.92, 1.055 * np.power(np.clip(atlas[..., :3], 0, None), 1 / 2.4) - 0.055)
     from PIL import Image as _I
-    _I.fromarray((np.clip(srgb[::-1], 0, 1) * 255).astype(np.uint8)).save(out_png)
+    rgba = np.concatenate([srgb, atlas[..., 3:4]], -1) if alpha else srgb
+    _I.fromarray((np.clip(rgba[::-1], 0, 1) * 255).astype(np.uint8)).save(out_png)
     am = bpy.data.materials.new(mat_name); am.use_nodes = True; nt = am.node_tree; bs = nt.nodes['Principled BSDF']; bs.inputs['Roughness'].default_value = rough
     tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(out_png); tx.interpolation = 'Linear'; nt.links.new(tx.outputs['Color'], bs.inputs['Base Color'])
+    if alpha:
+        rn = nt.nodes.new('ShaderNodeMath'); rn.operation = 'ROUND'; nt.links.new(tx.outputs['Alpha'], rn.inputs[0]); nt.links.new(rn.outputs[0], bs.inputs['Alpha'])
+        try: am.surface_render_method = 'DITHERED'
+        except Exception: pass
+        am.use_backface_culling = False
     for (nm, c, u0, v0, ru, rv) in sel:
         cx, cy = c[5]
         for ob, pi in c[3]:
@@ -339,7 +354,7 @@ def atlas_small(root, out_png, mat_name, protect=(), max_tris=600, max_rep=4, ce
     return [s_[0] for s_ in sel]
 
 
-def atlas_rows(root, out_jpg, mat_name, protect=(), max_tris=2500, max_rv=6, W=512, row=64, rough=0.6, keep=lambda ob: False, skip=lambda m: False, only=None):
+def atlas_rows(root, out_jpg, mat_name, protect=(), max_tris=2500, max_rv=6, W=512, row=64, rough=0.6, keep=lambda ob: False, skip=lambda m: False, only=None, max_vloss=None):
     """atlas_small 收不進去的（沿 u 重複很多次：條紋雨遮、店內地板、木頭）：一列一個材質、每列寬＝一個 u 週期（貼圖集整張的寬），
     u 不用改（貼圖本來就沿 u 重複），v 擠進這一列（rv 個週期先鋪好）。列與列之間留邊；遠處的 mipmap 會混到隔壁列一點點（小東西看不出來）。"""
     import numpy as np
@@ -376,6 +391,20 @@ def atlas_rows(root, out_jpg, mat_name, protect=(), max_tris=2500, max_rv=6, W=5
             for li in p.loop_indices: uvl.data[li].uv = (uvl.data[li].uv[0] - math.floor(fu + 1e-4), uvl.data[li].uv[1] - math.floor(fv + 1e-4))
             c[4] = max(c[4], max(uvl.data[li].uv[1] for li in p.loop_indices))
     sel = [(nm, c, max(1, math.ceil(c[4] - 1e-4))) for nm, c in cand.items() if c is not None and c[2] <= max_tris and math.ceil(c[4] - 1e-4) <= max_rv]
+    # v 方向擠成一列（每個週期 row 像素）以後掉多少細節：磁磚、馬賽克、磨石子的橫向縫會不見、變成直條紋（效能第三輪：冰菓室的馬賽克牆裙變成一片咖啡色）。
+    # 指標＝v 方向照貼圖集的取樣縮小再放大，和原圖差多少（除以原圖的標準差）；條紋雨遮、雜訊類的很小，磁磚類的大。max_vloss 有設就排除超過的
+    # 指標用「每個週期 8 像素」量（不是 row）：遊戲裡遠一點 GPU 照 u 方向選 mipmap，v 方向只剩 row 的 1/8，木紋、磁磚、雜訊都會變成直條紋
+    # （第一版用 row 量，木板牆腰 0.03 照樣收進來、遊戲裡變成一片糊）
+    def _vloss(img, rr=8):
+        w0, h0 = img.size
+        px = np.array(img.pixels[:], np.float32).reshape(h0, w0, img.channels)[..., :3]
+        if h0 <= rr: return 0.0
+        small = px.reshape(rr, h0 // rr, w0, 3).mean(axis=1) if h0 % rr == 0 else px[((np.arange(rr) + 0.5) * h0 / rr).astype(int)]
+        up = small[np.clip((np.arange(h0) * rr / h0).astype(int), 0, rr - 1)]
+        return float(np.abs(up - px).mean() / (px.std() + 1e-4))
+    vl = {nm: round(_vloss(c[0]), 3) for (nm, c, rv) in sel}
+    print(json.dumps({'atlas_rows_vloss': vl}))
+    if max_vloss is not None: sel = [t for t in sel if vl[t[0]] <= max_vloss]
     if len(sel) < 2: print(json.dumps({'atlas_rows': 0})); return []
     pad = 4; rows_h = [row * rv + 2 * pad for (nm, c, rv) in sel]; Hh = sum(rows_h)
     atlas = np.zeros((Hh, W, 3), np.float32); y = 0
