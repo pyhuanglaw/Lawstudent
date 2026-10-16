@@ -1,0 +1,2754 @@
+{
+ "BUG-09": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "TEST-06": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "ART-01": {
+  "term": "Y0S1",
+  "week": 1,
+  "earliest": "**改**：經濟系開學典禮在社科院（E02，2024-09-02）比法律系開局早",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "ART-02": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "Y1S1W01",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "ART-03": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "ART-04": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "ART-05": {
+  "term": "Y0S1",
+  "week": 1,
+  "earliest": "**改**：kexin 在經濟系 E02 就出場；bl_zhe、xinci、bohan、peishan 是法律系大一上",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "ART-06": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "ART-07": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "Y1S1W01",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "ART-08": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "Y1S1W01",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "ART-09": {
+  "term": "Y0S1",
+  "week": 1,
+  "earliest": "E02（經濟系四人、家豪）；yule 是 K1b（大一上第 6～8 週）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "ART-10": {
+  "term": "Y1S1",
+  "week": 6,
+  "earliest": "**改**：K1b 第 6～8 週，最早第 6 週（`BB_95` 9-2）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "ART-11": {
+  "term": "Y1S1",
+  "week": 6,
+  "earliest": "同 ART-10",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "ART-12": {
+  "term": "Y0S1",
+  "week": null,
+  "earliest": "**改**：最早是 v0 E21 除夕的電話（2025-01-28，經濟系寒假）；法律系開局的玩家是大一上第一個週末",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "ART-13": {
+  "term": "Y1S1",
+  "week": 7,
+  "earliest": "Y1S1W07",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "ART-14": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "ART-15": {
+  "term": "Y1S1",
+  "week": 7,
+  "earliest": "**改**：大一還有沒進 CG_REGISTRY 的：BCG-18 颱風夜（大一上第 7 週）、BCG-27 K1（第 3 週）、BCG-28 12/3（第 14 週）；大一下 BCG-04、BCG-11、BCG-21、BCG-29、BCG-45（4/24）。請先對 registry 再定；v3 最早是 BCG-16（大二上 P3）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "ART-16": {
+  "term": "Y2S1",
+  "week": null,
+  "earliest": "學姊西裝（W9 面試，大二上）最早；香港朋友、以安冬裝在大三（以安冬裝 2028-01-08 出發那天）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "WIP-01": {
+  "term": "Y1S2",
+  "week": null,
+  "earliest": "Y1S2",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "WIP-02": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "WIP-03": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "WIP-04": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "開局",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V0-A1": {
+  "term": "Y0S1",
+  "week": 1,
+  "earliest": "經濟系開局第一天（2024-09-02）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V0-A2": {
+  "term": "Y0S1",
+  "week": 1,
+  "earliest": "Y0S1 第 1 週",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V0-A3": {
+  "term": "Y0S1",
+  "week": null,
+  "earliest": "標題畫面的開局選擇（遊戲一開始）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V0-A4": {
+  "term": "Y0S2",
+  "week": null,
+  "earliest": "經濟系存檔接到法律系第一天（2025-09）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V0-A5": {
+  "term": "Y0S2",
+  "week": 6,
+  "earliest": "E30 休學那一週（Y0S2 第 6 週前後）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V0-A6": {
+  "term": "Y0S1",
+  "week": 1,
+  "earliest": "E02 開學典禮（社科院）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V0-A7": {
+  "term": "Y0S1",
+  "week": 18,
+  "earliest": "E22b 期末考後在總圖借法律入門書（2025-01）；E23 寒假；E24b、E24c 在 Y0S2 第 1～5 週",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V0-B1": {
+  "term": "Y0S1",
+  "week": null,
+  "earliest": "E01 開學前一天（2024-09-01）宿舍第一晚",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V0-B2": {
+  "term": "Y0S1",
+  "week": 1,
+  "earliest": "P1 初會（第 1 週）；B1＝E03 第 2 週",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V0-B3": {
+  "term": "Y0S1",
+  "week": 1,
+  "earliest": "阿勳 A1 從 E01、E02 起（`BB_112`）；R1～R8 在 Y0S2 第 6 週以後",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V0-B4": {
+  "term": "Y0S1",
+  "week": 3,
+  "earliest": "C1、C2 接 E07 社團博覽會（第 3 週）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V0-B5": {
+  "term": "Y0S1",
+  "week": 1,
+  "earliest": "Y0S1 第 1 週的課",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V0-E1": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "P4 系列在法律系大一上（`BB_105`）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V0-E3": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一天就讀（沒玩經濟系＝none）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V0-SK": {
+  "term": "Y1S1",
+  "week": 3,
+  "earliest": "**改**：SK 系列是法律系時期的回聲；最早 SK01 法律系大一第 3 週（`BB_106` 第 31 行）。經濟系那年本身沒有 SK",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V0-E2": {
+  "term": "Y1S2",
+  "week": 2,
+  "earliest": "P4d 大一下版，第 2 週週五起（`交接包_v2` 第 52 行）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V1-A5": {
+  "term": "Y1S1",
+  "week": 7,
+  "earliest": "Y1S1W07",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V1-A6": {
+  "term": "Y1S1",
+  "week": 15,
+  "earliest": "Y1S1W15",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V1-A10": {
+  "term": "Y1S1",
+  "week": 3,
+  "earliest": "Y1S1W03",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V1-B9-6": {
+  "term": "Y1S1",
+  "week": 14,
+  "earliest": "**改**：12/3（週三）是大一上第 14 週（9/1 第 1 週 → 12/1～12/7 第 14 週），不是第 12 週",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V1-F": {
+  "term": "Y1S1",
+  "week": 3,
+  "earliest": "Y1S1W03",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V2-C13": {
+  "term": "Y1S2",
+  "week": 11,
+  "earliest": "**改**：可玩切片在第 11～12 週（`交接包_v2_交付清單` C13）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V2-C15": {
+  "term": "Y1S2",
+  "week": 12,
+  "earliest": "Y1S2W12",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V2-B32": {
+  "term": "Y1S2",
+  "week": 6,
+  "earliest": "Y1S2W06",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V2-B37": {
+  "term": "Y1S2",
+  "week": 18,
+  "earliest": "Y1S2W18",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V2-B10": {
+  "term": "Y1S2",
+  "week": 2,
+  "earliest": "P4d 第 2 週週五起；SK03 照 `BB_106` 是「法律系大一，每週五」——大一上就有週五的重修經原（`AA_106`），SK03 要不要從大一上開始請 BB-B 確認（目前照 v2 的範圍排）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V2-B9": {
+  "term": "Y1S2",
+  "week": null,
+  "earliest": "**改**：最早的是 2/14 情人節視訊、2/16 除夕 KN，都在寒假（大一下 2/23 才開學）；K5 第 2 週、K7 3/22 第 4 週",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V2-L2": {
+  "term": "Y1S2",
+  "week": 1,
+  "earliest": "Y1S2W01",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V2-K6": {
+  "term": "Y1S2",
+  "week": 18,
+  "earliest": "Y1S2W18",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D1": {
+  "term": "Y2S1",
+  "week": 1,
+  "earliest": "大二上開學（主線 3 第二個房間；搬進去在開學前）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-D2": {
+  "term": "Y2S1",
+  "week": 1,
+  "earliest": "Y2S1W01",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D3": {
+  "term": "Y2S1",
+  "week": 2,
+  "earliest": "開學第一頓 9/15（週二，`AA_143` 1-1）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D4": {
+  "term": "Y2S1",
+  "week": 4,
+  "earliest": "Y2S1W04",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D5": {
+  "term": "Y2S1",
+  "week": 7,
+  "earliest": "Y2S1W07",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D6": {
+  "term": "Y2S1",
+  "week": 7,
+  "earliest": "Y2S1W07",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D7": {
+  "term": "Y2S1",
+  "week": 8,
+  "earliest": "Y2S1W08",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D8": {
+  "term": "Y2S1",
+  "week": 10,
+  "earliest": "Y2S1W10",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D9": {
+  "term": "Y2S1",
+  "week": 13,
+  "earliest": "Y2S1W13",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D10": {
+  "term": "Y2S1",
+  "week": 14,
+  "earliest": "Y2S1W14",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D11": {
+  "term": "Y2S1",
+  "week": 15,
+  "earliest": "Y2S1W15",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D12": {
+  "term": "Y2S1",
+  "week": 16,
+  "earliest": "聖誕 12/24 週四 18:00（`AA_143` 1-6）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D13": {
+  "term": "Y2S1",
+  "week": null,
+  "earliest": "**改**：寒假，2027 除夕 2/5（`AA_143` 2-1）；不是第 19 週",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-D14": {
+  "term": "Y2S2",
+  "week": 3,
+  "earliest": "Y2S2W03",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D15": {
+  "term": "Y2S2",
+  "week": 5,
+  "earliest": "Y2S2W05",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D16": {
+  "term": "Y2S2",
+  "week": 1,
+  "earliest": "Y2S2W01",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D17": {
+  "term": "Y2S2",
+  "week": 6,
+  "earliest": "Y2S2W06",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D18": {
+  "term": "Y2S2",
+  "week": 7,
+  "earliest": "Y2S2W07",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D19": {
+  "term": "Y2S2",
+  "week": 9,
+  "earliest": "Y2S2W09",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D20": {
+  "term": "Y2S2",
+  "week": 12,
+  "earliest": "Y2S2W12",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D21": {
+  "term": "Y2S2",
+  "week": 14,
+  "earliest": "Y2S2W14",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D22": {
+  "term": "Y2S2",
+  "week": 15,
+  "earliest": "Y2S2W15",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-D23": {
+  "term": "Y2S2",
+  "week": 18,
+  "earliest": "Y2S2W18",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-B01": {
+  "term": "Y2S1",
+  "week": 2,
+  "earliest": "大二上第 2 週起每週日 23:00（阿凱 K3；BB_97 4-1 寫「開學第一個週日」，請 BB-B 統一）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B02": {
+  "term": "Y2S1",
+  "week": 1,
+  "earliest": "大二上第 1 週週三法服（到第 2 週）；沒加入法服的人看家族群組",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B03": {
+  "term": "Y2S1",
+  "week": 6,
+  "earliest": "大二上第 6～9 週平日 15～17（學姊 FAMILIAR 以上；G08）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B04": {
+  "term": "Y2S1",
+  "week": 12,
+  "earliest": "大二上第 12 週週四 21:00 Café（完整場景要 FRIEND；不熟的看群組）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B05": {
+  "term": "Y2S1",
+  "week": 13,
+  "earliest": "大二上第 13 週 9～10 點總圖門口",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B06": {
+  "term": "Y2S1",
+  "week": null,
+  "earliest": "大二寒假（家族群組）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-B07": {
+  "term": "Y2S2",
+  "week": 1,
+  "earliest": "大二下第 1 週模 1 抽籤；模 4 第 8 週、模 5 第 10 週 5/1",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B08": {
+  "term": "Y2S2",
+  "week": 6,
+  "earliest": "M3 大二下第 6 週（家族群組）；聚餐第 7～8 週週五",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B09": {
+  "term": "Y2S2",
+  "week": 15,
+  "earliest": "6/5（六）畢業典禮；重訪日 2 第 18 週",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B10": {
+  "term": "Y2S1",
+  "week": 3,
+  "earliest": "大二上第 3 週吉他社社課",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B11": {
+  "term": "Y2S2",
+  "week": 13,
+  "earliest": "大二下第 13 週平日 22～23 點公館（FRIEND）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B12": {
+  "term": "Y2S2",
+  "week": 14,
+  "earliest": "大二下第 14 週成發（INVITED_CLUB）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B13": {
+  "term": "Y2S1",
+  "week": 5,
+  "earliest": "大二上第 5 週霖澤館走廊 12～13 點",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B14": {
+  "term": "Y2S1",
+  "week": 6,
+  "earliest": "大二上第 6 週（P3 之後）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B15": {
+  "term": "Y2S2",
+  "week": 1,
+  "earliest": "大二下第 1 週週三晚上萬才館",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B16": {
+  "term": "Y2S2",
+  "week": 2,
+  "earliest": "大二下第 2 週起（MIRROR_PEISHAN 或 FRIEND）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B17": {
+  "term": "Y2S2",
+  "week": 6,
+  "earliest": "大二下第 6～7 週（春假前）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B18": {
+  "term": "Y2S1",
+  "week": 14,
+  "earliest": "大二上第 14 週截止日；7 天內去 Café（前置 Z4）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B19": {
+  "term": "Y2S2",
+  "week": 12,
+  "earliest": "大二下第 12 週 Z8；admitted 在之後第一次去 Café",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B20": {
+  "term": "Y2S2",
+  "week": 17,
+  "earliest": "大二下第 17～18 週",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B21": {
+  "term": "Y2S2",
+  "week": null,
+  "earliest": "大二暑假（大一和他說過話 3 次以上）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B22": {
+  "term": "Y2S1",
+  "week": 1,
+  "earliest": "大二上第 1～2 週（Kevin「學姊卸任了！」）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-B23": {
+  "term": "Y1S2",
+  "week": null,
+  "earliest": "**改**：大一暑假第二週 KH 邀約最早；大二 K9 第 2 週（交往中的玩家）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V4-E1": {
+  "term": "Y3S1",
+  "week": 1,
+  "earliest": "大三上開學（主線 5 第三個房間）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V4-E2": {
+  "term": "Y3S1",
+  "week": 1,
+  "earliest": "Y3S1W01",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-E3": {
+  "term": "Y3S1",
+  "week": 1,
+  "earliest": "Y3S1W01",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-E4": {
+  "term": "Y3S1",
+  "week": 2,
+  "earliest": "Y3S1W02",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-E5": {
+  "term": "Y3S1",
+  "week": 2,
+  "earliest": "Y3S1W02",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-E6": {
+  "term": "Y3S1",
+  "week": 7,
+  "earliest": "Y3S1W07",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-E7": {
+  "term": "Y3S1",
+  "week": 9,
+  "earliest": "Y3S1W09",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-E8": {
+  "term": "Y3S1",
+  "week": 10,
+  "earliest": "Y3S1W10",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-E9": {
+  "term": "Y3S1",
+  "week": 11,
+  "earliest": "Y3S1W11",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-E10": {
+  "term": "Y3S1",
+  "week": 11,
+  "earliest": "Y3S1W11",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-E11": {
+  "term": "Y3S1",
+  "week": 12,
+  "earliest": "Y3S1W12",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-E12": {
+  "term": "Y3S1",
+  "week": 13,
+  "earliest": "Y3S1W13",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-E13": {
+  "term": "Y3S1",
+  "week": 16,
+  "earliest": "Y3S1W16",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-E14": {
+  "term": "Y3S1",
+  "week": 18,
+  "earliest": "Y3S1W18",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-E15": {
+  "term": "Y3S1",
+  "week": 18,
+  "earliest": "**改**：日本路線的主線 7 提前到 1/7（第 18 週，`AA_12`）；其他路線寒假；主線 9 在除夕 2028-01-25（國外路線手機版）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V4-E16": {
+  "term": "Y3S2",
+  "week": 3,
+  "earliest": "Y3S2W03",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-E17": {
+  "term": "Y3S2",
+  "week": 16,
+  "earliest": "Y3S2W16",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-E18": {
+  "term": "Y3S2",
+  "week": 18,
+  "earliest": "Y3S2W18",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-E19": {
+  "term": "Y3S2",
+  "week": 2,
+  "earliest": "Y3S2W02",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-E20": {
+  "term": "Y3S2",
+  "week": 3,
+  "earliest": "Y3S2W03",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-E21": {
+  "term": "Y3S2",
+  "week": 12,
+  "earliest": "台灣、美國路線：大三下第 12 週群組照片；日本路線：抵達後第 12 週左右（場景 J2）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V4-E22": {
+  "term": "Y3S2",
+  "week": 15,
+  "earliest": "Y3S2W15",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-E23": {
+  "term": "Y3S2",
+  "week": null,
+  "earliest": "**改**：日本路線「抵達後第 1 週」（2028-01-08～01-14，`AA_144` 5-1），不用台灣週次",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V4-E24": {
+  "term": "Y3S2",
+  "week": null,
+  "earliest": "**改**：美國路線抵達 2028-01-19（US1、香港朋友 1），之後照美國學期日期（`BB_98` 4517c707）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V4-B01": {
+  "term": "Y3S1",
+  "week": 3,
+  "earliest": "大三上第 3 週第一張明信片（FAMILIAR）；Z11 大三下第 1 週、Z11b 第 10 週、Z13 第 15 週、Z12 第 16 週",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V4-B02": {
+  "term": "Y3S1",
+  "week": 9,
+  "earliest": "感冒週第 9 週（學姊 FRIEND）；志願表反應第 11 週（所有人）；W15c 1/5；US1 1/19、US2 2 月上中旬、芝加哥 2/26～27、US3 3/11～19、US4 4/1；M6 大三下每天",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V4-B03": {
+  "term": "Y3S1",
+  "week": 5,
+  "earliest": "Q8b 大三上第 5 週；Q10 第 8 週；Q12、Q15 大三下第 14 週；Q11 第 15 週；Q13 第 16 週",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V4-B04": {
+  "term": "Y3S1",
+  "week": 6,
+  "earliest": "P5b 大三上第 6 週週末書店；M3 **改到大三下第 11 週（和哲 4 同一場，G27，待 BB-B）**；K4 大三下第 14 週；F3 大三下（第 16 或 17 週，待 BB-B 統一）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V4-B05": {
+  "term": "Y3S1",
+  "week": 1,
+  "earliest": "大三上每週五 17:05 學姊在家族群組；可昕 K15 第 3 週",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V4-B06": {
+  "term": "Y2S2",
+  "week": null,
+  "earliest": "同 V4-G34：學姊的伴侶期照 `BB_122` 檢查點，最早大二暑假",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V4-R-TW": {
+  "term": "Y3S2",
+  "week": 1,
+  "earliest": "大三下第 1 週（2028-02-14）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-R-JP": {
+  "term": "Y3S1",
+  "week": 18,
+  "earliest": "**改**：出發 2028-01-08（大三上第 18 週，CG-22 登機口）；時差 +1",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V4-R-US": {
+  "term": "Y3S1",
+  "week": null,
+  "earliest": "**改**：出發 2028-01-19（寒假）；**標題過時**：美國住處是校外公寓社區（使用者 10-16），時差美東 −13、2028-03-12 起 −12，香港朋友已定名何俊朗（`AA_80`）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F01": {
+  "term": "Y4S1",
+  "week": null,
+  "earliest": "開學前一天 2028-09-03",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F02": {
+  "term": "Y4S1",
+  "week": 1,
+  "earliest": "上 1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F03": {
+  "term": "Y4S1",
+  "week": 1,
+  "earliest": "上 1（9/7）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F04": {
+  "term": "Y4S1",
+  "week": 2,
+  "earliest": "上 2～12",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F05": {
+  "term": "Y4S1",
+  "week": 4,
+  "earliest": "上 4 迎新起",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F06": {
+  "term": "Y4S1",
+  "week": 6,
+  "earliest": "上 6",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F07": {
+  "term": "Y4S1",
+  "week": 7,
+  "earliest": "上 7",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F08": {
+  "term": "Y4S1",
+  "week": 7,
+  "earliest": "上 7",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F09": {
+  "term": "Y4S1",
+  "week": 8,
+  "earliest": "上 8～9 面試、上 12 放榜",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F10": {
+  "term": "Y4S1",
+  "week": 13,
+  "earliest": "上 13",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F11": {
+  "term": "Y4S1",
+  "week": 15,
+  "earliest": "上 15（12/14）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F12": {
+  "term": "Y4S1",
+  "week": 15,
+  "earliest": "上 15",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F13": {
+  "term": "Y4S1",
+  "week": 16,
+  "earliest": "上 16（12/21）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F14": {
+  "term": "Y4S1",
+  "week": null,
+  "earliest": "寒假（除夕 2029-02-12）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F15": {
+  "term": "Y4S2",
+  "week": 3,
+  "earliest": "下 3",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F16": {
+  "term": "Y4S2",
+  "week": null,
+  "earliest": "**改**：以安延畢，考試前一晚是 2030-02-15（畢業後篇，`AA_144` §2）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F17": {
+  "term": "Y4S2",
+  "week": 5,
+  "earliest": "台灣路線選研究所的祐廷 3/22（下 5）；以安改 2030-03-15 左右（`AA_144` §2）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F18": {
+  "term": "Y4S2",
+  "week": 7,
+  "earliest": "下 7",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F19": {
+  "term": "Y4S2",
+  "week": 10,
+  "earliest": "下 10",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F20": {
+  "term": "Y4S2",
+  "week": 11,
+  "earliest": "下 11",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F21": {
+  "term": "Y4S2",
+  "week": 12,
+  "earliest": "下 12",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F22": {
+  "term": "Y4S2",
+  "week": 15,
+  "earliest": "下 15（6/1）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F23": {
+  "term": "Y4S2",
+  "week": 15,
+  "earliest": "下 15（6/2）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F24": {
+  "term": "Y4S2",
+  "week": 15,
+  "earliest": "下 15（6/2 傍晚）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F25": {
+  "term": "Y4S2",
+  "week": 16,
+  "earliest": "下 16～18",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F26": {
+  "term": "Y4S2",
+  "week": null,
+  "earliest": "畢業後篇 2029-07 起（國考 2029-08，`AA_144` §3）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-F27": {
+  "term": "Y4S2",
+  "week": null,
+  "earliest": "尾聲（五年後）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-B01": {
+  "term": "Y3S2",
+  "week": null,
+  "earliest": "**改**：M7 接機在大三暑假末（8 月下旬，家族群組）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-B02": {
+  "term": "Y4S1",
+  "week": 1,
+  "earliest": "告白點 2 椰林大道：M7 後一週",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-B03": {
+  "term": "Y4S1",
+  "week": 3,
+  "earliest": "M8 大四上第 3 週（FRIEND）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-B04": {
+  "term": "Y4S1",
+  "week": 8,
+  "earliest": "大四選擇裡學姊的部分：第 8 週",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-B05": {
+  "term": "Y4S2",
+  "week": 15,
+  "earliest": "M9 口試 5/29（二）16:00",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-B06": {
+  "term": "Y4S2",
+  "week": 15,
+  "earliest": "W15 保溫瓶 6/2 畢業典禮（FRIEND；分手過的只收到訊息）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-B07": {
+  "term": "Y4S1",
+  "week": 4,
+  "earliest": "交往中的大四：2-7a 第 4 週起；2-7b 第 8 週左右；2-7c 大四下第 10 週左右",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-B08": {
+  "term": "Y4S1",
+  "week": null,
+  "earliest": "第二輪明信片：大四上每月，第一張十月（FAMILIAR）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V5-B09": {
+  "term": "Y4S1",
+  "week": 6,
+  "earliest": "Q14 大四上第 6 週左右（手機）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-B10": {
+  "term": "Y4S1",
+  "week": 12,
+  "earliest": "阿凱 K5 大四上第 12 週左右凌晨",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-B11": {
+  "term": "Y4S1",
+  "week": null,
+  "earliest": "方奕廷 F4 大四寒假（FAMILIAR）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V5-B12": {
+  "term": "Y4S2",
+  "week": 3,
+  "earliest": "明軒 M4 大四下第 3 週週四麵店；不在麵店的看群組",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-B13": {
+  "term": "Y4S2",
+  "week": 8,
+  "earliest": "沛珊 P6 大四下第 8 週週六公開課（FAMILIAR）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-B14": {
+  "term": "Y4S2",
+  "week": 15,
+  "earliest": "畢業典禮的 BB 人物 6/2",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-B15": {
+  "term": "Y4S2",
+  "week": null,
+  "earliest": "**改**：尾聲（五年後窗邊長桌）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-B16": {
+  "term": "Y4S1",
+  "week": 1,
+  "earliest": "可昕的大四：重訪日 4 大四上第 1 週（走向 A 或 B 已復合）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-K21": {
+  "term": "Y4S1",
+  "week": 3,
+  "earliest": "大四上第 3 週週三",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-K22": {
+  "term": "Y4S1",
+  "week": 11,
+  "earliest": "大四上第 11 週",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-K23": {
+  "term": "Y4S1",
+  "week": 7,
+  "earliest": "大四上第 7 週",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-K24": {
+  "term": "Y4S2",
+  "week": 15,
+  "earliest": "他的 6/2（第 15 週）；她的 6/9",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-K25": {
+  "term": "Y4S2",
+  "week": 13,
+  "earliest": "大四下第 13 週",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-K26": {
+  "term": "Y4S2",
+  "week": null,
+  "earliest": "**改**：畢業後七月",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V5-K27": {
+  "term": "Y4S2",
+  "week": null,
+  "earliest": "**改**：尾聲（五年後長桌；走向 A 或 B 已復合）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V6-S1": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "**作廢**：被 `AA_140` 第 0 節 X1 取代（允許多段同時）；改做 V6-S1b",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "void"
+ },
+ "V6-S1b": {
+  "term": "Y1S2",
+  "week": null,
+  "earliest": "第一次和可昕以外的人交往：第 6 階＋4 次約會＋心願（最早大一下）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V6-S2": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V6-S3": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V6-S4": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V6-S5": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V6-S6": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V6-S7": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V6-A1": {
+  "term": "Y2S2",
+  "week": null,
+  "earliest": "**改**：以安告白閘門最早大二下（第 6 階＋4 次約會含 D07）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V6-A2": {
+  "term": "Y2S2",
+  "week": null,
+  "earliest": "**改**：和以安交往中（最早大二下；裂縫滿 3 次）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V6-A3": {
+  "term": "Y2S2",
+  "week": null,
+  "earliest": "**改**：和以安分開以後",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V6-A4": {
+  "term": "Y4S2",
+  "week": 10,
+  "earliest": "**改**：大四下第 10 週週四晚上總圖三樓",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V6-A5": {
+  "term": "Y3S1",
+  "week": 12,
+  "earliest": "**改**：和語彤交往中，閘門在大三上第 12 週續約以後",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V6-A6": {
+  "term": "Y3S1",
+  "week": null,
+  "earliest": "**改**：和語彤分開以後",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V6-A7": {
+  "term": "Y1S2",
+  "week": null,
+  "earliest": "**改**：「分開」最早大一下（可昕分手、麵店團已知道）；「開始」最早大二下",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V6-A8": {
+  "term": "Y4S2",
+  "week": 3,
+  "earliest": "**改**：CG-18 大四下第 3 週；CG-20 第 10 週、CG-19 第 11 週、CG-21 6/2",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V6-B1": {
+  "term": "Y2S1",
+  "week": 7,
+  "earliest": "**改**：沛珊大二上第 7 週起「考完再說」",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V6-B2": {
+  "term": "Y4S1",
+  "week": 16,
+  "earliest": "**改**：芷若大四上第 16 週左右邀約、寒假一月中出發",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V6-B3": {
+  "term": "Y3S2",
+  "week": 16,
+  "earliest": "**改**：子晴大三下第 16 週 G5 上午",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V6-B4": {
+  "term": "Y3S2",
+  "week": null,
+  "earliest": "**改**：大三下或大四上（各人時間見 BB_119）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V6-B5": {
+  "term": "Y3S2",
+  "week": null,
+  "earliest": "**改**：大三下～大四上（芷若大三暑假八月底）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V6-B6": {
+  "term": "Y3S2",
+  "week": null,
+  "earliest": "**改**：和 BB 的四位之一分開以後（可昕走向 C 可能更早）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V6-B7": {
+  "term": "Y1S2",
+  "week": 12,
+  "earliest": "**改**：BCG-21 芷若 Z5 兩人版，大一下第 12～13 週",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-S1": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-S2": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-S3": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-S4": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-S5": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-S6": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-S7": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-S8": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-C1": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-C2": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-C3": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-C4": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "以安、語彤的心願：第 4 階聊天得知、第 5 階以上才約得到（`AA_128` 317～335）；最早大一上後半，多數在大一下",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-C5": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "同 C4（BB 五位；可昕交往中從第一個週末就可能）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-C6": {
+  "term": "Y1S2",
+  "week": null,
+  "earliest": "第 6 階＋4 次正式約會＋心願（`AA_128` 155）；最早大一下（可昕從經濟系就在交往，不經過這一關）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-C7": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "同 S 系列",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L01": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L02": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L03": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L04": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L05": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L06": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L07": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L08": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L09": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L10": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L11": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L12": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L13": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L14": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L15": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L16": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L17": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L18": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L19": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L20": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L21": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L22": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L23": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L24": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L25": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L26": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L27": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L28": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L29": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L30": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L31": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DATE-L32": {
+  "term": "Y1S1",
+  "week": 1,
+  "earliest": "法律系第一個週末（可昕交往中就約得到，`AA_128` 63～64、471；其他人要第 5 階，433）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "D14-T1": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "D14-T2": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "D14-T3": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "D14-T4": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "D14-T5": {
+  "term": "Y1S1",
+  "week": 19,
+  "earliest": "大一上期末成績出來後",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "D14-T6": {
+  "term": "Y1S2",
+  "week": 1,
+  "earliest": "Y1S2W01",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "D14-T7": {
+  "term": "Y4S2",
+  "week": null,
+  "earliest": "**改**：國考一次考完 2029-08（台灣路線）／2030-08（交換路線），`AA_144` §3",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "D14-T8": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "D14-T9": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "D14-T10": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "D14-T11": {
+  "term": "Y1S1",
+  "week": 6,
+  "earliest": "第一個節日：中秋 2025-10-06（大一上第 6 週）；三個情人節最早 2/14（寒假）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "D14-T12": {
+  "term": "Y1S1",
+  "week": 3,
+  "earliest": "K1 第一次開車去政大（第 3 週週六）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "D14-T13": {
+  "term": "Y1S2",
+  "week": null,
+  "earliest": "最早大一下（同 V6-CATCH）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "D14-T14": {
+  "term": "Y2S2",
+  "week": null,
+  "earliest": "學姊單身最早大二暑假（`BB_122` C1、C2）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "D14-T15": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "SYS-01": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "SYS-02": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "SYS-03": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "SYS-04": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "SYS-05": {
+  "term": "Y0S1",
+  "week": null,
+  "earliest": "Y0S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "SYS-06": {
+  "term": "Y2S1",
+  "week": null,
+  "earliest": "Y2S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "SYS-07": {
+  "term": "Y2S1",
+  "week": 1,
+  "earliest": "主線 4 被需要的一年（大二上）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SYS-08": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "**改**：最早的摘要日是大一寒假（2026-01～02）；精華日最早 Z5（大一下第 12～13 週）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SYS-09": {
+  "term": "Y2S2",
+  "week": null,
+  "earliest": "Y2S2",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "SYS-10": {
+  "term": "Y3S1",
+  "week": 11,
+  "earliest": "交換志願表（大三上第 11 週）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SYS-11": {
+  "term": "Y3S1",
+  "week": 9,
+  "earliest": "主線 6（第 9 週）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SYS-12": {
+  "term": "Y4S2",
+  "week": null,
+  "earliest": "畢業後篇 2029-06 以後；交換路線大五上 2029-09（`AA_144` X7）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SYS-13": {
+  "term": "Y1S2",
+  "week": null,
+  "earliest": "Y1S2",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "SYS-14": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "SYS-15": {
+  "term": "Y1S2",
+  "week": null,
+  "earliest": "Y1S2",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "SYS-16": {
+  "term": "META",
+  "week": null,
+  "earliest": "下一次換班",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "SYS-17": {
+  "term": "META",
+  "week": null,
+  "earliest": "下一次換班",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "SCN-US-01": {
+  "term": "Y3S2",
+  "week": null,
+  "earliest": "**改**：美國路線抵達 2028-01-19 搬進公寓（US1，`BB_98` 4517c707）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SCN-US-03": {
+  "term": "Y3S2",
+  "week": null,
+  "earliest": "**改**：抵達 2028-01-19（US1 巴士站 → 超市 → 公寓）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SCN-US-02": {
+  "term": "Y3S2",
+  "week": null,
+  "earliest": "**改**：抵達 2028-01-19",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SCN-US-2D": {
+  "term": "Y3S1",
+  "week": null,
+  "earliest": "**改**：機場出發 2028-01-19、巴士站同日",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SCN-US-CG": {
+  "term": "Y3S2",
+  "week": null,
+  "earliest": "**改**：BCG-14 巴士站 1/19（US1）最早；BCG-32 2 月上中旬；BCG-17 2/26～27；BCG-23 3/11～19；BCG-09 4/1 前後",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SCN-US-CH": {
+  "term": "Y3S2",
+  "week": null,
+  "earliest": "**改**：學姊羽絨外套、香港朋友都在 1/19 抵達那天",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SCN-US-EV": {
+  "term": "Y3S1",
+  "week": 11,
+  "earliest": "志願表（第 11 週）",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "SCN-JP-2D": {
+  "term": "Y3S2",
+  "week": null,
+  "earliest": "**改**：日本路線抵達 2028-01-08（jp_room、jp_konbini 第 1 週；jp_notice 第 12 週左右；jp_riverbank 四月初），`AA_145` 3-6",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SCN-JP-CG": {
+  "term": "Y3S1",
+  "week": 18,
+  "earliest": "**改**：CG-22 出發 1/8 登機口（大三上第 18 週）最早；CG-13 抵達第 1 週",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SCN-JP-CH": {
+  "term": "Y3S1",
+  "week": 18,
+  "earliest": "**改**：以安冬裝最早在 1/8 出發那天（送機也是同一套）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SCN-JP-SYS": {
+  "term": "Y3S2",
+  "week": null,
+  "earliest": "**改**：抵達 2028-01-08；日本路線的日子以摘要日＋手機＋2D 場景（`AA_145` 3-6）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SCN-V0-01": {
+  "term": "Y0S1",
+  "week": 1,
+  "earliest": "Y0S1W01",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "SCN-V0-02": {
+  "term": "Y0S1",
+  "week": 1,
+  "earliest": "Y0S1W01",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "SCN-V3-01": {
+  "term": "Y2S1",
+  "week": 1,
+  "earliest": "大二上開學",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SCN-V3-02": {
+  "term": "Y2S1",
+  "week": 6,
+  "earliest": "研究室門口（學姊 W7，第 6～9 週）最早；**政大小教室改用 classroom_small、河堤夜景用 riverside**（`AA_145`），這兩項從這裡拿掉",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SCN-V3-03": {
+  "term": "Y2S2",
+  "week": 10,
+  "earliest": "**改**：霖澤館 201 改法庭擺法只在模 5 比賽那天（第 10 週週六 5/1）；模 1 抽籤不用",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SCN-V4-01": {
+  "term": "Y3S1",
+  "week": 1,
+  "earliest": "大三上開學",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SCN-V4-02": {
+  "term": "Y3S1",
+  "week": 7,
+  "earliest": "地方法院（第 7 週，`court_criminal`，CG-16）；**行政法院不畫**（以安自己去、玩家聽她說）；車內 car 在大一就有；桃園機場 1/5（第 18 週）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SCN-V4-03": {
+  "term": "Y3S2",
+  "week": 2,
+  "earliest": "Y3S2W02",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "SCN-V5-01": {
+  "term": "Y4S1",
+  "week": null,
+  "earliest": "開學前一天 2028-09-03",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SCN-V5-02": {
+  "term": "Y4S2",
+  "week": 15,
+  "earliest": "6/2 畢業典禮",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SCN-V5-03": {
+  "term": "Y4S2",
+  "week": null,
+  "earliest": "尾聲（五年後）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SCN-V5-04": {
+  "term": "Y4S2",
+  "week": null,
+  "earliest": "國考考場 2029-08；畢業後篇；五年後",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "DONE-B01": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "DONE-B02": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "DONE-B03": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "DONE-B04": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "DONE-B06": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "DONE-B07": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "DONE-B08": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "DONE-B09": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "DONE-B10": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "DONE-B11": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "DONE-B12": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "DONE-B13": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "DONE-B14": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "DONE-B15": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "DONE-B16": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "DONE-B17": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "DONE-B18": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "X-01": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "X-02": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "X-03": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "X-04": {
+  "term": "Y3S1",
+  "week": null,
+  "earliest": "**作廢**：助教設定使用者 2026-10-13 取消；`BB_98` 0b 已標 M4、M5 作廢",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "void"
+ },
+ "X-05": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "Y1S1",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V6-X3": {
+  "term": "Y1S2",
+  "week": null,
+  "earliest": "第 6 階＋4 次正式約會＋心願（最早大一下）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V6-X4": {
+  "term": "META",
+  "week": null,
+  "earliest": "—",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V6-CATCH": {
+  "term": "Y1S2",
+  "week": null,
+  "earliest": "第一次同時交往：可昕交往中的玩家，最早大一下和第二個人交往時",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V6-P456": {
+  "term": "Y4S2",
+  "week": 15,
+  "earliest": "畢業典禮 2029-06-02（第 15 週）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SYS-18": {
+  "term": "Y1S1",
+  "week": 3,
+  "earliest": "K1 導遊：第一次開車去政大（第 3 週週六，`BB_95` 9-1）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V2-G05": {
+  "term": "Y1S2",
+  "week": 8,
+  "earliest": "子晴 Q4 比賽那個週六（大一下第 8～9 週，`BB_96` 第 33、68 行）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V1-G06": {
+  "term": "Y1S1",
+  "week": null,
+  "earliest": "認識語彤以後的第一個雨天（CG-1）；最早大一上第 1～2 週",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "V3-G08": {
+  "term": "Y2S1",
+  "week": 6,
+  "earliest": "學姊 W7 窗口第 6～9 週",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-G34": {
+  "term": "Y2S2",
+  "week": null,
+  "earliest": "**改**：學姊和伴侶分開的最早檢查點是大二暑假（`BB_122` C1、C2；`AA_128` 第 478 行），不固定在大三上第 9 週",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "ART-17": {
+  "term": "Y0S1",
+  "week": 3,
+  "earliest": "**改**：riverside 最早是 v0 E08 中秋烤肉（2024-09-17 前後，Y0S1 第 3 週）；home_living 是 v0 E21；其餘大一",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "BUG-11": {
+  "term": "Y1S1",
+  "week": 6,
+  "earliest": "同 ART-10",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ },
+ "SYS-19": {
+  "term": "META",
+  "week": null,
+  "earliest": "—",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "SCN-KX-01": {
+  "term": "Y1S1",
+  "week": 3,
+  "earliest": "**已解決**：`AA_112` 開頭的政大場景對應（圖書館→自強十舍樓下的長椅、河堤→政大主要校園的路、大家的河堤→公館河濱、小教室→classroom_small）；台詞不動只換字幕",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "void"
+ },
+ "V3-L1": {
+  "term": "Y2S1",
+  "week": 1,
+  "earliest": "Y2S1W01",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-SYL": {
+  "term": "Y2S1",
+  "week": 1,
+  "earliest": "Y2S1W01",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V3-G11": {
+  "term": "Y2S1",
+  "week": 1,
+  "earliest": "Y2S1W01",
+  "mainline": true,
+  "confirmed": true,
+  "aa": "ok"
+ },
+ "V4-X18": {
+  "term": "Y3S1",
+  "week": 18,
+  "earliest": "X1 退宿：日本路線 2028-01-07（第 18 週）；美國路線 01-18（`AA_144` §1）",
+  "mainline": false,
+  "confirmed": true,
+  "aa": "fix"
+ }
+}
