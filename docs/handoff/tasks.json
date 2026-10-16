@@ -412,7 +412,7 @@
    "area": "ART",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "2026-10-16 LAWWW-B 接線：src/data/socsci_layout.js（tools/gen_socsci_layout.py 從 campus_socsci.json 產生）；導航 22 阻擋＋樹穴、鏡頭碰撞 3、圖書館門改南牆 (101,-69.3)／出來 (101,-67.6) 面向南、中庭長椅 4、舊白色樓與 7 根柱拿掉、備用量體同尺寸（ckTag soc）；經濟系那年的「社會科學院」說明、SK02 系辦移到大樓西面主入口 (96.6,-50)；大地圖：社會科學院 (110,-50)、社科院圖書館 (110,-81)；路人第 6 條終點改中庭。tests/nav_soclib_unit.js（新外觀 9 項）＋10 個建校園的單元測試改載新配置。瀏覽器（排隊中）：前後截圖 5 組＋手機、flow_soclib、campus_layout_nav；之後 reachability_all。使用者看畫面才 ART_APPROVED",
+   "next": "瀏覽器驗收通過（2026-10-16 17:19）：flow_soclib 全過、campus_layout_nav 全過；VISUAL_REVIEW 第 25 節舊／新對照六組；READY_FOR_ART_REVIEW（建築要使用者確認）。已知：夜景圖書館蓮花柱整片發白（已告訴 LAWWW2-B）、大樓窗戶單調、手機直向中庭鏡頭貼牆",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -8298,7 +8298,7 @@
    "area": "SYS",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "已填 characters.js presence（芷若 absent Y3S1/Y4S1/Y4S2 英國；學姊 absent Y3S2 美國；沛珊 until Y2S1、Y2S2 休學重考 kind leave、之後別的學校 kind elsewhere；子晴 until Y3S2、之後工作室）。STORY.presence 支援 kinds；邀約的「約不了」照 kind。沛珊大二下半熟、一盞照 BB_158 自己的那一句。單元測試 presence_unit／invite_people_unit／dl12_bb158_unit 通過；瀏覽器未測。v4（大三交換）時要再確認：玩家去美國那一學期學姊在不在同一個地方（AA-B）",
+   "next": "BB_163（9c1d72a5）更正：沛珊大二下起、子晴大四是「在臺北、不在台大」（presence kind taipei）：作息換成她們那一份（總圖週末、小公園週日、課輔班、書店、美術館；子晴平日工作室、晚上 Café），邀約不先擋、照 invites.js 的規則；芷若（英國）、學姊（美國）照舊。tests/bb163_taipei_unit.js（16 項）、presence_unit、invite_people_unit、dl12_bb158_unit 通過；瀏覽器未測",
    "priority": "P1",
    "first": {
     "term": "Y2S2",
@@ -11366,6 +11366,27 @@
    "source": "BB_161",
    "authorized": "D79",
    "tests": "tests/v2_bb161_unit.js（24 項）、v2_b32、v2_b9、v2_bb96_w5、v2_bb96_zp、v2_w3b、v2_c14、v2_econ"
+  },
+  {
+   "id": "SYS-21B",
+   "title": "BB_163：沛珊、子晴不在台大以後的所在地與邀約（presence taipei）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "見 SYS-21；問 BB-B：子晴大四平日下午的一盞（她在上班）要不要改到週末",
+   "priority": "P1",
+   "first": {
+    "term": "Y2S2",
+    "week": 1,
+    "earliest": "沛珊大二下休學",
+    "mainline": false,
+    "blocks": false,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_163（BB-B 9c1d72a5）",
+   "authorized": "D79"
   }
  ]
 }

@@ -4195,6 +4195,30 @@
    "integration": "已整合待測試",
    "note": "wz_props.glb／.json 原樣、LICENSES 一行、zones3d.js 認 wz_road（舊名照舊）；瀏覽器 wz_street_integration 排隊",
    "date": "2026-10-16T17:2xZ"
+  },
+  {
+   "id": "DLV-1016-350",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "9c1d72a5",
+   "what": "BB_163 沛珊、子晴不在台大以後的所在地與邀約（SYS-21 更正）",
+   "task": "SYS-21B",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "presence kind taipei＋作息＋invites.js 規則；tests/bb163_taipei_unit.js",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-351",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "00fdb990",
+   "what": "BB_160 第 5 節：沒加入法服、大二起旁觀的玩家，學姊的句子（ⓐ1／ⓐ2／ⓐ3、ⓑ、ⓒ、ⓓ）",
+   "task": "V3-D25",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "AA-B 沒意見就照這版接（BB-B 17:09）；排在佇列",
+   "date": "2026-10-16T17:0xZ"
   }
  ],
  "ignored": [
@@ -5512,6 +5536,16 @@
    "sha": "af06c21b",
    "branch": "origin/claude/elegant-brown-fcos7n",
    "why": "BB-B 進度紀錄"
+  },
+  {
+   "sha": "f86ca946",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 自己的工作紀錄（BB_160 第 5 節本身是 00fdb990＝DLV-1016-351）"
+  },
+  {
+   "sha": "2a907fdf",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 自己的工作紀錄（BB_163 本身是 9c1d72a5＝DLV-1016-350）"
   }
  ]
 }
