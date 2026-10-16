@@ -9,26 +9,51 @@
  },
  "tris": {
   "pothos_pot": 720,
-  "pothos_soil_stem": 1202,
-  "pothos_leaf": 616
+  "pothos_soil_stem_S1": 626,
+  "pothos_leaf_S1": 308,
+  "pothos_soil_stem_S2": 916,
+  "pothos_leaf_S2": 418,
+  "pothos_soil_stem_S3": 1220,
+  "pothos_leaf_S3": 682,
+  "pothos_soil_stem_S4": 1768,
+  "pothos_leaf_S4": 1056
  },
- "tris_total": 2538,
- "leaves": 28,
- "bytes": 119184,
+ "tris_per_size": {
+  "S1": 1654,
+  "S2": 2054,
+  "S3": 2622,
+  "S4": 3544
+ },
+ "leaves": {
+  "S1": 14,
+  "S2": 19,
+  "S3": 31,
+  "S4": 48
+ },
+ "bytes": 356376,
  "materials": [
   "pothos_pot",
   "pothos_soil_stem",
   "pothos_leaf"
  ],
+ "nodes": {
+  "pothos_pot": "盆、托盤（四種大小共用，一直顯示）",
+  "POTHOS_S1": "剛送來（大一）：短藤只越過盆緣",
+  "POTHOS_S2": "長了一點：藤到桌緣、垂下一點",
+  "POTHOS_S3": "一年多：垂下 20～30 cm",
+  "POTHOS_S4": "很久沒剪：垂下約 50 cm、盆裡葉子多一圈"
+ },
+ "show": "同一時間只顯示 POTHOS_S1～S4 其中一個（澆水次數、年級決定；LAWWW-B 定規則）",
  "size_m": {
   "pot_rim_d": 0.128,
   "pot_h": 0.113,
   "saucer_d": 0.142,
-  "vine_drop_below_desk_top": [
-   0.25,
-   0.205,
-   0.3
-  ]
+  "lowest_below_desk_top": {
+   "S1": -0.051,
+   "S2": 0.052,
+   "S3": 0.3,
+   "S4": 0.556
+  }
  },
  "texture": "tools/blender/env_second/textures/gen/pothos_leaf.png（本作，程式畫的）"
 }

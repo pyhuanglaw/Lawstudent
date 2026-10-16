@@ -3,7 +3,8 @@
 修改後＝新的 dorm_interior.glb（筆筒移到書堆和筆電中間）＋在頁面裡用 GLTFLoader 把 prop_pothos.glb 放在 (1.11, 0.77, −2.36)、ry 0；
 src 沒有改（接法由 LAWWW 整合）；盆栽的材質照宿舍家具加 TK.bounce(0.3, 0.4)（和 dorm_wood 一樣，房間的燈光感）。
 劇情狀態：只為了截圖把 flags.POTHOS 打開（互動點「黃金葛」才會出現）、關掉條件事件——[前置／捷徑]，不是劇情流程測試。
-用法（伺服器開在 LAWWW 開發分支的工作目錄）：python3 tools/blender/env_second/shots/pothos_dorm_shots.py <網址> <輸出資料夾> <before|after>"""
+用法（伺服器開在 LAWWW 開發分支的工作目錄）：python3 tools/blender/env_second/shots/pothos_dorm_shots.py <網址> <輸出資料夾> <before|after> [S1,S2,S3,S4]
+2026-10-16（LAWWW2-B，ART-04 四種大小）：after 時同一個頁面依序只顯示 POTHOS_S1～S4 其中一個，各拍一輪；檔名多一段大小。"""
 import asyncio, json, os, sys
 LAWWW = os.environ.get('LAWWW_WT', '/home/user/lawwwtip_wt')
 sys.path.insert(0, os.path.join(LAWWW, 'tests'))
@@ -11,6 +12,7 @@ import playlib as PL   # noqa: E402
 from playwright.async_api import async_playwright   # noqa: E402
 
 URL, OUT, MODE = sys.argv[1], sys.argv[2], sys.argv[3]
+SIZES = (sys.argv[4] if len(sys.argv) > 4 else 'S1,S2,S3,S4').split(',') if MODE == 'after' else ['']
 os.makedirs(OUT, exist_ok=True)
 PLACE = [1.11, 0.77, -2.36]
 WAIT_DORM = "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&GAME.G.zone==='dorm'){ let ok=false; z.group.traverse(o=>{ if(o.isMesh&&o.material&&/^dorm_(wall|floor)/.test(o.material.name||'')) ok=true; }); if(ok) return i; } await new Promise(r=>setTimeout(r,250)); } return -1; })()"
@@ -37,15 +39,18 @@ async def one(p, landscape, hour, tag):
     if MODE == 'after': tris = await pg.evaluate(INJECT + '(%s)' % json.dumps(PLACE))
     await pg.evaluate(SETTLE + '(30)')
     o = 'land' if landscape else 'port'
-    await pg.screenshot(path=f'{OUT}/pothos_{MODE}_{tag}_{o}_play.png')
-    btn = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('button,div')].find(e=>e.offsetParent&&/黃金葛/.test(e.textContent||'')&&e.children.length===0); return b?b.textContent.trim():null; })()")
     shots = []
-    if landscape:
-        for name, eye, look in VIEWS:
-            await pg.evaluate(CINE + '(%s,%s)' % (json.dumps(eye), json.dumps(look))); await pg.evaluate(SETTLE + '(8)')
-            await pg.screenshot(path=f'{OUT}/pothos_{MODE}_{tag}_{name}.png'); shots.append(name)
-        await pg.evaluate('GAME.E.endCinematic()')
-    print(json.dumps({'mode': MODE, 'tag': tag, 'orient': o, 'loaded': ok, 'dorm_glb_wait': w, 'pothos_flag': flag, 'button': btn, 'pothos_tris': tris, 'shots': shots, 'errors': errs[:3]}, ensure_ascii=False), flush=True)
+    for sz in SIZES:
+        if sz: await pg.evaluate("(k=>{ const o=GAME.E.zone.group.getObjectByName('prop_pothos_preview'); o.traverse(n=>{ if(/^POTHOS_S/.test(n.name)) n.visible=(n.name==='POTHOS_'+k); }); })(%s)" % json.dumps(sz))
+        t = f'{tag}_{sz}' if sz else tag
+        await pg.evaluate("GAME.E.endCinematic&&GAME.E.endCinematic()"); await pg.evaluate(SETTLE + '(8)')
+        await pg.screenshot(path=f'{OUT}/pothos_{MODE}_{t}_{o}_play.png'); shots.append(f'{t}_{o}_play')
+        if landscape:
+            for name, eye, look in VIEWS:
+                await pg.evaluate(CINE + '(%s,%s)' % (json.dumps(eye), json.dumps(look))); await pg.evaluate(SETTLE + '(8)')
+                await pg.screenshot(path=f'{OUT}/pothos_{MODE}_{t}_{name}.png'); shots.append(f'{t}_{name}')
+    await pg.evaluate('GAME.E.endCinematic()')
+    print(json.dumps({'mode': MODE, 'tag': tag, 'orient': o, 'loaded': ok, 'dorm_glb_wait': w, 'pothos_flag': flag, 'pothos_tris': tris, 'shots': shots, 'errors': errs[:3]}, ensure_ascii=False), flush=True)
     await b.close()
 
 

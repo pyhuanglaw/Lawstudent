@@ -123,6 +123,9 @@
 | 18:5x | ART-BG-COURT `ntu_court_night`（哲 2 的新體育館旁籃球場，晚上；Blender `bg_court.py`）；遊戲內 ADV 截圖 390×844／844×390；第二版鏡頭左轉 6°，手機直向看得到整塊籃板 | 6e72e346 | 交 BB-B 驗收、交 LAWWW-B 填 `S.BG.ntu_court_night.image` |
 | 19:0x | ART-PT-SIS-FORMAL 學姊面試西裝立繪 `heroine_05/formal/`（neutral 全身去背＋serious、smile 換臉；企劃線 heroine05_interview.webp）；遊戲內 ADV 截圖 | 4e812ce5 | **BB-B 19:16 三張 ART_APPROVED**；LAWWW-B 合入（DLV-1016-372） |
 
+**⚠ D90／HV-9（使用者 10-17 04:01 台北；LAWWW-B 20:09 轉達，我 20:10 讀到、ACK）**：平台只在回合結束時送使用者訊息 → **短回合**（一個工作單位、最多約 10 分鐘或 30 次工具）、長工作放背景不在回合裡等、結束回合前 commit＋push、沒有背景工作會叫醒時用 send_later 排 1～2 分鐘後接續；每個回合開始先回使用者、再 ReadNotifications 讀到 0。
+- turn_check（20:11）：104 個回合、30 個超過上限，最長 135.5 分鐘；18:29 開始的回合約 100 分鐘（把渲染、截圖、建模串在同一個回合）。改法：每個工作單位結束回合。
+
 **⚠ D89（使用者 2026-10-16 約 19:2x，直接給 LAWWW-B；LAWWW-B 19:12 轉達，我 19:58 讀到、ACK）**：溫州街、小公園和所有美術（Blender／GLB、貼圖、2D 背景、場景佈置、模型擺放、效能減面、美術截圖）歸 LAWWW2-B；LAWWW-B 只整合（接交付、LICENSES、導航碰撞、互動點、事件、回歸）。`wz_park_layout.js` 畫面欄位歸我、導航與互動點歸 LAWWW-B，改之前互相說；`zones3d.js` 備用方塊我給外觀方向。
 - 新改給我的（tasks.json owner＝LAWWW2，照 D81 順序）：**SCN-V3-01** 第二個房間 2D＋物件（SYS-06，大二開學）、**ART-04** 黃金葛 `prop_pothos.glb`（203 窗台，互動點已有）→ **SCN-V3-03** 霖澤館 201 模擬法庭擺法（模 5，5/1）→ **SCN-V0-01** 社科院大樓室內（用途等 AA-B）→ ART-BG12 seaside_town（D13 底圖）、SCN-V4-01 第三個房間、SCN-V5-01 第四個房間、SCN-V5-02 畢業典禮（G6）。
 - 開遊戲加速（LAWWW-B v9.9.2）：主要角色背景下載；截圖腳本等人物要加 `(!GAME.charsAllP||GAME.charsAll)`。
