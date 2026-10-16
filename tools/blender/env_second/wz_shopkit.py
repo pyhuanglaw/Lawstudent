@@ -70,7 +70,9 @@ def _atlas_mat(name, emit):
 
 
 SK['sign'] = _atlas_mat('wz_signs', 0.0); SK['sign_lit'] = _atlas_mat('wz_signs_lit', 0.6)
-SK['enamel_red'] = flat('wz_sf_enamel_red', '#b8322a', rough=0.35)   # 麵攤正面的紅色烤漆板   # 燈箱：貼圖自己發光（白天也微微亮，和真的燈箱一樣）
+SK['enamel_red'] = flat('wz_sf_enamel_red', '#b8322a', rough=0.35)   # 麵攤正面的紅色烤漆板
+SK['noren'] = _img_mat('wz_noren', 'shop_noren.png', rough=0.9)   # 定食店的暖簾（shopkit_tex.noren）
+SK['bowl_w'] = flat('wz_sf_bowl_white', '#f2efe8', rough=0.3); SK['bowl_b'] = flat('wz_sf_bowl_indigo', '#2f4a6a', rough=0.3)   # 燈箱：貼圖自己發光（白天也微微亮，和真的燈箱一樣）
 # 有使用者核可招牌圖（BB-B signs_approved）的店：棟號 → 貼圖集的名字（_h 橫、_v 直）
 SIGNMAP = {'A1': 'ade_print', 'A3': 'xiangkou_books', 'A4': 'lin_noodle', 'A5': 'riri_mart', 'B2': 'laundry', 'B3': 'xiangzi_teishoku',
            'B5': 'xiangkou_tea', 'B5i': 'summer_ice', 'B6': 'azhong_fruit', 'B7': 'banshu'}
@@ -330,9 +332,13 @@ def shopfront_v2(spec, xf, W, gt, wall):
                 x = sx * (iw / 2 - 0.05 - k * 0.07); xf.box(w, x - 0.025, x + 0.025, 0.05, ih + 0.1, gz - 0.25 + (k % 2) * 0.12, gz + 0.02)
         xf.box(f_, -iw / 2, iw / 2, ih + 0.1, ih + 0.18, gz - 0.06, gz + 0.06)
     if sf.get('noren'):                                                                                               # 暖簾（定食）
-        n = acc(SK['cloth_navy'])
-        for k in range(3):
-            x0 = dx - 0.75 + k * 0.5; xf.quad(n, [(x0 + 0.02, ih - 0.55, gz + 0.12), (x0 + 0.48, ih - 0.55, gz + 0.12), (x0 + 0.48, ih + 0.05, gz + 0.12), (x0 + 0.02, ih + 0.05, gz + 0.12)])
+        for k in range(3):                                                                                            # v6d：三片布（中間開衩）、布面微微起伏、白色「食」字跨三片（BB-B：原本三塊深色平板像方板）
+            x0 = dx - 0.75 + k * 0.5
+            for j in range(6):
+                a_, b_ = x0 + 0.015 + j * 0.47 / 6, x0 + 0.015 + (j + 1) * 0.47 / 6
+                za, zb_ = gz + 0.12 + 0.012 * math.sin(j * 1.9 + k), gz + 0.12 + 0.012 * math.sin((j + 1) * 1.9 + k)
+                u0, u1 = (k + j / 6) / 3, (k + (j + 1) / 6) / 3
+                uvquad(f'sk_noren_{spec["id"]}_{k}_{j}', SK['noren'], [xf.p(a_, ih - 0.62, za), xf.p(b_, ih - 0.62, zb_), xf.p(b_, ih + 0.05, zb_), xf.p(a_, ih + 0.05, za)], (u0, 0.0, u1, 1.0))
         xf.cyl(acc(SK['wood_dk']), (dx - 0.8, ih + 0.07, gz + 0.12), (dx + 0.8, ih + 0.07, gz + 0.12), 0.02, seg=6)
     # 鐵捲門箱＋導軌
     if sf.get('rollbox', True):
@@ -565,9 +571,17 @@ def shallow_interior(spec, xf, iw, gz, ih):
         vb(-iw / 2 + 0.6, iw / 2 - 1.2, y0, y0 + 0.95, zb + 1.0, zb + 1.5, '#5a3c28', r=0.015); vb(-iw / 2 + 0.55, iw / 2 - 1.15, y0 + 0.95, y0 + 1.0, zb + 0.98, zb + 1.62, '#a07850', r=0.01)
         for j in range(int((iw - 1.8) / 0.8)):
             x = -iw / 2 + 1.0 + j * 0.8; _lathe(acc(SK['wood_dk']), xf, [(0.0, 0.62), (0.18, 0.62), (0.18, 0.66), (0.0, 0.66)], x, y0, zb + 1.85, seg=12); xf_cyl(acc(SK['black']), xf, (x, y0, zb + 1.85), (x, y0 + 0.62, zb + 1.85), 0.025)
-        for t in range(3):
-            vb(-iw / 2 + 0.6, iw / 2 - 1.2, y0 + 1.3 + t * 0.35, y0 + 1.33 + t * 0.35, zb, zb + 0.3, '#5a3c28', r=0)
-            for b in range(14): vb(-iw / 2 + 0.8 + b * 0.75, -iw / 2 + 0.95 + b * 0.75, y0 + 1.33 + t * 0.35, y0 + 1.42 + t * 0.35, zb + 0.08, zb + 0.22, rr.choice(['#f4f1ea', '#2f4a6a', '#7a5a3a', '#e8e0d0']), r=0)
+        for t in range(3):                                                                                  # v6d：碗盤架（BB-B：原本一格一格的彩色方塊，從外面看像書店）
+            yy = y0 + 1.3 + t * 0.35; vb(-iw / 2 + 0.6, iw / 2 - 1.2, yy, yy + 0.03, zb, zb + 0.3, '#5a3c28', r=0)
+            x = -iw / 2 + 0.75
+            while x < iw / 2 - 1.35:
+                if rr.random() < 0.6:                                                                       # 一疊碗（3～4 個疊起來的輪廓）
+                    hh = 0.05 + rr.randint(2, 3) * 0.028                                                   # 疊起來的碗：外形一個喇叭狀（8 邊；一整排一百多疊，不能太細）
+                    _lathe(acc(SK['bowl_w'] if rr.random() < 0.6 else SK['bowl_b']), xf, [(0.0, 0.0), (0.045, 0.0), (0.078, hh - 0.02), (0.08, hh), (0.0, hh)], x + 0.08, yy + 0.03, zb + 0.15, seg=8); x += 0.24
+                else:                                                                                       # 立著的盤子（三片）
+                    for q in range(3): xf_cyl(acc(SK['bowl_w']), xf, (x + 0.02 + q * 0.03, yy + 0.03 + 0.11, zb + 0.12), (x + 0.03 + q * 0.03, yy + 0.03 + 0.11, zb + 0.12), 0.11, seg=10)
+                    x += 0.16
+        for j in range(9): vb(-iw / 2 + 0.75 + j * 0.3, -iw / 2 + 0.97 + j * 0.3, y0 + 2.35, y0 + 2.75, zb + 0.005, zb + 0.012, '#e8dcc0', r=0)   # 牆上的木札菜單（米色長條）
         for j in range(3): vb(iw / 2 - 1.0 + j * 0.27, iw / 2 - 0.76 + j * 0.27, y0 + 1.3, y0 + 2.2, zb + 0.4, zb + 0.41, '#22324e', r=0)
         for x in (-iw / 4, iw / 4): _lathe(acc(SK['lamp']), xf, [(0.0, 0.0), (0.12, 0.0), (0.16, 0.12), (0.16, 0.28), (0.12, 0.4), (0.0, 0.4)], x, yt - 0.75, zb + 1.3, seg=12)
     elif kind == 'books':                                                                                   # 二手書：整面書牆（書背貼圖）、中間的平台、櫃台

@@ -422,7 +422,24 @@ def laundry_proto(seed):
 
 LAUNDRY = [laundry_proto(s) for s in (21, 22, 23)]
 POT_FERN = [potted_proto('fern', 0.09, 0.16, 0.33, 0.32, 4, s) for s in (11, 12)]
-POT_BROAD = potted_proto('broad', 0.16, 0.3, 0.66, 0.45, 5, 13)
+def broad_proto(r, h, seed):
+    """大葉盆栽（instancing）：陶盆＋土＋plants.py 的模型葉子（v6d：葉片卡的大葉子遠看像折紙）。原點＝盆底中央"""
+    import plants as PL_
+    if '_PLM_ST' not in globals(): globals()['_PLM_ST'] = PL_.materials('wz_pl_')
+    random.seed(seed)
+    pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper', y0=0.0); parts = [pm.finish(None, smooth=True)]
+    tmp = B.group('tmp_pl', None)
+    bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=12, radius1=r * 0.95, radius2=r * 0.95, depth=0.02); bmesh.ops.translate(bm, verts=bm.verts, vec=g2b(0.0, h - 0.03, 0.0)); B.mesh_obj('tmp_pl_soil', bm, _PLM_ST['soil'], tmp)
+    PL_.broad_plant(B.mesh_obj, _PLM_ST, 'tmp_pl', tmp, 0.0, h - 0.02, 0.0, 0.62, 0.42, seed)
+    for ob in list(tmp.children):
+        ob.parent = None
+        if ob.data.materials and 'leaf_' in ob.data.materials[0].name: L.smooth_mesh(ob, angle=1.2)
+        parts.append(ob)
+    bpy.data.objects.remove(tmp)
+    return combine(parts, f'potted_broad_{seed}')
+
+
+POT_BROAD = broad_proto(0.16, 0.3, 13)
 random.seed(707)
 
 # 累積的網格（同材質一個）：用 dict 依材質名取用

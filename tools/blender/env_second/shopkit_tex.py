@@ -127,5 +127,17 @@ def menus():
     im.save(os.path.join(GEN, 'shop_menu_ice.png')); print('saved menus')
 
 
+def noren():
+    """定食店的暖簾（v6d；BB-B：三塊深色方板看起來不像布）：深藍底、白色圓圈裡一個「食」、下緣一條細白線；
+    三片布各佔圖的 1/3，模型照片數切 u。布紋用細的橫線。"""
+    W, H = 768, 512; im = Image.new('RGB', (W, H), (30, 46, 78)); d = ImageDraw.Draw(im)
+    for y in range(0, H, 3): d.line([0, y, W, y], fill=(27, 42, 72) if (y // 3) % 2 else (33, 50, 84))
+    cx, cy, r = W / 2, H * 0.44, 150
+    d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(240, 238, 230), width=14)
+    d.text((cx - 118, cy - 136), '食', font=f(236), fill=(240, 238, 230))
+    d.line([0, H - 40, W, H - 40], fill=(240, 238, 230), width=6)
+    im.save(os.path.join(GEN, 'shop_noren.png'))
+
+
 if __name__ == '__main__':
-    os.makedirs(GEN, exist_ok=True); atlas(); awnings(); menus()
+    os.makedirs(GEN, exist_ok=True); atlas(); awnings(); menus(); noren()

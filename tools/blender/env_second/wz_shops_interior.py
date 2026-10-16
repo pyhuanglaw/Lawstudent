@@ -79,8 +79,8 @@ def acc(key):
 
 
 # ---------------- 牆（淡出的組）----------------
-walls = {'front': [], 'back': [], 'left': [], 'right': []}
-DIRS = {'front': [0, 0, -1], 'back': [0, 0, 1], 'left': [1, 0, 0], 'right': [-1, 0, 0]}
+walls = {'front': [], 'back': [], 'left': [], 'right': [], 'engawa': []}
+DIRS = {'front': [0, 0, -1], 'back': [0, 0, 1], 'left': [1, 0, 0], 'right': [-1, 0, 0], 'engawa': [0, 0, -1]}   # engawa：一盞緣側上方的橫樑（鏡頭在庭院那一側時跟著淡出）
 WALL_IMGS = []   # (side, name, mat, pts, uv)
 def wm(side, key):
     for m in walls[side]:
@@ -420,7 +420,7 @@ def build_teahouse():
             else: wm(side, 'post').box(X1 - 0.18, X1, 0.0, H, c - 0.06, c + 0.06)
     # 玄關的前牆、鞋櫃；緣側和室內之間的紙拉門（拉開收兩端）；簷下的柱子、屋簷
     for x in (X0, -2.2): acc('post').box(x - 0.06, x + 0.06, 0.0, H, Z1 - 0.06, Z1 + 0.06)
-    acc('post').box(X0, X1, H - 0.12, H, Z1 - 0.06, Z1 + 0.06)
+    wm('engawa', 'post').box(X0, X1, H - 0.12, H, Z1 - 0.06, Z1 + 0.06)   # v2：緣側的橫樑放進會淡出的一組（跟隨鏡頭在庭院上方時，原本整條擋在玩家前面）
     for k, (a, b) in enumerate(((-4.15, -3.55), (-2.85, -2.25))): acc('shoji').box(a, b, 0.05, 2.05, Z1 - 0.03, Z1 + 0.03)   # 玄關的格子門（開著）
     sk = Xf(-3.95, 4.4); sk.rbox(acc('post'), -0.22, 0.22, 0.0, 0.85, -0.55, 0.55, r=0.015)
     for j in range(3): sk.vbox(-0.05, 0.12, 0.0, 0.08, -0.35 + j * 0.3, -0.2 + j * 0.3, ['#2a2a2c', '#6a4a30', '#3a4a6a'][j], r=0.02)   # 脫在門口的鞋
