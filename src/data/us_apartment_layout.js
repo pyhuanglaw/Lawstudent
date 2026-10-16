@@ -18,12 +18,12 @@
      ┌──────────────客廳──────────────┬────臥室────┐   z −3.0
      │ 窗        玻璃門        電視    │ 窗   書桌   │
      │ 沙發  茶几                      門      床   │
-     │ ▔▔吧台▔▔（高腳椅）   走道 小玄關 │            │   z  1.0
-     ├──廚房──────┬窗口┬─┤  ↓    ├─┬──衛浴──┼─衣物間─┤
+     │ ▔▔吧台▔▔（高腳椅）   走道        │ 門     門   │   z  1.0
+     ├──廚房──────┬窗口┬─┤  ↓    ├櫃┬──衛浴──┼─衣物間─┤
      │ 冰箱 爐子 水槽 洗碗機 │ 走道 │洗│        │      │
      └───────────────┴─大門─┴衣┴────────┴──────┘   z  3.0
             戶外樓梯平台（有屋頂、欄杆；東邊是往下的樓梯 → 停車場）       z 3.0～5.0
-   **還沒確認的**：浴室從哪裡進（先放在走道旁的小玄關；照片看不出來，已問使用者）。學姊住同一個社區的合租單位（AA-B 8f9408eb），
+   浴室從臥室進（使用者 2026-10-16 回答）；走道旁的小空間是衣帽櫃。學姊住同一個社區的合租單位（AA-B 8f9408eb），
    她的廚房（US2）是另外一個配置（照片三那種多房的單位：客廳＋窗口吧台，臥室門上有 A、B），之後另一份檔案。 */
 const US_APARTMENT_LAYOUT={
   "version":2,
@@ -37,7 +37,7 @@ const US_APARTMENT_LAYOUT={
     {"id":"living","x0":-4.6,"x1":1.4,"z0":-3.0,"z1":1.0,"floor":"wood","name":"客廳"},
     {"id":"kitchen","x0":-4.6,"x1":-1.8,"z0":1.0,"z1":3.0,"floor":"wood","name":"廚房"},
     {"id":"hallway","x0":-1.8,"x1":-0.2,"z0":1.0,"z1":3.0,"floor":"wood","name":"走道"},
-    {"id":"nook","x0":-0.2,"x1":0.6,"z0":1.0,"z1":1.8,"floor":"wood","name":"小玄關","note":"浴室門前"},
+    {"id":"coat","x0":-0.2,"x1":0.6,"z0":1.0,"z1":1.8,"floor":"wood","name":"衣帽櫃","walk":false,"note":"門開在走道那一側"},
     {"id":"laundry","x0":-0.2,"x1":0.6,"z0":1.8,"z1":3.0,"floor":"wood","name":"洗衣機櫃","walk":false},
     {"id":"bath","x0":0.6,"x1":3.0,"z0":1.0,"z1":3.0,"floor":"tile","name":"衛浴"},
     {"id":"closet","x0":3.0,"x1":5.0,"z0":1.0,"z1":3.0,"floor":"carpet","name":"衣物間"},
@@ -51,10 +51,11 @@ const US_APARTMENT_LAYOUT={
       {"id":"E","axis":"z","at":5.0,"from":-3.0,"to":3.0,"fade":true,"dir":[-1,0,0]},
       {"id":"kit_n","axis":"x","at":1.0,"from":-4.6,"to":-1.8,"open":[[-4.2,-2.2,"passThrough"]],"sill":1.05,"head":2.05,"note":"廚房朝客廳的牆：窗口下緣 1.05（吧台），上緣 2.05；窗口上方看得到廚房的吊櫃"},
       {"id":"kit_e","axis":"z","at":-1.8,"from":1.0,"to":3.0,"open":[[1.4,2.2,"kitchenDoor"]],"note":"廚房從走道進（沒有門板）"},
-      {"id":"lau_w","axis":"z","at":-0.2,"from":1.8,"to":3.0,"open":[[1.8,3.0,"laundryDoors"]],"note":"洗衣機櫃的百葉摺門（關著，導航擋住）"},
+      {"id":"lau_w","axis":"z","at":-0.2,"from":1.0,"to":3.0,"open":[[1.0,1.8,"coatDoor"],[1.8,3.0,"laundryDoors"]],"note":"走道東牆：衣帽櫃的門、洗衣機櫃的百葉摺門（都關著，導航擋住）"},
+      {"id":"coat_n","axis":"x","at":1.0,"from":-0.2,"to":0.6,"note":"衣帽櫃的北牆（客廳那一面）"},
       {"id":"lau_n","axis":"x","at":1.8,"from":-0.2,"to":0.6},
-      {"id":"bath_w","axis":"z","at":0.6,"from":1.0,"to":3.0,"open":[[1.0,1.8,"bathDoor"]]},
-      {"id":"bath_n","axis":"x","at":1.0,"from":0.6,"to":5.0,"open":[[3.4,4.2,"closetDoor"]],"fade":true,"dir":[0,0,-1],"note":"衛浴＋衣物間的北牆（臥室那一面）；衣物間的門從臥室開"},
+      {"id":"bath_w","axis":"z","at":0.6,"from":1.0,"to":3.0},
+      {"id":"bath_n","axis":"x","at":1.0,"from":0.6,"to":5.0,"open":[[1.8,2.6,"bathDoor"],[3.4,4.2,"closetDoor"]],"fade":true,"dir":[0,0,-1],"note":"衛浴＋衣物間的北牆（臥室那一面）：浴室、衣物間的門都從臥室開（使用者 10-16：浴室從臥室進去）"},
       {"id":"bath_e","axis":"z","at":3.0,"from":1.0,"to":3.0},
       {"id":"bed_w","axis":"z","at":1.4,"from":-3.0,"to":1.0,"open":[[-1.0,-0.2,"bedroomDoor"]],"fade":true,"dir":[1,0,0],"note":"臥室西牆＝客廳的東牆（照片一：臥室門在客廳右邊的牆，門開著看得到床）"},
       {"id":"bal_w","axis":"z","at":-2.6,"from":-4.6,"to":-3.0,"note":"陽台兩側的外牆"},
@@ -64,7 +65,8 @@ const US_APARTMENT_LAYOUT={
   "doors":[
     {"id":"front","x":-1.0,"z":3.0,"w":0.9,"label":"大門","plate":"214","openDoor":true,"style":"sixPanelWhite","note":"門號虛構；門外是樓梯平台"},
     {"id":"bedroom","x":1.4,"z":-0.6,"w":0.8,"axis":"z","label":"臥室","openDoor":true,"style":"sixPanelWhite"},
-    {"id":"bath","x":0.6,"z":1.4,"w":0.8,"axis":"z","label":"衛浴","closed":"衛浴。","style":"sixPanelWhite"},
+    {"id":"bath","x":2.2,"z":1.0,"w":0.8,"label":"衛浴","closed":"衛浴。","style":"sixPanelWhite","note":"從臥室進"},
+    {"id":"coat","x":-0.2,"z":1.4,"w":0.8,"axis":"z","label":"衣帽櫃","closed":"衣帽櫃。羽絨外套、雪靴。","style":"sixPanelWhite"},
     {"id":"closet","x":3.8,"z":1.0,"w":0.8,"label":"衣物間","closed":"衣物間。行李箱還塞在最裡面。","style":"sixPanelWhite"},
     {"id":"laundry","x":-0.2,"z":2.4,"w":1.2,"axis":"z","label":"洗衣機","closed":"洗衣機和烘衣機疊在一起。","style":"louverBifold"},
     {"id":"patio","x":-1.0,"z":-3.0,"w":0.8,"label":"陽台","glass":true,"note":"單扇的玻璃門（整片玻璃＋百葉），不是拉門"},
@@ -106,9 +108,9 @@ const US_APARTMENT_LAYOUT={
     {"type":"deskChair","room":"bedroom","x":3.2,"z":-2.1,"ry":3.1416,"seat":true},
     {"type":"ceilingLight","room":"bedroom","x":3.2,"z":-1.0,"note":"吸頂燈（照片一的臥室看得到）"},
     {"type":"suitcase","room":"bedroom","x":1.8,"z":-2.55,"w":0.45,"d":0.7,"ry":0.4,"note":"還沒拆完的行李箱"},
-    {"type":"vanity","room":"bath","x0":0.8,"x1":1.8,"z":2.7,"note":"洗手台＋鏡子"},
-    {"type":"toilet","room":"bath","x":2.4,"z":2.7},
-    {"type":"tub","room":"bath","x0":1.5,"x1":3.0,"z0":1.0,"z1":1.75,"note":"浴缸淋浴兩用（北牆那一邊；門開在西牆，進門左手邊是浴缸）"},
+    {"type":"tub","room":"bath","x0":0.6,"x1":2.1,"z0":2.25,"z1":3.0,"note":"浴缸淋浴兩用（南牆）"},
+    {"type":"toilet","room":"bath","x":0.95,"z":1.45,"ry":1.5708,"note":"靠西牆、面向東"},
+    {"type":"vanity","room":"bath","x0":2.45,"x1":3.0,"z0":1.4,"z1":2.6,"note":"洗手台＋鏡子（東牆、面向西）"},
     {"type":"closetRods","room":"closet","note":"吊衣桿、層架"},
     {"type":"washerDryer","room":"laundry","x":0.2,"z":2.4,"note":"上下疊"},
     {"type":"balconyChairs","x":-1.6,"z":-3.9,"n":2},
