@@ -523,6 +523,8 @@ def to_blender(pm, name, mat, parent):
     for poly, uvs in zip(me.polygons, pm.uv):
         for li, uv in zip(poly.loop_indices, uvs): uvl.data[li].uv = uv
     me.validate(clean_customdata=False); me.update(); me.materials.append(mat)
+    import bmesh   # LAWWW2-B 驗收修正：PM.vid 每個面各自一組頂點，平滑著色沒有作用（碗、罐子一格一格）→ 合併重疊頂點；UV 在 loop 上，不受影響
+    bm = bmesh.new(); bm.from_mesh(me); bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-6); bm.to_mesh(me); bm.free(); me.update()
     ob = bpy.data.objects.new(name, me); B.scene().collection.objects.link(ob); ob.parent = parent; ob['module'] = name
     L.smooth_mesh(ob, angle=0.6)
     return ob

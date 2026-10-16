@@ -1,6 +1,6 @@
 """ART-WZ6 的 Blender 渲染圖（驗收用，不是遊戲截圖）。設定照 render_cycles.py（Cycles CPU、AgX、OIDN 降噪、Nishita 天空＋太陽），
 差別只有場景：地面在 y=0（小道具直接放在上面，不會浮 1 公分），z=−0.30 有一面淺色牆（海報、白板影印貼在上面）。
-用法：/opt/blenv/bin/python tools/blender/env_second/aa_support/render_wz6.py -- <glb> <輸出資料夾> <前綴> <views.json> [--res 960x600] [--samples 48] [--exposure -3.5] [--view Standard|AgX]
+用法：/opt/blenv/bin/python tools/blender/env_second/aa_support/render_wz6.py -- <glb> <輸出資料夾> <前綴> <views.json> [--res 960x600] [--samples 48] [--exposure -3.5] [--view Standard|AgX] [--shape 名稱=值]... [--swap 材質=材質]... [--hide 名稱片段]...
 views.json：[["名稱", [眼睛 x,y,z], [看的點 x,y,z], 鏡頭焦距mm], ...]（遊戲座標）"""
 import json, math, os, sys
 import bpy
@@ -12,6 +12,23 @@ samples = int(A[A.index('--samples') + 1]) if '--samples' in A else 48
 g2b = lambda x, y, z: Vector((x, -z, y))
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=os.path.abspath(glb))
+for t in [A[i + 1] for i, x in enumerate(A) if x == '--shape']:   # --shape fat=1.0：morph target 的值（貓的胖瘦）
+    nm, val = t.split('='); n_set = 0
+    for ob in bpy.data.objects:
+        sk = getattr(ob.data, 'shape_keys', None) if ob.data is not None else None
+        if sk and nm in sk.key_blocks:
+            if sk.animation_data: sk.animation_data_clear()   # glTF 匯入時可能帶 morph 權重的動畫，會蓋掉手動設定的值
+            sk.key_blocks[nm].value = float(val); n_set += 1
+    print('shape', nm, val, 'objects', n_set, flush=True)
+for t in [A[i + 1] for i, x in enumerate(A) if x == '--swap']:   # --swap cat_fur=cat_fur_old：換材質（老貓）
+    a, b_ = t.split('='); mb = bpy.data.materials.get(b_)
+    for ob in bpy.data.objects:
+        if ob.type == 'MESH':
+            for k, sl in enumerate(ob.material_slots):
+                if sl.material and sl.material.name == a and mb: ob.material_slots[k].material = mb
+for pat in [A[i + 1] for i, x in enumerate(A) if x == '--hide']:   # --hide _tag：不渲染名稱有這段的物件
+    for ob in bpy.data.objects:
+        if pat in ob.name: ob.hide_render = True
 sc = bpy.context.scene; sc.render.engine = 'CYCLES'; sc.cycles.device = 'CPU'; sc.cycles.samples = samples
 try: sc.cycles.use_denoising = True; sc.cycles.denoiser = 'OPENIMAGEDENOISE'
 except Exception: pass

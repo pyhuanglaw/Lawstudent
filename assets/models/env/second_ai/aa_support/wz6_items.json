@@ -5,7 +5,7 @@
  "tris_drawn": 3881,
  "materials": 1,
  "out": "assets/models/env/second_ai/aa_support/wz6_items.glb",
- "bytes": 216620,
+ "bytes": 196688,
  "texres": 1024,
  "modules": {
   "WZ6_egg_timer": {
