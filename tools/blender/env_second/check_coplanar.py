@@ -9,7 +9,7 @@
 - 每個面（世界座標）算平面：法線取到 0.02 的精度、到原點的距離取到 tol。
 - 同一個平面（法線相同或相反）裡的面兩兩比：先用平面上的外接矩形篩（依 u 排序掃描，不是全部兩兩比），
   再算凸多邊形真正的交集面積（Sutherland–Hodgman），≥ min-area 平方公尺才算疊面。
-- 跳過同一個物件裡共用頂點的相鄰面。
+- 跳過同一個物件裡共用頂點的相鄰面；跳過互斥的布置（SEASON_X_on／_off、體育館 SET_CEREMONY／LECTURE／CONCERT）。
 - facing：
   - same＝同一面朝外：兩個平面相差 < 0.5 mm（--exact）**一定會閃**；0.5 mm～tol（預設 2 mm）只有在遠處才閃
     （遊戲鏡頭 near 0.1、24 位元深度：20 m 外分得出約 0.24 mm、60 m 外約 2 mm），標「遠處」。
@@ -18,7 +18,7 @@
   - 注意：本專案 Blender 匯出的材質幾乎都是 doubleSided（Blender 預設不剔除背面）。
 - 輸出每一對：兩個物件、材質、位置（遊戲座標）、重疊面積。依面積排序。
 """
-import json, math, os, sys, time
+import json, math, os, re, sys, time
 import bpy
 from mathutils import Vector
 
@@ -62,6 +62,18 @@ def ccw(P):
     return P if a > 0 else P[::-1]
 
 
+def toggle(ob):
+    """互斥的布置：季節（SEASON_X_on／_off）、體育館的活動布置（SET_CEREMONY／SET_LECTURE／SET_CONCERT；SET_STAGE 共用）。
+    回傳（家族, 值）；同一個家族、不同的值＝不會同時出現，疊在一起不算"""
+    while ob is not None:
+        m = re.match(r'(SEASON_[A-Z0-9]+)_(on|off)', ob.name)
+        if m: return (m.group(1), m.group(2))
+        m = re.match(r'SET_([A-Z]+)', ob.name)
+        if m and m.group(1) != 'STAGE': return ('SET', m.group(1))
+        ob = ob.parent
+    return None
+
+
 def scan(glb):
     """匯入一個 GLB，回傳（面數, 疊面清單）"""
     bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -70,7 +82,7 @@ def scan(glb):
     for ob in bpy.context.scene.objects:
         if ob.type != 'MESH' or (ONLY and ONLY not in ob.name): continue
         me = ob.data; M = ob.matrix_world; NM = M.to_3x3().inverted_safe().transposed(); sc = abs(M.to_3x3().determinant()) ** (2 / 3)
-        vs = [M @ v.co for v in me.vertices]
+        vs = [M @ v.co for v in me.vertices]; tg = toggle(ob)
         for p in me.polygons:
             if p.area * sc < MIN_AREA * 0.5: continue
             n = (NM @ p.normal)
@@ -83,7 +95,7 @@ def scan(glb):
             nn = n * s; P = [vs[i] for i in p.vertices]; d = nn.dot(P[0])
             key = (round(nn.x / 0.02), round(nn.y / 0.02), round(nn.z / 0.02), round(d / TOL))
             mt = me.materials[p.material_index] if me.materials and p.material_index < len(me.materials) else None
-            faces.append((key, ob.name, mt.name if mt else '', P, set(p.vertices), nn, d, n, bool(mt and not mt.use_backface_culling)))
+            faces.append((key, ob.name, mt.name if mt else '', P, set(p.vertices), nn, d, n, bool(mt and not mt.use_backface_culling), tg))
     buckets = {}
     for f in faces:
         k = f[0]
@@ -105,6 +117,7 @@ def scan(glb):
                 if bj[0] >= bi[1]: break                  # 依 u 排序：後面的都在右邊，不會再重疊
                 if abs(fi[6] - fj[6]) > TOL: continue
                 if fi[1] == fj[1] and fi[4] & fj[4]: continue   # 同一個物件的相鄰面
+                if fi[9] and fj[9] and fi[9][0] == fj[9][0] and fi[9][1] != fj[9][1]: continue   # 互斥的布置（季節、活動），不會同時出現
                 ox = min(bi[1], bj[1]) - max(bi[0], bj[0]); oy = min(bi[3], bj[3]) - max(bi[2], bj[2])
                 if ox <= 0 or oy <= 0 or ox * oy < MIN_AREA: continue
                 Pi = ccw([(u.dot(p), v.dot(p)) for p in fi[3]]); Pj = ccw([(u.dot(p), v.dot(p)) for p in fj[3]])
