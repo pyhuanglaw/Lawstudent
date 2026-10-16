@@ -18,6 +18,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 A = sys.argv[sys.argv.index('--') + 1:]
 SCENE, GLB, OUT = A[0], A[1], A[2]
+HAZE = {}                                                                 # haze() 的預設值（場景裡改）
 def opt(name, default):
     return A[A.index(name) + 1] if name in A else default
 RW, RH = map(int, opt('--res', '1920x1080').split('x')); SAMPLES = int(opt('--samples', '64'))
@@ -282,6 +283,7 @@ def sky(sun_elev, sun_rot, strength):
 
 def haze(nt, col_socket, bsdf, color=(0.36, 0.44, 0.56), dist=650.0, maxk=0.5):
     """空氣透視：越遠越往天空的霧藍色混（混合比例＝maxk·(1−exp(−距離/dist))），同時把同一個比例的霧色加到自發光（背光的地方也是霧的顏色、不會黑掉）"""
+    color = HAZE.get('color', color); dist = HAZE.get('dist', dist); maxk = HAZE.get('maxk', maxk)       # 場景可以整體改（校園：傍晚／夜晚）
     cd = nt.nodes.new('ShaderNodeCameraData'); dv = nt.nodes.new('ShaderNodeMath'); dv.operation = 'DIVIDE'; dv.inputs[1].default_value = -dist
     nt.links.new(cd.outputs['View Distance'], dv.inputs[0]); ex = nt.nodes.new('ShaderNodeMath'); ex.operation = 'EXPONENT'; nt.links.new(dv.outputs[0], ex.inputs[0])
     om = nt.nodes.new('ShaderNodeMath'); om.operation = 'SUBTRACT'; om.inputs[0].default_value = 1.0; nt.links.new(ex.outputs[0], om.inputs[1])
@@ -445,9 +447,22 @@ elif SCENE == 'campus':
     # 照查證（docs/art-rebuild/second_ai/research/nccu_campus_path.md）：醉夢溪（指南溪流進校園的那一段）沿岸的濱溪步道，政大人叫「情人道」；
     # 溪上有好幾座橋（濟賢橋、渡賢橋…）、溪岸種楓香、近自然工法的護岸（石塊）、校園在指南山麓（山很近、很高）。
     # **沒有看到照片：路寬、護岸與欄杆的樣子、橋的造型、建築量體都是推估**；不放校名校徽、不寫橋名。時間：傍晚（K1b 19:30 也說得通：路燈已經亮了）。
-    sky(2.5, 235, 0.32)
-    sun = bpy.data.lights.new('sun', 'SUN'); sun.energy = 0.6; sun.color = (1.0, 0.6, 0.38); so = bpy.data.objects.new('sun', sun)
-    so.rotation_euler = (math.radians(86), 0, math.radians(235)); sc.collection.objects.link(so)
+    # AA_147：K1b 是十月平日晚上 21:30 走在校園的路上（主圖＝夜晚）；傍晚是變體。--time night|dusk
+    TIME = opt('--time', 'night'); NIGHT = TIME == 'night'
+    if NIGHT:                                                             # 夜晚：深藍的天（城市的光把天邊照亮一點）、很弱的月光；路燈、系館的窗、溪裡的倒影是主要的光
+        w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; nt = w.node_tree
+        gr = nt.nodes.new('ShaderNodeTexGradient'); mp = nt.nodes.new('ShaderNodeMapping'); tc = nt.nodes.new('ShaderNodeTexCoord'); vr = nt.nodes.new('ShaderNodeValToRGB')
+        mp.inputs['Rotation'].default_value = (0, math.radians(-90), 0); nt.links.new(tc.outputs['Generated'], mp.inputs['Vector']); nt.links.new(mp.outputs['Vector'], gr.inputs['Vector'])
+        vr.color_ramp.elements[0].color = (0.060, 0.064, 0.085, 1); vr.color_ramp.elements[1].position = 0.55; vr.color_ramp.elements[1].color = (0.007, 0.011, 0.028, 1)   # 天邊被城市照亮（v6 太暗：山和樹黑成一片，看不出稜線）
+        nt.links.new(gr.outputs['Fac'], vr.inputs['Fac']); nt.links.new(vr.outputs['Color'], nt.nodes['Background'].inputs['Color']); nt.nodes['Background'].inputs['Strength'].default_value = 1.0
+        sun = bpy.data.lights.new('moon', 'SUN'); sun.energy = 0.09; sun.color = (0.62, 0.72, 1.0); so = bpy.data.objects.new('moon', sun)
+        so.rotation_euler = (math.radians(50), 0, math.radians(140)); sc.collection.objects.link(so)
+        HAZE.update(color=(0.040, 0.045, 0.062), dist=300.0, maxk=0.55); sc.view_settings.exposure = 0.7   # 夜晚整體提亮（劇情背景上面要疊人物、對話框，太暗看不出地方）
+    else:                                                                 # 傍晚：太陽很低、暖色；山要有空氣透視（遠、偏藍、偏淡），不是一團亮黃綠
+        sky(2.5, 235, 0.32)
+        sun = bpy.data.lights.new('sun', 'SUN'); sun.energy = 0.6; sun.color = (1.0, 0.6, 0.38); so = bpy.data.objects.new('sun', sun)
+        so.rotation_euler = (math.radians(86), 0, math.radians(235)); sc.collection.objects.link(so)
+        HAZE.update(color=(0.40, 0.48, 0.60), dist=300.0, maxk=0.62)
     PAVE = mat_tex('path', 'granite_tile_03', scale=0.45, tint=(0.74, 0.72, 0.68), rough=0.75)
     CONC = mat_tex('rev_conc', 'granular_concrete', scale=0.5, tint=(0.70, 0.69, 0.66), rough=0.85)
     STONE = mat_tex('rev_stone', 'granite_tile_03', scale=1.4, tint=(0.46, 0.46, 0.44), rough=0.85)
@@ -507,7 +522,7 @@ elif SCENE == 'campus':
         for fl in range(int(h // fh)):
             for zi in range(int((z1 - z0 - 1.0) // 2.6)):
                 z = z0 + 0.9 + zi * 2.6; y0 = fl * fh + 1.0; x = x0 - 0.02
-                quad('win', (x, y0, z + 1.5), (x, y0, z), (x, y0 + 1.6, z), (x, y0 + 1.6, z + 1.5), WIN_L if rng.random() < 0.35 else WIN_D)
+                quad('win', (x, y0, z + 1.5), (x, y0, z), (x, y0 + 1.6, z), (x, y0 + 1.6, z + 1.5), WIN_L if rng.random() < (0.55 if NIGHT else 0.35) else WIN_D)
     building(40, 54, -46, -22, 13.0); building(44, 60, -88, -60, 17.0)
     # 遠處的一座橋（跨溪的平板橋，兩側欄杆），橋面和步道同高
     box('bridge', 2.35, 17.6, -0.55, 0.05, -46, -42.5, CONC)
@@ -520,8 +535,9 @@ elif SCENE == 'campus':
     # 指南山：校園就在山腳，山很近、很高
     hills(-185, 420, [(0, 105, (0.045, 0.095, 0.04), 2.4), (80, 165, (0.08, 0.13, 0.11), 4.1), (200, 230, (0.15, 0.19, 0.25), 6.3)], crown=0.2, lumpy=0.6)   # 山往後退（原本 −125 太近，像一道牆）；lumpy＝小起伏＋空氣透視
     EYE = (1.4, 1.7, 9.0)                                                    # 鏡頭（下面 camera() 用同一個）
-    forest_cards(5600, -220, 300, -186, -300, 0.8, 1.2, EYE, seed=21, names=('hill0',), tint=(0.62, 0.72, 0.62))                 # 近的山：滿滿的樹（指南山麓）
-    forest_cards(3200, -300, 400, -265, -400, 1.3, 1.8, EYE, seed=22, names=('hill1',), tint=(0.52, 0.62, 0.64))   # 第二層：樹大一點、顏色淡一點（空氣透視）
+    forest_cards(5600, -220, 300, -186, -300, 0.8, 1.2, EYE, seed=21, names=('hill0',), tint=(0.48, 0.58, 0.48))                 # 近的山：滿滿的樹（指南山麓）；v6 顏色壓暗、偏冷（v5 太亮太黃綠，像一團近的灌木）
+    forest_cards(3200, -300, 400, -265, -400, 1.3, 1.8, EYE, seed=22, names=('hill1',), tint=(0.44, 0.54, 0.56))   # 第二層：樹大一點、顏色淡一點（空氣透視）
+    forest_cards(1800, -420, 520, -380, -560, 1.8, 2.4, EYE, seed=23, names=('hill2',), tint=(0.42, 0.50, 0.56))   # 第三層（山頂）：v5 沒種樹，山頂露出一塊光禿的地
     load_lib('street_trees.glb', {'tree_camphor_a', 'tree_camphor_b', 'tree_banyan_a'}); load_lib('street_props.glb', {'lamp_post', 'bench_park'})
     for z in range(2, -110, -8): place(rng.choice(['tree_camphor_a', 'tree_camphor_b', 'tree_banyan_a']), -11 + rng.uniform(-3, 3), z + rng.uniform(-3, 3), yaw=rng.uniform(0, 6.28), s=rng.uniform(1.0, 1.3))   # 步道後面第二排（校園裡樹很多）
     for z in range(-4, -110, -10): place(rng.choice(['tree_camphor_a', 'tree_camphor_b']), -19 + rng.uniform(-3, 3), z + rng.uniform(-3, 3), yaw=rng.uniform(0, 6.28), s=rng.uniform(1.1, 1.4))
@@ -530,7 +546,7 @@ elif SCENE == 'campus':
     for z in range(-2, -110, -6): place(rng.choice(['tree_camphor_a', 'tree_camphor_b', 'tree_banyan_a']), 23.5 + rng.uniform(-1, 2), z + rng.uniform(-2, 2), yaw=rng.uniform(0, 6.28))
     for z in range(-8, -110, -11): place(rng.choice(['tree_camphor_a', 'tree_camphor_b']), 31 + rng.uniform(-2, 2), z + rng.uniform(-3, 3), yaw=rng.uniform(0, 6.28), s=1.2)
     for z in (-9.0, -27.0, -45.0, -63.0, -81.0):                              # 路燈（燈頭朝步道）
-        place('lamp_post', -2.5, z, yaw=math.radians(90)); light_point('lamp', -1.75, 3.9, z, 260, (1.0, 0.86, 0.68), 0.15)
+        place('lamp_post', -2.5, z, yaw=math.radians(90)); light_point('lamp', -1.75, 3.9, z, 420 if NIGHT else 260, (1.0, 0.86, 0.68), 0.15)
     for z in (-14.0, -36.0): place('bench_park', -2.7, z, yaw=math.radians(90))
     camera(EYE, (11.5, -0.4, -34.0), float(opt('--lens', '24')))   # 站在步道靠溪那一側，斜看溪、遠處的橋與山
 
