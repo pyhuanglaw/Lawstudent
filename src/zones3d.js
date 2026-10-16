@@ -1390,8 +1390,8 @@ const Z3 = (function(){
       const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
       const fbM=M('#a88b6a',{rough:0.8});
       for(const b of L.blocks){ nav.blockRect(b[0],b[1],b[2],b[3],0,0.05); const m=new THREE.Mesh(new THREE.BoxGeometry(b[2],0.85,b[3]),fbM); m.position.set(b[0],0.425,b[1]-cz); g.add(m); }   /* 備用的家具色塊（模型載入後藏起來）*/
-      z.seats=[]; for(const st of L.seats){ if(st.npcOnly||/打工/.test(st.label||'')) continue; z.seats.push({x:st.x,z:st.z,yaw:st.yaw,table:st.table,kind:'shop'});
-        E.interactables.push({x:st.x,z:st.z,radius:0.9,label:st.label||'坐下',seat:{x:st.x,z:st.z,yaw:st.yaw},shop:key}); }
+      z.seats=[]; for(const st of L.seats){ if(st.npcOnly||/打工/.test(st.label||'')) continue; const fl=st.kind==='floor'?{floor:0.08}:{}; z.seats.push(Object.assign({x:st.x,z:st.z,yaw:st.yaw,table:st.table,kind:'shop'},fl));   /* floor＝坐墊的高度（茶屋的和室、緣側：跪坐，GAME.sitAt → character3d.js 的 sitFloor；QA-W1 座位檢查：原本用椅子的坐姿，人坐在坐墊上方 0.4 m 的空中）*/
+        E.interactables.push({x:st.x,z:st.z,radius:0.9,label:st.label||'坐下',seat:Object.assign({x:st.x,z:st.z,yaw:st.yaw},fl),shop:key}); }
       const ex=L.exit; E.interactables.push({x:ex.at.x,z:ex.at.z,radius:1.3,label:ex.label,exit:{to:ex.to,spawn:Object.assign({},ex.spawn)}});
       /* 客人的選單（AA_172，src/wzshops3d.js）：配置檔的互動點只接客人用的；打工用的（出餐檯、廚房、櫃台、膠裝、水屋）等 DL-10 */
       const CUST={brunch:{cashier:'點餐',chalkboard:'看今日推薦'},teahouse:{tea:'喝茶',garden:'看院子',tokonoma:'看床之間的掛軸'},print:{print:'印東西',stationery:'買文具'}}[key]||{};
