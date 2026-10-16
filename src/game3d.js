@@ -281,7 +281,8 @@ const GAME = (function(){
   async function loadFrom(s){ if(D.busyDepth>0&&$('titleScreen').classList.contains('hide')){ toast('劇情還在進行，結束後再讀檔',3200); return; }   /* 遊戲中劇情演到一半不能讀檔（讀了舊的劇情流程會接著演到新存檔）；標題畫面照常 */ try{ closeMenu(); $('titleScreen').classList.add('hide'); await applySave(s); toast('已讀取'); }catch(e){ toast('讀取失敗：'+e.message,3500); } }
   // ---------- 選單 ----------
   let menuOpen=false;
-  function openMenu(tab){ menuOpen=true; E.paused=true; $('menu').classList.remove('hide'); renderNotes(); renderPeople(); renderLegal(); renderMap(); renderSlots(); if(tab) switchTab(tab); }
+  function openMenu(tab){ if(tab==='people'||tab==='map'){ openPhone(tab==='people'?'friends':'places'); return; }   /* 2026-10-16 使用者：右上角手機和選單內容重複——人物併進手機「朋友」、地圖併進手機「地點」；選單只留筆記本、存檔、設定、說明 */
+    menuOpen=true; E.paused=true; $('menu').classList.remove('hide'); renderNotes(); renderPeople(); renderLegal(); renderMap(); renderSlots(); if(tab) switchTab(tab); }
   function closeMenu(){ menuOpen=false; E.paused=false; $('menu').classList.add('hide'); }
   GM.openMenu=openMenu; GM.closeMenu=closeMenu;
   GM.openMenu=t=>openMenu(t);
@@ -345,6 +346,9 @@ const GAME = (function(){
     body.querySelectorAll('[data-thback]').forEach(b=>b.onclick=()=>{ phoneThread=null; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
     body.querySelectorAll('[data-place]').forEach(b=>b.onclick=async()=>{ const pl=PLACE_LIST().find(q=>q[0]+'|'+q[1]===b.dataset.place); if(pl) await quickGo(pl); });
     body.querySelectorAll('[data-find]').forEach(b=>b.onclick=()=>{ if(findPerson(b.dataset.find)) closePhone(); });
+    body.querySelectorAll('[data-person]').forEach(b=>b.onclick=()=>{ phonePerson=b.dataset.person; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
+    body.querySelectorAll('[data-personback]').forEach(b=>b.onclick=()=>{ phonePerson=null; renderPhone(); });
+    body.querySelectorAll('[data-bigmap]').forEach(b=>b.onclick=()=>{ closePhone(); if(typeof GUIDE!=='undefined') GUIDE.openMap(); });
     body.querySelectorAll('[data-msg]').forEach(b=>b.onclick=()=>{ phoneTab='msg'; phoneThread='p:'+b.dataset.msg; renderPhone(); phoneBadge(); const pb=$('phoneBody'); if(pb) pb.scrollTop=pb.scrollHeight; });
     document.querySelectorAll('#phoneTabs button').forEach(b=>b.classList.toggle('on',b.dataset.ptab===phoneTab));
     body.querySelectorAll('[data-go]').forEach(b=>b.onclick=async()=>{ const it=CLS.dayItems(G).find(q=>q.key===b.dataset.go); if(!it) return; if(E.player.busy){ toast('現在不能移動'); return; } closePhone(); const zn=it.room.zone; if(G.zone===zn){ toast('你已經在'+(zn==='classroom'?'教室':it.room.name.replace(/ \S+$/,''))+'了。'+(zn==='classroom'?'':'教室是 '+it.room.name+'，')+'找個位子坐下就可以上課。',4200); return; }
@@ -358,7 +362,7 @@ const GAME = (function(){
     closePhone(); if(menuOpen) closeMenu(); if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.leave) ACTIVITIES.leave(G);   /* 活動中快速前往＝中途離開（AA_110 5-2）*/
     advance(st.mins/60); energy(-Math.max(1,Math.round(st.mins/8))); await enter(z,sp||undefined); toast((st.bike?'騎了 ':'走了 ')+st.mins+' 分鐘到'+label,2600); }
   GM.quickGo=quickGo;
-  function placesHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); let h='<div class="item muted">知道的地方可以直接過去，依距離花時間；想看看路上的人和風景，也可以自己走。</div>';
+  function placesHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); let h='<div class="item"><button class="btn pri" data-bigmap="1">打開整張地圖（也可以點右上角的小地圖）</button></div><div class="item muted">知道的地方可以直接過去，依距離花時間；想看看路上的人和風景，也可以自己走。</div>';   /* 選單「地圖」併進來（2026-10-16）*/
     for(const pl of PLACE_LIST()){ const st=placeState(pl); const ht=typeof PLACES!=='undefined'&&PLACES.hours[pl[0]]?(PLACES.hours[pl[0]].rules?PLACES.todayText(pl[0],G.day):(PLACES.hours[pl[0]].open!=null?PLACES.hours[pl[0]].text:'')):'';
       h+='<div class="item phrow"><div>'+esc(pl[1])+'<div class="muted">'+(!st.known?'還沒去過':(st.here?'你在這裡':'約 '+st.mins+' 分鐘'+(st.bike?'（騎車）':'')))+(ht?'・'+esc(ht):'')+'</div></div>'+(st.here||!st.known?'':'<button class="btn'+(st.open?' pri':'')+'" data-place="'+esc(pl[0]+'|'+pl[1])+'">'+(st.open?'前往':'已閉館')+'</button>')+'</div>'; }   /* 已閉館的按鈕按了會說幾點開、可以改去哪裡 */
     return h; }
@@ -375,16 +379,23 @@ const GAME = (function(){
   function campusPlaceFor(id,PL){ const C=PL.filter(q=>q[0]==='campus'); if(!C.length) return null; const ent=STORY.schedEnt?STORY.schedEnt(CHARACTERS[id],G):null; let xy=null;
     if(ent&&ent.at) xy=[ent.at[0],ent.at[1]]; else if(ent&&ent.seat==='bell') xy=[-30,20.94]; if(!xy) return C[0];
     let best=C[0], bd=1e9; for(const q of C){ const sp=q[2]; if(!sp) continue; const d=Math.hypot(sp.x-xy[0],sp.z-xy[1]); if(d<bd){ bd=d; best=q; } } return best; }
+  /* 手機「朋友」裡點「資料」：原本選單「人物」頁的內容（科系年級、現在大概在哪、介紹、關係、最近的記憶）——2026-10-16 選單「人物」併進來 */
+  let phonePerson=null;
+  function personHTML(id){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); const c=CHARACTERS[id]; if(!c) return ''; const name=SOCIAL.displayName(id);
+    const tag=(c.department||'')+(c.year?'・'+(typeof c.year==='number'?['','一','二','三','四'][c.year]+'年級':c.year):'')+(c.course?'・'+c.course:''); const rv=SOCIAL.reveal(id);
+    const desc=(c.social_layer==='B'&&rv!=='FRIEND')?(rv==='ACQUAINTANCE'?(c.facts?c.facts[0]:''):''):(c.personality||''); const wt=whereText(id);
+    const mems=SOCIAL.memories(id).slice(-5).map(m=>'<div class="muted">· 第 '+m.day+' 天 '+esc(SOCIAL.MEMORY_LABEL[m.tag]||m.tag)+((SOCIAL.noteShown?SOCIAL.noteShown(id,m):m.note)?'（'+esc(SOCIAL.noteShown?SOCIAL.noteShown(id,m):m.note)+'）':'')+'</div>').join('');
+    return '<div class="item phrow"><button class="btn" data-personback="1">‹ 朋友</button><b>'+esc(name)+'</b></div><div class="item"><span class="muted">'+esc(tag)+'</span>'+(wt?'<div style="color:#ffd88a">現在大概在：'+esc(wt)+'</div>':'')+'<div>'+esc(desc)+'</div><div>'+SOCIAL.describe(id)+'</div>'+(mems?'<div style="margin-top:4px">'+mems+'</div>':'')+'</div>'; }
   /* 手機「朋友」（D54 ④：手機資訊是協助找人，不是任務標記）：認識的人現在大概在哪（照作息，和大地圖的人物線索同一份）；在別的地方的，可以快速前往那個地方（照樣花時間）*/
   function friendsHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); const ids=knownIds(); const PL=PLACE_LIST();
-    if(!ids.length) return '<div class="item muted">還沒有認識的人。</div>';
+    if(!ids.length) return '<div class="item muted">還沒有認識的人。</div>'; if(phonePerson&&ids.includes(phonePerson)) return personHTML(phonePerson);
     let h='<div class="item muted">大家照自己的作息在校園裡生活；這裡寫的是「大概在哪」，去了不一定剛好遇到。</div>';
     for(const id of ids){ const w=STORY.whereIs&&STORY.whereIs(GM,id); const nm=(typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(id):((CHARACTERS[id]||{}).name||id);
       const pl=w&&w.zone&&w.zone!==G.zone?(w.zone==='campus'?campusPlaceFor(id,PL):PL.find(q=>q[0]===w.zone)):null; const st=pl?placeState(pl):null;   /* 校園裡的人也可以「過去」：到離他最近的校園地點（使用者 2026-10-15：有的可以直接過去、有的只能導航）*/
       const msg=typeof INV!=='undefined'&&INV.hasContact(G,id)?'<button class="btn" data-msg="'+esc(id)+'">訊息</button>':'';   /* 有聯絡方式＝可以直接傳訊息（約人和訊息放在一起：使用者 2026-10-15）*/
       const why=typeof INV!=='undefined'&&INV.whyNot?INV.whyNot(G,id):'';   /* 約不了的原因（AA_125 第 1 節：只打過招呼、沒有聯絡方式、已經約好了、不在學校）*/
       const canInv=typeof INV!=='undefined'&&!why&&INV.hasContact(G,id)&&INV.canInvite(G,id);   /* 有聯絡方式的才能用手機約（使用者第 2 點：認識的朋友才有聯絡方式）*/
-      h+='<div class="item phrow"><div>'+esc(nm)+'<div class="muted">'+(w?esc(whereText(id))+(w.zone===G.zone?'・就在這裡':''):'現在沒有固定的行程')+'</div></div><div class="row2" style="gap:6px">'+(pl&&st&&st.known?'<button class="btn" data-place="'+esc(pl[0]+'|'+pl[1])+'">過去（約 '+st.mins+' 分鐘）</button>':'')+(w&&w.zone&&!w.away?'<button class="btn" data-find="'+esc(id)+'">帶我去</button>':'')+msg+(canInv?'<button class="btn pri" data-inv="'+esc(id)+'">約</button>':(why?'<span class="muted" style="font-size:12px;align-self:center">'+esc(why)+'</span>':''))+'</div></div>'; }
+      h+='<div class="item phrow"><div>'+esc(nm)+'<div class="muted">'+(w?esc(whereText(id))+(w.zone===G.zone?'・就在這裡':''):'現在沒有固定的行程')+'</div></div><div class="row2" style="gap:6px">'+(pl&&st&&st.known?'<button class="btn" data-place="'+esc(pl[0]+'|'+pl[1])+'">過去（約 '+st.mins+' 分鐘）</button>':'')+(w&&w.zone&&!w.away?'<button class="btn" data-find="'+esc(id)+'">帶我去</button>':'')+'<button class="btn" data-person="'+esc(id)+'">資料</button>'+msg+(canInv?'<button class="btn pri" data-inv="'+esc(id)+'">約</button>':(why?'<span class="muted" style="font-size:12px;align-self:center">'+esc(why)+'</span>':''))+'</div></div>'; }
     return h; }
   /* 手機「訊息」（D54 ⑥）：約人、對方的回答、沒赴約……最新的在上面；對方約你、改約的有回覆的按鈕（src/invites3d.js）*/
   /* 手機「訊息」（交接包 v1：群組、置頂、可以回的訊息，src/phone3d.js）：最上面是「待回覆」（邀約、可以回的訊息）、對話串（點了看整段，群組的置頂在最上面），下面照舊是最近的訊息 */
@@ -411,7 +422,7 @@ const GAME = (function(){
       h+='<div class="item'+(m.from==='player'?' me':'')+'"><div class="muted">'+msgWhen(m)+'</div>'+msgLine(m)+btn+'</div>'; }
     return h; }
   function invTodayHTML(){ if(typeof INV==='undefined') return ''; const L=INV.todayLines(G); if(!L.length) return ''; return '<div class="item"><b>今天約好的</b>'+L.map(t=>'<div>'+t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[c])+'</div>').join('')+'</div>'; }
-  function openPhone(tab,th){ if(!G||GM.titleIdle) return; if(menuOpen) closeMenu(); phoneOpen=true; if(tab) phoneTab=tab; phoneThread=th||null; E.paused=true; $('phone').classList.remove('hide'); renderPhone(); phoneBadge(); }
+  function openPhone(tab,th){ if(!G||GM.titleIdle) return; if(menuOpen) closeMenu(); phoneOpen=true; if(tab) phoneTab=tab; phoneThread=th||null; phonePerson=null; E.paused=true; $('phone').classList.remove('hide'); renderPhone(); phoneBadge(); }
   let phoneWaiters=[];
   function closePhone(){ phoneOpen=false; phoneThread=null; $('phone').classList.add('hide'); E.paused=false; phoneBadge(); const w=phoneWaiters; phoneWaiters=[]; for(const f of w) f(); }
   GM.openPhone=openPhone; GM.closePhone=closePhone;
@@ -421,7 +432,7 @@ const GAME = (function(){
   function phoneBadge(){ const el=$('phoneBadge'); if(!el||typeof PHONE==='undefined'||!G) return; const n=PHONE.unread(G); el.textContent=n>9?'9+':String(n); el.classList.toggle('hide',!n); }
   GM.phoneBadge=phoneBadge;
   function bindUI(){ $('btnMenu').onclick=()=>{ if(menuOpen) closeMenu(); else openMenu('notes'); }; $('btnClose').onclick=closeMenu; document.querySelectorAll('#menu .tabs button').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
-    if($('btnPhone')){ $('btnPhone').onclick=()=>{ if(phoneOpen) closePhone(); else openPhone(); }; $('btnPhoneClose').onclick=closePhone; document.querySelectorAll('#phoneTabs button').forEach(b=>b.onclick=()=>{ if(b.disabled) return; phoneTab=b.dataset.ptab; phoneThread=null; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; }); if($('nextClass')) $('nextClass').onclick=()=>openPhone('today'); } $('interact').onclick=()=>doInteract(); $('btnRun').onclick=()=>{ E.player.runHold=!E.player.runHold; E.input.runToggle=E.player.runHold; $('btnRun').classList.toggle('on',E.player.runHold); }; $('btnCenter').onclick=()=>E.recenter(); if(typeof BIKE!=='undefined') BIKE.bindUI(GM);
+    if($('btnPhone')){ $('btnPhone').onclick=()=>{ if(phoneOpen) closePhone(); else openPhone(); }; $('btnPhoneClose').onclick=closePhone; document.querySelectorAll('#phoneTabs button').forEach(b=>b.onclick=()=>{ if(b.disabled) return; phoneTab=b.dataset.ptab; phoneThread=null; phonePerson=null; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; }); if($('nextClass')) $('nextClass').onclick=()=>openPhone('today'); } $('interact').onclick=()=>doInteract(); $('btnRun').onclick=()=>{ E.player.runHold=!E.player.runHold; E.input.runToggle=E.player.runHold; $('btnRun').classList.toggle('on',E.player.runHold); }; $('btnCenter').onclick=()=>E.recenter(); if(typeof BIKE!=='undefined') BIKE.bindUI(GM);
     $('dlg').addEventListener('pointerup',e=>{ e.stopPropagation(); dlgAdvance(); }); addEventListener('keydown',e=>{ if(e.key===' '||e.key==='Enter'){ if(dlgAdvance()) e.preventDefault(); else if(nearIt&&!menuOpen) doInteract(); } if(e.key==='Escape'){ if(menuOpen) closeMenu(); else if(!D.active) openMenu('notes'); } });
     E.onTap=(tp)=>{ if(D.active){ dlgAdvance(); return true; } return false; }; E.tapRedirect=tapToSeat;
     E.onGreet=(n)=>{ if(!D.active&&!E.player.busy) caption('',n.name+'朝你揮了揮手。',1800); };
