@@ -350,10 +350,13 @@ for sgn, nm in ((1, 'ABOARD_FACE_front'), (-1, 'ABOARD_FACE_back')):
 # ================================================================ 合併同材質的零件（少很多 draw call）；招牌、立牌、菜單板面要單獨（遊戲換 canvas 貼圖）
 # 純色材質改成三個頂點色材質（第二輪減量，2026-10-10；lib2.vc_consolidate）：亮面（瓷杯、檯面、釉面盆）、霧面、金屬，各一次 draw call。
 # 屋頂板不併（它投影；這三組在遊戲裡都不投影：zones3d.js 的 WZ_NO_SHADOW）
-L.vc_consolidate(root, {**dict.fromkeys(('cafe_ceramic_white', 'cafe_int_bartop', 'cafe_pot_cream', 'cafe_pot_dark'), L.vc_material('cafe_vc_gloss', rough=0.35)),
-                        **dict.fromkeys(('cafe_pot_terracotta', 'cafe_soil', 'cafe_trunk', 'cafe_cake', 'cafe_ac_body', 'cafe_ac_fan', 'cafe_pipe', 'cafe_curtain', 'cafe_room_dark'), L.vc_material('cafe_vc_matte', rough=0.85)),
+L.vc_consolidate(root, {**dict.fromkeys(('cafe_ceramic_white', 'cafe_int_bartop', 'cafe_pot_cream', 'cafe_pot_dark', 'cafe_pl_leaf_dark', 'cafe_pl_leaf_mid'), L.vc_material('cafe_vc_gloss', rough=0.35)),
+                        **dict.fromkeys(('cafe_pot_terracotta', 'cafe_soil', 'cafe_trunk', 'cafe_cake', 'cafe_ac_body', 'cafe_ac_fan', 'cafe_pipe', 'cafe_curtain', 'cafe_room_dark', 'cafe_pl_bark', 'cafe_pl_soil_pot'), L.vc_material('cafe_vc_matte', rough=0.85)),
                         **dict.fromkeys(('cafe_brass', 'cafe_iron_black', 'cafe_steel', 'cafe_grille', 'cafe_tank_steel', 'cafe_alu'), L.vc_metal('cafe_vc_metal', rough=0.4, metal=0.4))})
-L.merge_by_material(root, keep=lambda ob: any(k in ob.name for k in ('SIGN_FACE', 'ABOARD_FACE', 'MENU_FACE')))
+_keep = lambda ob: any(k in ob.name for k in ('SIGN_FACE', 'ABOARD_FACE', 'MENU_FACE'))
+L.realize_small_instances(root, keep=_keep)   # 第三輪減量（2026-10-16）：只擺幾個的 instancing（凳子、桌子、冷氣、鐵窗、雨遮）合進大網格；多材質的零件拆開再合
+L.split_by_material(root, keep=_keep)
+L.merge_by_material(root, keep=_keep)
 info = L.export(OUT, gpu_instances=True)
 info.update({'night_mats': NIGHT_MATS, 'bounce_mats': BOUNCE_MATS})
 L.write_json(OUT[:-4] + '.json', info)

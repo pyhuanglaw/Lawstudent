@@ -168,11 +168,11 @@ def bush(m, cx, cy, cz, r, n=10, span=0.5, flat_y=1.0):
         card(m, px, py, pz, s, s, ry=random.uniform(0, math.pi), rx=random.uniform(-0.9, 0.9), uv=rand_uv(span))
 
 
-def pot(m, cx, cz, r, h, profile='taper', y0=0.0):
+def pot(m, cx, cz, r, h, profile='taper', y0=0.0, seg=18):
     if profile == 'bowl': prof = [(r * 0.55, 0), (r * 0.85, h * 0.25), (r, h * 0.75), (r * 1.02, h), (r * 0.92, h)]
     elif profile == 'cyl': prof = [(r * 0.92, 0), (r, 0.03), (r, h), (r * 0.94, h)]
     else: prof = [(r * 0.72, 0), (r * 0.78, 0.02), (r, h * 0.92), (r * 1.06, h * 0.94), (r * 1.06, h), (r * 0.96, h)]
-    bm = L.lathe(prof, seg=18); m.add_bm(bm, Matrix.Translation(g2b(cx, y0, cz))); bm.free()
+    bm = L.lathe(prof, seg=seg); m.add_bm(bm, Matrix.Translation(g2b(cx, y0, cz))); bm.free()
 
 
 def proto(ob):

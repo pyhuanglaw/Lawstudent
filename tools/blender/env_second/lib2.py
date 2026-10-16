@@ -235,6 +235,57 @@ def merge_by_material(root, keep=lambda ob: False, key=lambda ob: ''):
     print(json.dumps({'merge_by_material': {'objects_in': n_before, 'merged_into': made}}))
 
 
+def auto_vc_groups(root, matte, metal, gloss=None, protect=(), skip=lambda m: False):
+    """root 底下用到的所有純色材質（不透明、不發光、沒有貼圖）照金屬度／粗糙度分到頂點色材質（給 vc_consolidate）：
+    金屬 > 0.1 → metal；粗糙度 < 0.5 → gloss（沒給就 matte）；其他 → matte。protect（遊戲用材質名做事的）、字牌 *FACE* 用的材質、已經是頂點色的不動。"""
+    used, face = set(), set()
+    for ob in [root] + list(root.children_recursive):
+        if ob.type != 'MESH': continue
+        for ms in ob.material_slots:
+            if ms.material: (face if 'FACE' in ob.name else used).add(ms.material)
+    tg = {t.name for t in (matte, metal, gloss) if t}; out = {}
+    for m in used:
+        if m.name in tg or m.name in protect or m in face or skip(m): continue
+        fi = flat_info(m)
+        if not fi or fi['color'] is None: continue
+        r = m.node_tree.nodes['Principled BSDF'].inputs['Roughness'].default_value
+        out[m.name] = metal if fi['metal'] > 0.1 else (gloss if (gloss and r < 0.5) else matte)
+    return out
+
+
+def realize_small_instances(root, max_users=3, max_tris=2000, keep=lambda ob: False):
+    """數量少或很小的 instancing（同一個網格只用 1～3 次、或全部加起來不到 max_tris 個三角形）改成各自一份網格，
+    之後 split_by_material＋merge_by_material 才能合進大網格（instancing 每個原型每個材質一次 draw call，只擺一兩個的不划算）。"""
+    by = {}
+    for ob in root.children_recursive:
+        if ob.type == 'MESH' and ob.data.users > 1 and not keep(ob): by.setdefault(ob.data.name, []).append(ob)
+    n = 0
+    for name, obs in by.items():
+        me = obs[0].data; tris = sum(len(p.vertices) - 2 for p in me.polygons)
+        if len(obs) <= max_users or tris * len(obs) <= max_tris:
+            for ob in obs: ob.data = me.copy()
+            n += 1
+    print(json.dumps({'realize_small_instances': n}))
+
+
+def split_by_material(root, keep=lambda ob: False):
+    """不是 instancing、有好幾個材質的網格物件拆成一個材質一個物件（之後 merge_by_material 才合得進去）。有子物件的不拆。"""
+    bpy.context.view_layer.update(); n = 0
+    for ob in [o for o in root.children_recursive if o.type == 'MESH']:
+        if keep(ob) or ob.data.users > 1 or len(ob.data.materials) < 2 or ob.children: continue
+        me = ob.data; used = sorted({p.material_index for p in me.polygons})
+        for mi in used:
+            bm = bmesh.new(); bm.from_mesh(me)
+            bmesh.ops.delete(bm, geom=[f for f in bm.faces if f.material_index != mi], context='FACES')
+            nm = bpy.data.meshes.new(f'{me.name}_m{mi}'); bm.to_mesh(nm); bm.free()
+            nm.materials.clear(); nm.materials.append(me.materials[mi])
+            for p in nm.polygons: p.material_index = 0
+            no = bpy.data.objects.new(f'{ob.name}_m{mi}', nm); B.scene().collection.objects.link(no); no.parent = ob.parent; no.matrix_world = ob.matrix_world.copy()
+            for kk, vv in ob.items(): no[kk] = vv
+        bpy.data.objects.remove(ob); bpy.data.meshes.remove(me); n += 1
+    print(json.dumps({'split_by_material': n}))
+
+
 # ---------- 頂點色（商品、曬的衣服…：一個材質、顏色放在頂點色，一次 draw call） ----------
 def vc_material(name, rough=0.5, cull=False):
     """顏色全部來自頂點色（Color Attribute 'Col' → Base Color；glTF COLOR_0）"""
@@ -265,7 +316,7 @@ def vc_consolidate(root, groups):
     groups：{原材質名: 頂點色材質（vc_material／vc_metal 建的）}。每個面原本材質的顏色寫進頂點色 Col
     （金屬度不同時補償漫射：顏色 ×(1−原金屬度)/(1−新金屬度)，最多到 1）。instancing 原型的網格也處理（原型裡的零件合成一個材質）。
     原本就有頂點色的網格（外牆的牆色、曬的衣服）保留其他面的顏色。要在 merge_by_material 之前呼叫。"""
-    meshes = {ob.data for ob in root.children_recursive if ob.type == 'MESH'}
+    meshes = {ob.data for ob in [root] + list(root.children_recursive) if ob.type == 'MESH'}   # root 本身是網格的（腳踏車的車架）也算
     st = {'meshes': 0, 'faces': 0, 'materials': set()}
     for me in meshes:
         idx = [i for i, m in enumerate(me.materials) if m and m.name in groups]

@@ -338,6 +338,18 @@ assert (ax_b - want).length < 1e-4, (ax_b, want)
 for ob, p in ((wf, FA), (wr, Vector((0, WY, RZ))), (ck, bbv), (pr, PED['pedal_r']), (pl, PED['pedal_l'])):
     assert (ob.matrix_world.translation - g2b(*p)).length < 1e-4, (ob.name, ob.matrix_world.translation, p)
 
+# 減量（2026-10-16，溫州街效能）：純色材質（鍍鉻、黑色零件、輪胎、反光片、軟墊、綁帶）合成一個頂點色材質 ride_vc——
+# 每個節點（車架、前叉、輪子、曲柄、踏板、軟墊）的 draw call 從 2～6 次變 1～4 次（陰影那一輪也少一樣多）。
+# 車架烤漆 ride_frame（遊戲改色）、座墊、輻條（透明貼圖）、車燈（發光）不動；節點、樞軸、定位點都不變。
+RIDE_VC = L.vc_metal('ride_vc', rough=0.45, metal=0.3)
+L.vc_consolidate(root, L.auto_vc_groups(root, RIDE_VC, RIDE_VC, protect={'ride_frame', 'ride_saddle', 'ride_alpha', 'ride_lamp_lens'}))
+for ob in [o for o in [root] + list(root.children_recursive) if o.type == 'MESH']:   # 換掉的材質槽拿掉（沒有面用的槽不匯出，但留著不乾淨）
+    me = ob.data; used = {p.material_index for p in me.polygons}
+    for i in sorted(range(len(me.materials)), reverse=True):
+        if i not in used:
+            for p in me.polygons:
+                if p.material_index > i: p.material_index -= 1
+            me.materials.pop(index=i)
 tris = {}
 for ob in [o for o in [root] + list(root.children_recursive) if o.type == "MESH"]:
     me = ob.data; me.calc_loop_triangles(); tris[ob.name] = len(me.loop_triangles)

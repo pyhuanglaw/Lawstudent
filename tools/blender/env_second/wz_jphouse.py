@@ -352,6 +352,10 @@ for m, props in faces: uv01(m.finish(root, uv=True, props=props))
 L.vc_consolidate(root, {
                         **dict.fromkeys(('jp_ridge', 'cafe_ac_body', 'cafe_ac_fan', 'cafe_room_dark'), L.vc_material('wz_vc_matte', rough=0.85)),
                         **dict.fromkeys(('cafe_iron_black', 'jp_gutter', 'jp_meter'), L.vc_metal('wz_vc_metal', rough=0.45, metal=0.35))})
-L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
+_keep = lambda ob: 'FACE' in ob.name   # 第三輪減量（2026-10-16）：其他純色材質也進頂點色、只擺幾個的 instancing 合進大網格、多材質的零件拆開再合
+L.vc_consolidate(root, L.auto_vc_groups(root, bpy.data.materials['wz_vc_matte'], bpy.data.materials['wz_vc_metal'], protect={'jp_lamp', 'jp_shoji', 'wz_lamp_lens', 'wz_yizhan_lantern'}))
+L.realize_small_instances(root, keep=_keep)
+L.split_by_material(root, keep=_keep)
+L.merge_by_material(root, keep=_keep)
 info = L.export(OUT, gpu_instances=True)
 L.write_json(OUT[:-4] + '.json', info)

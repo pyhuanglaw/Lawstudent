@@ -577,9 +577,9 @@ def shallow_interior(spec, xf, iw, gz, ih):
             while x < iw / 2 - 1.35:
                 if rr.random() < 0.6:                                                                       # 一疊碗（3～4 個疊起來的輪廓）
                     hh = 0.05 + rr.randint(2, 3) * 0.028                                                   # 疊起來的碗：外形一個喇叭狀（8 邊；一整排一百多疊，不能太細）
-                    _lathe(acc(SK['bowl_w'] if rr.random() < 0.6 else SK['bowl_b']), xf, [(0.0, 0.0), (0.045, 0.0), (0.078, hh - 0.02), (0.08, hh), (0.0, hh)], x + 0.08, yy + 0.03, zb + 0.15, seg=8); x += 0.24
+                    _lathe(acc(SK['bowl_w'] if rr.random() < 0.6 else SK['bowl_b']), xf, [(0.0, 0.0), (0.045, 0.0), (0.08, hh), (0.0, hh)], x + 0.08, yy + 0.03, zb + 0.15, seg=7); x += 0.24   # 效能版：7 邊、少一圈
                 else:                                                                                       # 立著的盤子（三片）
-                    for q in range(3): xf_cyl(acc(SK['bowl_w']), xf, (x + 0.02 + q * 0.03, yy + 0.03 + 0.11, zb + 0.12), (x + 0.03 + q * 0.03, yy + 0.03 + 0.11, zb + 0.12), 0.11, seg=10)
+                    for q in range(3): xf_cyl(acc(SK['bowl_w']), xf, (x + 0.02 + q * 0.03, yy + 0.03 + 0.11, zb + 0.12), (x + 0.03 + q * 0.03, yy + 0.03 + 0.11, zb + 0.12), 0.11, seg=8)
                     x += 0.16
         for j in range(9): vb(-iw / 2 + 0.75 + j * 0.3, -iw / 2 + 0.97 + j * 0.3, y0 + 2.35, y0 + 2.75, zb + 0.005, zb + 0.012, '#e8dcc0', r=0)   # 牆上的木札菜單（米色長條）
         for j in range(3): vb(iw / 2 - 1.0 + j * 0.27, iw / 2 - 0.76 + j * 0.27, y0 + 1.3, y0 + 2.2, zb + 0.4, zb + 0.41, '#22324e', r=0)

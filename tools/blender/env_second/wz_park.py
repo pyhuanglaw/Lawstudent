@@ -483,7 +483,17 @@ if NOTE_Q:
     ob = bpy.data.objects.new('park_notes', me); B.scene().collection.objects.link(ob); ob.parent = root
 L.vc_consolidate(root, dict.fromkeys(('park_steel', 'park_lamppost', 'park_stainless', 'park_chain'), L.vc_metal('wz_vc_metal', rough=0.45, metal=0.35)))
 L.vc_consolidate(root, dict.fromkeys(('park_red', 'park_pillar', 'park_rubber_blue', 'park_rubber_green', 'park_blue', 'park_green', 'park_orange', 'park_rubber_black', 'park_cork', 'park_incense', 'park_soil'), L.vc_material('wz_vc_matte', rough=0.85)))
-L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or 'SEASON' in ob.name or (ob.parent is not None and 'SEASON' in ob.parent.name) or ob.name.startswith('park_oldtree') or ob.name.startswith('park_tree'))
+# 第三輪減量（2026-10-16）：其他純色材質也進頂點色；公園的樹（樟樹、老茄苳）不再一棵一個網格——同材質合成一個（楓香有季節切換，照舊分開）；
+# 只擺幾個的 instancing 合進大網格、多材質的零件拆開再合。發光的燈、字牌不動。
+import re   # noqa: E402
+_keep = lambda ob: 'FACE' in ob.name or ob.name.startswith('SEASON')   # 杜鵑（網格本身叫 SEASON_AZALEA_*）
+def _season_key(ob):   # 楓香兩棵：同一個季節狀態、同材質的合成一個網格，名字 SEASON_SWEETGUM_<on|off>_<材質>（遊戲照名字切換）
+    m = re.match(r'(SEASON_[A-Z]+_(?:on|off))', ob.parent.name) if ob.parent is not None else None
+    return m.group(1) if m else ''
+L.vc_consolidate(root, L.auto_vc_groups(root, bpy.data.materials['wz_vc_matte'], bpy.data.materials['wz_vc_metal'], protect={'wz_lamp_lens', 'jp_lamp', 'cafe_bulb'}))
+L.realize_small_instances(root, keep=_keep)
+L.split_by_material(root, keep=_keep)
+L.merge_by_material(root, keep=_keep, key=_season_key)
 info = L.export(OUT, gpu_instances=True)
 info['layout'] = LAY['version']
 L.write_json(OUT[:-4] + '.json', info)

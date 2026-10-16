@@ -294,16 +294,26 @@ def bar(m, x0, x1, y0, y1, z0, z1):
     bmesh.ops.delete(m.bm, geom=caps, context='FACES_ONLY')
 
 
+def xbar(m, a, b_, w):
+    """細鐵條（效能版，2026-10-16）：沿 a→b 的兩片「十」字交叉薄片（4 個三角形；方條 8 個），薄片和軸對齊——直條、橫條有一片正對街道
+    （第一版斜 45° 的 X 字：一半朝下、整片鐵窗看起來比方條暗很多）。材質是雙面的（頂點色金屬），從哪個角度看都有寬度"""
+    A, Bv = Vector(a), Vector(b_); d = (Bv - A).normalized(); u = Vector((0, 1, 0)) if abs(d.y) < 0.9 else Vector((1, 0, 0)); u = (u - d * u.dot(d)).normalized(); v = d.cross(u)
+    for e in (u * (w / 2), v * (w / 2)): m.quad([tuple(A - e), tuple(Bv - e), tuple(Bv + e), tuple(A + e)])
+
+
 def grille_mesh(w_, h_, dep=0.42):
-    m = Mesh('grille_proto', M['grille']); b = 0.018; n = max(6, int(w_ / 0.12))
+    """鐵窗（instancing，整條巷子約 150 個）：前面直條 0.16 m 一根、四條橫條、兩側籠子、底下踏板。
+    效能版（2026-10-16）：細條改十字薄片 xbar（4 個三角形）、兩側籠子少兩根、踏板一片 → 348 → 約 120 個三角形"""
+    m = Mesh('grille_proto', M['grille']); b = 0.018; n = max(6, int(w_ / 0.16))
     for i in range(n + 1):
-        x = -w_ / 2 + i * w_ / n; bar(m, x - b / 2, x + b / 2, 0, h_, dep - b, dep)
-    for y in (0.0, 0.32, h_ * 0.55, h_ - b * 1.6): bar(m, -w_ / 2, w_ / 2, y, y + b * 1.6, dep - b * 1.5, dep + 0.005)
+        x = -w_ / 2 + i * w_ / n; xbar(m, (x, 0.0, dep - b / 2), (x, h_, dep - b / 2), b)
+    for y in (0.0, 0.32, h_ * 0.55, h_ - b * 1.6): xbar(m, (-w_ / 2, y + b * 0.8, dep - b / 2), (w_ / 2, y + b * 0.8, dep - b / 2), b * 1.6)
     for s in (-1, 1):
         x = s * w_ / 2
-        for k in range(4): bar(m, x - b / 2, x + b / 2, 0, h_, dep * k / 3 - b / 2, dep * k / 3 + b / 2)
-        for y in (0.0, h_ * 0.55, h_ - b * 1.6): bar(m, x - b / 2, x + b / 2, y, y + b * 1.6, 0, dep)
-    for k in range(3): m.box(-w_ / 2, w_ / 2, 0.0, 0.03, dep * (k + 0.5) / 3 - 0.03, dep * (k + 0.5) / 3 + 0.03)   # 底下的踏板（扁平，兩端蓋子看得到，不省）
+        for k in (0, 2): xbar(m, (x, 0.0, dep * k / 3), (x, h_, dep * k / 3), b)
+        for y in (0.0, h_ * 0.55, h_ - b * 1.6): xbar(m, (x, y + b * 0.8, 0.0), (x, y + b * 0.8, dep), b * 1.6)
+    for k in range(3):   # 底下的三條踏板：一條一片（雙面材質；第一版整片底板從街上看是一條黑帶）
+        zc = dep * (k + 0.5) / 3; m.quad([(-w_ / 2, 0.03, zc - 0.03), (w_ / 2, 0.03, zc - 0.03), (w_ / 2, 0.03, zc + 0.03), (-w_ / 2, 0.03, zc + 0.03)])
     return proto(m.finish(None))
 
 
@@ -316,22 +326,19 @@ def hood_mesh(w_, dep=0.62):
 
 
 def ac_mesh(lite=False):
-    """冷氣室外機。lite（公館）：風扇格柵 5 條、側面散熱條 6 條、風扇 14 邊、細條去掉看不到的端蓋（328 → 約 200 個三角形；冷氣都在二樓以上，從街上看不出差別）"""
+    """冷氣室外機。效能版（2026-10-16，溫州街、公館都用）：風扇 12 邊、正面格柵 5 條、側面散熱條 6 條都是薄片（每條 2 個三角形；冷氣都在二樓以上，從街上看不出差別）
+    → 328 → 約 120 個三角形。lite 參數留著相容（兩邊現在一樣）"""
     body = Mesh('ac_body', M['ac']); body.box(-0.4, 0.4, 0, 0.56, 0, 0.3)
-    fan = Mesh('ac_fan', M['ac_dark']); fan.cyl((0.1, 0.28, 0.3), (0.1, 0.28, 0.305), 0.21, seg=14 if lite else 20)
-    if lite:
-        for k in range(5): bar(fan, -0.13, 0.33, 0.12 + k * 0.08, 0.13 + k * 0.08, 0.304, 0.312)
-        for k in range(6): bar(fan, -0.38, -0.2, 0.08 + k * 0.07, 0.095 + k * 0.07, 0.3, 0.306)
-    else:
-        for k in range(7): fan.box(-0.13, 0.33, 0.1 + k * 0.06, 0.11 + k * 0.06, 0.304, 0.312)
-        for k in range(9): fan.box(-0.38, -0.2, 0.06 + k * 0.05, 0.075 + k * 0.05, 0.3, 0.306)
+    fan = Mesh('ac_fan', M['ac_dark']); fan.cyl((0.1, 0.28, 0.3), (0.1, 0.28, 0.305), 0.21, seg=12)
+    for k in range(5): fan.quad([(-0.13, 0.12 + k * 0.08, 0.31), (0.33, 0.12 + k * 0.08, 0.31), (0.33, 0.135 + k * 0.08, 0.31), (-0.13, 0.135 + k * 0.08, 0.31)])
+    for k in range(6): fan.quad([(-0.38, 0.08 + k * 0.07, 0.303), (-0.2, 0.08 + k * 0.07, 0.303), (-0.2, 0.095 + k * 0.07, 0.303), (-0.38, 0.095 + k * 0.07, 0.303)])
     br = Mesh('ac_bracket', M['metal'])
-    for x in (-0.4, 0.4): br.box(x - 0.02, x + 0.02, -0.06, 0.0, -0.02, 0.36); br.box(x - 0.02, x + 0.02, -0.3, 0.0, -0.02, 0.02)
+    for x in (-0.4, 0.4): bar(br, x - 0.02, x + 0.02, -0.06, 0.0, -0.02, 0.36); bar(br, x - 0.02, x + 0.02, -0.3, 0.0, -0.02, 0.02)
     return combine([body.finish(None), fan.finish(None), br.finish(None)], 'ac_unit')
 
 
 def tank_mesh():
-    t = Mesh('tank', M['tank']); bmt = L.lathe([(0.0, 0.0), (0.55, 0.0), (0.6, 0.08), (0.6, 1.1), (0.55, 1.2), (0.25, 1.38), (0.0, 1.42)], seg=18)
+    t = Mesh('tank', M['tank']); bmt = L.lathe([(0.0, 0.0), (0.55, 0.0), (0.6, 0.08), (0.6, 1.1), (0.55, 1.2), (0.25, 1.38), (0.0, 1.42)], seg=12)
     t.add_bm(bmt, Matrix.Translation(Vector((0, 0, 0.55)))); bmt.free()
     st = Mesh('tank_stand', M['metal'])
     for sx in (-1, 1):
@@ -396,7 +403,7 @@ def window_proto(wh, part):
 def potted_proto(kind, r, h, lift, size, n, seed):
     """盆栽（instancing）：陶盆＋葉片卡。原點＝盆底中央"""
     random.seed(seed)
-    pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper', y0=0.0)
+    pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper', y0=0.0, seg=10)   # 街上的盆栽：10 邊（Café 裡 18）
     lv = Mesh('leaves', M[kind]); bush(lv, 0.0, lift, 0.0, size, n=n, span=0.45)
     return combine([pm.finish(None, smooth=True), lv.finish(None, uv=False)], f'potted_{kind}_{seed}')
 
@@ -427,10 +434,10 @@ def broad_proto(r, h, seed):
     import plants as PL_
     if '_PLM_ST' not in globals(): globals()['_PLM_ST'] = PL_.materials('wz_pl_')
     random.seed(seed)
-    pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper', y0=0.0); parts = [pm.finish(None, smooth=True)]
+    pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper', y0=0.0, seg=10); parts = [pm.finish(None, smooth=True)]
     tmp = B.group('tmp_pl', None)
     bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=12, radius1=r * 0.95, radius2=r * 0.95, depth=0.02); bmesh.ops.translate(bm, verts=bm.verts, vec=g2b(0.0, h - 0.03, 0.0)); B.mesh_obj('tmp_pl_soil', bm, _PLM_ST['soil'], tmp)
-    PL_.broad_plant(B.mesh_obj, _PLM_ST, 'tmp_pl', tmp, 0.0, h - 0.02, 0.0, 0.62, 0.42, seed)
+    PL_.broad_plant(B.mesh_obj, _PLM_ST, 'tmp_pl', tmp, 0.0, h - 0.02, 0.0, 0.62, 0.42, seed, stems=3)   # 街上的盆栽遠看：3 根莖（室內 5 根）
     for ob in list(tmp.children):
         ob.parent = None
         if ob.data.materials and 'leaf_' in ob.data.materials[0].name: L.smooth_mesh(ob, angle=1.2)
@@ -737,7 +744,26 @@ WZ_VC = {**{n: VC_MATTE for n in ('cafe_ac_body', 'cafe_ac_fan', 'cafe_roof_slab
 for _m in bpy.data.materials:   # 門、窗框、雨遮的顏色是每棟自己的（例如巷底那棟的深咖啡色鐵門）：全部照金屬度分到兩組
     if _m.name.startswith(('wz_door_', 'wz_frame_', 'wz_awning_')) and _m.name not in WZ_VC and L.flat_info(_m):
         WZ_VC[_m.name] = VC_METAL if L.flat_info(_m)['metal'] > 0.1 else VC_MATTE
+# 第三輪減量（效能，2026-10-16；LAWWW-B 量到主巷三個鏡頭 355～448 次 draw call、51～55 萬三角形，目標 310／42 萬）：
+# 其他所有純色材質（v6 店面組件的碗盤、水果、木頭、不鏽鋼、盆栽的葉子和土…）也照粗糙度、金屬度分到三個頂點色材質；
+# 遊戲用材質名做事的（晚上發光 WZ_NIGHT、樹幹透視、字牌 *_FACE_ 的材質）不動。
+# 這一輪合進來的都是小東西（店裡的碗盤水果、凳子、盆栽、電表…）：用不投影的頂點色材質——遊戲的 WZ_NO_SHADOW 對 cafe_vc_ 開頭的材質不投影
+# （第一次量：合進會投影的 wz_vc_* 以後，陰影那一輪多了 2 萬個三角形）。門、窗框、雨遮、冷氣、鐵窗這些照舊在 wz_vc_*（投影）。
+VC_GLOSS = L.vc_material('cafe_vc_wz_gloss', rough=0.35)
+VC_SMATTE = L.vc_material('cafe_vc_wz_matte', rough=0.85); VC_SMETAL = L.vc_metal('cafe_vc_wz_metal', rough=0.45, metal=0.35)
+WZ_KEEP = {'wz_signs_lit', 'ext_glass_lit', 'wz_room_lit', 'wz_win_glass_lit', 'cafe_bulb', 'wz_tube', 'jp_lamp', 'jp_shoji', 'wz_lamp_lens', 'wz_pillar_tile', 'wz_pole_concrete'}
+_face_mats = {ms.material.name for ob in root.children_recursive if ob.type == 'MESH' and 'FACE' in ob.name for ms in ob.material_slots if ms.material}
+for _m in bpy.data.materials:
+    if _m.users == 0 or _m.name in WZ_VC or _m.name.startswith(('wz_vc_', 'cafe_vc_wz')) or _m.name in WZ_KEEP or _m.name in _face_mats: continue
+    _fi = L.flat_info(_m)
+    if not _fi or _fi['color'] is None: continue
+    _r = _m.node_tree.nodes['Principled BSDF'].inputs['Roughness'].default_value
+    WZ_VC[_m.name] = VC_SMETAL if _fi['metal'] > 0.1 else (VC_GLOSS if _r < 0.5 else VC_SMATTE)
+print('vc_consolidate:', len(WZ_VC), 'materials ->', sorted({v.name for v in WZ_VC.values()}), sorted(k for k, v in WZ_VC.items() if v.name.startswith('cafe_vc_wz')))
+_keep = lambda ob: 'FACE' in ob.name or 'SEASON' in ob.name or (ob.parent is not None and 'SEASON' in ob.parent.name)
+L.realize_small_instances(root, keep=_keep)   # 只擺一兩個的店面小物（店裡的冰箱、販賣機、麵攤、傘架、電表…）不用 instancing，合進大網格
 L.vc_consolidate(root, WZ_VC)
+L.split_by_material(root, keep=_keep)
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or 'SEASON' in ob.name or (ob.parent is not None and 'SEASON' in ob.parent.name))
 info = L.export(OUT, gpu_instances=True)
 info.update({'buildings': [s['id'] for s in SPECS]})
