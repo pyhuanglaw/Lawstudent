@@ -1852,10 +1852,12 @@ const STORY_EVENTS=[
      E19_ASK：direct／joke／none（E25、E28 讀它）。開頭三句旁白與品妤那句取自 BB_104 第 3-1 節 E19 那一列的描述（等 BB-B 確認或給定稿）；不問的版本她之後傳一則（story3d.js） */
   { id:'ev_y0_e19', stage:'econ', title:'誤會', participants:['econ_pinyu','kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
     dialogue:[ {scene:'公館'},
-      {speaker:null,text:'聚餐上，可昕和唐睿聊劇社聊得很開心。'},
-      {speaker:'econ_pinyu',text:'可昕說她喜歡很會講話的人。'},
-      {speaker:null,text:'散場前，唐睿先走了。'},
-      {choice:[{text:'「妳是不是喜歡唐睿？」',set:{E19_ASK:'direct'},goto:'d'},{text:'「唐睿很會講話喔。」',set:{E19_ASK:'joke'},goto:'j'},{text:'（不問）',set:{E19_ASK:'none'},goto:'n'}]},
+      {speaker:null,text:'（公館的聚餐。考完了，桌上的菜一盤一盤上來。）'},   /* 開頭：BB-B 定稿（BB_104，6d59df01）*/
+      {speaker:null,text:'（可昕和唐睿聊劇社，聊到整桌都在聽。唐睿學了一段即興，她笑到筷子掉了。）'},
+      {speaker:'econ_pinyu',text:'（夾菜，沒有看你）可昕說她喜歡很會講話的人。'},
+      {speaker:'econ_pinyu',text:'……我只是轉述。'},
+      {speaker:null,text:'（九點多，唐睿說明天一早要排練，先走了。）'},
+      {choice:[{text:'「妳是不是喜歡唐睿？」',set:{E19_ASK:'direct'},goto:'d'},{text:'「唐睿很會講話喔。」',set:{E19_ASK:'joke'},goto:'j'},{text:'（什麼都不問）',set:{E19_ASK:'none'},goto:'n'}]},
       {label:'d'},{speaker:'kexin',expression:'neutral',text:'……你覺得呢？'},
       {speaker:'player',text:'我在問妳。'},
       {speaker:'kexin',expression:'serious',text:'……不是唐睿。'},

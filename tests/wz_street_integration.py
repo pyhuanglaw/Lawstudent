@@ -24,7 +24,7 @@ URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'art-rebuild', 'second_ai', 'test_shots', 'wz_street_integration')
 IDS = ['A1', 'A2', 'A3', 'A4', 'A5', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'C1', 'C2', 'W0',
        'F1', 'F2', 'F3', 'F4', 'S1', 'S2', 'S3', 'S4', 'N1', 'N2', 'N3', 'N4', 'W1', 'W2']   # 近景 15 棟（含巷底 W0）＋遠景 14 棟（巷口兩端、Café 往南／往北的路）
-SHOPS_INT = ['A1', 'A3', 'A4', 'A5', 'B2', 'B3', 'B6', 'B7']      # 有店內景深卡的店（v5：B5 是立體小店；v6 會把舊店都改成立體淺店內，到時再改）
+SHOPS_INT = ['A1', 'A3', 'A4', 'A5', 'B2', 'B3', 'B6', 'B7']      # 原本有店內景深卡的 8 家店；溫州街 v6c（LAWWW2-B b7a091b8）起都改成立體淺店內，每家兩盞店內燈（GLOW_shopin_*）
 VERT = ['A1', 'A3', 'A4', 'B3']                                    # 有直立招牌
 
 GLBS = ['wenzhou_street_glb', 'wz_jphouse_glb', 'wz_props_glb', 'wz_park_glb', 'wz_scooters_glb']
@@ -86,9 +86,9 @@ async def check(pg, run, formal):
         # 溫州街 v5（LAWWW2-B 31323eb9）：有設計稿的店（A1、A3、A4、A5、B2、B3、B5、B5i、B6、B7）招牌字在貼圖裡（wz_signs／wz_signs_lit），沒有 SIGN_FACE、VSIGN_FACE，遊戲不畫招牌
         run.check('v5：沒有 SIGN_FACE／VSIGN_FACE（招牌是設計稿貼圖），也就沒有 wz_signs_atlas', atl is None and not any(k.startswith(('SIGN_FACE_', 'VSIGN_FACE_')) for k in faces), json.dumps([k for k in faces if 'SIGN' in k]))
         ints = {k: v for k, v in faces.items() if k.startswith('INTERIOR_FACE_')}
-        run.check('8 家店的店內景深卡都有貼圖（v5：B5 改成立體小店、B7 半熟有景深卡）', sorted(k[14:] for k in ints) == sorted(SHOPS_INT) and all(v['canvas'] for v in ints.values()), json.dumps(ints))
-        ratio = lambda v: v['tex'] / v['board']
-        run.check('店內景深卡：貼圖重複後的比例和板面差不到一半', all(0.6 < ratio(v) < 1.6 for v in ints.values()), json.dumps({k: round(ratio(v), 3) for k, v in ints.items()}))
+        shal = await pg.evaluate("""(()=>{ const root=GAME.E.zone.group.children.find(o=>o.name==='wenzhou_street_glb'); let lamps=0; const sf={};
+            root.traverse(o=>{ if(/^GLOW_shopin_/.test(o.name)) lamps++; if(o.isMesh&&o.material&&/^wz_sf_/.test(o.material.name||'')) sf[o.material.name]=true; }); return {lamps, sf:Object.keys(sf).length}; })()""")
+        run.check('v6c：店內景深卡換成立體淺店內（沒有 INTERIOR_FACE_；8 家店各兩盞店內燈、淺店內的材質都在）', not ints and shal['lamps'] >= 2 * len(SHOPS_INT) and shal['sf'] >= 8, json.dumps({'cards': sorted(ints), **shal}))
         night = await pg.evaluate("""(()=>{ const z=GAME.E.zone, root=z.group.children.find(o=>o.name==='wenzhou_street_glb'); const mats={};
             root.traverse(o=>{ if(o.isMesh) for(const m of [o.material]) mats[m.name]=m; }); 
             const read=()=>({lit:+(mats.wz_room_lit?mats.wz_room_lit.emissiveIntensity:-1).toFixed(2), tube:+(mats.wz_tube?mats.wz_tube.emissiveIntensity:-1).toFixed(2), sign:+(mats.wz_signs_lit?mats.wz_signs_lit.emissiveIntensity:-1).toFixed(2)});

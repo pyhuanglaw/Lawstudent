@@ -39,7 +39,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   check('3. 直接問：「……你覺得呢？」…「……不是唐睿。」…「我要趕捷運了。寒假快樂。」→「誤會解開了一半。另一半，你沒有問。」、E19_ASK＝direct',L.includes('……不是唐睿。')&&L.includes('（她自己站起來）我要趕捷運了。寒假快樂。')&&L[L.length-1]==='誤會解開了一半。另一半，你沒有問。'&&G.flags.E19_ASK==='direct');
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); picks=['很會講話']; said=[]; await OUT.go(GM,OUT.get(G,'y0_e19')); check('3. 開玩笑問：「對啊。比某些人會。」、joke',said[said.length-1].t==='對啊。比某些人會。'&&G.flags.E19_ASK==='joke');
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); picks=['不問']; said=[]; await OUT.go(GM,OUT.get(G,'y0_e19')); check('3. 不問：E19_ASK＝none',G.flags.E19_ASK==='none'); at(J2+2,22.2); check('3. 不問：1/4 22:00 可昕「你最近很有禮貌。我不習慣。」',TH('p:kexin').includes('你最近很有禮貌。我不習慣。'));
-  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); said=[]; picks=['不問']; at(J2,19.3); for(let i=0;i<30&&!said.some(x=>x.t==='散場前，唐睿先走了。');i++) await new Promise(r=>setTimeout(r,10)); check('4. 19:15 沒出發：韋綸打電話直接進出遊',said[0]&&said[0].t==='你在哪？大家都到了。我們等你，快點！'&&said.some(x=>x.t==='散場前，唐睿先走了。'));
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); said=[]; picks=['不問']; at(J2,19.3); for(let i=0;i<30&&!said.some(x=>x.t==='（九點多，唐睿說明天一早要排練，先走了。）');i++) await new Promise(r=>setTimeout(r,10)); check('4. 19:15 沒出發：韋綸打電話直接進出遊',said[0]&&said[0].t==='你在哪？大家都到了。我們等你，快點！'&&said.some(x=>x.t==='（九點多，唐睿說明天一早要排練，先走了。）'));
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.day=J2; G.hour=18; check('4. 18:00 睡覺：19:15 被電話吵醒',Math.abs(STORY.coreCallAt(G)-19.25)<0.01);
   await new Promise(r=>setTimeout(r,30));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

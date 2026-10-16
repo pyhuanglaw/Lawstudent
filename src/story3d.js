@@ -821,7 +821,7 @@ const STORY = (function(){
         if(!OUT.get(G,'y0_e21a')&&G.hour<22) OUT.plan(G,{id:'y0_e21a',ev:'ev_y0_e21a',day:tue31,h:19,late:3,place:'總圖 B1',title:'總圖 B1 19:00：期末衝刺',travel:'走過去約 10 分鐘',travelH:1/6,back:'回到宿舍。'}); }
       if(tue31!=null&&!D('ev_y0_e21a')&&!F.E21A_WENT&&(G.day>tue31||G.hour>=24+5/60)&&G.day<=tue31+2&&!PHONE.sent(G,'y0_e21a_missed')) PHONE.at(G,tue31,24+5/60,[{th:T,from:'econ_weilun',name:'韋綸',text:'📷（信義區的人潮）'},{th:'p:kexin',from:'kexin',text:'你錯過了一場人潮。……下次。'}],'y0_e21a_missed'); }
     /* ★E19 誤會（AA_154 A33、A34）：最後一場期末考那一天（現在的課表是 1/2（四）會計，15:10 考完；S.y0FinalEnd）考完群組韋綸「考完了！今晚七點，公館。寒假前最後一次，走啦！」＋出發選單 19:00；19:15 沒出發＝韋綸打電話（固定核心，同 E14）；
-       不問（E19_ASK＝none）＝她之後傳「你最近很有禮貌。我不習慣。」（BB_104 8-6；時間 1/4 22:00 是暫定，等 BB-B）*/
+       不問（E19_ASK＝none）＝她之後傳「你最近很有禮貌。我不習慣。」（BB_104 8-6；時間 1/4（六）22:00，BB-B 6d59df01 確認）*/
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const fe=S.y0FinalEnd(G), thu18=fe?fe.day:null, feH=fe?fe.h:15+10/60, gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class';
       if(thu18!=null&&G.day===thu18&&G.hour>=feH&&!PHONE.sent(G,'y0_e19_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
         PHONE.at(G,thu18,Math.max(feH,Math.min(G.hour,18)),[{th:'g:'+gid,from:'econ_weilun',name:'韋綸',text:'考完了！今晚七點，公館。寒假前最後一次，走啦！'}],'y0_e19_ask');
