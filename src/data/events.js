@@ -2446,6 +2446,18 @@ const STORY_EVENTS=[
   { id:'ev_zhe_court_skip', title:'上次沒事啦', participants:['zhe'], location:'noodle', trigger:'auto', term:['Y2S1'], once:true, npcPresent:'zhe', background:'blur',
     prereq:{custom:G=>{ const F=G.flags||{}, d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2026-11-17'):null; return d!=null&&G.day>=d&&!!F.ZHE2_ASKED&&!F.ZHE2; }},
     dialogue:[ {speaker:'zhe',expression:'smile',text:'上次沒事啦。'},{set:{ZHE2:'none'}} ] },
+  /* D9 以安新 10「家教學生的家（一）」（交接包 v3 第 3b 節、AA_177 4-8；BB 法律查核過：哪一種補助、救濟程序都不說）：12/1（二）麵店，麵店團的時段 17:30～20:30；
+     祐廷不在現場（那個家的事他只聽說）。認識語彤＝她在店裡（週二晚上她在幫忙）說社工那一句、選項多「法服週六有值班。」；不認識＝小語說法服那句。記 AN_TUTOR_FAMILY:1；沒到＝沒有 */
+  { id:'ev_an_tutor_family_1', title:'家教學生的家', participants:['heroine_01'], location:'noodle', trigger:'auto', term:['Y2S1'], weekday:[2], time:[17.5,20.5], once:true, background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey('2026-12-01')&&!!STORY.knows&&STORY.knows('heroine_01',G)},
+    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'我家教的學生，家裡申請了一個補助，被駁回了。'},{speaker:'heroine_01',expression:'thinking',text:'我想幫忙。可是我不是律師，我不該說超過我會的。'},
+      {if:EV_KNOWS('heroine_03'),speaker:'heroine_01',expression:'neutral',text:'社會系的人，申請被駁回的家庭，通常第一個找誰？'},{if:EV_KNOWS('heroine_03'),speaker:'heroine_03',expression:'neutral',text:'社工。……然後才是你們。'},{if:EV_KNOWS('heroine_03'),speaker:null,text:'以安在手帳寫下來：「好。」'},
+      {unless:EV_KNOWS('heroine_03'),if:EV_KNOWS('yu'),speaker:'yu',expression:'neutral',text:'法服週六有值班啊。'},{unless:EV_KNOWS('heroine_03'),if:EV_KNOWS('yu'),speaker:'heroine_01',expression:'neutral',text:'我知道。我想先知道我不該說什麼。'},
+      {choice:[{text:'「法服週六有值班。」',if:EV_KNOWS('heroine_03'),set:{AN10_PICK:'fafu'},goto:'a'},{text:'「妳可以先陪他們看駁回的理由。」',set:{AN10_PICK:'reason'},goto:'b'},{text:'「妳已經在幫了。」',set:{AN10_PICK:'help'},goto:'c'}]},
+      {label:'a'},{speaker:'heroine_01',expression:'neutral',text:'我知道。我想先知道我不該說什麼。'},{goto:'end'},
+      {label:'b'},{speaker:'heroine_01',expression:'thinking',text:'看理由。……對，先看理由。還有寫期限的那一段。'},{speaker:null,text:'她在理由欄畫了一個框。'},{goto:'end'},
+      {label:'c'},{speaker:'heroine_01',expression:'neutral',text:'這不算。'},{speaker:null,text:'她停了一下。'},{speaker:'heroine_01',expression:'smile',text:'……好，算一點。'},
+      {label:'end'},{set:{AN_TUTOR_FAMILY:1}} ] },
   /* ===================== 大二（交接包 v3）=====================
      D24 社團博覽會大二版（AA_170 第 1 節，AA-B 2026-10-16；第②級）：2026-09-16（三）、09-17（四）11:00～17:00，椰林大道同一排攤位（大一 club_expo_y1s1 的 spot），
      窗口內第一次走到攤位那一排。站哪一攤照大一加入的社團（CLUB_<id>）；加入不只一個＝選單選；站一個小時（不扣時段次數）。都沒加入＝走過、語彤遞傳單。
