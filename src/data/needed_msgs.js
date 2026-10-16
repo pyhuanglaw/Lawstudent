@@ -2,7 +2,7 @@
    規則在 story3d.js 的 S.neededDue／neededShow（AA_179 第 1 節：一週最多四則、綁事件的先挑、上週沒出現的人先挑、只挑認識的人、回得了兩則、回了信任 +1、沒回下一次見面說一句）。
    每一則：id、who（人物 id）、term（Y2S1／Y2S2）、w［週次起, 迄］、msg（對方的訊息，可以拆幾則）、reply（祐廷那句，固定）、resp（對方的回應）、
      tie（綁在事件前後＝先挑）、cond（條件；沒寫＝和他 FAMILIAR 以上）、anyone（條件成立就算，不另外看熟不熟：交往中的可昕）、every（每幾週可以再出現一次：語彤「阿姨問你週四來不來」）。
-   條件還做不到的（模擬法庭同一組、語 3、Z7、語彤事件 11；慈 3＝ev_xinci_second 已接）：先寫成 false，那幾件做好時改成讀它們的旗標，訊息就會出現。
+   條件還做不到的（模擬法庭同一組、Z7、語彤事件 11；慈 3＝ev_xinci_second、語 3＝ev_yu_together／YU_ZHE_TOLD 已接）：先寫成 false，那幾件做好時改成讀它們的旗標，訊息就會出現。
    法律內容（AA_179 第 5 節、BB_97 11-3）：祐廷都不給法律結論。 */
 const NEEDED_MSGS=(function(){
   const F=G=>G.flags||{}, done=(G,id)=>!!(G.events&&G.events.done&&G.events.done[id]), att=(G,id)=>typeof ACTIVITIES!=='undefined'&&!!ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,id);
@@ -30,7 +30,7 @@ const NEEDED_MSGS=(function(){
     // 小語（AA_179）
     {id:'yu_expo',who:'yu',term:'Y2S1',w:[2,3],tie:true,msg:['社團博覽會你站哪一攤？我要去偷看。'],reply:'妳來就知道。',resp:['好神秘。我帶阿哲去。']},
     {id:'yu_overtime',who:'yu',term:'Y2S1',w:[6,8],msg:['欸，打工的地方不給加班費，這樣可以嗎？我同學問的。'],reply:'我不能幫她判斷。叫她去問法服，或打勞工局的專線。',resp:['……你好像學姊喔。好啦，我叫她去。']},
-    {id:'yu_gift',who:'yu',term:'Y2S1',w:[16,17],tie:true,cond:NOT_YET,msg:['聖誕禮物，阿哲跟我買了一樣的。你不准笑。'],reply:'我沒笑。',resp:['你一定在笑。']},
+    {id:'yu_gift',who:'yu',term:'Y2S1',w:[16,17],tie:true,cond:G=>done(G,'ev_yu_together')||!!F(G).YU_ZHE_TOLD,msg:['聖誕禮物，阿哲跟我買了一樣的。你不准笑。'],reply:'我沒笑。',resp:['你一定在笑。']},
     {id:'yu_clubs',who:'yu',term:'Y2S2',w:[1,3],msg:['這學期我只剩兩個社團了。你猜我退了哪一個？'],reply:'猜不到。',resp:['我退了最不想退的那個。……因為要念書了。']},
     {id:'yu_exam',who:'yu',term:'Y2S2',w:[12,14],msg:['司法官的考古題，你覺得大二開始看會太早嗎？'],reply:'不會。',resp:['好。那我開始了。……不要跟阿哲說，他會說我瘋了。']},
     // 柏翰（AA_179）

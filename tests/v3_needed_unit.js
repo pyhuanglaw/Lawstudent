@@ -80,8 +80,8 @@ GM.money=function(n){ G.money+=n; };
   const d4=STORY.termDay('Y2S1',4,7); fresh(d4,21,'campus',{dating_kexin:true}); const P3=STORY.neededPick(G,d4).map(e=>e.id);
   fresh(d4,21,'campus',{dating_kexin:false}); const P3b=STORY.neededPick(G,d4).map(e=>e.id);
   check('5. 交往中的可昕：不看熟不熟（第 4 週「物權報告要一個例子」）；沒交往就沒有',P3.includes('kx_example')&&!P3b.includes('kx_example'),JSON.stringify([P3,P3b,d4]));
-  const notYet=NEEDED_MSGS.list.filter(e=>{ try{ return e.cond&&!e.cond({flags:{lawclub:true,dating_kexin:true,ECON_TOGETHER:true,JOB_TUTOR:true,POTHOS:true,INVITED_CLUB:true,RENT_CONSULTATION:true,STUDYGROUP_LEADER:true,noodleTableDay:1,RENT_RUMOR:true,BOHAN_GROUP:'ask'},events:{done:{ev_peishan_decision:1,ev_yutong_landlord:1,ev_xinci_second:1}},habits:{}}); }catch(e){ return false; } }).map(e=>e.id).filter(id=>!/^an_rules$|^an_lead$/.test(id));
-  check('5. 還沒做的事件（模擬法庭、語 3、Z7、語彤事件 11）那幾則先不出現；慈 3 之後的 xc_drama 讀 ev_xinci_second',JSON.stringify(notYet.sort())===JSON.stringify(['an_moot','bh_moot','xc_moot','yt_dish','yu_gift','zr_beans'].sort()),JSON.stringify(notYet));
+  const notYet=NEEDED_MSGS.list.filter(e=>{ try{ return e.cond&&!e.cond({flags:{lawclub:true,dating_kexin:true,ECON_TOGETHER:true,JOB_TUTOR:true,POTHOS:true,INVITED_CLUB:true,RENT_CONSULTATION:true,STUDYGROUP_LEADER:true,noodleTableDay:1,RENT_RUMOR:true,BOHAN_GROUP:'ask'},events:{done:{ev_peishan_decision:1,ev_yutong_landlord:1,ev_xinci_second:1,ev_yu_together:1}},habits:{}}); }catch(e){ return false; } }).map(e=>e.id).filter(id=>!/^an_rules$|^an_lead$/.test(id));
+  check('5. 還沒做的事件（模擬法庭、語 3、Z7、語彤事件 11）那幾則先不出現；慈 3 之後的 xc_drama 讀 ev_xinci_second',JSON.stringify(notYet.sort())===JSON.stringify(['an_moot','bh_moot','xc_moot','yt_dish','zr_beans'].sort()),JSON.stringify(notYet));
   // 6. 語彤每四週
   fresh(S913,21,'campus',{noodleTableDay:1}); KNOW(['heroine_03']); run(21,21.05);
   const has=d=>STORY.neededPick(G,d).some(e=>e.id==='yt_auntie');
