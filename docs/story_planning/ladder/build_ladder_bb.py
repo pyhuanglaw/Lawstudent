@@ -178,11 +178,11 @@ D['characters'][KX] = {'context':'date','steps': [
 D['kaiDorm'] = [
  {'id':'K-D1','title':'一起打電動','location':'dorm','time':[21,24],'weekday':[0,1,2,3,4],'perWeek':1,
   'lines':['所以 一場就好 你上路 我中路'],
-  'choices':[{'t':'「一場就好。」','advance':1,'energy':-5,'rel':{'kai':{'fam':3}},'random':['所以我們是天才','是隊友的問題 不是我們的','宿舍網路 我要告它 你們有教這個嗎'],'count':'KAI_GAMES'},
+  'choices':[{'t':'「一場就好。」','advance':1,'rel':{'kai':{'fam':3}},'random':['所以我們是天才','是隊友的問題 不是我們的','宿舍網路 我要告它 你們有教這個嗎'],'count':'KAI_GAMES'},
              {'t':'「我要念書。」','reply':'好 那我小聲','narr':'（他沒有小聲。）'}]},
  {'id':'K-D2','title':'一場變三場','if':{'flagNum':{'KAI_GAMES':{'min':2}}},'once':True,'location':'dorm','time':[23,24],
   'narr':'一場變三場，抬頭已經兩點。','lines':['所以 你明天第一堂幾點'],
-  'choices':[{'t':'「九點十分。」','reply':'所以是早八 在宿舍 九點以前都叫早八 還可以睡六個小時 很多了','nextMorningEnergy':-10},{'t':'「我去睡了。」','reply':'好 我再一場'}]},
+  'choices':[{'t':'「九點十分。」','reply':'所以是早八 在宿舍 九點以前都叫早八 還可以睡六個小時 很多了','sleepAt':2},{'t':'「我去睡了。」','reply':'好 我再一場'}]},
  {'id':'K-D3','title':'鍵盤聲','location':'dorm','time':[7,8.5],'needs':'玩家今天第一堂在 9:10 以前（大一必修最早 9:10；宿舍說法叫「早八」，K-D2），且昨晚沒參加 K-D1（隨機 30%）',
   'narr':'阿凱的螢幕還亮著，他戴著耳機在打字，鍵盤聲很大。',
   'choices':[{'t':'「可以小聲一點嗎？」','reply':'所以 我吵到你了 對不起 我換靜音的那把','mem':'KAI_QUIET_KEYBOARD'},

@@ -11,6 +11,7 @@ import json, os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SPOTS = json.load(open(os.path.join(HERE, 'spots_v1.json'), encoding='utf-8'))['spots']
+SPOTS += json.load(open(os.path.join(HERE, 'spots_v2.json'), encoding='utf-8'))['spots']  # 第二批（AB-23，BB_150）
 ACTS = {s['id']: {'walk'} | {p['id'] for p in s['points']} for s in SPOTS}
 WHO = {'heroine_02', 'heroine_04', 'heroine_05', 'classmate_peishan', 'kexin'}
 BAN = ['不要跟別人講', '不要跟別人說', '你是第一個', '我請你', '我可以問一個奇怪的問題嗎', '兩張票', '存檔', '脖子還是很短', '香菜', '剛好坐兩個人']
@@ -115,6 +116,49 @@ FOLLOWUP = [  # BB_144 第 4 節：第一次在那個地方遇到她，之後她
     {'mem': 'SIS_SAW_BRUNCH', 'who': 'heroine_05', 'where': '一般聊天', 'line': '週六早上的蛋，還是三分四十秒？……我只是確認。', 'src': 'WZ-B4'},
     {'mem': 'SIS_TEAHOUSE', 'who': 'heroine_05', 'where': '一般聊天', 'line': '茶屋那壺水，我後來查了。八十五度。', 'src': 'WZ-T4（SIS_TEAHOUSE 是旗標，這一句用一次）'},
     {'mem': 'ENC_PARK_ZQ', 'who': 'heroine_04', 'where': '一般聊天', 'line': '昨天那個 bug，鞦韆解決了。……今天換你盪。', 'src': 'WZ-P5'},
+    # 第二批（BB_150 第 4 節）
+    {'mem': 'ENC_D09_KX', 'who': 'kexin', 'where': '一般聊天（只有交往中）', 'line': '貓空那天，兩分四十秒是對的。邵鈞到現在還在講。'},
+    {'mem': 'ENC_D18_ZQ', 'who': 'heroine_04', 'where': '一般聊天', 'line': '九份那三十個燈籠，我做成一關了。第一個亮的，是你站的那一個。'},
+    {'mem': 'ENC_D24_SIS', 'who': 'heroine_05', 'where': '一般聊天', 'line': '礁溪那天，我媽後來問了你三次。……我說你很好。說了一次。'},
+    {'mem': 'ENC_D20_PS', 'who': 'classmate_peishan', 'where': '一般聊天', 'line': '烏來那天，有個小孩在作文寫：『法律系的大哥哥，被我們弄丟了一次。』'},
+    {'mem': 'ENC_D25_ZR', 'who': 'heroine_02', 'where': '一般聊天', 'line': '外澳那卷底片洗出來了。浪碎掉的那一張……你在畫面的角落。'},
+]
+
+# ── 第二批（AB-23，BB_150；spots_v2）──
+def w2(who, spot, act, friend, dating, cond=None):
+    e = w(who, spot, act, friend, dating, cond); e['batch'] = 2; return e
+
+WALK += [
+    w2('kexin', 'D09', 'D09.gondola', [], ['纜車一格一格往下，像在數時間。……我在數，你不要吵。']),
+    w2('kexin', 'D09', 'D09.tea', [], ['茶館老闆認得政大的人。……他問我今天怎麼沒帶書。']),
+    w2('kexin', 'D09', 'D09.view', [], ['從這裡看得到政大。那一棟，是我每天爬的樓梯。']),
+    w2('heroine_04', 'D18', 'D18.snack', ['芋圓的顏色，我要拿去做道具。……可以吃嗎？可以。'], ['你那碗紫色的比較多。換。']),
+    w2('heroine_04', 'D18', 'D18.teahouse', ['從窗戶看出去，燈籠一層一層。這叫視差。'], ['坐這裡。燈籠在你後面，剛好。……我在構圖。']),
+    w2('heroine_04', 'D18', 'D18.shop', ['欸不是，這個木頭陀螺……我小時候有一個。'], ['你買那個給我。……我會放在螢幕旁邊。']),
+    w2('heroine_05', 'D24', 'D24.footbath', [{'who': 'wen_mother', 't': '學弟，坐。水很燙，慢慢放。'}, '……他們很少叫人坐。重點是，你坐吧。'], [], cond={'stageMin': 'FRIEND', 'notDating': True}),
+    w2('classmate_peishan', 'D20', 'D20.bridge', ['小孩子都想從橋上丟石頭。我說法律不准。……其實是我不准。'], ['你牽那一排，我牽這一排。……我們看起來好像家長。']),
+    w2('classmate_peishan', 'D20', 'D20.trolley', ['台車很慢。小孩說像在坐時光機。……我也覺得。'], ['你跟我坐同一台。小孩坐前面那台，我看得到。']),
+    w2('classmate_peishan', 'D20', 'D20.falls', ['瀑布前面，每個小孩都安靜了。我第一次看到他們安靜。'], ['水聲好大。……你剛剛說什麼？我沒聽到。再說一次。']),
+    w2('heroine_02', 'D25', 'D25.shore', ['浪到腳邊的時候，不要跑。……它會自己回去。'], ['你的鞋子濕了。……我不會笑。我已經笑了。']),
+    w2('heroine_02', 'D25', 'D25.surf', ['衝浪的人一直在等浪。等很久，站起來一下。跟拍照一樣。'], ['那個人摔了七次。……我數了。我也想試試看。']),
+    w2('heroine_02', 'D25', 'D25.cafe', ['海邊的咖啡，比我們店裡貴。……可是有海。'], ['這杯的拉花歪了。……坐在這裡，就算了。']),
+]
+LEAVE += [
+    {'batch': 2, 'who': 'kexin', 'spot': 'D09', 'friend': '', 'dating': '我走下山就到宿舍了。……你要搭纜車？那我陪你到站。'},
+    {'batch': 2, 'who': 'heroine_04', 'spot': 'D18', 'friend': '我要搭客運了。燈籠畫了三十個，夠做一關。', 'dating': '下山的客運很晃。你坐靠窗。……我要靠著睡。'},
+    {'batch': 2, 'who': 'heroine_05', 'spot': 'D24', 'friend': '我們要去吃飯了。下週學校見。', 'dating': '我們要去吃飯了。……晚上傳訊息給你。'},
+    {'batch': 2, 'who': 'classmate_peishan', 'spot': 'D20', 'friend': '我們要回去了。謝謝你。……下次課輔班，來說一個故事？', 'dating': '回程我會睡著。……到了叫我。'},
+    {'batch': 2, 'who': 'heroine_02', 'spot': 'D25', 'friend': '火車快來了。這卷底片洗出來，給你一張。', 'dating': '火車上我想睡一下。……到了叫我，不要叫太早。'},
+]
+INTRO += [
+    {'batch': 2, 'who': 'kexin', 'spot': 'D09', 'speaker': 'yule', 'line': '邵鈞，我們去看另一邊的夕陽。……另一邊。'},
+]
+REVISIT += [
+    {'batch': 2, 'who': 'kexin', 'spot': 'D09', 'normal': '茶館的窗邊。上次可昕和予樂、邵鈞在這裡等茶涼。', 'afterBreakup': '茶館的窗邊，現在坐著別人。'},
+    {'batch': 2, 'who': 'heroine_04', 'spot': 'D18', 'normal': '石階上。上次子晴坐在這裡畫燈籠。', 'afterBreakup': '石階上，燈籠一盞一盞亮了。'},
+    {'batch': 2, 'who': 'heroine_05', 'spot': 'D24', 'normal': '泡腳池。上次學姊和她爸媽坐在這裡。', 'afterBreakup': '泡腳池。水還是一樣燙。'},
+    {'batch': 2, 'who': 'classmate_peishan', 'spot': 'D20', 'normal': '老街口。上次沛珊在這裡幫小孩戴帽子。', 'afterBreakup': '老街口。'},
+    {'batch': 2, 'who': 'heroine_02', 'spot': 'D25', 'normal': '堤防上。上次芷若在這裡，等浪碎掉的那一秒。', 'afterBreakup': '堤防上。'},
 ]
 
 RULES = {
@@ -137,8 +181,8 @@ def check():
         if e['who'] not in WHO: errs.append(f'who {e["who"]}')
         if e['act'] not in ACTS.get(e['spot'], set()): errs.append(f'{e["who"]} {e["spot"]} act {e["act"]} 不在 spots_v1')
         if e['who'] != 'kexin' and not e['friend']: errs.append(f'{e["who"]} {e["act"]} 沒有 friend')
-        if not e['dating']: errs.append(f'{e["who"]} {e["act"]} 沒有 dating')
-        for t in e['friend'] + e['dating']: L(t, f'{e["who"]}/{e["act"]}')
+        if not e['dating'] and not (e.get('cond') or {}).get('notDating'): errs.append(f'{e["who"]} {e["act"]} 沒有 dating')
+        for t in e['friend'] + e['dating']: L(t['t'] if isinstance(t, dict) else t, f'{e["who"]}/{e["act"]}')
     for e in LEAVE + REVISIT:
         for k in ('friend', 'dating', 'normal', 'afterBreakup'):
             if e.get(k): L(e[k], f'{e["who"]}/{e["spot"]}/{k}')
@@ -149,6 +193,7 @@ def check():
         for st in s['steps']:
             for t in st['lines']: L(t, f'{s["id"]}#{st["step"]}')
     if 'D06.frame' in {e['act'] for e in WALK if e['who'] == 'classmate_peishan'}: errs.append('沛珊不選 D06.frame')
+    if any(e['who'] == 'kexin' and e['spot'] == 'D25' for e in WALK): errs.append('可昕不在 D25（她的心願地點）')
     return errs
 
 if __name__ == '__main__':
