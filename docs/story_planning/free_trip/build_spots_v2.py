@@ -1,0 +1,119 @@
+# AA_161 第二批（AA-B 2026-10-16）：不是捷運直達的五個地方。執行：python3 build_spots_v2.py → spots_v2.json
+# 互動點 id 和約會系統相同（date_system/lines/Dxx.json），座標重用。規則沿用 spots_v1.json 的 rules。
+import json
+SPOTS = [
+ dict(id='D09', name='貓空纜車與茶館', bg='d09_base_dusk', open=[15, 19.5], closedWd=[1], weather='outdoor',
+      transit=dict(legs=[dict(mode='mrt', text='捷運到動物園站', minutes=35), dict(mode='gondola', text='貓空纜車', minutes=25)], minutes=60, fareRound=180),
+      rules=['週一纜車維修停駛：灰掉，寫「纜車今天停駛」', '大雨、強風（G.weather 是 rain 或 typhoon）停駛：灰掉，寫「下雨，纜車停了」'],
+      arrive=['纜車慢慢爬上山。腳下的城市越來越小，你分不清楚哪一棟是學校。',
+              '貓空。這次你知道纜車的哪一邊看得到一○一。',
+              '貓空。纜車的門一打開，就是茶的味道。'],
+      walk=dict(point='D09.path', label='走茶園的小路', minutes=30, cost=0, times=2, lines=[
+              '茶園一層一層往下。有一位阿伯在剪茶樹，沒有抬頭。',
+              '小路邊有一張木頭長椅，上面刻了很多名字。你沒有刻。',
+              '天暗得比山下快。路燈一盞一盞亮起來，像有人在數。']),
+      points=[
+        dict(id='D09.gondola', label='坐纜車看夕陽', minutes=20, cost=0, sunset=True, lines=[
+              '你一個人坐一個車廂。太陽落到山後面，整個盆地慢慢亮起燈。',
+              '纜車晃了一下。你想起第一次坐的時候，抓著扶手不敢動。']),
+        dict(id='D09.tea', label='茶館坐一下', minutes=40, cost=250, lines=[
+              '一壺鐵觀音、一碟茶點。窗外是整個台北，安靜得像關掉聲音的電視。',
+              '老闆問你要不要續水。你說好，又坐了半小時。']),
+        dict(id='D09.view', label='茶館外的步道', minutes=20, cost=0, lines=[
+              '步道的盡頭可以看到整個盆地。你試著找學校，找到了總圖的燈。',
+              '風很大。你把外套拉鍊拉到最上面，還是站了很久。']),
+      ],
+      leave='下山的纜車上，你一直看著窗外，直到車廂進站。'),
+ dict(id='D18', name='九份老街', bg='d18_base_dusk', open=[14, 20], closedWd=[], weather='mixed',
+      transit=dict(legs=[dict(mode='mrt', text='捷運到忠孝復興站', minutes=20), dict(mode='coach', text='客運往九份', minutes=70)], minutes=90, fareRound=200),
+      rules=['下雨照樣能去（九份本來就常下雨）：散步改用 rain 那一句'],
+      arrive=['客運繞了好幾個彎。下車的時候，風裡有海的味道，也有芋圓的味道。',
+              '九份。你記得要先往上走，人比較少。',
+              '九份。階梯還是那麼多，你還是數不清。'],
+      walk=dict(point='D18.steps', label='走階梯和燈籠', minutes=30, cost=0, times=2, lines=[
+              '紅燈籠一串一串掛下來。每個人都在拍照，你也拍了一張，照片裡全是別人的手機。',
+              '階梯轉角有一間小廟。一位阿嬤在擦香爐，擦得很慢。',
+              '往下看是海。天快黑的時候，海和天變成同一個顏色。'],
+              rain='雨下在石階上，燈籠的紅色變得更深。每個人都撐著傘，傘碰到傘，說一聲不好意思。'),
+      points=[
+        dict(id='D18.snack', label='吃一碗芋圓', minutes=20, cost=60, lines=[
+              '一碗芋圓，加冰。坐在店外的矮凳子上吃，膝蓋頂到桌子。',
+              '同一家。這次你點了熱的。']),
+        dict(id='D18.teahouse', label='茶樓的窗邊', minutes=40, cost=300, lines=[
+              '窗邊的位子可以看到整條老街的燈。你泡的茶第一泡太濃，第二泡剛好。',
+              '同一個窗邊。你發現自己泡茶的手，已經不像第一次那麼急。']),
+        dict(id='D18.shop', label='逛小店', minutes=20, cost=120, lines=[
+              '一間賣陶杯的小店。你買了一個有缺口的，老闆說缺口是手工的證明。',
+              '你在明信片架前面站了很久，最後一張都沒買。']),
+      ],
+      leave='回程的客運很暗。你靠在窗邊，看著海一點一點不見。'),
+ dict(id='D20', name='烏來', bg='d20_base_afternoon', open=[10, 17], closedWd=[], weather='outdoor',
+      transit=dict(legs=[dict(mode='mrt', text='捷運到新店站', minutes=25), dict(mode='bus', text='公車往烏來', minutes=35)], minutes=60, fareRound=100),
+      rules=['下雨：戶外的互動點（台車、瀑布、橋）灰掉；老街照常'],
+      arrive=['公車沿著溪開進山裡。下車的時候，空氣涼了一度。',
+              '烏來。你記得老街走到底，才是橋。',
+              '烏來。溪水的聲音比上次大。'],
+      walk=dict(point='D20.street', label='逛烏來老街', minutes=30, cost=0, times=2, lines=[
+              '老街的攤子在烤山豬肉香腸，煙往溪的方向飄。',
+              '一間小店在賣手織的布，老闆娘說花紋是她外婆教的。',
+              '老街的盡頭，溪水的聲音突然變大。'],
+              rain='下雨了。老街的屋簷下擠滿了人，大家都在等雨停，沒有人急。'),
+      points=[
+        dict(id='D20.bridge', label='站在橋上看溪', minutes=20, cost=0, outdoor=True, lines=[
+              '橋下的溪水是綠色的，清到看得見石頭。',
+              '你站在同一個位置。溪水的顏色比上次深一點，是季節的關係吧。']),
+        dict(id='D20.trolley', label='坐台車', minutes=20, cost=50, outdoor=True, lines=[
+              '小小的台車沿著山壁開。坐在你對面的小孩一直在數隧道。',
+              '這次你和小孩一起數。七個。']),
+        dict(id='D20.falls', label='看瀑布', minutes=30, cost=0, outdoor=True, lines=[
+              '瀑布從山上直直落下來。水氣飄到臉上，你沒有擦。',
+              '你又來了。瀑布不會變，變的是站在下面的人。']),
+      ],
+      leave='回程的公車上，你的鞋子還是濕的。'),
+ dict(id='D24', name='宜蘭礁溪', bg='d24_base_afternoon', open=[10, 17], closedWd=[], weather='mixed',
+      transit=dict(legs=[dict(mode='mrt', text='捷運到市政府轉運站', minutes=25), dict(mode='coach', text='國道客運往礁溪', minutes=65)], minutes=90, fareRound=300),
+      rules=['最晚 17:00 要離開：回程客運加捷運約 1 小時 30 分', '考試週不能去（太遠，`AA_126` 1-1 的精神）'],
+      arrive=['客運出了雪山隧道，天空突然變大。礁溪車站前，空氣裡有一點硫磺的味道。',
+              '礁溪。你記得先去泡腳，再去吃東西。',
+              '礁溪。這次你一下車就知道往哪裡走。'],
+      walk=dict(point='D24.park', label='公園的步道和小木橋', minutes=30, cost=0, times=2, lines=[
+              '小木橋下面是溫泉水流過的溝，冒著一點白煙。',
+              '公園裡有一群阿公在下棋。你想起溫州街的所長。',
+              '步道邊的樹上綁著許願的木牌。你看了幾個，都是考試。'],
+              rain='宜蘭的雨下得很細，細到你分不清是雨還是溫泉的煙。'),
+      points=[
+        dict(id='D24.footbath', label='泡腳', minutes=30, cost=0, lines=[
+              '你脫掉鞋子，把腳放進熱水裡。旁邊的阿嬤說：「年輕人，泡十五分鐘就好，不要貪心。」',
+              '同一個池子。你泡了十五分鐘，準時起來。阿嬤不在，你還是照做了。']),
+        dict(id='D24.street', label='溫泉街的小吃', minutes=30, cost=150, lines=[
+              '一碗鴨賞炒飯、一杯冬瓜茶。老闆說宜蘭人吃飯不趕時間。',
+              '這次你點了老闆推薦的那一碗。他記得你上次點什麼，或是假裝記得。']),
+        dict(id='D24.station', label='車站前的廣場', minutes=15, cost=0, lines=[
+              '車站前的廣場，一群高中生在等火車，制服很皺，笑得很大聲。',
+              '你在廣場的長椅上坐了一下，看著火車進站、出站。']),
+      ],
+      leave='回台北的客運進了雪山隧道。手機的訊號斷了十幾分鐘，你一點也不在意。'),
+ dict(id='D25', name='宜蘭外澳海灘', bg='d25_base_sunset', open=[14, 18.5], closedWd=[], weather='outdoor',
+      transit=dict(legs=[dict(mode='mrt', text='捷運到台北車站', minutes=15), dict(mode='rail', text='火車到外澳站', minutes=85)], minutes=100, fareRound=400),
+      rules=['最晚 18:30 要離開：火車班次少，回程約 1 小時 40 分', '下雨：浪邊、堤防灰掉；海邊的咖啡館照常', '考試週不能去'],
+      arrive=['火車沿著海開。外澳站很小，下車的只有你和兩個背著衝浪板的人。',
+              '外澳。月台還是那麼小，海還是那麼近。',
+              '外澳。你一下車就聽到浪的聲音。'],
+      walk=dict(point='D25.station', label='外澳車站的月台', minutes=15, cost=0, times=2, lines=[
+              '月台的另一邊就是海。火車開走以後，只剩下浪的聲音。',
+              '月台上的時刻表，下一班車在五十分鐘後。你一點也不急。']),
+      points=[
+        dict(id='D25.shore', label='走到浪邊', minutes=30, cost=0, outdoor=True, sunset=True, lines=[
+              '浪打到你的腳邊又退回去。你往後退了一步，又往前走了一步。',
+              '你站在同一個地方。這次浪打到膝蓋，你沒有退。']),
+        dict(id='D25.surf', label='在堤防上看衝浪的人', minutes=20, cost=0, outdoor=True, lines=[
+              '衝浪的人在等浪，等了很久。浪來的時候，他只站起來三秒。他看起來很高興。',
+              '你又在看同一種等待。你想，念書大概也是這樣。']),
+        dict(id='D25.cafe', label='海邊的咖啡館', minutes=40, cost=180, lines=[
+              '一杯冰美式，窗外是整片海。店裡的音樂很小聲，小到聽得見浪。',
+              '同一個靠窗的位子。店員說：「你上次也坐這裡。」']),
+      ],
+      leave='回程的火車上，你的頭髮還有鹽的味道。'),
+]
+json.dump(dict(batch=2, inheritsRules='spots_v1.json', spots=SPOTS), open('spots_v2.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+print('ok', len(SPOTS))
