@@ -18,7 +18,7 @@ const BIKE=(function(){
   let ride=null;      /* {obj,parts,crank,wheel,steer,lean,yaw,lastFlat}：騎著的車（掛在玩家底下）*/
   let pendingPark=false, opts_walked=false;
   B.ok=z=>!!ZONES[z];
-  B.SPEED=6.2;
+  B.SPEED=8.5;   /* 和 engine3d.js 的 E.SPD.bike 一樣 */
   function st(G){ if(!G.bike||typeof G.bike!=='object') G.bike=Object.assign({riding:false},HOME); return G.bike; }
   B.state=st;
   function load(){ if(src) return Promise.resolve(src); if(!loading) loading=ASSETS.loadOne('prop.bike_ride').then(c=>{ const s=c&&c.scene; if(!s) return null;
@@ -61,7 +61,7 @@ const BIKE=(function(){
     return spotNear(E,P.x,P.z,yaw); }
   B.mount=function(GM){ const E=GM.E, G=GM.G, P=E.player, s=st(G); if(s.riding||P.busy||!B.ok(G.zone)) return false;
     if(!src){ load().then(()=>{ if(src) B.mount(GM); }); return false; }
-    if(E.npcs.some(n=>n.beh==='follow')){ if(GM.toast) GM.toast('（有人跟著一起走，先用走的。）'); return false; }
+    /* 有人跟著一起走：照樣上車，他會坐到後座（engine3d.js 的 beh 'passenger'；使用者 2026-10-15「腳踏車要可以載人」）——原本「有人跟著一起走，先用走的」*/
     { const p=P.obj.position; if(Math.hypot(p.x-s.x,p.z-s.z)>0.5&&!opts_walked&&E.moveTo(P,s.x,s.z,()=>{ opts_walked=true; try{ B.mount(GM); } finally { opts_walked=false; } })) return false; }   /* 先走到車旁邊再上車（不瞬移）*/
     removeParked(E);
     P.path=null; P.target=null; P.onArrive=null; P.obj.position.set(s.x,0,s.z); P.obj.rotation.y=s.yaw; if(E.setLv) E.setLv(P,0); else P.lv=0; if(E.settleY) E.settleY(P);
@@ -95,7 +95,7 @@ const BIKE=(function(){
   B.tick=function(GM,dt){ const E=GM.E, G=GM.G; if(!G||!E||!E.player) return; const P=E.player, s=st(G); if(!ride) return; const o=P.obj;
     if(ride.obj.parent!==o){ o.add(ride.obj); ride.obj.position.set(0,0,0); ride.obj.rotation.set(0,0,0); }   /* 正式人物模型晚到時玩家的 obj 會換新（game3d.js 的 upgradeModels）：車跟著換過去 */
     // 自動下車
-    const follow=E.npcs.some(n=>n.beh==='follow');
+    const follow=E.npcs.some(n=>n.beh==='follow'&&n.noRide);   /* 一起走的人會坐後座（beh 'passenger'）；只有不坐後座的（noRide）才要下車用走的 */
     if(P.busy||follow||P.seat||(P.pose!=='ride'&&P.pose!=='idle'&&P.pose!=='walk'&&P.pose!=='run')){ B.dismount(GM); return; }
     if((P.lv|0)!==0||o.position.y>0.12){ const lf=ride.lastFlat; B.dismount(GM,{at:lf}); if(GM.toast) GM.toast('（樓梯不能騎，車停在下面。）',2200); return; }
     ride.lastFlat.x=o.position.x; ride.lastFlat.z=o.position.z; ride.lastFlat.yaw=o.rotation.y;

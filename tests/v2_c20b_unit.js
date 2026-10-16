@@ -90,6 +90,14 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   M=msgs(()=>{ meet('classmate_bohan'); R('classmate_bohan',45,30); }); check('7. 最親近的是男生：沒有訊息',M.length===0);
   L=await single(()=>{ meet('heroine_04'); R('heroine_04',45,30); G.contacts.heroine_04=RD-30; });
   check('7. 女生的版本在 Café：你一個人坐在窗邊 → 題目 → 選項（沒有她在場的台詞）',L[0]==='你一個人坐在窗邊。'&&L[1]==='這一年，你最意外的一件事是什麼？'&&L.length===2&&G.flags.REVISIT_Y1.who==='heroine_04',JSON.stringify({L,R:G.flags.REVISIT_Y1}));
+  /* AA 的人物（AA 2100018） */
+  L=await single(()=>{ meet('zhe'); R('zhe',45,30); });
+  check('9. 阿哲（單身、不在麵店團、最親近）兩句',L.slice(-2).map(l=>l.replace(/^[^：]*：/,'')).join('|')==='我最意外的喔……|我以為大學很難交朋友。結果一個學期，我認識了一整間麵店。'&&G.flags.REVISIT_Y1.who==='zhe',JSON.stringify(L));
+  const fm=id=>msgs(()=>{ meet(id); R(id,45,30); G.contacts[id]=RD-30; });
+  check('9. 以安 18:00：兩句＋兔子貼圖＋「……傳錯了。不好意思，打擾了。」',JSON.stringify(fm('heroine_01'))===JSON.stringify(['這一年最意外的一件事。','我以為規則寫清楚就好。後來發現，規則常常只是沒想到。','（貼圖：兔子「收到」）','……傳錯了。不好意思，打擾了。']));
+  check('9. 語彤',JSON.stringify(fm('heroine_03'))===JSON.stringify(['最意外的一件事。','阿姨說，我今年講的話比去年多。','……嗯。']));
+  check('9. 小語（這時還單身，算數）',JSON.stringify(fm('yu'))===JSON.stringify(['最意外的？','我跟以安吵了一架，結果變成每週四都要見面。','……讀書會啦。']));
+  check('9. 芯慈',JSON.stringify(fm('classmate_xinci'))===JSON.stringify(['最意外的一件事：','這學期有一次，我沒有先去看以安的成績。','……就一次。']));
   L=await single(null);
   check('8. 都不到有點熟：一個人、筆記本 → 題目 → 選項 →「這張桌子，從今天開始是你的位子。」；記 who:alone',JSON.stringify(L)===JSON.stringify(['你一個人坐在窗邊。','你在筆記本上寫了一行。','這一年，你最意外的一件事是什麼？','這張桌子，從今天開始是你的位子。'])&&G.flags.REVISIT_Y1.who==='alone',JSON.stringify({L,R:G.flags.REVISIT_Y1}));
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

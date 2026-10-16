@@ -586,7 +586,7 @@ const STORY_EVENTS=[
      以安揪人（週二在麵店團群組，story3d.js phoneRules）；以安、小語、阿哲照作息在 101（characters.js），散場後以安、小語去博雅的圓桌。
      去不去看玩家週四有沒有走進博雅 101：坐下選「聽演講」＝這一段（之後快轉到 20:30）；坐著待到結束也算聽完（沒有這一段）；結束前走出 101＝中途離開（沒有這一段，之後以安說一句）。
      講者虛構、只講比例原則的方向，不給結論（BB_105 4-3）——LEGAL_REVIEW_REQUIRED（BB 確認前不發布）。（時間往前跳。）＝開場三句之後時鐘往前 45 分鐘（晚到的不跳）*/
-  { id:'ev_b4_lecture', title:'政府可以為了大家，限制一個人嗎？', participants:[], location:'boya', trigger:'activity', once:true, background:'blur', legal_review:'REQUIRED',
+  { id:'ev_b4_lecture', title:'政府可以為了大家，限制一個人嗎？', participants:[], location:'boya', trigger:'activity', once:true, background:'blur', 
     dialogue:[ {speaker:null,text:'講者是一位頭髮花白的老師，說話很慢。'},
       {speaker:'講者',text:'政府要限制一個人，要有理由，而且要用最小的手段。'},
       {speaker:'講者',text:'可是「最小」，是誰來量的？'},
@@ -609,7 +609,7 @@ const STORY_EVENTS=[
   /* B5 小桌子（BB_105 4-5）：散場說「好。」的玩家，當晚走到博雅圓桌的以安旁邊（npcNear）才開始。先演 4-4「B4 演講之後」的四句，再寫便利貼（三選一，沒有對錯）。
      小語：認識才在場（只有認識的人在場）；不認識小語＝她那兩句不演、便利貼是兩張（LAWWW 改的字，已告訴 BB）。
      記 B5_THOUGHT（ask_them／trade／where；B12 讀它）、B4_DISCUSSED（AA_115 的 discussed:B4）；以安的熟悉度＝參與事件的一般見面（不另加數字）。法律同 B4：LEGAL_REVIEW_REQUIRED */
-  { id:'ev_b5_table', title:'小桌子', participants:['heroine_01'], location:'boya', trigger:'auto', npcNear:'heroine_01', time:[20.5,21.5], once:true, background:'blur', legal_review:'REQUIRED',
+  { id:'ev_b5_table', title:'小桌子', participants:['heroine_01'], location:'boya', trigger:'auto', npcNear:'heroine_01', time:[20.5,21.5], once:true, background:'blur', 
     prereq:{custom:G=>{ if(G.flags.B5_GO!==G.day) return false; const n=typeof EVENTS!=='undefined'&&EVENTS.npcOf?EVENTS.npcOf('heroine_01'):null;   /* 她坐到圓桌才開始（小桌子）：散場時坐在她旁邊的話，不在 101 就先演；走不到圓桌（roomFail）就在原地（2026-10-14 story3d.js roomMove）*/
       return !n||(!n.roomGo&&(!!(n.seat&&n.seat.room==='round')||!!n.roomFail)); }},
     dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'他說，限制自由要用最小的手段。'},
@@ -922,7 +922,7 @@ const STORY_EVENTS=[
   /* 重訪日 1——單身、不在麵店團的版本（AA 50da3a9、d1fa44f；BB_96 第 11 節 b7c89d1）：這一年最親近的人（STORY.revisitClosest：先看階段、再看熟悉；學姊、沛珊這時有伴侶，不算）。
      男生：窗邊雙人桌坐他，玩家說完他也說一件。女生：祐廷一個人坐窗邊，她 18:00 傳來訊息（story3d.js phoneRules），之後一樣有題目和選項。
      都還不到「有點熟」：一個人坐窗邊，題目寫在筆記本上；「這張桌子，從今天開始是你的位子。」（旁白照 AA 的描述寫成句子）。
-     以安、語彤、小語、芯慈（AA 的人物）的版本還沒有台詞：最親近的是她們時先看下一位（已問 AA）。記 REVISIT_Y1:{who,pick} */
+     阿哲、以安、語彤、小語、芯慈（AA 的人物）的台詞：AA 2100018（2026-10-14 補）。記 REVISIT_Y1:{who,pick} */
   { id:'ev_revisit_y1_single', title:'重訪日', participants:[], location:'cafe', trigger:'auto', priority:8, term:['Y1S2'], weeks:[18], time:[18,22], once:true, background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.revisitDay&&G.day===STORY.revisitDay()&&!G.flags.REVISIT_Y1&&!G.flags.dating_kexin&&!(typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team'))},
     dialogue:[ {if:{custom:G=>STORY.revisitClosest(G).kind==='male'},goto:'q'},
@@ -932,13 +932,14 @@ const STORY_EVENTS=[
       REVISIT_Y1_CHOICE('s_'),
       {label:'s_retake'},{label:'s_bbq'},{label:'s_noodle'},{label:'s_appeal'},{label:'s_rain'},{label:'s_lecture'},{label:'s_show'},{label:'s_daily'},
       {if:{custom:G=>STORY.revisitClosest(G).id==='classmate_bohan'},goto:'bohan'},{if:{custom:G=>STORY.revisitClosest(G).id==='kai'},goto:'kai'},
-      {if:{custom:G=>STORY.revisitClosest(G).id==='classmate_mingxuan'},goto:'mx'},{if:{custom:G=>STORY.revisitClosest(G).id==='npc_fangyt'},goto:'fy'},
+      {if:{custom:G=>STORY.revisitClosest(G).id==='classmate_mingxuan'},goto:'mx'},{if:{custom:G=>STORY.revisitClosest(G).id==='npc_fangyt'},goto:'fy'},{if:{custom:G=>STORY.revisitClosest(G).id==='zhe'},goto:'zhe'},
       {if:{custom:G=>STORY.revisitClosest(G).kind==='none'},speaker:null,text:'這張桌子，從今天開始是你的位子。'},{goto:'end'},
       {label:'bohan'},{speaker:'classmate_bohan',expression:'neutral',text:'我最意外的是……'},{speaker:'classmate_bohan',expression:'neutral',text:'（推了一下眼鏡）這一題，沒有考古題。'},{goto:'end'},
       {label:'kai'},{if:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.friendLevel&&SOCIAL.friendLevel('kai')==='CLOSE_FRIEND'},goto:'kai2'},
       {speaker:'kai',expression:'neutral',text:'我最意外的是……那條膠帶。'},{speaker:'kai',expression:'smile',text:'我寫了『無條件入境』，結果是我一直在出境。'},{speaker:'kai',expression:'smile',text:'……去你那邊拿零食。'},{goto:'end'},
       {label:'kai2'},{speaker:'kai',expression:'neutral',text:'我最意外的是……膠帶是我自己撕的。'},{speaker:'kai',expression:'smile',text:'本來以為會貼四年。'},{goto:'end'},
       {label:'mx'},{speaker:'classmate_mingxuan',expression:'laugh',text:'哈哈，我最意外的是……'},{speaker:'classmate_mingxuan',expression:'neutral',text:'我第一次走進一家店，沒有先算 CP 值。'},{speaker:'classmate_mingxuan',expression:'smile',text:'……就是這裡。'},{goto:'end'},
+      {label:'zhe'},{speaker:'zhe',expression:'smile',text:'我最意外的喔……'},{speaker:'zhe',expression:'laugh',text:'我以為大學很難交朋友。結果一個學期，我認識了一整間麵店。'},{goto:'end'},
       {label:'fy'},{speaker:'npc_fangyt',expression:'neutral',text:'我最意外的是……你的黃金葛長得比我的好。'},{speaker:'npc_fangyt',expression:'neutral',text:'……我回去查了原因。是窗戶的方向。'},
       {label:'end'} ],
     after:G=>{ const c=STORY.revisitClosest(G); G.flags.REVISIT_Y1={who:c.id||'alone',pick:G.flags.REVISIT_Y1_PICK||'daily'}; } },

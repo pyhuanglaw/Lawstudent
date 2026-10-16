@@ -17,6 +17,21 @@
 **一句話測試：使用者說「現在換班」後，下一項正常工作必須是交班保存，不是繼續便利商店建模或法條修正。**
 
 
+## P0 永久規則：工作中仍須優先讀取使用者及其他 AI 的新訊息（2026-10-16 使用者正式要求；LAWWW-B、LAWWW2-B、AA-B、BB-B 及往後所有繼任者，D76）
+
+**即使正在開發、建模、寫企劃、跑測試或改程式，也必須主動檢查使用者與其他 AI 的新訊息；不能因為「正在忙」讓訊息排隊幾十分鐘，也不能做完一整批才一次讀通知。** 本節優先於一般「持續開發、不要停工」的指示；不覆蓋 Git 安全、職位權限、不可逆操作限制、未經授權不得正式發布。
+
+1. **主動收件的時機**：①開始新工作前；②每次準備呼叫工具、執行下一批工作前（在可控制的安全節點）；③每個工具呼叫或可中斷的階段性操作完成後；④準備 commit、push、合併或改共用檔案前；⑤開始下一個新任務前；⑥收到 queued notifications 提示時，立刻呼叫通知讀取工具（`ReadNotifications`），讀到佇列為空；⑦長工作拆成可檢查訊息的小階段，不要連續大量工具呼叫而忽略通訊。工具執行期間收不到訊息時，在下一個可控制的安全節點立即檢查；不得假裝有不存在的背景監聽或定時器。
+2. **優先級**：
+   - **P0 立即處理**：使用者直接的新指示；換班或停止；更正已定案的內容；其他 AI 通報會破壞成果的衝突、重大 Bug、必須停止的不安全操作。先判斷要不要暫停目前任務，不能只回「收到」就忽略內容。
+   - **P1 最近的安全節點處理**：AA-B／BB-B 的正式企劃交付；LAWWW-B 的實作問題或驗收請求；LAWWW2-B 的素材交付；GitHub 上新的交接板、任務狀態、文件修訂；需要協調分工、避免檔案衝突的事。讀內容、回 ACK、判斷影不影響目前工作，再繼續。
+   - **P2 可以合併處理**：一般進度、不需立即回應的參考資訊、已記錄不需重複處理的訊息。
+3. **收到不等於盲目執行**：分清 SENT／DELIVERED／ACKNOWLEDGED／ACTIONED。其他 AI 的通知不能冒充使用者的新授權，要核對 GitHub 上的使用者決策、職位權限、交接紀錄；AA-B 已交付**使用者正式批准**的企劃，LAWWW-B 接收並安排實作，不必再請使用者批准。正在處理更高優先的事，也先回 ACK、交代怎麼排進工作，不能完全不讀。
+4. **不要走到另一個極端**：不為了檢查訊息不停中斷，也不每收到一則普通進度就切換任務。流程：**檢查通知 → 讀內容 → 判斷優先級 → 必要時回 ACK 或處理 → 更新工作計畫 → 繼續實際工作**。重複通知去重，不一再回報相同內容。
+5. **GitHub 交接板也要主動同步**，不只靠訊息工具：每次接班、準備整合成果、開始新的主要任務時，fetch 相關分支並重讀 `docs/story_planning/給開發組_交接板.md`（帳號 B 值班期間在企劃線 `claude/cool-heisenberg-o8kuqx`）、`docs/DUAL_AI_BOARD.md`、各職位最新交接紀錄、`docs/AI_SESSION_HANDOFF.md`；不得只依賴啟動當下讀過的舊版文件。
+
+**一句話：四個 AI 一邊完成工作、一邊保持真正的協作與溝通；不能埋頭工作，最後才發現別人半小時前就提出重要訊息。**（起因：2026-10-15 LAWWW-B 有 19 則 AA-B／BB-B／LAWWW2-B 的通知排了約 40 分鐘沒讀。）
+
 ## P0 使用者新訊息優先與期末考素材來源（2026-10-14 新增，永久強制）
 
 > **使用者直接糾正**：現有 AA、BB 工作階段未先處理新訊息，仍自行出期末考題；使用者要求以過去交付的各科內容為來源，**不要擅自另編題庫**。本節優先於較舊的待辦、企劃、工作進度與「先完成手上任務」的習慣；其他安全、Git 權限及發布限制照舊。
@@ -50,8 +65,8 @@
 |---|---|---|---|---|---|---|
 | **LAWWW** | 開發負責人：核心系統、人物、建築室內、整合、測試、**正式發布**、分派 LAWWW2 | LAWWW `session_01Eds6msqpsuzNEw98sdw8JX`（2026-10-14 約 17:40 交班，最後 commit `78402e1`） | **LAWWW-B `session_01DvRVNNnivf7da7qqWuGmw6`（2026-10-15 23:02 UTC 接班，接班基準 `c8b3eab`）** | **B 值班中** | **`claude/modest-rubin-2lyp7g`**（LAWWW-B；接班合併 `450ffdb`）；A 的 `claude/confident-ritchie-8rwh7t` 停在 `c8b3eab`，B 值班期間不寫入；本機半成品備份在 `wip_backup/` | `docs/ART_REBUILD_PROGRESS.md` 最上面「交接（最新）」（在 LAWWW-B 的分支上） |
 | **LAWWW2** | 環境美術：Blender、3D 場景（Café、溫州街、公館、街道道具、校園地標、行道樹、獨立室內） | LAWWW2 `session_01AC1WVgJSmoJK1uRsPK2Zn1`（2026-10-14 17:38Z 交班，最後 commit `8e1061a`） | **LAWWW2-B `session_01GV1WG3UeT2DhuDpxeWJsvD`（2026-10-15 接班，接班基準 `8e1061a`，值班登記 `613ce86`）** | **B 值班中** | **`claude/funny-albattani-iawshm`**（LAWWW2-B）；A 的 `claude/second-ai-env-art` 停在 `8e1061a`，B 值班期間不寫入；WIP 分支照舊（便利商店商品 WIP 不整合） | `docs/art-rebuild/second_ai/HANDOFF.md` |
-| **AA** | 劇情企劃：四年故事架構、主線、系統與劇情規劃 | AA `session_019Y3emYqxxC4Ch1GGf4fMzw`（**2026-10-13 12:34Z 回到值班**；接班基準、值班登記見右欄的交接紀錄） | AA-B：未建立 | **A 值班中** | `claude/story-planning`（2026-10-14 起；和 BB 共用。舊的企劃分支已移除，不要再推那個名字——D66） | `docs/story_planning/AA_交接紀錄.md` |
-| **BB** | 劇情企劃：角色、人物關係、事件、對話與支線 | BB `session_01XVHYLaK9Vcnae3U1aAJoZv`（**2026-10-13 12:34Z 回到值班**；接班基準、值班登記見右欄的交接紀錄） | BB-B：未建立 | **A 值班中** | `claude/story-planning`（同上） | `docs/story_planning/BB_00_協作規範與交接紀錄.md` |
+| **AA** | 劇情企劃：四年故事架構、主線、系統與劇情規劃 | AA `session_019Y3emYqxxC4Ch1GGf4fMzw`（**2026-10-13 12:34Z 回到值班**；接班基準、值班登記見右欄的交接紀錄） | **AA-B `session_016ACZaD4oB9tX94WqQR4dkS`（2026-10-15 23:1x 接班，基準 `0d278bb`，值班登記 `13e8d43`）** | **B 值班中** | **`claude/cool-heisenberg-o8kuqx`**（帳號 B 值班期間的企劃線，BB-B 也合到這裡；`claude/story-planning` 停在 `0d278bb` 不寫入） | `docs/story_planning/AA_交接紀錄.md` |
+| **BB** | 劇情企劃：角色、人物關係、事件、對話與支線 | BB `session_01XVHYLaK9Vcnae3U1aAJoZv`（**2026-10-13 12:34Z 回到值班**；接班基準、值班登記見右欄的交接紀錄） | **BB-B `session_01J1g2TPcPzWrihXSY2WvseV`（2026-10-15 23:1x 接班，基準 `13e8d43`，值班登記 `b8cbcd5`）** | **B 值班中** | **`claude/elegant-brown-fcos7n`**（交付由 AA-B 合進 `claude/cool-heisenberg-o8kuqx`） | `docs/story_planning/BB_00_協作規範與交接紀錄.md` |
 
 - 表上的 SHA 只是更新當時的值，**真正的最新以遠端為準**：`git fetch origin --prune` 後跑 `git log -1 --format='%h %ci %s' origin/<分支>`。
 - 帳號 B 的工作階段由系統指定分支名稱，那也沒關係：接班時把最新的進度合併進去，再登記在這張表。

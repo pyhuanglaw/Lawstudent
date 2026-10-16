@@ -16,7 +16,7 @@ for sub in ['models/env','models/env/second_ai','models/char']:   # models/env/s
     d=root/'build'/'assets'/sub; d.mkdir(parents=True,exist_ok=True)
     for f in list((root/'assets'/sub).glob('*.glb'))+list((root/'assets'/sub).glob('*.vrm'))+list((root/'assets'/sub).glob('*.webp')): shutil.copy2(f,d/f.name)   # *.webp：總圖大廳窗外的景（tools/shots/library_views.py）
 # 正式立繪、事件 CG（webp）
-for p in list((root/'assets'/'portraits').rglob('*.webp'))+list((root/'assets'/'cg').rglob('*.webp')):
+for p in list((root/'assets'/'portraits').rglob('*.webp'))+list((root/'assets'/'cg').rglob('*.webp'))+list((root/'assets'/'bg').rglob('*.webp')):   # bg：出遊／ADV 的 2D 背景（outings3d.js 的 S.BG）
     rel=p.relative_to(root); d=(root/'build'/rel).parent; d.mkdir(parents=True,exist_ok=True); shutil.copy2(p,root/'build'/rel)
 import base64
 for p in list((root/'build'/'assets').rglob('*.glb'))+list((root/'build'/'assets').rglob('*.vrm')):

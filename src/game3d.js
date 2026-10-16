@@ -52,7 +52,7 @@ const GAME = (function(){
   GM.habit=habit; GM.habitSlot=habitSlot; GM.seatHabits=seatHabits;
   GM.advance=advance;
   // ---------- HUD ----------
-  function updateHUD(){ if(!G) return; $('clockT').textContent=WEEK[G.weekday]+' '+fmtTime(G.hour); const zn=Z3.ZONES[G.zone]?Z3.ZONES[G.zone].name:G.zone; $('clockZ').textContent=zn; $('clockW').textContent=G.weather==='rain'?'🌧':(G.weather==='cloudy'?'☁':(G.hour%24>=18.5||G.hour%24<5.5?'🌙':'☀')); $('energy').firstElementChild.style.width=G.energy+'%'; $('money').textContent='$'+G.money; }
+  function updateHUD(){ if(!G) return; { const dd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day+Math.floor(G.hour/24)):null; $('clockT').textContent=(dd?dd.m+'/'+dd.d+' ':'')+WEEK[G.weekday]+' '+fmtTime(G.hour); }   /* 日期（使用者 2026-10-15：遊戲裡就寫今天幾月幾號，不需要點開手機）*/ const zn=Z3.ZONES[G.zone]?Z3.ZONES[G.zone].name:G.zone; $('clockZ').textContent=zn; $('clockW').textContent=G.weather==='rain'?'🌧':(G.weather==='cloudy'?'☁':(G.hour%24>=18.5||G.hour%24<5.5?'🌙':'☀')); $('energy').firstElementChild.style.width=G.energy+'%'; $('money').textContent='$'+G.money; }
   GM.updateHUD=updateHUD;
   function fade(on){ const f=$('fade'); f.classList.toggle('on',on); return sleep(on?480:500); }
   GM.fade=fade;
@@ -92,6 +92,8 @@ const GAME = (function(){
   function fwd(o){ return V(Math.sin(o.rotation.y),0,Math.cos(o.rotation.y)); }
   function cine(kind,A,B,opt){ opt=opt||{}; A=A||E.player.obj; B=B||A; const ha=headOf(A), hb=headOf(B); const mid=ha.clone().add(hb).multiplyScalar(0.5); const dir=hb.clone().sub(ha); dir.y=0; const d=Math.max(0.01,dir.length()); dir.normalize(); const side=V(-dir.z,0,dir.x); if(opt.flip) side.negate(); let pos,look;
     if(kind==='ots'){ pos=ha.clone().addScaledVector(dir,-1.3).addScaledVector(side,0.7); pos.y=ha.y+0.25; look=hb.clone(); look.y-=0.02; if(E.indoor&&E.zone.bounds){ const b=E.zone.bounds; const alt=ha.clone().addScaledVector(dir,-1.05).addScaledVector(side,-0.55); alt.y=pos.y; const room=p=>Math.min(b.w/2-Math.abs(p.x),b.d/2-Math.abs(p.z)); if(room(alt)>room(pos)+0.3) pos=alt; } }
+    else if(kind==='talk'){   /* 平常說話（2026-10-15 使用者：「跟人講話角度不要大轉，會 3D 暈」）：不切到兩人的正側面，鏡頭留在玩家背後偏一側（偏向現在鏡頭那一側），從跟隨鏡頭只轉一點點 */
+      const cur=E.camera.position, s0=((cur.x-ha.x)*side.x+(cur.z-ha.z)*side.z)>=0?1:-1; pos=ha.clone().addScaledVector(dir,-2.3).addScaledVector(side,0.95*s0); pos.y=ha.y+0.5; look=ha.clone().lerp(hb,0.62); look.y=(ha.y+hb.y)/2-0.08; }
     else if(kind==='close'){ pos=hb.clone().addScaledVector(dir,-1.25).addScaledVector(side,0.25); pos.y=hb.y+0.06; look=hb.clone(); look.y-=0.04; }
     else if(kind==='two'){ const dist=Math.max(2.3,d*1.25); pos=mid.clone().addScaledVector(side,dist); pos.y=mid.y+0.12; look=mid.clone(); look.y-=0.12; if(E.indoor&&E.zone.bounds&&!opt.flip){ const b=E.zone.bounds; const alt=mid.clone().addScaledVector(side,-dist); const room=p=>Math.min(b.w/2-Math.abs(p.x),b.d/2-Math.abs(p.z)); if(room(alt)>room(pos)) pos=alt; } }
     else if(kind==='low'){ pos=mid.clone().addScaledVector(side,Math.max(2.2,d*1.3)).addScaledVector(dir,-0.6); pos.y=Math.min(A.position.y,B.position.y)+0.8; look=mid.clone(); look.y-=0.2; }
@@ -217,9 +219,12 @@ const GAME = (function(){
     if(course){ await fade(false); await say(null,'你讀了一小時的'+course.name+'——'+(CLS.topic(course,(CALENDAR.termOf(G.day)||{}).week)||'這週的進度')+'。'); }
     else if(grad&&!asked){ await fade(false); const k=await choose([{t:'讀學姊給的那篇文章',hint:'研究所準備（'+((G.social.grad.prep||0))+'/3）'},{t:'讀這週的進度'}]); if(k===0){ await gradReadingSession(); if(G.energy<20) toast('你有點累了'); return; } await fade(true); }
     const topics=STORY.studyTopics?STORY.studyTopics(GM):[]; const t=topics.find(x=>!GM.hasNote(x.id)); if(!course) await fade(false);
-    const studied=(typeof LEGAL!=='undefined'&&G.legal)?LEGAL.study():[];
+    /* 選了科目：只出那一科的東西（使用者 2026-10-15：「讀憲法為什麼會出現強行規定無效」——原本不管選什麼都接民總的 studyTopics、刑訴題庫的複習）。
+       民總的 studyTopics 只在讀民法總則或沒選科目時；刑訴題庫（QBANK）的複習只在讀刑事訴訟法或沒選科目時 */
+    const okTopic=!course||course.id==='civ_general', okLegal=!course||course.id==='crimpro';
+    const studied=(okLegal&&typeof LEGAL!=='undefined'&&G.legal)?LEGAL.study():[];
     if(studied.length){ for(const q of studied){ await say(null,'你回頭看了讀書會／上課時卡住的地方：「'+q.q.replace(/。$/,'')+'」——'+(q.core?q.core:'答案是「'+(q.type==='tf'?q.answer:q.answer+'、'+q.options[q.answer])+'」')+'。這次應該懂了。'); } }
-    else if(t){ addNote(t.id,t.title,t.body); await say(null,t.read||('你花了一小時讀'+t.title+'。'+t.body)); }
+    else if(t&&okTopic){ addNote(t.id,t.title,t.body); await say(null,t.read||('你花了一小時讀'+t.title+'。'+t.body)); }
     else if(!course){ await say(null,'你把這週的筆記重新整理了一遍。沒有新的東西，但腦袋清楚了一些。'); }
     if(G.energy<20) toast('你有點累了'); }
   GM.studySession=studySession;
@@ -338,13 +343,14 @@ const GAME = (function(){
     body.querySelectorAll('[data-thback]').forEach(b=>b.onclick=()=>{ phoneThread=null; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
     body.querySelectorAll('[data-place]').forEach(b=>b.onclick=async()=>{ const pl=PLACE_LIST().find(q=>q[0]+'|'+q[1]===b.dataset.place); if(pl) await quickGo(pl); });
     body.querySelectorAll('[data-find]').forEach(b=>b.onclick=()=>{ if(findPerson(b.dataset.find)) closePhone(); });
+    body.querySelectorAll('[data-msg]').forEach(b=>b.onclick=()=>{ phoneTab='msg'; phoneThread='p:'+b.dataset.msg; renderPhone(); phoneBadge(); const pb=$('phoneBody'); if(pb) pb.scrollTop=pb.scrollHeight; });
     document.querySelectorAll('#phoneTabs button').forEach(b=>b.classList.toggle('on',b.dataset.ptab===phoneTab));
     body.querySelectorAll('[data-go]').forEach(b=>b.onclick=async()=>{ const it=CLS.dayItems(G).find(q=>q.key===b.dataset.go); if(!it) return; if(E.player.busy){ toast('現在不能移動'); return; } closePhone(); const zn=it.room.zone; if(G.zone===zn){ toast('你已經在'+(zn==='classroom'?'教室':it.room.name.replace(/ \S+$/,''))+'了。'+(zn==='classroom'?'':'教室是 '+it.room.name+'，')+'找個位子坐下就可以上課。',4200); return; }
       const mins=zn==='classroom'&&G.zone==='linze'?3:CLS.travelMinutes(G,G.zone,zn,E.player.obj.position); advance(mins/60); energy(-2); await enter(zn); toast((zn==='classroom'?'':'走了 '+mins+' 分鐘。教室是 '+it.room.name+'，')+(it.room.door?((CLS.DOORS[it.room.door]||{}).verb==='報到'?'到「'+(it.room.label||it.room.name)+'」報到':'到「'+(it.room.label||it.room.name)+'」門口就可以上課'):'找個位子坐下就可以上課')+'（'+CLS.hhmm(it.t0)+' 開始）',4200); }); }   /* 2026-10-13：建築裡的教室（共同教學館…）也可以；時間照距離 */
   /* 快速前往（D54 ①）：主要地點從第一天就知道（第 1 天是開學第三週）；依距離花遊戲時間（CLS.travelMinutes）；關門的地方寫幾點開 */
   function PLACE_LIST(){ return PLACES.quickList().filter(p=>p&&Z3.ZONES[p[0]]); }   /* 清單在 src/data/places.js（tests/quick_travel_unit.js 逐一檢查落點站得住、走得出去）*/
   function placeState(pl){ const [z,,sp]=pl; const known=!!(PLACES.known0[z]||(G.visited&&G.visited[z])); const open=typeof PLACES==='undefined'||PLACES.isOpen(z,G.hour,G.day); const mins=typeof CLS!=='undefined'?CLS.travelMinutes(G,G.zone,z,E.player.obj.position,sp):15; const here=G.zone===z&&(z!=='campus'||mins===0);
-    const bike=!!E.player.riding, m=bike&&mins>0?Math.max(5,Math.round(mins/2.5/5)*5):mins;   /* 騎著腳踏車：大約是走路的 2.5 倍快（最少 5 分鐘）；進室內的地方車停在那棟的門外（bike3d.js）*/
+    const bike=!!E.player.riding, m=bike&&mins>0?Math.max(5,Math.round(mins/3.5/5)*5):mins;   /* 騎著腳踏車：大約是走路的 3.5 倍快（2026-10-15 調快；原本 2.5）（最少 5 分鐘）；進室內的地方車停在那棟的門外（bike3d.js）*/
     return {known,open,here,mins:m,bike}; }
   async function quickGo(pl){ const [z,label,sp]=pl; const st=placeState(pl); if(E.player.busy||GM.titleIdle){ toast('現在不能移動'); return; } if(!st.known){ toast('還沒去過'+label+'。自己走去一次之後，就可以直接前往。',4000); return; } if(!st.open){ toast(typeof PLACES!=='undefined'?PLACES.closedText(z,G.hour,G.day):'已閉館',4500); return; } if(st.here){ toast(z==='campus'?'你就在這附近':'你已經在'+label+'了'); return; }
     closePhone(); if(menuOpen) closeMenu(); if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.leave) ACTIVITIES.leave(G);   /* 活動中快速前往＝中途離開（AA_110 5-2）*/
@@ -363,15 +369,20 @@ const GAME = (function(){
       const where=a.roomName||(PLACES.names&&PLACES.names[a.zone])||''; const pl=PL.find(q=>q[0]===a.zone)||PL.find(q=>q[0]==='campus'&&q[1]===(PLACES.names&&PLACES.names[a.zone]));
       h+='<div class="item phrow"><div>'+esc(a.title)+'<div class="muted">'+esc(when)+(where?'・'+esc(where):'')+'</div></div>'+(pl&&!(k===0&&G.hour%24>=a.t1)?'<button class="btn" data-place="'+esc(pl[0]+'|'+pl[1])+'">前往</button>':'')+'</div>'; }
     return h; }
+  /* 校園裡的人：照作息的位置（linger 的 at、傅鐘的長椅）挑最近的校園快速地點；不知道確切位置就用第一個（霖澤館前），到了再用「帶我去」 */
+  function campusPlaceFor(id,PL){ const C=PL.filter(q=>q[0]==='campus'); if(!C.length) return null; const ent=STORY.schedEnt?STORY.schedEnt(CHARACTERS[id],G):null; let xy=null;
+    if(ent&&ent.at) xy=[ent.at[0],ent.at[1]]; else if(ent&&ent.seat==='bell') xy=[-30,20.94]; if(!xy) return C[0];
+    let best=C[0], bd=1e9; for(const q of C){ const sp=q[2]; if(!sp) continue; const d=Math.hypot(sp.x-xy[0],sp.z-xy[1]); if(d<bd){ bd=d; best=q; } } return best; }
   /* 手機「朋友」（D54 ④：手機資訊是協助找人，不是任務標記）：認識的人現在大概在哪（照作息，和大地圖的人物線索同一份）；在別的地方的，可以快速前往那個地方（照樣花時間）*/
   function friendsHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); const ids=knownIds(); const PL=PLACE_LIST();
     if(!ids.length) return '<div class="item muted">還沒有認識的人。</div>';
     let h='<div class="item muted">大家照自己的作息在校園裡生活；這裡寫的是「大概在哪」，去了不一定剛好遇到。</div>';
     for(const id of ids){ const w=STORY.whereIs&&STORY.whereIs(GM,id); const nm=(typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(id):((CHARACTERS[id]||{}).name||id);
-      const pl=w&&w.zone!=='campus'&&w.zone!==G.zone?PL.find(q=>q[0]===w.zone):null; const st=pl?placeState(pl):null;
+      const pl=w&&w.zone&&w.zone!==G.zone?(w.zone==='campus'?campusPlaceFor(id,PL):PL.find(q=>q[0]===w.zone)):null; const st=pl?placeState(pl):null;   /* 校園裡的人也可以「過去」：到離他最近的校園地點（使用者 2026-10-15：有的可以直接過去、有的只能導航）*/
+      const msg=typeof INV!=='undefined'&&INV.hasContact(G,id)?'<button class="btn" data-msg="'+esc(id)+'">訊息</button>':'';   /* 有聯絡方式＝可以直接傳訊息（約人和訊息放在一起：使用者 2026-10-15）*/
       const why=typeof INV!=='undefined'&&INV.whyNot?INV.whyNot(G,id):'';   /* 約不了的原因（AA_125 第 1 節：只打過招呼、沒有聯絡方式、已經約好了、不在學校）*/
       const canInv=typeof INV!=='undefined'&&!why&&INV.hasContact(G,id)&&INV.canInvite(G,id);   /* 有聯絡方式的才能用手機約（使用者第 2 點：認識的朋友才有聯絡方式）*/
-      h+='<div class="item phrow"><div>'+esc(nm)+'<div class="muted">'+(w?esc(whereText(id))+(w.zone===G.zone?'・就在這裡':''):'現在沒有固定的行程')+'</div></div><div class="row2" style="gap:6px">'+(pl&&st&&st.known?'<button class="btn" data-place="'+esc(pl[0]+'|'+pl[1])+'">過去（約 '+st.mins+' 分鐘）</button>':'')+(w&&w.zone&&!w.away?'<button class="btn" data-find="'+esc(id)+'">帶我去</button>':'')+(canInv?'<button class="btn pri" data-inv="'+esc(id)+'">約</button>':(why?'<span class="muted" style="font-size:12px;align-self:center">'+esc(why)+'</span>':''))+'</div></div>'; }
+      h+='<div class="item phrow"><div>'+esc(nm)+'<div class="muted">'+(w?esc(whereText(id))+(w.zone===G.zone?'・就在這裡':''):'現在沒有固定的行程')+'</div></div><div class="row2" style="gap:6px">'+(pl&&st&&st.known?'<button class="btn" data-place="'+esc(pl[0]+'|'+pl[1])+'">過去（約 '+st.mins+' 分鐘）</button>':'')+(w&&w.zone&&!w.away?'<button class="btn" data-find="'+esc(id)+'">帶我去</button>':'')+msg+(canInv?'<button class="btn pri" data-inv="'+esc(id)+'">約</button>':(why?'<span class="muted" style="font-size:12px;align-self:center">'+esc(why)+'</span>':''))+'</div></div>'; }
     return h; }
   /* 手機「訊息」（D54 ⑥）：約人、對方的回答、沒赴約……最新的在上面；對方約你、改約的有回覆的按鈕（src/invites3d.js）*/
   /* 手機「訊息」（交接包 v1：群組、置頂、可以回的訊息，src/phone3d.js）：最上面是「待回覆」（邀約、可以回的訊息）、對話串（點了看整段，群組的置頂在最上面），下面照舊是最近的訊息 */
@@ -381,9 +392,10 @@ const GAME = (function(){
   const askBtns=m=>'<div class="row2" style="gap:6px;margin-top:6px;flex-wrap:wrap">'+m.ask.opts.map((o,k)=>'<button class="btn'+(k===0?' pri':'')+'" data-ask="'+escH(m.ask.id+'|'+k)+'">'+escH(o.t)+'</button>').join('')+'</div>';
   const msgLine=m=>{ if(typeof PHONE==='undefined'||!m.th) return escH(m.text); const g=m.th.startsWith('g:'), w=PHONE.who(m); return (g?'<span class="muted">【'+escH(PHONE.title(G,m.th))+'】</span>':'')+(w?'<b>'+escH(w)+'</b>：':'')+escH(m.text); };
   function threadHTML(th){ PHONE.markSeen(G,th); const L=PHONE.thread(G,th), g=th.startsWith('g:')||th==='sys';   /* 通知（sys）也寫是誰傳的：新聞、張教授（信）（颱風假 T1b）；沒有寄件人的系統訊息照舊只有內容 */
-    let h='<div class="item phrow"><button class="btn" data-thback="1">‹ 訊息</button><b>'+escH(PHONE.title(G,th))+'</b></div>';
+    const pid=th.startsWith('p:')?th.slice(2):null, why=pid&&typeof INV!=='undefined'&&INV.whyNot?INV.whyNot(G,pid):'x', canInv=!!pid&&!why&&INV.hasContact(G,pid)&&INV.canInvite(G,pid);   /* 一對一的對話裡也可以約（約人和訊息放在一起：使用者 2026-10-15）*/
+    let h='<div class="item phrow"><button class="btn" data-thback="1">‹ 訊息</button><b>'+escH(PHONE.title(G,th))+'</b>'+(canInv?'<button class="btn pri" data-inv="'+escH(pid)+'">約</button>':'')+'</div>';
     for(const m of L.filter(q=>q.pin)) h+='<div class="item pin"><div class="muted">（置頂）'+msgWhen(m)+'</div>'+(PHONE.who(m)?'<b>'+escH(PHONE.who(m))+'</b>：':'')+escH(m.text)+'</div>';
-    for(const m of L.filter(q=>!q.pin)) h+='<div class="item'+(m.from==='player'?' me':'')+'"><div class="muted">'+msgWhen(m)+'</div>'+(g&&m.from!=='player'&&PHONE.who(m)?'<b>'+escH(PHONE.who(m))+'</b>：':'')+escH(m.text)+((PHONE.askOpen?PHONE.askOpen(G,m):(m.ask&&m.ans==null))?askBtns(m):'')+'</div>';
+    for(const m of L.filter(q=>!q.pin)) h+='<div class="item'+(m.from==='player'?' me':'')+'"><div class="muted">'+msgWhen(m)+'</div>'+(g&&m.from!=='player'&&PHONE.who(m)?'<b>'+escH(PHONE.who(m))+'</b>：':'')+(m.fold&&m.fold.length?'<details class="fold"><summary>'+escH(m.text)+'……（點開看全文）</summary>'+m.fold.map(escH).join('<br>')+'</details>':escH(m.text))+((PHONE.askOpen?PHONE.askOpen(G,m):(m.ask&&m.ans==null))?askBtns(m):'')+'</div>';   /* fold：長的訊息折起來（W3b 學姊的長回覆）*/
     return h; }
   function msgHTML(){ if(typeof INV==='undefined') return ''; INV.rec(G); if(phoneThread&&typeof PHONE!=='undefined') return threadHTML(phoneThread);
     const M=G.msgs.slice(-40).reverse();

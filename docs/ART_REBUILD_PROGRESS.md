@@ -13,6 +13,43 @@
 值班登記：帳號 B｜LAWWW-B｜session_01DvRVNNnivf7da7qqWuGmw6｜分支 claude/modest-rubin-2lyp7g｜接班基準 origin/claude/confident-ritchie-8rwh7t 的 c8b3eab（合併 commit 450ffdb）｜2026-10-15 23:02 UTC
 上一班：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜最後 commit 78402e1（交班補記，2026-10-14 17:38 UTC；之後 c8b3eab／effb148 是使用者推的 P0 換班規則）｜正常交班
 
+### D76（2026-10-16 00:00 UTC，使用者 P0 永久規則）
+
+- 工作中也要主動讀使用者與其他 AI 的訊息（七個時機、P0／P1／P2、GitHub 交接板也要同步）；全文在 `CLAUDE.md` 最上面。LAWWW-B 的做法：每一批工具呼叫之間先 `ReadNotifications`；開始新任務前 fetch 企劃線 `claude/cool-heisenberg-o8kuqx`、LAWWW2-B 的 `claude/funny-albattani-iawshm` 並重讀交接板。
+
+### 使用者試玩回報（2026-10-15 23:55 UTC，26 項；原話與分類在 `docs/USER_INSTRUCTION_LOG.md`）——處理狀態
+
+- **已修（開發分支，單元測試過；瀏覽器只看過標 ✔ 的）**：說話鏡頭不大轉（`cine 'talk'`、轉慢）；手機轉向每幀檢查畫布；同班同學必修課在教室（`STORY.classmateClass`）、不在場的人沒有反應句；第 1 天白天的課不排；可以遲到（下課前 30 分鐘以前）；讀某科只出那一科；HUD 幾月幾號 ✔；當面約（以安、阿哲、學姊、阿凱、小語）；手機朋友頁「過去」「訊息」「約」；可昕寫「在政大」；腳踏車 8.5 m/s；載人（後座位置待調、等 LAWWW2 的坐墊）；阿哲「上學期」→「開學才三個禮拜」（**請 AA-B 確認這句**）；法服的人只在讀書會有開的週出現；博雅牆上光斑 ✔；長椅路燈 ✔；咖啡廳店員（10-14 就修了，v9.7 沒有）。
+- **還在查**：偶爾全黑＋面膜臉（加了 WebGL 掉線紀錄，還沒重現）；zone_memory 貼圖還在增加（騎車路人釋放不是主因，貼圖追蹤工具在跑）；博雅 101 上課前空、下課滿、頭髮亂飛；學姊「兩個臉」。
+- **等使用者**：2D 立繪——遊戲裡五位女主角的立繪是舊版（以安：黑寬褲），BB 驗收的是 06 標準圖（米色針織、淺色牛仔褲），但 06 的全身只有約 200 px 高，不能裁成立繪；`art_reference/README` 寫參考圖「不放進遊戲」。要新的單人全身立繪（透明背景、約 1000 px 高，規格 `docs/CHARACTER_ART_SPEC.md`）。
+- **給 LAWWW2-B（已派，10826bd 之後）**：沛珊自己的 VRM、政大 2D 背景、博雅↔普通空橋現況、腳踏車後座載妹墊。
+- **給 AA-B／BB-B（她們上線後讀這裡；LAWWW-B 不自己寫劇情）**：
+  1. 可攻略角色「一層一層聊天認識彼此」：路上遇到也能聊、每天可以限制新認識多少、不要一直講同一句（現在以安走舊的 talkAn，只有三句輪流；`SMALLTALK.heroine_01` 是 0 句）。
+  2. 室友（阿凱）的故事、一起打電動、看室友不爽可以吵架。
+  3. 假日回家（祐廷是臺北人）。
+  4. 總圖新生導覽的內容（現在開始到結束就一個按鈕）。
+  5. 載妹墊：誰會坐、上車／下車／路上的一兩句。
+  6. 沛珊「欠的，還了。」要的班級群組：誰在群組、什麼時候加入。
+  8. **立繪大圖（使用者 2026-10-16：「跟BB要大圖他有」）**：請 BB-B 把 06 標準圖的原始大圖（或五位女主角各自的單人大圖）放進企劃分支 `docs/story_planning/art_reference/`，在交接板寫一行；LAWWW-B 裁成 `assets/portraits/<id>/campus/neutral.webp`（透明背景）。在那之前遊戲裡保留舊立繪。
+  7. 校外單獨約會（AA_128／BB_128）：使用者說「AA-B/BB-B 互審交接後再做」。
+
+### 進度（LAWWW-B，2026-10-15 約 23:50 UTC；分支 `claude/modest-rubin-2lyp7g`）
+
+照上一班清單做（使用者 23:2x：「你繼續做沒完成的那些」）。**都沒有發布**；線上照舊 v9.7 `313d620`。
+- **D75（使用者 23:1x）**：跨帳號、已交班的工作階段一律不傳訊息，只用 GitHub（`ba8b225`、`fce8324`）。LAWWW2-B 已上線（`session_01GV1WG3UeT2DhuDpxeWJsvD`，分支 `claude/funny-albattani-iawshm`），已抄進值班表（`6212adb`）。它的 `f196f84`（同一件規則）沒有合併，因為會一起帶進還沒整合的美術；已請它合併我的 `fce8324`。
+- **第 1 項：AA 的 P0 課堂提問——做完**（`0feac47`）：
+  - 課表匯入帶進 `ask`；`exam_bank.js`、`syllabus.js` 照企劃分支 `0d278bb` 重新匯入（69 題課堂提問，askedIn 和 syllabus 一致）。
+  - `CLS.classAsk`：那堂課最後「（下課前，教授在黑板角落寫了一題。）」→ 題幹＋選項（題庫原文、不洗牌）→「答案是（X）。」＋使用者給的考點／解析 → 這學期第一次時教授「期末考，會考這樣的題目。」。不計分；第二格短片段不問。題目是使用者的，所以不看 BB 課堂內容的審查（69 題裡 4 題在還沒審查的週）。
+  - 測試：`tests/class_ask_unit.js`（修改前失敗）；`aa130_exam_unit` 的 EXAM_MIX 3_2 一段因為題庫有真的課堂題，改成先暫時拿掉真的 askedIn（使用者看過這個修改，還沒說要不要還原）。
+  - 瀏覽器（手機模擬）：`tools/shots/class_ask_screen.py` 直向、橫向都排得下，題目、選項、答案、教授那句都出現（[捷徑] 直接呼叫 classAsk）。
+  - **給 AA（AA-B）**：課堂提問已接上，SHA `0feac47`（之後的修正在同一條分支）。跨帳號不傳訊息；AA-B 上線後請讀這一段。
+- **第 5 項 LAWWW2 回報**（`b2ca5b6`、`3fbaca9`）：麵店價目板縮字；女舍門口晚上的路人改站著（原本 read＝坐姿）；長椅旁加路燈；博雅牆上方形光斑＝室內晚上的太陽（0.12）還在投影，關投影就不見（對照截圖），改成室內晚上太陽 0。整合 noodle_table v2（`dcc4cf7` 的兩張圖＋Blender 腳本，`build.py` 開始複製 `assets/bg/`，LICENSES 加一列）。
+- **第 4 項 zone_memory**：騎腳踏車的路人換區域時沒有把人物還給 VRM pool（一般 NPC 有）——已補 `CHAR.release`；瀏覽器重跑中。
+- **第 6 項**：B4／B5 拿掉 `legal_review`（BB 15:52、BB_105）；重訪日 1 補阿哲、以安、語彤、小語、芯慈（AA `2100018`）；W3b 不讓步的晚上（BB_96 2-4、BB `137bf31` 三篇校刊投書；每兩週 20:30 讀書會群組；手機長訊息折起來，`tests/v2_w3b_unit.js`）。
+  - **沒做**：沛珊「欠的，還了。」——BB 15:59 說改用班級群組「法律系一年級」，但遊戲裡沒有班級群組（要決定誰在群組、什麼時候加入），等 BB-B 給規格。
+- **第 3 項**：`flow_classes` A 段改成週四民法總則；`flow_course_choice` 改寫成大四上（現在只有大四上有選修）。
+- 單元測試 109 個全過。**瀏覽器佇列在跑**（scratchpad，結果不在 GitHub）：博雅修正後重拍、女舍長椅夜景、zone_memory、flow_classes、考試真實流程（新 `tools/shots/exam_real_flow.py`）、flow_course_choice、main_day12、first_meet、playtest_fixes、evtest。
+
 ### 接班（LAWWW-B 帳號 B，2026-10-15 23:02 UTC）
 
 - 第一次真的換到帳號 B。系統指定的分支 `claude/modest-rubin-2lyp7g` 從 `main`（`4e203e8`：v9.7 `313d620`＋使用者推的 P0 換班規則兩個 commit）開出；把 `claude/confident-ritchie-8rwh7t`（`c8b3eab`）用 merge 合進來（`450ffdb`）。衝突只有 `CLAUDE.md`、`docs/AI_SESSION_HANDOFF.md` 最上面：兩邊都有同一段「P0 緊急換班口令」，開發分支多一段「P0 使用者新訊息優先與期末考素材來源」，兩段都留（內容和開發分支相同）。

@@ -1,7 +1,8 @@
 """真實玩家流程：課表與每日上課（D52：AA_103／AA_104；D54 的測試要求）。不用 ?turbo。
 玩家操作一律走真的介面（觸控點地面、搖桿、互動按鈕、對話框、選項、手機按鈕、讀檔選單）；前置條件（讀檔到某天某時某地）用 [前置／捷徑] 標示。
-A. 正常走路：週五 12:55 在霖澤館二樓 201 門口 → 點「進入 201」→ 教授在講台 → 走到座位 → 坐下選「上課：法律與社會」→ 點對話 → 快轉到 15:10 下課
+A. 正常走路：週四 12:55 在霖澤館二樓 201 門口 → 點「進入 201」→ 教授在講台 → 走到座位 → 坐下選「上課：民法總則」→ 點對話 → 快轉到 15:10 下課
    → 起身 → 走到後門 → 離開教室（回到霖澤館二樓）；下課後教授離開教室。
+   （2026-10-15 改：法律與社會在 AA_130 課程調整刪掉了（bb6d2ee），原本的週五下午一沒有課；改用同一間 201、同一個時段的週四民法總則（周教授））
 B. 手機快速前往：週一 08:50 在校門口 → 點 📱 → 「今天」有 09:10 憲法 → 點「去教室」→ 到 201、時間有過（15 分鐘）→ 坐下上課 → 下課 12:10。
 C. 共同教學館 102：週四 08:50 在椰林大道 → 走到共同教學館門口 → 按門進館 → 自己走進 102（小班的語言教室）、走到空位旁 → 坐下「上課：大一英文」→ 下課 12:10；之後 14:00 打開手機：13:20 民法總則寫「沒去」。
    （2026-10-14 改：方案 A（D55）之後大一國文在博雅教學館 101——那一堂由 flow_boya_interior 測；共同教學館 101 這學期沒有排課）
@@ -66,8 +67,8 @@ async def main():
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
         # ---------- A：正常走路進 201、上課、下課、離開 ----------
-        run.setup('讀檔：第 3 天（9/19 週五）12:55，霖澤館二樓 201 門口 (-2.0,-6.0, 2F)；第一、二天主線已過')
-        await L.load_state(pg, {'zone': 'linze', 'hour': 12.92, 'day': DAY1_FRI, 'weekday': 5, 'weather': 'sunny', 'pos': {'x': -2.0, 'z': -6.0, 'lv': 1, 'yaw': 3.14}, 'flags': BASE_FLAGS})
+        run.setup('讀檔：第 9 天（9/25 週四）12:55，霖澤館二樓 201 門口 (-2.0,-6.0, 2F)；第一、二天主線已過')
+        await L.load_state(pg, {'zone': 'linze', 'hour': 12.92, 'day': DAY1_THU, 'weekday': 4, 'weather': 'sunny', 'pos': {'x': -2.0, 'z': -6.0, 'lv': 1, 'yaw': 3.14}, 'flags': BASE_FLAGS})
         await pg.wait_for_timeout(3500)
         # HUD 的「下一堂」跟著作息更新（game3d.js 每 30 幀一次：手機 60 fps 約半秒，SwiftShader 1–4 fps 要 8–30 秒）——等它出現再看內容，最多再等 60 秒
         # （2026-10-14 v9.6 回歸：讀檔後只等 3.5 秒，還沒輪到更新，讀到空字串）
@@ -76,28 +77,28 @@ async def main():
             hud = await pg.evaluate("(document.getElementById('nextClass')||{}).textContent||''")
             if hud: break
             await pg.wait_for_timeout(2000)
-        run.check('HUD 寫「現在可以上課：13:20 法律與社會（霖澤館 201）」', '13:20 法律與社會' in hud and '現在可以上課' in hud, hud)
+        run.check('HUD 寫「現在可以上課：13:20 民法總則（霖澤館 201）」', '13:20 民法總則' in hud and '現在可以上課' in hud, hud)
         s = await L.state(pg)
         run.check('門口出現「進入 201」按鈕', s['interact'].startswith('進入 201'), s['interact'])
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(4000)
         s = await L.state(pg)
         run.check('進到 201', s['zone'] == 'classroom', s['zone'])
-        prof = await pg.evaluate("!!(GAME.E.npcs.find(n=>n.charId==='prof_huang'||n.id==='prof_huang'))")
-        run.check('黃教授在講台（課表：週五下午一 法律與社會）', prof)
+        prof = await pg.evaluate("!!(GAME.E.npcs.find(n=>n.charId==='prof_zhou'||n.id==='prof_zhou'))")
+        run.check('周教授在講台（課表：週四下午一 民法總則）', prof)
         studs = await pg.evaluate("GAME.E.npcs.filter(n=>n.clsStudent).length")
         run.check('座位上有同學（上課時間）', studs >= 6, str(studs))
         await run.shot(pg, 'A_classroom_before')
-        h0, s = await sit_and_attend(pg, cdp, run, '法律與社會')
+        h0, s = await sit_and_attend(pg, cdp, run, '民法總則')
         rec = await pg.evaluate(REC_JS)
         run.check('上完課：時間快轉到 15:10（下課）', s['hour'] >= 15.15 and s['hour'] < 15.6, f"{h0} → {s['hour']}")
-        run.check('紀錄：法律與社會 上過了、出席 1 次', any(':law_society:' in k for k in rec['done']) and rec['attend'].get('law_society') == 1, json.dumps(rec, ensure_ascii=False))
+        run.check('紀錄：民法總則 上過了、出席 1 次', any(':civ_general:' in k for k in rec['done']) and rec['attend'].get('civ_general') == 1, json.dumps(rec, ensure_ascii=False))
         await run.shot(pg, 'A_after_class')
         # 下課後教授先走到最近的門口才離開（v9.6 的 2e964bb：時段結束的人不會在眼前消失）——原本只等 5 秒就檢查他不在了，跟這個行為對不上；
         # 改成等他走出去，並記下途中是不是「要離開」（走向出口）。判斷標準：他最後要離開教室。最多等 5 分鐘：SwiftShader 約 1 fps、每幀最多 0.1 秒遊戲時間，
         # 作息（story3d.js 的 refreshSchedule，每 3 秒遊戲時間）在這裡約 30 秒才輪到一次——開始走一次、走到門口再一次，加上從講台走到後門（約 14 m、上台階）的時間
         gone, seen_leaving, t0, st = False, False, time.time(), None
         while time.time() - t0 < 300:
-            st = await pg.evaluate("(()=>{ const n=GAME.E.npcs.find(n=>n.charId==='prof_huang'||n.id==='prof_huang'); return n?{leaving:!!n.leaving,x:+n.obj.position.x.toFixed(2),z:+n.obj.position.z.toFixed(2)}:null; })()")
+            st = await pg.evaluate("(()=>{ const n=GAME.E.npcs.find(n=>n.charId==='prof_zhou'||n.id==='prof_zhou'); return n?{leaving:!!n.leaving,x:+n.obj.position.x.toFixed(2),z:+n.obj.position.z.toFixed(2)}:null; })()")
             if st is None: gone = True; break
             seen_leaving = seen_leaving or st['leaving']
             await pg.wait_for_timeout(2000)
