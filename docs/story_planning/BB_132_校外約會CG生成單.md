@@ -54,8 +54,8 @@
 | 10 | D04 西門町 底圖（**通過**，`d04_base_night.webp`、`D04_coords.json`；店面玻璃裡的小人影 BB 補掉） | D07 景美紀念園區 底圖（**通過**，`d07_base_afternoon.webp`、`D07_coords.json`） |
 | 11 | BCG-45 可昕 4/24 生日（**通過**，`cg_approved/cg_birthday_tassel_kexin.webp`） | D15 陽明山 底圖（**通過**，`d15_base_night.webp`、`D15_coords.json`；招牌條紋 BB 降成白色燈箱） |
 | 12 | D08 動物園 底圖（**通過**，`d08_base_morning.webp`、`D08_coords.json`） | D10 碧潭 底圖（**通過**，`d10_base_dusk.webp`、`D10_coords.json`；下方是水面，人物用近景） |
-| 13 | CG-24 以安 西洋情人節（已給使用者） | CG-25 語彤 中秋（已給使用者） |
-| 14 | D11 新北投 底圖（AA） | D12 大稻埕 底圖（AA） |
+| 13 | CG-24 以安 西洋情人節（**通過**，`cg_approved/cg_valentine_taichung_heroine01.webp`） | CG-25 語彤 中秋（**通過**，`cg_approved/cg_pomelo_moon_heroine03.webp`；胸口小假字 BB 補掉） |
+| 14 | D11 新北投 底圖（AA，已給使用者） | D12 大稻埕 底圖（AA，已給使用者） |
 | 15 | D14 漁人碼頭 底圖（AA） | D16 北海岸 底圖（AA） |
 | 16 | D17 野柳 底圖（AA） | D19 金瓜石 底圖（AA） |
 | 17 | D20 烏來 底圖（AA） | D24 礁溪 底圖 |
