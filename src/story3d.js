@@ -1310,6 +1310,14 @@ const STORY = (function(){
       if(G.day>mEnd&&!PHONE.sent(G,'mx_tutor_gone')){ F.TUTOR_GONE=true; PHONE.at(G,mEnd+1,12,[M('名額給別人了。下次有，我再跟你說。')],'mx_tutor_gone'); } }
     if(F.JOB_TUTOR&&typeof OUT!=='undefined'){ const T=CALENDAR.termOf(G.day); if(T&&T.id==='Y1S2'){ for(let w=T.week;w<=18;w++){ const d=termDay('Y1S2',w,2); if(d==null||d<=(F.tutorFromDay|0)||d*24+19<G.day*24+G.hour) continue; if(CALENDAR.holiday(d)||(CALENDAR.typhoon&&CALENDAR.typhoon(d))) continue;   /* 颱風假不能打工（AA_160 3-4 D）*/ const id='tutor_'+d; if(OUT.get(G,id)) break;
           OUT.plan(G,{id,ev:'ev_tutor_lesson',day:d,h:19,place:'學生家（公館附近）',title:'家教',travel:'騎車約 10 分鐘',travelH:1/6,no:'這週不去',back:'家教結束。'}); break; } } }
+    /* 柏翰的考古題小組（AA_40 翰 2、AA_177）：選「好。」以後每週六 16:00～18:00 總圖 B1 討論室（出發選單），到大二上第 16 週；沒去不扣分 */
+    if(F.BOHAN_GROUP==='yes'&&F.BOHAN_GROUP_DAY!=null&&typeof OUT!=='undefined'&&typeof CALENDAR!=='undefined'){ const t=CALENDAR.termOf(G.day), x=CALENDAR.dateOf(G.day);
+      if(t&&t.id==='Y2S1'&&t.week<=16&&x.wd===6&&G.day>F.BOHAN_GROUP_DAY&&!OUT.get(G,'bohan_group_'+G.day)&&h(G)<16.25) OUT.plan(G,{id:'bohan_group_'+G.day,ev:'ev_bohan_group_session',day:G.day,h:16,late:0.25,place:'總圖 B1 討論室',title:'考古題小組',travel:'走過去約 10 分鐘',travelH:1/6}); }
+    /* 以安新 8 的後半（AA_140 G13）：第 7 週週四讀書會演過以後，同一週週六 14:00 補讀；以安在麵店團群組約（週四 22:00）＋出發選單。沒加入讀書會的、在麵店團：週四 22:00 小語傳撕掉一半的規則＋以安一句（聽說）*/
+    { const thu=termDay('Y2S1',7,4), sat=termDay('Y2S1',7,6); if(thu&&sat&&PHONE.inGroup(G,'noodle_team')&&G.day>=thu&&G.day<=sat+1){ const N=(f,t)=>({th:'g:noodle_team',from:f,text:t});
+      if(G.events.done.ev_plg_rules&&!PHONE.sent(G,'plg_sat_ask')&&(G.day>thu||h(G)>=22)){ PHONE.at(G,thu,G.day===thu?Math.max(22,h(G)):22,[N('heroine_01','週六下午補讀一次。規則三條。')],'plg_sat_ask');
+        if(typeof OUT!=='undefined'&&!OUT.get(G,'plg_sat')&&(G.day<sat||h(G)<14.25)) OUT.plan(G,{id:'plg_sat',ev:'ev_plg_rules_after',day:sat,h:14,late:0.25,place:'萬才館研討室',title:'公法讀書會的補讀',travel:'走過去約 10 分鐘',travelH:1/6}); }
+      if(!(F.PUBLIC_LAW_GROUP||F.CLUB_public_law_group)&&!G.events.done.ev_plg_rules&&!PHONE.sent(G,'plg_torn')&&(G.day>thu||h(G)>=22)&&G.day<=thu+2){ PHONE.at(G,thu,G.day===thu?Math.max(22,h(G)):22,[N('yu','我把以安的規則撕掉一半了。'),N('heroine_01','……剩下的那一半是對的。')],'plg_torn'); if(typeof SOCIAL!=='undefined') SOCIAL.remember('heroine_01','HEARD_ABOUT','讀書會的規則被小語撕掉一半（聽說）'); } } }
     /* 學姊 W6 交接（BB_97 2-1）的家族群組那句：沒加入法服＝大二上第 1 週週三 21:30；社員到第 2 週都沒去讀書會＝第 2 週週三 21:30（照 AA_176 R7 的時段）*/
     if(PHONE.inGroup(G,'family_law')&&!PHONE.sent(G,'sis_handover_group')&&!(G.events.done&&G.events.done.ev_sis_handover)){ const mem=!!(F.lawclub||F.CLUB_lawclub_study), d=termDay('Y2S1',mem?2:1,3);
       if(d!=null&&(G.day>d||(G.day===d&&h(G)>=21.5))&&G.day<=d+14) PHONE.at(G,d,21.5,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'學姊卸任了！'},{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'收到。'}],'sis_handover_group'); }
