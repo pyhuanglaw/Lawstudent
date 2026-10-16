@@ -108,6 +108,15 @@ def bm_box(bm, x0, x1, y0, y1, z0, z1):
     return list({f for v in vs for f in v.link_faces})
 
 
+def rbox_bm(w, h, d, r=0.03, seg=3):
+    """倒角方塊的 bmesh（Blender 座標，中心在原點）：w＝遊戲 x、h＝遊戲 y、d＝遊戲 z 的長度；r＝倒角半徑"""
+    bm = bmesh.new(); bmesh.ops.create_cube(bm, size=1.0)
+    for v in bm.verts: v.co = Vector((v.co.x * w, v.co.y * d, v.co.z * h))
+    r = min(r, w / 2 - 1e-4, h / 2 - 1e-4, d / 2 - 1e-4)
+    if r > 1e-4: bmesh.ops.bevel(bm, geom=list(bm.edges) + list(bm.verts), offset=r, segments=seg, affect='EDGES', profile=0.5, clamp_overlap=True)
+    return bm
+
+
 class Mesh:
     """同一個材質的很多零件累積成一個網格（一次 draw call）；finish() 時做盒狀 UV"""
     def __init__(self, name, mat, tile=None):
@@ -131,6 +140,18 @@ class Mesh:
         res = bmesh.ops.create_uvsphere(self.bm, u_segments=seg, v_segments=rings, radius=r)
         for v in res['verts']: v.co.z *= sy
         bmesh.ops.translate(self.bm, verts=res['verts'], vec=g2b(*c)); return self
+
+    def rbox(self, x0, x1, y0, y1, z0, z1, r=0.03, seg=3):
+        """倒角方塊（近景的木條、檯面、門框：直角方塊看起來像積木）"""
+        bm = rbox_bm(abs(x1 - x0), abs(y1 - y0), abs(z1 - z0), r, seg)
+        self.add_bm(bm, Matrix.Translation(g2b((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2))); bm.free(); return self
+
+    def ell(self, c, rx, ry, rz, seg=14, rings=8, matrix=None):
+        """橢球（遊戲座標的三個半軸）；matrix＝再套一個旋轉（Blender 座標，繞橢球中心）"""
+        bm = bmesh.new(); bmesh.ops.create_uvsphere(bm, u_segments=seg, v_segments=rings, radius=1.0)
+        for v in bm.verts: v.co = Vector((v.co.x * rx, v.co.y * rz, v.co.z * ry))
+        m = Matrix.Translation(g2b(*c)) @ (matrix if matrix is not None else Matrix.Identity(4))
+        self.add_bm(bm, m); bm.free(); return self
 
     def add_bm(self, other, matrix=None):
         """另一個 bmesh（Blender 座標）複製進來，可以先套 matrix"""
@@ -195,6 +216,7 @@ def merge_by_material(root, keep=lambda ob: False, key=lambda ob: ''):
     groups = {}
     for ob in [o for o in root.children_recursive if o.type == 'MESH']:
         if keep(ob) or ob.data.users > 1 or len(ob.data.materials) != 1: continue
+        if ob.data.materials[0] is None: print('merge_by_material：沒有材質的物件', ob.name); continue
         groups.setdefault((ob.data.materials[0].name, key(ob)), []).append(ob)
     n_before = sum(len(v) for v in groups.values()); made = 0
     for (mname, k), obs in groups.items():
@@ -211,6 +233,216 @@ def merge_by_material(root, keep=lambda ob: False, key=lambda ob: ''):
         for kk, vv in props.items(): nob[kk] = vv
         made += 1
     print(json.dumps({'merge_by_material': {'objects_in': n_before, 'merged_into': made}}))
+
+
+def auto_vc_groups(root, matte, metal, gloss=None, protect=(), skip=lambda m: False):
+    """root 底下用到的所有純色材質（不透明、不發光、沒有貼圖）照金屬度／粗糙度分到頂點色材質（給 vc_consolidate）：
+    金屬 > 0.1 → metal；粗糙度 < 0.5 → gloss（沒給就 matte）；其他 → matte。protect（遊戲用材質名做事的）、字牌 *FACE* 用的材質、已經是頂點色的不動。"""
+    used, face = set(), set()
+    for ob in [root] + list(root.children_recursive):
+        if ob.type != 'MESH': continue
+        for ms in ob.material_slots:
+            if ms.material: (face if 'FACE' in ob.name else used).add(ms.material)
+    tg = {t.name for t in (matte, metal, gloss) if t}; out = {}
+    for m in used:
+        if m.name in tg or m.name in protect or m in face or skip(m): continue
+        fi = flat_info(m)
+        if not fi or fi['color'] is None: continue
+        r = m.node_tree.nodes['Principled BSDF'].inputs['Roughness'].default_value
+        out[m.name] = metal if fi['metal'] > 0.1 else (gloss if (gloss and r < 0.5) else matte)
+    return out
+
+
+def atlas_small(root, out_png, mat_name, protect=(), max_tris=600, max_rep=4, cell=256, rough=0.6, keep=lambda ob: False, skip=lambda m: False, only=None):
+    """小的貼圖材質（店內地板、條紋雨遮、菜單、書背…每個幾十個三角形、一個材質一次 draw call）合成一張貼圖集、一個材質。
+    只收：Base Color 接一張貼圖（可以經過一個乘色的 Mix）、不透明、不發光、沒有 alpha 貼圖、三角形 ≤ max_tris、UV 範圍 ≤ max_rep 格（重複的貼圖在格子裡先鋪好）。
+    法線、粗糙度貼圖不收（小東西看不出來；粗糙度用 rough）。protect（遊戲用材質名做事的）、字牌 *FACE* 的材質、keep(ob) 的物件不動。
+    回傳收進去的材質名。要在 merge_by_material 之前或之後都可以；之後再 merge_by_material 一次，同一個貼圖集材質的網格會合成一個。"""
+    import numpy as np
+    objs, _seen = [], set()   # 同一個網格（instancing 的原型）只處理一次
+    for ob in [root] + list(root.children_recursive):
+        if ob.type == 'MESH' and not keep(ob) and ob.data.name not in _seen: _seen.add(ob.data.name); objs.append(ob)
+    face_m = {ms.material.name for ob in [root] + list(root.children_recursive) if ob.type == 'MESH' and 'FACE' in ob.name for ms in ob.material_slots if ms.material}
+    def src_of(m):
+        if not (m and m.use_nodes) or m.name in protect or m.name in face_m or skip(m) or (only is not None and m.name not in only): return None
+        b = m.node_tree.nodes.get('Principled BSDF')
+        if b is None or b.inputs['Alpha'].is_linked or b.inputs['Alpha'].default_value < 0.999 or not b.inputs['Base Color'].is_linked: return None
+        es = b.inputs.get('Emission Strength')
+        if b.inputs['Emission Color'].is_linked or (es is not None and es.default_value > 0 and max(b.inputs['Emission Color'].default_value[:3]) > 0): return None
+        n = b.inputs['Base Color'].links[0].from_node; tint = (1.0, 1.0, 1.0)
+        if n.bl_idname == 'ShaderNodeMix':
+            l6 = n.inputs[6].links
+            if not l6 or n.inputs[7].is_linked: return None
+            tint = tuple(n.inputs[7].default_value[:3]); n = l6[0].from_node
+        if n.bl_idname != 'ShaderNodeTexImage' or n.image is None or n.inputs['Vector'].is_linked: return None   # 用 Mapping 節點挑貼圖一塊的（招牌設計稿）不收
+        return n.image, tint
+    cand = {}   # 材質名 → [image, tint, tris, [(ob, poly idx)…], uv bbox]
+    for ob in objs:
+        me = ob.data; uvl = me.uv_layers.active
+        if uvl is None: continue
+        for p in me.polygons:
+            m = me.materials[p.material_index] if p.material_index < len(me.materials) else None
+            if m is None: continue
+            if m.name not in cand:
+                s_ = src_of(m); cand[m.name] = None if s_ is None else [s_[0], s_[1], 0, [], [1e9, 1e9, -1e9, -1e9]]
+            c = cand[m.name]
+            if c is None: continue
+            c[2] += len(p.vertices) - 2; c[3].append((ob, p.index))
+            fu = min(uvl.data[li].uv[0] for li in p.loop_indices); fv = min(uvl.data[li].uv[1] for li in p.loop_indices)   # UV 是世界座標（box_uv）：每個面平移整數格到 0 附近（貼圖重複，看起來一樣）
+            for li in p.loop_indices: uvl.data[li].uv = (uvl.data[li].uv[0] - math.floor(fu + 1e-4), uvl.data[li].uv[1] - math.floor(fv + 1e-4))
+            for li in p.loop_indices:
+                u, v = uvl.data[li].uv; bb = c[4]; bb[0] = min(bb[0], u); bb[1] = min(bb[1], v); bb[2] = max(bb[2], u); bb[3] = max(bb[3], v)
+    sel, skipped = [], []
+    for nm, c in cand.items():
+        if c is None: continue
+        u0, v0 = math.floor(c[4][0] + 1e-4), math.floor(c[4][1] + 1e-4); ru, rv = max(1, math.ceil(c[4][2] - 1e-4) - u0), max(1, math.ceil(c[4][3] - 1e-4) - v0)
+        if c[2] > max_tris or ru > max_rep or rv > max_rep: skipped.append((nm, c[2], ru, rv)); continue
+        sel.append((nm, c, u0, v0, ru, rv))
+    print(json.dumps({'atlas_small_skipped': skipped}, ensure_ascii=False))
+    if len(sel) < 2: print(json.dumps({'atlas_small': 0})); return []
+    n = len(sel); cols = math.ceil(math.sqrt(n)); rows = math.ceil(n / cols); W, Hh = cols * cell, rows * cell; pad = 3
+    atlas = np.zeros((Hh, W, 4), np.float32); atlas[..., 3] = 1.0
+    for k, (nm, c, u0, v0, ru, rv) in enumerate(sel):
+        img, tint = c[0], c[1]; w0, h0 = img.size; px = np.array(img.pixels[:], np.float32).reshape(h0, w0, img.channels)[..., :3]   # Blender 的像素：第 0 列在下面
+        if img.colorspace_settings.name == 'sRGB': px = np.where(px <= 0.04045, px / 12.92, ((px + 0.055) / 1.055) ** 2.4)
+        px = px * np.array(tint, np.float32)
+        tiled = np.tile(px, (rv, ru, 1)); inner = cell - 2 * pad
+        yi = (np.arange(inner) + 0.5) / inner * tiled.shape[0]; xi = (np.arange(inner) + 0.5) / inner * tiled.shape[1]
+        cellimg = tiled[yi.astype(int)[:, None], xi.astype(int)[None, :]]
+        cellimg = np.pad(cellimg, ((pad, pad), (pad, pad), (0, 0)), mode='edge')
+        cx, cy = (k % cols) * cell, (k // cols) * cell
+        atlas[cy:cy + cell, cx:cx + cell, :3] = cellimg
+        c.append((cx, cy))
+    srgb = np.where(atlas[..., :3] <= 0.0031308, atlas[..., :3] * 12.92, 1.055 * np.power(np.clip(atlas[..., :3], 0, None), 1 / 2.4) - 0.055)
+    from PIL import Image as _I
+    _I.fromarray((np.clip(srgb[::-1], 0, 1) * 255).astype(np.uint8)).save(out_png)
+    am = bpy.data.materials.new(mat_name); am.use_nodes = True; nt = am.node_tree; bs = nt.nodes['Principled BSDF']; bs.inputs['Roughness'].default_value = rough
+    tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(out_png); tx.interpolation = 'Linear'; nt.links.new(tx.outputs['Color'], bs.inputs['Base Color'])
+    for (nm, c, u0, v0, ru, rv) in sel:
+        cx, cy = c[5]
+        for ob, pi in c[3]:
+            me = ob.data; uvl = me.uv_layers.active; p = me.polygons[pi]
+            if am.name not in [mm.name for mm in me.materials if mm]: me.materials.append(am)
+            ai = [j for j, mm in enumerate(me.materials) if mm and mm.name == am.name][0]
+            for li in p.loop_indices:
+                u, v = uvl.data[li].uv
+                uvl.data[li].uv = ((cx + pad + (u - u0) / ru * (cell - 2 * pad)) / W, (cy + pad + (v - v0) / rv * (cell - 2 * pad)) / Hh)
+            p.material_index = ai
+    for me in {ob.data for (nm, c, u0, v0, ru, rv) in sel for ob, pi in c[3]}:   # 沒有面用的材質槽拿掉（merge_by_material 只合單一材質的網格）
+        used = {p.material_index for p in me.polygons}
+        for i in sorted(range(len(me.materials)), reverse=True):
+            if i not in used:
+                for p in me.polygons:
+                    if p.material_index > i: p.material_index -= 1
+                me.materials.pop(index=i)
+    print(json.dumps({'atlas_small': len(sel), 'materials': [s_[0] for s_ in sel], 'size': [W, Hh]}))
+    return [s_[0] for s_ in sel]
+
+
+def atlas_rows(root, out_jpg, mat_name, protect=(), max_tris=2500, max_rv=6, W=512, row=64, rough=0.6, keep=lambda ob: False, skip=lambda m: False, only=None):
+    """atlas_small 收不進去的（沿 u 重複很多次：條紋雨遮、店內地板、木頭）：一列一個材質、每列寬＝一個 u 週期（貼圖集整張的寬），
+    u 不用改（貼圖本來就沿 u 重複），v 擠進這一列（rv 個週期先鋪好）。列與列之間留邊；遠處的 mipmap 會混到隔壁列一點點（小東西看不出來）。"""
+    import numpy as np
+    objs, _seen = [], set()
+    for ob in [root] + list(root.children_recursive):
+        if ob.type == 'MESH' and not keep(ob) and ob.data.name not in _seen: _seen.add(ob.data.name); objs.append(ob)
+    face_m = {ms.material.name for ob in [root] + list(root.children_recursive) if ob.type == 'MESH' and 'FACE' in ob.name for ms in ob.material_slots if ms.material}
+    def src_of(m):
+        if not (m and m.use_nodes) or m.name in protect or m.name in face_m or skip(m) or (only is not None and m.name not in only): return None
+        b = m.node_tree.nodes.get('Principled BSDF')
+        if b is None or b.inputs['Alpha'].is_linked or b.inputs['Alpha'].default_value < 0.999 or not b.inputs['Base Color'].is_linked: return None
+        es = b.inputs.get('Emission Strength')
+        if b.inputs['Emission Color'].is_linked or (es is not None and es.default_value > 0 and max(b.inputs['Emission Color'].default_value[:3]) > 0): return None
+        n = b.inputs['Base Color'].links[0].from_node; tint = (1.0, 1.0, 1.0)
+        if n.bl_idname == 'ShaderNodeMix':
+            l6 = n.inputs[6].links
+            if not l6 or n.inputs[7].is_linked: return None
+            tint = tuple(n.inputs[7].default_value[:3]); n = l6[0].from_node
+        if n.bl_idname != 'ShaderNodeTexImage' or n.image is None or n.inputs['Vector'].is_linked: return None   # 用 Mapping 節點挑貼圖一塊的（招牌設計稿）不收
+        return n.image, tint
+    cand = {}
+    for ob in objs:
+        me = ob.data; uvl = me.uv_layers.active
+        if uvl is None: continue
+        for p in me.polygons:
+            m = me.materials[p.material_index] if p.material_index < len(me.materials) else None
+            if m is None: continue
+            if m.name not in cand:
+                s_ = src_of(m); cand[m.name] = None if s_ is None else [s_[0], s_[1], 0, [], 0.0]
+            c = cand[m.name]
+            if c is None: continue
+            c[2] += len(p.vertices) - 2; c[3].append((ob, p.index))
+            fv = min(uvl.data[li].uv[1] for li in p.loop_indices); fu = min(uvl.data[li].uv[0] for li in p.loop_indices)
+            for li in p.loop_indices: uvl.data[li].uv = (uvl.data[li].uv[0] - math.floor(fu + 1e-4), uvl.data[li].uv[1] - math.floor(fv + 1e-4))
+            c[4] = max(c[4], max(uvl.data[li].uv[1] for li in p.loop_indices))
+    sel = [(nm, c, max(1, math.ceil(c[4] - 1e-4))) for nm, c in cand.items() if c is not None and c[2] <= max_tris and math.ceil(c[4] - 1e-4) <= max_rv]
+    if len(sel) < 2: print(json.dumps({'atlas_rows': 0})); return []
+    pad = 4; rows_h = [row * rv + 2 * pad for (nm, c, rv) in sel]; Hh = sum(rows_h)
+    atlas = np.zeros((Hh, W, 3), np.float32); y = 0
+    for (nm, c, rv), rh in zip(sel, rows_h):
+        img, tint = c[0], c[1]; w0, h0 = img.size; px = np.array(img.pixels[:], np.float32).reshape(h0, w0, img.channels)[..., :3]
+        if img.colorspace_settings.name == 'sRGB': px = np.where(px <= 0.04045, px / 12.92, ((px + 0.055) / 1.055) ** 2.4)
+        px = px * np.array(tint, np.float32); tiled = np.tile(px, (rv, 1, 1)); inner = rh - 2 * pad
+        yi = ((np.arange(inner) + 0.5) / inner * tiled.shape[0]).astype(int); xi = ((np.arange(W) + 0.5) / W * w0).astype(int)
+        band = tiled[yi[:, None], xi[None, :]]; band = np.pad(band, ((pad, pad), (0, 0), (0, 0)), mode='edge')
+        atlas[y:y + rh] = band; c.append((y, rh)); y += rh
+    srgb = np.where(atlas <= 0.0031308, atlas * 12.92, 1.055 * np.power(np.clip(atlas, 0, None), 1 / 2.4) - 0.055)
+    from PIL import Image as _I
+    _I.fromarray((np.clip(srgb[::-1], 0, 1) * 255).astype(np.uint8)).save(out_jpg, quality=90)
+    am = bpy.data.materials.new(mat_name); am.use_nodes = True; nt = am.node_tree; bs = nt.nodes['Principled BSDF']; bs.inputs['Roughness'].default_value = rough
+    tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(out_jpg); nt.links.new(tx.outputs['Color'], bs.inputs['Base Color'])
+    touched = set()
+    for (nm, c, rv) in sel:
+        y0, rh = c[5]
+        for ob, pi in c[3]:
+            me = ob.data; uvl = me.uv_layers.active; p = me.polygons[pi]; touched.add(me)
+            if am.name not in [mm.name for mm in me.materials if mm]: me.materials.append(am)
+            ai = [j for j, mm in enumerate(me.materials) if mm and mm.name == am.name][0]
+            for li in p.loop_indices:
+                u, v = uvl.data[li].uv; uvl.data[li].uv = (u, (y0 + pad + v / rv * (rh - 2 * pad)) / Hh)
+            p.material_index = ai
+    for me in touched:
+        used = {p.material_index for p in me.polygons}
+        for i in sorted(range(len(me.materials)), reverse=True):
+            if i not in used:
+                for p in me.polygons:
+                    if p.material_index > i: p.material_index -= 1
+                me.materials.pop(index=i)
+    print(json.dumps({'atlas_rows': len(sel), 'materials': [s_[0] for s_ in sel], 'size': [W, Hh]}))
+    return [s_[0] for s_ in sel]
+
+
+def realize_small_instances(root, max_users=3, max_tris=2000, keep=lambda ob: False):
+    """數量少或很小的 instancing（同一個網格只用 1～3 次、或全部加起來不到 max_tris 個三角形）改成各自一份網格，
+    之後 split_by_material＋merge_by_material 才能合進大網格（instancing 每個原型每個材質一次 draw call，只擺一兩個的不划算）。"""
+    by = {}
+    for ob in root.children_recursive:
+        if ob.type == 'MESH' and ob.data.users > 1 and not keep(ob): by.setdefault(ob.data.name, []).append(ob)
+    n = 0
+    for name, obs in by.items():
+        me = obs[0].data; tris = sum(len(p.vertices) - 2 for p in me.polygons)
+        if len(obs) <= max_users or tris * len(obs) <= max_tris:
+            for ob in obs: ob.data = me.copy()
+            n += 1
+    print(json.dumps({'realize_small_instances': n}))
+
+
+def split_by_material(root, keep=lambda ob: False):
+    """不是 instancing、有好幾個材質的網格物件拆成一個材質一個物件（之後 merge_by_material 才合得進去）。有子物件的不拆。"""
+    bpy.context.view_layer.update(); n = 0
+    for ob in [o for o in root.children_recursive if o.type == 'MESH']:
+        if keep(ob) or ob.data.users > 1 or len(ob.data.materials) < 2 or ob.children: continue
+        me = ob.data; used = sorted({p.material_index for p in me.polygons})
+        for mi in used:
+            bm = bmesh.new(); bm.from_mesh(me)
+            bmesh.ops.delete(bm, geom=[f for f in bm.faces if f.material_index != mi], context='FACES')
+            nm = bpy.data.meshes.new(f'{me.name}_m{mi}'); bm.to_mesh(nm); bm.free()
+            nm.materials.clear(); nm.materials.append(me.materials[mi])
+            for p in nm.polygons: p.material_index = 0
+            no = bpy.data.objects.new(f'{ob.name}_m{mi}', nm); B.scene().collection.objects.link(no); no.parent = ob.parent; no.matrix_world = ob.matrix_world.copy()
+            for kk, vv in ob.items(): no[kk] = vv
+        bpy.data.objects.remove(ob); bpy.data.meshes.remove(me); n += 1
+    print(json.dumps({'split_by_material': n}))
 
 
 # ---------- 頂點色（商品、曬的衣服…：一個材質、顏色放在頂點色，一次 draw call） ----------
@@ -243,7 +475,7 @@ def vc_consolidate(root, groups):
     groups：{原材質名: 頂點色材質（vc_material／vc_metal 建的）}。每個面原本材質的顏色寫進頂點色 Col
     （金屬度不同時補償漫射：顏色 ×(1−原金屬度)/(1−新金屬度)，最多到 1）。instancing 原型的網格也處理（原型裡的零件合成一個材質）。
     原本就有頂點色的網格（外牆的牆色、曬的衣服）保留其他面的顏色。要在 merge_by_material 之前呼叫。"""
-    meshes = {ob.data for ob in root.children_recursive if ob.type == 'MESH'}
+    meshes = {ob.data for ob in [root] + list(root.children_recursive) if ob.type == 'MESH'}   # root 本身是網格的（腳踏車的車架）也算
     st = {'meshes': 0, 'faces': 0, 'materials': set()}
     for me in meshes:
         idx = [i for i, m in enumerate(me.materials) if m and m.name in groups]
@@ -294,3 +526,12 @@ class CMesh(Mesh):
 
     def cbox(self, x0, x1, y0, y1, z0, z1, hexcol, k=1.0):
         return self.paint(bm_box(self.bm, x0, x1, y0, y1, z0, z1), hexcol, k)
+
+    def crbox(self, x0, x1, y0, y1, z0, z1, hexcol, k=1.0, r=0.02, seg=2):
+        """倒角的頂點色方塊（櫃台、冰櫃這些近景的東西）"""
+        before = set(self.bm.faces); fs = bm_box(self.bm, x0, x1, y0, y1, z0, z1)
+        r = min(r, abs(x1 - x0) / 2 - 1e-4, abs(y1 - y0) / 2 - 1e-4, abs(z1 - z0) / 2 - 1e-4)
+        if r > 1e-4:
+            vs = list({v for f in fs for v in f.verts}); es = list({e for f in fs for e in f.edges})
+            bmesh.ops.bevel(self.bm, geom=es + vs, offset=r, segments=seg, affect='EDGES', profile=0.5, clamp_overlap=True)
+        return self.paint([f for f in self.bm.faces if f not in before], hexcol, k)

@@ -1,11 +1,11 @@
 {
- "objects": 40,
- "unique_meshes": 33,
+ "objects": 33,
+ "unique_meshes": 26,
  "tris": 35244,
  "tris_drawn": 37736,
- "materials": 57,
+ "materials": 60,
  "out": "assets/models/env/second_ai/cafe_exterior.glb",
- "bytes": 2837172,
+ "bytes": 2787612,
  "texres": 512,
  "night_mats": {
   "cafe_bulb": [

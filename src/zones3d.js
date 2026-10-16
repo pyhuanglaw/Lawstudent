@@ -810,7 +810,8 @@ const Z3 = (function(){
      名稱約定（見 cafe_exterior.py）：SIGN_FACE／ABOARD_FACE_*／MENU_FACE＝空白板面，字用 canvas 畫（自訂屬性帶文字）；
      CAFE_NIGHT 的材質夜間發光（TK.addNight）、CAFE_BOUNCE 的店內材質有燈光感（TK.bounce）；GLOW_* 空節點＝光暈位置（TK.glowSprite）。 */
   const CAFE_NIGHT={cafe_bulb:[0xfff1d6,2.4,1.0],cafe_lampglass:[0xffd49a,1.5,0.3],ext_glass_lit:[0xffd9a0,0.75,0]};
-  const CAFE_BOUNCE={cafe_int_floor:[0.35,0.7],cafe_int_plaster:[0.42,0.85],cafe_int_wood:[0.32,0.65],cafe_int_ceiling:[0.35,0.75],cafe_int_beam:[0.3,0.6],cafe_int_books:[0.4,0.75],cafe_int_shelf:[0.32,0.65],cafe_int_bar:[0.32,0.65]};   /* 白天店裡也開燈：從玻璃外看得到暖色的店內 */
+  /* cafe_int_atlas：溫州街效能第二輪把店內的地板、書、層架、吧台合成一張貼圖集（LAWWW2-B 35513f11）*/
+  const CAFE_BOUNCE={cafe_int_floor:[0.35,0.7],cafe_int_plaster:[0.42,0.85],cafe_int_wood:[0.32,0.65],cafe_int_ceiling:[0.35,0.75],cafe_int_beam:[0.3,0.6],cafe_int_books:[0.4,0.75],cafe_int_shelf:[0.32,0.65],cafe_int_bar:[0.32,0.65],cafe_int_atlas:[0.35,0.7]};   /* 白天店裡也開燈：從玻璃外看得到暖色的店內 */
   function cafeCanvas(w,h,draw){ const c=document.createElement('canvas'); c.width=w; c.height=h; draw(c.getContext('2d'),w,h); const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.flipY=false; t.anisotropy=8; return t; }   /* glTF 的 UV：flipY=false */
   const CAFE_SERIF='"Noto Serif TC","Songti TC","Noto Serif CJK TC","Source Han Serif TC",serif', CAFE_SANS='"Noto Sans TC","PingFang TC","Noto Sans CJK TC","Microsoft JhengHei",sans-serif';
   function cafeSignTex(d){ return cafeCanvas(2048,192,(x,w,h)=>{ x.fillStyle=d.bg||'#3b2a1e'; x.fillRect(0,0,w,h); const gr=x.createLinearGradient(0,0,0,h); gr.addColorStop(0,'rgba(255,240,220,0.06)'); gr.addColorStop(1,'rgba(0,0,0,0.12)'); x.fillStyle=gr; x.fillRect(0,0,w,h);
