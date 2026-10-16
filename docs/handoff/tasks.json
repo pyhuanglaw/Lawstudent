@@ -1609,7 +1609,7 @@
    "area": "V2",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "瀏覽器實玩驗收（使用者 10-16：v2 驗收和 BUG-01、02 一起持續推進）",
+   "next": "v9.8 候選 2（9508b534）回歸跑中：含 BUG-15（座位上課的課前／課後事件）；v2 經濟系朋友、可昕大一下、家教、K8 等都在候選裡",
    "priority": "P0",
    "first": {
     "term": "Y1S2",
@@ -10099,9 +10099,39 @@
    },
    "source": "AA-B 2026-10-16 05:17 回報",
    "authorized": "D79",
-   "sha": "",
+   "sha": "9508b534",
    "cause": "v9.7 起就有（main 的 classes3d.js 一樣跳過）",
    "evidence": ""
+  },
+  {
+   "id": "ART-POLISH",
+   "title": "現有 3D 美術品質修復與精修（人物五官與臉型、2D 設定圖辨識度、材質與光影、場景、遊戲視角下的比例遮擋穿模、效能）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "next": "LAWWW2-B：第 0 批遊戲內基準截圖 → 第 1 批人物臉、材質、臉部照明（人物交 BB-B 驗收 D59；src/ 共用程式做 patch 給 LAWWW-B）；新製作排到精修後面",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "開局",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 05:1x 直接給 LAWWW2-B（LAWWW2-B 轉述，05:14）",
+   "authorized": "使用者直接指示（LAWWW2-B）",
+   "sha": "",
+   "evidence": "",
+   "xai": {
+    "receiver": "LAWWW-B",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "使用者 05:1x 指示（LAWWW2-B 05:14 訊息）",
+    "acceptance": "每批遊戲實機畫面前後比較；人物 BB-B 驗收",
+    "ack": "ACK"
+   }
   }
  ]
 }
