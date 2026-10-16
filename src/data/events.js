@@ -1168,7 +1168,7 @@ const SMALLTALK={
   heroine_02:[{t:'「今天的豆子很酸，我不推。」',location:'cafe'},'「你有看過《東京物語》嗎？沒有？那我們沒得聊了——開玩笑。」',{t:'「外文系的期中是報告，法律系呢？……我聽說你們要寫到手斷掉。」',week:[6,9]}],
   heroine_03:['「……嗯。」',{t:'「三樓靠窗的燈壞了，你知道嗎。」',location:'library'},{t:'「我阿姨說你上次的麵沒吃完。」',if:{events:['ev_noodle_yutong']}}],
   heroine_04:[{t:'「欸不是，你手指好了沒？」',if:{memory:[{npc:'heroine_04',tag:'INVITED_CLUB'}]}},{t:'「阿凱昨天又通宵，你室友要看好他。」',if:{events:['ev_ziqing_club']}},
-              {t:'「期末成發你要來。這不是問句。」',if:{memory:[{npc:'heroine_04',tag:'INVITED_CLUB'}],stage:{npc:'heroine_04',min:'FAMILIAR'}},term:['Y1S2','Y2S2'],week:[10,13]}],   /* 手指痛＝學過和弦；成發在大一下、大二下第 14 週（AA_120 第 1 節、BB_96 4-4）*/
+              {t:'「期末成發你要來。這不是問句。」',if:{memory:[{npc:'heroine_04',tag:'INVITED_CLUB'}],stage:{npc:'heroine_04',min:'FAMILIAR'}},term:['Y1S2'],week:[10,13]}],   /* 手指痛＝學過和弦；成發在大一下、大二下第 14 週（AA_120 第 1 節、BB_96 4-4）。大二下的成發（Q9）還沒做，先只在大一下說（BB_134 1-8，AA-B 2026-10-16：先關，和 Q9 一起做時把 'Y2S2' 加回來）*/
   heroine_05:['「判決要看事實，不要只背結論。」',{t:'「法服週三晚上。來不來都可以，先來看一次。」',if:{notFlags:['lawclub']}},{t:'「……我沒事。只是沒睡。」',if:{stage:{npc:'heroine_05',min:'FAMILIAR'}}}],
   classmate_bohan:['「你有看今天的判決嗎？」',{t:'「我算過了，離第一科期中考還有{n}天。……我不是在倒數，是在排進度。」',midterm:[7,14],once:'term'}],   /* AA_120 7-1 第 1 項：{n}＝到這學期第一個期中考時段的天數（照課表和日曆，story3d.js 的 smallTalk），7～14 天才說、每學期一次 */
   classmate_xinci:[{t:'「筆記我還你了，你有收到嗎？」',if:{memory:[{npc:'classmate_xinci',tag:'LENT_NOTES'}]},once:true},/* AA_120 7-1 第 2 項：雙主修三個版本照她知道多少（ECON_PAST_SHARED）；到了雙主修事件就不再說 */
@@ -1270,7 +1270,8 @@ const STORY_EVENTS_V11=[
       {speaker:'npc_fangyt',expression:'neutral',text:'（停了一下）……她喜歡小津。你如果要約她，不要約好萊塢的。'},
       {speaker:'npc_fangyt',expression:'smile',text:'我不是叫你約她。我只是說。'},
       {mem:[{npc:'npc_fangyt',tag:'FANG_HINT',note:'他說了芷若高中的事'}]} ] },
-  { id:'ev_zhiruo_applied', title:'她交件了', participants:['heroine_02'], location:['cafe','campus'], trigger:'interact', priority:9, once:true, day_min:6, prereq:{memory:[{npc:'heroine_02',tag:'SHARED_SECRET'}],events:['ev_zhiruo_secret']}, background:'blur',
+  /* 芷若 Z7 舊版：沒有學期限制，大一下就可能觸發（她交換申請是大二的事）。BB_134 1-8、AA-B 2026-10-16：先關（off），V3-B18 照新版改寫時再開 */
+  { id:'ev_zhiruo_applied', off:true, title:'她交件了', participants:['heroine_02'], location:['cafe','campus'], trigger:'interact', priority:9, once:true, day_min:6, prereq:{memory:[{npc:'heroine_02',tag:'SHARED_SECRET'}],events:['ev_zhiruo_secret']}, background:'blur',
     dialogue:[ {speaker:'heroine_02',expression:'serious',text:'我交了。交換申請。昨天晚上十一點五十九分。'},{speaker:'heroine_02',expression:'embarrassed',text:'交完手在抖。跟我媽還沒說。'},{choice:[{text:'「恭喜。錄取再煩惱。」',consequences:{rel:{heroine_02:{trust:5,resp:3}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請，你說恭喜'}]}},{text:'「什麼時候跟家裡說？」',consequences:{rel:{heroine_02:{trust:4,comf:2}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請，你問家裡'}]},goto:'fam'}]},{goto:'end'},{label:'fam'},{speaker:'heroine_02',expression:'thinking',text:'錄取通知來的那天。如果沒錄取，就永遠不用說。……很懦弱吧。'},{speaker:'player',text:'不會。'},{label:'end'},{speaker:'heroine_02',expression:'smile',text:'謝謝。今天的咖啡我請。'} ] },
   // ── 語彤 arc ──
   { id:'ev_yutong_customer', title:'麵店的糾紛', participants:['heroine_03'], location:'noodle', trigger:'interact', priority:9, once:true, prereq:{memory:[{npc:'heroine_03',tag:'SHARED_MEAL'}]}, background:'blur',

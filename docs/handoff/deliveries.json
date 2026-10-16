@@ -3,9 +3,9 @@
  "note": "交付登記（D82）：每一筆交付都要對到 tasks.json 的任務；msg＝SENT／DELIVERED／ACK／ACTIONED（接收方有沒有回 ACK）；integration＝未整合／已整合待測試／已驗收／不整合／參考用。scannedThrough＝每條交付分支已經看過的最後一個 commit：check_handoff.py 只掃它以後的 commit（增量）。看過、不是交付的 commit 放 ignored。",
  "pattern": "交付|ART_APPROVED|READY_FOR_ART_REVIEW|MODEL_READY|組.{0,12}通過|閒聊階梯|交接包|法律審查|盤點|清查|裁定|規則檔",
  "scannedThrough": {
-  "origin/claude/funny-albattani-iawshm": "0910efbd",
-  "origin/claude/cool-heisenberg-o8kuqx": "ea004808",
-  "origin/claude/elegant-brown-fcos7n": "073c399b"
+  "origin/claude/funny-albattani-iawshm": "2b79dfc3",
+  "origin/claude/cool-heisenberg-o8kuqx": "56d5f1ec",
+  "origin/claude/elegant-brown-fcos7n": "4517c707"
  },
  "deliveries": [
   {
@@ -379,6 +379,126 @@
    "msg": "DELIVERED",
    "integration": "參考用",
    "note": "SYS-16 的處理；HV-4 後副本要更新"
+  },
+  {
+   "id": "DLV-1016-32",
+   "date": "2026-10-16T02:15Z",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "2b79dfc3",
+   "what": "美國公寓配置提案 us_apartment_layout.js（取代 us_dorm）",
+   "task": "SCN-US-01",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "以這份為準（LAWWW-B 02:2x 回覆）"
+  },
+  {
+   "id": "DLV-1016-33",
+   "date": "2026-10-16T02:15Z",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "8f9408eb／4517c707",
+   "what": "美國住處改校外學生公寓（AA 企劃＋BB_98）",
+   "task": "SCN-US-01、SCN-US-EV",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-34",
+   "date": "2026-10-16T02:15Z",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "442b98cb",
+   "what": "AA_112 政大場景對應（可昕線）",
+   "task": "SCN-KX-01",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-35",
+   "date": "2026-10-16T02:20Z",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "c56b407c",
+   "what": "待使用者生成圖片清單（D81 順序；第 0 節已通過只要接上）",
+   "task": "V2-CGX、ART-17、ART-14",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-36",
+   "date": "2026-10-16T02:20Z",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "（訊息）",
+   "what": "經濟系立繪 D59 驗收：韋綸、阿勳、唐睿、家豪通過；品妤要重切",
+   "task": "ART-09",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "8fbe1e1a 的 6 張"
+  },
+  {
+   "id": "DLV-1016-37",
+   "date": "2026-10-16T02:2xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "9a73250e／3689f8a0／34667526",
+   "what": "大二年度群戲 AA_143、v3 交付清單修正、以安新 8 對齊 CG-2",
+   "task": "V3-G11",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "從企劃線看到"
+  },
+  {
+   "id": "DLV-1016-38",
+   "date": "2026-10-16T02:2xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "56d5f1ec",
+   "what": "AA_144 交換延畢 X1～X8、國考新制",
+   "task": "V4-X18",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "從企劃線看到"
+  },
+  {
+   "id": "DLV-1016-39",
+   "date": "2026-10-16T02:2xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "e7dbb1df",
+   "what": "v0 交付清單：E36 休學後住臺北的家、編號對照 G43",
+   "task": "V0-A5、V0-B3",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-40",
+   "date": "2026-10-16T02:2xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "047416c6／a14996e1",
+   "what": "第 14、15 組底圖通過：D11、D12、D14、D16",
+   "task": "DATE-L11、DATE-L12、DATE-L14、DATE-L16",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "D81：約會底圖暫停（照遭遇順序）"
+  },
+  {
+   "id": "DLV-1016-41",
+   "date": "2026-10-16T02:2xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "aa4abac2",
+   "what": "BB_119 照 AA_140 第 0 節加有效版本指引（多重交往）",
+   "task": "V6-S1b",
+   "msg": "DELIVERED",
+   "integration": "參考用",
+   "note": ""
   }
  ],
  "ignored": [
@@ -391,6 +511,11 @@
    "sha": "f4469f6a",
    "branch": "origin/claude/funny-albattani-iawshm",
    "why": "LAWWW2-B 自己的交接紀錄（清查報告本身是 e3d6779f＝DLV-1016-10）"
+  },
+  {
+   "sha": "6c7d94b2",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "AA-B 的指示紀錄（不是交付）；D79 確認流程已在 CLAUDE.md"
   }
  ]
 }

@@ -898,7 +898,7 @@
    "area": "V0",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "等 AA-B 確認開局接法",
+   "next": "照 v0 交付清單第 1 節 A1～A6：標題的兩個開局、存檔 stage 欄位；舊存檔沒有 stage 一律當法律系開局（AA-B 02:13）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -5996,7 +5996,7 @@
    "area": "D14",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "—",
+   "next": "學姊伴侶期間改條件式（BB_122 4-2）；分手照 BB_122 C1～C4 檢查點（V4-G34）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -6038,7 +6038,7 @@
    "area": "SYS",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "告白、約會、邀約的前置",
+   "next": "M 階段對照照 AA_140 3-5：事件條件照用舊 8 階名稱；約會、告白、人物頁另用 AA_126 4-1 公式算 6 階（5＝朋友以上＋她的戀愛≥30；6＝好朋友＋她≥55＋祐廷≥30）；POSSIBLE_ROMANTIC_INTEREST、ROMANTIC_TENSION 不當門檻",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -6391,11 +6391,11 @@
   },
   {
    "id": "SCN-US-01",
-   "title": "美國交換宿舍（自己的房間、走廊、公用廚房、交誼區）",
+   "title": "美國公寓社區：祐廷單人戶（臥室＋客廳＋廚房＋衛浴＋陽台）＋社區外觀（使用者 10-16 更正：不是學校宿舍）",
    "area": "SCN",
    "owner": "LAWWW2",
    "status": "進行中",
-   "next": "LAWWW-B 可以走的區域；LAWWW2-B 查證＋家具組（並行，不擠前期）",
+   "next": "配置以 LAWWW2-B 的 src/data/us_apartment_layout.js（2b79dfc）為準；LAWWW-B 寫可以走的區域（並行）；LAWWW2-B Blender",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -6407,10 +6407,10 @@
     "parallel": true,
     "confirmed": false
    },
-   "source": "場景施工表（總表第 14 節）",
+   "source": "使用者 10-16 經 LAWWW2-B 轉達；AA-B 8f9408eb；BB_98 4517c707",
    "authorized": "D79",
    "sha": [
-    "4e13d63f"
+    "2b79dfc3"
    ]
   },
   {
@@ -6524,7 +6524,7 @@
    "area": "SCN",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "依賴 SCN-US-01／03、SYS-10、AA-B 確認",
+   "next": "時間用美國學期日期（AA_140 G24）：1/5 學姊抵達 US0、1/19 US1（巴士站→超市→搬進公寓）、第 4～5 週 US2（學姊那戶共用廚房，BCG-32）、第 6 週芝加哥、春假 US3、US4 先不做（等 BB-B 改雪與學姊回國）；香港朋友何俊朗（Long）同社區另一棟；交誼區＝社區會所自習室",
    "priority": "P2",
    "first": {
     "term": "Y3S1",
@@ -7804,7 +7804,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
-   "next": "LAWWW2-B 先做 ntu_soc、ntu_linze、ntu_avenue、wenzhou_tutoring、gongguan_luwei、dorm_roof；時段用途等 AA-B；trip_*、seaside_town 地點等 AA-B",
+   "next": "LAWWW2-B 做 3D 拍的 6 張（時段 AA-B 已給）；trip_sea＝D25、trip_oldtown＝D18、trip_mountain＝D09 夜晚版、seaside_town＝D13（約會底圖，字幕寫通稱）；其他等 AA-B 用途；BB-B 清單另有 ferris_wheel、xiaofu 兩個新 id",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -7887,8 +7887,8 @@
    "title": "可昕線還要政大圖書館、河堤、小教室，和「政大只做主要校園＋宿舍」衝突",
    "area": "SCN",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
-   "next": "等 AA-B 定替代場景（AA_140 3-5 可能已裁定）；河堤＝riverside",
+   "status": "待開工",
+   "next": "只改地點字幕、台詞不動：圖書館→自強十舍樓下長椅（nccu_dorm）；政大河堤→政大主要校園的路（nccu_campus）；大家去的河堤→riverside；小教室→通用 2D 教室（不分學校，字幕寫政大）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -7900,7 +7900,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "source": "LAWWW2-B 清查 e3d6779 五",
+   "source": "AA-B 02:15（AA_112 442b98cb）",
    "authorized": "D79"
   },
   {
@@ -7943,6 +7943,174 @@
     "confirmed": false
    },
    "source": "法律審查第 7 批",
+   "authorized": "D79"
+  },
+  {
+   "id": "BUG-12",
+   "title": "芷若 Z7 舊版（ev_zhiruo_applied）沒有學期限制，大一下就可能觸發",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "已先關（off:true）；V3-B18 照新版改寫時再開",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "大一下（不該出現）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_134（945e940a）1-8；AA-B 10-16 02:13 確認",
+   "authorized": "D79"
+  },
+  {
+   "id": "BUG-13",
+   "title": "子晴閒聊「期末成發你要來」邀去還沒做的大二成發",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "term 先只留 Y1S2（smalltalk_unit 有在舊版失敗的檢查）；Q9（V3-B12）做好時加回 Y2S2",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S2",
+    "week": 10,
+    "earliest": "Y1S2W10",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_134（945e940a）1-8；AA-B 10-16 02:13 確認",
+   "authorized": "D79"
+  },
+  {
+   "id": "V2-CGX",
+   "title": "接已通過沒接的 CG：芷若 Z3＝BCG-04、子晴 Q5＝BCG-11（cg_approved/）",
+   "area": "V2",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 BB-B 圖片清單第 0 節；BCG-21、BCG-27～29、CG-14、CG-15 也是已通過可接（看各自的事件學期）",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "Z3／Q5",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_134 1-3；BB-B c56b407c 第 0 節",
+   "authorized": "D79"
+  },
+  {
+   "id": "V1-ECHO",
+   "title": "大一的三個回聲：SIS_NO_STICKER、KAI_JOINS_TEST、W4 便條",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 BB_134 附錄的規格",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_134 1-4；AA-B 確認",
+   "authorized": "D79"
+  },
+  {
+   "id": "SYS-21",
+   "title": "presence：芷若大三上、大四在英國；學姊大三下在美國；沛珊大二下休學重考、大三起在別的學校；子晴大三下畢業後在工作室",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "不填的話她們一直在台大、也約得到；跟著各學期的作息表填",
+   "priority": "P1",
+   "first": {
+    "term": "Y2S2",
+    "week": null,
+    "earliest": "沛珊大二下休學",
+    "mainline": false,
+    "blocks": false,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_134 1-9；AA-B 確認",
+   "authorized": "D79"
+  },
+  {
+   "id": "V1-K1F",
+   "title": "K1 預設版改一行：「暑假那次學校沒人，不算。今天才是真的政大。我是今天的導遊。」",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "改 events.js K1 預設版那一行",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 7,
+    "earliest": "K1",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_140 3-5 F；AA-B 02:13",
+   "authorized": "D79"
+  },
+  {
+   "id": "V3-G11",
+   "title": "大二年度群戲（AA_143）、v3 交付清單修正（語彤 7／9／11 週次、社團博覽會大二版、法服對外值班）、以安新 8＝CG-2 對齊",
+   "area": "V3",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "v3 開工時照 AA_143、3689f8a0、34667526",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S1",
+    "week": 1,
+    "earliest": "Y2S1W01",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_143（9a73250e）、3689f8a0、34667526",
+   "authorized": "D79"
+  },
+  {
+   "id": "V4-X18",
+   "title": "交換延畢方案一 X1～X8（含大五上）、以安研究所日期、國考新制",
+   "area": "V4",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "照 AA_144；SYS-12 大五上日曆",
+   "priority": "P2",
+   "first": {
+    "term": "Y3S2",
+    "week": null,
+    "earliest": "選延畢的人（大三下）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_144（56d5f1ec）",
    "authorized": "D79"
   }
  ]
