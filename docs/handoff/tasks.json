@@ -8297,8 +8297,8 @@
    "title": "presence：芷若大三上、大四在英國；學姊大三下在美國；沛珊大二下休學重考、大三起在別的學校；子晴大三下畢業後在工作室",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "不填的話她們一直在台大、也約得到；跟著各學期的作息表填",
+   "status": "已整合待測試",
+   "next": "已填 characters.js presence（芷若 absent Y3S1/Y4S1/Y4S2 英國；學姊 absent Y3S2 美國；沛珊 until Y2S1、Y2S2 休學重考 kind leave、之後別的學校 kind elsewhere；子晴 until Y3S2、之後工作室）。STORY.presence 支援 kinds；邀約的「約不了」照 kind。沛珊大二下半熟、一盞照 BB_158 自己的那一句。單元測試 presence_unit／invite_people_unit／dl12_bb158_unit 通過；瀏覽器未測。v4（大三交換）時要再確認：玩家去美國那一學期學姊在不在同一個地方（AA-B）",
    "priority": "P1",
    "first": {
     "term": "Y2S2",
