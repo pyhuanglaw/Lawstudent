@@ -53,7 +53,7 @@ METAL = 0.40
 
 # ---- 顏色（sRGB）：底色不要太暗（遊戲沒有環境貼圖）；輪胎本來就暗 ----
 RUB_NEW = (31, 31, 33)
-RUB_OLD = (72, 70, 66)
+RUB_OLD = (54, 53, 50)
 DUST = (150, 143, 130)
 STEEL = (174, 176, 180)          # #aeb0b4：扳手、起子桿、套筒（金屬度 0.2）
 PEG = (134, 101, 70)             # 咖啡色硬質纖維板
@@ -292,29 +292,29 @@ def cracks(w, h, seed, n, t0, t1, length=(0.03, 0.08), margin=0.05):
 def paint_tread(name, old):
     w, h, S_, T_ = grid(name); PS, PT = 0.34, 0.13              # 一個重複的周長、胎面弧長（公尺）
     ps = w / PS; P = lambda s, t: (s * ps, (1 - t) * h)
-    gw = max(3, int(0.0058 * ps)); K = 6; sp = PS / K; lines, small = [], []
+    gw = max(3, int(0.0085 * ps)); K = 5; sp = PS / K; lines, small = [], []
     for k in range(K):
-        s0 = (k + 0.5) * sp; s1 = s0 + sp / 2                    # 上下兩半錯開半格（V 字的兩邊）
-        lines += [[P(s0, 0.56), P(s0 - 0.02, 0.74), P(s0 - 0.04, 0.93)], [P(s1, 0.44), P(s1 - 0.02, 0.26), P(s1 - 0.04, 0.07)]]
-        small += [[P(s0 + sp * 0.3, 0.66), P(s0 + sp * 0.3 - 0.014, 0.82)], [P(s1 + sp * 0.3, 0.34), P(s1 + sp * 0.3 - 0.014, 0.18)]]
+        s0 = (k + 0.5) * sp; s1 = s0 + sp / 2                    # 上下兩半錯開半格（V 字的兩邊）；胎肩那一截也有溝
+        lines += [[P(s0, 0.56), P(s0 - 0.022, 0.76), P(s0 - 0.034, 0.97)], [P(s1, 0.44), P(s1 - 0.022, 0.24), P(s1 - 0.034, 0.03)]]
+        small += [[P(s0 + sp * 0.32, 0.64), P(s0 + sp * 0.32 - 0.016, 0.84)], [P(s1 + sp * 0.32, 0.36), P(s1 + sp * 0.32 - 0.016, 0.16)]]
     m = np.maximum(wrap_lines(w, h, lines, gw, b=0.8 * SS), 0.6 * wrap_lines(w, h, small, max(2, gw // 2), b=0.6 * SS))
-    cg = np.exp(-((T_ - 0.5) / (0.0048 / PT * 0.6)) ** 2)            # 中間一條直溝
+    cg = np.exp(-((T_ - 0.5) / (0.0058 / PT * 0.6)) ** 2)            # 中間一條直溝
     grain = rubber_grain(w, h, 4); big = soft(w, h, 3 + old, 40, 10, wrap='x')
     if old:
         center = np.exp(-((T_ - 0.5) / 0.17) ** 2)
-        mo = np.maximum(m * (1 - 0.6 * center), 0.75 * cg)                                 # 胎面中間磨淺
-        col = rgb(RUB_OLD, 0.6 * grain + 0.5 * big, 0.06) * (1 - 0.34 * mo)[..., None]
+        mo = np.maximum(m * (1 - 0.45 * center), 0.8 * cg)                                 # 胎面中間磨淺
+        col = rgb(RUB_OLD, 0.6 * grain + 0.5 * big, 0.06) * (1 - 0.5 * mo)[..., None]
         dust_top = np.clip((T_ - 0.7) / 0.3, 0, 1) ** 1.5 * (0.6 + 0.4 * np.clip(soft(w, h, 7, 10, 3, wrap='x'), -1, 1))
-        col = mix(col, DUST, 0.3 * mo + 0.3 * dust_top + 0.05)
+        col = mix(col, DUST, 0.14 * mo + 0.22 * dust_top + 0.03)
         cr = cracks(w, h, 8, 10, 0.15, 0.85, (0.02, 0.05))
         col *= (1 - 0.35 * cr)[..., None]
-        rough = 0.86 + 0.06 * mo
+        rough = 0.88 + 0.06 * mo
     else:
         mm = np.maximum(m, cg)
-        col = rgb(RUB_NEW, 0.7 * grain + 0.3 * big, 0.06) * (1 - 0.6 * mm)[..., None]
+        col = rgb(RUB_NEW, 0.7 * grain + 0.3 * big, 0.06) * (1 - 0.7 * mm)[..., None]
         hi = np.clip(np.roll(mm, -2 * SS, axis=0) - mm, 0, 1)                             # 溝的上緣一點亮邊
         col += 9 * hi[..., None]
-        rough = 0.52 + 0.3 * mm + 0.04 * np.clip(big, -1, 1)
+        rough = 0.7 + 0.22 * mm + 0.04 * np.clip(big, -1, 1)                               # 新胎一點脫模光澤（太亮會反射天空、變灰）
     return to_img(col), rough
 
 
@@ -326,7 +326,7 @@ def paint_sidewall(name, old, dusty):
     bead = np.clip((0.09 - T_) / 0.09, 0, 1)
     if not old:
         col = rgb(RUB_NEW, 0.7 * grain + 0.3 * big, 0.05) * (1 - 0.22 * rings - 0.3 * ser - 0.1 * bead)[..., None]
-        rough = 0.5 + 0.12 * rings + 0.1 * ser - 0.1 * bead
+        rough = 0.66 + 0.12 * rings + 0.1 * ser - 0.08 * bead
         return to_img(col), rough
     col = rgb(RUB_OLD, 0.6 * grain + 0.5 * big, 0.05) * (1 - 0.14 * rings - 0.2 * ser)[..., None]
     cr = cracks(w, h, 13 + dusty, 9, 0.25, 0.85)
@@ -334,9 +334,9 @@ def paint_sidewall(name, old, dusty):
     n = np.clip(soft(w, h, 17 + dusty, 8, 2, wrap='x'), -1.5, 1.5)
     if dusty:
         dust = np.clip(0.35 + 0.35 * n, 0, 1) * (0.55 + 0.45 * T_) + 0.25 * rings
-        col = mix(col, DUST, 0.5 * dust)
+        col = mix(col, DUST, 0.36 * dust)
     else:
-        col = mix(col, DUST, 0.08 + 0.1 * rings + 0.05 * n)
+        col = mix(col, DUST, 0.05 + 0.08 * rings + 0.04 * n)
     return to_img(col), 0.86 + 0.04 * rings
 
 
@@ -346,23 +346,24 @@ def paint_peg(name, oily, holes=True):
     cell = w / 8.0 if holes else w / 2.5
     fib = soft(w, h, 101, 3, 0.8, wrap='xy'); mot = soft(w, h, 102 + oily, 40, 10, wrap='xy')
     col = rgb(PEG, 0.5 * fib + 0.6 * mot, 0.05)
-    rough = np.full((h, w), 0.74, np.float32)
+    rough = np.full((h, w), 0.74, np.float32); sm = np.zeros((h, w), np.float32)
     if oily:
         rng = np.random.default_rng(7); sm = np.zeros((h, w), np.float32)
-        for (ci, cj) in ((1, 5), (4, 2), (5, 6), (2, 1), (6, 4)):            # 幾個孔旁邊的手指油印（離開格子邊）
-            cx, cy = (ci + 0.5 + rng.uniform(-0.3, 0.3)) * cell, (cj + 0.5 + rng.uniform(-0.3, 0.3)) * cell
-            sm = np.maximum(sm, blob(X, Y, cx, cy, 0.42 * cell) * rng.uniform(0.5, 1.0))
+        for (ci, cj) in ((1.5, 5.2), (4.1, 2.0), (5.4, 5.8), (2.3, 1.6), (6.0, 3.6), (3.2, 4.4), (1.6, 3.0)):   # 孔旁邊的手指油印（離開格子邊，接起來看不出方格）
+            cx, cy = (ci + 0.5 + rng.uniform(-0.2, 0.2)) * cell, (cj + 0.5 + rng.uniform(-0.2, 0.2)) * cell
+            sm = np.maximum(sm, blob(X, Y, cx, cy, 0.33 * cell) * rng.uniform(0.6, 1.0))
+            dx = np.abs(X - cx); dy = Y - cy                                     # 孔下面往下滴的一小道
+            sm = np.maximum(sm, np.exp(-(dx / (0.06 * cell)) ** 2) * np.clip(1 - dy / (rng.uniform(0.6, 1.1) * cell), 0, 1) * (dy > 0) * 0.7)
         sm *= (0.65 + 0.35 * np.clip(soft(w, h, 103, 6, 2, wrap='xy'), -1, 1))
-        col = col * 0.88
-        col = mix(col, (64, 44, 28), 0.42 * sm)
-        rough -= 0.22 * sm + 0.06
+        col = mix(col, (60, 40, 25), 0.5 * sm)                                  # 底色和乾淨的一樣（不然一格一格看得出來），只多油印
+        rough -= 0.25 * sm
     if holes:
         fx = (X / cell) % 1 - 0.5; fy = (Y / cell) % 1 - 0.5; r = np.hypot(fx, fy) * cell; rh = 0.118 * cell
         hole = np.clip((rh + 0.6 - r) / 1.2, 0, 1)
         rim = np.exp(-((r - rh - 1.3) / 1.1) ** 2)
         lit = np.clip(fy / 0.118, 0, 1)                                          # 洞的下半看得到下緣的孔壁（光從上面來）
         hole_col = (1 - lit)[..., None] * np.array((18, 14, 10), np.float32) + lit[..., None] * np.array((70, 52, 36), np.float32)
-        col = col * (1 - (0.14 + 0.1 * oily) * rim)[..., None]
+        col = col * (1 - (0.14 + 0.12 * oily * (0.4 + sm)) * rim)[..., None]
         col = col * (1 - hole)[..., None] + hole_col * hole[..., None]
         rough = rough * (1 - hole) + 0.95 * hole
     return to_img(col), rough
@@ -524,12 +525,12 @@ def paint_rag():
     w, h, S_, T_ = grid('rag'); X, Y = S_ * w, T_ * h
     weave = 0.5 * np.sin(X / SS * 2.6) * np.sin(Y / SS * 2.6)
     wr = soft(w, h, 81, 14, 4) + 0.5 * soft(w, h, 82, 5, 1.5)
-    col = rgb((122, 130, 140), 0.4 * wr + 0.3 * weave + 0.4 * fine(w, h, 83), 0.07)
+    col = rgb((112, 118, 128), 0.4 * wr + 0.3 * weave + 0.4 * fine(w, h, 83), 0.07)
     rng = np.random.default_rng(84); oil = np.zeros_like(S_)
-    for _ in range(6):
-        oil = np.maximum(oil, blob(S_, T_, rng.uniform(0.15, 0.85), rng.uniform(0.15, 0.85), rng.uniform(0.06, 0.16)) * rng.uniform(0.6, 1.0))
+    for _ in range(8):
+        oil = np.maximum(oil, blob(S_, T_, rng.uniform(0.15, 0.85), rng.uniform(0.15, 0.85), rng.uniform(0.07, 0.17)) * rng.uniform(0.6, 1.0))
     oil = np.clip(oil * (0.7 + 0.5 * np.clip(soft(w, h, 85, 6, 2), -1, 1)), 0, 1)
-    col = mix(col, (40, 32, 24), 0.75 * oil)
+    col = mix(col, (36, 29, 22), 0.8 * oil)
     col = mix(col, (70, 66, 60), 0.3 * np.clip(1 - np.minimum(np.minimum(S_, 1 - S_), np.minimum(T_, 1 - T_)) / 0.05, 0, 1))
     return to_img(col), 0.92 - 0.35 * oil
 
@@ -542,7 +543,7 @@ def paint_deck():
     sh = (nm @ Lv) / Lv[2]
     dl = src_phys('plate', w, h, 1.6, 0.55, 0.45).mean(-1); dz = norm(dl - blur(dl, 6))
     raised = np.clip((1 - nm[..., 2]) * 6, 0, 1)
-    col = rgb((154, 158, 162), 0.25 * dz, 0.05) * np.clip(sh, 0.55, 1.35)[..., None]
+    col = rgb((140, 144, 148), 0.25 * dz, 0.05) * np.clip(sh, 0.55, 1.35)[..., None]
     trk = np.exp(-(Z / 0.06) ** 2)
     rng = np.random.default_rng(91)
     st = rng.normal(0, 1, (max(2, h // 2), max(2, w // 60))).astype(np.float32)
@@ -918,12 +919,15 @@ def to_blender(pm, name, mats, parent, angle=0.6):
 
 # ================= 1. 輪胎 =================
 def tire_profile(ri, ro, w):
-    """輪胎橫截面（r, y），逆時針：下胎側（胎唇→胎肩）、胎面（下胎肩→上胎肩，圓的）、上胎側（胎肩→胎唇）、內圈"""
-    hw, bw = w / 2, 0.36 * w; a = 0.028 if ro < 0.226 else 0.031; b = 0.94 * hw; sh = ro - a - ri
-    bot = [(ri, -bw), (ri + 0.13 * sh, -(bw + 0.009)), (ri + 0.62 * sh, -hw), (ri + sh, -b)]
-    crown = [(ri + sh + a * math.cos(p), b * math.sin(p)) for p in np.linspace(-math.pi / 2, math.pi / 2, 6)]
+    """輪胎橫截面（r, y）＝圓角矩形，逆時針：下胎側（胎唇→胎肩）、胎面（下胎肩圓角→略凸的胎面→上胎肩圓角）、上胎側（胎肩→胎唇）、內圈。
+    最後一個值是疊起來時接觸的半徑（胎側最寬的那一圈）"""
+    hw, bw, rc = w / 2, 0.36 * w, 0.35 * w / 2
+    bot = [(ri, -bw), (ri + 0.008, -(bw + 0.007)), (ri + 0.03, -0.985 * hw), (ro - rc, -hw)]
+    crown = [(ro - rc + rc * math.cos(a), -hw + rc + rc * math.sin(a)) for a in (1.5 * math.pi, 1.75 * math.pi)]
+    crown += [(ro, -hw + rc), (ro + 0.002, 0.0), (ro, hw - rc)]
+    crown += [(ro - rc + rc * math.cos(a), hw - rc + rc * math.sin(a)) for a in (0.25 * math.pi, 0.5 * math.pi)]
     top = [(r, -y) for r, y in reversed(bot)]
-    return bot, crown, top, [(ri, bw), (ri, -bw)], ri + 0.62 * sh
+    return bot, crown, top, [(ri, bw), (ri, -bw)], 0.5 * (ri + 0.03 + ro - rc)
 
 
 def tire(dims, kind, n=28, rep=4):
@@ -988,7 +992,8 @@ def tire_stack():
     gaps = []
     for p in placed:
         if p['stack'] != 'B': continue
-        q = xf(np.linalg.inv(p['M']), Pw); gaps.append(float((np.hypot(q[:, 0], q[:, 2]) - p['dims'][1]).min()))
+        q = xf(np.linalg.inv(p['M']), Pw)                                          # 到乙疊每條輪胎外圓柱的距離（正＝在外面）
+        gaps.append(float(np.maximum(np.hypot(q[:, 0], q[:, 2]) - p['dims'][1], np.abs(q[:, 1]) - p['dims'][2] / 2).min()))
     INFO['lean'] = {'center': [round(xl, 4), round(yl, 4), round(z, 4)], 'lean_deg': 14, 'min_gap_to_stack_B_m': round(min(gaps), 4),
                     'top_y': round(float(Pw[:, 1].max()), 4)}
     return pm
@@ -1138,25 +1143,25 @@ def tool_wall():
                          ((BOARD_X0, BOARD_Y0), (BOARD_X0, BOARD_Y1), (-1, 0, 0)), ((BOARD_X1, BOARD_Y0), (BOARD_X1, BOARD_Y1), (1, 0, 0))):
         quad(pm, [(p0[0], p0[1], BOARD_Z0), (p1[0], p1[1], BOARD_Z0), (p1[0], p1[1], BOARD_Z1), (p0[0], p0[1], BOARD_Z1)], [S('board_edge')()] * 4, wv)
     # 第一排：扳手 6 支（梅花端套在鉤子上）、起子架、套筒軌道、棘輪扳手
-    x = -1.075
+    x = -0.86
     for d, Lt in ((0.008, 0.125), (0.010, 0.145), (0.012, 0.165), (0.014, 0.19), (0.017, 0.215), (0.019, 0.24)):
         i, j = snap(x, 1.88); wrench(pm, i, j, d, Lt); x += 0.058 + 1.4 * d
     INFO['wrenches_end_x'] = round(x, 3)
-    ry, rx0, rx1 = 1.765, -0.50, -0.12
+    ry, rx0, rx1 = 1.765, -0.31, 0.07
     rbox(pm, rx0, rx1, ry - 0.012, ry, 0.030, 0.088, {'*': S('rail')}, r=0.002)
     for bx in (rx0 + 0.006, rx1 - 0.021):
         rbox(pm, bx, bx + 0.015, ry - 0.05, ry, BOARD_Z1, 0.034, {'*': S('rail')}, r=0.0015)
     for k, (hl, sl, col) in enumerate(((0.10, 0.10, 'sd_red'), (0.09, 0.075, 'sd_yellow'), (0.11, 0.15, 'sd_black'), (0.10, 0.125, 'sd_blue'), (0.085, 0.10, 'sd_red'))):
         screwdriver(pm, rx0 + 0.05 + k * 0.07, ry, 0.059, hl, sl, col)
-    INFO['socket_rail_x'] = [0.0, round(socket_rail(pm, 0.0, 1.905), 3)]
-    ratchet(pm, *snap(0.80, 1.945))
-    hook(pm, *hole(*snap(1.02, 1.90)))
+    INFO['socket_rail_x'] = [0.15, round(socket_rail(pm, 0.15, 1.905), 3)]
+    ratchet(pm, *snap(0.56, 1.945))
+    hook(pm, *hole(*snap(0.72, 1.90))); hook(pm, *hole(*snap(0.98, 1.62))); hook(pm, *hole(*snap(-1.04, 1.32)))
     # 第二排：鐵鎚（兩支鉤子）、捲尺（兩支鉤子）、鉗子 2 支、空鉤子
-    hammer(pm, *snap(-1.0, 1.50))
-    hook(pm, *hole(*snap(-0.72, 1.47)))
-    tape_measure(pm, *snap(-0.47, 1.48))
-    pliers(pm, *snap(0.18, 1.52), 'pl_red'); pliers(pm, *snap(0.36, 1.52), 'pl_blue')
-    hook(pm, *hole(*snap(0.64, 1.47))); hook(pm, *hole(*snap(0.88, 1.36)))
+    hammer(pm, *snap(-0.80, 1.50))
+    hook(pm, *hole(*snap(-0.60, 1.47)))
+    tape_measure(pm, *snap(-0.43, 1.48))
+    pliers(pm, *snap(-0.10, 1.52), 'pl_red'); pliers(pm, *snap(0.07, 1.52), 'pl_blue')
+    hook(pm, *hole(*snap(0.32, 1.47))); hook(pm, *hole(*snap(0.52, 1.36)))
     return pm
 
 
@@ -1391,19 +1396,25 @@ def oil_drum():
     out = [(0.0175, 0.80), (0.0185, 0.87), (0.026, 0.89), (0.07, 0.93), (0.13, 0.985), (0.19, 1.04), (0.199, 1.05), (0.201, 1.058), (0.196, 1.064)]
     inn = [(0.196, 1.064), (0.188, 1.056), (0.12, 0.99), (0.06, 0.935), (0.02, 0.895), (0.0145, 0.85), (0.0145, 0.80)]
     lathe_parts(pm, [(out, R('funnel_out')), (inn, lambda s, t: ruv('funnel_in', s, 1 - t))], 24, 2, M=T(bx, 0.0, bz))
-    # 桶蓋上一團沾油的抹布（隆起的一團）
-    rng = np.random.default_rng(9); rx, rz = RAG_DRUM; G = []
-    rings = [(0.0, 0.058), (0.35, 0.05), (0.7, 0.03), (1.0, 0.004)]
-    nseg = 12; jit = [1 + rng.uniform(-0.18, 0.18) for _ in range(nseg)]
+    # 桶蓋上一團沾油的抹布：皺成一團（輪廓不規則、幾道摺痕），邊緣貼著桶蓋
+    rx, rz = RAG_DRUM; Ng = 9; G = []
+    for a in range(Ng):
+        row = []
+        for b_ in range(Ng):
+            u, v = -1 + 2 * b_ / (Ng - 1), -1 + 2 * a / (Ng - 1)
+            dx, dz = u * math.sqrt(1 - v * v / 2), v * math.sqrt(1 - u * u / 2)        # 方格 → 圓盤
+            rho = min(1.0, math.hypot(dx, dz)); th = math.atan2(dz, dx)
+            Rr = 1 + 0.22 * math.sin(2 * th + 1.0) + 0.12 * math.sin(3 * th + 2.2)
+            x, z = rx + dx * 0.105 * Rr, rz + dz * 0.08 * Rr
+            crease = 0.011 * abs(math.sin(5.0 * dx + 2.0 * dz + 0.5)) + 0.008 * abs(math.sin(3.0 * dz - 4.0 * dx + 1.3))
+            hgt = (0.036 * (1 - rho ** 2) ** 0.8 + crease * (1 - rho ** 3)) if rho < 0.999 else 0.0
+            row.append((x, DRUM_LID_Y + 0.002 + hgt, z))
+        G.append(row)
     sub = PM()
-    for k in range(nseg):
-        a0, a1 = 2 * math.pi * k / nseg, 2 * math.pi * (k + 1) / nseg
-        def P(f, hgt, a, kk):
-            j = jit[kk % nseg]; return (rx + f * 0.10 * j * math.cos(a), DRUM_LID_Y + hgt * (1 + 0.25 * math.sin(kk * 2.1 + f * 5)) if f < 1 else DRUM_LID_Y + 0.003, rz + f * 0.075 * j * math.sin(a))
-        for (f0, h0), (f1, h1) in zip(rings, rings[1:]):
-            p = [P(f0, h0, a0, k), P(f1, h1, a0, k), P(f1, h1, a1, k + 1), P(f0, h0, a1, k + 1)]
-            if f0 == 0: p = [P(0, h0, 0, 0), p[1], p[2]]
-            sub.poly(p, [ruv('rag', 0.5 + (q[0] - rx) / 0.26, 0.5 + (q[2] - rz) / 0.26) for q in p], (0, 1, 0))
+    for a in range(Ng - 1):
+        for b_ in range(Ng - 1):
+            p_ = [G[a][b_], G[a][b_ + 1], G[a + 1][b_ + 1], G[a + 1][b_]]
+            sub.poly(p_, [ruv('rag', 0.5 + (q[0] - rx) / 0.3, 0.5 + (q[2] - rz) / 0.3) for q in p_], (0, 1, 0))
     pm.add(sub)
     return pm
 
