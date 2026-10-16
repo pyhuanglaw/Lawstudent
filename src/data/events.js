@@ -1554,6 +1554,27 @@ const STORY_EVENTS=[
       {label:'c'},{speaker:'唐睿',text:'對，而且——（停住）——這不是熱身，這是討債。'},{speaker:null,text:'全場笑。'},
       {label:'end'},{speaker:'kexin',expression:'smile',text:'（小聲）你接得比我想的好。'},
       {speaker:'社長',text:'新來的，下次還來嗎？'} ] },
+  /* ★E10「我們去總圖念書吧」——其實沒念多少（BB_104 8b-4；AA_154 第 117 行；固定核心）：10/15 22:30 可昕私訊邀（story3d.js），回「好。」＝10/16 晚上走進總圖三樓（library）就開始。
+     第一句旁白照前一晚有沒有去群組聚會（E10_EVE＝'went'；10/15 的聚會等 AA-B 給內容，現在一律是「群組裡一整晚都在聊天」）。邀約那則已經在手機上，事件從「隔天晚上，總圖三樓」開始。
+     E10_STUDY：先念書＝'study'；漫畫、字典＝'chat'。不答應、或 20:30 還沒到＝小福那一版（ev_y0_e10b）*/
+  { id:'ev_y0_e10', stage:'econ', title:'去總圖念書', participants:['kexin'], location:'library', trigger:'auto', term:['Y0S1'], weeks:[7], weekday:[3], time:[18.5,20.5], once:true, background:'blur',
+    prereq:{custom:G=>G.flags.E10_GO==='yes'&&!G.flags.E10_STUDY},
+    dialogue:[ {if:{flagIs:{E10_EVE:'went'}},speaker:null,text:'（前一天晚上，一群人在公館玩到很晚。回宿舍的路上，可昕傳來訊息。）'},
+      {unless:{flagIs:{E10_EVE:'went'}},speaker:null,text:'前一天晚上，群組裡一整晚都在聊天。'},
+      {speaker:null,text:'（隔天晚上，總圖三樓。她坐你對面，攤開微積分，看了五分鐘。）'},
+      {speaker:'kexin',expression:'teasing',text:'（小聲）假設總圖的書都會說話。哪一本最吵？'},
+      {choice:[{text:'「先念書。」',set:{E10_STUDY:'study'},goto:'s'},{text:'「漫畫。」',set:{E10_STUDY:'chat'},goto:'m'},{text:'「字典。」',set:{E10_STUDY:'chat'},goto:'d'}]},
+      {label:'s'},{speaker:null,text:'她點頭，低頭寫。一個小時後，你發現筆記的邊角多了一隻長頸鹿。'},{goto:'end'},
+      {label:'m'},{speaker:'kexin',expression:'smile',text:'它們本來就在說話。這題不算。'},{goto:'end'},
+      {label:'d'},{speaker:'kexin',expression:'neutral',text:'不對。字典什麼都知道，所以最安靜。'},
+      {label:'end'},{speaker:null,text:'（九點。你們幾乎沒念到。）'},
+      {speaker:'kexin',expression:'smile',text:'去小福吧。念書的成本，要用點心補。'} ],
+    after:(G,GM)=>{ if(G.hour%24<21) GM.advance(21-G.hour%24); } },
+  { id:'ev_y0_e10b', stage:'econ', title:'小福', participants:['kexin'], location:'any', trigger:'auto', term:['Y0S1'], weeks:[7], weekday:[3], time:[20.5,23.5], once:true, background:'blur',
+    prereq:{custom:G=>!G.flags.E10_STUDY&&!!G.flags.E10_ASKED},
+    dialogue:[ {scene:'小福',bg:'xiaofu'},
+      {speaker:'kexin',expression:'smile',text:'你不念書，我也不念了。'},
+      {set:{E10_STUDY:'chat'}} ] },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、
