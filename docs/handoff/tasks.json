@@ -1789,8 +1789,8 @@
    "title": "校慶（大二）、哲 2",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照交接包_v3 實作",
+   "status": "已整合待測試",
+   "next": "ev_fair_booth_y2（法服成員的攤位，AA_71 2-5）＋11/13 語彤群組訊息；哲 2：11/12 20:30 私訊（朋友以上）→ 出發選單 → ev_zhe_court_y2 三種幫法（LENT_NOTES_Y2／STUDIED_WITH_ZHE）；不回＝ev_zhe_court_skip；阿哲那晚的作息在籃球場。tests/v3_d8_unit.js。等 AA-B：沒加入法服的「路過」版、哲 2 前面祐廷那則的字；等 LAWWW2-B：ART-BG-COURT",
    "priority": "P2",
    "first": {
     "term": "Y2S1",

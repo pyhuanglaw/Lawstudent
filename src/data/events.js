@@ -2420,6 +2420,32 @@ const STORY_EVENTS=[
       {label:'seen'},{speaker:'heroine_03',expression:'neutral',text:'……你有注意到。'},{mem:[{npc:'heroine_03',tag:'NOTICED_EMPTY_SEAT',note:'大一下期中那週，他注意到她在總圖的位子空著'}]},{goto:'end'},
       {label:'why'},{speaker:'heroine_03',expression:'neutral',text:'說了你要來幫我顧店嗎？'},{speaker:'player',text:'……可以啊。'},{speaker:'heroine_03',expression:'smile',text:'你連蔥都不會切。'},
       {label:'end'} ] },
+  /* D8（交接包 v3 第 10 週）：校慶法服問答攤大二版（AA_71 2-5，BB 法律查核過：民法 §797、§798；台詞裡沒有人直接說出答案）＋哲 2 三種幫法（AA_40、AA_177 第 5 節）。
+     校慶：11/14（六）10:00～16:00 椰林大道同一排攤位、加入法服才在攤位裡（沒加入的「路過」版本等 AA-B 給字）；阿嬤第一句看大一有沒有遇過她（ev_sis_festival_booth）；
+       三選一結果一樣；學姊（和她「有點熟」以上）在攤位後面那一句；記 GRANDMA_TREE_Y2（大四校慶的回聲，交接包 v5 第 3b 節）。
+     哲 2：手機與出發選單在 story3d.js phoneRules（v3 D8）；2D 背景 ntu_court_night（ART-BG-COURT，沒有圖時是深色底＋字幕）。三個選項都不是錯的，不扣分 */
+  { id:'ev_fair_booth_y2', title:'法律問答攤（大二）', participants:[], location:'campus', trigger:'auto', term:['Y2S1'], weeks:[10], weekday:[6], time:[10,16], once:true, near:{x:-17.8,z:13.0,r:4.5},
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.fafuMember&&STORY.fafuMember(G)}, spawn:{npc:'heroine_05',at:{x:-17.0,z:12.2},pose:'idle'}, background:'blur',
+    dialogue:[ {if:{events:['ev_sis_festival_booth']},speaker:'阿嬤',text:'少年欸，去年那棵樹，你記得嗎？'},
+      {unless:{events:['ev_sis_festival_booth']},speaker:'阿嬤',text:'少年欸，去年你們這攤有個學姊，幫我看過樹的事。'},
+      {speaker:'阿嬤',text:'我照你們學姊講的，先去跟隔壁講。他拖了兩個月才剪。'},{speaker:'阿嬤',text:'剪了以後，長得更好。現在又伸過來了。'},{speaker:'阿嬤',text:'還掉了一堆芭樂在我家。我可以吃嗎？'},
+      {choice:[{text:'「芭樂是自己掉下來的，還是還長在樹上？」',set:{GRANDMA_Y2_ASK:'fruit'}},{text:'「樹枝伸過來，有擋到妳什麼嗎？」',set:{GRANDMA_Y2_ASK:'block'}},{text:'「這次妳跟隔壁講了嗎？」',set:{GRANDMA_Y2_ASK:'talk'}}]},
+      {speaker:null,text:'阿嬤三件都講了：掉下來的有，樹上的也有；擋到她曬衣服；這次還沒講。'},
+      {speaker:'player',text:'這幾件，答案不一樣。我寫下來。'},{speaker:'player',text:'隔週週六早上，值班的學長姊會在萬才館一樓。'},
+      {if:{stage:{npc:'heroine_05',min:'FAMILIAR'}},speaker:'heroine_05',expression:'neutral',text:'問得很好。先問事實，再找條文。'},
+      {speaker:'阿嬤',text:'好啦。這顆給你們。'},{speaker:null,text:'（一顆掉下來的芭樂）'},{set:{GRANDMA_TREE_Y2:true}} ] },
+  { id:'ev_zhe_court_y2', title:'籃球場', participants:['zhe'], location:'any', trigger:'outing', once:true, background:'ntu_court_night', hours:1,
+    dialogue:[ {speaker:'zhe',expression:'neutral',text:'（籃球場，一個人投籃）教授說，期末再沒過，我就要重修。'},{speaker:'zhe',expression:'neutral',text:'重修的時間跟練球撞。'},{speaker:'zhe',expression:'smile',text:'（投進）……沒事啦。'},
+      {choice:[{text:'「我筆記借你。」',set:{ZHE2:'notes',LENT_NOTES_Y2:true},consequences:{mem:[{npc:'zhe',tag:'LENT_NOTES_Y2',note:'大二上借他民法筆記'}]},goto:'n'},
+        {text:'「我陪你念。週二週四，麵店念完再吃。」',set:{ZHE2:'study',STUDIED_WITH_ZHE:true},consequences:{mem:[{npc:'zhe',tag:'STUDIED_WITH_ZHE',note:'大二上陪他念民法，週二週四麵店念完再吃'}]},goto:'s'},
+        {text:'「這個你要自己來。」',set:{ZHE2:'self'},goto:'f'}]},
+      {label:'n'},{speaker:'zhe',expression:'laugh',text:'你的筆記？……字好醜。'},{speaker:null,text:'他還是收下了。'},{goto:'end'},
+      {label:'s'},{speaker:'zhe',expression:'surprised',text:'你要陪我念？'},{speaker:null,text:'他停了一下。'},{speaker:'zhe',expression:'smile',text:'……好。我請。'},{goto:'end'},
+      {label:'f'},{speaker:'zhe',expression:'neutral',text:'嗯。我知道。'},{speaker:null,text:'他又投了一球。'},{speaker:'zhe',expression:'neutral',text:'……你講話跟我爸一樣。'},
+      {label:'end'} ] },
+  { id:'ev_zhe_court_skip', title:'上次沒事啦', participants:['zhe'], location:'noodle', trigger:'auto', term:['Y2S1'], once:true, npcPresent:'zhe', background:'blur',
+    prereq:{custom:G=>{ const F=G.flags||{}, d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2026-11-17'):null; return d!=null&&G.day>=d&&!!F.ZHE2_ASKED&&!F.ZHE2; }},
+    dialogue:[ {speaker:'zhe',expression:'smile',text:'上次沒事啦。'},{set:{ZHE2:'none'}} ] },
   /* ===================== 大二（交接包 v3）=====================
      D24 社團博覽會大二版（AA_170 第 1 節，AA-B 2026-10-16；第②級）：2026-09-16（三）、09-17（四）11:00～17:00，椰林大道同一排攤位（大一 club_expo_y1s1 的 spot），
      窗口內第一次走到攤位那一排。站哪一攤照大一加入的社團（CLUB_<id>）；加入不只一個＝選單選；站一個小時（不扣時段次數）。都沒加入＝走過、語彤遞傳單。
