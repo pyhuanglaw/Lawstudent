@@ -70,7 +70,8 @@ const INV=(function(){
   const live=iv=>iv.state==='accepted'||iv.state==='going'||iv.state==='offered'||iv.state==='changed';
   const clash=(G,who,day,h,stay,skip)=>(G.invites||[]).find(iv=>iv!==skip&&live(iv)&&iv.day===day&&(iv.who===who||who==null)&&Math.abs(iv.h-h)<Math.max(stay,(S.place(iv.place)||{}).stay||1)+0.25);
   /* 這個時間可不可以（不看關係）：開著、沒和別人約、作息沒事、不是半夜 */
-  const free=(G,id,P,day,h)=>h>=8&&h+P.stay<=23.5&&isOpen(P.zone,h,day)&&!clash(G,id,day,h,P.stay)&&!clash(G,null,day,h,P.stay)&&!busyAt(G,id,day,h,P.stay);
+  const winOk=(G,P,day,h)=>(!P.days||P.days.includes(wdOf(G,day)))&&(!P.hours||(h>=P.hours[0]-1e-6&&h+P.stay<=P.hours[1]+1e-6));   /* 只有某些星期、某段時間能約的地點（DL-12：半熟週末早上、一盞週三到週日下午）*/
+  const free=(G,id,P,day,h)=>h>=8&&h+P.stay<=23.5&&isOpen(P.zone,h,day)&&winOk(G,P,day,h)&&!clash(G,id,day,h,P.stay)&&!clash(G,null,day,h,P.stay)&&!busyAt(G,id,day,h,P.stay);
   S.freeAt=(G,id,P,day,h)=>free(G,id,P,day,h);   /* 這個時間本身可不可以（個人規則用：柏翰「九點十分」）*/
   /* 改天：從 h0 起找下一個可以的時間（同一天每 30 分鐘，之後三天的固定時間）*/
   S.nextFree=function(G,id,P,day,h0){ for(let h=Math.ceil(h0*2)/2; h<=22; h+=0.5) if(free(G,id,P,day,h)) return {day,h}; for(let k=1;k<=3;k++) for(const h of D().times.concat([10,14])) if(free(G,id,P,day+k,h)) return {day:day+k,h}; return null; };
@@ -82,7 +83,7 @@ const INV=(function(){
     if(P.rainTo&&day===G.day&&G.weather==='rain'){ const Q=S.place(P.rainTo); const ok=Q&&free(G,id,Q,day,h); return {res:'resched',why:'weather',alt:ok?{day,h,place:Q.id}:S.nextFree(G,id,P,day+1,10)}; }
     if(clash(G,null,day,h,P.stay)) return {res:'resched',why:'mine',alt:S.nextFree(G,id,P,day,h+0.5)};   /* 你那個時間已經約了別人 */
     const other=clash(G,id,day,h,P.stay); if(other) return {res:'resched',why:'booked',alt:S.nextFree(G,id,P,day,other.h+((S.place(other.place)||{}).stay||1))};
-    if(!isOpen(P.zone,h,day)||h+P.stay>23.5) return {res:'resched',why:'closed',alt:S.nextFree(G,id,P,day,h+0.5)};
+    if(!isOpen(P.zone,h,day)||!winOk(G,P,day,h)||h+P.stay>23.5) return {res:'resched',why:'closed',alt:S.nextFree(G,id,P,day,h+0.5)};
     const b=busyAt(G,id,day,h,P.stay); if(b){ const end=b.to<=24?b.to:b.to-24; return {res:'resched',why:'busy',act:b.act,alt:S.nextFree(G,id,P,day,end>h?end:h+0.5)}; }
     return {res:'accept'}; };
   /* ---------- 個性（INVITE_DATA.people；AA_70 第 2 節＋BB_121、BB_70，2026-10-14 第②級）----------
@@ -150,7 +151,7 @@ const INV=(function(){
       const ml=SO.meetLine?SO.meetLine(iv.who,P.id):null;   /* 見面時的旁白：地點×階段（BB_120 第 1 節；沒有那一格照舊） */
       if(lines&&lines.length){ for(const t of lines) await GM.say(who,t); } else if(ml) await GM.say(/^「/.test(ml)?who:null,ml); else await GM.say(null,'你和'+nm+P.verb.replace(/^去/,'在')+'。');
       await GM.fade(true); GM.advance(P.stay); await GM.fade(false); GM.caption('',[P.name,nm,'（'+(P.stay>=1?P.stay+' 小時':Math.round(P.stay*60)+' 分鐘')+'）'].join('・'),2600);
-      if(typeof SOCIAL!=='undefined'){ if(SOCIAL.remember) SOCIAL.remember(iv.who,P.memory,P.name); if(SOCIAL.activity){ SOCIAL.activity(iv.who,{cafe:'cafe',library:'library',noodle:'meal',wenzhou:'walk'}[P.id]||'cafe'); if(iv.by==='npc') SOCIAL.activity(iv.who,'acceptInvite'); } else if(SOCIAL.adjust) SOCIAL.adjust(iv.who,{fam:2}); }   /* AA_124 1-2：照地點（Café、總圖、吃飯、溫州街）；對方約的又赴約，信任 +1 */
+      if(typeof SOCIAL!=='undefined'){ if(SOCIAL.remember) SOCIAL.remember(iv.who,P.memory,P.name); if(SOCIAL.activity){ SOCIAL.activity(iv.who,{cafe:'cafe',library:'library',noodle:'meal',wenzhou:'walk',brunch:'meal',teahouse:'cafe'}[P.id]||'cafe'); if(iv.by==='npc') SOCIAL.activity(iv.who,'acceptInvite'); } else if(SOCIAL.adjust) SOCIAL.adjust(iv.who,{fam:2}); }   /* AA_124 1-2：照地點（Café、總圖、吃飯、溫州街）；對方約的又赴約，信任 +1 */
       { const by=SO.byeLine?SO.byeLine(iv.who):null; if(by) await SO.playSteps(GM,who,iv.who,by); }   /* 見面結束的一句：照現在的階段（AA_124 1-6、BB_120） */
       if(typeof EVENTS!=='undefined'&&EVENTS.habit){ EVENTS.habit('place:'+P.zone+':with:'+iv.who); if(P.kind==='meal') EVENTS.habit('meal:'+P.zone+':with:'+iv.who); }
       S.msg(G,iv.who,'和'+nm+'在'+P.name+'。',iv);
