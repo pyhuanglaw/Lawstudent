@@ -784,6 +784,15 @@ const STORY = (function(){
       if(mon16!=null&&F.E16_ROLE==='report'&&(G.day>=mon16||(G.day===mon16-1&&G.hour>=23))&&G.day<=mon16&&!PHONE.sent(G,'y0_e16_night')) PHONE.at(G,mon16-1,23,[{th:'p:kexin',from:'kexin',text:'你在寫嗎'},{th:'p:kexin',from:'kexin',text:'……我也是。'}],'y0_e16_night');
       if(mon16!=null&&!done16&&(G.day>mon16||(G.day===mon16&&G.hour>=12.5))&&G.day<=mon16+2&&!PHONE.sent(G,'y0_e16_absent')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
         F.E16_ROLE='absent'; PHONE.at(G,mon16,12.5,[{th:'g:'+gid,from:'econ_pinyu',text:'報告順利。你的那段，可昕替你講了。'}],'y0_e16_absent'); } }
+    /* E20 聖誕交換禮物（BB_153；AA_154 A36）：12/23（一）21:00 品妤群組；12/25（三）17:00 韋綸＋品妤；出發選單 12/25 19:00；沒去＝12/26 第一次經過社科院門口（events.js ev_y0_e20b），
+       18:00 以前沒經過＝20:00 可昕私訊「你的份，我放在你們宿舍一樓的信箱了。」→ 隔天早上拿到 GIRAFFE_KEYCHAIN */
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const wed17=termDay('Y0S1',17,3), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, D=id=>!!(G.events&&G.events.done&&G.events.done[id]);
+      if(wed17!=null&&(G.day>wed17-2||(G.day===wed17-2&&G.hour>=21))&&G.day<=wed17&&!PHONE.sent(G,'y0_e20_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,wed17-2,21,[{th:T,from:'econ_pinyu',text:'12/25 晚上七點，公館火鍋。禮物兩百以內。地址等一下傳。'}],'y0_e20_ask');
+        if(!OUT.get(G,'y0_e20')) OUT.plan(G,{id:'y0_e20',ev:'ev_y0_e20',day:wed17,h:19,late:0.25,place:'公館',title:'公館 19:00：聖誕交換禮物（火鍋）',travel:'走過去約 15 分鐘',travelH:0.25}); }
+      if(wed17!=null&&G.day===wed17&&G.hour>=17&&!PHONE.sent(G,'y0_e20_day')) PHONE.at(G,wed17,17,[{th:T,from:'econ_weilun',name:'韋綸',text:'走啦！今天不念書！'},{th:T,from:'econ_pinyu',text:'念。吃完回去念。'}],'y0_e20_day');
+      if(wed17!=null&&!F.GIRAFFE_KEYCHAIN&&!D('ev_y0_e20')&&!D('ev_y0_e20b')&&(G.day>wed17+1||(G.day===wed17+1&&G.hour>=18))&&!PHONE.sent(G,'y0_e20_mail')){ F.E20_MAILBOX=wed17+2; PHONE.at(G,wed17+1,20,[{th:'p:kexin',from:'kexin',text:'你的份，我放在你們宿舍一樓的信箱了。'}],'y0_e20_mail'); }
+      if(F.E20_MAILBOX!=null&&!F.GIRAFFE_KEYCHAIN&&G.day>=F.E20_MAILBOX) F.GIRAFFE_KEYCHAIN=true; }
     /* 校慶問答攤（BB_95 3-7，DL-04B）：前一天（週五）21:00 法服群組，學姊提醒；沒加入法服的玩家改成校園公告欄的旁白（AMBIENT 的 festEve）*/
     if(PHONE.inGroup(G,'lawclub_study')){ const fs=termDay('Y1S1',11,6); if(fs&&G.day===fs-1) PHONE.at(G,fs-1,21,[{th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'明天校慶，問答攤十點開。輪班表在記事本。'}],'fest_eve_lawclub'); }
     /* 家族聚餐（BB_95 3-8）：前一週 Kevin 在家族群組約；當晚 22:30 學姊訂正考古題；沒去的玩家 22:00 Kevin 貼資料夾、學姊說書會留給學弟 */
