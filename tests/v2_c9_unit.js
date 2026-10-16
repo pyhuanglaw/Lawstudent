@@ -52,7 +52,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   const choose=async(o,pick)=>{ setup(o); run(18,23.9); G.day=D.inv2; run(0,23.9); picks=[pick]; await STORY.springPrompt(GM); const h0=G.hour; run(h0,h0+0.3); return G; };
   { await choose({dating:true},'和可昕');
     const q=OUT.get(G,'kx_trip_y1s2');
-    check('選可昕：SPRING_Y1＝kexin；4/3 8:00 出遊（ev_kexin_trip_spring_y1）；沒有延到暑假',G.flags.SPRING_Y1==='kexin'&&q&&q.day===D.d0&&q.h===8&&q.ev==='ev_kexin_trip_spring_y1'&&!G.flags.KX_TRIP_DEFERRED,JSON.stringify(q));
+    check('選可昕：SPRING_Y1＝kexin；4/3 07:40 政大校門接她（祐廷開車：先回家取車 40 分鐘，AA_147 #1）（ev_kexin_trip_spring_y1）；沒有延到暑假',G.flags.SPRING_Y1==='kexin'&&q&&q.day===D.d0&&Math.abs(q.h-(7+40/60))<0.01&&Math.abs(q.travelH-40/60)<0.01&&/政大校門/.test(q.place)&&/送她回政大/.test(q.back)&&q.ev==='ev_kexin_trip_spring_y1'&&!G.flags.KX_TRIP_DEFERRED,JSON.stringify(q));
     G.day=D.d0; run(0,23); check('選可昕：麵店團照樣去，4/3 20:30 群組：以安「📷（行程表第二版）」「理由欄寫『雨』。」、阿哲「下次你要來。」',JSON.stringify(txt('g:noodle_team').filter(t=>/行程表第二版|理由欄|下次你要來/.test(t)))==='["heroine_01:📷（行程表第二版）","heroine_01:理由欄寫『雨』。","zhe:下次你要來。"]',JSON.stringify(txt('g:noodle_team')));
     await choose({dating:true},'跟麵店團');
     check('選麵店團（交往中）：可昕回「好。那我們暑假再去，我先選地方。」「你們去哪裡，照片要傳給我。」；KX_TRIP_DEFERRED＝summer',G.flags.SPRING_Y1==='noodle'&&JSON.stringify(txt('p:kexin').slice(-2))==='["kexin:好。那我們暑假再去，我先選地方。","kexin:你們去哪裡，照片要傳給我。"]'&&G.flags.KX_TRIP_DEFERRED==='summer',JSON.stringify(txt('p:kexin').slice(-2)));
@@ -76,6 +76,6 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     const astro=()=>{ const d=termDay('Y1S2',6,1); G.courses={done:{[d+':ge_y1s2:pm1']:1},attend:{ge_y1s2:1}}; };
     r=await trip(['山上','一起負責'],{},astro);
     check('天文課第 6 週有去：多一個「山上看星星」→「你們通識課的人說的？好，我們去驗證。」→ 月亮那一題 →「一起負責。」→「好。那每天晚上都要一起看。」；stars',JSON.stringify(r.O[0])==='["海邊","別的城市的老街","山上看星星"]'&&r.L.includes(nm+'：你們通識課的人說的？好，我們去驗證。')&&r.L.includes(nm+'：好。那每天晚上都要一起看。')&&G.flags.KX_TRIP.Y1S2==='stars',JSON.stringify(r.O[0])+' '+JSON.stringify(CLS.attendedWeek(G,'Y1S2:ge_y1s2:w6')));
-    check('一天來回、不演住宿：出遊 13 小時（8:00 出發，21:00 前後回到台北）',eK.hours===13&&eK.trigger==='outing'); }
+    check('一天來回、不演住宿：出遊 13.5 小時（07:40 政大接她、08:00 出發，晚上送她回政大、車開回家，約 21:10 回到台北）；先政大校門再上車（AA_147 #1）',eK.hours===13.5&&eK.trigger==='outing'&&eK.dialogue[0].bg==='nccu_gate'&&eK.dialogue[1].bg==='car'); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });
