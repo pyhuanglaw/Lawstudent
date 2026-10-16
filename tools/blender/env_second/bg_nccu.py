@@ -9,6 +9,7 @@ Blender 5.2（bpy，無介面）＋Cycles（CPU），1920×1080，畫面上沒�
   /opt/blenv/bin/python tools/blender/env_second/wz_street.py -- --set nccu_food --out <暫存>/nccu_food_street.glb
   /opt/blenv/bin/python tools/blender/env_second/bg_nccu.py -- food <暫存>/nccu_food_street.glb <輸出.png> [--res 1920x1080] [--samples 64]
   /opt/blenv/bin/python tools/blender/env_second/bg_nccu.py -- gate - <輸出.png> [--res …] [--samples …]
+  /opt/blenv/bin/python tools/blender/env_second/bg_nccu.py -- campus - <輸出.png> [--res …] [--samples …]（政大・校園裡的路：醉夢溪畔的步道）
 座標＝遊戲座標（x 東、y 上、z 南），g2b 轉成 Blender。"""
 import math, os, random, sys
 import bpy, bmesh
@@ -105,7 +106,7 @@ def quad(name, p0, p1, p2, p3, mat):
 
 
 # ---------------------------------------------------------------- 山（巷底、校門後面）
-def hills(z_near, x_span, layers):
+def hills(z_near, x_span, layers, crown=0.9):
     """山（台北盆地邊緣、長滿樹的圓緩山稜）：每一層是一片從山腳往後升到稜線的曲面；稜線＝幾個頻率的雜訊（圓緩，不是尖錐），
     表面是森林的顏色＋小尺度的雜訊（樹冠一團一團）；越遠越淡、越藍（空氣透視）"""
     for k, (dz, hmax, col, seed) in enumerate(layers):
@@ -126,7 +127,7 @@ def hills(z_near, x_span, layers):
         tc = nt.nodes.new('ShaderNodeTexCoord')
         n1 = nt.nodes.new('ShaderNodeTexNoise'); n1.inputs['Scale'].default_value = 0.22; n1.inputs['Detail'].default_value = 10.0; n1.inputs['Roughness'].default_value = 0.7
         nt.links.new(tc.outputs['Object'], n1.inputs['Vector'])
-        vo = nt.nodes.new('ShaderNodeTexVoronoi'); vo.inputs['Scale'].default_value = 0.9; nt.links.new(tc.outputs['Object'], vo.inputs['Vector'])   # 樹冠一團一團
+        vo = nt.nodes.new('ShaderNodeTexVoronoi'); vo.inputs['Scale'].default_value = crown; nt.links.new(tc.outputs['Object'], vo.inputs['Vector'])   # 樹冠一團一團
         ramp = nt.nodes.new('ShaderNodeValToRGB'); ramp.color_ramp.elements[0].position = 0.3; ramp.color_ramp.elements[1].position = 0.75
         ramp.color_ramp.elements[0].color = (*[c * 0.6 for c in col], 1); ramp.color_ramp.elements[1].color = (*[min(1, c * 1.3) for c in col], 1)
         mix = nt.nodes.new('ShaderNodeMath'); mix.operation = 'MULTIPLY_ADD'; mix.inputs[1].default_value = 0.5
@@ -385,6 +386,80 @@ elif SCENE == 'lib':
     camera((-2.0, 1.7, 30.0), (6.0, 10.0, -45.0), float(opt('--lens', '22')))
 
 # ================================================================ 校門口
+elif SCENE == 'campus':
+    # 「政大・校園裡的路」（LAWWW-B 01:0x 佇列：AA_137 7-1，K1b 散步；使用者 2026-10-16：政大只做主要校園＋宿舍）。
+    # 照查證（docs/art-rebuild/second_ai/research/nccu_campus_path.md）：醉夢溪（指南溪流進校園的那一段）沿岸的濱溪步道，政大人叫「情人道」；
+    # 溪上有好幾座橋（濟賢橋、渡賢橋…）、溪岸種楓香、近自然工法的護岸（石塊）、校園在指南山麓（山很近、很高）。
+    # **沒有看到照片：路寬、護岸與欄杆的樣子、橋的造型、建築量體都是推估**；不放校名校徽、不寫橋名。時間：傍晚（K1b 19:30 也說得通：路燈已經亮了）。
+    sky(2.5, 235, 0.32)
+    sun = bpy.data.lights.new('sun', 'SUN'); sun.energy = 0.6; sun.color = (1.0, 0.6, 0.38); so = bpy.data.objects.new('sun', sun)
+    so.rotation_euler = (math.radians(86), 0, math.radians(235)); sc.collection.objects.link(so)
+    PAVE = mat_tex('path', 'granite_tile_03', scale=0.45, tint=(0.74, 0.72, 0.68), rough=0.75)
+    CONC = mat_tex('rev_conc', 'granular_concrete', scale=0.5, tint=(0.70, 0.69, 0.66), rough=0.85)
+    STONE = mat_tex('rev_stone', 'granite_tile_03', scale=1.4, tint=(0.46, 0.46, 0.44), rough=0.85)
+    GRASS = mat_flat('grass', (0.08, 0.15, 0.05), rough=0.95)
+    RAIL = mat_flat('rail', (0.55, 0.57, 0.58), 0.35, metal=0.45)
+    # 溪水：深綠灰、很亮的反射、細碎的漣漪（bump）
+    WATER = mat_flat('creek', (0.035, 0.06, 0.05), 0.04); nt = WATER.node_tree; b = nt.nodes['Principled BSDF']
+    tn = nt.nodes.new('ShaderNodeTexNoise'); tn.inputs['Scale'].default_value = 6.0; tn.inputs['Detail'].default_value = 6.0
+    bu = nt.nodes.new('ShaderNodeBump'); bu.inputs['Strength'].default_value = 0.12; nt.links.new(tn.outputs['Fac'], bu.inputs['Height']); nt.links.new(bu.outputs['Normal'], b.inputs['Normal'])
+    # 這一岸：步道沿著溪往北（−z），x −2.0～2.0；左邊（西）草帶＋樹，右邊（東）是護岸，往下 2.2 m 是溪
+    quad('path', (-2.0, 0.02, 12), (2.0, 0.02, 12), (2.0, 0.02, -120), (-2.0, 0.02, -120), PAVE)
+    box('curb_l', -2.15, -2.0, 0, 0.12, -120, 12, CONC)
+    quad('grass_l', (-40, 0.0, 12), (-2.15, 0.0, 12), (-2.15, 0.0, -120), (-40, 0.0, -120), GRASS)
+    # 護岸：步道外緣一道矮牆（0.5 m）＋金屬欄杆（1.1 m）；牆外是往下的石砌坡（近自然：坡上長草、坡腳一排大石頭）
+    box('parapet', 2.0, 2.35, -0.0, 0.3, -120, 12, CONC)
+    for z in range(12, -121, -2):
+        box('rail_post', 2.12, 2.2, 0.3, 1.12, z - 0.04, z + 0.04, RAIL)
+    box('rail_top', 2.08, 2.24, 1.08, 1.14, -120, 12, RAIL); box('rail_mid', 2.13, 2.19, 0.68, 0.72, -120, 12, RAIL)
+    WL = -1.4                                                             # 水面高度（親水的濱溪步道：離水面不高）
+    mesh_obj('bank_e', [(2.35, 0.0, 12), (2.35, 0.0, -120), (4.2, WL, -120), (4.2, WL, 12)], [(0, 1, 2, 3)], STONE, uvs=[(0, 0), (0, 30), (2, 30), (2, 0)])
+    mesh_obj('bank_w', [(15.8, WL, 12), (15.8, WL, -120), (17.6, 0.0, -120), (17.6, 0.0, 12)], [(0, 1, 2, 3)], STONE, uvs=[(0, 0), (0, 30), (2, 30), (2, 0)])
+    quad('creek', (4.0, WL - 0.02, 12), (16.0, WL - 0.02, 12), (16.0, WL - 0.02, -120), (4.0, WL - 0.02, -120), WATER)
+    quad('bed', (3.5, WL - 0.6, 12), (16.5, WL - 0.6, 12), (16.5, WL - 0.6, -120), (3.5, WL - 0.6, -120), STONE)
+    # 坡腳的大石頭（近自然工法）：不規則的石塊，一半在水裡
+    ROCK = mat_tex('rock', 'granite_tile_03', scale=2.0, tint=(0.55, 0.54, 0.50), rough=0.9)
+    for k in range(70):
+        side = k % 2; z = 10 - k * 1.8 + rng.uniform(-0.6, 0.6); x = (4.3 + rng.uniform(0, 0.8)) if side == 0 else (15.6 - rng.uniform(0, 0.8))
+        bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=2, radius=1.0)
+        for v in bm.verts: v.co = v.co * (1 + 0.25 * noise.noise(v.co * 1.7 + Vector((k, 0, 0))))
+        me = bpy.data.meshes.new('rock'); bm.to_mesh(me); bm.free(); ob = bpy.data.objects.new('rock', me); sc.collection.objects.link(ob); ob.data.materials.append(ROCK)
+        r = rng.uniform(0.35, 0.75); ob.scale = (r * rng.uniform(0.9, 1.4), r * rng.uniform(0.9, 1.3), r * rng.uniform(0.55, 0.8)); ob.location = g2b(x, WL + 0.05, z); ob.rotation_euler = (0, 0, rng.uniform(0, 6.28))
+        me.polygons.foreach_set('use_smooth', [True] * len(me.polygons))
+    # 對岸：同樣的步道＋草地＋樹，後面是系館（白色、方正、窗戶亮著幾格）
+    quad('path_e', (17.6, 0.02, 12), (21.0, 0.02, 12), (21.0, 0.02, -120), (17.6, 0.02, -120), PAVE)
+    quad('grass_e', (21.0, 0.0, 12), (70, 0.0, 12), (70, 0.0, -120), (21.0, 0.0, -120), GRASS)
+    box('parapet_e', 17.6, 17.95, 0.0, 0.3, -120, 12, CONC)                  # 對岸也是矮牆＋欄杆（不是一整片牆）
+    for z in range(12, -121, -2): box('rail_post_e', 17.74, 17.82, 0.3, 1.12, z - 0.04, z + 0.04, RAIL)
+    box('rail_top_e', 17.7, 17.86, 1.08, 1.14, -120, 12, RAIL)
+    BLD = mat_flat('bld_white', (0.84, 0.83, 0.80), 0.8); WIN_D = mat_flat('win_dark', (0.12, 0.15, 0.18), 0.15, metal=0.3); WIN_L = mat_flat('win_lit', (0.9, 0.8, 0.6), 0.3, (1.0, 0.8, 0.55), 3.0)
+    def building(x0, x1, z0, z1, h, fh=3.6, face='w'):
+        box('bld', x0, x1, 0, h, z0, z1, BLD); box('bld_roof', x0 - 0.3, x1 + 0.3, h, h + 0.4, z0 - 0.3, z1 + 0.3, BLD)
+        for fl in range(int(h // fh)):
+            for zi in range(int((z1 - z0 - 1.0) // 2.6)):
+                z = z0 + 0.9 + zi * 2.6; y0 = fl * fh + 1.0; x = x0 - 0.02
+                quad('win', (x, y0, z + 1.5), (x, y0, z), (x, y0 + 1.6, z), (x, y0 + 1.6, z + 1.5), WIN_L if rng.random() < 0.35 else WIN_D)
+    building(40, 54, -46, -22, 13.0); building(44, 60, -88, -60, 17.0)
+    # 遠處的一座橋（跨溪的平板橋，兩側欄杆），橋面和步道同高
+    box('bridge', 2.35, 17.6, -0.55, 0.05, -46, -42.5, CONC)
+    for x0 in (2.35, 17.5):
+        pass
+    for zr in (-46.0, -42.6):
+        box('bridge_rail', 2.35, 17.6, 0.05, 1.05, zr, zr + 0.1, RAIL)
+        for x in range(3, 18, 2): box('bridge_post', x - 0.05, x + 0.05, 0.05, 1.05, zr - 0.02, zr + 0.12, RAIL)
+    box('bridge_pier', 9.4, 10.4, WL - 0.6, -0.5, -45.5, -43.0, CONC)
+    # 指南山：校園就在山腳，山很近、很高
+    hills(-125, 380, [(0, 95, (0.06, 0.12, 0.05), 2.4), (70, 150, (0.10, 0.16, 0.13), 4.1), (180, 200, (0.24, 0.30, 0.36), 6.3)], crown=0.16)
+    load_lib('street_trees.glb', {'tree_camphor_a', 'tree_camphor_b', 'tree_banyan_a'}); load_lib('street_props.glb', {'lamp_post', 'bench_park'})
+    for k, z in enumerate(range(6, -110, -7)):                               # 這一岸的樹（溪邊的楓香、樟樹；用樟樹的模型）
+        place(rng.choice(['tree_camphor_a', 'tree_camphor_b']), -4.2 + rng.uniform(-0.8, 0.6), z + rng.uniform(-1.5, 1.5), yaw=rng.uniform(0, 6.28), s=rng.uniform(0.9, 1.15))
+    for z in range(-2, -110, -6): place(rng.choice(['tree_camphor_a', 'tree_camphor_b', 'tree_banyan_a']), 23.5 + rng.uniform(-1, 2), z + rng.uniform(-2, 2), yaw=rng.uniform(0, 6.28))
+    for z in range(-8, -110, -11): place(rng.choice(['tree_camphor_a', 'tree_camphor_b']), 31 + rng.uniform(-2, 2), z + rng.uniform(-3, 3), yaw=rng.uniform(0, 6.28), s=1.2)
+    for z in (-9.0, -27.0, -45.0, -63.0, -81.0):                              # 路燈（燈頭朝步道）
+        place('lamp_post', -2.5, z, yaw=math.radians(90)); light_point('lamp', -1.75, 3.9, z, 260, (1.0, 0.86, 0.68), 0.15)
+    for z in (-14.0, -36.0): place('bench_park', -2.7, z, yaw=math.radians(90))
+    camera((1.4, 1.7, 9.0), (11.5, -0.4, -34.0), float(opt('--lens', '24')))   # 站在步道靠溪那一側，斜看溪、遠處的橋與山
+
 else:
     sky(4.0, 235, 0.55)
     sun = bpy.data.lights.new('sun', 'SUN'); sun.energy = 1.4; sun.color = (1.0, 0.66, 0.42); so = bpy.data.objects.new('sun', sun)
