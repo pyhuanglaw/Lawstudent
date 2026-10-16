@@ -5,7 +5,7 @@
  "tris_drawn": 25922,
  "materials": 1,
  "out": "assets/models/env/second_ai/bb_support/scooter_shop_props.glb",
- "bytes": 893568,
+ "bytes": 897236,
  "texres": 1024,
  "modules": {
   "SHOP_TIRE_STACK": {

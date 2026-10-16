@@ -8,7 +8,8 @@
   - 色彩 Standard（AgX 會把飽和的紅、藍洗淡）；曝光用 --exposure 調到不過曝、不死黑。
 用法：
   /opt/blenv/bin/python tools/blender/env_second/bb_support/render_dusk.py -- <glb> <輸出資料夾> <前綴> <views.json>
-        [--samples 48] [--exposure EV] [--sun W/m²] [--sky 強度] [--lamp W] [--only 名稱,名稱] [--scale 0.5] [--keep-png] [--threads N]
+        [--samples 48] [--exposure 0.2] [--sun 4.5] [--sky 0.08] [--lamp 220] [--only 名稱,名稱] [--scale 0.5] [--keep-png] [--threads N]
+  （預設值就是交件那一組；白天的 render_cycles.py 是太陽 3.5、天空 0.6、曝光 −2.5＋天空裡的太陽圓盤）
   例：/opt/blenv/bin/python tools/blender/env_second/bb_support/render_dusk.py -- assets/models/env/second_ai/bb_support/scooter_shop_props.glb \\
         docs/art-rebuild/second_ai/test_shots/bb_support/scooter_shop shop1 tools/blender/env_second/bb_support/scooter_shop_views.json
 views.json（遊戲座標：y 上、+z 朝前）：[{"name": 名稱, "eye": [x,y,z], "look": [x,y,z], "lens": 焦距mm, "res": "1280x640", "samples": 48,
@@ -35,7 +36,7 @@ sc = bpy.context.scene; sc.render.engine = 'CYCLES'; sc.cycles.device = 'CPU'
 try: sc.cycles.use_denoising = True; sc.cycles.denoiser = 'OPENIMAGEDENOISE'
 except Exception: pass
 sc.view_settings.view_transform = opt('--view', 'Standard')
-sc.view_settings.exposure = float(opt('--exposure', 0.0))
+sc.view_settings.exposure = float(opt('--exposure', 0.2))
 sc.cycles.max_bounces = 6
 if '--threads' in A: sc.render.threads_mode = 'FIXED'; sc.render.threads = int(opt('--threads', 4))
 # 天空
@@ -48,14 +49,14 @@ try: sky.sun_elevation = math.radians(SUN_ELEV); sky.sun_rotation = math.radians
 except Exception: pass
 try: sky.sun_disc = False                # 太陽交給太陽燈：天空裡的太陽圓盤是物理亮度，會整片過曝
 except Exception: pass
-nt.links.new(sky.outputs['Color'], nt.nodes['Background'].inputs['Color']); nt.nodes['Background'].inputs['Strength'].default_value = float(opt('--sky', 0.35))
+nt.links.new(sky.outputs['Color'], nt.nodes['Background'].inputs['Color']); nt.nodes['Background'].inputs['Strength'].default_value = float(opt('--sky', 0.08))
 # 太陽燈（偏橘、低）
 sun = bpy.data.objects.new('sun', bpy.data.lights.new('sun', 'SUN')); sc.collection.objects.link(sun)
-sun.data.energy = float(opt('--sun', 2.2)); sun.data.color = SUN_COL; sun.data.angle = math.radians(1.2)
+sun.data.energy = float(opt('--sun', 4.5)); sun.data.color = SUN_COL; sun.data.angle = math.radians(1.2)
 sun.rotation_euler = (math.radians(90 - SUN_ELEV), 0, math.radians(SUN_AZ))
 # 店裡的暖色點光（3000K）
 lamp = bpy.data.objects.new('lamp', bpy.data.lights.new('lamp', 'POINT')); sc.collection.objects.link(lamp)
-lamp.data.energy = float(opt('--lamp', 140)); lamp.data.color = LAMP_COL; lamp.data.shadow_soft_size = 0.3
+lamp.data.energy = float(opt('--lamp', 220)); lamp.data.color = LAMP_COL; lamp.data.shadow_soft_size = 0.3
 # 灰色地面
 bpy.ops.mesh.primitive_plane_add(size=600, location=(0, 0, -0.002)); gp = bpy.context.active_object; gm = bpy.data.materials.new('ground'); gm.use_nodes = True
 gb = gm.node_tree.nodes['Principled BSDF']; gb.inputs['Base Color'].default_value = (0.30, 0.30, 0.29, 1); gb.inputs['Roughness'].default_value = 0.88; gp.data.materials.append(gm)
@@ -90,7 +91,7 @@ for v in views:
     wall.hide_render = 'wall' not in v
     if 'wall' in v: wall.location = g2b(0.0, 2.5, v['wall'])
     look = v['look']; lp = v.get('lamp') or [look[0], look[1] + 2.5, look[2] + 0.8]
-    lamp.location = g2b(*lp); lamp.data.energy = float(v.get('lamp_w', opt('--lamp', 140)))
+    lamp.location = g2b(*lp); lamp.data.energy = float(v.get('lamp_w', opt('--lamp', 220)))
     rw, rh = map(int, v.get('res', '1280x640').split('x'))
     sc.render.resolution_x, sc.render.resolution_y = max(16, int(rw * SCALE)), max(16, int(rh * SCALE))
     sc.cycles.samples = int(v.get('samples', SAMPLES))
