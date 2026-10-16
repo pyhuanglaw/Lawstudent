@@ -1,0 +1,3153 @@
+{
+ "loc": "D23",
+ "points": {
+  "D23.market": "漁貨市場",
+  "D23.cook": "代客料理",
+  "D23.boats": "港邊的漁船",
+  "D23.seawall": "堤防看夕陽"
+ },
+ "likes": {
+  "heroine_01": {
+   "D23.market": "dislike",
+   "D23.cook": "like",
+   "D23.boats": "normal",
+   "D23.seawall": "like"
+  },
+  "heroine_02": {
+   "D23.market": "normal",
+   "D23.cook": "normal",
+   "D23.boats": "like",
+   "D23.seawall": "like"
+  },
+  "heroine_03": {
+   "D23.market": "like",
+   "D23.cook": "like",
+   "D23.boats": "normal",
+   "D23.seawall": "normal"
+  },
+  "heroine_04": {
+   "D23.market": "normal",
+   "D23.cook": "like",
+   "D23.boats": "normal",
+   "D23.seawall": "like"
+  },
+  "heroine_05": {
+   "D23.market": "normal",
+   "D23.cook": "like",
+   "D23.boats": "normal",
+   "D23.seawall": "like"
+  },
+  "classmate_peishan": {
+   "D23.market": "like",
+   "D23.cook": "like",
+   "D23.boats": "normal",
+   "D23.seawall": "normal"
+  },
+  "kexin": {
+   "D23.market": "normal",
+   "D23.cook": "like",
+   "D23.boats": "normal",
+   "D23.seawall": "like"
+  }
+ },
+ "dislikeLine": {
+  "heroine_01": {
+   "D23.market": "地板好濕。味道……我在習慣。好，我負責看價錢。"
+  },
+  "heroine_02": {},
+  "heroine_03": {},
+  "heroine_04": {},
+  "heroine_05": {},
+  "classmate_peishan": {},
+  "kexin": {}
+ },
+ "lines": {
+  "heroine_01": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_01",
+       "text": "竹圍漁港。我查了，傍晚的魚最便宜。"
+      },
+      {
+       "who": "heroine_01",
+       "text": "……也最不新鮮。理由：早上捕的。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "海風好鹹。我的嘴唇都是鹹的。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "你開車的時候，我在看路標。我有在幫忙。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "跟你出來，我開始不查「最便宜」了。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "今天你點菜。我不看菜單。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_01",
+       "text": "結論：港口的晚上比白天安靜。"
+      },
+      {
+       "who": "heroine_01",
+       "text": "船都回來了。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "天黑了。回去的路要開慢一點。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "手帳今天沾到海風。紙有一點捲。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "今天右欄寫了：夕陽，螃蟹，你剝的蝦。……不准看。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D23.market": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "（漁貨市場）……好吵。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "每一攤都在叫。我聽不清楚價錢。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我來問。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……好。你問，我記。"
+         }
+        ]
+       },
+       {
+        "t": "「不用聽，看就好。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……好。我看魚的眼睛。清的比較新鮮。我查過。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "那隻螃蟹在看我。……我不買你。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "價錢寫在保麗龍上。用麥克筆。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "以前我買東西一定比價。今天第二攤就買了。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次那攤的阿姨，今天還記得你。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "（她站在你後面，抓著你的衣角跟著走）……地板滑。理由很充分。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.cook": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "（代客料理）……樓下買，樓上煮。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "這個分工很合理。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳想怎麼煮？」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……清蒸。理由：吃得出新鮮。"
+         }
+        ]
+       },
+       {
+        "t": "「交給老闆。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……好。他比較專業。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "蝦好燙。我等它涼。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "湯裡有薑。我不太吃薑。……今天吃了。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "清蒸的魚，筷子一碰就散。很新鮮。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次的清蒸魚，我回去跟我媽說了。她說下次一起來。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "（她把剝好的蝦放到你碗裡）……剝好了。不准說謝謝。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.boats": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "（港邊）……船好多。每一艘都有名字。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "都寫在船頭。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「名字很重要。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……對。回來的時候，家人要認得。"
+         }
+        ]
+       },
+       {
+        "t": "「妳在讀船。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……嗯。船也有規則。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "船在水上輕輕晃。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "有人在補漁網。手好快。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "以前我覺得港口很遠。今天覺得很近。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次讀過的那艘船，今天出海了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "（她站在你旁邊看船，手放進你的口袋裡）……冷。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.seawall": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "（堤防）……夕陽在海上。"
+       },
+       {
+        "who": "heroine_01",
+        "text": "西邊的海，可以看到太陽下去。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「我們等它下去。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……好。十五分鐘。我查過。"
+         }
+        ]
+       },
+       {
+        "t": "「好漂亮。」",
+        "reply": [
+         {
+          "who": "heroine_01",
+          "text": "……嗯。比我查的照片好看。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "風好大。手帳差點被吹走。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "天上有飛機。機場就在附近。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "我很少等一件事等十五分鐘。今天可以。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次等了十五分鐘。今天也等。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "（她坐在堤防上，頭輕輕靠到你肩上）……再一分鐘。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_02": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "竹圍漁港。我第一次來西邊的海。"
+      },
+      {
+       "who": "heroine_02",
+       "text": "聽說這裡的夕陽很紅。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "今天沒排班。店長說我最近太認真。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "我帶了底片相機。只剩十張。要省著拍。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "跟你出來，我開始會等光，不追光。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "今天的片名，我想好了。……下車再說。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "天黑了。港口的燈亮了。"
+      },
+      {
+       "who": "heroine_02",
+       "text": "一盞一盞的，像片尾字幕。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "回去吧。你開車，我負責放歌。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "下次，我想來拍船回港的早上。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "今天的片尾，是夕陽落在你肩膀後面。……我拍到了。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D23.market": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "（漁貨市場）……好亮。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "白色的燈照在冰上，魚都在發光。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳在看燈。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……嗯。這裡的燈很有意思。"
+         }
+        ]
+       },
+       {
+        "t": "「我們挑一條魚。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……好。你挑。我拍你挑。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "冰塊的反光好刺眼。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "阿姨叫賣的聲音，好像在唱歌。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "跟你逛市場，我第一次覺得市場好看。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次拍你挑魚的那張，你的表情好認真。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "（她勾著你的手臂，在人群裡走）……不要走散。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.cook": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "（代客料理）……窗外看得到港口。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "我坐這邊。光比較好。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳每次都選光。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……習慣。你坐我對面，背光。好看。"
+         }
+        ]
+       },
+       {
+        "t": "「我坐旁邊。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……好。那我們一起看港口。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "魚湯的熱氣，在燈下面轉。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "螃蟹好難剝。我放棄了。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "窗戶上有鹽，港口的燈變得霧霧的。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次你坐我對面，背光。……今天也是。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "（她把螃蟹推給你）……幫我剝。你比較會。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.boats": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "（港邊）……漁船好多顏色。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "藍的、紅的、白的。像一排舊海報。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「拍一張？」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……好。一張就好。"
+         }
+        ]
+       },
+       {
+        "t": "「妳想拍什麼？」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……船頭的名字。每一個都不一樣。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "水面上的油光，有彩虹的顏色。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "有人在甲板上抽菸。剪影很好看。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "我想拍一部片，主角是一個等船回來的人。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次拍的那排船，洗出來了。顏色好飽和。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "（她站在你身後，從你的角度看港口）……你看到的，比較好看。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.seawall": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "（堤防）……夕陽好紅。"
+       },
+       {
+        "who": "heroine_02",
+        "text": "這種光，一年只有幾天。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「拍一張？」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……不要。這個用眼睛記。"
+         }
+        ]
+       },
+       {
+        "t": "「我們坐下來。」",
+        "reply": [
+         {
+          "who": "heroine_02",
+          "text": "……好。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "海面被染成橘色。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "天上有飛機，剛好經過太陽前面。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "跟你看夕陽，我不想按快門。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次沒拍。……可是我記得每一秒。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "（她靠著你的肩膀）……這個鏡頭，不要喊卡。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_03": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_03",
+       "text": "……嗯。竹圍漁港。"
+      },
+      {
+       "who": "heroine_03",
+       "text": "阿姨以前會來這種地方批貨。……很早，天還沒亮。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "今天不是二、四。不用去店裡。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "……海的味道。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "阿姨說，我最近回家都會講今天去了哪裡。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（她把頭髮綁緊，怕被海風吹亂）……好了。走吧。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_03",
+       "text": "……今天很好。"
+      },
+      {
+       "who": "heroine_03",
+       "text": "我買了一包小卷，帶回去給阿姨。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "……開車小心。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "……嗯。下次。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（車停下來，她抱著那包小卷，沒有馬上下車）……今天，好長。很好。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D23.market": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（漁貨市場）……好熟悉。"
+       },
+       {
+        "who": "heroine_03",
+        "text": "阿姨帶我來過一次。我那時候好小。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳會挑嗎？」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。眼睛清的、肚子不軟的。"
+         }
+        ]
+       },
+       {
+        "t": "「妳來挑。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。我挑。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……那攤的阿姨，好像我阿姨。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……小卷很新鮮。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "跟你逛市場，我不用想要買多少斤。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次教你挑魚。……你今天自己挑對了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "（她拉著你的袖子，走到最裡面那攤）……這攤好。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.cook": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（代客料理）……買好的魚，拿上樓請人煮。"
+       },
+       {
+        "who": "heroine_03",
+        "text": "我們店也可以這樣。……不行，太小。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳想煮哪一種？」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……煮湯。湯最難。"
+         }
+        ]
+       },
+       {
+        "t": "「交給老闆吧。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。今天不用我煮。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……湯好鮮。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……老闆的刀好快。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……今天不用收碗。……好奇怪，手好閒。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次那碗湯……我回去試著煮。阿姨說還可以。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "（她把魚最好的那一塊夾到你碗裡）……你吃。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.boats": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（港邊）……船都回來了。"
+       },
+       {
+        "who": "heroine_03",
+        "text": "……等船的人，會在這裡站很久吧。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳在想等的人。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。改不掉。"
+         }
+        ]
+       },
+       {
+        "t": "「現在有手機了。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。可是還是會站在這裡等。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……船在晃。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……有人在補網子。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……我想寫一點東西。關於等船的人。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次說等船的人。……我寫了一頁。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "（她的手背碰到你的手背，然後勾住你的小指）……嗯。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.seawall": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "（堤防）……夕陽。"
+       },
+       {
+        "who": "heroine_03",
+        "text": "……好紅。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「坐一下。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。"
+         }
+        ]
+       },
+       {
+        "t": "「好漂亮。」",
+        "reply": [
+         {
+          "who": "heroine_03",
+          "text": "……嗯。很漂亮。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……風好大。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……有飛機。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……夕陽下去的時候，連海都安靜了。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次夕陽下去以後，我們又坐了十分鐘。……今天也是。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "（她靠著你的肩膀，看著夕陽，沒有說話）"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_04": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "漁港。我在遊戲裡釣過魚。"
+      },
+      {
+       "who": "heroine_04",
+       "text": "欸不是，真的港口好大。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "我下午三點起床。剛好趕上。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "今天的任務：吃海鮮、看夕陽。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "你今天選的地方，是傍晚才開始的。你懂我。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "今天的任務：沒有。跟著你。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "今天解鎖：漁港地圖。"
+      },
+      {
+       "who": "heroine_04",
+       "text": "收集品：一張夕陽截圖。……我是說，照片。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "天黑了。我開機了。回程換我講話。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "電量剩一格。回家。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "今天的存檔點：漁港。……我記住了。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D23.market": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "（漁貨市場）……欸不是，好多海鮮。"
+       },
+       {
+        "who": "heroine_04",
+        "text": "這是素材商店。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「挑一個。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……那隻螃蟹。它很像中頭目。"
+         }
+        ]
+       },
+       {
+        "t": "「妳會挑嗎？」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……不會。我看哪一隻最有個性。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "地板好濕。我走很慢。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "阿姨叫賣好大聲。我的耳朵。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "市場的燈好亮。很像商店介面。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次的中頭目螃蟹，我畫進遊戲了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "（她把手塞進你的口袋）……手冷。物理。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.cook": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "（代客料理）……買了直接拿上去煮？"
+       },
+       {
+        "who": "heroine_04",
+        "text": "這是合成系統。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「合成什麼？」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……清蒸魚加螃蟹。稀有料理。"
+         }
+        ]
+       },
+       {
+        "t": "「妳好會比喻。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……我只會這種比喻。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "螃蟹好難剝。這是解謎。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "魚湯：回復量大。我喝了兩碗。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "剝完一隻螃蟹，等於破了一關。我破了三關。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次的合成料理，我還記得味道。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "（她把剝好的蟹肉放到你碗裡）……我解開了。給你。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.boats": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "（港邊）……好多船。"
+       },
+       {
+        "who": "heroine_04",
+        "text": "每一艘都有名字。好像角色名單。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳最喜歡哪一艘？」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……那艘藍色的。名字最短。"
+         }
+        ]
+       },
+       {
+        "t": "「船也有個性。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……對。藍色那艘是主角。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "水上有油光。很像彩虹貼圖。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "船在晃。我看久了會暈。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "我想做一關，主角要在港口等一艘船。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次那艘藍色的船……今天不在。出海了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "（她把一邊耳機塞給你）……這首配港口剛好。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.seawall": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "欸不是，夕陽好紅！"
+       },
+       {
+        "who": "heroine_04",
+        "text": "這是過場動畫。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「看完再走。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……好。過場動畫不能跳過。這不是問句。"
+         }
+        ]
+       },
+       {
+        "t": "「好漂亮。」",
+        "reply": [
+         {
+          "who": "heroine_04",
+          "text": "……好啦。很漂亮。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "天上有飛機。好像在劇情裡飛過去。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "海風好鹹。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "我想把這個顏色做成遊戲的黃昏。做不出來。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次的過場動畫，我記住了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "（她靠著你的肩膀）……這段過場，我想重看。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_05": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "一件事：我沒有來過漁港。"
+      },
+      {
+       "who": "heroine_05",
+       "text": "重點是，我以為海鮮都是在餐廳裡的。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "我帶了保溫瓶。海邊會冷。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "今天的筆電留在研究室。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "今天的行事曆，只寫了一個字：海。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "今天沒有議程。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "今天……我知道魚是從哪裡來的了。"
+      },
+      {
+       "who": "heroine_05",
+       "text": "很好的一天。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "回程我幫你看路。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "下次，我想來看早上的漁市。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "今天的會議紀錄：夕陽、螃蟹，還有你。……不要記。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D23.market": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "（漁貨市場）……好多聲音。"
+       },
+       {
+        "who": "heroine_05",
+        "text": "重點是，大家都很有精神。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「學姊會挑嗎？」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……不會。你教我。"
+         }
+        ]
+       },
+       {
+        "t": "「跟著我。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……好。今天你帶。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "地板好濕。我的鞋子選錯了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "阿姨叫我「小姐」。……好久沒人這樣叫了。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "以前我買東西都很快。今天在一攤前面站了五分鐘。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次你教我看魚的眼睛。……我記住了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "（她把保溫瓶遞給你）……喝一口。手好冰。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.cook": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "（代客料理）……一件事：這頓我請。"
+       },
+       {
+        "who": "heroine_05",
+        "text": "你開車辛苦了。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「謝謝學姊。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……不用。下次換你。"
+         }
+        ]
+       },
+       {
+        "t": "「我們平分。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……好。聽你的。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "魚湯好鮮。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "螃蟹好難剝。我第一次吃得這麼慢。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "以前我吃飯都在看資料。今天看窗外的港口。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次說下次換你。……今天你請了。謝謝。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "（她把剝好的蝦放到你碗裡，沒有說話）"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.boats": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "（港邊）……好多船靠在一起。"
+       },
+       {
+        "who": "heroine_05",
+        "text": "每一艘都要靠很多人。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「學姊在想什麼？」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……在想，船上的人有沒有休假。"
+         }
+        ]
+       },
+       {
+        "t": "「好壯觀。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……嗯。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "船在晃。看久了會暈。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "有人在補漁網。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "我最近學會一件事：工作的人都很好看。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次問船上的人有沒有休假。……我查了。很少。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "（她站在你旁邊，手背碰到你的手）……風好冷。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.seawall": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "（堤防）……一件事：夕陽好紅。"
+       },
+       {
+        "who": "heroine_05",
+        "text": "我很久沒看夕陽了。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「學姊在忙。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……嗯。一直在忙。今天不忙。"
+         }
+        ]
+       },
+       {
+        "t": "「我們坐一下。」",
+        "reply": [
+         {
+          "who": "heroine_05",
+          "text": "……好。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "海風好冷。外套借我一下。……開玩笑的。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "天上有飛機。好多人要去別的地方。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "很久沒有什麼都不做，只是看。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次看完夕陽，我回去沒有開電腦。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "（她坐在你鋪好的外套上，靠著你的肩膀）……再一下。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_peishan": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "竹圍漁港。從我家開車不用一個小時。"
+      },
+      {
+       "who": "classmate_peishan",
+       "text": "……可是我第一次來。我爸一直說要來批貨。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "今天跟我爸請假了。他說：去，多吃一點。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "你的車好舒服。我差點睡著。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "跟你出來，我變得比較會問問題了。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "今天不帶課本。……真的。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "今天吃了好多。"
+      },
+      {
+       "who": "classmate_peishan",
+       "text": "我要帶一包魚乾回去給我爸媽。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "回去要讀書了。……可是今天值得。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "下次我做飯糰。我爸教我的。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "今天的問題，我都留著。……下次一個一個問你。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D23.market": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "（漁貨市場）……好多魚！"
+       },
+       {
+        "who": "classmate_peishan",
+        "text": "這些都是今天捕的嗎？"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「問問看。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……好。（她跑去問阿姨）……她說有些是。"
+         }
+        ]
+       },
+       {
+        "t": "「應該是。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……那我們挑新鮮的。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "阿姨好會叫賣。我在學。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "價錢好便宜。我要拍給我爸看。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "以前不知道早餐店的鮪魚從哪裡來。……好，那是罐頭。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次那個阿姨，今天也在。她還記得我問的問題。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "（她把挑好的那袋蝦遞給你）……你拿。我拿螃蟹。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.cook": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "（代客料理）……可以樓下買、樓上煮！"
+       },
+       {
+        "who": "classmate_peishan",
+        "text": "好聰明。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳想怎麼煮？」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……清蒸。吃得出味道。"
+         }
+        ]
+       },
+       {
+        "t": "「交給老闆。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……好。我看他怎麼煮。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "魚湯好好喝。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "老闆一邊煮一邊跟客人聊天。好厲害。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "樓上的窗戶看得到港口。吃飯有風景，好奢侈。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次的清蒸魚，我回去跟我爸說了。他說他也會。……他不會。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "（她把魚肚分給你一半）……一人一半。最好吃的部分。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.boats": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "（港邊）……船好大。"
+       },
+       {
+        "who": "classmate_peishan",
+        "text": "船上的人，晚上睡在哪裡？"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「船上有床。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……那他們會想家嗎？"
+         }
+        ]
+       },
+       {
+        "t": "「好問題。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……那我回去查。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "船在晃。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "有人在補網子。好厲害。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "跟你在這裡，我好像比較不會緊張。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次的問題我查了。船上真的有床。很小。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "（她撿起一個漂亮的小石頭，放到你手心）……給你。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.seawall": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "（堤防）……夕陽好漂亮。"
+       },
+       {
+        "who": "classmate_peishan",
+        "text": "海是橘色的。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「坐一下。」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……好。謝謝。"
+         }
+        ]
+       },
+       {
+        "t": "「拍一張？」",
+        "reply": [
+         {
+          "who": "classmate_peishan",
+          "text": "……好。你拍我跟夕陽。夕陽比較上相。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "風好大。我的頭髮都是鹹的。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "天上有飛機。我還沒坐過。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "跟你看夕陽，我好安心。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次那張，夕陽很好看。我……還可以。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "（她靠著你的肩膀，看著海）……今天好好。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "kexin": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "竹圍漁港。導航說還有五分鐘。"
+      },
+      {
+       "who": "kexin",
+       "text": "……我比導航早知道。我看過地圖。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "今天的行程表只有兩行：吃、看夕陽。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "予樂說漁港好老。我說漁港很新鮮。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "予樂問我們都聊什麼。我說什麼都聊。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "今天的行程表，你寫。我只負責坐副駕。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "今天的花費：海鮮佔一半。"
+      },
+      {
+       "who": "kexin",
+       "text": "……很值得。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "回程換我選歌。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "下次再說。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "（她把行程表翻到最後一格，寫了「漁港，再一次」）……這是告知。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D23.market": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "（漁貨市場）……假設我們要殺價，誰先開口？"
+       },
+       {
+        "who": "kexin",
+        "text": "……我來。我是經濟系出身的。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳殺得到嗎？」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……試試看。（她講了兩句）……便宜五十。"
+         }
+        ]
+       },
+       {
+        "t": "「不要殺價。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……好。今天不殺。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "每一攤的價錢都差不多。這是完全競爭。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "阿姨叫賣好有力。予樂應該來學。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "以後我們家的冰箱，要裝今天這種魚。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次便宜的那五十元，我拿去買飲料了。給你一杯。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "（她牽著你在市場裡繞了一圈）……逛完了。現在挑。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.cook": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "（代客料理）……樓下買、樓上煮。"
+       },
+       {
+        "who": "kexin",
+        "text": "分工的效率很高。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「妳又在分析。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……好，不分析。吃。"
+         }
+        ]
+       },
+       {
+        "t": "「很划算。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……對。今天的選擇都對。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "魚湯好鮮。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "螃蟹我剝。你剝蝦。這是分工。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "以後我們家的晚餐，也要這樣分工。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次的分工，我們做得很好。今天也是。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "（她拍拍旁邊的位子）……坐過來。這是指令。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.boats": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "（港邊）……船一艘一艘靠岸。"
+       },
+       {
+        "who": "kexin",
+        "text": "假設有一艘船沒回來，大家會等多久？"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「會一直等。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……嗯。那我也會一直等。"
+         }
+        ]
+       },
+       {
+        "t": "「不要想這個。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……好。我不想。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "船在晃。我的耳環也在晃。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "補漁網的阿伯，一直在看天空。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "船回來的時候，岸上有人在揮手。……好好。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次說會一直等。……我還是這樣想。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "（她把你的手拉進她的外套口袋）……風大。"
+        }
+       ]
+      }
+     ]
+    },
+    "D23.seawall": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "（堤防）……太陽快碰到海了。"
+       },
+       {
+        "who": "kexin",
+        "text": "如果每天都這麼紅，就不稀奇了。"
+       }
+      ],
+      "choice": [
+       {
+        "t": "「所以今天很稀奇。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……對。你學會了。"
+         }
+        ]
+       },
+       {
+        "t": "「我們等它下去。」",
+        "reply": [
+         {
+          "who": "kexin",
+          "text": "……好。我計時。……不計了。"
+         }
+        ]
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "海風把我的頭髮吹亂了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "天上有飛機。好多人要出國。我們不用。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "夕陽下去以後，天空會變紫色。等一下。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次的夕陽比較紅。……今天的也可以。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "（她靠著你的肩膀）……紫色了。你看。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  }
+ }
+}
