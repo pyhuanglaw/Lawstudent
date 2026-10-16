@@ -29,11 +29,11 @@
 | BG-10 | trip_oldtown（老街） | 同上（L854，「別的城市的老街」） | 大一下 | **B**（AA-B 裁定：D18 調成白天版、燈籠不亮） | AA-B 確認用 D18（字幕「別的城市的老街」）。AA_147：白天、牆上貼滿發黃的老照片；D18 是黃昏——同上待定 | 已確認來源；時段待定 |
 | BG-11 | trip_mountain（山上） | 同上（L860，「山上看星星」） | 大一下 | **B** | AA-B 確認用 D09 做**夜晚版**（星星、月亮，幾乎全黑）：調色＋星空，我來做 | TODO |
 | BG-12 | seaside_town（春假・海邊的小鎮） | ev_noodle_trip_spring_y1（L874，坐火車去） | 大一下 | **B** | AA-B 確認用 D13（字幕寫通稱） | 已確認 |
-| BG-13 | wenzhou_tutoring（溫州街・課輔班門口） | ev_peishan_tutoring（L992，term Y1S2） | 大一下 | **A** | 溫州街正式 GLB：選一棟一樓改成課輔班門口（招牌虛構）；晚上 | TODO |
+| BG-13 | wenzhou_tutoring（溫州街・課輔班門口） | ev_peishan_tutoring（L992，term Y1S2） | 大一下 | **A** | 溫州街正式 GLB：選一棟一樓改成課輔班門口（招牌虛構）；晚上 | DONE（LAWWW2-B 2026-10-16 08:4x：遊戲內截圖 19:36，溫州街 v6 的 22 號公寓大門＋「課輔」直幅、樓上「小書包兒童」招牌；`assets/bg/wenzhou_tutoring.webp` 1920×1080） |
 | BG-14 | yongkang_curry（永康街・咖哩店） | ev_family_dinner 家族聚餐（L978） | 大一下 | **C** | 店名照 D77；店面＋室內用 Café／麵店的構件 | TODO：查證永康街的咖哩店（不寫真名） |
-| BG-15 | ntu_soc（台大・社科院門口） | ev_kexin_visits_ntu（L1074）＝K2 第 6 週六 16:00 | 大一下 | **A** | 社科院正式 GLB 取鏡頭；**傍晚**（AA_147；可昕和品妤在門口等，品妤用 compact） | TODO（2026-10-16 05:1x 使用者指示「現有 3D 精修」優先；LAWWW-B 確認沒有卡劇情，排在精修後面） |
-| BG-16 | ntu_linze（台大・霖澤館前） | 同上（L1079） | 大一下 | **A** | 霖澤館正式 GLB 取鏡頭；傍晚 | TODO（2026-10-16 05:1x 使用者指示「現有 3D 精修」優先；LAWWW-B 確認沒有卡劇情，排在精修後面） |
-| BG-17 | ntu_avenue（台大・椰林大道） | 同上（L1087） | 大一下 | **A** | 椰林大道（遊戲校園）取鏡頭；傍晚 | TODO（2026-10-16 05:1x 使用者指示「現有 3D 精修」優先；LAWWW-B 確認沒有卡劇情，排在精修後面） |
+| BG-15 | ntu_soc（台大・社科院門口） | ev_kexin_visits_ntu（L1074）＝K2 第 6 週六 16:00 | 大一下 | **A** | 社科院正式 GLB 取鏡頭；**傍晚**（AA_147；可昕和品妤在門口等，品妤用 compact） | DONE（LAWWW2-B 2026-10-16 08:4x：遊戲內截圖傍晚，社科院正面＋菇狀柱；`assets/bg/ntu_soc.webp`） |
+| BG-16 | ntu_linze（台大・霖澤館前） | 同上（L1079） | 大一下 | **A** | 霖澤館正式 GLB 取鏡頭；傍晚 | DONE（LAWWW2-B 2026-10-16 08:4x：遊戲內截圖傍晚粉紅天空，霖澤館穿堂＋館名；`assets/bg/ntu_linze.webp`） |
+| BG-17 | ntu_avenue（台大・椰林大道） | 同上（L1087） | 大一下 | **A** | 椰林大道（遊戲校園）取鏡頭；傍晚 | DONE（LAWWW2-B 2026-10-16 08:4x：遊戲內截圖傍晚，椰林大道往總圖；`assets/bg/ntu_avenue.webp`） |
 | BG-18 | video（視訊） | ev_kexin_video_study（L1099）、ev_kexin_grades_open（L1149）、情人節 | 大一下 | **C** | **可昕那一端：書桌一角＋檯燈**，看不出是宿舍還是家（AA_147、LAWWW-B）；晚上；宿舍和寒假在家用同一張 | **交付** `3a85d367`（`assets/bg/video.webp`）→ LAWWW-B `5ec6a388` 接進 S.BG.video |
 | BG-19 | gongguan_cinema（公館・二輪戲院） | ev_zhiruo_early_show（L1243） | 大一下 | **C** | 公館的二輪戲院（店名照 D77），門口、售票口、海報（海報不放真實電影） | TODO：查證 |
 | BG-20 | soymilk_shop（豆漿店） | 同上（L1243） | 大一下 | **C** | 台式早餐店：店面用街屋構件，室內用麵店構件（不鏽鋼台、豆漿桶、燒餅爐） | TODO |
