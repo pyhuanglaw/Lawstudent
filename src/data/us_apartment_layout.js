@@ -57,6 +57,7 @@ const US_APARTMENT_LAYOUT={
       {"id":"bath_w","axis":"z","at":0.6,"from":1.0,"to":3.0},
       {"id":"bath_n","axis":"x","at":1.0,"from":0.6,"to":5.0,"open":[[1.8,2.6,"bathDoor"],[3.4,4.2,"closetDoor"]],"fade":true,"dir":[0,0,-1],"note":"衛浴＋衣物間的北牆（臥室那一面）：浴室、衣物間的門都從臥室開（使用者 10-16：浴室從臥室進去）"},
       {"id":"bath_e","axis":"z","at":3.0,"from":1.0,"to":3.0},
+      {"id":"tub_e","axis":"z","at":2.22,"from":2.17,"to":3.0,"note":"浴缸東端的短牆（美國的浴缸通常三面是牆；ART-US4 的浴簾桿東端靠這裡；AA-B 問、LAWWW2-B 13:2x 選 a）"},
       {"id":"bed_w","axis":"z","at":1.4,"from":-3.0,"to":1.0,"open":[[-1.0,-0.2,"bedroomDoor"]],"fade":true,"dir":[1,0,0],"note":"臥室西牆＝客廳的東牆（照片一：臥室門在客廳右邊的牆，門開著看得到床）"},
       {"id":"bal_w","axis":"z","at":-2.6,"from":-4.6,"to":-3.0,"note":"陽台兩側的外牆"},
       {"id":"bal_e","axis":"z","at":0.2,"from":-4.6,"to":-3.0}
@@ -108,12 +109,12 @@ const US_APARTMENT_LAYOUT={
     {"type":"deskChair","room":"bedroom","x":3.2,"z":-2.15,"ry":3.1416,"seat":true,"note":"往北 5 cm：離床的被子留空隙"},
     {"type":"ceilingLight","room":"bedroom","x":3.2,"z":-1.0,"note":"吸頂燈（照片一的臥室看得到）"},
     {"type":"suitcase","room":"bedroom","x":2.12,"z":-2.45,"w":0.95,"d":0.99,"ry":0,"cx":-0.21,"cz":0.065,"note":"還沒拆完的行李箱，攤平在地上（BB-B ART-US3：蓋子在西邊，整體 x −0.68～+0.27、z −0.43～+0.56；cx、cz＝佔地中心相對原點的位移）；原本 (1.8,−2.55) ry 0.4 蓋子會穿過西牆"},
-    {"type":"tub","room":"bath","x0":0.6,"x1":2.1,"z0":2.25,"z1":3.0,"note":"浴缸淋浴兩用（南牆）"},
+    {"type":"tub","room":"bath","x0":0.6,"x1":2.16,"z0":2.17,"z1":3.0,"note":"浴缸淋浴兩用（南牆）"},
     {"type":"toilet","room":"bath","x":0.95,"z":1.45,"ry":1.5708,"note":"靠西牆、面向東"},
     {"type":"vanity","room":"bath","x0":2.45,"x1":3.0,"z0":1.4,"z1":2.6,"note":"洗手台＋鏡子（東牆、面向西）"},
     {"type":"closetRods","room":"closet","note":"吊衣桿、層架"},
     {"type":"washerDryer","room":"laundry","x":0.2,"z":2.4,"note":"上下疊"},
-    {"type":"balconyChairs","x":-1.6,"z":-3.9,"n":2},
+    {"type":"balconyChairs","x":-1.6,"z":-4.1,"n":2,"chairs":[[-2.15,-4.1,0.2],[-1.05,-4.1,-0.2]],"table":{"x":-1.6,"z":-4.15,"r":0.3},"note":"ART-US4：兩張木條折疊椅面向欄杆（chairs＝x、z、轉角），中間小圓桌（直徑 0.6）"},
     {"type":"breezewaySconce","x":-0.2,"z":3.05,"y":2.0},
     {"type":"doorMat","x":-1.0,"z":3.4}
   ],

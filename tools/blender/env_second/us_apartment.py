@@ -89,7 +89,7 @@ M = {
     'wall': L.pbr(P + 'wall', 'painted_plaster_wall', tile=2.5, target='#e3d3b4', normal=0.15, maps=('diff', 'nor')),
     'wall_k': L.pbr(P + 'wall_kitchen', 'painted_plaster_wall', tile=2.5, target='#ece3cf', normal=0.15, maps=('diff', 'nor')),
     'siding': img_mat(P + 'siding', 'us_siding.png', rough=0.7),
-    'concrete': L.pbr(P + 'concrete', 'concrete_floor_painted', tile=1.5, target='#c2bfb8', normal=0.3, maps=('diff', 'nor')),
+    'concrete': L.pbr(P + 'concrete', 'concrete_floor_painted', tile=1.5, target='#c2bfb8', sat=0.0, normal=0.3, maps=('diff', 'nor')),   # sat 0：原貼圖剝落的藍色油漆在陽台地上一塊一塊藍
     'backsplash': L.pbr(P + 'backsplash', 'long_white_tiles', tile=0.5, target='#d8d2c4', normal=0.4, maps=('diff', 'nor'), rough_value=0.25),
     'ceil': L.flat(P + 'ceiling', '#f1efea', rough=0.9, cull=True),
     'trim': L.flat(P + 'trim', '#f4f2ec', rough=0.4), 'door': L.flat(P + 'door', '#f2f0ea', rough=0.35),
@@ -201,9 +201,12 @@ for (p0, p1) in ((cw['x0'] - 0.42, cw['x0'] + 0.08), (cw['x1'] - 0.08, cw['x1'] 
 for tag, mk in (('off', 'view_spring'), ('on', 'view_snow')):
     g = B.group(f'SEASON_SNOW_{tag}', root, {'season': 'snow', 'state': tag})
     bm = bmesh.new(); ul = bm.loops.layers.uv.new('UVMap'); z = WALLDEF['N']['at'] - 9.0
-    vs = [bm.verts.new(g2b(*p)) for p in ((8.0, -1.5, z), (-10.0, -1.5, z), (-10.0, 6.0, z), (8.0, 6.0, z))]; f = bm.faces.new(vs)
+    # 公寓在二樓：地面在 y −3.0。景的下緣放在地面（畫上的停車場和車子貼地），中間鋪一片地（從陽台往下看不會看到景的下緣懸空）
+    vs = [bm.verts.new(g2b(*p)) for p in ((8.0, -3.0, z), (-10.0, -3.0, z), (-10.0, 4.5, z), (8.0, 4.5, z))]; f = bm.faces.new(vs)
     for lp, uv in zip(f.loops, ((1, 0), (0, 0), (0, 1), (1, 1))): lp[ul].uv = uv
     B.mesh_obj(P + f'view_{tag}', bm, M[mk], g)
+    gm = Mesh(P + f'lot_{tag}', L.flat(P + f'lot_{tag}', '#6b6b67' if tag == 'off' else '#e6eaee', rough=0.9))
+    gm.quad([(8.0, -3.0, z), (8.0, -3.0, WALLDEF['N']['at']), (-10.0, -3.0, WALLDEF['N']['at']), (-10.0, -3.0, z)][::-1]); gm.finish(g, uv=True)
 
 # ======================== 門 ========================
 def six_panel(m, axis, at, c, y0, w_, nrm, rot=0.0):
@@ -266,6 +269,16 @@ if not US4_OK:
     acc('porcelain').rbox(vn['x0'] - 0.02, vn['x1'], 0.84, 0.88, vn['z0'] - 0.02, vn['z1'] + 0.02, r=0.01, seg=1)
     acc('chrome').cyl(((vn['x0'] + vn['x1']) / 2 + 0.18, 0.88, (vn['z0'] + vn['z1']) / 2), ((vn['x0'] + vn['x1']) / 2 + 0.18, 1.02, (vn['z0'] + vn['z1']) / 2), 0.015, seg=8)
     acc('mirror').quad([(3.0 - T / 2 - 0.01, 1.0, vn['z1'] - 0.05), (3.0 - T / 2 - 0.01, 1.0, vn['z0'] + 0.05), (3.0 - T / 2 - 0.01, 1.85, vn['z0'] + 0.05), (3.0 - T / 2 - 0.01, 1.85, vn['z1'] - 0.05)])
+
+# 浴缸三面牆的白磁磚（美國的浴缸淋浴兩用：南牆、西牆、東端短牆 tub_e，高 0.45～1.95；用廚房擋水牆的長條白磚）
+_tb = F['tub']; _te = [w for w in LAY['walls'][0]['list'] if w['id'] == 'tub_e']
+_sx0, _sx1, _sz = 0.6 + T / 2, (_te[0]['at'] - T / 2) if _te else _tb['x1'], 3.0 - T / 2 - 0.005
+acc('backsplash').quad([(_sx1, 0.45, _sz), (_sx0, 0.45, _sz), (_sx0, 1.95, _sz), (_sx1, 1.95, _sz)])                       # 南牆，面向北
+_wx = 0.6 + T / 2 + 0.005
+acc('backsplash').quad([(_wx, 0.45, 3.0 - T / 2), (_wx, 0.45, _tb['z0']), (_wx, 1.95, _tb['z0']), (_wx, 1.95, 3.0 - T / 2)])   # 西牆，面向東
+if _te:
+    _ex = _te[0]['at'] - T / 2 - 0.005
+    acc('backsplash').quad([(_ex, 0.45, _te[0]['from']), (_ex, 0.45, 3.0 - T / 2), (_ex, 1.95, 3.0 - T / 2), (_ex, 1.95, _te[0]['from'])])   # 東端短牆，面向西
 
 # ======================== 陽台、樓梯平台 ========================
 for x in (BAL['x0'], BAL['x1']):

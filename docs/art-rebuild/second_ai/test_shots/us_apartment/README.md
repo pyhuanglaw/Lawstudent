@@ -1,6 +1,6 @@
 # SCN-US-01 美國公寓（大三下交換，祐廷租的校外學生公寓 1x1）
 
-狀態：**MODEL_READY**（LAWWW2-B 2026-10-16 13:0x UTC）。目前只有 Blender 預覽，還沒有遊戲內截圖：LAWWW-B 接上區域後，我再用 `fast_shots.py` 拍，拍完標 `READY_FOR_ART_REVIEW`。
+狀態：**MODEL_READY**（LAWWW2-B 2026-10-16 13:0x UTC；13:2x 加了 ART-US4 衛浴＋陽台小物、浴缸短牆和磁磚）。目前只有 Blender 預覽，還沒有遊戲內截圖：LAWWW-B 接上區域後，我再用 `fast_shots.py` 拍，拍完標 `READY_FOR_ART_REVIEW`。
 
 ## 檔案
 
@@ -8,9 +8,9 @@
 |---|---|
 | `src/data/us_apartment_layout.js` | 配置 v2：房間、牆、開口、門、窗、家具、出生點、座位。**遊戲導航和 Blender 讀同一份**。13:0x 修正了臥室家具位置，見下面「這一版改了什麼」 |
 | `tools/blender/env_second/us_apartment.py` | 重建：`/opt/blenv/bin/python tools/blender/env_second/us_apartment.py` |
-| `assets/models/env/second_ai/us_apartment.glb`（＋`.json`） | 約 2.3 MB；33,288 個三角形；30 個材質；家具 24 件 |
-| 家具三組 | 客廳 `aa_support/us_living_props.glb`（ART-US1，AA-B）、廚房 `aa_support/us_kitchen_props.glb`（ART-US2，AA-B）、臥室 `bb_support/us_bedroom_props.glb`（ART-US3，BB-B）。都已經擺進 `us_apartment.glb`，遊戲不用另外載入 |
-| 預覽 | `apt_living_kitchen.webp`、`apt_kitchen.webp`、`apt_bedroom.webp`、`apt_bed_desk.webp`（Blender Cycles，**不是遊戲畫面**） |
+| `assets/models/env/second_ai/us_apartment.glb`（＋`.json`） | 約 2.5 MB；38,074 個三角形；33 個材質；家具 32 件 |
+| 家具四組 | 客廳 `aa_support/us_living_props.glb`（ART-US1，AA-B）、廚房 `aa_support/us_kitchen_props.glb`（ART-US2，AA-B）、臥室 `bb_support/us_bedroom_props.glb`（ART-US3，BB-B）、衛浴＋陽台 `aa_support/us_bath_props.glb`（ART-US4，AA-B）。都已經擺進 `us_apartment.glb`，遊戲不用另外載入 |
+| 預覽 | `apt_living_kitchen.webp`、`apt_kitchen.webp`、`apt_bedroom.webp`、`apt_bed_desk.webp`、`apt_bath_tub.webp`、`apt_bath_vanity.webp`、`apt_balcony.webp`（Blender Cycles，**不是遊戲畫面**） |
 
 ## 節點（遊戲用名字做事的）
 
@@ -63,7 +63,12 @@
 3. **可以互動的家具**：
    - 冰箱（`use:'fridge'`）、爐子（`use:'cook'`）；
    - 床（`use:'sleep'`）、書桌（`use:'study'`）。
-4. **還沒做**：衛浴是這裡做的簡單版（浴缸、馬桶、洗手台）；AA-B 在做 ART-US4 衛浴＋陽台小物，交件後我換掉，節點會變成 `US_TUB`、`US_TOILET`、`US_VANITY`…。
+4. **衛浴（13:2x）**：AA-B 的 ART-US4 已經換上。
+   - 節點 `US_TUB`、`US_TOILET`、`US_VANITY`（鏡子在裡面）、`US_TOWELBAR`、`US_BATHMAT`、`US_BALCONY_CHAIR`×2、`US_BALCONY_TABLE`。
+   - layout 加了浴缸東端的短牆 `tub_e`（x 2.22，z 2.17～3.0），浴缸改成 x 0.6～2.16。**導航請加這道牆**。
+   - 浴缸三面牆貼白磁磚（0.45～1.95 m）。
+   - 陽台：兩張椅子 (−2.15, −4.1)、(−1.05, −4.1) 面向欄杆，小圓桌 (−1.6, −4.15)，直徑 0.6。
+   - layout 的 `balconyChairs` 加了 `chairs`（x、z、轉角）和 `table`，導航照這兩個欄位。
 5. **測試**：照計畫寫 `tests/us_apartment_glb_integration.py`，比照 `gongguan_glb_integration`：
    - 導航格、互動點和備用版完全相同；
    - 量 draw call 和三角形。
@@ -72,5 +77,7 @@
 
 - 只有 Blender 預覽，沒有遊戲內截圖；手機效能沒量過。整間 33k 三角形、30 個材質，室內一次看到的大概一半。
 - 牆是 Poly Haven 灰泥，近看有一點斑駁，和照片的平滑漆牆比起來偏舊。
-- 浴室是簡單版，等 ART-US4。
 - 窗外是貼圖（停車場、對面的壁板公寓、樹林），不是 3D。
+  - 13:2x 把景的下緣放到地面（公寓在二樓，地面 y −3.0），中間鋪一片地（`SEASON_SNOW_on`／`off` 各一片：柏油色／雪）。
+  - 從陽台往下看不會看到景懸空；但車子還是畫的、平的。
+- 陽台地面的油漆貼圖改成無彩度：原本一塊一塊藍色。
