@@ -486,7 +486,7 @@
    "id": "ART-04",
    "title": "prop_pothos.glb",
    "area": "ART",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "待開工",
    "next": "放宿舍 203 窗台（黃金葛事件、互動點已有）；位置尺寸本批問 LAWWW2-B",
    "priority": "P3",
@@ -504,7 +504,15 @@
    "authorized": "D79",
    "sha": [
     "2baa5ac1"
-   ]
+   ],
+   "note": "2026-10-16 D89（使用者：美術主要給 LAWWW2）：美術製作改給 LAWWW2；LAWWW 只負責接進遊戲、導航、互動與測試。",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "黃金葛模型照 ART-04（203 窗台；位置尺寸 LAWWW2 定，互動點 LAWWW 已有）",
+    "acceptance": "交付 GLB／圖＋遊戲內截圖；建築場景 READY_FOR_ART_REVIEW（使用者標 ART_APPROVED）、人物相關 BB-B 驗收",
+    "ack": "SENT"
+   }
   },
   {
    "id": "ART-05",
@@ -6835,7 +6843,7 @@
    "id": "SCN-V0-01",
    "title": "經濟系系館（社科院現有 3D＋ART-01）",
    "area": "SCN",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "待開工",
    "next": "ART-01 已接線（外觀、圖書館的門、大樓的門不開）；大樓室內（一樓大廳、系辦、迎新教室）等 SOCSCI_PLAN 第③步：AA-B 確認用途後排",
    "priority": "P1",
@@ -6850,7 +6858,15 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "note": "2026-10-16 D89（使用者：美術主要給 LAWWW2）：美術製作改給 LAWWW2；LAWWW 只負責接進遊戲、導航、互動與測試。",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "社科院大樓室內（一樓大廳、系辦、迎新教室；用途等 AA-B 確認後開工）",
+    "acceptance": "交付 GLB／圖＋遊戲內截圖；建築場景 READY_FOR_ART_REVIEW（使用者標 ART_APPROVED）、人物相關 BB-B 驗收",
+    "ack": "SENT"
+   }
   },
   {
    "id": "SCN-V0-02",
@@ -6885,7 +6901,7 @@
    "id": "SCN-V3-01",
    "title": "第二個房間（主線 3）2D＋物件",
    "area": "SCN",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "待開工",
    "next": "SYS-06",
    "priority": "P2",
@@ -6900,7 +6916,15 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "note": "2026-10-16 D89（使用者：美術主要給 LAWWW2）：美術製作改給 LAWWW2；LAWWW 只負責接進遊戲、導航、互動與測試。",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "第二個房間的 2D 與物件（SYS-06；程式已接，物件圖由 LAWWW2）",
+    "acceptance": "交付 GLB／圖＋遊戲內截圖；建築場景 READY_FOR_ART_REVIEW（使用者標 ART_APPROVED）、人物相關 BB-B 驗收",
+    "ack": "SENT"
+   }
   },
   {
    "id": "SCN-V3-02",
@@ -6935,7 +6959,7 @@
    "id": "SCN-V3-03",
    "title": "模擬法庭（霖澤館 201 改佈置）",
    "area": "SCN",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "待開工",
    "next": "SYS-09",
    "priority": "P2",
@@ -6950,13 +6974,21 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "note": "2026-10-16 D89（使用者：美術主要給 LAWWW2）：美術製作改給 LAWWW2；LAWWW 只負責接進遊戲、導航、互動與測試。",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "霖澤館 201 法庭擺法（模 5 比賽那天，5/1）：桌椅擺成兩邊",
+    "acceptance": "交付 GLB／圖＋遊戲內截圖；建築場景 READY_FOR_ART_REVIEW（使用者標 ART_APPROVED）、人物相關 BB-B 驗收",
+    "ack": "SENT"
+   }
   },
   {
    "id": "SCN-V4-01",
    "title": "第三個房間（主線 5）",
    "area": "SCN",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "待開工",
    "next": "SYS-06",
    "priority": "P2",
@@ -6971,7 +7003,15 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "note": "2026-10-16 D89（使用者：美術主要給 LAWWW2）：美術製作改給 LAWWW2；LAWWW 只負責接進遊戲、導航、互動與測試。",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "第三個房間的 2D 與物件（主線 5）",
+    "acceptance": "交付 GLB／圖＋遊戲內截圖；建築場景 READY_FOR_ART_REVIEW（使用者標 ART_APPROVED）、人物相關 BB-B 驗收",
+    "ack": "SENT"
+   }
   },
   {
    "id": "SCN-V4-02",
@@ -7033,7 +7073,7 @@
    "id": "SCN-V5-01",
    "title": "第四個房間（主線 10）",
    "area": "SCN",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "待開工",
    "next": "SYS-06",
    "priority": "P2",
@@ -7048,13 +7088,21 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "note": "2026-10-16 D89（使用者：美術主要給 LAWWW2）：美術製作改給 LAWWW2；LAWWW 只負責接進遊戲、導航、互動與測試。",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "第四個房間的 2D 與物件（主線 10）",
+    "acceptance": "交付 GLB／圖＋遊戲內截圖；建築場景 READY_FOR_ART_REVIEW（使用者標 ART_APPROVED）、人物相關 BB-B 驗收",
+    "ack": "SENT"
+   }
   },
   {
    "id": "SCN-V5-02",
    "title": "畢業典禮（G6）",
    "area": "SCN",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "待開工",
    "next": "SYS-12",
    "priority": "P2",
@@ -7069,7 +7117,15 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "note": "2026-10-16 D89（使用者：美術主要給 LAWWW2）：美術製作改給 LAWWW2；LAWWW 只負責接進遊戲、導航、互動與測試。",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "畢業典禮場景美術（G6）",
+    "acceptance": "交付 GLB／圖＋遊戲內截圖；建築場景 READY_FOR_ART_REVIEW（使用者標 ART_APPROVED）、人物相關 BB-B 驗收",
+    "ack": "SENT"
+   }
   },
   {
    "id": "SCN-V5-03",
@@ -9218,7 +9274,7 @@
    "id": "ART-BG12",
    "title": "2D 背景 seaside_town「春假・海邊的小鎮」：ev_noodle_trip_spring_y1（用約會底圖 D13，字幕寫通稱）",
    "area": "ART",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "待開工",
    "next": "D13 底圖在企劃線的話直接接進 S.BG；沒有就等 ART-14",
    "priority": "P2",
@@ -9233,7 +9289,15 @@
     "confirmed": false
    },
    "source": "BG_TRACKER；AA-B 確認用 D13",
-   "authorized": "D79"
+   "authorized": "D79",
+   "note": "2026-10-16 D89（使用者：美術主要給 LAWWW2）：美術製作改給 LAWWW2；LAWWW 只負責接進遊戲、導航、互動與測試。",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "2D 背景 seaside_town（春假海邊小鎮；可以用約會底圖 D13，字幕寫通稱）",
+    "acceptance": "交付 GLB／圖＋遊戲內截圖；建築場景 READY_FOR_ART_REVIEW（使用者標 ART_APPROVED）、人物相關 BB-B 驗收",
+    "ack": "SENT"
+   }
   },
   {
    "id": "ART-CH-XUN",
