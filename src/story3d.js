@@ -538,6 +538,7 @@ const STORY = (function(){
     if(typeof PHONE!=='undefined'){ try{ S.phoneRules(GM); PHONE.tick(G,out=>{ if(out.length) GM.toast('手機｜'+PHONE.notice(G,out[0]),3800); if(GM.phoneBadge) GM.phoneBadge(); }); }catch(e){ console.warn('PHONE',e); } }   /* 手機：排定時間的訊息（交接包 v1）*/
     if(G.zone==='noodle') noodleRegulars(GM);   /* 麵店的固定客人：時間到了進來、離開 */
     if(typeof TRIP!=='undefined'&&TRIP.at(G)){ TRIP.tick(GM); return; }   /* 自由出行途中（DL-06）：在外面的時候校園的事件不發生 */
+    if(typeof HOME!=='undefined'&&HOME.winterStartDue&&HOME.winterStartDue(G)){ HOME.winterStart(GM).catch(e=>console.warn('HOME.winterStart',e)); return; }   /* 經濟系大一的寒假：回臺北的家（AA_154 A16）*/
     if(typeof HOME!=='undefined'&&HOME.at(G)){ HOME.tick(GM); return; }   /* 讀檔時人在臺北的家：回到家的選單（在家的時候宿舍、校園的事件不發生）*/
     if(G.zone==='dorm'){ if(S.isEcon(G)&&S.y0Tick(GM)) return; S.dormItems(GM); if(fyPotsTick(GM,dt)) return; }
     S.kaiDormTick(GM);   /* 室友阿凱的宿舍事件（K-D3 鍵盤聲、K-D5 和解；吵架第 4 天自己和好）*/   /* 房間裡跟著劇情出現的東西（黃金葛、阿凱的鍵盤盒子、方奕廷的三盆植物）*/
@@ -854,6 +855,14 @@ const STORY = (function(){
       PHONE.at(G,fd,21,[PY('📷（一張表格）各縣市年菜價格比較。台北最貴。'),TR('妳為什麼要做這個？'),PY('我媽叫我去買。我要讓她知道代價。'),XU('紅包的期望值我算好了。'),XU('三個阿姨、兩個舅舅、一個不知道為什麼會來的表叔。'),XU('表叔的變異數很大。'),
         WL('📷（一張照片：海邊、一台腳踏車）我騎到墾丁了！'),TR('從哪裡騎？'),WL('枋寮。……好啦，坐火車到枋寮。'),
         Object.assign({th:T,from:'kexin',text:'假設紅包可以轉讓，你們會轉給誰？'},{ask:{id:'y0_f1',until:(fd+1)*24+18,opts:[{t:'轉給表叔。增加他的變異數。',set:{Y0_UNCLE:true},say:[XU('……這是今年最好的經濟學。')]},{t:'轉給品妤，讓她付年菜。',say:[PY('收到。不退。')]},{t:'（已讀，不回）',post:false,set:{Y0_F1_SEEN:true},say:[{th:T,from:'kexin',text:(G.name||'祐廷')+'已讀不回。這也是一種答案。'}]}]}})],'y0_f1'); } }
+    /* E24 每晚的訊息（BB_104 8b-16；AA_154 第 213 行）：寒假（E19 之後）可昕私訊。一般的晚上（暫定 1/10、1/18 的 22:30，等 AA-B；第三則「什麼湯」的回覆選項等 BB-B）：
+       「假設寒假有一天可以跳過……」今天。／除夕。；「寒假胖了是存糧」。那一晚（暫定 2/8 23:00）：「如果可以重來一次選科系，你會選什麼？」三選一，回答不記錄；
+       「還是經濟。」＝她停了很久才回「好。」（15 分鐘後）。寒假模式跳過的日子：照時間戳記收在手機裡 */
+    if(S.isEcon(G)){ const K=t=>({th:'p:kexin',from:'kexin',text:t}), D=k=>S.dayOfKey(k), past=(d,h)=>d!=null&&(G.day>d||(G.day===d&&G.hour>=h))&&G.day<=d+40;
+      { const d=D('2025-01-10'); if(past(d,22.5)&&!PHONE.sent(G,'y0_e24a')) PHONE.at(G,d,22.5,[Object.assign(K('假設寒假有一天可以跳過，你要跳哪一天？'),{ask:{id:'y0_e24a',opts:[{t:'今天。',say:[K('……今天有跟我聊天，不能跳。')]},{t:'除夕。',say:[K('除夕有紅包。你很奇怪。')]}]}})],'y0_e24a'); }
+      { const d=D('2025-01-18'); if(past(d,22.5)&&!PHONE.sent(G,'y0_e24b')) PHONE.at(G,d,22.5,[K('我媽說我寒假胖了。我說這是存糧。')],'y0_e24b'); }
+      { const d=D('2025-02-08'); if(past(d,23)&&!PHONE.sent(G,'y0_e24n')) PHONE.at(G,d,23,[Object.assign(K('如果可以重來一次選科系，你會選什麼？'),{ask:{id:'y0_e24n',opts:[{t:'還是經濟。'},{t:'我不知道。',say:[K('我也不知道。……晚安。')]},{t:'妳呢？',say:[K('我先問的。……算了，晚安。')]}]}})],'y0_e24n');
+        const m=PHONE.byAsk&&PHONE.byAsk(G,'y0_e24n'); if(m&&m.ans===0&&!PHONE.sent(G,'y0_e24n_late')) PHONE.at(G,G.day,G.hour+0.25,[K('好。')],'y0_e24n_late'); } }
     /* 校慶問答攤（BB_95 3-7，DL-04B）：前一天（週五）21:00 法服群組，學姊提醒；沒加入法服的玩家改成校園公告欄的旁白（AMBIENT 的 festEve）*/
     if(PHONE.inGroup(G,'lawclub_study')){ const fs=termDay('Y1S1',11,6); if(fs&&G.day===fs-1) PHONE.at(G,fs-1,21,[{th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'明天校慶，問答攤十點開。輪班表在記事本。'}],'fest_eve_lawclub'); }
     /* 家族聚餐（BB_95 3-8）：前一週 Kevin 在家族群組約；當晚 22:30 學姊訂正考古題；沒去的玩家 22:00 Kevin 貼資料夾、學姊說書會留給學弟 */

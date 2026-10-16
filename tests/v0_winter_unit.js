@@ -1,0 +1,66 @@
+// v0 寒假（AA_154 A16）：1/6 轉場回家、寒假模式的選單（過幾天／睡覺停在固定點）、F1、E21、E24、E23、回宿舍——不需要瀏覽器。
+// 修改前沒有寒假模式（全部失敗）。用法：node tests/v0_winter_unit.js
+const fs=require('fs'), vm=require('vm'), path=require('path');
+const ROOT=path.resolve(__dirname,'..');
+global.window=global; global.self=global; global.P3={CAST:{}};
+global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
+global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
+global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
+let said=[], opts=[], picks=[], G=null;
+const E={q:{level:'medium'},player:{busy:false,obj:{position:{x:0,y:0,z:0},rotation:{y:0}},lv:0},zone:{roomAt:()=>null,seats:[]},npcs:[],interactables:[],levels:null,setWeather(){},hour:0};
+const GM={get G(){ return G; },E,D:{active:false},npc:{},
+  sceneBegin(){},sceneEnd(){},face(){},cine(){},caption(){},sleep:()=>Promise.resolve(),memo(){},autosave(){},addNote(){},energy(){},money(){},setGoal(){},toast(){},updateHUD(){},letterbox(){},phoneBadge(){},
+  titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
+  say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
+const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+  SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
+const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };
+const LV={ACQ:[10],FAM:[25],FRI:[45,30],CLO:[65,50,45]};
+const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.toFixed(3); STORY.phoneRules(GM); PHONE.tick(G); } };
+const termDay=(term,w,wd)=>STORY.termDay(term,w,wd);
+const ev=id=>STORY_EVENTS.find(e=>e.id===id);
+const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
+const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
+const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
+const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
+(async()=>{
+  const K=k=>STORY.dayOfKey(k), J5=K('2025-01-05'), J6=K('2025-01-06'), J27=K('2025-01-27'), J28=K('2025-01-28'), F8=K('2025-02-08'), F16=K('2025-02-16');
+  fresh(J5,22,'dorm'); G.stage='econ'; check('1. 1/5 晚上：還不是寒假',!HOME.winterStartDue(G));
+  G.day=J6; G.hour=5.5; check('1. 1/6 06:00 以前不轉場',!HOME.winterStartDue(G)); G.hour=8.5; check('1. 1/6 早上：寒假開始',HOME.winterStartDue(G));
+  G.stage='law'; check('1. 法律系的存檔：沒有',!HOME.winterStartDue(G)); G.stage='econ';
+  // 轉場 → 選單：吃晚餐／過幾天／睡覺，沒有回宿舍
+  picks=[]; let menus=[]; const choose0=GM.choose; let script=[];
+  GM.choose=async o=>{ const t=o.map(q=>q.t); menus.push(t); const w=script.shift(); if(w==null){ throw new Error('STOP'); } const k=t.findIndex(x=>x.includes(w)); return k<0?0:k; };
+  script=['過幾天']; try{ await HOME.winterStart(GM); }catch(e){ if(e.message!=='STOP') throw e; }
+  check('2. 轉場：在家、寒假模式、選單沒有「回宿舍」',HOME.at(G)&&G.home.winter===true&&G.flags.Y0_WINTER_START&&!menus[0].some(t=>/回宿舍/.test(t))&&menus[0].includes('過幾天')&&menus[0].includes('睡覺'),JSON.stringify(menus[0]));
+  check('2. 「過幾天」跳到 1/27（一）21:00（F1），手機收到小年夜的群組',G.day===J27&&Math.abs(G.hour-21)<1e-6&&PHONE.sent(G,'y0_f1'),G.day+' '+G.hour);
+  check('2. 跳過的日子：E24 的兩則照時間戳記收在可昕的私訊裡（1/10、1/18）',TH('p:kexin').some(m=>m.text==='假設寒假有一天可以跳過，你要跳哪一天？')&&TH('p:kexin').some(m=>m.text==='我媽說我寒假胖了。我說這是存糧。'));
+  // 睡覺會停在 E21 22:00 → E21 自動演
+  menus=[]; said=[]; script=['睡覺','過幾天','好。','過幾天']; G.home.eat={day:J27}; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
+  const L=said.map(x=>x.t);
+  check('3. 1/27 晚上睡覺（1/28 早上醒）→「過幾天」到 1/28 22:00 → E21「我們每天晚上這樣講電話，很像在一起耶。」…「好。」→「你看，我就說你會被騙。」、E21_ANSWER＝yes',L.includes('我們每天晚上這樣講電話，很像在一起耶。')&&L.includes('你看，我就說你會被騙。')&&G.flags.E21_ANSWER==='yes',JSON.stringify(L));
+  check('3. E21 之後「過幾天」跳到 2/8 23:00（E24 那一晚）',G.day===F8&&Math.abs(G.hour-23)<1e-6,G.day+' '+G.hour);
+  run(23,23.1); const q=TH('p:kexin').find(m=>m.text==='如果可以重來一次選科系，你會選什麼？'); check('4. E24 那一晚：「如果可以重來一次選科系，你會選什麼？」三選一',!!q&&q.ask.opts.map(o=>o.t).join('/')==='還是經濟。/我不知道。/妳呢？');
+  PHONE.answer(G,'y0_e24n',0); run(23.1,23.2); check('4. 「還是經濟。」：她沒有馬上回',!TH('p:kexin').some(m=>m.text==='好。'));
+  run(23.2,23.45); check('4. 15 分鐘後「好。」；回答不記錄',TH('p:kexin').some(m=>m.text==='好。')&&!Object.keys(G.flags).some(k=>/E24/.test(k)));
+  // 最後：E23 → 回宿舍
+  menus=[]; said=[]; script=['過幾天']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
+  const L2=said.map(x=>x.t);
+  check('5. 「過幾天」跳到 2/16 18:00 → E23「（臺北的家，你的房間。書架最上面有一本舊《民法》。）」…「（你把書放回去，又拿下來，放進行李箱。）」',L2[0]==='（臺北的家，你的房間。書架最上面有一本舊《民法》。）'&&L2.includes('（你把書放回去，又拿下來，放進行李箱。）'),JSON.stringify(L2));
+  check('5. E23 之後回宿舍：不在家、寒假結束、人在宿舍房間、2/16 晚上',!HOME.at(G)&&G.flags.Y0_WINTER_DONE===true&&G.zone==='dorm'&&G.day===F16&&G.hour>20,G.zone+' '+G.day+' '+G.hour);
+  check('5. 寒假結束後不會再轉場',!HOME.winterStartDue(G));
+  // E21 三個回答
+  for(const [pk,val,line] of [['「妳是認真的嗎？」','serious','你猜。新年快樂。'],['（一起開玩笑）','joke','好啊，在一起一分鐘。……時間到。']]){ fresh(J28,22,'home'); G.stage='econ'; said=[]; GM.choose=async o=>{ const k=o.findIndex(q=>(q.t||q.text)===pk); return k<0?0:k; }; await EVENTS.run(ev('ev_y0_e21'));
+    check('6. E21 '+pk+'→「'+line+'」、E21_ANSWER＝'+val,said.some(x=>x.t===line)&&G.flags.E21_ANSWER===val); }
+  fresh(J28,21.9,'home'); G.stage='econ'; check('6. E21：22:00 以前不演',!EVENTS.check(ev('ev_y0_e21'))); G.hour=22; check('6. E21：22:00 演',EVENTS.check(ev('ev_y0_e21')));
+  // 睡覺會經過 E21 的 22:00：停在 22:00 演 E21
+  fresh(J28,21.5,'home'); G.stage='econ'; G.flags.Y0_WINTER_START=true; G.home={at:true,winter:true,eat:{day:J28}}; said=[]; script=['睡覺','妳是認真的嗎']; GM.choose=async o=>{ const t=o.map(q=>q.t); const w=script.shift(); if(w==null) throw new Error('STOP'); const k=t.findIndex(x=>x.includes(w)); return k<0?0:k; };
+  try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; } check('7. 1/28 21:30 睡覺：停在 22:00、E21 照演（核心不會睡過）',G.day===J28&&said.some(x=>x.t==='你猜。新年快樂。')&&G.flags.E21_ANSWER==='serious',G.day+' '+G.hour);
+  GM.choose=choose0;
+  console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
+})().catch(e=>{ console.error(e); process.exit(1); });

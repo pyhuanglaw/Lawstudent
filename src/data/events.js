@@ -1484,6 +1484,25 @@ const STORY_EVENTS=[
   { id:'ev_y0_xl1', stage:'econ', title:'那罐肉燥', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S1'], weeks:[8], time:[18,24], once:true, background:'blur',
     prereq:{custom:G=>!!(G.flags&&G.flags.Y0_SAUCE)},
     dialogue:[ {speaker:'econ_zhengxun',text:'那罐肉燥還有嗎？我期中需要它。'} ] },
+  /* ★E21 除夕的電話（BB_104 8-7；AA_154 第 211 行）：1/28（二）22:00 在臺北的家（寒假模式的選單到這個時間就演，home3d.js；trigger:'home'）。
+     三個回答記 E21_ANSWER（yes／serious／joke；E25 讀）。第三個選項 BB 寫的是「一起開玩笑」（動作），按鈕字照這個 */
+  { id:'ev_y0_e21', stage:'econ', title:'除夕的電話', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark',
+    prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-01-28'):null; return d!=null&&G.day===d&&G.hour>=22; }},
+    dialogue:[ {scene:'臺北的家',bg:'home_living'},
+      {speaker:'kexin',expression:'smile',text:'我們每天晚上這樣講電話，很像在一起耶。'},{speaker:'kexin',expression:'neutral',text:'不然要在一起嗎？'},
+      {speaker:'kexin',expression:'laugh',text:'……開玩笑的啦。'},{speaker:'kexin',expression:'smile',text:'你一定在電話那頭，露出很好笑的表情。'},
+      {choice:[{text:'「好。」',set:{E21_ANSWER:'yes'},goto:'y'},{text:'「妳是認真的嗎？」',set:{E21_ANSWER:'serious'},goto:'s'},{text:'（一起開玩笑）',set:{E21_ANSWER:'joke'},goto:'j'}]},
+      {label:'y'},{speaker:null,text:'電話那頭安靜一秒，她笑出來。'},{speaker:'kexin',expression:'laugh',text:'你看，我就說你會被騙。'},{speaker:null,text:'（之後她很快說要去吃年夜飯了）'},{goto:'end'},
+      {label:'s'},{speaker:'kexin',expression:'smile',text:'你猜。新年快樂。'},{goto:'end'},
+      {label:'j'},{speaker:'kexin',expression:'laugh',text:'好啊，在一起一分鐘。……時間到。'},
+      {label:'end'} ] },
+  /* ★E23 家裡的房間：看不懂的民法（BB_104 8b-15；AA_154 A15）：寒假最後一天 2/16（日）18:00，臺北的家，自動、沒有選項。演完記 Y0_WINTER_DONE（home3d.js 接著回宿舍）。
+     那本《民法》之後跟著搬到法律系的房間（房間物件「書架上的舊《民法》」已經有）*/
+  { id:'ev_y0_e23', stage:'econ', title:'看不懂的民法', participants:[], location:'any', trigger:'home', once:true, background:'dark',
+    prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-02-16'):null; return d!=null&&G.day===d&&G.hour>=18; }},
+    dialogue:[ {scene:'臺北的家',bg:'home_living'},{speaker:null,text:'（臺北的家，你的房間。書架最上面有一本舊《民法》。）'},
+      {speaker:null,text:'小時候遇到事情，你就去翻這本書。'},{speaker:null,text:'現在還是看不懂。可是你想知道，看得懂的人在看什麼。'},
+      {speaker:null,text:'（樓下有人叫你吃飯。）'},{speaker:null,text:'（你把書放回去，又拿下來，放進行李箱。）'},{set:{Y0_WINTER_DONE:true}} ] },
   /* XL-2 阿勳一句（表叔；BB_110 F1 的回聲，AA_154 A28、A43）：Y0S2 第 1 週第一次在宿舍遇到阿勳（和 XL-1 同一套），F1 選了「轉給表叔」（Y0_UNCLE）才說 */
   { id:'ev_y0_xl2', stage:'econ', title:'表叔的變異數', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S2'], weeks:[1], time:[18,24], once:true, background:'blur',
     prereq:{custom:G=>!!(G.flags&&G.flags.Y0_UNCLE)},

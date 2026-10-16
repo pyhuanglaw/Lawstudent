@@ -88,7 +88,9 @@ const after=(arr,q)=>{ const i=arr.indexOf(q); return i<0?[]:arr.slice(i+1); };
     check('4 own 之後：以安的人物面板沒有經濟系',!/經濟/.test(d2),d2); }
   // ---------- 5 程式碼與資料：舊句子、以安的家庭欄 ----------
   { const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');
-    check('5 story3d.js 整個檔案搜尋不到：'+OLD.join('、'),oldIn([src]).length===0,oldIn([src]).join('、'));
+    /* 別的事件合法用到同樣的字（經濟系寒假 E24 可昕「我媽說我寒假胖了。我說這是存糧。」，BB_104 8b-16）：先拿掉這幾句再搜尋 */
+    const LEGIT=['我媽說我寒假胖了。我說這是存糧。']; const src2=LEGIT.reduce((a,w)=>a.split(w).join(''),src);
+    check('5 story3d.js 整個檔案搜尋不到：'+OLD.join('、')+'（不算 '+LEGIT.join('、')+'）',oldIn([src2]).length===0,oldIn([src2]).join('、'));
     const h=CHARACTERS.heroine_01;
     check('5 以安的 family_context＝「母親是法官，單親；家在台中」',h.family_context==='母親是法官，單親；家在台中',h.family_context);
     check('5 以安的 contradictions 只換那半句：「媽媽是法官，她不想被當成「法官的女兒」」，沒有書記官',/媽媽是法官，她不想被當成「法官的女兒」/.test(h.contradictions)&&!/書記官/.test(JSON.stringify(h)),h.contradictions); }
