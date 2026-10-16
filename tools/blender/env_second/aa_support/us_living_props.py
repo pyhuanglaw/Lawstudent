@@ -57,7 +57,7 @@ REG = {
 SW = {
     'chrome': ((198, 200, 204), 0.18, METAL), 'black_plastic': ((24, 24, 26), 0.55, 0.0), 'leg_dark': ((38, 31, 26), 0.5, 0.0),
     'white_paint': ((234, 234, 230), 0.45, 0.0), 'blade': ((240, 240, 236), 0.5, 0.0), 'fan_glass': ((244, 242, 234), 0.32, 0.0),
-    'lamp_base': ((20, 20, 22), 0.22, 0.0), 'metal_dark': ((72, 72, 76), 0.35, METAL), 'shade_rim': ((40, 38, 36), 0.6, 0.0),
+    'lamp_base': ((20, 20, 22), 0.35, 0.0), 'metal_dark': ((72, 72, 76), 0.35, METAL), 'shade_rim': ((40, 38, 36), 0.6, 0.0),
     'pot': ((224, 222, 214), 0.4, 0.0), 'soil': ((62, 46, 34), 0.95, 0.0), 'leaf': ((84, 128, 66), 0.55, 0.0), 'leaf_dark': ((46, 86, 48), 0.55, 0.0),
     'book_navy': ((40, 54, 88), 0.7, 0.0), 'book_maroon': ((112, 40, 44), 0.7, 0.0), 'book_beige': ((198, 182, 150), 0.75, 0.0),
     'book_green': ((52, 84, 64), 0.7, 0.0), 'book_gray': ((122, 124, 128), 0.7, 0.0), 'book_mustard': ((184, 148, 70), 0.7, 0.0), 'book_white': ((228, 226, 218), 0.75, 0.0),
@@ -504,9 +504,8 @@ def coffee():
 def endtable():
     """小方桌＋桌燈；回傳（不透明網格, 發光網格）"""
     pm = wood_table(0.5, 0.5, 0.58, top_t=0.028, legw=0.04, shelf_y=0.12); gl = PM(); y0 = 0.58; M = T(-0.04, y0, -0.05)
-    lathe(pm, [(0.0, 0.0, 0.06, 0.0, S('lamp_base'), 'down'), (0.06, 0.0, 0.07, 0.015, S('lamp_base'), 'out'), (0.07, 0.015, 0.09, 0.1, S('lamp_base'), 'out'),
-               (0.09, 0.1, 0.088, 0.17, S('lamp_base'), 'out'), (0.088, 0.17, 0.06, 0.25, S('lamp_base'), 'out'), (0.06, 0.25, 0.028, 0.29, S('lamp_base'), 'out'),
-               (0.028, 0.29, 0.02, 0.31, S('lamp_base'), 'out'), (0.02, 0.31, 0.0, 0.312, S('lamp_base'), 'up')], 24, M=M)   # 黑色圓肚的底座
+    prof = [(0.06, 0.0), (0.068, 0.015), (0.078, 0.04), (0.086, 0.07), (0.09, 0.1), (0.09, 0.13), (0.087, 0.16), (0.08, 0.19), (0.068, 0.22), (0.052, 0.25), (0.036, 0.275), (0.024, 0.295), (0.02, 0.31)]
+    lathe(pm, [(0.0, 0.0, 0.06, 0.0, S('lamp_base'), 'down')] + [(a[0], a[1], b[0], b[1], S('lamp_base'), 'out') for a, b in zip(prof, prof[1:])] + [(0.02, 0.31, 0.0, 0.312, S('lamp_base'), 'up')], 20, M=M)   # 黑色圓肚的底座（平滑的輪廓）
     lathe(pm, [(0.009, 0.31, 0.009, 0.39, S('metal_dark'), 'out'), (0.016, 0.39, 0.016, 0.43, S('metal_dark'), 'out'), (0.016, 0.43, 0.0, 0.432, S('metal_dark'), 'up')], 8, M=M)   # 燈座
     sb, st_, rb, rt = 0.33, 0.57, 0.19, 0.15   # 燈罩：鼓形，下大上小
     lathe(pm, [(rb, sb, rt, st_, R('shade'), 'out'), (rt, st_, rt - 0.006, st_, S('shade_rim'), 'up'), (rb - 0.006, sb, rb, sb, S('shade_rim'), 'down')], 28, M=M)
@@ -654,7 +653,7 @@ GLOW = {'US_ENDTABLE': 'US_ENDTABLE_GLOW', 'US_CEILINGFAN': 'US_CEILINGFAN_GLOW'
 SPREAD = {'US_RUG': (0.0, 0.0, 0.0, -90), 'US_SOFA': (0.0, 0.0, -1.1, 0), 'US_COFFEE': (0.0, 0.0, 0.15, 90), 'US_ARMCHAIR': (1.65, 0.0, -0.75, -40),
           'US_ENDTABLE': (-1.4, 0.0, -1.2, 0), 'US_LADDER': (-2.3, 0.0, -1.4, 0), 'US_TVSTAND': (2.5, 0.0, 0.85, -90), 'US_BARSTOOL': (-2.2, 0.0, 0.6, 30),
           'US_CEILINGFAN': (0.0, 2.6, 0.1, 0)}
-BUDGET = {'US_SOFA': 3600, 'US_ARMCHAIR': 1700, 'US_COFFEE': 650, 'US_ENDTABLE': 1200, 'US_RUG': 500, 'US_LADDER': 1400, 'US_TVSTAND': 900, 'US_BARSTOOL': 950, 'US_CEILINGFAN': 1500}
+BUDGET = {'US_SOFA': 3600, 'US_ARMCHAIR': 1700, 'US_COFFEE': 650, 'US_ENDTABLE': 1500, 'US_RUG': 500, 'US_LADDER': 1400, 'US_TVSTAND': 900, 'US_BARSTOOL': 950, 'US_CEILINGFAN': 1500}
 TOTAL_BUDGET = 12000
 SMOOTH = {'US_SOFA': 0.9, 'US_ARMCHAIR': 0.9, 'US_BARSTOOL': 0.9, 'US_LADDER': 0.9, 'US_ENDTABLE': 1.0, 'US_CEILINGFAN': 1.0}   # 座墊、抱枕、葉子是格子或體素網格：角度放寬，不留稜
 

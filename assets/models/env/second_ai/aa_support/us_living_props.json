@@ -1,11 +1,11 @@
 {
  "objects": 11,
  "unique_meshes": 11,
- "tris": 11208,
- "tris_drawn": 11208,
+ "tris": 11392,
+ "tris_drawn": 11392,
  "materials": 2,
  "out": "assets/models/env/second_ai/aa_support/us_living_props.glb",
- "bytes": 468052,
+ "bytes": 472356,
  "texres": 1024,
  "modules": {
   "US_SOFA": {
@@ -48,7 +48,7 @@
    ]
   },
   "US_ENDTABLE": {
-   "tris": 1104,
+   "tris": 1288,
    "min": [
     -0.25,
     0.0,
@@ -63,7 +63,7 @@
     "node": "US_ENDTABLE_GLOW",
     "tris": 56
    },
-   "tris_total": 1160
+   "tris_total": 1344
   },
   "US_RUG": {
    "tris": 436,
@@ -136,7 +136,7 @@
    "tris_total": 1412
   }
  },
- "tris_total": 11208,
+ "tris_total": 11392,
  "atlas": [
   "tools/blender/env_second/textures/gen/us_living_props_atlas.png",
   "tools/blender/env_second/textures/gen/us_living_props_orm.png"
