@@ -63,7 +63,9 @@
 | 19 | D28a 臺南文學館 底圖 | D28b 安平 底圖 |
 | 20 | D29 駁二 底圖 | D30 七星潭 底圖 |
 | 21 | D31 日月潭 底圖 | D32 清境 底圖 |
-| 22～ | AA 之後補的地點（D21、D22、D23…）和其餘事件 CG（BCG-37～42、BCG-44、BCG-36），兩兩一組 | |
+| 22 | D21 三峽 底圖（AA） | D22 石門水庫 底圖（AA） |
+| 23 | D23 竹圍漁港 底圖（AA） | 芷若「思考」頭像（不帶手，和九格表情同角度） |
+| 24～ | 其餘事件 CG（BCG-37＋BCG-38 → BCG-39＋BCG-40 → BCG-41＋BCG-36 → BCG-42＋BCG-44），兩兩一組 | |
 | 13～ | 其餘底圖（D08、D10…D32，照 `AA_128` 第 7 節）為主，每三組插一組事件 CG：BCG-37＋BCG-38 → BCG-39＋BCG-40 → BCG-41＋BCG-36 → BCG-42＋BCG-44 | |
 
 - **第 3、4 組的檔案**：使用者在對話裡貼的圖不會自動變成檔案（之前 3～5 號會，00:45 以後不會）。LAWWW2-B 教的做法：從自己工作階段的對話紀錄（`/root/.claude/projects/…/<session>.jsonl`，使用者訊息和 `queued_command` 附件裡的 base64）解出原檔，逐位元組相同。BB-B 已取出四張存進 `date_system/art/`：`heroine_05_date_shirt.webp`（1122×1402）、`heroine_02_expr9.webp`（1254×1254）、`d09_base_dusk.webp`、`d01_base_afternoon.webp`（1672×941），D01、D09 座標用原圖疊框複核過。
