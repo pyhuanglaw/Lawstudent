@@ -1637,6 +1637,22 @@ const STORY_EVENTS=[
       {label:'b'},{speaker:'econ_pinyu',text:'她的你穿不下。'},{goto:'end'},
       {label:'c'},{speaker:'kexin',expression:'laugh',text:'拍好看一點。這是證據。'},
       {label:'end'},{speaker:null,text:'手機裡多了一張照片。她穿著你高中的外套，袖子太長，正在比一個勝利手勢。'} ] },
+  /* E17 校慶園遊會：經濟系的拍賣攤（BB_104 8b-9；AA_154 第 127 行）：11/9（六）白天，走到椰林大道的攤位那一排就演（前一晚系學會那段是開場的旁白）。
+     可以錯過：沒去＝當天 18:00 群組一張照片＋品妤一句（story3d.js）。沒有旗標 */
+  { id:'ev_y0_e17', stage:'econ', title:'經濟系的拍賣攤', participants:['econ_pinyu','econ_zhengxun','kexin'], location:'campus', near:{x:-3,z:14,r:20}, trigger:'auto', term:['Y0S1'], weeks:[10], weekday:[6], time:[10,17], once:true, background:'blur',
+    dialogue:[ {speaker:null,text:'（前一晚，社科院的系學會辦公室。）'},
+      {speaker:'econ_pinyu',text:'珍奶一杯成本二十八。要賣多少？'},
+      {speaker:'kexin',expression:'neutral',text:'不定價。用荷蘭式拍賣：從一百往下喊，有人說要就成交。'},
+      {speaker:'econ_zhengxun',text:'……第一杯會賣得很貴。'},
+      {speaker:'kexin',expression:'smile',text:'對。那是給最想喝的人。'},
+      {speaker:null,text:'（校慶當天。攤位前排了人。可昕把擴音器交給你。）'},
+      {speaker:'kexin',expression:'teasing',text:'你喊。從一百開始。'},
+      {choice:[{text:'一百、九十、八十……',goto:'a'},{text:'一百、五十！',goto:'b'},{text:'交給可昕喊',goto:'c'}]},
+      {label:'a'},{speaker:null,text:'第一杯在七十元成交。'},{speaker:'econ_pinyu',text:'比成本多四十二。很好。'},{goto:'end'},
+      {label:'b'},{speaker:'econ_pinyu',text:'你少賺了四十九元。'},{speaker:'kexin',expression:'laugh',text:'可是大家笑了。'},{goto:'end'},
+      {label:'c'},{speaker:null,text:'她喊得像在拍賣名畫。第一杯九十五元，買的人是唐睿。'},
+      {label:'end'} ],
+    after:(G,GM)=>{ GM.advance(1); } },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、
