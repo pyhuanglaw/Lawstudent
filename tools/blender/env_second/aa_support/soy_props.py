@@ -354,11 +354,16 @@ def shaobing(cooked=True, seed=0, M=None):
 
 def oven():
     pm = PM(); R0, H = 0.40, 0.90
-    lathe(pm, [(0.0, 0.0, R0 - 0.02, 0.0, S('steel_dark'), 'down'), (R0 - 0.02, 0.0, R0, 0.04, S('steel_dark'), 'out'), (R0, 0.04, R0, H - 0.04, R('steel_panel'), 'out'),
+    lathe(pm, [(0.0, 0.0, R0 - 0.02, 0.0, S('steel_dark'), 'down'), (R0 - 0.02, 0.0, R0, 0.04, S('steel_dark'), 'out'), (R0, 0.04, R0, 0.30, R('steel_panel'), 'out'),
+               (R0, 0.30, R0 + 0.012, 0.31, S('steel_edge'), 'out'), (R0 + 0.012, 0.31, R0 + 0.012, 0.34, S('steel_edge'), 'out'), (R0 + 0.012, 0.34, R0, 0.35, S('steel_edge'), 'out'),   # 兩道箍
+               (R0, 0.35, R0, 0.62, R('steel_panel'), 'out'), (R0, 0.62, R0 + 0.012, 0.63, S('steel_edge'), 'out'), (R0 + 0.012, 0.63, R0 + 0.012, 0.66, S('steel_edge'), 'out'), (R0 + 0.012, 0.66, R0, 0.67, S('steel_edge'), 'out'),
+               (R0, 0.67, R0, H - 0.04, R('steel_panel'), 'out'),
                (R0, H - 0.04, R0 - 0.01, H, S('steel_edge'), 'out'), (R0 - 0.01, H, R0 - 0.07, H, S('steel_edge'), 'up'), (R0 - 0.07, H, R0 - 0.1, H - 0.08, S('oven_in'), 'in'),
                (R0 - 0.1, H - 0.08, R0 - 0.11, 0.32, S('oven_in'), 'in'), (R0 - 0.11, 0.32, 0.0, 0.3, S('ember'), 'up')], 24)   # 爐口內側黑、底下炭火暗紅
-    for k, a in enumerate((0.4, 2.4, 4.2)):   # 爐壁上貼三個燒餅（面朝爐中心）
-        r = R0 - 0.112; M = T(r * math.cos(a), H - 0.2 - 0.05 * k, r * math.sin(a)) @ Ry(-a) @ np.array([[0, -1, 0, 0], [1, 0, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]], float)
+    rbox(pm, -0.11, 0.11, 0.06, 0.2, R0 - 0.02, R0 + 0.008, {'*': S('steel_dark')}, r=0.006, seg=1)   # 前面下方的灰門
+    rbox(pm, -0.04, 0.04, 0.16, 0.175, R0 + 0.008, R0 + 0.024, {'*': S('urn_tap')}, r=0.004, seg=1)   # 灰門的把手
+    for k, a in enumerate((3.75, 4.7, 5.65)):   # 爐壁上貼三個燒餅：貼在後面那一側（客人從前面往爐口看得到），面朝爐中心
+        r = R0 - 0.11 - 0.013; M = T(r * math.cos(a), H - 0.2 - 0.05 * k, r * math.sin(a)) @ Ry(-a) @ np.array([[0, -1, 0, 0], [1, 0, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]], float)
         pm.add(shaobing(True, seed=k), M)
     bx = 0.75   # 旁邊撒芝麻的木板，上面四個生燒餅
     rbox(pm, bx - 0.3, bx + 0.3, 0.0, 0.03, -0.2, 0.2, {'t': R('wood_board'), '*': S('chopstick')}, r=0.004, seg=1)
@@ -375,7 +380,7 @@ def youtiao(seed, M=None):
         for k in range(14):
             t = k / 13; x = (t - 0.5) * L_; z = side * 0.011 + bend * (1 - (2 * t - 1) ** 2) * 0.6; r = 0.011 + 0.003 * math.sin(t * 9 + seed + side) + rng.uniform(-0.0015, 0.0015)
             elems.append(((x, r, z), (0.016, r, r)))
-    return blob_at(elems, 0.0035, 130, S('youtiao'), M, smooth_iter=3)
+    return blob_at(elems, 0.003, 230, S('youtiao'), M, smooth_iter=4)
 
 
 def fryer():
@@ -385,8 +390,8 @@ def fryer():
     for sx in (-1, 1):
         for sz_ in (-1, 1): lathe(pm, [(0.02, 0.0, 0.02, 0.06, S('steel_dark'), 'out')], 10, M=T(sx * (W / 2 - 0.07), 0, sz_ * (D / 2 - 0.07)))
     cx = -0.22; R0 = 0.35
-    lathe(pm, [(0.30, H, R0, H + 0.12, S('steel_dark'), 'out'), (R0, H + 0.12, R0 + 0.015, H + 0.13, S('steel_edge'), 'out'), (R0 + 0.015, H + 0.13, R0 - 0.01, H + 0.13, S('steel_edge'), 'up'),
-               (R0 - 0.01, H + 0.13, R0 - 0.02, H + 0.09, S('oil_rim'), 'in'), (R0 - 0.02, H + 0.09, 0.0, H + 0.09, S('oil'), 'up')], 24, M=T(cx, 0, 0))   # 大鍋＋深金色的油面
+    lathe(pm, [(0.30, H - 0.14, R0, H + 0.015, S('steel_dark'), 'out'), (R0, H + 0.015, R0 + 0.02, H + 0.025, S('steel_edge'), 'out'), (R0 + 0.02, H + 0.025, R0 - 0.01, H + 0.025, S('steel_edge'), 'up'),
+               (R0 - 0.01, H + 0.025, R0 - 0.02, H + 0.008, S('oil_rim'), 'in'), (R0 - 0.02, H + 0.008, 0.0, H + 0.008, S('oil'), 'up')], 24, M=T(cx, 0, 0))   # 大鍋嵌在台面裡（鍋身在台面下面看不到），只露出鍋緣；深金色的油面比鍋緣低 1.7 cm（要高過台面，不然被台面蓋住）
     rx, ry = 0.36, H   # 鐵絲瀝油架：框＋六根橫條，架在台面上，比台面高 4 cm
     for x0, x1, z0, z1 in ((rx - 0.2, rx + 0.2, -0.16, -0.16), (rx - 0.2, rx + 0.2, 0.16, 0.16), (rx - 0.2, rx - 0.2, -0.16, 0.16), (rx + 0.2, rx + 0.2, -0.16, 0.16)):
         sweep(pm, [(x0, ry + 0.04, z0), (x1, ry + 0.04, z1)], 0.004, 4, S('wire'))
@@ -394,8 +399,8 @@ def fryer():
         x = rx - 0.17 + 0.068 * k; sweep(pm, [(x, ry + 0.042, -0.16), (x, ry + 0.042, 0.16)], 0.0025, 4, S('wire'))
     for sx in (-1, 1):
         for sz_ in (-1, 1): sweep(pm, [(rx + sx * 0.19, ry, sz_ * 0.15), (rx + sx * 0.19, ry + 0.04, sz_ * 0.15)], 0.003, 4, S('wire'))
-    for k in range(7):   # 七根油條，橫在架上、有一點歪
-        pm.add(youtiao(20 + k), T(rx + 0.01 * (k % 2), ry + 0.046, -0.13 + 0.043 * k) @ Ry(math.radians(90 + (k * 7) % 11 - 5)))
+    for k in range(7):   # 七根油條，一根一根排在架上（長的方向沿 z），有一點歪
+        pm.add(youtiao(20 + k), T(rx - 0.15 + 0.05 * k, ry + 0.046, 0.01 * ((k * 5) % 3 - 1)) @ Ry(math.radians(90 + (k * 7) % 11 - 5)))
     return pm
 
 
@@ -449,7 +454,6 @@ def table():
     rbox(pm, -W / 2, W / 2, H - 0.025, H, -W / 2, W / 2, {'t': S('melamine'), '*': S('steel_edge')}, r=0.006, seg=2)   # 白色美耐板桌面、不鏽鋼包邊
     for sx in (-1, 1):
         for sz_ in (-1, 1): lathe(pm, [(0.016, 0.0, 0.016, H - 0.025, S('steel'), 'out')], 10, M=T(sx * (W / 2 - 0.05), 0, sz_ * (W / 2 - 0.05)))
-    rbox(pm, -W / 2 + 0.05, W / 2 - 0.05, 0.16, 0.18, -0.01, 0.01, {'*': S('steel_dark')}, r=0.004, seg=1)   # 腳之間的橫桿
     for k, (x, z, a) in enumerate(((0, 0.62, 0), (0.62, 0, 30), (0, -0.62, 10), (-0.62, 0.05, -20))):
         pm.add(stool(), T(x, 0, z) @ Ry(math.radians(a)))
     return pm
