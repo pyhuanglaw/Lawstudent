@@ -1638,7 +1638,7 @@
    "area": "V3",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "★主線 3 第二個房間已接（AA_12 主線 3、AA_177 第 7 節、AA_176 R8）：9/6 以後、還沒搬（ROOM_Y2）；在家＝旁白「明天開學。今天搬進新的房間。」→ 字卡 → 宿舍；在宿舍房間＝直接拆箱。物件照 AA_12 的表（只有經歷過的才出現；大一五件、舊《民法》換大二那句）；搬完阿凱不同房。新房號、窗外景、法律系暑假要不要回家等 AA-B（已問）；3D 小物件沒做（選單＋旁白）",
+   "next": "★主線 3 已接：9/6 以後、還沒搬（ROOM_Y2）；在家＝旁白「明天開學。今天搬進新的房間。」→ 字卡 → 宿舍；人在宿舍＝旁白＋字卡「搬到新的房間」「一樓 112 號房」（AA_177 第 10 節，字卡文字已請 AA-B 確認）→ 拆箱；票根三人版也有（adb91bb9）。宿舍每年的房號 203／112／218／105（dorm3d.js DM3.homeOf，AA_183 第 5 節）；窗外景（腳踏車棚、球場的燈、門口路燈）等美術；3D 小物件沒做（選單＋旁白）",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -1652,7 +1652,7 @@
    },
    "source": "交接包_v3",
    "authorized": "D79",
-   "tests": "tests/v3_room2_unit.js"
+   "tests": "tests/v3_room2_unit.js, tests/nav_buildings_unit.js"
   },
   {
    "id": "V3-D2",
@@ -6298,7 +6298,7 @@
    "area": "SYS",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "—",
+   "next": "摘要日：法律系寒暑假的部分由 SYS-LBREAK（AA_183）做了（f977d81b：字卡＋「過幾天」＋旁白、跳過的手機照時間戳記）；精華日（Z5 大一下第 12～13 週起）還沒",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -11001,7 +11001,7 @@
    "area": "V3",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "X02 社團博覽會大二版已接（9/16～9/17 11～17 椰林大道攤位那一排；五種攤位＋沒加入；Y2_EXPO_BOOTH、Y2_EXPO_SENIOR、同社團熟悉 +1；帳篷在大二兩天也擺；tests/v3_batch1_unit.js 1～5）。X15 大二暑假（營隊或打工、宿舍抽籤）等暑假的做法（已問 AA-B：法律系暑假要不要回家）",
+   "next": "X02 社團博覽會大二版已接（9/16～9/17 11～17 椰林大道攤位那一排；五種攤位＋沒加入；Y2_EXPO_BOOTH、Y2_EXPO_SENIOR、同社團熟悉 +1；帳篷在大二兩天也擺；tests/v3_batch1_unit.js 1～5）。X15 大二暑假：放假模式的日子已排（6/28、7/15 抽籤「換一層樓…三年，第三個房間。」、7/20、8/25、9/5 回宿舍；home3d.js BREAK_PTS.Y2S）；6/27 晚上的三選一（營隊／打工／回家）、摘要日依選項的旁白、+22000、主線 5 房間物件還沒做",
    "priority": "P3",
    "first": {
     "term": "Y2S1",
@@ -11265,7 +11265,7 @@
    "id": "V3-D25",
    "title": "法服的對外值班（系統）：大二起祐廷值班做紀錄（交付清單 D25；AA_132、AA_137 §8、AA_163）",
    "status": "待開工",
-   "next": "大一的旁觀已接（V1-F）；大二起「祐廷值班做紀錄」每一次值班的內容（旁白池、時間、LAWCLUB_SAT_VISITS、只有法服成員？）文件沒有，已問 AA-B（2026-10-16）",
+   "next": "規格齊了：AA_184 定稿（ab663b90，流程、八件民眾、語彤柏翰短句）＋BB_160（51a5d106，學姊 11 句與出現條件）。下一批做：08:30 提醒（出發／這週請假；在家 08:20 從家出發）、開場輪流、民眾池依序、「你先問什麼？」三選、結尾、再待到十二點／先走、連三次沒去柏翰私訊、LAWCLUB_SAT_VISITS",
    "first": {
     "term": "Y2S1",
     "week": 3,
@@ -11299,6 +11299,70 @@
    "source": "BB_110 T2（BB-B）、AA_177 第 2 節",
    "authorized": "D79",
    "tests": "tests/v3_typhoon2_unit.js"
+  },
+  {
+   "id": "SYS-LBREAK",
+   "title": "法律系的寒暑假：在家模式（AA_183）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "next": "f977d81b：放假第一天起床回家（旁白＋字卡）、只演表上的日子（大一寒假 1/20、2/5、除夕、初一、2/22 回宿舍；大一暑假 7/9 語彤生日、7/15 抽籤、7/20、8/25、9/6 主線 3）、出遊與當面約動態停、過幾天（手機照時間戳記收）、旁白四句照時候挑、寒假 17:00 回宿舍。還沒：瀏覽器流程測試；大二寒假（交接包_v3 第 2 節）、大三（AA_180、交換 AA_144 X1～X3）、大四（AA_181）的日子；KH（BB_97 9-1）、七夕（BB_124）、學姊舊書（BB_95 3-8）本身還沒實作",
+   "first": {
+    "term": "Y1S1",
+    "week": 19,
+    "earliest": "大一寒假第一天 2026-01-05 早上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_183（企劃線 054e3423）",
+   "authorized": "D79",
+   "tests": "tests/law_break_unit.js（37 項）"
+  },
+  {
+   "id": "V2-AA178",
+   "title": "AA_178 大一下 AA 事件實作核對：五件要改",
+   "area": "V2",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P0",
+   "next": "照 AA_178（企劃線 cc40f441）改五件（語彤事件 4 說話人與學期、事件 5 時段、以安和小語…）",
+   "first": {
+    "term": "Y1S2",
+    "week": 1,
+    "earliest": "大一下",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "AA_178",
+   "authorized": "D79"
+  },
+  {
+   "id": "V2-BB161",
+   "title": "BB_161 大一下 BB 人物事件實作核對：要改程式 18 件",
+   "area": "V2",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P0",
+   "next": "照 BB_161（elegant-brown 99480ff2）改 18 件（W2b 時序、Z5 窗口第 12～15 週…）",
+   "first": {
+    "term": "Y1S2",
+    "week": 1,
+    "earliest": "大一下",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "BB_161",
+   "authorized": "D79"
   }
  ]
 }

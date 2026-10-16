@@ -3,9 +3,9 @@
  "note": "交付登記（D82）：每一筆交付都要對到 tasks.json 的任務；msg＝SENT／DELIVERED／ACK／ACTIONED（接收方有沒有回 ACK）；integration＝未整合／已整合待測試／已驗收／不整合／參考用。scannedThrough＝每條交付分支已經看過的最後一個 commit：check_handoff.py 只掃它以後的 commit（增量）。看過、不是交付的 commit 放 ignored。　**scannedThrough 只在 check 跑完、列出的 commit 都登記或放進 ignored 之後才往前移**（2026-10-16：先移再跑會什麼都掃不到）。",
  "pattern": "交付|ART_APPROVED|READY_FOR_ART_REVIEW|MODEL_READY|通過|驗收|閒聊階梯|交接包|法律審查|盤點|清查|裁定|規則檔|AA_1\\d\\d|BB_1\\d\\d",
  "scannedThrough": {
-  "origin/claude/funny-albattani-iawshm": "b7a091b8",
-  "origin/claude/cool-heisenberg-o8kuqx": "c7ced164",
-  "origin/claude/elegant-brown-fcos7n": "3d282f12"
+  "origin/claude/funny-albattani-iawshm": "54ff20d5",
+  "origin/claude/cool-heisenberg-o8kuqx": "4217e696",
+  "origin/claude/elegant-brown-fcos7n": "af06c21b"
  },
  "deliveries": [
   {
@@ -676,8 +676,8 @@
    "sha": "d69dd5f6／ad98f813／488af276",
    "what": "九格表情 D59 通過：子晴、學姊、沛珊、可昕、以安、語彤",
    "task": "ART-19",
-   "msg": "DELIVERED",
-   "integration": "未整合",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
    "note": "從企劃線看到（掃描找到）"
   },
   {
@@ -797,7 +797,7 @@
    "what": "ART-19：學姊對話立繪換約會圖姿勢①＋7 格表情（BB-B D59 通過）；沛珊、可昕 9 格試疊等 BB-B",
    "task": "ART-19",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
+   "integration": "已驗收",
    "note": "學姊已接（本批）；沛珊、可昕等 BB-B 驗收"
   },
   {
@@ -820,8 +820,8 @@
    "sha": "c75d7edf",
    "what": "LAWWW2-B 表情試疊的決定：學姊換姿勢①、7 格通過；子晴排第 23 組請使用者生正面全身",
    "task": "ART-19",
-   "msg": "ACK",
-   "integration": "已整合待測試",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
    "note": "學姊照這個決定接了"
   },
   {
@@ -989,7 +989,7 @@
    "what": "ART-19 第二批：沛珊、可昕各 9 格表情（BB-B D59 03:19 通過）",
    "task": "ART-19",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
+   "integration": "已驗收",
    "note": "本批接進 assets、manifest 重產"
   },
   {
@@ -1024,8 +1024,8 @@
    "sha": "0db57126",
    "what": "ART-19：沛珊、可昕九格 D59 通過；以安、語彤也要正面全身新圖（第 23、24 組）",
    "task": "ART-19",
-   "msg": "ACK",
-   "integration": "已整合待測試",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
    "note": ""
   },
   {
@@ -1192,8 +1192,8 @@
    "sha": "e69036b8",
    "what": "第 23 組 D59：子晴、以安正面全身對話立繪通過（date_system/art/heroine_0{4,1}_portrait_full.webp），交 LAWWW2-B 做 ART-19",
    "task": "ART-19",
-   "msg": "ACK",
-   "integration": "未整合",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
    "note": "LAWWW2-B 疊九格表情後交 LAWWW"
   },
   {
@@ -1252,8 +1252,8 @@
    "sha": "3c983b8b",
    "what": "第 24 組：語彤正面全身（D59）、gongguan_hotpot 通過",
    "task": "ART-19、V4-G26",
-   "msg": "ACK",
-   "integration": "未整合",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
    "note": "語彤交 LAWWW2-B 疊九格"
   },
   {
@@ -1480,8 +1480,8 @@
    "sha": "894d6670",
    "what": "第 28 組：學姊「害羞」、芷若「思考」表情頭通過（D59）",
    "task": "ART-19",
-   "msg": "ACK",
-   "integration": "未整合",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
    "note": "LAWWW2-B ART-19 疊九格"
   },
   {
@@ -1529,7 +1529,7 @@
    "what": "ART-19 第二批：子晴、以安、語彤新的正面全身底圖＋九格；學姊 embarrassed、芷若 thinking",
    "task": "ART-19",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
+   "integration": "已驗收",
    "note": "BB-B 驗收成品通過（26d07e78）：以安、語彤、子晴 10 張、學姊 embarrassed 接進開發線；芷若 thinking 要修，沒接"
   },
   {
@@ -1720,8 +1720,8 @@
    "sha": "26d07e78",
    "what": "ART-19 第二批成品驗收（BB_131 第 7 節）：以安、語彤、子晴、學姊 embarrassed 通過；芷若 thinking、學姊約會 head_thinking 要修",
    "task": "ART-19",
-   "msg": "ACK",
-   "integration": "已整合待測試",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
    "note": "ART_APPROVED 還差遊戲內 ADV 截圖（四人各 neutral＋smile/laugh，直向、橫向）"
   },
   {
@@ -1745,7 +1745,7 @@
    "what": "芷若 thinking 修頭髮描邊；學姊約會 head_thinking v1.3",
    "task": "ART-19、ART-14",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
+   "integration": "已驗收",
    "note": "芷若 thinking 接進開發線；約會去背等 DATE-S6"
   },
   {
@@ -3523,6 +3523,618 @@
    "integration": "未整合",
    "note": "v5／v4 開工時用；日曆 2028-09-18 颱風另列 CAL-TY-Y2Y3",
    "date": "2026-10-16T15:3xZ"
+  },
+  {
+   "id": "DLV-1016-294",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "3c80df71",
+   "what": "AA_177 第 10 節：v3 第一批實作核對（票根條件、語彤在博覽會、宿舍那條路的旁白、校慶帳篷）",
+   "task": "V3-D1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "adb91bb9：票根 (WATCHED_FILM|WATCHED_FILM_GROUP)&&!ZR_MATINEE_SEEN；S.roomY2InDorm 旁白＋字卡＋112；fairDayKey 各年校慶；宿舍每年房號（AA_183 第 5 節）",
+   "date": "2026-10-16T17:2xZ"
+  },
+  {
+   "id": "DLV-1016-295",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "054e3423",
+   "what": "AA_183 法律系寒暑假在家模式（回家／回宿舍、要演的日子、旁白、宿舍房號）",
+   "task": "SYS-LBREAK",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "f977d81b：home3d.js 放假模式；tests/law_break_unit.js 37 項；KH、七夕、學姊舊書（BB_95 3-8）還沒實作，做好以後自動變成要停的日子",
+   "date": "2026-10-16T17:2xZ"
+  },
+  {
+   "id": "DLV-1016-296",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "14d04258",
+   "what": "AA_177 第 9 節：迎新新生短版回答、law_class 群組、先做 2D",
+   "task": "V3-D3",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "下一批",
+   "date": "2026-10-16T17:2xZ"
+  },
+  {
+   "id": "DLV-1016-297",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "11218c13",
+   "what": "AA_184 法服週六值班大二起的一般日（ab663b90 定稿：BB_160 的學姊句子、四處小改）",
+   "task": "V3-D25",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "D25 下一批",
+   "date": "2026-10-16T17:2xZ"
+  },
+  {
+   "id": "DLV-1016-298",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "51a5d106",
+   "what": "BB_160（AB-50）：法服值班學姊 11 句與出現條件、AA_184 法律查核通過",
+   "task": "V3-D25",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "AA_184 定稿 ab663b90 已併入",
+   "date": "2026-10-16T17:2xZ"
+  },
+  {
+   "id": "DLV-1016-299",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "e944f3ec",
+   "what": "AA_182 v6 多段感情 AA 事件的到場檢查；語彤窗口②、CG-20 改 4/19",
+   "task": "V6-B2",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v6 開工時用",
+   "date": "2026-10-16T17:2xZ"
+  },
+  {
+   "id": "DLV-1016-300",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "666a12d4",
+   "what": "BB_119 第 9 節（AB-49）：BB 五位的到場、談話事件日子、裂縫計算、收拾第四項",
+   "task": "V6-B5",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v6 開工時用",
+   "date": "2026-10-16T17:2xZ"
+  },
+  {
+   "id": "DLV-1016-301",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "30ae19a4",
+   "what": "AB-48（AA_181 大四）：可昕重訪日 4、明軒、颱風 T4 2028-09-18、重訪日 5、可昕國考",
+   "task": "V5-B01",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v5 開工時用；颱風 2028-09-18 併 CAL-TY-Y2Y3",
+   "date": "2026-10-16T17:2xZ"
+  },
+  {
+   "id": "DLV-1016-302",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "03f9b907",
+   "what": "AA_172 第 5 節：V2-C13 交往中的可昕第 11 週週四 22:00「演講怎樣？」三個回覆",
+   "task": "V2-C13",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "對 V2-C13 現況核對（下一批 v2 修正）",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-303",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "66cc41c6",
+   "what": "AA_172 第 1 節：第 12 週回想 recall 加 full:true（只給聽完 B4 的）",
+   "task": "V2-C13",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "同上",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-304",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "cc40f441",
+   "what": "AA_178 大一下 AA 事件實作核對（五件要改）",
+   "task": "V2-AA178",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "P0（v2 驗收）：新任務 V2-AA178",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-305",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "99480ff2",
+   "what": "BB_161 大一下 BB 人物事件實作核對（要改程式 18 件）",
+   "task": "V2-BB161",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "P0（v2 驗收）：新任務 V2-BB161",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-306",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "b968455e",
+   "what": "AA_177 大二 AA 事件的到場檢查與日期修正",
+   "task": "V3-D2",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "第一批已照做（v3_batch1）；其餘照 V3 各任務",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-307",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "e1ad7305",
+   "what": "AA_177 第 8 節：BB_97 10-3 的裁定（學姊 W8 窗口、九件時段、三筆作息）",
+   "task": "V3-B04",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "做 W8 等學姊大二事件時用",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-308",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "82be84c3",
+   "what": "AA_177 第 6 節：春假沒有 P5 的玩家由以安邀、行程沛珊排",
+   "task": "V3-D18",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "做大二春假時用",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-309",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "e07461a6",
+   "what": "AA_179 主線 4「被需要的一年」每週訊息",
+   "task": "V3-D2",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "主線 4 的每週訊息（V3-D2 主線 4 一起做）",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-310",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "c6153500",
+   "what": "AA_179 柏翰大二上 1～3 週改社長交接資料",
+   "task": "V3-D2",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "主線 4 的每週訊息（V3-D2 主線 4 一起做）",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-311",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "73e90211",
+   "what": "AA_179 第 3 節：芷若反過來問「你想」",
+   "task": "V3-D2",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "主線 4 的每週訊息（V3-D2 主線 4 一起做）",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-312",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "2e63aa45",
+   "what": "AA_176 各學年事件「玩家怎麼到場」通則 R0～R11",
+   "task": "V3-D2",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "實作規則",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-313",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "3579a954",
+   "what": "AA_154 A49：E36 白天放榜旁白、E29 habit 旁白位置、換階段不加錢",
+   "task": "V0-B1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v0 收尾批核對",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-314",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "14af045d",
+   "what": "AA_154 A50：BB_113 經濟系手機小事定稿、重考期 DAILY 到 7/10",
+   "task": "V0-B1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v0 收尾批核對",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-315",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "494fda63",
+   "what": "AA_154 A51 ③：P1 本來就記 Y0_P1_SEAT",
+   "task": "V0-B1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v0 收尾批核對",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-316",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "d879d1d7",
+   "what": "AA_154 A53：總表三件等 AA-B 的已回",
+   "task": "V0-B1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v0 收尾批核對",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-317",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "d2cfbed3",
+   "what": "AA_154 時間線表同步 A46～A48",
+   "task": "V0-B1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v0 收尾批核對",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-318",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "b449937d",
+   "what": "AA_180 2-2：子晴約了沒到改私訊",
+   "task": "V4-E15",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v4 開工時用",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-319",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "e923c0e3",
+   "what": "AA_180：冠軍賽 4/29 19:00、學姊美國生日 6/2 2D",
+   "task": "V4-E15",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v4 開工時用",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-320",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "d5594f79",
+   "what": "AA_181 對齊 BB_99 第 10 節；春假以安邀約 3/25 20:30",
+   "task": "V5-F14",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v5 開工時用",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-321",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "9e1ca308",
+   "what": "校外約會：交換延畢可約到 2029-06-01",
+   "task": "V5-F14",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v5 開工時用",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-322",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "098b6ae0",
+   "what": "AA_181 2-4：交換路線大五上不推甄",
+   "task": "V5-F14",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v5 開工時用",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-323",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "385d8923",
+   "what": "v5 骨架、清單、AA_181：明軒在台灣到畢業",
+   "task": "V5-F14",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v5 開工時用",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-324",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "c1500123",
+   "what": "v5 交付清單 F8、F9、F16、F17、F26 日子",
+   "task": "V5-F14",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v5 開工時用",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-325",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "7d69b3c3",
+   "what": "AA_126 7-1 學姊 2028 生日美國路線改 2D",
+   "task": "D14-T11",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "節日系統",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-326",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "7061c225",
+   "what": "AA_127 4-1：以安中秋回臺中只在連假的年份",
+   "task": "D14-T11",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "節日（中秋）",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-327",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "c9bb8cf4",
+   "what": "AA_127 4-2：語彤中秋 15:00～17:30 麵店門口",
+   "task": "D14-T11",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "節日（中秋）",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-328",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "d3be340d",
+   "what": "AA_127 4-2：一天兩場說法更正",
+   "task": "D14-T11",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "節日（中秋）",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-329",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "70fa71f8",
+   "what": "AA_71 2-6：聖誕交換禮物每年怎麼變的索引",
+   "task": "V3-D12",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-330",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "02831e33",
+   "what": "AA_182：在家的書桌也有「收拾」",
+   "task": "V6-B2",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v6",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-331",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "ab663b90",
+   "what": "AA_184 定稿（BB_160 學姊句子、法律查核、四處小改）",
+   "task": "V3-D25",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "D25 下一批",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-332",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "4217e696",
+   "what": "美術支援 SOP（AA、BB、LAWWW2 共用 3D 施工規則）",
+   "task": "ART-19",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "美術規則文件",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-333",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "ba57ff91",
+   "what": "aa_support README：AA 支援美術照得獎遊戲標準",
+   "task": "ART-19",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-334",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "ed056453",
+   "what": "ART-19 芷若 thinking ART_APPROVED",
+   "task": "ART-19",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
+   "note": "BB 驗收（D59）",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-335",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "420b9132",
+   "what": "AB-47（AA_180 大三）：學姊校慶大三版、重訪日 3 子晴、Q12 2028-05-20",
+   "task": "V4-E15",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v4",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-336",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "c668fc98",
+   "what": "BB_98 第 10 節：AA_176 四題檢查（大三）",
+   "task": "V4-E15",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-337",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "9904eeb5",
+   "what": "BB_99 第 10 節：AA_176 四題檢查（大四）",
+   "task": "V5-B01",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-338",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "423a72e9",
+   "what": "BB_119 9-3：沛珊試教 11-08、子晴工作室 11-10",
+   "task": "V6-B5",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v6",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-339",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "21d79a51",
+   "what": "BB_119 2-5b：可昕的裂縫和談話 ev_kexin_talk",
+   "task": "V6-B5",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v6",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-340",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "86aa9751",
+   "what": "BB_119 3-2：芷若最後一場票根背面",
+   "task": "V6-B5",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v6",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-341",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "7438e130",
+   "what": "BB_119 2-5b、9-1：可昕談話照 AA-B 改",
+   "task": "V6-B5",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v6",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-342",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "7d7a9e18",
+   "what": "BB_113：芷若出國前一週手機小事排 8/27",
+   "task": "V5-B01",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v5",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-343",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "e95a9486",
+   "what": "法律審查第 27 批（AA_180、AA_181、AA_184 八件無誤）",
+   "task": "V3-D25",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "AA_184 民眾八件法律查核通過",
+   "date": "2026-10-16T17:3xZ"
+  },
+  {
+   "id": "DLV-1016-344",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "1c3bdefd",
+   "what": "SCENE_RULES 第 9 節：支援素材驗收清單（得獎遊戲標準）",
+   "task": "ART-19",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "",
+   "date": "2026-10-16T17:3xZ"
   }
  ],
  "ignored": [
@@ -4770,6 +5382,76 @@
    "sha": "7edab410",
    "branch": "origin/claude/elegant-brown-fcos7n",
    "why": "BB_00 紀錄"
+  },
+  {
+   "sha": "19bc47c7",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "AA-B 交接紀錄"
+  },
+  {
+   "sha": "fca45989",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "AA-B 交接紀錄"
+  },
+  {
+   "sha": "d8351a7f",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "AA-B 交接紀錄"
+  },
+  {
+   "sha": "7fe381ca",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交接板進度"
+  },
+  {
+   "sha": "f977d257",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "互助板 AB-44"
+  },
+  {
+   "sha": "d636f30d",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "互助板 AB-50"
+  },
+  {
+   "sha": "d10d162f",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付清單開頭指標"
+  },
+  {
+   "sha": "40812558",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "v4 交付清單指標"
+  },
+  {
+   "sha": "4b93c23c",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "AA_97 檔頭指標"
+  },
+  {
+   "sha": "3eea0327",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 進度紀錄"
+  },
+  {
+   "sha": "bb05da0a",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 進度紀錄"
+  },
+  {
+   "sha": "1fb10b4e",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 進度紀錄"
+  },
+  {
+   "sha": "b9327091",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 進度紀錄"
+  },
+  {
+   "sha": "af06c21b",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 進度紀錄"
   }
  ]
 }
