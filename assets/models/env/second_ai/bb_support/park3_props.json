@@ -1,11 +1,11 @@
 {
  "objects": 4,
  "unique_meshes": 4,
- "tris": 5228,
- "tris_drawn": 5228,
+ "tris": 5444,
+ "tris_drawn": 5444,
  "materials": 1,
  "out": "assets/models/env/second_ai/bb_support/park3_props.glb",
- "bytes": 221288,
+ "bytes": 225112,
  "texres": 1024,
  "modules": {
   "PARK_CHESS_TABLE": {
@@ -35,7 +35,7 @@
    ]
   },
   "PARK_FOUNTAIN": {
-   "tris": 1288,
+   "tris": 1440,
    "min": [
     -0.275,
     -0.0,
@@ -48,7 +48,7 @@
    ]
   },
   "PARK_BIKE_RACK": {
-   "tris": 1360,
+   "tris": 1424,
    "min": [
     -0.34,
     -0.0,
@@ -61,7 +61,7 @@
    ]
   }
  },
- "tris_total": 5228,
+ "tris_total": 5444,
  "atlas": [
   "tools/blender/env_second/bb_support/textures/gen/park3_props_atlas.png",
   "tools/blender/env_second/bb_support/textures/gen/park3_props_orm.png"

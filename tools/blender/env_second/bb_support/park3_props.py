@@ -39,8 +39,8 @@ METAL = 0.40
 
 GRANITE = (150, 146, 140)        # 淺灰偏暖的花崗岩（公園石桌常見的那種，曬過、不是新的）；在遊戲的太陽下不能過曝（SOP 第 11 節第 10 點）
 CONC = (138, 136, 130)
-STEEL = (128, 131, 135)          # 白鐵、鍍鋅調暗到和鋼材同一個明度區間（SOP 第 11 節第 10 點）
-GALV = (116, 120, 122)
+STEEL = (170, 173, 177)          # 白鐵、鍍鋅：遊戲內截圖（16:5x）金屬度 0.3～0.35＋底色 120～130 幾乎是黑的（遊戲沒有環境貼圖，金屬的部分只剩直射光的高光）；
+GALV = (162, 166, 168)           # 改成底色亮一點、金屬度 0.15～0.2，在遊戲裡才是銀灰（舊版程序化的 stain 也比 v1 亮）。Blender 預覽會偏白（SOP 第 13 節第 4 點：以遊戲內為準）
 RUST = (128, 80, 48)
 MUD = (92, 78, 62)
 
@@ -77,8 +77,8 @@ REG = {
 }
 SW = {
     'gr_dark': ((112, 108, 102), 0.62, 0.0), 'iron': ((58, 58, 60), 0.7, 0.2), 'drain_hole': ((22, 22, 24), 0.9, 0.0),
-    'button': ((176, 178, 180), 0.16, 0.38), 'spout': ((146, 148, 152), 0.24, 0.36), 'spout_tip': ((120, 122, 124), 0.5, 0.3),
-    'collar': ((108, 110, 110), 0.55, 0.28), 'lock_steel': ((70, 72, 76), 0.4, 0.3), 'lock_body': ((30, 30, 32), 0.6, 0.0),
+    'button': ((182, 184, 186), 0.16, 0.2), 'spout': ((168, 170, 174), 0.24, 0.2), 'spout_tip': ((132, 134, 136), 0.5, 0.18),
+    'collar': ((138, 140, 140), 0.55, 0.15), 'lock_steel': ((92, 94, 98), 0.4, 0.22), 'lock_body': ((30, 30, 32), 0.6, 0.0),
     'lock_core': ((168, 146, 86), 0.3, 0.35), 'pad_side': ((120, 118, 112), 0.9, 0.0),
 }
 SW_CELL, SW_X0, SW_Y0 = 32, 128, 896
@@ -86,7 +86,7 @@ for i, k in enumerate(SW):
     REG['sw_' + k] = (SW_X0 + (i % 8) * SW_CELL, SW_Y0 + (i // 8) * SW_CELL, SW_X0 + (i % 8) * SW_CELL + SW_CELL, SW_Y0 + (i // 8) * SW_CELL + SW_CELL)
 ROUGH = {}   # 區塊 → (粗糙度陣列 0~1，內部解析度) 或 (常數, 金屬)
 CONST = {'gr_table': (0.6, 0.0), 'gr_stool': (0.6, 0.0), 'conc_side': (0.88, 0.0), 'conc_top': (0.86, 0.0), 'grate': (0.72, 0.2)}
-METALS = {'steel': 0.35, 'basin': 0.33, 'galv': 0.30}
+METALS = {'steel': 0.18, 'basin': 0.18, 'galv': 0.15}
 
 
 # ================= 剖面工具 =================
@@ -237,10 +237,10 @@ def paint_galv():
     w, h = sz('galv'); s = (np.arange(w, dtype=np.float32) + 0.5) / w; S_ = np.repeat(s[None, :], h, 0)
     sp = soft(w, h, 41, scale=5, blur=1.2); big = soft(w, h, 42, scale=30, blur=6)
     ends = np.clip((0.08 - np.minimum(S_, 1 - S_)) / 0.08, 0, 1) ** 1.2 * (0.7 + 0.3 * soft(w, h, 43, scale=6, blur=1.5))
-    top = np.exp(-((S_ - 0.5) / 0.08) ** 2)
-    a = rgb(GALV, sp, 0.05) * (1 + 0.03 * big)[..., None] * (1 + 0.08 * top)[..., None]
+    top = np.exp(-((S_ - 0.5) / 0.16) ** 2)                                                   # 頂端被車子、手磨亮（淡、寬，不能像套了一截管子）
+    a = rgb(GALV, sp, 0.05) * (1 + 0.03 * big)[..., None] * (1 + 0.035 * top)[..., None]
     a = a * (1 - 0.55 * ends)[..., None] + np.array(RUST, np.float32) * 0.55 * ends[..., None]
-    rough = 0.5 + 0.05 * np.clip(sp, -2, 2) / 2 - 0.16 * top + 0.32 * ends
+    rough = 0.5 + 0.05 * np.clip(sp, -2, 2) / 2 - 0.08 * top + 0.32 * ends
     return to_img(a), rough
 
 
@@ -358,8 +358,8 @@ def rbox(pm, x0, x1, y0, y1, z0, z1, uv, r=0.003, seg=1, M=None):
 
 
 def lathe2(pm, prof, n, region, rep=1, M=None):
-    """剖面旋轉體：每一段的法線由剖面切線算（往外）；u 繞一圈重複 rep 次（n 要是 rep 的倍數，接縫落在格線上）；v＝沿剖面的弧長比例"""
-    assert n % rep == 0
+    """剖面旋轉體：每一段的法線由剖面切線算（往外）；u 繞一圈重複 rep 次（n 要是 rep 的倍數，接縫落在格線上；rep 是偶數時相鄰兩段 u 來回翻）；v＝沿剖面的弧長比例"""
+    assert n % rep == 0 and (rep == 1 or rep % 2 == 0)
     sub = PM(); d = arclen(prof); tot = d[-1]; per = n // rep
     for j in range(len(prof) - 1):
         (r0, y0), (r1, y1) = prof[j], prof[j + 1]; v0, v1 = d[j] / tot, d[j + 1] / tot
@@ -367,6 +367,7 @@ def lathe2(pm, prof, n, region, rep=1, M=None):
         for k in range(n):
             a0, a1 = 2 * math.pi * k / n, 2 * math.pi * (k + 1) / n; am = (a0 + a1) / 2
             u0 = (k % per) / per; u1 = u0 + 1 / per
+            if (k // per) % 2: u0, u1 = 1 - u0, 1 - u1                                         # 來回翻（ping-pong）：相鄰兩段在交界取同一個 u，貼圖不會有接縫
             pts = [(r0 * math.cos(a0), y0, r0 * math.sin(a0)), (r0 * math.cos(a1), y0, r0 * math.sin(a1)), (r1 * math.cos(a1), y1, r1 * math.sin(a1)), (r1 * math.cos(a0), y1, r1 * math.sin(a0))]
             uvs = [ruv(region, u0, v0), ruv(region, u1, v0), ruv(region, u1, v1), ruv(region, u0, v1)]
             if r0 < 1e-6: pts, uvs = pts[1:], uvs[1:]
@@ -457,8 +458,8 @@ def fountain():
     pm = PM()
     rbox(pm, -0.275, 0.275, 0.0, 0.07, -0.275, 0.275, {'t': R('conc_top'), '*': R('conc_side')}, r=0.012, seg=2)
     rbox(pm, -0.06, 0.06, 0.066, 0.074, 0.13, 0.245, {'t': R('grate'), '*': S('iron')}, r=0.003, seg=1)        # 前面的鑄鐵排水蓋（嵌在底座上）
-    lathe2(pm, FOUNT_PROF, 20, 'steel', rep=2)
-    lathe2(pm, BASIN_PROF, 20, 'basin', rep=2)
+    lathe2(pm, FOUNT_PROF, 24, 'steel', rep=2)
+    lathe2(pm, BASIN_PROF, 24, 'basin', rep=2)
     disk(pm, DRAIN_R, BASIN_PROF[-1][1], 12, S('drain_hole'))
     # 鵝頸出水口：從盆後側（−z）的盆底長出來，往上、往前彎，出水口朝前下
     neck = smooth_open([(0, 0.896, -0.12), (0, 0.975, -0.12), (0, 1.012, -0.105), (0, 1.02, -0.07), (0, 1.0, -0.045), (0, 0.983, -0.038)], 1)
@@ -476,12 +477,12 @@ def bike_rack():
     rbox(pm, -0.34, 0.34, 0.0, 0.035, -1.28, 1.28, {'t': R('pad'), '*': S('pad_side')}, r=0.01, seg=1)
     rc = 0.12; xl, top = 0.25, 0.70
     for z in SLOTS:
-        arcL = [(-xl + rc - rc * math.cos(a), top - rc + rc * math.sin(a), z) for a in np.linspace(0, math.pi / 2, 5)]
-        arcR = [(xl - rc + rc * math.sin(a), top - rc + rc * math.cos(a), z) for a in np.linspace(0, math.pi / 2, 5)]
+        arcL = [(-xl + rc - rc * math.cos(a), top - rc + rc * math.sin(a), z) for a in np.linspace(0, math.pi / 2, 6)]
+        arcR = [(xl - rc + rc * math.sin(a), top - rc + rc * math.cos(a), z) for a in np.linspace(0, math.pi / 2, 6)]
         path = [(-xl, 0.015, z)] + arcL + arcR + [(xl, 0.015, z)]
         sweep(pm, path, 0.024, 10, g, caps=False)
         for x in (-xl, xl):                                                                    # 腳下的焊接套（埋進墊子）
-            lathe2(pm, [(0.034, 0.03), (0.034, 0.05), (0.026, 0.056)], 6, 'galv', rep=1, M=T(x, 0, z))
+            lathe2(pm, [(0.034, 0.03), (0.027, 0.056)], 6, 'galv', rep=1, M=T(x, 0, z))          # 斜的焊接套（一段）
     # U 型鎖：掛在第二格的橫桿上（鎖環繞過橫桿、鎖身在下面），沒有字
     zs, xs = LOCK_SLOT, 0.06; rr = 0.046
     sh = [(xs, 0.545, zs - rr)] + [(xs, top + rr * math.sin(a), zs - rr * math.cos(a)) for a in np.linspace(0, math.pi, 9)] + [(xs, 0.545, zs + rr)]
