@@ -1572,6 +1572,17 @@ const STORY_EVENTS=[
       {speaker:'kexin',expression:'smile',text:'坐到最高的時候，台北看起來好小。'},{speaker:'kexin',expression:'thinking',text:'假設，我們從最高點開始交往。'},
       {speaker:'kexin',expression:'smile',text:'那之後每一圈，都會再回到這裡。'},{speaker:'player',text:'這是妳今天的假設題？'},{speaker:'kexin',expression:'embarrassed',text:'不是問題。是提議。'},
       {set:{Y0_DATING:true}},{stamp:['E26_DAY']} ] },
+  /* ★E27「我不是因為你。」（BB_104 8-10；AA_154 A35）：3/26（三）13:15～14:00（晚到＝延到 15:00）在總圖門口走到她旁邊就演（她在門廊前 (78.6,0)）；15:00 還沒到＝帶到場（E27_FORCE，story3d.js）。
+     她自己的決定（5-2 的第一層）。E22B_TOLD 有值才多一句（BB_104 3-3 E27 那一列的兩個版本；接在「我寒假就在查了」之後）*/
+  { id:'ev_y0_e27', stage:'econ', title:'我不是因為你', participants:['kexin'], location:'any', trigger:'auto', term:['Y0S2'], once:true, background:'blur',
+    prereq:{custom:G=>{ const F=G.flags; if(!F.E27_ASKED) return false; if(F.E27_FORCE) return true; const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-03-26'):null; if(G.day!==d||G.zone!=='campus'||G.hour<13.25||G.hour>=(F.E27_LATE?15:14)) return false;
+      const P=typeof GAME!=='undefined'&&GAME.E&&GAME.E.player&&GAME.E.player.obj; if(!P) return true; const dx=P.position.x-78.6, dz=P.position.z; return dx*dx+dz*dz<=25; }},
+    dialogue:[ {if:{flags:['E27_FORCE']},speaker:null,text:'（你到總圖門口的時候，她坐在台階上，在手機上記東西。）'},
+      {speaker:'kexin',expression:'serious',text:'我也要考。法律。台大法律。'},{speaker:'player',text:'……因為我？'},{speaker:'kexin',expression:'neutral',text:'不是。我寒假就在查了。你只是剛好比我早說。'},
+      {if:{flagIs:{E22B_TOLD:true}},speaker:'kexin',expression:'smile',text:'你那本法律入門，我那時候就看到了。'},{if:{flagIs:{E22B_TOLD:false}},speaker:'kexin',expression:'teasing',text:'你說那本是『沒什麼』。我那時候就知道是什麼了。'},   /* E22B_TOLD 有值才多一句（BB_104 3-3 E27 那一列；位置待 BB-B 確認）*/
+      {speaker:'kexin',expression:'serious',text:'理由是我自己的。我說不出最想念哪一科，可是我很確定，我想要。'},
+      {speaker:'kexin',expression:'smile',text:'所以我們說好——一起準備。同一張桌子。你畫架構，我出假設題。'},{speaker:'kexin',expression:'smile',text:'還有，你不可以偷偷比我早起。'},
+      {stamp:['E27_DAY']} ] },
   /* XL-2 阿勳一句（表叔；BB_110 F1 的回聲，AA_154 A28、A43）：Y0S2 第 1 週第一次在宿舍遇到阿勳（和 XL-1 同一套），F1 選了「轉給表叔」（Y0_UNCLE）才說 */
   { id:'ev_y0_xl2', stage:'econ', title:'表叔的變異數', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S2'], weeks:[1], time:[18,24], once:true, background:'blur',
     prereq:{custom:G=>!!(G.flags&&G.flags.Y0_UNCLE)},

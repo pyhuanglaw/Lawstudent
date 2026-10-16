@@ -757,6 +757,14 @@ const STORY = (function(){
       if(d25!=null&&G.day===d25&&F.E25_ASKED&&!done25&&G.hour>=20.25&&!PHONE.sent(G,'y0_e25_late')){ F.E25_LATE=true; PHONE.at(G,d25,20+20/60,[K('我在湖邊。')],'y0_e25_late'); }
       if(d25!=null&&F.E25_ASKED&&!done25&&G.zone==='campus'&&G.day===d25&&G.hour>=19.75&&G.hour<(F.E25_LATE?21.5:20.25)&&GM.spawnCharacter&&!(GM.npc&&GM.npc.kexin)){ try{ GM.spawnCharacter('kexin',-36,-98.5,{yaw:Math.PI}); }catch(e){ console.warn('E25 kexin',e); } }
       if(d25!=null&&F.E25_ASKED&&!done25&&(G.day>d25||G.hour>=21.5)) F.E25_FORCE=true; }
+    /* ★E27 我不是因為你（BB_104 8-10；AA_154 A35）：3/26（三）12:10 可昕私訊兩則＋出發選單「總圖門口 13:30」（帶到總圖門廊前）；13:15～14:00 走到她旁邊就演（3D）；
+       14:00 還沒到＝她傳「我在總圖門口。」、窗口延到 15:00（體育課 15:30 以前）；15:00 還沒到＝帶到場（E27_FORCE）。不做手機版 */
+    if(S.isEcon(G)){ const d27=S.dayOfKey('2025-03-26'), K=t=>({th:'p:kexin',from:'kexin',text:t}), done27=!!(G.events&&G.events.done&&G.events.done.ev_y0_e27);
+      if(d27!=null&&G.day===d27&&G.hour>=12+10/60&&!PHONE.sent(G,'y0_e27_ask')&&!done27){ F.E27_ASKED=true; PHONE.at(G,d27,12+10/60,[K('一點半，總圖門口。不用帶書。'),K('我有一件事，要先跟你說，再跟別人說。')],'y0_e27_ask');
+        if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_e27')&&G.hour<14) OUT.plan(G,{id:'y0_e27',goto:{zone:'campus',x:75,z:0,yaw:Math.PI/2},early:1/12,day:d27,h:13.5,late:0.5,place:'總圖門口',title:'總圖門口 13:30',travel:'走過去',travelH:1/6}); }
+      if(d27!=null&&G.day===d27&&F.E27_ASKED&&!done27&&G.hour>=14&&!PHONE.sent(G,'y0_e27_late')){ F.E27_LATE=true; PHONE.at(G,d27,14,[K('我在總圖門口。')],'y0_e27_late'); }
+      if(d27!=null&&F.E27_ASKED&&!done27&&G.zone==='campus'&&G.day===d27&&G.hour>=13.25&&G.hour<(F.E27_LATE?15:14)&&GM.spawnCharacter&&!(GM.npc&&GM.npc.kexin)){ try{ GM.spawnCharacter('kexin',78.6,0,{yaw:-Math.PI/2}); }catch(e){ console.warn('E27 kexin',e); } }
+      if(d27!=null&&F.E27_ASKED&&!done27&&(G.day>d27||G.hour>=15)) F.E27_FORCE=true; }
     /* ★E26 摩天輪（BB_104 8-9；AA_154 A40）：3/20（四）22:00 可昕私訊「週六傍晚有空嗎？」兩個選項（BB-B 定稿 6d59df01）＋出發選單 3/22（六）「捷運站 17:30」；
        17:45 還沒出發＝可昕打電話（照 AA 暫定句）→ 直接進出遊（同 E14）。睡著也會被叫醒（CORE_OUT）*/
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const d26=S.dayOfKey('2025-03-22'), K=t=>({th:'p:kexin',from:'kexin',text:t});
