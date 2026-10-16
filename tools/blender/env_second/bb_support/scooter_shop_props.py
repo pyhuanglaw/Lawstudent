@@ -227,9 +227,20 @@ def mix(a, c, t):
 def to_img(a): return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
 
 
+PAD = 4        # 每塊四周留 4 px 的邊：GLB 裡的貼圖是有損 WebP（色度分塊），隔壁區塊的顏色會滲過來幾 px，會接的區塊（洞洞板、胎紋）接縫會多一條線
+WRAP = {'peg_clean', 'peg_oily', 'board_plain', 'tread_new', 'tread_old', 'side_new', 'side_old', 'side_old_top', 'drum_side', 'tank', 'motor',
+        'motor_fins', 'funnel_out', 'funnel_in'}   # 會一格一格接起來的區塊：邊用「繞回來」的內容補（其他的用最邊上那一排補）
+
+
+def pad_region(name, a, p):
+    return np.pad(a, ((p, p), (p, p)) + ((0, 0),) * (a.ndim - 2), mode='wrap' if name in WRAP else 'edge')
+
+
 def put(P, name, img):
-    """每塊各自縮到 1024 的大小再貼（整張一起縮，邊上會混到隔壁區塊的顏色：會接的區塊（洞洞板、胎紋）接縫看得出一條線）"""
-    x0, y0, x1, y1 = REG[name]; P.paste(img.resize((x1 - x0, y1 - y0), Image.LANCZOS), (x0, y0))
+    """每塊各自縮好、四周補 PAD 再貼（整張一起縮，邊上會混到隔壁區塊的顏色）"""
+    x0, y0, x1, y1 = REG[name]
+    a = np.asarray(img.resize((x1 - x0 - 2 * PAD, y1 - y0 - 2 * PAD), Image.LANCZOS))
+    P.paste(Image.fromarray(pad_region(name, a, PAD)), (x0, y0))
 
 
 def blob(X, Y, cx, cy, s): return np.exp(-((X - cx) ** 2 + (Y - cy) ** 2) / (2 * s * s))
@@ -729,8 +740,9 @@ def make_textures():
     for name, (x0, y0, x1, y1) in REG.items():
         a0, b0, a1, b1 = int(x0 * f), int(y0 * f), int(math.ceil(x1 * f)), int(math.ceil(y1 * f))
         if name in rough_full:
-            r = Image.fromarray((np.clip(rough_full[name], 0, 1) * 255).astype(np.uint8)).resize((a1 - a0, b1 - b0), Image.BOX)
-            orm[b0:b1, a0:a1, 1] = np.asarray(r); orm[b0:b1, a0:a1, 2] = int(min(METALS.get(name, 0.0), METAL) * 255)
+            pq = max(1, int(PAD * f))
+            r = Image.fromarray((np.clip(rough_full[name], 0, 1) * 255).astype(np.uint8)).resize((a1 - a0 - 2 * pq, b1 - b0 - 2 * pq), Image.BOX)
+            orm[b0:b1, a0:a1, 1] = pad_region(name, np.asarray(r), pq); orm[b0:b1, a0:a1, 2] = int(min(METALS.get(name, 0.0), METAL) * 255)
         elif name.startswith('sw_'):
             rough, metal = SW[name[3:]][1:]
             orm[b0:b1, a0:a1, 1] = int(rough * 255); orm[b0:b1, a0:a1, 2] = int(min(metal, METAL) * 255)
@@ -739,7 +751,7 @@ def make_textures():
 
 # ================= 網格工具（照抄 park3_props.py；另加 Rx、Rz、extrude、lathe_parts）=================
 def ruv(name, s, t):
-    x0, y0, x1, y1 = REG[name]; ins = SW_CELL * 0.33 if name.startswith('sw_') else 0.6
+    x0, y0, x1, y1 = REG[name]; ins = SW_CELL * 0.33 if name.startswith('sw_') else PAD
     px = x0 + ins + min(1, max(0, s)) * (x1 - x0 - 2 * ins); py = y0 + ins + (1 - min(1, max(0, t))) * (y1 - y0 - 2 * ins)
     return (px / N, 1 - py / N)
 
