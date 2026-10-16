@@ -4351,6 +4351,78 @@
    "integration": "已整合待測試",
    "note": "READY_FOR_ART_REVIEW；小公園 v7 接進來後跑 wz_street_integration；美國公寓廚房（SCN-US-01）等接 SCN-US-01 時一起",
    "date": "2026-10-16T18:2xZ"
+  },
+  {
+   "id": "DLV-1016-363",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "72ea87f5",
+   "what": "閒聊階梯 BB 十個學期全部改過（約 190 處沒有上下文的指代；909d506d、d864629f、f84ba38a、72ea87f5）；保溫瓶 linesIf、學姊 week [7,18]、經濟系 week、P3-L3 選項",
+   "task": "V3-L2",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "import_ladder.py 從 elegant-brown 72ea87f5 匯入（AA 的 json 兩邊相同）；123 步改字、6 步改條件；greet.when 的 week 原本就支援",
+   "date": "2026-10-16T18:5xZ"
+  },
+  {
+   "id": "DLV-1016-364",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "2c38f7bf",
+   "what": "芷若 Z7 最終版（BB_97 3-4、3-4b；cc244c4a＋2c38f7bf）：三則深夜訊息、窗口到第 18 週、兩種 Café 開頭、寒假第一天一則、Z7b 1/28",
+   "task": "V3-B18",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "使用者 18:2x：台詞不能沒有上下文（「我交了。」）",
+   "date": "2026-10-16T18:5xZ"
+  },
+  {
+   "id": "DLV-1016-365",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "9035ede0",
+   "what": "V3-D13 大二過年群組新字（AA_143 2-1，選 C）",
+   "task": "V3-D13",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "小語三則所有成員都看得到",
+   "date": "2026-10-16T18:5xZ"
+  },
+  {
+   "id": "DLV-1016-366",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "ee2c901d",
+   "what": "模擬法庭缺的字（AA_143 3-3）：公告、群組名、三次邀約、模 2 三選一、機車行、模 3、模 4 旁白、模 5 開庭前五句",
+   "task": "V3-D16",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "準備分第 4 項照 LAWWW-B 的讀法；學姊玩家到場時一定在",
+   "date": "2026-10-16T18:5xZ"
+  },
+  {
+   "id": "DLV-1016-367",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "a3b9d427",
+   "what": "AB-59 明軒系籃兩句（BB_97 4-7）",
+   "task": "V3-D11",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "",
+   "date": "2026-10-16T18:5xZ"
+  },
+  {
+   "id": "DLV-1016-368",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "a4c05720",
+   "what": "小公園 v8：名牌改成公布欄頂上的橫板（不擋海報）",
+   "task": "ART-WZ1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "",
+   "date": "2026-10-16T18:5xZ"
   }
  ],
  "ignored": [
