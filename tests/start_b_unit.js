@@ -80,5 +80,13 @@ GM.money=function(n){ G.money+=n; };
     await STORY.toLaw(GM);
     check('15. 經濟系 8/31 轉進法律系（?start1）：留在 8/31（不倒退回新遊戲的 8/29）、LAW_START_DAY −18、MAIN_D1 −13、晚上宿舍',G.stage==='law'&&G.day===-16&&G.flags.LAW_START_DAY===-18&&G.flags.MAIN_D1===-13&&G.hour>=18&&G.zone==='dorm',JSON.stringify({d:G.day,h:G.hour,f:[G.flags.LAW_START_DAY,G.flags.MAIN_D1],z:G.zone,cards}));
     global.location={search:''}; }
+  { const play=async(day,hour,flags)=>{ fresh(day,hour,'dorm',flags); G.stage='law'; cards=[]; GM.sceneBegin=()=>{}; GM.letterbox=()=>{}; try{ await STORY.onEnter('dorm',GM); }catch(e){ said.push({t:'例外 '+e.message}); } return {lines:said.map(x=>x.t),cards:cards.slice()}; };
+    const w1=await play(D('2025-09-03'),21,{LAW_START_DAY:-18,MAIN_D1:-13});
+    check('16. 選 1：9/3 晚上回宿舍演宿舍那一晚：日期卡「9 月 3 日（三）」、AA_195 4-1 的三句、沒有「開學第三週」「老師上週說」、沒有 DAY1_NARR',
+      (w1.cards[0]||[])[0]==='9 月 3 日（三）'&&w1.lines[0]==='明天早上是民法總則的第一堂。'&&w1.lines.some(t=>/課綱第一週那一格/.test(t))&&!w1.lines.some(t=>/開學第三週|老師上週說|以前遇到事情|例外/.test(t)),JSON.stringify(w1).slice(0,400));
+    const w0=await play(D('2025-09-03'),19.5,{LAW_START_DAY:-18,MAIN_D1:-13});
+    check('16. 選 1：9/3 晚上 8 點以前回宿舍不演',!w0.lines.length&&!w0.cards.length,JSON.stringify(w0).slice(0,200));
+    const old=await play(1,21.2,{});
+    check('16. 舊局：第 1 天照舊（「第一天」標題卡、「開學第三週」、DAY1_NARR）',(old.cards[0]||[])[0]==='第一天'&&old.lines.some(t=>/開學第三週/.test(t))&&old.lines.some(t=>/以前遇到事情/.test(t))&&!old.lines.some(t=>/例外/.test(t)),JSON.stringify(old).slice(0,300)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
