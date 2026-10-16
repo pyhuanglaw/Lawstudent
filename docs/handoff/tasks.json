@@ -12438,12 +12438,12 @@
   },
   {
    "id": "BUG-OUTING-STUCK",
-   "title": "和可昕出遊（再去走走）演完「回到台大」就卡住：畫面疊了校園偶遇的旁白（兩次）和可昕的閒聊",
+   "title": "和可昕出遊（再去走走）演完「回到台大」就卡住：畫面疊了校園偶遇的旁白（兩次）和可昕的閒聊；演完以後可昕的閒聊在 3D 校園畫面上播（她人不在）",
    "area": "BUG",
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P0",
-   "next": "原因：出遊演完到回程轉場之間不在劇情狀態，校園的自動事件（ev_pool_greet 偶遇）插進來，和可昕的閒聊階梯同時跑、搶同一個對話框。修：outings3d.js S.go 整趟包 sceneBegin／sceneEnd（到了的存檔用 autosave(true)）；v0_c1_unit 第 6 項；等瀏覽器",
+   "next": "原因：出遊演完到回程轉場之間不在劇情狀態，校園的自動事件（ev_pool_greet 偶遇）插進來，和可昕的閒聊階梯同時跑、搶同一個對話框。修：outings3d.js S.go 整趟包 sceneBegin／sceneEnd（到了的存檔用 autosave(true)）；v0_c1_unit 第 6 項；等瀏覽器；演完以後可昕的那幾句（沒回的訊息、閒聊階梯）重新打開 2D 畫面（同一個背景、可昕在右邊），講完才關（v0_c1_unit 第 7 項）",
    "first": {
     "term": "Y1S1",
     "week": 1,

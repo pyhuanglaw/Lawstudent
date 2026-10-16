@@ -65,9 +65,11 @@ const OUT=(function(){
     if(typeof ADV!=='undefined'){ ADV.begin({background:ev.background||'dark'}); }
     await GM.fade(false); if(typeof ev.beforeOuting==='function') await ev.beforeOuting(G,GM,q);   /* 演之前在同一個畫面先做的事（例：可昕的視訊讀書先選讀哪一科，BB_95 9-5）*/
     try{ await EVENTS.run(ev); } finally { running.delete(q.id); } q.state='done'; delete q.arrived; if(typeof ev.afterOuting==='function') await ev.afterOuting(G,GM,q);   /* 演完以後在同一個畫面接著做的事（例：可昕的視訊之後發成績單）*/
+    const kxTail=(ev.participants||[]).includes('kexin')&&typeof STORY!=='undefined'&&typeof ADV!=='undefined'; if(kxTail) ADV.begin({background:ev.background||'dark',right:{charId:'kexin',expression:'neutral'}});   /* 演完以後和可昕的那幾句（沒回的訊息、閒聊階梯）還在政大：畫面留在那裡，不要露出原本的 3D（使用者 2026-10-16：她人根本不在這，對話還在）*/
     if((ev.participants||[]).includes('kexin')&&typeof STORY!=='undefined'&&STORY.neededMiss) await STORY.neededMiss(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin');   /* 主線 4：上週的訊息沒回，見面的時候帶過一句（BB_97 11-2）*/
     if((ev.participants||[]).includes('kexin')&&typeof STORY!=='undefined'&&STORY.ladNext){ const md=q.verb==='接起來'||q.place==='視訊'?'video':'meet', st=STORY.ladNext(G,'kexin',md);   /* 可昕的閒聊階梯（BB_130：只在見面／視訊推進，路上不推進）：演完那一段接著聊一層；今天推進過或條件不到就不聊（不用短招呼）*/
       if(st) await STORY.ladPlay(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin',st); }
+    if(kxTail&&ADV.active) ADV.end();
     await GM.fade(true); GM.advance(ev.hours||2); await GM.fade(false); if(GM.caption&&!(o&&o.fromHome&&typeof HOME!=='undefined'&&(HOME.livesHome?HOME.livesHome(G):HOME.baseMode&&HOME.baseMode(G)))) GM.caption('',q.back||'回到台大。',2400);   /* 休學後從家裡出發的：回家（home3d.js 的選單接著）*/
     } finally { GM.sceneEnd(); }
     if(GM.autosave) GM.autosave(); return true; };
