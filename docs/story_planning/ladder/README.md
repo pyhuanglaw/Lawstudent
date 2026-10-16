@@ -1,7 +1,9 @@
-# 閒聊階梯資料（大一上；使用者 2026-10-15 全案通過，直接實作）
+# 閒聊階梯資料（大一上；使用者 2026-10-15 全案通過，直接實作。大一下起一學期一個檔，2026-10-16）
 
 - `ladder_bb.json`：BB-B 的芷若（heroine_02）、子晴（heroine_04）、溫學姊（heroine_05）、沛珊（classmate_peishan）、可昕（kexin）＋室友阿凱宿舍事件（`kaiDorm`）。原稿 `../BB_130_閒聊階梯_芷若子晴學姊沛珊_室友阿凱.md`；由 `build_ladder_bb.py` 產生（改台詞改 .py，再跑一次）。
 - `ladder_aa.json`：AA-B 的以安（heroine_01）、語彤（heroine_03）。原稿 `../AA_135`、`../AA_136`；由 `build_ladder_aa.py` 產生。
+- **大一下（Y1S2）**：`ladder_aa_y1s2.json`（以安 A2-L1～8、語彤 Y2-L1～8；原稿說明 `../AA_139`；`build_ladder_aa_y1s2.py`）。芷若、子晴、學姊、沛珊、可昕的大一下由 BB-B 寫（`ladder_bb_y1s2.json`，之後）。
+- **一學期一個檔（給 LAWWW-B）**：每個檔的 `term` 決定它在哪一學期推進；進度記在 `G.social.ladder[term][層 id 所屬角色]`（或用 `term:角色` 當 key），**換學期就從新檔的第 1 層開始**，上學期沒走完的層不帶過去（新學期的台詞不假設玩家聽過上學期哪一層，要接的用 `linesIf`／`extraIf` 看記憶）。舊存檔：沒有 term 的進度當成 Y1S1。
 
 ## 給 LAWWW-B：欄位
 
@@ -25,6 +27,7 @@
 | `linesIf` | （AA 2026-10-16）`[{if?／unless?, lines}]`：第一個條件成立的那一套**取代**這一層的 `lines`（選項照用）。例：語彤 Y-L1 只在麵店認識的玩家 |
 | `extraIf` | （AA 2026-10-16）`[{if?／unless?, lines}]`：條件成立時，在這一層的 `lines` 後面**多說**這幾句。例：語彤 Y-L5 傘給她的玩家 |
 | `skipIf` | （AA 2026-10-16 提議，BB 的 Q-L3 用）條件成立時，這一層**直接算過**（記層數、不播、不算今天推進），避免 `if` 用 `notMemory` 讓階梯永遠卡住 |
+| `linesIf`／`extraIf` 的 `week`、`location`、`time`、`weekday` | （AA 2026-10-16）除了 `if`／`unless`（EVENTS.cond，沒有週次），每一套也可以放和層一樣的 `week` 等篩選；全部符合才用這一套。例：以安 A2-L3 第 7 週以後杜鵑花謝了，改說「三月拍了」 |
 | `note` | 實作提醒（**不放要播的台詞**；要播的變化用 `linesIf`／`extraIf`） |
 
 ## 給 LAWWW-B：`kaiDorm`（宿舍事件 K-D1～6）
