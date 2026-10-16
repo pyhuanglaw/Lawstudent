@@ -67,12 +67,12 @@
 1. **立即切換狀態**：在下一個能處理使用者訊息的安全節點，先回覆「收到，現在停止一般開發並執行交班」，取消後續開發佇列；禁止再開始建模、除錯、補功能、加素材、跑新測試、協調新需求或趕做一兩項工作。**額度快用完＝更要優先保存，不是趕工。**
 2. **只准安全收尾**：若已開始不可安全中斷的原子操作（例如正在寫入的 Git 操作、模型匯出），僅完成最短安全收尾；長測試可記錄中斷位置與未驗證結果，不必為了交班跑完整套。不能藉「再幾分鐘」延伸到新任務。
 3. **立即保存與交接**：確認自己的分支與 worktree；只加入自己職責內的檔案（不使用無條件 `git add .`）；可保存 WIP／未測項目，清楚標記；commit、push 自己的遠端分支並核對遠端 SHA。未 push 的原始素材、Blender／GLB、WIP 分支、測試或其他成果要如實註明未備份。
-4. **更新該職位交接檔＋永久任務總表**（`docs/AI_SESSION_HANDOFF.md` 第 5 節的五樣：成果、全部未完成、規則、跨 AI 協作、測試與已知問題；LAWWW 寫 `docs/HANDOFF_GAP_MATRIX.md` 第 1 節交班快照，並跑 `python3 tools/handoff/check_handoff.py snapshot --role LAWWW --account <A|B>` 把快照 commit＋push（D82））：寫明正在做什麼、已完成／未完成／未測／未整合／未發布、相關分支與最後 SHA、尚未保存到遠端的內容、下一班第一步；登記「交班」時間與最後 commit，再 commit＋push 核實。LAWWW 另按原制度維護總入口值班表；**交班紀錄不代表新帳號已經接班**。
+4. **更新該職位交接檔＋永久任務總表**（`docs/AI_SESSION_HANDOFF.md` 第 5 節的六類 A～F：成果、全部未完成、正在做、最新決策與規則、跨 AI 協作、測試與問題；其他職位另跑 `snapshot --role <職位> --account <A|B|C>` 和 `duty handoff`；LAWWW 寫 `docs/HANDOFF_GAP_MATRIX.md` 第 1 節交班快照，並跑 `python3 tools/handoff/check_handoff.py snapshot --role LAWWW --account <A|B|C>` 把快照 commit＋push（D82））：寫明正在做什麼、已完成／未完成／未測／未整合／未發布、相關分支與最後 SHA、尚未保存到遠端的內容、下一班第一步；登記「交班」時間與最後 commit，再 commit＋push 核實。LAWWW 另按原制度維護總入口值班表；**交班紀錄不代表新帳號已經接班**。
 5. **交班後停止寫入**：回報最後 commit SHA、分支、push 成功與否、尚未備份項目；停止修改該職位檔案，直到使用者說「我回來了，請同步 GitHub 最新進度，接續工作」或按第 7 節正式接班。
 6. **四職位各自執行**：LAWWW、LAWWW2、AA、BB 收到使用者直接換班指令，就各自啟動，不需 LAWWW 打斷或催促；LAWWW 可同步通知其他職位，但 SENT／DELIVERED 不等於 ACK，不能以此宣稱對方完成。通訊／通知暫時不能讀取時，於下一個可處理節點讀通知並執行；**GitHub 文件更新本身不會遠端強制中止另一個正在執行的 Claude 工作階段**。
 7. **不得混淆保存與發布**：禁止為交班而合併 `main`、發布 GitHub Pages、force push、覆蓋其他 AI 的分支，或把未經核准內容當正式成果。交班以各自遠端 commit、進度檔與使用者可核對的回報為準。
 
-8. **不傳訊息給已交班的另一個帳號（使用者 2026-10-15，D75）**：另一個帳號通常是每週用量到上限才交班；對它的工作階段 `send_message`（包括「測試訊息」「不用回覆」）會叫醒它、讓它又開始工作、消耗它的額度。**跨帳號一律只用 GitHub 文件交接**（進度檔、總入口、看板、交接板），不 `send_message`、不 `interrupt_session`、不替它排 `send_later`／排程。同一個帳號內、同一班都在值班的職位之間照舊可以用 `send_message`。
+8. **不傳訊息給任何休班帳號（使用者 2026-10-15 D75；2026-10-16 HV-10 擴大到 A、B、C 所有休班帳號）**：休班的帳號通常是每週用量到上限才交班；對它的工作階段 `send_message`（包括「測試訊息」「不用回覆」）會叫醒它、讓它又開始工作、消耗它的額度。**跨帳號一律只用 GitHub 文件交接**（進度檔、總入口、看板、交接板），不 `send_message`、不 `interrupt_session`、不替它排 `send_later`／排程。同一個帳號內、同一班都在值班的職位之間照舊可以用 `send_message`。
 
 **一句話測試：使用者說「現在換班」後，下一項正常工作必須是交班保存，不是繼續便利商店建模或法條修正。**
 
@@ -418,23 +418,19 @@ D84（LAWWW ⇄ LAWWW2 的美術派工細則）、D79（劇情先問 AA）照舊
 6. **交接紀錄**：`docs/ART_REBUILD_PROGRESS.md` 最上面的「交接（最新）」一節隨時更新：最新 SHA、分支、已完成／未完成／沒測過、下一步、需要誰協助、哪些不能合併或發布。
 7. **不要為了保存停下實際工作**：保存完立刻繼續；不要整個工作階段只剩寫日誌和 commit。只有影響對方工作或要交接時才通知其他 AI（寫明工作名稱、分支、SHA、檔案範圍、完成狀態、能不能整合、測試結果；分清楚「已保存」「已交付」「已整合」）。
 
-## 跨帳號接班（帳號 A ⇄ 帳號 B，2026-10-11 使用者訂定，永久，D49；2026-10-16 修訂 HV-3）
+## 跨帳號接班（帳號 A、B、C 任意方向輪值；2026-10-11 使用者訂定 D49，2026-10-16 修訂 HV-3，2026-10-16 升級 D92／HV-10）
 
-總入口：**`docs/AI_SESSION_HANDOFF.md`**（有效規則來源、值班表、接班／交班程序、A／B 共用的四職位啟動提示詞、接班確認格式、規則變更紀錄）。**唯一的跨帳號永久任務總表：機器讀的 `docs/handoff/tasks.json`（以它為準；跨 AI 任務有 `xai` 欄位，D84）＋閱讀版 `docs/HANDOFF_GAP_MATRIX.md`**；交付登記 `docs/handoff/deliveries.json`；交班快照 `docs/handoff/snapshots/`；對帳工具 `tools/handoff/check_handoff.py`（D82，2026-10-16 修訂 HV-4）。
-- 永遠只有四個職位：LAWWW、LAWWW2、AA、BB。帳號 B 的工作階段叫 LAWWW-B、LAWWW2-B、AA-B、BB-B。A、B 只是帳號識別：**同一職位同一時間只有一個工作階段寫入**，使用者對哪一邊說話，哪一邊就值班。**A→B、B→A 完全對稱、永久循環**；換帳號不會讓任何職位的職責或未完成工作歸零。
-- **有效規則來源（RULE_SOURCE）＝值班 LAWWW 的開發分支**（寫在總入口第 0a 節；`main` 和另一個帳號停住的分支上的 `CLAUDE.md` 可能是舊的）。**舊對話記憶、啟動時載入的 CLAUDE.md 都以 RULE_SOURCE 的版本為準。** 只有值班的 LAWWW 改五份永久規則檔（CLAUDE.md、AI_SESSION_HANDOFF.md、HANDOFF_GAP_MATRIX.md、PROJECT_DECISIONS.md、USER_INSTRUCTION_LOG.md）；其他職位在自己的交接檔用任務 ID 寫狀態。
-- **使用者說「我回來了，請同步 GitHub 最新進度，接續工作。」（或貼啟動提示詞）時，照總入口第 4 節接班——先對帳，再開工**：
-  1. fetch 所有遠端分支。
-  2. 找 RULE_SOURCE，讀五份規則檔與第 13 節規則變更紀錄。
-  3. 讀上一班的交班紀錄與總表的交班快照。
-  4. **對帳**：先跑 `python3 tools/handoff/check_handoff.py check`（不是 LAWWW 的職位加 `--ref origin/<RULE_SOURCE>`，不用切分支）：它只列異常、**不改任何任務**；結束碼 0＝九項都查了沒異常、1＝有異常或有一項查不了、**2＝找不到上一次快照或快照壞掉→寫 `REMEDIAL_FULL_AUDIT`、補做一次全面盤點，不能報正常**。工具沒抓到的再人工看：自己負責、已授權未完成的工作都在；不見的查證（已驗收要有證據、取消要有授權），證明不了就恢復成待開工；沒核完寫 `AUDIT_PENDING`，不宣稱已全部核實。
-  5. 合併（不 rebase、不 force push）、值班登記（含規則 SHA 與對帳結果）、push、核對遠端 SHA。
-  6. 回報「接班確認」，接著做，不用使用者再說開工。
-- **交班（「現在換班」）留下五樣**（總入口第 5 節；LAWWW 最後跑 `check_handoff.py snapshot` 存快照並 push）：本班成果（任務 ID、SHA、測試、整合與發布狀態）、**全部**未完成工作（不只最後一件；寫進總表交班快照或自己交接檔）、本班新增／修訂／廢止的永久規則（第 13 節）、跨 AI 協作狀態（SENT／DELIVERED／ACK／ACTIONED）、未完成的測試與已知問題。
-- **任務不得無故消失**：只能是待開工、進行中、等待其他AI／素材、已實作待整合、已整合待測試、已驗收、暫停（寫原因）、取消／被取代（寫授權與替代 ID）。不能因優先級改變刪掉；「已寫企劃」「已提交程式」「模型完成」都不是已驗收。**平時增量更新（D82）**：收到交付就在 `deliveries.json` 登記一筆（對到任務 ID、SENT／DELIVERED／ACK／ACTIONED、未整合／已整合待測試／已驗收），新任務直接加進 `tasks.json`；工具只掃各交付分支 `scannedThrough` 以後的新 commit，所以接班不必每次全面重查。不要整天寫報告。
-- 平時每完成重要階段就 push（D45）。來不及交班時，以遠端最後 push 的狀態為準，沒 push 的當作沒有。
-- 只有值班中的 LAWWW 或 LAWWW-B 可以正式發布（D85；三小時間隔 2026-10-16 取消）；規則修改不需要、也不准為此合併遊戲內容到 `main`。
-- **不傳訊息給已交班的另一個帳號（使用者 2026-10-15，D75）**：另一個帳號通常是每週用量到上限才交班；對它的工作階段 `send_message`（包括「測試訊息」「不用回覆」）會叫醒它、讓它又開始工作、消耗它的額度。**跨帳號一律只用 GitHub 文件交接**，不 `send_message`、不 `interrupt_session`、不替它排 `send_later`／排程。同一個帳號內、同一班都在值班的職位之間照舊可以用 `send_message`。
+總入口：**`docs/AI_SESSION_HANDOFF.md`**（唯一值班狀態與 RULE_SOURCE、值班表、十四步接班、六類交班、三帳號啟動提示詞與帳號 C 四份、使用者換班時說的話、接班確認格式、規則變更紀錄）。**唯一的值班狀態：`docs/handoff/duty.json`**（RULE_SOURCE 分支上，只有值班的 LAWWW 寫；各職位在自己分支有 `docs/handoff/duty_<職位>.json`）。**唯一的跨帳號永久任務總表：機器讀的 `docs/handoff/tasks.json`（以它為準；跨 AI 任務有 `xai` 欄位，D84）＋閱讀版 `docs/HANDOFF_GAP_MATRIX.md`**；交付登記 `docs/handoff/deliveries.json`（記帳號、分支、commit）；交班快照 `docs/handoff/snapshots/`；工具 `tools/handoff/check_handoff.py`（`check`、`snapshot --account <A|B|C>`、`queue`、`duty find／plan／register／handoff／sync／verify`；D82、D92）。
+- 永遠只有四個職位：LAWWW、LAWWW2、AA、BB。帳號 A 的工作階段不加後綴，帳號 B 叫 LAWWW-B、LAWWW2-B、AA-B、BB-B，帳號 C 叫 LAWWW-C、LAWWW2-C、AA-C、BB-C。A、B、C 只是帳號識別：**同一職位同一時間只有一個工作階段寫入**，使用者對哪一邊說話，哪一邊就值班。**A→B、A→C、B→A、B→C、C→A、C→B 都一樣、不限次數**；換帳號不會讓任何職位的職責或未完成工作歸零（任務的 `owner` 永遠寫職位）。
+- **上一任是誰只看 GitHub 上最近一次正式有效的值班與交班紀錄（`duty.json` 的登記鏈）**：不照 A→B→C 的固定順序、不靠自己上次值班的記憶、**不看哪條分支的 commit 時間最新**。兩份紀錄互不包含（分岔）、RULE_SOURCE 對不起來、同一職位兩個帳號都在寫：**不能自己猜、不能覆寫，查不清楚就回報使用者**（`duty find`／`duty verify` 會列出來）。
+- **有效規則來源（RULE_SOURCE）＝值班 LAWWW 的開發分支＝`duty.json` 的 `ruleSource.branch`**（用 `python3 tools/handoff/check_handoff.py duty find` 找；`main` 和休班帳號停住的分支上的 `CLAUDE.md` 可能是舊的）。**舊對話記憶、啟動時載入的 CLAUDE.md 都以 RULE_SOURCE 的版本為準。** 只有值班的 LAWWW 改五份永久規則檔（CLAUDE.md、AI_SESSION_HANDOFF.md、HANDOFF_GAP_MATRIX.md、PROJECT_DECISIONS.md、USER_INSTRUCTION_LOG.md）和 `docs/handoff/` 的總表、交付、`duty.json`；其他職位在自己的交接檔用任務 ID 寫狀態。
+- **使用者換班時說的話（總入口第 8 節）**：交班＝對值班帳號四個工作階段各說「**現在換班**」；接班＝第一次用的帳號貼第 7 節提示詞，用過的帳號說「**我回來了，請同步 GitHub 最新進度，接續工作。**」；上一班來不及交班時加一句「**上一班來不及交班，現在由帳號 <X> 接班。**」（這句才是 `duty register --user-ok` 的授權）。
+- **接班照總入口第 4 節十四步——先對帳，再開工**：fetch → `duty find`（RULE_SOURCE）→ 讀規則與第 13 節 → `duty plan`（上一任、要合併的分支、快照、WIP、還沒交班的職位）→ 讀上一任四職位的交接紀錄 → 讀總表與交付 → `check`（結束碼 2＝快照不見或壞掉 → `REMEDIAL_FULL_AUDIT`）→ `duty verify`（未整合、WIP、待 ACK、雙寫）→ 確認任務沒遺失（證明不了恢復待開工、沒核完寫 `AUDIT_PENDING`）→ 確認自己的職位已取得寫入權（上一任沒交班就停下來問使用者）→ 合併（不 rebase、不 force push、不 reset、不用空白分支取代原成果）→ `duty register`＋commit＋push → 回報「接班確認」→ 立刻接續。增量（D80、D82）：工具只列異常和新 commit，完整但不拖慢開發。
+- **交班（「現在換班」）留下六類**（總入口第 5 節；平時就持續更新，交班只補差異）：A 本班成果、B **全部**未完成工作、C 正在做的、D 最新決策與規則、E 跨 AI 協作（SENT／DELIVERED／ACK／ACTIONED）、F 測試與問題。存快照 `snapshot --role <職位> --account <A|B|C>`、登記 `duty handoff`，commit＋push。
+- **任務不得無故消失**：只能是待開工、進行中、等待其他AI／素材、已實作待整合、已整合待測試、已驗收、暫停（寫原因）、取消／被取代（寫授權與替代 ID）。不能因優先級改變刪掉；「已寫企劃」「已提交程式」「模型完成」都不是已驗收。**平時增量更新（D82）**：收到交付就在 `deliveries.json` 登記一筆（對到任務 ID、帳號、分支、commit、SENT／DELIVERED／ACK／ACTIONED、未整合／已整合待測試／已驗收），新任務直接加進 `tasks.json`。不要整天寫報告。
+- 平時每完成重要階段就 push（D45）。來不及交班時，以遠端最後 push 的狀態為準，沒 push 的當作沒有。**不准**：force push 蓋掉舊帳號的分支、reset 掉其他 AI 的有效成果、用空白新分支取代原本的開發成果、刪除還有未整合內容的 WIP 分支、只依賴本機沒 push 的檔案、把沒驗收的冒充完成、因交班而擅自發布。
+- 只有值班中的那個 LAWWW 可以正式發布（D85；三小時間隔 2026-10-16 取消）；規則修改不需要、也不准為此合併遊戲內容到 `main`。
+- **不傳訊息給任何休班帳號（使用者 2026-10-15 D75；2026-10-16 HV-10 擴大到 A、B、C 所有休班帳號）**：休班的帳號通常是每週用量到上限才交班；對它的工作階段 `send_message`（包括「測試訊息」「不用回覆」）會叫醒它、讓它又開始工作、消耗它的額度。**跨帳號一律只用 GitHub 文件交接**，不 `send_message`、不 `interrupt_session`、不替它排 `send_later`／排程。同一個帳號內、同一班都在值班的職位之間照舊可以用 `send_message`。
 
 ## AI 長期合作、溝通與開發工作規範（2026-10-09 使用者訂定，持續有效）
 
