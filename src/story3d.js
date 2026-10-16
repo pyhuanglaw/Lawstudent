@@ -840,6 +840,13 @@ const STORY = (function(){
         PHONE.at(G,G.day,G.hour,[{th:T,from:'player',who:null,text:'被偷的東西，原主兩年內可以要回去。車要還，可是你可以去找賣你的人。紀錄都留著。'},WL('……好。我去派出所。')],'y0_bike_look'); }
       if(G.day>=bd&&(G.day>bd||G.hour>=18)&&G.day<=bd+2&&PHONE.sent(G,'y0_bike_ask')&&!/^look/.test(F.WL_BIKE_ASK||'')&&!PHONE.sent(G,'y0_bike_xun')) PHONE.at(G,bd,18,[{th:T,from:'econ_zhengxun',name:'阿勳',text:'去派出所。留著對話紀錄。'}],'y0_bike_xun');
       if((G.day>bd+14||(G.day===bd+14&&G.hour>=21))&&G.day<=bd+18&&!PHONE.sent(G,'y0_bike_after')) PHONE.at(G,bd+14,21,[WL('賣車的人找到了。錢拿回一半。另一半當學費。'),{th:T,from:'kexin',text:'學費的邊際效用很高。'}],'y0_bike_after'); } }
+    /* F1 經濟系群組的小年夜（BB_110 F1；AA_154 A17、A18）：2025-01-27（一）21:00「走啦」（沒有就全班群組）十則＋可昕的假設題；回覆三選一：
+       轉給表叔＝阿勳一句、Y0_UNCLE；轉給品妤＝品妤一句；「（已讀，不回）」＝可昕一句、Y0_F1_SEEN。完全沒打開手機＝什麼都沒有（群組照樣留著）。回覆到當天 23:59 */
+    if(S.isEcon(G)){ const fd=S.dayOfKey('2025-01-27'); if(fd!=null&&(G.day>fd||(G.day===fd&&G.hour>=21))&&G.day<=fd+3&&!PHONE.sent(G,'y0_f1')){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class'; if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+      const T='g:'+gid, M=(from,name,text)=>({th:T,from,name,text}), PY=t=>M('econ_pinyu','品妤',t), TR=t=>M('econ_tangrui','唐睿',t), XU=t=>M('econ_zhengxun','阿勳',t), WL=t=>M('econ_weilun','韋綸',t);
+      PHONE.at(G,fd,21,[PY('📷（一張表格）各縣市年菜價格比較。台北最貴。'),TR('妳為什麼要做這個？'),PY('我媽叫我去買。我要讓她知道代價。'),XU('紅包的期望值我算好了。'),XU('三個阿姨、兩個舅舅、一個不知道為什麼會來的表叔。'),XU('表叔的變異數很大。'),
+        WL('📷（一張照片：海邊、一台腳踏車）我騎到墾丁了！'),TR('從哪裡騎？'),WL('枋寮。……好啦，坐火車到枋寮。'),
+        Object.assign({th:T,from:'kexin',text:'假設紅包可以轉讓，你們會轉給誰？'},{ask:{id:'y0_f1',until:fd*24+24,opts:[{t:'轉給表叔。增加他的變異數。',set:{Y0_UNCLE:true},say:[XU('……這是今年最好的經濟學。')]},{t:'轉給品妤，讓她付年菜。',say:[PY('收到。不退。')]},{t:'（已讀，不回）',post:false,set:{Y0_F1_SEEN:true},say:[{th:T,from:'kexin',text:(G.name||'祐廷')+'已讀不回。這也是一種答案。'}]}]}})],'y0_f1'); } }
     /* 校慶問答攤（BB_95 3-7，DL-04B）：前一天（週五）21:00 法服群組，學姊提醒；沒加入法服的玩家改成校園公告欄的旁白（AMBIENT 的 festEve）*/
     if(PHONE.inGroup(G,'lawclub_study')){ const fs=termDay('Y1S1',11,6); if(fs&&G.day===fs-1) PHONE.at(G,fs-1,21,[{th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'明天校慶，問答攤十點開。輪班表在記事本。'}],'fest_eve_lawclub'); }
     /* 家族聚餐（BB_95 3-8）：前一週 Kevin 在家族群組約；當晚 22:30 學姊訂正考古題；沒去的玩家 22:00 Kevin 貼資料夾、學姊說書會留給學弟 */
