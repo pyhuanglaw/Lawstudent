@@ -3,9 +3,9 @@
  "note": "交付登記（D82）：每一筆交付都要對到 tasks.json 的任務；msg＝SENT／DELIVERED／ACK／ACTIONED（接收方有沒有回 ACK）；integration＝未整合／已整合待測試／已驗收／不整合／參考用。scannedThrough＝每條交付分支已經看過的最後一個 commit：check_handoff.py 只掃它以後的 commit（增量）。看過、不是交付的 commit 放 ignored。　**scannedThrough 只在 check 跑完、列出的 commit 都登記或放進 ignored 之後才往前移**（2026-10-16：先移再跑會什麼都掃不到）。",
  "pattern": "交付|ART_APPROVED|READY_FOR_ART_REVIEW|MODEL_READY|通過|驗收|閒聊階梯|交接包|法律審查|盤點|清查|裁定|規則檔|AA_1\\d\\d|BB_1\\d\\d",
  "scannedThrough": {
-  "origin/claude/funny-albattani-iawshm": "464ddd54",
-  "origin/claude/cool-heisenberg-o8kuqx": "a59b8b2d",
-  "origin/claude/elegant-brown-fcos7n": "694dc89c"
+  "origin/claude/funny-albattani-iawshm": "b7a091b8",
+  "origin/claude/cool-heisenberg-o8kuqx": "c7ced164",
+  "origin/claude/elegant-brown-fcos7n": "3d282f12"
  },
  "deliveries": [
   {
@@ -1975,6 +1975,198 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "需要約會系統（AA_128）的地點；排在約會地點之後"
+  },
+  {
+   "id": "DLV-1016-165",
+   "date": "2026-10-16T09:4xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "a366b7bd",
+   "what": "ART-05 五位角色的 Blender VRM",
+   "task": "ART-05",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "cdbf1249（BB-B BB_131 第 9 節）"
+  },
+  {
+   "id": "DLV-1016-166",
+   "date": "2026-10-16T09:4xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "ceb545f2",
+   "what": "ART-WZ1 小公園名牌修正",
+   "task": "ART-WZ1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "b0d66fea"
+  },
+  {
+   "id": "DLV-1016-167",
+   "date": "2026-10-16T09:4xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "31323eb9",
+   "what": "ART-WZ0／WZ2 溫州街 v5",
+   "task": "ART-WZ3",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "檔案和交付相同"
+  },
+  {
+   "id": "DLV-1016-168",
+   "date": "2026-10-16T09:4xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "ce586623",
+   "what": "ART-WZ3 溫州街 v5 修正",
+   "task": "ART-WZ3",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": ""
+  },
+  {
+   "id": "DLV-1016-169",
+   "date": "2026-10-16T09:4xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "6a05f12d",
+   "what": "ART-WZ5 溫州街的貓",
+   "task": "ART-WZ5",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "0050847b"
+  },
+  {
+   "id": "DLV-1016-170",
+   "date": "2026-10-16T09:4xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "8d8fe7d4",
+   "what": "ART-WZ6 故事小物件",
+   "task": "ART-WZ6",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "等 DL-13"
+  },
+  {
+   "id": "DLV-1016-171",
+   "date": "2026-10-16T09:4xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "da737424",
+   "what": "祐廷 VRM 精修第 1 批",
+   "task": "ART-YT1",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "BB-B 驗收"
+  },
+  {
+   "id": "DLV-1016-172",
+   "date": "2026-10-16T09:4xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "1ac07ac6",
+   "what": "AA_172 溫州街三家店的客人選單",
+   "task": "DL-09",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "74c1eef8"
+  },
+  {
+   "id": "DLV-1016-173",
+   "date": "2026-10-16T09:4xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "c640b487",
+   "what": "AA_172 3b 有伴侶時一盞照兩個人單獨擋；合併 BB_158",
+   "task": "DL-12",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "dcb34a0c"
+  },
+  {
+   "id": "DLV-1016-174",
+   "date": "2026-10-16T09:4xZ",
+   "from": "BB-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "2d616bc7",
+   "what": "BB_158 約去半熟、一盞的 BB 人物台詞",
+   "task": "DL-12",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "dcb34a0c（first→firstAt）"
+  },
+  {
+   "id": "DLV-1016-175",
+   "date": "2026-10-16T09:4xZ",
+   "from": "BB-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "c36de340",
+   "what": "法律審查第 20 批收尾（四處已實作的改字）",
+   "task": "TXT-1016",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
+   "note": "3d54451b；calendar.js 照 AA 裁定不改"
+  },
+  {
+   "id": "DLV-1016-176",
+   "date": "2026-10-16T09:4xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "3d5feef2",
+   "what": "AA_171 小公園互動的定稿文字",
+   "task": "DL-13",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "PARK（wzpark3d.js）"
+  },
+  {
+   "id": "DLV-1016-177",
+   "date": "2026-10-16T09:4xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "da7088b3",
+   "what": "AA_173 V0-A6 社科院門口一句、DL-04B 學姊的兩個提醒",
+   "task": "V0-A6",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "排在 v9.9 之後"
+  },
+  {
+   "id": "DLV-1016-178",
+   "date": "2026-10-16T09:4xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "2b6eca2c",
+   "what": "自由出行第二批 spots_v2（D09、D18、D20、D24、D25）",
+   "task": "DL-06",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "背景圖還沒有"
+  },
+  {
+   "id": "DLV-1016-179",
+   "date": "2026-10-16T09:4xZ",
+   "from": "BB-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "8067a30b",
+   "what": "ART-GYM-P1 新體 B1 健身器材（交 LAWWW2-B 驗收）",
+   "task": "ART-GYM1",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "LAWWW2-B 驗收後第二階段"
+  },
+  {
+   "id": "DLV-1016-180",
+   "date": "2026-10-16T09:4xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "3f2bcaf2",
+   "what": "V0-ART-DORM 經濟系宿舍道具（交 LAWWW2-B 驗收）",
+   "task": "V0-ART-DORM",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": ""
   }
  ],
  "ignored": [
@@ -2042,6 +2234,801 @@
    "sha": "3234c59f",
    "branch": "origin/claude/elegant-brown-fcos7n",
    "why": "BB-B 自己的清查表（BB_134 第 3 節）標完成"
+  },
+  {
+   "sha": "28deae9e",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "why": "LAWWW2-B 的 WIP checkpoint（未交付）"
+  },
+  {
+   "sha": "f1a8c6a3",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "why": "LAWWW2-B 的 WIP checkpoint（未交付）"
+  },
+  {
+   "sha": "0908b4f1",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "why": "LAWWW2-B 的 WIP checkpoint（未交付）"
+  },
+  {
+   "sha": "50fb54a7",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "94dc4837",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "308e83af",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "6b82a265",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "1b7e60e4",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "c98fe9d4",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "18a96c4f",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "dd633417",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "ea71647c",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "03c352f3",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "8d9f32c6",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "cf6eefc4",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "d64110e1",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "606b5401",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "5dc3b883",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "2a657dda",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "d8282bff",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "3c42a049",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "711bd297",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "d491653e",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "LAWWW2-B 的 WIP checkpoint（未交付）"
+  },
+  {
+   "sha": "5f8315f4",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "1531e484",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "8219de23",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "5b829d97",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "c5e3e013",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "f68536b7",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "82b61711",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "98115580",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "83a18265",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "b43c555d",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "d7f3d9b6",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "e1172728",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "d8c4973b",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "7fa6d8e1",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "013e7662",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "5faf1ff5",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "549cb08d",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "f70b4e87",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "5c4670d2",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "a64200d4",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "54a810a7",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "f6c2a9d9",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "ac5226ac",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "0b255fea",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "b69cd6a0",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "1fca4391",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "18e9c304",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "4cef8b32",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "5b6e88fb",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "19ee72d5",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "bb7320b9",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "0b4cb6d3",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "d410ec1a",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "ad78df48",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "5aef9605",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "19a6a23b",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "830d03b3",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "a1a07b8a",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "9d02c830",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "8f99dbdb",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "0586ed7c",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "0544928e",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "f56573c1",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "f4105bfb",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "872e5ef7",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "b834a68c",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "2fbd6e35",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "49238078",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "a51b8260",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "81bae366",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "04c0c098",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "e58568fe",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "3bddb7df",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "0e5d41c2",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "b5c753d2",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "aca7b52f",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "36f1115a",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "4930a6cd",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "552a0e4e",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "acbb0d7a",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "7fb1643a",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "2b6e1254",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "ac7a08e8",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "c71217f9",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "9ef99a54",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "2074ad61",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "51d987ad",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "59c5233b",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "f89a536b",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "b8fd9d66",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "99508d44",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "297b6364",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "3f662375",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "25ad08e7",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "933ae99c",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "c4e5bcab",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "14af032b",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "3fd887a7",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "8e0399ff",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "ce0d49c5",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "9db9b9a7",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "c04d2d7a",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "94d8bb18",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "f113759d",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "11140c3b",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "24b505ac",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "ae87fd09",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "5dbc50ea",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "9438bef9",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "21ad9ea4",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "ca2daffd",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "0b380565",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "75253c44",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "98117bcf",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "e516847d",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "d6577fa7",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "e349cb56",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "c7e6cf26",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "f17388b6",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "e2c5a941",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "7a6cb61f",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "5fc607bd",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "891e19c5",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "6d960b4a",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "42e0cee0",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "782c7322",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "424b915e",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "8f75d309",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "3f8049f5",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "bd14eb1e",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "ebc85a7a",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "4179b5c5",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "81aa5976",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "2351689c",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "8650b736",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "322d9781",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "f12b6d3c",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "733ceb13",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "a9716d2b",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "d61eaca0",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "254cdf33",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "8498d61c",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "98208a33",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "5099417f",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "80576b29",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "4f17915a",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "4ae1248c",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "e8d552e6",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "ed57491f",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "43aa234d",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "78ca8e55",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "829e4a87",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "43ac6a69",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "法律審查：大二～大四還沒實作的內容；已實作的改字另登記（TXT-1016）"
+  },
+  {
+   "sha": "93a38eed",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "企劃文件或企劃之間的核對：LAWWW-B 2026-10-16 批次看過；已實作的對到 tasks.json（DL-06～DL-13、V0-*、V2-*），其餘等 AA 正式交付再登記"
+  },
+  {
+   "sha": "9d71c5b8",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
+  },
+  {
+   "sha": "3d282f12",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "企劃組的進度、任務板、檢查紀錄（不是給開發組的交付）"
   }
  ]
 }

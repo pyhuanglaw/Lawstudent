@@ -10792,6 +10792,93 @@
    "authorized": "技術修正（D38 ③：備用模型導航要一致）",
    "commit": "(本批)",
    "tests": "tests/wz_street_integration.py"
+  },
+  {
+   "id": "ART-WZ3",
+   "title": "溫州街 wenzhou_street.glb v5（設計稿招牌 13 張、店門門廊、B5 立體小店、B7 半熟、A1 阿德）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "next": "使用者看畫面；v6（麵攤去積木）LAWWW2-B WIP",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "溫州街",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "LAWWW2-B 31323eb9、ce586623",
+   "authorized": "D84",
+   "commit": "(之前的整合批)",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "LAWWW2-B 31323eb9、ce586623",
+    "acceptance": "遊戲內截圖、導航一致",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "ART-WZ6",
+   "title": "故事小物件 wz6_items.glb（半熟計時器、阿德的筆記本、茶罐、卡片、白板影印、吉他社海報、貓碗）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已實作待整合",
+   "next": "等 DL-13／AA_167 溫州街故事線實作時一起放",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "溫州街",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 製作、LAWWW2-B 驗收 8d8fe7d4",
+   "authorized": "D84",
+   "commit": "—",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA-B 製作、LAWWW2-B 驗收 8d8fe7d4",
+    "acceptance": "遊戲內截圖、導航一致",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "ART-YT1",
+   "title": "祐廷 VRM 精修第 1 批（vroid_yuting.vrm：頭髮、圓領、下巴投影、上衣、寬直筒褲）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "next": "BB-B 角色美術驗收（D59）",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "開場",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "LAWWW2-B da737424",
+   "authorized": "D84",
+   "commit": "(檔案已和 da737424 相同)",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "LAWWW2-B da737424",
+    "acceptance": "遊戲內截圖、導航一致",
+    "ack": "ACTIONED"
+   }
   }
  ]
 }
