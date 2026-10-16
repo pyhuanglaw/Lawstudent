@@ -948,8 +948,8 @@
    "title": "Y0 日曆",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "校定活動",
+   "status": "已整合待測試",
+   "next": "瀏覽器：經濟系開局接好以後（V0-A3）從 2024-09 走一遍",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -962,15 +962,16 @@
     "confirmed": true
    },
    "source": "交接包_v0、BB_104／105／110／112",
-   "authorized": "D79"
+   "authorized": "D79",
+   "evidence": "calendar.js 負的日子、2024-09-30 颱風假；story3d.js termDay／dayOfKey／S.dateOf；tests/v0_a1_unit.js"
   },
   {
    "id": "V0-A2",
    "title": "Y0 課表",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "courses 加 Y0",
+   "status": "已整合待測試",
+   "next": "瀏覽器：V0-A3 開局接好以後上一次經原、會計",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -983,7 +984,8 @@
     "confirmed": true
    },
    "source": "交接包_v0、BB_104／105／110／112",
-   "authorized": "D79"
+   "authorized": "D79",
+   "evidence": "courses.js 14 門 Y0 課（含 specials 週次＝BB 課堂內容）；classes3d.js Y0 學期、y0leave；tests/v0_a1_unit.js、classes_unit、syllabus_unit"
   },
   {
    "id": "V0-A3",
@@ -1415,8 +1417,8 @@
    "title": "法服每兩週週六早上（方案 A）：週六值班本身沒有活動",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
-   "next": "AA_131 第 6 節只記錄、沒給大一週六值班的內容；2026-10-16 05:2x 問 AA-B 四題（大一能不能旁觀、NPC、去了幾次要不要記、學姊的台詞）",
+   "status": "待開工",
+   "next": "AA_163（企劃線 d64110e1）定案：(b) 大一可以旁觀；第一次短 2D 旁觀（阿伯問押金），之後四句旁白輪流＋30 分，可待到 12:00；研究所學長姊路人底模、民眾一到兩位；記 LAWCLUB_SAT_VISITS（同一週六一次）；告示「法律服務　隔週週六 9:00～12:00　萬才館一樓」；學姊台詞等 BB-B（AB-19），之前只放旁白；不扣時段次數",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -1482,7 +1484,7 @@
    "area": "V2",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "最小版做完（tests/v2_b32_unit.js）：明軒邀約、月底期限、月底前一週再問、名額給別人；每週二 19:00 家教（可以這週不去）；第一堂國中生的問題、柳丁兩堂；明軒手機小事原本就有。等 AA-B：哪一天、做多久、沒去那週、「為什麼要念書」的選項、薪水",
+   "next": "AA_163 定案（d64110e1）：答應時選週二或週四 19:00～21:00；溫州街學生家 BG wenzhou_tutoring（先 dark＋字幕）；做到 2027 年 5 月會考；寒暑假與祐廷期末考週停；沒去不扣分、下一堂一句、連三週沒去明軒問；第 4 堂「為什麼要念法律」TUTOR_WHY；時薪 600、一堂 1,200；18:30 OUT.prompt 提醒；跟 DL-03 時段次數的關係照 AA_163",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -10132,6 +10134,195 @@
     "acceptance": "每批遊戲實機畫面前後比較；人物 BB-B 驗收",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "DL-00",
+   "title": "座位上課也跑課前、課後事件",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "就是 BUG-15（9508b534，v9.8 候選 2）",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系第一週坐 3D 座位上課",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
+   "authorized": "D79（AA-B 定案的系統規格）"
+  },
+  {
+   "id": "DL-01",
+   "title": "一鍵上課：起床選單、直接去上課、選位子、下課選單",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "AA_160 1-1～1-8；起床選單在宿舍晨間事件（含 K-D3）之後出（STORY.tick 沒有演事件那一輪）；小睡、在家醒來同一套",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "第一個有課的早上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
+   "authorized": "D79（AA-B 定案的系統規格）"
+  },
+  {
+   "id": "DL-02",
+   "title": "拿掉體力（HUD、選單提示、吃與睡補體力）；GM.energy 留空函式、G.energy 固定 100",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "AA_160 2-8 表；健身的「體能」保留",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "遊戲一開始",
+    "mainline": true,
+    "blocks": false,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
+   "authorized": "D79（AA-B 定案的系統規格）"
+  },
+  {
+   "id": "DL-03",
+   "title": "時段次數制（上午 1、下午 2、晚上 2；考試週 +1 只能自習）G.slots",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "AA_160；DL-01、DL-02 以後",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "遊戲一開始",
+    "mainline": false,
+    "blocks": false,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
+   "authorized": "D79（AA-B 定案的系統規格）"
+  },
+  {
+   "id": "DL-04",
+   "title": "劇情保護（時段次數不擋劇情）",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "AA_160",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "遊戲一開始",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
+   "authorized": "D79（AA-B 定案的系統規格）"
+  },
+  {
+   "id": "DL-05",
+   "title": "從家裡出發：週日住家裡、週一直接去上課",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "AA_160",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一個週日回家",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
+   "authorized": "D79（AA-B 定案的系統規格）"
+  },
+  {
+   "id": "DL-06",
+   "title": "捷運公館站＋四個景點（D04、D06、D12、D13）自由出行",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "AA_160＋AA_161（free_trip/spots_v1.json）；約會底圖、HOME.loop 的選單迴圈",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次自由出行",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
+   "authorized": "D79（AA-B 定案的系統規格）"
+  },
+  {
+   "id": "DL-07",
+   "title": "偶遇（一）",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "next": "等 BB-B 的人物表",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
+   "authorized": "D79（AA-B 定案的系統規格）"
+  },
+  {
+   "id": "DL-08",
+   "title": "偶遇（二）",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "next": "等 BB-B 的人物表",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_160 v1（企劃線 03c352f3，AA-B 10-16 05:29）；使用者 05:2x、05:5x 給 AA-B：日常系統由 AA-B 定案、不必使用者批准；體力刪掉",
+   "authorized": "D79（AA-B 定案的系統規格）"
   }
  ]
 }

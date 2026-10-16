@@ -30,6 +30,23 @@ const COURSES={
   list:[
     /* 課程代號、教授、時段、地點、選修群組：AA_103 第 8 節（企劃分支 claude/story-planning；2026-10-13 照 AA_110 差異表同步，舊代號在 classes3d.js 的 OLD_IDS 轉換舊存檔）。
        特殊週：BB 的 syllabus（docs/story_planning/syllabus/*.json）標的週次；標題照 AA_103 第 5 節（遊戲對話不講案號）。 */
+    // ---- 經濟系大一（2024 學年，v0；AA_106 2-2：經濟學原理在博雅、初等會計學在普通【已定案】，其他是遊戲安排【虛構】；AA_154 1-1 的停課照 calendar.js）----
+    /* 課堂內容：BB 的 syllabus（Y0S1、Y0S2；經原、通識、會計有每週內容，其他是台詞池）。休學（Y0S2 第 6 週 E30，Y0_LEFT）以後 Y0S2 的課不排（classes3d.js 的 enrolled；法學緒論也不上）。
+       老師：經原＝魏宏仁（AA_159，prof_wei 人物資料之後接）；其他不具名。法學緒論＝黃素芬（現有教授）*/
+    {id:'econ_principles_y0',name:'經濟學原理（上）',kind:'required',term:'Y0S1',prof:null,profName:'魏宏仁',room:'BOYA',slots:[{wd:1,block:'am'}],topics:['供給與需求','市場與價格','彈性','消費者','生產與成本','市場結構'],specials:[{w:2,title:'你放棄了什麼（機會成本）',story:true},{w:15,title:'囚犯困境',story:true},{w:16,title:'市場失靈',story:true}]},
+    {id:'acct_y0',name:'初等會計學（上）',kind:'required',term:'Y0S1',prof:null,profName:'會計老師',room:'PUTONG',slots:[{wd:4,block:'pm1'}],topics:['會計恆等式','分錄','試算表','財務報表'],specials:[{w:1,title:'宿舍是資產還是負債',story:true}]},
+    {id:'calc_y0s1',name:'微積分',kind:'required',term:'Y0S1',prof:null,profName:'數學系老師',room:'GONGTONG',slots:[{wd:3,block:'am'}],topics:['極限','導數','積分']},
+    {id:'chinese_y0',name:'大一國文',kind:'general',term:'Y0S1',prof:null,profName:'國文老師',room:'BOYA',slots:[{wd:2,block:'am'}],topics:['現代散文','古典詩文','寫作練習']},
+    {id:'english_y0',name:'大一英文',kind:'general',term:'Y0S1',prof:null,profName:'英文老師',room:'GONGTONG',slots:[{wd:4,block:'am'}],topics:['閱讀','寫作','口說']},
+    {id:'ge_y0s1',name:'通識：思考實驗',kind:'general',term:'Y0S1',prof:null,profName:'通識老師',room:'BOYA',slots:[{wd:2,block:'pm1'}],topics:['思考實驗']},
+    {id:'pe_y0s1',name:'體育',kind:'general',term:'Y0S1',prof:null,room:'GYM',slots:[{wd:3,block:'pm2'}],topics:['體適能','球類']},
+    {id:'econ_principles_y0_2',name:'經濟學原理（下）',kind:'required',term:'Y0S2',prof:null,profName:'魏宏仁',room:'BOYA',slots:[{wd:1,block:'am'}],y0leave:true,topics:['國民所得','物價與失業','貨幣與央行'],specials:[{w:16,title:'選了要付什麼',story:true}]},
+    {id:'acct_y0_2',name:'初等會計學（下）',kind:'required',term:'Y0S2',prof:null,profName:'會計老師',room:'PUTONG',slots:[{wd:4,block:'pm1'}],y0leave:true,topics:['存貨','固定資產','負債']},
+    {id:'calc_y0s2',name:'微積分（下）',kind:'required',term:'Y0S2',prof:null,profName:'數學系老師',room:'GONGTONG',slots:[{wd:3,block:'am'}],y0leave:true,topics:['多變數','最適化','經濟上的應用']},
+    {id:'chinese_y0_2',name:'大一國文（下）',kind:'general',term:'Y0S2',prof:null,profName:'國文老師',room:'BOYA',slots:[{wd:2,block:'am'}],y0leave:true,topics:['小說選讀','論說文']},
+    {id:'english_y0_2',name:'大一英文（下）',kind:'general',term:'Y0S2',prof:null,profName:'英文老師',room:'GONGTONG',slots:[{wd:4,block:'am'}],y0leave:true,topics:['閱讀','寫作']},
+    {id:'pe_y0s2',name:'體育',kind:'general',term:'Y0S2',prof:null,room:'GYM',slots:[{wd:3,block:'pm2'}],y0leave:true,topics:['體適能','球類']},
+    {id:'law_intro',name:'法學緒論',kind:'general',term:'Y0S2',prof:'prof_huang',room:'GONGTONG',slots:[{wd:2,block:'pm1'}],y0leave:true,topics:['法律是什麼','法源','權利與義務'],specials:[{w:1,title:'法律在哪裡',story:true}]},   /* 給非法律系的選修；選課結果一定有這門（AA_154 E24b）*/
     // ---- 大一上（2025 秋）----
     {id:'const_1',name:'憲法（上）',kind:'required',term:'Y1S1',prof:'prof_zhang',room:'L201',slots:[{wd:1,block:'am'}],
      topics:['憲法的基本概念','基本權','比例原則','權力分立'],specials:[{w:4,title:'點名的小插曲'},{w:11,title:'法院能不能命令道歉'}]},

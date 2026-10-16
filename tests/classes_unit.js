@@ -16,7 +16,7 @@ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name
 const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/DAY)+1; };
 const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
 // ---------- 資料 ----------
-{ const L=COURSES.list, terms=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
+{ const L=COURSES.list, terms=['Y0S1','Y0S2','Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];   /* Y0＝經濟系那一年（AA_106、D56）*/
   const bad=[]; for(const c of L){ if(!terms.includes(c.term)) bad.push(c.id+' 學期'); if(!COURSES.rooms[c.room]) bad.push(c.id+' 地點 '+c.room); if(c.prof&&!CHARACTERS[c.prof]) bad.push(c.id+' 教授 '+c.prof); if(c.prof&&!COURSES.profs[c.prof]) bad.push(c.id+' 教授名字');
     for(const s of c.slots){ if(!(s.wd>=1&&s.wd<=5)) bad.push(c.id+' 星期'); if(!COURSES.blocks[s.block]) bad.push(c.id+' 時段'); } if(c.kind!=='service'&&(!c.topics||!c.topics.length)) bad.push(c.id+' 進度'); }   /* 服務學習沒有進度（只記次數，AA_110 6-1）*/
   check('每一門課的學期、星期、時段、地點、教授、進度都對得上（教授在 characters.js）',!bad.length,bad.slice(0,5).join(', '));
