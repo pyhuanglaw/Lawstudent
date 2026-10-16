@@ -1422,7 +1422,7 @@ const STORY_EVENTS_V11=[
   /* 芷若 Z5 早場（BB_96 3-5 的新事件 ev_zhiruo_early_show；交接包 v2）：週五答應以後，週六 10:00（出遊）。2D「公館・二輪戲院」（虛構）→ 2D「豆漿店」。台詞照原文；表情 sad 改 thinking。
      單身：兩個人，記 WATCHED_FILM（方奕廷 Z6 的前置）；交往中：三個人（方奕廷），最後問「笠智眾是誰？」的是方奕廷，記 WATCHED_FILM_GROUP（不觸發 Z6）；不出 CG。
      三個「下次」記 Z5_NEXT（hers／mine／roommate；兩週內的回聲：片單、Café 點餐「你挑好了嗎？」、阿凱來 Café）。電影票根（房間物件）的字等 BB；CG 候選（戲院門口，她拿著兩張票根）還沒有 */
-  { id:'ev_zhiruo_early_show', title:'東京物語的早場', participants:['heroine_02'], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
+  { id:'ev_zhiruo_early_show', title:'東京物語的早場', participants:['heroine_02'], location:'any', trigger:'outing', once:true, background:'dark', hours:3,   /* 09:40 碰面 → 約 12:40 回來（10:00～12:00 電影、豆漿店）。戲院門口碰面那一拍（BCG-21）的台詞、CG 還沒有：已問 BB-B（2026-10-16）*/
     dialogue:[ {scene:'公館・二輪戲院',bg:'gongguan_cinema'},{scene:'豆漿店',bg:'soymilk_shop'},
       {speaker:'heroine_02',expression:'thinking',text:'我每次看都在想，那個媽媽到東京看小孩，大家都很忙。'},
       {speaker:'heroine_02',expression:'thinking',text:'最後對她最好的，是一個不是她小孩的人。'},

@@ -878,7 +878,7 @@ const STORY = (function(){
       if(PHONE.inGroup(G,'family_law')&&!PHONE.sent(G,'grad_family')){ const th='g:family_law'; PHONE.at(G,gd,13,[{th,from:'kevin',name:'Kevin',text:'📷（學長姊的畢業照）'},{th,from:'heroine_05',name:'溫學姊',text:'恭喜。'}],'grad_family'); } } }
     /* 芷若 Z5（BB_96 3-5；交接包 v2）：週五答應（zhiruoFilmDay）＝隔天週六 10:00 的早場（出遊 ev_zhiruo_early_show）；「下次妳挑」的回聲：兩天後 21:00 她傳一張很長的片單
        （單身＝私訊；交往中＝三個人的群組，方奕廷回「這張表要看到明年」）*/
-    if(F.zhiruo_film_date&&F.zhiruoFilmDay!=null&&typeof OUT!=='undefined'&&!OUT.get(G,'zr_early_show')&&G.day<=F.zhiruoFilmDay+1) OUT.plan(G,{id:'zr_early_show',ev:'ev_zhiruo_early_show',day:F.zhiruoFilmDay+1,h:10,place:'公館的二輪戲院',title:'東京物語的早場',travel:'走過去約 15 分鐘',travelH:0.25});
+    if(F.zhiruo_film_date&&F.zhiruoFilmDay!=null&&typeof OUT!=='undefined'&&!OUT.get(G,'zr_early_show')&&G.day<=F.zhiruoFilmDay+1) OUT.plan(G,{id:'zr_early_show',ev:'ev_zhiruo_early_show',day:F.zhiruoFilmDay+1,h:9+40/60,place:'公館的二輪戲院門口',title:'東京物語的早場（10:00 開演）',travel:'走過去約 15 分鐘',travelH:0.25});   /* AA_147 第 1 節 #3：09:40 在戲院門口碰面、10:00 開演、約 12:00 去豆漿店 */
     if(F.Z5_NEXT==='hers'&&F.zhiruoFilmSeenDay!=null&&!PHONE.sent(G,'zr_film_list')){ const d=F.zhiruoFilmSeenDay+2;
       if(F.dating_kexin){ if(!PHONE.inGroup(G,'zr_film')) PHONE.join(G,'zr_film','東京物語'); PHONE.at(G,d,21,[{th:'g:zr_film',from:'heroine_02',text:'📄（一張很長的片單）'},{th:'g:zr_film',from:'npc_fangyt',text:'這張表要看到明年'}],'zr_film_list'); }
       else PHONE.at(G,d,21,[{th:'p:heroine_02',from:'heroine_02',text:'📄（一張很長的片單）'}],'zr_film_list'); }

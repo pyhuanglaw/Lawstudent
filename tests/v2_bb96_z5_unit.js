@@ -45,7 +45,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     r=await invite('幾點',true); check('交往中：「明天店休。我要去看《東京物語》的重映，早場。方奕廷也去。……你要來嗎？」；「幾點？」沒有 aff',r.L[0]===nm+'：明天店休。我要去看《東京物語》的重映，早場。方奕廷也去。……你要來嗎？'&&r.L.length>=2&&r.d.aff===0&&G.flags.zhiruo_film_date===true,JSON.stringify(r));
     r=await invite('起不來'); check('「早場我起不來。」：「好。那下次有午場再說。」；不扣分（aff 沒有減）；沒有 zhiruo_film_date',r.L[r.L.length-1]===nm+'：好。那下次有午場再說。'&&r.d.aff>=0&&!G.flags.zhiruo_film_date,JSON.stringify(r));
     r=await invite('看過了',true); check('劇透那一條（交往中）：算答應、沒有 aff',G.flags.zhiruo_film_date===true&&G.flags.zhiruoFilmDay===FRI&&r.d.aff===0,JSON.stringify(r.d));
-    await invite('幾點'); run(20,20.2); const q=OUT.get(G,'zr_early_show'); check('答應：排出遊——隔天週六 10:00 公館的二輪戲院（ev_zhiruo_early_show）',!!q&&q.day===FRI+1&&q.h===10&&q.ev==='ev_zhiruo_early_show',JSON.stringify(q)); }
+    await invite('幾點'); run(20,20.2); const q=OUT.get(G,'zr_early_show'); check('答應：排出遊——隔天週六 09:40 戲院門口碰面、10:00 開演（AA_147 #3；ev_zhiruo_early_show）',!!q&&q.day===FRI+1&&Math.abs(q.h-(9+40/60))<0.01&&/10:00 開演/.test(q.title)&&q.ev==='ev_zhiruo_early_show',JSON.stringify(q)); }
   /* 早場 */
   const go=async(pick,dating)=>{ fresh(FRI+1,10,'dorm',dating?{dating_kexin:true}:{}); SOCIAL.meet('heroine_02','cafe'); picks=[pick]; await EVENTS.run(show); return lines(); };
   { let L=await go('妳挑');
