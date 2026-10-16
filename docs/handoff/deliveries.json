@@ -5011,6 +5011,32 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "BB 另外會補兩行的最終 SHA；和 AA_202 一起實作"
+  },
+  {
+   "id": "DL-LW2-GYMBG1",
+   "date": "2026-10-16",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "3eb86bfb",
+   "what": "ART-GYM-BG1 開學典禮背景 assets/bg/ntu_gym_ceremony.webp（3F 主球場、背板「開學典禮」、4,029 個新生、白天）＋腳本、說明、ADV 截圖",
+   "task": "ART-GYM-BG1",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "註冊成 ADV 背景 ntu_gym_ceremony（outings3d.js BG 表）；法律系 8/31 典禮在 START-WEEK 實作時接（目前遊戲裡沒有法律系典禮場景）"
+  },
+  {
+   "id": "DL-LW2-COPLANAR3",
+   "date": "2026-10-16",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "3ccc781e",
+   "what": "疊面第三輪：campus_pavilion（fba3d65b，柱廊天花板×二樓樓板 308 m² → 0）、gym_arena（f1d23fd4，490 → 36）、gongguan_shops（3,338 → 834）、lane118_street（3,230 → 965；patch_window_protos.py 直接改 GLB 窗原型）；check_coplanar 季節版本不算",
+   "task": "BUG-WZFLICKER",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "只取檔案；gym_arena、gongguan 整合測試 LAWWW-B 跑"
   }
  ],
  "ignored": [
