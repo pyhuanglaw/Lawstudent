@@ -1880,6 +1880,20 @@ const STORY_EVENTS=[
       {label:'b'},{speaker:'econ_zhengxun',text:'那就想很久。我在。'},{goto:'end'},
       {label:'c'},{speaker:'econ_zhengxun',text:'你收書的速度，也是。'},{speaker:null,text:'他笑了一下，沒有再問。'},
       {label:'end'} ] },
+  /* T2 唐睿的練習（BB_112 T2；AA_154 第 127 行）：Y0S1 第 10～13 週週一經濟學原理真的上完，走出教室時唐睿在隔壁借用的劇社教室叫住你（afterClass，每次 50%，一次；E18 11/29 以後不再觸發；STORY.t2Due）。
+     沒玩過 T1（沒有 KNOWS_TANG）的玩家，唐睿說漏嘴那一句接在第一句後面（位置待 BB-B 確認）；演完都記 KNOWS_TANG；「繼續演品妤」＝TANG_REHEARSAL（大四 4-2① 的回聲）*/
+  { id:'ev_y0_t2', stage:'econ', title:'唐睿的練習', participants:[], location:'any', trigger:'class', afterClass:'econ_principles_y0', term:['Y0S1'], weeks:[10,11,12,13], once:true, background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.t2Due&&STORY.t2Due(G)},
+    dialogue:[ {speaker:'唐睿',text:'你來得剛好。站那裡。你是品妤。'},
+      {unless:{flags:['KNOWS_TANG']},speaker:'唐睿',text:'……不對，你忘記我剛剛說的。'},
+      {speaker:'player',text:'……我是誰？'},{speaker:'唐睿',text:'即興。你現在是品妤。我要練習。'},{speaker:'唐睿',text:'（深呼吸）品妤，我想跟妳說一件事——'},
+      {speaker:'econ_pinyu',text:'（從門口探頭）你們在演什麼？'},{speaker:'唐睿',text:'……即興劇。主題是「一個人和他的影子」。'},{speaker:'econ_pinyu',text:'你的影子比較高。'},
+      {leave:'econ_pinyu'},{speaker:null,text:'（品妤走了。）'},{speaker:'唐睿',text:'……她說我比較矮。'},
+      {choice:[{text:'「你可以直接跟她說。」',goto:'a'},{text:'「我覺得她知道。」',goto:'b'},{text:'（繼續演品妤）「你想說什麼？」',goto:'c'}]},
+      {label:'a'},{speaker:'唐睿',text:'直接？直接不是即興。直接是……直接。'},{speaker:null,text:'他想了很久。'},{speaker:'唐睿',text:'我再練一下。'},{goto:'end'},
+      {label:'b'},{speaker:'唐睿',text:'真的？'},{speaker:'player',text:'假的。'},{speaker:'唐睿',text:'……你好壞。'},{goto:'end'},
+      {label:'c'},{speaker:null,text:'唐睿愣住，然後笑了。'},{speaker:'唐睿',text:'……我忘詞了。即興的人也會忘詞。'},{set:{TANG_REHEARSAL:true}},
+      {label:'end'},{set:{KNOWS_TANG:true}} ] },
   /* P2b 門口有人在揪（AA_154 2-5a；台詞 BB_105 P2b，BB-B 定稿 6d59df01；背景、可重複）：P2 演過以後，Y0S1 第 6～16 週（期中考週除外）、Y0S2 第 1～5 週的週四，初等會計真的上完；
      每週擲一次 40%、同一週最多一次；那天已經約了別的出遊不揪（STORY.p2bDue）。韋綸一句（4 句輪流、不連續重複）→「跟去。」／「今天先回去。」（韋綸「那下次！」）。
      跟去＝旁白（5 句輪流）＋經濟系朋友熟悉度各 +1；結束時間照類型（food 19:30、river 17:00、night 21:00／21:30，中間跳過；STORY.P2B_END）。
