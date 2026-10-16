@@ -45,7 +45,9 @@ M = {
     'roof': L.pbr('park_roof_tile', 'grey_roof_tiles', tile=1.0, target='#4f5552', normal=0.9, maps=('diff', 'nor'), res=256, rough_value=0.7),
     'red': L.flat('park_red', '#a8322a', rough=0.55), 'gold': L.flat('park_gold', '#c9a03a', rough=0.35, metal=0.4),
     'pillar': L.flat('park_pillar', '#8a3a2c', rough=0.6),
-    'rubber_b': L.flat('park_rubber_blue', '#3f7fa8', rough=0.95), 'rubber_g': L.flat('park_rubber_green', '#5f9a54', rough=0.95),
+    # 遊戲場的橡膠地墊：granular_concrete 的顆粒當 EPDM 橡膠粒（原本整片純色，近看像塑膠板）。rubber_g＝溜滑梯下那一塊，改成磚紅（原本綠，和 ART-PARK1 滑道的綠太接近）
+    'rubber_b': L.pbr('park_rubber_blue', 'granular_concrete', tile=1.4, target='#47789a', maps=('diff',), res=256, rough_value=0.95),
+    'rubber_g': L.pbr('park_rubber_red', 'granular_concrete', tile=1.4, target='#a3523f', maps=('diff',), res=256, rough_value=0.95),
     'sand': L.pbr('park_sand', 'granular_concrete', tile=0.6, target='#d8c49a', maps=('diff',), res=256, rough_value=0.98),
     'yellow': L.flat('park_yellow', '#e2b934', rough=0.45, metal=0.1), 'blue': L.flat('park_blue', '#2f6fb0', rough=0.45, metal=0.1),
     'green': L.flat('park_green', '#3f8a5a', rough=0.45, metal=0.1), 'orange': L.flat('park_orange', '#e07a2a', rough=0.5),
@@ -298,49 +300,67 @@ for j in range(-4, 5): acc('incense').box(cb[0] - 0.16, cb[0] + 0.16, 0.8, 0.806
 pg = next(i for i in LAY['items'] if i['kind'] == 'playground'); gx, gz, gw, gd = pg['x'], pg['z'], pg['w'], pg['d']; xf = Xf(gx, gz)
 xf.box(acc('rubber_b'), -gw / 2, gw / 2, 0.0, 0.035, -gd / 2, gd / 2)
 xf.box(acc('rubber_g'), -gw / 2 + 0.3, -gw / 2 + 2.2, 0.035, 0.04, -gd / 2 + 0.3, gd / 2 - 0.3)
-# 溜滑梯：平台 1.1 m（四根圓柱、圓角平台、兩側護板）、後面階梯＋扶手、前面 U 形滑道（往 +x），平台上一個小四坡頂
-sx0 = -gw / 2 + 0.6
-for ax in (sx0, sx0 + 0.9):
-    for az in (-0.45, 0.45): xf.cyl(acc('yellow'), (ax, 0.0, az), (ax, 1.9, az), 0.045, seg=10); acc('yellow').sphere(xf.p(ax, 1.9, az), 0.05, seg=8, rings=4)
-xf.rbox(acc('blue'), sx0 - 0.05, sx0 + 0.95, 1.02, 1.1, -0.5, 0.5, r=0.025)
-for az in (-0.47, 0.47):
-    xf.rbox(acc('blue'), sx0 + 0.05, sx0 + 0.85, 1.12, 1.56, az - 0.018, az + 0.018, r=0.015)
-    xf.cyl(acc('yellow'), (sx0, 1.62, az), (sx0 + 0.9, 1.62, az), 0.028, seg=8)
-_c = xf.p(sx0 + 0.45, 0, 0); roof_field(acc('orange'), Xf(_c[0], _c[2], xf.ry), 0.62, 0.62, 1.93, 2.32, 'hip', lift=0.05, thick=0.035, n=8)
-for k in range(5):                                                                                      # 階梯（圓角踏板）＋扶手
-    y = 0.2 * (k + 1); xf.rbox(acc('blue'), sx0 - 0.58 + k * 0.105, sx0 - 0.3 + k * 0.105, y - 0.035, y, -0.28, 0.28, r=0.012)
-for az in (-0.31, 0.31):
-    xf.cyl(acc('yellow'), (sx0 - 0.62, 0.0, az), (sx0 - 0.08, 1.06, az), 0.03, seg=8)
-    xf.cyl(acc('yellow'), (sx0 - 0.62, 0.62, az), (sx0 - 0.02, 1.62, az), 0.022, seg=8)
-pts = []
-for k in range(13):
-    t = k / 12; pts.append((sx0 + 0.95 + t * 1.95, 1.08 - (t * t * (3 - 2 * t)) * 0.94 + 0.04))
-PIN = [(-0.27, 0.2), (-0.27, 0.02), (-0.22, -0.04), (0.0, -0.06), (0.22, -0.04), (0.27, 0.02), (0.27, 0.2)]
-POUT = [(-0.3, 0.2), (-0.3, 0.0), (-0.24, -0.07), (0.0, -0.09), (0.24, -0.07), (0.3, 0.0), (0.3, 0.2)]
-bm = acc('green').bm; rin, rout = [], []
-for (x, y) in pts:
-    rin.append([bm.verts.new(g2b(*xf.p(x, y + py, pz_))) for (pz_, py) in PIN]); rout.append([bm.verts.new(g2b(*xf.p(x, y + py, pz_))) for (pz_, py) in POUT])
-for r0, r1, o0, o1 in zip(rin, rin[1:], rout, rout[1:]):
-    for k in range(len(PIN) - 1):
-        bm.faces.new((r0[k], r1[k], r1[k + 1], r0[k + 1])); bm.faces.new((o0[k + 1], o1[k + 1], o1[k], o0[k]))
-    for k in (0, len(PIN) - 1): bm.faces.new((r0[k], o0[k], o1[k], r1[k]) if k == 0 else (r1[k], o1[k], o0[k], r0[k]))
-# 搖搖馬 ×2：彈簧＋橢球的身體、脖子、頭、耳朵、尾巴，握把、腳踏
-for k, (hx, col) in enumerate(((0.9, 'orange'), (1.85, 'yellow'))):
-    hz = 0.6; m = acc(col)
-    xf.cyl(acc('steel'), (hx, 0.0, hz), (hx, 0.04, hz), 0.17, seg=16); coil(acc('chain'), xf, hx, hz, 0.04, 0.44, r=0.065, turns=6, wire=0.011)
-    xf.ell(m, (hx, 0.6, hz), 0.3, 0.13, 0.12)
-    xf.ell(m, (hx + 0.22, 0.78, hz), 0.08, 0.17, 0.075, tilt=0.45)
-    xf.ell(m, (hx + 0.32, 0.92, hz), 0.11, 0.07, 0.068, tilt=-0.25)
-    for ez in (-0.04, 0.04): xf.ell(m, (hx + 0.25, 1.02, hz + ez), 0.02, 0.05, 0.015)
-    xf.ell(acc('rubber_k'), (hx + 0.36, 0.95, hz - 0.055), 0.016, 0.016, 0.01); xf.ell(acc('rubber_k'), (hx + 0.36, 0.95, hz + 0.055), 0.016, 0.016, 0.01)
-    xf.ell(acc('rubber_k'), (hx + 0.2, 0.92, hz), 0.1, 0.03, 0.025, tilt=0.6)                                  # 鬃毛
-    xf.ell(m, (hx - 0.32, 0.62, hz), 0.08, 0.04, 0.035, tilt=-0.7)                                            # 尾巴
-    xf.cyl(acc('steel'), (hx + 0.24, 0.86, hz - 0.15), (hx + 0.24, 0.86, hz + 0.15), 0.018, seg=8)            # 握把
-    xf.cyl(acc('steel'), (hx + 0.08, 0.44, hz - 0.2), (hx + 0.08, 0.44, hz + 0.2), 0.018, seg=8)              # 腳踏
-# 小沙坑（木框）
-xf.rbox(acc('wood'), 0.5, 2.3, 0.0, 0.25, -1.55, -1.45, r=0.02, seg=2); xf.rbox(acc('wood'), 0.5, 2.3, 0.0, 0.25, -0.35, -0.25, r=0.02, seg=2)   # 木框（不重疊：v2 第一版四個角重疊閃黑）
-xf.rbox(acc('wood'), 0.5, 0.6, 0.0, 0.25, -1.45, -0.35, r=0.02, seg=2); xf.rbox(acc('wood'), 2.2, 2.3, 0.0, 0.25, -1.45, -0.35, r=0.02, seg=2)
-xf.box(acc('sand'), 0.6, 2.2, 0.0, 0.16, -1.45, -0.35)
+# 溜滑梯、搖搖馬、搖搖小鴨、沙坑：BB-B 的 ART-PARK1（bb_support/park_play_props.glb，6.7k 三角形、一個貼圖材質 park_play；LAWWW2-B 驗收 2026-10-16）。
+# GLB 裡四件已經擺在遊戲場的本地座標（平台中心 (−1.55, 0)、馬 (0.9, 0.6)、鴨 (1.85, 0.6)、沙坑 (1.4, −0.9)），這裡整組搬到遊戲場：本地 (lx, lz) → xf。
+# 沙坑往南挪 0.1 m（−0.9 → −1.0）：滑道出口的邊（z ±0.265）和沙坑北邊的木框（z −0.245）重疊 2 cm。缺檔時用舊的程序化版本（v3）。
+PLAY = os.path.join(L.ROOT, 'assets/models/env/second_ai/bb_support/park_play_props.glb')
+if os.path.exists(PLAY):
+    _before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=PLAY); _new = [o for o in bpy.data.objects if o not in _before]
+    _tops = {o.name.split('.')[0]: o for o in _new if o.type == 'MESH' and o.name.startswith('PARK_')}
+    _gp = B.group('park_play', root)
+    for nd, dz in (('PARK_SLIDE', 0.0), ('PARK_SPRING_A', 0.0), ('PARK_SPRING_B', 0.0), ('PARK_SANDBOX', -0.1)):
+        src = _tops.get(nd)
+        if src is None: print('ART-PARK1 沒有', nd); continue
+        lw = src.matrix_world.copy(); lx, lz = lw.translation.x, -lw.translation.y + dz
+        ob = src.copy(); bpy.context.scene.collection.objects.link(ob); ob.parent = _gp; ob.matrix_parent_inverse.identity()
+        ob.rotation_mode = 'XYZ'; ob.location = g2b(*xf.p(lx, 0.0, lz)); ob.rotation_euler = (0, 0, lw.to_euler().z + xf.ry); ob.scale = (1, 1, 1)
+    for _o in _new:
+        if _o.name in bpy.data.objects: bpy.data.objects.remove(_o)
+else:   # 舊的程序化版本（v3）
+    # 溜滑梯：平台 1.1 m（四根圓柱、圓角平台、兩側護板）、後面階梯＋扶手、前面 U 形滑道（往 +x），平台上一個小四坡頂
+    sx0 = -gw / 2 + 0.6
+    for ax in (sx0, sx0 + 0.9):
+        for az in (-0.45, 0.45): xf.cyl(acc('yellow'), (ax, 0.0, az), (ax, 1.9, az), 0.045, seg=10); acc('yellow').sphere(xf.p(ax, 1.9, az), 0.05, seg=8, rings=4)
+    xf.rbox(acc('blue'), sx0 - 0.05, sx0 + 0.95, 1.02, 1.1, -0.5, 0.5, r=0.025)
+    for az in (-0.47, 0.47):
+        xf.rbox(acc('blue'), sx0 + 0.05, sx0 + 0.85, 1.12, 1.56, az - 0.018, az + 0.018, r=0.015)
+        xf.cyl(acc('yellow'), (sx0, 1.62, az), (sx0 + 0.9, 1.62, az), 0.028, seg=8)
+    _c = xf.p(sx0 + 0.45, 0, 0); roof_field(acc('orange'), Xf(_c[0], _c[2], xf.ry), 0.62, 0.62, 1.93, 2.32, 'hip', lift=0.05, thick=0.035, n=8)
+    for k in range(5):                                                                                      # 階梯（圓角踏板）＋扶手
+        y = 0.2 * (k + 1); xf.rbox(acc('blue'), sx0 - 0.58 + k * 0.105, sx0 - 0.3 + k * 0.105, y - 0.035, y, -0.28, 0.28, r=0.012)
+    for az in (-0.31, 0.31):
+        xf.cyl(acc('yellow'), (sx0 - 0.62, 0.0, az), (sx0 - 0.08, 1.06, az), 0.03, seg=8)
+        xf.cyl(acc('yellow'), (sx0 - 0.62, 0.62, az), (sx0 - 0.02, 1.62, az), 0.022, seg=8)
+    pts = []
+    for k in range(13):
+        t = k / 12; pts.append((sx0 + 0.95 + t * 1.95, 1.08 - (t * t * (3 - 2 * t)) * 0.94 + 0.04))
+    PIN = [(-0.27, 0.2), (-0.27, 0.02), (-0.22, -0.04), (0.0, -0.06), (0.22, -0.04), (0.27, 0.02), (0.27, 0.2)]
+    POUT = [(-0.3, 0.2), (-0.3, 0.0), (-0.24, -0.07), (0.0, -0.09), (0.24, -0.07), (0.3, 0.0), (0.3, 0.2)]
+    bm = acc('green').bm; rin, rout = [], []
+    for (x, y) in pts:
+        rin.append([bm.verts.new(g2b(*xf.p(x, y + py, pz_))) for (pz_, py) in PIN]); rout.append([bm.verts.new(g2b(*xf.p(x, y + py, pz_))) for (pz_, py) in POUT])
+    for r0, r1, o0, o1 in zip(rin, rin[1:], rout, rout[1:]):
+        for k in range(len(PIN) - 1):
+            bm.faces.new((r0[k], r1[k], r1[k + 1], r0[k + 1])); bm.faces.new((o0[k + 1], o1[k + 1], o1[k], o0[k]))
+        for k in (0, len(PIN) - 1): bm.faces.new((r0[k], o0[k], o1[k], r1[k]) if k == 0 else (r1[k], o1[k], o0[k], r0[k]))
+    # 搖搖馬 ×2：彈簧＋橢球的身體、脖子、頭、耳朵、尾巴，握把、腳踏
+    for k, (hx, col) in enumerate(((0.9, 'orange'), (1.85, 'yellow'))):
+        hz = 0.6; m = acc(col)
+        xf.cyl(acc('steel'), (hx, 0.0, hz), (hx, 0.04, hz), 0.17, seg=16); coil(acc('chain'), xf, hx, hz, 0.04, 0.44, r=0.065, turns=6, wire=0.011)
+        xf.ell(m, (hx, 0.6, hz), 0.3, 0.13, 0.12)
+        xf.ell(m, (hx + 0.22, 0.78, hz), 0.08, 0.17, 0.075, tilt=0.45)
+        xf.ell(m, (hx + 0.32, 0.92, hz), 0.11, 0.07, 0.068, tilt=-0.25)
+        for ez in (-0.04, 0.04): xf.ell(m, (hx + 0.25, 1.02, hz + ez), 0.02, 0.05, 0.015)
+        xf.ell(acc('rubber_k'), (hx + 0.36, 0.95, hz - 0.055), 0.016, 0.016, 0.01); xf.ell(acc('rubber_k'), (hx + 0.36, 0.95, hz + 0.055), 0.016, 0.016, 0.01)
+        xf.ell(acc('rubber_k'), (hx + 0.2, 0.92, hz), 0.1, 0.03, 0.025, tilt=0.6)                                  # 鬃毛
+        xf.ell(m, (hx - 0.32, 0.62, hz), 0.08, 0.04, 0.035, tilt=-0.7)                                            # 尾巴
+        xf.cyl(acc('steel'), (hx + 0.24, 0.86, hz - 0.15), (hx + 0.24, 0.86, hz + 0.15), 0.018, seg=8)            # 握把
+        xf.cyl(acc('steel'), (hx + 0.08, 0.44, hz - 0.2), (hx + 0.08, 0.44, hz + 0.2), 0.018, seg=8)              # 腳踏
+    # 小沙坑（木框）
+    xf.rbox(acc('wood'), 0.5, 2.3, 0.0, 0.25, -1.55, -1.45, r=0.02, seg=2); xf.rbox(acc('wood'), 0.5, 2.3, 0.0, 0.25, -0.35, -0.25, r=0.02, seg=2)   # 木框（不重疊：v2 第一版四個角重疊閃黑）
+    xf.rbox(acc('wood'), 0.5, 0.6, 0.0, 0.25, -1.45, -0.35, r=0.02, seg=2); xf.rbox(acc('wood'), 2.2, 2.3, 0.0, 0.25, -1.45, -0.35, r=0.02, seg=2)
+    xf.box(acc('sand'), 0.6, 2.2, 0.0, 0.16, -1.45, -0.35)
+
 
 # ======================== 鞦韆 ×2 ========================
 sw = next(i for i in LAY['items'] if i['kind'] == 'swings'); xf = Xf(sw['x'], sw['z'], sw.get('yaw', 0)); W2 = sw['w'] / 2
@@ -521,7 +541,7 @@ if NOTE_Q:
     me = bpy.data.meshes.new('park_notes'); bm.to_mesh(me); bm.free(); me.materials.append(M['notes'])
     ob = bpy.data.objects.new('park_notes', me); B.scene().collection.objects.link(ob); ob.parent = root
 L.vc_consolidate(root, dict.fromkeys(('park_steel', 'park_lamppost', 'park_stainless', 'park_chain'), L.vc_metal('wz_vc_metal', rough=0.45, metal=0.35)))
-L.vc_consolidate(root, dict.fromkeys(('park_red', 'park_pillar', 'park_rubber_blue', 'park_rubber_green', 'park_blue', 'park_green', 'park_orange', 'park_rubber_black', 'park_cork', 'park_incense', 'park_soil'), L.vc_material('wz_vc_matte', rough=0.85)))
+L.vc_consolidate(root, dict.fromkeys(('park_red', 'park_pillar', 'park_blue', 'park_green', 'park_orange', 'park_rubber_black', 'park_cork', 'park_incense', 'park_soil'), L.vc_material('wz_vc_matte', rough=0.85)))
 # 第三輪減量（2026-10-16）：其他純色材質也進頂點色；公園的樹（樟樹、老茄苳）不再一棵一個網格——同材質合成一個（楓香有季節切換，照舊分開）；
 # 只擺幾個的 instancing 合進大網格、多材質的零件拆開再合。發光的燈、字牌不動。
 import re   # noqa: E402

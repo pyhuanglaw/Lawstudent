@@ -5,7 +5,8 @@
 這支腳本（系統 python3，numpy＋PIL）把這些「畫進」一張整條路的貼圖（世界座標定位，和遊戲的導航、建築位置一致），wz_props.py 把它貼在路面上。
 柏油底色維持使用者指定的淺灰（D30，約 #acacaa）。全部程序產生（不用外部貼圖）。
 
-輸出 textures/gen/wz_road_main.jpg（主巷 x −37..47.3、z −5..5）、wz_road_ns.jpg（Café 前的南北向路 x 47.3..55.3、z −46..49.5）。
+輸出 textures/gen/wz_road_main.jpg（主巷 x −37..47.3、z −5..5）、wz_road_ns.jpg（Café 前的南北向路 x 47.3..55.3、z −46..49.5）、
+wz_road_side.jpg＋.json（三條側巷四塊，一張貼圖集；json 是每塊的世界範圍和 UV，wz_props.py 讀）。
 用法：python3 tools/blender/env_second/wz_road_tex.py
 """
 import math, os
@@ -99,9 +100,15 @@ class Road:
             if gap and any(a < s < b for a, b in gap): continue
             p0, p1 = ((s, lo), (s, hi)) if along == 'x' else ((lo, s), (hi, s))
             self.dp.line([self.to_px(*p0), self.to_px(*p1)], fill=(55, 54, 52, 150), width=2)
-        # 水溝和柏油的交界：一條灰縫
-        p0, p1 = ((x0, z_road), (x1, z_road)) if along == 'x' else ((z_road, x0), (z_road, x1))
-        self.dp.line([self.to_px(*p0), self.to_px(*p1)], fill=(80, 79, 76, 120), width=2)
+        # 水溝和柏油的交界：一條灰縫（巷口沒有水溝的地方斷開：原本整條畫過去，巷口地上多一條橫線）
+        segs, a0 = [], x0
+        for a, b in sorted(gap or []):
+            if a > a0: segs.append((a0, min(a, x1)))
+            a0 = max(a0, b)
+        if a0 < x1: segs.append((a0, x1))
+        for sa, sb in segs:
+            p0, p1 = ((sa, z_road), (sb, z_road)) if along == 'x' else ((z_road, sa), (z_road, sb))
+            self.dp.line([self.to_px(*p0), self.to_px(*p1)], fill=(80, 79, 76, 120), width=2)
         # 鐵柵
         for s in np.arange(x0 + 2.2, x1 - 0.6, grate_every):
             s = s + self.rng.uniform(-0.6, 0.6)
@@ -180,7 +187,18 @@ class Road:
         p[..., :3] = np.clip(p[..., :3] + dirt, 0, 255)
         out = Image.alpha_composite(base, Image.fromarray(p.astype(np.uint8), 'RGBA')).convert('RGB')
         out = out.filter(ImageFilter.UnsharpMask(radius=1.2, percent=40, threshold=2))
-        out.save(path, quality=88); print('saved', path, out.size)
+        if path: out.save(path, quality=88); print('saved', path, out.size)
+        return out
+
+
+def zebra(R):
+    """巷口斑馬線：位置、條紋和套件的一樣（zones3d.js：PlaneGeometry(8.4, 2.4)，x 45.2..47.6、z ±4.2，貼圖 256 px 每 32 px 一條 18 px）。
+    新路面（y 0.016）蓋在套件的斑馬線（y 0.012）上面，套件那片看不到了 → 畫進路面貼圖；兩條路（主巷到 x 47.3、南北向路從 47.3 起）各畫自己那一段。
+    wz_props.glb 載入失敗時沒有新路面，套件的斑馬線照舊在同一個位置。"""
+    k = 8.4 / 256
+    for i in range(0, 256, 32):
+        za, zb = 4.2 - (i + 22) * k, 4.2 - (i + 4) * k
+        R.line([(45.2, (za + zb) / 2), (47.6, (za + zb) / 2)], zb - za, (236, 234, 228), wear=0.32)
 
 
 # ======================== 主巷：x −37..47.3、z −5..5 ========================
@@ -197,7 +215,7 @@ def main_lane():
     mouthB = [(-36.9, -29.9), (-14.75, -9.75)]        # B 側（z=−5）：西端南北向巷、南巷
     inm = lambda x, M: any(a <= x <= b for a, b in M)
     # 輪胎壓痕：汽車兩條輪跡（巷子中線 ±0.8 m）、機車靠兩邊（±2.6 m）
-    for zc, wdt, dL in ((0.8, 0.32, -7.0), (-0.8, 0.32, -7.0), (2.7, 0.5, -4.0), (-2.7, 0.5, -4.0)):
+    for zc, wdt, dL in ((0.8, 0.32, -10.0), (-0.8, 0.32, -10.0), (2.4, 0.4, -5.0), (-2.4, 0.4, -5.0)):   # 機車靠邊騎：停車格（到 z ±2.86）外面
         R.band(lambda: np.exp(-((wz - zc) / wdt) ** 2) * (0.75 + 0.25 * np.sin(wx * 0.37) * np.sin(wx * 0.11)), dL)
     # 補丁：管線挖補的長條（A 側 1.4 m、從 −22 到 9）、幾塊方形補丁、一塊整片重鋪（比較新）
     R.patch(R.rect_world(-22, 2.9, 9.0, 3.55, 0.03), dL=-10)
@@ -220,8 +238,9 @@ def main_lane():
         return np.minimum(dA, dB)
     R.ao_edge(dist_wall, width=0.45, dL=-24.0)
     # 水溝（兩邊 38 cm）＋白線（距牆 0.55 m）；巷口斷開。禁停紅線：便利商店前（A 側 40..47.3）、路口前 8 m（B 側 39..47.3）
-    R.gutter(X0, X1, 5.0, 4.62, gap=mouthA)
-    R.gutter(X0, X1, -5.0, -4.62, gap=mouthB)
+    shrink = lambda M: [(a + 0.38, b - 0.38) for a, b in M]     # 巷口兩邊各留一節水溝（38 cm）：接上側巷沿牆的水溝（wz_road_side）
+    R.gutter(X0, X1, 5.0, 4.62, gap=shrink(mouthA))
+    R.gutter(X0, X1, -5.0, -4.62, gap=shrink(mouthB))
     def edge_line(z, mouths, red):
         segs = []; s = X0
         for a, b in sorted(mouths):
@@ -233,14 +252,27 @@ def main_lane():
             for p, q in zip(cuts, cuts[1:]):
                 isred = any(r0 <= (p + q) / 2 <= r1 for r0, r1 in red)
                 R.line([(p + 0.3, z), (q - 0.3, z)], 0.1, (178, 52, 44) if isred else (233, 231, 225), wear=0.3)
-    edge_line(4.45, mouthA, [(40.0, 47.3)])
-    edge_line(-4.45, mouthB, [(39.0, 47.3)])
+    # 機車停車格（台北巷子的白框，一格一台）：位置照遊戲裡的機車（zones3d.js 溫州街的 scRow：起點 x、台數、z；間距 0.85，車身 z ±0.9）。
+    # 停車格那一段沒有白色邊線（白框就在路邊）。改 scRow 的位置要一起改這裡（README）
+    BAYS = [(-11.5, 2, 1), (-6.8, 3, 1), (16.4, 4, 1), (5.0, 12, -1), (31.5, 8, -1), (-28.5, 6, -1)]
+    def bay_rng(sd): return [(x0 - 0.5, x0 + (n - 1) * 0.85 + 0.5) for x0, n, s in BAYS if s == sd]
+    edge_line(4.45, mouthA + bay_rng(1), [(40.0, 47.3)])
+    edge_line(-4.45, mouthB + bay_rng(-1), [(39.0, 47.3)])
+    for x0, n, sd in BAYS:
+        xa, xb = x0 - 0.425, x0 + (n - 1) * 0.85 + 0.425; zo, zi = 4.56 * sd, 2.86 * sd
+        col = (232, 230, 223)
+        R.line([(xa, zi), (xb, zi)], 0.1, col, wear=0.35)                 # 靠路中間的長邊
+        for k in range(n + 1):
+            xk = xa + k * 0.85; R.line([(xk, zi), (xk, zo)], 0.08, col, wear=0.35)   # 每一格的隔線
+        for k in range(n):   # 停車的地方：機車腳架、輪胎的油漬和磨痕（比較髒）
+            if R.rng.random() < 0.6: R.stain(xa + (k + 0.5) * 0.85 + R.rng.uniform(-0.1, 0.1), (3.75 + R.rng.uniform(-0.3, 0.3)) * sd, R.rng.uniform(0.12, 0.22), dL=R.rng.uniform(-14, -8))
+    zebra(R)    # 先畫斑馬線：x 46.6 的人孔在斑馬線裡，鐵蓋上沒有漆
     # 人孔（位置照套件 TK.road 的 manholes：x＝−11、23、47）＋手孔
     R.manhole(-11.0, 0.5); R.manhole(23.0, -1.2); R.manhole(46.6, 0.8, r=0.38)
     R.handhole(-24.0, 3.9); R.handhole(12.6, -3.95); R.handhole(33.0, 3.95)
     # 「慢」（位置照套件：x −16（z −1.8）、x 13（z 1.8））：字頭朝前進方向
     R.text('慢', -16.0, -1.8, 2.6, 1.5, 0.0); R.text('慢', 13.0, 1.8, 2.6, 1.5, math.pi)
-    # 路口停止線（斑馬線在 x 45.2..47.6，套件的網格疊在上面）
+    # 路口停止線（斑馬線在上面先畫了）
     R.line([(44.75, -4.35), (44.75, 4.35)], 0.3, (233, 231, 225), wear=0.35)
     R.render(os.path.join(GEN, 'wz_road_main.jpg'))
 
@@ -283,9 +315,67 @@ def ns_road():
     R.line([(52.75, -14.0), (52.75, 14.0)], 0.1, (178, 52, 44), wear=0.3)
     R.line([(52.75, 14.0), (52.75, Z1 - 0.3)], 0.1, (233, 231, 225), wear=0.3)
     R.manhole(50.6, -8.5); R.manhole(51.2, 24.0, r=0.38); R.handhole(48.3, 11.0, ang=math.pi / 2)
+    zebra(R)
     R.render(os.path.join(GEN, 'wz_road_ns.jpg'))
+
+
+# ======================== 側巷（北巷、南巷、西端南北向巷的兩段）：一張貼圖集 ========================
+# 套件的側巷路面（zones3d.js 溫州街 roads[1..3]）：北巷 x 3.25..8.25、z 4..21；南巷 x −14.75..−9.75、z −20..−4；西端 x −36.9..−29.9、z −16..16。
+# 主巷那一段（z ±5）在 wz_road_main 裡，這裡只畫主巷外面的部分；四塊排成一列，塊和塊之間留 16 px 邊（mipmap 不會混到隔壁）。
+SIDE_PPM = 40.0
+SIDE = [  # 名字、X0、X1、Z0、Z1、牆在哪幾邊（'x0'、'x1'＝沿 z 的兩側牆；'z0'、'z1'＝巷底）、接主巷的那一邊、種子
+    ('n', 3.25, 8.25, 5.0, 21.0, ('x0', 'x1', 'z1'), 'z0', 2101),
+    ('s', -14.75, -9.75, -20.0, -5.0, ('x0', 'x1'), 'z1', 2102),
+    ('wn', -36.9, -29.9, 5.0, 16.0, ('x1',), 'z0', 2103),
+    ('ws', -36.9, -29.9, -16.0, -5.0, ('x1',), 'z1', 2104),
+]
+
+
+def side_piece(X0, X1, Z0, Z1, walls, joint, seed):
+    W, H = int(round((X1 - X0) * SIDE_PPM)), int(round((Z1 - Z0) * SIDE_PPM)); pu, pv = W / (X1 - X0), H / (Z1 - Z0)
+    R = Road(W, H, lambda x, z: (int(round((x - X0) * pu)), int(round((z - Z0) * pv))), (pu + pv) / 2, seed)
+    R.from_px = lambda col, row: (X0 + col / pu, Z0 + row / pv)
+    R.base(); R.L -= R.L.mean()     # 一塊只有 5～7 m 寬：大尺度的深淺（3 m）平均不是 0，整塊會比主巷深或淺 → 拉回主巷的底色
+    yy, xx = np.mgrid[:H, :W].astype(np.float32); wx, wz = R.from_px(xx, yy); xc = (X0 + X1) / 2
+    for d, wdt, dL in ((-0.7, 0.3, -7.0), (0.7, 0.3, -7.0)):          # 窄巷：車走中間一條
+        R.band(lambda: np.exp(-((wx - xc - d) / wdt) ** 2) * (0.75 + 0.25 * np.sin(wz * 0.41) * np.sin(wz * 0.17)), dL)
+    for h in range(2):   # 前半段、後半段各一塊（不重疊）
+        x0 = R.rng.uniform(X0 + 0.8, X1 - 2.2); zm = Z0 + (Z1 - Z0) * h / 2; z0 = R.rng.uniform(zm + 0.8, zm + (Z1 - Z0) / 2 - 3.0)
+        R.patch(R.rect_world(x0, z0, x0 + R.rng.uniform(1.0, 1.8), z0 + R.rng.uniform(1.0, 2.2)), dL=R.rng.uniform(-13, -7))
+    if X1 - X0 > 6:   # 西端巷子比較寬：一條管線挖補
+        R.patch(R.rect_world(X0 + 1.2, Z0 + 0.4, X0 + 1.8, Z1 - 0.4, 0.03), dL=-9)
+    for _ in range(3): R.crack(R.rng.uniform(X0 + 0.6, X1 - 0.6), R.rng.uniform(Z0 + 0.6, Z1 - 0.6), R.rng.uniform(0, math.pi), R.rng.uniform(0.6, 2.2))
+    for _ in range(4): R.stain(R.rng.choice([X0 + 0.9, X1 - 0.9]) + R.rng.uniform(-0.2, 0.2), R.rng.uniform(Z0 + 1, Z1 - 1), R.rng.uniform(0.2, 0.45), dL=R.rng.uniform(-18, -10))
+    def dist_wall():
+        d = np.full(wx.shape, 99.0, np.float32)
+        if 'x0' in walls: d = np.minimum(d, wx - X0)
+        if 'x1' in walls: d = np.minimum(d, X1 - wx)
+        if 'z0' in walls: d = np.minimum(d, wz - Z0)
+        if 'z1' in walls: d = np.minimum(d, Z1 - wz)
+        return d
+    R.ao_edge(dist_wall, width=0.45, dL=-24.0)
+    for k in ('x0', 'x1'):   # 沿牆的水溝（接主巷那一頭接到主巷的水溝）
+        if k in walls: R.gutter(Z0, Z1, X0 if k == 'x0' else X1, X0 + 0.38 if k == 'x0' else X1 - 0.38, along='z')
+    R.manhole(xc + R.rng.uniform(-0.6, 0.6), (Z0 + Z1) / 2 + R.rng.uniform(-2, 2), r=0.36)
+    if 'x1' in walls: R.handhole(X1 - 0.9, Z0 + (Z1 - Z0) * 0.3, ang=math.pi / 2)
+    return R.render(None)
+
+
+def side_lanes():
+    pad = 16; ims = [side_piece(*p[1:]) for p in SIDE]
+    AW = sum(im.width for im in ims) + pad * (len(ims) + 1); AH = max(im.height for im in ims) + pad * 2
+    AW = int(math.ceil(AW / 64) * 64); AH = int(math.ceil(AH / 64) * 64)
+    atlas = Image.new('RGB', (AW, AH), (168, 168, 166)); rects = {}; ox = pad
+    for (nm, X0, X1, Z0, Z1, *_), im in zip(SIDE, ims):
+        oy = pad; ext = im.resize((im.width + 2 * pad, im.height + 2 * pad), Image.NEAREST)   # 邊緣往外延伸（mipmap 用）
+        atlas.paste(ext, (ox - pad, oy - pad)); atlas.paste(im, (ox, oy))
+        rects[nm] = {'x0': X0, 'x1': X1, 'z0': Z0, 'z1': Z1, 'u0': ox / AW, 'u1': (ox + im.width) / AW, 'v0': 1 - oy / AH, 'v1': 1 - (oy + im.height) / AH}   # v：Blender 的 UV（圖的上緣＝1）；z0 在圖的上面
+        ox += im.width + pad
+    atlas.save(os.path.join(GEN, 'wz_road_side.jpg'), quality=88)
+    import json; json.dump(rects, open(os.path.join(GEN, 'wz_road_side.json'), 'w'), indent=1)
+    print('saved wz_road_side.jpg', atlas.size)
 
 
 if __name__ == '__main__':
     os.makedirs(GEN, exist_ok=True)
-    main_lane(); ns_road()
+    main_lane(); ns_road(); side_lanes()
