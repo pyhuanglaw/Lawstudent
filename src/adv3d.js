@@ -35,7 +35,7 @@ const ADV = (function(){
 #advTop button{min-height:34px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(20,22,28,.75);color:#e8e2d6;font-size:12px}
 #advHist{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(560px,calc(100% - 28px));max-height:70%;overflow:auto;background:rgba(20,22,28,.96);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:12px 16px;color:#f4efe6;font-size:14px;line-height:1.6;pointer-events:auto;display:none}
 #advHist b{color:#e9b96a;font-weight:500;margin-right:6px}
-.adv-on #choices{right:auto;left:max(14px,env(safe-area-inset-left));bottom:calc(max(14px,env(safe-area-inset-bottom)) + 118px)}
+.adv-on #choices{right:auto;left:max(14px,env(safe-area-inset-left));bottom:calc(max(14px,env(safe-area-inset-bottom)) + 118px);max-height:calc(100% - 118px - max(14px,env(safe-area-inset-bottom)) - 58px - env(safe-area-inset-top))}
 .adv-on.spriteLeft #choices{left:auto;right:max(14px,env(safe-area-inset-right))}
 .adv-on #dlg{z-index:6}
 @media (orientation:portrait){#adv.cg #advCg{background-size:contain;background-position:center 40%}.advSlot{width:100%;height:calc(100% - 150px - max(8px,env(safe-area-inset-top)));top:calc(max(8px,env(safe-area-inset-top)) + 40px);bottom:auto;align-items:flex-start}#advL{left:0}#advR{right:0}.adv-on #choices{bottom:calc(max(14px,env(safe-area-inset-bottom)) + 130px);width:calc(100% - 28px)}}

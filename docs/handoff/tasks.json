@@ -12169,6 +12169,27 @@
    },
    "source": "AA-B 2026-10-16 21:58（AA_194 第 4 節 6e94d8d7，AA、BB 互審）；BB_172（bc760ae3、3b0d8dfb）",
    "authorized": "AA_193（使用者自然口語六項）、D86；排在 HANDOFF-ABC 之後"
+  },
+  {
+   "id": "BUG-CHOICE-LAYOUT",
+   "title": "ADV 選項太多時：按鈕被壓扁、灰色提示字超出框壓到下一個選項；第一個選項蓋住上方「紀錄」按鈕",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "next": "index.html #choices button 加 flex-shrink:0（不壓扁、改成捲動）；adv3d.js .adv-on #choices 加 max-height 留出上方紀錄／略過按鈕；Playwright 橫直向截圖驗證中",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次當面約人",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 22:0x 試玩截圖（約郭沛珊）",
+   "authorized": "使用者（bug 回報）"
   }
  ]
 }
