@@ -12603,6 +12603,35 @@
    },
    "source": "QA-W1-VISUAL 座位檢查第三輪（gym 12/12）",
    "authorized": "使用者（QA-W1）"
+  },
+  {
+   "id": "ART-CAFE-FLOOR",
+   "title": "兩點半 Café 地板改自流坪水泥灰（原本人字拼木地板和桌子顏色太近）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P0",
+   "next": "LAWWW2-B 改 cafe_interior.glb 的 int_floor 材質（cafe_layout.py 295、cafe_interior.py mat['floor']）→ 交件附修改前後遊戲截圖 → LAWWW-B 整合。程序化備用地板 LAWWW-B 已改水泥灰（zones3d.js）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一週去 Café",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 23:4x「2am咖啡廳地板真的太醜 跟桌子顏色太近 我要自流坪那種水泥顏色」",
+   "authorized": "使用者直接要求",
+   "xai": {
+    "spec": "使用者原話＋LAWWW-B 訊息：淺～中灰、平滑霧面、雲紋與細小氣孔、無磁磚縫無木紋、和木桌對比；Poly Haven CC0 混凝土地坪；只換地板材質",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "遊戲內 Café 吧檯一帶白天，修改前後同角度截圖；地板和桌子明顯區分",
+    "receiver": "LAWWW-B",
+    "ack": "SENT"
+   }
   }
  ]
 }
