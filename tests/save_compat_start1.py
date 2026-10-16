@@ -114,6 +114,10 @@ async def main():
                 if await pg.evaluate("GAME.G.day") > d0 and await pg.evaluate("!(GAME.D&&GAME.D.active)"): break
             await drain(pg, 60, 4)
             g2 = await pg.evaluate(G_JS); tc = await pg.evaluate("window.__tc"); says = await pg.evaluate("window.__says")
+            if key == 'night1':   # 第 1 天晚上睡覺＝主線照常往下走到第二天（不是重播）：13:05 霖澤館前、「第二天」標題卡
+                replay = [t for t in tc if t == '第一天'] + [x for x in says if any(m in x for m in ['開學第三週', '案例影本放在桌上'])]
+                run.check('[前置／捷徑 sleepNow] night1：睡到第 2 天，主線照常接「第二天」13:05 校園（舊局不變），沒有重播第一天', g2['day'] == 2 and tc.count('第二天') == 1 and g2['zone'] == 'campus' and abs(g2['hour'] - 13.05) < 0.3 and not replay, json.dumps([g2, tc, replay[:3]], ensure_ascii=False))
+                continue
             replay = [t for t in tc if t in ('第一天', '第二天')] + [x for x in says if any(m in x for m in ['開學第三週', '案例影本放在桌上'])]
             run.check(f'[前置／捷徑 sleepNow] {key}：睡到隔天早上，天數 +1、沒有重播主線', g2['day'] == d0 + 1 and not replay, json.dumps([g2, tc, replay[:3]], ensure_ascii=False))
         run.check('新版讀大一上存檔、推進一天：沒有 JS 例外', not en, json.dumps(en[:3], ensure_ascii=False))
