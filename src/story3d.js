@@ -774,6 +774,14 @@ const STORY = (function(){
         PHONE.at(G,d28,19.5,[{th:T,from:'econ_weilun',name:'韋綸',text:'宵夜！公館！走啦！'},{th:'p:kexin',from:'kexin',text:'今天要講嗎？……我覺得今天可以。'}],'y0_e28_ask');
         if(!OUT.get(G,'y0_e28')&&G.hour<21.5) OUT.plan(G,{id:'y0_e28',ev:'ev_y0_e28',day:d28,h:21,late:0.5,place:'公館',title:'公館 21:00：宵夜',travel:'走過去約 15 分鐘',travelH:0.25}); }
       if(!done28&&PHONE.sent(G,'y0_e28_ask')&&(G.day>d28||G.hour>=22)&&G.day<=d28+2&&!PHONE.sent(G,'y0_e28_miss')){ const L=[{th:T,from:'econ_pinyu',name:'品妤',text:'宣布兩件事：祐廷和可昕。還有，他們要重考。'}]; if(F.E19_ASK==='none') L.push({th:T,from:'econ_tangrui',name:'唐睿',text:'等一下，你們什麼時候開始的？？'}); PHONE.at(G,d28,22,L,'y0_e28_miss'); } } }
+    /* E18b 可昕的生日（BB_104 8b-11；AA_154 第 240 行）：4/23（三）21:00 群組品妤約（時間暫定，照 E14）＋出發選單 4/24（四）19:00 公館豆花店（2D 出遊，晚 15 分鐘＝沒去）；
+       沒去＝4/24 21:00 群組品妤貼蛋糕照片＋可昕私訊、E18B_GIFT＝none */
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const d18=S.dayOfKey('2025-04-24'); if(d18!=null){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, done18=!!(G.events&&G.events.done&&G.events.done.ev_y0_e18b);
+      if((G.day>d18-1||(G.day===d18-1&&G.hour>=21))&&G.day<=d18&&!PHONE.sent(G,'y0_e18b_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,d18-1,21,[{th:T,from:'econ_pinyu',name:'品妤',text:'4/24 可昕生日。公館豆花店，七點。重考生也要來，一碗豆花的時間而已。遲到的人請客。'}],'y0_e18b_ask');
+        if(!OUT.get(G,'y0_e18b')&&(G.day<d18||G.hour<19.25)) OUT.plan(G,{id:'y0_e18b',ev:'ev_y0_e18b',day:d18,h:19,late:0.25,place:'公館豆花店',title:'公館豆花店 19:00：可昕的生日',travel:'走過去約 15 分鐘',travelH:0.25}); }
+      if(!done18&&PHONE.sent(G,'y0_e18b_ask')&&(G.day>d18||(G.day===d18&&G.hour>=21))&&G.day<=d18+2&&!PHONE.sent(G,'y0_e18b_miss')){ if(!F.E18B_GIFT) F.E18B_GIFT='none';
+        PHONE.at(G,d18,21,[{th:T,from:'econ_pinyu',name:'品妤',text:'📷（生日蛋糕）'},{th:'p:kexin',from:'kexin',text:'蛋糕有你的份。我先吃了。'}],'y0_e18b_miss'); } } }
     /* E34＝R8 經濟學原理最後一堂的最後一句（BB_153 E34 完整稿）：6/1（日）21:00 阿勳私訊（不用回）；6/2（一）11:50～12:15 走到博雅就演（ev_y0_e34）；
        12:15 還沒到＝阿勳私訊沒去版那句（之後到了也不演）*/
     if(S.isEcon(G)){ const d34=S.dayOfKey('2025-06-02'), XU=t=>({th:'p:econ_zhengxun',from:'econ_zhengxun',name:'阿勳',text:t}), done34=!!(G.events&&G.events.done&&G.events.done.ev_y0_e34);

@@ -1644,6 +1644,17 @@ const STORY_EVENTS=[
       {label:'n'},{phone:'econ_zhengxun',text:'📷（他自己買的便當）'},
       {label:'end'} ],
     after:(G,GM)=>{ if(typeof HOME!=='undefined'&&HOME.moveOut) HOME.moveOut(GM).catch(e=>console.warn('HOME.moveOut',e)); } },
+  /* E18b 可昕的生日（BB_104 8b-11）：4/24（四）19:00 公館豆花店（2D 出遊），一群人一起。祐廷的禮物記 E18B_GIFT（notebook／douhua／group；沒去＝none，story3d.js）；
+     送筆記本的玩家，法律系大一她生日那天多一句（已接，ev_kexin_birthday_y1s2）*/
+  { id:'ev_y0_e18b', stage:'econ', title:'可昕的生日', participants:['kexin','econ_pinyu'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+    dialogue:[ {scene:'公館・豆花店'},
+      {speaker:'kexin',expression:'smile',text:'（吹完蠟燭）今天的假設題換我被問。'},{speaker:'kexin',expression:'thinking',text:'假設今天可以收到一個禮物，你們猜我要什麼。'},
+      {speaker:'韋綸',text:'腳踏車鏈子。'},{speaker:'kexin',expression:'laugh',text:'……很有道理，但不是。'},
+      {choice:[{text:'一本空白的筆記本',set:{E18B_GIFT:'notebook'},goto:'a'},{text:'請她吃一碗豆花',set:{E18B_GIFT:'douhua'},goto:'b'},{text:'跟大家合送',set:{E18B_GIFT:'group'},goto:'c'}]},
+      {label:'a'},{speaker:'kexin',expression:'smile',text:'空白的。……所以每一題都要我自己想。第一頁給你出題。'},{goto:'end'},
+      {label:'b'},{speaker:'kexin',expression:'surprised',text:'豆花算禮物嗎？'},{speaker:'player',text:'算。熱量是心意。'},{speaker:'kexin',expression:'laugh',text:'……這句我要記下來。'},{goto:'end'},
+      {label:'c'},{speaker:'econ_pinyu',text:'合送最有效率。'},{speaker:'kexin',expression:'smile',text:'謝謝大家。你也在大家裡面。'},
+      {label:'end'} ] },
   /* E34＝R8 經濟學原理最後一堂的最後一句（BB_153 E34 完整稿；AA_154 第 244 行）：6/2（一）11:50～12:15 在博雅（3D，101 外面的走廊）就演；12:15 以後＝沒去版（story3d.js）。
      不記旗標；阿勳信任 +1。魏老師只有聲音 */
   { id:'ev_y0_e34', stage:'econ', title:'最後一堂的最後一句', participants:['econ_zhengxun'], location:'boya', trigger:'auto', term:['Y0S2'], once:true, background:'blur',
