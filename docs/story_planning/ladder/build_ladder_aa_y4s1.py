@@ -1,0 +1,146 @@
+# -*- coding: utf-8 -*-
+"""大四上（Y4S1）的閒聊階梯：以安（heroine_01）、語彤（heroine_03）→ ladder_aa_y4s1.json。作者：AA-B 2026-10-16。
+原稿說明：../AA_151_閒聊階梯_大四上_以安語彤.md。格式同 ladder_aa_y3s1.json，term＝'Y4S1'。
+所有路線的玩家都回到台灣（日本 7 月中、美國 6 月返台，AA_144 5-1）；以安也回來了。路線差別用 linesIf（flagIs EXCHANGE_ROUTE）。
+依據：交接包_v5_大四_畢業後_尾聲_骨架、交接包_v5_交付清單 F3（R1 時差）、F4（以安回來後第一次讀書會）、F6（語彤 15b〈公館的時間〉第 6 週）、F7（以安新 18 她的選擇第 7 週）、
+F10（以安新 19 讀書會交棒第 13 週）、F11（語彤事件 15 二十三週年第 15 週 12/14）、F13（語彤事件 16 分一點時間第 16 週）；AA_113、AA_11、AA_30（「你不在的時候，我訪問了二十三個老闆」）。
+**不搶事件的戲**：新 18 的理由、新 19 的最後一條規則、15b 的文章內容、二十三週年最後一碗端給誰、分一點時間，階梯都不講；媽媽的職業照舊不說（大四下新 21 才說）。
+**防卡關**：`if` 只放階段；週次放寬到第 18 週。
+用法：python3 build_ladder_aa_y4s1.py → ladder_aa_y4s1.json；--check 只檢查。"""
+import json, sys, os
+Y='Y4S1'
+def st(npc, mn): return {'stage': {'npc': npc, 'min': mn}}
+def ch(t, reply, rel=None, mem=None):
+    c = {'t': t, 'reply': reply}
+    if rel: c['rel'] = rel
+    if mem: c['mem'] = mem
+    return c
+AN='heroine_01'; YT='heroine_03'
+D = {'_comment': __doc__, 'term': Y, 'characters': {}}
+JP={'flagIs':{'EXCHANGE_ROUTE':'JP'}}; US={'flagIs':{'EXCHANGE_ROUTE':'US'}}
+
+D['characters'][AN] = {'steps': [
+ {'id':'A7-L1','if':st(AN,'ACQUAINTANCE'),'week':[1,18],
+  'lines':['回來了。……麵店的長桌，阿姨真的幫我留了位子。','理由：她說習慣。'],
+  'choices':[ch('「歡迎回來。」','……嗯。這句話，我在日本練習過怎麼回答。結果還是只會說嗯。'),
+             ch('「點大碗了嗎？」','點了。吃不完。阿哲幫我吃。……理由：他說習慣。',rel={'comf':1})],'rel':{'fam':2,'comf':1},'mem':'AN7_BACK',
+  'linesIf':[{'if':JP,'lines':['我們回來了。……你的日文進步了。一點點。','理由：你點餐不用比手畫腳了。']}],
+  'note':'接大三上 A5-L8（長桌的位子）；日本路線的玩家和她同一學期在日本'},
+ {'id':'A7-L2','if':st(AN,'ACQUAINTANCE'),'week':[2,18],
+  'lines':['今年生日不是中秋。','……我有一點想念柚子。'],
+  'choices':[ch('「生日快樂。」','……謝謝。理由欄寫：今年也有人記得。'),
+             ch('「明年再插蠟燭。」','好。……下一次碰到中秋，要等很久。所以不用等。')],'rel':{'fam':2,'comf':1},
+  'linesIf':[{'if':{'memory':[{'npc':AN,'tag':'AN_BDAY_POMELO'}]},'lines':['今年生日不是中秋。','去年的蠟燭還在筆筒裡。……今年不用插。']}],
+  'note':'9/15 是大四上第 2 週（週五），照節日系統（AA_126 7-1）'},
+ {'id':'A7-L3','if':st(AN,'ACQUAINTANCE'),
+  'lines':['日本的鄰居，每天早上倒垃圾都跟我說早安。','……一個學期，我還是不知道她叫什麼。理由：她沒說，我沒問。'],
+  'choices':[ch('「那邊的規則？」','嗯。沒有寫下來的規則。……那種最難。',rel={'trust':1}),
+             ch('「妳想知道嗎？」','……想。最後一天，我在門口留了一張紙條。寫我的名字。')],'rel':{'fam':2,'trust':1},'mem':'AN7_NEIGHBOR',
+  'note':'日本的生活（AA_113 新 17 的背景）；不講町公所那張通知'},
+ {'id':'A7-L4','if':st(AN,'FAMILIAR'),'week':[5,18],
+  'lines':['學弟妹問我，日本好不好。','我說：好。理由：有回來。'],
+  'choices':[ch('「這個理由很好。」','……嗯。我想了一個學期。'),
+             ch('「妳有想留下來嗎？」','……一天。下雪那天。第二天就不想了。理由：雪會化。',rel={'trust':1})],'rel':{'fam':2,'comf':1}},
+ {'id':'A7-L5','if':st(AN,'FAMILIAR'),'week':[8,18],
+  'lines':['研究所的計畫書，第一頁我寫了七次。','第七次，我寫了一個家。大二那個家。'],
+  'choices':[ch('「前六次呢？」','……都是條文。條文不用寫在第一頁。'),
+             ch('「那個家知道嗎？」','不知道。……寫完我會寄一份給他們。不寫名字。',rel={'trust':2})],'rel':{'fam':2,'trust':1},'mem':'AN7_PROPOSAL',
+  'linesIf':[{'if':{'flags':['WISH_DONE_heroine_01']},'lines':['研究所的計畫書，第一頁我寫了七次。','第七次，我寫的是景美那天想到的。']}],
+  'note':'新 18 她的選擇（第 7 週）之後；**不重講理由**。去過景美（心願，AA_127）的玩家換版本'},
+ {'id':'A7-L6','if':st(AN,'FRIEND'),'week':[14,18],
+  'lines':['讀書會交出去以後，週四晚上我不知道要去哪裡。','……語彤說，來總圖三樓。她說那裡週四很安靜。'],
+  'choices':[ch('「去了嗎？」','去了。我們各自讀，一句話都沒說。……很好。'),
+             ch('「我也可以陪妳。」','……好。理由：你很安靜的時候，比較好。',rel={'comf':2})],'rel':{'fam':2,'comf':1},
+  'note':'新 19 讀書會交棒（第 13 週）之後；**不講最後那一條規則**'},
+ {'id':'A7-L7','if':st(AN,'FRIEND'),'week':[10,18],
+  'lines':['我第一次排了一個沒有計畫的週日。','……結果那天，我把手帳從大一讀到現在。還是在排。'],
+  'choices':[ch('「讀到什麼？」','大一的第一頁，寫著「大三：日本」。……我做到了。手帳第一次在誇我。',rel={'trust':1}),
+             ch('「下次我幫妳排。」','……好。你排的，我不改。這是第一次。',rel={'comf':2})],'rel':{'fam':2,'trust':1},'mem':'AN7_NO_PLAN',
+  'note':'回聲大一第二天的手帳第一頁「大三：日本」（AA_30 第 61 行）'},
+ {'id':'A7-L8','if':st(AN,'FRIEND'),'week':[17,18],
+  'lines':['跨年，大家說要去頂樓。','我第一次說好，沒有問幾點結束。'],
+  'choices':[ch('「那妳幾點走？」','不知道。……這是我第一次說不知道，說得很開心。'),
+             ch('「我們看到最後。」','嗯。理由：最後一年。',rel={'trust':1})],'rel':{'fam':2,'trust':1},
+  'note':'大四跨年（AA_71 2-7）'},
+],'greet':{'base':['……嗯。回來的感覺，像換了一本新的手帳。','研究所的書，好重。理由：公法。','（她在手帳上寫了一行日文，又劃掉）……習慣。','早。今天只有兩堂課。','你也在。……好。理由：剛好。'],
+ 'when':[{'weekday':[4],'time':[19,21],'location':['wancai'],'week':[1,13],'t':'讀書會七點。……最後一學期了。'},
+         {'week':[8,9],'t':'期中。這次我不畫圖了。……騙你的，畫了。'},
+         {'weather':'rain','t':'下雨。……日本的雨比較小。理由：我記得。'},
+         {'week':[16,18],'t':'期末。手帳的最後一頁，空著。'},
+         {'location':['noodle'],'t':'（她面前是一碗大碗的）……我在練習吃完。'}]},
+ 'note':'大四上以安：回來、研究所（新 18）、讀書會交棒（新 19）；不說媽媽的職業'}
+
+D['characters'][YT] = {'steps': [
+ {'id':'Y7-L1','if':st(YT,'ACQUAINTANCE'),'week':[1,18],
+  'lines':['暑假，我訪問了阿姨。她講了一整個晚上。','……最後她問：這樣算故事嗎。'],
+  'choices':[ch('「算。」','……嗯。我也這樣說。她說：那妳寫，不要寫我的名字。'),
+             ch('「她講了什麼？」','……不能說。她說要先給我媽聽。')],'rel':{'fam':2,'trust':1},'mem':'YT7_AUNT_STORY',
+  'linesIf':[{'if':JP,'lines':['你不在的時候，我訪問了二十三個老闆。','……最後一個是阿姨。她講完問我：這樣算故事嗎。']},
+             {'if':US,'lines':['你不在的時候，我訪問了二十三個老闆。','……最後一個是阿姨。她講完問我：這樣算故事嗎。']}],
+  'note':'接大三下 Y6-L8（想再問阿姨）；國外回來的玩家照 AA_30「你不在的時候，我訪問了二十三個老闆」；15b〈公館的時間〉（第 6 週）最後一段寫阿姨的伏筆'},
+ {'id':'Y7-L2','if':st(YT,'ACQUAINTANCE'),'week':[3,18],
+  'lines':['初談組的學弟妹，現在會自己擺椅子了。','……擺成斜的。我沒有教。'],
+  'choices':[ch('「他們看妳擺的。」','……嗯。原來看得到。'),
+             ch('「妳教得很好。」','我沒教。……可能就是這樣教的。',rel={'trust':1})],'rel':{'fam':2},'mem':'YT7_CHAIRS_PASSED',
+  'note':'接 Y4-L2、Y5-L3（椅子擺斜、教倒水）'},
+ {'id':'Y7-L3','if':st(YT,'FAMILIAR'),'week':[7,18],
+  'lines':['系刊那篇，阿姨拿去影印了二十份。她說要貼在店裡。我說不行。','……最後貼了一份。在廁所門口。'],
+  'choices':[ch('「那是最多人看的地方。」','……阿姨也這樣說。我輸了。'),
+             ch('「我去看。」','……不要。你已經讀過了。')],'rel':{'fam':2,'comf':1},
+  'note':'15b〈公館的時間〉（第 6 週）之後；不重講文章內容'},
+ {'id':'Y7-L4','if':st(YT,'FAMILIAR'),'week':[2,18],
+  'lines':['以安回來以後，長桌又有人說「理由」了。','……阿姨說，終於有人點大碗了。'],
+  'choices':[ch('「妳想念她嗎？」','……嗯。她不在的時候，長桌太安靜。'),
+             ch('「她吃得完嗎？」','吃不完。阿哲幫她吃。……阿姨每次都多加一顆蛋，給阿哲的。')],'rel':{'fam':2,'comf':1},
+  'note':'接以安 A5-L8、A7-L1'},
+ {'id':'Y7-L5','if':st(YT,'FAMILIAR'),'week':[10,18],
+  'lines':['我媽週四散步，現在走到總圖門口了。','……她說，要看我有沒有在讀書。'],
+  'choices':[ch('「妳有嗎？」','有。……她站在門口看了十分鐘，就走了。'),
+             ch('「下次請她進來。」','……她說不要。總圖是我的地方。',rel={'trust':1})],'rel':{'fam':2,'trust':1},
+  'note':'接 Y6-L7（媽媽週四散步到麵店門口）；不寫病情'},
+ {'id':'Y7-L6','if':st(YT,'FRIEND'),'week':[16,18],
+  'lines':['二十三週年以後，店裡多了一張紅紙。阿姨每天都去看一下。','……她說，字寫得太醜了。可是不換。'],
+  'choices':[ch('「誰寫的？」','……我。阿姨說，所以不換。',rel={'trust':2}),
+             ch('「明年寫二十四。」','嗯。……她說，二十四要我自己寫。')],'rel':{'fam':2,'trust':2},'mem':'YT7_RED_PAPER',
+  'note':'事件 15 二十三週年（第 15 週，一定發生）之後；**不講最後一碗端給誰**'},
+ {'id':'Y7-L7','if':st(YT,'FRIEND'),'week':[17,18],
+  'lines':['跨年，阿姨說今年她要看煙火。','……我們三個人，在麵店樓上的頂樓看。阿姨、我媽、我。'],
+  'choices':[ch('「跟淡水那次一樣。」','……嗯。這次看到最後了。',rel={'trust':2}),
+             ch('「好看嗎？」','很遠。很小。……阿姨說，比淡水的夕陽小。')],'rel':{'fam':2,'trust':2},'mem':'YT7_NYE_THREE',
+  'linesIf':[{'if':{'memory':[{'npc':YT,'tag':'YT_TAMSUI_SUNSET'}]},'lines':['跨年，阿姨說今年她要看煙火。','我們三個人在麵店樓上看。……這次我跟她們說，淡水的夕陽最後長什麼樣子。']}],
+  'note':'回聲語彤的淡水（三個人、等到一半）；和她去過淡水心願（AA_127）的玩家換版本'},
+ {'id':'Y7-L8','if':st(YT,'FRIEND'),'week':[17,18],
+  'lines':['期末考完，我要陪我媽去回診。','……這次是我排的時間。不是她排的。'],
+  'choices':[ch('「妳會排時間了。」','……嗯。學了很久。',rel={'trust':1}),
+             ch('「需要我幫忙嗎？」','……不用。考完以後，陪我吃麵就好。')],'rel':{'fam':2,'comf':1},
+  'note':'事件 16 分一點時間（第 16 週）之後的回聲；不講事件內容；不寫病情'},
+],'greet':{'base':['……嗯。','（她拿著系刊）……不要在我面前讀。','……阿姨今天多加了一顆蛋。給阿哲的。','……初談組今天我只看，不講。','……你也來了。'],
+ 'when':[{'weekday':[4],'time':[17,21.5],'location':['library_hall','library'],'t':'（總圖三樓，她的位子）……週四。嗯。'},
+         {'location':['noodle'],'weekday':[2],'time':[17.5,20],'t':'……今天是我。工讀生週四。'},
+         {'weekday':[6],'time':[9,12],'location':['wancai'],'weekParity':'odd','t':'（她把椅子擺成斜的）……學弟妹先。'},
+         {'week':[8,9],'t':'……期中。我只剩兩科。'},
+         {'weather':'rain','t':'……下雨。……兩把。'}]},
+ 'note':'大四上語彤：15b、二十三週年（事件 15）、分一點時間（事件 16）；階梯只寫事件之外'}
+def check(d):
+    err=[]
+    for cid,c in d['characters'].items():
+        ids=[s['id'] for s in c['steps']]
+        if len(ids)!=len(set(ids)): err.append(cid+' 層 id 重複')
+        for s in c['steps']:
+            for l in s['lines']+[x for li in s.get('linesIf',[])+s.get('extraIf',[]) for x in li['lines']]:
+                if len(l)>60: err.append(f"{s['id']} 台詞太長：{l}")
+            if len(s.get('choices',[]))>2: err.append(s['id']+' 選項超過 2')
+            # 防卡關：if 只能放階段（stage）或 any 裡的階段／flagNum
+            bad=[k for k in s.get('if',{}) if k not in ('stage','any')]
+            if bad: err.append(f"{s['id']} 的 if 只能放階段（防卡關）：{bad}")
+            if 'week' in s and s['week'][1]<18 and not s.get('skipIf'): err.append(f"{s['id']} 週次沒有放寬到第 18 週，也沒有 skipIf（會卡關）")
+            for t in ('不准賴',):
+                if cid==AN and any(t in x for x in s['lines']+[c2['reply'] for c2 in s.get('choices',[])]): err.append(f"{s['id']} 以安「不准賴」只用在論證")
+        g=c.get('greet')
+        if g and len(g['base'])!=5: err.append(cid+' 短招呼不是 5 句')
+    return err
+e=check(D)
+if e: sys.exit('\n'.join(e))
+if '--check' not in sys.argv:
+    json.dump(D,open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'ladder_aa_y4s1.json'),'w',encoding='utf-8'),ensure_ascii=False,indent=1)
+print('ok', {k:len(v['steps']) for k,v in D['characters'].items()})

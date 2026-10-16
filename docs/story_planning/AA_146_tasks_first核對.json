@@ -596,7 +596,7 @@
  "V3-B01": {
   "term": "Y2S1",
   "week": 1,
-  "earliest": "阿凱 K3：開學第一個週日（BB_97 4-1）",
+  "earliest": "阿凱 K3：開學第一個週日（BB_97 正文；BB-B 確認，總表的「2 起」是筆誤）",
   "mainline": true,
   "confirmed": true,
   "aa": "fix",
@@ -766,7 +766,7 @@
  "V3-B22": {
   "term": "Y2S1",
   "week": 1,
-  "earliest": "大二上第 1～2 週 Kevin「學姊卸任了！」（BB_97 552～564；請 BB-B 確認）",
+  "earliest": "大二上第 1～2 週 Kevin「學姊卸任了！」（BB-B 確認）",
   "mainline": true,
   "confirmed": true,
   "aa": "fix",
@@ -975,7 +975,7 @@
  "V4-B01": {
   "term": "Y3S1",
   "week": 3,
-  "earliest": "Z10 第一張明信片大三上第 3 週（BB_98 312；請 BB-B 確認）",
+  "earliest": "Z10 第一張明信片大三上第 3 週（BB-B 確認）",
   "mainline": false,
   "confirmed": true,
   "aa": "fix",
@@ -1000,15 +1000,15 @@
  "V4-B04": {
   "term": "Y3S1",
   "week": 6,
-  "earliest": "P5b 大三上第 6 週週末書店；M3 **改到大三下第 11 週（和哲 4 同一場，G27，待 BB-B）**；K4 大三下第 14 週；F3 大三下（第 16 或 17 週，待 BB-B 統一）",
+  "earliest": "P5b 大三上第 6 週週末書店；M3 大三下第 11 週（和哲 4 同一場，G27，BB-B 已改）；K4 大三下第 14 週；F3 大三下第 16 週（BB-B 定）",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
  },
  "V4-B05": {
   "term": "Y3S1",
-  "week": 3,
-  "earliest": "大三手機小事（BB-B 的值）",
+  "week": 1,
+  "earliest": "大三上每週五 17:05 學姊在家族群組（BB-B 確認）",
   "mainline": true,
   "confirmed": true,
   "aa": "fix",
@@ -1601,9 +1601,9 @@
   "aa": "fix"
  },
  "V6-B4": {
-  "term": "Y3S2",
+  "term": "Y3S1",
   "week": null,
-  "earliest": "沛珊談話大三下或大四上（BB_119；BB-B 寫「大三起」，請確認是不是大三下）",
+  "earliest": "大三上（裂縫從大三上開始累計；BB-B 確認）",
   "mainline": false,
   "confirmed": true,
   "aa": "fix",
