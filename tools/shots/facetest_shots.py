@@ -64,6 +64,8 @@ async def shoot(pg, dist, hour, out):
     await set_time(pg, hour)
     await pg.wait_for_timeout(1500); await frames(pg, 6); await set_time(pg, hour); await frames(pg, 2)
     await pg.screenshot(path=out)
+    d = await pg.evaluate("(()=>{ const E=GAME.E, P=E.player.obj.position, C=E.camera.position; return {cam_to_player:+Math.hypot(C.x-P.x,C.y-1.45-P.y,C.z-P.z).toFixed(2), dist:+E.cam.dist.toFixed(2), distTarget:+E.cam.distTarget.toFixed(2), mode:E.cam.mode}; })()")
+    print('camera', os.path.basename(out), json.dumps(d), flush=True)
 
 
 async def run(variant):
