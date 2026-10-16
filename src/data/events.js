@@ -1274,6 +1274,7 @@ const STORY_EVENTS=[
       {label:'wish'},
       {speaker:'kexin',expression:'smile',text:'生日願望有三個。第一個：明年也這樣。第二個：不能說。'},
       {speaker:'kexin',expression:'smile',text:'第三個……今天你點餐。'},
+      {if:{flags:['E18A_DOUHUA']},speaker:'kexin',expression:'smile',text:'你第一次跟我單獨吃的，是豆花。'},{if:{flags:['E18A_DOUHUA']},speaker:'kexin',expression:'teasing',text:'……今天不准點豆花。'},   /* 經濟系那年 12/3 單獨吃過豆花（BB_96 9-7b，BB-B a48d7f8a；第一句是 BB_104 8b-11a）*/
       {if:{flagIs:{E18B_GIFT:'notebook'}},speaker:'kexin',expression:'smile',text:'那本筆記本，寫到第十二頁了。'},
       {scene:'政大・山下的小吃街',bg:'nccu_food'},
       {if:{flagIs:{K1_ORDER:'let_her'},custom:G=>['ev_kexin_tour_nccu','ev_kexin_yule_pass','ev_kexin_birthday_y1'].filter(id=>G.events&&G.events.done&&G.events.done[id]).length>=2},speaker:'老闆',text:'生日喔？今天的蔥多放一點。'} ],
