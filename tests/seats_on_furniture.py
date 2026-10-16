@@ -25,7 +25,8 @@ async def main():
         pg=await b.new_page(viewport={'width':844,'height':390},is_mobile=True,has_touch=True)
         await pg.goto(URL,wait_until='load')
         await pg.wait_for_function("typeof GAME!=='undefined'&&document.getElementById('btnNew')",timeout=120000)
-        await pg.wait_for_timeout(2000); await pg.click('#btnNew')
+        await pg.wait_for_function("(()=>{ const l=document.getElementById('loading'); return !l||l.style.display==='none'||getComputedStyle(l).display==='none'||getComputedStyle(l).opacity==='0'||l.classList.contains('hide'); })()",timeout=180000)
+        await pg.wait_for_timeout(2000); await pg.evaluate("()=>document.getElementById('btnNew').click()")
         await pg.wait_for_function("GAME.G&&GAME.G.zone&&(GAME.E||{}).scene",timeout=180000); await pg.wait_for_timeout(15000)
         res=[]; bad=0
         for z in ZONES:
