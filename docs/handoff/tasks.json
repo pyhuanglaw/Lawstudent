@@ -12525,9 +12525,9 @@
    "title": "開發組自己的 GLB 有同向疊面（會閃）：萬才館外觀、霖澤館外觀、宿舍大廳等",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
-   "next": "這個容器沒有 /opt/blenv（Blender Python），check_coplanar.py 跑不了 → 改用純 Python 讀 GLB 的掃描（tools/glb_coplanar.py，不需要 Blender）；用 LAWWW2-B 的 tools/blender/env_second/check_coplanar.py 整批掃 assets/models/env/*.glb（開發組的），依面積排序修腳本、重新匯出；先修玩家第一週會看到的（宿舍大廳、霖澤館、萬才館）",
+   "next": "tools/glb_coplanar.py（純 Python，不用 Blender）掃了 8 個開發組 GLB，「一定會閃」面積：萬才館外觀 1,892 m²（台階 riser 自己疊、屋頂花崗石）、霖澤館外觀 575（屋頂 precast×brick、花崗石兩色）、宿舍大廳 271（一樓天花板頂面和二樓地板同高＝二樓走廊地板會閃）、法圖 106、總圖 39、霖澤室內 27、萬才室內 21、201 教室 6。先修第一週會看到的：宿舍大廳二樓地板、霖澤館外觀、萬才館外觀；改 tools/blender/ 腳本、重新匯出（/opt/blenv 背景安裝 bpy 4.2 中）；萬才館 1,192 m² 那對要先確認是不是重複的幾何。",
    "first": {
     "term": "Y1S1",
     "week": 1,
