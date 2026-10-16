@@ -12056,9 +12056,9 @@
    "title": "當面約人的開場「……那，這週末有空嗎？」和時間選項（今天、明天）對不上",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "等待其他AI",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "等 AA-B 定稿（改台詞或加週末時段），照定稿改 src/invites3d.js S.flow／S.timeOptions",
+   "next": "已照 AA-B 定稿改（今天還有時段「你等一下有空嗎？」、只剩明天「你明天有空嗎？」、不加週末）；單元 invite_people_unit 通過；等瀏覽器當面約一次",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12071,15 +12071,34 @@
    },
    "source": "使用者 2026-10-16 21:5x 試玩截圖；AA_134 第 4 節、AA_140 G49 ④",
    "authorized": "使用者（bug 回報）",
-   "pausedReason": "台詞要由 AA-B 定（D79）",
-   "resumeWhen": "AA-B 回覆定稿",
    "xai": {
     "spec": "AA_134 第 4 節",
     "branch": "claude/cool-heisenberg-o8kuqx",
     "acceptance": "開場句和時間選項一致",
     "receiver": "AA-B",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    }
+  },
+  {
+   "id": "BUG-FOLLOWSIT",
+   "title": "坐著被約「現在一起過去」：以安維持坐姿懸空跟著走（Café 喝完咖啡再約吃麵）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "next": "src/invites3d.js S.flow：跟著走之前先 GM.standUp(n)；單元 invite_people_unit 通過；等瀏覽器重現使用者的流程（第二天 Café 黃昏 → 約以安吃麵 → 現在一起過去）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第二天 Café 黃昏",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 21:5x 試玩截圖（9/18 17:50 兩點半 Café）",
+   "authorized": "使用者（bug 回報）"
   }
  ]
 }
