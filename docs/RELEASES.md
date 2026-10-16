@@ -74,7 +74,13 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - 考試中手機直向畫面露出「離開教室」（BUG-08，還沒確認按不按得到）。
 - 很多 3D 模型、背景還是 READY_FOR_ART_REVIEW。
 
-**發布前測試（冒煙，候選 2 `9508b534` 的乾淨 worktree）**：見下面「發布」；完整回歸在發布後補在這一節。
+**發布前測試（冒煙；候選 2 `9508b534` 的乾淨 worktree，Playwright 手機模擬＋SwiftShader，不是 iPhone 實機）**：
+- `nav_levels_unit`、`nav_buildings_unit`、`stairs_feet_unit`：PASS（05:32）。
+- `deploy_check`：ALL PASS（05:32～05:35；19 個區域都進得去、玩家與 NPC 都是正式 VRM、771 個網址都載得到、沒有 JS 例外）。
+- `p0_movement`：ALL PASS（05:35～05:40）；`minimap_direction`：ALL PASS（05:40～05:43）。
+- `save_compat_v7.py`（舊版那邊做存檔、新版讀）：**v9.7**（`06d8f9c2`＝main）各區域 48 個位置 ALL PASS（05:52～05:58）；**v7** ALL PASS（05:58～06:04）。
+- `tests/smoke_release.py`（新的冒煙測試，`?turbo`）：ALL PASS（06:14～06:19）——標題開新遊戲、宿舍開場演完、搖桿走得動；手機六個分頁；第 9 天霖澤館 201 坐下上民總、記出席、**課後以安的報告分工有演（BUG-15）**；選單存欄位 1 → 重新整理 → 讀取，課表紀錄一樣、走得動；沒有 JS 例外。前三輪失敗都是測試流程（按下新遊戲後第 18 幀就檢查、讀檔後的對話沒點掉、讀回座位旁只往前推撞到桌子），遊戲程式沒有改。
+- 第三層完整回歸（`joystick_direction` 以後）為了讓出瀏覽器先停，發布後照 `docs/TESTING.md` 第五節跑完、補在這裡。
 
 ## v9.7（2026-10-14 12:32:31 UTC 發布 `313d620`）——CG 劇情版
 

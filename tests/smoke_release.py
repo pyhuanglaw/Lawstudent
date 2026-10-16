@@ -9,7 +9,7 @@
 舊存檔（v7、v9.7）另外用 tests/save_compat_v7.py 對舊版的伺服器跑。
 用 ?turbo（瞬間走位）——這是冒煙測試，不是真實玩家流程（真實流程在完整回歸）。
 用法：python3 tests/smoke_release.py URL [輸出資料夾]"""
-import asyncio, json, sys
+import asyncio, json, sys, time
 from playwright.async_api import async_playwright
 sys.path.insert(0, __import__('os').path.dirname(__file__))
 import playlib as L
@@ -30,6 +30,25 @@ async def first_choice(pg, max_s=60):
     return ''
 
 
+async def wait_story(pg, cdp, run, js_done, max_s=300):
+    """等劇情真的演完（js_done 為真）而且恢復控制；中間的對話、選項照玩家的方式點掉（flow_main_day12 同一個做法）。
+    只看「恢復控制」會在劇情還沒開始的空檔提早成立（第一次冒煙：按下新遊戲後第 18 幀就檢查了）"""
+    t0 = time.time()
+    while time.time() - t0 < max_s:
+        s = await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['dlg'] and not q['choices'] and not q['busy'], max_steps=120)
+        if await pg.evaluate(js_done):
+            s2 = await L.state(pg)
+            if not s2['busy'] and not s2['dlg'] and not s2['choices']: return s2
+        await pg.wait_for_timeout(800)
+    return await L.state(pg)
+
+
+async def settle(pg, cdp, run, secs=8):
+    """讀檔後先等幾秒，出現的對話（例如舊存檔補一次的可昕訊息，BB_95 9-0）點完再繼續"""
+    await pg.wait_for_timeout(secs * 1000)
+    return await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['dlg'] and not q['choices'] and not q['busy'], max_steps=60)
+
+
 async def main():
     run = L.Run('smoke_release', OUT)
     async with async_playwright() as p:
@@ -40,7 +59,7 @@ async def main():
         await run.shot(pg, 'title')
         # ---------- 1. 新遊戲 ----------
         run.check('標題畫面有「開始新的一天」', await L.tap(pg, cdp, '#btnNew'))
-        s = await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['busy'] and not q['dlg'] and not q['choices'], pick=0, max_steps=120)
+        s = await wait_story(pg, cdp, run, "!!(GAME.G&&GAME.G.flags&&GAME.G.flags.introDone)")
         intro = await pg.evaluate("!!GAME.G.flags.introDone")
         await run.shot(pg, 'new_game_dorm')
         run.check('新遊戲：宿舍開場演完、恢復控制', intro and s['zone'] == 'dorm' and not s['busy'], json.dumps(s, ensure_ascii=False))
@@ -68,7 +87,7 @@ async def main():
         # ---------- 3. 上課（BUG-15）----------
         run.setup('讀檔：第 9 天（9/25 週四）12:55，霖澤館二樓 201 門口；第一、二天主線已過')
         await L.load_state(pg, {'zone': 'linze', 'hour': 12.92, 'day': DAY1_THU, 'weekday': 4, 'weather': 'sunny', 'pos': {'x': -2.0, 'z': -6.0, 'lv': 1, 'yaw': 3.14}, 'flags': BASE_FLAGS})
-        await pg.wait_for_timeout(3500)
+        await settle(pg, cdp, run)
         for _ in range(20):
             s = await L.state(pg)
             if s['interact'].startswith('進入 201'): break
@@ -108,12 +127,16 @@ async def main():
         await L.tap(pg, cdp, '#btnLoadMenu'); await pg.wait_for_timeout(1500)
         c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#saveSlots button')].filter(x=>x.textContent==='讀取'); const e=b.find(x=>x.closest('.item')&&x.closest('.item').textContent.includes('欄位 1'))||b[1]||b[0]; if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
         if c: await L.touch_tap(cdp, c[0], c[1])
-        await pg.wait_for_timeout(6000)
-        s = await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['busy'] and not q['dlg'] and not q['choices'], pick=0, max_steps=40)
+        s = await settle(pg, cdp, run)
         after = await pg.evaluate(REC_JS)
         run.check('讀取欄位 1：天數、地點、課表紀錄一樣', after['day'] == before['day'] and after['zone'] == before['zone'] and sorted(after['done']) == sorted(before['done']) and after['attend'] == before['attend'], f'{before} → {after}')
-        moved, pushes, s2 = await L.push_until(pg, cdp, 0, -40, 0.5)
-        run.check('讀檔後搖桿走得動', moved > 0.5, f'走了 {moved:.2f} m')
+        await run.shot(pg, 'after_load')
+        best, tried = 0.0, []
+        for dx, dy in ((0, -40), (0, 40), (40, 0), (-40, 0)):   # 讀回來是在教室的座位旁：往前推會撞到前排桌子，四個方向都試（全部走不動才算卡住）
+            moved, pushes, s2 = await L.push_until(pg, cdp, dx, dy, 0.5)
+            tried.append(f'({dx},{dy}) {moved:.2f} m'); best = max(best, moved)
+            if moved > 0.5: break
+        run.check('讀檔後搖桿走得動（四個方向裡至少一個）', best > 0.5, '、'.join(tried) + '；' + json.dumps({k: s2[k] for k in ('zone', 'x', 'z', 'stand', 'busy', 'pose')}, ensure_ascii=False))
         run.check('全程沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False))
         await b.close()
     return run.finish()
