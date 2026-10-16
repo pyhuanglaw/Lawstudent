@@ -798,6 +798,16 @@ const STORY = (function(){
     if(S.isEcon(G)&&F.E35_PLAN){ const d=S.dayOfKey('2025-07-14'), K=t=>({th:'p:kexin',from:'kexin',text:t}), M={sea:['你說考完要去海邊。我查好了。','星期六，客運早上八點。西瓜我負責。……不要問為什麼。'],
         sleep:['你說考完要睡一整天。我查好了。','星期六整天下雨。很適合。……我說過，我也要睡。'],shop:['你說考完要吃第三家。我查好了。','星期六中午有開。我訂位了，兩個人。']}[F.E35_PLAN];
       if(M&&d!=null&&(G.day>d||(G.day===d&&G.hour>=20))&&G.day<=d+2&&!PHONE.sent(G,'y0_e35_after')) PHONE.at(G,d,20,M.map(K),'y0_e35_after'); }
+    /* ★E36 放榜（BB_104 8-11、8b-19；AA_154 A35、2-4b）：8/13（三）白天在臺北的家看到結果（系統旁白的字等 AA-B）；10:00 可昕私訊兩則＋出發選單「椰林大道 20:00」（從家 30 分鐘）；
+       19:45～20:30 她在椰林大道的長椅旁，走到她旁邊就演（3D）；20:30 還沒到＝帶到場（E36_FORCE：旁白一句再接原文；不做手機版；睡著＝電話叫醒 coreCallAt）。
+       演完 → 22:00 放榜的宵夜（AA_106 3b①，ev_y0_e36n）→ 23:30「走啦」群組照片（BB-B 6d59df01）*/
+    if(S.isEcon(G)){ const d36=S.dayOfKey('2025-08-13'), K=t=>({th:'p:kexin',from:'kexin',text:t}), done36=!!(G.events&&G.events.done&&G.events.done.ev_y0_e36);
+      if(d36!=null&&G.day===d36&&G.hour>=10&&!PHONE.sent(G,'y0_e36_ask')&&!done36){ F.E36_ASKED=true; PHONE.at(G,d36,10,[K('看到了。'),K('晚上八點，椰林大道。這句恭喜，我想當面說。')],'y0_e36_ask');
+        if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_e36')&&G.hour<20.5) OUT.plan(G,{id:'y0_e36',goto:{zone:'campus',x:S.E36_AT.x,z:S.E36_AT.z+3,yaw:Math.PI},early:1/12,day:d36,h:20,late:0.5,place:'椰林大道',title:'椰林大道 20:00',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}); }
+      if(d36!=null&&F.E36_ASKED&&!done36&&G.zone==='campus'&&G.day===d36&&G.hour>=19.75&&G.hour<20.5&&GM.spawnCharacter&&!(GM.npc&&GM.npc.kexin)){ try{ GM.spawnCharacter('kexin',S.E36_AT.x,S.E36_AT.z,{yaw:0}); }catch(e){ console.warn('E36 kexin',e); } }
+      if(d36!=null&&F.E36_ASKED&&!done36&&(G.day>d36||G.hour>=20.5)) F.E36_FORCE=true;
+      if(d36!=null&&G.events&&G.events.done&&G.events.done.ev_y0_e36n&&(G.day>d36||G.hour>=23.5)&&G.day<=d36+2&&!PHONE.sent(G,'y0_e36_photo')){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid; if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        PHONE.at(G,d36,23.5,[{th:T,from:'econ_pinyu',name:'品妤',text:'📷（宵夜攤，大家擠在一張桌子）'},{th:T,from:'econ_pinyu',name:'品妤',text:'放榜紀念。'},{th:T,from:'econ_weilun',name:'韋綸',text:'這張我要設成桌布。'},{th:T,from:'econ_zhengxun',name:'阿勳',text:'……我眨眼了。'}],'y0_e36_photo'); } }
     /* R 系列沒遇到的照片、私訊（BB_112 第 4 節「沒去時」；時間 LAWWW 定：當天 21:00）＋R4 可昕在總圖外台階、R7 前一晚的群組（S.kxFreeAt 那一段）*/
     if(S.isEcon(G)&&S.dayOfKey('2025-03-28')!=null){ const K=t=>({th:'p:kexin',from:'kexin',text:t}), ED=id=>!!(G.events&&G.events.done&&G.events.done[id]), past=(k,h)=>{ const d=S.dayOfKey(k); return G.day>d||(G.day===d&&G.hour>=h); }, before=(k,n)=>G.day<=S.dayOfKey(k)+(n||2);
       if(!ED('ev_y0_r5')&&past('2025-04-02',21)&&before('2025-04-02')&&!PHONE.sent(G,'y0_r5_miss')) PHONE.at(G,S.dayOfKey('2025-04-02'),21,[K('📷（牆上的倒數：100）')],'y0_r5_miss');
@@ -1710,9 +1720,11 @@ const STORY = (function(){
   S.e22bFrom=fe=>fe.h<12?13.5:fe.h+20/60;
   S.coreCallAt=function(G){ if(!S.isEcon(G)||typeof OUT==='undefined') return null; for(const id of CORE_OUT){ const q=OUT.get(G,id); if(q&&q.state!=='done'&&q.day===G.day){ const t=q.h+(q.late!=null?q.late:0.75); if(G.hour<t) return t; } }
     const d35=S.dayOfKey('2025-07-10'); if(d35!=null&&G.day===d35&&G.flags.E35_ASKED&&!G.flags.E35_DONE&&G.hour<21.5) return 21.5;   /* E35 電話版（AA_154 A41 ④）：睡著＝21:30 電話叫醒 */
+    const d36=S.dayOfKey('2025-08-13'); if(d36!=null&&G.day===d36&&G.flags.E36_ASKED&&!(G.events&&G.events.done&&G.events.done.ev_y0_e36)&&G.hour<20.5) return 20.5;   /* E36 帶到場（A35 ④）：睡著＝20:30 手機震醒 */
     return null; };
   S.R4_AT={x:78.6,z:0};   /* R4 可昕坐在總圖外的台階（E27 的總圖門口同一處）*/
-  S.E35_AT={x:-91,z:55.6};   /* E35 可昕站的地方：大一女舍門口長椅（-93,54.2）的東邊（AA_154 A41 ①：D1、D2、E13 用的同一個地方）*/
+  S.E35_AT={x:-91,z:55.6};
+  S.E36_AT={x:-23.6,z:-12};   /* E36 可昕在椰林大道的長椅（-25,-13）旁邊（BB_104 8-11「她坐在路邊的椅子上」）*/   /* E35 可昕站的地方：大一女舍門口長椅（-93,54.2）的東邊（AA_154 A41 ①：D1、D2、E13 用的同一個地方）*/
   async function sleepNow(GM,wake,alarm){ const G=GM.G, F=G.flags, E=GM.E;
     { const e24=S.isEcon(G)&&typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id==='ev_y0_e24c'):null, d=S.dayOfKey('2025-03-13');   /* E24c 的邊界情況（AA_169）：3/13 晚上 22:00 以前先睡＝睡前先演 */
       if(e24&&d!=null&&G.day===d&&G.hour<22&&G.hour>=17&&!(G.events&&G.events.done&&G.events.done.ev_y0_e24c)&&typeof EVENTS!=='undefined'){ await EVENTS.run(e24); } }

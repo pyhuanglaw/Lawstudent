@@ -1734,6 +1734,36 @@ const STORY_EVENTS=[
       { id:'ev_y0_e35h', stage:'econ', title:'考試的前一晚', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark',
         prereq:{custom:G=>{ const F=G.flags; return !!(F.E35_ASKED&&F.E35_PHONE&&!F.E35_DONE); }},
         dialogue:lines } ]; })(),
+  /* ★E36 放榜：晚上的椰林大道（BB_104 8-11、8b-19；AA_154 A35）：8-11 可昕的台詞（E25_ANSWER only_me 多兩句，8-8 的表）→ E36_REPLY（climb／compete／silent）→ 椰林大道的路燈 → E36_PACT（weekly／later／ask；
+     BB-B 754e7136／ec47463b，第②級等 AA-B 確認）。ev_y0_e36＝在外面（走到她旁邊，或 20:30 以後帶到場）；ev_y0_e36h＝帶到場時人在臺北的家。演完接 22:00 放榜的宵夜（ev_y0_e36n，AA_106 3b①）*/
+  ...(()=>{ const D=()=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-08-13'):null, atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
+    const lines=[ {if:{flags:['E36_FORCE']},speaker:null,text:'（你到椰林大道的時候，她坐在路邊的椅子上，手機螢幕還亮著榜單。）'},{scene:'台大・椰林大道'},
+      {speaker:'kexin',text:'台大法律。恭喜你。真的。'},{speaker:'kexin',text:'我是政大法律。'},{speaker:'kexin',text:'……我有一點點不甘心。一點點。不是因為你，是想跟自己比。'},
+      {if:{flagIs:{E25_ANSWER:'only_me'}},speaker:'kexin',text:'你那天說，你以為只有你。……我現在懂那個感覺了。'},{if:{flagIs:{E25_ANSWER:'only_me'}},speaker:'player',text:'不是只有妳。'},
+      {speaker:'kexin',text:'好，消化完了。'},{speaker:'kexin',text:'政大的山比較多。四年後，我會比你強壯。'},
+      {choice:[{text:'「政大的山，我陪妳爬。」',set:{E36_REPLY:'climb'},goto:'a'},{text:'「四年後比比看。」',set:{E36_REPLY:'compete'},goto:'b'},{text:'（什麼都不說，陪她走）',set:{E36_REPLY:'silent'},goto:'c'}]},
+      {label:'a'},{speaker:'kexin',text:'你是台大的。……好。週末的話可以。'},{goto:'p'},
+      {label:'b'},{speaker:'kexin',text:'好。輸的人，請一年的宵夜。'},{goto:'p'},
+      {label:'c'},{speaker:'kexin',text:'……你這樣很犯規。'},{speaker:null,text:'她走慢了一點。'},
+      {label:'p'},{speaker:null,text:'（椰林大道的路燈一盞一盞亮著。你們走得很慢。）'},{speaker:'kexin',text:'九月以後，就不是走路就到了。'},
+      {choice:[{text:'「每週一天。我們說好。」',set:{E36_PACT:'weekly'},goto:'w'},{text:'「到時候再說。」',set:{E36_PACT:'later'},goto:'l'},{text:'「妳想怎麼做？」',set:{E36_PACT:'ask'},goto:'q'}]},
+      {label:'w'},{speaker:'kexin',text:'……好。每週一天。'},{speaker:'kexin',text:'是哪一天，等我們都摸熟自己的課表再說。不准忘記。'},{goto:'e'},
+      {label:'l'},{speaker:'kexin',text:'好。到時候再說。'},{speaker:null,text:'（她笑了一下，可是沒有看你。）'},{speaker:'kexin',text:'……你說的喔。'},{goto:'e'},
+      {label:'q'},{speaker:null,text:'（她想了很久。）'},{speaker:'kexin',text:'我想每次見面，都不是因為剛好。'},{speaker:'kexin',text:'……這題，我們一起想。'},
+      {label:'e'},{speaker:'kexin',text:'走吧。趁我們還在同一個學校。'} ];
+    const after=(G,GM)=>{ if(G.hour<22) GM.advance(22-G.hour); };   /* 接 22:00 放榜的宵夜（A21 的順序）*/
+    return [
+      { id:'ev_y0_e36', stage:'econ', title:'放榜', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'blur', next_event:'ev_y0_e36n', after,
+        prereq:{custom:G=>{ const F=G.flags; if(!F.E36_ASKED||atHome(G)) return false; if(F.E36_FORCE) return true; if(G.day!==D()||G.zone!=='campus'||G.hour<19.75||G.hour>=20.5) return false;
+          const P=typeof GAME!=='undefined'&&GAME.E&&GAME.E.player&&GAME.E.player.obj, A=STORY.E36_AT; if(!P) return true; const dx=P.position.x-A.x, dz=P.position.z-A.z; return dx*dx+dz*dz<=25; }},
+        dialogue:lines },
+      { id:'ev_y0_e36h', stage:'econ', title:'放榜', participants:['kexin'], location:'any', trigger:'home', once:true, background:'blur', next_event:'ev_y0_e36n', after,
+        prereq:{custom:G=>!!(G.flags.E36_ASKED&&G.flags.E36_FORCE&&!(G.events.done&&G.events.done.ev_y0_e36))}, dialogue:lines },
+      { id:'ev_y0_e36n', stage:'econ', title:'放榜的宵夜', participants:['econ_zhengxun','econ_pinyu'], location:'any', trigger:'chain', once:true, background:'dark',
+        prereq:{custom:G=>!!(G.events.done&&(G.events.done.ev_y0_e36||G.events.done.ev_y0_e36h))},
+        dialogue:[ {scene:'公館・宵夜攤',bg:'gongguan_luwei'},{speaker:null,text:'八月放榜那晚，公館的宵夜攤坐滿了經濟系的人。'},{speaker:'econ_zhengxun',text:'所以你們兩個，一個台大法律，一個政大法律。'},
+          {speaker:'econ_pinyu',text:'經濟學上，這叫雙贏。'},{speaker:'韋綸',text:'妳上學期才說，經濟學不談輸贏。'},{speaker:'kexin',text:'今天談。'},{speaker:null,text:'你們一直吃到攤子收攤。'} ],
+        after:(G,GM)=>{ if(G.hour<23.5) GM.advance(23.5-G.hour); } } ]; })(),
   /* E35 考完以後：7/19（六）摘要日（AA_154 A47；旁白 AA 寫）：E35_PLAN 有值才演；字卡「7/19（六）」＋一句旁白，接她考前一晚的回應；那一天用摘要帶過（演完到 20:00）。
      ev_y0_e35s＝人不在家；ev_y0_e35sh＝在臺北的家（home3d.js 選單那一輪）*/
   ...(()=>{ const due=G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-07-19'):null; return d!=null&&G.day===d&&!!G.flags.E35_PLAN&&!G.flags.E35_SUM; };
