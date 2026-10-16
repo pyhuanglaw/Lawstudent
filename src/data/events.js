@@ -1532,6 +1532,15 @@ const STORY_EVENTS=[
       {speaker:null,text:'（台上在講一個案子。前排一個綁低馬尾的女生舉手，說了一段話，大家都在抄。）'},
       {speaker:null,text:'（下課鐘響。你是第一個走的。沒有人認識你。）'},{speaker:null,text:'（走出穿堂時，你回頭看了一眼。）'} ],
     after:async(G,GM)=>{ if(G.hour<12+10/60) GM.advance(12+10/60-G.hour); if(GM.enter) await GM.enter('campus',{x:30.0,z:-107.4,yaw:Math.PI/2}); } },
+  /* ★E24c 決定（BB_104 3-3 第 180 行、5-1；AA_154 第 227 行）：3/13（四）22:00 宿舍頂樓，祐廷一個人做的決定，阿勳在旁邊。玩家選重考的理由（AA_12 0-2 的三種說法）記 E24C_REASON
+     （understand／should／later；法律系時期朋友問「你為什麼重考？」預設同一句）。阿勳那句：有 XUN_KNEW（A2）換成「你確定了？……我早就看到那本書了。……」。
+     核心：3/13 22:00 起、到 3/18 為止的晚上（20:00～02:00）一定會演（那晚早睡的話，隔天晚上演）*/
+  { id:'ev_y0_e24c', stage:'econ', title:'決定', participants:['econ_zhengxun'], location:'any', trigger:'auto', term:['Y0S2'], once:true, background:'dark',
+    prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-03-13'):null; if(d==null) return false; const h=G.hour; return (G.day===d&&h>=22)||(G.day>d&&G.day<=d+5&&(h>=20||h<2)); }},
+    dialogue:[ {scene:'宿舍頂樓',bg:'dorm_roof'},
+      {choice:[{text:'「經濟很有趣。可是我一直想回來弄懂小時候看不懂的東西。」',set:{E24C_REASON:'understand'}},{text:'「經濟在問『會怎麼樣』，我比較想知道『應該怎麼樣』。」',set:{E24C_REASON:'should'}},{text:'「說來話長。……下次跟你說。」',set:{E24C_REASON:'later'}}]},
+      {unless:{flags:['XUN_KNEW']},speaker:'econ_zhengxun',text:'你確定？……好。你確定的樣子比較好看。'},
+      {if:{flags:['XUN_KNEW']},speaker:'econ_zhengxun',text:'你確定了？……我早就看到那本書了。好。你確定的樣子比較好看。'} ] },
   /* XL-2 阿勳一句（表叔；BB_110 F1 的回聲，AA_154 A28、A43）：Y0S2 第 1 週第一次在宿舍遇到阿勳（和 XL-1 同一套），F1 選了「轉給表叔」（Y0_UNCLE）才說 */
   { id:'ev_y0_xl2', stage:'econ', title:'表叔的變異數', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S2'], weeks:[1], time:[18,24], once:true, background:'blur',
     prereq:{custom:G=>!!(G.flags&&G.flags.Y0_UNCLE)},
