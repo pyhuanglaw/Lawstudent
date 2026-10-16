@@ -11958,6 +11958,27 @@
    },
    "source": "BB-B d8857e69（AA-B 互審通過）",
    "authorized": "AA_197（使用者 21:08）"
+  },
+  {
+   "id": "V1-BB168",
+   "title": "大一上 BB 人物改稿整合（BB_168 開局第一二週、BB_169 階梯／rel_lines 口語、新條件類型 attended／activityToday／attendedToday／onShift、K-D2 隔天課表、bikeSeat onFirst／offFirst、K-L5 排約）",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "已實作待整合",
+   "priority": "P1",
+   "next": "先加條件類型（AA_200 2-1）→ 同步 ladder_bb.json／rel_lines → BB_168 各節（8/30 家族群組、9/2 茶會、talkSis 20:30 備用、明軒、可昕 8/31）→ 測試",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "8/29～9/5",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B a4ccf909（AA-B 互審通過）；AA_200",
+   "authorized": "AA_193、AA_197（使用者）、D86"
   }
  ]
 }
