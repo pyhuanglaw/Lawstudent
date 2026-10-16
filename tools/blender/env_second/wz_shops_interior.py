@@ -378,7 +378,7 @@ def note_uv(cell):
 def build_teahouse():
     M.update({'planks': L.pbr(P + 'planks', 'dark_planks', tile=1.6, target='#6e4e34', normal=0.5, maps=('diff', 'nor'), rough_value=0.5),
               'tatami': img_mat(P + 'tatami', 'tatami_weave.png', rough=0.85), 'heri': L.flat(P + 'heri', '#24302a', rough=0.8),
-              'plaster': L.pbr(P + 'jurakukabe', 'white_plaster_02', tile=1.5, target='#d9c9a6', normal=0.5, maps=('diff', 'nor'), res=256, rough_value=0.95),
+              'plaster': L.pbr(P + 'jurakukabe', 'white_plaster_02', tile=1.0, target='#d9c9a6', contrast=0.4, normal=0.5, maps=('diff', 'nor'), res=256, rough_value=0.95),   # contrast 0.4：照片的大塊污漬在遊戲裡像髒牆，聚樂壁是細砂的乾淨土牆
               'post': L.pbr(P + 'post', 'dark_wood', tile=0.8, target='#4a3222', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.55),
               'ceil': L.pbr(P + 'ceiling_boards', 'walnut_veneer', tile=1.2, target='#a4855e', maps=('diff',), res=256, rough_value=0.7, cull=True),
               'batten': L.flat(P + 'ceiling_batten', '#4a3424', rough=0.6, cull=True),
