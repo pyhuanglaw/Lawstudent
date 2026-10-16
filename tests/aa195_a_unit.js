@@ -22,4 +22,11 @@ check('A6 campusMorning：主線第 2 天 12:30 以後才演',/S\.mainDay\(G\)==
 check('A7 小語溫州街的作息要 afternoonDone',/hr>=19&&hr<21\.5&&F\.afternoonDone\)\{ GM\.spawnNPC\('yu'/.test(st));
 check('A8 一般同學隨機句「周老師點過的那個」只在 afternoonDone 以後',/if\(F0\.afternoonDone\) L\.push\('「欸，你是周老師點過的那個。」'\)/.test(st)&&!/'「欸，你是周老師點過的那個。」'\]\[\(Math\.random\(\)\*3\)\|0\]/.test(st));
 { const e=ev('ev_xinci_notes'); check('A9 芯慈借筆記：第 7 週起',e&&e.minWeek&&e.minWeek.term==='Y1S1'&&e.minWeek.week===7); }
+check('A10 新局的錢 7,000（帳戶約 5,000＋錢包約 2,000）、allowanceMonth＝8（9/1 照常匯）；經濟系轉過來的不動',/F\.allowanceMonth=S\.dateOf\(d\)\.m; F\.LAW_RECAP_SEEN=true; if\(!o\.econ\) G\.money=7000;/.test(st)&&STORY.dateOf(D('2025-08-29')).m===8);
+{ const civ=COURSES.list?COURSES.list.find(c=>c.id==='civ_general'):null; const all=(COURSES.list||COURSES.courses||[]); const c1=all.find(c=>c.id==='civ_general'), e1=all.find(c=>c.id==='econ_principles_1');
+  check('A11 民總「網拍相機」、重修經原「第一次走進這門課」的 specials 搬到第 1 週',c1&&e1&&c1.specials.some(q=>q.w===1&&q.title==='網拍相機')&&!c1.specials.some(q=>q.w===3)&&e1.specials.some(q=>q.w===1&&q.title==='第一次走進這門課')); }
+{ const a=ACTIVITIES.list.find(x=>x.id==='lib_tour_y1s1'); const Gw1={day:1,flags:{LAW_START_DAY:-18,MAIN_D1:-13}}, Gold={day:1,flags:{}};
+  const on=(G,k)=>ACTIVITIES.on(a,D(k),G);
+  check('A12 總圖新生導覽：開學改 9/1 的局在第 2 週（9/8、9/10、9/12、9/16），9/19 以後沒有',on(Gw1,'2025-09-08')&&on(Gw1,'2025-09-10')&&on(Gw1,'2025-09-12')&&on(Gw1,'2025-09-16')&&!on(Gw1,'2025-09-19'));
+  check('A12 舊局照舊 9/19、9/23、9/25、9/26（舊存檔不會因為提早而錯過）',on(Gold,'2025-09-19')&&on(Gold,'2025-09-26')&&!on(Gold,'2025-09-08')); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

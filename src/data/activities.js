@@ -14,7 +14,7 @@ const ACTIVITIES={
      人物事件（6-8 (a)）：同一場社課只播一個——吉他社：還沒認識子晴的第一次社課自動播 ev_ziqing_club 的初遇；法服：第一次播 ev_studygroup_wed 整段，之後旁白＋題庫（classes3d.js 的 clubEvent）。
      clubs：博覽會的五個社團（選了就加入：CLUB_<id>）；clubName：攤位上的社團名稱。 */
   list:[
-    {id:'lib_tour_y1s1',title:'總圖新生導覽',kind:'tour',zone:'library_hall',roomName:'總圖大廳',spot:{x:-3.0,z:2.8,lv:0,label:'新生導覽集合點'},dates:['2025-09-19','2025-09-23','2025-09-25','2025-09-26'],t0:15.5,t1:16+20/60,once:true,
+    {id:'lib_tour_y1s1',title:'總圖新生導覽',kind:'tour',zone:'library_hall',roomName:'總圖大廳',spot:{x:-3.0,z:2.8,lv:0,label:'新生導覽集合點'},dates:['2025-09-19','2025-09-23','2025-09-25','2025-09-26'],datesW1:['2025-09-08','2025-09-10','2025-09-12','2025-09-16'],t0:15.5,t1:16+20/60,once:true,
      desc:'館員帶看閱覽室、借還書、自習座位。去一次就好。',story:false},
     {id:'lawlib_intro_y1s1',title:'法律資料怎麼查',kind:'lecture',zone:'lawlib',room:'discA',roomName:'法律學院圖書館 討論室 A',dates:['2025-09-24','2025-10-01'],t0:15.5,t1:16.5,once:true,
      desc:'法規要查最新版、判決怎麼找、指定參考書放哪裡（只講方法）。',story:false},
@@ -78,21 +78,22 @@ const ACTIVITIES={
   /* once 的活動：任何一場聽過（或中途離開）就算去過了 */
   onceDone(G,a){ return !!(a&&a.once&&ACTIVITIES.stateOf(G,a.id)); },
   /* 這個區域今天有集合點的活動 */
-  spotsIn(G,zone){ return ACTIVITIES.list.filter(a=>a.spot&&a.zone===zone&&ACTIVITIES.on(a,G.day)); },
+  spotsIn(G,zone){ return ACTIVITIES.list.filter(a=>a.spot&&a.zone===zone&&ACTIVITIES.on(a,G.day,G)); },
   /* 現在可以參加（開始前 15 分鐘起、過了一半以前；今天這一場聽過的、once 已經去過的不列）*/
-  canJoin(G,a){ const h=G.hour%24; return !!a&&ACTIVITIES.on(a,G.day)&&h>=a.t0-0.25&&h<(a.t0+a.t1)/2&&!ACTIVITIES.attended(G,a.id,G.day)&&!ACTIVITIES.onceDone(G,a); },
+  canJoin(G,a){ const h=G.hour%24; return !!a&&ACTIVITIES.on(a,G.day,G)&&h>=a.t0-0.25&&h<(a.t0+a.t1)/2&&!ACTIVITIES.attended(G,a.id,G.day)&&!ACTIVITIES.onceDone(G,a); },
   /* 第 day 天有沒有這個活動（學期、週次或日期、星期都對得上）*/
-  on(a,day){ if(typeof CALENDAR==='undefined') return false; const d=CALENDAR.dateOf(day);
-    if(a.dates) return a.dates.includes(d.key);
+  on(a,day,G){ if(typeof CALENDAR==='undefined') return false; const d=CALENDAR.dateOf(day);
+    const ds=a.datesW1&&G&&typeof STORY!=='undefined'&&STORY.week1Start&&STORY.week1Start(G)?a.datesW1:a.dates;   /* datesW1：開學改 9/1 的局（START-WEEK 選 1）用另一組日期；舊局照 dates（AA_195 4-7 A12）*/
+    if(ds) return ds.includes(d.key);
     if(CALENDAR.holiday(day)&&!a.holidays) return false;   /* 照學期、週次、星期排的活動：放假那天不辦（2026-10-13 審查；真的要在假日辦的寫 holidays:true 或用 dates）*/
     if(a.weekday&&d.wd!==a.weekday) return false; if(a.weekdays&&!a.weekdays.includes(d.wd)) return false; const t=CALENDAR.termOf(day); if(a.term&&(!t||!a.term.includes(t.id))) return false; const wks=(a.termWeeks&&t&&a.termWeeks[t.id])||a.weeks; if(wks&&(!t||!wks.includes(t.week))) return false; return !!(a.term||a.weeks||a.weekday||a.weekdays); },   /* termWeeks：不同學期的週次不一樣（法服讀書會大一下第 2 週起）*/
   /* 活動的時段（AA_110 第 5 節）：'before'（今天還沒開始）／'during'（進行中）／'justEnded'（結束後 20 分鐘內：「散場後的走廊」）／'after'（更晚）；今天沒有這個活動＝null */
-  phaseOf(G,id){ const a=ACTIVITIES.list.find(q=>q.id===id); if(!a||!ACTIVITIES.on(a,G.day)) return null; const h=G.hour%24; return h<a.t0?'before':(h<a.t1?'during':(h<a.t1+1/3?'justEnded':'after')); },
+  phaseOf(G,id){ const a=ACTIVITIES.list.find(q=>q.id===id); if(!a||!ACTIVITIES.on(a,G.day,G)) return null; const h=G.hour%24; return h<a.t0?'before':(h<a.t1?'during':(h<a.t1+1/3?'justEnded':'after')); },
   /* 現在進行中（before：開始前幾小時也算，給人流用）；justEnded：**只算結束後 20 分鐘內**（2026-10-13 ChatGPT 審查：原本從開始一直算到結束後 20 分鐘，演講進行中也會觸發「散場後」的事件）*/
-  active(G,opt){ opt=opt||{}; const h=G.hour%24; return ACTIVITIES.list.filter(a=>ACTIVITIES.on(a,G.day)&&(opt.justEnded?(h>=a.t1&&h<a.t1+1/3):(h>=a.t0-(opt.before||0)&&h<a.t1))); },
+  active(G,opt){ opt=opt||{}; const h=G.hour%24; return ACTIVITIES.list.filter(a=>ACTIVITIES.on(a,G.day,G)&&(opt.justEnded?(h>=a.t1&&h<a.t1+1/3):(h>=a.t0-(opt.before||0)&&h<a.t1))); },
   isActive(G,id,opt){ return ACTIVITIES.active(G,opt).some(a=>a.id===id); },
   /* 公告欄、手機：今天起 n 天內的活動（照海報貼出的天數）*/
-  upcoming(G,n){ const out=[]; for(let k=0;k<(n||7);k++){ for(const a of ACTIVITIES.list){ if(!ACTIVITIES.on(a,G.day+k)||ACTIVITIES.onceDone(G,a)) continue; const pd=(a.poster&&a.poster.daysBefore!=null)?a.poster.daysBefore:3; if(k>pd) continue; if(k===0&&G.hour%24>=a.t1) continue; out.push({a,k}); } } return out; },
+  upcoming(G,n){ const out=[]; for(let k=0;k<(n||7);k++){ for(const a of ACTIVITIES.list){ if(!ACTIVITIES.on(a,G.day+k,G)||ACTIVITIES.onceDone(G,a)) continue; const pd=(a.poster&&a.poster.daysBefore!=null)?a.poster.daysBefore:3; if(k>pd) continue; if(k===0&&G.hour%24>=a.t1) continue; out.push({a,k}); } } return out; },
   hhmm(h){ const m=Math.round(h*60); return String(Math.floor(m/60)%24).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); },
   /* 到場紀錄（AA_107 第 10-1 節第 5 項：沒去演講，就不能觸發聽完才合理的後續）：G.acts.att['活動id@第幾天']={h:坐下來聽的時間}。
      玩家坐在活動的那一間、選「聽演講」才算到場（src/classes3d.js 的 attendActivity）；只是路過、站在門口不算。
@@ -116,7 +117,7 @@ const ACTIVITIES={
      時間用 G.hour（過了午夜是 24 以上：不會和隔天早上的活動搞混）*/
   track(G,zone,room,seated,hPrev){ if(!ACTIVITIES.list.length) return; const h=G.hour; let A=null;
     for(const a of ACTIVITIES.list){ if(!a.zone||!a.room) continue; const k=a.id+'@'+G.day, r=G.acts&&G.acts.att&&G.acts.att[k];
-      if(r?r.end!=='in':!(seated&&h>=a.t0&&zone===a.zone&&room===a.room)) continue; if(!ACTIVITIES.on(a,G.day)) continue; const inRoom=zone===a.zone&&room===a.room;
+      if(r?r.end!=='in':!(seated&&h>=a.t0&&zone===a.zone&&room===a.room)) continue; if(!ACTIVITIES.on(a,G.day,G)) continue; const inRoom=zone===a.zone&&room===a.room;
       if(!r){ const s=Math.max(hPrev!=null?Math.min(hPrev,h):h,a.t0); if(s<(a.t0+a.t1)/2){ A=A||ACTIVITIES.rec(G).att; A[k]={h:+s.toFixed(2),end:h>=a.t1?'full':'in'}; } continue; }
       if(!inRoom){ r.end='left'; r.lh=+Math.min(h,a.t1).toFixed(2); } else if(h>=a.t1) r.end='full'; } },
   /* 快速前往（被帶到別的地方）：今天還在聽的那一場＝中途離開。在時間跳動以前呼叫（src/game3d.js 的 quickGo）*/
@@ -125,7 +126,7 @@ const ACTIVITIES={
   lastAttendedDay(G,id,any){ const A=(G.acts&&G.acts.att)||{}, p=id+'@'; let best=null; for(const k in A){ if(!k.startsWith(p)) continue; const r=A[k]; if(!r) continue; const full=(r.end||'full')==='full'; if(!full&&!any) continue; const d=+k.slice(p.length); if(best===null||d>best) best=d; } return best; },
   /* 最近一場已經結束的是第幾天（今天的已經結束也算）；還沒辦過就 null。往回找到第 1 天（四年約 1500 天；每個活動記住上一次的答案）*/
   lastEnded(G,id){ const a=ACTIVITIES.list.find(q=>q.id===id); if(!a) return null; const h=G.hour%24, k=G.day+'|'+(h>=a.t1?1:0); if(a._last&&a._last.k===k) return a._last.v;
-    let v=null; for(let d=G.day; d>=1; d--){ if(d===G.day&&h<a.t1) continue; if(ACTIVITIES.on(a,d)){ v=d; break; } } a._last={k,v}; return v; },
+    let v=null; for(let d=G.day; d>=-420; d--){ if(d===G.day&&h<a.t1) continue; if(ACTIVITIES.on(a,d,G)){ v=d; break; } }   /* 第 1 天以前也找（開學改 9/1、經濟系那一年）*/ a._last={k,v}; return v; },
   missed(G,id){ const d=ACTIVITIES.lastEnded(G,id); return d!=null&&!ACTIVITIES.attendedAny(G,id,d); },   /* 中途離開不算沒去 */
   /* 坐在這一間的位子上，現在可以聽的活動：開始前 15 分鐘起、過了一半以前（之後進去不算聽過）；今天這一場已經聽過的不再列 */
   atSeat(G,zone,room){ if(!room) return null; return ACTIVITIES.list.find(a=>a.zone===zone&&a.room===room&&ACTIVITIES.canJoin(G,a))||null; },
