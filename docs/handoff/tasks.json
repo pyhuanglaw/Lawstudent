@@ -12253,6 +12253,57 @@
    },
    "source": "使用者 2026-10-16 22:1x 試玩截圖（總圖二樓座位：讀書「這個下午已經排滿了（2／2）」）：「下午還剩0次 就應該跳晚上」",
    "authorized": "使用者"
+  },
+  {
+   "id": "BUG-FRIENDS-KEXIN",
+   "title": "手機朋友清單沒有可昕（遠距女友沒有 FIRST_MET 紀錄）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "next": "knownIds 加：有聯絡方式的人、交往中的可昕；tests/friends_list_unit.js 通過；等瀏覽器開手機看一次",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一天打開手機",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 22:1x「朋友清單沒有沈以昕」（判斷是杜可昕；若是沈以安另查）",
+   "authorized": "使用者（bug 回報）"
+  },
+  {
+   "id": "SYS-PHONE-CHAT",
+   "title": "玩家主動傳訊息給朋友（選題目、各人各階段回覆、回覆時間）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "等待其他AI",
+   "priority": "P1",
+   "next": "等 AA-B 規格（形式、題目、每天幾次、各人各關係階段的回覆原文、和階梯聊天／可昕遠距線的關係）；到了接成對話串的「傳訊息」按鈕",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "有聯絡方式的第一天",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 22:1x「還是沒有跟朋友傳訊息的功能？」",
+   "authorized": "使用者提出；內容待 AA-B（D79、D86）",
+   "pausedReason": "台詞與規則要 AA-B／BB-B 定",
+   "resumeWhen": "AA-B 交規格",
+   "xai": {
+    "spec": "待 AA-B",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "可以從朋友清單／對話串主動傳訊息、對方照規格回",
+    "receiver": "AA-B",
+    "ack": "SENT"
+   }
   }
  ]
 }
