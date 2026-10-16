@@ -12414,6 +12414,27 @@
    },
    "source": "使用者 2026-10-16 22:2x",
    "authorized": "使用者（bug 回報）"
+  },
+  {
+   "id": "BUG-IOS-RELOAD",
+   "title": "iPhone 被踢回標題（Safari 記憶體不足重新載入分頁）：去政大找可昕、政大劇情吃飯時；自動存檔在出發前，要一直重來",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "next": "①止血（已做）：出遊出發前、到了各自動存檔一次，演完才標 done（outings3d.js；v0_c1_unit 第 5 項）——被踢回標題讀檔就從到了那裡重新演 ②根治：量各區域的貼圖記憶體（renderer.info、貼圖尺寸總和）、VRM 人物貼圖、ADV 立繪快取（adv3d.js loadImage 永久快取）、出遊時 3D 場景照樣在背景；手機把超過 1024 的貼圖縮小、ADV 快取改有上限、出遊（全畫面 2D）時暫停 3D ③和 BUG-MAPBLACK（WebGL context lost）同一個根源，一起驗",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去政大找可昕",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-16 22:3x（「去找可昕就會跳到標題…自動存檔是還沒去政大之前我要一直重來」）",
+   "authorized": "使用者（P0 bug）"
   }
  ]
 }
