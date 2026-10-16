@@ -1,0 +1,662 @@
+{
+ "classmate_peishan": {
+  "source": "docs/story_planning/date_system/art/classmate_peishan_date_casual.webp",
+  "H1": {
+   "w": 380,
+   "hpx": 1027,
+   "footX": 210,
+   "footY": 1025,
+   "h": 980,
+   "crop": [
+    0,
+    0,
+    378,
+    1000
+   ]
+  },
+  "H3": {
+   "w": 281,
+   "hpx": 924,
+   "footX": 152,
+   "footY": 895,
+   "h": 855,
+   "rail": false,
+   "note": "回頭的背影，不是扶欄杆（疊欄杆時改用 H1）",
+   "crop": [
+    372,
+    0,
+    655,
+    1000
+   ]
+  },
+  "H4": {
+   "w": 380,
+   "hpx": 845,
+   "footX": 302,
+   "footY": 844,
+   "h": 808,
+   "seatY": 540,
+   "crop": [
+    628,
+    170,
+    1000,
+    1000
+   ],
+   "seatY_auto": 536,
+   "seatY_note": "目視校正 ±20 px"
+  },
+  "head_neutral": {
+   "w": 247,
+   "hpx": 391,
+   "crop": [
+    1008,
+    92,
+    1256,
+    476
+   ]
+  },
+  "head_smile": {
+   "w": 254,
+   "hpx": 388,
+   "crop": [
+    1258,
+    92,
+    1512,
+    476
+   ]
+  },
+  "head_thinking": {
+   "w": 257,
+   "hpx": 395,
+   "crop": [
+    1008,
+    478,
+    1256,
+    866
+   ]
+  },
+  "head_embarrassed": {
+   "w": 258,
+   "hpx": 396,
+   "crop": [
+    1258,
+    478,
+    1512,
+    866
+   ]
+  }
+ },
+ "heroine_01": {
+  "source": "docs/story_planning/date_system/art/heroine_01_date_knit.webp",
+  "H1": {
+   "w": 382,
+   "hpx": 1030,
+   "footX": 142,
+   "footY": 1026,
+   "h": 980,
+   "crop": [
+    0,
+    0,
+    378,
+    1000
+   ]
+  },
+  "H3": {
+   "w": 297,
+   "hpx": 996,
+   "footX": 132,
+   "footY": 992,
+   "h": 948,
+   "handY": 422,
+   "rail": true,
+   "note": "手掌在腰兩側：只疊矮牆或比較低的欄杆",
+   "crop": [
+    366,
+    0,
+    662,
+    1000
+   ]
+  },
+  "H4": {
+   "w": 350,
+   "hpx": 879,
+   "footX": 237,
+   "footY": 876,
+   "h": 838,
+   "seatY": 565,
+   "crop": [
+    646,
+    140,
+    1000,
+    1000
+   ],
+   "seatY_auto": 557,
+   "seatY_note": "目視校正 ±20 px"
+  },
+  "head_neutral": {
+   "w": 244,
+   "hpx": 353,
+   "crop": [
+    1008,
+    158,
+    1256,
+    497
+   ]
+  },
+  "head_smile": {
+   "w": 280,
+   "hpx": 351,
+   "crop": [
+    1258,
+    158,
+    1532,
+    497
+   ]
+  },
+  "head_thinking": {
+   "w": 244,
+   "hpx": 390,
+   "crop": [
+    1008,
+    527,
+    1256,
+    902
+   ]
+  },
+  "head_embarrassed": {
+   "w": 260,
+   "hpx": 391,
+   "crop": [
+    1258,
+    527,
+    1532,
+    902
+   ]
+  }
+ },
+ "heroine_02": {
+  "source": "docs/story_planning/date_system/art/heroine_02_date_warm.webp",
+  "H1": {
+   "w": 340,
+   "hpx": 1026,
+   "footX": 165,
+   "footY": 1021,
+   "h": 977,
+   "crop": [
+    0,
+    0,
+    352,
+    1000
+   ]
+  },
+  "H3": {
+   "w": 389,
+   "hpx": 1009,
+   "footX": 157,
+   "footY": 1006,
+   "h": 963,
+   "handY": 481,
+   "rail": true,
+   "crop": [
+    300,
+    0,
+    770,
+    1000
+   ]
+  },
+  "H4": {
+   "w": 381,
+   "hpx": 879,
+   "footX": 101,
+   "footY": 875,
+   "h": 837,
+   "seatY": 565,
+   "crop": [
+    595,
+    110,
+    1122,
+    1000
+   ],
+   "seatY_auto": 556,
+   "seatY_note": "目視校正 ±20 px"
+  },
+  "head_neutral": {
+   "w": 289,
+   "hpx": 402,
+   "crop": [
+    0,
+    998,
+    279,
+    1388
+   ]
+  },
+  "head_smile": {
+   "w": 289,
+   "hpx": 401,
+   "crop": [
+    279,
+    998,
+    556,
+    1388
+   ]
+  },
+  "head_thinking": {
+   "w": 298,
+   "hpx": 397,
+   "crop": [
+    556,
+    998,
+    846,
+    1388
+   ]
+  },
+  "head_embarrassed": {
+   "w": 288,
+   "hpx": 403,
+   "crop": [
+    846,
+    998,
+    1122,
+    1388
+   ]
+  }
+ },
+ "heroine_03": {
+  "source": "docs/story_planning/date_system/art/heroine_03_date_tee.webp",
+  "H1": {
+   "w": 322,
+   "hpx": 803,
+   "footX": 212,
+   "footY": 802,
+   "h": 767,
+   "crop": [
+    100,
+    0,
+    450,
+    780
+   ]
+  },
+  "H3": {
+   "w": 359,
+   "hpx": 803,
+   "footX": 160,
+   "footY": 800,
+   "h": 765,
+   "handY": 366,
+   "rail": true,
+   "note": "手掌在腰兩側：只疊矮牆或比較低的欄杆",
+   "crop": [
+    470,
+    0,
+    840,
+    780
+   ]
+  },
+  "H4": {
+   "w": 331,
+   "hpx": 689,
+   "footX": 256,
+   "footY": 688,
+   "h": 658,
+   "seatY": 395,
+   "crop": [
+    880,
+    100,
+    1240,
+    780
+   ],
+   "seatY_auto": 409,
+   "seatY_note": "目視校正 ±20 px"
+  },
+  "head_neutral": {
+   "w": 317,
+   "hpx": 398,
+   "crop": [
+    16,
+    786,
+    324,
+    1172
+   ]
+  },
+  "head_smile": {
+   "w": 317,
+   "hpx": 400,
+   "crop": [
+    336,
+    786,
+    644,
+    1172
+   ]
+  },
+  "head_thinking": {
+   "w": 312,
+   "hpx": 399,
+   "crop": [
+    652,
+    786,
+    962,
+    1172
+   ]
+  },
+  "head_embarrassed": {
+   "w": 325,
+   "hpx": 386,
+   "crop": [
+    972,
+    786,
+    1296,
+    1172
+   ]
+  }
+ },
+ "heroine_04": {
+  "source": "docs/story_planning/date_system/art/heroine_04_date_hoodie.webp",
+  "H1": {
+   "w": 309,
+   "hpx": 1036,
+   "footX": 178,
+   "footY": 1034,
+   "h": 990,
+   "crop": [
+    0,
+    0,
+    335,
+    1000
+   ]
+  },
+  "H3": {
+   "w": 390,
+   "hpx": 1023,
+   "footX": 180,
+   "footY": 1019,
+   "h": 975,
+   "handY": 484,
+   "rail": true,
+   "note": "手掌在腰兩側：只疊矮牆或比較低的欄杆",
+   "crop": [
+    290,
+    0,
+    752,
+    1000
+   ]
+  },
+  "H4": {
+   "w": 308,
+   "hpx": 896,
+   "footX": 161,
+   "footY": 892,
+   "h": 852,
+   "seatY": 520,
+   "crop": [
+    590,
+    100,
+    1122,
+    1000
+   ],
+   "seatY_auto": 568,
+   "seatY_note": "目視校正 ±20 px"
+  },
+  "head_neutral": {
+   "w": 286,
+   "hpx": 399,
+   "crop": [
+    0,
+    998,
+    277,
+    1388
+   ]
+  },
+  "head_smile": {
+   "w": 286,
+   "hpx": 400,
+   "crop": [
+    277,
+    998,
+    552,
+    1388
+   ]
+  },
+  "head_thinking": {
+   "w": 303,
+   "hpx": 402,
+   "crop": [
+    552,
+    998,
+    846,
+    1388
+   ]
+  },
+  "head_embarrassed": {
+   "w": 285,
+   "hpx": 402,
+   "crop": [
+    846,
+    998,
+    1122,
+    1388
+   ]
+  }
+ },
+ "heroine_05": {
+  "source": "docs/story_planning/date_system/art/heroine_05_date_shirt.webp",
+  "H1": {
+   "w": 259,
+   "hpx": 978,
+   "footX": 141,
+   "footY": 974,
+   "h": 933,
+   "crop": [
+    30,
+    0,
+    385,
+    975
+   ]
+  },
+  "H3": {
+   "w": 349,
+   "hpx": 967,
+   "footX": 170,
+   "footY": 963,
+   "h": 921,
+   "handY": 458,
+   "rail": true,
+   "crop": [
+    378,
+    0,
+    765,
+    970
+   ]
+  },
+  "H4": {
+   "w": 369,
+   "hpx": 818,
+   "footX": 236,
+   "footY": 815,
+   "h": 780,
+   "seatY": 480,
+   "crop": [
+    735,
+    160,
+    1122,
+    975
+   ],
+   "seatY_auto": 518,
+   "seatY_note": "目視校正 ±20 px"
+  },
+  "head_neutral": {
+   "w": 284,
+   "hpx": 414,
+   "crop": [
+    0,
+    978,
+    277,
+    1392
+   ]
+  },
+  "head_smile": {
+   "w": 291,
+   "hpx": 410,
+   "crop": [
+    277,
+    978,
+    556,
+    1392
+   ]
+  },
+  "head_thinking": {
+   "w": 276,
+   "hpx": 414,
+   "crop": [
+    556,
+    978,
+    832,
+    1392
+   ]
+  },
+  "head_embarrassed": {
+   "w": 300,
+   "hpx": 422,
+   "crop": [
+    832,
+    978,
+    1122,
+    1392
+   ]
+  }
+ },
+ "kexin": {
+  "source": "docs/story_planning/date_system/art/kexin_date_denim.webp",
+  "H1": {
+   "w": 357,
+   "hpx": 1001,
+   "footX": 148,
+   "footY": 996,
+   "h": 952,
+   "crop": [
+    0,
+    0,
+    360,
+    1000
+   ]
+  },
+  "H3": {
+   "w": 288,
+   "hpx": 951,
+   "footX": 141,
+   "footY": 946,
+   "h": 904,
+   "rail": false,
+   "note": "回頭的背影，不是扶欄杆（疊欄杆時改用 H1）",
+   "crop": [
+    340,
+    0,
+    625,
+    1000
+   ]
+  },
+  "H4": {
+   "w": 383,
+   "hpx": 833,
+   "footX": 334,
+   "footY": 829,
+   "h": 794,
+   "seatY": 515,
+   "crop": [
+    598,
+    150,
+    985,
+    1000
+   ],
+   "seatY_auto": 527,
+   "seatY_note": "目視校正 ±20 px"
+  },
+  "head_neutral": {
+   "w": 292,
+   "hpx": 405,
+   "crop": [
+    958,
+    88,
+    1242,
+    482
+   ]
+  },
+  "head_smile": {
+   "w": 296,
+   "hpx": 406,
+   "crop": [
+    1244,
+    88,
+    1532,
+    482
+   ]
+  },
+  "head_thinking": {
+   "w": 292,
+   "hpx": 382,
+   "crop": [
+    958,
+    488,
+    1242,
+    872
+   ]
+  },
+  "head_embarrassed": {
+   "w": 300,
+   "hpx": 386,
+   "crop": [
+    1244,
+    488,
+    1532,
+    872
+   ]
+  }
+ },
+ "player": {
+  "source": "docs/story_planning/date_system/art/player_date_casual.webp",
+  "Y1": {
+   "w": 339,
+   "hpx": 1094,
+   "footX": 138,
+   "footY": 1091,
+   "h": 1045,
+   "crop": [
+    30,
+    0,
+    430,
+    1065
+   ]
+  },
+  "Y2": {
+   "w": 457,
+   "hpx": 1073,
+   "footX": 233,
+   "footY": 1068,
+   "h": 1021,
+   "handY": 500,
+   "rail": true,
+   "note": "手掌在腰兩側：只疊矮牆或比較低的欄杆",
+   "crop": [
+    470,
+    0,
+    925,
+    1055
+   ]
+  },
+  "Y3": {
+   "w": 521,
+   "hpx": 742,
+   "footX": 91,
+   "footY": 738,
+   "h": 706,
+   "seatY": 535,
+   "crop": [
+    875,
+    170,
+    1445,
+    1010
+   ],
+   "seatY_auto": 322,
+   "seatY_note": "目視校正 ±20 px"
+  }
+ }
+}
