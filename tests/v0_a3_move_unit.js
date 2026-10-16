@@ -49,12 +49,17 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   script=[]; G.hour=17; const t0=G.hour; try{ await HOME.go(GM); }catch(e){ if(e.message!=='STOP') throw e; } check('6. 校門口回家：約 30 分鐘、在家、base',HOME.at(G)&&G.home.base===true&&Math.abs(G.hour-(t0+0.5))<1e-6,G.hour);
   // 不請
   fresh(D,10,'dorm',{LEAVE_WEEK:6}); G.stage='econ'; said=[]; script=['不請']; try{ await EVENTS.run(ev); await new Promise(r=>setTimeout(r,20)); }catch(e){}
-  check('7. 不請：阿勳傳一張照片；沒有便利貼那句（沒有 Y0_STICKY）',PHONE.thread(G,'p:econ_zhengxun').some(m=>m.text==='📷（他自己買的便當）')&&G.flags.A3_TREAT===false&&!said.some(x=>/便利貼/.test(x.t)));
+  { const L7=said.map(x=>x.t); check('7. 不請：阿勳傳一張照片；還沒看過便利貼＝A3 開頭先演那一則（AA_154 A48 ②：便利貼人人都有），搬回家拆箱那句也有',PHONE.thread(G,'p:econ_zhengxun').some(m=>m.text==='📷（他自己買的便當）')&&G.flags.A3_TREAT===false&&L7[0]==='檯燈上多了一張便利貼。阿勳的字。'&&L7[1]==='保齡球欠我一場。'&&L7[2]==='箱子我幫你封。你的膠帶貼得很醜。'&&G.flags.Y0_STICKY===true,JSON.stringify(L7.slice(0,4))); }
+  { fresh(D,10,'dorm',{LEAVE_WEEK:6,Y0_STICKY:true}); G.stage='econ'; said=[]; script=['請阿勳']; try{ await EVENTS.run(ev); await new Promise(r=>setTimeout(r,20)); }catch(e){} check('7. 看過便利貼的：A3 直接從阿勳那句開始',said[0]&&said[0].t==='箱子我幫你封。你的膠帶貼得很醜。'); }
+  { const note=STORY_EVENTS.find(e=>e.id==='ev_y0_e30_note'), D27=STORY.dayOfKey('2025-03-27'); const ck=(d,h,f)=>{ fresh(d,h,'dorm',Object.assign({LEAVE_WEEK:6},f||{})); G.stage='econ'; return EVENTS.check(note); };
+    check('7. A48 ①：便利貼的窗口＝3/27 22:00 以後、搬走以前第一次在宿舍房間（3/28 中午也演；21:00 以前、搬走以後不演）',ck(D27,22.5)&&ck(D27+1,13)&&!ck(D27,21)&&!ck(D27+1,13,{Y0_MOVED_OUT:true})); }
   // A46 ①：3/29 週末在家（還沒搬）→ 下一輪選單之前先回宿舍演 A3 → 搬回家
   const homeWeekend=(day,h)=>{ fresh(day,h,'campus',{LEAVE_WEEK:6}); G.stage='econ'; const H=HOME.rec(G); H.at=true; H.day=day; H.base=false; };
-  homeWeekend(D,8.6); said=[]; menus=[]; script=['請阿勳']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; } await new Promise(r=>setTimeout(r,20));
+  let enterH=null; const en0=GM.enter; GM.enter=async z=>{ if(enterH==null&&z==='dorm') enterH=G.hour; G.zone=z; };
+  homeWeekend(D,8.6); said=[]; menus=[]; script=['請阿勳']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; } await new Promise(r=>setTimeout(r,20)); GM.enter=en0;
+  check('9. 3/29 08:36 從家裡出發：10:00 才到宿舍（阿勳十點在房間）',enterH!=null&&Math.abs(enterH-10)<1e-6,String(enterH));
   let L2=said.map(x=>x.t);
-  check('9. A46：3/29 早上在家（週末回家、還沒搬）→ 先「今天要搬出宿舍。阿勳說他十點會在房間。」→ 回宿舍（40 分鐘）→ A3 → 搬回臺北的家',L2[0]==='今天要搬出宿舍。阿勳說他十點會在房間。'&&L2.includes('箱子我幫你封。你的膠帶貼得很醜。')&&G.flags.Y0_MOVED_OUT===true&&HOME.at(G)&&G.home.base===true,JSON.stringify(L2.slice(0,3)));
+  check('9. A46：3/29 早上在家（週末回家、還沒搬）→ 先「今天要搬出宿舍。阿勳說他十點會在房間。」→ 回宿舍（40 分鐘，3/29 當天最早 10:00 到）→ A3 → 搬回臺北的家',L2[0]==='今天要搬出宿舍。阿勳說他十點會在房間。'&&L2.includes('箱子我幫你封。你的膠帶貼得很醜。')&&G.flags.Y0_MOVED_OUT===true&&HOME.at(G)&&G.home.base===true,JSON.stringify(L2.slice(0,3)));
   homeWeekend(D+1,10); said=[]; script=['不請']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; } await new Promise(r=>setTimeout(r,20));
   L2=said.map(x=>x.t); check('9. 3/30 才在家：「宿舍還沒退完。阿勳說，箱子還在房間等你。」→ A3 → 搬回家',L2[0]==='宿舍還沒退完。阿勳說，箱子還在房間等你。'&&L2.includes('箱子我幫你封。你的膠帶貼得很醜。')&&G.flags.Y0_MOVED_OUT===true,JSON.stringify(L2.slice(0,3)));
   { fresh(D+1,10,'dorm',{LEAVE_WEEK:6}); G.stage='econ'; const a=EVENTS.check(ev); G.flags.Y0_MOVED_OUT=true; const b=EVENTS.check(ev); check('9. 3/30 在宿舍（當天沒演到）：A3 照演；搬過了不演',a&&!b); }
