@@ -524,7 +524,7 @@ const STORY = (function(){
     /* 五位女主角的第一次見面是專屬的事件（AA_120 3-1，AA、BB 2026-10-13：只算五位女主角）：還沒見過時被搭話不走一般自我介紹、不記 FIRST_MET，只有一句旁白；舊存檔已經記下的不追溯 */
     if(unmetH){ const busy=n.seat||n.pose==='read'||n.pose==='sit'||n.idlePose==='read'; await GM.say(null,busy?'（她低頭在忙自己的事，沒有注意到你。）':'（她看了你一眼，對你點了一下頭，又轉回去忙自己的事。）'); n.name=SOCIAL.displayName(id); n.talkLabel='和'+n.name+'說話'; GM.sceneEnd(); return; }
     if(first){ SOCIAL.meet(id,G.zone); if(c.social_layer==='B'){ const py=SOCIAL.playerYear?SOCIAL.playerYear():1, cy=SOCIAL.yearOf?SOCIAL.yearOf(id):(c.year||1); await GM.say(who,cy>py?'「你是大'+['','一','二','三','四'][py]+'的吧？」':(py===1?['「……嗯？喔，你是我們班的吧。」','「你好。……我們是不是修同一堂民總？」','「欸，你是周老師點過的那個。」'][(Math.random()*3)|0]:'「……嗯？喔，你是我們班的吧。」'));   /* 年級跟著遊戲走（AA_120 7-3）*/   /* 學長姊不會說「同一堂民總」（AA_120 3-4）*/ await GM.say(who,'「我是'+c.name+'。」'); if(c.facts&&c.facts[0]) await GM.say(who,'「'+c.facts[0]+'。……你呢？」'); } else { await GM.say(who,'「你好，我是'+c.name+'。'+(c.department||'')+'的。」',{expr:'smile'}); if(c.personality) await GM.say(null,c.personality.split('；')[0]+'。'); } SOCIAL.adjust(id,{fam:3}); }
-    else { const rv=SOCIAL.reveal(id); if(SOCIAL.playUp&&await SOCIAL.playUp(GM,who,id)){ if(SOCIAL.activity) SOCIAL.activity(id,'chat'); }   /* 升到有點熟／朋友／好朋友以後的下一次見面：先說門檻台詞（AA_124 1-6、BB_120 第 1 節），這次就不閒聊 */
+    else { await S.neededMiss(GM,who,id);   /* 主線 4：上週的訊息沒回，這次見面帶過一句（AA_179 第 4 節）*/ const rv=SOCIAL.reveal(id); if(SOCIAL.playUp&&await SOCIAL.playUp(GM,who,id)){ if(SOCIAL.activity) SOCIAL.activity(id,'chat'); }   /* 升到有點熟／朋友／好朋友以後的下一次見面：先說門檻台詞（AA_124 1-6、BB_120 第 1 節），這次就不閒聊 */
       else if(c.social_layer==='B'&&rv==='ACQUAINTANCE'&&c.facts&&c.facts[1]&&S.secretReady(G,id)&&!SOCIAL.has(id,'SHARED_SECRET')){ await GM.say(who,'「其實……'+String(c.facts[1]).replace(/^其實/,'')+'。沒跟很多人講過。」'); SOCIAL.remember(id,'SHARED_SECRET',c.facts[1]); SOCIAL.adjust(id,{fam:4,trust:4}); const SM=G.social.small||(G.social.small={}); (SM[id]||(SM[id]={day:0,used:[],last:null})).day=G.day; }
       else if(typeof ENC!=='undefined'&&ENC.schoolTalk&&await ENC.schoolTalk(GM,who,id)){}   /* 自由出行遇到以後，下一次聊天說一句（DL-07；AA_162、BB_144 第 4 節）*/
       else if(await S.ladderTalk(GM,who,id)){}   /* 閒聊階梯（大一上的七位＋之後的）：有資料的人走階梯，沒有的照舊閒聊 */
@@ -780,7 +780,48 @@ const STORY = (function(){
   /* 玩家認識這個人了嗎（群戲只放認識的人：交接包 v1 交付清單第 0 節第 1 點、AA_120 初遇規則）：FIRST_MET；小語的第一次說話是 talkYu（met_yu）；阿哲開場就熟 */
   S.knows=function(id,G){ G=G||(GM_ref&&GM_ref.G); if(id==='zhe') return true; if(id==='yu'&&G&&G.flags&&G.flags.met_yu) return true; return typeof SOCIAL!=='undefined'&&SOCIAL.has(id,'FIRST_MET'); };
   let y0CallBusy=false;   /* 經濟系那一年固定核心的「韋綸打電話」（AA_154 A33）：一次只演一通 */
-  S.phoneRules=function(GM){ const G=GM.G, F=G.flags; if(typeof PHONE==='undefined') return; if(typeof HOME!=='undefined'){ try{ HOME.phoneRules(GM); if(HOME.breakPhone) HOME.breakPhone(GM); }catch(e){ console.warn('HOME.phoneRules',e); } }   /* 家人群組（週四 20:00）；放假的手機（AA_183：7/9 語彤生日、7/15 宿舍抽籤）*/ const silentContact=id=>{ if(typeof INV==='undefined') return; INV.rec(G); if(G.contacts[id]==null) G.contacts[id]=G.day; };
+  /* ---------- 主線 4「被需要的一年」：大二每週日 21:00「這週的訊息」（AA_179 第 1 節；訊息池 src/data/needed_msgs.js：AA_179 第 2、4 節、BB_97 第 11 節）----------
+     大二上第 1 週到大二下第 18 週的每個週日 21:00（第一個 9/13、最後一個 6/27），手機跳出最多四則，回得了兩則（PHONE 的 ask.grp／max）；回了的信任 +1。
+     挑的順序：綁事件的先挑 → 上週沒出現的人先挑 → 同一層裡，快過期的先挑；只挑認識的人（沒寫條件的＝FAMILIAR 以上；anyone＝只看條件）；一個人一週一則；
+     同一則只出現一次（every：隔幾週可以再出現，語彤「阿姨問你週四來不來」每四週）。週末回家的週日照樣跳（在家的迴圈也跑 phoneRules，AA_176 R11）。
+     沒回的：那一組關掉以後（回滿兩則，或下一個週日 21:00）兩週內第一次和他說話，他說第 4 節那一句；同一個人兩週最多一次。不扣分、不改數值。
+     記在 G.needed＝{asked, answered, byWho:{id:[被問幾次, 回幾次]}}（大三主線 6 讀 asked）；挑選用的 shown、prev、batches、missLast 也放這裡。背景節拍：不給 CG、不進重要回憶。
+     測試：node tests/v3_needed_unit.js */
+  const NEED_TERMS=['Y2S1','Y2S2'];
+  S.neededRec=function(G){ let N=G.needed; if(!N||typeof N!=='object') N=G.needed={}; if(typeof N.asked!=='number') N.asked=0; if(typeof N.answered!=='number') N.answered=0; if(!N.byWho||typeof N.byWho!=='object') N.byWho={};
+    if(!N.shown||typeof N.shown!=='object') N.shown={}; if(!Array.isArray(N.prev)) N.prev=[]; if(!Array.isArray(N.batches)) N.batches=[]; if(!N.missLast||typeof N.missLast!=='object') N.missLast={}; return N; };
+  const needAbs=(d,h)=>d*24+h;
+  /* 最近一個已經過了 21:00 的週日（在大二上下第 1～18 週裡）；不在期間＝null */
+  S.neededSunday=function(G){ const wd=G.weekday!=null?G.weekday:((CALENDAR.dateOf(G.day).wd)%7); let d=G.day-wd; if(wd===0&&G.hour<21) d-=7;
+    const t=CALENDAR.termOf(d); if(!t||!NEED_TERMS.includes(t.id)||!(t.week>=1&&t.week<=18)) return null; return d; };
+  S.neededPick=function(G,d){ if(typeof NEEDED_MSGS==='undefined') return []; const N=S.neededRec(G), t=CALENDAR.termOf(d); if(!t) return []; const w=t.week;
+    const lv=id=>typeof SOCIAL!=='undefined'&&SOCIAL.friendLevel?SOCIAL.friendLevel(id):'STRANGER', known=id=>['FAMILIAR','FRIEND','CLOSE_FRIEND'].includes(lv(id))&&(typeof SOCIAL==='undefined'||!SOCIAL.has||SOCIAL.has(id,'FIRST_MET')||id==='zhe'||id==='kai');
+    const ok=e=>{ if(e.term!==t.id||w<e.w[0]||w>e.w[1]) return false; const sh=N.shown[e.id]; if(sh!=null&&!(e.every&&d-sh>=e.every*7)) return false;
+      try{ if(e.cond&&!e.cond(G)) return false; }catch(err){ return false; } return e.anyone?true:known(e.who); };
+    const C=NEEDED_MSGS.list.map((e,i)=>({e,i})).filter(x=>ok(x.e));
+    const tier=x=>x.e.tie?0:(N.prev.includes(x.e.who)?2:1); C.sort((a,b)=>tier(a)-tier(b)||a.e.w[1]-b.e.w[1]||a.i-b.i);
+    const out=[], who=new Set(); for(const x of C){ if(who.has(x.e.who)) continue; who.add(x.e.who); out.push(x.e); if(out.length>=4) break; } return out; };
+  /* phoneRules 每次都問：該跳的那個週日還沒跳過＝挑、排進手機（時間是那個週日 21:00，晚了照原本的時間補）*/
+  S.neededRules=function(GM){ const G=GM.G; if(typeof NEEDED_MSGS==='undefined'||typeof PHONE==='undefined'||S.isEcon&&S.isEcon(G)) return; const d=S.neededSunday(G); if(d==null) return; const N=S.neededRec(G); if(N.last===d) return;
+    if(needAbs(G.day,G.hour)-needAbs(d,21)>=6*24){ N.last=d; return; }   /* 跳過太久（同一週快結束了）就不補 */
+    const L=S.neededPick(G,d); N.last=d; N.prev=L.map(e=>e.who); if(!L.length) return; const grp='need_'+d;
+    const items=[{th:'sys',text:'這週的訊息（'+L.length+' 則）。這週你回得了兩個人。'}];
+    for(const e of L){ N.shown[e.id]=d; N.asked++; const bw=N.byWho[e.who]||(N.byWho[e.who]=[0,0]); bw[0]++;
+      if(typeof INV!=='undefined'){ INV.rec(G); if(G.contacts[e.who]==null) G.contacts[e.who]=G.day; }   /* 他傳訊息給你＝有你的聯絡方式 */
+      e.msg.forEach((text,k)=>{ const it={th:'p:'+e.who,from:e.who,text}; if(k===e.msg.length-1) it.ask={id:grp+'_'+e.id,grp,max:2,until:needAbs(d+7,21),opts:[{t:e.reply,say:(e.resp||[]).map(r=>({from:e.who,text:r})),need:e.id}]}; items.push(it); }); }
+    N.batches.push({d,ids:L.map(e=>[e.id,e.who]),ans:[],closedAt:null,said:{}}); if(N.batches.length>4) N.batches.splice(0,N.batches.length-4);
+    PHONE.at(G,d,21,items,grp); };
+  S.neededAnswered=function(G,m,o){ const N=S.neededRec(G), grp=m.ask&&m.ask.grp; const b=N.batches.find(x=>'need_'+x.d===grp); const e=typeof NEEDED_MSGS!=='undefined'&&NEEDED_MSGS.list.find(x=>x.id===o.need); if(!e) return;
+    N.answered++; const bw=N.byWho[e.who]||(N.byWho[e.who]=[0,0]); bw[1]++; if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(e.who,{trust:1});
+    if(b&&!b.ans.includes(e.id)){ b.ans.push(e.id); if(b.ans.length>=2&&b.closedAt==null) b.closedAt=needAbs(G.day,G.hour); } };
+  /* 沒回的那一句：這次見面該說的（沒有＝null）；說了就記下來 */
+  S.neededMissLine=function(G,id){ if(typeof NEEDED_MSGS==='undefined'||!G.needed) return null; const N=S.neededRec(G), lines=NEEDED_MSGS.miss[id]; if(!lines) return null; const now=needAbs(G.day,G.hour);
+    if(N.missLast[id]!=null&&now-N.missLast[id]<14*24) return null;
+    for(let i=N.batches.length-1;i>=0;i--){ const b=N.batches[i]; const it=b.ids.find(x=>x[1]===id); if(!it||b.ans.includes(it[0])||b.said[id]) continue;
+      const close=b.closedAt!=null?b.closedAt:needAbs(b.d+7,21); if(now<close||now>=close+14*24) continue; b.said[id]=true; N.missLast[id]=now; return lines; }
+    return null; };
+  S.neededMiss=async function(GM,who,id){ const L=S.neededMissLine(GM.G,id); if(!L) return false; for(const t of L) await GM.say(who,'「'+t+'」'); return true; };
+  S.phoneRules=function(GM){ const G=GM.G, F=G.flags; if(typeof PHONE==='undefined') return; if(typeof HOME!=='undefined'){ try{ HOME.phoneRules(GM); if(HOME.breakPhone) HOME.breakPhone(GM); }catch(e){ console.warn('HOME.phoneRules',e); } } try{ S.neededRules(GM); }catch(e){ console.warn('NEEDED',e); }   /* 主線 4：每週日 21:00「這週的訊息」*/   /* 家人群組（週四 20:00）；放假的手機（AA_183：7/9 語彤生日、7/15 宿舍抽籤）*/ const silentContact=id=>{ if(typeof INV==='undefined') return; INV.rec(G); if(G.contacts[id]==null) G.contacts[id]=G.day; };
     /* 芷若的第一則私訊（BB_95 4-2）：Café 第五次加了店裡的帳號（zhiruoShopContactDay）→ 那天 22:07；交往中改在隔天 15:10＋友情版的第三句（AA_112 8-1：交往中的玩家不收晚上只傳給他的訊息）*/
     /* 第三句（BB_95 4-2，BB 2026-10-14 654f5dd）：照第一次點的東西——有奶的（拿鐵、卡布奇諾、熱可可）「奶泡我多打了三秒」、手沖「悶蒸我多等了十秒」、
        美式「水我少加了一點」、茶「我多泡了十秒」、點心「挑」；交往中隔天 15:10 才傳：飲料都是「你昨天的那杯，是我做的。好喝的話，跟老闆說。」*/
@@ -1784,6 +1825,23 @@ const STORY = (function(){
         ['y0_wl_wait',Y0('Y0S2',6),21,G=>!!G.flags.LEAVE_WEEK&&(PHONE.inGroup(G,'econ_friends')||PHONE.inGroup(G,'econ_class')),G=>[WL('走啦！……喔你在念書。那念完再走！我等！',grp(G))]],
         ['y0_wl_newbike',Y0('Y0S2',4),20+40/60,G=>!!G.flags.WL_BIKE,()=>[WL('新車騎了三個月，鏈子一次都沒掉。我有點想念以前那台。')]] ];
       return L.map(([id,term,hh,ok,items])=>({id,term,h:()=>hh,ok:(G,day)=>S.isEcon(G)&&ok(G,day==null?G.day:day),items})); })(),
+    /* 大二的手機小事（BB_97 第 5 節＋9-16；任務 V3-B22）：BB 寫的是「摘要日的手機小事」，大二還沒有摘要日（SYS-08），照大一的做法放進每天的手機小事。每則一次；時間沒寫的是技術預設。
+       接的事件還沒做的那幾則先不放（學姊 HOT_WATER、M2 之後、上榜、畢業；沛珊 P4b；方奕廷的暑假；可昕 K10c 之後；長頸鹿貼圖）——那些事件做好時在這裡加 */
+    ...(()=>{ const Y2=T=>!!T&&/^Y2S[12]$/.test(T.id), Y2a=(w0)=>T=>!!T&&T.id==='Y2S1'&&T.week>=(w0||1), Y2b=T=>!!T&&T.id==='Y2S2', done=(G,id)=>!!(G.events&&G.events.done&&G.events.done[id]);
+      const dAny=G=>Object.keys(G.flags||{}).some(k=>/^dating_/.test(k)&&G.flags[k]===true), kx=G=>!!G.flags.dating_kexin;
+      const L=[
+        ['y2_sis_shift',Y2,20+40/60,G=>done(G,'ev_sis_handover')&&PHONE.inGroup(G,'lawclub_study'),()=>[{th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'今天的值班表，柏翰排錯了。我沒說。……我說了。'}]],
+        ['y2_kevin_retire',Y2,20,G=>done(G,'ev_sis_handover')&&PHONE.inGroup(G,'family_law'),()=>[{th:'g:family_law',from:'kevin',name:'Kevin',text:'學姊卸任了！'},{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'收到',dt:2/60}]],
+        ['y2_zq_lab',Y2,22+10/60,G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_04','LAB_LETTER')&&gotBefore(G,'heroine_04'),()=>seq('heroine_04',['我回信了','說不要','教授說好','就這樣','好簡單喔'])],
+        ['y2_zr_order',Y2,null,G=>done(G,'ev_zhiruo_applied')&&!done(G,'ev_zhiruo_last_shift')&&gotBefore(G,'heroine_02'),()=>[P1('heroine_02','今天第三個客人點錯。我記得他上週點什麼。我沒說。')]],
+        ['y2_kx_usual',Y2a(),21+10/60,kx,()=>[P1('kexin','老樣子。你知道是哪個老樣子。')]],
+        ['y2_kx_superficies',Y2a(),21+10/60,kx,()=>[P1('kexin','物權的老師講了一個小時的地上權。我現在看到房子都想問地是誰的。')]],
+        ['y2_kx_index',Y2a(),21+10/60,kx,G=>[P1('kexin',typeof SOCIAL!=='undefined'&&SOCIAL.has('kexin','ENC_D13_KX')?'邵鈞的考古題有目錄。目錄有索引。':'我們系有一個人，考古題有目錄。目錄有索引。')]],   /* 還沒見過邵鈞（淡水的偶遇 D13）的玩家：「我們系有一個人」*/
+        ['y2_kx_hand',Y2a(6),21+10/60,G=>kx(G)&&!!G.flags.PLAYED_Y0&&G.flags.E12_ANSWER==='hand',()=>[Object.assign(P1('kexin','我還在等你的第三隻手。'),{ask:{id:'dp_y2_kx_hand',opts:[{t:'……長頸鹿的尾巴？',say:[{from:'kexin',text:'你記得。很好。尾巴還在等。'}]},{t:'我在練。',say:[{from:'kexin',text:'練到哪了？……先幫我拿書包就好。'}]}]}})]],   /* BB_104 8-4「她會記得」：三個條件都成立才有 */
+        ['y2_kx_landlord',Y2b,21+10/60,kx,()=>[P1('kexin','你們債各的老師也講那個房東的例子嗎？')]],
+        ['y2_kx_river',Y2b,21+10/60,G=>kx(G)&&G.weather==='rain',()=>[P1('kexin','今天下雨，山變成一條河。')]],
+        ['y2_kx_funny',Y2b,21+10/60,kx,()=>[P1('kexin','我的物權報告被說舉例太好笑。分數很高。我不知道該不該高興。')]] ];
+      return L.map(([id,term,hh,ok,items])=>({id,term,h:G=>hh!=null?hh:(dAny(G)?15+10/60:22+7/60),ok:(G,day)=>!S.isEcon(G)&&ok(G,day==null?G.day:day),items})); })(),   /* 芷若：雙方都單身 22:07、祐廷交往中 15:10（AA_112 8-1）*/
     /* 自由出行的偶遇以後（DL-07；AA_162、BB_144 第 4 節）：語彤傳那天的照片、可昕說淡水的假設題——遇到的隔天以後，一次 */
     ...[['enc_yt_photo','ENC_D12_YT','heroine_03',21+20/60],['enc_kx_d13','ENC_D13_KX','kexin',21+10/60]].map(([id,tag,who,hh])=>({id,term:T=>!!T,h:()=>hh,ok:G=>typeof ENC!=='undefined'&&ENC.phoneReady(G,tag),items:G=>{ ENC.markSaid(G,tag); return seq(who,ENC.phoneLines(tag)); }})) ];
   S.DAILY_PHONE=DAILY;

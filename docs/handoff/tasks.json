@@ -1659,8 +1659,8 @@
    "title": "主線 4 被需要的一年",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照交接包_v3 實作",
+   "status": "已整合待測試",
+   "next": "主線 4 每週訊息已接（AA_179＋BB_97 第 11 節）：每週日 21:00 最多四則、回兩則、信任 +1、沒回見面一句（可昕在出遊時）、G.needed 計數（大三主線 6 讀 asked）。條件還沒做的七則（模擬法庭、語 3、慈 3、Z7、語彤事件 11）寫成 false，那些事件做好時改讀旗標。tests/v3_needed_unit.js；瀏覽器未測（手機「待回覆」的標題字、回滿兩則後消失）",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -2572,8 +2572,8 @@
    "title": "大二的手機小事",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照 BB_97 實作",
+   "status": "進行中",
+   "next": "已接（每天的手機小事，tests/v3_phone_small_unit.js）：學姊值班表、Kevin 學姊卸任、子晴 LAB_LETTER 五則、芷若 Z7～Z9、可昕大二 7 則（含第三隻手、邵鈞兩種、下雨）。還沒：學姊 HOT_WATER（W8）、M2 之後、上榜／畢業 Kevin（M3、W10）、沛珊 P4b、方奕廷暑假、可昕 K10c 之後、長頸鹿貼圖——那些事件做好時加",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -6276,8 +6276,8 @@
    "title": "每週訊息介面（主線 4）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "—",
+   "status": "已整合待測試",
+   "next": "手機「待回覆」：這週的訊息標題＋「這週你回得了兩個人。（還可以回 n 個）」；PHONE ask.grp／max 回滿關掉同組；見 V3-D2",
    "priority": "P2",
    "first": {
     "term": "Y2S1",

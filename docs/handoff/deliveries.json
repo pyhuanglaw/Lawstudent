@@ -3351,9 +3351,9 @@
    "sha": "44483032",
    "what": "AB-45：BB_97 第 11 節 主線 4 BB 人物每週訊息",
    "task": "SYS-07",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "v3（AA_179 規格）",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "v3（AA_179 規格）；整合：src/data/needed_msgs.js＋story3d.js S.neededRules／neededPick／neededAnswered／neededMiss＋phone3d ask.grp／max；tests/v3_needed_unit.js（28 項）通過；瀏覽器未測",
    "date": "2026-10-16T14:3xZ"
   },
   {
@@ -3375,9 +3375,9 @@
    "sha": "9dff65cd",
    "what": "BB_97 第 11 節三處更新（芷若一則、沛珊條件、可昕說法）",
    "task": "SYS-07",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "v3",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "v3；整合：src/data/needed_msgs.js＋story3d.js S.neededRules／neededPick／neededAnswered／neededMiss＋phone3d ask.grp／max；tests/v3_needed_unit.js（28 項）通過；瀏覽器未測",
    "date": "2026-10-16T14:3xZ"
   },
   {
@@ -3711,9 +3711,9 @@
    "sha": "e07461a6",
    "what": "AA_179 主線 4「被需要的一年」每週訊息",
    "task": "V3-D2",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "主線 4 的每週訊息（V3-D2 主線 4 一起做）",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "主線 4 的每週訊息（V3-D2 主線 4 一起做）；整合：src/data/needed_msgs.js＋story3d.js S.neededRules／neededPick／neededAnswered／neededMiss＋phone3d ask.grp／max；tests/v3_needed_unit.js（28 項）通過；瀏覽器未測",
    "date": "2026-10-16T17:3xZ"
   },
   {
@@ -3723,9 +3723,9 @@
    "sha": "c6153500",
    "what": "AA_179 柏翰大二上 1～3 週改社長交接資料",
    "task": "V3-D2",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "主線 4 的每週訊息（V3-D2 主線 4 一起做）",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "主線 4 的每週訊息（V3-D2 主線 4 一起做）；整合：src/data/needed_msgs.js＋story3d.js S.neededRules／neededPick／neededAnswered／neededMiss＋phone3d ask.grp／max；tests/v3_needed_unit.js（28 項）通過；瀏覽器未測",
    "date": "2026-10-16T17:3xZ"
   },
   {
@@ -3735,9 +3735,9 @@
    "sha": "73e90211",
    "what": "AA_179 第 3 節：芷若反過來問「你想」",
    "task": "V3-D2",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "主線 4 的每週訊息（V3-D2 主線 4 一起做）",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "主線 4 的每週訊息（V3-D2 主線 4 一起做）；整合：src/data/needed_msgs.js＋story3d.js S.neededRules／neededPick／neededAnswered／neededMiss＋phone3d ask.grp／max；tests/v3_needed_unit.js（28 項）通過；瀏覽器未測",
    "date": "2026-10-16T17:3xZ"
   },
   {

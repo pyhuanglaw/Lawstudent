@@ -428,7 +428,7 @@ const GAME = (function(){
   function msgHTML(){ if(typeof INV==='undefined') return ''; INV.rec(G); if(phoneThread&&typeof PHONE!=='undefined') return threadHTML(phoneThread);
     const M=G.msgs.slice(-40).reverse();
     let h='<div class="item muted">有聯絡方式的朋友，在「朋友」按「約」就可以約；當面遇到也可以約。</div>';
-    if(typeof PHONE!=='undefined'){ const pend=PHONE.pending(G); if(pend.length) h+='<div class="item"><b>待回覆</b>'+pend.map(m=>'<div style="margin-top:6px"><div class="muted">'+escH(PHONE.title(G,PHONE.th(m)))+'・'+msgWhen(m)+'</div>'+msgLine(m)+askBtns(m)+'</div>').join('')+'</div>';
+    if(typeof PHONE!=='undefined'){ const pend=PHONE.pending(G); if(pend.length){ const ng=[...new Set(pend.filter(m=>m.ask.grp&&/^need_/.test(m.ask.grp)).map(m=>m.ask.grp))]; h+='<div class="item"><b>待回覆</b>'+ng.map(g=>{ const left=2-PHONE.grpUsed(G,g); return '<div class="muted" style="margin-top:4px">這週的訊息。這週你回得了兩個人。'+(left<2?'（還可以回 '+left+' 個）':'')+'</div>'; }).join('')+pend.map(m=>'<div style="margin-top:6px"><div class="muted">'+escH(PHONE.title(G,PHONE.th(m)))+'・'+msgWhen(m)+'</div>'+msgLine(m)+askBtns(m)+'</div>').join('')+'</div>'; }   /* 主線 4「這週的訊息」：四則裡回得了兩則（AA_179 第 1 節）*/
       const ths=PHONE.threads(G); if(ths.length) h+='<div class="item"><b>對話</b><div class="row2" style="gap:6px;margin-top:6px;flex-wrap:wrap">'+ths.map(t=>'<button class="btn'+(t.unread?' pri':'')+'" data-th="'+escH(t.th)+'">'+escH(t.title)+(t.unread?'（'+t.unread+'）':'')+'</button>').join('')+'</div></div>'; }
     if(!M.length) return h+'<div class="item muted">還沒有訊息。</div>';
     for(const m of M){ const iv=m.iv?INV.byId(G,m.iv):null; let btn='';
