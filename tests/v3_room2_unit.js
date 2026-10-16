@@ -48,7 +48,9 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   G.flags.pothosWaterN=0; check('3. 黃金葛沒澆過「他說忘記澆也不會死。他說對了。」',JSON.stringify(STORY.roomY2Items(G).find(r=>r[0]==='pothos')[2])===JSON.stringify(['他說忘記澆也不會死。他說對了。']));
   G.flags.cafeView='C'; check('3. cafeView C＝「『無過失的判斷標準寫得好。』」',STORY.roomY2Items(G).find(r=>r[0]==='report')[2][0]==='『無過失的判斷標準寫得好。』');
   G.flags.ZR_MATINEE_SEEN=true; check('3. 看的是午場（晚春）＝沒有《東京物語》票根',!STORY.roomY2Items(G).some(r=>r[0]==='film')); G.flags.ZR_MATINEE_SEEN=false;
-  SOCIAL.remember('heroine_02','WATCHED_FILM_GROUP',''); check('3. 三個人看的＝沒有兩人的票根',!STORY.roomY2Items(G).some(r=>r[0]==='film'));
+  SOCIAL.remember('heroine_02','WATCHED_FILM_GROUP',''); check('3. 兩人、三人都看過＝一張票根',STORY.roomY2Items(G).filter(r=>r[0]==='film').length===1);
+  { const g0=G; fresh(G.day,G.hour,'dorm',{}); G.stage='law'; SOCIAL.remember('heroine_02','WATCHED_FILM_GROUP',''); check('3. 只有三個人看早場（WATCHED_FILM_GROUP）＝也有《東京物語》票根（AA_177 第 10 節）',STORY.roomY2Items(G).some(r=>r[0]==='film'));
+    G.flags.ZR_MATINEE_SEEN=true; check('3. 三個人、看的是午場＝沒有',!STORY.roomY2Items(G).some(r=>r[0]==='film')); G=g0; SOCIAL.bind(G); }
   G.flags.LAWCLUB_SAT_VISITS=0; check('3. 沒參加過法服＝沒有值班表',!STORY.roomY2Items(G).some(r=>r[0]==='duty'));
   // 4. 拆箱流程（宿舍房間）
   fresh(d6,10,'dorm',{GREEN_HIGHLIGHTER:true}); G.stage='law'; const n0=STORY.roomY2Items(G).length; picks=[]; for(let i=0;i<30;i++) picks.push(0); said=[]; opts=[];
@@ -58,6 +60,12 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('4. 每件的旁白、最後「一年。房間比去年滿一點。」',L.includes('這本還有三分之二，跟去年九月一樣新。')&&L.includes('你的螢光筆本來只有一種顏色。')&&L[L.length-1]==='一年。房間比去年滿一點。',JSON.stringify(L));
   check('4. ROOM_Y2＝這一天；不再到期；阿凱不同房；房間的舊《民法》換大二那句',G.flags.ROOM_Y2===d6&&!STORY.roomY2Due(G)&&STORY.kaiRoommate(G)===false&&STORY.roomItemList(G)[0][1]==='現在知道，要先問是誰、向誰、依據什麼、要什麼。');
   check('4. 再呼叫一次＝不演',!(await STORY.unboxY2(GM)));
+  // 4b. 9/6 人在宿舍（暑假留在宿舍的舊存檔）：旁白＋字卡 → 新的房間 → 拆箱（AA_177 第 10 節）
+  fresh(d6,10,'dorm',{}); G.stage='law'; { let card=null, entered=null; const tc=GM.titleCard, en=GM.enter; GM.titleCard=async(a,b)=>{ card=[a,b]; }; GM.enter=async(z)=>{ entered=z; G.zone=z; }; picks=[]; for(let i=0;i<30;i++) picks.push(0); said=[];
+    const ok2=await STORY.roomY2InDorm(GM); GM.titleCard=tc; GM.enter=en; L=lines();
+    check('4b. 在宿舍：先「明天開學。今天搬進新的房間。」→ 字卡「搬到新的房間」「一樓 112 號房」→ 房間 → 拆箱',ok2&&L[0]==='明天開學。今天搬進新的房間。'&&JSON.stringify(card)===JSON.stringify(['搬到新的房間','一樓 112 號房'])&&entered==='dorm'&&!!G.flags.ROOM_Y2&&L[L.length-1]==='一年。房間比去年滿一點。',JSON.stringify([L.slice(0,2),card,entered]));
+    check('4b. 再呼叫一次＝不演',!(await STORY.roomY2InDorm(GM))); }
+  check('4b. S.tick 宿舍那條路走 roomY2InDorm（不是直接拆箱）',/roomY2Due\(G\)&&!roomY2Busy\)\{ roomY2Busy=true; S\.roomY2InDorm\(GM\)/.test(fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8')));
   // 5. 在臺北的家（週末回家）：下一輪選單之前先旁白＋字卡＋回宿舍＋拆箱
   fresh(d6,9,'campus',{}); G.stage='law'; { const H=HOME.rec(G); H.at=true; H.day=d6-1; H.base=false; }
   let card=null, entered=null; const tc=GM.titleCard, en=GM.enter; GM.titleCard=async(a,b)=>{ card=[a,b]; }; GM.enter=async(z)=>{ entered=z; G.zone=z; };

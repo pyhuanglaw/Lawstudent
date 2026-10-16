@@ -471,7 +471,8 @@ const STORY = (function(){
     if(zoneId==='linze'&&isThu(G)&&!F.classDone&&h(G)>=12.5&&h(G)<15.2&&!opts.fromLoad){ await GM.sleep(700); GM.caption('','民法總則在二樓的 201 階梯教室。樓梯在大廳西側，電梯在中庭。',4200); GM.setGoal('上二樓，到 201 教室上課'); }   /* v9.4：霖澤館改成真的大樓（大廳、樓梯、二樓），教室在二樓 */
     if(zoneId==='cafe'&&F.companion==='an'&&F.plan==='cafe'){ await cafeScene(GM); return; }
     if(zoneId==='library'&&F.companion==='an'&&F.plan==='library'){ await libraryScene(GM); return; }
-    if(zoneId==='dorm_hall'&&!F.dormHallHint&&!opts.fromLoad&&(E.player.lv|0)===0){ F.dormHallHint=true; await GM.sleep(900); GM.caption('','你和阿凱的房間在二樓，203。樓梯在走廊北邊。',3600); }   /* 宿舍走廊（D44）：第一次從大門進來時說一次房間在哪（不是劇情，只是指路）*/
+    if(zoneId==='dorm_hall'&&!opts.fromLoad&&(E.player.lv|0)===0){ const HM=typeof DM3!=='undefined'&&DM3.homeOf?DM3.homeOf(G):{key:'y1',plate:'203',lv:1}; const want=HM.key==='y1'?true:HM.plate;   /* 宿舍走廊（D44）：第一次從大門進來時說一次房間在哪（不是劇情，只是指路）；換了房間（AA_183 第 5 節）再說一次新的 */
+      if(HM.key==='y1'?!F.dormHallHint:F.dormHallHint!==want){ F.dormHallHint=want; await GM.sleep(900); GM.caption('',HM.key==='y1'?'你和阿凱的房間在二樓，203。樓梯在走廊北邊。':'你的房間在'+(HM.lv?'二樓':'一樓')+'，'+HM.plate+'。'+(HM.lv?'樓梯在走廊北邊。':''),3600); } }
     if(zoneId==='library_hall'&&F.companion==='an'&&F.plan==='library'&&!opts.fromLoad){ await GM.sleep(900); GM.caption('','自習區在二樓：從中間的大樓梯上去。',3600); GM.setGoal('上二樓的自習區（跟小安一起）'); }   /* 總圖（D43）：走到二樓就開始「總圖的下午」（S.tick）*/
     if(zoneId==='gongguan'&&F.companion==='an'&&!F.gongguanLine){ F.gongguanLine=true; await GM.sleep(1200); GM.caption('小安','公館這邊人真的很多。溫州街在那邊，過馬路再往裡面走。',3600); GM.setGoal('往溫州街（跟小安一起）'); }
     if(zoneId==='wenzhou'&&F.companion==='an'&&!F.wenzhouLine){ F.wenzhouLine=true; await GM.sleep(1000); GM.caption('小安','就是那間，招牌是深色的。他們開到凌晨兩點半，所以叫兩點半。',3800); GM.setGoal('進入 兩點半 Café'); }
@@ -567,7 +568,7 @@ const STORY = (function(){
     if(typeof HOME!=='undefined'&&HOME.winterStartDue&&HOME.winterStartDue(G)){ HOME.winterStart(GM).catch(e=>console.warn('HOME.winterStart',e)); return; }   /* 經濟系大一的寒假：回臺北的家（AA_154 A16）*/
     if(S.toLawDue(G)&&!(typeof HOME!=='undefined'&&HOME.at(G))){ S.toLaw(GM).catch(e=>console.warn('STORY.toLaw',e)); return; }   /* 經濟系 → 法律系（8/31；在家的在 home3d.js）*/
     if(typeof HOME!=='undefined'&&HOME.at(G)){ HOME.tick(GM); return; }   /* 讀檔時人在臺北的家：回到家的選單（在家的時候宿舍、校園的事件不發生）*/
-    if(G.zone==='dorm'){ if(S.isEcon(G)&&S.y0Tick(GM)) return; if(S.roomY2Due(G)&&!roomY2Busy){ roomY2Busy=true; S.unboxY2(GM).catch(e=>console.warn('ROOM_Y2',e)).finally(()=>{ roomY2Busy=false; }); return; }   /* ★主線 3 第二個房間 */ S.dormItems(GM); if(fyPotsTick(GM,dt)) return; }
+    if(G.zone==='dorm'){ if(S.isEcon(G)&&S.y0Tick(GM)) return; if(S.roomY2Due(G)&&!roomY2Busy){ roomY2Busy=true; S.roomY2InDorm(GM).catch(e=>console.warn('ROOM_Y2',e)).finally(()=>{ roomY2Busy=false; }); return; }   /* ★主線 3 第二個房間 */ S.dormItems(GM); if(fyPotsTick(GM,dt)) return; }
     if(S.sk02W8Due(G)){ S.sk02W8(GM).catch(e=>console.warn('SK02 W8',e)); return; }   /* SK02 沒去系辦的玩家（BB_106）*/
     S.kaiDormTick(GM);   /* 室友阿凱的宿舍事件（K-D3 鍵盤聲、K-D5 和解；吵架第 4 天自己和好）*/   /* 房間裡跟著劇情出現的東西（黃金葛、阿凱的鍵盤盒子、方奕廷的三盆植物）*/
     if(typeof CROWD!=='undefined'){ try{ CROWD.tick(GM,dt); }catch(e){ console.warn('CROWD.tick',e); } }   /* 公共場景的人流（D55）*/
@@ -1730,7 +1731,7 @@ const STORY = (function(){
     report:['一張周老師寫評語的報告影本',null],noodle:['阿凱留下的一包泡麵','紙箱裡夾著一張便條：「宵夜基金。過期前吃完。——凱」'],duty:['法服的值班表','單週週六，早上九點。'],
     pothos:['一盆黃金葛',null],green:['一支綠色螢光筆','你的螢光筆本來只有一種顏色。'],sticky:['一張便利貼：「第 12 頁，要件少一個。」','她改了你的筆記。……她改得對。']};
   S.roomY2Items=function(G){ const F=G.flags||{}, T=S.ROOM_Y2_TEXT, has=(id,tag)=>typeof SOCIAL!=='undefined'&&SOCIAL.has(id,tag), att=id=>typeof ACTIVITIES!=='undefined'&&!!ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,id), L=[];
-    if(has('heroine_02','WATCHED_FILM')&&!F.ZR_MATINEE_SEEN&&!has('heroine_02','WATCHED_FILM_GROUP')) L.push(['film',T.film[0],[T.film[1]]]);   /* 和芷若看過早場（兩個人）*/
+    if((has('heroine_02','WATCHED_FILM')||has('heroine_02','WATCHED_FILM_GROUP'))&&!F.ZR_MATINEE_SEEN) L.push(['film',T.film[0],[T.film[1]]]);   /* 和芷若看過早場（兩個人或和方奕廷三個人都算，AA_177 第 10 節）；午場《晚春》的沒有 */
     if(att('club_guitar')) L.push(['pick',T.pick[0],[T.pick[1]]]);   /* 去過吉他社 */
     L.push(['civ',T.civ[0],[T.civ[1]]]);
     if(G.events&&G.events.done&&G.events.done.ev_an_report_feedback){ const c={A:'『兩邊的利益都有看到。』',B:'『反方意見比正方精彩。』',C:'『無過失的判斷標準寫得好。』'}[F.cafeView]; if(c) L.push(['report',T.report[0],[c,'不是寫給你的，可是你留著。']]); }   /* 看過以安的「報告發回來」；照 cafeView */
@@ -1742,7 +1743,14 @@ const STORY = (function(){
     const R=S.roomItemList(Object.assign({},G,{flags:Object.assign({},F,{ROOM_Y2:true})})).slice(0,ROOM_ITEMS.length);   /* 大一房間的五件（交接包 v1 第 1 節）：舊《民法》用大二那句，其他四件沿用大一的旁白 */
     R.forEach((r,i)=>L.push(['y1_'+i,r[0],[].concat(r[1])]));
     return L; };
-  S.unboxY2=async function(GM){ const G=GM.G, F=G.flags; if(!S.roomY2Due(G)) return false; F.ROOM_Y2=G.day; const L=S.roomY2Items(G); GM.sceneBegin();
+  /* 9/6 人在宿舍（暑假留在宿舍的舊存檔；在家模式 AA_183 做好以後很少走到）：旁白＋字卡 → 換到新的房間 112 → 拆箱（AA_177 第 10 節）。
+     字卡的兩行是場所說明（不是台詞）：「搬到新的房間」「一樓 112 號房」，已請 AA-B 確認。*/
+  S.roomY2InDorm=async function(GM){ const G=GM.G; if(!S.roomY2Due(G)) return false; GM.sceneBegin();
+    try{ await GM.say(null,'明天開學。今天搬進新的房間。'); await GM.fade(true); if(GM.titleCard) await GM.titleCard('搬到新的房間','一樓 112 號房',2400); GM.advance(0.5);
+      if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await GM.fade(false); }
+    finally{ GM.sceneEnd(); }
+    return S.unboxY2(GM); };
+  S.unboxY2=async function(GM){ const G=GM.G, F=G.flags; if(!S.roomY2Due(G)) return false; F.ROOM_Y2=G.day; if(typeof DM3!=='undefined'&&DM3.fixRoomExit&&G.zone==='dorm') DM3.fixRoomExit(GM.E,G); const L=S.roomY2Items(G); GM.sceneBegin();
     try{ for(let guard=0;guard<40&&L.length;guard++){ const i=await GM.choose(L.map(r=>({t:'（拿出'+r[1]+'）'}))); const r=L.splice(i>=0&&i<L.length?i:0,1)[0]; for(const t of r[2]) await GM.say(null,t); }
       await GM.say(null,'一年。房間比去年滿一點。'); }
     finally{ GM.sceneEnd(); }
