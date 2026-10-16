@@ -395,7 +395,7 @@
 - v2 的外套用布料模擬順著扶手垂下，比 v1 自然；近看還是有一點厚，2D 背景的距離看不出來。
 - 下一步：我用 bg_home.py 組 tutor_home 客廳（三房兩廳的公寓、晚上七點多的吸頂燈＋立燈、落地窗外對面公寓的窗），算成 `assets/bg/tutor_home.webp`。
 
-## ART-SHOP1 機車行道具組（交件 SHA：未 commit，BB-B commit 後補；狀態 READY_FOR_REVIEW）
+## ART-SHOP1 機車行道具組（交件 SHA：b8938d9c，GLB 最後一次改在 fe13f714；BB-B 2026-10-16 21:2x 看過渲染；狀態 READY_FOR_REVIEW）
 
 - **用途**：給 LAWWW2-B 放進「公館機車行」的 2D 背景（傍晚）。BB-B 支援製作（2026-10-16）。
 - **這件是新美術標準 `ART_SOP.md` v1 的驗證件**：照 SOP 第 2 節的順序做、照第 6 節交件。
