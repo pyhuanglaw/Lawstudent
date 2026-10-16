@@ -507,12 +507,13 @@ def build():
         bodies[pose] = ob
     os.makedirs(GEN, exist_ok=True)
     for pal, path in (('young', FUR), ('old', FUR_OLD)):
-        img = bpy.data.images.new('cat_bake_' + pal, TEX_N, TEX_N, alpha=False); img.generated_color = (0.5, 0.5, 0.5, 1)
+        img = bpy.data.images.new('cat_bake_' + pal, TEX_N, TEX_N, alpha=False)
+        bc = [int(PAL[pal]['base'][i:i + 2], 16) / 255 for i in (1, 3, 5)]; img.pixels = list(bc + [1.0]) * (TEX_N * TEX_N)   # v2：先塗毛色——比一個像素還小的 UV 島烘不到，留空會是黑的（坐姿嘴角的小黑三角）
         for pose, ob in bodies.items():
             ob.data.materials.clear(); ob.data.materials.append(bake_material(f'bake_{pal}_{pose}', img, pal))
         for o in bpy.context.view_layer.objects: o.select_set(o.name in [b.name for b in bodies.values()])
         bpy.context.view_layer.objects.active = bodies['sit']
-        bpy.ops.object.bake(type='EMIT', margin=4, use_clear=True)   # 島之間至少 8 px，兩邊各往外 4 px 不會碰到
+        bpy.ops.object.bake(type='EMIT', margin=6, use_clear=False)   # 不清掉先塗的毛色；margin 6（只填沒烘到的像素，不會蓋到別的島）
         img.filepath_raw = path; img.file_format = 'PNG'; img.save()
         paint_accessories(path)
     fur, fur_old = fur_material('cat_fur', FUR), fur_material('cat_fur_old', FUR_OLD)

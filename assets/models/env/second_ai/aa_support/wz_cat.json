@@ -5,7 +5,7 @@
  "tris_drawn": 8953,
  "materials": 2,
  "out": "assets/models/env/second_ai/aa_support/wz_cat.glb",
- "bytes": 581240,
+ "bytes": 549116,
  "texres": 512,
  "tris_per_node": {
   "CAT_sit": 2684,
