@@ -285,7 +285,7 @@
 6. **停背景渲染不要用 `pkill -f <含路徑的字串>`**：同一行指令自己也會被比對到，整個 shell 被停掉，後面的修改沒有執行。改用 `pgrep` 找到 PID 再停。
    - **補（2026-10-16 17:4x，BB-B 又踩到一次）**：同一行裡 `pgrep -f "<字串>"` 再 `kill`，也會找到這行 shell 自己（exit 144）。照 AA-B 的 SOP 第 11 節第 11 條：`ps -eo pid,args | grep "[h]ttp.server 8771"`（第一個字加方括號），先列出來看，下一行再 `kill <PID>`。
 
-## 4. 提議中的方法（**等 LAWWW2-B 同意**；同意以後才寫進共用 SOP 第 13 節）
+## 4. 新方法 7、8（**LAWWW2-B 2026-10-16 17:54 UTC 同意**，已寫進共用 SOP 第 13 節第 7、8 條）
 
 > 照 SOP 第 12 節：先向 LAWWW2 提議，附前後對照。兩條都在 ART-PARK3 實際做過（2026-10-16 16:5x～17:3x），比較圖在 `tools/blender/env_second/bb_support/README.md` 的 ART-PARK3「遊戲內截圖」一節。
 
