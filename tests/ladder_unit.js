@@ -138,5 +138,19 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     walk(LADDER.byTerm); const miss=[...tags].filter(t=>!SOCIAL.MEMORY_LABEL[t]);
     check('19. 每個學期的階梯記憶都有人物面板的中文名稱（MEMORY_LABEL）',tags.size>50&&!miss.length,tags.size+' 個；缺 '+miss.join(' ')); }
   check('20. 學期檔：大一上（和 characters 同一份）、大一下七位、大二上下以安和語彤',LADDER.byTerm.Y1S1===LADDER.characters&&Object.keys(LADDER.byTerm.Y1S2).length===7&&!!LADDER.byTerm.Y2S1.heroine_01&&!!LADDER.byTerm.Y2S2.heroine_03,Object.keys(LADDER.byTerm).join(','));
+  // 2026-10-16 AA-B 驗收（企劃線 AA_140 G45）：linesIf／extraIf 裡的 week 原本沒有作用（整套丟給 EVENTS.cond，不認得 week＝永遠成立）；greet.when 的 weekParity 原本沒有處理。修改前 21、22 失敗。
+  { const A3=LADDER.byTerm.Y1S2.heroine_01.steps.find(s=>s.id==='A2-L3');
+    fresh(termDay('Y1S2',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true});
+    check('21. 以安 A2-L3 大一下第 3 週（linesIf 只寫 week 7～18）：用原本的 lines（不說「杜鵑花謝了」）',JSON.stringify(STORY.ladLines(A3,G,'heroine_01'))===JSON.stringify(A3.lines),JSON.stringify(STORY.ladLines(A3,G,'heroine_01')));
+    fresh(termDay('Y1S2',8,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true});
+    check('21. 以安 A2-L3 大一下第 8 週：linesIf 換成「杜鵑花謝了」那一套',JSON.stringify(STORY.ladLines(A3,G,'heroine_01'))===JSON.stringify(A3.linesIf[0].lines));
+    said=[]; fresh(termDay('Y1S2',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); meet('heroine_01'); R('heroine_01',30,10,10);
+    picks=[0]; await STORY.ladPlay(GM,{name:'沈以安',charId:'heroine_01'},'heroine_01',A3);
+    check('21. ladPlay 實際播出來的也是原本的 lines',lines().join('｜').includes(A3.lines[0])&&!lines().join('｜').includes('杜鵑花謝了'),lines().slice(0,2).join('｜')); }
+  { const SIS='heroine_05', DUTY=LADDER.byTerm.Y1S2[SIS].greet.when.find(w=>w.weekParity==='odd').t; let even=0, odd=0;
+    for(let w=1;w<=15;w++){ fresh(termDay('Y1S2',w,6),9,'campus',{introDone:true,classDone:true,afternoonDone:true}); const got=[]; for(let k=0;k<4;k++) got.push(STORY.ladGreet(G,SIS));
+      if(got.includes(DUTY)){ if(w%2) odd++; else even++; } }
+    check('22. 學姊大一下的「今天法服值班」（weekParity odd）：雙週六不出現',even===0,'雙週出現 '+even+' 次');
+    check('22. 單週六上午會出現',odd>=7,'單週出現 '+odd+' 次'); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();
