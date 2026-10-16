@@ -48,5 +48,10 @@ function itemFor(cid,week){ for(let d=1;d<1500;d++){ const t=CALENDAR.termOf(d);
   if(itD&&dsc[3]){ const GD=mkG(itD.day,itD.t0+0.1); const GMD=mkGM(GD); await CLS.attend(GMD,itD,{inScene:true}); const qd=Q[dsc[2]];
     check('5. 刑總（一）第 '+dsc[1]+' 週：討論之後問 '+dsc[2]+'（題幹原文）、答案＋考點',GMD.log.includes(qd.q)&&GMD.log.some(t=>t.startsWith('答案是（'+qd.answer+'）。')),JSON.stringify(GMD.log.slice(-6))); }
   else check('5. 刑總（一）討論課那一週（審查過、排得到）',false,JSON.stringify(dsc));
+  // 讀書主題照科目（AA_134 第 1 節）
+  { const G=mkG(6,20); const c=CLS.byId('const_1'); const had=new Set(); const t1=CLS.studyTopic(G,c,id=>had.has(id));
+    check('6. 9/22（第 4 週）讀憲法（上）：主題是憲法自己的課表（const_1_w…，第 4 週以前），不是民法',!!t1&&/^const_1_w[1-4]$/.test(t1.id)&&!/民法|強行規定/.test(t1.title+t1.body),JSON.stringify(t1));
+    let n=0, last=null; while(true){ const t=CLS.studyTopic(G,c,id=>had.has(id)); if(!t) break; had.add(t.id); last=t; if(++n>20) break; }
+    check('6. 讀完第 4 週以前的每一週以後＝沒有了（「這週的進度都讀完了。」）',n>0&&n<=4&&!CLS.studyTopic(G,c,id=>had.has(id)),n+' 週，最後 '+(last&&last.id)); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

@@ -224,6 +224,8 @@ const GAME = (function(){
     const okTopic=!course||course.id==='civ_general', okLegal=!course||course.id==='crimpro';
     const studied=(okLegal&&typeof LEGAL!=='undefined'&&G.legal)?LEGAL.study():[];
     if(studied.length){ for(const q of studied){ await say(null,'你回頭看了讀書會／上課時卡住的地方：「'+q.q.replace(/。$/,'')+'」——'+(q.core?q.core:'答案是「'+(q.type==='tf'?q.answer:q.answer+'、'+q.options[q.answer])+'」')+'。這次應該懂了。'); } }
+    else if(course&&CLS.studyTopic&&(()=>{ const st=CLS.studyTopic(G,course,id=>GM.hasNote(id)); if(st){ addNote(st.id,st.title,st.body); return st; } return null; })()){ const st=G.notes[G.notes.length-1]; await say(null,'你把〈'+st.title+'〉的筆記整理了一遍。'); }   /* 讀書主題照科目（AA_134 第 1 節）*/
+    else if(course&&!(t&&okTopic)){ await say(null,'這週的進度都讀完了。'); }
     else if(t&&okTopic){ addNote(t.id,t.title,t.body); await say(null,t.read||('你花了一小時讀'+t.title+'。'+t.body)); }
     else if(!course){ await say(null,'你把這週的筆記重新整理了一遍。沒有新的東西，但腦袋清楚了一些。'); }
     if(G.energy<20) toast('你有點累了'); }
