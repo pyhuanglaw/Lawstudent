@@ -13,7 +13,7 @@ results = []
 
 
 def run(cwd, *a, ok=True):
-    r = subprocess.run(list(a), cwd=cwd, capture_output=True, text=True)
+    r = subprocess.run(list(a), cwd=cwd, capture_output=True, text=True, env={**os.environ, 'PYTHONDONTWRITEBYTECODE': '1'})
     if ok and r.returncode:
         raise RuntimeError(f'{" ".join(a)} 失敗（{r.returncode}）：{r.stdout[-400:]}{r.stderr[-400:]}')
     return r.returncode, (r.stdout or '') + (r.stderr or '')
@@ -53,6 +53,7 @@ class World:
                                                     'meta': {}, 'tasks': [self.task('T-SEED')]})
         self.wjson(seed, 'docs/handoff/deliveries.json', {'version': 1, 'scannedThrough': {}, 'deliveries': [], 'ignored': []})
         self.wtext(seed, 'docs/HANDOFF_GAP_MATRIX.md', '# 測試用\n')
+        self.wtext(seed, '.gitignore', '__pycache__/\n')
         self.wtext(seed, 'docs/AI_SESSION_HANDOFF.md', '# 測試用\n## 1. 值班表\n現在：（沒有人）\n')
         git(seed, 'add', '-A'); git(seed, 'commit', '-qm', 'seed'); git(seed, 'push', '-q', 'origin', 'main')
         self.clones = {}
