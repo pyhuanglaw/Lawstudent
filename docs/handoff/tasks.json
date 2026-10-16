@@ -1144,7 +1144,7 @@
    "area": "V0",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "A1 凌晨兩點的微積分（第 7 週深夜，XUN_WARM；沒去＝11/1 以後門上紙條）、T1 全系的秘密（第 5～6 週小福，KNOWS_TANG）已接（tests/v0_t1_a1_unit.js）；A2、A3（退宿 3/29，AA-B 40a204f6）、T2、T3、韋綸的腳踏車、R1～R8 待開工",
+   "next": "A1 凌晨兩點的微積分（第 7 週深夜，XUN_WARM；沒去＝11/1 以後門上紙條）、T1 全系的秘密（第 5～6 週小福，KNOWS_TANG）已接（tests/v0_t1_a1_unit.js）；A2 室友的抽屜已接（1/5 20:00 宿舍、要有 E22b、XUN_KNEW；tests/v0_a2_unit.js）；A3（退宿 3/29，AA-B 40a204f6）、T2、T3、韋綸的腳踏車、R1～R8 待開工",
    "priority": "P2",
    "first": {
     "term": "Y0S1",

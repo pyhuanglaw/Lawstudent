@@ -1865,6 +1865,19 @@ const STORY_EVENTS=[
       {label:'j'},{speaker:'kexin',expression:'annoyed',text:'對啊。比某些人會。'},{goto:'end'},
       {label:'n'},
       {label:'end'} ] },
+  /* A2 室友的抽屜（BB_112 A2；AA_154 第 140 行、A14）：1/5（日）20:00 以後在宿舍房間，收行李回家過寒假之前；E22b 發生過（E22B_TOLD 有值）。
+     「我可能會想很久。」記 XUN_KNEW（E24c 阿勳那句換）。沒有 E22b 就沒有 */
+  { id:'ev_y0_a2', stage:'econ', title:'室友的抽屜', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S1'], weeks:[18], weekday:[0], time:[20,23.5], once:true, background:'blur',
+    prereq:{custom:G=>G.flags.E22B_TOLD!==undefined&&G.flags.E22B_TOLD!==null},
+    dialogue:[ {speaker:'econ_zhengxun',text:'（拿起他桌上的書）《法學入門》。'},
+      {speaker:'econ_zhengxun',text:'你讀這本的表情，跟我讀經原一樣。'},
+      {speaker:'player',text:'……什麼表情？'},
+      {speaker:'econ_zhengxun',text:'好像找到東西了。'},
+      {choice:[{text:'「只是好奇。」',goto:'a'},{text:'「我可能會想很久。」',set:{XUN_KNEW:true},goto:'b'},{text:'（不說話，把書收起來）',goto:'c'}]},
+      {label:'a'},{speaker:'econ_zhengxun',text:'好。'},{speaker:null,text:'他把書放回去，放得很正。'},{goto:'end'},
+      {label:'b'},{speaker:'econ_zhengxun',text:'那就想很久。我在。'},{goto:'end'},
+      {label:'c'},{speaker:'econ_zhengxun',text:'你收書的速度，也是。'},{speaker:null,text:'他笑了一下，沒有再問。'},
+      {label:'end'} ] },
 ];
 // 同一人物的一般閒聊（沒有事件可觸發時）。一句可以是字串，或 {t:'台詞', if:{條件，和事件的 if 一樣}}；story3d.js 的 S.smallTalk 輪流說、一天一句
 /* 閒聊（S.smallTalk）：一句可以是字串，或 {t, 條件}。條件（AA_120 2-2，2026-10-13）：if／unless（EVENTS.cond）、term（學期）、week:[a,b]（學期第幾週）、
