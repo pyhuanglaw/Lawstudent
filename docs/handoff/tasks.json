@@ -1768,8 +1768,8 @@
    "title": "G1 大二版、語彤 10",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "照交接包_v3 實作",
+   "status": "已整合待測試",
+   "next": "ev_midterm_walkout_y2（G1 大二上版，AA_143 1-4：刑法分則期中考後、只有認識的人）＋ev_yutong_midterm_week（AA_11 事件 10、AA_177 第 5 節：大二上第 10 週起週二四 20:45～21:15 麵店、朋友以上、大二下補；yutong_hospital 第一句、Y1_MID_LIB／習慣記錄的「位子空著」選項）；tests/v3_d7_unit.js；瀏覽器未測",
    "priority": "P2",
    "first": {
     "term": "Y2S1",

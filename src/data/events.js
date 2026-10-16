@@ -2399,6 +2399,27 @@ const STORY_EVENTS=[
         if(F.P2B_E13&&typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('invite:kexin');
         if(GM.enter){ if(G.hour%24>=20.5) GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); else if(G.zone!=='campus') GM.enter('campus',{x:97.0,z:-66.5,yaw:-Math.PI/2}); } }
       F.P2B_GO=null; F.P2B_E13=null; F.P2B_K=null; } },
+  /* D7（交接包 v3 第 8～9 週）：G1 考完走出教室（大二上版，AA_143 1-4）＋語彤事件 10 期中考那一週（AA_11 事件 10、AA_177 第 5 節）。
+     G1：刑法分則期中考考完，在教室門口接著演（classes3d.js 的 afterClassEvent：afterExam 'mid'）；有去考才有、翹考＝沒有；只有認識的人；考題只說「第三題」。
+     語彤 10：大二上第 10 週起，週二或週四 20:45～21:15 在麵店（打烊的時候）、和語彤「朋友」以上；大二上沒遇到延到大二下，大二下結束還沒遇到＝不演。
+       那週去過麵店、阿姨說過扭到手（yutong_hospital，大一下事件 4）的玩家第一句換一句；「我那週有注意到妳的位子空著。」只有大一下期中那兩週真的去過總圖才有（Y1_MID_LIB，story3d.js onEnter 記；舊存檔看習慣記錄）*/
+  { id:'ev_midterm_walkout_y2', title:'考完試走出教室', participants:[], location:'any', trigger:'class', afterClass:'crim_spec', afterExam:'mid', term:['Y2S1'], once:true, background:'blur',
+    dialogue:[ {speaker:'zhe',expression:'neutral',text:'第三題，我寫了一整面。……寫的是第二題的答案。'},
+      {if:EV_KNOWS('classmate_bohan'),speaker:'classmate_bohan',expression:'neutral',text:'大家都考幾分？……我是說，大家覺得考得怎樣。'},
+      {if:EV_KNOWS('classmate_xinci'),speaker:'classmate_xinci',expression:'neutral',text:'還沒考完的人在旁邊，小聲一點。'},
+      {if:EV_KNOWS('heroine_01'),speaker:'heroine_01',expression:'neutral',text:'考完的題目，不要對答案。理由：改不了。'},
+      {if:EV_KNOWS('heroine_01'),speaker:null,text:'（她自己在手帳上偷偷對了一題）'} ] },
+  { id:'ev_yutong_midterm_week', title:'期中考那一週', participants:['heroine_03'], location:'noodle', trigger:'auto', term:['Y2S1','Y2S2'], weekday:[2,4], time:[20.75,21.25], once:true,
+    prereq:{stage:{npc:'heroine_03',min:'FRIEND'},custom:G=>{ const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf(G.day); return !!t&&(t.id==='Y2S2'||t.week>=10); }},
+    spawn:{npc:'heroine_03',at:{x:2.6,z:-3.6},pose:'idle'}, background:'blur',
+    dialogue:[ {unless:{flags:['yutong_hospital']},speaker:'heroine_03',expression:'neutral',text:'大一期中考那週，你有沒有發現我不在圖書館？'},
+      {if:{flags:['yutong_hospital']},speaker:'heroine_03',expression:'neutral',text:'你那週來過麵店，阿姨跟你講了吧。'},
+      {speaker:'heroine_03',expression:'neutral',text:'阿姨扭到手。我每天顧店到打烊，在櫃台念社會學理論。客人都在看我念書。'},
+      {speaker:'heroine_03',expression:'smile',text:'後來那科是我考最好的一科。很好笑。'},
+      {choice:[{text:'「我那週有注意到妳的位子空著。」',if:{custom:G=>typeof STORY!=='undefined'&&!!STORY.y1MidLib&&STORY.y1MidLib(G)},goto:'seen'},{text:'「妳那時候為什麼不說？」',goto:'why'}]},
+      {label:'seen'},{speaker:'heroine_03',expression:'neutral',text:'……你有注意到。'},{mem:[{npc:'heroine_03',tag:'NOTICED_EMPTY_SEAT',note:'大一下期中那週，他注意到她在總圖的位子空著'}]},{goto:'end'},
+      {label:'why'},{speaker:'heroine_03',expression:'neutral',text:'說了你要來幫我顧店嗎？'},{speaker:'player',text:'……可以啊。'},{speaker:'heroine_03',expression:'smile',text:'你連蔥都不會切。'},
+      {label:'end'} ] },
   /* ===================== 大二（交接包 v3）=====================
      D24 社團博覽會大二版（AA_170 第 1 節，AA-B 2026-10-16；第②級）：2026-09-16（三）、09-17（四）11:00～17:00，椰林大道同一排攤位（大一 club_expo_y1s1 的 spot），
      窗口內第一次走到攤位那一排。站哪一攤照大一加入的社團（CLUB_<id>）；加入不只一個＝選單選；站一個小時（不扣時段次數）。都沒加入＝走過、語彤遞傳單。
