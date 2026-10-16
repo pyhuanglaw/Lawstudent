@@ -1891,6 +1891,90 @@
    "msg": "DELIVERED",
    "integration": "未整合",
    "note": "照 D81 在那一學年／系統做時接"
+  },
+  {
+   "id": "DLV-1016-158",
+   "date": "2026-10-16T07:5xZ",
+   "from": "LAWWW2-B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "48aed1c9",
+   "what": "溫州街小公園 v3＋layout v2（ART-WZ1）",
+   "task": "ART-WZ1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "b0d66fea 接；名牌修正用 ceb545f2 的 GLB"
+  },
+  {
+   "id": "DLV-1016-159",
+   "date": "2026-10-16T07:5xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "cdaf8a9f",
+   "what": "AA_168 E01 照 BB-B 改兩處",
+   "task": "V0-B1",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "tests/v0_e01_unit.js"
+  },
+  {
+   "id": "DLV-1016-160",
+   "date": "2026-10-16T07:5xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "c7f3ba45",
+   "what": "AA_140 G50 S-2 以安日文課日程",
+   "task": "V2-G50S2",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "348aeb1c"
+  },
+  {
+   "id": "DLV-1016-161",
+   "date": "2026-10-16T07:5xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "ae7a7784",
+   "what": "AA_169 E24c、E30 完整稿",
+   "task": "V0-A7",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v0 事件批次接"
+  },
+  {
+   "id": "DLV-1016-162",
+   "date": "2026-10-16T07:5xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "9da99604",
+   "what": "BB_153 v0 E08、E20、E28、E34 完整稿（AA-B 核對通過）",
+   "task": "V0-B1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v0 事件批次接"
+  },
+  {
+   "id": "DLV-1016-163",
+   "date": "2026-10-16T07:5xZ",
+   "from": "BB-B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "b6270efc",
+   "what": "BB_131 第 9 節 ART-05 五位 Blender 人物可以當預設（不標 ART_APPROVED）",
+   "task": "ART-05",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v9.9 前跑走路、坐下、ADV 回歸後決定"
+  },
+  {
+   "id": "DLV-1016-164",
+   "date": "2026-10-16T07:5xZ",
+   "from": "AA-B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "bfd75e12",
+   "what": "「你來過一次」十一位（solo_before_aa_v1／bb_v1）",
+   "task": "DL-08",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "需要約會系統（AA_128）的地點；排在約會地點之後"
   }
  ],
  "ignored": [

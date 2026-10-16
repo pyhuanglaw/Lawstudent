@@ -45,11 +45,11 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('法律系開局：先放④（8 句）再放③（4 句），然後進宿舍（現有的第一天）',L[0]==='你在台大經濟系念過一年。'&&L[7]==='九月，你回到同一個校園，換了一個系。'&&L[8]==='開學第一週，你走進霖澤館。沒有人知道你來過這個校園。'&&L.length===12&&entered==='dorm'&&G.day===1&&G.stage==='law',JSON.stringify({n:L.length,first:L[0],entered,day:G.day}));
     check('法律系開局：記下看過摘要（舊存檔另外處理）',G.flags.LAW_RECAP_SEEN===true); }
   /* 經濟系開局 */
-  { fresh(1,21.2,'dorm',{}); G.flags={dating_kexin:true,KX_DEC3_MIGRATED:true}; const E0=GM.E; GM.E=Object.assign({},E,{player:{busy:false},endCinematic(){},setWeather(){}}); GM.hideHUD=()=>{}; let card=null; GM.titleCard=async(a,b)=>{ card=a+'｜'+b; };
+  { fresh(1,21.2,'dorm',{}); G.flags={dating_kexin:true,KX_DEC3_MIGRATED:true,E01_DONE:true}; /* E01（宿舍第一晚）另外在 tests/v0_e01_unit.js 測；這裡只看開局的狀態 */ const E0=GM.E; GM.E=Object.assign({},E,{player:{busy:false},endCinematic(){},setWeather(){}}); GM.hideHUD=()=>{}; let card=null; GM.titleCard=async(a,b)=>{ card=a+'｜'+b; };
     await STORY.newGameEcon(GM); GM.E=E0; GM.titleCard=async()=>{};
     check('經濟系開局：2024-09-01（日）21:00、男宿、stage econ',G.stage==='econ'&&G.day===Y0&&G.weekday===0&&Math.abs(G.hour-21)<1e-6&&G.zone==='dorm',JSON.stringify({stage:G.stage,day:G.day,wd:G.weekday,h:G.hour}));
     check('經濟系開局：還沒和可昕交往（dating_kexin false）、法律系第一天的可昕訊息不補（KX_FIRST_MSG）',G.flags.dating_kexin===false&&G.flags.KX_FIRST_MSG===true);
-    check('經濟系開局：標題卡「2024 年 9 月 1 日｜週日 21:00 · 男生宿舍」',card==='2024 年 9 月 1 日｜週日 21:00 · 男生宿舍',card); }
+    check('經濟系開局：標題卡「2024 年 9 月 1 日（日）｜開學前一天」（AA_168 第 1 節）',card==='2024 年 9 月 1 日（日）｜開學前一天',card); }
   /* 事件的階段 */
   { fresh(Y0+20,15,'campus',{introDone:true,classDone:true,afternoonDone:true}); G.stage='econ'; const law=STORY_EVENTS.filter(e=>!e.retired&&!e.off&&!e.stage); const fired=law.filter(e=>EVENTS.check(e));
     check('經濟系那一年：現有的法律系事件一個都不觸發（stage 不同）',fired.length===0,fired.slice(0,5).map(e=>e.id).join(','));

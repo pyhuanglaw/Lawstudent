@@ -108,7 +108,7 @@ const DM3=(function(){
       const sg=new THREE.Mesh(new THREE.PlaneGeometry(0.42,0.16),new THREE.MeshBasicMaterial({map:TK.signTex(d.plate,{bg:'#f4f2ec',fg:'#2b2b2b'})})); sg.position.set(0,1.85,0.08); dg.add(sg); (d.lv?lv1:lv0).attach(sg);
       return p; };
     for(const d of L.doors){ const p=one(d,false); IT.push({x:p.x+Math.sin(p.ry)*0.75,z:p.z+Math.cos(p.ry)*0.75,radius:1.0,lv:d.lv,label:d.label,look:d.closed}); }
-    const H=L.home; one({x:H.x,lv:H.lv,side:'N',plate:'203'},true);
+    const H=L.home; one({x:H.x,lv:H.lv,side:'N',plate:(typeof GAME!=='undefined'&&GAME.G&&GAME.G.stage==='econ')?'412':'203'},true);   /* 經濟系那一年住 412（AA_168 第 5 節；故事上是另一棟樓）*/
     // 房門口的小東西：鞋架、阿凱掛在門把上的耳機袋（一看就知道是自己的房間）
     { const y=Y1, z=L.corridor.z0+0.25; const b=new TK.Bin(); b.add(M('#3a3f46',{rough:0.6}),TK.boxG(0.7,0.36,0.26),H.x+0.95,y+0.18,z); b.add(M('#e9e4da'),TK.boxG(0.26,0.08,0.11),H.x+0.8,y+0.4,z); b.add(M('#4a6c8c'),TK.boxG(0.26,0.08,0.11),H.x+1.1,y+0.4,z); b.build(fb1); } }
 
