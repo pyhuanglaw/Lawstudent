@@ -837,6 +837,29 @@
       "doc": "docs/story_planning/AA_270_期末飯邀約鉤子_C14C15補句.md",
       "sha": "caeaf97f",
       "summary": "期末飯鉤子不接、傳日子、C15 沒去照片"
+    },
+    {
+      "id": "AA271-FREE-TRIP-B3",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_271_自由出行第三批_AA六位偶遇.md",
+      "sha": "fef59a02",
+      "summary": "第三批偶遇 AA 六位、solo_before_aa、wish_aa（0b478a53）、aa_walk 同步 AA_209 改稿"
+    },
+    {
+      "id": "AA162-B2-ENC-REVIEW",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_162_偶遇人物表_AA六位.md",
+      "sha": "430df52f",
+      "summary": "第二批偶遇口語審（AA_162 8-5、BB_150）；以安 D09 第 10 週、阿哲 D25 第 14～15 週；BB 句子 BB-C 口氣審中"
     }
   ]
 }
