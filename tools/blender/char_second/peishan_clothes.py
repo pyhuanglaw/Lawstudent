@@ -12,8 +12,10 @@ import common as C
 import h01_clothes as K
 import x_xinci_clothes as XC
 
-WINE = np.array([118, 38, 44]) / 255.0           # 酒紅（參考圖受光面約 #7a2a2e、陰影 #4e1a1e）
-NAVY = np.array([36, 42, 64]) / 255.0            # 深藍裙（參考圖 #262c42 一帶，比芯慈的裙子再暗一點）
+# 第二版配色（使用者 2026-10-17：「沛珊一定要換 她走日系風」；同一天「臺大不要再有這麼鮮艷紅色的衣服上衣的女生」）：
+# 酒紅 T＋深藍長裙 → 灰藍（サックスブルー）T 紮進米白長裙；款式、低馬尾、深色圓框眼鏡、黑帆布鞋不變。第一版的顏色留在註解：WINE (118,38,44)、NAVY (36,42,64)
+WINE = np.array([168, 188, 212]) / 255.0         # 名稱沿用（上衣的顏色）：灰藍
+NAVY = np.array([232, 226, 212]) / 255.0         # 名稱沿用（裙子的顏色）：米白
 SHOE = np.array([28, 28, 30]) / 255.0            # 黑色帆布
 SOLE = np.array([236, 232, 222]) / 255.0         # 白鞋底
 STYLE = dict(KNIT_RGB=WINE, TROUSER_RGB=NAVY, LEATHER_RGB=SHOE, SOLE_RGB=SOLE, GOLD_RGB=SOLE, BELT_RGB=None,

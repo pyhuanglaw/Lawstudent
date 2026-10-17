@@ -201,8 +201,8 @@ VARIANTS = {
     'nf20': dict(sex='f', base='Darkness_Shibu', head=0.92, height=1.60, iris='#2a2018',
                  face=dict(EYE_SX=1.06, EYE_SZ=0.70, EYE_TILT=0.01, BROW_ARCH=0.55, BROW_K=1.25, FACE_NARROW=0.975, CHIN_WIDEN=0.60, MOUTH_K=1.25, CHEEK_TINT_K=1.1),
                  hair=dict(seed=20261130, part=8.0, col=(0.09, 0.075, 0.07), tip=(-0.060, -0.070, -0.050, -0.010, -0.040, -0.070, -0.090, -0.100, -0.100, -0.100), n_main=42, n_outer=26),
-                 layered=dict(style=outer_style(rgb(196, 204, 214), rgb(52, 58, 80), rgb(36, 32, 30), rgb(36, 32, 30), tex='linen', sleeve_k=0.80, ease=0.80, shoe_style='loafer'),
-                              skirt=dict(len='knee'))),   # 黑色及肩＋淺灰藍襯衫布上衣＋深藍及膝裙＋黑樂福鞋
+                 layered=dict(style=outer_style(rgb(216, 204, 180), rgb(52, 58, 80), rgb(36, 32, 30), rgb(36, 32, 30), tex='linen', sleeve_k=0.80, ease=0.80, shoe_style='loafer'),
+                              skirt=dict(len='knee'))),   # 黑色及肩＋燕麥色襯衫布上衣＋深藍及膝裙＋黑樂福鞋（灰藍讓給沛珊）
     'nm17': dict(sex='m', base='HairSample_Male', head=0.93, height=1.69, iris='#2c2018',
                  face=dict(EYE_SX=1.06, EYE_SZ=0.74, EYE_TILT=0.03, BROW_ARCH=0.55, BROW_K=1.45, FACE_NARROW=0.990, CHIN_WIDEN=0.66, JAW_OUT=0.0044, MOUTH_K=1.40),
                  hair=dict(seed=20261227, part=-10.0, col=(0.11, 0.10, 0.10), tip=(-0.026, -0.022, -0.016, -0.006, -0.012, -0.022, -0.030, -0.036, -0.034, -0.030), nape=0.036, vol=1.1, curl=(6, 16)),
