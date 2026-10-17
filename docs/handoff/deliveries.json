@@ -6561,6 +6561,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "路人底模合計女 20、男 15；nm10／12／14／15／20 頭髮重建中，第四份另交。單元測試 anon_pool／npc_ambient／crowd 通過；瀏覽器路人探針待下一批"
+  },
+  {
+   "id": "DL-LW2-ECON-CH",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "9fe25037",
+   "what": "經濟系人物 VRM：韋綸 v7、唐睿 v6、家豪 v5、魏教授 v2＋截圖、README",
+   "task": "V0-ECON-CHARS",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "等 BB-C D59 驗收；連同阿勳 v6（4bf1ae20）、品妤 v5（e1b9133a）一起接"
   }
  ],
  "ignored": [
@@ -9000,6 +9013,13 @@
    "why": "使用者決定美國交換改大四上的紀錄",
    "coveredBy": "US-RESCHED-1017",
    "reason": "使用者決定美國交換改大四上的紀錄"
+  },
+  {
+   "sha": "76a9375d",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "ART-05",
+   "reason": "沛珊第五版建置中（LAWWW2 自己標「建置中」），不是交付；完成時另交"
   }
  ]
 }
