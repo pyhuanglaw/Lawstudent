@@ -14632,8 +14632,8 @@
    "aliases": [],
    "id": "DL-06C",
    "title": "捷運自由出行其餘 23 處（等 AA 寫 spots_v3）",
-   "status": "等待其他AI／素材",
-   "next": "AA-C 寫 spots_v3（第三批開始寫）；交付已審 commit 後施工",
+   "status": "已整合待測試",
+   "next": "【17:5x LAWWW-C】spots_v3 @3b599624（AA-C 17:34 已審：AA_188 口語修訂 36 句）十八處匯入（tools/freetrip/import_spots.py，白名單）；底圖 20 張（18 處＋D02 雨後＋D28 安平夕陽，abad2fa0 照原檔，使用者 10-17 核准的 33 張）、OUT.BG、LICENSES。freetrip3d.js 照 rulesV3：門票（抵達扣、出發前錢要夠）、固定段落（D05 看電影）、point.until／closedWd／closedMon1／days、看第一顆星（日落後 10～60 分）、下雨換底圖（D02）、兩張底圖＋坐公車去安平（D28；16:00 以後到直接在安平）、外縣市考試週不能去。開車的 D15、D16、D22、D23、D32 不做自由出行版（AA-C）。第三批沒有偶遇表（AA_161 5-5 後續）。tests/dl06_trip_unit.js 第 2c 節。待瀏覽器（flow_trip_date 那一套）。｜AA-C 寫 spots_v3（第三批開始寫）；交付已審 commit 後施工",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -14642,7 +14642,7 @@
     "blocks": false,
     "prereq": false,
     "parallel": true,
-    "confirmed": false
+    "confirmed": true
    }
   },
   {

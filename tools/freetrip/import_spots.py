@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
 import import_guard as G
 ALLOW = G.load(ROOT)
 DST = os.path.join(ROOT, 'src', 'data', 'free_trips.js')
-BATCHES = ['docs/story_planning/free_trip/spots_v2.json']
+BATCHES = ['docs/story_planning/free_trip/spots_v2.json', 'docs/story_planning/free_trip/spots_v3.json']
 APPROVED = G.approved_files(ALLOW, 'docs/story_planning/free_trip/')
 src = open(DST, encoding='utf8').read()
 cur = json.loads(src[src.index('{'):src.rindex('}') + 1])
@@ -27,7 +27,7 @@ for p in BATCHES:
 out = {'rules': cur['rules'], 'source': '第一批＝DL-06 照抄（free_trips.js 原有）＋白名單 ' + '＋'.join(used), 'spots': list(spots.values())}
 if not head.strip().endswith('*/'):
     head = head.rstrip() + '\n'
-head = re.sub(r'/\* 自由出行第一批四個景點（DL-06）.*?\*/', '/* 捷運自由出行的景點（DL-06 第一批四處、DL-06B 第二批五處）：AA_161、docs/story_planning/free_trip/spots_v*.json 照抄，不在這裡改內容。\n   產生器：tools/freetrip/import_spots.py（第二批以後只讀匯入白名單的版本）。規則在 AA_160 第 4 節；rules 是 AA 寫的施工說明。 */', head, flags=re.S)
+head = re.sub(r'/\* 自由出行第一批四個景點（DL-06）.*?\*/', '/* 捷運自由出行的景點（DL-06 第一批四處、DL-06B 第二批五處、DL-06C 第三批十八處）：AA_161、docs/story_planning/free_trip/spots_v*.json 照抄，不在這裡改內容。\n   產生器：tools/freetrip/import_spots.py（第二批以後只讀匯入白名單的版本）。規則在 AA_160 第 4 節；rules 是 AA 寫的施工說明。 */', head, flags=re.S)
 with open(DST, 'w', encoding='utf8') as fo:
     fo.write(head + 'const FREE_TRIPS=' + json.dumps(out, ensure_ascii=False, indent=1) + ';\n')
 print('wrote', DST, [s['id'] for s in out['spots']], out['source'])
