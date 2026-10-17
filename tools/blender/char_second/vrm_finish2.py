@@ -19,6 +19,8 @@ if __name__ == '__main__':
     vb.outline_tone(v)
     male = os.environ.get('VRM_MALE') == '1' or base == 'HairSample_Male'
     eyes = vb.MALE_EYES if male else vb.FEMALE_EYES
+    if os.environ.get('VRM_REST'):     # 待機臉：把表情的一部分烘進基本形（JSON，例如 {"Fcl_MTH_Fun": 0.3}；BB-C BB_201：經濟系四人的待機臉太悶）
+        import json; eyes = dict(eyes, **json.loads(os.environ['VRM_REST']))
     vb.bake_face(v, eyes, blink_scale=1.0 - eyes.get('Fcl_EYE_Close', 0.0))
     vb.prune_morphs(v); vb.merge_prims(v)
     if iris: vb.recolor_iris(v, iris)
