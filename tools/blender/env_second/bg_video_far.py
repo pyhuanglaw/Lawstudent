@@ -1,13 +1,13 @@
 """2D 背景：「遠方」視訊——祐廷在國外的房間（ART-BG-AA185 第 3 張；AA_185 1-2、第 8 節）。LAWWW2-C 2026-10-17。
 劇情：台灣 2028-03-16（四）19:30 麵店長桌，大家打視訊給在國外交換的祐廷；麵店那一邊的手機螢幕上是他的房間（祐廷的立繪疊在中間）。
   jp：日本那邊 20:30（晚上）。交換學校的國際學生宿舍、單人房（AA_145 3-6：「小小的單人房、書桌、窗外是大學城的屋頂；冬天」——三月中還冷）。
-  （us：美國那邊 07:30 早上的公寓——美國公寓的 3D 是 LAWWW2-B 的 us_apartment.glb，另外一個變體，之後做）
+  us：美國那邊 07:30（三月中，天剛亮、外面還有雪）。房間直接用 LAWWW2-B 的 us_apartment.glb（客廳；他坐在吧台吃麥片，筆電在吧台上）。
 鏡頭＝他桌上筆電的鏡頭（高 1.1 m、看著坐在書桌前的人）：人物站的位置（畫面中間）留空、背景比人物暗一點，立繪疊上去才看得清楚。
 日本宿舍單人房的辨識點：白色的牆、木地板、天花板的圓形吸頂燈（冷白）、牆上的冷氣（白色、日本的樣子）、鋁窗＋米色窗簾半拉、
 窗外夜裡的大學城（兩層的木造／瓦屋頂房子、亮著的窗、電線桿和電線、遠處公寓的燈）、書架（語言課的課本：書背只有色塊）、
 軟木板上的課表（格子、色塊，沒有字）、掛著的大衣、床的一角（被子）。沒有任何真實的品牌或文字。
 做法照 bg_video.py（LAWWW2-B）：場景直接用 bpy 蓋。座標＝遊戲座標（x 東、y 上、z 南）；後牆在 z＝0、鏡頭在 +z 往 −z 看。
-  /opt/blenv/bin/python tools/blender/env_second/bg_video_far.py -- jp <輸出.png> [--res 1920x1080] [--samples 64]
+  /opt/blenv/bin/python tools/blender/env_second/bg_video_far.py -- jp|us <輸出.png> [--res 1920x1080] [--samples 64]
   之後：python3 tools/blender/env_second/bg_paint.py <輸出.png> assets/bg/video_far_jp.webp"""
 import math, os, random, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -29,6 +29,15 @@ sc.render.resolution_x, sc.render.resolution_y = RW, RH; sc.view_settings.view_t
 try: sc.view_settings.look = 'AgX - Punchy'
 except Exception: pass
 
+def shoot(eye, look, lens):
+    cam = bpy.data.objects.new('cam', bpy.data.cameras.new('cam')); sc.collection.objects.link(cam); sc.camera = cam
+    cam.data.lens = lens; cam.data.sensor_width = 36; cam.location = g2b(*eye)
+    cam.rotation_euler = (g2b(*look) - g2b(*eye)).to_track_quat('-Z', 'Y').to_euler(); cam.data.clip_end = 200
+    sc.render.filepath = os.path.abspath(OUT); sc.render.image_settings.file_format = 'PNG'
+    bpy.ops.render.render(write_still=True)
+    print('rendered', OUT, VAR, RW, RH, SAMPLES)
+
+
 
 def lathe_obj(name, profile, mat, at, seg=32):
     bm = L.lathe(profile, seg); me = bpy.data.meshes.new(name); bm.to_mesh(me); bm.free(); me.materials.append(mat)
@@ -49,8 +58,36 @@ def emit(name, hexcol, k):
     m = L.flat(name, hexcol, rough=1.0, emit=B.srgb(hexcol)); m.node_tree.nodes['Principled BSDF'].inputs['Emission Strength'].default_value = k; return m
 
 
+# ================= us：美國那邊 07:30（三月中，天剛亮、外面還有雪）。房間＝LAWWW2-B 的 us_apartment.glb（照使用者的三張照片蓋的客廳）=================
+# 他端著一碗麥片坐在吧台的高腳椅上，筆電放在吧台上：鏡頭往北看客廳——黑色皮沙發、橘紅地毯、窗（百葉＋黑白圓圈窗簾）、陽台玻璃門、吊扇。
+# 窗外：GLB 的雪景（SEASON_SNOW_on）調暗、偏藍（天剛亮）；屋裡開著吊扇的燈和桌燈（暖色），和窗外的冷色對比。
+if VAR == 'us':
+    bpy.ops.import_scene.gltf(filepath=os.path.join(L.ROOT, 'assets/models/env/second_ai/us_apartment.glb'))
+    for nm in ('SEASON_SNOW_off', 'usa_view_off'):
+        ob = bpy.data.objects.get(nm)
+        if ob is None: continue
+        for c in [o.name for o in ob.children_recursive]:
+            if c in bpy.data.objects: bpy.data.objects.remove(bpy.data.objects[c], do_unlink=True)
+        bpy.data.objects.remove(ob, do_unlink=True)
+    for m in bpy.data.materials:
+        bs = m.node_tree.nodes.get('Principled BSDF') if m.node_tree else None
+        if bs is None: continue
+        if m.name.startswith('usa_view'): bs.inputs['Emission Strength'].default_value = float(opt('--view', '1.0'))
+    w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True
+    w.node_tree.nodes['Background'].inputs['Color'].default_value = (*B.srgb('#9fb4d4')[:3], 1); w.node_tree.nodes['Background'].inputs['Strength'].default_value = float(opt('--sky', '0.8'))
+    for k, (dx, dz) in enumerate(((0.28, 0), (-0.28, 0), (0, 0.28), (0, -0.28))):              # 吊扇的四個燈罩（(-1.6, -1.0)、天花板 2.6）
+        point_light('us_fan_%d' % k, -1.6 + dx, 2.25, -1.0 + dz, float(opt('--fan', '14')), (1.0, 0.8, 0.58), 0.06)
+    point_light('us_lamp', -4.25, 1.05, -2.55, float(opt('--lamp', '28')), (1.0, 0.76, 0.5), 0.08)   # 沙發旁的桌燈
+    point_light('us_kitchen', -3.1, 2.3, 2.0, float(opt('--kitchen', '30')), (1.0, 0.86, 0.7), 0.1)    # 背後廚房的燈（照到吧台和高腳椅）
+    # 天剛亮的冷光從北窗、陽台玻璃門進來（第一版只有暖色燈，看起來像晚上）
+    area_light('us_dawn_win', -3.2, 1.45, -2.85, 1.2, 1.2, float(opt('--dawn', '60')), (0.62, 0.74, 1.0), rot=(math.radians(-90), 0, 0))
+    area_light('us_dawn_door', -1.0, 1.0, -2.85, 0.8, 2.0, float(opt('--dawn', '60')) * 0.6, (0.62, 0.74, 1.0), rot=(math.radians(-90), 0, 0))
+    sc.view_settings.exposure = float(opt('--exposure', '0.0'))
+    shoot(tuple(map(float, opt('--eye', '-3.0,1.32,0.72').split(','))), tuple(map(float, opt('--look', '-2.3,1.32,-3.0').split(','))), float(opt('--lens', '20')))
+    raise SystemExit
+
 M = {'wall': L.flat('vf_wall', '#e4e1da', rough=0.9), 'floor': L.pbr('vf_floor', 'laminate_floor_02', tile=1.0, target='#b08a62', maps=('diff', 'nor'), rough_value=0.5),
-     'ceil': L.flat('vf_ceil', '#eeece6', rough=0.9), 'alu': L.flat('vf_alu', '#b9bcbf', rough=0.35, metal=0.4), 'glass': L.flat('vf_glass', '#203048', rough=0.05, metal=0.1),
+     'ceil': L.flat('vf_ceil', '#eeece6', rough=0.9), 'alu': L.flat('vf_alu', '#b9bcbf', rough=0.35, metal=0.4), 'glass': L.flat('vf_glass', '#eef2f4', rough=0.02, metal=0.0),
      'curtain': L.flat('vf_curtain', '#cfc2a4', rough=0.95), 'ac': L.flat('vf_ac', '#f2f2ef', rough=0.4), 'ac_dk': L.flat('vf_ac_dk', '#9a9c9e', rough=0.5),
      'shelf': L.pbr('vf_shelf', 'fine_grained_wood', tile=0.6, target='#c9a77e', maps=('diff',), rough_value=0.5) if os.path.isdir(L.tex_dir('fine_grained_wood')) else L.flat('vf_shelf', '#c9a77e', rough=0.5),
      'desk': L.flat('vf_desk', '#d8c3a0', rough=0.4), 'cork': L.pbr('vf_cork', 'dirty_carpet', tile=0.25, target='#a7835a', maps=('diff',), rough_value=0.9),
@@ -69,6 +106,7 @@ Mesh('vf_wall_hi', M['wall']).box(-2.2, 1.4, 2.05, 2.4, -0.1, 0.0).finish()
 Mesh('vf_wall_l', M['wall']).box(-2.2, WX0, 0.85, 2.05, -0.1, 0.0).finish()
 Mesh('vf_wall_r', M['wall']).box(WX1, 1.4, 0.85, 2.05, -0.1, 0.0).finish()
 Mesh('vf_wall_side', M['wall']).box(1.4, 1.5, 0.0, 2.4, -0.1, 2.6).finish()
+Mesh('vf_wall_left', M['wall']).box(-2.3, -2.2, 0.0, 2.4, -0.1, 2.6).finish()               # 左邊的牆（第一版沒有，畫面左邊露出夜空的底色）
 Mesh('vf_floor', M['floor']).box(-2.2, 1.5, -0.02, 0.0, -0.1, 2.6).finish()
 Mesh('vf_ceil', M['ceil']).box(-2.2, 1.5, 2.4, 2.45, -0.1, 2.6).finish()
 Mesh('vf_skirt', M['shelf']).box(-2.2, 1.4, 0, 0.06, 0.0, 0.012).box(1.388, 1.4, 0, 0.06, 0.0, 2.6).finish()
@@ -81,18 +119,27 @@ fr.finish()
 Mesh('vf_glass', M['glass']).box(WX0, WX1, 0.85, 2.05, -0.055, -0.05).finish()
 for g in bpy.data.objects['vf_glass'].material_slots:
     b_ = g.material.node_tree.nodes['Principled BSDF']
-    try: b_.inputs['Transmission Weight'].default_value = 0.92
+    try: b_.inputs['Transmission Weight'].default_value = 1.0   # 玻璃的底色要接近白：透射會乘上底色（第一版深藍色，窗外整片黑）
     except Exception: pass
     b_.inputs['IOR'].default_value = 1.45
 # 窗簾（左右兩片、半拉：左邊拉到窗框外、右邊拉到窗的三分之一）：一條一條的直皺褶
+# 窗簾（左右兩片、半拉）：一片連續的布，沿 x 正弦波的皺褶（上面掛鉤處皺褶小、下襬比較開），下襬微微不齊
+def curtain_panel(m, x0, x1, y0, y1, folds, seed):
+    r_ = random.Random(seed); NX, NY = folds * 8, 10
+    ph = [r_.uniform(-0.25, 0.25) for _ in range(folds + 1)]
+    def P(i, j):
+        u = i / NX; v = j / NY; x = x0 + (x1 - x0) * u
+        amp = 0.022 + 0.018 * (1 - v)                                                         # v＝0 是下襬
+        f = u * folds; k = int(min(folds - 1, f)); z = 0.06 + amp * math.sin(2 * math.pi * (f + ph[k] * (1 - v)))
+        y = y0 + (y1 - y0) * v - (0.012 * math.sin(7.3 * u + seed) if j == 0 else 0)
+        return (x, y, z)
+    for i in range(NX):
+        for j in range(NY):
+            m.quad([P(i, j), P(i + 1, j), P(i + 1, j + 1), P(i, j + 1)])
 cu = Mesh('vf_curtain', M['curtain'])
-for (x0, x1) in ((WX0 - 0.42, WX0 + 0.06), (WX1 - 0.32, WX1 + 0.2)):
-    n_ = int((x1 - x0) / 0.06)
-    for k in range(n_):
-        xx = x0 + k * (x1 - x0) / n_; dz = 0.05 + 0.025 * (k % 2)
-        cu.box(xx, xx + (x1 - x0) / n_ + 0.004, 0.55, 2.2, dz, dz + 0.012)
-cu.box(WX0 - 0.5, WX1 + 0.28, 2.2, 2.23, 0.03, 0.07)                                         # 窗簾軌道
-cu.finish()
+curtain_panel(cu, WX0 - 0.42, WX0 + 0.08, 0.5, 2.2, 5, 1); curtain_panel(cu, WX1 - 0.3, WX1 + 0.22, 0.5, 2.2, 5, 2)
+cu.finish(smooth=True)
+Mesh('vf_rail', M['alu']).box(WX0 - 0.5, WX1 + 0.28, 2.2, 2.23, 0.03, 0.08).finish()          # 窗簾軌道
 # 冷氣（窗的右上方，白色長方、下面的出風口）
 ac = Mesh('vf_ac', M['ac']); ac.rbox(0.25, 1.15, 2.07, 2.33, 0.0, 0.24, r=0.04); ac.finish()
 Mesh('vf_ac_vent', M['ac_dk']).box(0.3, 1.1, 2.08, 2.1, 0.12, 0.23).finish()
@@ -121,9 +168,15 @@ for r_ in range(4):
 for k, (x0, y0, col) in enumerate(((-1.55, 1.42, '#f2d77a'), (-1.53, 1.3, '#d9a0a0'))):
     Mesh('vf_note%d' % k, L.flat('vf_note%d' % k, col, rough=0.8)).box(x0, x0 + 0.07, y0, y0 + 0.07, 0.015, 0.017).finish()
 # 掛著的大衣（左邊牆上的掛鉤）
-Mesh('vf_hook', M['hanger']).box(-1.92, -1.88, 1.92, 1.96, 0.0, 0.08).finish()
-co = Mesh('vf_coat', M['coat']); co.rbox(-2.12, -1.68, 0.95, 1.86, 0.03, 0.2, r=0.06); co.rbox(-2.15, -2.02, 1.0, 1.82, 0.04, 0.17, r=0.05); co.rbox(-1.78, -1.65, 1.0, 1.82, 0.04, 0.17, r=0.05); co.finish()
-Mesh('vf_scarf', L.flat('vf_scarf', '#a8443a', rough=0.95)).rbox(-2.02, -1.78, 1.6, 1.86, 0.19, 0.24, r=0.03).finish()
+# 左邊的牆：月曆（白紙、紅色的月份條、日期格）——第一版的大衣側面看起來像一塊軟墊，拿掉
+Mesh('vf_cal', L.flat('vf_cal', '#f6f4ee', rough=0.8)).box(-2.2, -2.195, 1.05, 1.62, 0.45, 0.85).finish()
+Mesh('vf_cal_head', L.flat('vf_cal_head', '#b8473c', rough=0.8)).box(-2.195, -2.193, 1.5, 1.6, 0.47, 0.83).finish()
+cg = Mesh('vf_cal_grid', L.flat('vf_cal_grid', '#c9c4ba', rough=0.8))
+for r_ in range(5):
+    for c_ in range(7):
+        if r_ * 7 + c_ < 33: cg.box(-2.195, -2.193, 1.42 - r_ * 0.07, 1.42 - r_ * 0.07 + 0.05, 0.48 + c_ * 0.05, 0.48 + c_ * 0.05 + 0.04)
+cg.finish()
+Mesh('vf_cal_mark', L.flat('vf_cal_mark', '#d23c3c', rough=0.8)).box(-2.193, -2.191, 1.22, 1.27, 0.68, 0.72).finish()   # 圈起來的一天
 # 床的一角（左前方、低）：床架、床墊、被子
 Mesh('vf_bedframe', M['bedframe']).box(-2.2, -1.1, 0.0, 0.32, 0.1, 2.4).finish()
 Mesh('vf_mattress', M['sheet']).rbox(-2.18, -1.12, 0.32, 0.46, 0.12, 2.38, r=0.04).finish()
@@ -142,17 +195,26 @@ lathe_obj('vf_ceil_lamp', [(0.0, 0.0), (0.26, 0.0), (0.25, -0.05), (0.18, -0.08)
 area_light('vf_ceil_light', -0.4, 2.3, 1.2, 0.45, 0.45, float(opt('--ceil', '120')), (0.92, 0.95, 1.0), rot=(0, 0, 0))
 
 # ---------------- 窗外：大學城的夜（兩層的房子剪影、瓦屋頂、亮著的窗、電線桿＋電線、遠處公寓的燈） ----------------
-Mesh('vf_sky', M['sky_n']).box(-40, 40, -10, 40, -60, -59.9).finish()
+def sky_grad(name):
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; nt.nodes.clear()
+    tc = nt.nodes.new('ShaderNodeTexCoord'); sp = nt.nodes.new('ShaderNodeSeparateXYZ'); cr = nt.nodes.new('ShaderNodeValToRGB')
+    em = nt.nodes.new('ShaderNodeEmission'); out = nt.nodes.new('ShaderNodeOutputMaterial')
+    nt.links.new(tc.outputs['Generated'], sp.inputs[0]); nt.links.new(sp.outputs['Z'], cr.inputs[0]); nt.links.new(cr.outputs[0], em.inputs[0]); nt.links.new(em.outputs[0], out.inputs[0])
+    els = cr.color_ramp.elements; els[0].position = 0.2; els[0].color = (*B.srgb('#6a5468')[:3], 1); els[1].position = 0.72; els[1].color = (*B.srgb('#0f1730')[:3], 1)
+    e3 = els.new(0.36); e3.color = (*B.srgb('#2e3a5c')[:3], 1)
+    em.inputs['Strength'].default_value = float(opt('--sky', '3.0')); return m
+Mesh('vf_sky', sky_grad('vf_sky_grad')).box(-40, 40, -10, 40, -60, -59.9).finish(uv=False)
 hs = Mesh('vf_houses', M['house']); rf = Mesh('vf_roofs', M['roof']); wl = Mesh('vf_wins', M['win_lit']); wc = Mesh('vf_wins2', M['win_cool'])
-for row, (zz, yb) in enumerate(((-9.0, 0.4), (-17.0, 1.6), (-30.0, 3.4))):          # 宿舍在三樓：近的房子屋頂在窗台下面一點、遠的往上（平視看出去是一片屋頂和亮著的窗）
+for row, (zz, yb) in enumerate(((-9.0, 0.4), (-17.0, 1.6), (-30.0, 3.4), (-46.0, 3.0))):          # 宿舍在三樓：近的房子屋頂在窗台下面一點、遠的往上（平視看出去是一片屋頂和亮著的窗）
     x = -18.0
     while x < 14.0:
-        w_ = rng.uniform(5.5, 9.0); h_ = rng.uniform(5.0, 6.5) if rng.random() < 0.8 else rng.uniform(9.0, 13.0)
+        w_ = rng.uniform(5.5, 9.0); h_ = (rng.uniform(5.0, 6.5) if (row == 0 or rng.random() < 0.8) else rng.uniform(9.0, 13.0)) if row < 3 else rng.uniform(8.0, 15.0)
+        if row == 3 and rng.random() < 0.45: x += w_; continue                                  # 遠處的公寓之間留空（看得到天空）
         hs.box(x, x + w_ - 0.6, yb - 6, yb - 6 + h_, zz - 6, zz)
         if h_ < 8: rf.quad([(x - 0.3, yb - 6 + h_, zz + 0.4), (x + w_ - 0.3, yb - 6 + h_, zz + 0.4), (x + w_ / 2 - 0.3, yb - 6 + h_ + 1.6, zz - 3), (x + w_ / 2 - 0.3, yb - 6 + h_ + 1.6, zz - 3)])
         for k in range(int(w_ / 2.2)):
             for fl in range(int(h_ / 2.9)):
-                if rng.random() < 0.38:
+                if rng.random() < (0.72 if row < 3 else 0.5):
                     wx = x + 0.8 + k * 2.2; wy = yb - 6 + 1.2 + fl * 2.9
                     (wl if rng.random() < 0.7 else wc).box(wx, wx + 1.0, wy, wy + 0.9, zz + 0.01, zz + 0.03)
         x += w_
