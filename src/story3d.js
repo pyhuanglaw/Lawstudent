@@ -1104,17 +1104,23 @@ const STORY = (function(){
     const items=[{th:'sys',text:'這週的訊息（'+L.length+' 則）。這週你回得了兩個人。'}];
     for(const e of L){ N.shown[e.id]=d; N.asked++; const bw=N.byWho[e.who]||(N.byWho[e.who]=[0,0]); bw[0]++;
       if(typeof INV!=='undefined'){ INV.rec(G); if(G.contacts[e.who]==null) G.contacts[e.who]=G.day; }   /* 他傳訊息給你＝有你的聯絡方式 */
-      e.msg.forEach((text,k)=>{ const it={th:'p:'+e.who,from:e.who,text}; if(k===e.msg.length-1) it.ask={id:grp+'_'+e.id,grp,max:2,until:needAbs(d+7,21),opts:[{t:e.reply,say:(e.resp||[]).map(r=>({from:e.who,text:r})),need:e.id}]}; items.push(it); }); }
+      const v=S.neededVar(G,e), msg=v.msg||e.msg, resp=v.resp||e.resp||[];   /* 依條件換的版本（BB_97 11-1：明軒說明會、阿凱鍵盤、子晴爸爸）*/
+      msg.forEach((text,k)=>{ const it={th:'p:'+e.who,from:e.who,text}; if(k===msg.length-1) it.ask={id:grp+'_'+e.id,grp,max:2,until:needAbs(d+7,21),opts:[{t:e.reply,say:resp.map(r=>({from:e.who,text:r})),need:e.id}]}; items.push(it); }); }
     N.batches.push({d,ids:L.map(e=>[e.id,e.who]),ans:[],closedAt:null,said:{}}); if(N.batches.length>4) N.batches.splice(0,N.batches.length-4);
     PHONE.at(G,d,21,items,grp); };
   S.neededAnswered=function(G,m,o){ const N=S.neededRec(G), grp=m.ask&&m.ask.grp; const b=N.batches.find(x=>'need_'+x.d===grp); const e=typeof NEEDED_MSGS!=='undefined'&&NEEDED_MSGS.list.find(x=>x.id===o.need); if(!e) return;
     N.answered++; const bw=N.byWho[e.who]||(N.byWho[e.who]=[0,0]); bw[1]++; if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(e.who,{trust:1});
     if(b&&!b.ans.includes(e.id)){ b.ans.push(e.id); if(b.ans.length>=2&&b.closedAt==null) b.closedAt=needAbs(G.day,G.hour); } };
   /* 沒回的那一句：這次見面該說的（沒有＝null）；說了就記下來 */
-  S.neededMissLine=function(G,id){ if(typeof NEEDED_MSGS==='undefined'||!G.needed) return null; const N=S.neededRec(G), lines=NEEDED_MSGS.miss[id]; if(!lines) return null; const now=needAbs(G.day,G.hour);
+  S.neededVar=function(G,e){ for(const v of e.vars||[]){ try{ if(v.cond(G)) return v; }catch(err){} } return {}; };
+  /* 那一則沒回的那一句（AA_179 第 4 節、BB_97 11-2：每一則各一句；交往中換 missDating；miss:null＝不提；missUnless＝那件事已經發生就不說）*/
+  S.neededMissFor=function(G,e,who){ if(!e) return (NEEDED_MSGS.miss||{})[who]||null; if(e.miss===null) return null; try{ if(e.missUnless&&e.missUnless(G)) return null; }catch(err){}
+    if(e.missDating&&G.flags&&G.flags['dating_'+who]) return e.missDating; return e.miss||(NEEDED_MSGS.miss||{})[who]||null; };
+  S.neededMissLine=function(G,id){ if(typeof NEEDED_MSGS==='undefined'||!G.needed) return null; const N=S.neededRec(G); const now=needAbs(G.day,G.hour);
     if(N.missLast[id]!=null&&now-N.missLast[id]<14*24) return null;
     for(let i=N.batches.length-1;i>=0;i--){ const b=N.batches[i]; const it=b.ids.find(x=>x[1]===id); if(!it||b.ans.includes(it[0])||b.said[id]) continue;
-      const close=b.closedAt!=null?b.closedAt:needAbs(b.d+7,21); if(now<close||now>=close+14*24) continue; b.said[id]=true; N.missLast[id]=now; return lines; }
+      const close=b.closedAt!=null?b.closedAt:needAbs(b.d+7,21); if(now<close||now>=close+14*24) continue;
+      const lines=S.neededMissFor(G,NEEDED_MSGS.list.find(x=>x.id===it[0]),id); if(!lines) continue; b.said[id]=true; N.missLast[id]=now; return lines; }
     return null; };
   S.neededMiss=async function(GM,who,id){ const L=S.neededMissLine(GM.G,id); if(!L) return false; for(const t of L) await GM.say(who,'「'+t+'」'); return true; };
   S.phoneRules=function(GM){ const G=GM.G, F=G.flags; if(typeof PHONE==='undefined') return; if(typeof HOME!=='undefined'){ try{ HOME.phoneRules(GM); if(HOME.breakPhone) HOME.breakPhone(GM); }catch(e){ console.warn('HOME.phoneRules',e); } } if(typeof TERMEND!=='undefined'){ try{ TERMEND.phone(GM); }catch(e){ console.warn('TERMEND.phone',e); } }   /* 學期末的飯（BB_203）*/ if(typeof VAC!=='undefined'){ try{ VAC.phone(GM); }catch(e){ console.warn('VAC.phone',e); } }   /* 假期活動（AA_199）*/ try{ S.neededRules(GM); }catch(e){ console.warn('NEEDED',e); }   /* 主線 4：每週日 21:00「這週的訊息」*/   /* 家人群組（週四 20:00）；放假的手機（AA_183：7/9 語彤生日、7/15 宿舍抽籤）*/ const silentContact=id=>{ if(typeof INV==='undefined') return; INV.rec(G); if(G.contacts[id]==null) G.contacts[id]=G.day; };

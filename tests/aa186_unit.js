@@ -55,6 +55,6 @@ GM.money=function(n){ G.money+=n; };
   const cls=require('fs').readFileSync(require('path').join(ROOT,'src/classes3d.js'),'utf8');
   check('D3. 午餐選單：大一下起活大的自助餐',/活大的自助餐，夾了三樣菜/.test(cls));
   const NL=NEEDED_MSGS.list;
-  check('E. 主線 4：Z7 的訊息接上條件（不再是 NOT_YET）；模擬法庭三則停用（使用者 2026-10-17 刪除，cond 永遠 false）',(()=>{ const e=NL.find(x=>x.id==='zr_beans'); return !!e&&e.cond&&e.cond.toString().indexOf('NOT_YET')<0&&e.cond.toString()!=='()=>false'; })()&&['an_moot','bh_moot','xc_moot'].every(id=>{ const e=NL.find(x=>x.id===id); return !!e&&e.cond&&e.cond()===false; }));
+  check('E. 主線 4：Z7 的訊息接上條件（不再是 NOT_YET）；模擬法庭三則換掉（AA_179 516ba348）',(()=>{ const e=NL.find(x=>x.id==='zr_beans'); return !!e&&e.cond&&e.cond.toString().indexOf('NOT_YET')<0&&e.cond.toString()!=='()=>false'; })()&&['an_moot','bh_moot','xc_moot'].every(id=>!NL.find(x=>x.id===id))&&['an_topics','bh_scores','xc_notes'].every(id=>!!NL.find(x=>x.id===id)));   /* AA_179（516ba348）：模擬法庭三則換成讀書會題目、分數表、筆記 */
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
