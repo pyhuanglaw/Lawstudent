@@ -131,7 +131,9 @@ def apply(m):
         for i, v in enumerate(vv):
             t = i / nseg; e = (off + bulge * math.sin(math.pi * min(1.0, t * 1.2))) * (0.15 + 0.85 * float(sstep(0.0, 0.35, t)))   # 髮根那一段貼近：三層髮片都從髮旋出發，髮根一起往外推會在髮旋堆成圓頂；第十二版再貼平（外層髮根排成一圈，遊戲裡頭微低時後腦上方像一道台階、一個包）
             p, d = surf(a + curl * t * t, v, e); q, _ = surf(a + curl * t * t + da, v, e)
-            P.append(p); D.append(d); Wd.append(np.linalg.norm(q - p))
+            # 寬度＝旁邊 6.4° 那一條的距離；耳朵後面那一條量到耳朵外緣時距離跳到 10 cm 以上，髮片變成一大片往外的翅膀
+            # （nm15、nm20：髮片的中線已經被下面兩道限制拉回來，寬度沒有）→ 最多 2.4 cm（正常的地方 1.1～1.5 cm）
+            P.append(p); D.append(d); Wd.append(min(float(np.linalg.norm(q - p)), 0.024))
         P = np.array(P); D = np.array(D)
         P = H.push(P, np.linspace(0.003, 0.004 + off, len(P)))
         # 安全網：髮片的點離頭的中心不超過 H.Rtop＋4 cm（LAWWW2-C 2026-10-17：耳朵後面、後頸側邊的髮尾往外下方找高度時，
