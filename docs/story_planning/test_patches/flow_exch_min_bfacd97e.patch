@@ -1,0 +1,39 @@
+diff --git a/tests/flow_exch_min.py b/tests/flow_exch_min.py
+index fab7c1bb..c492df66 100644
+--- a/tests/flow_exch_min.py
++++ b/tests/flow_exch_min.py
+@@ -76,6 +76,8 @@ async def main():
+         run.setup('讀檔到大三上第 3 週週二 15:00 宿舍房間（法律系、大二起的房間）')
+         await L.load_state(pg, {'stage': 'law', 'zone': 'dorm', 'day': dA, 'weekday': 2, 'hour': 15, 'pos': {'x': -0.6, 'z': -0.4, 'yaw': 3.14}, 'flags': dict(BASE_FLAGS), 'events': {'done': {}, 'last': {}, 'count': 0}})
+         await pg.wait_for_timeout(2500)
++        # 讀檔後可能先演劇情（EXCH.tick 要等玩家不忙才放志願表）：先把對話演完、等互動點出現再走
++        await drive(pg, cdp, "!GAME.D.active&&!(GAME.E.player&&GAME.E.player.busy)&&!document.querySelector('#choices button')&&GAME.E.interactables.some(i=>(i.label||'').startsWith('交換申請'))", ['好'], 60)
+         if await walk_use(pg, cdp, run, '交換申請'):
+             await pick(pg, cdp, ['美國'])
+             ok, _ = await drive(pg, cdp, "GAME.G.flags.EXCHANGE_ROUTE==='US'&&!document.querySelector('#choices button')", ['美國'], 30)
+@@ -104,11 +106,20 @@ async def main():
+             run.check('B. 回公寓：進到公寓', ok)
+         await run.shot(pg, 'b_apartment')
+         d0 = await pg.evaluate("GAME.G.day")
+-        if await walk_use(pg, cdp, run, '睡覺'):
+-            await pick(pg, cdp, ['睡到明天早上', '睡覺'])
+-            ok, seen = await drive(pg, cdp, "GAME.G.day===%d&&%s==='us_apartment'&&!GAME.D.active&&!document.querySelector('#choices button')" % (d0 + 1, ZONE), ['睡到明天早上', '先起床', '好'], 120)
+-            info = await pg.evaluate("({day:GAME.G.day,h:GAME.G.hour,z:%s})" % ZONE)
+-            run.check('B. 睡覺：隔天早上在美國的公寓醒來（不是台灣的宿舍）', ok, json.dumps(info, ensure_ascii=False))
++        # 抵達約 17:06；床的「睡到明天早上」18:00 以後才有，之前先「睡到傍晚」再睡一次（真實玩家也會這樣）
++        ok = False
++        for _ in range(2):
++            if not await walk_use(pg, cdp, run, '睡覺'): break
++            got = await pick(pg, cdp, ['睡到明天早上', '睡到傍晚'])
++            print('   床：選了', got, flush=True)
++            done_js = "(GAME.G.day===%d&&%s==='us_apartment'&&!GAME.D.active&&!document.querySelector('#choices button'))" % (d0 + 1, ZONE)
++            idle_js = "(GAME.G.hour>=18&&!GAME.D.active&&!document.querySelector('#choices button')&&!(GAME.E.player&&GAME.E.player.busy))"
++            await pg.wait_for_timeout(1500)
++            ok, seen = await drive(pg, cdp, done_js + '||(GAME.G.day===%d&&' % d0 + idle_js + ')', ['睡到明天早上', '先起床', '好'], 120)
++            if await pg.evaluate(done_js): ok = True; break
++            ok = False
++        info = await pg.evaluate("({day:GAME.G.day,h:GAME.G.hour,z:%s})" % ZONE)
++        run.check('B. 睡覺：隔天早上在美國的公寓醒來（不是台灣的宿舍）', ok, json.dumps(info, ensure_ascii=False))
+         await run.shot(pg, 'b_next_morning')
+         if await walk_use(pg, cdp, run, '出門'):
+             ok, _ = await drive(pg, cdp, ZONE + "==='us_outside'&&!GAME.D.active", ['好'], 60)
