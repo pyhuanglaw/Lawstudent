@@ -279,7 +279,7 @@ KX_AFTER_K8 = {'any': [{'events': ['ev_kexin_trip_spring_y1']}, {'flags': ['KX_T
 W[K] = dict(
   id='wish_kexin', loc='D25', title='如果今天沒有行程表', source='BB_128 3-5',
   wish='她什麼都排——K8 的行程表三頁、第二頁是假設題。她的心願本身就是一題假設題：「如果今天沒有行程表」。法律系開場她一開始就是女友，這是交往中的里程碑（AA_128 3-3），不是告白條件。',
-  rule='不寫她的家鄉（BB_104 §1；外澳不是她的老家）。K8 春假的「海邊」是北海岸（D16），不是外澳。結算照 AA_128 5-3（她已經是女友，不影響告白條件）。',
+  rule='外澳不是她的老家（她老家在高雄，使用者 2026-10-17；這個心願和老家無關，不提）。K8 春假的「海邊」是北海岸（D16），不是外澳。結算照 AA_128 5-3（她已經是女友，不影響告白條件）。',
   record=dict(flag='WISH_DONE_kexin', memory=dict(tag='KX_NO_PLAN', text='沒有行程表的一天'), album='沙灘上她的鞋子，遠處那座島（沒有人）'),
   mention=dict(
     **{'if': KX_AFTER_K8}, where='「我們的日子」或視訊的時候', context='date',
