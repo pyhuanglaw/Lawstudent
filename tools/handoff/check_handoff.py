@@ -246,6 +246,11 @@ def check(args):
                         A(7, f'交付 {did}（{d.get("integration")}）還沒整合或還沒測，任務 {tid} 卻是已驗收')
         for g in dv.get('ignored', []):
             known.add(str(g.get('sha', ''))[:7])
+        if not args.no_git:   # 各職位 outbox 登記過的 commit 也算已登記（D94：交付當下在自己分支登記）
+            try:
+                known.update(INC.outbox_shas(args.root, json.loads(src.read(duty_state.DUTY))))
+            except FileNotFoundError:
+                pass
         pat = re.compile(dv.get('pattern') or '交付')
         flagged = set()
         if args.no_git:

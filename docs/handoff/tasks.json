@@ -13176,9 +13176,9 @@
    "title": "刑訴特別課一句",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P3",
-   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "AA-C WIP（2235d87a，BB_182 法律審查）：寫回 syllabus/_src/y3s1.py w15，併大三上那批交 LAWWW；發布前核對 §31",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -13622,9 +13622,9 @@
    "title": "AA：BB_173 第 3 節的矛盾 A-4、A-5（沛珊放榜那天在哪、大二下的「家」）、A-6（子晴「公司叫貓」和「小公司實習」）、A-10、A-11（AB-65 第 5 項）",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P2",
-   "next": "AA-B 裁定後交 LAWWW-B",
+   "next": "AA_212 裁定已交付（DL-AA-AB655，b731f426）；隨大二上（A-6）、大二下（A-4／A-5＋沛珊 away 句）、大三（A-11）施工包實作；A-4／A-5 等 BB-C 重排 BB_119",
    "first": {
     "term": "Y2S2",
     "week": null,
@@ -13904,10 +13904,10 @@
    "id": "ART-GG-SIGNS-2",
    "title": "公館其餘招牌（S1～S17 全部 34 張設計稿）換進 gongguan_shops.glb＋貼圖集 2048×4096＋夜間發光",
    "area": "ART",
-   "owner": "LAWWW2",
-   "status": "進行中",
+   "owner": "LAWWW",
+   "status": "已實作待整合",
    "priority": "P1",
-   "next": "約 85%（b75e50a5 WIP、原始檔 01984198）：GLB＋測試 patch（docs/art-rebuild/second_ai/patches/gg_signs2_test.patch，只改 tests/gongguan_glb_integration.py）好了，LAWWW2-B 測試 ALL PASS 34。剩：前後截圖重拍（scratchpad 20 張遺失）、README 第二批、夜間目視、交 LAWWW、通知 BB-B。和 scooters_v2.patch 改同一個測試檔，要排順序",
+   "next": "LAWWW2-C 已交付 DL-LW2-GGSIGNS2（b75e50a5 GLB＋gg_signs2_test.patch、6b8e2385 截圖）：LAWWW 換 GLB、套測試 patch、跑 gongguan_glb_integration（加 D83 局部瀏覽器），截圖給使用者看（ART_APPROVED 只有使用者能標）",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -14121,9 +14121,9 @@
    "title": "大三、大四的宿舍房間（AA-B 交班 A 類 ROOM4；接 AA_208 四人房：大一 203、大二 312）",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P2",
-   "next": "AA-B 交班列為 AA 自己做的工作；總表原本沒有這個 ID，交班補強補建。AA 定大三、大四住哪、室友是誰，再交 LAWWW（場景沿用 dorm_room4）",
+   "next": "AA_208 第 8 節已交付（DL-AA-DORMY34，4a6841eb）：大三 507、大四 409。美術 ART-DORM-Y34（LAWWW2）；程式在大三、大四施工時做（拆箱前旁白、晚上作息）",
    "first": {
     "term": "Y3S1",
     "week": 0,
@@ -14168,6 +14168,32 @@
    },
    "source": "LAWWW-B 交班補強（BB 分支唯讀核對，2026-10-17）",
    "authorized": "BB 已通過（角色美術 D59）／使用者生成"
+  },
+  {
+   "id": "ART-DORM-Y34",
+   "title": "大三男一舍 507、大四 409 的宿舍房間：沿用四人房模型 dorm_room4，換房號牌與窗外景（AA_208 第 8 節）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "照 DL-AA-DORMY34（AA 分支 4a6841eb，AA_208 第 8 節）：dorm_room4 換房號 507／409、window_views 加兩組窗景；交付時寫 outbox_LAWWW2.json",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "大三上開學搬進男一舍 507",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "receiver": "LAWWW2",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "AA_208 第 8 節（AA 分支 4a6841eb）",
+    "acceptance": "房號牌、窗景兩組、遊戲內截圖（507、409 各一張）、不改四人房導航",
+    "ack": "未派"
+   }
   }
  ]
 }

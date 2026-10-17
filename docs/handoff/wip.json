@@ -98,7 +98,7 @@
     "docs/story_planning/AA_211_附錄_審稿原文.md"
    ],
    "state": "WIP",
-   "remaining": "寫回大二上 JSON／事件、交付",
+   "remaining": "大二上閒聊階梯寫回 ladder_aa_y2s1／ladder_bb_y2s1（912e122a 起 WIP）、AA 逐句審、A-6 子晴 Q3-L1",
    "next": "AA-C 已採用 BB_181 九項（0731836b）；寫回大二上階梯與事件，定稿後結構化交付 LAWWW",
    "noDirectIntegrate": true,
    "source": "WIP_INVENTORY_2026-10-17"
@@ -154,30 +154,30 @@
    "role": "AA",
    "task": "AB65-5",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "0487e9fb",
+   "sha": "b731f426",
    "files": [
     "docs/story_planning/AA_212_AB65-5_BB173矛盾裁定.md"
    ],
-   "state": "WIP",
-   "remaining": "BB 重排 A-4／A-5",
-   "next": "A-4／A-5 派 BB-C 重排；BB 交回後 AA 定稿交 LAWWW",
+   "state": "已交付",
+   "remaining": "",
+   "next": "隨各學期施工包實作",
    "noDirectIntegrate": true,
-   "source": "AA 分支 0487e9fb（LAWWW-C incr 04:3x 發現）"
+   "source": "DL-AA-AB655／outbox_AA"
   },
   {
    "id": "WIP-AA-208-ROOM4",
    "role": "AA",
-   "task": "DORM-LOFT-L",
+   "task": "DORM-Y34",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "a4529998",
+   "sha": "4a6841eb",
    "files": [
     "docs/story_planning/AA_208_宿舍四人房_室友.md"
    ],
-   "state": "WIP",
-   "remaining": "大三大四房間",
-   "next": "大三、大四的房間（總表沒有 ROOM4 獨立 ID，記在 DORM-LOFT-L 別名）",
-   "noDirectIntegrate": true,
-   "source": "WIP_INVENTORY_2026-10-17"
+   "state": "已交付",
+   "remaining": "",
+   "next": "ART-DORM-Y34（LAWWW2）；大三大四施工時程式",
+   "noDirectIntegrate": false,
+   "source": "DL-AA-DORMY34／outbox_AA"
   },
   {
    "id": "WIP-BB-181",
@@ -294,16 +294,16 @@
    "role": "LAWWW2",
    "task": "ART-GG-SIGNS-2",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "b75e50a5",
+   "sha": "6b8e2385",
    "files": [
     "assets/models/env/second_ai/gongguan_shops.glb",
     "docs/art-rebuild/second_ai/patches/gg_signs2_test.patch"
    ],
-   "state": "WIP",
-   "remaining": "截圖與夜間目視",
-   "next": "LAWWW2-C 拍前後截圖、夜間目視、README → 交付",
-   "noDirectIntegrate": true,
-   "source": "LAWWW2-C df71ec95"
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 整合 GLB＋測試 patch、跑 gongguan_glb_integration、截圖給使用者",
+   "noDirectIntegrate": false,
+   "source": "DL-LW2-GGSIGNS2"
   },
   {
    "id": "WIP-L2-SCOOTER2",
@@ -461,6 +461,21 @@
    "next": "交付登記；建議複製一份進開發分支",
    "noDirectIntegrate": false,
    "source": "WIP_INVENTORY_2026-10-17"
+  },
+  {
+   "id": "WIP-AA-103-SP",
+   "role": "AA",
+   "task": "AA-103-SP",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "2235d87a",
+   "files": [
+    "docs/story_planning/BB_182_AA103SP_法律審查_強制辯護.md"
+   ],
+   "state": "WIP",
+   "remaining": "寫回 syllabus/_src/y3s1.py w15，併 AB65-3 大三上那批；發布前核對 §31",
+   "next": "AA 大三上批次寫回後交 LAWWW",
+   "noDirectIntegrate": true,
+   "source": "outbox_AA d4457d32"
   }
  ]
 }

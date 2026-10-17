@@ -6210,6 +6210,45 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "BB-C 04:25Z 結構化交付；照 D81 到大三再接（明信片⑦和 DL-BB-POSTCARD-ZR 一起）。2D 機場背景由使用者生成，LAWWW2 不用做 2D 機場；3D 機場 VAC-A2 照舊"
+  },
+  {
+   "id": "DL-LW2-GGSIGNS2",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "b75e50a5／6b8e2385",
+   "what": "公館招牌第二批（S1～S17，34 張）：assets/models/env/second_ai/gongguan_shops.glb＋.json（b75e50a5，3.13 MB）、測試 patch docs/art-rebuild/second_ai/patches/gg_signs2_test.patch（只改 tests/gongguan_glb_integration.py）；前後截圖與說明 6b8e2385（test_shots/gg_signs/README.md、cmp2_*.webp）",
+   "task": "ART-GG-SIGNS-2",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW2-C 04:26Z 交付（READY_FOR_ART_REVIEW；場景美術只有使用者能標 ART_APPROVED）。LAWWW2-B 在 3d477ddb＋patch 跑 gongguan_glb_integration ALL PASS 34；LAWWW2-C 在 a39a6812 換 GLB 拍 20 張沒有頁面錯誤。沒測：手機直向、真機。整合後重跑 gongguan_glb_integration"
+  },
+  {
+   "id": "DL-AA-DORMY34",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "4a6841eb",
+   "what": "AA_208 第 8 節：大三男一舍 507（祐廷、柏翰＋兩個背景學弟；阿哲同一棟二樓）、大四男一舍 409（祐廷、柏翰＋兩個背景學弟；承恩不是室友）",
+   "task": "DORM-Y34",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "AA-C outbox＋04:27Z 訊息。LAWWW：派 LAWWW2 四人房換房號 507、409 和窗景（ART-DORM-Y34）；大三大四施工時加拆箱前旁白、晚上作息"
+  },
+  {
+   "id": "DL-AA-AB655",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "b731f426",
+   "what": "AA_212：BB_173 矛盾 A-4、A-5、A-6、A-10、A-11 裁定（企劃裁定，沒有直接施工項目）",
+   "task": "AB65-5",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "改動跟各學期施工包一起交（大二上 A-6、大二下 A-4／A-5＋characters.js 沛珊 away 句、大三 A-11）；A-4／A-5 的 BB_119 時間線 BB-C 重排中"
   }
  ],
  "ignored": [
@@ -8555,6 +8594,60 @@
    "why": "AA_212 AB65-5 裁定、派 BB-C 重排 A-4／A-5（wip.json WIP-AA-212-AB655）",
    "task": "AB65-5",
    "reason": "AA_212 AB65-5 裁定、派 BB-C 重排 A-4／A-5（wip.json WIP-AA-212-AB655）"
+  },
+  {
+   "sha": "912e122a",
+   "branch": "origin/claude/magical-albattani-bk7b4n",
+   "kind": "wip",
+   "task": "AB65-3",
+   "reason": "背景代理寫回大二上階梯到一半的 WIP 檢查點（WIP-AA-211 範圍，不要匯入）",
+   "why": "AA_211 WIP 檢查點"
+  },
+  {
+   "sha": "50bc183a",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "why": "LAWWW2-C 腳踏車 v2 後續 WIP（淑女車三款、老鐵馬鏽、金屬度）",
+   "task": "ART-BIKES2-F",
+   "reason": "LAWWW2-C 腳踏車 v2 後續 WIP（淑女車三款、老鐵馬鏽、金屬度）"
+  },
+  {
+   "sha": "d4457d32",
+   "branch": "origin/claude/magical-albattani-bk7b4n",
+   "kind": "covered",
+   "why": "outbox_AA 建立＋AA_212 A-6 定稿（AB65-5 的一部分）",
+   "coveredBy": "DL-AA-AB655",
+   "reason": "outbox_AA 建立＋AA_212 A-6 定稿（AB65-5 的一部分）"
+  },
+  {
+   "sha": "fc4e25de",
+   "branch": "origin/claude/magical-albattani-bk7b4n",
+   "kind": "covered",
+   "why": "AA_212 第 3 節 A-6 擬句（AB65-5）",
+   "coveredBy": "DL-AA-AB655",
+   "reason": "AA_212 第 3 節 A-6 擬句（AB65-5）"
+  },
+  {
+   "sha": "b64b01a7",
+   "branch": "origin/claude/magical-albattani-bk7b4n",
+   "kind": "not_delivery",
+   "why": "AA 交接紀錄格式",
+   "reason": "AA 交接紀錄格式"
+  },
+  {
+   "sha": "d87b95bc",
+   "branch": "origin/claude/magical-albattani-bk7b4n",
+   "kind": "covered",
+   "why": "AA_208 第 8 節（最後版本 4a6841eb）",
+   "coveredBy": "DL-AA-DORMY34",
+   "reason": "AA_208 第 8 節（最後版本 4a6841eb）"
+  },
+  {
+   "sha": "1aae93aa",
+   "branch": "origin/claude/wonderful-mayer-7fm9g6",
+   "kind": "not_delivery",
+   "why": "outbox_BB.json 建立＋README 小改",
+   "reason": "outbox_BB.json 建立＋README 小改"
   }
  ]
 }

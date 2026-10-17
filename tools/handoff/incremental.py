@@ -174,6 +174,34 @@ def _ref(branch, remote):
     return f'origin/{branch}' if remote and not branch.startswith('origin/') else branch
 
 
+REGISTRY = re.compile(r'^docs/handoff/(outbox_[A-Z0-9]+\.json|duty_[A-Z0-9]+\.json|snapshots/.+\.json)$')
+
+
+def only_registry(root, sha):
+    rc, files = _git(root, 'diff-tree', '--no-commit-id', '--name-only', '-r', sha)
+    fs = [f for f in files.splitlines() if f]
+    return rc == 0 and bool(fs) and all(REGISTRY.match(f) for f in fs)
+
+
+def outbox_shas(root, duty, remote=True, read_local=None):
+    """各職位分支上的 outbox 登記過的 commit（前 7 碼 → 說明）。check 第 6 項也用它，交付登記在 outbox 就不用再進 deliveries。"""
+    out = {}
+    for role, x in ((duty or {}).get('roles') or {}).items():
+        br = (x or {}).get('branch')
+        if not br:
+            continue
+        rc, txt = _git(root, 'show', f'{_ref(br, remote)}:{OUTBOX.format(role=role)}')
+        if rc:
+            continue
+        try:
+            for e in json.loads(txt).get('entries', []):
+                if len(str(e.get('sha', ''))) >= 7:
+                    out[str(e['sha'])[:7]] = f'outbox {role} {norm_state(e.get("state"))} {e.get("task")}'
+        except Exception:
+            pass
+    return out
+
+
 def scan(root, wm, dv, tasks, duty, remote=True, outboxes=None, roles=None):
     """每個職位：水位線以後、別的職位水位線以前沒有的非合併 commit，逐一看有沒有分類。只讀。"""
     outboxes = outboxes or {}
@@ -246,6 +274,8 @@ def scan(root, wm, dv, tasks, duty, remote=True, outboxes=None, roles=None):
                 r['problems'] += bad_ignored[s[:7]]
                 r['unclassified'].append((s[:8], subj[:80]))
             elif s[:7] in shas:
+                r['classified'] += 1
+            elif only_registry(root, s):   # 只改登記檔（outbox、duty_*.json、快照）：照檔案路徑分類，不看訊息文字
                 r['classified'] += 1
             else:
                 r['unclassified'].append((s[:8], subj[:80]))
