@@ -65,7 +65,8 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     const nm=(CHARACTERS.kexin&&CHARACTERS.kexin.name)||'杜可昕'; const fix=L=>L.map(x=>x.replace(/^杜可昕：/,nm+'：'));
     let L=await play({},'每天都差不多');
     check('開頭兩句（BB_167 4-3 新問法）',JSON.stringify(L.slice(0,2))===JSON.stringify(fix(base)),JSON.stringify(L.slice(0,2)));
-    check('「每天都差不多。可是我很喜歡。」：（她嘴角先動了。）「……嗯，我也是。」；她自己的兩句固定（SC4 #35）；REVISIT_Y1',JSON.stringify(L.slice(2))===JSON.stringify(fix(['她嘴角先動了。','杜可昕：……嗯，我也是。','杜可昕：我喔？我本來以為我們會一直吵架。','杜可昕：結果都在吵考古題。']))&&JSON.stringify(G.flags.REVISIT_Y1)==='{"who":"kexin","pick":"daily"}',JSON.stringify(L.slice(2))+' '+JSON.stringify(G.flags.REVISIT_Y1));
+    check('「每天都差不多。可是我很喜歡。」：（她嘴角先動了。）「……嗯，我也是。」；她自己那句（SC4 #35）——沒做 K6 互考＝「結果都在吵我出的假設題。」（AA-C 10-17 保留 BB_96 9-10 分支）；REVISIT_Y1',JSON.stringify(L.slice(2))===JSON.stringify(fix(['她嘴角先動了。','杜可昕：……嗯，我也是。','杜可昕：我喔？我本來以為我們會一直吵架。','杜可昕：結果都在吵我出的假設題。']))&&JSON.stringify(G.flags.REVISIT_Y1)==='{"who":"kexin","pick":"daily"}',JSON.stringify(L.slice(2))+' '+JSON.stringify(G.flags.REVISIT_Y1));
+    { const L2=await play({KX_K6_EXAM:true},'每天都差不多'); check('做過 K6 互考（KX_K6_EXAM）：「結果都在吵考古題。」',L2[L2.length-1]===fix(['杜可昕：結果都在吵考古題。'])[0],JSON.stringify(L2.slice(-2))); }
     L=await play({KX_K6_EXAM:true,AN_APPEAL:'ask'},'申訴'); check('「幫以安室友寫申訴。」：「你們系的人，連宿舍的事都寫成申訴書。……我喜歡。」；結尾「結果都在吵考古題。」；pick appeal',L[2]===nm+'：你們系的人，連宿舍的事都寫成申訴書。……我喜歡。'&&L[L.length-1]===nm+'：結果都在吵考古題。'&&G.flags.REVISIT_Y1.pick==='appeal',JSON.stringify(L.slice(2)));
     const bbq=()=>{ G.events.done.ev_mid_autumn_bbq=1; };
     L=await play({KX_MET_NOODLE_TEAM:true},'中秋',bbq); check('中秋烤肉、K3 有來：「那天阿哲輸給我三個冷笑話。」',L[2]===nm+'：那天阿哲輸給我三個冷笑話。',L[2]);

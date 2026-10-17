@@ -3373,7 +3373,7 @@
    "title": "美國路線（校外公寓社區、美東時差 −13／3/12 起 −12、香港朋友何俊朗）",
    "area": "V4",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "暫停",
    "next": "SYS-10 之後依劇情順序",
    "priority": "P2",
    "first": {
@@ -3387,7 +3387,10 @@
     "confirmed": true
    },
    "source": "交接包_v4、AA_30",
-   "authorized": "D79"
+   "authorized": "D79",
+   "pausedFrom": "待開工",
+   "pausedReason": "使用者 2026-10-17 04:4x（對 AA-C）：祐廷的美國交換改成大三申請、大四上去（2028-08 初～12 底），取代 AA_158、AA_144 X1～X3 的「大三下 1/19～6/24」；學姊、日本路線的改法待使用者確認",
+   "resumeWhen": "AA-C 結構化交付新的美國線時間線（含 SYS-10 美國日期、學姊、日本路線是否不動）"
   },
   {
    "id": "V5-F01",
@@ -6429,7 +6432,7 @@
    "area": "SYS",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "第 1 段（2026-10-16 20:3x）：S.route／abroad／movedOut／routeWeek／tzOffset／routeBackfill（AA_158 第 1、3、4 節）、presence 的 absentDates（以安 2028-01-08～07-15 日本、學姊 1/5 起美國）；tests/sys10_route_unit.js。下一段：志願表事件（V4-E10，AA_30 場景 0）、錄取通知 11/29、出發／返台轉場（AA_158 第 5 節、CG-22）、國外期間台灣區域進不去、日本 2D 據點、存讀檔回國外據點、台灣大三下的課不排",
+   "next": "【美國日期暫停】使用者 2026-10-17 04:4x（對 AA-C）：祐廷的美國交換改成大三申請、大四上去（2028-08 初～12 底），取代 AA_158、AA_144 X1～X3 的「大三下 1/19～6/24」；學姊、日本路線的改法待使用者確認；臺灣、日本路線照舊（日本是否不動待確認）。第 1 段（2026-10-16 20:3x）：S.route／abroad／movedOut／routeWeek／tzOffset／routeBackfill（AA_158 第 1、3、4 節）、presence 的 absentDates（以安 2028-01-08～07-15 日本、學姊 1/5 起美國）；tests/sys10_route_unit.js。下一段：志願表事件（V4-E10，AA_30 場景 0）、錄取通知 11/29、出發／返台轉場（AA_158 第 5 節、CG-22）、國外期間台灣區域進不去、日本 2D 據點、存讀檔回國外據點、台灣大三下的課不排",
    "priority": "P2",
    "first": {
     "term": "Y3S1",
@@ -6605,7 +6608,7 @@
    "title": "美國公寓社區：祐廷單人戶（臥室＋客廳＋廚房＋衛浴＋陽台）＋社區外觀（使用者 10-16 更正：不是學校宿舍）",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "暫停",
    "next": "【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置以 LAWWW2-B us_apartment_layout.js v2（e30bf43f＋3cc72780 浴室從臥室進、衣帽櫃：戶外樓梯平台 breezeway、獨立廚房＋窗口吧台、8 房、yaw 照 atan2(dx,dz)）為準；學姊 C 棟合租戶另一份配置；會所自習室、校園一段、超市；社區名 Linden Grove（椴樹林社區）、超市 Prairie Basket（草原超市）（AA_144 5-4，企劃線 d4174bbd，D77 虛構）",
    "priority": "P2",
    "first": {
@@ -6631,14 +6634,17 @@
     "spec": "使用者 10-16 經 LAWWW2-B 轉達；AA-B 8f9408eb；BB_98 4517c707",
     "acceptance": "layout.js＋GLB（MODEL_READY）、導航與互動點照 layout；US_EXCHANGE_PLAN 第 3 節",
     "ack": "SENT"
-   }
+   },
+   "pausedFrom": "進行中",
+   "pausedReason": "使用者 2026-10-17 04:4x（對 AA-C）：祐廷的美國交換改成大三申請、大四上去（2028-08 初～12 底），取代 AA_158、AA_144 X1～X3 的「大三下 1/19～6/24」；學姊、日本路線的改法待使用者確認",
+   "resumeWhen": "AA-C 結構化交付新的美國線時間線（含 SYS-10 美國日期、學姊、日本路線是否不動）"
   },
   {
    "id": "SCN-US-03",
    "title": "美式大型超市",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "暫停",
    "next": "【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 2）；社區名 Linden Grove（椴樹林社區）、超市 Prairie Basket（草原超市）（AA_144 5-4，企劃線 d4174bbd，D77 虛構）",
    "priority": "P2",
    "first": {
@@ -6659,14 +6665,17 @@
     "spec": "場景施工表（總表第 14 節）",
     "acceptance": "同 SCN-US-01",
     "ack": "SENT"
-   }
+   },
+   "pausedFrom": "待開工",
+   "pausedReason": "使用者 2026-10-17 04:4x（對 AA-C）：祐廷的美國交換改成大三申請、大四上去（2028-08 初～12 底），取代 AA_158、AA_144 X1～X3 的「大三下 1/19～6/24」；學姊、日本路線的改法待使用者確認",
+   "resumeWhen": "AA-C 結構化交付新的美國線時間線（含 SYS-10 美國日期、學姊、日本路線是否不動）"
   },
   {
    "id": "SCN-US-02",
    "title": "美國校園街道",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "暫停",
    "next": "【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 3）",
    "priority": "P2",
    "first": {
@@ -6687,14 +6696,17 @@
     "spec": "場景施工表（總表第 14 節）",
     "acceptance": "同 SCN-US-01",
     "ack": "SENT"
-   }
+   },
+   "pausedFrom": "待開工",
+   "pausedReason": "使用者 2026-10-17 04:4x（對 AA-C）：祐廷的美國交換改成大三申請、大四上去（2028-08 初～12 底），取代 AA_158、AA_144 X1～X3 的「大三下 1/19～6/24」；學姊、日本路線的改法待使用者確認",
+   "resumeWhen": "AA-C 結構化交付新的美國線時間線（含 SYS-10 美國日期、學姊、日本路線是否不動）"
   },
   {
    "id": "SCN-US-2D",
    "title": "美國篇 2D 底圖（巴士站、機場、上課、中餐館、US3、芝加哥三張）",
    "area": "SCN",
    "owner": "BB",
-   "status": "等待其他AI／素材",
+   "status": "暫停",
    "next": "BB-B 待生成清單；AA_174 用途已確認（G5-07 七張＋us_chapel_steps）；下一步 BB-B 改清單（9187e49b 已改）、使用者生成",
    "priority": "P2",
    "first": {
@@ -6715,14 +6727,17 @@
     "spec": "場景施工表（總表第 14 節）",
     "acceptance": "使用者生成、BB-B 檢查通過（D59）存企劃線 *_approved/",
     "ack": "ACK"
-   }
+   },
+   "pausedFrom": "等待其他AI／素材",
+   "pausedReason": "使用者 2026-10-17 04:4x（對 AA-C）：祐廷的美國交換改成大三申請、大四上去（2028-08 初～12 底），取代 AA_158、AA_144 X1～X3 的「大三下 1/19～6/24」；學姊、日本路線的改法待使用者確認",
+   "resumeWhen": "AA-C 結構化交付新的美國線時間線（含 SYS-10 美國日期、學姊、日本路線是否不動）"
   },
   {
    "id": "SCN-US-CG",
    "title": "美國篇 CG（BCG-32、BCG-17、雪裡的台階、BCG-09）",
    "area": "SCN",
    "owner": "BB",
-   "status": "待開工",
+   "status": "暫停",
    "next": "CG 齊、等施工（BB-B 2d1d2ab9）：BCG-14、32、17、23、09（cg_approved/…heroine05）、送機 BCG-31；2D 與立繪（SCN-US-2D／CH）在使用者下一批第 2 項",
    "priority": "P2",
    "first": {
@@ -6743,14 +6758,17 @@
     "spec": "場景施工表（總表第 14 節）；AA_140 G28",
     "acceptance": "使用者生成、BB-B 檢查通過（D59）存企劃線 *_approved/",
     "ack": "ACK"
-   }
+   },
+   "pausedFrom": "待開工",
+   "pausedReason": "使用者 2026-10-17 04:4x（對 AA-C）：祐廷的美國交換改成大三申請、大四上去（2028-08 初～12 底），取代 AA_158、AA_144 X1～X3 的「大三下 1/19～6/24」；學姊、日本路線的改法待使用者確認",
+   "resumeWhen": "AA-C 結構化交付新的美國線時間線（含 SYS-10 美國日期、學姊、日本路線是否不動）"
   },
   {
    "id": "SCN-US-CH",
    "title": "學姊羽絨外套、香港朋友立繪",
    "area": "SCN",
    "owner": "BB",
-   "status": "等待其他AI／素材",
+   "status": "暫停",
    "next": "香港朋友已定名何俊朗（Long，AA-B ea004808）；BB-B 清單",
    "priority": "P2",
    "first": {
@@ -6771,14 +6789,17 @@
     "spec": "場景施工表（總表第 14 節）",
     "acceptance": "使用者生成、BB-B 檢查通過（D59）存企劃線 *_approved/",
     "ack": "ACK"
-   }
+   },
+   "pausedFrom": "等待其他AI／素材",
+   "pausedReason": "使用者 2026-10-17 04:4x（對 AA-C）：祐廷的美國交換改成大三申請、大四上去（2028-08 初～12 底），取代 AA_158、AA_144 X1～X3 的「大三下 1/19～6/24」；學姊、日本路線的改法待使用者確認",
+   "resumeWhen": "AA-C 結構化交付新的美國線時間線（含 SYS-10 美國日期、學姊、日本路線是否不動）"
   },
   {
    "id": "SCN-US-EV",
    "title": "US0～US4、芝加哥、W15c、志願表事件",
    "area": "SCN",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "暫停",
    "next": "美國日期（AA_144 §5、BB_98 4517c707）：US1 1/19（巴士站→超市→搬進公寓）、US2 2 月上旬～中旬（學姊 C 棟合租戶廚房，BCG-32）、芝加哥 2/26～27、US3 3/11～19（BCG-23）、US4 4/1 前後那年最後一場雪（BCG-09，學姊台詞「我留到八月」）、5 月初學期結束；W15c 送機 BCG-31；何俊朗 B 棟；聚會在會所自習室",
    "priority": "P2",
    "first": {
@@ -6792,7 +6813,10 @@
     "confirmed": true
    },
    "source": "場景施工表（總表第 14 節）；AA_140 G24、G25（抵達後第 N 週、美東時差、學姊留到八月）",
-   "authorized": "D79"
+   "authorized": "D79",
+   "pausedFrom": "待開工",
+   "pausedReason": "使用者 2026-10-17 04:4x（對 AA-C）：祐廷的美國交換改成大三申請、大四上去（2028-08 初～12 底），取代 AA_158、AA_144 X1～X3 的「大三下 1/19～6/24」；學姊、日本路線的改法待使用者確認",
+   "resumeWhen": "AA-C 結構化交付新的美國線時間線（含 SYS-10 美國日期、學姊、日本路線是否不動）"
   },
   {
    "id": "SCN-JP-2D",
@@ -9054,8 +9078,8 @@
    "title": "2D 背景 ntu_linze「台大・霖澤館前」（BG 追蹤表 BG-16）：ev_kexin_visits_ntu（K2）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "霖澤館正式 GLB 取鏡頭；傍晚",
+   "status": "已整合待測試",
+   "next": "LAWWW2-B 10-16 已做（adf126c5，BG_TRACKER DONE）；開發分支 assets/bg 有圖、events.js／outings3d.js 已在用（57a5cf34 起）。等使用者看畫面（LAWWW2-C 04:34 更正，LAWWW-C 查證）",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -9075,15 +9099,19 @@
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
     "ack": "DELIVERED"
-   }
+   },
+   "sha": [
+    "57a5cf34",
+    "adf126c5"
+   ]
   },
   {
    "id": "ART-BG17",
    "title": "2D 背景 ntu_avenue「台大・椰林大道」（BG 追蹤表 BG-17）：ev_kexin_visits_ntu（K2）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "遊戲校園的椰林大道取鏡頭；傍晚",
+   "status": "已整合待測試",
+   "next": "LAWWW2-B 10-16 已做（adf126c5，BG_TRACKER DONE）；開發分支 assets/bg 有圖、events.js／outings3d.js 已在用（57a5cf34 起）。等使用者看畫面（LAWWW2-C 04:34 更正，LAWWW-C 查證）",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -9103,7 +9131,11 @@
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
     "ack": "DELIVERED"
-   }
+   },
+   "sha": [
+    "57a5cf34",
+    "adf126c5"
+   ]
   },
   {
    "id": "ART-BG13",

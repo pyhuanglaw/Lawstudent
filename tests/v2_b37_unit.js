@@ -30,7 +30,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
 const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
 (async()=>{
-  const sun=termDay('Y1S2',16,7);
+  const sun=STORY.dayOfKey('2026-06-07');   // AA_198 第 5 節：第 16 週週日（6/14）已經考完，改 6/7（日）；和 story3d.js 同一天
   fresh(1,21,'dorm',{}); run(21,21.2);
   check('1. 新遊戲第 1 天 21:00：在 law_class，名稱「法律系（全班）」（AA_177 第 9 節：四年同一個名字）',PHONE.inGroup(G,'law_class')&&PHONE.title(G,'g:law_class')==='法律系（全班）',PHONE.title(G,'g:law_class'));
   fresh(termDay('Y2S1',3,2),9,'dorm',{}); run(9,9.2);

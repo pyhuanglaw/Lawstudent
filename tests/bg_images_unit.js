@@ -13,7 +13,8 @@ check('2. riverside、xiaofu、soc_hall、soc_classroom、girls_dorm_gate、bowl
   check('2e. LAWWW2-B ART-BG05 宿舍頂樓、ART-12 白天版客廳（2a0a7ff4）',B.dorm_roof.image==='assets/bg/dorm_roof.webp'&&B.home_living_day.image==='assets/bg/home_living_day.webp');
   check('2d. BB-B 第 31、32 組：soc_library、soc_office、classroom_small 接上',['soc_library','soc_office','classroom_small'].every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp')); }
 check('2f. 自由出行第一批四個景點的底圖（DL-06，LAWWW2-B）：d04_base_night、d06_base_day、d12_base_sunset、d13_base_sunset',['d04_base_night','d06_base_day','d12_base_sunset','d13_base_sunset'].every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'));
-check('3. OUT.bg(id)：有圖＝{image:路徑}、沒有圖＝深色底',OUT.bg('riverside').image==='assets/bg/riverside.webp'&&OUT.bg('nccu_dorm')==='dark',JSON.stringify([OUT.bg('riverside'),OUT.bg('nccu_dorm')]));
+{ const noImg=Object.keys(B).find(k=>!B[k].image&&k!=='car')||'zzz_not_registered';   // nccu_dorm 10-17 有圖了（3d4d1969）：改挑一個登記了、還沒有圖的背景
+  check('3. OUT.bg(id)：有圖＝{image:路徑}、沒有圖＝深色底（'+noImg+'）',OUT.bg('riverside').image==='assets/bg/riverside.webp'&&OUT.bg(noImg)==='dark'&&OUT.bg('nccu_dorm').image==='assets/bg/nccu_dorm.webp',JSON.stringify([OUT.bg('riverside'),OUT.bg(noImg),OUT.bg('nccu_dorm')])); }
 { const v=[]; for(const [h,w] of [[10,'clear'],[20,'clear'],[10,'rain']]){ global.GAME={G:{hour:h,weather:w}}; v.push(OUT.bg('car').image); } delete global.GAME;
   check('3. 車上（BG-08）：照天氣、時間挑——早上 car_morning、晚上 car_night、下雨 car_rain',v.join()==='assets/bg/car_morning.webp,assets/bg/car_night.webp,assets/bg/car_rain.webp',v.join()); }
 // CG（adv3d.js 的 CG_REGISTRY）：每一張的檔案都在；BCG-04、BCG-11 接在 BB_117 寫的那一拍
