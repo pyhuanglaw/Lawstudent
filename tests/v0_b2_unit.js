@@ -30,7 +30,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   check('1. 10/7（一）12:30 在博雅自習區坐下：B2',await sit('2024-10-07',12.5,'boya')&&said[0].t==='這裡有人嗎？');
   check('1. 10/14（一）也可以；10/8（二）、10/7 14:00、圓桌區、別的建築、法律系不行',await sit('2024-10-14',12.3,'boya')&&!(await sit('2024-10-08',12.5,'boya'))&&!(await sit('2024-10-07',14,'boya'))&&!(await sit('2024-10-07',12.5,'boya',round))&&!(await sit('2024-10-07',12.5,'gongtong'))&&!(await (async()=>{ fresh(K('2024-10-07'),12.5,'boya',{},'law'); return STORY.onSeat(GM,seat); })()));
   { fresh(K('2024-10-07'),12.5,'boya'); picks=['讀書']; said=[]; await STORY.onSeat(GM,seat); const L=said.map(x=>x.t);
-    check('2. 原文四句、讀書 → 紙條「我讀不下去了。你呢？」、時間 +10 分鐘',L[1]==='……沒有人的話，我坐了。我一點二十才有課，還有一個小時。'&&L[3]==='假設，供給曲線會害羞。它會往哪裡移？'&&L[4]==='她安靜地讀了十分鐘，然後把一張紙條推過來：「我讀不下去了。你呢？」'&&Math.abs(G.hour-(12.5+1/6))<0.01,JSON.stringify([L,G.hour]));
+    check('2. 四句（BB_179 段 B #22 改稿）、讀書 → 紙條「我讀不下去了。你呢？」、時間 +10 分鐘',L[1]==='……沒有人的話，我坐了。我一點二十才有課，還有一個小時。'&&L[3]==='上禮拜那題彈性你會嗎？我算出來是負的，不知道是不是錯了。'&&L[4]==='她安靜地讀了十分鐘，然後把一張紙條推過來：「我讀不下去了。你呢？」'&&Math.abs(G.hour-(12.5+1/6))<0.01,JSON.stringify([L,G.hour]));
     G.day=K('2024-10-14'); G.hour=12.5; said=[]; check('2. 一次：10/14 不會再演',!(await STORY.onSeat(GM,seat))); }
   { fresh(K('2024-10-07'),12.5,'boya'); picks=['聊天']; said=[]; await STORY.onSeat(GM,seat); check('2. 聊天 →「四十分鐘過去，誰都沒有翻頁。」、時間 +40 分鐘',said[said.length-1].t==='四十分鐘過去，誰都沒有翻頁。'&&Math.abs(G.hour-(12.5+2/3))<0.01); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

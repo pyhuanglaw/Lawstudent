@@ -31,7 +31,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   { fresh(w3.day,w3.t1+0.05,'campus'); let r=await after(w3,'今天先回去');
     check('1. 第 3 週 P2 選「今天先回去」：韋綸「那下次！」',r.ran&&r.L.includes('那下次！'));
     r=await after(w4,'總圖'); check('1. 第 4 週會計下課：P2 再演一次（補上第一次聚會），這次選總圖',r.ran&&r.L[0]==='走啦！'&&G.flags.P2_PICK==='library',JSON.stringify(r.L.slice(0,2)));
-    r=await after(w5,'和品妤對'); check('2. 去成以後第 5 週：不再演 P2，改 P1b 第 1 次（品妤、阿勳、和品妤對）',r.ran&&r.L[0]==='（翻作業）借貸不平衡。差一百元。'&&r.L.includes('差一百元，就是差三杯紅茶。去找。')&&!r.L.includes('走啦！'),JSON.stringify(r.L));
+    r=await after(w5,'和品妤對'); check('2. 去成以後第 5 週：不再演 P2，改 P1b 第 1 次（品妤、阿勳、和品妤對）',r.ran&&r.L[0]==='（翻作業）借貸不平衡。差一百元。'&&r.L.includes('差一百。你從最後一行往回對，比較快。')&&!r.L.includes('走啦！'),JSON.stringify(r.L));
     r=await after(w7); check('2. 第 7 週（10/17 休學那天）P1b 第 2 次刪除（AA_218 第 11 節）：會計下課沒有韋綸「我的平衡了！」',!r.L.includes('我的平衡了！')&&!G.events.done.ev_y0_p1b2,JSON.stringify(r.L)); }
   // 第 3 週就去成
   { fresh(w3.day,w3.t1+0.05,'campus'); let r=await after(w3,'河濱'); r=await after(w4); check('3. 第 3 週去成：第 4 週會計下課沒有 P2（也沒有 P1b）',!r.ran,JSON.stringify(r.L));

@@ -43,10 +43,10 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
     check('7. 演完以後和可昕的幾句：重新打開 2D 畫面（可昕在右邊），不露出原本的 3D（使用者 2026-10-16：她人不在這、對話還在）',advBegins.length>=2&&advBegins.slice(1).some(o=>o.right&&o.right.charId==='kexin'),JSON.stringify(advBegins));
     check('6. 整趟出遊包在一段劇情裡（演的時候、回程轉場都不插校園的自動事件；使用者 2026-10-16：和可昕走完「回到台大」就卡住）',minDuring>=1&&depth===0,JSON.stringify({minDuring,depth,maxD})); }
   check('2. 原文：社長的規則、唐睿「我是一隻迷路的企鵝。」、祐廷「對，而且……」',L[0]==='熱身。規則只有一個：對方說什麼，你都說「對，而且——」。'&&L[1]==='（對祐廷）我是一隻迷路的企鵝。'&&L[2]==='對，而且……',JSON.stringify(L.slice(0,3)));
-  check('2. 「而且……你欠我錢。」→ 唐睿「……這是討債。」全場笑；IMPROV_LINE 記這一句',L.includes('對，而且——（停住）——這不是熱身，這是討債。')&&L.includes('全場笑。')&&G.flags.IMPROV_LINE==='而且……你欠我錢。');
-  check('2. 可昕「（小聲）你接得比我想的好。」、社長「新來的，下次還來嗎？」',L.includes('（小聲）你接得比我想的好。')&&L.includes('新來的，下次還來嗎？'));
+  check('2. 「而且……你欠我錢。」→ 唐睿「……等一下，我欠你多少？」全場笑；IMPROV_LINE 記這一句（BB_179 段 B #24）',L.includes('對，而且——（停住）——等一下，我欠你多少？')&&L.includes('全場笑。')&&G.flags.IMPROV_LINE==='而且……你欠我錢。');
+  check('2. 可昕「（小聲）你接得比我想的好。」、社長「新來的，下次練習是週四晚上，可昕知道在哪。」（AA_200 7-2）',L.includes('（小聲）你接得比我想的好。')&&L.includes('新來的，下次練習是週四晚上，可昕知道在哪。'));
   at(G.day,22.5); check('2. 去了：沒有「你錯過了一隻企鵝」',!TH('p:kexin').includes('今天唐睿演了一隻企鵝。你錯過了一隻企鵝。'));
-  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.flags.C1_GO='no'; at(K('2024-10-07'),22.2); check('3. 今天不行：22:00 可昕「今天唐睿演了一隻企鵝。你錯過了一隻企鵝。」',TH('p:kexin').includes('今天唐睿演了一隻企鵝。你錯過了一隻企鵝。'));
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.flags.C1_GO='no'; at(K('2024-10-07'),22.2); check('3. 今天不行：22:00 可昕「今天唐睿演了一隻企鵝。大家笑到練不下去。」（BB_179 段 E M4）',TH('p:kexin').includes('今天唐睿演了一隻企鵝。大家笑到練不下去。'));
   fresh(K('2024-10-10'),16,'campus'); run(); check('4. 10/10 國慶不邀（10/11 才邀）',!PHONE.sent(G,'y0_c1_ask')&&(()=>{ at(K('2024-10-11'),10); return PHONE.sent(G,'y0_c1_ask'); })());
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

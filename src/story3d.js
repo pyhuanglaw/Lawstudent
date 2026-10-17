@@ -1199,22 +1199,22 @@ const STORY = (function(){
         PHONE.at(G,eve,22+1/60,[{th:'sys',name:'經原老師（信）',text:'若明日未停課，作業也照常繳交。'}],'ty0_mail2');
         const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':(PHONE.inGroup(G,'econ_class')?'econ_class':null);
         if(gid){ const T='g:'+gid, K=t=>({th:T,from:'kexin',text:t});
-          PHONE.at(G,eve,22+3/60,[{th:T,from:'econ_pinyu',text:'這兩封信加起來，資訊量是零。'}],'ty0_g1');
-          PHONE.at(G,eve,22+5/60,[{th:T,from:'econ_tangrui',name:'唐睿',text:'老師其實只寫了一封。第二封是回聲。'}],'ty0_g2');
-          PHONE.at(G,eve,22+8/60,[Object.assign(K('假設颱風是一個人，他今天最想做什麼？'),{ask:{until:ty*24+24,opts:[
-            {t:'「放假。」',post:'放假。',say:[K('你好誠實。')]},{t:'「交作業。」',post:'交作業。',say:[K('你被老師洗腦了。')]},{t:'「看我們會不會真的交。」',post:'看我們會不會真的交。',say:[K('……你比颱風還壞。')]}]}})],'ty0_k'); } } }
+          PHONE.at(G,eve,22+3/60,[{th:T,from:'econ_pinyu',text:'所以作業還是要交。'}],'ty0_g1');   /* BB_179 段 E 3-2（AA_200 7-2 選項；AA_269 段 E）*/
+          PHONE.at(G,eve,22+5/60,[{th:T,from:'econ_tangrui',name:'唐睿',text:'（貼圖：一個人在風雨裡撐傘）'}],'ty0_g2');
+          PHONE.at(G,eve,22+8/60,[Object.assign(K('明天放假，你們要幹嘛？'),{ask:{until:ty*24+24,opts:[
+            {t:'「睡到中午。」',post:'睡到中午。',say:[K('我也是。')]},{t:'「寫經原作業。」',post:'寫經原作業。',say:[K('你被老師洗腦了。')]},{t:'「出去看颱風。」',post:'出去看颱風。',say:[K('不要啦，很危險。')]}]}})],'ty0_k'); } } }
     /* C1 即興劇社的熱身（BB_110 第 3 節；AA_154 第 113 行）：第 6 週（10/7～10/13，10/10 國慶除外）第一個在 17:30 以前醒著的平日，可昕 17:30 私訊；回「好。」＝出遊 19:00 博雅。
-       「今天不行。」、沒回、出發選單選不去＝沒去：當晚 22:00 可昕「今天唐睿演了一隻企鵝。你錯過了一隻企鵝。」*/
+       「今天不行。」、沒回、出發選單選不去＝沒去：當晚 22:00 可昕「今天唐睿演了一隻企鵝。大家笑到練不下去。」（BB_179 段 E M4）*/
     if(S.isEcon(G)&&typeof CALENDAR!=='undefined'){ const T=CALENDAR.termOf(G.day), wd=CALENDAR.dateOf(G.day).wd, K=t=>({th:'p:kexin',from:'kexin',text:t});
       if(T&&T.id==='Y0S1'&&T.week===6&&wd>=1&&wd<=5&&!CALENDAR.holiday(G.day)&&G.hour<17.5&&!PHONE.sent(G,'y0_c1_ask')){ F.C1_DAY=G.day;
         PHONE.at(G,G.day,17.5,[Object.assign(K('劇社今天練習，可以帶一個人。你當那個人。'),{ask:{until:G.day*24+19,opts:[{t:'好。',set:{C1_GO:'yes'}},{t:'今天不行。',set:{C1_GO:'no'}}]}})],'y0_c1_ask'); }
       if(F.C1_GO==='yes'&&F.C1_DAY!=null&&G.day===F.C1_DAY&&typeof OUT!=='undefined'&&!OUT.get(G,'y0_c1')) OUT.plan(G,{id:'y0_c1',ev:'ev_y0_c1',day:F.C1_DAY,h:19,place:'博雅教學館',title:'即興劇社的熱身',travel:'走過去約 10 分鐘',travelH:0.2});
       const q1=typeof OUT!=='undefined'?OUT.get(G,'y0_c1'):null;
-      if(F.C1_DAY!=null&&!(q1&&q1.state==='done')&&(G.day>F.C1_DAY||G.hour>=20)&&G.day<=F.C1_DAY+1&&!PHONE.sent(G,'y0_c1_missed')) PHONE.at(G,F.C1_DAY,22,[K('今天唐睿演了一隻企鵝。你錯過了一隻企鵝。')],'y0_c1_missed'); }
+      if(F.C1_DAY!=null&&!(q1&&q1.state==='done')&&(G.day>F.C1_DAY||G.hour>=20)&&G.day<=F.C1_DAY+1&&!PHONE.sent(G,'y0_c1_missed')) PHONE.at(G,F.C1_DAY,22,[K('今天唐睿演了一隻企鵝。大家笑到練不下去。')],'y0_c1_missed'); }
     /* 10/15 的群組聚會（AA_154 2-1b）：17:30 經濟系群組兩則（每個玩家都收到）；出發選單 17:30～19:15「公館 19:00：經濟系的聚會」（OUT late 15 分鐘）；沒去的玩家 21:40 群組多一則（選用的那一則）*/
     if(S.isEcon(G)){ const tue7=termDay('Y0S1',7,2);
       if(tue7!=null&&G.day===tue7&&G.hour>=17.5&&!PHONE.sent(G,'y0_gather_grp')){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class'; if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）'); const T='g:'+gid;
-        PHONE.at(G,tue7,17.5,[{th:T,from:'econ_weilun',name:'韋綸',text:'今晚七點，公館。期中考前最後一次。走啦！'},{th:T,from:'econ_pinyu',text:'先說好，我還是只有一百五。'}],'y0_gather_grp'); F.Y0_GATHER_TH=T;
+        PHONE.at(G,tue7,17.5,[{th:T,from:'econ_weilun',name:'韋綸',text:'今晚七點，公館！期中考前最後一次放風。'},{th:T,from:'econ_pinyu',text:'我跟同事換了班，可以去。'}],'y0_gather_grp'); F.Y0_GATHER_TH=T;
         if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_gather')&&G.hour<19.25) OUT.plan(G,{id:'y0_gather',ev:'ev_y0_gather',day:tue7,h:19,late:0.25,place:'公館',title:'公館 19:00：經濟系的聚會',travel:'走過去約 15 分鐘',travelH:0.25,back:'在公館的路口散了。'}); }
       const qg=typeof OUT!=='undefined'?OUT.get(G,'y0_gather'):null;
       if(tue7!=null&&F.Y0_GATHER_TH&&F.E10_EVE!=='went'&&!(qg&&qg.state==='done')&&(G.day>tue7||G.hour>=21+40/60)&&G.day<=tue7+1&&!PHONE.sent(G,'y0_gather_miss')) PHONE.at(G,tue7,21+40/60,[{th:F.Y0_GATHER_TH,from:'econ_weilun',name:'韋綸',text:'唐睿聊到期中了。今天他請。'}],'y0_gather_miss'); }

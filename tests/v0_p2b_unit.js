@@ -37,7 +37,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   // 跟去（第一次＝滷味攤 food）
   fresh(T7,15.2,'putong',{P2_PICK:'river'}); SOCIAL.meet('kexin','x'); SOCIAL.meet('econ_pinyu','x'); SOCIAL.meet('econ_zhengxun','x'); const f0=SOCIAL.rel('econ_pinyu').fam, m0=G.money;
   picks=['跟去']; await EVENTS.run(ev); const L=said.map(x=>x.t);
-  check('4. 韋綸一句（4 句之一）→ 跟去：滷味攤、19:30 結束、−80 元、經濟系朋友熟悉度 +1、P2B_COUNT＝1',/走啦/.test(L[0])&&L.includes('公館的滷味攤。可昕每一樣都夾一點，阿勳只夾豆干。品妤：『你們兩個是需求曲線的兩個極端。』')&&Math.abs(G.hour-19.5)<1e-6&&G.money===m0-80&&SOCIAL.rel('econ_pinyu').fam===f0+1&&G.flags.P2B_COUNT===1,JSON.stringify(L));
+  check('4. 韋綸一句（4 句之一，BB_179 段 B #61～64：不再說「走啦」）→ 跟去：滷味攤（品妤吃到一半先去打工）、19:30 結束、−80 元、經濟系朋友熟悉度 +1、P2B_COUNT＝1',['下課了！今天不要直接回宿舍啦。','會計終於上完了。誰要出去？','我問過了，大家都有空。……好啦，我還沒問。','我今天什麼都不想讀了。誰要跟？'].includes(L[0])&&L.includes('公館的滷味攤。可昕每一樣都夾一點，阿勳只夾豆干。品妤吃到一半先走了，要去打工。')&&Math.abs(G.hour-19.5)<1e-6&&G.money===m0-80&&SOCIAL.rel('econ_pinyu').fam===f0+1&&G.flags.P2B_COUNT===1,JSON.stringify(L));
   check('4. W7 是期中前：沒有 E13 的選擇',!L.some(t=>/紅燈九十秒/.test(t)));
   check('4. 同一週不再揪',!EVENTS.check(ev));
   const last=G.flags.P2B_LAST;
@@ -46,7 +46,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   fresh(T11,15.2,'putong',Object.assign(FL,{P2B_SEEN:false}));
   picks=['跟去','拍什麼']; await EVENTS.run(ev); let L2=said.map(x=>x.t);
   check('5. 韋綸的句子不連續重複',G.flags.P2B_LAST!==last);
-  check('5. 第二次＝河濱 river：17:00 結束、接 L5b（溫州街牽車、韋綸／品妤／阿勳三句）、L5B_DONE',L2.some(t=>/^騎腳踏車到河濱/.test(t))&&L2.includes('這條巷子很適合拍電影。')&&L2.includes('機率上，總有人在這裡拍過。')&&Math.abs(G.hour-17)<1e-6&&G.flags.L5B_DONE===true&&G.flags.P2B_COUNT===2,JSON.stringify(L2));
+  check('5. 第二次＝河濱 river：17:00 結束、接 L5b（溫州街牽車、韋綸／品妤兩句，選「拍什麼？」韋綸接「騎腳踏車去淡水的那種！」）、L5B_DONE',L2.some(t=>/^騎腳踏車到河濱/.test(t))&&L2.includes('這條巷子很適合拍電影。')&&!L2.includes('機率上，總有人在這裡拍過。')&&L2.includes('騎腳踏車去淡水的那種！……結局我還沒想好。')&&Math.abs(G.hour-17)<1e-6&&G.flags.L5B_DONE===true&&G.flags.P2B_COUNT===2,JSON.stringify(L2));
   check('5. river 沒有花錢、沒有 E13③（韋綸的腳踏車還沒演）',G.money===5000&&!L2.some(t=>/河會記得/.test(t)));
   // 第三次（night：總圖讀到九點）W12：E13 已刪（AA-C 2026-10-17 Q1：10/17 就交往了，retired）——散場沒有「陪大家走到最後」
   FL=snapF(); fresh(T12,15.2,'putong',Object.assign(FL,{P2B_SEEN:false}));
