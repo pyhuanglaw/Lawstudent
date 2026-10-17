@@ -84,21 +84,67 @@ def paper_menu_tex(path, W=600, H=840):
 
 
 def street_night_tex(path, W=1800, H=1000, seed=3):
-    """窗外：晚上的永康街——對面亮著的店面（暖色）、二樓的窗、行道樹的暗影、地上的反光；整張模糊"""
+    """窗外：晚上的永康街——對面亮著的店面（暖色）、二樓的窗、行道樹的暗影、地上的反光。
+    第二版（LAWWW2-C 2026-10-17 精修：第一版只有幾大塊色塊、模糊 12 px）：店面有招牌燈箱（看不清楚的字形）、雨遮、門口的盆栽、
+    騎樓下的機車、走過的人影、串燈、地上的反光；模糊 5 px（窗外是景深外，但看得出是一條街）"""
     r = random.Random(seed); im = Image.new('RGB', (W, H), (26, 30, 44)); d = ImageDraw.Draw(im)
     for y in range(H): t = y / H; d.line([(0, y), (W, y)], fill=(int(24 + 20 * t), int(28 + 14 * t), int(46 - 4 * t)))
-    x = 0
+    x = 0; gy = int(H * 0.78)
     while x < W:
-        w = r.randint(200, 360); c = r.choice([(255, 210, 150), (255, 236, 200), (250, 190, 120), (230, 240, 255)])
-        d.rectangle([x + 10, int(H * 0.40), x + w - 10, int(H * 0.78)], fill=c)                         # 一樓亮著的店面
-        d.rectangle([x + 10, int(H * 0.34), x + w - 10, int(H * 0.40)], fill=(60, 50, 44))              # 招牌（不寫字）
-        for fx in range(x + 30, x + w - 60, 90):
-            if r.random() < 0.6: d.rectangle([fx, int(H * 0.12), fx + 50, int(H * 0.26)], fill=(220, 190, 140))   # 二樓的窗
+        w = r.randint(200, 360); c = r.choice([(236, 188, 128), (238, 212, 168), (226, 168, 104), (196, 206, 214)])   # 第五版：店面暗一點、暖一點（第四版 255/236/200 和冷白，窗外看起來像白天）
+        d.rectangle([x, int(H * 0.06), x + w, gy], fill=(48, 44, 50))                                     # 樓的牆
+        for fx in range(x + 24, x + w - 50, 80):                                                         # 二、三樓的窗（有的亮）
+            for fy in (int(H * 0.10), int(H * 0.22)):
+                d.rectangle([fx, fy, fx + 46, fy + 70], fill=(226, 196, 146) if r.random() < 0.55 else (34, 36, 46))
+                d.rectangle([fx - 5, fy - 6, fx + 51, fy + 76], outline=(70, 70, 74), width=2)                     # 鐵窗（台北的公寓）
+                for gx in range(fx + 6, fx + 46, 9): d.line([(gx, fy - 6), (gx, fy + 76)], fill=(70, 70, 74), width=1)
+                if r.random() < 0.35: d.rectangle([fx + 50, fy + 40, fx + 72, fy + 62], fill=(150, 150, 150))   # 冷氣機
+        y0s = int(H * 0.44)
+        for yy in range(y0s, gy):                                                                        # 一樓亮著的店面：上面亮（燈在天花板）、下面暗
+            t = (yy - y0s) / (gy - y0s); d.line([(x + 10, yy), (x + w - 10, yy)], fill=tuple(int(v * (0.95 - 0.30 * t)) for v in c))
+        dk = tuple(int(v * 0.55) for v in c); md = tuple(int(v * 0.75) for v in c)
+        for sy in (y0s + 70, y0s + 130, y0s + 190):                                                       # 店裡後牆的層板（三層）＋上面的東西
+            sx0 = x + 14 + r.randint(0, 30); sx1 = x + w - 14 - r.randint(0, 30); d.rectangle([sx0, sy, sx1, sy + 6], fill=md)
+            kx = sx0 + 4
+            while kx < sx1 - 14:
+                kw_ = r.randint(10, 24); d.rectangle([kx, sy - r.randint(14, 34), kx + kw_, sy], fill=r.choice([(196, 84, 62), (96, 124, 84), (226, 206, 160), (84, 94, 126), dk, md])); kx += kw_ + r.randint(2, 10)
+        mbx = r.randint(x + 20, max(x + 21, x + w - 120)); d.rectangle([mbx, y0s + 10, mbx + 100, y0s + 50], fill=(46, 40, 36)); d.rectangle([mbx + 6, y0s + 16, mbx + 94, y0s + 44], fill=(232, 222, 196))   # 菜單板
+        for k in range(r.randint(1, 3)):                                                                  # 吊燈（亮的燈罩）
+            lx = r.randint(x + 30, x + w - 30); d.line([(lx, y0s), (lx, y0s + 30)], fill=dk, width=2); d.chord([lx - 18, y0s + 26, lx + 18, y0s + 56], 180, 360, fill=(255, 240, 206))
+        cx0 = r.randint(x + 20, x + w // 2); cx1 = min(x + w - 20, cx0 + r.randint(90, 170))              # 櫃台／長桌（高 0.8 m）
+        for k in range(r.randint(1, 2)):                                                                  # 站在櫃台後面的店員（1.7 m）
+            hx = r.randint(cx0, max(cx0 + 1, cx1 - 34)); col = r.choice([(40, 36, 40), (230, 226, 220), (120, 60, 50)])
+            d.rounded_rectangle([hx, gy - 140, hx + 36, gy - 60], radius=12, fill=col); d.ellipse([hx + 5, gy - 170, hx + 31, gy - 138], fill=(56, 42, 36))
+        d.rectangle([cx0, gy - 76, cx1, gy - 6], fill=dk); d.rectangle([cx0 - 4, gy - 82, cx1 + 4, gy - 74], fill=md)
+        for k in range(r.randint(0, 2)):                                                                  # 坐著的客人（靠窗的高腳椅）
+            hx = r.randint(x + 24, x + w - 44); col = r.choice([(70, 60, 56), (50, 60, 80), (150, 120, 90)])
+            d.rounded_rectangle([hx, gy - 118, hx + 34, gy - 50], radius=12, fill=col); d.ellipse([hx + 5, gy - 146, hx + 29, gy - 116], fill=(40, 30, 26))
+        for k in range(1, 3 + w // 120):                                                                 # 落地窗的門框
+            fx = x + 10 + k * (w - 20) // (3 + w // 120); d.rectangle([fx - 3, y0s, fx + 3, gy], fill=(58, 48, 44))
+        d.rectangle([x + 10, gy - 30, x + w - 10, gy - 26], fill=(70, 58, 50))                          # 落地窗下緣
+        d.rectangle([x - 9, int(H * 0.39), x + 9, gy], fill=(36, 32, 36))                               # 騎樓的柱子（店和店之間）
+        if r.random() < 0.6:                                                                              # 門口的立牌（菜單）
+            mx = r.randint(x + 20, x + w - 50); d.polygon([(mx, gy), (mx + 14, gy - 56), (mx + 30, gy - 56), (mx + 44, gy)], fill=(40, 34, 30)); d.rectangle([mx + 12, gy - 50, mx + 32, gy - 16], fill=(230, 222, 200))
+        d.polygon([(x + 4, int(H * 0.44)), (x + w - 4, int(H * 0.44)), (x + w - 24, int(H * 0.39)), (x + 24, int(H * 0.39))], fill=r.choice([(120, 40, 40), (40, 70, 60), (60, 60, 90), (150, 110, 50)]))   # 雨遮
+        sc_ = r.choice([(250, 240, 220), (255, 200, 120), (180, 220, 255), (255, 150, 120)])            # 招牌燈箱（看不清楚的字形）
+        bx = x + r.randint(20, max(21, w - 140)); d.rectangle([bx, int(H * 0.31), bx + 120, int(H * 0.37)], fill=sc_)
+        for k in range(4): gx = bx + 10 + k * 27; d.rectangle([gx, int(H * 0.325), gx + 16, int(H * 0.355)], fill=(60, 40, 30))
+        if r.random() < 0.5: d.rectangle([x + w - 26, int(H * 0.24), x + w - 10, int(H * 0.44)], fill=r.choice([(250, 120, 90), (255, 220, 140)]))   # 直立的小招牌
+        for k in range(r.randint(1, 2)):                                                                  # 門口的盆栽
+            px_ = r.randint(x + 20, x + w - 40); d.rectangle([px_, gy - 30, px_ + 24, gy], fill=(90, 60, 44)); d.ellipse([px_ - 14, gy - 70, px_ + 38, gy - 24], fill=(30, 52, 36))
         x += w
-    d.rectangle([0, int(H * 0.78), W, H], fill=(52, 48, 50))
-    for k in range(10):
-        x0 = r.randint(0, W); d.ellipse([x0 - 160, int(H * 0.02), x0 + 160, int(H * 0.36)], fill=(18, 26, 22))   # 行道樹
-    im = im.filter(ImageFilter.GaussianBlur(12)); im.save(path); return path
+    for k in range(40):                                                                                    # 串燈
+        sx = k * (W / 40); sy = int(H * 0.30) + 18 * math.sin(k * 0.6); d.ellipse([sx - 4, sy - 4, sx + 4, sy + 4], fill=(255, 220, 150))
+    d.rectangle([0, gy, W, H], fill=(52, 48, 50))
+    for k in range(60):                                                                                    # 地上的反光（招牌、店面的光拉成直條）
+        rx = r.randint(0, W); d.rectangle([rx, gy + 4, rx + r.randint(4, 14), gy + r.randint(30, 160)], fill=r.choice([(120, 100, 80), (110, 90, 70), (90, 100, 120)]))
+    for k in range(7):                                                                                     # 騎樓下的機車
+        mx = r.randint(0, W); d.rectangle([mx, gy - 46, mx + 70, gy - 20], fill=(20, 20, 24)); d.ellipse([mx - 8, gy - 30, mx + 18, gy - 4], fill=(14, 14, 16)); d.ellipse([mx + 56, gy - 30, mx + 82, gy - 4], fill=(14, 14, 16))
+    for k in range(6):                                                                                     # 走過的人影
+        hx = r.randint(0, W); d.rectangle([hx, gy - 150, hx + 34, gy - 4], fill=(22, 22, 28)); d.ellipse([hx + 4, gy - 182, hx + 30, gy - 150], fill=(22, 22, 28))
+    for k in range(8):
+        x0 = r.randint(0, W); d.ellipse([x0 - 150, int(H * 0.0), x0 + 150, int(H * 0.30)], fill=(18, 26, 22))   # 行道樹（上面）
+    im = im.filter(ImageFilter.GaussianBlur(5)); im.save(path); return path
 
 
 def clock_tex(path, hh=18, mm=42, S=512):
@@ -130,6 +176,11 @@ M = {
     'jar': L.flat('cy_jar', '#d8e2dc', rough=0.08, alpha=0.4),
     'pickle': L.flat('cy_pickle', '#b0452c', rough=0.5), 'spice': L.flat('cy_spice', '#c8902c', rough=0.6), 'spice2': L.flat('cy_spice2', '#6a3a20', rough=0.6),
     'chop': L.flat('cy_chop', '#d6b88a', rough=0.6), 'cream': L.flat('cy_cream', '#efe6d4', rough=0.6),
+    'tile': L.pbr('cy_tile', 'long_white_tiles', tile=1.2, target='#cfcabe', normal=0.3, maps=('diff', 'nor'), rough_value=0.25),   # 第五版：布簾後面的小廚房
+    'kfloor': L.pbr('cy_kfloor', 'floor_tiles_06', tile=1.5, target='#8a8680', normal=0.3, maps=('diff', 'nor'), rough_value=0.5),
+    'kceil': L.flat('cy_kceil', '#d8d4ca', rough=0.8),
+    'pot': L.flat('cy_pot', '#7c7e80', rough=0.3, metal=0.45), 'enamel': L.flat('cy_enamel', '#a8452e', rough=0.35),
+    'bowl': L.flat('cy_bowl', '#ebe5d8', rough=0.35), 'crate': L.flat('cy_crate', '#3c6a9a', rough=0.6), 'sack': L.flat('cy_sack', '#d8cdb2', rough=0.9),
 }
 _acc = {}
 def acc(k):
@@ -142,14 +193,36 @@ acc('floor').quad([(X0, 0.0, ZF), (X1, 0.0, ZF), (X1, 0.0, ZB), (X0, 0.0, ZB)])
 acc('ceil').quad([(X0, H, ZF), (X1, H, ZF), (X1, H, ZB), (X0, H, ZB)][::-1])
 for zz in (-2.0, -0.8, 0.4): acc('beam').box(X0, X1, H - 0.14, H, zz - 0.06, zz + 0.06)      # 天花板的木樑
 # 後牆（對面）：下半木作、上半米色灰泥；照片價目板；右邊廚房入口（深藍布簾）
-acc('plaster').quad([(X0, 0.0, ZB), (X1, 0.0, ZB), (X1, H, ZB), (X0, H, ZB)][::-1])
+# 第五版：右邊留廚房的門洞（x 1.45–2.45、高 2.05；第四版整面牆，布簾下面看到的是牆）
+acc('plaster').quad([(X0, 0.0, ZB), (1.45, 0.0, ZB), (1.45, H, ZB), (X0, H, ZB)][::-1]); acc('plaster').quad([(2.45, 0.0, ZB), (X1, 0.0, ZB), (X1, H, ZB), (2.45, H, ZB)][::-1])
+acc('plaster').quad([(1.45, 2.05, ZB), (2.45, 2.05, ZB), (2.45, H, ZB), (1.45, H, ZB)][::-1])
 acc('wood').box(X0, 1.3, 0.0, 1.05, ZB, ZB + 0.025)
 acc('wood').box(X0, 1.3, 1.05, 1.09, ZB, ZB + 0.05)                                      # 牆裙上緣的木條
 mb = img_mat('cy_menuboard', menu_board_tex(os.path.join(TMP, 'menuboard.png'),
              [('雞肉咖哩', '180', (230, 200, 120)), ('豬排咖哩', '220', (200, 150, 80)), ('蔬菜咖哩', '170', (110, 160, 80)), ('牛筋咖哩', '240', (120, 70, 40)), ('起司加點', '+40', (250, 220, 120))]), rough=0.5)
 acc('wood').box(-2.45, 1.15, 1.55, 2.12, ZB + 0.005, ZB + 0.04)
 uvquad('cy_menuboard', (-2.40, 1.58, ZB + 0.042), (1.10, 1.58, ZB + 0.042), (1.10, 2.09, ZB + 0.042), (-2.40, 2.09, ZB + 0.042), mb)
-acc('dark').box(1.45, 2.45, 0.0, 2.05, ZB - 0.2, ZB + 0.005)                              # 廚房入口（裡面暗）
+# 廚房（第二版：第一版入口裡是一塊 20 cm 厚的深色方塊，把後面的工作台整個擋住，布簾下面是一片深灰）：布簾後面蓋一個小廚房——
+# 淺色磁磚的後牆、兩側牆、地板、不鏽鋼工作台（湯鍋、勺子）、碗架、暖光
+KZ = ZB - 1.4
+acc('tile').quad([(1.0, 0.0, KZ), (2.9, 0.0, KZ), (2.9, 2.3, KZ), (1.0, 2.3, KZ)][::-1])
+acc('tile').quad([(1.0, 0.0, ZB), (1.0, 0.0, KZ), (1.0, 2.3, KZ), (1.0, 2.3, ZB)][::-1]); acc('tile').quad([(2.9, 0.0, KZ), (2.9, 0.0, ZB), (2.9, 2.3, ZB), (2.9, 2.3, KZ)][::-1])
+acc('kfloor').quad([(1.0, 0.0, ZB), (2.9, 0.0, ZB), (2.9, 0.0, KZ), (1.0, 0.0, KZ)]); acc('kceil').quad([(1.0, 2.3, ZB), (2.9, 2.3, ZB), (2.9, 2.3, KZ), (1.0, 2.3, KZ)][::-1])
+# 第五版：工作台是真的不鏽鋼桌（檯面、四隻腳、下層架；第四版一整塊實心的白方塊，像冰箱）；湯鍋深一點的鋼色＋鍋蓋、一個紅色琺瑯鍋；碗是陶瓷
+TX0, TX1, TZa, TZb = 1.30, 2.60, KZ + 0.15, KZ + 0.75
+acc('steel').box(TX0, TX1, 0.86, 0.90, TZa, TZb); acc('steel').box(TX0 + 0.04, TX1 - 0.04, 0.18, 0.21, TZa + 0.04, TZb - 0.04)
+for lx in (TX0 + 0.04, TX1 - 0.04):
+    for lz in (TZa + 0.04, TZb - 0.04): Mesh('cy_leg%.2f%.2f' % (lx, lz), M['steel']).cyl((lx, 0.0, lz), (lx, 0.86, lz), 0.018, seg=8).finish(parent=root)
+acc('sack').box(1.40, 1.80, 0.21, 0.52, TZa + 0.08, TZb - 0.10); acc('crate').box(1.90, 2.30, 0.21, 0.45, TZa + 0.10, TZb - 0.12)   # 下層架：米袋、塑膠籃
+for (px_, r_, h_, mk) in ((1.70, 0.17, 0.30, 'pot'), (2.20, 0.14, 0.20, 'enamel')):                # 檯面上的湯鍋（咖哩）＋鍋蓋（斜靠著）
+    Mesh('cy_pot%.2f' % px_, M[mk]).cyl((px_, 0.90, KZ + 0.45), (px_, 0.90 + h_, KZ + 0.45), r_, seg=24).finish(parent=root, smooth=True)
+    Mesh('cy_potrim%.2f' % px_, M['pot']).cyl((px_, 0.90 + h_ - 0.012, KZ + 0.45), (px_, 0.90 + h_, KZ + 0.45), r_ + 0.008, seg=24).finish(parent=root, smooth=True)
+Mesh('cy_lid', M['pot']).cyl((2.20, 1.10, KZ + 0.62), (2.22, 1.11, KZ + 0.66), 0.14, seg=24).finish(parent=root, smooth=True)
+Mesh('cy_ladle', M['steel']).cyl((1.62, 1.18, KZ + 0.45), (1.55, 1.40, KZ + 0.40), 0.01, seg=6).finish(parent=root)
+acc('table').box(1.95, 2.05 + 0.25, 0.90, 0.93, TZa + 0.05, TZa + 0.33)                                 # 砧板
+for k in range(5): Mesh('cy_plate%d' % k, M['bowl']).cyl((2.42, 0.90 + k * 0.012, TZa + 0.25), (2.42, 0.91 + k * 0.012, TZa + 0.25), 0.11, seg=20).finish(parent=root, smooth=True)   # 一疊盤子
+acc('steel').box(1.2, 2.7, 1.55, 1.58, KZ + 0.02, KZ + 0.30)                                      # 碗架
+for k in range(8): Mesh('cy_bowl%d' % k, M['bowl']).cyl((1.32 + k * 0.17, 1.58, KZ + 0.16), (1.32 + k * 0.17, 1.66, KZ + 0.16), 0.07, seg=14, r2=0.05).finish(parent=root, smooth=True)
 acc('wood').box(1.38, 1.45, 0.0, 2.12, ZB, ZB + 0.06); acc('wood').box(2.45, 2.52, 0.0, 2.12, ZB, ZB + 0.06); acc('wood').box(1.38, 2.52, 2.05, 2.12, ZB, ZB + 0.06)
 nm = img_mat('cy_noren', noren_tex(os.path.join(TMP, 'noren.png')), rough=0.9)
 for k in range(3):                                                                         # 布簾：三片，下緣到 1.4 m，微微的波
@@ -157,11 +230,10 @@ for k in range(3):                                                              
     uvquad('cy_noren%d' % k, (x0, 1.40, ZB + 0.08 + 0.01 * k), (x0 + 0.32, 1.40, ZB + 0.08 + 0.01 * k), (x0 + 0.32, 2.04, ZB + 0.07), (x0, 2.04, ZB + 0.07), nm,
            uv=((k / 3, 0), ((k + 1) / 3, 0), ((k + 1) / 3, 1), (k / 3, 1)))
 acc('steel').box(1.38, 2.52, 2.03, 2.05, ZB + 0.06, ZB + 0.09)
-acc('steel').box(1.50, 2.40, 0.0, 0.90, ZB - 0.9, ZB - 0.3)                              # 布簾後面：不鏽鋼的工作台（暗暗的看得到一點）
 ck = img_mat('cy_clock', clock_tex(os.path.join(TMP, 'clock.png')), rough=0.5)           # 時鐘 18:42（聚餐約 18:30，Kevin 遲到七分鐘）
 uvquad('cy_clock', (1.70, 2.20, ZB + 0.012), (2.20, 2.20, ZB + 0.012), (2.20, 2.70, ZB + 0.012), (1.70, 2.70, ZB + 0.012), ck)
-area_light_k = bpy.data.lights.new('kitchen', 'AREA'); area_light_k.energy = 45; area_light_k.color = (1.0, 0.92, 0.80); area_light_k.size = 0.8
-ko = bpy.data.objects.new('kitchen', area_light_k); ko.location = g2b(1.95, 1.9, ZB - 0.15); sc.collection.objects.link(ko); ko.rotation_euler = (g2b(1.95, 0.5, ZB - 0.15) - g2b(1.95, 1.9, ZB - 0.15)).to_track_quat('-Z', 'Y').to_euler()
+area_light_k = bpy.data.lights.new('kitchen', 'AREA'); area_light_k.energy = 28; area_light_k.color = (1.0, 0.92, 0.80); area_light_k.size = 0.8
+ko = bpy.data.objects.new('kitchen', area_light_k); ko.location = g2b(1.95, 2.2, ZB - 0.7); sc.collection.objects.link(ko); ko.rotation_euler = (g2b(1.95, 0.5, ZB - 0.7) - g2b(1.95, 2.2, ZB - 0.7)).to_track_quat('-Z', 'Y').to_euler()
 # 右牆：層架上的香料罐、醃菜罐
 acc('plaster').quad([(X1, 0.0, ZF), (X1, 0.0, ZB), (X1, H, ZB), (X1, H, ZF)])
 acc('wood').box(X1 - 0.025, X1, 0.0, 1.05, ZB, ZF)
@@ -180,8 +252,9 @@ acc('wood').box(X0, X0 + 0.025, 0.0, 0.9, ZB, ZF)
 for zz in (-2.2, -0.5, 1.2): acc('wood').box(X0, X0 + 0.08, 0.9, 2.2, zz - 0.04, zz + 0.04)   # 窗框（木）
 for yy in (0.9, 2.2): acc('wood').box(X0, X0 + 0.10, yy - 0.04, yy + 0.02, -2.2, 1.2)
 # （第三版：窗玻璃拿掉——鏡頭斜看時玻璃把室內反射成一整片灰藍，窗外的街看不到）
-sn = img_mat('cy_street', street_night_tex(os.path.join(TMP, 'street_night.png'), W=3600), emit=0.9, rough=1.0)   # 第三版 1.6 → 0.9（晚上，第二版亮得像白天）
-q = uvquad('cy_street', (X0 - 4.0, -0.6, -14.0), (X0 - 4.0, -0.6, 4.0), (X0 - 4.0, 4.0, 4.0), (X0 - 4.0, 4.0, -14.0), sn); q.visible_shadow = False   # 第四版：往後延長（鏡頭斜看窗外，視線超出第三版的範圍，看到的是天空底色）
+sn = img_mat('cy_street', street_night_tex(os.path.join(TMP, 'street_night.png'), W=3600), emit=0.75, rough=1.0)   # 第三版 1.6 → 0.9（晚上，第二版亮得像白天）；第五版 0.75
+q = uvquad('cy_street', (X0 - 8.0, -2.3, -30.0), (X0 - 8.0, -2.3, 8.0), (X0 - 8.0, 8.3, 8.0), (X0 - 8.0, 8.3, -30.0), sn); q.visible_shadow = False   # 第四版：往後延長（鏡頭斜看窗外，視線超出第三版的範圍，看到的是天空底色）
+# 第五版：對面的街放到 8 m 外、照真的比例（38×10.6 m：店面 4～7 m 寬、一樓 3 m 高、地面在 y 0）；第四版 4 m 外、18×4.6 m，店面像模型一樣小，從窗戶看一整塊一整塊
 # 對面的座位：一張桌子、兩張木椅（後面那張是學姊的位子，人物疊上去）；前景：自己這邊的桌面、菜單、水杯、筷子筒
 TZ0, TZ1, TY = -1.5, -0.3, 0.72
 acc('table').box(-0.75, 0.75, TY - 0.04, TY, TZ0, TZ1)

@@ -112,34 +112,82 @@ def stair_sign_tex(path, W=700, H=200):
 
 
 def poster_tex(path, kind, W=560, H=800):
-    """虛構的海報（不放真實電影）：大的色面＋簡單的形＋看不清楚的片名、演職員那一行"""
-    r = random.Random(hash(kind) % 1000); im = Image.new('RGB', (W, H)); d = ImageDraw.Draw(im)
-    def grad(c0, c1, y0=0, y1=H):
+    """虛構的海報（不放真實電影）。第二版（LAWWW2-C 2026-10-17 精修：第一版只有大色面＋一兩個形，在畫面上是幾塊暗灰）：
+    有層次的插畫（天空漸層、遠中近景、光）、白邊、紙張泛黃、邊角磨損；片名是看不清楚的筆刷字形，下面兩三行演職員（細線）"""
+    r = random.Random(sum(map(ord, kind))); im = Image.new('RGB', (W, H)); d = ImageDraw.Draw(im)
+    def grad(c0, c1, y0=0, y1=H, x0=0, x1=W):
         for y in range(y0, y1):
-            t = (y - y0) / max(1, y1 - y0 - 1); d.line([(0, y), (W, y)], fill=tuple(int(a + (b - a) * t) for a, b in zip(c0, c1)))
-    if kind == 'sea':
-        grad((150, 196, 220), (238, 222, 196), 0, 470); grad((70, 120, 150), (40, 80, 110), 470, H)
-        d.ellipse([360, 120, 460, 220], fill=(250, 236, 200)); d.rectangle([300, 420, 312, 470], fill=(40, 40, 46)); d.ellipse([294, 396, 318, 422], fill=(40, 40, 46))
-    elif kind == 'train':
-        grad((240, 160, 110), (90, 60, 90), 0, H)
-        d.rectangle([0, 520, W, 540], fill=(40, 30, 40)); d.rectangle([60, 430, 500, 520], fill=(36, 28, 40))
-        for x in range(90, 480, 70): d.rectangle([x, 450, x + 46, 490], fill=(250, 210, 140))
-        for x in range(0, W, 90): d.line([(x, 0), (x + 40, 430)], fill=(60, 40, 60), width=3)
-    elif kind == 'umbrella':
-        grad((60, 80, 110), (110, 130, 150), 0, H)
-        for k in range(160): x = r.randint(0, W); y = r.randint(0, H); d.line([(x, y), (x - 6, y + 26)], fill=(170, 190, 210), width=2)
-        d.pieslice([150, 260, 410, 520], 180, 360, fill=(200, 60, 56)); d.line([(280, 390), (280, 600)], fill=(40, 30, 30), width=6)
-    elif kind == 'house':
-        grad((24, 30, 52), (70, 70, 96), 0, H)
-        d.ellipse([380, 90, 470, 180], fill=(246, 236, 200)); d.polygon([(70, 470), (280, 340), (490, 470)], fill=(30, 26, 30)); d.rectangle([110, 470, 450, 640], fill=(46, 38, 36))
-        d.rectangle([240, 520, 320, 600], fill=(250, 200, 120))
-    else:  # bike
-        grad((246, 218, 120), (226, 170, 80), 0, H)
-        for cx in (200, 360): d.ellipse([cx - 70, 470, cx + 70, 610], outline=(50, 40, 34), width=8)
-        d.line([(200, 540), (280, 470), (360, 540)], fill=(50, 40, 34), width=8); d.line([(280, 470), (300, 430)], fill=(50, 40, 34), width=8)
-    d.rectangle([40, 640, W - 40, 700], fill=(250, 248, 240) if kind in ('house', 'umbrella', 'train') else (40, 34, 30))    # 片名（看不清楚的一塊）
-    for k in range(3): d.rectangle([60, 716 + k * 18, W - 60 - r.randint(0, 160), 726 + k * 18], fill=(200, 196, 186) if kind in ('house', 'umbrella', 'train') else (70, 60, 50))
-    im = im.filter(ImageFilter.GaussianBlur(1.6)); im.save(path); return path
+            t = (y - y0) / max(1, y1 - y0 - 1); d.line([(x0, y), (x1, y)], fill=tuple(int(a + (b - a) * t) for a, b in zip(c0, c1)))
+    def blob(cx, cy, rx, ry, col, n=1):
+        for _ in range(n):
+            ox, oy = r.uniform(-rx * 0.3, rx * 0.3), r.uniform(-ry * 0.3, ry * 0.3); d.ellipse([cx + ox - rx, cy + oy - ry, cx + ox + rx, cy + oy + ry], fill=col)
+    if kind == 'sea':        # 夏天的海：夕陽、地平線、浪、站在淺水裡的人影、海鷗
+        grad((246, 196, 150), (250, 226, 196), 0, 300); grad((250, 226, 196), (190, 210, 222), 300, 430)
+        d.ellipse([330, 250, 430, 350], fill=(255, 238, 210))
+        grad((96, 150, 178), (40, 86, 118), 430, H)
+        for y in range(440, 640, 9): d.line([(0, y), (W, y + r.randint(-3, 3))], fill=(120, 170, 196), width=2)
+        for k in range(26):                                                                       # 夕陽倒影：一條條閃光
+            y = 436 + k * 8; hw = 18 + k * 3.2 + r.uniform(-6, 6); cx = 380 + r.uniform(-8, 8); d.line([(cx - hw, y), (cx + hw, y)], fill=(244, 214, 176), width=3)
+        d.rectangle([258, 470, 270, 560], fill=(36, 34, 44)); d.ellipse([252, 448, 276, 474], fill=(36, 34, 44)); d.polygon([(262, 480), (238, 530), (246, 534), (266, 490)], fill=(36, 34, 44))
+        for k in range(5): x, y = r.randint(60, 500), r.randint(80, 240); d.arc([x, y, x + 22, y + 12], 200, 340, fill=(80, 70, 80), width=3); d.arc([x + 20, y, x + 42, y + 12], 200, 340, fill=(80, 70, 80), width=3)
+    elif kind == 'train':    # 黃昏的電車：架空線、亮著的車窗、月台上的人
+        grad((252, 196, 140), (150, 96, 120), 0, 380); grad((150, 96, 120), (60, 44, 70), 380, H)
+        for k in range(4): d.line([(0, 120 + k * 22), (W, 160 + k * 14)], fill=(70, 50, 70), width=2)
+        for x in (90, 300, 510): d.line([(x, 100), (x - 6, 470)], fill=(50, 36, 54), width=6)
+        d.rounded_rectangle([20, 360, 540, 500], 18, fill=(214, 222, 210)); d.rectangle([20, 440, 540, 470], fill=(70, 120, 92))
+        for x in range(46, 520, 64): d.rounded_rectangle([x, 378, x + 46, 430], 6, fill=(255, 224, 150))
+        d.rectangle([0, 500, W, 530], fill=(56, 46, 56)); d.rectangle([0, 530, W, H], fill=(92, 80, 90))
+        d.rectangle([420, 540, 432, 620], fill=(30, 26, 34)); d.ellipse([414, 518, 438, 544], fill=(30, 26, 34))
+    elif kind == 'umbrella': # 下雨的夜晚街道：紅傘的背影、濕地上的反光、散景
+        grad((40, 52, 80), (70, 84, 110), 0, 520); grad((50, 58, 80), (30, 34, 50), 520, H)
+        for k in range(28):
+            x, y, rr_ = r.randint(0, W), r.randint(120, 480), r.randint(12, 34); c = r.choice([(250, 200, 120), (240, 150, 110), (150, 200, 240), (250, 240, 200)])
+            d.ellipse([x - rr_, y - rr_, x + rr_, y + rr_], fill=tuple(int(v * 0.75) for v in c))
+            d.rectangle([x - 3, 540, x + 3, 540 + r.randint(40, 160)], fill=tuple(int(v * 0.5) for v in c))   # 濕地上的光
+        for k in range(220): x = r.randint(0, W); y = r.randint(0, H); d.line([(x, y), (x - 5, y + 24)], fill=(160, 180, 200), width=1)
+        d.pieslice([170, 300, 430, 520], 180, 360, fill=(206, 56, 52)); d.line([(300, 410), (300, 560)], fill=(30, 24, 28), width=6)
+        d.rectangle([272, 420, 330, 600], fill=(34, 32, 42)); d.ellipse([280, 390, 322, 430], fill=(34, 32, 42))
+    elif kind == 'house':    # 月夜的老屋：瓦屋頂、亮著的窗、屋簷上的貓、樹的剪影
+        grad((20, 28, 56), (64, 66, 100), 0, H)
+        for k in range(60): x, y = r.randint(0, W), r.randint(0, 300); d.point((x, y), fill=(220, 220, 240))
+        d.ellipse([370, 80, 470, 180], fill=(250, 240, 206)); d.ellipse([350, 60, 490, 200], outline=(120, 120, 150), width=2)
+        blob(80, 420, 110, 120, (24, 30, 36), 4)
+        d.polygon([(60, 470), (280, 330), (500, 470)], fill=(40, 36, 44)); d.rectangle([100, 470, 460, 660], fill=(58, 46, 40))
+        for y in range(350, 470, 14): d.line([(280 - (y - 330) * 1.55, y), (280 + (y - 330) * 1.55, y)], fill=(52, 46, 54), width=2)   # 瓦片的線
+        d.rectangle([230, 520, 330, 610], fill=(255, 206, 120)); d.line([(280, 520), (280, 610)], fill=(120, 80, 50), width=3)
+        d.ellipse([340, 330, 372, 352], fill=(20, 18, 24)); d.polygon([(344, 334), (350, 318), (356, 334)], fill=(20, 18, 24)); d.polygon([(358, 334), (364, 318), (368, 334)], fill=(20, 18, 24))
+    else:                    # 夏天的腳踏車：稻田、雲、騎車的人
+        grad((140, 196, 236), (230, 236, 220), 0, 420)
+        for cx, cy in ((140, 140), (420, 190), (280, 90)): blob(cx, cy, 80, 34, (250, 250, 246), 4)
+        grad((150, 196, 96), (96, 150, 70), 420, H)
+        for y in range(440, H, 18): d.line([(0, y), (W, y)], fill=(130, 180, 84), width=2)
+        d.rectangle([0, 520, W, 548], fill=(214, 200, 168))
+        for cx in (230, 350): d.ellipse([cx - 52, 470, cx + 52, 574], outline=(40, 36, 34), width=7)
+        d.line([(230, 522), (290, 476), (350, 522)], fill=(40, 36, 34), width=7); d.line([(290, 476), (300, 446)], fill=(40, 36, 34), width=7)
+        d.polygon([(270, 370), (300, 370), (310, 450), (280, 460)], fill=(244, 244, 238)); d.ellipse([272, 330, 304, 366], fill=(40, 30, 26))
+    # 片名（筆刷感的看不清楚的字形）＋演職員（細線）
+    light = kind in ('house', 'umbrella', 'train')
+    tc = (250, 246, 236) if light else (40, 34, 30)
+    x = 70
+    while x < W - 100:                                                                            # 每個「字」幾筆粗筆畫（橫、豎、撇、點），遠看像片名、看不出是什麼字
+        w_ = r.randint(40, 58); y0, y1 = 650, 702
+        for _ in range(r.randint(3, 5)):
+            kind_ = r.random()
+            if kind_ < 0.35: yy = r.randint(y0 + 4, y1 - 4); d.line([(x + r.randint(0, 8), yy), (x + w_ - r.randint(0, 8), yy + r.randint(-3, 3))], fill=tc, width=7)
+            elif kind_ < 0.65: xx = r.randint(x + 6, x + w_ - 6); d.line([(xx, y0 + r.randint(0, 8)), (xx + r.randint(-4, 4), y1 - r.randint(0, 8))], fill=tc, width=7)
+            elif kind_ < 0.85: d.line([(x + w_ * 0.6, y0 + 6), (x + 4, y1 - 4)], fill=tc, width=7)
+            else: cx_, cy_ = x + r.randint(10, w_ - 10), r.randint(y0 + 10, y1 - 10); d.ellipse([cx_ - 5, cy_ - 5, cx_ + 5, cy_ + 5], fill=tc)
+        x += w_ + r.randint(12, 20)
+    for k in range(3): d.rectangle([90, 718 + k * 16, W - 90 - r.randint(0, 140), 724 + k * 16], fill=(210, 204, 192) if light else (80, 70, 60))
+    im = im.filter(ImageFilter.GaussianBlur(1.0))
+    # 紙：白邊、泛黃、邊角磨損
+    out = Image.new('RGB', (W, H), (240, 232, 214)); out.paste(im.resize((W - 36, H - 36)), (18, 18))
+    od = ImageDraw.Draw(out)
+    for _ in range(14):                                                                           # 邊角磨損：不規則的小缺口（四個角多一點）
+        cx_, cy_ = r.choice([(r.randint(0, 40), r.randint(0, 40)), (r.randint(W - 40, W), r.randint(0, 40)), (r.randint(0, 40), r.randint(H - 40, H)), (r.randint(W - 40, W), r.randint(H - 40, H)), (r.choice([0, W]), r.randint(0, H))])
+        pts = [(cx_ + math.cos(a_) * r.uniform(3, 9), cy_ + math.sin(a_) * r.uniform(3, 9)) for a_ in [k * 0.9 for k in range(7)]]; od.polygon(pts, fill=(222, 208, 180))
+    yl = Image.new('RGB', (W, H), (226, 200, 140)); out = Image.blend(out, yl, 0.12)
+    out.save(path); return path
 
 
 def street_tex(path, W=1600, H=900):
@@ -168,10 +216,11 @@ M = {
     'ceil': L.flat('cn_ceil', '#e9e5dc', rough=0.9), 'grid': L.flat('cn_grid', '#cfccc4', rough=0.5, metal=0.2),
     'lamp': L.flat('cn_lamp', '#ffffff', rough=0.3, emit=B.srgb('#fff4e2')),
     'brass': L.flat('cn_brass', '#b8954e', rough=0.28, metal=0.45), 'alu': L.flat('cn_alu', '#a9acae', rough=0.35, metal=0.4),
-    'glass': L.flat('cn_glass', '#eef2f4', rough=0.04, alpha=0.12), 'dark': L.flat('cn_dark', '#1e1d1f', rough=0.6),
+    'glass': L.flat('cn_glass', '#9fb0b8', rough=0.04, alpha=0.04),   # 第五版 0.12 → 0.04、顏色調暗：售票口右邊（遠的）那扇窗原本蓋著一層白霧
+    'dark': L.flat('cn_dark', '#1e1d1f', rough=0.6),
     'black': L.flat('cn_black', '#121214', rough=0.4), 'vinyl': L.flat('cn_vinyl', '#8e2a2a', rough=0.35),
     'rope': L.flat('cn_rope', '#7a1c22', rough=0.8), 'booth_in': L.flat('cn_booth_in', '#3a302a', rough=0.8),
-    'cream': L.flat('cn_cream', '#efe6d4', rough=0.6), 'warm': L.flat('cn_warm', '#ffd9a0', rough=0.5, emit=B.srgb('#ffc880')),
+    'cream': L.flat('cn_cream', '#efe6d4', rough=0.6), 'chair': L.flat('cn_chair', '#3c3e46', rough=0.7), 'warm': L.flat('cn_warm', '#ffd9a0', rough=0.5, emit=B.srgb('#ffc880')),
     'fridge': L.flat('cn_fridge', '#d8eef4', rough=0.2, emit=B.srgb('#a8d0e0')),
 }
 _acc = {}
@@ -220,7 +269,31 @@ acc('dark').box(BX - 0.55, BX - 0.25, 1.0, 1.16, -2.55, -2.25)                  
 acc('wood_l').box(BX - 0.65, BX - 0.10, 0.95, 1.0, BZ0 + 0.3, BZ1 - 0.3)             # 裡面的桌子
 Mesh('cn_desklamp', M['warm']).cyl((BX - 0.45, 1.30, -3.4), (BX - 0.45, 1.36, -3.4), 0.09, seg=16, r2=0.05).finish(parent=root)
 area_light('booth_lamp', BX - 0.45, 1.25, -3.4, 0.25, 0.25, 6, col=(1.0, 0.78, 0.5), aim=(BX - 0.45, 0.9, -3.4))
-area_light('booth_ceil', BX - 0.6, 2.1, -2.5, 0.6, 0.6, 12, col=(1.0, 0.92, 0.8), aim=(BX - 0.6, 0.5, -2.5))   # 第四版：亭子靠入口那一半也亮一點（右邊的窗看起來是一片灰）
+area_light('booth_ceil', BX - 0.6, 2.1, -2.5, 0.6, 0.6, 22, col=(1.0, 0.92, 0.8), aim=(BX - 0.6, 0.5, -2.5))
+# 第五版：亭子裡遠的那一半（畫面右邊那扇窗）原本只有層架，窗看起來是一片灰——加月曆、小電扇、零錢盤、椅背
+cal = img_mat('cn_cal', price_tex(os.path.join(TMP, 'cal.png'), W=300, H=420), rough=0.7)
+uvquad('cn_cal', (X0 + 0.062, 1.25, -3.75), (X0 + 0.062, 1.25, -4.15), (X0 + 0.062, 1.8, -4.15), (X0 + 0.062, 1.8, -3.75), cal)
+acc('cream').box(BX - 0.62, BX - 0.42, 1.0, 1.02, -3.95, -3.7)                           # 零錢盤
+# 小電扇（第五版第二次：第一次的扇頭是一個白色實心圓柱，看起來浮在半空）：底座、立桿、馬達、三片扇葉、一圈護網，朝窗戶
+FX, FY, FZ = BX - 0.3, 1.32, -4.35
+Mesh('cn_fan_base', M['dark']).cyl((FX, 1.0, FZ), (FX, 1.025, FZ), 0.075, seg=18).finish(parent=root, smooth=True)
+Mesh('cn_fan_pole', M['dark']).cyl((FX - 0.06, 1.025, FZ), (FX - 0.06, FY - 0.04, FZ), 0.011, seg=8).finish(parent=root)
+Mesh('cn_fan_motor', M['cream']).cyl((FX - 0.11, FY, FZ), (FX - 0.03, FY, FZ), 0.045, seg=16, r2=0.035).finish(parent=root, smooth=True)
+fb = Mesh('cn_fan_blades', M['cream'])
+for k in range(3):
+    a_ = 2 * math.pi * k / 3 + 0.4; fb.cyl((FX - 0.005, FY + 0.055 * math.sin(a_), FZ + 0.055 * math.cos(a_)), (FX + 0.001, FY + 0.055 * math.sin(a_), FZ + 0.055 * math.cos(a_)), 0.045, seg=14)
+fb.cyl((FX - 0.02, FY, FZ), (FX + 0.008, FY, FZ), 0.018, seg=12); fb.finish(parent=root)
+fg = Mesh('cn_fan_guard', M['alu'])
+for xg in (FX - 0.02, FX + 0.02):                                                         # 前後兩圈護網＋前面的幾條輻條
+    pts = [(xg, FY + 0.115 * math.sin(2 * math.pi * k / 20), FZ + 0.115 * math.cos(2 * math.pi * k / 20)) for k in range(21)]
+    for p0, p1 in zip(pts[:-1], pts[1:]): fg.cyl(p0, p1, 0.0035, seg=5)
+for k in range(8):
+    a_ = 2 * math.pi * k / 8; fg.cyl((FX + 0.024, FY, FZ), (FX + 0.02, FY + 0.115 * math.sin(a_), FZ + 0.115 * math.cos(a_)), 0.0025, seg=4)
+fg.finish(parent=root)
+# 椅背（第五版第二次：原本一塊鮮紅的方塊）：深灰的辦公椅，圓角、低一點
+Mesh('cn_chair', M['chair']).rbox(X0 + 0.50, X0 + 0.92, 0.72, 1.16, -4.03, -3.95, r=0.035, seg=2).finish(parent=root, smooth=True)
+Mesh('cn_chair_post', M['dark']).cyl((X0 + 0.71, 0.45, -3.99), (X0 + 0.71, 0.72, -3.99), 0.015, seg=8).finish(parent=root)
+area_light('booth_ceil2', BX - 0.6, 2.1, -4.0, 0.5, 0.5, 12, col=(1.0, 0.92, 0.8), aim=(BX - 0.6, 0.5, -4.0))   # 亭子遠的那一半也有燈（月曆看得到）
 st = img_mat('cn_showtime', showtime_tex(os.path.join(TMP, 'showtime.png')), emit=1.3, rough=0.4)   # 場次板（窗上面）
 acc('black').box(BX + 0.02, BX + 0.08, 2.32, 3.12, BZ0 + 0.1, BZ1 - 0.1)
 uvquad('cn_showtime', (BX + 0.082, 2.36, BZ1 - 0.14), (BX + 0.082, 2.36, BZ0 + 0.14), (BX + 0.082, 3.08, BZ0 + 0.14), (BX + 0.082, 3.08, BZ1 - 0.14), st)
@@ -316,6 +389,58 @@ sun = bpy.data.lights.new('sun', 'SUN'); sun.energy = float(opt('--sun', '9.0'))
 so = bpy.data.objects.new('sun', sun); sc.collection.objects.link(so)
 so.rotation_euler = (g2b(0, 0, 0) - g2b(-0.28, 0.42, 1.0)).to_track_quat('-Z', 'Y').to_euler()     # 上午十點：太陽在身後偏左（門外的騎樓那一側），光從大門斜照進大廳
 area_light('door_fill', 0.0, 2.0, ZF - 0.2, 3.4, 2.4, 160, col=(1.0, 0.96, 0.9), aim=(0.0, 1.2, -6.0))   # 門口進來的天光
+# ---------------- 第五版精修：使用痕跡（貼花；LAWWW2-C 2026-10-17）——第一版的天花板、牆、地板太乾淨，不像開了幾十年的二輪戲院 ----------------
+from PIL import ImageDraw as _D
+def decal_mat(name, path, rough=0.8):
+    mt = bpy.data.materials.new(name); mt.use_nodes = True; nt = mt.node_tree; b = nt.nodes['Principled BSDF']
+    tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(path); nt.links.new(tx.outputs['Color'], b.inputs['Base Color']); nt.links.new(tx.outputs['Alpha'], b.inputs['Alpha'])
+    b.inputs['Roughness'].default_value = rough; mt.blend_method = 'HASHED'; return mt
+def stain_png(path, W=512, seed=1):
+    """天花板的水漬：幾圈不規則的咖啡色環（外圈深、裡面淡）"""
+    rr_ = random.Random(seed); im = Image.new('RGBA', (W, W), (0, 0, 0, 0)); d = _D.Draw(im)
+    for ring in range(5):
+        R = W * (0.42 - ring * 0.07); pts = [(W / 2 + math.cos(a) * R * rr_.uniform(0.82, 1.08), W / 2 + math.sin(a) * R * rr_.uniform(0.82, 1.08)) for a in [k * 2 * math.pi / 40 for k in range(40)]]
+        d.polygon(pts, fill=(170, 132, 84, 44 + ring * 9)); d.line(pts + [pts[0]], fill=(140, 100, 60, 150 - ring * 14), width=4)
+    im.filter(ImageFilter.GaussianBlur(3)).save(path); return path
+def tape_png(path):
+    """撕剩的膠帶：泛黃、邊緣鋸齒"""
+    im = Image.new('RGBA', (96, 48), (0, 0, 0, 0)); d = _D.Draw(im)
+    d.polygon([(4, 6), (88, 2), (92, 20), (86, 30), (90, 44), (6, 46), (2, 30), (8, 20)], fill=(226, 204, 150, 210)); im.save(path); return path
+def ghost_png(path):
+    """舊海報拿掉以後褪色的框（牆面比旁邊亮一點、邊緣有一點灰）"""
+    W, H = 280, 400; im = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = _D.Draw(im)
+    d.rectangle([0, 0, W, H], fill=(250, 246, 236, 70)); d.rectangle([0, 0, W - 1, H - 1], outline=(120, 110, 96, 60), width=4)
+    im.filter(ImageFilter.GaussianBlur(1.5)).save(path); return path
+def grime_png(path, W=1024, H=128, seed=3):
+    """牆裙上緣、地板走道的髒污：低對比的雲狀灰咖啡"""
+    rr_ = random.Random(seed); im = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = _D.Draw(im)
+    for _ in range(260):
+        x, y, R = rr_.uniform(0, W), rr_.uniform(0, H), rr_.uniform(6, 26); d.ellipse([x - R * 2, y - R, x + R * 2, y + R], fill=(70, 58, 46, rr_.randint(8, 22)))
+    im.filter(ImageFilter.GaussianBlur(6)).save(path); return path
+def scuff_png(path, seed=5):
+    """牆裙下緣的鞋印擦痕：幾道深色的弧"""
+    rr_ = random.Random(seed); im = Image.new('RGBA', (512, 128), (0, 0, 0, 0)); d = _D.Draw(im)
+    for _ in range(14):
+        x, y = rr_.uniform(20, 490), rr_.uniform(60, 120); d.arc([x - 40, y - 12, x + 40, y + 12], rr_.uniform(180, 220), rr_.uniform(300, 350), fill=(40, 32, 28, rr_.randint(60, 120)), width=rr_.randint(2, 4))
+    im.filter(ImageFilter.GaussianBlur(0.8)).save(path); return path
+STN = [decal_mat('cn_stain%d' % k, stain_png(os.path.join(TMP, 'stain%d.png' % k), seed=k)) for k in range(3)]
+for (sx, sz, sw, k) in ((-1.2, -2.9, 0.75, 0), (1.5, -5.6, 0.55, 1), (-2.9, -8.6, 0.9, 2), (0.3, 0.6, 0.45, 1)):   # 天花板的水漬（往下看的那一面）
+    y = H - 0.017; uvquad('cn_stain', (sx - sw, y, sz + sw), (sx + sw, y, sz + sw), (sx + sw, y, sz - sw), (sx - sw, y, sz - sw), STN[k])
+TAPE = decal_mat('cn_tape', tape_png(os.path.join(TMP, 'tape.png')), rough=0.5); GH = decal_mat('cn_ghost', ghost_png(os.path.join(TMP, 'ghost.png')))
+for k in (1, 3):                                                                      # 海報牆：舊海報換過位置，留下褪色的框和撕剩的膠帶
+    zc = -0.9 - k * 1.55 + 0.07; y0, y1 = 1.12, 2.33; xw = X1 - 0.003
+    uvquad('cn_ghost', (xw, y0, zc + 0.44), (xw, y0, zc - 0.44), (xw, y1, zc - 0.44), (xw, y1, zc + 0.44), GH)
+    for (ty, tz) in ((y1 - 0.02, zc + 0.43), (y0 + 0.02, zc + 0.42), (y1 - 0.03, zc - 0.43)):
+        uvquad('cn_tape', (xw - 0.001, ty - 0.012, tz + 0.025), (xw - 0.001, ty - 0.012, tz - 0.025), (xw - 0.001, ty + 0.012, tz - 0.025), (xw - 0.001, ty + 0.012, tz + 0.025), TAPE)
+GR = decal_mat('cn_grime', grime_png(os.path.join(TMP, 'grime.png')))
+uvquad('cn_grime_r', (X1 - 0.026, 0.92, ZF - 0.3), (X1 - 0.026, 0.92, ZB + 0.1), (X1 - 0.026, 1.18, ZB + 0.1), (X1 - 0.026, 1.18, ZF - 0.3), GR)   # 牆裙上緣（手摸、椅背靠的地方）
+uvquad('cn_grime_l', (X0 + 0.027, 0.92, ZB + 0.1), (X0 + 0.027, 0.92, -1.75), (X0 + 0.027, 1.18, -1.75), (X0 + 0.027, 1.18, ZB + 0.1), GR)
+SC = decal_mat('cn_scuff', scuff_png(os.path.join(TMP, 'scuff.png')), rough=0.6)
+uvquad('cn_scuff_r', (X1 - 0.027, 0.02, -0.2), (X1 - 0.027, 0.02, -6.2), (X1 - 0.027, 0.32, -6.2), (X1 - 0.027, 0.32, -0.2), SC)
+uvquad('cn_scuff_b', (BX + 0.022, 0.02, BZ1), (BX + 0.022, 0.02, BZ0), (BX + 0.022, 0.30, BZ0), (BX + 0.022, 0.30, BZ1), SC)
+FW = decal_mat('cn_floorwear', grime_png(os.path.join(TMP, 'floorwear.png'), W=1024, H=1024, seed=9), rough=0.95)   # 入口到樓梯走出來的一條磨暗的路
+uvquad('cn_floorwear', (-1.2, 0.003, 1.6), (3.6, 0.003, 1.6), (3.6, 0.003, -3.4), (-1.2, 0.003, -3.4), FW)
+
 cam = bpy.data.objects.new('cam', bpy.data.cameras.new('cam')); sc.collection.objects.link(cam); sc.camera = cam
 eye = tuple(map(float, opt('--eye', '0.25,1.55,1.1').split(','))); look = tuple(map(float, opt('--look', '-0.15,1.32,-10.0').split(',')))
 cam.data.lens = float(opt('--lens', '22')); cam.data.sensor_width = 36; cam.location = g2b(*eye)
