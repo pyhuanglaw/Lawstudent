@@ -48,6 +48,10 @@ const TERMEND=(function(){
     return true; };
   S.friendOk=function(G,id,w){ if(G.flags&&G.flags['dating_'+id]) return false; const st=romStatus(G,id); if(st==='ended'||st==='friend_after_catch'||st==='paused') return false;
     if(id==='heroine_05'&&w.id==='Y1S1') return false;   /* 學姊筆試前不約（AA_250 10-2）*/
+    if(id==='classmate_peishan'&&(w.id==='Y2S1'||w.id==='Y2S2')) return false;   /* 大二上說要重考以後不想見人、大二下聯絡不到（AA_250 第 3、4 節）*/
+    if(id==='heroine_02'&&w.id==='Y3S1') return false;   /* 芷若在英國（AA_250 第 5 節）*/
+    if(id==='heroine_01'&&w.id==='Y3S2') return false;   /* 以安在日本（AA_250 第 6 節）*/
+    if(id==='heroine_05'&&w.id==='Y4S1') return false;   /* 學姊在美國（AA_250 第 7 節）*/
     const F=L().FRIEND[id]; if(!F) return false; if(w.id==='Y1S1'&&!F.y1s1) return false;
     if(typeof STORY!=='undefined'&&STORY.knows&&!STORY.knows(id,G)&&!(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(id,'FIRST_MET'))) return false; return true; };
   S.plan=function(G,w){ const R=S.rec(G,w.id); if(R.plan) return R.plan; const Lx=L(); const P={heart:[],friend:[],fallback:null,gf:[],nope:{}};

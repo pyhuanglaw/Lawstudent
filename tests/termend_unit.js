@@ -104,6 +104,10 @@ GM.money=function(n){ G.money+=n; };
     const P5=TERMEND.plan(G,TERMEND.windowOf('Y1S1')); G.termend.Y1S1={}; r.npcRom=49; const P4=TERMEND.plan(G,TERMEND.windowOf('Y1S1')); G.termend.Y1S1={}; r.npcRom=50; r.rom=29; const Pr=TERMEND.plan(G,TERMEND.windowOf('Y1S1'));
     check('9b. 大一上的門檻（BB bb863739）：以安第 5 階＋戀愛 50＋祐廷 30＋2 次＝心意的邀約；戀愛 49、祐廷 29＝沒有',DATE.stageNum('heroine_01')===5&&P5.heart.includes('heroine_01')&&!P4.heart.includes('heroine_01')&&!Pr.heart.includes('heroine_01'),JSON.stringify([DATE.stageNum('heroine_01'),P5.heart,P4.heart,Pr.heart])); }
   check('9c. 校園單獨約出來：第 3 階起她的戀愛 +1、祐廷的戀愛 +1（一天一次，AA_243 第 1 節）',/DATE\.stageNum\(iv\.who\)>=3&&iv\.who!=='kexin'\)\{ const DY=G\.daily\|\|\(G\.daily=\{\}\), k='romAlone_'\+iv\.who; if\(DY\[k\]!==G\.day\)\{ DY\[k\]=G\.day; SOCIAL\.adjust\(iv\.who,\{npcRom:1,rom:1\}\)/.test(fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8')));
+  // 9d. 大二以後的話題池、這段期間不在的人
+  { check('9d. 大二上～大四上的話題池都在（AA_250 第 3～7 節）；大二下阿哲一對一「你暑假在臺北嗎」',['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1'].every(k=>TERMEND_LINES.POOL[k]&&Object.keys(TERMEND_LINES.POOL[k]).length>=6)&&TERMEND_LINES.POOL.Y2S2.zhe.includes('你暑假在臺北嗎'));
+    fresh(D('2026-12-24'),9,'campus',{}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',30,0,0); G.termend={contact:{Y2S1:{classmate_peishan:{pts:9,k:{}}}},think:{}};
+    const P=TERMEND.plan(G,TERMEND.windowOf('Y2S1')); check('9d. 大二上：沛珊（說要重考以後）不當朋友的邀約人',!P.friend.includes('classmate_peishan'),JSON.stringify(P)); }
   // 10. 存讀檔
   { fresh(D('2025-12-20'),10,'campus',{}); G.termend={think:{heroine_04:'Y1S1'},Y1S1:{plan:{heart:[],friend:['classmate_xinci'],fallback:null,gf:[],nope:{}},picked:{who:'classmate_xinci',kind:'friend',day:1}},contact:{Y1S1:{zhe:{pts:3,k:{chat:1}}}}};
     const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('10. 存讀檔：邀約、接了誰、讓我想想、分數都留著',G.termend.think.heroine_04==='Y1S1'&&G.termend.Y1S1.picked.who==='classmate_xinci'&&TERMEND.score(G,'Y1S1','zhe')===3); }
