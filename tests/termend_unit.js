@@ -47,7 +47,7 @@ GM.money=function(n){ G.money+=n; };
   { const w=TERMEND.window(G), P=TERMEND.plan(G,w); check('3. 沒有心意、沒有朋友到門檻＝保底阿凱',P.fallback==='kai'&&!P.heart.length&&!P.friend.length,JSON.stringify(P)); }
   G.hour=19; check('3. 阿凱：20:00 以前不問',!TERMEND.kaiDue(G)); G.hour=20.5; check('3. 20:30 在房間＝問',TERMEND.kaiDue(G));
   { said=[]; picks=[0]; await TERMEND.kaiAsk(GM); const L=lines(); const R=G.termend.Y1S1;
-    check('3. 阿凱「宵夜？」→ 好 → 公館宵夜（「我點不辣的。…」、話題池、「這次我請。…」）',L[0]==='阿凱：宵夜？'&&L.some(t=>t.includes('我點不辣的。你上次吃辣的那家，吃到一半去買水。'))&&L.some(t=>t.includes('寒假我留在臺北，接了一個修電腦的打工。'))&&L.some(t=>t.includes('這次我請。下次你請，不要太快。'))&&R.picked&&R.picked.who==='kai',JSON.stringify(L));
+    check('3. 阿凱「宵夜？」→ 好 → 公館宵夜（「我點不辣的。…」、話題池、收尾「這次我請。」AA_250 10-4 01029de1）',L[0]==='阿凱：宵夜？'&&L.some(t=>t.includes('我點不辣的。你上次吃辣的那家，吃到一半去買水。'))&&L.some(t=>t.includes('寒假我留在臺北，接了一個修電腦的打工。'))&&L[L.length-1]==='阿凱：這次我請。'&&R.picked&&R.picked.who==='kai',JSON.stringify(L));
     check('3. 一學期只問一次',!TERMEND.kaiDue(G)); }
   // 4. 朋友的邀約＋心意的邀約；只能接一個
   fresh(D('2025-12-18'),9,'campus',{}); G.stage='law'; meet('classmate_xinci'); meet('heroine_01'); R('classmate_xinci',25,0,0); R('heroine_01',70,50,45);
@@ -122,7 +122,7 @@ GM.money=function(n){ G.money+=n; };
     G.day=D('2026-06-11'); const P2=TERMEND.plan(G,TERMEND.windowOf('Y1S2')); check('9b. 大一下同一套（戀愛 30、4 次含心願地點）',P2.heart.includes('heroine_01'),JSON.stringify(P2.heart)); }
   check('9c. 校園單獨約出來：第 3 階起她的戀愛 +1、祐廷的戀愛 +1（一天一次，AA_243 第 1 節）',/DATE\.stageNum\(iv\.who\)>=3&&iv\.who!=='kexin'\)\{ const DY=G\.daily\|\|\(G\.daily=\{\}\), k='romAlone_'\+iv\.who; if\(DY\[k\]!==G\.day\)\{ DY\[k\]=G\.day; SOCIAL\.adjust\(iv\.who,\{npcRom:1,rom:1\}\)/.test(fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8')));
   // 9d. 大二以後的話題池、這段期間不在的人
-  { check('9d. 大二上～大四上的話題池都在（AA_250 第 3～7 節）；大二下阿哲一對一「你暑假在臺北嗎」',['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1'].every(k=>TERMEND_LINES.POOL[k]&&Object.keys(TERMEND_LINES.POOL[k]).length>=6)&&TERMEND_LINES.POOL.Y2S2.zhe.includes('你暑假在臺北嗎'));
+  { check('9d. 大二上～大四上的話題池都在（AA_250 第 3～7 節）；大二下阿哲改「小語七月在營隊，我回高雄也沒事做。」（01029de1）',['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1'].every(k=>TERMEND_LINES.POOL[k]&&Object.keys(TERMEND_LINES.POOL[k]).length>=6)&&TERMEND_LINES.POOL.Y2S2.zhe.includes('小語七月在營隊，我回高雄也沒事做。'));
     fresh(D('2026-12-24'),9,'campus',{}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',30,0,0); G.termend={contact:{Y2S1:{classmate_peishan:{pts:9,k:{}}}},think:{}};
     const P=TERMEND.plan(G,TERMEND.windowOf('Y2S1')); check('9d. 大二上：沛珊（說要重考以後）不當朋友的邀約人',!P.friend.includes('classmate_peishan'),JSON.stringify(P)); }
   // 9e. 可昕的學期末約會（BB_202 第 6 節、AA_250 9-2 ae841bba）
@@ -241,5 +241,14 @@ GM.money=function(n){ G.money+=n; };
     w=setup('Y1S2','heroine_03'); TERMEND.plan(G,w); said=[]; picks=[0]; await TERMEND.dinner(GM,{te:{who:'heroine_03',kind:'heart',term:'Y1S2',place:'noodle',placeName:'阿鳳麵店'}}); L=lines();
     check('13. 玩家約語彤去麵店（剛好是她那一家）：說飯桌一句',L.some(x=>x.includes('這碗沒放蔥')),JSON.stringify(L.slice(0,5)));
     TERMEND.hookFor=hf; }
+  // 14. AA_250 全檔口語審（01029de1、BB_212 6f6e9c7e）的條件
+  { const P=TERMEND_LINES.POOL, res=(x,G)=>typeof x==='function'?x(G):x;
+    check('14. 小語大一上「聖誕節交換禮物，你買好了嗎？」12/24 以前才說；大二上跨年那句 12/31 以前才說',res(P.Y1S1.yu[1],{day:D('2025-12-24')})==='聖誕節交換禮物，你買好了嗎？'&&res(P.Y1S1.yu[1],{day:D('2025-12-25')})==null&&res(P.Y2S1.yu[1],{day:D('2026-12-31')})!=null&&res(P.Y2S1.yu[1],{day:D('2027-01-01')})==null);
+    check('14. 以安在期末飯不說「理由」',Object.values(P).every(T=>!(T.heroine_01||[]).some(x=>typeof x==='string'&&x.includes('理由'))));
+    check('14. 子晴大三上：看過 Q6＝發表會那個遊戲；沒看過＝「發表會在五月。……」；阿凱大四上在遊戲公司實習',res(P.Y3S1.heroine_04[0],{events:{done:{ev_ziqing_secret_game:1}}}).startsWith('發表會那個遊戲')&&res(P.Y3S1.heroine_04[0],{events:{done:{}}})==='發表會在五月。做完我就要開始找工作了。'&&P.Y4S1.kai[0].startsWith('實習的公司'));
+    check('14. 學姊女朋友版的收尾「（她看了一下錶，沒有要起身的意思。）」；朋友版照舊收計畫本',TERMEND_LINES.PLACE.eatery_lib.closeGf==='（她看了一下錶，沒有要起身的意思。）'&&TERMEND_LINES.PLACE.eatery_lib.close==='（她看了一下錶，把計畫本收進包包。）');
+    check('14. 沛珊女朋友的學期末約會：大三起在舊路書房旁邊的簡餐',TERMEND.gf('classmate_peishan','Y3S1').place==='eatery_wz'&&TERMEND.gf('classmate_peishan','Y2S2').place==='eatery');
+    fresh(D('2028-12-20'),9,'campus',{}); G.stage='law'; meet('npc_fangyt'); R('npc_fangyt',60,40,30); G.termend={contact:{Y4S1:{npc_fangyt:{pts:20,k:{}}}},think:{}};
+    check('14. 方奕廷大四上（在嘉義）不發期末飯邀約',!TERMEND.friendOk(G,'npc_fangyt',TERMEND.windowOf('Y4S1'))); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
