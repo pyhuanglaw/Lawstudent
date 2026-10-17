@@ -343,6 +343,23 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "DATE-S6",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "5e910dd289517362c9eab3e208a744b7a39a0d9a",
+   "files": [
+    "docs/story_planning/AA_127_以安語彤_心願約會與邀約變化.md",
+    "docs/story_planning/date_system/date_prefs_aa.json",
+    "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md",
+    "docs/story_planning/date_system/date_prefs_bb.json"
+   ],
+   "state": "已交付（AA 寫以安、語彤；BB_128 3-7 BB 五位 AA 已審語氣）",
+   "remaining": "lines／底圖／coords 的審查狀態另外盤點中",
+   "next": "LAWWW 接 DATE-S6：七位的答應／交往中答應／改時間／第三次改時間／改交通；取消、放鴿子在 BB_128 3-6（BB 五位）、AA_127 1-7、2-7（以安、語彤）；DATE_PREFS 兩個 json 合併讀",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
   }
  ]
 }
