@@ -1702,7 +1702,7 @@ const STORY = (function(){
     /* 跨年（A21、BB_95 9-7）：一週前（12/24（三）21:00）可昕問；KX_NYE_PICK 換成 KX_NYE:{1:…}（每年一筆）；12/31 排出遊：河堤 23:30（開車）、頂樓 23:45（走上去）；
        沒有回她、在麵店團群組的玩家：頂樓（AA 的群戲，沒有視訊）。河堤回來的路上（00:12）麵店團群組：頂樓的照片＋阿哲「我們就說有看到。」*/
     { const nye=S.dayOfKey('2025-12-31');   /* AA_243 G3：節日用日期 */
-      if(nye&&F.dating_kexin&&!PHONE.sent(G,'kx_nye_ask')&&G.day<=nye&&G.day>=nye-7) PHONE.at(G,nye-7,21,[{th:'p:kexin',from:'kexin',text:'跨年要不要去人少的地方？',ask:{opts:[{t:'好。',set:{KX_NYE_PICK:'river'}},{t:'我答應麵店團要去頂樓了。',set:{KX_NYE_PICK:'roof'},say:[{from:'kexin',text:'好。那你幫我跟阿哲說新年快樂。'}]}]}}],'kx_nye_ask');
+      if(nye&&F.dating_kexin&&!PHONE.sent(G,'kx_nye_ask')&&G.day<=nye&&G.day>=nye-7) PHONE.at(G,nye-7,21,[{th:'p:kexin',from:'kexin',text:'跨年要不要來高雄？這邊河邊人比較少。',ask:{opts:[{t:'好。',set:{KX_NYE_PICK:'river'}},{t:'我答應麵店團要去頂樓了。',set:{KX_NYE_PICK:'roof'},say:[{from:'kexin',text:'好。那你幫我跟阿哲說新年快樂。'}]}]}}],'kx_nye_ask');
       if(F.KX_NYE_PICK){ F.KX_NYE=Object.assign({},F.KX_NYE||{},{1:F.KX_NYE_PICK}); delete F.KX_NYE_PICK; }
       const pick=F.KX_NYE&&F.KX_NYE[1];
       /* AA_204 第 2 節（27711a39）、AA_197 1-5：12/26（五）21:00 阿哲揪（麵店團群組；不在群組、和阿哲 FAMILIAR 以上＝私訊）；我去＝19:00 麵店，直接到頂樓／再看看＝23:40 頂樓 */
@@ -1710,7 +1710,7 @@ const STORY = (function(){
         if(win&&(inG||zf)&&G.day>=d26&&G.day<=nye&&(G.day>d26||h(G)>=21)&&!PHONE.sent(G,'nye_y1_ask')) PHONE.at(G,d26,21,[{th,from:'zhe',text:'跨年有人要一起嗎'},{th,from:'zhe',text:'先吃飯，再去看煙火',ask:{id:'nye_y1_ask',until:nye*24+19,opts:[{t:'我去',set:{NYE_ASK:'go'}},{t:'我直接到頂樓',set:{NYE_ASK:'roof'}},{t:'再看看',set:{NYE_ASK:'maybe'}}]}}],'nye_y1_ask'); }
       if(nye&&typeof OUT!=='undefined'&&!OUT.get(G,'nye')&&G.day===nye){
         const asked=PHONE.sent(G,'nye_y1_ask');
-        if(pick==='river') OUT.plan(G,{id:'nye',ev:'ev_nye_river',day:nye,h:23.5,place:'河堤',title:'跨年：和可昕去河堤',travel:'開車約 30 分鐘',travelH:0.5});
+        if(pick==='river') OUT.plan(G,{id:'nye',ev:'ev_nye_river',day:nye,h:23.5,place:'高雄・愛河邊',title:'去高雄跨年（高鐵約一個半小時）',travel:'高鐵約一個半小時',travelH:1.5,back:'回到臺北。'});   /* AA_276 第 3 節第 1 點：寒假她在高雄，改成祐廷去高雄跨年 */
         else if(F.NYE_ASK==='go'&&h(G)<19.25) OUT.plan(G,{id:'nye',ev:'ev_nye_dinner',day:nye,h:19,late:0.25,place:'阿鳳麵店',title:'跨年：先吃飯（麵店）',travel:'走過去約 15 分鐘',travelH:0.25,back:'回到房間。'});
         else if(pick==='roof'||asked) OUT.plan(G,{id:'nye',ev:'ev_nye_roof',day:nye,h:23+40/60,place:'宿舍頂樓',title:'跨年：宿舍頂樓',travel:'',travelH:0,back:'回到房間。'}); }
       /* 2-4、1-5：00:12 群組；00:0x 芯慈、以安、語彤；1/1 小語、阿哲 */

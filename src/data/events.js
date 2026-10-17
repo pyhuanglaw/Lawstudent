@@ -1205,8 +1205,8 @@ const STORY_EVENTS=[
   /* 跨年（交付清單 A21：交接包_v1 第 3 節、AA_71 2-7、BB_95 9-7）：12/31（16 週制：寒假裡，AA_204）。一週前可昕問「跨年要不要去人少的地方？」（story3d.js 的 phoneRules）：
      「好。」＝河堤（出遊，和 K1b 的河堤共用背景；回宿舍的路上麵店團群組傳頂樓的照片）；「我答應麵店團要去頂樓了。」＝宿舍頂樓，零點前一分鐘她打視訊來（不扣分；她不在這裡和麵店團見面）。
      沒有回她、在麵店團群組裡的玩家照 AA 的群戲去頂樓（沒有視訊）。記 KX_NYE:{1:'river'|'roof'}（BB_107 第 13 節：節日每年一筆）*/
-  { id:'ev_nye_river', title:'跨年', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
-    dialogue:[ {scene:'河堤',bg:'riverside'},   /* AA_137 7-1：跨年的河堤不是政大，用河濱的背景（和 K1b 共用不再成立）*/
+  { id:'ev_nye_river', title:'跨年', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,   /* AA_276 第 3 節第 1 點：去高雄跨年；0.5 小時＋凌晨一點的高鐵回臺北 */
+    dialogue:[ {scene:'高雄・愛河邊',bg:'riverside'},   /* AA_137 7-1：跨年的河堤不是政大，用河濱的背景（和 K1b 共用不再成立）*/
       {speaker:null,text:'河堤上的人不多。煙火在很遠的地方，聲音晚了好幾秒才到。'},
       {speaker:'kexin',expression:'smile',text:'今年我們不去人多的地方。'},
       {speaker:'kexin',expression:'teasing',text:'假設煙火的聲音永遠晚幾秒，那我們聽到的最後一聲，是今年的還是明年的？'},
@@ -1214,8 +1214,9 @@ const STORY_EVENTS=[
       {label:'a'},{speaker:'kexin',expression:'smile',text:'那我先說：新年快樂。'},{goto:'end'},
       {label:'b'},{speaker:'kexin',expression:'smile',text:'那我們再等幾秒。'},{speaker:null,text:'她數到三。'},{speaker:'kexin',expression:'smile',text:'新年快樂。'},{goto:'end'},
       {label:'c'},{speaker:'kexin',expression:'smile',text:'那就不要回答。新年快樂。'},
-      {label:'end'},{speaker:'kexin',expression:'neutral',text:'十分鐘。然後回去念書。我們都還有考試。'} ],
-    consequences:{flags:{NYE_DONE:'river'},memo:'跨年：和可昕在河堤'} },
+      {label:'end'},{speaker:'kexin',expression:'neutral',text:'十分鐘。然後回去念書。我們都還有考試。'},
+      {speaker:null,text:'（凌晨一點，加開的那班高鐵。你在車上睡著了。）'} ],
+    consequences:{flags:{NYE_DONE:'river'},memo:'跨年：去高雄和可昕在愛河邊'} },
   /* 跨年大一（AA_204 第 2 節，企劃線 27711a39；AA_197 1-5）：12/26 阿哲揪（story3d.js）→「我去」＝19:00 麵店（ev_nye_dinner：吃飯 → 21:40 選 → 22:50 信義區管制線 → 23:40 頂樓）；
      「直接到頂樓」「再看看」、和可昕選頂樓＝23:40 頂樓（ev_nye_roof）。記 NYE_Y1：dinner／roof（河堤 river 在 ev_nye_river；沒去＝沒有值）。在場的人熟悉 +1。
      以安：FRIEND 以上（或交往中）才上頂樓；交往中 00:10 那句換成跑步（2-5）。語彤交往中：00:01 打電話來（在頂樓的在這裡演，其他的 story3d.js 排一通電話）*/

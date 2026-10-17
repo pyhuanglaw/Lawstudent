@@ -16348,9 +16348,9 @@
    "title": "AA_276 第 2 節：芷若在英國照交情聯絡（認識＝社群發文／朋友＝私訊一週一兩次＋明信片／好朋友曖昧＝每月一次視訊 週日 22:00／交往＝每天一則＋每週視訊＋跨年 1/1 08:00）；子晴照同表",
    "area": "V4",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P2",
-   "next": "在英國的句子等 BB-C 補（AA_276 第 2 節）；機制可以先做",
+   "next": "回覆池已有：BB_178 1-E（BB-C 3dc8b2a3；D100 以後台詞歸 AA，接的時候請 AA-C 確認是定稿）；排在三個優先項目之後（BB-C 23:41）",
    "first": {
     "term": "Y3S2",
     "week": 0,
@@ -16363,8 +16363,8 @@
    },
    "source": "AA_276（a5d17b91）",
    "authorized": "使用者 23:4x＋AA 定稿",
-   "pausedReason": "句子等 BB-C",
-   "resumeWhen": "BB-C 交在英國的回覆池"
+   "pausedReason": null,
+   "resumeWhen": null
   },
   {
    "id": "VAC-AA275-1017",

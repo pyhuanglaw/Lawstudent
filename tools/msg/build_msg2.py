@@ -5,7 +5,7 @@
 這支腳本只是資料：所有中文字串都是從來源文件逐字複製的字面值，不解析來源、不改寫。
 來源（唯讀 git show）：
   AA_202 @b61e4f55  docs/story_planning/AA_202_玩家主動傳訊息_規格.md   第 7 節（AA 六位）
-  AA_257 @b61e4f55  docs/story_planning/AA_257_MSG2_BB九位回覆池.md       全文（BB 九位回覆）
+  AA_257 @659af025  docs/story_planning/AA_257_MSG2_BB九位回覆池.md       全文（BB 九位回覆；659af025 只改沛珊新年句「我在台中」，AA_276 第 3 節）
   BB_178 @b61e4f55  docs/story_planning/BB_178_玩家主動傳訊息_BB回覆池.md 第 10 節（BB 九位條件）
 抄錄時只拿掉 markdown 粗體記號 `**`，並把表格裡的 <br> 拆成清單項；其他字元（含全形標點、emoji、反引號）照抄。
 輸出：同資料夾的 msg2_pool.json（UTF-8、ensure_ascii=False、indent=1）。
@@ -404,7 +404,7 @@ PEOPLE["classmate_peishan"] = person(
         E("ok", "A", ["還好。"], S, cond="bohan_split", rowLabel="還好嗎（和柏翰分開）"),
         E("ok", "R", ["還好。……沒有吵架。就是走不到一起。"], S, cond="bohan_split", rowLabel="還好嗎（和柏翰分開）"),
         E("newyear", "A", ["新年快樂～"], S, rowLabel="新年快樂"),
-        E("newyear", "R", ["新年快樂！我在桃園，表妹在旁邊搶我手機。"], S, rowLabel="新年快樂"),
+        E("newyear", "R", ["新年快樂！我在台中，表妹在旁邊搶我手機。"], S, rowLabel="新年快樂"),
         E("newyear", "L", ["新年快樂。今年我想問你的第一個問題是：今年你想做什麼？"], S, rowLabel="新年快樂",
           ask={"q": '今年你想做什麼？', "src": 'AA_257 §4 郭沛珊「回問」（2026-10-17 AA-C，b61e4f55）',
                "opts": [{"t": '把書念完。', "r": ['好。我記下來了。']}, {"t": '還沒想好。', "r": ['那我過幾天再問一次。']}]}),
@@ -664,7 +664,7 @@ AA257_REVIEW = [
 ]
 
 DATA = {
-    "source": {"AA_202": "b61e4f55", "AA_257": "b61e4f55", "BB_178": "b61e4f55"},
+    "source": {"AA_202": "b61e4f55", "AA_257": "659af025", "BB_178": "b61e4f55"},
     "conventions": CONVENTIONS,
     "topics": TOPICS,
     "aa202Notes": AA202_NOTES,
