@@ -63,3 +63,60 @@
 2. 其他店的招牌（S5～S18）還是 canvas 字，等設計稿。
 3. 晚上的招牌（燈箱亮起來）沒有另外截圖驗收。
 4. 真機沒驗證。
+
+---
+
+# ART-GG-SIGNS-2：公館其餘招牌全部換成設計稿（第二批；交件 `b75e50a5`；狀態 READY_FOR_ART_REVIEW）
+
+- **做的人**：LAWWW2-B 做模型（`01984198` 腳本＋34 張 `_fit`＋貼圖集、`b75e50a5` GLB＋patch）；LAWWW2-C 拍前後截圖、夜間目視、寫這一節（2026-10-17）。
+- **招牌圖的來源**：使用者生成、BB-B 驗收通過的 S1～S17（BB-B `2f5d4a3d`／`bc9e0f58`；交付紀錄 DL-BB-GG-SIGNS-S17）。沒有真實店名、商標（D77）。
+- **換了哪些**：1F 橫招牌 16 家、店的直立招牌 6 塊、樓上住戶直立 8 塊、二樓大招牌 5 塊、屋頂看板 1 塊——全部改用貼圖集 `gg_signs_atlas.jpg`（2048×4096、36 張）＋夜間發光貼圖 `gg_signs_atlas_emit.jpg`（燈箱整面亮、霓虹只亮線條、不亮的部分黑）。GLB 裡不再有 canvas 字的 `SIGN_FACE`／`VSIGN_FACE`。
+- **檔案**：`assets/models/env/second_ai/gongguan_shops.glb`（3.13 MB、405 物件）＋`.json`；整合測試 patch `docs/art-rebuild/second_ai/patches/gg_signs2_test.patch`（只改 `tests/gongguan_glb_integration.py`；**遊戲程式不用改**）。
+- **重建**：`python3 tools/blender/env_second/sign_atlas.py --set gongguan` → `/opt/blenv/bin/python tools/blender/env_second/wz_street.py --set gongguan`。
+
+## 遊戲內修改前後（同鏡頭；左＝第一批 `40b73c64`（＝開發分支 adoring-meitner 目前的 GLB）、右＝`b75e50a5`）
+- 1280×720、藏起玩家與路人；11:00、21:00。測試工作樹＝`claude/adoring-meitner-mqzst8` `a39a6812`，只換 GLB＋json。Playwright＋SwiftShader，**不是真機**。
+
+西段：
+![](cmp2_west_1100.webp)
+![](cmp2_west_2100.webp)
+
+中段（小火鍋二樓燈箱、滷味橫招牌、中醫、藥局直立）：
+![](cmp2_mid_1100.webp)
+![](cmp2_mid_2100.webp)
+
+G07 一帶（補習、民宿直立、咖啡輕食）：
+![](cmp2_g07_1100.webp)
+![](cmp2_g07_2100.webp)
+
+東段（英語會話、牙醫、鋼琴教室、二手唱片霓虹）：
+![](cmp2_east_1100.webp)
+![](cmp2_east_2100.webp)
+
+校門往南看整條街：
+![](cmp2_gate_1100.webp)
+![](cmp2_gate_2100.webp)
+
+## 夜間目視（LAWWW2-C，21:00 那五張）
+- 燈箱（小火鍋、英語會話、牙醫）整面均勻亮，字和圖案清楚，沒有過曝成白塊。
+- 二手唱片的霓虹：只有線條和字亮、底板是暗的（遮罩正確）。
+- 直立招牌（中醫、藥局、鋼琴、民宿）晚上看得出來、不刺眼。
+- 遠處（校門那一鏡）的招牌變成一排小亮塊，沒有閃爍。
+- 沒看到的：雨天、17:30 黃昏；手機直向（390×844）這批沒拍。
+
+## 測試（LAWWW2-B 交班時）
+- 開發分支 `3d477ddb`＋第一批 patch＋這次 patch＋新 GLB：`tests/gongguan_glb_integration.py` **ALL PASS 34 項**（第一批 40 項，拿掉 7 項 canvas 招牌貼圖集、加 1 項「沒有 SIGN_FACE／VSIGN_FACE」）。
+- 效能：draw call 是 `?nobldg` 的 1.08～1.15 倍（上限 1.3）；三角形 21～26 萬（上限 42 萬）。
+- LAWWW2-C 這次沒有重跑測試，只拍截圖（20 張都沒有頁面錯誤）。
+
+## 八項（ART_SOP 3-2）
+| 項目 | 結果 |
+|---|---|
+| 輪廓與倒角 | 招牌板沿用第一批的倒角板（`wz_shopkit.py`），沒改 |
+| 材質 | 印刷品貼圖集＋發光貼圖（ART_SOP 2-3：印刷品用程式合成的貼圖集） |
+| AO | 沒改（招牌板下緣的暗靠遊戲陰影） |
+| 磨損 | 沒做：設計稿是乾淨的新招牌；舊招牌的褪色、鏽水要另外做（不在這件的範圍） |
+| 生活痕跡 | 不適用 |
+| 比例 | 尺寸照第一批的招牌板，沒改 |
+| 效能 | 見上（draw call ≤1.15 倍、GLB 3.13 MB） |
+| 遊戲截圖 | 上面 10 組 |
