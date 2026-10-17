@@ -453,7 +453,7 @@ def apply(m):
         d = sph(sgn * 52, 30); ctrl.append(c + d * (H.R(d) + 0.0035))     # 髮根藏在往後梳的髮片底下
         d = sph(sgn * 58, 15); ctrl.append(c + d * (H.R(d) + 0.0055))
         d = sph(sgn * 64, -4); ctrl.append(c + d * (H.R(d, True) + 0.008))
-        d = sph(sgn * 62, -28); ctrl.append(c + d * (H.R(d, True) + 0.009))
+        # 品妤第四版：拿掉 (62°, −28°) 那一點（品妤的臉小，那一點在下巴控制點的後面：髮束往前、往後折，45° 看像鉤子）
         jaw = H.c[2] - 0.098
         # 芯慈：垂到下巴下面、鎖骨上方，不往前勾（第二版照溫書瑀「髮尾沿著下顎線往前收」，45° 看像問號）；下巴以下不再量臉的前緣（打到衣服會被拉到前面）
         ctrl.append(np.array([sgn * 0.064, min(H.front_y(sgn * 0.064, jaw + 0.010) - 0.022, -0.026), jaw + 0.010]))   # 品妤第三版：照她的頭（HEAD_SCALE 0.92）縮（芯慈的 0.070／0.072：髮尾在下巴旁邊折成鉤子）
@@ -487,7 +487,7 @@ def apply(m):
             d = sph(sgn * a_r, 24); q.append(c + d * (H.R(d) + 0.0035))
             d = sph(sgn * (a_r + 5), 4); q.append(c + d * (H.R(d, True) + 0.007))
             d = sph(sgn * a_m, -22); q.append(c + d * (H.R(d, True) + 0.008))
-            q.append(np.array([sgn * (0.068 + 0.006 * (a_m - 57) / 6), -0.034, jaw + 0.016]))
+            q.append(np.array([sgn * (0.063 + 0.0055 * (a_m - 57) / 6), -0.030, jaw + 0.016]))   # 品妤第四版：照她的頭縮（芯慈 0.068／−0.034：髮尾跑到臉前面再被推回來，折成 S）
             Q = catmull(np.array(q), 10); Q, sq = resample(Q, 16)
             Q = H.push(Q, np.r_[0.0035, 0.005, np.full(len(Q) - 2, 0.0065)])
             D = _unit(np.column_stack([Q[:, 0], -0.5 + 0.6 * Q[:, 1], 0.2 * np.ones(len(Q))])); Tq = tangents(Q)
