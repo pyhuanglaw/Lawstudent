@@ -242,6 +242,21 @@
    "noDirectIntegrate": true,
    "receiver": "AA",
    "ack": "SENT"
+  },
+  {
+   "task": "YT-LIFE-REVISION",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/BB_188_祐廷人生主線修訂_BB人物與台詞提案.md",
+    "docs/story_planning/BB_188_附錄_重考主線盤點.md"
+   ],
+   "state": "WIP",
+   "remaining": "提案，等使用者確認 U1～U10、交往起點與可昕原學校兩案、學姊重排；確認後 BB 逐句定稿",
+   "next": "AA-C 併入《祐廷人生主線修訂提案》給使用者",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
   }
  ]
 }
