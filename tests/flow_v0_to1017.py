@@ -2,7 +2,7 @@
 做法：像玩家一樣過日子——
   - 對話點過去；選項照下面的偏好選（起床選單選「直接去上課」、出遊選「出發」、其他選第一個）；
   - 空下來、21:00 以前：打開手機「今天」，按最後一個「跳過時間」（遇到課、約好的時間、劇情會自己停）；
-  - 21:00 以後、或跳不過去：走回宿舍（任何區域 → 校園 → 宿舍門廳 → 寢室）、走到床邊「睡覺」。
+  - 21:00 以後、或跳不過去：用手機「地點」快速前往宿舍（照樣花遊戲時間），走到床邊「睡覺」（快速前往不能用時才一路走回去）。
 走路一律點地面／搖桿（playlib.go_to），不瞬移；不改旗標、不撥時間。網址不用 ?turbo（真實速度；SwiftShader 很慢，整支要好幾個小時）。
 檢查（10/17 晚上）：每一天都過到（沒有跳日）、宿營旗標（ECON_CAMP_OPEN、E15_BUS）、10/17 一天（dating_kexin、KX_DATING_SINCE、E26_DAY、KX_CAR）、
 11 月不排 E15、沒有卡住保險（walkFallbacks）、黑幕沒有擋住對話、沒有 JS 例外。中途卡住超過 4 分鐘會截圖、記下狀態後停止（判失敗）。
@@ -47,6 +47,18 @@ async def skip_time(pg, cdp):
     else:
         await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(800)
     return lab
+
+
+async def quick_go(pg, cdp, key):
+    """手機「地點」→ 那個地點的「前往」（快速前往，照樣花遊戲時間）。回傳按了沒有"""
+    await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
+    await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"places\"]'); if(b) b.click(); })()"); await pg.wait_for_timeout(800)
+    c = await pg.evaluate("(k=>{ const e=[...document.querySelectorAll('#phoneBody [data-place]')].find(b=>b.dataset.place===k); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,k]; })(%s)" % json.dumps(key))
+    if c:
+        await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500)
+        return c[2]
+    await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(800)
+    return None
 
 
 async def main():
@@ -97,6 +109,9 @@ async def main():
                 lab = await skip_time(pg, cdp)
                 if lab: print('   跳過時間：', lab, flush=True); await pg.wait_for_timeout(1500); continue
                 skip_fail_day = (last_key, int(s['hour']))
+            if s['zone'] != 'dorm':   # 晚上回宿舍：手機「地點」的快速前往（照樣花時間；SwiftShader 下從校園另一頭走回來要半小時以上）
+                lab = await quick_go(pg, cdp, 'dorm|宿舍')
+                if lab: print('   快速前往：', lab, flush=True); await pg.wait_for_timeout(2500); continue
             hop = await pg.evaluate(NEXT_HOP)
             if not hop:
                 await pg.wait_for_timeout(1500); continue
