@@ -568,6 +568,36 @@
    "noDirectIntegrate": true,
    "receiver": "AA",
    "ack": "SENT"
+  },
+  {
+   "task": "BB_194 機制總表＋§13～22（AA_227/228 機制、使用者回覆、子晴芷若兩人都離開、沛珊消失、子晴河堤乙）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "05571a45 … 163fd810",
+   "files": [
+    "docs/story_planning/BB_194_多線交往_知情_說謊承諾_挽回_機制總表.md"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW 盤點 §12 五題",
+   "next": "LAWWW 盤點 → 實作",
+   "noDirectIntegrate": false,
+   "receiver": "AA+LAWWW",
+   "ack": "ACKNOWLEDGED"
+  },
+  {
+   "task": "學姊閒聊階梯照新年級搬層（BB_195）＋沛珊 Y2S2 拿掉",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "efe389a9",
+   "files": [
+    "docs/story_planning/BB_195_溫書瑀閒聊階梯_年級平移表.md",
+    "docs/story_planning/ladder/build_ladder_bb_y1s2.py…y4s2.py",
+    "docs/story_planning/ladder/ladder_bb_y*.json"
+   ],
+   "state": "已交付",
+   "remaining": "AA 看 S4-L1 回覆、Y3S2 短招呼",
+   "next": "AA 審字 → LAWWW 重建 ladder.js",
+   "noDirectIntegrate": false,
+   "receiver": "AA+LAWWW",
+   "ack": "SENT"
   }
  ]
 }
