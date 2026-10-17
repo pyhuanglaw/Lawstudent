@@ -327,7 +327,8 @@ def apply(m):
     def vol(a):     # 髮殼加厚：頭頂／前額蓬、兩側貼、後腦中等
         a = abs(((a + 180) % 360) - 180); ca = math.cos(math.radians(a))
         sa = abs(math.sin(math.radians(a)))
-        return 0.0098 + 0.0068 * max(ca, 0) ** 1.2 + 0.0040 * sa ** 2 + 0.0016 * max(-ca, 0)   # 第七版（BB-C v5：「鬆一點，不要往後貼」）：前額頭頂、兩側都再蓬 1～2 mm   # 沛珊：比學姊蓬（鬆鬆綁起來）   # 低馬尾：往後梳整齊，頭頂、兩側比沈以安服貼   # 前額頭頂蓬、兩側耳上也有蓬度（參考圖頭髮離頭皮約 2 cm）
+        return 0.0110 + 0.0085 * max(ca, 0) ** 1.2 + 0.0055 * sa ** 2 + 0.0016 * max(-ca, 0)   # 第八版：再鬆一點（第七版在遊戲裡還是貼著頭）
+        # 第七版（BB-C v5：「鬆一點，不要往後貼」）：前額頭頂、兩側都再蓬 1～2 mm   # 沛珊：比學姊蓬（鬆鬆綁起來）   # 低馬尾：往後梳整齊，頭頂、兩側比沈以安服貼   # 前額頭頂蓬、兩側耳上也有蓬度（參考圖頭髮離頭皮約 2 cm）
 
     def off_shell(a, v):
         return 0.0022 + vol(a) * float(sstep(0.0, 0.42, v)) * (1 - 0.35 * float(sstep(0.72, 0.95, v))) + 0.0065 * float(sstep(0.82, 1.0, v))
@@ -373,7 +374,7 @@ def apply(m):
             q, _ = surf(a + da, v, layer_off); P.append(p); D.append(d); Wd.append(np.linalg.norm(q - p))
         P = np.array(P); D = np.array(D); Tn = tangents(P)
         side = _unit(np.cross(D, Tn)); width = np.maximum(np.array(Wd) * wfac, 0.005)
-        tt = 1 - (vv - vstart) / (vstop - vstart)       # 綁點那端＝髮根（貼圖上緣）
+        tt = 0.965 * (1 - (vv - vstart) / (vstop - vstart))       # 綁點那端＝髮根（貼圖上緣）；第八版：髮際線那端不用到貼圖最尖的 3.5%（第七版髮際線一排白點）
         mb.ribbon(P, side, D, width, reg, 'head', np.zeros(len(P)), arch=arch, tt=tt)
 
     for k in range(52):
@@ -409,8 +410,9 @@ def apply(m):
     # 第七版（BB-C v5）：分線那一邊（PART 的那一側）一片斜瀏海，從分線旁邊往外撥、蓋住那一邊額頭的角，髮尾到眉尾～眼尾外側（不擋眼鏡中間）；
     # 另一邊塞到耳後（沒有瀏海）；額頭露出約七成。拿掉第三～六版太陽穴到臉頰的四束細碎髮（BB-C：像鐵絲彎的鉤子）
     sg = -1.0 if PART < 0 else 1.0
-    bangs = [(PART + sg * 4, PART + sg * 30, 0.010, 0.012, 'bangA'), (PART + sg * 11, PART + sg * 38, -0.004, 0.012, 'bangB'),
-             (PART + sg * 18, PART + sg * 44, -0.018, 0.011, 'bangA'), (PART + sg * 25, PART + sg * 50, -0.030, 0.010, 'bangB')]
+    # 第八版：用 lock 貼圖（第七版用空氣瀏海的 bangA／B：一條一條透光，遊戲裡幾乎看不到）、寬一點、三片疊在一起
+    bangs = [(PART + sg * 3, PART + sg * 28, 0.012, 0.020, 'lock'), (PART + sg * 10, PART + sg * 36, 0.000, 0.020, 'lock'),
+             (PART + sg * 18, PART + sg * 44, -0.016, 0.018, 'lock')]
 
     def beta_at_z(a, z_tip):
         bt = 0.0
@@ -457,10 +459,10 @@ def apply(m):
         P = H.push(P, marg)
         Tn = tangents(P)
         out = _unit(np.column_stack([P[:, 0], -0.5 + 0.6 * P[:, 1], np.zeros(len(P))]))   # 髮片正面朝外、略朝前
-        for rot, wfac, reg, dx in (((0.0, 0.34, 'lock', 0.0), (0.5 * sgn, 0.24, 'lock', 0.004)) if sgn * PART > 0 else ((0.0, 0.26, 'lock', 0.0),)):   # 第七版：分線那邊兩綹、另一邊一綹（其他塞到耳後），都細一點   # 第二版：兩束、細（立繪的臉旁碎髮是細的）   # 沛珊：多一束    # 溫書瑀：臉旁一束細的（第一版三束：正面看像鮑伯頭的兩塊）   # 主髮束＋兩旁各一小束（轉個角度，側面看有厚度、正面看比較蓬）
+        for rot, wfac, reg, dx in (((0.0, 0.26, 'lock', 0.0), (0.35 * sgn, 0.20, 'lock', 0.005)) if sgn * PART > 0 else ((0.0, 0.22, 'lock', 0.0),)):   # 第八版再細（第七版遊戲裡像黑色的棒子）   # 第七版：分線那邊兩綹、另一邊一綹（其他塞到耳後），都細一點   # 第二版：兩束、細（立繪的臉旁碎髮是細的）   # 沛珊：多一束    # 溫書瑀：臉旁一束細的（第一版三束：正面看像鮑伯頭的兩塊）   # 主髮束＋兩旁各一小束（轉個角度，側面看有厚度、正面看比較蓬）
             nrm = _unit(out - Tn * np.sum(out * Tn, 1)[:, None])
             sd = _unit(np.cross(nrm, Tn))
-            twist = np.linspace(0, 0.5 * sgn, len(P))[:, None]
+            twist = np.linspace(0, 0.15 * sgn, len(P))[:, None]   # 第八版：少扭一點（0.5：下端轉過來，正面看往內勾）
             sd2 = _unit(sd * np.cos(twist + rot) + nrm * np.sin(twist + rot)); n2 = _unit(np.cross(Tn, sd2))
             if np.mean(np.sum(n2 * nrm, 1)) < 0: n2 = -n2
             width = (0.031 - 0.011 * sstep(0.12, 0.42, s / L) + 0.006 * sstep(0.5, 0.85, s / L)) * wfac * (0.5 + 0.5 * sstep(0.0, 0.12, s / L))   # 第二版加寬（原本 2.4 cm：正面看像兩條細麵）
