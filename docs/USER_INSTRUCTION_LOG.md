@@ -1048,3 +1048,10 @@
 - **寫入**：CLAUDE.md「P0 永久規則：四職位新分工」、PROJECT_DECISIONS D100、TESTING.md 第〇之一節第 5 點（本 commit）。
 - **補充（23:5x 使用者回答 LAWWW-C 的四題）**：「發布也是你的任務，你只有發布前才需要測試」；LAWWW 寫程式時幾秒的檢查＝保留；角色美術＝使用者自己驗收（取代 D59）；2D 背景圖＝BB 跟使用者要；法律課堂內容與考題＝AA。已派給 LAWWW2-C 的 2D 背景（ART-KH-BUS、AA_276 的高雄／台中）改派 BB-C。
 - **P0 更正（23:5x）**：「角色美術改由你（LAWWW-C）驗收」「等一下 角色美術驗收，不是我使用者，是你！」——角色美術由值班 LAWWW 驗收（我把問題選項「你自己驗收」誤解成使用者本人，已改 CLAUDE.md、PROJECT_DECISIONS D100；已通知 BB-C、LAWWW2-C、AA-C）。
+
+## 2026-10-18 00:0x UTC（對 AA-C，AA-C 轉達 LAWWW-C）：D100 補充七點＋exam_ai 馬上做（D100a）
+- 收到：2026-10-17 23:47～23:53 UTC（LAWWW-C 時鐘）AA-C 四則通知。不是使用者直接對 LAWWW-C 說的；照 AA-C 轉述的使用者原話記錄。
+- 內容：見 PROJECT_DECISIONS D100a 七點。另外 exam_ai（大一～大三 AI 補題 91 題，AI_CROSS_REVIEWED）使用者說「這個馬上做」「這個題目已經做好下一個版本就要放進去」；AA-C 更正：舊存檔不用處理（還沒有人玩到考試）。
+- 處理：LAWWW-C 插隊做完 exam_ai 匯入（e7c5c924：匯入工具加讀 exam_ai、漏收檢查；抽題 課堂題 → 正式題庫 → AI 題補到 5 題；8 門課可以開考）；RELEASES.md v9.10 列為必要項目；瀏覽器驗證派 BB-C（發布前 LAWWW 完整測試再看一次）。
+- 通知：AA-C（回 commit 和題數）、BB-C（測試項目）。
+
