@@ -6483,6 +6483,32 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "D81：美國篇排在 v0～v2 之後"
+  },
+  {
+   "id": "DL-LW2-COPLANAR",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "9b1889fe",
+   "what": "BUG-COPLANAR-DEV 宿舍大廳疊面：公告欄告示紙前移 3 mm、樓梯間東西牆二樓段收在走廊北牆背面；重新匯出 dorm_hall.glb",
+   "task": "BUG-COPLANAR-DEV",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "LAWWW-C 整合在 32df2882；flow_dorm_hall 在 32df2882 ALL PASS（batch 14）"
+  },
+  {
+   "id": "DL-LW2-HAIRMATCAP",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "58d0ea90",
+   "what": "ART-HAIR-MATCAP：11 個 VRM（阿哲、柏翰、可昕、路人 nf1–4／nm1–4）頭髮材質拿掉 MatCap（髮梢白邊），只改 JSON",
+   "task": "ART-HAIR-MATCAP",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 整合在 32df2882（VRM 檔一起進了 076d307c，見 32df2882 說明）；人物近拍截圖比對還沒做"
   }
  ],
  "ignored": [
