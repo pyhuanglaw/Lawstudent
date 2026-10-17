@@ -87,7 +87,7 @@ async def main():
             run.check('[前置] 讀取上一段的存檔（欄位 1）', await pg.evaluate("!!GAME.G&&GAME.G.stage==='econ'"), await pg.evaluate("GAME.G?CALENDAR.dateOf(GAME.G.day).key:null"))
         else:
             await L.tap(pg, cdp, '#btnNew')
-        seg_saved = False; first_key = None
+        seg_saved = False; first_key = None; seg_try = 0
         days, last_key, stuck_t, last_sig, fade_block, recover = [], None, time.time(), None, 0, 0
         t_start = time.time(); skip_fail_day = None; free_since = None
         while time.time() - t_start < 6 * 3600:
@@ -103,6 +103,12 @@ async def main():
                         c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#saveSlots button')].filter(x=>x.textContent==='存檔')[0]; if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
                         if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500)
                         slot = await pg.evaluate("localStorage.getItem('fatiao3d_slot_1')")
+                        if not slot:   # 選單存檔沒成功（例：起床選單剛好跳出來蓋住）：等一下再試，試三次
+                            seg_try += 1
+                            if seg_try < 3:
+                                await pg.keyboard.press('Escape'); await pg.wait_for_timeout(2000); continue
+                            slot = await pg.evaluate("localStorage.getItem('fatiao3d_auto')")   # 退一步：遊戲自己的自動存檔（標題「繼續」讀的那一份）
+                            if slot: run.note('選單存檔三次沒成功，改用自動存檔接下一段')
                         if slot and SEG_SAVE: open(SEG_SAVE, 'w', encoding='utf-8').write(slot)
                         seg_saved = bool(slot); break
                 if key != last_key:
