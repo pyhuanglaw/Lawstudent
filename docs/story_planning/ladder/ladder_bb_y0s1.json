@@ -331,11 +331,28 @@
       ]
      },
      "week": [
-      8,
+      7,
       18
      ],
      "lines": [
       "你搬回家以後，來學校要多久？"
+     ],
+     "linesIf": [
+      {
+       "if": {
+        "flags": [
+         "dating_kexin"
+        ]
+       },
+       "unless": {
+        "flags": [
+         "Y0_MOVED_OUT"
+        ]
+       },
+       "lines": [
+        "等你搬回家，來學校要多久？"
+       ]
+      }
      ],
      "choices": [
       {
