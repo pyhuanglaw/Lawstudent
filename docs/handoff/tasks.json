@@ -12184,7 +12184,7 @@
    "owner": "LAWWW2",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "LAWWW-B 跑 gongguan_glb_integration＋截圖；S5～S18 等使用者生成（BB-B 出提示詞）",
+   "next": "S1～S4＋影印、日日定食已換（40b73c64，整合 66b28a89；gongguan_glb_integration ALL PASS 40 項）；等使用者在遊戲裡看；S5～S18 等使用者生成（BB-B 出提示詞）",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12203,7 +12203,8 @@
     "acceptance": "35 面都換成使用者生成的圖、沒有系統預設字、沒有真實商標；公館白天夜間截圖",
     "receiver": "BB-B、LAWWW2-B",
     "ack": "ACK"
-   }
+   },
+   "evidence": "docs/art-rebuild/second_ai/test_shots/gongguan_glb_integration/（b4aec581 起）"
   },
   {
    "id": "V1-INV-WORDING",

@@ -5101,7 +5101,7 @@
    "task": "ART-GG-SIGNS",
    "msg": "ACK",
    "integration": "已整合待測試",
-   "note": "LAWWW-B 2026-10-17 00:5x 整合 GLB＋測試 patch；gongguan_glb_integration 等 flow_camp_y1 跑完再跑（不同時跑兩個瀏覽器測試）"
+   "note": "LAWWW-B 2026-10-17 00:5x 整合 GLB＋測試 patch；gongguan_glb_integration 等 flow_camp_y1 跑完再跑（不同時跑兩個瀏覽器測試）；gongguan_glb_integration ALL PASS 40 項（LAWWW-B 00:5x，四個鏡頭 draw call 152～214、三角形 21～26 萬）；等使用者看畫面"
   },
   {
    "id": "DL-LW2-GYMBG1-V3",
