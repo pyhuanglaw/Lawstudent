@@ -23,9 +23,10 @@ import playlib as PL
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'art-rebuild', 'second_ai', 'test_shots', 'gongguan_glb_integration')
 IDS = ['G%02d' % i for i in range(16)]
-DESIGNED = ['G03']    # 招牌用設計稿（日日便利 riri_mart_h，和溫州街同一張；LAWWW2-B b7a091b8 拿掉 SIGN_FACE_G03）：沒有 canvas 字的橫招牌，改檢查設計稿招牌 sk_sign_G03 在
+DESIGNED = ['G03', 'G00', 'G02', 'G04', 'G06', 'G10', 'G11']   # G00／G02／G04／G06／G10／G11：使用者生成、BB-B 通過的設計稿（gg_signs_atlas，LAWWW2-B ART-GG-SIGNS）    # 招牌用設計稿（日日便利 riri_mart_h，和溫州街同一張；LAWWW2-B b7a091b8 拿掉 SIGN_FACE_G03）：沒有 canvas 字的橫招牌，改檢查設計稿招牌 sk_sign_G03 在
 IDS_CANVAS = [i for i in IDS if i not in DESIGNED]
-VERT = ['G00', 'G02', 'G04', 'G06', 'G10', 'G11']                     # 店的直立招牌
+VERT = []                                                              # 店的直立招牌：六塊都換成設計稿了（VDESIGNED）
+VDESIGNED = ['G00', 'G02', 'G04', 'G06', 'G10', 'G11']               # 設計稿直立招牌：sk_vsign_<店>_a／_b
 TENANT = ['G01', 'G04', 'G06', 'G07', 'G08', 'G10', 'G12', 'G14']      # 樓上住戶的直立招牌
 SIGN2F = ['G02', 'G05', 'G09', 'G11', 'G13']                          # 二樓整面大招牌
 ROOF = ['G07']                                                        # 屋頂看板
@@ -99,10 +100,12 @@ async def check(pg, run, formal):
         signs = {k: v for k, v in faces.items() if k.startswith('SIGN_FACE_')}; vs = {k: v for k, v in faces.items() if k.startswith('VSIGN_FACE_')}; ints = {k: v for k, v in faces.items() if k.startswith('INTERIOR_FACE_')}
         want = sorted(['SIGN_FACE_' + i for i in IDS_CANVAS] + ['SIGN_FACE_%s_2F' % i for i in SIGN2F] + ['SIGN_FACE_%s_roof' % i for i in ROOF])
         run.check('橫招牌（店 %d、二樓 5、屋頂 1）都有 canvas 字' % len(IDS_CANVAS), sorted(signs) == want and all(v['canvas'] for v in signs.values()), json.dumps(sorted(signs)))
-        dsg = await pg.evaluate("(ids=>{ const r=GAME.E.zone.group.children.find(o=>o.name==='%s'); return ids.map(i=>{ const o=r.getObjectByName('sk_sign_'+i); let vis=!!o; for(let p=o;p&&vis;p=p.parent) vis=p.visible; return [i, vis, !!r.getObjectByName('SIGN_FACE_'+i)]; }); })" % GLB, DESIGNED)
-        run.check('設計稿招牌（%s）看得到、沒有被 canvas 字蓋過去' % '、'.join(DESIGNED), all(v and not f for _, v, f in dsg), json.dumps(dsg))
+        # 效能那幾輪（LAWWW2-B）起，設計稿招牌（sk_sign_*、sk_vsign_*）和同材質的零件合成一個網格，節點名稱不在了：
+        # 改查①這幾家沒有 canvas 字的板面（SIGN_FACE_／VSIGN_FACE_）②設計稿材質（wz_signs／wz_signs_lit）的網格看得到、三角形至少 橫 7＋直 6×2 面＝19 塊×2
+        dsg = await pg.evaluate("(([ids,vids])=>{ const r=GAME.E.zone.group.children.find(o=>o.name==='%s'); let tris=0, vis=0; r.traverse(o=>{ if(o.isMesh&&/^wz_signs(_lit)?$/.test(o.material.name)){ let v=true; for(let p=o;p&&v;p=p.parent) v=p.visible; if(v){ vis++; tris+=(o.geometry.index?o.geometry.index.count:o.geometry.attributes.position.count)/3; } } }); return {faces:ids.filter(i=>r.getObjectByName('SIGN_FACE_'+i)).concat(vids.filter(i=>r.getObjectByName('VSIGN_FACE_'+i+'_a'))), meshes:vis, tris}; })" % GLB, [DESIGNED, VDESIGNED])
+        run.check('設計稿招牌（橫：%s；直：%s）沒有 canvas 字、設計稿網格看得到' % ('、'.join(DESIGNED), '、'.join(VDESIGNED)), not dsg['faces'] and dsg['meshes'] >= 1 and dsg['tris'] >= 2 * (len(DESIGNED) + 2 * len(VDESIGNED)), json.dumps(dsg))
         wantv = sorted(['VSIGN_FACE_%s_%s' % (i, s) for i in VERT for s in 'ab'] + ['VSIGN_FACE_%s_t_%s' % (i, s) for i in TENANT for s in 'ab'])
-        run.check('直立招牌（店 6 塊、樓上住戶 8 塊）兩面都有 canvas 字', sorted(vs) == wantv and all(v['canvas'] for v in vs.values()), json.dumps(sorted(vs)))
+        run.check('直立招牌（店 %d 塊、樓上住戶 8 塊）兩面都有 canvas 字' % len(VERT), sorted(vs) == wantv and all(v['canvas'] for v in vs.values()), json.dumps(sorted(vs)))
         run.check('16 棟的店內景深卡都有貼圖', sorted(k[14:] for k in ints) == IDS and all(v['canvas'] for v in ints.values()), json.dumps(sorted(ints)))
         ratio = lambda v: v['tex'] / v['board']
         run.check('招牌貼圖比例＝板面比例（±8%，字不被拉寬）', all(0.92 < ratio(v) < 1.08 for v in list(signs.values()) + list(vs.values())),
@@ -121,12 +124,16 @@ async def check(pg, run, formal):
         vc = await pg.evaluate("""(()=>{ const z=GAME.E.zone, OLD=/^(cafe_alu|cafe_iron_black|cafe_brass|cafe_grille|cafe_tank_steel|cafe_ac_body|cafe_ac_fan|cafe_roof_slab|cafe_pipe|cafe_curtain|wz_mailbox|wz_door_|wz_frame_|wz_awning_|wz_arcade_ceiling|wz_laundry)/;
             const out={old:[], vc:{}, win:{}}; const r=z.group.getObjectByName('%s');
             r.traverse(o=>{ if(!o.isMesh) return; const mn=o.material.name; if(OLD.test(mn)) out.old.push(mn); if(/^wz_vc_/.test(mn)) out.vc[mn+(o.isInstancedMesh?'[inst]':'')]=o.castShadow;
-              if(o.isInstancedMesh&&/^(wz_stain|wz_room_lit|cafe_room_dark)$/.test(mn)){ const e=out.win[mn]||(out.win[mn]={meshes:0,count:0}); e.meshes++; e.count+=o.count; } });
+              if(/^(wz_stain|wz_room_lit|cafe_room_dark)$/.test(mn)){ const k=mn+(o.isInstancedMesh?'':'[merged]'); const e=out.win[k]||(out.win[k]={meshes:0,count:0}); e.meshes++; e.count+=o.isInstancedMesh?o.count:1; } });
             return out; })()""" % GLB)
         run.check('純色零件都合成頂點色材質（門框、鋁件、鐵件、窗簾、冷氣…沒有剩下原本的單獨材質）', not vc['old'] and any(k.startswith('wz_vc_matte') for k in vc['vc']) and any(k.startswith('wz_vc_metal') for k in vc['vc']), json.dumps(vc, ensure_ascii=False))
         run.check('頂點色合併的網格（不是 instancing）會投影、instancing 的不投影', all(v == (not k.endswith('[inst]')) for k, v in vc['vc'].items()), json.dumps(vc['vc'], ensure_ascii=False))
         wn = vc['win']; st_, li_, da_ = wn.get('wz_stain', {}), wn.get('wz_room_lit', {}), wn.get('cafe_room_dark', {})
-        run.check('窗戶：所有的窗共用一個窗框原型，窗內只有亮燈／沒亮燈兩個原型，扇數對得上', st_.get('meshes') == 1 and li_.get('meshes') == 1 and da_.get('meshes') == 1 and st_.get('count', 0) > 100 and st_.get('count') == li_.get('count', 0) + da_.get('count', 0), json.dumps(wn))
+        # 效能第一輪（LAWWW2-B 86df67a3）起，和溫州街一樣：亮燈的窗內合成一個網格（wz_room_lit[merged]），沒亮燈的進頂點色；之前是兩個 InstancedMesh、扇數相加＝窗框
+        lim_ = wn.get('wz_room_lit[merged]', {})
+        inst_ok = li_.get('meshes') == 1 and da_.get('meshes') == 1 and st_.get('count') == li_.get('count', 0) + da_.get('count', 0)
+        merged_ok = lim_.get('meshes') == 1 and not li_ and not da_ and not wn.get('cafe_room_dark[merged]')
+        run.check('窗戶：所有的窗共用一個窗框原型（一個 InstancedMesh）；窗內是兩個原型（扇數對得上），或亮燈的窗內合成一個網格、沒亮燈的進頂點色', st_.get('meshes') == 1 and st_.get('count', 0) > 100 and (inst_ok or merged_ok), json.dumps(wn))
         await pg.evaluate("(async()=>{ for(let i=0;i<240;i++){ if(GAME.E.zone.group.children.some(o=>o.name==='gg_scooters_glb')) return; await new Promise(r=>setTimeout(r,250)); } })()")
         sc = await pg.evaluate("""(()=>{ const z=GAME.E.zone; const kit=z.group.children.find(o=>o.name==='gg_kit_scooters'); const out=z.group.children.find(o=>o.name==='gg_scooters_glb');
             const n=kit?kit.children.filter(o=>o.isGroup).length:-1; const ims=out?out.children.filter(o=>o.isInstancedMesh):[]; const lods=out?out.children.filter(o=>o.isLOD):[];

@@ -5089,6 +5089,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "只取 GLB＋兩支腳本；wancai_glb_integration、遊戲內截圖 LAWWW-B 跑（宿營流程測試跑完後）"
+  },
+  {
+   "id": "DL-LW2-GGSIGNS",
+   "date": "2026-10-17",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "40b73c64",
+   "what": "公館六家招牌換成使用者生成、BB-B 通過的設計稿（阿鳳 G00、舊路 G02、藥局 G04、輪轉 G06、影印 G10、日日定食 G11；G03 照舊）；gongguan_shops.glb 用效能版 wz_street.py 重建（物件 815→436、三角形 83,061→53,679）；整合測試 patch gg_signs_test.patch",
+   "task": "ART-GG-SIGNS",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 2026-10-17 00:5x 整合 GLB＋測試 patch；gongguan_glb_integration 等 flow_camp_y1 跑完再跑（不同時跑兩個瀏覽器測試）"
   }
  ],
  "ignored": [

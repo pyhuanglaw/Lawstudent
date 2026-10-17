@@ -12182,9 +12182,9 @@
    "title": "公館店面招牌重新設計（35 面：21 橫式＋14 種直立）：BB 寫生圖提示詞 → 使用者生成 → LAWWW2 換成圖片貼圖",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "BB-B 00:08 通過 S1～S4（signs_approved/gg_*_fit）→ LAWWW2-B 排在典禮背景之後先換（公館 GLB 重建中，先查結構差異）；S5～S18 等使用者生成",
+   "next": "LAWWW-B 跑 gongguan_glb_integration＋截圖；S5～S18 等使用者生成（BB-B 出提示詞）",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -13678,6 +13678,34 @@
    },
    "source": "AA-B 全部待辦（AA_交接紀錄 B 表「（無 ID）」）；D93 逐職位核對",
    "authorized": "BB_122（使用者批准的學姊線）"
+  },
+  {
+   "id": "ART-BALCONY-POTS",
+   "title": "二樓陽台盆栽從街上幾乎看不到（溫州街效能第六輪換的模型葉子比較矮）：溫州街、公館下一輪一起改",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "next": "LAWWW2-B 下一輪溫州街／公館一起改",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "開局（溫州街、公館）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 衍生待辦（40b73c64；gg_signs README）",
+   "authorized": "ART-POLISH 範圍",
+   "xai": {
+    "receiver": "LAWWW-B",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "gg_signs README",
+    "acceptance": "街上鏡頭看得到盆栽；wz_street／gongguan 整合測試 ALL PASS",
+    "ack": "ACK"
+   }
   }
  ]
 }
