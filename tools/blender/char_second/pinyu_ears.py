@@ -2,8 +2,10 @@
 在臉之後、衣服和頭髮之前做（pinyu.py --from-blend face.blend --stages ears,clothes,hair）：
   1. 大小：Darkness Shibu 的耳朵在 Face 網格裡是獨立的小島（每邊正面 82 面、背面 56 面、一片小三角，|x| 0.06–0.10 m）。
      露在頭外面的耳廓縮成 EAR_K 倍（中心＝耳根的中段：最靠頭那一圈頂點的 x、y，耳朵上下的中間）：耳朵外緣離頭近一點、上下短一點。
-     耳根（埋在頭裡、到頭皮那一圈）不動：頭的網格在耳朵接的地方有開口，第一次整個耳朵一起縮，上耳根露出一道暗紅色的縫。
-     從 |x| ROOT_X0 到 ROOT_X1 漸漸加到全部縮放。所有 shape key 一起變（C.warp_world）。
+     耳根不動：耳朵正面、背面都是單面的網格，貼在臉和頭的接縫上，沒有和頭接起來。
+     第一次整個耳朵一起縮，上耳根露出一道暗紅色的縫；第二次照 |x| 漸變，前上方還有一條細縫。
+     第三次：以「耳朵貼著頭的那一圈邊」（島的邊界、|x| < ROOT_XB）為準，離這圈邊 ROOT_D0 內不動、ROOT_D1 外全部縮放。
+     所有 shape key 一起變（C.warp_world）。
   2. 顏色：貼圖上的耳朵本來是偏粉紅的一塊（中間 0.96/0.82/0.80，臉頰 0.97/0.91/0.90），遊戲裡比臉紅、亮的地方又比臉白。
      耳朵的島（UV 三角形畫成遮罩、往外擴幾個 px 給 mipmap）改成「耳朵旁邊那一圈臉皮」的顏色（同一張貼圖、頭的兩側），
      原本的明暗只留一點：凹進去的地方最多暗 SHADE_MIN，凸起來的地方不超過旁邊的臉。"""
@@ -13,7 +15,8 @@ import h01_face as F
 from PIL import Image, ImageDraw, ImageFilter
 
 EAR_K = 0.82          # BB-C：縮小 15～20%
-ROOT_X0, ROOT_X1 = 0.071, 0.084   # 頭皮在耳朵那裡約 |x| 0.068–0.079（臉和身體網格接縫的位置）
+ROOT_XB = 0.078                   # 貼著頭的邊界頂點（頭皮在耳朵那裡約 |x| 0.068–0.079，臉和身體網格接縫的位置）
+ROOT_D0, ROOT_D1 = 0.002, 0.024    # 第四次：0.003–0.014 時前上方的耳廓被折到（露出網格背面的暗色三角形），漸變拉長
 SHADE_MIN = 0.86      # 耳廓凹處最多暗多少（1＝平的一塊；原本貼圖的凹處約 0.88）
 SHADE_GAMMA = 0.9
 
@@ -43,20 +46,24 @@ def apply(m):
         vi = sorted({v.index for f in comp for v in f.verts}); ax = np.abs(W[vi, 0])
         if len(comp) < 300 and ax.min() > 0.057:                     # 耳朵（正面、背面、小三角）；眼角、嘴角的單片三角在 |x|<0.057
             ears[float(np.sign(W[vi, 0].mean()))].append(comp)
-    idx = {}; piv = {}
+    idx = {}; piv = {}; wgt = {}
     for s, comps in ears.items():
         vi = np.array(sorted({v.index for c in comps for f in c for v in f.verts})); ax = np.abs(W[vi, 0])
+        bnd = np.array(sorted({v.index for c in comps for f in c for e in f.edges if e.is_boundary for v in e.verts}))
+        rb = W[bnd[np.abs(W[bnd, 0]) < ROOT_XB]]
+        dist = np.min(np.linalg.norm(W[vi][:, None, :] - rb[None, :, :], axis=2), axis=1); t = np.clip((dist - ROOT_D0) / (ROOT_D1 - ROOT_D0), 0, 1); wgt[s] = t * t * (3 - 2 * t)
+        print('  ear %+d: %d root-edge verts, %d fixed, %d fully scaled' % (s, len(rb), int((wgt[s] == 0).sum()), int((wgt[s] == 1).sum())))
         root = vi[ax < ax.min() + 0.006]; idx[s] = vi; piv[s] = np.array([W[root, 0].mean(), W[root, 1].mean(), 0.5 * (W[vi, 2].min() + W[vi, 2].max())])
         P = W[vi]; print('  ear %+d: %d islands, %d verts, size x %.3f y %.3f z %.3f, pivot %s' % (s, len(comps), len(vi), np.ptp(P[:, 0]), np.ptp(P[:, 1]), np.ptp(P[:, 2]), np.round(piv[s], 4)))
 
     def fn(P):
         Q = P.copy()
         for s in idx:
-            Pi = P[idx[s]]; t = np.clip((np.abs(Pi[:, 0]) - ROOT_X0) / (ROOT_X1 - ROOT_X0), 0, 1); w = (t * t * (3 - 2 * t))[:, None]
+            Pi = P[idx[s]]; w = wgt[s][:, None]
             Q[idx[s]] = Pi + (piv[s] + (Pi - piv[s]) * EAR_K - Pi) * w
         return Q
     for s in idx:
-        P0 = W[idx[s]]; P1 = fn(W)[idx[s]]; out_ = np.abs(P0[:, 0]) > ROOT_X1
+        P0 = W[idx[s]]; P1 = fn(W)[idx[s]]
         print('  ear %+d outer part: height %.4f → %.4f, depth %.4f → %.4f, max |x| %.4f → %.4f' % (s, np.ptp(P0[:, 2]), np.ptp(P1[:, 2]), np.ptp(P0[:, 1]), np.ptp(P1[:, 1]), np.abs(P0[:, 0]).max(), np.abs(P1[:, 0]).max()))
     C.warp_world(face, fn)
 
@@ -76,7 +83,10 @@ def apply(m):
     lum = rgb @ np.array([0.30, 0.59, 0.11]); hi = np.percentile(lum[em], 75)
     k = np.clip(lum / hi, SHADE_MIN, 1.0) ** SHADE_GAMMA
     k = F.blur(k, 1)                                                   # 貼圖的鋸齒不要放大
-    out = a.copy(); out[em, :3] = ref[None, :] * k[em, None]
+    dark = ((1 - k) / (1 - SHADE_MIN))[em, None]                        # 凹處：紅的少暗一點（耳廓凹處偏紅，不是灰；第一次照比例一起暗，Blender 預覽偏灰）
+    inner = np.asarray(Image.fromarray((mask_of(ear_f) * 255).astype(np.uint8)).filter(ImageFilter.MinFilter(13))) > 127   # 島的邊緣 6 px 以內不加陰影：
+    dark = dark * np.clip(F.blur(inner.astype(float), 3), 0, 1)[em, None]   # 遊戲的描邊、mipmap 會用到邊緣的顏色，第二次上耳根那條邊變成一條暗線（第六版同一個位置是白線）
+    out = a.copy(); out[em, :3] = ref[None, :] * (1 - (1 - SHADE_MIN) * dark * np.array([0.55, 1.0, 1.08])[None, :])
     print('  ear colour: was median %s → side-of-head %s (cheek %s), %d px' % (np.round(np.median(rgb[em], 0), 3), np.round(ref, 3), np.round(cheek, 3), int(em.sum())))
     im = C.image_from_array('X07_Face_ears', out.astype(np.float32)); F.set_tex(mat, im)
     bm.free()
