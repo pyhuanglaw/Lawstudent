@@ -93,6 +93,8 @@ def apply(m):
     print('  body pulled under the polo', XC.conform_under(body, obj, ki, STYLE_M['PANTS_TOP'] - 0.03, STYLE_M['V_BOTTOM'] + 0.06, inset=0.008, slack=0.005, max_move=0.015))
     print('  shoulders pulled under the polo', PS.pull_shoulders(body, obj, STYLE_M['V_BOTTOM'] - 0.04, STYLE_M['BACK_NECK_Z'] - 0.008, mat_idx=ki))
     # 第十四版：V 字兩側、領尖下面那兩塊是皮膚從「領子」穿出來（洋紅背景確認不是破洞）——身片收窄，領子跟著往內，領子底下的胸口皮膚沒有收
+    # 第十六版：V 字兩側（離中線 4～5 cm）的皮膚 T 字姿勢時在身片裡面 5～12 mm，待機時從領尖和身片之間的縫看得到 → 那一段 1.2 cm 以內的都收到 6 mm 深
+    print('  V sides pulled deeper', XC.conform_under(body, obj, ki, STYLE_M['V_BOTTOM'] - 0.01, STYLE_M['V_BOTTOM'] + 0.06, inset=0.006, slack=0.012, max_move=0.015))
     col = bpy.data.objects.get('Clothes_Collar')
     if col is not None: print('  body pulled under the collar', XC.conform_under(body, col, 0, STYLE_M['V_BOTTOM'] - 0.02, STYLE_M['V_BOTTOM'] + 0.05, inset=0.004, slack=0.003, max_move=0.015))
     return obj
