@@ -16217,6 +16217,30 @@
    "pausedReason": null,
    "resumeWhen": null,
    "evidence": "tests/v0_home_ff_unit.js"
+  },
+  {
+   "id": "US-MIN-FLOW",
+   "title": "美國交換最小可玩流程：申請 → 出發 → 抵達 → 公寓 → 外出 → 回公寓睡覺 → 隔天（臨時場景，LAWWW2-C 正式區域到了換）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "next": "瀏覽器流程（大三上申請 → 8/2 出發 → 抵達 → 公寓睡兩晚）；接 LAWWW2-C 的 airport_dep／us_outside／us_apartment patch；返台 12/23、課、出遊、人物照 AA／BB 規格之後做",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "大三上申請；大四上 2028-08-02 出發",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-17 21:3x（D99 第三優先）",
+   "authorized": "使用者",
+   "pausedReason": null,
+   "resumeWhen": null,
+   "evidence": "tests/exch_min_unit.js"
   }
  ]
 }

@@ -183,6 +183,7 @@ const HOME=(function(){
     { const B=S.lawBreak(G); if(B&&typeof CALENDAR!=='undefined'&&CALENDAR.gradeDay){ const gd=CALENDAR.gradeDay(B.year+(B.kind==='winter'?'S1':'S2')); if(gd!=null) c(T(gd,8.5)); } }   /* 成績公布日（放假後第 3 個週一）早上：AA_197 1-2「一定會演的日子」*/
     if(typeof OUT!=='undefined') for(const q of OUT.rec(G)) if(q.state==='planned') c(Math.max(T(q.day,q.h)-OUT.trip(G,q,true).travelH-0.25,q.ask!=null?q.ask:-1e9));
     if(typeof INV!=='undefined'&&Array.isArray(G.invites)) for(const iv of G.invites) if(iv.state==='accepted') c(T(iv.day,iv.h)-1);
+    if(typeof EXCH!=='undefined'&&EXCH.departAt){ const x=EXCH.departAt(G); if(x!=null) c(x); }   /* 交換出發日早上：快轉停在那裡 */
     return best; };
   S.breakStartDue=function(G){ const B=S.lawBreak(G); if(!B) return false; const H=S.rec(G); if(H.brk===B.key||H.lbreak===B.key||H.winter||H.base) return false; if(!(H.stay&&H.stay[B.key]==='home')) return false; return T(G.day,G.hour)<S.breakEnd(G,B)&&G.hour>=5; };   /* 只有暑假選了「暑假回家住」（AA_197 1-3）；寒假不強制 */
   /* 回家（第 2 節）：起床、成績那一件演完以後（story3d.js 的 sleepNow 最後；在家醒來的在 S.loop）*/
@@ -323,9 +324,9 @@ const HOME=(function(){
       G.flags.ROOM_Y2_MOVING=true; if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await GM.fade(false); }   /* 房間直接蓋成 312（zones3d.js dormSetKey）*/
     finally{ GM.sceneEnd(); }
     if(typeof STORY!=='undefined'&&STORY.unboxY2) await STORY.unboxY2(GM); return true; };
-  S.loop=async function(GM){ const G=GM.G, H=S.rec(G); if(busy) return; busy=true; GM.sceneBegin(); let a3=false, toLaw=false, roomY2=false, backB=false;
+  S.loop=async function(GM){ const G=GM.G, H=S.rec(G); if(busy) return; busy=true; GM.sceneBegin(); let a3=false, toLaw=false, roomY2=false, backB=false, exch=false;
     try{ if(typeof ADV!=='undefined') ADV.begin({background:bg()});
-      for(let guard=0;guard<60&&H.at;guard++){ phoneTick(GM); S.postponeMissed(G); if(S.a3Due(G)){ a3=true; break; } if(typeof STORY!=='undefined'&&STORY.toLawDue&&STORY.toLawDue(G)){ toLaw=true; break; } if(typeof STORY!=='undefined'&&STORY.roomY2Due&&STORY.roomY2Due(G)){ roomY2=true; break; }
+      for(let guard=0;guard<60&&H.at;guard++){ phoneTick(GM); S.postponeMissed(G); if(S.a3Due(G)){ a3=true; break; } if(typeof STORY!=='undefined'&&STORY.toLawDue&&STORY.toLawDue(G)){ toLaw=true; break; } if(typeof STORY!=='undefined'&&STORY.roomY2Due&&STORY.roomY2Due(G)){ roomY2=true; break; } if(typeof EXCH!=='undefined'&&EXCH.departDue&&EXCH.departDue(G)){ exch=true; break; }   /* 交換出發日（src/exchange3d.js）*/
         if(H.lbreak&&!H.winter&&!H.base){ if(S.breakMode(G)){ if(!(await breakRound(GM))) break; continue; } H.lbreak=null; H.bskip=null; }   /* AA_197 1-3：過了放假最後一天 21:30＝接著照週日晚上那一套（不再強制回宿舍）。舊註解：法律系的寒暑假（AA_183）；過了回宿舍的時間＝回宿舍 */
         if(!H.winter&&!H.base&&S.breakStartDue(G)){ await S.breakStart(GM); continue; }   /* 週末回家住到放假第一天的早上：就地開始放假模式 */
         if(!H.winter&&!H.base&&!H.lbreak){ const B=S.lawBreak(G); if(B&&T(G.day,G.hour)<S.breakEnd(G,B)){ H.lbreak=B.key; H.brk=B.key; if(!H.bskip||H.bskip.key!==B.key) H.bskip={key:B.key,n:0,last:-1}; continue; } }   /* 放假中人在家（週末回家住到放假、讀檔）＝住家裡（AA_197 1-3）*/
@@ -347,7 +348,7 @@ const HOME=(function(){
         else if(o.k==='car') await S.takeCar(GM);
         else if(o.k==='rest'){ if(await confirmMiss(GM,G.hour+1)){ GM.advance(1); } } else { await S.back(GM); break; } } }
     finally{ busy=false; GM.sceneEnd(); }
-    if(a3) await S.a3FromHome(GM); if(toLaw) await STORY.toLaw(GM); if(roomY2) await S.roomY2FromHome(GM); if(backB) await S.breakBack(GM); };   /* 經濟系 → 法律系（8/31 早上，AA_154 2-4b）*/
+    if(a3) await S.a3FromHome(GM); if(toLaw) await STORY.toLaw(GM); if(roomY2) await S.roomY2FromHome(GM); if(backB) await S.breakBack(GM); if(exch) await EXCH.depart(GM); };   /* 經濟系 → 法律系（8/31 早上，AA_154 2-4b）*/
   /* 回家：轉場 → 到家（媽媽一句）→ 選單 */
   S.go=async function(GM){ const G=GM.G; if(!S.canGo(G)||S.at(G)) return false; const H=S.rec(G); GM.sceneBegin();
     try{ const base=S.livesHome(G); await GM.fade(true); if(GM.titleCard) await GM.titleCard('回臺北的家',base?'捷運＋公車 約 30 分鐘':'捷運＋公車 約 40 分鐘',2400); GM.advance(base?0.5:0.7); H.at=true; H.day=G.day; if(S.baseMode(G)) H.base=true;

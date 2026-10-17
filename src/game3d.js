@@ -399,7 +399,7 @@ const GAME = (function(){
     document.querySelectorAll('#phoneTabs button').forEach(b=>b.classList.toggle('on',b.dataset.ptab===phoneTab));
     body.querySelectorAll('[data-go]').forEach(b=>b.onclick=async()=>{ const it=CLS.dayItems(G).find(q=>q.key===b.dataset.go); if(!it) return; if(E.player.busy){ toast('現在不能移動'); return; } closePhone(); if(menuOpen) closeMenu(); await CLS.goClass(GM,it); }); }   /* DL-01（AA_160 1-1）：「直接去上課」走 CLS.goClass（照路程、出門時間、選位子；2026-10-13 起建築裡的教室也可以）*/
   /* 快速前往（D54 ①）：主要地點從第一天就知道（第 1 天是開學第三週）；依距離花遊戲時間（CLS.travelMinutes）；關門的地方寫幾點開 */
-  function PLACE_LIST(){ return PLACES.quickList().filter(p=>p&&Z3.ZONES[p[0]]); }   /* 清單在 src/data/places.js（tests/quick_travel_unit.js 逐一檢查落點站得住、走得出去）*/
+  function PLACE_LIST(){ if(typeof EXCH!=='undefined'&&EXCH.inUS&&EXCH.inUS(G)) return EXCH.places(); return PLACES.quickList().filter(p=>p&&Z3.ZONES[p[0]]); }   /* 在美國：只有公寓、社區（src/exchange3d.js）*/   /* 清單在 src/data/places.js（tests/quick_travel_unit.js 逐一檢查落點站得住、走得出去）*/
   function placeState(pl){ const [z,,sp]=pl; const known=!!(PLACES.known0[z]||(G.visited&&G.visited[z])); const open=typeof PLACES==='undefined'||PLACES.isOpen(z,G.hour,G.day); const mins=typeof CLS!=='undefined'?CLS.travelMinutes(G,G.zone,z,E.player.obj.position,sp):15; const here=G.zone===z&&(z!=='campus'||mins===0);
     const bike=!!E.player.riding, m=bike&&mins>0?Math.max(5,Math.round(mins/3.5/5)*5):mins;   /* 騎著腳踏車：大約是走路的 3.5 倍快（2026-10-15 調快；原本 2.5）（最少 5 分鐘）；進室內的地方車停在那棟的門外（bike3d.js）*/
     return {known,open,here,mins:m,bike}; }
