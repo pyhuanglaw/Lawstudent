@@ -510,6 +510,162 @@
       "noDirectIntegrate": false,
       "receiver": "LAWWW",
       "ack": "ACK（訊息已回答）"
+    },
+    {
+      "task": "AA_238 法服讀書會停用缺的台詞",
+      "branch": "claude/magical-albattani-bk7b4n",
+      "sha": "01f3ce42",
+      "files": [
+        "docs/story_planning/AA_238_法服讀書會停用_缺的台詞.md"
+      ],
+      "state": "已交付",
+      "remaining": "",
+      "next": "LAWWW 照實作（寒暑假相關等 HOLIDAY-SYS）",
+      "noDirectIntegrate": false,
+      "receiver": "LAWWW",
+      "ack": "已傳 send_message"
+    },
+    {
+      "task": "AA_199 第 7 節 寒暑假重新開工＋出國活動＋不限年級＋單日活動",
+      "branch": "claude/magical-albattani-bk7b4n",
+      "sha": "9b721b36",
+      "files": [
+        "docs/story_planning/AA_199_寒暑假多活動行事曆_研究企劃與分工.md"
+      ],
+      "state": "已交付",
+      "remaining": "",
+      "next": "LAWWW 照實作（寒暑假相關等 HOLIDAY-SYS）",
+      "noDirectIntegrate": false,
+      "receiver": "LAWWW",
+      "ack": "已傳 send_message"
+    },
+    {
+      "task": "AA_241 大一暑假台詞",
+      "branch": "claude/magical-albattani-bk7b4n",
+      "sha": "e74e2577",
+      "files": [
+        "docs/story_planning/AA_241_大一暑假_AA場景台詞.md"
+      ],
+      "state": "已交付",
+      "remaining": "",
+      "next": "LAWWW 照實作（寒暑假相關等 HOLIDAY-SYS）",
+      "noDirectIntegrate": false,
+      "receiver": "LAWWW",
+      "ack": "已傳 send_message"
+    },
+    {
+      "task": "AA_242 出國活動台詞＋出國期間訊息",
+      "branch": "claude/magical-albattani-bk7b4n",
+      "sha": "2a30ce09",
+      "files": [
+        "docs/story_planning/AA_242_出國活動台詞_交流志工暑期課.md"
+      ],
+      "state": "已交付",
+      "remaining": "",
+      "next": "LAWWW 照實作（寒暑假相關等 HOLIDAY-SYS）",
+      "noDirectIntegrate": false,
+      "receiver": "LAWWW",
+      "ack": "已傳 send_message"
+    },
+    {
+      "task": "AA_244 以安假期計畫＋出國旅遊",
+      "branch": "claude/magical-albattani-bk7b4n",
+      "sha": "672dcbcc",
+      "files": [
+        "docs/story_planning/AA_244_以安假期計畫_出國旅遊台詞.md"
+      ],
+      "state": "已交付",
+      "remaining": "",
+      "next": "LAWWW 照實作（寒暑假相關等 HOLIDAY-SYS）",
+      "noDirectIntegrate": false,
+      "receiver": "LAWWW",
+      "ack": "已傳 send_message"
+    },
+    {
+      "task": "AA_243 16 週可行性裁定",
+      "branch": "claude/magical-albattani-bk7b4n",
+      "sha": "2af03a63",
+      "files": [
+        "docs/story_planning/AA_243_16週可行性_AA裁定.md"
+      ],
+      "state": "已交付",
+      "remaining": "",
+      "next": "LAWWW 照實作（寒暑假相關等 HOLIDAY-SYS）",
+      "noDirectIntegrate": false,
+      "receiver": "LAWWW",
+      "ack": "已傳 send_message"
+    },
+    {
+      "task": "AA_245 沛珊柏翰沒在一起的版本",
+      "branch": "claude/magical-albattani-bk7b4n",
+      "sha": "2af03a63",
+      "files": [
+        "docs/story_planning/AA_245_沛珊柏翰_沒交往的版本.md"
+      ],
+      "state": "已交付",
+      "remaining": "",
+      "next": "LAWWW 照實作（寒暑假相關等 HOLIDAY-SYS）",
+      "noDirectIntegrate": false,
+      "receiver": "LAWWW",
+      "ack": "已傳 send_message"
+    },
+    {
+      "task": "AA_224 第 7 組 開局從經濟系宿營",
+      "branch": "claude/magical-albattani-bk7b4n",
+      "sha": "4e3a7c2b",
+      "files": [
+        "docs/story_planning/AA_224_重考主線台詞定稿_LIFE-LINE.md"
+      ],
+      "state": "已交付",
+      "remaining": "",
+      "next": "LAWWW 照實作（寒暑假相關等 HOLIDAY-SYS）",
+      "noDirectIntegrate": false,
+      "receiver": "LAWWW",
+      "ack": "已傳 send_message"
+    },
+    {
+      "task": "AA_249～251 學期末聚餐與寒暑假邀約（取代重訪日）",
+      "branch": "claude/magical-albattani-bk7b4n",
+      "sha": "9b721b36",
+      "files": [
+        "docs/story_planning/AA_249_學期末聚餐與寒暑假邀約_取代重訪日.md",
+        "docs/story_planning/AA_250_期末聚餐話題池_大一.md",
+        "docs/story_planning/AA_251_聚餐帶出的單日活動_直屬學弟的咖啡.md"
+      ],
+      "state": "已交付",
+      "remaining": "",
+      "next": "LAWWW 照實作（寒暑假相關等 HOLIDAY-SYS）",
+      "noDirectIntegrate": false,
+      "receiver": "LAWWW",
+      "ack": "已傳 send_message"
+    },
+    {
+      "task": "AA_252 模擬法庭刪除→大四專題討論法院旁聽",
+      "branch": "claude/magical-albattani-bk7b4n",
+      "sha": "e8010267",
+      "files": [
+        "docs/story_planning/AA_252_模擬法庭刪除_改大四專題討論法院旁聽.md"
+      ],
+      "state": "已交付",
+      "remaining": "",
+      "next": "LAWWW 照實作（寒暑假相關等 HOLIDAY-SYS）",
+      "noDirectIntegrate": false,
+      "receiver": "LAWWW",
+      "ack": "已傳 send_message"
+    },
+    {
+      "task": "AA_247 麵店團過年照片",
+      "branch": "claude/magical-albattani-bk7b4n",
+      "sha": "3834f83f",
+      "files": [
+        "docs/story_planning/AA_247_麵店團過年照片_大二到大四.md"
+      ],
+      "state": "已交付",
+      "remaining": "",
+      "next": "LAWWW 照實作（寒暑假相關等 HOLIDAY-SYS）",
+      "noDirectIntegrate": false,
+      "receiver": "LAWWW",
+      "ack": "已傳 send_message"
     }
   ]
 }
