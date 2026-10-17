@@ -48,6 +48,8 @@ PANTS_DROP = True         # 寬褲從臀部直落（False：合身褲，褲管�
 PANTS_HEM_UP = 0.0        # 褲腳往上（九分褲：露出腳踝）
 PANTS_FOLLOW = False      # 褲管中心線跟著腿骨（大腿根 → 膝蓋 → 腳踝）走；False＝舊做法（垂直的管子，x 固定 0.086）。腿往內斜的樣本（Sakurada：膝蓋 x 0.055、腳踝 0.043）用舊做法時褲腳在腳的外側、遊戲裡像喇叭褲（LAWWW2-C 2026-10-17，阿勳）
 EASE_K = 0.85             # 身片寬鬆量的倍數（沈以安第二版 1.0 → 0.85：側面看毛衣從胸口直落、下擺收緊，像氣球）
+NECK_GAP = 0.013           # 領口離脖子的距離（後半圈＋側面）；預設不變。沛珊第九版 0.008（1.3 cm 時領口一圈離脖子遠，正面看像連帽衫的帽緣）
+SHOULDER_SKIN = False      # 肩膀上面那一段（落肩線 → 領口）：False＝原本的凸弧（靠肩膀那頭先升高，像一個圓頂）；True＝靠肩膀那頭慢慢升、貼著斜方肌（LAWWW2-C 2026-10-17，沛珊、經濟系四人「像連帽衫」）
 NECK_CALM = 0.0           # 0～1：肩膀上面、靠脖子那一段身片的上臂權重移給上胸（預設 0＝不變）。手從 T 字放下來時，那段布跟著上臂往上、往脖子擠，變成領口周圍一圈像連帽衫的鼓起（LAWWW2-C 2026-10-17，沛珊、阿勳、品妤）
 WSRC = None               # 權重來源：VRoid 原本的上衣網格（祐廷：連帽上衣）。有的話，毛衣的身片、袖子根部照它的權重（VRoid 調過手放下的姿勢）
 TOP_FIT = 0.0             # 上衣合身度（0＝從胸口直落的寬鬆箱形：沈以安、祐廷；林芷若 0.65：腰部跟著身體收）
@@ -443,7 +445,7 @@ def build_top(skin, arm, mb, pants):
         t = th[k]; s = math.sin(t)
         if s >= -0.05:      # 後半圈＋側面：圓領口
             z = BACK_NECK_Z + (SIDE_NECK[1] - BACK_NECK_Z) * abs(math.cos(t)) ** 1.5
-            return rneck(k, z) + 0.013, z
+            return rneck(k, z) + NECK_GAP, z
         if NECK_STYLE == 'crew':        # 前面：圓領（前中心最低，往側頸點圓弧上升）
             z = CREW_FRONT_Z + (SIDE_NECK[1] - CREW_FRONT_Z) * abs(math.cos(t)) ** 1.8
             return max(rneck(k, z), rbody(k, z)) + 0.012, z
@@ -479,7 +481,7 @@ def build_top(skin, arm, mb, pants):
         if zn > zbt + 1e-4:
             r0 = box_r(k, zbt) if dense else rn
             for t in np.linspace(0, 1, 60)[1:]:
-                r = r0 + (rn - r0) * t; z = zbt + (zn - zbt) * (1 - (1 - t) ** 1.6)
+                r = r0 + (rn - r0) * t; z = zbt + (zn - zbt) * (t ** 1.5 if SHOULDER_SKIN else 1 - (1 - t) ** 1.6)
                 # 肩膀上面：從上往下量身體（肩膀、上臂的上緣），衣服比它高 1 cm（第一版從側面往內量，打到 T 字姿勢的手臂）
                 zt_ = top_z(dirs[k][0] * r, YC(z) + dirs[k][1] * r)
                 if t < 0.97: z = max(z, zt_ + 0.010)

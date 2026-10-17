@@ -21,7 +21,7 @@ SHOE = np.array([28, 28, 30]) / 255.0            # 黑色帆布
 SOLE = np.array([236, 232, 222]) / 255.0         # 白鞋底
 STYLE = dict(KNIT_RGB=WINE, TROUSER_RGB=NAVY, LEATHER_RGB=SHOE, SOLE_RGB=SOLE, GOLD_RGB=SOLE, BELT_RGB=None,
              SHOE_STYLE='sneaker', NECK_STYLE='crew', HEM_OVER_PANTS=False, SLIM=True, TOP_TEX='jersey',
-             SLEEVE_LEN=0.40, SLEEVE_K=0.72, CUFF_EASE=0.012, EASE_K=0.56, DROP_X=0.098, TOP_FIT=0.62, HEM_LOOSE=False, NECK_CALM=1.0)   # 第四版（照立繪，BB-C 10-17：膨、短、方）：合身、下擺紮進裙頭   # 第三版：合身一點（第二版 EASE 0.90／FIT 0.15 在遊戲裡像連帽上衣）
+             SLEEVE_LEN=0.40, SLEEVE_K=0.72, CUFF_EASE=0.012, EASE_K=0.56, DROP_X=0.098, TOP_FIT=0.62, HEM_LOOSE=False, NECK_CALM=1.0, NECK_GAP=0.008, SHOULDER_SKIN=True)   # 第九版：領口貼脖子、肩膀上面貼著斜方肌（第五～八版像連帽衫的一圈）   # 第四版（照立繪，BB-C 10-17：膨、短、方）：合身、下擺紮進裙頭   # 第三版：合身一點（第二版 EASE 0.90／FIT 0.15 在遊戲裡像連帽上衣）
 STYLE_M = dict(PANTS_TOP=1.050, PANTS_BAND=1.022, KNIT_HEM=1.046, KNIT_HEM_TOP=1.056, BACK_NECK_Z=1.368, CREW_FRONT_Z=1.316)   # 第四版：下擺紮進裙頭（只蓋到裙頭最上面，小語的做法）、領口貼脖子、後領低一點（後面不鼓成帽子）   # 第二版：領口開一點（第一版 1.342 正面看像高領、脖子整個包住；參考圖看得到鎖骨）
 SIDE_NECK_M = (0.068, 1.392)   # 第四版：領口收小（0.078：領口離脖子很遠，像連帽衫的帽緣）
 # 長裙：裙擺 z 0.16（小腿下段；鞋口約 0.08），A 字放寬（走路時小腿在裙子裡面前後擺，裙擺要夠寬）
