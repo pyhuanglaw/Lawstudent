@@ -27,7 +27,7 @@
    "origin/claude/cool-heisenberg-o8kuqx",
    "origin/claude/elegant-brown-fcos7n"
   ],
-  "updated": "2026-10-17 D93 逐職位核對補登",
+  "updated": "2026-10-17 02:4x UTC LAWWW-B 交班",
   "note": "機器讀的任務索引；docs/HANDOFF_GAP_MATRIX.md 是閱讀版，兩邊的 ID 要一致（check_handoff.py 會比對）",
   "aaRef": "企劃線 docs/story_planning/AA_140_v0到v6_交付實作驗收對照表.md：第 0 節＝戀愛現行規則；第 3 節＝企劃缺漏 G01～；本檔管施工與測試，兩邊互指",
   "firstSource": "AA_146（9d994120）＋AA_146 第 1b 節 13 項對齊（510eea1c，人物事件照 BB-B）",
@@ -48,7 +48,9 @@
   "reconcileIgnore": {
    "A-*": "BB_173 第 3 節的矛盾編號（AB65-5 的子項）",
    "VA-*": "AA_199 4-2 的假期活動編號（HOL-VA 的子項）",
-   "CG-9": "CG 編號（ART-15；畢業典禮 CG，跟 SCN-V5-02 一起）"
+   "CG-9": "CG 編號（ART-15；畢業典禮 CG，跟 SCN-V5-02 一起）",
+   "BG-18": "LAWWW2 的 BG 追蹤表編號＝任務 ART-BG18（可昕視訊背景；BB-B 02:1x：自強十舍單人房照片排進 BG-18）",
+   "BG-04": "LAWWW2 的 BG 追蹤表編號＝自強十舍樓下長椅；被使用者生成的 nccu_dorm 取代（任務 ART-10，已整合待測試），BB-B 02:1x 記 LAWWW2-B 已 ACK『BG-04 不做』"
   },
   "offList": [
    {
@@ -90,6 +92,11 @@
     "role": "BB",
     "match": "常態工作",
     "task": "BB-ROUTINE"
+   },
+   {
+    "role": "LAWWW2",
+    "match": "ART-BALCONY-POTS",
+    "task": "ART-BALCONY-POTS"
    }
   ]
  },
@@ -12580,7 +12587,7 @@
    "owner": "LAWWW2",
    "status": "進行中",
    "priority": "P1",
-   "next": "萬才館外觀腳本已改（LAWWW2-B 2c6194a8），GLB 還沒換；典禮背景 v3 之後接著做。｜【使用者 2026-10-17 00:1x：美術相關一律給 LAWWW2，照遊戲出現順序】轉給 LAWWW2-B：tools/glb_coplanar.py（不用 Blender）掃開發組 GLB；宿舍大廳 LAWWW-B 已修（e4b6b55e，271 → 10 m²）；剩霖澤館外觀／室內、萬才館外觀／室內、總圖、法圖、201 教室——先用遊戲截圖確認看得到的再改腳本重新匯出（/opt/blenv bpy 4.2 已裝）；第一週會看到的先做。｜宿舍大廳已修（e4b6b55e，271 → 10 m²）。總圖套同一個 wall_cut 修正但沒觸發（重新匯出一模一樣，只改腳本）。霖澤館外觀 294 m²（y 14.9 整層樓板面）、萬才館外觀那些大面積多半是建築量體裡面互相包住的面（從外面看不到）——掃描工具不知道遮擋，要用遊戲截圖確認真的看得到再修；先排到 QA-W1 瀏覽器巡檢 B3～B5 一起看。｜宿舍大廳修了：一樓天花板低 1 cm（原本和二樓樓板底面同高）、wall_cut 開口在這一段上下時不再長出段外的牆（樓梯井北牆腰牆疊白牆）→「一定會閃」271 → 10 m²（剩牆角小疊面）。Blender：/opt/blenv（bpy 4.2，2026-10-16 23:2x 用 uv 裝；重新匯出未改的 dorm_hall 和原檔差 4 bytes）。下一個：總圖同一個 wall_cut、霖澤館外觀、萬才館外觀。｜tools/glb_coplanar.py（純 Python，不用 Blender）掃了 8 個開發組 GLB，「一定會閃」面積：萬才館外觀 1,892 m²（台階 riser 自己疊、屋頂花崗石）、霖澤館外觀 575（屋頂 precast×brick、花崗石兩色）、宿舍大廳 271（一樓天花板頂面和二樓地板同高＝二樓走廊地板會閃）、法圖 106、總圖 39、霖澤室內 27、萬才室內 21、201 教室 6。先修第一週會看到的：宿舍大廳二樓地板、霖澤館外觀、萬才館外觀；改 tools/blender/ 腳本、重新匯出（/opt/blenv 背景安裝 bpy 4.2 中）；萬才館 1,192 m² 那對要先確認是不是重複的幾何。",
+   "next": "LAWWW-B 已整合 LAWWW2-B 四個疊面修正：201（209e7eca，11→0）、萬才館室內（9dc6727f，54→4）→ 3d4d1969；總圖大廳（f1734e3f，129→27）、法圖（6f10b1fe，120→93）→ b6f471f7。interior_glb_integration 宿舍部分 ALL PASS；萬才館、總圖、法圖、201、霖澤館的瀏覽器流程交班時沒跑完（見 QA-HANDOFF-B1）。剩：霖澤館外觀／室內、萬才館外觀 GLB 重新匯出。｜萬才館外觀腳本已改（LAWWW2-B 2c6194a8），GLB 還沒換；典禮背景 v3 之後接著做。｜【使用者 2026-10-17 00:1x：美術相關一律給 LAWWW2，照遊戲出現順序】轉給 LAWWW2-B：tools/glb_coplanar.py（不用 Blender）掃開發組 GLB；宿舍大廳 LAWWW-B 已修（e4b6b55e，271 → 10 m²）；剩霖澤館外觀／室內、萬才館外觀／室內、總圖、法圖、201 教室——先用遊戲截圖確認看得到的再改腳本重新匯出（/opt/blenv bpy 4.2 已裝）；第一週會看到的先做。｜宿舍大廳已修（e4b6b55e，271 → 10 m²）。總圖套同一個 wall_cut 修正但沒觸發（重新匯出一模一樣，只改腳本）。霖澤館外觀 294 m²（y 14.9 整層樓板面）、萬才館外觀那些大面積多半是建築量體裡面互相包住的面（從外面看不到）——掃描工具不知道遮擋，要用遊戲截圖確認真的看得到再修；先排到 QA-W1 瀏覽器巡檢 B3～B5 一起看。｜宿舍大廳修了：一樓天花板低 1 cm（原本和二樓樓板底面同高）、wall_cut 開口在這一段上下時不再長出段外的牆（樓梯井北牆腰牆疊白牆）→「一定會閃」271 → 10 m²（剩牆角小疊面）。Blender：/opt/blenv（bpy 4.2，2026-10-16 23:2x 用 uv 裝；重新匯出未改的 dorm_hall 和原檔差 4 bytes）。下一個：總圖同一個 wall_cut、霖澤館外觀、萬才館外觀。｜tools/glb_coplanar.py（純 Python，不用 Blender）掃了 8 個開發組 GLB，「一定會閃」面積：萬才館外觀 1,892 m²（台階 riser 自己疊、屋頂花崗石）、霖澤館外觀 575（屋頂 precast×brick、花崗石兩色）、宿舍大廳 271（一樓天花板頂面和二樓地板同高＝二樓走廊地板會閃）、法圖 106、總圖 39、霖澤室內 27、萬才室內 21、201 教室 6。先修第一週會看到的：宿舍大廳二樓地板、霖澤館外觀、萬才館外觀；改 tools/blender/ 腳本、重新匯出（/opt/blenv 背景安裝 bpy 4.2 中）；萬才館 1,192 m² 那對要先確認是不是重複的幾何。",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12701,7 +12708,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "【進度 00:3x】已做：camp_y1.js 12 段（41687de5、cd5b3146，232 句腳本比對都在規格）；STORY.campY1＋群組＋讀檔接著演＋?start1 新遊戲走宿營（e572a798，tests/camp_y1_unit.js ALL PASS）。下一步：①宿營之後的分支：9/1 ev_zhe_w1_meet 宿營版（6-2）、ev_mingxuan_ball 開頭（BB 第 12 節 MX_CAMP_PAIR）、小語第一次正式見面多一句（AA_205 第 4 節）、有宿營的局不排 9/27 welcome_y1s1 ②經濟系路線 8/22 從家裡照 OUT 強制出發（AA_205 2-3）、可昕 8/23 私訊（BB 第 14 節）③瀏覽器：從標題 ?start1 開新遊戲玩完宿營到 8/29 ④改預設。｜【實作計畫 00:1x】程式裡沒有任何法律系宿營（9/8～9/28 那套只在文件；9/27 activities welcome_y1s1→ev_welcome_y1s1 是舊的迎新＝要改寫的那場）。做法：新檔 src/data/camp_y1.js（STORY_EVENTS 追加 ev_camp_* 段落，trigger:'camp'）＋story3d.js S.campY1 依序跑（8/22 08:30～8/24 12:30，travelOvernight 推日子，ADV 背景 econ_camp／econ_camp_room／car）→ 回家旁白 → 8/29 S.startLawWeek1；手機新群組「法律系 114 新生（系學會）」（8/15 公告、8/21 名單）、camp_squad_y1（8/24 21:00、8/29 18:00）；旗標 MET_ZHE＋FIRST_MET note 'camp'（SOCIAL.remember 只有 note）、CAMP_MOLE_CLUE 計數、CAMP_MOLE_GUESSED／REVEALED、CAMP_SEEN、MX_CAMP_PAIR、ZHE_CALLS_GE、ECON_PAST_SHARED；分支：ev_zhe_w1_meet 宿營版、ev_mingxuan_ball 開頭、小語首次旁白、ev_welcome_y1s1 在有宿營的局不排。新局從 8/22 開始先放 ?start1 後面，整段瀏覽器流程過了再改預設。缺的字已問 AA-B（早操、短劇三選一、兩人三腳搭檔、合照那行、結業式、9/27 迎新拿掉）。9/2 沛珊國文、茶會、8/30 家族群組＝START-WEEK 接著做。｜【AA_205 2-3 恢復原版 c0d12275】經濟系路線也完整演 8/22～24（08:00 在家叫醒、照 OUT 出發）；23:4x CG 版作廢。｜【使用者 23:5x 更正：「所有游戲玩家的法律系宿營都要參加而且不是用cg／用cg的是經濟系的宿營」】法律系 8/22～24 所有玩家（含經濟系路線）都完整演三天；CG 帶過的是經濟系 Y0 自己的宿營（econ_camp 那場）。上一則（AA_205 2-3 ed1a052a「經濟系路線用 CG 帶過法律系宿營」）作廢，已請 AA-B 改回。｜【使用者 23:4x（AA_205 2-3，ed1a052a）】經濟系路線不演三天、不走 OUT：8/22 在家醒來 → 字卡「8 月 22 日～24 日　迎新宿營」→ CG 小隊合照（cg_law_camp_squad.webp，沒有之前用 econ_camp）＋四句旁白 → 8/24 下午家；旗標照參加過（六人 FIRST_MET where:'camp'、CAMP_MOLE_REVEALED、camp_squad_y1、CAMP_SEEN yu），要選的不記；8/24 21:00 群組、可昕 8/23 三則 8/24 回家才看到。法律系新局照舊完整演。｜讀 AA_205（37e34086）、BB_177 v5（eee886d8）、AA_195 4-5、BB_168 第 7 節 → 設計：新局起點 8/22（第 −25 天）、宿營用 OUT 2D 場景（econ_camp、econ_camp_room、遊覽車沿用）、旗標、拿掉舊 9/8～9/28 camp → 實作 → 單元測試 → 從標題開新遊戲的瀏覽器流程",
+   "next": "【交班 02:4x】瀏覽器 flow_camp_y1 ALL PASS（02:27：從標題 ?start1 玩宿營三天到 8/29 四人房）；宿營後分支的明軒 MX_CAMP_PAIR、Kevin 茶會宿營版已做（CAMP-FIX-614）。剩：經濟系路線 8/22 從家裡出發（AA_205 2-3＝CAMP-FIX-614 程式 8）、可昕 8/23 私訊與 9/1 阿哲宿營版、有宿營的局不排 9/27 welcome_y1s1——下一班先 grep 核對哪些已做；④?start1 改預設要等完整回歸（REL-NEXT）。｜【進度 00:3x】已做：camp_y1.js 12 段（41687de5、cd5b3146，232 句腳本比對都在規格）；STORY.campY1＋群組＋讀檔接著演＋?start1 新遊戲走宿營（e572a798，tests/camp_y1_unit.js ALL PASS）。下一步：①宿營之後的分支：9/1 ev_zhe_w1_meet 宿營版（6-2）、ev_mingxuan_ball 開頭（BB 第 12 節 MX_CAMP_PAIR）、小語第一次正式見面多一句（AA_205 第 4 節）、有宿營的局不排 9/27 welcome_y1s1 ②經濟系路線 8/22 從家裡照 OUT 強制出發（AA_205 2-3）、可昕 8/23 私訊（BB 第 14 節）③瀏覽器：從標題 ?start1 開新遊戲玩完宿營到 8/29 ④改預設。｜【實作計畫 00:1x】程式裡沒有任何法律系宿營（9/8～9/28 那套只在文件；9/27 activities welcome_y1s1→ev_welcome_y1s1 是舊的迎新＝要改寫的那場）。做法：新檔 src/data/camp_y1.js（STORY_EVENTS 追加 ev_camp_* 段落，trigger:'camp'）＋story3d.js S.campY1 依序跑（8/22 08:30～8/24 12:30，travelOvernight 推日子，ADV 背景 econ_camp／econ_camp_room／car）→ 回家旁白 → 8/29 S.startLawWeek1；手機新群組「法律系 114 新生（系學會）」（8/15 公告、8/21 名單）、camp_squad_y1（8/24 21:00、8/29 18:00）；旗標 MET_ZHE＋FIRST_MET note 'camp'（SOCIAL.remember 只有 note）、CAMP_MOLE_CLUE 計數、CAMP_MOLE_GUESSED／REVEALED、CAMP_SEEN、MX_CAMP_PAIR、ZHE_CALLS_GE、ECON_PAST_SHARED；分支：ev_zhe_w1_meet 宿營版、ev_mingxuan_ball 開頭、小語首次旁白、ev_welcome_y1s1 在有宿營的局不排。新局從 8/22 開始先放 ?start1 後面，整段瀏覽器流程過了再改預設。缺的字已問 AA-B（早操、短劇三選一、兩人三腳搭檔、合照那行、結業式、9/27 迎新拿掉）。9/2 沛珊國文、茶會、8/30 家族群組＝START-WEEK 接著做。｜【AA_205 2-3 恢復原版 c0d12275】經濟系路線也完整演 8/22～24（08:00 在家叫醒、照 OUT 出發）；23:4x CG 版作廢。｜【使用者 23:5x 更正：「所有游戲玩家的法律系宿營都要參加而且不是用cg／用cg的是經濟系的宿營」】法律系 8/22～24 所有玩家（含經濟系路線）都完整演三天；CG 帶過的是經濟系 Y0 自己的宿營（econ_camp 那場）。上一則（AA_205 2-3 ed1a052a「經濟系路線用 CG 帶過法律系宿營」）作廢，已請 AA-B 改回。｜【使用者 23:4x（AA_205 2-3，ed1a052a）】經濟系路線不演三天、不走 OUT：8/22 在家醒來 → 字卡「8 月 22 日～24 日　迎新宿營」→ CG 小隊合照（cg_law_camp_squad.webp，沒有之前用 econ_camp）＋四句旁白 → 8/24 下午家；旗標照參加過（六人 FIRST_MET where:'camp'、CAMP_MOLE_REVEALED、camp_squad_y1、CAMP_SEEN yu），要選的不記；8/24 21:00 群組、可昕 8/23 三則 8/24 回家才看到。法律系新局照舊完整演。｜讀 AA_205（37e34086）、BB_177 v5（eee886d8）、AA_195 4-5、BB_168 第 7 節 → 設計：新局起點 8/22（第 −25 天）、宿營用 OUT 2D 場景（econ_camp、econ_camp_room、遊覽車沿用）、旗標、拿掉舊 9/8～9/28 camp → 實作 → 單元測試 → 從標題開新遊戲的瀏覽器流程",
    "first": {
     "term": "Y1S1",
     "week": 0,
@@ -13736,9 +13743,9 @@
    "title": "宿舍房間改成台大四人房：上舖床＋下面書桌四組（左右各兩組）、進門右邊洗手間、窗移到後牆中間；Blender 模型＋配置 JSON（阻擋、座位、梯子、洗手間門）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "a09ebf4d 交件（使用者 01:3x「宿舍ok」）；LAWWW-B 整合（DORM-LOFT-L），接好後使用者在遊戲裡再看一次才標 ART_APPROVED",
+   "next": "LAWWW-B 已整合（DORM-LOFT-L 69e74460～5d66f7bb）；等使用者在遊戲裡看過才標 ART_APPROVED",
    "first": {
     "term": "Y1S1",
     "week": 0,
@@ -13764,9 +13771,9 @@
    "title": "宿舍四人房的程式：zones3d.js dorm 區塊的導航阻擋、四組書桌座位（玩家右後）、梯子前睡覺互動（淡出、不爬梯）、洗手間門牌、上舖樹幹透視／淡出、winXs [0]、月曆位置；經濟系房間一起",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "LAWWW2-B a09ebf4d 交 dorm_room4.glb＋layout（使用者 01:3x「宿舍ok」）：資料檔 src/data/dorm_room_layout.js（tools/gen_dorm_room_layout.py 產生）→ zones3d.js dorm 改讀 DORM_ROOM（導航、四組座位、梯子前睡覺、窗、月曆、傳單、桌上小物、互動點、年份 sets、v0_props、seethru）→ story3d 室友座位 → 單元＋瀏覽器截圖 → 給使用者看",
+   "next": "已做（69e74460、91b71288、d6ce40cf、7fc33f67、5d66f7bb、22bdbc41）：src/data/dorm_room_layout.js（tools/gen_dorm_room_layout.py）、zones3d.js dorm 改讀 DORM_ROOM（導航、四組座位、梯子前睡覺、窗、月曆、傳單、桌上小物、互動點、年份 sets 203／203_movein／412／412_first_night、v0_props、seethru）、story3d 室友座位 R2 等。瀏覽器：interior_glb_integration 宿舍 ALL PASS 42 項、flow_dorm_hall ALL PASS、flow_camp_y1 ALL PASS（02:27，含 8/29 四人房）。交班時 WIP：b9eaacf3 8/29 21:55 轉場後在 203 補生阿凱（R2）、柏翰（R1）、阿哲（L1）坐姿——單元測試通過、瀏覽器未測（02:2x 流程截圖裡當晚 203 看不到室友，這是修正）。剩：①flow_camp_y1 重跑看 8/29 22:00 室友在位子上；②截圖給使用者看四人房（場景美術只有使用者能標 ART_APPROVED）；③大二 312（AB65-3-Y1S2-L／AA_208 第 7 節）",
    "first": {
     "term": "Y1S1",
     "week": 0,
@@ -13787,7 +13794,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P1",
-   "next": "已做：8/29 兩段＋阿凱（f642fddc、a943ea1d）、9/1 阿哲宿舍早上版（05fb5af2）、颱風夜＋深夜旁白（9d92f88e）、經濟系 412：E01 紙箱在書桌上、另外兩組床桌貼名字、先睡推到書桌旁邊地上、9/2 晚上韋綸唐睿搬進來（本 commit）。CHARACTERS 沒有住處欄位（不適用）。剩：作息（阿哲 22:00、柏翰 22:30 在 203）等 DORM-LOFT-L；返鄉 1/2、1/9 旁白跟 HOLIDAY-SYS；E02、T0a 的 BB 句子跟 BB_179；兩句旁白等 AA-B 定字（另一張書桌前也有人、你和阿凱的書桌中間）；v0 宿舍 3D 紙箱位置（v0Box onbed 等）等四人房模型一起改",
+   "next": "已做：8/29 兩段＋阿凱（f642fddc、a943ea1d）、9/1 阿哲宿舍早上版（05fb5af2）、颱風夜＋深夜旁白（9d92f88e）、經濟系 412：E01 紙箱在書桌上、另外兩組床桌貼名字、先睡推到書桌旁邊地上、9/2 晚上韋綸唐睿搬進來（本 commit）。CHARACTERS 沒有住處欄位（不適用）。作息（阿哲 22:00、柏翰 22:30 在 203，第一年、四人房）已跟 DORM-LOFT-L 一起做；剩：返鄉 1/2、1/9 旁白跟 HOLIDAY-SYS；E02、T0a 的 BB 句子跟 BB_179；兩句旁白等 AA-B 定字（另一張書桌前也有人、你和阿凱的書桌中間）；v0 宿舍 3D 紙箱位置（v0Box onbed 等）等四人房模型一起改",
    "first": {
     "term": "Y1S1",
     "week": 0,
@@ -13808,7 +13815,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P1",
-   "next": "順序：BB JSON（ladder_bb_y0s1/y0s2、syllabus y0s1）→ BB_179 第 4 節程式事項 → 主檔與附錄句子 → AA_203 第 3 節 30 處 → AA_206 E26／E37 → AA_200 7-2／7-3／7-4 → BB_179 第 8 節 → E15 CG（等使用者看 cg_econ_camp）；驗收 AA_154 第 6 節、AA_197 1-7",
+   "next": "【交班 02:4x 進度】已做：BB JSON ladder_bb_y0s1／y0s2＋課表 Y0S1（bdfdb9d3）；BB_179 附錄段 A 自動 42 列（3f050385）＋段 A 人工列（a41bfca0、793e78aa、5d66f7bb，段 A 人工列做完）；E02 照段 A 重寫；E15 經濟系宿營改 CG 帶過＋titleCard（f93ba38a、c2ad28d9）。剩：BB_179 附錄段 B～E；BB_179 第 4 節程式事項 1～9（沒逐項做）；AA_203 第 3 節 30 處；AA_206 E26／E37；AA_200 7-2／7-3 剩下的、7-4；BB_179 第 8 節；驗收 AA_154 第 6 節、AA_197 1-7。｜原順序：順序：BB JSON（ladder_bb_y0s1/y0s2、syllabus y0s1）→ BB_179 第 4 節程式事項 → 主檔與附錄句子 → AA_203 第 3 節 30 處 → AA_206 E26／E37 → AA_200 7-2／7-3／7-4 → BB_179 第 8 節 → E15 CG（等使用者看 cg_econ_camp）；驗收 AA_154 第 6 節、AA_197 1-7",
    "first": {
     "term": "Y0S1",
     "week": 1,
@@ -13829,7 +13836,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P0",
-   "next": "全部做完（dbb4d86e、038c0d0e、884d47d6、顧火＋茶會定字本 commit）；剩程式 8 經濟系路線宿營 → 做完才把 ?start1 當預設；瀏覽器 flow_camp_y1 跑一次",
+   "next": "全部台詞與程式 1～7 做完（dbb4d86e、038c0d0e、884d47d6、e39749d9、259a4c4f）；瀏覽器 flow_camp_y1 ALL PASS（02:27 那一輪，截圖 fbda2ce9）。剩：程式 8 經濟系路線宿營 → 做完才把 ?start1 當預設（CAMP-L1）；AA 照 AA_197 驗收",
    "first": {
     "term": "Y1S1",
     "week": 0,
@@ -13848,9 +13855,9 @@
    "title": "大一下口語改稿（AA_209＋附錄 A／B，AA 分支 096136d2）＋重訪日 1 麵店群戲（第 3 節，換掉 ev_revisit_y1_noodle、revisitDay 改期末最後一天）＋第 4 節日期條件＋附錄 B 第 5 節 BB_167 已改程式未換；大二 312 室友（AA_208 第 7 節）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
-   "next": "附錄 A／B 第 2 節＋本檔 2、2-1 → 附錄 B 第 5 節 → 第 3 節重訪日 1 → 第 4 節 → 第 6 節例外；做完照 AA_197 1-7 大一下那列給 AA 核對",
+   "next": "已做：第 3 節重訪日 1（6/12 18:00 麵店群戲、revisitDay＝S.dayOfKey(2026-06-12)、REVISIT_MSG 新句、群組「考完了」「六點麵店 併桌」、單身版、可昕版：02dc4fda、2ff27acf、1376b5f8、301c9ad9）；第 4 節第 1、2、3、5 點（kx_grades2 6/12、fam_final 6/12、午場上限 6/6、ps_owed 6/7、W5 檢討會第 15 週、Z6／fangyt_hint 15～16 週、SK05 第 16 週、阿凱邀約考試週 [7,8,9,15,16]、P4e 6/29 10:00、成績三句、Kevin「學弟有車！」：f6780e52、7a148c0d、372c6512）。剩（交班時逐項 grep 確認還沒做）：第 4 節第 4 點期中宵夜旁白「（你想起柏翰這幾週都比較晚回 203。）」（住 203 才播）、K-D5「你們隔天有早八」、KAI_TAPE 照第 2 節；第 6 點偶遇（encounters.js、enc_walk.js）阿哲叫「哥」改看 ZHE_CALLS_GE；第 7 點 A2-L6 linesIf ev_an_study_group→ev_public_law_group；第 8 點 A2-L8 note 7/25～8/8；第 10 點 SMALLTALK 方奕廷 ev_fangyt_z6→ev_fangyt_hint；第 11 點 ev_dorm_late_kai 只播一次或輪換；第 6 節第 1 點附錄 A／B 第 2 節＋本檔 2、2-1 的逐句改稿：只換了一部分（例：talkAn「嗯？我等一下要去總圖。」），沒有逐條核對；附錄 B 第 5 節 BB_167 清單沒核對；第 6 節第 4 點三項例外（重訪日拿掉 8 個回憶選項已做；A2-L5 刪 unless linesIf、ev_b4_left_an 加兩個選項沒確認）；階梯 ladder_aa_y1s2／ladder_bb_y1s2 從 AA 分支重新匯入（等 AA-B 寫回的 SHA；BB-B 02:1x：y1s2～y4s2 改由 AA 分支維護）；大二 312 室友（AA_208 第 7 節）。做完照 AA_197 1-7 大一下那一列給 AA 核對",
    "first": {
     "term": "Y1S2",
     "week": 1,
@@ -13863,6 +13870,27 @@
    },
    "source": "AA-B 2026-10-17 02:09 send_message（AA_209、AA_209 附錄，096136d2）",
    "authorized": "AA、BB 互審過（BB_180 口氣審）"
+  },
+  {
+   "id": "QA-HANDOFF-B1",
+   "title": "LAWWW-B 2026-10-17 02:3x 交班時沒跑完的測試（整合 LAWWW2-B 疊面修正、四人房、宿營修正、大一下日期之後）",
+   "area": "QA",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P0",
+   "next": "①完整單元測試重跑（最後一次全跑在 01:57 前後：253 項 5 項失敗，之後已逐一修好、個別重跑通過，但 01:57 以後改過 story3d／events／camp_y1／zones3d，整套沒有再全跑）；②瀏覽器：flow_wancai_floors（02:32 開始跑，交班中斷）、zone_transitions、flow_library_floors、flow_library_scene、flow_linze_floors、法圖相關（interior_glb_integration 的萬才館／總圖／法圖／201 部分）；③flow_camp_y1 重跑看 b9eaacf3 的 8/29 室友坐姿；④大一下重訪日 1（6/12）瀏覽器流程沒有跑過，只有單元測試；已跑過：interior_glb_integration 宿舍 ALL PASS 42、flow_dorm_hall ALL PASS、flow_camp_y1 ALL PASS（02:27）。雲端 SwiftShader 一次只跑一個瀏覽器測試",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "所有玩家",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-B 交班（使用者 2026-10-17 02:3x 正式換班）",
+   "authorized": "D83 三級測試"
   }
  ]
 }
