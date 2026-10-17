@@ -3,6 +3,7 @@
 1. [前置] 讀檔到校園 11:00。
 2. 真實操作：點小地圖打開大地圖、點「關閉」，重複 5 次——還在用的 canvas（寬×高 > 0）張數和像素總量不能越開越多。
 3. 真實操作：換區域（進兩點半 Café 再回來；[前置] 用 GAME.enter）後再開關一次，canvas 不累積。
+每次數之前用 CDP 強制回收記憶體（HeapProfiler.collectGarbage）：數的是還有人用的 canvas。
 （Playwright 手機模擬；iPhone 實機的記憶體上限要使用者確認。）
 用法：python3 tests/map_canvas_leak.py URL [輸出資料夾]"""
 import asyncio, json, sys
@@ -31,6 +32,10 @@ async def main():
                                 'flags': {'introDone': True, 'campusIntro': True, 'classDone': True}}, quiet_events=True)
         await pg.wait_for_timeout(3000)
 
+        async def stat():   # 先強制回收記憶體再數：已經沒人用、只是還沒被回收的 canvas 不算（WeakRef 在回收前還拿得到；QA-HANDOFF-B1 換區域那一項原本把它們算進去）
+            await cdp.send('HeapProfiler.collectGarbage'); await pg.wait_for_timeout(300); await cdp.send('HeapProfiler.collectGarbage')
+            return await pg.evaluate("window.__cvStat()")
+
         async def cycle(label):
             ok_open = await L.tap(pg, cdp, '#minimap')
             for _ in range(40):
@@ -44,9 +49,9 @@ async def main():
                 if await pg.evaluate("document.getElementById('bigmap').classList.contains('hide')"): break
                 await pg.wait_for_timeout(250)
             await pg.wait_for_timeout(500)
-            return ok_open and opened, await pg.evaluate("window.__cvStat()")
+            return ok_open and opened, await stat()
 
-        base = await pg.evaluate("window.__cvStat()")
+        base = await stat()
         stats = []
         for i in range(5):
             ok, s = await cycle(f'open_{i + 1}')

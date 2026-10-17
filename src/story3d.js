@@ -840,7 +840,7 @@ const STORY = (function(){
     if(!ask) return -1; last.ask=Object.assign({id:'scene_'+th+'_'+G.day+'_'+Math.round(G.hour*100)},ask); const k=await GM.choose(ask.opts.map(o=>({t:o.t})));
     const r=PHONE.answer(G,last.ask.id,k); if(r) for(const m of r.out.slice(1)) await GM.say({name:PHONE.who(m)+'（手機）'},m.text); if(GM.phoneBadge) GM.phoneBadge(); return k; }
   /* 8/29 搬進宿舍那晚（AA_195 4-2 的旁白＋BB_168 第 1 節 ev_kai_movein）：阿凱初遇 → 整理到快十點 → 第一次坐到書桌前播 DAY1_NARR → 22:40 阿凱的冷氣訊息 → 目標。
-     台詞全部照企劃原文（D79）；記 MET_KAI（阿凱的宿舍階梯 K-D1～ 要它）、阿凱 ACQUAINTANCE、手機聯絡人。中途關掉：讀檔回到那天的宿舍再演一次（game3d.js applySave）*/
+     台詞全部照企劃原文（D79）；室友在不在房間看 G.zone（區域物件 E.zone 沒有 id：原本寫 E.zone.id，三個室友一直沒生出來，QA-HANDOFF-B1 flow_camp_y1）；記 MET_KAI（阿凱的宿舍階梯 K-D1～ 要它）、阿凱 ACQUAINTANCE、手機聯絡人。中途關掉：讀檔回到那天的宿舍再演一次（game3d.js applySave）*/
   async function kaiMoveIn(GM){ const G=GM.G, F=G.flags, E=GM.E, P=E&&E.player; if(F.KAI_MOVEIN) return false; GM.sceneBegin(); GM.letterbox(true);
     try{ const kai=GM.npc.kai, who=kaiWho(GM), npcWho=id=>GM.npc[id]||{name:typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id,charId:id}, bo=npcWho('classmate_bohan'), zhe=npcWho('zhe');
       if(typeof ADV!=='undefined') ADV.begin({background:'blur',right:'classmate_bohan'});   /* 四人房（AA_208 2-1，使用者 00:5x）：柏翰早上就搬好了 */
@@ -863,7 +863,7 @@ const STORY = (function(){
       await GM.fade(true); if(G.hour<21+55/60) GM.advance(21+55/60-G.hour); if(E) E.endCinematic();
       const desk=(E.interactables||[]).find(x=>x.deskStudy), seat=desk&&desk.seat;   /* 整理到晚上，第一次坐到書桌前（AA_195 4-2 第 3 點）*/
       if(seat&&P){ GM.sitAt(P,seat); E.cam.distTarget=3.2; }   /* 畫面是暗的時候直接坐好（sitAt 會放到座位上）*/
-      if(E&&E.zone&&E.zone.id==='dorm'){ try{ if(!GM.npc.kai&&GM.spawnNPC) GM.spawnNPC('kai',C.kai,0,0,{seat:dormSeat('R2'),talk:n=>talkKai(GM,n)}); for(const [id,u] of [['classmate_bohan','R1'],['zhe','L1']]) if(!GM.npc[id]&&CHARACTERS[id]&&GM.spawnCharacter){ const st=dormSeat(u); GM.spawnCharacter(id,st.x,st.z,{seat:st,pose:'sit'}); } }catch(e){ console.warn('8/29 室友',e); } }   /* 搬進來那晚三個室友坐在自己的書桌前（進房間時還沒搬，populate 生不出來；DORM-LOFT-L）*/
+      if(E&&E.zone&&G.zone==='dorm'){ try{ if(!GM.npc.kai&&GM.spawnNPC) GM.spawnNPC('kai',C.kai,0,0,{seat:dormSeat('R2'),talk:n=>talkKai(GM,n)}); for(const [id,u] of [['classmate_bohan','R1'],['zhe','L1']]) if(!GM.npc[id]&&CHARACTERS[id]&&GM.spawnCharacter){ const st=dormSeat(u); GM.spawnCharacter(id,st.x,st.z,{seat:st,pose:'sit'}); } }catch(e){ console.warn('8/29 室友',e); } }   /* 搬進來那晚三個室友坐在自己的書桌前（進房間時還沒搬，populate 生不出來；DORM-LOFT-L）*/
       await GM.fade(false); for(const t of DAY1_NARR) await GM.say(null,t); F.DAY1_NARR_SEEN=true;   /* 原文不改（從 9/3 搬過來）*/
       if(G.hour<22+40/60) GM.advance(22+40/60-G.hour);   /* 22:40 阿凱的冷氣訊息：人就坐在你後面兩公尺（BB_168 第 1 節；BB_70 4-1「他的第一則訊息是在同一個房間裡傳的」）*/
       await GM.say(null,'（十點四十，手機響了一聲。是阿凱傳的。他人就坐在你後面兩公尺。）');   /* AA-B 00:46（AA_195 4-11）：通知前一句旁白 */
@@ -2356,7 +2356,7 @@ const STORY = (function(){
     G.hour=Math.max(G.hour,27); E.hour=G.hour; if(GM.updateHUD) GM.updateHUD(); await GM.titleCard('03:00','',1400); await GM.fade(false);
     try{ await EVENTS.run(ev); } finally { await GM.fade(true); } return true; }
   S._v1={kexinFirstMsg:(GM,v)=>kexinFirstMsg(GM,v),familyGroupD1:GM=>familyGroupD1(GM),roomItems:GM=>roomItems(GM),phoneScene:(GM,th,l,a)=>phoneScene(GM,th,l,a),talkSis:(GM,n)=>talkSis(GM,n),pothosScene:GM=>pothosScene(GM),kaiBoxScene:(GM,it)=>kaiBoxScene(GM,it),nightEvent:GM=>nightEvent(GM),talkYu:(GM,n)=>talkYu(GM,n)};   /* 測試用 */
-  async function deskScene(GM,it){ const G=GM.G, F=G.flags, E=GM.E, P=E.player; GM.sceneBegin(); await GM.walkTo(P,it.seat.x,it.seat.z+0.5); GM.sitAt(P,it.seat); E.cam.distTarget=3.2; await GM.sleep(300);
+  async function deskScene(GM,it){ const G=GM.G, F=G.flags, E=GM.E, P=E.player; GM.sceneBegin(); const ap=GM.seatApproach?GM.seatApproach(it.seat):[it.seat.x,it.seat.z+0.5]; await GM.walkTo(P,ap[0],ap[1]); GM.sitAt(P,it.seat); E.cam.distTarget=3.2;   /* 四人房的書桌從側面走近（seat.ap；原本固定往 +z 0.5 m，那裡是書桌和床架，QA-HANDOFF-B1 reachability_all）*/ await GM.sleep(300);
     if(S.mainDay(G)===1&&!F.readCase){ await GM.say(null,'從課程網站印下來的案例放在桌上。「'+CASE.title.replace('指定案例：','')+'」。底下是兩頁的案例事實，最後列了三個問題。');   /* AA_195 4-1：相機案是教學用的假設案例，不寫「判決節錄」（不杜撰判決）；新局、舊局都用 */ const i=await GM.choose([{t:'認真讀完（約 1 小時）',hint:'明天上課可能用得到'},{t:'讀一半就好'},{t:'不讀了，明天再說'}]); if(i===0){ P.pose='read'; P.idlePose='read'; await GM.fade(true); GM.advance(1.1); await GM.fade(false); F.readCase='full'; GM.addNote(CASE.id,CASE.title,CASE.body); GM.addNote('law_154','民法 §154：要約與要約之引誘','貨物標定賣價陳列者，視為要約；但價目表之寄送，不視為要約。網拍頁面算哪一種，有爭論。'); GM.addNote('law_88','民法 §88：意思表示錯誤','表意人若無過失，得撤銷；撤銷後對信賴者負賠償責任（§91）。'); await GM.say(null,'你讀到最後一頁的時候，阿凱的遊戲已經打到第三場。你在頁邊寫下：「標價陳列 vs 價目表寄送——網頁到底像哪一個？」'); GM.memo('熬夜讀完了網拍相機的案例'); }
       else if(i===1){ P.pose='read'; P.idlePose='read'; await GM.fade(true); GM.advance(0.5); await GM.fade(false); F.readCase='half'; GM.addNote(CASE.id,CASE.title,CASE.body); await GM.say(null,'你看完事實部分就停了。賣家說自己少打一個零，想撤銷。至於法院怎麼判——明天再說。'); GM.memo('案例只讀了一半'); }
       else { F.readCase='none'; await GM.say(null,'你把影本推到桌角。反正一班六十幾個人，不會那麼剛好。'); GM.memo('沒有讀案例'); }

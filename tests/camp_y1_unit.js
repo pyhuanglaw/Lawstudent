@@ -23,7 +23,8 @@ const GM={get G(){ return G; },E:{q:{level:'medium'},player:P,zone:{roomAt:()=>n
   titleCard:async(a,b)=>{ cards.push(a+'｜'+(b||'')); },
   say:async(who,t)=>{ said.push(typeof who==='string'?who+'：'+t:(who&&who.name?who.name+'：'+t:t)); if(G&&/晚會是學長姐的場子|這關很簡單|十二點半，遊覽車停在校門口/.test(t)) sayHr[t.slice(0,6)]=G.hour; },
   choose:async opts=>{ if(GM.prefer){ const k=opts.findIndex(o=>GM.prefer.some(w=>o.t.indexOf(w)>=0)); if(k>=0) return k; } const want=picks.shift(); if(want==null) return 0; const k=opts.findIndex(o=>o.t.indexOf(want)>=0); return k<0?0:k; },
-  enter:async(z,sp)=>{ entered.push(z); G.zone=z; }};
+  enter:async(z,sp)=>{ entered.push(z); G.zone=z; },
+  spawnNPC(id,spec,x,z,o){ GM.spawnLog=(GM.spawnLog||[]).concat([[id,o&&o.seat]]); return null; },spawnCharacter(id,x,z,o){ GM.spawnLog=(GM.spawnLog||[]).concat([[id,o&&o.seat]]); return null; }};   /* 只記下來、回傳 null（不放進 GM.npc，事件照舊當作人物沒生出來；後面的段落不受影響）*/
 const fresh=()=>{ G={day:1,weekday:3,hour:21.2,zone:'dorm',stage:'law',name:'祐廷',money:22000,flags:{},choices:{},events:{done:{},last:{},count:0},rel:{},social:null,msgs:[],goal:''};
   SOCIAL.bind(G); EVENTS.bind(GM); if(INV.bind) INV.bind(G); said=[]; sayHr={}; cards=[]; picks=[]; entered=[]; GM.saves=0; };
 const flush=()=>new Promise(r=>setTimeout(r,10));
@@ -56,6 +57,8 @@ const day=k=>STORY.dayOfKey(k);
     check('F2. 順序：行李箱 → 柏翰已在（AA_208 2-1）→ 阿凱初遇（預設選第一個「好，謝謝」）→ 19:00 阿哲到（ZHE_CALLS_GE「哥！」／沒有「欸！」）→ 整理到快十點 → DAY1_NARR 三句 → 十點四十的旁白 → 22:40 冷氣訊息 → 阿哲、柏翰那句 → 遙控器',o.every((v,k)=>v>=0&&(k===0||v>o[k-1])),o.join(','));
     check('F3. MET_KAI、KAI_MOVEIN、阿凱 FIRST_MET＝dorm、ACQUAINTANCE、手機聯絡人有阿凱',F.MET_KAI===true&&F.KAI_MOVEIN===true&&km&&km.note==='dorm'&&SOCIAL.stage('kai')==='ACQUAINTANCE'&&G.contacts.kai!=null,JSON.stringify({km,st:SOCIAL.stage('kai')}));
     check('F4. 坐到書桌前（第一次）、站起來；22:40 以後、冷氣 27 度、目標「整理行李。缺的東西明天去公館買。」',GM.sat&&GM.sat.x===1.8&&GM.stood&&G.hour>=22+40/60-1e-6&&F.DORM_AC===27&&G.goal==='整理行李。缺的東西明天去公館買。'&&F.DAY1_NARR_SEEN===true,G.hour+' '+G.goal);
+    { const want=[['kai','R2'],['classmate_bohan','R1'],['zhe','L1']], log=GM.spawnLog||[], at=id=>log.find(x=>x[0]===id);   /* QA-HANDOFF-B1：原本判斷 E.zone.id（區域物件沒有 id），三個室友一直沒生出來；替身的 E.zone 一樣沒有 id */
+      check('F4b. 轉場後三個室友坐在四人房自己的書桌前：阿凱 R2、柏翰 R1、阿哲 L1（AA_208）',want.every(([id,u])=>{ const r=at(id), s=STORY.dormSeat(u); return r&&r[1]&&Math.abs(r[1].x-s.x)<1e-6&&Math.abs(r[1].z-s.z)<1e-6; }),JSON.stringify(log)); }
     const km2=G.msgs.filter(m=>m.th==='p:kai');
     check('F5. 手機：阿凱的對話串有冷氣訊息和回覆',km2.some(m=>m.text==='你的冷氣遙控器在我這')&&km2.some(m=>/27 可以嗎|懶得拿下來/.test(m.text)),km2.map(m=>m.text).join(' | '));
     const n0=said.length; await STORY.lawMoveIn(GM);

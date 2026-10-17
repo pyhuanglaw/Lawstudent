@@ -46,7 +46,7 @@ SCAN = r"""(()=>{ const E=GAME.E, R=0.32; const P=E.player.obj.position; const s
   if(zone==='cafe'){ story.push(['咖啡廳劇情：玩家走到桌邊（cafeScene）',4.5-0.6,-2.5+1.6]); story.push(['咖啡廳劇情：小安走到桌子對面',4.5-0.6,-2.5-1.6]); }
   if(zone==='library'&&S.length>1){ story.push(['圖書館劇情：玩家走到座位（libraryScene）',S[0].x,S[0].z-0.7]); story.push(['圖書館劇情：小安走到對面座位',S[1].x,S[1].z+0.7]); }
   if(zone==='library_hall'&&S.length>1){ story.push(['總圖劇情：玩家走到二樓長桌的座位（libraryScene，D43）',S[0].x,S[0].z-0.7,S[0].lv]); story.push(['總圖劇情：小安走到對面座位',S[1].x,S[1].z+0.7,S[1].lv]); }
-  for(const it of items){ if(it.seat&&(zone==='dorm'||zone==='noodle')) story.push([(zone==='dorm'?'宿舍書桌（deskScene）':'麵店座位（noodleScene）')+'：'+it.label,it.seat.x,it.seat.z+0.5]); }
+  for(const it of items){ if(it.seat&&(zone==='dorm'||zone==='noodle')) story.push([(zone==='dorm'?'宿舍書桌（deskScene）':'麵店座位（noodleScene）')+'：'+it.label,...(zone==='dorm'&&GAME.seatApproach?GAME.seatApproach(it.seat):[it.seat.x,it.seat.z+0.5])]); }   /* 宿舍書桌：deskScene 和「坐下」一樣走到 seatApproach（四人房從側面走近）*/
   out.story=story.map(([lab,x,z,lv])=>{ const st=E.canStand(x,z,R,lv===undefined?slv:lv); const w=walk(x,z,lv); return {label:lab,x:+x.toFixed(2),z:+z.toFixed(2),stand:st,ok:w.ok,fail:w.ok?null:w}; });   /* lv：劇情走到別的樓層（總圖二樓）*/
   return out; })()"""
 

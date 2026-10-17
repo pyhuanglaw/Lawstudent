@@ -5,7 +5,9 @@ W3.lampPost／W3.bike（含 W3.bikeRack）／長椅 BENCH() 換成正式模型�
   3. 長椅：userData.seat.y＝0.45；寬約 1.35 m、深度在導航阻擋（1.4×0.7）裡；正面朝 +z。
   3b. ⑥（2026-10-11）花台 W3.planter、公告欄 W3.bulletin、販賣機 W3.vending：是正式模型、外框在程序化版本的範圍（導航阻擋）裡、著地；校園畫面上有它們的材質。
   4. 一般網址與 ?nobldg（關掉正式模型）的導航格、互動點、座位完全相同（校園、溫州街、公館）。
-  5. 載入失敗（把 street_props.glb 的請求擋掉）：照舊程序化，沒有 JS 例外、沒有空位。
+  5. 下載失敗（把 street_props.glb 的請求擋掉 30 秒）：照使用者 2026-10-17「不管怎麼樣都不能讓遊戲進入自動退化成醜的模型」（27e2fb48 ASSETS.ensure），
+     不進遊戲、載入畫面寫「重新下載中」；網路恢復（不再擋）後自動重抓、進遊戲，用的是正式模型，導航格和其他模式相同、沒有 JS 例外。
+     （2026-10-17 以前這一項檢查「照舊程序化」；規則改了，QA-HANDOFF-B1 改測試。）
   6. 記錄同一個鏡頭（藏起路人）的 draw call／三角形（校園：腳踏車、路燈最多的地方；資訊，不判定）。
 [前置／捷徑]：用遊戲自己的讀檔把玩家放進區域（GAME.applySave），關掉條件事件；直接設鏡頭量 draw call。
 用法：python3 tests/street_props_integration.py http://127.0.0.1:8765/index.html"""
@@ -47,9 +49,19 @@ ZONES = [('campus', {'x': -40, 'z': -5, 'yaw': -1.5708}, [('avenue', [-40, 1.7, 
 async def run_mode(p, run, mode):
     url = URL + ('?nobldg' if mode == 'nobldg' else '')
     b, ctx, pg, cdp, errs = await PL.launch(p, landscape=True)
+    import time; t0 = time.time()
     if mode == 'broken':
-        await pg.route('**/street_props.glb', lambda route: route.abort())
-    import time; t0 = time.time(); await pg.goto(url); ok = await PL.wait_loaded(pg); run.check(f'{mode}：遊戲載入', ok)
+        blocked = {'n': 0}
+        async def deny(route): blocked['n'] += 1; await route.abort()
+        await pg.route('**/street_props.glb*', deny)
+        await pg.goto(url); await pg.wait_for_timeout(30000)
+        st = await pg.evaluate("({hidden:document.getElementById('loading').classList.contains('hide'), msg:(document.getElementById('loadMsg')||{}).textContent||'', err:ASSETS.lastErr||''})")
+        run.check('broken：擋掉 30 秒——還在載入畫面（不退化成程序化道具進遊戲）、畫面寫「重新下載中」、重抓了不只一次', not st['hidden'] and '重新下載中' in st['msg'] and blocked['n'] >= 2, json.dumps(dict(st, blocked=blocked['n']), ensure_ascii=False))
+        await pg.unroute('**/street_props.glb*')
+    else:
+        await pg.goto(url)
+    ok = await PL.wait_loaded(pg); run.check(f'{mode}：遊戲載入' + ('（網路恢復後自動重抓）' if mode == 'broken' else ''), ok)
+    if mode == 'broken': run.check('broken：網路恢復後用的是正式模型（prop.street 已載入）', await pg.evaluate("!!(ASSETS.getRaw&&ASSETS.getRaw('prop.street'))"))
     run.note(f'{mode}：從開網頁到載入完成 {time.time() - t0:.1f} 秒（SwiftShader 模擬，只能相對比較）')
     res = {'errs': errs}
     if mode == 'formal':
@@ -98,9 +110,9 @@ async def main():
         f, n, k = R['formal']['zones'][zid], R['nobldg']['zones'][zid], R['broken']['zones'][zid]
         run.check(f'{zid}：導航格，正式模型＝?nobldg＝載入失敗', f['nav'] == n['nav'] == k['nav'], json.dumps([f['nav'], n['nav'], k['nav']]))
         run.check(f'{zid}：互動點、座位，正式模型＝?nobldg', f['it'] == n['it'] and f['seats'] == n['seats'], json.dumps([len(f['it']), len(n['it']), len(f['seats']), len(n['seats'])]))
-        run.check(f'{zid}：正式模型的材質出現在畫面上；?nobldg、載入失敗時沒有（照舊程序化）', f['formalMats'] > 0 and n['formalMats'] == 0 and k['formalMats'] == 0, json.dumps([f['formalMats'], n['formalMats'], k['formalMats']]))
+        run.check(f'{zid}：正式模型的材質出現在畫面上（下載失敗、網路恢復後也是）；?nobldg 沒有（照舊程序化）', f['formalMats'] > 0 and n['formalMats'] == 0 and k['formalMats'] > 0, json.dumps([f['formalMats'], n['formalMats'], k['formalMats']]))
         if zid == 'campus':
-            run.check('campus：⑥花台、公告欄、販賣機的正式模型在畫面上（法學院廣場、椰林大道的花台）；?nobldg、載入失敗時沒有', sorted(f['props6']) == ['board_cork', 'planter_conc', 'vend_body'] and not n['props6'] and not k['props6'], json.dumps([f['props6'], n['props6'], k['props6']]))
+            run.check('campus：⑥花台、公告欄、販賣機的正式模型在畫面上（法學院廣場、椰林大道的花台；下載失敗後恢復也是）；?nobldg 沒有', sorted(f['props6']) == ['board_cork', 'planter_conc', 'vend_body'] and not n['props6'] and sorted(k['props6']) == sorted(f['props6']), json.dumps([f['props6'], n['props6'], k['props6']]))
         run.note(f'{zid}：同一個鏡頭（藏起路人）的 draw call／三角形，正式 {json.dumps(f["draw"])}｜?nobldg {json.dumps(n["draw"])}')
     sys.exit(run.finish())
 
