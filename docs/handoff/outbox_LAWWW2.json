@@ -35,7 +35,7 @@
   {
    "task": "ART-BIKES2-F",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "fbd7d05e",
+   "sha": "09f2660a",
    "files": [
     "tools/blender/env_second/street_props.py",
     "assets/models/env/second_ai/street_props.glb",
@@ -43,12 +43,12 @@
     "docs/art-rebuild/second_ai/patches/bikes_v2f.patch",
     "docs/art-rebuild/second_ai/test_shots/bikes_v2/README.md"
    ],
-   "state": "WIP",
-   "remaining": "遊戲內前後截圖（拍攝中）、八項紀錄、Blender 渲染；street_props_integration 沒跑",
-   "next": "LAWWW2-C 補截圖與八項後改成已交付",
-   "noDirectIntegrate": true,
+   "state": "已交付",
+   "remaining": "遊戲內補拍塑膠籃、老鐵馬（整合後）；street_props_integration 由 LAWWW 整合時跑",
+   "next": "LAWWW 依序套 scooters_v2_a39a6812.patch → bikes_v2f.patch（取代 bikes_v2.patch）、換 street_props.glb＋json、跑 tests/street_props_integration.py",
+   "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "未派"
+   "ack": "SENT"
   },
   {
    "task": "ART-04",
