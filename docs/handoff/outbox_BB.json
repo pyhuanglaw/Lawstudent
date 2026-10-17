@@ -598,6 +598,34 @@
    "noDirectIntegrate": false,
    "receiver": "AA+LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "芷若×子晴 摯友到戀人 機制（BB_194 §23；對齊 AA_232 4-0 使用者批准的日期，含 4-2 21:50、入場旁白、F3／4-2b 依狀態）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "bac109ce",
+   "files": [
+    "docs/story_planning/BB_194_多線交往_知情_說謊承諾_挽回_機制總表.md"
+   ],
+   "state": "已交付（PROPOSAL）",
+   "remaining": "AA 寫入場旁白各格、4-2b 情侶版、serious_again 開頭；使用者回 23-9 第 4、5 題",
+   "next": "使用者審 → LAWWW 盤點",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
+  },
+  {
+   "task": "BB 五人閒聊階梯稽核：給 AA 的台詞清單（BB_196）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "eef690ab",
+   "files": [
+    "docs/story_planning/BB_196_閒聊階梯稽核_BB五人_給AA的台詞清單.md"
+   ],
+   "state": "已交付",
+   "remaining": "機制約 38 項 BB 修改中",
+   "next": "AA 改台詞；BB 推機制修正",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
   }
  ]
 }
