@@ -114,7 +114,7 @@ D['characters'][YT] = {'steps': [
 ],'greet':{'base':['……嗯。','（她拿著年度合集）……不要翻到最後一段。','……阿姨用日本的醬油了。一點點。','……最後一學期的總圖，好像比較安靜。','……你也來了。'],
  'when':[{'weekday':[4],'time':[17,21.5],'location':['library_hall','library'],'t':'（總圖三樓）……以安也在。我們都不講話。'},
          {'location':['noodle'],'weekday':[2],'time':[17.5,20],'t':'……今天是我。工讀生在洗碗。'},
-         {'weekday':[6],'time':[9,12],'location':['wancai'],'weekParity':'odd','t':'……最後一學期的法服。我把椅子留給學弟妹擺。'},
+         {'weekday':[6],'time':[10,12],'location':['library','library_hall'],'t':'……最後一學期了。三樓那個位子，我讓給學妹了。'},
          {'week':[8,9],'t':'……期中。最後一次期中。'},
          {'weather':'rain','t':'……下雨。……你帶傘了嗎。'}]},
  'note':'大四下語彤：16b、事件 17 一起畢業；階梯只寫事件之外'}
