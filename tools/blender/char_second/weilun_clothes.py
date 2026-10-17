@@ -225,6 +225,23 @@ def unpaint_socks(body, z_max=0.22, z_ref=(0.33, 0.50), name='W01_Body_nosock'):
     return n
 
 
+def cull_skin_keep(body, obj, bands):
+    """K.cull_skin，但 bands（參考空間的高度範圍 [(z0, z1), …]）裡的皮膚面不刪：
+    第六版（BB-C 第 7 點的真正原因）：襪口、短褲褲口正下方那一圈皮膚在綁定姿勢下「從外面看不到」被刪掉，待機動畫小腿一動、襪口張開，
+    從後上方看進去是腿的裡面（深棕色的斑點）——襪口、褲口下面 4 cm 的皮膚留著，張開時看到的是皮膚"""
+    orig = C.delete_faces
+    def df(o, pm):
+        if o is body:
+            Mw = np.array(o.matrix_world); Z = (C.co(o) @ Mw[:3, :3].T + Mw[:3, 3])[:, 2]
+            keep = np.zeros(len(Z), bool)
+            for z0, z1 in bands: keep |= (Z > z0) & (Z < z1)
+            pm = np.array([bool(m) and not any(keep[v] for v in p.vertices) for m, p in zip(pm, o.data.polygons)])
+        return orig(o, pm)
+    C.delete_faces = df
+    try: return K.cull_skin(body, obj)
+    finally: C.delete_faces = orig
+
+
 def _texture(rgb, S=1024):
     keep = K.KNIT_RGB; K.KNIT_RGB = rgb
     try: return K.jersey_texture(S)
@@ -273,7 +290,8 @@ def _apply(m, arm, body):
     for p in me.polygons: tris[p.material_index] = tris.get(p.material_index, 0) + len(p.vertices) - 2
     print('  clothes: verts %d faces %d (bad %d) tris jacket %d jeans %d shoes %d tee %d panel %d zip %d' % (
         len(me.vertices), len(me.polygons), bad, *[tris.get(i, 0) for i in range(6)]))
-    n = K.cull_skin(body, obj)
+    hem = 0.049 + K.PANTS_HEM_UP
+    n = cull_skin_keep(body, obj, [(SOCK_Z[1] - 0.045, SOCK_Z[1] + 0.01), (hem - 0.045, hem + 0.03)])
     print('  culled skin faces', n)
     m['clothes'] = obj
     return obj
