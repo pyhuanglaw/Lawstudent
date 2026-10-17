@@ -284,12 +284,14 @@ const DATE=(function(){
     const k=await GM.choose([{t:'（告訴她）'},{t:'（今天先不說）'}]); if(k!==0) return false; return S.confess(GM,id,c,t); };
   S.confess=async function(GM,id,c,t){ const G=GM.G, D=CL(id), L=S.log(G,id), me={name:nameOf(id),charId:id};
     const run=async lines=>{ for(const ln of (lines||[])){ if(ln==null) continue; const x=typeof ln==='string'?{who:id,text:ln}:ln, o=x.expr?{expr:x.expr}:undefined;
+        if(Array.isArray(x.choice)){ const kk=await GM.choose(x.choice.map(q=>({t:q.t}))); await run((x.choice[kk]||{}).say); continue; }   /* 中間的小選擇（例：學姊婉拒以後「好。」／「我知道了。」）*/
         if(x.who==='narr') await GM.say(null,/^（/.test(x.text)?x.text:'（'+x.text+'）'); else if(x.who==='player') await GM.say({name:G.name||'祐廷'},x.text); else if(x.who===id) await GM.say(me,x.text,o); else await GM.say({name:nameOf(x.who),charId:x.who},x.text,o); } };
     await run(CV(D.say,G,t)); let k=-1; const ch=CV(D.choice,G,t); if(Array.isArray(ch)&&ch.length){ k=await GM.choose(ch.map(q=>({t:q.t}))); await run((ch[k]||{}).say); }
-    const res=c.decline==='preexam'?'preexam':(typeof D.decide==='function'?D.decide(G,t,k):'yes');
+    const res=c.decline==='preexam'?'preexam':(typeof D.unwillingIf==='function'&&D.unwillingIf(G,t)?'unwilling':(typeof D.decide==='function'?D.decide(G,t,k):'yes'));   /* unwilling：她當時不願意（AA_223：沛珊重考期等），選項照樣出現、她婉拒、不鎖線 */
     if(res==='yes'&&typeof ROM!=='undefined'&&ROM.start&&ROM.start(G,id)){ await run(CV(D.yes,G,t,k)); (G.flags.confessed||(G.flags.confessed={}))[id]=G.day; return 'yes'; }
     L.notYet={day:G.day,count:L.count|0};
     if(res==='preexam'){ await run(CV(D.preexam,G,t,k)); if(D.preexamFlag) G.flags[D.preexamFlag]=G.day; return 'preexam'; }
+    if(res==='unwilling'){ await run(CV(D.unwilling,G,t,k)); return 'unwilling'; }
     await run(CV(D.notYet,G,t,k)); if(D.notYetFlag) G.flags[D.notYetFlag]=G.day; return 'notYet'; };
   /* 快速約會可以做的兩個：她喜歡的優先，不夠用普通的補（不用她不太喜歡的）；時間要夠。少於兩個就不提供 */
   S.quickPick=function(G,id,pts,endH){ const now=G.day*24+G.hour; let tot=0; const ok=[]; for(const lk of ['like','normal']) for(const p of pts){ if(ok.length>=2) break; if(S.likeOf(id,p.id)!==lk||ok.includes(p)) continue; if(now+(tot+(p.min|0))/60>endH) continue; ok.push(p); tot+=p.min|0; } return ok.length>=2?ok:null; };

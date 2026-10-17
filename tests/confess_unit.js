@@ -28,7 +28,7 @@ const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
 GM.money=d=>{ G.money+=d; }; GM.toast=()=>{}; GM.caption=()=>{}; GM.updateHUD=()=>{};
 const ADV2=global.ADV; ADV2.active=false;
 (async()=>{
-  check('0. 正式資料表 CONFESS_LINES：只有 AA 定稿的以安、語彤（AA_187 第 9 節 @6a0d2030）；其他五位還沒交付',JSON.stringify(Object.keys(CONFESS_LINES).sort())==='["heroine_01","heroine_03"]');
+  check('0. 正式資料表 CONFESS_LINES：以安、語彤（AA_187 第 9 節）＋學姊、芷若、沛珊（AA_223）；子晴還沒（開頭句綁吃東西，問 AA）',JSON.stringify(Object.keys(CONFESS_LINES).sort())==='["classmate_peishan","heroine_01","heroine_02","heroine_03","heroine_05"]',JSON.stringify(Object.keys(CONFESS_LINES)));
   const REAL=Object.assign({},CONFESS_LINES);
   const day=termDay('Y1S2',5,6); OUT.BG.d13_base_sunset=OUT.BG.d13_base_sunset||{label:'淡水',image:'x'};
   const ready=(id,o)=>{ o=o||{}; SOCIAL.meet(id,'campus'); const r=SOCIAL.rel(id); Object.assign(r,{fam:70,trust:55,comf:50,npcRom:60,rom:35}); const L=DATE.log(G,id); L.count=o.count==null?3:o.count; L.wish=true; G.contacts=G.contacts||{}; G.contacts[id]=1; };
@@ -71,5 +71,20 @@ const ADV2=global.ADV; ADV2.active=false;
   check('9. 以安（玩家約的）：「今天是你約的。……」→ 選「我喜歡妳。妳不用現在回答。」→ 手帳旁白…「我現在就可以回答。」「好。我們在一起。」、交往中、沒有「十七次」',G.flags.dating_heroine_01===true&&r.L.includes('沈以安：今天是你約的。……你是不是有話要說？')&&r.L.includes('（她翻開手帳，翻到後面某一頁，又闔起來。）')&&iA>0&&r.L[iA-1]==='沈以安：我現在就可以回答。'&&!r.L.some(x=>/十七次/.test(x)),JSON.stringify(r.L.slice(-7)));
   fresh(day,9,'dorm',{}); ready('heroine_01'); r=await go('heroine_01',['河邊欄杆','差不多了','告訴她','不只是朋友']);
   check('9. 以安選第二個（沒去過讀書會＝「我們可以不只是朋友嗎？」）：沒有「我現在就可以回答。」',G.flags.dating_heroine_01===true&&r.O.some(o=>o.includes('「我們可以不只是朋友嗎？」'))&&!r.L.includes('沈以安：我現在就可以回答。'));
+  // 10 AA_223：學姊（筆試前婉拒兩次、筆試後答應多一句）
+  { const pre=STORY.dayOfKey('2026-01-10'); fresh(pre,9,'dorm',{}); ready('heroine_05'); r=await go('heroine_05',['河邊欄杆','差不多了','告訴她','直屬','好。']);
+    check('10. 學姊筆試前：三選一（「我們可以不只是直屬嗎？」）→ 婉拒三句 →「好。」→「嗯。明天八點，法圖。」、記 SIS_DECLINED_PREEXAM、沒有交往',r.O.some(o=>o.includes('「我們可以不只是直屬嗎？」'))&&r.L.includes('溫書瑀：可是我現在不想交往。考完試以前，我只想把書讀完。')&&r.L.includes('溫書瑀：嗯。明天八點，法圖。')&&!!G.flags.SIS_DECLINED_PREEXAM&&!G.flags.dating_heroine_05,JSON.stringify(r.L.slice(-6)));
+    G.day+=15; G.weekday=wdOf(G.day); r=await go('heroine_05',['河邊欄杆','差不多了','告訴她','我喜歡妳。」']);
+    check('10. 筆試前再說一次：「我上次說的，現在還是一樣。」「不是你不好。……」',r.L.includes('溫書瑀：我上次說的，現在還是一樣。')&&!G.flags.dating_heroine_05,JSON.stringify(r.L.slice(-4)));
+    G.day=STORY.dayOfKey('2026-03-02'); G.weekday=wdOf(G.day); DATE.log(G,'heroine_05').notYet=null; r=await go('heroine_05',['河邊欄杆','差不多了','告訴她','我喜歡妳。」']); const iH=r.L.indexOf('溫書瑀：好。');
+    check('10. 筆試後：「時間差不多了。……」→ 答應，婉拒過的人「好。」前多「你上次說的，我有記得。」、交往中',G.flags.dating_heroine_05===true&&r.L.includes('溫書瑀：時間差不多了。……你剛剛好像一直想講什麼。')&&iH>0&&r.L[iH-1]==='溫書瑀：你上次說的，我有記得。',JSON.stringify(r.L.slice(-6))); }
+  // 芷若：只在有看電影的約會（D04、D05）
+  fresh(day,9,'dorm',{}); ready('heroine_02',{count:4}); check('10. 芷若：淡水收尾不出現（開頭句是「今天的電影」）、西門町電影院可以',DATE.confessReady(G,'heroine_02',{who:'heroine_02',locs:['D13']}).why==='place'&&DATE.confessReady(G,'heroine_02',{who:'heroine_02',locs:['D04']}).ok);
+  // 沛珊：重考期間不願意
+  { fresh(termDay('Y2S1',8,6),9,'dorm',{PEISHAN_RETAKE:true}); ready('classmate_peishan'); r=await go('classmate_peishan',['河邊欄杆','差不多了','告訴她','朋友']);
+    check('10. 沛珊重考期（大二上第 8 週、PEISHAN_RETAKE）：選項出現、她說「我現在要先顧考試……」、沒有交往、兩週冷卻',r.L.includes('郭沛珊：我現在要先顧考試，沒辦法想這個。對不起。')&&!G.flags.dating_classmate_peishan&&DATE.confessReady(G,'classmate_peishan',{who:'classmate_peishan',locs:['D13']}).why==='notYet',JSON.stringify(r.L.slice(-3)));
+    fresh(day,9,'dorm',{}); ready('classmate_peishan',{count:4}); check('10. 沛珊大一下（和柏翰交往的期間，AA_223 第 4 節）：不出現（她自己有伴侶）',DATE.confessReady(G,'classmate_peishan',{who:'classmate_peishan',locs:['D13']}).why==='partner');
+    fresh(termDay('Y1S1',12,6),9,'dorm',{}); ready('classmate_peishan'); r=await go('classmate_peishan',['河邊欄杆','差不多了','告訴她','我喜歡妳。」']);
+    check('10. 沛珊大一上：「今天謝謝你約我。……」→ 答應四句、交往中',G.flags.dating_classmate_peishan===true&&r.L.includes('郭沛珊：今天謝謝你約我。……你要講什麼嗎？')&&r.L.includes('郭沛珊：好啦。好。以後我會一直問你問題喔。'),JSON.stringify(r.L.slice(-6))); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
