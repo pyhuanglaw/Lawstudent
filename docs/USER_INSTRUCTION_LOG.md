@@ -13,6 +13,11 @@
 
 ---
 
+## 2026-10-17 約 05:0x UTC（使用者直接對 LAWWW-C）改善四職位工作佇列與自動接續效率（D96／HV-13）
+- **要求**：一次規劃多項任務、回合內連續做多個不衝突步驟；send_later 只在結束回合且還有工作時排、不重複；批次回報；背景測試＋前景不衝突工作；比較成本；保留 D87、D90、commit＋push；寫進永久規則、同步三職位。
+- **成本**：LAWWW-C 04:07～04:59：8 回合、約 247 次工具、5 次 send_later（至少 3 次在工作中途觸發）。改善：背景工作完成通知叫醒、同時最多一個接續、批次回報。
+- **寫入**：CLAUDE.md D96、AI_SESSION_HANDOFF 開頭表、第 4 節第 14 步、第 13 節 HV-13、PROJECT_DECISIONS D96（本 commit）。通知 LAWWW2-C、AA-C、BB-C。
+
 ## 2026-10-17 約 04:4x～04:5x UTC（使用者授權 ChatGPT 直接寫入 RULE_SOURCE，並對 LAWWW-C 確認）休班帳號回歸自動找最新規則（HV-12a）
 - **要求**：A／B／C 任一帳號回來只需說「我回來了，請同步 GitHub 最新進度，接續工作。」；接班者自行 fetch、`duty find` 找 RULE_SOURCE、讀最新規則／交班紀錄／WIP／待辦、照十四步接班後直接延續；不依賴舊對話、不假設只有 A／B、不要求使用者提醒版本或分支名。限制：舊工作階段要實際重新同步 GitHub 才讀得到。
 - **commit**：使用者（ChatGPT）28aac0e2（AI_SESSION_HANDOFF.md）、936a158e（CLAUDE.md），直接推到 claude/adoring-meitner-mqzst8；LAWWW-C 本機的 30811b37 用 merge 合併（2db5b632），沒有 force push。

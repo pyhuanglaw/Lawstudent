@@ -30,6 +30,7 @@
 | **D93／HV-11（10-17）** | **所有職位持續登記待辦、交接逐職位核對**：四個職位的新任務、衍生待辦、已批准未實作的企劃、待整合成果、未完成測試都要持續登記；各職位寫自己交接檔的「全部待辦」，值班 LAWWW 同步進總表；交班、接班都逐職位比對（`check_handoff.py roles`），不能只對上一任 LAWWW 的清單；沒登記完不得宣稱交接完整 | 接班第 9 步、交班存快照前都跑 `roles`；其他職位的交接檔要有「全部待辦」一節 |
 | **D94／HV-12（10-17）** | **增量交接**：四職位已核對水位線 `docs/handoff/watermarks.json`，只核對水位線以後的新 commit（每個都要結構化分類）；交付當下在自己分支的 `outbox_<職位>.json` 登記（`docs/handoff/OUTBOX_TEMPLATE.md`）；永久 WIP 索引 `wip.json`；劇情匯入白名單 | 接班第 7、8 步、交班快照前跑 `check_handoff.py incr`；通過且 push 後 `--advance` |
 | **D95／HV-12（10-17）** | **自主連續工作的執行方式**：短回合不是停工；回合結束前保存、讀通知，佇列還有就 send_later 接續；回報不是結束；接不下去照實說 | 每個回合結束前 |
+| **D96／HV-13（10-17）** | **工作佇列與自動接續效率**：一個回合連續做多項不衝突的工作，到安全節點才保存結束；send_later 只在結束回合且還有工作時排、一次最多一個、有背景通知就不排；批次回報 | 每個回合規劃、結束前 |
 
 另外：戀愛規則是「可以同時和多位交往、每段各自計算」（企劃線 AA_140 第 0 節）；可昕生日改 4/24、12/3 改成「第一份報告交出去的晚上」（AA_140 G01）。
 
@@ -181,7 +182,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 | 11 | **合併上一任的有效成果**（不 rebase、不 force push、不 reset、不用空白分支取代原成果） | LAWWW：`git merge --no-edit origin/<RULE_SOURCE>`；LAWWW2：合併上一任 LAWWW2 的分支和要接著做的 WIP；AA、BB：企劃線照舊（AA 合併兩人的分支、BB 再拉）。衝突兩邊都保留，看不懂先問使用者 |
 | 12 | **登記新的值班狀態** | LAWWW：`duty register --account <X> --role LAWWW --session <自己> --branch <自己的分支>` → 改值班表（第 1 節）、第 12 節、`duty sync`（收其他職位的登記）→ commit＋push、核對遠端 SHA。其他職位：`duty register ... --ref origin/<RULE_SOURCE>`（只寫自己分支上的 `duty_<職位>.json`，有 WIP 加 `--wip <分支>`）→ commit＋push → 同帳號值班中的 LAWWW 用 `send_message` 通知，LAWWW `duty sync` 收進來 |
 | 13 | **回報使用者「接班確認」**（第 6 節格式：含值班狀態、對帳結果、異常） | `duty verify` 結束碼寫進去；有異常照實寫 |
-| 14 | **立刻接續未完成工作**，不用使用者再說「開工」 | `python3 tools/handoff/check_handoff.py queue --owner <職位>`（D81 順序）；D87 自主連續；**D95：回合結束前保存、讀通知，佇列還有可做的就 send_later 自己接續，回報不是結束** |
+| 14 | **立刻接續未完成工作**，不用使用者再說「開工」 | `python3 tools/handoff/check_handoff.py queue --owner <職位>`（D81 順序）；D87 自主連續；**D95：回合結束前保存、讀通知，佇列還有可做的就 send_later 自己接續，回報不是結束**；**D96：一回合連續做多項、send_later 同時最多一個、有背景通知就不排、批次回報** |
 
 - **第 4、7、8 步一律加 `--ref origin/<RULE_SOURCE>`**：那時還沒合併（第 11 步才合併），從 RULE_SOURCE 讀才是最新的值班狀態與總表；LAWWW 合併以後在自己的分支 `duty register`，其他職位登記時照樣加 `--ref`。
 - **找對方的 session ID**：`duty.json` 的 `roles`（或 `duty plan`）；同一帳號內 `list_sessions` 看標題。**只聯絡同一個帳號、值班中的職位（D75）**。
@@ -548,6 +549,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 版本 | 日期（UTC） | 內容 | 使用者決策來源 | 寫在哪 | SHA |
 |---|---|---|---|---|---|
+| **HV-13** | 2026-10-17 | **D96 工作佇列與自動接續效率**（補充 D90／D95）：一次規劃多項已授權工作、回合內連續做不衝突的步驟、安全節點才保存結束；send_later 只在真的結束回合且還有工作時排、同時最多一個、有背景工作會通知就不排、不排會在工作中途觸發的接續；批次回報；背景測試＋前景不衝突工作；以開發效率為準（成本紀錄見 CLAUDE.md D96 第 6 點）；D87、D90、D45 照舊 | 使用者 2026-10-17 05:0x【P0｜改善四職位工作佇列與自動接續效率】 | CLAUDE.md D96 一節、本檔開頭表、PROJECT_DECISIONS D96、USER_INSTRUCTION_LOG | （本 commit） |
 | **HV-12a** | 2026-10-17 | **休班帳號回歸自動找最新規則**（使用者授權 ChatGPT 直接寫入）：A／B／C 任一帳號的既有工作階段收到「我回來了，請同步 GitHub 最新進度，接續工作。」就自行 fetch 全部分支、`duty find` 照登記鏈找 RULE_SOURCE、讀最新規則、交班紀錄、WIP 與待辦、照十四步接班；不依賴舊對話或舊版 CLAUDE.md、不假設只有 A／B 或上一任一定是 B、不要求使用者提醒規則版本或分支名。和 D92（duty find、十四步）、D94（WIP 索引）相容；LAWWW-C 核對 diff（只新增、無刪除），並把第 0a、8 節與 CLAUDE.md 開頭寫死的「現在是 modest-rubin」改成以 `duty find` 為準 | 使用者 2026-10-17 04:4x（ChatGPT 代寫，28aac0e2、936a158e；使用者 04:5x 對 LAWWW-C 確認授權） | CLAUDE.md、本檔開頭兩段＋第 0a、8 節 | 28aac0e2、936a158e、（本 commit） |
 | **HV-12** | 2026-10-17 | **D94 增量交接**：四職位已核對水位線（`watermarks.json`；只核對以後的新 commit、每個都要結構化分類、通過且 push 才前進、歷史改寫／分岔／SHA 不見／未結消失 fail closed）；交付當下登記 outbox（`OUTBOX_TEMPLATE.md`）；`ignored` 列舉 kind；`roles` 錨定標題、0 項或無 ID 報異常；永久 WIP 索引 `wip.json`（快照比對不能消失）；劇情匯入白名單；`check_handoff.py incr`；回歸測試 `tests/handoff_incremental_unit.py`（兩起事故＋帳號 B 真實資料）。成本：B 全面 255 筆 → 增量 26 筆（0.2 秒）→ 1 筆。**D95 自主連續工作的執行方式**（澄清 D87／D90：短回合不是停工、send_later 接續、回報不是結束、接不下去照實說、LAWWW 確認四職位不閒置）。D92、D93 的檢查全部保留 | 使用者 2026-10-17 04:2x【P0｜交接制度效能改善】、04:3x【P0｜修正四職位自主連續工作方式】；交班後補記 USER_DIRECTIVE_NEXT_DUTY_2026-10-17 | CLAUDE.md 兩節、本檔第 4 節第 8、14 步、第 5 節第 3 步、PROJECT_DECISIONS D94、D95、USER_INSTRUCTION_LOG、`tools/handoff/incremental.py`、`check_handoff.py incr`、`tools/story/import_guard.py`、`docs/handoff/{watermarks,wip,story_import_allow}.json` | 1caeedb7、edcde94e、a3d60445、（本 commit） |
 | **HV-11** | 2026-10-17 | **D93 所有職位持續登記待辦、交接逐職位核對**：四個職位工作期間持續登記五種待辦（新增任務、衍生待辦、已批准未實作的企劃、待整合成果、未完成測試）；各職位寫自己交接檔的「全部待辦」、值班 LAWWW 同步進 `tasks.json`；交班、接班都跑 `check_handoff.py roles` 逐職位比對（不能只對上一任 LAWWW 的清單），OK 或每項異常都處理過才能說交接完整；`meta.offList`（【表外】對到哪個任務）、`meta.reconcileIgnore`（不是任務的子項編號）、任務的 `aliases`。第一次核對找到漏登 12 項，已補（89e254a1） | 使用者 2026-10-17 約 00:3x（對 LAWWW-B：「再請 LAWWW-B 補強一句永久規則……每次交班及接班必須逐職位比對」） | CLAUDE.md D93 一節、本檔第 4 節第 3、9 步、第 5 節 B 類與第 3 步、第 6 節、第 7 節八份提示詞、`tools/handoff/check_handoff.py roles`、PROJECT_DECISIONS D93、USER_INSTRUCTION_LOG | f1bee4b0、89e254a1、（本 commit） |
