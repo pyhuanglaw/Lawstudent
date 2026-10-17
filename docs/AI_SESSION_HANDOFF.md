@@ -1,5 +1,8 @@
 # 四個職位的跨帳號接班（帳號 A、B、C 任意方向輪值）——總入口
 
+> **📌 下一班（A／C）接班必讀｜2026-10-17 使用者交班後追加的明確指示：** [`docs/handoff/USER_DIRECTIVE_NEXT_DUTY_2026-10-17.md`](handoff/USER_DIRECTIVE_NEXT_DUTY_2026-10-17.md)。內容包括 B 帳號 `d3eeb8bb` 補強後仍待核對的 WIP／約 26 筆存疑與 4 筆 BB commit，以及「交付即時登記＋增量 SHA 水位線＋檢查器防假通過＋WIP／匯入防護」的**下一班待實作改善任務**。**接班依然先執行第 4 節十四步，已休班 B 不重開；本連結是使用者授權的交班後純文件補記，不是新制度已上線，不改 `duty.json`、正式交班快照或 main。**
+
+
 ## ⚠ 帳號 A 回來接班先讀：帳號 A 交班（2026-10-14 17:40 UTC）以後新增、修訂的永久規則（使用者 2026-10-16 要求「帳號 A 之後交班回來也要看得出這些改變」）
 
 你讀到的這份如果是在帳號 A 停住的分支上（`claude/confident-ritchie-8rwh7t`、`claude/second-ai-env-art`、`claude/story-planning`），**那是舊版**。照 `docs/AI_SESSION_HANDOFF.md` 第 0a 節找 RULE_SOURCE（`python3 tools/handoff/check_handoff.py duty find`；帳號 B 值班期間是 `claude/modest-rubin-2lyp7g`），讀那裡的版本。下面每一條的全文都在 RULE_SOURCE 的 CLAUDE.md；規則版本紀錄在 AI_SESSION_HANDOFF.md 第 13 節（HV-3～HV-7）。
