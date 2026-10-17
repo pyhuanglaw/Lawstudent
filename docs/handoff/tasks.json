@@ -6618,8 +6618,8 @@
    "title": "美國公寓社區：祐廷單人戶（臥室＋客廳＋廚房＋衛浴＋陽台）＋社區外觀（使用者 10-16 更正：不是學校宿舍）",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
-   "next": "【LAWWW2-C 05:46Z 交付 8825bea0（DL-LW2-USCOMM）：社區戶外＋汽車五款；LAWWW-C ACK】接成區域 us_outside 排在 v0～v2 之後（D81）；28 台車用 InstancedMesh。【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置以 LAWWW2-B us_apartment_layout.js v2（e30bf43f＋3cc72780 浴室從臥室進、衣帽櫃：戶外樓梯平台 breezeway、獨立廚房＋窗口吧台、8 房、yaw 照 atan2(dx,dz)）為準；學姊 C 棟合租戶另一份配置；會所自習室、校園一段、超市；社區名 Linden Grove（椴樹林社區）、超市 Prairie Basket（草原超市）（AA_144 5-4，企劃線 d4174bbd，D77 虛構）",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-17 23:5x】3bff5ef4 的 us3d.js 已接進 RULE_SOURCE（4782cc29）；瀏覽器流程派 BB-C｜【LAWWW2-C 05:46Z 交付 8825bea0（DL-LW2-USCOMM）：社區戶外＋汽車五款；LAWWW-C ACK】接成區域 us_outside 排在 v0～v2 之後（D81）；28 台車用 InstancedMesh。【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置以 LAWWW2-B us_apartment_layout.js v2（e30bf43f＋3cc72780 浴室從臥室進、衣帽櫃：戶外樓梯平台 breezeway、獨立廚房＋窗口吧台、8 房、yaw 照 atan2(dx,dz)）為準；學姊 C 棟合租戶另一份配置；會所自習室、校園一段、超市；社區名 Linden Grove（椴樹林社區）、超市 Prairie Basket（草原超市）（AA_144 5-4，企劃線 d4174bbd，D77 虛構）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -6651,8 +6651,8 @@
    "title": "美式大型超市",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
-   "next": "【LAWWW2-C 06:16Z 交付 2f4ae940（DL-LW2-USMKT）：超市室內 us_market.glb＋layout（interact 8 個、blocks 41 個）；LAWWW-C ACK】接成區域 us_market 排在 v0～v2 之後（D81）。【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 2）；社區名 Linden Grove（椴樹林社區）、超市 Prairie Basket（草原超市）（AA_144 5-4，企劃線 d4174bbd，D77 虛構）",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-17 23:5x】3bff5ef4 的 us3d.js 已接進 RULE_SOURCE（4782cc29）；瀏覽器流程派 BB-C｜【LAWWW2-C 06:16Z 交付 2f4ae940（DL-LW2-USMKT）：超市室內 us_market.glb＋layout（interact 8 個、blocks 41 個）；LAWWW-C ACK】接成區域 us_market 排在 v0～v2 之後（D81）。【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 2）；社區名 Linden Grove（椴樹林社區）、超市 Prairie Basket（草原超市）（AA_144 5-4，企劃線 d4174bbd，D77 虛構）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -9407,7 +9407,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "待開工",
-   "next": "【使用者 06:5x 對 LAWWW2-C「恢復，照 AA 的順序先做」；AA-C 06:46 順序：阿勳 → 品妤 → 韋綸 → 唐睿 → 家豪 → 魏教授；角色美術 BB-C 驗收（D59）】（LAWWW2-C 04:42 指出、LAWWW-C 照 AA_208／zones3d.js 1326 行核對）first 改 Y0S1 第 1 週，和韋綸、唐睿同一批。照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
+   "next": "【LAWWW-C 23:5x】D99 第一優先（經濟系 412 室友）：派 LAWWW2-C 當下一項｜【使用者 06:5x 對 LAWWW2-C「恢復，照 AA 的順序先做」；AA-C 06:46 順序：阿勳 → 品妤 → 韋綸 → 唐睿 → 家豪 → 魏教授；角色美術 BB-C 驗收（D59）】（LAWWW2-C 04:42 指出、LAWWW-C 照 AA_208／zones3d.js 1326 行核對）first 改 Y0S1 第 1 週，和韋綸、唐睿同一批。照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -9422,11 +9422,11 @@
    "source": "派工稽核 2026-10-16 1-1 c、e；V2-CHR",
    "authorized": "D79、D84；D59（BB-B 驗收角色美術）",
    "xai": {
-    "receiver": "LAWWW",
+    "receiver": "LAWWW2-C",
     "branch": "claude/funny-albattani-iawshm",
     "spec": "企劃線 docs/story_planning/art_reference/xun.webp（BB_131 人物標準圖；設定 BB_116 第 12 節；BB-B 03:44 確認）；做法照 AA_145 §5：路人底模改臉、髮型、衣服",
-    "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
-    "ack": "DELIVERED"
+    "acceptance": "VRM 接進遊戲；角色美術由 LAWWW-C 驗收（D100）",
+    "ack": "SENT"
    },
    "pausedFrom": "待開工"
   },
@@ -11394,8 +11394,8 @@
    "title": "美國公寓客廳家具組（AA-B 99e758f9 做、LAWWW2-B 驗收 eb9f392e）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
-   "next": "美國公寓（V4 美國線）施工時一起放",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-17 23:5x】3bff5ef4 的 us3d.js 已接進 RULE_SOURCE（4782cc29）；瀏覽器流程派 BB-C｜美國公寓（V4 美國線）施工時一起放",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -11423,8 +11423,8 @@
    "title": "美國公寓臥室家具（BB-B d2378c1d 做、LAWWW2-B 收進 586eface、BB-B 驗收 523e4e39）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
-   "next": "V4 美國線接 SCN-US-01 區域時一起接（和 ART-US1、ART-US2 同一間公寓）",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-17 23:5x】3bff5ef4 的 us3d.js 已接進 RULE_SOURCE（4782cc29）；瀏覽器流程派 BB-C｜V4 美國線接 SCN-US-01 區域時一起接（和 ART-US1、ART-US2 同一間公寓）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -11452,8 +11452,8 @@
    "title": "美國公寓廚房（AA-B 7b509b39 做、LAWWW2-B 驗收 439763c6）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
-   "next": "美國公寓（V4 美國線）施工時一起放",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-17 23:5x】3bff5ef4 的 us3d.js 已接進 RULE_SOURCE（4782cc29）；瀏覽器流程派 BB-C｜美國公寓（V4 美國線）施工時一起放",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -16225,7 +16225,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "瀏覽器 tests/flow_exch_min.py（efddb20c，經濟系分段測完再跑，SwiftShader 一次一支）；LAWWW2-C 的美國區域 patch（01964faa，us_zones.diff）還是 WIP 檢查點，交付後再接；返台 12/23、課、出遊、人物照 AA／BB 規格之後做",
+   "next": "【LAWWW-C 23:5x】正式區域已接（4782cc29）；BB-C 跑 flow_exch_min＋flow_us_exchange｜瀏覽器 tests/flow_exch_min.py（efddb20c，經濟系分段測完再跑，SwiftShader 一次一支）；LAWWW2-C 的美國區域 patch（01964faa，us_zones.diff）還是 WIP 檢查點，交付後再接；返台 12/23、課、出遊、人物照 AA／BB 規格之後做",
    "first": {
     "term": "Y3S1",
     "week": 1,
