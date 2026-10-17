@@ -51,7 +51,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   picks=['阿勳來','照坪數']; for(const id of ['kexin','econ_pinyu','econ_zhengxun']) SOCIAL.meet(id,'campus');   /* 正式遊玩時 E08 以前都認識了：阿勳 E01、可昕 E02、品妤 E02／P2 */ const famBefore=k=>SOCIAL.rel(k).fam||0; const f0={kexin:famBefore('kexin'),econ_pinyu:famBefore('econ_pinyu'),econ_zhengxun:famBefore('econ_zhengxun')};
   G.hour=16.6; await OUT.go(GM,q); const L=said.map(s=>s.t);
   check('3. 原文：「星期六傍晚。河濱的草地上，經濟系的人圍成好幾圈。」…韋綸「誰要生火？」',L[0]==='星期六傍晚。河濱的草地上，經濟系的人圍成好幾圈。'&&L[2]==='誰要生火？'&&L[3]==='生火的人先吃。',JSON.stringify(L.slice(0,5)));
-  check('3. 選「阿勳來。」：三塊炭、「熱力學。」、韋綸的報紙；沒有另外兩個選項的台詞',L.includes('阿勳擺了三塊炭，劃了一根火柴。火一次就起來了。')&&L.includes('我帶了一整包報紙耶。')&&!L.includes('有。你先離火遠一點。')&&!L.includes('假設我們把報紙捲成一根一根的——'));
+  check('3. 選「阿勳來。」：三塊炭、「熱力學。」、韋綸的報紙；沒有另外兩個選項的台詞',L.includes('阿勳擺了三塊炭，劃了一根火柴。火一次就起來了。')&&L.includes('我帶了一整包報紙耶。')&&!L.includes('有。你先離火遠一點。')&&!L.includes('報紙捲成一根一根的，應該比較好燒。'));
   check('3. 月亮收租「照坪數算？」→「那我們只坐這一小塊，應該付不了多少。」；最後是回宿舍的路上',L.includes('如果月亮收租，我們要付多少？')&&L.includes('那我們只坐這一小塊，應該付不了多少。')&&!L.includes('那我們來得剛好。')&&L[L.length-1]==='回宿舍的路上，你的衣服都是炭的味道。',JSON.stringify(L.slice(-3)));
   check('3. 每句 40 字以內',L.every(t=>t.length<=40),L.filter(t=>t.length>40).join('|'));
   const fam=k=>famBefore(k)-f0[k];

@@ -34,14 +34,14 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   { fresh(D18,11,'campus'); picks=['經濟系的教室','羽球社']; await EVENTS.run(e7); const L=said.map(x=>x.t);
     check('1. E07 原文：韋綸六張傳單、品妤四十八小時、可昕探頭、劇社社員、「你說。」',L[0]==='（手上已經有六張傳單）我每一攤都要看。'&&L[1]==='（品妤在看每一攤貼的社費。）'&&L[4]==='（看你）你說。',JSON.stringify(L.slice(0,5)));
     check('1. 地點「經濟系的教室。」→「好，我們是兩條供給曲線。」全場安靜',L.includes('好，我們是兩條供給曲線。')&&L.includes('全場安靜。')&&!L.includes('一個社員演一隻鵝，追著另一個人跑。'));
-    check('1. 選羽球社：Y0_CLUB＝badminton、可昕「羽球社的人都很早起。你可以嗎？」',G.flags.Y0_CLUB==='badminton'&&L[L.length-1]==='羽球社的人都很早起。你可以嗎？',L[L.length-1]);
+    check('1. 選羽球社：Y0_CLUB＝badminton、可昕「羽球社好像都早上練。你要早起了。」',G.flags.Y0_CLUB==='badminton'&&L[L.length-1]==='羽球社好像都早上練。你要早起了。',L[L.length-1]);
     check('1. 每句 40 字以內',L.every(t=>t.length<=40));
     G.events.done.ev_y0_e07=1; at(D21,13); check('1. 去過博覽會：9/21 沒有「我加了即興劇社。你呢？」',!PHONE.sent(G,'y0_e07_missed')); }
   // 沒去
   { fresh(D20,18,'dorm'); run(); check('2. 沒去：9/20 晚上還沒有私訊（E06 她的第一則私訊在這之前或當晚）',!PHONE.sent(G,'y0_e07_missed'));
     at(D21,12.6); const m=PHONE.thread(G,'p:kexin').find(x=>x.text==='我加了即興劇社。你呢？');
     check('2. 9/21 12:30 可昕私訊「我加了即興劇社。你呢？」、四個選項',!!m&&m.ask&&m.ask.opts.map(o=>o.t).join('/')==='吉他社/登山社/羽球社/不參加',JSON.stringify(m&&m.ask&&m.ask.opts.map(o=>o.t)));
-    check('2. 回「不參加」：Y0_CLUB＝none、她回「也好。那你週五晚上都有空了。……我是說大家。」',m.ask.opts[3].set.Y0_CLUB==='none'&&m.ask.opts[3].say[0].text==='也好。那你週五晚上都有空了。……我是說大家。'); }
+    check('2. 回「不參加」：Y0_CLUB＝none、她回「也好。那有空的時候，來看我們練習。」',m.ask.opts[3].set.Y0_CLUB==='none'&&m.ask.opts[3].say[0].text==='也好。那有空的時候，來看我們練習。'); }
   // E09
   check('3. E09：第 4 週週一～週四 12:10～13:15；週五（9/27 教師節連假）、第 5 週、11:30 不行',ck(e9,D23,12.3)&&ck(e9,D23+3,13)&&!ck(e9,D27,12.3)&&!ck(e9,D23+7,12.3)&&!ck(e9,D23,11.5));
   { fresh(D23,12.3,'campus'); picks=['妳吃什麼']; const m0=G.money; await EVENTS.run(e9); const L=said.map(x=>x.t);

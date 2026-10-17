@@ -44,8 +44,8 @@ const settle=async()=>{ for(let i=0;i<50;i++){ await new Promise(r=>setTimeout(r
     fresh(D19,22.6,'dorm',{E05_OPEN:open,E05_DAY:D19,E05_END:19}); G.stage='econ'; STORY.phoneRules(GM); PHONE.tick(G); const L=T();
     check('5. E06（'+open+'）22:30：「問你一件事。」「'+first+'是真心的，還是經濟學上的「廉價訊號」？」＋括號那句（三個回覆）',L.includes('問你一件事。')&&L.includes(first+'是真心的，還是經濟學上的「廉價訊號」？')&&L.includes('廉價訊號，就是說了也不用付出代價的話。／我最近看到的詞，想用用看。')&&G.flags.E06_DONE==='e06',JSON.stringify(L)); }
   { fresh(D19,20.5,'campus',{E05_OPEN:'carry',E05_DAY:D19,E05_END:19}); G.stage='econ'; E.player.obj.position={x:-95,y:0,z:50}; STORY.phoneRules(GM); PHONE.tick(G); const L=T(); G.hour=22.6; STORY.phoneRules(GM); PHONE.tick(G); const L2=T();
-    check('6. D2：E05 那晚 20:30 經過女舍門口 30 m 內：「你剛剛經過我們宿舍。」…「是你嗎？」（三個回覆）；22:30 不再有 E06',L.includes('你剛剛經過我們宿舍。')&&L.includes('是你嗎？')&&G.flags.E06_DONE==='d2'&&!L2.includes('問你一件事。'),JSON.stringify(L2)); }
-  { fresh(D19,20.5,'campus',{E05_OPEN:'carry',E05_DAY:D19,E05_END:19}); G.stage='econ'; E.player.obj.position={x:-40,y:0,z:0}; STORY.phoneRules(GM); PHONE.tick(G); check('6. 離女舍遠（> 30 m）：沒有 D2',!T().includes('你剛剛經過我們宿舍。')&&!G.flags.E06_DONE); E.player.obj.position={x:0,y:0,z:0}; }
+    check('6. D2：E05 那晚 20:30 經過女舍門口 30 m 內：「我剛剛在三樓，看到一個很像你的人經過我們宿舍。」…「是你嗎？」（三個回覆）；22:30 不再有 E06',L.includes('我剛剛在三樓，看到一個很像你的人經過我們宿舍。')&&L.includes('是你嗎？')&&G.flags.E06_DONE==='d2'&&!L2.includes('問你一件事。'),JSON.stringify(L2)); }
+  { fresh(D19,20.5,'campus',{E05_OPEN:'carry',E05_DAY:D19,E05_END:19}); G.stage='econ'; E.player.obj.position={x:-40,y:0,z:0}; STORY.phoneRules(GM); PHONE.tick(G); check('6. 離女舍遠（> 30 m）：沒有 D2',!T().includes('我剛剛在三樓，看到一個很像你的人經過我們宿舍。')&&!G.flags.E06_DONE); E.player.obj.position={x:0,y:0,z:0}; }
   { fresh(D19+1,22.6,'dorm',{E05_OPEN:'carry',E05_DAY:D19,E05_END:19}); G.stage='econ'; STORY.phoneRules(GM); PHONE.tick(G); check('6. 隔天晚上不會補 E06（只在 E05 那一晚）',!T().includes('問你一件事。')); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
