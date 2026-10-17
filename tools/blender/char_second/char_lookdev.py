@@ -4,7 +4,7 @@
 用法：python3 char_lookdev.py <網址根> <VRM 檔> <輸出資料夾> [idle|walk|sit|tpose] --base char.zhe --height 1.78 --tag zhe [--props backpack]
   --props 也可以是 JSON（配件有參數時），例如 '[{"name":"glasses","glb":"prop.glasses_bohan"},"backpack"]'；
   --blchar：網址加 &blchar（開發分支：沒有它時 blOnly 的人物不在 manifest 裡，--base 用它們會失敗）
-  --asset key=網址：多加一個 lazy 的配件 GLB（例如 prop.glasses_bohan=assets/models/char/second_ai/glasses_bohan.glb；伺服器要有這個檔案，props3d 要套眼鏡 patch）
+  --asset key=網址：多加一個 lazy 的配件 GLB（例如 prop.glasses_bohan=assets/models/char/second_ai/glasses_bohan.glb；伺服器要有這個檔案，或在目前目錄下有同一個相對路徑的檔案（直接從本機送出））
 （芯慈用 xinci_lookdev.py；這支是一般化的版本）"""
 import asyncio, json, os, re, sys
 from playwright.async_api import async_playwright
@@ -34,6 +34,11 @@ async def main():
         await pg.route(re.compile(r'.*/test_charlook\.html.*'), page)
         vb = open(VRM, 'rb').read()
         await pg.route(re.compile(r'.*/' + re.escape(URL) + r'.*'), lambda r: r.fulfill(status=200, body=vb, headers={'content-type': 'model/gltf-binary'}))
+        for v in EXTRA.values():      # --asset 的檔案在本機（這個 repo）就直接送出：伺服器（別人的工作目錄）還沒有這個檔案也能看
+            if os.path.isfile(v):
+                def serve(ab):      # playwright 會把 request 當第二個參數傳進來，不能用 lambda 的預設參數綁檔案內容
+                    return lambda r: r.fulfill(status=200, body=ab, headers={'content-type': 'model/gltf-binary'})
+                await pg.route(re.compile(r'.*/' + re.escape(v) + r'.*'), serve(open(v, 'rb').read()))
         await pg.goto(ROOT + '/test_charlook.html?id=char.lookdev_test' + QS)
         for _ in range(360):
             if await pg.evaluate('!!window.__ready'): break

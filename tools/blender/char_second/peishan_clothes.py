@@ -65,6 +65,9 @@ def _apply(m, arm, body, wsrc_skirt):
     me = obj.data; tris = {}
     for p in me.polygons: tris[p.material_index] = tris.get(p.material_index, 0) + len(p.vertices) - 2
     print('  clothes: verts %d faces %d (bad %d) tris tee %d skirt %d shoes %d' % (len(me.vertices), len(me.polygons), bad, tris.get(0, 0), tris.get(1, 0), tris.get(2, 0)))
+    # 第十八版：上衣收窄（第十七版寬鬆量 0.16、箱形 0.128）以後胸口、領口旁邊的皮膚從布裡穿出來（遊戲裡胸前幾塊淡色）——
+    # 和芯慈、阿哲一樣把軀幹的皮膚收進上衣裡面 3 mm（只動軀幹骨頭權重 ≥ 0.8 的點，一次最多 1.5 cm）
+    print('  body pulled under the tee', XC.conform_under(body, obj, 0, SKIRT_REF['z_top'] - 0.025, K.CREW_FRONT_Z + 0.02))
     print('  culled skin faces', K.cull_skin(body, obj))
     m['clothes'] = obj
     return obj
