@@ -9906,8 +9906,8 @@
    "title": "韋綸（econ_weilun）的 3D 人物：路人底模改臉、髮型、衣服（AA_145 §5）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
-   "next": "遊戲內截圖給 BB-C（白天、夜晚；魏教授在博雅 101 講台的遠景）；BB-C 2026-10-17 驗收模型通過（03179efb：韋綸 v12、家豪 v10、魏教授 v6）",
+   "status": "已驗收",
+   "next": "BB-C 2026-10-17 15:49 D59 遊戲內截圖驗收通過（20e63582；BB_201 第 12 節、BB_197 5-5，2aa40831）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -9930,15 +9930,17 @@
    },
    "pausedFrom": "待開工",
    "sha": "25519e3f",
-   "branch": "claude/focused-cray-c9uwvw"
+   "branch": "claude/focused-cray-c9uwvw",
+   "artState": "ART_APPROVED",
+   "evidence": "BB-C D59 遊戲內截圖驗收（docs/art-rebuild/ingame_review/2026-10-17_econ_peishan，20e63582；BB_201 第 12 節、BB_197 5-5 @2aa40831）；tests/v0_econ_chars_unit.js"
   },
   {
    "id": "ART-CH-TANGRUI",
    "title": "唐睿（econ_tangrui）的 3D 人物：路人底模改臉、髮型、衣服（AA_145 §5）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
-   "next": "遊戲內截圖給 BB-C（白天、晚上）",
+   "status": "已驗收",
+   "next": "BB-C 2026-10-17 15:49 D59 遊戲內截圖驗收通過（20e63582；BB_201 第 12 節、BB_197 5-5，2aa40831）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -9960,15 +9962,17 @@
     "ack": "DELIVERED"
    },
    "pausedFrom": "待開工",
-   "sha": "60dc7908"
+   "sha": "60dc7908",
+   "artState": "ART_APPROVED",
+   "evidence": "BB-C D59 遊戲內截圖驗收（docs/art-rebuild/ingame_review/2026-10-17_econ_peishan，20e63582；BB_201 第 12 節、BB_197 5-5 @2aa40831）；tests/v0_econ_chars_unit.js"
   },
   {
    "id": "ART-CH-JIAHAO",
    "title": "家豪學長（econ_jiahao）的 3D 人物：路人底模改臉、髮型、衣服（AA_145 §5）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
-   "next": "遊戲內截圖給 BB-C（白天、夜晚；魏教授在博雅 101 講台的遠景）；BB-C 2026-10-17 驗收模型通過（03179efb：韋綸 v12、家豪 v10、魏教授 v6）",
+   "status": "已驗收",
+   "next": "BB-C 2026-10-17 15:49 D59 遊戲內截圖驗收通過（20e63582；BB_201 第 12 節、BB_197 5-5，2aa40831）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -9991,15 +9995,17 @@
    },
    "pausedFrom": "待開工",
    "sha": "25519e3f",
-   "branch": "claude/focused-cray-c9uwvw"
+   "branch": "claude/focused-cray-c9uwvw",
+   "artState": "ART_APPROVED",
+   "evidence": "BB-C D59 遊戲內截圖驗收（docs/art-rebuild/ingame_review/2026-10-17_econ_peishan，20e63582；BB_201 第 12 節、BB_197 5-5 @2aa40831）；tests/v0_econ_chars_unit.js"
   },
   {
    "id": "ART-CH-WEI",
    "title": "魏教授（prof_wei）的 3D 人物：講台老師底模改（AA_145 §5）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
-   "next": "遊戲內截圖給 BB-C（白天、夜晚；魏教授在博雅 101 講台的遠景）；BB-C 2026-10-17 驗收模型通過（03179efb：韋綸 v12、家豪 v10、魏教授 v6）",
+   "status": "已驗收",
+   "next": "BB-C 2026-10-17 15:49 D59 遊戲內截圖驗收通過（20e63582；BB_201 第 12 節、BB_197 5-5，2aa40831）",
    "priority": "P3",
    "first": {
     "term": "Y0S1",
@@ -10022,7 +10028,9 @@
    },
    "pausedFrom": "待開工",
    "sha": "25519e3f",
-   "branch": "claude/focused-cray-c9uwvw"
+   "branch": "claude/focused-cray-c9uwvw",
+   "artState": "ART_APPROVED",
+   "evidence": "BB-C D59 遊戲內截圖驗收（docs/art-rebuild/ingame_review/2026-10-17_econ_peishan，20e63582；BB_201 第 12 節、BB_197 5-5 @2aa40831）；tests/v0_econ_chars_unit.js"
   },
   {
    "id": "ART-V0-DORM",
@@ -15138,9 +15146,9 @@
    "title": "沛珊 3D 第三版的角色美術驗收（D59，BB）",
    "area": "ART",
    "owner": "BB",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P1",
-   "next": "LAWWW2 b2d7c1a6 已整合（85a8a23f）；款式（領口、坐下裙子、髮型）待 LAWWW2",
+   "next": "BB-C 2026-10-17 15:49 D59 遊戲內截圖驗收通過（20e63582；BB_201 第 12 節、BB_197 5-5，2aa40831）",
    "first": {
     "term": "Y1S1",
     "week": 4,
@@ -15159,7 +15167,9 @@
     "acceptance": "遊戲內截圖對照立繪",
     "receiver": "LAWWW2",
     "ack": "自領"
-   }
+   },
+   "artState": "ART_APPROVED",
+   "evidence": "BB-C D59 遊戲內截圖驗收（docs/art-rebuild/ingame_review/2026-10-17_econ_peishan，20e63582；BB_201 第 12 節、BB_197 5-5 @2aa40831）；tests/v0_econ_chars_unit.js"
   },
   {
    "id": "AA245-PSBH",
@@ -15194,9 +15204,9 @@
    "title": "經濟系人物 3D 接進遊戲：韋綸 v13、唐睿 v20、家豪 v10、魏教授 v6＋眼鏡、安全帽（BB-C 通過）",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
-   "next": "①遊戲內截圖給 BB-C ②唐睿新版通過後接 ③韋綸、家豪的 3D 作息（經濟系 412 宿舍、課堂）跟 v0 作息一起（AA_159 第 2 節：照 AA_154 的時間線）④presence（畢業 2028-06、家豪 2027-06）",
+   "next": "BB-C 2026-10-17 15:49 D59 遊戲內截圖驗收通過（20e63582；BB_201 第 12 節、BB_197 5-5，2aa40831）",
    "first": {
     "term": "Y0S1",
     "week": 0,
@@ -15218,7 +15228,9 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "sha": "25519e3f"
+   "sha": "25519e3f",
+   "artState": "ART_APPROVED",
+   "evidence": "BB-C D59 遊戲內截圖驗收（docs/art-rebuild/ingame_review/2026-10-17_econ_peishan，20e63582；BB_201 第 12 節、BB_197 5-5 @2aa40831）；tests/v0_econ_chars_unit.js"
   },
   {
    "id": "AA-LADDER-977",
@@ -15842,6 +15854,96 @@
     "acceptance": "句子到齊後鉤子出現、接了排進行事曆、單元測試＋瀏覽器流程",
     "receiver": "LAWWW",
     "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "FIX-STAIRS-ARM",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次上霖澤館樓梯（人物跟著上樓）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "title": "上樓梯第一段手臂往前平舉（沛珊；平台以後正常）——動畫或 footIK／手的 IK",
+   "owner": "LAWWW",
+   "next": "BB-C 15:49（BB_197 5-5）：玩家看得到；查 character3d 樓梯動畫第一段的手臂",
+   "source": "BB-C D59 驗收 20e63582"
+  },
+  {
+   "id": "ART-JIAHAO-JOY",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系開學 E02 家豪學長（晚上近照）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "title": "家豪晚上近照嘴邊暗影（Joy 0.35 露出口腔被壓暗）：試 0.28",
+   "owner": "LAWWW2",
+   "next": "LAWWW2 有空時（BB-C：遊戲距離看不出來）",
+   "source": "BB-C D59 驗收 20e63582",
+   "xai": {
+    "spec": "BB-C 15:49 第 2 點",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "晚上近照嘴邊沒有暗影；BB-C 看",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ANIM-BENCH-SIT",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "溫州街小公園的長椅",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "title": "長椅坐姿：手撐椅緣、腳往前伸（共用坐姿動畫）看要不要調",
+   "owner": "LAWWW",
+   "next": "BB-C 15:49 第 3 點：不擋驗收",
+   "source": "BB-C D59 驗收 20e63582"
+  },
+  {
+   "id": "ART-NPC-HAIR-STREAK",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系第一堂經原（博雅 101 的同學）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "title": "路人底模頭髮近距離黑白條紋（博雅 101 近處的同學）",
+   "owner": "LAWWW2",
+   "next": "LAWWW-C 15:4x 已轉；LAWWW2 排",
+   "source": "LAWWW-C 截圖 20e63582 wei.webp",
+   "xai": {
+    "spec": "docs/art-rebuild/ingame_review/2026-10-17_econ_peishan/wei.webp",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "近距離頭髮沒有黑白破碎條紋",
+    "receiver": "LAWWW",
+    "ack": "SENT"
    }
   }
  ]

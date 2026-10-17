@@ -6572,8 +6572,8 @@
    "what": "經濟系人物 VRM：韋綸 v7、唐睿 v6、家豪 v5、魏教授 v2＋截圖、README",
    "task": "V0-ECON-CHARS",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "等 BB-C D59 驗收；連同阿勳 v6（4bf1ae20）、品妤 v5（e1b9133a）一起接"
+   "integration": "已驗收",
+   "note": "等 BB-C D59 驗收；連同阿勳 v6（4bf1ae20）、品妤 v5（e1b9133a）一起接；BB-C 2026-10-17 15:49 D59 遊戲內截圖驗收通過（20e63582）"
   },
   {
    "id": "DL-LW2-NPC-B4",
@@ -7196,8 +7196,8 @@
    "what": "經濟系第四輪：韋綸 v12（＋安全帽 helmet_bike.glb 3bb9b276）、家豪 v10、魏教授 v6（＋眼鏡 glasses_wei.glb 680c0f32）、唐睿 v11；BB-C 驗收：前三位通過、唐睿不通過",
    "task": "V0-ECON-CHARS",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 25519e3f 接進遊戲（唐睿不接，等新版）；遊戲內截圖給 BB-C 待拍"
+   "integration": "已驗收",
+   "note": "LAWWW-C 25519e3f 接進遊戲（唐睿不接，等新版）；遊戲內截圖給 BB-C 待拍；BB-C 2026-10-17 15:49 D59 遊戲內截圖驗收通過（20e63582）"
   },
   {
    "id": "DL-BB-a816234a",
@@ -7222,8 +7222,8 @@
    "what": "唐睿 v20（BB-C：polo、頭髮 v19 通過，v20 髮色必修）、韋綸 v13（只改髮色）；BG-14 bg_curry.py 是 WIP",
    "task": "V0-ECON-CHARS",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 接進遊戲；遊戲內截圖給 BB-C 待拍"
+   "integration": "已驗收",
+   "note": "LAWWW-C 接進遊戲；遊戲內截圖給 BB-C 待拍；BB-C 2026-10-17 15:49 D59 遊戲內截圖驗收通過（20e63582）"
   },
   {
    "id": "DL-LAWWW2-552185d9",
@@ -7235,8 +7235,8 @@
    "what": "沛珊第二十六版（BB_197 5-4 必修：白點、側頸；背面細縫、肩膀折線還在）",
    "task": "BB-PS3D-D59",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 107c1b21 接進遊戲；遊戲內截圖給 BB-C 待拍"
+   "integration": "已驗收",
+   "note": "LAWWW-C 107c1b21 接進遊戲；遊戲內截圖給 BB-C 待拍；BB-C 2026-10-17 15:49 D59 遊戲內截圖驗收通過（20e63582）"
   },
   {
    "id": "DL-LAWWW2-0100994c",
