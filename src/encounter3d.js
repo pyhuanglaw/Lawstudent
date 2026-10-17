@@ -13,6 +13,10 @@
 const ENC=(function(){
   const S={};
   const D=()=>typeof ENCOUNTERS!=='undefined'?ENCOUNTERS:{rows:[],school:{},labels:{}};
+  /* 阿哲叫「哥」（AA_209 第 4 節第 6 點）：和宿舍、宿營一樣看 ZHE_CALLS_GE；沒有的玩家把「哥」拿掉（「哥！」「哥，」開頭、句中的「哥，」、「哥你」→「你」）。偶遇台詞全部經過這裡 */
+  const isZhe=w=>!!w&&(w==='zhe'||w.charId==='zhe'||w.id==='zhe'||w.name==='阿哲');
+  S.zheGe=(G,who,t)=>{ if(typeof t!=='string'||!isZhe(who)||(G&&G.flags&&G.flags.ZHE_CALLS_GE)) return t; return t.replace(/^哥[！，]\s*/,'').replace(/^哥你/,'你').replace(/哥，/g,''); };
+  const ESAY=(GM,who,t)=>GM.say(who,S.zheGe(GM.G,who,t));
   if(typeof SOCIAL!=='undefined'&&SOCIAL.MEMORY_LABEL) Object.assign(SOCIAL.MEMORY_LABEL,D().labels||{});
   const ST=()=>typeof SOCIAL!=='undefined'&&SOCIAL.STAGES?SOCIAL.STAGES:['STRANGER','ACQUAINTANCE','FAMILIAR','FRIEND','CLOSE_FRIEND','POSSIBLE_ROMANTIC_INTEREST','ROMANTIC_TENSION','RELATIONSHIP'];
   const term=G=>typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null;
@@ -63,21 +67,21 @@ const ENC=(function(){
   S.linesFor=function(row,t){ const L=row.lines||{}; if(L.all) return L.all; if(t==='dating') return L.dating||L.friend||L.acq||[]; if(t==='friend') return L.friend||L.acq||[]; return L.acq||L.friend||[]; };
   S.meet=async function(GM,row,tr){ const G=GM.G, R=S.rec(G); R.encMet.who.push(row.who); if(G.trip) G.trip.enc=row.who;
     const who={name:nameOf(row.who),charId:row.who};
-    await GM.say(null,row.why);
+    await ESAY(GM,null,row.why);
     if(tr.t==='ex'||tr.t==='catch'){ const i=await GM.choose([{t:'點頭'},{t:'走過去'},{t:'打招呼'}]); if(i!==2) return 'pass';   /* 前任：不加任何關係數值、不留記錄 */
       const k=row.kexin?kxRoute(tr.how):tr.how; const ex=row.ex||{}; const L=tr.t==='ex'?(ex[k]||null):null, N=tr.t==='ex'?(ex[k+'Narr']||null):null;
-      if(L) for(const t of L) await GM.say(who,t); if(N) await GM.say(null,N); if(!L&&!N) await GM.say(null,D().NOD); return 'ex'; }
-    if(row.busy==='yes'){ await GM.say(null,'（她在講電話，對你揮揮手。）'); return 'busy'; }
+      if(L) for(const t of L) await ESAY(GM,who,t); if(N) await ESAY(GM,null,N); if(!L&&!N) await ESAY(GM,null,D().NOD); return 'ex'; }
+    if(row.busy==='yes'){ await ESAY(GM,null,'（她在講電話，對你揮揮手。）'); return 'busy'; }
     const join=S.canJoin(G,row,tr); const ops=[{t:'打招呼'},{t:'不打擾'}]; if(join) ops.push({t:'一起走一段'});   /* 第三批（DL-08）：朋友以上、不忙、這裡有她的同行台詞 */
     const i=await GM.choose(ops); if(i===1||i<0||i>=ops.length) return 'pass';   /* 不打擾：一定可以、沒有任何後果、不留記錄 */
-    for(const t of S.linesFor(row,tr.t)) await GM.say(who,t);
-    if(tr.t==='dating'&&row.lines&&row.lines.datingAfter){ const a=row.lines.datingAfter; await GM.say({name:a.who},a.text); }
+    for(const t of S.linesFor(row,tr.t)) await ESAY(GM,who,t);
+    if(tr.t==='dating'&&row.lines&&row.lines.datingAfter){ const a=row.lines.datingAfter; await ESAY(GM,{name:a.who},a.text); }
     if(typeof SOCIAL!=='undefined'){ if(SOCIAL.activity) SOCIAL.activity(row.who,'chat');
       if(row.memo&&(!row.memoIf||row.memoIf===tr.t)&&SOCIAL.has&&!SOCIAL.has(row.who,row.memo)&&SOCIAL.remember) SOCIAL.remember(row.who,row.memo); }
     R.encLog.push({day:G.day,h:+(G.hour%24).toFixed(2),spot:row.spot,who:row.who,tier:tr.t}); if(R.encLog.length>30) R.encLog.splice(0,R.encLog.length-30);
     { const wk=weekKey(G), k=row.who+'@'+row.spot, W8=R.encWeeks||(R.encWeeks={}); const L=W8[k]||(W8[k]=[]); if(!L.includes(wk)) L.push(wk); (R.encLast||(R.encLast={}))[k]=G.day; }   /* 不同週遇到幾次（小支線）、最後一次在這裡打招呼（重訪）*/
     await S.side(GM,row,tr,who);
-    if(i===2&&join){ for(const q of (W().intro||[])) if(q.who===row.who&&q.spot===row.spot&&!q.batch) await GM.say({name:q.speaker==='yule'?'予樂':q.speaker},q.line);
+    if(i===2&&join){ for(const q of (W().intro||[])) if(q.who===row.who&&q.spot===row.spot&&!q.batch) await ESAY(GM,{name:q.speaker==='yule'?'予樂':q.speaker},q.line);
       if(G.trip) G.trip.with={who:row.who,tier:tr.t}; return 'join'; }
     return 'greet'; };
   /* ---------- 第三批（DL-08，AA_160 第 6 節定案；台詞 src/data/enc_walk.js＝aa_walk_v1＋bb_walk_v1）----------
@@ -99,19 +103,19 @@ const ENC=(function(){
     if(J.spots&&!J.spots.includes(row.spot)) return false; const mn=J.minBy?J.minBy[row.spot]:J.min; if(mn&&tr.t!=='dating'&&ST().indexOf(tr.st)<ST().indexOf(mn)) return false; if(J.from!=null&&G.hour<J.from) return false;
     if(S.busyNow(G,row,tr)==='yes') return false;   /* 「short」不擋：同行規則（aa_walk_v1／bb_walk_v1 的 rules.join）比偶遇表的 busy 新，小語、子晴、沛珊、可昕「short」也有同行台詞 */ return (W().walk||[]).some(q=>q.who===row.who&&q.spot===row.spot&&condOk(G,q.cond,tr)); };
   S.leave=async function(GM,s){ const G=GM.G, T=G.trip; if(!T||!T.with) return false; const c=T.with; T.with=null; const e=(W().leave||[]).find(q=>q.who===c.who&&q.spot===s.id); const t=e?(c.tier==='dating'&&e.dating?e.dating:e.friend):'';
-    if(t) await GM.say({name:nameOf(c.who),charId:c.who},t); return true; };
+    if(t) await ESAY(GM,{name:nameOf(c.who),charId:c.who},t); return true; };
   /* 景點的下一件事之前：她有沒有這件事的台詞——沒有就先走 */
   S.companionBefore=async function(GM,s,act){ const G=GM.G, T=G.trip; if(!T||!T.with) return; const c=T.with; const tr=S.tier(G,c.who); if(!S.walkLine(G,c.who,s.id,act,Object.assign({},tr,{t:c.tier}))) await S.leave(GM,s); };
   S.companionAfter=async function(GM,s,act){ const G=GM.G, T=G.trip; if(!T||!T.with) return; const c=T.with; const tr=S.tier(G,c.who); const L=S.walkLine(G,c.who,s.id,act,Object.assign({},tr,{t:c.tier}));
-    if(L){ for(const t of L) await GM.say({name:nameOf(c.who),charId:c.who},t); if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(c.who,'cafe'); } await S.leave(GM,s); };
+    if(L){ for(const t of L) await ESAY(GM,{name:nameOf(c.who),charId:c.who},t); if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(c.who,'cafe'); } await S.leave(GM,s); };
   S.revisit=async function(GM,s){ const G=GM.G, R=S.rec(G); const dec=S.decide(G,s.id); const last=R.encLast||{}, rv=R.encRev||(R.encRev={});
     for(const e of (W().revisit||[])){ if(e.spot!==s.id) continue; const k=e.who+'@'+e.spot; const ld=last[k]; if(ld==null||ld>=G.day) continue; if(rv[k]!=null&&rv[k]>=ld) continue; if(dec&&dec.who===e.who) continue;
-      const tr=S.tier(G,e.who); const t=tr.t==='ex'?e.afterBreakup:e.normal; rv[k]=G.day; if(!t) continue; await GM.say(null,t); return true; }
+      const tr=S.tier(G,e.who); const t=tr.t==='ex'?e.afterBreakup:e.normal; rv[k]=G.day; if(!t) continue; await ESAY(GM,null,t); return true; }
     return false; };
   S.side=async function(GM,row,tr,who){ const G=GM.G, R=S.rec(G); const sd=(W().side||[]).find(q=>q.who===row.who&&q.spot===row.spot); if(!sd||tr.t==='acq') return false;
     const n=((R.encWeeks||{})[row.who+'@'+row.spot]||[]).length; const st=sd.steps.find(q=>q.step===n); if(!st) return false; const done=R.encSide||(R.encSide={}); const key=sd.id+':'+n; if(done[key]) return false; done[key]=G.day;
-    for(const t of (st.lines||[])) await GM.say(who,t);
-    if(st.choices&&st.choices.length){ const j=await GM.choose(st.choices.map(c=>({t:c.t}))); const c=st.choices[j]||st.choices[0]; if(c.r) await GM.say(who,c.r); }
+    for(const t of (st.lines||[])) await ESAY(GM,who,t);
+    if(st.choices&&st.choices.length){ const j=await GM.choose(st.choices.map(c=>({t:c.t}))); const c=st.choices[j]||st.choices[0]; if(c.r) await ESAY(GM,who,c.r); }
     if(st.mem&&typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!(SOCIAL.has&&SOCIAL.has(row.who,st.mem))) SOCIAL.remember(row.who,st.mem);
     return true; };
   /* 之後在學校：有那一筆記憶、還沒說過、在對的地方 → 這一次的聊天說這一句（story3d.js talkCharacter，在閒聊階梯之前）。說過記在 G.daily.encSaid */
@@ -123,7 +127,7 @@ const ENC=(function(){
       const alt=q.linesIfNot; const L=alt&&!(SOCIAL.has(id,alt.memory))?alt.lines:q.lines; return {tag,lines:L}; }
     return null; };
   S.markSaid=(G,tag)=>{ const d=G.daily||(G.daily={}); (d.encSaid||(d.encSaid={}))[tag]=G.day; };
-  S.schoolTalk=async function(GM,who,id){ const G=GM.G, q=S.schoolLine(G,id); if(!q) return false; for(const t of q.lines) await GM.say(who,t); S.markSaid(G,q.tag);
+  S.schoolTalk=async function(GM,who,id){ const G=GM.G, q=S.schoolLine(G,id); if(!q) return false; for(const t of q.lines) await ESAY(GM,who,t); S.markSaid(G,q.tag);
     if(typeof SOCIAL!=='undefined'&&SOCIAL.activity){ SOCIAL.activity(id,'chat'); SOCIAL.activity(id,'chatNew'); } return true; };
   /* 手機那幾句（語彤的照片、可昕）：遇到的隔天以後、還沒傳過 */
   S.phoneReady=function(G,tag){ const q=Object.assign({},sideSchool(),D().school||{})[tag]; if(!q||!q.phone) return false; const said=(G.daily&&G.daily.encSaid)||{}; if(said[tag]) return false;

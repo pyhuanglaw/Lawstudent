@@ -41,7 +41,8 @@ const RW=r=>ENCOUNTERS.rows.find(q=>q.who===r[0]&&q.spot===r[1]);
     const G3=mk(SUN,10.5); G3.trip={}; G3.flags.EX_heroine_01=true; G3.flags.ROMANCE_HISTORY=[{id:'heroine_01',to:'Y1S1W3',how:'apart_life'}]; check('11. 前任不一起走',!ENC.canJoin(G3,RW(['heroine_01','D06']),ENC.tier(G3,'heroine_01')));
     const G4=mk(SUN,10.5); G4.trip={}; check('11. 以安只是認識：不一起走（朋友以上）',!ENC.canJoin(G4,RW(['heroine_01','D06']),ENC.tier(G4,'heroine_01'))); }
   { const G=mk(SAT,19); force(G,'D04','zhe',0); G.hour=18.75; ACTS.length=0; const gm=mkGM(G,[0,'一起走一段','在徒步區走走','回去','回公館']); await TRIP.menu(gm);
-    const L=gm.L.says; const walkLine=ENC_WALK.walk.find(w=>w.who==='zhe'&&w.spot==='D04'&&w.act==='walk').friend[0], leave=ENC_WALK.leave.find(w=>w.who==='zhe'&&w.spot==='D04').friend;
+    const L=gm.L.says; const Zg=t=>ENC.zheGe(G,'zhe',t);   /* AA_209 第 4 節第 6 點：沒有 ZHE_CALLS_GE 的玩家，阿哲的「哥」拿掉 */
+    const walkLine=Zg(ENC_WALK.walk.find(w=>w.who==='zhe'&&w.spot==='D04'&&w.act==='walk').friend[0]), leave=Zg(ENC_WALK.leave.find(w=>w.who==='zhe'&&w.spot==='D04').friend);
     check('12. 偶遇的選單多「一起走一段」',gm.L.menus.some(m=>m.join()==='打招呼,不打擾,一起走一段'),JSON.stringify(gm.L.menus));
     const iw=L.findIndex(t=>t==='阿哲：'+walkLine), il=L.findIndex(t=>t==='阿哲：'+leave);
     check('12. 散步以後阿哲說他的一句、然後說離開的一句',iw>0&&il>iw,JSON.stringify(L.slice(-6)));
