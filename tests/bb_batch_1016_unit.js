@@ -38,19 +38,18 @@ GM.money=function(n){ G.money+=n; };
   const BG=ev2('ev_zhe_game_y2'); const t=J(BG.dialogue);
   check('1. 明軒：送水接「（接住水）哈哈，謝謝部長。」「這瓶 CP 值最高。……免費的。」；賽後兩句（三個選項都有）',/謝謝部長/.test(t)&&/這瓶 CP 值最高/.test(t)&&BG.dialogue.findIndex(l=>l.label==='end')<BG.dialogue.findIndex(l=>/我上場六分鐘，摸到球三次/.test(l.text||''))&&/以 CP 值來說，我今天賺很大/.test(t));
   const m3=D('2027-03-19'), dn=D('2027-03-26'), FAM='g:family_law';
-  fresh(m3,20.9,'dorm'); meet('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); run(20.9,21.2);
-  check('2. 沒有 FAMILY_DINNER：Kevin 一則「學姊上榜聚餐！下週五七點，公館的日日定食。全家族。」',txt(FAM).slice(-1)[0]==='kevin:學姊上榜聚餐！下週五七點，公館的日日定食。全家族。',J(txt(FAM).slice(-2)));
-  PHONE.answer(G,'sis_m3_dinner',0); run(21.2,21.4);
-  check('2. 出遊地點「公館的日日定食」',OUT.get(G,'sis_m3_dinner').place==='公館的日日定食');
-  fresh(m3,20.9,'dorm'); meet('heroine_05'); SOCIAL.remember('heroine_05','FAMILY_DINNER',''); PHONE.join(G,'family_law','法律系直屬家族'); run(20.9,21.2);
-  check('2. 有 FAMILY_DINNER：永康街那家咖哩',txt(FAM).slice(-1)[0]==='kevin:學姊上榜聚餐！下週五七點，永康街那家咖哩。全家族。');
+  // 2026-10-17 BB_205 第 4 節：M2、M3、上榜聚餐照新年級是祐廷大一下的事，大二不播（STORY.SIS_Y2_EXAM=false；大一下的版本等 AA_218 17-12）
+  fresh(m3,20.9,'dorm'); meet('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); run(20.9,21.2); PHONE.answer(G,'sis_m3_dinner',0); run(21.2,21.4);
+  check('2. 大二下 3/19 不發放榜、Kevin 不揪上榜聚餐、不排出遊',!PHONE.sent(G,'sis_m3')&&!PHONE.sent(G,'sis_m3_dinner_inv')&&!(typeof OUT!=='undefined'&&OUT.get(G,'sis_m3_dinner'))&&STORY.SIS_Y2_EXAM===false,J(txt(FAM).slice(-2)));
+  fresh(D('2027-01-20'),20.9,'dorm'); meet('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); run(20.9,21.2);
+  check('2. 大二寒假 1/20 不發 M2',!PHONE.sent(G,'sis_m2'));
   const f2=termDay('Y2S2',2,5); fresh(f2,20.9,'dorm'); meet('classmate_peishan'); SOCIAL.remember('classmate_peishan','MIRROR_PEISHAN',''); G.flags.dating_kexin=true; ROM.learn(G,'classmate_peishan','kexin','yt_told'); run(20.9,21.3);   /* 她知道（BB_191 9-4 #4）*/
   check('3. P4b 和「陪重考生念書」小組：大二下是沛珊的消失期（BB_205 第 3 節），交往中、她知道也不發、不開小組',!PHONE.inGroup(G,'ps_study')&&!PHONE.sent(G,'ps_p4b'),J(txt('g:ps_study')));
   G.day=f2+7; G.weekday=5; run(20.9,21.2); G.day=f2+14; run(20.9,21.2); G.day=f2+21; run(20.9,21.2);
   const ps=txt('g:ps_study').filter(x=>x.startsWith('classmate_peishan:'));
   check('3. 之後的週五也沒有小組訊息',!ps.length,J(ps));
   const src=require('fs').readFileSync(require('path').join(ROOT,'src/story3d.js'),'utf8');
-  check('4. 手機小事：學姊 M2 之後「今天讀了四章。一件事：腰很痛。」；沛珊 42 頁（你呢／你們呢）；子晴那封信先不改（AB-62 暫停）',/'我回信了'/.test(src)&&/今天讀了四章。一件事：腰很痛。/.test(src)&&/今天念了 42 頁。你們呢？'\}\]:\[P1\('classmate_peishan','今天念了 42 頁。你呢？'\)\]/.test(src));
+  check('4. 手機小事：學姊 M2 之後那則大二不發（BB_205 第 4 節）；沛珊 42 頁（你呢／你們呢）；子晴那封信',/'我回信了'/.test(src)&&!/今天讀了四章。一件事：腰很痛。/.test(src)&&/今天念了 42 頁。你們呢？'\}\]:\[P1\('classmate_peishan','今天念了 42 頁。你呢？'\)\]/.test(src));
   const out=require('fs').readFileSync(require('path').join(ROOT,'src/outings3d.js'),'utf8');
   check('5. ntu_court_night 有圖、檔案在',/ntu_court_night=\{label:'台大・新體育館旁的籃球場（晚上）',image:'assets\/bg\/ntu_court_night\.webp'\}/.test(out)&&require('fs').existsSync(require('path').join(ROOT,'assets/bg/ntu_court_night.webp')));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

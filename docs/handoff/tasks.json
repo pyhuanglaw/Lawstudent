@@ -15563,7 +15563,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P1",
-   "next": "【14:4x LAWWW-C】BB_205 第 2 節（P4 搬到 12/17、「下學期起」、沒去 21:30、交接筆記 12/17 22:00、公法讀書會大二下拿掉第 1 週）、第 3 節（沛珊 12/18～2027-08-06 聯絡不到：presence absentDates unreachable、約＝「沒有回覆。」、P4b／小組／42 頁／Café 都不發、群組回話換人、ps_kids 刪）、第 4 節 W3b 大二下不發 做好；tests 改（v3_p4_han3、presence、bb163、bb_batch_1016、knows_gf、v3_p4b）。還沒：第 1 節階梯重新匯入（等 AA／BB 給已審 SHA 表）、第 4 節 sis_list 三則／sis_report 刪／y2_sis_hotwater Kevin／M2 M3 上榜聚餐大二不播／SMALLTALK、第 5～8 節｜【13:0x LAWWW-C】第 4 節第 2 點語彤不在法服（STORY.YT_FAFU 固定 no：9/26 事件 7、轉述、FAFU_YT 不播；週六 9～12 改麵店）、第 7 點以安兩句（invites.js）做好；單元測試全過｜【12:3x BB 64aaaa82】BB_205 大二下程式清單八組（ladder bb y2s2／y2s1 重新匯入：skipAfterWeek、greet.when、KX_BDAY2_CAKE；P4 移到大二上第 15 週週四 12/17；沛珊 12/18 起依日期聯絡不到；學姊 sis_list／sis_report／M2／M3 不在大二；子晴 zq_dad／zq_name 看過 Q6；明軒／阿凱；可昕；MISS 每則一句）｜【12:20 AA f218a3e0】子晴 Q8 前置加看過 Q6（沒碰到或沒看過＝第 15 週五 2027-06-04 22:00 四則、ZQ_DAD_HEARD；AA_255 第 7 節兩版＋交往中一則；河堤 CG 只在祐廷在場）；沛珊 P4 交接搬到 2026-12-17（四）大二上最後一次公法讀書會、消失期從寒假開始；柏翰 ev_bohan_scores「她走了。」→「她不來了。這樣大家比較知道自己差多少。」｜AA-C 12:18 交（AA_255 第 4 節）；D81：大二（v3）在 v0～v2 之後，但 ladder Y2S2 舊版會讓玩家看到錯的內容，排在下一批",
+   "next": "【15:1x LAWWW-C】BB_205 第 4～8 節做完：大二每週訊息照 AA_179（516ba348）與 BB_97 11-1／11-2 重寫（每一則各一句、交往版、vars：明軒 SAW_HIM_STUDY、阿凱 KAI_KEYBOARD、子晴 PLAYTESTED；學姊只剩法圖的書、sis_report 刪；可昕期中報告摘要；模擬法庭三則換掉）（5849ca36）；學姊熱水改 Kevin 起頭、M2 那則刪、可昕三則改句；M2／M3／上榜聚餐大二不播（STORY.SIS_Y2_EXAM=false）；SMALLTALK 學姊兩句加 term、子晴「手指」只在大一下、「室友」換 BB_166 1-3 兩版；可昕半熟／一盞照 BB_158 第 5 節。還沒做：M2／M3／上榜聚餐搬到大一下（等 AA_218 17-12 第 4 點）；Q8 要 PLAYTESTED＋沒看過的那則（Q8 還沒做，AA_255 第 7 節）；KAI_KEYBOARD 的大一下 S-3（BB_154，還沒做）；AA_255 其餘（syllabus）。 ｜ 舊：【14:4x LAWWW-C】BB_205 第 2 節（P4 搬到 12/17、「下學期起」、沒去 21:30、交接筆記 12/17 22:00、公法讀書會大二下拿掉第 1 週）、第 3 節（沛珊 12/18～2027-08-06 聯絡不到：presence absentDates unreachable、約＝「沒有回覆。」、P4b／小組／42 頁／Café 都不發、群組回話換人、ps_kids 刪）、第 4 節 W3b 大二下不發 做好；tests 改（v3_p4_han3、presence、bb163、bb_batch_1016、knows_gf、v3_p4b）。還沒：第 1 節階梯重新匯",
    "first": {
     "term": "Y2S1",
     "week": 3,
@@ -15720,6 +15720,34 @@
     "spec": "AA_263 給 LAWWW",
     "branch": "claude/adoring-meitner-mqzst8",
     "acceptance": "清單每項做完並有單元測試",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "BB154-KAI-KB",
+   "title": "BB_154 大一下 S-3 阿凱的鍵盤（記憶 KAI_KEYBOARD；第 7 週週四 24:00 以前在房間；大二 kai_kb 的回聲讀它）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "照 BB_154 第 2 節施工；大二 kai_kb 已經讀 KAI_KEYBOARD（沒有的玩家走替代版）",
+   "first": {
+    "term": "Y1S2",
+    "week": 7,
+    "earliest": "大一下第 7 週",
+    "mainline": false,
+    "blocks": false,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_154（BB 分支）、BB_97 11-1",
+   "authorized": "BB 交付（大一下缺口 AB27）",
+   "xai": {
+    "spec": "BB_154",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "事件＋記憶＋單元測試",
     "receiver": "LAWWW",
     "ack": "ACK"
    }

@@ -459,6 +459,8 @@ const STORY = (function(){
     'A3-L6':G=>!!(G.events&&G.events.done&&G.events.done.ev_yu_together)||G.day>=S.dayOfKey('2026-12-19'),
     'Y3-L5':G=>!!(G.events&&G.events.done&&G.events.done.ev_yu_together)||G.day>=S.dayOfKey('2026-12-19')};
   /* AA_186 第 6 節 C（條件類，AA-B 19:1x 照做）：「妳們和好了？」只給看過吵架那一場的玩家（以安 A2-L6：ev_an_yu_argument；A5-L6 芯慈：慈 3）；linesIf 指到不存在的 ev_an_study_group 改讀公法讀書會 */
+  /* 學姊 M2 換題目、M3 放榜、上榜聚餐：照新年級是 2026 年＝祐廷大一下的事，大二不播（BB_205 第 4 節、BB_97 第 2 節 2026-10-17）；搬到大一下的版本等 AA_218 17-12 第 4 點（AA 下一批）*/
+  S.SIS_Y2_EXAM=false;
   S.LADDER_CHOICE_IF={'A2-L6':{'「妳們和好了？」':{events:['ev_an_yu_argument']}},'A-L11':{'「我可以去嗎？」':{notEvents:['ev_public_law_group']}},
     'A3-L3':{'「三條是哪三條？」':{notFlags:['PLG_RULES_SEEN']}}};   /* AA_238 5-5（25e89f6e）：讀書會改到大一上，「我可以去嗎？」改掛以安 A-L11（去過公法讀書會的不出現），A2-L6 只留「妳們和好了？」（看過吵架的才有）；AA_259：A5-L6 改稿後沒有「妳們和好了？」；AA_211（0ba8d336）：A3-L3「三條是哪三條？」看過規則（PLG_RULES_SEEN）的不出現 */
   /* 選項的回覆依條件換（AA_211 第 4 節，0ba8d336）：可昕 K3-L7 選項①——沒去系上的電影夜（ev_kexin_film_night，BB_97 9-6，大二還沒做）＝「真的嗎？那下次我坐你旁邊看。」*/
@@ -1848,7 +1850,7 @@ const STORY = (function(){
         PHONE.at(G,f6,21,[{th:'g:noodle_team',from:'classmate_peishan',text:'說一下：我和柏翰分開了。我們都好。你們吃你們的。'},{th:'g:noodle_team',from:'zhe',text:'……收到。'}],'ps_split_group'); } }
     /* 學姊 M2 換題目（BB_97 2-5；AA_177 第 8 節②：大二寒假 1/20（三）21:00 家族群組，所有家族成員都看得到，不以 W9 為前置）：讀書計畫的照片＋三件事；
        祐廷可以回第三件（咖哩那句要有 FAMILY_DINNER）；到隔天 9:00 還沒回＝Kevin「三，考完請吃飯！」她「……好。」 */
-    { const d=S.dayOfKey('2027-01-20'); if(d!=null&&PHONE.inGroup(G,'family_law')){ const W=(t,o)=>Object.assign({th:'g:family_law',from:'heroine_05',name:'溫學姊',text:t},o||{});
+    { const d=S.dayOfKey('2027-01-20'); if(S.SIS_Y2_EXAM&&d!=null&&PHONE.inGroup(G,'family_law')){ const W=(t,o)=>Object.assign({th:'g:family_law',from:'heroine_05',name:'溫學姊',text:t},o||{});
         if((G.day>d||(G.day===d&&G.hour>=21))&&G.day<=d+3&&!PHONE.sent(G,'sis_m2')){ const opts=[];
           if(typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER')) opts.push({t:'三，考完全家族去吃永康街那家咖哩。',say:[W('……好。考完那天我請。你們不要跟我搶。')],set:{SIS_M2:'curry'}});
           opts.push({t:'三，考前一天不要熬夜。',say:[W('你在用我的句型管我。'),W('……好。收到。')],set:{SIS_M2:'sleep'}});
@@ -1938,7 +1940,7 @@ const STORY = (function(){
           L[L.length-1]=Object.assign(L[L.length-1],{ask:{id:'zr_z7b',opts}}); PHONE.at(G,nb,21,L,'zr_z7b'); F.ZR_NOMINATED=true; } } }
     /* 學姊 M3 放榜（BB_97 2-7；大二下第 4 週週五 3/19 20:00，AA-B 定第 4 週）：所有玩家看到的都是家族群組（她先告訴家人和伴侶，畫面外）。
        ASKED_TELL_ME（M2 選了「不管考得怎樣都要說」）＝她 @祐廷 多一則；玩家可以回三個（咖哩那個要有 FAMILY_DINNER 記憶）；回了或到 22:00 沒回，她最後對全家族一句 */
-    { const d=S.dayOfKey('2027-03-19'); if(d!=null&&PHONE.inGroup(G,'family_law')){ const W=t=>({th:'g:family_law',from:'heroine_05',name:'溫學姊',text:t}), K=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t}), LAST='這次的第三件，我想好了。聚餐那天說。';
+    { const d=S.dayOfKey('2027-03-19'); if(S.SIS_Y2_EXAM&&d!=null&&PHONE.inGroup(G,'family_law')){ const W=t=>({th:'g:family_law',from:'heroine_05',name:'溫學姊',text:t}), K=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t}), LAST='這次的第三件，我想好了。聚餐那天說。';
         if((G.day>d||(G.day===d&&G.hour>=20))&&G.day<=d+3&&!PHONE.sent(G,'sis_m3')){ const tell=typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','ASKED_TELL_ME'), curry=typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER');
           const opts=[{t:'恭喜學姊！',say:[W('謝謝。'),W(LAST)],set:{SIS_M3_REPLY:'congrats'}},{t:'我就知道。',say:[W('你不知道。你只是希望。……謝謝。'),W(LAST)],set:{SIS_M3_REPLY:'knew'}}];
           if(curry) opts.push({t:'（貼一張咖哩的照片）',post:'📷（咖哩）',say:[W('……好。考完說好的那家。'),W(LAST)],set:{SIS_M3_REPLY:'curry'}});
@@ -1947,7 +1949,7 @@ const STORY = (function(){
         if(PHONE.sent(G,'sis_m3')&&!F.SIS_M3_REPLY&&G.day*24+G.hour>=d*24+22&&!PHONE.sent(G,'sis_m3_last')){ F.SIS_M3_REPLY='none'; PHONE.at(G,d,22,[W(LAST)],'sis_m3_last'); } } }
     /* 上榜的家族聚餐（BB_97 2-7b；大二下第 5 週週五 3/26 19:00）：M3 那晚 21:00 Kevin 在家族群組揪（「去。」才排出遊，照大一家聚的做法）；
        有 FAMILY_DINNER 記憶＝永康街那家咖哩，沒有＝公館。沒去（沒答應或沒到）＝21:30 群組合照＋Kevin 一句 */
-    { const d=S.dayOfKey('2027-03-26'), m3=S.dayOfKey('2027-03-19'); if(d!=null&&m3!=null&&PHONE.inGroup(G,'family_law')&&G.day>=m3&&G.day<=d+1){ const K=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t}), curry=typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER');
+    { const d=S.dayOfKey('2027-03-26'), m3=S.dayOfKey('2027-03-19'); if(S.SIS_Y2_EXAM&&d!=null&&m3!=null&&PHONE.inGroup(G,'family_law')&&G.day>=m3&&G.day<=d+1){ const K=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t}), curry=typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER');
         if(!PHONE.sent(G,'sis_m3_dinner_inv')&&(G.day>m3||G.hour>=21)) PHONE.at(G,m3,21,[Object.assign(K(curry?'學姊上榜聚餐！下週五七點，永康街那家咖哩。全家族。':'學姊上榜聚餐！下週五七點，公館的日日定食。全家族。'),{ask:{id:'sis_m3_dinner',until:d*24+18,opts:[{t:'去。',set:{SIS_M3_DINNER_GO:true}},{t:'這次不行。',set:{SIS_M3_DINNER_GO:false}}]}})],'sis_m3_dinner_inv');
         if(F.SIS_M3_DINNER_GO===true&&typeof OUT!=='undefined'&&!OUT.get(G,'sis_m3_dinner')) OUT.plan(G,{id:'sis_m3_dinner',ev:'ev_sis_results_dinner',day:d,h:19,late:0.25,place:curry?'永康街的咖哩店':'公館的日日定食',title:'學姊上榜聚餐',travel:curry?'約 20 分鐘':'走過去約 10 分鐘',travelH:curry?1/3:1/6});
         if(!(G.events&&G.events.done&&G.events.done.ev_sis_results_dinner)&&(G.day>d||G.hour>=21.5)&&!PHONE.sent(G,'sis_m3_dinner_photo'))
@@ -2320,25 +2322,25 @@ const STORY = (function(){
         ['y0_wl_wait',Y0('Y0S2',6),21,G=>!!G.flags.LEAVE_WEEK&&(PHONE.inGroup(G,'econ_friends')||PHONE.inGroup(G,'econ_class')),G=>[WL('走啦！……喔你在念書。那念完再走！我等！',grp(G))]],
         ['y0_wl_newbike',Y0('Y0S2',4),20+40/60,G=>!!G.flags.WL_BIKE,()=>[WL('新車騎了三個月，鏈子一次都沒掉。我有點想念以前那台。')]] ];
       return L.map(([id,term,hh,ok,items])=>({id,term,h:G=>(/^y0_kx_/.test(id)&&hh>=19&&hh<22.1&&G&&S.cramNight(G))?22+10/60:hh,ok:(G,day)=>S.isEcon(G)&&ok(G,day==null?G.day:day),items})); })(),   /* 衝刺班的晚上，可昕的手機小事改到 22:10（BB_188 A9-3）*/
-    /* 大二的手機小事（BB_97 第 5 節＋9-16；任務 V3-B22）：BB 寫的是「摘要日的手機小事」，大二還沒有摘要日（SYS-08），照大一的做法放進每天的手機小事。每則一次；時間沒寫的是技術預設。
+    /* 大二的手機小事（BB_97 第 5 節＋9-16；任務 V3-B22；2026-10-17 照 BB_205 第 4、7 節：學姊熱水改 Kevin 起頭、M2 那則刪、可昕三則改句）：BB 寫的是「摘要日的手機小事」，大二還沒有摘要日（SYS-08），照大一的做法放進每天的手機小事。每則一次；時間沒寫的是技術預設。
        接的事件還沒做的那幾則先不放（學姊 M2 之後、上榜、畢業；沛珊 P4b；方奕廷的暑假；可昕 K10c 之後；長頸鹿貼圖）——那些事件做好時在這裡加 */
     ...(()=>{ const Y2=T=>!!T&&/^Y2S[12]$/.test(T.id), Y2a=(w0)=>T=>!!T&&T.id==='Y2S1'&&T.week>=(w0||1), Y2b=T=>!!T&&T.id==='Y2S2', done=(G,id)=>!!(G.events&&G.events.done&&G.events.done[id]);
       const kx=G=>!!G.flags.dating_kexin;
       const L=[
         /* y2_sis_shift（W6 交接後「今天的值班表，柏翰排錯了。」）刪：W6 刪了（BB_191 §7-3）*/
         /* y2_kevin_retire（Kevin「學姊卸任了！」）刪：她在祐廷大一時已經是前任社長，沒有卸任這件事（BB_191 §7-3）；舊存檔演過 W6 的也不再送 */
-        ['y2_sis_hotwater',Y2,17+5/60,G=>!!G.flags.HOT_WATER&&PHONE.inGroup(G,'family_law'),()=>[{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'📷（一個保溫瓶）'},{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'今天裝熱水。咖啡喝太多了，換一天。',dt:1/60},{th:'g:family_law',from:'kevin',name:'Kevin',text:'學姊妳改喝熱水了？',dt:3/60},{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'偶爾。',dt:5/60}]],   /* W8 選了熱水以後（BB_97 第 5 節；理由大家都懂、不是只對某一個人的暗示）*/
-        ['y2_sis_m2read',Y2b,17+5/60,G=>PHONE.sent(G,'sis_m2')&&PHONE.inGroup(G,'family_law')&&!PHONE.sent(G,'sis_m3'),()=>[{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'今天讀了四章。一件事：腰很痛。'}]],   /* BB_97 第 5 節：M2 之後（M3 放榜以前）*/
+        ['y2_sis_hotwater',Y2,17+5/60,G=>!!G.flags.HOT_WATER&&PHONE.inGroup(G,'family_law'),()=>[{th:'g:family_law',from:'kevin',name:'Kevin',text:'📷（學姊桌上的保溫瓶）'},{th:'g:family_law',from:'kevin',name:'Kevin',text:'學姊今天裝熱水欸',dt:1/60},{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'偶爾。',dt:3/60}]],   /* BB_97 第 5 節（BB_205 第 4 節，2026-10-17）：她不主動在家族群組發言（AA_218 17-12），改 Kevin 起頭 */
+        /* y2_sis_m2read 刪（BB_205 第 4 節：M2 是祐廷大一下的事，大二不發）*/
         ['y2_ps_42',Y2b,21+30/60,G=>PHONE.sent(G,'ps_p4b')&&(G.weekday===6||G.weekday===0),()=>G.flags.PS_P4B_GROUP?[{th:'g:ps_study',from:'classmate_peishan',text:'今天念了 42 頁。你們呢？'}]:[P1('classmate_peishan','今天念了 42 頁。你呢？')]],   /* BB_97 第 5 節：P4b 之後的週末晚上 */
         ['y2_zq_lab',Y2,22+10/60,G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_04','LAB_LETTER')&&gotBefore(G,'heroine_04'),()=>seq('heroine_04',['我回信了','說不要','教授說好','就這樣','好簡單喔'])],
         ['y2_zr_order',Y2,null,G=>done(G,'ev_zhiruo_applied')&&!done(G,'ev_zhiruo_last_shift')&&gotBefore(G,'heroine_02'),()=>[P1('heroine_02','今天第三個客人點錯。我記得他上週點什麼。我沒說。')]],
-        ['y2_kx_usual',Y2a(),21+10/60,kx,()=>[P1('kexin','老樣子。你知道是哪個老樣子。')]],
+        ['y2_kx_usual',Y2a(),21+10/60,kx,()=>[P1('kexin','午餐老樣子，山下那攤的酸辣湯餃。')]],
         ['y2_kx_superficies',Y2a(),21+10/60,kx,()=>[P1('kexin','物權的老師講了一個小時的地上權。我現在看到房子都想問地是誰的。')]],
         ['y2_kx_index',Y2a(),21+10/60,kx,G=>[P1('kexin',typeof SOCIAL!=='undefined'&&SOCIAL.has('kexin','ENC_D13_KX')?'邵鈞的考古題有目錄。目錄有索引。':'我們系有一個人，考古題有目錄。目錄有索引。')]],   /* 還沒見過邵鈞（淡水的偶遇 D13）的玩家：「我們系有一個人」*/
         ['y2_kx_hand',Y2a(6),21+10/60,G=>kx(G)&&!!G.flags.PLAYED_Y0&&G.flags.E12_ANSWER==='hand',()=>[Object.assign(P1('kexin','我還在等你的第三隻手。'),{ask:{id:'dp_y2_kx_hand',opts:[{t:'……長頸鹿的尾巴？',say:[{from:'kexin',text:'你記得。很好。尾巴還在等。'}]},{t:'我在練。',say:[{from:'kexin',text:'練到哪了？……先幫我拿書包就好。'}]}]}})]],   /* BB_104 8-4「她會記得」：三個條件都成立才有 */
-        ['y2_kx_landlord',Y2b,21+10/60,kx,()=>[P1('kexin','你們債各的老師也講那個房東的例子嗎？')]],
+        ['y2_kx_landlord',Y2b,21+10/60,kx,()=>[P1('kexin','我們債各老師講了一個房東的例子，講了一整節。你們的也講嗎？')]],
         ['y2_kx_river',Y2b,21+10/60,G=>kx(G)&&G.weather==='rain',()=>[P1('kexin','今天下雨，山變成一條河。')]],
-        ['y2_kx_funny',Y2b,21+10/60,kx,()=>[P1('kexin','我的物權報告被說舉例太好笑。分數很高。我不知道該不該高興。')]] ];
+        ['y2_kx_funny',Y2b,21+10/60,kx,()=>[P1('kexin','上學期的物權報告發回來了。被說舉例太好笑，分數很高。我不知道該不該高興。')]] ];
       return L.map(([id,term,hh,ok,items])=>({id,term,h:G=>hh!=null?hh:(zrKnows(G)?15+10/60:22+7/60),ok:(G,day)=>!S.isEcon(G)&&ok(G,day==null?G.day:day),items})); })(),   /* 芷若：雙方都單身 22:07、祐廷交往中 15:10（AA_112 8-1）*/
     /* 自由出行的偶遇以後（DL-07；AA_162、BB_144 第 4 節）：語彤傳那天的照片、可昕說淡水的假設題——遇到的隔天以後，一次 */
     ...[['enc_yt_photo','ENC_D12_YT','heroine_03',21+20/60],['enc_kx_d13','ENC_D13_KX','kexin',21+10/60]].map(([id,tag,who,hh])=>({id,term:T=>!!T,h:()=>hh,ok:G=>typeof ENC!=='undefined'&&ENC.phoneReady(G,tag),items:G=>{ ENC.markSaid(G,tag); return seq(who,ENC.phoneLines(tag)); }})) ];

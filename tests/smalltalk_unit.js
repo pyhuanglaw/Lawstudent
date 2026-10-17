@@ -43,18 +43,18 @@ const talk=id=>STORY.smallTalk(G,id), txt=L=>L.say||L.narr;
   const says=G2.filter(q=>q.say).map(q=>q.say); check('開學三週每天找她：短招呼最多兩句、同一句只說一次，其他天只有旁白',says.length<=2&&new Set(says).size===says.length&&G2.filter(q=>q.narr).length>=19,says.join(' / ')); }
 // ---------- 高子晴 ----------
 { const id='heroine_04'; delete G.social.small; const say=[]; for(let d=0;d<3;d++){ G.day=W+10+d; say.push(txt(talk(id))); }
-  check('高子晴：還沒去吉他社，不會說「期末成發你要來」「手指好了沒」「阿凱昨天又通宵」',!say.some(t=>/成發|手指|通宵/.test(t)),say.join(' / '));
+  check('高子晴：還沒去吉他社，不會說「期末成發你要來」「手指好了沒」「阿凱說他昨天又寫到四點」',!say.some(t=>/成發|手指|寫到四點/.test(t)),say.join(' / '));
   DONE.ev_ziqing_club=1; delete G.social.small; const s2=[]; for(let d=0;d<4;d++){ G.day=W+20+d; s2.push(txt(talk(id))); }
-  check('去過吉他社、但沒學和弦：只有「阿凱昨天又通宵」（手指痛要學過和弦，AA_120）',s2.some(t=>/通宵/.test(t))&&!s2.some(t=>/手指|成發/.test(t)),s2.join(' / '));
+  check('去過吉他社、但沒學和弦：只有「阿凱說他昨天又寫到四點。你們那間到底幾點關燈？」（大一版，BB_166 1-3；手指痛要學過和弦，AA_120）',s2.some(t=>/你們那間到底幾點關燈/.test(t))&&!s2.some(t=>/手指|成發/.test(t)),s2.join(' / '));
   MEM['heroine_04:INVITED_CLUB']=1; delete G.social.small; const s3=[]; for(let d=0;d<4;d++){ G.day=W+30+d; s3.push(txt(talk(id))); }
-  check('學過和弦：「手指好了沒」也會說；大一上還是不說「期末成發」（成發在大一下、大二下）',s3.some(t=>/手指/.test(t))&&!s3.some(t=>/成發/.test(t)),s3.join(' / '));
+  check('學過和弦、還在大一上：「手指好了沒」只在大一下說（BB_205 第 5 節 term Y1S2）；大一上也不說「期末成發」（成發在大一下、大二下）',!s3.some(t=>/手指/.test(t))&&!s3.some(t=>/成發/.test(t)),s3.join(' / '));
   STAGE.heroine_04='FAMILIAR'; delete G.social.small; const wk11=dayOf('2026-05-06'); const s4=[]; for(let d=0;d<3;d++){ G.day=wk11+d; s4.push(txt(talk(id))); }
-  check('熟了＋大一下第 11 週：三句都會輪到（含「期末成發你要來」）',s4.some(t=>/成發/.test(t))&&s4.some(t=>/手指/.test(t))&&s4.some(t=>/通宵/.test(t)),s4.join(' / '));
+  check('熟了＋大一下第 11 週：三句都會輪到（含「期末成發你要來」）',s4.some(t=>/成發/.test(t))&&s4.some(t=>/手指/.test(t))&&s4.some(t=>/寫到四點/.test(t)),s4.join(' / '));
   delete G.social.small; const wk3=dayOf('2026-03-11'); const s5=[]; for(let d=0;d<3;d++){ G.day=wk3+d; s5.push(txt(talk(id))); }
   check('大一下第 3 週：還不到成發前，不說「期末成發」',!s5.some(t=>/成發/.test(t)),s5.join(' / ')); }
 { const id='heroine_04'; let d2=null; for(let d=dayOf('2027-02-01');d<dayOf('2027-07-01');d++){ const T=CALENDAR.termOf(d); if(T&&T.id==='Y2S2'&&T.week===11){ d2=d; break; } }
   delete G.social.small; const s6=[]; for(let k=0;k<3;k++){ G.day=d2+k; s6.push(txt(talk(id))); }
-  check('熟了＋大二下第 11 週：大二下的成發（Q9）還沒做，不說「期末成發」（BB_134 1-8，2026-10-16）',d2!=null&&!s6.some(t=>/成發/.test(t))&&s6.some(t=>/手指|通宵/.test(t)),s6.join(' / ')); }
+  check('熟了＋大二下第 11 週：大二下的成發（Q9）還沒做，不說「期末成發」（BB_134 1-8）；「手指」只在大一下，大二換「你看到他，叫他去睡」（BB_166 1-3）',d2!=null&&!s6.some(t=>/成發|手指/.test(t))&&s6.some(t=>/叫他去睡/.test(t)),s6.join(' / ')); }
 // ---------- 地點、時間、週次 ----------
 { const id='heroine_02'; delete G.social.small; G.zone='campus'; G.day=W; const a=txt(talk(id)); G.day=W+1; const b=txt(talk(id)); G.day=W+2; const c=txt(talk(id));
   check('芷若在校園（第 5 週）：不說「今天的豆子很酸」（在店裡才說）、也不說期中（第 6～9 週）',![a,b,c].some(t=>/豆子|期中/.test(t)),[a,b,c].join(' / '));

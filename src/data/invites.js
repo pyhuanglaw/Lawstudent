@@ -174,8 +174,8 @@ const INVITE_DATA={
         if(c.pid==='noodle'&&!(G.invites||[]).some(iv=>iv.who==='classmate_peishan'&&iv.place==='noodle'&&['done','accepted','going'].includes(iv.state)&&/^Y[34]/.test((CALENDAR.termOf(iv.day)||{id:''}).id))&&r.res==='accept') return {lines:['「好。阿鳳阿姨一定會問我現在念什麼。……我要講很久。」']};
         if(c.pid==='wenzhou'&&tutor) return {res:'resched',why:'work',act:'work',lines:['「課輔班下課，剛好在溫州街。……七點，門口等我。」'],alt:at(19)};
         return null; } },   /* rule：BB_158 第 4 節，大二下重考那一學期半熟、一盞都婉拒（SYS-21 起她那學期休學、presence 先回 away：照樣換成她自己的這一句）*/   /* 沛珊（6-4）*/
-    kexin:{ acc:{brunch:{A:['「半熟？假設我從政大過來要四十分鐘——好，我十點到。」'],R:['「好。我先查好菜單，第二頁是假設題。」']},teahouse:{R:['「一盞。安靜的地方。……假設我一個小時不講話，你會怎樣？」']}},   /* BB_158 第 5 節（她在政大：時間照她的作息）*/
-      firstAt:{brunch:['「假設蛋可以選熟度，人也可以選嗎？……我選半熟。這是告知。」'],teahouse:['「我們學校的山上也有茶。可是這裡的院子比較安靜。不是在比。」']} },
+    kexin:{ acc:{brunch:{A:['「半熟？我從政大過來要四十分鐘。好，我十點到。」'],R:['「好啊，我先查一下菜單。」']},teahouse:{R:['「一盞。安靜的地方。……我可能一個小時都不講話喔。」']}},   /* BB_158 第 5 節（她在政大：時間照她的作息；2026-10-17 BB-C 改稿：不再每句「假設」）*/
+      firstAt:{brunch:['「蛋可以選熟度欸。……我要半熟。」'],teahouse:['「我們學校後山也有茶園欸。」','「不過這邊的院子比較安靜。」']} },
     npc_fangyt:{ walk:{any:[['「椰林大道的大王椰子，一年會掉好幾次葉子。很重。所以不要站在樹下講太久的話。」'],['「這棵是樟樹。這棵是菩提。那棵……我不知道。我會去查。」'],{if:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_02','FIRST_MET'),l:['「芷若高中的時候……算了。你自己問她。」']}]}, acc:{brunch:['「好。早上我本來就起得早。」'],teahouse:['「好。安靜的地方，我比較會說話。」'],cafe:['「Café 的窗台有一盆植物快死了。我一直想去救它。好。」'],library:['「總圖前面的樟樹是我最喜歡的。我在樹下等你。」'],wenzhou:['「溫州街有一棵很老的榕樹。我帶你去。」']} }   /* 方奕廷（7-4）*/
   }
 };
