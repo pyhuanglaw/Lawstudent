@@ -482,6 +482,34 @@
       "noDirectIntegrate": false,
       "receiver": "LAWWW",
       "ack": "SENT"
+    },
+    {
+      "task": "AA_230 子晴芷若交往版口語改稿（AA 已審）",
+      "branch": "claude/magical-albattani-bk7b4n",
+      "sha": "47377b31",
+      "files": [
+        "docs/story_planning/AA_230_子晴芷若交往中版本_口語改稿表.md"
+      ],
+      "state": "已交付",
+      "remaining": "BB_97 大二六句的額度改稿待 BB 列給 AA",
+      "next": "BB 照 AA_230 第 2～4、8 節改 BB_186／187／189，回 SHA；AA 核對",
+      "noDirectIntegrate": true,
+      "receiver": "BB",
+      "ack": ""
+    },
+    {
+      "task": "AA_236 補記 B2／A9／A8 答覆",
+      "branch": "claude/magical-albattani-bk7b4n",
+      "sha": "556208df",
+      "files": [
+        "docs/story_planning/AA_236_外部審稿回覆_全人物台詞.md"
+      ],
+      "state": "已交付",
+      "remaining": "",
+      "next": "LAWWW 照實作",
+      "noDirectIntegrate": false,
+      "receiver": "LAWWW",
+      "ack": "ACK（訊息已回答）"
     }
   ]
 }
