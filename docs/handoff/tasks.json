@@ -15993,6 +15993,48 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "source": "LAWWW-C 瀏覽器回歸（batch 21、flow_v0_to1017）",
+   "authorized": "D85 一般 bug 修正",
+   "id": "FIX-MENU-PHONE",
+   "title": "下課選單、起床選單、「繼續去上課」跳在手機下面點不到（flow_v0_to1017 經濟系 9/19 卡住）",
+   "next": "【cff31e7d】classes3d.js freeNow 加 !E.paused：手機、選單、大地圖開著時不出，關掉以後才出；dl01_oneclick_unit 過。驗收：flow_v0_to1017 重跑（排在 batch 22 後面）。",
+   "first": {
+    "term": "Y0S1",
+    "week": 3,
+    "earliest": "經濟系第 3 週，上完課打開手機要直接去下一堂",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   }
+  },
+  {
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "source": "LAWWW-C 瀏覽器回歸（batch 21、flow_v0_to1017）",
+   "authorized": "D85 一般 bug 修正",
+   "id": "FIX-DORM-HOMEBAG",
+   "title": "宿舍「收拾背包回臺北的家」和床的「睡覺」範圍重疊：站在背包旁邊出現「睡覺」，放假回不了家（flow_law_break batch 21）",
+   "next": "【22fb1f78】E.nearestInteractable 加可選 prio；背包 prio 0.3。interact_priority_unit 加兩項。驗收：batch 22 的 flow_law_break。",
+   "first": {
+    "term": "Y1S1",
+    "week": 16,
+    "earliest": "大一寒假第一次在宿舍要回家",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   }
   }
  ]
 }
