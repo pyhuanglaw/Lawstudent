@@ -36,8 +36,8 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); picks=['扁扁']; said=[]; await OUT.go(GM,OUT.get(G,'y0_e20')); check('2. 拿記帳本：沒有唐睿那兩句',said.some(x=>x.t==='記帳本。每一筆都要記。包括今天的火鍋。')&&!said.some(x=>x.t==='品妤的？……我會每一筆都記。'));
   // 沒去
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); at(D25,19.5); OUT.expire(G);
-  G.day=D26; G.hour=10; G.weekday=wdOf(D26); G.zone='campus'; check('3. 沒去：12/26 經過社科院門口有「你的份」',EVENTS.check(e20b));
+  G.day=D26; G.hour=10; G.weekday=wdOf(D26); G.zone='gongguan'; check('3. 沒去：12/26～12/28 第一次走進公館有「你的份」（AA_224 3-5）',EVENTS.check(e20b));
   said=[]; await EVENTS.run(e20b); check('3. 「你昨天沒來。」→ 鑰匙圈 →「你的份。」、GIRAFFE_KEYCHAIN',said[0].t==='你昨天沒來。'&&said[said.length-1].t==='你的份。'&&G.flags.GIRAFFE_KEYCHAIN===true);
-  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); at(D25,19.5); OUT.expire(G); at(D26,20.2); check('4. 18:00 以前沒經過：20:00 可昕私訊信箱、隔天早上拿到',TH('p:kexin').includes('你的份，我放在你們宿舍一樓的信箱了。')&&!G.flags.GIRAFFE_KEYCHAIN&&(()=>{ at(D26+1,8); return G.flags.GIRAFFE_KEYCHAIN===true; })());
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); at(D25,19.5); OUT.expire(G); at(D26+2,20.2); check('4. 12/28 20:00 以前沒去公館：可昕私訊「你的份，我放在你家信箱了。」、隔天早上拿到（AA_224 3-5）',TH('p:kexin').includes('你的份，我放在你家信箱了。')&&!G.flags.GIRAFFE_KEYCHAIN&&(()=>{ at(D26+3,8); return G.flags.GIRAFFE_KEYCHAIN===true; })());
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

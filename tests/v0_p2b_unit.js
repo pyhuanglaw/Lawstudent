@@ -84,9 +84,9 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   // 沒去版
   const bikeAsk=()=>PHONE.thread(G,'g:econ_friends').find(m=>m.text==='我的車被認走了。有沒有人懂法律？');
   fresh(BD,17.4,'dorm',{P2_PICK:'river'}); PHONE.join(G,'econ_friends','走啦'); run(); check('13. 沒去：17:30 以前沒有',!bikeAsk());
-  at(BD,17.6); const qa=bikeAsk(); check('13. 17:30「走啦」韋綸「我的車被認走了。有沒有人懂法律？」、選項「（去總圖查完再回）」「（不回）」到 18:00',!!qa&&qa.ask.opts.map(o=>o.t).join('/')==='（去總圖查完再回）/（不回）'&&qa.ask.until===BD*24+18);
+  at(BD,17.6); const qa=bikeAsk(); check('13. 17:30「走啦」韋綸「我的車被認走了。有沒有人懂法律？」、選項「（查完再回）」「（不回）」到 18:00',!!qa&&qa.ask.opts.map(o=>o.t).join('/')==='（查完再回）/（不回）'&&qa.ask.until===BD*24+18);
   const snapA=JSON.stringify(G); PHONE.answer(G,'y0_bike',0); run(); const TA=TH('g:econ_friends');
-  check('13. 去總圖查：時間前進一小時 → 祐廷傳查到的 → 韋綸「……好。我去派出所。」、記 BIKE_LOOKED_UP、WL_BIKE',Math.abs(G.hour-18.6)<1e-6&&TA.includes('被偷的東西，原主兩年內可以要回去。車要還，可是你可以去找賣你的人。紀錄都留著。')&&TA.includes('……好。我去派出所。')&&!TA.includes('（去總圖查完再回）')&&G.flags.BIKE_LOOKED_UP===true&&G.flags.WL_BIKE===true,JSON.stringify(TA));
+  check('13. 去總圖查：時間前進一小時 → 祐廷傳查到的 → 韋綸「……好。我去派出所。」、記 BIKE_LOOKED_UP、WL_BIKE',Math.abs(G.hour-18.6)<1e-6&&TA.includes('被偷的東西，原主兩年內可以要回去。車要還，可是你可以去找賣你的人。紀錄都留著。')&&TA.includes('……好。我去派出所。')&&!TA.includes('（查完再回）')&&G.flags.BIKE_LOOKED_UP===true&&G.flags.WL_BIKE===true,JSON.stringify(TA));
   at(BD,19); check('13. 去查的玩家：阿勳那句不出現',!TH('g:econ_friends').includes('去派出所。留著對話紀錄。'));
   G=JSON.parse(snapA); SOCIAL.bind(G); EVENTS.bind(GM); PHONE.answer(G,'y0_bike',1); at(BD,17.9); check('14. 不回：18:00 以前阿勳還沒說',!TH('g:econ_friends').includes('去派出所。留著對話紀錄。'));
   at(BD,18.05); check('14. 不回：18:00 阿勳「去派出所。留著對話紀錄。」、沒有記號',TH('g:econ_friends').includes('去派出所。留著對話紀錄。')&&!G.flags.BIKE_LOOKED_UP&&!G.flags.WL_BIKE);

@@ -31,7 +31,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   picks=['她很會接']; said=[]; G.day=F29; G.hour=18.7; await OUT.go(GM,q); let L=said.map(x=>x.t);
   check('2. 去了：四十張椅子、唐睿主持、可昕「那個人剛剛說的那一句。」',L.includes('（四十張椅子。燈關掉，只開講台的燈。）')&&L.includes('（主持）接下來，請觀眾給我們一句台詞！')&&L.includes('那個人剛剛說的那一句。'));
   check('2. 她接 IMPROV_LINE（計程車）那一段；不接 E12',L.includes('計程車停在企鵝旁邊。司機說：『南極？跳表要算到明年。』')&&!L.some(t=>t.startsWith('這條尾巴不是貓的')),JSON.stringify(L));
-  check('2. 散場後唐睿、「她很會接。」→「她什麼都接得住。除了直球。」',L.includes('（散場後）你那句很好接。……你們排練過？')&&L[L.length-1]==='她什麼都接得住。除了直球。');
+  check('2. 散場後唐睿、「她很會接。」→「她什麼都接得住。……你上次那顆直球也是。」',L.includes('（散場後）你那句很好接。……你們排練過？')&&L[L.length-1]==='她什麼都接得住。……你上次那顆直球也是。');
   at(F29+1,13); check('2. 去了：沒有影片',!PHONE.sent(G,'y0_e18_missed'));
   // 沒有 IMPROV_LINE → E12
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.flags.IMPROV_LINE=undefined; delete G.flags.IMPROV_LINE; picks=[]; said=[]; G.day=F29; G.hour=18.7; await OUT.go(GM,OUT.get(G,'y0_e18')); L=said.map(x=>x.t);

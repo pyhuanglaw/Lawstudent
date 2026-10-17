@@ -24,19 +24,12 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
 (async()=>{
   const K=k=>STORY.dayOfKey(k), S22=K('2024-12-22'), T31=K('2024-12-31');
   const e22=STORY_EVENTS.find(e=>e.id==='ev_y0_e22'), e21=STORY_EVENTS.find(e=>e.id==='ev_y0_e21a');
-  check('0. E22 定義還在（給舊存檔）、標 retired（AA_218 第 11 節）；E21a 在、沒有 retired',!!e22&&typeof e22.retired==='string'&&e22.retired.includes('AA_218')&&!!e21&&!e21.retired); if(!e22||!e21){ console.log('FAILED '+fails); process.exit(1); }
+  check('0. E22 定義還在（給舊存檔）、標 retired（AA_218 第 11 節）；E21a 在、沒有 retired（內容 AA_224 3-6 改）',!!e22&&typeof e22.retired==='string'&&e22.retired.includes('AA_218')&&!!e21&&!e21.retired); if(!e22||!e21){ console.log('FAILED '+fails); process.exit(1); }
   let entered=null, L=null; GM.enter=async(z)=>{ entered=z; G.zone=z; };
   fresh(S22,19.5,'dorm'); G.events.done.ev_y0_e02=1; run(); at(S22,20.1); at(S22,21.8);
   check('1. 12/22 20:00 以後：沒有韋綸「今晚 B1 通宵。……」、品妤「……咖啡我帶。」',!PHONE.sent(G,'y0_e22_ask')&&!TH('g:econ_class').includes('今晚 B1 通宵。明天那科，我需要一點奇蹟。')&&!TH('g:econ_class').some(t=>t.includes('咖啡我帶')));
   check('1. 沒有出發選單「總圖 B1 22:00：期末通宵」',!OUT.get(G,'y0_e22')&&(OUT.due(G)||{}).id!=='y0_e22');
   at(S22,25.1); at(S22+1,10); check('2. 沒有 01:00 群組照片（桌上四杯咖啡）',!PHONE.sent(G,'y0_e22_missed')&&!TH('g:econ_class').includes('📷（凌晨一點，總圖 B1。桌上四杯咖啡）'));
-  // E21a（照舊）
-  fresh(T31,19.1,'library'); G.events.done.ev_y0_e02=1; run(); check('3. 12/31 19:00 群組三則',TH('g:econ_class').includes('今晚總圖，期末衝刺！走啦！')&&TH('g:econ_class').includes('讀到幾點？')&&TH('g:econ_class').includes('讀到……我說停為止。'));
-  check('3. 19:00～22:00 在總圖（任何一層）就開始；在宿舍、22:30 不會',EVENTS.check(e21)&&(()=>{ G.zone='dorm'; const a=!EVENTS.check(e21); G.zone='library_hall'; const b=EVENTS.check(e21); G.hour=22.5; const c=!EVENTS.check(e21); G.zone='library'; G.hour=19.1; return a&&b&&c; })());
-  const s2=JSON.stringify(G); picks=['會計會等']; said=[]; entered=null; G.hour=20; await EVENTS.run(e21); L=said.map(x=>x.t);
-  check('3. 旁白帶到 B1、時間跳到 23:00 接「跨年還有一個小時」、信義人潮、零點',L[0].startsWith('（總圖 B1 的二十四小時自習室')&&L[1]==='（看手機）跨年還有一個小時。走啦！'&&L.includes('……我怕走散。')&&L.includes('（倒數。煙火。過了零點，她沒有放開。你也沒有。）'));
-  check('3. 「會計會等我們。」→「（笑出聲）你學韋綸。」、E21A_WENT、回宿舍 01:00',L[L.length-1]==='（笑出聲）你學韋綸。'&&G.flags.E21A_WENT===true&&entered==='dorm'&&Math.abs(G.hour-25)<0.05,JSON.stringify([entered,G.hour]));
-  G=JSON.parse(s2); SOCIAL.bind(G); EVENTS.bind(GM); const qa=OUT.get(G,'y0_e21a'); check('4. 出發選單「總圖 B1 19:00：期末衝刺」到 22:00 都可以出發',!!qa&&(()=>{ G.hour=21.9; const a=!!OUT.due(G); G.hour=22.1; return a&&!OUT.due(G); })());
-  G.zone='dorm'; at(T31,24.2); check('5. 沒去：00:05 群組人潮照片＋可昕「你錯過了一場人潮。……下次。」',TH('g:econ_class').includes('📷（信義區的人潮）')&&TH('p:kexin').includes('你錯過了一場人潮。……下次。'));
+  /* E21a 跨年改成「總圖門口 23:00」的出遊（AA_224 3-6）：新的測試在 tests/lifeline_g3_unit.js */
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
