@@ -6548,6 +6548,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 只拿 bl_classmate_peishan.vrm 和 char_review/peishan/；同 commit 的 nm16 臉參數等路人第三批一起交。款式（領口、坐下的裙子、髮型）是 LAWWW2 下一步。characters.js 的 outfit 顏色只給備用模型用，不影響 Blender 版"
+  },
+  {
+   "id": "DL-LW2-NPC-B3",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "aff6438b",
+   "what": "路人第三批（日劇穿搭）：女 nf9–20（12）、男 nm9／11／13／16–19（7）；manifest 條目、排排站截圖、npc.py",
+   "task": "ART-NPC-40",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "路人底模合計女 20、男 15；nm10／12／14／15／20 頭髮重建中，第四份另交。單元測試 anon_pool／npc_ambient／crowd 通過；瀏覽器路人探針待下一批"
   }
  ],
  "ignored": [
