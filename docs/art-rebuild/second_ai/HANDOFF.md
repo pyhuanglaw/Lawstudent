@@ -73,6 +73,14 @@
      - 頭髮 v19 交 BB-C（`a79b88cd`，等驗收）：瀏海短 2 cm、中間往上翻、大小不一、深咖啡亮面、太陽穴的縫。
    - 工具：`char_lookdev.py --bg ff00ff`（洋紅背景：分得出破洞和皮膚）、`--js`、`--asset` 本機檔。
    - 下一步：等 BB-C 回覆唐睿 → 家豪美食地圖筆記本（選做）→ 批 4 場景（Y34 宿舍）。
+8. 15:4x 進度（最新）：
+   - 經濟系四人＋沛珊全部「模型通過」：
+     - 唐睿 v19（BB_201 第 11 節）→ 必修髮色 → v20；韋綸跟著改 v13；
+     - LAWWW-C 已接進遊戲（`1efedd4f`，ACK＋ACTIONED），正在拍遊戲內截圖給 BB-C。
+   - ART-17 最後兩張缺圖的 2D 背景交付（`0100994c`，READY_FOR_ART_REVIEW，等 LAWWW-C 填 S.BG、等使用者看）：
+     - BG-19 `gongguan_cinema`（`bg_cinema.py`）；
+     - BG-14 `yongkang_curry`（`bg_curry.py`）。
+   - 下一步：等 BB-C 看遊戲內截圖（可能有小修）→ ART-V0-DORM（經濟系那年宿舍的房號牌、窗景、阿勳那一側）→ 家豪的美食地圖筆記本（選做）。
 
 ### 📋 分批順序（LAWWW2-C 2026-10-17 10:4x；使用者 10:4x 經 LAWWW-C：「各自審核每一批要做什麼、排出順序，手上沒事就先做下一批」）
 D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tools/handoff/check_handoff.py queue --owner LAWWW2`（72 項）。
