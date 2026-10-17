@@ -1,7 +1,7 @@
 /* ===== 學期末的飯：告白只在學期末（BB_203，使用者 2026-10-17 確認；使用者 11:40 對 LAWWW-C「告白只在學期末」；任務 BB203-CONFESS-1017）=====
    - 時段：每學期第 16 週週四～放假後第 1 週週日（AA_250 各學期的「聚餐時段」＝CALENDAR.termDays 的最後一天 -3～+7）。大四下（畢業那天）另外做。
    - 時段第一天 00:00 以後第一次算的時候決定這學期的邀約（S.plan；中途條件變了不重算，BB_203 第 5 節）：
-     ①心意的邀約：告白的條件到齊（DATE.canConfess：第 6 階、4 次正式約會含心願地點、她願意）＋她的戀愛到答應線（DATE.YES_LINE）＋這段期間不是特別不發的時候（學姊筆試、放榜前；沛珊重考期）。
+     ①心意的邀約（使用者 2026-10-17 改、每個學期都一樣，BB_203 第 1 節第 4 點 303fe766）：她的戀愛（npcRom）≥ 30＋4 次正式約會含心願地點＋她當時願意（C4～C10）＋這段期間不是特別不發的時候（學姊筆試、放榜前；沛珊重考期）。第 6 階、答應線、祐廷的戀愛、大一上的例外都不用了。
      ②朋友的邀約：這學期 contact ≥ 6、熟度 FAMILIAR 以上的前兩名（BB_202 1-1；contact 照 S.contact 記）。
      ③保底（①②都沒有）：contact 最高、ACQUAINTANCE 以上的那一位；再沒有＝阿凱在宿舍當面「宵夜？」。
      交往中的女朋友另外有學期末約會（AA_250 10-3），不佔名額；可昕照 BB_202 第 6 節另外做。
@@ -23,7 +23,7 @@ const TERMEND=(function(){
   /* ---- 這學期常接觸的分數（BB_202 1-1）：同一天同一種只算一次。talk 閒聊 +1、meet 約好的見面／正式約會 +2、same 同一堂課／讀書會／社團 +1、together 劇情事件一起在場 +2 ---- */
   const PTS={talk:1,meet:2,same:1,together:2};
   const ACT2K={chat:'talk',chatNew:'talk',classmate:'same',cafe:'meet',library:'meet',meal:'meet',walk:'meet',acceptInvite:'meet',help:'together'};
-  S.Y1S1_LINE={heroine_04:42,classmate_peishan:45,heroine_02:48,heroine_03:48,heroine_01:50};   /* 大一上學期末的答應線（BB_203 第 5 節 C3，bb863739；以安 50 是 AA 留 2 點餘裕）*/
+  S.ROM_MIN=30;   /* C1：她的戀愛 ≥ 30（使用者 2026-10-17「不管哪一個學期，好感度 30 就可以告白，她對我」，BB_203 第 5 節 303fe766）*/
   S.contact=function(G,id,kind){ if(!G||!id||!PTS[kind]||typeof CALENDAR==='undefined') return 0; const t=CALENDAR.termOf(G.day); if(!t||!(t.week>=1&&t.week<=16)) return 0;
     const R=S.rec(G), C=R.contact||(R.contact={}), M=C[t.id]||(C[t.id]={}), P=M[id]||(M[id]={pts:0,k:{}}); if(P.k[kind]===G.day) return 0; P.k[kind]=G.day; P.pts+=PTS[kind]; P.last=G.day; return PTS[kind]; };
   S.score=function(G,term,id){ const C=G.termend&&G.termend.contact; const P=C&&C[term]&&C[term][id]; return P?P.pts|0:0; };
@@ -31,20 +31,19 @@ const TERMEND=(function(){
   const atLeast=(id,st)=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.STAGES) return false; const A=SOCIAL.STAGES; return A.indexOf(SOCIAL.stage(id))>=A.indexOf(st); };
   const romStatus=(G,id)=>typeof ROM!=='undefined'&&ROM.get?ROM.get(G,id).status:'none';
   /* ---- 心意的邀約發不發（BB_203 第 5 節）：true＝發；{nope:'low'|'knows'|'preexam'}＝不發但時段第一天傳那一句（AA_254 第 9 節）；false＝不發、不傳 ---- */
-  S.heartWhy=function(G,id,w){ if(typeof DATE==='undefined'||!DATE.canConfess) return false; const Lx=L(); if(!Lx||!Lx.HEART[id]) return false;
+  /* 告白的條件（BB_203 第 5 節 303fe766）：C1 她的戀愛 < 30、C2 正式約會不到 4 次或沒有心願地點＝還沒到；C4～C10 她當時願意（DATE.willing）；學姊筆試前、放榜前婉拒 */
+  S.cond=function(G,id){ if(DATE.HOLD&&DATE.HOLD[id]) return {ok:false,why:'hold'};
+    const r=typeof SOCIAL!=='undefined'&&SOCIAL.rel?SOCIAL.rel(id):{}, L=DATE.log(G,id);
+    if((+r.npcRom||0)<S.ROM_MIN) return {ok:false,why:'rom'}; if((L.count|0)<4) return {ok:false,why:'count'}; if(!L.wish) return {ok:false,why:'wish'};
+    const ww=DATE.willing?DATE.willing(G,id):{ok:true}; if(!ww.ok) return {ok:false,why:ww.why};
+    if(id==='heroine_05'&&DATE.sisPreexam&&DATE.sisPreexam(G)) return {ok:true,decline:'preexam'}; if(id==='heroine_05'&&DATE.sisPrerank&&DATE.sisPrerank(G)) return {ok:true,decline:'prerank'}; return {ok:true}; };
+  S.heartWhy=function(G,id,w){ if(typeof DATE==='undefined'||!DATE.log) return false; const Lx=L(); if(!Lx||!Lx.HEART[id]) return false;
     if(G.flags&&G.flags['dating_'+id]) return false;   /* C4：交往中＝女朋友的學期末約會 */
     if(typeof ROM!=='undefined'&&ROM.canStart&&!ROM.canStart(G,id)) return false;   /* C8：分手以後還不能重新開始 */
-    const y1=w&&w.id==='Y1S1';
-    /* 大一上的學期末（使用者 2026-10-17 選 B，BB-C 93d4e0f4；門檻 BB-C bb863739＋12:14 更正以安 50）：第 5 階、2 次正式約會（不看心願地點）、她的戀愛到 Y1S1_LINE、祐廷的戀愛 30 以上；大一下起回到原本的條件 */
-    let c;
-    if(y1){ const r0=typeof SOCIAL!=='undefined'&&SOCIAL.rel?SOCIAL.rel(id):{}, st=DATE.stageNum?DATE.stageNum(id):0, ww=DATE.willing?DATE.willing(G,id):{ok:true};
-      if(st<5||(DATE.log(G,id).count|0)<2||(+r0.rom||0)<30) c={ok:false,why:'stage'}; else if(!ww.ok) c={ok:false,why:ww.why};
-      else c=id==='heroine_05'&&DATE.sisPreexam&&DATE.sisPreexam(G)?{ok:true,decline:'preexam'}:(id==='heroine_05'&&DATE.sisPrerank&&DATE.sisPrerank(G)?{ok:true,decline:'prerank'}:{ok:true}); }
-    else c=DATE.canConfess(G,id);
-    if(!c.ok) return c.why==='low'||c.why==='knows'?{nope:c.why}:false;   /* C1～C3 只是還沒到、C5 她自己有伴侶：不傳 */
+    const c=S.cond(G,id);
+    if(!c.ok) return c.why==='low'||c.why==='knows'?{nope:c.why}:false;   /* C1、C2 只是還沒到、C5 她自己有伴侶：不傳 */
     if(c.decline==='preexam'||c.decline==='prerank') return {nope:'preexam'};   /* 學姊：放榜（2026-03-23）以前不發（5-3）*/
     const D=typeof CONFESS_LINES!=='undefined'?CONFESS_LINES[id]:null; if(D&&typeof D.hideIf==='function'&&D.hideIf(G,null)) return false;   /* 沛珊重考期：聯絡不到，不傳 */
-    const line=y1&&S.Y1S1_LINE[id]!=null?S.Y1S1_LINE[id]:(DATE.YES_LINE&&DATE.YES_LINE[id]), r=typeof SOCIAL!=='undefined'&&SOCIAL.rel?SOCIAL.rel(id):null; if(line!=null&&!(r&&(+r.npcRom||0)>=line)) return false;   /* C3：答應線（大一上用 Y1S1_LINE）*/
     return true; };
   S.friendOk=function(G,id,w){ if(G.flags&&G.flags['dating_'+id]) return false; const st=romStatus(G,id); if(st==='ended'||st==='friend_after_catch'||st==='paused') return false;
     if(id==='heroine_05'&&w.id==='Y1S1') return false;   /* 學姊筆試前不約（AA_250 10-2）*/

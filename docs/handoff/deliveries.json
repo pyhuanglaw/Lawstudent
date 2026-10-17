@@ -6860,6 +6860,45 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "termend3d heartWhy 的大一上特例"
+  },
+  {
+   "id": "DL-BB-303fe766",
+   "date": "2026-10-17",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "303fe766",
+   "what": "使用者改告白門檻：每個學期都是她的戀愛 ≥30＋4 次正式約會含心願地點＋她當時願意；第 6 階、答應線、祐廷戀愛、大一上例外作廢（BB_203 第 1 節第 4 點、第 5 節；BB_204 §7/§9-1；BB_191）",
+   "task": "BB203-CONFESS-1017",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "termend3d TERMEND.cond；BB_204 §9-1 飛過去的條件等 BB204-EXROUTE"
+  },
+  {
+   "id": "DL-BB-64aaaa82",
+   "date": "2026-10-17",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "64aaaa82",
+   "what": "BB_205 大二下口語審＋給 LAWWW 程式清單（八組：ladder bb y2s2／y2s1 重新匯入、P4 移到大二上第 15 週週四、沛珊 12/18 起聯絡不到、學姊 sis_list／sis_report／M2／M3 不在大二、子晴 zq_dad／zq_name 看過 Q6、明軒／阿凱、可昕、MISS）",
+   "task": "AA255-Y2S2",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DL-AA-cf864bff",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "cf864bff",
+   "what": "AA_259 大三上審稿：第 4 節給 LAWWW 的清單（ladder Y3S1 重新匯入、LADDER_CHOICE_IF A5-L6 拿掉、public_law_group 大三上、期末飯在不在、學姊美國期間、語彤不在法服、日期改動、JOB_NOODLE）",
+   "task": "AA259-Y3S1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
   }
  ],
  "ignored": [
