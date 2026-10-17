@@ -20,7 +20,7 @@
 | `lines` | 她說的話（依序）；`choices`（最多 2）＝玩家回答，`reply`＝她的收尾；沒有 `choices` 的層，她說完就結束 |
 | `rel`（層）＋`choices[].rel` | 加在她身上（fam、comf、trust、resp）；兩者相加 |
 | `mem`（層或選項）| `SOCIAL.remember(她,'TAG')` |
-| `friendOnly` | 學姊：她有伴侶，階梯只有朋友的話（已經寫成這樣，不用另外處理；只是提醒不要接戀愛選項） |
+| `friendOnly` | 學姊：她沒有男朋友，只是筆試（2026-02-02）前不想交往（BB_122 ★節），階梯只有朋友的話（已經寫成這樣，不用另外處理；只是提醒不要接戀愛選項）（2026-10-17 BB-C） |
 | `context:'date'`、`dateOnly` | 可昕：**只在「我們的日子」見面或視訊時推進**（不在路上）；`dateOnly:'meet'` 只在見面、`'video'` 只在視訊。沒有 `dating_kexin` 就停 |
 | `greet.base` | 當天推進過、或條件不到時的短招呼：5 句輪替、不連續重複 |
 | `greet.when[]` | 情境句：符合 location／time／weekday（芷若另有 `working`）時**優先**用；一天只說一次同一句 |
