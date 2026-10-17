@@ -12,10 +12,11 @@ import common as C
 import h01_clothes as K
 import x_xinci_clothes as XC
 
-# 第二版配色（使用者 2026-10-17：「沛珊一定要換 她走日系風」；同一天「臺大不要再有這麼鮮艷紅色的衣服上衣的女生」）：
-# 酒紅 T＋深藍長裙 → 灰藍（サックスブルー）T 紮進米白長裙；款式、低馬尾、深色圓框眼鏡、黑帆布鞋不變。第一版的顏色留在註解：WINE (118,38,44)、NAVY (36,42,64)
-WINE = np.array([168, 188, 212]) / 255.0         # 名稱沿用（上衣的顏色）：灰藍
-NAVY = np.array([232, 226, 212]) / 255.0         # 名稱沿用（裙子的顏色）：米白
+# 第三版配色（使用者 2026-10-17：「原本的人物不對」「要照2D圖畫」——日系風＝2D 立繪那一套；第一版的酒紅 (118,38,44) 在遊戲裡畫出來是鮮紅 #540510、
+# 裙子 (36,42,64) 畫出來幾乎是黑 #0a0e1f，和立繪（T 恤 #603835、裙子 #343740，assets/portraits/classmate_peishan/campus/neutral.webp 取樣）不一樣）。
+# 校正：遊戲裡（校園 12:00，test 腳本 peishan_cal.py）直接乘材質顏色，量到畫面上 T 恤 #643b37、裙子 #343841 的係數，換算回貼圖顏色。灰藍＋米白（第二版）作廢
+WINE = np.array([121, 86, 83]) / 255.0          # T 恤：偏咖啡的暗酒紅（遊戲畫面 ≈ 立繪 #603835）
+NAVY = np.array([80, 86, 94]) / 255.0          # 長裙：深藍灰（遊戲畫面 ≈ 立繪 #343740）
 SHOE = np.array([28, 28, 30]) / 255.0            # 黑色帆布
 SOLE = np.array([236, 232, 222]) / 255.0         # 白鞋底
 STYLE = dict(KNIT_RGB=WINE, TROUSER_RGB=NAVY, LEATHER_RGB=SHOE, SOLE_RGB=SOLE, GOLD_RGB=SOLE, BELT_RGB=None,

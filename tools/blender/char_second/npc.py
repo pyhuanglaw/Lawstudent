@@ -179,7 +179,7 @@ VARIANTS = {
                  hair=dict(seed=20261225, part=-8.0, col=(0.30, 0.22, 0.16), tip=(-0.018, -0.016, -0.010, -0.002, -0.008, -0.016, -0.024, -0.032, -0.030, -0.026), nape=0.032, vol=0.95, curl=(10, 24)),
                  layered=dict(style=outer_style(rgb(92, 70, 54), rgb(150, 172, 198), rgb(238, 238, 234), rgb(226, 224, 218), tex='knit', sleeve_k=0.82, ease=0.88, ptex='denim'))),   # 淺棕髮＋深咖啡針織衫＋淺色牛仔褲＋白球鞋
     'nm16': dict(sex='m', base='Sakurada_Fumiriya', head=0.97, height=1.73, iris='#2a2220',
-                 face=dict(EYE_SX=1.06, EYE_SZ=0.66, EYE_TILT=0.02, BROW_ARCH=0.40, BROW_K=1.55, FACE_NARROW=0.975, CHIN_WIDEN=0.62, JAW_OUT=0.0048, MOUTH_K=1.45),
+                 face=dict(EYE_SX=1.06, EYE_SZ=0.72, EYE_TILT=0.03, BROW_ARCH=0.45, BROW_K=1.50, FACE_NARROW=0.975, CHIN_WIDEN=0.60, JAW_OUT=0.0048, MOUTH_K=1.40),   # 第二版：第一版的臉參數 h01_face.slit_fit（嘴縫擬合）失敗
                  hair=dict(seed=20261226, part=4.0, col=(0.09, 0.085, 0.085), tip=(0.026, 0.026, 0.022, 0.024, 0.022, 0.018, 0.012, 0.008, 0.010, 0.012), nape=0.006, vol=0.55, curl=(8, 18)),
                  layered=dict(style=outer_style(rgb(96, 118, 150), rgb(190, 174, 140), rgb(110, 76, 50), rgb(60, 42, 30), tex='linen', ease=0.82, shoe_style='loafer'),
                               outer=dict(open=24, buttons=6), inner=dict(rgb=rgb(242, 240, 234)))),   # 很短的黑髮＋丹寧藍襯衫敞開＋白 T＋卡其褲＋棕樂福鞋
