@@ -46,6 +46,21 @@
    - 魏教授第四版在驗（灰白、髮際線往後、額頭露出、上身寬、稍駝）；眼鏡請 LAWWW-C 決定。
    - h01_clothes 新選項（預設不變）：NECK_GAP、SHOULDER_SKIN、SLEEVE_IN、NECK_RIB_L／T、NECK_FOLD、DRAPE、SHOULDER_SAG；h01_face：BROW_LEN_D、BROW_TAIL；vrm_finish2：VRM_REST；npc.py：torso、stoop；npc_hair_m：recede。
    - 還沒做：韋綸的安全帽（後背包側邊的配件 GLB）、家豪的美食地圖筆記本、四人並排＋坐下照、經原教室遠景（LAWWW-C）。
+6. 14:2x 進度（最新）：
+   - 經濟系第四輪＋魏教授第六版交 BB-C（`03179efb`，DELIVERED，等驗收）：
+     - 韋綸 v12：短袖連帽風衣、剪短露耳、太陽穴淡色修好（`weilun_hair.py` 的 `side_taper`）、腿的肌肉；
+     - 唐睿 v11：polo＋貼袋便利貼、頭髮外形交給髮殼（不再飛出黑線）；瀏海尖端還沒變成「捲」；
+     - 家豪 v10：薄背心、領口滾邊、`Fcl_MTH_Joy` 0.35；
+     - 魏教授 v6：短髮兩側貼頭、灰白只在兩鬢髮尾（`npc_hair_m.py` 的 `side_taper`、`cardG` 漸層）。
+   - 新配件 GLB（交 LAWWW-C 整合，DELIVERED）：
+     - 魏教授細框眼鏡 `glasses_wei.glb`（`glasses_zhiruo.py --style wei`；芷若的原檔重建後逐位元組相同）；
+     - 韋綸安全帽 `helmet_bike.glb`（`helmet_bike.py`）＋片段 `patches/props_helmet_weilun.js`。
+   - 工具：`char_lookdev.py` 加 `--js`（預覽還沒整合的配件 patch）、`--asset` 的檔案在本機就直接送出。
+   - 沛珊上衣：
+     - 第十七版收窄後手放下來胸口穿出皮膚 → 自己退件；
+     - 第十九版胸口修好（`conform_under` inset 8 mm）；
+     - 第二十版建置中：背上靠肩膀的兩點淡色（`pull_shoulders`）。
+   - 下一步：沛珊第二十版交 BB-C → 等 BB-C 回覆經濟系 → 唐睿瀏海的捲 → 家豪筆記本（選做）→ 批 4 場景（Y34 宿舍）。
 
 ### 📋 分批順序（LAWWW2-C 2026-10-17 10:4x；使用者 10:4x 經 LAWWW-C：「各自審核每一批要做什麼、排出順序，手上沒事就先做下一批」）
 D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tools/handoff/check_handoff.py queue --owner LAWWW2`（72 項）。
