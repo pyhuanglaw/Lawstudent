@@ -679,6 +679,38 @@
       "status": "READY_FOR_IMPLEMENTATION",
       "doc": "docs/story_planning/AA_254_學期末心意邀約_告白台詞_BB203.md",
       "summary": "BB_203（使用者確認）告白只在學期末：七位的心意邀約、婉拒、飯桌一句、回家路上四選項（說出來三種＋先不說→她自己說）、讓我想想、第二次邀約；學姊美國第一場雪（交往中，SIS_ASKED_TWICE）＋S7-L2 linesIf；不發邀約時的手機一句；以安日本挽回 REPAIR 對照；給 BB 的 F3/Z13、Q13/Q15 順序問題。AA_223 的「還沒」作廢。"
+    },
+    {
+      "id": "AA257-MSG2-BB9",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_257_MSG2_BB九位回覆池.md",
+      "summary": "MSG-2 BB 九位回覆池（照 BB_178 第 10 節）＋10-7 核對"
+    },
+    {
+      "id": "AA253-ABROAD-T123-BAR",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_253_交換地點由交往對象決定_台詞.md",
+      "summary": "§10-3 留臺灣她在國外 T1～T3 句子、邀約時點、學姊 10/10 照片；§11-1 律師讀書小組成立、出題、放榜"
+    },
+    {
+      "id": "AA256-VA09-VA10",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_256_假期_芯慈事務所_麵店團出國.md",
+      "summary": "芯慈大二暑假事務所、麵店團香港 8/25～8/28"
     }
   ]
 }
