@@ -238,6 +238,14 @@ const TERMEND_LINES=(function(){
     ps_class:{who:'classmate_peishan',day:'2028-01-12',h:8.5,place:'國小教室',bg:'camp_school',lines:[{narr:'（教室後面坐著五個大學生，前面是二十幾個三年級的小朋友。沛珊在最後一排寫觀察紀錄。）'},{who:'classmate_peishan',text:'那個男生從剛剛到現在，舉了六次手。老師都沒看到。'}],msg:['{日期}早上八點半，我去國小試教！','坐最後一排就好，不用講話。'],photo:['📷（國小教室的黑板，上面一排歪歪的字）','今天有個小朋友舉了七次手，老師終於看到了！']},
     bh_cram:{who:'classmate_bohan',day:'2028-07-08',h:19,place:'公館的補習班',bg:'cram_class',lines:[{narr:'（教室坐滿了人，前面三排都是上班族。）'},{who:'classmate_bohan',text:'老師講話很快。我錄音。……不行，不能錄。'}],msg:['{日期}晚上七點。試聽要先登記，我幫你登記了。'],photo:['📷（補習班的講義，第一頁就寫滿了）','老師講太快了。我會再去一次。']},
     yu_toeic:{who:'yu',day:'2028-01-16',h:8.5,place:'多益考場',lines:[{narr:'（考完出來，小語站在門口。）'},{who:'yu',text:'聽力第三大題我全部亂猜。……你呢？'}],msg:['一月十六號早上，考場見。','考完要去吃早午餐！！'],photo:null} };
+  /* 玩家自己約期末飯（BB_203 第 1 節第 13 點；AA_268 b5963d13、BB 口氣審 377bef12）：答應照 invites 的 acc，加系統字；
+     約成以後其他還沒回的期末邀約自動婉拒（祐廷那句＋對方回；心意的邀約照 AA_254 的婉拒）；關係結束、還不能重新開始＝她婉拒 */
+  const SYS_TE='這是這學期的期末飯。', SYS_GF='這是這學期的期末約會。';
+  const AUTO_ME='這次我有約了，開學見。', AUTO_ME_GRAD='今天晚上我有約了。';
+  const AUTO_NO={zhe:'好啦 下次',classmate_xinci:'好。那開學見。',classmate_bohan:'好。',heroine_04:'好啦 那下次',classmate_mingxuan:'OK 下次',
+    heroine_01:'好。開學見。',heroine_03:'嗯。下次。',yu:'好吧！！那開學見！',heroine_02:'好。那下次來店裡。',heroine_05:'好。那下學期再約。',classmate_peishan:'好喔！那我下次再問。',npc_fangyt:'好，下次。',kai:'好。',kexin:'好。那下次。'};
+  const AUTO_NO_GRAD={heroine_01:'好。畢業快樂。',classmate_xinci:'好。畢業快樂。',yu:'好吧！！畢業快樂！',heroine_05:'好。畢業快樂。'};   /* 大四下畢業傍晚：沒有開學、下學期 */
+  const ENDED={heroine_01:'這學期不了。謝謝你約我。',heroine_03:'這次先不要。',heroine_05:'這學期我排不出來。你自己保重。',heroine_02:'謝謝。這次我想自己過。',heroine_04:'這次先不要啦。',classmate_peishan:'謝謝你問。……這次我先不去。',kexin:'現在還不行。謝謝你還會約我。'};
   const REPLY=['嗯。','真的假的。','我也是。'];   /* 祐廷回的一句（AA_250 10-1：池子以外，輪流）*/
-  return {PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,KX,KX_PLACE,HOOK,HOOK_NO,C14,C15,src:'AA_254 8fdcc961（7fa1aad4、a9daffbb 更正）／AA_250 acf92ff0、375b91dd、c524b61e、ae841bba'};
+  return {PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,KX,KX_PLACE,HOOK,HOOK_NO,C14,C15,SYS_TE,SYS_GF,AUTO_ME,AUTO_ME_GRAD,AUTO_NO,AUTO_NO_GRAD,ENDED,src:'AA_254 8fdcc961（7fa1aad4、a9daffbb 更正）／AA_250 acf92ff0、375b91dd、c524b61e、ae841bba'};
 })();

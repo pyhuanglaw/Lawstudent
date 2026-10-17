@@ -100,7 +100,7 @@ const TERMEND=(function(){
     const until=T(w.to,18);
     const d1=P.back||w.from;   /* 玩家回來那天（不在國外＝時段第一天）*/
     for(const id in P.nope){ const t=(Lx.NOPE[P.nope[id]]||{})[id], tag='te_nope_'+w.id+'_'+id; if(t&&now>=T(d1,20)&&!PHONE.sent(G,tag)) PHONE.at(G,d1,20,[{th:'p:'+id,from:id,text:t}],tag); }
-    let n=0; const send=(id,kind,txt,no)=>{ const tag='te_'+w.id+'_'+id, h=20.5+(n++)*0.15, d0=Math.max(S.fromDay(w,id),P.back||w.from); if(now<T(d0,h)||PHONE.sent(G,tag)) return; const T2=lines(txt,G);
+    let n=0; const send=(id,kind,txt,no)=>{ const tag='te_'+w.id+'_'+id, h=20.5+(n++)*0.15, d0=Math.max(S.fromDay(w,id),P.back||w.from); if(now<T(d0,h)||PHONE.sent(G,tag)||R.picked) return;   /* 已經接了一場（收到的或自己約的）就不再發 */ const T2=lines(txt,G);
       const ask={id:tag,until,opts:[{t:'好。',set:{TE_PICK:w.id+'|'+id+'|'+kind}},{t:'那天有約了。',set:{TE_NO:w.id+'|'+id},say:no?[{from:id,text:no}]:[]}]};
       PHONE.at(G,d0,h,T2.map((t,i)=>Object.assign({th:'p:'+id,from:id,text:t},i===T2.length-1?{ask}:{})),tag); R.asks[id]=tag; };
     if(P.kx){ const K=Lx.KX[w.id], tag='te_kx_'+w.id; if(now>=T(d1,20.75)&&!PHONE.sent(G,tag)){ PHONE.at(G,d1,20.75,K.invite.map(t=>({th:'p:kexin',from:'kexin',text:t})),tag); S.planKexin(G,w); } }   /* 可昕：她排好了，直接排出遊（不佔名額）*/
@@ -153,6 +153,19 @@ const TERMEND=(function(){
     R.done={who,kind,day:G.day};
     if(kind==='heart') await S.walkHome(GM,who,te.term);
     return true; };
+  /* ---- 玩家自己約（BB_203 第 1 節第 13 點、AA_268）：期末時段裡用 invites 的「吃飯」約＝期末的飯。FAMILIAR 以上、在臺北照 invites 本來的條件；
+     這學期已經接過一場（收到的或自己約的）＝照一般吃飯；關係結束、還不能重新開始（C8、C9）＝她婉拒；心意條件到齊＝心意的期末飯（飯後照她的回家路線）；女朋友＝期末約會（不佔名額）---- */
+  S.playerInvite=function(G,id,P,W){ if(!S.ON||!P||P.kind!=='meal'||!W||(G.stage||'law')!=='law') return null; const w=S.window(Object.assign({},G,{day:W.day,hour:W.h})); const Lx=L(); if(!w||!Lx) return null;
+    if(romStatus(G,id)==='ended'&&typeof ROM!=='undefined'&&ROM.canStart&&!ROM.canStart(G,id)) return Lx.ENDED[id]?{refuse:Lx.ENDED[id]}:null;
+    if(G.flags&&G.flags['dating_'+id]) return Lx.GF[id]?{w,kind:'gf'}:null;
+    const R=S.rec(G,w.id); if(R.picked||R.done) return null;
+    if(S.heartWhy(G,id,w)===true) return {w,kind:'heart'};
+    if(Lx.FRIEND[id]) return {w,kind:'friend'}; if(Lx.FALLBACK[id]) return {w,kind:'fallback'}; return null; };
+  S.playerPicked=function(G,iv){ const t=iv&&iv.te; if(!t||t.kind==='gf') return; const R=S.rec(G,t.term), Lx=L(); R.picked={who:iv.who,kind:t.kind,day:G.day,by:'player'}; if(typeof PHONE==='undefined') return;
+    const grad=t.term==='Y4S2', me=grad?Lx.AUTO_ME_GRAD:Lx.AUTO_ME, heart=(R.plan&&R.plan.heart)||[];
+    for(const id in (R.asks||{})){ if(id===iv.who) continue; const tag=R.asks[id], m=PHONE.byAsk?PHONE.byAsk(G,tag):null; if(!m||!PHONE.askOpen(G,m)) continue;
+      const reply=heart.includes(id)?(Lx.HEART[id]&&Lx.HEART[id].decline):((grad&&Lx.AUTO_NO_GRAD[id])||Lx.AUTO_NO[id]);
+      m.ask.opts.push({t:me,say:reply?[{from:id,text:resolve(reply,G)}]:[],set:{TE_NO:t.term+'|'+id}}); PHONE.answer(G,tag,m.ask.opts.length-1); } };
   /* ---- 邀約鉤子（AA_250 各學期 x-2、10-1）：飯裡她提一件假期的事，玩家接了就進行事曆；C14 事務所參觀、C15 朋友約的單日小事（AA_251）---- */
   const Dk=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
   const md=d=>{ const x=CALENDAR.dateOf(d); return x.m+'/'+x.d+'（'+'日一二三四五六'[x.wd%7]+'）'; };

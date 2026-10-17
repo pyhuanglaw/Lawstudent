@@ -7170,7 +7170,7 @@
    "what": "AA_268 玩家自己約期末飯：答應系統字、自動婉拒、ended 婉拒（BB 口氣審 377bef12）",
    "task": "BB203-CONFESS-1017",
    "msg": "ACK",
-   "integration": "未整合",
+   "integration": "已整合待測試",
    "note": ""
   },
   {

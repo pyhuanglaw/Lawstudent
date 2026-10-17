@@ -4,7 +4,7 @@ const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
-const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|DATE|ROM|CONFESS_LINES|TERMEND|TERMEND_LINES|DATE_LOCATIONS|DATE_LINES|VAC|VAC_DATA)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|DATE|ROM|CONFESS_LINES|TERMEND|TERMEND_LINES|DATE_LOCATIONS|DATE_LINES|VAC|VAC_DATA|INVITE_DATA)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
@@ -169,6 +169,26 @@ GM.money=function(n){ G.money+=n; };
       check('11. 子晴「要不要玩？」要看過 Q6（PLAYTESTED）',TERMEND.hookFor(G,'Y1S2','heroine_04')===null&&(SOCIAL.remember('heroine_04','PLAYTESTED',''),!!TERMEND.hookFor(G,'Y1S2','heroine_04')));
       check('11. 每一個 C15 都有傳日子的訊息；小語多益不傳照片、其他都有',Object.entries(TL.C15).every(([k,c])=>Array.isArray(c.msg)&&c.msg.length&&(k==='yu_toeic'?c.photo===null:Array.isArray(c.photo))));
     } }
+  // 12. 玩家自己約（BB_203 第 1 節第 13 點、AA_268）：期末時段裡用 invites 的「吃飯」約＝期末的飯
+  { const P=INVITE_DATA.places, nIdx=P.findIndex(p=>p.id==='noodle'), cIdx=P.findIndex(p=>p.id==='cafe');
+    fresh(D('2025-12-18'),19.9,'campus',{}); G.stage='law'; meet('classmate_xinci'); meet('heroine_01'); Object.assign(SOCIAL.rel('classmate_xinci'),{fam:30,trust:20,comf:15}); Object.assign(SOCIAL.rel('heroine_01'),{fam:45,trust:30,comf:20,npcRom:30}); const Lg=DATE.log(G,'heroine_01'); Lg.count=4; Lg.wish=true;
+    INV.rec(G); G.contacts.classmate_xinci=G.day-30; G.contacts.heroine_01=G.day-30; run(19.9,21);
+    const askX=(G.msgs||[]).find(m=>m.ask&&m.ask.id==='te_Y1S1_heroine_01');
+    check('12. 前置：20:30 以安的心意邀約還沒回',!!askX&&PHONE.askOpen(G,askX));
+    G.day=D('2025-12-19'); G.weekday=5; G.hour=10; const W={day:G.day,h:18.5};
+    check('12. 判斷：時段裡吃飯＝期末飯（芯慈＝朋友、以安＝心意）；咖啡、時段外＝不是',(TERMEND.playerInvite(G,'classmate_xinci',P[nIdx],W)||{}).kind==='friend'&&(TERMEND.playerInvite(G,'heroine_01',P[nIdx],W)||{}).kind==='heart'&&TERMEND.playerInvite(G,'classmate_xinci',P[cIdx],W)===null&&TERMEND.playerInvite(G,'classmate_xinci',P[nIdx],{day:D('2025-12-01'),h:18.5})===null);
+    let toasts=[]; const t0=GM.toast; GM.toast=t=>toasts.push(t); said=[]; picks=[nIdx,0]; const iv=await INV.flow(GM,'classmate_xinci',null,false); GM.toast=t0;
+    const R=G.termend.Y1S1, xm=(G.msgs||[]).filter(m=>m.th==='p:heroine_01').map(m=>(m.from||'')+':'+m.text);
+    check('12. 約芯慈吃麵＝期末的飯：系統字「這是這學期的期末飯。」、R.picked by player',!!iv&&iv.te&&iv.te.kind==='friend'&&toasts.includes('這是這學期的期末飯。')&&R.picked&&R.picked.who==='classmate_xinci'&&R.picked.by==='player',JSON.stringify([iv,toasts,R.picked]));
+    check('12. 以安還沒回的心意邀約自動婉拒：祐廷「這次我有約了，開學見。」＋她 AA_254 的婉拒句',xm.includes('player:這次我有約了，開學見。')&&askX.ans!=null&&xm[xm.length-1]==='heroine_01:'+TERMEND_LINES.HEART.heroine_01.decline,JSON.stringify(xm.slice(-3)));
+    check('12. 這學期接過了：再約吃飯照一般吃飯',TERMEND.playerInvite(G,'heroine_01',P[nIdx],W)===null);
+    said=[]; picks=[]; await INV.meet(GM,iv,null); check('12. 見面＝整場期末飯（一對一的開場、收尾）',lines().some(t=>t.includes('靠牆的兩人桌'))||lines().some(t=>t.includes('靠窗的兩人座')),JSON.stringify(lines().slice(0,3)));
+    fresh(D('2025-12-19'),10,'campus',{}); G.stage='law'; meet('heroine_01'); Object.assign(SOCIAL.rel('heroine_01'),{fam:45,trust:30,comf:20}); INV.rec(G); G.contacts.heroine_01=G.day-30; ROM.get(G,'heroine_01').status='ended'; G.flags.CLEANUP_DONE=false;
+    said=[]; picks=[nIdx,0]; const iv2=await INV.flow(GM,'heroine_01',null,false);
+    check('12. 分手、還不能重新開始：她婉拒「這學期不了。謝謝你約我。」',iv2===null&&lines().some(t=>t.includes('這學期不了。謝謝你約我。')),JSON.stringify(lines()));
+    fresh(D('2025-12-19'),10,'campus',{dating_heroine_01:true}); G.stage='law'; meet('heroine_01'); Object.assign(SOCIAL.rel('heroine_01'),{fam:45,trust:30,comf:20}); INV.rec(G); G.contacts.heroine_01=G.day-30;
+    toasts=[]; GM.toast=t=>toasts.push(t); said=[]; picks=[nIdx,0]; const iv3=await INV.flow(GM,'heroine_01',null,false); GM.toast=t0;
+    check('12. 女朋友：期末約會「這是這學期的期末約會。」、不佔名額',!!iv3&&iv3.te&&iv3.te.kind==='gf'&&toasts.includes('這是這學期的期末約會。')&&!((G.termend||{}).Y1S1||{}).picked,JSON.stringify([iv3,toasts])); }
   // 10. 存讀檔
   { fresh(D('2025-12-20'),10,'campus',{}); G.termend={think:{heroine_04:'Y1S1'},Y1S1:{plan:{heart:[],friend:['classmate_xinci'],fallback:null,gf:[],nope:{}},picked:{who:'classmate_xinci',kind:'friend',day:1}},contact:{Y1S1:{zhe:{pts:3,k:{chat:1}}}}};
     const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('10. 存讀檔：邀約、接了誰、讓我想想、分數都留著',G.termend.think.heroine_04==='Y1S1'&&G.termend.Y1S1.picked.who==='classmate_xinci'&&TERMEND.score(G,'Y1S1','zhe')===3); }
