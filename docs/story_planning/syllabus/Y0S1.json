@@ -43,11 +43,7 @@
      "react": [
       {
        "who": "econ_weilun",
-       "text": "我放棄了三十分鐘的睡眠。很貴。"
-      },
-      {
-       "who": "econ_pinyu",
-       "text": "你的睡眠一小時不值十元。"
+       "text": "我放棄了三十分鐘的睡眠。"
       }
      ],
      "call": {
@@ -510,11 +506,11 @@
      "react": [
       {
        "who": "econ_zhengxun",
-       "text": "……要看租約。"
+       "text": "要看租約吧。"
       },
       {
        "who": "kexin",
-       "text": "情緒上的資產，財務上的費用。"
+       "text": "住得很開心的話，算資產嗎？"
       }
      ],
      "call": {
