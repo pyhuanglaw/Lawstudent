@@ -13712,9 +13712,9 @@
    "title": "宿舍牆上的月曆固定寫「10 月」：8/29 搬進來那晚就看得到（flow_camp_y1 07_desk.png）；應該跟著遊戲日期換月份",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "查月曆是程式畫的（canvas）還是 GLB 貼圖：程式畫的就照 G.day 換月份；GLB 的就請 LAWWW2 改成不寫月份或給 12 張",
+   "next": "已修：src/zones3d.js 月曆照遊戲日期畫（一個月一張貼圖）；遊戲裡讀出貼圖 8 月、10 月、2 月都對（shots/bug_dorm_cal/）。等下一次瀏覽器流程截圖再看一次牆上的樣子",
    "first": {
     "term": "Y1S1",
     "week": 0,
@@ -13726,7 +13726,8 @@
     "confirmed": true
    },
    "source": "LAWWW-B 2026-10-17 看 flow_camp_y1 截圖發現",
-   "authorized": "一般 bug 修正（D87）"
+   "authorized": "一般 bug 修正（D87）",
+   "evidence": "shots/bug_dorm_cal/calendar_aug_oct_feb.png（遊戲內 dorm_calendar 的貼圖）"
   }
  ]
 }
