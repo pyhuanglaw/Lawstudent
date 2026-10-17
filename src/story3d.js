@@ -1994,12 +1994,11 @@ const STORY = (function(){
       /* 沒有和可昕交往（AA 50da3a9）：在麵店團＝17:00 阿哲在群組揪併桌；不在麵店團＝最親近的人（STORY.revisitClosest）。女生 18:00 傳訊息（BB_96 第 11 節）。
          目標的字是 LAWWW 加的（不在麵店團的玩家沒有人揪，用目標提醒傍晚去兩點半）*/
       if(rd&&G.day===rd&&!F.dating_kexin&&!F.REVISIT_Y1){ const grp=PHONE.inGroup(G,'noodle_team');
-        if(grp&&!PHONE.sent(G,'zhe_revisit1')&&G.hour<18) PHONE.at(G,rd,Math.max(17,G.hour),[{th:'g:noodle_team',from:'zhe',text:'學期最後一天。兩點半，六點，併桌。'}],'zhe_revisit1');
-        if(!F.revisitGoalY1&&G.hour>=12&&G.hour<22){ F.revisitGoalY1=true; GM.setGoal(grp?'18:00 兩點半 Café（麵店團併桌）':'18:00 兩點半 Café（學期最後一天）'); }
+        if(grp&&!PHONE.sent(G,'zhe_revisit1')&&G.hour<18) PHONE.at(G,rd,Math.max(17,G.hour),[{th:'g:noodle_team',from:'zhe',text:'學期最後一天。麵店，六點，併桌。'}],'zhe_revisit1');   /* AA_209 第 3 節：群戲改在麵店（原句的「兩點半」→「麵店」，問 AA）*/
+        if(!F.revisitGoalY1&&G.hour>=12&&G.hour<22){ F.revisitGoalY1=true; GM.setGoal(grp?'18:00 阿鳳麵店（麵店團併桌）':'18:00 兩點半 Café（學期最後一天）'); }
         if(!grp&&!PHONE.sent(G,'revisit1_msg')&&G.hour>=17.5){ const c=S.revisitClosest(G), L=c.kind==='female'?REVISIT_MSG[c.id](G):null; if(L) PHONE.at(G,rd,Math.max(18,G.hour),L.map((t,k)=>({th:'p:'+c.id,from:c.id,text:t})),'revisit1_msg'); } } }
     dailyPhone(GM); };
-  /* 重訪日 1 的日子（交接包 v2 C20：第 18 週最後一天＝大一學年最後一天）*/
-  S.revisitDay=function(){ return termDay('Y1S2',18,7); };
+    S.revisitDay=function(){ return S.dayOfKey('2026-06-12'); };   /* AA_209 第 4 節第 1 點、AA_197 1-6：期末最後一天 6/12（五）（16 週制做好以後改成讀最後一場期末考）*/
   /* 重訪日 1：單身、不在麵店團的玩家，這一年最親近的人（AA 50da3a9、d1fa44f；BB_96 第 11 節）：先看階段、再看熟悉；至少「有點熟」。
      學姊、沛珊這時有伴侶，不算（不傳只給一個人的閒聊私訊）；可昕另外處理。以安、語彤、小語、芯慈、阿哲（AA 的人物）還沒有台詞，暫時不列（已問 AA）。
      回傳 {id, kind:'male'|'female'|'none'} */
@@ -2024,10 +2023,10 @@ const STORY = (function(){
      long:['第二點偷換了一個詞。','點名本來就不是在證明「學到」，是在證明「來了」。','所以要問的是：這一門課，「來了」本身有沒有意義？','有討論、有分組的課，來了就有意義；只聽講的課，比較沒有。','這篇可以改成：哪些課該點名，哪些不用。這樣第一點和第三點也站得住。']} ];
   const REVISIT_MSG={
     /* AA 的人物（AA 2026-10-14 2100018）。小語和阿哲大二上才在一起，這時候還單身，算數 */
-    heroine_01:G=>['這一年最意外的一件事。','我以為規則寫清楚就好。後來發現，規則常常只是沒想到。','（貼圖：兔子「收到」）','……傳錯了。不好意思，打擾了。'],
-    heroine_03:G=>['最意外的一件事。','阿姨說，我今年講的話比去年多。','……嗯。'],
-    yu:G=>['最意外的？','我跟以安吵了一架，結果變成每週四都要見面。','……讀書會啦。'],
-    classmate_xinci:G=>['最意外的一件事：','這學期有一次，我沒有先去看以安的成績。','……就一次。'],
+    heroine_01:G=>['考完了。民總我暑假想再讀一次。'],   /* AA_209 第 3 節（AA 四位）*/
+    heroine_03:G=>['考完了喔。阿姨說今天滷了一大鍋。'],
+    yu:G=>['考完了！！！','暑假要約喔'],
+    classmate_xinci:G=>['成績要二十九號才出來，好久。'],
     heroine_02:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_02','SHARED_SECRET')?['期末辛苦了。','我今年最意外的事：我把交換的申請表印出來了。','還沒交。……可是印出來了。']:['期末辛苦了。','我今年最意外的事：我媽學會用貼圖了。','她傳的第一張，是一隻戴眼鏡的貓。'],
     heroine_04:G=>{ const has=t=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_04',t); return has('PLAYTESTED')?['最意外的事：我把還沒做完的東西給人看了。','而且我沒有死掉。']:(has('CONTEST_DAY')?['最意外的事：比賽那天我沒去，天沒有塌。','第四罐的錢我不還。']:['最意外的事：法律系的人，比我想的好玩。','一點點。']); } };
   /* 春假三選一（交接包 v2 C9）的日子：inv1＝第 5 週週二（以安揪）、inv2＝週三（可昕問）、dl＝4/2（最後可以選的一天）、d0＝4/3（春假第一天，出發）*/

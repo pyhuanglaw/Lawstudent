@@ -1120,7 +1120,7 @@ const STORY_EVENTS=[
      題目、選項照第 3 節的表（REVISIT_Y1_OPTS：只出經歷過的事，最多三個＋一定有的那一個）；她的回應照 BB 的表；中秋烤肉看 K3 有沒有來（KX_MET_NOODLE_TEAM）；
      她自己的那一件：做過 K6 互考（KX_K6_EXAM，ev_kexin_quiz 演完時記；舊存檔有 KX_QUIZ 也算）是「考古題」，沒有是「假設題的答案」。記 REVISIT_Y1:{who:'kexin',pick}（大四主線 10 讀它）。
      冷戰（AA_112 第 6 節的裂縫）還沒有系統：目前交往中都算她能來。麵店團併桌、單身的版本：邀約的台詞等 AA（已問）*/
-  { id:'ev_revisit_y1_kexin', title:'重訪日', participants:['kexin'], location:'cafe', trigger:'auto', priority:8, term:['Y1S2'], weeks:[18], time:[18,22], once:true, background:'blur',
+  { id:'ev_revisit_y1_kexin', title:'重訪日', participants:['kexin'], location:'cafe', trigger:'auto', priority:8, term:['Y1S2'], time:[18,22], once:true, background:'blur',
     prereq:{flags:['dating_kexin'],custom:G=>typeof STORY!=='undefined'&&!!STORY.revisitDay&&G.day===STORY.revisitDay()&&!G.flags.REVISIT_Y1},
     dialogue:[ {speaker:'kexin',expression:'smile',text:'（坐下，手放在桌上）假設這張桌子，記得每一個坐過的人。'},
       {speaker:'kexin',expression:'teasing',text:'它會記得你今年最意外的一件事嗎？說吧。'},
@@ -1137,25 +1137,43 @@ const STORY_EVENTS=[
       {if:{custom:G=>!!G.flags.KX_K6_EXAM||!!(G.flags.KX_QUIZ&&((G.flags.KX_QUIZ.win|0)+(G.flags.KX_QUIZ.lose|0)+(G.flags.KX_QUIZ.draw|0))>0)},speaker:'kexin',expression:'teasing',text:'結果我們吵最多的，是考古題。'},
       {unless:{custom:G=>!!G.flags.KX_K6_EXAM||!!(G.flags.KX_QUIZ&&((G.flags.KX_QUIZ.win|0)+(G.flags.KX_QUIZ.lose|0)+(G.flags.KX_QUIZ.draw|0))>0)},speaker:'kexin',expression:'teasing',text:'結果我們吵最多的，是假設題的答案。'} ],
     after:G=>{ G.flags.REVISIT_Y1={who:'kexin',pick:G.flags.REVISIT_Y1_PICK||'daily'}; } },
-  /* 重訪日 1（交接包 v2 C20）——麵店團併桌的版本（AA 50da3a9：沒有和可昕交往、在麵店團）：17:00 阿哲在群組「學期最後一天。兩點半，六點，併桌。」（story3d.js phoneRules）。
-     題目（AA 草稿第 3 節的原句，寫成旁白）→ 玩家的選項（REVISIT_Y1_OPTS）→ 麵店團回一句（一般：阿哲「……好。這個可以。」；「麵店的第一碗。」：阿哲「那碗是我推薦的。」；
-     「每天都差不多。」：小語「……這個最好。」）→ 他們也各說一件（只讓認識的人說；阿哲那句要去過麵店——LAWWW 加的條件，問 AA）。記 REVISIT_Y1:{who:'noodle_team',pick} */
-  { id:'ev_revisit_y1_noodle', title:'重訪日', participants:['zhe'], location:'cafe', trigger:'auto', priority:8, term:['Y1S2'], weeks:[18], time:[18,22], once:true, background:'blur',
+  /* 重訪日 1——麵店團的群戲（AA_209 第 3 節，AA 分支 096136d2；使用者 AA_193 第 4 節：保留大一最後一天 18:00 的麵店聚會，拿掉「這一年最意外的一件事」）：
+     6/12（五）期末最後一科考完，18:00 阿鳳麵店（17:00 阿哲在群組揪，story3d.js phoneRules）。不是輪流報告暑假計畫：有人接話、沒回答、先走。
+     在場：阿哲、小語、柏翰（麵店團）、語彤（幫忙端麵）；以安、芯慈認識才在；沛珊和柏翰交往中、玩家認識她才有她的那句旁白。
+     記 REVISIT_Y1:{who:'noodle_team',pick:'none'}（原本的 8 個回憶選項拿掉，REVISIT_Y1_PICK 記 'none'）；在場的人熟悉 +1 */
+  { id:'ev_revisit_y1_noodle', title:'重訪日', participants:['zhe'], location:'noodle', trigger:'auto', priority:8, term:['Y1S2'], time:[18,22], once:true, background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.revisitDay&&G.day===STORY.revisitDay()&&!G.flags.REVISIT_Y1&&!G.flags.dating_kexin&&typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},
-    dialogue:[ {speaker:null,text:'這一年，你最意外的一件事是什麼？'},
-      REVISIT_Y1_CHOICE('n_'),
-      {label:'n_noodle'},{speaker:'zhe',expression:'laugh',text:'那碗是我推薦的。'},{goto:'theirs'},
-      {label:'n_daily'},{if:EV_KNOWS('yu'),speaker:'yu',expression:'smile',text:'……這個最好。'},{unless:EV_KNOWS('yu'),speaker:'zhe',expression:'smile',text:'……好。這個可以。'},{goto:'theirs'},
-      {label:'n_retake'},{label:'n_bbq'},{label:'n_appeal'},{label:'n_rain'},{label:'n_lecture'},{label:'n_show'},{speaker:'zhe',expression:'smile',text:'……好。這個可以。'},
-      {label:'theirs'},
-      {if:{custom:G=>{ const H=G.habits&&G.habits['meal:noodle']; if(H) return (H.days||[]).filter(d=>d>=1&&d<=G.day).length>=10; return G.flags.noodleTableDay!=null||(Array.isArray(G.flags.ndlDays)&&G.flags.ndlDays.length>0); }},speaker:'zhe',expression:'smile',text:'我最意外的是，你真的每個禮拜二、四都來。'},   /* AA_178 ④：這一年在麵店坐下 ≥ 10 天（habit meal:noodle）；舊存檔沒有習慣紀錄＝照「去過麵店」*/
-      {if:EV_KNOWS('yu'),speaker:'yu',expression:'neutral',text:'我最意外的是我跟以安吵完還開了讀書會。'} ],
-    after:G=>{ G.flags.REVISIT_Y1={who:'noodle_team',pick:G.flags.REVISIT_Y1_PICK||'daily'}; } },
+    dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
+      {speaker:null,text:'（期末最後一科考完。長桌已經併好了，阿姨多送了一盤小菜。）'},
+      {speaker:'zhe',text:'欸暑假誰在臺北？我七月一號就回高雄了。'},
+      {speaker:'yu',text:'我七月要去營隊當隊輔，兩個禮拜。'},
+      {speaker:'yu',text:'誰要來探班？'},
+      {speaker:null,text:'（沒有人回答。柏翰在滑手機。）'},
+      {speaker:'classmate_bohan',text:'成績二十九號才出來。'},
+      {speaker:'zhe',text:'你很掃興欸。'},
+      {if:EV_KNOWS('heroine_01'),speaker:'heroine_01',text:'我暑假想把民總再讀一次。'},
+      {if:EV_KNOWS('heroine_01'),speaker:'yu',text:'妳考完第一天就講這個喔。'},
+      {if:EV_KNOWS('classmate_xinci'),speaker:'classmate_xinci',text:'我爸問我暑假要不要去事務所幫忙。我還沒回他。'},
+      {if:EV_KNOWS('classmate_xinci'),speaker:'zhe',text:'去啊，有冷氣。'},
+      {speaker:null,text:'（語彤端著兩碗麵過來。）'},
+      {speaker:'heroine_03',text:'誰的乾麵？'},
+      {choice:[{text:'「我的。」',goto:'r1'},{text:'「我暑假應該都在臺北。」',goto:'r2'},{text:'（先吃麵）',goto:'rest'}]},
+      {label:'r1'},{speaker:null,text:'（她把碗放下，又回廚房了。）'},{goto:'rest'},
+      {label:'r2'},{speaker:'zhe',text:'好，那暑假麵店就靠你了。'},
+      {label:'rest'},
+      {if:EV_KNOWS('classmate_peishan'),speaker:null,text:'（沛珊坐在柏翰旁邊，把他碗裡的蔥挑到自己碗裡。）'},
+      {speaker:'yu',text:'柏翰你暑假回新竹喔？'},
+      {speaker:'classmate_bohan',text:'週四會上來。總圖。'},
+      {if:EV_KNOWS('classmate_xinci'),speaker:null,text:'（八點多，芯慈先站起來。）'},
+      {if:EV_KNOWS('classmate_xinci'),speaker:'classmate_xinci',text:'我先走了，明天要早起。成績出來再傳群組。'},
+      {speaker:null,text:'（後來大家又坐了快一個小時。阿姨收碗的時候，桌上還剩半盤豆干。）'} ],
+    after:G=>{ G.flags.REVISIT_Y1_PICK='none'; G.flags.REVISIT_Y1={who:'noodle_team',pick:'none'};
+      if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) for(const id of ['zhe','yu','classmate_bohan','heroine_03','heroine_01','classmate_xinci','classmate_peishan']) if(typeof STORY==='undefined'||!STORY.knows||STORY.knows(id,G)) SOCIAL.adjust(id,{fam:1}); } },
   /* 重訪日 1——單身、不在麵店團的版本（AA 50da3a9、d1fa44f；BB_96 第 11 節 b7c89d1）：這一年最親近的人（STORY.revisitClosest：先看階段、再看熟悉；學姊、沛珊這時有伴侶，不算）。
      男生：窗邊雙人桌坐他，玩家說完他也說一件。女生：祐廷一個人坐窗邊，她 18:00 傳來訊息（story3d.js phoneRules），之後一樣有題目和選項。
      都還不到「有點熟」：一個人坐窗邊，題目寫在筆記本上；「這張桌子，從今天開始是你的位子。」（旁白照 AA 的描述寫成句子）。
      阿哲、以安、語彤、小語、芯慈（AA 的人物）的台詞：AA 2100018（2026-10-14 補）。記 REVISIT_Y1:{who,pick} */
-  { id:'ev_revisit_y1_single', title:'重訪日', participants:[], location:'cafe', trigger:'auto', priority:8, term:['Y1S2'], weeks:[18], time:[18,22], once:true, background:'blur',
+  { id:'ev_revisit_y1_single', title:'重訪日', participants:[], location:'cafe', trigger:'auto', priority:8, term:['Y1S2'], time:[18,22], once:true, background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.revisitDay&&G.day===STORY.revisitDay()&&!G.flags.REVISIT_Y1&&!G.flags.dating_kexin&&!(typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team'))},
     dialogue:[ {if:{custom:G=>STORY.revisitClosest(G).kind==='male'},goto:'q'},
       {speaker:null,text:'你一個人坐在窗邊。'},
