@@ -8,7 +8,8 @@
   "25e89f6e",
   "9eef2167",
   "f6269502",
-  "72ea87f5"
+  "72ea87f5",
+  "a816234a"
  ],
  "files": [
   {
@@ -193,12 +194,16 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y4s2.json",
-   "sha": "54ae1a94",
+   "sha": "a816234a",
    "status": "approved",
-   "approvedBy": "BB-C（2026-10-17 14:00 大四下口語審完，十個 --check 全過）",
+   "approvedBy": "BB-C（2026-10-17 14:42 BB_211 小修：學姊第 15 週那句加 unless GRAD_DONE；--check 通過，之後沒有再改）",
    "task": "BB210-Y4S2",
    "note": "skipIf GRAD_DONE（暫名，畢業典禮那天設）；PS8_FAR_AHEAD 中文名改（BB_143）",
    "history": [
+    {
+     "sha": "54ae1a94",
+     "approvedBy": "BB-C（2026-10-17 14:00 大四下口語審完，十個 --check 全過）"
+    },
     {
      "sha": "408398d7",
      "approvedBy": "BB-C（2026-10-17 13:27 已審表）"
