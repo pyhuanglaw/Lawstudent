@@ -13729,6 +13729,57 @@
    "source": "LAWWW-B 2026-10-17 看 flow_camp_y1 截圖發現",
    "authorized": "一般 bug 修正（D87）",
    "evidence": "shots/bug_dorm_cal/calendar_aug_oct_feb.png（遊戲內 dorm_calendar 的貼圖）"
+  },
+  {
+   "id": "ART-DORM-LOFT",
+   "title": "宿舍房間改成台大四人房：上舖床＋下面書桌四組（左右各兩組）、進門右邊洗手間、窗移到後牆中間；Blender 模型＋配置 JSON（阻擋、座位、梯子、洗手間門）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P0",
+   "next": "LAWWW2-B 先做一組床桌模型 → 擺進房間 → 小圖給使用者 → 同時給 LAWWW-B 配置 JSON；使用者點頭前不交 GLB",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "8/29 搬進宿舍（經濟系那一年也在宿舍）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-17 01:0x 直接對 LAWWW2-B（附實際宿舍照片）：「台大宿舍是這樣 床在上面 書桌在下面 一個房間有四組這個／門口進來右邊是洗手間 再進來是四組這個／你改」（LAWWW2-B 00:57 轉述）",
+   "authorized": "使用者直接指示",
+   "xai": {
+    "receiver": "LAWWW-B",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "使用者 01:0x 照片＋LAWWW2-B 00:57 提案（6×7×3.0、門不變）",
+    "acceptance": "使用者看小圖點頭；配置 JSON（阻擋、四組座位、梯子、洗手間門、上舖 seethru_ 材質）",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "DORM-LOFT-L",
+   "title": "宿舍四人房的程式：zones3d.js dorm 區塊的導航阻擋、四組書桌座位（玩家右後）、梯子前睡覺互動（淡出、不爬梯）、洗手間門牌、上舖樹幹透視／淡出、winXs [0]、月曆位置；經濟系房間一起",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P0",
+   "next": "等 LAWWW2-B 的配置 JSON 與使用者點頭的模型；劇情（另外兩張床、紙箱、阿勳書桌）等 AA-B",
+   "pausedReason": "要 LAWWW2-B 的配置 JSON",
+   "resumeWhen": "LAWWW2-B 交配置 JSON（使用者看過小圖）",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "8/29 搬進宿舍（經濟系那一年也在宿舍）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-17 01:0x 直接對 LAWWW2-B（附實際宿舍照片）：「台大宿舍是這樣 床在上面 書桌在下面 一個房間有四組這個／門口進來右邊是洗手間 再進來是四組這個／你改」（LAWWW2-B 00:57 轉述）",
+   "authorized": "使用者直接指示"
   }
  ]
 }
