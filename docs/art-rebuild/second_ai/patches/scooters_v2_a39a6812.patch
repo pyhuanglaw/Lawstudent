@@ -1,0 +1,103 @@
+diff --git a/src/assets3d.js b/src/assets3d.js
+index adc4a56c..d411894f 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -70,7 +70,7 @@ const ASSETS = (function(){
+     'bldg.wz_brunch_interior':{url:'assets/models/env/second_ai/wz_brunch_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_shops_interior.py --shop brunch（溫州街「半熟」早午餐店室內，配置 src/data/wz_shops_layout.js；LAWWW2-B ce586623）', license:'本作；貼圖 Poly Haven CC0＋本作程式產生'},
+     'bldg.wz_print_interior':{url:'assets/models/env/second_ai/wz_print_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_shops_interior.py --shop print（溫州街「阿德影印輸出」室內；LAWWW2-B ce586623）', license:'本作；貼圖 Poly Haven CC0＋本作程式產生'},
+     'bldg.wz_teahouse_interior':{url:'assets/models/env/second_ai/wz_teahouse_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_shops_interior.py --shop teahouse（溫州街「一盞」茶屋室內、緣側、前院；LAWWW2-B ce586623）', license:'本作；貼圖 Poly Haven CC0＋本作程式產生'},
+-    'bldg.wz_scooter':{url:'assets/models/env/second_ai/scooter.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/scooter.py（台灣常見的 125cc 速克達兩款：現代款、復古款；不仿特定品牌；遊戲用 InstancedMesh 擺放、車殼顏色每台不同）', license:'本作'},
++    'bldg.wz_scooter':{url:'assets/models/env/second_ai/scooter.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/scooters_v2.py（台北街上常見的 12 款：國民通勤兩款、運動型、電動、復古圓弧、50cc 舊款、大型速克達、方塊越野、彎樑、外送箱、掛安全帽、機車罩；只參考車型類別、不仿特定品牌、沒有商標；每款一個遠處用的簡化版 _lod1；遊戲照比例挑款式、從那一型的配色挑顏色，每段合成一個網格＋THREE.LOD）', license:'本作'},
+     'bldg.gongguan_shops':{url:'assets/models/env/second_ai/gongguan_shops.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_street.py --set gongguan（公館羅斯福路南側 15 棟騎樓店面＋往溫州街的巷口轉角；公館世界座標；配置照 zones3d.js gongguan 區塊；和溫州街同一套公寓、材質與窗戶原型；樓上住戶的直立招牌、二樓大招牌、屋頂看板；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+     'bldg.campus_library':{url:'assets/models/env/second_ai/campus_library.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_library.py（總圖書館外觀；校園世界座標；位置、尺寸、樓層、開間、拱廊、門廊、塔樓照 zones3d.js campus 區塊的 CK.hall；拱窗是真的窗洞；面磚、石材、屋瓦、花崗石貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+     'bldg.campus_bell':{url:'assets/models/env/second_ai/campus_bell.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_bell.py（傅鐘：台基、四根柱子、梁、四坡瓦屋頂、銅鐘、石碑、夜間地燈；校園世界座標；尺寸照 zones3d.js campus 區塊的 CK.bell；切石、屋瓦、木頭貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 1a7faf09..1c9bdaad 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -879,10 +879,56 @@ const Z3 = (function(){
+       if(vertical){ const ch=[...(d.vertical||'')]; const fs=Math.min(w*0.62,(h-30)/Math.max(1,ch.length)*0.8); x.font='bold '+fs+'px '+font; ch.forEach((c,i)=>x.fillText(c,w/2+(band?8:0),h/2+(i-(ch.length-1)/2)*fs*1.25)); return; }
+       const t=d.sign||''; let fs=Math.round(h*(d.sub?0.5:0.58)); x.font='bold '+fs+'px '+font; while(x.measureText(t).width>w*0.7&&fs>20){ fs-=4; x.font='bold '+fs+'px '+font; }
+       x.fillText(t,w/2,h*(band?0.4:(d.sub?0.42:0.52))); if(d.sub){ x.font='500 '+Math.round(h*0.15)+'px '+font; x.globalAlpha=0.85; x.fillText(d.sub,w/2,band?h*0.9:h*0.82); x.globalAlpha=1; } }); }
++  /* 機車 v2（LAWWW2-B，tools/blender/env_second/scooters_v2.py；使用者 2026-10-16：「機車都只是同個模板換顏色，太假了……路上不會全部都一樣，不要只改顏色」）：
++     scooter.glb 有 12 款（節點 scooter_<代號>：國民通勤兩款、運動型、電動、復古圓弧、50cc 舊款、大型速克達、方塊越野、彎樑、外送箱、掛安全帽、機車罩）＋每款一個遠處用的簡化版 scooter_<代號>_lod1；
++     節點的 extras（userData）：weight＝街上的比例、palette＝這一型常見的車殼顏色。
++     每台照自己的位置挑一款（照 weight）、從那一款的配色挑顏色（位置算的雜湊：每次進來都一樣）；
++     每一段（公館照 grp、溫州街照位置每 20 m 一段、路的兩側分開）合成一個網格、一個材質（頂點色；粗糙度／金屬度用 3×1 的查表貼圖：車殼／塑膠橡膠／金屬），
++     外面包 THREE.LOD：離鏡頭 SC_LOD_D 公尺以外換簡化版（約 600 個三角形）。看不到的那一段整段剔除。
++     沒有新節點（舊的 scooter.glb）時照舊用 scooter_a／scooter_b（attachWzScootersAB）。 */
++  const SC_LOD_D=16;
++  let scMat=null;
++  function scooterMat(){ if(scMat) return scMat;
++    const d=new Uint8Array([0,82,0,255, 0,140,0,255, 0,82,115,255]);   /* G＝粗糙度（0.32／0.55／0.32）、B＝金屬度（0／0／0.45）：和 GLB 的三個材質一樣 */
++    const t=new THREE.DataTexture(d,3,1,THREE.RGBAFormat); t.needsUpdate=true;
++    scMat=new THREE.MeshStandardMaterial({vertexColors:true,roughnessMap:t,metalnessMap:t,roughness:1,metalness:1}); scMat.name='scooter_merged'; return scMat; }
++  function scMerge(items,center){   /* items：[{node, M4（這台車的世界矩陣，已轉成車頭朝 +x）, color}] → 一個 BufferGeometry（位置相對 center） */
++    const P=[],N=[],C=[],U=[],I=[]; let base=0; const v=new THREE.Vector3(), n=new THREE.Vector3(), nm=new THREE.Matrix3(), col=new THREE.Color(), M=new THREE.Matrix4(), inv=new THREE.Matrix4(), loc=new THREE.Matrix4();
++    for(const it of items){ inv.copy(it.node.matrixWorld).invert(); col.set(it.color);
++      it.node.traverse(o=>{ if(!o.isMesh) return; const g=o.geometry, mn=o.material.name, slot=mn==='scooter_paint'?0:mn==='scooter_metal'?2:1;
++        M.multiplyMatrices(it.M4,loc.multiplyMatrices(inv,o.matrixWorld)); nm.getNormalMatrix(M);
++        const pa=g.attributes.position, na=g.attributes.normal, ca=g.attributes.color, u=(slot+0.5)/3, mc=o.material.color;
++        for(let k=0;k<pa.count;k++){ v.fromBufferAttribute(pa,k).applyMatrix4(M); P.push(v.x-center.x,v.y-center.y,v.z-center.z); n.fromBufferAttribute(na,k).applyMatrix3(nm).normalize(); N.push(n.x,n.y,n.z);
++          if(slot===0) C.push(col.r,col.g,col.b); else if(ca) C.push(ca.getX(k),ca.getY(k),ca.getZ(k)); else C.push(mc.r,mc.g,mc.b); U.push(u,0.5); }
++        if(g.index){ const ix=g.index; for(let k=0;k<ix.count;k++) I.push(base+ix.getX(k)); } else for(let k=0;k<pa.count;k++) I.push(base+k);
++        base+=pa.count; }); }
++    const geo=new THREE.BufferGeometry(); geo.setAttribute('position',new THREE.Float32BufferAttribute(P,3)); geo.setAttribute('normal',new THREE.Float32BufferAttribute(N,3)); geo.setAttribute('color',new THREE.Float32BufferAttribute(C,3)); geo.setAttribute('uv',new THREE.Float32BufferAttribute(U,2));
++    geo.setIndex(base>65535?new THREE.Uint32BufferAttribute(I,1):new THREE.Uint16BufferAttribute(I,1)); geo.computeBoundingSphere(); return geo; }
++  function attachWzScooters(g,scG,list,root,name){ if(!list.length) return 0; root.updateMatrixWorld(true);
++    const V=[]; root.traverse(o=>{ const m=/^scooter_(S\w+)$/.exec(o.name); if(!m||/_lod1$/.test(o.name)||!o.userData||!(o.userData.weight>0)) return; let pal=[]; try{ pal=JSON.parse(o.userData.palette||'[]'); }catch(e){}
++      V.push({code:m[1],node:o,lod:root.getObjectByName(o.name+'_lod1')||o,w:+o.userData.weight,pal}); });
++    if(!V.length) return attachWzScootersAB(g,scG,list,root,name);
++    const W=V.reduce((a,b)=>a+b.w,0), fix=new THREE.Matrix4().makeRotationY(-Math.PI/2), out=new THREE.Group(); out.name=name||'wz_scooters_glb';
++    const hash=(x,z,k)=>{ const t=Math.sin(x*12.9898+z*78.233+k*37.719)*43758.5453; return t-Math.floor(t); };
++    const grps=new Map(), pick={}, cols=new Set();
++    list.forEach(s=>{ s.o.updateMatrixWorld(true); const p=new THREE.Vector3().setFromMatrixPosition(s.o.matrixWorld); const gk=s.grp||(Math.floor((p.x+100)/20)+(p.z<0?'n':'s'));
++      let r=hash(p.x,p.z,1)*W, v=V[V.length-1]; for(const c of V){ if((r-=c.w)<=0){ v=c; break; } }
++      const col=v.pal.length?v.pal[Math.floor(hash(p.x,p.z,2)*v.pal.length)]:s.color; pick[v.code]=(pick[v.code]||0)+1; cols.add(col);
++      if(!grps.has(gk)) grps.set(gk,[]); grps.get(gk).push({p,v,col,M4:new THREE.Matrix4().multiplyMatrices(s.o.matrixWorld,fix)}); });
++    for(const [gk,L] of grps){ const c=new THREE.Vector3(); L.forEach(e=>c.add(e.p)); c.divideScalar(L.length);
++      const near=new THREE.Mesh(scMerge(L.map(e=>({node:e.v.node,M4:e.M4,color:e.col})),c),scooterMat()), far=new THREE.Mesh(scMerge(L.map(e=>({node:e.v.lod,M4:e.M4,color:e.col})),c),scooterMat());
++      for(const m of [near,far]){ m.castShadow=false; m.receiveShadow=true; }
++      const lod=new THREE.LOD(); lod.position.copy(c); lod.addLevel(near,0); lod.addLevel(far,SC_LOD_D); lod.name='scooters_'+gk; lod.userData.scGroup=gk; out.add(lod); }
++    out.userData.scPick=pick; out.userData.scColors=cols.size; out.userData.scPerGroup=Object.fromEntries([...grps].map(([k,L])=>[k,L.length]));   /* 每一款擺了幾台、用了幾種顏色（測試、截圖紀錄用） */
++    scooterShadows(out,list,fix); scG.visible=false; g.add(out); return list.length; }
++  /* 影子：機車不進陰影那一輪，改成每台車底下一片柔和的影子貼片（全部一個 InstancedMesh、一次 draw call） */
++  function scooterShadows(out,list,fix){ const tex=W3.canvasTex('wzScooterBlob',64,64,(x,w,h)=>{ const gr=x.createRadialGradient(w/2,h/2,1,w/2,h/2,w/2); gr.addColorStop(0,'rgba(0,0,0,0.6)'); gr.addColorStop(0.55,'rgba(0,0,0,0.35)'); gr.addColorStop(1,'rgba(0,0,0,0)'); x.clearRect(0,0,w,h); x.fillStyle=gr; x.fillRect(0,0,w,h); });
++    const geo=new THREE.PlaneGeometry(2.05,0.8); geo.rotateX(-Math.PI/2); geo.translate(0,0.012,0); const bl=new THREE.InstancedMesh(geo,new THREE.MeshBasicMaterial({map:tex,color:0x000000,transparent:true,depthWrite:false}),list.length); const M4=new THREE.Matrix4();
++    list.forEach((s,i)=>{ M4.multiplyMatrices(s.o.matrixWorld,fix); bl.setMatrixAt(i,M4); }); bl.instanceMatrix.needsUpdate=true; bl.computeBoundingSphere(); bl.name='wz_scooter_shadows'; out.add(bl); }
+   /* 機車（tools/blender/env_second/scooter.py：scooter_a 現代款、scooter_b 復古款；車頭朝 +x）→ 每一款每一個零件一個 InstancedMesh，擺在套件機車的位置（套件車頭朝 +z）；
+      車殼（scooter_paint，白色）乘上每台的顏色（instanceColor）。三台裡一台是復古款。
+      list 的 grp（公館）：每一組各自一套 InstancedMesh（看不到的那一組整組被剔除）；溫州街沒有 grp＝全部一組（和分組之前一樣） */
+-  function attachWzScooters(g,scG,list,root,name){ const vars={a:root.getObjectByName('scooter_a'),b:root.getObjectByName('scooter_b')}; if(!vars.a||!vars.b||!list.length) return 0;
++  function attachWzScootersAB(g,scG,list,root,name){ const vars={a:root.getObjectByName('scooter_a'),b:root.getObjectByName('scooter_b')}; if(!vars.a||!vars.b||!list.length) return 0;
+     const fix=new THREE.Matrix4().makeRotationY(-Math.PI/2), out=new THREE.Group(); out.name=name||'wz_scooters_glb'; const grps=new Map(); list.forEach((s,i)=>{ const gk=s.grp||''; if(!grps.has(gk)) grps.set(gk,{a:[],b:[]}); grps.get(gk)[i%3===2?'b':'a'].push(s); }); root.updateMatrixWorld(true);
+     for(const [gk,by] of grps) for(const k of ['a','b']){ const node=vars[k], L=by[k]; if(!L.length) continue; const inv=new THREE.Matrix4().copy(node.matrixWorld).invert(); const meshes=[]; node.traverse(o=>{ if(o.isMesh) meshes.push(o); });
+       for(const m of meshes){ const local=new THREE.Matrix4().multiplyMatrices(inv,m.matrixWorld); const im=new THREE.InstancedMesh(m.geometry,m.material,L.length); const paint=m.material.name==='scooter_paint'; const M4=new THREE.Matrix4();
+diff --git a/tests/wz_street_integration.py b/tests/wz_street_integration.py
+index 8a9d8ded..cefa07d2 100644
+--- a/tests/wz_street_integration.py
++++ b/tests/wz_street_integration.py
+@@ -113,12 +113,17 @@ async def check(pg, run, formal):
+         run.check('電線桿有樹幹透視', extra['poleST'], json.dumps(extra['poleST']))
+         run.note('看得到的光暈 sprite：%d 個（玄關燈、路燈、Café…，套件的光暈不屬於被藏起來的物件）' % extra['glows'])
+         sc = await pg.evaluate("""(()=>{ const z=GAME.E.zone; const kit=z.group.children.find(o=>o.name==='wz_kit_scooters'); const out=z.group.children.find(o=>o.name==='wz_scooters_glb');
+-            const n=kit?kit.children.filter(o=>o.isGroup).length:-1; const ims=out?out.children.filter(o=>o.isInstancedMesh):[];
+-            const paint=ims.filter(m=>m.material.name==='scooter_paint'); const cnt=paint.reduce((a,m)=>a+m.count,0);
+-            const kitCols=new Set(), glbCols=new Set(); if(kit) kit.children.forEach(o=>{ if(o.isGroup) kitCols.add(''); });
+-            const c=new THREE.Color(); for(const m of paint) for(let i=0;i<m.count;i++){ m.getColorAt(i,c); glbCols.add(c.getHexString()); }
+-            return {kitScooters:n, kitHidden:kit?!kit.visible:null, instanced:ims.length, paintInstances:cnt, colors:[...glbCols].length, hasColor:paint.every(m=>!!m.instanceColor)}; })()""")
+-        run.check('機車：套件機車整組藏起來、換成 InstancedMesh（台數相同、車殼有每台的顏色）', sc['kitHidden'] is True and sc['kitScooters'] > 30 and sc['paintInstances'] == sc['kitScooters'] and sc['hasColor'] and sc['colors'] >= 5, json.dumps(sc))
++            const n=kit?kit.children.filter(o=>o.isGroup).length:-1; const ims=out?out.children.filter(o=>o.isInstancedMesh&&o.name!=='wz_scooter_shadows'):[]; const lods=out?out.children.filter(o=>o.isLOD):[];
++            const r={kitScooters:n, kitHidden:kit?!kit.visible:null, lods:lods.length};
++            if(lods.length){   /* 機車 v2（scooters_v2.py，12 款）：每段一個 THREE.LOD（近：完整、遠：_lod1），合成網格、頂點色 */
++              const pick=out.userData.scPick||{}; r.placed=Object.values(pick).reduce((a,b)=>a+b,0); r.kinds=Object.keys(pick).length; r.colors=out.userData.scColors||0; r.pick=pick;
++              r.levelsOK=lods.every(l=>l.levels.length===2&&l.levels[1].distance>0&&l.levels.every(v=>v.object.isMesh&&v.object.geometry.attributes.color&&v.object.material.vertexColors)); return r; }
++            const paint=ims.filter(m=>m.material.name==='scooter_paint'); const c=new THREE.Color(), glbCols=new Set(); for(const m of paint) for(let i=0;i<m.count;i++){ m.getColorAt(i,c); glbCols.add(c.getHexString()); }
++            return Object.assign(r,{instanced:ims.length, paintInstances:paint.reduce((a,m)=>a+m.count,0), colors:[...glbCols].length, hasColor:paint.every(m=>!!m.instanceColor)}); })()""")
++        if sc.get('lods'):
++            run.check('機車（v2 多車型）：套件機車整組藏起來、換成正式模型（台數相同、至少 6 款、至少 5 種車殼顏色、每段近／遠兩層）', sc['kitHidden'] is True and sc['kitScooters'] > 30 and sc['placed'] == sc['kitScooters'] and sc['kinds'] >= 6 and sc['colors'] >= 5 and sc['levelsOK'] is True, json.dumps(sc, ensure_ascii=False))
++        else:
++            run.check('機車：套件機車整組藏起來、換成 InstancedMesh（台數相同、車殼有每台的顏色）', sc['kitHidden'] is True and sc['kitScooters'] > 30 and sc['paintInstances'] == sc['kitScooters'] and sc['hasColor'] and sc['colors'] >= 5, json.dumps(sc))
+         # 自我檢查：把一棟套件公寓的外觀打開，「套件外觀全部藏起來」的檢查必須看得出來
+         neg = await pg.evaluate("""(()=>{ const b=GAME.E.zone.group.children.find(o=>o.userData&&o.userData.wzApt==='B5'); const m=b.children.find(o=>o.isMesh); m.visible=true;
+             const n=b.children.filter(o=>(o.isMesh||o.isSprite)&&o.visible).length; m.visible=false; return n; })()""")

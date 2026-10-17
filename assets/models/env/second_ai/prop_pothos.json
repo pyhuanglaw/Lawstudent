@@ -2,35 +2,37 @@
  "glb": "assets/models/env/second_ai/prop_pothos.glb",
  "place": {
   "zone": "dorm",
-  "x": 1.11,
-  "y": 0.77,
-  "z": -2.36,
-  "ry": 0.0
+  "x": -2.39,
+  "y": 0.76,
+  "z": 0.145,
+  "ry": 1.570796,
+  "desk": "L2",
+  "layout": "loft4-v2"
  },
  "tris": {
   "pothos_pot": 720,
   "pothos_soil_stem_S1": 626,
   "pothos_leaf_S1": 308,
-  "pothos_soil_stem_S2": 916,
+  "pothos_soil_stem_S2": 892,
   "pothos_leaf_S2": 418,
-  "pothos_soil_stem_S3": 1220,
-  "pothos_leaf_S3": 682,
-  "pothos_soil_stem_S4": 1768,
-  "pothos_leaf_S4": 1056
+  "pothos_soil_stem_S3": 1214,
+  "pothos_leaf_S3": 660,
+  "pothos_soil_stem_S4": 1756,
+  "pothos_leaf_S4": 1012
  },
  "tris_per_size": {
   "S1": 1654,
-  "S2": 2054,
-  "S3": 2622,
-  "S4": 3544
+  "S2": 2030,
+  "S3": 2594,
+  "S4": 3488
  },
  "leaves": {
   "S1": 14,
   "S2": 19,
-  "S3": 31,
-  "S4": 48
+  "S3": 30,
+  "S4": 46
  },
- "bytes": 356376,
+ "bytes": 354264,
  "materials": [
   "pothos_pot",
   "pothos_soil_stem",
@@ -50,9 +52,9 @@
   "saucer_d": 0.142,
   "lowest_below_desk_top": {
    "S1": -0.051,
-   "S2": 0.052,
+   "S2": 0.04,
    "S3": 0.3,
-   "S4": 0.556
+   "S4": 0.55
   }
  },
  "texture": "tools/blender/env_second/textures/gen/pothos_leaf.png（本作，程式畫的）"
