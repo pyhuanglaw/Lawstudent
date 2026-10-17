@@ -1,0 +1,109 @@
+{
+ "role": "BB",
+ "entries": [
+  {
+   "task": "AB-65",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "9204411f",
+   "files": [
+    "docs/story_planning/BB_181_AA211口氣審_大二上BB人物.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "AA 已裁定全部採用（AA_211 2-1 0731836b）；AA 寫回大二上",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "ACTIONED"
+  },
+  {
+   "task": "SCN-V4-02",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "f80f574c",
+   "files": [
+    "docs/story_planning/bg_approved/airport_departure.webp",
+    "docs/story_planning/bg_approved/airport_arrival.webp",
+    "docs/story_planning/bg_approved/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 照 D81 大三時接（DL-BB-f80f574c）；court_criminal 還在使用者手上",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACK"
+  },
+  {
+   "task": "SCN-V4-03",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "f80f574c",
+   "files": [
+    "docs/story_planning/bg_approved/trip_oldrail.webp"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 照 D81 大三下台灣路線 K18 時接",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACK"
+  },
+  {
+   "task": "V4-B01",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "f80f574c",
+   "files": [
+    "docs/story_planning/props_approved/pc_zr_7.webp",
+    "docs/story_planning/props_approved/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "和 DL-BB-POSTCARD-ZR（③～⑥）一起整合；①②還在使用者手上",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACK"
+  },
+  {
+   "task": "AA-103-SP",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "b082a1cd",
+   "files": [
+    "docs/story_planning/BB_182_AA103SP_法律審查_強制辯護.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "AA 採用第 5 節兩句版（2235d87a），併 AB65-3 大三上寫回 y3s1.py；發布前再核對 §31",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "ACTIONED"
+  },
+  {
+   "task": "AB65-5",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "a4e9c97b",
+   "files": [
+    "docs/story_planning/BB_119_多段感情_交接包v6_BB人物.md",
+    "docs/story_planning/BB_97_交接包v3_大二.md",
+    "docs/story_planning/BB_163_沛珊子晴_不在台大以後的所在地與邀約.md",
+    "docs/story_planning/BB_105_四個地點的跨學年故事.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "AA 核對通過（AA_212 第 4 節 b731f426）；characters.js 那句 AA 併大二下施工包轉 LAWWW",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "ACK"
+  },
+  {
+   "task": "SCN-US-2D",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "7d63d9c4",
+   "files": [
+    "docs/story_planning/待使用者生成圖片清單.md"
+   ],
+   "state": "WIP",
+   "remaining": "S4 四張（us_bus_station、us_airport、jp_room、jp_konbini）提示詞已給使用者，等生成；其餘美國／日本底圖下一輪",
+   "next": "BB 等使用者的圖，檢查通過放 bg_approved/",
+   "noDirectIntegrate": true,
+   "receiver": "USER",
+   "ack": "SENT"
+  }
+ ]
+}
