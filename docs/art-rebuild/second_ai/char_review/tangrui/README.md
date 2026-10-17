@@ -1,4 +1,4 @@
-# v9：表情一輪（BB_201 第 6 節；LAWWW2-C 2026-10-17 14:3x UTC；等 BB-C 驗收）
+# v9：表情一輪（BB_201 第 6 節；LAWWW2-C 2026-10-17 13:5x UTC；等 BB-C 驗收）
 - 嘴窄、唇色淡；嘴角上揚＋微張（Fcl_MTH_Fun 0.6＋Fcl_MTH_Joy 0.22＋Fcl_EYE_Joy 0.3）；眉毛細、有弧度、淡。
 - 三人臉部近照和立繪頭部並排（左立繪、右 3D；韋綸、唐睿、家豪）：
   ![](../econ_faces_round3_vs_ref.webp)
