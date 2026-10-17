@@ -18,6 +18,17 @@
 - D90 ACK（第 14 節，請值班 LAWWW 代登記）：HV-11＋RULE_SOURCE `9266693c`；已讀 D90、D92、D93；沒有沒處理的使用者指示；沒有正在跑的長工作；turn_check：本工作階段剛開始，無超時回合。
 - 接著做：ART-GG-SIGNS-2（重拍前後截圖 → README → 登記交付）。目前沒有 LAWWW 值班，交付只寫 GitHub（D75）。
 
+### LAWWW2 半成品核對（USER_DIRECTIVE_NEXT_DUTY_2026-10-17 第一節第 4 點；LAWWW2-C 04:3x，對 RULE_SOURCE `adoring-meitner` a39a6812 的 tasks.json）
+| 半成品 | 任務 ID | 總表狀態 | 分支／SHA | 完成度、下一步 | 可以整合嗎 |
+|---|---|---|---|---|---|
+| 公館招牌第二批 | ART-GG-SIGNS-2 | 進行中 | funny／focused-cray `b75e50a5`（原始 `01984198`） | GLB＋patch 完成、ALL PASS 34；**LAWWW2-C 正在拍前後截圖**→ README → 交付 | 截圖、夜間目視完才交 |
+| 機車 v2 | ART-SCOOTER2 | 已實作待整合（owner LAWWW） | `f5b7bdb3`（patch 定版） | LAWWW2 這邊已交；等 LAWWW git apply＋測試 | 可以（LAWWW 的工作） |
+| 腳踏車 v2 後續 | ART-BIKES2-F | 待開工 | — | 老鐵馬、登山車比導航阻擋長 8 cm；鏽、褪色；車籃；淑女車分款 | 還沒做 |
+| 祐廷臉試做 | ART-YUTING-FACETEST | 已實作待整合 | `8496bf9d`（模型 `23f25a0f`） | BB-B 驗收通過（4d3e2757）；**等使用者決定用不用** | 等使用者 |
+| 黃金葛＋大二房間物件 | ART-04、SCN-V3-01 | 待開工 | WIP `8a1af723`（prop_pothos.glb S1～S4、dorm_y2_items.glb，約 60%） | 座標是舊雙人房，四人房要重新擺；還沒交付 | 不行（禁止直接整合） |
+| 四人房 | ART-DORM-LOFT | 已整合待測試 | `a09ebf4d` | LAWWW-B 已整合；等使用者在遊戲裡看；8/29 室友在 QA-HANDOFF-B1（LAWWW） | 已整合 |
+- 這六項的檔案都在 `claude/funny-albattani-iawshm`（＝本分支 `claude/focused-cray-c9uwvw` 的祖先），funny 分支照規則保留。
+
 ## 🔁 交班（最新）：2026-10-17 02:4x UTC｜帳號 B｜LAWWW2-B｜`session_01GV1WG3UeT2DhuDpxeWJsvD`｜正式交班
 - **交班原因**：使用者 02:4x 說「現在正式換班」（D45、D49、D92／HV-10、D93）。
 - **分支**：`claude/funny-albattani-iawshm`。
