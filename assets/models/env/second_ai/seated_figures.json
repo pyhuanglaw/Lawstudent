@@ -1,414 +1,586 @@
 {
  "bases": {
-  "npc_f1": {
-   "high_tris": 29549,
-   "lod0_tris": 1500,
-   "lod1_tris": 350,
-   "colors": [
-    {
-     "hair": "#3b2a22",
-     "top": "#2f3d5c",
-     "bottom": "#8aa0b8"
-    },
-    {
-     "hair": "#1e1a1a",
-     "top": "#eeeeea",
-     "bottom": "#2a2a2c"
-    }
-   ]
+  "npc_nf1": {
+   "source": "assets/models/char/second_ai/bl_npc_nf1.vrm",
+   "high_tris": 31109,
+   "lod0_tris": 2400,
+   "lod1_tris": 400
   },
-  "npc_f2": {
-   "high_tris": 24258,
-   "lod0_tris": 1499,
-   "lod1_tris": 350,
-   "colors": [
-    {
-     "hair": "#5a3d2b",
-     "top": "#d8c8a8",
-     "bottom": "#4a5a78"
-    },
-    {
-     "hair": "#1e1a1a",
-     "top": "#e8c8c8",
-     "bottom": "#a89a7a"
-    }
-   ]
+  "npc_nf2": {
+   "source": "assets/models/char/second_ai/bl_npc_nf2.vrm",
+   "high_tris": 30609,
+   "lod0_tris": 2400,
+   "lod1_tris": 400
   },
-  "npc_m1": {
-   "high_tris": 38458,
-   "lod0_tris": 1500,
-   "lod1_tris": 350,
-   "colors": [
-    {
-     "hair": "#1c1a1a",
-     "top": "#8a8d90",
-     "bottom": "#2a2a2c"
-    },
-    {
-     "hair": "#3b2a22",
-     "top": "#6b6f4a",
-     "bottom": "#3e4f6e"
-    }
-   ]
+  "npc_nf3": {
+   "source": "assets/models/char/second_ai/bl_npc_nf3.vrm",
+   "high_tris": 30155,
+   "lod0_tris": 2400,
+   "lod1_tris": 400
   },
-  "npc_m2": {
-   "high_tris": 22164,
-   "lod0_tris": 1499,
-   "lod1_tris": 350,
-   "colors": [
-    {
-     "hair": "#1c1a1a",
-     "top": "#e8e8e4",
-     "bottom": "#2e3a50"
-    },
-    {
-     "hair": "#3b2a22",
-     "top": "#a8c0d8",
-     "bottom": "#9a8c70"
-    }
-   ]
+  "npc_nf6": {
+   "source": "assets/models/char/second_ai/bl_npc_nf6.vrm",
+   "high_tris": 30182,
+   "lod0_tris": 2400,
+   "lod1_tris": 400
+  },
+  "npc_nf13": {
+   "source": "assets/models/char/second_ai/bl_npc_nf13.vrm",
+   "high_tris": 31755,
+   "lod0_tris": 2400,
+   "lod1_tris": 400
+  },
+  "npc_nf15": {
+   "source": "assets/models/char/second_ai/bl_npc_nf15.vrm",
+   "high_tris": 31640,
+   "lod0_tris": 2400,
+   "lod1_tris": 400
+  },
+  "npc_nm2": {
+   "source": "assets/models/char/second_ai/bl_npc_nm2.vrm",
+   "high_tris": 31091,
+   "lod0_tris": 2400,
+   "lod1_tris": 400
+  },
+  "npc_nm3": {
+   "source": "assets/models/char/second_ai/bl_npc_nm3.vrm",
+   "high_tris": 31219,
+   "lod0_tris": 2400,
+   "lod1_tris": 400
+  },
+  "npc_nm8": {
+   "source": "assets/models/char/second_ai/bl_npc_nm8.vrm",
+   "high_tris": 31510,
+   "lod0_tris": 2400,
+   "lod1_tris": 400
+  },
+  "npc_nm11": {
+   "source": "assets/models/char/second_ai/bl_npc_nm11.vrm",
+   "high_tris": 31783,
+   "lod0_tris": 2400,
+   "lod1_tris": 400
+  },
+  "npc_nm13": {
+   "source": "assets/models/char/second_ai/bl_npc_nm13.vrm",
+   "high_tris": 31231,
+   "lod0_tris": 2400,
+   "lod1_tris": 400
+  },
+  "npc_nm15": {
+   "source": "assets/models/char/second_ai/bl_npc_nm15.vrm",
+   "high_tris": 31231,
+   "lod0_tris": 2400,
+   "lod1_tris": 400
   }
  },
  "meshes": {
-  "fig_npc_f1_listen_c0": {
-   "base": "npc_f1",
+  "fig_npc_nf1_listen_c0": {
+   "base": "npc_nf1",
    "pose": "listen",
    "color": 0,
    "lod": 0,
-   "tris": 1500
+   "tris": 2400
   },
-  "fig_npc_f1_listen_c0_lod1": {
-   "base": "npc_f1",
+  "fig_npc_nf1_listen_c0_lod1": {
+   "base": "npc_nf1",
    "pose": "listen",
    "color": 0,
    "lod": 1,
-   "tris": 350
+   "tris": 400
   },
-  "fig_npc_f1_listen_c1": {
-   "base": "npc_f1",
-   "pose": "listen",
-   "color": 1,
-   "lod": 0,
-   "tris": 1500
-  },
-  "fig_npc_f1_listen_c1_lod1": {
-   "base": "npc_f1",
-   "pose": "listen",
-   "color": 1,
-   "lod": 1,
-   "tris": 350
-  },
-  "fig_npc_f1_write_c0": {
-   "base": "npc_f1",
+  "fig_npc_nf1_write_c0": {
+   "base": "npc_nf1",
    "pose": "write",
    "color": 0,
    "lod": 0,
-   "tris": 1500
+   "tris": 2400
   },
-  "fig_npc_f1_write_c0_lod1": {
-   "base": "npc_f1",
+  "fig_npc_nf1_write_c0_lod1": {
+   "base": "npc_nf1",
    "pose": "write",
    "color": 0,
    "lod": 1,
-   "tris": 350
+   "tris": 400
   },
-  "fig_npc_f1_write_c1": {
-   "base": "npc_f1",
-   "pose": "write",
-   "color": 1,
-   "lod": 0,
-   "tris": 1500
-  },
-  "fig_npc_f1_write_c1_lod1": {
-   "base": "npc_f1",
-   "pose": "write",
-   "color": 1,
-   "lod": 1,
-   "tris": 350
-  },
-  "fig_npc_f1_phone_c0": {
-   "base": "npc_f1",
+  "fig_npc_nf1_phone_c0": {
+   "base": "npc_nf1",
    "pose": "phone",
    "color": 0,
    "lod": 0,
-   "tris": 1500
+   "tris": 2400
   },
-  "fig_npc_f1_phone_c0_lod1": {
-   "base": "npc_f1",
+  "fig_npc_nf1_phone_c0_lod1": {
+   "base": "npc_nf1",
    "pose": "phone",
    "color": 0,
    "lod": 1,
-   "tris": 350
+   "tris": 400
   },
-  "fig_npc_f1_phone_c1": {
-   "base": "npc_f1",
-   "pose": "phone",
-   "color": 1,
-   "lod": 0,
-   "tris": 1500
-  },
-  "fig_npc_f1_phone_c1_lod1": {
-   "base": "npc_f1",
-   "pose": "phone",
-   "color": 1,
-   "lod": 1,
-   "tris": 350
-  },
-  "fig_npc_f2_listen_c0": {
-   "base": "npc_f2",
+  "fig_npc_nf2_listen_c0": {
+   "base": "npc_nf2",
    "pose": "listen",
    "color": 0,
    "lod": 0,
-   "tris": 1499
+   "tris": 2400
   },
-  "fig_npc_f2_listen_c0_lod1": {
-   "base": "npc_f2",
+  "fig_npc_nf2_listen_c0_lod1": {
+   "base": "npc_nf2",
    "pose": "listen",
    "color": 0,
    "lod": 1,
-   "tris": 350
+   "tris": 400
   },
-  "fig_npc_f2_listen_c1": {
-   "base": "npc_f2",
-   "pose": "listen",
-   "color": 1,
-   "lod": 0,
-   "tris": 1499
-  },
-  "fig_npc_f2_listen_c1_lod1": {
-   "base": "npc_f2",
-   "pose": "listen",
-   "color": 1,
-   "lod": 1,
-   "tris": 350
-  },
-  "fig_npc_f2_write_c0": {
-   "base": "npc_f2",
+  "fig_npc_nf2_write_c0": {
+   "base": "npc_nf2",
    "pose": "write",
    "color": 0,
    "lod": 0,
-   "tris": 1499
+   "tris": 2400
   },
-  "fig_npc_f2_write_c0_lod1": {
-   "base": "npc_f2",
+  "fig_npc_nf2_write_c0_lod1": {
+   "base": "npc_nf2",
    "pose": "write",
    "color": 0,
    "lod": 1,
-   "tris": 350
+   "tris": 400
   },
-  "fig_npc_f2_write_c1": {
-   "base": "npc_f2",
-   "pose": "write",
-   "color": 1,
-   "lod": 0,
-   "tris": 1499
-  },
-  "fig_npc_f2_write_c1_lod1": {
-   "base": "npc_f2",
-   "pose": "write",
-   "color": 1,
-   "lod": 1,
-   "tris": 350
-  },
-  "fig_npc_f2_phone_c0": {
-   "base": "npc_f2",
+  "fig_npc_nf2_phone_c0": {
+   "base": "npc_nf2",
    "pose": "phone",
    "color": 0,
    "lod": 0,
-   "tris": 1499
+   "tris": 2400
   },
-  "fig_npc_f2_phone_c0_lod1": {
-   "base": "npc_f2",
+  "fig_npc_nf2_phone_c0_lod1": {
+   "base": "npc_nf2",
    "pose": "phone",
    "color": 0,
    "lod": 1,
-   "tris": 350
+   "tris": 400
   },
-  "fig_npc_f2_phone_c1": {
-   "base": "npc_f2",
-   "pose": "phone",
-   "color": 1,
-   "lod": 0,
-   "tris": 1499
-  },
-  "fig_npc_f2_phone_c1_lod1": {
-   "base": "npc_f2",
-   "pose": "phone",
-   "color": 1,
-   "lod": 1,
-   "tris": 350
-  },
-  "fig_npc_m1_listen_c0": {
-   "base": "npc_m1",
+  "fig_npc_nf3_listen_c0": {
+   "base": "npc_nf3",
    "pose": "listen",
    "color": 0,
    "lod": 0,
-   "tris": 1500
+   "tris": 2400
   },
-  "fig_npc_m1_listen_c0_lod1": {
-   "base": "npc_m1",
+  "fig_npc_nf3_listen_c0_lod1": {
+   "base": "npc_nf3",
    "pose": "listen",
    "color": 0,
    "lod": 1,
-   "tris": 350
+   "tris": 400
   },
-  "fig_npc_m1_listen_c1": {
-   "base": "npc_m1",
-   "pose": "listen",
-   "color": 1,
-   "lod": 0,
-   "tris": 1500
-  },
-  "fig_npc_m1_listen_c1_lod1": {
-   "base": "npc_m1",
-   "pose": "listen",
-   "color": 1,
-   "lod": 1,
-   "tris": 350
-  },
-  "fig_npc_m1_write_c0": {
-   "base": "npc_m1",
+  "fig_npc_nf3_write_c0": {
+   "base": "npc_nf3",
    "pose": "write",
    "color": 0,
    "lod": 0,
-   "tris": 1500
+   "tris": 2400
   },
-  "fig_npc_m1_write_c0_lod1": {
-   "base": "npc_m1",
+  "fig_npc_nf3_write_c0_lod1": {
+   "base": "npc_nf3",
    "pose": "write",
    "color": 0,
    "lod": 1,
-   "tris": 350
+   "tris": 400
   },
-  "fig_npc_m1_write_c1": {
-   "base": "npc_m1",
-   "pose": "write",
-   "color": 1,
-   "lod": 0,
-   "tris": 1500
-  },
-  "fig_npc_m1_write_c1_lod1": {
-   "base": "npc_m1",
-   "pose": "write",
-   "color": 1,
-   "lod": 1,
-   "tris": 350
-  },
-  "fig_npc_m1_phone_c0": {
-   "base": "npc_m1",
+  "fig_npc_nf3_phone_c0": {
+   "base": "npc_nf3",
    "pose": "phone",
    "color": 0,
    "lod": 0,
-   "tris": 1500
+   "tris": 2400
   },
-  "fig_npc_m1_phone_c0_lod1": {
-   "base": "npc_m1",
+  "fig_npc_nf3_phone_c0_lod1": {
+   "base": "npc_nf3",
    "pose": "phone",
    "color": 0,
    "lod": 1,
-   "tris": 350
+   "tris": 400
   },
-  "fig_npc_m1_phone_c1": {
-   "base": "npc_m1",
-   "pose": "phone",
-   "color": 1,
-   "lod": 0,
-   "tris": 1500
-  },
-  "fig_npc_m1_phone_c1_lod1": {
-   "base": "npc_m1",
-   "pose": "phone",
-   "color": 1,
-   "lod": 1,
-   "tris": 350
-  },
-  "fig_npc_m2_listen_c0": {
-   "base": "npc_m2",
+  "fig_npc_nf6_listen_c0": {
+   "base": "npc_nf6",
    "pose": "listen",
    "color": 0,
    "lod": 0,
-   "tris": 1499
+   "tris": 2400
   },
-  "fig_npc_m2_listen_c0_lod1": {
-   "base": "npc_m2",
+  "fig_npc_nf6_listen_c0_lod1": {
+   "base": "npc_nf6",
    "pose": "listen",
    "color": 0,
    "lod": 1,
-   "tris": 350
+   "tris": 400
   },
-  "fig_npc_m2_listen_c1": {
-   "base": "npc_m2",
+  "fig_npc_nf6_write_c0": {
+   "base": "npc_nf6",
+   "pose": "write",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nf6_write_c0_lod1": {
+   "base": "npc_nf6",
+   "pose": "write",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nf6_phone_c0": {
+   "base": "npc_nf6",
+   "pose": "phone",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nf6_phone_c0_lod1": {
+   "base": "npc_nf6",
+   "pose": "phone",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nf13_listen_c0": {
+   "base": "npc_nf13",
    "pose": "listen",
-   "color": 1,
+   "color": 0,
    "lod": 0,
-   "tris": 1499
+   "tris": 2400
   },
-  "fig_npc_m2_listen_c1_lod1": {
-   "base": "npc_m2",
+  "fig_npc_nf13_listen_c0_lod1": {
+   "base": "npc_nf13",
    "pose": "listen",
-   "color": 1,
+   "color": 0,
    "lod": 1,
-   "tris": 350
+   "tris": 400
   },
-  "fig_npc_m2_write_c0": {
-   "base": "npc_m2",
+  "fig_npc_nf13_write_c0": {
+   "base": "npc_nf13",
    "pose": "write",
    "color": 0,
    "lod": 0,
-   "tris": 1499
+   "tris": 2400
   },
-  "fig_npc_m2_write_c0_lod1": {
-   "base": "npc_m2",
+  "fig_npc_nf13_write_c0_lod1": {
+   "base": "npc_nf13",
    "pose": "write",
    "color": 0,
    "lod": 1,
-   "tris": 350
+   "tris": 400
   },
-  "fig_npc_m2_write_c1": {
-   "base": "npc_m2",
-   "pose": "write",
-   "color": 1,
-   "lod": 0,
-   "tris": 1499
-  },
-  "fig_npc_m2_write_c1_lod1": {
-   "base": "npc_m2",
-   "pose": "write",
-   "color": 1,
-   "lod": 1,
-   "tris": 350
-  },
-  "fig_npc_m2_phone_c0": {
-   "base": "npc_m2",
+  "fig_npc_nf13_phone_c0": {
+   "base": "npc_nf13",
    "pose": "phone",
    "color": 0,
    "lod": 0,
-   "tris": 1499
+   "tris": 2400
   },
-  "fig_npc_m2_phone_c0_lod1": {
-   "base": "npc_m2",
+  "fig_npc_nf13_phone_c0_lod1": {
+   "base": "npc_nf13",
    "pose": "phone",
    "color": 0,
    "lod": 1,
-   "tris": 350
+   "tris": 400
   },
-  "fig_npc_m2_phone_c1": {
-   "base": "npc_m2",
-   "pose": "phone",
-   "color": 1,
+  "fig_npc_nf15_listen_c0": {
+   "base": "npc_nf15",
+   "pose": "listen",
+   "color": 0,
    "lod": 0,
-   "tris": 1499
+   "tris": 2400
   },
-  "fig_npc_m2_phone_c1_lod1": {
-   "base": "npc_m2",
-   "pose": "phone",
-   "color": 1,
+  "fig_npc_nf15_listen_c0_lod1": {
+   "base": "npc_nf15",
+   "pose": "listen",
+   "color": 0,
    "lod": 1,
-   "tris": 350
+   "tris": 400
+  },
+  "fig_npc_nf15_write_c0": {
+   "base": "npc_nf15",
+   "pose": "write",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nf15_write_c0_lod1": {
+   "base": "npc_nf15",
+   "pose": "write",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nf15_phone_c0": {
+   "base": "npc_nf15",
+   "pose": "phone",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nf15_phone_c0_lod1": {
+   "base": "npc_nf15",
+   "pose": "phone",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nm2_listen_c0": {
+   "base": "npc_nm2",
+   "pose": "listen",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nm2_listen_c0_lod1": {
+   "base": "npc_nm2",
+   "pose": "listen",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nm2_write_c0": {
+   "base": "npc_nm2",
+   "pose": "write",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nm2_write_c0_lod1": {
+   "base": "npc_nm2",
+   "pose": "write",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nm2_phone_c0": {
+   "base": "npc_nm2",
+   "pose": "phone",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nm2_phone_c0_lod1": {
+   "base": "npc_nm2",
+   "pose": "phone",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nm3_listen_c0": {
+   "base": "npc_nm3",
+   "pose": "listen",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nm3_listen_c0_lod1": {
+   "base": "npc_nm3",
+   "pose": "listen",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nm3_write_c0": {
+   "base": "npc_nm3",
+   "pose": "write",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nm3_write_c0_lod1": {
+   "base": "npc_nm3",
+   "pose": "write",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nm3_phone_c0": {
+   "base": "npc_nm3",
+   "pose": "phone",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nm3_phone_c0_lod1": {
+   "base": "npc_nm3",
+   "pose": "phone",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nm8_listen_c0": {
+   "base": "npc_nm8",
+   "pose": "listen",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nm8_listen_c0_lod1": {
+   "base": "npc_nm8",
+   "pose": "listen",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nm8_write_c0": {
+   "base": "npc_nm8",
+   "pose": "write",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nm8_write_c0_lod1": {
+   "base": "npc_nm8",
+   "pose": "write",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nm8_phone_c0": {
+   "base": "npc_nm8",
+   "pose": "phone",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nm8_phone_c0_lod1": {
+   "base": "npc_nm8",
+   "pose": "phone",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nm11_listen_c0": {
+   "base": "npc_nm11",
+   "pose": "listen",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nm11_listen_c0_lod1": {
+   "base": "npc_nm11",
+   "pose": "listen",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nm11_write_c0": {
+   "base": "npc_nm11",
+   "pose": "write",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nm11_write_c0_lod1": {
+   "base": "npc_nm11",
+   "pose": "write",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nm11_phone_c0": {
+   "base": "npc_nm11",
+   "pose": "phone",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nm11_phone_c0_lod1": {
+   "base": "npc_nm11",
+   "pose": "phone",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nm13_listen_c0": {
+   "base": "npc_nm13",
+   "pose": "listen",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nm13_listen_c0_lod1": {
+   "base": "npc_nm13",
+   "pose": "listen",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nm13_write_c0": {
+   "base": "npc_nm13",
+   "pose": "write",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nm13_write_c0_lod1": {
+   "base": "npc_nm13",
+   "pose": "write",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nm13_phone_c0": {
+   "base": "npc_nm13",
+   "pose": "phone",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nm13_phone_c0_lod1": {
+   "base": "npc_nm13",
+   "pose": "phone",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nm15_listen_c0": {
+   "base": "npc_nm15",
+   "pose": "listen",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nm15_listen_c0_lod1": {
+   "base": "npc_nm15",
+   "pose": "listen",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nm15_write_c0": {
+   "base": "npc_nm15",
+   "pose": "write",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nm15_write_c0_lod1": {
+   "base": "npc_nm15",
+   "pose": "write",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
+  },
+  "fig_npc_nm15_phone_c0": {
+   "base": "npc_nm15",
+   "pose": "phone",
+   "color": 0,
+   "lod": 0,
+   "tris": 2400
+  },
+  "fig_npc_nm15_phone_c0_lod1": {
+   "base": "npc_nm15",
+   "pose": "phone",
+   "color": 0,
+   "lod": 1,
+   "tris": 400
   }
  },
- "note": "原點＝座位的地面中心（和 furniture_study.glb 的講堂椅同一個原點）、+z 朝前（講台）。每個網格一個配色；共用一個材質 seated_fig（貼圖集 512×512 一格）。",
- "bytes": 2295212,
+ "note": "原點＝座位的地面中心（和 furniture_study.glb 的講堂椅同一個原點）、+z 朝前（講台）。每個底模一種顏色（路人自己的穿搭）；共用一個材質 seated_fig（貼圖集 512×512 一格）。第二版：外殼（加厚＋體素重建）再減面、烤顏色。",
+ "bytes": 3262644,
  "atlas": "tools/blender/env_second/textures/gen/seated/seated_atlas.png",
  "seat": {
   "origin": "座位地面中心",
