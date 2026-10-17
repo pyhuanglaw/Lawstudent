@@ -22,6 +22,7 @@
 | D88／HV-8（10-16） | **分支收斂與生命週期**：有效成果都要保存、整合、驗證；WIP 不當唯一備份；休班帳號的交接分支保留；換班、發布、大型任務結案時盤點分支 | `docs/handoff/BRANCH_INVENTORY.md` |
 | **D90／HV-9（10-17）** | **使用者訊息優先協定（全部帳號、全部 AI、子代理）**：使用者的訊息只在回合結束時送到——**短回合**（一個工作單位、最多約 10 分鐘就結束回合）、長工作放背景、結束前 commit＋push、用 send_later 自己接續；回合開始先回使用者 | 每次接班必讀＋ACK（AI_SESSION_HANDOFF 第 14 節）；`tools/handoff/turn_check.py` |
 | **D92／HV-10（10-16）** | **A／B／C 三帳號任意輪值**：上一任一律看 `docs/handoff/duty.json`（不照順序、不靠記憶、不看 commit 時間）；接班十四步、交班六類 A～F；D75 擴大到所有休班帳號 | 接班先跑 `check_handoff.py duty find`，再照 AI_SESSION_HANDOFF 第 4 節；使用者換班時說的話在第 8 節 |
+| **D93／HV-11（10-17）** | **所有職位持續登記待辦、交接逐職位核對**：四個職位的新任務、衍生待辦、已批准未實作的企劃、待整合成果、未完成測試都要持續登記；各職位寫自己交接檔的「全部待辦」，值班 LAWWW 同步進總表；交班、接班都逐職位比對（`check_handoff.py roles`），不能只對上一任 LAWWW 的清單；沒登記完不得宣稱交接完整 | 接班第 9 步、交班存快照前都跑 `roles`；其他職位的交接檔要有「全部待辦」一節 |
 
 另外：戀愛規則是「可以同時和多位交往、每段各自計算」（企劃線 AA_140 第 0 節）；可昕生日改 4/24、12/3 改成「第一份報告交出去的晚上」（AA_140 G01）。
 
@@ -59,6 +60,30 @@
    - 休班的帳號下次接班時登記；不叫醒它們（D75）。
 
 **一句話測試**：使用者現在傳一則訊息，最晚多久會被讀到？答案必須是「這個回合結束時，最多約 10 分鐘」，而不是「等我把這批做完」。
+
+## 永久規則：所有職位持續登記待辦、交接逐職位核對（2026-10-17 使用者正式要求；D93／HV-11；A／B／C 所有帳號、LAWWW／LAWWW2／AA／BB 四個職位與往後所有繼任者）
+
+**使用者原話（2026-10-17 約 00:3x UTC，對 LAWWW-B）**：「所有帳號（A／B／C）、所有職位（LAWWW／LAWWW2／AA／BB）在工作期間產生的新增任務、衍生待辦、尚未實作的已批准企劃、待整合成果與未完成測試，都必須持續登記。各職位負責寫入自身交接紀錄，值班 LAWWW 負責同步至永久任務總表。每次交班及接班必須逐職位比對，不能只核對上一任 LAWWW 自己的清單；沒有登記完成，不得宣稱交接完整。」
+起因：只有值班的 LAWWW 能寫總表；其他三個職位自己累積的待辦，沒有人核對有沒有進總表，就會像上一次一樣漏掉兩百項。
+
+1. **要登記的五種**：新增任務、衍生待辦（做一件事時發現的另一件事）、已批准但還沒實作的企劃、已交付還沒整合的成果、還沒做完的測試。**工作期間持續登記**，不是等交班才補。
+2. **誰寫哪裡**：
+   - LAWWW2、AA、BB：寫自己交接檔的「**全部待辦**」一節（標題或條列裡要有「全部待辦」四個字；交接檔位置見 AI_SESSION_HANDOFF.md 第 1 節最後一欄、`duty.json` 的 `progressFile`）。每項寫任務 ID；總表還沒有的標【表外】，再用 `send_message` 通知同帳號值班中的 LAWWW。
+   - 值班 LAWWW：把各職位的新項目同步進 `docs/handoff/tasks.json`（只有它能寫總表）。補好的【表外】在 `meta.offList` 記對到哪個任務；只是子項編號、不是任務的 ID，寫進 `meta.reconcileIgnore` 並附原因。
+3. **逐職位核對工具**：`python3 tools/handoff/check_handoff.py roles [--ref origin/<RULE_SOURCE>]`（先 `git fetch`）。它逐一讀 LAWWW2、AA、BB 分支上交接檔的「全部待辦」，下面三種都算異常（結束碼 1）：
+   - 任務 ID 在總表找不到；
+   - 標【表外】的項目還沒補成任務；
+   - 交接檔沒有「全部待辦」一節。
+4. **一定要跑的時機**：
+   - **接班**：第 9 步「確認任務沒有遺失」。不能只核對上一任 LAWWW 的快照和清單。
+   - **交班**：LAWWW 存快照之前（AI_SESSION_HANDOFF.md 第 5 節第 3 步）；其他職位交班前，先把自己的「全部待辦」寫齊。
+   - **平時**：每批工作結束跑 `check` 時一起跑；收到其他職位更新全部待辦時也跑。
+5. **交接完整的條件**：`roles` 結果 OK，或者每一項異常都已補進總表、或寫進 ignore 並附原因。
+   - **沒做到，就不得在接班確認、交班紀錄或對使用者的回報裡宣稱交接完整**；只能寫「逐職位核對：異常 N 項未處理」，並列出是哪幾項。
+6. **帳號 A、C 也一樣**：休班帳號回來接班時照這一節做。值班帳號不為了核對去叫醒休班帳號（D75），只讀 GitHub 上它們的交接檔。
+7. **工具只是輔助**：`roles` 只認得任務 ID 和【表外】標記。沒寫進交接檔的待辦（只在對話、草稿、TaskCreate 清單裡，或口頭答應的事）工具看不到。這部分照 AI_SESSION_HANDOFF.md 第 5 節 B 類，由各職位在交班前自己逐項對到交接檔。
+
+**一句話測試**：AA 昨天在自己的交接檔加了一項總表沒有的待辦，今天換帳號接班——接班的 LAWWW 跑 `roles` 一定看得到它，而不是只看上一任 LAWWW 的清單就說「交接完整」。
 
 ## P0 緊急換班口令（2026-10-15 使用者直接確認；永久；四職位與跨帳號繼任者適用）
 
@@ -420,13 +445,14 @@ D84（LAWWW ⇄ LAWWW2 的美術派工細則）、D79（劇情先問 AA）照舊
 
 ## 跨帳號接班（帳號 A、B、C 任意方向輪值；2026-10-11 使用者訂定 D49，2026-10-16 修訂 HV-3，2026-10-16 升級 D92／HV-10）
 
-總入口：**`docs/AI_SESSION_HANDOFF.md`**（唯一值班狀態與 RULE_SOURCE、值班表、十四步接班、六類交班、三帳號啟動提示詞與帳號 C 四份、使用者換班時說的話、接班確認格式、規則變更紀錄）。**唯一的值班狀態：`docs/handoff/duty.json`**（RULE_SOURCE 分支上，只有值班的 LAWWW 寫；各職位在自己分支有 `docs/handoff/duty_<職位>.json`）。**唯一的跨帳號永久任務總表：機器讀的 `docs/handoff/tasks.json`（以它為準；跨 AI 任務有 `xai` 欄位，D84）＋閱讀版 `docs/HANDOFF_GAP_MATRIX.md`**；交付登記 `docs/handoff/deliveries.json`（記帳號、分支、commit）；交班快照 `docs/handoff/snapshots/`；工具 `tools/handoff/check_handoff.py`（`check`、`snapshot --account <A|B|C>`、`queue`、`duty find／plan／register／handoff／sync／verify`；D82、D92）。
+總入口：**`docs/AI_SESSION_HANDOFF.md`**（唯一值班狀態與 RULE_SOURCE、值班表、十四步接班、六類交班、三帳號啟動提示詞與帳號 C 四份、使用者換班時說的話、接班確認格式、規則變更紀錄）。**唯一的值班狀態：`docs/handoff/duty.json`**（RULE_SOURCE 分支上，只有值班的 LAWWW 寫；各職位在自己分支有 `docs/handoff/duty_<職位>.json`）。**唯一的跨帳號永久任務總表：機器讀的 `docs/handoff/tasks.json`（以它為準；跨 AI 任務有 `xai` 欄位，D84）＋閱讀版 `docs/HANDOFF_GAP_MATRIX.md`**；交付登記 `docs/handoff/deliveries.json`（記帳號、分支、commit）；交班快照 `docs/handoff/snapshots/`；工具 `tools/handoff/check_handoff.py`（`check`、`roles`（逐職位核對，D93）、`snapshot --account <A|B|C>`、`queue`、`duty find／plan／register／handoff／sync／verify`；D82、D92）。
 - 永遠只有四個職位：LAWWW、LAWWW2、AA、BB。帳號 A 的工作階段不加後綴，帳號 B 叫 LAWWW-B、LAWWW2-B、AA-B、BB-B，帳號 C 叫 LAWWW-C、LAWWW2-C、AA-C、BB-C。A、B、C 只是帳號識別：**同一職位同一時間只有一個工作階段寫入**，使用者對哪一邊說話，哪一邊就值班。**A→B、A→C、B→A、B→C、C→A、C→B 都一樣、不限次數**；換帳號不會讓任何職位的職責或未完成工作歸零（任務的 `owner` 永遠寫職位）。
 - **上一任是誰只看 GitHub 上最近一次正式有效的值班與交班紀錄（`duty.json` 的登記鏈）**：不照 A→B→C 的固定順序、不靠自己上次值班的記憶、**不看哪條分支的 commit 時間最新**。兩份紀錄互不包含（分岔）、RULE_SOURCE 對不起來、同一職位兩個帳號都在寫：**不能自己猜、不能覆寫，查不清楚就回報使用者**（`duty find`／`duty verify` 會列出來）。
 - **有效規則來源（RULE_SOURCE）＝值班 LAWWW 的開發分支＝`duty.json` 的 `ruleSource.branch`**（用 `python3 tools/handoff/check_handoff.py duty find` 找；`main` 和休班帳號停住的分支上的 `CLAUDE.md` 可能是舊的）。**舊對話記憶、啟動時載入的 CLAUDE.md 都以 RULE_SOURCE 的版本為準。** 只有值班的 LAWWW 改五份永久規則檔（CLAUDE.md、AI_SESSION_HANDOFF.md、HANDOFF_GAP_MATRIX.md、PROJECT_DECISIONS.md、USER_INSTRUCTION_LOG.md）和 `docs/handoff/` 的總表、交付、`duty.json`；其他職位在自己的交接檔用任務 ID 寫狀態。
 - **使用者換班時說的話（總入口第 8 節）**：交班＝對值班帳號四個工作階段各說「**現在換班**」；接班＝第一次用的帳號貼第 7 節提示詞，用過的帳號說「**我回來了，請同步 GitHub 最新進度，接續工作。**」；上一班來不及交班時加一句「**上一班來不及交班，現在由帳號 <X> 接班。**」（這句才是 `duty register --user-ok` 的授權）。
 - **接班照總入口第 4 節十四步——先對帳，再開工**：fetch → `duty find`（RULE_SOURCE）→ 讀規則與第 13 節 → `duty plan`（上一任、要合併的分支、快照、WIP、還沒交班的職位）→ 讀上一任四職位的交接紀錄 → 讀總表與交付 → `check`（結束碼 2＝快照不見或壞掉 → `REMEDIAL_FULL_AUDIT`）→ `duty verify`（未整合、WIP、待 ACK、雙寫）→ 確認任務沒遺失（證明不了恢復待開工、沒核完寫 `AUDIT_PENDING`）→ 確認自己的職位已取得寫入權（上一任沒交班就停下來問使用者）→ 合併（不 rebase、不 force push、不 reset、不用空白分支取代原成果）→ `duty register`＋commit＋push → 回報「接班確認」→ 立刻接續。增量（D80、D82）：工具只列異常和新 commit，完整但不拖慢開發。
 - **交班（「現在換班」）留下六類**（總入口第 5 節；平時就持續更新，交班只補差異）：A 本班成果、B **全部**未完成工作、C 正在做的、D 最新決策與規則、E 跨 AI 協作（SENT／DELIVERED／ACK／ACTIONED）、F 測試與問題。存快照 `snapshot --role <職位> --account <A|B|C>`、登記 `duty handoff`，commit＋push。
+- **逐職位核對（D93／HV-11）**：交班、接班都跑 `check_handoff.py roles`，把 LAWWW2、AA、BB 各自交接檔的「全部待辦」和總表逐項比對；不能只對上一任 LAWWW 的清單，沒登記完不得宣稱交接完整。
 - **任務不得無故消失**：只能是待開工、進行中、等待其他AI／素材、已實作待整合、已整合待測試、已驗收、暫停（寫原因）、取消／被取代（寫授權與替代 ID）。不能因優先級改變刪掉；「已寫企劃」「已提交程式」「模型完成」都不是已驗收。**平時增量更新（D82）**：收到交付就在 `deliveries.json` 登記一筆（對到任務 ID、帳號、分支、commit、SENT／DELIVERED／ACK／ACTIONED、未整合／已整合待測試／已驗收），新任務直接加進 `tasks.json`。不要整天寫報告。
 - 平時每完成重要階段就 push（D45）。來不及交班時，以遠端最後 push 的狀態為準，沒 push 的當作沒有。**不准**：force push 蓋掉舊帳號的分支、reset 掉其他 AI 的有效成果、用空白新分支取代原本的開發成果、刪除還有未整合內容的 WIP 分支、只依賴本機沒 push 的檔案、把沒驗收的冒充完成、因交班而擅自發布。
 - 只有值班中的那個 LAWWW 可以正式發布（D85；三小時間隔 2026-10-16 取消）；規則修改不需要、也不准為此合併遊戲內容到 `main`。

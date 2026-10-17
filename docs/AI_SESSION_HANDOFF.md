@@ -22,6 +22,7 @@
 | D88／HV-8（10-16） | **分支收斂與生命週期**：有效成果都要保存、整合、驗證；WIP 不當唯一備份；休班帳號的交接分支保留；換班、發布、大型任務結案時盤點分支 | `docs/handoff/BRANCH_INVENTORY.md` |
 | **D90／HV-9（10-17）** | **使用者訊息優先協定**：使用者的訊息只在回合結束時送到——短回合（最多約 10 分鐘）、長工作放背景、結束前 commit＋push、send_later 自己接續；回合開始先回使用者 | 接班必讀＋第 14 節 ACK；`tools/handoff/turn_check.py` |
 | **D92／HV-10（10-16）** | **A／B／C 三帳號任意輪值**：上一任一律看 `docs/handoff/duty.json`（不照順序、不靠記憶、不看 commit 時間）；接班十四步、交班六類 A～F；D75 擴大到所有休班帳號 | 接班先跑 `check_handoff.py duty find`，再照 AI_SESSION_HANDOFF 第 4 節；使用者換班時說的話在第 8 節 |
+| **D93／HV-11（10-17）** | **所有職位持續登記待辦、交接逐職位核對**：四個職位的新任務、衍生待辦、已批准未實作的企劃、待整合成果、未完成測試都要持續登記；各職位寫自己交接檔的「全部待辦」，值班 LAWWW 同步進總表；交班、接班都逐職位比對（`check_handoff.py roles`），不能只對上一任 LAWWW 的清單；沒登記完不得宣稱交接完整 | 接班第 9 步、交班存快照前都跑 `roles`；其他職位的交接檔要有「全部待辦」一節 |
 
 另外：戀愛規則是「可以同時和多位交往、每段各自計算」（企劃線 AA_140 第 0 節）；可昕生日改 4/24、12/3 改成「第一份報告交出去的晚上」（AA_140 G01）。
 
@@ -162,13 +163,13 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 |---|---|---|
 | 1 | **同步所有遠端分支** | `git fetch origin '+refs/heads/*:refs/remotes/origin/*' --prune`（淺層複本先 `git fetch --deepen=300 origin <分支>`） |
 | 2 | **找最新的有效 RULE_SOURCE** | `python3 tools/handoff/check_handoff.py duty find`（第 0a 節）。結束碼 1（分岔、找不到）→ **停在這裡回報使用者**，不自己挑 |
-| 3 | **讀最新的永久規則**：五份規則檔＋第 13 節自己上次值班之後新增的 HV | 每次接班必讀：**D92（本程序）**、D90、D88、D87、D86、D85、D84、D81。不能只靠對話記憶或啟動時載入的 `CLAUDE.md` |
+| 3 | **讀最新的永久規則**：五份規則檔＋第 13 節自己上次值班之後新增的 HV | 每次接班必讀：**D93（逐職位核對）**、**D92（本程序）**、D90、D88、D87、D86、D85、D84、D81。不能只靠對話記憶或啟動時載入的 `CLAUDE.md` |
 | 4 | **找出上一任值班帳號與最近一次正式交班紀錄** | `python3 tools/handoff/check_handoff.py duty plan --account <你的帳號> --role <職位> --ref origin/<RULE_SOURCE>`：列出上一任（以 `duty.json` 為準）、各職位要合併的分支、交班快照、WIP、還沒交班的職位 |
 | 5 | **讀上一任四個職位的交接紀錄** | 各職位進度檔最新版（第 1 節最後一欄；可能在另一個帳號的分支上：`git log --all -1 -- <檔>`）＋交接紀錄六類（第 5 節 A～F） |
 | 6 | **讀任務總表與交付登記** | `docs/handoff/tasks.json`（以它為準）＋`docs/HANDOFF_GAP_MATRIX.md`（閱讀版）＋`docs/handoff/deliveries.json` |
 | 7 | **用最新交班快照比對** | `python3 tools/handoff/check_handoff.py check --ref origin/<RULE_SOURCE>`：九項；結束碼 0 正常、1 有異常或查不了（不算正常）、**2 快照不存在或壞掉 → 寫 `REMEDIAL_FULL_AUDIT`，補做一次全面盤點** |
 | 8 | **找出未整合分支、未測試成果、WIP、待 ACK 的交付** | `python3 tools/handoff/check_handoff.py duty verify --ref origin/<RULE_SOURCE>`（第 11 項 WIP、第 4 項分支在記錄後多了幾個 commit）；check 第 6、7、11 項（未登記的交付、未 ACK、待整合待測試）；`docs/handoff/BRANCH_INVENTORY.md` |
-| 9 | **確認任務沒有遺失** | 上一班快照的每個未完成 ID 都還在、狀態合理；自己職位已授權未完成的都在；不見的查證（已驗收要有證據、取消要有授權和替代 ID），**證明不了恢復成「待開工」註明「待查」**；沒核完寫 `AUDIT_PENDING：<範圍>`，不宣稱已全部核實 |
+| 9 | **確認任務沒有遺失**＋**逐職位核對（D93／HV-11）** | 上一班快照的每個未完成 ID 都還在、狀態合理；自己職位已授權未完成的都在；不見的查證（已驗收要有證據、取消要有授權和替代 ID），**證明不了恢復成「待開工」註明「待查」**；沒核完寫 `AUDIT_PENDING：<範圍>`，不宣稱已全部核實。**不能只對上一任 LAWWW 的清單**：`python3 tools/handoff/check_handoff.py roles --ref origin/<RULE_SOURCE>` 逐一讀 LAWWW2、AA、BB 交接檔的「全部待辦」和總表比對；LAWWW 把異常全部補進總表（【表外】記 `meta.offList`）或寫進 `meta.reconcileIgnore` 附原因，**結果 OK 才能說交接完整**；其他職位確認自己的「全部待辦」每項都有任務 ID |
 | 10 | **確認自己的職位已取得寫入權**：上一任這個職位已正式交班 | `duty plan` 會列「還沒交班的職位」。上一任沒交班 → `duty register` **會拒絕**；只有使用者在對話裡明確要你接（例：「現在由帳號 C 接班」「我回來了」）才加 `--user-ok`，工具會記 `no-handoff` 異常，接班確認要寫明。`duty verify` 第 6 項報「交班後還在寫」→ **停下來回報使用者**，不合併、不覆寫 |
 | 11 | **合併上一任的有效成果**（不 rebase、不 force push、不 reset、不用空白分支取代原成果） | LAWWW：`git merge --no-edit origin/<RULE_SOURCE>`；LAWWW2：合併上一任 LAWWW2 的分支和要接著做的 WIP；AA、BB：企劃線照舊（AA 合併兩人的分支、BB 再拉）。衝突兩邊都保留，看不懂先問使用者 |
 | 12 | **登記新的值班狀態** | LAWWW：`duty register --account <X> --role LAWWW --session <自己> --branch <自己的分支>` → 改值班表（第 1 節）、第 12 節、`duty sync`（收其他職位的登記）→ commit＋push、核對遠端 SHA。其他職位：`duty register ... --ref origin/<RULE_SOURCE>`（只寫自己分支上的 `duty_<職位>.json`，有 WIP 加 `--wip <分支>`）→ commit＋push → 同帳號值班中的 LAWWW 用 `send_message` 通知，LAWWW `duty sync` 收進來 |
@@ -189,7 +190,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 | 類 | 內容（每一件都寫任務 ID） |
 |---|---|
 | **A. 本班已完成成果** | 實際做完的程式、劇情、資料、場景、美術：分支、commit SHA、測試結果與證據、整合了沒、發布了沒（還是只在開發分支）、推不了的東西 |
-| **B. 全部未完成工作**（不能只寫最後一件；**使用者 2026-10-17 00:2x：「交接 不要只給你手上清單 代辦事項全部都要交接」**） | 上一班留下本班沒做的、本班做一半的、本班新增的、已交付未整合的、已整合未測試的、等其他 AI 的、等素材或使用者資料的、暫停或降低優先級的（寫原因和恢復條件）。每件保留原 ID、來源、狀態、下一步。**交接的是 `docs/handoff/tasks.json` 的全部待辦（不是自己手上正在做的那幾項）**；交班前先把只存在工作階段裡的東西——對話裡的待辦清單（TaskCreate／TodoWrite 之類）、草稿、口頭答應使用者或其他 AI 的事、send_later 排的接續提醒——逐項對到總表，沒有的補成任務。**四個職位都適用（使用者 00:2x：「其他AI也是喔 他們的代辦清單也都要交接」）**：LAWWW2、AA、BB 把自己的全部待辦（用任務 ID）寫進自己的交接檔，總表上沒有的交給值班 LAWWW 補進 tasks.json；只交手上正在做的那一件不算交班 |
+| **B. 全部未完成工作**（不能只寫最後一件；**使用者 2026-10-17 00:2x：「交接 不要只給你手上清單 代辦事項全部都要交接」**） | 上一班留下本班沒做的、本班做一半的、本班新增的、已交付未整合的、已整合未測試的、等其他 AI 的、等素材或使用者資料的、暫停或降低優先級的（寫原因和恢復條件）。每件保留原 ID、來源、狀態、下一步。**交接的是 `docs/handoff/tasks.json` 的全部待辦（不是自己手上正在做的那幾項）**；交班前先把只存在工作階段裡的東西——對話裡的待辦清單（TaskCreate／TodoWrite 之類）、草稿、口頭答應使用者或其他 AI 的事、send_later 排的接續提醒——逐項對到總表，沒有的補成任務。**四個職位都適用（使用者 00:2x：「其他AI也是喔 他們的代辦清單也都要交接」）**：LAWWW2、AA、BB 把自己的全部待辦（用任務 ID）寫進自己的交接檔，總表上沒有的交給值班 LAWWW 補進 tasks.json；只交手上正在做的那一件不算交班。**逐職位登記（D93／HV-11）**：工作期間持續登記（新增任務、衍生待辦、已批准未實作的企劃、待整合成果、未完成測試），不等交班才補；交接檔要有一節標題或條列寫「全部待辦」（`check_handoff.py roles` 靠這四個字找），每項寫任務 ID，總表沒有的標【表外】 |
 | **C. 正在做的工作** | 交班那一刻手上的事：做到哪一步、改了哪些檔、在哪條分支、有沒有沒 commit 的（有就先 commit＋push，標 WIP）、下一班從哪裡接 |
 | **D. 最新決策與規則** | 本班新增、修訂、廢止的使用者決策（D 編號）和永久規則（HV 編號）：生效範圍、使用者來源、取代哪些舊規則、寫在哪份檔、SHA。LAWWW 寫第 13 節並改五份規則檔；其他職位把原文與來源交給 LAWWW（不只存在對話裡） |
 | **E. 跨 AI 協作狀態** | 誰交付了什麼給誰、等審、等整合、等對方回覆的問題：**SENT／DELIVERED／ACK／ACTIONED** 分清楚（`deliveries.json`、`tasks.json` 的 `xai.ack`） |
@@ -200,7 +201,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 2. **寫六類紀錄**（上表）。
 3. **存快照、登記交班**：
    - LAWWW 以外的職位：`python3 tools/handoff/check_handoff.py snapshot --role <職位> --account <A|B|C>` → `python3 tools/handoff/check_handoff.py duty handoff --account <X> --role <職位> --snapshot <檔名> --ref origin/<RULE_SOURCE>` → commit＋push；同帳號值班中的 LAWWW 用 `send_message` 通知（LAWWW 已經交班就只寫 GitHub）。
-   - LAWWW 最後做：`check_handoff.py check`（異常處理掉或寫進交班紀錄）→ `duty sync`（收其他職位的交班登記）→ `snapshot --role LAWWW --account <A|B|C>` → `duty handoff --account <X> --role LAWWW --snapshot <檔名>` → 值班表改成「換班中」、第 12 節加一行 → commit＋push、核對遠端 SHA。**沒 push 的快照＝沒有快照。**
+   - LAWWW 最後做：`check_handoff.py check`（異常處理掉或寫進交班紀錄）→ `check_handoff.py roles`（逐職位核對，D93：LAWWW2、AA、BB 的全部待辦都要在總表；異常沒處理完，交班紀錄寫「逐職位核對：異常 N 項未處理」並列出，不宣稱交接完整）→ `duty sync`（收其他職位的交班登記）→ `snapshot --role LAWWW --account <A|B|C>` → `duty handoff --account <X> --role LAWWW --snapshot <檔名>` → 值班表改成「換班中」、第 12 節加一行 → commit＋push、核對遠端 SHA。**沒 push 的快照＝沒有快照。**
    - 第 0a 節的 RULE_SOURCE 不改（下一班的 LAWWW 用 `duty register` 改成它的分支）。
 4. **交班後停止寫入**這個職位的範圍，直到使用者叫你回來。回報使用者：最後 commit SHA、分支、push 成功與否、沒備份的項目。
 5. **不准**：為了交班合併 `main` 或發布、force push、reset 別人的有效成果、用空白新分支取代原成果、刪還有未整合內容的 WIP 分支、把沒驗收的當作完成（P0 換班口令第 7 條、D85、D88）。
@@ -217,6 +218,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 離開期間的變更：N 個 commit，重點：…（沒有就寫「沒有」）
 規則來源：origin/<RULE_SOURCE> @ <規則 SHA>（HV-n）；自己上次值班之後新增的規則：…（例：D92、HV-10）
 對帳：check 結束碼 <0|1|2>；上一班快照 N 項未完成，全部在總表／恢復 M 項（ID…）／AUDIT_PENDING：…／REMEDIAL_FULL_AUDIT：…（沒有就寫「無」）
+逐職位核對（D93）：roles 結束碼 <0|1>；LAWWW2／AA／BB 的全部待辦都在總表／異常 N 項：…（處理方式）
 未整合／未測試／WIP／待 ACK：…
 目前的任務：…　下一步：…（接著就做，不等使用者說開工）
 值班登記：duty register 已 push <sha>；值班表：已更新（LAWWW）／等 LAWWW duty sync（其他職位）
@@ -227,6 +229,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 2. `duty verify` 結束碼 0（有異常就寫清楚是哪幾項、怎麼處理）。
 3. GitHub 上 RULE_SOURCE 的 `docs/handoff/duty.json`：`onDuty` 是新的帳號、四個職位的工作階段和分支對得上；值班表（第 1 節）寫「<新帳號> 值班中」。
 4. 接班確認寫了規則 SHA 和對帳結果；總表沒有不明原因消失的任務。
+5. 接班確認寫了逐職位核對（`roles`）的結果：LAWWW2、AA、BB 自己的全部待辦都在總表裡（D93）；有異常就列出來，不能寫「交接完整」。
 
 ## 6b. LAWWW ⇄ LAWWW2 平行開發的派工（D84，2026-10-16；A／B 兩個帳號都適用）
 
@@ -285,7 +288,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 6. 讀 docs/handoff/tasks.json（以它為準）、docs/HANDOFF_GAP_MATRIX.md、docs/handoff/deliveries.json。
 7. python3 tools/handoff/check_handoff.py check --ref origin/<RULE_SOURCE>：結束碼 0 正常、1 有異常或查不了（不算正常）、2 快照不存在或壞掉 → 寫 REMEDIAL_FULL_AUDIT、補做一次全面盤點。
 8. python3 tools/handoff/check_handoff.py duty verify --ref origin/<RULE_SOURCE>：未整合分支、WIP、待 ACK 的交付、同一職位兩個帳號同時寫入。
-9. 確認任務沒有遺失：不見的查證，證明不了恢復成「待開工」註明「待查」；沒核完寫 AUDIT_PENDING，不宣稱已全部核實。
+9. 確認任務沒有遺失：不見的查證，證明不了恢復成「待開工」註明「待查」；沒核完寫 AUDIT_PENDING，不宣稱已全部核實。逐職位核對（D93／HV-11）：不能只對上一任 LAWWW 的清單——python3 tools/handoff/check_handoff.py roles --ref origin/<RULE_SOURCE> 會讀 LAWWW2、AA、BB 各自交接檔的「全部待辦」和總表逐項比對；LAWWW 把異常補進 tasks.json 或寫明理由，結果 OK 才能說交接完整；其他職位確認自己交接檔有「全部待辦」一節、每項有任務 ID（總表沒有的標【表外】交給 LAWWW 補）。工作期間產生的新任務、衍生待辦、已批准未實作的企劃、待整合成果、未完成測試都要持續登記。
 10. 確認上一任這個職位已正式交班。沒交班、或 verify 報「交班以後還有 commit」→ 停下來回報使用者，不合併、不覆寫；只有使用者在對話裡明確要你接，才在第 12 步加 --user-ok（會記 no-handoff 異常）。
 11. 合併上一任的有效成果進系統指定給你的分支：不 rebase、不 force push、不 reset 別人的成果、不用空白新分支取代原成果、不刪還有未整合內容的 WIP 分支。
 12. python3 tools/handoff/check_handoff.py duty register --account <X> --role LAWWW --session <你的 session ID（用 get_session 查）> --branch <系統指定給你的分支>（有沒整合的 WIP 分支加 --wip <分支>）→ commit＋push、核對遠端 SHA。
@@ -309,7 +312,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 6. 讀 docs/handoff/tasks.json（以它為準）、docs/HANDOFF_GAP_MATRIX.md、docs/handoff/deliveries.json。
 7. python3 tools/handoff/check_handoff.py check --ref origin/<RULE_SOURCE>：結束碼 0 正常、1 有異常或查不了（不算正常）、2 快照不存在或壞掉 → 寫 REMEDIAL_FULL_AUDIT、補做一次全面盤點。
 8. python3 tools/handoff/check_handoff.py duty verify --ref origin/<RULE_SOURCE>：未整合分支、WIP、待 ACK 的交付、同一職位兩個帳號同時寫入。
-9. 確認任務沒有遺失：不見的查證，證明不了恢復成「待開工」註明「待查」；沒核完寫 AUDIT_PENDING，不宣稱已全部核實。
+9. 確認任務沒有遺失：不見的查證，證明不了恢復成「待開工」註明「待查」；沒核完寫 AUDIT_PENDING，不宣稱已全部核實。逐職位核對（D93／HV-11）：不能只對上一任 LAWWW 的清單——python3 tools/handoff/check_handoff.py roles --ref origin/<RULE_SOURCE> 會讀 LAWWW2、AA、BB 各自交接檔的「全部待辦」和總表逐項比對；LAWWW 把異常補進 tasks.json 或寫明理由，結果 OK 才能說交接完整；其他職位確認自己交接檔有「全部待辦」一節、每項有任務 ID（總表沒有的標【表外】交給 LAWWW 補）。工作期間產生的新任務、衍生待辦、已批准未實作的企劃、待整合成果、未完成測試都要持續登記。
 10. 確認上一任這個職位已正式交班。沒交班、或 verify 報「交班以後還有 commit」→ 停下來回報使用者，不合併、不覆寫；只有使用者在對話裡明確要你接，才在第 12 步加 --user-ok（會記 no-handoff 異常）。
 11. 合併上一任的有效成果進系統指定給你的分支：不 rebase、不 force push、不 reset 別人的成果、不用空白新分支取代原成果、不刪還有未整合內容的 WIP 分支。
 12. python3 tools/handoff/check_handoff.py duty register --account <X> --role LAWWW2 --session <你的 session ID（用 get_session 查）> --branch <系統指定給你的分支> --ref origin/<RULE_SOURCE>（有沒整合的 WIP 分支加 --wip <分支>）→ commit＋push、核對遠端 SHA。
@@ -334,7 +337,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 6. 讀 docs/handoff/tasks.json（以它為準）、docs/HANDOFF_GAP_MATRIX.md、docs/handoff/deliveries.json。
 7. python3 tools/handoff/check_handoff.py check --ref origin/<RULE_SOURCE>：結束碼 0 正常、1 有異常或查不了（不算正常）、2 快照不存在或壞掉 → 寫 REMEDIAL_FULL_AUDIT、補做一次全面盤點。
 8. python3 tools/handoff/check_handoff.py duty verify --ref origin/<RULE_SOURCE>：未整合分支、WIP、待 ACK 的交付、同一職位兩個帳號同時寫入。
-9. 確認任務沒有遺失：不見的查證，證明不了恢復成「待開工」註明「待查」；沒核完寫 AUDIT_PENDING，不宣稱已全部核實。
+9. 確認任務沒有遺失：不見的查證，證明不了恢復成「待開工」註明「待查」；沒核完寫 AUDIT_PENDING，不宣稱已全部核實。逐職位核對（D93／HV-11）：不能只對上一任 LAWWW 的清單——python3 tools/handoff/check_handoff.py roles --ref origin/<RULE_SOURCE> 會讀 LAWWW2、AA、BB 各自交接檔的「全部待辦」和總表逐項比對；LAWWW 把異常補進 tasks.json 或寫明理由，結果 OK 才能說交接完整；其他職位確認自己交接檔有「全部待辦」一節、每項有任務 ID（總表沒有的標【表外】交給 LAWWW 補）。工作期間產生的新任務、衍生待辦、已批准未實作的企劃、待整合成果、未完成測試都要持續登記。
 10. 確認上一任這個職位已正式交班。沒交班、或 verify 報「交班以後還有 commit」→ 停下來回報使用者，不合併、不覆寫；只有使用者在對話裡明確要你接，才在第 12 步加 --user-ok（會記 no-handoff 異常）。
 11. 合併上一任的有效成果進系統指定給你的分支：不 rebase、不 force push、不 reset 別人的成果、不用空白新分支取代原成果、不刪還有未整合內容的 WIP 分支。
 12. python3 tools/handoff/check_handoff.py duty register --account <X> --role AA --session <你的 session ID（用 get_session 查）> --branch <系統指定給你的分支> --ref origin/<RULE_SOURCE>（有沒整合的 WIP 分支加 --wip <分支>）→ commit＋push、核對遠端 SHA。
@@ -358,7 +361,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 6. 讀 docs/handoff/tasks.json（以它為準）、docs/HANDOFF_GAP_MATRIX.md、docs/handoff/deliveries.json。
 7. python3 tools/handoff/check_handoff.py check --ref origin/<RULE_SOURCE>：結束碼 0 正常、1 有異常或查不了（不算正常）、2 快照不存在或壞掉 → 寫 REMEDIAL_FULL_AUDIT、補做一次全面盤點。
 8. python3 tools/handoff/check_handoff.py duty verify --ref origin/<RULE_SOURCE>：未整合分支、WIP、待 ACK 的交付、同一職位兩個帳號同時寫入。
-9. 確認任務沒有遺失：不見的查證，證明不了恢復成「待開工」註明「待查」；沒核完寫 AUDIT_PENDING，不宣稱已全部核實。
+9. 確認任務沒有遺失：不見的查證，證明不了恢復成「待開工」註明「待查」；沒核完寫 AUDIT_PENDING，不宣稱已全部核實。逐職位核對（D93／HV-11）：不能只對上一任 LAWWW 的清單——python3 tools/handoff/check_handoff.py roles --ref origin/<RULE_SOURCE> 會讀 LAWWW2、AA、BB 各自交接檔的「全部待辦」和總表逐項比對；LAWWW 把異常補進 tasks.json 或寫明理由，結果 OK 才能說交接完整；其他職位確認自己交接檔有「全部待辦」一節、每項有任務 ID（總表沒有的標【表外】交給 LAWWW 補）。工作期間產生的新任務、衍生待辦、已批准未實作的企劃、待整合成果、未完成測試都要持續登記。
 10. 確認上一任這個職位已正式交班。沒交班、或 verify 報「交班以後還有 commit」→ 停下來回報使用者，不合併、不覆寫；只有使用者在對話裡明確要你接，才在第 12 步加 --user-ok（會記 no-handoff 異常）。
 11. 合併上一任的有效成果進系統指定給你的分支：不 rebase、不 force push、不 reset 別人的成果、不用空白新分支取代原成果、不刪還有未整合內容的 WIP 分支。
 12. python3 tools/handoff/check_handoff.py duty register --account <X> --role BB --session <你的 session ID（用 get_session 查）> --branch <系統指定給你的分支> --ref origin/<RULE_SOURCE>（有沒整合的 WIP 分支加 --wip <分支>）→ commit＋push、核對遠端 SHA。
@@ -382,7 +385,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 6. 讀 docs/handoff/tasks.json（以它為準）、docs/HANDOFF_GAP_MATRIX.md、docs/handoff/deliveries.json。
 7. python3 tools/handoff/check_handoff.py check --ref origin/<RULE_SOURCE>：結束碼 0 正常、1 有異常或查不了（不算正常）、2 快照不存在或壞掉 → 寫 REMEDIAL_FULL_AUDIT、補做一次全面盤點。
 8. python3 tools/handoff/check_handoff.py duty verify --ref origin/<RULE_SOURCE>：未整合分支、WIP、待 ACK 的交付、同一職位兩個帳號同時寫入。
-9. 確認任務沒有遺失：不見的查證，證明不了恢復成「待開工」註明「待查」；沒核完寫 AUDIT_PENDING，不宣稱已全部核實。
+9. 確認任務沒有遺失：不見的查證，證明不了恢復成「待開工」註明「待查」；沒核完寫 AUDIT_PENDING，不宣稱已全部核實。逐職位核對（D93／HV-11）：不能只對上一任 LAWWW 的清單——python3 tools/handoff/check_handoff.py roles --ref origin/<RULE_SOURCE> 會讀 LAWWW2、AA、BB 各自交接檔的「全部待辦」和總表逐項比對；LAWWW 把異常補進 tasks.json 或寫明理由，結果 OK 才能說交接完整；其他職位確認自己交接檔有「全部待辦」一節、每項有任務 ID（總表沒有的標【表外】交給 LAWWW 補）。工作期間產生的新任務、衍生待辦、已批准未實作的企劃、待整合成果、未完成測試都要持續登記。
 10. 確認上一任這個職位已正式交班。沒交班、或 verify 報「交班以後還有 commit」→ 停下來回報使用者，不合併、不覆寫；只有使用者在對話裡明確要你接，才在第 12 步加 --user-ok（會記 no-handoff 異常）。
 11. 合併上一任的有效成果進系統指定給你的分支：不 rebase、不 force push、不 reset 別人的成果、不用空白新分支取代原成果、不刪還有未整合內容的 WIP 分支。
 12. python3 tools/handoff/check_handoff.py duty register --account C --role LAWWW --session <你的 session ID（用 get_session 查）> --branch <系統指定給你的分支>（有沒整合的 WIP 分支加 --wip <分支>）→ commit＋push、核對遠端 SHA。
@@ -406,7 +409,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 6. 讀 docs/handoff/tasks.json（以它為準）、docs/HANDOFF_GAP_MATRIX.md、docs/handoff/deliveries.json。
 7. python3 tools/handoff/check_handoff.py check --ref origin/<RULE_SOURCE>：結束碼 0 正常、1 有異常或查不了（不算正常）、2 快照不存在或壞掉 → 寫 REMEDIAL_FULL_AUDIT、補做一次全面盤點。
 8. python3 tools/handoff/check_handoff.py duty verify --ref origin/<RULE_SOURCE>：未整合分支、WIP、待 ACK 的交付、同一職位兩個帳號同時寫入。
-9. 確認任務沒有遺失：不見的查證，證明不了恢復成「待開工」註明「待查」；沒核完寫 AUDIT_PENDING，不宣稱已全部核實。
+9. 確認任務沒有遺失：不見的查證，證明不了恢復成「待開工」註明「待查」；沒核完寫 AUDIT_PENDING，不宣稱已全部核實。逐職位核對（D93／HV-11）：不能只對上一任 LAWWW 的清單——python3 tools/handoff/check_handoff.py roles --ref origin/<RULE_SOURCE> 會讀 LAWWW2、AA、BB 各自交接檔的「全部待辦」和總表逐項比對；LAWWW 把異常補進 tasks.json 或寫明理由，結果 OK 才能說交接完整；其他職位確認自己交接檔有「全部待辦」一節、每項有任務 ID（總表沒有的標【表外】交給 LAWWW 補）。工作期間產生的新任務、衍生待辦、已批准未實作的企劃、待整合成果、未完成測試都要持續登記。
 10. 確認上一任這個職位已正式交班。沒交班、或 verify 報「交班以後還有 commit」→ 停下來回報使用者，不合併、不覆寫；只有使用者在對話裡明確要你接，才在第 12 步加 --user-ok（會記 no-handoff 異常）。
 11. 合併上一任的有效成果進系統指定給你的分支：不 rebase、不 force push、不 reset 別人的成果、不用空白新分支取代原成果、不刪還有未整合內容的 WIP 分支。
 12. python3 tools/handoff/check_handoff.py duty register --account C --role LAWWW2 --session <你的 session ID（用 get_session 查）> --branch <系統指定給你的分支> --ref origin/<RULE_SOURCE>（有沒整合的 WIP 分支加 --wip <分支>）→ commit＋push、核對遠端 SHA。
@@ -431,7 +434,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 6. 讀 docs/handoff/tasks.json（以它為準）、docs/HANDOFF_GAP_MATRIX.md、docs/handoff/deliveries.json。
 7. python3 tools/handoff/check_handoff.py check --ref origin/<RULE_SOURCE>：結束碼 0 正常、1 有異常或查不了（不算正常）、2 快照不存在或壞掉 → 寫 REMEDIAL_FULL_AUDIT、補做一次全面盤點。
 8. python3 tools/handoff/check_handoff.py duty verify --ref origin/<RULE_SOURCE>：未整合分支、WIP、待 ACK 的交付、同一職位兩個帳號同時寫入。
-9. 確認任務沒有遺失：不見的查證，證明不了恢復成「待開工」註明「待查」；沒核完寫 AUDIT_PENDING，不宣稱已全部核實。
+9. 確認任務沒有遺失：不見的查證，證明不了恢復成「待開工」註明「待查」；沒核完寫 AUDIT_PENDING，不宣稱已全部核實。逐職位核對（D93／HV-11）：不能只對上一任 LAWWW 的清單——python3 tools/handoff/check_handoff.py roles --ref origin/<RULE_SOURCE> 會讀 LAWWW2、AA、BB 各自交接檔的「全部待辦」和總表逐項比對；LAWWW 把異常補進 tasks.json 或寫明理由，結果 OK 才能說交接完整；其他職位確認自己交接檔有「全部待辦」一節、每項有任務 ID（總表沒有的標【表外】交給 LAWWW 補）。工作期間產生的新任務、衍生待辦、已批准未實作的企劃、待整合成果、未完成測試都要持續登記。
 10. 確認上一任這個職位已正式交班。沒交班、或 verify 報「交班以後還有 commit」→ 停下來回報使用者，不合併、不覆寫；只有使用者在對話裡明確要你接，才在第 12 步加 --user-ok（會記 no-handoff 異常）。
 11. 合併上一任的有效成果進系統指定給你的分支：不 rebase、不 force push、不 reset 別人的成果、不用空白新分支取代原成果、不刪還有未整合內容的 WIP 分支。
 12. python3 tools/handoff/check_handoff.py duty register --account C --role AA --session <你的 session ID（用 get_session 查）> --branch <系統指定給你的分支> --ref origin/<RULE_SOURCE>（有沒整合的 WIP 分支加 --wip <分支>）→ commit＋push、核對遠端 SHA。
@@ -455,7 +458,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 6. 讀 docs/handoff/tasks.json（以它為準）、docs/HANDOFF_GAP_MATRIX.md、docs/handoff/deliveries.json。
 7. python3 tools/handoff/check_handoff.py check --ref origin/<RULE_SOURCE>：結束碼 0 正常、1 有異常或查不了（不算正常）、2 快照不存在或壞掉 → 寫 REMEDIAL_FULL_AUDIT、補做一次全面盤點。
 8. python3 tools/handoff/check_handoff.py duty verify --ref origin/<RULE_SOURCE>：未整合分支、WIP、待 ACK 的交付、同一職位兩個帳號同時寫入。
-9. 確認任務沒有遺失：不見的查證，證明不了恢復成「待開工」註明「待查」；沒核完寫 AUDIT_PENDING，不宣稱已全部核實。
+9. 確認任務沒有遺失：不見的查證，證明不了恢復成「待開工」註明「待查」；沒核完寫 AUDIT_PENDING，不宣稱已全部核實。逐職位核對（D93／HV-11）：不能只對上一任 LAWWW 的清單——python3 tools/handoff/check_handoff.py roles --ref origin/<RULE_SOURCE> 會讀 LAWWW2、AA、BB 各自交接檔的「全部待辦」和總表逐項比對；LAWWW 把異常補進 tasks.json 或寫明理由，結果 OK 才能說交接完整；其他職位確認自己交接檔有「全部待辦」一節、每項有任務 ID（總表沒有的標【表外】交給 LAWWW 補）。工作期間產生的新任務、衍生待辦、已批准未實作的企劃、待整合成果、未完成測試都要持續登記。
 10. 確認上一任這個職位已正式交班。沒交班、或 verify 報「交班以後還有 commit」→ 停下來回報使用者，不合併、不覆寫；只有使用者在對話裡明確要你接，才在第 12 步加 --user-ok（會記 no-handoff 異常）。
 11. 合併上一任的有效成果進系統指定給你的分支：不 rebase、不 force push、不 reset 別人的成果、不用空白新分支取代原成果、不刪還有未整合內容的 WIP 分支。
 12. python3 tools/handoff/check_handoff.py duty register --account C --role BB --session <你的 session ID（用 get_session 查）> --branch <系統指定給你的分支> --ref origin/<RULE_SOURCE>（有沒整合的 WIP 分支加 --wip <分支>）→ commit＋push、核對遠端 SHA。
@@ -536,6 +539,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 版本 | 日期（UTC） | 內容 | 使用者決策來源 | 寫在哪 | SHA |
 |---|---|---|---|---|---|
+| **HV-11** | 2026-10-17 | **D93 所有職位持續登記待辦、交接逐職位核對**：四個職位工作期間持續登記五種待辦（新增任務、衍生待辦、已批准未實作的企劃、待整合成果、未完成測試）；各職位寫自己交接檔的「全部待辦」、值班 LAWWW 同步進 `tasks.json`；交班、接班都跑 `check_handoff.py roles` 逐職位比對（不能只對上一任 LAWWW 的清單），OK 或每項異常都處理過才能說交接完整；`meta.offList`（【表外】對到哪個任務）、`meta.reconcileIgnore`（不是任務的子項編號）、任務的 `aliases`。第一次核對找到漏登 12 項，已補（89e254a1） | 使用者 2026-10-17 約 00:3x（對 LAWWW-B：「再請 LAWWW-B 補強一句永久規則……每次交班及接班必須逐職位比對」） | CLAUDE.md D93 一節、本檔第 4 節第 3、9 步、第 5 節 B 類與第 3 步、第 6 節、第 7 節八份提示詞、`tools/handoff/check_handoff.py roles`、PROJECT_DECISIONS D93、USER_INSTRUCTION_LOG | f1bee4b0、89e254a1、（本 commit） |
 | **HV-10** | 2026-10-16 | **D92 A／B／C 三帳號任意輪值與完整無縫交接**：帳號 C（LAWWW-C、LAWWW2-C、AA-C、BB-C）；任意方向交接、上一任一律以 GitHub 的 `docs/handoff/duty.json` 登記鏈為準（不照固定順序、不靠記憶、不看 commit 時間），來源不一致或分岔不猜、回報使用者；唯一值班狀態九樣＋各職位自己的 `duty_<職位>.json`；接班十四步（第 4 節）、交班六類 A～F（第 5 節）；使用者換班時說的話（第 8 節）；工具 `duty` 子指令＋`snapshot --account C`；任務 owner 永遠是職位、交付記帳號／分支／commit；**D75 擴大到所有休班帳號**；第 7 節通用提示詞＋帳號 C 四份；六方向＋三條連續輪值＋十種異常的模擬（19／19 PASS）。取代：HV-3 的「RULE_SOURCE 只寫在第 0a 節一行」、HV-3／HV-4 的十步接班與五樣交班、D49 的 A⇄B 限定 | 使用者 2026-10-16 21:35（【P0】升級 A／B／C 三帳號任意輪值）、22:02（換班時要說什麼） | CLAUDE.md、本檔第 0a、1、4～9、12～14 節、`docs/handoff/duty.json`、`tools/handoff/duty_state.py`、`check_handoff.py`、`tests/handoff_duty_sim.py`、`docs/handoff/HANDOFF_SIM_HV10.md`、PROJECT_DECISIONS D92 | 3d6f0079…（本批，見第 12 節） |
 | **HV-9a** | 2026-10-17 | **美術精修 SOP 入口（ART-SOP）**：使用者 2026-10-16 20:2x 直接給 LAWWW2-B「美術標準是得遊戲大獎、不要像廉價拼接、不要有方塊感；精修方法寫成 SOP，支援的 AI、交接後原本帳號的 LAWWW2 都要照著做」→ 第 7.2 節 LAWWW2 啟動提示詞：開工前先讀 funny-albattani 的 ART_SOP.md 等四份、合併有效成果 | 使用者經 LAWWW2-B 轉達（LAWWW2-B 20:21 訊息） | 本檔第 7.2 節；LAWWW2-B 分支 d8cfa784（69e4b181、644a322f、1c3bdefd） | （本 commit） |
 | **HV-9** | 2026-10-17 | **D90 使用者訊息優先協定（全部帳號、全部 AI、子代理）**：平台在回合結束時才送使用者訊息（LAWWW-B 用工作階段紀錄查證）→ 短回合（最多約 10 分鐘／30 次工具）、長工作放背景不輪詢、結束前 commit＋push、send_later 自己接續、回合開始先回使用者再讀通知；`tools/handoff/turn_check.py` 自我檢查；第 14 節 ACK 表 | 使用者 2026-10-17 約 04:0x 台北（UTC 20:01） | CLAUDE.md D90 一節、本檔第 4、7、14 節、PROJECT_DECISIONS D90、USER_INSTRUCTION_LOG | （本 commit） |
