@@ -14446,7 +14446,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P2",
-   "next": "改 HOMES.y2 的 plate、門的位置（二樓的一扇寢室門）；窗景 dorm_room312（請 LAWWW2 拍，三樓高度）；和 SCN-V3-01 物件一起驗",
+   "next": "【17:5x LAWWW-C】LAWWW2-C 393eda85 交了 112（一樓）、218、105 的窗景：218、105 接上（zones3d.js dormView，ROOM_Y3／ROOM_Y4）；112 不接（大二已改 312），已請 LAWWW2 拍 dorm_room312（三樓高度、看得到另一邊的樹）。｜改 HOMES.y2 的 plate、門的位置（二樓的一扇寢室門）；窗景 dorm_room312（請 LAWWW2 拍，三樓高度）；和 SCN-V3-01 物件一起驗",
    "first": {
     "term": "Y2S1",
     "week": 1,
