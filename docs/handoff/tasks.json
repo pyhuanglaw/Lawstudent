@@ -15472,6 +15472,34 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "BB203-CONFESS-1017",
+   "title": "告白只在學期末：一對一期末飯（每學期只接一個、心意邀約一定成功、她先說的版本、保底一定有人約、舊告白場景搬到飯後回家路上、學姊雪地改交往後在美國）",
+   "area": "ROM",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P0",
+   "next": "使用者 11:40 直接對 LAWWW-C 說「告白只在學期末」（BB_203 已標使用者確認，32a658ba）。LAWWW：①拿掉學期中的告白入口（BB_191 §10 的還沒次數）②期末飯邀約系統（和 AA249-TERMEND／AA250 同一套；VAC 行事曆）③Z13、Q15、其他人的告白改成飯後回家路上；學姊 US4 改交往後新劇情。等 AA：她先說的版本、期末飯台詞（AA_250）、學姊雪地新劇情、不發邀約時的手機一句；等 BB：BB_191／194／202／98 條件同步。",
+   "first": {
+    "term": "Y1S1",
+    "week": 16,
+    "earliest": "大一上學期末（第一次期末飯）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_203（BB-C 32a658ba）＋使用者 2026-10-17 11:40",
+   "authorized": "使用者確認（BB_203 檔首）＋11:40 直接對 LAWWW-C",
+   "xai": {
+    "spec": "BB_203（企劃線 claude/wonderful-mayer-7fm9g6 32a658ba）",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "每學期期末時段一定收到至少一個邀約、只能接一個、心意邀約告白一定成功、學期中沒有告白入口；舊存檔交往狀態不變",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
