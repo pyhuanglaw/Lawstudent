@@ -99,6 +99,25 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "ART-CH-WEILUN",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "bbea64b9",
+   "files": [
+    "assets/models/char/second_ai/bl_econ_weilun.vrm",
+    "tools/blender/char_second/weilun.py",
+    "tools/blender/char_second/weilun_face.py",
+    "tools/blender/char_second/weilun_clothes.py",
+    "tools/blender/char_second/weilun_hair.py",
+    "docs/art-rebuild/second_ai/char_review/weilun/"
+   ],
+   "state": "已交付",
+   "remaining": "BB 驗收（D59）；之後：上下樓梯／跑步沒測、膝蓋擦傷、立領、短褲再短一點",
+   "next": "BB 照標準圖驗收；通過後 LAWWW 加 ASSETS.manifest（type vrm、height 1.76、props backpack）接到 econ_weilun",
+   "noDirectIntegrate": true,
+   "receiver": "BB",
+   "ack": "SENT"
   }
  ]
 }
