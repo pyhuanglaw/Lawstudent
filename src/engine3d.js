@@ -171,9 +171,9 @@ const E3 = (function(){
   /* 換區域：舊區域的幾何、材質、貼圖都釋放（2026-10-14 使用者 iPhone 試玩 v9.6：「有時候換地點…會跳出跑到進入遊戲的畫面，顯示請把手機轉為橫向」——
      原本只釋放幾何，材質和貼圖（例如校園每一條步道都複製一張路面貼圖）留在顯示記憶體裡，每換一次區域就多一批；iOS Safari 記憶體到上限會把整個網頁重新載入）。
      之後再用到同一個材質／貼圖（快取的正式模型、共用的材質），three.js 會自動重新上傳——只是第一次出現時慢一點。標了 userData.shared 的不釋放 */
-  function disposeGroup(g){ const mats=new Set(), texs=new Set(); g.traverse(o=>{ if(o.geometry&&!o.geometry.userData.shared) o.geometry.dispose();
+  function disposeGroup(g){ const mats=new Set(), texs=new Set(), sprites=new Set(); g.traverse(o=>{ if(o.isSprite) sprites.add(o); if(o.geometry&&!o.geometry.userData.shared) o.geometry.dispose();
     const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms){ if(!m||!m.isMaterial||(m.userData&&m.userData.shared)) continue; mats.add(m); for(const k in m){ const v=m[k]; if(v&&v.isTexture&&!(v.userData&&v.userData.shared)) texs.add(v); } } });
-    for(const m of mats) m.dispose(); for(const t of texs) t.dispose(); E.lastDispose={materials:mats.size,textures:texs.size}; }
+    for(const m of mats) m.dispose(); for(const t of texs) t.dispose(); if(typeof TK!=='undefined'&&TK.forget) TK.forget(mats,sprites);   /* 夜間材質、光暈的清單也拿掉這一區的（不然舊區域整套材質、canvas 都留著）*/ E.lastDispose={materials:mats.size,textures:texs.size}; }
   E.disposeGroup=disposeGroup;   /* 測試用 */
   // ---------- 實體 ----------
   E.setPlayer=function(obj){ if(E.player) scene.remove(E.player.obj); E.player={obj,speed:0,path:null,target:null,pose:'idle',run:false,busy:false,radius:0.32,lv:0}; scene.add(obj); };
