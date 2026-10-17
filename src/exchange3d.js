@@ -4,14 +4,15 @@
    - 出發：美國路線 2028-08-02（STORY.ROUTE_DATES.US.dep）早上 6:00 以後，人在哪裡都先演：字卡 → 桃園機場出境大廳 → 「登機」→ 字卡（飛行）→ 抵達美國公寓社區。
    - 美國：公寓（床「睡覺」＝和宿舍一樣的睡覺選單；「出門」）、社區（「回公寓」）。在美國的時候台灣的課不排（classes3d.js dayItems）、凌晨 2:30 走回公寓睡（story3d.js forceHome）、
      手機「地點」只列公寓和社區（game3d.js）。時間＝當地時間（手機的台灣時差另外照 STORY.tzOffset）。
-   - 場景：LAWWW2-C 的正式區域（src/us3d.js：airport_dep、us_outside、us_apartment）載入後同名蓋過這裡的臨時場景（這個檔先載入，正式的後載入）。
+   - 場景：LAWWW2-C 的正式區域（src/us3d.js：airport_dep、airport_arr、us_outside、us_apartment、us_shared、us_market、us_asian_market；2026-10-17 3bff5ef4 接進來）載入後同名蓋過這裡的臨時場景（這個檔先載入，正式的後載入）。
+     還沒接的互動（現在照區域自己的預設：進門、看告示）：usShared（US2 的爐子、冰箱、高腳椅）、usClub（會所）、usMarket（採買）、airportBoard（寒暑假出國）。
    - 還沒有的（之後照 AA、BB 的規格接）：志願表、送機、US0～US4、美國的課、出遊、人物、12/23 返台。測試：node tests/exch_min_unit.js */
 'use strict';
 const EXCH=(function(){
   const S={};
   const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
   const T=(d,h)=>d*24+h;
-  const US_ZONES=['us_apartment','us_outside'];
+  const US_ZONES=['us_apartment','us_outside','us_shared','us_market','us_asian_market'];   /* LAWWW2-C 的正式區域（src/us3d.js 3bff5ef4）：C 棟 208、大超市、對面的亞洲超市也算在美國 */
   S.US_ZONES=US_ZONES;
   S.inUS=G=>!!G&&US_ZONES.includes(G.zone);
   /* ---------- 申請 ---------- */

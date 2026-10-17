@@ -7445,6 +7445,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 接進 manifest char.econ_pinyu＋CHARACTERS.econ_pinyu.char3d.model；等 BB-C 看遊戲內截圖（站著、走路）標 ART_APPROVED"
+  },
+  {
+   "id": "DL-LAWWW2-3bff5ef4",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "3bff5ef4",
+   "what": "美國區域 patch（src/us3d.js、src/data/us_layouts.js、index.html、assets3d 八筆、tests/nav_us_unit.js、tests/flow_us_exchange.py）＋八個 GLB：通用機場（出境／入境）、公寓、C 棟 208、社區＋會所、大超市、亞洲超市（outbox c8345f4b）",
+   "task": "US-MIN-FLOW",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 套進 RULE_SOURCE；exchange3d 的 US_ZONES 加 us_shared、us_market、us_asian_market；nav_us_unit、exch_min_unit ALL PASS（Node）；瀏覽器流程 flow_exch_min、flow_us_exchange 派 BB-C；usShared／usClub／usMarket／airportBoard 的演出還沒接（照區域預設）"
   }
  ],
  "ignored": [

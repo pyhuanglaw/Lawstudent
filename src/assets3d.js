@@ -115,6 +115,15 @@ const ASSETS = (function(){
     'prop.calc_engineering':{url:'assets/models/char/second_ai/calc_engineering.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pinyu.py（LAWWW2-C：品妤的工程計算機——深灰機身、液晶、按鍵；沒有牌子、型號）', license:'本作'},
     'prop.thermos_black':{url:'assets/models/char/second_ai/thermos_black.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pinyu.py（LAWWW2-C 2ef1ca4b：品妤的黑色保溫瓶——霧黑瓶身、瓶蓋、提環；沒有牌子）', license:'本作'},
     'bldg.library_3f':{url:'assets/models/env/second_ai/library_3f.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/library_3f.py（LAWWW2 ⑪：總圖 3F 閱覽區——長桌、椅子、三面書架牆、窗框；座位、互動點、導航、東側電梯照遊戲原本的；書背與牌子 lib3f_atlas.py）', license:'本作；貼圖 CC0'},
+    /* 美國交換篇＋桃園機場（LAWWW2-C 2026-10-17，src/us3d.js）*/
+    'bldg.us_apartment':{url:'assets/models/env/second_ai/us_apartment.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/us_apartment.py（美國交換：公寓單人戶 1x1＋門外的戶外樓梯平台；配置 src/data/us_apartment_layout.js；家具 ART-US1～US4；LAWWW2-B／LAWWW2-C；區域 src/us3d.js）', license:'本作；貼圖 CC0'},
+    'bldg.us_shared':{url:'assets/models/env/second_ai/us_shared.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/us_apartment.py --layout src/data/us_shared_layout.js（美國交換：學姊她們的 C 棟三人合租戶，US2 的共用廚房；家具 ART-US1～US4；LAWWW2-C）', license:'本作；貼圖 CC0'},
+    'bldg.us_community':{url:'assets/models/env/second_ai/us_community.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/us_community.py（美國交換：公寓社區 Linden Grove 戶外，三棟兩層樓、停車場、樹林；配置 us_community.layout.json；LAWWW2-C）', license:'本作；貼圖 CC0'},
+    'bldg.us_cars':{url:'assets/models/env/second_ai/us_cars.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/us_cars.py（美式汽車五款；沒有車牌、廠牌；LAWWW2-C）', license:'本作'},
+    'bldg.airport_dep':{url:'assets/models/env/second_ai/airport_dep.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/airport_t2.py（桃園機場第二航廈遊戲版：出境大廳＋下車處；航空公司、店名虛構；配置 airport_t2.layout.json；LAWWW2-C）', license:'本作；貼圖 CC0'},
+    'bldg.airport_arr':{url:'assets/models/env/second_ai/airport_arr.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/airport_t2.py（桃園機場第二航廈遊戲版：入境大廳；LAWWW2-C）', license:'本作；貼圖 CC0'},
+    'bldg.us_market':{url:'assets/models/env/second_ai/us_market.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/us_market.py（美國交換：草原超市 Prairie Basket 室內；店名、商品包裝虛構；配置 us_market.layout.json；LAWWW2-C）', license:'本作；貼圖 CC0'},
+    'bldg.us_asian_market':{url:'assets/models/env/second_ai/us_asian_market.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/us_asian_market.py（美國交換：大超市對面的小亞洲超市「竹葉亞洲超市」室內；店名、商品包裝虛構；配置 us_asian_market.layout.json；LAWWW2-C，使用者 2026-10-17 23:0x）', license:'本作；貼圖 CC0'},
     // ==== 第二個 AI 區塊結束 ====
     'char.mixamo_clips':{url:'assets/models/char/mixamo_clips.glb', type:'clips', source:'three.js examples (Xbot.glb, Mixamo)', license:'Mixamo 動畫（Adobe 條款：可用於專案，不可單獨再散布）'},
   };
