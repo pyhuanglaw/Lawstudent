@@ -259,8 +259,21 @@ def bike(name='bike_city', child=False, x=0.0, basket='wire', load=False):
                                           (bx0, bx1, by0, by1, bz0, bz0 + t), (bx0, bx1, by0, by1, bz1 - t, bz1)):
             pk.crbox(x0, x1, y0, y1, z0, z1, pc, r=0.005, seg=1)
         pk.crbox(bx0 - 0.006, bx1 + 0.006, by1 - 0.018, by1, bz0 - 0.006, bz1 + 0.006, '#2e3134', r=0.006, seg=1)   # 上緣加厚的唇
-        for k in range(3):   # 前面（+z）的長孔：比板子凸 1 mm 的深色條，不和板面同一平面（不閃）
-            yy = by0 + 0.06 + k * 0.05; pk.cbox(bx0 + 0.05, bx1 - 0.05, yy, yy + 0.018, bz1, bz1 + 0.002, '#1c1d1f')
+        # 四面的格孔（台灣菜籃車式塑膠籃：一排一排的長方孔；第一版只有前面三道長孔，側面看是一個灰色實心盒子＝方塊感，退件）：
+        # 深色的孔是比板面凸 1 mm 的薄片（不和板面同一平面，不閃）；孔和孔之間留 1.2 cm 的肋
+        hole = '#17181a'; rows = [by0 + 0.035 + k * 0.042 for k in range(4)]; hh = 0.026
+        def grid_x(xa, xb, z0f, z1f, n):       # 前後面（沿 x 排 n 個孔）
+            step = (xb - xa) / n
+            for yy in rows:
+                for i in range(n):
+                    x0 = xa + i * step + 0.006; pk.cbox(x0, x0 + step - 0.012, yy, yy + hh, z0f, z1f, hole)
+        def grid_z(za, zb, x0f, x1f, n):       # 左右面（沿 z 排 n 個孔）
+            step = (zb - za) / n
+            for yy in rows:
+                for i in range(n):
+                    z0 = za + i * step + 0.006; pk.cbox(x0f, x1f, yy, yy + hh, z0, z0 + step - 0.012, hole)
+        grid_x(bx0 + 0.03, bx1 - 0.03, bz1, bz1 + 0.001, 6); grid_x(bx0 + 0.03, bx1 - 0.03, bz0 - 0.001, bz0, 6)
+        grid_z(bz0 + 0.03, bz1 - 0.03, bx0 - 0.001, bx0, 4); grid_z(bz0 + 0.03, bz1 - 0.03, bx1, bx1 + 0.001, 4)
         fin(pk, parts, smooth=0.6)
     if load and basket != 'none':   # 籃子裡的東西（生活痕跡）：鼓起來的白色塑膠袋、斜放的摺疊傘、手搖飲杯
         ld = L.CMesh('basket_load', M['vc'])

@@ -1,11 +1,11 @@
 {
  "objects": 16,
  "unique_meshes": 16,
- "tris": 18334,
- "tris_drawn": 18334,
+ "tris": 19258,
+ "tris_drawn": 19258,
  "materials": 17,
  "out": "assets/models/env/second_ai/street_props.glb",
- "bytes": 1163416,
+ "bytes": 1250280,
  "texres": 256,
  "tris_per_prop": {
   "bench_park": 524,
@@ -13,7 +13,7 @@
   "bike_city_child": 1772,
   "bike_city_load": 1680,
   "bike_city_open": 1374,
-  "bike_city_pbask": 1674,
+  "bike_city_pbask": 2598,
   "bike_fold": 1380,
   "bike_mtb": 1564,
   "bike_old": 1708,
