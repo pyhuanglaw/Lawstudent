@@ -79,9 +79,11 @@ const STORY = (function(){
     F.LAW_START_DAY=d0; F.MAIN_D1=S.MAIN_D1_NEW; G.stage='law'; G.day=d; G.weekday=CALENDAR.dateOf(d).wd%7; G.hour=o.hour!=null?o.hour:15; if(E) E.hour=G.hour; G.zone='dorm'; G.weather='clear'; if(E&&E.setWeather) E.setWeather('clear');
     F.fundsV2=1; F.allowanceMonth=S.dateOf(d).m; F.LAW_RECAP_SEEN=true; if(!o.econ) G.money=7000;   /* A10（AA_195 4-7）：新局只放八月剩下的（帳戶約 5,000＋錢包約 2,000）；9/1 照常匯 30,000（allowanceMonth＝8）。經濟系轉過來的錢照舊 */
     if(recap&&recap.length) await S.recap(GM,recap);
-    if(GM.titleCard){ const dt=S.dateOf(d); await GM.titleCard('2025 年 '+dt.m+' 月 '+dt.d+' 日（'+'日一二三四五六'[G.weekday%7]+'）',d===d0?'搬進男生宿舍':'',2000); }
-    if(o.econ&&GM.say){ if(GM.sceneBegin) GM.sceneBegin(); try{ await GM.say(null,'你去年也搬過一次宿舍，這次只有一個行李箱。'); } finally { if(GM.sceneEnd) GM.sceneEnd(); } }   /* 經濟系版的開頭（AA-B 21:09，AA_197）*/   /* 文字等 AA_195 第 4 節（8/29～8/31 的事件）*/
-    if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{}); };
+    G.hour=Math.max(G.hour,16+5/60); if(E) E.hour=G.hour; F.LAW_MOVEIN_DAY=d;   /* AA_195 4-2：8/29（五）16:05 搬進來（新生入住 13:30～17:00）；經濟系轉過來的照當天、不倒退 */
+    if(GM.titleCard){ const dt=S.dateOf(d); await GM.titleCard(dt.m+' 月 '+dt.d+' 日（'+'日一二三四五六'[G.weekday%7]+'）',hm(G.hour)+' · 男生宿舍',2000); }   /* 日期卡「8 月 29 日（五）16:05 · 男生宿舍」（AA_195 4-2）*/
+    if(GM.say){ if(GM.sceneBegin) GM.sceneBegin(); try{ if(o.econ) await GM.say(null,'你去年也搬過一次宿舍，這次只有一個行李箱。'); await GM.say(null,'行李箱的輪子在宿舍走廊上一直卡到地磚的縫。'); } finally { if(GM.sceneEnd) GM.sceneEnd(); } }   /* 進房間前（AA_195 4-2 第 1 點；經濟系版前面多一句，AA-B 21:09）*/
+    if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{});
+    if(GM.say) await kaiMoveIn(GM); };
   /* 開學前迎新宿營 8/22～24（CAMP-L1；AA_205 第 2～4 節、BB_177 第五版；台詞在 src/data/camp_y1.js）：新遊戲第一段，三天兩夜全部在 2D 畫面演（人不在臺北）。
      一段一個事件，依 CAMP_SEQ 的日子（8/22 起第幾天）與時間跑；每段演完記 F.campStep 並自動存檔——中途被踢回標題或關掉，讀檔回來從下一段接著演（game3d.js applySave 呼叫 S.campY1 resume）。
      開頭：加入「法律系 114 新生（系學會）」群組（8/15 公告、8/21 小隊名單，AA_205 2-2）；演完：回家旁白（2-2）、小隊群組 camp_squad_y1（8/24 21:00 合照、BB_177 13-3、阿哲「29 號見」；8/29 18:00 阿哲，AA_205 6-4）。 */
@@ -812,6 +814,31 @@ const STORY = (function(){
     for(const l of lines){ last=PHONE.post(G,Object.assign({th},l)); await GM.say({name:PHONE.who(l)+'（手機）'},l.text); }
     if(!ask) return -1; last.ask=Object.assign({id:'scene_'+th+'_'+G.day+'_'+Math.round(G.hour*100)},ask); const k=await GM.choose(ask.opts.map(o=>({t:o.t})));
     const r=PHONE.answer(G,last.ask.id,k); if(r) for(const m of r.out.slice(1)) await GM.say({name:PHONE.who(m)+'（手機）'},m.text); if(GM.phoneBadge) GM.phoneBadge(); return k; }
+  /* 8/29 搬進宿舍那晚（AA_195 4-2 的旁白＋BB_168 第 1 節 ev_kai_movein）：阿凱初遇 → 整理到快十點 → 第一次坐到書桌前播 DAY1_NARR → 22:40 阿凱的冷氣訊息 → 目標。
+     台詞全部照企劃原文（D79）；記 MET_KAI（阿凱的宿舍階梯 K-D1～ 要它）、阿凱 ACQUAINTANCE、手機聯絡人。中途關掉：讀檔回到那天的宿舍再演一次（game3d.js applySave）*/
+  async function kaiMoveIn(GM){ const G=GM.G, F=G.flags, E=GM.E, P=E&&E.player; if(F.KAI_MOVEIN) return false; GM.sceneBegin(); GM.letterbox(true);
+    try{ const kai=GM.npc.kai, who=kaiWho(GM);
+      if(kai&&P) GM.cine('two',P.obj,kai.obj); if(typeof ADV!=='undefined') ADV.begin({background:'blur',right:'kai'});
+      await GM.say(null,'（房間裡已經有一個人。他背對著門，正在把一台很大的主機塞進書桌底下。地上一堆紙箱。）');
+      await GM.say(who,'（回頭）喔，嗨。'); await GM.say(who,'你睡那邊喔？我東西先放了一點過去，等一下移。');
+      const i=await GM.choose([{t:'沒關係，你先放。'},{t:'我是'+G.name+'，法律系。'},{t:'（點頭，先搬自己的東西）'}]);   /* 不加數值（BB_168 第 1 節）*/
+      if(i===0){ await GM.say(who,'好，謝謝。'); await GM.say(null,'（他又轉回去接線。）'); }
+      else if(i===1){ await GM.say(who,'阿凱。資工。'); await GM.say(who,'法律系喔，那你書應該很多。櫃子大的那格給你。'); }
+      else await GM.say(null,'（他也點了一下頭，兩個人各忙各的。）');
+      if(typeof SOCIAL!=='undefined') SOCIAL.meet('kai','dorm'); F.MET_KAI=true; if(typeof INV!=='undefined'){ INV.rec(G); if(G.contacts.kai==null) G.contacts.kai=G.day; }   /* 影響：MET_KAI、阿凱 ACQUAINTANCE、聯絡人多一個阿凱 */
+      await GM.say(null,'（你們各自整理到快十點。他的電腦開機的聲音很大。）'); if(typeof ADV!=='undefined'&&ADV.active) ADV.end();
+      await GM.fade(true); if(G.hour<21+55/60) GM.advance(21+55/60-G.hour); if(E) E.endCinematic();
+      const desk=(E.interactables||[]).find(x=>x.deskStudy), seat=desk&&desk.seat;   /* 整理到晚上，第一次坐到書桌前（AA_195 4-2 第 3 點）*/
+      if(seat&&P){ GM.sitAt(P,seat); E.cam.distTarget=3.2; }   /* 畫面是暗的時候直接坐好（sitAt 會放到座位上）*/
+      await GM.fade(false); for(const t of DAY1_NARR) await GM.say(null,t); F.DAY1_NARR_SEEN=true;   /* 原文不改（從 9/3 搬過來）*/
+      if(G.hour<22+40/60) GM.advance(22+40/60-G.hour);   /* 22:40 阿凱的冷氣訊息：人就坐在你後面兩公尺（BB_168 第 1 節；BB_70 4-1「他的第一則訊息是在同一個房間裡傳的」）*/
+      if(typeof PHONE!=='undefined'){ const K=t=>({from:'kai',text:t}); if(GM.toast) GM.toast('手機｜阿凱：你的冷氣遙控器在我這',2600);
+        await phoneScene(GM,'p:kai',[K('你的冷氣遙控器在我這')],{opts:[{t:'你可以直接講啊',say:[K('我耳機戴著 懶得拿下來'),K('幾度')]},{t:'好 開幾度',say:[K('27 可以嗎 我怕冷')]}]}); }
+      F.DORM_AC=27; await GM.say(null,'（遙控器最後放在兩張書桌中間。）');   /* 兩個回覆後面冷氣都開到 27 度 */
+      if(seat&&P) GM.standUp(P); F.KAI_MOVEIN=true;
+    } finally { GM.letterbox(false); GM.sceneEnd(); }
+    GM.setGoal('整理行李。缺的東西明天去公館買。'); if(GM.autosave) GM.autosave(); return true; }
+  S.lawMoveIn=(GM,o)=>kaiMoveIn(GM,o);
   /* 可昕的第一則訊息（BB_95 9-0；旗標 KX_FIRST_MSG）：night＝第一天晚上；morning＝舊存檔下一個早上補的（第一句、最後一句換）。三個回覆不影響關係、之後也不讀 */
   async function kexinFirstMsg(GM,variant){ const G=GM.G, F=G.flags; if(F.KX_FIRST_MSG||typeof PHONE==='undefined') return false; F.KX_FIRST_MSG=true; if(F.dating_kexin===undefined) F.dating_kexin=true;
     if(typeof INV!=='undefined'){ INV.rec(G); if(G.contacts.kexin==null) G.contacts.kexin=0; }

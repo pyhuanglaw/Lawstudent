@@ -17,7 +17,8 @@ global.ADV={active:false,preload(){},begin(){ this.active=true; },end(){ this.ac
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 let G=null, said=[], cards=[], picks=[], entered=[];
 const P={busy:false,obj:{position:{x:0,y:0,z:0},rotation:{y:0}},lv:0};
-const GM={get G(){ return G; },E:{q:{level:'medium'},player:P,zone:{roomAt:()=>null,seats:[]},npcs:[],extras:[],interactables:[],levels:null,setWeather(){}},D:{active:false,busyDepth:0},npc:{},
+const GM={get G(){ return G; },E:{q:{level:'medium'},player:P,zone:{roomAt:()=>null,seats:[]},npcs:[],extras:[],interactables:[{deskStudy:true,seat:{x:1.8,z:-1.9,yaw:Math.PI}}],levels:null,setWeather(){},endCinematic(){},cam:{distTarget:0}},D:{active:false,busyDepth:0},npc:{},
+  advance(h){ G.hour+=h; },sitAt(p,seat){ GM.sat=seat; },standUp(){ GM.stood=true; },
   sceneBegin(){},sceneEnd(){},face(){},cine(){},caption(){},sleep:()=>Promise.resolve(),memo(){},autosave(){ GM.saves=(GM.saves|0)+1; },energy(){},money(){},setGoal(g){ G.goal=g; },toast(){},updateHUD(){},letterbox(){},fade:()=>Promise.resolve(),
   titleCard:async(a,b)=>{ cards.push(a+'｜'+(b||'')); },
   say:async(who,t)=>{ said.push(typeof who==='string'?who+'：'+t:(who&&who.name?who.name+'：'+t:t)); },
@@ -45,6 +46,21 @@ const day=k=>STORY.dayOfKey(k);
   check('A8. 第七小隊群組：8/24 21:00 合照、8/29 18:00 阿哲（排好）',PHONE.inGroup(G,'camp_squad_y1')&&q.includes('camp_squad_photo@'+day('2025-08-24')+'/21')&&q.includes('camp_squad_829@'+day('2025-08-29')+'/18'),q.join(' '));
   check('A9. 接著 8/29 搬宿舍：第 −18 天、錢 7,000、進宿舍',G.day===day('2025-08-29')&&G.money===7000&&entered.includes('dorm')&&cards.some(c=>/8 月 29 日/.test(c)),G.day+' '+G.money+' '+entered.join());
   check('A10. 每段演完都自動存檔（12 次以上）',GM.saves>=12,String(GM.saves));
+  // ---------- F 8/29 搬進宿舍（AA_195 4-2＋BB_168 第 1 節 ev_kai_movein）----------
+  { const ix=t=>said.findIndex(x=>x.indexOf(t)>=0), km=(G.social.mem.kai||[]).find(m=>m.tag==='FIRST_MET');
+    check('F1. 日期卡「8 月 29 日（五）｜16:05 · 男生宿舍」',cards.includes('8 月 29 日（五）｜16:05 · 男生宿舍'),cards.slice(-2).join(' / '));
+    const o=[ix('行李箱的輪子在宿舍走廊上一直卡到地磚的縫。'),ix('（房間裡已經有一個人。'),ix('阿凱：（回頭）喔，嗨。'),ix('阿凱：好，謝謝。'),ix('（你們各自整理到快十點。'),ix('以前遇到事情，你會去翻民法。'),ix('經濟系的那一年，你不是一個人過的。'),ix('阿凱（手機）：你的冷氣遙控器在我這'),ix('（遙控器最後放在兩張書桌中間。）')];
+    check('F2. 順序：行李箱 → 阿凱初遇（預設選第一個「好，謝謝」）→ 整理到快十點 → DAY1_NARR 三句 → 22:40 冷氣訊息 → 遙控器',o.every((v,k)=>v>=0&&(k===0||v>o[k-1])),o.join(','));
+    check('F3. MET_KAI、KAI_MOVEIN、阿凱 FIRST_MET＝dorm、ACQUAINTANCE、手機聯絡人有阿凱',F.MET_KAI===true&&F.KAI_MOVEIN===true&&km&&km.note==='dorm'&&SOCIAL.stage('kai')==='ACQUAINTANCE'&&G.contacts.kai!=null,JSON.stringify({km,st:SOCIAL.stage('kai')}));
+    check('F4. 坐到書桌前（第一次）、站起來；22:40 以後、冷氣 27 度、目標「整理行李。缺的東西明天去公館買。」',GM.sat&&GM.sat.x===1.8&&GM.stood&&G.hour>=22+40/60-1e-6&&F.DORM_AC===27&&G.goal==='整理行李。缺的東西明天去公館買。'&&F.DAY1_NARR_SEEN===true,G.hour+' '+G.goal);
+    const km2=G.msgs.filter(m=>m.th==='p:kai');
+    check('F5. 手機：阿凱的對話串有冷氣訊息和回覆',km2.some(m=>m.text==='你的冷氣遙控器在我這')&&km2.some(m=>/27 可以嗎|懶得拿下來/.test(m.text)),km2.map(m=>m.text).join(' | '));
+    const n0=said.length; await STORY.lawMoveIn(GM);
+    check('F6. 演過就不再演（KAI_MOVEIN）',said.length===n0); }
+  fresh(); G.flags.CAMP_Y1=true; G.day=day('2025-08-29'); G.hour=9; picks=['我是']; await STORY.startLawWeek1(GM,null,{day:G.day,hour:15,econ:true});
+  { const ix=t=>said.findIndex(x=>x.indexOf(t)>=0);
+    check('F7. 經濟系轉過來：「你去年也搬過一次宿舍」在行李箱那句前面；錢不重設',ix('你去年也搬過一次宿舍，這次只有一個行李箱。')>=0&&ix('你去年也搬過一次宿舍')<ix('行李箱的輪子')&&G.money===22000,String(G.money));
+    check('F8. 選「我是祐廷，法律系。」→「阿凱。資工。」「法律系喔，那你書應該很多。櫃子大的那格給你。」',said.includes('阿凱：阿凱。資工。')&&said.includes('阿凱：法律系喔，那你書應該很多。櫃子大的那格給你。')); }
   // ---------- B 猜臥底 ----------
   fresh(); picks=['坐阿哲旁邊','洋芋片',null,'第三關','第一關','和阿哲一組','跟 Kevin 走在一起','你是不是來過這裡']; await STORY.campY1(GM,{next:false});
   check('B1. 夜遊跟 Kevin 走、看過三個破綻 → 問他 → CAMP_MOLE_GUESSED',G.flags.CAMP_MOLE_GUESSED===true&&G.flags.CAMP_MOLE_CLUE===4,String(G.flags.CAMP_MOLE_CLUE));
