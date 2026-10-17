@@ -1583,24 +1583,25 @@ const STORY = (function(){
       if(last&&F.dating_kexin&&!PHONE.sent(G,'kx_grades_ask')&&G.day<=last+2&&G.day>=last-1) PHONE.at(G,last,21,[{th:'p:kexin',from:'kexin',text:'成績出來先不要給對方看。寒假第一天一起打開。',ask:{opts:[{t:'好。',set:{KX_GRADES_PACT_SET:true}},{t:'我會忍不住。',set:{KX_GRADES_PACT_SET:true},say:[{from:'kexin',text:'那你偷看的時候，表情不要寫在訊息裡。'}]}]}}],'kx_grades_ask');
       if(F.KX_GRADES_PACT==='peeked'&&F.kxGradesDay!=null) PHONE.at(G,F.kxGradesDay,21,[{th:'p:kexin',from:'kexin',text:'你偷看了吧。你的表情寫在訊息的標點符號上。'}],'kx_grades_peek'); }
     /* 9-9 期末：成績的約定（大一下版；BB_96 9-9、AA_157 第 2 節、BB_139 第 2 節）＋P4e（BB_105／BB_135 第 3 節）。順序（AA-B 2026-10-16）：
-       ① 6/26（五，第 18 週）21:00 可昕傳約定：大一上 'kept' 或舊存檔沒有旗標＝「這次也一起打開？暑假第一天。」（together）；'peeked'＝「這次換個方式：各自先看，然後各說一科最滿意的。」（best_one）。記 KX_GRADES_Y1S2。
-       ② 6/27（六）10:00 經原（下）成績先公布（P4e）：看得到的 11 堂去了 6 堂以上＝旁白「一年前沒拿到的，這次拿到了。」；5 堂以下＝芯慈三句＋「……靠一本借來的筆記拿到了。」。
+       ① 6/12（五，期末最後一天）21:00 可昕傳約定：大一上 'kept' 或舊存檔沒有旗標＝「這次也一起打開？成績出來那天。」（together）；'peeked'＝「這次換個方式：各自先看，然後各說一科最滿意的。」（best_one）。記 KX_GRADES_Y1S2。
+       ② 6/29（一）10:00 經原（下）成績先公布（P4e；AA-B 02:28：和一起看同一天）：看得到的 11 堂去了 6 堂以上＝旁白「一年前沒拿到的，這次拿到了。」；5 堂以下＝芯慈三句＋「……靠一本借來的筆記拿到了。」。
           交往中才有「傳給可昕」：傳＝長頸鹿貼圖＋together「這一科可以先說。其他的，等全部出來再一起開。」／best_one「這科就是你最滿意的那一科吧。」；不傳、單身＝「你把成績單收進抽屜。」。
-       ③ 6/29（一）暑假第一天：together＝早上先問「先看／等到晚上」、21:00 視訊（S.holdGrades、ev_kexin_grades_open_y1s2）；best_one＝21:00 她先說「憲法」再問你一科（P4e 已經傳給她的不問）。
+       ③ 6/29（一）成績公布那天：together＝早上先問「先看／等到晚上」、21:00 視訊（S.holdGrades、ev_kexin_grades_open_y1s2）；best_one＝21:00 她先說「憲法」再問你一科（P4e 已經傳給她的不問）。
        冷戰（AA_112 第 6 節）還沒有系統：交往中都照上面 */
     { const last=S.dayOfKey('2026-06-12'), K=t=>({th:'p:kexin',from:'kexin',text:t});   /* AA_209 第 4 節／AA_198 第 5 節（AA-B 02:28 確認）：約定 6/12（五，期末最後一天）21:00；P4e、一起看在 6/29 成績公布那天 */
       if(last&&F.dating_kexin&&!PHONE.sent(G,'kx_grades2_ask')&&G.day<=last+2&&G.day>=last-1){ F.KX_GRADES_Y1S2=F.KX_GRADES_PACT==='peeked'?'best_one':'together';
         PHONE.at(G,last,21,[K(F.KX_GRADES_Y1S2==='best_one'?'這次換個方式：各自先看，然後各說一科最滿意的。':'這次也一起打開？成績出來那天。')],'kx_grades2_ask'); }
+      const p4d=S.dayOfKey('2026-06-29');   /* P4e 在成績公布那天 10:00（AA-B 02:28：和一起看同一天，晚上 21:00 才一起開其他科）*/
       const took=typeof CLS!=='undefined'&&CLS.termCourses&&CLS.termCourses(G,'Y1S2').some(c=>c.id==='econ_principles_2');
-      if(last&&took&&!PHONE.sent(G,'p4e')&&G.day>=last+1&&G.day<=last+3){
+      if(last&&took&&!PHONE.sent(G,'p4e')&&G.day>=p4d&&G.day<=p4d+2){
         const att=(CLS.rec(G).attend||{}).econ_principles_2||0, items=[{th:'sys',text:'經濟學原理（下）的成績公布了。'}], N=t=>({th:'sys',who:null,text:t}), drawer=N('你把成績單收進抽屜。');
         if(att>=6) items.push(N('一年前沒拿到的，這次拿到了。'));
         else { silentContact('classmate_xinci'); const X=t=>({th:'p:classmate_xinci',from:'classmate_xinci',text:t}); items.push(X('過了吧？……我的筆記功不可沒。'),{th:'p:classmate_xinci',from:'player',who:null,text:'請妳吃飯。'},X('兩次。'),N('一年前沒拿到的，這次靠一本借來的筆記拿到了。')); }
-        if(F.dating_kexin){ const mode=F.KX_GRADES_Y1S2||'together'; Object.assign(items[items.length-1],{ask:{until:(last+3)*24+24,opts:[
+        if(F.dating_kexin){ const mode=F.KX_GRADES_Y1S2||'together'; Object.assign(items[items.length-1],{ask:{until:(p4d+2)*24+24,opts:[
             {t:'傳給可昕',post:'（傳給可昕）',set:{KX_P4E:'sent'},say:[{th:'p:kexin',from:'player',who:null,text:'📷（經濟學原理（下）的成績）'},K('（貼圖：長頸鹿）'),K(mode==='best_one'?'這科就是你最滿意的那一科吧。':'這一科可以先說。其他的，等全部出來再一起開。')]},
             {t:'不傳',post:'（不傳）',set:{KX_P4E:'kept'},say:[drawer]}]}}); }
         else items.push(drawer);
-        PHONE.at(G,last+1,Math.max(10,G.day===last+1?h(G):10),items,'p4e'); }
+        PHONE.at(G,p4d,Math.max(10,G.day===p4d?h(G):10),items,'p4e'); }
       const sum1=termDay('Y1S2',18,7)+1;   /* 6/29（一）成績公布那天（AA-B 02:28 確認：一起看、best_one 都在 6/29）*/
       if(sum1&&F.dating_kexin&&F.KX_GRADES_Y1S2==='best_one'&&F.KX_P4E!=='sent'&&G.day>=sum1&&G.day<=sum1+1&&!PHONE.sent(G,'kx_best_one')){
         const cs=CLS.termCourses(G,'Y1S2').filter(c=>c.kind!=='service'), short=c=>c.name.replace(/（.*?）/g,'');

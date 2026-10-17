@@ -57,11 +57,11 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   fresh(D.d0,20,'dorm',{SPRING_Y1:'dorm'}); check('4. 4/3 晚上不出現',!EVENTS.check(empty));
   fresh(D.d0+1,10,'dorm',{SPRING_Y1:'dorm'}); check('4. 4/4 不出現（只在 4/3 白天）',!EVENTS.check(empty));
   /* W2b 期末 */
-  const dF=termDay('Y1S2',17,5);
+  const dF=STORY.dayOfKey('2026-06-12');   /* 家族期末訊息改 6/12 21:00（AA_198 第 5 節）*/
   const fam=(setup)=>{ fresh(dF,20,'dorm',{}); PHONE.join(G,'family_law','法律系直屬家族'); if(setup) setup(); run(20,21.2,0.05); return G.msgs.filter(m=>m.tag==='fam_final_y1s2').map(m=>(m.name||m.from)+':'+m.text); };
   const K0='Kevin:期末考完，家族聚餐。這次地方我選：公館的火鍋吃到飽。全家族。';
   M=fam(()=>{ G.flags.TREATED_FAMILY=true; SOCIAL.remember('heroine_05','FAMILY_DINNER',''); });
-  check('5. 第 17 週週五 21:00；去了而且請了：「收到。這次飲料我請。」',JSON.stringify(M)===JSON.stringify([K0,'溫學姊:收到。這次飲料我請。'])&&G.msgs.find(m=>m.tag==='fam_final_y1s2').h===21,JSON.stringify(M));
+  check('5. 6/12（五）21:00；去了而且請了：「收到。這次飲料我請。」',JSON.stringify(M)===JSON.stringify([K0,'溫學姊:收到。這次飲料我請。'])&&G.msgs.find(m=>m.tag==='fam_final_y1s2').h===21,JSON.stringify(M));
   M=fam(()=>{ G.flags.SAID_TREAT_SIS=true; });
   check('5. 沒去家聚、說過要請：學姊、Kevin、學姊三句（中間那句是 Kevin）',JSON.stringify(M)===JSON.stringify([K0,'溫學姊:你上次說要請全家族飲料。','Kevin:學姊以為是客套吧。','溫學姊:……對。可是我記得。']),JSON.stringify(M));
   M=fam(null); check('5. 其他：「收到。」',JSON.stringify(M)===JSON.stringify([K0,'溫學姊:收到。']),JSON.stringify(M));

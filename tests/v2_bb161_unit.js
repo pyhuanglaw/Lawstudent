@@ -43,8 +43,8 @@ GM.money=function(n){ G.money+=n; };
   // ② Z5：Z4 之後第 12～15 週的週五；午場超過第 17 週排第 17 週週六
   { const e=EV('ev_zhiruo_film_night'); check('② Z5 邀約：第 12～15 週的週五',JSON.stringify(e.weeks)==='[12,13,14,15]'&&JSON.stringify(e.weekday)==='[5]');
     const f15=termDay('Y1S2',15,5); fresh(f15,22,'campus',{zrDeclineDay:f15}); G.stage='law'; SOCIAL.meet('heroine_02','cafe'); R('heroine_02',30,0,0);
-    const s17=termDay('Y1S2',17,6); G.day=s17; G.hour=9.6; STORY.phoneRules(GM); PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.tag==='zr_matinee_ask');
-    check('② 第 15 週拒絕早場 → 午場排第 17 週週六 09:30（第 18 週就超過了）',!!m&&m.day===s17&&m.h>=9.5&&m.h<=9.65,m&&JSON.stringify([m.day-s17,m.h]));
+    const s17=termDay('Y1S2',15,6); G.day=s17;   /* 上限改第 15 週週六 6/6（AA_198 第 5 節；變數名照舊）*/ G.hour=9.6; STORY.phoneRules(GM); PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.tag==='zr_matinee_ask');
+    check('② 第 15 週拒絕早場 → 午場排上限 6/6（第 15 週週六）09:30',!!m&&m.day===s17&&m.h>=9.5&&m.h<=9.65,m&&JSON.stringify([m.day-s17,m.h]));
     const f12=termDay('Y1S2',12,5); fresh(f12+1,9,'campus',{zrDeclineDay:f12}); G.stage='law'; SOCIAL.meet('heroine_02','cafe'); G.day=f12+22; G.hour=9.6; STORY.phoneRules(GM); PHONE.tick(G);
     check('② 第 12 週拒絕 → 照舊第 15 週週六（拒絕後第 3 週）',(G.msgs||[]).some(x=>x.tag==='zr_matinee_ask'&&x.day===f12+22)); }
   // ⑤⑥⑦ 表情、旁白
