@@ -1,5 +1,7 @@
 # CLAUDE.md — 《法條之外：台灣法律人生》接手說明
 
+> **永久啟動與回班規則（A／B／C 全職位）**：既有帳號收到使用者「我回來了，請同步 GitHub 最新進度，接續工作。」即應**自行** fetch 全部分支、`python3 tools/handoff/check_handoff.py duty find`，透過 `duty.json` 登記鏈定位最新 RULE_SOURCE，改讀該分支的 `CLAUDE.md` 與 `docs/AI_SESSION_HANDOFF.md` 第 0a／4／13 節及交班／WIP 紀錄，照十四步完成登記後再接工作。不得依照舊對話／舊版 CLAUDE.md 假定只有 A、B、假定上一任帳號、或要求使用者再次提醒規則版本。A、B、C 任何方向輪值皆一體適用；不叫醒休班帳號。
+
 ## ⚠ 帳號 A 回來接班先讀：帳號 A 交班（2026-10-14 17:40 UTC）以後新增、修訂的永久規則（使用者 2026-10-16 要求「帳號 A 之後交班回來也要看得出這些改變」）
 
 你讀到的這份如果是在帳號 A 停住的分支上（`claude/confident-ritchie-8rwh7t`、`claude/second-ai-env-art`、`claude/story-planning`），**那是舊版**。照 `docs/AI_SESSION_HANDOFF.md` 第 0a 節找 RULE_SOURCE（`python3 tools/handoff/check_handoff.py duty find`；帳號 B 值班期間是 `claude/modest-rubin-2lyp7g`），讀那裡的版本。下面每一條的全文都在 RULE_SOURCE 的 CLAUDE.md；規則版本紀錄在 AI_SESSION_HANDOFF.md 第 13 節（HV-3～HV-7）。

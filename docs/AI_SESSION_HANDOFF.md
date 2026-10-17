@@ -1,5 +1,7 @@
 # 四個職位的跨帳號接班（帳號 A、B、C 任意方向輪值）——總入口
 
+> **永久接班規則｜所有休班帳號回歸（A／B／C，四職位）**：使用者對已用過的工作階段只須說「我回來了，請同步 GitHub 最新進度，接續工作。」；接班者**自行**先 fetch 全遠端、執行 `python3 tools/handoff/check_handoff.py duty find`，依 `docs/handoff/duty.json` 登記鏈找到最新 RULE_SOURCE，讀該分支的 `CLAUDE.md`、本檔第 0a／4／13 節及五份永久規則、上一班交接與 WIP，再照十四步正式接班。**不要求使用者另外提醒「曾新增 C 帳號」或提供分支名；不得沿用自己上次停留的舊規則、假定上一任必定是 B，也不得未經核對直接動工。** 舊工作階段的本地文件尚未包含此段時，仍應依既有 D92 的 `duty find`／最新 RULE_SOURCE 優先原則辦理。
+
 > **📌 下一班（A／C）接班必讀｜2026-10-17 使用者交班後追加的明確指示：** [`docs/handoff/USER_DIRECTIVE_NEXT_DUTY_2026-10-17.md`](handoff/USER_DIRECTIVE_NEXT_DUTY_2026-10-17.md)。內容包括 B 帳號 `d3eeb8bb` 補強後仍待核對的 WIP／約 26 筆存疑與 4 筆 BB commit，以及「交付即時登記＋增量 SHA 水位線＋檢查器防假通過＋WIP／匯入防護」的**下一班待實作改善任務**。**接班依然先執行第 4 節十四步，已休班 B 不重開；本連結是使用者授權的交班後純文件補記，不是新制度已上線，不改 `duty.json`、正式交班快照或 main。**
 
 
