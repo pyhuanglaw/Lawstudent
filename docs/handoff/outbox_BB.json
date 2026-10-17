@@ -495,6 +495,35 @@
    "noDirectIntegrate": true,
    "receiver": "AA",
    "ack": "SENT"
+  },
+  {
+   "task": "knowsGF 整包交 LAWWW-C（BB_191 §9-1～9-7）＋語彤不入法服",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "08429294",
+   "files": [
+    "docs/story_planning/BB_191_多線戀愛知情機制_女生聊天發現_語彤雙主修.md",
+    "docs/story_planning/BB_97_交接包v3_大二.md"
+   ],
+   "state": "已交付",
+   "remaining": "anRomancePre d 等使用者；AA 其他舊檔分批",
+   "next": "LAWWW-C 實作（AA 檔 bd51750b）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
+  },
+  {
+   "task": "學姊條件清理（AA_223 取代註記、SIS_HEALED 等作廢、沛珊她單身）＋★-8 不在群組主動說話",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "d929ddf1 / c053db1c",
+   "files": [
+    "docs/story_planning/BB_122_溫學姊戀愛線v2_分手前後與重新開始.md"
+   ],
+   "state": "已交付",
+   "remaining": "Kevin 置頂留不留等使用者",
+   "next": "AA",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
   }
  ]
 }
