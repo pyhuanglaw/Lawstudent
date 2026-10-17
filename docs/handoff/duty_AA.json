@@ -1,10 +1,10 @@
 {
  "role": "AA",
- "account": "B",
- "session": "session_016ACZaD4oB9tX94WqQR4dkS",
- "branch": "claude/cool-heisenberg-o8kuqx",
- "state": "handed-off",
- "handedOffAt": "2026-10-17T02:39Z",
- "sha": "c54ee4df",
- "snapshot": "2026-10-17T0238Z_B_AA.json"
+ "account": "C",
+ "session": "session_019evvieJUJD23EGf4nyLPgo",
+ "branch": "claude/magical-albattani-bk7b4n",
+ "since": "2026-10-17T04:09Z",
+ "state": "on",
+ "sinceSha": "ec63dd53",
+ "userOk": false
 }

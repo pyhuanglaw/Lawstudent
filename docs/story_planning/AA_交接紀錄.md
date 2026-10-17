@@ -93,6 +93,17 @@
 - AA-B 跑了 `tools/handoff/check_handoff.py duty register`，回報「AA 已經是帳號 B 在值班，不用再登記」。`tools/handoff/` 副本 commit `6e0640e7`。
 - **之後交班**：照第 5 節，`snapshot --role AA --account B` → `duty handoff`。D75 擴大：不聯絡、不喚醒任何休班帳號。
 
+## 接班（AA-C 帳號 C，2026-10-17 04:1x UTC；第 7.7 節十四步；D92／HV-10＋D93）
+
+- **職位**：AA（帳號 C，AA-C）；工作階段 `session_019evvieJUJD23EGf4nyLPgo`；**分支 `claude/magical-albattani-bk7b4n`**（從 AA-B 的 `claude/cool-heisenberg-o8kuqx` `ec63dd53` 接續，歷史相同、沒有 rebase／force push；系統指定的新分支原本只有 main，沒有獨有成果）。
+- **RULE_SOURCE**：`claude/modest-rubin-2lyp7g`（`duty find`：值班沒有人、上一任 B、規則 HV-11、seq 5；規則 SHA `9266693c`）。已讀 CLAUDE.md（D90、D92、D93）、AI_SESSION_HANDOFF.md 第 0a、4、7.7、13、14 節。
+- **上一任**：AA-B，state `handed-off`（02:39Z，快照 `2026-10-17T0238Z_B_AA.json`）。已讀它的交班六類 A～F 與「全部待辦」。
+- **對帳**：`check` 結束碼 0（603 項、未結 565，十一項沒有異常）；`duty verify` 0（值班狀態一致）；`roles` 0（AA 待辦 60 行、43 個 ID，**異常 0 項**）。**逐職位核對：OK。**
+- **登記**：`duty register --account C --role AA`（本 commit 的 `docs/handoff/duty_AA.json`）；值班 LAWWW 上線後 `duty sync` 收進 duty.json。
+- **D90／HV-9 ACK**（AI_SESSION_HANDOFF 第 14 節；AA 不能改那份檔，由值班 LAWWW 代登記）：規則 HV-11＠`9266693c`；已讀 D90；沒有沒處理的使用者指示；沒有正在跑的長工作；新工作階段，`turn_check` 尚無紀錄。
+- **D75**：沒有傳訊息給休班的 A、B 帳號；同帳號 C 目前只有 AA-C 上線（LAWWW-C、BB-C、LAWWW2-C 未啟用）。
+- **接續**：交班 C 類第 1 點——大一下閒聊階梯寫回 JSON（逐句看 diff、補可昕 K2、build＋`--check`、拿掉 WIP、SHA 給 LAWWW）。
+
 ## 交班（AA-B 帳號 B，2026-10-17 02:4x UTC；使用者「現在正式換班」，D45＋D49＋D92／HV-10＋D93）
 
 > - **職位**：AA（帳號 B，AA-B）；工作階段 `session_016ACZaD4oB9tX94WqQR4dkS`；**分支 `claude/cool-heisenberg-o8kuqx`**。最後 SHA 見本節最後一行與 `git log -1 origin/claude/cool-heisenberg-o8kuqx`。
