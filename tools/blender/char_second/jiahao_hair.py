@@ -169,6 +169,7 @@ def cap_bangs(m, hair, n=11):
 
 def apply(m):
     WH.SEED = 20261019
+    WH.DEEP, WH.BASE, WH.LIGHT, WH.SHEEN = WH.BLACK_V12        # 2026-10-17：韋綸改成炭灰咖啡（BB_201 第 11 節），家豪照舊是 BB-C 通過的近黑
     hair = WH.apply(m)
     cap = build_cap(m, hair)
     cap_bangs(m, hair)
