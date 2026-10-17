@@ -12,7 +12,7 @@
   "id": "CIV40_02",
   "course": "civ_general",
   "term": "Y1S1",
-  "scopeWeek": 16,
+  "scopeWeek": 15,
   "basis": "民法 §144 I",
   "carryExplanation": true
  },
@@ -52,7 +52,7 @@
   "id": "CIV40_07",
   "course": "oblig_gen2",
   "term": "Y2S1",
-  "scopeWeek": 16,
+  "scopeWeek": 15,
   "basis": "民法 §144、§148 II",
   "carryExplanation": true,
   "notes": [
@@ -79,7 +79,7 @@
   "id": "CIV40_10",
   "course": "oblig_spec",
   "term": "Y2S2",
-  "scopeWeek": 16,
+  "scopeWeek": 15,
   "basis": "民法 §474、§478",
   "carryExplanation": true,
   "notes": [
@@ -197,7 +197,7 @@
   "id": "CIV40_24",
   "course": "civ_general",
   "term": "Y1S1",
-  "scopeWeek": 16,
+  "scopeWeek": 15,
   "basis": "民法 §148 I",
   "notes": [
    "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 16 週（民法總則沒有講權利濫用禁止那一週，放回顧週）。"
@@ -221,7 +221,7 @@
   "id": "CIV40_27",
   "course": "oblig_gen2",
   "term": "Y2S1",
-  "scopeWeek": 16,
+  "scopeWeek": 15,
   "basis": "民法 §242",
   "notes": [
    "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 16 週（債總兩學期都沒有排債的保全（代位權、撤銷權），放債總（二）的回顧週）。"
@@ -231,7 +231,7 @@
   "id": "CIV40_28",
   "course": "oblig_gen2",
   "term": "Y2S1",
-  "scopeWeek": 16,
+  "scopeWeek": 15,
   "basis": "民法 §244 I",
   "notes": [
    "課表沒有專講這個主題的一週；照使用者的分類放進這門課，範圍算到第 16 週（同第 27 題）。"
