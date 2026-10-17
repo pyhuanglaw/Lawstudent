@@ -726,7 +726,7 @@ const CLS=(function(){
   S.todayMore=function(G){ const out=[], h=hr(G); for(const iv of (G.invites||[])) if(iv.day===G.day&&iv.accepted&&!iv.done&&iv.h>h) out.push([iv.h,iv.label||'約好的見面']);
     if(typeof OUT!=='undefined'&&OUT.rec) for(const q of OUT.rec(G)) if(q.state==='planned'&&q.day===G.day&&q.h>h) out.push([q.h,q.title||q.place||'出遊']);
     return out.sort((a,b)=>a[0]-b[0]).slice(0,2).map(([t,l])=>hhmm(t)+' '+l); };
-  const freeNow=GM=>{ const E=GM.E, P=E&&E.player; return !!P&&!P.busy&&!P.seat&&!(GM.D&&GM.D.active)&&!GM.titleIdle&&!(P.path&&P.path.length); };
+  const freeNow=GM=>{ const E=GM.E, P=E&&E.player; return !!P&&!E.paused&&!P.busy&&!P.seat&&!(GM.D&&GM.D.active)&&!GM.titleIdle&&!(P.path&&P.path.length); };   /* E.paused＝手機或選單開著：下課選單、起床選單不要跳在手機下面（flow_v0_to1017 9/19 卡住：選單在手機後面點不到）*/
   S.canGo=function(GM){ const why=S.canSkip(GM); if(why) return why; if(typeof HOME!=='undefined'&&HOME.rec&&HOME.rec(GM.G).at) return '你在臺北的家'; return ''; };
   /* 起床選單（1-2）*/
   S.wakeMenu=async function(GM){ const G=GM.G; if(S.wakeMenuOn(GM)&&typeof STORY!=='undefined'&&STORY.retakeOn&&STORY.retakeOn(G)&&!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))) return !!(await STORY.retakeWake(GM));   /* 經濟系重考期的起床選單（AA_154 A39）*/ if(!S.wakeMenuOn(GM)||S.canGo(GM)) return false; const list=S.goList(G).filter(it=>!S.planSkip(G,it)); if(!list.length) return false; const it=list[0], exam=it.exam==='final';
