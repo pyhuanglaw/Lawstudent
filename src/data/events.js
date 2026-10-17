@@ -1765,6 +1765,19 @@ const STORY_EVENTS=[
     after:G=>{ const F=G.flags, k=F._kxQ; delete F._kxQ; F.KX_K6_EXAM=true; if(!k) return; const Q=F.KX_QUIZ=Object.assign({win:0,lose:0,draw:0},F.KX_QUIZ||{}); Q[k]=(Q[k]|0)+1; } },   /* KX_K6_EXAM：做過 K6 互考（重訪日 1 她那一句讀它，BB_96 9-10）*/
   { id:'ev_dorm_late_kai', title:'半夜', participants:['kai'], location:'dorm', trigger:'enter', time:[23,26], cooldown_days:2, random_weight:0.7, background:'blur', prereq:{flags:['introDone']},   /* BB_170 第 21 列：day_min 3 → introDone 以後；AA_209 第 4 節第 11 點：「什麼 bug？」那一段只播一次（KAI_BUG_TOLD），之後只剩另外兩個選項 */
     dialogue:[ {if:{flags:['DORM_FOUR']},speaker:null,text:'（阿哲已經睡了，柏翰戴著耳塞。）'},{speaker:'kai',expression:'neutral',text:'（頭沒回）欸，你回來了。我這個 bug 追到第三小時。'},   /* 四人房（AA_208 2-4）*/{choice:[{text:'「去睡啦。」',consequences:{rel:{kai:{fam:1,comf:1}}}},{text:'「什麼 bug？」',unless:{flags:['KAI_BUG_TOLD']},consequences:{rel:{kai:{fam:2,trust:1}},flags:{KAI_BUG_TOLD:true}},goto:'bug'},{text:'（戴上耳機）',consequences:{}}]},{goto:'end'},{label:'bug'},{speaker:'kai',expression:'tired',text:'一個值應該是 0 結果是 undefined。……你們法律系有這種東西嗎？'},{speaker:'player',text:'有。叫「法無明文」。'},{speaker:'kai',expression:'laugh',text:'幹，好爛。'},{label:'end'} ] },
+  /* VA-07 柏翰的週四總圖（AA_241 第 5 節，AA 定稿）：大一暑假第一次在週四的總圖和柏翰說話（ACQUAINTANCE 以上）演一次；「一起讀？」記 BOHAN_SUMMER_THU。
+     之後的週四：短招呼（一週一次，接著照一般閒聊）。他在總圖的時間在 characters.js 的作息（STORY.bohanSummer）*/
+  { id:'ev_va07_bohan_thu', title:'新竹到這裡', participants:['classmate_bohan'], location:'library', trigger:'interact', priority:8, once:true, weekday:[4], background:'blur',
+    prereq:{stage:{npc:'classmate_bohan',min:'ACQUAINTANCE'},custom:G=>!!(typeof STORY!=='undefined'&&STORY.bohanSummer&&STORY.bohanSummer(G))},
+    dialogue:[ {speaker:null,text:'（總圖四樓，柏翰坐在靠窗的位子。桌上放著客運的票根。）'},
+      {speaker:'classmate_bohan',text:'新竹到這裡，一小時二十分。單程。'},{speaker:'classmate_bohan',text:'在家讀不下去。家裡冷氣太涼，我會睡著。'},
+      {choice:[{text:'「每週都來？」',goto:'a'},{text:'「一起讀？」',goto:'b'}]},
+      {label:'a'},{speaker:'classmate_bohan',text:'每週四。九點到五點。'},{goto:'end'},
+      {label:'b'},{speaker:'classmate_bohan',text:'好。我的計時器五十分鐘響一次，你不要嚇到。'},{set:{BOHAN_SUMMER_THU:true}},
+      {label:'end'} ] },
+  { id:'ev_va07_bohan_thu_greet', title:'週四的招呼', participants:['classmate_bohan'], location:'library', trigger:'interact', priority:7, weekday:[4], cooldown_days:6, background:'blur',
+    prereq:{events:['ev_va07_bohan_thu'],custom:G=>!!(typeof STORY!=='undefined'&&STORY.bohanSummer&&STORY.bohanSummer(G))&&(G.events.last||{}).ev_va07_bohan_thu!==G.day},
+    dialogue:[ {speaker:null,text:'（他抬頭點了一下，指了指旁邊的位子。）'} ] },
   { id:'ev_library_closing', title:'閉館', participants:[], location:'library', trigger:'auto', time:[21.6,22.2], cooldown_days:1, background:'freeze',
     dialogue:[ {speaker:null,text:'「本館將於十分鐘後閉館——」廣播響起，整個閱覽室同時發出收東西的聲音。'} ], consequences:{goal:'總圖要閉館了'} },
   { id:'ev_pool_greet', title:'好像認識的人', participants:[], location:['campus','library'], trigger:'auto', time:[8,22], day_min:3, cooldown_days:1, random_weight:1.2, prereq:{custom:(G,GM)=>{ return Object.keys(GM.npc).some(id=>id.startsWith('pool_')&&SOCIAL.reveal(id)==='RECOGNIZABLE'&&!G.flags['greet_'+id]); }}, background:'freeze',

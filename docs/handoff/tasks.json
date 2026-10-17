@@ -14999,7 +14999,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P1",
-   "next": "【12:5x LAWWW-C c552738d】C02 營隊隊輔、C03 日語課、C05 日本五天已做（vac3d.js）；還沒：AA_241 其餘場景對照｜AA_241（e74e2577）；等 HOLIDAY-SYS。大一寒假 AA_204（帳號 B 4048e3ec 起，deliveries 未整合）一起接",
+   "next": "【16:0x LAWWW-C】VA-07 柏翰的週四總圖做好（6/27 起回新竹、週四 9～17 在總圖；第一次週四的事件＋之後一週一次的招呼；tests/va07_bohan_unit.js）。AA_241 第 1～7 節都做了；還沒：C04 托福（第 8 節，等 BB 決定補習班同學）、大二暑假以後（第二批）。問 AA：「總圖四樓」遊戲裡的閱覽室是 3F。｜【12:5x LAWWW-C c552738d】C02 營隊隊輔、C03 日語課、C05 日本五天已做（vac3d.js）；還沒：AA_241 其餘場景對照｜AA_241（e74e2577）；等 HOLIDAY-SYS。大一寒假 AA_204（帳號 B 4048e3ec 起，deliveries 未整合）一起接",
    "first": {
     "term": "Y1S2",
     "week": 17,
