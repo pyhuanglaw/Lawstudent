@@ -8,12 +8,12 @@ import zhe_face as ZF
 WEILUN = dict(PF.MALE)
 WEILUN.update(EYE_SZ=0.54, EYE_SX=1.14, EYE_TILT=0.0, IRIS_FRAC=0.45,     # 第三版（BB-C）：眼睛細長、單眼皮感、虹膜小一點（第二版 0.66／1.05：大而圓、看起來擔心、年紀小）
               BROW_K=1.70, BROW_ARCH=0.02, BROW_DROP=0.0060, BROW_COL=(0.06, 0.05, 0.045), BROW_SCALE_Z=1.30,   # 眉毛平、直、壓低（第二版 ARCH 0.12：往上挑）
-              JAW_OUT=0.0085, CHIN_WIDEN=0.58, D_CHIN=0.0050, FACE_NARROW=0.95, CHIN_FWD=0.0030,   # 下顎、臉頰再瘦硬一點（19 歲成人，不要國中生感）
+              JAW_OUT=0.0085, CHIN_WIDEN=0.58, D_CHIN=0.0050, FACE_NARROW=0.95, CHIN_FWD=0.0015,   # 下顎、臉頰再瘦硬一點（19 歲成人，不要國中生感）
               MOUTH_K=1.34, LIP_A=0.46,                              # 嘴平、唇色淡
               LIP_OUT=(0.72, 0.48, 0.40), LIP_IN=(0.62, 0.39, 0.33), LIP_HI=(0.80, 0.60, 0.52))
 TAN = (0.76, 0.58, 0.44)          # 第三版（BB-C）：小麥色、偏暖棕（騎腳踏車曬的；第二版 (0.89, 0.74, 0.61) 偏白偏粉、像室內的人）；臉和身體同一組
 SHADE_TAN = (0.86, 0.68, 0.55)
-NECK_K = 1.07                     # 脖子粗一點（BB-C：不要那麼細長）
+NECK_K = 1.12                     # 脖子粗一點（BB-C：不要那麼細長；第三版 1.07 遊戲裡還是細）
 CALF_MM = 9.0                     # 小腿肚往外（騎車的人；樣本座標 mm，遊戲裡約 8 mm）
 
 

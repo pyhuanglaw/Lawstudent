@@ -12,12 +12,12 @@ BLUE = np.array([112, 150, 204]) / 255.0          # 參考圖 POLO 衫 #7096cc�
 STYLE = dict(KNIT_RGB=BLUE, TROUSER_RGB=np.array([236, 234, 228]) / 255.0, BELT_RGB=None,
              LEATHER_RGB=np.array([150, 152, 156]) / 255.0, SOLE_RGB=np.array([232, 230, 224]) / 255.0, GOLD_RGB=np.array([232, 230, 224]) / 255.0,
              SHOE_STYLE='sneaker', NECK_STYLE='V', HEM_OVER_PANTS=True, SLIM=False, TOP_TEX='jersey', TROUSER_TEX='twill',
-             SLEEVE_LEN=0.40, SLEEVE_K=0.80, CUFF_EASE=0.016, EASE_K=0.65, DROP_X=0.105, TOP_FIT=0.45, HEM_LOOSE=True,
-             PANTS_ELLIPSE=(0.056, 0.064), PANTS_DROP=False, PANTS_HEM_UP=0.0)
+             SLEEVE_LEN=0.40, SLEEVE_K=0.72, CUFF_EASE=0.014, EASE_K=0.65, DROP_X=0.105, TOP_FIT=0.45, HEM_LOOSE=True,
+             PANTS_ELLIPSE=(0.060, 0.068), PANTS_DROP=False, PANTS_HEM_UP=0.0, PANTS_FOLLOW=True)   # 第四版：袖子細一點、褲管跟著腿走（第三版白長褲往下張開像喇叭褲）
 # 高度（HairSample_Male 樣本，柏翰量過：胯 0.964、脊椎 1.149、脖子 1.456）：褲頭照柏翰；POLO 衫下擺在胯骨上面一點（不紮、蓋過褲頭 11 cm）；V 字最低點比柏翰的襯衫低 1 cm
-STYLE_M = dict(PANTS_TOP=1.115, PANTS_BAND=1.078, KNIT_HEM=1.005, KNIT_HEM_TOP=1.040, V_BOTTOM=1.402, BACK_NECK_Z=1.482)
+STYLE_M = dict(PANTS_TOP=1.115, PANTS_BAND=1.078, KNIT_HEM=1.005, KNIT_HEM_TOP=1.022, V_BOTTOM=1.424, BACK_NECK_Z=1.482)   # 第四版：V 字淺一點（第三版 1.402 遊戲裡像敞開的襯衫；POLO 衫的開口短）、下擺的邊窄一點
 SIDE_NECK_M = (0.066, 1.492)
-PLACKET_LEN = 0.125
+PLACKET_LEN = 0.105
 
 
 def trim_placket(z_cut):

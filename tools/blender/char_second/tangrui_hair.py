@@ -2,7 +2,10 @@
 LAWWW2-C 2026-10-17 第一版：沿用阿哲的 zhe_hair（蓬亂短髮的髮殼、層次髮片、瀏海、頭頂翹的短髮束），改：
 顏色＝黑（受光處 #2c2826）、亂數種子不同、整體更蓬（頭頂 +6 mm、兩側不貼頭：側邊收的比例 0.55 → 0.30）。
 第二版：加螺旋的捲髮束（curl_card：沿頭皮往下一小段、繞著轉 1～1.6 圈；整顆頭 150 撮＋前額 16 撮），外層直髮片 40 → 14、上層直瀏海拿掉——第一版正面看是直髮的碗蓋頭。
-第三版：捲髮束 220＋26 撮、半徑 9～13 mm、離頭皮遠一點（量感）；底層直瀏海也拿掉、前額內層變短（第二版前額還是一排直的髮尾）。"""
+第三版：捲髮束 220＋26 撮、半徑 9～13 mm、離頭皮遠一點（量感）；底層直瀏海也拿掉、前額內層變短（第二版前額還是一排直的髮尾）。
+第四版（2026-10-17）：螺旋髮束拿掉——遊戲裡螺旋的帶子常常側面朝鏡頭，看起來是一根根黑色鐵絲，整顆頭稀稀疏疏、額頭空。
+改成「波浪髮束」（wave_lock）：一片 2.2～3.2 cm 寬、貼著頭皮往下、左右 S 形擺動、離頭皮越來越遠（蓬）、髮尾往外勾成 C 形；
+貼圖 'curl'：每片 3 撮、每一撮的中心線和邊緣都是波浪（不是直的尖端）。參考圖：整顆蓬鬆的捲髮、捲的瀏海蓋到眉毛、耳朵上半蓋住。"""
 import math, os
 import numpy as np
 import bpy
@@ -19,7 +22,7 @@ HAIRLINE = [(0, 33), (20, 33), (35, 30), (48, 21), (57, 9), (63, -1), (69, -5), 
             (120, -26), (136, -44), (152, -52), (168, -56), (180, -57)]
 # 顏色（sRGB）：參考圖 02 的深黑棕（頭頂受光處偏暖棕）
 DEEP = np.array([0.050, 0.044, 0.042]); BASE = np.array([0.10, 0.09, 0.086]); LIGHT = np.array([0.172, 0.158, 0.150]); SHEEN = np.array([0.26, 0.245, 0.24])   # 唐睿：黑（受光處 #2c2826）
-REG = {'card': (0, 384, 0, 1024), 'cardB': (384, 640, 0, 1024), 'bang': (640, 896, 0, 1024), 'shell': (896, 1024, 0, 1024)}
+REG = {'card': (0, 256, 0, 1024), 'cardB': (256, 448, 0, 1024), 'curl': (448, 896, 0, 1024), 'bang': (896, 960, 0, 1024), 'shell': (960, 1024, 0, 1024)}   # 第四版：大部分給波浪髮束 'curl'
 HEAD = 'J_Bip_C_Head'
 
 
@@ -36,7 +39,17 @@ def make_atlas(seed=SEED):
     h, w = reg('cardB')
     put('cardB', HB._strand_color(rng, h, w, 0.78, sheen=(0.28, 0.44), tip_light=0.05, base=BASE), HB._clumps(rng, h, w, 4, 0.58, 0.80, 1.0, hw_k=(0.95, 1.3), lean=0.2, power=0.6, full=2.2, minw=3.5))
     h, w = reg('bang')
-    put('bang', HB._strand_color(rng, h, w, 0.84, tip_light=0.04, base=BASE), HB._clumps(rng, h, w, 2, 0.50, 0.62, 1.0, hw_k=(1.2, 1.6), lean=0.12, power=0.9, full=3.5, minw=5.0))   # 瀏海一撮一撮寬一點（第一版像細線）；第七版每片 2 撮、長短差更多（遊戲裡一排同樣大小的尖角像鋸齒）
+    put('bang', HB._strand_color(rng, h, w, 0.84, tip_light=0.04, base=BASE), HB._clumps(rng, h, w, 2, 0.50, 0.62, 1.0, hw_k=(1.2, 1.6), lean=0.12, power=0.9, full=3.5, minw=5.0))
+    # 第四版：波浪髮束——先做 3 撮的髮束（上段合成一片），再把每一列往左右錯開（正弦，越往髮尾擺越大），中心線和邊緣都變成波浪
+    h, w = reg('curl'); M = int(0.10 * w) + 2; wi = w - 2 * M          # 在中間 wi 寬畫髮束，每一列往左右錯開（不繞回另一邊）
+    Ai = HB._clumps(rng, h, wi, 3, 0.40, 0.80, 1.0, hw_k=(1.0, 1.25), lean=0.0, power=0.8, full=2.6, minw=6.0)
+    ci = HB._strand_color(rng, h, wi, 0.80, sheen=(0.18, 0.34), tip_light=0.06, base=BASE)
+    t = (np.arange(h) + 0.5) / h
+    sh = (0.10 * w * np.sin(2 * np.pi * (1.6 * t + 0.15)) * (0.25 + 0.75 * t)).astype(int)
+    A = np.zeros((h, w)); col = np.zeros((h, w, 3)) + BASE
+    for i in range(h):
+        A[i, M + sh[i]:M + sh[i] + wi] = Ai[i]; col[i, M + sh[i]:M + sh[i] + wi] = ci[i]
+    put('curl', col, A)   # 瀏海一撮一撮寬一點（第一版像細線）；第七版每片 2 撮、長短差更多（遊戲裡一排同樣大小的尖角像鋸齒）
     h, w = reg('shell')
     put('shell', HB._strand_color(rng, h, w, 0.75, tip_light=0.0, base=BASE * 0.85), np.ones((h, w)))
     return img
@@ -133,9 +146,9 @@ def apply(m):
         card(a, 0.97, min(0.0, v_tip(a) * (0.55 + 0.30 * float(sstep(36, 58, aa)) * (1 - float(sstep(100, 120, aa)))) * (0.35 + 0.65 * float(sstep(30, 60, aa)))), 0.0015, 1.7, 'card')   # 唐睿第三版：前額的內層短一點（直的髮尾會從捲髮下面露出來）
     for k in range(40):        # 中層：蓬一點
         a = -180 + 360 * (k + rng.uniform(0.2, 0.8)) / 40
-        card(a, 0.90 - rng.uniform(0, 0.08), v_tip(a) * rng.uniform(0.8, 1.0), 0.0045 + 0.001 * rng.random(), rng.uniform(1.3, 1.6), 'cardB',
-             bulge=0.002 + 0.002 * rng.random(), arch=0.12, curl=rng.uniform(-6, 6))
-    for k in range(14):        # 外層：唐睿只留 14 片（直的髮片多了看起來是直髮；捲的量感由下面的捲髮束做）
+        card(a, 0.90 - rng.uniform(0, 0.08), v_tip(a) * rng.uniform(0.6, 0.8), 0.0045 + 0.001 * rng.random(), rng.uniform(1.3, 1.6), 'cardB',
+             bulge=0.002 + 0.002 * rng.random(), arch=0.12, curl=rng.uniform(-6, 6))   # 第四版：短一點（直的髮尾不要從波浪髮束下面露出來）
+    for k in range(0):         # 第四版：外層直髮片全部拿掉        # 外層：唐睿只留 14 片（直的髮片多了看起來是直髮；捲的量感由下面的捲髮束做）
         a = -180 + 360 * (k + rng.uniform(0.1, 0.9)) / 40
         sk = (1 - 0.45 * float(sstep(50, 80, az(a))) * (1 - float(sstep(120, 150, az(a))))) * (1 - 0.4 * float(sstep(110, 150, az(a))))   # 兩側（耳朵附近）、後腦外層貼近一點
         card(a, 0.86 - rng.uniform(0, 0.18), v_tip(a) * rng.uniform(0.45, 1.08), (0.009 + 0.003 * rng.random()) * sk, rng.uniform(1.0, 1.4), 'cardB',
@@ -162,28 +175,35 @@ def apply(m):
              nseg=16, bulge=0.007 + 0.003 * rng.random(), arch=0.10, curl=sgn * rng.uniform(10, 28))   # 阿哲：有的到眼睛上緣、往兩邊撥得更開（露出額頭）
     n_bang = len(mb.F) - n_shell - n_card
 
-    # ---- 3b. 捲髮束（唐睿，LAWWW2-C 2026-10-17）：一撮一撮的螺旋——沿頭皮往下的一小段路徑，繞著它轉 1～1.6 圈（半徑 6～9 mm），
-    # 整撮離開頭皮一點、髮尾收細；頭頂、兩側、後腦到處都有，前額的那幾撮垂到眉毛上面（參考圖：捲捲的瀏海蓋到眉毛）
-    def curl_card(a, v0, v1, rad, turns, width, phase, reg='cardB', n=20):
-        vv = np.linspace(v0, v1, n + 1); base = []; Dn = []
-        for v in vv:
-            p, d = surf(a, v, 0.010 + 1.2 * rad); base.append(p); Dn.append(d)
-        base = np.array(base); Dn = np.array(Dn); T = tangents(base); Bv = _unit(np.cross(Dn, T))
-        t = np.linspace(0, 1, n + 1); phi = phase + 2 * math.pi * turns * t
-        r = rad * (0.35 + 0.65 * sstep(0.0, 0.2, t)) * (1 - 0.35 * t)
-        P = base + (Dn * np.cos(phi)[:, None] + Bv * np.sin(phi)[:, None]) * r[:, None]
+    # ---- 3b. 波浪髮束（唐睿第四版）----
+    # 一片寬髮束：沿頭皮從 v0 往下到 v1；方位角左右 S 形擺動（amp°、waves 個波）；離頭皮 off（髮根貼、中段最蓬）；
+    # 最後 30% 往外、往回勾（C 形的髮尾，半徑 cr）；髮片的正面朝外（法線＝頭皮的法線），從外面看是一整撮，不是側面的一條線
+    def wave_lock(a, v0, v1, width, amp, waves, off, cr, phase, reg='curl', n=18):
+        t = np.linspace(0, 1, n + 1); P = []; Dn = []
+        for ti in t:
+            aa_ = a + amp * math.sin(2 * math.pi * waves * ti + phase); v = v0 + (v1 - v0) * ti
+            e = off * (0.25 + 0.75 * float(sstep(0.0, 0.35, ti))) + 0.006 * math.sin(math.pi * ti)
+            p, d = surf(aa_, v, e); P.append(p); Dn.append(d)
+        P = np.array(P); Dn = np.array(Dn); T = tangents(P)
+        th = np.pi * 0.85 * np.clip((t - 0.70) / 0.30, 0, 1)            # 髮尾勾起來
+        P = P + Dn * (cr * (1 - np.cos(th)))[:, None] - T * (cr * np.sin(th) * 0.6)[:, None]
         P = H.push(P, np.full(len(P), 0.004))
-        Tn = tangents(P); side = _unit(np.cross(Dn, Tn))
-        mb.ribbon(P, side, Dn, width * (1.0 - 0.55 * t), reg, 'head', np.zeros(len(P)), arch=0.22, tt=t)
-    n0 = len(mb.F); ncurl = 0
-    for k in range(220):       # 整顆頭：方位角均勻、起點的 v 隨機（頭頂到髮際線），每撮往下 0.18～0.32（第三版 150 → 220、半徑加大）
-        a = -180 + 360 * (k + rng.uniform(0.0, 1.0)) / 220; aa = az(a)
-        v0 = rng.uniform(0.18, 0.92); v1 = max(v_tip(a) * (0.6 if aa < 40 else 0.9), v0 - rng.uniform(0.18, 0.32))
-        curl_card(a, v0, v1, rng.uniform(0.009, 0.013), rng.uniform(1.0, 1.6), rng.uniform(0.016, 0.024), rng.uniform(0, 2 * math.pi)); ncurl += 1
-    for k in range(26):        # 前額：捲的瀏海（從 v 0.45 附近垂到眉毛上面；第三版 16 → 26）
-        a = -48 + 96 * (k + rng.uniform(0.2, 0.8)) / 26
-        curl_card(a, rng.uniform(0.35, 0.55), v_tip(a) + rng.uniform(0.0, 0.05), rng.uniform(0.009, 0.012), rng.uniform(1.1, 1.7), rng.uniform(0.018, 0.024), rng.uniform(0, 2 * math.pi), reg='bang'); ncurl += 1
-    print('  hair(tangrui): curl clumps %d faces %d' % (ncurl, len(mb.F) - n0))
+        Tn = tangents(P); side = _unit(np.cross(Dn, Tn)); nrm = _unit(Dn - Tn * np.sum(Dn * Tn, 1)[:, None])
+        wd = width * (0.70 + 0.30 * sstep(0.0, 0.2, t)) * (1 - 0.45 * sstep(0.55, 1.0, t))
+        mb.ribbon(P, side, nrm, wd, reg, 'head', np.zeros(len(P)), arch=0.18, tt=t)
+    n0 = len(mb.F); nlock = 0
+    for layer, (cnt, off0, vr0, vr1) in enumerate(((70, 0.006, (0.45, 0.80), (0.10, 0.20)), (60, 0.013, (0.55, 0.95), (0.18, 0.30)), (34, 0.020, (0.70, 0.98), (0.22, 0.34)))):
+        for k in range(cnt):          # 三層：內層貼頭、外層最蓬（頭頂、兩側、後腦）
+            a = -180 + 360 * (k + rng.uniform(0.1, 0.9)) / cnt; aa = az(a)
+            if aa < 34 and layer < 2: continue                          # 前額交給瀏海
+            v0 = rng.uniform(*vr0); vt = v_tip(a); v1 = max(vt * (0.95 if aa > 40 else 0.7), v0 - rng.uniform(*vr1))
+            wave_lock(a, v0, v1, rng.uniform(0.022, 0.032), rng.uniform(4, 9), rng.uniform(0.9, 1.5), off0 + 0.004 * rng.random(),
+                      rng.uniform(0.005, 0.010), rng.uniform(0, 2 * math.pi)); nlock += 1
+    for k in range(22):            # 捲的瀏海：從頭頂前半垂到眉毛，髮尾往前、往外勾
+        a = -50 + 100 * (k + rng.uniform(0.2, 0.8)) / 22
+        wave_lock(a, rng.uniform(0.45, 0.70), v_tip(a) + rng.uniform(0.0, 0.04), rng.uniform(0.020, 0.028), rng.uniform(5, 10), rng.uniform(0.8, 1.3),
+                  0.010 + 0.006 * rng.random(), rng.uniform(0.004, 0.008), rng.uniform(0, 2 * math.pi)); nlock += 1
+    print('  hair(tangrui): wave locks %d faces %d' % (nlock, len(mb.F) - n0))
 
     # ---- 4. 物件、材質、權重 ----
     V = np.array(mb.V); Fc = mb.F
@@ -200,6 +220,9 @@ def apply(m):
     mat = C.mtoon_from(tmpl, 'Z01_HairCard_HAIR', base_img=img, alpha='MASK', cutoff=0.5, double_sided=False, outline=0.0)
     mt = mat.vrm_addon_extension.mtoon1.extensions.vrmc_materials_mtoon
     mt.shade_color_factor = (0.80, 0.74, 0.72)        # 第十一版：陰影面不要那麼暗（0.72／0.66）
+    try:      # 第四版：樣本頭髮材質的 MatCap 關掉（遊戲裡頭頂斜著看一圈白邊）
+        mt.matcap_texture.index.source = None; mt.matcap_factor = (0.0, 0.0, 0.0)
+    except Exception as ex: print('  matcap off failed', ex)
     e1 = mat.vrm_addon_extension.mtoon1
     e1.emissive_texture.index.source = None; e1.normal_texture.index.source = None
     me.materials.append(mat)
