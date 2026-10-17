@@ -21,6 +21,9 @@
   - LAWWW-B 已經交班，我不能寫 `tasks.json`。下一班值班的 LAWWW 要把它補成任務，負責人 LAWWW2，狀態「進行中」，下一步照下面 C 類。
   - AA、BB 沒有異常。
   - **交接不算完整**，要等這一項補完。
+- **另外兩項核對**（都在 RULE_SOURCE `claude/modest-rubin-2lyp7g` 的工作樹裡跑）：
+  - `check`：異常 117 項，**全部是第 6 類**＝各分支上看起來像交付、但沒登記進 deliveries.json 的 commit。其中 16 個在 LAWWW2 分支（例：祐廷臉試做 `8496bf9d`、ART_SOP `69e4b181`、機車 v2 WIP、黃金葛 `8a1af723`）。登記是值班 LAWWW 的工作，我沒有改。
+  - `duty verify`：OK（值班狀態一致；要先 fetch AA、BB 的分支，不然會誤報「SHA 找不到」）。
 
 ### A. 本班完成（帳號 B，2026-10-16 22:00 ～ 10-17 02:4x UTC）
 整合狀態照 RULE_SOURCE 的 `docs/handoff/deliveries.json`。**都沒發布到 `main`**。場景的 `ART_APPROVED` 只有使用者能標，這裡都沒有標。
