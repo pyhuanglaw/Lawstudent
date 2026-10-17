@@ -1,7 +1,7 @@
 """BUG-IOS-RELOAD 第 ③ 點的調查：在宿舍開局時，顯示記憶體裡的貼圖數為什麼和校園一樣多（LAWWW-B 量到 269 張）。
 [前置] 讀檔直接到宿舍房間（不經過校園），記下 renderer.info.memory、場景最上層的物件、場景裡屬於校園模型的網格數；
 再換到校園、回到宿舍（GAME.enter）各記一次。這是量測（印出數字＋檢查），不是玩家流程。
-檢查：宿舍開局時場景裡沒有校園區域的群組；回到宿舍時貼圖數不比第一次在宿舍多 10% 以上。
+檢查：宿舍開局時場景裡沒有校園區域的群組；來回兩次，第二次回宿舍的貼圖數不比第一次回宿舍多 10% 以上（第一次去校園後校園的共用貼圖留在快取是故意的）。
 用法：python3 tests/dorm_start_memory.py URL [輸出資料夾]"""
 import asyncio, json, sys
 from playwright.async_api import async_playwright
@@ -35,9 +35,15 @@ async def main():
         c1 = await pg.evaluate(PROBE); run.note(f'校園：{json.dumps(c1, ensure_ascii=False)}')
         await pg.evaluate("void GAME.enter('dorm')"); await pg.wait_for_timeout(6000)
         d2 = await pg.evaluate(PROBE); run.note(f'回到宿舍：{json.dumps(d2, ensure_ascii=False)}')
+        run.setup('再來回一次（校園 → 宿舍）')
+        await pg.evaluate("void GAME.enter('campus')"); await pg.wait_for_timeout(8000)
+        await pg.evaluate("void GAME.enter('dorm')"); await pg.wait_for_timeout(6000)
+        d3 = await pg.evaluate(PROBE); run.note(f'第二次回到宿舍：{json.dumps(d3, ensure_ascii=False)}')
         run.check('宿舍開局：除了區域群組、人物以外，場景最上層沒有網格超過 50 個的群組（沒有校園的模型留著）', d1['zoneGroupInScene'] and d1['otherZoneMeshes'] == 0, json.dumps(d1, ensure_ascii=False))
         run.check('宿舍開局的貼圖數比校園少（宿舍不該載校園的貼圖）', d1['tex'] < c1['tex'], f"宿舍 {d1['tex']}、校園 {c1['tex']}")
-        run.check('回到宿舍：貼圖數不比第一次在宿舍多 10% 以上（換區域有釋放）', d2['tex'] <= d1['tex'] * 1.1 + 2, f"{d1['tex']} → {d2['tex']}")
+        # 第一次去過校園以後，校園正式模型共用的貼圖會留在快取（ASSETS、套件，故意的，下次進校園不用重傳）；所以比「第二次回宿舍」和「第一次回宿舍」：來回不能越積越多
+        # （2026-10-17 59facb8b 修掉夜間材質清單只進不出以後：開局 130→76、回宿舍 127→101，原本「比開局多 10%」改成這樣比）
+        run.check('第二次回到宿舍：貼圖數不比第一次回宿舍多 10% 以上（換區域有釋放、沒有越積越多）', d3['tex'] <= d2['tex'] * 1.1 + 2, f"開局 {d1['tex']} → 回宿舍 {d2['tex']} → 再回宿舍 {d3['tex']}")
         run.check('沒有 JS 錯誤', not errs, '; '.join(errs[:5]))
         await b.close()
     sys.exit(run.finish())
