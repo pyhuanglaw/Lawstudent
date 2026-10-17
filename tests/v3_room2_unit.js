@@ -63,7 +63,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // 4b. 9/6 人在宿舍（暑假留在宿舍的舊存檔）：旁白＋字卡 → 新的房間 → 拆箱（AA_177 第 10 節）
   fresh(d6,10,'dorm',{}); G.stage='law'; { let card=null, entered=null; const tc=GM.titleCard, en=GM.enter; GM.titleCard=async(a,b)=>{ card=[a,b]; }; GM.enter=async(z)=>{ entered=z; G.zone=z; }; picks=[]; for(let i=0;i<30;i++) picks.push(0); said=[];
     const ok2=await STORY.roomY2InDorm(GM); GM.titleCard=tc; GM.enter=en; L=lines();
-    check('4b. 在宿舍：先「明天開學。今天搬進新的房間。」→ 字卡「搬到新的房間」「一樓 112 號房」→ 房間 → 拆箱',ok2&&L[0]==='明天開學。今天搬進新的房間。'&&JSON.stringify(card)===JSON.stringify(['搬到新的房間','一樓 112 號房'])&&entered==='dorm'&&!!G.flags.ROOM_Y2&&L[L.length-1]==='一年。房間比去年滿一點。',JSON.stringify([L.slice(0,2),card,entered]));
+    check('4b. 在宿舍：先「明天開學。今天搬進新的房間。」→ 字卡「搬到新的房間」「三樓 312 號房」（AA_208 7-1）→ 房間 → 拆箱',ok2&&L[0]==='明天開學。今天搬進新的房間。'&&JSON.stringify(card)===JSON.stringify(['搬到新的房間','三樓 312 號房'])&&entered==='dorm'&&!!G.flags.ROOM_Y2&&L[L.length-1]==='一年。房間比去年滿一點。',JSON.stringify([L.slice(0,2),card,entered]));
     check('4b. 再呼叫一次＝不演',!(await STORY.roomY2InDorm(GM))); }
   check('4b. S.tick 宿舍那條路走 roomY2InDorm（不是直接拆箱）',/roomY2Due\(G\)&&!roomY2Busy\)\{ roomY2Busy=true; S\.roomY2InDorm\(GM\)/.test(fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8')));
   // 5. 在臺北的家（週末回家）：下一輪選單之前先旁白＋字卡＋回宿舍＋拆箱

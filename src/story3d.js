@@ -2447,9 +2447,9 @@ const STORY = (function(){
     R.forEach((r,i)=>L.push(['y1_'+i,r[0],[].concat(r[1])]));
     return L; };
   /* 9/6 人在宿舍（暑假留在宿舍的舊存檔；在家模式 AA_183 做好以後很少走到）：旁白＋字卡 → 換到新的房間 112 → 拆箱（AA_177 第 10 節）。
-     字卡兩行（AA-B acf89d8a 確認）：「搬到新的房間」＋大二「一樓 112 號房」；大三「二樓另一頭 218 號房」、大四「一樓靠門口 105 號房」跟主線 5、10 一起做。*/
+     字卡兩行：「搬到新的房間」＋「三樓 312 號房」（AA_208 7-1，AA-C e36f0d20；原「一樓 112 號房」隨 312 房間作廢）；大三 507、大四 409 的字卡跟主線 5、10 一起做。*/
   S.roomY2InDorm=async function(GM){ const G=GM.G; if(!S.roomY2Due(G)) return false; GM.sceneBegin();
-    try{ await GM.say(null,'明天開學。今天搬進新的房間。'); await GM.fade(true); if(GM.titleCard) await GM.titleCard('搬到新的房間','一樓 112 號房',2400); GM.advance(0.5);
+    try{ await GM.say(null,'明天開學。今天搬進新的房間。'); await GM.fade(true); if(GM.titleCard) await GM.titleCard('搬到新的房間','三樓 312 號房',2400); GM.advance(0.5);
       G.flags.ROOM_Y2_MOVING=true; if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await GM.fade(false); }   /* ROOM_Y2_MOVING：房間直接蓋成 312（封好的紙箱），拆完 unboxY2 清掉 */
     finally{ GM.sceneEnd(); }
     return S.unboxY2(GM); };
