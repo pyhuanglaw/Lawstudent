@@ -132,12 +132,12 @@ def apply(m):
         card(a, 0.97, min(0.0, v_tip(a) * (0.55 + 0.30 * float(sstep(36, 58, aa)) * (1 - float(sstep(100, 120, aa))))), 0.0015, 1.7, 'card')
     for k in range(40):        # 中層：蓬一點
         a = -180 + 360 * (k + rng.uniform(0.2, 0.8)) / 40
-        card(a, 0.90 - rng.uniform(0, 0.08), v_tip(a) * rng.uniform(0.8, 1.0), 0.0045 + 0.001 * rng.random(), rng.uniform(1.3, 1.6), 'cardB',
+        card(a, 0.90 - rng.uniform(0, 0.08), v_tip(a) * rng.uniform(0.8, 1.0) * (0.85 if az(a) < 40 else 1.0), 0.0045 + 0.001 * rng.random(), rng.uniform(1.3, 1.6), 'cardB',
              bulge=0.002 + 0.002 * rng.random(), arch=0.12, curl=rng.uniform(-6, 6))
     for k in range(40):        # 外層：碎、長短不一（頭頂的層次）；阿哲 30 → 40 片、長短與翹的方向更亂
         a = -180 + 360 * (k + rng.uniform(0.1, 0.9)) / 40
         sk = (1 - 0.45 * float(sstep(50, 80, az(a))) * (1 - float(sstep(120, 150, az(a))))) * (1 - 0.4 * float(sstep(110, 150, az(a))))   # 兩側（耳朵附近）、後腦外層貼近一點
-        card(a, 0.86 - rng.uniform(0, 0.18), v_tip(a) * rng.uniform(0.45, 1.08), (0.009 + 0.003 * rng.random()) * sk, rng.uniform(1.0, 1.4), 'cardB',
+        card(a, 0.86 - rng.uniform(0, 0.18), v_tip(a) * rng.uniform(0.45, 0.92 if az(a) < 40 else 1.08), (0.009 + 0.003 * rng.random()) * sk, rng.uniform(1.0, 1.4), 'cardB',   # 第五版：前額的外層不會比目標長（第四版 ×1.08：有幾撮垂到兩眼中間）
              bulge=(0.004 + 0.005 * rng.random()) * sk, arch=0.16, curl=rng.uniform(-14, 14))
     # （第一版在這裡加了 14 片往上翹的短髮束：遊戲裡變成頭頂一根根細的觸角，拿掉；亂的感覺靠外層的長短與方向）
     for sgn in (1.0, -1.0):    # 鬢角：太陽穴到耳朵前面，從髮際線上方往下梳（短、寬、不透明的部分多）
