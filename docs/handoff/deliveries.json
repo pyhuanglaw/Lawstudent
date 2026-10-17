@@ -7302,6 +7302,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "偶遇五列、作息、同行台詞已接；D02.pond 互動點不存在先不放；solo_before_bb、wish_bb 等 DATE-S6"
+  },
+  {
+   "id": "DL-LAWWW2-24923842",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "24923842",
+   "what": "坐著的同學（講堂替身）第二版 seated_figures.glb／.json（ART-NPC-HAIR-STREAK：第一版 UV 碎點造成頭髮黑白碎片）",
+   "task": "ART-NPC-HAIR-STREAK",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "整個 commit 套用（含 LICENSES.md、VISUAL_REVIEW、test_shots、Blender 腳本）；遊戲端另修 classes3d.js 聽講桌上小物選法"
   }
  ],
  "ignored": [

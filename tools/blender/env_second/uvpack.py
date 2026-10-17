@@ -26,8 +26,9 @@ def islands(bm, uvl, eps=1e-6):
     return list(groups.values())
 
 
-def pack(me, margin=0.004, rect=(0.0, 0.0, 1.0, 1.0)):
-    """rect＝(x0, y0, 寬, 高)：打包到貼圖的這一塊（例如 LOD0 用上面四分之三、LOD1 用下面四分之一）"""
+def pack(me, margin=0.004, rect=(0.0, 0.0, 1.0, 1.0), weight=None):
+    """rect＝(x0, y0, 寬, 高)：打包到貼圖的這一塊（例如 LOD0 用上面四分之三、LOD1 用下面四分之一）。
+    weight(faces)→倍數：這個島放大幾倍再排（例如坐姿替身的頭 ×2、桌子底下的腿 ×0.7：看得到的地方分到比較多貼圖）；不給＝照原本的大小"""
     RX, RY, RW, RH = rect
     bm = bmesh.new(); bm.from_mesh(me); uvl = bm.loops.layers.uv.active
     isl = islands(bm, uvl); boxes = []
@@ -37,7 +38,8 @@ def pack(me, margin=0.004, rect=(0.0, 0.0, 1.0, 1.0)):
         sxx = sum((p.x - cx) ** 2 for p in pts); syy = sum((p.y - cy) ** 2 for p in pts); sxy = sum((p.x - cx) * (p.y - cy) for p in pts)
         ang = 0.5 * math.atan2(2 * sxy, sxx - syy)   # 主軸
         c, s = math.cos(-ang), math.sin(-ang)
-        rot = [((p.x - cx) * c - (p.y - cy) * s, (p.x - cx) * s + (p.y - cy) * c) for p in pts]
+        g = weight(faces) if weight else 1.0
+        rot = [(((p.x - cx) * c - (p.y - cy) * s) * g, ((p.x - cx) * s + (p.y - cy) * c) * g) for p in pts]
         x0 = min(r[0] for r in rot); x1 = max(r[0] for r in rot); y0 = min(r[1] for r in rot); y1 = max(r[1] for r in rot)
         w, h = x1 - x0, y1 - y0
         if w < h: rot = [(-r[1], r[0]) for r in rot]; x0, x1, y0, y1 = -y1, -y0, x0, x1; w, h = h, w   # 長邊放橫的

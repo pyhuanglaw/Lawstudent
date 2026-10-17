@@ -15967,7 +15967,7 @@
   },
   {
    "id": "ART-NPC-HAIR-STREAK",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -15981,7 +15981,7 @@
    },
    "title": "路人底模頭髮近距離黑白條紋（博雅 101 近處的同學）",
    "owner": "LAWWW2",
-   "next": "LAWWW-C 15:4x 已轉；LAWWW2 排",
+   "next": "【LAWWW-C 18:2x 整合 LAWWW2-C 24923842：seated_figures.glb 第二版（12 位路人底模、外殼烤色、3.26 MB、KHR_mesh_quantization）＋classes3d.js 聽講桌上小物的選法修正（36 種替身＝3 的倍數時全部配到筆電）；seated_figures_unit、desk_furniture_unit 通過】瀏覽器：博雅 101 上課時看替身的頭髮、衣服沒有黑白碎點；iPhone 實機沒測。 LAWWW-C 15:4x 已轉；LAWWW2 排",
    "source": "LAWWW-C 截圖 20e63582 wei.webp",
    "xai": {
     "spec": "docs/art-rebuild/ingame_review/2026-10-17_econ_peishan/wei.webp",
@@ -15989,7 +15989,8 @@
     "acceptance": "近距離頭髮沒有黑白破碎條紋",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "commit": "24923842"
   },
   {
    "id": "ART-PS-SKIRT-HAND",

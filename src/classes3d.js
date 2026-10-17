@@ -572,7 +572,7 @@ const CLS=(function(){
       const names=Object.keys(vars).filter(n=>!/_lod1$/.test(n)).sort(); if(!names.length) return; let h=0; for(const ch of key) h=(h*31+ch.charCodeAt(0))>>>0;
       const P=GM.E.player&&GM.E.player.obj.position, by=new Map(), pby=new Map(); const add=(m,k,st)=>{ if(!m.has(k)) m.set(k,[]); m.get(k).push(st); };
       rec.seats.forEach((st,i)=>{ const nm=names[(h+i*7)%names.length], far=!(P&&Math.hypot(st.x-P.x,st.z-P.z)<7), k=far?nm+'_lod1':nm; const kk=vars[k]?k:nm; add(by,kk,st);
-        const set=deskSet(nm,h+i*13); if(set){ const pk=far&&props[set+'_lod1']?set+'_lod1':set; if(props[pk]) add(pby,pk,st); } });
+        const set=deskSet(nm,h+i*13+Math.floor(i/3)); if(set){   /* +floor(i/3)：替身的種類數是 3 的倍數時（LAWWW2-C 24923842：12 位×3 種姿勢），聽講的人剛好都落在 i 同餘 3 的位子，只用 h+i*13 會全部配到同一組（全是筆電）*/ const pk=far&&props[set+'_lod1']?set+'_lod1':set; if(props[pk]) add(pby,pk,st); } });
       const g=new THREE.Group(); g.name='seated_figures:'+key; const M=new THREE.Matrix4(), Q=new THREE.Quaternion(), UP=new THREE.Vector3(0,1,0), ONE=new THREE.Vector3(1,1,1), V=new THREE.Vector3();
       const inst=(src,L,name)=>{ const im=new THREE.InstancedMesh(src.geometry,src.material,L.length); L.forEach((st,i)=>{ Q.setFromAxisAngle(UP,st.yaw||0); V.set(st.x,st.y||0,st.z); M.compose(V,Q,ONE); im.setMatrixAt(i,M); });
         im.instanceMatrix.needsUpdate=true; im.castShadow=false; im.receiveShadow=true; im.computeBoundingSphere(); im.name=name; g.add(im); };
