@@ -97,10 +97,11 @@ async def main():
         run.setup('把時間撥到隔天 14:58（等出發提示）')
         await pg.evaluate("(()=>{ const G=GAME.G; G.day+=1; G.weekday=(G.weekday+1)%7; G.hour=14.97; GAME.E.hour=G.hour; })()")
         got = await pick(pg, cdp, '出發', tries=90)
-        run.check('15:00 前後跳出「現在要出發嗎？」、點「出發」', got == '出發', str(got))
+        run.check('15:00 前後跳出「現在要出發嗎？」、點「出發」', bool(got) and got.startswith('出發'), str(got))
         lines = await talk_until_choices(pg, cdp)
         await pg.wait_for_timeout(1500); await run.shot(pg, 'tamsui_arrive')
-        run.check('到了淡水：她的抵達句（語彤的台詞，不是只有旁白）', any(len(x) > 0 for x in lines), json.dumps(lines, ensure_ascii=False))
+        rec = await pg.evaluate("(((GAME.G.dateMemory||{}).heroine_03||{}).D13||{}).recent||[]")
+        run.check('到了淡水：她的抵達句有播（dateMemory 記了抵達那一池；看到的台詞記在說明）', any(str(k).startswith('arrive.') for k in rec), json.dumps({'recent': rec, 'seen': lines}, ensure_ascii=False))
         for _ in range(2):
             got = await pick(pg, cdp, lambda t: next((k for k, x in enumerate(t) if '差不多' not in x and '就這樣回去' not in x), -1))
             await talk_until_choices(pg, cdp)

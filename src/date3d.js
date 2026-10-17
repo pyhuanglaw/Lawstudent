@@ -62,7 +62,7 @@ const DATE=(function(){
   S.HOLD={};   /* 學姊原本在這裡暫停（等分手條件）；使用者 2026-10-17 P0：她一開始就沒有男朋友 → 拿掉，改成下面的筆試前婉拒 */
   /* 學姊：研究所筆試（2026-02-02）結束以前不想交往（BB_122 ★-1、★-2）：條件到齊時告白的選項照樣出現，她婉拒、不鎖線（decline:'preexam'，事件 ev_sis_confess_preexam 照 BB_122 ★-2）；筆試以後照一般條件 */
   S.SIS_EXAM_END='2026-02-02';
-  S.sisPreexam=G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(S.SIS_EXAM_END):null; return d!=null&&G.day<=d; };
+  S.sisPreexam=G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(S.SIS_EXAM_END):null; return d!=null&&(G.day<d||(G.day===d&&(G.hour%24)<17)); };   /* 2/2 考完（當天 17:00）以前都算筆試前 */
   S.canConfess=function(G,id){ if(S.HOLD[id]) return {ok:false,why:'hold',note:S.HOLD[id]};
     const L=S.log(G,id), st=S.stageNum(id);
     if(st<6) return {ok:false,why:'stage',stage:st}; if(L.count<4) return {ok:false,why:'count',count:L.count}; if(!L.wish) return {ok:false,why:'wish'};
@@ -165,6 +165,7 @@ const DATE=(function(){
       await GM.say(null,'約好了：'+S.dayLabel(G,w.day).trim()+' '+hm(P.depart)+'，'+L.name+'。'); return t; } };
   /* 每 0.5 秒（OUT.tick 呼叫）：一天一次的 daily；出發前 60 分鐘手機提醒（AA_128 4-1）*/
   S.tick=function(GM){ const G=GM&&GM.G; if(!G) return; S.rec(G); if(G.dateLog._daily!==G.day){ G.dateLog._daily=G.day; S.daily(G); }
+    if(G.flags&&!G.flags.SIS_EXAM_DONE&&typeof STORY!=='undefined'&&STORY.dayOfKey&&G.day>=STORY.dayOfKey(S.SIS_EXAM_END)&&!S.sisPreexam(G)) G.flags.SIS_EXAM_DONE=true;   /* 學姊研究所筆試考完（2026-02-02 以後）：學姊心願 D15 的條件（wish_bb.json，BB-C 68f18538，取代 SIS_HEALED）*/
     const now=G.day*24+G.hour; for(const t of G.trips){ if(t.status!=='booked'||t.reminded) continue; const dep=t.day*24+t.depart; if(now>=dep-1&&now<dep){ t.reminded=true; const L=S.loc(t.locs[0])||{}; if(GM.toast) GM.toast('手機｜提醒：'+hm(t.depart)+'，你約了'+nameOf(t.who)+'去'+(L.name||'')+'。',3200); } } };
   const hm=h=>typeof INV!=='undefined'&&INV.hhmm?INV.hhmm(h):String(h);
   const nameOf=id=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id;

@@ -6470,6 +6470,19 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "最早 2026-08-24（阿凱去日本，大一升大二暑假）＝比美國篇早；照 D81 排在 v2 之後、美國篇之前；真實照片對照等使用者"
+  },
+  {
+   "id": "DL-LW2-USSTREET1",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "1f488eb9",
+   "what": "SCN-US-02 第一階段：us_street.glb（4.9 萬三角形）＋us_street.layout.json（Kirkwood 主街 14 棟店面、cars 18、props 64、blocks 101、spawn、exits、interact 6）；店名虛構、街名真的",
+   "task": "SCN-US-02",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "D81：美國篇排在 v0～v2 之後"
   }
  ],
  "ignored": [

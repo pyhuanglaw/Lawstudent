@@ -9,7 +9,7 @@ const STORY = (function(){
   S.people={
     an:{name:'小安',tag:'法律系一年級・同班',desc:'講話直接，筆記整齊到像印的。喜歡溫州街那間開到凌晨的咖啡廳。',memory:G=>G.flags.cafeView?('記得你在咖啡廳說：'+({A:'法律該保護粗心的人',B:'錯誤是自己的責任',C:'重大過失就不該保護'}[G.flags.cafeView])):'還沒真正聊過'},
     zhe:{name:'阿哲',tag:'法律系一年級・同班',desc:'系籃。總是笑著，租屋在公館，什麼店好吃都知道。',known:true,memory:G=>G.flags.classAnswer==='good'?'覺得你上課回答得很帥':'覺得你人不錯'},
-    sis:{name:'溫學姊',tag:'法律系三年級・法律服務社社長',desc:'總圖常客。說話很快，講到法服眼睛會亮。',memory:G=>G.flags.lawclub?'知道你看過法服的招募公告':''},
+    sis:{name:'溫學姊',tag:'法律系四年級・法律服務社前社長',desc:'總圖常客。說話很快，講到法服眼睛會亮。',memory:G=>G.flags.lawclub?'知道你看過法服的招募公告':''},
     kai:{name:'阿凱',tag:'資工系一年級・室友',desc:'晚上不是在打遊戲就是在寫程式。對法律的理解停留在「所以可以告嗎」。',known:true,memory:G=>G.flags.readCase==='full'?'看過你熬夜讀案例':''},
     yu:{name:'小語',tag:'法律系一年級・同班',desc:'參加了三個社團。常在傅鐘旁邊的長椅吃早餐。',memory:G=>''},
     prof:{name:'周教授',tag:'民法總則',desc:'上課喜歡點人。被點到的人下週會被記得。',known:true,memory:G=>G.flags.classAnswer==='good'?'記得你答對了要約之引誘':(G.flags.classAnswer==='none'?'記得你沒看案例':'')},
@@ -2625,13 +2625,21 @@ const STORY = (function(){
     if(ev.narr) await GM.say(null,ev.narr); F.KAI_FIGHT=true; F.KAI_FRICTION=0; kdRec(G).fightDay=G.day; }
   const kaiWho=GM=>GM.npc.kai||{name:SOCIAL.displayName?SOCIAL.displayName('kai'):'阿凱',charId:'kai'};
   /* 和阿凱說話時（talkKai）：吵架中只說「嗯」；第 4 天自己和好的那一句；K-D6；K-D1（一起打電動，接 K-D2）。回傳 true＝處理了 */
+  /* K-D2 選項①照隔天課表換字（BB-B note，baa5c577）：第一堂在上午＝說時間（「九點十分」）、在下午＝ifAfternoon 那一組；隔天沒課＝不出現這個選項 */
+  const CN=['零','一','二','三','四','五','六','七','八','九','十'], cnNum=k=>k<=10?CN[k]:(k<20?'十'+CN[k-10]:CN[Math.floor(k/10)]+'十'+(k%10?CN[k%10]:''));
+  S.cnClock=h=>{ const m=Math.round(h*60), hh=Math.floor(m/60)%12||12, mm=m%60; return cnNum(hh)+'點'+(mm?cnNum(mm)+'分':''); };
+  const kdFirstClass=(G,st)=>{ if(!st||!Array.isArray(st.choices)||!st.choices.some(c=>/\{明天第一堂\}/.test(c.t||''))) return st; const C=typeof CLS!=='undefined'&&CLS.dayItems?CLS:null;
+    const its=C?(C.dayItems(G,G.day+(G.hour>=24?1:1))||[]).filter(it=>!(C.storyClass&&C.storyClass(G,it))).sort((a,b)=>a.t0-b.t0):[], first=its[0];
+    const ch=[]; for(const c of st.choices){ if(!/\{明天第一堂\}/.test(c.t||'')){ ch.push(c); continue; } if(!first) continue;
+      if(first.t0>=12&&c.ifAfternoon) ch.push(Object.assign({},c,{t:c.ifAfternoon.t,reply:c.ifAfternoon.reply})); else { const w=S.cnClock(first.t0); ch.push(Object.assign({},c,{t:c.t.replace(/\{明天第一堂\}/g,w),reply:String(c.reply||'').replace(/\{明天第一堂\}/g,w)})); } }
+    return Object.assign({},st,{choices:ch}); };
   S.kaiDormTalk=async function(GM,n){ const G=GM.G, F=G.flags, R=kdRec(G); if(typeof LADDER==='undefined'||!LADDER.kaiDorm||G.zone!=='dorm') return false;
     if(!F.introDone||(S.week1Start(G)&&!F.MET_KAI)) return false;   /* BB_170 第 3 列：認識阿凱（ev_kai_movein，BB_168 §1）而且 9/3 宿舍那晚以後 */
     if(R.sorryPending){ R.sorryPending=false; const fb=(KD('K-D5')||{}).fallback||'', m=fb.match(/「([^」]+)」/); if(m){ await GM.say(n,m[1]); return true; } }
     if(F.KAI_FIGHT&&G.day-(R.fightDay|0)<=2){ await GM.say(n,'嗯'); return true; }   /* K-D4：之後兩天他只說「嗯」*/
     const d6=KD('K-D6'); if(d6&&!R.d6&&SOCIAL.has('kai','KAI_ROOM_RULES')&&kdIn(G,d6)){ R.d6=G.day; for(const l of d6.lines) await GM.say(n,l); await kdChoice(GM,n,d6); return true; }
     const d1=KD('K-D1'); if(d1&&!F.KAI_FIGHT&&R.d1Week!==kdWeek(G)&&kdIn(G,d1)){ R.d1Week=kdWeek(G); for(const l of d1.lines) await GM.say(n,l); const r=await kdChoice(GM,n,d1);
-      if(r.k===0){ R.lastGameDay=G.day; const d2=KD('K-D2'); if(d2&&!R.d2&&(+F.KAI_GAMES||0)>=2&&G.hour>=d2.time[0]){ R.d2=G.day; if(d2.narr) await GM.say(null,d2.narr); if(G.hour<26) GM.advance(26-G.hour); for(const l of d2.lines) await GM.say(n,l); await kdChoice(GM,n,d2); } }   /* K-D2：一場變三場，抬頭已經兩點 */
+      if(r.k===0){ R.lastGameDay=G.day; const d2=KD('K-D2'); if(d2&&!R.d2&&(+F.KAI_GAMES||0)>=2&&G.hour>=d2.time[0]){ R.d2=G.day; if(d2.narr) await GM.say(null,d2.narr); if(G.hour<26) GM.advance(26-G.hour); for(const l of d2.lines) await GM.say(n,l); await kdChoice(GM,n,kdFirstClass(G,d2)); } }   /* K-D2：一場變三場，抬頭已經兩點 */
       return true; }
     return false; };
   /* 在宿舍時（S.tick）：K-D3 早上的鍵盤聲、K-D5 和解的飲料；吵架第 4 天自己和好（不在宿舍也算）*/

@@ -41,6 +41,8 @@ const ADV2=global.ADV; ADV2.active=false;
     G.day=exam-10; const a=DATE.canConfess(G,'heroine_05'); G.day=exam+1; const b=DATE.canConfess(G,'heroine_05'); G.day=d0; G.weekday=w0;
     check('1. 學姊：沒有伴侶（canAsk 不會說她有交往的對象）',!/交往的對象/.test(DATE.canAsk(G,'heroine_05').why||''),JSON.stringify(DATE.canAsk(G,'heroine_05')));
     check('1. 學姊：筆試以前條件到齊＝告白選項照樣出現、她婉拒（decline:preexam，不鎖線）；筆試以後照一般條件',a.ok&&a.decline==='preexam'&&b.ok&&!b.decline,JSON.stringify([a,b])); }
+  { const exam=STORY.dayOfKey('2026-02-02'), d0=G.day, h0=G.hour; G.day=exam; G.hour=12; DATE.tick(GM); const a=!!G.flags.SIS_EXAM_DONE; G.hour=17.5; G.dateLog._daily=null; DATE.tick(GM); const b=!!G.flags.SIS_EXAM_DONE; G.day=d0; G.hour=h0; delete G.flags.SIS_EXAM_DONE;
+    check('1. 學姊筆試考完：2/2 中午還沒、2/2 17:00 以後設 SIS_EXAM_DONE（學姊心願 D15 的條件，BB-C 68f18538）',!a&&b,JSON.stringify([a,b])); }
   // ---------- 2 衝突檢查 ----------
   const base={who:'heroine_03',locs:['D13'],transport:'mrt'};
   let c=DATE.check(G,Object.assign({},base,{day,depart:15})); check('2. 週六 15:00 淡水：可以，算好回程、花費（車資來回＋門票）',c.ok&&c.plan.back>15&&c.cost===c.plan.fare+(DATE.loc('D13').admission|0),JSON.stringify(c));

@@ -82,7 +82,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const wl=LADDER.characters[ZR].greet.when.filter(w=>w.working).map(w=>w.t);
     check('10. 芷若上班中：說上班的短招呼',said.length===1&&(wl.length===0||wl.includes(said[0].t)),said[0]&&said[0].t);
     let off=null; for(let h=8;h<23;h+=0.5){ G.hour=h; if(!STORY.ladWorking(G,ZR)){ off=h; break; } }
-    if(off!=null){ G.hour=off; G.social.ladderDay={}; check('10. 芷若下班：可以推進',STORY.ladNext(G,ZR)===LADDER.characters[ZR].steps[0]); } }
+    if(off!=null){ G.hour=off; G.social.ladderDay={}; G.zone='campus'; check('10. 芷若下班、在校園（Z-L1 不在 Café 推進：baa5c577 的 location，BB-B AA_200 第 2 節第 1 項）：可以推進',STORY.ladNext(G,ZR)===LADDER.characters[ZR].steps[0]); G.zone='cafe'; } }
   // 可昕只在見面／視訊推進
   const KX='kexin', LK=LADDER.characters[KX];
   fresh(D0,20,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true});

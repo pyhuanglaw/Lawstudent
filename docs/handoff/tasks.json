@@ -6675,8 +6675,8 @@
    "title": "美國校園街道",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 3）",
+   "status": "進行中",
+   "next": "【LAWWW2-C 06:54Z 交付第一階段 1f488eb9（DL-LW2-USSTREET1：Kirkwood 主街 14 棟店面、us_street.layout.json）；第二階段校門 Sample Gates、石灰岩建築等使用者照片】【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 3）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -9400,8 +9400,8 @@
    "title": "阿勳（盧正勳 econ_zhengxun）的 3D 人物（VRM）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "暫停",
-   "next": "（LAWWW2-C 04:42 指出、LAWWW-C 照 AA_208／zones3d.js 1326 行核對）first 改 Y0S1 第 1 週，和韋綸、唐睿同一批。照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
+   "status": "待開工",
+   "next": "【使用者 06:5x 對 LAWWW2-C「恢復，照 AA 的順序先做」；AA-C 06:46 順序：阿勳 → 品妤 → 韋綸 → 唐睿 → 家豪 → 魏教授；角色美術 BB-C 驗收（D59）】（LAWWW2-C 04:42 指出、LAWWW-C 照 AA_208／zones3d.js 1326 行核對）first 改 Y0S1 第 1 週，和韋綸、唐睿同一批。照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -9422,22 +9422,20 @@
     "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
     "ack": "DELIVERED"
    },
-   "pausedFrom": "待開工",
-   "pausedReason": "使用者 2026-10-17 05:0x 對 LAWWW2-C：「修改人物的事情暫停」（經濟系人物算不算在內，LAWWW2-C 已問使用者）；建置成果保留（outbox WIP）",
-   "resumeWhen": "使用者確認經濟系人物可以繼續，或另行指示"
+   "pausedFrom": "待開工"
   },
   {
    "id": "ART-CH-PINYU",
    "title": "品妤（曾品妤 econ_pinyu）的 3D 人物（VRM）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "暫停",
-   "next": "照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
+   "status": "待開工",
+   "next": "【使用者 06:5x 對 LAWWW2-C「恢復，照 AA 的順序先做」；AA-C 06:46 順序：阿勳 → 品妤 → 韋綸 → 唐睿 → 家豪 → 魏教授；角色美術 BB-C 驗收（D59）】照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
    "priority": "P2",
    "first": {
-    "term": "Y1S2",
+    "term": "Y0S1",
     "week": 6,
-    "earliest": "K2 社科院門口（現在用 compact）；v0 整年",
+    "earliest": "v0 2024-09（AA-C 06:46 改：不是 Y1S2）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
@@ -9453,9 +9451,7 @@
     "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
     "ack": "DELIVERED"
    },
-   "pausedFrom": "待開工",
-   "pausedReason": "使用者 2026-10-17 05:0x 對 LAWWW2-C：「修改人物的事情暫停」（經濟系人物算不算在內，LAWWW2-C 已問使用者）；建置成果保留（outbox WIP）",
-   "resumeWhen": "使用者確認經濟系人物可以繼續，或另行指示"
+   "pausedFrom": "待開工"
   },
   {
    "id": "V0-ARTPLAN",
@@ -9904,8 +9900,8 @@
    "title": "韋綸（econ_weilun）的 3D 人物：路人底模改臉、髮型、衣服（AA_145 §5）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "暫停",
-   "next": "v0 用；人物 id 等 AA-REQ-06（characters.js）；先照立繪做",
+   "status": "待開工",
+   "next": "【使用者 06:5x 對 LAWWW2-C「恢復，照 AA 的順序先做」；AA-C 06:46 順序：阿勳 → 品妤 → 韋綸 → 唐睿 → 家豪 → 魏教授；角色美術 BB-C 驗收（D59）】v0 用；人物 id 等 AA-REQ-06（characters.js）；先照立繪做",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -9926,17 +9922,15 @@
     "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
     "ack": "DELIVERED"
    },
-   "pausedFrom": "待開工",
-   "pausedReason": "使用者 2026-10-17 05:0x 對 LAWWW2-C：「修改人物的事情暫停」（經濟系人物算不算在內，LAWWW2-C 已問使用者）；建置成果保留（outbox WIP）",
-   "resumeWhen": "使用者確認經濟系人物可以繼續，或另行指示"
+   "pausedFrom": "待開工"
   },
   {
    "id": "ART-CH-TANGRUI",
    "title": "唐睿（econ_tangrui）的 3D 人物：路人底模改臉、髮型、衣服（AA_145 §5）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "暫停",
-   "next": "v0 用；人物 id 等 AA-REQ-06（characters.js）；先照立繪做",
+   "status": "待開工",
+   "next": "【使用者 06:5x 對 LAWWW2-C「恢復，照 AA 的順序先做」；AA-C 06:46 順序：阿勳 → 品妤 → 韋綸 → 唐睿 → 家豪 → 魏教授；角色美術 BB-C 驗收（D59）】v0 用；人物 id 等 AA-REQ-06（characters.js）；先照立繪做",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -9957,17 +9951,15 @@
     "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
     "ack": "DELIVERED"
    },
-   "pausedFrom": "待開工",
-   "pausedReason": "使用者 2026-10-17 05:0x 對 LAWWW2-C：「修改人物的事情暫停」（經濟系人物算不算在內，LAWWW2-C 已問使用者）；建置成果保留（outbox WIP）",
-   "resumeWhen": "使用者確認經濟系人物可以繼續，或另行指示"
+   "pausedFrom": "待開工"
   },
   {
    "id": "ART-CH-JIAHAO",
    "title": "家豪學長（econ_jiahao）的 3D 人物：路人底模改臉、髮型、衣服（AA_145 §5）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "暫停",
-   "next": "v0 用；人物 id 等 AA-REQ-06（characters.js）；先照立繪做",
+   "status": "待開工",
+   "next": "【使用者 06:5x 對 LAWWW2-C「恢復，照 AA 的順序先做」；AA-C 06:46 順序：阿勳 → 品妤 → 韋綸 → 唐睿 → 家豪 → 魏教授；角色美術 BB-C 驗收（D59）】v0 用；人物 id 等 AA-REQ-06（characters.js）；先照立繪做",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -9988,17 +9980,15 @@
     "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
     "ack": "DELIVERED"
    },
-   "pausedFrom": "待開工",
-   "pausedReason": "使用者 2026-10-17 05:0x 對 LAWWW2-C：「修改人物的事情暫停」（經濟系人物算不算在內，LAWWW2-C 已問使用者）；建置成果保留（outbox WIP）",
-   "resumeWhen": "使用者確認經濟系人物可以繼續，或另行指示"
+   "pausedFrom": "待開工"
   },
   {
    "id": "ART-CH-WEI",
    "title": "魏教授（prof_wei）的 3D 人物：講台老師底模改（AA_145 §5）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "暫停",
-   "next": "v0 經濟學原理（大講堂）用；外觀等 AA-REQ-06",
+   "status": "待開工",
+   "next": "【使用者 06:5x 對 LAWWW2-C「恢復，照 AA 的順序先做」；AA-C 06:46 順序：阿勳 → 品妤 → 韋綸 → 唐睿 → 家豪 → 魏教授；角色美術 BB-C 驗收（D59）】v0 經濟學原理（大講堂）用；外觀等 AA-REQ-06",
    "priority": "P3",
    "first": {
     "term": "Y0S1",
@@ -10019,9 +10009,7 @@
     "acceptance": "VRM（講台老師底模改）；BB-B D59",
     "ack": "DELIVERED"
    },
-   "pausedFrom": "待開工",
-   "pausedReason": "使用者 2026-10-17 05:0x 對 LAWWW2-C：「修改人物的事情暫停」（經濟系人物算不算在內，LAWWW2-C 已問使用者）；建置成果保留（outbox WIP）",
-   "resumeWhen": "使用者確認經濟系人物可以繼續，或另行指示"
+   "pausedFrom": "待開工"
   },
   {
    "id": "ART-V0-DORM",
@@ -13301,9 +13289,9 @@
    "title": "學姊和男友在校園一起出現（BB_122 2-1；程式還沒有）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P2",
-   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "使用者 2026-10-17 P0（AA_218 第 16 節）：溫書瑀一開始就沒有男朋友 → 取消；LAWWW2 從沒開工（LAWWW2-C 07:01）。AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -13315,7 +13303,10 @@
     "confirmed": false
    },
    "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
-   "authorized": "使用者（AA、BB 企劃制度）"
+   "authorized": "使用者（AA、BB 企劃制度）",
+   "reason": "溫書瑀一開始就沒有男朋友（AA_218 第 16 節），和男友一起出現的場景不存在",
+   "replacedBy": "NONE",
+   "authorizedBy": "使用者 2026-10-17 06:3x～06:4x（經 AA-C 轉，AA_218 第 16 節；「要改就直接改」）"
   },
   {
    "id": "BCG-46",
@@ -13757,9 +13748,9 @@
    "title": "學姊和男友在校園一起出現（BB_122 2-1；程式還沒有）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P2",
-   "next": "問 AA-B：出現的學期、週次、地點、次數、台詞（BB_122 2-1 原文）→ 照規格實作",
+   "next": "使用者 2026-10-17 P0（AA_218 第 16 節）：溫書瑀一開始就沒有男朋友 → 取消；LAWWW2 從沒開工（LAWWW2-C 07:01）。問 AA-B：出現的學期、週次、地點、次數、台詞（BB_122 2-1 原文）→ 照規格實作",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -13771,7 +13762,10 @@
     "confirmed": false
    },
    "source": "AA-B 全部待辦（AA_交接紀錄 B 表「（無 ID）」）；D93 逐職位核對",
-   "authorized": "BB_122（使用者批准的學姊線）"
+   "authorized": "BB_122（使用者批准的學姊線）",
+   "reason": "溫書瑀一開始就沒有男朋友（AA_218 第 16 節），和男友一起出現的場景不存在",
+   "replacedBy": "NONE",
+   "authorizedBy": "使用者 2026-10-17 06:3x～06:4x（經 AA-C 轉，AA_218 第 16 節；「要改就直接改」）"
   },
   {
    "id": "ART-BALCONY-POTS",
