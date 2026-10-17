@@ -21,6 +21,11 @@
    - 受影響：玩家每天起床的房間、坐書桌讀書、睡覺；經濟系那一年的紙箱（原本疊在床上）、阿勳的書桌與保齡球袋；SCN-V3-01 大二的房間也照這個做。
    - 等 AA-B：另外兩個床位的室友（我先做成有生活痕跡、人不在）。
    - 這期間暫停 BUG-COPLANAR-DEV 室內（霖澤館查完、還沒改檔）。
+   - **進度（01:4x）**：`tools/blender/env_second/dorm_room4.py` v2（91122d9b），說明與算圖 `test_shots/dorm_loft/README.md`、配置 `layout_v2.json`。
+     - v1、v2 算圖已傳給使用者，**等使用者點頭**才換 `assets/models/env/second_ai/dorm_interior.glb`、正式交 LAWWW-B。
+     - 室友照 AA_208（AA-B 65978067）：203＝L2 祐廷、R2 阿凱、L1 阿哲、R1 柏翰；412＝L2 祐廷、R2 阿勳、L1 韋綸、R1 唐睿；第一晚空床＋名牌。
+     - LAWWW-B 已 ACK（DORM-LOFT-L，程式那一半），layout_v2 已給他。
+     - 疊面掃描：一定會閃 0、遠處才閃 0。
 1. **ART-GYM-BG1** 開學典禮背景（8/31）：
    - v1 被使用者退件（家長、幾何公仔「超醜」）；v2 頭髮太灰。
    - v3 照使用者給的實際典禮照片改（af2d5059）：白 T 恤學生、紅地毯台階、插畫背板、燈架、紅綠吊旗。
