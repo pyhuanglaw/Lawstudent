@@ -18,6 +18,16 @@
 - D90 ACK（第 14 節，請值班 LAWWW 代登記）：HV-11＋RULE_SOURCE `9266693c`；已讀 D90、D92、D93；沒有沒處理的使用者指示；沒有正在跑的長工作；turn_check：本工作階段剛開始，無超時回合。
 - 接著做：ART-GG-SIGNS-2（重拍前後截圖 → README → 登記交付）。目前沒有 LAWWW 值班，交付只寫 GitHub（D75）。
 
+### ⚠ 使用者 2026-10-17 04:5x 直接給 LAWWW2-C：「你目前待辦事項還有什麼 應該先做更大的項目」→ 排序（照 D81 玩家先遇到的、大的先做）
+1. **v0 經濟系 3D 人物**：ART-CH-WEILUN（建置中，腳本 d7998f12）→ ART-CH-TANGRUI → ART-CH-JIAHAO → ART-CH-WEI；阿勳 ART-CH-XUN 如果確認是 412 室友（Y0S1），併進這一批。
+2. **SCN-V0-01 經濟系系館室內**：已請 LAWWW-C 轉問 AA-C 各房間的劇情用途（D79），回了就排在人物之後。
+3. **ART-17 剩下的 2D 背景**（BG09／10／12／14／19、AA185）。
+4. **ART-VSLICE＋ART-WZ0**（溫州街 Café 前黃昏商業水準、舊店面翻修）。
+5. **ART-13、ART-CH-XUN、ART-CH-PINYU**（明軒、小語、阿勳、品妤）。
+6. 大二以後的場景（SCN-V3-01／V3-03／V4-01／V5-01／V5-02、ART-DORM-Y34、VAC-A2）。
+- 小件只收尾或等 CPU 時做：ART-04 黃金葛、ART-V0-DORM 412 窗景（截圖排隊中）、BUG-WZFLICKER-2、ART-BALCONY-POTS。
+- 環境：這個容器原本沒有 Blender；已照 TOOLCHAIN_AUDIT 裝 `/opt/blenv`（bpy 5.2.2）＋VRM Add-on（`644a13c`）＋`tools/vroid_src`（fetch_vroid_src.sh）。容器重開要重裝。
+
 ### LAWWW2 半成品核對（USER_DIRECTIVE_NEXT_DUTY_2026-10-17 第一節第 4 點；LAWWW2-C 04:3x，對 RULE_SOURCE `adoring-meitner` a39a6812 的 tasks.json）
 | 半成品 | 任務 ID | 總表狀態 | 分支／SHA | 完成度、下一步 | 可以整合嗎 |
 |---|---|---|---|---|---|
