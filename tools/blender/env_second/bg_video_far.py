@@ -205,10 +205,10 @@ def sky_grad(name):
     em.inputs['Strength'].default_value = float(opt('--sky', '3.0')); return m
 Mesh('vf_sky', sky_grad('vf_sky_grad')).box(-40, 40, -10, 40, -60, -59.9).finish(uv=False)
 hs = Mesh('vf_houses', M['house']); rf = Mesh('vf_roofs', M['roof']); wl = Mesh('vf_wins', M['win_lit']); wc = Mesh('vf_wins2', M['win_cool'])
-for row, (zz, yb) in enumerate(((-9.0, 0.4), (-17.0, 1.6), (-30.0, 3.4), (-46.0, 3.0))):          # 宿舍在三樓：近的房子屋頂在窗台下面一點、遠的往上（平視看出去是一片屋頂和亮著的窗）
+for row, (zz, yb) in enumerate(((-9.0, -0.8), (-17.0, 1.6), (-30.0, 3.4), (-46.0, 3.0))):          # 近的那排壓低（原本屋頂擋住後面所有亮著的窗，窗外只剩黑色剪影）          # 宿舍在三樓：近的房子屋頂在窗台下面一點、遠的往上（平視看出去是一片屋頂和亮著的窗）
     x = -18.0
     while x < 14.0:
-        w_ = rng.uniform(5.5, 9.0); h_ = (rng.uniform(5.0, 6.5) if (row == 0 or rng.random() < 0.8) else rng.uniform(9.0, 13.0)) if row < 3 else rng.uniform(8.0, 15.0)
+        w_ = rng.uniform(5.5, 9.0); h_ = (rng.uniform(5.0, 6.5) if (row == 0 or rng.random() < 0.5) else rng.uniform(7.6, 9.4)) if row < 3 else rng.uniform(8.0, 15.0)
         if row == 3 and rng.random() < 0.45: x += w_; continue                                  # 遠處的公寓之間留空（看得到天空）
         hs.box(x, x + w_ - 0.6, yb - 6, yb - 6 + h_, zz - 6, zz)
         if h_ < 8: rf.quad([(x - 0.3, yb - 6 + h_, zz + 0.4), (x + w_ - 0.3, yb - 6 + h_, zz + 0.4), (x + w_ / 2 - 0.3, yb - 6 + h_ + 1.6, zz - 3), (x + w_ / 2 - 0.3, yb - 6 + h_ + 1.6, zz - 3)])
@@ -227,6 +227,9 @@ for k in range(3):                                                              
         for a_, b_ in zip(P[:-1], P[1:]): pl.cyl(a_, b_, 0.012, seg=5)
 pl.finish(uv=False)
 point_light('vf_street', -4.5, -3.5, -7.0, 600, (1.0, 0.8, 0.55), 0.3)                  # 窗外下面的路燈（照亮一點房子的牆）
+moon = bpy.data.objects.new('vf_moon', bpy.data.lights.new('vf_moon', 'SUN')); sc.collection.objects.link(moon)          # 月光：瓦屋頂、牆面有一點形狀（不然只是黑色剪影）
+moon.data.energy = float(opt('--moon', '0.35')); moon.data.color = (0.62, 0.72, 1.0); moon.data.angle = math.radians(1.0)
+moon.rotation_euler = (math.radians(55), 0, math.radians(20))   # 從鏡頭這一側斜照過去：照到房子的正面和屋頂
 
 w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; w.node_tree.nodes['Background'].inputs['Color'].default_value = (0.02, 0.025, 0.045, 1); w.node_tree.nodes['Background'].inputs['Strength'].default_value = 0.6
 # ---------------- 鏡頭：桌上筆電的鏡頭（高 1.05 m）、往後牆看、略往上 ----------------
