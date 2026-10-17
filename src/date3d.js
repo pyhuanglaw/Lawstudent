@@ -276,20 +276,21 @@ const DATE=(function(){
      答應＝ROM.start（dating_<id>、交往紀錄）；還沒＝記 notYetFlag，不鎖線：兩週後、而且中間再多一次正式校外約會才會再出現；
      學姊研究所筆試以前（decline:'preexam'）＝婉拒、記 preexamFlag，一樣不鎖線（筆試前再說還是婉拒）。台詞一律照交付的定稿，這裡不寫字 */
   const CL=id=>(typeof CONFESS_LINES!=='undefined'&&CONFESS_LINES[id])||null;
-  S.confessReady=function(G,id){ const c=S.canConfess(G,id), D=CL(id); if(!c.ok) return c; if(!D||!Array.isArray(D.yes)||!D.yes.length) return {ok:false,why:'lines'};
-    if(c.decline==='preexam'&&!(Array.isArray(D.preexam)&&D.preexam.length)) return {ok:false,why:'lines'};
+  const CV=(x,G,...a)=>typeof x==='function'?x(G,...a):x;   /* 台詞表的欄位可以是陣列，或照情況給陣列的函式 (G,t,k) */
+  S.confessReady=function(G,id,t){ const c=S.canConfess(G,id), D=CL(id); if(!c.ok) return c; if(!D||!D.yes) return {ok:false,why:'lines'};
+    if(c.decline==='preexam'&&!D.preexam) return {ok:false,why:'lines'}; if(typeof D.only==='function'&&!D.only(G,t)) return {ok:false,why:'place'};   /* only：只在某些場合（例：語彤只在淡水收尾）*/
     const L=S.log(G,id), ny=L.notYet; if(ny&&(G.day-ny.day<14||(L.count|0)<=(ny.count|0))) return {ok:false,why:'notYet'}; return c; };
-  S.confessOffer=async function(GM,t){ const G=GM.G, id=t.who, c=S.confessReady(G,id); if(!c.ok) return false;
-    const k=await GM.choose([{t:'（告訴她）'},{t:'（今天先不說）'}]); if(k!==0) return false; return S.confess(GM,id,c); };
-  S.confess=async function(GM,id,c){ const G=GM.G, D=CL(id), L=S.log(G,id), me={name:nameOf(id),charId:id};
-    const run=async lines=>{ for(const ln of (lines||[])){ if(ln==null) continue; const x=typeof ln==='string'?{who:id,text:ln}:ln;
-        if(x.who==='narr') await GM.say(null,/^（/.test(x.text)?x.text:'（'+x.text+'）'); else if(x.who==='player') await GM.say({name:G.name||'祐廷'},x.text); else if(x.who===id) await GM.say(me,x.text); else await GM.say({name:nameOf(x.who),charId:x.who},x.text); } };
-    await run(D.say); if(Array.isArray(D.choice)&&D.choice.length){ const k=await GM.choose(D.choice.map(q=>({t:q.t}))); await run((D.choice[k]||{}).say); }
-    const res=c.decline==='preexam'?'preexam':(typeof D.decide==='function'?D.decide(G):'yes');
-    if(res==='yes'&&typeof ROM!=='undefined'&&ROM.start&&ROM.start(G,id)){ await run(D.yes); (G.flags.confessed||(G.flags.confessed={}))[id]=G.day; return 'yes'; }
+  S.confessOffer=async function(GM,t){ const G=GM.G, id=t.who, c=S.confessReady(G,id,t); if(!c.ok) return false;
+    const k=await GM.choose([{t:'（告訴她）'},{t:'（今天先不說）'}]); if(k!==0) return false; return S.confess(GM,id,c,t); };
+  S.confess=async function(GM,id,c,t){ const G=GM.G, D=CL(id), L=S.log(G,id), me={name:nameOf(id),charId:id};
+    const run=async lines=>{ for(const ln of (lines||[])){ if(ln==null) continue; const x=typeof ln==='string'?{who:id,text:ln}:ln, o=x.expr?{expr:x.expr}:undefined;
+        if(x.who==='narr') await GM.say(null,/^（/.test(x.text)?x.text:'（'+x.text+'）'); else if(x.who==='player') await GM.say({name:G.name||'祐廷'},x.text); else if(x.who===id) await GM.say(me,x.text,o); else await GM.say({name:nameOf(x.who),charId:x.who},x.text,o); } };
+    await run(CV(D.say,G,t)); let k=-1; const ch=CV(D.choice,G,t); if(Array.isArray(ch)&&ch.length){ k=await GM.choose(ch.map(q=>({t:q.t}))); await run((ch[k]||{}).say); }
+    const res=c.decline==='preexam'?'preexam':(typeof D.decide==='function'?D.decide(G,t,k):'yes');
+    if(res==='yes'&&typeof ROM!=='undefined'&&ROM.start&&ROM.start(G,id)){ await run(CV(D.yes,G,t,k)); (G.flags.confessed||(G.flags.confessed={}))[id]=G.day; return 'yes'; }
     L.notYet={day:G.day,count:L.count|0};
-    if(res==='preexam'){ await run(D.preexam); if(D.preexamFlag) G.flags[D.preexamFlag]=G.day; return 'preexam'; }
-    await run(D.notYet); if(D.notYetFlag) G.flags[D.notYetFlag]=G.day; return 'notYet'; };
+    if(res==='preexam'){ await run(CV(D.preexam,G,t,k)); if(D.preexamFlag) G.flags[D.preexamFlag]=G.day; return 'preexam'; }
+    await run(CV(D.notYet,G,t,k)); if(D.notYetFlag) G.flags[D.notYetFlag]=G.day; return 'notYet'; };
   /* 快速約會可以做的兩個：她喜歡的優先，不夠用普通的補（不用她不太喜歡的）；時間要夠。少於兩個就不提供 */
   S.quickPick=function(G,id,pts,endH){ const now=G.day*24+G.hour; let tot=0; const ok=[]; for(const lk of ['like','normal']) for(const p of pts){ if(ok.length>=2) break; if(S.likeOf(id,p.id)!==lk||ok.includes(p)) continue; if(now+(tot+(p.min|0))/60>endH) continue; ok.push(p); tot+=p.min|0; } return ok.length>=2?ok:null; };
   /* 相簿（Life Album，AA_128 5-1、5-2 拍照位置）：拍照的互動點存一張（底圖＋她的人物圖層；合照要第 6 階或交往中）。G.album＝[{kind,trip,who,loc,day,h,both}]；手機「相簿」照時間排 */

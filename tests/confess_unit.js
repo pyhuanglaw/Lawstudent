@@ -28,13 +28,14 @@ const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
 GM.money=d=>{ G.money+=d; }; GM.toast=()=>{}; GM.caption=()=>{}; GM.updateHUD=()=>{};
 const ADV2=global.ADV; ADV2.active=false;
 (async()=>{
-  check('0. 正式資料表 CONFESS_LINES 目前是空的（台詞還沒交付）：任何人都不會出現「（告訴她）」',typeof CONFESS_LINES==='object'&&Object.keys(CONFESS_LINES).length===0);
+  check('0. 正式資料表 CONFESS_LINES：只有 AA 定稿的以安、語彤（AA_187 第 9 節 @6a0d2030）；其他五位還沒交付',JSON.stringify(Object.keys(CONFESS_LINES).sort())==='["heroine_01","heroine_03"]');
+  const REAL=Object.assign({},CONFESS_LINES);
   const day=termDay('Y1S2',5,6); OUT.BG.d13_base_sunset=OUT.BG.d13_base_sunset||{label:'淡水',image:'x'};
-  const ready=(id,o)=>{ o=o||{}; const r=SOCIAL.rel(id); Object.assign(r,{fam:70,trust:55,comf:50,npcRom:60,rom:35}); const L=DATE.log(G,id); L.count=o.count==null?3:o.count; L.wish=true; G.contacts=G.contacts||{}; G.contacts[id]=1; };
+  const ready=(id,o)=>{ o=o||{}; SOCIAL.meet(id,'campus'); const r=SOCIAL.rel(id); Object.assign(r,{fam:70,trust:55,comf:50,npcRom:60,rom:35}); const L=DATE.log(G,id); L.count=o.count==null?3:o.count; L.wish=true; G.contacts=G.contacts||{}; G.contacts[id]=1; };
   const go=async(who,picks0)=>{ const b=DATE.book(G,{who,locs:['D13'],transport:'mrt',day:G.day,depart:15}); const q=OUT.get(G,'date_'+b.trip); G.hour=15; said=[]; opts=[]; picks=['出發'].concat(picks0); await OUT.prompt(GM,q); return {t:DATE.trip(G,b.trip),L:lines(),O:opts}; };
-  // 1 條件到齊、但沒有台詞：不出現選項
-  fresh(day,9,'dorm',{}); ready('heroine_03'); let r=await go('heroine_03',['河邊欄杆','差不多了','差不多了']);
-  check('1. 第四次約會、條件到齊（canConfess ok）但這一位沒有交付的台詞：不出現「（告訴她）」',DATE.canConfess(G,'heroine_03').ok&&!r.O.some(o=>o.includes('（告訴她）'))&&!G.flags.dating_heroine_03,JSON.stringify(r.O));
+  // 1 條件到齊、但沒有台詞：不出現選項（子晴：台詞還沒交付）
+  fresh(day,9,'dorm',{}); ready('heroine_04'); let r=await go('heroine_04',['河邊欄杆','差不多了']);
+  check('1. 子晴（台詞還沒交付）：第四次約會、條件到齊（canConfess ok）也不出現「（告訴她）」',DATE.canConfess(G,'heroine_04').ok&&!r.O.some(o=>o.includes('（告訴她）'))&&!G.flags.dating_heroine_04,JSON.stringify(r.O));
   // 測試用的台詞（不是遊戲內容）
   CONFESS_LINES.heroine_03={src:'測試',say:[{who:'player',text:'P'}],yes:['Y1'],notYet:['N1'],notYetFlag:'T_NOT_YET',decide:G=>G.flags.T_SAY_NOT?'notYet':'yes'};
   CONFESS_LINES.heroine_05={src:'測試',say:[{who:'player',text:'P5'}],yes:['Y5'],notYet:['N5'],preexam:['PRE'],preexamFlag:'T_PRE'};
@@ -59,6 +60,16 @@ const ADV2=global.ADV; ADV2.active=false;
   // 快速約會不問
   fresh(day,9,'dorm',{}); ready('heroine_03'); DATE.log(G,'heroine_03').byLoc.D13=2; r=await go('heroine_03',['快速約會']);
   check('7. 快速約會（直接結算）：不出現「（告訴她）」',!r.O.some(o=>o.includes('（告訴她）')),JSON.stringify(r.O));
-  delete CONFESS_LINES.heroine_03; delete CONFESS_LINES.heroine_05;
+  delete CONFESS_LINES.heroine_05; Object.assign(CONFESS_LINES,REAL);
+  // 9 正式台詞：語彤（AA_187 9-2）
+  fresh(day,9,'dorm',{}); ready('heroine_03'); r=await go('heroine_03',['河邊欄杆','差不多了','告訴她','我們要不要在一起']);
+  check('9. 語彤淡水收尾：「河邊風好大。……你今天一直在想事情。」→ 三選一 → 答應四句、交往中',G.flags.dating_heroine_03===true&&r.L.includes('陳語彤：河邊風好大。……你今天一直在想事情。')&&r.O.some(o=>JSON.stringify(o)==='["「我喜歡妳。」","「我們要不要在一起？」","「我喜歡妳。妳不用急著回答。」"]')&&r.L.includes('陳語彤：……你先說了。')&&r.L.includes('（她低頭，把書包拉鍊拉上又拉開。）')&&r.L.includes('陳語彤：……好。'),JSON.stringify(r.L.slice(-7)));
+  fresh(day,9,'dorm',{}); ready('heroine_03',{count:4}); { const t={who:'heroine_03',locs:['D12'],day:G.day}; check('9. 語彤在別的地點（大稻埕）收尾：不出現（只在淡水）',DATE.confessReady(G,'heroine_03',t).why==='place',JSON.stringify(DATE.confessReady(G,'heroine_03',t))); }
+  // 以安（AA_187 9-1）
+  fresh(day,9,'dorm',{}); ready('heroine_01'); r=await go('heroine_01',['河邊欄杆','差不多了','告訴她','妳不用現在回答']);
+  const iA=r.L.indexOf('沈以安：好。我們在一起。');
+  check('9. 以安（玩家約的）：「今天是你約的。……」→ 選「我喜歡妳。妳不用現在回答。」→ 手帳旁白…「我現在就可以回答。」「好。我們在一起。」、交往中、沒有「十七次」',G.flags.dating_heroine_01===true&&r.L.includes('沈以安：今天是你約的。……你是不是有話要說？')&&r.L.includes('（她翻開手帳，翻到後面某一頁，又闔起來。）')&&iA>0&&r.L[iA-1]==='沈以安：我現在就可以回答。'&&!r.L.some(x=>/十七次/.test(x)),JSON.stringify(r.L.slice(-7)));
+  fresh(day,9,'dorm',{}); ready('heroine_01'); r=await go('heroine_01',['河邊欄杆','差不多了','告訴她','不只是朋友']);
+  check('9. 以安選第二個（沒去過讀書會＝「我們可以不只是朋友嗎？」）：沒有「我現在就可以回答。」',G.flags.dating_heroine_01===true&&r.O.some(o=>o.includes('「我們可以不只是朋友嗎？」'))&&!r.L.includes('沈以安：我現在就可以回答。'));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
