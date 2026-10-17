@@ -34,6 +34,7 @@ GM.titleCard=async(a,b)=>{ cards.push([a,b]); }; GM.enter=async(z)=>{ entered.pu
 GM.money=function(n){ G.money+=n; };
 
 (async()=>{
+  check('0. 預設大二不播（BB_205 第 4 節：M2／M3／上榜聚餐是祐廷大一下的事，STORY.SIS_Y2_EXAM=false）；下面打開開關測程式本身，留給搬到大一下的版本',STORY.SIS_Y2_EXAM===false); STORY.SIS_Y2_EXAM=true;
   const d=D('2027-01-20'); const FAM='g:family_law';
   const setup=(flags)=>{ fresh(d,20.5,'dorm',flags); meet('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); };
   setup({FAMILY_DINNER:true}); run(20.5,20.95);   /* FAMILY_DINNER 是記憶（SOCIAL），旗標不算 */
