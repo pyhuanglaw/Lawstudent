@@ -12799,9 +12799,9 @@
    "title": "經濟系前傳口語改稿包 BB_179（BB-B 寫、AA 互審、交 LAWWW-B；含 AA_203 經濟系台詞、寫死「祐廷」改 {name}）",
    "area": "STORY",
    "owner": "BB",
-   "status": "進行中",
+   "status": "已實作待整合",
    "priority": "P1",
-   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "BB_179 已交（9ebf6663），LAWWW-B 照 V0-REWRITE-L 整合",
    "first": {
     "term": "Y0S1",
     "week": null,
@@ -13801,6 +13801,27 @@
    },
    "source": "企劃線 AA_208（24d20d70、65978067）；使用者 2026-10-17 00:5x 在 AA-B 對話",
    "authorized": "使用者直接指示（AA-B 轉）"
+  },
+  {
+   "id": "V0-REWRITE-L",
+   "title": "整合經濟系前傳口語改稿整包（AB-66＋AA_203＋AB65-1；BB_179、AA_206、AA_200 7-2～7-4、AA_208 412）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "next": "順序：BB JSON（ladder_bb_y0s1/y0s2、syllabus y0s1）→ BB_179 第 4 節程式事項 → 主檔與附錄句子 → AA_203 第 3 節 30 處 → AA_206 E26／E37 → AA_200 7-2／7-3／7-4 → BB_179 第 8 節 → E15 CG（等使用者看 cg_econ_camp）；驗收 AA_154 第 6 節、AA_197 1-7",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系開局",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "AA-B 01:20 正式交付（AA_203 第 6 節 4473a62a；BB_179 9ebf6663）",
+   "authorized": "企劃組互審完成的交付（D79 第 3 點：照定稿實作）"
   }
  ]
 }
