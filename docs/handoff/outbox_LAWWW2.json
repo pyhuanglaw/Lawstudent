@@ -304,6 +304,24 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "BUG-COPLANAR-DEV",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "",
+   "files": [
+    "tools/blender/dorm_hall.py",
+    "assets/models/env/dorm_hall.glb",
+    "docs/art-rebuild/second_ai/test_shots/coplanar_dev/README.md",
+    "docs/art-rebuild/second_ai/test_shots/coplanar_dev/dorm_cmp_notice.webp",
+    "docs/art-rebuild/second_ai/test_shots/coplanar_dev/dorm_cmp_stair.webp"
+   ],
+   "state": "已交付（宿舍大廳；其餘覆查結案）",
+   "remaining": "宿舍大廳整合後在遊戲裡再看一次；外觀、萬才館／總圖／法圖剩下的疊面覆查後都看不到，不改",
+   "next": "LAWWW 取 dorm_hall.py＋dorm_hall.glb（以開發分支 adoring-meitner-mqzst8 的版本為底，只改樓梯間二樓牆段與公告欄告示紙），跑 node tests/nav_buildings_unit.js、tests/flow_dorm_hall.py",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
   }
  ]
 }
