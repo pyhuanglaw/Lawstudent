@@ -13,6 +13,17 @@
 
 ---
 
+## 2026-10-17 約 04:3x UTC（使用者直接對 LAWWW-C）修正四職位自主連續工作方式（D95／HV-12）
+- **要求**：D87 照舊；D90 短回合不是停工理由，回合結束前保存、讀通知、用平台支援的接續機制（send_later）繼續；回報不是結束；等別人時協調並做不相依的；只有真的要使用者才問；接不下去照實說；各職位自己維持佇列，LAWWW-C 確認四職位沒有無故閒置。澄清 D87／D90，不取代。
+- **通知**：LAWWW2-C、AA-C、BB-C（04:3x send_message，DELIVERED；ACK 見 AI_SESSION_HANDOFF 第 14 節）。
+- **寫入**：CLAUDE.md D95 一節、AI_SESSION_HANDOFF 第 4 節第 14 步與第 13 節 HV-12、PROJECT_DECISIONS D95（本 commit）。
+
+## 2026-10-17 約 04:2x UTC（使用者直接對 LAWWW-C）交接制度效能改善（D94／HV-12）
+- **要求**：四職位已核對水位線、只核對以後的新 commit、通過且 push 才前進、分岔／缺 SHA／未結異常保留追查；交付當下結構化登記（outbox）；修 roles 假通過、covered_by 誤判，兩起事故的回歸測試；永久 WIP 清單、劇情匯入白名單；保持 D92／D93；用帳號 B 真實案例測試、比較成本；寫進規則檔、通知三職位。先完成接班核對再做。
+- **取代**：每次交班全面重掃；關鍵字掃描當唯一依據（保留為輔助）。
+- **完成**：1caeedb7（工具＋測試）、edcde94e（水位線基準＋wip.json 29 項＋C 分支 26 筆分類）、a3d60445（水位線第一次前進＋檢查點快照）、本 commit（規則檔、OUTBOX_TEMPLATE）。測試：tests/handoff_incremental_unit.py 37 項、handoff_check_unit、handoff_duty_sim 19／19 PASS。成本：B 全面 255 筆（約 30 分鐘、多個子代理）→ 第一次增量 26 筆 0.2 秒 → 之後 1 筆 0.3 秒。
+- **通知**：三職位（outbox 格式，本 commit 之後 send_message）。
+
 ## 2026-10-17 約 00:5x UTC（使用者在 AA-B 對話）四人房的室友用現有人物
 
 - **原話**：「我請 LAWWW2 把台大宿舍改成四人房，你把其他人也包括到室友，要新增兩個，用現有人物，不要新的人物。」（AA-B 00:59 轉給 LAWWW-B；規格 AA_208）

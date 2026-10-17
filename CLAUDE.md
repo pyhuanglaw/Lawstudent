@@ -23,6 +23,8 @@
 | **D90／HV-9（10-17）** | **使用者訊息優先協定（全部帳號、全部 AI、子代理）**：使用者的訊息只在回合結束時送到——**短回合**（一個工作單位、最多約 10 分鐘就結束回合）、長工作放背景、結束前 commit＋push、用 send_later 自己接續；回合開始先回使用者 | 每次接班必讀＋ACK（AI_SESSION_HANDOFF 第 14 節）；`tools/handoff/turn_check.py` |
 | **D92／HV-10（10-16）** | **A／B／C 三帳號任意輪值**：上一任一律看 `docs/handoff/duty.json`（不照順序、不靠記憶、不看 commit 時間）；接班十四步、交班六類 A～F；D75 擴大到所有休班帳號 | 接班先跑 `check_handoff.py duty find`，再照 AI_SESSION_HANDOFF 第 4 節；使用者換班時說的話在第 8 節 |
 | **D93／HV-11（10-17）** | **所有職位持續登記待辦、交接逐職位核對**：四個職位的新任務、衍生待辦、已批准未實作的企劃、待整合成果、未完成測試都要持續登記；各職位寫自己交接檔的「全部待辦」，值班 LAWWW 同步進總表；交班、接班都逐職位比對（`check_handoff.py roles`），不能只對上一任 LAWWW 的清單；沒登記完不得宣稱交接完整 | 接班第 9 步、交班存快照前都跑 `roles`；其他職位的交接檔要有「全部待辦」一節 |
+| **D94／HV-12（10-17）** | **增量交接**：四職位已核對水位線（`docs/handoff/watermarks.json`）；只核對水位線以後的新 commit，每一個都要結構化分類（不靠關鍵字）；交付當下登記（各職位分支的 `docs/handoff/outbox_<職位>.json`）；永久 WIP 索引 `docs/handoff/wip.json`；`roles` 假通過、`covered_by` 誤判修正；劇情匯入白名單 `docs/handoff/story_import_allow.json` | 接班第 7、8 步、交班存快照前都跑 `check_handoff.py incr`；通過且 push 後 `incr --advance` |
+| **D95／HV-12（10-17）** | **自主連續工作的執行方式（澄清 D87／D90）**：短回合是為了收訊息、不是停工；回合結束前保存、讀通知，佇列還有可做的就用 send_later 自己接續；回報不是工作結束；等別人時做不相依的；平台、排程、額度接不下去要照實說；LAWWW 確認四職位沒有無故閒置 | 每個回合結束前 |
 
 另外：戀愛規則是「可以同時和多位交往、每段各自計算」（企劃線 AA_140 第 0 節）；可昕生日改 4/24、12/3 改成「第一份報告交出去的晚上」（AA_140 G01）。
 
@@ -84,6 +86,35 @@
 7. **工具只是輔助**：`roles` 只認得任務 ID 和【表外】標記。沒寫進交接檔的待辦（只在對話、草稿、TaskCreate 清單裡，或口頭答應的事）工具看不到。這部分照 AI_SESSION_HANDOFF.md 第 5 節 B 類，由各職位在交班前自己逐項對到交接檔。
 
 **一句話測試**：AA 昨天在自己的交接檔加了一項總表沒有的待辦，今天換帳號接班——接班的 LAWWW 跑 `roles` 一定看得到它，而不是只看上一任 LAWWW 的清單就說「交接完整」。
+
+## 永久規則：增量交接——四職位已核對水位線、交付當下登記、永久 WIP 索引（2026-10-17 使用者 P0「交接制度效能改善」；D94／HV-12；A／B／C 所有帳號、四個職位與往後所有繼任者）
+
+**最高原則：交接不能漏掉任何工作、半成品、未整合成果或已批准但尚未實作的企劃；同時不能每次交班都重新掃描數百筆舊 commit。**（起因：帳號 B 交班時 LAWWW-B 要逐筆重核 AA、BB、LAWWW2 約 255 筆 commit，耗掉大量額度；過程中 `roles` 讀到 0 行還報 OK、批次腳本把「covered_by＝沒有登記」當成已涵蓋，漏掉 BB 14 筆交付。）D92、D93 的檢查全部保留，這一節只減少重複工作。
+1. **四職位已核對水位線**（`docs/handoff/watermarks.json`，值班 LAWWW 維護）：每個職位一條「已核對到哪個 commit」（分支、完整 SHA、時間、誰核對、核對筆數、未結項目 `open`、`history`）。
+   - 每次交班、接班只核對水位線以後的新 commit（`python3 tools/handoff/check_handoff.py incr`）；別的職位已核對的 commit（企劃線互相合併）不重算。
+   - **水位線以後的每一個非合併 commit 都要有結構化分類**，不靠關鍵字：`deliveries.json` 的交付、`ignored` 的 `kind`、職位的 outbox、`tasks.json` 的 `sha`。
+   - **只有全部分類完、沒有異常、分類結果已 commit＋push、核對遠端 SHA 以後**才前進（`incr --advance <職位|all> --by <工作階段>`）；「正在核對」、部分結果不能前進。
+   - **fail closed**：水位線的 commit 不存在、不是分支的祖先（歷史改寫、分岔、換了沒合併上一任的分支）、職位沒有水位線、`open` 記的項目在總表／交付／WIP 都找不到、快照的水位線被倒退 → 異常，只對那個範圍深入追查或回報使用者；不重掃全部歷史。
+   - 值班 LAWWW 自己的整合分支 `classify:false`（成果直接寫在 tasks.json），祖先與未結項目照查。
+2. **交付當下就登記，不要等交班**：各職位在**自己的分支**維護 `docs/handoff/outbox_<職位>.json`（格式見 `docs/handoff/OUTBOX_TEMPLATE.md`），交出成果或留下 WIP 時同一個 commit 加一筆：任務 ID、分支、commit SHA、具體檔案路徑、狀態（`WIP`／`已交付`／`已整合`／`已測試`／`已驗收`）、還沒完成的（WIP 必填）、下一步、是否禁止直接整合（`noDirectIntegrate`）、接收者、ACK 狀態。
+   - 只登記自己有權限修改的紀錄；值班 LAWWW 用 `incr` 讀各分支的 outbox，同步進 `deliveries.json`、`wip.json`（不覆蓋舊紀錄）。**LAWWW 不再從 commit 訊息猜哪些是交付。**
+   - 不是交付的 commit（進度紀錄、接班登記）：LAWWW 在 `ignored` 用列舉 `kind` 分類——`not_delivery`（附 reason）、`covered`（`coveredBy`＝存在的交付或任務 ID）、`wip`（`task`＝總表的任務）、`handoff_record`（附 reason）。**不准再用自由文字的包含關係判斷「已涵蓋」「非交付」「已完成」。**
+3. **檢查工具不得假通過**：`roles` 只認錨定的「全部待辦」標題（含「全部待辦」的 markdown 標題，或整行只有「全部待辦」的條列）；找不到、0 項、一個 ID 都沒有、讀取失敗、來源不一致 → 異常。回歸測試：`tests/handoff_incremental_unit.py`（兩起真實事故＋水位線＋outbox＋WIP＋匯入白名單＋帳號 B 交班的真實資料）。
+4. **永久 WIP 索引**（`docs/handoff/wip.json`，遷移自 `WIP_INVENTORY_2026-10-17.md`）：每項都要定位得到（任務在總表、commit 存在、檔案在那個 commit 找得到）；交班快照記下 WIP 與水位線，下一班 `incr` 比對：**上一班的 WIP 不能無故消失**，改成已整合以上要寫 `closedBy`。已批准、尚未實作的企劃照舊在 tasks.json（D93 `roles` 照查）。
+5. **劇情匯入白名單**（`docs/handoff/story_import_allow.json`＋`tools/story/import_guard.py`）：企劃檔要進遊戲，一定要逐檔列「路徑＋來源 commit＋status approved＋approvedBy」；未批准、WIP、來源版本不明、不在名單、版本不同 → 預設拒絕；不能用萬用字元整批匯入。`tools/ladder/import_ladder.py` 只從名單上的 commit 讀（`--check <ref>` 列出分支上和名單不同的檔）。AA（人物台詞先經 BB）交付「已審版本＋commit」後，由值班 LAWWW 改名單。
+6. **正常交班、接班的流程（增量為主）**：`check`（任務與交付）→ `roles`（逐職位）→ `incr`（水位線以後的新 commit、outbox、WIP 有沒有消失）→ `duty verify`（值班狀態、遠端 SHA）→ 異常才深入舊歷史。交班時 LAWWW 先 `incr --advance`（通過才前進）再存快照。
+7. **成本紀錄**（2026-10-17 第一次）：帳號 B 交班全面核對 255 筆 commit（多個唯讀子代理、約 30 分鐘）；建立水位線後第一次增量核對 26 筆（0.2 秒、git 呼叫 113 次，含 WIP 檔案驗證），之後 1 筆（0.3 秒）。
+
+## 永久規則：自主連續工作的執行方式（2026-10-17 使用者 P0「修正四職位自主連續工作方式」；D95／HV-12；澄清 D87、D90，不取代）
+
+**起因：四個 AI 常做完一小段、commit＋push、回報就停，使用者覺得必須不斷重新叫工作。**
+1. **D87 照舊**：只要有已授權、可執行的待辦，就持續完成下一項，不等使用者回覆或再下令。
+2. **D90 的短回合是為了及時收到訊息，不是停止開發的理由**：每個短回合結束前保存成果（commit＋push）、讀通知；**佇列還有可做的，就用平台實際支援的接續機制繼續**（claude-code-remote 的 `send_later`，1～2 分鐘；寫明下一步）。**「回報使用者」不是工作結束。**
+3. 某項工作在等另一位 AI：主動協調（送訊息、寫明任務 ID）；等待期間改做其他不相依的任務。
+4. 不要每完成一個小步驟就停下來等使用者。只有真的需要使用者的決定、素材、批准，或無法安全繼續，才提出問題。
+5. **平台排程、工作階段或額度限制導致無法自動接續時，照實說**（例：send_later 失敗、額度快到），不宣稱會持續工作卻實際停止。
+6. 每個職位自己維持工作佇列（`check_handoff.py queue --owner <職位>`，D81 順序）。**LAWWW 負責確認四個職位沒有因為回報、等 ACK、背景代理或排程而無故閒置**（每批工作結束時看 `list_sessions` 的狀態、待 ACK、佇列）。
+7. 這是執行方式的澄清：**不是**要求延長回合、忽略使用者新訊息（P0 照舊先讀先回），也不是授權無限制新增工作（D87 第 6 點「不製造假工作」照舊）。
 
 ## P0 緊急換班口令（2026-10-15 使用者直接確認；永久；四職位與跨帳號繼任者適用）
 
@@ -445,7 +476,7 @@ D84（LAWWW ⇄ LAWWW2 的美術派工細則）、D79（劇情先問 AA）照舊
 
 ## 跨帳號接班（帳號 A、B、C 任意方向輪值；2026-10-11 使用者訂定 D49，2026-10-16 修訂 HV-3，2026-10-16 升級 D92／HV-10）
 
-總入口：**`docs/AI_SESSION_HANDOFF.md`**（唯一值班狀態與 RULE_SOURCE、值班表、十四步接班、六類交班、三帳號啟動提示詞與帳號 C 四份、使用者換班時說的話、接班確認格式、規則變更紀錄）。**唯一的值班狀態：`docs/handoff/duty.json`**（RULE_SOURCE 分支上，只有值班的 LAWWW 寫；各職位在自己分支有 `docs/handoff/duty_<職位>.json`）。**唯一的跨帳號永久任務總表：機器讀的 `docs/handoff/tasks.json`（以它為準；跨 AI 任務有 `xai` 欄位，D84）＋閱讀版 `docs/HANDOFF_GAP_MATRIX.md`**；交付登記 `docs/handoff/deliveries.json`（記帳號、分支、commit）；交班快照 `docs/handoff/snapshots/`；工具 `tools/handoff/check_handoff.py`（`check`、`roles`（逐職位核對，D93）、`snapshot --account <A|B|C>`、`queue`、`duty find／plan／register／handoff／sync／verify`；D82、D92）。
+總入口：**`docs/AI_SESSION_HANDOFF.md`**（唯一值班狀態與 RULE_SOURCE、值班表、十四步接班、六類交班、三帳號啟動提示詞與帳號 C 四份、使用者換班時說的話、接班確認格式、規則變更紀錄）。**唯一的值班狀態：`docs/handoff/duty.json`**（RULE_SOURCE 分支上，只有值班的 LAWWW 寫；各職位在自己分支有 `docs/handoff/duty_<職位>.json`）。**唯一的跨帳號永久任務總表：機器讀的 `docs/handoff/tasks.json`（以它為準；跨 AI 任務有 `xai` 欄位，D84）＋閱讀版 `docs/HANDOFF_GAP_MATRIX.md`**；交付登記 `docs/handoff/deliveries.json`（記帳號、分支、commit）；交班快照 `docs/handoff/snapshots/`；工具 `tools/handoff/check_handoff.py`（`check`、`roles`（逐職位核對，D93）、`incr`（四職位水位線以後的增量核對、outbox、WIP 索引，D94；`--advance` 前進水位線）、`snapshot --account <A|B|C>`、`queue`、`duty find／plan／register／handoff／sync／verify`；D82、D92）。
 - 永遠只有四個職位：LAWWW、LAWWW2、AA、BB。帳號 A 的工作階段不加後綴，帳號 B 叫 LAWWW-B、LAWWW2-B、AA-B、BB-B，帳號 C 叫 LAWWW-C、LAWWW2-C、AA-C、BB-C。A、B、C 只是帳號識別：**同一職位同一時間只有一個工作階段寫入**，使用者對哪一邊說話，哪一邊就值班。**A→B、A→C、B→A、B→C、C→A、C→B 都一樣、不限次數**；換帳號不會讓任何職位的職責或未完成工作歸零（任務的 `owner` 永遠寫職位）。
 - **上一任是誰只看 GitHub 上最近一次正式有效的值班與交班紀錄（`duty.json` 的登記鏈）**：不照 A→B→C 的固定順序、不靠自己上次值班的記憶、**不看哪條分支的 commit 時間最新**。兩份紀錄互不包含（分岔）、RULE_SOURCE 對不起來、同一職位兩個帳號都在寫：**不能自己猜、不能覆寫，查不清楚就回報使用者**（`duty find`／`duty verify` 會列出來）。
 - **有效規則來源（RULE_SOURCE）＝值班 LAWWW 的開發分支＝`duty.json` 的 `ruleSource.branch`**（用 `python3 tools/handoff/check_handoff.py duty find` 找；`main` 和休班帳號停住的分支上的 `CLAUDE.md` 可能是舊的）。**舊對話記憶、啟動時載入的 CLAUDE.md 都以 RULE_SOURCE 的版本為準。** 只有值班的 LAWWW 改五份永久規則檔（CLAUDE.md、AI_SESSION_HANDOFF.md、HANDOFF_GAP_MATRIX.md、PROJECT_DECISIONS.md、USER_INSTRUCTION_LOG.md）和 `docs/handoff/` 的總表、交付、`duty.json`；其他職位在自己的交接檔用任務 ID 寫狀態。
