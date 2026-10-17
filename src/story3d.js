@@ -410,7 +410,9 @@ const STORY = (function(){
   S.LADDER_CHOICE_IF={'A2-L6':{'「妳們和好了？」':{events:['ev_an_yu_argument']},'「我可以去嗎？」':{notEvents:['ev_public_law_group']}},'A5-L6':{'「妳們和好了？」':{events:['ev_xinci_second']}},
     'A3-L3':{'「三條是哪三條？」':{notFlags:['PLG_RULES_SEEN']}}};   /* AA_209（3b7e2268）：以安 A2-L6「我可以去嗎？」去過公法讀書會的不出現；AA_211（0ba8d336）：A3-L3「三條是哪三條？」看過規則（PLG_RULES_SEEN）的不出現 */
   /* 選項的回覆依條件換（AA_211 第 4 節，0ba8d336）：可昕 K3-L7 選項①——沒去系上的電影夜（ev_kexin_film_night，BB_97 9-6，大二還沒做）＝「真的嗎？那下次我坐你旁邊看。」*/
-  S.LADDER_REPLY_IF={'K3-L7':{'「我看電影很認真。」':[{unless:{events:['ev_kexin_film_night']},reply:'真的嗎？那下次我坐你旁邊看。'}]}};
+  S.LADDER_REPLY_IF={'K3-L7':{'「我看電影很認真。」':[{unless:{events:['ev_kexin_film_night']},reply:'真的嗎？那下次我坐你旁邊看。'}]},
+    'A4-L5':{'「對誰練習？」':[{if:{flags:['dating_heroine_01']},reply:'……對老師。還有你。'}]},
+    'A4-L7':{'「放下什麼？」':[{if:{flags:['dating_heroine_01']},reply:'……讀書會。家教。……還有你。我會回來，可是會錯過。'}]}};   /* ROM-1017（AA-C b39f0bb9，build_ladder_aa_y2s2.py 的 note；AA_215／AA_216 大二下 #3、R9）：和以安交往中，「還有一些人」對男朋友太遠 */
   S.ladReply=function(st,ch){ const R=(S.LADDER_REPLY_IF[st.id]||{})[ch.t]; if(R) for(const r of R) if(ladIf(r)) return r.reply; return ch.reply; };
   /* 招呼（greet.when）的額外條件（AA_211 附錄 B G1，0ba8d336）：學姊「值班表你看了嗎？」只說一次、只給法服成員（S.fafuMember）*/
   S.LADDER_GREET_IF={'值班表你看了嗎？':{once:true,test:G=>S.fafuMember(G)}};

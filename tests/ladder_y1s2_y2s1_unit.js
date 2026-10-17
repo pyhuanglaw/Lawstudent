@@ -46,6 +46,12 @@ const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.
   G.events.done.ev_kexin_film_night=1;
   check('3. K3-L7 選項①去過電影夜：原本的回覆（「我知道。你哭的時候也很認真。」）',STORY.ladReply(st,c1)===c1.reply&&/哭的時候/.test(c1.reply),STORY.ladReply(st,c1));
   const c2=st.choices.find(c=>c.t!=='「我看電影很認真。」'); check('3. K3-L7 選項②不受影響',STORY.ladReply(st,c2)===c2.reply);
+  // A4-L5、A4-L7（大二下以安）和她交往中的回覆（ROM-1017，AA-C b39f0bb9 的 note）
+  for(const [id,ct,def,dat] of [['A4-L5','「對誰練習？」','……對老師。還有一些人。','……對老師。還有你。'],['A4-L7','「放下什麼？」','……讀書會。家教。……還有一些人。我會回來，可是會錯過。','……讀書會。家教。……還有你。我會回來，可是會錯過。']]){
+    fresh(termDay('Y2S2',6,2),12,'campus',{}); const [s4]=stepOf('Y2S2','heroine_01',id); const ch=s4.choices.find(c=>c.t===ct);
+    check('3b. '+id+' '+ct+'：沒交往＝原本的回覆',STORY.ladReply(s4,ch)===def,STORY.ladReply(s4,ch));
+    G.flags.dating_heroine_01=true; check('3b. '+id+' '+ct+'：和以安交往中＝交往版「……還有你。」',STORY.ladReply(s4,ch)===dat,STORY.ladReply(s4,ch));
+    const other=s4.choices.find(c=>c.t!==ct); check('3b. '+id+' 另一個選項不受影響',STORY.ladReply(s4,other)===other.reply); }
   // 學姊招呼「值班表你看了嗎？」只說一次、只給法服成員
   const greetAt=(day,flags)=>{ fresh(day,10,'campus',flags); return STORY.ladGreet(G,'heroine_05'); };
   const d7=termDay('Y2S1',7,1);
