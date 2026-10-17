@@ -9937,8 +9937,8 @@
    "title": "唐睿（econ_tangrui）的 3D 人物：路人底模改臉、髮型、衣服（AA_145 §5）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
-   "next": "第十一版 BB-C 不通過（BB_201 第 9 節）；LAWWW2-C 第十二、十三版腳本在 fbe25a92，交 BB-C 驗收通過後 LAWWW 接",
+   "status": "已整合待測試",
+   "next": "遊戲內截圖給 BB-C（白天、晚上）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -9959,7 +9959,8 @@
     "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
     "ack": "DELIVERED"
    },
-   "pausedFrom": "待開工"
+   "pausedFrom": "待開工",
+   "sha": "60dc7908"
   },
   {
    "id": "ART-CH-JIAHAO",
@@ -15190,7 +15191,7 @@
   },
   {
    "id": "V0-ECON-CHARS",
-   "title": "經濟系人物 3D 接進遊戲：韋綸 v12、家豪 v10、魏教授 v6＋眼鏡、安全帽（LAWWW2-C 03179efb，BB-C 通過）；唐睿 v11 沒通過，等新版",
+   "title": "經濟系人物 3D 接進遊戲：韋綸 v13、唐睿 v20、家豪 v10、魏教授 v6＋眼鏡、安全帽（BB-C 通過）",
    "area": "V0",
    "owner": "LAWWW",
    "status": "已整合待測試",

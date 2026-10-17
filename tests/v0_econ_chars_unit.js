@@ -1,5 +1,5 @@
 // V0-ECON-CHARS：經濟系三位的正式 3D 模型（LAWWW2-C 03179efb；BB-C 2026-10-17 驗收通過）接進遊戲——不需要瀏覽器。
-//   1. 韋綸、家豪、魏教授：ASSETS 有模型、檔案在、CHARACTERS 指到它；唐睿（第十一版沒通過）沒有模型；
+//   1. 韋綸、家豪、唐睿（v20，60dc7908）、魏教授：ASSETS 有模型、檔案在、CHARACTERS 指到它；
 //   2. 配件：魏教授戴自己的眼鏡（prop.glasses_wei）、韋綸後背包＋安全帽（prop.helmet_bike）；props3d 有 helmet；
 //   3. 台詞的稱呼（'韋綸'、'家豪學長'、'唐睿'、'魏教授'）對到人物 id（立繪、人物）；立繪有 econ_weilun、econ_jiahao、econ_tangrui；
 //   4. 經原的老師是 prof_wei：上課時在博雅 101（CLS.profWhere 帶 room）；下課後不去萬才館（office:false）；
@@ -14,9 +14,8 @@ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name
 const asrc=fs.readFileSync(path.join(ROOT,'src/assets3d.js'),'utf8'), csrc=fs.readFileSync(path.join(ROOT,'src/character3d.js'),'utf8'), psrc=fs.readFileSync(path.join(ROOT,'src/props3d.js'),'utf8');
 const urlOf=k=>{ const m=asrc.match(new RegExp("'"+k.replace('.','\\.')+"':\\s*\\{url:'([^']+)'")); return m&&m[1]; };
 // 1
-for(const [id,key] of [['econ_weilun','char.econ_weilun'],['econ_jiahao','char.econ_jiahao'],['prof_wei','char.prof_wei']]){ const u=urlOf(key), c=CHARACTERS[id];
+for(const [id,key] of [['econ_weilun','char.econ_weilun'],['econ_jiahao','char.econ_jiahao'],['econ_tangrui','char.econ_tangrui'],['prof_wei','char.prof_wei']]){ const u=urlOf(key), c=CHARACTERS[id];
   check('1. '+id+'：manifest '+key+'、檔案在、CHARACTERS.char3d.model',!!u&&fs.existsSync(path.join(ROOT,u))&&!!c&&c.char3d&&c.char3d.model===key,u); }
-check('1. 唐睿沒有正式模型（第十一版沒通過）',!!CHARACTERS.econ_tangrui&&!CHARACTERS.econ_tangrui.char3d.model&&!urlOf('char.econ_tangrui'));
 // 2
 for(const k of ['prop.glasses_wei','prop.helmet_bike']){ const u=urlOf(k); check('2. '+k+' 的 GLB 在',!!u&&fs.existsSync(path.join(ROOT,u)),u); }
 check('2. MODEL_PROPS：魏教授 glasses_wei、韋綸 backpack＋helmet',/'char\.prof_wei':\[\{name:'glasses',glb:'prop\.glasses_wei'\}\]/.test(csrc)&&/'char\.econ_weilun':\['backpack',\{name:'helmet'/.test(csrc));
