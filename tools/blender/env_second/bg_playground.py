@@ -88,7 +88,7 @@ m.finish()
 m = Mesh('bldg_cols', M['tile'])
 x = BX0
 while x <= BX1 + 0.01:
-    m.box(x - 0.22, x + 0.22, 0, 2 * FH + 0.6, BZ - 0.45, BZ)
+    m.box(x - 0.22, x + 0.22, 0, 2 * FH + 0.6, BZ - 0.45, BZ + 0.03)   # 柱子比樓板、矮牆凸出 3 cm（原本正面同一個平面，交叉的地方算出黑色方塊）
     x += 3.6
 m.finish()
 m = Mesh('bldg_parapet', M['tile']); m.box(BX0, BX1, FH + 0.12, FH + 0.62, BZ - 0.18, BZ); m.box(BX0, BX1, 2 * FH + 0.12, 2 * FH + 0.35, BZ - 0.18, BZ); m.finish()

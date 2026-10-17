@@ -29,6 +29,12 @@ def style(top, pants, shoe, sole, tex='jersey', neck='crew', sleeve=0.46, sleeve
                 HEM_OVER_PANTS=True, SLIM=False, TOP_TEX=tex, TROUSER_TEX=ptex, SLEEVE_LEN=sleeve, SLEEVE_K=sleeve_k, CUFF_EASE=0.022 if sleeve < 0.8 else 0.010,
                 EASE_K=ease, DROP_X=0.115, TOP_FIT=top_fit, HEM_LOOSE=hem_loose, PANTS_ELLIPSE=pants_ell, PANTS_DROP=drop, PANTS_HEM_UP=0.0)
 
+def outer_style(outer, bottom, shoe, sole, tex='knit', sleeve_k=0.70, ease=0.70, pants_ell=(0.066, 0.076), drop=False, ptex='twill', shoe_style='sneaker'):
+    """日劇穿搭（npc_layered）：外套或上衣的參數；bottom＝褲子或裙子的顏色"""
+    return dict(KNIT_RGB=outer, TROUSER_RGB=bottom, BELT_RGB=None, LEATHER_RGB=shoe, SOLE_RGB=sole, GOLD_RGB=shoe, SHOE_STYLE=shoe_style, NECK_STYLE='crew',
+                HEM_OVER_PANTS=True, SLIM=False, TOP_TEX=tex, TROUSER_TEX=ptex, SLEEVE_LEN=1.0, SLEEVE_K=sleeve_k, CUFF_EASE=0.010, EASE_K=ease,
+                DROP_X=0.110, TOP_FIT=0.4, HEM_LOOSE=False, PANTS_ELLIPSE=pants_ell, PANTS_DROP=drop, PANTS_HEM_UP=0.0)
+
 # 路人（男女各幾個；第一批 4 個，之後加）：base＝樣本、head＝頭縮放、face＝p00_face 參數（男生以 PF.MALE 為底、女生以 FEMALE 為底）、
 # hair＝npc_hair_m／f 的 P、clothes＝style(...)、height＝遊戲裡的身高、iris＝虹膜色
 VARIANTS = {
@@ -51,7 +57,7 @@ VARIANTS = {
     'nm3': dict(sex='m', base='HairSample_Male', head=0.93, height=1.76, iris='#3a2818',
                 face=dict(EYE_SX=1.10, EYE_SZ=0.70, EYE_TILT=-0.01, BROW_ARCH=0.40, BROW_K=1.50, FACE_NARROW=0.960, CHIN_WIDEN=0.62, JAW_OUT=0.0046, MOUTH_K=1.40),
                 hair=dict(seed=20261213, part=20.0, col=(0.38, 0.27, 0.18), tip=(-0.006, 0.0, 0.0, 0.004, 0.0, -0.006, -0.012, -0.020, -0.016, -0.012), nape=0.022, vol=0.95, curl=(16, 30)),
-                clothes=style(rgb(150, 70, 60), rgb(180, 180, 176), rgb(238, 238, 234), rgb(226, 224, 218), tex='knit', sleeve=1.0, sleeve_k=0.82, ease=0.85)),   # 淺棕側分＋磚紅針織衫＋淺灰長褲＋白球鞋
+                clothes=style(rgb(156, 123, 90), rgb(180, 180, 176), rgb(238, 238, 234), rgb(226, 224, 218), tex='knit', sleeve=1.0, sleeve_k=0.82, ease=0.85)),   # 淺棕側分＋駝色針織衫＋淺灰長褲＋白球鞋（第二版：磚紅在遊戲裡太紅，使用者 2026-10-17 不要鮮紅色上衣）
     'nm4': dict(sex='m', base='Sakurada_Fumiriya', head=0.97, height=1.73, iris='#241c18',
                 face=dict(EYE_SX=1.04, EYE_SZ=0.72, EYE_TILT=0.02, BROW_ARCH=0.60, BROW_K=1.55, FACE_NARROW=0.985, CHIN_WIDEN=0.66, JAW_OUT=0.0044, MOUTH_K=1.50),
                 hair=dict(seed=20261214, part=4.0, col=(0.10, 0.09, 0.09), tip=(0.020, 0.020, 0.014, 0.018, 0.016, 0.012, 0.006, 0.0, 0.004, 0.006), nape=0.006, vol=0.6, curl=(10, 24)),
@@ -63,7 +69,7 @@ VARIANTS = {
     'nf4': dict(sex='f', base='HairSample_Female', head=0.92, height=1.60, iris='#4a2a1c',
                 face=dict(EYE_SX=1.02, EYE_SZ=0.78, EYE_TILT=0.02, BROW_ARCH=0.65, BROW_K=1.2, FACE_NARROW=0.990, CHIN_WIDEN=0.64, MOUTH_K=1.20, CHEEK_TINT_K=1.4),
                 hair=dict(seed=20261114, part=12.0, col=(0.40, 0.20, 0.14), tip=(-0.080, -0.090, -0.050, 0.010, -0.030, -0.070, -0.100, -0.110, -0.115, -0.120), n_main=44, n_outer=28),
-                clothes=style(rgb(232, 150, 140), rgb(210, 196, 170), rgb(238, 238, 234), rgb(226, 224, 218), pants_ell=(0.074, 0.084), drop=True)),   # 紅棕及肩髮＋珊瑚色 T＋米色寬褲＋白球鞋
+                clothes=style(rgb(92, 94, 98), rgb(210, 196, 170), rgb(238, 238, 234), rgb(226, 224, 218), pants_ell=(0.074, 0.084), drop=True)),   # 紅棕及肩髮＋炭灰 T＋米色寬褲＋白球鞋（第二版：珊瑚色在遊戲裡偏紅，使用者 2026-10-17 不要鮮紅色上衣）
     # ---- 第二批（2026-10-17 使用者：「長得很像的路人真的太多了，很誇張，你不能只有這幾種」）----
     # 每個人換樣本、臉型、髮長髮色分線、身高、穿搭的組合；避開主要角色的辨識組合；不用鮮紅色上衣（使用者同一天：「臺大不要再有這麼鮮艷紅色的衣服上衣的女生」）
     'nf5': dict(sex='f', base='Darkness_Shibu', head=0.92, height=1.63, iris='#2a1e18',
@@ -98,6 +104,123 @@ VARIANTS = {
                 face=dict(EYE_SX=1.08, EYE_SZ=0.74, EYE_TILT=0.04, BROW_ARCH=0.65, BROW_K=1.35, FACE_NARROW=0.980, CHIN_WIDEN=0.60, JAW_OUT=0.0042, MOUTH_K=1.40),
                 hair=dict(seed=20261218, part=-14.0, col=(0.22, 0.16, 0.12), tip=(-0.020, -0.018, -0.012, -0.004, -0.010, -0.018, -0.028, -0.036, -0.032, -0.028), nape=0.040, vol=1.1, curl=(20, 34)),
                 clothes=style(rgb(150, 176, 196), rgb(176, 160, 128), rgb(238, 238, 234), rgb(226, 224, 218))),   # 深棕微捲側分＋淺藍 T＋卡其褲＋白球鞋
+    # ---- 第三、四批：日劇穿搭（2026-10-17 使用者：「路人數量要再加倍喔 而且請參考日劇穿搭」）----
+    # 低彩度：大地色、深藍、灰、白、橄欖綠、駝色；疊穿（敞開的開襟衫、當外套穿的襯衫＋T 恤）、A 字長裙／中長裙、寬褲、樂福鞋或白球鞋
+    'nf9': dict(sex='f', base='HairSample_Female', head=0.92, height=1.61, iris='#3a2a1e',
+                face=dict(EYE_SX=1.04, EYE_SZ=0.70, EYE_TILT=0.03, BROW_ARCH=0.55, BROW_K=1.2, FACE_NARROW=0.970, CHIN_WIDEN=0.58, MOUTH_K=1.30, CHEEK_TINT_K=1.0),
+                hair=dict(seed=20261119, part=-14.0, col=(0.24, 0.17, 0.12), tip=(-0.180, -0.190, -0.150, -0.060, -0.130, -0.190, -0.220, -0.240, -0.250, -0.250), n_main=44, n_outer=28),
+                layered=dict(style=outer_style(rgb(206, 190, 162), rgb(46, 52, 74), rgb(110, 76, 50), rgb(60, 42, 30), tex='knit', shoe_style='loafer'),
+                             outer=dict(open=31, buttons=6), inner=dict(rgb=rgb(242, 240, 234)), skirt=dict(len='long'))),   # 米色開襟衫＋白 T＋深藍長裙＋棕樂福鞋
+    'nf10': dict(sex='f', base='Victoria_Rubin', head=0.92, height=1.65, iris='#2e2420',
+                 face=dict(EYE_SX=1.06, EYE_SZ=0.62, EYE_TILT=0.04, BROW_ARCH=0.40, BROW_K=1.3, FACE_NARROW=0.950, CHIN_WIDEN=0.52, MOUTH_K=1.20, CHEEK_TINT_K=0.8),
+                 hair=dict(seed=20261120, part=0.0, col=(0.10, 0.08, 0.07), tip=(-0.090, -0.100, -0.080, -0.040, -0.070, -0.100, -0.120, -0.130, -0.130, -0.130), n_main=42, n_outer=26),
+                 layered=dict(style=outer_style(rgb(186, 186, 184), rgb(34, 34, 38), rgb(238, 238, 234), rgb(226, 224, 218), tex='knit', sleeve_k=0.80, ease=0.85),
+                              skirt=dict(len='long'))),   # 中分黑髮及肩＋淺灰針織衫＋黑長裙＋白球鞋
+    'nf11': dict(sex='f', base='Darkness_Shibu', head=0.92, height=1.57, iris='#2c2018',
+                 face=dict(EYE_SX=1.10, EYE_SZ=0.76, EYE_TILT=0.00, BROW_ARCH=0.60, BROW_K=1.2, FACE_NARROW=0.995, CHIN_WIDEN=0.66, MOUTH_K=1.25, CHEEK_TINT_K=1.2),
+                 hair=dict(seed=20261121, part=-20.0, col=(0.11, 0.09, 0.08), tip=(0.020, 0.016, 0.020, 0.030, 0.024, 0.016, 0.008, 0.004, 0.004, 0.004), n_main=38, n_outer=22),
+                 layered=dict(style=outer_style(rgb(42, 50, 76), rgb(218, 208, 188), rgb(238, 238, 234), rgb(226, 224, 218), tex='knit', pants_ell=(0.074, 0.084), drop=True),
+                              outer=dict(open=31, buttons=6), inner=dict(rgb=rgb(196, 214, 230)))),   # 黑色短鮑伯＋深藍開襟衫＋淺藍 T＋米色寬褲＋白球鞋
+    'nf12': dict(sex='f', base='HairSample_Female', head=0.92, height=1.63, iris='#2a2018',
+                 face=dict(EYE_SX=1.00, EYE_SZ=0.64, EYE_TILT=0.05, BROW_ARCH=0.35, BROW_K=1.35, FACE_NARROW=0.960, CHIN_WIDEN=0.56, MOUTH_K=1.25, CHEEK_TINT_K=0.9),
+                 hair=dict(seed=20261122, part=0.0, col=(0.085, 0.07, 0.065), tip=(-0.230, -0.240, -0.200, -0.120, -0.180, -0.240, -0.270, -0.290, -0.300, -0.300), n_main=46, n_outer=30),
+                 layered=dict(style=outer_style(rgb(240, 238, 230), rgb(120, 118, 86), rgb(238, 238, 234), rgb(226, 224, 218), tex='linen', sleeve_k=0.80, ease=0.80),
+                              skirt=dict(len='midi'))),   # 中分黑長直髮＋白色長袖襯衫布＋橄欖色中長裙＋白球鞋
+    'nf13': dict(sex='f', base='Victoria_Rubin', head=0.92, height=1.60, iris='#4a3424',
+                 face=dict(EYE_SX=1.08, EYE_SZ=0.72, EYE_TILT=0.01, BROW_ARCH=0.65, BROW_K=1.15, FACE_NARROW=0.980, CHIN_WIDEN=0.62, MOUTH_K=1.35, CHEEK_TINT_K=1.2),
+                 hair=dict(seed=20261123, part=14.0, col=(0.34, 0.24, 0.16), tip=(-0.050, -0.060, -0.040, -0.010, -0.030, -0.060, -0.080, -0.090, -0.090, -0.090), n_main=42, n_outer=26),
+                 layered=dict(style=outer_style(rgb(176, 138, 98), rgb(150, 172, 198), rgb(238, 238, 234), rgb(226, 224, 218), tex='knit', ptex='denim', pants_ell=(0.074, 0.084), drop=True),
+                              outer=dict(open=31, buttons=5), inner=dict(rgb=rgb(242, 240, 234)))),   # 棕色及肩＋駝色開襟衫＋白 T＋淺色寬牛仔褲＋白球鞋
+    'nf14': dict(sex='f', base='Darkness_Shibu', head=0.92, height=1.62, iris='#3a2a20',
+                 face=dict(EYE_SX=1.02, EYE_SZ=0.66, EYE_TILT=0.03, BROW_ARCH=0.50, BROW_K=1.3, FACE_NARROW=0.965, CHIN_WIDEN=0.58, MOUTH_K=1.30, CHEEK_TINT_K=1.0),
+                 hair=dict(seed=20261124, part=-6.0, col=(0.20, 0.14, 0.10), tip=(0.010, 0.006, 0.012, 0.024, 0.016, 0.006, -0.004, -0.010, -0.010, -0.010), n_main=38, n_outer=22),
+                 layered=dict(style=outer_style(rgb(150, 164, 140), rgb(232, 226, 210), rgb(110, 76, 50), rgb(60, 42, 30), tex='knit', sleeve_k=0.80, ease=0.85, shoe_style='loafer'),
+                              skirt=dict(len='long'))),   # 深棕短鮑伯＋鼠尾草綠針織衫＋米白長裙＋棕樂福鞋
+    'nf15': dict(sex='f', base='HairSample_Female', head=0.92, height=1.66, iris='#30241c',
+                 face=dict(EYE_SX=1.02, EYE_SZ=0.66, EYE_TILT=0.02, BROW_ARCH=0.45, BROW_K=1.3, FACE_NARROW=0.955, CHIN_WIDEN=0.55, MOUTH_K=1.35, CHEEK_TINT_K=0.9),
+                 hair=dict(seed=20261125, part=10.0, col=(0.16, 0.12, 0.10), tip=(-0.110, -0.120, -0.090, -0.040, -0.080, -0.120, -0.150, -0.160, -0.160, -0.160), n_main=42, n_outer=26),
+                 layered=dict(style=outer_style(rgb(150, 170, 196), rgb(36, 36, 40), rgb(238, 238, 234), rgb(226, 224, 218), tex='linen', ease=0.80, pants_ell=(0.074, 0.084), drop=True),
+                              outer=dict(open=26, buttons=6), inner=dict(rgb=rgb(242, 240, 234)))),   # 過肩深棕髮＋淺藍襯衫敞開當外套＋白 T＋黑寬褲＋白球鞋
+    'nf16': dict(sex='f', base='Victoria_Rubin', head=0.92, height=1.63, iris='#2a2018',
+                 face=dict(EYE_SX=1.00, EYE_SZ=0.62, EYE_TILT=0.04, BROW_ARCH=0.35, BROW_K=1.35, FACE_NARROW=0.950, CHIN_WIDEN=0.54, MOUTH_K=1.20, CHEEK_TINT_K=0.8),
+                 hair=dict(seed=20261126, part=-4.0, col=(0.09, 0.075, 0.07), tip=(-0.200, -0.210, -0.170, -0.080, -0.150, -0.210, -0.240, -0.260, -0.270, -0.270), n_main=44, n_outer=28),
+                 layered=dict(style=outer_style(rgb(40, 46, 70), rgb(150, 150, 152), rgb(36, 32, 30), rgb(36, 32, 30), tex='knit', sleeve_k=0.80, ease=0.85, shoe_style='loafer'),
+                              skirt=dict(len='midi'))),   # 黑長髮＋深藍針織衫＋灰色中長裙＋黑樂福鞋
+    'nm9': dict(sex='m', base='HairSample_Male', head=0.93, height=1.72, iris='#2e2218',
+                face=dict(EYE_SX=1.04, EYE_SZ=0.70, EYE_TILT=0.02, BROW_ARCH=0.50, BROW_K=1.50, FACE_NARROW=0.970, CHIN_WIDEN=0.60, JAW_OUT=0.0046, MOUTH_K=1.40),
+                hair=dict(seed=20261219, part=-16.0, col=(0.16, 0.12, 0.10), tip=(-0.010, -0.008, -0.004, 0.004, 0.000, -0.008, -0.014, -0.020, -0.018, -0.016), nape=0.024, vol=0.9, curl=(10, 22)),
+                layered=dict(style=outer_style(rgb(170, 192, 214), rgb(196, 180, 148), rgb(238, 238, 234), rgb(226, 224, 218), tex='linen', ease=0.80),
+                             outer=dict(open=24, buttons=6), inner=dict(rgb=rgb(242, 240, 234)))),   # 淺藍襯衫敞開＋白 T＋卡其褲＋白球鞋
+    'nm10': dict(sex='m', base='Sakurada_Fumiriya', head=0.97, height=1.78, iris='#2a2018',
+                 face=dict(EYE_SX=1.02, EYE_SZ=0.64, EYE_TILT=0.03, BROW_ARCH=0.30, BROW_K=1.60, FACE_NARROW=0.955, CHIN_WIDEN=0.52, JAW_OUT=0.0054, MOUTH_K=1.35),
+                 hair=dict(seed=20261220, part=0.0, col=(0.10, 0.09, 0.09), tip=(-0.022, -0.020, -0.016, -0.006, -0.012, -0.020, -0.030, -0.040, -0.036, -0.030), nape=0.040, vol=0.95, curl=(4, 12)),
+                 layered=dict(style=outer_style(rgb(42, 50, 76), rgb(176, 176, 174), rgb(36, 32, 30), rgb(36, 32, 30), tex='knit', shoe_style='loafer'),
+                              outer=dict(open=28, buttons=5), inner=dict(rgb=rgb(242, 240, 234)))),   # 中分黑髮＋深藍開襟衫＋白 T＋淺灰長褲＋黑樂福鞋
+    'nm11': dict(sex='m', base='HairSample_Male', head=0.93, height=1.74, iris='#3a2a1e',
+                 face=dict(EYE_SX=1.06, EYE_SZ=0.68, EYE_TILT=0.00, BROW_ARCH=0.40, BROW_K=1.55, FACE_NARROW=0.980, CHIN_WIDEN=0.64, JAW_OUT=0.0050, MOUTH_K=1.40),
+                 hair=dict(seed=20261221, part=10.0, col=(0.26, 0.19, 0.14), tip=(0.006, 0.008, 0.008, 0.012, 0.010, 0.004, -0.002, -0.008, -0.006, -0.004), nape=0.018, vol=0.8, curl=(8, 18)),
+                 layered=dict(style=outer_style(rgb(214, 204, 186), rgb(44, 50, 70), rgb(110, 76, 50), rgb(60, 42, 30), tex='knit', sleeve_k=0.82, ease=0.88, pants_ell=(0.070, 0.080), drop=True, shoe_style='loafer'))),   # 棕色短髮＋燕麥色針織衫＋深藍寬西裝褲＋棕樂福鞋
+    'nm12': dict(sex='m', base='Sakurada_Fumiriya', head=0.97, height=1.75, iris='#2e2420',
+                 face=dict(EYE_SX=1.06, EYE_SZ=0.72, EYE_TILT=0.03, BROW_ARCH=0.55, BROW_K=1.45, FACE_NARROW=0.970, CHIN_WIDEN=0.58, JAW_OUT=0.0046, MOUTH_K=1.40),
+                 hair=dict(seed=20261222, part=-20.0, col=(0.13, 0.11, 0.10), tip=(-0.014, -0.012, -0.008, 0.000, -0.004, -0.012, -0.020, -0.028, -0.026, -0.022), nape=0.030, vol=1.0, curl=(14, 28)),
+                 layered=dict(style=outer_style(rgb(112, 116, 86), rgb(34, 34, 38), rgb(238, 238, 234), rgb(226, 224, 218), tex='linen', ease=0.82),
+                              outer=dict(open=24, buttons=6), inner=dict(rgb=rgb(150, 150, 152)))),   # 橄欖色襯衫敞開＋灰 T＋黑長褲＋白球鞋
+    'nm13': dict(sex='m', base='HairSample_Male', head=0.93, height=1.70, iris='#2a2018',
+                 face=dict(EYE_SX=1.08, EYE_SZ=0.66, EYE_TILT=0.01, BROW_ARCH=0.35, BROW_K=1.60, FACE_NARROW=0.985, CHIN_WIDEN=0.66, JAW_OUT=0.0052, MOUTH_K=1.45),
+                 hair=dict(seed=20261223, part=6.0, col=(0.08, 0.075, 0.075), tip=(0.016, 0.016, 0.014, 0.016, 0.014, 0.010, 0.004, 0.000, 0.002, 0.004), nape=0.010, vol=0.7, curl=(6, 14)),
+                 layered=dict(style=outer_style(rgb(240, 240, 236), rgb(46, 54, 78), rgb(238, 238, 234), rgb(226, 224, 218), tex='linen', sleeve_k=0.78, ease=0.80))),   # 黑色短髮＋白色長袖襯衫布＋深藍卡其褲＋白球鞋
+    'nm14': dict(sex='m', base='Sakurada_Fumiriya', head=0.97, height=1.80, iris='#3a2c22',
+                 face=dict(EYE_SX=1.00, EYE_SZ=0.70, EYE_TILT=-0.01, BROW_ARCH=0.45, BROW_K=1.50, FACE_NARROW=0.950, CHIN_WIDEN=0.50, JAW_OUT=0.0056, MOUTH_K=1.30),
+                 hair=dict(seed=20261224, part=16.0, col=(0.20, 0.15, 0.11), tip=(-0.030, -0.026, -0.020, -0.008, -0.016, -0.026, -0.036, -0.046, -0.044, -0.040), nape=0.045, vol=1.0, curl=(16, 30)),
+                 layered=dict(style=outer_style(rgb(130, 130, 130), rgb(206, 192, 164), rgb(30, 30, 34), rgb(228, 226, 220), tex='knit', pants_ell=(0.070, 0.080), drop=True),
+                              outer=dict(open=28, buttons=5), inner=dict(rgb=rgb(32, 32, 34)))),   # 深棕微捲＋灰色開襟衫＋黑 T＋米色寬褲＋黑球鞋
+    'nm15': dict(sex='m', base='HairSample_Male', head=0.93, height=1.77, iris='#30241a',
+                 face=dict(EYE_SX=1.02, EYE_SZ=0.72, EYE_TILT=0.04, BROW_ARCH=0.60, BROW_K=1.45, FACE_NARROW=0.965, CHIN_WIDEN=0.58, JAW_OUT=0.0044, MOUTH_K=1.35),
+                 hair=dict(seed=20261225, part=-8.0, col=(0.30, 0.22, 0.16), tip=(-0.018, -0.016, -0.010, -0.002, -0.008, -0.016, -0.024, -0.032, -0.030, -0.026), nape=0.032, vol=0.95, curl=(10, 24)),
+                 layered=dict(style=outer_style(rgb(92, 70, 54), rgb(150, 172, 198), rgb(238, 238, 234), rgb(226, 224, 218), tex='knit', sleeve_k=0.82, ease=0.88, ptex='denim'))),   # 淺棕髮＋深咖啡針織衫＋淺色牛仔褲＋白球鞋
+    'nm16': dict(sex='m', base='Sakurada_Fumiriya', head=0.97, height=1.73, iris='#2a2220',
+                 face=dict(EYE_SX=1.06, EYE_SZ=0.66, EYE_TILT=0.02, BROW_ARCH=0.40, BROW_K=1.55, FACE_NARROW=0.975, CHIN_WIDEN=0.62, JAW_OUT=0.0048, MOUTH_K=1.45),
+                 hair=dict(seed=20261226, part=4.0, col=(0.09, 0.085, 0.085), tip=(0.026, 0.026, 0.022, 0.024, 0.022, 0.018, 0.012, 0.008, 0.010, 0.012), nape=0.006, vol=0.55, curl=(8, 18)),
+                 layered=dict(style=outer_style(rgb(96, 118, 150), rgb(190, 174, 140), rgb(110, 76, 50), rgb(60, 42, 30), tex='linen', ease=0.82, shoe_style='loafer'),
+                              outer=dict(open=24, buttons=6), inner=dict(rgb=rgb(242, 240, 234)))),   # 很短的黑髮＋丹寧藍襯衫敞開＋白 T＋卡其褲＋棕樂福鞋
+    # ---- 第五批（2026-10-17 使用者：「男生女生各20種」）：一樣照日劇穿搭 ----
+    'nf17': dict(sex='f', base='Darkness_Shibu', head=0.92, height=1.64, iris='#3a2c22',
+                 face=dict(EYE_SX=1.04, EYE_SZ=0.64, EYE_TILT=0.04, BROW_ARCH=0.40, BROW_K=1.3, FACE_NARROW=0.955, CHIN_WIDEN=0.54, MOUTH_K=1.25, CHEEK_TINT_K=0.9),
+                 hair=dict(seed=20261127, part=-12.0, col=(0.22, 0.16, 0.12), tip=(-0.140, -0.150, -0.120, -0.050, -0.100, -0.150, -0.180, -0.190, -0.200, -0.200), n_main=44, n_outer=28),
+                 layered=dict(style=outer_style(rgb(236, 232, 222), rgb(70, 60, 50), rgb(110, 76, 50), rgb(60, 42, 30), tex='knit', shoe_style='loafer'),
+                              outer=dict(open=31, buttons=6), inner=dict(rgb=rgb(56, 58, 66)), skirt=dict(len='midi'))),   # 深棕長髮＋米白開襟衫＋深灰 T＋深咖啡中長裙＋棕樂福鞋
+    'nf18': dict(sex='f', base='HairSample_Female', head=0.92, height=1.58, iris='#2e2218',
+                 face=dict(EYE_SX=1.08, EYE_SZ=0.74, EYE_TILT=0.02, BROW_ARCH=0.60, BROW_K=1.2, FACE_NARROW=0.990, CHIN_WIDEN=0.64, MOUTH_K=1.30, CHEEK_TINT_K=1.2),
+                 hair=dict(seed=20261128, part=20.0, col=(0.12, 0.095, 0.08), tip=(-0.020, -0.030, -0.010, 0.016, -0.004, -0.030, -0.050, -0.060, -0.060, -0.060), n_main=40, n_outer=24),
+                 layered=dict(style=outer_style(rgb(232, 224, 204), rgb(86, 92, 110), rgb(238, 238, 234), rgb(226, 224, 218), tex='jersey', sleeve_k=0.80, ease=0.85, ptex='denim', pants_ell=(0.074, 0.084), drop=True))),   # 黑色過肩側分＋奶油色長袖 T＋深色寬牛仔褲＋白球鞋
+    'nf19': dict(sex='f', base='Victoria_Rubin', head=0.92, height=1.67, iris='#3a3028',
+                 face=dict(EYE_SX=1.02, EYE_SZ=0.68, EYE_TILT=0.03, BROW_ARCH=0.50, BROW_K=1.25, FACE_NARROW=0.960, CHIN_WIDEN=0.56, MOUTH_K=1.35, CHEEK_TINT_K=1.0),
+                 hair=dict(seed=20261129, part=0.0, col=(0.38, 0.32, 0.26), tip=(-0.160, -0.170, -0.140, -0.060, -0.120, -0.170, -0.200, -0.210, -0.220, -0.220), n_main=44, n_outer=28),
+                 layered=dict(style=outer_style(rgb(118, 120, 92), rgb(236, 232, 222), rgb(238, 238, 234), rgb(226, 224, 218), tex='knit'),
+                              outer=dict(open=31, buttons=6), inner=dict(rgb=rgb(242, 240, 234)), skirt=dict(len='long'))),   # 灰棕長髮＋橄欖色開襟衫＋白 T＋米白長裙＋白球鞋
+    'nf20': dict(sex='f', base='Darkness_Shibu', head=0.92, height=1.60, iris='#2a2018',
+                 face=dict(EYE_SX=1.06, EYE_SZ=0.70, EYE_TILT=0.01, BROW_ARCH=0.55, BROW_K=1.25, FACE_NARROW=0.975, CHIN_WIDEN=0.60, MOUTH_K=1.25, CHEEK_TINT_K=1.1),
+                 hair=dict(seed=20261130, part=8.0, col=(0.09, 0.075, 0.07), tip=(-0.060, -0.070, -0.050, -0.010, -0.040, -0.070, -0.090, -0.100, -0.100, -0.100), n_main=42, n_outer=26),
+                 layered=dict(style=outer_style(rgb(196, 204, 214), rgb(52, 58, 80), rgb(36, 32, 30), rgb(36, 32, 30), tex='linen', sleeve_k=0.80, ease=0.80, shoe_style='loafer'),
+                              skirt=dict(len='knee'))),   # 黑色及肩＋淺灰藍襯衫布上衣＋深藍及膝裙＋黑樂福鞋
+    'nm17': dict(sex='m', base='HairSample_Male', head=0.93, height=1.69, iris='#2c2018',
+                 face=dict(EYE_SX=1.06, EYE_SZ=0.74, EYE_TILT=0.03, BROW_ARCH=0.55, BROW_K=1.45, FACE_NARROW=0.990, CHIN_WIDEN=0.66, JAW_OUT=0.0044, MOUTH_K=1.40),
+                 hair=dict(seed=20261227, part=-10.0, col=(0.11, 0.10, 0.10), tip=(-0.026, -0.022, -0.016, -0.006, -0.012, -0.022, -0.030, -0.036, -0.034, -0.030), nape=0.036, vol=1.1, curl=(6, 16)),
+                 layered=dict(style=outer_style(rgb(96, 100, 108), rgb(40, 40, 44), rgb(238, 238, 234), rgb(226, 224, 218), tex='jersey', sleeve_k=0.82, ease=0.90))),   # 黑髮蓋耳＋灰色長袖 T＋黑長褲＋白球鞋
+    'nm18': dict(sex='m', base='Sakurada_Fumiriya', head=0.97, height=1.76, iris='#3a2a20',
+                 face=dict(EYE_SX=1.04, EYE_SZ=0.68, EYE_TILT=0.01, BROW_ARCH=0.40, BROW_K=1.55, FACE_NARROW=0.960, CHIN_WIDEN=0.56, JAW_OUT=0.0050, MOUTH_K=1.35),
+                 hair=dict(seed=20261228, part=18.0, col=(0.24, 0.18, 0.13), tip=(-0.006, -0.004, 0.000, 0.008, 0.004, -0.002, -0.010, -0.018, -0.016, -0.012), nape=0.020, vol=0.85, curl=(12, 26)),
+                 layered=dict(style=outer_style(rgb(176, 150, 112), rgb(242, 240, 234), rgb(110, 76, 50), rgb(60, 42, 30), tex='knit', shoe_style='loafer'),
+                              outer=dict(open=28, buttons=5), inner=dict(rgb=rgb(44, 50, 74)))),   # 棕色側分＋駝色開襟衫＋深藍 T＋白長褲＋棕樂福鞋
+    'nm19': dict(sex='m', base='HairSample_Male', head=0.93, height=1.80, iris='#2a2018', skin=(0.94, 0.86, 0.78),
+                 face=dict(EYE_SX=1.02, EYE_SZ=0.64, EYE_TILT=-0.01, BROW_ARCH=0.30, BROW_K=1.65, FACE_NARROW=0.965, CHIN_WIDEN=0.60, JAW_OUT=0.0056, MOUTH_K=1.40),
+                 hair=dict(seed=20261229, part=0.0, col=(0.09, 0.085, 0.085), tip=(0.010, 0.010, 0.008, 0.012, 0.010, 0.006, 0.000, -0.006, -0.004, -0.002), nape=0.012, vol=0.7, curl=(6, 14)),
+                 layered=dict(style=outer_style(rgb(60, 72, 60), rgb(170, 170, 168), rgb(30, 30, 34), rgb(228, 226, 220), tex='linen', ease=0.82),
+                              outer=dict(open=24, buttons=6), inner=dict(rgb=rgb(242, 240, 234)))),   # 高、膚色深一點＋深綠襯衫敞開＋白 T＋淺灰長褲＋黑球鞋
+    'nm20': dict(sex='m', base='Sakurada_Fumiriya', head=0.97, height=1.72, iris='#30241c',
+                 face=dict(EYE_SX=1.08, EYE_SZ=0.70, EYE_TILT=0.02, BROW_ARCH=0.50, BROW_K=1.50, FACE_NARROW=0.980, CHIN_WIDEN=0.62, JAW_OUT=0.0046, MOUTH_K=1.45),
+                 hair=dict(seed=20261230, part=-4.0, col=(0.18, 0.14, 0.11), tip=(-0.040, -0.036, -0.030, -0.016, -0.026, -0.036, -0.048, -0.056, -0.054, -0.050), nape=0.050, vol=1.05, curl=(18, 32)),
+                 layered=dict(style=outer_style(rgb(232, 228, 216), rgb(64, 66, 54), rgb(238, 238, 234), rgb(226, 224, 218), tex='knit', sleeve_k=0.82, ease=0.90, pants_ell=(0.070, 0.080), drop=True))),   # 深棕微捲中長髮＋米白針織衫＋深橄欖寬褲＋白球鞋
     # 魏教授（prof_wei；AA_159 的 look：五十多歲、灰黑短髮、白襯衫＋深藍毛衣背心、袖子捲到手肘、不戴眼鏡；只在講台上遠景，AA-C：用現有教授底模改裝、不必精做）
     # 臉：眼睛小一點、上眼皮重（年紀）、眉毛平、下顎寬一點；皮膚暗一點點；頭髮灰黑、短、整齊側分；衣服 wei_clothes（背心＋白袖子＋白色內層）
     'pwei': dict(sex='m', base='HairSample_Male', head=0.95, height=1.72, iris='#2a221c', skin=(0.95, 0.89, 0.84), eye_close=0.22,
@@ -155,6 +278,10 @@ def clothes(m):
     if VAR.get('clothes_mod'):           # 款式比 p00_clothes 多的（魏教授：背心＋白袖子＋白色內層）用自己的模組
         import importlib
         m['clothes'] = importlib.import_module(VAR['clothes_mod']).apply(m); m['clothes'].name = 'Clothes_' + TAG
+        return
+    if VAR.get('layered'):               # 日劇穿搭：敞開的外套＋T 恤、A 字裙（npc_layered.py）
+        import npc_layered as NL
+        m['clothes'] = NL.run(m, TAG, HT[VAR['base']], VAR['layered']); m['clothes'].name = 'Clothes_' + TAG
         return
     ht = HT[VAR['base']]
     obj = PC.run(m, VAR['clothes'], ht['M'], ht['side'])

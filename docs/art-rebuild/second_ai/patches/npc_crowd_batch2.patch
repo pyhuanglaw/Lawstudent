@@ -1,0 +1,57 @@
+diff --git a/src/assets3d.js b/src/assets3d.js
+index faffb303..9e0444df 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -109,7 +109,8 @@ const ASSETS = (function(){
+   };
+   /* 路人底模（LAWWW2 Blender，docs/art-rebuild/second_ai/patches/npc_ambient_1ca527d.patch；2026-10-14 LAWWW 整合）：網址加 ?npcnew 才放進 manifest——
+      預設不載入（ambient 會在開場預載，8 個約 20 MB；使用者看過截圖再決定）。只給沒有名字的路人用（character3d.js 的 AMB_ANON），有名字的人物照舊用可換色的模型 */
+-  if(typeof location!=='undefined'&&/[?&]npcnew\b/.test(location.search||'')) Object.assign(A.manifest,{
++  /* 2026-10-17 使用者：「長得很像的路人真的太多了，很誇張，你不能只有這幾種」→ 預設載入（網址加 ?npcold 才回到舊的四個樣本底模）；第二批 nf5–nf8／nm5–nm8（LAWWW2-C） */
++  if(!(typeof location!=='undefined'&&/[?&]npcold\b/.test(location.search||''))) Object.assign(A.manifest,{
+     'char.npc_nm1':    {url:'assets/models/char/second_ai/bl_npc_nm1.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.7,ambient:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Male」：深棕短髮、深藍 T、卡其褲',license:'CC0'},
+     'char.npc_nm2':    {url:'assets/models/char/second_ai/bl_npc_nm2.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.8,ambient:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Sakurada_Fumiriya」：黑色蓬鬆短髮、灰針織衫、黑長褲',license:'CC0'},
+     'char.npc_nm3':    {url:'assets/models/char/second_ai/bl_npc_nm3.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.76,ambient:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Male」：淺棕側分短髮、磚紅針織衫、淺灰長褲',license:'CC0'},
+@@ -117,7 +118,15 @@ const ASSETS = (function(){
+     'char.npc_nf1':    {url:'assets/models/char/second_ai/bl_npc_nf1.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.62,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Victoria_Rubin」：棕色及肩髮、淺綠 T、白寬褲',license:'CC0'},
+     'char.npc_nf2':    {url:'assets/models/char/second_ai/bl_npc_nf2.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.58,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Female」：黑色鮑伯頭、白 V 領、深藍牛仔褲',license:'CC0'},
+     'char.npc_nf3':    {url:'assets/models/char/second_ai/bl_npc_nf3.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.66,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Victoria_Rubin」：灰棕長髮、深藍針織衫、淺色牛仔褲',license:'CC0'},
+-    'char.npc_nf4':    {url:'assets/models/char/second_ai/bl_npc_nf4.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.6,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Female」：紅棕長髮、珊瑚色 T、米色寬褲',license:'CC0'}});
++    'char.npc_nf4':    {url:'assets/models/char/second_ai/bl_npc_nf4.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.6,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Female」：紅棕長髮、珊瑚色 T、米色寬褲',license:'CC0'},
++    'char.npc_nf5':    {url:'assets/models/char/second_ai/bl_npc_nf5.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.63,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Darkness_Shibu」：中分黑長直髮、深藍 V 領針織衫、米色寬褲',license:'CC0'},
++    'char.npc_nf6':    {url:'assets/models/char/second_ai/bl_npc_nf6.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.56,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Female」：側分棕色短鮑伯、米白 T、黑寬褲',license:'CC0'},
++    'char.npc_nf7':    {url:'assets/models/char/second_ai/bl_npc_nf7.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.68,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Victoria_Rubin」：灰棕及肩髮、淺藍長袖、深色牛仔褲',license:'CC0'},
++    'char.npc_nf8':    {url:'assets/models/char/second_ai/bl_npc_nf8.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.59,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Darkness_Shibu」：黑色過肩短髮、橄欖色 T、淺灰長褲',license:'CC0'},
++    'char.npc_nm5':    {url:'assets/models/char/second_ai/bl_npc_nm5.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.68,ambient:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Male」：黑髮蓋眉、炭灰 T、深藍牛仔褲',license:'CC0'},
++    'char.npc_nm6':    {url:'assets/models/char/second_ai/bl_npc_nm6.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.82,ambient:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Sakurada_Fumiriya」：棕色側分、米色長袖、深藍長褲',license:'CC0'},
++    'char.npc_nm7':    {url:'assets/models/char/second_ai/bl_npc_nm7.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.75,ambient:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Male」：曬黑、平頭、黑 T、橄欖色長褲',license:'CC0'},
++    'char.npc_nm8':    {url:'assets/models/char/second_ai/bl_npc_nm8.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.71,ambient:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Sakurada_Fumiriya」：深棕微捲側分、淺藍 T、卡其褲',license:'CC0'}});
+   // 網址加 ?nobldg：不載入建築的正式模型（Blender GLB），只看程序化備用模型（新舊比較、載入失敗時的樣子）
+   if(typeof location!=='undefined'&&/[?&]nobldg\b/.test(location.search||'')) for(const k of Object.keys(A.manifest)) if(k.startsWith('bldg.')||k==='prop.street'||k==='prop.trees') delete A.manifest[k];
+   // 網址加 ?blchar：有 Blender 正式製作版本的人物（manifest 的 blUrl）改用 Blender 版（v9.4 起；沈以安是示範角色）。
+diff --git a/src/character3d.js b/src/character3d.js
+index 36b14d0b..12adba75 100644
+--- a/src/character3d.js
++++ b/src/character3d.js
+@@ -242,7 +242,7 @@ const CHAR = (function(){
+   const AMB={f:['char.npc_f1','char.npc_f2'],m:['char.npc_m1','char.npc_m2']};
+   /* 沒有名字的路人（STORY.extraSpec 的 id 'x0'、'x1'…：教室聽眾、自習區、路上的人）另外一組：LAWWW2 的路人底模（各自的臉與穿搭、不換色；網址加 ?npcnew 才載入，assets3d.js）。
+      有名字的人物（方奕廷、教授、不熟同學…）照舊用 AMB＋自己的顏色（tint），不會因為分到新模型失去穿搭（CLAUDE.md：角色不能因為共用路人模型而失去識別）*/
+-  const AMB_ANON={f:['char.npc_nf1','char.npc_nf2','char.npc_nf3','char.npc_nf4','char.npc_f1','char.npc_f2'],m:['char.npc_nm1','char.npc_nm2','char.npc_nm3','char.npc_nm4','char.npc_m1','char.npc_m2']};
++  const AMB_ANON={f:['char.npc_nf1','char.npc_nf2','char.npc_nf3','char.npc_nf4','char.npc_nf5','char.npc_nf6','char.npc_nf7','char.npc_nf8'],m:['char.npc_nm1','char.npc_nm2','char.npc_nm3','char.npc_nm4','char.npc_nm5','char.npc_nm6','char.npc_nm7','char.npc_nm8']};   /* 2026-10-17 使用者「長得很像的路人太多」：舊的兩個樣本底模（npc_f1／f2／m1／m2）不再給無名路人用 */
+   function hashId(s){ let h=7; for(const ch of String(s)) h=(h*31+ch.charCodeAt(0))>>>0; return h; }
+   C.resolveModel=function(spec){ if(!spec||C.useModels===false) return spec; if(spec.model&&ASSETS.has(spec.model)) return spec; const cast=C.CAST[spec.id]; if(cast&&ASSETS.has(cast.model)) return Object.assign({},spec,cast); const sex=spec.sex==='f'?'f':'m'; const anon=typeof spec.id==='string'&&/^x\d+$/.test(spec.id); const list=((anon&&AMB_ANON[sex].some(k=>k.indexOf('npc_n')>=0&&ASSETS.has(k)))?AMB_ANON[sex]:AMB[sex]).filter(k=>ASSETS.has(k)); if(!list.length) return spec; const key=spec.ambientModel&&ASSETS.has(spec.ambientModel)?spec.ambientModel:list[hashId(spec.id||spec.name||'x')%list.length]; const o=spec.outfit||{}; const tint={hair:spec.hair&&spec.hair.color,top:o.top&&o.top.color,bottom:o.bottom&&o.bottom.color}; return Object.assign({},spec,{model:key,tint}); };
+   C.failures=[];
+diff --git a/src/story3d.js b/src/story3d.js
+index e6b69b5f..eae605ca 100644
+--- a/src/story3d.js
++++ b/src/story3d.js
+@@ -22,7 +22,7 @@ const STORY = (function(){
+   S.PROF=PROF;
+   const AN=Object.assign({},C.hero_f,{id:'an',name:'小安',model:'char.heroine_01',height:1.66});
+   let seed=7; const rnd=()=>{ seed=(seed*16807)%2147483647; return (seed-1)/2147483646; };
+-  function extraSpec(i){ const f=(i%2===0); const tops=f?[['tee','#f7f4ee'],['knit','#c9a24f'],['cardiganOpen','#4a6c8c'],['shirt','#ffffff'],['tee','#8c3b47']]:[['tee','#2b2b3a'],['shirtOpen','#eef0f2'],['hoodie','#3a3f4a'],['tee','#2f5d50'],['shirt','#dfe3ea']]; const bots=f?[['skirtMid','#2e3340'],['wideLeg','#3b2a1e'],['jeans','#4a5a78'],['skirtLong','#5c3a21']]:[['jeans','#2b2b3a'],['slacks','#3a3f4a'],['jeans','#4a5a78'],['slacks','#7b6a5a']]; const hairs=f?['softMid','longStraight','ponyLow','chicBob','wavyMid']:['shortTextured','shortClean','softMid']; const t=tops[i%tops.length], b=bots[(i*3)%bots.length]; return {id:'x'+i,name:'',height:f?1.58+(i%4)*0.03:1.70+(i%4)*0.03,build:(i%5===0)?'athletic':'slim',sex:f?'f':'m',skin:['#f3d9c4','#efd0b3','#e6c3a4','#f6dcc9'][i%4],hair:{color:['#2a1d16','#1f1613','#3b2a1e','#4b2e1e'][(i*7)%4],style:hairs[(i*5)%hairs.length]},face:{iris:'#3a2a22',brow:f?'soft':'thick',lash:f,glasses:i%4===1},outfit:{top:{type:t[0],color:t[1],inner:'#ffffff'},bottom:{type:b[0],color:b[1]},shoes:{type:['sneaker','canvas','loafer'][i%3],color:['#f4f1ea','#2b2118','#3a6fb0'][i%3],sole:'#ffffff'},bag:[null,'backpack','tote','shoulder'][i%4],bagColor:['#3b3f4a','#d9d3c6','#3b2a1e','#4a4238'][i%4]},posture:{sway:0.02}}; }
++  function extraSpec(i){ const f=(i%2===0); const tops=f?[['tee','#f7f4ee'],['knit','#c9a24f'],['cardiganOpen','#4a6c8c'],['shirt','#ffffff'],['tee','#9aa392']]:[['tee','#2b2b3a'],['shirtOpen','#eef0f2'],['hoodie','#3a3f4a'],['tee','#2f5d50'],['shirt','#dfe3ea']]; const bots=f?[['skirtMid','#2e3340'],['wideLeg','#3b2a1e'],['jeans','#4a5a78'],['skirtLong','#5c3a21']]:[['jeans','#2b2b3a'],['slacks','#3a3f4a'],['jeans','#4a5a78'],['slacks','#7b6a5a']]; const hairs=f?['softMid','longStraight','ponyLow','chicBob','wavyMid']:['shortTextured','shortClean','softMid']; const t=tops[i%tops.length], b=bots[(i*3)%bots.length]; return {id:'x'+i,name:'',height:f?1.58+(i%4)*0.03:1.70+(i%4)*0.03,build:(i%5===0)?'athletic':'slim',sex:f?'f':'m',skin:['#f3d9c4','#efd0b3','#e6c3a4','#f6dcc9'][i%4],hair:{color:['#2a1d16','#1f1613','#3b2a1e','#4b2e1e'][(i*7)%4],style:hairs[(i*5)%hairs.length]},face:{iris:'#3a2a22',brow:f?'soft':'thick',lash:f,glasses:i%4===1},outfit:{top:{type:t[0],color:t[1],inner:'#ffffff'},bottom:{type:b[0],color:b[1]},shoes:{type:['sneaker','canvas','loafer'][i%3],color:['#f4f1ea','#2b2118','#3a6fb0'][i%3],sole:'#ffffff'},bag:[null,'backpack','tote','shoulder'][i%4],bagColor:['#3b3f4a','#d9d3c6','#3b2a1e','#4a4238'][i%4]},posture:{sway:0.02}}; }
+   S.extraSpec=extraSpec;
+   // ---------- 法律內容 ----------
+   const CASE={id:'case_camera',title:'指定案例：網拍相機 1,000 元',body:'賣家在拍賣網站把一台市價約一萬元的相機標成 1,000 元（少打一個零）。買家下標付款，賣家拒絕出貨。爭點：網頁標價是「要約」還是「要約之引誘」？賣家能否主張錯誤撤銷？'};
