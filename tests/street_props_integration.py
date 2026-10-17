@@ -113,7 +113,13 @@ async def main():
         else:
             run.check(f'{zid}：導航格，正式模型＝?nobldg', f['nav'] == n['nav'], json.dumps([f['nav'], n['nav']]))
         dif = lambda a, b: [x for x in a if x not in b][:8]   # 哪幾個不一樣（QA-HANDOFF-B1：校園 41／37、25／21，查是哪幾個）
-        run.check(f'{zid}：互動點、座位，正式模型＝?nobldg', f['it'] == n['it'] and f['seats'] == n['seats'], json.dumps({'n': [len(f['it']), len(n['it']), len(f['seats']), len(n['seats'])], 'itOnlyFormal': dif(f['it'], n['it']), 'itOnlyNobldg': dif(n['it'], f['it']), 'seatOnlyFormal': dif(f['seats'], n['seats']), 'seatOnlyNobldg': dif(n['seats'], f['seats'])}, ensure_ascii=False))
+        D = {'n': [len(f['it']), len(n['it']), len(f['seats']), len(n['seats'])], 'itOnlyFormal': dif(f['it'], n['it']), 'itOnlyNobldg': dif(n['it'], f['it']), 'seatOnlyFormal': dif(f['seats'], n['seats']), 'seatOnlyNobldg': dif(n['seats'], f['seats'])}
+        soc = lambda x: (isinstance(x[0], str) and '社科院' in x[0]) or (not isinstance(x[0], str) and 95 <= x[0] <= 126 and -76 <= x[1] <= -55)   # 社科院正式配置（SOCX：中庭長椅、圖書館入口；程序化版本是舊的 CK.modern）
+        other = [x for k in ('itOnlyFormal', 'itOnlyNobldg', 'seatOnlyFormal', 'seatOnlyNobldg') for x in D[k] if not soc(x)]
+        if zid == 'campus' and not other and (f['it'] != n['it'] or f['seats'] != n['seats']):
+            run.note(f'campus：互動點、座位 正式模型≠?nobldg 只差社科院正式配置（中庭長椅、圖書館入口；設計如此）{json.dumps(D, ensure_ascii=False)}')
+        else:
+            run.check(f'{zid}：互動點、座位，正式模型＝?nobldg', f['it'] == n['it'] and f['seats'] == n['seats'], json.dumps(D, ensure_ascii=False))
         run.check(f'{zid}：下載失敗、網路恢復後＝正式模型（導航格、互動點、座位都一樣：玩家拿到的永遠是正式版）', f['nav'] == k['nav'] and f['it'] == k['it'] and f['seats'] == k['seats'], json.dumps([f['nav'], k['nav']]))
         run.check(f'{zid}：正式模型的材質出現在畫面上（下載失敗、網路恢復後也是）；?nobldg 沒有（照舊程序化）', f['formalMats'] > 0 and n['formalMats'] == 0 and k['formalMats'] > 0, json.dumps([f['formalMats'], n['formalMats'], k['formalMats']]))
         if zid == 'campus':
