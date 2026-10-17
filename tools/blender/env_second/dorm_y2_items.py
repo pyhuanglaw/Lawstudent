@@ -10,10 +10,12 @@ LAWWW2-B 2026-10-16（D89：美術歸 LAWWW2；LAWWW-B 整合）。Blender 5.2�
   ITEM_green    綠色螢光筆（攤開的筆記本上）                             ITEM_sticky  便利貼（釘在軟木板上，藍筆兩行；沒有字）
   ITEM_y1_ferris 大一的摩天輪票根（軟木板）                               ITEM_y1_album 大一的河堤相簿（書桌左邊的書堆上）
   黃金葛另外一個檔案（prop_pothos.glb，POTHOS_S1～S4）。
-固定會有的：WALL_right_Y2_BOARD（右牆、書桌旁的軟木板；牆淡出時一起淡出，自訂屬性 dir）；
-紙箱兩種狀態：Y2_BOXES_CLOSED（拆箱前：四個封好的紙箱）、Y2_BOXES_OPEN（拆完：一個開著的空箱＋兩個壓平靠牆）。
-座標＝遊戲 dorm 區域（和 dorm_interior.glb 同一個房間模型：書桌 (1.8,−2.6) 1.6×0.7 桌面 0.77、書架 (−1,−3.3)、右牆室內面 x=2.9、窗在後牆 x 0.45～2.55）。
-紙箱放在書架和書桌之間、窗下（x 0.28～0.96、z −3.4～−2.9）：顯示時導航要擋這一塊（LAWWW-B）。
+固定會有的：WALL_left_Y2_BOARD（祐廷書桌前的牆上的軟木板；AA_208 7-1「軟木板釘在祐廷書桌前的牆上」；牆淡出時一起淡出，自訂屬性 dir）；
+紙箱兩種狀態：Y2_BOXES_CLOSED（拆箱前：四個封好的紙箱）、Y2_BOXES_OPEN（拆完：兩個壓平的紙箱疊在地上＋上面一個開著的空箱）。
+座標＝遊戲 dorm 區域（2026-10-17 LAWWW2-C 改成四人房 dorm_room4.glb：祐廷是 L2＝左牆、靠門那組；書桌沿左牆 z −0.96～0.315、桌面 0.76、
+左牆室內面 x=−2.9；層架 z −0.51～0.19、上層板頂 1.42（上面是床板 1.56）；軟木板在書桌前、層架左邊的空牆＝layout 的 wall_spot_by_desk）。
+紙箱放在書桌旁的走道邊（x −1.80～−1.12、z −0.88～−0.36，layout 的 BOXES_FLOOR 附近）：顯示時導航要擋這一塊。
+舊的雙人房（dorm_interior.glb）版本是 8a1af723（LAWWW2-B 的 WIP，沒有交）。
 印刷品（票根、值班表、報告、便利貼、泡麵包裝、課本封面）是本作程式畫的圖（PIL），**沒有任何文字、店名、商標**（D77）；
 軟木＝Poly Haven CC0 granular_concrete 調成軟木色（顆粒感），木框＝walnut_veneer。
 """
@@ -160,7 +162,7 @@ M = {'print': print_mat(), 'cork': L.pbr('y2_cork', 'granular_concrete', tile=0.
      'frame': L.pbr('y2_frame', 'walnut_veneer', tile=0.6, target='#8a6a4a', normal=0.3, maps=('diff', 'nor'), rough_value=0.55),
      'vc': L.vc_material('y2_vc', rough=0.45)}
 root = B.group('dorm_y2_items', props={'kind': 'dorm_y2_items'})
-Y = 0.77                                                         # 桌面
+Y = 0.76                                                         # 桌面（四人房 dorm_room4 的 desk_top_y）
 nodes = {}
 
 
@@ -168,48 +170,42 @@ def node(name, props=None, parent=None):
     g = B.group(name, parent or root, props); nodes[name] = g; return g
 
 
+# ---------------- 軟木板（左牆室內面 x=−2.9，面朝 +x；祐廷書桌前、層架左邊的空牆）----------------
+# 從房間看左牆（面朝 −x）：右手邊是 −z。所以「由左到右」＝ z 由大到小；紙的左邊緣放在 z 大的那一邊
+XW = -2.9; BZ0, BZ1, BY0, BY1 = -0.93, -0.54, 0.98, 1.50; XC = XW + 0.016    # 軟木面
+board = node('WALL_left_Y2_BOARD', {'dir': json.dumps([1, 0, 0]), 'kind': 'wall_item'})
 def pins(cm, pts, cols=('#c23f35', '#2f6db0', '#f2f0ea', '#e0b95b')):
-    """圖釘（右牆的軟木板：釘頭朝 −x）"""
+    """圖釘（左牆的軟木板：釘頭朝 +x）"""
     for k, (y, z) in enumerate(pts):
-        x = XC - 0.004; c = cols[k % len(cols)]
-        before = set(cm.bm.faces); cm.cyl((x, y, z), (x - 0.006, y, z), 0.0055, seg=10); cm.cyl((x - 0.006, y, z), (x - 0.012, y, z), 0.004, seg=8)
+        x = XC + 0.004; c = cols[k % len(cols)]
+        before = set(cm.bm.faces); cm.cyl((x, y, z), (x + 0.006, y, z), 0.0055, seg=10); cm.cyl((x + 0.006, y, z), (x + 0.012, y, z), 0.004, seg=8)
         cm.paint([q for q in cm.bm.faces if q not in before], c)
-
-
-# ---------------- 軟木板（右牆室內面 x=2.9；書桌右邊、檯燈上方）----------------
-XW = 2.9; BZ0, BZ1, BY0, BY1 = -2.98, -2.30, 1.05, 1.52; XC = XW - 0.016    # 軟木面
-board = node('WALL_right_Y2_BOARD', {'dir': json.dumps([-1, 0, 0]), 'kind': 'wall_item'})
 fr = Mesh('y2_board_frame', M['frame'])
 for (za, zb, ya, yb) in ((BZ0 - 0.02, BZ1 + 0.02, BY0 - 0.02, BY0), (BZ0 - 0.02, BZ1 + 0.02, BY1, BY1 + 0.02), (BZ0 - 0.02, BZ0, BY0, BY1), (BZ1, BZ1 + 0.02, BY0, BY1)):
-    fr.rbox(XW - 0.022, XW, ya, yb, za, zb, r=0.004, seg=1)
+    fr.rbox(XW, XW + 0.022, ya, yb, za, zb, r=0.004, seg=1)
 fr.finish(board, uv=True)
-ck = Mesh('y2_board_cork', M['cork']); ck.box(XC, XW, BY0, BY1, BZ0, BZ1); ck.finish(board, uv=True)
-
-
-def pinned(name, key, z0, z1, y0, y1, tilt=0.0, pin_pts=None, parent=None):
-    """釘在軟木板上的紙（面朝 −x；tilt＝在牆面上轉一點點）"""
+ck = Mesh('y2_board_cork', M['cork']); ck.box(XW, XC, BY0, BY1, BZ0, BZ1); ck.finish(board, uv=True)
+def pinned(name, key, za, zb, y0, y1, tilt=0.0, pin_pts=None, parent=None):
+    """釘在軟木板上的紙（面朝 +x；za＝從房間看的左邊緣（z 大）、zb＝右邊緣；tilt＝在牆面上轉一點點）"""
     g = node(name, parent=parent or board); t = TMesh(name + '_paper', M['print'])
-    cz, cy = (z0 + z1) / 2, (y0 + y1) / 2; ct, st = math.cos(tilt), math.sin(tilt)
-    def P(z, y): dz, dy = z - cz, y - cy; return (XC - 0.0015, cy + dz * st + dy * ct, cz + dz * ct - dy * st)
-    t.tquad([P(z0, y0), P(z1, y0), P(z1, y1), P(z0, y1)], key); t.finish(g)
-    cm = CMesh(name + '_pins', M['vc']); pins(cm, [(P(z, y)[1], P(z, y)[2]) for z, y in (pin_pts or [((z0 + z1) / 2, y1 - 0.012)])]); cm.finish(g, uv=False)
+    cz, cy = (za + zb) / 2, (y0 + y1) / 2; ct, st = math.cos(tilt), math.sin(tilt)
+    def P(z, y): dz, dy = z - cz, y - cy; return (XC + 0.0015, cy + dz * st + dy * ct, cz + dz * ct - dy * st)
+    t.tquad([P(za, y0), P(zb, y0), P(zb, y1), P(za, y1)], key); t.finish(g)
+    cm = CMesh(name + '_pins', M['vc']); pins(cm, [(P(z, y)[1], P(z, y)[2]) for z, y in (pin_pts or [((za + zb) / 2, y1 - 0.012)])]); cm.finish(g, uv=False)
     return g
-
-
-# 由左到右（從房間看，+z 在右手邊）：值班表（A5）、報告影本（A4，下面一點）、票根兩張、便利貼
-pinned('ITEM_duty', 'duty', -2.94, -2.79, 1.24, 1.45, tilt=0.03, pin_pts=[(-2.865, 1.437)])
-pinned('ITEM_report', 'report', -2.76, -2.58, 1.09, 1.345, tilt=-0.04, pin_pts=[(-2.745, 1.33), (-2.595, 1.33)])
-pinned('ITEM_film', 'film', -2.54, -2.43, 1.41, 1.454, tilt=0.08, pin_pts=[(-2.525, 1.432)])
-pinned('ITEM_y1_ferris', 'ferris', -2.51, -2.40, 1.33, 1.374, tilt=-0.1, pin_pts=[(-2.415, 1.352)])
-pinned('ITEM_sticky', 'sticky', -2.47, -2.39, 1.17, 1.25, tilt=0.06, pin_pts=[(-2.43, 1.24)])
-
-# ---------------- 書桌上 ----------------
-# 民總課本：書桌後面、筆電和檯燈中間，平放（封面朝上、書背朝 −x），書口夾著一張紅色書籤（讀到三分之一的地方）
-g = node('ITEM_civ'); t = TMesh('ITEM_civ_book', M['print']); bx0, bx1, bz0, bz1, bt = 1.96, 2.22, -2.93, -2.74, 0.034
+# 由左到右（從房間看）：值班表（A5）、便利貼（下面）；票根兩張（上面）、報告影本（A4，下面）
+pinned('ITEM_duty', 'duty', -0.56, -0.71, 1.26, 1.47, tilt=0.03, pin_pts=[(-0.635, 1.457)])
+pinned('ITEM_sticky', 'sticky', -0.58, -0.66, 1.10, 1.18, tilt=0.06, pin_pts=[(-0.62, 1.17)])
+pinned('ITEM_film', 'film', -0.76, -0.87, 1.41, 1.454, tilt=0.08, pin_pts=[(-0.775, 1.432)])
+pinned('ITEM_y1_ferris', 'ferris', -0.79, -0.90, 1.33, 1.374, tilt=-0.1, pin_pts=[(-0.885, 1.352)])
+pinned('ITEM_report', 'report', -0.73, -0.91, 1.03, 1.285, tilt=-0.04, pin_pts=[(-0.745, 1.27), (-0.895, 1.27)])
+# ---------------- 書桌上（L2：書桌沿左牆，離牆 v＝x+2.9；層架 z −0.51～0.19；筆電 z −0.47～−0.13、六法 z −0.045～0.215 在 dorm_room4 的 Y312_YUTING；黃金葛 (−2.39, 0.145)）----------------
+# 民總課本：書桌左邊、抽屜櫃上面，平放（書背靠牆、書口朝走道），書口夾著一張紅色書籤（讀到三分之一的地方）
+g = node('ITEM_civ'); t = TMesh('ITEM_civ_book', M['print']); bx0, bx1, bz0, bz1, bt = -2.84, -2.65, -0.93, -0.67, 0.034
 t.tbox(bx0, bx1, Y, Y + bt, bz0, bz1, 'civ', 'pages', bottom='civ'); t.finish(g)
-cm = CMesh('ITEM_civ_mark', M['vc']); cm.cbox(bx1 - 0.002, bx1 + 0.022, Y + bt * 0.62, Y + bt * 0.62 + 0.0012, -2.86, -2.83, '#b8322c'); cm.finish(g, uv=False)
-# 吉他彈片：筆電右前方（圓角三角形，1 mm 厚）
-g = node('ITEM_pick'); t = TMesh('ITEM_pick_body', M['print']); px, pz, pa = 1.975, -2.46, 0.5
+cm = CMesh('ITEM_civ_mark', M['vc']); cm.cbox(bx1 - 0.002, bx1 + 0.022, Y + bt * 0.62, Y + bt * 0.62 + 0.0012, -0.82, -0.79, '#b8322c'); cm.finish(g, uv=False)
+# 吉他彈片：筆電右邊（圓角三角形，1 mm 厚）
+g = node('ITEM_pick'); t = TMesh('ITEM_pick_body', M['print']); px, pz, pa = -2.54, -0.09, 0.5
 tri = []
 for k in range(18):
     a = k * 2 * math.pi / 18; r = 0.0145 * (1 + 0.18 * math.cos(3 * a)) * (1.15 if abs(math.sin(a / 2 * 3)) < 0.3 else 1.0)
@@ -218,47 +214,50 @@ f = t.bm.faces.new([t.bm.verts.new(g2b(*p)) for p in reversed(tri)]); u0, v0, u1
 for lp in f.loops:
     co = lp.vert.co; lp[t.uv].uv = (u0 + (u1 - u0) * (0.5 + (co.x - px) / 0.04), v0 + (v1 - v0) * (0.5 + (co.y + pz) / 0.04))
 t.finish(g)
-# 綠色螢光筆：攤開的筆記本上斜放
-g = node('ITEM_green'); cm = CMesh('ITEM_green_pen', M['vc']); a0, a1 = (1.27, Y + 0.021, -2.315), (1.415, Y + 0.021, -2.37)
+# 綠色螢光筆：斜放在攤開的筆記本上（筆記本跟著這一組：大一的房間裡筆記本是 dorm_room4 的 Y203_YUTING，大二起祐廷的桌面留空）
+g = node('ITEM_green'); cm = CMesh('ITEM_green_pen', M['vc'])
+nx0, nx1, nz0, nz1 = -2.47, -2.32, -0.115, 0.055
+cm.cbox(nx0, nx1, Y, Y + 0.008, nz0, (nz0 + nz1) / 2 - 0.002, '#f4f1e8'); cm.cbox(nx0, nx1, Y, Y + 0.008, (nz0 + nz1) / 2 + 0.002, nz1, '#f4f1e8')   # 左右兩頁
+cm.cbox(nx0, nx1, Y, Y + 0.006, (nz0 + nz1) / 2 - 0.002, (nz0 + nz1) / 2 + 0.002, '#cfc9b8')                                                       # 中間的摺線
+for k in range(5): cm.cbox(nx0 + 0.02, nx1 - 0.02, Y + 0.0082, Y + 0.0086, nz0 + 0.02 + k * 0.014, nz0 + 0.021 + k * 0.014, '#9fb4c8')               # 左頁的格線
+a0, a1 = (-2.43, Y + 0.0175, -0.07), (-2.36, Y + 0.0175, 0.02)
 before = set(cm.bm.faces); cm.cyl(a0, a1, 0.0085, seg=10); cm.paint([q for q in cm.bm.faces if q not in before], '#45b64f')
 mid = tuple(a0[i] + (a1[i] - a0[i]) * 0.78 for i in range(3)); before = set(cm.bm.faces); cm.cyl(mid, a1, 0.0092, seg=10); cm.paint([q for q in cm.bm.faces if q not in before], '#2b7a34')
-before = set(cm.bm.faces); cm.cyl(a1, (a1[0] + 0.012, a1[1], a1[2] - 0.0045), 0.0035, seg=8); cm.paint([q for q in cm.bm.faces if q not in before], '#7be36f')
+before = set(cm.bm.faces); cm.cyl(a1, (a1[0] + 0.0045, a1[1], a1[2] + 0.011), 0.0035, seg=8); cm.paint([q for q in cm.bm.faces if q not in before], '#7be36f')
 cm.finish(g, uv=False)
-# 河堤相簿：書桌左後的書堆上平放
-g = node('ITEM_y1_album'); t = TMesh('ITEM_y1_album_book', M['print']); t.tbox(1.065, 1.315, 0.86, 0.885, -2.84, -2.55, 'album', 'pages', bottom='album'); t.finish(g)
-
-# ---------------- 書架最上層（y 1.985，x −0.72～−0.46 那一格空著）：阿凱的泡麵＋便條 ----------------
-g = node('ITEM_noodle'); t = TMesh('ITEM_noodle_pack', M['print']); Y5 = 1.985
-t.tbox(-0.70, -0.48, Y5, Y5 + 0.055, -3.31, -3.17, 'noodle', 'noodle_side', bottom='noodle_side')
-nt = TMesh('ITEM_noodle_note', M['print']); nz0, nx0 = -3.24, -0.66
-nt.tquad([(nx0, Y5 + 0.0562, nz0 + 0.06), (nx0 + 0.085, Y5 + 0.0562, nz0 + 0.06), (nx0 + 0.085, Y5 + 0.0562, nz0), (nx0, Y5 + 0.0562, nz0)], 'note')
+# 河堤相簿：疊在民總課本上面（書桌左邊的書堆）
+g = node('ITEM_y1_album'); t = TMesh('ITEM_y1_album_book', M['print']); t.tbox(-2.86, -2.62, Y + 0.034, Y + 0.059, -0.945, -0.655, 'album', 'pages', bottom='album'); t.finish(g)
+# ---------------- 層架上層板的上面（y 1.42，上面是床板 1.56）：阿凱的泡麵＋便條 ----------------
+g = node('ITEM_noodle'); t = TMesh('ITEM_noodle_pack', M['print']); Y5 = 1.42
+t.tbox(-2.84, -2.70, Y5, Y5 + 0.055, -0.03, 0.19, 'noodle', 'noodle_side', bottom='noodle_side')
+nt = TMesh('ITEM_noodle_note', M['print']); nz0_, nx0_ = 0.02, -2.82
+nt.tquad([(nx0_, Y5 + 0.0562, nz0_ + 0.085), (nx0_ + 0.06, Y5 + 0.0562, nz0_ + 0.085), (nx0_ + 0.06, Y5 + 0.0562, nz0_), (nx0_, Y5 + 0.0562, nz0_)], 'note')
 for m_ in (t, nt):
     for v in m_.bm.verts:                                         # 整包轉一點點（不是對齊層板的）
-        x, y, z = v.co.x, v.co.z, -v.co.y; (x2, _, z2), = rot_y([(x, y, z)], (-0.59, -3.24), 0.12); v.co = g2b(x2, y, z2)
+        x, y, z = v.co.x, v.co.z, -v.co.y; (x2, _, z2), = rot_y([(x, y, z)], (-2.77, 0.08), 0.12); v.co = g2b(x2, y, z2)
 t.finish(g); nt.finish(g)
-
-# ---------------- 紙箱（書架和書桌之間、窗下）----------------
+# ---------------- 紙箱（書桌旁的走道邊，L2 的抽屜櫃那一端前面；layout 的 BOXES_FLOOR (−1.45, −0.61) 附近）----------------
 def carton(tm, x0, x1, y0, y1, z0, z1, a=0.0):
     c = ((x0 + x1) / 2, (z0 + z1) / 2); n0 = len(tm.bm.verts)
     tm.tbox(x0, x1, y0, y1, z0, z1, 'kraft_tape', 'kraft')
     if a:
         for v in list(tm.bm.verts)[n0:]:
             x, y, z = v.co.x, v.co.z, -v.co.y; (x2, _, z2), = rot_y([(x, y, z)], c, a); v.co = g2b(x2, y, z2)
-g = node('Y2_BOXES_CLOSED', {'nav_block': json.dumps([0.28, 0.96, -3.4, -2.9])}); t = TMesh('Y2_boxes_closed', M['print'])
-carton(t, 0.29, 0.61, 0.0, 0.32, -3.38, -2.94, 0.02); carton(t, 0.63, 0.95, 0.0, 0.32, -3.36, -2.92, -0.03)
-carton(t, 0.33, 0.61, 0.32, 0.58, -3.33, -2.99, -0.06); carton(t, 0.64, 0.92, 0.32, 0.56, -3.34, -2.98, 0.05)
+NAV = [-1.80, -1.12, -0.88, -0.36]
+g = node('Y2_BOXES_CLOSED', {'nav_block': json.dumps(NAV)}); t = TMesh('Y2_boxes_closed', M['print'])
+carton(t, -1.77, -1.47, 0.0, 0.32, -0.84, -0.40, 0.02); carton(t, -1.44, -1.15, 0.0, 0.32, -0.82, -0.39, -0.03)
+carton(t, -1.73, -1.48, 0.32, 0.58, -0.79, -0.45, -0.06); carton(t, -1.42, -1.18, 0.32, 0.56, -0.80, -0.44, 0.05)
 t.finish(g)
-g = node('Y2_BOXES_OPEN', {'nav_block': json.dumps([0.28, 0.96, -3.4, -2.9])}); t = TMesh('Y2_boxes_open', M['print'])
-# 兩個壓平的紙箱靠著後牆（牆室內面 z=−3.4）：下緣離牆 12 cm、上緣貼牆
-for (xa, xb, top) in ((0.30, 0.92, 0.78), (0.34, 0.88, 0.70)):
-    zb = -3.4 + 0.10 * top / 0.78; t.tquad([(xa, 0.005, zb), (xb, 0.005, zb), (xb, top, -3.392), (xa, top, -3.392)], 'kraft_tape')
-    t.tquad([(xb, 0.005, zb - 0.004), (xa, 0.005, zb - 0.004), (xa, top, -3.396), (xb, top, -3.396)], 'kraft')
-# 一個開著的空箱：沒有蓋、四片蓋子往外翻
-x0, x1, z0, z1, h = 0.46, 0.80, -3.16, -2.92, 0.30
-for quad in (((x0, 0, z1), (x1, 0, z1), (x1, h, z1), (x0, h, z1)), ((x1, 0, z0), (x0, 0, z0), (x0, h, z0), (x1, h, z0)),
-             ((x1, 0, z1), (x1, 0, z0), (x1, h, z0), (x1, h, z1)), ((x0, 0, z0), (x0, 0, z1), (x0, h, z1), (x0, h, z0))):
+g = node('Y2_BOXES_OPEN', {'nav_block': json.dumps(NAV)}); t = TMesh('Y2_boxes_open', M['print'])
+# 兩個壓平的紙箱疊在地上（等資源回收）
+for k, (xa, xb, za, zb) in enumerate(((-1.79, -1.15, -0.86, -0.40), (-1.75, -1.17, -0.83, -0.42))):
+    y0, y1 = 0.002 + k * 0.007, 0.008 + k * 0.007; carton(t, xa, xb, y0, y1, za, zb, (0.03, -0.05)[k])
+# 一個開著的空箱放在上面：沒有蓋、四片蓋子往外翻
+x0, x1, z0, z1, h0 = -1.64, -1.30, -0.76, -0.52, 0.015; h = h0 + 0.30
+for quad in (((x0, h0, z1), (x1, h0, z1), (x1, h, z1), (x0, h, z1)), ((x1, h0, z0), (x0, h0, z0), (x0, h, z0), (x1, h, z0)),
+             ((x1, h0, z1), (x1, h0, z0), (x1, h, z0), (x1, h, z1)), ((x0, h0, z0), (x0, h0, z1), (x0, h, z1), (x0, h, z0))):
     t.tquad(list(quad), 'kraft'); t.tquad(list(reversed(quad)), 'kraft')
-t.tquad([(x0, 0.004, z0), (x1, 0.004, z0), (x1, 0.004, z1), (x0, 0.004, z1)], 'kraft')
+t.tquad([(x0, h0 + 0.004, z0), (x1, h0 + 0.004, z0), (x1, h0 + 0.004, z1), (x0, h0 + 0.004, z1)], 'kraft')
 fl = 0.12
 for quad in (((x0, h, z1), (x1, h, z1), (x1, h + fl * 0.6, z1 + fl * 0.8), (x0, h + fl * 0.6, z1 + fl * 0.8)),
              ((x1, h, z0), (x0, h, z0), (x0, h + fl * 0.6, z0 - fl * 0.8), (x1, h + fl * 0.6, z0 - fl * 0.8)),
@@ -266,7 +265,6 @@ for quad in (((x0, h, z1), (x1, h, z1), (x1, h + fl * 0.6, z1 + fl * 0.8), (x0, 
              ((x0, h, z0), (x0, h, z1), (x0 - fl * 0.8, h + fl * 0.5, z1), (x0 - fl * 0.8, h + fl * 0.5, z0))):
     t.tquad(list(quad), 'kraft'); t.tquad(list(reversed(quad)), 'kraft')
 t.finish(g)
-
 # ---------------- 匯出 ----------------
 for ob in bpy.data.objects:
     if ob.type == 'MESH':
@@ -279,11 +277,11 @@ for ob in bpy.data.objects:
 print('dorm_y2 tris', tris, 'total', sum(tris.values()))
 st = L.export(OUT, gpu_instances=False)
 L.write_json(OUT.replace('.glb', '.json'), {
-    'glb': os.path.relpath(OUT, L.ROOT), 'zone': 'dorm（112 號房：同一個房間模型）', 'tris': tris, 'tris_total': sum(tris.values()), 'bytes': st['bytes'],
+    'glb': os.path.relpath(OUT, L.ROOT), 'zone': 'dorm（大二 312 起：同一個四人房模型 dorm_room4，祐廷 L2）', 'layout': 'loft4-v2', 'tris': tris, 'tris_total': sum(tris.values()), 'bytes': st['bytes'],
     'nodes': {
-        'WALL_right_Y2_BOARD': '軟木板（右牆、書桌旁；ROOM_Y2 以後一直有；牆淡出時一起淡出，dir＝[−1,0,0]）；下面的 ITEM_duty／report／film／y1_ferris／sticky 是釘在板上的',
+        'WALL_left_Y2_BOARD': '軟木板（左牆、祐廷書桌前＝layout 的 wall_spot_by_desk；ROOM_Y2 以後一直有；牆淡出時一起淡出，dir＝[1,0,0]）；下面的 ITEM_duty／report／film／y1_ferris／sticky 是釘在板上的；社團傳單之後也釘在板上（x 往房間 +0.02）',
         'ITEM_film': 'S.ROOM_Y2_TEXT.film', 'ITEM_pick': 'pick', 'ITEM_civ': 'civ（一定有）', 'ITEM_report': 'report', 'ITEM_noodle': 'noodle（一定有）',
-        'ITEM_duty': 'duty', 'ITEM_green': 'green', 'ITEM_sticky': 'sticky', 'ITEM_y1_ferris': '大一房間的摩天輪票根', 'ITEM_y1_album': '大一房間的河堤相簿',
-        'Y2_BOXES_CLOSED': '拆箱前：四個封好的紙箱（導航擋 nav_block）', 'Y2_BOXES_OPEN': '拆完：一個開著的空箱＋兩個壓平靠牆（導航擋 nav_block）'},
+        'ITEM_duty': 'duty', 'ITEM_green': 'green（螢光筆＋攤開的筆記本）', 'ITEM_sticky': 'sticky', 'ITEM_y1_ferris': '大一房間的摩天輪票根', 'ITEM_y1_album': '大一房間的河堤相簿（疊在民總課本上）',
+        'Y2_BOXES_CLOSED': '拆箱前：四個封好的紙箱（導航擋 nav_block＝[x0,x1,z0,z1]）', 'Y2_BOXES_OPEN': '拆完：兩個壓平的紙箱疊在地上＋上面一個開著的空箱（導航擋 nav_block）'},
     'pothos': 'prop_pothos.glb（POTHOS_S1～S4，書桌左前角）', 'texture': 'tools/blender/env_second/textures/gen/dorm_y2_print.png（本作，PIL 畫的，沒有字）',
     'materials': ['y2_print', 'y2_cork（Poly Haven granular_concrete）', 'y2_frame（Poly Haven walnut_veneer）', 'y2_vc']})
