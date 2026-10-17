@@ -1,5 +1,5 @@
 {
- "source": "AA_162 第 4、5、7、8 節，AA-B 2026-10-16；AA_160 第 6 節",
+ "source": "AA_162 第 4、5、7、8 節，AA-B 2026-10-16；第三批 AA_271，AA-C 2026-10-17；AA_160 第 6 節",
  "status": "READY_FOR_INTEGRATION（第②級日常內容，AA-B 定；和 bb_walk_v1.json 同格式，給 DL-07、DL-08）",
  "rules": {
   "values": "一起走一段照 AA_124 1-2「一起去 Café 坐坐」（熟悉 +3、信任 +1、自在 +2），受每天上限；同一個人一天一次；不加戀愛，不算約會（AA_160 第 6 節）",
@@ -9,11 +9,12 @@
    "zhe": "不限關係（偶遇本身要「認識」以上）",
    "yu": "不限關係；只在 D04（D20 是社團點名，不一起走）",
    "classmate_bohan": "D06 朋友以上；D09 有點熟以上",
-   "classmate_xinci": "不一起走（join:false）"
+   "classmate_xinci": "不一起走（join:false）",
+   "batch3": "第三批（AA_271）：以安 D26 朋友以上；語彤 D14 朋友以上、心願完成以後；柏翰 D11 朋友以上；小語 D01、阿哲 D29 不限關係；芯慈 D02 不一起走"
   },
   "ex": "前任不一起走；重訪用 afterBreakup（只有以安、語彤）",
   "revisit": "這次沒有遇到他／她才說；一個地方說一次，要再遇到、留下新紀錄才會再說",
-  "rain": "D04、D06 照用；D12、D13 雨天沒有偶遇；D25 下雨時 D25.shore 灰掉；D09 下雨纜車停駛（去不了）",
+  "rain": "D04、D06 照用；D12、D13 雨天沒有偶遇；D25 下雨時 D25.shore 灰掉；D09 下雨纜車停駛（去不了）；第三批：D14 雨天沒有偶遇，D01、D02、D11、D26、D29 照用（灰掉的戶外項目不選）",
   "once": "同一件事一趟只說一次"
  },
  "walk": [
@@ -44,7 +45,7 @@
    "spot": "D06",
    "act": "D06.cafe",
    "friend": [
-    "這裡的拿鐵比 Café 貴四十元。理由：窗戶比較大。"
+    "這裡的拿鐵比 Café 貴四十元。可是窗戶比較大。"
    ],
    "dating": [
     "你的那杯，我喝一口。……好，我的比較好喝。"
@@ -266,6 +267,153 @@
      "Y4S1"
     ]
    }
+  },
+  {
+   "who": "heroine_01",
+   "spot": "D26",
+   "act": "D26.village",
+   "friend": [
+    "這間的檸檬飲料，我高中下課常常來買。"
+   ],
+   "dating": [
+    "你喝喝看。我高中都點這一杯。"
+   ]
+  },
+  {
+   "who": "heroine_01",
+   "spot": "D26",
+   "act": "walk",
+   "friend": [
+    "從這裡走到美術館大概十五分鐘。走慢一點也來得及。"
+   ],
+   "dating": [
+    "走這邊，樹比較多，比較不會曬。"
+   ]
+  },
+  {
+   "who": "heroine_01",
+   "spot": "D26",
+   "act": "D26.museum",
+   "friend": [
+    "國美館不用門票。我國中來這裡寫生，畫得很爛。"
+   ],
+   "dating": [
+    "這個展我還沒看過。剛好一起看。"
+   ]
+  },
+  {
+   "who": "heroine_03",
+   "spot": "D14",
+   "act": "D14.ferry",
+   "friend": [
+    "坐後面。前面浪會打上來，相機會濕。"
+   ],
+   "dating": [
+    "你坐裡面。我想坐靠水那邊。"
+   ]
+  },
+  {
+   "who": "heroine_03",
+   "spot": "D14",
+   "act": "D14.sunset",
+   "friend": [
+    "要拍的話就是現在。再幾分鐘就沒了。"
+   ],
+   "dating": [
+    "你站過去一點。好，不要動。"
+   ]
+  },
+  {
+   "who": "heroine_03",
+   "spot": "D14",
+   "act": "walk",
+   "friend": [
+    "這邊的人都在釣魚。我站了十分鐘，沒看到誰釣到。"
+   ],
+   "dating": [
+    "走慢一點。前面有一塊木板是鬆的。"
+   ]
+  },
+  {
+   "who": "classmate_bohan",
+   "spot": "D11",
+   "act": "walk",
+   "friend": [
+    "這條溪的水是熱的。我上次來，還以為哪裡失火。"
+   ],
+   "dating": []
+  },
+  {
+   "who": "classmate_bohan",
+   "spot": "D11",
+   "act": "D11.valley",
+   "friend": [
+    "告示說不能碰。我本來想試試看有多燙，還好沒有。"
+   ],
+   "dating": []
+  },
+  {
+   "who": "classmate_bohan",
+   "spot": "D11",
+   "act": "D11.museum",
+   "friend": [
+    "這裡以前是公共浴場。說明我看完了，你要自己看還是我講？"
+   ],
+   "dating": []
+  },
+  {
+   "who": "yu",
+   "spot": "D01",
+   "act": "D01.market",
+   "friend": [
+    "欸這攤可以試吃！對了你吃辣嗎？這片好像有辣。"
+   ],
+   "dating": []
+  },
+  {
+   "who": "yu",
+   "spot": "D01",
+   "act": "D01.wall",
+   "friend": [
+    "你幫我拍一張。不要拍到腳，我今天鞋子很醜。"
+   ],
+   "dating": []
+  },
+  {
+   "who": "yu",
+   "spot": "D01",
+   "act": "walk",
+   "friend": [
+    "那根煙囪以前是在燒什麼？酒廠嗎？等一下我查。"
+   ],
+   "dating": []
+  },
+  {
+   "who": "zhe",
+   "spot": "D29",
+   "act": "walk",
+   "friend": [
+    "那艘船我高中騎車上學每天都看到。應該不是同一艘啦。"
+   ],
+   "dating": []
+  },
+  {
+   "who": "zhe",
+   "spot": "D29",
+   "act": "D29.sculpture",
+   "friend": [
+    "這個我小時候以為是外星人的船。現在看還是很像。"
+   ],
+   "dating": []
+  },
+  {
+   "who": "zhe",
+   "spot": "D29",
+   "act": "D29.rail",
+   "friend": [
+    "這條鐵道以前有火車喔，我阿公說的。他說的我都沒查過。"
+   ],
+   "dating": []
   }
  ],
  "leave": [
@@ -315,6 +463,36 @@
    "who": "classmate_bohan",
    "spot": "D09",
    "friend": "我搭下一班下山。明天開始，我又要念書了。……今天謝謝。",
+   "dating": ""
+  },
+  {
+   "who": "heroine_01",
+   "spot": "D26",
+   "friend": "我媽傳訊息了，我要回去。你回臺北的車幾點？",
+   "dating": "五點了，我要回家吃飯。到臺北傳訊息給我。"
+  },
+  {
+   "who": "heroine_03",
+   "spot": "D14",
+   "friend": "我搭這班回去。我媽在等我吃飯。",
+   "dating": "我媽在等吃飯。你陪我到捷運站就好。"
+  },
+  {
+   "who": "classmate_bohan",
+   "spot": "D11",
+   "friend": "我要回去了，還有一份考古題。下禮拜考完再說。",
+   "dating": ""
+  },
+  {
+   "who": "yu",
+   "spot": "D01",
+   "friend": "我要回板橋了，晚上家裡有親戚來。第六個章你看到要跟我說喔！",
+   "dating": ""
+  },
+  {
+   "who": "zhe",
+   "spot": "D29",
+   "friend": "我同學要去打球了。你回台北的高鐵幾點？不要錯過喔。",
    "dating": ""
   }
  ],
@@ -390,6 +568,42 @@
    "who": "classmate_xinci",
    "spot": "D18",
    "normal": "茶樓的窗邊坐著另一對人，也拿著手機在比對什麼。",
+   "afterBreakup": ""
+  },
+  {
+   "who": "heroine_01",
+   "spot": "D26",
+   "normal": "審計新村那間小店門口的階梯，今天坐著別人。",
+   "afterBreakup": "你沒有往審計新村那排小店走。"
+  },
+  {
+   "who": "heroine_03",
+   "spot": "D14",
+   "normal": "渡輪站的長椅上沒有人。下一班船還要二十分鐘。",
+   "afterBreakup": ""
+  },
+  {
+   "who": "classmate_bohan",
+   "spot": "D11",
+   "normal": "圖書館靠窗的位子坐著一個高中生，桌上也攤著考古題。",
+   "afterBreakup": ""
+  },
+  {
+   "who": "yu",
+   "spot": "D01",
+   "normal": "展場出口的蓋章台前面排著幾個小孩。你想起小語在找第六個章。",
+   "afterBreakup": ""
+  },
+  {
+   "who": "classmate_xinci",
+   "spot": "D02",
+   "normal": "展覽的出口換了一檔新的。門口沒有人在對收據。",
+   "afterBreakup": ""
+  },
+  {
+   "who": "zhe",
+   "spot": "D29",
+   "normal": "港邊的台階空著。你想起阿哲他們三個在分一包鹹酥雞。",
    "afterBreakup": ""
   }
  ],
@@ -506,6 +720,42 @@
    "who": "classmate_xinci",
    "where": "一般聊天",
    "line": "我們後來找到那個角度了。第三個要件，光，差了一點。……我還是很高興。"
+  },
+  {
+   "mem": "ENC_D26_AN",
+   "who": "heroine_01",
+   "where": "一般聊天",
+   "line": "上次在臺中，我媽那張清單最後還是漏買一樣。我又跑了一趟。"
+  },
+  {
+   "mem": "ENC_D14_YT",
+   "who": "heroine_03",
+   "where": "一般聊天",
+   "line": "漁人碼頭那天，你後來搭幾點的車？我那班好擠。"
+  },
+  {
+   "mem": "ENC_D11_BH",
+   "who": "classmate_bohan",
+   "where": "一般聊天",
+   "line": "北投那間圖書館，期中前你要去的話跟我講。我早上會先到。"
+  },
+  {
+   "mem": "ENC_D01_YU",
+   "who": "yu",
+   "where": "一般聊天",
+   "line": "欸，華山那個第六個章！在廁所旁邊。我又跑去一次。"
+  },
+  {
+   "mem": "ENC_D02_XC",
+   "who": "classmate_xinci",
+   "where": "一般聊天",
+   "line": "松菸那個特展下禮拜就撤了。我又去了一次，這次只買一樣。"
+  },
+  {
+   "mem": "ENC_D29_ZHE",
+   "who": "zhe",
+   "where": "一般聊天",
+   "line": "上次在駁二，我同學說你很好聊。下次回高雄再約。"
   }
  ]
 }
