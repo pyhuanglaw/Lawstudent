@@ -7185,6 +7185,19 @@
    "msg": "ACK",
    "integration": "進行中",
    "note": ""
+  },
+  {
+   "id": "DL-LAWWW2-03179efb",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "03179efb",
+   "what": "經濟系第四輪：韋綸 v12（＋安全帽 helmet_bike.glb 3bb9b276）、家豪 v10、魏教授 v6（＋眼鏡 glasses_wei.glb 680c0f32）、唐睿 v11；BB-C 驗收：前三位通過、唐睿不通過",
+   "task": "V0-ECON-CHARS",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 25519e3f 接進遊戲（唐睿不接，等新版）；遊戲內截圖給 BB-C 待拍"
   }
  ],
  "ignored": [
@@ -9687,6 +9700,94 @@
    "kind": "covered",
    "coveredBy": "DL-LAWWW2-ad0552ff",
    "reason": "同一批人物模型交 BB-C 驗收的過程版，最後一版 ad0552ff"
+  },
+  {
+   "sha": "98ffd82f",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "經濟系第四輪、魏教授第六版的腳本，成品是 03179efb",
+   "coveredBy": "DL-LAWWW2-03179efb"
+  },
+  {
+   "sha": "680c0f32",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "魏教授眼鏡 glasses_wei.glb，03179efb 那一批一起整合",
+   "coveredBy": "DL-LAWWW2-03179efb"
+  },
+  {
+   "sha": "3bb9b276",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "韋綸安全帽 helmet_bike.glb，03179efb 那一批一起整合",
+   "coveredBy": "DL-LAWWW2-03179efb"
+  },
+  {
+   "sha": "631b8f6a",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "魏教授第五版（被第六版取代）",
+   "coveredBy": "DL-LAWWW2-03179efb"
+  },
+  {
+   "sha": "c50a726b",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "經濟系三人衣服第一輪（被第四輪取代）",
+   "coveredBy": "DL-LAWWW2-03179efb"
+  },
+  {
+   "sha": "236f8080",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "not_delivery",
+   "reason": "改驗收說明的時間，不是交付"
+  },
+  {
+   "sha": "0f608f64",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "reason": "LAWWW2-C 交接檔進度"
+  },
+  {
+   "sha": "cc8cb1b7",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "reason": "LAWWW2-C 交接檔進度"
+  },
+  {
+   "sha": "953058e7",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "reason": "沛珊第十七版（等 BB-C；v21 交了再整合）",
+   "task": "BB-PS3D-D59"
+  },
+  {
+   "sha": "d660b6ed",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "reason": "沛珊第十九、二十版腳本（等 BB-C）",
+   "task": "BB-PS3D-D59"
+  },
+  {
+   "sha": "f72238a5",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "reason": "沛珊第二十版交 BB-C；BB-C 5-4 要第二十一版（同檔名），交了再整合",
+   "task": "BB-PS3D-D59"
+  },
+  {
+   "sha": "b17e72a2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "reason": "唐睿第十二版腳本（第十一版沒通過；還沒交 BB）",
+   "task": "ART-CH-TANGRUI"
+  },
+  {
+   "sha": "fbe25a92",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "reason": "唐睿第十三版＋沛珊第二十一版腳本（還沒交 BB）",
+   "task": "ART-CH-TANGRUI"
   }
  ]
 }
