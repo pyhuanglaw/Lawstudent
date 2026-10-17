@@ -41,7 +41,8 @@
     "assets/models/env/second_ai/street_props.glb",
     "assets/models/env/second_ai/street_props.json",
     "docs/art-rebuild/second_ai/patches/bikes_v2f.patch",
-    "docs/art-rebuild/second_ai/test_shots/bikes_v2/README.md"
+    "docs/art-rebuild/second_ai/test_shots/bikes_v2/README.md",
+    "docs/art-rebuild/second_ai/test_shots/bikes_v2/"
    ],
    "state": "已交付",
    "remaining": "遊戲內補拍塑膠籃、老鐵馬（整合後）；street_props_integration 由 LAWWW 整合時跑",
@@ -112,12 +113,63 @@
     "tools/blender/char_second/weilun_hair.py",
     "docs/art-rebuild/second_ai/char_review/weilun/"
    ],
-   "state": "已交付",
-   "remaining": "BB 驗收（D59）；之後：上下樓梯／跑步沒測、膝蓋擦傷、立領、短褲再短一點",
-   "next": "BB 照標準圖驗收；通過後 LAWWW 加 ASSETS.manifest（type vrm、height 1.76、props backpack）接到 econ_weilun",
+   "state": "WIP",
+   "remaining": "BB-C 04:57 要改八項（HANDOFF）；使用者 05:0x 暫停人物",
+   "next": "人物恢復後做第三版",
    "noDirectIntegrate": true,
    "receiver": "BB",
-   "ack": "SENT"
+   "ack": "ACK"
+  },
+  {
+   "task": "ART-CH-TANGRUI",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "fb028f70",
+   "files": [
+    "tools/blender/char_second/tangrui.py",
+    "tools/blender/char_second/tangrui_face.py",
+    "tools/blender/char_second/tangrui_hair.py",
+    "tools/blender/char_second/tangrui_clothes.py"
+   ],
+   "state": "WIP",
+   "remaining": "第三版建好（scratchpad），lookdev 拍了；捲髮還要再蓬、POLO 領子不明顯；沒交",
+   "next": "使用者 05:0x 暫停人物；恢復後繼續",
+   "noDirectIntegrate": true,
+   "receiver": "BB",
+   "ack": "未派"
+  },
+  {
+   "task": "ART-CH-JIAHAO",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "af52e330",
+   "files": [
+    "tools/blender/char_second/jiahao.py",
+    "tools/blender/char_second/jiahao_face.py",
+    "tools/blender/char_second/jiahao_hair.py",
+    "tools/blender/char_second/jiahao_clothes.py"
+   ],
+   "state": "WIP",
+   "remaining": "第一版建好（帽子像水桶帽）；第二版帽子腳本改了、沒建完",
+   "next": "使用者 05:0x 暫停人物；恢復後繼續",
+   "noDirectIntegrate": true,
+   "receiver": "BB",
+   "ack": "未派"
+  },
+  {
+   "task": "ART-CH-XUN",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "01a81fe3",
+   "files": [
+    "tools/blender/char_second/xun.py",
+    "tools/blender/char_second/xun_face.py",
+    "tools/blender/char_second/xun_hair.py",
+    "tools/blender/char_second/xun_clothes.py"
+   ],
+   "state": "WIP",
+   "remaining": "腳本第一版；建置停在臉",
+   "next": "使用者 05:0x 暫停人物；恢復後繼續",
+   "noDirectIntegrate": true,
+   "receiver": "BB",
+   "ack": "未派"
   }
  ]
 }
