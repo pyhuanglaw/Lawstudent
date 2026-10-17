@@ -1159,7 +1159,7 @@ const STORY_EVENTS=[
   /* 12/29（一）海邊一日遊（AA_204 第 3 節、AA_199 VA-03）：12/26 群組約、08:50 臺北車站集合（story3d.js）；海邊用約會底圖的海邊（不寫真實地名）。記 VA03_BEACH:'went'、VA03_SHOE；在場的人熟悉 +1 */
   { id:'ev_va03_beach', title:'海邊一日遊', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
     dialogue:[ {scene:'海邊',bg:'d25_base_sunset'},
-      {speaker:null,text:'（十二月二十九日。下火車的時候，天陰陰的，風很大。）'},
+      {if:{custom:G=>G.day===STORY.dayOfKey('2025-12-29')},speaker:null,text:'（十二月二十九日。下火車的時候，天陰陰的，風很大。）'},{unless:{custom:G=>G.day===STORY.dayOfKey('2025-12-29')},speaker:null,text:'（寒假的第一個禮拜一。下火車的時候，天陰陰的，風很大。）'},   /* 大二以後才第一次去（AA_264 第 4 節）*/
       {speaker:'yu',text:'好冷！！'},
       {speaker:'zhe',text:'來都來了。'},
       {speaker:null,text:'（沙灘上幾乎沒有人。阿哲把鞋子脫了，踩到水，叫了一聲又跑回來。）'},
