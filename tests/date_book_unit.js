@@ -3,9 +3,9 @@ const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
-const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|DATE|DATE_DATA|ROM)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|DATE|DATE_DATA|DATE_LINES|ROM)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/classes3d.js','src/romance3d.js','src/data/date_locations.js','src/date3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/classes3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/date3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -89,5 +89,31 @@ const ADV2=global.ADV; ADV2.active=false;
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; opts=[]; picks=['算了'];
   await INV.flow(GM,'heroine_03',null,false); check('8. 約人的地點清單最後有「去校外…」（還沒到第 5 階＝灰掉）',opts[0].includes('去校外…'),opts[0].join('/'));
   fresh(day,9,'dorm',{}); G.contacts.zhe=1; opts=[]; picks=['算了']; await INV.flow(GM,'zhe',null,false); check('8. 男生（阿哲）沒有「去校外…」',!opts[0].includes('去校外…'),opts[0].join('/'));
+  // ---------- 9 她的句子（DATE-S6；date_lines.js 白名單匯入）----------
+  check('9. date_lines.js 來自匯入白名單（BB_128、AA_127、date_prefs 兩個檔＠5e910dd2）',/白名單/.test(DATE_LINES.source)&&DATE_LINES.source.includes('5e910dd2')&&Object.keys(DATE_LINES.lines).length===7,DATE_LINES.source);
+  fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; G.flags.dating_heroine_03=false; R('heroine_03',...LV.CLO);
+  { const st=DATE.stageNum('heroine_03'); if(st<5){ const r=SOCIAL.rel('heroine_03'); r.npcRom=60; r.rom=40; r.fam=70; r.trust=60; r.comf=60; } }
+  said=[]; opts=[]; picks=['淡水','明天','15:00','就這樣約']; await DATE.menu(GM,'heroine_03',null);
+  const ln=lines(); check('9. 約成：語彤的「答應」（手機、連發兩則：「好。」「我跟阿姨說那天不顧店。」）；麵店沒公休那天不說「店裡公休」',ln.some(x=>/（手機）：好。$/.test(x))&&ln.some(x=>/我跟阿姨說那天不顧店。/.test(x))&&!ln.some(x=>/公休/.test(x)),ln.join(' | '));
+  check('9. 句子也寫進手機的對話串',(G.msgs||[]).some(m=>m.th==='p:heroine_03'&&/不顧店/.test(m.text)),JSON.stringify((G.msgs||[]).slice(-3)));
+  said=[]; picks=['淡水',DATE.dayLabel(G,day+2).split('（')[0],'15:00','就這樣約']; await DATE.menu(GM,'heroine_03',null);
+  check('9. 第二次約：沒有別句可以輪（公休那句今天不能用）→ 還是同一句',lines().some(x=>/不顧店/.test(x)),lines().join(' | '));
+  fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; G.flags.dating_heroine_03=true; said=[]; picks=['淡水','明天','15:00','就這樣約']; await DATE.menu(GM,'heroine_03',null);
+  check('9. 和她交往中：「答應（和她交往中）」那一句',lines().some(x=>/阿姨說，那天她自己顧。/.test(x)),lines().join(' | '));
+  // 交通偏好：語彤 D09 想搭捷運 → 預設選、排第一；改開車她說一句
+  OUT.BG.d09_base_dusk=OUT.BG.d09_base_dusk||{label:'貓空',image:'x'};
+  fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; G.flags.dating_heroine_03=true; said=[]; opts=[]; picks=['貓空','開車','明天','14:00','就這樣約']; const tc=await DATE.menu(GM,'heroine_03',null);
+  check('9. 交通：她的偏好（捷運）排第一、寫「（她想這樣去）」',opts[1]&&/（她想這樣去）/.test(opts[1][0])&&/捷運/.test(opts[1][0]),JSON.stringify(opts[1]));
+  check('9. 玩家改開車：約成、她說「改交通」那一句（不扣分）',tc&&tc.transport==='car'&&lines().some(x=>/坐你的車也可以/.test(x)),lines().join(' | '));
+  // 改時間、第三次、取消、放鴿子
+  fresh(day,9,'dorm',{}); const tm2=DATE.book(G,{who:'heroine_01',locs:['D13'],transport:'mrt',day,depart:15}); const tr2=DATE.trip(G,tm2.trip), qm2=OUT.get(G,'date_'+tm2.trip);
+  said=[]; picks=['改到明天同一個時間']; await DATE.move(GM,qm2,tr2); check('9. 改時間：以安「改時間」那一句（輪流第 1 句）',lines().some(x=>/新的時間我改好了/.test(x)),lines().join(' | '));
+  said=[]; picks=['改到明天同一個時間']; await DATE.move(GM,qm2,tr2); check('9. 再改一次：輪到第 2 句',lines().some(x=>/下午我空得出來/.test(x)),lines().join(' | '));
+  said=[]; picks=['改到明天同一個時間']; await DATE.move(GM,qm2,tr2); check('9. 同一個行程改到第三次：「第三次了。」那一句',tr2.moves===3&&lines().some(x=>/第三次了。/.test(x)),lines().join(' | '));
+  said=[]; picks=['改到明天同一個時間']; await DATE.move(GM,qm2,tr2); check('9. 第四次：照一般改時間（第三次那句只說一次）',!lines().some(x=>/第三次了/.test(x))&&lines().some(x=>/新的時間|空得出來/.test(x)),lines().join(' | '));
+  said=[]; await DATE.drop(GM,qm2,tr2); check('9. 今天不去了：以安「取消」那一句（連發：「好。理由？」「……好。下次你要說理由。」）、還沒有 FLAKED',!G.flags.FLAKED_heroine_01&&lines().some(x=>/好。理由？/.test(x))&&lines().some(x=>/下次你要說理由/.test(x)),lines().join(' | '));
+  const tm3=DATE.book(G,{who:'heroine_01',locs:['D13'],transport:'mrt',day:day+1,depart:15}); said=[]; await DATE.drop(GM,OUT.get(G,'date_'+tm3.trip),DATE.trip(G,tm3.trip));
+  check('9. 30 天內第二次取消：FLAKED、放鴿子那一句',G.flags.FLAKED_heroine_01!=null&&lines().some(x=>/他會臨時取消/.test(x)),lines().join(' | '));
+  check('9. 輪流的位置存在 dateLog（存檔裡；讀檔補預設）',!!DATE.log(G,'heroine_01').lineIdx&&DATE.log(G,'heroine_01').lineIdx.move===3&&DATE.log(G,'heroine_01').lineIdx.move3===1,JSON.stringify(DATE.log(G,'heroine_01').lineIdx));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

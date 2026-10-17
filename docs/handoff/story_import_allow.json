@@ -174,6 +174,36 @@
    "status": "approved",
    "approvedBy": "AA-B 交付（AA_128 第 2 節地點表、AA_148 互動點時間花費）；32 處校外約會已授權（CLAUDE.md D79 第 7 點、AA_128 使用者原話三條）",
    "task": "DATE-S2"
+  },
+  {
+   "path": "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md",
+   "sha": "5e910dd2",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 06:15Z 交付（outbox_AA.json DATE-S6 5e910dd2，792577ef 通知；BB_128 3-7 BB 五位 AA 已審語氣、AA_127 第 8 節 AA 寫）",
+   "task": "DATE-S6",
+   "scope": "只用 3-6「不分地點的句子」的取消、放鴿子兩欄與 3-7 預約句子"
+  },
+  {
+   "path": "docs/story_planning/AA_127_以安語彤_心願約會與邀約變化.md",
+   "sha": "5e910dd2",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 06:15Z 交付（outbox_AA.json DATE-S6 5e910dd2，792577ef 通知；BB_128 3-7 BB 五位 AA 已審語氣、AA_127 第 8 節 AA 寫）",
+   "task": "DATE-S6",
+   "scope": "只用 1-7、2-7 的取消、30 天內第二次取消兩列與第 8 節預約句子"
+  },
+  {
+   "path": "docs/story_planning/date_system/date_prefs_bb.json",
+   "sha": "5e910dd2",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 06:15Z 交付（outbox_AA.json DATE-S6 5e910dd2，792577ef 通知；BB_128 3-7 BB 五位 AA 已審語氣、AA_127 第 8 節 AA 寫）",
+   "task": "DATE-S6"
+  },
+  {
+   "path": "docs/story_planning/date_system/date_prefs_aa.json",
+   "sha": "5e910dd2",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 06:15Z 交付（outbox_AA.json DATE-S6 5e910dd2，792577ef 通知；BB_128 3-7 BB 五位 AA 已審語氣、AA_127 第 8 節 AA 寫）",
+   "task": "DATE-S6"
   }
  ]
 }
