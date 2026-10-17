@@ -217,7 +217,7 @@
   {
    "task": "SCN-US-03",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "",
+   "sha": "2f4ae940",
    "files": [
     "tools/blender/env_second/us_market_layout_gen.py",
     "assets/models/env/second_ai/us_market.layout.json",
@@ -236,6 +236,26 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "VAC-A2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "",
+   "files": [
+    "tools/blender/env_second/airport_layout_gen.py",
+    "assets/models/env/second_ai/airport_t2.layout.json",
+    "tools/blender/env_second/airport_tex.py",
+    "tools/blender/env_second/airport_t2.py",
+    "assets/models/env/second_ai/airport_dep.glb",
+    "assets/models/env/second_ai/airport_arr.glb",
+    "tools/blender/env_second/textures/gen/ap_*"
+   ],
+   "state": "WIP",
+   "remaining": "第二航廈出境（含下車處）＋入境第一版建好（出境 4.2 萬、入境 1.5 萬三角形）：渲染驗收、修正、README、八項；等使用者給第二航廈照片再對外觀",
+   "next": "LAWWW2-C（規格：AA-C 2026-10-17 05:56 回覆）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派"
   }
  ]
 }

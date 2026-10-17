@@ -1,0 +1,13 @@
+{
+ "objects": 32,
+ "unique_meshes": 32,
+ "tris": 41704,
+ "tris_drawn": 41704,
+ "materials": 36,
+ "out": "assets/models/env/second_ai/airport_dep.glb",
+ "bytes": 3161144,
+ "texres": 512,
+ "tris_total": 41704,
+ "layout": "airport_t2.layout.json",
+ "area": "dep"
+}
