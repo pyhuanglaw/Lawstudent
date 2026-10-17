@@ -2,7 +2,7 @@
 LAWWW2-C 2026-10-17；Blender 5.2（bpy，無介面）：
   /opt/blenv/bin/python tools/blender/char_second/prop_foodmap_notebook.py [-- --out assets/models/char/second_ai/notebook_foodmap.glb]
 
-A6 左右的硬殼筆記本（18.5×13×1.8 cm）：牛皮紙封面、封面上手畫的地圖塗鴉（彎彎的路、紅色圓點、小碗）＋一條紙膠帶標籤「公館美食地圖」（他自己取的外號，不是店名）；
+A6 硬殼筆記本（14.8×10.5×1.5 cm；BB-C 18819b79：原本 18.5×13 像一本書）：牛皮紙封面、封面上手畫的地圖塗鴉（彎彎的路、紅色圓點、小碗）＋左上角斜貼一小段紙膠帶，麥克筆手寫「公館美食地圖」（他自己取的外號，不是店名；BB-C：原本印刷體在正中間像書名）；
 書口和上緣冒出一排彩色索引貼（寫滿了的樣子）、一條黑色鬆緊帶。圖是本作用 PIL 畫的，**沒有真實店名、商標**（D77）。
 座標＝three.js 模型座標（x 右、y 上、z 前），原點在筆記本中心；封面朝 +y、書背在 −x、書口在 +x。
 props3d 的掛法照資料夾（folder：左手、平拿），寫在 .json 的 hold。"""
@@ -17,7 +17,7 @@ ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 OUT = os.path.join(L.ROOT, ARGS[ARGS.index('--out') + 1] if '--out' in ARGS else 'assets/models/char/second_ai/notebook_foodmap.glb')
 GEN = os.path.join(HERE, '..', 'env_second', 'textures', 'gen'); os.makedirs(GEN, exist_ok=True); TEX = os.path.join(GEN, 'foodmap_cover.png')
 FONT = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
-W2, T2, D2 = 0.0925, 0.009, 0.065        # 半寬（x）、半厚（y）、半高（z）
+W2, T2, D2 = 0.074, 0.0075, 0.0525       # 半寬（x）、半厚（y）、半高（z）：A6
 CT = 0.0018                              # 硬殼封面的厚度
 rr = random.Random(1017)
 
@@ -46,11 +46,18 @@ def cover_png(path):
     for _ in range(5):                                                                   # 星號
         x, y = rr.uniform(40, 470), rr.uniform(50, 330)
         for a in range(3): aa = a * math.pi / 3; d.line([(x - 9 * math.cos(aa), y - 9 * math.sin(aa)), (x + 9 * math.cos(aa), y + 9 * math.sin(aa))], fill=(214, 120, 40), width=3)
-    # 紙膠帶標籤（米白、半透明的邊）＋手寫感的字（稍微歪）
-    lab = Image.new('RGBA', (300, 76), (236, 226, 196, 235)); ld = ImageDraw.Draw(lab)
-    for x in range(0, 300, 6): ld.line([(x, 0), (x + 3, 0)], fill=(236, 226, 196, 120))
-    f = ImageFont.truetype(FONT, 40); ld.text((22, 14), '公館美食地圖', font=f, fill=(40, 34, 30, 255))
-    lab = lab.rotate(-4, expand=True, resample=Image.BICUBIC); im.paste(lab, (100, 140), lab)
+    # 紙膠帶標籤：一小段斜貼在左上角（米白、兩端撕開的鋸齒）；字是麥克筆手寫的感覺——每個字隨機歪一點、大小不一、粗筆畫、墨水稍微暈開
+    TW, TH = 236, 62; lab = Image.new('RGBA', (TW, TH), (0, 0, 0, 0)); ld = ImageDraw.Draw(lab)
+    poly = [(0, 4)] + [(6 + (k % 2) * 4, 4 + k * 6) for k in range(10)] + [(0, TH - 4), (TW, TH - 4)] + [(TW - 6 - (k % 2) * 4, TH - 4 - k * 6) for k in range(10)] + [(TW, 4)]
+    ld.polygon(poly, fill=(238, 228, 200, 232))
+    x = 16
+    for ch in '公館美食地圖':
+        g = Image.new('RGBA', (60, 60), (0, 0, 0, 0)); gd = ImageDraw.Draw(g); sz = rr.randint(31, 37)
+        gd.text((30, 30), ch, font=ImageFont.truetype(FONT, sz), fill=(26, 24, 30, 255), anchor='mm', stroke_width=2, stroke_fill=(26, 24, 30, 255))
+        g = g.rotate(rr.uniform(-9, 9), resample=Image.BICUBIC).filter(ImageFilter.GaussianBlur(0.7))
+        lab.alpha_composite(g, (int(x) - 12, int(rr.uniform(-1, 5))))
+        x += sz * 1.02 + rr.uniform(-2, 1)
+    lab = lab.rotate(11, expand=True, resample=Image.BICUBIC); im.paste(lab, (10, 6), lab)
     im = im.filter(ImageFilter.GaussianBlur(0.6)); im.save(path)
 
 
@@ -100,6 +107,6 @@ st = L.export(OUT, gpu_instances=False)
 L.write_json(OUT.replace('.glb', '.json'), {
     'glb': os.path.relpath(OUT, L.ROOT), 'owner': 'econ_jiahao', 'bytes': st['bytes'], 'size_m': [2 * W2, 2 * T2, 2 * D2],
     'origin': '筆記本中心；封面朝 +y、書背 −x、書口 +x', 'texture': os.path.relpath(TEX, L.ROOT) + '（本作 PIL 畫的；標籤字「公館美食地圖」是家豪自己取的外號，不是店名）',
-    'hold': {'bone': 'leftHand', 'pos': [-0.07, -0.02, 0.0], 'rot': [0, 0, 0], 'note': '照 props3d 的資料夾（folder）：左手平拿；拿著走路時封面朝外'},
+    'hold': {'bone': 'leftLowerArm', 'note': '掛在左前臂（不是手）：走路時跟前臂擺、不跟著手腕轉成水平（BB-C 18819b79）；位置在載入時照前臂到手的距離算到手掌，見 patches/props_foodmap_jiahao.js'},
     'nodes': ['foodmap_cover', 'foodmap_boards', 'foodmap_spine', 'foodmap_pages', 'foodmap_band', 'foodmap_tabs']})
 print('foodmap notebook', st)

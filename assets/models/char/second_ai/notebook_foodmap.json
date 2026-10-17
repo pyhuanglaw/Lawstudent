@@ -1,27 +1,17 @@
 {
  "glb": "assets/models/char/second_ai/notebook_foodmap.glb",
  "owner": "econ_jiahao",
- "bytes": 42428,
+ "bytes": 41740,
  "size_m": [
-  0.185,
-  0.018,
-  0.13
+  0.148,
+  0.015,
+  0.105
  ],
  "origin": "筆記本中心；封面朝 +y、書背 −x、書口 +x",
  "texture": "tools/blender/env_second/textures/gen/foodmap_cover.png（本作 PIL 畫的；標籤字「公館美食地圖」是家豪自己取的外號，不是店名）",
  "hold": {
-  "bone": "leftHand",
-  "pos": [
-   -0.07,
-   -0.02,
-   0.0
-  ],
-  "rot": [
-   0,
-   0,
-   0
-  ],
-  "note": "照 props3d 的資料夾（folder）：左手平拿；拿著走路時封面朝外"
+  "bone": "leftLowerArm",
+  "note": "掛在左前臂（不是手）：走路時跟前臂擺、不跟著手腕轉成水平（BB-C 18819b79）；位置在載入時照前臂到手的距離算到手掌，見 patches/props_foodmap_jiahao.js"
  },
  "nodes": [
   "foodmap_cover",
