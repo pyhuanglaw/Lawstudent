@@ -1,4 +1,4 @@
-// BB_214（BB-C 1c43434e）經濟系事件窗口：E05 那天演完以前不能回家、E06 22:30 以前睡著隔天收到、L5a 從家出發也趕得上。改版前會失敗。用法：node tests/v0_bb214_unit.js
+// BB_214（BB-C 1c43434e）經濟系事件窗口＋BB_216 B（b83a8636）已經有的背景接上：E05 那天演完以前不能回家、E06 22:30 以前睡著隔天收到、L5a 從家出發也趕得上。改版前會失敗。用法：node tests/v0_bb214_unit.js
 // （以下載入照 LIFE-LINE 第 6 組（AA_224 6-1～6-7 @31708531；機制 BB_188 A9-3）——不需要瀏覽器。
 // 2/15 起在祐廷家的餐桌讀書（kxFreeAt 拿掉、她 10:00 到；R1 開頭「她第一次來你家」；S1、S2 改字）、RP 從 2/15；6/8 衝刺班的私訊＋6/9～7/9 一三五 19～22 點（「這次不去」、第一次三句旁白、
 // 那幾晚可昕的訊息改到 22:10）；E35 在他家樓下（睡著 21:00 醒來）；E36 早上三句旁白（0.1）、晚上「只高 0.1。」「上了就是上了。」。改版前會失敗。用法：node tests/lifeline_g6_unit.js
@@ -47,5 +47,9 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   econ(d20+2,8.5,'dorm',{E05_OPEN:'fix',E05_DAY:d20,E05_END:19}); run(8.5,8.6); check('2. 過兩天就不補',!PHONE.sent(G,'y0_e06'));
   // L5a
   const e=STORY_EVENTS.find(x=>x.id==='ev_y0_l5a'); check('3. L5a 的時間窗涵蓋從家裡出發的最晚到店時間（14:15 出發＋30 分鐘）',e.time[0]<=13.75&&e.time[1]>=14.25+0.5,J(e.time));
+  // BB_216 B：圖已經有的場景接上
+  { const sc=id=>(STORY_EVENTS.find(x=>x.id===id).dialogue||[]).filter(l=>l.scene!==undefined).map(l=>l.scene+'|'+l.bg);
+    check('4. BB_216：衝刺班 cram_class、豆花店 gongguan_douhua、在家看榜 home_room、E20b 公館捷運出口不換背景（bg:false）',sc('ev_y0_cram_class').includes('衝刺班|cram_class')&&sc('ev_y0_e18b').includes('公館・豆花店|gongguan_douhua')&&sc('ev_y0_e36rh')[0]==='臺北的家|home_room'&&sc('ev_y0_e20b').includes('公館・捷運出口|false'),J([sc('ev_y0_cram_class'),sc('ev_y0_e18b'),sc('ev_y0_e36rh'),sc('ev_y0_e20b')]));
+    const p=sc('ev_y0_p2b'); check('4. BB_216：P2b 椰林大道 ntu_avenue、女舍門口 girls_dorm_gate、河濱 riverside',p.filter(x=>x==='椰林大道|ntu_avenue').length===2&&p.includes('女舍門口|girls_dorm_gate')&&p.includes('河濱|riverside'),J(p)); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

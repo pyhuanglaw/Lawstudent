@@ -2254,7 +2254,7 @@ const STORY_EVENTS=[
   /* E18b 可昕的生日（BB_104 8b-11）：4/24（四）19:00 公館豆花店（2D 出遊），一群人一起。祐廷的禮物記 E18B_GIFT（notebook／douhua／group；沒去＝none，story3d.js）；
      送筆記本的玩家，法律系大一她生日那天多一句（已接，ev_kexin_birthday_y1s2）*/
   { id:'ev_y0_e18b', stage:'econ', title:'可昕的生日', participants:['kexin','econ_pinyu'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[ {scene:'公館・豆花店'},
+    dialogue:[ {scene:'公館・豆花店',bg:'gongguan_douhua'},
       {speaker:null,text:'（豆花店最裡面那張桌子。桌上有一個小蛋糕，是品妤帶來的。）'},
       {speaker:'kexin',expression:'smile',text:'（吹完蠟燭）好，許完了。'},{speaker:'韋綸',text:'許什麼？'},{speaker:'kexin',expression:'neutral',text:'講出來就不靈了。'},
       {speaker:'econ_pinyu',text:'那送禮物。一個一個來。'},
@@ -2322,7 +2322,7 @@ const STORY_EVENTS=[
   /* 衝刺班（AA_224 6-4 @31708531；機制 BB_188 A9-3）：2025-06-09～07-09 每週一、三、五 19:00～22:00，祐廷和可昕一起去（AA_272 第 7 節：兩個人從家裡一起出門），另一間補習班，不是 12 月那間。
      第一次去＝三句旁白（沒有選項）；之後的晚上不演，時間跳過（像上課）。某一晚不去（「這次不去」）不扣任何東西。排程在 story3d.js（OUT y0_crm_<day>）*/
   { id:'ev_y0_cram_class', stage:'econ', title:'衝刺班', participants:[], location:'any', trigger:'outing', once:false, background:'dark', hours:3,
-    dialogue:[ {scene:'衝刺班'},
+    dialogue:[ {scene:'衝刺班',bg:'cram_class'},
       {unless:{flags:['CRAM_CLASS_SEEN']},speaker:null,text:'（另一間補習班。一間坐滿的教室，沒有人認識你們。）'},
       {unless:{flags:['CRAM_CLASS_SEEN']},speaker:null,text:'（你們挑了最後一排，兩個位子。）'},   /* AA_272 第 7 節（7050a1a0；使用者「我們……考前一個月去衝刺班」）：兩個人一起去，「半價」那句刪 */
       {set:{CRAM_CLASS_SEEN:true}} ] },
@@ -2454,7 +2454,7 @@ const STORY_EVENTS=[
     return [
       /* 白天看到結果（AA_154 A49：兩句系統旁白，接著可昕 10:05 的私訊）：ev_y0_e36r＝不在家；ev_y0_e36rh＝在臺北的家 */
       { id:'ev_y0_e36r', stage:'econ', title:'八月放榜', participants:[], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>rdue(G)&&!atHome(G)}, dialogue:rlines },
-      { id:'ev_y0_e36rh', stage:'econ', title:'八月放榜', participants:[], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:rdue}, dialogue:rlines },
+      { id:'ev_y0_e36rh', stage:'econ', title:'八月放榜', participants:[], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:rdue}, dialogue:[{scene:'臺北的家',bg:'home_room'}].concat(rlines) },   /* BB_216 B：在家看榜接 home_room */
       { id:'ev_y0_e36', stage:'econ', title:'放榜的電話', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'blur', prereq:{custom:G=>due(G)&&!atHome(G)}, dialogue:lines },
       { id:'ev_y0_e36h', stage:'econ', title:'放榜的電話', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:due}, dialogue:lines },
       { id:'ev_y0_e36n', stage:'econ', title:'放榜的宵夜', participants:[], location:'any', trigger:'chain', once:true, background:'dark', prereq:{custom:()=>false}, dialogue:[] } ]; })(),
@@ -2759,7 +2759,7 @@ const STORY_EVENTS=[
   /* E20b（AA_224 3-5）：他不在社科院門口出現了——12/26～12/28 第一次走進公館就演（她在捷運出口等他）；12/28 20:00 以前沒去公館＝私訊、放家裡信箱（story3d.js）*/
   { id:'ev_y0_e20b', stage:'econ', title:'你的份', participants:['kexin'], location:'gongguan', trigger:'auto', once:true, background:'blur',   /* 16 週制：12/26～12/28 已經是寒假，學期條件拿掉（日子在 custom 裡）*/
     prereq:{custom:G=>{ if(G.flags.GIRAFFE_KEYCHAIN||(G.events&&G.events.done&&G.events.done.ev_y0_e20)||typeof STORY==='undefined') return false; const a=STORY.dayOfKey('2024-12-26'), b=STORY.dayOfKey('2024-12-28'); return a!=null&&G.day>=a&&(G.day<b||(G.day===b&&G.hour<20)); }},
-    dialogue:[ {scene:'公館・捷運出口'},{speaker:'kexin',expression:'neutral',text:'你昨天沒來。'},
+    dialogue:[ {scene:'公館・捷運出口',bg:false},{speaker:'kexin',expression:'neutral',text:'你昨天沒來。'},
       {speaker:null,text:'她把一個小東西塞進你手裡。一隻長頸鹿鑰匙圈，脖子短短的。'},
       {speaker:'kexin',expression:'smile',text:'你的份。'},
       {set:{GIRAFFE_KEYCHAIN:true}} ] },
@@ -2926,14 +2926,14 @@ const STORY_EVENTS=[
       {label:'l5b_b'},{speaker:'econ_zhengxun',text:'（已經走到前面）這邊可以出去。'},
       {label:'l5b_end'},{set:{L5B_DONE:true}},{goto:'end'},   /* L5b：只是聊天，沒有旗標（L5B_DONE 只記演過）*/
       /* 韋綸的腳踏車（BB_112 第 3 節；祐廷的三句 AA_154 2-5b，BB-B 法律審查 7cf231c3）：11/7 的 river 換成這一段；去總圖查（三選一只差時間）＝時間前進一小時 */
-      {label:'bike'},{scene:'椰林大道'},{speaker:'陌生人',text:'這台是我的。上個月被偷的。'},{speaker:'韋綸',text:'我上週在網路上買的！跟一個人買的！'},{speaker:'陌生人',text:'車架下面有我刻的字。你看。'},
+      {label:'bike'},{scene:'椰林大道',bg:'ntu_avenue'},{speaker:'陌生人',text:'這台是我的。上個月被偷的。'},{speaker:'韋綸',text:'我上週在網路上買的！跟一個人買的！'},{speaker:'陌生人',text:'車架下面有我刻的字。你看。'},
       {speaker:null,text:'（真的有。）'},{speaker:'韋綸',text:'……{name}，你不是在看法律的書嗎？'},
       {scene:'總圖'},{choice:[{text:'「買賣」',goto:'bk1'},{text:'「所有權」',goto:'bk2'},{text:'「從目錄翻」',goto:'bk3'}]},
       {label:'bk1'},{speaker:null,text:'（翻了四十分鐘才繞到所有權那一章）'},{goto:'bk_found'},
       {label:'bk2'},{speaker:null,text:'（十五分鐘就找到）'},{goto:'bk_found'},
       {label:'bk3'},{speaker:null,text:'（半小時）'},
       {label:'bk_found'},{speaker:null,text:'你第一次知道，翻法律要先知道翻哪裡。'},{advance:1},
-      {scene:'椰林大道'},{speaker:null,text:'你把查到的，用自己的話說了三件事。'},
+      {scene:'椰林大道',bg:'ntu_avenue'},{speaker:null,text:'你把查到的，用自己的話說了三件事。'},
       {speaker:'player',text:'被偷的東西，就算你是花錢買的，原主在被偷以後兩年內都可以要回去。'},   /* LEGAL_REVIEW_REQUIRED（這一句和下一句有法律內容；BB-B 審過 7cf231c3，改字要再審）*/
       {speaker:'player',text:'可是你可以去找賣你的人。他賣的不是自己的東西，要負責。對話和交易紀錄都留著。'},
       {speaker:'player',text:'先不要吵。跟他說清楚，大家留聯絡方式。要的話，一起去派出所。'},
@@ -2947,13 +2947,13 @@ const STORY_EVENTS=[
       {label:'a2'},{speaker:'kexin',expression:'smile',text:'現在已經在用了。'},{goto:'a_end'},
       {label:'a3'},{speaker:'kexin',expression:'thinking',text:'那我存起來。等我們都很忙的時候。'},
       {label:'a_end'},{set:{E13_FOOD:true}},{goto:'end'},
-      {label:'e13b'},{scene:'女舍門口'},{speaker:'kexin',expression:'neutral',text:'我到了。'},{speaker:'kexin',expression:'neutral',text:'你每次都最後一個走。'},{speaker:'kexin',expression:'smile',text:'……我發現了。只是沒說。'},
+      {label:'e13b'},{scene:'女舍門口',bg:'girls_dorm_gate'},{speaker:'kexin',expression:'neutral',text:'我到了。'},{speaker:'kexin',expression:'neutral',text:'你每次都最後一個走。'},{speaker:'kexin',expression:'smile',text:'……我發現了。只是沒說。'},
       {choice:[{text:'「順路而已。」',goto:'b1'},{text:'「我喜歡走路。」',goto:'b2'},{text:'（揮手）',goto:'b3'}]},
       {label:'b1'},{speaker:'kexin',expression:'smile',text:'男宿在另一邊。'},{goto:'b_end'},
       {label:'b2'},{speaker:'kexin',expression:'smile',text:'好。那下次走遠一點。'},{goto:'b_end'},
       {label:'b3'},{speaker:null,text:'她在門口也揮了一下，才進去。'},
       {label:'b_end'},{set:{E13_NIGHT:true}},{goto:'end'},
-      {label:'e13c'},{scene:'河濱'},{speaker:'kexin',expression:'thinking',text:'假設河會記得每一個從這裡騎過去的人。'},{speaker:'kexin',expression:'neutral',text:'它會記得你什麼？'},
+      {label:'e13c'},{scene:'河濱',bg:'riverside'},{speaker:'kexin',expression:'thinking',text:'假設河會記得每一個從這裡騎過去的人。'},{speaker:'kexin',expression:'neutral',text:'它會記得你什麼？'},
       {choice:[{text:'「鏈子掉的那個女生。」',goto:'c1'},{text:'「我騎很慢。」',goto:'c2'},{text:'「妳先說。」',goto:'c3'}]},
       {label:'c1'},{speaker:'kexin',expression:'laugh',text:'那是我，不是你。……好，這題你贏。'},{goto:'c_end'},
       {label:'c2'},{speaker:'kexin',expression:'smile',text:'那它會記得很久。'},{goto:'c_end'},
