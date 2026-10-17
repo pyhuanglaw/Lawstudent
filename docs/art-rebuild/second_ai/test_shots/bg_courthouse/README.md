@@ -13,7 +13,7 @@
 | 檔案 | 說明 |
 |---|---|
 | `assets/bg/court_gallery.webp` | 法庭旁聽席，1920×1080，從最後一排靠走道往前看 |
-| `assets/bg/court_corridor.webp` | 法院走廊，1920×1080（算圖中） |
+| `assets/bg/court_corridor.webp` | 法院走廊，1920×1080，站在走廊一頭往裡面看 |
 | `assets/models/env/second_ai/court_props.glb`＋`.json` | 刑事法庭道具組，1.0 MB，13,710 三角形；`.json` 的 `layout` 是一間 9 × 11 m 小法庭的擺法 |
 | `tools/blender/env_second/court_props.py` | 道具組腳本（由已刪除的模擬法庭道具組 183aa717 改作） |
 | `tools/blender/env_second/bg_courthouse.py` | 背景腳本：`--scene room｜corridor` |
@@ -56,9 +56,33 @@ v4 的黑方塊 → v5 修好：
 ![](v4_black_squares.webp)
 ![](v5_black_squares_fixed.webp)
 
+## 法院走廊（最新）
+![](court_corridor_960.webp)
+
+- 左邊：
+  - 一間一間法庭的雙開木門，門上深藍底白字的門牌「第五法庭」～「第九法庭」（虛構的庭號）；
+  - 門右邊的公告板貼庭期表（只有表格和看不清楚的線，沒有案號、人名）；
+  - 牆下半是木作框板，門和門中間有靠牆的候審椅。
+- 右邊：
+  - 整排大窗，上午的光，窗外是樹和對面的建築；
+  - 窗下一整排鋼板沖孔的候審連排椅（四人座）。
+- 走廊盡頭一扇窗；地上是磨石子；天花板是輕鋼架加平板燈。
+- 座位上留了一個公文袋、一杯紙杯咖啡、一個包包（AA_252「椅子上坐滿了等開庭的人」：人用 ADV 立繪疊）。
+
+| 版本 | 問題 | 改法 |
+|---|---|---|
+| v1 | 候審椅的扶手是實心的板子，整排看起來是一塊一塊黑色的板 | 細支柱＋扶手墊（v2） |
+| v2 | 窗外的樹是 26 個大圓，像色塊 | 90 個小一點、深淺不一的樹冠＋樹幹 |
+
+v1：
+![](v1_corridor.webp)
+
+v3 的扶手：
+![](v3_corridor_seats.webp)
+
 ## 驗收狀態
 - `READY_FOR_ART_REVIEW`（PROPOSAL）：等使用者看；場景美術只有使用者能標 `ART_APPROVED`。
-- 沒做：沒有接進遊戲（等 LAWWW-C 的 S.BG 和事件）；沒有參考照片比對（等使用者）。
+- 沒做：沒有接進遊戲（建議 key：`court_gallery`、`court_corridor`；等 LAWWW-C 的 S.BG 和事件）；沒有參考照片比對（等使用者）。
 - 已知不足：
   - 畫面上沒有人，AA_252 寫的「長椅坐滿等開庭的人」「被告背影」要靠 ADV 立繪或之後加剪影；
   - 窗外是程式畫的模糊樹和建築。
