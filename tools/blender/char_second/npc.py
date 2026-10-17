@@ -63,6 +63,12 @@ VARIANTS = {
                 face=dict(EYE_SX=1.02, EYE_SZ=0.78, EYE_TILT=0.02, BROW_ARCH=0.65, BROW_K=1.2, FACE_NARROW=0.990, CHIN_WIDEN=0.64, MOUTH_K=1.20, CHEEK_TINT_K=1.4),
                 hair=dict(seed=20261114, part=12.0, col=(0.40, 0.20, 0.14), tip=(-0.080, -0.090, -0.050, 0.010, -0.030, -0.070, -0.100, -0.110, -0.115, -0.120), n_main=44, n_outer=28),
                 clothes=style(rgb(232, 150, 140), rgb(210, 196, 170), rgb(238, 238, 234), rgb(226, 224, 218), pants_ell=(0.074, 0.084), drop=True)),   # 紅棕及肩髮＋珊瑚色 T＋米色寬褲＋白球鞋
+    # 魏教授（prof_wei；AA_159 的 look：五十多歲、灰黑短髮、白襯衫＋深藍毛衣背心、袖子捲到手肘、不戴眼鏡；只在講台上遠景，AA-C：用現有教授底模改裝、不必精做）
+    # 臉：眼睛小一點、上眼皮重（年紀）、眉毛平、下顎寬一點；皮膚暗一點點；頭髮灰黑、短、整齊側分；衣服 wei_clothes（背心＋白袖子＋白色內層）
+    'pwei': dict(sex='m', base='HairSample_Male', head=0.95, height=1.72, iris='#2a221c', skin=(0.95, 0.89, 0.84), eye_close=0.22,
+                 face=dict(EYE_SX=1.06, EYE_SZ=0.62, EYE_TILT=-0.005, BROW_ARCH=0.25, BROW_K=1.50, BROW_COL=(0.22, 0.20, 0.19), FACE_NARROW=0.99, CHIN_WIDEN=0.66, JAW_OUT=0.0050, D_CHIN=0.003, MOUTH_K=1.40, MOUTH_DOWN=0.0006),
+                 hair=dict(seed=20261231, part=-16.0, col=(0.30, 0.29, 0.28), tip=(0.016, 0.016, 0.012, 0.010, 0.008, 0.004, -0.002, -0.012, -0.010, -0.008), nape=0.012, vol=0.65, curl=(2, 8)),
+                 clothes=None, clothes_mod='wei_clothes'),
 }
 FEMALE_FACE = dict(D_CHIN=0.006, BROW_DROP=0.0042, EYE_SX=1.05, EYE_SZ=0.68, EYE_TILT=0.0, EYE_IN=0.0027, EYE_LIFT=0.0004, CHEEK_TINT_K=1.0,
                    CHIN_WIDEN=0.60, JAW_OUT=0.0036, MOUTH_K=1.40, FACE_NARROW=0.975, IRIS_FRAC=0.52,
@@ -98,7 +104,10 @@ def stage0(m):
 def face(m):
     import p00_face as PF
     if VAR['sex'] == 'm':
-        f = dict(PF.MALE); f.update(VAR['face']); PF.run(m, f, {'Fcl_EYE_Close': 0.0})
+        f = dict(PF.MALE); f.update(VAR['face']); PF.run(m, f, {'Fcl_EYE_Close': VAR.get('eye_close', 0.0)})
+        if VAR.get('skin'):
+            import zhe_face as ZF
+            print('  skin tone', ZF.tan_skin([m['face'], m['body']], VAR['skin'], tuple(0.5 + 0.5 * k for k in VAR['skin'])))
     else:
         f = dict(FEMALE_FACE); f.update(VAR['face']); PF.run(m, f, {'Fcl_EYE_Natural': 0.5, 'Fcl_EYE_Close': 0.2})
 
@@ -108,6 +117,10 @@ def clothes(m):
     # 每個路人用自己的暫存資料夾：h01_clothes 把衣服貼圖存成 WIP/clothes_*.png 再打包，同時建好幾個路人會互相覆蓋
     # （2026-10-14 第二批五個一起建：nm3 打包到寫到一半的 clothes_Trouser.png，VRM 匯出時讀不了）
     PC.K.WIP = os.path.join(PC.K.WIP, 'npc_' + TAG.lower()); os.makedirs(PC.K.WIP, exist_ok=True)
+    if VAR.get('clothes_mod'):           # 款式比 p00_clothes 多的（魏教授：背心＋白袖子＋白色內層）用自己的模組
+        import importlib
+        m['clothes'] = importlib.import_module(VAR['clothes_mod']).apply(m); m['clothes'].name = 'Clothes_' + TAG
+        return
     ht = HT[VAR['base']]
     obj = PC.run(m, VAR['clothes'], ht['M'], ht['side'])
     obj.name = 'Clothes_' + TAG
