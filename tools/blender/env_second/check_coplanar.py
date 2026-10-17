@@ -9,7 +9,7 @@
 - 每個面（世界座標）算平面：法線取到 0.02 的精度、到原點的距離取到 tol。
 - 同一個平面（法線相同或相反）裡的面兩兩比：先用平面上的外接矩形篩（依 u 排序掃描，不是全部兩兩比），
   再算凸多邊形真正的交集面積（Sutherland–Hodgman），≥ min-area 平方公尺才算疊面。
-- 跳過同一個物件裡共用頂點的相鄰面；跳過互斥的布置（SEASON_X_on／_off、體育館 SET_CEREMONY／LECTURE／CONCERT）。
+- 跳過同一個物件裡共用頂點的相鄰面；跳過互斥的布置（SEASON_X_on／_off、體育館 SET_CEREMONY／LECTURE／CONCERT、宿舍 Y203_／Y412_）。
 - facing：
   - same＝同一面朝外：兩個平面相差 < 0.5 mm（--exact）**一定會閃**；0.5 mm～tol（預設 2 mm）只有在遠處才閃
     （遊戲鏡頭 near 0.1、24 位元深度：20 m 外分得出約 0.24 mm、60 m 外約 2 mm），標「遠處」。
@@ -70,6 +70,8 @@ def toggle(ob):
         if m: return (m.group(1), m.group(2))
         m = re.match(r'SET_([A-Z]+)', ob.name)
         if m and m.group(1) != 'STAGE': return ('SET', m.group(1))
+        if re.match(r'(Y203_|ROOMMATE_KAI)', ob.name): return ('YEAR', '203')   # 宿舍四人房（dorm_room4.py）：203 和 412 的東西不會同時出現
+        if re.match(r'(Y412_|NAMETAG_)', ob.name): return ('YEAR', '412')
         ob = ob.parent
     return None
 

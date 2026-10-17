@@ -158,10 +158,10 @@ tb.finish(root, uv=False); fin(fx, smooth=0.8, uv=False)
 for side in ('left', 'right'):
     wall_box(side, 'wall', Z0, Z1, 0.0, H)
 x0w, x1w, y0w, y1w = WIN
-for a0, a1 in ((X0, x0w), (x1w, X1)): wall_box('back', 'wall', a0, a1, 0.0, H)
+for a0, a1 in ((X0 + T, x0w), (x1w, X1 - T)): wall_box('back', 'wall', a0, a1, 0.0, H)   # 前後牆夾在左右牆中間（牆角不重疊：牆淡出時從外面看不會閃）
 wall_box('back', 'wall', x0w, x1w, 0.0, y0w); wall_box('back', 'wall', x0w, x1w, y1w, H)
 dx0, dx1, dh = DOOR
-for a0, a1 in ((X0, dx0), (dx1, X1)): wall_box('front', 'wall', a0, a1, 0.0, H)
+for a0, a1 in ((X0 + T, dx0), (dx1, X1 - T)): wall_box('front', 'wall', a0, a1, 0.0, H)
 wall_box('front', 'wall', dx0, dx1, dh, H)
 # 踢腳板：只放在露出來的牆腳（床桌組底下、洗手間裡面不放）
 sk = lambda side, a0, a1: wall_box(side, 'skirt', a0, a1, 0.0, 0.08, T, T + 0.012)
@@ -181,7 +181,7 @@ fr.box(x1w - 0.09, x1w - 0.07, 1.55, 1.8, zf + 0.03, zf + 0.05)                 
 gl = wm('back', 'glass')
 for x0s, x1s, dz in ((x0w + 0.05, xm, -0.006), (xm, x1w - 0.05, 0.006)):
     gl.quad([(x0s, y0w + 0.09, zf + dz), (x1s, y0w + 0.09, zf + dz), (x1s, y1w - 0.09, zf + dz), (x0s, y1w - 0.09, zf + dz)])
-wm('back', 'sill').box(x0w - 0.06, x1w + 0.06, y0w - 0.04, y0w - 0.002, Z0 + 0.04, IZ0 + 0.07)
+wm('back', 'sill').box(x0w - 0.06, x1w + 0.06, y0w - 0.03, y0w + 0.012, Z0 + 0.04, IZ0 + 0.07)   # 窗台頂高過窗下的牆 1.2 cm（不同平面）
 for x0t, x1t in ((x0w - 0.05, x0w), (x1w, x1w + 0.05)): wm('back', 'trim').box(x0t, x1t, y0w - 0.002, y1w + 0.05, IZ0 - 0.004, IZ0 + 0.008)
 wm('back', 'trim').box(x0w - 0.05, x1w + 0.05, y1w, y1w + 0.05, IZ0 - 0.004, IZ0 + 0.008)
 bl = wm('back', 'blind'); zb_ = IZ0 + 0.05; ybot = y1w - 0.52                                      # 捲簾：捲軸盒、布、下襬桿、拉繩
@@ -192,8 +192,8 @@ wm('back', 'rod').cyl((x1w - 0.12, ybot, zb_ + 0.012), (x1w - 0.12, ybot - 0.45,
 
 # 門：木門（關著）、白色門框、壓把、門檔、門下的通風百葉、電燈開關
 tr = wm('front', 'trim'); zi = IZ1
-for x in (dx0 - 0.07, dx1): tr.box(x, x + 0.07, 0.0, dh + 0.07, zi - 0.015, zi + 0.01)
-tr.box(dx0 - 0.07, dx1 + 0.07, dh, dh + 0.07, zi - 0.015, zi + 0.01)
+for xa, xb in ((dx0 - 0.07, dx0 + 0.003), (dx1 - 0.003, dx1 + 0.07)): tr.box(xa, xb, 0.0, dh + 0.07, zi - 0.015, zi + 0.01)   # 門框往門洞裡多 3 mm（和門洞側面不同平面）
+tr.box(dx0 - 0.07, dx1 + 0.07, dh - 0.003, dh + 0.07, zi - 0.015, zi + 0.01)
 wm('front', 'door').box(dx0 + 0.01, dx1 - 0.01, 0.01, dh - 0.01, zi + 0.02, zi + 0.06)
 for y0, y1 in ((0.25, 0.95), (1.15, 1.85)): wm('front', 'door').box(dx0 + 0.12, dx1 - 0.12, y0, y1, zi + 0.012, zi + 0.02)
 lv = wm('front', 'black')
@@ -227,8 +227,8 @@ wm('bath_n', 'skirt').box(bx0 - bt / 2 - 0.012, IX1 - 0.95 - 0.02, 0.0, 0.08, bz
 wm('bath_w', 'skirt').box(xo - 0.012, xo, 0.0, 0.08, bz0 - bt / 2 - 0.012, d0 - 0.06)
 wm('bath_w', 'skirt').box(xo - 0.012, xo, 0.0, 0.08, d1 + 0.06, IZ1 - 0.012)
 bt_ = wm('bath_w', 'trim')
-for z in (d0 - 0.06, d1): bt_.box(xo - 0.015, xo + 0.01, 0.0, bdh + 0.06, z, z + 0.06)
-bt_.box(xo - 0.015, xo + 0.01, bdh, bdh + 0.06, d0 - 0.06, d1 + 0.06)
+for za, zb in ((d0 - 0.06, d0 + 0.003), (d1 - 0.003, d1 + 0.06)): bt_.box(xo - 0.015, xo + 0.01, 0.0, bdh + 0.06, za, zb)
+bt_.box(xo - 0.015, xo + 0.01, bdh - 0.003, bdh + 0.06, d0 - 0.06, d1 + 0.06)
 bd = wm('bath_w', 'bdoor'); bd.box(bx0 - 0.02, bx0 + 0.02, 0.01, bdh - 0.01, d0 + 0.01, d1 - 0.01)
 for y0, y1 in ((0.3, 0.95), (1.15, 1.85)): bd.box(xo - 0.008, bx0 - 0.02, y0, y1, d0 + 0.12, d1 - 0.12)
 for i in range(6): wm('bath_w', 'black').box(xo - 0.008, bx0 - 0.02, 0.06 + i * 0.03, 0.075 + i * 0.03, d0 + 0.2, d1 - 0.2)
@@ -355,7 +355,7 @@ def plastic_chair(side, u, v):
 def laptop(G, side, lu, Y, vb=0.17):
     lbox(G['blk'], side, lu - 0.17, lu + 0.17, Y, Y + 0.015, vb + 0.03, vb + 0.27)
     lbox(G['blk'], side, lu - 0.17, lu + 0.17, Y + 0.015, Y + 0.24, vb, vb + 0.02)
-    lbox(G['lcd'], side, lu - 0.16, lu + 0.16, Y + 0.03, Y + 0.23, vb + 0.02, vb + 0.022)
+    lbox(G['lcd'], side, lu - 0.16, lu + 0.16, Y + 0.03, Y + 0.23, vb + 0.02, vb + 0.026)
 
 
 def desk_lamp(G, side, u, Y, v=0.12):
@@ -390,7 +390,7 @@ def loft(uid, side, ua, ub, sets):
     # ---- 床尾立柱、衣櫃、書桌、層架、LED 燈條
     lbox(wht, side, ua + 0.002, ua + 0.052, 0.0, GUARD, VD, VD + 0.05, fn='rbox', r=0.008, seg=1)
     w0, w1 = ust - 0.6, ust - 0.005
-    lbox(wood, side, w0, w1, 0.0, DECK0 - 0.01, 0.005, 0.585); lbox(wood, side, w0 + 0.008, w1 - 0.008, 0.012, DECK0 - 0.022, 0.585, 0.6)
+    lbox(wood, side, w0, w1, 0.0, DECK0 - 0.01, 0.005, 0.585); lbox(wood, side, w0 + 0.008, w1 - 0.008, 0.055, DECK0 - 0.022, 0.585, 0.6)
     lbox(wht, side, w0, w1, 0.0, 0.05, 0.585, 0.6); met.cyl(W3(side, w0 + 0.06, 0.7, 0.615), W3(side, w0 + 0.06, 1.15, 0.615), 0.008, seg=6)
     k0, k1 = ua + 0.02, w0 - 0.025
     lbox(wood, side, k0, k1 + 0.025, 0.73, 0.76, 0.005, 0.62, fn='rbox', r=0.006, seg=1); lbox(wht, side, k1, k1 + 0.022, 0.0, 0.73, 0.005, 0.6)
@@ -469,9 +469,9 @@ def yuting412(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
 
 def kai203(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
     G = ig('ROOMMATE_KAI', {'year': '203', 'who': 'kai'}); im, bk = G['it'], G['blk']
-    for (du, w_) in ((0.55, 0.56), (1.02, 0.5)):                                                                       # 雙螢幕
-        lbox(bk, side, k0 + du - w_ / 2, k0 + du + w_ / 2, Y + 0.1, Y + 0.44, 0.1, 0.125); lbox(G['lcd'], side, k0 + du - w_ / 2 + 0.012, k0 + du + w_ / 2 - 0.012, Y + 0.112, Y + 0.428, 0.125, 0.127)
-        lbox(bk, side, k0 + du - 0.02, k0 + du + 0.02, Y, Y + 0.12, 0.08, 0.1); lbox(bk, side, k0 + du - 0.1, k0 + du + 0.1, Y, Y + 0.012, 0.04, 0.2)
+    for (du, w_, dv) in ((0.5, 0.5, 0.0), (1.0, 0.48, 0.03)):                                                         # 雙螢幕（右邊那台往前 3 cm、不重疊）
+        lbox(bk, side, k0 + du - w_ / 2, k0 + du + w_ / 2, Y + 0.1, Y + 0.42, 0.1 + dv, 0.125 + dv); lbox(G['lcd'], side, k0 + du - w_ / 2 + 0.012, k0 + du + w_ / 2 - 0.012, Y + 0.112, Y + 0.408, 0.125 + dv, 0.131 + dv)
+        lbox(bk, side, k0 + du - 0.02, k0 + du + 0.02, Y + 0.012, Y + 0.12, 0.08 + dv, 0.1 + dv); lbox(bk, side, k0 + du - 0.1, k0 + du + 0.1, Y, Y + 0.012, 0.04 + dv, 0.2 + dv)
     lbox(bk, side, k0 + 0.5, k0 + 0.95, Y, Y + 0.02, 0.32, 0.47); lbox(im, side, k0 + 1.02, k0 + 1.08, Y, Y + 0.02, 0.36, 0.46, fn='cbox', hexcol='#d9d6cf')   # 鍵盤、滑鼠
     lbox(bk, side, k1 - 0.3, k1 - 0.08, 0.0, 0.46, 0.04, 0.5, fn='rbox', r=0.01, seg=1)                                # 電腦主機（書桌下）
     lbox(G['led'], side, k1 - 0.29, k1 - 0.09, 0.4, 0.405, 0.5, 0.503)                                                  # 主機前面的燈條
