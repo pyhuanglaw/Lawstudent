@@ -258,7 +258,10 @@ for d in LAY['doors']:
     if d.get('plate'):   # 門牌（虛構的號碼）：遊戲照 PLATE_FACE 畫字
         x_, z_ = (c + 0.0, at + 0.03 * nrm * -1) if axis == 'x' else (at, c)
         pm = Mesh(f'PLATE_FACE_door_{d["id"]}', M['plate'])
-        if axis == 'x': pm.quad([(c - 0.09, 1.55, at + 0.035), (c + 0.09, 1.55, at + 0.035), (c + 0.09, 1.67, at + 0.035), (c - 0.09, 1.67, at + 0.035)])
+        if axis == 'x' and d.get('openDoor'):   # 大門開著（門板轉進屋裡）：門牌貼在門框右邊的外牆上（原本在門的位置，門開著時浮在門洞裡、從屋裡看是反的：合租戶截圖「802」）
+            zo = at - nrm * (T / 2 + 0.025); u0_ = c + w_ / 2 + 0.13
+            pm.quad([(u0_, 1.5, zo), (u0_ + 0.18, 1.5, zo), (u0_ + 0.18, 1.62, zo), (u0_, 1.62, zo)][::(1 if -nrm > 0 else -1)])
+        elif axis == 'x': pm.quad([(c - 0.09, 1.55, at + 0.035), (c + 0.09, 1.55, at + 0.035), (c + 0.09, 1.67, at + 0.035), (c - 0.09, 1.67, at + 0.035)])
         else: pm.quad([(at - 0.035, 1.55, c + 0.09), (at - 0.035, 1.55, c - 0.09), (at - 0.035, 1.67, c - 0.09), (at - 0.035, 1.67, c + 0.09)])   # 牆在 z 軸上（臥室 A、B 的門）：門牌在西邊（客廳那一面）
         L.uv01(pm.finish(root, uv=True, props={'plate': 'door', 'text': d['plate']})) if hasattr(L, 'uv01') else pm.finish(root, uv=True, props={'plate': 'door', 'text': d['plate']})
 

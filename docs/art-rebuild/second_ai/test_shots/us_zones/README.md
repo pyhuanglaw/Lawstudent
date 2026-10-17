@@ -2,7 +2,7 @@
 
 使用者 21:1x：「先做1，把美國場景接進遊戲」。原本（LAWWW-C 開發分支 c9bba5df 以前）美國的公寓、社區、超市、機場都只有 3D 模型＋配置，**遊戲裡一個都走不進去**。
 
-## 交了什麼（patch：`docs/art-rebuild/second_ai/patches/us_zones.diff`，對 LAWWW-C 開發分支 `claude/adoring-meitner-mqzst8` 的 a4c42004，乾淨套上）
+## 交了什麼（patch：`docs/art-rebuild/second_ai/patches/us_zones.diff`，對 LAWWW-C 開發分支 `claude/adoring-meitner-mqzst8` 的 a4c42004 和 67a49204 都乾淨套上：`git apply`）
 | 區域 id | 是什麼 | 進出 |
 |---|---|---|
 | `airport_dep` | 桃園機場第二航廈 出境大廳＋下車處 | 下車處（出生點）→ 自動門 → 大廳（報到櫃台 A～D、服務台、看板、便利商店、咖啡店、66 個座位）→ 安檢入口「登機：飛往美國」（LAWWW-C 的 `exchFly`：字卡、時差 → 社區）；「搭車離開（回台北）」→ 公館 |
@@ -22,7 +22,14 @@
 - **機場是通用的**（使用者 23:0x「寒暑假出國都用的到機場，不只有交換學生」；LAWWW-C 同意）：安檢入口在交換出發那一趟（`flags.US_DEPARTED && !US_ARRIVED`）是 `exchFly` 的「登機：飛往美國」，其他時候是通用的 `{label:'登機', airportBoard:true}`（寒暑假系統 VAC 出發時攔下來換成自己的字卡；沒人攔只顯示「今天沒有要搭的飛機」）；出國 `US3.SPAWN.airport_dep`、回國 `US3.SPAWN.airport_arr`。機場不放目的地資料、不判斷誰要出發。看板加了金邊（C09 柬埔寨），首爾、東京、大阪關西、舊金山、洛杉磯、芝加哥本來就有。
 - 測試入口（開發用）：網址加 `?usdemo`，進遊戲以後左上角「美國篇（測試）」→ 機場出境大廳。正式入口是交換系統（大四上 8/2 出發）。
 
-## 測試（手機模擬：Playwright＋SwiftShader，iPhone 橫向、CDP 觸控；**不是真機**）
+## 測試結果（交付時；使用者 23:5x 新分工 D100：交付後由 BB-C 測，LAWWW2 不再自己跑流程測試）
+- `node tests/nav_us_unit.js`（對 a4c42004＋patch）：**ALL PASS**——每一區的出生點、每個互動點走得到（亞洲超市 11 個、合租戶 12 個……）、出入口 12 個到達點、機場通用的三種情況、會所、冰箱和爐子分得開。
+- LAWWW-C 的 `node tests/exch_min_unit.js`：ALL PASS。
+- LAWWW-C 的 `tests/flow_exch_min.py`（瀏覽器、?turbo）：乾淨 a4c42004 和加 patch **一樣** 13 PASS／1 FAIL（「睡覺」點了沒有出選項、沒睡到隔天；不是 patch 造成，已告知 LAWWW-C）。
+- `tests/flow_us_exchange.py`（真實玩家、不用 turbo）：舊版本（753e4ef3＋patch）跑完 1 FAIL（6c 輪值表點不到＝冰箱和爐子的互動點疊在一起，已修）；最終版跑到第 1 步時照 D100 停掉，**最終版沒有跑完的真實流程**——交 BB-C 測。
+- 沒有真機測試。
+
+### 舊紀錄：測試（手機模擬：Playwright＋SwiftShader，iPhone 橫向、CDP 觸控；**不是真機**）
 - `node tests/nav_us_unit.js`（新）：42 項 ALL PASS——每一區的出生點、每一個互動點（互動範圍內站得住、從出生點用引擎真正的找路＋移動碰撞走得到，dt 1/30 與 0.1、跑步）、「坐下」的走近點、出入口的到達點（站得住、不會一到就在另一個出口的範圍裡）、門走得過、關著的房間進不去、車和貨架擋住。
 - `tests/reachability_all.py --zones …`（LAWWW 的全遊戲可達性）：ALL PASS。
 - LAWWW-C 的 `node tests/exch_min_unit.js`：在這個 patch 上 ALL PASS。
@@ -31,7 +38,9 @@
 ## 遊戲內截圖（實際遊戲畫面：fast_shots.py＝遊戲本身讀檔、擺鏡頭；SwiftShader，畫質比真機低；**不是真機**）
 | C 棟 208（US2 的共用廚房，BB_217） | |
 |---|---|
+| ![](shared_02_us2_kitchen_props.webp) US2 道具打開（`zone.us2(true)`）：鍋＋長筷子、紅黃兩包沒有字的泡麵、碗、吧台上的報告；窗口吧台＋兩張高腳椅 | ![](shared_02b_report_on_bar.webp) 吧台上祐廷那一側：紅筆圈滿的英文報告 |
 | ![](shared_01_landing_dusk.webp) 門外的樓梯平台（黃昏 18:36）：門牌 208／207、欄杆外是社區的公寓和停車場、天空是遊戲的黃昏 | ![](shared_03_fridge_chores.webp) 冰箱上的手寫輪值表（CHORES：TRASH／DISHES／TP × A／B／C）＋便條 |
+| ![](shared_07_door_plate_208.webp) 大門開著：門牌貼在門框右邊的外牆（原本浮在門洞裡、從屋裡看是反的「802」） | ![](shared_08_overview.webp) 整戶俯視（獨立廚房、客廳、臥室 A／B、走道旁臥室 C、衛浴） |
 | ![](shared_04_bedroom_doors_ABC.webp) 客廳東牆臥室 A、B 的門（門牌 A／B、白板、海報）、沒收完的行李箱、吊扇 | ![](shared_05_follow_cam_inside.webp) 手機橫向、跟隨鏡頭：在屋裡往南退時南牆淡出（之前整個畫面是牆） |
 | ![](shared_06_follow_cam_landing.webp) 玩家在平台上：南牆照舊是實牆（看得到大門） | |
 
