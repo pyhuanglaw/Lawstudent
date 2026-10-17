@@ -342,6 +342,31 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "US-MIN-FLOW",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "3bff5ef4",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/us_zones.diff",
+    "docs/art-rebuild/second_ai/test_shots/us_zones/",
+    "assets/models/env/second_ai/us_apartment.glb",
+    "assets/models/env/second_ai/us_shared.glb",
+    "assets/models/env/second_ai/us_community.glb",
+    "assets/models/env/second_ai/us_cars.glb",
+    "assets/models/env/second_ai/us_market.glb",
+    "assets/models/env/second_ai/us_asian_market.glb",
+    "assets/models/env/second_ai/airport_dep.glb",
+    "assets/models/env/second_ai/airport_arr.glb",
+    "src/data/us_shared_layout.js",
+    "tools/blender/env_second/"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW-C 決定要不要套 patch（美國區域：公寓、C 棟 208、社區＋會所、大超市、對面的亞洲超市、通用機場）、從 LAWWW2 分支拿 GLB；BB-C 測；場景美術等使用者看（READY_FOR_ART_REVIEW）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
   }
  ]
 }
