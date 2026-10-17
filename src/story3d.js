@@ -75,7 +75,7 @@ const STORY = (function(){
     finally{ toLawBusy=false; } };
   /* START-WEEK 選 1 的開局（9/1 開學、8/31 搬進宿舍、主線第一天 9/3）：AA_195 的文字（8/31 搬進來、第一週）還沒交，先藏在網址 ?start1 後面（開發測試用）；
      交了以後改成預設。舊存檔不受影響（沒有 MAIN_D1＝主線第一天是 9/17） */
-  S.START1=()=>typeof location!=='undefined'&&/[?&]start1\b/.test(location.search||'');
+  S.START1=()=>!(typeof location!=='undefined'&&/[?&]start0\b/.test(location.search||''));   /* 新遊戲預設＝8/22 宿營（CAMP-L1，使用者 2026-10-16 強制參加、AA_205；經濟系路線的宿營 dc478cb6 做完以後改預設）；?start0＝舊的 9/17 開局（測舊存檔那條路用）*/
   S.LAW_D0=-18; S.MAIN_D1_NEW=-13;   /* 2025-08-29（五）下午搬進宿舍＝新遊戲第一天（使用者 2026-10-16 對 AA-B，AA_195 第 2-0 節 a353a009）；主線第一天 2025-09-03（三）*/
   S.startLawWeek1=async function(GM,recap,o){ o=o||{}; const E=GM.E, G=GM.G, F=G.flags; const d0=S.dayOfKey('2025-08-29'), d=o.day!=null&&o.day>d0?o.day:d0;   /* 新遊戲＝8/29（S.LAW_D0＝−18）；經濟系轉過來的照當天（不倒退）——經濟系玩家哪一天轉、要不要也 8/29 搬，問 AA */
     F.LAW_START_DAY=d0; F.MAIN_D1=S.MAIN_D1_NEW; G.stage='law'; G.day=d; G.weekday=CALENDAR.dateOf(d).wd%7; G.hour=o.hour!=null?o.hour:15; if(E) E.hour=G.hour; G.zone='dorm'; G.weather='clear'; if(E&&E.setWeather) E.setWeather('clear');
@@ -128,7 +128,7 @@ const STORY = (function(){
     if(o.next!==false) await S.startLawWeek1(GM,null);   /* 接著 8/29 搬宿舍（新遊戲、讀檔接著演都一樣）*/
     return true; };
   S.newGame=async function(GM){ const E=GM.E, G=GM.G; E.player.busy=false; E.endCinematic(); GM.titleIdle=false; GM.D.busyDepth=0; GM.hideHUD(false);
-    if(S.START1()){ await S.recap(GM,S.LAW_START_RECAP_W1); await S.campY1(GM); return; }   /* ?start1：新遊戲＝回顧 → 8/22～24 宿營（CAMP-L1）→ 8/29 搬宿舍。整段瀏覽器流程測過才改成預設（使用者 2026-10-16 強制參加、AA_205）*/
+    if(S.START1()){ await S.recap(GM,S.LAW_START_RECAP_W1); await S.campY1(GM); return; }   /* 新遊戲＝回顧 → 8/22～24 宿營（CAMP-L1）→ 8/29 搬宿舍（預設；?start0 走下面舊的 9/17 開局）*/
     G.day=1; G.weekday=3; G.hour=21.2; G.flags.fundsV2=1; G.flags.allowanceMonth=S.dateOf(1).m; G.zone='dorm'; G.stage='law'; E.hour=G.hour; G.weather='clear'; E.setWeather('clear'); G.flags.LAW_RECAP_SEEN=true; await S.recap(GM,S.LAW_START_RECAP.concat(S.LAW_WEEK12)); await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{}); };   /* 法律系開局：④＋③ → 現有的第一天（AA_106 3b）*/
   /* 經濟系開局（交接包 v0；v0 做好以前藏在網址 ?y0 後面，標題畫面照舊只有法律系開局——D81）：2024-09-01（日）晚上，男宿；E01 宿舍第一晚已接（AA_154 A24）*/
   S.newGameEcon=async function(GM){ const E=GM.E, G=GM.G; E.player.busy=false; E.endCinematic(); GM.titleIdle=false; GM.D.busyDepth=0; GM.hideHUD(false); const d=S.y0Day1(); if(d==null) return S.newGame(GM);

@@ -6,6 +6,8 @@
 """
 import asyncio, json, sys
 from playwright.async_api import async_playwright
+sys.path.insert(0, __import__('os').path.dirname(__file__))
+import playlib as L
 URL=(sys.argv[1] if len(sys.argv)>1 else 'http://127.0.0.1:8765/index.html')+'?turbo'
 ONLY=sys.argv[2:]   # 只跑這幾個區域（例：wenzhou wz_teahouse）
 ZONES=['dorm','dorm_hall','campus','gongguan','wenzhou','cafe','noodle','bookstore','cvs','wz_brunch','wz_teahouse','library_hall','library','linze','classroom','wancai','gongtong','lawlib','soclib','gym']
@@ -29,7 +31,7 @@ async def main():
     async with async_playwright() as p:
         b=await p.chromium.launch(args=['--use-gl=swiftshader','--enable-unsafe-swiftshader'])
         pg=await b.new_page(viewport={'width':844,'height':390},is_mobile=True,has_touch=True)
-        await pg.goto(URL,wait_until='load')
+        await pg.goto(L.legacy_url(URL),wait_until='load')   # 舊開局（新遊戲預設是宿營，CAMP-L1）
         await pg.wait_for_function("typeof GAME!=='undefined'&&document.getElementById('btnNew')",timeout=120000)
         await pg.wait_for_function("(()=>{ const l=document.getElementById('loading'); return !l||l.style.display==='none'||getComputedStyle(l).display==='none'||getComputedStyle(l).opacity==='0'||l.classList.contains('hide'); })()",timeout=180000)
         await pg.wait_for_timeout(2000); await pg.evaluate("()=>document.getElementById('btnNew').click()")

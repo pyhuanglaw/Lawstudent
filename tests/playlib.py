@@ -37,6 +37,12 @@ class Run:
         return 1 if self.fails else 0
 
 
+def legacy_url(url):
+    """舊的法律系開局（9/17 宿舍第一晚、第一二天主線）：新遊戲預設是 8/22 宿營（CAMP-L1），測舊開局的流程加 ?start0（舊存檔還在這條路上）"""
+    if 'start0' in url: return url
+    return url + ('&' if '?' in url else '?') + 'start0'
+
+
 async def launch(p, landscape=True):
     """手機模擬（is_mobile、has_touch、iPhone UA）。landscape=True 是 844×390 橫向，False 是 390×844 直向"""
     b = await p.chromium.launch(executable_path='/opt/pw-browsers/chromium', args=ARGS)

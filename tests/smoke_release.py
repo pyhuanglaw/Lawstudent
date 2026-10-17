@@ -53,7 +53,7 @@ async def main():
     run = L.Run('smoke_release', OUT)
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
-        await pg.goto(TURBO)
+        await pg.goto(L.legacy_url(TURBO))   # 舊開局（新遊戲預設是宿營，CAMP-L1；新開局另外跑 flow_camp_y1）
         run.check('遊戲載入（標題畫面）', await L.wait_loaded(pg))
         await pg.evaluate("localStorage.clear()")
         await run.shot(pg, 'title')

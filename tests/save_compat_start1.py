@@ -126,8 +126,8 @@ async def main():
             replay = [t for t in tc if t in ('第一天', '第二天')] + [x for x in says if any(m in x for m in ['開學第三週', '案例影本放在桌上', '從課程網站印下來的案例'])]
             run.check(f'[前置／捷徑 sleepNow] {key}：睡到隔天早上，天數 +1、沒有重播主線', g2['day'] == d0 + 1 and not replay, json.dumps([g2, tc, replay[:3]], ensure_ascii=False))
         run.check('新版讀大一上存檔、推進一天：沒有 JS 例外', not en, json.dumps(en[:3], ensure_ascii=False))
-        # 經濟系 8/30 → 8/31 轉場（沒有 ?start1：照舊到 9/17）
-        for q, want in [('', {'day': 1, 'm1': 1}), ('&start1', {'day': -16, 'm1': -13})]:
+        # 經濟系 8/30 → 法律系轉場：預設（CAMP-L1 以後＝原本的 ?start1）讀檔就轉、留在 8/30～8/31；?start0（舊開局）照舊睡到 8/31、第 1 天（9/17）
+        for q, want in [('', {'day': -16, 'm1': -13}), ('&start0', {'day': 1, 'm1': 1})]:
             await pg.evaluate("(async(st)=>{ document.getElementById('titleScreen').classList.add('hide'); await GAME.applySave(st); })(%s)" % json.dumps(json.loads(saves['econ830'])))
             if q:
                 await b.close(); b, pg, en, ok = await open_new(q)
@@ -139,10 +139,10 @@ async def main():
                 if await pg.evaluate("(GAME.G.stage||'law')==='law'&&!(GAME.D&&GAME.D.active)"): break
             await drain(pg, 120, 6)
             g = await pg.evaluate(G_JS)
-            okday = g['day'] == want['day'] if not q else g['day'] in (-17, -16)   # ?start1：8/30 的經濟系存檔一讀進來就轉（8/29 已過），不倒退
-            run.check(f"經濟系 8/30 存檔 → 轉進法律系{'（?start1：讀檔就轉，留在 8/30～8/31，不倒退回 8/29）' if q else '（沒有 ?start1：睡到 8/31 才轉、第 1 天）'}：mainD1 {want['m1']}",
+            okday = g['day'] in (-17, -16) if not q else g['day'] == want['day']   # 預設：8/30 的經濟系存檔一讀進來就轉（8/29 已過），不倒退
+            run.check(f"經濟系 8/30 存檔 → 轉進法律系{'（?start0 舊開局：睡到 8/31 才轉、第 1 天）' if q else '（預設：讀檔就轉，留在 8/30～8/31，不倒退回 8/29）'}：mainD1 {want['m1']}",
                       g['stage'] == 'law' and okday and g['m1'] == want['m1'] and g['zone'] == 'dorm', json.dumps(g, ensure_ascii=False))
-            run.check(f"經濟系轉場{'（?start1）' if q else ''}沒有 JS 例外", not en, json.dumps(en[:3], ensure_ascii=False))
+            run.check(f"經濟系轉場{'（?start0）' if q else '（預設）'}沒有 JS 例外", not en, json.dumps(en[:3], ensure_ascii=False))
         await b.close()
     sys.exit(run.finish())
 
