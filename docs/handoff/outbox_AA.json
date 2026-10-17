@@ -423,6 +423,20 @@
       "noDirectIntegrate": true,
       "receiver": "LAWWW",
       "ack": "SENT"
+    },
+    {
+      "task": "LIFE-LINE-LINES-1017",
+      "branch": "claude/magical-albattani-bk7b4n",
+      "sha": "ca2fc169f40a0b91196bb6df24f638c91c143843",
+      "files": [
+        "docs/story_planning/AA_224_重考主線台詞定稿_LIFE-LINE.md"
+      ],
+      "state": "已交付（AA 定稿；事實為使用者裁定，台詞可被使用者推翻）",
+      "remaining": "第 7 組（開局是否從 2024-08-23 宿營開始）等使用者",
+      "next": "LAWWW 照 AA_224 第 1～6 組順序實作；與 BB_188 衝突時以 AA_224 為準",
+      "noDirectIntegrate": false,
+      "receiver": "LAWWW",
+      "ack": "SENT"
     }
   ]
 }
