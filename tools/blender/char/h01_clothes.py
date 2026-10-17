@@ -43,7 +43,7 @@ CREW_FRONT_Z = 1.352
 SLEEVE_K = 0.82           # 袖子粗細（設計輪廓的倍數；沈以安 0.82）
 SLEEVE_LEN = 1.0          # 袖長（手臂全長的比例；1＝長袖到手腕。林芷若的短袖 ≈ 0.55：過手肘一點）
 CUFF_EASE = 0.0085        # 袖口離手臂的距離（長袖羅紋收口 8.5 mm；短袖反摺袖口鬆一點）
-TOP_TEX = 'knit'          # 上衣布料：'knit'（粗針織，沈以安、祐廷）／'linen'（亞麻，林芷若）
+TOP_TEX = 'knit'          # 上衣布料：'knit'（粗針織，沈以安、祐廷）／'linen'（亞麻，林芷若）／'jersey'（棉 T，陳語彤）／'cotton'（平織棉、直紋很淡，阿勳）
 PANTS_DROP = True         # 寬褲從臀部直落（False：合身褲，褲管照腿的形狀）
 PANTS_HEM_UP = 0.0        # 褲腳往上（九分褲：露出腳踝）
 PANTS_FOLLOW = False      # 褲管中心線跟著腿骨（大腿根 → 膝蓋 → 腳踝）走；False＝舊做法（垂直的管子，x 固定 0.086）。腿往內斜的樣本（Sakurada：膝蓋 x 0.055、腳踝 0.043）用舊做法時褲腳在腳的外側、遊戲裡像喇叭褲（LAWWW2-C 2026-10-17，阿勳）
@@ -727,6 +727,20 @@ def jersey_texture(S=1024, seed=17):
     return np.concatenate([np.clip(rgb, 0, 1), np.ones((S, S, 1))], -1)
 
 
+def cotton_texture(S=1024, seed=19):
+    """平織棉 T（阿勳的白色長袖 T，LAWWW2-C 2026-10-17）：jersey 的直條淡很多（遊戲裡 jersey 的 360 條直紋在白色上看起來像羅紋毛衣）＋布料的大塊明暗；
+    v 0.75 以上（領口、袖口、下擺的邊）照 jersey 的細羅紋"""
+    rng = np.random.default_rng(seed)
+    v = (np.arange(S)[::-1] + 0.5)[:, None] / S; u = (np.arange(S) + 0.5)[None, :] / S
+    wale = 0.5 + 0.5 * np.cos(2 * math.pi * u * 360)
+    lum = 0.975 + 0.008 * wale + (_noise(rng, S, S, 4) - 0.5) * 0.05 + (_noise(rng, S, S, 40) - 0.5) * 0.02
+    m = (v > 0.75).astype(float)
+    rib = np.abs(np.cos(math.pi * ((u * 180) % 1.0 - 0.5))) ** 1.2
+    lum = lum * (1 - m) + (0.90 + 0.10 * rib) * m
+    rgb = KNIT_RGB[None, None, :] * lum[:, :, None]
+    return np.concatenate([np.clip(rgb, 0, 1), np.ones((S, S, 1))], -1)
+
+
 def trouser_texture(S=512, seed=11):
     rng = np.random.default_rng(seed)
     v = (np.arange(S)[::-1] + 0.5)[:, None] / S; u = (np.arange(S) + 0.5)[None, :] / S
@@ -953,7 +967,7 @@ def _apply(m, arm, body):
     top = build_top(skin, arm, mb, pants)
     shoes = build_shoes(skin, arm, mb)
     os.makedirs(WIP, exist_ok=True)
-    img_k = C.image_from_array('H01_Knit', {'linen': linen_texture, 'jersey': jersey_texture}.get(TOP_TEX, knit_texture)(), os.path.join(WIP, 'clothes_Knit.png'))
+    img_k = C.image_from_array('H01_Knit', {'linen': linen_texture, 'jersey': jersey_texture, 'cotton': cotton_texture}.get(TOP_TEX, knit_texture)(), os.path.join(WIP, 'clothes_Knit.png'))
     img_t = C.image_from_array('H01_Trouser', trouser_texture(), os.path.join(WIP, 'clothes_Trouser.png'))
     img_l = C.image_from_array('H01_Loafer', loafer_texture(), os.path.join(WIP, 'clothes_Loafer.png'))
     def tmpl(pat):      # 範本材質（女性樣本 F00_002_01_Tops_01_CLOTH、男性樣本 M00_006_01_Tops_01_CLOTH……）

@@ -9,7 +9,8 @@ KHAKI = np.array([164, 152, 118]) / 255.0       # 卡其褲（參考圖 #a49876�
 WHITE_LEATHER = np.array([240, 240, 236]) / 255.0
 SOLE = np.array([230, 230, 226]) / 255.0
 STYLE = dict(KNIT_RGB=WHITE, TROUSER_RGB=KHAKI, BELT_RGB=None, LEATHER_RGB=WHITE_LEATHER, SOLE_RGB=SOLE, GOLD_RGB=WHITE_LEATHER,
-             SHOE_STYLE='sneaker', NECK_STYLE='crew', HEM_OVER_PANTS=True, SLIM=False, TOP_TEX='jersey', TROUSER_TEX='twill',
+             SHOE_STYLE='sneaker', NECK_STYLE='crew', HEM_OVER_PANTS=True, SLIM=False, TOP_TEX='cotton', TROUSER_TEX='twill',   # 第六版 jersey → cotton（直紋淡：第五版遊戲裡像羅紋毛衣）
+            
              SLEEVE_LEN=0.95, SLEEVE_K=0.66, CUFF_EASE=0.024, EASE_K=0.62, DROP_X=0.122, TOP_FIT=0.0, HEM_LOOSE=True,
              PANTS_ELLIPSE=(0.058, 0.066), PANTS_DROP=False, PANTS_HEM_UP=0.0, PANTS_FOLLOW=True)
 # 第五版：袖口 1.2 → 2.4 cm（第四版袖口收緊、布料往下堆成泡泡袖：棉 T 的袖子是直的管子）；第四版：袖子 0.74 → 0.66、身片 0.78 → 0.62（第三版遊戲裡還是像毛衣）；第三版：袖子 0.86 → 0.74、袖口 2.0 → 1.3 cm、身片寬鬆 0.95 → 0.78（第二版遊戲裡袖子像泡泡袖、身片像氣球；參考圖是寬版棉 T、布料往下垂）；
