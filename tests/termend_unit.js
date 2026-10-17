@@ -108,6 +108,21 @@ GM.money=function(n){ G.money+=n; };
   { check('9d. 大二上～大四上的話題池都在（AA_250 第 3～7 節）；大二下阿哲一對一「你暑假在臺北嗎」',['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1'].every(k=>TERMEND_LINES.POOL[k]&&Object.keys(TERMEND_LINES.POOL[k]).length>=6)&&TERMEND_LINES.POOL.Y2S2.zhe.includes('你暑假在臺北嗎'));
     fresh(D('2026-12-24'),9,'campus',{}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',30,0,0); G.termend={contact:{Y2S1:{classmate_peishan:{pts:9,k:{}}}},think:{}};
     const P=TERMEND.plan(G,TERMEND.windowOf('Y2S1')); check('9d. 大二上：沛珊（說要重考以後）不當朋友的邀約人',!P.friend.includes('classmate_peishan'),JSON.stringify(P)); }
+  // 9e. 可昕的學期末約會（BB_202 第 6 節、AA_250 9-2 ae841bba）
+  { fresh(D('2026-06-11'),20.5,'dorm',{dating_kexin:true}); G.stage='law'; run(20.5,21);
+    const m=txt('p:kexin'), q=OUT.get(G,'te_kx_Y1S2');
+    check('9e. 大一下：20:45 可昕「期末考完了吧」「禮拜五 河堤 五點半」「我帶你去吃那家」→ 6/12（五）17:30 河堤（不佔名額）',m.join('|').includes('kexin:禮拜五 河堤 五點半')&&!!q&&q.day===D('2026-06-12')&&q.h===17.5&&q.te.kind==='kexin'&&!G.termend.Y1S2.picked,JSON.stringify([m,q]));
+    said=[]; picks=[0]; await TERMEND.dinner(GM,q); const L=lines();
+    check('9e. 河堤開場 → BB_167 4-3「（坐下）一年了欸。」→ 收尾「（她站在你的車門邊。『到家傳訊息。』）」；記 KX_TERMEND',L.includes('（河堤的步道，她走在靠水的那一邊。）')&&L.some(t=>t.includes('一年了欸。'))&&L.includes('（她站在你的車門邊。『到家傳訊息。』）')&&G.flags.KX_TERMEND&&G.flags.KX_TERMEND.Y1S2,JSON.stringify(L.slice(0,4)));
+    fresh(D('2026-12-24'),20.9,'dorm',{dating_kexin:true}); G.stage='law'; run(20.9,21); const q2=OUT.get(G,'te_kx_Y2S1');
+    check('9e. 大二上：政大正門 18:00、時段第三天（12/26）',!!q2&&q2.h===18&&q2.day===D('2026-12-26')&&q2.place==='政大正門',JSON.stringify(q2));
+    said=[]; await TERMEND.dinner(GM,q2); const L2=lines(); check('9e. 大二上飯桌「我們期末考完，寒假我想去一個暖的地方。」',L2.some(t=>t.includes('寒假我想去一個暖的地方。'))&&L2.includes('（她送你到停車場，站著等你倒車出去。）'));
+    TERMEND.missed(GM,q2); PHONE.tick(G); G.hour=23; PHONE.tick(G); check('9e. 沒去：「我在正門等了一下」「你還好嗎」',txt('p:kexin').includes('kexin:我在正門等了一下')&&txt('p:kexin').includes('kexin:你還好嗎'));
+    fresh(D('2026-06-11'),20.9,'dorm',{dating_kexin:true}); G.stage='law'; G.events.done.ev_revisit_y1_kexin=1; run(20.9,21); check('9e. 舊存檔演過重訪日＝大一下不再約',!OUT.get(G,'te_kx_Y1S2')); }
+  // 9f. 學姊大四上 12/24 起才約（美國 8/2～12/23）
+  { fresh(D('2028-12-21'),20,'campus',{}); G.stage='law'; meet('heroine_05'); R('heroine_05',30,0,0); G.termend={contact:{Y4S1:{heroine_05:{pts:9,k:{}}}},think:{}};
+    run(20,21); const a=PHONE.sent(G,'te_Y4S1_heroine_05'); G.day=D('2028-12-24'); run(20,21);
+    check('9f. 學姊大四上：12/21 不約、12/24 20:30 起約',!a&&PHONE.sent(G,'te_Y4S1_heroine_05')&&txt('p:heroine_05').includes('heroine_05:期末考完了嗎？法圖旁邊那家，我請你。'),JSON.stringify(txt('p:heroine_05'))); }
   // 10. 存讀檔
   { fresh(D('2025-12-20'),10,'campus',{}); G.termend={think:{heroine_04:'Y1S1'},Y1S1:{plan:{heart:[],friend:['classmate_xinci'],fallback:null,gf:[],nope:{}},picked:{who:'classmate_xinci',kind:'friend',day:1}},contact:{Y1S1:{zhe:{pts:3,k:{chat:1}}}}};
     const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('10. 存讀檔：邀約、接了誰、讓我想想、分數都留著',G.termend.think.heroine_04==='Y1S1'&&G.termend.Y1S1.picked.who==='classmate_xinci'&&TERMEND.score(G,'Y1S1','zhe')===3); }

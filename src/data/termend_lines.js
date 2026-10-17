@@ -182,6 +182,20 @@ const TERMEND_LINES=(function(){
       yu:['我決定不考研究所了，先工作。'],
       classmate_bohan:['國考還有兩百多天。八月。'],
       classmate_xinci:['事務所說畢業可以回去。……我還在想。'] } };
+  /* 可昕的學期末約會（BB_202 第 6 節、AA_250 9-2 ae841bba）：交往中每個學期末一次，不佔「只能接一個」；大一下河堤，之後政大、河堤輪流。
+     時段第一天 20:45 她傳；出遊在時段第三天（大一下照邀約是禮拜五）；河堤 17:30（16:50 開車出發）、政大正門 18:00（17:20 出發）。
+     大一下照 BB_167 4-3（events.js 的 ev_revisit_y1_kexin 那段「一年了欸」）。日本路線大三下視訊、美國路線大四上 12/24 才傳：交換路線做的時候接 */
+  const KX_PLACE={
+    river:{name:'景美溪河堤',h:17.5,bg:'riverside',open:'（河堤的步道，她走在靠水的那一邊。）',close:'（她站在你的車門邊。『到家傳訊息。』）',miss:['我在河堤等了一下','你還好嗎']},
+    nccu:{name:'政大正門',h:18,bg:'nccu_food',open:'（山下那家店，她點了兩人份，沒有問你。）',close:'（她送你到停車場，站著等你倒車出去。）',miss:['我在正門等了一下','你還好嗎']} };
+  const C10=G=>typeof VAC!=='undefined'&&!!VAC.enrolled&&VAC.enrolled(G,'C10');   /* 大二暑假加州暑期課（VAC 做好以後接）*/
+  const KX={
+    Y1S2:{place:'river',wd:5,first:true,invite:['期末考完了吧','禮拜五 河堤 五點半','我帶你去吃那家']},
+    Y2S1:{place:'nccu',invite:['考完了！','這次換山上 政大正門六點','我請'],table:['我們期末考完，寒假我想去一個暖的地方。','我排了三個，你挑一個。']},
+    Y2S2:{place:'river',invite:['考完沒','河堤 五點半','這次你開車 我負責音樂'],table:G=>C10(G)?['暑假你是不是要去加州？……我算了，六個禮拜。','那出發前，我們去一次 KH。']:['暑假我排了一張表，有一格是你。']},
+    Y3S1:{place:'nccu',invite:['期末考完了吧','政大 六點','我有一個很奇怪的報告題目要講給你聽'],table:['我們系的期末報告，我寫了一個很奇怪的題目。','寒假你要幹嘛？……我想跟你去一個從來沒去過的地方。']},
+    Y3S2:{place:'river',invite:['河堤 五點半','你暑假在哪 我要先知道'],table:['你暑假在哪？日本？','我算過了，我們分開最久就是這次。']},
+    Y4S1:{place:'nccu',invite:['最後一個上學期了欸','政大 六點'],table:['大四了。……我們期末考完，就剩一個學期。','寒假我排了一張讀書的表，你要不要也在上面？']} };
   const REPLY=['嗯。','真的假的。','我也是。'];   /* 祐廷回的一句（AA_250 10-1：池子以外，輪流）*/
-  return {PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,src:'AA_254 8fdcc961（7fa1aad4 更正）／AA_250 acf92ff0、375b91dd、c524b61e'};
+  return {PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,KX,KX_PLACE,src:'AA_254 8fdcc961（7fa1aad4、a9daffbb 更正）／AA_250 acf92ff0、375b91dd、c524b61e、ae841bba'};
 })();

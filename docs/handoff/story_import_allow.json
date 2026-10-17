@@ -378,15 +378,19 @@
   },
   {
    "path": "docs/story_planning/AA_250_期末聚餐話題池_大一.md",
-   "sha": "c524b61e",
+   "sha": "ae841bba",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-17 12:07Z（10-1 一對一的開場、收尾表，期末飯一律用）＋acf92ff0 第 10 節、375b91dd 子晴 Q6；0-1、1-1、2-1、第 10 節進 src/data/termend_lines.js",
+   "approvedBy": "AA-C 2026-10-17 12:29Z（9-2 可昕學期末約會重寫：地點照 BB_202、每學期的邀約、開場收尾、沒去的訊息）＋c524b61e 10-1、acf92ff0 第 10 節、375b91dd；第 1～7 節話題池、9-2、第 10 節進 src/data/termend_lines.js",
    "task": "BB203-CONFESS-1017",
    "kind": "text",
    "history": [
     {
      "sha": "375b91dd",
      "approvedBy": "AA-C 2026-10-17 交付（第②級 AA 定稿；acf92ff0 第 10 節＋375b91dd 子晴 Q6 條件）：0-1、1-1、2-1、第 10 節進 src/data/termend_lines.js"
+    },
+    {
+     "sha": "c524b61e",
+     "approvedBy": "AA-C 2026-10-17 12:07Z（10-1 一對一的開場、收尾表，期末飯一律用）＋acf92ff0 第 10 節、375b91dd 子晴 Q6；0-1、1-1、2-1、第 10 節進 src/data/termend_lines.js"
     }
    ]
   },
