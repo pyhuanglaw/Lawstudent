@@ -360,6 +360,26 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "DATE-REVIEW-1017",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "abad2fa08099c3901fea0981548b8ddaf045ea73",
+   "files": [
+    "docs/story_planning/date_system/lines/D04.json",
+    "docs/story_planning/date_system/lines/D06.json",
+    "docs/story_planning/date_system/lines/D12.json",
+    "docs/story_planning/date_system/lines/D13.json",
+    "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md",
+    "docs/story_planning/date_system/date_prefs_bb.json",
+    "docs/story_planning/date_system/date_prefs_aa.json"
+   ],
+   "state": "已交付（AA 審以安語彤＋AA 確認 BB 五位已審；照 AA_188 口語版）",
+   "remaining": "其他 28 處（BB、AA 照約會清單分批）；DATE_LINES_COMMON（BB_128 3-6）與五個心願事件口語版（BB 排）；底圖等使用者裁定 BB 檢查算不算核准；coords LAWWW 照畫面驗收",
+   "next": "LAWWW 把白名單加 D04／D06／D12／D13.json@本 sha（BB 五位版本：D04 74373b86、D06 0542a02b、D12 84efdcc5、D13 e4f84942，已合併、重產 JSON 逐位元組一致）；BB_128 3-7 預約句子以本 sha 的口語版為準（取代 792577ef）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
   }
  ]
 }
