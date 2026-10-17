@@ -50,7 +50,7 @@ GM.money=function(n){ G.money+=n; };
   check('4. 不是週四不演',(()=>{ const g=G.day; G.day=fr; G.weekday=5; const r=EVENTS.check(e1,{trigger:'interact',npc:B}); G.day=g; G.weekday=4; return !r; })());
   check('2. 暑假週四、ACQUAINTANCE：會演',EVENTS.check(e1,{trigger:'interact',npc:B}));
   picks=['一起讀']; await EVENTS.run(e1); let L=lines();
-  check('2. 台詞照 AA_241 第 5 節；「一起讀？」→ 計時器那句、BOHAN_SUMMER_THU',L[0]==='（總圖四樓，柏翰坐在靠窗的位子。桌上放著客運的票根。）'&&L.some(t=>t.endsWith('新竹到這裡，一小時二十分。單程。'))&&L.some(t=>t.endsWith('好。我的計時器五十分鐘響一次，你不要嚇到。'))&&G.flags.BOHAN_SUMMER_THU===true,JSON.stringify(L));
+  check('2. 台詞照 AA_241 第 5 節；「一起讀？」→ 計時器那句、BOHAN_SUMMER_THU',L[0]==='（總圖三樓，柏翰坐在靠窗的位子。桌上放著客運的票根。）'&&L.some(t=>t.endsWith('新竹到這裡，一小時二十分。單程。'))&&L.some(t=>t.endsWith('好。我的計時器五十分鐘響一次，你不要嚇到。'))&&G.flags.BOHAN_SUMMER_THU===true,JSON.stringify(L));
   check('2. 只演一次',!EVENTS.check(e1,{trigger:'interact',npc:B}));
   check('3. 同一天不招呼',!EVENTS.check(e2,{trigger:'interact',npc:B}));
   G.day=th2; G.weekday=4; said=[];

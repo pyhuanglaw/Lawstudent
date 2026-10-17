@@ -1769,7 +1769,7 @@ const STORY_EVENTS=[
      之後的週四：短招呼（一週一次，接著照一般閒聊）。他在總圖的時間在 characters.js 的作息（STORY.bohanSummer）*/
   { id:'ev_va07_bohan_thu', title:'新竹到這裡', participants:['classmate_bohan'], location:'library', trigger:'interact', priority:8, once:true, weekday:[4], background:'blur',
     prereq:{stage:{npc:'classmate_bohan',min:'ACQUAINTANCE'},custom:G=>!!(typeof STORY!=='undefined'&&STORY.bohanSummer&&STORY.bohanSummer(G))},
-    dialogue:[ {speaker:null,text:'（總圖四樓，柏翰坐在靠窗的位子。桌上放著客運的票根。）'},
+    dialogue:[ {speaker:null,text:'（總圖三樓，柏翰坐在靠窗的位子。桌上放著客運的票根。）'},
       {speaker:'classmate_bohan',text:'新竹到這裡，一小時二十分。單程。'},{speaker:'classmate_bohan',text:'在家讀不下去。家裡冷氣太涼，我會睡著。'},
       {choice:[{text:'「每週都來？」',goto:'a'},{text:'「一起讀？」',goto:'b'}]},
       {label:'a'},{speaker:'classmate_bohan',text:'每週四。九點到五點。'},{goto:'end'},
