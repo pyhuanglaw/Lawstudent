@@ -5076,6 +5076,19 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "不動旗標與選項數量；驗收照 AA_197 1-7 大一上那列；排在 CAMP-L1 之後、和 START-WEEK 一起做"
+  },
+  {
+   "id": "DL-LW2-COPLANAR-DEV1",
+   "date": "2026-10-17",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "eb3a3bad＋2b78d35d",
+   "what": "BUG-COPLANAR-DEV 第一批：萬才館外觀（大台階每階只做自己那層、平台西緣縮 2 cm；一定會閃 1,264 → 903，剩屋頂；--check 差 0）、霖澤館外觀（四樓館名石材帶兩端多 2 cm）",
+   "task": "BUG-COPLANAR-DEV",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "只取 GLB＋兩支腳本；wancai_glb_integration、遊戲內截圖 LAWWW-B 跑（宿營流程測試跑完後）"
   }
  ],
  "ignored": [
