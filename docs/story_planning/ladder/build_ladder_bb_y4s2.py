@@ -50,7 +50,7 @@ D['characters']['heroine_05'] = {'friendOnly': True,
             'rel': {'fam': 2},
             'mem': 'SIS7_COUNTDOWN',
             'note': 'M9 口試（第 15 週）的前情；不說結果；2026-10-17 BB-C 照新年級搬層（BB_195）：原 S7-L1。2026-10-17 BB-C 稽核：「九十八天」＝口試 5/29 往前 98 天＝2/20（二），開學 2029-02-19 那週＝第 1 週 → 週次 [3,18] 改 [1,1]；過了第 1 週還沒推進的直接算過（skipAfterWeek，README）',
-            'week': [1, 14]},  # 2026-10-17 BB-C（AA_237）：不報天數，口試（第 15 週）以前都可以；拿掉 skipAfterWeek
+            'week': [1, 16]},  # 2026-10-17 BB-C（AA_237）：不報天數，整學期都通（16 週制；check 要求放寬到第 16 週）；拿掉 skipAfterWeek
            {'id': 'S7-L4',
             'if': {'stage': {'npc': 'heroine_05', 'min': 'FAMILIAR'}},
             'lines': ['研究室來了一個碩一的學妹。她問我，論文怎麼開始。', '我說：先寫妳最想知道的那一句。'],
