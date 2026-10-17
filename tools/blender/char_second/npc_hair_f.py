@@ -171,6 +171,10 @@ def apply(m):
                 hz = np.hypot(P[nseg + 1:, 0] - c[0], P[nseg + 1:, 1] - c[1]); k = np.minimum(1.0, rmax / np.maximum(hz, 1e-6))
                 P[nseg + 1:, 0] = c[0] + (P[nseg + 1:, 0] - c[0]) * k; P[nseg + 1:, 1] = c[1] + (P[nseg + 1:, 1] - c[1]) * k
             P = H.push(P, np.r_[np.full(nseg + 1, 0.003), np.full(len(low), 0.006)])     # 陳語彤的頭髮垂到鎖骨、肩胛骨：收回來之後再推出衣服一次（不穿進 T 恤）
+            if az(a) < 64:      # 路人（2026-10-17）：前側的長髮最後再收一次左右——推出衣服時會被 T 字姿勢的肩膀、手臂往外推到 15 cm，
+                                # 遊戲裡手放下來以後浮在肩膀兩邊，正面看是一條條細線（nf5、nf12、nf16、nf19）；只收左右，不動前後（還是在衣服前面）
+                xr = abs(p0[0] - c[0]) + 0.012 + 0.5 * fo; dx = P[nseg + 1:, 0] - c[0]
+                P[nseg + 1:, 0] = c[0] + np.sign(dx) * np.minimum(np.abs(dx), xr)
         else:
             P = H.push(P, np.linspace(0.003, 0.004 + off, len(P)))
         Tn = tangents(P)

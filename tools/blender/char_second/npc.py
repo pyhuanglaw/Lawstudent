@@ -300,10 +300,10 @@ def clothes(m):
 CENTER_M = (0.060, 0.045, 0.010); MASH_M = (-0.010, -0.010, -0.006)
 JP_STYLE = {
     'nf1': dict(bang='side', wave=0.006), 'nf2': dict(bang='air', flip=0.028), 'nf3': dict(bang='air', wave=0.012), 'nf4': dict(bang='side', flip=0.020),
-    'nf5': dict(bang='center'), 'nf6': dict(bang='air', flip=0.030), 'nf7': dict(bang='side', flip=0.018), 'nf8': dict(bang='heavy'),
-    'nf9': dict(bang='center', wave=0.012), 'nf10': dict(bang='center'), 'nf11': dict(bang='side'), 'nf12': dict(bang='air'),
-    'nf13': dict(bang='air', flip=0.022), 'nf14': dict(bang='heavy'), 'nf15': dict(bang='center', wave=0.010), 'nf16': dict(bang='air'),
-    'nf17': dict(bang='side', wave=0.008), 'nf18': dict(bang='side', flip=0.024), 'nf19': dict(bang='center', wave=0.014), 'nf20': dict(bang='air', flip=0.020),
+    'nf5': dict(bang='center', part=0.0), 'nf6': dict(bang='air', flip=0.030), 'nf7': dict(bang='side', flip=0.018), 'nf8': dict(bang='heavy'),
+    'nf9': dict(bang='center', part=0.0, wave=0.012), 'nf10': dict(bang='center', part=0.0), 'nf11': dict(bang='side'), 'nf12': dict(bang='air'),
+    'nf13': dict(bang='air', flip=0.022), 'nf14': dict(bang='heavy'), 'nf15': dict(bang='center', part=0.0, wave=0.010), 'nf16': dict(bang='air'),
+    'nf17': dict(bang='side', wave=0.008), 'nf18': dict(bang='side', flip=0.024), 'nf19': dict(bang='center', part=0.0, wave=0.014), 'nf20': dict(bang='air', flip=0.020),
     'nm2': dict(bang='heavy', tipfront=MASH_M, vol=1.12), 'nm3': dict(wave=0.004), 'nm5': dict(bang='heavy', tipfront=MASH_M, vol=1.12),
     'nm8': dict(bang='center', tipfront=CENTER_M, part=0.0, wave=0.004), 'nm9': dict(bang='center', tipfront=CENTER_M, part=0.0),
     'nm10': dict(bang='center', tipfront=CENTER_M, part=0.0), 'nm11': dict(wave=0.004), 'nm12': dict(bang='heavy', tipfront=MASH_M, vol=1.12),
