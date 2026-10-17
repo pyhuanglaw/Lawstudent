@@ -174,7 +174,7 @@
   {
    "task": "SCN-V0-01",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "0bce4614",
+   "sha": "906beabe",
    "files": [
     "tools/blender/env_second/socbldg_layout_gen.py",
     "tools/blender/env_second/socbldg_interior.py",
@@ -183,12 +183,12 @@
     "assets/models/env/second_ai/socsci_bldg1f.layout.json",
     "docs/art-rebuild/second_ai/test_shots/socsci_bldg1f/"
    ],
-   "state": "已交付",
-   "remaining": "遊戲內截圖（等 LAWWW 接成區域）；房間用途等 AA-C",
-   "next": "LAWWW 照 socsci_bldg1f.layout.json 建區域（導航、出口、互動點、座位），社科院大樓正面加入口；接好後 LAWWW2 拍遊戲內截圖",
-   "noDirectIntegrate": false,
+   "state": "取消／不整合",
+   "remaining": "無（使用者 05:4x 對 AA-C：社科院不做 3D 室內，AA_173 第 1 節；LAWWW-C 登記 DL-LW2-SOCSCI1F 不整合）",
+   "next": "成果保留在 focused-cray 不刪；使用者改變決定時可以直接接",
+   "noDirectIntegrate": true,
    "receiver": "LAWWW",
-   "ack": "SENT"
+   "ack": "ACK"
   },
   {
    "task": "SCN-US-01",
@@ -206,8 +206,8 @@
     "assets/models/env/second_ai/us_community.json"
    ],
    "state": "WIP",
-   "remaining": "美式汽車五款（社區停車場、美國校園街道共用）：渲染檢查、八項；之後社區戶外（壁板公寓、開放樓梯間、停車場、樹林）",
-   "next": "LAWWW2-C；使用者 05:0x：經濟系之後做美國（季節細節照舊等 AA_213）",
+   "remaining": "汽車五款第二版做法完成（渲染看過、輪廓乾淨）；社區戶外照使用者 05:2x 第二張社區照片改：兩層樓、橄欖灰褐／淺米色壁板、樓梯間入口山牆、紅磚柱＋紅色社區牌（空白）、入口白鐵欄杆、深灰柏油；渲染驗收、八項、README",
+   "next": "LAWWW2-C 渲染驗收→交件（README＋八項＋接法）",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "未派"

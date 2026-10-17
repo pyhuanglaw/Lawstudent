@@ -3,7 +3,7 @@ LAWWW2-C 2026-10-17。遊戲（LAWWW：導航格、出生點、互動點、停�
 用法：python3 tools/blender/env_second/us_community_layout_gen.py [--check]
 
 參考：使用者 2026-10-16 的社區外觀照片（docs/art-rebuild/second_ai/research/us_apartment_photos.md 照片二）：
-  兩到三層的木構公寓沿停車場一棟接一棟；灰褐色橫向壁板、白色轉角與窗框飾條；山牆朝前的斜屋頂（深色瀝青瓦）、山牆上白色圓形通風口；
+  兩層的木構公寓（使用者 2026-10-17 又給一張：橄欖灰褐壁板、有幾棟淺米色、樓梯間入口上面也是山牆、入口紅磚柱＋紅色社區牌、白色欄杆、深灰柏油）沿停車場一棟接一棟；灰褐色橫向壁板、白色轉角與窗框飾條；山牆朝前的斜屋頂（深色瀝青瓦）、山牆上白色圓形通風口；
   一樓轉角、入口兩側紅磚；開放式樓梯間（有屋頂、白柱子）；內凹陽台、咖啡色木欄杆；柏油停車場白色格線；矮灌木、新種的小樹；後面成片的大樹（自然保護區）；牆上一排電錶。
 遊戲版（不宣稱還原真實社區、不放社區名、門牌號碼、車牌，D77）：
   區域座標 x 往東、z 往南、y 往上；範圍 x −42～42、z −32～32。
@@ -17,13 +17,13 @@ ROOT = os.path.abspath(os.path.join(HERE, '..', '..', '..'))
 OUT = os.path.join(ROOT, 'assets', 'models', 'env', 'second_ai', 'us_community.layout.json')
 rng = random.Random(1017)
 X0, X1, Z0, Z1 = -42.0, 42.0, -32.0, 32.0
-FLOOR_H, FLOORS = 2.9, 3
+FLOOR_H, FLOORS = 2.9, 2   # 使用者 2026-10-17 照片：兩層樓
 
 # 建築：中心、長（沿正面）、深、正面朝向（yaw：正面法線＝(sin, cos)；0＝朝南）、山牆數、樓梯間在正面的位置（沿正面的局部座標）
 BUILDINGS = [
-    {'id': 'A', 'cx': -25.0, 'cz': -22.5, 'len': 28.0, 'dep': 13.0, 'yaw': 0.0, 'gables': 3, 'breezeway': [-4.0], 'tint': '#8e8474'},
-    {'id': 'B', 'cx': 8.0, 'cz': -22.5, 'len': 32.0, 'dep': 13.0, 'yaw': 0.0, 'gables': 4, 'breezeway': [-8.0, 6.0], 'tint': '#8f8574', 'home': True},
-    {'id': 'C', 'cx': 33.5, 'cz': 6.0, 'len': 26.0, 'dep': 13.0, 'yaw': -math.pi / 2, 'gables': 3, 'breezeway': [2.0], 'tint': '#8c8272'},
+    {'id': 'A', 'cx': -25.0, 'cz': -22.5, 'len': 28.0, 'dep': 13.0, 'yaw': 0.0, 'gables': 3, 'breezeway': [-4.0], 'tint': '#8a8670'},
+    {'id': 'B', 'cx': 8.0, 'cz': -22.5, 'len': 32.0, 'dep': 13.0, 'yaw': 0.0, 'gables': 4, 'breezeway': [-8.0, 6.0], 'tint': '#7f7c66', 'home': True},
+    {'id': 'C', 'cx': 33.5, 'cz': 6.0, 'len': 26.0, 'dep': 13.0, 'yaw': -math.pi / 2, 'gables': 3, 'breezeway': [2.0], 'tint': '#b3a88f'},
 ]
 # 停車場：柏油範圍、兩排車位（車頭朝車道）、車道
 LOT = {'x0': -34.0, 'x1': 24.0, 'z0': -10.0, 'z1': 10.0}

@@ -1,0 +1,49 @@
+{
+ "objects": 50,
+ "unique_meshes": 50,
+ "tris": 35066,
+ "tris_drawn": 35066,
+ "materials": 9,
+ "out": "assets/models/env/second_ai/us_cars.glb",
+ "bytes": 971344,
+ "texres": 256,
+ "tris_per_car": {
+  "car_hatch": 7094,
+  "car_minivan": 7222,
+  "car_pickup": 6618,
+  "car_sedan": 6982,
+  "car_suv": 7150
+ },
+ "dims": {
+  "car_sedan": [
+   4.88,
+   1.84,
+   2.82,
+   0.68
+  ],
+  "car_suv": [
+   4.6,
+   1.85,
+   2.69,
+   0.72
+  ],
+  "car_pickup": [
+   5.9,
+   2.03,
+   3.67,
+   0.8
+  ],
+  "car_hatch": [
+   4.4,
+   1.8,
+   2.7,
+   0.66
+  ],
+  "car_minivan": [
+   5.15,
+   2.0,
+   3.03,
+   0.7
+  ]
+ }
+}

@@ -7,7 +7,7 @@
   "z1": 32.0
  },
  "floorH": 2.9,
- "floors": 3,
+ "floors": 2,
  "buildings": [
   {
    "id": "A",
@@ -20,7 +20,7 @@
    "breezeway": [
     -4.0
    ],
-   "tint": "#8e8474"
+   "tint": "#8a8670"
   },
   {
    "id": "B",
@@ -34,7 +34,7 @@
     -8.0,
     6.0
    ],
-   "tint": "#8f8574",
+   "tint": "#7f7c66",
    "home": true
   },
   {
@@ -48,7 +48,7 @@
    "breezeway": [
     2.0
    ],
-   "tint": "#8c8272"
+   "tint": "#b3a88f"
   }
  ],
  "lot": {
