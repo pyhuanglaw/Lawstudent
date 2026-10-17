@@ -53,19 +53,20 @@
   {
    "task": "ART-04",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "872226f7",
+   "sha": "639f0188",
    "files": [
     "tools/blender/env_second/prop_pothos.py",
     "assets/models/env/second_ai/prop_pothos.glb",
     "assets/models/env/second_ai/prop_pothos.json",
-    "tools/blender/env_second/shots/pothos_dorm_shots.py"
+    "tools/blender/env_second/shots/pothos_dorm_shots.py",
+    "docs/art-rebuild/second_ai/test_shots/pothos_loft/"
    ],
-   "state": "WIP",
-   "remaining": "四人房的遊戲內截圖（排隊中）、README",
-   "next": "LAWWW2-C 拍完截圖後交付；遊戲端接法（PLACE 在 GLB 根節點）由 LAWWW 整合",
-   "noDirectIntegrate": true,
+   "state": "已交付",
+   "remaining": "截圖重拍（旁白框）",
+   "next": "LAWWW 接 prop_pothos.glb：F.POTHOS 時放在 GLB 根節點 place 屬性的位置（−2.39,0.76,0.145, ry π/2），POTHOS_S1～S4 照 pothosWaterN 切換；材質 TK.bounce(0.3,0.4)",
+   "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "未派"
+   "ack": "SENT"
   },
   {
    "task": "SCN-V3-01",
@@ -86,16 +87,18 @@
   {
    "task": "ART-V0-DORM",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "50bc183a",
+   "sha": "639f0188",
    "files": [
-    "tools/shots/window_views.py"
+    "tools/shots/window_views.py",
+    "assets/models/env/views/dorm_room412_day.webp",
+    "assets/models/env/views/dorm_room412_night.webp"
    ],
-   "state": "WIP",
-   "remaining": "dorm_room412 窗景還沒拍（排隊中）；遊戲端換窗景（412 時用 dorm_room412）由 LAWWW 接",
-   "next": "LAWWW2-C 拍 assets/models/env/views/dorm_room412_day/night.webp 後交付",
-   "noDirectIntegrate": true,
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：dorm 區域 dormSet 是 412 時，room() 的 view 用 dorm_room412（W3.viewPhoto 讀 assets/models/env/views/dorm_room412_*.webp）；房號牌 412 在 dorm_hall（LAWWW）",
+   "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "未派"
+   "ack": "SENT"
   }
  ]
 }
