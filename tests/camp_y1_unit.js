@@ -66,6 +66,22 @@ const day=k=>STORY.dayOfKey(k);
     check('G3. 回了 → FAM_GROUP_REPLIED、Kevin「好，收到一個。」',G.flags.FAM_GROUP_REPLIED===true&&fam().some(m=>m.text==='好，收到一個。'),JSON.stringify(r&&r.out&&r.out.map(m=>m.text)));
     const n1=G.msgs.length; await STORY._v1.familyGroupD1(GM);
     check('G4. 9/3 introDorm 不再發舊的「第三週了」（已經發過）',G.msgs.length===n1&&!G.msgs.some(m=>/第三週了/.test(m.text))); }
+  // ---------- H 8/31：開學典禮 14:00、班群（系學會茶會公告）、可昕開學前一晚 22:10（AA_195 4-4、BB_168 6-2）----------
+  { const q=(G.phone.q||[]).map(x=>x.tag);
+    check('H1. 搬宿舍時就排好 8/31 22:10 可昕開學前一晚（KX_EVE_MSG）',q.includes('kx_eve')&&G.flags.KX_EVE_MSG===true,q.join(' '));
+    G.day=day('2025-08-31'); G.weekday=0; G.hour=14.05; said=[]; cards=[]; await STORY.ceremonyY1(GM);
+    check('H2. 典禮：日期卡「8 月 31 日（日）｜14:00 · 綜合體育館」、三句旁白照順序、演完 15:30',cards.includes('8 月 31 日（日）｜14:00 · 綜合體育館')&&said.join('|')==='四千多個新生，每個人都穿著同一件新生上衣。|法律系的位置在二樓看台的右邊。旁邊的人在對手冊上的流程，前面的人在傳訊息問晚上要不要一起吃飯。|校長致詞講到一半，手機震了一下。你被加進一個群組。'&&Math.abs(G.hour-15.5)<1e-6&&G.flags.CEREMONY_Y1===true,cards.join('/')+' '+said.join('|'));
+    PHONE.tick(G); const lc=G.msgs.filter(m=>m.th==='g:law_class').map(m=>(m.name||'')+':'+m.text);
+    check('H3. 班群：加入的系統字、系學會「新生茶會：9/2（二）18:30，萬才館一樓大廳。會公布直屬，有點心。」「不用報名，來就好。」、不具名的同學問系服',PHONE.inGroup(G,'law_class')&&lc.join('|')===':你被加進「法律系（全班）」。|系學會:新生茶會：9/2（二）18:30，萬才館一樓大廳。會公布直屬，有點心。|系學會:不用報名，來就好。|同學:請問要穿系服嗎|同學:我們還沒有系服吧',lc.join(' | '));
+    const n0=said.length; await STORY.ceremonyY1(GM); check('H4. 典禮只演一次',said.length===n0);
+    G.hour=22.2; PHONE.tick(G); const kx=G.msgs.filter(m=>m.th==='p:kexin'), last=kx[kx.length-1];
+    check('H5. 22:10 可昕：「明天開學了。」「你課表都排好了嗎？」（沒玩過經濟系：沒有「第二次的大一欸。」）、三個回覆',kx.map(m=>m.text).join('|')==='明天開學了。|你課表都排好了嗎？'&&last.ask&&last.ask.opts.map(o=>o.t).join('/')==='排好了，週四有民總。/還在等加選。/有點緊張。',kx.map(m=>m.text).join(' | '));
+    PHONE.answer(G,last.ask.id,2); check('H6. 回「有點緊張。」→「我也是。」「早點睡。」',G.msgs.filter(m=>m.th==='p:kexin').slice(-2).map(m=>m.text).join('|')==='我也是。|早點睡。'); }
+  fresh(); G.flags.MAIN_D1=STORY.MAIN_D1_NEW; G.flags.LAW_START_DAY=day('2025-08-29'); G.flags.PLAYED_Y0=true; G.day=day('2025-08-29'); STORY.kexinEve(G); G.day=day('2025-08-31'); G.hour=22.2; PHONE.tick(G);
+  { const kx=G.msgs.filter(m=>m.th==='p:kexin'), last=kx[kx.length-1]; PHONE.answer(G,last.ask.id,2);
+    check('H7. 玩過經濟系：多「第二次的大一欸。」；回「有點緊張。」→「我也是。明明是第二次了。」',kx.map(m=>m.text).includes('第二次的大一欸。')&&G.msgs.some(m=>m.text==='我也是。明明是第二次了。'));
+    G.day=day('2025-09-03'); G.hour=21.2; said=[]; await STORY._v1.kexinFirstMsg(GM,'night');
+    check('H8. 9/3 讀案例那晚的可昕訊息（新局）拿掉「第二次的大一。我們都是重考上來的。」，假設題照舊',!said.some(t=>/第二次的大一/.test(t))&&said.some(t=>/今天的假設題/.test(t)),said.slice(0,3).join(' | ')); }
   fresh(); G.flags.MAIN_D1=STORY.MAIN_D1_NEW; G.flags.LAW_START_DAY=day('2025-08-29'); G.day=day('2025-09-03'); STORY.familyW0(G,{now:true});
   { const kv=G.msgs.filter(m=>m.th==='g:family_law'&&m.from==='kevin');
     check('G5. 沒去宿營的版本（BB_168 6-3）：「有進來的舉個手，考古題茶會那天給你們。」、回「（舉手）／我在。」',kv.length===2&&kv[1].text==='有進來的舉個手，考古題茶會那天給你們。'&&kv[1].ask.opts.map(o=>o.t).join('/')==='（舉手）/我在。',kv.map(m=>m.text).join(' | ')); }
