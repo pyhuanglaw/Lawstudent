@@ -124,6 +124,12 @@ GM.money=function(n){ G.money+=n; };
     check('11. Priya 8/10 22:00「Did you get your grades?」回覆只有「A.」',P.some(m=>m.text==='Did you get your grades?'&&m.ask&&m.ask.opts.length===1&&m.ask.opts[0].t==='A.'));
     G.day=D('2027-09-14'); run(20.9,21.2); check('11. Priya 2027-09-14 21:00「Did your school count the credits?」「One of them.」／「Both.」',(G.msgs||[]).some(m=>m.th==='p:npc_priya'&&m.text==='Did your school count the credits?'&&m.ask.opts.map(o=>o.t).join()==='One of them.,Both.'));
     fresh(D('2027-08-10'),8.9,'dorm',{}); G.stage='law'; VAC.rec(G).reg['C10@Y2']='done'; run(8.9,9.2); check('11. B＋版：旁白一門 A−、一門 B＋，不傳群組',(G.msgs||[]).some(m=>m.th==='sys'&&m.text.startsWith('（一門 A−，一門 B＋。'))&&!txt('g:home').length); }
+  // 12. 回來後第一次在 3D 遇到朋友（AA_242 8-7）
+  { fresh(D('2026-07-26'),12,'campus',{BACK_FROM_C08:D('2026-07-24')}); G.stage='law'; meet('yu'); R('yu',30,10,5); meet('heroine_01'); R('heroine_01',30,10,5); G.flags.dating_heroine_01=true;
+    said=[]; const a=await VAC.backGreet(GM,{name:'小語',charId:'yu'},'yu'); const b=await VAC.backGreet(GM,{name:'小語',charId:'yu'},'yu'); const c=await VAC.backGreet(GM,{name:'以安',charId:'heroine_01'},'heroine_01');
+    check('12. 小語（FAMILIAR）第一次遇到「你回來了！伴手禮咧！」、只一次；交往中的以安沒有（她有重逢）',a&&!b&&!c&&lines().join('|')==='小語：你回來了！伴手禮咧！',JSON.stringify(lines()));
+    G.day=D('2026-08-30'); delete VAC.rec(G).backSeen; check('12. 超過 30 天不說',!(await VAC.backGreet(GM,{name:'小語',charId:'yu'},'yu')));
+    check('12. talkCharacter 在閒聊前呼叫 VAC.backGreet',/VAC\.backGreet\(GM,who,id\)/.test(require('fs').readFileSync(require('path').join(ROOT,'src/story3d.js'),'utf8'))); }
   // 9. 存讀檔
   { VAC.rec(G).reg['C03@Y1']='yes'; const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('9. 存讀檔：報名狀態留著',VAC.state(G,'C03@Y1')==='yes'); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
