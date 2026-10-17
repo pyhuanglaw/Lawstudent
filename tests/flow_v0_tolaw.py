@@ -21,7 +21,7 @@ async def pick(pg, cdp, prefer):
 
 
 async def drive(pg, cdp, until_js, prefer, max_s=240):
-    log = []
+    log = []; rep = 0
     for _ in range(int(max_s * 2)):
         if await pg.evaluate(until_js): return True, log
         s = await L.state(pg)
@@ -30,7 +30,11 @@ async def drive(pg, cdp, until_js, prefer, max_s=240):
             log.append('▶' + str(await pick(pg, cdp, prefer))); print('  ', log[-1], '／選項', opts, flush=True)
         elif s['dlg']:
             t = await pg.evaluate("(document.querySelector('#dlg .text, #dlgText, #dlg')||{}).textContent||''")
-            if not log or log[-1] != t[:40]: log.append(t[:40]); print('  ', t[:40], flush=True)
+            if not log or log[-1] != t[:40]: log.append(t[:40]); print('  ', t[:40], flush=True); rep = 0
+            else: rep += 1
+            fade = await pg.evaluate("(()=>{ const f=document.getElementById('fade'); return !!f&&getComputedStyle(f).opacity>0.5&&getComputedStyle(f).pointerEvents!=='none'; })()")
+            if fade and rep >= 6:   # 2026-10-17：對話在黑幕（#fade）下面、點不下去——原本會空轉到逾時（40～60 分鐘）
+                log.append('<黑幕下有對話>'); print('   <黑幕下有對話：點不下去>', flush=True); return False, log
             await L.tap(pg, cdp, '#dlg')
         elif _ % 20 == 0:
             g = await pg.evaluate("({stage:GAME.G.stage,day:GAME.G.day,h:+GAME.G.hour.toFixed(2),zone:GAME.G.zone,home:HOME.at(GAME.G),busy:GAME.E.player.busy})")
@@ -75,6 +79,7 @@ async def main():
         await pg.wait_for_timeout(3000)
         s2 = await pg.evaluate("({stage:GAME.G.stage,day:GAME.G.day})")
         run.check('備份讀得回 8/29 早上（還是經濟系）', s2['stage'] == 'econ' and s2['day'] == d29, json.dumps(s2))
+        run.check('黑幕沒有擋住對話（8/29 搬宿舍那兩句可以點）', '<黑幕下有對話>' not in log)
         run.check('全程沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False))
         await b.close()
     return run.finish()

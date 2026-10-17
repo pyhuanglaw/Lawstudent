@@ -87,7 +87,9 @@ const STORY = (function(){
     if(recap&&recap.length) await S.recap(GM,recap);
     G.hour=Math.max(G.hour,16+5/60); if(E) E.hour=G.hour; F.LAW_MOVEIN_DAY=d;   /* AA_195 4-2：8/29（五）16:05 搬進來（新生入住 13:30～17:00）；經濟系轉過來的照當天、不倒退 */
     if(GM.titleCard){ const dt=S.dateOf(d); await GM.titleCard(dt.m+' 月 '+dt.d+' 日（'+'日一二三四五六'[G.weekday%7]+'）',hm(G.hour)+' · 男生宿舍',2000); }   /* 日期卡「8 月 29 日（五）16:05 · 男生宿舍」（AA_195 4-2）*/
-    if(GM.say){ if(GM.sceneBegin) GM.sceneBegin(); try{ if(o.econ) await GM.say(null,'你去年也搬過一次宿舍，這次只有一個行李箱。'); await GM.say(null,'行李箱的輪子在宿舍走廊上一直卡到地磚的縫。'); } finally { if(GM.sceneEnd) GM.sceneEnd(); } }   /* 進房間前（AA_195 4-2 第 1 點；經濟系版前面多一句，AA-B 21:09）*/
+    if(GM.say){ const dk=!!o.econ&&typeof ADV!=='undefined'&&!!ADV.begin;   /* 經濟系轉過來的：呼叫的地方黑幕（#fade，z-index 9、會攔點擊）還開著——先開黑底的對話畫面再拿掉黑幕（flow_v0_tolaw 抓到：對話在黑幕下面、點不下去，2026-10-17）*/
+      if(dk){ ADV.begin({background:'dark'}); if(GM.fade) await GM.fade(false); }
+      if(GM.sceneBegin) GM.sceneBegin(); try{ if(o.econ) await GM.say(null,'你去年也搬過一次宿舍，這次只有一個行李箱。'); await GM.say(null,'行李箱的輪子在宿舍走廊上一直卡到地磚的縫。'); } finally { if(GM.sceneEnd) GM.sceneEnd(); if(dk){ if(GM.fade) await GM.fade(true); if(ADV.active) ADV.end(); } } }   /* 進房間前（AA_195 4-2 第 1 點；經濟系版前面多一句，AA-B 21:09）*/
     if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{});
     if(GM.say) await kaiMoveIn(GM);
     if(G.day<=S.dayOfKey('2025-08-30')) S.familyW0(G);
