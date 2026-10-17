@@ -83,7 +83,24 @@ GM.money=function(n){ G.money+=n; };
     check('7. 京都（不熟以安）：一般的第一堂（十二個人、八個國家），沒有以安、沒有選項',L3.some(t=>t.includes('來自八個國家'))&&!L3.some(t=>t.startsWith('沈以安'))&&!opts.length,JSON.stringify(L3)); }
   // 8. 衝突：首爾 7/13～24 撞日語課（7/14、7/16、7/21、7/23）
   { fresh(D('2026-06-01'),10,'dorm',{}); G.stage='law'; VAC.rec(G).reg['C03@Y1']='yes'; const c=VAC.conflicts(G,VAC.inst('C08','Y1')); check('8. 首爾撞日語課 4 堂',c.length===4&&c.every(x=>x.key==='C03@Y1'),JSON.stringify(c)); }
+  // 10. 出國期間的訊息（AA_242 第 6、8 節；BB_200）
+  { fresh(D('2026-07-27'),7,'dorm',{dating_heroine_01:true}); G.stage='law'; meet('heroine_01'); meet('heroine_03'); R('heroine_03',25,0,0); VAC.signup(G,'C09@Y1','yes');
+    said=[]; picks=[0,0]; await VAC.outing(GM,OUT.get(G,'vac_C09@Y1')); PHONE.tick(G);
+    const A1=(G.msgs||[]).filter(m=>m.th==='p:heroine_01');
+    check('10. 柬埔寨＋和以安交往：出發那天「到了傳一張照片。一張就好。」、輪播池、中間那則、回來那天「明天見。……」',A1.some(m=>m.text==='到了傳一張照片。一張就好。')&&A1.some(m=>m.text==='今天讀了四十頁。你那邊天氣好嗎？')&&A1.some(m=>m.text==='你那邊幾點？我算了一下，你應該在吃午餐。')&&A1.some(m=>m.text==='明天見。……我是說，明天有空的話。'),JSON.stringify(A1.map(m=>m.text)));
+    const pool=A1.filter(m=>m.text==='今天讀了四十頁。你那邊天氣好嗎？')[0]; check('10. 柬埔寨只有晚上有訊號：她 21:30 傳的，22:00 才收到；兩個回覆「好。」「我也想妳。」',!!pool&&Math.abs(pool.h-22)<0.01&&JSON.stringify(pool.ask.opts.map(o=>o.t))===JSON.stringify(['好。','我也想妳。']),JSON.stringify(pool));
+    const dk=A1.find(m=>m.text==='今天沒有回。……你那邊還好嗎？'); check('10. 停電那晚（8/2）她「今天沒有回。……」隔天 8/3 早上 8:00 才收到；回「昨天停電，整晚沒電。」→「好。……下次停電，也先跟我說。」',!!dk&&dk.day===D('2026-08-03')&&dk.h===8&&dk.ask.opts[0].t==='昨天停電，整晚沒電。'&&dk.ask.opts[0].say[0].text==='好。……下次停電，也先跟我說。',JSON.stringify(dk));
+    check('10. 7/30 VA-11「我媽在後面」人在柬埔寨不傳；停電那晚其他訊息也是隔天早上才到（8/2 沒有收到任何一則）',!A1.some(m=>m.text.includes('我媽在後面'))&&!(G.msgs||[]).some(m=>m.day===D('2026-08-02')&&m.h>=21));
+    const Y=(G.msgs||[]).filter(m=>m.th==='p:heroine_03').map(m=>m.text); check('10. 語彤（朋友、FAMILIAR）整趟一則「📷（麵店今天的長桌）」',JSON.stringify(Y)===JSON.stringify(['📷（麵店今天的長桌）']),JSON.stringify(Y)); }
+  { fresh(D('2027-06-21'),7,'dorm',{dating_kexin:true,dating_classmate_peishan:true}); G.stage='law'; VAC.signup(G,'C10@Y2','yes'); said=[]; picks=[0,0]; await VAC.outing(GM,OUT.get(G,'vac_C10@Y2')); PHONE.tick(G); const L=lines();
+    check('10. 加州＋可昕：第一個週日 10:00 視訊三句（「你那邊亮亮的。」…「下禮拜同一個時間。」）',L.includes('杜可昕：你那邊亮亮的。')&&L.includes('杜可昕：好，我要去睡了。下禮拜同一個時間。'),JSON.stringify(L.filter(t=>t.startsWith('杜可昕'))));
+    const K=(G.msgs||[]).filter(m=>m.th==='p:kexin').map(m=>m.text); check('10. 加州第 3 週可昕「我算了一下 還有二十一天」「不是在算 是剛好看到」（一次）',K.filter(t=>t==='我算了一下 還有二十一天').length===1&&K.includes('不是在算 是剛好看到'));
+    check('10. 加州六週：池子用完第二圈只用前半（第 9 天起只會出現前四則）',K.filter(t=>t==='晚安 我先睡').length===1&&K.filter(t=>t==='我算了一下 你那邊現在晚上九點').length>=3,JSON.stringify([K.filter(t=>t==='晚安 我先睡').length,K.filter(t=>t==='我算了一下 你那邊現在晚上九點').length]));
+    check('10. 沛珊重考消失期（2027-06）：交往中也不傳',!(G.msgs||[]).some(m=>m.th==='p:classmate_peishan')); }
+  { fresh(D('2026-07-13'),8,'dorm',{dating_heroine_05:true}); G.stage='law'; VAC.signup(G,'C08@Y1','yes'); said=[]; picks=[0,0,0,0]; await VAC.outing(GM,OUT.get(G,'vac_C08@Y1')); PHONE.tick(G);
+    const S5=(G.msgs||[]).filter(m=>m.th==='p:heroine_05'&&m.ask); check('10. 學姊兩天一則（首爾 12 天：池子 4～5 則）',S5.length>=4&&S5.length<=5,String(S5.length));
+    check('10. 回來記 BACK_FROM_C08（3D 第一次遇到的招呼用）',G.flags.BACK_FROM_C08===D('2026-07-24')); }
   // 9. 存讀檔
-  { const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('9. 存讀檔：報名狀態留著',VAC.state(G,'C03@Y1')==='yes'); }
+  { VAC.rec(G).reg['C03@Y1']='yes'; const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('9. 存讀檔：報名狀態留著',VAC.state(G,'C03@Y1')==='yes'); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
