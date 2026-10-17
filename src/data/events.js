@@ -1202,11 +1202,11 @@ const STORY_EVENTS=[
   /* 學姊 W5「她改的便條」（BB_96 2-6；交接包 v2）：大一下第 15 週週三（6/3，AA_198 第 5 節）的法服學期檢討會（activities.js 的 lawclub_review_y1s2）之後；前置 lawclub、法服讀書會去過 3 次以上、只一次。
      去了檢討會：會後接著演（afterActivity）；沒去的社員：第 17～18 週第一次在晚上走進萬才館（BB_161 ③），開頭兩句換成「（聽說這週的檢討會很安靜。）」「（你經過萬才館的研討室……）」其他照舊。流程的描述寫成旁白。
      記 NOTICED_HER（W8 的伏筆）／GAVE_HER_NOTE（寫了什麼記在備註；回收見 BB_108）*/
-  { id:'ev_sis_sticky_notes', title:'她改的便條', participants:['heroine_05'], location:'wancai', trigger:'activity', afterActivity:'lawclub_review_y1s2', term:['Y1S2'], weeks:[15], once:true, background:'blur',
+  { id:'ev_sis_sticky_notes', retired:'使用者 2026-10-17（AA_218 17-1，AA-C 07:18）：刪除 W5 便條——「大學誰會寫書狀；這種批鬥大會根本不符合她的個性」。舊存檔已經看過的旗標保留（NOTICED_HER、GAVE_HER_NOTE、記憶），不重播', title:'她改的便條', participants:['heroine_05'], location:'wancai', trigger:'activity', afterActivity:'lawclub_review_y1s2', term:['Y1S2'], weeks:[15], once:true, background:'blur',
     prereq:{flags:['lawclub'],custom:G=>W5_OK(G)},
     dialogue:[ {speaker:null,text:'檢討會上，學姊對一年級的書狀列了十二條缺點，大家臉都很僵。'}].concat(W5_REST) },
   /* BB_161 ③：沒去檢討會的社員＝第 15～16 週第一次在晚上（18:00 以後）走進萬才館；開頭兩句換成 BB-B 新寫的，接著從「你的書狀上：……」照原文 */
-  { id:'ev_sis_sticky_notes_late', title:'她改的便條', participants:['heroine_05'], location:'wancai', trigger:'enter', term:['Y1S2'], weeks:[15,16], time:[18,23.5], once:true, background:'blur',
+  { id:'ev_sis_sticky_notes_late', retired:'使用者 2026-10-17（AA_218 17-1，AA-C 07:18）：刪除 W5 便條——「大學誰會寫書狀；這種批鬥大會根本不符合她的個性」。舊存檔已經看過的旗標保留（NOTICED_HER、GAVE_HER_NOTE、記憶），不重播', title:'她改的便條', participants:['heroine_05'], location:'wancai', trigger:'enter', term:['Y1S2'], weeks:[15,16], time:[18,23.5], once:true, background:'blur',
     prereq:{flags:['lawclub'],custom:G=>{ if(!W5_OK(G)) return false; const r=typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay('Y1S2',15,3):null; if(r!=null&&G.day===r&&G.hour<21) return false; return !(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,'lawclub_review_y1s2')); }},   /* 檢討會那天（第 17 週週三）21:00 以前還在開會 */
     dialogue:[ {speaker:null,text:'（聽說這週的檢討會很安靜。）'},{speaker:null,text:'（你經過萬才館的研討室。學姊一個人坐在裡面，在每份書狀上貼便條。）'}].concat(W5_REST.slice(1)) },
   /* 子晴 Q5「你負責拍手」（BB_96 4-4、AA_13 G3；交接包 v2）：大一下第 14 週週三的吉他社成發（activities.js 的 guitar_show_y1s2，去看就演）；認識子晴才有。
