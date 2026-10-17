@@ -13210,10 +13210,10 @@
    "id": "MSG-2",
    "title": "傳訊息第二批話題（接 SYS-PHONE-CHAT／MSG-L1 之後）",
    "area": "STORY",
-   "owner": "AA",
+   "owner": "LAWWW",
    "status": "待開工",
    "priority": "P2",
-   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "AA 交付 AA_202 第 7 節 @8a08c312（謝謝、生日快樂、還好嗎、新年快樂；AA 四位生日：阿哲 11/2、小語 1/18、柏翰 8/14、芯慈 3/28）；「謝謝」的條件表由 LAWWW 列；BB 九位等 BB-C。AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -13227,11 +13227,11 @@
    "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
    "authorized": "使用者（AA、BB 企劃制度）",
    "xai": {
-    "spec": "AA_202 之後",
+    "spec": "AA_202 §7 @8a08c312",
     "owner": "AA",
-    "branch": "claude/cool-heisenberg-o8kuqx",
-    "acceptance": "照規格交付、互審紀錄",
-    "receiver": "LAWWW-B",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "按鈕條件、回覆池",
+    "receiver": "LAWWW",
     "ack": "ACK"
    }
   },
@@ -13239,10 +13239,10 @@
    "id": "AA-103-SP",
    "title": "刑訴特別課一句",
    "area": "STORY",
-   "owner": "AA",
-   "status": "進行中",
+   "owner": "LAWWW",
+   "status": "待開工",
    "priority": "P3",
-   "next": "AA-C WIP（2235d87a，BB_182 法律審查）：寫回 syllabus/_src/y3s1.py w15，併大三上那批交 LAWWW；發布前核對 §31",
+   "next": "AA 交付（AA_103 最後一節 @1073ff2f、9f375383；BB_182 審過）：大三上刑訴第 15 週 special，小語「請不起的人，是國家幫他請？」＋林教授兩句；syllabus y3s1 w15 已指過去、Y3S1.json 重產——LAWWW 從企劃線同步；發布前對一次刑訴 §31 現行條文。AA-C WIP（2235d87a，BB_182 法律審查）：寫回 syllabus/_src/y3s1.py w15，併大三上那批交 LAWWW；發布前核對 §31",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -13256,11 +13256,11 @@
    "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
    "authorized": "使用者（AA、BB 企劃制度）",
    "xai": {
-    "spec": "AA 企劃線",
+    "spec": "AA_103 @9f375383",
     "owner": "AA",
-    "branch": "claude/cool-heisenberg-o8kuqx",
-    "acceptance": "照規格交付、互審紀錄",
-    "receiver": "LAWWW-B",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "課堂 special；§31 核對",
+    "receiver": "LAWWW",
     "ack": "ACK"
    }
   },
@@ -13268,10 +13268,10 @@
    "id": "Y3S1-XMAS",
    "title": "大三上聖誕細節",
    "area": "STORY",
-   "owner": "AA",
+   "owner": "LAWWW",
    "status": "待開工",
    "priority": "P3",
-   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "AA 交付 AA_180 最後一節 @bb311e46：2027-12-23（四）19:00 麵店，寄一箱東西到英國給芷若（12/22 阿哲揪；熟不熟芷若兩版；沒去照片）；另記以安餞行 3/24、被取代的舊出國日期清單。AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y3S1",
     "week": null,
@@ -13285,11 +13285,11 @@
    "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
    "authorized": "使用者（AA、BB 企劃制度）",
    "xai": {
-    "spec": "AA 企劃線",
+    "spec": "AA_180 @bb311e46",
     "owner": "AA",
-    "branch": "claude/cool-heisenberg-o8kuqx",
-    "acceptance": "照規格交付、互審紀錄",
-    "receiver": "LAWWW-B",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "兩版＋沒去照片",
+    "receiver": "LAWWW",
     "ack": "ACK"
    }
   },
@@ -14795,9 +14795,9 @@
    "title": "LIFE-LINE 第 7 組：新遊戲直接從經濟系那一年開始（2024-08-23 宿營），不給選擇",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "使用者 2026-10-17 10:4x 定案（「經濟系是先發生的，所以就是直接進經濟系啦，沒有選擇的問題」）。等 AA-C 寫第 7 組可實作規格（開局到第一天、法律系開局怎麼處理、舊存檔）；LAWWW2 盤點經濟系開場美術。",
+   "next": "AA_224 第 7 組 @4e3a7c2b 做好：標題「新遊戲」＝經濟系開局（?start1／?start0 留給測試）、8/23～25 宿營開場（回顧三句、字卡、遊覽車可昕二選一 E15_BUS、CG＋三句、8/25 回家、21:00 小隊群組三則、一句旁白）、ECON_CAMP_OPEN、E01／E02 宿營版、11/22 宿營不排。單元 v0_g7_unit；瀏覽器 flow_v0_start 改成從「新遊戲」開始（待跑）。",
    "first": {
     "term": "Y0S1",
     "week": 0,
@@ -14810,14 +14810,12 @@
    },
    "source": "使用者直接對 LAWWW-C",
    "authorized": "使用者 2026-10-17 10:4x",
-   "pausedReason": "等 AA-C 規格",
-   "resumeWhen": "AA-C 第 7 組規格 SHA",
    "xai": {
     "spec": "AA_224 第 7 組（待 AA 依定案改寫）",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "新遊戲從 2024-08-23 開局、一路玩到法律系；法律系開局的舊存檔照舊讀",
     "receiver": "AA",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
@@ -14855,7 +14853,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P1",
-   "next": "使用者 10:3x 批准（預設改「可以」）；AA_218「### 17-6」@60fc8720 照 16 週加日期。③ 沒去的先演 L511 那則 9/15 Kevin。要加白名單（路徑＋commit）",
+   "next": "AA-C e4a8ba67 選 (a)：② 9/10（三）12:10 刑總下課（台詞「對，刑總。」）→ 延 9/11（四）15:10 民總（「對，民總。」）→ 再沒遇到不演。使用者 10:3x 批准（預設改「可以」）；AA_218「### 17-6」@60fc8720 照 16 週加日期。③ 沒去的先演 L511 那則 9/15 Kevin。要加白名單（路徑＋commit）",
    "first": {
     "term": "Y1S1",
     "week": 2,
@@ -15313,7 +15311,7 @@
    "owner": "AA",
    "status": "待開工",
    "priority": "P2",
-   "next": "AA／BB 改 builder（學姊的層 BB 排），LAWWW 重匯",
+   "next": "BB-C c562a25d 已改學姊招呼和 S4-L1；「被找去指導模擬法庭」等 BB 確認；可昕 K4 只改 note；AA 自己的已清（e8010267）。等 BB 通知重匯。",
    "first": {
     "term": "Y2S2",
     "week": 1,
@@ -15332,6 +15330,64 @@
     "acceptance": "ladder 沒有模擬法庭",
     "receiver": "LAWWW",
     "ack": "SENT"
+   }
+  },
+  {
+   "id": "AN-RICH-1017",
+   "title": "以安家境寬裕（使用者經 BB-C）：heroine_01 family_context「母親是法官，單親；家在台中，家境寬裕」；家教不是為了錢；presence.absentDates 改 2028-03-25～2028-08-05（AA_201 甲）",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "AA-C b2c35884；characters.js＋打工理由的地方",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "以安的人物資料",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 10:56",
+   "authorized": "使用者（經 BB-C）",
+   "xai": {
+    "spec": "AA_113 @b2c35884",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "characters.js 兩處",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AA250-TERMEND-LINES",
+   "title": "AA_250 學期末聚餐話題池（大一上～大四上八份＋大四下畢業傍晚）、第 9 節可昕每學期末約會、新活動卡 C14 事務所參觀、C15 朋友約的單日小事（AA_199 7-6）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P0",
+   "next": "AA_250 @12c46007、9b721b36；接 AA249-TERMEND（跟 HOLIDAY-SYS 一起做）",
+   "first": {
+    "term": "Y0S1",
+    "week": 16,
+    "earliest": "第一次期末聚餐",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 10:58、11:00",
+   "authorized": "AA 定稿（使用者 AA_249）",
+   "pausedReason": "等 HOLIDAY-SYS",
+   "resumeWhen": "16 週引擎＋假期系統",
+   "xai": {
+    "spec": "AA_250 @12c46007／9b721b36",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "每學期聚餐話題、邀約鉤子進行事曆",
+    "receiver": "LAWWW",
+    "ack": "ACK"
    }
   }
  ]

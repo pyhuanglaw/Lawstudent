@@ -68,9 +68,9 @@ GM.money=function(n){ G.money+=n; };
     check('12. ev_xinci_double 改成 Y1S2 第 6～7 週，和原本的第 195～208 天完全一樣（不跟著主線第一天移動）',same&&!x.day_min&&!x.day_max); }
   { fresh(1,21.2,'title',{}); cards=[]; entered=[]; global.location={search:'?start0'}; GM.titleIdle=true; GM.hideHUD=()=>{}; E.endCinematic=()=>{}; GM.D.busyDepth=0; STORY.recap=async()=>{};
     await STORY.newGame(GM); const old={day:G.day,m1:G.flags.MAIN_D1,zone:G.zone};
-    fresh(1,21.2,'title',{}); global.location={search:''}; await STORY.newGame(GM);
+    fresh(1,21.2,'title',{}); global.location={search:'?start1'}; await STORY.newGame(GM);   /* 2026-10-17 第 7 組：預設新遊戲改成經濟系開局，法律系開局只留給 ?start1 */
     check('13. 新遊戲 ?start0（舊開局）：從第 1 天（9/17）宿舍開始、沒有 MAIN_D1',old.day===1&&old.m1===undefined&&old.zone==='dorm',JSON.stringify(old));
-    check('13. 新遊戲（預設，CAMP-L1 以後不用 ?start1）：8/29（第 −18 天，週五）下午搬進宿舍、演完阿凱初遇（AA_195 4-2）、LAW_START_DAY −18、MAIN_D1 −13（使用者 10-16 選 8/29）',G.day===-18&&D('2025-08-29')===-18&&STORY.LAW_D0===-18&&G.weekday===5&&G.flags.LAW_MOVEIN_DAY===-18&&G.flags.KAI_MOVEIN===true&&G.flags.LAW_START_DAY===-18&&G.flags.MAIN_D1===-13&&G.zone==='dorm'&&G.stage==='law',JSON.stringify({d:G.day,w:G.weekday,f:[G.flags.LAW_START_DAY,G.flags.MAIN_D1],z:G.zone}));
+    check('13. 新遊戲 ?start1（法律系開局；第 7 組以後預設是經濟系）：8/29（第 −18 天，週五）下午搬進宿舍、演完阿凱初遇（AA_195 4-2）、LAW_START_DAY −18、MAIN_D1 −13（使用者 10-16 選 8/29）',G.day===-18&&D('2025-08-29')===-18&&STORY.LAW_D0===-18&&G.weekday===5&&G.flags.LAW_MOVEIN_DAY===-18&&G.flags.KAI_MOVEIN===true&&G.flags.LAW_START_DAY===-18&&G.flags.MAIN_D1===-13&&G.zone==='dorm'&&G.stage==='law',JSON.stringify({d:G.day,w:G.weekday,f:[G.flags.LAW_START_DAY,G.flags.MAIN_D1],z:G.zone}));
     global.location={search:''}; }
   { fresh(D('2025-08-31'),14,'campus',{LAW_START_DAY:-18,MAIN_D1:-13}); G.stage='law'; run(14,14.6); const before=PHONE.inGroup(G,'law_class'); run(14.7,14.9); const after=PHONE.inGroup(G,'law_class');
     check('14. 選 1：8/31 開學典禮中（約 14:40）加進班群，之前沒有（AA-B 7b2d057f）',!before&&after);

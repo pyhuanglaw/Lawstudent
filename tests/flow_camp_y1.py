@@ -18,7 +18,7 @@ async def main():
     run = L.Run('flow_camp_y1', OUT)
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
-        await pg.goto(URL)
+        await pg.goto(L.law_url(URL))   # 法律系開局（第 7 組以後新遊戲預設是經濟系，?start1）
         run.check('遊戲載入', await L.wait_loaded(pg))
         await pg.evaluate("localStorage.clear()")
         await run.shot(pg, 'title')

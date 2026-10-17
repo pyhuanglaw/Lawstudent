@@ -24,7 +24,7 @@ async def main():
         await cdp.send('Network.setCacheDisabled', {'cacheDisabled': True})
         await cdp.send('Network.emulateNetworkConditions', {'offline': False, 'latency': 40, 'downloadThroughput': MBPS * 1048576, 'uploadThroughput': 1048576})
         run.note(f'網路限速 {MBPS} MB/s、延遲 40 ms、不用快取')
-        t0 = time.time(); await pg.goto(URL)
+        t0 = time.time(); await pg.goto(L.law_url(URL))   # 法律系開局（第 7 組以後新遊戲預設是經濟系，?start1）
         ok = False
         while time.time() - t0 < 300:
             if await pg.evaluate(TITLE): ok = True; break

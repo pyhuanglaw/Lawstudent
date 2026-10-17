@@ -37,6 +37,12 @@ class Run:
         return 1 if self.fails else 0
 
 
+def law_url(url):
+    """法律系開局（8/22 法律系宿營 → 8/29 搬宿舍）：2026-10-17 第 7 組以後新遊戲預設是經濟系開局（2024-08-23 經濟系宿營），測法律系開局加 ?start1"""
+    if 'start1' in url or 'start0' in url: return url
+    return url + ('&' if '?' in url else '?') + 'start1'
+
+
 def legacy_url(url):
     """舊的法律系開局（9/17 宿舍第一晚、第一二天主線）：新遊戲預設是 8/22 宿營（CAMP-L1），測舊開局的流程加 ?start0（舊存檔還在這條路上）"""
     if 'start0' in url: return url

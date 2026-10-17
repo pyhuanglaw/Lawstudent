@@ -345,6 +345,22 @@
    "approvedBy": "AA-C 2026-10-17 10:24Z 交付（AA 定稿，第①②級：照已裁定的 17-4、17-7 換場合、換人；D98 台詞歸 AA）",
    "task": "AA238-1017",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_224_重考主線台詞定稿_LIFE-LINE.md",
+   "sha": "4e3a7c2b",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 10:45Z 交付（AA 定稿）：只限「第 7 組　開局」一節（使用者 10:4x 定案「直接進經濟系」）",
+   "task": "LIFE-G7-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_218_祐廷人生主線修訂提案.md",
+   "sha": "60fc8720",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 10:3x 對 LAWWW-C 批准 17-6；AA-C 加 16 週日期（17-6）與 A5-1 實作對齊（17-13）：只限 17-6、17-13",
+   "task": "SIS-176-1017",
+   "kind": "text"
   }
  ]
 }

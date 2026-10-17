@@ -38,7 +38,7 @@ const XUN='econ_zhengxun';
   check('1. 有 STORY.y0FirstNight、y0Morning、y0Tick、dayTitle',['y0FirstNight','y0Morning','y0Tick','dayTitle'].every(k=>typeof STORY[k]==='function'));
   if(fails){ console.log('FAILED '+fails); process.exit(1); }
   const Y0=STORY.y0Day1();
-  const start=async(pk)=>{ fresh(Y0,21,'dorm',{}); G.flags={}; G.stage='law'; cards.length=0; picks=pk.slice(); await STORY.newGameEcon(GM); return lines(); };
+  const start=async(pk)=>{ fresh(Y0,21,'dorm',{}); G.flags={}; G.stage='law'; cards.length=0; picks=pk.slice(); await STORY.newGameEcon(GM,{camp:false}); return lines(); };   /* 舊的 9/1 起點（第 7 組以前的開發局；宿營版另測 v0_g7_unit）*/
   // 先睡
   { const L=await start(['為什麼','先睡']);
     check('2. 標題卡「2024 年 9 月 1 日（日）｜開學前一天」',cards[0]==='2024 年 9 月 1 日（日）｜開學前一天',cards.join(' / '));

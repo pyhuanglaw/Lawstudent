@@ -131,14 +131,43 @@ const STORY = (function(){
     } finally { if(GM.sceneEnd) GM.sceneEnd(); }
     if(o.next!==false) await S.startLawWeek1(GM,null);   /* 接著 8/29 搬宿舍（新遊戲、讀檔接著演都一樣）*/
     return true; };
+  /* LIFE-LINE 第 7 組（使用者 2026-10-17 10:4x「經濟系是先發生的，所以就是直接進經濟系啦，沒有選擇的問題」；AA_224 第 7 組 @4e3a7c2b）：
+     標題的「新遊戲」直接走經濟系開局（2024-08-23 宿營）。法律系開局只留給網址 ?start1（8/22 法律系宿營）、?start0（舊的 9/17）測試 */
+  S.LAW_START_TEST=()=>typeof location!=='undefined'&&/[?&](start0|start1)\b/.test(location.search||'');
   S.newGame=async function(GM){ const E=GM.E, G=GM.G; E.player.busy=false; E.endCinematic(); GM.titleIdle=false; GM.D.busyDepth=0; GM.hideHUD(false);
+    if(!S.LAW_START_TEST()&&S.y0Day1()!=null) return S.newGameEcon(GM,{camp:true});
     if(S.START1()){ await S.recap(GM,S.LAW_START_RECAP_W1); await S.campY1(GM); return; }   /* 新遊戲＝回顧 → 8/22～24 宿營（CAMP-L1）→ 8/29 搬宿舍（預設；?start0 走下面舊的 9/17 開局）*/
     G.day=1; G.weekday=3; G.hour=21.2; G.flags.fundsV2=1; G.flags.allowanceMonth=S.dateOf(1).m; G.zone='dorm'; G.stage='law'; E.hour=G.hour; G.weather='clear'; E.setWeather('clear'); G.flags.LAW_RECAP_SEEN=true; await S.recap(GM,S.LAW_START_RECAP.concat(S.LAW_WEEK12)); await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{}); };   /* 法律系開局：④＋③ → 現有的第一天（AA_106 3b）*/
   /* 經濟系開局（交接包 v0；v0 做好以前藏在網址 ?y0 後面，標題畫面照舊只有法律系開局——D81）：2024-09-01（日）晚上，男宿；E01 宿舍第一晚已接（AA_154 A24）*/
-  S.newGameEcon=async function(GM){ const E=GM.E, G=GM.G; E.player.busy=false; E.endCinematic(); GM.titleIdle=false; GM.D.busyDepth=0; GM.hideHUD(false); const d=S.y0Day1(); if(d==null) return S.newGame(GM);
+  S.newGameEcon=async function(GM,o){ o=o||{}; const E=GM.E, G=GM.G; E.player.busy=false; E.endCinematic(); GM.titleIdle=false; GM.D.busyDepth=0; GM.hideHUD(false); const d=S.y0Day1(); if(d==null) return null;
     G.stage='econ'; G.day=d; G.flags.LIFELINE_V=1; G.weekday=CALENDAR.dateOf(d).wd%7; G.hour=21; G.flags.fundsV2=1; G.flags.allowanceMonth=S.dateOf(d).m; G.flags.dating_kexin=false; G.flags.KX_FIRST_MSG=true; G.zone='dorm'; E.hour=G.hour; G.weather='clear'; E.setWeather('clear');
+    if(o.camp!==false&&!(typeof location!=='undefined'&&/[?&]y0nocamp\b/.test(location.search||''))){ G.flags.ECON_CAMP_OPEN=true; await S.econCampPrologue(GM); G.day=d; G.weekday=CALENDAR.dateOf(d).wd%7; G.hour=21; E.hour=G.hour; G.flags.allowanceMonth=S.dateOf(d).m; }   /* 第 7 組：新局一律先演 8/23～25 宿營（?y0 的開發按鈕也一樣；?y0nocamp＝舊的 9/1 起點，測試用）*/
     await GM.fade(true); if(GM.titleCard) await GM.titleCard('2024 年 9 月 1 日（日）','開學前一天',2000);   /* AA_168 第 1 節：黑底白字 2 秒 */
     await GM.enter('dorm',{x:-0.5,z:0.5,yaw:Math.PI},{}); await y0FirstNight(GM); };
+  /* 第 7 組 7-2：經濟系迎新宿營 2024-08-23～25（AA_224 第 7 組 @4e3a7c2b，AA 定稿）。回顧前三句 → 字卡 → 遊覽車上第一次見到可昕（二選一，E15_BUS）→ CG＋E15 的三句旁白 → 8/25 回家 → 21:00 小隊群組三則 → 開學前那一週一句旁白（接 9/1 E01）*/
+  S.econCampPrologue=async function(GM){ const G=GM.G, F=G.flags, E=GM.E; const d0=S.dayOfKey('2024-08-23'); if(d0==null) return false;
+    await S.recap(GM,S.LAW_START_RECAP.slice(0,3));
+    G.day=d0; G.weekday=CALENDAR.dateOf(d0).wd%7; G.hour=9; if(E) E.hour=G.hour;
+    if(GM.titleCard) await GM.titleCard('2024 年 8 月 23 日（五）','經濟系迎新宿營',2000);
+    GM.sceneBegin(); try{
+      if(typeof ADV!=='undefined') ADV.begin({background:'dark'});
+      const K={name:'可昕',charId:'kexin'};
+      await GM.say(null,'（遊覽車上，你從上車就開始睡。）'); await GM.say(null,'（醒來的時候，旁邊的位子坐著一個女生，手上拿著小隊名單。）');
+      await GM.say(K,'你醒了？你是第三小隊的吧。我也是。'); await GM.say(K,'我叫杜可昕。……你睡了一個小時，車子轉彎你都沒醒。');
+      const k=await GM.choose([{t:'「……我昨天沒睡。」'},{t:'「妳一直在看我睡覺喔？」'}]); F.E15_BUS=k===0?'nosleep':'watching';
+      await GM.say(K,k===0?'看得出來。':'我在看名單。你剛好在名單旁邊。');
+      if(typeof SOCIAL!=='undefined'&&SOCIAL.meet){ SOCIAL.meet('kexin','camp'); SOCIAL.meet(XUN,'camp'); }
+      if(GM.titleCard) await GM.titleCard('8 月 23 日～25 日','經濟系宿營',1600);
+      if(typeof ADV!=='undefined'&&ADV.cg) ADV.cg('cg_econ_camp');
+      for(const t of ['（經濟系的宿營，山邊的青年活動中心。第三小隊：你、可昕、阿勳、韋綸，小隊輔是家豪學長。）','（三天裡，夜遊只有一支手電筒，大地遊戲你們拿了倒數第二，晚會上唐睿演了一條需求曲線。）','（週日早上，你們七個在活動中心門口自己拍了一張合照。）']) await GM.say(null,t);
+      if(typeof ADV!=='undefined'&&ADV.cg) ADV.cg(null);
+      G.day=d0+2; G.weekday=CALENDAR.dateOf(G.day).wd%7; G.hour=16; if(E) E.hour=G.hour;
+      await GM.say(null,'（回到家，你倒在床上，一覺睡到晚上。）');
+      if(typeof PHONE!=='undefined'){ const th='g:econ_squad3'; PHONE.join(G,'econ_squad3','經濟系第三小隊'); PHONE.at(G,G.day,21,[{th,from:XUN,name:'阿勳',text:'📷（活動中心門口，七個人的合照）'},{th,from:'econ_weilun',name:'韋綸',text:'我還在累'},{th,from:'kexin',name:'可昕',text:'睡飽了嗎第三小隊'}],'econ_camp_group'); }   /* 7-2 第 6 點：玩家不用回 */
+      await GM.say(null,'開學前那一週，你在家把要帶去宿舍的東西裝進三個紙箱。');
+      F.E15_WENT=true; F.ECON_CAMP_DONE=true;
+    } finally { if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); GM.sceneEnd(); }
+    return true; };
   /* ---------- v0 E01「宿舍第一晚」（AA_168，含 cdaf8a9f BB-B 改的兩處；ev_y0_dorm_first_night）----------
      9/1（日）21:00 男生宿舍四樓 412：媽媽的訊息 → 阿勳進門、冷笑話（兩個選項，熟悉 +2）→ 22:00 先睡／拆完（E01_NIGHT；拆完自在 +1、02:00 睡＝01:00 以後才睡）
      → 隔天起床（先睡 07:00、拆完 07:40）阿勳說一句（E01_MORNING）；先睡的玩家 9/2 晚上回房間「箱子拆完」那一句（E01_BOXES）。
@@ -152,13 +181,15 @@ const STORY = (function(){
       v0Box(GM,'onbed'); for(const t of ['開學前一天，晚上九點。男生宿舍四樓，四一二。','媽媽傍晚才走。她把三個紙箱疊在你的書桌上。','她說：「先拆被子。」被子在最下面那一箱。','（另外兩組床桌還是空的，上舖的床架上貼著名字：韋綸、唐睿。）']) await GM.say(null,t);   /* 四人房（AA_208 第 3、6 節）：床在上舖，紙箱疊在書桌上；韋綸、唐睿 9/2 迎新以後才搬進來 */
       GM.advance(2/60); if(typeof PHONE!=='undefined') await phoneScene(GM,'p:mom',[{from:'mom',name:'媽媽',text:'到了要記得吃晚餐。'}]); else await GM.say({name:'媽媽（手機）'},'到了要記得吃晚餐。');
       await GM.say(null,'你已經吃過了。媽媽也知道。');
-      await GM.say(null,'門開了。一個很高的男生拿著臉盆走進來，看了你的紙箱一眼。');
+      const camp=!!F.ECON_CAMP_OPEN;   /* 第 7 組 7-3：宿營就認識阿勳了 */
+      await GM.say(null,camp?'門開了。宿營第三小隊的阿勳拿著臉盆走進來，看了你的紙箱一眼。':'門開了。一個很高的男生拿著臉盆走進來，看了你的紙箱一眼。');
       const n=GM.npc[XUN]||GM.spawnCharacter(XUN,0.2,2.6,{yaw:Math.PI,pose:'idle'}); if(n){ GM.face(n,E.player.obj.position.x,E.player.obj.position.z); if(GM.cine) GM.cine('two',E.player.obj,n.obj); }
-      if(typeof SOCIAL!=='undefined'&&SOCIAL.meet) SOCIAL.meet(XUN,'dorm');
+      if(!camp&&typeof SOCIAL!=='undefined'&&SOCIAL.meet) SOCIAL.meet(XUN,'dorm');
       const who=xunWho(GM);
-      await GM.say(who,'你好。盧正勳，經濟系。'); await GM.say(who,'叫我阿勳就好。');
-      await GM.say(ME(G),'我叫{name}。也是經濟系。');
-      await GM.say(who,'我知道。門口的名單，我們兩個排在一起。'); await GM.say(who,'學號也只差一號。');
+      if(camp){ await GM.say(who,'欸，第三小隊的。我們同一間？'); await GM.say(ME(G),'好像是。'); await GM.say(who,'門口的名單，我們兩個排在一起。學號也只差一號。'); }   /* 7-3 */
+      else { await GM.say(who,'你好。盧正勳，經濟系。'); await GM.say(who,'叫我阿勳就好。');
+        await GM.say(ME(G),'我叫{name}。也是經濟系。');
+        await GM.say(who,'我知道。門口的名單，我們兩個排在一起。'); await GM.say(who,'學號也只差一號。'); }
       await GM.say(null,'他把臉盆放好，看了你的紙箱第二眼。');
       await GM.say(who,'你知道為什麼經濟系的人搬家，都只帶三個箱子嗎？');
       const i=await GM.choose([{t:'為什麼？'},{t:'因為預算限制？'}]);
@@ -1292,7 +1323,7 @@ const STORY = (function(){
     /* E17 經濟系的拍賣攤（備料 E17a、校慶攤位、沒去的群組照片）：刪除（AA_218 第 11 節、AA_154 0b-2，2026-10-17：祐廷 10/17 休學）。事件定義留著（retired） */
     /* E15 經濟系宿營（BB_104 8b-7）：11/22（五）出發選單「社科院門口 12:00：經濟系宿營（三天兩夜）」（15 分鐘沒出發＝沒去）；去了＝11/24 09:00 群組大合照；
        沒去＝11/24 18:00 群組大合照（第二排空一個位子，韋綸在旁邊比手勢）＋阿勳私訊「冷笑話我留了一個給你。」*/
-    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const fri12=termDay('Y0S1',12,5), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class';
+    if(S.isEcon(G)&&typeof OUT!=='undefined'&&!F.ECON_CAMP_OPEN){ const fri12=termDay('Y0S1',12,5), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class';   /* 第 7 組 7-3：宿營已經在 8 月的局不排 11 月這場（定義留給舊存檔）*/
       /* 邀約（BB_104 8b-7，BB-B e0e7a359；AA_154 A37）：11/20（三）21:00 全班群組家豪學長兩則；11/21（四）22:00「走啦」韋綸、品妤（有這個群組的玩家）*/
       if(fri12!=null&&(G.day>fri12-2||(G.day===fri12-2&&G.hour>=21))&&G.day<=fri12&&!PHONE.sent(G,'y0_e15_ask')){ if(!PHONE.inGroup(G,'econ_class')) PHONE.join(G,'econ_class','經濟系 大一（全班）');
         PHONE.at(G,fri12-2,21,[{th:'g:econ_class',from:'econ_jiahao',name:'家豪學長',text:'宿營這週五！中午十二點社科院門口集合，三天兩夜，遊覽車不等人。'},{th:'g:econ_class',from:'econ_jiahao',name:'家豪學長',text:'第三小隊：'+(G.name||'祐廷')+'、可昕、阿勳、韋綸，小隊輔是我。帶拖鞋，外套帶厚一點，山上晚上很冷。'}],'y0_e15_ask'); }

@@ -1635,11 +1635,12 @@ const STORY_EVENTS=[
      時段（AA-B 定案 A，268d529d）：9/2 週一上午是經濟學原理（照上、不停課），下課以後 12:15～17:00 自動，演完時間到 15:00、人在社科院門口 */
   { id:'ev_y0_e02', stage:'econ', title:'開學典禮與迎新', participants:['kexin'], location:'any', trigger:'auto', term:['Y0S1'], weeks:[1], weekday:[1], time:[12.25,17], once:true, priority:9, background:'dark',
     dialogue:[ {scene:'社科院・大講堂｜開學典禮',bg:'soc_hall'},{speaker:null,text:'開學典禮在社科院的大講堂。你坐在後面，旁邊的人在滑手機。'},{speaker:null,text:'典禮結束。門口有個學長舉著牌子：『經濟系新生，這邊。』'},{scene:'社科院・系上的教室｜迎新',bg:'soc_classroom'},   /* BB_179 段 A E02 重寫（AA_203 2-1：只講名字和從哪裡來，只有可昕用名詞）；旁白：AA_203 #1、AA_200 7-3 散場、BB 建議旁白全部採用（AA-B 01:34）；祐廷「{name}，臺北。」（AA_200 7-2）*/
-      {speaker:'家豪學長',text:'我是宋家豪，大二，今天帶你們這一組。'},{speaker:'家豪學長',text:'先輪一圈，講名字、從哪裡來就好。'},
-      {speaker:'韋綸',text:'邱韋綸，台中來的。我到現在還搞不清楚哪一棟是哪一棟。'},{speaker:'家豪學長',text:'等一下帶你們走一圈。'},
+      {unless:{flags:['ECON_CAMP_OPEN']},speaker:'家豪學長',text:'我是宋家豪，大二，今天帶你們這一組。'},{unless:{flags:['ECON_CAMP_OPEN']},speaker:'家豪學長',text:'先輪一圈，講名字、從哪裡來就好。'},
+      {if:{flags:['ECON_CAMP_OPEN']},speaker:'家豪學長',text:'宿營來過的，大部分都見過了。'},{if:{flags:['ECON_CAMP_OPEN']},speaker:'家豪學長',text:'沒來的，講名字、從哪裡來就好。'},   /* 第 7 組 7-3（AA_224 @4e3a7c2b）*/
+      {unless:{flags:['ECON_CAMP_OPEN']},speaker:'韋綸',text:'邱韋綸，台中來的。我到現在還搞不清楚哪一棟是哪一棟。'},{if:{flags:['ECON_CAMP_OPEN']},speaker:'韋綸',text:'（他朝你揮手）欸，第三小隊的。'},{speaker:'家豪學長',text:'等一下帶你們走一圈。'},
       {speaker:'econ_pinyu',expression:'neutral',text:'曾品妤。'},{speaker:null,text:'（她講完就坐下了。下一個是你。）'},{speaker:'player',text:'{name}，臺北。'},
       {speaker:null,text:'（一個一個輪下去。大部分的人講完名字和縣市就坐下。）'},
-      {speaker:'kexin',expression:'neutral',text:'杜可昕。我是「邊際效用遞減」，早上經原老師講到的。'},{speaker:'kexin',expression:'smile',text:'第一次見面最好玩，之後越來越普通。……不過我會越來越好玩啦。'},{speaker:null,text:'（有幾個人笑了。）'},
+      {unless:{flags:['ECON_CAMP_OPEN']},speaker:'kexin',expression:'neutral',text:'杜可昕。我是「邊際效用遞減」，早上經原老師講到的。'},{if:{flags:['ECON_CAMP_OPEN']},speaker:'kexin',expression:'neutral',text:'杜可昕。宿營第三小隊的。……我是「邊際效用遞減」，早上經原老師講到的。'},{speaker:'kexin',expression:'smile',text:'第一次見面最好玩，之後越來越普通。……不過我會越來越好玩啦。'},{speaker:null,text:'（有幾個人笑了。）'},
       {speaker:'家豪學長',text:'好，差不多了。零食在前面，自己拿。'},{speaker:null,text:'（學長在前面發零食。可昕拿了一包，坐到你旁邊。）'},
       {speaker:'kexin',expression:'neutral',text:'你剛剛只講名字喔？'},{speaker:'kexin',expression:'smile',text:'不然你也挑一個。'},
       {choice:[{text:'「我是『外部性』。我會影響到你們，但不用付錢。」',set:{E02_WORD:'externality'},goto:'ext'},{text:'「我是『均衡』。……我不知道為什麼。」',set:{E02_WORD:'equilibrium'},goto:'eq'},{text:'「我是『看不見的手』。」',set:{E02_WORD:'invisible_hand'},goto:'hand'}]},
