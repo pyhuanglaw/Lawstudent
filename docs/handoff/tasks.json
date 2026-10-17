@@ -15667,6 +15667,34 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "AA262-Y4S1",
+   "title": "AA_262 大四上口語審（752df790）第 4 節：ladder_aa_y4s1（1781dc41）／y4s2（efe33033，Y8-L0、skipAfterWeek:4）重新匯入、記憶 AN7_*／YT7_*／YT8_NYE_HOME 中文名、LADDER_HOLD A7-L5、A7-L6、Y7-L3、Y7-L6、期末飯（方奕廷畢業後 presence、以安 walkPlace 萬才館）、公法讀書會大四上第 2、3、5～13 週、語彤週四傍晚總圖三樓、週六只留麵店",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "第 1 點路線日期已做（37135984）；第 2 點查證不是 bug（outings3d.js:79 每次可昕出遊後播階梯，tests/ladder_unit.js 12）；美國路線期末飯已延到回國那天（12/23）",
+   "first": {
+    "term": "Y4S1",
+    "week": 1,
+    "earliest": "大四上開學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_262（AA-C 752df790）",
+   "authorized": "AA 審稿交付",
+   "xai": {
+    "spec": "AA_262 第 4 節",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "清單每項做完並有單元測試",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
