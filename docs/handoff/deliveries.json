@@ -7003,6 +7003,32 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": ""
+  },
+  {
+   "id": "DL-AA-79adc9f2",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "79adc9f2",
+   "what": "AA_242 補：8-6 重逢她約的訊息（七人、時間）、七夕那則拿掉、C10 成績（信、A／B＋旁白、家人群組）、Priya 改成問成績＋2027-09-14 問學分",
+   "task": "VAC-C08-12",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "vac3d.js 重逢、成績、Priya；tests/vac_abroad_unit.js 11"
+  },
+  {
+   "id": "DL-BB-vac-1303",
+   "date": "2026-10-17",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "BB_200",
+   "what": "沒錄取條件（C08／C11 寫申請資料、C09 面試要到）、三個日子確認、子晴一到兩則（00:40；18:00 以前回了 23:10 第二則）",
+   "task": "VAC-C08-12",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "BB-C 13:03 訊息；BB 記進 BB_200"
   }
  ],
  "ignored": [

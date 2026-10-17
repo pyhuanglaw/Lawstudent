@@ -63,13 +63,14 @@ const VAC_DATA=(function(){
       back:{day:'08-28'},   /* 阿哲「伴手禮咧」（AA_241；出國第幾次照 AA_242 0-3）*/
       miss:{day:'08-28',h:21,who:'kai',msgs:['📷（秋葉原的街，招牌一層一層疊上去）','買到了']} },
     /* ===== 出國的活動（AA_242 18fe1b6a 照抄；AA_199 7-4）：學校、團隊、新 NPC 全部虛構；海外的關鍵事件是 2D 場景（底圖等使用者給，先用暗底）=====
-       錄取一律通過（AA_199 3-5 的沒錄取＝等 BB 定條件）。C08 的行前說明會日子 LAWWW 暫排（第 14 週週三 12:20，等 BB 確認）。 */
+       沒錄取（BB-C 13:03，AA_199 3-5／3-7「限制玩家的是時間」）：C08、C11 要用掉一個時段寫申請資料（報名隔天 20:00 宿舍書桌）、C09 面試人要到；沒做＝公布那天「很遺憾」＋阿哲一句，可以改報別的。日子 BB 確認（C08 說明會第 14 週週三 12:20、C09 面試第 7 週週三 19:00、C11 結果第 8 週週一 12:00）。 */
     /* VAC-C08 姊妹校邀請交流（首爾）：AA_242 第 1 節。大一暑假 7/13～7/24 */
     C08:{ id:'C08', title:'姊妹校暑期交流（首爾）', cat:'海外交流', season:'summer', years:['Y1'], days:['07-13','07-24'], slot:'night', place:{kind:'abroad',name:'首爾',tz:1}, cost:{payer:'family',local:'self'}, free:'partial',
       signup:{kind:'group', th:'g:law_class', term:'S2', week:6, wd:1, h:12, until:{term:'S2',week:9,wd:5}, flag:'VAC_C08', board:true,
         msgs:[{from:'sysoffice',name:'系辦',text:'【交流計畫】姊妹校暑期交流（首爾），7/13～7/24，對方學校負擔食宿。名額 10 名，需系上推薦，第 9 週週五前交申請書。'}],
         yes:{t:'（交申請書）',say:[]} },
-      select:{term:'S2',week:12,wd:1,h:12,name:'姊妹校暑期交流（首爾）',briefAt:{term:'S2',week:14,wd:3,h:12+20/60}},
+      select:{term:'S2',week:12,wd:1,h:12,name:'姊妹校暑期交流（首爾）',briefAt:{term:'S2',week:14,wd:3,h:12+20/60},need:'VAC_C08_APP'},
+      pre:[{afterSignup:1,h:20,title:'寫申請資料',place:'宿舍書桌',bg:'dorm',lines:[],advance:2,set:{VAC_C08_APP:true}}],   /* BB-C 13:03：第 9 週截止以前要用掉一個時段寫申請資料，沒寫＝第 12 週「沒上」*/
       depart:{zhe:'記得吃炸雞',yu:'幫我看有沒有好看的筆'}, back:{},
       trip:{ start:{day:'07-13',h:8}, end:{day:'07-24',h:18}, placeName:'首爾', home:'auto' },
       keys:[
@@ -93,10 +94,10 @@ const VAC_DATA=(function(){
       signup:{kind:'board', term:'S2', week:3, wd:1, h:9, until:{term:'S2',week:5,wd:3}, flag:'VAC_C09', board:true, yes:{t:'（報名）',say:[]} },
       pre:[
         {term:'S2',week:5,wd:3,h:19,title:'說明會',place:'社科院教室',bg:'classroom_small',lines:[{narr:'（投影片上是一間鐵皮屋頂的教室，二十幾個孩子擠在三張長桌。）'}]},
-        {term:'S2',week:7,wd:3,h:19,title:'面試',place:'社科院教室',bg:'classroom_small',lines:[{who:'npc_jiarui',name:'家睿',text:'為什麼想去？'}],
+        {term:'S2',week:7,wd:3,h:19,title:'面試',place:'社科院教室',bg:'classroom_small',set:{VAC_C09_INT:true},lines:[{who:'npc_jiarui',name:'家睿',text:'為什麼想去？'}],
           choice:[{t:'「想看看不一樣的地方。」',say:[{who:'npc_jiarui',name:'家睿',text:'好。……那邊很熱，蚊子很多，沒有冷氣。你可以嗎？'},{who:'player',text:'可以。'}]},{t:'「想教小朋友。」',say:[{who:'npc_jiarui',name:'家睿',text:'教英文跟衛教，十天。教不了太多，但可以教一點。'}]}]},
         {day:'06-13',h:10,title:'行前訓練',place:'社科院教室',bg:'classroom_small',lines:[{who:'npc_jiarui',name:'家睿',text:'洗手歌，每個人都要會。我們會唱一百次。'},{narr:'（他真的唱了一次。全隊跟著唱。）'}]} ],
-      select:{term:'S2',week:10,wd:1,h:12,name:'海外志工（暖陽服務隊）',briefAt:{day:'06-13',h:10}},
+      select:{term:'S2',week:10,wd:1,h:12,name:'海外志工（暖陽服務隊）',briefAt:{day:'06-13',h:10},need:'VAC_C09_INT'},   /* BB-C 13:03：面試人要到，沒到＝第 10 週「沒上」*/
       depart:{zhe:'防蚊液帶了沒',yu:'要拍小朋友的照片喔'}, back:{},
       trip:{ start:{day:'07-27',h:7}, end:{day:'08-05',h:18}, placeName:'柬埔寨', home:'auto', signalAfter:22, dark:'08-02', endLines:[{narr:'（你把那張畫夾進書桌前的軟木板。）'}] },
       keys:[
@@ -123,14 +124,20 @@ const VAC_DATA=(function(){
           choice:[{t:'「Yes. Too much.」',say:[{who:'npc_priya',name:'Priya',text:'Same.'},{narr:'（她把讀本攤開給你看，滿滿的螢光筆。）'}]},{t:'「I used to study economics.」',say:[{who:'npc_priya',name:'Priya',text:'Really? Why did you switch?'},{narr:'（你想了一下，只說「Long story.」她點頭，沒有再問。）'}]}]},
         {day:'07-02',h:10,title:'第一次報告',bg:null,lines:[{narr:'（輪到你報告。講到第二張投影片，你忘了一個字。教授等了三秒，幫你接下去。）'},{who:'npc_prof_ca',name:'教授',text:'Take your time.'}]},
         {day:'07-11',h:13,title:'週末',bg:null,lines:[],
-          choice:[{t:'海邊',say:[{narr:'（風很大。Priya 說她第一次看到太平洋的另一邊。）'}]},{t:'校園的圖書館',say:[{narr:'（週末的圖書館沒什麼人。你在窗邊讀了一下午，窗外的草地有人在丟飛盤。）'}]}]},
+          choice:[{t:'海邊',say:[{narr:'（風很大。Priya 說她第一次看到太平洋的另一邊。）'}]},{t:'校園的圖書館',say:[{narr:'（週末的圖書館沒什麼人。你在窗邊讀了一下午，窗外的草地有人在丟飛盤。）'}],set:{C10_STUDY:true}}]},   /* 成績 A／B＋：AA「照讀書的次數」——遊戲沒有假期日誌，這一版看週末有沒有去圖書館（C10_STUDY，等 BB 定）*/
         {day:'07-30',h:9,title:'期末考',bg:null,lines:[{narr:'（考卷四題，三小時。你寫完第三題的時候，旁邊的 Priya 已經在檢查了。）'}]} ],
+      /* 成績（AA_242 3-6 79adc9f2）：8/10 學校的信；A 版截圖傳家人群組、媽媽兩句；B＋版不傳。Priya 8/10 問成績、2027-09-14 問學分（7-1）*/
+      grades:{day:'08-10',h:9,mail:'（學校的信）Final grades are now available.',A:{narr:'（兩門課都是 A。你截了圖，傳到家人群組。）',mom:['好棒！','那邊吃得飽嗎']},B:{narr:'（一門 A−，一門 B＋。B＋那門的期末考，你寫到第三題，時間就到了。）'}},
+      follow:[
+        {day:'08-10',h:22,who:'npc_priya',name:'Priya',msgs:G=>['Back in Mumbai. It\'s raining every day.','Did you get your grades?'],optsFn:G=>G.flags.C10_STUDY?[{t:'A.',say:['Show-off. I got an A-minus.']}]:[{t:'B+.',say:['B+ is fine. The final was too long anyway.']}]},
+        {abs:'2027-09-14',h:21,who:'npc_priya',name:'Priya',msgs:G=>['Did your school count the credits?'],opts:[{t:'One of them.',say:['One is good. Economics says: better than zero.']},{t:'Both.',say:['Lucky. Mine only took one.']}]} ],
       post:{ if:'C10_CREDIT_FILED', yk:yk=>'Y'+(+String(yk).slice(1)+1), term:'S1', week:2, wd:1, h:12+20/60, title:'系辦（學分採計）', place:'法律系辦', bg:'classroom_small',
         lines:[{who:'npc_office',name:'系辦助理',text:'兩門都過了。一門抵選修，一門……老師說內容和我們的課重疊，只能抵一半。'},{who:'npc_office',name:'系辦助理',text:'還是不錯啦。'}] } },
     /* VAC-C11 臺大提名的姊妹校短期課程（東京）：AA_242 第 4 節＋AA_244 第 1 節以安版。大二寒假 1/17～1/30；大二上第 5 週公告、第 6 週截止（甄審結果 LAWWW 排第 8 週週一 12:00）*/
     C11:{ id:'C11', title:'姊妹校冬季短期課程（東京）', cat:'海外交流', season:'winter', years:['Y2'], days:['01-17','01-30'], slot:'night', place:{kind:'abroad',name:'東京',tz:1}, cost:{payer:'family'}, free:'partial',
       signup:{kind:'board', term:'S1', week:5, wd:1, h:9, until:{term:'S1',week:6,wd:5}, flag:'VAC_C11', board:true, yes:{t:'（報名）',say:[]} },
-      select:{term:'S1',week:8,wd:1,h:12,name:'姊妹校冬季短期課程（東京）'},
+      select:{term:'S1',week:8,wd:1,h:12,name:'姊妹校冬季短期課程（東京）',need:'VAC_C11_APP'},
+      pre:[{afterSignup:1,h:20,title:'寫申請書',place:'宿舍書桌',bg:'dorm',lines:[],advance:2,set:{VAC_C11_APP:true}}],   /* BB-C 13:03：第 6 週截止以前寫申請書，沒寫就沒上 */
       depart:{zhe:'冬天的東京欸',yu:'帶暖暖包'}, back:{},
       trip:{ start:{day:'01-17',h:7}, end:{day:'01-30',h:18}, placeName:'東京', home:'auto' },
       keys:[
@@ -176,6 +183,15 @@ const VAC_DATA=(function(){
         dark:['你今天沒回','我查了 那邊下大雨','你沒事吧'],darkAns:'好 那今天要多傳一則',miss:['我算了一下 還有二十一天','不是在算 是剛好看到'],
         video:['你那邊亮亮的。','……你頭髮變長了。','好，我要去睡了。下禮拜同一個時間。']} },
     darkRep:['昨天停電，整晚沒電。','沒事。在樹下上課。'], missRep:['我也是。','快了。'],
+    /* 回來重逢（AA_242 8-6 79adc9f2；BB_200 第 4 節）：回國當天 21:00 她約、隔天她平常的地方；不算正式約會；記 REUNION_<卡>。沒到＝隔天她傳一則 */
+    reunion:{
+      heroine_01:{invite:['明天下午三點，總圖門口。','時差調不過來的話，四點也可以。'],h:15,place:'總圖門口',bg:'campus',lines:[{narr:'（她站在門口，手上拿著手帳。）'},{who:'heroine_01',text:'你回來了。'},{who:'heroine_01',text:'……行程表上寫你今天會到。我沒有算錯。'}],miss:['昨天等你等到總圖關門。……你還在調時差嗎？']},
+      heroine_03:{invite:['明天收店以後','九點'],h:21,place:'麵店',bg:'noodle',lines:[{narr:'（她把一碗乾麵放在你前面，坐到對面。）'},{who:'heroine_03',text:'回來了。'},{who:'heroine_03',text:'……加蛋了。'}],miss:['昨天的麵我自己吃了']},
+      heroine_02:{invite:['明天我九點下班。','……你來的話，我晚一點關燈。'],h:21,place:'兩點半 Café',bg:'cafe',lines:[{narr:'（她把最後一張椅子倒扣在桌上。）'},{who:'heroine_02',text:'回來了。'},{who:'heroine_02',text:'……第一杯，我還是做給你。坐。'}],miss:['昨天的那杯，我自己喝了。'],away:{until:'2026-08-25',text:'回來了？……我 26 號回臺北。'}},   /* 大一暑假她 7/1～8/25 在台中（BB_171 C1）：回臺北那天補一場 */
+      heroine_04:{invite:['回來了喔','明天晚上 公館 宵夜','十點'],h:22,place:'公館',bg:'gongguan',lines:[{who:'heroine_04',text:'欸！'},{narr:'（她跑過來，停在你面前一步。）'},{who:'heroine_04',text:'……曬黑了。好醜。'},{who:'heroine_04',text:'……走，吃東西。'}],miss:['欸你昨天放我鳥']},
+      heroine_05:{invite:['明天五點，法圖門口。'],h:17+5/60,place:'法圖門口',bg:'wancai',lines:[{who:'heroine_05',text:'回來了？'},{who:'heroine_05',text:'……好。'},{narr:'（她把一本書遞給你。）'},{who:'heroine_05',text:'你不在的時候出的，先借你看。'}],miss:['昨天沒等到你。……沒關係。']},
+      classmate_peishan:{invite:['歡迎回來！','明天下午兩點，舊路書房好不好？'],h:14,place:'舊路書房',bg:'bookstore',lines:[{who:'classmate_peishan',text:'你回來了！'},{who:'classmate_peishan',text:'快講，那邊的小朋友是怎樣的？'}],miss:['你昨天是不是睡著了']},
+      kexin:{invite:['明天五點半 河堤','我在老地方等'],h:17.5,place:'河堤',bg:'riverside',lines:[{who:'kexin',text:'你回來了。'},{who:'kexin',text:'我算過了，你在那邊三十二天。……好，我不算了。'}],miss:['我昨天在河堤等了一下','你還好嗎']} },
     /* 朋友（FAMILIAR 以上、沒有交往）整趟一兩則：day＝出發後第幾天（'mid' 中間、'end' 回來前一天）*/
     friend:{
       heroine_01:[{day:1,h:21.5,ms:['那邊的便利商店，真的比較好吃嗎？']}],

@@ -39,6 +39,9 @@ GM.money=function(n){ G.money+=n; };
   const w6=termDay('Y1S2',6,1); fresh(w6,11.9,'dorm',{}); G.stage='law'; PHONE.join(G,'law_class','法律系 大一（全班）'); PHONE.join(G,'noodle_team','麵店團'); run(11.9,12.2);
   const T8=txt('g:law_class'); check('2. 系辦公告【交流計畫】…第 9 週週五前交申請書',T8.some(t=>t==='sysoffice:【交流計畫】姊妹校暑期交流（首爾），7/13～7/24，對方學校負擔食宿。名額 10 名，需系上推薦，第 9 週週五前交申請書。'),JSON.stringify(T8));
   PHONE.answer(G,'vac_ask_C08@Y1',0); STORY.phoneRules(GM); check('2. 交了：報名、出發的出遊排在 7/13 08:00',VAC.state(G,'C08@Y1')==='yes'&&!!OUT.get(G,'vac_C08@Y1')&&OUT.get(G,'vac_C08@Y1').day===D('2026-07-13')&&OUT.get(G,'vac_C08@Y1').h===8);
+  { const q=OUT.get(G,'vac_C08@Y1_pre0'); check('2. 報名隔天 20:00 宿舍書桌「寫申請資料」（BB-C 13:03：沒寫就沒上）',!!q&&q.day===w6+1&&q.h===20); const s0=JSON.stringify(G);
+    const w12a=termDay('Y1S2',12,1); G.day=w12a; run(11.9,12.2); check('2. 沒寫申請資料：第 12 週「【通知】很遺憾，本次未能錄取。」＋阿哲「沒差啦 暑假還很長」；出發取消',(G.msgs||[]).some(m=>m.th==='sys'&&m.text==='【通知】很遺憾，本次未能錄取。')&&txt('g:noodle_team').includes('zhe:沒差啦 暑假還很長')&&VAC.state(G,'C08@Y1')==='rejected'&&OUT.get(G,'vac_C08@Y1').state==='cancelled');
+    G=JSON.parse(s0); SOCIAL.bind(G); EVENTS.bind(GM); G.day=w6+1; G.hour=20; await VAC.outing(GM,q); check('2. 寫了：VAC_C08_APP',G.flags.VAC_C08_APP===true); }
   const w12=termDay('Y1S2',12,1), w14=termDay('Y1S2',14,3); G.day=w12; G.weekday=wdOf(w12); run(11.9,12.2); const x14=CALENDAR.dateOf(w14);
   const sys=(G.msgs||[]).filter(m=>m.th==='sys').map(m=>m.text), mom=txt('g:home');
   check('2. 第 12 週週一 12:00：【通知】恭喜錄取…行前說明會；媽媽「機票多少？我轉給你」「護照記得看效期」',sys.includes('【通知】恭喜錄取姊妹校暑期交流（首爾）。行前說明會：'+x14.m+'/'+x14.d+'（三）12:20。')&&mom.includes('mom:機票多少？我轉給你')&&mom.includes('mom:護照記得看效期'),JSON.stringify([sys,mom]));
@@ -84,7 +87,7 @@ GM.money=function(n){ G.money+=n; };
   // 8. 衝突：首爾 7/13～24 撞日語課（7/14、7/16、7/21、7/23）
   { fresh(D('2026-06-01'),10,'dorm',{}); G.stage='law'; VAC.rec(G).reg['C03@Y1']='yes'; const c=VAC.conflicts(G,VAC.inst('C08','Y1')); check('8. 首爾撞日語課 4 堂',c.length===4&&c.every(x=>x.key==='C03@Y1'),JSON.stringify(c)); }
   // 10. 出國期間的訊息（AA_242 第 6、8 節；BB_200）
-  { fresh(D('2026-07-27'),7,'dorm',{dating_heroine_01:true}); G.stage='law'; meet('heroine_01'); meet('heroine_03'); R('heroine_03',25,0,0); VAC.signup(G,'C09@Y1','yes');
+  { fresh(D('2026-07-27'),7,'dorm',{dating_heroine_01:true,VAC_C09_INT:true}); G.stage='law'; meet('heroine_01'); meet('heroine_03'); R('heroine_03',25,0,0); VAC.signup(G,'C09@Y1','yes');
     said=[]; picks=[0,0]; await VAC.outing(GM,OUT.get(G,'vac_C09@Y1')); PHONE.tick(G);
     const A1=(G.msgs||[]).filter(m=>m.th==='p:heroine_01');
     check('10. 柬埔寨＋和以安交往：出發那天「到了傳一張照片。一張就好。」、輪播池、中間那則、回來那天「明天見。……」',A1.some(m=>m.text==='到了傳一張照片。一張就好。')&&A1.some(m=>m.text==='今天讀了四十頁。你那邊天氣好嗎？')&&A1.some(m=>m.text==='你那邊幾點？我算了一下，你應該在吃午餐。')&&A1.some(m=>m.text==='明天見。……我是說，明天有空的話。'),JSON.stringify(A1.map(m=>m.text)));
@@ -100,6 +103,27 @@ GM.money=function(n){ G.money+=n; };
   { fresh(D('2026-07-13'),8,'dorm',{dating_heroine_05:true}); G.stage='law'; VAC.signup(G,'C08@Y1','yes'); said=[]; picks=[0,0,0,0]; await VAC.outing(GM,OUT.get(G,'vac_C08@Y1')); PHONE.tick(G);
     const S5=(G.msgs||[]).filter(m=>m.th==='p:heroine_05'&&m.ask); check('10. 學姊兩天一則（首爾 12 天：池子 4～5 則）',S5.length>=4&&S5.length<=5,String(S5.length));
     check('10. 回來記 BACK_FROM_C08（3D 第一次遇到的招呼用）',G.flags.BACK_FROM_C08===D('2026-07-24')); }
+  // 11. 重逢（AA_242 8-6 79adc9f2）、子晴第二則、C10 成績、Priya
+  { fresh(D('2026-07-24'),17.9,'dorm',{dating_heroine_01:true,dating_heroine_02:true}); G.stage='law'; meet('heroine_01'); meet('heroine_02'); VAC.rec(G).reg['C08@Y1']='done'; run(17.9,21.2);
+    const A=txt('p:heroine_01'), Z=txt('p:heroine_02'), q=OUT.get(G,'vac_C08@Y1_re_heroine_01');
+    check('11. 回國當天 21:00 以安「明天下午三點，總圖門口。」「時差調不過來的話，四點也可以。」→ 隔天 15:00 排重逢',A.includes('heroine_01:明天下午三點，總圖門口。')&&!!q&&q.day===D('2026-07-25')&&q.h===15,JSON.stringify([A,q]));
+    check('11. 芷若大一暑假在台中：回國當天「回來了？……我 26 號回臺北。」，還沒約',Z.includes('heroine_02:回來了？……我 26 號回臺北。')&&!OUT.get(G,'vac_C08@Y1_re_heroine_02'),JSON.stringify(Z));
+    G.day=D('2026-08-25'); run(20.9,21.2); const q2=OUT.get(G,'vac_C08@Y1_re_heroine_02'); check('11. 芷若 8/25 21:00「明天我九點下班。」→ 8/26 21:00 Café 重逢',txt('p:heroine_02').includes('heroine_02:明天我九點下班。')&&!!q2&&q2.day===D('2026-08-26')&&q2.h===21);
+    G.day=D('2026-07-25'); G.hour=15; said=[]; await VAC.outing(GM,q); check('11. 以安重逢：「你回來了。」「……行程表上寫你今天會到。我沒有算錯。」；REUNION_C08',lines().includes('沈以安：你回來了。')&&lines().includes('沈以安：……行程表上寫你今天會到。我沒有算錯。')&&G.flags.REUNION_C08===true);
+    VAC.missed(GM,q2); G.day=D('2026-08-27'); run(11.9,12.2); check('11. 重逢沒到：隔天 12:00 芷若「昨天的那杯，我自己喝了。」',txt('p:heroine_02').includes('heroine_02:昨天的那杯，我自己喝了。')); }
+  { fresh(D('2027-08-09'),7,'dorm',{dating_heroine_04:true}); G.stage='law'; VAC.signup(G,'C12@Y2','yes'); said=[]; picks=[0]; const Q=OUT.get(G,'vac_C12@Y2');
+    // 只跑到第二天：回第一則 → 23:10 第二則；第三天不回 → 沒有第二則
+    VAC.tripMsgs(G,VAC.inst('C12','Y2')); G.day=D('2027-08-11'); G.hour=0.5; PHONE.tick(G); G.hour=0.7; PHONE.tick(G); const m1=(G.msgs||[]).find(m=>m.th==='p:heroine_04'&&m.ask&&m.day===D('2027-08-11'));
+    PHONE.answer(G,m1.ask.id,0); G.hour=9; STORY.phoneRules(GM); G.hour=23.2; STORY.phoneRules(GM); PHONE.tick(G);
+    const two=(G.msgs||[]).filter(m=>m.th==='p:heroine_04'&&m.day===D('2027-08-11')&&m.h>23);
+    G.day=D('2027-08-12'); G.hour=0.7; PHONE.tick(G); G.hour=18.5; STORY.phoneRules(GM); G.hour=23.3; STORY.phoneRules(GM); PHONE.tick(G); const none=(G.msgs||[]).filter(m=>m.th==='p:heroine_04'&&m.day===D('2027-08-12')&&m.h>23);
+    check('11. 子晴：00:40 那則 18:00 以前回了＝23:10 第二則；沒回＝只有一則',!!m1&&two.length>=1&&none.length===0,JSON.stringify([two.map(m=>m.text),none.map(m=>m.text)])); }
+  { fresh(D('2027-08-10'),8.9,'dorm',{C10_STUDY:true}); G.stage='law'; VAC.rec(G).reg['C10@Y2']='done'; run(8.9,9.2); G.hour=21.9; run(21.9,22.2);
+    const sys=(G.msgs||[]).filter(m=>m.th==='sys').map(m=>m.text), P=(G.msgs||[]).filter(m=>m.th==='p:npc_priya');
+    check('11. C10 成績 8/10：學校的信「Final grades are now available.」、A 版旁白、截圖傳家人群組、媽媽「好棒！」「那邊吃得飽嗎」',sys.includes('（學校的信）Final grades are now available.')&&sys.includes('（兩門課都是 A。你截了圖，傳到家人群組。）')&&txt('g:home').includes('mom:好棒！')&&txt('g:home').includes('mom:那邊吃得飽嗎'),JSON.stringify(sys));
+    check('11. Priya 8/10 22:00「Did you get your grades?」回覆只有「A.」',P.some(m=>m.text==='Did you get your grades?'&&m.ask&&m.ask.opts.length===1&&m.ask.opts[0].t==='A.'));
+    G.day=D('2027-09-14'); run(20.9,21.2); check('11. Priya 2027-09-14 21:00「Did your school count the credits?」「One of them.」／「Both.」',(G.msgs||[]).some(m=>m.th==='p:npc_priya'&&m.text==='Did your school count the credits?'&&m.ask.opts.map(o=>o.t).join()==='One of them.,Both.'));
+    fresh(D('2027-08-10'),8.9,'dorm',{}); G.stage='law'; VAC.rec(G).reg['C10@Y2']='done'; run(8.9,9.2); check('11. B＋版：旁白一門 A−、一門 B＋，不傳群組',(G.msgs||[]).some(m=>m.th==='sys'&&m.text.startsWith('（一門 A−，一門 B＋。'))&&!txt('g:home').length); }
   // 9. 存讀檔
   { VAC.rec(G).reg['C03@Y1']='yes'; const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('9. 存讀檔：報名狀態留著',VAC.state(G,'C03@Y1')==='yes'); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
