@@ -2092,25 +2092,12 @@ const STORY_EVENTS=[
       {label:'end'} ],
     after:(G,GM)=>{ GM.advance(1); } },
   /* E15 經濟系宿營（BB_104 8b-7；AA_154 第 130 行；可以錯過）：11/22（五）12:00 社科院門口集合（出發選單，story3d.js；邀約句等 AA-B）→ 山邊的青年活動中心，三天兩夜，11/24（日）16:00 回學校。
-     第三小隊（祐廷、可昕、阿勳、韋綸，小隊輔家豪學長）。演：週五晚上夜遊 → 寢室；週六、週日用摘要帶過＋大合照。沒去：週日群組大合照（第二排空一個位子）＋阿勳私訊 */
+     第三小隊（祐廷、可昕、阿勳、韋綸，小隊輔家豪學長）。去了：字卡＋CG＋三句旁白（AA_154 A54）。沒去：週日群組大合照＋阿勳私訊 */
   { id:'ev_y0_e15', stage:'econ', title:'經濟系宿營', participants:['econ_zhengxun'], location:'any', trigger:'outing', once:true, background:'dark', hours:1/60,   /* hours：OUT.go 演完還會往後推（0 會被當成 2 小時）；afterOuting 已經把時間放到週日 16:00 */
-    dialogue:[ {scene:'青年活動中心',bg:'econ_camp'},
-      {speaker:'家豪學長',text:'（點名）第三小隊，到了三個。'},
-      {speaker:'韋綸',text:'（從遊覽車那邊跑來）四！'},
-      {speaker:null,text:'（週五晚上的夜遊，第三小隊走活動中心後面的步道。手電筒只有一支，在可昕手上。）'},
-      {speaker:'kexin',expression:'teasing',text:'假設這片樹林有一個管理員。他現在在想什麼？'},
-      {choice:[{text:'「又一群大學生。」',goto:'a'},{text:'「不要迷路就好。」',goto:'b'},{text:'「他在看星星。」',goto:'c'}]},
-      {label:'a'},{speaker:'kexin',expression:'smile',text:'對。他很累。我們小聲一點。'},{goto:'room'},
-      {label:'b'},{speaker:null,text:'可昕把手電筒交給你：「那你帶路。」'},{goto:'room'},
-      {label:'c'},{speaker:null,text:'可昕把手電筒關掉。滿天都是星星。'},{speaker:'kexin',expression:'smile',text:'……你說對了。'},
-      {label:'room'},{scene:'八人寢室',bg:'econ_camp_room'},
-      {speaker:null,text:'（回到寢室，熄燈以後，阿勳在上鋪開始講冷笑話。）'},
-      {speaker:'econ_zhengxun',text:'為什麼經濟學家不會迷路？……因為一直在找均衡。'},
-      {speaker:null,text:'（一個一個睡著了。最後醒著的是你和他。）'},
-      {speaker:'econ_zhengxun',text:'……你也睡吧。明天要早起。'},
-      {scene:'青年活動中心',bg:'econ_camp'},
-      {speaker:null,text:'大地遊戲第三小隊拿了倒數第二。晚會上，品妤的小隊演了一齣經濟學的短劇，唐睿演一條需求曲線。'},
-      {speaker:null,text:'週日早上，活動中心門口的大合照。'} ],
+    dialogue:[ {titleCard:'11 月 22 日～24 日',sub:'經濟系宿營'},{scene:'青年活動中心',bg:'econ_camp'},{cg:'cg_econ_camp'},   /* AA_154 A54（使用者 10-16 23:4x：經濟系的宿營用 CG 帶過）：字卡 → CG（七個人自己拍的合照，BB-B BCG-47，使用者通過）→ 三句旁白；夜遊三選一、寢室冷笑話拿掉 */
+      {speaker:null,text:'（經濟系的宿營，山邊的青年活動中心。第三小隊：你、可昕、阿勳、韋綸，小隊輔是家豪學長。）'},
+      {speaker:null,text:'（三天裡，夜遊只有一支手電筒，大地遊戲你們拿了倒數第二，晚會上唐睿演了一條需求曲線。）'},
+      {speaker:null,text:'（週日早上，你們七個在活動中心門口自己拍了一張合照。）'} ],
     afterOuting:(G,GM,q)=>{ if(typeof STORY!=='undefined'&&STORY.travelOvernight) STORY.travelOvernight(GM,q.day+2,16); G.flags.E15_WENT=true; } },
   /* E18 即興劇社的小公演（BB_104 8b-10；AA_154 第 131 行、A36；可以錯過）：11/28 21:00 可昕私訊（有 Y0_EXTRA＝唐睿私訊臨時演員六點半到）＋出發選單「博雅 19:00：即興劇小公演」（story3d.js）。
      A36 寫「走進借用教室就演」（3D）；博雅還沒有指定的借用教室，C1 也是 2D，所以先用 2D 出遊（背景 classroom_small）。她接的是 IMPROV_LINE，沒有就 E12_ANSWER。沒去：隔天唐睿傳影片 */
