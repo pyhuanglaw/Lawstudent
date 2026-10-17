@@ -2062,6 +2062,7 @@ const STORY = (function(){
       if(k==='noodle'&&grp) PHONE.at(G,G.day,G.hour+0.05,[me(ng,'我去。'),{th:ng,from:'heroine_01',text:'收到。行程表多一個人。'}],'spring_pick_msg');
       if(k==='kexin'){ PHONE.at(G,G.day,G.hour+0.05,[me('p:kexin','好。我們去。')].concat(grp?[me(ng,'我這次有約了。'),{th:ng,from:'zhe',text:'……喔～'}]:[]),'spring_pick_msg'); }
       if(k==='dorm'&&grp) PHONE.at(G,G.day,G.hour+0.05,[me(ng,'我這次留在宿舍。'),{th:ng,from:'zhe',text:'好啦，照片會傳給你。'}],'spring_pick_msg'); }
+    if(F.dating_heroine_03&&(k==='noodle'||k==='dorm')){ const YT=t=>({th:'p:heroine_03',from:'heroine_03',text:t}); PHONE.at(G,D.d0,18,k==='noodle'?[YT('看到群組了。你們那邊也在下雨喔。'),YT('店裡今天很空。')]:[YT('春假店裡很空。你要來吃嗎？')],'yt_spring_msg'); }   /* 和語彤交往中：她春假照樣顧店；第一天傍晚私訊（AA_71 2-10，AA-C e2bdcece；AA_216 大一下 #7）*/
     if(k!=='noodle'&&grp){ const th='g:noodle_team'; PHONE.at(G,D.d0,20.5,[{th,from:'heroine_01',text:'📷（行程表第二版）'},{th,from:'heroine_01',text:'好，下午改去室內的地方，我再排一下。'}/* AA_209 第 8 節第 8 點（同 ev_noodle_trip_spring_y1）*/,{th,from:'zhe',text:'下次你要來。'}],'ndl_spring_photos'); } };
   /* 模擬法庭的準備分（AA_143 3-2；0～4，不顯示數字）：模 2 去了機車行、模 3 提第三種寫法、模 4 有去、第 8～10 週和以安或柏翰一起準備（MOOT_TOGETHER） */
   S.mootScore=function(G){ const F=G.flags||{}; return (F.MOOT_BIKE_SHOP?1:0)+(F.MOOT_THIRD?1:0)+(F.MOOT_DRILL?1:0)+(F.MOOT_TOGETHER?1:0); };

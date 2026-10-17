@@ -149,7 +149,12 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       check('C7（還不熟）：（她請小語拍。）小語「笑一個嘛！」以安「不要。」；沒有「你幫我拍」',L.includes('（她請小語拍。）')&&L.includes('小語：笑一個嘛！')&&L.some(t=>/不要。$/.test(t))&&!L.some(t=>/你幫我拍/.test(t))&&G.flags.AZALEA_Y1==='yu',JSON.stringify(L));
       L=await play(25,true);
       check('C7（芷若、子晴都認識）：（芷若拿著手機在拍花。）子晴「妳也來拍喔？」芷若「嗯，今天沒班。」（AA_209 2-1）',L.includes('（芷若拿著手機在拍花。）')&&L.includes('高子晴：妳也來拍喔？')&&L.includes('林芷若：嗯，今天沒班。'),JSON.stringify(L.slice(-3)));
-      check('C7：只一次',!EVENTS.check(e)); } }
+      check('C7：只一次',!EVENTS.check(e));
+      const play2=async flags=>{ fresh(wk('Y1S2',3,6),10.5,'campus'); SOCIAL.meet('heroine_01','campus'); R1(25); Object.assign(G.flags,flags); await EVENTS.run(e); return lines(); };
+      L=await play2({dating_heroine_01:true}); const k=L.findIndex(t=>/可以，花有拍到。謝謝。$/.test(t));
+      check('C7（交往中，AA_71 e2bdcece）：拍完多「（她拿回手機，也對著你按了一下。）」「這張我自己留。」；照片裡還是只有她',k>=0&&L[k+1]==='（她拿回手機，也對著你按了一下。）'&&/這張我自己留。$/.test(L[k+2]),JSON.stringify(L));
+      L=await play2({EX_heroine_01:true});
+      check('C7（和她分開過）：照「不熟」的版本（她請小語拍）',L.includes('（她請小語拍。）')&&!L.some(t=>/你幫我拍/.test(t)),JSON.stringify(L)); } }
   /* ---------- C16 大一的系籃比賽（AA_71 2-11）---------- */
   { const e=ev('ev_zhe_game_y1'), a=ACTIVITIES.list.find(q=>q.id==='dept_ball_game_y1s2'); check('C16 系籃比賽：事件與活動都在',!!e&&!!a);
     if(e&&a){ const d=wk('Y1S2',14,6);
