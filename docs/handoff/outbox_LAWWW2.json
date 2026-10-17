@@ -193,12 +193,17 @@
   {
    "task": "SCN-US-01",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(下一個 commit)",
+   "sha": "9a86ba2a",
    "files": [
     "tools/blender/env_second/us_cars.py",
     "assets/models/env/second_ai/us_cars.glb",
     "assets/models/env/second_ai/us_cars.json",
-    "docs/art-rebuild/second_ai/test_shots/us_cars/"
+    "docs/art-rebuild/second_ai/test_shots/us_cars/",
+    "tools/blender/env_second/us_community_layout_gen.py",
+    "assets/models/env/second_ai/us_community.layout.json",
+    "tools/blender/env_second/us_community.py",
+    "assets/models/env/second_ai/us_community.glb",
+    "assets/models/env/second_ai/us_community.json"
    ],
    "state": "WIP",
    "remaining": "美式汽車五款（社區停車場、美國校園街道共用）：渲染檢查、八項；之後社區戶外（壁板公寓、開放樓梯間、停車場、樹林）",
