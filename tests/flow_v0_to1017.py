@@ -89,6 +89,7 @@ async def main():
             await L.tap(pg, cdp, '#btnNew')
         seg_saved = False; first_key = None; seg_try = 0
         days, last_key, stuck_t, last_sig, fade_block, recover = [], None, time.time(), None, 0, 0
+        fade_run = 0
         t_start = time.time(); skip_fail_day = None; free_since = None
         while time.time() - t_start < 6 * 3600:
             if await pg.evaluate("!!GAME.G&&GAME.running"):
@@ -131,7 +132,10 @@ async def main():
                 await pg.wait_for_timeout(900); continue
             if s['dlg']:
                 free_since = None
-                if await pg.evaluate("(()=>{ const f=document.getElementById('fade'); return !!f&&getComputedStyle(f).opacity>0.5&&getComputedStyle(f).pointerEvents!=='none'; })()"): fade_block += 1
+                if await pg.evaluate("(()=>{ const f=document.getElementById('fade'); return !!f&&getComputedStyle(f).opacity>0.5&&getComputedStyle(f).pointerEvents!=='none'; })()"):
+                    fade_run += 1
+                    if fade_run == 3: fade_block += 1; run.note('黑幕蓋住對話（連續 3 次點不到）：' + s['dtext'][:40]); await run.shot(pg, 'fade_block_%d' % fade_block)   # 轉場一瞬間重疊不算；連續三次點不到才算擋住
+                else: fade_run = 0
                 await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
             if s['busy'] or await pg.evaluate("!!document.querySelector('#fade.on')"):
                 free_since = None; await pg.wait_for_timeout(800); continue

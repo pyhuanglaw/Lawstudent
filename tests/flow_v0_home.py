@@ -67,6 +67,7 @@ async def main():
             run.setup('讀檔到 2024-10-19（六）19:00 在臺北的家（退宿後、和可昕交往中、宿營演過；聯絡人：可昕、經濟系五人）')
             await L.load_state(pg, st)
         t0 = time.time(); last_key = None; stuck_t = time.time(); last_sig = None; recover = 0; answered = 0; fade_block = 0; days = []
+        fade_run = 0
         while time.time() - t0 < 1.9 * 3600:
             if not await pg.evaluate("!!GAME.G&&GAME.running"): await pg.wait_for_timeout(800); continue
             g = await pg.evaluate("({stage:GAME.G.stage,key:CALENDAR.dateOf(GAME.G.day).key,h:+GAME.G.hour.toFixed(2),zone:GAME.G.zone,home:HOME.at(GAME.G)})")
@@ -85,7 +86,10 @@ async def main():
                 if recover > 3: break
                 await pg.keyboard.press('Escape'); stuck_t = time.time(); continue
             if s['dlg']:
-                if await pg.evaluate("(()=>{ const f=document.getElementById('fade'); return !!f&&getComputedStyle(f).opacity>0.5&&getComputedStyle(f).pointerEvents!=='none'; })()"): fade_block += 1
+                if await pg.evaluate("(()=>{ const f=document.getElementById('fade'); return !!f&&getComputedStyle(f).opacity>0.5&&getComputedStyle(f).pointerEvents!=='none'; })()"):
+                    fade_run += 1
+                    if fade_run == 3: fade_block += 1; run.note('黑幕蓋住對話（連續 3 次點不到）：' + s['dtext'][:40]); await run.shot(pg, 'fade_block_%d' % fade_block)   # 轉場一瞬間重疊不算；連續三次點不到才算擋住
+                else: fade_run = 0
                 await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
             pend = await pg.evaluate(PENDING)
             if pend and (s['choices'] or not s['busy']):
