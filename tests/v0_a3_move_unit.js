@@ -36,7 +36,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   GM.choose=async o=>{ const t=o.map(q=>q.t||q.text); menus.push(t); const w=script.shift(); if(w==null) throw new Error('STOP'); const k=t.findIndex(x=>x.includes(w)); return k<0?0:k; };
   fresh(D,10,'dorm',{LEAVE_WEEK:6,Y0_STICKY:true}); G.stage='econ'; said=[]; script=['請阿勳']; await EVENTS.run(ev); await new Promise(r=>setTimeout(r,20));
   const L=said.map(x=>x.t);
-  check('2. 阿勳「箱子我幫你封。你的膠帶貼得很醜。」…「一個人講，就是自言自語了。」→ 請吃飯 →「這是我吃過最有效率的告別。」',L[0]==='箱子我幫你封。你的膠帶貼得很醜。'&&L.includes('一個人講，就是自言自語了。')&&L.includes('這是我吃過最有效率的告別。')&&G.flags.A3_TREAT===true,JSON.stringify(L));
+  check('2. 阿勳「箱子我幫你封。你的膠帶貼得很醜。」…「一個人講，就是自言自語了。」→ 請吃飯 →「這是我吃過最有效率的告別。」',L[0]==='箱子我幫你封。你的膠帶貼得很醜。'&&L.includes('一個人講很怪啦。')&&L.includes('雞腿便當？……那我不客氣了。')&&G.flags.A3_TREAT===true,JSON.stringify(L));
   check('3. 搬回臺北的家：在家、H.base、便利貼還在那句、選單（去學校／在家讀書／睡覺，沒有回宿舍）',HOME.at(G)&&G.home.base===true&&G.flags.Y0_MOVED_OUT===true&&L.includes('回到臺北的家拆箱時，檯燈上那張便利貼還在：「保齡球欠我一場。」')&&menus.length>=2&&menus[menus.length-1].includes('去學校')&&menus[menus.length-1].includes('在家讀書')&&!menus[menus.length-1].some(t=>/回宿舍/.test(t)),JSON.stringify(menus));
   check('3. 搬出以後 HOME.canGo 一直是 true（校門口「回臺北的家」每天都在）',HOME.baseMode(G)&&HOME.canGo(G));
   // 在家讀書

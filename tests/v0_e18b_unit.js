@@ -25,10 +25,10 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
 (async()=>{
   const D=STORY.dayOfKey('2025-04-24'); const ev=STORY_EVENTS.find(e=>e.id==='ev_y0_e18b'); check('0. E18b 在、4/24 是週四',!!ev&&CALENDAR.dateOf(D).wd===4); if(!ev){ console.log('FAILED '+fails); process.exit(1); }
   fresh(D-1,20.9,'home'); PHONE.join(G,'econ_friends','走啦'); run(); check('1. 4/23 21:00 以前沒有',!PHONE.sent(G,'y0_e18b_ask'));
-  at(D-1,21.1); const q=OUT.get(G,'y0_e18b'); check('1. 4/23 21:00 品妤「4/24 可昕生日。公館豆花店，七點。……」＋出發選單 4/24 19:00',TH('g:econ_friends').includes('4/24 可昕生日。公館豆花店，七點。重考生也要來，一碗豆花的時間而已。遲到的人請客。')&&!!q&&q.day===D&&q.h===19);
+  at(D-1,21.1); const q=OUT.get(G,'y0_e18b'); check('1. 4/23 21:00 品妤「4/24 可昕生日。公館豆花店，七點。……」＋出發選單 4/24 19:00',TH('g:econ_friends').includes('4/24 可昕生日。公館豆花店，七點。我那天請假了。重考生也要來，一碗豆花的時間而已。')&&!!q&&q.day===D&&q.h===19);
   const snap=JSON.stringify(G);
-  for(const [pk,val,line] of [['筆記本','notebook','空白的。……所以每一題都要我自己想。第一頁給你出題。'],['豆花','douhua','……這句我要記下來。'],['合送','group','謝謝大家。你也在大家裡面。']]){ G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.day=D; G.hour=19; said=[]; picks=[pk]; await EVENTS.run(ev); const L=said.map(x=>x.t);
-    check('2. 禮物「'+pk+'」→「'+line+'」、E18B_GIFT＝'+val,L[0]==='（吹完蠟燭）今天的假設題換我被問。'&&L.includes('……很有道理，但不是。')&&L[L.length-1]===line&&G.flags.E18B_GIFT===val,JSON.stringify(L)); }
+  for(const [pk,val,line] of [['筆記本','notebook','空白的。（翻了幾頁）……好，這本拿來寫我們互考的題目。'],['豆花','douhua','難怪你剛剛一直不見。'],['合送','group','謝謝大家。我回去再拆。']]){ G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.day=D; G.hour=19; said=[]; picks=[pk]; await EVENTS.run(ev); const L=said.map(x=>x.t);
+    check('2. 禮物「'+pk+'」→「'+line+'」、E18B_GIFT＝'+val,L[0]==='（豆花店最裡面那張桌子。桌上有一個小蛋糕，是品妤帶來的。）'&&L[1]==='（吹完蠟燭）好，許完了。'&&L.includes('那送禮物。一個一個來。')&&L[L.length-1]===line&&G.flags.E18B_GIFT===val,JSON.stringify(L)); }
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); at(D,20.9); check('3. 沒去：21:00 以前沒有',!PHONE.sent(G,'y0_e18b_miss')); at(D,21.1);
   check('3. 沒去：21:00 品妤蛋糕照片、可昕「蛋糕有你的份。我先吃了。」、E18B_GIFT＝none',TH('g:econ_friends').includes('📷（生日蛋糕）')&&TH('p:kexin').includes('蛋糕有你的份。我先吃了。')&&G.flags.E18B_GIFT==='none');
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

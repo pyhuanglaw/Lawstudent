@@ -50,14 +50,14 @@ const grp=()=>(G.msgs||[]).filter(m=>/^g:econ/.test(m.th)).map(m=>m.text);
   spawned=[]; GM.npc={}; run(G.hour,G.hour); check('2. 19:45～20:30 可昕在椰林大道的長椅旁',spawned.some(s=>s[0]==='kexin'&&s[1]===STORY.E36_AT.x&&s[2]===STORY.E36_AT.z));
   check('2. 走到她旁邊：演（在家的版本不演）',EVENTS.check(e)&&!EVENTS.check(eh)); G.zone='gongguan'; check('2. 不在校園：不演',!EVENTS.check(e)); G.zone='campus';
   G.flags.KX_CAR='only_me'; said=[];   /* AA_224 1-6：E36 改讀 KX_CAR */ script=['陪她走','每週一天']; await EVENTS.run(e); await new Promise(r=>setTimeout(r,20)); let L=said.map(x=>x.t);
-  const i1=L.indexOf('……我有一點點不甘心。一點點。不是因為你，是想跟自己比。'), i2=L.indexOf('好，消化完了。');
-  check('3. 「台大法律。恭喜你。真的。」祐廷「只高 0.1。」「上了就是上了。」（AA_224 6-6）「我是政大法律。」「……我有一點點不甘心……」→（only_me）「你那天說，你以為只有你。……」「不是只有妳。」→「好，消化完了。」',L[0]==='台大法律。恭喜你。真的。'&&L[1]==='只高 0.1。'&&L[2]==='上了就是上了。'&&L[3]==='我是政大法律。'&&i1>=0&&L[i1+1]==='你那天說，你以為只有你。……我現在懂那個感覺了。'&&L[i1+2]==='不是只有妳。'&&i2===i1+3&&!L.some(t=>/手機螢幕還亮著榜單/.test(t)),JSON.stringify(L));
-  check('3. 沒有重考期的讀書日／玩樂日紀錄（一樣多）：E29 的旁白不說',!L.includes('那本筆記本寫滿了。')&&!L.some(t=>/河堤，比讀過的書還多/.test(t)));
-  { const s3=JSON.stringify(G); for(const [k,n,want] of [['study',3,'那本筆記本寫滿了。'],['play',2,'你們騎過的河堤，比讀過的書還多。……還是考上了。']]){ G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.day=D-40; for(let i=0;i<n;i++){ G.day=D-40+i; EVENTS.habit('retake:'+k); } G.day=D; G.zone='campus'; G.hour=20; said=[]; script=[0,0]; await EVENTS.run(e); const LL=said.map(x=>x.t);
+  const i1=L.indexOf('……我差一點點。真的只差一點點。'), i2=L.indexOf('好，消化完了。');
+  check('3. 「台大法律。恭喜你。真的。」祐廷「只高 0.1。」「上了就是上了。」（AA_224 6-6）「我是政大法律。」「……我差一點點。真的只差一點點。」「政大也很好啦。我只是要消化一下。」（BB_179 段 D #68）→（only_me）「你那天說，你以為只有你。……」「不是只有妳。」→「好，消化完了。」',L[0]==='台大法律。恭喜你。真的。'&&L[1]==='只高 0.1。'&&L[2]==='上了就是上了。'&&L[3]==='我是政大法律。'&&i1>=0&&L[i1+1]==='政大也很好啦。我只是要消化一下。'&&L[i1+2]==='你那天說，你以為只有你。……我現在懂那個感覺了。'&&L[i1+3]==='不是只有妳。'&&i2===i1+4&&!L.some(t=>/手機螢幕還亮著榜單/.test(t)),JSON.stringify(L));
+  check('3. 沒有重考期的讀書日／玩樂日紀錄（一樣多）：E29 的旁白不說',!L.includes('這半年，你幾乎每天都在念書。')&&!L.some(t=>/河堤，比讀過的書還多/.test(t)));
+  { const s3=JSON.stringify(G); for(const [k,n,want] of [['study',3,'這半年，你幾乎每天都在念書。'],['play',2,'這半年，你們很常騎去河堤。']]){ G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.day=D-40; for(let i=0;i<n;i++){ G.day=D-40+i; EVENTS.habit('retake:'+k); } G.day=D; G.zone='campus'; G.hour=20; said=[]; script=[0,0]; await EVENTS.run(e); const LL=said.map(x=>x.t);
       check('3. 重考期 '+k+' 比較多：椰林大道開頭、可昕第一句之前說「'+want.slice(0,10)+'……」',LL.indexOf(want)>=0&&LL.indexOf(want)<LL.indexOf('台大法律。恭喜你。真的。'),JSON.stringify(LL.slice(0,3))); } G=JSON.parse(s3); SOCIAL.bind(G); EVENTS.bind(GM); }
   check('3. 陪她走＝「……你這樣很犯規。」「她走慢了一點。」、E36_REPLY silent；每週一天＝「……好。每週一天。」「是哪一天，等我們都摸熟自己的課表再說。不准忘記。」、E36_PACT weekly；「走吧。趁我們還在同一個學校。」',
-    L.includes('……你這樣很犯規。')&&L.includes('她走慢了一點。')&&G.flags.E36_REPLY==='silent'&&L.includes('是哪一天，等我們都摸熟自己的課表再說。不准忘記。')&&G.flags.E36_PACT==='weekly'&&L.includes('走吧。趁我們還在同一個學校。'));
-  check('3. 接著 22:00 放榜的宵夜（AA_106 3b①）：「八月放榜那晚，公館的宵夜攤坐滿了經濟系的人。」…「今天談。」「你們一直吃到攤子收攤。」；演完 23:30',L.includes('八月放榜那晚，公館的宵夜攤坐滿了經濟系的人。')&&L.includes('今天談。')&&L[L.length-1]==='你們一直吃到攤子收攤。'&&Math.abs(G.hour-23.5)<1e-6,G.hour);
+    L.includes('……你這樣很犯規。')&&L.includes('她走慢了一點。')&&G.flags.E36_REPLY==='silent'&&L.includes('是哪一天，等我們都摸熟自己的課表再說。不准忘記。')&&G.flags.E36_PACT==='weekly'&&L.includes('走吧。品妤揪了十點公館宵夜，大家都會去。'));
+  check('3. 接著 22:00 放榜的宵夜（AA_106 3b①）：「八月放榜那晚，公館的宵夜攤坐滿了經濟系的人。」…阿勳「九月開始，你們又是大一了。」韋綸加點（BB_179 段 D E36n）「你們一直吃到攤子收攤。」；演完 23:30',L.includes('八月放榜那晚，公館的宵夜攤坐滿了經濟系的人。')&&L.includes('九月開始，你們又是大一了。')&&!L.includes('今天談。')&&L[L.length-1]==='你們一直吃到攤子收攤。'&&Math.abs(G.hour-23.5)<1e-6,G.hour);
   run(23.5,23.6); const P=grp(); check('3. 23:30「走啦」群組：品妤 📷 宵夜攤＋「放榜紀念。」、韋綸「這張我要設成桌布。」、阿勳「……我眨眼了。」',P.includes('📷（宵夜攤，大家擠在一張桌子）')&&P.includes('放榜紀念。')&&P.includes('這張我要設成桌布。')&&P.includes('……我眨眼了。'),JSON.stringify(P));
   check('3. 一次',!EVENTS.check(e)&&!EVENTS.check(eh));
   // 4. 沒出門、在家：20:30 帶到場
@@ -65,7 +65,7 @@ const grp=()=>(G.msgs||[]).filter(m=>/^g:econ/.test(m.th)).map(m=>m.text);
   check('4. 在家讀書到 22:00 → 20:30 以後的那一輪：帶到場（旁白「（你到椰林大道的時候，她坐在路邊的椅子上，手機螢幕還亮著榜單。）」）→ 原文；compete、later',L.includes('（你到椰林大道的時候，她坐在路邊的椅子上，手機螢幕還亮著榜單。）')&&L.includes('好。輸的人，請一年的宵夜。')&&G.flags.E36_REPLY==='compete'&&G.flags.E36_PACT==='later'&&L.includes('……你說的喔。')&&L.includes('你們一直吃到攤子收攤。'),JSON.stringify(L));
   // 5. 在家先睡：20:30 手機震醒 → 帶到場
   back(); G.hour=19; said=[]; script=['睡覺','照樣','陪妳爬','妳想怎麼做']; await loop(); L=said.map(x=>x.t);
-  check('5. 19:00 在家睡覺 → 20:30 被叫醒（同一天）→ 帶到場；climb、ask「我想每次見面，都不是因為剛好。」',G.day===D&&L.includes('（你到椰林大道的時候，她坐在路邊的椅子上，手機螢幕還亮著榜單。）')&&L.includes('你是台大的。……好。週末的話可以。')&&G.flags.E36_REPLY==='climb'&&G.flags.E36_PACT==='ask'&&L.includes('我想每次見面，都不是因為剛好。'),JSON.stringify(L)+' '+G.day+' '+G.hour);
+  check('5. 19:00 在家睡覺 → 20:30 被叫醒（同一天）→ 帶到場；climb、ask「我想每次見面，都不是因為剛好。」',G.day===D&&L.includes('（你到椰林大道的時候，她坐在路邊的椅子上，手機螢幕還亮著榜單。）')&&L.includes('你是台大的。……好。週末的話可以。')&&G.flags.E36_REPLY==='climb'&&G.flags.E36_PACT==='ask'&&L.includes('我不想每次都看誰剛好有空才見。'),JSON.stringify(L)+' '+G.day+' '+G.hour);
   check('5. coreCallAt：8/13 19:00＝20:30',(()=>{ back(); G.hour=19; return STORY.coreCallAt(G)===20.5; })());
   // 6. 法律系不受影響
   fresh(termDay('Y1S1',4,3),10.5,'dorm'); G.stage='law'; run(10,11); check('6. 法律系的存檔：沒有 E36',!PHONE.sent(G,'y0_e36_ask')&&!G.flags.E36_ASKED);
