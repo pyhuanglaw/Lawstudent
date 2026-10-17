@@ -16,11 +16,10 @@ SPOTS = []
 for f in ('spots_v1.json', 'spots_v2.json', 'spots_v3.json'):   # 第三批 AA_271
     SPOTS += json.load(open(os.path.join(HERE, f), encoding='utf-8'))['spots']
 ACTS = {s['id']: {'walk'} | {p['id'] for p in s['points']} for s in SPOTS}
-V3 = {s['id'] for s in json.load(open(os.path.join(HERE, 'spots_v3.json'), encoding='utf-8'))['spots']}
-V3BAN = {'heroine_01': ['理由：']}   # AA_188：第三批以安不說「理由：」
 WHO = {'heroine_01', 'heroine_03', 'zhe', 'yu', 'classmate_bohan', 'classmate_xinci'}
 ROMANCE = {'heroine_01', 'heroine_03'}
-BAN = {'heroine_03': ['兩個人']}   # 語彤 D13 心願的意象（AA_162 第 7 節）
+BAN = {'heroine_03': ['兩個人'],   # 語彤 D13 心願的意象（AA_162 第 7 節）
+       'heroine_01': ['理由：']}   # 以安說出口的「理由：」歸零（AA_188；AA_209 第 1 節第 2 點），三批都適用
 
 def w(who, spot, act, friend, dating=None, cond=None):
     e = {'who': who, 'spot': spot, 'act': act, 'friend': friend, 'dating': dating or []}
@@ -30,10 +29,10 @@ def w(who, spot, act, friend, dating=None, cond=None):
 Y3UP = ['Y3S1', 'Y3S2', 'Y4S1', 'Y4S2']
 
 WALK = [
-    # 以安 D06（週日 10:00～13:00；Y3S2 不在；朋友以上；不選空畫框）
+    # 以安 D06（週日 10:00～13:00；Y3S2 不在；朋友以上；不選空畫框）；walk、D06.cafe、leave 照 AA_209 附錄 A 口語改稿（遊戲 2473d167 起用的版本）
     w('heroine_01', 'D06', 'D06.gallery', ['這一張，我看了三分鐘還不懂。……好，我承認不懂。這是新的經驗。'], ['你站我旁邊看就好。不用解釋。我也不解釋。']),
-    w('heroine_01', 'D06', 'walk', ['十二點半以前，我們還有四十分鐘。……我是說，還有很多時間。'], ['坐一下。表上沒有寫，可是可以。']),
-    w('heroine_01', 'D06', 'D06.cafe', ['這裡的拿鐵比 Café 貴四十元。可是窗戶比較大。'], ['你的那杯，我喝一口。……好，我的比較好喝。']),
+    w('heroine_01', 'D06', 'walk', ['十二點半以前還有四十分鐘，樓上那區也可以看。'], ['坐一下。表上沒有寫，可是可以。']),
+    w('heroine_01', 'D06', 'D06.cafe', ['這裡的拿鐵比 Café 貴四十塊。'], ['你的那杯，我喝一口。……好，我的比較好喝。']),
     # 語彤 D12（單週週日 15:00～18:00；朋友以上）
     w('heroine_03', 'D12', 'walk', ['……走慢一點。我要拍。'], ['你走前面。……你的背影，可以拍嗎。']),
     w('heroine_03', 'D12', 'D12.tea', ['老闆的手，我拍過。……他不知道。'], ['這包，帶回去給阿姨。你付一半。']),
@@ -42,8 +41,8 @@ WALK = [
     w('heroine_03', 'D13', 'walk', ['上次來，沒有注意到這些攤子。'], ['這次換我帶路。']),
     w('heroine_03', 'D13', 'D13.rail', ['觀音山……今天比較近。'], ['你看山，我看你看山。']),
     w('heroine_03', 'D13', 'D13.bench', ['坐這裡。不拍照。'], ['……今天的照片，一張都不拍。']),
-    # 阿哲 D04（週六 19:00～22:00）
-    w('zhe', 'D04', 'walk', ['哥你看，那個人在噴火。噴火要不要申請？……要吧？你們法律系會知道。']),
+    # 阿哲 D04（週六 19:00～22:00）；walk 照 AA_209 附錄 A 改稿。開頭是「欸」：有 ZHE_CALLS_GE 的玩家，遊戲換成「哥，」（AA_209 第 8 節第 6 點，encounter3d.js 的 zheGe）
+    w('zhe', 'D04', 'walk', ['欸你看，那個人在噴火。這個要申請嗎？我們好像有教過……算了我忘了。']),
     w('zhe', 'D04', 'D04.redhouse', ['這棟我小時候來過。我爸說這是古蹟，不能爬。我就沒爬。……我很乖吧。']),
     w('zhe', 'D04', 'D04.snack', ['站著吃比較好吃。為什麼？我也不知道。很好吃就對了。']),
     # 小語 D04（週六 17:00～20:00）
@@ -85,7 +84,7 @@ WALK = [
 ]
 
 LEAVE = [
-    {'who': 'heroine_01', 'spot': 'D06', 'friend': '我要去 Café 了。下午有排。……今天的表，多了一格。', 'dating': '下午我在 Café。你要來的話，坐我對面。'},
+    {'who': 'heroine_01', 'spot': 'D06', 'friend': '我要去 Café 了，下午有排東西。', 'dating': '下午我在 Café。你要來的話，坐我對面。'},
     {'who': 'heroine_03', 'spot': 'D12', 'friend': '我回去了。照片，之後傳你。', 'dating': '到了傳訊息。……照片也傳。'},
     {'who': 'heroine_03', 'spot': 'D13', 'friend': '我搭下一班。你慢慢看。', 'dating': '一起回去。……捷運很長。'},
     {'who': 'zhe', 'spot': 'D04', 'friend': '系籃的在叫我了。哥，下週練球，你來。不來我就一直傳訊息。', 'dating': ''},
@@ -140,7 +139,7 @@ FOLLOWUP = [  # AA_162 第 4 節、8-2
     {'mem': 'ENC_D04_ZHE', 'who': 'zhe', 'where': '一般聊天', 'line': '哥，上次西門那家，下次麵店團一起去。', 'note': '只是一句話，不產生麵店團的約定或事件'},
     {'mem': 'ENC_D04_YU', 'who': 'yu', 'where': '一般聊天', 'line': '欸，上次那件外套，學姊最後買了另一件。……對，第三件。'},
     {'mem': 'ENC_D06_BH', 'who': 'classmate_bohan', 'where': '一般聊天', 'line': '上次在美術館的事，不要跟阿哲說。'},
-    {'mem': 'ENC_D04_XC', 'who': 'classmate_xinci', 'where': '一般聊天', 'line': '上次那張小卡，我拿到了。……謝謝你沒笑。'},
+    {'mem': 'ENC_D04_XC', 'who': 'classmate_xinci', 'where': '一般聊天', 'line': '上次那張小卡我有排到。', 'note': 'AA_209 附錄 A（芯慈 encounters D04）口語改稿'},
     {'mem': 'ENC_D18_YT', 'who': 'heroine_03', 'where': '一般聊天', 'line': '九份那天，阿嬤說了四十年的事。……你站在旁邊，沒有走。謝謝。'},
     {'mem': 'ENC_D25_ZHE', 'who': 'zhe', 'where': '一般聊天', 'line': '哥，上次外澳那個浪，我回去背痛三天。下次還要去。'},
     {'mem': 'ENC_D09_BH', 'who': 'classmate_bohan', 'where': '一般聊天', 'line': '貓空那天的事，不要跟阿哲說。……你知道我是什麼意思。',
@@ -173,9 +172,6 @@ def check():
         if len(t) > 40: errs.append(f'{where}：{len(t)} 字＞40：{t}')
         for b in BAN.get(who, []):
             if b in t: errs.append(f'{where}：禁用「{b}」：{t}')
-        if where.split('/')[1:2] and where.split('/')[1] in V3:
-            for b in V3BAN.get(who, []):
-                if b in t: errs.append(f'{where}：第三批禁用「{b}」：{t}')
     for e in WALK:
         if e['who'] not in WHO: errs.append(f'who {e["who"]}')
         if e['act'] not in ACTS.get(e['spot'], set()): errs.append(f'{e["who"]} {e["spot"]} act {e["act"]} 不在 spots')
