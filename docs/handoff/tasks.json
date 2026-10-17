@@ -164,7 +164,7 @@
    "area": "BUG",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "查彈簧骨／路人模型",
+   "next": "【LAWWW-C 18:5x：博雅 101 的「同學」披頭散髮很可能就是 seated_figures.glb 第一版 UV 碎點（ART-NPC-HAIR-STREAK，LAWWW2-C 24923842 第二版已整合 0f4d8e03）；下一批瀏覽器在博雅 101 上課時確認，沒有了就結案】查彈簧骨／路人模型",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -276,7 +276,7 @@
    "area": "BUG",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "確認考試中按不到、看不到",
+   "next": "【LAWWW-C 18:5x 程式盤點：考試在 CLS.attend 裡跑，兩條路都在 sceneBegin 之內（門口上課：attend 自己 sceneBegin；座位上課：seatMenu 已經 sceneBegin，inScene:true），E.player.busy＝true 時 updateInteract 會把互動鈕藏起來——程式看不出漏洞，要在瀏覽器重現（TEST-01 的考試流程直向截圖）；重現不了就請回報者給畫面】確認考試中按不到、看不到",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -15416,9 +15416,9 @@
    "title": "以安家境寬裕（使用者經 BB-C）：heroine_01 family_context「母親是法官，單親；家在台中，家境寬裕」；家教不是為了錢；presence.absentDates 改 2028-03-25～2028-08-05（AA_201 甲）",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "AA-C b2c35884；characters.js＋打工理由的地方",
+   "next": "【LAWWW-C 18:5x 核對：c19fe8c4 已改 characters.js family_context「母親是法官，單親；家在台中，家境寬裕」＋註解「家教不是為了錢」；presence.absentDates 2028-03-25～08-05 已在；遊戲裡沒有「為了錢做家教」的句子（grep 家教＋錢／賺／鐘點／生活費／學費 都沒有）】AA-C b2c35884；characters.js＋打工理由的地方",
    "first": {
     "term": "Y1S1",
     "week": 1,
