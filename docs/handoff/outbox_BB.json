@@ -626,6 +626,23 @@
    "noDirectIntegrate": true,
    "receiver": "AA",
    "ack": "SENT"
+  },
+  {
+   "task": "BB 五人閒聊階梯機制修正（稽核約 38 項；新欄位 skipAfterWeek；套用 AA 的 S2-L2、大三下短招呼）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "a2d49644",
+   "files": [
+    "docs/story_planning/ladder/build_ladder_bb*.py",
+    "docs/story_planning/ladder/ladder_bb*.json",
+    "docs/story_planning/ladder/README.md",
+    "docs/story_planning/BB_196_閒聊階梯稽核_BB五人_給AA的台詞清單.md"
+   ],
+   "state": "已交付（PROPOSAL）",
+   "remaining": "AA_234 補學姊 3 層、改句、綁地點短招呼的替代句；AA_235 經濟系那一年",
+   "next": "AA 審完 → LAWWW 重建 ladder.js（要支援 skipAfterWeek）",
+   "noDirectIntegrate": true,
+   "receiver": "AA+LAWWW",
+   "ack": "SENT"
   }
  ]
 }
