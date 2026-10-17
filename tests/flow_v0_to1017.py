@@ -14,7 +14,7 @@ import playlib as L
 
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_v0_to1017'
-PREFER = ['直接去上課', '直接去考場', '出發', '先睡。明天再拆。', '睡到明天早上', '睡覺']
+PREFER = ['直接去上課', '直接去考場', '出發', '先不要', '先睡。明天再拆。', '睡到明天早上', '睡覺']   # 「照樣跳過會錯過：…」→「先不要」（不翹課）
 END_JS = "(()=>{ const G=GAME.G, d=STORY.dayOfKey('2024-10-17'); return G.day>d||(G.day===d&&G.hour>=22.6); })()"
 
 # 下一步要去哪裡：寢室 ← 宿舍門廳 ← 校園 ← 其他區域
@@ -33,9 +33,13 @@ async def pick_choice(pg, cdp):
 
 
 async def skip_time(pg, cdp):
-    """手機「今天」→ 最後一個「跳過時間」。回傳按了哪一個（沒有就 None）"""
+    """手機「今天」：有可以去的課就按「去上課」（真實玩家會去上課）；沒有就按最後一個「跳過時間」。回傳按了哪一個（沒有就 None）"""
     await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
     await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"today\"]'); if(b) b.click(); })()"); await pg.wait_for_timeout(700)
+    g = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#phoneBody [data-go]')].filter(b=>!/缺席/.test(b.textContent)); if(!bs.length) return null; const e=bs[0]; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,20)]; })()")
+    if g:
+        await L.touch_tap(cdp, g[0], g[1]); await pg.wait_for_timeout(1500)
+        return '去上課：' + g[2]
     c = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#phoneBody [data-skip]')]; if(!bs.length) return null; const e=bs[bs.length-1]; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,20)]; })()")
     lab = c and c[2]
     if c:
@@ -54,7 +58,7 @@ async def main():
         await pg.evaluate("localStorage.clear()")
         await L.tap(pg, cdp, '#btnNew')
         days, last_key, stuck_t, last_sig, fade_block, recover = [], None, time.time(), None, 0, 0
-        t_start = time.time(); skip_fail_day = None
+        t_start = time.time(); skip_fail_day = None; free_since = None
         while time.time() - t_start < 6 * 3600:
             if await pg.evaluate("!!GAME.G&&GAME.running"):
                 if await pg.evaluate(END_JS): break
@@ -73,14 +77,21 @@ async def main():
                 if recover > 3: break
                 await pg.keyboard.press('Escape'); stuck_t = time.time(); continue
             if s['choices']:
+                free_since = None
                 c = await pick_choice(pg, cdp)
                 if c: print('   ▶', c[2], '／', c[3], flush=True)
                 await pg.wait_for_timeout(900); continue
             if s['dlg']:
+                free_since = None
                 if await pg.evaluate("(()=>{ const f=document.getElementById('fade'); return !!f&&getComputedStyle(f).opacity>0.5&&getComputedStyle(f).pointerEvents!=='none'; })()"): fade_block += 1
                 await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
             if s['busy'] or await pg.evaluate("!!document.querySelector('#fade.on')"):
+                free_since = None; await pg.wait_for_timeout(800); continue
+            # 空下來先等幾秒：起床選單、下課選單在玩家空下來約 4 秒以後才出（真人也會先看一下畫面）
+            if free_since is None: free_since = time.time()
+            if time.time() - free_since < 7:
                 await pg.wait_for_timeout(800); continue
+            free_since = None
             # 空下來：白天跳過時間，晚上回去睡
             if s['hour'] < 21 and skip_fail_day != (last_key, int(s['hour'])):
                 lab = await skip_time(pg, cdp)
