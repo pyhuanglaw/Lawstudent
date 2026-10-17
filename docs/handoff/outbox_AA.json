@@ -745,6 +745,52 @@
       "doc": "docs/story_planning/AA_262_大四上口語改稿_AA與BB人物.md",
       "sha": "752df790",
       "summary": "大四上口語改稿：y4s1 階梯重建（1781dc41）、語彤跨年搬大四下 Y8-L0（efe33033）、可昕階梯播不到、附錄 B 交 BB"
+    },
+    {
+      "id": "AA263-Y4S2-colloquial",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_263_大四下口語改稿_AA與BB人物.md",
+      "sha": "cf884aee",
+      "summary": "大四下口語改稿：y4s2 階梯（84bbef37）、畢業傍晚排法、畢業那天邀約台詞、課表"
+    },
+    {
+      "id": "AA264-VAC-REPEAT",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_264_假期活動每年重開_第二次以後的台詞.md",
+      "sha": "77c7f3db",
+      "summary": "假期活動第二次以後的日誌、C02 小隊長、招募公告"
+    },
+    {
+      "id": "AA265-LADDER-LABELS",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_265_閒聊階梯_記憶名稱總表_以安語彤.md",
+      "sha": "25e89f6e",
+      "summary": "AA 階梯記憶中文名總表"
+    },
+    {
+      "id": "AA266-JULY-LAST-HEART",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_266_畢業後七月_最後一次的心意邀約.md",
+      "sha": "979acf95",
+      "summary": "畢業傍晚選讓我想想的人，7/14 最後一次"
     }
   ]
 }
