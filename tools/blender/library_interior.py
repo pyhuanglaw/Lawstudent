@@ -280,7 +280,7 @@ def wall_cut(prefix, parent, axis, at, a0, a1, y0, y1, holes, dirv, mat):
         else: box(f'{prefix}_WALL_{k}', mat, pa, pb, ya, yb, at - T / 2, at + T / 2, parent, props={'dir': dirv})
         k += 1
     for (ha, hb, hy0, hy1) in holes:
-        piece(cur, ha, y0, y1); piece(ha, hb, y0, max(y0, hy0)); piece(ha, hb, min(y1, hy1), y1); cur = hb
+        piece(cur, ha, y0, y1); piece(ha, hb, y0, min(y1, max(y0, hy0))); piece(ha, hb, max(y0, min(y1, hy1)), y1); cur = hb   # 開口在這一段的上面或下面：不超出 y0～y1（同 dorm_hall.py，BUG-COPLANAR-DEV）
     piece(cur, a1, y0, y1)
 
 def window(prefix, parent, axis, at, a, b, ya, yb, inward, fade=None):
@@ -363,6 +363,19 @@ for k, (x, z) in enumerate(((-CO['x1'], U['band']['z1']), (CO['x1'], U['band']['
 # ---------------- 外牆：北（平台上方的大窗、二樓多媒體中心的門）、西（窗）、東（二樓樓梯間、研究小間的門）、南面兩翼；正面中間挑高的玻璃帷幕 ----------------
 def wins_w(y0):   # 西牆的窗：每 2.4 m 一扇 1.6 × 2.4
     return [(z - 0.8, z + 0.8, y0, y0 + 2.4) for z in (-7.2, -4.8, -2.4, 0.0, 2.4, 4.8, 7.2)]
+def spans(a0, a1, holes):
+    """a0..a1 扣掉 holes（門洞）剩下的段"""
+    out = [(a0, a1)]
+    for (h0, h1) in holes:
+        nxt = []
+        for (u, v) in out:
+            if h1 <= u or h0 >= v: nxt.append((u, v)); continue
+            if h0 > u: nxt.append((u, h0))
+            if h1 < v: nxt.append((h1, v))
+        out = nxt
+    return [(u, v) for (u, v) in out if v - u > 0.05]
+
+
 NW = (LD['x0'] + 0.3, LD['x1'] - 0.3, LD['y'] + 1.0, RY - 0.4)   # 北牆平台上方的大窗（跨兩層：一樓那段到 5.0、二樓那段從 5.0）
 DOORS = {d['id']: d for d in L['doors']}; SDR = L['stairDoor']; md, cr, sf = DOORS['media'], DOORS['carrels'], DOORS['staff']
 for pre, P, y0, y1 in (('L0', L0, 0.0, Y1), ('L1', L1, Y1, RY)):
@@ -379,9 +392,12 @@ for pre, P, y0, y1 in (('L0', L0, 0.0, Y1), ('L1', L1, Y1, RY)):
     if nh: window(f'{pre}_N', P, 'x', -D / 2, NW[0], NW[1], nh[0][2], nh[0][3], 1, fade=('Nwin', [0, 0, 1]))
     # 牆裙（胡桃木 1.0 m，一樓）／踢腳板（二樓）
     hb = 1.0 if pre == 'L0' else 0.12
-    box(f'{pre}_wainscot_W', MAT['walnut'], -W / 2 + T / 2, -W / 2 + T / 2 + 0.03, y0, y0 + hb, -D / 2 + T / 2, D / 2 - T / 2, P)
-    box(f'{pre}_wainscot_N', MAT['walnut'], -W / 2 + T / 2, W / 2 - T / 2, y0, y0 + hb, -D / 2 + T / 2, -D / 2 + T / 2 + 0.03, P)
-box('L1_wainscot_E', MAT['walnut'], W / 2 - T / 2 - 0.03, W / 2 - T / 2, Y1, Y1 + 0.12, -D / 2 + T / 2, D / 2 - T / 2, L1)
+    box(f'{pre}_wainscot_W', MAT['walnut'], -W / 2 + T / 2, -W / 2 + T / 2 + 0.03, y0, y0 + hb, -D / 2 + T / 2 + 0.03, D / 2 - T / 2, P)
+    # 二樓的踢腳板在門口斷開（原本整條穿過多媒體中心、研究小間、樓梯間的門，門下有一條木條，還和門框疊在一起，BUG-COPLANAR-DEV）
+    for k, (a, b) in enumerate(spans(-W / 2 + T / 2, W / 2 - T / 2, [(md['x'] - 0.85, md['x'] + 0.85), (NW[0] - 0.08, NW[1] + 0.08)] if pre == 'L1' else [])):
+        box(f'{pre}_wainscot_N_{k}', MAT['walnut'], a, b, y0, y0 + hb, -D / 2 + T / 2, -D / 2 + T / 2 + 0.03, P)
+for k, (a, b) in enumerate(spans(-D / 2 + T / 2 + 0.03, D / 2 - T / 2, [(cr['z'] - 0.85, cr['z'] + 0.85), (SDR['z'] - 0.9, SDR['z'] + 0.9)])):
+    box(f'L1_wainscot_E_{k}', MAT['walnut'], W / 2 - T / 2 - 0.03, W / 2 - T / 2, Y1, Y1 + 0.12, a, b, L1)
 # 門：二樓多媒體中心（北牆）、研究小間（東牆）、樓梯間（東牆，灰色鋼門）
 door('L1_media', L1, 'x', -D / 2, md['x'], Y1, 1, fade=('Ndoor', [0, 0, 1]))
 door('L1_carrels', L1, 'z', W / 2, cr['z'], Y1, -1, fade=('Edoor', [-1, 0, 0]))
@@ -389,12 +405,13 @@ door('L1_stairs', L1, 'z', W / 2, SDR['z'], Y1, -1, w=1.6, h=2.6, mat=MAT['locke
 # 正面：門廳的挑高玻璃帷幕（直櫺、橫櫺、兩扇自動門），一樓那段在 L0、二樓那段在 L1
 FS = {'fadegrp': 'Sfacade', 'fadedir': [0, 0, -1]}; gx0, gx1 = V['x0'], V['x1']
 for pre, P, y0, y1 in (('L0', L0, 0.0, Y1), ('L1', L1, Y1, RY - 0.2)):
-    quad(f'{pre}_glass_S', MAT['glass'], [(gx0, y0, D / 2), (gx1, y0, D / 2), (gx1, y1, D / 2), (gx0, y1, D / 2)], P)
+    GZS = D / 2 - 0.07   # 玻璃放在直櫺深度的中間（原本和框外面同一個平面）
+    quad(f'{pre}_glass_S', MAT['glass'], [(gx0, y0, GZS), (gx1, y0, GZS), (gx1, y1, GZS), (gx0, y1, GZS)], P)
     for i in range(7):
         x = gx0 + i * (gx1 - gx0) / 6
-        box(f'{pre}_mullion_S_{i}', MAT['frame'], x - 0.06, x + 0.06, y0, y1, D / 2 - 0.14, D / 2, P, props=FS)
-    for k, yy in enumerate([v for v in (3.0, Y1, Y1 + 2.4, RY - 0.2) if y0 <= v <= y1]):
-        box(f'{pre}_transom_S_{k}', MAT['frame'], gx0, gx1, yy - 0.06, yy + 0.06, D / 2 - 0.14, D / 2, P, props=FS)
+        box(f'{pre}_mullion_S_{i}', MAT['frame'], x - 0.06, x + 0.06, y0, y1, D / 2 - 0.14, D / 2 + 0.01, P, props=FS)   # 框凸出 1 cm
+    for k, yy in enumerate([v for v in (3.0, Y1, Y1 + 2.4, RY - 0.2) if (y0 <= v <= y1 if pre == 'L0' else y0 < v <= y1)]):   # 4.2 m 那道只放在一樓（原本兩層各放一道、疊在一起）
+        box(f'{pre}_transom_S_{k}', MAT['frame'], gx0, gx1, yy - 0.06, yy + 0.06, D / 2 - 0.13, D / 2 + 0.005, P, props=FS)   # 橫櫺比直櫺薄一點
 box('L1_glass_top_S', MAT['plaster'], gx0, gx1, RY - 0.2, RY, D / 2 - T / 2, D / 2 + T / 2, L1, props={'dir': [0, 0, -1]})
 EX = L['entrance']['x']
 for k, (a, b) in enumerate(((EX - 1.4, EX - 0.02), (EX + 0.02, EX + 1.4))):
@@ -435,7 +452,7 @@ for si, sd in enumerate(S['sides']):
         top = LD['y'] + (k + 1) * R; za = SD['z0'] + k * TR; zb = za + TR
         box(f'L0_s{si}_step_{k}', MAT['step'], sd['x0'], sd['x1'], top - R - 0.02, top, za, zb, L0, bevel=0.01)
         box(f'L0_s{si}_nosing_{k}', MAT['frame'], sd['x0'], sd['x1'], top - 0.012, top + 0.003, za, za + 0.045, L0)   # 踏面前緣＝北邊
-    prism(f'L0_s{si}_slab', MAT['slab'], [(SD['z0'], LD['y'] - 0.32), (SD['z0'], LD['y']), (SD['z1'], Y1), (SD['z1'], Y1 - 0.32)], sd['x0'], sd['x1'], L0)   # 樓梯板（底面粉光）
+    prism(f'L0_s{si}_slab', MAT['slab'], [(SD['z0'], LD['y'] - 0.32), (SD['z0'], LD['y']), (SD['z1'], Y1), (SD['z1'], Y1 - 0.32)], sd['x0'] + 0.003, sd['x1'] - 0.003, L0)   # 樓梯板（底面粉光）；兩側比踏階內縮 3 mm（原本側面和踏階側面同一個平面）
     xo = sd['x1'] if sd['x0'] < 0 else sd['x0']; xi = sd['x0'] if sd['x0'] < 0 else sd['x1']   # xo：靠中間那一側（矮牆那一側）；xi：靠外側（核心牆）
     # 底下：花台（前緣 0.8 m 高的石材矮牆＋整片植栽）＋兩棵室內樹
     xa, xb = sorted((sd['x0'] + 0.05, sd['x1'] - 0.05))
@@ -469,7 +486,7 @@ def glass_run(name, x, pts, parent):
         (za, ya), (zb, yb) = pts[i], pts[i + 1]
         quad(f'{name}_glass_{i}', MAT['glass'], [(x, ya + 0.08, za), (x, yb + 0.08, zb), (x, yb + 1.0, zb), (x, ya + 1.0, za)], parent, tile=1.0)
         cyl(f'{name}_rail_{i}', MAT['steel'], (x, ya + 1.02, za), (x, yb + 1.02, zb), 0.03, parent)
-        box(f'{name}_shoe_{i}', MAT['steel'], x - 0.04, x + 0.04, min(ya, yb), min(ya, yb) + 0.08, min(za, zb), max(za, zb), parent) if abs(ya - yb) < 1e-6 else None
+        box(f'{name}_shoe_{i}', MAT['steel'], x - 0.035, x + 0.035, min(ya, yb), min(ya, yb) + 0.08, min(za, zb), max(za, zb), parent) if abs(ya - yb) < 1e-6 else None
 for sx in (-1, 1):
     glass_run(f'L0_stair_out_{sx}', sx * (S['railX'] - 0.06), [(LD['z0'], LD['y']), (SD['z0'], LD['y']), (SD['z1'], Y1)], L0)
 # 平台下面、兩側那一跑下面（核心）：一樓是實心的，外面是書架牆（家具那一段）；核心的粉光牆
@@ -506,15 +523,16 @@ def books(prefix, parent, x0, x1, y, z, depth, facing, height=0.36):
 def bookshelf(prefix, parent, cx, cz, w, ry, y0, H=2.2, Dp=0.4):
     """書架（胡桃木側板、層板、背板＋書），ry＝面向（0：+z、π：−z、±π/2：±x）。用區域座標建好再轉"""
     grp = group(f'{prefix}_shelf_{cx:.1f}_{cz:.1f}', parent)
-    for (x0, x1, ya, yb, z0, z1, mat) in (((-w / 2, w / 2, 0, 0.1, -Dp / 2, Dp / 2, MAT['walnut'])), ((-w / 2, w / 2, H - 0.04, H, -Dp / 2, Dp / 2, MAT['walnut'])), ((-w / 2, w / 2, 0, H, -Dp / 2, -Dp / 2 + 0.02, MAT['walnut']))):
+    # 零件不共面（BUG-COPLANAR-DEV）：底座內縮、頂板外凸 5 mm、直隔板和層板從背板前面開始、層板比直隔板退 6 mm、直隔板夾在底座和頂板之間
+    for (x0, x1, ya, yb, z0, z1, mat) in (((-w / 2 + 0.005, w / 2 - 0.005, 0, 0.1, -Dp / 2 + 0.02, Dp / 2 - 0.01, MAT['walnut'])), ((-w / 2 - 0.005, w / 2 + 0.005, H - 0.04, H, -Dp / 2 + 0.02, Dp / 2 + 0.005, MAT['walnut'])), ((-w / 2, w / 2, 0, H, -Dp / 2, -Dp / 2 + 0.02, MAT['walnut']))):
         box(f'{prefix}_sb_{cx:.1f}_{ya:.1f}_{z0:.2f}', mat, x0, x1, ya, yb, z0, z1, grp)
     nb = max(1, round(w / 0.95))
     for i in range(nb + 1):
         xx = -w / 2 + 0.015 + (w - 0.03) * i / nb
-        box(f'{prefix}_sv_{cx:.1f}_{i}', MAT['walnut'], xx - 0.015, xx + 0.015, 0, H, -Dp / 2, Dp / 2, grp)
+        box(f'{prefix}_sv_{cx:.1f}_{i}', MAT['walnut'], xx - 0.015, xx + 0.015, 0.125, H - 0.04, -Dp / 2 + 0.02, Dp / 2, grp)
     for yy in (0.1, 0.62, 1.14, 1.66):
-        box(f'{prefix}_sh_{cx:.1f}_{yy:.2f}', MAT['walnut'], -w / 2, w / 2, yy, yy + 0.025, -Dp / 2, Dp / 2, grp)
-        books(f'{prefix}_{cx:.1f}_{cz:.1f}', grp, -w / 2, w / 2, yy + 0.025, 0.0, Dp - 0.06, 1)
+        box(f'{prefix}_sh_{cx:.1f}_{yy:.2f}', MAT['walnut'], -w / 2 + 0.03, w / 2 - 0.03, yy, yy + 0.025, -Dp / 2 + 0.02, Dp / 2 - 0.006, grp)
+        books(f'{prefix}_{cx:.1f}_{cz:.1f}', grp, -w / 2 + 0.03, w / 2 - 0.03, yy + 0.025, 0.0, Dp - 0.06, 1)   # 書排在兩側板中間（原本最後一本的側面和外側板同一個平面）
     grp.location = g2b(cx, y0, cz); grp.rotation_euler = (0, 0, ry)   # Blender 的 z 軸＝遊戲的 y 軸（往上）；遊戲的 ry 轉 +z→(sin,cos) ＝ Blender 繞 z 轉 ry
     return grp
 
@@ -593,11 +611,11 @@ for i, f in enumerate(L['furniture']):
     elif t == 'armchair': sofa(f'{pre}_arm_{i}', P, f, y, w=0.82)
     elif t == 'racks':   # 期刊報紙架：斜的層板＋報紙、雜誌
         grp = group(f'{pre}_racks_{i}', P); w, d = f['w'], f['d']
-        box(f'{pre}_rk_back_{i}', MAT['walnut'], -w / 2, w / 2, 0, 1.6, -d / 2, -d / 2 + 0.04, grp)
+        box(f'{pre}_rk_back_{i}', MAT['walnut'], -w / 2 + 0.02, w / 2 - 0.02, 0, 1.6, -d / 2, -d / 2 + 0.04, grp)   # 背板、層板夾在兩側板中間，層板比側板退 6 mm
         for sx in (-1, 1): box(f'{pre}_rk_side_{i}_{sx}', MAT['walnut'], sx * w / 2 - 0.02, sx * w / 2 + 0.02, 0, 1.6, -d / 2, d / 2, grp)
         for k in range(3):
             yy = 0.3 + k * 0.48
-            box(f'{pre}_rk_shelf_{i}_{k}', MAT['walnut'], -w / 2, w / 2, yy, yy + 0.03, -d / 2, d / 2, grp)
+            box(f'{pre}_rk_shelf_{i}_{k}', MAT['walnut'], -w / 2 + 0.02, w / 2 - 0.02, yy, yy + 0.03, -d / 2 + 0.04, d / 2 - 0.006, grp)
             for m in range(6):
                 xm = -w / 2 + 0.35 + m * (w - 0.7) / 5
                 box(f'{pre}_rk_mag_{i}_{k}_{m}', MAT['paper'] if (m + k) % 3 else MAT[f'book{(m + 2 * k) % len(BOOKC)}'], xm - 0.24, xm + 0.24, yy + 0.03, yy + 0.38, d / 2 - 0.12, d / 2 - 0.1, grp)
