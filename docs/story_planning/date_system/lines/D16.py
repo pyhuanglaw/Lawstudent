@@ -120,7 +120,7 @@ H['heroine_05']=dict(  # 溫學姊
 H['classmate_peishan']=dict(  # 沛珊
  likes={'D16.drive':'normal','D16.beach':'like','D16.lighthouse':'like','D16.rest':'normal'},
  arrive=dict(first=('any',['你開車！好厲害。','我坐公車長大的。坐小客車去海邊，是第一次。']),
-   normal=[('any',['我帶了一本小書。可能不會看。']),('any',['桃園的海，跟北海岸的海，不一樣嗎？']),('high',['跟你出來，我發現我話變多了。'])],
+   normal=[('any',['我帶了一本小書。可能不會看。']),('any',['台中的海，跟北海岸的海，不一樣嗎？']),('high',['跟你出來，我發現我話變多了。'])],
    dating=[('any',['今天不帶書。……真的沒帶。'])]),
  close=dict(first=('any',['今天好像什麼都沒做，可是很滿。','我想帶我爸媽來看海。']),
    normal=[('any',['回去要讀書了。……可是今天值得。']),('any',['你開車辛苦了。下次我帶便當。'])],
