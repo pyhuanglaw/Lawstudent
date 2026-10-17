@@ -1,4 +1,4 @@
-/* 自由出行的偶遇第三批（DL-08）：一起走一段、重訪、小支線的台詞。企劃線 claude/cool-heisenberg-o8kuqx free_trip/aa_walk_v1.json（AA_162 第 7 節）＋bb_walk_v1.json（BB_147，BB-B 8e0399ff）；AA_160 第 6 節定案。照抄，不在這裡改內容。第三批景點（spots_v3）的 AA 六位：AA_271，aa_walk_v1.json@fef59a02（AA-C 2026-10-17；第一、二批已同步成 AA_209 附錄 A 改稿版，和這裡一致）加 D26、D14、D11、D01、D02、D29 的條目。BB 五位第三批：bb_walk_v1.json@b0c20f70 的 batch:3（BB_213，AA-C 核對通過）；芷若 D02 的「D02.pond」景點上沒有這個互動點（spots_v3 是 D02.garden 巴洛克花園），等 BB 確認，先不放。 */
+/* 自由出行的偶遇第三批（DL-08）：一起走一段、重訪、小支線的台詞。企劃線 claude/cool-heisenberg-o8kuqx free_trip/aa_walk_v1.json（AA_162 第 7 節）＋bb_walk_v1.json（BB_147，BB-B 8e0399ff）；AA_160 第 6 節定案。照抄，不在這裡改內容。第三批景點（spots_v3）的 AA 六位：AA_271，aa_walk_v1.json@fef59a02（AA-C 2026-10-17；第一、二批已同步成 AA_209 附錄 A 改稿版，和這裡一致）加 D26、D14、D11、D01、D02、D29 的條目。BB 五位第三批：bb_walk_v1.json@0544a147 的 batch:3（BB_213，AA-C 核對通過）；芷若 D02 生態池那句掛在散步（act walk；BB-C 0544a147 更正）。 */
 const ENC_WALK={
  "source": "企劃線 claude/cool-heisenberg-o8kuqx free_trip/aa_walk_v1.json（AA_162 第 7 節）＋bb_walk_v1.json（BB_147，BB-B 8e0399ff）；AA_160 第 6 節定案。照抄，不在這裡改內容。",
  "rules": {
@@ -1016,6 +1016,18 @@ const ENC_WALK={
   ],
   "dating": [
    "你站那格窗下面。不要動，我記一下光。"
+  ],
+  "batch": 3
+ },
+ {
+  "who": "heroine_02",
+  "spot": "D02",
+  "act": "walk",
+  "friend": [
+   "那個阿伯每個禮拜都在。上次他也拍同一隻。"
+  ],
+  "dating": [
+   "慢慢走。下一場四點才開始。"
   ],
   "batch": 3
  },

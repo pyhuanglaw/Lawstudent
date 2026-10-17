@@ -72,7 +72,7 @@ const ENCOUNTERS={
     {who:'zhe',spot:'D29',why:'他和兩個高中同學坐在港邊的台階上，三個人在分一包鹹酥雞。',days:[6],from:14,to:17.5,terms:null,dates:[['2026-01-02','2026-02-15'],['2026-07-01','2026-08-20'],['2027-01-02','2027-02-04'],['2027-02-09','2027-02-19'],['2027-07-01','2027-08-20'],['2028-01-02','2028-01-24'],['2028-01-29','2028-02-19'],['2028-07-01','2028-08-20'],['2029-01-02','2029-02-11'],['2029-02-16','2029-02-19']],stageMin:'ACQUAINTANCE',busy:'no',join:true,memo:'ENC_D29_ZHE',away:'在高雄',
       lines:{acq:['欸？你怎麼在高雄！','我同學說駁二沒什麼好逛。你看，台北的人都跑來了。'],friend:['哥！你來高雄怎麼沒跟我說？','吃一塊。這家我們高中吃到大，台北吃不到。']},src:'AA_271 1、1-1'},
     /* ---- 第三批景點的 BB 五位：BB_213 第 1、2 節（BB-C；AA-C 核對通過 b0c20f70，2026-10-17）。一人一處；心願地點、外縣市不放；週次避開 AA 六位。 ---- */
-    {who:'heroine_04',spot:'D01',why:'她在週末市集的一攤前面，手上拿著一個像素的鑰匙圈。',days:[0],from:15,to:18,terms:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'],weeks:[5,12],stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D01_ZQ',away:'在華山逛市集',
+    {who:'heroine_04',spot:'D01',why:'她在週末市集的一攤前面，手上拿著一個像素的鑰匙圈。',days:[0],from:15,to:18,terms:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'],weeks:[4,10],stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D01_ZQ',away:'在華山逛市集',
       lines:{acq:['欸不是，你也來華山？','我在看這個鑰匙圈。點陣的，跟我畫的很像。'],friend:['你看這個。一隻像素貓，十六乘十六。','老闆說是自己點的。我想問他用什麼軟體，又不敢問。'],dating:['你怎麼也在這裡？','剛好。幫我挑一個，我挑不下去。']},
       ex:{apart_drift:['好久不見。我逛完了，先走。']},src:'BB_213 1、2'},
     {who:'heroine_02',spot:'D02',why:'她坐在書店門口的長椅上，手上一本電影書，旁邊放著一張票根。',days:[6],from:13,to:17,terms:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S2'],weeks:[3,11],stageMin:'ACQUAINTANCE',busy:'short',join:'friend',memo:'ENC_D02_ZR',away:'在松菸看電影',

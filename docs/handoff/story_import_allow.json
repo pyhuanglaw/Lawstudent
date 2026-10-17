@@ -769,17 +769,17 @@
   },
   {
    "path": "docs/story_planning/BB_213_自由出行第三批_BB五位偶遇.md",
-   "sha": "b0c20f70",
+   "sha": "0544a147",
    "status": "approved",
-   "approvedBy": "AA-C 核對通過（BB_213 狀態欄，2026-10-17 17:59）；BB-C 18:00 交付訊息：第 1 節偶遇表、第 2 節打招呼與前任",
+   "approvedBy": "AA-C 核對通過（BB_213 狀態欄，2026-10-17 17:59）；BB-C 18:00 交付訊息：第 1 節偶遇表、第 2 節打招呼與前任；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk",
    "task": "ENC-B3-1017",
    "kind": "text"
   },
   {
    "path": "docs/story_planning/free_trip/bb_walk_v1.json",
-   "sha": "b0c20f70",
+   "sha": "0544a147",
    "status": "approved",
-   "approvedBy": "BB_213（AA-C 核對 b0c20f70）：只用 batch:3 的 walk／leave／intro／revisit／followUp；D02.pond 先不放",
+   "approvedBy": "BB_213（AA-C 核對 b0c20f70）：只用 batch:3 的 walk／leave／intro／revisit／followUp；D02.pond 先不放；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk",
    "task": "ENC-B3-1017",
    "kind": "text"
   }

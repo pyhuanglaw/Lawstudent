@@ -33,7 +33,7 @@ const mkGM=(G,ans)=>{ const q=(ans||[]).slice(); const L={says:[],menus:[]}; ret
 const force=(G,spot,who,m)=>{ ENC.rec(G).enc[ENC.key(G,spot)]={who,m:m||0}; };
 const RW=r=>ENCOUNTERS.rows.find(q=>q.who===r[0]&&q.spot===r[1]);
 (async()=>{
-  check('10. 第三批的資料：同行 94 句組、離開 31、重訪 36、小支線 3（第三批景點：AA_271 加 15、5、6，BB_213 加 14、5、5）',ENC_WALK.walk.length===94&&ENC_WALK.leave.length===31&&ENC_WALK.revisit.length===36&&ENC_WALK.side.length===3&&typeof ENC.canJoin==='function');
+  check('10. 第三批的資料：同行 95 句組、離開 31、重訪 36、小支線 3（第三批景點：AA_271 加 15、5、6，BB_213 加 15、5、5）',ENC_WALK.walk.length===95&&ENC_WALK.leave.length===31&&ENC_WALK.revisit.length===36&&ENC_WALK.side.length===3&&typeof ENC.canJoin==='function');
   // 一起走一段
   { const G=mk(SAT,19.5); G.trip={spot:'D04',p:[],done:[],walk:0}; const tr=ENC.tier(G,'zhe'); check('11. 阿哲（認識）在西門町：可以一起走（不限關係）',ENC.canJoin(G,RW(['zhe','D04']),tr));
     check('11. 芯慈不一起走（join:false）',!ENC.canJoin(mk(SAT,20.5,{trip:{}}),RW(['classmate_xinci','D04']),ENC.tier(G,'classmate_xinci')));

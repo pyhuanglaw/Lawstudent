@@ -37,8 +37,7 @@ const whoAt=(G,spot)=>ENC.candidates(G,spot).map(c=>c.row.who+(c.tier.t==='acq'?
   STAGE.zhe='STRANGER'; G=mk(SAT,19.5); check('3. 還不認識的（阿哲 STRANGER）不出現：第一次見面只在原本的劇情事件',!/zhe/.test(whoAt(G,'D04'))); delete STAGE.zhe;
   G=mk(STORY.termDay('Y3S1',5,6),19.5); check('3. 芷若大三上（英國交換）不在西門町',!/heroine_02/.test(whoAt(G,'D04')),whoAt(G,'D04'));
   G=mk(STORY.termDay('Y1S1',16,6),19.5); check('3. 期末考週（第 16 週，16 週制）沒有人',whoAt(G,'D04')==='',whoAt(G,'D04'));
-  G=mk(STORY.termDay('Y1S1',7,7),16.5); check('3. 單週週日 16:30 大稻埕：子晴、語彤（第 7 週；第 5、12 週 15～18 子晴在華山，BB_213）',whoAt(G,'D12')==='heroine_03,heroine_04',whoAt(G,'D12'));
-  G=mk(SUN,16.5); check('3. 第 5 週週日 16:30：子晴在華山（BB_213 D01 第 5、12 週），大稻埕只剩語彤',whoAt(G,'D12')==='heroine_03'&&ENC.candidates(G,'D01').some(c=>c.row.who==='heroine_04'),whoAt(G,'D12'));
+  G=mk(SUN,16.5); check('3. 單週週日 16:30 大稻埕：子晴、語彤（子晴的華山是雙週 4、10，BB_213 0544a147，不撞）',whoAt(G,'D12')==='heroine_03,heroine_04',whoAt(G,'D12'));
   G=mk(SUN6,16.5); check('3. 雙週週日：大稻埕沒有人（子晴回公館、語彤心願以前不在淡水）',whoAt(G,'D12')===''&&whoAt(G,'D13')==='kexin:dating',whoAt(G,'D12')+'|'+whoAt(G,'D13'));
   G=mk(SUN,16.5,{weather:'rain'}); check('3. 下雨：大稻埕、淡水（戶外）都沒有人',whoAt(G,'D12')===''&&whoAt(G,'D13')==='');
   G=mk(SUN6,16.5); G.flags.WISH_DONE_heroine_03=true; check('3. 語彤心願以後、還不是朋友：淡水不出現（要朋友以上）',!/heroine_03/.test(whoAt(G,'D13')));
