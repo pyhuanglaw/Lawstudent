@@ -15751,6 +15751,62 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "BB210-Y4S2",
+   "title": "BB_210 大四下口語審給 LAWWW 的程式清單（54ae1a94）：方奕廷 presence；畢業傍晚流程（BB_99 2-6a、BB_203 第 1 節第 12 點）；可昕女朋友約會 6/9 18:00～21:00 記 KX_TERMEND_Y4S2；invites、encounters 的口頭禪；story3d 備用句；事件對照表；測試要點；GRAD_DONE 畢業典禮那天設",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "階梯 ladder_bb_y4s2 已匯入（白名單 54ae1a94）；其餘照 D81 在大四下排（和 AA263-Y4S2 一起）",
+   "first": {
+    "term": "Y4S2",
+    "week": 1,
+    "earliest": "大四下開學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_210（BB-C 54ae1a94）",
+   "authorized": "BB 審稿交付",
+   "xai": {
+    "spec": "BB_210",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "清單每項做完並有單元測試",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AA267-Y5",
+   "title": "AA_267（103489d4）畢業後篇、大五上、尾聲：calendar 加 Y5S1（16 週 2029-09-03～12-23）、LUNAR 加 2030；國考系統 20 題選擇題；JOB_NOODLE 設定＋6/28 阿姨「暑假還來嗎」；以安、語彤延畢 presence；AA_266 HEART_FRIEND／HEART_LAST 分開（以安 18:30；語彤、子晴 21:00；沒報國考的朋友句讀國考報名旗標）；國考結果規則等使用者（AA_243 第 9 題，先不寫死）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "next": "排在大四下之後（D81）",
+   "first": {
+    "term": "Y4S2",
+    "week": 16,
+    "earliest": "大四下畢業以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_267（AA-C 103489d4）",
+   "authorized": "AA 審稿交付",
+   "xai": {
+    "spec": "AA_267",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "清單每項做完並有單元測試",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }

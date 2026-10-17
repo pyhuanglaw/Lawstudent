@@ -7133,6 +7133,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "只先換沛珊的 VRM（同檔名）；經濟系三人、魏教授等 V0-ECON-CHARS 的 BB-C D59 驗收後再接；上衣通過後 LAWWW 拍遊戲截圖（眼鏡、白天、晚上）給 BB-C 標 ART_APPROVED"
+  },
+  {
+   "id": "DL-BB-54ae1a94",
+   "date": "2026-10-17",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "54ae1a94",
+   "what": "ladder_bb_y4s2 大四下口語審（skipIf GRAD_DONE、PS8_FAR_AHEAD 中文名）；BB_210 大四下程式清單；syllabus Y4S2 43cf06d7／6cb5b771",
+   "task": "BB210-Y4S2",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "階梯已匯入；BB_210 清單進總表 BB210-Y4S2（大四下照 D81）；syllabus 等 BB 整批交 JSON 再匯入"
   }
  ],
  "ignored": [
