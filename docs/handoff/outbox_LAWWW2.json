@@ -188,10 +188,11 @@
     "tools/blender/char_second/pinyu_clothes.py",
     "tools/blender/char_second/pinyu_hair.py",
     "assets/models/char/second_ai/bl_econ_pinyu.vrm",
-    "docs/art-rebuild/second_ai/char_review/pinyu/"
+    "docs/art-rebuild/second_ai/char_review/pinyu/",
+    "LICENSES.md"
    ],
-   "state": "WIP",
-   "remaining": "第二版建好、lookdev 拍了（褲子已直、帽 T 夠長）；第三版腳本（瀏海細一點、臉旁碎髮不折鉤、領口蓋住接縫、帽子小一點）待建（使用者 06:5x：恢復，照 AA-C 順序：阿勳→品妤→韋綸→唐睿→家豪→魏教授）"
+   "state": "已交付（等 BB-C 驗收，D59）",
+   "remaining": "第五版送 BB-C 驗收（D59）；通過後 LAWWW-C 接進遊戲（manifest 加 char.econ_pinyu）。計算機、保溫瓶配件之後做"
   },
   {
    "task": "SCN-V0-01",
