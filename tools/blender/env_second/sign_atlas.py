@@ -31,9 +31,21 @@ SIGNS = {
     'yizhan_lantern': ('yizhan_lantern', 'lantern', None, True), 'yizhan_plaque': ('yizhan_lantern', 'plaque', None, False),
 }
 # 公館（--set gongguan → gg_signs_atlas.*）：BB-B 補好比例的 _fit 版（6.50×0.64 m 橫、0.74×2.60 m 直），整張用、不切不拉（BB-B 00:08 通過 S1～S4，00:1x、00:2x 再通過兩家）
-GG = {'riri_mart_h': ('riri_mart', 'h', 5.9, True)}
+GG = {'riri_mart_h': ('riri_mart', 'h', 5.9, True),
+      'gg_laundry_h': ('laundry', 'h', 10.16, True)}   # 自助洗衣沿用溫州街那張（BB-B：同一家連鎖），延長底板到公館的 10.16:1
 for _n, _lit in (('afeng', False), ('jiulu', False), ('yaoju', True), ('lunzhuan', False), ('yingyin', True), ('ririteishoku', False)):
     GG[f'gg_{_n}_h'] = (f'gg_{_n}_h_fit', 'full_h', None, _lit); GG[f'gg_{_n}_v'] = (f'gg_{_n}_v_fit', 'full_v', None, _lit)
+# 第二批（BB-B bc9e0f58，2026-10-17 01:3x 全部通過）：一樓橫招牌 9 家、二樓大招牌 5 塊＋屋頂看板（實際高度 m）、樓上住戶的直立招牌 8 塊
+# 晚上亮不亮：燈箱（壓克力、白底發光）亮；木板、鐵板、黑鐵框酒紅底不亮；二手唱片＝霓虹（'neon'：只有字和霓虹線條亮，BB-B 要求做遮罩）
+for _n, _lit in (('qingye', False), ('luwei', True), ('kafei', False), ('shuiguo', True), ('changpian', 'neon'), ('wenju', True), ('brunch', True), ('douhua', False)):
+    GG[f'gg_{_n}_h'] = (f'gg_{_n}_h_fit', 'full_h', None, _lit)
+for _n, _h, _lit in (('wenli', 2.45, True), ('huoguo', 2.45, True), ('boardgame', 2.45, True), ('dental', 2.45, True), ('english', 2.45, True)):
+    GG[f'gg_{_n}_2f'] = (f'gg_{_n}_2f_fit', 'full_2f', _h, _lit)
+GG['gg_rent_roof'] = ('gg_rent_roof_fit', 'full_2f', 2.4, False)   # 屋頂看板：白色鐵板，不是燈箱
+for _n in ('meifa', 'zhongyi', 'minsu', 'math', 'massage', 'gym', 'billiard', 'piano'):
+    GG[f'gg_{_n}_v'] = (f'gg_{_n}_v_fit', 'full_v', None, True)
+# 公館的貼圖集 2048×4096（36 塊；2048×2048 只放得下一樓橫招牌）：一樓橫招牌 140 px 高（0.64 m，每公尺 219 px）、直立 138 px 寬（0.74 m，14 塊排成一列）、二樓／屋頂每公尺 100 px
+GG_OPT = dict(size=(2048, 4096), hf=140, vf=138, hh=140, pxm=100, emit=True)
 HH = 156      # 橫招牌在貼圖集裡的高度（px）：6.5 m 寬的板面約 1060 px（每公尺 160 px）
 VW = 72       # 直立招牌的寬度
 
@@ -72,12 +84,23 @@ def extend(im, target):
     return out
 
 
-def main(SIGNS=SIGNS, NAME='wz_signs_atlas'):
+def neon_mask(im):
+    """霓虹招牌晚上只有燈管亮：亮的暖白字、紅色霓虹線條、星星留著，黑底和固定夾是黑的"""
+    a = np.asarray(im).astype(np.float32); lum = a.mean(2); sat = a.max(2) - a.min(2)
+    m = (lum > 140) | ((sat > 90) & (a.max(2) > 140))
+    m = ndimage.binary_dilation(m, iterations=1)
+    return Image.fromarray((a * m[..., None]).astype(np.uint8))
+
+
+def main(SIGNS=SIGNS, NAME='wz_signs_atlas', size=(2048, 2048), hf=170, vf=200, hh=None, pxm=100, emit=False):
+    global HH
+    if hh: HH = hh
     items = {}
     for key, (fn, part, target, lit) in SIGNS.items():
         im = Image.open(os.path.join(SRC, fn + '.webp')).convert('RGB')
-        if part == 'full_h': items[key] = dict(img=im.resize((int(im.size[0] * 170 / im.size[1]), 170), Image.LANCZOS), lit=lit, part='h'); continue
-        if part == 'full_v': items[key] = dict(img=im.resize((200, int(im.size[1] * 200 / im.size[0])), Image.LANCZOS), lit=lit, part='v'); continue
+        if part == 'full_h': items[key] = dict(img=im.resize((int(im.size[0] * hf / im.size[1]), hf), Image.LANCZOS), lit=lit, part='h'); continue
+        if part == 'full_v': items[key] = dict(img=im.resize((vf, int(im.size[1] * vf / im.size[0])), Image.LANCZOS), lit=lit, part='v'); continue
+        if part == 'full_2f': hp = int(round(target * pxm)); items[key] = dict(img=im.resize((int(im.size[0] * hp / im.size[1]), hp), Image.LANCZOS), lit=lit, part='2f'); continue
         a = np.asarray(im).astype(np.float32); bs = boxes(a)
         if part == 'h': b = max(bs, key=lambda b: (b[2] - b[0]) / (b[3] - b[1])); c = extend(crop(im, b), target); c = c.resize((int(c.size[0] * HH / c.size[1]), HH), Image.LANCZOS)
         elif part == 'decal':                                                       # 課輔班的窗貼：只取有顏色的字和書包那一塊（含一點玻璃）
@@ -93,24 +116,31 @@ def main(SIGNS=SIGNS, NAME='wz_signs_atlas'):
             vs = sorted(bs, key=lambda b: -(b[2] - b[0])); b = vs[0]; c = crop(im, b, 1); c = c.resize((200, int(c.size[1] * 200 / c.size[0])), Image.LANCZOS)
         items[key] = dict(img=c, lit=lit, part=part)
     # 貼圖集（2048×2048）：貨架式排法——依高度由高到低，放進第一個高度夠、寬度也夠的列，不然開新列
-    S = 2048; atlas = Image.new('RGB', (S, S), (200, 200, 200)); meta = {}; pad = 6; rows = []
+    S, SH = size; atlas = Image.new('RGB', (S, SH), (200, 200, 200)); meta = {}; pad = 6; rows = []
     for k in sorted(items, key=lambda k: (-items[k]['img'].size[1], -items[k]['img'].size[0])):
         im = items[k]['img']; w, h = im.size
         row = next((r for r in rows if h <= r['h'] and r['x'] + w + pad <= S), None)
         if row is None:
             y = rows[-1]['y'] + rows[-1]['h'] + pad if rows else pad; row = dict(y=y, h=h, x=pad); rows.append(row)
         atlas.paste(im, (row['x'], row['y'])); meta[k] = (row['x'], row['y'], w, h); row['x'] += w + pad
-    y, rowh = rows[-1]['y'], rows[-1]['h']
+    bottom = max(r['y'] + r['h'] for r in rows)   # 最下面一列的下緣（原本用迴圈變數 y 檢查，迴圈裡被覆蓋成最後一塊的 y：放不下時也會通過）
     out = {}
     for k, (x, y, w, h) in meta.items():
-        out[k] = dict(uv=[(x + 1) / S, 1 - (y + h - 1) / S, (x + w - 1) / S, 1 - (y + 1) / S], aspect=round(w / h, 4), lit=items[k]['lit'], part=items[k]['part'])
-    assert y + rowh <= S, ('貼圖集放不下', y + rowh)
-    atlas.save(os.path.join(GEN, NAME + '.jpg'), quality=90)
+        out[k] = dict(uv=[(x + 1) / S, 1 - (y + h - 1) / SH, (x + w - 1) / S, 1 - (y + 1) / SH], aspect=round(w / h, 4), lit=bool(items[k]['lit']), part=items[k]['part'])
+    assert bottom <= SH, ('貼圖集放不下', bottom)
+    atlas.save(os.path.join(GEN, NAME + '.jpg'), quality=90 if SH <= 2048 else 86)
+    if emit:   # 晚上發光的貼圖（emissiveTexture，同一個排法、一半解析度）：燈箱整塊、霓虹只有燈管，其他黑的
+        em = Image.new('RGB', (S, SH), (0, 0, 0))
+        for k, (x, y, w, h) in meta.items():
+            lit = items[k]['lit']
+            if lit == 'neon': em.paste(neon_mask(items[k]['img']), (x, y))
+            elif lit: em.paste(items[k]['img'], (x, y))
+        em.resize((S // 2, SH // 2), Image.LANCZOS).save(os.path.join(GEN, NAME + '_emit.jpg'), quality=85)
     json.dump(out, open(os.path.join(GEN, NAME + '.json'), 'w'), indent=1, ensure_ascii=False)
-    print('saved atlas', len(out), 'items; used height', y + rowh)
+    print('saved atlas', len(out), 'items; used height', bottom, 'of', SH)
 
 
 if __name__ == '__main__':
     import sys
-    if '--set' in sys.argv and sys.argv[sys.argv.index('--set') + 1] == 'gongguan': main(GG, 'gg_signs_atlas')
+    if '--set' in sys.argv and sys.argv[sys.argv.index('--set') + 1] == 'gongguan': main(GG, 'gg_signs_atlas', **GG_OPT)
     else: main()

@@ -66,7 +66,12 @@ def _atlas_mat(name, emit):
     m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N = nt.nodes; bs = N['Principled BSDF']; bs.inputs['Roughness'].default_value = 0.45
     tx = N.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(os.path.join(GEN, _ATL + '.jpg'), check_existing=True)   # 兩個材質共用同一張圖
     nt.links.new(tx.outputs['Color'], bs.inputs['Base Color'])
-    if emit: nt.links.new(tx.outputs['Color'], bs.inputs['Emission Color']); bs.inputs['Emission Strength'].default_value = emit
+    if emit:
+        ep = os.path.join(GEN, _ATL + '_emit.jpg')   # 公館：晚上發光另外一張（燈箱整塊、霓虹只有燈管、不亮的是黑的；sign_atlas.py --set gongguan）
+        if os.path.exists(ep):
+            te = N.new('ShaderNodeTexImage'); te.image = bpy.data.images.load(ep, check_existing=True); nt.links.new(te.outputs['Color'], bs.inputs['Emission Color'])
+        else: nt.links.new(tx.outputs['Color'], bs.inputs['Emission Color'])
+        bs.inputs['Emission Strength'].default_value = emit
     m['tile'] = 1.0; return m
 
 
