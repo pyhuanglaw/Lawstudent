@@ -176,10 +176,10 @@ const TERMEND=(function(){
   /* C14：那個假期第三週的週三上午 10:00（LAWWW 暫排；AA_199 7-6「寒假或暑假的平日上午」）；隔天 21:00 芯慈傳日子 */
   S.c14Day=function(term){ const r=typeof CALENDAR!=='undefined'&&CALENDAR.termDays?CALENDAR.termDays(term):null; if(!r) return null; for(let d=r.to+15;d<=r.to+21;d++) if(!CALENDAR.termOf(d)&&CALENDAR.dateOf(d).wd%7===3) return d; return null; };
   S.c14Plan=function(G,term){ const Lx=L(), C=Lx.C14, d=S.c14Day(term); if(!C||d==null||typeof OUT==='undefined') return false;
-    if(typeof PHONE!=='undefined'&&C.msg) PHONE.at(G,G.day+1,21,[{th:'p:classmate_xinci',from:'classmate_xinci',text:C.msg.replace('{日期}',md(d))}],'c14_msg_'+term);
+    if(typeof PHONE!=='undefined'&&C.msg) PHONE.at(G,G.day+1,21,[].concat(C.msg).map(t=>({th:'p:classmate_xinci',from:'classmate_xinci',text:t.replace('{日期}',md(d))})),'c14_msg_'+term);
     OUT.plan(G,{id:'c14_'+term,ev:'ev_te_day',day:d,h:10,late:0.25,place:C.place,title:'事務所參觀',travel:'捷運約 20 分鐘',travelH:1/3,ted:{day:'c14',term}}); return true; };
   S.c15Plan=function(G,id){ const Lx=L(), C=Lx.C15[id], d=C&&Dk(C.day); if(!C||d==null||typeof OUT==='undefined') return false;
-    if(typeof PHONE!=='undefined'&&C.msg) PHONE.at(G,G.day+1,21,[{th:'p:'+C.who,from:C.who,text:C.msg.replace('{日期}',md(d))}],'c15_msg_'+id);
+    if(typeof PHONE!=='undefined'&&C.msg) PHONE.at(G,G.day+1,21,[].concat(C.msg).map(t=>({th:'p:'+C.who,from:C.who,text:t.replace('{日期}',md(d))})),'c15_msg_'+id);
     OUT.plan(G,{id:'c15_'+id,ev:'ev_te_day',day:d,h:C.h,late:0.25,place:C.place,title:C.place,travel:'約 20 分鐘',travelH:1/3,ted:{day:'c15',id}}); return true; };
   const scene=async(GM,bg,arr,opts)=>{ const G=GM.G; if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:bg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(bg):'dark'});
     const say1=async x=>{ if(x.name) await GM.say({name:x.name},x.text); else await run(GM,x.who||null,[x]); };   /* 沒有人物資料的人（芯慈爸爸）用 name */
@@ -189,10 +189,10 @@ const TERMEND=(function(){
     if(t.day==='c14'){ const C=Lx.C14; await scene(GM,C.bg,C.open,C.opts); await scene(GM,C.bg,C.close); G.flags.C14_VISITED=G.day; return true; }
     if(t.day==='c15'){ const C=Lx.C15[t.id]; if(!C) return false; await scene(GM,C.bg,C.lines,C.opts); (G.flags.C15_DONE||(G.flags.C15_DONE={}))[t.id]=G.day; return true; }
     return false; };
-  /* 沒去：C14＝芯慈下次見面一句；C15＝朋友之後傳一張照片（AA_199 7-6）*/
+  /* 沒去：C14＝芯慈下次見面一句；C15＝那天晚上 21:00 朋友私訊一張照片（AA_270 第 3 節；小語多益不傳）*/
   S.dayMissed=function(GM,q){ const G=GM.G, t=q&&q.ted, Lx=L(); if(!t||!Lx) return;
     if(t.day==='c14') G.flags.C14_MISSED=G.day;
-    if(t.day==='c15'){ const C=Lx.C15[t.id]; if(C&&C.photo&&typeof PHONE!=='undefined') PHONE.at(G,q.day+1,21,C.photo.map(x=>({th:'p:'+C.who,from:C.who,text:x})),'c15_photo_'+t.id); } };
+    if(t.day==='c15'){ const C=Lx.C15[t.id]; if(C&&C.photo&&typeof PHONE!=='undefined') PHONE.at(G,q.day,21,C.photo.map(x=>({th:'p:'+C.who,from:C.who,text:x})),'c15_photo_'+t.id); } };
   S.meetLine=async function(GM,who,id){ const G=GM.G, F=G.flags||{}, Lx=L(); if(id!=='classmate_xinci'||F.C14_MISSED==null||F.C14_MISS_SAID||!Lx||!Lx.C14) return false; F.C14_MISS_SAID=G.day; for(const t of Lx.C14.miss) await GM.say(who,'「'+t+'」'); return true; };
   /* ---- 可昕的學期末約會：開場、（大一下）BB_167 4-3 那段／（之後）飯桌兩句、收尾 ---- */
   S.kexinDinner=async function(GM,te){ const G=GM.G, Lx=L(), K=Lx.KX[te.term], PL=K&&Lx.KX_PLACE[K.place]; if(!K||!PL) return false;

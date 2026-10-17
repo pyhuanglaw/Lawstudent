@@ -143,17 +143,16 @@ GM.money=function(n){ G.money+=n; };
     const P4=TERMEND.plan(G,W4), back=D('2028-12-23'); run(20,21);
     const early=(G.msgs||[]).some(m=>m.tag==='te_Y4S1_classmate_xinci'); G.day=back; run(20,21); const m=(G.msgs||[]).find(x=>x.tag==='te_Y4S1_classmate_xinci');
     check('9i. 美國路線大四上：回來那天（12/23）20:30 起才約；時段第一天沒有',!P4.abroad&&P4.back===back&&!early&&!!m&&m.day===back,JSON.stringify([P4.back,back,early,m&&m.day])); }
-  // 11. 邀約鉤子（AA_250 x-2、10-1）＋C14／C15（AA_251）：不接的選項、傳日子的訊息還沒有（等 AA）＝鉤子不出現；測試時暫時放測試字串
+  // 11. 邀約鉤子（AA_250 x-2、10-1）＋C14／C15（AA_251）；不接、傳日子、沒去的照片照 AA_270（caeaf97f、bb21282f）
   { const TL=TERMEND_LINES; fresh(D('2025-12-19'),19,'campus',{}); G.stage='law'; meet('classmate_xinci'); meet('heroine_01');
-    check('11. 不接的選項、芯慈傳日子的訊息還沒有：鉤子不出現',TERMEND.hookFor(G,'Y1S1','classmate_xinci')===null&&TL.HOOK_NO===null);
-    const keep={no:TL.HOOK_NO,c14:TL.C14.msg,c15:TL.C15.yu_camp.msg,ph:TL.C15.yu_camp.photo}; TL.HOOK_NO='〔測試：不接〕'; TL.C14.msg='〔測試〕{日期}'; TL.C15.yu_camp.msg='〔測試〕{日期}'; TL.C15.yu_camp.photo=['〔測試照片〕'];
-    try{
+    check('11. 不接＝「（笑了一下，沒有接話。）」（AA_270 第 1 節）；芯慈大一上有鉤子',TL.HOOK_NO==='（笑了一下，沒有接話。）'&&!!TERMEND.hookFor(G,'Y1S1','classmate_xinci'));
+    {
       said=[]; opts=[]; picks=[0]; await TERMEND.dinner(GM,{te:{who:'classmate_xinci',kind:'friend',term:'Y1S1'}}); const L=lines();
       const ci=L.findIndex(t=>t.includes('寒假我爸那邊……要不要一起去事務所看看？只是看。')), cl=L.findIndex(t=>t.includes('（餐盤疊好，拿去回收。外面的路燈已經亮了。）'));
-      check('11. 芯慈的期末飯：話題之後、收尾之前說鉤子；選項「「好。」」／不接',ci>0&&cl>ci&&JSON.stringify(opts[opts.length-1])===JSON.stringify(['「好。」','〔測試：不接〕']),JSON.stringify([L,opts]));
+      check('11. 芯慈的期末飯：話題之後、收尾之前說鉤子；選項「「好。」」／不接',ci>0&&cl>ci&&JSON.stringify(opts[opts.length-1])===JSON.stringify(['「好。」','（笑了一下，沒有接話。）']),JSON.stringify([L,opts]));
       const q=OUT.get(G,'c14_Y1S1'), d=TERMEND.c14Day('Y1S1'), x=CALENDAR.dateOf(d);
-      { const d0=G.day, h0=G.hour; G.day=d0+1; G.hour=21.1; PHONE.tick(G); const mm=(G.msgs||[]).find(m=>m.from==='classmate_xinci'&&/〔測試〕/.test(m.text||'')); G.day=d0; G.hour=h0;
-      check('11. 接了＝C14 事務所參觀：寒假第三週的週三 10:00；隔天 21:00 芯慈傳日子（{日期}換成 1/7（三）那種）',!!q&&q.day===d&&q.h===10&&x.wd%7===3&&!CALENDAR.termOf(d)&&!!mm&&mm.text==='〔測試〕'+x.m+'/'+x.d+'（三）',JSON.stringify([q,x,mm]));}
+      { const d0=G.day, h0=G.hour; G.day=d0+1; G.hour=21.1; PHONE.tick(G); const mm=(G.msgs||[]).filter(m=>m.from==='classmate_xinci'&&m.day===d0+1).map(m=>m.text); G.day=d0; G.hour=h0;
+      check('11. 接了＝C14 事務所參觀：寒假第三週的週三 10:00；隔天 21:00 芯慈傳日子（{日期}換成 1/7（三）那種）',!!q&&q.day===d&&q.h===10&&x.wd%7===3&&!CALENDAR.termOf(d)&&JSON.stringify(mm)===JSON.stringify([x.m+'/'+x.d+'（三）早上十點，我爸說可以。','穿平常的衣服就好，他們不看。']),JSON.stringify([q,x,mm]));}
       said=[]; picks=[0]; await TERMEND.dayOuting(GM,q); const L2=lines();
       check('11. C14 那天：電梯門打開、芯慈「這是我爸。」、芯慈爸爸問「你們法律系現在都教什麼？」（還沒旁聽過開庭＝只有一個回答）、白板、「我以前來這裡，都只坐櫃台。」；記 C14_VISITED',L2.includes('（事務所在一棟舊大樓的七樓。電梯門打開，正對著一排深色的檔案櫃。）')&&L2.some(t=>t==='芯慈爸爸：你們法律系現在都教什麼？')&&L2.some(t=>t.endsWith('考試沒變。'))&&L2.some(t=>t.includes('都只坐櫃台'))&&G.flags.C14_VISITED===G.day,JSON.stringify(L2));
       TERMEND.dayMissed(GM,q); said=[]; const a1=await TERMEND.meetLine(GM,{name:'芯慈'},'classmate_xinci'), a2=await TERMEND.meetLine(GM,{name:'芯慈'},'classmate_xinci');
@@ -163,12 +162,13 @@ GM.money=function(n){ G.money+=n; };
       fresh(D('2026-06-11'),19,'campus',{}); G.stage='law'; meet('heroine_01'); said=[]; opts=[]; picks=[0]; await TERMEND.dinner(GM,{te:{who:'heroine_01',kind:'friend',term:'Y1S2'}});
       check('11. 以安大一下「暑假我要上日語課。」→「我也想報。」＝直接報名 C03（大一暑假日語課）',lines().some(t=>t.includes('暑假我要上日語課。'))&&VAC.enrolled(G,'C03','Y1'));
       fresh(D('2026-06-12'),19,'campus',{}); G.stage='law'; meet('yu'); said=[]; picks=[0]; await TERMEND.dinner(GM,{te:{who:'yu',kind:'friend',term:'Y1S2'}});
-      const q5=OUT.get(G,'c15_yu_camp'); check('11. 小語「你要不要來探班？」→「我去。」＝C15 營隊探班（7/11 11:00 營地）',lines().some(t=>t.includes('你要不要來探班？'))&&!!q5&&q5.day===D('2026-07-11')&&q5.h===11,JSON.stringify(q5));
+      const q5=OUT.get(G,'c15_yu_camp'); check('11. 小語「你要不要來探班？」→「我去。」＝C15 營隊探班（7/11 12:00 營地；她傳「{日期}中午來！！」）',lines().some(t=>t.includes('你要不要來探班？'))&&!!q5&&q5.day===D('2026-07-11')&&q5.h===12,JSON.stringify(q5));
       said=[]; await TERMEND.dayOuting(GM,q5); check('11. 探班那天：操場上一群小朋友在追小語、雞塊；記 C15_DONE',lines().some(t=>t.includes('我先救我自己'))&&G.flags.C15_DONE.yu_camp===G.day);
-      TERMEND.dayMissed(GM,q5); G.day=q5.day+1; G.hour=21.1; PHONE.tick(G); check('11. C15 沒去：隔天她傳照片',(G.msgs||[]).some(m=>m.from==='yu'&&m.text==='〔測試照片〕'));
+      TERMEND.dayMissed(GM,q5); G.day=q5.day; G.hour=21.1; PHONE.tick(G); check('11. C15 沒去：那天晚上 21:00 小語私訊照片「我還活著！」',(G.msgs||[]).some(m=>m.from==='yu'&&m.text==='我還活著！'));
       fresh(D('2026-06-12'),19,'campus',{}); G.stage='law'; meet('heroine_04');
-      check('11. 子晴「要不要玩？」要看過 Q6（PLAYTESTED）',TERMEND.hookFor(G,'Y1S2','heroine_04')===null&&(TL.C15.zq_play.msg='〔測試〕{日期}',SOCIAL.remember('heroine_04','PLAYTESTED',''),!!TERMEND.hookFor(G,'Y1S2','heroine_04'))); TL.C15.zq_play.msg=null;
-    } finally { TL.HOOK_NO=keep.no; TL.C14.msg=keep.c14; TL.C15.yu_camp.msg=keep.c15; TL.C15.yu_camp.photo=keep.ph; } }
+      check('11. 子晴「要不要玩？」要看過 Q6（PLAYTESTED）',TERMEND.hookFor(G,'Y1S2','heroine_04')===null&&(SOCIAL.remember('heroine_04','PLAYTESTED',''),!!TERMEND.hookFor(G,'Y1S2','heroine_04')));
+      check('11. 每一個 C15 都有傳日子的訊息；小語多益不傳照片、其他都有',Object.entries(TL.C15).every(([k,c])=>Array.isArray(c.msg)&&c.msg.length&&(k==='yu_toeic'?c.photo===null:Array.isArray(c.photo))));
+    } }
   // 10. 存讀檔
   { fresh(D('2025-12-20'),10,'campus',{}); G.termend={think:{heroine_04:'Y1S1'},Y1S1:{plan:{heart:[],friend:['classmate_xinci'],fallback:null,gf:[],nope:{}},picked:{who:'classmate_xinci',kind:'friend',day:1}},contact:{Y1S1:{zhe:{pts:3,k:{chat:1}}}}};
     const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('10. 存讀檔：邀約、接了誰、讓我想想、分數都留著',G.termend.think.heroine_04==='Y1S1'&&G.termend.Y1S1.picked.who==='classmate_xinci'&&TERMEND.score(G,'Y1S1','zhe')===3); }

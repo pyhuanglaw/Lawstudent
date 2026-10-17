@@ -7146,6 +7146,45 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "階梯已匯入；BB_210 清單進總表 BB210-Y4S2（大四下照 D81）；syllabus 等 BB 整批交 JSON 再匯入"
+  },
+  {
+   "id": "DL-AA-caeaf97f",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "caeaf97f",
+   "what": "AA_270 期末飯邀約鉤子的不接選項、C14／C15 傳日子訊息、沒去的照片（BB 口氣審 bb21282f）",
+   "task": "TE-HOOKS-1017",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": ""
+  },
+  {
+   "id": "DL-AA-b5963d13",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "b5963d13",
+   "what": "AA_268 玩家自己約期末飯：答應系統字、自動婉拒、ended 婉拒（BB 口氣審 377bef12）",
+   "task": "BB203-CONFESS-1017",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DL-AA-fe4382d7",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "fe4382d7",
+   "what": "AA_269 經濟系舊清單對帳（作廢／已涵蓋／還要做）＋15 點驗收短清單；第 8 節手機小事重排 1fb2e4cf",
+   "task": "V0-REWRITE-L",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
   }
  ],
  "ignored": [

@@ -15815,7 +15815,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P1",
-   "next": "【15:5x LAWWW-C】機制做好（termend3d.js S.hook／hookFor／c14Plan／c15Plan／dayOuting／dayMissed／meetLine、events.js ev_te_day、termend_lines.js HOOK／C14／C15；tests/termend_unit.js 11）。等 AA：不接的選項 HOOK_NO、傳日子的訊息（C14.msg、C15.*.msg）、C15 沒去的照片；沒有之前鉤子不出現（玩家看不到半成品）。C15 日子是 LAWWW 暫排。",
+   "next": "【16:0x LAWWW-C】AA_270（caeaf97f、bb21282f）句子到齊、鉤子打開：不接「（笑了一下，沒有接話。）」、八則傳日子、沒去的照片（那天 21:00）；C15 時間照訊息（小語中午、芷若 20:00、明軒 16:00、沛珊 08:30、柏翰 19:00）。剩：瀏覽器流程（大一上芯慈 → C14）、C02／C03／C05 接了報名以後的行事曆顯示。｜【15:5x LAWWW-C】機制做好（termend3d.js S.hook／hookFor／c14Plan／c15Plan／dayOuting／dayMissed／meetLine、events.js ev_te_day、termend_lines.js HOOK／C14／C15；tests/termend_unit.js 11）。等 AA：不接的選項 HOOK_NO、傳日子的訊息（C14.msg、C15.*.msg）、C15 沒去的照片；沒有之前鉤子不出現（玩家看不到半成品）。C15 日子是 LAWWW 暫排。",
    "first": {
     "term": "Y1S1",
     "week": 16,
@@ -15833,7 +15833,7 @@
     "branch": "claude/adoring-meitner-mqzst8",
     "acceptance": "句子到齊後鉤子出現、接了排進行事曆、單元測試＋瀏覽器流程",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    }
   }
  ]

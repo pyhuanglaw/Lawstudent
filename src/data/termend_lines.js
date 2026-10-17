@@ -198,7 +198,7 @@ const TERMEND_LINES=(function(){
     Y4S1:{place:'nccu',invite:['最後一個上學期了欸','政大 六點'],table:['大四了。……我們期末考完，就剩一個學期。','寒假我排了一張讀書的表，你要不要也在上面？']} };
   /* 邀約鉤子（AA_250 各學期 x-2，台詞照原文；10-1：一對一的飯裡，話題之後、收尾之前；一對一時「誰要來」改「你要不要來」）。
      接了就進行事曆：vac＝直接報名那張活動卡（還沒開始、還沒報名才問）；c14／c15＝單日活動（AA_251）；flag＝只記下來，不排活動。after＝接了以後她多說的那句。
-     不接的選項（HOOK_NO）、「傳日子」的訊息（C14_MSG、C15[*].msg）等 AA 給句子：沒有的時候那個鉤子不出現 */
+     不接的選項、「傳日子」的訊息、沒去的照片：AA_270（caeaf97f、BB 口氣審 bb21282f）；沒有句子的鉤子不出現 */
   const PT=G=>typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has('heroine_04','PLAYTESTED');
   const CAMP={say:'營隊隊輔還缺人，你要不要報？',ok:'「我報。」',act:{vac:'C02@Y1'}};
   const HOOK={
@@ -218,26 +218,26 @@ const TERMEND_LINES=(function(){
           classmate_peishan:{say:'我很喜歡。',ok:'「哪天去看你們上課？」',act:{c15:'ps_class'}}},
     Y3S2:{heroine_05:{say:'八月二號出發。',ok:'「那天我去送學姊。」',if:G=>!(G.flags&&G.flags.EXCHANGE_ROUTE==='US'),act:{flag:'HOOK_SIS_SENDOFF'}},
           heroine_04:{say:'七月三號到七號 曼谷',ok:'「我去。」',act:{flag:'HOOK_T03'}},classmate_bohan:{say:'七月開始補習，國考。',ok:'「我也想去聽一堂。」',act:{c15:'bh_cram'}}} };
-  const HOOK_NO=null;   /* 不接的選項：等 AA（2026-10-17 15:5x 問了）*/
-  /* C14 事務所參觀（AA_251 第 1 節）：寒假或暑假的平日上午；msg＝芯慈傳日子（等 AA）*/
-  const C14={msg:null,bg:null,place:'芯慈爸爸的事務所',
+  const HOOK_NO='（笑了一下，沒有接話。）';   /* 不接（AA_270 第 1 節）：對方不回，直接接收尾，不扣不記 */
+  /* C14 事務所參觀（AA_251 第 1 節）：寒假或暑假的平日上午；msg＝芯慈傳日子（AA_270 第 2 節）*/
+  const C14={msg:['{日期}早上十點，我爸說可以。','穿平常的衣服就好，他們不看。'],bg:null,place:'芯慈爸爸的事務所',
     open:[{narr:'（事務所在一棟舊大樓的七樓。電梯門打開，正對著一排深色的檔案櫃。）'},{who:'classmate_xinci',text:'這是我爸。'},{who:'xinci_dad',name:'芯慈爸爸',text:'你們法律系現在都教什麼？'}],
     opts:[{t:'「民法、刑法、憲法……還有很多考試。」',say:[{who:'xinci_dad',name:'芯慈爸爸',text:'考試沒變。'},{narr:'（他笑了一下。）'}]},
           {t:'「上學期我去旁聽了一場開庭。」',if:G=>!!(G.flags&&G.flags.COURT_VISITED),say:[{who:'xinci_dad',name:'芯慈爸爸',text:'那你看過了。這裡大部分的時間，都在寫東西。'}]}],
     close:[{narr:'（會議室的白板上，寫著一張很長的時間表。芯慈看了一眼，沒說話。）'},{who:'classmate_xinci',text:'……我以前來這裡，都只坐櫃台。'}],
     miss:['我自己去了。我爸問你怎麼沒來。']};
-  /* C15 朋友約的單日小事（AA_251 第 2 節）：日子 LAWWW 暫排（她／他傳日子：msg 等 AA）；沒去＝朋友之後傳一張照片（photo 等 AA）*/
+  /* C15 朋友約的單日小事（AA_251 第 2 節）：日子 LAWWW 暫排；msg＝傳日子（AA_270 第 2 節）；photo＝沒去的那天晚上 21:00 私訊（第 3 節）*/
   const C15={
-    zq_play:{who:'heroine_04',day:'2026-06-27',h:14,place:'公館的騎樓咖啡店',lines:[{narr:'（她把筆電轉過來。畫面上一隻像素的貓在跳。）'},{who:'heroine_04',text:'玩。不要問怎麼玩，玩就知道。'},{narr:'（你掉下去三次。）'},{who:'heroine_04',text:'……第三關太難了。我回去改。'}],msg:null,photo:null},
-    zq_play2:{who:'heroine_04',day:'2027-07-10',h:14,place:'公館的騎樓咖啡店',lines:G=>C15.zq_play.lines,msg:null,photo:null},
-    zq_demo:{who:'heroine_04',day:'2027-01-09',h:14,place:'資工系館',lines:G=>C15.zq_play.lines,msg:null,photo:null},
-    yu_camp:{who:'yu',day:'2026-07-11',h:11,place:'營地',bg:'camp_school',lines:[{narr:'（操場上一群小朋友在追小語。）'},{who:'yu',text:'你來了！……等一下，我先救我自己。'},{narr:'（午餐的時候，她的盤子被一個小朋友偷了一塊雞塊。）'}],msg:null,photo:null},
-    mx_game:{who:'classmate_mingxuan',day:'2027-01-23',h:15,place:'體育館',lines:[{narr:'（最後一分鐘，明軒投進一顆三分。他回頭看了一眼觀眾席。）'},{who:'classmate_mingxuan',text:'……你真的來了。等我，我九點還有家教。'}],msg:null,photo:null},
-    zr_film:{who:'heroine_02',day:'2027-01-16',h:19.5,place:'兩點半 Café',lines:[{narr:'（店裡的燈關了一半。牆上投著一部黑白片，字幕是她手打的。）'},{who:'heroine_02',text:'字幕有一句我翻錯了。你看得出來是哪一句嗎？'}],
-      opts:[{t:'「第三十分鐘那句？」',say:[{who:'heroine_02',text:'……你真的有在看。'}]},{t:'「看不出來。」',say:[{who:'heroine_02',text:'那就好。'}]}],msg:null,photo:null},
-    ps_class:{who:'classmate_peishan',day:'2028-01-12',h:10,place:'國小教室',bg:'camp_school',lines:[{narr:'（教室後面坐著五個大學生，前面是二十幾個三年級的小朋友。沛珊在最後一排寫觀察紀錄。）'},{who:'classmate_peishan',text:'那個男生從剛剛到現在，舉了六次手。老師都沒看到。'}],msg:null,photo:null},
-    bh_cram:{who:'classmate_bohan',day:'2028-07-08',h:19,place:'公館的補習班',bg:'cram_class',lines:[{narr:'（教室坐滿了人，前面三排都是上班族。）'},{who:'classmate_bohan',text:'老師講話很快。我錄音。……不行，不能錄。'}],msg:null,photo:null},
-    yu_toeic:{who:'yu',day:'2028-01-16',h:12.5,place:'多益考場',lines:[{narr:'（考完出來，小語站在門口。）'},{who:'yu',text:'聽力第三大題我全部亂猜。……你呢？'}],msg:null,photo:null} };
+    zq_play:{who:'heroine_04',day:'2026-06-27',h:14,place:'公館的騎樓咖啡店',lines:[{narr:'（她把筆電轉過來。畫面上一隻像素的貓在跳。）'},{who:'heroine_04',text:'玩。不要問怎麼玩，玩就知道。'},{narr:'（你掉下去三次。）'},{who:'heroine_04',text:'……第三關太難了。我回去改。'}],msg:['{日期} 下午 有空嗎','我弄好一關了 要你玩'],photo:['📷（筆電螢幕上，一隻像素貓卡在牆裡）','它卡住了','你沒來 沒人幫我找 bug']},
+    zq_play2:{who:'heroine_04',day:'2027-07-10',h:14,place:'公館的騎樓咖啡店',lines:G=>C15.zq_play.lines,msg:['{日期} 下午 有空嗎','我弄好一關了 要你玩'],photo:['📷（筆電螢幕上，一隻像素貓卡在牆裡）','它卡住了','你沒來 沒人幫我找 bug']},
+    zq_demo:{who:'heroine_04',day:'2027-01-09',h:14,place:'資工系館',lines:G=>C15.zq_play.lines,msg:['{日期} 下午 有空嗎','我弄好一關了 要你玩'],photo:['📷（筆電螢幕上，一隻像素貓卡在牆裡）','它卡住了','你沒來 沒人幫我找 bug']},
+    yu_camp:{who:'yu',day:'2026-07-11',h:12,place:'營地',bg:'camp_school',lines:[{narr:'（操場上一群小朋友在追小語。）'},{who:'yu',text:'你來了！……等一下，我先救我自己。'},{narr:'（午餐的時候，她的盤子被一個小朋友偷了一塊雞塊。）'}],msg:['{日期}中午來！！','帶水，這裡什麼都沒有！'],photo:['📷（操場上一群小朋友比著勝利手勢，小語在最後面，頭髮亂掉）','我還活著！']},
+    mx_game:{who:'classmate_mingxuan',day:'2027-01-23',h:16,place:'體育館',lines:[{narr:'（最後一分鐘，明軒投進一顆三分。他回頭看了一眼觀眾席。）'},{who:'classmate_mingxuan',text:'……你真的來了。等我，我九點還有家教。'}],msg:['{日期}下午四點，體育館。最後一天有練習賽。'],photo:['📷（體育館的記分板）','贏了！！🏀','下次你要來看喔 😆']},
+    zr_film:{who:'heroine_02',day:'2027-01-16',h:20,place:'兩點半 Café',lines:[{narr:'（店裡的燈關了一半。牆上投著一部黑白片，字幕是她手打的。）'},{who:'heroine_02',text:'字幕有一句我翻錯了。你看得出來是哪一句嗎？'}],
+      opts:[{t:'「第三十分鐘那句？」',say:[{who:'heroine_02',text:'……你真的有在看。'}]},{t:'「看不出來。」',say:[{who:'heroine_02',text:'那就好。'}]}],msg:['{日期}晚上八點，放映。','字幕我還在打。'],photo:['📷（Café 的牆上投著一部黑白片，前面坐了四個人）','今天來了四個。']},
+    ps_class:{who:'classmate_peishan',day:'2028-01-12',h:8.5,place:'國小教室',bg:'camp_school',lines:[{narr:'（教室後面坐著五個大學生，前面是二十幾個三年級的小朋友。沛珊在最後一排寫觀察紀錄。）'},{who:'classmate_peishan',text:'那個男生從剛剛到現在，舉了六次手。老師都沒看到。'}],msg:['{日期}早上八點半，我去國小試教！','坐最後一排就好，不用講話。'],photo:['📷（國小教室的黑板，上面一排歪歪的字）','今天有個小朋友舉了七次手，老師終於看到了！']},
+    bh_cram:{who:'classmate_bohan',day:'2028-07-08',h:19,place:'公館的補習班',bg:'cram_class',lines:[{narr:'（教室坐滿了人，前面三排都是上班族。）'},{who:'classmate_bohan',text:'老師講話很快。我錄音。……不行，不能錄。'}],msg:['{日期}晚上七點。試聽要先登記，我幫你登記了。'],photo:['📷（補習班的講義，第一頁就寫滿了）','老師講太快了。我會再去一次。']},
+    yu_toeic:{who:'yu',day:'2028-01-16',h:8.5,place:'多益考場',lines:[{narr:'（考完出來，小語站在門口。）'},{who:'yu',text:'聽力第三大題我全部亂猜。……你呢？'}],msg:['一月十六號早上，考場見。','考完要去吃早午餐！！'],photo:null} };
   const REPLY=['嗯。','真的假的。','我也是。'];   /* 祐廷回的一句（AA_250 10-1：池子以外，輪流）*/
   return {PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,KX,KX_PLACE,HOOK,HOOK_NO,C14,C15,src:'AA_254 8fdcc961（7fa1aad4、a9daffbb 更正）／AA_250 acf92ff0、375b91dd、c524b61e、ae841bba'};
 })();
