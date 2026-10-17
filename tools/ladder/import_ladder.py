@@ -1,16 +1,34 @@
-"""閒聊階梯（企劃線 docs/story_planning/ladder/ladder_aa*.json＋ladder_bb*.json，一學期一個檔；使用者 2026-10-15 全案通過、直接實作）→ src/data/ladder.js。台詞一字不改。
-用法：python3 tools/ladder/import_ladder.py [企劃線的 ref，帳號 B 值班期間預設 origin/claude/cool-heisenberg-o8kuqx] [檔名=ref …（個別檔案用別的 ref）]"""
+"""閒聊階梯（企劃線 docs/story_planning/ladder/ladder_aa*.json＋ladder_bb*.json，一學期一個檔）→ src/data/ladder.js。台詞一字不改。
+**只匯入 docs/handoff/story_import_allow.json 逐檔列出、status approved 的版本**（使用者 2026-10-17 P0：未批准、WIP、來源版本不明預設拒絕；
+不再把企劃線分支上所有階梯檔一次匯入——AA 分支的大一下階梯可昕被改 17 處還沒審）。每個檔從名單上寫的 commit 讀，不從分支最新讀。
+要換新版本：AA（人物台詞先經 BB）交付「已審版本＋commit」→ 值班 LAWWW 改白名單 → 再跑這個工具。
+用法：python3 tools/ladder/import_ladder.py [--check 企劃線ref]（--check：只列出分支上和白名單版本不同、或不在名單的檔，不寫檔）"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-REF = sys.argv[1] if len(sys.argv) > 1 else 'origin/claude/cool-heisenberg-o8kuqx'
-sha = subprocess.check_output(['git', '-C', ROOT, 'rev-parse', '--short', REF], text=True).strip()
-OVR = dict(a.split('=', 1) for a in sys.argv[2:] if '=' in a)   # 個別檔案改用別的 ref（例：ladder_bb_y0s1.json=9ebf6663：交付只包含這幾個檔，其他檔維持遊戲現在用的版本）
-ref_of = lambda p: OVR.get(os.path.basename(p), REF)
-show = lambda p: json.loads(subprocess.check_output(['git', '-C', ROOT, 'show', f'{ref_of(p)}:{p}'], text=True))
-out = {'source': REF.replace('origin/', '') + ' ' + sha + ''.join(f'＋{k}@{v}' for k, v in OVR.items()), 'characters': {}, 'terms': {}, 'byTerm': {}, 'kaiDorm': [], 'bikeSeat': {}}
-# 一學期一個檔（README 2026-10-16）：ladder_aa.json／ladder_bb.json＝大一上；ladder_aa_y1s2.json 之類＝其他學期（以檔裡的 term 為準）
-names = subprocess.check_output(['git', '-C', ROOT, 'ls-tree', '--name-only', f'{REF}:docs/story_planning/ladder/'], text=True).split()
-files = sorted(n[:-5] for n in names if re.match(r'^ladder_(aa|bb)(_y\d+s\d)?\.json$', n))
+sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
+import import_guard as G
+ALLOW = G.load(ROOT)
+APPROVED = G.approved_files(ALLOW, 'docs/story_planning/ladder/')
+for p, s in APPROVED.items():
+    ok, why = G.allowed(p, s, ALLOW)
+    if not ok: sys.exit('拒絕匯入：' + why)
+if '--check' in sys.argv:
+    ref = sys.argv[sys.argv.index('--check') + 1]
+    names = subprocess.check_output(['git', '-C', ROOT, 'ls-tree', '--name-only', f'{ref}:docs/story_planning/ladder/'], text=True).split()
+    for n in sorted(names):
+        if not re.match(r'^ladder_(aa|bb)(_y\d+s\d)?\.json$', n): continue
+        p = 'docs/story_planning/ladder/' + n
+        if p not in APPROVED: print('不在白名單（不匯入）：', p); continue
+        same = subprocess.run(['git', '-C', ROOT, 'diff', '--quiet', APPROVED[p], ref, '--', p]).returncode == 0
+        if not same: print(f'分支上的版本和白名單（{APPROVED[p]}）不同、不會匯入（要先交付已審版本）：', p)
+    sys.exit(0)
+LREF = ALLOW.get('labelsRef')
+if not LREF: sys.exit('白名單沒有 labelsRef（記憶中文名稱表的來源 commit）')
+REF = LREF
+show = lambda p: json.loads(subprocess.check_output(['git', '-C', ROOT, 'show', f'{APPROVED[p]}:{p}'], text=True))
+srcs = sorted(set(APPROVED.values()))
+out = {'source': '白名單 ' + '＋'.join(f'{v}（{sum(1 for x in APPROVED.values() if x == v)} 檔）' for v in srcs), 'characters': {}, 'terms': {}, 'byTerm': {}, 'kaiDorm': [], 'bikeSeat': {}}
+files = sorted(os.path.basename(p)[:-5] for p in APPROVED)
 for f in files:
     d = show(f'docs/story_planning/ladder/{f}.json')
     term = d.get('term')

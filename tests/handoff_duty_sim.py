@@ -44,7 +44,7 @@ class World:
         seed = os.path.join(self.tmp, 'seed')
         git(self.tmp, 'clone', '-q', self.origin, seed)
         self._cfg(seed)
-        for f in ('tools/handoff/check_handoff.py', 'tools/handoff/duty_state.py'):
+        for f in ('tools/handoff/check_handoff.py', 'tools/handoff/duty_state.py', 'tools/handoff/incremental.py'):
             os.makedirs(os.path.join(seed, os.path.dirname(f)), exist_ok=True)
             shutil.copy(os.path.join(REPO, f), os.path.join(seed, f))
         os.makedirs(os.path.join(seed, 'docs/handoff/snapshots'), exist_ok=True)

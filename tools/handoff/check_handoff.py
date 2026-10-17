@@ -32,6 +32,7 @@ check 的七項（使用者 2026-10-16 指示）＋兩項補充：
 import argparse, hashlib, json, os, re, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import duty_state   # 值班狀態（D92／HV-10）
+import incremental as INC   # 增量交接：水位線、結構化分類、outbox、WIP 索引（使用者 2026-10-17 P0）
 from datetime import datetime, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -350,6 +351,12 @@ def snapshot(args):
          'tasksSha256': hashlib.sha256(raw).hexdigest(),
          'open': sorted(t['id'] for t in tasks if t['status'] not in CLOSED),
          'status': {t['id']: t['status'] for t in tasks}}
+    for key, path in (('wip', INC.WIP), ('watermarks', INC.WM)):   # 下一班用來比對：WIP 不能無故消失、水位線不能倒退
+        try:
+            j = json.loads(src.read(path))
+            s[key] = [{'id': x['id'], 'task': x.get('task'), 'state': x.get('state')} for x in j.get('items', [])] if key == 'wip' else {r: (w or {}).get('sha') for r, w in (j.get('roles') or {}).items()}
+        except FileNotFoundError:
+            pass
     os.makedirs(os.path.join(args.root, SNAPDIR), exist_ok=True)
     p = os.path.join(args.root, SNAPDIR, f'{now}_{args.account}_{args.role}.json')
     with open(p, 'w', encoding='utf-8') as f:
@@ -400,8 +407,8 @@ OFF_MARK = re.compile(r'【表外】|（無 ?ID）|\(無 ?ID\)')
 OFF_PARENT = re.compile(r'總表(上)?(沒有|沒列|未列)|表外')
 
 
-def todo_section(text):
-    """找「全部待辦」那一節（標題或條列都可以），回傳 (起始行號, 行列表)；找不到回傳 (None, [])。"""
+def todo_section_legacy(text):
+    """（舊版，留給回歸測試對照；2026-10-17 帳號 B 交班時的假通過）正文提到「全部待辦」的條列也被當成段落開頭，可能讀到 0 行。"""
     lines = text.splitlines()
     for i, l in enumerate(lines):
         if '全部待辦' not in l:
@@ -420,6 +427,12 @@ def todo_section(text):
             out.append(l2)
         return i + 1, out
     return None, []
+
+
+def todo_section(text):
+    """找「全部待辦」那一節：只認錨定的標題（incremental.todo_check）。回傳 (起始行號或 None, 行列表)。"""
+    start, sec, _ = INC.todo_check(text)
+    return start, sec
 
 
 def section_ids(line):
@@ -467,9 +480,10 @@ def roles(args):
         if not text:
             bad.append(f'{role}：交接檔讀不到（試過 {branches} × {[pf] + ROLE_FILES.get(role, [])}；先 git fetch）')
             continue
-        start, sec = todo_section(text)
+        start, sec, probs = INC.todo_check(text)
+        for pr in probs:   # 找不到段落、0 項、沒有任何 ID：都是異常，不能假通過（2026-10-17 事故）
+            bad.append(f'{role}：{where}：{pr}（AI_SESSION_HANDOFF.md 第 5 節 B 類）')
         if start is None:
-            bad.append(f'{role}：{where} 沒有「全部待辦」一節（AI_SESSION_HANDOFF.md 第 5 節 B 類）')
             continue
         sha = subprocess.run(['git', 'rev-parse', '--short', f'origin/{where.split(":")[0][7:]}'], cwd=args.root, capture_output=True, text=True).stdout.strip()
         ids, missing, off = set(), [], []
@@ -527,6 +541,110 @@ def roles(args):
     return 0
 
 
+def incr_run(root, ref=None, remote=True, src=None):
+    """增量核對（使用者 2026-10-17 P0）：四職位水位線以後的新 commit 逐一要有結構化分類；outbox 與 WIP 索引的欄位；WIP 不能比上一份快照少。
+    回傳 (結果 dict, 異常列表, 資訊列表)。只讀。"""
+    src = src or Src(root, ref)
+    probs, info = [], []
+    try:
+        wm = json.loads(src.read(INC.WM))
+    except FileNotFoundError:
+        return None, [f'{INC.WM} 不存在：還沒建立四職位水位線'], info
+    tasks = json.loads(src.read(TASKS))
+    dv = json.loads(src.read(DELIV))
+    duty = json.loads(src.read(duty_state.DUTY))
+    try:
+        wip = json.loads(src.read(INC.WIP))
+    except FileNotFoundError:
+        wip = None
+        probs.append(f'{INC.WIP} 不存在：沒有永久 WIP 索引')
+    wm['_wip'] = wip or {}
+    outboxes = {}
+    for role in INC.ROLES:
+        br = ((duty.get('roles') or {}).get(role) or {}).get('branch')
+        if not br:
+            continue
+        if role == 'LAWWW':
+            try:
+                outboxes[role] = json.loads(src.read(INC.OUTBOX.format(role=role)))
+            except FileNotFoundError:
+                pass
+            continue
+        rc = subprocess.run(['git', 'show', f'origin/{br}:{INC.OUTBOX.format(role=role)}'], cwd=root, capture_output=True, text=True)
+        if rc.returncode == 0:
+            try:
+                outboxes[role] = json.loads(rc.stdout)
+            except Exception as e:
+                probs.append(f'{role}：origin/{br}:{INC.OUTBOX.format(role=role)} 壞掉：{e}')
+        else:
+            info.append(f'{role}：分支 {br} 還沒有 {INC.OUTBOX.format(role=role)}（交付當下登記）；水位線以後的 commit 照樣逐一要分類')
+    res = INC.scan(root, wm, dv, tasks, duty, remote=remote, outboxes=outboxes)
+    for role, r in res.items():
+        probs += r['problems']
+        for s_, subj in r['unclassified']:
+            probs.append(f'{role}：{r["branch"]} 的 {s_}「{subj}」沒有分類（登記進 outbox／deliveries，或 ignored 加 kind）')
+        info.append(f'{role}：{r["branch"]} 水位線 {str((wm["roles"].get(role) or {}).get("sha", ""))[:8]} 以後 {r["new"]} 個 commit，扣掉別的職位已核對的要看 {r["scanned"]} 個（已分類 {r["classified"]}、未分類 {len(r["unclassified"])}）')
+    if wip is not None:
+        probs += INC.wip_problems(wip, tasks, root)
+        snaps = sorted(f for f in src.listdir(SNAPDIR) if f.endswith('.json'))
+        prev = None
+        for f in reversed(snaps):
+            try:
+                j = json.loads(src.read(f'{SNAPDIR}/{f}'))
+            except Exception:
+                continue
+            if 'wip' in j:
+                prev = (f, j)
+                break
+        if prev:
+            probs += [f'{x}（比對快照 {prev[0]}）' for x in INC.wip_diff({'items': prev[1]['wip']}, wip)]
+            for r, s_ in (prev[1].get('watermarks') or {}).items():
+                cur = (wm['roles'].get(r) or {}).get('sha')
+                if s_ and cur and s_ != cur and subprocess.run(['git', 'merge-base', '--is-ancestor', s_, cur], cwd=root).returncode != 0:
+                    probs.append(f'{r}：水位線從快照的 {s_[:8]} 變成 {cur[:8]}，但新的不是舊的後代（倒退或改寫）')
+        else:
+            info.append('還沒有含 WIP 的快照（下一次交班的快照開始比對 WIP 有沒有消失）')
+    return (wm, res, outboxes, tasks), probs, info
+
+
+def incr(args):
+    import time
+    t0 = time.time()
+    INC.GIT_CALLS = 0
+    src = Src(args.root, args.ref)
+    state, probs, info = incr_run(args.root, args.ref, src=src)
+    for l in info:
+        print('[資訊] ' + l)
+    for n, m in enumerate(probs, 1):
+        print(f'[異常 {n}] {m}')
+    if state:
+        wm, res, outboxes, tasks = state
+        tot = sum(r['scanned'] for r in res.values())
+        print(f'[成本] 這次逐一核對 {tot} 個 commit，git 呼叫 {INC.GIT_CALLS} 次，{time.time() - t0:.1f} 秒')
+    if args.advance:
+        if args.ref:
+            print('--advance 要在值班 LAWWW 的分支上跑（不加 --ref）')
+            return 1
+        wm, res, outboxes, tasks = state
+        wip = wm.pop('_wip', {})
+        changed = False
+        for role in (INC.ROLES if 'all' in args.advance else args.advance):
+            open_ids = sorted(x['id'] for x in wip.get('items', []) if x.get('role') == role and INC.norm_state(x.get('state')) not in INC.CLOSED_WIP)
+            ok, msg = INC.advance(args.root, wm, res, role, args.by or 'LAWWW', remote=True, open_ids=open_ids)
+            print(('[前進] ' if ok else '[不前進] ') + msg)
+            changed |= ok
+        if changed:
+            with open(os.path.join(args.root, INC.WM), 'w', encoding='utf-8') as f:
+                json.dump(wm, f, ensure_ascii=False, indent=1)
+                f.write('\n')
+            print(f'寫了 {INC.WM}：commit＋push、核對遠端 SHA 才算前進完成')
+    if probs:
+        print(f'結果：異常 {len(probs)} 項——水位線不前進；只對異常的範圍深入追查（不重掃全部歷史）')
+        return 1
+    print('結果：OK（每個職位水位線以後的 commit 都有分類；WIP 沒有無故消失）')
+    return 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--root', default=ROOT)
@@ -547,9 +665,13 @@ def main(argv=None):
     r = sub.add_parser('roles')
     r.add_argument('--role', action='append', choices=['LAWWW2', 'AA', 'BB'])
     r.add_argument('--ref')
+    i = sub.add_parser('incr', help='增量核對：四職位水位線以後的新 commit、outbox、WIP 索引')
+    i.add_argument('--ref')
+    i.add_argument('--advance', action='append', choices=INC.ROLES + ['all'], help='全部分類、沒有異常、已 push 才前進水位線')
+    i.add_argument('--by', help='誰核對的（例：LAWWW-C）')
     duty_state.add_parser(sub)
     a = ap.parse_args(argv)
-    return {'check': check, 'snapshot': snapshot, 'queue': queue, 'roles': roles, 'duty': duty_state.run}[a.cmd](a)
+    return {'check': check, 'snapshot': snapshot, 'queue': queue, 'roles': roles, 'incr': incr, 'duty': duty_state.run}[a.cmd](a)
 
 
 if __name__ == '__main__':
