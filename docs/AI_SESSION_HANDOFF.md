@@ -572,6 +572,9 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 時間（UTC） | 職位 | 帳號 | 規則版本／RULE_SOURCE commit | 已讀 D90 | 沒處理的使用者指示 | 正在跑的長工作 | turn_check | 來源 |
 |---|---|---|---|---|---|---|---|---|
+| 2026-10-17 04:1x | LAWWW2-C | C | HV-11／RULE_SOURCE 當時 modest-rubin 9266693c（現讀 adoring-meitner）；duty register edd6fa8a | 是（D90、D92、D93） | 沒有 | 沒有 | 無超時 | LAWWW2-C 訊息 04:14，LAWWW-C 代登記（HANDOFF.md edd6fa8a） |
+| 2026-10-17 04:1x | AA-C | C | HV-11；duty register 1b8160a1 | 是（AA 交接紀錄接班一節） | 沒有 | 背景逐句審（已交 3b7e2268） | — | AA-C 1b8160a1 commit、04:14 訊息，LAWWW-C 代登記 |
+| 2026-10-17 04:1x | BB-C | C | HV-11；duty register ad1ee0aa | 是（BB_00 接班紀錄） | 沒有 | — | — | BB-C ad1ee0aa、04:14 訊息，LAWWW-C 代登記 |
 | 2026-10-17 04:1x | LAWWW-C | C | HV-11／RULE_SOURCE bd1ea4dd（已讀 D92 十四步；duty register 見本 commit） | 是 | 有：USER_DIRECTIVE_NEXT_DUTY_2026-10-17（接班後執行中） | 沒有 | 回合 1 個，超過上限 0 個 | LAWWW-C 自己登記 |
 | 2026-10-16 22:1x | LAWWW2-B | B | HV-10／duty 補登記 8b1cdbea | 是（ACK HV-10，22:09） | 沒有 | — | — | LAWWW2-B 訊息 22:09、22:10，LAWWW-B 代登記 |
 | 2026-10-16 22:1x | AA-B | B | HV-10／duty 補登記 32f62032 | 是（ACK HV-10，22:08） | 沒有 | — | — | AA-B 訊息 22:08、22:10，LAWWW-B 代登記 |

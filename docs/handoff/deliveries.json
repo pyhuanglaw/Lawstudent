@@ -6171,6 +6171,32 @@
    "msg": "ACK",
    "integration": "參考用",
    "note": "整合：參考用｜證據：是之後所有改稿（AB-65、AB-66）的準則；開發分支 AI_SESSION_HANDOFF.md 有引用 AA_192（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）｜使用者 AA_192 正式決定的口語準則（寫作規則，不直接進遊戲）"
+  },
+  {
+   "id": "DL-AA-3b7e2268",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "3b7e2268",
+   "what": "大一下閒聊階梯 AA 已審（AB65-3／NS-Y1S2）：只交 ladder_aa_y1s2.json（blob 461acb4c）、ladder_bb_y1s2.json（blob 82373576）；可昕 17 處逐項核對（9 處符合 AA_209 附錄 B、8 處符合 BB_167 SC1），AA-C 另改四處；AA 分支其他 ladder_*.json 不在範圍",
+   "task": "AB65-3-Y1S2-L",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "AA-C 04:18Z 訊息（結構化交付）；LAWWW-C 核對兩個 blob 一致；匯入白名單 story_import_allow.json 改成這兩檔＠3b7e2268。給 LAWWW：A2-L6 選項②看過 ev_public_law_group 的不出現（LADDER_CHOICE_IF）；沛珊「剛從課輔班回來」若在程式裡，移到 weekday 2～4、18～21 時。排在交接制度 P0 之後"
+  },
+  {
+   "id": "DL-BB-9204411f",
+   "date": "2026-10-17",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "9204411f",
+   "what": "BB_181 大二上口氣審定稿（docs/story_planning/BB_181_AA211口氣審_大二上BB人物.md）：給 AA 裁定，不是給 LAWWW 直接整合",
+   "task": "AB-65",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "BB-C 04:14Z 結構化交付；接收者 AA-C 已 ACK、0731836b 九項裁定全部採用（AA_211 2-1）；之後由 AA 交 AA_211 定稿給 LAWWW"
   }
  ],
  "ignored": [
@@ -8443,6 +8469,29 @@
    "sha": "2f38aced",
    "branch": "origin/claude/elegant-brown-fcos7n",
    "why": "一般工作 commit：中間備份；v1 交件 905d7a27、v2 交件 d9388b2a（都不在本清單）"
+  },
+  {
+   "sha": "b5e1ed12",
+   "branch": "origin/claude/magical-albattani-bk7b4n",
+   "kind": "not_delivery",
+   "reason": "BB_00 進度紀錄（帳號 C 上線、交付通知），不是交付本身",
+   "why": "BB_00 進度紀錄"
+  },
+  {
+   "sha": "5f6495c0",
+   "branch": "origin/claude/magical-albattani-bk7b4n",
+   "kind": "covered",
+   "coveredBy": "DL-AA-3b7e2268",
+   "reason": "大一下階梯 JSON 寫回，最後版本是 3b7e2268（ladder 四個檔之後沒再改）",
+   "why": "DL-AA-3b7e2268 的內容"
+  },
+  {
+   "sha": "0731836b",
+   "branch": "origin/claude/magical-albattani-bk7b4n",
+   "kind": "wip",
+   "task": "AB65-3",
+   "reason": "AA_211 大二上裁定（BB_181 九項採用）；AA_211 還在 WIP，等 AA 交定稿",
+   "why": "AA_211 WIP"
   }
  ]
 }
