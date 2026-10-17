@@ -13267,6 +13267,27 @@
     "receiver": "AA-B／LAWWW-B",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "AB65-2-L",
+   "title": "實作 AB65-2 大一上 BB 人物事件改稿（AA_207 e2f2f9df）：換句、結構、新條件、新開局矛盾 9 項",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "CAMP-L1 之後、和 START-WEEK（familyGroupD1、kexinFirstMsg、學姊初遇、明軒系籃開頭）一起做；照 AA_207 本文第 2～4 節＋附錄第 2、5 節；不動旗標與選項數量；驗收 AA_197 1-7",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上第一週",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 正式交付 2026-10-17 00:20（DL-AA-AB652）",
+   "authorized": "使用者 23:5x 交給 AA 的逐學期改稿＋AA、BB 互審（D79 照定稿實作）"
   }
  ]
 }

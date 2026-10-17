@@ -5063,6 +5063,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "只取 GLB、json、截圖；材質名照舊 cafe_int_floor；cafe_glb_integration 待 LAWWW-B 跑"
+  },
+  {
+   "id": "DL-AA-AB652",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "e2f2f9df",
+   "what": "AB65-2 大一上 BB 人物事件改稿（AA_207＋附錄；BB-B 口氣審通過）：換句（附錄第 2 節＋BB_167 SC3、SC4 約 35 句，清單 AA_207 附錄第 5 節）、結構（法律系梗每人每學期一句、可昕假設題大一上只留 kexinFirstMsg 與視訊第一題、芷若紙杯電影只在第一次、四事件加 term、兩事件拿掉多的「」）、新條件（學姊攤位 met_sis、芷若經原分組依 FIRST_MET 兩版、kx_yule_ask ②、ev_kai_late_screen weekday）、新開局矛盾 9 項（跟 START-WEEK／CAMP-L1 一起換）",
+   "task": "AB-65",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "不動旗標與選項數量；驗收照 AA_197 1-7 大一上那列；排在 CAMP-L1 之後、和 START-WEEK 一起做"
   }
  ],
  "ignored": [
