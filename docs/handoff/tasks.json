@@ -12284,7 +12284,7 @@
   },
   {
    "id": "SYS-PHONE-CHAT",
-   "title": "玩家主動傳訊息給朋友（選題目、各人各階段回覆、回覆時間）",
+   "title": "玩家主動傳訊息給朋友（選題目、各人各階段回覆、回覆時間）（AA 編號 MSG-L1）",
    "area": "SYS",
    "owner": "LAWWW",
    "status": "待開工",
@@ -12711,6 +12711,475 @@
    },
    "source": "工作階段待辦 #38 補登；使用者 22:5x、00:2x",
    "authorized": "D85（LAWWW 自主發布）"
+  },
+  {
+   "id": "AB-65",
+   "title": "BB 人物逐學期改稿（使用者 23:5x 交給 AA）：AB65-1 E26／E37（AA_206 完成，跟 BB_179 一起交）、AB65-2 大一上 BB 事件（進行中）、AB65-3 大一下～大四每學期、AB65-4 重訪日群體對話、AB65-5 BB_173 3 節 A-4／A-5／A-6／A-10／A-11、AB65-6 lad/y3s1:556、BB_170 剩下的",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P1",
+   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系 E26 起",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
+   "authorized": "使用者（AA、BB 企劃制度）",
+   "xai": {
+    "spec": "AA_206 等",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AB-66",
+   "title": "經濟系前傳口語改稿包 BB_179（BB-B 寫、AA 互審、交 LAWWW-B；含 AA_203 經濟系台詞、寫死「祐廷」改 {name}）",
+   "area": "STORY",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P1",
+   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系開局",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
+   "authorized": "使用者（AA、BB 企劃制度）",
+   "xai": {
+    "spec": "BB_179＋AA_203",
+    "owner": "BB",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "NS-Y1S2",
+   "title": "大一下 AA 人物口語改寫",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P2",
+   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "大一下",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
+   "authorized": "使用者（AA、BB 企劃制度）",
+   "xai": {
+    "spec": "AA 企劃線",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "VAC-S1",
+   "title": "假期系統規格 S1（AA）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P2",
+   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上寒假",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
+   "authorized": "使用者（AA、BB 企劃制度）",
+   "xai": {
+    "spec": "AA_197／AA_201 系列",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "VAC-T1",
+   "title": "假期系統規格 T1（AA）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P2",
+   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上寒假",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
+   "authorized": "使用者（AA、BB 企劃制度）",
+   "xai": {
+    "spec": "AA 企劃線",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "VAC-X1",
+   "title": "假期／交換規格 X1（AA）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P2",
+   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上寒假",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
+   "authorized": "使用者（AA、BB 企劃制度）",
+   "xai": {
+    "spec": "AA 企劃線",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "VAC-L1",
+   "title": "假期系統程式（排在 16 週共用系統 HOLIDAY-SYS 之後）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上寒假",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
+   "authorized": "使用者（AA、BB 企劃制度）"
+  },
+  {
+   "id": "VAC-X2",
+   "title": "日本路線 3 月底（程式）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "first": {
+    "term": "Y3S2",
+    "week": null,
+    "earliest": "日本交換 3 月底",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
+   "authorized": "使用者（AA、BB 企劃制度）"
+  },
+  {
+   "id": "VAC-B1",
+   "title": "假期 BB 人物部分 B1",
+   "area": "STORY",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上寒假",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
+   "authorized": "使用者（AA、BB 企劃制度）",
+   "xai": {
+    "spec": "BB 企劃線",
+    "owner": "BB",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "VAC-B3",
+   "title": "假期 BB 人物部分 B3",
+   "area": "STORY",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上寒假",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
+   "authorized": "使用者（AA、BB 企劃制度）",
+   "xai": {
+    "spec": "BB 企劃線",
+    "owner": "BB",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "HOL-NYE-Y2",
+   "title": "大二～大四跨年台詞（HOL-NYE-Y2～Y4）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "first": {
+    "term": "Y2S1",
+    "week": null,
+    "earliest": "大二跨年",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
+   "authorized": "使用者（AA、BB 企劃制度）",
+   "xai": {
+    "spec": "AA 企劃線",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "HOL-VA",
+   "title": "AA 六位人物的假期台詞",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上寒假",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
+   "authorized": "使用者（AA、BB 企劃制度）",
+   "xai": {
+    "spec": "AA 企劃線",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "DOC-18W",
+   "title": "AA 企劃裡的「18 週」字樣改 16 週",
+   "area": "DOC",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P3",
+   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
+   "authorized": "使用者（AA、BB 企劃制度）",
+   "xai": {
+    "spec": "AA 企劃線",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "MSG-2",
+   "title": "傳訊息第二批話題（接 SYS-PHONE-CHAT／MSG-L1 之後）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "有聯絡方式的第一天",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
+   "authorized": "使用者（AA、BB 企劃制度）",
+   "xai": {
+    "spec": "AA_202 之後",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AA-103-SP",
+   "title": "刑訴特別課一句",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P3",
+   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "first": {
+    "term": "Y2S1",
+    "week": null,
+    "earliest": "刑訴特別課",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
+   "authorized": "使用者（AA、BB 企劃制度）",
+   "xai": {
+    "spec": "AA 企劃線",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "Y3S1-XMAS",
+   "title": "大三上聖誕細節",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P3",
+   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "first": {
+    "term": "Y3S1",
+    "week": null,
+    "earliest": "大三上聖誕",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
+   "authorized": "使用者（AA、BB 企劃制度）",
+   "xai": {
+    "spec": "AA 企劃線",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "SIS-BF-CAMPUS",
+   "title": "學姊和男友在校園一起出現（BB_122 2-1；程式還沒有）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "學姊有男友的期間",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
+   "authorized": "使用者（AA、BB 企劃制度）"
   }
  ]
 }
