@@ -6574,6 +6574,19 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "等 BB-C D59 驗收；連同阿勳 v6（4bf1ae20）、品妤 v5（e1b9133a）一起接"
+  },
+  {
+   "id": "DL-LW2-NPC-B4",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "1b924dd4",
+   "what": "路人第四批：nm10／12／14／15／20（耳後頭髮翅膀修好，髮片寬度上限 2.4 cm）＋manifest 條目",
+   "task": "ART-NPC-40",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "男女各 20 種到齊；單元 anon_pool／npc_ambient／crowd 通過；遊戲內 20 人排排站與路人探針待下一批瀏覽器"
   }
  ],
  "ignored": [
