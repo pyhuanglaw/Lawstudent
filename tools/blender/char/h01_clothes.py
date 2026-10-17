@@ -48,6 +48,8 @@ PANTS_DROP = True         # 寬褲從臀部直落（False：合身褲，褲管�
 PANTS_HEM_UP = 0.0        # 褲腳往上（九分褲：露出腳踝）
 PANTS_FOLLOW = False      # 褲管中心線跟著腿骨（大腿根 → 膝蓋 → 腳踝）走；False＝舊做法（垂直的管子，x 固定 0.086）。腿往內斜的樣本（Sakurada：膝蓋 x 0.055、腳踝 0.043）用舊做法時褲腳在腳的外側、遊戲裡像喇叭褲（LAWWW2-C 2026-10-17，阿勳）
 EASE_K = 0.85             # 身片寬鬆量的倍數（沈以安第二版 1.0 → 0.85：側面看毛衣從胸口直落、下擺收緊，像氣球）
+DRAPE = 0.0                # 胸口以下的垂墜皺褶（半徑的起伏比例，0＝不變）；沛珊第十五版 0.014（BB-C：棉 T 有往下垂的自然皺褶，現在是圓桶）
+DRAPE_N = 7
 SLEEVE_IN = 0.010           # 袖子從肩關節往身體裡面多少開始（預設不變）。手從 T 字放下來時袖子往下轉，肩膀上面和身片之間會裂開，身片底下的皮膚已經剪掉，看得到後面（沛珊第十版「肩膀的亮縫」）→ 沛珊 0.035
 NECK_RIB_L = 0.022          # 領口羅紋的寬度（沿布面）；NECK_RIB_T＝羅紋比身片厚多少；NECK_FOLD＝羅紋往內折的量（r、z）。預設不變；沛珊第十一版 0.016／0.0015／(−0.004, −0.003)（BB-C：45 度看像一圈管子）
 NECK_RIB_T = 0.003
@@ -478,6 +480,7 @@ def build_top(skin, arm, mb, pants):
         dense = []
         for z in np.arange(KNIT_HEM_TOP, zbt, 0.002):
             rb = box_r(k, z); rh = max(band_r(k, KNIT_HEM_TOP) + 0.014, box_r(k, KNIT_HEM_TOP + 0.08) - 0.016)   # 第二版：下擺只比身片小一點（第一版緊箍）
+            if DRAPE > 0: rb = rb * (1 + DRAPE * math.sin(DRAPE_N * th[k] + 0.6 * math.sin(3 * th[k])) * float(sstep(1.27, 1.16, z)) * float(sstep(KNIT_HEM_TOP, KNIT_HEM_TOP + 0.10, z)))   # 胸口以下才有、下擺收掉
             if HEM_LOOSE: rh = max(rh, box_r(k, KNIT_HEM_TOP) - 0.002)
             w = float(sstep(KNIT_HEM_TOP, KNIT_HEM_TOP + 0.075, z))
             r = rh + (rb - rh) * (1 - (1 - w) ** 2)
