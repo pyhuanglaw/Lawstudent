@@ -988,6 +988,10 @@ const STORY_EVENTS=[
       return d!=null&&G.day>=d&&(k==null||k==='ok')&&typeof PHONE!=='undefined'&&PHONE.sent(G,'ps_table_cancel'); }},
     dialogue:[ {speaker:null,text:'信箱裡有那張表，附一張便條：「對不起。這份有畫重點。」'} ],
     consequences:{flags:{PS_TABLE_GOT:true}} },
+  /* 假期活動的關鍵事件（AA_199；vac3d.js）：出遊的 2D；連續好幾天的（營隊、日本）整段在 beforeOuting（中間的日子跳過、手機照時間收）*/
+  { id:'ev_vac_key', title:'假期活動', participants:[], location:'any', trigger:'outing', background:'dark', hours:0.5, dialogue:[],
+    beforeOuting:async(G,GM,q)=>{ if(typeof VAC!=='undefined') await VAC.outing(GM,q); },
+    outingMissed:(G,GM,q)=>{ if(typeof VAC!=='undefined'&&VAC.missed) VAC.missed(GM,q); } },
   /* 學期末的飯（BB_203；termend3d.js）：一對一，出遊的 2D；整段在 beforeOuting（開場、話題池、飯桌一句、收尾；心意的邀約接回家的路上）*/
   { id:'ev_termend_dinner', title:'學期末的飯', participants:[], location:'any', trigger:'outing', background:'dark', hours:2, dialogue:[],
     beforeOuting:async(G,GM,q)=>{ if(typeof TERMEND!=='undefined') await TERMEND.dinner(GM,q); },

@@ -381,6 +381,7 @@ const GAME = (function(){
     body.querySelectorAll('[data-inv]').forEach(b=>b.onclick=async()=>{ if(E.player.busy){ toast('現在不能約人'); return; } closePhone(); sceneBegin(); try{ await INV.flow(GM,b.dataset.inv,null,false); } finally { sceneEnd(); } openPhone('msg'); });   /* 手機約人（使用者第 3 點）*/
     body.querySelectorAll('[data-ans]').forEach(b=>b.onclick=()=>{ const [iv,a]=b.dataset.ans.split('|'); const r=a.startsWith('c:')?INV.answerChange(G,iv,a.slice(2)):INV.answer(G,iv,a); if(r&&r.res==='later'){ const v=INV.byId(G,iv); if(v){ closePhone(); sceneBegin(); INV.flow(GM,v.who,null,false).finally(()=>{ sceneEnd(); openPhone('msg'); }); return; } } renderPhone(); });   /* 對方約你／改約的回覆 */
     body.querySelectorAll('[data-skip]').forEach(b=>b.onclick=async()=>{ closePhone(); await CLS.skipTo(GM,+b.dataset.skip); });
+    body.querySelectorAll('[data-vac]').forEach(b=>b.onclick=()=>{ if(typeof VAC!=='undefined'&&VAC.signup(G,b.dataset.vac,'yes')){ toast('報名了：已經排進行事曆',2600); autosave(); } renderPhone(); });   /* 假期活動報名（AA_199 3-2）*/
     body.querySelectorAll('[data-ask]').forEach(b=>b.onclick=()=>{ const t=b.dataset.ask, i=t.lastIndexOf('|'); const r=typeof PHONE!=='undefined'?PHONE.answer(G,t.slice(0,i),+t.slice(i+1)):null; if(r&&!phoneThread) phoneThread=PHONE.th(r.m); renderPhone(); phoneBadge(); autosave(); });   /* 回覆（交接包 v1）：回了之後打開那一段對話，看得到對方的回覆 */
     body.querySelectorAll('[data-th]').forEach(b=>b.onclick=()=>{ phoneThread=b.dataset.th; renderPhone(); phoneBadge(); const pb=$('phoneBody'); if(pb) pb.scrollTop=pb.scrollHeight; });
     body.querySelectorAll('[data-thback]').forEach(b=>b.onclick=()=>{ phoneThread=null; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
@@ -420,8 +421,9 @@ const GAME = (function(){
   /* 手機「活動」（D55，使用者 2026-10-13「手機查詢：朋友位置、課表、活動」）：這幾天的演講與活動（src/data/activities.js，內容等 AA、BB；目前是空的）。
      地點有快速前往的，旁邊有「前往」（照樣花時間、照開放時間） */
   function eventsHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); const up=typeof ACTIVITIES!=='undefined'?ACTIVITIES.upcoming(G,7):[];
-    if(!up.length) return '<div class="item muted">目前沒有公告的演講或活動。看到海報、公告欄的活動，會列在這裡。</div>';
-    const W=['日','一','二','三','四','五','六'], PL=PLACE_LIST(); let h='';
+    const vac=typeof VAC!=='undefined'&&VAC.html?VAC.html(G):'';   /* 假期行事曆（AA_199 3-2）：報名了的、還可以報名的 */
+    if(!up.length) return vac+'<div class="item muted">目前沒有公告的演講或活動。看到海報、公告欄的活動，會列在這裡。</div>';
+    const W=['日','一','二','三','四','五','六'], PL=PLACE_LIST(); let h=vac;
     for(const {a,k} of up){ const d=CALENDAR.dateOf(G.day+k); const when=(k===0?'今天':k===1?'明天':d.m+'/'+d.d+'（'+W[d.wd%7]+'）')+' '+ACTIVITIES.hhmm(a.t0)+'–'+ACTIVITIES.hhmm(a.t1);
       const where=a.roomName||(PLACES.names&&PLACES.names[a.zone])||''; const pl=PL.find(q=>q[0]===a.zone)||PL.find(q=>q[0]==='campus'&&q[1]===(PLACES.names&&PLACES.names[a.zone]));
       h+='<div class="item phrow"><div>'+esc(a.title)+'<div class="muted">'+esc(when)+(where?'・'+esc(where):'')+'</div></div>'+(pl&&!(k===0&&G.hour%24>=a.t1)?'<button class="btn" data-place="'+esc(pl[0]+'|'+pl[1])+'">前往</button>':'')+'</div>'; }

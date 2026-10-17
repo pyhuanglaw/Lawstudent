@@ -407,6 +407,14 @@
     }
    ],
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_241_大一暑假_AA場景台詞.md",
+   "sha": "e8010267",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17（第②級 AA 定稿，可以實作）：第 1～4、6、7 節進 src/data/vac_activities.js（C02 營隊隊輔、C03 日語課、C05 日本五天、VA-02／05／11）；第 5 節柏翰週四總圖另做",
+   "task": "VAC-C08-12",
+   "kind": "text"
   }
  ]
 }
