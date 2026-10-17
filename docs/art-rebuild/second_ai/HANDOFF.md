@@ -25,7 +25,13 @@
 4. **ART-VSLICE＋ART-WZ0**（溫州街 Café 前黃昏商業水準、舊店面翻修）。
 5. **ART-13、ART-CH-XUN、ART-CH-PINYU**（明軒、小語、阿勳、品妤）。
 6. 大二以後的場景（SCN-V3-01／V3-03／V4-01／V5-01／V5-02、ART-DORM-Y34、VAC-A2）。
-- 小件只收尾或等 CPU 時做：ART-04 黃金葛、ART-V0-DORM 412 窗景（截圖排隊中）、BUG-WZFLICKER-2、ART-BALCONY-POTS。
+- 小件只收尾或等 CPU 時做：ART-04 黃金葛、ART-V0-DORM 412 窗景（都已交付 639f0188）、BUG-WZFLICKER-2、ART-BALCONY-POTS。
+- **v0 人物進度（05:2x）**：
+  - ART-CH-WEILUN 邱韋綸：**第二版已交 BB-C 驗收**（bbea64b9，`assets/models/char/second_ai/bl_econ_weilun.vrm`，`docs/art-rebuild/second_ai/char_review/weilun/`）。
+  - ART-CH-TANGRUI 唐睿：第三版建置中（螺旋捲髮束 curl_card；POLO 衫）；第一、二版自己退件（直髮碗蓋頭）。下一步：遊戲渲染器 lookdev → 交 BB。
+  - ART-CH-JIAHAO 宋家豪：第一版建置中、第二版帽子腳本已改（af52e330，帽冠貼頭、帽沿有厚度）。下一步：重建 → lookdev → 交 BB。
+  - ART-CH-WEI 魏教授：還沒開工（講台老師，外觀等 AA-REQ-06）。
+  - 人物建置的工作檔都在 scratchpad（`char/<名字>/face.blend`），可以從腳本重建；VRM 交件時才放進 repo。
 - 環境：這個容器原本沒有 Blender；已照 TOOLCHAIN_AUDIT 裝 `/opt/blenv`（bpy 5.2.2）＋VRM Add-on（`644a13c`）＋`tools/vroid_src`（fetch_vroid_src.sh）。容器重開要重裝。
 
 ### LAWWW2 半成品核對（USER_DIRECTIVE_NEXT_DUTY_2026-10-17 第一節第 4 點；LAWWW2-C 04:3x，對 RULE_SOURCE `adoring-meitner` a39a6812 的 tasks.json）
