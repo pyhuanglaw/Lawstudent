@@ -6587,6 +6587,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "男女各 20 種到齊；單元 anon_pool／npc_ambient／crowd 通過；遊戲內 20 人排排站與路人探針待下一批瀏覽器"
+  },
+  {
+   "id": "DL-LW2-PS5",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "9a53e643",
+   "what": "沛珊 3D 第五版（髮型照立繪：露額頭、往後梳、太陽穴細碎髮；T 恤紮進裙頭）＋char_review 截圖、README",
+   "task": "ART-05",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "等 BB-C 的 D59 驗收；README 自己列了沒好的：肩膀鼓一圈、坐下裙子成塊（下一版）。驗收通過才接進遊戲"
   }
  ],
  "ignored": [

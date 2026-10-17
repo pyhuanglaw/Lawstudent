@@ -16,11 +16,11 @@ const NEEDED_MSGS=(function(){
     {id:'an_moot',who:'heroine_01',term:'Y2S2',w:[3,6],tie:true,cond:()=>false/*模擬法庭刪除（使用者 2026-10-17）*/,msg:['分工表第二版。你的格子我畫大了一點。'],reply:'為什麼？',resp:['因為你寫得最慢。……我是說，最仔細。']},
     {id:'an_lead',who:'heroine_01',term:'Y2S2',w:[10,14],cond:G=>att(G,'public_law_group'),msg:['這週讀書會換你帶，可以嗎？'],reply:'好。',resp:['謝謝。我想試試看坐在下面。']},
     // 語彤（AA_179）
-    {id:'yt_auntie',who:'heroine_03',term:'Y2S1',w:[1,18],every:4,cond:noodle,msg:['阿姨問你週四來不來。'],reply:'來。',resp:['嗯。她會多切一顆滷蛋。']},
+    {id:'yt_auntie',who:'heroine_03',term:'Y2S1',w:[1,16],every:4,cond:noodle,msg:['阿姨問你週四來不來。'],reply:'來。',resp:['嗯。她會多切一顆滷蛋。']},
     {id:'yt_fafu',who:'heroine_03',term:'Y2S1',w:[2,2],tie:true,msg:['法服的初談，社會系可以去嗎？'],reply:'可以。妳很適合。',resp:['……嗯。我週六去看看。']},
     {id:'yt_floor',who:'heroine_03',term:'Y2S1',w:[8,9],msg:['期中考你在總圖哪一層？我想找一個不會遇到麵店客人的地方。'],reply:'四樓。最裡面。',resp:['好。……不要跟阿姨說。']},
     {id:'yt_rent',who:'heroine_03',term:'Y2S2',w:[10,12],tie:true,cond:G=>done(G,'ev_yutong_landlord')||!!F(G).RENT_RUMOR,msg:['房東的朋友又來了。……沒事，只是跟你說一聲。'],reply:'要不要我陪阿姨去法服？',resp:['……我再想想。']},
-    {id:'yt_dish',who:'heroine_03',term:'Y2S2',w:[15,17],tie:true,cond:NOT_YET,msg:['阿姨說你上次洗的碗還有油。'],reply:'下次我洗兩次。',resp:['……嗯。']},
+    {id:'yt_dish',who:'heroine_03',term:'Y2S2',w:[14,16],tie:true,cond:NOT_YET,msg:['阿姨說你上次洗的碗還有油。'],reply:'下次我洗兩次。',resp:['……嗯。']},
     // 阿哲（AA_179）
     {id:'zhe_book',who:'zhe',term:'Y2S1',w:[1,4],msg:['債總的課本借我。我的還在學長那。'],reply:'拿去。',resp:['讚。我請你一碗大的。']},
     {id:'zhe_notes',who:'zhe',term:'Y2S1',w:[9,10],tie:true,msg:['民法借我。筆記。全部。'],reply:'好。週四麵店拿。',resp:['你是神。']},
@@ -30,7 +30,7 @@ const NEEDED_MSGS=(function(){
     // 小語（AA_179）
     {id:'yu_expo',who:'yu',term:'Y2S1',w:[2,3],tie:true,msg:['社團博覽會你站哪一攤？我要去偷看。'],reply:'妳來就知道。',resp:['好神秘。我帶阿哲去。']},
     {id:'yu_overtime',who:'yu',term:'Y2S1',w:[6,8],msg:['欸，打工的地方不給加班費，這樣可以嗎？我同學問的。'],reply:'我不能幫她判斷。叫她去問法服，或打勞工局的專線。',resp:['……你好像學姊喔。好啦，我叫她去。']},
-    {id:'yu_gift',who:'yu',term:'Y2S1',w:[16,17],tie:true,cond:G=>done(G,'ev_yu_together')||!!F(G).YU_ZHE_TOLD,msg:['聖誕禮物，阿哲跟我買了一樣的。你不准笑。'],reply:'我沒笑。',resp:['你一定在笑。']},
+    {id:'yu_gift',who:'yu',term:'Y2S1',w:[16,16],tie:true,cond:G=>done(G,'ev_yu_together')||!!F(G).YU_ZHE_TOLD,msg:['聖誕禮物，阿哲跟我買了一樣的。你不准笑。'],reply:'我沒笑。',resp:['你一定在笑。']},
     {id:'yu_clubs',who:'yu',term:'Y2S2',w:[1,3],msg:['這學期我只剩兩個社團了。你猜我退了哪一個？'],reply:'猜不到。',resp:['我退了最不想退的那個。……因為要念書了。']},
     {id:'yu_exam',who:'yu',term:'Y2S2',w:[12,14],msg:['司法官的考古題，你覺得大二開始看會太早嗎？'],reply:'不會。',resp:['好。那我開始了。……不要跟阿哲說，他會說我瘋了。']},
     // 柏翰（AA_179）
@@ -38,7 +38,7 @@ const NEEDED_MSGS=(function(){
     {id:'bh_q3',who:'classmate_bohan',term:'Y2S1',w:[6,8],tie:true,msg:['刑分考古題第三題，你寫哪一說？'],reply:'兩說都寫。',resp:['……考試時間不夠。']},
     {id:'bh_score',who:'classmate_bohan',term:'Y2S1',w:[11,13],tie:true,cond:G=>F(G).BOHAN_GROUP==='ask',msg:['你上次說分數不夠的人。我還在想。'],reply:'想到了跟我說。',resp:['嗯。']},
     {id:'bh_moot',who:'classmate_bohan',term:'Y2S2',w:[7,9],tie:true,cond:()=>false/*模擬法庭刪除（使用者 2026-10-17）*/,msg:['模 3 那天我講話太衝。……沒事。'],reply:'我知道。',resp:['嗯。……下次我先聽以安講完。']},
-    {id:'bh_final',who:'classmate_bohan',term:'Y2S2',w:[16,17],msg:['期末的考古題整理好了。要的話自己拿，不用跟我說謝謝。'],reply:'謝謝。',resp:['……我說不用。']},
+    {id:'bh_final',who:'classmate_bohan',term:'Y2S2',w:[14,15],msg:['期末的考古題整理好了。要的話自己拿，不用跟我說謝謝。'],reply:'謝謝。',resp:['……我說不用。']},
     // 芯慈（AA_179）
     {id:'xc_econ',who:'classmate_xinci',term:'Y2S1',w:[2,4],tie:true,cond:G=>!!F(G).ECON_TOGETHER,msg:['經濟那邊，這學期你還陪我看嗎？'],reply:'好。',resp:['那週三總圖。']},
     {id:'xc_contract',who:'classmate_xinci',term:'Y2S1',w:[10,12],msg:['幫我看一下這份打工的合約。我朋友要簽的。'],reply:'我只能說我看到什麼。要問的話去法服。',resp:['……法律系的人都這樣講話嗎。好啦。']},
@@ -46,7 +46,7 @@ const NEEDED_MSGS=(function(){
     {id:'xc_grade',who:'classmate_xinci',term:'Y2S2',w:[5,7],tie:true,msg:['這次期中，我不想先看以安的成績。你幫我記著。'],reply:'好。',resp:['如果我問你，你就說你忘了。']},
     {id:'xc_moot',who:'classmate_xinci',term:'Y2S2',w:[11,13],tie:true,cond:()=>false/*模擬法庭刪除（使用者 2026-10-17）*/,msg:['模擬法庭，你們隊比我們多準備了什麼？'],reply:'我們去問了一個人。',resp:['……下次我也去問。']},
     // 芷若（BB_97 11-1：整年只有這一則、反過來問他「你想」；沒回不提起）
-    {id:'zr_beans',who:'heroine_02',term:'Y2S1',w:[15,17],tie:true,cond:G=>done(G,'ev_zhiruo_applied'),msg:['新的豆子。你想喝喝看嗎？'],reply:'想。',resp:['……你很少說『想』。週四來。']},   /* Café 常客；Z7 之後（Z7 做好再接）*/
+    {id:'zr_beans',who:'heroine_02',term:'Y2S1',w:[14,16],tie:true,cond:G=>done(G,'ev_zhiruo_applied'),msg:['新的豆子。你想喝喝看嗎？'],reply:'想。',resp:['……你很少說『想』。週四來。']},   /* Café 常客；Z7 之後（Z7 做好再接）*/
     // 子晴（BB_97 11-1）
     {id:'zq_game',who:'heroine_04',term:'Y2S1',w:[1,3],msg:['測試我的遊戲。現在。','……這不是問句。'],reply:'好。連結呢？',resp:['已經傳了。第三關不准跳過。']},
     {id:'zq_dad',who:'heroine_04',term:'Y2S1',w:[11,12],tie:true,msg:['欸不是','我爸下週要來台北','他說要看我做的遊戲'],reply:'他會喜歡的。',resp:['你又不認識他。……好啦。謝謝。']},
@@ -56,7 +56,7 @@ const NEEDED_MSGS=(function(){
     {id:'sis_duty',who:'heroine_05',term:'Y2S1',w:[2,4],tie:true,cond:lawclub,msg:['法服週六缺人。單週，上午。你可以嗎？'],reply:'可以。',resp:['好。兩件事：一，帶筆。二，不要給結論，記下來就好。']},
     {id:'sis_typo',who:'heroine_05',term:'Y2S1',w:[9,11],tie:true,msg:['推甄的資料，幫我看錯字。只看錯字，不要看內容。'],reply:'第二頁第三行。',resp:['……謝謝。內容你也不准記得。']},
     {id:'sis_list',who:'heroine_05',term:'Y2S2',w:[1,3],msg:['家族的學弟妹名單，幫我核一次。交出去以前，我想確定沒有漏掉誰。'],reply:'沒有漏。',resp:['好。……那我放心交了。']},
-    {id:'sis_report',who:'heroine_05',term:'Y2S2',w:[16,18],tie:true,cond:G=>lawclub(G)&&!!F(G).RENT_CONSULTATION,msg:['碩一第一份報告想寫租約。法服那個阿姨的案子，我可以拿來當例子嗎？匿名。'],reply:'先問阿姨。',resp:['……對。先問當事人。你學會了。']},
+    {id:'sis_report',who:'heroine_05',term:'Y2S2',w:[15,16],tie:true,cond:G=>lawclub(G)&&!!F(G).RENT_CONSULTATION,msg:['碩一第一份報告想寫租約。法服那個阿姨的案子，我可以拿來當例子嗎？匿名。'],reply:'先問阿姨。',resp:['……對。先問當事人。你學會了。']},
     // 沛珊（BB_97 11-1）
     {id:'ps_q',who:'classmate_peishan',term:'Y2S1',w:[2,4],tie:true,msg:['讀書會這週的題目，你可以幫我出一題嗎？我出的都太簡單。'],reply:'好。我出一題難的。',resp:['謝謝。……不要難到大家想退出。']},
     {id:'ps_plan',who:'classmate_peishan',term:'Y2S1',w:[6,8],tie:true,cond:G=>done(G,'ev_peishan_decision'),msg:['重考的讀書計畫，我排到明年七月。','……你覺得我瘋了嗎？'],reply:'沒有。',resp:['好。那我就照這個走。']},
@@ -66,7 +66,7 @@ const NEEDED_MSGS=(function(){
     {id:'mx_tutor',who:'classmate_mingxuan',term:'Y2S1',w:[3,5],tie:true,cond:G=>!!F(G).JOB_TUTOR,msg:['家教那家的媽媽問你下學期還來不來 😂'],reply:'會。',resp:['好 我跟她說 👍 你教得比我好 不要傳出去']},
     {id:'mx_toefl',who:'classmate_mingxuan',term:'Y2S1',w:[9,11],msg:['托福作文題目：規則應該為了多數人嗎 🤔 你會怎麼開頭'],reply:'先問：哪一個少數。',resp:['這個開頭會被扣分 哈哈 可是我要用']},
     {id:'mx_seat',who:'classmate_mingxuan',term:'Y2S2',w:[3,4],tie:true,msg:['交換說明會週四中午 幫我佔第一排 我下課跑過去 🏃'],reply:'好。',resp:['以安說她也要坐第一排 那第一排不夠了 😂']},
-    {id:'mx_form',who:'classmate_mingxuan',term:'Y2S2',w:[15,17],tie:true,msg:['交換的志願表 我第一志願改了三次 😂 你明年會填嗎'],reply:'還不知道。',resp:['不知道也是一種答案 👍']},
+    {id:'mx_form',who:'classmate_mingxuan',term:'Y2S2',w:[14,16],tie:true,msg:['交換的志願表 我第一志願改了三次 😂 你明年會填嗎'],reply:'還不知道。',resp:['不知道也是一種答案 👍']},
     // 阿凱（BB_97 11-1）
     {id:'kai_net',who:'kai',term:'Y2S1',w:[1,3],tie:true,msg:['所以新宿舍網路爛到不行 你那邊呢'],reply:'還好。',resp:['所以週日我去你那邊打報告 我帶滷味']},
     {id:'kai_bot',who:'kai',term:'Y2S1',w:[8,10],tie:true,msg:['所以我寫了一個會回答法律問題的聊天機器人 你幫我測'],reply:'它不能給法律結論。',resp:['所以我加一句 請去問法服 這樣可以嗎']},

@@ -36,7 +36,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const A=['（牆上的班表。夾板上一張紙，鉛筆寫的。）','（週一到週五晚上，每一格都是同一個名字：芷若。週一、三、五的中午也是。）','（週末那幾格是阿文、小婷。最下面一行：老闆——隨時。）'];
   let L=await look(termDay('Y1S1',3,6)); check('1. 大一上：A 版三句（逐字）',JSON.stringify(L)===JSON.stringify(A),JSON.stringify(L));
   L=await look(termDay('Y0S1',4,2)); check('1. 經濟系那一年：A 版',JSON.stringify(L)===JSON.stringify(A));
-  const z9=termDay('Y2S2',17,4); L=await look(z9); check('1. 大二下第 17 週週四 15:00（Z9 那晚以前）：A 版',JSON.stringify(L)===JSON.stringify(A));
+  const z9=termDay('Y2S2',15,4); L=await look(z9); check('1. 大二下第 15 週週四 15:00（Z9 那晚以前，AA_243 #62）：A 版',JSON.stringify(L)===JSON.stringify(A));
   fresh(z9,22.5,'cafe'); G.stage='law'; said=[]; await STORY.interact({cafeRota:true},GM); L=said.map(s=>s.t);
   check('2. Z9 那晚 22:30 以後：B 版',L[0]==='（牆上的班表。晚上那幾格，換成了小婷的名字。）'&&L[1]==='（最上面那一行還是「芷若」，格子是空的。旁邊多了一行小字：英國，一學期。）',JSON.stringify(L));
   L=await look(termDay('Y3S1',5,3)); check('2. 大三上：B 版',L[0]==='（牆上的班表。晚上那幾格，換成了小婷的名字。）');

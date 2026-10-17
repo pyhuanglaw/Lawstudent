@@ -66,8 +66,8 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     G.day=r0+5; said.length=0; await EVENTS.run(kai); check('阿凱那兩句',JSON.stringify(lines())===JSON.stringify([CHARACTERS.kai?CHARACTERS.kai.name+'：聽說這裡有電影。':'阿凱：聽說這裡有電影。',nm+'：……這裡是咖啡廳。'])||lines().length===2,JSON.stringify(lines())); }
   /* Z6 */
   { const at=(w,wd,h,o)=>{ o=o||{}; fresh(termDay('Y1S2',w,wd),h,'campus',o.dating?{dating_kexin:true}:{}); if(o.film!==false) SOCIAL.remember('heroine_02',o.group?'WATCHED_FILM_GROUP':'WATCHED_FILM','早場'); return EVENTS.check(z6); };
-    const r={ok:at(15,2,12.5),w16:at(16,1,12.2),w14:at(14,2,12.5),w17:at(17,2,12.5),sat:at(15,6,12.5),late:at(15,2,13.2),dating:at(15,2,12.5,{dating:true}),group:at(15,2,12.5,{group:true}),none:at(15,2,12.5,{film:false})};   /* Z6 改第 15～16 週（AA_198 第 5 節）*/
-    check('Z6：第 15～16 週平日 12–13 在校園、兩個人看過早場、沒有在交往（第 14 週、第 17 週、週六、13:12、交往中、三個人的版本、沒看過都沒有）',r.ok&&r.w16&&!r.w14&&!r.w17&&!r.sat&&!r.late&&!r.dating&&!r.group&&!r.none,JSON.stringify(r));
+    const r={ok:at(15,2,12.5),w16:at(13,1,12.2),w14:at(12,2,12.5),w17:at(16,2,12.5),sat:at(15,6,12.5),late:at(15,2,13.2),dating:at(15,2,12.5,{dating:true}),group:at(15,2,12.5,{group:true}),none:at(15,2,12.5,{film:false})};   /* Z6 改第 13～15 週（AA_243 #50：16 週制）；w16＝第 13 週（窗口第一週）、w14＝第 12 週、w17＝第 16 週 */
+    check('Z6：第 13～15 週平日 12–13 在校園、兩個人看過早場、沒有在交往（第 12 週、第 16 週、週六、13:12、交往中、三個人的版本、沒看過都沒有）',r.ok&&r.w16&&!r.w14&&!r.w17&&!r.sat&&!r.late&&!r.dating&&!r.group&&!r.none,JSON.stringify(r));
     at(17,2,12.5); await EVENTS.run(z6); const F=CHARACTERS.npc_fangyt.name;
     check('Z6 台詞照 AA_209 2-1 第 4 列；FANG_HINT',JSON.stringify(lines())===JSON.stringify([F+'：你最近常去兩點半喔？',F+'：我跟芷若高中同校。她那時候就常一個人去看二輪。',F+'：好，我先去上課了。'])&&SOCIAL.has('npc_fangyt','FANG_HINT'),JSON.stringify(lines()));
     check('記憶的中文說明：WATCHED_FILM、WATCHED_FILM_GROUP、FANG_HINT',['WATCHED_FILM','WATCHED_FILM_GROUP','FANG_HINT'].every(k=>!!SOCIAL.MEMORY_LABEL[k])); }

@@ -222,7 +222,7 @@ const STORY_EVENTS=[
       {speaker:'heroine_02',expression:'embarrassed',text:'很幼稚吧。小孩子的飲料加大人的東西。'},
       {speaker:'heroine_02',expression:'smile',text:'……不要笑。'} ],
     consequences:{mem:[{npc:'heroine_02',tag:'ASKED_HER_DRINK',note:'她下班前，你問她自己都喝什麼'}]} },
-  { id:'ev_zhiruo_secret', title:'十點的電話', participants:['heroine_02'], location:'wenzhou', trigger:'interact', priority:8, once:true, term:['Y1S2'], weeks:[12,13,14,15,16,17,18], weekday:[6], time:[14,18], prereq:{stage:{npc:'heroine_02',min:'FAMILIAR'}}, background:'blur',
+  { id:'ev_zhiruo_secret', title:'十點的電話', participants:['heroine_02'], location:'wenzhou', trigger:'interact', priority:8, once:true, term:['Y1S2'], weeks:[11,12,13,14,15], weekday:[6], time:[14,18], prereq:{stage:{npc:'heroine_02',min:'FAMILIAR'}}, background:'blur',
     dialogue:[ {speaker:'heroine_02',expression:'neutral',text:'週六我都在溫州街。這裡的人不會問我週末在幹嘛。'},
       {speaker:'heroine_02',expression:'thinking',text:'交換的申請，我拖了兩個月。不是懶。'},
       {speaker:'heroine_02',expression:'neutral',text:'我媽每天晚上十點打給我。講店裡的事。'},
@@ -437,7 +437,7 @@ const STORY_EVENTS=[
      沛珊 P0：大地遊戲同一組、「奇怪的問題」只在這裡一次；記 FIRST_MET（participants）＋聯絡方式（迎新的群組）。第一句、「輪到你。」、大地遊戲那句是 LAWWW 加的場景說明（等 AA 看）*/
   /* 民總報告分組的補救（AA_160 3-4 C、R3，AA-B 2026-10-16 寫的台詞）：第 4、5 週民總都沒去、分組事件沒演過——第 6 週起第一次在教室或總圖遇到以安，
      她說把你寫進她那組了；記同一個 REPORT_PARTNER（備註 assigned_absent）＋REPORT_PARTNER_LATE，後面讀 REPORT_PARTNER 的事件照常接。分組是事實、不是玩家經歷的場面（R4）*/
-  { id:'ev_an_report_split_late', title:'民總的報告（分組那天你沒來）', participants:['heroine_01'], location:['classroom','library','library_hall'], trigger:'auto', near:{npc:'heroine_01',r:5}, term:['Y1S1'], weeks:[6,7,8,9,10,11,12,13,14,15,16], once:true, keep:'must', background:'blur',
+  { id:'ev_an_report_split_late', title:'民總的報告（分組那天你沒來）', participants:['heroine_01'], location:['classroom','library','library_hall'], trigger:'auto', near:{npc:'heroine_01',r:5}, term:['Y1S1'], weeks:[6,7,8,9,10,11,12,13,14,15], once:true, keep:'must', background:'blur',
     prereq:{flags:['afternoonDone'],notEvents:['ev_an_report_split'],notMemory:[{npc:'heroine_01',tag:'REPORT_PARTNER'}]},
     dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'民總的報告，老師分組那天你沒來。'},{speaker:'heroine_01',expression:'smile',text:'我把你寫在我這組了。……不用謝。理由：剩下的人裡，你最不會遲交。'} ],
     consequences:{mem:[{npc:'heroine_01',tag:'REPORT_PARTNER',note:'分組那天沒來，以安把你寫進她那組'}],flags:{REPORT_PARTNER_LATE:'assigned_absent'}} },
@@ -1028,7 +1028,7 @@ const STORY_EVENTS=[
       {label:'dep'},{speaker:'kai',expression:'laugh',text:'你們法律系每次都這樣。'},{mem:[{npc:'kai',tag:'SAID_DEPENDS',note:'颱風夜的泡麵：「不可抗力？」「看情況。」'}]},
       {label:'end'} ],
     consequences:{flags:{TYPHOON_Y1:true},memo:'颱風假：宿舍的泡麵之夜'} },
-  /* 跨年（交付清單 A21：交接包_v1 第 3 節、AA_71 2-7、BB_95 9-7）：第 18 週 12/31（期末考中間）。一週前可昕問「跨年要不要去人少的地方？」（story3d.js 的 phoneRules）：
+  /* 跨年（交付清單 A21：交接包_v1 第 3 節、AA_71 2-7、BB_95 9-7）：12/31（16 週制：寒假裡，AA_204）。一週前可昕問「跨年要不要去人少的地方？」（story3d.js 的 phoneRules）：
      「好。」＝河堤（出遊，和 K1b 的河堤共用背景；回宿舍的路上麵店團群組傳頂樓的照片）；「我答應麵店團要去頂樓了。」＝宿舍頂樓，零點前一分鐘她打視訊來（不扣分；她不在這裡和麵店團見面）。
      沒有回她、在麵店團群組裡的玩家照 AA 的群戲去頂樓（沒有視訊）。記 KX_NYE:{1:'river'|'roof'}（BB_107 第 13 節：節日每年一筆）*/
   { id:'ev_nye_river', title:'跨年', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
@@ -1076,7 +1076,7 @@ const STORY_EVENTS=[
   /* 明軒 F-M4 家教的弟弟（BB_96 3-2；AA_72 第 3 節；V2-B32＋SYS-13 最小版）：大一下第 3 週起、校園、平日 15:30～18:00（他的作息）、SAW_HIM_STUDY 或和他「熟悉」以上、只一次。
      「好。」＝JOB_TUTOR（每週一次的家教，story3d.js 排出遊 ev_tutor_lesson）；「我先想想。」＝名額留到月底：月底前一週他私訊再問，過了月底「名額給別人了。」。
      哪一天：答應的時候選週二或週四（AA_163 第 2 節①、BB_161 ⑪；TUTOR_WD，舊存檔沒有＝週二）；做多久、沒去那一週等照 AA_163 第 2 節（SYS-13）*/
-  { id:'ev_mingxuan_tutor_intro', title:'家教的弟弟', participants:['classmate_mingxuan'], location:'campus', trigger:'interact', priority:6, once:true, term:['Y1S2'], weeks:[3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18], weekday:[1,2,3,4,5], time:[15.5,18], background:'blur',
+  { id:'ev_mingxuan_tutor_intro', title:'家教的弟弟', participants:['classmate_mingxuan'], location:'campus', trigger:'interact', priority:6, once:true, term:['Y1S2'], weeks:[3,4,5,6,7,8,9,10,11,12,13,14,15], weekday:[1,2,3,4,5], time:[15.5,18], background:'blur',
     prereq:{any:[{memory:[{npc:'classmate_mingxuan',tag:'SAW_HIM_STUDY'}]},{stage:{npc:'classmate_mingxuan',min:'FAMILIAR'}}]},
     dialogue:[ {speaker:'classmate_mingxuan',expression:'neutral',text:'欸，你要不要接一個家教？'},{speaker:'classmate_mingxuan',expression:'neutral',text:'我學生的弟弟，國中，要補公民。我排不下了。'},{speaker:'narrator',text:'你想起公園公布欄的那張紙。',if:{custom:G=>typeof PARK!=='undefined'&&PARK.tutorAdEcho(G)}},   /* 看過小公園公布欄的家教廣告（AA_171 第 2 節；一般狀態 G.daily.park.sawTutorAd，只有這句旁白讀）*/
       {speaker:'classmate_mingxuan',expression:'neutral',text:'我們法律系教國中公民應該還行吧？'},/* AA_209 附錄B §2 */{speaker:'classmate_mingxuan',expression:'smile',text:'時薪我幫你談好了。不能比我低。'},
@@ -1105,7 +1105,7 @@ const STORY_EVENTS=[
   /* 語彤 6：房東來過了（交接包 v2 C12；AA_11 事件 6）：大一下第 10 週以後，第一次在週二或週四晚上去麵店（同班圈固定儀式）；once；玩家一直沒去就不發生。
      流程 1～4 照 AA_11 的字寫成旁白；問的選項只在和語彤有 FIRST_MET 時出現（選項的字 AA 180c8ff 定：「剛剛那個人是誰？」／（不問，低頭吃麵））；問了才記 RENT_RUMOR */
   { id:'ev_yutong_landlord', title:'房東來過了', participants:['heroine_03'], location:'noodle', trigger:'enter', weekday:[2,4], time:[17.5,20.5], once:true,
-    term:['Y1S2'], weeks:[10,11,12,13,14,15,16,17,18], background:'freeze',   /* 只在大一下（AA_11：「事件 6 只在大一下去麵店時發生」）*/
+    term:['Y1S2'], weeks:[10,11,12,13,14,15], background:'freeze',   /* 只在大一下（AA_11：「事件 6 只在大一下去麵店時發生」）*/
     dialogue:[ {speaker:null,text:'一個穿西裝的中年人拿著捲尺量店面的寬度，跟阿姨講了幾句就走。'},{speaker:null,text:'阿姨把湯勺放下，站著不動，然後又拿起來。'},
       {speaker:'zhe',expression:'neutral',text:'（小聲）那誰？'},{speaker:null,text:'語彤端麵過來。'},{speaker:'阿姨',text:'沒事啦，房東的朋友，來看房子。'},
       {speaker:null,text:'（語彤放下碗）'},{speaker:'heroine_03',expression:'neutral',text:'……嗯。'},
@@ -1316,7 +1316,7 @@ const STORY_EVENTS=[
   /* 沛珊 P3b「課輔班的下午」（BB_96 3-3，交接包 v2）：大一下第 5 週起，週二或週四 16:30–18:00 走進溫州街，P2（ev_peishan_doubt）之後、只一次。
      她不用在 3D 裡出現：直接換成 2D 背景「溫州街・課輔班門口」（圖還沒有＝深色底＋字幕）。第二個選項只給去過法服讀書會的玩家（CLUB_lawclub_study）。
      記 SAW_HER_TEACH（大二 P3「我要重考。去念教育」的伏筆；不寫成憂鬱或逃避）*/
-  { id:'ev_peishan_tutoring', title:'課輔班的下午', participants:['classmate_peishan'], location:'wenzhou', trigger:'enter', term:['Y1S2'], weeks:[5,6,7,8,9,10,11,12,13,14,15,16,17,18], weekday:[2,4], time:[16.5,18], once:true, background:'dark',
+  { id:'ev_peishan_tutoring', title:'課輔班的下午', participants:['classmate_peishan'], location:'wenzhou', trigger:'enter', term:['Y1S2'], weeks:[5,6,7,8,9,10,11,12,13,14,15], weekday:[2,4], time:[16.5,18], once:true, background:'dark',
     prereq:{events:['ev_peishan_doubt']},
     dialogue:[ {scene:'溫州街・課輔班門口',bg:'wenzhou_tutoring'},
       {speaker:null,text:'她帶著一群國小生從課輔班走出來，手上拿著一疊作業本。'},
@@ -2682,8 +2682,8 @@ const STORY_EVENTS=[
       {label:'c'},{speaker:'heroine_01',expression:'neutral',text:'這不算。'},{speaker:null,text:'她停了一下。'},{speaker:'heroine_01',expression:'smile',text:'……好，算一點。'},
       {label:'end'},{set:{AN_TUTOR_FAMILY:1}} ] },
   /* D10 慈 3「第二名」（AA_40、AA_177 第 5 節：寫成芯慈的作息）：大二上第 14～18 週，週一到週四的深夜（隔天 00:15～00:45）她在溫州街的便利商店，第一次遇到就演；
-     第 18 週以後沒遇到＝不演。記 XINCI_SECOND（慈 4 的背景；主線 4 xc_drama「那部劇大結局了」在這之後）*/
-  { id:'ev_xinci_second', title:'第二名', participants:['classmate_xinci'], location:'cvs', trigger:'auto', term:['Y2S1'], weeks:[14,15,16,17,18], weekday:[1,2,3,4], time:[0.25,0.75], once:true, near:{npc:'classmate_xinci',r:4}, background:'blur',
+     第 15 週以後沒遇到＝不演（AA_243 #20：16 週制改第 12～15 週）。記 XINCI_SECOND（慈 4 的背景；主線 4 xc_drama「那部劇大結局了」在這之後）*/
+  { id:'ev_xinci_second', title:'第二名', participants:['classmate_xinci'], location:'cvs', trigger:'auto', term:['Y2S1'], weeks:[12,13,14,15], weekday:[1,2,3,4], time:[0.25,0.75], once:true, near:{npc:'classmate_xinci',r:4}, background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows('classmate_xinci',G)},
     dialogue:[ {speaker:null,text:'（芯慈在買咖啡，手機在放韓劇，沒有關聲音。）'},
       {speaker:'classmate_xinci',expression:'neutral',text:'（把手機轉靜音，很鎮定）……這是一部很重要的劇。'},{speaker:'classmate_xinci',expression:'neutral',text:'這是我一天裡唯一不用跟別人比的時間。'},
@@ -2733,7 +2733,7 @@ const STORY_EVENTS=[
     dialogue:[ {speaker:null,text:'（白板上多了一張表：每個人上週小考的分數。）'},{speaker:'classmate_bohan',expression:'neutral',text:'這樣比較有效率。'},{speaker:null,text:'（以安看了白板一眼，沒說話，繼續發講義。）'},   /* AA_222：以安不出聲 */
       {choice:[{text:'「沛珊說不要變成比分數的地方。」',set:{HAN3_TALKED:true},goto:'talk'},{text:'（什麼都不做）'}]},{goto:'end'},
       {label:'talk'},{speaker:'classmate_bohan',expression:'neutral',text:'她走了。'},{label:'end'} ] },
-  { id:'ev_bohan_scores_month', title:'讀書會', participants:[], location:'wancai', trigger:'club', term:['Y2S2'], weeks:[6,7,8,9,10,11,12,13,14,15,16,17,18], weekday:[4], once:true, background:'blur',
+  { id:'ev_bohan_scores_month', title:'讀書會', participants:[], location:'wancai', trigger:'club', term:['Y2S2'], weeks:[6,7,8,9,10,11,12,13,14,15], weekday:[4], once:true, background:'blur',
     prereq:{custom:G=>!G.flags.STUDYGROUP_LEADER},
     dialogue:[ {speaker:null,text:'（來對題目的人從十二個變五個。）'} ] },
   /* 沛珊 P4b 在 Café 的那一次（BB_97 4-4、AA_177 第 8 節②）：第 8 週週六 4/17，12:30 她傳「總圖滿了。兩點半，靠窗。」（story3d.js）→ 13:00～15:00 走進 Café 就演；可以錯過。
@@ -3314,8 +3314,8 @@ const STORY_EVENTS_V11=[
       {label:'b'},{speaker:'heroine_02',expression:'smile',text:'真的？那下次是早場。你說的，我記下來了。'},
       {label:'end'},{speaker:'heroine_02',expression:'smile',text:'今天這部，叫《晚春》。你不用記片名。記得是午場就好。'},{set:{ZR_MATINEE_SEEN:true}} ],
     after:G=>{ if(typeof SOCIAL==='undefined') return; const d=!!GFN(G,'heroine_02'); SOCIAL.remember('heroine_02',d?'WATCHED_FILM_GROUP':'WATCHED_FILM',d?'《晚春》的午場（三個人）':'《晚春》的午場'); if(!d) SOCIAL.adjust('heroine_02',{aff:3}); } },
-  /* 方奕廷 Z6「隔壁房的人記得的事」（BB_96 3-6；交接包 v2）：大一下第 16～18 週（第 17 週左右）平日 12–13 在校園找他說話；前置 WATCHED_FILM（兩個人看的那一版）、玩家沒有在交往、只一次。記 FANG_HINT */
-  { id:'ev_fangyt_hint', title:'隔壁房的人記得的事', participants:['npc_fangyt'], location:'campus', trigger:'interact', priority:7, once:true, term:['Y1S2'], weeks:[15,16], weekday:[1,2,3,4,5], time:[12,13], background:'blur',
+  /* 方奕廷 Z6「隔壁房的人記得的事」（BB_96 3-6；交接包 v2）：大一下第 13～15 週（AA_243 #50：16 週制）平日 12–13 在校園找他說話；前置 WATCHED_FILM（兩個人看的那一版）、玩家沒有在交往、只一次。記 FANG_HINT */
+  { id:'ev_fangyt_hint', title:'隔壁房的人記得的事', participants:['npc_fangyt'], location:'campus', trigger:'interact', priority:7, once:true, term:['Y1S2'], weeks:[13,14,15], weekday:[1,2,3,4,5], time:[12,13], background:'blur',
     prereq:{memory:[{npc:'heroine_02',tag:'WATCHED_FILM'}],custom:G=>!GFN(G,'heroine_02')},
     dialogue:[ {speaker:'npc_fangyt',expression:'neutral',text:'你最近常去兩點半喔？'},   /* AA_209 2-1 第 4 列（BB_180；取代 AA_209 第 2 節和附錄 B 的版本）*/
       {speaker:'npc_fangyt',expression:'neutral',text:'我跟芷若高中同校。她那時候就常一個人去看二輪。'},
@@ -3323,7 +3323,7 @@ const STORY_EVENTS_V11=[
       {mem:[{npc:'npc_fangyt',tag:'FANG_HINT',note:'他說了芷若高中的事'}]} ] },
   /* 芷若 Z7「23:59」（BB_97 3-4，2026-10-16 18:2x 最終版：使用者「不要出現『交了』沒有上下文的台詞」；V3-B18）：外文系交換申請截止 2026-12-10（四）（AA-B b95cea49）。
      那晚 23:59 她私訊三則（英國那一間、十一點五十九分、下次你來店裡再說；story3d.js；祐廷有伴侶而且她知道＝沒有這三則，AA_112 8-1）。
-     截止之後第一次走進 Café 就演，到大二上結束（第 18 週）都可以（原本七天）；開頭分「收到深夜訊息／沒收到」兩版。「妳跟妳媽說了嗎？」＝當晚 22:15 再一則（所以只在 22:00 以前演）。
+     截止之後第一次走進 Café 就演，到大二上結束（第 16 週）都可以（原本七天）；開頭分「收到深夜訊息／沒收到」兩版。「妳跟妳媽說了嗎？」＝當晚 22:15 再一則（所以只在 22:00 以前演）。
      大二上結束都沒去：寒假第一天 21:00 一則；之後 Z7b（1/28，story3d.js）。之後 ev_zhiruo_bell 的「妳的交換申請交了嗎？」不再出現 */
   { id:'ev_zhiruo_applied', title:'她交件了', participants:['heroine_02'], location:'cafe', trigger:'auto', priority:9, once:true, term:['Y2S1'], time:[11,22], background:'blur',
     prereq:{events:['ev_zhiruo_secret'],memory:[{npc:'heroine_02',tag:'SHARED_SECRET'}],custom:G=>{ if(typeof STORY==='undefined'||!STORY.dayOfKey) return false; const d=STORY.dayOfKey('2026-12-10'); return d!=null&&G.day>d; }},
@@ -3343,7 +3343,7 @@ const STORY_EVENTS_V11=[
       {label:'end'},{speaker:'heroine_02',expression:'smile',text:'今天的咖啡我請。'} ],
     consequences:{stamp:['zrAppliedDay']} },
   // ── 語彤 arc ──
-  { id:'ev_yutong_customer', title:'麵店的糾紛', participants:['heroine_03'], location:'noodle', trigger:'interact', priority:9, once:true, minWeek:{term:'Y1S1',week:15}, term:['Y1S1','Y1S2'],   /* 只在大一（大一上第 15 週～大一下第 18 週；AA_140 G47 AA-B 裁定：沒觸發就不演，大二的事件 7 不依賴它）*/   /* 交接包 v1 A6 的週次：第 15 週起（v1 稽核：原本沒有下限）*/ prereq:{memory:[{npc:'heroine_03',tag:'SHARED_MEAL'}],custom:G=>{ if(typeof STORY==='undefined'||!STORY.fafuSat) return true; const f=STORY.fafuSat(G.day); return !!f&&f.wk<=1; }}, background:'blur',   /* AA-B 2026-10-16（G47 邊界）：下一個法服值班的週六在這週或下週才演；更遠（例如期中考週、寒假前）就先等，等到值班週六進到兩週內 */
+  { id:'ev_yutong_customer', title:'麵店的糾紛', participants:['heroine_03'], location:'noodle', trigger:'interact', priority:9, once:true, minWeek:{term:'Y1S1',week:15}, term:['Y1S1','Y1S2'],   /* 只在大一（大一上第 15 週～大一下第 16 週；AA_140 G47 AA-B 裁定：沒觸發就不演，大二的事件 7 不依賴它）*/   /* 交接包 v1 A6 的週次：第 15 週起（v1 稽核：原本沒有下限）*/ prereq:{memory:[{npc:'heroine_03',tag:'SHARED_MEAL'}],custom:G=>{ if(typeof STORY==='undefined'||!STORY.fafuSat) return true; const f=STORY.fafuSat(G.day); return !!f&&f.wk<=1; }}, background:'blur',   /* AA-B 2026-10-16（G47 邊界）：下一個法服值班的週六在這週或下週才演；更遠（例如期中考週、寒假前）就先等，等到值班週六進到兩週內 */
     /* 語彤事件 3 改寫版（AA_11 事件 3；交接包 v1 第 1 節，2026-10-14）：大一的祐廷誠實地「不知道」。不出任何法律題目、不給錄音證據的法律結論。
        選「我知道誰會知道」：祐廷第一次私訊學姊（yutongAskSisDay），學姊當晚 22:30 回（BB_95 4-3），截圖轉給語彤：「……法服是什麼？」（大二她加入法服的伏筆；story3d.js 的 phoneRules）。
        裝懂：她記得（BLUFFED；大二第一次在麵店會問「這次你會說不知道嗎？」——AA_236 A4：語彤不加入法服）。結果三種都一樣：阿姨週六去了法服（ev_yutong_customer_after）*/
@@ -3377,7 +3377,7 @@ const STORY_EVENTS_V11=[
      Q4（CONTEST_DAY）或 Q5（CLAPPED）任一發生過＋有點熟以上；大一下第 11 週以後、週一三晚上吉他社的時段（萬才館；交往中的玩家也是社課時段，旁邊還有社員）。
      Q4 沒遇到的玩家，Q5（第 14 週成發）之後才會有。記 PLAYTESTED（新）；第三個選項 FIRST_BUG（第 5 節「插座修好了」）。表情 serious → laugh（第一次 embarrassed 留給 Q5）。
      id 不改：舊存檔演過的不再演。好感數字、所有玩家都在社課時段、找插座的三句旁白：BB b395706（2026-10-14 補）*/
-  { id:'ev_ziqing_secret_game', title:'她在做的東西', participants:['heroine_04'], location:'wancai', trigger:'interact', priority:9, once:true, term:['Y1S2'], weeks:[11,12,13,14,15,16,17,18], weekday:[1,3], time:[19,21],
+  { id:'ev_ziqing_secret_game', title:'她在做的東西', participants:['heroine_04'], location:'wancai', trigger:'interact', priority:9, once:true, term:['Y1S2'], weeks:[11,12,13,14,15], weekday:[1,3], time:[19,21],
     prereq:{stage:{npc:'heroine_04',min:'FAMILIAR'},custom:G=>typeof SOCIAL!=='undefined'&&(SOCIAL.has('heroine_04','CONTEST_DAY')||SOCIAL.has('heroine_04','CLAPPED'))}, background:'blur',
     dialogue:[ {speaker:'heroine_04',expression:'serious',text:'（把筆電轉過來）欸，你幫我玩一下，現在。'},{speaker:'heroine_04',expression:'serious',text:'一隻在校園裡找插座的貓，我做半年了。'},{speaker:'heroine_04',expression:'neutral',text:'還沒給別人玩過。阿凱看過，可是他是工程師，不算。'},   /* AA_209 附錄B §2 */
       {speaker:null,text:'（你接過筆電。一隻灰白色的小貓，脖子掛著一支沒電的手機。）'},{speaker:null,text:'（你點了三個地方：文學院的走廊、霖澤館的穿堂、總圖二樓靠窗那排。）'},{speaker:null,text:'（最後一個插座，貓坐下來，手機上的電池滿了。剛好三十秒。）'},

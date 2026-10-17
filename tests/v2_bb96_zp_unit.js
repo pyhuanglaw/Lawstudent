@@ -35,8 +35,8 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   if(!z||!p){ console.log('FAILED '+fails); process.exit(1); }
   /* Z4 */
   { const at=(term,w,wd,h,zone,fam)=>{ fresh(termDay(term,w,wd),h,zone||'wenzhou'); SOCIAL.meet('heroine_02','cafe'); R('heroine_02',fam==null?25:fam); return EVENTS.check(z); };
-    const r={ok:at('Y1S2',12,6,15),w16:at('Y1S2',16,6,17.5),w11:at('Y1S2',11,6,15),sun:at('Y1S2',12,7,15),late:at('Y1S2',12,6,18.2),cafe:at('Y1S2',12,6,15,'cafe'),y1s1:at('Y1S1',12,6,15),acq:at('Y1S2',12,6,15,'wenzhou',10)};
-    check('Z4：大一下第 12 週以後的週六 14–18、溫州街、有點熟以上（第 11 週、週日、18:12、Café、大一上、只是認識都沒有）',r.ok&&r.w16&&!r.w11&&!r.sun&&!r.late&&!r.cafe&&!r.y1s1&&!r.acq,JSON.stringify(r));
+    const r={ok:at('Y1S2',12,6,15),w16:at('Y1S2',15,6,17.5),w11:at('Y1S2',10,6,15),w16b:at('Y1S2',16,6,15),sun:at('Y1S2',12,7,15),late:at('Y1S2',12,6,18.2),cafe:at('Y1S2',12,6,15,'cafe'),y1s1:at('Y1S1',12,6,15),acq:at('Y1S2',12,6,15,'wenzhou',10)};
+    check('Z4：大一下第 11～15 週的週六 14–18（AA_243 #23）、溫州街、有點熟以上（第 10 週、第 16 週、週日、18:12、Café、大一上、只是認識都沒有）',r.ok&&r.w16&&!r.w11&&!r.w16b&&!r.sun&&!r.late&&!r.cafe&&!r.y1s1&&!r.acq,JSON.stringify(r));
     const sch=(CHARACTERS.heroine_02.daily_schedule||[]).find(e=>e.days.includes(6)&&e.zone==='wenzhou');
     check('她週六 14–18 照作息在溫州街（走得到）',!!sch&&sch.from<=14&&sch.to>=18,JSON.stringify(sch));
     const play=async(pick,dating)=>{ fresh(termDay('Y1S2',12,6),15,'wenzhou',dating?{dating_kexin:true}:{}); SOCIAL.meet('heroine_02','cafe'); R('heroine_02',25,10,10); const r0=Object.assign({},SOCIAL.rel('heroine_02')); picks=[pick]; await EVENTS.run(z); const r1=SOCIAL.rel('heroine_02'); return {L:lines(),d:{trust:r1.trust-r0.trust,aff:(r1.aff||0)-(r0.aff||0),comf:r1.comf-r0.comf,resp:(r1.resp||0)-(r0.resp||0)}}; };
