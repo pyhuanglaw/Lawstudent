@@ -2267,7 +2267,7 @@ const STORY_EVENTS=[
       {rel:{econ_zhengxun:{trust:1}}} ],
     after:(G,GM)=>{ if(G.hour<12.5) GM.advance(12.5-G.hour); } },
   /* 重考期 R 系列（BB_112 第 4 節＋4-1 AB-38，BB-B 4380b0eb；AA_154 A39／A45；AA_224 第 6 組 @31708531：兩個人都休學，讀書的地方＝祐廷家的餐桌）。時間、窗口、沒去的照片在 story3d.js（rArrived、phoneRules）。
-     讀書日：她到他家的餐桌（在家的選單那一輪演，trigger:'home'）＝ev_y0_r1（2/15，她第一次來你家）／ev_y0_r5（4/2）／ev_y0_r2（第 8 週第一個讀書日）／ev_y0_rs（其他日子，一句輪流 S1～S5）；每天只一次（RT_KX）。
+     讀書日：她到他家的餐桌（在家的選單那一輪演，trigger:'home'）＝ev_y0_r1（2/15，她搬來的第一天：AA_272 b16a0761，使用者「2/13 休學以後住我家」）／ev_y0_r5（4/2）／ev_y0_r2（第 8 週第一個讀書日）／ev_y0_rs（其他日子，一句輪流 S1～S5）；每天只一次（RT_KX）。
      R1 沒演到：「我發現我喜歡吵贏……」移到下一次（R1B）。玩樂日：ev_y0_r3／ev_y0_r6／ev_y0_rp（旁白一句輪流 P1～P6），habit retake:play。R4、R7 照日期 */
   ...(()=>{ const ST=()=>typeof STORY!=='undefined'?STORY:null, kxAt=k=>({custom:G=>{ const S=ST(); return !!S&&S.rArrived(G)&&S.rStudyKind(G)===k; }});
     const R1B=[{if:{custom:G=>!(G.events.done&&G.events.done.ev_y0_r1)&&!G.flags.R1_LINE},speaker:'kexin',text:'我昨天想一題想到睡不著。等一下要跟你吵。'},{if:{custom:G=>!(G.events.done&&G.events.done.ev_y0_r1)&&!G.flags.R1_LINE},set:{R1_LINE:true}}];
@@ -2278,7 +2278,7 @@ const STORY_EVENTS=[
       .forEach((L,i)=>{ for(const t of L){ const narr=/^（/.test(t); rsLines.push({if:{custom:G=>{ const S=ST(); return !!S&&S.rsPick(G)===i; }},speaker:narr?null:'kexin',text:narr?t:t.replace(/^「|」$/g,'')}); } });
     const rpLines=[{if:{custom:G=>!!G.flags.RP_TXT},speaker:null,text:'{flag:RP_TXT}'}];   /* 出門前（beforeOuting）選好那一句 */
     return [
-      study('ev_y0_r1','互相出題的第一天','r1',[ {speaker:null,text:'（她第一次來你家。你媽端了一盤水果出來，放下就回廚房了。）'},{scene:'祐廷家・餐桌',bg:'home_living_day'},{speaker:'kexin',text:'如果憲法是一間餐廳，第七條是什麼菜？'},
+      study('ev_y0_r1','互相出題的第一天','r1',[ {speaker:null,text:'（她搬來的第一天。你媽端了一盤水果出來，放下就回廚房了。）'},{scene:'祐廷家・餐桌',bg:'home_living_day'},{speaker:'kexin',text:'如果憲法是一間餐廳，第七條是什麼菜？'},
         {choice:[{text:'「白飯。每一桌都有，每個人拿到的一樣多。」',goto:'a'},{text:'「套餐。男女、宗教、種族、階級、黨派，都是同一份菜單。」',goto:'b'},{text:'「主廚推薦。主廚說了算。」',goto:'c'}]},
         {label:'a'},{speaker:'kexin',text:'不行。平等不是每個人拿到一模一樣。'},{speaker:'kexin',text:'牙齒不好的客人，那碗可以煮軟一點。只要有理由。'},{goto:'e'},
         {label:'b'},{speaker:'kexin',text:'條文背得很好。'},{speaker:'kexin',text:'可是門口寫的那五種客人只是舉例。沒寫到的客人，也不能隨便被請出去。'},{goto:'e'},
@@ -2320,7 +2320,7 @@ const STORY_EVENTS=[
      兩個事件同一段台詞：ev_y0_e35＝在外面（3D，或電話版時人不在家）；ev_y0_e35h＝電話版時人在臺北的家（home3d.js 選單那一輪演）。
      去了的玩家演完直接回家（AA_154 A41 ⑤：22:00 以前到家；旁白不加，LAWWW 定）*/
   ...(()=>{ const D=G=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-07-10'):null;
-    const lines=[ {if:{flags:['E35_PHONE']},speaker:null,text:'（電話裡，她那邊有翻紙的聲音。）'},{unless:{flags:['E35_PHONE']},speaker:null,text:'（你家樓下。她要回家了。路燈。她手上拿著准考證，翻過來又翻回去。）'},
+    const lines=[ {if:{flags:['E35_PHONE']},speaker:null,text:'（電話裡，她那邊有翻紙的聲音。）'},{unless:{flags:['E35_PHONE']},speaker:null,text:'（你家樓下。她說想下來走一下。路燈。她手上拿著准考證，翻過來又翻回去。）'},
       {speaker:'kexin',text:'准考證我看了第四次了。'},{speaker:'kexin',text:'考完要去哪？先講好，我才睡得著。'},
       {choice:[{text:'「海邊。」',set:{E35_PLAN:'sea'},goto:'a'},{text:'「睡一整天。」',set:{E35_PLAN:'sleep'},goto:'b'},{text:'「妳選一家。」',set:{E35_PLAN:'shop'},goto:'c'}]},
       {label:'a'},{speaker:'kexin',text:'海邊喔。那我帶一顆西瓜。'},{goto:'end'},
