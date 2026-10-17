@@ -74,12 +74,24 @@ const W3 = (function(){
     o.traverse(m=>{ if(m.isMesh&&m.material&&m.material.name==='lamp_lens'){ m.material=lampMat.lens||(lampMat.lens=new THREE.MeshBasicMaterial({color:0xfff2c8})); lens=m; } });
     g.add(o); g.userData={lamp:lens,lightPos:new THREE.Vector3(0,3.9,0.75),formal:'prop.street'}; return g; }
   const formalFrameGeo={}, bikeMat={};
-  function formalBike(color){ const s=formalSrc('bike_city'); if(!s) return null; const g=new THREE.Group(), o=formalCopy(s), col=new THREE.Color(color||'#3a6fb0');
+  function formalBike(color,kind){ const s=(kind&&formalSrc(kind))||formalSrc('bike_city'); if(!s) return null; const g=new THREE.Group(), o=formalCopy(s), col=new THREE.Color(color||'#3a6fb0');
     o.traverse(m=>{ if(!m.isMesh) return; const n=m.material&&m.material.name; m.castShadow=n!=='bike_alpha'&&n!=='bike_metal'; m.receiveShadow=true;
       if(n==='bike_frame'){ const k=m.geometry.uuid+col.getHexString(); let geo=formalFrameGeo[k];
         if(!geo){ geo=m.geometry.clone(); const N=geo.attributes.position.count, a=new Float32Array(N*3); for(let i=0;i<N;i++){ a[i*3]=col.r; a[i*3+1]=col.g; a[i*3+2]=col.b; } geo.setAttribute('color',new THREE.BufferAttribute(a,3)); formalFrameGeo[k]=geo; }
         m.geometry=geo; m.material=bikeMat.formalFrame||(bikeMat.formalFrame=Object.assign(m.material.clone(),{vertexColors:true})); } });
     g.add(o); g.rotation.y=Math.PI/2; g.userData.formal='prop.street'; return g; }
+  /* 腳踏車多款式（LAWWW2-B，street_props.py；使用者 2026-10-16：「腳踏車機車全部都是同一個款式……路上不會全部都一樣」）：
+     停車架、路邊停的車照比例混搭（淑女車、公共單車形式、媽媽車、公路車、登山車、小折、老鐵馬）；每一款有自己常見的車架顏色（淑女車照呼叫者給的顏色）。
+     NPC 騎的車照舊用 bike()（淑女車：座墊、把手的位置和騎車的姿勢對得上）。kind 指定款式（腳踏車行的騎樓、櫥窗）。沒有正式模型時照舊用程序化的淑女車 */
+  /* ART-BIKES2-F（LAWWW2-C 2026-10-17）：淑女車再分四款（鐵絲籃、籃子裡有東西、拆掉籃子、塑膠籃），合計還是 0.33；老鐵馬的車架是褪色的顏色（擋泥板、貨架的鏽在模型的頂點色）。
+     maxLen：導航阻擋只有 1.7 m 的路邊位置不放 1.8 m 以上的長車（老鐵馬 1.86、登山車 1.83），改成淑女車 */
+  const BIKE_KINDS=[['bike_city',0.15],['bike_city_load',0.07],['bike_city_open',0.06],['bike_city_pbask',0.05],['bike_share',0.22],['bike_city_child',0.06],['bike_road',0.11],['bike_mtb',0.12],['bike_fold',0.09],['bike_old',0.07]];
+  const BIKE_LEN={bike_old:1.86,bike_mtb:1.83};
+  const BIKE_COL={bike_share:['#d9a23c'],bike_old:['#3a3d3a','#4a5a4c','#55463d','#3e4650'],bike_road:['#e9e9e6','#1d1f22','#b8262b','#2b4f8c','#9ea3a8'],bike_mtb:['#1d1f22','#4f5a3c','#d65a2a','#e9e9e6','#2b4f8c'],bike_fold:['#e9e9e6','#b8262b','#2b4f8c','#c9a227','#1d1f22']};
+  let bikeSeq=0;
+  function bikeAny(color,seed,kind,maxLen){ const t=Math.sin((seed==null?++bikeSeq:seed)*12.9898+4.1)*43758.5453, h=t-Math.floor(t);
+    if(!kind){ let r=h; kind='bike_city'; for(const [k,w] of BIKE_KINDS){ if((r-=w)<=0){ kind=k; break; } } if(maxLen&&(BIKE_LEN[kind]||1.7)>maxLen) kind='bike_city'; }
+    const cs=BIKE_COL[kind], c=cs?cs[Math.floor(((h*97.13)%1)*cs.length)]:color; const f=formalBike(c||color,kind); if(f){ f.userData.bikeKind=kind; return f; } return bike(color); }
   function formalBench(){ const s=formalSrc('bench_park'); if(!s) return null; const g=new THREE.Group(); g.add(formalCopy(s)); g.userData={seat:{y:0.45},formal:'prop.street'}; return g; }
   // ⑥（2026-10-11）花台、公告欄、販賣機：尺寸照下面的程序化版本（導航阻擋在 zones3d.js，不變）；小零件（花、公告紙、飲料瓶、販賣機背光）不投影
   const FORMAL_NO_SHADOW=/^(prop_vc|vend_light|bike_metal)$/;
@@ -128,11 +140,12 @@ const W3 = (function(){
     const bm=bikeMat.basket||(bikeMat.basket=new THREE.MeshStandardMaterial({map:basketTex(),roughness:0.5,metalness:0.2,alphaTest:0.5,side:THREE.DoubleSide})); const bk=new THREE.Mesh(G('bikeBasket',()=>new THREE.BoxGeometry(0.34,0.22,0.26)),bm); bk.position.set(0,0.83,0.5); bk.castShadow=false; g.add(bk);   // 前籃（鐵絲網）
     g.rotation.y=Math.PI/2; return g; }
   // 腳踏車架（v9.3 第十八批）：前輪插進去的低停車架；車子垂直於車架並排（原本車子沿著車架頭尾相疊），空位是固定的（原本每次載入隨機）
-  function bikeRack(n,color){ const g=new THREE.Group(); const bin=new TK.Bin(); const rm=TK.col('#8f9399',{roughness:0.4,metalness:0.3}); const cols=['#3a6fb0','#8c3b47','#2f5d50','#e0b95b','#7b6a5a','#c46a4a','#f2efe8','#3a3f46'];
+  let rackSeq=0;
+  function bikeRack(n,color){ rackSeq++; const g=new THREE.Group(); const bin=new TK.Bin(); const rm=TK.col('#8f9399',{roughness:0.4,metalness:0.3}); const cols=['#3a6fb0','#8c3b47','#2f5d50','#e0b95b','#7b6a5a','#c46a4a','#f2efe8','#3a3f46'];
     const L=n*0.6+0.2; bin.add(rm,new THREE.BoxGeometry(L,0.04,0.04),0,0.34,0.62); for(const sx of [-1,1]) bin.add(rm,new THREE.CylinderGeometry(0.02,0.02,0.34,6),sx*L/2,0.17,0.62);
     for(let i=0;i<n;i++){ const x=(i-(n-1)/2)*0.6; for(const dx of [-0.05,0.05]) bin.add(rm,new THREE.CylinderGeometry(0.011,0.011,0.32,6),x+dx,0.16,0.62); }
     bin.build(g);
-    const bg=new THREE.Group(); for(let i=0;i<n;i++){ if(((i*7+n*3)%10)<3) continue; const b=bike(color||cols[(i*5+n)%cols.length]); b.position.set((i-(n-1)/2)*0.6,0,0); b.rotation.y=(((i*13)%5)-2)*0.03; bg.add(b); }
+    const bg=new THREE.Group(); for(let i=0;i<n;i++){ if(((i*7+n*3)%10)<3) continue; const b=bikeAny(color||cols[(i*5+n)%cols.length],rackSeq*101+i*13); b.position.set((i-(n-1)/2)*0.6,0,0); b.rotation.y=(((i*13)%5)-2)*0.03; bg.add(b); }
     g.add(mergeGroup(bg));   /* 整排車合成同材質一個網格：一個停車架 4 個 draw call（原本每台 12 個） */ return g; }
   function bulletin(){ const f=formalProp('bulletin_board'); if(f) return f; const g=new THREE.Group(); for(const s of [-1,1]){ const post=new THREE.Mesh(new THREE.BoxGeometry(0.12,2.4,0.12),mat('#5c3a21')); post.position.set(s*1.1,1.2,0); g.add(post); } const board=new THREE.Mesh(new THREE.BoxGeometry(2.4,1.5,0.08),mat('#8b5e3c')); board.position.set(0,1.65,0); g.add(board); outline(board,1.02); const cork=new THREE.Mesh(new THREE.PlaneGeometry(2.2,1.3),mat('#c9a57a')); cork.position.set(0,1.65,0.05); g.add(cork); const cols=['#f6dfa8','#ffffff','#cfe3ea','#f4b8a8','#d7e3ce']; for(let i=0;i<7;i++){ const p=new THREE.Mesh(new THREE.PlaneGeometry(0.42,0.55),new THREE.MeshBasicMaterial({color:cols[i%cols.length]})); p.position.set(-0.85+(i%4)*0.55+(i>3?0.25:0),1.85-(i>3?0.5:0)+ (Math.random()*0.06),0.06); p.rotation.z=(Math.random()-0.5)*0.12; g.add(p); } const roof=new THREE.Mesh(new THREE.BoxGeometry(2.6,0.08,0.5),mat('#5c3a21')); roof.position.set(0,2.45,0.1); g.add(roof); g.userData={cork}; return g; }
   function planter(){ const f=formalProp('planter_box'); if(f) return f; const g=new THREE.Group(); const box=new THREE.Mesh(new THREE.BoxGeometry(1.2,0.5,0.5),mat('#9a8a7a')); box.position.y=0.25; g.add(box); outline(box,1.02); const flowers=['#e07a7a','#f2c14e','#f7f7f4','#c46a9a']; for(let i=0;i<6;i++){ const f=new THREE.Mesh(G('flower',()=>new THREE.SphereGeometry(0.09,7,5)),mat(flowers[i%4])); f.position.set(-0.45+i*0.18,0.62,(i%2?0.12:-0.12)); g.add(f); } const green=new THREE.Mesh(new THREE.BoxGeometry(1.1,0.16,0.4),mat('#5f9a5e')); green.position.y=0.55; g.add(green); return g; }
@@ -168,5 +181,5 @@ const W3 = (function(){
   function setWindowView(m,kind,night,fallback,tint){ const u=m.uniforms; if(!u) return; const ph=viewPhoto(kind,night); const want=ph||fallback; if(u.map.value!==want){ u.map.value=want; } u.photo.value=ph?1:0; if(tint!=null) u.tint.value.set(tint); return !!ph; }
   // 白天的照片隨時段調色（照片是 11:00 拍的）：清晨偏冷、傍晚偏暖、黃昏暗下來；晚上換夜景照片，不調色
   function photoTint(h,rain){ h=((h%24)+24)%24; if(h<5.5||h>=19.4) return 0xffffff; if(h<6.5) return 0xb8c2d6; if(h<8) return rain?0xc8ccd2:0xe8eef8; if(h<16) return rain?0xc9cfd6:0xffffff; if(h<17.6) return rain?0xc2c4c8:0xfff0dc; if(h<18.4) return rain?0x9a9ca4:0xffcfa0; return 0x8a8aa8; }
-  return {viewPhoto,releaseViews,windowMat,setWindowView,photoTint,mergeGroup,canvasTex,grassTex,pathTex,asphaltTex,brickTex,stoneTex,facadeTex,signPlane,signTex,building,setNight,palm,banyan,bush,hedge,bench,formalBench,lampPost,bike,bikeRack,bulletin,planter,bell,vending,scooter,foodCart,gate,mrtEntrance,awning,updateWind,foliageMat};
+  return {viewPhoto,releaseViews,windowMat,setWindowView,photoTint,mergeGroup,canvasTex,grassTex,pathTex,asphaltTex,brickTex,stoneTex,facadeTex,signPlane,signTex,building,setNight,palm,banyan,bush,hedge,bench,formalBench,lampPost,bike,bikeAny,bikeRack,bulletin,planter,bell,vending,scooter,foodCart,gate,mrtEntrance,awning,updateWind,foliageMat};
 })();

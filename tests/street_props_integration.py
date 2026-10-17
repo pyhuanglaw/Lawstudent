@@ -27,6 +27,7 @@ CONTRACT = """(()=>{ const r=v=>Math.round(v*1000)/1000; const out={};
   const want=new THREE.Color('#d03030'); out.bike.want=[r(want.r),r(want.g),r(want.b)];
   const b2=W3.bike('#3070d0'); let f2=null; b2.traverse(o=>{ if(o.isMesh&&o.material.name==='bike_frame') f2=o; }); out.bike.sharedMat=!!(frame&&f2&&frame.material===f2.material);
   const rack=W3.bikeRack(7); let rm=0; rack.traverse(o=>{ if(o.isMesh) rm++; }); out.rack={meshes:rm};
+  if(W3.bikeAny){ const ks={}; let formal=0; for(let i=1;i<=60;i++){ const v=W3.bikeAny('#888888',i); const k=v.userData.bikeKind||'?'; ks[k]=(ks[k]||0)+1; if(v.userData.formal==='prop.street') formal++; } out.bikeAny={kinds:ks, n:Object.keys(ks).length, formal}; }   /* 腳踏車多款式（LAWWW2-B） */
   const z3=Z3; const be=(typeof ASSETS!=='undefined')?W3.formalBench():null; if(be){ be.updateMatrixWorld(true); const eb=new THREE.Box3().setFromObject(be); out.bench={formal:be.userData.formal||null, seatY:be.userData.seat&&be.userData.seat.y, box:[r(eb.min.x),r(eb.max.x),r(eb.min.y),r(eb.max.y),r(eb.min.z),r(eb.max.z)]}; } else out.bench=null;
   for(const [k,fn] of [['planter',()=>W3.planter()],['bulletin',()=>W3.bulletin()],['vending',()=>W3.vending()]]){ const o=fn(); o.updateMatrixWorld(true); const bx=new THREE.Box3().setFromObject(o);
     out[k]={formal:o.userData.formal||null, box:[r(bx.min.x),r(bx.max.x),r(bx.min.y),r(bx.max.y),r(bx.min.z),r(bx.max.z)]}; }
@@ -64,6 +65,9 @@ async def run_mode(p, run, mode):
         run.check('腳踏車：沿 z 建模（長在 z、寬在 x）、輪子著地、兩輪在 z＝±0.47（車長約 ±0.8）', bx[1] - bx[0] < 0.7 and bx[5] - bx[4] > 1.5 and abs(bx[2]) < 0.03 and 0.7 < bx[5] < 0.9 and -0.9 < bx[4] < -0.7, json.dumps(bx))
         run.check('腳踏車：車架顏色照參數（頂點色）、所有顏色共用一個材質（停車架可以合併）', B.get('vertexColors') and B.get('frameColor') and all(abs(a - b_) < 0.02 for a, b_ in zip(B['frameColor'], B['want'])) and B['sharedMat'], json.dumps(B))
         run.check('停車架：整排合併（網格數少，不是每台各自一組）', 0 < c['rack']['meshes'] <= 12, json.dumps(c['rack']))
+        if c.get('bikeAny'):
+            ks = c['bikeAny']['kinds']; city = sum(v for k, v in ks.items() if k.startswith('bike_city') and k != 'bike_city_child')   # 淑女車四款（鐵絲籃、有東西、沒籃子、塑膠籃）合計，ART-BIKES2-F
+            run.check('腳踏車多款式：停車架、路邊的車照比例混搭（60 台裡至少 5 款、淑女車（四款合計）最多、淑女車至少 3 款、全部是正式模型）', c['bikeAny']['n'] >= 5 and c['bikeAny']['formal'] == 60 and city > max([v for k, v in ks.items() if not k.startswith('bike_city') or k == 'bike_city_child'] or [0]) and sum(1 for k in ks if k.startswith('bike_city') and k != 'bike_city_child') >= 3, json.dumps(c['bikeAny']))
         run.check('長椅：是正式模型、userData.seat.y＝0.45', E and E['formal'] == 'prop.street' and E['seatY'] == 0.45, json.dumps(E))
         eb = E['box'] if E else [0] * 6
         run.check('長椅：寬約 1.35 m、深度在導航阻擋（±0.35）裡、著地', E and 1.3 < eb[1] - eb[0] < 1.42 and eb[4] > -0.36 and eb[5] < 0.36 and abs(eb[2]) < 0.03, json.dumps(eb))

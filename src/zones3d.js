@@ -261,7 +261,7 @@ const Z3 = (function(){
     if(!fairDay){ const bb=W3.bulletin(); place(g,bb,-13.5,14.6,Math.PI); nav.blockRect(-13.5,14.6,2.6,0.4,0); }
     const fairGLB=fairDay?clubFair(E,g,nav):null;   /* 博覽會的帳篷：位置、碰撞現在放；正式模型等 zone 建好再載 */
     // 路旁散置腳踏車
-    for(const [x,z] of [[-60,-15.5],[-57,15.5],[0,-15.5],[24,-64],[36,-64]]){ const b=W3.bike(['#3a6fb0','#8c3b47','#2f5d50','#e0b95b'][(x+z)&3]); place(g,b,x,z,Math.PI/2); nav.blockRect(x,z,1.7,0.6,0); }   /* v9.3 第十八批：車子沿 x 方向停，導航原本擋成沿 z 方向（走得過車頭車尾、旁邊空地反而不能走）*/
+    for(const [x,z] of [[-60,-15.5],[-57,15.5],[0,-15.5],[24,-64],[36,-64]]){ const b=W3.bikeAny(['#3a6fb0','#8c3b47','#2f5d50','#e0b95b'][(x+z)&3],x*7+z,null,1.7); place(g,b,x,z,Math.PI/2); nav.blockRect(x,z,1.7,0.6,0); }   /* v9.3 第十八批：車子沿 x 方向停，導航原本擋成沿 z 方向（走得過車頭車尾、旁邊空地反而不能走）*/
     // ---- v9.3 第十八批：校園加密 ----
     // 真實的椰林大道兩側幾乎整排都是系館（離大道 20–30 m、前面是草地）；原本這裡大道東半段兩側、行政大樓東邊、男一舍兩側都是空草地。
     // 補上沒有掛名字的系館（不冒用真實系館的名字和位置），同一套校園套件語彙：紅磚／面磚、一樓拱廊、拱窗或方窗
@@ -362,7 +362,7 @@ const Z3 = (function(){
       for(const [bx,bz,bw,bd,pad] of linze.userData.ck.blocks) nav.blockRect(34+bx,-112+bz,bw,bd,0,pad==null?0.15:pad);   /* 柱子、扶手、兩翼再擋一次 */
       nav.blockCircle(29,-128,0.6); nav.blockRect(22.0,-125.7,0.6,4.6,0,0.1); nav.blockRect(46.0,-125.7,0.6,4.6,0,0.1);
       const hb=new TK.Bin(); for(const x0 of [22.0,46.0]) for(let z=-127.6;z<=-123.6;z+=0.8) TK.plantClump(hb,x0,0,z,1.0,6,[0.62,0.82,0.6]); const hg=new THREE.Group(); hb.build(hg); g.add(hg);
-      for(let i=0;i<9;i++){ const b=W3.bike(['#3a6fb0','#8c3b47','#2f5d50','#e0b95b','#d9d3c6'][i%5]); b.position.set(24.2+i*0.75,0,-127.0); b.rotation.y=Math.PI/2; g.add(b); } nav.blockRect(27.2,-127.0,7.0,1.1,0,0.05);   /* 腳踏車停在後面那棟的牆邊 */ }
+      for(let i=0;i<9;i++){ const b=W3.bikeAny(['#3a6fb0','#8c3b47','#2f5d50','#e0b95b','#d9d3c6'][i%5],500+i); b.position.set(24.2+i*0.75,0,-127.0); b.rotation.y=Math.PI/2; g.add(b); } nav.blockRect(27.2,-127.0,7.0,1.1,0,0.05);   /* 腳踏車停在後面那棟的牆邊 */ }
     { const hb=new TK.Bin(); for(const [x0,x1] of [[5,14],[54,73]]) for(let x=x0+0.5;x<=x1-0.4;x+=0.85) TK.plantClump(hb,x,0,-118.3+((Math.round(x*7))%3-1)*0.08,1.0+((Math.round(x*3))%3)*0.08,6,[0.62,0.82,0.6]); const hg=new THREE.Group(); hb.build(hg); g.add(hg); }   /* 矮灌木（和椰林大道的杜鵑叢同一套）*/
     // 校門通道格：確保 -124..-118 之間可走（往公館）
     for(let z=-4;z<=4;z+=0.5) for(let x=-127;x<=-118;x+=0.5){ const [cx,cz]=nav.toCell(x,z); if(cx>=0&&cz>=0&&cx<nav.cols&&cz<nav.rows) nav.b[nav.idx(cx,cz)]=0; }
@@ -568,8 +568,8 @@ const Z3 = (function(){
       x=X1; });
     /* 輪轉單車（G06，正對校門；LAWWW2-B 2026-10-16，原本是「眼鏡・手機維修」）：店名虛構（D77）。街景——載妹墊開局就有（使用者 10-16，D78），不用在這裡裝、沒有互動點。
        騎樓靠櫥窗停三台（和店面平行，騎樓還有 1.6 m 寬可以走；店門口 x −2.1～1.7 不放車）、櫥窗裡兩台、騎樓外一塊立牌。店門口互動點（−0.3, FZ+2）之後有需要再加 */
-    { const sx=0.3; for(const [dx,c] of [[-3.3,'#2f5d50'],[2.3,'#e0b95b'],[4.2,'#8c3b47']]){ const b=W3.bike(c); b.position.set(sx+dx,0,FZ+2.55); b.rotation.y=Math.PI/2; g.add(b); nav.blockRect(sx+dx,FZ+2.55,1.75,0.6,0); }
-      for(const [dx,c] of [[-2.2,'#3a6fb0'],[1.6,'#d9d3c6']]){ const b=W3.bike(c); b.position.set(sx+dx,0.155,FZ+3.75); b.rotation.y=-Math.PI/2; g.add(b); }
+    { const sx=0.3; for(const [dx,c,k] of [[-3.3,'#2f5d50','bike_road'],[2.3,'#e0b95b','bike_city'],[4.2,'#8c3b47','bike_mtb']]){ const b=W3.bikeAny(c,0,k);   /* 腳踏車行（輪轉單車）：騎樓擺公路車、淑女車、登山車 */ b.position.set(sx+dx,0,FZ+2.55); b.rotation.y=Math.PI/2; g.add(b); nav.blockRect(sx+dx,FZ+2.55,k==='bike_mtb'?1.85:1.75,0.6,0); }
+      for(const [dx,c,k] of [[-2.2,'#3a6fb0','bike_fold'],[1.6,'#d9d3c6','bike_road']]){ const b=W3.bikeAny(c,0,k);   /* 櫥窗：小折、公路車 */ b.position.set(sx+dx,0.155,FZ+3.75); b.rotation.y=-Math.PI/2; g.add(b); }
       const ab=TK.aBoard(['打氣免費','修車・換胎','後座墊加裝']); ab.position.set(2.6,0,FZ-0.6); ab.rotation.y=Math.PI; g.add(ab); nav.blockCircle(2.6,FZ-0.6,0.35); }
     // 往溫州街的巷口（店面街西端）：麵店西邊留 6 m 寬的巷子（x −74～−68）往南，巷口對面是轉角公寓（一般店面、沒有騎樓）；巷口有路名牌和反光鏡。
     /* 原本「往溫州街」只是區域邊上地面的互動點，旁邊什麼都沒有 */
@@ -714,11 +714,11 @@ const Z3 = (function(){
     E.interactables.push({x:54.2,z:0,radius:2.3,label:'進入兩點半 Café',exit:{to:'cafe',spawn:{x:0,z:5,yaw:Math.PI}}});
     const cafeKitProps=[];   // 套件的 A 字立牌、門口盆栽：Café 正式模型裡有自己的版本（位置、導航阻擋相同），載入後藏起來
     { const ab=TK.aBoard(['今日手沖','衣索比亞','耶加雪菲','—','讀書位 有']); ab.position.set(54.4,0,3.6); ab.rotation.y=-Math.PI/2; g.add(ab); nav.blockCircle(54.4,3.6,0.35); ab.userData.dyn=true; cafeKitProps.push(ab); }
-    { const bk=W3.bike('#2f5d50'); bk.position.set(54.6,0,-5.4); bk.rotation.y=Math.PI+0.15; g.add(bk); nav.blockRect(54.6,-5.4,0.6,1.8,0.15,0.1); }
+    { const bk=W3.bikeAny('#2f5d50',546); bk.position.set(54.6,0,-5.4); bk.rotation.y=Math.PI+0.15; g.add(bk); nav.blockRect(54.6,-5.4,0.6,1.8,0.15,0.1); }
     { const pt=TK.pots(5,1); pt.position.set(54.85,0,4.6); pt.rotation.y=-Math.PI/2; g.add(pt); nav.blockRect(54.85,5.4,0.6,1.8,0,0); pt.userData.dyn=true; cafeKitProps.push(pt); }
     nav.blockRect(54.8,4.22,0.7,0.65,0,0); nav.blockRect(46.25,4.7,0.9,0.7,0,0);   // 比人窄的縫（A 字立牌和盆栽之間、電線桿和郵筒之間）：會留下只有一點站得住的小孤島，滑進去就出不來（v9.3 #31，tools/dev_scratch/nav_islands.py）
     { const pt=TK.pots(4,3); pt.position.set(54.85,0,-4.6); pt.rotation.y=-Math.PI/2; g.add(pt); nav.blockRect(54.85,-3.8,0.6,1.6,0,0); pt.userData.dyn=true; cafeKitProps.push(pt); }
-    { const bk=W3.bike('#3a6fb0'); bk.position.set(-35.9,0,-5.2); bk.rotation.y=0.15; g.add(bk); nav.blockRect(-35.9,-5.2,0.6,1.8,0.15,0.1); }
+    { const bk=W3.bikeAny('#3a6fb0',-359); bk.position.set(-35.9,0,-5.2); bk.rotation.y=0.15; g.add(bk); nav.blockRect(-35.9,-5.2,0.6,1.8,0.15,0.1); }
     { const pt=TK.pots(5,1); pt.position.set(-36.6,0,3.4); pt.rotation.y=Math.PI/2; g.add(pt); nav.blockRect(-36.4,4.2,0.6,1.8,0,0); }
     // A 側：日式宿舍（圍牆＋黑瓦木屋＋老樹）
     // v9.3：圍牆降到 1.15 m、門開著（冠木門）、房子往前 0.5 m——從巷子就看得到木造外觀、格子窗、玄關（以前 1.7 m 的牆把房子整個擋住）
@@ -781,7 +781,7 @@ const Z3 = (function(){
     const scColors=['#e8e8e8','#2b2b2b','#8c3b47','#4a6c8c','#c9b48a','#f2f0ea','#3e5a48'];
     const scRow=(x0,n,z,ry)=>{ for(let k=0;k<n;k++){ if(TK.rnd()<0.15) continue; const c=scColors[(k*3+Math.round(x0))%scColors.length], s=TK.scooter(c); const x=x0+k*0.85; s.position.set(x,0,z+(TK.rnd()-0.5)*0.15); s.rotation.y=ry+(TK.rnd()-0.5)*0.12; scAdd(s,c); } nav.blockRect(x0+(n-1)*0.85/2,z,n*0.85,1.7,0,0.05); };
     if(typeof WZ_SHOPS_LAYOUT!=='undefined'){ scRow(-11.5,2,3.95,0); scRow(-6.8,3,3.95,0); } else scRow(-11.5,7,3.95,0);   /* 阿德影印輸出的店門（x −8）前面留空（DL-09）*/ scRow(5.0,12,-3.95,Math.PI); scRow(31.5,8,-3.95,Math.PI); scRow(-28.5,6,-3.95,Math.PI); scRow(typeof WZ_PARK_LAYOUT!=='undefined'?16.4:24.4,4,3.95,0);   /* 擴大版小公園：入口 A（x 22.6–29.4）前面不停機車，這一排挪到 A3 巷口書房前面 */
-    for(const [bx,bz,ry,c] of [[9.4,4.1,0.1,'#3a6fb0'],[10.3,4.1,-0.08,'#8c3b47'],[18.6,4.1,0.05,'#e0b95b']]){ const bk=W3.bike(c); bk.position.set(bx,0,bz); bk.rotation.y=ry; g.add(bk); nav.blockRect(bx,bz,0.6,1.8,ry,0.05); }
+    for(const [bx,bz,ry,c] of [[9.4,4.1,0.1,'#3a6fb0'],[10.3,4.1,-0.08,'#8c3b47'],[18.6,4.1,0.05,'#e0b95b']]){ const bk=W3.bikeAny(c,Math.round(bx*10)); bk.position.set(bx,0,bz); bk.rotation.y=ry; g.add(bk); nav.blockRect(bx,bz,0.6,1.8,ry,0.05); }
     // 盆栽（住家門口）、郵筒、立牌
     for(const [px,pz,ry,n] of [[-2.6,4.55,Math.PI,6],[9.6,-4.55,0,5],[41.5,-4.55,0,7],[3.6,9.5,-Math.PI/2,5],[-13.5,-9,Math.PI/2,4],[-14.4,4.6,Math.PI,4]].filter(q=>!(q[0]===41.5&&typeof WZ_SHOPS_LAYOUT!=='undefined'))){   /* B7 改成半熟（溫州街 v5）：店門口有自己的黑板、長椅、大盆栽（模型），套件那一排盆栽會擋住店門 */ const pt=TK.pots(n,Math.round(px)); pt.position.set(px,0,pz); pt.rotation.y=ry; g.add(pt); const L=pt.userData.len; const c=Math.cos(ry), sn=Math.sin(ry); nav.blockRect(px+c*L/2,pz-sn*L/2,Math.abs(c)*L+0.6,Math.abs(sn)*L+0.6,0,0); }
     { const mb=TK.mailbox(); mb.position.set(47.3,0,4.3); mb.rotation.y=Math.PI; g.add(mb); nav.blockRect(47.3,4.3,1.2,0.6,0,0); }
@@ -879,10 +879,56 @@ const Z3 = (function(){
       if(vertical){ const ch=[...(d.vertical||'')]; const fs=Math.min(w*0.62,(h-30)/Math.max(1,ch.length)*0.8); x.font='bold '+fs+'px '+font; ch.forEach((c,i)=>x.fillText(c,w/2+(band?8:0),h/2+(i-(ch.length-1)/2)*fs*1.25)); return; }
       const t=d.sign||''; let fs=Math.round(h*(d.sub?0.5:0.58)); x.font='bold '+fs+'px '+font; while(x.measureText(t).width>w*0.7&&fs>20){ fs-=4; x.font='bold '+fs+'px '+font; }
       x.fillText(t,w/2,h*(band?0.4:(d.sub?0.42:0.52))); if(d.sub){ x.font='500 '+Math.round(h*0.15)+'px '+font; x.globalAlpha=0.85; x.fillText(d.sub,w/2,band?h*0.9:h*0.82); x.globalAlpha=1; } }); }
+  /* 機車 v2（LAWWW2-B，tools/blender/env_second/scooters_v2.py；使用者 2026-10-16：「機車都只是同個模板換顏色，太假了……路上不會全部都一樣，不要只改顏色」）：
+     scooter.glb 有 12 款（節點 scooter_<代號>：國民通勤兩款、運動型、電動、復古圓弧、50cc 舊款、大型速克達、方塊越野、彎樑、外送箱、掛安全帽、機車罩）＋每款一個遠處用的簡化版 scooter_<代號>_lod1；
+     節點的 extras（userData）：weight＝街上的比例、palette＝這一型常見的車殼顏色。
+     每台照自己的位置挑一款（照 weight）、從那一款的配色挑顏色（位置算的雜湊：每次進來都一樣）；
+     每一段（公館照 grp、溫州街照位置每 20 m 一段、路的兩側分開）合成一個網格、一個材質（頂點色；粗糙度／金屬度用 3×1 的查表貼圖：車殼／塑膠橡膠／金屬），
+     外面包 THREE.LOD：離鏡頭 SC_LOD_D 公尺以外換簡化版（約 600 個三角形）。看不到的那一段整段剔除。
+     沒有新節點（舊的 scooter.glb）時照舊用 scooter_a／scooter_b（attachWzScootersAB）。 */
+  const SC_LOD_D=16;
+  let scMat=null;
+  function scooterMat(){ if(scMat) return scMat;
+    const d=new Uint8Array([0,82,0,255, 0,140,0,255, 0,82,115,255]);   /* G＝粗糙度（0.32／0.55／0.32）、B＝金屬度（0／0／0.45）：和 GLB 的三個材質一樣 */
+    const t=new THREE.DataTexture(d,3,1,THREE.RGBAFormat); t.needsUpdate=true;
+    scMat=new THREE.MeshStandardMaterial({vertexColors:true,roughnessMap:t,metalnessMap:t,roughness:1,metalness:1}); scMat.name='scooter_merged'; return scMat; }
+  function scMerge(items,center){   /* items：[{node, M4（這台車的世界矩陣，已轉成車頭朝 +x）, color}] → 一個 BufferGeometry（位置相對 center） */
+    const P=[],N=[],C=[],U=[],I=[]; let base=0; const v=new THREE.Vector3(), n=new THREE.Vector3(), nm=new THREE.Matrix3(), col=new THREE.Color(), M=new THREE.Matrix4(), inv=new THREE.Matrix4(), loc=new THREE.Matrix4();
+    for(const it of items){ inv.copy(it.node.matrixWorld).invert(); col.set(it.color);
+      it.node.traverse(o=>{ if(!o.isMesh) return; const g=o.geometry, mn=o.material.name, slot=mn==='scooter_paint'?0:mn==='scooter_metal'?2:1;
+        M.multiplyMatrices(it.M4,loc.multiplyMatrices(inv,o.matrixWorld)); nm.getNormalMatrix(M);
+        const pa=g.attributes.position, na=g.attributes.normal, ca=g.attributes.color, u=(slot+0.5)/3, mc=o.material.color;
+        for(let k=0;k<pa.count;k++){ v.fromBufferAttribute(pa,k).applyMatrix4(M); P.push(v.x-center.x,v.y-center.y,v.z-center.z); n.fromBufferAttribute(na,k).applyMatrix3(nm).normalize(); N.push(n.x,n.y,n.z);
+          if(slot===0) C.push(col.r,col.g,col.b); else if(ca) C.push(ca.getX(k),ca.getY(k),ca.getZ(k)); else C.push(mc.r,mc.g,mc.b); U.push(u,0.5); }
+        if(g.index){ const ix=g.index; for(let k=0;k<ix.count;k++) I.push(base+ix.getX(k)); } else for(let k=0;k<pa.count;k++) I.push(base+k);
+        base+=pa.count; }); }
+    const geo=new THREE.BufferGeometry(); geo.setAttribute('position',new THREE.Float32BufferAttribute(P,3)); geo.setAttribute('normal',new THREE.Float32BufferAttribute(N,3)); geo.setAttribute('color',new THREE.Float32BufferAttribute(C,3)); geo.setAttribute('uv',new THREE.Float32BufferAttribute(U,2));
+    geo.setIndex(base>65535?new THREE.Uint32BufferAttribute(I,1):new THREE.Uint16BufferAttribute(I,1)); geo.computeBoundingSphere(); return geo; }
+  function attachWzScooters(g,scG,list,root,name){ if(!list.length) return 0; root.updateMatrixWorld(true);
+    const V=[]; root.traverse(o=>{ const m=/^scooter_(S\w+)$/.exec(o.name); if(!m||/_lod1$/.test(o.name)||!o.userData||!(o.userData.weight>0)) return; let pal=[]; try{ pal=JSON.parse(o.userData.palette||'[]'); }catch(e){}
+      V.push({code:m[1],node:o,lod:root.getObjectByName(o.name+'_lod1')||o,w:+o.userData.weight,pal}); });
+    if(!V.length) return attachWzScootersAB(g,scG,list,root,name);
+    const W=V.reduce((a,b)=>a+b.w,0), fix=new THREE.Matrix4().makeRotationY(-Math.PI/2), out=new THREE.Group(); out.name=name||'wz_scooters_glb';
+    const hash=(x,z,k)=>{ const t=Math.sin(x*12.9898+z*78.233+k*37.719)*43758.5453; return t-Math.floor(t); };
+    const grps=new Map(), pick={}, cols=new Set();
+    list.forEach(s=>{ s.o.updateMatrixWorld(true); const p=new THREE.Vector3().setFromMatrixPosition(s.o.matrixWorld); const gk=s.grp||(Math.floor((p.x+100)/20)+(p.z<0?'n':'s'));
+      let r=hash(p.x,p.z,1)*W, v=V[V.length-1]; for(const c of V){ if((r-=c.w)<=0){ v=c; break; } }
+      const col=v.pal.length?v.pal[Math.floor(hash(p.x,p.z,2)*v.pal.length)]:s.color; pick[v.code]=(pick[v.code]||0)+1; cols.add(col);
+      if(!grps.has(gk)) grps.set(gk,[]); grps.get(gk).push({p,v,col,M4:new THREE.Matrix4().multiplyMatrices(s.o.matrixWorld,fix)}); });
+    for(const [gk,L] of grps){ const c=new THREE.Vector3(); L.forEach(e=>c.add(e.p)); c.divideScalar(L.length);
+      const near=new THREE.Mesh(scMerge(L.map(e=>({node:e.v.node,M4:e.M4,color:e.col})),c),scooterMat()), far=new THREE.Mesh(scMerge(L.map(e=>({node:e.v.lod,M4:e.M4,color:e.col})),c),scooterMat());
+      for(const m of [near,far]){ m.castShadow=false; m.receiveShadow=true; }
+      const lod=new THREE.LOD(); lod.position.copy(c); lod.addLevel(near,0); lod.addLevel(far,SC_LOD_D); lod.name='scooters_'+gk; lod.userData.scGroup=gk; out.add(lod); }
+    out.userData.scPick=pick; out.userData.scColors=cols.size; out.userData.scPerGroup=Object.fromEntries([...grps].map(([k,L])=>[k,L.length]));   /* 每一款擺了幾台、用了幾種顏色（測試、截圖紀錄用） */
+    scooterShadows(out,list,fix); scG.visible=false; g.add(out); return list.length; }
+  /* 影子：機車不進陰影那一輪，改成每台車底下一片柔和的影子貼片（全部一個 InstancedMesh、一次 draw call） */
+  function scooterShadows(out,list,fix){ const tex=W3.canvasTex('wzScooterBlob',64,64,(x,w,h)=>{ const gr=x.createRadialGradient(w/2,h/2,1,w/2,h/2,w/2); gr.addColorStop(0,'rgba(0,0,0,0.6)'); gr.addColorStop(0.55,'rgba(0,0,0,0.35)'); gr.addColorStop(1,'rgba(0,0,0,0)'); x.clearRect(0,0,w,h); x.fillStyle=gr; x.fillRect(0,0,w,h); });
+    const geo=new THREE.PlaneGeometry(2.05,0.8); geo.rotateX(-Math.PI/2); geo.translate(0,0.012,0); const bl=new THREE.InstancedMesh(geo,new THREE.MeshBasicMaterial({map:tex,color:0x000000,transparent:true,depthWrite:false}),list.length); const M4=new THREE.Matrix4();
+    list.forEach((s,i)=>{ M4.multiplyMatrices(s.o.matrixWorld,fix); bl.setMatrixAt(i,M4); }); bl.instanceMatrix.needsUpdate=true; bl.computeBoundingSphere(); bl.name='wz_scooter_shadows'; out.add(bl); }
   /* 機車（tools/blender/env_second/scooter.py：scooter_a 現代款、scooter_b 復古款；車頭朝 +x）→ 每一款每一個零件一個 InstancedMesh，擺在套件機車的位置（套件車頭朝 +z）；
      車殼（scooter_paint，白色）乘上每台的顏色（instanceColor）。三台裡一台是復古款。
      list 的 grp（公館）：每一組各自一套 InstancedMesh（看不到的那一組整組被剔除）；溫州街沒有 grp＝全部一組（和分組之前一樣） */
-  function attachWzScooters(g,scG,list,root,name){ const vars={a:root.getObjectByName('scooter_a'),b:root.getObjectByName('scooter_b')}; if(!vars.a||!vars.b||!list.length) return 0;
+  function attachWzScootersAB(g,scG,list,root,name){ const vars={a:root.getObjectByName('scooter_a'),b:root.getObjectByName('scooter_b')}; if(!vars.a||!vars.b||!list.length) return 0;
     const fix=new THREE.Matrix4().makeRotationY(-Math.PI/2), out=new THREE.Group(); out.name=name||'wz_scooters_glb'; const grps=new Map(); list.forEach((s,i)=>{ const gk=s.grp||''; if(!grps.has(gk)) grps.set(gk,{a:[],b:[]}); grps.get(gk)[i%3===2?'b':'a'].push(s); }); root.updateMatrixWorld(true);
     for(const [gk,by] of grps) for(const k of ['a','b']){ const node=vars[k], L=by[k]; if(!L.length) continue; const inv=new THREE.Matrix4().copy(node.matrixWorld).invert(); const meshes=[]; node.traverse(o=>{ if(o.isMesh) meshes.push(o); });
       for(const m of meshes){ const local=new THREE.Matrix4().multiplyMatrices(inv,m.matrixWorld); const im=new THREE.InstancedMesh(m.geometry,m.material,L.length); const paint=m.material.name==='scooter_paint'; const M4=new THREE.Matrix4();

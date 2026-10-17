@@ -4845,8 +4845,8 @@
    "what": "機車 v2：12 款＋LOD＋patch scooters_v2.patch（溫州街／公館整合測試 ALL PASS；READY_FOR_ART_REVIEW）",
    "task": "ART-SCOOTER2",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "排在使用者 P0（HANDOFF-ABC）之後整合"
+   "integration": "已整合待測試",
+   "note": "排在使用者 P0（HANDOFF-ABC）之後整合｜LAWWW-C 2026-10-17 整合，待瀏覽器"
   },
   {
    "id": "DL-BB171",
@@ -4934,8 +4934,8 @@
    "what": "腳踏車 v2：street_props.glb 多 6 款＋bikes_v2.patch（world3d.js bikeAny、zones3d.js 路邊停車、腳踏車行指定款式、street_props_integration 測試）",
    "task": "ART-BIKES2-INT",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "疊在 scooters_v2.patch 之後；broken 組失敗是既有問題；LAWWW-B 2026-10-17 ACK：整合排在 CAMP-L1 之後，後續項目 ART-BIKES2-F"
+   "integration": "已整合待測試",
+   "note": "疊在 scooters_v2.patch 之後；broken 組失敗是既有問題；LAWWW-B 2026-10-17 ACK：整合排在 CAMP-L1 之後，後續項目 ART-BIKES2-F｜LAWWW-C 2026-10-17 整合，待瀏覽器"
   },
   {
    "id": "DL-BB177",
@@ -6221,8 +6221,8 @@
    "what": "公館招牌第二批（S1～S17，34 張）：assets/models/env/second_ai/gongguan_shops.glb＋.json（b75e50a5，3.13 MB）、測試 patch docs/art-rebuild/second_ai/patches/gg_signs2_test.patch（只改 tests/gongguan_glb_integration.py）；前後截圖與說明 6b8e2385（test_shots/gg_signs/README.md、cmp2_*.webp）",
    "task": "ART-GG-SIGNS-2",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW2-C 04:26Z 交付（READY_FOR_ART_REVIEW；場景美術只有使用者能標 ART_APPROVED）。LAWWW2-B 在 3d477ddb＋patch 跑 gongguan_glb_integration ALL PASS 34；LAWWW2-C 在 a39a6812 換 GLB 拍 20 張沒有頁面錯誤。沒測：手機直向、真機。整合後重跑 gongguan_glb_integration"
+   "integration": "已整合待測試",
+   "note": "LAWWW2-C 04:26Z 交付（READY_FOR_ART_REVIEW；場景美術只有使用者能標 ART_APPROVED）。LAWWW2-B 在 3d477ddb＋patch 跑 gongguan_glb_integration ALL PASS 34；LAWWW2-C 在 a39a6812 換 GLB 拍 20 張沒有頁面錯誤。沒測：手機直向、真機。整合後重跑 gongguan_glb_integration｜LAWWW-C 2026-10-17 整合，待瀏覽器"
   },
   {
    "id": "DL-AA-DORMY34",
@@ -6273,8 +6273,8 @@
    "what": "腳踏車 v2 後續：street_props.glb＋.json（淑女車 bike_city_open／pbask／load、老鐵馬 bike_oldmetal、bike_metal 金屬度 0.45）＋遊戲 patch patches/bikes_v2f.patch（取代 bikes_v2.patch；基準 a39a6812；先套 scooters_v2_a39a6812.patch）",
    "task": "ART-BIKES2-F",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW2-C 04:41Z（outbox d9d196bc），READY_FOR_ART_REVIEW。改了導航（腳踏車行登山車阻擋 1.75→1.85 m）：整合要跑 street_props_integration、reachability_all。street_props_integration 沒跑"
+   "integration": "已整合待測試",
+   "note": "LAWWW2-C 04:41Z（outbox d9d196bc），READY_FOR_ART_REVIEW。改了導航（腳踏車行登山車阻擋 1.75→1.85 m）：整合要跑 street_props_integration、reachability_all。street_props_integration 沒跑｜LAWWW-C 2026-10-17 整合，待瀏覽器"
   },
   {
    "id": "DL-LW2-POTHOS-412",

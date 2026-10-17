@@ -1,10 +1,193 @@
 {
- "objects": 2,
- "unique_meshes": 2,
- "tris": 2572,
- "tris_drawn": 2572,
- "materials": 12,
+ "objects": 26,
+ "unique_meshes": 24,
+ "tris": 30253,
+ "tris_drawn": 34345,
+ "materials": 3,
  "out": "assets/models/env/second_ai/scooter.glb",
- "bytes": 139264,
- "texres": 256
+ "bytes": 1304724,
+ "texres": 256,
+ "variants": {
+  "S1A": {
+   "name": "國民通勤 125（舊款：頭燈在龍頭）",
+   "tris": 1982,
+   "lod1": 600,
+   "weight": 0.22,
+   "palette": [
+    "#e9e9e6",
+    "#e9e9e6",
+    "#b8bcc0",
+    "#b8bcc0",
+    "#d9cdb6",
+    "#8c9095",
+    "#1d1f22",
+    "#22344f",
+    "#8f1f24"
+   ]
+  },
+  "S1B": {
+   "name": "國民通勤 125（新款：頭燈在前擋）",
+   "tris": 1990,
+   "lod1": 600,
+   "weight": 0.24,
+   "palette": [
+    "#f1f1ee",
+    "#f1f1ee",
+    "#f1f1ee",
+    "#a9adb2",
+    "#a9adb2",
+    "#c9c1b3",
+    "#6f7378",
+    "#141517",
+    "#334a6b",
+    "#5d6a5a"
+   ]
+  },
+  "S2": {
+   "name": "運動型 125～158",
+   "tris": 2162,
+   "lod1": 600,
+   "weight": 0.2,
+   "palette": [
+    "#e8e8e6",
+    "#e8e8e6",
+    "#9ea3a8",
+    "#3b3f44",
+    "#1b1c1e",
+    "#20427a",
+    "#7a1c22",
+    "#2f5a3c"
+   ]
+  },
+  "S5": {
+   "name": "電動換電型",
+   "tris": 1884,
+   "lod1": 600,
+   "weight": 0.1,
+   "palette": [
+    "#eef0f0",
+    "#eef0f0",
+    "#c9cdd0",
+    "#9fc4d2",
+    "#7fb8ab",
+    "#e3a79c",
+    "#55595e",
+    "#1e2023"
+   ]
+  },
+  "S4": {
+   "name": "復古圓弧",
+   "tris": 2102,
+   "lod1": 600,
+   "weight": 0.07,
+   "palette": [
+    "#efe6cf",
+    "#efe6cf",
+    "#a9d3c4",
+    "#a9c4dc",
+    "#d8c8a8",
+    "#e6b8a8",
+    "#7b2a32",
+    "#1c1d1f"
+   ]
+  },
+  "S7": {
+   "name": "50cc 舊款（綠牌）",
+   "tris": 1902,
+   "lod1": 600,
+   "weight": 0.07,
+   "palette": [
+    "#c7c2b6",
+    "#dcd6c8",
+    "#dcd6c8",
+    "#9a9aa0",
+    "#5d6f86",
+    "#7d2a2a",
+    "#3e4a3c"
+   ]
+  },
+  "S3": {
+   "name": "大型速克達",
+   "tris": 2204,
+   "lod1": 600,
+   "weight": 0.04,
+   "palette": [
+    "#e9e9e7",
+    "#6b6f73",
+    "#4a4e54",
+    "#141517",
+    "#1f2e48"
+   ]
+  },
+  "S6": {
+   "name": "方塊越野風",
+   "tris": 2282,
+   "lod1": 599,
+   "weight": 0.03,
+   "palette": [
+    "#e8e8e6",
+    "#b5a27a",
+    "#4f5a3c",
+    "#e3c22b",
+    "#1b1c1e"
+   ]
+  },
+  "S9": {
+   "name": "彎樑",
+   "tris": 1798,
+   "lod1": 600,
+   "weight": 0.02,
+   "palette": [
+    "#8f2626",
+    "#1f2f4f",
+    "#1c1d1f",
+    "#2f4a36",
+    "#d9d2c2"
+   ]
+  },
+  "S1B_D": {
+   "name": "國民通勤＋外送箱",
+   "tris": 1990,
+   "lod1": 599,
+   "weight": 0.07,
+   "palette": [
+    "#f1f1ee",
+    "#a9adb2",
+    "#6f7378",
+    "#334a6b",
+    "#141517"
+   ]
+  },
+  "S5_H": {
+   "name": "電動＋掛安全帽",
+   "tris": 1976,
+   "lod1": 599,
+   "weight": 0.05,
+   "palette": [
+    "#eef0f0",
+    "#eef0f0",
+    "#c9cdd0",
+    "#9fc4d2",
+    "#7fb8ab",
+    "#e3a79c",
+    "#55595e",
+    "#1e2023"
+   ]
+  },
+  "S1A_C": {
+   "name": "國民通勤＋機車罩",
+   "tris": 784,
+   "lod1": 600,
+   "weight": 0.03,
+   "palette": [
+    "#8e949a",
+    "#2d3a52",
+    "#6d7176"
+   ]
+  }
+ },
+ "alias": {
+  "a": "S1B",
+  "b": "S4"
+ }
 }

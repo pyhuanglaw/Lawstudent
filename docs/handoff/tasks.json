@@ -12038,9 +12038,9 @@
    "title": "機車 v2（12 款＋LOD）整合：套 scooters_v2.patch、跑溫州街／公館整合、reachability",
    "area": "ART",
    "owner": "LAWWW",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "git apply patch → 測試 → commit；之後腳踏車多款式（LAWWW2-B 下一件）",
+   "next": "scooters_v2_a39a6812.patch＋bikes_v2f.patch 已套、scooter.glb（12 款）＋street_props.glb 換新（LAWWW-C）；單元測試 257／257、kit_nav_check 過；待瀏覽器 wz_street_integration、street_props_integration、reachability_all（腳踏車行導航改了）、溫州街／公館截圖",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12052,7 +12052,11 @@
     "confirmed": true
    },
    "source": "使用者 20:2x（機車不要同一款只換顏色）；LAWWW2-B f5b7bdb3",
-   "authorized": "使用者直接指示"
+   "authorized": "使用者直接指示",
+   "sha": [
+    "09f2660a",
+    "872226f7"
+   ]
   },
   {
    "id": "V1-BB171",
@@ -12498,9 +12502,9 @@
    "title": "整合 LAWWW2-B 腳踏車 v2（7 款：淑女、媽媽車、公共單車形式、公路、登山、小折、老鐵馬；bikes_v2.patch 疊在 scooters_v2.patch 之後）",
    "area": "ART",
    "owner": "LAWWW",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "改用 LAWWW2-C 的 bikes_v2f.patch（DL-LW2-BIKES2F 09f2660a，取代 bikes_v2.patch）：先套 scooters_v2_a39a6812.patch（872226f7）再套 bikes_v2f.patch、換 street_props.glb；跑 street_props_integration、reachability_all（腳踏車行導航改了）、溫州街／公館局部瀏覽器",
+   "next": "scooters_v2_a39a6812.patch＋bikes_v2f.patch 已套、scooter.glb（12 款）＋street_props.glb 換新（LAWWW-C）；單元測試 257／257、kit_nav_check 過；待瀏覽器 wz_street_integration、street_props_integration、reachability_all（腳踏車行導航改了）、溫州街／公館截圖",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12512,7 +12516,11 @@
     "confirmed": true
    },
    "source": "LAWWW2-B 2026-10-16 22:19 交件（945fd4d2，READY_FOR_ART_REVIEW）；使用者 20:2x「腳踏車機車全部都是同一個款式」",
-   "authorized": "使用者 20:2x、D84"
+   "authorized": "使用者 20:2x、D84",
+   "sha": [
+    "09f2660a",
+    "872226f7"
+   ]
   },
   {
    "id": "BUG-FOLLOW-WAVE",
@@ -13565,9 +13573,9 @@
    "title": "腳踏車 v2 後續：老鐵馬、登山車比導航阻擋長 8 cm；老鐵馬要鏽和褪色；車籃裡的東西；淑女車再分款",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P3",
-   "next": "已交付 DL-LW2-BIKES2F（09f2660a）；由 ART-BIKES2-INT 一起整合",
+   "next": "scooters_v2_a39a6812.patch＋bikes_v2f.patch 已套、scooter.glb（12 款）＋street_props.glb 換新（LAWWW-C）；單元測試 257／257、kit_nav_check 過；待瀏覽器 wz_street_integration、street_props_integration、reachability_all（腳踏車行導航改了）、溫州街／公館截圖",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -13586,7 +13594,11 @@
     "spec": "DL-LW2-BIKES2（945fd4d2）",
     "acceptance": "遊戲內截圖；長度和導航阻擋一致",
     "ack": "ACK"
-   }
+   },
+   "sha": [
+    "09f2660a",
+    "872226f7"
+   ]
   },
   {
    "id": "AB65-2",

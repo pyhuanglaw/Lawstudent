@@ -113,12 +113,17 @@ async def check(pg, run, formal):
         run.check('電線桿有樹幹透視', extra['poleST'], json.dumps(extra['poleST']))
         run.note('看得到的光暈 sprite：%d 個（玄關燈、路燈、Café…，套件的光暈不屬於被藏起來的物件）' % extra['glows'])
         sc = await pg.evaluate("""(()=>{ const z=GAME.E.zone; const kit=z.group.children.find(o=>o.name==='wz_kit_scooters'); const out=z.group.children.find(o=>o.name==='wz_scooters_glb');
-            const n=kit?kit.children.filter(o=>o.isGroup).length:-1; const ims=out?out.children.filter(o=>o.isInstancedMesh):[];
-            const paint=ims.filter(m=>m.material.name==='scooter_paint'); const cnt=paint.reduce((a,m)=>a+m.count,0);
-            const kitCols=new Set(), glbCols=new Set(); if(kit) kit.children.forEach(o=>{ if(o.isGroup) kitCols.add(''); });
-            const c=new THREE.Color(); for(const m of paint) for(let i=0;i<m.count;i++){ m.getColorAt(i,c); glbCols.add(c.getHexString()); }
-            return {kitScooters:n, kitHidden:kit?!kit.visible:null, instanced:ims.length, paintInstances:cnt, colors:[...glbCols].length, hasColor:paint.every(m=>!!m.instanceColor)}; })()""")
-        run.check('機車：套件機車整組藏起來、換成 InstancedMesh（台數相同、車殼有每台的顏色）', sc['kitHidden'] is True and sc['kitScooters'] > 30 and sc['paintInstances'] == sc['kitScooters'] and sc['hasColor'] and sc['colors'] >= 5, json.dumps(sc))
+            const n=kit?kit.children.filter(o=>o.isGroup).length:-1; const ims=out?out.children.filter(o=>o.isInstancedMesh&&o.name!=='wz_scooter_shadows'):[]; const lods=out?out.children.filter(o=>o.isLOD):[];
+            const r={kitScooters:n, kitHidden:kit?!kit.visible:null, lods:lods.length};
+            if(lods.length){   /* 機車 v2（scooters_v2.py，12 款）：每段一個 THREE.LOD（近：完整、遠：_lod1），合成網格、頂點色 */
+              const pick=out.userData.scPick||{}; r.placed=Object.values(pick).reduce((a,b)=>a+b,0); r.kinds=Object.keys(pick).length; r.colors=out.userData.scColors||0; r.pick=pick;
+              r.levelsOK=lods.every(l=>l.levels.length===2&&l.levels[1].distance>0&&l.levels.every(v=>v.object.isMesh&&v.object.geometry.attributes.color&&v.object.material.vertexColors)); return r; }
+            const paint=ims.filter(m=>m.material.name==='scooter_paint'); const c=new THREE.Color(), glbCols=new Set(); for(const m of paint) for(let i=0;i<m.count;i++){ m.getColorAt(i,c); glbCols.add(c.getHexString()); }
+            return Object.assign(r,{instanced:ims.length, paintInstances:paint.reduce((a,m)=>a+m.count,0), colors:[...glbCols].length, hasColor:paint.every(m=>!!m.instanceColor)}); })()""")
+        if sc.get('lods'):
+            run.check('機車（v2 多車型）：套件機車整組藏起來、換成正式模型（台數相同、至少 6 款、至少 5 種車殼顏色、每段近／遠兩層）', sc['kitHidden'] is True and sc['kitScooters'] > 30 and sc['placed'] == sc['kitScooters'] and sc['kinds'] >= 6 and sc['colors'] >= 5 and sc['levelsOK'] is True, json.dumps(sc, ensure_ascii=False))
+        else:
+            run.check('機車：套件機車整組藏起來、換成 InstancedMesh（台數相同、車殼有每台的顏色）', sc['kitHidden'] is True and sc['kitScooters'] > 30 and sc['paintInstances'] == sc['kitScooters'] and sc['hasColor'] and sc['colors'] >= 5, json.dumps(sc))
         # 自我檢查：把一棟套件公寓的外觀打開，「套件外觀全部藏起來」的檢查必須看得出來
         neg = await pg.evaluate("""(()=>{ const b=GAME.E.zone.group.children.find(o=>o.userData&&o.userData.wzApt==='B5'); const m=b.children.find(o=>o.isMesh); m.visible=true;
             const n=b.children.filter(o=>(o.isMesh||o.isSprite)&&o.visible).length; m.visible=false; return n; })()""")
