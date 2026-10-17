@@ -384,10 +384,10 @@ index 00000000..b0b06a77
 +Z3.ZONES.us_apartment=US3.us_apartment; Z3.ZONES.us_shared=US3.us_shared; Z3.ZONES.us_outside=US3.us_outside; Z3.ZONES.us_market=US3.us_market; Z3.ZONES.us_asian_market=US3.us_asian_market; Z3.ZONES.airport_dep=US3.airport_dep; Z3.ZONES.airport_arr=US3.airport_arr;
 diff --git a/tests/flow_us_exchange.py b/tests/flow_us_exchange.py
 new file mode 100644
-index 00000000..513a02b8
+index 00000000..5a4c1107
 --- /dev/null
 +++ b/tests/flow_us_exchange.py
-@@ -0,0 +1,182 @@
+@@ -0,0 +1,195 @@
 +"""真實玩家流程：美國交換篇的場景接進遊戲（LAWWW2-C 2026-10-17；使用者「先做1，把美國場景接進遊戲」；src/us3d.js）
 +
 +不用 ?turbo、不瞬移；手機模擬（iPhone 橫向、is_mobile、CDP 觸控）。玩家的操作只用：搖桿、點地面（遊戲的自動找路）、點互動按鈕、選單。
@@ -398,7 +398,7 @@ index 00000000..513a02b8
 +  4. 社區：從入口走過停車場到 B 棟東邊的樓梯間 →「回公寓」→ 公寓門外的樓梯平台；一到社區不會就跳出「出門」
 +  5. 公寓：從平台走進大門 → 走道 → 客廳：沙發坐下、站起來 → 臥室：床尾出現「睡覺」→ 書桌「坐在書桌前」→ 廚房：冰箱
 +  6. 走回平台東端（樓梯）「出門」→ 社區、樓梯間門口；不會一出來就跳出「回公寓」
-+  6b.（LAWWW-C 的最小可玩流程：外出 → 回公寓）社區入口「出門（去超市）」→ 超市：乳製品冷藏櫃、零食走道 →「離開超市」→ 社區入口
++  6b.（LAWWW-C 的最小可玩流程：外出 → 回公寓）社區入口「出門（去超市）」→ 超市：乳製品冷藏櫃、零食走道 →「過馬路」→ 對面的亞洲超市：泡麵 →「過馬路（回大超市）」→「離開超市」→ 社區入口
 +  6c. C 棟「上樓（C 棟 208）」→ 學姊她們那一戶的共用廚房（冰箱上的輪值表、窗口吧台）→「出門」→ C 棟樓梯口
 +  6d. 從 C 棟走過停車場到會所門口（門廊下）：「會所」有說明
 +  7. 入境大廳：走到接機處 →「出口（搭車回台北）」→ 公館
@@ -524,6 +524,19 @@ index 00000000..513a02b8
 +        ok = await walk_to_it(pg, cdp, run, '第 2 走道：零食', 0.8)
 +        await run.shot(pg, '11d_us_market_aisle')
 +        run.check('6b. 走進零食走道', ok)
++        # 6b'. 對面的小亞洲超市（使用者 2026-10-17 23:0x；BB-C：US1 的台灣泡麵在這裡買）
++        ok = await walk_to_it(pg, cdp, run, '過馬路（對面的亞洲超市）', 0.6)
++        run.check("6b'. 走到大超市出口旁、出現「過馬路（對面的亞洲超市）」", ok)
++        run.check("6b'. 「過馬路」→ 亞洲超市", ok and await press(pg, cdp, run, '過馬路（對面的亞洲超市）', 'us_asian_market'))
++        await pg.wait_for_timeout(5000); s = await L.state(pg); await run.shot(pg, '11d2_asian_market')
++        run.check("6b'. 在亞洲超市門口、站得住；不會一到就跳出出口", s['zone'] == 'us_asian_market' and s['stand'] and not s['interact'].startswith(('過馬路', '回社區')), json.dumps(s, ensure_ascii=False))
++        ok = await walk_to_it(pg, cdp, run, '泡麵', 0.6)
++        cap = await look(pg, cdp, '泡麵') if ok else ''
++        await run.shot(pg, '11d3_asian_noodles')
++        run.check("6b'. 走到泡麵那一排（US1 的台灣泡麵），有說明", ok and len(cap) > 0, f'「{cap[:40]}」')
++        ok = await walk_to_it(pg, cdp, run, '過馬路（回大超市）', 0.6)
++        run.check("6b'. 「過馬路（回大超市）」→ 大超市", ok and await press(pg, cdp, run, '過馬路（回大超市）', 'us_market'))
++        await pg.wait_for_timeout(4000)
 +        ok = await walk_to_it(pg, cdp, run, '離開超市', 0.8)
 +        run.check('6b. 「離開超市」→ 社區入口', ok and await press(pg, cdp, run, '離開超市', 'us_outside'))
 +        await pg.wait_for_timeout(4000); s = await L.state(pg)

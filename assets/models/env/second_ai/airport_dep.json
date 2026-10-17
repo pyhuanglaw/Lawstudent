@@ -5,7 +5,7 @@
  "tris_drawn": 75810,
  "materials": 37,
  "out": "assets/models/env/second_ai/airport_dep.glb",
- "bytes": 5536516,
+ "bytes": 5535916,
  "texres": 512,
  "tris_total": 75810,
  "layout": "airport_t2.layout.json",

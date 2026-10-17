@@ -28,6 +28,24 @@
 - LAWWW-C 的 `node tests/exch_min_unit.js`：在這個 patch 上 ALL PASS。
 - `tests/flow_us_exchange.py`（新，真實玩家流程，不用 turbo、不瞬移）：見下面。
 
+## 遊戲內截圖（實際遊戲畫面：fast_shots.py＝遊戲本身讀檔、擺鏡頭；SwiftShader，畫質比真機低；**不是真機**）
+| C 棟 208（US2 的共用廚房，BB_217） | |
+|---|---|
+| ![](shared_01_landing_dusk.webp) 門外的樓梯平台（黃昏 18:36）：門牌 208／207、欄杆外是社區的公寓和停車場、天空是遊戲的黃昏 | ![](shared_03_fridge_chores.webp) 冰箱上的手寫輪值表（CHORES：TRASH／DISHES／TP × A／B／C）＋便條 |
+| ![](shared_04_bedroom_doors_ABC.webp) 客廳東牆臥室 A、B 的門（門牌 A／B、白板、海報）、沒收完的行李箱、吊扇 | ![](shared_05_follow_cam_inside.webp) 手機橫向、跟隨鏡頭：在屋裡往南退時南牆淡出（之前整個畫面是牆） |
+| ![](shared_06_follow_cam_landing.webp) 玩家在平台上：南牆照舊是實牆（看得到大門） | |
+
+| 對面的小亞洲超市（竹葉亞洲超市，虛構） | |
+|---|---|
+| ![](asian_01_overview.webp) 從門口看：四排貨架、紅底金框的走道吊牌、結帳櫃台＋紅燈籠、北牆冷凍櫃 | ![](asian_02_noodles.webp) 泡麵那一排（袋裝、碗麵；假包裝，沒有字和商標） |
+| ![](asian_03_checkout_lanterns.webp) 結帳櫃台、紅燈籠、米的牆 | ![](asian_04_view_big_market_across.webp) 從店裡往外看：停車場、馬路對面的草原超市 |
+| ![](asian_05_follow_cam_mobile.webp) 手機橫向、跟隨鏡頭在泡麵那一排 | |
+
+| 社區會所門口 | |
+|---|---|
+| ![](club_01_door.webp) 會所（門廊、白柱、紅磚腰牆、玻璃門、亮著的窗、空白招牌） | ![](club_02_dusk.webp) 傍晚 19:18：門廊燈、壁燈亮 |
+| ![](club_03_follow_cam_mobile.webp) 手機橫向、跟隨鏡頭站在門廊下 | ![](airport_01_board_destinations.webp) 機場出發看板：首爾、東京、金邊、舊金山、洛杉磯、大阪關西、芝加哥（寒暑假出國、交換的目的地） |
+
 ## 自己抓到、已經修的
 | 問題 | 原因 | 改法 |
 |---|---|---|

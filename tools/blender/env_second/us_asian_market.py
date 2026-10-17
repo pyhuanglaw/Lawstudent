@@ -155,16 +155,17 @@ for xx in (dr['x'] - 0.12, dr['x'] + 0.12): mu.box(xx - 0.015, xx + 0.015, 0.8, 
 gl.finish(root, uv=False); mu.finish(root, uv=False); dg.finish(root, uv=False)
 mt = Mesh('usam_entry_mat', L.flat('usam_mat', '#2c2d2f', rough=0.95)); mt.box(dr['x'] - 1.1, dr['x'] + 1.1, 0.0, 0.008, Z1 - 1.6, Z1 - 0.05); mt.finish(root, uv=False)
 out_w = Mesh('usam_out_walk', M['conc'], tile=2.0); out_w.box(-40, 40, -0.05, 0.12, Z1, Z1 + 2.6); out_w.box(-40, 40, -0.05, 0.0, Z1 + 2.6, Z1 + 2.8); out_w.finish(root)
-out_a = Mesh('usam_out_lot', M['asph'], tile=3.0); out_a.box(-40, 40, -0.08, -0.02, Z1 + 2.8, Z1 + 30); out_a.finish(root)
+out_a = Mesh('usam_out_lot', M['asph'], tile=3.0); out_a.box(-40, 40, -0.08, -0.02, Z1 + 2.8, Z1 + 24); out_a.finish(root)
 ln = Mesh('usam_out_lines', M['paint'])
 for k in range(-12, 13): ln.box(k * 2.7 - 0.05, k * 2.7 + 0.05, -0.02, -0.016, Z1 + 3.0, Z1 + 8.2)   # 自己門口的車位線
 ln.box(-40, 40, -0.02, -0.016, Z1 + 14.0, Z1 + 14.12); ln.box(-40, 40, -0.02, -0.016, Z1 + 20.0, Z1 + 20.12)   # 馬路的白線
 for k in range(-14, 14): ln.box(k * 3.0, k * 3.0 + 1.5, -0.02, -0.016, Z1 + 16.95, Z1 + 17.05)          # 中線（虛線）
 ln.finish(root, uv=False)
 vw = Mesh('usam_view', M['view']); bm_ = vw.bm; uvl = bm_.loops.layers.uv.verify()
-VZ = Z1 + 30.0
-fc = bm_.faces.new([bm_.verts.new(g2b(*p)) for p in ((-40, -0.6, VZ), (40, -0.6, VZ), (40, 19.4, VZ), (-40, 19.4, VZ))])
-for lp, uv in zip(fc.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[uvl].uv = uv
+VZ = Z1 + 24.0   # 景的地平線（貼圖由上往下 72%）放在 y＝0：畫的停車場在地面下（被 3D 的柏油擋住），對面的草原超市從地面起來（第一次截圖：地平線在 5 m 高、只看得到一條灰色）
+VH = 20.0; VY0 = -VH * (1 - 0.72)
+fc = bm_.faces.new([bm_.verts.new(g2b(*p)) for p in ((-40, VY0, VZ), (40, VY0, VZ), (40, VY0 + VH, VZ), (-40, VY0 + VH, VZ))])
+for lp, uv in zip(fc.loops, ((1, 0), (0, 0), (0, 1), (1, 1))): lp[uvl].uv = uv   # 從店裡往南看：右手邊是西（−x），u 要往 −x 增加（第二次截圖：Prairie Basket 是反的）
 vw.finish(root, uv=False)
 
 # ================= 貨架 =================
@@ -186,10 +187,12 @@ for g in J['gondolas']:
     kk.box(gx - d / 2, gx + d / 2, 0.0, 0.13, z0, z1); pg.box(gx - 0.025, gx + 0.025, 0.13, hh, z0, z1)
     for zz in (z0, z1): sh.box(gx - d / 2, gx + d / 2, 0.0, hh, zz - 0.02 if zz == z0 else zz, zz if zz == z0 else zz + 0.02)
     for side in (1, -1): gondola_side(gx, z0, z1, side, g['cat'], d)
+    sh.box(gx - d / 2 - 0.01, gx + d / 2 + 0.01, hh, hh + 0.03, z0 - 0.02, z1 + 0.02)              # 頂蓋（最上層商品的頂面從上面看是一片黑：第一次遊戲內截圖）
     ef = z1 + 0.55                                                                                # 南端的端架（促銷：一箱一箱的泡麵、零食）
     kk.box(gx - 0.5, gx + 0.5, 0.0, 0.13, z1, ef)
     for ys in LEVELS[:4]: sh.box(gx - 0.5, gx + 0.5, ys, ys + SHELF_T, z1, ef)
-    for xs_ in (gx - 0.52, gx + 0.5): sh.box(xs_, xs_ + 0.02, 0.0, 1.3, z1, ef)
+    for xs_ in (gx - 0.52, gx + 0.5): sh.box(xs_, xs_ + 0.02, 0.0, 1.5, z1, ef)
+    sh.box(gx - 0.52, gx + 0.52, 1.5, 1.53, z1, ef)                                             # 端架的頂蓋
     products_run(prod, 'noodles' if g['aisle'] in (1, 3) else 'snacks', 'x', gx - 0.48, gx + 0.48, ef - 0.02, 0.5, 1, LEVELS[:4])
     # 走道吊牌（貨架東邊那一條走道上方，兩面）：紅底金框中英（us_am_signs.png 上面四塊）
     k = g['aisle'] - 1; sx = g['x'] + (1.7 if g['aisle'] < 4 else -1.4); sz = -0.9; cu, cv = (k % 2) * 0.5, 1.0 - (k // 2) * 160 / 1024
@@ -318,8 +321,12 @@ for lay in range(4):
             pv.crbox(bx0, bx0 + 0.64, yb, yb + 0.165, bz0, bz0 + 0.48, '#f2ece0' if (i + j + lay) % 3 else '#efe2c0', r=0.05, seg=1)
 pv.cbox((pr_['x0'] + pr_['x1']) / 2 - 0.3, (pr_['x0'] + pr_['x1']) / 2 + 0.3, 0.8, 1.2, pr_['z1'] - 0.03, pr_['z1'] - 0.01, '#d8b07a')
 pv.cbox((pr_['x0'] + pr_['x1']) / 2 - 0.25, (pr_['x0'] + pr_['x1']) / 2 + 0.25, 1.0, 1.1, pr_['z1'] - 0.01, pr_['z1'], '#c8302b')
-for k in range(5):                                                                                 # 門口疊在一起的購物籃（藍色塑膠）
-    pv.crbox(dr['x'] - 2.0, dr['x'] - 1.5, 0.0 + k * 0.05, 0.25 + k * 0.05, Z1 - 1.0, Z1 - 0.65, '#2a5a9a', r=0.02, seg=1)
+bx0_, bx1_, bz0_, bz1_ = dr['x'] - 2.05, dr['x'] - 1.5, Z1 - 1.02, Z1 - 0.64                   # 門口疊在一起的購物籃（藍色塑膠）：籃身往下收窄、每個籃口一圈淺色、最上面兩支黑色提把
+for k in range(6):
+    y_ = k * 0.055; pv.crbox(bx0_ + 0.03, bx1_ - 0.03, y_, y_ + 0.05, bz0_ + 0.03, bz1_ - 0.03, '#24508c', r=0.01, seg=1)
+    pv.cbox(bx0_, bx1_, y_ + 0.05, y_ + 0.055, bz0_, bz1_, '#3f76c0')
+pv.cbox(bx0_ + 0.06, bx1_ - 0.06, 0.335, 0.336, bz0_ + 0.06, bz1_ - 0.06, '#16345c')                 # 最上面那個籃子的底（看進去是深色）
+for zz in (bz0_ + 0.12, bz1_ - 0.12): pv.cbox(bx0_ + 0.06, bx1_ - 0.06, 0.34, 0.36, zz - 0.01, zz + 0.01, '#202224')
 for m_ in (wd, cnt):
     m_.finish(root)
 scr.finish(root, uv=False); bk.finish(root, uv=False)
