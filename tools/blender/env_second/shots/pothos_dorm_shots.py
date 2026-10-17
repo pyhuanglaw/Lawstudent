@@ -37,6 +37,7 @@ async def one(p, landscape, hour, tag):
         def note(self, t): print('note', t)
     await PL.advance_dialogs(pg, cdp, _R(), lambda st: not st['dlg'] and not st['choices'], max_steps=40)   # 讀檔後的開場旁白（「開學第三週」）點掉
     w = await pg.evaluate(WAIT_DORM); flag = await pg.evaluate(POTHOS_FLAG)
+    await pg.add_style_tag(content='#dlg{display:none!important}')   # 讀檔後的旁白（「開學第三週」）有時點不掉、蓋住畫面下半部（LAWWW2-C 2026-10-17）：截圖只看房間，藏起來
     tris = None
     if MODE == 'after': tris = await pg.evaluate(INJECT + '(%s)' % json.dumps(PLACE))
     await pg.evaluate(SETTLE + '(30)')

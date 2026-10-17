@@ -258,7 +258,9 @@ def bike(name='bike_city', child=False, x=0.0, basket='wire', load=False):
         for (x0, x1, y0, y1, z0, z1) in ((bx0, bx1, by0, by0 + t, bz0, bz1), (bx0, bx0 + t, by0, by1, bz0, bz1), (bx1 - t, bx1, by0, by1, bz0, bz1),
                                           (bx0, bx1, by0, by1, bz0, bz0 + t), (bx0, bx1, by0, by1, bz1 - t, bz1)):
             pk.crbox(x0, x1, y0, y1, z0, z1, pc, r=0.005, seg=1)
-        pk.crbox(bx0 - 0.006, bx1 + 0.006, by1 - 0.018, by1, bz0 - 0.006, bz1 + 0.006, '#2e3134', r=0.006, seg=1)   # 上緣加厚的唇
+        L_ = '#2e3134'; e = 0.006; lw = 0.016   # 上緣加厚的唇：四條框（第一版是一整片＝蓋子）
+        pk.crbox(bx0 - e, bx1 + e, by1 - 0.018, by1, bz1 - lw, bz1 + e, L_, r=0.005, seg=1); pk.crbox(bx0 - e, bx1 + e, by1 - 0.018, by1, bz0 - e, bz0 + lw, L_, r=0.005, seg=1)
+        pk.crbox(bx0 - e, bx0 + lw, by1 - 0.018, by1, bz0 + lw, bz1 - lw, L_, r=0.005, seg=1); pk.crbox(bx1 - lw, bx1 + e, by1 - 0.018, by1, bz0 + lw, bz1 - lw, L_, r=0.005, seg=1)
         # 四面的格孔（台灣菜籃車式塑膠籃：一排一排的長方孔；第一版只有前面三道長孔，側面看是一個灰色實心盒子＝方塊感，退件）：
         # 深色的孔是比板面凸 1 mm 的薄片（不和板面同一平面，不閃）；孔和孔之間留 1.2 cm 的肋
         hole = '#17181a'; rows = [by0 + 0.035 + k * 0.042 for k in range(4)]; hh = 0.026
@@ -638,7 +640,8 @@ def bike_old(x):
             t = max(0.0, min(1.0, (0.62 - y) / 0.5)) ** 1.3             # 低的地方（擋泥板下緣）鏽多
             t = max(t, max(0.0, min(1.0, (abs(zg) - 0.78) / 0.12)))     # 貨架、擋泥板的末端
             n = 0.5 + 0.5 * math.sin(co.x * 91.0 + co.y * 53.0 + co.z * 37.0)   # 斑駁（同一處有深有淺）
-            k = t * (0.55 + 0.45 * n); rc = rust_c if n > 0.45 else rust_d
+            sp = max(0.0, min(1.0, (n - 0.55) / 0.25))                   # 鏽是一塊一塊的（第一版整個下緣都是鏽＝廢棄車；目標「用了三到五年」）
+            k = t * (0.10 + 0.80 * sp); rc = rust_c if n > 0.7 else rust_d
             lp[ru.col] = tuple(paint_c[i] * (1 - k) + rc[i] * k for i in range(3)) + (1.0,)
     sweep(mt, [S, (0, 0.88, -0.30)], 0.014, seg=6); bk_saddle(P, (0, 0.93, -0.31), L=0.26, W=0.095, H=0.035, wide=1.1)
     for sx in (-0.05, 0.05): mt.cyl((sx, 0.86, -0.39), (sx, 0.905, -0.39), 0.014, seg=6)   # 座墊彈簧
