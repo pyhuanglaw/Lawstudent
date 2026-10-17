@@ -24,6 +24,7 @@ async def main():
     os.makedirs(OUT, exist_ok=True); shots = []
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=False)
+        pg.set_default_timeout(180000)   # SwiftShader＋同時跑別的瀏覽器時截圖要幾十秒
         await pg.set_viewport_size({'width': 720, 'height': 960})
         for pair in filter(None, os.environ.get('CHAR_SWAP', '').split(';')):
             u, f = pair.split('=', 1); body = open(os.path.join(ROOT, f), 'rb').read()
