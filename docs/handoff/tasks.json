@@ -14585,6 +14585,27 @@
    ]
   },
   {
+   "id": "KNOWS-SPREAD-1017",
+   "title": "誰知道祐廷和可昕在交往：朋友聊天傳開（BB_191 9-3、9-8：以安→沛珊、子晴⇄芷若）＋子晴問阿凱（BB_191 9-7、AA_218 17-11）",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "next": "【17:2x LAWWW-C】romance3d.js：ROM.spreadTick（以安→沛珊：大二上第 6 週以後、以安知道後的下一次公法讀書會週四散會 21:30；子晴⇄芷若：知道後的下一個週五 14～16 兩人作息同時在校園、芷若在英國的學期不算；一層、不擲骰、記見面那一刻；F.spreadScan 增量、存檔晚讀也補到正確日子）、ROM.zqAskTick（子晴第 5 階以上、沒和祐廷交往、還不知道、和可昕交往中 → 上課日 17:00 以後第一次看到＝那天 17:00；子晴、阿凱都在台大）＋ev_zq_ask_kai（睡覺觸發，字卡「17:00　資工系館」、暗底，AA_218 17-11 三句；participants 空的＝不算認識、不算期末一起在場）；nightEvent 加 sleepCard。小語→子晴照 BB「定以前不傳」。tests/knows_spread_unit.js 32 項。待瀏覽器（睡覺時那一段）。",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "子晴第 5 階以後第一個上課日 17:00；以安→沛珊 大二上第 6 週週四",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_191 9-3、9-7、9-8（claude/wonderful-mayer-7fm9g6 0b075eac）；AA_218 17-10、17-11（5063fbaf）",
+   "authorized": "使用者 2026-10-17 08:1x～09:0x（AA_218 17-7、17-8、17-11：在場才知道、阿凱一定知道不主動說）；機制 BB-C、台詞 AA-C（D50 第②級）"
+  },
+  {
    "owner": "LAWWW",
    "priority": "P1",
    "area": "V1",

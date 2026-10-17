@@ -23,7 +23,7 @@ const ROM=(function(){
   /* 誰知道祐廷在和誰交往（knowsRel；BB_191 第 1、9 節 @08429294、第 10 節 @f3ae0e82；AA_218 17-7／17-8／17-10／17-11；使用者 2026-10-17「大家一開始都不知道祐廷有女友」）：
      G.flags.knowsRel[X][P]＝{state:'confirmed', source, day}：X 知道祐廷在和 P 交往；沒有這一筆＝不知道。X 是任何人（阿哲、小語、柏翰這些不是戀愛對象的也算），所以不放在 romance[X] 裡。
      只寫 'confirmed'（使用者刪掉「自己看到」「第三人轉述」兩種來源，不再有 'suspects'；欄位保留）。**寫入一律走 ROM.learn。**
-     來源：在場（K3 選①「這是可昕，我女朋友。」）、朋友聊天傳開 told_by:<Y>（一次一層；9-3 還沒做）、祐廷自己說 yt_told（ROM.tellBy）、子晴問阿凱 told_by:kai（9-7，台詞等 AA）。
+     來源：在場（K3 選①「這是可昕，我女朋友。」）、朋友聊天傳開 told_by:<Y>（一次一層；S.spreadTick）、祐廷自己說 yt_told（ROM.tellBy）、子晴問阿凱 told_by:kai（9-7；S.zqAskTick、ev_zq_ask_kai）。
      阿凱（室友）一定知道可昕。知道過就是知道過（分手不刪）。原本的固定名單 KEXIN_KNOWN（以安、語彤、沛珊在 KX_MET_NOODLE_TEAM 以後一律知道）拿掉（9-4 #1）。
      knowsGF(X)＝X 知道可昕（knowsRel[X].kexin）。舊欄位 romance[X].knows 第一次讀檔搬進來，之後不再讀寫。
      ytKnows[X][P]：祐廷知道 X 知道 P（旁白、選項讀這個；她自己的台詞讀 knowsRel）。預設沒有＝false。 */
@@ -31,7 +31,7 @@ const ROM=(function(){
   S.relRec=G=>sub(G.flags||(G.flags={}),'knowsRel');
   S.ytRec=G=>sub(G.flags||(G.flags={}),'ytKnows');
   S.knowsOf=(G,x,p)=>(x==='kai'&&p==='kexin')||!!((S.relRec(G)[x]||{})[p]);
-  S.learn=function(G,x,p,source){ const M=sub(S.relRec(G),x); if(M[p]) return false; M[p]={state:'confirmed',source:source||'',day:G.day}; return true; };
+  S.learn=function(G,x,p,source,at){ const M=sub(S.relRec(G),x); if(M[p]) return false; M[p]={state:'confirmed',source:source||'',day:at?at.day:G.day,h:+(at?at.h:(G.hour||0)).toFixed(2)}; return true; };   /* at：傳開的時候記兩人見面的那一刻（不是玩家發現的這一刻）*/
   S.ytKnows=(G,x,p)=>!!((S.ytRec(G)[x]||{})[p]);
   S.tellYt=(G,x,p)=>{ sub(S.ytRec(G),x)[p]=true; };
   S.tellBy=(G,x,p)=>{ S.learn(G,x,p,'yt_told'); S.tellYt(G,x,p); };   /* 祐廷自己說：她知道，他也知道她知道 */
@@ -40,6 +40,29 @@ const ROM=(function(){
   S.K3_PRESENT=['yu','heroine_01','heroine_03','classmate_bohan','npc_fangyt'];   /* K3 中秋烤肉：阿哲一定在；這五位各自 STORY.knows 才在場（events.js ev_mid_autumn_bbq）*/
   S.k3Tell=function(G){ if(!G.flags||G.flags.KX_INTRO!=='gf') return; const at=['zhe'].concat(S.K3_PRESENT.filter(id=>typeof STORY!=='undefined'&&STORY.knows&&STORY.knows(id,G)));
     for(const id of at){ S.learn(G,id,'kexin','ev_mid_autumn_bbq'); S.tellYt(G,id,'kexin'); } };   /* 他當著大家的面介紹的：在場的人知道，他也知道他們知道 */
+  /* 傳開（BB_191 9-3、9-7、9-8；AA_218 17-10、17-11）：只有 SPREAD 這幾組會傳，一次一層、不擲骰；記的 day／h＝兩人下一次一起出現的那一刻。
+     以安→沛珊：大二上第 6 週以後、以安知道以後的下一次公法讀書會週四（散會 21:30 一起走回女舍）；子晴⇄芷若：知道以後的下一個週五 14～16，兩人的作息同時在校園（芷若在英國的學期不算）。
+     小語→子晴：BB 寫「定以前不傳」；語彤、阿哲、小語、柏翰、方奕廷知道了也不傳給女主角；沛珊聽說以後不再往下傳（她的朋友圈沒有表上的人）。
+     阿凱（室友）一定知道、不主動說：只有子晴問的時候（zqAsk：子晴第 5 階以上、沒和祐廷交往、還不知道、祐廷和可昕交往中 → 第一個上課日 17:00 資工系下課；那晚睡覺時演 ev_zq_ask_kai）。
+     不是每一幀都從頭算：F.spreadScan 記每一組看到哪一天（存檔讀進來很久以後也會補到正確的那一天）*/
+  S.CAMPUS_ZONES=['campus','linze','classroom','wancai','library','library_hall','lawlib','soclib','boya','putong','gym','gym_b1'];
+  S.SPREAD=[{from:'heroine_01',to:'classmate_peishan',meet:'plg'},{from:'heroine_04',to:'heroine_02',meet:'fri'},{from:'heroine_02',to:'heroine_04',meet:'fri'}];
+  const onCampus=(G,id,day,hh,wd)=>{ if(typeof STORY==='undefined'||!STORY.schedEnt||typeof CHARACTERS==='undefined'||!CHARACTERS[id]) return false; const Gx=Object.assign({},G,{day,hour:hh,weekday:wd});
+    if(STORY.presence&&!STORY.presence(id,Gx).here) return false; const e=STORY.schedEnt(CHARACTERS[id],Gx); return !!(e&&e.zone&&S.CAMPUS_ZONES.includes(e.zone)); };
+  S.meetOn=function(G,r,day){ if(typeof CALENDAR==='undefined') return null; const wd=CALENDAR.dateOf(day).wd%7;
+    if(r.meet==='plg'){ if(wd!==4||typeof ACTIVITIES==='undefined'||!ACTIVITIES.list) return null; const d0=typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay('Y2S1',6,1):null; if(d0==null||day<d0) return null;
+      const a=ACTIVITIES.list.find(x=>x.id==='public_law_group'); return a&&ACTIVITIES.on(a,day,G)?{t0:a.t0,t1:a.t1}:null; }
+    if(r.meet==='fri'){ if(wd!==5) return null; for(const hh of [14.25,14.75,15.25,15.75]) if(onCampus(G,r.from,day,hh,5)&&onCampus(G,r.to,day,hh,5)) return {t0:14,t1:16}; return null; }
+    return null; };
+  S.spreadTick=function(G){ if(!G||!G.flags) return 0; const F=G.flags, R=S.relRec(G), scan=F.spreadScan&&typeof F.spreadScan==='object'?F.spreadScan:(F.spreadScan={}), now=G.day*24+(G.hour||0); let n=0;
+    for(const r of S.SPREAD){ const src=(R[r.from]||{}).kexin; if(!src||S.knowsOf(G,r.to,'kexin')) continue; const key=r.from+'>'+r.to, tk=src.day*24+(src.h!=null?src.h:24);   /* 舊存檔沒有 h：當成那天晚上才知道 */
+      let d=Math.max(src.day,scan[key]!=null?scan[key]+1:src.day); const end=Math.min(G.day,d+800);
+      for(;d<=end;d++){ if(d===G.day&&(G.hour||0)<(r.meet==='fri'?16:21.5)) break;   /* 今天的見面還沒結束：先不算（作息每一幀算一次太貴）*/ const m=S.meetOn(G,r,d); if(m&&d*24+m.t0>tk){ if(d*24+m.t1>now) break; S.learn(G,r.to,'kexin','told_by:'+r.from,{day:d,h:m.t1}); n++; break; } scan[key]=d; } }
+    return n; };
+  S.zqAskReady=function(G){ const F=G.flags||{}; if(!F.dating_kexin||F.dating_heroine_04||F.ZQ_ASK_KAI_D!=null||S.knowsGF(G,'heroine_04')) return false;
+    return typeof DATE!=='undefined'&&DATE.stageNum&&DATE.stageNum('heroine_04')>=5; };
+  S.zqAskTick=function(G){ const F=G.flags||{}; if(!S.zqAskReady(G)||(G.hour||0)<17||typeof CALENDAR==='undefined') return false; const wd=CALENDAR.dateOf(G.day).wd%7, T=CALENDAR.termOf(G.day);
+    if(wd<1||wd>5||!T||CALENDAR.holiday(G.day)) return false; if(typeof STORY!=='undefined'&&STORY.presence&&(!STORY.presence('heroine_04',G).here||!STORY.presence('kai',G).here)) return false; F.ZQ_ASK_KAI_D=G.day; S.learn(G,'heroine_04','kexin','told_by:kai',{day:G.day,h:17}); return true; };   /* 上課日（學期中、不是國定假日）的 17:00 以後第一次看到條件都成立＝那天 17:00 問的；ytKnows 不變（祐廷不知道）*/
   /* 現在是哪個學期第幾週：'Y1S1W5'；不在學期裡（寒暑假）＝'D'＋第幾天 */
   S.when=function(G){ const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; return T?T.id+'W'+(T.week|0):'D'+G.day; };
   const blank=()=>({status:'none',since:null,knows:[],suspicion:0,history:[]});

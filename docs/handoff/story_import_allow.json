@@ -550,6 +550,14 @@
    "status": "approved",
    "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
    "note": "AA-C 13:29：每年重開、第二次以後日誌、C02 小隊長、換人版、招募多一句"
+  },
+  {
+   "path": "docs/story_planning/AA_218_祐廷人生主線修訂提案.md",
+   "sha": "5063fbaf",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿台詞（17-11 子晴問阿凱三句；使用者 09:0x「阿凱一定知道、不主動說」的設計）＋BB-C 定觸發（BB_191 9-7 @0b075eac）；D50 第②級一般日常事件（AA、BB 共識）。只限 17-11 子晴問阿凱三句；到最新 62b16f5a 一字未改",
+   "task": "KNOWS-SPREAD-1017",
+   "kind": "text"
   }
  ]
 }

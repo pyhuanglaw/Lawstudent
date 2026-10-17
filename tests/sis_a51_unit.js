@@ -92,6 +92,7 @@ GM.money=function(n){ G.money+=n; };
   G.hour=15; check('5. 7/11 15:00 演',EVENTS.check(c2));
   said=[]; await EVENTS.run(c2); L=lines(); check('5. 房間：「（家裡要搬家。她的房間地上好幾個紙箱……）」＋筆記本拍照',JSON.stringify(L)===JSON.stringify(['（家裡要搬家。她的房間地上好幾個紙箱，一半已經封起來。）','（書架最下面一層，一本封面有點皺的筆記本。大一的通識課。她翻開，停在一頁，笑了一下，拿起手機拍照。）'])&&G.flags.SIS_C2_ROOM===j11,JSON.stringify(L));
   check('5. 相簿收「筆記本那一頁」（不放圖）',(G.album||[]).filter(a=>a.id==='sis_notebook').length===1&&G.album.find(a=>a.id==='sis_notebook').bg==='');
+  check('5. 房間只演她：participants 空的（不算期末的一起在場）',c2.participants.length===0);
   run(15.1,15.9); check('5. 16:00 以前沒有私訊',!PHONE.sent(G,'sis_c2_msg'));
   run(16,16.1); const C=TH('p:heroine_05'), last=C[C.length-1];
   check('5. 16:00 私訊：照片（號碼不寫出來）、「剛剛整理東西看到的。」祐廷「哈哈，真的是我的號碼。妳還留著喔。」「我自己都忘了。」',C.some(m=>/^📷（一張照片：筆記本的一頁/.test(m.text)&&!/\d{4}/.test(m.text))&&C.some(m=>m.text==='剛剛整理東西看到的。')&&C.some(m=>m.from==='player'&&m.text==='哈哈，真的是我的號碼。妳還留著喔。')&&last.text==='我自己都忘了。'&&G.flags.SIS_FESTIVAL_NOTEBOOK===true,JSON.stringify(C.map(m=>m.text)));
