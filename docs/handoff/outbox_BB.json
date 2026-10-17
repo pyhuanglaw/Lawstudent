@@ -257,6 +257,22 @@
    "noDirectIntegrate": true,
    "receiver": "AA",
    "ack": "SENT"
+  },
+  {
+   "task": "YT-LIFE-REVISION v2（AA_218）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/BB_188_祐廷人生主線修訂_BB人物與台詞提案.md",
+    "docs/story_planning/BB_122_溫學姊戀愛線v2_分手前後與重新開始.md",
+    "docs/story_planning/BB_183_美國交換改大四上_學姊與BB人物改法.md"
+   ],
+   "state": "已交付",
+   "remaining": "PROPOSAL：使用者看過才算；待確認 Q-a～Q-i（交往起點、爭執、主任、休學日、課名教授、南陽街制度、碩三赴美方式、年齡、家人反應）不寫成事實；美國篇口試、畢業等重排下一批",
+   "next": "AA-C 併入 AA_218 給使用者；使用者確認後 BB 逐句定稿，LAWWW 實作 A4 替換稿",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
   }
  ]
 }
