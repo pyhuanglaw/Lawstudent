@@ -47,15 +47,15 @@ const grp=()=>(G.msgs||[]).filter(m=>/^g:econ/.test(m.th)).map(m=>m.text);
   const snap=JSON.stringify(G); const back=()=>{ G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); };
   // 2. 20:00 電話：在家
   G.hour=19.9; check('2. 20:00 以前沒有電話',!EVENTS.check(e)&&!EVENTS.check(eh)); G.hour=20; check('2. 20:00 在家：家裡那一個（外面那一個不演）',EVENTS.check(eh)&&!EVENTS.check(e));
-  G.flags.KX_CAR='only_me'; said=[]; script=['陪她走','每週一天']; await EVENTS.run(eh); await new Promise(r=>setTimeout(r,20)); let L=said.map(x=>x.t);
+  G.flags.KX_CAR='only_me'; said=[]; script=['聽她那邊','每週一天']; await EVENTS.run(eh); await new Promise(r=>setTimeout(r,20)); let L=said.map(x=>x.t);
   check('3. 電話：「台大法律。恭喜你。真的。」→「只高 0.1。」→「上了就是上了。」→（only_me）「你那天說，你以為只有你。……」「不是只有妳。」→「政大的山比較多。四年後，我會比你強壯。」；沒有椰林大道、路燈、「一點點不甘心」「差一點點」「消化」',
     J(L.slice(0,3))===J(['台大法律。恭喜你。真的。','只高 0.1。','上了就是上了。'])&&L[3]==='你那天說，你以為只有你。……我現在懂那個感覺了。'&&L[4]==='不是只有妳。'&&L[5]==='政大的山比較多。四年後，我會比你強壯。'&&!L.some(t=>/椰林大道|路燈|不甘心|差一點點|消化/.test(t)),J(L));
   check('3. 沒有重考期的讀書日／玩樂日紀錄（一樣多）：E29 的旁白不說',!L.includes('這半年，你幾乎每天都在念書。')&&!L.includes('這半年，你們很常騎去河堤。'));
   { const s3=JSON.stringify(G); for(const [k,n,want] of [['study',3,'這半年，你幾乎每天都在念書。'],['play',2,'這半年，你們很常騎去河堤。']]){ G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.day=D-40; for(let i=0;i<n;i++){ G.day=D-40+i; EVENTS.habit('retake:'+k); } G.day=D; G.hour=20;
       said=[]; script=['四年後','到時候']; await EVENTS.run(eh); await new Promise(r=>setTimeout(r,20)); const LL=said.map(x=>x.t);
       check('3. 重考期 '+k+' 比較多：電話開頭、可昕第一句之前說「'+want.slice(0,10)+'……」',LL.indexOf(want)>=0&&LL.indexOf(want)<LL.indexOf('台大法律。恭喜你。真的。'),JSON.stringify(LL.slice(0,3))); } G=JSON.parse(s3); SOCIAL.bind(G); EVENTS.bind(GM); }
-  check('3. E36_REPLY silent、E36_PACT weekly 照用；最後一句「月底我就上去了。到時候你帶我去政大，我還不知道怎麼走。」（AA_272 4-4）；沒有「走吧。」',
-    L.includes('……你這樣很犯規。')&&G.flags.E36_REPLY==='silent'&&L.includes('是哪一天，等我們都摸熟自己的課表再說。不准忘記。')&&G.flags.E36_PACT==='weekly'&&L[L.length-1]==='月底我就上去了。到時候你帶我去政大，我還不知道怎麼走。'&&!L.some(t=>/^走吧/.test(t)),J(L.slice(-2)));
+  check('3. E36_REPLY silent「（什麼都不說，聽她那邊的聲音）」→「（電話那頭安靜了一下。）」（12-4）、E36_PACT weekly 照用；最後一句「月底我就上去了。到時候你帶我去政大，我還不知道怎麼走。」（AA_272 4-4）；沒有「走吧。」',
+    L.includes('……你這樣很犯規。')&&L.includes('（電話那頭安靜了一下。）')&&!L.some(t=>/走慢|沒有看你/.test(t))&&G.flags.E36_REPLY==='silent'&&L.includes('是哪一天，等我們都摸熟自己的課表再說。不准忘記。')&&G.flags.E36_PACT==='weekly'&&L[L.length-1]==='月底我就上去了。到時候你帶我去政大，我還不知道怎麼走。'&&!L.some(t=>/^走吧/.test(t)),J(L.slice(-2)));
   check('3. 演完不接宵夜（E36n 不再演）、一次',!EVENTS.check(en)&&!EVENTS.check(e)&&!EVENTS.check(eh));
   run(21.9,21.95); check('4. 22:00 以前群組沒有',!grp().includes('祐廷！！看到了！！'));
   run(22,22.1); const P=grp(); check('4. 22:00 經濟系群組四則：阿勳「祐廷！！看到了！！」品妤「0.1 也是分數。恭喜。」韋綸「走啦！！回來請吃宵夜！！」品妤「可昕也恭喜。」；沒有宵夜攤照片',J(P.slice(-4))===J(['祐廷！！看到了！！','0.1 也是分數。恭喜。','走啦！！回來請吃宵夜！！','可昕也恭喜。'])&&!P.some(t=>t.includes('宵夜攤')),J(P.slice(-4)));

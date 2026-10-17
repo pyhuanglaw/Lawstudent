@@ -1221,7 +1221,7 @@ const STORY = (function(){
        「走啦」econ_friends 在 P2 第一次去成的那晚由韋綸建立（第一則是系統訊息，照麵店團）。今天先回去的玩家等下一次（P2b，ev_y0_p2b）*/
     if(S.isEcon(G)){ const e02=termDay('Y0S1',1,1), mon3=termDay('Y0S1',3,1), sat3=termDay('Y0S1',3,6);
       if(e02!=null&&!PHONE.inGroup(G,'econ_class')&&(G.day>e02||(G.events&&G.events.done&&G.events.done.ev_y0_e02))) PHONE.join(G,'econ_class','經濟系 大一（全班）');
-      if(F.P2_PICK&&F.P2_PICK!=='home'&&!PHONE.inGroup(G,'econ_friends')){ PHONE.join(G,'econ_friends','走啦'); PHONE.post(G,{th:'g:econ_friends',text:'韋綸建立了群組「走啦」，把你加了進來。',tag:'econ_friends_new'}); }
+      if(((F.P2_PICK&&F.P2_PICK!=='home')||(+F.P2B_COUNT||0)>0)&&!PHONE.inGroup(G,'econ_friends')){   /* P2 都選「今天先回去」、P2b 跟去了＝照第一次聚會進「走啦」（AA_272 第 13 節）*/ PHONE.join(G,'econ_friends','走啦'); PHONE.post(G,{th:'g:econ_friends',text:'韋綸建立了群組「走啦」，把你加了進來。',tag:'econ_friends_new'}); }
       /* ★E08 中秋系烤（BB_153；AA_154 第 88 行）：9/16（一）21:00 全班群組揪；9/21（六）16:00～17:00 韋綸私訊，回「好」＝出遊 17:00 河濱（ev_y0_e08）；
          「今天不行」、沒回、出發選單選不去＝沒去：21:30 群組一張照片＋可昕私訊（BB_104 AB-09，不用回、不扣分）*/
       if(mon3!=null&&sat3!=null&&PHONE.inGroup(G,'econ_class')&&G.day<=sat3) PHONE.at(G,mon3,21,[{th:'g:econ_class',text:'中秋系烤：9/21（六）17:00，河濱。自備餐具。'},{th:'g:econ_class',from:'econ_weilun',name:'韋綸',text:'我要去！有人要一起走過去嗎？'}],'y0_e08_grp');   /* BB_179 段A #56 */
@@ -2621,8 +2621,8 @@ const STORY = (function(){
   S.rtPlanPlay=function(G){ if(typeof OUT==='undefined') return; const id='rt_play_'+G.day; if(OUT.get(G,id)) return; const [ev,place]=S.rPlayEv(G), h=Math.max(S.KX_ARRIVE,Math.ceil(G.hour*4)/4);
     OUT.plan(G,{id,ev,day:G.day,h,late:0.75,place,title:'和可昕出門 '+hm(h),travel:'走過去',travelH:1/6}); };
   S.onStudy=function(GM,hrs){ const G=GM.G; S.mootTogetherCheck(G,'study'); if(!S.retakeOn(G)||G.zone!=='boya'||hrs<2) return; if(typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('retake:study'); };
-  /* P2b 門口有人在揪（AA_154 2-5a；事件 ev_y0_p2b）：P2 演過（P2_PICK）以後，Y0S1 第 6～16 週（第 8、9 週期中考除外）、Y0S2 第 1～5 週的週四會計下課；
-     每週擲一次（P2B_P＝40%，記在 P2B_WK／P2B_HIT），同一週最多一次（P2B_SEEN）；那天已經約了別的出遊（OUT 排定、邀約答應）不揪。
+  /* P2b 門口有人在揪（AA_154 2-5a；事件 ev_y0_p2b）：P2 演過（P2_PICK）以後；AA_272 第 13 節改成第 6～7 週的週一經濟學原理下課（10/7、10/14），兩次都揪（原本第 6～16 週週四會計下課、擲 40%：10/10 國慶、10/17 休學，一次都不會觸發）；
+     同一週最多一次（P2B_SEEN）；那天已經約了別的出遊（OUT 排定、邀約答應）不揪。
      P2B_END：跟去的結束時間（food 19:30、river 17:00、night 21:00／21:30）。 */
   S.P2B_P=0.4; S.P2B_END=[19.5,17,21,21.5,21.5];
   S.bikeDay=()=>termDay('Y0S1',10,4);   /* 韋綸的腳踏車（AA_154 2-5b）：固定在 11/7（四，W10）17:30 群組版（P2b 只到 10/17 以前，現場版不會再演；p2bBikeNow 留給舊存檔）*/
@@ -2659,10 +2659,10 @@ const STORY = (function(){
   S.P2B_CUT=S.Y0_LEAVE_DAY;   /* P2b 只到休學那天以前（AA_218 第 11 節、AA_154 0b-2：10/17 以後的 P2b 和所有「會計下課」觸發刪除）：11/7 的腳踏車只剩群組版 */
   S.p2bDue=function(G){ if(!S.isEcon(G)||typeof CALENDAR==='undefined') return false; const F=G.flags||{}; if(!F.P2_PICK) return false; const t=CALENDAR.termOf(G.day); if(!t||t.exam) return false;
     const cut=S.dayOfKey(S.P2B_CUT); if(cut!=null&&G.day>=cut) return false;
-    if(!((t.id==='Y0S1'&&t.week>=6&&t.week<=16&&t.week!==8&&t.week!==9)||(t.id==='Y0S2'&&t.week>=1&&t.week<=5))) return false;
+    if(!(t.id==='Y0S1'&&t.week>=6&&t.week<=7)) return false;   /* AA_272 第 13 節：經濟學原理下課，第 6～7 週（10/7、10/14），兩次都揪 */
     if(typeof OUT!=='undefined'&&OUT.rec(G).some(q=>q.day===G.day&&q.state==='planned')) return false;
     if(Array.isArray(G.invites)&&G.invites.some(v=>v.day===G.day&&(v.state==='accepted'||v.state==='going'))) return false;
-    const wk=t.id+':'+t.week; if(F.P2B_WK!==wk){ F.P2B_WK=wk; F.P2B_HIT=Math.random()<S.P2B_P; F.P2B_SEEN=false; } return !!F.P2B_HIT&&!F.P2B_SEEN; };
+    const wk=t.id+':'+t.week; if(F.P2B_WK!==wk){ F.P2B_WK=wk; F.P2B_HIT=true; F.P2B_SEEN=false; } return !!F.P2B_HIT&&!F.P2B_SEEN; };
   S.p2bSeen=G=>{ const F=G.flags, t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(t) F.P2B_WK=t.id+':'+t.week; F.P2B_SEEN=true; };   /* 這一週揪過了（不管跟不跟）*/
   const postMid=G=>{ const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !!t&&((t.id==='Y0S1'&&t.week>=10)||t.id==='Y0S2'); };
   /* river 的順序：11/7 固定是韋綸的腳踏車（事件先接 bike）；Y0S1 其他的 river 第一次＝L5b（11/7 之前沒演到就留到下一次）；腳踏車演過以後的 river 散場接 E13③ */

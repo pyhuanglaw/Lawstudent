@@ -2430,7 +2430,7 @@ const STORY_EVENTS=[
       { id:'ev_y0_kh_call', stage:'econ', title:'電話', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>callDue(G)&&!atHome(G)}, dialogue:callLines } ]; })(),
   /* ★E36 放榜（分發結果）8/13（三）：手機＋電話（AA_272 4-4，c8baae2b；取代 AA_224 6-6 的椰林大道見面）。10:00 兩句系統旁白照 AA_224 6-6（ev_y0_e36r／rh）；
      10:05 她的私訊在 story3d.js；20:00 電話（她在高雄）：「台大法律。恭喜你。真的。」→「只高 0.1。」→「上了就是上了。」→ KX_CAR only_me 兩句 →「政大的山比較多」E36_REPLY → E36_PACT
-     → 最後一句「月底我就上去了。到時候你帶我去政大，我還不知道怎麼走。」（接 8/30 E37）。「一點點不甘心」不用（7/25 說過）；BB_104 的「我差一點點」「消化」和路燈旁白拿掉（問 AA-C 中）。
+     → 最後一句「月底我就上去了。到時候你帶我去政大，我還不知道怎麼走。」（接 8/30 E37）。「一點點不甘心」不用（7/25 說過）；BB_104 的「我差一點點」「消化」和路燈旁白拿掉（12-3）；電話裡三處改句（12-4 1fc61e52）。
      ev_y0_e36＝人不在家；ev_y0_e36h＝在臺北的家。22:00 經濟系群組四則在 story3d.js（E36n 宵夜改群組）；ev_y0_e36n 留著 id 給舊存檔（不會再觸發）*/
   ...(()=>{ const D=()=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-08-13'):null, atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
     const hab=k=>typeof EVENTS!=='undefined'&&EVENTS.habitCount?EVENTS.habitCount({key:'retake:'+k}):0;   /* E29 的旁白（AA_154 A49）：重考期讀書日、玩樂日哪邊多說哪一句，一樣多不說 */
@@ -2439,14 +2439,14 @@ const STORY_EVENTS=[
       {speaker:'kexin',text:'台大法律。恭喜你。真的。'},{speaker:'player',text:'只高 0.1。'},{speaker:'kexin',text:'上了就是上了。'},
       {if:{flagIs:{KX_CAR:'only_me'}},speaker:'kexin',text:'你那天說，你以為只有你。……我現在懂那個感覺了。'},{if:{flagIs:{KX_CAR:'only_me'}},speaker:'player',text:'不是只有妳。'},   /* AA_224 1-6：改讀 KX_CAR（camp、take_back 不加句子）*/
       {speaker:'kexin',text:'政大的山比較多。四年後，我會比你強壯。'},
-      {choice:[{text:'「政大的山，我陪妳爬。」',set:{E36_REPLY:'climb'},goto:'a'},{text:'「四年後比比看。」',set:{E36_REPLY:'compete'},goto:'b'},{text:'（什麼都不說，陪她走）',set:{E36_REPLY:'silent'},goto:'c'}]},
+      {choice:[{text:'「政大的山，我陪妳爬。」',set:{E36_REPLY:'climb'},goto:'a'},{text:'「四年後比比看。」',set:{E36_REPLY:'compete'},goto:'b'},{text:'（什麼都不說，聽她那邊的聲音）',set:{E36_REPLY:'silent'},goto:'c'}]},
       {label:'a'},{speaker:'kexin',text:'你是台大的。……好。週末的話可以。'},{goto:'p'},
       {label:'b'},{speaker:'kexin',text:'好。輸的人，請一年的宵夜。'},{goto:'p'},
-      {label:'c'},{speaker:'kexin',text:'……你這樣很犯規。'},{speaker:null,text:'她走慢了一點。'},
+      {label:'c'},{speaker:'kexin',text:'……你這樣很犯規。'},{speaker:null,text:'（電話那頭安靜了一下。）'},
       {label:'p'},{speaker:'kexin',text:'九月以後，就不是走路就到了。'},
       {choice:[{text:'「每週一天。我們說好。」',set:{E36_PACT:'weekly'},goto:'w'},{text:'「到時候再說。」',set:{E36_PACT:'later'},goto:'l'},{text:'「妳想怎麼做？」',set:{E36_PACT:'ask'},goto:'q'}]},
       {label:'w'},{speaker:'kexin',text:'……好。每週一天。'},{speaker:'kexin',text:'是哪一天，等我們都摸熟自己的課表再說。不准忘記。'},{goto:'e'},
-      {label:'l'},{speaker:'kexin',text:'好。到時候再說。'},{speaker:null,text:'（她笑了一下，可是沒有看你。）'},{speaker:'kexin',text:'……你說的喔。'},{goto:'e'},
+      {label:'l'},{speaker:'kexin',text:'好。到時候再說。'},{speaker:null,text:'（她笑了一下。笑完，沒有馬上說話。）'},{speaker:'kexin',text:'……你說的喔。'},{goto:'e'},
       {label:'q'},{speaker:null,text:'（她想了很久。）'},{speaker:'kexin',text:'我不想每次都看誰剛好有空才見。'},{speaker:'kexin',text:'要固定哪一天，我還沒想好。你也想一下。'},
       {label:'e'},{speaker:'kexin',text:'月底我就上去了。到時候你帶我去政大，我還不知道怎麼走。'} ];
     const due=G=>{ const d=D(); return d!=null&&G.day===d&&G.hour>=20&&!!G.flags.E36_ASKED&&!(G.events.done&&(G.events.done.ev_y0_e36||G.events.done.ev_y0_e36h)); };
@@ -2489,7 +2489,8 @@ const STORY_EVENTS=[
     dialogue:[ {speaker:'econ_zhengxun',text:'表叔今年給了兩倍。我的模型壞了。'} ] },
   /* P1b 會計作業：平衡不了的那一行（BB_105 P1b；AA_154 第 96、105 行）：會計課下課後的走廊，兩種輪流——第 1 次（10/3，第 5 週；和誰對答案）、第 2 次（10/17，第 7 週，有韋綸）。
      同一堂課下課 P2 還要演（「今天先回去」的玩家）的話 P2 先（afterClass 一堂只演一件）；第 1 次沒趕上第 5 週就在第 7 週，那樣第 2 次就沒有 */
-  { id:'ev_y0_p1b1', stage:'econ', title:'平衡不了的那一行', participants:['econ_pinyu','econ_zhengxun'], location:'any', trigger:'class', afterClass:'acct_y0', term:['Y0S1'], weeks:[5,6], once:true, background:'blur',
+  /* AA_272 第 13 節（d9aa4d9f，BB_214 第 3 節：第 6 週週四是國慶）：weeks 改 [4,5]（9/26、10/3）；同一堂下課 P2 也要演的話，先演 P1b1（教室裡對作業），再接 P2（門口被揪）——classFirst＋next_event */
+  { id:'ev_y0_p1b1', stage:'econ', title:'平衡不了的那一行', participants:['econ_pinyu','econ_zhengxun'], location:'any', trigger:'class', afterClass:'acct_y0', classFirst:true, next_event:'ev_y0_p2', term:['Y0S1'], weeks:[4,5], once:true, background:'blur',
     dialogue:[ {speaker:'econ_pinyu',text:'（翻作業）借貸不平衡。差一百元。'},
       {speaker:'econ_zhengxun',text:'（看了一眼）你把折舊記成收入了。'},
       {choice:[{text:'和阿勳對',goto:'x'},{text:'和品妤對',goto:'p'},{text:'自己再算一次',goto:'s'}]},
@@ -2898,9 +2899,11 @@ const STORY_EVENTS=[
      river：11/7（W10 週四）固定是韋綸的腳踏車（AA_154 2-5b：那天一定揪、一定 river）；Y0S1 其他 river 的第一次接 L5b 牽著車的巷子（BB_110）；腳踏車演過以後散場接 E13③。
      E13 大家走了以後（BB_104 8b-6）：W10 起（含 Y0S2），那一類還沒演過，散場多一個選擇「先回去了。」／「（陪大家走到最後）」：food＝①公館的路口、night＝②女舍門口、river＝③河濱（STORY.p2bE13）。
      記 P2B_COUNT（跟去的次數）。錢、回宿舍在 after。放在事件表最後：同一堂會計課有固定事件（P1b 等）時先演固定的 */
-  { id:'ev_y0_p2b', stage:'econ', title:'門口有人在揪', participants:['kexin'], location:'any', trigger:'class', afterClass:'acct_y0', term:['Y0S1','Y0S2'], background:'blur',
+  /* AA_272 第 13 節（d9aa4d9f）：改成經濟學原理下課（週一上午）、第 6～7 週（10/7、10/14），兩次都揪；P2 去成、和 P2 都選「今天先回去」的玩家都開（跟去＝照第一次聚會進「走啦」）。
+     韋綸那句「會計終於上完了。」（P2B_LN 1）綁會計課，經濟學原理下課不抽（問 AA-C 中）*/
+  { id:'ev_y0_p2b', stage:'econ', title:'門口有人在揪', participants:['kexin'], location:'any', trigger:'class', afterClass:'econ_principles_y0', term:['Y0S1'], background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.p2bDue&&STORY.p2bDue(G)},
-    dialogue:[ {pick:{flag:'P2B_LN',from:G=>[0,1,2,3].filter(i=>i!==G.flags.P2B_LAST)}},
+    dialogue:[ {pick:{flag:'P2B_LN',from:G=>[0,2,3].filter(i=>i!==G.flags.P2B_LAST)}},
       {if:{flagIs:{P2B_LN:0}},speaker:'韋綸',text:'下課了！今天不要直接回宿舍啦。'},
       {if:{flagIs:{P2B_LN:1}},speaker:'韋綸',text:'會計終於上完了。誰要出去？'},
       {if:{flagIs:{P2B_LN:2}},speaker:'韋綸',text:'我問過了，大家都有空。……好啦，我還沒問。'},
