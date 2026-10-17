@@ -85,7 +85,7 @@ for w in NAME.values():
     else:
         hs=res['lines'][w]['hotspots']
         print(w, {p:sorted(hs[p].keys()) for p in hs}, res['likes'][w])
-DIS={'heroine_04':{'D13.bench':'坐著？欸不是，才剛到。'},'heroine_05':{'D13.drink':'我有帶保溫瓶。……好，買一杯。重點是，不要甜的。'},'classmate_peishan':{'D13.photo':'我不太會拍照。……不是叫你不要拍，是手不知道放哪裡。'}}
+DIS={'heroine_04':{'D13.bench':'坐著？才剛到耶。'},'heroine_05':{'D13.drink':'我有帶保溫瓶。……好，買一杯，不要甜的。'},'classmate_peishan':{'D13.photo':'我不太會拍照，手不知道放哪裡。'}}   # 2026-10-17 BB-C 照 AA_188 重審
 for w,d in DIS.items(): res['dislikeLine'][w]=d
 # 語彤（heroine_03）：第一次單獨來＝心願事件；BB_128 5-1 的抵達、收尾寫「照 AA_127 2-6」，表格轉不到，這裡直接補（BB-B 2026-10-16；AA-B 要的 wishEvent 標記一起補）
 _Y='heroine_03'; _W={'wishEvent':'wish_heroine_03'}
