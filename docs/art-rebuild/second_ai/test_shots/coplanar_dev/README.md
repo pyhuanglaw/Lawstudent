@@ -80,6 +80,24 @@
 ![](library_cmp_shelves.webp)
 ![](library_cmp_stairs.webp)
 
-## 5. 還沒做（照遊戲出現順序）
-1. 法圖（`lawlib_interior.py`）：120 對，書架端板×牆、樓板×牆。
-2. 宿舍大廳（`dorm_hall.py`）：剩 10 m² 牆角。
+## 5. 法圖（`tools/blender/lawlib_interior.py` → `assets/models/env/lawlib_interior.glb`）
+**一定會閃：120 → 93。**
+
+| 地方 | 原本 | 改成 |
+|---|---|---|
+| 雙面書架、靠牆書架 | 層板和直隔板的正面同一個平面，交叉的地方會閃 | 層板退 4 mm |
+| 靠牆書架的背板 | 和踢腳板一樣厚、正面同一個平面 | 背板放在踢腳板前面 |
+| 現期期刊架 | 相鄰兩格各放一片側板，完全重疊 | 相鄰兩格共用一片 |
+
+- 剩下的 93 對查過：
+  - 大多是貼在牆面、地板上的接觸面：踢腳板背面、書架底座底面、木格柵背面、牆角；
+  - 牆角兩組靠牆書架的層板底面（在 0.59 m，從站著的高度看不到）。
+- 掃描工具不知道遮擋，所以列進去。從玩家的鏡頭看不到。
+
+![](lawlib_cmp_stacks.webp)
+![](lawlib_cmp_wall_shelf.webp)
+![](lawlib_cmp_racks.webp)
+
+## 6. 還沒做
+1. 宿舍大廳（`dorm_hall.py`）：LAWWW-B 修過（e4b6b55e），剩 10 m² 的牆角。
+   - 宿舍房間換成四人房（`dorm_room4.glb`）以後一起看。
