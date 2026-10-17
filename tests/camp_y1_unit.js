@@ -161,26 +161,24 @@ const day=k=>STORY.dayOfKey(k);
     check('J7. 系籃（有 MX_W1_SEEN、沒有兩人三腳）開頭「欸，你是電影那堂有選到的那個？」、9/15 前「我還在等有人退，大概沒望了。」',/欸，你是電影那堂有選到的那個？$/.test(said[0]||'')&&/我還在等有人退，大概沒望了。$/.test(said[1]||''),said.slice(0,3).join(' / '));
     G.day=day('2025-09-20'); G.events.done={}; said=[]; await EVENTS.run(ev('ev_mingxuan_ball'));
     check('J8. 9/15 以後：「我後來沒加到，去修別的了。」',/我後來沒加到，去修別的了。$/.test(said[1]||''),said.slice(0,3).join(' / ')); }
-  // ---------- K 9/2 新生茶會（AA_195 4-5、BB_168 第 7 節）＋學姊備用初遇（BB_168 第 8 節）＋Kevin 群組訊息 ----------
+  // ---------- K 9/2 新生茶會（AA_195 4-5、BB_168 第 7 節；學姊不在茶會：使用者 08:2x、BB-C 798e9b14）＋Kevin 群組訊息 ----------
   { const setup=(o)=>{ fresh(); Object.assign(G.flags,{MAIN_D1:STORY.MAIN_D1_NEW,LAW_START_DAY:day('2025-08-29'),KAI_MOVEIN:true,CAMP_Y1:true,FAM_GROUP_SENT:true},o||{}); G.day=day('2025-09-02'); G.weekday=2; G.zone='wancai'; GM.E.interactables=[{deskStudy:true,seat:{x:1.8,z:-1.9,yaw:Math.PI}}]; GM.rels=[]; said=[]; };
     const has=re=>said.some(t=>re.test(t)), sisFirst=()=>(G.social.mem.heroine_05||[]).find(m=>m.tag==='FIRST_MET');
     setup(); G.hour=17.6; STORY.teaTick(GM);
     check('K1. 9/2 17:30 手機提醒＋任務欄「18:30 新生茶會（萬才館一樓大廳）」',G.flags.TEA_REMIND===true&&G.goal==='18:30 新生茶會（萬才館一樓大廳）',G.goal);
     G.hour=18.6; STORY.teaTick(GM); await flush();
-    check('K2. 18:30 進萬才館＝簽到桌 Kevin：「{name}。這次是真的學長了。」、查直屬（溫書瑀）、家族那一桌在窗邊；認識 Kevin；任務欄、互動點',said.includes('Kevin：{name}。這次是真的學長了。')&&has(/Kevin：你的直屬喔……我看一下。大二這一號剛好沒人，往上是大三的。溫書瑀。/)&&G.flags.TEA_STEP===1&&(G.social.mem.kevin||[]).some(m=>m.tag==='FIRST_MET')&&G.goal==='走到窗邊家族那一桌'&&GM.E.interactables.some(i=>i.teaTable),said.slice(0,4).join(' / '));
-    said=[]; picks=['我先走了']; const stay=await STORY.teaLeave(GM,{exit:{to:'campus'}});
-    check('K3. 19:10 以前要離開：Kevin「學姊說她會來，你要不要等一下？」→「我先走了。」→「好喔，那群組見。」、照常離開、沒見到學姊',stay===false&&said.includes('Kevin：學姊說她會來，你要不要等一下？')&&said.includes('Kevin：好喔，那群組見。')&&G.flags.TEA_LEFT===true&&!G.flags.met_sis,said.join(' / '));
-    setup({FAM_GROUP_REPLIED:true}); G.hour=18.6; await STORY.teaSignIn(GM); said=[]; picks=['要，謝謝學長','還有一堂通識']; await STORY.teaTable(GM);
+    check('K2. 18:30 進萬才館＝簽到桌 Kevin：「{name}。這次是真的學長了。」、家族那一桌在窗邊；不說直屬是誰（9/4 才分直屬）；認識 Kevin；任務欄、互動點',said.includes('Kevin：{name}。這次是真的學長了。')&&said.includes('Kevin：家族那一桌在窗邊，我等一下過去。')&&!has(/直屬|溫書瑀|學姊/)&&G.flags.TEA_STEP===1&&(G.social.mem.kevin||[]).some(m=>m.tag==='FIRST_MET')&&G.goal==='走到窗邊家族那一桌'&&GM.E.interactables.some(i=>i.teaTable),said.slice(0,4).join(' / '));
+    check('K3. 學姊不在茶會（使用者 08:2x；BB-C 798e9b14）：沒有「學姊說她會來」的挽留、沒有 19:10 招手',typeof STORY.teaLeave==='undefined'&&typeof STORY.teaWave==='undefined'&&typeof STORY.teaSis==='undefined');
+    setup({FAM_GROUP_REPLIED:true}); G.hour=18.6; await STORY.teaSignIn(GM); said=[]; picks=['要，謝謝學長']; await STORY.teaTable(GM);
     const q=(G.phone&&G.phone.q||[]).map(x=>x.tag+'@'+x.day+'/'+x.h);
     check('K4. 家族那一桌：Kevin 坐過來問考古題 → 選①「好，晚上丟群組。」、排 21:00 家族群組考古題',has(/Kevin：群組說的考古題，民總跟憲法的，去年的。你要先看嗎？/)&&said.includes('Kevin：好，晚上丟群組。')&&G.flags.TEA_EXAM===1&&q.includes('kevin_exam@'+day('2025-09-02')+'/21'),q.join(' '));
-    check('K5. 19:10 學姊來：「一年級的？……喔，你是我的直屬。群組裡有回話的那個。」、Kevin「我們家族最強的。」、選通識沒選到的回答、Kevin 舊書、法服讀書會、先走；時間 19:10 以後',G.hour>=19+10/60-1e-6&&has(/一年級的？……喔，你是我的直屬。群組裡有回話的那個。$/)&&said.includes('Kevin：（對你）我們家族最強的。')&&has(/加選到第三週，這幾天有人退，多上去看幾次。$/)&&said.includes('Kevin：民總我有舊的，要的話跟我說。')&&said.includes('Kevin：吃啊，不吃很浪費。'),said.slice(-6).join(' / '));
-    check('K6. 效果和 talkSis 初遇一樣：met_sis、FIRST_MET（萬才館）、rel +3',G.flags.met_sis===true&&sisFirst()&&sisFirst().note==='wancai'&&GM.rels.some(r=>r[0]==='sis'&&r[1]===3));
-    setup(); G.hour=18.7; await STORY.teaSignIn(GM); said=[]; picks=['等一下好了']; const stay2=await STORY.teaLeave(GM,{exit:{to:'campus'}});
-    check('K7. 要離開時選「等一下好了。」→ 留下來，接家族那一桌和學姊',stay2===true&&G.flags.met_sis===true&&G.flags.TEA_STEP===3,String(G.flags.TEA_STEP));
+    check('K5. 家族那一桌演完就結束（TEA_STEP 3）：學姊沒有出現、沒有記認識（FIRST_MET／met_sis 只有 W1 記）',G.flags.TEA_STEP===3&&!has(/溫書瑀|溫學姊|直屬|她是我的/)&&!G.flags.met_sis&&!sisFirst()&&!GM.rels.some(r=>r[0]==='sis'),said.join(' / '));
+    setup(); G.hour=18.7; await STORY.teaSignIn(GM); G.hour=19.3; said=[]; STORY.teaTick(GM); await flush();
+    check('K6. 19:10 以後還沒走到那一桌：不會被叫過去（招手是學姊到了那一拍，拿掉）',said.length===0&&G.flags.TEA_STEP===1,said.join(' / '));
     setup(); G.hour=19.5; const n0={obj:{position:{x:0,z:0}},seat:true}; said=[]; await STORY._v1.talkSis(GM,n0);
-    check('K8. 沒去茶會、20:30 以前跟學姊說話：只有「（她抬頭看了你一眼，點了一下頭，又低頭看手上的書。）」，不記認識',said.join('|')==='（她抬頭看了你一眼，點了一下頭，又低頭看手上的書。）'&&!G.flags.met_sis&&!sisFirst(),said.join(' / '));
+    check('K8. 9/4 分直屬以前跟學姊說話：只有「（她抬頭看了你一眼，點了一下頭，又低頭看手上的書。）」，不記認識',said.join('|')==='（她抬頭看了你一眼，點了一下頭，又低頭看手上的書。）'&&!G.flags.met_sis&&!sisFirst(),said.join(' / '));
     G.day=day('2025-09-03'); G.weekday=3; G.hour=15; said=[]; await STORY._v1.talkSis(GM,n0);
-    check('K9. 茶會以後的備用初遇（BB_168 第 8 節）：學號尾數 →「茶會那天沒看到你。」「群組裡都沒講話的那個。」「我是溫學姊。」、讀書會第五週開始、「禮拜四民總會點人」；met_sis、rel +3',has(/一年級的？學號尾數幾號？$/)&&said.includes('（你說了。）')&&has(/茶會那天沒看到你。$/)&&has(/群組裡都沒講話的那個。$/)&&has(/法服禮拜三晚上在萬才館有讀書會，第五週開始。/)&&has(/禮拜四民總會點人，案例記得先看。$/)&&G.flags.met_sis===true&&!has(/三件事/),said.join(' / '));
+    check('K9. 9/3（還沒分直屬）：一樣只有那一行旁白，沒有舊的備用初遇',said.join('|')==='（她抬頭看了你一眼，點了一下頭，又低頭看手上的書。）'&&!G.flags.met_sis&&!has(/學號尾數|三件事|讀書會/),said.join(' / '));
     fresh(); G.flags.MAIN_D1=STORY.MAIN_D1_NEW; G.flags.LAW_START_DAY=day('2025-08-29'); G.day=day('2025-08-29'); STORY.familyW0(G); G.day=day('2025-09-05'); G.hour=20.1; PHONE.tick(G);
     const kb=G.msgs.filter(m=>m.th==='g:family_law'&&m.from==='kevin'&&m.day===day('2025-09-05')), last=kb[kb.length-1];
     check('K10. 9/5 20:00 Kevin 的舊書（所有在群組的人）：三則、可以回「我要。」→ KEVIN_OLD_BOOK、「下禮拜一放系學會辦公室」',kb.length===3&&last.ask&&last.ask.opts.map(o=>o.t).join('/')==='我要。'&&(PHONE.answer(G,last.ask.id,0),G.flags.KEVIN_OLD_BOOK===true)&&G.msgs.some(m=>m.text==='好，下禮拜一放系學會辦公室，寫你名字。'),kb.map(m=>m.text).join(' | ')); }

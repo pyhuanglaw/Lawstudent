@@ -127,7 +127,7 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     const after=ev('ev_yutong_customer_after'), d=G.flags.yutongCustomerDay, wed=STORY.fafuSat(d).day;   /* 2026-10-15 法服方案 A：週六（變數名沿用 wed）；G47：下一個值班的週六（第 80 天第 14 週 → 第 15 週的週六）*/
     G.day=wed; G.weekday=wdOf(wed); G.zone='noodle'; const a=EVENTS.check(after); G.day=wed+1; G.weekday=wdOf(wed+1); const b=EVENTS.check(after);
     check('G 結果（阿姨那個週六早上去了法服）：那個週六還不出現、之後才出現',a===false&&b===true,JSON.stringify({d,wed,a,b}));
-    said=[]; await EVENTS.run(after); check('G 結果的旁白（三種選擇都一樣）',lines()[0]==='阿姨那個週六早上去了法服。溫學姊幫她把那天的進貨單、發票、監視器的時間整理好。'&&lines()[1]==='客人看到阿姨準備得這麼齊，就沒有再來了。'); }
+    said=[]; await EVENTS.run(after); check('G 結果的旁白（三種選擇都一樣；AA_236 A4：學姊不在週六服務現場，改「值班的學長姐」）',lines()[0]==='阿姨那個週六早上去了法服。值班的學長姐幫她把那天的進貨單、發票、監視器的時間整理好。'&&lines()[1]==='客人看到阿姨準備得這麼齊，就沒有再來了。'); }
   /* AA_140 G47：單週（第 15 週）＝「這週六」、事件 3 只在大一 */
   { const termDay=(t,w,d)=>STORY.termDay(t,w,d), e=ev('ev_yutong_customer'), D15=termDay('Y1S1',15,3); fresh(D15,20.5,'noodle',{dating_kexin:true}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x'); picks=['我不知道']; await EVENTS.run(e);
     STORY.phoneRules(GM); G.hour=22.55; PHONE.tick(G); STORY.phoneRules(GM); const W=KX('p:heroine_05').filter(m=>m.from==='heroine_05').map(m=>m.text);

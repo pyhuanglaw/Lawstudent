@@ -32,18 +32,25 @@ const lines=()=>said.filter(s=>s.who!=='LEGAL').map(s=>s.t);
 const ev=id=>STORY_EVENTS.find(e=>e.id===id)||(typeof STORY_EVENTS_V11!=='undefined'&&STORY_EVENTS_V11.find(e=>e.id===id));
 const sisN={id:'sis',charId:'heroine_05',name:'溫學姊',obj:{position:{x:1,y:0,z:1}},seat:null};
 (async()=>{
-  /* ---------- W1 ---------- */
-  const W1=(head,third)=>[head,'我是溫學姊，法律服務社。三件事。','一，法服週三晚上在萬才館。','二，一年級去會被操。但真的學得到東西。',third,'（看了一下手錶）好，我要走了。不用現在決定。'];
-  const AFTER='三，先把民總讀好。周老師的課你被點過了吧？消息傳很快。', BEFORE='三，先把民總讀好。周老師的課在明天吧？他會點人。';
-  for(const [why,flags,want] of [['群組沒回',{FAM_GROUP_SENT:true,classDone:true},W1('一年級的？……喔，你是我的直屬。群組裡沒講過話的那個。',AFTER)],
-                                 ['群組回過',{FAM_GROUP_SENT:true,FAM_GROUP_REPLIED:true,classDone:true},W1('一年級的？……喔，你是我的直屬。群組裡回過話的那個。',AFTER)],
-                                 ['舊存檔（沒有群組）',{classDone:true},W1('一年級的？……喔，你是我的直屬。',AFTER)],
-                                 ['第一堂民總之前',{FAM_GROUP_SENT:true},W1('一年級的？……喔，你是我的直屬。群組裡沒講過話的那個。',BEFORE)]]){
-    fresh(3,15.5,'wancai',flags); await STORY._v1.talkSis(GM,sisN);
-    check('W1 '+why+'：六句（BB_95 2-1 原文）',JSON.stringify(lines())===JSON.stringify(want),JSON.stringify(lines())); }
-  check('W1 第一次：met_sis、FIRST_MET、學姊 +3',G.flags.met_sis===true&&SOCIAL.has('heroine_05','FIRST_MET')&&relCalls.some(([id,v])=>id==='sis'&&v===3));
-  said=[]; await STORY._v1.talkSis(GM,sisN); const R=['兩件事。一，判決要看事實。二，不要只背結論。','法服週三晚上。來不來都可以。重點是先來看一次。','總圖三樓的判例彙編，去年被人翻到脫頁。……不是我。'];
-  check('W1 之後的隨機台詞是新的三句之一（條列口吻）',lines().length===1&&R.includes(lines()[0]),JSON.stringify(lines()));
+  /* ---------- W1（AA_218 17-3 使用者批准；開頭句 2dc7f23d；機制 BB-C 798e9b14）：總圖門口的台階或 Café、9/4 以後、祐廷先開口、只一次 ---------- */
+  global.GAME={E};   /* ev_sis_w1 在校園只在台階那裡：看玩家的位置 */
+  const W1L=['學姊好，我是祐廷，妳的直屬學弟。','（抬頭）喔，hi。','開學還習慣嗎？','還可以。','民法你選哪個老師？','周老師。','周老師很熱門耶，要很早去佔位置喔。','真的，前一堂課就要去佔了。','（笑了一下）對，就是這樣。我要去圖書館了，有問題再私訊我。'];
+  const w1=ev('ev_sis_w1'), D4=STORY.dayOfKey('2025-09-04');
+  { fresh(D4+1,12.4,'campus',{}); E.player.obj.position.x=81; E.player.obj.position.z=3; const ok=EVENTS.check(w1); await EVENTS.run(w1);
+    check('W1 台階（9/5 12:24）：開頭「（她坐在總圖門口的台階上看手機……）」＋九句（AA_218 17-3）',ok&&JSON.stringify(lines())===JSON.stringify(['（她坐在總圖門口的台階上看手機，頭髮綁成馬尾。你認得她——Facebook 大頭貼上那個學姊。）'].concat(W1L)),JSON.stringify(lines()));
+    check('W1：SIS_W1、met_sis、FIRST_MET、學姊 +3；只一次',G.flags.SIS_W1===true&&G.flags.met_sis===true&&SOCIAL.has('heroine_05','FIRST_MET')&&relCalls.some(([id,v])=>id==='sis'&&v===3)&&EVENTS.check(w1)===false);
+    said=[]; await STORY._v1.talkSis(GM,sisN); const R=['兩件事。一，判決要看事實。二，不要只背結論。','法服週三晚上。來不來都可以。重點是先來看一次。','總圖三樓的判例彙編，去年被人翻到脫頁。……不是我。'];
+    check('W1 之後和她說話：照舊的隨機台詞（閒聊階梯以外）',lines().length===1&&R.includes(lines()[0]),JSON.stringify(lines())); }
+  { fresh(D4+1,20,'cafe',{}); const ok=EVENTS.check(w1); await EVENTS.run(w1);
+    check('W1 Café 版：開頭「（她坐在靠窗的位子看手機……）」，後面相同（「我要去圖書館了」照留）',ok&&lines()[0]==='（她坐在靠窗的位子看手機，頭髮綁成馬尾。你認得她——Facebook 大頭貼上那個學姊。）'&&JSON.stringify(lines().slice(1))===JSON.stringify(W1L),JSON.stringify(lines())); }
+  { fresh(D4+1,12.4,'campus',{}); E.player.obj.position.x=0; E.player.obj.position.z=0; const far=EVENTS.check(w1); G.day=D4-1; G.zone='cafe'; const early=EVENTS.check(w1); G.day=D4+1; G.zone='wancai'; const wc=EVENTS.check(w1);
+    check('W1 不演：校園別的地方、9/4 以前、萬才館',far===false&&early===false&&wc===false,JSON.stringify([far,early,wc])); }
+  { fresh(D4+1,15,'library',{}); await STORY._v1.talkSis(GM,sisN);
+    check('9/4 以後、還沒 W1，在閱覽室：只有「（你認出她是 Facebook 大頭貼上那個學姊。閱覽室不能講話。）」，不記認識',JSON.stringify(lines())===JSON.stringify(['（你認出她是 Facebook 大頭貼上那個學姊。閱覽室不能講話。）'])&&!G.flags.met_sis&&!SOCIAL.has('heroine_05','FIRST_MET'),JSON.stringify(lines()));
+    G.zone='wancai'; said=[]; await STORY._v1.talkSis(GM,sisN);
+    check('還沒 W1，在萬才館：陌生人那一行旁白（W1 只在台階和 Café）',JSON.stringify(lines())===JSON.stringify(['（她抬頭看了你一眼，點了一下頭，又低頭看手上的書。）'])&&!G.flags.met_sis,JSON.stringify(lines())); }
+  { const C=CHARACTERS.heroine_05.daily_schedule[0]; fresh(D4,12.3,'campus',{afternoonDone:true}); const okDay=C.if.custom(G); G.day=STORY.dayOfKey('2025-09-30'); const late=C.if.custom(G);
+    check('作息：9/4～9/29 平日 12:10～12:50 坐在總圖門口的台階（[83,3]）、大一上、國定假日不在',C.zone==='campus'&&C.act==='linger'&&C.at[0]===83&&C.at[1]===3&&JSON.stringify(C.days)==='[1,2,3,4,5]'&&Math.abs(C.from-(12+10/60))<1e-9&&Math.abs(C.to-(12+50/60))<1e-9&&C.noHoliday===true&&JSON.stringify(C.terms)==='["Y1S1"]'&&okDay===true&&late===false); }
   /* ---------- Q1 ---------- */
   { const e=ev('ev_kai_mentions_ziqing'); fresh(5,20,'dorm'); const a=EVENTS.check(e); G.day=6; G.weekday=wdOf(6); const b=EVENTS.check(e);
     check('Q1 第 4 週（第 6 天起）才觸發',a===false&&b===true&&CALENDAR.termOf(6).week===4,JSON.stringify({a,b,week:CALENDAR.termOf(6).week})); }

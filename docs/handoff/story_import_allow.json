@@ -313,6 +313,22 @@
    "approvedBy": "只限 AA_224 寫「照用 BB_188 A2-x」的那幾段（A2-1e 除夕電話、A2-1b、A2-2、A2-3、A2-4、A2-5／A2-6 的底稿）與 A9 機制（BB 管機制，D98）；AA_224 衝突時以 AA_224 為準",
    "task": "LIFE-LINE-1017",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_218_祐廷人生主線修訂提案.md",
+   "sha": "edfcdd68",
+   "status": "approved",
+   "approvedBy": "只限使用者已批准、AA-C 交付的段落：17-3 W1 第一次見面（使用者 07:5x 批准；開頭「台階」與 Café 版開頭句 2dc7f23d）、17-4 社團博覽會主版本與合併版（使用者 07:5x「可以」）、17-12／17-12a 學姊群組發言逐則改法（edfcdd68）、AA 補定（9/2 茶會學姊那段刪、家族群組 9/4 晚上加入、Kevin 置頂句）。17-5／17-6（W1 到社博之間的接觸）等使用者確認，不在內；13 節 A5-1 相識台詞暫停（使用者自己改），不在內",
+   "task": "SIS-W1-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_236_外部審稿回覆_全人物台詞.md",
+   "sha": "78cec297",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 09:41Z 交付（外部審稿逐條回覆，AA 定稿，照使用者已裁定的設定改字）：施工清單 A1～A5、A7～A10、B1～B3",
+   "task": "AA236-1017",
+   "kind": "text"
   }
  ]
 }

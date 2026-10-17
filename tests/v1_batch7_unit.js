@@ -137,7 +137,7 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
     L=await playBBQ({KX_BBQ_COME:true},null,['出題','可昕贏']);
     check('K3 介紹「她會出題考你們。」：「是假設題。假設你是一塊烤肉——」「我拒絕回答。」；可昕贏沒有「我回去練」；不透露經濟系',L.includes('是假設題。假設你是一塊烤肉——')&&L.includes('我拒絕回答。')&&!L.includes('好，我回去練。')&&G.flags.ECON_PAST_SHARED===undefined);
     L=await playBBQ({KX_BBQ_COME:true},()=>SOCIAL.remember('heroine_01','FIRST_MET',''),['怎麼認識','阿哲贏']);
-    check('K3「讓她說我們怎麼認識的。」（原本不是 full）：可昕的介紹＋阿哲「等一下。經濟系？重考？」＋你「……嗯。一年。」→ full、以安（認識）記 KNOWS_ECON_YEAR',L.includes('杜可昕。政大法律。我們以前是經濟系的同學。……後來一起重考。')&&L.includes('等一下。經濟系？重考？')&&L.includes('……嗯。一年。')&&G.flags.ECON_PAST_SHARED==='full'&&SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'));
+    check('K3「讓她說我們怎麼認識的。」（原本不是 full）：可昕的介紹＋阿哲「等一下。經濟系？重考？」＋你「……嗯。念了一個多月。」（AA_236 A5）→ full、以安（認識）記 KNOWS_ECON_YEAR',L.includes('杜可昕。政大法律。我們以前是經濟系的同學。……後來一起重考。')&&L.includes('等一下。經濟系？重考？')&&L.includes('……嗯。念了一個多月。')&&G.flags.ECON_PAST_SHARED==='full'&&SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'));
     L=await playBBQ({KX_BBQ_COME:true,ECON_PAST_SHARED:'full'},null,['怎麼認識','阿哲贏']);
     check('K3「讓她說」（原本就是 full）：阿哲「喔——就是那一年。」，不再問',L.includes('喔——就是那一年。')&&!L.includes('等一下。經濟系？重考？'));
     L=await playBBQ({KX_BBQ_COME:true,ECON_PAST_SHARED:'half'},null,['怎麼認識','阿哲贏']);
