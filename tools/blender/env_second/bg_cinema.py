@@ -220,6 +220,7 @@ acc('dark').box(BX - 0.55, BX - 0.25, 1.0, 1.16, -2.55, -2.25)                  
 acc('wood_l').box(BX - 0.65, BX - 0.10, 0.95, 1.0, BZ0 + 0.3, BZ1 - 0.3)             # 裡面的桌子
 Mesh('cn_desklamp', M['warm']).cyl((BX - 0.45, 1.30, -3.4), (BX - 0.45, 1.36, -3.4), 0.09, seg=16, r2=0.05).finish(parent=root)
 area_light('booth_lamp', BX - 0.45, 1.25, -3.4, 0.25, 0.25, 6, col=(1.0, 0.78, 0.5), aim=(BX - 0.45, 0.9, -3.4))
+area_light('booth_ceil', BX - 0.6, 2.1, -2.5, 0.6, 0.6, 12, col=(1.0, 0.92, 0.8), aim=(BX - 0.6, 0.5, -2.5))   # 第四版：亭子靠入口那一半也亮一點（右邊的窗看起來是一片灰）
 st = img_mat('cn_showtime', showtime_tex(os.path.join(TMP, 'showtime.png')), emit=1.3, rough=0.4)   # 場次板（窗上面）
 acc('black').box(BX + 0.02, BX + 0.08, 2.32, 3.12, BZ0 + 0.1, BZ1 - 0.1)
 uvquad('cn_showtime', (BX + 0.082, 2.36, BZ1 - 0.14), (BX + 0.082, 2.36, BZ0 + 0.14), (BX + 0.082, 3.08, BZ0 + 0.14), (BX + 0.082, 3.08, BZ1 - 0.14), st)
