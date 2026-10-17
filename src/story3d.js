@@ -403,14 +403,25 @@ const STORY = (function(){
     if(!st) return null;
     if(L.context==='date'||st.dateOnly){ if(!mode||(st.dateOnly&&st.dateOnly!==mode)) return null; if(!(G.flags&&G.flags.dating_kexin)&&id==='kexin') return null; }
     if(S.LADDER_HOLD[st.id]&&!S.LADDER_HOLD[st.id](G)) return null;   /* 企劃說「那件事件做好以前不要開這一層」的（AA_186：語彤 Y5-L6 等續約事件 14）*/
-    return ladCtxOk(G,st,id)?st:null; };
+    const W=S.LADDER_WEEK_IF[st.id]; const stc=W&&ladIf({if:W.if})?Object.assign({},st,{week:W.week}):st;
+    return ladCtxOk(G,stc,id)?st:null; };
   S.LADDER_HOLD={'Y5-L6':G=>!!(G.flags&&G.flags.RENT_RENEWED)};
   /* AA_186 第 6 節 C（條件類，AA-B 19:1x 照做）：「妳們和好了？」只給看過吵架那一場的玩家（以安 A2-L6：ev_an_yu_argument；A5-L6 芯慈：慈 3）；linesIf 指到不存在的 ev_an_study_group 改讀公法讀書會 */
-  S.LADDER_CHOICE_IF={'A2-L6':{'「妳們和好了？」':{events:['ev_an_yu_argument']}},'A5-L6':{'「妳們和好了？」':{events:['ev_xinci_second']}}};
+  S.LADDER_CHOICE_IF={'A2-L6':{'「妳們和好了？」':{events:['ev_an_yu_argument']},'「我可以去嗎？」':{notEvents:['ev_public_law_group']}},'A5-L6':{'「妳們和好了？」':{events:['ev_xinci_second']}},
+    'A3-L3':{'「三條是哪三條？」':{notFlags:['PLG_RULES_SEEN']}}};   /* AA_209（3b7e2268）：以安 A2-L6「我可以去嗎？」去過公法讀書會的不出現；AA_211（0ba8d336）：A3-L3「三條是哪三條？」看過規則（PLG_RULES_SEEN）的不出現 */
+  /* 選項的回覆依條件換（AA_211 第 4 節，0ba8d336）：可昕 K3-L7 選項①——沒去系上的電影夜（ev_kexin_film_night，BB_97 9-6，大二還沒做）＝「真的嗎？那下次我坐你旁邊看。」*/
+  S.LADDER_REPLY_IF={'K3-L7':{'「我看電影很認真。」':[{unless:{events:['ev_kexin_film_night']},reply:'真的嗎？那下次我坐你旁邊看。'}]}};
+  S.ladReply=function(st,ch){ const R=(S.LADDER_REPLY_IF[st.id]||{})[ch.t]; if(R) for(const r of R) if(ladIf(r)) return r.reply; return ch.reply; };
+  /* 招呼（greet.when）的額外條件（AA_211 附錄 B G1，0ba8d336）：學姊「值班表你看了嗎？」只說一次、只給法服成員（S.fafuMember）*/
+  S.LADDER_GREET_IF={'值班表你看了嗎？':{once:true,test:G=>S.fafuMember(G)}};
+  const ladGreetOk=(G,t)=>{ for(const k in S.LADDER_GREET_IF){ if(!t.startsWith(k)) continue; const R=S.LADDER_GREET_IF[k], so=ladRec(G); so.greetOnce=so.greetOnce||{}; if(R.once&&so.greetOnce[k]) return false; if(R.test&&!R.test(G)) return false; } return true; };
+  const ladGreetUsed=(G,t)=>{ for(const k in S.LADDER_GREET_IF) if(t.startsWith(k)&&S.LADDER_GREET_IF[k].once){ const so=ladRec(G); so.greetOnce=so.greetOnce||{}; so.greetOnce[k]=G.day; } };
+  /* 週次依條件放寬（AA_211 第 1 節第 3 點，0ba8d336）：A3-L6、Y3-L5 資料是 [16,18]（一定在 12/19 以後）；演過 ev_yu_together（12/19）的玩家從第 15 週就可以播 */
+  S.LADDER_WEEK_IF={'A3-L6':{if:{events:['ev_yu_together']},week:[15,18]},'Y3-L5':{if:{events:['ev_yu_together']},week:[15,18]}};
   S.LADDER_EVENT_ALIAS={ev_an_study_group:'ev_public_law_group'};
   S.ladChoices=function(st){ const R=S.LADDER_CHOICE_IF[st.id]; if(!R||!st.choices) return st.choices||[]; const ec=typeof EVENTS!=='undefined'&&EVENTS.cond; return st.choices.filter(c=>!R[c.t]||(ec&&EVENTS.cond(R[c.t]))); };
   S.ladGreet=function(G,id){ const D=S.ladData(G,id), L=D&&D.L; if(!L||!L.greet) return null; const so=ladRec(G), u=so.greetUsed[id]&&so.greetUsed[id].day===G.day?so.greetUsed[id]:(so.greetUsed[id]={day:G.day,list:[],last:(so.greetUsed[id]||{}).last}); const g=L.greet;
-    const work=S.ladWorking(G,id); for(const w of (g.when||[])){ if(w.working&&!work) continue; if(!w.working&&work) continue; if(u.list.includes(w.t)) continue; if(ladCtxOk(G,Object.assign({},w,{t:undefined}),id)){ u.list.push(w.t); u.last=w.t; return w.t; } }
+    const work=S.ladWorking(G,id); for(const w of (g.when||[])){ if(w.working&&!work) continue; if(!w.working&&work) continue; if(u.list.includes(w.t)) continue; if(!ladGreetOk(G,w.t)) continue; if(ladCtxOk(G,Object.assign({},w,{t:undefined}),id)){ u.list.push(w.t); u.last=w.t; ladGreetUsed(G,w.t); return w.t; } }
     const B=g.base||[]; if(!B.length) return null; const n=(G.day*7+(so.ladder[D.key]|0)+u.list.length)%B.length; let t=B[n]; if(t===u.last&&B.length>1) t=B[(n+1)%B.length]; u.list.push(t); u.last=t; return t; };
   /* 播一層：她說的話 → 玩家的回答（最多 2）→ 她的收尾；rel、mem 照資料；推進一層（今天不再推進）*/
   /* linesIf／extraIf 的一套：情境 key（week、term、weekday、time、location、weather、weekParity、dayMin、locTime）照 ladCtxOk 檢查，其他（if、unless、或直接寫的條件）交給 EVENTS.cond。
@@ -538,7 +549,7 @@ const STORY = (function(){
     await GM.fade(true); GM.advance(Math.min(0.5,Math.max(0,12-G.hour))); await GM.fade(false); return true; };   /* 時間推進 30 分鐘，可以待到 12:00；不扣時段次數（AA_160 第 2 節）*/
   S.ladLines=function(st,g,id){ const G=g||(typeof GAME!=='undefined'&&GAME.G)||null; const alt=(st.linesIf||[]).find(x=>ladAlt(G,x,id)); const L=(alt?alt.lines:st.lines||[]).slice(); for(const x of (st.extraIf||[])) if(ladAlt(G,x,id)) L.push(...(x.lines||[])); return L; };   /* linesIf：第一個成立的那一套取代 lines；extraIf：成立就在後面多說（AA 2026-10-16）*/
   S.ladPlay=async function(GM,who,id,st){ const G=GM.G, so=ladRec(G), D=S.ladData(G,id), K=D?D.key:id; for(const l of S.ladLines(st,G,id)) await GM.say(who,typeof l==='string'?l:l.t);
-    let ch=null; const CH=S.ladChoices(st); if(CH.length){ const k=await GM.choose(CH.map(c=>({t:c.t}))); ch=CH[k]||CH[0]; if(ch.reply) await GM.say(who,ch.reply); }
+    let ch=null; const CH=S.ladChoices(st); if(CH.length){ const k=await GM.choose(CH.map(c=>({t:c.t}))); ch=CH[k]||CH[0]; const rp=S.ladReply(st,ch); if(rp) await GM.say(who,rp); }
     const rel=Object.assign({},st.rel||{}); if(ch&&ch.rel) for(const k in ch.rel) rel[k]=(rel[k]||0)+ch.rel[k]; if(Object.keys(rel).length&&SOCIAL.adjust) SOCIAL.adjust(id,rel);
     for(const m of [st.mem,ch&&ch.mem]) if(m&&SOCIAL.remember) SOCIAL.remember(id,m,st.id);
     so.ladder[K]=(so.ladder[K]|0)+1; so.ladderDay[id]=G.day; if(SOCIAL.activity){ SOCIAL.activity(id,'chat'); SOCIAL.activity(id,'chatNew'); } return true; };

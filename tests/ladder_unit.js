@@ -141,12 +141,12 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // 2026-10-16 AA-B 驗收（企劃線 AA_140 G45）：linesIf／extraIf 裡的 week 原本沒有作用（整套丟給 EVENTS.cond，不認得 week＝永遠成立）；greet.when 的 weekParity 原本沒有處理。修改前 21、22 失敗。
   { const A3=LADDER.byTerm.Y1S2.heroine_01.steps.find(s=>s.id==='A2-L3');
     fresh(termDay('Y1S2',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true});
-    check('21. 以安 A2-L3 大一下第 3 週（linesIf 只寫 week 7～18）：用原本的 lines（不說「杜鵑花謝了」）',JSON.stringify(STORY.ladLines(A3,G,'heroine_01'))===JSON.stringify(A3.lines),JSON.stringify(STORY.ladLines(A3,G,'heroine_01')));
+    check('21. 以安 A2-L3 大一下第 3 週（linesIf 只寫 week 7～18）：用原本的 lines（不說「杜鵑都謝了」）',JSON.stringify(STORY.ladLines(A3,G,'heroine_01'))===JSON.stringify(A3.lines),JSON.stringify(STORY.ladLines(A3,G,'heroine_01')));
     fresh(termDay('Y1S2',8,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true});
-    check('21. 以安 A2-L3 大一下第 8 週：linesIf 換成「杜鵑花謝了」那一套',JSON.stringify(STORY.ladLines(A3,G,'heroine_01'))===JSON.stringify(A3.linesIf[0].lines));
+    check('21. 以安 A2-L3 大一下第 8 週（沒拍過杜鵑）：linesIf 換成 week 7～18 那一套（AA_209 改稿：「杜鵑都謝了」）',JSON.stringify(STORY.ladLines(A3,G,'heroine_01'))===JSON.stringify(A3.linesIf.find(x=>x.week).lines)&&/杜鵑都謝了/.test(A3.linesIf.find(x=>x.week).lines[0]),JSON.stringify(STORY.ladLines(A3,G,'heroine_01')));
     said=[]; fresh(termDay('Y1S2',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); meet('heroine_01'); R('heroine_01',30,10,10);
     picks=[0]; await STORY.ladPlay(GM,{name:'沈以安',charId:'heroine_01'},'heroine_01',A3);
-    check('21. ladPlay 實際播出來的也是原本的 lines',lines().join('｜').includes(A3.lines[0])&&!lines().join('｜').includes('杜鵑花謝了'),lines().slice(0,2).join('｜')); }
+    check('21. ladPlay 實際播出來的也是原本的 lines',lines().join('｜').includes(A3.lines[0])&&!lines().join('｜').includes('杜鵑都謝了'),lines().slice(0,2).join('｜')); }
   { const SIS='heroine_05', DUTY=LADDER.byTerm.Y1S2[SIS].greet.when.find(w=>w.weekParity==='odd').t; let even=0, odd=0, duty=0, offDuty=0;
     for(let w=1;w<=15;w++){ fresh(termDay('Y1S2',w,6),9,'campus',{introDone:true,classDone:true,afternoonDone:true}); const isDuty=STORY.fafuDuty(G); if(isDuty) duty++; const got=[]; for(let k=0;k<4;k++) got.push(STORY.ladGreet(G,SIS));
       if(got.includes(DUTY)){ if(w%2) odd++; else even++; if(!isDuty) offDuty++; } }
