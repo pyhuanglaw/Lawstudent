@@ -101,7 +101,10 @@ const STORY = (function(){
     if(!PHONE.sent(G,'camp_squad_photo')) PHONE.at(G,d0+2,21,[{th:SQ,text:'（小隊輔傳了一張照片：營地門口，七個人，Kevin 拿著翻到背面的名牌。）'},{th:SQ,from:'camp_leader',name:'小隊輔',text:'照片都在相簿了 自己存'},{th:SQ,text:'（群組裡「凱文」變成「Kevin 大二」）'},
       {th:SQ,from:'kevin',name:'Kevin 大二',text:'改名了 以後叫學長'},{th:SQ,from:'kevin',name:'Kevin 大二',text:'民總考古題我有 開學再說'},{th:SQ,from:'classmate_mingxuan',name:'明軒',text:'（一張他睡在車上的照片，不知道誰拍的）'},{th:SQ,from:'classmate_mingxuan',name:'明軒',text:'這張誰拍的 哈哈'},{th:SQ,from:'zhe',name:'阿哲',text:'29 號見'}],'camp_squad_photo');
     if(!PHONE.sent(G,'camp_squad_829')) PHONE.at(G,d0+7,17.5,[{th:SQ,from:'zhe',name:'阿哲',text:'我在高鐵上了'},{th:SQ,from:'zhe',name:'阿哲',text:'七點到宿舍'}],'camp_squad_829');   /* AA_205 6-4／6-14①：阿哲 19:00 才拖行李進門（AA_208 2-1）；不用回 */ };
-  S.campY1=async function(GM,o){ o=o||{}; const E=GM.E, G=GM.G, F=G.flags, d0=S.dayOfKey('2025-08-22'); if(d0==null||F.CAMP_Y1) return false;
+  S.CAMP_DAY='2025-08-22';
+  S.campCallDue=G=>{ if(!S.isEcon(G)||typeof OUT==='undefined'||(G.flags||{}).CAMP_Y1) return false; const q=OUT.get(G,'y1_camp'), d0=S.dayOfKey(S.CAMP_DAY); return !!q&&q.state!=='done'&&G.day===d0&&G.hour>=8; };   /* 經濟系路線：8/22 08:00 還在家＝直接出發（AA_205 2-3）*/
+  S.campY1=async function(GM,o){ o=o||{}; const E=GM.E, G=GM.G, F=G.flags, d0=S.dayOfKey(S.CAMP_DAY); if(d0==null||F.CAMP_Y1) return false;
+    const econ=S.isEcon(G); if(econ) F.PLAYED_Y0=true;   /* 經濟系路線（AA_205 2-3）：營地旁白「這個營地你去年來過」看 PLAYED_Y0（轉進法律系時本來也會記）*/
     F.CAMP_Y1_ON=true; const from=F.campStep|0; S.campGroups(G,d0); if(typeof PHONE!=='undefined'&&!PHONE.inGroup(G,'camp_squad_y1')) PHONE.join(G,'camp_squad_y1','第七小隊');
     if(GM.sceneBegin) GM.sceneBegin(); try{
       if(from===0&&GM.titleCard){ G.day=d0; G.weekday=CALENDAR.dateOf(d0).wd%7; G.hour=8.5; if(E) E.hour=G.hour; await GM.titleCard('2025 年 8 月 22 日（五）','迎新宿營',2200); }
@@ -111,7 +114,12 @@ const STORY = (function(){
         if(typeof ev.before==='function') ev.before(G);
         if(typeof ADV!=='undefined') ADV.begin({background:ev.background||'dark'});
         await EVENTS.run(ev); if(typeof ADV!=='undefined'&&ADV.active) ADV.end();
+        if(econ&&F.dating_kexin&&id==='ev_camp_d2_talk'&&typeof PHONE!=='undefined'&&!PHONE.sent(G,'camp_kx_823')){ G.hour=23+40/60; if(E) E.hour=G.hour;   /* BB_177 第 14 節：8/23 22:00 可昕傳、營地訊號差，熄燈前（23:40）才收到；不用回 */
+          PHONE.postAt(G,{th:'p:kexin',from:'kexin',text:'山上冷嗎',tag:'camp_kx_823'},G.day,22); PHONE.postAt(G,{th:'p:kexin',from:'kexin',text:'訊號不好就不用回'},G.day,22); PHONE.postAt(G,{th:'p:kexin',from:'kexin',text:'明天十二點半到校門對吧，到了跟我說一聲'},G.day,22);
+          if(typeof ADV!=='undefined') ADV.begin({background:'dark'}); await GM.say(null,'（手機到熄燈前才收到訊息。）'); if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); }
         F.campStep=i+1; if(GM.autosave) GM.autosave(true); }
+      if(econ&&F.dating_kexin&&typeof PHONE!=='undefined'&&!PHONE.sent(G,'camp_kx_824')){ G.hour=12.5; if(E) E.hour=G.hour; PHONE.postAt(G,{th:'p:kexin',from:'player',who:null,text:'到了',tag:'camp_kx_824'},G.day,12.5);   /* 8/24 12:30 回到校門（BB_177 第 14 節；照手機現有的自動回覆做法，不讓玩家另外按）*/
+        if(typeof ADV!=='undefined') ADV.begin({background:'dark'}); await GM.say(null,'（你傳了一句『到了』給可昕。）'); if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); }
       /* 回家（AA_205 2-2）：8/24 下午；8/25～28 不演 */
       G.day=d0+2; G.weekday=CALENDAR.dateOf(G.day).wd%7; G.hour=15; if(E) E.hour=G.hour;
       if(typeof ADV!=='undefined') ADV.begin({background:'dark'}); if(GM.say) await GM.say(null,'（回到家，你把營地帶回來的衣服丟進洗衣機。）'); if(typeof ADV!=='undefined'&&ADV.active) ADV.end();
@@ -1241,6 +1249,10 @@ const STORY = (function(){
         PHONE.at(G,d36,23.5,[{th:T,from:'econ_pinyu',name:'品妤',text:'📷（宵夜攤，大家擠在一張桌子）'},{th:T,from:'econ_pinyu',name:'品妤',text:'放榜紀念。'},{th:T,from:'econ_weilun',name:'韋綸',text:'這張我要設成桌布。'},{th:T,from:'econ_zhengxun',name:'阿勳',text:'……我眨眼了。'}],'y0_e36_photo'); } }
     /* ★E37 第一次一起去政大（BB_104 8b-20；AA_154 A40）：8/28（四）21:00 可昕私訊兩則＋出發選單 8/30（六）「政大校門 14:00」（從臺北的家捷運＋公車約 40 分鐘）；
        14:15 還沒出發＝可昕打電話 → 直接進出遊（在家＝home3d 選單那一輪，STORY.homeCall；在外面＝這裡；睡著＝CORE_OUT 叫醒）*/
+    /* 法律系迎新宿營（CAMP-L1；AA_205 2-3、BB_177 第 14 節）：經濟系路線的玩家也參加（強制，沒有「不去」）——8/15 20:00 進系學會群組（公告）、8/21 21:00 小隊名單（S.campGroups）；
+       8/22 08:30 校門集合，從臺北的家出發（OUT y1_camp：camp＝整段交給 S.campY1、must＝出發選單只有「出發」）；08:00 還在家＝叫醒、直接出發（coreCallAt、homeCall）。三天演完回到 8/24 下午的家 */
+    if(S.isEcon(G)&&typeof OUT!=='undefined'&&!F.CAMP_Y1){ const d0=S.dayOfKey(S.CAMP_DAY); if(d0!=null&&(G.day>d0-7||(G.day===d0-7&&G.hour>=20))&&G.day<=d0){ S.campGroups(G,d0);
+      if(!OUT.get(G,'y1_camp')) OUT.plan(G,{id:'y1_camp',camp:true,must:true,ev:null,day:d0,h:8.5,late:0.5,place:'校門',title:'校門 08:30：迎新宿營（三天兩夜）',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}); } }
     if((S.isEcon(G)||(G.flags.PLAYED_Y0&&G.day<=S.dayOfKey('2025-08-31')))&&typeof OUT!=='undefined'){ const d37=S.dayOfKey('2025-08-30'), K=t=>({th:'p:kexin',from:'kexin',text:t});   /* 選 1：8/29 就轉進法律系，E37（8/30 政大校門）在法律系階段也照常（AA-B 21:09）*/
       if(d37!=null&&(G.day>d37-2||(G.day===d37-2&&G.hour>=21))&&G.day<=d37&&!PHONE.sent(G,'y0_e37_ask')&&!(G.events&&G.events.done&&G.events.done.ev_y0_e37)){ PHONE.at(G,d37-2,21,[K('週六下午兩點，政大校門。'),K('我九月要去的地方，想先給你看。')],'y0_e37_ask');
         if(!OUT.get(G,'y0_e37')) OUT.plan(G,{id:'y0_e37',ev:'ev_y0_e37',day:d37,h:14,late:0.25,place:'政大校門',title:'政大校門 14:00',travel:'捷運＋公車 約 40 分鐘',travelH:2/3}); }
@@ -2391,7 +2403,7 @@ const STORY = (function(){
   S.E37_CALL='你在哪？我在校門口。太陽很大，我會等，可是我會曬黑。';
   S.e37CallDue=function(G){ if(!(S.isEcon(G)||(G.flags&&G.flags.PLAYED_Y0))||typeof OUT==='undefined'||(G.events&&G.events.done&&G.events.done.ev_y0_e37)) return false; const q=OUT.get(G,'y0_e37'), d=S.dayOfKey('2025-08-30'); return !!q&&q.state!=='done'&&d!=null&&(G.day>d||(G.day===d&&G.hour>=14.25))&&G.day<=d+1; };
   /* 在臺北的家（休學後）時的固定核心電話：home3d.js 的選單每一輪先問這裡；有＝電話一句 → 直接進出遊（從家裡出發）*/
-  S.homeCall=function(G){ if(S.e37CallDue(G)) return {q:OUT.get(G,'y0_e37'),who:'可昕（電話）',line:S.E37_CALL}; return null; };
+  S.homeCall=function(G){ if(S.campCallDue(G)) return {q:OUT.get(G,'y1_camp')}; if(S.e37CallDue(G)) return {q:OUT.get(G,'y0_e37'),who:'可昕（電話）',line:S.E37_CALL}; return null; };   /* 宿營：沒有人打電話，直接出發（line 空）*/
   /* T2 唐睿的練習（AA_154 第 127 行）：每次經原下課擲一次 50%（同一天只擲一次，記在 T2_DAY／T2_HIT）；E18 演過就不再觸發 */
   S.T2_P=0.5;
   S.t2Due=function(G){ if(!S.isEcon(G)) return false; const F=G.flags; if(G.events&&G.events.done&&G.events.done.ev_y0_e18) return false; if(F.T2_DAY!==G.day){ F.T2_DAY=G.day; F.T2_HIT=Math.random()<S.T2_P; } return !!F.T2_HIT; };
@@ -2461,7 +2473,7 @@ const STORY = (function(){
   S.y0FinalEnd=function(G){ if(typeof CLS==='undefined'||!CLS.lastExamEnd||!CLS.termCourses) return null; const key=CLS.termCourses(G,'Y0S1').map(c=>c.id).join(','); const c=FE_CACHE.get(G);
     if(c&&c.key===key) return c.v; let v=null; try{ v=CLS.lastExamEnd(G,'Y0S1','final'); }catch(e){ v=null; } FE_CACHE.set(G,{key,v}); return v; };
   S.e22bFrom=fe=>fe.h<12?13.5:fe.h+20/60;
-  S.coreCallAt=function(G){ if(!S.isEcon(G)||typeof OUT==='undefined') return null; for(const id of CORE_OUT){ const q=OUT.get(G,id); if(q&&q.state!=='done'&&q.day===G.day){ const t=q.h+(q.late!=null?q.late:0.75); if(G.hour<t) return t; } }
+  S.coreCallAt=function(G){ if(!S.isEcon(G)||typeof OUT==='undefined') return null; { const q=OUT.get(G,'y1_camp'); if(q&&q.state!=='done'&&q.day===G.day&&G.hour<8&&!(G.flags||{}).CAMP_Y1) return 8; }   /* 宿營那天睡著：08:00 醒來直接出發（AA_205 2-3）*/ for(const id of CORE_OUT){ const q=OUT.get(G,id); if(q&&q.state!=='done'&&q.day===G.day){ const t=q.h+(q.late!=null?q.late:0.75); if(G.hour<t) return t; } }
     const d35=S.dayOfKey('2025-07-10'); if(d35!=null&&G.day===d35&&G.flags.E35_ASKED&&!G.flags.E35_DONE&&G.hour<21.5) return 21.5;   /* E35 電話版（AA_154 A41 ④）：睡著＝21:30 電話叫醒 */
     const d36=S.dayOfKey('2025-08-13'); if(d36!=null&&G.day===d36&&!G.flags.E36_RESULT&&G.hour<10) return 10;   /* E36 放榜：睡著也在 10:00 醒來看榜單 */
     if(d36!=null&&G.day===d36&&G.flags.E36_ASKED&&!(G.events&&G.events.done&&G.events.done.ev_y0_e36)&&G.hour<20.5) return 20.5;   /* E36 帶到場（A35 ④）：睡著＝20:30 手機震醒 */

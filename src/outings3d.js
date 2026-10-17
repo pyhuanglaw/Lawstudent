@@ -49,12 +49,14 @@ const OUT=(function(){
     const q=S.due(G); if(!q) return null; busy=true; return S.prompt(GM,q).finally(()=>{ busy=false; }); };
   const hm=h=>typeof INV!=='undefined'&&INV.hhmm?INV.hhmm(h):String(h);
   S.prompt=async function(GM,q){ const G=GM.G; let k=1; if(q.dateTrip&&typeof DATE!=='undefined') return DATE.prompt(GM,q);   /* 校外單獨約會（date3d.js）：出發／改時間／今天不去了（AA_128 4-2）*/ GM.sceneBegin();
-    try{ k=await GM.choose([{t:(q.verb||'出發')+'：'+q.title,hint:q.place+'　'+hm(q.h)+(q.travel?'　'+q.travel:'')},{t:'晚一點（20 分鐘後再提醒）'},{t:q.no||'不去了'}]); } finally { GM.sceneEnd(); }   /* verb：視訊是「接起來」；no：「不去了」以外的說法 */
+    try{ const O=[{t:(q.verb||'出發')+'：'+q.title,hint:q.place+'　'+hm(q.h)+(q.travel?'　'+q.travel:'')}]; if(!q.must) O.push({t:'晚一點（20 分鐘後再提醒）'},{t:q.no||'不去了'}); k=await GM.choose(O); } finally { GM.sceneEnd(); }   /* must：一定會去的（法律系迎新宿營，AA_205 2-3）只有「出發」*/   /* verb：視訊是「接起來」；no：「不去了」以外的說法 */
     if(k===1){ q.ask=t(G.day,G.hour)+1/3; return 'later'; }
     if(k!==0){ q.state='missed'; S.onMissed(GM,q); return 'no'; }
     await S.go(GM,q); return 'go'; };
   /* 出發：轉場 → 抵達（不早於約好的時間）→ 演事件（深色底開始，避免看到原本的 3D 畫面）→ 時間往後 → 回到原本的地方 */
   S.go=async function(GM,q,o){ const G=GM.G, ev=evOf(q.ev), tr=S.trip(G,q,o&&o.fromHome);   /* o.fromHome：從家裡的選單出發（選單先把「在家」關掉了）*/
+    if(q.camp&&typeof STORY!=='undefined'&&STORY.campY1){ q.state='done'; await STORY.campY1(GM,{next:false});   /* 法律系迎新宿營（經濟系路線，AA_205 2-3）：三天全部在 S.campY1 演，演完回到 8/24 下午的家 */
+      if(!(o&&o.fromHome)&&typeof HOME!=='undefined'&&HOME.arriveQuiet&&HOME.baseMode&&HOME.baseMode(G)) HOME.arriveQuiet(GM).catch(e=>console.warn('HOME.arriveQuiet',e)); return true; }
     const dt=!!q.dateTrip&&typeof DATE!=='undefined';   /* 校外單獨約會：抵達後演 DATE.scene（不是 STORY_EVENTS 的事件）*/
     if(dt||(!q.goto&&ev&&typeof EVENTS!=='undefined')){ if(GM.autosave) GM.autosave(); running.add(q.id); } else q.state='done';   /* 出發前先存一次（使用者 2026-10-16：去政大找可昕跳回標題、自動存檔在出發前很久，要一直重來）；演完才標 done */
     if(q.goto){ await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title,tr.travel,2400); const arrive=Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)-(q.early||0)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.updateHUD) GM.updateHUD();
