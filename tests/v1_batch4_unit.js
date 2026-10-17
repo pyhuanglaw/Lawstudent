@@ -165,15 +165,15 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
       check('家族聚餐 選「'+pick+'」：BB_95 原文、散會「下學期的書，我會留給你。」、SHARED_MEAL'+(sticker?'、SIS_NO_STICKER':''),JSON.stringify(L)===JSON.stringify(HEAD.concat(tail,['下學期的書，我會留給你。']))&&SOCIAL.has('heroine_05','SHARED_MEAL')&&!!G.flags.SIS_NO_STICKER===sticker,JSON.stringify(L.slice(-6))); }
     fresh(fri,18.55,'gongguan',{classAnswer:'absent'}); picks=[0]; await EVENTS.run(e); check('家族聚餐 第二天沒上課（absent）：沒有「被周老師點名」那個選項；不在家族群組：沒有「收到」那個選項',opts[0].length===1&&/資料夾/.test(opts[0][0]),JSON.stringify(opts[0]));
     fresh(fri,18.55,'gongguan',{}); grp(); picks=['資料夾']; await EVENTS.run(e); G.hour=22.6; STORY.phoneRules(GM); PHONE.tick(G);
-    check('家族聚餐 去了：當晚 22:30 學姊在群組訂正（BB_95 原文）、沒有「沒來的人自己拿」',T().includes('溫學姊：考古題第七題，我的紅筆改錯了。正確的在附件。')&&!T().some(t=>/沒來的人/.test(t)),JSON.stringify(T()));
+    check('家族聚餐 去了：當晚學姊沒有在群組訂正（AA_218 17-12a：她不在群組主動發言）、沒有「沒來的人自己拿」',!T().some(t=>/紅筆改錯/.test(t))&&!T().some(t=>/沒來的人/.test(t)),JSON.stringify(T()));
     fresh(fri,18.1,'gongguan',{}); grp(); picks=['資料夾']; await EVENTS.run(e); { const L=lines(); check('家族聚餐 18:00～18:30 先到：先旁白「你先到了。麵店的阿姨把你們那一桌的椅子擺好。」，再接 18:31 她跑進來',L[0]==='你先到了。麵店的阿姨把你們那一桌的椅子擺好。'&&L[1]==='18:31。她跑進來，有點喘。',JSON.stringify(L.slice(0,2))); }
-    fresh(fri-1,21.1,'campus',{}); grp(); STORY.phoneRules(GM); PHONE.tick(G); check('家族聚餐 前一天 21:00 學姊提醒一次「明天六點半，公館。三件事：準時、帶胃、不要帶作業。」',T().filter(t=>t==='溫學姊：明天六點半，公館。三件事：準時、帶胃、不要帶作業。').length===1,JSON.stringify(T()));
+    fresh(fri-1,21.1,'campus',{}); grp(); STORY.phoneRules(GM); PHONE.tick(G); check('家族聚餐 前一天 21:00 Kevin 提醒一次「明天六點半，公館。記得來。」（AA_218 17-12a）',T().filter(t=>t==='Kevin：明天六點半，公館。記得來。').length===1&&!T().some(t=>/三件事/.test(t)),JSON.stringify(T()));
     fresh(fri,17.6,'campus',{}); grp(); toasts=[]; STORY.phoneRules(GM); STORY.phoneRules(GM); check('家族聚餐 當天 17:30 一則 toast「今天 18:30 家族聚餐（公館）」（只一次）',toasts.filter(t=>t==='今天 18:30 家族聚餐（公館）').length===1,JSON.stringify(toasts));
     fresh(fri,17.6,'campus',{}); toasts=[]; STORY.phoneRules(GM); check('不在家族群組：沒有當天的 toast',!toasts.some(t=>/家族聚餐/.test(t)));
     { const fsat=STORY.termDay('Y1S1',11,6); fresh(fsat-1,21.1,'campus',{}); PHONE.join(G,'lawclub_study','法服讀書會'); STORY.phoneRules(GM); PHONE.tick(G); const L=PHONE.thread(G,'g:lawclub_study').map(m=>m.text);
       check('校慶前一天（週五）21:00 法服群組：學姊「明天校慶，問答攤十點開。輪班表在記事本。」',L.includes('明天校慶，問答攤十點開。輪班表在記事本。'),JSON.stringify(L));
       const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('沒加入法服：校慶前一天走過大道的公告欄，旁白「公告欄：明天校慶，各社團擺攤。」（AMBIENT festEve）',/key:'festEve'[^]*?PHONE\.inGroup\(G,'lawclub_study'\)\)\) return null; return \['公告欄：明天校慶，各社團擺攤。'\]/.test(src)); }
     fresh(fri,19.2,'campus',{}); grp(); STORY.phoneRules(GM); G.hour=22.6; STORY.phoneRules(GM); PHONE.tick(G);
-    check('家族聚餐 沒去：22:00 Kevin 貼資料夾「學姊整理的，沒來的人自己拿。」、學姊「下學期的書，我會留給學弟。」、22:30 的訂正照樣',T().some(t=>/學姊整理的，沒來的人自己拿。/.test(t))&&T().includes('溫學姊：下學期的書，我會留給學弟。')&&T().includes('溫學姊：考古題第七題，我的紅筆改錯了。正確的在附件。'),JSON.stringify(T())); }
+    check('家族聚餐 沒去：22:00 只有 Kevin 貼資料夾「學姊整理的，沒來的人自己拿。」（學姊那句、22:30 的訂正都刪，AA_218 17-12a）',T().some(t=>/學姊整理的，沒來的人自己拿。/.test(t))&&!T().includes('溫學姊：下學期的書，我會留給學弟。')&&!T().some(t=>/紅筆改錯/.test(t)),JSON.stringify(T())); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

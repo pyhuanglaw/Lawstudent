@@ -29,8 +29,8 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
 const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
 (async()=>{
-  const IDS=['sis_case_y1s2','zr_cocoa_y1s2','zr_art_y1s2','zq_cat03_y1s2','kai_pothos_y1s2','mx_tutor_y1s2','ps_teacher_y1s2','fy_water_y1s2'];
-  const D=STORY.DAILY_PHONE||[]; check('大一下的八則都在',IDS.every(id=>D.some(d=>d.id===id)),JSON.stringify(IDS.filter(id=>!D.some(d=>d.id===id))));
+  const IDS=['zr_cocoa_y1s2','zr_art_y1s2','zq_cat03_y1s2','kai_pothos_y1s2','mx_tutor_y1s2','ps_teacher_y1s2','fy_water_y1s2'];
+  const D=STORY.DAILY_PHONE||[]; check('大一下的七則都在（學姊的 sis_case_y1s2 刪了：AA_218 17-12）',IDS.every(id=>D.some(d=>d.id===id)),JSON.stringify(IDS.filter(id=>!D.some(d=>d.id===id))));
   if(!IDS.every(id=>D.some(d=>d.id===id))){ console.log('FAILED '+fails); process.exit(1); }
   const all=(o)=>{ o=o||{}; const d0=o.d0||termDay('Y1S2',4,1); fresh(d0,8,'campus',Object.assign({POTHOS:true,JOB_TUTOR:true,FIRST_BUG:true},o.flags||{})); PHONE.join(G,'family_law','法律系直屬家族');
     for(const id of ['heroine_02','heroine_04','classmate_mingxuan','classmate_peishan','npc_fangyt','kai']) (G.contacts=G.contacts||{})[id]=1;
@@ -40,7 +40,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('大一下第 4 週起：八則都出現、每則一次',IDS.every(id=>N[id]===1),JSON.stringify(IDS.map(id=>id+':'+(N[id]|0))));
     const days={}; for(const id of IDS){ const k=G.flags.dpDayOf&&G.flags.dpDayOf[id]; days[k]=(days[k]||0)+1; } check('一天最多一則',Object.values(days).every(n=>n===1),JSON.stringify(days));
     const T=th=>(G.msgs||[]).filter(m=>m.th===th).map(m=>m.text);
-    check('學姊（家族群組，有 FAMILY_THREE_THINGS）：「今天讀到一個判決。三件事。……下次聚餐給你們看。」',T('g:family_law').includes('今天讀到一個判決。三件事。一，很長。二，很好。三，學弟妹一定會反對。下次聚餐給你們看。'));
+    check('學姊不在家族群組自己起頭（AA_218 17-12）：舊存檔有 FAMILY_THREE_THINGS 也不會收到「今天讀到一個判決……」',!T('g:family_law').some(t=>/今天讀到一個判決/.test(t)));
     check('芷若（單身）：「今天有客人點熱可可加濃縮欸」「我還以為只有我會這樣喝」（AA_209）；拉花照片沒有字',T('p:heroine_02').includes('今天有客人點熱可可加濃縮欸')&&T('p:heroine_02').includes('我還以為只有我會這樣喝')&&T('p:heroine_02').includes('📷（拉花）')&&!T('p:heroine_02').includes('今天的拉花。老闆說及格。'),JSON.stringify(T('p:heroine_02')));
     check('子晴（PLAYTESTED、FIRST_BUG）：「📎 cat_v0.3」→ 三分鐘後「插座修好了」',JSON.stringify(T('p:heroine_04').slice(-2))==='["📎 cat_v0.3","插座修好了"]',JSON.stringify(T('p:heroine_04')));
     check('阿凱：「你的黃金葛長新葉了」「我幫你澆了」「不用謝」「我只是順手」',JSON.stringify(T('p:kai').filter(t=>/黃金葛|澆|不用謝|順手/.test(t)))==='["你的黃金葛長新葉了","我幫你澆了","不用謝","我只是順手"]',JSON.stringify(T('p:kai')));

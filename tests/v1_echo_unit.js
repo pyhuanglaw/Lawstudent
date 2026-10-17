@@ -50,7 +50,7 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
   { const nye=termDay('Y1S1',18,3), FM=()=>G.msgs.filter(m=>m.th==='g:family_law'&&(m.tag==='sis_first_sticker'||['（貼圖）','？？？','……學弟說過。'].includes(m.text))).map(m=>m.text);
     const run2=(flags)=>{ fresh(nye,23.8,'dorm',flags); PHONE.join(G,'family_law','法律系直屬家族'); STORY.phoneRules(GM); G.hour=24.1; PHONE.tick(G); return FM(); };
     const a=run2({SIS_NO_STICKER:true}), b=run2({});
-    check('5. 有 SIS_NO_STICKER：跨年夜家族群組 學姊（貼圖）→ Kevin「？？？」→ 學姊「……學弟說過。」；沒有不觸發',JSON.stringify(a)==='["（貼圖）","？？？","……學弟說過。"]'&&!b.length,JSON.stringify([a,b])); }
+    check('5. 跨年夜學姊第一次貼貼圖刪了（AA_218 17-12a：她不在群組主動發言）：有沒有 SIS_NO_STICKER 都沒有',!a.length&&!b.length,JSON.stringify([a,b])); }
   /* 4. V1-K2P：K2 霖澤館前品妤還在、椰林大道她先走（AA_147；events3d 的 leave） */
   { const k2=ev('ev_kexin_visits_ntu'); const slots={left:null,right:null}, log=[]; const A0=global.ADV;
     global.ADV=Object.assign({},A0,{slots,begin(o){ slots.right=o&&o.right?{charId:o.right.charId}:null; slots.left=null; },speaker(id){ if(!id||id==='player') return; if(slots.right&&slots.right.charId===id) return; if(slots.left&&slots.left.charId===id) return; if(!slots.left) slots.left={charId:id}; },hide(sl){ slots[sl]=null; },setBg(){},log(){},end(){}});

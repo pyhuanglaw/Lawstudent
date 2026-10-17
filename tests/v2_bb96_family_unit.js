@@ -62,9 +62,8 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     L=await dinner({}); check('沒有 SAID_TREAT_SIS：「二，今天我請。」「重點是，下次誰都不要遲到。」；沒有載人；沒有 TREATED_FAMILY',JSON.stringify(L)===JSON.stringify([nm+'：（看菜單三十秒）兩件事。一，我要辣的。二，今天我請。',nm+'：重點是，下次誰都不要遲到。','Kevin 遲到七分鐘。',nm+'：Kevin，下次的地方你選。'])&&!G.flags.TREATED_FAMILY&&SOCIAL.has('heroine_05','FAMILY_DINNER'),JSON.stringify(L)); }
   /* 三件事 */
   { const three=(flags)=>{ fresh(dD,20,'dorm',flags||{}); PHONE.join(G,'family_law','法律系直屬家族'); run(20,21.6); return fam().filter(m=>m.day===dD&&Math.abs(m.h-21.5)<0.01).map(m=>m.text); };
-    let L=three(); check('聚餐當晚 21:30 學姊「三件事。」「一，今天謝謝大家。」「二，Kevin 遲到七分鐘，下次地方他選。」「三，我這學期第一次好好吃完一頓飯。」（沒去也看得到）；FAMILY_THREE_THINGS',JSON.stringify(L)==='["三件事。","一，今天謝謝大家。","二，Kevin 遲到七分鐘，下次地方他選。","三，我這學期第一次好好吃完一頓飯。"]'&&SOCIAL.has('heroine_05','FAMILY_THREE_THINGS'),JSON.stringify(L));
-    L=three({TREATED_FAMILY:true}); check('TREATED_FAMILY：第三件換成「三，學弟的飲料，我記得。」',L[3]==='三，學弟的飲料，我記得。',L[3]);
-    const m=fam().filter(q=>q.ask&&/^三，/.test(q.text)).slice(-1)[0]; check('三件事的回法：貼圖／收到（不回也可以）',m&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["（貼圖）","收到"]');
+    let L=three(); check('聚餐當晚學姊不在群組發「三件事」（W2c 刪、不改成私訊：AA_218 17-12）；不記 FAMILY_THREE_THINGS',L.length===0&&!SOCIAL.has('heroine_05','FAMILY_THREE_THINGS'),JSON.stringify(L));
+    L=three({TREATED_FAMILY:true}); check('TREATED_FAMILY 也一樣沒有',L.length===0,JSON.stringify(L));
     check('記憶的中文說明：FAMILY_DINNER、TREATED_FAMILY、FAMILY_THREE_THINGS',['FAMILY_DINNER','TREATED_FAMILY','FAMILY_THREE_THINGS'].every(k=>!!SOCIAL.MEMORY_LABEL[k])); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

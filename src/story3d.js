@@ -1386,14 +1386,13 @@ const STORY = (function(){
         const m=PHONE.byAsk&&PHONE.byAsk(G,'y0_e24n'); if(m&&m.ans===0&&!PHONE.sent(G,'y0_e24n_late')) PHONE.at(G,G.day,G.hour+0.25,[K('好。'),K('……我是在問我自己。晚安。')],'y0_e24n_late'); } }
     /* 校慶問答攤（BB_95 3-7，DL-04B）：前一天（週五）21:00 法服群組，學姊提醒；沒加入法服的玩家改成校園公告欄的旁白（AMBIENT 的 festEve）*/
     if(PHONE.inGroup(G,'lawclub_study')){ const fs=termDay('Y1S1',11,6); if(fs&&G.day===fs-1) PHONE.at(G,fs-1,21,[{th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'明天校慶，問答攤十點開。輪班表在記事本。'}],'fest_eve_lawclub'); }
-    /* 家族聚餐（BB_95 3-8）：前一週 Kevin 在家族群組約；當晚 22:30 學姊訂正考古題；沒去的玩家 22:00 Kevin 貼資料夾、學姊說書會留給學弟 */
+    /* 家族聚餐（BB_95 3-8）：前一週 Kevin 在家族群組約；前一天 Kevin 提醒；沒去的玩家 22:00 Kevin 貼資料夾。學姊自己起頭的群組訊息都刪（使用者 08:1x「她根本就不是主動在群組會說話的人」，AA_218 17-12、17-12a）*/
     if(PHONE.inGroup(G,'family_law')){ const fri=termDay('Y1S1',14,5); if(fri){ const th='g:family_law', sis=t=>({th,from:'heroine_05',name:'溫學姊',text:t}), kv=t=>({th,from:'kevin',name:'Kevin',text:t});
       if(G.day>=fri-7&&G.day<=fri) PHONE.at(G,fri-7,20.5,[kv('家族聚餐！週五 18:30，阿鳳麵店。學姊說她會來（截圖為證）'),sis('收到。')],'fam_dinner_invite');
-      if(G.day===fri-1) PHONE.at(G,fri-1,21,[sis('明天六點半，公館。三件事：準時、帶胃、不要帶作業。')],'fam_dinner_eve');   /* 前一天 21:00 提醒一次（BB_95 3-8，DL-04B）*/
+      if(G.day===fri-1) PHONE.at(G,fri-1,21,[kv('明天六點半，公館。記得來。')],'fam_dinner_eve');   /* 前一天 21:00 提醒一次（BB_95 3-8，DL-04B）；學姊不在群組主動發言＝改 Kevin（AA_218 17-12a）*/
       if(G.day===fri&&h(G)>=17.5&&h(G)<18.5&&!F.famDinnerToast&&!(G.events&&G.events.done&&G.events.done.ev_sis_family_dinner)){ F.famDinnerToast=true; GM.toast('今天 18:30 家族聚餐（公館）',4200); }   /* 當天 17:30 */
-      if(G.day===fri) PHONE.at(G,fri,22.5,[sis('考古題第七題，我的紅筆改錯了。正確的在附件。')],'fam_dinner_fix');
-      if(G.day===fri&&h(G)>=19&&!(G.events&&G.events.done&&G.events.done.ev_sis_family_dinner)) PHONE.at(G,fri,22,[kv('📷 學姊整理的，沒來的人自己拿。'),sis('下學期的書，我會留給學弟。')],'fam_dinner_noshow');
-      { const nye=termDay('Y1S1',18,3); if(F.SIS_NO_STICKER&&nye&&G.day>=nye-1&&G.day<=nye+1) PHONE.at(G,nye,24+3/60,[sis('（貼圖）'),kv('？？？'),sis('……學弟說過。')],'sis_first_sticker'); }   /* SIS_NO_STICKER 的回聲（BB_108 第 1 節）：跨年夜，學姊第一次在家族群組貼貼圖；沒有這個旗標不觸發 */ } }
+      if(G.day===fri&&h(G)>=19&&!(G.events&&G.events.done&&G.events.done.ev_sis_family_dinner)) PHONE.at(G,fri,22,[kv('📷 學姊整理的，沒來的人自己拿。')],'fam_dinner_noshow');   /* 學姊那句刪（AA_218 17-12a）*/
+      /* 跨年夜學姊第一次貼貼圖（sis_first_sticker）刪：她不在群組主動發言（AA_218 17-12a）*/ } }
     if(F.guitarFirstDay!=null&&!PHONE.sent(G,'guitar_grp1')){ PHONE.join(G,'guitar','吉他社'); PHONE.at(G,F.guitarFirstDay,21.5,[{th:'g:guitar',from:'heroine_04',text:'新人自己報名字，不要讓我問。這不是問句。'}],'guitar_grp1'); }
     if(G.msgs&&G.msgs.some(m=>m.tag==='sis_yutong')&&!F.yutongFwd){ F.yutongFwd=true;
       if(typeof INV!=='undefined'&&INV.hasContact(G,'heroine_03')){ PHONE.post(G,{th:'p:heroine_03',from:'player',who:null,text:'（把學姊的回覆截圖傳給語彤）',tag:'yutong_fwd_q'}); PHONE.at(G,G.day,G.hour+0.1,[{th:'p:heroine_03',from:'heroine_03',text:'……法服是什麼？'}],'yutong_fwd'); }
@@ -1981,10 +1980,7 @@ const STORY = (function(){
           if(F.SAID_TREAT_SIS) L.push(sis('……學弟，你是認真的？'),sis('我以為那是客套話。'),sis('好。六點半。我會準時。重點是，你們不要遲到。'));
           PHONE.at(G,dI,21,L,'fam_dinner_inv'); PHONE.at(G,dI,21.3,[Object.assign(kv('家聚要搬兩箱飲料，誰有車？'),{ask:{until:dD*24+18,opts:[{t:'我有。',set:{SAID_HAS_CAR:true},say:[kv('學弟有車！'),sis('……好。之後有用。')]}]}})],'fam_car'); }
         if(F.FAM_DINNER_GO===true&&typeof OUT!=='undefined'&&!OUT.get(G,'fam_dinner_y1s2')) OUT.plan(G,{id:'fam_dinner_y1s2',ev:'ev_family_dinner',day:dD,h:18.5,place:'永康街的咖哩店',title:'家族聚餐',travel:'約 20 分鐘',travelH:1/3});
-        if(!PHONE.sent(G,'fam_three_things')&&(G.day>dD||(G.day===dD&&G.hour>=21.4))){
-          PHONE.at(G,dD,21.5,[sis('三件事。'),sis('一，今天謝謝大家。'),sis('二，Kevin 遲到七分鐘，下次地方他選。'),
-            Object.assign(sis(F.TREATED_FAMILY?'三，學弟的飲料，我記得。':'三，我這學期第一次好好吃完一頓飯。'),{ask:{until:(dD+1)*24+12,opts:[{t:'（貼圖）'},{t:'收到'}]}})],'fam_three_things');
-          if(typeof SOCIAL!=='undefined') SOCIAL.remember('heroine_05','FAMILY_THREE_THINGS','家族群組的三件事'); } } }
+        /* W2c 聚餐當晚學姊的「三件事。一，今天謝謝大家……」刪，不改成私訊（AA_218 17-12）；舊存檔記過的 FAMILY_THREE_THINGS 照留 */ } }
     /* 除夕：可昕 KN 的假設題（BB_96 9-2；接主線 2＝交接包 v2 C2）：交往中，除夕晚上主線 2 演完以後 22:00 她傳（22:00 還沒演＝照樣 22:00 傳，沒有「家裡在講一件事」）。
        「今天家裡在講一件事。」只在有 FAMILY_LAND_Y1；之後再選「妳聽就好。」／「一起看。」（記 KX_FAMILY_LAND）；「一起看」而且主線 2 選了「先問哪幾件事」多一句。
        不回：隔天 9:00「新年快樂。昨天的題目，你可以想一年。」（回覆在那之前可以回）。打給妳：電話（她那邊的鞭炮聲、新年快樂、早點睡）寫在對話串裡 */
@@ -2168,8 +2164,7 @@ const STORY = (function(){
       items:()=>seq('npc_fangyt',['學弟好。你的黃金葛葉子，最近有沒有變黃？','變黃通常是水太多。不是你的錯，是它比較挑。','拍給我看。'])},
     /* 大一下的手機小事（BB_96 第 5 節；交接包 v2）：只在大一下（term）。學姊的畢業照那則在 C17（固定日子）；子晴成發倒數那則在 Q5（固定日子）。
        芷若「熱可可加濃縮」要 Z3（ASKED_HER_DRINK）、明軒那則要家教打工（JOB_TUTOR）——兩個都已接，條件成立以後自然會出現 */
-    {id:'sis_case_y1s2',term:t=>t.id==='Y1S2',h:()=>12+10/60,ok:G=>PHONE.inGroup(G,'family_law')&&typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_THREE_THINGS'),
-      items:()=>[{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'今天讀到一個判決。三件事。一，很長。二，很好。三，學弟妹一定會反對。下次聚餐給你們看。'}]},
+    /* sis_case_y1s2（學姊在家族群組分享判決）刪：她不在群組主動發言（AA_218 17-12）*/
     {id:'zr_cocoa_y1s2',term:t=>t.id==='Y1S2',h:G=>zrKnows(G)?15+10/60:22+7/60,ok:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_02','ASKED_HER_DRINK')&&gotBefore(G,'heroine_02'),
       items:G=>zrKnows(G)?[P1('heroine_02','今天有人點熱可可加濃縮。我以為只有我會喝這個。')]:seq('heroine_02',['今天有客人點熱可可加濃縮欸','我還以為只有我會這樣喝'])},   /* 單身版：AA_209 附錄B §2 */
     {id:'zr_art_y1s2',term:t=>t.id==='Y1S2',h:G=>zrKnows(G)?15+10/60:22+7/60,ok:G=>gotBefore(G,'heroine_02'),
