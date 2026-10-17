@@ -14362,7 +14362,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P1",
-   "next": "照 AA_215（4a9b8b77）改告白判斷；不動學姊分手週次（等 BB-C）；單元測試（舊存檔不壞、交往中的關係保留）",
+   "next": "**依賴約會系統**：新條件要「正式校外約會次數＋心願地點」（dateLog），程式還沒有（DATE-S1 計數、DATE-S2 地點 D01～D32、DATE-S6 半互動約會都待開工；romance3d.js 第 47 行：現在告白條件由各告白事件自己判斷）。順序：DATE-S1／S2／S6 → 通用告白判斷 S.canConfess（stage≥6 && dateLog.count≥4 && dateLog.wish && willing）→ 各告白事件拿掉學期／故事前置、改用 S.canConfess；不動學姊分手週次（等 BB-C）。LAWWW-C 2026-10-17 05:1x 查證",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -14375,6 +14375,11 @@
    },
    "sha": [
     "4a9b8b77"
+   ],
+   "prereq": [
+    "DATE-S1",
+    "DATE-S2",
+    "DATE-S6"
    ]
   }
  ]
