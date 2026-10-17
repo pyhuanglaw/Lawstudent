@@ -195,6 +195,36 @@ def watch(m, side='L', back=0.035, band_w=0.022):
     return obj
 
 
+def unpaint_socks(body, z_max=0.22, z_ref=(0.33, 0.50), name='W01_Body_nosock'):
+    """第五版（BB-C 第 7 點：背面腳跟的深色斑點）：樣本的身體貼圖在腳踝、腳畫了一雙深棕色短襪——待機動畫腳踝一轉，腳跟的皮膚從白襪底下露出來。
+    把身體網格在 z_max 以下（樣本座標；腳踝、腳）那些面的貼圖範圍裡、暗的像素改成小腿（z_ref）皮膚的中位數；露出來也只是皮膚"""
+    import h01_face as F
+    me = body.data; Mw = np.array(body.matrix_world); P = C.co(body) @ Mw[:3, :3].T + Mw[:3, 3]
+    uvl = me.uv_layers.active.data; n = 0
+    for si, slot in enumerate(body.material_slots):
+        mt = slot.material
+        if not mt or not mt.name.endswith('_SKIN') or not getattr(mt, 'vrm_addon_extension', None): continue
+        src = mt.vrm_addon_extension.mtoon1.pbr_metallic_roughness.base_color_texture.index.source
+        if src is None: continue
+        a = F.img_array(src); Hh, Ww = a.shape[:2]; mask = np.zeros((Hh, Ww), bool); ref = np.zeros((Hh, Ww), bool)
+        for p in me.polygons:
+            if p.material_index != si: continue
+            zs = P[list(p.vertices), 2]
+            tgt = mask if zs.max() < z_max else (ref if (zs.min() > z_ref[0] and zs.max() < z_ref[1]) else None)
+            if tgt is None: continue
+            uv = np.array([uvl[li].uv[:] for li in p.loop_indices]); xs = uv[:, 0] * Ww; ys = (1 - uv[:, 1]) * Hh
+            tgt[max(0, int(ys.min())):min(Hh, int(ys.max()) + 2), max(0, int(xs.min())):min(Ww, int(xs.max()) + 2)] = True
+        rgb = a[..., :3]; lum = rgb @ np.array([0.30, 0.59, 0.11])
+        R, G, B = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+        skinlike = ref & (a[..., 3] > 0.5) & (R > 0.45) & (R > G) & (G > B)
+        if not skinlike.any(): continue
+        med = np.median(rgb[skinlike], axis=0); dark = mask & (lum < 0.42)
+        out = a.copy(); out[dark, :3] = med; out[..., 3] = np.where(dark, 1.0, a[..., 3])
+        im = C.image_from_array(name, out.astype(np.float32)); F.set_tex(mt, im); n += int(dark.sum())
+        print('  %s: sock px → skin %d (median %s)' % (name, int(dark.sum()), np.round(med, 3)))
+    return n
+
+
 def _texture(rgb, S=1024):
     keep = K.KNIT_RGB; K.KNIT_RGB = rgb
     try: return K.jersey_texture(S)
@@ -236,7 +266,7 @@ def _apply(m, arm, body):
     (arm.users_collection[0] if arm.users_collection else bpy.context.scene.collection).objects.link(obj)
     C.bind(obj, arm, K.weights_dict(skin, W))
     print('  dropped loose verts (open front)', XC.drop_loose(obj))
-    print('  tee faces removed at the sides/back (under the jacket)', trim_tee(obj))
+    print('  tee faces removed at the sides/back (under the jacket)', trim_tee(obj, max_angle=84.0))   # 第五版：72 → 84°（第四版 45° 看得到 T 恤剪掉的鋸齒邊）
     print('  tee pulled under the jacket', tee_under_jacket(obj))
     print('  body pulled under the tee', XC.conform_under(body, obj, 3, K.PANTS_TOP - 0.03, K.TEE_CREW_Z + 0.065))
     me = obj.data; tris = {}
@@ -274,4 +304,5 @@ def apply(m):
     import p04_clothes as P04
     P04.build_hood(m, obj, mat_key='Jacket', cords=False, scale=1.10, shade=(0.88, 0.88, 0.92))   # 第三版：防風外套的帽子（參考圖側面、背面）
     print('  watch', watch(m).name)
+    print('  unpainted sock px', unpaint_socks(body))
     return obj
