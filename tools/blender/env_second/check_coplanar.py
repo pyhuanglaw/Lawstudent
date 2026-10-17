@@ -72,6 +72,8 @@ def toggle(ob):
         if m and m.group(1) != 'STAGE': return ('SET', m.group(1))
         if re.match(r'(Y203_|ROOMMATE_KAI)', ob.name): return ('YEAR', '203')   # 宿舍四人房（dorm_room4.py）：203 和 412 的東西不會同時出現
         if re.match(r'(Y412_|NAMETAG_)', ob.name): return ('YEAR', '412')
+        m = re.match(r'Y(312|507|409)_', ob.name)                                   # 大二～大四（2026-10-17）
+        if m: return ('YEAR', m.group(1))
         ob = ob.parent
     return None
 

@@ -13,6 +13,8 @@
   - 窗移到後牆中間（x −1.1..1.1、y 0.95..2.4），冷氣在窗的右上方。
 - 節點：WALL_<front|back|left|right|bath_n|bath_w>_*（會淡出的牆，dir＝往室內）；LOFT_<組>_TOP（床板、床欄、床墊、吊桿、扶手上段：材質 seethru_*）＋子節點 BEDDING_<組>（被子、枕頭）；
   每個人的東西一組一個節點（可以整組藏起來）：Y203_YUTING、ROOMMATE_KAI、Y203_ZHE、Y203_BOHAN、Y412_YUTING、Y412_TANGRUI、Y412_WEILUN；經濟系第一晚的名牌 NAMETAG_TANGRUI／NAMETAG_WEILUN。
+  大二～大四（LAWWW2-C 2026-10-17，AA_208 第 7、8 節；SCN-V3-01／V4-01／V5-01）：Y312_YUTING／Y312_ZHE／Y312_BOHAN／Y312_FRESH、Y507_YUTING／Y507_BOHAN／Y507_SOPH／Y507_PEER、
+  Y409_YUTING／Y409_BOHAN／Y409_SOPH／Y409_FRESH（遊戲端：zones3d.js 的 DORM_SETS 要多 312／507／409 三組，舊的 203、412 也要藏 Y312_／Y507_／Y409_——GLB 和 patch 要一起換）。
   阿勳的書桌、保齡球袋、E01 紙箱照舊用 v0_dorm_props（位置在 layout 的 v0_props）。其他照材質合併。
 """
 import json, math, os, sys, random
@@ -40,8 +42,11 @@ VD, STW = 0.95, 0.45                               # 床桌組的深度、階梯
 DECK0, DECK1, GUARD = 1.56, 1.60, 2.02             # 床板底、床板頂、床欄頂
 RISE, NST = 0.32, 4                                # 階梯：四階、每階 32 cm（頂 1.28），再一步上床
 # 誰用哪一組（AA_208 第 4 節，AA 分支 65978067）：柏翰先到、用靠窗那組；「門口那張床是你的」＝祐廷在左前；阿凱的書桌在祐廷對面（遙控器放在兩張書桌中間）
-UNITS = [('R1', 'R', IZ0 + 0.005, -1.0, {'203': 'bohan', '412': 'tangrui'}), ('R2', 'R', -0.98, 1.39, {'203': 'kai', '412': 'xun'}),
-         ('L1', 'L', IZ0 + 0.005, -1.0, {'203': 'zhe', '412': 'weilun'}), ('L2', 'L', -0.98, 1.39, {'203': 'yuting', '412': 'yuting'})]
+# 大二～大四（AA_208 第 7、8 節）：312＝祐廷 L2、阿哲 L1、柏翰 R1、大一學弟 R2（背景）；507＝祐廷、柏翰、大二學弟 L1、別系的同屆 R2；409＝祐廷、柏翰、大二學弟 L1、大一學弟 R2
+UNITS = [('R1', 'R', IZ0 + 0.005, -1.0, {'203': 'bohan', '412': 'tangrui', '312': 'bohan', '507': 'bohan', '409': 'bohan'}),
+         ('R2', 'R', -0.98, 1.39, {'203': 'kai', '412': 'xun', '312': 'fresh', '507': 'peer', '409': 'fresh'}),
+         ('L1', 'L', IZ0 + 0.005, -1.0, {'203': 'zhe', '412': 'weilun', '312': 'zhe', '507': 'soph', '409': 'soph'}),
+         ('L2', 'L', -0.98, 1.39, {'203': 'yuting', '412': 'yuting', '312': 'yuting', '507': 'yuting', '409': 'yuting'})]
 DUVET = {'R1': '#e2ddd2', 'R2': '#6b6f75', 'L1': '#3f6fa0', 'L2': '#4d6f8f'}   # 每一組的被子（柏翰淺灰、阿凱深灰、阿哲藍、祐廷灰藍）
 random.seed(23)
 TEXGEN = os.path.join(HERE, 'textures', 'gen')
@@ -320,13 +325,14 @@ def painted(cm, fn, hexcol):
     n0 = len(cm.bm.faces); fn(); cm.bm.faces.ensure_lookup_table(); cm.paint([cm.bm.faces[i] for i in range(n0, len(cm.bm.faces))], hexcol)
 
 
-def books_row(im, side, ua, ub, y, v0, tall=0.28, neat=False, cols=None):
+def books_row(im, side, ua, ub, y, v0, tall=0.28, neat=False, cols=None, rng=None):
+    R = rng or random   # 大二～大四的東西用自己的亂數（rng）：不改到 203／412 那些書的樣子
     u = ua
     while u < ub - 0.04:
-        if not neat and random.random() < 0.08: u += random.uniform(0.04, 0.1); continue
-        w = random.uniform(0.022, 0.05) if not neat else 0.034; h = tall * (random.uniform(0.72, 1.0) if not neat else 0.96); d = random.uniform(0.17, 0.22) if not neat else 0.2
+        if not neat and R.random() < 0.08: u += R.uniform(0.04, 0.1); continue
+        w = R.uniform(0.022, 0.05) if not neat else 0.034; h = tall * (R.uniform(0.72, 1.0) if not neat else 0.96); d = R.uniform(0.17, 0.22) if not neat else 0.2
         if u + w > ub: break
-        lbox(im, side, u, u + w, y, y + h, v0, v0 + d, fn='cbox', hexcol=random.choice(cols or BOOK), k=random.uniform(0.85, 1.05) if not neat else 1.0); u += w + (0.002 if not neat else 0.001)
+        lbox(im, side, u, u + w, y, y + h, v0, v0 + d, fn='cbox', hexcol=R.choice(cols or BOOK), k=R.uniform(0.85, 1.05) if not neat else 1.0); u += w + (0.002 if not neat else 0.001)
 
 
 LAYOUT = {'version': 'loft4-v2',
@@ -337,7 +343,10 @@ LAYOUT = {'version': 'loft4-v2',
           'calendar_spot': {'x': 1.25, 'y': 1.75, 'z': round(bz0 - bt / 2 - 0.006, 3), 'ry': math.pi, 'note': '洗手間北面隔間朝房間那一面（空牆），面向 −z'},
           'units': [], 'blocks': [],
           'sets': {'203': '藏 Y412_*、NAMETAG_*；其他照常', '412': '藏 Y203_*、ROOMMATE_KAI；阿勳的書桌、保齡球袋、紙箱用 v0_dorm_props（位置見 units 的 412）',
-                   '412_first_night': '412 再藏 Y412_TANGRUI、Y412_WEILUN、BEDDING_R1、BEDDING_L1，顯示 NAMETAG_TANGRUI、NAMETAG_WEILUN（AA_208 第 3 節）'}}
+                   '412_first_night': '412 再藏 Y412_TANGRUI、Y412_WEILUN、BEDDING_R1、BEDDING_L1，顯示 NAMETAG_TANGRUI、NAMETAG_WEILUN（AA_208 第 3 節）',
+                   '312': '大二（AA_208 第 7 節）：只顯示 Y312_*；藏 Y203_*、ROOMMATE_KAI、Y412_*、Y507_*、Y409_*、NAMETAG_*',
+                   '507': '大三（第 8 節）：只顯示 Y507_*；其他年份的都藏', '409': '大四（第 8 節）：只顯示 Y409_*；其他年份的都藏',
+                   'note': '203、412 那幾組也要藏 Y312_／Y507_／Y409_（2026-10-17 加的三年）'}}
 
 
 def plastic_chair(side, u, v):
@@ -526,8 +535,103 @@ def weilun412(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
     books_row(im, side, s0 + 0.03, sm - 0.02, sy0 + 0.018, 0.04, tall=0.26)
 
 
+# ---- 大二～大四（AA_208 第 7、8 節）
+def yuting_y(year):
+    """祐廷（L2，四年都在門口那組）：架上的書和大一一樣（經濟學原理、舊《民法》、講義夾），越高年級書越多；桌面留空給主線的物件（dorm_y2_items 等）"""
+    def fn(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
+        R = random.Random('yuting' + year); G = ig(f'Y{year}_YUTING', {'year': year, 'who': 'yuting'}); im = G['it']
+        lbox(im, side, s0 + 0.03, s0 + 0.095, sy0 + 0.018, sy0 + 0.31, 0.03, 0.25, fn='cbox', hexcol='#e9e2cf'); lbox(im, side, s0 + 0.03, s0 + 0.095, sy0 + 0.24, sy0 + 0.265, 0.25, 0.252, fn='cbox', hexcol='#b0332a')
+        lbox(im, side, s0 + 0.1, s0 + 0.14, sy0 + 0.018, sy0 + 0.26, 0.04, 0.23, fn='cbox', hexcol='#6b4f35')
+        books_row(im, side, s0 + 0.15, sm - 0.02, sy0 + 0.018, 0.04, tall=0.28, rng=R)
+        n = {'312': 3, '507': 4, '409': 5}[year]                                                                       # 講義夾：一年多一本
+        for j in range(n): lbox(im, side, sm + 0.02 + j * 0.055, sm + 0.065 + j * 0.055, sy0 + 0.018, sy0 + 0.3, 0.03, 0.27, fn='cbox', hexcol=['#2f6db0', '#f2f0ea', '#c23f35', '#3e7a52', '#e0b95b'][j])
+        lbox(im, side, k1 - 0.36, k1 - 0.1, Y, Y + 0.06 + (0.03 if year != '312' else 0.0), 0.08, 0.36, fn='cbox', hexcol='#8e1d1d')   # 六法（大三起換成比較厚的版本）
+        laptop(G, side, k0 + 0.66, Y)
+    return fn
+
+
+def zhe312(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
+    """阿哲（L1）：籃球已經滾到門口（AA_208 7-1「阿哲的籃球已經滾到門口了」）、一箱零食、從高雄帶來的電風扇"""
+    R = random.Random('zhe312'); G = ig('Y312_ZHE', {'year': '312', 'who': 'zhe'}); im = G['it']
+    painted(im, lambda: im.sphere((-0.66, 0.12, 3.14), 0.12, seg=14, rings=9), '#c4692e')                            # 門口左邊（垃圾桶和門框中間，不擋路）
+    lbox(im, side, k0 + 0.45, k0 + 0.8, Y, Y + 0.2, 0.06, 0.32, fn='cbox', hexcol='#b9a37f')
+    for j, c in enumerate(['#e0b95b', '#2f6db0', '#c23f35']): lbox(im, side, k0 + 0.48 + j * 0.09, k0 + 0.55 + j * 0.09, Y + 0.2, Y + 0.26, 0.12 + j * 0.03, 0.22 + j * 0.03, fn='cbox', hexcol=c)
+    fx_, fv = k1 - 0.2, 0.25
+    G['met'].cyl(W3(side, fx_, Y, fv), W3(side, fx_, Y + 0.03, fv), 0.1, seg=14); G['met'].cyl(W3(side, fx_, Y + 0.03, fv), W3(side, fx_, Y + 0.25, fv), 0.015, seg=8)
+    painted(im, lambda: im.cyl(W3(side, fx_, Y + 0.38, fv + 0.02), W3(side, fx_, Y + 0.38, fv + 0.1), 0.17, seg=20), '#e8eef0')
+    painted(im, lambda: im.cyl(W3(side, fx_, Y + 0.38, fv + 0.1), W3(side, fx_, Y + 0.38, fv + 0.102), 0.15, seg=20), '#9aa5ad')
+    books_row(im, side, s0 + 0.03, sm - 0.02, sy0 + 0.018, 0.04, tall=0.26, rng=R)
+    lbox(im, side, k0 + 0.05, k0 + 0.35, Y, Y + 0.012, 0.3, 0.52, fn='cbox', hexcol='#f4f1e8')
+
+
+def bohan_y(year):
+    """柏翰（R1，靠窗那組，四年同寢）：東西照 203 跟著搬（排整齊的書、考古題資料夾、檯燈、耳塞）；409「耳塞已經放在枕頭旁邊」"""
+    def fn(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
+        R = random.Random('bohan' + year); G = ig(f'Y{year}_BOHAN', {'year': year, 'who': 'bohan'}); im = G['it']
+        books_row(im, side, s0 + 0.025, sm - 0.015, sy0 + 0.018, 0.04, tall=0.28, neat=True, cols=['#2f4f6b', '#1f3b57', '#e3d9c2', '#d6cdb8'], rng=R)
+        books_row(im, side, sm + 0.02, s1 - 0.025, sy0 + 0.018, 0.04, tall=0.28, neat=True, cols=['#8e1d1d', '#e3d9c2'], rng=R)
+        nf = {'312': 5, '507': 6, '409': 7}[year]                                                                      # 考古題資料夾一年比一年多
+        for j in range(nf): lbox(im, side, k0 + 0.05, k0 + 0.36, Y + j * 0.025, Y + (j + 1) * 0.025 - 0.002, 0.08, 0.32, fn='cbox', hexcol=['#2f6db0', '#3e7a52', '#c23f35', '#e0b95b', '#5a4a6a', '#2f4f6b', '#d6cdb8'][j])
+        desk_lamp(G, side, k1 - 0.18, Y)
+        lbox(im, side, k0 + 0.5, k0 + 0.78, Y, Y + 0.035, 0.3, 0.5, fn='cbox', hexcol='#2f4f6b')
+        for j in range(3): lbox(im, side, k0 + 0.82 + j * 0.02, k0 + 0.83 + j * 0.02, Y, Y + 0.01, 0.32, 0.47, fn='cbox', hexcol=['#202225', '#2f6db0', '#c23f35'][j])
+        if year == '409': lbox(im, side, ua + 0.5, ua + 0.56, DECK1 + 0.24, DECK1 + 0.26, 0.24, 0.28, fn='cbox', hexcol='#e8873a')   # 枕頭旁邊（被子上）的耳塞盒
+        else: lbox(im, side, k1 - 0.32, k1 - 0.26, Y, Y + 0.02, 0.45, 0.49, fn='cbox', hexcol='#e8873a')
+    return fn
+
+
+def handbook(G, side, ua, ust):
+    """宿舍發的新生手冊：貼在床欄外面（從房間看得到；封面淺藍＋白色帶子，沒有字）"""
+    uc = (ua + ust) / 2 + 0.3; a, b = uc - 0.075, uc + 0.075
+    lbox(G['it'], side, a, b, 1.6, 1.81, VD + 0.002, VD + 0.009, fn='cbox', hexcol='#9cc0d8'); lbox(G['it'], side, a, b, 1.74, 1.77, VD + 0.009, VD + 0.011, fn='cbox', hexcol='#f4f2ec')
+    for t in (1.8, 1.61): lbox(G['it'], side, uc - 0.03, uc + 0.03, t - 0.005, t + 0.012, VD + 0.009, VD + 0.012, fn='cbox', hexcol='#e9e4d2')   # 膠帶
+
+
+def carton(G, side, u0, u1, y0, y1, v0, v1):
+    """還沒拆的紙箱：上面一條膠帶"""
+    lbox(G['it'], side, u0, u1, y0, y1, v0, v1, fn='cbox', hexcol='#b88a5a'); um = (u0 + u1) / 2
+    lbox(G['it'], side, um - 0.025, um + 0.025, y1, y1 + 0.003, v0 - 0.002, v1 + 0.002, fn='cbox', hexcol='#c9a77a')
+
+
+def fresh_y(year):
+    """大一學弟（R2，背景，沒有名字）：床上貼著新生手冊；312 兩個還沒拆的紙箱（AA_208 7-1）、409 一個（第 8 節：新生手冊只放大四的大一學弟）"""
+    def fn(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
+        G = ig(f'Y{year}_FRESH', {'year': year, 'who': 'fresh'})
+        handbook(G, side, ua, ust)
+        carton(G, side, k1 - 0.5, k1 - 0.08, 0.0, 0.38, 0.1, 0.48)                                                    # 書桌下
+        if year == '312': carton(G, side, k0 + 0.5, k0 + 0.92, Y, Y + 0.3, 0.08, 0.42)                                 # 書桌上
+        laptop(G, side, k0 + 1.1, Y) if year == '409' else None
+        lbox(G['it'], side, s0 + 0.03, s0 + 0.2, sy0 + 0.018, sy0 + 0.25, 0.04, 0.24, fn='cbox', hexcol='#d6cdb8')       # 架上只有一疊新課本
+    return fn
+
+
+def soph_y(year):
+    """大二學弟（L1，背景）：筆電、幾本課本、水壺、掛在椅背的後背包"""
+    def fn(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
+        R = random.Random('soph' + year); G = ig(f'Y{year}_SOPH', {'year': year, 'who': 'soph'}); im = G['it']
+        laptop(G, side, k0 + 0.62, Y)
+        books_row(im, side, s0 + 0.03, s0 + 0.35, sy0 + 0.018, 0.04, tall=0.26, rng=R)
+        painted(im, lambda: im.cyl(W3(side, k1 - 0.12, Y, 0.42), W3(side, k1 - 0.12, Y + 0.22, 0.42), 0.035, seg=12), '#3e7a8a' if year == '507' else '#c9c3b5')   # 水壺
+        lbox(im, side, cu - 0.16, cu + 0.16, 0.5, 0.9, 1.12, 1.26, fn='crbox', hexcol='#2a2f38' if year == '507' else '#5a6a52', r=0.04)   # 椅背上的後背包
+    return fn
+
+
+def peer507(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
+    """別系的同屆（R2，背景）：一台螢幕＋鍵盤、一疊 A4 影印、掛在椅背的外套"""
+    R = random.Random('peer507'); G = ig('Y507_PEER', {'year': '507', 'who': 'peer'}); im, bk = G['it'], G['blk']
+    lbox(bk, side, k0 + 0.55, k0 + 1.05, Y + 0.1, Y + 0.4, 0.1, 0.125); lbox(G['lcd'], side, k0 + 0.562, k0 + 1.038, Y + 0.112, Y + 0.388, 0.125, 0.131)
+    lbox(bk, side, k0 + 0.78, k0 + 0.82, Y + 0.012, Y + 0.12, 0.08, 0.1); lbox(bk, side, k0 + 0.7, k0 + 0.9, Y, Y + 0.012, 0.04, 0.2)
+    lbox(bk, side, k0 + 0.58, k0 + 1.0, Y, Y + 0.02, 0.32, 0.46)
+    for j in range(4): lbox(im, side, k0 + 0.06 + j * 0.004, k0 + 0.27 + j * 0.004, Y + j * 0.006, Y + (j + 1) * 0.006, 0.1 + j * 0.01, 0.4 + j * 0.01, fn='cbox', hexcol='#f6f3ea')
+    books_row(im, side, s0 + 0.03, sm - 0.02, sy0 + 0.018, 0.04, tall=0.27, rng=R)
+    lbox(im, side, cu - 0.21, cu + 0.21, 0.55, 0.95, 1.1, 1.14, fn='crbox', hexcol='#4a4f57', r=0.015)                 # 外套
+
+
 ITEMS = {('203', 'yuting'): yuting203, ('412', 'yuting'): yuting412, ('203', 'kai'): kai203, ('203', 'zhe'): zhe203, ('203', 'bohan'): bohan203,
-         ('412', 'tangrui'): tangrui412, ('412', 'weilun'): weilun412}   # 阿勳（412、R2）：遊戲的 v0_dorm_props（XUN_DESK、XUN_BOWLING）
+         ('412', 'tangrui'): tangrui412, ('412', 'weilun'): weilun412,   # 阿勳（412、R2）：遊戲的 v0_dorm_props（XUN_DESK、XUN_BOWLING）
+         ('312', 'yuting'): yuting_y('312'), ('312', 'zhe'): zhe312, ('312', 'bohan'): bohan_y('312'), ('312', 'fresh'): fresh_y('312'),
+         ('507', 'yuting'): yuting_y('507'), ('507', 'bohan'): bohan_y('507'), ('507', 'soph'): soph_y('507'), ('507', 'peer'): peer507,
+         ('409', 'yuting'): yuting_y('409'), ('409', 'bohan'): bohan_y('409'), ('409', 'soph'): soph_y('409'), ('409', 'fresh'): fresh_y('409')}
 for uid, side, ua, ub, sets in UNITS: loft(uid, side, ua, ub, sets)
 r2 = next(u for u in LAYOUT['units'] if u['id'] == 'R2'); l2 = next(u for u in LAYOUT['units'] if u['id'] == 'L2')
 LAYOUT['v0_props'] = {'XUN_DESK': {'x': r2['desk_center'][0], 'y': 0.76, 'z': r2['desk_center'][1], 'ry': math.pi / 2, 'note': '阿勳的書桌（R2）'},
@@ -574,7 +678,7 @@ for side, ms in walls.items():
 def keep(ob):
     p = ob
     while p is not None:
-        if p.name.startswith(('ROOMMATE_', 'LOFT_', 'BEDDING_', 'Y203_', 'Y412_', 'NAMETAG_')) or p.name == 'WALL_bath_w_sign': return True
+        if p.name.startswith(('ROOMMATE_', 'LOFT_', 'BEDDING_', 'Y203_', 'Y412_', 'Y312_', 'Y507_', 'Y409_', 'NAMETAG_')) or p.name == 'WALL_bath_w_sign': return True
         p = p.parent
     return False
 
