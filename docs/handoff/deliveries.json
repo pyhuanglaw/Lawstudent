@@ -5154,6 +5154,71 @@
    "msg": "DELIVERED",
    "integration": "已整合待測試",
    "note": "LAWWW-B 收進開發分支；flow_linze_floors.py 待跑"
+  },
+  {
+   "id": "DL-LW2-COPLANAR-201",
+   "date": "2026-10-17",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "209e7eca",
+   "what": "BUG-COPLANAR-DEV 201 階梯教室：一定會閃 11 → 0（平台收邊、止滑條、牆角）；classroom_201.glb＋腳本；check_coplanar 加宿舍年份互斥",
+   "task": "BUG-COPLANAR-DEV",
+   "msg": "DELIVERED",
+   "integration": "已整合待測試",
+   "note": "座位、節點名稱不變"
+  },
+  {
+   "id": "DL-LW2-COPLANAR-WANCAI",
+   "date": "2026-10-17",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "9dc6727f",
+   "what": "BUG-COPLANAR-DEV 萬才館室內：一定會閃 54 → 4（帷幕、一二樓牆接縫、樓板、牆角、二樓門框、迴廊收邊、踢腳板）；wancai_interior.glb＋腳本",
+   "task": "BUG-COPLANAR-DEV",
+   "msg": "DELIVERED",
+   "integration": "已整合待測試",
+   "note": "待跑 flow_wancai_floors、zone_transitions"
+  },
+  {
+   "id": "DL-BB-BCG47-ECONCAMP",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "ddae6f9c",
+   "what": "cg_econ_camp 經濟系宿營合照（BCG-47，七個人自己拍；使用者統一光線版 1672×941；ART_APPROVED）",
+   "task": "ART-CG-ECONCAMP",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "E15 改 CG 帶過（AA_154 A54）f93ba38a"
+  },
+  {
+   "id": "DL-BB-BG14-CURRY",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "125c6660",
+   "what": "背景 yongkang_curry（永康街咖哩店，學姊 W2b ev_family_dinner）",
+   "task": "ART-BG14",
+   "msg": "DELIVERED",
+   "integration": "已整合待測試",
+   "note": "取代黑畫面 f93ba38a"
+  },
+  {
+   "id": "DL-BB-BG-NCCUDORM",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "d3c61b5e",
+   "what": "背景 nccu_dorm（政大自強十舍樓下長椅，晚上；可昕 K1b 第 5 步）",
+   "task": "ART-10",
+   "msg": "DELIVERED",
+   "integration": "已整合待測試",
+   "note": "白天版 nccu_dorm_day 使用者修圖中"
   }
  ],
  "ignored": [

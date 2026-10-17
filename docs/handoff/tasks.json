@@ -706,8 +706,8 @@
    "title": "自強十舍 nccu_dorm（宿舍樓下長椅）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
-   "next": "等使用者照片",
+   "status": "已整合待測試",
+   "next": "晚上版 nccu_dorm（BB-B d3c61b5e）已換上；白天版 nccu_dorm_day 使用者修圖中，回來再換",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -9184,8 +9184,8 @@
    "title": "2D 背景 yongkang_curry「永康街・咖哩店」（BG 追蹤表 BG-14）：ev_family_dinner 家族聚餐",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "查證永康街的咖哩店（不寫真名）；店面＋室內用 Café／麵店構件",
+   "status": "已整合待測試",
+   "next": "BB-B 125c6660 通過、LAWWW-B f93ba38a 換上 assets/bg/yongkang_curry.webp（outings3d S.BG）；瀏覽器看一次家族聚餐",
    "priority": "P2",
    "first": {
     "term": "Y1S2",

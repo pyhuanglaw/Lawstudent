@@ -9,7 +9,7 @@
 - 每個面（世界座標）算平面：法線取到 0.02 的精度、到原點的距離取到 tol。
 - 同一個平面（法線相同或相反）裡的面兩兩比：先用平面上的外接矩形篩（依 u 排序掃描，不是全部兩兩比），
   再算凸多邊形真正的交集面積（Sutherland–Hodgman），≥ min-area 平方公尺才算疊面。
-- 跳過同一個物件裡共用頂點的相鄰面；跳過互斥的布置（SEASON_X_on／_off、體育館 SET_CEREMONY／LECTURE／CONCERT）。
+- 跳過同一個物件裡共用頂點的相鄰面；跳過互斥的布置（SEASON_X_on／_off、體育館 SET_CEREMONY／LECTURE／CONCERT、宿舍 Y203_／Y412_）。
 - facing：
   - same＝同一面朝外：兩個平面相差 < 0.5 mm（--exact）**一定會閃**；0.5 mm～tol（預設 2 mm）只有在遠處才閃
     （遊戲鏡頭 near 0.1、24 位元深度：20 m 外分得出約 0.24 mm、60 m 外約 2 mm），標「遠處」。
@@ -70,6 +70,8 @@ def toggle(ob):
         if m: return (m.group(1), m.group(2))
         m = re.match(r'SET_([A-Z]+)', ob.name)
         if m and m.group(1) != 'STAGE': return ('SET', m.group(1))
+        if re.match(r'(Y203_|ROOMMATE_KAI)', ob.name): return ('YEAR', '203')   # 宿舍四人房（dorm_room4.py）：203 和 412 的東西不會同時出現
+        if re.match(r'(Y412_|NAMETAG_)', ob.name): return ('YEAR', '412')
         ob = ob.parent
     return None
 
@@ -129,7 +131,8 @@ def scan(glb):
                 if kk not in pairs or pairs[kk]['area'] < ar:
                     gap = abs(fi[6] - fj[6])
                     pairs[kk] = dict(a=fi[1], amat=fi[2], b=fj[1], bmat=fj[2], at=[round(c.x, 2), round(-c.y, 2), round(c.z, 2)], area=round(ar, 3),
-                                     facing='same' if same else 'back-to-back', gap_mm=round(gap * 1000, 2), visible=same and gap < EXACT, ds=fi[8] or fj[8])
+                                     facing='same' if same else 'back-to-back', gap_mm=round(gap * 1000, 2), visible=same and gap < EXACT, ds=fi[8] or fj[8],
+                                     n=[round(fi[7].x, 2), round(fi[7].z, 2), round(-fi[7].y, 2)])   # 第一個面的法線（遊戲座標 x, y, z）：室內可以看它朝不朝房間裡面
     return len(faces), sorted(pairs.values(), key=lambda r: -r['area'])
 
 
@@ -172,4 +175,4 @@ else:
     vis = [r for r in res if r['visible']]
     print('faces', nf, 'overlap pairs', len(res), '一定會閃', len(vis), '遠處才閃', sum(1 for r in res if r['facing'] == 'same' and not r['visible']), '背對背雙面', sum(1 for r in res if r['facing'] != 'same' and r['ds']))
     for r in (vis + [r for r in res if not r['visible']])[:60]: print('  ' + line(r))
-    if OUT: json.dump(vis + [r for r in res if not r['visible']][:200], open(OUT, 'w'), ensure_ascii=False, indent=1)   # 一定會閃的全部列出＋背對背的前 200 對
+    if OUT: json.dump(vis + [r for r in res if not r['visible'] and r['facing'] == 'same'] + [r for r in res if r['facing'] != 'same'][:200], open(OUT, 'w'), ensure_ascii=False, indent=1)   # 一定會閃、遠處才閃的全部列出＋背對背的前 200 對
