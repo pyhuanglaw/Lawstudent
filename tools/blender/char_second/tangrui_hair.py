@@ -42,11 +42,16 @@ def make_atlas(seed=SEED):
     put('bang', HB._strand_color(rng, h, w, 0.84, tip_light=0.04, base=BASE), HB._clumps(rng, h, w, 2, 0.50, 0.62, 1.0, hw_k=(1.2, 1.6), lean=0.12, power=0.9, full=3.5, minw=5.0))
     # 第四版：波浪髮束——先做 3 撮的髮束（上段合成一片），再把每一列往左右錯開（正弦，越往髮尾擺越大），中心線和邊緣都變成波浪
     h, w = reg('curl'); M = int(0.11 * w) + 2; MR = int(0.39 * w) + 2; wi = w - M - MR   # 在中間 wi 寬畫髮束，每一列往左右錯開（不繞回另一邊；右邊留給勾起來的髮尾）
-    # 第五版：每片 2 撮、粗一點、尾端圓一點；髮尾最後 20% 往一邊勾（C 形的捲）——第四版 3 撮細尖，遊戲裡像直髮的尖刺
-    Ai = HB._clumps(rng, h, wi, 2, 0.55, 0.93, 1.0, hw_k=(1.25, 1.5), lean=0.0, power=1.2, full=3.2, minw=10.0)
+    # 第六版：一整撮（不是分成尖尖的細束）——寬度到 80% 才開始收、尾端是半圓（圓的勾）；中間一條暗一點的分界（兩小撮）；邊緣有細細的毛邊
+    # （第四、五版用 _clumps 的尖端：遊戲裡每一撮都是尖刺，整顆頭像刺蝟，不像捲髮）
     ci = HB._strand_color(rng, h, wi, 0.80, sheen=(0.18, 0.34), tip_light=0.06, base=BASE)
     t = (np.arange(h) + 0.5) / h
     sh = (0.10 * w * np.sin(2 * np.pi * (1.2 * t + 0.10)) * (0.3 + 0.7 * t) + 0.28 * w * np.clip((t - 0.68) / 0.32, 0, 1) ** 1.6).astype(int)
+    hw0 = 0.5 * wi * (1 - 0.18 * t); end = np.clip((t - 0.80) / 0.20, 0, 1); hw = hw0 * np.sqrt(np.clip(1 - end ** 2, 0, 1))
+    xs = np.arange(wi)[None, :] - wi / 2; fuzz = rng.normal(0, 1.2, (h, wi)).cumsum(0) * 0.0 + rng.uniform(-1.5, 1.5, (h, 1))
+    Ai = (np.abs(xs) < (hw[:, None] + fuzz)).astype(float)
+    Ai *= 1 - 0.0 * (np.abs(xs) < 1.5)                                    # （保留：中間不挖空）
+    ci = ci * (1 - 0.18 * np.exp(-(xs / (0.06 * wi)) ** 2) * (t[:, None] > 0.3))[..., None]   # 中間一條暗一點：兩小撮
     A = np.zeros((h, w)); col = np.zeros((h, w, 3)) + BASE
     for i in range(h):
         A[i, M + sh[i]:M + sh[i] + wi] = Ai[i]; col[i, M + sh[i]:M + sh[i] + wi] = ci[i]
@@ -158,7 +163,7 @@ def apply(m):
     # （第一版在這裡加了 14 片往上翹的短髮束：遊戲裡變成頭頂一根根細的觸角，拿掉；亂的感覺靠外層的長短與方向）
     for sgn in (1.0, -1.0):    # 鬢角：太陽穴到耳朵前面，從髮際線上方往下梳（短、寬、不透明的部分多）
         for k in range(7):
-            a = sgn * (44 + 40 * (k + rng.uniform(0.25, 0.75)) / 7)
+            a = sgn * (60 + 26 * (k + rng.uniform(0.25, 0.75)) / 7)      # 第六版：只在耳朵前面（第五版從 44° 起：太陽穴前段的髮尾在眼角旁邊浮著）
             card(a, 0.30 + rng.uniform(0, 0.10), v_tip(a) - rng.uniform(0.0, 0.03), 0.003 + 0.001 * rng.random(), rng.uniform(1.8, 2.2), 'card',
                  nseg=10, bulge=0.002, arch=0.10, curl=-sgn * rng.uniform(2, 8))
     n_card = len(mb.F) - n_shell
@@ -205,8 +210,8 @@ def apply(m):
     for row in range(2):           # 捲的瀏海（第五版：兩排 2×16 片、寬一點，蓋住額頭到眉毛；第四版 22 片細的，額頭露很多）
         for k in range(16):
             a = -52 + 104 * (k + rng.uniform(0.25, 0.75) + 0.5 * row) / 16.5
-            wave_lock(a, rng.uniform(0.50, 0.72), v_tip(a) + (0.0 if row == 0 else 0.03) + rng.uniform(0.0, 0.03), rng.uniform(0.026, 0.034), rng.uniform(5, 9), rng.uniform(0.7, 1.1),
-                      0.008 + 0.004 * row + 0.004 * rng.random(), rng.uniform(0.006, 0.010), rng.uniform(0, 2 * math.pi)); nlock += 1
+            wave_lock(a, rng.uniform(0.50, 0.72), v_tip(a) - 0.05 + (0.0 if row == 0 else 0.025) + rng.uniform(0.0, 0.02), rng.uniform(0.026, 0.034), rng.uniform(5, 9), rng.uniform(0.7, 1.1),
+                      0.008 + 0.004 * row + 0.004 * rng.random(), rng.uniform(0.003, 0.006), rng.uniform(0, 2 * math.pi)); nlock += 1   # 第六版：再長一點、勾小一點（第五版勾起來的髮尾把瀏海往上翻 3 cm，額頭露出來）
     print('  hair(tangrui): wave locks %d faces %d' % (nlock, len(mb.F) - n0))
 
     # ---- 4. 物件、材質、權重 ----

@@ -67,7 +67,7 @@ VARIANTS = {
     # 臉：眼睛小一點、上眼皮重（年紀）、眉毛平、下顎寬一點；皮膚暗一點點；頭髮灰黑、短、整齊側分；衣服 wei_clothes（背心＋白袖子＋白色內層）
     'pwei': dict(sex='m', base='HairSample_Male', head=0.95, height=1.72, iris='#2a221c', skin=(0.95, 0.89, 0.84), eye_close=0.22,
                  face=dict(EYE_SX=1.06, EYE_SZ=0.62, EYE_TILT=-0.005, BROW_ARCH=0.25, BROW_K=1.50, BROW_COL=(0.22, 0.20, 0.19), FACE_NARROW=0.99, CHIN_WIDEN=0.66, JAW_OUT=0.0050, D_CHIN=0.003, MOUTH_K=1.40, MOUTH_DOWN=0.0006),
-                 hair=dict(seed=20261231, part=-16.0, col=(0.30, 0.29, 0.28), tip=(0.016, 0.016, 0.012, 0.010, 0.008, 0.004, -0.002, -0.012, -0.010, -0.008), nape=0.012, vol=0.65, curl=(2, 8)),
+                 hair=dict(seed=20261231, part=-22.0, col=(0.33, 0.32, 0.31), tip=(0.042, 0.040, 0.032, 0.026, 0.020, 0.014, 0.008, 0.004, 0.006, 0.008), nape=0.008, vol=0.52, curl=(16, 28)),   # 第二版：短、整齊、側分往兩邊梳開、露出額頭和耳朵（第一版瀏海蓋到眉毛、蓬：像年輕人）；灰一點
                  clothes=None, clothes_mod='wei_clothes'),
 }
 FEMALE_FACE = dict(D_CHIN=0.006, BROW_DROP=0.0042, EYE_SX=1.05, EYE_SZ=0.68, EYE_TILT=0.0, EYE_IN=0.0027, EYE_LIFT=0.0004, CHEEK_TINT_K=1.0,
