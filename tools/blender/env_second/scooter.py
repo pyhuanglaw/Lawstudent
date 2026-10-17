@@ -77,8 +77,8 @@ def loft(m, rings, cap=True):
 
 
 def wheel(parts, x, r=0.235, w=0.1, hub=0.11):
-    t = Mesh('tire', M['tire']); prof = [(hub + 0.02, -w / 2), (r - 0.025, -w / 2), (r, 0.0), (r - 0.025, w / 2), (hub + 0.02, w / 2)]   # 效能版（2026-10-16）：胎面一圈圓弧、12 邊（巷子裡 38 台）
-    bm = L.lathe([(a, b) for a, b in prof], seg=12); t.add_bm(bm, Matrix.Translation(g2b(x, r, 0)) @ Matrix.Rotation(math.pi / 2, 4, 'X')); bm.free()
+    t = Mesh('tire', M['tire']); prof = [(hub + 0.02, -w / 2), (r - 0.025, -w / 2), (r, 0.0), (r - 0.025, w / 2), (hub + 0.02, w / 2)]   # 效能版（2026-10-16）：胎面一圈圓弧（巷子裡 38 台）
+    bm = L.lathe([(a, b) for a, b in prof], seg=14); t.add_bm(bm, Matrix.Translation(g2b(x, r, 0)) @ Matrix.Rotation(math.pi / 2, 4, 'X')); bm.free()   # 14 邊：效能第五輪的 10 邊在停車格近景看得出多邊形（平滑著色也救不了輪廓），每台 +64 三角形
     ob = t.finish(None, uv=False); L.smooth_mesh(ob, angle=0.9); parts.append(ob)
     rm = Mesh('rim', M['metal']); bm = L.lathe([(0.0, -w / 2 - 0.006), (hub + 0.025, -w / 2 - 0.006), (hub + 0.025, w / 2 + 0.006), (0.0, w / 2 + 0.006)], seg=8)   # 輪框的兩面露在輪胎外
     rm.add_bm(bm, Matrix.Translation(g2b(x, r, 0)) @ Matrix.Rotation(math.pi / 2, 4, 'X')); bm.free(); parts.append(rm.finish(None, uv=False))

@@ -336,9 +336,9 @@ const E3 = (function(){
     else if(n.path){ const t=n.path[0]; const dx=t[0]-o.position.x, dz=t[1]-o.position.z; const d=Math.hypot(dx,dz); if(wpReached(n,d,0.3,dt)){ n.path.shift(); if(!n.path.length){ n.path=null; if(n.onArrive){ const f=n.onArrive; n.onArrive=null; f(n); } } } else { const sp=n.run?4.0:(n.walkSpeed||1.35); stepEntity(n,dx/d,dz/d,stepSp(sp,d,dt),dt); moving=true; n.pose=n.run?'run':'walk'; n.speed=sp; } }
     else if(n.beh==='wander'&&n.timer<=0&&!n.frozen){ const w=n.waypoints; if(w&&w.length){ const wp=w[(Math.random()*w.length)|0]; E.moveTo(n,wp[0]+(Math.random()-0.5)*1.5,wp[1]+(Math.random()-0.5)*1.5,null,wp[2]); n.timer=4+Math.random()*8; } }
     else if(n.beh==='route'&&!n.path&&n.timer<=0&&!n.frozen){ const w=n.waypoints; if(w&&w.length){ n.ri=((n.ri||0)+1)%w.length; const wp=w[n.ri]; E.moveTo(n,wp[0],wp[1],null,wp[2]); n.timer=n.pauseAt?1+Math.random()*3:0; } }
-    if(!moving&&(n.pose==='walk'||n.pose==='run')){ n.pose=n.idlePose||'idle'; n.speed=0; }
+    if(!moving&&(n.pose==='walk'||n.pose==='run')){ n.pose=n.beh==='follow'?'idle':(n.idlePose||'idle'); if(n.beh==='follow') n.idlePose='idle'; n.speed=0; }   /* 跟著你走的人停下來是站著（原本退回作息的坐姿：使用者 2026-10-16「我停下來她就恢復坐姿」）*/
     // 打招呼：認識的人靠近時揮手
-    if(n.greet&&E.player){ n.greetCd=(n.greetCd||0)-dt; const pp=E.player.obj.position; const d=Math.hypot(pp.x-o.position.x,pp.z-o.position.z); if(!n.frozen&&!E.player.busy&&n.greetCd<=0&&d<3.4&&!n.waveT){ if(n.path&&d>2.2){} else { n.waveT=1.9; n.greetCd=50; n.lookAt=pp; CHAR.setExpr(o,'smile'); if(E.onGreet) E.onGreet(n); } } if(n.waveT>0){ n.waveT-=dt; if(!moving) n.pose='wave'; if(n.waveT<=0){ n.waveT=0; n.pose=n.idlePose||'idle'; n.lookAt=null; CHAR.setExpr(o,'normal'); } } }
+    if(n.greet&&E.player){ n.greetCd=(n.greetCd||0)-dt; if(n.beh==='follow'||n.beh==='passenger') n.greetCd=Math.max(n.greetCd,90);   /* 和你一起走、坐你後座的人不跟你揮手；到了以後 90 秒內也不揮（使用者 2026-10-16「一起到達地點的人為什麼要跟我揮手」）*/ const pp=E.player.obj.position; const d=Math.hypot(pp.x-o.position.x,pp.z-o.position.z); if(!n.frozen&&!E.player.busy&&n.greetCd<=0&&d<3.4&&!n.waveT){ if(n.path&&d>2.2){} else { n.waveT=1.9; n.greetCd=50; n.lookAt=pp; CHAR.setExpr(o,'smile'); if(E.onGreet) E.onGreet(n); } } if(n.waveT>0){ n.waveT-=dt; if(!moving) n.pose='wave'; if(n.waveT<=0){ n.waveT=0; n.pose=n.idlePose||'idle'; n.lookAt=null; CHAR.setExpr(o,'normal'); } } }
     if(!moving&&n.faceYaw!=null&&!n.frozen){ let d=n.faceYaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,dt*6); }
     // 距離 LOD：遠處路人不畫、動畫降頻
     const cd=Math.hypot(camera.position.x-o.position.x,camera.position.z-o.position.z); const lim=E.q.level==='low'?34:(E.q.level==='high'?95:60); _frS.center.set(o.position.x,o.position.y+0.9,o.position.z); _frS.radius=1.3; const vis=(cd<lim||!n.isExtra)&&_fr.intersectsSphere(_frS)&&!(E.zone&&E.zone.hideAbove!==undefined&&o.position.y>E.zone.hideAbove-0.5);   /* 多樓層剖面視角：被藏起來的樓層上的人也不畫 */ /* 畫面外的人不畫也不更新骨架（VRM 人物 frustumCulled 關掉，所以在這裡做）*/ if(o.visible!==vis) o.visible=vis; if(!vis) return; if(cd>28&&(E.frame+(n.lodPhase||0))%2) { n._skipDt=(n._skipDt||0)+dt; return; } const adt=dt+(n._skipDt||0); n._skipDt=0;
@@ -365,7 +365,8 @@ const E3 = (function(){
      被隔間牆拉近時鏡頭抬高（拉得越近抬越多、最多 0.9 m：看得到腳下，不是只看到後腦；原本最多 1.1 m，LAWWW2 量到貼牆時鏡頭在頭頂上方 1.0–1.35 m、畫面只剩頭頂——現在由 autoSwing 轉開、往前看，抬高少一點）。out＝鏡頭位置；回傳 {dist, inner}。測試：node tests/teach_cam_walls_unit.js */
   const fcDir=new THREE.Vector3();
   function followCam(target,yaw,pitch,dist0,lv,out){ out.set(Math.sin(yaw)*dist0*Math.cos(pitch),Math.sin(pitch)*dist0+0.2,Math.cos(yaw)*dist0*Math.cos(pitch)).add(target);
-    let dist=dist0, inner=false; const LC=E.zone&&E.zone.camCols?E.zone.camCols[lv|0]:null;
+    let dist=dist0, inner=false; let LC=E.zone&&E.zone.camCols?E.zone.camCols[lv|0]:null; const EC=E.zone&&E.zone.elevCams;   /* 電梯井道（building3d.js buildElevator）也當隔間牆 */
+    if(EC&&EC.length){ const ck=E.zone._lcAll||(E.zone._lcAll={}); LC=ck[lv|0]||(ck[lv|0]=(LC&&LC.length?LC.concat(EC):EC)); }
     if(E.colliders.length||(LC&&LC.length)){ fcDir.copy(out).sub(target); const len=fcDir.length(); fcDir.normalize(); E.ray.set(target,fcDir); E.ray.far=len; let hd=Infinity;
       if(E.colliders.length){ const hits=E.ray.intersectObjects(E.colliders,false); if(hits.length) hd=hits[0].distance; }
       if(LC&&LC.length){ const h2=E.ray.intersectObjects(LC,false); if(h2.length&&h2[0].distance<hd){ hd=h2[0].distance; inner=true; } }
@@ -386,7 +387,7 @@ const E3 = (function(){
     for(const off of SW_OFF){ const r=followCam(C.target,C.yaw+off,pitch,C.dist,P.lv,swV); const v=sc(C.yaw+off,r.dist)-Math.abs(off)*0.25+(C.swing&&Math.sign(off)===Math.sign(C.swing)?0.3:0); if(v>bs){ bs=v; best=off; } }
     C.swing=best; if(!best) return 0; const st=Math.sign(best)*Math.min(Math.abs(best),1.3*dt); C.yaw+=st; if(C.ctl) C.swingAcc=(C.swingAcc||0)+st; return st; }
   E.autoSwing=autoSwing;
-  function updateCamera(dt){ const C=E.cam; const P=E.player; if(C.mode==='cinematic'&&C.cine){ const s=C.cine; camera.position.lerp(s.pos,Math.min(1,dt*2.4)); C.look=C.look||new THREE.Vector3(); C.look.lerp(s.look,Math.min(1,dt*2.4));   /* 原本 dt*4（約 0.25 秒就轉過去）：轉太快會暈（使用者 2026-10-15），放慢一點 */ slabClip(C.look,camera.position,0.9); camera.lookAt(C.look); if(E.zone&&E.zone.fadeWalls) E.zone.fadeWalls(camera,P.obj.position); updateLevelVis(); ST.uSeeR.value=0; return; }
+  function updateCamera(dt){ const C=E.cam; const P=E.player; if(C.mode==='cinematic'&&C.cine){ const s=C.cine; camera.position.lerp(s.pos,Math.min(1,dt*2.4)); C.look=C.look||new THREE.Vector3(); C.look.lerp(s.look,Math.min(1,dt*2.4));   /* 原本 dt*4（約 0.25 秒就轉過去）：轉太快會暈（使用者 2026-10-15），放慢一點 */ slabClip(C.look,camera.position,0.9); camera.lookAt(C.look); if(E.zone&&E.zone.fadeWalls){ E.zone.fadeWalls(camera,P.obj.position); hideFaded(); } updateLevelVis(); ST.uSeeR.value=0; return; }
     C.dist+=(C.distTarget-C.dist)*Math.min(1,dt*4); if(C.manualT>0) C.manualT-=dt; C.target.lerp(tmpV2.copy(P.obj.position).add(tmpV3.set(0,1.45,0)),Math.min(1,dt*7));
     /* 往下走樓梯時鏡頭抬高（戶外：萬才館大樓梯；萬才館第二階段的真實玩家測試抓到）：鏡頭在玩家背後 2.7 m 高，往下走的時候平台邊緣擋住下面的台階，
        畫面上看不到要走去的地方（點下面的台階會點到平台、又走回去）。前方 3～5.5 m 的地面比腳下低超過 0.4 m 時，俯角最多加 0.32（約 18°），平順地變化；室內維持原本的鏡頭 */
@@ -396,7 +397,11 @@ const E3 = (function(){
     autoSwing(C,P,pitch,res,dt);   /* 貼牆時轉開（下一幀生效）*/
     /* 被隔間牆拉近時往前看（LAWWW2 §1(1)b）：看的點往鏡頭前方移，最多 0.6 m（再多頭就出畫面：鏡頭在頭的斜上方 0.4 m、橫向的垂直視角 46°）——畫面看得到前面的地板，不是只有頭頂 */
     const ahT=res.inner?Math.max(0,Math.min(1,(1.5-res.dist)/0.8)):0; C.ahead=(C.ahead||0)+(ahT-(C.ahead||0))*Math.min(1,dt*4); const ah=C.ahead*0.6;
-    const fy=P.obj.position.y; if(desired.y<fy+0.6) desired.y=fy+0.6; slabClip(C.target,desired,1.15); camera.position.lerp(desired,Math.min(1,dt*(C.manualT>0?18:7))); slabClip(C.target,camera.position,1.15); camera.lookAt(C.target.x-Math.sin(C.yaw)*ah,C.target.y-0.15,C.target.z-Math.cos(C.yaw)*ah); if(E.zone&&E.zone.fadeWalls) E.zone.fadeWalls(camera,P.obj.position); updateLevelVis(); camera.updateMatrixWorld(); updateSeeThrough(); }
+    const fy=P.obj.position.y; if(desired.y<fy+0.6) desired.y=fy+0.6; slabClip(C.target,desired,1.15); camera.position.lerp(desired,Math.min(1,dt*(C.manualT>0?18:7))); slabClip(C.target,camera.position,1.15); camera.lookAt(C.target.x-Math.sin(C.yaw)*ah,C.target.y-0.15,C.target.z-Math.cos(C.yaw)*ah); if(E.zone&&E.zone.fadeWalls){ E.zone.fadeWalls(camera,P.obj.position); hideFaded(); } updateLevelVis(); camera.updateMatrixWorld(); updateSeeThrough(); }
+  /* 淡出的牆整面藏起來（BUG-LIGHTBAND，使用者 2026-10-16 總圖大廳、舊路書房「畫面中間一道從上到下的半透明直條」）：各區域的 fadeWalls 把鏡頭這一側的牆調成 12% 透明，
+     細長的牆段、門框、壁柱留下的殘影在鏡頭前變成一條條鬼影（Café 早就改成整面藏，zones3d.js）。鏡頭碰撞的射線不看 visible，藏起來不影響 */
+  function hideFaded(){ const W=E.zone&&E.zone.walls; if(!W) return; for(const w of W){ const m=w&&w.material; if(m&&!Array.isArray(m)) w.visible=m.opacity>0.5; } }
+  E.hideFaded=hideFaded;
   // 多樓層的剖面視角（v9.4）：zone.levelGroups＝[{group,y}]（每一層的模型、那一層地板的高度）。玩家所在的那一層和下面的層一定畫；
   // 上面的層只有在鏡頭比那一層的地板低的時候才畫（從下面看得到上面的天花板、走廊欄杆；鏡頭拉高到上一層地板以上時藏起來，才看得到玩家）。
   // 「玩家所在的層」用腳的高度判斷（離上一層地板 0.8 m 以內就算上去了：快走完樓梯時上一層先出現）
@@ -436,7 +441,7 @@ const E3 = (function(){
   E.fitSeatRadius=fitSeatRadius;
   /* 手機轉向（使用者 2026-10-15：先橫再直，人物變細／變扁，要重開才正常）：iOS 的 resize 事件常在版面還沒換好時就來，讀到舊的寬高。
      每一幀比一次畫布的實際大小，不一樣就重設（只讀兩個數字，很便宜）；另外 orientationchange、visualViewport 也接上 */
-  E.render=function(){ const w=E.canvas.clientWidth||innerWidth, h=E.canvas.clientHeight||innerHeight; if(w!==E.w||h!==E.h) E.resize(); renderer.render(scene,camera); };
+  E.render=function(){ const w=E.canvas.clientWidth||innerWidth, h=E.canvas.clientHeight||innerHeight; if(w!==E.w||h!==E.h) E.resize(); if(E.renderSkip&&E.renderSkip()){ E.skipped=(E.skipped|0)+1; return; } renderer.render(scene,camera); };   /* renderSkip：全畫面 2D（出遊、CG、深色底）蓋住 3D 時不畫（P0 BUG-IOS-RELOAD：手機少做一份 GPU 工作，game3d.js 設定）*/
   E.recenter=function(){ if(E.player){ E.cam.yaw=E.player.obj.rotation.y+Math.PI; E.cam.manualT=0; } };
   E.faceEachOther=function(a,b){ const dx=b.position.x-a.position.x, dz=b.position.z-a.position.z; a.rotation.y=Math.atan2(dx,dz); b.rotation.y=Math.atan2(-dx,-dz); };
   return E;

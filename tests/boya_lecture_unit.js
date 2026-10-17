@@ -10,7 +10,7 @@ const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLin
 global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
 global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
 process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
-const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js',
+const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js',
   'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/teach3d.js',
   'src/data/characters.js','src/data/calendar.js','src/data/places.js','src/data/activities.js','src/data/courses.js','src/classes3d.js'];
 for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|LL3|TB3|LINZE_LAYOUT|CLASSROOM_LAYOUT|LAWLIB_LAYOUT|GONGTONG_LAYOUT|BOYA_LAYOUT|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|CALENDAR|PLACES|ACTIVITIES|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
@@ -20,7 +20,7 @@ const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[];
 const z=Z3.ZONES.boya.build(E); E.zone=z; E.levels=z.levels; E.nav=z.nav; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0};
 E.addNPC=n=>{ if(n.seat&&n.seat.y!=null) n.obj.position.y=n.seat.y; E.npcs.push(n); return n; }; E.removeNPC=n=>{ E.npcs=E.npcs.filter(m=>m!==n); };   /* 和引擎的 addNPC 一樣：坐著的放在座位的高度 */
 const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/DAY)+1; };
-check('遊戲裡排在博雅 101 的活動只有 B4（交接包 v2 C13 的博雅午後講座，大一下第 11 週週四；其他是 AA_110 6-3 的一般活動）',ACTIVITIES.list.filter(a=>a.zone==='boya'&&a.room==='101').map(a=>a.id).join(',')==='B4',ACTIVITIES.list.map(a=>a.id+':'+a.zone+'/'+(a.room||'-')).join(','));
+check('遊戲裡排在博雅 101 的活動只有 B4（交接包 v2 C13 的博雅午後講座，大一下第 11 週週四）和 EXPO_Y2（交接包 v3 的交換說明會，大二下第 4 週週四中午；AA_177 4-2）；其他是 AA_110 6-3 的一般活動',ACTIVITIES.list.filter(a=>a.zone==='boya'&&a.room==='101').map(a=>a.id).join(',')==='B4,EXPO_Y2',ACTIVITIES.list.map(a=>a.id+':'+a.zone+'/'+(a.room||'-')).join(','));
 const LD=dayOf('2025-10-22');   /* 週三 */
 ACTIVITIES.list=[{id:'t_boya',title:'測試演講',kind:'lecture',zone:'boya',room:'101',roomName:'博雅 101',dates:['2025-10-22'],t0:18.5,t1:20.5,poster:{daysBefore:4},crowd:{n:14}}];
 const GM={G:{day:LD,hour:18.0,zone:'boya',flags:{},weekday:3},E}; const aud=()=>E.npcs.filter(n=>n.clsStudent);

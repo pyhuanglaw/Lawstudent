@@ -7,10 +7,10 @@ global.window=global; global.self=global;
 const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
 global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
 global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
-const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js',
-  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/soclib_layout.js','src/soclib3d.js',
+const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js',
+  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/socsci_layout.js','src/data/soclib_layout.js','src/soclib3d.js',
   'src/data/wz_park_layout.js','src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/classes3d.js'];
-for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|SL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|SOCLIB_LAYOUT|WZ_PARK_LAYOUT|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
+for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|SL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|SOCLIB_LAYOUT|SOCSCI_LAYOUT|WZ_PARK_LAYOUT|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
 process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch'));
 for(const f of ['src/data/gym_layout.js','src/gym3d.js']) vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (GYM_LAYOUT|GY3)\s*=/mg,'global.$1='),{filename:f});
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
@@ -30,7 +30,7 @@ const its=want.map(l=>E.interactables.find(i=>i.label===l)); const bad=want.filt
 check('5. 互動點都有、走得到、按鈕真的出現（不被別的蓋過）：'+want.join('、'),!bad.length,bad.join('、'));
 check('5. 看的互動點都有說明字（設施的說明，不是劇情）；打羽球、販賣機、直飲台是 AA_174 的選單；往 B1 的樓梯可以下樓（第三階段）',its.filter(i=>i&&i.look).length===5&&!!(its[3]&&its[3].exit&&its[3].exit.to==='gym_b1')&&['打羽球','販賣機','直飲台'].every(l=>E.interactables.some(i=>i.label===l&&i.gym&&i.onInteract)));
 const seats=E.interactables.filter(i=>i.seat); const badS=seats.filter(i=>!shows(i)).map(i=>i.label+'('+i.x+','+i.z+')');
-check('6. 座位 '+seats.length+' 個（大廳長椅、看台、場邊長椅）都走得到、按鈕出現；看台的位子坐在看台的高度',seats.length===Ly.seats.length&&!badS.length&&seats.filter(i=>i.label==='坐在看台').every(i=>i.seat.y===0.45),badS.join('、'));
+check('6. 座位 '+seats.length+' 個（大廳長椅、看台、場邊長椅）都走得到、按鈕出現；看台的位子坐在第一排木板上（z −16.37，從地面坐；QA-W1 座位檢查：原本在看台前面的空中、高 0.9 m）',seats.length===Ly.seats.length&&!badS.length&&seats.filter(i=>i.label==='坐在看台').every(i=>i.seat.y==null&&Math.abs(i.seat.z+16.37)<0.02),badS.join('、'));
 { const zc=loadZone('campus'); check('7. 回校園的落點 (74,58.0) 站得住、走得到體育館門口',E.canStand(74,58.0,0.32,0)&&E.simWalk(74,58.0,74,59.0,{lv0:0,lv1:0,dt:0.1,speed:4.1}).ok); }
 // ---------- B1：大廳、健身中心、游泳池（第三階段）----------
 { const zb=loadZone('gym_b1'), B=GYM_LAYOUT.b1; const spb=[zb.spawn.x,zb.spawn.z]; const exb=E.interactables.find(i=>i.exit&&i.exit.to==='gym'); const fit=E.interactables.find(i=>i.label==='去健身房'), desk=E.interactables.find(i=>i.label==='服務櫃台');

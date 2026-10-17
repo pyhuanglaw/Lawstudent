@@ -34,10 +34,10 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   check('C20：可昕的重訪日 1 事件在',!!e&&!!STORY.revisitDay);
   if(!e||!STORY.revisitDay){ console.log('FAILED '+fails); process.exit(1); }
   const RD=STORY.revisitDay(), dt=CALENDAR.dateOf(RD), t=CALENDAR.termOf(RD);
-  check('日子：大一下第 18 週最後一天（2026-06-28 週日）',t&&t.id==='Y1S2'&&t.week===18&&dt.y===2026&&dt.m===6&&dt.d===28&&!(CALENDAR.termOf(RD+1)&&CALENDAR.termOf(RD+1).id==='Y1S2'),JSON.stringify({dt,t}));
+  check('日子：期末最後一天 2026-06-12（五）（AA_209 第 4 節第 1 點、AA_197 1-6）',t&&t.id==='Y1S2'&&dt.y===2026&&dt.m===6&&dt.d===12&&dt.wd===5,JSON.stringify({dt,t}));
   /* 中午的訊息＋目標 */
   { fresh(RD,9,'dorm',{dating_kexin:true}); let goal=''; GM.setGoal=t=>{ goal=t; }; run(9,13); const L=txt('p:kexin');
-    check('交往中：中午 12:00 可昕「最後一天。你說的那張桌子，我六點到。」；收到以後目標「18:00 兩點半 Café（可昕）」',JSON.stringify(L.slice(-1))==='["kexin:最後一天。你說的那張桌子，我六點到。"]'&&goal==='18:00 兩點半 Café（可昕）'&&Math.abs((TH('p:kexin').slice(-1)[0]||{}).h-12)<0.01,JSON.stringify(L)+' '+goal);
+    check('交往中：中午 12:00 可昕「考完了！六點在兩點半，我坐窗邊。」（AA_209）；收到以後目標「18:00 兩點半 Café（可昕）」',JSON.stringify(L.slice(-1))==='["kexin:考完了！六點在兩點半，我坐窗邊。"]'&&goal==='18:00 兩點半 Café（可昕）'&&Math.abs((TH('p:kexin').slice(-1)[0]||{}).h-12)<0.01,JSON.stringify(L)+' '+goal);
     fresh(RD,9,'dorm',{}); run(9,13); check('單身：沒有這則訊息',!TH('p:kexin').some(m=>/六點到/.test(m.text)));
     fresh(RD,18.5,'dorm',{dating_kexin:true}); run(18.5,19); check('已經過了六點才開始玩那一天：不補傳（約的時間過了）',!TH('p:kexin').some(m=>/六點到/.test(m.text)));
     fresh(RD-1,9,'dorm',{dating_kexin:true}); run(9,23); check('前一天：沒有',!TH('p:kexin').some(m=>/六點到/.test(m.text))); GM.setGoal=()=>{}; }
@@ -61,12 +61,12 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
       check('G49 中途離開的：沒有「那場演講。」',!o.includes('「那場演講。」'),JSON.stringify(o)); } }
   /* 她的回應＋她自己的那一件 */
   { const play=async(flags,want,extra)=>{ fresh(RD,18.2,'cafe',Object.assign({dating_kexin:true},flags||{})); if(extra) extra(); picks=[want]; await EVENTS.run(e); return lines(); };
-    const base=['杜可昕：（坐下，手放在桌上）假設這張桌子，記得每一個坐過的人。','杜可昕：它會記得你今年最意外的一件事嗎？說吧。'];
+    const base=['杜可昕：（坐下）一年了欸。','杜可昕：你這一年，哪一天印象最深？'];   /* BB_167 4-3：只改問法 */
     const nm=(CHARACTERS.kexin&&CHARACTERS.kexin.name)||'杜可昕'; const fix=L=>L.map(x=>x.replace(/^杜可昕：/,nm+'：'));
     let L=await play({},'每天都差不多');
-    check('開頭兩句照原文',JSON.stringify(L.slice(0,2))===JSON.stringify(fix(base)),JSON.stringify(L.slice(0,2)));
-    check('「每天都差不多。可是我很喜歡。」：（她嘴角先動了。）「……這題答得太好。我要記下來。」；她自己的：沒做過 K6＝「假設題的答案」；REVISIT_Y1',JSON.stringify(L.slice(2))===JSON.stringify(fix(['她嘴角先動了。','杜可昕：……這題答得太好。我要記下來。','杜可昕：我的最意外？我以為我們會常常吵架。','杜可昕：結果我們吵最多的，是假設題的答案。']))&&JSON.stringify(G.flags.REVISIT_Y1)==='{"who":"kexin","pick":"daily"}',JSON.stringify(L.slice(2))+' '+JSON.stringify(G.flags.REVISIT_Y1));
-    L=await play({KX_K6_EXAM:true,AN_APPEAL:'ask'},'申訴'); check('「幫以安室友寫申訴。」：「你們系的人，連宿舍的事都寫成申訴書。……我喜歡。」；做過 K6＝「是考古題。」；pick appeal',L[2]===nm+'：你們系的人，連宿舍的事都寫成申訴書。……我喜歡。'&&L[L.length-1]===nm+'：結果我們吵最多的，是考古題。'&&G.flags.REVISIT_Y1.pick==='appeal',JSON.stringify(L.slice(2)));
+    check('開頭兩句（BB_167 4-3 新問法）',JSON.stringify(L.slice(0,2))===JSON.stringify(fix(base)),JSON.stringify(L.slice(0,2)));
+    check('「每天都差不多。可是我很喜歡。」：（她嘴角先動了。）「……嗯，我也是。」；她自己的兩句固定（SC4 #35）；REVISIT_Y1',JSON.stringify(L.slice(2))===JSON.stringify(fix(['她嘴角先動了。','杜可昕：……嗯，我也是。','杜可昕：我喔？我本來以為我們會一直吵架。','杜可昕：結果都在吵考古題。']))&&JSON.stringify(G.flags.REVISIT_Y1)==='{"who":"kexin","pick":"daily"}',JSON.stringify(L.slice(2))+' '+JSON.stringify(G.flags.REVISIT_Y1));
+    L=await play({KX_K6_EXAM:true,AN_APPEAL:'ask'},'申訴'); check('「幫以安室友寫申訴。」：「你們系的人，連宿舍的事都寫成申訴書。……我喜歡。」；結尾「結果都在吵考古題。」；pick appeal',L[2]===nm+'：你們系的人，連宿舍的事都寫成申訴書。……我喜歡。'&&L[L.length-1]===nm+'：結果都在吵考古題。'&&G.flags.REVISIT_Y1.pick==='appeal',JSON.stringify(L.slice(2)));
     const bbq=()=>{ G.events.done.ev_mid_autumn_bbq=1; };
     L=await play({KX_MET_NOODLE_TEAM:true},'中秋',bbq); check('中秋烤肉、K3 有來：「那天阿哲輸給我三個冷笑話。」',L[2]===nm+'：那天阿哲輸給我三個冷笑話。',L[2]);
     L=await play({},'中秋',bbq); check('中秋烤肉、K3 沒來：「我只看過照片。玉米還是我們系的好。」',L[2]===nm+'：我只看過照片。玉米還是我們系的好。',L[2]);

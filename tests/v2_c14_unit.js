@@ -35,11 +35,11 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   if(!e1||!e2||!A){ console.log('FAILED '+fails); process.exit(1); }
   const T11=termDay('Y1S2',11,2);
   /* 前半 */
-  { const at=(day,h,zone,fam)=>{ fresh(day,h,zone||'noodle'); SOCIAL.meet('heroine_01','campus'); R('heroine_01',fam==null?10:fam); return EVENTS.check(e1); };
+  { const at=(day,h,zone,fam,yuFam)=>{ fresh(day,h,zone||'noodle'); SOCIAL.meet('heroine_01','campus'); R('heroine_01',fam==null?10:fam); SOCIAL.meet('yu','noodle'); R('yu',yuFam==null?10:yuFam); return EVENTS.check(e1); };
     const r={ok:at(T11,18),w10:at(termDay('Y1S2',10,2),18),w12:at(termDay('Y1S2',12,2),18),thu:at(termDay('Y1S2',11,4),18),late:at(T11,21.5),cafe:at(T11,18,'cafe')};
     check('前半：大一下第 11 週週二 17:30～21、麵店（第 10／12 週、週四、21:30、Café 都沒有）',r.ok&&!r.w10&&!r.w12&&!r.thu&&!r.late&&!r.cafe,JSON.stringify(r));
-    check('前半：法律審查標記（集會遊行許可制／報備制，BB 查核前不發布）',e1.legal_review==='REQUIRED');
-    const play=async k=>{ fresh(T11,18,'noodle'); SOCIAL.meet('heroine_01','campus'); R('heroine_01',10); picks=[k]; await EVENTS.run(e1); return lines(); };
+    check('前半：法律審查標記已拿掉（BB-B 第 27 批審過，BB_115 L483；BB_161 第 3 節）',!e1.legal_review);
+    const play=async k=>{ fresh(T11,18,'noodle'); SOCIAL.meet('heroine_01','campus'); R('heroine_01',10); SOCIAL.meet('yu','noodle'); R('yu',10); picks=[k]; await EVENTS.run(e1); return lines(); };
     let L=await play(0);
     check('前半：小語「上街要先申請？那還叫自由嗎？」以安「先分清楚。…」小語「妳好冷。」以安「妳沒有結構。」阿哲「麵要坨了。」；四個選項（原文）',
       JSON.stringify(L.slice(0,5))===JSON.stringify(['小語：上街要先申請？那還叫自由嗎？','沈以安：先分清楚。是要申請許可，還是讓人知道你要用哪一條路。','小語：妳好冷。','沈以安：妳沒有結構。','阿哲：麵要坨了。'])&&JSON.stringify(opts[0])==='["「我站小語。」","「我站以安。」","「妳們講的是同一件事的兩邊。」","（先吃麵）"]',JSON.stringify([L.slice(0,5),opts[0]]));

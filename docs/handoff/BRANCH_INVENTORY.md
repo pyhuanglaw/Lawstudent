@@ -4,6 +4,7 @@
 > **刪除規則**：只刪「已完整合併、確定沒有人再用」的分支。刪之前在下表記下 SHA（還原：`git push origin <SHA>:refs/heads/<分支名>`）。
 > - **禁止只因為很久沒更新就刪。**
 > - **休班帳號的工作分支，沒有確認交接依賴前不刪。** 判斷靠 GitHub 的交接紀錄：值班表（AI_SESSION_HANDOFF.md 第 1 節）、各職位的進度檔，**不叫醒休班帳號問**（D75）。
+> **三帳號（D92／HV-10，2026-10-16）**：帳號 A、B、C 的分支都照這張表管。**誰在用哪條分支以 `docs/handoff/duty.json` 為準**（`roles.<職位>.branch`、`history` 裡各帳號交班時的分支與 SHA；`python3 tools/handoff/check_handoff.py duty verify` 會列出各分支在記錄的 SHA 之後又多了幾個 commit、還沒整合的 WIP）。休班帳號（現在：A）的分支一律保留到它下一次接班或使用者另外指示；帳號 C 啟用後，它的分支也加進這張表。WIP 分支用 `duty register --wip <分支>` 登記，沒整合前不刪。
 > **盤點時間**：2026-10-16 03:5x UTC，LAWWW-B（帳號 B 值班中）。基準：`git fetch --prune` 後的 17 條遠端分支。
 > 「在開發線」＝整個分支都已經包含在 RULE_SOURCE `claude/modest-rubin-2lyp7g` 裡（`git merge-base --is-ancestor`）。
 
@@ -27,12 +28,14 @@
 | `…-wip-trees` | 22ff594d | LAWWW2（帳號 A）的 WIP | **沒有**：LAWWW2-B 逐檔比內容（6ac09c6e `BRANCH_CLEANUP_D88.md`），美術都在正式分支或有更新版本；LAWWW 的程式快照都被後來的版本取代（LAWWW-B 抽查通過） | 沒有（全部 commit 另有 bundle 備份，見下） | 沒有 | **已整合、可刪、權限受阻**（D88；這個工作階段刪不了遠端分支，不重試）。還原：`git push origin 22ff594d:refs/heads/claude/second-ai-env-art-wip-trees` 或從 bundle |
 | `claude/release-v9.8` | e987af48（2026-10-16） | LAWWW-B 的 v9.8 候選 1 | 沒有：整個在開發線裡 | 沒有（候選 1 因為 BUG-15 作廢、沒有發布） | 沒有 | **可以刪**：權限受阻（GitHub 工具沒有刪分支的功能），不重試。還原：`git push origin e987af48:refs/heads/claude/release-v9.8` |
 | `claude/release-v9.8-rc2` | 9508b534（2026-10-16） | LAWWW-B 的 v9.8 候選 2（固定給回歸測試和合併 main 用，開發線照常推） | 沒有：整個在開發線裡 | 發布流程（PR → main） | 是（發布前） | 保留到 v9.8 合併 main；之後可以刪（權限受阻就標記） |
+| `claude/release-v9.9.1` | d65f9610（2026-10-16） | LAWWW-B 的 v9.9.1 修正版（PR [pyhuanglaw/Lawstudent#5](https://github.com/pyhuanglaw/Lawstudent/pull/5) 已合併，main 6d5c3279） | 沒有：內容＝候選 09630e60（從 v9.9 改），修正同樣在開發線（982b389e、dbf41306） | 沒有 | 沒有 | **可以刪**：權限受阻（GitHub 工具沒有刪分支） |
 | `claude/friendly-brahmagupta-6bbkzc` | **eb53fd75**（2026-10-10） | 帳號 A 早期的開發線（2026-10-10 起由 confident-ritchie 快轉接續，CLAUDE.md 第 10 點） | **沒有**：整個在開發線、confident-ritchie、funny 裡 | 沒有（值班表、進度檔、任務總表都沒有用到；只在歷史說明裡提到） | 沒有 | **可以刪**：已完整合併、沒人用。還原：`git push origin eb53fd75:refs/heads/claude/friendly-brahmagupta-6bbkzc`。實際刪除結果記在下面 |
 
 ## 整理紀錄（最新的在最上面）
 
 | 時間（UTC） | 誰 | 動作 | 分支與 SHA | 結果 |
 |---|---|---|---|---|
+| 2026-10-16 19:5x | LAWWW-B | 建 v9.9.1 release 分支：GitHub 工具只能從分支名稱建分支、git 只能推開發分支，所以開發分支先推 d65f9610（內容＝候選 09630e60，父節點＝候選與開發線）、建 `claude/release-v9.9.1`、再推 68c74cc4 把開發分支的內容還原（＝60fc1207，兩個 commit 中間約一分鐘）；之後 v9.10 從開發線合併 main 時，main 這邊沒有要保留的差異 | `claude/release-v9.9.1` d65f9610；開發線 68c74cc4 | PR #5 合併，main 6d5c3279 |
 | 2026-10-16 05:4x | LAWWW-B | 建 release 分支（GitHub 工具 create_branch）：v9.8 候選固定在一條分支上，回歸測試跑幾個小時期間開發線照常推 | `claude/release-v9.8`（e987af48，作廢）、`claude/release-v9.8-rc2`（9508b534） | 候選 1 作廢（BUG-15 要一起發布）；分支數 17 → 19 |
 | 2026-10-16 05:0x | LAWWW-B | D88 複核 LAWWW2-B 的 8 條 WIP 清查報告（6ac09c6e）：第 2、3 節的美術判定照收；第 4 節 LAWWW 的程式快照抽查 `classes3d.js` 的坐姿替身（FIG_KEY）、`syncRooms`、`activities.js` 的系籃、`lawlib_layout.js` 草案 v1，開發線都有後來的版本 | 8 條 WIP（HEAD 見上表） | **複核通過**：8 條都標「已整合、可刪、權限受阻」。沒有刪（這個工作階段只能 push 自己的分支、GitHub 工具沒有刪分支的功能；照使用者指示不重試）。備份：funny 分支的 bundle（`git bundle verify` 通過，LAWWW2-B） |
 | 2026-10-16 03:5x | LAWWW-B | 刪 friendly-brahmagupta | eb53fd75 | **沒刪成**：這個工作階段的 git 只能 push 系統指定的分支，`git push --delete` 兩次都被斷線（unexpected disconnect）。分支照留。請使用者在 GitHub 網頁刪，或之後有權限時再刪 |

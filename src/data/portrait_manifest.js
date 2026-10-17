@@ -115,6 +115,11 @@ const PORTRAIT_FILES={
    "smile",
    "surprised",
    "tired"
+  ],
+  "formal": [
+   "neutral",
+   "serious",
+   "smile"
   ]
  },
  "kai": {

@@ -47,7 +47,7 @@ async def main():
         pg = await ctx.new_page(); errs = []; pg.on('pageerror', lambda e: errs.append(str(e)))
         await pg.goto(URL)
         for i in range(360):
-            if await pg.evaluate("typeof GAME!=='undefined'&&!!document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide')"): break
+            if await pg.evaluate("typeof GAME!=='undefined'&&!!document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide')&&(typeof GAME==='undefined'||!GAME.charsAllP||!!GAME.charsAll)"): break
             await pg.wait_for_timeout(500)
         has_swing = await pg.evaluate("typeof GAME.E.autoSwing==='function'")
         for zone, lv, x, z, yaw, name in CASES:

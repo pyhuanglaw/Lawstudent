@@ -5,7 +5,8 @@
 唯一會寫檔的是 `snapshot` 指令（在 docs/handoff/snapshots/ 新增一個快照檔）。
 
   python3 tools/handoff/check_handoff.py check   [--role LAWWW] [--snapshot 檔] [--ref origin/<規則來源分支>] [--no-git]
-  python3 tools/handoff/check_handoff.py snapshot --role LAWWW --account B [--kind handoff|checkpoint]
+  python3 tools/handoff/check_handoff.py snapshot --role LAWWW --account <A|B|C> [--kind handoff|checkpoint]
+  python3 tools/handoff/check_handoff.py duty verify|plan|register|handoff …   值班狀態（D92／HV-10，tools/handoff/duty_state.py）
   python3 tools/handoff/check_handoff.py queue   [--owner LAWWW] [-n 15]
 
 check 的七項（使用者 2026-10-16 指示）＋兩項補充：
@@ -29,6 +30,8 @@ check 的七項（使用者 2026-10-16 指示）＋兩項補充：
         2＝找不到上次快照或快照壞掉 → REMEDIAL_FULL_AUDIT（要補做一次全面盤點，見總入口第 4 節）。
 """
 import argparse, hashlib, json, os, re, subprocess, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import duty_state   # 值班狀態（D92／HV-10）
 from datetime import datetime, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -231,7 +234,7 @@ def check(args):
             for s in re.split(r'[／/、,\s]+', d.get('sha', '')):
                 if s:
                     known.add(s[:7])
-            for tid in re.split(r'[、,，\s]+', d.get('task', '')):
+            for tid in re.split(r'[、,，\s]+', d.get('task') or ''):
                 if tid and tid not in byid:
                     A(6, f'交付 {did}：任務 {tid} 不在任務表（交付沒有登記到任務）')
                 elif tid and byid[tid]['status'] == '已驗收':
@@ -385,6 +388,145 @@ def queue(args):
     return 0
 
 
+# D93／HV-11：逐職位核對。各職位交接檔裡「全部待辦」那一節，每一項都要在 tasks.json 找得到。
+ROLE_FILES = {   # duty.json 的 progressFile 寫錯或不存在時的備用（AI_SESSION_HANDOFF.md 第 1 節）
+    'LAWWW2': ['docs/art-rebuild/second_ai/HANDOFF.md'],
+    'AA': ['docs/story_planning/AA_交接紀錄.md'],
+    'BB': ['docs/story_planning/BB_00_協作規範與交接紀錄.md', 'docs/story_planning/BB_00_交接紀錄.md'],
+}
+ANY_ID = re.compile(r'(?<![A-Za-z0-9_./-])([A-Z][A-Z0-9]*(?:-[A-Za-z0-9]+)+)(?:[～~]([A-Za-z]*)(\d+))?')
+NOT_ID = re.compile(r'^(LAWWW2?|AA|BB)-[ABC]$|^UTF-|^ISO-')
+OFF_MARK = re.compile(r'【表外】|（無 ?ID）|\(無 ?ID\)')
+OFF_PARENT = re.compile(r'總表(上)?(沒有|沒列|未列)|表外')
+
+
+def todo_section(text):
+    """找「全部待辦」那一節（標題或條列都可以），回傳 (起始行號, 行列表)；找不到回傳 (None, [])。"""
+    lines = text.splitlines()
+    for i, l in enumerate(lines):
+        if '全部待辦' not in l:
+            continue
+        h = re.match(r'^(#+)\s', l)
+        b = re.match(r'^(\s*)[-*]\s', l)
+        if not h and not b:
+            continue
+        out = []
+        for l2 in lines[i + 1:]:
+            h2 = re.match(r'^(#+)\s', l2)
+            if h and h2 and len(h2.group(1)) <= len(h.group(1)):
+                break
+            if b and (h2 or (re.match(r'^(\s*)[-*]\s', l2) and len(re.match(r'^(\s*)', l2).group(1)) <= len(b.group(1)))):
+                break
+            out.append(l2)
+        return i + 1, out
+    return None, []
+
+
+def section_ids(line):
+    ids = []
+    for m in ANY_ID.finditer(line):
+        i = m.group(1)
+        if NOT_ID.search(i):
+            continue
+        ids.append(i)
+        if m.group(3):   # 區間：HOL-NYE-Y2～Y4、VAC-B1～B3
+            head = re.match(r'^(.*?)(\d+)$', i)
+            if head and head.group(1).endswith(m.group(2) or '') and 0 < int(m.group(3)) - int(head.group(2)) < 30:
+                ids += [(f'{head.group(1)}{n}', i) for n in range(int(head.group(2)) + 1, int(m.group(3)) + 1)]
+    return ids
+
+
+def roles(args):
+    """逐職位核對（D93）：讀各職位分支上的交接檔「全部待辦」，列出總表沒有的 ID、標【表外】還沒對到任務的項目。只讀不寫。"""
+    src = Src(args.root, args.ref)
+    data = json.loads(src.read(TASKS))
+    have = {canon(i) for t in data['tasks'] for i in [t['id']] + (t.get('aliases') or [])}   # aliases：其他職位用的別名（例：AA 寫 MSG-L1＝SYS-PHONE-CHAT）
+    meta = data.get('meta', {})
+    ignore = {canon(k) for k in (meta.get('reconcileIgnore') or {})}   # 結尾 -* ＝整組前綴（例：VA-* 是 HOL-VA 的子項編號）
+    ign = lambda i: canon(i) in ignore or any(k.endswith('-*') and canon(i).startswith(k[:-1]) for k in ignore)
+    offlist = meta.get('offList') or []   # [{role, match, task}]：表外那一行含 match 就算已經補成 task
+    duty = json.loads(src.read(duty_state.DUTY))
+    bad, report = [], []
+    for role in args.role or ['LAWWW2', 'AA', 'BB']:
+        r = (duty.get('roles') or {}).get(role) or {}
+        pf = re.sub(r'（.*?）$', '', r.get('progressFile') or '')
+        branches = [b for b in [r.get('branch'), (duty.get('roles') or {}).get('AA', {}).get('branch')] if b]
+        text = where = None
+        for br in dict.fromkeys(branches):
+            for f in dict.fromkeys([pf] + ROLE_FILES.get(role, [])):
+                if not f:
+                    continue
+                try:
+                    text = subprocess.run(['git', 'show', f'origin/{br}:{f}'], cwd=args.root, capture_output=True, text=True, check=True).stdout
+                    where = f'origin/{br}:{f}'
+                    break
+                except subprocess.CalledProcessError:
+                    pass
+            if text:
+                break
+        if not text:
+            bad.append(f'{role}：交接檔讀不到（試過 {branches} × {[pf] + ROLE_FILES.get(role, [])}；先 git fetch）')
+            continue
+        start, sec = todo_section(text)
+        if start is None:
+            bad.append(f'{role}：{where} 沒有「全部待辦」一節（AI_SESSION_HANDOFF.md 第 5 節 B 類）')
+            continue
+        sha = subprocess.run(['git', 'rev-parse', '--short', f'origin/{where.split(":")[0][7:]}'], cwd=args.root, capture_output=True, text=True).stdout.strip()
+        ids, missing, off = set(), [], []
+        parents = []   # 條列的上層（縮排, 文字）
+        for k, l in enumerate(sec):
+            ind = len(re.match(r'^(\s*)', l).group(1))
+            while parents and parents[-1][0] >= ind:
+                parents.pop()
+            found = []
+            for x in section_ids(l):   # 區間成員 (ID, 區間開頭)：開頭在總表就算有
+                if isinstance(x, tuple):
+                    if canon(x[1]) not in have:
+                        found.append(x[0])
+                else:
+                    found.append(x)
+            for n, i in enumerate(found):   # 簡寫：SCN-US-2D／US-CG、SCN-V4-02／V4-03 → 補上同一行前面那個 ID 的字首
+                if canon(i) not in have:
+                    for j in found[:n]:
+                        parts = j.split('-')
+                        full = next((f'{"-".join(parts[:k])}-{i}' for k in range(1, len(parts)) if canon(f'{"-".join(parts[:k])}-{i}') in have), None)
+                        if full:
+                            found[n] = full
+                            break
+            ids.update(found)
+            known = [i for i in found if canon(i) in have]
+            mapped = [o['task'] for o in offlist if o.get('role') == role and o.get('match') and o['match'] in l]
+            row = re.match(r'^\s*([-*]|\d+\.|\|)', l) and not re.match(r'^\s*\|[\s|:-]*$', l)
+            up = parents[-1][1] if parents else ''   # 只看直接上層：【表外】項目底下的細項算在那一項裡
+            if row and (OFF_MARK.search(l) or (not found and OFF_PARENT.search(up) and not OFF_MARK.search(up))):
+                if mapped:
+                    for t in mapped:
+                        if canon(t) not in have:
+                            missing.append(f'{t}（offList 對到、總表沒有）')
+                else:
+                    off.append(f'第 {start + k + 1} 行：{l.strip()[:90]}')
+            if re.match(r'^\s*([-*]|\d+\.)\s', l):
+                parents.append((ind, l))
+        for i in sorted(ids):
+            if canon(i) not in have and not ign(i):
+                missing.append(i)
+        report.append(f'{role}：{where} @ {sha}，全部待辦 {len(sec)} 行、提到 {len(ids)} 個 ID')
+        for i in missing:
+            bad.append(f'{role}：{i} 在交接檔、總表沒有')
+        for o in off:
+            bad.append(f'{role}：表外（還沒補成任務）{o}')
+    for l in report:
+        print('[資訊] ' + l)
+    for n, m in enumerate(bad, 1):
+        print(f'[異常 {n}] {m}')
+    if bad:
+        print(f'結果：異常 {len(bad)} 項——補進 tasks.json（表外的補完在 meta.offList 記 role／match／task），'
+              '或把不是任務的 ID 寫進 meta.reconcileIgnore（附原因）；沒處理完不能宣稱交接完整（D93）')
+        return 1
+    print('結果：OK（每個職位的全部待辦都在總表裡）')
+    return 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--root', default=ROOT)
@@ -396,14 +538,18 @@ def main(argv=None):
     c.add_argument('--no-git', action='store_true')
     s = sub.add_parser('snapshot')
     s.add_argument('--role', required=True, choices=['LAWWW', 'LAWWW2', 'AA', 'BB'])
-    s.add_argument('--account', required=True, choices=['A', 'B'])
+    s.add_argument('--account', required=True, choices=list(duty_state.ACCOUNTS))   # 帳號 A／B／C（D92；職位永遠四個）
     s.add_argument('--kind', default='handoff', choices=['handoff', 'checkpoint'])
     q = sub.add_parser('queue')
     q.add_argument('--owner')
     q.add_argument('--ref')
     q.add_argument('-n', type=int, default=15)
+    r = sub.add_parser('roles')
+    r.add_argument('--role', action='append', choices=['LAWWW2', 'AA', 'BB'])
+    r.add_argument('--ref')
+    duty_state.add_parser(sub)
     a = ap.parse_args(argv)
-    return {'check': check, 'snapshot': snapshot, 'queue': queue}[a.cmd](a)
+    return {'check': check, 'snapshot': snapshot, 'queue': queue, 'roles': roles, 'duty': duty_state.run}[a.cmd](a)
 
 
 if __name__ == '__main__':

@@ -17,7 +17,8 @@ function build(line){
   const D={get busyDepth(){ return st.busy; }};
   const toast=(m)=>st.toasts.push(m), closeMenu=()=>st.closed++;
   const applySave=async s=>{ if(st.fail) throw new Error('壞掉的存檔'); st.loaded.push(s); };
-  const fn=vm.runInThisContext('(function(D,$,toast,closeMenu,applySave){'+line+' return loadFrom; })')(D,$,toast,closeMenu,applySave);
+  const waitChars=async()=>{ st.waited=(st.waited||0)+1; }; // 標題畫面讀檔先等人物下載完（NO-UGLY）；這裡用假的
+  const fn=vm.runInThisContext('(function(D,$,toast,closeMenu,applySave,waitChars){'+line+' return loadFrom; })')(D,$,toast,closeMenu,applySave,waitChars);
   return {st,fn};
 }
 async function cases(line,label){

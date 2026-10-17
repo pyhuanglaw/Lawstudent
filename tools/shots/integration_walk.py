@@ -18,7 +18,7 @@ async def main():
         pg.on('pageerror', lambda e: errs.append(str(e)))
         await pg.goto(URL)
         for i in range(240):
-            if await pg.evaluate("!!(window.GAME&&document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide'))"): break
+            if await pg.evaluate("!!(window.GAME&&document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide')&&(typeof GAME==='undefined'||!GAME.charsAllP||!!GAME.charsAll))"): break
             await pg.wait_for_timeout(500)
         st = {'zone': 'wenzhou', 'hour': HOUR, 'day': 8, 'weekday': 4, 'weather': 'sunny', 'pos': {'x': P0[0], 'z': P0[1], 'yaw': 3.1416}, 'flags': FLAGS}
         await pg.evaluate("(async(st)=>{ const s=GAME.defaults('祐廷'); Object.assign(s,st); document.getElementById('titleScreen').classList.add('hide'); EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; await GAME.applySave(s); })(%s)" % json.dumps(st, ensure_ascii=False))

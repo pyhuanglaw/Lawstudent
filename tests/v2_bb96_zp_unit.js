@@ -53,12 +53,13 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     const r={ok:at(5,2,17),thu:at(9,4,16.6),w4:at(4,2,17),wed:at(5,3,17),early:at(5,2,16),late:at(5,2,18.1),noP2:at(5,2,17,{noP2:true}),gg:at(5,2,17,{zone:'gongguan'})};
     check('P3b：第 5 週起的週二、週四 16:30–18:00 走進溫州街、P2 之後（第 4 週、週三、16:00、18:06、沒有 P2、在公館都沒有）',r.ok&&r.thu&&!r.w4&&!r.wed&&!r.early&&!r.late&&!r.noP2&&!r.gg,JSON.stringify(r));
     check('P3b：走進溫州街就演（enter）；2D 背景「溫州街・課輔班門口」（不需要臨時位置）',p.trigger==='enter'&&p.dialogue[0].bg==='wenzhou_tutoring'&&!!OUT.BG.wenzhou_tutoring);
-    const play=async(pick,club)=>{ fresh(termDay('Y1S2',5,2),17,'wenzhou',club?{CLUB_lawclub_study:true}:{}); G.events.done.ev_peishan_doubt=1; picks=[pick]; await EVENTS.run(p); return lines(); };
+    const play=async(pick,club,formOnly)=>{ fresh(termDay('Y1S2',5,2),17,'wenzhou',club||formOnly?{CLUB_lawclub_study:true}:{}); if(club){ G.acts={att:{}}; G.acts.att['lawclub_study@'+(G.day-7)]={h:19}; } G.events.done.ev_peishan_doubt=1; picks=[pick]; await EVENTS.run(p); return lines(); };   /* BB_161 ④：去過讀書會＝出席紀錄；只有博覽會填表（CLUB_lawclub_study）不算 */
     let L=await play('開心');
     const nm=(CHARACTERS.classmate_peishan&&CHARACTERS.classmate_peishan.name)||'郭沛珊';
     check('P3b 台詞照原文',JSON.stringify(L.slice(0,4))===JSON.stringify(['她帶著一群國小生從課輔班走出來，手上拿著一疊作業本。',nm+'：喔，是你。我在這裡當志工。一週三天。','一個小孩拉她的衣角。她蹲下來聽他講完，站起來。',nm+'：……我在這裡的時候，不會看時間。']),JSON.stringify(L.slice(0,4)));
     check('沒去過讀書會：兩個選項（沒有「讀書會最近比較少看到妳」）',JSON.stringify(opts[0])==='["「妳看起來很開心。」","（幫她拿一半的作業本）"]',JSON.stringify(opts[0]));
     check('「妳看起來很開心。」：「有嗎。」（她想了一下。）「……有。」；SAW_HER_TEACH',JSON.stringify(L.slice(4))===JSON.stringify([nm+'：有嗎。','她想了一下。',nm+'：……有。'])&&SOCIAL.has('classmate_peishan','SAW_HER_TEACH'),JSON.stringify(L.slice(4)));
+    { const Lf=await play('看起來',false,true); check('BB_161 ④：只在博覽會填了表、沒去過讀書會＝沒有「讀書會最近比較少看到妳。」',!opts[0].includes('「讀書會最近比較少看到妳。」'),JSON.stringify(opts[0])); }
     L=await play('讀書會',true); check('去過讀書會：多「讀書會最近比較少看到妳。」→「嗯。我還是會去，只是比較少。」（她不躲這個問題。）「我在找我比較想待的地方。」',JSON.stringify(opts[0])==='["「妳看起來很開心。」","「讀書會最近比較少看到妳。」","（幫她拿一半的作業本）"]'&&JSON.stringify(L.slice(4))===JSON.stringify([nm+'：嗯。我還是會去，只是比較少。','她不躲這個問題。',nm+'：我在找我比較想待的地方。']),JSON.stringify(L.slice(4)));
     L=await play('作業本'); check('（幫她拿一半的作業本）：「謝謝。……你走路很慢，跟小孩一樣。」（小孩們笑。）',JSON.stringify(L.slice(4))===JSON.stringify([nm+'：謝謝。……你走路很慢，跟小孩一樣。','小孩們笑。']),JSON.stringify(L.slice(4)));
     check('記憶的中文說明：SAW_HER_TEACH',!!SOCIAL.MEMORY_LABEL.SAW_HER_TEACH); }

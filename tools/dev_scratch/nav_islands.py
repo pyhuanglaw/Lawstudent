@@ -28,7 +28,7 @@ async def main():
         pg = await b.new_page(viewport={'width': 480, 'height': 360})
         await pg.goto(URL)
         for i in range(240):
-            if await pg.evaluate("!!(typeof GAME!=='undefined'&&document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide'))"): break
+            if await pg.evaluate("!!(typeof GAME!=='undefined'&&document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide')&&(typeof GAME==='undefined'||!GAME.charsAllP||!!GAME.charsAll))"): break
             await pg.wait_for_timeout(500)
         suspects = 0
         for zid in ZONES:

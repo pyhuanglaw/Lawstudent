@@ -38,8 +38,8 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('W3（學姊給的文章）：落在大一下第 5 週以後（大一上、大一下第 4 週都還沒有）',at('Y1S2',5)&&at('Y1S2',10)&&!at('Y1S2',4)&&!at('Y1S1',12));
     const opts3=db.dialogue.find(l=>l.choice).choice.map(o=>o.set&&o.set.W3_STANCE);
     check('W3 和學姊吵一次：三個選項記 W3_STANCE（no／diff／unsure），台詞和數字照舊',JSON.stringify(opts3)==='["no","diff","unsure"]'&&db.dialogue.find(l=>l.choice).choice[0].rel.heroine_05.resp===6,JSON.stringify(opts3)); }
-  const W17=termDay('Y1S2',17,3);
-  check('檢討會：大一下第 17 週週三 19:00–21:00、萬才館研討室 A（門口參加）',ACTIVITIES.on(RV,W17)&&!ACTIVITIES.on(RV,W17-7)&&RV.room==='seminarA'&&RV.door===true&&RV.t0===19);
+  const W17=termDay('Y1S2',15,3);   /* 檢討會改第 15 週週三 6/3（AA_198 第 5 節；變數名照舊）*/
+  check('檢討會：大一下第 15 週週三（6/3）19:00–21:00、萬才館研討室 A（門口參加）',ACTIVITIES.on(RV,W17)&&!ACTIVITIES.on(RV,W17-7)&&RV.room==='seminarA'&&RV.door===true&&RV.t0===19);
   const setup=(o)=>{ o=o||{}; fresh(W17,19.05,'wancai',Object.assign({lawclub:o.lawclub!==false},o.flags||{})); const A=(G.acts=G.acts||{}).att=(G.acts.att||{}); for(let k=0;k<(o.n==null?3:o.n);k++) A['lawclub_study@'+(W17-70+k*7)]={h:19}; };
   const nm=CHARACTERS.heroine_05.name;
   { setup(); check('去了檢討會：會後接著演（CLS.afterActEvent）',CLS.afterActEvent(G,RV)===w5);
@@ -57,8 +57,10 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   /* 沒去檢討會 */
   { const at=(h,o)=>{ setup(o); G.hour=h; G.zone='wancai'; return EVENTS.check(w5b); };
     check('沒去檢討會的社員：那天 21:00 以後走進萬才館＝演（20:30、去了檢討會的、讀書會不到 3 次都沒有）',at(21.2)&&!at(20.5)&&!at(21.2,{n:2})&&(()=>{ setup(); G.hour=21.2; G.acts.att['lawclub_review_y1s2@'+W17]={h:19}; return !EVENTS.check(w5b); })());
+    { const atD=(day,h)=>{ setup(); G.day=day; G.weekday=CALENDAR.dateOf(day).wd%7; G.hour=h; G.zone='wancai'; return EVENTS.check(w5b); };
+      check('BB_161 ③：第 15～16 週第一次在晚上走進萬才館（第 15 週週五 20:00、第 16 週週一 19:00 可以；第 16 週下午、第 14 週、第 17 週沒有）',atD(termDay('Y1S2',15,5),20)&&atD(termDay('Y1S2',16,1),19)&&!atD(termDay('Y1S2',16,1),15)&&!atD(termDay('Y1S2',14,4),20)&&!atD(termDay('Y1S2',17,1),20)); }
     setup(); G.hour=21.2; picks=['謝謝學姊']; await EVENTS.run(w5b); const L=lines();
-    check('沒去的版本：第一句旁白「聽說今天的檢討會很安靜。」，其他照舊',L[0]==='聽說今天的檢討會很安靜。'&&L[1]==='會後你回萬才館拿忘記的東西，看到她一個人坐著，在每份書狀上貼便條。',JSON.stringify(L.slice(0,2)));
+    check('沒去的版本（BB_161 ③）：開頭兩句「（聽說這週的檢討會很安靜。）」「（你經過萬才館的研討室。學姊一個人坐在裡面，在每份書狀上貼便條。）」，接著「你的書狀上：……」照原文',L[0]==='（聽說這週的檢討會很安靜。）'&&L[1]==='（你經過萬才館的研討室。學姊一個人坐在裡面，在每份書狀上貼便條。）'&&/^（你的書狀上：/.test(L[2])&&!L.includes('會後你回萬才館拿忘記的東西，看到她一個人坐著，在每份書狀上貼便條。'),JSON.stringify(L.slice(0,3)));
     check('記憶的中文說明：GAVE_HER_NOTE、NOTICED_HER',!!SOCIAL.MEMORY_LABEL.GAVE_HER_NOTE&&!!SOCIAL.MEMORY_LABEL.NOTICED_HER); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

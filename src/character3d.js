@@ -62,6 +62,8 @@ const CHAR = (function(){
     return new THREE.AnimationClip(clip.name,clip.duration,tracks); }
   const SIT_VRM={LeftUpLeg:[-1.45,0,0],RightUpLeg:[-1.45,0,0],LeftLeg:[1.5,0,0],RightLeg:[1.5,0,0],LeftFoot:[0,0,0],RightFoot:[0,0,0],LeftArm:[0,0,-1.25],RightArm:[0,0,1.25],LeftForeArm:[0,0,0],RightForeArm:[0,0,0]};
   const READ_VRM={LeftArm:[0,0,-1.1],RightArm:[0,0,1.1],LeftForeArm:[0,-1.3,0],RightForeArm:[0,1.3,0]};
+  /* 跪坐（坐墊：茶屋的和室、緣側；QA-W1 座位檢查）：大腿往前放平、小腿整個折到大腿下面、腳背貼地；手放在大腿上。高度由 sitFloorFit 依膝蓋、腳踝量（坐墊頂＋腿的厚度）*/
+  const SEIZA_VRM={LeftUpLeg:[-1.5,0,0.04],RightUpLeg:[-1.5,0,-0.04],LeftLeg:[2.75,0,0],RightLeg:[2.75,0,0],LeftFoot:[0.9,0,0],RightFoot:[0.9,0,0],LeftArm:[0,-0.35,-1.15],RightArm:[0,0.35,1.15],LeftForeArm:[0,-0.8,0],RightForeArm:[0,0.8,0]};
   /* 騎腳踏車的底子（使用者：「我應該要可以騎腳踏車」、路上騎士要真的踩踏板）：上身前傾、大腿抬起、手往前；腳和手的確切位置由 rideIK 在真實骨架上對到踏板、把手 */
   const RIDE_VRM={Hips:[0.18,0,0],Spine:[0.16,0,0],Spine1:[0.1,0,0],Spine2:[0.04,0,0],Neck:[-0.12,0,0],LeftUpLeg:[-1.0,0,0],RightUpLeg:[-1.0,0,0],LeftLeg:[1.3,0,0],RightLeg:[1.3,0,0],LeftFoot:[0,0,0],RightFoot:[0,0,0],LeftArm:[0,-0.9,-1.0],RightArm:[0,0.9,1.0],LeftForeArm:[0,-0.4,0],RightForeArm:[0,0.4,0]};   /* 骨頭名稱是 Mixamo 的（Spine1＝chest、Spine2＝upperChest，VRM_BONE）；骨盆＋脊椎一起往前傾約 25°（淑女車的直立騎姿，肩膀才搆得到把手）*/
   const EXPR_VRM={smile:['happy',0.7],laugh:['happy',1.0],shy:['relaxed',0.8],surprise:['surprised',1.0],worried:['sad',0.7],angry:['angry',0.8],normal:null};
@@ -208,11 +210,16 @@ const CHAR = (function(){
       if(d>1e-4){ B[a].getWorldPosition(hip); const u1=SFV[4].copy(hip).sub(knee), v1=new THREE.Vector3().copy(ank).sub(knee), n=new THREE.Vector3().crossVectors(u1,v1);
         if(n.lengthSq()>1e-10){ n.normalize(); rotWorld(B[b],n,d); } }   // 2. 還差的部分：小腿往前伸（膝蓋角度變大）
       B[c].parent.getWorldQuaternion(IKQ[0]); B[c].quaternion.copy(IKQ[0].invert().multiply(IKQ[3])); B[c].updateWorldMatrix(false,true); } }
+  /* 跪坐的高度：膝蓋、腳踝、腳趾（骨頭在腿的中間）最低的那一個放在坐墊頂＋5 cm（腿的半徑）。animateVRM 每一幀把高度重設成椅子的坐姿，這裡再往下移，不會累加 */
+  function sitFloorFit(h,u){ if(!u.sitFloor||!(u.anim&&u.anim.static&&u.anim.staticKind==='sit')||u.ride) return; const hm=u.vrm.humanoid; const B=u.rawLegs||(u.rawLegs=(()=>{ const o={}; for(const L of LEGS) for(const n of L) o[n]=hm.getRawBoneNode(n); return o; })());
+    if(LEGS.some(L=>L.slice(0,3).some(n=>!B[n]))) return; h.updateWorldMatrix(true,true); const gy=h.getWorldPosition(SFV[0]).y; let lo=Infinity;
+    for(const L of LEGS) for(const n of L){ if(!B[n]||n===L[0]) continue; lo=Math.min(lo,B[n].getWorldPosition(SFV[1]).y); }
+    if(!isFinite(lo)) return; const sc=h.getWorldScale(SFV[2]).y||1; u.model.position.y+=(gy+u.sitFloor+0.05-lo)/sc; u.model.updateWorldMatrix(false,true); }
   function animateVRM(h,dt,st){ const u=h.userData; const a=u.anim; a.t+=dt; const pose=st.pose||'idle'; const B=u.bones; const spd=st.speed||0; const vrm=u.vrm; const sx=u.sx||1;
     if(u.props){ const sitting=pose==='sit'||pose==='read'; for(const k of ['backpack','guitar']){ const o=u.props[k]; if(o) o.visible=!sitting&&!(u.propOn&&u.propOn[k]===false); } }
     u.ride=pose==='ride'?(st.ride||{crank:0}):null;
     if(pose==='ride'){ if(!a.static||a.staticKind!=='ride'){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='ride'; a.cur=null; vrm.humanoid.resetNormalizedPose(); } u.ikDrop=0; u.ikSt=null; setBonesV(B,RIDE_VRM,sx); if(B.Head) B.Head.rotation.set(-0.22*sx,0,0); }   /* 頭往上抬，看前面的路（胸口、頭每一幀都由表重設，下面的注視「加」轉角不會累加）*/   /* 騎車：人物的高度、前後位置在 rideIK 依髖關節對座墊 */
-    else if(pose==='sit'||pose==='read'){ if(!a.static||a.staticKind!=='sit'){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='sit'; a.cur=null; vrm.humanoid.resetNormalizedPose(); } u.ikDrop=0; u.ikSt=null; u.model.position.y=(u.model.userData.baseY||0)-0.47*u.k; u.model.position.z=0; setBonesV(B,SIT_VRM,sx); if(pose==='read'){ setBonesV(B,READ_VRM,sx); if(B.Head) B.Head.rotation.set((0.35+Math.sin(a.t*0.6)*0.02)*sx,0,0); } else { if(B.Head) B.Head.rotation.set(Math.sin(a.t*0.7)*0.03*sx,Math.sin(a.t*0.4)*0.15,0); } if(B.Spine) B.Spine.rotation.set(0.06*sx,0,0); if(B.Spine1) B.Spine1.rotation.set(0,0,0); }   /* 胸口每一幀也要重設：下面的注視是在胸口「加」轉角，坐姿沒有動畫把骨頭蓋回去，不重設就會一直累加、整個上半身在椅子上轉圈（使用者 2026-10-11 回報，tests/seated_look_unit.js）*/
+    else if(pose==='sit'||pose==='read'){ if(!a.static||a.staticKind!=='sit'){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='sit'; a.cur=null; vrm.humanoid.resetNormalizedPose(); } u.ikDrop=0; u.ikSt=null; u.model.position.y=(u.model.userData.baseY||0)-0.47*u.k; u.model.position.z=0; setBonesV(B,SIT_VRM,sx); if(u.sitFloor) setBonesV(B,SEIZA_VRM,sx); if(pose==='read'){ setBonesV(B,READ_VRM,sx); if(B.Head) B.Head.rotation.set((0.35+Math.sin(a.t*0.6)*0.02)*sx,0,0); } else { if(B.Head) B.Head.rotation.set(Math.sin(a.t*0.7)*0.03*sx,Math.sin(a.t*0.4)*0.15,0); } if(B.Spine) B.Spine.rotation.set(0.06*sx,0,0); if(B.Spine1) B.Spine1.rotation.set(0,0,0); }   /* 胸口每一幀也要重設：下面的注視是在胸口「加」轉角，坐姿沒有動畫把骨頭蓋回去，不重設就會一直累加、整個上半身在椅子上轉圈（使用者 2026-10-11 回報，tests/seated_look_unit.js）*/
     else { if(a.static){ a.static=false; a.staticKind=null; u.model.position.y=u.model.userData.baseY||0; u.model.position.z=0; vrm.humanoid.resetNormalizedPose(); } const clipName=POSE_CLIP[pose]||'idle'; if(a.cur!==clipName&&a.actions[clipName]){ const prev=a.cur&&a.actions[a.cur]; const next=a.actions[clipName]; next.reset().setEffectiveWeight(1).fadeIn(0.22).play(); if(prev) prev.fadeOut(0.22); a.cur=clipName; } const act=a.actions[a.cur]; if(act){ act.timeScale= a.cur==='walk'?Math.max(0.6,spd/1.45): (a.cur==='run'?Math.max(0.7,spd/4.1):1); } a.mixer.update(dt);
       if(pose==='wave'&&B.RightArm){ const g=Math.sin(a.t*7); B.RightArm.rotation.set(0,0,-0.9*sx); if(B.RightForeArm) B.RightForeArm.rotation.set(0,0,(-1.6+g*0.25)*sx); if(B.Head) B.Head.rotation.z+=0.08*sx; }
       if(pose==='talk'&&B.Head){ B.Head.rotation.x+=Math.sin(a.t*1.4)*0.05*sx; B.Head.rotation.y+=Math.sin(a.t*0.8)*0.08; if(B.Spine1) B.Spine1.rotation.y+=Math.sin(a.t*0.6)*0.03; }
@@ -221,7 +228,7 @@ const CHAR = (function(){
     if(st.lookAt){ const local=h.worldToLocal(new THREE.Vector3(st.lookAt.x,u.headY,st.lookAt.z)); u.look.position.copy(local); if(B.Head){ const dx=st.lookAt.x-h.position.x, dz=st.lookAt.z-h.position.z; let ang=Math.atan2(dx,dz)-h.rotation.y; ang=Math.atan2(Math.sin(ang),Math.cos(ang)); ang=Math.max(-0.7,Math.min(0.7,ang)); B.Head.rotation.y+=ang*0.6; if(B.Spine1) B.Spine1.rotation.y+=ang*0.15; } } else { u.look.position.set(0,u.headY,3); }
     // 表情：眨眼、嘴型
     const em=vrm.expressionManager; if(em){ a.blink-=dt; if(a.blink<=0){ a.blinkT=0.14; a.blink=2.5+Math.random()*3.5; } if(a.blinkT>0){ a.blinkT-=dt; em.setValue('blink',a.blinkT>0.07?1:(a.blinkT/0.07)); } else em.setValue('blink',0); const target=pose==='talk'?(0.08+Math.abs(Math.sin(a.t*9))*0.3):0; a.mouth+=(target-a.mouth)*Math.min(1,dt*14); em.setValue('aa',a.mouth); }
-    updateVRM(vrm,dt,()=>{ footIK(h,u,u.ikSt,dt); sitFeet(h,u); if(u.ride) rideIK(h,u); }); }
+    updateVRM(vrm,dt,()=>{ footIK(h,u,u.ikSt,dt); sitFeet(h,u); sitFloorFit(h,u); if(u.ride) rideIK(h,u); }); }
   // VRM 更新：彈簧骨（頭髮、馬尾）用固定小步長。低幀率（SwiftShader 1–4 fps、手機突然卡頓）時一次積分太大，馬尾會失穩往上翹
   // 彈簧骨前先更新整個 VRM 的 world matrix：three-vrm 用「子骨頭的 matrixWorld」算骨長，人物移動／瞬移／動畫之後子骨頭還停在上一幀，
   // 低幀率時一幀差幾十公分 → 骨長算錯、頭髮被甩到耳朵高度往外翹（林芷若走路截圖；30 fps 時也會讓髮尾抖）
@@ -242,10 +249,15 @@ const CHAR = (function(){
   // 人物「想要」的正式模型：spec.model，或主要角色在 CAST 的模型；路人沒有（用路人底模）
   C.wantModel=function(spec){ if(!spec||C.useModels===false) return null; if(spec.model&&ASSETS.manifest[spec.model]) return spec.model; const c=C.CAST[spec.id]; return c?c.model:null; };
   // 建立時記下原本的 spec、想要的模型、建立時自己有哪些子物件（之後外面掛上去的，例如腳踏車，換模型時要搬過去）
-  C.build=function(spec){ const h=buildOne(spec); const u=h.userData; u.buildSpec=spec; u.wantModel=C.wantModel(spec); u.ownKids=new Set(h.children); return h; };
+  C.build=function(spec){ const h=buildOne(spec); const u=h.userData; u.buildSpec=spec; u.wantModel=C.wantModel(spec); u.ownKids=new Set(h.children);
+    /* 不准退化成醜模型（使用者 2026-10-17）：正式模型還沒到時建出來的備用人物（程序化方塊人、主要角色借用的路人底模、主角的開發用模型）先整個隱藏，
+       模型到了由 upgradeModels 原地換成正式的（新的一開始就看得到）。設定裡關掉人物模型（useModels false）時照舊顯示程序化人物 */
+    if(C.isDegraded(h)){ u.degradedHidden=true; for(const c of h.children) c.visible=false; }
+    return h; };
+  C.isDegraded=function(h){ const u=h&&h.userData; if(!u||C.useModels===false||C.hideDegraded===false) return false; if(u.driver==='proc') return true; const got=u.driver==='vrm'?u.key:(u.spec&&u.spec.model); return !!(u.wantModel&&got!==u.wantModel); };
   // 晚到的正式模型（2026-10-10 線上實玩：手機網速慢，VRM 30 秒內沒下載完 → 主角、NPC 用程序化備用人物，而且下載完也不會換回來）：
   // 需要換的情況＝現在是程序化備用人物、但正式模型已經可以用；或主要角色暫時借用了路人底模、自己的模型已經到了
-  C.needsUpgrade=function(h){ const u=h&&h.userData; if(!u||!u.buildSpec||C.useModels===false) return false; if(u.driver!=='proc'&&u.driver!=='vrm') return false; if(u.driver==='vrm'&&(!u.wantModel||u.key===u.wantModel)) return false;
+  C.needsUpgrade=function(h){ const u=h&&h.userData; if(!u||!u.buildSpec||C.useModels===false) return false; if(u.driver!=='proc'&&u.driver!=='vrm'&&!(u.driver==='glb'&&u.wantModel&&(u.spec&&u.spec.model)!==u.wantModel)) return false; if(u.driver==='vrm'&&(!u.wantModel||u.key===u.wantModel)) return false; if(u.driver==='glb'){ const r=C.resolveModel(u.buildSpec); return C.canVRM(r)&&r.model===u.wantModel; }   /* 主角的開發用模型（GLB 備用）：正式 VRM 到了也要換 */
     const r=C.resolveModel(u.buildSpec); if(!C.canVRM(r)) return false; if(u.driver==='proc') return true; return !!(u.wantModel&&u.key!==u.wantModel&&r.model===u.wantModel); };
   // 用同一個 spec 重新建立，放在原本的位置（位置、朝向、姿勢、表情、配件開關、外面掛上去的東西都帶過去），舊的釋放。回傳新的（失敗回 null，舊的不動）
   C.upgrade=function(h){ const u=h.userData; let nh; try{ nh=C.build(u.buildSpec); }catch(e){ console.warn('model upgrade failed',e); return null; } if(nh.userData.driver==='proc'){ return null; }

@@ -86,7 +86,7 @@ const sisN={id:'sis',charId:'heroine_05',name:'溫學姊',obj:{position:{x:1,y:0
     setup({dating_kexin:true}); await EVENTS.run(e); let L=lines();
     check('Q3 交往中：「滷味。走。阿凱也在，他在排隊。」（三個人；沒有「十點後半價」）',L.includes('滷味。走。阿凱也在，他在排隊。')&&!L.some(t=>/十點後半價/.test(t)),JSON.stringify(L));
     check('Q3 交往中：拍照那段（BB_95 2-7 原文）＋阿凱「她每次都拍，從來不給看。」、設 ZIQING_MAKING_SOMETHING',PHOTO.every(t=>L.includes(t))&&L.includes('她每次都拍，從來不給看。')&&G.flags.ZIQING_MAKING_SOMETHING===true);
-    said=[]; picks=['宵夜']; G.day+=3; await EVENTS.run(e); L=lines(); check('Q3 之後一起吃宵夜不再重演拍照',L.includes('滷味。走。阿凱也在，他在排隊。')&&!L.some(t=>/拍了一張照片/.test(t)));
+    G.events.done[e.id]=1; G.day+=3; G.hour=21.5; check('Q3 整個事件只一次（BB-B 75c1b2b1）：之後不再觸發、也就不再有拍照',e.once===true&&!e.cooldown_days&&!EVENTS.check(e));
     setup({}); await EVENTS.run(e); L=lines(); check('Q3 單身：照舊「滷味。走。我知道一家十點後半價的。」、拍照那段有、沒有阿凱那句',L.includes('滷味。走。我知道一家十點後半價的。')&&PHOTO.every(t=>L.includes(t))&&!L.includes('她每次都拍，從來不給看。')); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

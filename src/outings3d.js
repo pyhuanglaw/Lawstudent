@@ -11,16 +11,18 @@ const OUT=(function(){
   /* 2D 背景（AA_112 3-1：政大四個＋停車場；河濱和子晴的河堤夜景共用）：image 是圖片路徑，還沒有圖＝null（深色底＋地點字幕）。
      home_living＝平常週末回家的客廳（還沒有圖）；home_living_cny＝除夕的年夜飯（BB-B 第 25 組，桌上是年夜飯、牆上中國結，只用在除夕）。
      政大只做主要校園＋宿舍（自強十舍）（使用者 2026-10-16 對 LAWWW2-B）：河堤、圖書館、停車場不做，那幾幕照 AA_137 7-1 改到校門、校園裡的路、宿舍樓下 */
-  S.BG={ car:{label:'車上',image:null}, nccu_gate:{label:'政大・校門口',image:'assets/bg/nccu_gate.webp'}, nccu_food:{label:'政大・山下的小吃街',image:'assets/bg/nccu_food.webp'}, nccu_dorm:{label:'政大・宿舍樓下',image:null}, nccu_campus:{label:'政大・校園裡的路',image:'assets/bg/nccu_campus.webp'},
+  S.BG={ car:{label:'車上',image:null}, nccu_gate:{label:'政大・校門口',image:'assets/bg/nccu_gate.webp'}, nccu_food:{label:'政大・山下的小吃街',image:'assets/bg/nccu_food.webp'}, nccu_dorm:{label:'政大・宿舍樓下',image:'assets/bg/nccu_dorm.webp'}, nccu_dorm_day:{label:'政大・宿舍樓下（白天）',image:'assets/bg/nccu_dorm_day.webp'}, ntu_lib_b1:{label:'總圖 B1・24 小時自習室',image:'assets/bg/ntu_lib_b1.webp'}, trip_hotel_twin:{label:'旅館',image:'assets/bg/trip_hotel_twin.webp'}, cram_class:{label:'補習班',image:'assets/bg/cram_class.webp'}, jp_street_night:{label:'日本・商店街',image:'assets/bg/jp_street_night.webp'}, camp_school:{label:'營隊・國小操場',image:'assets/bg/camp_school.webp'}, train_day:{label:'火車上',image:'assets/bg/train_day.webp'}, nccu_campus:{label:'政大・校園裡的路',image:'assets/bg/nccu_campus.webp'},
     riverside:{label:'河濱',image:'assets/bg/riverside.webp'}, dorm_roof:{label:'宿舍頂樓',image:'assets/bg/dorm_roof.webp'}, video:{label:'視訊',image:'assets/bg/video.webp'}, gongguan_luwei:{label:'公館・滷味攤',image:'assets/bg/gongguan_luwei.webp'},
     ntu_soc:{label:'台大・社科院門口',image:'assets/bg/ntu_soc.webp'}, ferris_wheel:{label:'摩天輪',image:'assets/bg/ferris_wheel.webp'}, gongguan:{label:'公館',image:null}, wenzhou:{label:'溫州街',image:null}, ntu_linze:{label:'台大・霖澤館前',image:'assets/bg/ntu_linze.webp'}, ntu_avenue:{label:'台大・椰林大道',image:'assets/bg/ntu_avenue.webp'},
     trip_sea:{label:'海邊',image:null}, trip_oldtown:{label:'老街',image:null}, trip_mountain:{label:'山上',image:'assets/bg/trip_mountain.webp'},
     home_living:{label:'臺北・家裡的客廳',image:'assets/bg/home_living.webp'}, home_living_day:{label:'臺北・家裡的客廳',image:'assets/bg/home_living_day.webp'}, home_living_cny:{label:'臺北・家裡的客廳（除夕）',image:'assets/bg/home_living_cny.webp'}, home_balcony:{label:'臺北・家裡的陽台',image:'assets/bg/home_balcony.webp'}, home_room:{label:'臺北・家裡的房間',image:'assets/bg/home_room.webp'},
     econ_camp:{label:'宿營・青年活動中心',image:'assets/bg/econ_camp.webp'}, econ_camp_room:{label:'宿營・八人寢室',image:'assets/bg/econ_camp_room.webp'}, gongguan_douhua:{label:'公館・豆花店',image:'assets/bg/gongguan_douhua.webp'}, gongguan_hotpot:{label:'公館・火鍋店',image:'assets/bg/gongguan_hotpot.webp'}, newyear_crowd:{label:'跨年的人潮',image:'assets/bg/newyear_crowd.webp'}, soc_library:{label:'社科院圖書館・閱覽區',image:'assets/bg/soc_library.webp'}, soc_office:{label:'經濟系系辦',image:'assets/bg/soc_office.webp'}, classroom_small:{label:'小教室',image:'assets/bg/classroom_small.webp'},
-    wenzhou_tutoring:{label:'溫州街・課輔班門口',image:'assets/bg/wenzhou_tutoring.webp'}, yongkang_curry:{label:'永康街・咖哩店',image:null},
-    gongguan_cinema:{label:'公館・二輪戲院',image:null}, soymilk_shop:{label:'豆漿店',image:'assets/bg/soymilk_shop.webp'}, tutor_home:{label:'學生家的客廳',image:'assets/bg/tutor_home.webp'},
+    wenzhou_tutoring:{label:'溫州街・課輔班門口',image:'assets/bg/wenzhou_tutoring.webp'}, yongkang_curry:{label:'永康街・咖哩店',image:'assets/bg/yongkang_curry.webp'},
+    gongguan_cinema:{label:'公館・二輪戲院',image:'assets/bg/gongguan_cinema.webp'}, soymilk_shop:{label:'豆漿店',image:'assets/bg/soymilk_shop.webp'}, tutor_home:{label:'學生家的客廳',image:'assets/bg/tutor_home.webp'},
     noodle_table:{label:'阿鳳麵店・長桌',image:'assets/bg/noodle_table.webp'}, soc_hall:{label:'社科院・大講堂',image:'assets/bg/soc_hall.webp'}, soc_classroom:{label:'社科院・系上的教室',image:'assets/bg/soc_classroom.webp'}, xiaofu:{label:'小福',image:'assets/bg/xiaofu.webp'}, girls_dorm_gate:{label:'女生宿舍門口',image:'assets/bg/girls_dorm_gate.webp'}, bowling:{label:'保齡球館',image:'assets/bg/bowling.webp'}, seaside_town:{label:'春假・海邊的小鎮',image:null},
     d04_base_night:{label:'西門町',image:'assets/bg/d04_base_night.webp'}, d06_base_day:{label:'北美館',image:'assets/bg/d06_base_day.webp'}, d12_base_sunset:{label:'大稻埕',image:'assets/bg/d12_base_sunset.webp'}, d13_base_sunset:{label:'淡水',image:'assets/bg/d13_base_sunset.webp'} };   /* 期中考完的晚餐（交接包 v2 C11、C21）：麵店有 3D 區域，長桌這一幕先用 2D 底 */   /* 春假 K8 的三個目的地（BB_96 9-5；交接包 v2 C9）、嘉義老家（AA_12 主線 2；C2）：圖還沒有＝深色底＋地點字幕 */   /* K2 可昕來台大（BB_95 9-3 的最小版本：依序換 2D 背景；之後可以換成遊戲校園的畫面）*/
+  S.BG.ntu_court_night={label:'台大・新體育館旁的籃球場（晚上）',image:'assets/bg/ntu_court_night.webp'};   /* 哲 2（AA_177 第 5 節）：ART-BG-COURT 派給 LAWWW2-B，圖來了填 assets/bg/ntu_court_night.webp */
+  S.BG.ntu_gym_ceremony={label:'綜合體育館・開學典禮',image:'assets/bg/ntu_gym_ceremony.webp'};   /* ART-GYM-BG1 v3 正式版（LAWWW2-B a3529675；使用者 00:3x「開學典禮可以!!!」）：8/31 開學典禮（STORY.ceremonyY1）；畢業典禮版另做 */
   S.BG.car_morning={label:'車上（早上）',image:'assets/bg/car_morning.webp'}; S.BG.car_night={label:'車上（晚上）',image:'assets/bg/car_night.webp'}; S.BG.car_rain={label:'車上（雨天）',image:'assets/bg/car_rain.webp'};   /* BG-08（LAWWW2-B 702a2838）*/
   /* 車上：照當時的天氣、時間挑一張（下雨＝雨天、18:00～05:59＝晚上、其他＝早上）；事件要固定哪一張就直接寫 car_morning／car_night／car_rain */
   const carVariant=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G) return 'car_morning'; if(G.weather==='rain') return 'car_rain'; const h=G.hour%24; return (h>=18||h<6)?'car_night':'car_morning'; };
@@ -34,8 +36,9 @@ const OUT=(function(){
   const lateEnd=q=>t(q.day,q.h)+(q.late!=null?q.late:0.75);   /* late：開始後多久還能出發（小時；預設 45 分鐘。AA_154 2-1b 的聚會是 15 分鐘）*/
   /* 休學以後住在家裡（經濟系 Y0_MOVED_OUT，AA_154 1-3b、A46 ②）：所有出遊、約好的見面（含只帶到校園某處的 goto）從家裡出發＝捷運＋公車 約 30 分鐘、0.5 小時；問要不要出發的時間跟著提早。視訊不用出門 */
   const baseHome=G=>typeof HOME!=='undefined'&&HOME.baseMode&&HOME.baseMode(G)&&HOME.at&&HOME.at(G);
-  S.trip=(G,q,fromHome)=>(fromHome||baseHome(G))&&q.verb!=='接起來'&&q.place!=='視訊'?{travelH:0.5,travel:'捷運＋公車 約 30 分鐘'}:{travelH:q.travelH||0,travel:q.travel||''};
-  S.due=function(G){ const now=t(G.day,G.hour); return S.rec(G).find(q=>q.state==='planned'&&now>=t(q.day,q.h)-S.trip(G,q).travelH-0.25&&now<=lateEnd(q)&&(q.ask==null||now>=q.ask))||null; };
+  S.trip=(G,q,fromHome)=>(fromHome||baseHome(G))&&q.verb!=='接起來'&&q.place!=='視訊'?((q.travelH||0)>0.5?{travelH:q.travelH,travel:q.travel||''}:{travelH:0.5,travel:'捷運＋公車 約 30 分鐘'}):{travelH:q.travelH||0,travel:q.travel||''};   /* 比 30 分鐘遠的（例：政大 40 分鐘，A40）照原本的 */
+  const running=new Set();   /* 正在演的那一個（不存檔）：演完才標 done，演的途中不能再被叫出來 */
+  S.due=function(G){ const now=t(G.day,G.hour); return S.rec(G).find(q=>q.state==='planned'&&!running.has(q.id)&&now>=t(q.day,q.h)-S.trip(G,q).travelH-0.25&&now<=lateEnd(q)&&(q.ask==null||now>=q.ask))||null; };
   /* 過了時間（後 45 分鐘以上）還沒出發＝missed */
   S.expire=function(G){ const now=t(G.day,G.hour), out=[]; for(const q of S.rec(G)) if(q.state==='planned'&&now>lateEnd(q)){ q.state='missed'; out.push(q); } return out; };
   const evOf=id=>typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id===id)||null:null;
@@ -51,18 +54,25 @@ const OUT=(function(){
     if(k!==0){ q.state='missed'; S.onMissed(GM,q); return 'no'; }
     await S.go(GM,q); return 'go'; };
   /* 出發：轉場 → 抵達（不早於約好的時間）→ 演事件（深色底開始，避免看到原本的 3D 畫面）→ 時間往後 → 回到原本的地方 */
-  S.go=async function(GM,q,o){ const G=GM.G, ev=evOf(q.ev), tr=S.trip(G,q,o&&o.fromHome); q.state='done';   /* o.fromHome：從家裡的選單出發（選單先把「在家」關掉了）*/
+  S.go=async function(GM,q,o){ const G=GM.G, ev=evOf(q.ev), tr=S.trip(G,q,o&&o.fromHome);   /* o.fromHome：從家裡的選單出發（選單先把「在家」關掉了）*/
+    if(!q.goto&&ev&&typeof EVENTS!=='undefined'){ if(GM.autosave) GM.autosave(); running.add(q.id); } else q.state='done';   /* 出發前先存一次（使用者 2026-10-16：去政大找可昕跳回標題、自動存檔在出發前很久，要一直重來）；演完才標 done */
     if(q.goto){ await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title,tr.travel,2400); const arrive=Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)-(q.early||0)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.updateHUD) GM.updateHUD();
       if(GM.enter) await GM.enter(q.goto.zone,{x:q.goto.x,z:q.goto.z,yaw:q.goto.yaw||0,lv:q.goto.lv|0}); await GM.fade(false); if(GM.autosave) GM.autosave(); return true; }   /* goto：只帶到那個地點（3D 的事件在那裡等，例：v0 E12 醉月湖；AA_154 A32）；early＝比 h 早幾小時到 */
     if(!ev||typeof EVENTS==='undefined') return false;
+    GM.sceneBegin(); try{   /* 整趟出遊是一段劇情：路上、演完、回程的轉場中間，校園的自動事件（偶遇、打招呼）不能插進來（使用者 2026-10-16：和可昕走完「回到台大」就卡住，畫面疊了偶遇的旁白）*/
     await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title,tr.travel,2400);
-    const arrive=Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.updateHUD) GM.updateHUD();
+    const arrive=q.arrived?t(G.day,G.hour):Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.updateHUD) GM.updateHUD();
+    q.arrived=true; if(GM.autosave) GM.autosave(true);   /* 到了再存一次：中途被踢回標題，讀檔就是到了那裡、重新演這一段（不用再搭一次車）*/
     if(typeof ADV!=='undefined'){ ADV.begin({background:ev.background||'dark'}); }
     await GM.fade(false); if(typeof ev.beforeOuting==='function') await ev.beforeOuting(G,GM,q);   /* 演之前在同一個畫面先做的事（例：可昕的視訊讀書先選讀哪一科，BB_95 9-5）*/
-    await EVENTS.run(ev); if(typeof ev.afterOuting==='function') await ev.afterOuting(G,GM,q);   /* 演完以後在同一個畫面接著做的事（例：可昕的視訊之後發成績單）*/
+    try{ await EVENTS.run(ev); } finally { running.delete(q.id); } q.state='done'; delete q.arrived; if(typeof ev.afterOuting==='function') await ev.afterOuting(G,GM,q);   /* 演完以後在同一個畫面接著做的事（例：可昕的視訊之後發成績單）*/
+    const kxTail=(ev.participants||[]).includes('kexin')&&typeof STORY!=='undefined'&&typeof ADV!=='undefined'; if(kxTail) ADV.begin({background:ev.background||'dark',right:{charId:'kexin',expression:'neutral'}});   /* 演完以後和可昕的那幾句（沒回的訊息、閒聊階梯）還在政大：畫面留在那裡，不要露出原本的 3D（使用者 2026-10-16：她人根本不在這，對話還在）*/
+    if((ev.participants||[]).includes('kexin')&&typeof STORY!=='undefined'&&STORY.neededMiss) await STORY.neededMiss(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin');   /* 主線 4：上週的訊息沒回，見面的時候帶過一句（BB_97 11-2）*/
     if((ev.participants||[]).includes('kexin')&&typeof STORY!=='undefined'&&STORY.ladNext){ const md=q.verb==='接起來'||q.place==='視訊'?'video':'meet', st=STORY.ladNext(G,'kexin',md);   /* 可昕的閒聊階梯（BB_130：只在見面／視訊推進，路上不推進）：演完那一段接著聊一層；今天推進過或條件不到就不聊（不用短招呼）*/
       if(st) await STORY.ladPlay(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin',st); }
-    await GM.fade(true); GM.advance(ev.hours||2); await GM.fade(false); if(GM.caption&&!(o&&o.fromHome&&typeof HOME!=='undefined'&&HOME.baseMode&&HOME.baseMode(G))) GM.caption('',q.back||'回到台大。',2400);   /* 休學後從家裡出發的：回家（home3d.js 的選單接著）*/
+    if(kxTail&&ADV.active) ADV.end();
+    await GM.fade(true); GM.advance(ev.hours||2); await GM.fade(false); if(GM.caption&&!(o&&o.fromHome&&typeof HOME!=='undefined'&&(HOME.livesHome?HOME.livesHome(G):HOME.baseMode&&HOME.baseMode(G)))) GM.caption('',q.back||'回到台大。',2400);   /* 休學後從家裡出發的：回家（home3d.js 的選單接著）*/
+    } finally { GM.sceneEnd(); }
     if(GM.autosave) GM.autosave(); return true; };
   return S;
 })();

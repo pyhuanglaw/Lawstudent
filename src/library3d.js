@@ -33,7 +33,7 @@ const LB3=(function(){
       nav0.blockRect(sx*(S.railX-0.2+CO.x1+0.1)/2,(CO.z0+CO.z1)/2,CO.x1+0.1-(S.railX-0.2),CO.z1-CO.z0+0.04,0);   // 樓梯外側的實心核心（兩側一樓：書架牆）＋外側欄杆那一排
       nav0.blockRect((sd.x0+sd.x1)/2,SD.z1,sd.x1-sd.x0,0.3,0);                 // 兩側那一跑的最上面一階（5 m 高）面向大廳的那一排：第 0 層走到這裡要換到第 1 層，不能從大廳直接走進去
       nav0.blockRect(sx*(C.x1+S.sides[1].x0)/2,(C.z0+C.z1)/2,S.sides[1].x0-C.x1,C.z1-C.z0+0.04,0); }   // 中間那一跑和兩側之間的矮牆
-    for(const [x,z] of [[-CO.x1,U.band.z1],[CO.x1,U.band.z1],[-CO.x1,GT.z],[CO.x1,GT.z]]) nav0.blockCircle(x,z,0.35);   // 中庭四角的柱子
+    for(const [x,z] of [[-CO.x1,U.band.z1],[CO.x1,U.band.z1],[-CO.x1,GT.z],[CO.x1,GT.z]]) nav0.blockCircle(x,z,0.62);   // 中庭四角的柱子：柱座半徑 0.36＋半格（0.5 m 格子只看格子中心；原本 0.35 只擋到一兩格，斜著走會穿進柱子，使用者 2026-10-16 截圖）
     for(const sx of [-1,1]) nav0.blockRect(sx*V.x1,(V.z0+V.z1)/2,0.24,V.z1-V.z0+0.1,0);   // 門廳兩側的牆
     for(const px of GT.posts) nav0.blockRect(px,GT.z,GT.postW,GT.postD,0);                 // 入口閘門
     { const ep=GT.posts[GT.posts.length-1]; for(const sx of [-1,1]) nav0.blockRect(sx*(ep+V.x1)/2,GT.z,V.x1-ep,0.24,0); }

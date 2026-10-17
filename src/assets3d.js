@@ -82,6 +82,7 @@ const ASSETS = (function(){
     'bldg.cvs_interior':{url:'assets/models/env/second_ai/cvs_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/cvs_interior.py（日日便利室內（原名全日便利商店）；配置照 zones3d.js cvs 區塊；商品顏色是頂點色；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
     'bldg.noodle_interior':{url:'assets/models/env/second_ai/noodle_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/noodle_interior.py（阿鳳麵店室內；配置照 zones3d.js noodle 區塊；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
     'bldg.bookstore_interior':{url:'assets/models/env/second_ai/bookstore_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/bookstore_interior.py（舊路書房室內；配置照 zones3d.js bookstore 區塊；書背顏色是頂點色；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+    'bldg.dorm_room4':{url:'assets/models/env/second_ai/dorm_room4.glb', type:'building', lazy:true, source:'本作 Blender 腳本（LAWWW2-B，a09ebf4d；台大四人房：上舖床＋下面書桌四組、洗手間；配置 dorm_room4.layout.json＝src/data/dorm_room_layout.js；使用者 2026-10-17「宿舍ok」）', license:'本作；貼圖 CC0'},
     'bldg.dorm_interior':{url:'assets/models/env/second_ai/dorm_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/dorm_interior.py（宿舍雙人房室內；配置照 zones3d.js dorm 區塊；書與雜物的顏色是頂點色；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
     'prop.street':{url:'assets/models/env/second_ai/street_props.glb', type:'building', source:'本作 Blender 腳本 tools/blender/env_second/street_props.py（淑女車、路燈、公園長椅：W3.bike／W3.lampPost／長椅的正式模型；開機時預載，W3 的函式同步複製；鐵絲網與鋼絲貼圖本作程式產生、長椅木頭貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},   /* 這個不是 lazy（W3.lampPost()、W3.bike() 是同步建立的）；?nobldg 一樣會關掉 */
     'bldg.lawlib_interior':{url:'assets/models/env/lawlib_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/lawlib_interior.py（萬才館 法律學院圖書館：一樓櫃台、自習區、討論室、影印室、U 形樓梯、二樓藏書；配置讀 src/data/lawlib_layout.js；書＝一格書模組＋GPU instancing，書背圖集 tools/blender/env_second/lawlib_atlas.py；第二個 AI 製作）', license:'本作；貼圖 Poly Haven CC0；書背的字用文泉驛正黑畫成點陣圖'},
@@ -134,17 +135,38 @@ const ASSETS = (function(){
   A.bytes={done:0};
   function fetchBuf(url){ return fetch(url).then(r=>{ if(!r.ok) throw new Error('http '+r.status); if(!r.body||!r.body.getReader) return r.arrayBuffer().then(b=>{ A.bytes.done+=b.byteLength; return b; });
     const rd=r.body.getReader(), parts=[]; let len=0; const pump=()=>rd.read().then(({done,value})=>{ if(done){ const u8=new Uint8Array(len); let o=0; for(const c of parts){ u8.set(c,o); o+=c.length; } return u8.buffer; } parts.push(value); len+=value.length; A.bytes.done+=value.length; return pump(); }); return pump(); }); }
+  /* 手機貼圖上限（P0 BUG-IOS-RELOAD，使用者 2026-10-16：iPhone 一直被踢回標題＝Safari 記憶體不夠重新載入分頁）：
+     量過校園約 262 MB、溫州街約 275 MB 的貼圖（含 mipmap 估算），還沒算人物。手機上顏色貼圖最大 1024、法線／粗糙度這類資料貼圖最大 512（看不太出差別、記憶體少 4 倍）。
+     在第一次畫出來（上傳 GPU）之前縮；同一張圖只縮一次。網址 ?texfull＝不縮；?texcap＝桌機也縮（測試用）。 */
+  A.texCap=(()=>{ try{ const q=location.search||''; if(/[?&]texfull/.test(q)) return null; const ua=navigator.userAgent||''; const mobile=/iPhone|iPad|iPod|Android|Mobile/i.test(ua)||(navigator.maxTouchPoints>1&&/Macintosh/.test(ua)); return (mobile||/[?&]texcap/.test(q))?{color:1024,data:512}:null; }catch(e){ return null; } })();
+  const TEX_KEYS=['map','emissiveMap','normalMap','roughnessMap','metalnessMap','aoMap','bumpMap','alphaMap','lightMap','shadeMultiplyTexture','shadingShiftTexture','rimMultiplyTexture','matcapTexture','outlineWidthMultiplyTexture','uvAnimationMaskTexture'];
+  const capDone=new WeakSet(), capImg=new Map();
+  A.capTextures=function(root){ const cap=A.texCap; if(!cap||!root||typeof document==='undefined') return 0; let n=0;
+    root.traverse(o=>{ const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms){ if(!m) continue; for(const k of TEX_KEYS){ const t=m[k]; if(!t||!t.isTexture||capDone.has(t)) continue; capDone.add(t); const im=t.image; const w=im&&(im.width||im.videoWidth||0), h=im&&(im.height||0); const lim=(k==='map'||k==='emissiveMap'||k==='matcapTexture')?cap.color:cap.data;
+      if(!w||!h||Math.max(w,h)<=lim||t.isCanvasTexture||t.isDataTexture) continue; const key=im; let c=capImg.get(key)&&capImg.get(key)[lim];
+      if(!c){ const sc=lim/Math.max(w,h); c=document.createElement('canvas'); c.width=Math.max(1,Math.round(w*sc)); c.height=Math.max(1,Math.round(h*sc)); try{ c.getContext('2d').drawImage(im,0,0,c.width,c.height); }catch(e){ continue; } const o2=capImg.get(key)||{}; o2[lim]=c; capImg.set(key,o2); }
+      if(c._bmResult){ t.image=c._bmResult; t.needsUpdate=true; n++; continue; }   /* 同一張原圖已經縮好、換成 bitmap 了 */
+      t.image=c; t.needsUpdate=true; n++; (c._capTex||(c._capTex=[])).push(t); toBitmap(c); } } }); A.capped=(A.capped|0)+n; return n; };
+  /* 縮好的 canvas 換成 ImageBitmap、canvas 釋放：iOS Safari 的 2D canvas 有總量上限（超過整個 canvas 會變黑，懷疑和 BUG-MAPBLACK「按地圖變黑」有關）；ImageBitmap 不算在內。
+     先用 canvas 上傳（第一次畫就是縮過的），bitmap 好了再換一次；context 掉了恢復時 bitmap 還在，可以重新上傳。 */
+  function toBitmap(c){ if(c._bm||typeof createImageBitmap!=='function') return; c._bm=true; createImageBitmap(c).then(bm=>{ c._bmResult=bm; for(const t of (c._capTex||[])){ if(t.image===c){ t.image=bm; t.needsUpdate=true; } } c._capTex=null; c.width=1; c.height=1; }).catch(()=>{}); }
   A.loadOne=function(key){ const m=A.manifest[key]; if(!m) return Promise.reject(new Error('unknown asset '+key)); if(A.cache[key]) return Promise.resolve(A.cache[key]); if(A.status[key]) return A.status[key];
     const b64ToBuf=(data)=>{ const bin=atob(data); const buf=new ArrayBuffer(bin.length); const u8=new Uint8Array(buf); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i); return buf; };
-    A.status[key]=new Promise((res,rej)=>{ const done=(gltf)=>{ try{ if(m.type==='character'||m.type==='clips'||m.type==='building'){ A.cache[key]={gltf,scene:gltf.scene,animations:gltf.animations}; }   /* building：建築正式模型（遊戲座標、不縮放）*/ else { A.cache[key]=normalize(key,gltf); } res(A.cache[key]); }catch(e){ rej(e); } }; const fail=(e)=>{ A.errors.push(key+': '+(e&&e.message||e)); rej(e); };
+    A.status[key]=new Promise((res,rej)=>{ const done=(gltf)=>{ try{ A.capTextures(gltf.scene); if(m.type==='character'||m.type==='clips'||m.type==='building'){ A.cache[key]={gltf,scene:gltf.scene,animations:gltf.animations}; }   /* building：建築正式模型（遊戲座標、不縮放）*/ else { A.cache[key]=normalize(key,gltf); } res(A.cache[key]); }catch(e){ rej(e); } }; const fail=(e)=>{ A.errors.push(key+': '+(e&&e.message||e)); rej(e); };
       if(m.type==='vrm'){ // VRM：只 parse 一次。第一個實例用原本的 VRM（表情、彈簧骨、視線）；之後的實例用骨架 clone（共用幾何與貼圖，手機記憶體才夠）
-        const setup=(buf)=>A.parseVRM(buf).then(x=>{ const rest=THREE_JSM.SkeletonUtils.clone(x.vrm.scene); copyColliderShapes(x.vrm.scene,rest); const rig=rest.getObjectByName('VRMHumanoidRig'); if(rig&&rig.parent) rig.parent.remove(rig); A.cache[key]={vrm:true,tpl:{vrm:x.vrm,gltf:x.gltf,inUse:false,full:true},rest,clones:[]}; res(A.cache[key]); });
+        const setup=(buf)=>A.parseVRM(buf).then(x=>{ A.capTextures(x.vrm.scene); const rest=THREE_JSM.SkeletonUtils.clone(x.vrm.scene); copyColliderShapes(x.vrm.scene,rest); const rig=rest.getObjectByName('VRMHumanoidRig'); if(rig&&rig.parent) rig.parent.remove(rig); A.cache[key]={vrm:true,tpl:{vrm:x.vrm,gltf:x.gltf,inUse:false,full:true},rest,clones:[]}; res(A.cache[key]); });
         const dataV=window.ASSET_DATA&&window.ASSET_DATA[m.url]; if(dataV){ setup(b64ToBuf(dataV)).catch(fail); return; }
         fetchBuf(m.url).then(setup).catch(()=>{ fetch(m.url+'.json').then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.json(); }).then(j=>setup(b64ToBuf(j.b64))).catch(fail); }); return; }
       const data=window.ASSET_DATA&&window.ASSET_DATA[m.url]; if(data){ loader().parse((m.url.endsWith('.glb')||m.url.endsWith('.vrm'))?b64ToBuf(data):data,'',done,fail); return; }
       // 1) 直接抓 .glb；2) 失敗（例如平台不提供 .glb）改抓同名 .glb.json（{b64}）
       fetchBuf(m.url).then(buf=>loader().parse(buf,'',done,fail)).catch(()=>{ fetch(m.url+'.json').then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.json(); }).then(j=>loader().parse(b64ToBuf(j.b64),'',done,fail)).catch(fail); }); });
     return A.status[key]; };
+  /* 一定要載到（使用者 2026-10-17：「不管怎麼樣都不能讓遊戲進入自動退化成醜的模型」）：沒有時間上限；下載或解析失敗就清掉狀態、
+     等一下重抓（2、4、8、16、30 秒…），直到成功。onProgress(已完成, 總數, 最近一次的錯誤或 null)。開遊戲、開始、繼續都用這個等人物（game3d.js）*/
+  A.lastErr=null;
+  A.ensure=function(keys,onProgress){ keys=keys.filter(k=>A.manifest[k]); const total=keys.length; let done=keys.filter(k=>A.cache[k]).length; const report=()=>{ if(onProgress){ try{ onProgress(done,total,A.lastErr); }catch(e){} } };
+    const one=k=>new Promise(res=>{ if(A.cache[k]){ res(); return; } let wait=2000; const go=()=>{ A.loadOne(k).then(()=>{ done++; report(); res(); }).catch(e=>{ A.lastErr=k+': '+(e&&e.message||e); delete A.status[k]; report(); setTimeout(go,wait); wait=Math.min(30000,wait*2); }); }; go(); });
+    report(); return Promise.all(keys.map(one)).then(()=>{ A.lastErr=null; report(); }); };
   // 預載：每個資產有時間上限（預設 20 秒；VRM 30 秒；capMs 可覆寫）。逾時的資產先用 placeholder，背景繼續載；載好之後從 timedOut 拿掉，
   // 已經用 placeholder 建立的人物由 game3d.js 的 upgradeModels 原地換成正式模型（2026-10-10：原本下載完也不會換回來）
   A.timedOut=[];

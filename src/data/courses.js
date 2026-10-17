@@ -33,7 +33,7 @@ const COURSES={
     // ---- 經濟系大一（2024 學年，v0；AA_106 2-2：經濟學原理在博雅、初等會計學在普通【已定案】，其他是遊戲安排【虛構】；AA_154 1-1 的停課照 calendar.js）----
     /* 課堂內容：BB 的 syllabus（Y0S1、Y0S2；經原、通識、會計有每週內容，其他是台詞池）。休學（Y0S2 第 6 週 E30，Y0_LEFT）以後 Y0S2 的課不排（classes3d.js 的 enrolled；法學緒論也不上）。
        老師：經原＝魏宏仁（AA_159，prof_wei 人物資料之後接）；其他不具名。法學緒論＝黃素芬（現有教授）*/
-    {id:'econ_principles_y0',name:'經濟學原理（上）',kind:'required',term:'Y0S1',prof:null,profName:'魏宏仁',room:'BOYA',slots:[{wd:1,block:'am'}],topics:['供給與需求','市場與價格','彈性','消費者','生產與成本','市場結構'],specials:[{w:2,title:'你放棄了什麼（機會成本）',story:true},{w:15,title:'囚犯困境',story:true},{w:16,title:'市場失靈',story:true}]},
+    {id:'econ_principles_y0',name:'經濟學原理（上）',kind:'required',term:'Y0S1',prof:null,profName:'魏宏仁',room:'BOYA',slots:[{wd:1,block:'am'}],topics:['供給與需求','市場與價格','彈性','消費者','生產與成本','市場結構'],specials:[{w:2,title:'你放棄了什麼（機會成本）',story:true},{w:14,title:'囚犯困境',story:true},{w:15,title:'市場失靈',story:true}]},
     {id:'acct_y0',name:'初等會計學（上）',kind:'required',term:'Y0S1',prof:null,profName:'會計老師',room:'PUTONG',slots:[{wd:4,block:'pm1'}],topics:['會計恆等式','分錄','試算表','財務報表'],specials:[{w:1,title:'宿舍是資產還是負債',story:true}]},
     {id:'calc_y0s1',name:'微積分',kind:'required',term:'Y0S1',prof:null,profName:'數學系老師',room:'GONGTONG',slots:[{wd:3,block:'am'}],topics:['極限','導數','積分']},
     {id:'chinese_y0',name:'大一國文',kind:'general',term:'Y0S1',prof:null,profName:'國文老師',room:'BOYA',slots:[{wd:2,block:'am'}],topics:['現代散文','古典詩文','寫作練習']},
@@ -64,8 +64,8 @@ const COURSES={
     {id:'english_y1',name:'大一英文（上）',kind:'general',term:'Y1S1',prof:null,profName:'英文老師',room:'GONGTONG',slots:[{wd:4,block:'am'}],topics:['閱讀','聽力','口頭報告']},
     {id:'civ_general',name:'民法總則',kind:'required',term:'Y1S1',prof:'prof_zhou',room:'L201',slots:[{wd:4,block:'pm1'}],
      topics:['民法的結構','權利主體：權利能力','權利主體：行為能力','物','法律行為','意思表示','代理','時效'],
-     specials:[{w:3,title:'網拍相機',story:true,storyDay2:true},{w:12,title:'兩個人都簽了，為什麼還可能無效'},{w:14,title:'周教授的正反辯論',story:true}]},
-    {id:'econ_principles_1',name:'經濟學原理（上）',kind:'required',retake:true,term:'Y1S1',prof:null,profName:'經濟系老師',room:'PUTONG',slots:[{wd:5,block:'am'}],topics:['供給與需求','市場與價格','彈性'],specials:[{w:3,title:'第一次走進這門課',story:true},{w:4,title:'價格管制（分組）'}]},   /* 重修（使用者 2026-10-13：經濟系休學沒拿到學分）；上下兩學期（使用者定案，AA_107 1-2a）。
+     specials:[{w:1,title:'網拍相機',story:true,storyDay2:true},{w:12,title:'兩個人都簽了，為什麼還可能無效'},{w:14,title:'周教授的正反辯論',story:true}]},
+    {id:'econ_principles_1',name:'經濟學原理（上）',kind:'required',retake:true,term:'Y1S1',prof:null,profName:'經濟系老師',room:'PUTONG',slots:[{wd:5,block:'am'}],topics:['供給與需求','市場與價格','彈性'],specials:[{w:1,title:'第一次走進這門課',story:true},{w:4,title:'價格管制（分組）'}]},   /* 重修（使用者 2026-10-13：經濟系休學沒拿到學分）；上下兩學期（使用者定案，AA_107 1-2a）。
        第 3 週＝BB_105 P4「第二次大一」的那一堂（BB 的 syllabus 標 special）：事件要使用者批准才做，現在照 BB 的備用內容上普通的課 */
     // ---- 大一下（2026 春）----
     {id:'const_2',name:'憲法（下）',kind:'required',term:'Y1S2',prof:'prof_zhang',room:'L201',slots:[{wd:1,block:'am'}],topics:['基本權（續）','權力分立（續）','憲法訴訟入門']},
@@ -77,7 +77,7 @@ const COURSES={
     {id:'oblig_gen1',name:'民法債編總論（一）',kind:'required',term:'Y1S2',prof:'prof_zhou',room:'L201',slots:[{wd:4,block:'pm1'}],topics:['債的發生：契約成立（要約與承諾）','無因管理','不當得利概論'],specials:[{w:3,title:'網拍相機的回聲'}]},
     {id:'econ_principles_2',name:'經濟學原理（下）',kind:'required',retake:true,term:'Y1S2',prof:null,profName:'經濟系老師',room:'PUTONG',slots:[{wd:5,block:'am'}],topics:['國民所得','物價與失業','成長與利率','貨幣與央行','開放經濟','景氣與政策']},   /* 下學期是總體經濟（AA 2026-10-13：原本的個體經濟題目和 BB 的大一下課堂內容對不上）；上下兩學期是使用者定案 */
     // ---- 大二上（2026 秋）----
-    {id:'admin_law',name:'行政法',kind:'required',term:'Y2S1',prof:'prof_xu',room:'L201',slots:[{wd:1,block:'am'}],topics:['行政行為','行政處分','行政契約','依法行政'],specials:[{w:11,title:'國家賠償'}]},
+    {id:'admin_law',name:'行政法',kind:'required',term:'Y2S1',prof:'prof_xu',room:'L201',slots:[{wd:1,block:'am'}],topics:['行政行為','行政處分','行政契約','依法行政'],specials:[{w:11,title:'國家賠償'},{w:12,title:'撤銷與信賴保護（以安站機關那邊）',story:true}]},
     {id:'japanese_1',name:'日文（上）',kind:'elective',term:'Y2S1',prof:null,profName:'日文老師',room:'GONGTONG',slots:[{wd:1,block:'pm1'}],topics:['五十音','打招呼','自我介紹']},   /* 遊戲安排（使用者 2026-10-13：大二上下是遊戲安排的候選，不是真實修課年份）*/
     {id:'pe_y2s1',name:'體育',kind:'general',term:'Y2S1',prof:null,room:'GYM',slots:[{wd:1,block:'pm2'}],topics:['桌球','籃球','體適能']},
     /* 服務學習（二）（AA_110 6-1，AA 暫定）：週三下午二（下午一原本是法理學，2026-10-14 刪除），椰林大道、醉月湖的校園環境；每次的一句 AA 大二前再補（現在用一般句子）*/

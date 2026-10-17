@@ -105,8 +105,8 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('13. 大一下（一學期一個檔）：用大一下的檔、從第 1 層開始；大一上的進度不動、大一下另外記（id@Y1S2）',
       ok===true&&(st.if||st.week||st.location||st.time?true:lines().join('').includes((STORY.ladLines(st)[0]||'').t||STORY.ladLines(st)[0]))&&(G.social.ladder[PS]|0)===y1&&(G.social.ladder[PS+'@Y1S2']|0)<=1,
       JSON.stringify({ok,y1:G.social.ladder[PS],y2:G.social.ladder[PS+'@Y1S2'],said:lines().slice(0,2)})); }
-  fresh(termDay('Y2S1',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); meet(PS); R(PS,12); said=[];
-  check('13b. 大二上（沛珊還沒有階梯檔）：ladderTalk 回 false（照舊閒聊）',(await STORY.ladderTalk(GM,who,PS))===false&&said.length===0);
+  { const ZR='heroine_02'; fresh(termDay('Y3S1',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); meet(ZR); R(ZR,12); said=[];   /* 大三上芷若在英國（BB_113 第 0 節）：那一學期沒有她的階梯檔 */
+    check('13b. 那一學期沒有這個人的階梯檔（大三上的芷若）：ladderTalk 回 false（照舊閒聊）',!(LADDER.byTerm.Y3S1||{})[ZR]&&(await STORY.ladderTalk(GM,who,ZR))===false&&said.length===0); }
   fresh(termDay('Y2S1',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); said=[];
   check('13c. 大二上以安有檔（AA_141）：資料讀得到、key 是 heroine_01@Y2S1',!!(STORY.ladData(G,'heroine_01')&&STORY.ladData(G,'heroine_01').key==='heroine_01@Y2S1'));
   // any：語彤 Y-L1＝雨天總圖門口或麵店那一次
@@ -147,10 +147,10 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     said=[]; fresh(termDay('Y1S2',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); meet('heroine_01'); R('heroine_01',30,10,10);
     picks=[0]; await STORY.ladPlay(GM,{name:'沈以安',charId:'heroine_01'},'heroine_01',A3);
     check('21. ladPlay 實際播出來的也是原本的 lines',lines().join('｜').includes(A3.lines[0])&&!lines().join('｜').includes('杜鵑花謝了'),lines().slice(0,2).join('｜')); }
-  { const SIS='heroine_05', DUTY=LADDER.byTerm.Y1S2[SIS].greet.when.find(w=>w.weekParity==='odd').t; let even=0, odd=0;
-    for(let w=1;w<=15;w++){ fresh(termDay('Y1S2',w,6),9,'campus',{introDone:true,classDone:true,afternoonDone:true}); const got=[]; for(let k=0;k<4;k++) got.push(STORY.ladGreet(G,SIS));
-      if(got.includes(DUTY)){ if(w%2) odd++; else even++; } }
+  { const SIS='heroine_05', DUTY=LADDER.byTerm.Y1S2[SIS].greet.when.find(w=>w.weekParity==='odd').t; let even=0, odd=0, duty=0, offDuty=0;
+    for(let w=1;w<=15;w++){ fresh(termDay('Y1S2',w,6),9,'campus',{introDone:true,classDone:true,afternoonDone:true}); const isDuty=STORY.fafuDuty(G); if(isDuty) duty++; const got=[]; for(let k=0;k<4;k++) got.push(STORY.ladGreet(G,SIS));
+      if(got.includes(DUTY)){ if(w%2) odd++; else even++; if(!isDuty) offDuty++; } }
     check('22. 學姊大一下的「今天法服值班」（weekParity odd）：雙週六不出現',even===0,'雙週出現 '+even+' 次');
-    check('22. 單週六上午會出現',odd>=7,'單週出現 '+odd+' 次'); }
+    check('22. 真的值班的週六（S.fafuDuty：第 3 週起的單週、考試週和假日不值班，BB_170 第 16 列）幾乎都會出現，不值班的週六不出現',odd>=duty-1&&duty>=5&&offDuty===0,'單週出現 '+odd+' 次、值班 '+duty+' 次、不值班卻出現 '+offDuty); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();

@@ -10,7 +10,7 @@
    cap：這個人的階段在台詞上最多算到哪裡（學姊：W8「今天先不改了」ev_sis_collapse 以前一律算「有點熟」，BB_120 1-1）。
    台詞的格式：字串以（開頭＝旁白，其他＝那個人說的話；{n:'…',solo:true}＝任一方有伴侶時拿掉的旁白；{name}＝玩家的名字。 */
 const REL_LINES=(function(){
-  const W8=G=>typeof EVENTS!=='undefined'&&!!EVENTS.cond&&EVENTS.cond({events:['ev_sis_collapse']});
+  const W8=G=>typeof STORY!=='undefined'&&STORY.sisW8?STORY.sisW8(G):(typeof EVENTS!=='undefined'&&!!EVENTS.cond&&EVENTS.cond({events:['ev_sis_collapse']}));   /* AA_177 第 8 節①：W8 演過，或過了大二上第 12 週 */
   const tutorNight=G=>[2,4,6].includes(G.weekday);   /* 明軒二四六晚上家教（BB_120 1-7b 他的那一句） */
   return {
   /* ---------- AA 的六位（AA_124 1-6） ---------- */
@@ -84,7 +84,7 @@ const REL_LINES=(function(){
     up:{ FAMILIAR:{l:['「這行，我抄在筆記本第一頁。『問題比答案活得久。』」']}, FRIEND:{l:['「今天從你開始。這週學到、考試不會考的。」']},
       CLOSE_FRIEND:{l:['「今天換你問。我回答。」'],ch:[{t:'妳為什麼念法律？',r:['「……好問題。我還在找。」']},{t:'妳睡得好嗎？',r:['「……不好。今天會。」']},{t:'妳現在開心嗎？',r:['「……我想一下。」','「嗯。現在開心。」']}]} },
     bye:{base:['「我回去想一想。今天的問題太多了。」'],FRIEND:['「下次我少問一點。……騙你的。」'],CLOSE_FRIEND:['「下次換你帶問題來。」']},
-    contact:{base:'郭沛珊（迎新小組）',FRIEND:'沛珊'},
+    contact:{base:'郭沛珊（宿營小隊）',FRIEND:'沛珊'},
     meet:{ cafe:{A:'她問了你十一個問題。你答了三個。',F:'她帶了一本書，念到喜歡的地方就念一句給你聽。',R:'她今天一個問題也沒問，只是坐著翻書。'},
       library:{A:'她在書頁的空白處寫字，寫得比正文還多。',F:'她把一頁折起來，說等一下要問你。後來她忘了。',R:'閉館的廣播響了，她才抬頭。'},
       noodle:{A:'她問阿鳳阿姨，店為什麼叫阿鳳。',F:'她吃得很慢。你沒有催她。',R:'阿鳳阿姨講了店名的由來。她說她要記下來。'},

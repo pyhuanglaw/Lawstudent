@@ -38,7 +38,7 @@ const CROWD=(function(){
       out.push({ id:L.id+'_'+w.room, zone:L.id, lv:w.lv|0, label:L.name+' '+w.room+' 門口', c:[w.x,w.z], spread:[1.0,0.45], door:insideDoor(r), doorLv:r.lv|0, road:[ex.x,ex.z-0.7], roadLv:0, seatRoom:w.room, mix:true,
         slots(G){ const o=[]; if(typeof CLS!=='undefined') for(const it of CLS.dayItems(G)){ if(it.room.zone!==this.zone||it.room.room!==this.seatRoom) continue;
             o.push({key:'pre|'+it.key,cls:it.key,t0:it.t0-1/3,t1:it.t0,n:[2,4],pose:'idle',talk:0.5,enter:'road',leave:'seat'}); o.push({key:'post|'+it.key,t0:it.t1,t1:it.t1+1/6,n:[2,4],pose:'talk',talk:0.8,enter:'door',leave:'road'}); }
-          if(typeof ACTIVITIES!=='undefined') for(const a of ACTIVITIES.list){ if(a.zone!==this.zone||a.room!==this.seatRoom||!ACTIVITIES.on(a,G.day)) continue; const k='act:'+a.id+':'+G.day;
+          if(typeof ACTIVITIES!=='undefined') for(const a of ACTIVITIES.list){ if(a.zone!==this.zone||a.room!==this.seatRoom||!ACTIVITIES.on(a,G.day,G)) continue; const k='act:'+a.id+':'+G.day;
             o.push({key:'pre|'+k,cls:k,t0:a.t0-0.25,t1:a.t0,n:[3,6],pose:'talk',talk:0.6,enter:'road',leave:'seat'}); o.push({key:'post|'+k,t0:a.t1,t1:a.t1+0.25,n:[3,6],pose:'talk',talk:0.8,enter:'door',leave:'road'}); }
           return o.sort((p,q)=>p.t0-q.t0); } }); }
     return out; };
