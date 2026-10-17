@@ -6327,6 +6327,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "AA-C 05:11Z、05:12Z 更正；blob e40e0862 核對一致；只匯入這一檔｜LAWWW-C 匯入（只有芷若、子晴變動），ladder_y1s2_y2s1_unit 第 6 項"
+  },
+  {
+   "id": "DL-LW2-SOCSCI1F",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "906beabe",
+   "what": "社科院大樓一樓室內 socsci_bldg1f.glb＋layout.json（大廳、電梯、樓梯間、系辦、101 教室；MODEL_READY）",
+   "task": "SCN-V0-01",
+   "msg": "ACK",
+   "integration": "不整合",
+   "note": "使用者 2026-10-17 05:4x（對 AA-C）：「社科院不做 3D 室內」→ SCN-V0-01 已取消（AA_173 第 1 節）。LAWWW2-C 05:17Z 交件時還沒收到取消通知。成果保留在 LAWWW2 分支（不刪），使用者改變決定時可以直接接"
   }
  ],
  "ignored": [
