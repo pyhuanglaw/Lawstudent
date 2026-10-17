@@ -15500,6 +15500,27 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "FLOW-LBREAK-1017",
+   "title": "瀏覽器流程 tests/flow_law_break.py 照 AA_197 1-1～1-3 重寫（寒假住宿舍、床的快轉、從宿舍回家、家裡快轉到除夕、2/22 回宿舍住；原本強制回家的流程作廢）",
+   "area": "TEST",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "07e45b42 改了寒暑假流程，舊的 flow_law_break.py（1/5 起床自動回家、一路過幾天、2/22 明天開學字卡）會失敗；下一批瀏覽器回歸前改寫。",
+   "first": {
+    "term": "Y1S1",
+    "week": 17,
+    "earliest": "大一寒假第一天",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "HOLIDAY-SYS 07e45b42",
+   "authorized": "D83 測試"
   }
  ]
 }

@@ -78,7 +78,7 @@ GM.money=function(n){ G.money+=n; };
     const O=HOME.ffOpts(G); check('6. 快轉四個選項：到下一個有事的日子／過三天／過一週／不用了',JSON.stringify(O.map(o=>o.t))===JSON.stringify(['到下一個有事的日子','過三天','過一週','不用了']),JSON.stringify(O.map(o=>[o.t,o.hint])));
     picks=['過三天']; cards=[]; said=[]; const ADVb=ADV.begin; let advN=0; ADV.begin=()=>{ advN++; }; await HOME.ffMenu(GM,'dorm'); ADV.begin=ADVb;
     const m14=(G.msgs||[]).find(m=>m.text==='測試：1/14 22:30 的訊息');
-    check('6. 過三天：中間的 1/14 22:30 訊息照時間收進來；1/15 的出遊先停（字卡寫「宿舍」、沒有 2D 背景、沒有家裡的旁白）',!!m14&&m14.day===D('2026-01-14')&&G.day===D('2026-01-15')&&G.hour<15&&cards.length===1&&cards[0][1]==='宿舍'&&advN===0&&!lines().some(t=>/家裡|媽媽/.test(t)),JSON.stringify([cards,G.day-D('2026-01-15'),G.hour,lines()]));
+    check('6. 過三天：中間的 1/14 22:30 訊息照時間收進來；1/15 的出遊先停（字卡寫「宿舍」、沒有 2D 背景、宿舍版旁白 AA_183 4-b「年前，宿舍的公告欄…」）',!!m14&&m14.day===D('2026-01-14')&&G.day===D('2026-01-15')&&G.hour<15&&cards.length===1&&cards[0][1]==='宿舍'&&advN===0&&!lines().some(t=>/家裡|媽媽/.test(t))&&lines().includes('年前，宿舍的公告欄貼了一張紅紙：除夕到初三，餐廳不開。'),JSON.stringify([cards,G.day-D('2026-01-15'),G.hour,lines()]));
     OUT.get(G,'t_lb_out').state='missed'; picks=['過一週']; cards=[]; await HOME.ffMenu(GM,'dorm');
     check('6. 過一週：1/20 18:30（摘要日）先停',G.day===D('2026-01-20')&&Math.abs(G.hour-18.5)<1e-6,JSON.stringify([G.day-D('2026-01-20'),G.hour]));
     picks=['不用了']; const d0=G.day; await HOME.ffMenu(GM,'dorm'); check('6. 不用了：時間不動',G.day===d0&&Math.abs(G.hour-18.5)<1e-6); }

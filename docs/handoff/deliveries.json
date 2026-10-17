@@ -6678,6 +6678,32 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "芷若英國日期另影響 ROUTE／absentDates，排進 BB204-EXROUTE 那批"
+  },
+  {
+   "id": "DL-AA-95c6a870",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "95c6a870",
+   "what": "AA_183 4-b 宿舍的快轉旁白（寒假、暑假各四格＋同一段又跳一次）",
+   "task": "HOLIDAY-SYS",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "home3d BREAK_SKIP_DORM；law_break_unit 第 6 項"
+  },
+  {
+   "id": "DL-AA-0c092c47",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "0c092c47",
+   "what": "AA_216 以安、語彤大一就可能交往 52 項：ladder_aa_y3s1.json（A5-L2／A5-L8 交往版、出發 3/25、美國 8/2）、ladder_aa_y4s2.json（A8-L6、Y8-L2、Y8-L4 交往版）、AA_11 語彤事件 12～15 交往版、交接包_v5 以安新 18 交往版、AA_187 大三下日期、AA_123 前任版、AA_210 窗口改學期末",
+   "task": "ROM-1017",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "階梯兩個 JSON 匯入前加 story_import_allow；其他排進對應學年"
   }
  ],
  "ignored": [

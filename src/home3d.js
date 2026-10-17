@@ -208,9 +208,13 @@ const HOME=(function(){
     if(B.to-mid<7) return 3; return eve!=null&&mid<eve?1:3; };
   /* 和上一次同一格（同一句）時改說這一句（AA-B acf89d8a，AA_183 第 4 節）；這一句這個假也用過了＝只有字卡 */
   S.BREAK_SKIP_EXTRA={winter:'棉被曬過一次，又收了起來。',summer:'午後雷陣雨。下完，又出太陽。'};
-  S.breakSkipLine=function(G,t0,t1){ const H=S.rec(G), B=S.lawBreak(G); if(!B) return null; if(!H.bskip||H.bskip.key!==B.key) H.bskip={key:B.key,n:0,last:-1}; const i=S.breakSkipIdx(G,Math.floor((t0+t1)/48),B);
-    if(i<0) return null; if(i===H.bskip.last){ if(H.bskip.extra) return null; H.bskip.extra=true; H.bskip.n++; return S.BREAK_SKIP_EXTRA[B.kind]; }
-    H.bskip.last=i; H.bskip.n++; return S.BREAK_SKIP[B.kind][i]; };
+  /* 宿舍的快轉旁白（AA_183 4-b，AA-C 95c6a870）：挑法一樣，另外記 bskipD；寒假「除夕到初二」那格只給初一、初二回宿舍的（除夕 17:00 照規則先回家）*/
+  S.BREAK_SKIP_DORM={winter:['寒假的宿舍。走廊的燈只開一半。','年前，宿舍的公告欄貼了一張紅紙：除夕到初三，餐廳不開。','初二。宿舍的餐廳沒開，你在便利商店買了一份年菜便當。','寒假的最後一週。室友一個一個回來，走廊又有了腳步聲。'],
+    summer:['暑假的宿舍。蟬叫得比上課鐘還準時。','七月。冷氣卡要儲值了，你一次加了一千。','八月。颱風那一晚，宿舍停電，整層樓的人都跑到走廊吹風。','暑假的最後幾天。新生的家長推著行李車，從樓下經過。']};
+  S.BREAK_SKIP_DORM_EXTRA={winter:'棉被從櫃子裡拿出來，就沒再收回去。',summer:'洗衣間的烘衣機排了三個人。你決定明天再來。'};
+  S.breakSkipLine=function(G,t0,t1,o){ o=o||{}; const H=S.rec(G), B=S.lawBreak(G); if(!B) return null; const k=o.dorm?'bskipD':'bskip'; if(!H[k]||H[k].key!==B.key) H[k]={key:B.key,n:0,last:-1}; const R=H[k], i=S.breakSkipIdx(G,Math.floor((t0+t1)/48),B);
+    if(i<0) return null; if(i===R.last){ if(R.extra) return null; R.extra=true; R.n++; return (o.dorm?S.BREAK_SKIP_DORM_EXTRA:S.BREAK_SKIP_EXTRA)[B.kind]; }
+    R.last=i; R.n++; return (o.dorm?S.BREAK_SKIP_DORM:S.BREAK_SKIP)[B.kind][i]; };
   /* 大一下有在做的打工（家教 JOB_TUTOR；溫州街三家等 DL-10 的 JOBS）*/
   const hasJob=G=>!!(G.flags&&G.flags.JOB_TUTOR)||(typeof JOBS!=='undefined'&&JOBS.any&&!!JOBS.any(G));
   const setTime=(G,E,tt)=>{ const d=Math.floor(tt/24); if(d>G.day){ G.day=d; G.weekday=wdOf(d); G.energy=100; G.flags.companion=null; G.weather=(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(d))?'rain':(Math.random()<0.7?'clear':'cloudy'); } G.hour=tt-d*24; if(E) E.hour=G.hour; };
@@ -227,14 +231,14 @@ const HOME=(function(){
     for(const p of P){ if(p.k==='lottery'||p.k==='lottery3'){ phoneTick(GM); await GM.say(null,p.k==='lottery'?'換一層樓，換一個房間。':'換一層樓，換一個房間。三年，第三個房間。'); }   /* AA_183 3-2（大二）；AA_170 第 2 節（大三，2026-10-16 改「換一層樓」）*/
       if(p.k==='sum'&&G.day===DK('2026-07-20')&&hasJob(G)) await GM.say(null,'暑假的班照排。你從家裡搭捷運去上班。'); } };   /* 大一暑假 7/20：大一下有打工的玩家多一句（AA_183 3-2）*/
   /* ===== 快轉（AA_197 1-2）：宿舍的床、家裡的選單。到下一個有事的日子／過三天／過一週／不用了；中間有事（表上的日子、成績公布、出遊、當面約）先停 =====
-     快轉的上限：放假最後一天 12:00（主線 3 搬房間那天＝那個時間）。宿舍的快轉沒有旁白（AA_183 第 4 節的四句是家裡的，宿舍版等 AA）*/
+     快轉的上限：放假最後一天 12:00（主線 3 搬房間那天＝那個時間）。旁白：家裡＝AA_183 第 4 節、宿舍＝4-b */
   S.ffEnd=function(G,B){ B=B||S.lawBreak(G); if(!B) return null; return Math.min(S.breakEnd(G,B),T(B.to,12)); };
   S.ffOpts=function(G){ const B=S.lawBreak(G); if(!B||(G.stage||'law')!=='law') return null; const now=T(G.day,G.hour), end=S.ffEnd(G,B); if(end==null||end<=now+0.5) return null;
     const nx=S.breakNext(G,now), to=nx!=null&&nx<end?nx:end, d3=Math.min(T(G.day+3,8.5),end), d7=Math.min(T(G.day+7,8.5),end);
     return [{t:'到下一個有事的日子',hint:(nx!=null&&nx<end?'跳到 ':'沒有排定的事：到 ')+dateLabel(to),to},{t:'過三天',hint:'到 '+dateLabel(d3)+'（中間有事會先停）',to:d3},{t:'過一週',hint:'到 '+dateLabel(d7)+'（中間有事會先停）',to:d7},{t:'不用了',to:null}]; };
   S.ffMenu=async function(GM,where){ const G=GM.G, O=S.ffOpts(G); if(!O) return false; const dorm=where==='dorm'; if(dorm) GM.sceneBegin();
     try{ const o=O[await GM.choose(O.map(x=>({t:x.t,hint:x.hint})))]; if(!o||o.to==null||o.to<=T(G.day,G.hour)) return false;
-      const d0=G.day, t0=T(G.day,G.hour), t1=await S.breakJump(GM,o.to,{dorm}); if(!dorm){ const l=S.breakSkipLine(G,t0,t1); if(l) await GM.say(null,l); }
+      const d0=G.day, t0=T(G.day,G.hour), t1=await S.breakJump(GM,o.to,{dorm}); { const l=S.breakSkipLine(G,t0,t1,{dorm}); if(l) await GM.say(null,l); }   /* 宿舍版旁白 AA_183 4-b */
       await S.breakArrive(GM); if(G.day>d0&&typeof CLS!=='undefined'&&CLS.morning&&typeof CALENDAR!=='undefined'){ try{ await CLS.morning(GM); }catch(e){ console.warn('HOME ff CLS.morning',e); } }   /* 成績、選課（放假最後一天）照早上那一套 */
       return true; }
     finally{ if(dorm) GM.sceneEnd(); } };
