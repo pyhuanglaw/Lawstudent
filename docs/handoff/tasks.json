@@ -12134,9 +12134,9 @@
    "title": "按地圖後地圖變黑、回到遊戲人物變黑色剪影、畫面一塊全黑（iPhone）",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "查打開地圖時做了什麼（大地圖另開 renderer／render target？貼圖重建？），重現 WebGL context lost；修好後 iPhone 模擬＋真機請使用者確認；2026-10-16 23:2x：大地圖每打開一次就新開一張導航格 canvas 不釋放、入口標籤換色也不釋放 canvas、小地圖換區域不釋放 → 改成每個導航格只畫一張、換區域釋放、關地圖釋放大地圖畫布（guide3d.js、game3d.js）。待瀏覽器確認（打開地圖 5 次 canvas 數不增加）＋使用者 iPhone",
+   "next": "修正 b3d67056（LAWWW-B）：導航格圖每區只畫一張、關地圖釋放大地圖畫布、換區域釋放。瀏覽器回歸 tests/map_canvas_leak.py（0227c771，開關 5 次＋換區域 canvas 不增加）排在 QA 第三批；之後發版請使用者 iPhone 實機確認",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12148,7 +12148,11 @@
     "confirmed": true
    },
    "source": "使用者 2026-10-16 21:5x 試玩截圖",
-   "authorized": "使用者（bug 回報）"
+   "authorized": "使用者（bug 回報）",
+   "sha": [
+    "0227c771",
+    "b3d67056"
+   ]
   },
   {
    "id": "BUG-WZFLICKER",
