@@ -18,24 +18,24 @@ def _box(a, r):
     return c[2 * r + 1:, 2 * r + 1:] - c[:-2 * r - 1, 2 * r + 1:] - c[2 * r + 1:, :-2 * r - 1] + c[:-2 * r - 1, :-2 * r - 1]
 
 
-def kuwahara(rgb, r=4):
-    """rgb：H×W×3（0～1）。四個 (r+1)² 的象限，取亮度變異數最小的那一個的平均顏色"""
-    H, W = rgb.shape[:2]; lum = rgb @ np.array([0.299, 0.587, 0.114])
-    # 每個象限＝以 (y±r/2, x±r/2) 為中心、半徑 r/2 的方塊
-    h = r // 2
-    sl = _box(lum, h) / ((2 * h + 1) ** 2); sl2 = _box(lum * lum, h) / ((2 * h + 1) ** 2); sc = _box(rgb, h) / ((2 * h + 1) ** 2)
-    best = np.full((H, W), np.inf); out = np.zeros_like(rgb)
+def kuwahara(rgb, r=4, q=6.0):
+    """平滑版 Kuwahara：四個象限（半徑 h＝r/2 的方塊，中心在 (±h, ±h)）的平均顏色，用 1/(1+K·變異數)^q 加權（變異數小＝平坦的那一側權重大）。
+    第二版（2026-10-17）：第一版每個像素硬選一個象限，招牌字、磁磚縫被切成一格一格的方塊"""
+    H, W = rgb.shape[:2]; lum = rgb @ np.array([0.299, 0.587, 0.114]); h = max(1, r // 2); n = float((2 * h + 1) ** 2)
+    sl = _box(lum, h) / n; sl2 = _box(lum * lum, h) / n; sc = _box(rgb, h) / n
+    var = np.maximum(sl2 - sl * sl, 0.0); K = 1.0 / max(1e-6, float(np.median(var)) * 4 + 1e-4)
+    acc = np.zeros_like(rgb); wsum = np.zeros((H, W))
     for dy in (-h, h):
         for dx in (-h, h):
             ys = np.clip(np.arange(H) + dy, 0, H - 1); xs = np.clip(np.arange(W) + dx, 0, W - 1)
-            var = (sl2 - sl * sl)[ys][:, xs]; col = sc[ys][:, xs]
-            m = var < best; best = np.where(m, var, best); out = np.where(m[..., None], col, out)
-    return out
+            w = 1.0 / (1.0 + K * var[ys][:, xs]) ** q
+            acc += sc[ys][:, xs] * w[..., None]; wsum += w
+    return acc / wsum[..., None]
 
 
-def paint(im, r=4, warm=0.06, cool=0.05, sat=1.08, bloom=0.22, vign=0.10, size=None):
-    a = np.asarray(im.convert('RGB'), np.float64) / 255.0
-    a = kuwahara(a, r)
+def paint(im, r=4, warm=0.06, cool=0.05, sat=1.08, bloom=0.22, vign=0.10, size=None, mix=0.65):
+    a0 = np.asarray(im.convert('RGB'), np.float64) / 255.0
+    a = a0 * (1 - mix) + kuwahara(a0, r) * mix                  # 筆觸和原圖混合：字、細的線條留著
     lum = a @ np.array([0.299, 0.587, 0.114])
     # 冷暖：暗部 (−, −, +)、亮部 (+, 0, −)
     sh = np.clip(1 - lum / 0.45, 0, 1)[..., None]; hi = np.clip((lum - 0.55) / 0.45, 0, 1)[..., None]

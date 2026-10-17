@@ -42,7 +42,7 @@ M = {'grass': L.pbr('pg_grass', 'grass_ground', tile=4.0, target='#6f8a4a', norm
      'curtain': L.flat('pg_curtain', '#d9c99a', rough=0.9), 'door': L.flat('pg_door', '#6c8a6e', rough=0.5),
      'steel': L.flat('pg_steel', '#c43a2e', rough=0.45, metal=0.2), 'pole': L.flat('pg_pole', '#d8d8d4', rough=0.35, metal=0.4),
      'flag': L.flat('pg_flag', '#d8d8d4', rough=0.4), 'roof': L.flat('pg_roof', '#8a8478', rough=0.85),
-     'mtn_near': L.flat('pg_mtn1', '#5b7a52', rough=1.0), 'mtn_far': L.flat('pg_mtn2', '#7f9aa8', rough=1.0), 'wall': L.flat('pg_wall', '#e8e2d2', rough=0.85)}
+     'mtn_near': L.flat('pg_mtn1', '#5f7f56', rough=1.0), 'mtn_mid': L.flat('pg_mtn2', '#7f9a86', rough=1.0), 'mtn_far': L.flat('pg_mtn3', '#a9bcc4', rough=1.0), 'wall': L.flat('pg_wall', '#e8e2d2', rough=0.85)}
 
 # ---------------- 地面：草地操場、紅跑道（直道＋彎道）、校舍前的水泥地 ----------------
 m = Mesh('ground', M['grass']); m.box(-120, 120, -0.05, 0.0, -140, 60); m.finish()
@@ -74,8 +74,6 @@ def track_mesh():
 
 
 track_mesh()
-m = Mesh('field_wear', M['dirt'])                                                                    # 草地中間踩禿的一塊、跑道內緣
-m.box(-14, 2, 0.004, 0.008, -14, -6); m.finish()
 
 # ---------------- 校舍：兩層、長條（x −46～16）、前面走廊 2.6 m、柱距 3.6 m、二樓走廊矮牆＋綠色欄杆 ----------------
 BX0, BX1, BZ = -46.0, 16.0, -34.0          # BZ＝走廊外緣（朝操場）；教室在 BZ−2.6 以後
@@ -163,8 +161,8 @@ for nm in list(play):
     if nm not in ('PARK_SLIDE', 'PARK_SPRING_A', 'PARK_SPRING_B', 'PARK_SANDBOX', 'park_play_props'): continue
 root = play.get('park_play_props')
 if root is not None: root.location = (0, 0, 0)
-put('PARK_SLIDE', 9.5, -4.0, math.radians(-150), 1.15)
-put('PARK_SPRING_A', 12.6, -6.4, math.radians(-35)); put('PARK_SPRING_B', 13.6, -5.2, math.radians(-60)); put('PARK_SANDBOX', 13.0, -1.5, math.radians(10))
+put('PARK_SLIDE', 5.5, -9.5, math.radians(-150), 1.15)
+put('PARK_SPRING_A', 9.0, -12.0, math.radians(-35)); put('PARK_SPRING_B', 10.2, -11.0, math.radians(-60)); put('PARK_SANDBOX', 9.6, -7.6, math.radians(10))
 # ---------------- 樹（street_trees.glb：榕樹、樟樹、椰子）、遠山、圍牆 ----------------
 before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=os.path.join(ENV2, 'street_trees.glb'))
 TL = {}
@@ -186,7 +184,7 @@ def tree(key, x, z, s=1.0, yaw=0.0):
     dup(src, root)
 
 
-tree('tree_banyan_a', 16.5, -9.0, 1.25, 0.6)                    # 溜滑梯旁的大榕樹
+tree('tree_banyan_a', 13.5, -14.0, 1.25, 0.6)                   # 溜滑梯旁的大榕樹
 tree('tree_banyan_a', -34.0, -23.0, 1.1, 2.1)
 for k, x in enumerate(np.arange(-44, -8, 7.5)): tree('tree_camphor_a' if k % 2 else 'tree_camphor_b', x + rng.uniform(-1, 1), 9.0 + rng.uniform(-1, 1), rng.uniform(0.9, 1.1), rng.uniform(0, 6))   # 鏡頭後面那一排（影子）
 for x in (-40.0, -26.0, 20.0): tree('tree_palm_a', x, -36.5, 0.9, rng.uniform(0, 6))
@@ -197,7 +195,7 @@ m = Mesh('school_wall', M['plaster']); m.box(-60, 60, 0, 1.6, -48, -47.7); m.box
 def hills(name, mat, z, base, amp, seed, x0=-260, x1=260, n=80, depth=6.0):
     r_ = random.Random(seed); bm = bmesh.new(); xs = np.linspace(x0, x1, n)
     ph = [r_.uniform(0, 6) for _ in range(4)]
-    def h(x): return base + amp * (0.55 * math.sin(x / 47 + ph[0]) + 0.3 * math.sin(x / 19 + ph[1]) + 0.15 * math.sin(x / 7.3 + ph[2]) + 0.6)
+    def h(x): return base + amp * (0.55 * math.sin(x / 70 + ph[0]) + 0.3 * math.sin(x / 31 + ph[1]) + 0.12 * math.sin(x / 13 + ph[2]) + 0.7)   # 第二版：緩一點（第一版有尖峰、像一棟灰藍色的大樓）
     top = [bm.verts.new(g2b(x, h(x), z)) for x in xs]; bot = [bm.verts.new(g2b(x, -1, z)) for x in xs]
     top2 = [bm.verts.new(g2b(x, h(x) * 0.96, z - depth)) for x in xs]
     for i in range(n - 1):
@@ -206,8 +204,68 @@ def hills(name, mat, z, base, amp, seed, x0=-260, x1=260, n=80, depth=6.0):
     ob = bpy.data.objects.new(name, me); sc.collection.objects.link(ob); return ob
 
 
-hills('hills_near', M['mtn_near'], -120, 10, 26, 3)
-hills('hills_far', M['mtn_far'], -230, 30, 50, 7)
+hills('hills_near', M['mtn_near'], -130, 14, 16, 3, n=140)
+hills('hills_mid', M['mtn_mid'], -200, 26, 24, 5, n=140)
+hills('hills_far', M['mtn_far'], -300, 40, 38, 7, x0=-420, x1=420, n=160)   # 第三版：高一點（第二版被校舍擋住、看不到山）
+
+
+def tex_cloud(path, seed, W_=512, H_=256):
+    from PIL import Image as PI
+    r_ = np.random.default_rng(seed); a = np.zeros((H_, W_))
+    for k, sz in enumerate((4, 8, 16, 32, 64)):
+        g = r_.random((H_ // (256 // sz) + 2, W_ // (256 // sz) + 2)); g = np.asarray(PI.fromarray((g * 255).astype(np.uint8)).resize((W_, H_), PI.BICUBIC), float) / 255
+        a += g / (1.6 ** k)
+    a = (a - a.min()) / (a.max() - a.min())
+    yy, xx = np.mgrid[0:H_, 0:W_]; env = np.exp(-(((xx - W_ / 2) / (W_ * 0.36)) ** 2 + ((yy - H_ * 0.58) / (H_ * 0.30)) ** 2))
+    al = np.clip((a * env - 0.18) * 3.0, 0, 1)
+    rgb = np.stack([0.97 - 0.12 * (yy / H_), 0.97 - 0.10 * (yy / H_), 0.98 - 0.06 * (yy / H_)], -1)
+    PI.fromarray((np.concatenate([rgb, al[..., None]], -1) * 255).astype(np.uint8), 'RGBA').save(path)
+
+
+def billboard(name, path, x, y, z, w, h, emit=0.6):
+    mt = bpy.data.materials.new(name); mt.use_nodes = True; nt_ = mt.node_tree; b_ = nt_.nodes['Principled BSDF']
+    tx = nt_.nodes.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(path)
+    nt_.links.new(tx.outputs['Color'], b_.inputs['Base Color']); nt_.links.new(tx.outputs['Alpha'], b_.inputs['Alpha'])
+    nt_.links.new(tx.outputs['Color'], b_.inputs['Emission Color']); b_.inputs['Emission Strength'].default_value = emit; b_.inputs['Roughness'].default_value = 1.0
+    try: mt.surface_render_method = 'BLENDED'
+    except Exception: pass
+    bm_ = bmesh.new(); vs = [bm_.verts.new(g2b(*p)) for p in ((x - w / 2, y - h / 2, z), (x + w / 2, y - h / 2, z), (x + w / 2, y + h / 2, z), (x - w / 2, y + h / 2, z))]; f = bm_.faces.new(vs)
+    uv = bm_.loops.layers.uv.new()
+    for lp, t in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[uv].uv = t
+    me_ = bpy.data.meshes.new(name); bm_.to_mesh(me_); bm_.free(); me_.materials.append(mt)
+    ob_ = bpy.data.objects.new(name, me_); sc.collection.objects.link(ob_); ob_.visible_shadow = False; return ob_
+
+
+TMPC = os.path.join(os.path.dirname(os.path.abspath(OUT)), 'bg_play_tex'); os.makedirs(TMPC, exist_ok=True)
+for k, (x, y, z, w_, h_) in enumerate(((-260, 150, -560, 300, 110), (60, 185, -600, 260, 90), (330, 140, -540, 280, 100), (-60, 110, -520, 200, 60))):
+    pth = os.path.join(TMPC, 'cloud%d.png' % k); tex_cloud(pth, 30 + k); billboard('cloud%d' % k, pth, x, y, z, w_, h_)
+
+
+def tex_streak(path, seed, W_=512, H_=256):
+    from PIL import Image as PI
+    r_ = np.random.default_rng(seed); al = np.zeros((H_, W_))
+    for _ in range(26):
+        x = r_.uniform(0, W_); w = r_.uniform(4, 22); L_ = r_.uniform(0.3, 1.0) * H_; k = r_.uniform(0.25, 0.7)
+        xx = np.arange(W_)[None, :]; yy = np.arange(H_)[:, None]
+        al = np.maximum(al, k * np.exp(-((xx - x) / w) ** 2) * np.clip(1 - yy / L_, 0, 1) ** 1.3)
+    al = np.maximum(al, 0.35 * np.clip(1 - np.arange(H_)[:, None] / (0.12 * H_), 0, 1) * np.ones((1, W_)))
+    rgb = np.ones((H_, W_, 3)) * np.array([0.30, 0.28, 0.24])
+    PI.fromarray((np.concatenate([rgb, al[..., None]], -1) * 255).astype(np.uint8), 'RGBA').save(path)
+
+
+pth = os.path.join(TMPC, 'streak.png'); tex_streak(pth, 9)
+smt = bpy.data.materials.new('pg_streak'); smt.use_nodes = True; snt = smt.node_tree; sb_ = snt.nodes['Principled BSDF']
+stx = snt.nodes.new('ShaderNodeTexImage'); stx.image = bpy.data.images.load(pth); snt.links.new(stx.outputs['Color'], sb_.inputs['Base Color']); snt.links.new(stx.outputs['Alpha'], sb_.inputs['Alpha']); sb_.inputs['Roughness'].default_value = 0.9
+for y_top, hh in ((FH + 0.62, 0.80), (2 * FH + 0.35, 0.53)):          # 二樓矮牆＋樓板、屋頂矮牆＋樓板（實心的部分）：雨水流下來的黑色水痕（第三版：第一、二版校舍太新）
+    x = BX0
+    while x < BX1:
+        w_ = rng.uniform(5.0, 9.0); x1_ = min(BX1, x + w_)
+        bm_ = bmesh.new(); vs = [bm_.verts.new(g2b(*p)) for p in ((x, y_top - hh, BZ + 0.004), (x1_, y_top - hh, BZ + 0.004), (x1_, y_top, BZ + 0.004), (x, y_top, BZ + 0.004))]; f = bm_.faces.new(vs)
+        uv = bm_.loops.layers.uv.new(); u0_ = rng.random() * 0.5
+        for lp, t in zip(f.loops, ((u0_, 0), (u0_ + 0.5, 0), (u0_ + 0.5, 1), (u0_, 1))): lp[uv].uv = t
+        me_ = bpy.data.meshes.new('streak'); bm_.to_mesh(me_); bm_.free(); me_.materials.append(smt)
+        ob_ = bpy.data.objects.new('streak', me_); sc.collection.objects.link(ob_)
+        x = x1_ + rng.uniform(0.5, 3.0)
 
 # ---------------- 光：春天上午（太陽在右前方、偏高）、天空 ----------------
 w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; nt = w.node_tree
@@ -226,9 +284,9 @@ sun.rotation_euler = (math.radians(52), 0, math.radians(-30))
 # 遠山的空氣感：一層淡藍的霧（體積太慢：用遠山的材質本身處理，這裡只加一點世界的霧）
 
 # ---------------- 鏡頭：站在操場東南角的跑道外，往西北看：溜滑梯在右前方、司令台和校舍在後面、山在最後 ----------------
-eye = tuple(map(float, opt('--eye', '18.5,1.55,7.5').split(','))); look = tuple(map(float, opt('--look', '-2.0,3.2,-24.0').split(',')))
+eye = tuple(map(float, opt('--eye', '13.0,1.6,-1.0').split(','))); look = tuple(map(float, opt('--look', '-6.0,3.2,-30.0').split(',')))   # 第二版：站在草地上（第一版站在跑道外，前景整片紅色）
 cam = bpy.data.objects.new('cam', bpy.data.cameras.new('cam')); sc.collection.objects.link(cam); sc.camera = cam
-cam.data.lens = float(opt('--lens', '24')); cam.data.sensor_width = 36; cam.location = g2b(*eye)
+cam.data.lens = float(opt('--lens', '26')); cam.data.sensor_width = 36; cam.location = g2b(*eye)
 cam.rotation_euler = (g2b(*look) - g2b(*eye)).to_track_quat('-Z', 'Y').to_euler()
 cam.data.clip_end = 900
 sc.render.filepath = os.path.abspath(OUT); sc.render.image_settings.file_format = 'PNG'
