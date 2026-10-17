@@ -38,9 +38,9 @@ const ADV2=global.ADV; ADV2.active=false;
   delete G.contacts.heroine_03; check('1. 沒有聯絡方式：照 INV.whyNot 的原因',!DATE.canAsk(G,'heroine_03').ok); G.contacts.heroine_03=1;
   // 學姊：筆試（2026-02-02）以前告白會被婉拒、不鎖線（使用者 2026-10-17 P0：她一開始就沒有男朋友；BB_122 ★-1、★-2）
   { const r5=SOCIAL.rel('heroine_05'); Object.assign(r5,{fam:70,trust:55,comf:50,npcRom:60,rom:35}); const L5=DATE.log(G,'heroine_05'); L5.count=4; L5.wish=true; const d0=G.day, w0=G.weekday, exam=STORY.dayOfKey('2026-02-02');
-    G.day=exam-10; const a=DATE.canConfess(G,'heroine_05'); G.day=exam+1; const b=DATE.canConfess(G,'heroine_05'); G.day=d0; G.weekday=w0;
+    G.day=exam-10; const a=DATE.canConfess(G,'heroine_05'); G.day=exam+1; const b=DATE.canConfess(G,'heroine_05'); G.day=STORY.dayOfKey('2026-03-23'); const c=DATE.canConfess(G,'heroine_05'); G.day=d0; G.weekday=w0;
     check('1. 學姊：沒有伴侶（canAsk 不會說她有交往的對象）',!/交往的對象/.test(DATE.canAsk(G,'heroine_05').why||''),JSON.stringify(DATE.canAsk(G,'heroine_05')));
-    check('1. 學姊：筆試以前條件到齊＝告白選項照樣出現、她婉拒（decline:preexam，不鎖線）；筆試以後照一般條件',a.ok&&a.decline==='preexam'&&b.ok&&!b.decline,JSON.stringify([a,b])); }
+    check('1. 學姊：筆試以前＝婉拒（preexam）；筆試後、放榜前＝也婉拒（prerank，AA_223 @8dac7e49）；放榜（3/23）以後照一般條件；都不鎖線',a.ok&&a.decline==='preexam'&&b.ok&&b.decline==='prerank'&&c.ok&&!c.decline,JSON.stringify([a,b,c])); }
   { const exam=STORY.dayOfKey('2026-02-02'), d0=G.day, h0=G.hour; G.day=exam; G.hour=12; DATE.tick(GM); const a=!!G.flags.SIS_EXAM_DONE; G.hour=17.5; G.dateLog._daily=null; DATE.tick(GM); const b=!!G.flags.SIS_EXAM_DONE; G.day=d0; G.hour=h0; delete G.flags.SIS_EXAM_DONE;
     check('1. 學姊筆試考完：2/2 中午還沒、2/2 17:00 以後設 SIS_EXAM_DONE（學姊心願 D15 的條件，BB-C 68f18538）',!a&&b,JSON.stringify([a,b])); }
   // ---------- 2 衝突檢查 ----------

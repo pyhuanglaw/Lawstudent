@@ -76,8 +76,10 @@ const ADV2=global.ADV; ADV2.active=false;
     check('10. 學姊筆試前：三選一（「我們可以不只是直屬嗎？」）→ 婉拒三句 →「好。」→「嗯。明天八點，法圖。」、記 SIS_DECLINED_PREEXAM、沒有交往',r.O.some(o=>o.includes('「我們可以不只是直屬嗎？」'))&&r.L.includes('溫書瑀：可是我現在不想交往。考完試以前，我只想把書讀完。')&&r.L.includes('溫書瑀：嗯。明天八點，法圖。')&&!!G.flags.SIS_DECLINED_PREEXAM&&!G.flags.dating_heroine_05,JSON.stringify(r.L.slice(-6)));
     G.day+=15; G.weekday=wdOf(G.day); r=await go('heroine_05',['河邊欄杆','差不多了','告訴她','我喜歡妳。」']);
     check('10. 筆試前再說一次：「我上次說的，現在還是一樣。」「不是你不好。……」',r.L.includes('溫書瑀：我上次說的，現在還是一樣。')&&!G.flags.dating_heroine_05,JSON.stringify(r.L.slice(-4)));
-    G.day=STORY.dayOfKey('2026-03-02'); G.weekday=wdOf(G.day); DATE.log(G,'heroine_05').notYet=null; r=await go('heroine_05',['河邊欄杆','差不多了','告訴她','我喜歡妳。」']); const iH=r.L.indexOf('溫書瑀：好。');
-    check('10. 筆試後：「時間差不多了。……」→ 答應，婉拒過的人「好。」前多「你上次說的，我有記得。」、交往中',G.flags.dating_heroine_05===true&&r.L.includes('溫書瑀：時間差不多了。……你剛剛好像一直想講什麼。')&&iH>0&&r.L[iH-1]==='溫書瑀：你上次說的，我有記得。',JSON.stringify(r.L.slice(-6))); }
+    G.day=STORY.dayOfKey('2026-03-02'); G.weekday=wdOf(G.day); DATE.log(G,'heroine_05').notYet=null; { const rp=await go('heroine_05',['河邊欄杆','差不多了','告訴她','我喜歡妳。」']); check('10. 筆試後、放榜前（3/2）：她也婉拒「考完了，可是還沒放榜。……」「等放榜好不好？……」、記 SIS_DECLINED_PRERANK、沒有交往（AA_223 @8dac7e49）',rp.L.includes('溫書瑀：考完了，可是還沒放榜。我現在每天都在想那個數字。')&&rp.L.includes('溫書瑀：等放榜好不好？放榜以後，你再跟我說一次。')&&G.flags.SIS_DECLINED_PRERANK===G.day&&!G.flags.dating_heroine_05,JSON.stringify(rp.L.slice(-4)));
+      G.day+=15; G.weekday=wdOf(G.day); const rp2=await go('heroine_05',['河邊欄杆','差不多了','告訴她','我喜歡妳。」']); check('10. 放榜前再說一次：「還沒放榜啦。……我說過的，等放榜。」',rp2.L.includes('溫書瑀：還沒放榜啦。……我說過的，等放榜。')&&!G.flags.dating_heroine_05,JSON.stringify(rp2.L.slice(-3))); }
+    G.day=STORY.dayOfKey('2026-03-24'); G.weekday=wdOf(G.day); DATE.log(G,'heroine_05').notYet=null; r=await go('heroine_05',['河邊欄杆','差不多了','告訴她','我喜歡妳。」']); const iH=r.L.indexOf('溫書瑀：好。');
+    check('10. 放榜後（3/24）：「時間差不多了。……」→ 答應，婉拒過的人「好。」前多「你上次說的，我有記得。」、交往中',G.flags.dating_heroine_05===true&&r.L.includes('溫書瑀：時間差不多了。……你剛剛好像一直想講什麼。')&&iH>0&&r.L[iH-1]==='溫書瑀：你上次說的，我有記得。',JSON.stringify(r.L.slice(-6))); }
   // 芷若：第一句不綁約會內容（AA_223 第 2 節 @32424049）；有看電影的約會換「今天的電影」
   fresh(day,9,'dorm',{}); ready('heroine_02',{count:4}); { const Z=CONFESS_LINES.heroine_02;
     check('10. 芷若：淡水也出現、第一句「今天很開心。……」；西門町電影院（D04）＝「今天的電影還不錯。……」',DATE.confessReady(G,'heroine_02',{who:'heroine_02',locs:['D13']}).ok&&DATE.confessReady(G,'heroine_02',{who:'heroine_02',locs:['D04']}).ok&&Z.say(G,{locs:['D13']})[0]==='今天很開心。……你要說什麼？'&&Z.say(G,{locs:['D04']})[0]==='今天的電影還不錯。……你要說什麼？'); }
@@ -89,7 +91,7 @@ const ADV2=global.ADV; ADV2.active=false;
   check('10. 扭蛋不算吃東西；芋圓、飲料攤算',!DATE.ate({spots:['D03.gacha','D03.arcade']})&&DATE.ate({spots:['D18.snack']})&&DATE.ate({spots:['D13.drink']}));
   // 沛珊：重考期間不願意
   { fresh(termDay('Y2S1',8,6),9,'dorm',{PEISHAN_RETAKE:true}); ready('classmate_peishan'); r=await go('classmate_peishan',['河邊欄杆','差不多了','告訴她','朋友']);
-    check('10. 沛珊重考期（大二上第 8 週、PEISHAN_RETAKE）：選項出現、她說「我現在要先顧考試……」、沒有交往、兩週冷卻',r.L.includes('郭沛珊：我現在要先顧考試，沒辦法想這個。對不起。')&&!G.flags.dating_classmate_peishan&&DATE.confessReady(G,'classmate_peishan',{who:'classmate_peishan',locs:['D13']}).why==='notYet',JSON.stringify(r.L.slice(-3)));
+    check('10. 沛珊重考期（大二上第 8 週、PEISHAN_RETAKE）：不出現一般告白選項（改用特別場面，AA_223 @52702c92）、沒有交往',!r.O.some(o=>o[0]==='（告訴她）')&&!G.flags.dating_classmate_peishan&&DATE.confessReady(G,'classmate_peishan',{who:'classmate_peishan',locs:['D13']}).why==='hidden',JSON.stringify(r.O.slice(-2)));
     fresh(day,9,'dorm',{}); ready('classmate_peishan',{count:4}); check('10. 沛珊大一下（和柏翰交往的期間，AA_223 第 4 節）：不出現（她自己有伴侶）',DATE.confessReady(G,'classmate_peishan',{who:'classmate_peishan',locs:['D13']}).why==='partner');
     fresh(termDay('Y1S1',12,6),9,'dorm',{}); ready('classmate_peishan'); r=await go('classmate_peishan',['河邊欄杆','差不多了','告訴她','我喜歡妳。」']);
     check('10. 沛珊大一上：「今天謝謝你約我。……」→ 答應四句、交往中',G.flags.dating_classmate_peishan===true&&r.L.includes('郭沛珊：今天謝謝你約我。……你要講什麼嗎？')&&r.L.includes('郭沛珊：好啦。好。以後我會一直問你問題喔。'),JSON.stringify(r.L.slice(-6))); }
@@ -107,6 +109,6 @@ const ADV2=global.ADV; ADV2.active=false;
   { fresh(termDay('Y2S1',8,6),9,'dorm',{PEISHAN_RETAKE:true}); ready('classmate_peishan'); atConfess={id:'classmate_peishan',v:60}; const L=DATE.log(G,'classmate_peishan'); L.notYetN=2;
     r=await go('classmate_peishan',['河邊欄杆','差不多了','告訴她','朋友']);
     atConfess=null;
-    check('11. 第三次也要她當時願意：沛珊重考期（還沒過兩次）＝照樣不願意、不算進「還沒」的次數',!G.flags.dating_classmate_peishan&&r.L.includes('郭沛珊：我現在要先顧考試，沒辦法想這個。對不起。')&&L.notYetN===2); }
+    check('11. 第三次也要她當時願意：沛珊重考期（還沒過兩次）＝照樣不出現選項、不算進「還沒」的次數',!G.flags.dating_classmate_peishan&&!r.O.some(o=>o[0]==='（告訴她）')&&L.notYetN===2); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
