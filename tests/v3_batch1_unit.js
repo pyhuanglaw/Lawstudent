@@ -86,6 +86,11 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   fresh(d25-1,20,'dorm',{}); G.stage='law'; run(20,21.1); G.day=d25; G.hour=18.3; OUT.expire(G); run(18.3,21.6);
   check('8. 沒去：21:30 照片「（兩個烤肉架，少一支夾子。）」',txt('p:zhe').some(t=>t==='zhe:📷（兩個烤肉架，少一支夾子。）'));
   const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); EVENTS.bind(GM); run(21.6,23); check('9. 存讀檔後不重發',(G.msgs||[]).filter(m=>/少一支夾子/.test(m.text)).length===1);
+  // 10a. 語彤不在法服（AA_255 第 4 節第 2 點、AA_259 第 4 節第 3 點；STORY.YT_FAFU 固定 'no'）：9/26 不演、不記 YT_LEGALAID_Y2；週六 9～12 在麵店
+  { const dd=dk('2026-09-26'); fresh(dd,9.5,'wancai',{}); G.stage='law'; at(0.5,2.2); const t0=tick(); fresh(dd,13,'dorm',{}); G.stage='law'; run(13,13.1);
+    const sn=CHARACTERS.heroine_03.daily_schedule.find(q=>q.zone==='noodle'&&q.days.includes(6)&&q.from===9), sw=CHARACTERS.heroine_03.daily_schedule.find(q=>q.zone==='wancai'&&q.days.includes(6));
+    check('10a. 語彤不在法服：9/26 萬才館不演事件 7、不記 YT_LEGALAID_Y2；週六 9～12 在麵店（萬才館那一格不成立）',STORY.YT_FAFU==='no'&&!t0&&!G.flags.YT_LEGALAID_Y2&&!!sn&&sn.to===12&&sn.if.custom({day:dd,stage:'law',flags:{}})&&!sw.if.custom({day:dd,stage:'law',flags:{}})); }
+  STORY.YT_FAFU='yes';   /* 下面是事件 7 原本的內容（企劃保留）：只在 YT_FAFU='yes' 時演 */
   // 10. 語彤事件 7 法服的第一次值班（9/26）
   const d26=dk('2026-09-26'); check('10. 9/26 是大二上第 3 週週六、法服值班日（單週）',CALENDAR.termOf(d26).week===3&&CALENDAR.dateOf(d26).wd===6&&!!STORY.fafuDuty({day:d26,stage:'law',flags:{}}));
   check('10. 語彤的作息：值班的週六 9～12 在萬才館一樓（國定假日不值班）',(()=>{ const sc=CHARACTERS.heroine_03.daily_schedule.find(q=>q.zone==='wancai'&&q.days.includes(6)); return !!sc&&sc.from===9&&sc.to===12&&sc.if.custom({day:d26,stage:'law',flags:{}})&&!sc.if.custom({day:d26-7,stage:'law',flags:{}})&&!sc.if.custom({day:d26+7,stage:'law',flags:{}})&&!sc.if.custom({day:d26+14,stage:'law',flags:{}})&&sc.if.custom({day:d26+28,stage:'law',flags:{}}); })());   /* 10/10 國慶日不值班（AA_184），10/24 照常 */
@@ -105,6 +110,6 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   fresh(w4,18,'noodle',{YT_DUTY_SEEN:true}); G.stage='law'; R('heroine_03',...LV.FAM); meet('heroine_03'); GM.npc.heroine_03=yt; E.npcs=[yt]; at(1.5,0.5); check('11. 在場看過的不轉述',!tick());
   fresh(w4,18,'noodle',{}); G.stage='law'; R('heroine_03',...LV.ACQ); meet('heroine_03'); GM.npc.heroine_03=yt; E.npcs=[yt]; at(1.5,0.5); check('11. 只是認識（沒有有點熟）不轉述',!tick());
   fresh(w4+7,18,'noodle',{}); G.stage='law'; R('heroine_03',...LV.FAM); meet('heroine_03'); GM.npc.heroine_03=yt; E.npcs=[yt]; at(1.5,0.5); check('11. 第 5 週不轉述（只在第 4 週）',!tick());
-  GM.npc={}; E.npcs=[];
+  GM.npc={}; E.npcs=[]; STORY.YT_FAFU='no';
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

@@ -15563,9 +15563,9 @@
    "title": "AA_255 大二下審稿（5bb04c15）第 4 節程式清單：ladder Y2S2 重新匯入（AA ladder_aa_y2s2 重建；BB 等 SHA；LADDER_REPLY_IF 兩個 key）、語彤不在法服（story3d 9/26 YT_LEGALAID_Y2 改讀 YT_FAFU、FAFU_YT 不播、characters 週六改麵店）、沛珊大二下第 1 週起聯絡不到（訊息事件邀約回覆不發）、學姊 M2／M3／上榜聚餐 2026 年不在大二下播、W3b 不發、子晴 zq_dad／zq_name 加看過 Q6、AA_179 手機訊息換句（zhe_deposit、zhe_final、yt_dish、yt_rent、yu_clubs、yu_exam、bh_final、xc_grade；MISS 每則一句）、syllabus 第 16 週、2027 春節群組；大二上語彤「法服的初談」改雙主修第一週",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
-   "next": "【12:3x BB 64aaaa82】BB_205 大二下程式清單八組（ladder bb y2s2／y2s1 重新匯入：skipAfterWeek、greet.when、KX_BDAY2_CAKE；P4 移到大二上第 15 週週四 12/17；沛珊 12/18 起依日期聯絡不到；學姊 sis_list／sis_report／M2／M3 不在大二；子晴 zq_dad／zq_name 看過 Q6；明軒／阿凱；可昕；MISS 每則一句）｜【12:20 AA f218a3e0】子晴 Q8 前置加看過 Q6（沒碰到或沒看過＝第 15 週五 2027-06-04 22:00 四則、ZQ_DAD_HEARD；AA_255 第 7 節兩版＋交往中一則；河堤 CG 只在祐廷在場）；沛珊 P4 交接搬到 2026-12-17（四）大二上最後一次公法讀書會、消失期從寒假開始；柏翰 ev_bohan_scores「她走了。」→「她不來了。這樣大家比較知道自己差多少。」｜AA-C 12:18 交（AA_255 第 4 節）；D81：大二（v3）在 v0～v2 之後，但 ladder Y2S2 舊版會讓玩家看到錯的內容，排在下一批",
+   "next": "【13:0x LAWWW-C】第 4 節第 2 點語彤不在法服（STORY.YT_FAFU 固定 no：9/26 事件 7、轉述、FAFU_YT 不播；週六 9～12 改麵店）、第 7 點以安兩句（invites.js）做好；單元測試全過｜【12:3x BB 64aaaa82】BB_205 大二下程式清單八組（ladder bb y2s2／y2s1 重新匯入：skipAfterWeek、greet.when、KX_BDAY2_CAKE；P4 移到大二上第 15 週週四 12/17；沛珊 12/18 起依日期聯絡不到；學姊 sis_list／sis_report／M2／M3 不在大二；子晴 zq_dad／zq_name 看過 Q6；明軒／阿凱；可昕；MISS 每則一句）｜【12:20 AA f218a3e0】子晴 Q8 前置加看過 Q6（沒碰到或沒看過＝第 15 週五 2027-06-04 22:00 四則、ZQ_DAD_HEARD；AA_255 第 7 節兩版＋交往中一則；河堤 CG 只在祐廷在場）；沛珊 P4 交接搬到 2026-12-17（四）大二上最後一次公法讀書會、消失期從寒假開始；柏翰 ev_bohan_scores「她走了。」→「她不來了。這樣大家比較知道自己差多少。」｜AA-C 12:18 交（AA_255 第 4 節）；D81：大二（v3）在 v0～v2 之後，但 ladder Y2S2 舊版會讓玩家看到錯的內容，排在下一批",
    "first": {
     "term": "Y2S1",
     "week": 3,
@@ -15591,9 +15591,9 @@
    "title": "AA_259 大三上審稿（cf864bff）第 4 節程式清單：ladder Y3S1 重新匯入、LADDER_CHOICE_IF A5-L6「妳們和好了？」拿掉、public_law_group 大三上第 1～7、10～15 週週四 20:00、期末飯在不在（芷若大三上和大四不約、以安大三下）、學姊／芷若台詞照 AA_254 現行版、語彤年數、characters.js 學姊在美國 2028-08-02～12-23、ev_yutong_thanks 只在大一下、語彤不在法服、日期改動（語彤事件 13→2027-12-16、事件 14→11/24、大三聖誕盒子→12/26 18:30）、Y5-L7 JOB_NOODLE",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
-   "next": "D81：v3 大二、v4 大三照順序；期末飯在不在的部分已做（termend3d friendOk、S.FROM）",
+   "next": "【13:0x LAWWW-C】第 3 點（同 AA_255）、第 4 點 ev_yutong_thanks 收到大一下～大二上、第 2 點 public_law_group 大三上第 1～7、10～15 週、第 5 點期末飯不在台灣的人不約（3f81e322）、第 7 點以安兩句做好。還沒：第 1 點 ladder Y3S1 重新匯入（等 AA 給已審 SHA）、第 6 點學姊 presence（跟 ROUTE-DATES-1017）、Y5-L7 JOB_NOODLE、日期改動（語彤事件 13／14、聖誕紙箱）｜D81：v3 大二、v4 大三照順序；期末飯在不在的部分已做（termend3d friendOk、S.FROM）",
    "first": {
     "term": "Y3S1",
     "week": 1,

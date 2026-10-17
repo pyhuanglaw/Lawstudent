@@ -488,7 +488,9 @@ const STORY = (function(){
   /* 語彤在法服值班（AA_11 事件 7、AA_177 4-6）：大二上第 3 週週六 9/26 第一次，之後每個值班的週六（characters.js heroine_03 的作息）*/
   /* 政大山下那一家吃過幾次（BB_161 ⑯）：舊存檔沒有 NCCU_FOOD_N 的，照已經完成、一定會到那一家的事件補算（K1 導遊只算點過餐的 K1_ORDER、予樂那次、12/3 的生日；「我們的日子」政大、K6 互考見面、K7 選山下的次數舊存檔分不出來，不算）*/
   S.nccuFoodLegacy=G=>{ const D=(G.events&&G.events.done)||{}, F=G.flags||{}; return (D.ev_kexin_tour_nccu&&F.K1_ORDER?1:0)+(D.ev_kexin_yule_pass?1:0)+(D.ev_kexin_birthday_y1?1:0); };
-  S.ytDutyDay=G=>{ const d0=S.dayOfKey('2026-09-26'); return d0!=null&&G.day>=d0&&S.fafuDuty(G); };
+  S.YT_FAFU='no';   /* 語彤進不進法服（AA_255 第 4 節第 2 點：固定 'no'；舊存檔 flags.YT_FAFU 也照這個）*/
+  S.ytFafu=G=>S.YT_FAFU==='yes';
+  S.ytDutyDay=G=>{ const d0=S.dayOfKey('2026-09-26'); return d0!=null&&G.day>=d0&&S.ytFafu(G)&&S.fafuDuty(G); };
   S.fafuWatchable=G=>{ if(!S.fafuDuty(G)) return false; const t=CALENDAR.termOf(G.day); return !!t&&(/^Y1S[12]$/.test(t.id)||(/^Y[2-4]S[12]$/.test(t.id)&&!S.fafuMember(G))); };   /* 沒加入法服的玩家四年都可以在旁邊看（AA_184 第 1 節）；大二起的社員改做紀錄（S.fafuShift）*/
   /* ===== 法服週六值班：大二起的社員做初談紀錄（AA_184 定稿 ab663b90、BB_160 51a5d106；任務 V3-D25）=====
      誰：大二起、加入法服（lawclub）的玩家。哪幾天：S.fafuDuty（單週週六 9～12、第 3 週起、考試週停）；語彤事件 7（9/26）那天演事件、不抽池（事件 9 做好再加）。
@@ -547,7 +549,7 @@ const STORY = (function(){
       if(k===0){ retell=true; await GM.say(nm('研究所學姊'),'好。先聽完。'); await GM.say(null,'（他講了十五分鐘。最重要的那一句，在最後。）'); }
       else if(k===1) await GM.say(nm('研究所學長'),'時間寫在最上面。對。'); else await GM.say(nm('研究所學長'),'有的話，下次帶來，會快很多。');
       await GM.say(nm('民眾'),c[1]); await GM.say(nm(c[2]),c[3]);
-      if(F.YT_LEGALAID_Y2&&S.knows('heroine_03',G)){ await GM.say({name:SOCIAL.displayName('heroine_03'),charId:'heroine_03'},S.FAFU_YT[R.yt%3]); R.yt++; }
+      if(F.YT_LEGALAID_Y2&&S.ytFafu(G)&&S.knows('heroine_03',G)){ await GM.say({name:SOCIAL.displayName('heroine_03'),charId:'heroine_03'},S.FAFU_YT[R.yt%3]); R.yt++; }
       { const t=CALENDAR.termOf(G.day); if(t&&!(t.id==='Y2S1'&&t.week<6)&&S.knows('classmate_bohan',G)){ await GM.say({name:SOCIAL.displayName('classmate_bohan'),charId:'classmate_bohan'},S.FAFU_BH[R.bh%2]); R.bh++; } }
       { const more=S.fafuSisLines(G,'back',{retell}); if(more.lines.length) await sayL(sisWho,more.lines); }
       await GM.say(null,sis.sign?'（初談紀錄，一頁。學姊在最下面簽名。）':'（初談紀錄，一頁。學長在最下面簽名。）');
@@ -1795,8 +1797,8 @@ const STORY = (function(){
       if(!F.KAI_SUP_ALIVE){ const asks=(G.msgs||[]).filter(m=>m.th==='p:kai'&&m.ask&&/^kai_sup_/.test(m.ask.id||'')), now=G.day*24+G.hour; let run=0;
         for(const m of asks){ if(m.ans!=null){ run=0; continue; } if(m.ask.until!=null&&now>m.ask.until) run++; }
         if(run>=3&&!PHONE.sent(G,'kai_sup_alive')){ F.KAI_SUP_ALIVE=G.day; PHONE.at(G,G.day,h(G),[A('你還活著吧？……活著就好。下週日。')],'kai_sup_alive'); } } }
-    /* 語彤事件 7（AA_177 4-6）：不管玩家在不在，9/26 語彤加入法服、第一次值班（劇情事實）＝YT_LEGALAID_Y2 */
-    { const d0=S.dayOfKey('2026-09-26'); if(d0!=null&&!F.YT_LEGALAID_Y2&&(G.day>d0||(G.day===d0&&h(G)>=9))) F.YT_LEGALAID_Y2=true; }
+    /* 語彤事件 7（AA_177 4-6）：9/26 語彤加入法服、第一次值班＝YT_LEGALAID_Y2。語彤不在法服（AA_255 第 4 節第 2 點、AA_259 第 4 節第 3 點）：改讀 YT_FAFU（固定 'no'，S.YT_FAFU），'yes' 才設 */
+    { const d0=S.dayOfKey('2026-09-26'); if(d0!=null&&S.ytFafu(G)&&!F.YT_LEGALAID_Y2&&(G.day>d0||(G.day===d0&&h(G)>=9))) F.YT_LEGALAID_Y2=true; }
     /* 法服值班（V3-D25，AA_184 第 1 節）：社員每個值班的週六 08:30 出發選單（OUT goto 萬才館一樓；在臺北的家＝從家裡出發）；「這週請假」不扣分。
        連續三次沒去（請假、沒出發、出發了沒坐到圓桌都算；語彤事件 7 那天不算）：柏翰私訊；「先不排我。」＝這學期不提醒（FAFU_OFF＝學期 id），下學期第一週再問 */
     if(typeof OUT!=='undefined'&&typeof CALENDAR!=='undefined'&&S.fafuMember(G)){ const t=CALENDAR.termOf(G.day), off=F.FAFU_OFF===t.id, B=t2=>({th:'p:classmate_bohan',from:'classmate_bohan',text:t2});

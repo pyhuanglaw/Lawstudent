@@ -430,6 +430,20 @@
     }
    ],
    "note": "AA-C 12:39：台詞不變（89835b3a）；語彤年數照實際經過（0026c2bc，AA_259）；門檻說明改 30（BB_203 303fe766）"
+  },
+  {
+   "path": "docs/story_planning/AA_255_大二下口語改稿_AA與BB人物.md",
+   "sha": "f218a3e0",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
+   "note": "AA-C 交付：第 4 節給 LAWWW 的程式清單（以安兩句、語彤不在法服…）"
+  },
+  {
+   "path": "docs/story_planning/AA_259_大三上口語改稿_AA與BB人物.md",
+   "sha": "cf864bff",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
+   "note": "AA-C 交付：第 4 節給 LAWWW 的程式清單"
   }
  ]
 }

@@ -3217,7 +3217,7 @@ const STORY_EVENTS=[
   /* D4 語彤事件 7 法服的第一次值班（AA_11 事件 7；AA_177 第 2 節、4-6）：大二上第 3 週週六 9/26 9:00～12:00 萬才館一樓的法服民眾服務。玩家在場（走到圓桌旁）才看得到。
      流程第 2、3 點用 AA 的字當旁白；記 YT_DUTY_SEEN、語彤 SHARED_CLASS（法服）。不在場的玩家：ev_y2_yt_duty_heard */
   { id:'ev_y2_yt_duty', title:'法服的第一次值班', participants:['heroine_03'], location:'wancai', trigger:'auto', term:['Y2S1'], time:[9,12], once:true, background:'blur', near:{x:0.5,z:2.2,r:4.5},
-    prereq:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey('2026-09-26')&&!(typeof GAME!=='undefined'&&GAME.E&&GAME.E.player&&(GAME.E.player.lv|0)!==0)},   /* 一樓（二樓迴廊往下看不算）*/
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.ytFafu&&STORY.ytFafu(G)&&G.day===STORY.dayOfKey('2026-09-26')&&!(typeof GAME!=='undefined'&&GAME.E&&GAME.E.player&&(GAME.E.player.lv|0)!==0)},   /* 一樓（二樓迴廊往下看不算）*/
     dialogue:[ {speaker:'heroine_05',text:'這位是社會系的語彤，她會幫我們做初談。'},
       {speaker:null,text:'一位阿伯來諮詢，講了十分鐘還講不到重點；法律系的人都在翻六法。'},
       {speaker:'阿伯',text:'我就是要問那個……那個房子……我兒子……'},
@@ -3233,7 +3233,7 @@ const STORY_EVENTS=[
     consequences:{flags:{YT_DUTY_SEEN:true,YT_LEGALAID_Y2:true},memo:'語彤第一次在法服值班'} },
   /* 不在場、和語彤「有點熟」以上（AA_177 4-6）：大二上第 4 週第一次在麵店遇到她（她的班），她轉述兩句（AA_160 R4，記 heard＝YT_DUTY_HEARD）*/
   { id:'ev_y2_yt_duty_heard', title:'', participants:['heroine_03'], location:'noodle', trigger:'auto', term:['Y2S1'], weeks:[4], once:true, background:'blur', near:{npc:'heroine_03',r:4},
-    prereq:{stage:{npc:'heroine_03',min:'FAMILIAR'},custom:G=>!G.flags.YT_DUTY_SEEN},
+    prereq:{stage:{npc:'heroine_03',min:'FAMILIAR'},custom:G=>!G.flags.YT_DUTY_SEEN&&typeof STORY!=='undefined'&&!!STORY.ytFafu&&STORY.ytFafu(G)},   /* 語彤不在法服（AA_255）：不播 */
     dialogue:[ {speaker:'heroine_03',expression:'neutral',text:'上週六第一次值班。有一個阿伯，講了十分鐘才講到他兒子。'},
       {speaker:'heroine_03',expression:'neutral',text:'……我只問了一句。'} ],
     consequences:{flags:{YT_DUTY_HEARD:true},memo:'聽語彤說了她第一次在法服值班'} },
@@ -3482,7 +3482,7 @@ const STORY_EVENTS_V11=[
     dialogue:[ {speaker:null,text:'櫃台後面沒有語彤。阿姨右手包著護腕，用左手撈麵。'},{speaker:'阿姨',text:'手扭到了，這禮拜都是她在顧，顧到打烊。今天我叫她先回去睡。'},{unless:{flags:['dating_heroine_03']},speaker:'阿姨',text:'你是她同學喔？她喔，累了也不會講。'},/* AA_209 附錄A §2 */
       {if:{flags:['dating_heroine_03']},speaker:'阿姨',text:'（看了你一下）你是語彤那個喔。'},{if:{flags:['dating_heroine_03']},speaker:'阿姨',text:'她沒跟你講齁。她說講了你一定會跑來幫忙。'},{if:{flags:['dating_heroine_03']},speaker:'阿姨',text:'你吃你的。不要跟她說是我講的。'},   /* 交往中的版本（AA_11 事件 4，AA-C 2026-10-17 e2bdcece；AA_215／AA_216 大一下 #3：大一就可能交往）*/
       {set:{yutong_hospital:true}},{unless:{flags:['dating_heroine_03']},mem:[{npc:'heroine_03',tag:'IMPORTANT_CONVERSATION',note:'阿姨扭到手腕，那週她顧店到打烊'}]},{if:{flags:['dating_heroine_03']},mem:[{npc:'heroine_03',tag:'IMPORTANT_CONVERSATION',note:'阿姨扭到手腕，那週她顧店到打烊；阿姨說她怕你來幫忙'}]} ] },
-  { id:'ev_yutong_thanks', title:'圖書館三樓', term:['Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'], participants:['heroine_03'],   /* 交接包 v1：大一下以後才觸發（AA_11 事件 5 延後） */ location:'library', trigger:'interact', priority:9, once:true, time:[21,22], prereq:{flags:['yutong_hospital']}, background:'blur',   /* AA_178 ②＋AA_177：麵店 21:00 打烊以後、總圖閉館以前（「店收了才來的」）*/
+  { id:'ev_yutong_thanks', title:'圖書館三樓', term:['Y1S2','Y2S1'], participants:['heroine_03'],   /* 交接包 v1：大一下以後才觸發（AA_11 事件 5 延後）；AA_259 第 4 節第 4 點：收到大二上，不要大三才觸發 */ location:'library', trigger:'interact', priority:9, once:true, time:[21,22], prereq:{flags:['yutong_hospital']}, background:'blur',   /* AA_178 ②＋AA_177：麵店 21:00 打烊以後、總圖閉館以前（「店收了才來的」）*/
     dialogue:[ {speaker:'heroine_03',expression:'tired',text:'……阿姨跟你講了吧。'},{if:{flags:['dating_heroine_03']},speaker:'heroine_03',expression:'neutral',text:'我叫她不要講的。'},{speaker:'heroine_03',expression:'neutral',text:'她每次都這樣。沒事，手腕扭到而已。'},{choice:[{text:'（什麼都不問，把自己的筆記推過去）',consequences:{rel:{heroine_03:{comf:8,trust:5,aff:3}},mem:[{npc:'heroine_03',tag:'HELPED',note:'什麼都沒問，把筆記給她'}]},goto:'notes'},{text:'「妳可以講。我不會跟別人說。」',consequences:{rel:{heroine_03:{trust:6,comf:3}},mem:[{npc:'heroine_03',tag:'TALKED_FAMILY',note:'你說她可以講'}]},goto:'talk'},{text:'「妳看起來很累，回去睡吧。」',consequences:{rel:{heroine_03:{comf:2}}},goto:'sleep'}]},{label:'notes'},{speaker:'heroine_03',expression:'surprised',text:'……'},{speaker:null,text:'（她看了一下，把筆記拉到自己面前。）'},{speaker:'heroine_03',expression:'smile',text:'這頁我抄一下就還你。'},/* AA_209 附錄A §2 */{goto:'end'},{label:'talk'},{speaker:'heroine_03',expression:'sad',text:'講了也沒用啦，她的手又不會比較快好。'},/* AA_209 附錄A §2 */{goto:'end'},{label:'sleep'},{speaker:'heroine_03',expression:'neutral',text:'店收了才來的。這裡比較安靜。'},{label:'end'},
       {if:{flags:['dating_heroine_03']},speaker:null,text:'（她把書推到一邊，趴在桌上。）'},{if:{flags:['dating_heroine_03']},speaker:'heroine_03',expression:'tired',text:'閉館的時候叫我。'} ] },   /* 交往中的版本（AA_11 事件 5，AA-C e2bdcece；AA_216 大一下 #4）*/
   // ── 子晴 arc ──
