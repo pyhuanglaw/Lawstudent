@@ -6340,6 +6340,19 @@
    "msg": "ACK",
    "integration": "不整合",
    "note": "使用者 2026-10-17 05:4x（對 AA-C）：「社科院不做 3D 室內」→ SCN-V0-01 已取消（AA_173 第 1 節）。LAWWW2-C 05:17Z 交件時還沒收到取消通知。成果保留在 LAWWW2 分支（不刪），使用者改變決定時可以直接接"
+  },
+  {
+   "id": "DL-LW2-USCOMM",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "8825bea0",
+   "what": "美國公寓社區 Linden Grove 戶外 us_community.glb（88k 三角形、5.4 MB）＋us_community.layout.json（us_outside：78 個阻擋、spawn_home、to_home→us_apartment、exit_west→us_bus_stop、28 台車）＋汽車五款 us_cars.glb／us_cars.json；README 與 Cycles 渲染（docs/art-rebuild/second_ai/test_shots/us_community/）；LICENSES 兩列",
+   "task": "SCN-US-01",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "照 D81：美國篇（大三下）排在 v0～v2 之後接成區域；接的時候 28 台車用 InstancedMesh／遠的降階（LAWWW2 建議）。遊戲內截圖等接成區域後 LAWWW2 拍"
   }
  ],
  "ignored": [
