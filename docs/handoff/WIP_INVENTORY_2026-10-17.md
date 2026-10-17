@@ -2,7 +2,7 @@
 
 > 用途：讓下一班（帳號 A 或 C）找得到四個 AI 做到一半的成果。使用者 2026-10-17 02:5x 要求 LAWWW-B 做最後一次交接完整性補強，只補文件與登記，不改遊戲程式。
 > 機器讀的總表照舊是 `docs/handoff/tasks.json`、`docs/handoff/deliveries.json`；這份是閱讀版的半成品索引，每項都寫任務 ID、檔案、分支、最後 commit、完成程度、剩餘工作、能不能整合。
-> **狀態：核對進行中**（LAWWW-B 02:5x 開始；各節標「已核對」才算完成，沒標的交給下一班照第 5 節方法做完）。
+> **狀態：四個職位都已逐筆核對**（LAWWW-B 2026-10-17 02:5x～03:3x；唯讀子代理分類、LAWWW-B 登記與抽查）。拿不準的筆數與清單外可能漏登記的項目寫在各節，交給下一班複核。
 
 ## 1. LAWWW（LAWWW-B，分支 `claude/modest-rubin-2lyp7g`）——已核對
 
@@ -159,7 +159,95 @@ LAWWW-B 沒有本機沒 push 的檔案、沒有 WIP 分支。
 - **`88585540`（AA 口頭禪配額，`DLV-1016-397` 登記為「已整合待測試」）其實不在開發分支**：`src/data/ladder.js` 的來源是 `72ea87f5`（10-16 18:37，早於 `88585540` 的 18:56），以安「……我坐最後一排。理由：第一次。」「……不要叫。理由：我會臉紅。」等舊句都還在。大一下～大四下每學期以安、語彤各有 2～17 處沒進去。
 - ART-SHOP1 機車行道具組 v2 的最終交件 `d9388b2a`（BB 分支 21:23）、LAWWW2-B 驗收合併 `5d5bb8aa`，在 deliveries.json 沒有登記（不在這一半的清單裡）。
 
-## 3. BB（BB-B，分支 `claude/elegant-brown-fcos7n`，已交班 `55717c12`）——核對中
+## 3. BB（BB-B，分支 `claude/elegant-brown-fcos7n`，已交班 `55717c12`）——已核對（113 筆）
+
+- **結論：BB-B 交班說「其餘多半是紀錄」不對**。12 筆點名的交付以外，還有約 70 筆含台詞、規格、招牌圖或使用者裁定：71 筆已被既有交付涵蓋（DL-BB172、DL-BB-A4CC、DL-BB178-MSG、DL-BB171、DL-BB175、DL-AA-CAMPL1、DL-BB177 等；ignored 寫「交付（已涵蓋）」與整合狀態），**14 筆原本完全沒登記、這次補登**（下表），30 筆一般工作，1 筆 WIP（BB_181）。
+- LAWWW-B 的登記腳本第一次把「covered_by＝沒有登記」誤當成已涵蓋，發現後撤回、改登記這 14 筆（AA 兩半核對過沒有這個問題）。
+- **02:40 補登的 12 筆更正**：明信片 ③④＝V4-B01、⑤⑥＝V5-B08；招牌 S1～S6 已整合、S7～S17 只在 LAWWW2 WIP；BB179／AB67／BB180 是部分整合（改未整合）；trip_hotel_twin 只註冊沒有事件用。
+- **未整合要注意的**：BB_172（V1-INV-WORDING）、大一上 ladder_bb／BB_169（V1-BB168）、BB_178、BB_171、BB_175、BB_179 段 B～E；Kevin「直屬學弟妹」舊句（START-WEEK next）；16 週 ladder_bb y2s1～y4s2 只在 BB 分支（HOLIDAY-SYS next）。
+- **已通過、開發分支還沒有、現成事件在等的圖**：新任務 ART-BB-READY-1017。
+- **清單外可能漏登記**（關鍵字沒抓到，**沒核對**，交給下一班）：ART-SHOP1 v1／v2 的 BB 原始交件 905d7a27、d9388b2a（v2 已由 DL-LW2-SHOP1V2 經 LAWWW2 登記）、3ea1eac7（日本路線三月底出發）、019bd293（大三下開學 2/21）、8f781b12、BCG-46 圖本身 e2e7cc9a（開發分支已有、blob 相同）。
+- **拿不準的約 11 筆**（子代理判斷、理由在核對輸出）：b15bd19c、5aa55f62、040c9ddb、a96e787c、e5b1aac6、19d9c02d、aa1ad7bc、7b9cd06a、ad25b0f3、c24a286f、3ee58191／ab2b3e19。
+
+**這次補登的 BB 交付**
+
+| 交付 ID | 任務 | 整合 | 內容 |
+|---|---|---|---|
+| DL-BB-BG-LIBB1 | ART-17 | 已整合待測試 | 背景 ntu_lib_b1（總圖 B1 自習室） |
+| DL-BB-3cdb2c60 | BCG-46 | 已整合待測試 | 期末合照 cg_class_photo_y1 使用者定稿（ART_APPROVED）紀錄；圖本身是 e2e7cc9a（不在本清單） |
+| DL-BB-a15fece9 | HOLIDAY-SYS | 未整合 | 16 週制：BB_98 大三跨年（寒假版）、BB_99 大四聖誕／跨年／成績 1/8／KH 1/2～1/6／芷若 1/5 明信片、BB_119 日曆；BB_173 附錄記已改 |
+| DL-BB-4d719c6f | HOLIDAY-SYS | 未整合 | 16 週制：BB_95 可昕跨年 12/24 邀、期末成績約定 12/19＋成績 1/5（BB_171 T1～T3）、BB_96 大一下成績與重訪日 1、BB_97 大二重訪日 2（6/13）、Z9（6/3）、K14、K |
+| DL-BB-19d9c02d | VAC-B2 | 參考用 | BB_173 記下 AA 六位的假期活動（避開用） |
+| DL-BB-aa1ad7bc | VAC-B2 | 參考用 | BB_173 第 6 節：AA-B 的五點決定（日本 8/24～28 阿凱團、KH 雙床房、法律生活營 7/1～5、學姊交換時程） |
+| DL-BB-544d7475 | VAC-B2 | 參考用 | BB_173 BB 人物假期劇情清單＋附錄盤點（不寫台詞）；修 A-2、A-8、A-9 三處矛盾（BB_113 方奕廷德國獎學金、BB_40／BB_70 方奕廷「這週六爬山」、BB_99 學姊「我爸週六會過來」） |
+| DL-BB-a8e8d429 | HOLIDAY-SYS | 未整合 | BB_96 16 週制日期定案：期末 6/8～6/12、重訪日 1 6/12 18:00、成績 6/29、W2b 21:30 |
+| DL-BB-ac9bc2ad | HOLIDAY-SYS | 未整合 | BB_96 大一下 16 週制日期對照第一版（W5、W2b、芷若午場、方奕廷 Z6、沛珊、可昕成績、重訪日 1、SK05） |
+| DL-BB-8985d243 | V0-B1 | 未整合 | BB_153 E20 經濟系聖誕交換禮物改寒假版（12/25 放寒假第三天） |
+| DL-BB-ad25b0f3 | ART-METHOD6 | 參考用 | bb_support README 開頭「BB-B 的做法」（工具、流程、指令、八項紀錄）＋舊成果標「舊標準已通過」；ART-SHOP1 v2 標 LAWWW2-B 21:26 驗收通過 |
+| DL-BB-8421efdb | HOLIDAY-SYS | 未整合 | 16 週制機械性修改：ladder 十檔週次 [17,18]→[16,16]、[16,18]→[15,16]、防卡關看第 16 週、K0-L8「快兩個月」；exam_official 14 題＋BB_negotiable |
+| DL-BB-ffda8ed3 | START-WEEK | 已整合待測試 | AA_195 4-7 C 的 BB 七項：BB_106 SK01 第 1～6 週、ev_sk01_wave、SK04；BB_170 阿凱 kaiDormTalk 前置 MET_KAI＋introDone |
+| DL-BB-99770466 | START-WEEK | 已整合待測試 | BB_170 開學改 9/1 後 BB 人物大一上的時間依賴（34 列清查＋BB 決定、LAWWW-B 程式九項、AA 兩項）；syllabus 經原 P4 移第 1 週、大一下相機回聲改「第一堂」；BB_168 讀書會 |
+| DL-BB-7b9cd06a | AB-65 | 參考用 | 使用者 P0 正式決定（AA_192 六項：「……」與語助詞不是配額、代表例 11～20 再修、可昕兩句、重訪日取消統一題目、法律系開局選 B）記進 BB_167 檔頭；BB 代表例 11～20 照逐組意見改 |
+
+
+- BB 分支 `origin/claude/elegant-brown-fcos7n`，最後是 `55717c12`（02:39，交班登記）。
+- 開發分支：本機 HEAD `98cd34e9`（origin/claude/modest-rubin-2lyp7g `7e33aa02` 加上 1 個本機 commit）。
+- 唯讀核對，沒有改 repo。圖片用 `git ls-tree` 的 blob 比對；CG 用 `src/adv3d.js` 的 `CG_REGISTRY` 比對；招牌用 LAWWW2 分支的 `signs_src` 和開發分支的 `gongguan_shops.glb` 版本比對。
+
+#### 1. 重要半成品（WIP）與待整合成果
+
+| 任務 ID | 檔案路徑 | 分支 | 最後 commit | 完成程度 | 剩下的工作 | 能不能整合 |
+|---|---|---|---|---|---|---|
+| AB-65（AB65-3 大二上；BB-ROUTINE） | `docs/story_planning/BB_181_AA211口氣審_大二上BB人物_WIP.md` | elegant-brown | `5c8e7539` | 約 95%：附錄 B 第 2 節、AA 第 2 節、第 5 節三問都看完了；寫好 9 處建議，其中 2 處是事實錯誤：法服值班只在單數週的週六，所以「下週六」「隔週六」都要改。照用清單、對 AA 的回覆也寫好了 | 檔名去掉 `_WIP`；整理成回覆傳給 AA-B（P1，AA-B 在等）；AA 定案後才由 `AA_211` 交給 LAWWW-B | 不能直接整合：這是給 AA-B 的審稿意見。AA 定案後走 AB65-3 |
+| HOLIDAY-SYS（16 週制） | `docs/story_planning/ladder/ladder_bb_y2s1～y4s2.json`（＋`build_ladder_bb_*.py`） | elegant-brown | `8421efdb` | BB 部分完成 | **AA 分支上的 y2s1～y4s2 還是舊的週次**：646490c5 只搬了 y1s2。AA-B 接手修改前，要先從 BB 分支搬過來，不然 16 週的週次會被覆蓋掉 | 可以：照「AA 分支匯入」的分工，等 AA-B 搬好再匯入 |
+| HOLIDAY-SYS | `docs/story_planning/exam_official/{criminal45,civil40,civil_supp40,securities40}_2026-10-14.json`、`exam_ai/BB_negotiable.json`（＋`tools/map_*`） | elegant-brown | `8421efdb` | 完成：15 題的 scopeWeek 從 16 改成 15 | AA 分支和開發分支 `src/data/exam_bank.js`（來源 AA 分支 a9e6994c）都還是 16，例如 CRIM45_43／44。要請 AA-B 合併，或由 LAWWW 從 BB 分支匯入 | 可以；要和 16 週系統一起上線 |
+| HOLIDAY-SYS（大一上～大四的日期規格） | `BB_95`、`BB_96`、`BB_97`、`BB_98`、`BB_99`、`BB_119`、`BB_153` | elegant-brown | `4d719c6f`、`a8e8d429`、`a15fece9`、`8985d243` | 規格完成 | 開發分支還沒改：可昕的成績約定還是「1/2 週五」（story3d.js 第 1580 行）；E20 還寫「期末考週的中間」（events.js 第 2188 行）；W2b 家族期末訊息 BB 改成 21:30，開發分支還是 21:00；大二重訪日 2（6/13）還沒有 | 可以；都沒有登記進 deliveries |
+| START-WEEK（使用者裁定，e627d747） | `BB_95` 4-1 | elegant-brown | `e627d747` | 規格完成 | story3d.js 第 879～880 行，Kevin 第三週的家族群組訊息還寫「第三週了，**直屬**學弟妹還活著嗎？」，要改成「**家族的**學弟妹」（使用者：直屬只有學姊一個） | 可以：只改一個字串 |
+| V2-SIS-BF／SIS-BF-CAMPUS | `BB_122` 2-1（BB 定案：溫州街路口；學姊說「總要有人排。」，只到大二上第 5 週） | elegant-brown | `5c8e7539` | 規格定案 | 程式還沒有學姊和男友一起出現的場面 | 可以；沒有登記 |
+| ART-SHOP1 | `assets/models/env/second_ai/bb_support/scooter_shop_props.glb` 等 | elegant-brown → LAWWW2 | 交件 `d9388b2a`（不在清單）；WIP 是 `2f38aced`、`b800fbce`、`23c50135` | 完成：LAWWW2-B 21:26 驗收；5d5bb8aa 收進 LAWWW2 分支，GLB 是同一個 blob | 開發分支還沒有，等 ART-BG-AA185（機車行背景）用到 | 已在 LAWWW2 分支；deliveries 沒有登記 ART-SHOP1 |
+| 等使用者生成 | `court_criminal`、芷若明信片① `pc_zr_1`、② `pc_zr_2`（第 56～58 組） | — | — | 在使用者手上，還沒回來 | 回來後 BB 檢查，放進 `props_approved`／`bg_approved` | — |
+
+#### 2. 已通過、開發分支還沒有的素材
+
+### 2a. 本班（2026-10-15 23:2x 以後）通過的
+
+| 任務 ID | 檔案路徑 | 分支 | 最後 commit | 完成程度 | 剩下的工作 | 能不能整合 |
+|---|---|---|---|---|---|---|
+| V4-B01（③④，大三上 Z10 `ev_zhiruo_postcard`，11/19、12/17）＋V5-B08（⑤⑥，大四 `ev_zhiruo_postcard2`，9/22、2/19） | `docs/story_planning/props_approved/pc_zr_3.webp`～`pc_zr_6.webp`；`original/pc_zr_3_uncropped.webp`、`pc_zr_5_uncropped.webp` | elegant-brown | `5c8e7539` | BB 定稿。③⑤裁掉了人物背影，放大 1.3 倍，畫面略軟 | 放進信箱物件的插畫。①②⑦還沒生成；明信片程式還沒有（`ev_zhiruo_postcard`／`postcard2` 在 src 都找不到） | 可以；DL-BB-POSTCARD-ZR 只寫了 V4-B01，⑤⑥ 應該是 V5-B08 |
+| ART-GG-SIGNS（S7～S17） | `docs/story_planning/signs_approved/gg_{luwei,qingye,kafei,shuiguo,changpian,wenju,brunch,douhua,huoguo,wenli,boardgame,dental,english,rent_roof,meifa,zhongyi,math,minsu,gym,massage,billiard,piano}*_fit.webp`（22 張 `_fit`，原檔另有） | elegant-brown；LAWWW2 的 `signs_src` 有同 blob | `67a10218`…`2f5d4a3d` | BB 通過；LAWWW2-B 已經貼進 GLB，但那是 WIP `b75e50a5`（ART-GG-SIGNS-2，表外） | LAWWW2-B 交件，LAWWW 再整合。開發分支的 `gongguan_shops.glb` 還是 40b73c64 版，只有 S1～S6 | 等 LAWWW2 交件 |
+| （已整合，列出來對照） | S1～S6（阿鳳、舊路、藥局、輪轉、影印、日日定食）；11 張背景；BCG-46、BCG-47 | — | — | 開發分支有，blob 相同；S1～S6 在 glb 裡 | 只剩瀏覽器實際看一次 | — |
+
+### 2b. 較早（2026-10-14～10-16 白天）通過、開發分支到現在還沒有的；有幾項是現成事件在等它
+
+| 任務 ID | 檔案路徑 | 分支 | 最後 commit | 完成程度 | 剩下的工作 | 能不能整合 |
+|---|---|---|---|---|---|---|
+| V3-B03／SCN-V3-02 | `bg_approved/linze_prof_hall.webp` | elegant-brown | `552a0e4e` | BB 通過 | **開發分支已經有學姊 W7 `ev_sis_prof_xu_door`，用的是 `bg:'prof_door'`、`background:'dark'`（黑畫面）**。要放進 `assets/bg/` 並在 S.BG 登記 | 可以（馬上能補） |
+| V0-B1（E26） | `cg_approved/cg_ferris_wheel_kexin.webp`（BCG-06） | elegant-brown | `c00647b5` | ART_APPROVED（10-14） | **開發分支的 `ev_y0_e26` 註解寫「CG 還沒有」**。CG_REGISTRY 沒有這一張 | 可以；v0 已授權 |
+| V3-B13（沛珊 P3） | `cg_approved/cg_decision_peishan.webp`（BCG-16） | elegant-brown | `c7e1936e` | ART_APPROVED | **events.js 第 2782 行 `{cg:'cg_peishan_decision'}` 留了位置，但 CG_REGISTRY 沒有這個 key**，id 也和檔名不同 | 可以 |
+| V3-D6（以安新 8 讀書會） | `cg_approved/cg_study_group_rules.webp`、`cg_study_group_rules_photo.webp`（CG-2／2b） | elegant-brown | `d552d45e` | ART_APPROVED | **events.js 第 2857 行 `{cg:'cg_plg_rules'}` 留了位置**；任務 next 寫「CG-2 檔案還沒有」，其實已經有了 | 可以 |
+| SCN-V3-02 | `bg_approved/graduation_avenue.webp` | elegant-brown | `9ef99a54` | BB 通過 | W10 `ev_sis_graduation` 還沒做 | 跟事件一起做 |
+| SCN-V3-02 | `bg_approved/cypress_trail.webp` | elegant-brown | `933ae99c` | BB 通過 | 方奕廷 F2 還沒做 | 跟事件一起做 |
+| SCN-V3-02 | `bg_approved/bus_night.webp` | elegant-brown | `f89a536b` | BB 通過 | 可昕 K12b 還沒做 | 跟事件一起做 |
+| （tasks.json 沒有） | `bg_approved/country_road.webp`（可昕大二春假 G4-04） | elegant-brown | `f89a536b` | BB 通過 | 總表沒有對應任務 | 跟事件一起做 |
+| （tasks.json 沒有） | `bg_approved/linze_auditorium.webp`（畢業典禮 G4-13） | elegant-brown | `933ae99c` | BB 通過 | 總表沒有對應任務；SCN-V5-02 可以掛這張 | 跟事件一起做 |
+| ART-15／ART-CG41-45／SCN-US-CG／SCN-JP-CG 等 | `cg_approved/` 其餘 59 張（`CG_REGISTRY` 沒有的共 63 張，扣掉上面 4 張；含 CG-10 尾聲基底＋8 個圖層，多半是大二～尾聲、戀愛線、美國／日本路線） | elegant-brown | 多半是 10-14 的 commit；BCG-36～45 在 10-16 | ART_APPROVED | 跟著各學年事件接（D81）。其中 23 張在 deliveries 和 tasks 都沒有個別登記，只靠 ART-15 的總項涵蓋，例如 BCG-03、05、06、07、08、10、12、13、15、19、20、22、24、25、26、30、33、34、38、40、42，CG-8、CG-12 | 照事件的時間 |
+| DATE-L*（已登記，未整合） | `date_system/art/d01～d32_base_*.webp`（開發分支只有 d04、d06、d12、d13） | elegant-brown | 10-16 各組 | BB 通過 | 約會系統的底圖 | 已登記為 DLV-1016-25 等 |
+
+- 溫州街的 13 張招牌（`signs_approved/laundry.webp` 等）：開發分支沒有這些檔名，但 LAWWW2 分支的 `signs_src` 有同 blob，是舊批，已經做進 GLB 貼圖。不算漏掉。
+- `cg_approved/parts_cg69/`、`parts_econcamp/` 是合成用的零件，成品已經整合，不需要搬。
+
+#### 3. 不在本次清單（關鍵字沒抓到）、但應該登記的 BB 交付
+
+| commit | 內容 | 狀態 |
+|---|---|---|
+| `e2e7cc9a` | BCG-46 期末合照第三版，也就是定稿的**圖本身** | 已整合（510cd60a，同 blob）；deliveries 沒有 BCG-46 |
+| `d9388b2a`、`905d7a27` | ART-SHOP1 v2、v1 交件 | LAWWW2 已收；沒有登記 |
+| `2bfad5c5` | S1 阿鳳招牌原圖＋`_fit` | 已在開發分支 glb；DL-BB-GG-SIGNS-S17 的範圍有涵蓋 |
+| `3ea1eac7` | BB_98 日本路線改期套回（使用者再次確認：三月底出發；AA_201） | v4 規格，未整合；沒有登記 |
+| `019bd293` | 大三下開學改 2/21：民訴甲下重排；柏翰那一句搬到大四上 | syllabus 未整合（開發分支的來源是 aa318d13）；沒有登記 |
+| `8f781b12` | BB_98 2-3 V4-E10：學姊的反應改成當晚私訊 | v4 規格；沒有登記 |
+| `6e2af299` | BB_177 第四版（臥底＝Kevin） | 內容已併進 v5（DL-AA-CAMPL1） |
+
 
 ## 4. LAWWW2（LAWWW2-B，分支 `claude/funny-albattani-iawshm`）——已核對（2026-10-17 03:0x，唯讀子代理逐檔比對、LAWWW-B 登記）
 

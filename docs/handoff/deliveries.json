@@ -5283,7 +5283,7 @@
    "task": "VAC-B3",
    "msg": "ACK",
    "integration": "已整合待測試",
-   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。ae8eddaf 註冊（逐筆核對中：LAWWW-B 2026-10-17 02:5x 使用者要求不得整批標非交付，結果見 docs/handoff/WIP_INVENTORY_2026-10-17.md）"
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。ae8eddaf 註冊（逐筆核對中：LAWWW-B 2026-10-17 02:5x 使用者要求不得整批標非交付，結果見 docs/handoff/WIP_INVENTORY_2026-10-17.md）｜核對：只註冊、沒有任何事件用它"
   },
   {
    "id": "DL-BB-BG-JPNIGHT",
@@ -5348,7 +5348,7 @@
    "task": "ART-GG-SIGNS",
    "msg": "ACK",
    "integration": "未整合",
-   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。LAWWW2-B 整包貼進 gongguan_shops.glb（LAWWW2-B 已 ACK，進行中 ART-GG-SIGNS-2 WIP 01984198）（逐筆核對中：LAWWW-B 2026-10-17 02:5x 使用者要求不得整批標非交付，結果見 docs/handoff/WIP_INVENTORY_2026-10-17.md）"
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。LAWWW2-B 整包貼進 gongguan_shops.glb（LAWWW2-B 已 ACK，進行中 ART-GG-SIGNS-2 WIP 01984198）（逐筆核對中：LAWWW-B 2026-10-17 02:5x 使用者要求不得整批標非交付，結果見 docs/handoff/WIP_INVENTORY_2026-10-17.md）｜核對：S1～S6 已整合（66b28a89，ART-GG-SIGNS 第一批）；S7～S17（22 張 _fit）只在 LAWWW2 WIP b75e50a5（ART-GG-SIGNS-2）"
   },
   {
    "id": "DL-BB-POSTCARD-ZR",
@@ -5361,7 +5361,7 @@
    "task": "V4-B01",
    "msg": "ACK",
    "integration": "未整合",
-   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。大三英國明信片（Z10、V4-G29）實作時接（逐筆核對中：LAWWW-B 2026-10-17 02:5x 使用者要求不得整批標非交付，結果見 docs/handoff/WIP_INVENTORY_2026-10-17.md）"
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。大三英國明信片（Z10、V4-G29）實作時接（逐筆核對中：LAWWW-B 2026-10-17 02:5x 使用者要求不得整批標非交付，結果見 docs/handoff/WIP_INVENTORY_2026-10-17.md）｜核對：③④＝V4-B01（大三上 Z10，11/19、12/17）；⑤⑥＝V5-B08（大四 ev_zhiruo_postcard2，9/22、2/19）；①②在使用者手上、⑦還沒給提示詞；開發分支 assets 沒有任何明信片、src 沒有 ev_zhiruo_postcard"
   },
   {
    "id": "DL-BB-BB179",
@@ -5373,8 +5373,8 @@
    "what": "BB_179 經濟系前傳改稿寫回（AB-66）",
    "task": "AB-66",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。V0-REWRITE-L 段 A 已用；段 B～E 未做（逐筆核對中：LAWWW-B 2026-10-17 02:5x 使用者要求不得整批標非交付，結果見 docs/handoff/WIP_INVENTORY_2026-10-17.md）"
+   "integration": "未整合",
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。V0-REWRITE-L 段 A 已用；段 B～E 未做（逐筆核對中：LAWWW-B 2026-10-17 02:5x 使用者要求不得整批標非交付，結果見 docs/handoff/WIP_INVENTORY_2026-10-17.md）｜核對：原標已整合待測試偏樂觀——段 A 已整合，段 B～E、第 4 節程式事項沒做，改未整合（部分整合）"
   },
   {
    "id": "DL-BB-AB67",
@@ -5386,8 +5386,8 @@
    "what": "AB-67 四人房 BB 句子（阿凱 8/29、經濟系 412）",
    "task": "AA208-L",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。a943ea1d、277c67dc（逐筆核對中：LAWWW-B 2026-10-17 02:5x 使用者要求不得整批標非交付，結果見 docs/handoff/WIP_INVENTORY_2026-10-17.md）"
+   "integration": "未整合",
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。a943ea1d、277c67dc（逐筆核對中：LAWWW-B 2026-10-17 02:5x 使用者要求不得整批標非交付，結果見 docs/handoff/WIP_INVENTORY_2026-10-17.md）｜核對：原標已整合待測試偏樂觀——部分整合（8/29 阿凱、412 已做；其餘見 AA208-L），改未整合（部分整合）"
   },
   {
    "id": "DL-BB-BB180",
@@ -5399,8 +5399,8 @@
    "what": "BB_180 大一下口氣審（交 AA-B，AA_209 2-1 裁定）＋BB_177 第 8 節顧火烤肉版",
    "task": "AB-65",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。顧火 e39749d9；大一下其餘見 AB65-3-Y1S2-L（逐筆核對中：LAWWW-B 2026-10-17 02:5x 使用者要求不得整批標非交付，結果見 docs/handoff/WIP_INVENTORY_2026-10-17.md）"
+   "integration": "未整合",
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。顧火 e39749d9；大一下其餘見 AB65-3-Y1S2-L（逐筆核對中：LAWWW-B 2026-10-17 02:5x 使用者要求不得整批標非交付，結果見 docs/handoff/WIP_INVENTORY_2026-10-17.md）｜核對：原標已整合待測試偏樂觀——部分整合（顧火烤肉版已做；大一下其餘見 AB65-3-Y1S2-L），改未整合（部分整合）"
   },
   {
    "id": "DL-LW2-VACA1",
@@ -5986,6 +5986,188 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "整合：未整合（企劃原檔改字，照 D81 做到各事件時用新版）｜證據：AA186-FIX 的 next 只列 AA 的不改字修正；經濟系 BB_104／112 的部分可能已隨 BB_179（V0-REWRITE-L）進 v0，沒有逐句核對（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-BB-3cdb2c60",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "3cdb2c60",
+   "what": "期末合照 cg_class_photo_y1 使用者定稿（ART_APPROVED）紀錄；圖本身是 e2e7cc9a（不在本清單）",
+   "task": "BCG-46",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "整合：已整合待測試｜證據：assets/cg/class/cg_class_photo_y1.webp 與 BB cg_approved/cg_class_photo_y1.webp 同 blob；CG_REGISTRY 有；510cd60a 接進期末最後一頓（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）"
+  },
+  {
+   "id": "DL-BB-a15fece9",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "a15fece9",
+   "what": "16 週制：BB_98 大三跨年（寒假版）、BB_99 大四聖誕／跨年／成績 1/8／KH 1/2～1/6／芷若 1/5 明信片、BB_119 日曆；BB_173 附錄記已改",
+   "task": "HOLIDAY-SYS",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：未整合｜證據：大三、大四事件還沒做；16 週共用系統 HOLIDAY-SYS 進行中（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）"
+  },
+  {
+   "id": "DL-BB-4d719c6f",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "4d719c6f",
+   "what": "16 週制：BB_95 可昕跨年 12/24 邀、期末成績約定 12/19＋成績 1/5（BB_171 T1～T3）、BB_96 大一下成績與重訪日 1、BB_97 大二重訪日 2（6/13）、Z9（6/3）、K14、KH、跨年、成績打賭",
+   "task": "HOLIDAY-SYS",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：未整合｜證據：story3d.js 1580 行可昕成績約定仍是「期末考週最後一個上課日（1/2 週五）」；src 沒有大二重訪日 2；大一下部分已經 AB65-3-Y1S2-L 照 AA_209 做（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）"
+  },
+  {
+   "id": "DL-BB-19d9c02d",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "19d9c02d",
+   "what": "BB_173 記下 AA 六位的假期活動（避開用）",
+   "task": "VAC-B2",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "整合：參考用｜證據：交 AA-B 的假期劇情清單（不寫台詞）；之後隨 VAC-L1（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）"
+  },
+  {
+   "id": "DL-BB-aa1ad7bc",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "aa1ad7bc",
+   "what": "BB_173 第 6 節：AA-B 的五點決定（日本 8/24～28 阿凱團、KH 雙床房、法律生活營 7/1～5、學姊交換時程）",
+   "task": "VAC-B2",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "整合：參考用｜證據：同上（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）"
+  },
+  {
+   "id": "DL-BB-544d7475",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "544d7475",
+   "what": "BB_173 BB 人物假期劇情清單＋附錄盤點（不寫台詞）；修 A-2、A-8、A-9 三處矛盾（BB_113 方奕廷德國獎學金、BB_40／BB_70 方奕廷「這週六爬山」、BB_99 學姊「我爸週六會過來」）",
+   "task": "VAC-B2",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "整合：參考用（三句修正屬大二～大四，未整合）｜證據：src 沒有這三句的舊版或新版（大二以後內容）（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）"
+  },
+  {
+   "id": "DL-BB-a8e8d429",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "a8e8d429",
+   "what": "BB_96 16 週制日期定案：期末 6/8～6/12、重訪日 1 6/12 18:00、成績 6/29、W2b 21:30",
+   "task": "HOLIDAY-SYS",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：大部分已整合｜證據：重訪日 1 6/12、成績 6/29、P4e 等已照 AA_209 第 4 節做（AB65-3-Y1S2-L）；W2b 家族期末訊息 BB 改 21:30（錯開可昕 21:00），story3d.js fam_final_y1s2 仍是 21:00（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）｜大部分已整合，W2b 21:30 還沒改（部分整合）"
+  },
+  {
+   "id": "DL-BB-ac9bc2ad",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "ac9bc2ad",
+   "what": "BB_96 大一下 16 週制日期對照第一版（W5、W2b、芷若午場、方奕廷 Z6、沛珊、可昕成績、重訪日 1、SK05）",
+   "task": "HOLIDAY-SYS",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：大部分已整合｜證據：同 a8e8d429（a8e8d429 是定案版）（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）｜大部分已整合，W2b 21:30 還沒改（部分整合）"
+  },
+  {
+   "id": "DL-BB-8985d243",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "8985d243",
+   "what": "BB_153 E20 經濟系聖誕交換禮物改寒假版（12/25 放寒假第三天）",
+   "task": "V0-B1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：未整合｜證據：events.js 2188 行 E20 仍是「期末考週的中間，大家還是來了」（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）"
+  },
+  {
+   "id": "DL-BB-ad25b0f3",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "ad25b0f3",
+   "what": "bb_support README 開頭「BB-B 的做法」（工具、流程、指令、八項紀錄）＋舊成果標「舊標準已通過」；ART-SHOP1 v2 標 LAWWW2-B 21:26 驗收通過",
+   "task": "ART-METHOD6",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "整合：已整合（LAWWW2 分支）｜證據：LAWWW2 分支 bb_support/README.md 開頭已有「BB-B 的做法」一節（LAWWW2-B 783 行列為方法交接要求）；不進開發分支（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）"
+  },
+  {
+   "id": "DL-BB-8421efdb",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "8421efdb",
+   "what": "16 週制機械性修改：ladder 十檔週次 [17,18]→[16,16]、[16,18]→[15,16]、防卡關看第 16 週、K0-L8「快兩個月」；exam_official 14 題＋BB_negotiable 1 題 scopeWeek 16→15",
+   "task": "HOLIDAY-SYS",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：部分整合｜證據：y0s1/y0s2 已整合（ladder.js @9ebf6663 含本 commit）；y1s2 已搬進 AA 分支（646490c5）；**y2s1～y4s2 只有 BB 分支有 16 週版，AA 分支是舊版（還是 [15,16] 以前的週次），AA-B 接手前要先搬**；exam scopeWeek 未整合：AA 分支與開發 exam_bank.js 的 CRIM45_43／44 仍是 16（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）"
+  },
+  {
+   "id": "DL-BB-ffda8ed3",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "ffda8ed3",
+   "what": "AA_195 4-7 C 的 BB 七項：BB_106 SK01 第 1～6 週、ev_sk01_wave、SK04；BB_170 阿凱 kaiDormTalk 前置 MET_KAI＋introDone",
+   "task": "START-WEEK",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "整合：已整合待測試｜證據：047cf8d9「BB_170 程式部分（BB-B ffda8ed3）」、4d6b8c5d「BB_170 第 2 節（events.js）＋課綱同步（ffda8ed3）」（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）"
+  },
+  {
+   "id": "DL-BB-99770466",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "99770466",
+   "what": "BB_170 開學改 9/1 後 BB 人物大一上的時間依賴（34 列清查＋BB 決定、LAWWW-B 程式九項、AA 兩項）；syllabus 經原 P4 移第 1 週、大一下相機回聲改「第一堂」；BB_168 讀書會第五週；BB_95 M1、BB_105 P4",
+   "task": "START-WEEK",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "整合：已整合待測試｜證據：047cf8d9、4d6b8c5d、aef4a571；syllabus.js 來源 aa318d13（含本 commit）；AA 的兩項在 AB65-6（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）"
+  },
+  {
+   "id": "DL-BB-7b9cd06a",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "7b9cd06a",
+   "what": "使用者 P0 正式決定（AA_192 六項：「……」與語助詞不是配額、代表例 11～20 再修、可昕兩句、重訪日取消統一題目、法律系開局選 B）記進 BB_167 檔頭；BB 代表例 11～20 照逐組意見改",
+   "task": "AB-65",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "整合：參考用｜證據：是之後所有改稿（AB-65、AB-66）的準則；開發分支 AI_SESSION_HANDOFF.md 有引用 AA_192（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）｜使用者 AA_192 正式決定的口語準則（寫作規則，不直接進遊戲）"
   }
  ],
  "ignored": [
@@ -7823,6 +8005,441 @@
    "sha": "a5a54293",
    "branch": "origin/claude/cool-heisenberg-o8kuqx",
    "why": "WIP 半成品（沒有交付，登記在 WIP_INVENTORY_2026-10-17）：AB65-3（大一上部分＝V1-BB168）｜完成：大一上已被 BB_169 再改（DL-BB-A4CC，未整合）；大一下由 AA 分支接手（WIP 2fd0399d）；大二上～大三下的改動留在 BB 分支（8421efdb 版）。開發分支 ladder.js（來源 72ea87f5，18:37）全部沒有｜能否整合：不行：草稿，要跟各學期改稿包一起"
+  },
+  {
+   "sha": "55717c12",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：值班狀態與交班檢查紀錄，沒有新內容"
+  },
+  {
+   "sha": "68e09326",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：進度紀錄；分工決定是 AA-B 的流程決定。注意：y2s1～y4s2 的 8421efdb 16 週版還沒搬到 AA 分支（見 8421efdb）"
+  },
+  {
+   "sha": "0bb74c4f",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-GG-SIGNS-S17｜ART-GG-SIGNS｜整合：未整合｜公館招牌 S16 通過：按摩（直）、健身房（直）（原檔＋_fit）"
+  },
+  {
+   "sha": "84b325f0",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-GG-SIGNS-S17｜ART-GG-SIGNS｜整合：未整合｜公館招牌 S15 通過：民宿（直）、數學補習（直）（原檔＋_fit）；另存 cg_econ_camp 統一光線第一版（三人閉眼，被 ddae6f9c 取代）"
+  },
+  {
+   "sha": "89b84b26",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-GG-SIGNS-S17｜ART-GG-SIGNS｜整合：未整合｜公館招牌 S14 通過：美髮（直）、中醫診所（直）（原檔＋_fit）"
+  },
+  {
+   "sha": "d073885f",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-BCG47-ECONCAMP＋DL-BB-GG-SIGNS-S17｜ART-CG-ECONCAMP＋ART-GG-SIGNS｜整合：CG 已整合待測試；S13 招牌未整合｜cg_econ_camp 使用者通過（ART_APPROVED）紀錄＋公館招牌 S13 英語會話（二樓）、學生套房出租（屋頂）"
+  },
+  {
+   "sha": "69c07596",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-GG-SIGNS-S17｜ART-GG-SIGNS｜整合：未整合｜公館招牌 S12 通過：二樓桌遊・撞球、牙醫診所（原檔＋_fit）"
+  },
+  {
+   "sha": "b15bd19c",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-BB179｜AB-66｜整合：參考用｜BB_179 第 5 節寫回企劃來源：BB_104（E19、E28、E18b、R1、E37）、BB_105／153 標記、BB_106 SK08／SK13、BB_107、BB_112 R1／R7／A3、BB_167 SC1／SC4"
+  },
+  {
+   "sha": "97181f2e",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-BB179｜AB-66（V0-REWRITE-L）｜整合：已整合待測試｜BB_179 寫回：Y0S1 課表 react（acct_y0 第 1 週、經原第 2 週，段 A #28～#30）"
+  },
+  {
+   "sha": "0237aae3",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-BB179｜AB-66（V0-REWRITE-L、V0-LADDER）｜整合：已整合待測試｜BB_179 寫回：Y0S1／Y0S2 招呼整組換定稿（build --check 通過）"
+  },
+  {
+   "sha": "04c32fda",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-GG-SIGNS-S17｜ART-GG-SIGNS｜整合：未整合｜公館招牌 S11 通過：二樓文理補習班、小火鍋（原檔＋_fit）"
+  },
+  {
+   "sha": "3ee58191",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-BB179｜AB-66（V0-REWRITE-L）｜整合：已整合待測試｜BB_179 寫回 Y0S1／Y0S2 閒聊階梯 131 句（WIP checkpoint，0237aae3 補完招呼）；XN0b-L2 改整學期都通的回覆"
+  },
+  {
+   "sha": "f2b7216a",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：待辦紀錄；提到的成果都在別的 commit（0abfc964、5f6f7e82、c2a60470）"
+  },
+  {
+   "sha": "0abfc964",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-BB179｜AB-66（V0-REWRITE-L）｜整合：部分整合｜BB_179 照 AA_200 7-3 互審修改：必須改 18 項、建議 13 項；主檔第 7 節修改紀錄"
+  },
+  {
+   "sha": "5f6f7e82",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-GG-SIGNS-S17｜ART-GG-SIGNS｜整合：未整合｜公館招牌 S10 通過：早午餐、豆花・甜湯（一樓橫招牌 14 張完成）（原檔＋_fit）；另含 cg_econ_camp 第二版合成（被 ddae6f9c 統一光線版取代）"
+  },
+  {
+   "sha": "ab2b3e19",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-BB179｜AB-66（V0-REWRITE-L）｜整合：部分整合｜BB_179 互審修改段 A、B、C（WIP checkpoint，0abfc964 補完段 D、E、主檔）"
+  },
+  {
+   "sha": "c2a60470",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-GG-SIGNS-S17｜ART-GG-SIGNS｜整合：未整合｜公館招牌 S9 通過：二手唱片、文具・畫材（原檔＋_fit）"
+  },
+  {
+   "sha": "c24a286f",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：使用者 00:5x 退回（不要後排其他人），v1 合成被 5f6f7e82→ddae6f9c 取代；零件與腳本是中間素材，成品已整合"
+  },
+  {
+   "sha": "7bd9dea6",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-GG-SIGNS-S17｜ART-GG-SIGNS｜整合：未整合｜公館招牌 S8 通過：咖啡輕食、水果行（原檔＋_fit）；決定公館自助洗衣沿用溫州街 laundry.webp"
+  },
+  {
+   "sha": "e3b11c15",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：給使用者的生成提示詞；成品在 7bd9dea6（gg_shuiguo_h）"
+  },
+  {
+   "sha": "5393a647",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：CG 合成零件；成品 cg_econ_camp 已整合"
+  },
+  {
+   "sha": "cd516344",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：待辦紀錄；【表外】BB_179 寫回已由 b15bd19c 完成"
+  },
+  {
+   "sha": "845bdf99",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-BB179｜AB-66（V0-REWRITE-L）｜整合：部分整合｜BB_179：E19 日期改 12/19（四）；記 AA-B 對第 2、3 節的決定（AA_200 7-2：經原第 1 週邊際效用、C1 社長交代、E19 品妤九點下班）"
+  },
+  {
+   "sha": "67a10218",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-GG-SIGNS-S17｜ART-GG-SIGNS｜整合：未整合｜公館招牌 S7 通過：清葉茶行、滷味鹹酥雞（原檔＋_fit）"
+  },
+  {
+   "sha": "5def44c5",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-BB179、DL-AA-V0-REWRITE｜AB-66（V0-REWRITE-L）｜整合：部分整合｜BB_179 經濟系前傳口語改稿交付包（主檔＋附錄五段逐句對照 A65／B78／C68／D76／E185＋42）"
+  },
+  {
+   "sha": "1fc104a2",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：CG 合成零件（檔名在 8f92e857 修正）；成品已整合"
+  },
+  {
+   "sha": "447b911e",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-GG-SIGNS-S17｜ART-GG-SIGNS｜整合：已整合待測試｜公館招牌 S6 通過：日日定食（橫＋直）（原檔＋_fit）"
+  },
+  {
+   "sha": "717a932e",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：CG 合成零件＋提示詞；成品已整合"
+  },
+  {
+   "sha": "ec5968bd",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-GG-SIGNS-S17｜ART-GG-SIGNS｜整合：已整合待測試｜公館招牌 S5 通過：影印・輸出（橫＋直）（原檔＋_fit）"
+  },
+  {
+   "sha": "f5c272f4",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：BCG-46 合成零件；成品 cg_class_photo_y1 已整合"
+  },
+  {
+   "sha": "559b2b2d",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：生成過程紀錄"
+  },
+  {
+   "sha": "87fe7ac6",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：BCG-46 合成零件與參考圖；成品已整合"
+  },
+  {
+   "sha": "5c686d69",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-GG-SIGNS-S17｜ART-GG-SIGNS｜整合：已整合待測試｜公館招牌 S4 通過：輪轉單車（橫＋直）（原檔＋_fit）；BB_00 記使用者 23:5x：AB-65 交 AA-B、第 71 組改 cg_econ_camp、cg_law_camp_squad 作廢"
+  },
+  {
+   "sha": "5f31b5af",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：BCG-46 合成零件＋提示詞"
+  },
+  {
+   "sha": "fa2091d3",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：紀錄；LAWWW2-B 已重做 v3（a3529675，使用者 00:3x 通過），開發分支 0c5a9acc 已換成 v3（assets/bg/ntu_gym_ceremony.webp 同 blob），沒有遺漏"
+  },
+  {
+   "sha": "e26716cc",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：紀錄；內容都在 eee886d8、5f4ae837 等"
+  },
+  {
+   "sha": "eee886d8",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1（BB_177 v5）＋DL-BB-GG-SIGNS-S17｜CAMP-L1＋ART-GG-SIGNS｜整合：已整合待測試｜BB_177 第五版（AA_200 6-1 互審三點；揭曉只留沛珊「難怪」、接龍照 AA_205 6-12）＋BB_168；公館招牌 S3 藥局；C4 提示詞"
+  },
+  {
+   "sha": "e627d747",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1（note 寫含 e627d747）｜START-WEEK／CAMP-L1（V1-BB168）｜整合：部分整合｜使用者 23:3x 裁定：直屬只有學姊、學姊不在宿營、茶會是大二辦——BB_177、BB_168 第 7 節茶會重寫、Kevin「直屬」在 12 個 BB 檔改「家族」（BB_95、BB_97、BB_90、角色企劃、BB_154、BB_156、BB_178…）"
+  },
+  {
+   "sha": "9b52d3f1",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：BCG-46 合成零件＋提示詞"
+  },
+  {
+   "sha": "8e4acda8",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-GG-SIGNS-S17｜ART-GG-SIGNS｜整合：已整合待測試｜公館招牌 S2 通過：舊路書房（橫＋直）（原檔＋_fit）；C3 提示詞"
+  },
+  {
+   "sha": "040c9ddb",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：中間版；臥底曾冠銘在第四版（6e2af299）作廢，最終以 v5 eee886d8 為準（已整合）"
+  },
+  {
+   "sha": "5f4ae837",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：BCG-46 合成零件＋提示詞"
+  },
+  {
+   "sha": "21e8ef64",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1｜CAMP-L1｜整合：已整合待測試｜BB_177 照使用者「強制參加」改：沒去宿營只留防呆；沛珊沒選她那關＝9/2 版；可昕私訊條件"
+  },
+  {
+   "sha": "9f28df6b",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1；BB_168 部分在 DL-BB-A4CC（a4ccf909）之後，沒有對應 sha｜CAMP-L1／START-WEEK｜整合：已整合待測試｜BB_177 改 8/22～24 三天兩夜（Kevin 宿營時還沒對上直屬、法律闖關、水球、明軒五點客運、可昕 8/23 私訊）；BB_168 9/2 沛珊與明軒、8/30 家族群組、茶會宿營版；BB_170、BB_95 註記"
+  },
+  {
+   "sha": "a96e787c",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：紀錄與提示詞；BB_177 草稿同一分鐘被 9f28df6b 接著改，最終 v5 已整合；S1 圖本身在 2bfad5c5（已在開發分支 glb）"
+  },
+  {
+   "sha": "9a4c25b4",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：BCG-46 合成零件＋提示詞"
+  },
+  {
+   "sha": "2fa87b54",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：紀錄；內容在 dc3fc4ea"
+  },
+  {
+   "sha": "dc3fc4ea",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB178-MSG（34ea4e1d）；BB_171 那一處在 DL-BB171（d8857e69）之後，沒有對應 sha｜SYS-PHONE-CHAT（＋VAC-B1）｜整合：未整合｜BB_178 第二版（照 AA_200 第 5 節整份改寫：開放門檻、標籤、挑選順序、交往中友情版、25 處必改、17 組撞句）；BB_70 芷若手機習慣定案「訊息短」；BB_171 2027 芷若只寄明信片"
+  },
+  {
+   "sha": "7d2c8c89",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB178-MSG｜SYS-PHONE-CHAT｜整合：未整合｜BB_178 避開 AA_202 第 6 節撞句"
+  },
+  {
+   "sha": "c73e1779",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB178-MSG｜SYS-PHONE-CHAT｜整合：未整合｜BB_178 第二批：阿凱、明軒、方奕廷、Kevin 回覆池"
+  },
+  {
+   "sha": "8941b36f",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB178-MSG｜SYS-PHONE-CHAT｜整合：未整合｜BB_178 回覆池第一批（芷若、子晴、學姊、沛珊、可昕）"
+  },
+  {
+   "sha": "5aa55f62",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB177（d4436c7f，實際已被 DL-AA-CAMPL1 的 v5 取代）｜START-WEEK／CAMP-L1｜整合：被取代（最終 v5 經 CAMP-L1 已整合）｜BB_177 迎新宿營 BB 人物第一版（9/27～28）；BB_95 3-3 作廢"
+  },
+  {
+   "sha": "eff96dab",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：提示詞修改"
+  },
+  {
+   "sha": "0e8bb177",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：給使用者的生成提示詞；成品在 signs_approved（S1～S17）"
+  },
+  {
+   "sha": "56c6755d",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB172（2cba17cb 整份）｜V1-INV-WORDING｜整合：未整合｜BB_172 第 10 節：避開 AA_194 第 4 節新句"
+  },
+  {
+   "sha": "20d0e9d6",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：時間標記更正；BB_172 第 10 節說明句已包含在 DL-BB172"
+  },
+  {
+   "sha": "998bbfb7",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB172｜V1-INV-WORDING｜整合：未整合｜BB_172 第 10 節：AA-B 互審 17 項必須改＋15 項建議（{zh}、重播、first.teahouse、訊息體當面版）"
+  },
+  {
+   "sha": "a03853d4",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-A4CC（a4ccf909）｜V1-BB168｜整合：部分整合｜AA_200 互審修改：大一上閒聊階梯、茶會、備用初遇、明軒、可昕、rel Z-1／Q-3c"
+  },
+  {
+   "sha": "d514be45",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB171（d8857e69 互審後版）｜VAC-B1／V1-BB171｜整合：未整合｜BB_171 BB 人物假期所在地與跨年（BB 九位＋經濟系四位、矛盾 C1～C7、2025 跨年、16 週修正 T1～T5）"
+  },
+  {
+   "sha": "1eeece1c",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB175（edebddd5）｜V1-BB175｜整合：未整合｜BB_175 大一上手機小事 22 則改字"
+  },
+  {
+   "sha": "3b0d8dfb",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB172（note 寫含 3b0d8dfb）｜V1-INV-WORDING｜整合：未整合｜BB_172 第 7 節可昕、第 8 節方奕廷、第 9 節給 AA-B 互審"
+  },
+  {
+   "sha": "bc760ae3",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB172（note 寫含 bc760ae3）｜V1-INV-WORDING｜整合：未整合｜BB_172 第 5、6 節阿凱 9 項、明軒 12 項"
+  },
+  {
+   "sha": "957baa6b",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB172｜V1-INV-WORDING｜整合：未整合｜BB_172 第 4 節沛珊 24 項"
+  },
+  {
+   "sha": "aa318d13",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB172｜V1-INV-WORDING｜整合：未整合｜BB_172 第 3 節學姊 18 項"
+  },
+  {
+   "sha": "b8938d9c",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB172｜V1-INV-WORDING｜整合：未整合｜BB_172 第 2 節子晴 19 項"
+  },
+  {
+   "sha": "6e47a450",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB172｜V1-INV-WORDING｜整合：未整合｜BB_172 開工：第 1 節芷若 21 項"
+  },
+  {
+   "sha": "e5b1aac6",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：文件內標註，沒有新台詞；宿營之後改到 8/22，這段標註已過時"
+  },
+  {
+   "sha": "f50a5392",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-A4CC｜START-WEEK｜整合：已整合待測試｜BB_168 沛珊找教室改 9/2 國文第一堂、迎新／P2 接回那句"
+  },
+  {
+   "sha": "b66dadca",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-A4CC｜V1-BB168｜整合：未整合｜AB-65 大一上第 1 批（二）：kaiDorm K-D1～D6、bikeSeat onFirst／offFirst；原句記 BB_169 第 15、16 節"
+  },
+  {
+   "sha": "23b60b44",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-A4CC｜V1-BB168｜整合：未整合｜AB-65 大一上第 1 批（二）可昕 ladder_bb K-L1～L8；BB_169 第 14 節"
+  },
+  {
+   "sha": "7bd1afd1",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-A4CC｜START-WEEK｜整合：已整合待測試｜BB_168：茶會學姊＋Kevin 台詞（第 7 節）、沒去茶會的 talkSis 備用（第 8 節）、明軒第一堂門口碰運氣、問 AA 民總上午或下午（第 9 節）"
+  },
+  {
+   "sha": "93e5c0bd",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-A4CC｜V1-BB168｜整合：未整合｜AB-65 大一上第 1 批（二）沛珊 ladder_bb P-L1～L8＋greet；BB_169 第 13 節"
+  },
+  {
+   "sha": "b17c5dcb",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-A4CC｜START-WEEK｜整合：已整合待測試｜BB_168 第 6 節：阿凱 9/3、可昕第一則訊息拆 8/31＋9/3、家族群組 Kevin 開學前說法、W0 8/30"
+  },
+  {
+   "sha": "d3c04223",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-A4CC（BB_168 部分）；syllabus 部分沒有登記｜START-WEEK｜整合：已整合待測試｜syllabus 大一上民總相機暖身搬第 1 週（「今天不教，先問你們的直覺」）、第 3 週改權利主體；BB_168 阿凱初見改 8/29"
+  },
+  {
+   "sha": "ed25e960",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-A4CC｜V1-BB168｜整合：未整合｜AB-65 大一上第 1 批（二）學姊 ladder_bb S-L1～L8＋greet；BB_169 第 12 節"
+  },
+  {
+   "sha": "1595f2b1",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-A4CC｜V1-BB168｜整合：未整合｜AB-65 大一上第 1 批（二）子晴 ladder_bb Q-L1～L8＋greet；BB_169 第 11 節"
+  },
+  {
+   "sha": "d6f1aefe",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-A4CC｜V1-BB168｜整合：未整合｜BB_169 照 AA-B 互審改（學姊考試週標記、三句撞句換掉）"
+  },
+  {
+   "sha": "8d967328",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-A4CC｜V1-BB168｜整合：未整合｜AB-65 大一上第 1 批（二）芷若 ladder_bb Z-L1～L8＋greet；BB_169 第 10 節"
+  },
+  {
+   "sha": "bb9b4ce7",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-A4CC（rel_lines BB_169 1～9）｜V1-BB168｜整合：未整合｜AB-65 大一上第 1 批（一）：BB_169 rel_lines BB 七位逐句施工版"
+  },
+  {
+   "sha": "bc1d0e7d",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-A4CC｜START-WEEK｜整合：已整合待測試｜AB-64：BB_168 照使用者 20:39 日期改（9/1 開學、8/31 搬宿舍、9/3、9/4）；另含 ART-SHOP1 v2 WIP 截圖 5 張"
+  },
+  {
+   "sha": "4d3e2757",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：沒有登記（DLV-1016-387 是 AA-B 的試做規格，不是這次驗收）｜TEST-04（D59 角色美術驗收）｜整合：參考用（等使用者決定）｜BB_131 第 13 節：祐廷 3D 臉試做（LAWWW2-B 8496bf9d）BB 驗收通過，換不換預設由使用者決定；另含 ART-SHOP1 v2 WIP 截圖"
+  },
+  {
+   "sha": "47e4cc19",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-A4CC｜START-WEEK｜整合：已整合待測試｜AB-64：BB_168 法律系開局 B 的 BB 部分（搬宿舍那晚阿凱初見、沛珊找教室＋借筆記、班群問教科書、明軒加簽）；另含 ART-SHOP1 v2 WIP 截圖 7 張"
+  },
+  {
+   "sha": "c876a733",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：BB 自己分析文件裡的錯誤描述更正；角色企劃 1-3 本來就是這樣，沒有新規格"
+  },
+  {
+   "sha": "23c50135",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：中間備份；最終 v2 交件 d9388b2a（不在本清單），LAWWW2-B 21:26 驗收並複製進 LAWWW2 分支（5d5bb8aa，GLB 同 blob）"
+  },
+  {
+   "sha": "b800fbce",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：中間備份；最終 d9388b2a，已被 LAWWW2-B 收進"
+  },
+  {
+   "sha": "9416d28d",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：紀錄"
+  },
+  {
+   "sha": "2f38aced",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "一般工作 commit：中間備份；v1 交件 905d7a27、v2 交件 d9388b2a（都不在本清單）"
   }
  ]
 }

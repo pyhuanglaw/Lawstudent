@@ -11830,7 +11830,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P1",
-   "next": "W1_AUDIT（docs/handoff/W1_AUDIT_2026-10-17.md）21 項：1～17、19、21 完成（單元測試 camp_y1_unit A～L、aa195_411_unit 全過），18 不做；20（16 週制）另做。下一步：瀏覽器流程測試把 9/2 茶會、8/30 目標實際走一遍；四人房作息等 DORM-LOFT-L；?start1 改成預設以前跑完整回歸（REL-NEXT）",
+   "next": "【交班補強核對】BB_177 e627d747：story3d.js 879～880 行 Kevin 還說「第三週了，直屬學弟妹還活著嗎？」，要改成「家族的學弟妹」（Kevin 不是直屬，使用者 23:3x）。｜W1_AUDIT（docs/handoff/W1_AUDIT_2026-10-17.md）21 項：1～17、19、21 完成（單元測試 camp_y1_unit A～L、aa195_411_unit 全過），18 不做；20（16 週制）另做。下一步：瀏覽器流程測試把 9/2 茶會、8/30 目標實際走一遍；四人房作息等 DORM-LOFT-L；?start1 改成預設以前跑完整回歸（REL-NEXT）",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -11884,7 +11884,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P1",
-   "next": "【交班補強核對】AA_197／AA_198 交付 a119fceb、c8078993、cae26a6a、54fcb10b、b4551331（跨年重排）、a7f3eaee 都未整合（calendar.js 仍 18 週）；c8078993 讓已整合的 AA_183（SYS-LBREAK）在家模式部分作廢，做 16 週制時要回頭改；ev_ziqing_secret_game weeks 仍 [11…18]。｜【AA_198 第 2 節改兩點（AA 4516159b）】經濟系寒假：A2 室友的抽屜留在 1/5（termDay(…,18,…) 換成日期 2025-01-05）；home3d 寒假回家 2025-01-06 照舊；12/23 放假但住宿舍到 1/5、1/6 才回家（和法律系同規則）；E20b、E21a 照宿舍寫法。｜AA_204（4048e3ec）大一寒假 AA 場景台詞到了：12/24 聖誕改到麵店、跨年四段、12/29 海邊一日遊、返鄉訊息——做到大一上那段直接照用；E20、E21a 經濟系台詞等 AA_203 整包。｜先設計架構（TERMS 不動）；AA 一學期一學期交規格（先大一上）；必測九項（AA_197 第 0 節第七點）、每學期七件（第八點）；Y3S2 開學改 2028-02-21（AA-B 21:46，AA_197 1-6）；匯入 BB_174 課表 16 週 JSON（f7146822）；不做存檔遷移（使用者 21:25）",
+   "next": "【交班補強核對 BB】16 週制規格 8421efdb（部分整合）、4d719c6f、a15fece9、a8e8d429、ac9bc2ad（大部分已整合、W2b 21:30 沒改）已登記；**ladder_bb y2s1～y4s2 的 16 週版只在 BB 分支、AA 分支是舊版——AA 接手改之前要先搬過去，不然週次會被蓋掉**；考題 scopeWeek 16→15 在 AA 分支和開發分支 exam_bank.js 都還沒改。｜【交班補強核對】AA_197／AA_198 交付 a119fceb、c8078993、cae26a6a、54fcb10b、b4551331（跨年重排）、a7f3eaee 都未整合（calendar.js 仍 18 週）；c8078993 讓已整合的 AA_183（SYS-LBREAK）在家模式部分作廢，做 16 週制時要回頭改；ev_ziqing_secret_game weeks 仍 [11…18]。｜【AA_198 第 2 節改兩點（AA 4516159b）】經濟系寒假：A2 室友的抽屜留在 1/5（termDay(…,18,…) 換成日期 2025-01-05）；home3d 寒假回家 2025-01-06 照舊；12/23 放假但住宿舍到 1/5、1/6 才回家（和法律系同規則）；E20b、E21a 照宿舍寫法。｜AA_204（4048e3ec）大一寒假 AA 場景台詞到了：12/24 聖誕改到麵店、跨年四段、12/29 海邊一日遊、返鄉訊息——做到大一上那段直接照用；E20、E21a 經濟系台詞等 AA_203 整包。｜先設計架構（TERMS 不動）；AA 一學期一學期交規格（先大一上）；必測九項（AA_197 第 0 節第七點）、每學期七件（第八點）；Y3S2 開學改 2028-02-21（AA-B 21:46，AA_197 1-6）；匯入 BB_174 課表 16 週 JSON（f7146822）；不做存檔遷移（使用者 21:25）",
    "first": {
     "term": "Y1S1",
     "week": 16,
@@ -12783,7 +12783,7 @@
    "owner": "AA",
    "status": "進行中",
    "priority": "P1",
-   "next": "【交班補強】AA_211 大二上口語改稿 8f837d93 是 WIP（等 BB-B 口氣審 BB_181），還沒交 LAWWW，總表沒有 LAWWW 實作任務（交付時再建）。大一下階梯寫回 2fd0399d、34b1d21a 是 WIP，不要匯入。｜AA-B、BB-B 02:39～02:40 交班：第 3 批大一下 BB_180＋AA_209 已交 LAWWW-B（AB65-3-Y1S2-L）；大二上 AA_211 等 BB-B 口氣審（BB_181_..._WIP.md 還沒回 AA-B＝BB 下一班第一件），還沒交 LAWWW。｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "【交班補強核對】BB_181（docs/story_planning/BB_181_AA211口氣審_大二上BB人物_WIP.md，BB 分支 5c8e7539）約 95%：審完 AA_211 附錄 B 第 2 節與 AA 第 2、5 節，9 處建議（2 處事實錯：值班只在單數週週六）；剩去掉 _WIP、傳給 AA-B（BB 下一班第一件，AA 在等）。｜【交班補強】AA_211 大二上口語改稿 8f837d93 是 WIP（等 BB-B 口氣審 BB_181），還沒交 LAWWW，總表沒有 LAWWW 實作任務（交付時再建）。大一下階梯寫回 2fd0399d、34b1d21a 是 WIP，不要匯入。｜AA-B、BB-B 02:39～02:40 交班：第 3 批大一下 BB_180＋AA_209 已交 LAWWW-B（AB65-3-Y1S2-L）；大二上 AA_211 等 BB-B 口氣審（BB_181_..._WIP.md 還沒回 AA-B＝BB 下一班第一件），還沒交 LAWWW。｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y0S1",
     "week": null,
@@ -13028,7 +13028,7 @@
    "owner": "BB",
    "status": "已實作待整合",
    "priority": "P2",
-   "next": "BB-B 02:40 交班：寒暑假 5 張背景都通過（trip_hotel_twin、jp_street_night、cram_class、camp_school、train_day；DL-BB-BG-*），LAWWW-B 已註冊（trip_hotel_twin 有事件用，其餘備用），等假期系統（HOLIDAY-SYS、VAC-L1）接事件。｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "BB-B 02:40 交班：寒暑假 5 張背景都通過（trip_hotel_twin、jp_street_night、cram_class、camp_school、train_day；DL-BB-BG-*），LAWWW-B 已註冊（五張都只是註冊備用，還沒有事件用——交班補強核對更正），等假期系統（HOLIDAY-SYS、VAC-L1）接事件。｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -14139,6 +14139,27 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "ART-BB-READY-1017",
+   "title": "BB 已通過、開發分支還沒有的圖（現成事件在等）：linze_prof_hall、cg_ferris_wheel_kexin（BCG-06）、cg_decision_peishan（BCG-16）、cg_study_group_rules＋_photo（CG-2）；背景 graduation_avenue、cypress_trail、bus_night、country_road、linze_auditorium",
+   "area": "ART",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "W7 ev_sis_prof_xu_door 現在黑底（bg:'prof_door'）→ linze_prof_hall；ev_y0_e26 註解寫 CG 還沒有 → cg_ferris_wheel_kexin；events.js cg_peishan_decision、cg_plg_rules 是空位。從 BB 分支 approved 資料夾取圖（blob 比對過），註冊 BG／CG_REGISTRY、LICENSES；country_road、linze_auditorium 總表原本沒有任務。其餘 59 張 CG 由 ART-15 總項追（23 張只靠總項）",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系 E26 起",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "LAWWW-B 交班補強（BB 分支唯讀核對，2026-10-17）",
+   "authorized": "BB 已通過（角色美術 D59）／使用者生成"
   }
  ]
 }
