@@ -5141,6 +5141,19 @@
    "msg": "ACK",
    "integration": "整合中",
    "note": "新檔名，舊 dorm_interior.glb 沒動；LAWWW-B 01:44 ACK；場景 ART_APPROVED 等使用者在遊戲裡再看一次"
+  },
+  {
+   "id": "DL-LW2-COPLANAR-LINZE",
+   "date": "2026-10-17",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "703f5231",
+   "what": "BUG-COPLANAR-DEV 霖澤館室內：一定會閃 63 → 0（玻璃帷幕、二樓地板靠牆、牆角、沙發、踢腳板），linze_interior.glb 重新匯出＋tools/blender/linze_interior.py；節點名稱、導航不變",
+   "task": "BUG-COPLANAR-DEV",
+   "msg": "DELIVERED",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 收進開發分支；flow_linze_floors.py 待跑"
   }
  ],
  "ignored": [

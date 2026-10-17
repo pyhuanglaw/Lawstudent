@@ -154,9 +154,10 @@ L0 = group('L0_root', root); L1 = group('L1_root', root)
 # ---------------- 地板、樓板、天花板 ----------------
 box('L0_floor', MAT['floor'], -W / 2, W / 2, -0.25, 0.0, -D / 2, D / 2, L0)
 gz0, gz1 = -D / 2, G['z1']
-box('L1_slab', MAT['plaster'], -W / 2, W / 2, Y1 - G['slabT'], Y1 - 0.02, gz0, gz1, L1)            # 二樓樓板（下面是一樓北側的天花板）
-box('L1_floor', MAT['floor'], -W / 2, W / 2, Y1 - 0.02, Y1, gz0, gz1, L1)
-box('L1_slab_edge', MAT['granite'], -W / 2, W / 2, Y1 - G['slabT'] - 0.05, Y1 + 0.02, gz1 - 0.02, gz1 + 0.06, L1, bevel=0.01)   # 樓板邊緣的石材收邊
+WI0, WI1, ZI0 = -W / 2 + T / 2, W / 2 - T / 2, -D / 2 + T / 2   # 牆的內面：樓板、地板停在牆的內面（原本伸進牆裡，和牆的端面同平面）
+box('L1_slab', MAT['plaster'], WI0, WI1, Y1 - G['slabT'], Y1 - 0.02, ZI0, gz1, L1)            # 二樓樓板（下面是一樓北側的天花板）
+box('L1_floor', MAT['floor'], WI0, WI1, Y1 - 0.02, Y1, ZI0, gz1, L1)
+box('L1_slab_edge', MAT['granite'], WI0, WI1, Y1 - G['slabT'] - 0.05, Y1 + 0.02, gz1 - 0.02, gz1 + 0.06, L1, bevel=0.01)   # 樓板邊緣的石材收邊
 # 天花板（中庭頂、二樓天花板）：單面朝下＋燈板
 quad('L1_ceiling', MAT['ceiling'], [(-W / 2, RY, -D / 2), (W / 2, RY, -D / 2), (W / 2, RY, D / 2), (-W / 2, RY, D / 2)], L1)
 for i in range(4):
@@ -169,19 +170,21 @@ for i in range(5):
         quad(f'L1_downlight_{i}_{z}', MAT['light'], [(x - 0.14, Y1 - G['slabT'] - 0.005, z - 0.14), (x + 0.14, Y1 - G['slabT'] - 0.005, z - 0.14), (x + 0.14, Y1 - G['slabT'] - 0.005, z + 0.14), (x - 0.14, Y1 - G['slabT'] - 0.005, z + 0.14)], L1)
 
 # ---------------- 外牆（北：花崗石＋門洞；西：粉光牆；東：一樓玻璃門面、二樓石材；南：兩層樓玻璃帷幕）----------------
-def wall_with_doors(prefix, parent, z, y0, y1, doors, lvl):
-    """北牆一段（y0..y1），門洞寬 1.5 高 2.6；牆下段 1.2 m 花崗石、上面粉光"""
+def wall_with_doors(prefix, parent, z, y0, y1, doors, lvl, ylo=None, yhi=None):
+    """北牆一段（y0..y1），門洞寬 1.5 高 2.6；牆下段 1.2 m 花崗石、上面粉光。
+    ylo／yhi：牆體的實際上下緣（一樓的牆停在二樓地板下 3 cm、二樓的牆往下伸 3 cm：牆頂和二樓地板不同平面，BUG-COPLANAR-DEV）"""
+    wy0 = y0 if ylo is None else ylo; wy1 = y1 if yhi is None else yhi
     xs = sorted(d['x'] for d in doors if d['lv'] == lvl)
-    cuts = [(-W / 2, None)]; segs = []; x = -W / 2
+    cuts = [(-W / 2, None)]; segs = []; x = -W / 2 + T / 2          # 北牆夾在東、西牆中間（牆角不重疊）
     for dx in xs: segs.append((x, dx - 0.75)); x = dx + 0.75
-    segs.append((x, W / 2))
+    segs.append((x, W / 2 - T / 2))
     obs = []
     for k, (a, b) in enumerate(segs):
         if b - a < 0.05: continue
-        obs.append(box(f'{prefix}_WALL_N_{k}', MAT['granite'], a, b, y0, y0 + 1.2, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]}))
-        obs.append(box(f'{prefix}_WALL_Nu_{k}', MAT['plaster'], a, b, y0 + 1.2, y1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]}))
+        obs.append(box(f'{prefix}_WALL_N_{k}', MAT['granite'], a, b, wy0, y0 + 1.2, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]}))
+        obs.append(box(f'{prefix}_WALL_Nu_{k}', MAT['plaster'], a, b, y0 + 1.2, wy1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]}))
     for dx in xs:   # 門楣
-        obs.append(box(f'{prefix}_WALL_Nd_{dx}', MAT['plaster'], dx - 0.75, dx + 0.75, y0 + 2.6, y1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]}))
+        obs.append(box(f'{prefix}_WALL_Nd_{dx}', MAT['plaster'], dx - 0.75, dx + 0.75, y0 + 2.6, wy1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]}))
         FN = {'fadegrp': 'Ndoor', 'fadedir': [0, 0, 1]}   # 門框、門板、門把跟著北牆淡出（鏡頭在牆外時；2026-10-10 #16）
         box(f'{prefix}_doorframe_{dx}', MAT['frame'], dx - 0.8, dx + 0.8, y0, y0 + 2.7, z + T / 2 - 0.02, z + T / 2 + 0.05, parent, props=FN)
         box(f'{prefix}_door_{dx}', MAT['woodD'], dx - 0.68, dx + 0.68, y0, y0 + 2.5, z + T / 2 + 0.05, z + T / 2 + 0.09, parent, props=FN)
@@ -189,34 +192,37 @@ def wall_with_doors(prefix, parent, z, y0, y1, doors, lvl):
         for k_, v_ in FN.items(): h_[k_] = v_
     return obs
 
-wall_with_doors('L0', L0, -D / 2, 0, Y1, L['doors'], 0)
-wall_with_doors('L1', L1, -D / 2, Y1, RY, L['doors'], 1)
-box('L0_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, 0, Y1, -D / 2, D / 2, L0, props={'dir': [1, 0, 0]})
-box('L1_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, Y1, RY, -D / 2, D / 2, L1, props={'dir': [1, 0, 0]})
-box('L0_wallbase_W', MAT['woodD'], -W / 2 + T / 2, -W / 2 + T / 2 + 0.02, 0, 0.12, -D / 2, D / 2, L0)
-box('L1_WALL_E', MAT['granite'], W / 2 - T / 2, W / 2 + T / 2, Y1, RY, -D / 2, D / 2, L1, props={'dir': [-1, 0, 0]})
+YJ = Y1 - 0.03                    # 一樓、二樓的牆在這裡接（藏在二樓樓板裡）：原本一樓牆頂和二樓地板同一個平面，二樓靠牆一條會閃（BUG-COPLANAR-DEV）
+wall_with_doors('L0', L0, -D / 2, 0, Y1, L['doors'], 0, yhi=YJ)
+wall_with_doors('L1', L1, -D / 2, Y1, RY, L['doors'], 1, ylo=YJ)
+box('L0_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, 0, YJ, -D / 2 - T / 2, D / 2 + T / 2, L0, props={'dir': [1, 0, 0]})
+box('L1_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, YJ, RY, -D / 2 - T / 2, D / 2 + T / 2, L1, props={'dir': [1, 0, 0]})
+box('L0_wallbase_W', MAT['woodD'], -W / 2 + T / 2, -W / 2 + T / 2 + 0.02, 0, 0.12, -D / 2 + T / 2, D / 2 - 0.08, L0)
+box('L1_WALL_E', MAT['granite'], W / 2 - T / 2, W / 2 + T / 2, YJ, RY, -D / 2 - T / 2, D / 2 + T / 2, L1, props={'dir': [-1, 0, 0]})
 # 東面一樓：玻璃門面（直櫺每 1.75 m）、入口自動門（兩扇玻璃）
 gh = Y1 - 0.3
-quad('L0_glass_E', MAT['glass'], [(W / 2, 0, D / 2), (W / 2, 0, -D / 2), (W / 2, gh, -D / 2), (W / 2, gh, D / 2)], L0)
+GXE = W / 2 - 0.05                # 玻璃放在直櫺深度的中間（原本和直櫺外面同一個平面，玻璃和框會閃）
+quad('L0_glass_E', MAT['glass'], [(GXE, 0, D / 2), (GXE, 0, -D / 2), (GXE, gh, -D / 2), (GXE, gh, D / 2)], L0)
 FE = {'fadegrp': 'Efacade', 'fadedir': [-1, 0, 0]}   # 東面（入口那一面）：鏡頭在建築外面時跟著淡出——舊版合併進 L0_frame，進門時兩扇深色自動門擋住人物（#16）
 z = -D / 2
 while z <= D / 2 + 1e-6:
-    box(f'L0_mullion_E_{z:.2f}', MAT['frame'], W / 2 - 0.1, W / 2, 0, gh, z - 0.05, z + 0.05, L0, props=FE); z += 1.75
-box('L0_transom_E', MAT['frame'], W / 2 - 0.1, W / 2, 2.85, 2.95, -D / 2, D / 2, L0, props=FE)
-box('L0_beam_E', MAT['granite'], W / 2 - T / 2, W / 2 + T / 2, gh, Y1, -D / 2, D / 2, L0, props={'dir': [-1, 0, 0]})
+    box(f'L0_mullion_E_{z:.2f}', MAT['frame'], W / 2 - 0.1, W / 2 + 0.01, 0, gh, z - 0.05, z + 0.05, L0, props=FE); z += 1.75   # 框比牆面凸出 1 cm（不和牆的端面同平面）
+box('L0_transom_E', MAT['frame'], W / 2 - 0.09, W / 2 + 0.005, 2.85, 2.95, -D / 2 + T / 2, D / 2, L0, props=FE)   # 橫櫺比直櫺薄一點（交叉的地方不同平面）
+box('L0_beam_E', MAT['granite'], W / 2 - T / 2, W / 2 + T / 2, gh, YJ, -D / 2, D / 2, L0, props={'dir': [-1, 0, 0]})
 EN = L['entrance']
 for k, (a, b) in enumerate(((EN['z0'] + 0.1, (EN['z0'] + EN['z1']) / 2 - 0.02), ((EN['z0'] + EN['z1']) / 2 + 0.02, EN['z1'] - 0.1))):
     box(f'L0_autodoor_{k}', MAT['frame'], W / 2 - 0.16, W / 2 - 0.12, 0, 2.6, a, b, L0, props=FE)
 # 南面：兩層樓高的玻璃帷幕＋直櫺（W/8）＋三道橫櫺
 gh2 = RY - 0.4
 FS = {'fadegrp': 'Sfacade', 'fadedir': [0, 0, -1]}   # 南面帷幕的框：鏡頭在建築外面時跟著淡出
-quad('L0_glass_S', MAT['glass'], [(-W / 2, 0, D / 2), (W / 2, 0, D / 2), (W / 2, gh2, D / 2), (-W / 2, gh2, D / 2)], L0)
+GZS = D / 2 - 0.07
+quad('L0_glass_S', MAT['glass'], [(-W / 2, 0, GZS), (W / 2, 0, GZS), (W / 2, gh2, GZS), (-W / 2, gh2, GZS)], L0)
 for i in range(9):
     x = -W / 2 + i * W / 8
-    box(f'L0_mullion_S_{i}', MAT['frame'], x - 0.06, x + 0.06, 0, gh2, D / 2 - 0.14, D / 2, L0, props=FS)
+    box(f'L0_mullion_S_{i}', MAT['frame'], x - 0.06, x + 0.06, 0, gh2, D / 2 - 0.14, D / 2 + 0.01, L0, props=FS)
 for k, yy in enumerate((2.9, Y1, Y1 + 2.9)):
-    box(f'L0_transom_S_{k}', MAT['frame'], -W / 2, W / 2, yy - 0.06, yy + 0.06, D / 2 - 0.14, D / 2, L0, props=FS)
-box('L0_glass_top_S', MAT['granite'], -W / 2, W / 2, gh2, RY, D / 2 - T / 2, D / 2 + T / 2, L0)
+    box(f'L0_transom_S_{k}', MAT['frame'], -W / 2 + T / 2, W / 2 - T / 2, yy - 0.06, yy + 0.06, D / 2 - 0.13, D / 2 + 0.005, L0, props=FS)
+box('L0_glass_top_S', MAT['granite'], -W / 2 + T / 2, W / 2 - T / 2, gh2, RY, D / 2 - T / 2, D / 2 + T / 2, L0)   # 夾在東西牆中間（東西牆往南多 5 cm 包住牆角）
 
 # ---------------- 樓梯：每一階一塊石材（實心到地面）、平台、第二跑；東側玻璃欄板＋不鏽鋼扶手、西牆扶手 ----------------
 def flight(prefix, zb, base, n):
@@ -255,8 +261,8 @@ for i, f in enumerate(L['furniture']):
         back = abs(f.get('ry', 0)) > 1   # ry=π：靠背在 +z（南）
         box(f'{pre}_sofa_base_{i}', MAT['leather'], x0, x1, y + 0.06, y + 0.42, z0, z1, P, bevel=0.04)
         bz0, bz1 = (z1 - 0.2, z1) if back else (z0, z0 + 0.2)
-        box(f'{pre}_sofa_back_{i}', MAT['leather'], x0, x1, y + 0.42, y + 0.85, bz0, bz1, P, bevel=0.04)
-        for sx in (x0, x1 - 0.18): box(f'{pre}_sofa_arm_{i}_{sx:.1f}', MAT['leather'], sx, sx + 0.18, y + 0.42, y + 0.62, z0, z1, P, bevel=0.03)
+        box(f'{pre}_sofa_back_{i}', MAT['leather'], x0, x1, y + 0.38, y + 0.85, bz0, bz1, P, bevel=0.04)   # 椅背、扶手的底伸進座墊裡（原本和座墊頂同一個平面）
+        for sx in (x0 - 0.005, x1 - 0.175): box(f'{pre}_sofa_arm_{i}_{sx:.1f}', MAT['leather'], sx, sx + 0.18, y + 0.37, y + 0.62, z0 + 0.006, z1 - 0.006, P, bevel=0.03)   # 扶手比座墊寬 5 mm、比椅背短 6 mm（不同平面）
         for (lx, lz) in ((x0 + 0.1, z0 + 0.1), (x1 - 0.1, z0 + 0.1), (x0 + 0.1, z1 - 0.1), (x1 - 0.1, z1 - 0.1)): box(f'{pre}_sofa_leg_{i}_{lx:.1f}{lz:.1f}', MAT['frame'], lx - 0.025, lx + 0.025, y, y + 0.06, lz - 0.025, lz + 0.025, P)
     elif f['type'] == 'planter':
         bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=20, radius1=f['r'] * 0.88, radius2=f['r'], depth=0.6)
