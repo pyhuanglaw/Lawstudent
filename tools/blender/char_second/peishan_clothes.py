@@ -68,9 +68,44 @@ def _apply(m, arm, body, wsrc_skirt):
     # 第十八版：上衣收窄（第十七版寬鬆量 0.16、箱形 0.128）以後胸口、領口旁邊的皮膚從布裡穿出來（遊戲裡胸前幾塊淡色）——
     # 和芯慈、阿哲一樣把軀幹的皮膚收進上衣裡面 3 mm（只動軀幹骨頭權重 ≥ 0.8 的點，一次最多 1.5 cm）
     print('  body pulled under the tee', XC.conform_under(body, obj, 0, SKIRT_REF['z_top'] - 0.025, K.CREW_FRONT_Z + 0.02))
+    # 第十九版：第十八版只動了 12 個點（那一步只收「已經在布外面」的皮膚；T 字姿勢時胸口的皮膚在布裡面 3～4 mm，
+    # 手放下來時腋下前面的布跟著上臂往內，皮膚才穿出來）——領口以下、離布不到 5 mm 的軀幹皮膚都收到布裡面 8 mm
+    print('  body pulled deeper under the tee', XC.conform_under(body, obj, 0, SKIRT_REF['z_top'] - 0.025, K.CREW_FRONT_Z - 0.03, inset=0.008, slack=0.005, max_move=0.015))
+    print('  shoulders/upper back pulled under the tee', pull_shoulders(body, obj, K.CREW_FRONT_Z - 0.04, K.BACK_NECK_Z - 0.008))
     print('  culled skin faces', K.cull_skin(body, obj))
     m['clothes'] = obj
     return obj
+
+
+def pull_shoulders(body, cl, z_lo, z_hi, inset=0.007, slack=0.005, max_move=0.012):
+    """第二十版（第十九版背面兩邊肩胛骨上方、坐下時肩膀上面還有淡色）：XC.conform_under 只動軀幹骨頭權重 ≥ 0.8 的點，
+    肩膀上面、背上靠肩膀那一段的皮膚有肩膀骨頭的權重，沒有被收進去。這裡把肩膀骨頭也算進來、範圍到後領，
+    前面領口開口那一塊（|x| < 9 cm、身體前半）不動：那裡收進去，領口邊緣會看到一圈凹下去的皮膚。"""
+    from mathutils import Vector
+    from mathutils.bvhtree import BVHTree
+    me = cl.data; Mc = np.array(cl.matrix_world)
+    P = np.empty(len(me.vertices) * 3); me.vertices.foreach_get('co', P); P = P.reshape(-1, 3) @ Mc[:3, :3].T + Mc[:3, 3]
+    F = [list(p.vertices) for p in me.polygons if p.material_index == 0]
+    T = P[np.unique(np.concatenate([np.array(f) for f in F]))]
+    bv = BVHTree.FromPolygons(P.tolist(), F)
+    Mb = np.array(body.matrix_world); co = C.co(body); W = co @ Mb[:3, :3].T + Mb[:3, 3]
+    wt = C.vgroup_weights(body, {'J_Bip_C_Chest', 'J_Bip_C_UpperChest', 'J_Bip_C_Neck', 'J_Bip_L_Shoulder', 'J_Bip_R_Shoulder'} | set(K.BUST))
+    yc = 0.5 * (T[:, 1].min() + T[:, 1].max()); moved = 0
+    for i in np.nonzero((W[:, 2] > z_lo) & (W[:, 2] < z_hi) & (wt >= 0.8))[0]:
+        w = W[i]
+        if w[1] < yc and abs(w[0]) < 0.09: continue                   # 前面領口開口（VRoid 人物面向 −y）
+        band = T[np.abs(T[:, 2] - w[2]) < 0.012]
+        if len(band) < 8: continue
+        o = np.array([0.0, 0.5 * (band[:, 1].min() + band[:, 1].max()), w[2] - 0.05])   # 從下面一點往上斜著打：肩膀上面的布是往外、往下斜的
+        d = w - o; L = float(np.linalg.norm(d))
+        if L < 1e-4: continue
+        d /= L; hit = bv.ray_cast(Vector(o), Vector(d), L + 0.05)
+        if hit[0] is None: continue
+        dist = float((np.array(hit[0]) - o) @ d)
+        if dist < L + slack and L - (dist - inset) < max_move:
+            W[i] = o + d * max(0.0, dist - inset); moved += 1
+    C.set_co(body, (W - Mb[:3, 3]) @ np.linalg.inv(Mb[:3, :3]).T)
+    return moved
 
 
 def long_skirt_weights(skin, mb, arm):
