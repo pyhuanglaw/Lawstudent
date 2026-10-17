@@ -59,11 +59,11 @@ async def main():
         await L.tap(pg, cdp, '#interact')
         got = await pick(pg, cdp, '九份')
         run.check('「要去哪裡？」的清單有第二批的九份，點得到', got is not None and '九份' in got, str(got))
-        for _ in range(40):
-            if await pg.evaluate("!!(GAME.G.trip&&GAME.G.trip.spot)"): break
+        bg = ''
+        for _ in range(60):   # 交通標題卡（約 2 秒）之後才進 2D 畫面：等 ADV 開起來、底圖換上
+            bg = await pg.evaluate("(typeof ADV!=='undefined'&&ADV.active&&ADV.bg)?(ADV.bg.style.backgroundImage||''):''")
+            if await pg.evaluate("!!(GAME.G.trip&&GAME.G.trip.spot)") and bg: break
             await pg.wait_for_timeout(500)
-        await pg.wait_for_timeout(2500)
-        bg = await pg.evaluate("(()=>{ const r=typeof ADV!=='undefined'&&ADV.root; if(!r) return ''; const el=r.querySelector('[style*=\"background\"]')||r; return (getComputedStyle(el).backgroundImage||'')+'|'+(r.style.backgroundImage||''); })()")
         await run.shot(pg, 'jiufen')
         run.check('到了九份：行程記在 G.trip、2D 畫面用九份的底圖（d18_base_dusk）', await pg.evaluate("GAME.G.trip&&GAME.G.trip.spot==='D18'") and 'd18_base' in bg, bg[:200])
         did = await pick(pg, cdp, lambda t: next((k for k, x in enumerate(t) if x not in ('回去',) and '拍一張照' not in x), -1))
@@ -98,8 +98,15 @@ async def main():
         await pg.evaluate("(()=>{ const G=GAME.G; G.day+=1; G.weekday=(G.weekday+1)%7; G.hour=14.97; GAME.E.hour=G.hour; })()")
         got = await pick(pg, cdp, '出發', tries=90)
         run.check('15:00 前後跳出「現在要出發嗎？」、點「出發」', bool(got) and got.startswith('出發'), str(got))
-        lines = await talk_until_choices(pg, cdp)
-        await pg.wait_for_timeout(1500); await run.shot(pg, 'tamsui_arrive')
+        lines = []
+        for _ in range(80):   # 交通標題卡、地點字幕、抵達句：一路點對話，直到出現互動點的選單
+            s = await L.state(pg)
+            if s['choices']: break
+            if s['dlg']:
+                if s['dtext'] and (not lines or lines[-1] != s['dtext']): lines.append(s['dtext'])
+                await L.tap(pg, cdp, '#dlg')
+            await pg.wait_for_timeout(500)
+        await run.shot(pg, 'tamsui_arrive')
         rec = await pg.evaluate("(((GAME.G.dateMemory||{}).heroine_03||{}).D13||{}).recent||[]")
         run.check('到了淡水：她的抵達句有播（dateMemory 記了抵達那一池；看到的台詞記在說明）', any(str(k).startswith('arrive.') for k in rec), json.dumps({'recent': rec, 'seen': lines}, ensure_ascii=False))
         for _ in range(2):
