@@ -16147,6 +16147,52 @@
    },
    "sha": "05c57da1",
    "evidence": "tests/v0_econ_chars_unit.js 第 6 項"
+  },
+  {
+   "id": "BAR-ALLPASS-1017",
+   "title": "國考：報名就應屆考上律師（BAR_YEAR=0），作答只決定司法官；拿掉「沒上」、2031～2033 重考分支",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "D99：排在三個優先項目之後（不插隊）；照 BB_120 第 3 節作廢列改程式",
+   "first": {
+    "term": "Y5",
+    "week": 0,
+    "earliest": "畢業後國考",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 20:58（4e8053a2，使用者決定）",
+   "authorized": "使用者",
+   "pausedReason": null,
+   "resumeWhen": null
+  },
+  {
+   "id": "SIS-SHUYU-1017",
+   "title": "學姊交往那天起叫「書瑀」：CALLED_SHUYU 在開始交往時記（不等 US2）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "D99：排在三個優先項目之後；US2 第三個選項句子等 AA",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "和學姊開始交往",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 20:58（4e8053a2，使用者決定）",
+   "authorized": "使用者",
+   "pausedReason": null,
+   "resumeWhen": null
   }
  ]
 }
