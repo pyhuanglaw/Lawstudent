@@ -151,6 +151,97 @@
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "US-RESCHED-1017",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "30358e31",
+   "files": [
+    "docs/story_planning/AA_213_美國交換改大四上_新時間線.md",
+    "docs/story_planning/AA_158_交換路線狀態機_AA-REQ-08.md",
+    "docs/story_planning/AA_144_交換延畢_研究所_國外行事曆_補充規格.md",
+    "docs/story_planning/AA_12_事件書_祐廷主線.md",
+    "docs/story_planning/AA_180_大三AA事件_到場檢查與日期修正.md",
+    "docs/story_planning/AA_181_大四AA事件_到場檢查與日期修正.md",
+    "docs/story_planning/交接包_v4_交付清單.md",
+    "docs/story_planning/交接包_v4_大三_骨架.md",
+    "docs/story_planning/交接包_v5_交付清單.md",
+    "docs/story_planning/交接包_v5_大四_畢業後_尾聲_骨架.md"
+   ],
+   "state": "WIP",
+   "remaining": "8a2c8faa、cd81a593、8e1f53f3、30358e31 已改 AA_158／144／213；AA_12、180、181、v4、v5 還要改；延畢重算",
+   "next": "AA 照盤點改完交 LAWWW",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "SENT"
+  },
+  {
+   "task": "DOC-18W",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "a06d3f54",
+   "files": [
+    "docs/story_planning/AA_214_DOC18W_18週舊字樣盤點.md",
+    "docs/story_planning/"
+   ],
+   "state": "WIP",
+   "remaining": "09ecee83、a06d3f54 第一批（跨學年～大一下）完成；大二～大四下待改；AA_154 等連帶項",
+   "next": "AA 分批改",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派"
+  },
+  {
+   "task": "ROM-1017",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "3df4391a",
+   "files": [
+    "docs/story_planning/AA_215_告白門檻簡化_大一就能在一起.md",
+    "docs/story_planning/AA_113_沈以安新版_人物與四年故事.md",
+    "docs/story_planning/AA_127_以安語彤_心願約會與邀約變化.md",
+    "docs/story_planning/AA_126_1014決策整合_系統與規則.md",
+    "docs/story_planning/AA_128_校外單獨約會系統.md",
+    "docs/story_planning/AA_11_事件書_陳語彤.md",
+    "docs/story_planning/AA_70_手機與邀約_日常設計.md",
+    "docs/story_planning/AA_187_以安語彤_戀愛線補完.md",
+    "docs/story_planning/ladder/"
+   ],
+   "state": "WIP",
+   "remaining": "以安、語彤交往版盤點與改寫",
+   "next": "AA 盤點後分學期改寫交 LAWWW",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "SENT"
+  },
+  {
+   "task": "ROM-1017",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "eeb25c3503e2f3e5278b84e186aa60e3cf38b368",
+   "files": [
+    "docs/story_planning/ladder/ladder_bb_y1s2.json",
+    "docs/story_planning/ladder/build_ladder_bb_y1s2.py"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 匯入 ladder_bb_y1s2.json 新的已審版本（取代 3b7e2268 那份；只有這一檔）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
+  },
+  {
+   "task": "LIFE-LINE-1017",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "b2615f71f44cc2225e52205da8c3a5969f3e9f1e",
+   "files": [
+    "docs/story_planning/AA_218_祐廷人生主線修訂提案.md",
+    "docs/story_planning/AA_218_附錄A_經濟系一年事件分類.md",
+    "docs/story_planning/AA_218_附錄B_溫書瑀年級平移盤點.md"
+   ],
+   "state": "WIP",
+   "remaining": "待使用者確認 8 項（休學日、交往起點與摩天輪、爭執、重考班主任、作業課名、重考班制度、碩三赴美方式、年齡）；AA_12／106／154／169／213 照 AA_218 改寫；BB 台詞稿",
+   "next": "AA 照裁定改寫 AA 檔；BB 改 BB_188／122／183；三者到齊結構化交付 LAWWW",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "ACK"
   }
  ]
 }
