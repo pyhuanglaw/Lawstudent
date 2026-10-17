@@ -60,8 +60,8 @@ const NEEDED_MSGS=(function(){
     // 沛珊（BB_97 11-1）
     {id:'ps_q',who:'classmate_peishan',term:'Y2S1',w:[2,4],tie:true,msg:['讀書會這週的題目，你可以幫我出一題嗎？我出的都太簡單。'],reply:'好。我出一題難的。',resp:['謝謝。……不要難到大家想退出。']},
     {id:'ps_plan',who:'classmate_peishan',term:'Y2S1',w:[6,8],tie:true,cond:G=>done(G,'ev_peishan_decision'),msg:['重考的讀書計畫，我排到明年七月。','……你覺得我瘋了嗎？'],reply:'沒有。',resp:['好。那我就照這個走。']},
-    {id:'ps_notes',who:'classmate_peishan',term:'Y2S2',w:[1,1],tie:true,cond:G=>!!F(G).STUDYGROUP_LEADER,msg:['讀書會的交接筆記，我放在萬才館櫃子的第二格。'],reply:'收到。',resp:['……謝謝你接住。']},
-    {id:'ps_kids',who:'classmate_peishan',term:'Y2S2',w:[9,11],msg:['課輔班的小孩問我：法律是不是都在規定不准做什麼。我要怎麼回答？'],reply:'說規定也有在保護他。',resp:['……我改成小學生聽得懂的版本。']},
+    /* 'ps_notes'：搬到 story3d.js 12/17 22:00（BB_205 第 2 節）*/
+    /* 'ps_kids'：刪（BB_205 第 3 節：沛珊消失期）*/
     // 明軒（BB_97 11-1）
     {id:'mx_tutor',who:'classmate_mingxuan',term:'Y2S1',w:[3,5],tie:true,cond:G=>!!F(G).JOB_TUTOR,msg:['家教那家的媽媽問你下學期還來不來 😂'],reply:'會。',resp:['好 我跟她說 👍 你教得比我好 不要傳出去']},
     {id:'mx_toefl',who:'classmate_mingxuan',term:'Y2S1',w:[9,11],msg:['托福作文題目：規則應該為了多數人嗎 🤔 你會怎麼開頭'],reply:'先問：哪一個少數。',resp:['這個開頭會被扣分 哈哈 可是我要用']},

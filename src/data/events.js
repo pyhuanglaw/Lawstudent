@@ -2859,9 +2859,9 @@ const STORY_EVENTS=[
     consequences:{memo:'學姊上榜的家族聚餐'} },
   /* 沛珊 P4 交接讀書會（BB_97 4-3；大二下第 1 週週三的法服讀書會，只在這一週；classes3d.js 的 clubEvent）：她休學重考前最後一次；交出去的是每週的題目整理（讀書會本身由研究所學長姐帶）。
      「我接。」只給大一去過法服讀書會 5 次以上的玩家＝STUDYGROUP_LEADER；不說話＝柏翰接（不設）。沒去的：那晚 21:30 讀書會群組她的最後一則（story3d.js）*/
-  { id:'ev_peishan_handover', title:'交接讀書會', participants:['classmate_peishan'], location:'wancai', trigger:'club', term:['Y2S2'], weeks:[1], weekday:[4], once:true, background:'blur',   /* BB_191 §8-7：公法讀書會（週四）；「我接。」＝大一去公法讀書會 5 次以上 */
+  { id:'ev_peishan_handover', title:'交接讀書會', participants:['classmate_peishan'], location:'wancai', trigger:'club', term:['Y2S1'], weeks:[15], weekday:[4], once:true, background:'blur',   /* BB_191 §8-7：公法讀書會（週四）；「我接。」＝大一去公法讀書會 5 次以上。BB_205 第 2 節（64aaaa82）：搬到 2026-12-17（大二上第 15 週週四）*/
     prereq:{memory:[{npc:'classmate_peishan',tag:'FIRST_MET'}]},
-    dialogue:[ {speaker:'classmate_peishan',expression:'neutral',text:'下週起，我就不在這裡了。'},{speaker:'classmate_peishan',expression:'neutral',text:'每週的題目整理……（看柏翰，又看祐廷）誰要接？'},
+    dialogue:[ {speaker:'classmate_peishan',expression:'neutral',text:'下學期起，我就不在這裡了。'},{speaker:'classmate_peishan',expression:'neutral',text:'每週的題目整理……（看柏翰，又看祐廷）誰要接？'},
       {speaker:'classmate_peishan',expression:'serious',text:'只有一個條件：不要變成比分數的地方。'},
       {choice:[{text:'「我接。」',if:{custom:G=>typeof STORY!=='undefined'&&STORY.plgY1Count&&STORY.plgY1Count(G)>=5},set:{STUDYGROUP_LEADER:true}},{text:'（不說話）'}]} ] },
   /* 柏翰 翰 3 分數表（AA_40、AA_177 第 5 節；柏翰接題目整理的版本）：第二次聚會＝大二下第 2 週週三 3/3 的讀書會，白板上多了一張分數表；可以去找他談，或什麼都不做（都不改變翰 4）。

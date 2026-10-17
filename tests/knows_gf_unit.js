@@ -60,7 +60,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   const fri2=termDay('Y2S2',2,5);
   const p4b=async(know)=>{ fresh(fri2,20.5,'dorm',{dating_kexin:true}); meet('classmate_peishan'); SOCIAL.remember('classmate_peishan','MIRROR_PEISHAN',''); if(know) ROM.learn(G,'classmate_peishan','kexin','yt_told'); run(20.5,22); return {group:!!G.flags.PS_P4B_GROUP,ask:PHONE.sent(G,'ps_p4b')}; };
   { const a=await p4b(false), b=await p4b(true);
-    check('D. 大二下 P4b、和可昕交往中：沛珊不知道＝兩個人的版本（不開小組）；知道＝「陪重考生念書」小組（9-4 #4）',a.ask&&!a.group&&b.ask&&b.group,JSON.stringify([a,b])); }
+    check('D. 大二下 P4b：沛珊的消失期（BB_205 第 3 節），知不知道都不發、不開小組',!a.ask&&!a.group&&!b.ask&&!b.group,JSON.stringify([a,b])); }
   /* ---------- E 芷若早場 ---------- */
   const es=ev('ev_zhiruo_early_show');
   { fresh(fri12+1,9.7,'gongguan',{dating_kexin:true,zhiruo_film_date:true}); meet('heroine_02'); await EVENTS.run(es);

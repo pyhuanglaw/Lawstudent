@@ -1845,7 +1845,10 @@ const STORY = (function(){
         if(PHONE.sent(G,'sis_m2')&&!F.SIS_M2&&G.day*24+G.hour>=(d+1)*24+9&&!PHONE.sent(G,'sis_m2_kevin')){ F.SIS_M2='none'; PHONE.at(G,d+1,9,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'三，考完請吃飯！'},W('……好。')],'sis_m2_kevin'); } } }
     /* 沛珊 P4 沒去（BB_97 4-3）：大二下第 1 週週四那晚 21:30，公法讀書會群組她的最後一則（題目整理交給柏翰）（BB_191 §8-7：原本週三法服讀書會群組）。
        翰 3 祐廷接的版本（AA_40）：第 2 週週四 21:00 柏翰在全班群組貼一張全班小考的分數分布圖，自己那一格用紅框圈起來，沒有字（AA_118）*/
-    { const w1=termDay('Y2S2',1,4); if(w1!=null&&G.day>=w1&&G.day<=w1+3&&(G.day>w1||G.hour>=21.5)&&!(G.events&&G.events.done&&G.events.done.ev_peishan_handover)&&PHONE.inGroup(G,'public_law')&&!PHONE.sent(G,'ps_p4_missed'))
+    /* 交接筆記（BB_205 第 2 節：12/17 22:00；原本在 needed_msgs 的 ps_notes）*/
+    { const w1=termDay('Y2S1',15,4), ps='classmate_peishan'; if(w1!=null&&F.STUDYGROUP_LEADER&&G.events&&G.events.done&&G.events.done.ev_peishan_handover&&(G.day>w1||(G.day===w1&&G.hour>=22))&&G.day<=w1+3&&!PHONE.sent(G,'ps_notes')){ const P=t=>({th:'p:'+ps,from:ps,text:t});
+        PHONE.at(G,w1,22,[Object.assign(P('讀書會的交接筆記，我放在萬才館櫃子的第二格。'),{ask:{id:'ps_notes',opts:[{t:'收到。',say:[P('……謝謝你接住。')]}]}})],'ps_notes'); } }
+    { const w1=termDay('Y2S1',15,4); if(w1!=null&&G.day>=w1&&G.day<=w1+3&&(G.day>w1||G.hour>=21.5)&&!(G.events&&G.events.done&&G.events.done.ev_peishan_handover)&&PHONE.inGroup(G,'public_law')&&!PHONE.sent(G,'ps_p4_missed'))
         PHONE.at(G,w1,21.5,[{th:'g:public_law',from:'classmate_peishan',text:'題目整理交給柏翰了。不要變成比分數的地方。'}],'ps_p4_missed');
       const w2=termDay('Y2S2',2,4); if(w2!=null&&F.STUDYGROUP_LEADER&&G.day>=w2&&G.day<=w2+3&&(G.day>w2||G.hour>=21)&&PHONE.inGroup(G,'law_class')&&!PHONE.sent(G,'han3_chart'))
         PHONE.at(G,w2,21,[{th:'g:law_class',from:'classmate_bohan',text:'📷（全班小考的分數分布圖。他自己那一格用紅框圈起來。）'}],'han3_chart'); }
@@ -1853,7 +1856,7 @@ const STORY = (function(){
        她知道祐廷重考過（ECON_PAST_SHARED full 或 MIRROR_PEISHAN）＝「重考的人才能回答的問題」＋第四個選項；不知道＝「有沒有很想放棄、可是撐過來的事？」。
        祐廷在和別人交往、而且她知道：之後她開小群組「陪重考生念書」（祐廷、阿哲；阿哲「我來補債各。」），便條寫「你們呢？」（invites.js 的 afterMeet）。
        第 8 週週六 4/17 12:30「總圖滿了。兩點半，靠窗。」（AA_177 第 8 節②；只有兩個人的版本）→ Café 13～15 點到就演 ev_peishan_cafe_42（CG BCG-35）*/
-    { const d=termDay('Y2S2',2,5), ps='classmate_peishan'; if(d!=null&&typeof SOCIAL!=='undefined'&&SOCIAL.has(ps,'FIRST_MET')&&(G.day>d||(G.day===d&&G.hour>=21))&&S.termAt(G.day)==='Y2S2'&&!PHONE.sent(G,'ps_p4b')&&(SOCIAL.has(ps,'MIRROR_PEISHAN')||['FRIEND','CLOSE_FRIEND'].includes(fl(ps)))){
+    { const d=termDay('Y2S2',2,5), ps='classmate_peishan'; if(d!=null&&!S.psGone(G)&&typeof SOCIAL!=='undefined'&&SOCIAL.has(ps,'FIRST_MET')&&(G.day>d||(G.day===d&&G.hour>=21))&&S.termAt(G.day)==='Y2S2'&&!PHONE.sent(G,'ps_p4b')&&(SOCIAL.has(ps,'MIRROR_PEISHAN')||['FRIEND','CLOSE_FRIEND'].includes(fl(ps)))){
         const know=F.ECON_PAST_SHARED==='full'||SOCIAL.has(ps,'MIRROR_PEISHAN'), P=t=>({th:'p:'+ps,from:ps,text:t}), other=typeof ROM!=='undefined'&&ROM.knows(G,ps).length>0;   /* 她知道祐廷在和別人交往（BB_191 9-4 #4：不是祐廷有沒有伴侶）*/
         const opts=[{t:'每天去同一個位子。',say:[P('……好。我先試這個。')],set:{PS_P4B:'seat'}},{t:'知道自己要去哪裡，就不難撐。',say:[P('我知道要去哪裡。那我應該撐得住。')],set:{PS_P4B:'where'}},{t:'我也不知道，就撐過來了。',say:[P('……這個答案好誠實。我收下了。')],set:{PS_P4B:'dunno'}}];
         if(know) opts.push({t:'那時候有人陪我一起準備。',say:[P('……好。那我也找一個人。')],set:{PS_P4B:'someone'}});
@@ -1991,13 +1994,13 @@ const STORY = (function(){
     { const sun=S.dayOfKey('2026-06-07');   /* AA_198 第 5 節：原本第 16 週週日＝6/14 已經考完，「期末加油」不成立 → 6/7（日）*/
       if(sun&&G.day>=sun&&G.day<=sun+1&&!(G.day===sun&&h(G)<21)&&!PHONE.sent(G,'ps_owed')&&typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,'classmate_peishan')&&PHONE.inGroup(G,'law_class'))
         PHONE.at(G,sun,21,[{th:'g:law_class',from:'classmate_peishan',text:'📄 刑總二重點。'+(F.PS_CANCEL==='ok'?'欠的，還了。':'期末加油。'),ask:{opts:[{t:'（貼一個貼圖）',post:'（貼圖）'},{t:'謝謝！'}]}}],'ps_owed'); }
-    /* W3b 不讓步的晚上（BB_96 2-4；文章 BB 137bf31，不是法律、不需法律審查）：ev_grad_debate 之後每兩週一次，20:30，大一下到大二（學期中）。
+    /* W3b 不讓步的晚上（BB_96 2-4；文章 BB 137bf31，不是法律、不需法律審查）：ev_grad_debate 之後每兩週一次，20:30，大一下到大二上（學期中；BB_205 第 4 節：大二下不發）。
        她這段期間有伴侶＝發在讀書會群組（不在群組的玩家那一次就沒有）。三篇輪流；第一次的開頭依 W3_STANCE 換一句（BB_96 2-3 回聲）；
        玩家的三個反例都打第二點，她的回應依反例、長回覆折起來（fold：手機上點開看全文）；記 ARGUED_GOOD（累計）。三篇都輪過以後：「這篇你讀過了。」玩家選哪一點有問題（第二點＝「對。」，其他＝「再讀一次。」，不扣分）。
        摘要日／精華日還沒做，時間先定 20:30（「晚上 21:00 前」）*/
     { const dd=G.events&&G.events.last?G.events.last.ev_grad_debate:null;
       if(dd!=null&&G.day>dd&&PHONE.inGroup(G,'lawclub_study')){ const k=Math.floor((G.day-dd)/14)-1, d=dd+14*(k+1), tg='w3b_'+k, tm=typeof CALENDAR!=='undefined'?CALENDAR.termOf(d):null;
-        if(k>=0&&tm&&['Y1S2','Y2S1','Y2S2'].includes(tm.id)&&G.day<=d+1&&!(G.day===d&&h(G)<20.5)&&!PHONE.sent(G,tg)){
+        if(k>=0&&tm&&['Y1S2','Y2S1'].includes(tm.id)&&G.day<=d+1&&!(G.day===d&&h(G)<20.5)&&!PHONE.sent(G,tg)){
           const n=F.W3B_N|0, A=W3B_ART[n%3], th='g:lawclub_study', W=(t,o)=>Object.assign({th,from:'heroine_05',name:'溫學姊',text:t},o||{}), ME=t=>({th,from:'player',text:t}); let items;
           if(n<3){ const open=n===0&&W3B_OPEN[F.W3_STANCE]?[W(W3B_OPEN[F.W3_STANCE])]:[W('這篇。三個論點。')];   /* BB_161 ⑧：第一次依立場的那一句「取代」開頭（沒有立場＝照舊）*/
             items=open.concat([W('📄 校刊投書〈'+A.title+'〉'),W('一，'+A.pts[0]),W('二，'+A.pts[1]),
@@ -2006,7 +2009,7 @@ const STORY = (function(){
           else items=[W('📄 校刊投書〈'+A.title+'〉'),W('這篇你讀過了。這次換你先說三個論點。',{ask:{opts:['第一點','第二點','第三點'].map((t,i)=>({t:t+'有問題。',say:[W(i===1?'對。':'再讀一次。')]}))}})];
           if((n+1)%3===0){ const r=F.W3B_R|0, bh=F.W3B_BH&&typeof F.W3B_BH==='object'?F.W3B_BH:(F.W3B_BH={}), slot=r%3; let rep;   /* 第 3、6、9…篇後面多一則讀書會成員的回話（AA_209 第 8 節，BB_180）：輪流 柏翰／沛珊貼圖／沛珊＋1；柏翰那句一學期最多兩次，之後他的輪次改「＋1」*/
             if(slot===0){ if((bh[tm.id]|0)<2){ bh[tm.id]=(bh[tm.id]|0)+1; rep={from:'classmate_bohan',text:'第二點我也覺得怪。'}; } else rep={from:'classmate_bohan',text:'＋1'}; }
-            else rep={from:'classmate_peishan',text:slot===1?'（貼圖：舉手）':'＋1'};
+            else rep=S.psGone(G,d)?{from:'classmate_bohan',text:'＋1'}:{from:'classmate_peishan',text:slot===1?'（貼圖：舉手）':'＋1'};   /* 沛珊消失期：她不回 */
             items.push(Object.assign({th},rep)); F.W3B_R=r+1; }
           items.forEach((m,i)=>{ m.dt=i/60; }); PHONE.at(G,d,20.5,items,tg); F.W3B_N=n+1; } } }
     /* 法四學長姊畢業的群組（交接包 v2 C17；AA_71 2-12）：大一下第 15 週週六。法服群組（加入法服的玩家）12:30 有人傳合照＋「恭喜學長姊！法服永遠歡迎回來值班！」（傳的人：法服社長——法三的學長姊、不具名，社團公告的口氣；AA 2026-10-14）；
@@ -2213,7 +2216,7 @@ const STORY = (function(){
       items:()=>[{th:'p:npc_fangyt',from:'player',who:null,text:'📷（黃金葛長出一片新葉）'},{th:'p:npc_fangyt',from:'npc_fangyt',text:'新葉。你的。'}]},
     {id:'mingxuan_bento',h:()=>12.1,ok:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('classmate_mingxuan','SAW_HIM_STUDY')&&gotBefore(G,'classmate_mingxuan'),
       items:()=>[{th:'p:classmate_mingxuan',from:'classmate_mingxuan',text:'公館新開一家便當店，八十。已加進清單。你什麼都沒看到。'}]},
-    {id:'peishan_handout',h:()=>21.6,ok:G=>PHONE.inGroup(G,'public_law'),   /* BB_191 §8-7：公法讀書會群組 */
+    {id:'peishan_handout',h:()=>21.6,ok:G=>PHONE.inGroup(G,'public_law')&&!S.psGone(G),   /* BB_191 §8-7：公法讀書會群組 */
       items:()=>[{th:'g:public_law',from:'classmate_peishan',text:'📷（講義的照片，邊角畫了一個問號）'}]},
     /* BB_120 1-7c「固定的改變」（BB 2026-10-14，第②級）：照熟度傳的訊息，只在那個階段（過了就不補）。子晴「認識」只有事情、發在吉他社群組（還沒有私訊）；
        「有點熟」一句拆五則；「朋友」測試版先私訊給你（22:10），同一晚 22:40 群組才出現；「好朋友」真的問問題（第二組在期末考那兩週）*/
@@ -2820,6 +2823,8 @@ const STORY = (function(){
     return started&&!ended; };
   S.inTerms=function(G,r){ if(!r) return false; const t=S.termAt(G.day); if(!t) return false; const i=TERM_ORDER.indexOf(t); return i>=0&&(!r.from||i>=TERM_ORDER.indexOf(r.from))&&(!r.until||i<=TERM_ORDER.indexOf(r.until)); };
   S.present=(id,G)=>S.presence(id,G).here;
+  /* 沛珊的重考消失期（BB_205 第 3 節、BB_194 §19）：2026-12-18（P4 交接隔天）～2027-08-06 放榜，聯絡不到（presence absentDates 的 unreachable）*/
+  S.psGone=(G,day)=>S.presence('classmate_peishan',day==null?G:Object.assign({},G,{day})).kind==='unreachable';
   /* 大一下期中那兩週（第 8～9 週，語彤顧店的那一週，AA_11 事件 4）有沒有去過總圖：Y1_MID_LIB；舊存檔沒有這個旗標就看習慣記錄（place:library…）*/
   S.y1MidLib=function(G){ const F=G.flags||{}; if(F.Y1_MID_LIB) return true; const a=termDay('Y1S2',8,1), b=termDay('Y1S2',9,7); if(a==null||b==null) return false;
     const H=G.habits||{}; return Object.keys(H).some(k=>/^place:library(_hall)?:/.test(k)&&(H[k].days||[]).some(d=>d>=a&&d<=b)); };
