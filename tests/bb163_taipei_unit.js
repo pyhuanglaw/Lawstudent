@@ -47,7 +47,8 @@ GM.money=function(n){ G.money+=n; };
   check('1. 手機「約」：不能約、「沛珊沒有回覆。」',!INV.canInvite(G,PS)&&/沒有回覆/.test(INV.whyNot(G,PS)),INV.whyNot(G,PS));
   setup(Y2S2SUN,9,{dating_classmate_peishan:true}); at(Y2S2SUN,14.5); e=ent(PS);
   check('3. 交往中也一樣：週日下午不在小公園',!e);
-  setup(D('2027-08-07'),9); at(D('2027-08-07'),10); check('3. 8/7 放榜以後：回到「在臺北、不在台大」',STORY.presence(PS,G).kind==='taipei');
+  setup(D('2027-08-07'),9); at(D('2027-08-07'),10); check('3. 8/7 放榜以後：暑假還在台中老家（AA_276 第 1 節，使用者 23:4x：寒暑假沛珊回台中）',STORY.presence(PS,G).kind==='home');
+  setup(D('2027-09-08'),9); at(D('2027-09-08'),10); check('3. 開學以後（9/8）：回到「在臺北、不在台大」',STORY.presence(PS,G).kind==='taipei');
   // 4. 大三：課輔班、書店、總圖
   setup(Y3TUE,9); at(Y3TUE,17); e=ent(PS); const r4=ask(PS,'wenzhou',Y3TUE,17), r4b=ask(PS,'library',Y3TUE,14), r4c=ask(PS,'cafe',Y3TUE,17), r4d=ask(PS,'cafe',Y3TUE,13);
   check('4. 大三週二 17:00：沛珊在溫州街（課輔班）；約散步改到 19:00「課輔班下課，剛好在溫州街。……七點，門口等我。」',e&&e.zone==='wenzhou'&&r4.res==='resched'&&r4.alt&&Math.abs(r4.alt.h-19)<1e-6&&r4.alt.day===Y3TUE&&L(r4)==='「課輔班下課，剛好在溫州街。……七點，門口等我。」',JSON.stringify([e&&e.zone,r4]));

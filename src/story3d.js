@@ -2857,6 +2857,7 @@ const STORY = (function(){
   S.termAt=function(day){ if(typeof CALENDAR==='undefined') return null; for(let d=day; d>day-200; d--){ const t=CALENDAR.termOf(d); if(t) return t.id; } return null; };
   S.presence=function(id,G){ const c=(typeof CHARACTERS!=='undefined')&&CHARACTERS[id]; const P=c&&c.presence; if(!P) return {here:true};
     if(P.absentDates&&S.dayOfKey) for(const [a,b,away,kind] of P.absentDates){ const d0=S.dayOfKey(a), d1=S.dayOfKey(b); if(d0!=null&&d1!=null&&G.day>=d0&&G.day<d1) return {here:false,away:away||'',kind:kind||'abroad'}; }   /* 用日期算的不在（交換：以安 2028-01-08～07-15 在日本、學姊 2028-01-05 起在美國，AA_158 第 4 節；學期中間出發、放假也算）*/
+    if(P.home&&(G.stage||'law')==='law'&&S.homeAway(G)) return {here:false,away:'寒暑假在'+P.home+'的家',kind:'home',home:P.home};   /* AA_276 第 1 節：可昕高雄、沛珊台中；手機照常，偶遇、校園、當面約都不在臺北 */
     const t=S.termAt(G.day); if(!t) return {here:true}; const i=TERM_ORDER.indexOf(t);
     const A=P.away||{}, K=P.kinds||{}; if(P.from&&i<TERM_ORDER.indexOf(P.from)) return {here:false,away:A.before||'',kind:'before'}; if(P.until&&i>TERM_ORDER.indexOf(P.until)) return {here:false,away:A[t]||A.after||'',kind:K[t]||K.after||'after'};
     if(P.absent&&P.absent.includes(t)) return {here:false,away:A[t]||'',kind:K[t]||'absent'}; return {here:true}; };   /* kinds：覆寫原因的種類（taipei＝在臺北、不在台大：沛珊大二下起、子晴大四，BB_163——校園作息換成她那份、邀約照她的規則，不先擋）*/   /* kind：手機「約不了的原因」（AA_125 第 1 節：交換＝國外、until 過了＝畢業）*/
@@ -2905,6 +2906,8 @@ const STORY = (function(){
     const ended=done(p.endEvent)||(p.untilWeek?gt(cur,[ti(p.untilWeek.term),p.untilWeek.week]):(!!p.until&&cur[0]>ti(p.until)));
     return started&&!ended; };
   S.inTerms=function(G,r){ if(!r) return false; const t=S.termAt(G.day); if(!t) return false; const i=TERM_ORDER.indexOf(t); return i>=0&&(!r.from||i>=TERM_ORDER.indexOf(r.from))&&(!r.until||i<=TERM_ORDER.indexOf(r.until)); };
+  /* 寒暑假回老家的期間（AA_276 第 1 節）：期末考最後一天（第 16 週週五）的第 3 天＝放假第一天起，到下學期開學前 2 天（不含）。法律系大一起；經濟系那年照 AA_272 */
+  S.homeAway=function(G){ if(typeof HOME==='undefined'||!HOME.breakOf) return false; const d0=S.dayOfKey('2025-08-29'); if(d0!=null&&G.day<d0) return false; const B=HOME.breakOf(G.day);   /* 經濟系那一年的寒暑假不算（呼叫端有時只帶 {day}）*/ return !!B&&G.day>=B.from&&G.day<=B.to-2; };
   S.present=(id,G)=>S.presence(id,G).here;
   /* 沛珊的重考消失期（BB_205 第 3 節、BB_194 §19）：2026-12-18（P4 交接隔天）～2027-08-06 放榜，聯絡不到（presence absentDates 的 unreachable）*/
   S.psGone=(G,day)=>S.presence('classmate_peishan',day==null?G:Object.assign({},G,{day})).kind==='unreachable';

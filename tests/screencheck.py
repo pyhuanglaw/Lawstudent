@@ -38,7 +38,7 @@ STATE_JS = r"""(()=>{
   /* 2. 被蓋住、4. 跑出螢幕 */
   const chk=(el,name)=>{ const r=el.getBoundingClientRect(); if(r.width<4||r.height<4) return; const cx=Math.min(W-3,Math.max(2,r.left+r.width/2)), cy=Math.min(H-3,Math.max(2,r.top+r.height/2));
     if(!onScreen(r)) out.problems.push({k:'offscreen',msg:name+' 跑到螢幕外',rect:[r.left|0,r.top|0,r.right|0,r.bottom|0]});
-    else if(!inside(el,cx,cy)) out.problems.push({k:'covered',msg:name+' 被「'+coverName(cx,cy)+'」蓋住，點不到'}); };
+    else if(getComputedStyle(el).pointerEvents!=='none'&&!inside(el,cx,cy)) out.problems.push({k:'covered',msg:name+' 被「'+coverName(cx,cy)+'」蓋住，點不到'}); };   /* 本來就不給點的（例：出選項時的對話框 pointer-events:none）不算 */
   if(out.info.dlg) chk(document.getElementById('dlg'),'對話框');
   document.querySelectorAll('#choices button').forEach((b,i)=>{ if(out.info.choices) chk(b,'選項「'+b.textContent.trim().slice(0,14)+'」'); });
   for(const [id,name] of [['interact','互動鍵'],['btnPhone','手機鍵'],['btnMenu','選單鍵']]) if(vis(id)&&!out.info.overlays.length&&!out.info.adv){ const e=document.getElementById(id), r=e.getBoundingClientRect(); if(r.width>4&&!onScreen(r)) out.problems.push({k:'offscreen',msg:name+' 跑到螢幕外'}); }

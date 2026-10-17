@@ -91,7 +91,7 @@ const MSG=(function(){
     const tt=TIME_TAGS.find(([k])=>p===k); if(tt) return tt[1](h);
     if(p==='平日') return wd>=1&&wd<=5; if(p==='週末') return wd===0||wd===6; if(p==='學期中') return !brk; if(/^(放假|放假中|寒暑假)$/.test(p)) return brk; if(p==='暑假') return brk&&(()=>{ const x=md(G); return !!x&&x.m>=6&&x.m<=9; })();
     if(p==='考試週') return !!(t&&t.exam); if(p==='深夜') return h>=23||h<5; if(p==='下雨天') return G.weather==='rain'; if(p==='平日課後') return wd>=1&&wd<=5&&h>=12;
-    if(p==='在臺灣') { const pr=presence(G,id); return !(pr&&pr.here===false&&pr.kind==='abroad'); } if(p==='在美國'){ const pr=presence(G,id); return !!(pr&&pr.here===false&&pr.kind==='abroad'); }
+    if(p==='在臺灣') { const pr=presence(G,id); return !(pr&&pr.here===false&&pr.kind==='abroad'); } if(p==='在美國'){ const pr=presence(G,id); return !!(pr&&pr.here===false&&pr.kind==='abroad'); } if(p==='在老家'||p==='在老家或旅行'){ const pr=presence(G,id); return !!(pr&&pr.here===false&&pr.kind==='home'); }   /* AA_276：寒暑假回老家（可昕高雄、沛珊台中）*/
     let m=p.match(/^(?:祐廷)?(大[一二三四])(上|下)?(?:～(大[一二三四])(上|下)?)?(起)?$/);
     if(m){ const y=yearNow(G), a=YEAR[m[1]], b=m[3]?YEAR[m[3]]:(m[5]?9:a); if(!(y>=a&&y<=b)) return false; const sm=semNow(G);
       if(m[2]&&y===a&&!m[3]&&sm&&sm!==(m[2]==='上'?'S1':'S2')) return false; if(m[4]&&y===b&&sm&&m[4]==='上'&&sm!=='S1') return false; return true; }

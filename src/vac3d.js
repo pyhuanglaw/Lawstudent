@@ -106,7 +106,7 @@ const VAC=(function(){
         for(const id in M2.reunion){ if(!F['dating_'+id]) continue; const R=M2.reunion[id], tg='vac_re_'+I.key+'_'+id; if(PHONE.sent(G,tg)||G.day>rd+45) continue;
           const aw=R.away&&DK(R.away.until), inv=aw!=null&&rd<=aw?aw:rd;   /* 約的那一天（回國當天，或她回臺北的前一天）*/
           if(aw!=null&&rd<=aw&&now>=T(rd,21)&&!PHONE.sent(G,tg+'_away')) PHONE.at(G,rd,21,[{th:'p:'+id,from:id,text:R.away.text}],tg+'_away');
-          if(typeof STORY!=='undefined'&&STORY.present&&!STORY.present(id,Object.assign({},G,{day:inv+1}))) continue;   /* 她那時不在臺灣：不約 */
+          if(typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(id,Object.assign({},G,{day:inv+1})); if(!pr.here&&pr.kind!=='home') continue; }   /* 她那時不在臺灣：不約（寒暑假回老家還在臺灣，照約，AA_276）*/
           if(now>=T(inv,21)){ PHONE.at(G,inv,21,R.invite.map(t=>({th:'p:'+id,from:id,text:t})),tg); if(typeof OUT!=='undefined') OUT.plan(G,{id:'vac_'+I.key+'_re_'+id,ev:'ev_vac_key',day:inv+1,h:R.h,late:0.5,place:R.place,title:'重逢：'+nm(id)+'（'+R.place+'）',travel:'走過去約 15 分鐘',travelH:0.25,vac:{key:I.key,k:'re',who:id}}); } } }
       /* 子晴一天一到兩則（BB-C 13:03）：00:40 那則在當天 18:00 以前回了，23:10 再傳第二則（回的時間＝手機第一次看到回覆的那一刻）*/
       for(const z of ((V.zq2||{})[I.key]||[])){ if(z.done) continue; const m=(G.msgs||[]).find(x=>x.ask&&x.ask.id===z.tag); if(!m) continue;
@@ -209,7 +209,7 @@ const VAC=(function(){
   /* 她那幾天能不能一起出國（BB_200 第 7 節）：交往滿 28 天、正式約會 2 次、那幾天都在臺灣；學姊放榜（3/23）以前不行；沛珊重考消失期不行；歐美再加滿 90 天（不到＝「下次」）*/
   S.gfCan=function(G,id,dest,from,to){ const D=TV(); if(!G.flags['dating_'+id]||!D.gf[id]) return 'none'; const L=typeof DATE!=='undefined'&&DATE.log?DATE.log(G,id):{count:0};
     if(S.datingDays(G,id)<28||(id!=='kexin'&&(L.count|0)<2)) return 'no';
-    for(let d=from;d<=to;d++){ if(typeof STORY!=='undefined'&&STORY.present&&!STORY.present(id,Object.assign({},G,{day:d}))) return 'no'; }
+    for(let d=from;d<=to;d++){ if(typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(id,Object.assign({},G,{day:d})); if(!pr.here&&pr.kind!=='home') return 'no'; } }   /* 回老家的女朋友照樣約得出國（AA_276：約出國）*/
     const M=Dt().TRIP_MSG, off=M&&M.gf[id]&&M.gf[id].off; if(off){ const a=DK(off[0]), b=DK(off[1]); if(a!=null&&b!=null&&from<b&&to>=a) return 'no'; }
     if(id==='heroine_05'&&typeof DATE!=='undefined'&&DATE.SIS_RESULT_DAY){ const r=DK(DATE.SIS_RESULT_DAY); if(r!=null&&from<r) return 'no'; }
     if(D.dest[dest].far&&S.datingDays(G,id)<90) return 'later';

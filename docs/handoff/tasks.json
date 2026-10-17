@@ -16319,6 +16319,75 @@
    "pausedReason": null,
    "resumeWhen": null,
    "sha": "84c8b040"
+  },
+  {
+   "id": "VAC-HOMETOWN-1017",
+   "title": "AA_276 第 1 節（a5d17b91，使用者 23:4x）：寒暑假可昕回高雄、沛珊回台中——在老家期間（放假第一天～開學前 2 天）臺北不出現；手機「在老家」；見面只有去她的縣市／外縣市旅行／出國",
+   "area": "VAC",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "next": "已做：presence home、作息、當面約婉拒、手機標籤、出國照約（tests/vac_hometown_unit.js）；待做：「我去高雄找妳？」「我去台中找妳？」邀約入口＋出遊卡（那一天的台詞問 AA-C 中）；AA 逐件改寫死在臺北的寒暑假事件（大一跨年河堤、期末聚餐落在放假第 3 天以後、沛珊「寒假我回桃園」、2028-01-12 國小教室）",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "2025-12-22 大一寒假",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_276（a5d17b91）",
+   "authorized": "使用者 23:4x＋AA 定稿",
+   "pausedReason": null,
+   "resumeWhen": null
+  },
+  {
+   "id": "VAC-ZR-UK-1017",
+   "title": "AA_276 第 2 節：芷若在英國照交情聯絡（認識＝社群發文／朋友＝私訊一週一兩次＋明信片／好朋友曖昧＝每月一次視訊 週日 22:00／交往＝每天一則＋每週視訊＋跨年 1/1 08:00）；子晴照同表",
+   "area": "V4",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "next": "在英國的句子等 BB-C 補（AA_276 第 2 節）；機制可以先做",
+   "first": {
+    "term": "Y3S2",
+    "week": 0,
+    "earliest": "芷若在英國（BB_119、AA_258）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_276（a5d17b91）",
+   "authorized": "使用者 23:4x＋AA 定稿",
+   "pausedReason": "句子等 BB-C",
+   "resumeWhen": "BB-C 交在英國的回覆池"
+  },
+  {
+   "id": "VAC-AA275-1017",
+   "title": "AA_275（98dd5b5c）寒暑假擋路 13 處裁定：快轉照 ffMenu、已報名活動第一次停下來演／之後換 AA_264 那句；每年重開活動日期規則；C04 開放年份；C10 成績照 BB_200 9-4；摘要日在國外或有活動時跳過、7/20 改句；學姊出發 2028-08-02；C09 停電 8/2；宿舍名單照 AA_208；以安大三過年 2028-01-24～28",
+   "area": "VAC",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "逐條對程式：先做 1（快轉遇到已報名活動）、3（每年重開的日期）、6（摘要日跳過條件）",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "2025-12-22 大一寒假",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_275（98dd5b5c）",
+   "authorized": "AA 定稿（第②級）",
+   "pausedReason": null,
+   "resumeWhen": null
   }
  ]
 }
