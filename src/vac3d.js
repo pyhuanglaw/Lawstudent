@@ -78,7 +78,7 @@ const VAC=(function(){
       /* 出發那天的麵店團群組（AA_242 0-2）*/
       const dp=I.A.depart; if(dp&&I.A.trip&&['yes','done'].includes(V.reg[I.key])&&PHONE.inGroup(G,'noodle_team')){ const sd=S.dayOf(I.yk,I.A.season,I.A.trip.start.day), sh=I.A.trip.start.h; if(sd!=null&&now>=T(sd,sh)&&G.day<=sd+1&&!PHONE.sent(G,'vac_dep_'+I.key)) PHONE.at(G,sd,sh,[{th:'g:noodle_team',from:'zhe',text:dp.zhe},{th:'g:noodle_team',from:'yu',text:dp.yu}],'vac_dep_'+I.key); }
       /* 回來以後（AA_242 0-3：出國回來的第一次「伴手禮咧」、第二次「這次伴手禮咧」、第三次以後貼圖）*/
-      const bk=I.A.back; if(bk&&V.reg[I.key]==='done'&&PHONE.inGroup(G,'noodle_team')){ const bd=S.dayOf(I.yk,I.A.season,bk.day||I.A.days[1]); if(bd!=null&&now>=T(bd,20)&&G.day<=bd+3&&!PHONE.sent(G,'vac_back_'+I.key)){ const n=S.all().filter(J=>J.A.back&&PHONE.sent(G,'vac_back_'+J.key)).length; PHONE.at(G,bd,20,[{th:'g:noodle_team',from:'zhe',text:n===0?'伴手禮咧':(n===1?'這次伴手禮咧':'（貼圖：伸出手）')}],'vac_back_'+I.key); } }
+      const bk=I.A.back; if(bk&&V.reg[I.key]==='done'&&PHONE.inGroup(G,'noodle_team')){ const bd=S.dayOf(I.yk,I.A.season,bk.day||I.A.days[1]); if(bd!=null&&now>=T(bd,20)&&G.day<=bd+3&&!PHONE.sent(G,'vac_back_'+I.key)){ const n=S.all().filter(J=>J.A.back&&PHONE.sent(G,'vac_back_'+J.key)).length+((V.t13||[]).filter(r=>PHONE.sent(G,'vac_back_T13#'+r.n)).length); PHONE.at(G,bd,20,[{th:'g:noodle_team',from:'zhe',text:n===0?'伴手禮咧':(n===1?'這次伴手禮咧':'（貼圖：伸出手）')}],'vac_back_'+I.key); } }
       /* 回來重逢（AA_242 8-6、BB_200 第 4 節）：交往中、她在臺北＝回國當天 21:00 她約、隔天排出遊；她不在臺北（芷若大一暑假在台中）＝先傳一句，回臺北前一天晚上再約 */
       const M2=Dt().TRIP_MSG; if(I.A.place.kind==='abroad'&&V.reg[I.key]==='done'&&M2&&M2.reunion){ const rd=I.to;
         for(const id in M2.reunion){ if(!F['dating_'+id]) continue; const R=M2.reunion[id], tg='vac_re_'+I.key+'_'+id; if(PHONE.sent(G,tg)||G.day>rd+45) continue;
@@ -121,14 +121,14 @@ const VAC=(function(){
      交往中：出發那天一則、每天輪播池（學姊兩天一則；第二圈只用前半）、中間那天換成「中間」那則、回來那天一則；池子的每一則有兩個回覆（她不再回，沒回不扣分）。
      朋友（FAMILIAR 以上）：整趟一兩則。柬埔寨：晚上（臺灣 22:00）以後才收得到；停電那晚（8/2）不收，隔天早上一次收到＋交往中的「怎麼沒回？」。加州：第 3 週多一次「想念」。 */
   S.tripMsgs=function(G,I){ const M=Dt()&&Dt().TRIP_MSG; if(!M||typeof PHONE==='undefined') return 0; const A=I.A, tr=A.trip, F=G.flags||{};
-    const sd=S.dayOf(I.yk,A.season,tr.start.day), ed=S.dayOf(I.yk,A.season,tr.end.day), dark=tr.dark?S.dayOf(I.yk,A.season,tr.dark):null; let n=0;
+    const sd=tr.sd!=null?tr.sd:S.dayOf(I.yk,A.season,tr.start.day), ed=tr.ed!=null?tr.ed:S.dayOf(I.yk,A.season,tr.end.day), dark=tr.dark?S.dayOf(I.yk,A.season,tr.dark):null; let n=0;
     const wdOf=d=>typeof CALENDAR!=='undefined'?CALENDAR.dateOf(d).wd%7:0;
     const when=(d,h)=>{ if(tr.signalAfter&&d>sd&&d<ed){ if(dark!=null&&d===dark) return {d:d+1,h:8}; if(h<tr.signalAfter&&h>=7) h=tr.signalAfter; } return {d,h}; };   /* 柬埔寨：白天收不到、停電那晚隔天早上才收到 */
     const put=(id,d,h,texts,tag,ask)=>{ const w=when(d,h), th='p:'+id, ms=texts.map(t=>({th,from:id,text:t})); if(ask) Object.assign(ms[ms.length-1],{ask}); if(PHONE.at(G,w.d,w.h,ms,tag)) n++; };
     const tx=(x)=>typeof x==='function'?x(G):x;
     const off=(o,d)=>{ if(!o) return false; const a=DK(o[0]), b=DK(o[1]); return a!=null&&b!=null&&d>=a&&d<b; };
     const mid=Math.floor((sd+ed)/2), depH=Math.max(7,tr.start.h-1), T0='vac_tm_'+I.key+'_';
-    for(const id in M.gf){ if(!F['dating_'+id]) continue; const P=M.gf[id], fr=P.freq; if(off(P.off,sd)) continue;
+    for(const id in M.gf){ if(!F['dating_'+id]||id===I.with) continue; const P=M.gf[id], fr=P.freq; if(off(P.off,sd)) continue;   /* 一起去的那一位不傳 */
       const at=d=>{ const h=(fr.tt&&[2,4].includes(wdOf(d)))?fr.tt:fr.h; return fr.nextDay?{d:d+1,h}:{d,h}; };
       put(id,sd,Math.min(tr.start.h+0.5,23),P.dep,T0+id+'_dep');
       let k=0; for(let d=sd+1;d<ed;d++){ if(fr.every&&(d-sd)%fr.every!==1%fr.every) continue; const w=at(d);
@@ -139,7 +139,7 @@ const VAC=(function(){
       if(dark!=null&&P.dark){ const th='p:'+id; const ask={id:T0+id+'_dark',until:T(dark+2,24),opts:M.darkRep.map(t=>({t,say:[{th,from:id,text:P.darkAns}]}))}; put(id,dark,22.5,P.dark,T0+id+'_dark',ask); }   /* 停電那晚她傳的，隔天早上才收到 */
       if(tr.missWeek&&P.miss){ const d=sd+(tr.missWeek-1)*7+2; if(d<ed) put(id,at(d).d,at(d).h+0.5,P.miss,T0+id+'_miss',{id:T0+id+'_miss',until:T(d+2,24),opts:M.missRep.map(t=>({t,say:[]}))}); } }
     const fam=id=>atLeast(id,'FAMILIAR');
-    for(const id in M.friend){ if(F['dating_'+id]||!fam(id)) continue; if(M.gf[id]&&off(M.gf[id].off,sd)) continue;
+    for(const id in M.friend){ if(F['dating_'+id]||!fam(id)||id===I.with) continue; if(M.gf[id]&&off(M.gf[id].off,sd)) continue;
       M.friend[id].forEach((f,j)=>{ if(f.only&&f.only!==A.id) return; const d=f.day==='mid'?mid:(f.day==='mid1'?mid+1:(f.day==='mid-1'?mid-1:(f.day==='end'?ed-1:sd+f.day))); const h=f.h==='dep'?depH:f.h;
         put(id,f.nextDay?d+1:d,h,tx(f.ms),T0+'f_'+id+'_'+j); }); }
     return n; };
@@ -147,10 +147,54 @@ const VAC=(function(){
   S.backGreet=async function(GM,who,id){ const G=GM.G, M=Dt()&&Dt().TRIP_MSG, t=M&&M.backGreet&&M.backGreet[id]; if(!t||!G.flags||G.flags['dating_'+id]||!atLeast(id,'FAMILIAR')) return false;
     let best=null; for(const k in G.flags){ const m=/^BACK_FROM_(C\d+)$/.exec(k); if(!m||typeof G.flags[k]!=='number') continue; if(G.day>=G.flags[k]&&G.day<=G.flags[k]+30&&(!best||G.flags[k]>best.d)) best={c:m[1],d:G.flags[k]}; }
     if(!best) return false; const V=S.rec(G), B=V.backSeen||(V.backSeen={}), key=best.c+'@'+best.d; B[key]=B[key]||{}; if(B[key][id]) return false; B[key][id]=G.day; await GM.say(who,t); return true; };
+  /* ===== 出國旅遊（C13，自己排；AA_244 第 2 節、3-1；BB_200 第 7 節）===== */
+  const TV=()=>Dt()&&Dt().TRAVEL;
+  /* 這個假期（或這學期第 10 週以後＝下一個假期）：{kind, from, to} */
+  S.nextBreak=function(G){ if(typeof HOME==='undefined'||!HOME.breakOf||typeof CALENDAR==='undefined') return null; let B=HOME.breakOf(G.day); if(B) return B; const t=CALENDAR.termOf(G.day); if(!t||t.week<10) return null; const r=CALENDAR.termDays(t.id); if(!r) return null;
+    for(let d=r.to+1;d<=r.to+14;d++){ if(!CALENDAR.termOf(d)){ B=HOME.breakOf(d); if(B) return B; } } return null; };
+  /* 交往了幾天（ROM 的 start 紀錄；可昕從經濟系那一年就在交往）*/
+  S.datingDays=function(G,id){ if(id==='kexin') return 9999; const R=G.flags&&G.flags.romance&&G.flags.romance[id]; let d=null;
+    for(const h of ((R&&R.history)||[])){ if(!h||h.ev!=='start') continue; if(typeof h.day==='number') d=h.day; else if(typeof h.at==='string'){ const m=/^(Y\dS\d)W(\d+)$/.exec(h.at), m2=/^D(-?\d+)$/.exec(h.at); if(m) d=termDay(m[1],+m[2],1); else if(m2) d=+m2[1]; } }
+    return d==null?0:G.day-d; };
+  /* 她那幾天能不能一起出國（BB_200 第 7 節）：交往滿 28 天、正式約會 2 次、那幾天都在臺灣；學姊放榜（3/23）以前不行；沛珊重考消失期不行；歐美再加滿 90 天（不到＝「下次」）*/
+  S.gfCan=function(G,id,dest,from,to){ const D=TV(); if(!G.flags['dating_'+id]||!D.gf[id]) return 'none'; const L=typeof DATE!=='undefined'&&DATE.log?DATE.log(G,id):{count:0};
+    if(S.datingDays(G,id)<28||(id!=='kexin'&&(L.count|0)<2)) return 'no';
+    for(let d=from;d<=to;d++){ if(typeof STORY!=='undefined'&&STORY.present&&!STORY.present(id,Object.assign({},G,{day:d}))) return 'no'; }
+    const M=Dt().TRIP_MSG, off=M&&M.gf[id]&&M.gf[id].off; if(off){ const a=DK(off[0]), b=DK(off[1]); if(a!=null&&b!=null&&from<b&&to>=a) return 'no'; }
+    if(id==='heroine_05'&&typeof DATE!=='undefined'&&DATE.SIS_RESULT_DAY){ const r=DK(DATE.SIS_RESULT_DAY); if(r!=null&&from<r) return 'no'; }
+    if(D.dest[dest].far&&S.datingDays(G,id)<90) return 'later';
+    return 'yes'; };
+  /* 手機活動頁的「安排出國旅遊」→ 一連串選擇（目的地、和誰、幾天、哪天出發）*/
+  S.plan13=async function(GM){ const G=GM.G, D=TV(), B=S.nextBreak(G); if(!D||!B){ if(GM.toast) GM.toast('現在離假期還太遠，第 10 週以後可以排',3000); return false; }
+    const keys=Object.keys(D.dest).filter(k=>!D.dest[k].far||B.kind==='summer'); const o1=keys.map(k=>({t:D.dest[k].name})).concat([{t:'不去了'}]); const a=await GM.choose(o1); if(a>=keys.length) return false; const dest=keys[a], far=D.dest[dest].far;
+    const who=[{t:'自己去',id:null}]; for(const id in D.gf) if(G.flags['dating_'+id]) who.push({t:'和'+nm(id),id,gf:true}); for(const id in D.friend) if(atLeast(id,'FAMILIAR')) who.push({t:'和'+nm(id),id});
+    const b=await GM.choose(who.map(x=>({t:x.t})).concat([{t:'不去了'}])); if(b>=who.length) return false; const W=who[b];
+    const lens=far?[7,10,14]:[3,5,7]; const c=await GM.choose(lens.map(n=>({t:n+' 天'})).concat([{t:'不去了'}])); if(c>=lens.length) return false; const len=lens[c];
+    const lo=Math.max(B.from,G.day+3), starts=[]; for(let d=lo;d+len-1<=B.to&&starts.length<4;d+=7) starts.push(d); if(!starts.length){ if(GM.toast) GM.toast('這個假期排不下 '+len+' 天',3000); return false; }
+    const e=await GM.choose(starts.map(d=>({t:dl(d)+' 出發（'+dl(d+len-1)+' 回來）'})).concat([{t:'不去了'}])); if(e>=starts.length) return false; const from=starts[e], to=from+len-1;
+    if(W.gf){ const P=D.gf[W.id], me={name:nm(W.id),charId:W.id}; await GM.say({name:G.name||'祐廷'},'要不要一起出國？'); const r=S.gfCan(G,W.id,dest,from,to);
+      if(r!=='yes'){ await GM.say(me,r==='later'?P.later:P.no); return false; } for(const t of P.yes) await GM.say(me,t);
+      if(P.next&&typeof PHONE!=='undefined') PHONE.at(G,G.day+1,21,P.next.map(t=>({th:'p:'+W.id,from:W.id,text:t})),'vac_t13next_'+G.day+'_'+W.id); }
+    const V=S.rec(G), T=V.t13||(V.t13=[]), n=T.length+1, rec={n,dest,from,to,with:W.id||null,gf:!!W.gf,season:B.kind}; T.push(rec);
+    if(typeof PHONE!=='undefined'){ PHONE.join(G,'home','家人'); PHONE.at(G,G.day,G.hour,D.fam.map(t=>({th:'g:home',from:'mom',name:'媽媽',text:t})),'vac_t13fam_'+n);
+      const P=W.gf&&D.gf[W.id]; if(P&&P.eve) PHONE.at(G,from-1,21,P.eve.map(t=>({th:'p:'+W.id,from:W.id,text:t})),'vac_t13eve_'+n); }   /* 學姊住家裡：出發前一天 21:00「我跟我媽說了。」*/
+    if(typeof OUT!=='undefined') OUT.plan(G,{id:'vac_t13_'+n,ev:'ev_vac_key',day:from,h:8,late:0.5,place:D.dest[dest].name,title:'出國旅遊：'+D.dest[dest].name+(W.id?'（和'+nm(W.id)+'）':''),travel:'去機場 約 1 小時',travelH:1,back:'回到臺北。',vac:{key:'T13#'+n,k:'trip'}});
+    if(GM.toast) GM.toast('排好了：'+dl(from)+'～'+dl(to)+' '+D.dest[dest].name,3000); return true; };
+  S.trip13=async function(GM,key){ const G=GM.G, D=TV(), V=S.rec(G), rec=(V.t13||[]).find(r=>'T13#'+r.n===key); if(!rec||!D) return false; const De=D.dest[rec.dest], place=De.name;
+    const I={key,with:rec.with,A:{id:'T13',place:{kind:'abroad'},season:rec.season,trip:{sd:rec.from,ed:rec.to,start:{h:8},end:{h:18}}},yk:null}; S.tripMsgs(G,I);
+    const mid=Math.floor((rec.from+rec.to)/2), last=rec.to-1, k=x=>typeof x==='function'?x(G):x;
+    const comp=rec.with?(rec.gf?(rec.with==='heroine_02'&&rec.dest!=='hk'?D.gf[rec.with].lastNot:D.gf[rec.with].last):D.friend[rec.with]):null;
+    const steps=[{d:rec.from,h:15,lines:[{narr:k(De.keys[0])}]},{d:mid,h:14,lines:[{narr:k(De.keys[1])}]},{d:last,h:20,lines:[{narr:k(De.keys[2])}].concat(comp?[{who:rec.with,text:comp}]:[])}];
+    if(rec.gf) steps.push({d:last,h:23,bg:'trip_hotel_twin',lines:[{narr:'（燈關了。）'}]});   /* 雙床房（BB_173 VB-12）：對話在睡前結束 */
+    for(const st of steps){ await S.jump(GM,T(st.d,st.h),place); await S.key(GM,{bg:st.bg||null,lines:st.lines},I); }
+    await S.jump(GM,T(rec.to,18),place); rec.done=true; G.flags.BACK_FROM_T13=G.day;
+    if(rec.gf&&typeof DATE!=='undefined'&&DATE.log){ const L=DATE.log(G,rec.with); L.count=(L.count|0)+1; if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&DATE.GAIN) SOCIAL.adjust(rec.with,DATE.GAIN[0]); }   /* 算一次正式約會（不加倍）*/
+    if(typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')){ const n=S.all().filter(J=>J.A.back&&PHONE.sent(G,'vac_back_'+J.key)).length+V.t13.filter(r=>PHONE.sent(G,'vac_back_T13#'+r.n)).length; PHONE.at(G,rec.to,20,[{th:'g:noodle_team',from:'zhe',text:n===0?'伴手禮咧':(n===1?'這次伴手禮咧':'（貼圖：伸出手）')}],'vac_back_'+key); }
+    return true; };
   /* 可昕的週末視訊（BB_200 第 3 節：週六晚上；加州是臺灣週日早上 10:00）：這一版整趟演一次（第一個週末），台詞 AA_242 8-2 */
   S.videoKey=function(G,I){ const M=Dt()&&Dt().TRIP_MSG; if(!M||!(G.flags&&G.flags.dating_kexin)) return null; const A=I.A, tr=A.trip, sd=S.dayOf(I.yk,A.season,tr.start.day), ed=S.dayOf(I.yk,A.season,tr.end.day), wd=tr.videoWd!=null?tr.videoWd:6, h=tr.videoH||20;
     for(let d=sd+1;d<ed;d++){ if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf(d).wd%7===wd){ const x=CALENDAR.dateOf(d); return {day:String(x.m).padStart(2,'0')+'-'+String(x.d).padStart(2,'0'),h,title:'視訊',bg:null,lines:M.gf.kexin.video.map(t=>({who:'kexin',text:t}))}; } } return null; };
-  S.outing=async function(GM,q){ const G=GM.G, v=q&&q.vac; if(!v) return false; const [id,yk]=v.key.split('@'), I=S.inst(id,yk); if(!I) return false; const A=I.A, V=S.rec(G);
+  S.outing=async function(GM,q){ const G=GM.G, v=q&&q.vac; if(!v) return false; if(/^T13#/.test(v.key)) return S.trip13(GM,v.key); const [id,yk]=v.key.split('@'), I=S.inst(id,yk); if(!I) return false; const A=I.A, V=S.rec(G);
     if(v.k==='prep'){ await S.key(GM,Object.assign({bg:A.prep.bg},A.prep),I); return true; }
     if(/^pre\d+$/.test(String(v.k))){ const p=(A.pre||[])[+String(v.k).slice(3)]; if(p){ if(p.lines&&p.lines.length) await S.key(GM,p,I); else if(GM.toast) GM.toast(p.title+'（'+(p.advance||1)+' 小時）',2600); if(p.advance&&GM.advance) GM.advance(p.advance); if(p.set) Object.assign(G.flags,p.set); } return true; }
     if(v.k==='re'){ const R=Dt().TRIP_MSG.reunion[v.who]; if(R){ await S.key(GM,{bg:R.bg,lines:R.lines},I); G.flags['REUNION_'+id]=true; } return true; }
@@ -170,6 +214,8 @@ const VAC=(function(){
     for(const I of S.all()){ const st=V.reg[I.key], o=S.signupOpen(G,I), open=o&&G.day>=o.from&&G.day<=o.to&&(!st||st==='later')&&(I.A.signup.board||I.A.signup.kind!=='dm'||PHONE.sent(G,'vac_ask_'+I.key));
       if(!(st==='yes'||st==='done'||open)) continue; const when=dl(I.from)+(I.to!==I.from?'～'+dl(I.to):'')+(I.A.wd?'（每週'+I.A.wd.map(w=>'日一二三四五六'[w]).join('、')+'）':'');
       const cf=open?S.conflicts(G,I):[]; rows.push('<div class="item phrow"><div>'+esc(I.A.title)+'<div class="muted">'+esc(when)+'・'+esc(I.A.place.name)+(I.A.cost.payer==='family'?'・家裡出':'')+(st==='done'?'・參加過':'')+(cf.length?'・會撞到：'+esc(cf.map(c=>c.title+' '+dl(c.day)).slice(0,3).join('、')):'')+'</div></div>'+(open?'<button class="btn pri" data-vac="'+esc(I.key)+'">報名</button>':'')+'</div>'); }
+    for(const r of (V.t13||[])){ const De=TV()&&TV().dest[r.dest]; if(!De) continue; rows.push('<div class="item phrow"><div>出國旅遊：'+esc(De.name)+(r.with?'（和'+esc(nm(r.with))+'）':'')+'<div class="muted">'+esc(dl(r.from)+'～'+dl(r.to))+(r.done?'・去過':'')+'</div></div></div>'); }
+    if(TV()&&S.nextBreak(G)) rows.push('<div class="item phrow"><div>出國旅遊<div class="muted">自己排：目的地、和誰、幾天</div></div><button class="btn" data-vac13="1">安排</button></div>');
     return rows.length?'<div class="item"><b>假期行事曆</b></div>'+rows.join(''):''; };
   return S;
 })();

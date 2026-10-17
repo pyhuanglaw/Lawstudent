@@ -3,9 +3,9 @@ const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
-const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|VAC|VAC_DATA)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|VAC|VAC_DATA|DATE|ROM|CONFESS_LINES|TERMEND|TERMEND_LINES|DATE_LOCATIONS|DATE_LINES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -141,6 +141,22 @@ GM.money=function(n){ G.money+=n; };
     check('13. 大三 6/10 子晴「欸 七月三號到七號 曼谷」「有個獨立遊戲展 我想去看」「阿凱也去」（美國路線 7 月初還在臺灣）',Z.includes('heroine_04:欸 七月三號到七號 曼谷')&&Z.includes('heroine_04:阿凱也去'),JSON.stringify(Z));
     fresh(D('2028-06-10'),20.9,'dorm',{EXCHANGE_ROUTE:'JP'}); G.stage='law'; meet('heroine_04'); R('heroine_04',30,10,5); run(20.9,21.2); const noAsk=!txt('p:heroine_04').length; G.day=D('2028-07-05'); run(20.9,21.2); G.day=D('2028-07-07'); run(20.9,21.2);
     const J=txt('p:heroine_04'); check('13. 日本路線（人在日本）：沒有邀約；7/5 子晴「📷（遊戲展的入口）」「你不在 好可惜」；沒有「沒去」那則',noAsk&&J.includes('heroine_04:你不在 好可惜')&&!J.includes('heroine_04:阿凱吃了三份'),JSON.stringify(J)); }
+  // 14. 出國旅遊（C13，自己排；AA_244 第 2 節、3-1）
+  { fresh(D('2026-07-01'),10,'dorm',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); check('14. 暑假：手機活動頁有「安排」出國旅遊',VAC.html(G).includes('data-vac13="1"'));
+    picks=['韓國','自己去','5 天',0]; said=[]; opts=[]; const ok=await VAC.plan13(GM); PHONE.tick(G); const r=VAC.rec(G).t13[0], q=OUT.get(G,'vac_t13_1');
+    check('14. 自己排：首爾 5 天、媽媽「要去哪？」「機票我買給你，到那邊自己顧好」、排好出遊',ok&&r.dest==='kr'&&r.to-r.from===4&&!!q&&q.day===r.from&&txt('g:home').includes('mom:機票我買給你，到那邊自己顧好'),JSON.stringify([r,opts[0]]));
+    G.day=r.from; G.hour=8; said=[]; await VAC.outing(GM,q); const L=lines(); run(18,20.2);
+    check('14. 首爾三場：機場快線的阿姨、炸物攤、漢江邊的炸雞；回來阿哲「伴手禮咧」',L.some(t=>t.includes('機場快線上'))&&L.some(t=>t.includes('用手比了一個「吃」'))&&L.some(t=>t.includes('漢江邊'))&&txt('g:noodle_team').includes('zhe:伴手禮咧'),JSON.stringify(L)); }
+  { fresh(D('2026-07-01'),10,'dorm',{dating_heroine_01:true}); G.stage='law'; meet('heroine_01'); G.flags.romance={heroine_01:{status:'dating',history:[{ev:'start',day:D('2026-07-01')-10}]}};
+    picks=['泰國','和沈以安','3 天',0]; said=[]; await VAC.plan13(GM); check('14. 交往未滿 28 天：「出國……我們先在臺北多走幾個地方。好不好？」、沒有排',lines().some(t=>t.endsWith('出國……我們先在臺北多走幾個地方。好不好？'))&&!(VAC.rec(G).t13||[]).length,JSON.stringify(lines()));
+    G.flags.romance.heroine_01.history[0].day=D('2026-07-01')-40; DATE.log(G,'heroine_01').count=2; picks=['歐洲','和沈以安','7 天',0]; said=[]; await VAC.plan13(GM);
+    check('14. 歐洲、未滿 90 天：「歐洲……我想去。可是要排十天以上，我們下次。」',lines().some(t=>t.endsWith('我們下次。'))&&!(VAC.rec(G).t13||[]).length,JSON.stringify(lines()));
+    picks=['泰國','和沈以安','3 天',0]; said=[]; await VAC.plan13(GM); const r=VAC.rec(G).t13[0];
+    check('14. 滿 28 天、2 次約會：「要不要一起出國？」→「哪裡？……給我三天，我排一份行程給你看。」、排好',lines().some(t=>t.endsWith('要不要一起出國？'))&&lines().some(t=>t.endsWith('給我三天，我排一份行程給你看。'))&&!!r&&r.with==='heroine_01');
+    const c0=DATE.log(G,'heroine_01').count, n0=SOCIAL.rel('heroine_01').npcRom||0; G.day=r.from; G.hour=8; said=[]; await VAC.outing(GM,OUT.get(G,'vac_t13_1')); const L=lines();
+    check('14. 和以安：最後一晚夜市果汁＋「行程表上的都走完了。……」、雙床房「（燈關了。）」；算一次正式約會、她的戀愛 +5',L.some(t=>t.includes('顏色最奇怪的那杯'))&&L.some(t=>t.endsWith('多出來的那一個小時，我沒寫。'))&&L.includes('（燈關了。）')&&DATE.log(G,'heroine_01').count===c0+1&&(SOCIAL.rel('heroine_01').npcRom||0)===n0+5,JSON.stringify(L));
+    check('14. 一起去的以安不傳出國期間的訊息',!(G.msgs||[]).some(m=>m.th==='p:heroine_01'&&/^vac_tm_/.test(m.tag||''))); }
+  { fresh(D('2026-03-01'),10,'dorm',{}); G.stage='law'; check('14. 學期中第 10 週以前沒有「安排」',!VAC.html(G).includes('data-vac13')); }
   // 9. 存讀檔
   { VAC.rec(G).reg['C03@Y1']='yes'; const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('9. 存讀檔：報名狀態留著',VAC.state(G,'C03@Y1')==='yes'); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
