@@ -58,7 +58,7 @@ async def main():
           const R=TERMEND.rec(G), C=R.contact||(R.contact={}); (C.Y1S1||(C.Y1S1={})).classmate_xinci={pts:7,k:{},last:G.day-2}; })()""")
         await pg.evaluate("(()=>{ if(window.__said) return; window.__said=[]; const o=GAME.say; GAME.say=function(w,t){ window.__said.push(String(t||'')); return o.apply(this,arguments); }; })()")
         ok = False
-        for _ in range(240):
+        for _ in range(900):   # 遊戲時間 20:10 → 20:39（turbo 下約 2～3 分鐘）；先答應一個就不會再收到別的邀約，所以要等兩則都到
             ok = await pg.evaluate("['te_Y1S1_heroine_01','te_Y1S1_classmate_xinci'].every(t=>(GAME.G.msgs||[]).some(m=>m.tag===t&&(m.day<GAME.G.day||m.h<=GAME.G.hour)))")   # 以安 20:30、芯慈 20:39（一則一則隔 9 分鐘）
             if ok: break
             s = await L.state(pg)
