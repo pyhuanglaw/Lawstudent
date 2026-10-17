@@ -102,13 +102,13 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('跨年（河堤）：回宿舍的路上麵店團群組：頂樓的照片＋阿哲「我們就說有看到。」',JSON.stringify(ph)==='["📷（宿舍頂樓，遠遠的煙火）","我們就說有看到。"]',JSON.stringify(ph));
     ask(1); const r=G.msgs.filter(x=>x.th==='p:kexin'&&x.from==='kexin').map(x=>x.text);
     check('跨年：「我答應麵店團要去頂樓了。」＝她回「好。那你幫我跟阿哲說新年快樂。」、KX_NYE {1:roof}（不扣分）',r.includes('好。那你幫我跟阿哲說新年快樂。')&&G.flags.KX_NYE[1]==='roof');
-    toNye(20); o=OUT.get(G,'nye'); check('跨年（頂樓）：12/31 23:45 宿舍頂樓',!!o&&o.ev==='ev_nye_roof'&&o.h===23.75,JSON.stringify(o));
+    toNye(20); o=OUT.get(G,'nye'); check('跨年（頂樓）：12/31 23:40 宿舍頂樓（AA_204 2-3）',!!o&&o.ev==='ev_nye_roof'&&Math.abs(o.h-(23+40/60))<1e-6,JSON.stringify(o));
     G.hour=23.6; picks=['出發']; await OUT.tick(GM); let L2=lines();
-    check('跨年（頂樓）：AA 的群戲（「我們就說有看到。」）＋零點前一分鐘她的視訊「三、二、一——」、訊號慢一秒、「……我們的新年差一秒。明年再對時。」；沒見過她的阿哲喊「政大的那位，新年快樂！」',L2[0]==='大家本來想去看煙火，最後發現人太多，跑回宿舍頂樓看遠方的煙火。'&&L2.includes('我們就說有看到。')&&L2.includes('三、二、一——')&&L2.includes('……我們的新年差一秒。明年再對時。')&&L2[L2.length-1]==='政大的那位，新年快樂！',JSON.stringify(L2));
+    check('跨年（頂樓）：AA 的群戲（「我們就說有看到。」）＋零點前一分鐘她的視訊「三、二、一——」、訊號慢一秒、「……我們的新年差一秒。明年再對時。」；沒見過她的阿哲喊「政大的那位，新年快樂！」',L2[0]==='（十一點四十，男生宿舍頂樓。風很大。信義區那邊的天空，亮了一塊。）'&&L2.includes('……我們就說有看到。')&&L2.includes('三、二、一——')&&L2.includes('……我們的新年差一秒。明年再對時。')&&L2.includes('政大的那位，新年快樂！'),JSON.stringify(L2));
     ask(1); G.flags.KX_MET_NOODLE_TEAM=true; toNye(20); G.hour=23.6; picks=['出發']; await OUT.tick(GM); L2=lines();
-    check('跨年（頂樓）：中秋烤肉見過她的阿哲喊「可昕新年快樂！」',L2[L2.length-1]==='可昕新年快樂！');
+    check('跨年（頂樓）：中秋烤肉見過她的阿哲喊「可昕新年快樂！」',L2.includes('可昕新年快樂！'));
     ask(null); PHONE.join(G,'noodle_team','麵店團'); toNye(20); o=OUT.get(G,'nye'); G.hour=23.6; picks=['出發']; await OUT.tick(GM); L2=lines();
-    check('跨年：沒有回她、在麵店團群組：頂樓（AA 的群戲），沒有視訊',!!o&&o.ev==='ev_nye_roof'&&L2.includes('我們就說有看到。')&&!L2.includes('三、二、一——'),JSON.stringify(L2));
+    check('跨年：沒有回她、在麵店團群組：頂樓（AA 的群戲），沒有視訊',!!o&&o.ev==='ev_nye_roof'&&L2.includes('……我們就說有看到。')&&!L2.includes('三、二、一——'),JSON.stringify(L2));
     ask(null); toNye(20); check('跨年：沒有回她、沒有麵店團群組：沒有排',!OUT.get(G,'nye')); }
   /* ---------- A22 期末最後一頓（AA_71 2-13）---------- */
   { fresh(100,10,'campus'); const le=CLS.lastExamEnd(G,'Y1S1','final'); const tm=le&&CALENDAR.termOf(le.day);

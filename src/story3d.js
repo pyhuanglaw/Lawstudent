@@ -1631,8 +1631,8 @@ const STORY = (function(){
       if(F.KX_NYE_PICK){ F.KX_NYE=Object.assign({},F.KX_NYE||{},{1:F.KX_NYE_PICK}); delete F.KX_NYE_PICK; }
       const pick=F.KX_NYE&&F.KX_NYE[1];
       /* AA_204 第 2 節（27711a39）、AA_197 1-5：12/26（五）21:00 阿哲揪（麵店團群組；不在群組、和阿哲 FAMILIAR 以上＝私訊）；我去＝19:00 麵店，直接到頂樓／再看看＝23:40 頂樓 */
-      { const d26=S.dayOfKey('2025-12-26'), inG=PHONE.inGroup(G,'noodle_team'), zf=typeof SOCIAL!=='undefined'&&SOCIAL.STAGES&&SOCIAL.STAGES.indexOf(SOCIAL.stage('zhe'))>=SOCIAL.STAGES.indexOf('FAMILIAR'), th=inG?'g:noodle_team':'p:zhe';
-        if(d26!=null&&nye&&(inG||zf)&&G.day>=d26&&G.day<=nye&&(G.day>d26||h(G)>=21)&&!PHONE.sent(G,'nye_y1_ask')) PHONE.at(G,d26,21,[{th,from:'zhe',text:'跨年有人要一起嗎'},{th,from:'zhe',text:'先吃飯，再去看煙火',ask:{id:'nye_y1_ask',until:nye*24+19,opts:[{t:'我去',set:{NYE_ASK:'go'}},{t:'我直接到頂樓',set:{NYE_ASK:'roof'}},{t:'再看看',set:{NYE_ASK:'maybe'}}]}}],'nye_y1_ask'); }
+      { const d26=S.dayOfKey('2025-12-26'), inG=PHONE.inGroup(G,'noodle_team'), win=d26!=null&&nye&&G.day>=d26&&G.day<=nye, zf=win&&!inG&&typeof SOCIAL!=='undefined'&&SOCIAL.STAGES&&S.knows('zhe',G)&&SOCIAL.STAGES.indexOf(SOCIAL.stage('zhe'))>=SOCIAL.STAGES.indexOf('FAMILIAR'), th=inG?'g:noodle_team':'p:zhe';   /* 只在 12/26～12/31 才看熟悉度（SOCIAL.stage 會建立關係紀錄）*/
+        if(win&&(inG||zf)&&G.day>=d26&&G.day<=nye&&(G.day>d26||h(G)>=21)&&!PHONE.sent(G,'nye_y1_ask')) PHONE.at(G,d26,21,[{th,from:'zhe',text:'跨年有人要一起嗎'},{th,from:'zhe',text:'先吃飯，再去看煙火',ask:{id:'nye_y1_ask',until:nye*24+19,opts:[{t:'我去',set:{NYE_ASK:'go'}},{t:'我直接到頂樓',set:{NYE_ASK:'roof'}},{t:'再看看',set:{NYE_ASK:'maybe'}}]}}],'nye_y1_ask'); }
       if(nye&&typeof OUT!=='undefined'&&!OUT.get(G,'nye')&&G.day===nye){
         const asked=PHONE.sent(G,'nye_y1_ask');
         if(pick==='river') OUT.plan(G,{id:'nye',ev:'ev_nye_river',day:nye,h:23.5,place:'河堤',title:'跨年：和可昕去河堤',travel:'開車約 30 分鐘',travelH:0.5});
@@ -1653,7 +1653,7 @@ const STORY = (function(){
       if(nye&&F.dating_heroine_03&&typeof OUT!=='undefined'&&G.day===nye&&h(G)>=23.5&&!OUT.get(G,'yt_nye_call_y1')&&F.NYE_Y1!=='roof'&&!(OUT.get(G,'nye')&&OUT.get(G,'nye').state==='planned'&&OUT.get(G,'nye').ev!=='ev_nye_river'))
         OUT.plan(G,{id:'yt_nye_call_y1',ev:'ev_yt_nye_call_y1',day:nye+1,h:1/60,place:'電話',title:'語彤打電話來',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'電話掛了。'}); }
     /* 12/29 海邊一日遊（AA_204 第 3 節、AA_199 VA-03）：12/26 21:05 起麵店團群組；以安和她 FAMILIAR 以上才回、才去；我去＝12/29 08:50 臺北車站（出遊）；當晚群組 */
-    { const d26=S.dayOfKey('2025-12-26'), d29=S.dayOfKey('2025-12-29'); if(d26!=null&&d29!=null&&PHONE.inGroup(G,'noodle_team')){ const T='g:noodle_team', anF=typeof SOCIAL!=='undefined'&&SOCIAL.STAGES&&SOCIAL.has&&SOCIAL.has('heroine_01','FIRST_MET')&&SOCIAL.STAGES.indexOf(SOCIAL.stage('heroine_01'))>=SOCIAL.STAGES.indexOf('FAMILIAR');
+    { const d26=S.dayOfKey('2025-12-26'), d29=S.dayOfKey('2025-12-29'); if(d26!=null&&d29!=null&&G.day>=d26&&G.day<=d29+1&&PHONE.inGroup(G,'noodle_team')){ const T='g:noodle_team', anF=typeof SOCIAL!=='undefined'&&SOCIAL.STAGES&&SOCIAL.has&&SOCIAL.has('heroine_01','FIRST_MET')&&SOCIAL.STAGES.indexOf(SOCIAL.stage('heroine_01'))>=SOCIAL.STAGES.indexOf('FAMILIAR');
         if(G.day>=d26&&G.day<d29&&(G.day>d26||h(G)>=21+5/60)&&!PHONE.sent(G,'va03_ask')){ const ask={id:'va03_ask',until:d29*24+8.5,opts:[{t:'我去',set:{VA03_GO:true}},{t:'我那天不行',set:{VA03_GO:false}}]};
           const L=[{th:T,from:'zhe',text:'29 號去海邊？我 2 號就回高雄了',h:21+5/60},{th:T,from:'yu',text:'冬天去海邊？？',h:21.1},{th:T,from:'yu',text:'好啊',h:21.1},{th:T,from:'classmate_bohan',text:'火車九點十分有一班。',h:21+10/60},{th:T,from:'classmate_xinci',text:'我怕冷，我不去了。你們拍照。',h:21.5}];
           if(anF) L.push({th:T,from:'heroine_01',text:'我可以。幾點集合？',h:21+40/60}); Object.assign(L[L.length-1],{ask}); if(anF) G.flags.VA03_AN=true;
@@ -1662,11 +1662,11 @@ const STORY = (function(){
         if(G.day===d29&&h(G)>=18&&G.flags.VA03_BEACH!=='went'&&!PHONE.sent(G,'va03_none')) PHONE.at(G,d29,18,[{th:T,from:'yu',text:'📷（灰色的海）'},{th:T,from:'yu',text:'好冷但好好玩'},{th:T,from:'classmate_xinci',text:'看起來好冷。'}],'va03_none');
         if(G.flags.VA03_BEACH==='went'&&!PHONE.sent(G,'va03_photo')){ const at=Math.max(G.day*24+h(G),d29*24+20); PHONE.at(G,Math.floor(at/24),at%24,[{th:T,from:'yu',text:'📷（海邊的合照）'},{th:T,from:'yu',text:'五張裡最好的一張'}].concat(G.flags.VA03_SHOE?[{th:T,from:'zhe',text:'📷（曬在宿舍欄杆上的鞋子）'},{th:T,from:'zhe',text:'鞋子回來了'}]:[]),'va03_photo'); } } }
     /* 返鄉、回臺北（AA_204 第 4 節、AA_199 VA-02）：麵店團群組；以安和她 FAMILIAR 以上＝私訊（不到＝群組只有一句）*/
-    { const inG=PHONE.inGroup(G,'noodle_team'), T='g:noodle_team', anF=typeof SOCIAL!=='undefined'&&SOCIAL.STAGES&&SOCIAL.has&&SOCIAL.has('heroine_01','FIRST_MET')&&SOCIAL.STAGES.indexOf(SOCIAL.stage('heroine_01'))>=SOCIAL.STAGES.indexOf('FAMILIAR');
+    { const d0=S.dayOfKey('2026-01-09'), d1=S.dayOfKey('2026-02-24'); if(d0!=null&&d1!=null&&G.day>=d0&&G.day<=d1){ const inG=PHONE.inGroup(G,'noodle_team'), T='g:noodle_team', anF=typeof SOCIAL!=='undefined'&&SOCIAL.STAGES&&SOCIAL.has&&SOCIAL.has('heroine_01','FIRST_MET')&&SOCIAL.STAGES.indexOf(SOCIAL.stage('heroine_01'))>=SOCIAL.STAGES.indexOf('FAMILIAR');
       const R=[['2026-01-09',17,'bh_home_y1',[{from:'classmate_bohan',text:'我今天回新竹。2/19 回來。'}]],['2026-02-19',20,'bh_back_y1',[{from:'classmate_bohan',text:'回來了。'}]],['2026-02-20',19,'zhe_back_y1',[{from:'zhe',text:'我回來了！高雄帶了吃的，開學那天拿去給你們'}]]];
       for(const [k,hh,tag,ms] of R){ const d=S.dayOfKey(k); if(inG&&d!=null&&(G.day>d||(G.day===d&&h(G)>=hh))&&G.day<=d+3&&!PHONE.sent(G,tag)) PHONE.at(G,d,hh,ms.map(m=>Object.assign({th:T},m)),tag); }
       for(const [k,hh,tag,ms] of [['2026-01-20',15,'an_home_y1',['回台中了。','📷（車窗外的田）']],['2026-02-21',18,'an_back_y1',['回臺北了。']]]){ const d=S.dayOfKey(k); if(d==null||!(G.day>d||(G.day===d&&h(G)>=hh))||G.day>d+3||PHONE.sent(G,tag)) continue;
-        if(anF) PHONE.at(G,d,hh,ms.map(t=>({th:'p:heroine_01',from:'heroine_01',text:t})),tag); else if(inG&&typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has('heroine_01','FIRST_MET')) PHONE.at(G,d,hh,[{th:T,from:'heroine_01',text:ms[0]}],tag); } }
+        if(anF) PHONE.at(G,d,hh,ms.map(t=>({th:'p:heroine_01',from:'heroine_01',text:t})),tag); else if(inG&&typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has('heroine_01','FIRST_MET')) PHONE.at(G,d,hh,[{th:T,from:'heroine_01',text:ms[0]}],tag); }  } }
     /* 期末成績的約定（BB_95 9-8、BB_107 第 13 節）：期末考週最後一個上課日（1/2 週五）21:00 她傳；兩個回覆都算約好（KX_GRADES_PACT_SET）。
        成績出來那天（寒假第一天的早上，classes3d.js 的 morning）先問「要不要先看自己的成績？」（S.holdGrades）；那天 21:00 視訊一起打開（出遊系統，「接起來」）；
        先看的玩家那天晚上她先傳「你偷看了吧。……」，視訊照樣一起打開。記 KX_GRADES_PACT:'kept'|'peeked'。遊戲不顯示分數（成績單是文字）*/

@@ -98,7 +98,7 @@ const KX={dating_kexin:true};
   /* ---------- CG-15：跨年 ---------- */
   { const ROOF=ev('ev_nye_roof'), RIVER=ev('ev_nye_river'); const D=termDay(16,3);
     fresh(D,23,'campus',KX); cgs=[]; picks=[]; await EVENTS.run(ROOF); let L=lines();
-    check('CG-15：頂樓版「頂樓的跨年」在第一句旁白出現、只一張',cgs.length===1&&cgs[0].id==='cg_nye_rooftop'&&cgs[0].at===0&&/^大家本來想去看煙火/.test(L[0]||''),JSON.stringify({cg:cgs,L0:L[0]}));
+    check('CG-15：頂樓版「頂樓的跨年」在第一句旁白出現、只一張',cgs.length===1&&cgs[0].id==='cg_nye_rooftop'&&cgs[0].at===0&&/^（十一點四十，男生宿舍頂樓。/.test(L[0]||'')   /* AA_204 2-3（27711a39）的頂樓第一句 */,JSON.stringify({cg:cgs,L0:L[0]}));
     fresh(D,23,'campus',Object.assign({},KX,{KX_NYE:{1:'roof'}})); cgs=[]; picks=[]; await EVENTS.run(ROOF); L=lines();
     check('CG-15：和可昕視訊的頂樓版：一樣只一張、在第一句；視訊在這張之後',cgs.length===1&&cgs[0].at===0&&L.length>3,JSON.stringify({cg:cgs,n:L.length}));
     fresh(D,23,'campus',Object.assign({},KX,{KX_NYE:{1:'river'}})); cgs=[]; picks=[]; await EVENTS.run(RIVER);
