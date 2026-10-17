@@ -1158,6 +1158,19 @@ const STORY = (function(){
     if(F.ZR_GRP_REPLY&&!PHONE.sent(G,'zr_dm1')){ const r=(G.msgs||[]).find(m=>m.th==='g:ge_econ'&&m.from==='player'), d=r?r.day:G.day, h=r?r.h:G.hour, dating=zrKnows(G), Z=t=>({th:'p:heroine_02',from:'heroine_02',text:t});
       const late=!dating&&h>=22+7/60-0.02, yday=dating||late;
       PHONE.at(G,dating||late?d+1:d,dating?15+10/60:22+7/60,[Z('我是通識小組的芷若。'),Z('……也是 Café 的那個。'),Z(yday?'你昨天在群組回得很快。我以為法律系的人都很慢。':'你剛剛在群組回得很快。我以為法律系的人都很慢。')],'zr_dm1'); }
+    /* 學姊 W1 到社博之間的接觸（AA_218 17-6，使用者 10:2x 批准；AA-C e4a8ba67 選 (a)）：
+       ① 9/8（一）21:00 家族群組 Kevin 揪家聚 → 排出遊 9/12（五）19:00 家聚（回不回都可以去）；② 走廊在 events.js（ev_sis_fam_hall*，要 W1）；
+       ③ 家聚 ev_sis_fam_dinner；沒去＝當晚 21:00 Kevin 群組照片、9/15（一）21:00 Kevin「憲法有問題可以問書瑀學姊」（17-8）；
+       ④ 9/16（二）21:00 私訊（強制；③去了或 9/15 那則之後）。只在 8/30 起加入家族群組的新局（舊的第三週開局 9/8 以前還沒開始）*/
+    if((G.stage||'law')==='law'&&F.FAM_GROUP_SENT&&PHONE.inGroup(G,'family_law')){ const d8=S.dayOfKey('2025-09-08'), d12=d8+4, d15=d8+7, d16=d8+8, T='g:family_law', KV=t=>({th:T,from:'kevin',name:'Kevin',text:t}), past=(d,hh)=>G.day>d||(G.day===d&&G.hour>=hh);
+      const start=S.LAW_D0!=null&&(F.LAW_START_DAY==null||F.LAW_START_DAY<=d8);
+      if(start&&past(d8,21)&&G.day<=d12&&!PHONE.sent(G,'sis_fam_inv')){ PHONE.at(G,d8,21,[KV('各位～這週五晚上家聚，大一到大四都來，地點晚點貼。')],'sis_fam_inv');
+        if(typeof OUT!=='undefined'&&!OUT.get(G,'y1_fam_dinner')) OUT.plan(G,{id:'y1_fam_dinner',ev:'ev_sis_fam_dinner',day:d12,h:19,late:0.25,place:'公館巷子裡的簡餐店',title:'家聚 19:00（公館巷子裡的簡餐店）',travel:'走過去約 15 分鐘',travelH:0.25}); }
+      const went=!!(G.events&&G.events.done&&G.events.done.ev_sis_fam_dinner);
+      if(PHONE.sent(G,'sis_fam_inv')&&!went&&past(d12,21)&&G.day<=d12+2&&!PHONE.sent(G,'sis_fam_photo')) PHONE.at(G,d12,21,[KV('📷（照片：長桌，大家舉杯）今天大一只來一半，下次都要來喔！')],'sis_fam_photo');
+      if(PHONE.sent(G,'sis_fam_inv')&&!went&&past(d15,21)&&G.day<=d15+1&&!PHONE.sent(G,'sis_fam_95')) PHONE.at(G,d15,21,[KV('對了大一的，憲法有問題可以問書瑀學姊，她是張老師 95 分的傳奇。')],'sis_fam_95');
+      if((went||PHONE.sent(G,'sis_fam_95'))&&past(d16,21)&&G.day<=d16+2&&!PHONE.sent(G,'sis_fam_msg')){ const P=t=>({th:'p:heroine_05',from:'player',text:t}), H=t=>({th:'p:heroine_05',from:'heroine_05',text:t});
+        PHONE.at(G,d16,21,[P('學姊，想問一下，妳憲法那時候怎麼準備的？'),H('上課講的先弄懂，考前多寫題目。'),H('解題書我推鷗律師那本，題目多，解得也清楚。'),P('好，我去買。謝謝學姊。'),H('加油。')],'sis_fam_msg'); F.SIS_FAM_MSG=true; } }
     /* 學姊 W2（BB_95 2-5）：第一次參加讀書會那晚 22:30（她的睡前時間），發在法服讀書會的群組（給所有新來的人，不是私訊）*/
     /* 法服群組（BB_191 §7-0）：社博報名（SIS_CLUB_EXPO／lawclub）那一刻加入，顯示名「法服」（群組 id 照舊 lawclub_study，舊存檔原本叫「法服讀書會」的一起改名）。
        學姊在讀書會群組的「三件事」刪（法服沒有讀書會）；現任社長的歡迎一則等 AA */
