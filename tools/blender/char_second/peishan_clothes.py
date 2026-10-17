@@ -21,7 +21,8 @@ SHOE = np.array([28, 28, 30]) / 255.0            # 黑色帆布
 SOLE = np.array([236, 232, 222]) / 255.0         # 白鞋底
 STYLE = dict(KNIT_RGB=WINE, TROUSER_RGB=NAVY, LEATHER_RGB=SHOE, SOLE_RGB=SOLE, GOLD_RGB=SOLE, BELT_RGB=None,
              SHOE_STYLE='sneaker', NECK_STYLE='crew', HEM_OVER_PANTS=False, SLIM=True, TOP_TEX='jersey',
-             SLEEVE_LEN=0.40, SLEEVE_K=0.72, CUFF_EASE=0.012, EASE_K=0.30, DROP_X=0.088, TOP_FIT=1.0, HEM_LOOSE=False, NECK_CALM=1.0, NECK_GAP=0.018, SHOULDER_SKIN=False, DRAPE=0.014,   # 第十五版（BB-C：領口立起來圍著脖子、胸口以下圓桶）：肩膀改回原本的弧線（貼斜方肌的曲線在靠脖子那頭變陡，羅紋立起來）、領口離脖子 1.8 cm、貼身、垂墜皺褶
+             SLEEVE_LEN=0.40, SLEEVE_K=0.72, CUFF_EASE=0.012, EASE_K=0.30, DROP_X=0.088, TOP_FIT=1.0, HEM_LOOSE=False, NECK_CALM=1.0, NECK_GAP=0.018, SHOULDER_SKIN=False, DRAPE=0.014, SHOULDER_SAG=0.020,   # 第十六版：肩膀上面低 2 cm（手放下來時不堆）
+               # 第十五版（BB-C：領口立起來圍著脖子、胸口以下圓桶）：肩膀改回原本的弧線（貼斜方肌的曲線在靠脖子那頭變陡，羅紋立起來）、領口離脖子 1.8 cm、貼身、垂墜皺褶
              NECK_RIB_L=0.016, NECK_RIB_T=0.0015, NECK_FOLD=(-0.004, -0.003), SLEEVE_IN=0.035)   # 第十四版：袖子從肩關節往內 3.5 cm（肩膀的洞）   # 第十一版（BB-C 第十版意見）：肩膀不翹（落肩 0.098 → 0.088）、胸口以下貼身（EASE 0.56 → 0.42、FIT 0.62 → 0.85）、羅紋領 1.6 cm、薄   # 第九版：領口貼脖子、肩膀上面貼著斜方肌（第五～八版像連帽衫的一圈）   # 第四版（照立繪，BB-C 10-17：膨、短、方）：合身、下擺紮進裙頭   # 第三版：合身一點（第二版 EASE 0.90／FIT 0.15 在遊戲裡像連帽上衣）
 STYLE_M = dict(PANTS_TOP=1.050, PANTS_BAND=1.022, KNIT_HEM=1.046, KNIT_HEM_TOP=1.056, BACK_NECK_Z=1.346, CREW_FRONT_Z=1.306)   # 第十五版：領口再低 1 cm（在鎖骨上方一點）   # 第十版：後領 1.368 → 1.356   # 第四版：下擺紮進裙頭（只蓋到裙頭最上面，小語的做法）、領口貼脖子、後領低一點（後面不鼓成帽子）   # 第二版：領口開一點（第一版 1.342 正面看像高領、脖子整個包住；參考圖看得到鎖骨）
 SIDE_NECK_M = (0.082, 1.362)   # 第十五版：側頸點再往外 8 mm、低 8 mm（脖子兩側看得到一段肩線）
