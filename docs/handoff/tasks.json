@@ -5050,7 +5050,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "【BB-C 8b7edfdf：BB_128 3-7 五位的答應／改時間／改三次／改交通＋date_prefs_bb.json，BB 稿 AA 未審→不匯入（白名單規則）；以安、語彤由 AA 寫；AA-C 正在逐地點盤點 lines／底圖／coords 哪些已審】第一版：文字選單的互動點（時間、花費照 point_specs；時間不夠灰掉、按了提示）、門票、5-3 結算（第一次／第二次／第三次以後＋心願）、0 個互動點不算、DATED_1；有底圖的地點用 OUT.BG 的 dXX_base_* 當背景。還沒做：2D 熱區與人物圖層、各地點台詞（lines/Dxx.json）、她喜歡哪些互動點（likes）、Life Album、快速約會",
+   "next": "【LAWWW-C 2a6c0a30：預約句子（答應／交往中答應／改時間／第三次／改交通／取消／放鴿子）＋DATE_PREFS 照白名單 5e910dd2 匯入 src/data/date_lines.js（tools/date/import_date_lines.py），接進預約、改時間、取消；date_book_unit 第 9 段】還沒：各地點 lines（AA-C 先改 D04、D06、D12、D13 再逐地點交已審 commit）、2D 熱區與人物圖層、likes、Life Album、快速約會；底圖核准待使用者裁定。【BB-C 8b7edfdf：BB_128 3-7 五位的答應／改時間／改三次／改交通＋date_prefs_bb.json，BB 稿 AA 未審→不匯入（白名單規則）；以安、語彤由 AA 寫；AA-C 正在逐地點盤點 lines／底圖／coords 哪些已審】第一版：文字選單的互動點（時間、花費照 point_specs；時間不夠灰掉、按了提示）、門票、5-3 結算（第一次／第二次／第三次以後＋心願）、0 個互動點不算、DATED_1；有底圖的地點用 OUT.BG 的 dXX_base_* 當背景。還沒做：2D 熱區與人物圖層、各地點台詞（lines/Dxx.json）、她喜歡哪些互動點（likes）、Life Album、快速約會",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -12139,7 +12139,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P0",
-   "next": "修正 b3d67056（LAWWW-B）：導航格圖每區只畫一張、關地圖釋放大地圖畫布、換區域釋放。瀏覽器回歸 tests/map_canvas_leak.py（0227c771，開關 5 次＋換區域 canvas 不增加）排在 QA 第三批；之後發版請使用者 iPhone 實機確認",
+   "next": "【LAWWW-C 59facb8b 再修：TK.nightMats／nightSprites 只進不出，舊區域的材質連同 canvas 字牌 atlas、Café 街景一直留著（每進一次校園多一套 2048×512 atlas）→ disposeGroup 時 TK.forget；night_forget_unit 6 項。瀏覽器（手機模擬）564ab992：map_canvas_leak ALL PASS（換區域兩輪不累積；開局 canvas 14.5→11.0 百萬像素）、dorm_start_memory ALL PASS（宿舍開局貼圖 130→76、回宿舍 127→101）、zone_memory ALL PASS】iPhone 實機待使用者確認（要發版）。修正 b3d67056（LAWWW-B）：導航格圖每區只畫一張、關地圖釋放大地圖畫布、換區域釋放。瀏覽器回歸 tests/map_canvas_leak.py（0227c771，開關 5 次＋換區域 canvas 不增加）排在 QA 第三批；之後發版請使用者 iPhone 實機確認",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12557,7 +12557,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "①止血（2e30f326、a73e27f9、f0a0fb30）②手機貼圖上限（1051004f）③已做：ADV 立繪／CG 快取 16 張（7b36a99f）、全畫面 2D 不畫 3D（55d014eb）；還要做：貼圖上傳後釋放 CPU 端圖片（風險：context lost 後要能重傳，先量）、宿舍開局貼圖數和校園一樣多的調查（tests/dorm_start_memory.py，LAWWW-C 排瀏覽器第四批）④iPhone 實機請使用者確認（需要發版）",
+   "next": "【59facb8b 夜間材質清單洩漏修好後，宿舍開局貼圖 130→76、回宿舍 127→101（dorm_start_memory 改成來回兩次比）；「宿舍開局貼圖數和校園一樣多」的調查結論：是那個洩漏】①止血（2e30f326、a73e27f9、f0a0fb30）②手機貼圖上限（1051004f）③已做：ADV 立繪／CG 快取 16 張（7b36a99f）、全畫面 2D 不畫 3D（55d014eb）；還要做：貼圖上傳後釋放 CPU 端圖片（風險：context lost 後要能重傳，先量）、宿舍開局貼圖數和校園一樣多的調查（tests/dorm_start_memory.py，LAWWW-C 排瀏覽器第四批）④iPhone 實機請使用者確認（需要發版）",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -13940,9 +13940,9 @@
    "title": "大一下口語改稿（AA_209＋附錄 A／B，AA 分支 096136d2）＋重訪日 1 麵店群戲（第 3 節，換掉 ev_revisit_y1_noodle、revisitDay 改期末最後一天）＋第 4 節日期條件＋附錄 B 第 5 節 BB_167 已改程式未換；大二 312 室友（AA_208 第 7 節）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "階梯 y1s2＠3b7e2268 已匯入＋A2-L6 條件（3800eb7d）；剩 AA_209 第 4 節第 4、6、7、8、10、11 點、附錄逐句；沛珊課輔班那句在階梯資料 greet.when（weekday 2～4、18～21）已照規格，程式沒有這句",
+   "next": "【LAWWW-C 2473d167：AA_209 附錄 A／B 第 2 節（階梯以外）口語改稿全部照換；階梯 e2bdcece 已匯入】沒做（問 AA-C）：W3b 群組其他人接一句（要新機制）、KAI_TAPE 新擺法（規格沒新字）、K-D5「你們隔天有早八」（LADDER.kaiDorm 舊版，BB_169 版沒匯入）；AA-C 裁定 8 點疑問（四年四張、送水旁白重複等）。待：AA_197 1-7 大一下驗收、瀏覽器看對話框。階梯 y1s2＠3b7e2268 已匯入＋A2-L6 條件（3800eb7d）；剩 AA_209 第 4 節第 4、6、7、8、10、11 點、附錄逐句；沛珊課輔班那句在階梯資料 greet.when（weekday 2～4、18～21）已照規格，程式沒有這句",
    "first": {
     "term": "Y1S2",
     "week": 1,
@@ -13966,7 +13966,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "LAWWW-C 2026-10-17 06:1x：瀏覽器第二～六批：gongguan_glb、wz_street、dorm_start_memory、zone_memory、flow_linze_floors（改第 11 天後）、reachability_all（3b6af99f 修鞦韆走近點、四人房書桌 deskScene 走 seatApproach 後）ALL PASS；修好：8/29 三個室友沒生出來（E.zone.id→G.zone，camp_y1_unit F4b）、場景小物重抓時載入畫面寫「重新下載中」；street_props_integration「載入失敗」照 10-17「不准退化」改測試（擋 30 秒＝還在載入畫面、恢復後用正式模型）重跑中；map_canvas_leak 強制 GC 後換區域仍多 19 張 canvas（4.8 百萬像素）＝真的留著，調查中（BUG-MAPBLACK）；大一下重訪等階梯對話框的瀏覽器驗證還沒做。｜LAWWW-C 2026-10-17：①整套單元測試全部通過（修 B 交班留下的 4 個失敗：v3_batch1 路徑、bg_images、v2_b37、v2_b9，0402040b；之後新增測試一起 258／258）；②瀏覽器（乾淨 worktree 0402040b）：flow_camp_y1、flow_wancai_floors、zone_transitions、flow_library_floors、flow_library_scene、interior_glb_integration 全部 ALL PASS；flow_linze_floors 失敗是測試前提過期（第 8 天＝9/24 星期三，服務學習把玩家帶去法圖），改第 11 天（fd928d90）重跑排第五批；③8/29 室友坐姿：flow_camp_y1 已加檢查（37004d10），第二批重跑；④大一下重訪等階梯對話框的瀏覽器驗證還沒做。容器缺 Python Playwright 時：pip install playwright（不要 playwright install，用 /opt/pw-browsers/chromium）",
+   "next": "【06:3x 第七～九批：street_props_integration ALL PASS（測試照「不准退化」改、校園正式模型≠?nobldg 的蒲葵與社科院配置記錄不判定、下載失敗恢復後＝正式版）、map_canvas_leak／dorm_start_memory ALL PASS（59facb8b 洩漏修好）、zone_memory ALL PASS、flow_camp_y1 ALL PASS（8/29 室友坐好）；剩：flow_b4_lecture 跑中、大一下重訪等階梯對話框的瀏覽器驗證】LAWWW-C 2026-10-17 06:1x：瀏覽器第二～六批：gongguan_glb、wz_street、dorm_start_memory、zone_memory、flow_linze_floors（改第 11 天後）、reachability_all（3b6af99f 修鞦韆走近點、四人房書桌 deskScene 走 seatApproach 後）ALL PASS；修好：8/29 三個室友沒生出來（E.zone.id→G.zone，camp_y1_unit F4b）、場景小物重抓時載入畫面寫「重新下載中」；street_props_integration「載入失敗」照 10-17「不准退化」改測試（擋 30 秒＝還在載入畫面、恢復後用正式模型）重跑中；map_canvas_leak 強制 GC 後換區域仍多 19 張 canvas（4.8 百萬像素）＝真的留著，調查中（BUG-MAPBLACK）；大一下重訪等階梯對話框的瀏覽器驗證還沒做。｜LAWWW-C 2026-10-17：①整套單元測試全部通過（修 B 交班留下的 4 個失敗：v3_batch1 路徑、bg_images、v2_b37、v2_b9，0402040b；之後新增測試一起 258／258）；②瀏覽器（乾淨 worktree 0402040b）：flow_camp_y1、flow_wancai_floors、zone_transitions、flow_library_floors、flow_library_scene、interior_glb_integration 全部 ALL PASS；flow_linze_floors 失敗是測試前提過期（第 8 天＝9/24 星期三，服務學習把玩家帶去法圖），改第 11 天（fd928d90）重跑排第五批；③8/29 室友坐姿：flow_camp_y1 已加檢查（37004d10），第二批重跑；④大一下重訪等階梯對話框的瀏覽器驗證還沒做。容器缺 Python Playwright 時：pip install playwright（不要 playwright install，用 /opt/pw-browsers/chromium）",
    "first": {
     "term": "Y1S1",
     "week": 0,
@@ -14392,7 +14392,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P1",
-   "next": "【AA-C 06:02～06:13：大一上下交往版（e2bdcece：階梯已匯入；企劃 9 檔待排 v1／v2）、大二上下交往版＋R1～R7（b39f0bb9：AN_TC_VISIT、語彤中秋 CG、閘門全拿掉；A4-L5、A4-L7 replyIf 要程式）、BB_189 芷若子晴大二交往中（e6db8302）】通用告白判斷 DATE.canConfess 已寫（stage≥6 && count≥4 && wish && willing；學姊 AA_218 前一律不出現；src/date3d.js）。還沒接：各告白事件拿掉學期／故事前置改用 DATE.canConfess（要等 DATE-S3～S6 讓玩家真的能約會，不然沒人到得了 4 次）。【學姊相關的部分暫停（使用者 2026-10-17 05:2x「祐廷人生主線全面修訂」（經 AA-C；AA_218 批准前））】**依賴約會系統**：新條件要「正式校外約會次數＋心願地點」（dateLog），程式還沒有（DATE-S1 計數、DATE-S2 地點 D01～D32、DATE-S6 半互動約會都待開工；romance3d.js 第 47 行：現在告白條件由各告白事件自己判斷）。順序：DATE-S1／S2／S6 → 通用告白判斷 S.canConfess（stage≥6 && dateLog.count≥4 && dateLog.wish && willing）→ 各告白事件拿掉學期／故事前置、改用 S.canConfess；不動學姊分手週次（等 BB-C）。LAWWW-C 2026-10-17 05:1x 查證",
+   "next": "【50a0c3c3：A4-L5、A4-L7 交往中回覆（LADDER_REPLY_IF）】【AA-C 06:02～06:13：大一上下交往版（e2bdcece：階梯已匯入；企劃 9 檔待排 v1／v2）、大二上下交往版＋R1～R7（b39f0bb9：AN_TC_VISIT、語彤中秋 CG、閘門全拿掉；A4-L5、A4-L7 replyIf 要程式）、BB_189 芷若子晴大二交往中（e6db8302）】通用告白判斷 DATE.canConfess 已寫（stage≥6 && count≥4 && wish && willing；學姊 AA_218 前一律不出現；src/date3d.js）。還沒接：各告白事件拿掉學期／故事前置改用 DATE.canConfess（要等 DATE-S3～S6 讓玩家真的能約會，不然沒人到得了 4 次）。【學姊相關的部分暫停（使用者 2026-10-17 05:2x「祐廷人生主線全面修訂」（經 AA-C；AA_218 批准前））】**依賴約會系統**：新條件要「正式校外約會次數＋心願地點」（dateLog），程式還沒有（DATE-S1 計數、DATE-S2 地點 D01～D32、DATE-S6 半互動約會都待開工；romance3d.js 第 47 行：現在告白條件由各告白事件自己判斷）。順序：DATE-S1／S2／S6 → 通用告白判斷 S.canConfess（stage≥6 && dateLog.count≥4 && dateLog.wish && willing）→ 各告白事件拿掉學期／故事前置、改用 S.canConfess；不動學姊分手週次（等 BB-C）。LAWWW-C 2026-10-17 05:1x 查證",
    "first": {
     "term": "Y1S1",
     "week": 1,
