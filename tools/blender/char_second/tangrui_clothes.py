@@ -89,19 +89,20 @@ def apply(m):
     import x_xinci_clothes as XC, peishan_clothes as PS
     body = m['body']; ki = next(i for i, mt in enumerate(obj.data.materials) if mt and 'Knit' in mt.name)
     # 貼身以後，手放下來時胸口、肩膀的皮膚會從布裡穿出來（沛珊第十七～二十版）：同樣收進去（前面 V 字開口不動）
-    print('  body pulled under the polo', XC.conform_under(body, obj, ki, STYLE_M['PANTS_TOP'] - 0.03, STYLE_M['V_BOTTOM'] - 0.03, inset=0.008, slack=0.005, max_move=0.015))
+    # 第十三版：到 V 字上面 6 cm（第十二版到 V 字下面 3 cm：V 字兩側、領尖下面的胸口皮膚從布裡穿出來兩塊；V 字開口裡沒有布，射線打不到，不會動）
+    print('  body pulled under the polo', XC.conform_under(body, obj, ki, STYLE_M['PANTS_TOP'] - 0.03, STYLE_M['V_BOTTOM'] + 0.06, inset=0.008, slack=0.005, max_move=0.015))
     print('  shoulders pulled under the polo', PS.pull_shoulders(body, obj, STYLE_M['V_BOTTOM'] - 0.04, STYLE_M['BACK_NECK_Z'] - 0.008, mat_idx=ki))
     return obj
 
 
 def cuff_rib(obj):
     """第十二版（BB_201 第 9 節「袖口一圈羅紋」）：身片貼圖 v 0.80～0.94（袖口那一圈；下擺在 0.76～0.79、領子用中間）畫粗一點、深一點的羅紋——
-    jersey 原本的羅紋 180 條、亮度只差 14%，遊戲裡看不出來"""
+    jersey 原本的羅紋 180 條、亮度只差 14%，遊戲裡看不出來。袖口用到 v 0.78～0.94，0.895 以上和 V 字的滾邊共用，不畫"""
     knit = next(mt for mt in obj.data.materials if mt and 'Knit' in mt.name)
     img = knit.vrm_addon_extension.mtoon1.pbr_metallic_roughness.base_color_texture.index.source
     W, H = img.size; a = np.empty(W * H * 4, np.float32); img.pixels.foreach_get(a); a = a.reshape(H, W, 4)   # 第 0 列在下面：v＝(列＋0.5)／高
     v = (np.arange(H) + 0.5) / H; u = (np.arange(W) + 0.5) / W
-    band = (v > 0.80) & (v < 0.94)
+    band = (v > 0.80) & (v < 0.895)                       # 第十三版：0.94 → 0.895（V 字的滾邊在 0.90 以上，第十二版跟著變成粗條紋）
     rib = 0.80 + 0.20 * np.abs(np.cos(np.pi * ((u * 120) % 1.0 - 0.5))) ** 1.5
     a[band, :, :3] *= rib[None, :, None]
     img.pixels.foreach_set(a.reshape(-1)); img.update(); img.pack()
