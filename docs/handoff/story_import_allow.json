@@ -364,19 +364,31 @@
   },
   {
    "path": "docs/story_planning/AA_254_學期末心意邀約_告白台詞_BB203.md",
-   "sha": "8fdcc961",
+   "sha": "7fa1aad4",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-17 11:47Z 交付（第②級 AA 定稿；BB_203 使用者確認，使用者 11:40 直接對 LAWWW-C「告白只在學期末」）：第 0～7、9 節進 src/data/termend_lines.js",
+   "approvedBy": "AA-C 2026-10-17 11:58Z 更正（以安三選一與答應照 AA_187 9-1、語彤三選一照 9-2、答應照 AA_254 第 2 節）；第②級 AA 定稿；第 0～7、9 節進 src/data/termend_lines.js",
    "task": "BB203-CONFESS-1017",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "8fdcc961",
+     "approvedBy": "AA-C 2026-10-17 11:47Z 交付（第②級 AA 定稿；BB_203 使用者確認，使用者 11:40 直接對 LAWWW-C「告白只在學期末」）：第 0～7、9 節進 src/data/termend_lines.js"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_250_期末聚餐話題池_大一.md",
-   "sha": "375b91dd",
+   "sha": "c524b61e",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-17 交付（第②級 AA 定稿；acf92ff0 第 10 節＋375b91dd 子晴 Q6 條件）：0-1、1-1、2-1、第 10 節進 src/data/termend_lines.js",
+   "approvedBy": "AA-C 2026-10-17 12:07Z（10-1 一對一的開場、收尾表，期末飯一律用）＋acf92ff0 第 10 節、375b91dd 子晴 Q6；0-1、1-1、2-1、第 10 節進 src/data/termend_lines.js",
    "task": "BB203-CONFESS-1017",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "375b91dd",
+     "approvedBy": "AA-C 2026-10-17 交付（第②級 AA 定稿；acf92ff0 第 10 節＋375b91dd 子晴 Q6 條件）：0-1、1-1、2-1、第 10 節進 src/data/termend_lines.js"
+    }
+   ]
   }
  ]
 }

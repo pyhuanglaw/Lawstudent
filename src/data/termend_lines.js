@@ -3,17 +3,19 @@
    - 心意的邀約、婉拒、飯桌一句、回家路上第一句、她說、讓我想想、第二次：AA_254 第 1～6 節（企劃線 claude/magical-albattani-bk7b4n 8fdcc961；子晴 Q6 條件 375b91dd）；
    - 「說出來」之後的答應：以安、芷若、子晴、沛珊照 data/confess_lines.js（AA_187 9-1、AA_223）；語彤、學姊照 AA_254 第 2、3 節；
    - 朋友的一對一邀約、婉拒、保底阿凱／阿哲、交往中女朋友的學期末約會：AA_250 第 10 節（acf92ff0）；
-   - 開場、收尾旁白：AA_250 0-1；話題池：AA_250 1-1、2-1（大一上、大一下；一對一把「你們」「大家」改成「你」，AA_250 10-1 的例子）；
+   - 開場、收尾旁白：AA_250 10-1 一對一的表（c524b61e；0-1 是群體聚會用的，期末飯不用）；話題池：AA_250 1-1、2-1（大一上、大一下；一對一把「你們」「大家」改成「你」，AA_250 10-1 的例子）；
    - 不發心意邀約時的手機一句：AA_254 第 9 節。
    行的寫法：字串＝說話的人自己說；{narr:'（…）'}＝旁白；陣列裡可以放函式 G=>字串|物件（照情況換句子）。 */
 const TERMEND_LINES=(function(){
   const Q6=G=>!!(G&&G.events&&G.events.done&&G.events.done.ev_ziqing_secret_game);   /* 子晴做遊戲是秘密，大一下 Q6 才揭露（BB_166 1-1；AA-C 375b91dd）*/
-  /* 地點：AA_250 0-1 的開場、收尾；bg＝2D 底圖（沒有的先用相近的，正式圖等 LAWWW2） */
+  /* 地點：AA_250 10-1 一對一的開場、收尾（AA-C c524b61e）；bg＝2D 底圖（沒有的先用相近的，正式圖等 LAWWW2） */
   const PLACE={
-    noodle:{name:'阿鳳麵店',open:'（長桌併好了。阿姨端來第一盤滷味。）',close:'（阿姨收碗的時候，滷味還剩一點。）',bg:'noodle_table'},
-    cafe:{name:'兩點半 Café',open:'（窗邊的兩張桌子併在一起。有人的咖啡已經喝完了。）',close:'（店裡的燈調暗了一格。芷若在吧台後面擦杯子。）',bg:null},
-    yexiao:{name:'公館宵夜',open:'（騎樓下的塑膠椅，桌上是三盤炒的。）',close:'（老闆開始收隔壁桌的椅子。）',bg:'gongguan_luwei'},
-    eatery:{name:'系館附近的簡餐',open:'（簡餐店的電視在播新聞，沒有人在看。）',close:'（最後一個人把餐盤疊好，拿去回收。）',bg:'xiaofu'} };
+    noodle:{name:'阿鳳麵店',open:'（靠牆的兩人桌。阿姨端了兩碗過來，沒有問要什麼。）',close:'（阿姨來收碗，順手多放了一顆滷蛋在你碗裡。）',bg:'noodle_table'},
+    noodle_closed:{name:'麵店打烊以後',open:'（鐵門拉下一半。店裡只開了長桌上那一盞燈。）',close:'（她把兩個碗疊起來，拿進廚房。水聲響了一下就停了。）',bg:'noodle_table'},
+    cafe:{name:'兩點半 Café 打烊以後',open:'（店裡的燈關了一半。她把「準備中」的牌子翻過去，在你對面坐下。）',close:'（她把兩個杯子收回吧台，關掉最後一盞燈。）',bg:null},
+    yexiao:{name:'公館宵夜',open:'（騎樓下的塑膠椅，兩個人點了三盤。）',close:'（老闆開始收隔壁桌的椅子。）',bg:'gongguan_luwei'},
+    eatery:{name:'系館附近的簡餐',open:'（簡餐店的電視在播新聞。靠窗的兩人座。）',close:'（餐盤疊好，拿去回收。外面的路燈已經亮了。）',bg:'xiaofu'},
+    eatery_lib:{name:'法圖旁邊的簡餐',open:'（下午的人散了，店裡只剩你們這一桌。）',close:'（她看了一下錶，把計畫本收進包包。）',bg:'xiaofu'} };
   /* 心意的邀約（AA_254）：place＝飯的地點（開場、收尾旁白用 PLACE）；wd＝約的星期（0＝日；沒寫＝時段第三天）；h＝幾點；walkBg＝回家路上的 2D；
      opts＝說出來的三句（沒寫＝第 0 節的通用三句，buddy＝「○○」）；yes＝答應（沒寫＝confess_lines.js 的 yes）*/
   const HEART={
@@ -21,12 +23,12 @@ const TERMEND_LINES=(function(){
       invite:'考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。', decline:'好。那開學見。',
       table:'我這學期的手帳寫了一百二十頁。……有一頁不給你看。',
       walk:[{narr:'（研討室，她開燈。）'},'我的手帳放在這裡。……白板還沒擦。'],
-      optsFrom:'confess',   /* 說出來＝confess_lines 的三選一（AA_187 9-1；AA_254 第 1 節寫 1-2 版，LAWWW-C 11:5x 問 AA 中，先用現行 9-1）*/
+      optsFrom:'confess',   /* 說出來＝confess_lines 的三選一（AA_187 9-1；AA-C 11:58 確認：「十七次」不放，只換第一句）*/
       she:[{narr:'（她拿起白板筆，在「理由」那一欄最下面多寫了一行。）'},{narr:'（白板：「沈以安喜歡祐廷。理由：還在寫。」）'},'你不說的話，我寫了。','理由我會補完。……你先回答。'],
       think:'好。……這一行我不擦。',
       invite2:'考完了。七點，同一家。……白板我還沒擦。',
       she2:['上學期寫的那一行還在。我把理由寫完了。……你要看嗎？'] },
-    heroine_03:{ src:'AA_254 第 2 節', place:'noodle', placeName:'麵店打烊以後', wd:4, h:21, walkBg:null, walkPlace:'汀州路・她家樓下',
+    heroine_03:{ src:'AA_254 第 2 節', place:'noodle_closed', placeName:'麵店打烊以後', optsFrom:'confess',   /* 三選一照 AA_187 9-2（AA-C 11:58 確認），答應照 AA_254 第 2 節 */ wd:4, h:21, walkBg:null, walkPlace:'汀州路・她家樓下',
       invite:'禮拜四我沒顧店。……店裡打烊以後，我煮。只有我們。', decline:'好。那我顧店。',
       table:G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day)||CALENDAR.termOf(G.day-10):null; return T&&T.id==='Y1S1'?'這碗沒放蔥。……你都會挑出來，我看了一學期。':'這碗沒放蔥。……你都會挑出來，我看了兩年。'; },   /* 大一上的學期末改「看了一學期」*/
       walk:['我家到了。……你要說什麼就現在說，我媽在樓上會看到。'],
@@ -35,7 +37,7 @@ const TERMEND_LINES=(function(){
       think:'好。……那你想。我也要上去算帳了。',
       invite2:'禮拜四。打烊以後。……你上次說要想，想好了嗎。',
       she2:['你一直坐我斜對面。','我還是想坐你旁邊。……這次你回答。'] },
-    heroine_05:{ src:'AA_254 第 3 節', place:'eatery', placeName:'法圖旁邊的簡餐店', h:18.5, walkBg:'ntu_avenue', walkPlace:'椰林大道・往公館捷運站', buddy:'直屬',
+    heroine_05:{ src:'AA_254 第 3 節', place:'eatery_lib', placeName:'法圖旁邊的簡餐店', h:18.5, walkBg:'ntu_avenue', walkPlace:'椰林大道・往公館捷運站', buddy:'直屬',
       invite:'考完了嗎？我請你吃飯。……這次不是家族的，只有我們。', decline:'好。那開學法圖見。',
       table:'我這學期的計畫本，最後一格還沒寫。',
       walk:['時間差不多了。……你剛剛好像一直想講什麼。'],
@@ -82,7 +84,7 @@ const TERMEND_LINES=(function(){
     yu:{y1s1:'考完了！！吃飯！！我想吃甜的！',gen:'考完了！吃飯好不好，我有營隊的事想跟你講',no:'好！下次！',place:'eatery',h:18.5},
     heroine_03:{y1s1:'禮拜四我沒顧店。……要吃飯嗎？',gen:'考完了。禮拜四，要吃飯嗎。',no:'好。',place:'noodle',h:19,wd:4},
     heroine_02:{y1s1:'這禮拜五我九點下班。要不要吃宵夜？',gen:'考完了嗎？我下班以後，吃個東西？',no:'好啊。來店裡我請你一杯。',place:'cafe',h:21,wd:5},
-    heroine_05:{y1s1:null,gen:'期末考完了嗎？法圖旁邊那家，我請你。',no:'好。開學見。',place:'eatery',h:18.5},   /* 筆試前不約 */
+    heroine_05:{y1s1:null,gen:'期末考完了嗎？法圖旁邊那家，我請你。',no:'好。開學見。',place:'eatery_lib',h:18.5},   /* 筆試前不約 */
     classmate_peishan:{y1s1:'期末考完了！吃飯好不好？我有一堆問題想問你。',gen:'考完了！吃飯？',no:'好喔！',place:'eatery',h:18.5},
     npc_fangyt:{y1s1:null,gen:'考完了嗎？吃個飯，我下禮拜上山。',no:'好。山上收不到訊號，開學見。',place:'eatery',h:18.5} };
   /* 保底（AA_250 10-4；BB_203 第 1 節第 7 點 4）：阿凱宿舍當面「宵夜？」；阿凱不在臺北的學期改阿哲（手機）*/
@@ -94,8 +96,8 @@ const TERMEND_LINES=(function(){
   /* 交往中的女朋友：學期末約會（AA_250 10-3；不佔「只能接一個」；可昕照 9-2 另外做）*/
   const GF={
     heroine_01:{invite:'考完了。……今天不讀書，你也不准讀。',place:'eatery',placeName:'公館那家小店',h:19,table:'這學期的手帳，有四十頁寫到你。……我數過。'},
-    heroine_03:{invite:'打烊以後。我煮。',place:'noodle',placeName:'麵店打烊後',h:21,wd:4,table:G=>{ const T=typeof CALENDAR!=='undefined'?(CALENDAR.termOf(G.day)||CALENDAR.termOf(G.day-10)):null, w=T&&/S1$/.test(T.id); return w?'我媽問你寒假要不要來吃年菜。……我說我問問看。':'我媽問你暑假要不要來吃飯。……我說我問問看。'; }},
-    heroine_05:{invite:'考完了吧？計畫本今天那一格寫的是你。',place:'eatery',placeName:'法圖旁邊的簡餐',h:18.5,table:'我這學期最好的一天，不在計畫本上。'},
+    heroine_03:{invite:'打烊以後。我煮。',place:'noodle_closed',placeName:'麵店打烊後',h:21,wd:4,table:G=>{ const T=typeof CALENDAR!=='undefined'?(CALENDAR.termOf(G.day)||CALENDAR.termOf(G.day-10)):null, w=T&&/S1$/.test(T.id); return w?'我媽問你寒假要不要來吃年菜。……我說我問問看。':'我媽問你暑假要不要來吃飯。……我說我問問看。'; }},
+    heroine_05:{invite:'考完了吧？計畫本今天那一格寫的是你。',place:'eatery_lib',placeName:'法圖旁邊的簡餐',h:18.5,table:'我這學期最好的一天，不在計畫本上。'},
     heroine_02:{invite:'禮拜五九點，等我下班。',place:'cafe',placeName:'兩點半 Café 打烊後',h:21,wd:5,table:'店長問我最近為什麼一直笑。……我說天氣好。'},
     heroine_04:{invite:'考完了 宵夜 我想吃兩份',place:'yexiao',placeName:'公館宵夜',h:22,table:G=>Q6(G)?'我做的那個關卡，最後一個存檔點的名字是你。……不准問。':'這學期熬了很多夜。……有幾個晚上是在想你。不准笑。'},
     classmate_peishan:{invite:'期末考完了！今天只問你一個問題。',place:'eatery',placeName:'系館附近的簡餐',h:18.5,table:'這學期我問了你一百多個問題。……你都有回答。'} };
@@ -132,5 +134,5 @@ const TERMEND_LINES=(function(){
       classmate_peishan:['我也報了營隊隊輔！','暑假課輔班照常。'],
       npc_fangyt:['暑假我要上山。'] } };
   const REPLY=['嗯。','真的假的。','我也是。'];   /* 祐廷回的一句（AA_250 10-1：池子以外，輪流）*/
-  return {PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,src:'AA_254 8fdcc961／AA_250 acf92ff0、375b91dd'};
+  return {PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,src:'AA_254 8fdcc961（7fa1aad4 更正）／AA_250 acf92ff0、375b91dd、c524b61e'};
 })();
