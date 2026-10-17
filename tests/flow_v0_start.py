@@ -42,8 +42,9 @@ async def main():
         ok, log = await drive(pg, cdp, run, "GAME.G&&GAME.G.stage==='econ'&&GAME.G.zone==='dorm'&&!!GAME.G.flags.E01_DONE&&!GAME.E.player.busy&&!GAME.D.active", [], 400)
         d = await pg.evaluate("(()=>{ const G=GAME.G, k=CALENDAR.dateOf(G.day).key; return {stage:G.stage, day:G.day, key:k, hour:+G.hour.toFixed(2), zone:G.zone}; })()")
         await run.shot(pg, 'e01_done')
-        G7 = "(()=>{ const G=GAME.G, F=G.flags; return {camp:!!F.ECON_CAMP_OPEN, bus:F.E15_BUS||null, kx:SOCIAL.has('kexin','FIRST_MET'), sq:(G.msgs||[]).filter(m=>m.th==='g:econ_squad3').length}; })()"
-        for _ in range(40):   # 8/25 21:00 的小隊群組排在手機佇列；劇情演出中 STORY.tick 不跑，控制權回來後的第一個 tick 才送進手機（SwiftShader 一幀可能要好幾秒）
+        G7 = "(()=>{ const G=GAME.G, F=G.flags; return {camp:!!F.ECON_CAMP_OPEN, bus:F.E15_BUS||null, kx:SOCIAL.has('kexin','FIRST_MET'), sq:(G.msgs||[]).filter(m=>m.th==='g:econ_squad3').length, q:((G.phone||{}).q||[]).map(q=>q.tag).join(','), key:CALENDAR.dateOf(G.day).key, h:+G.hour.toFixed(2), busy:!!GAME.E.player.busy, dlg:!!GAME.D.active, paused:!!GAME.E.paused}; })()"
+        for _ in range(120):   # 8/25 21:00 的小隊群組排在手機佇列；劇情演出中 STORY.tick 不跑，控制權回來後的第一個 tick 才送進手機。
+            # E01 結尾「先睡。明天再拆。」會接著自動睡到 9/2 早上（AA_154 A24）：那一段又在劇情狀態裡，所以等到沒有劇情、再多等幾個 tick（SwiftShader 30 幀可能要十幾秒）
             g7 = await pg.evaluate(G7)
             if g7['sq'] >= 3: break
             await pg.wait_for_timeout(1000)
