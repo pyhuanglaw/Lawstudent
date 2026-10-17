@@ -718,6 +718,7 @@ const STORY = (function(){
   let roomY2Busy=false;
   S.tick=function(GM,dt){ const G=GM.G, F=G.flags, E=GM.E; if(E.player.busy||GM.D.active) return; const P=E.player.obj.position;
     if(!F.CEREMONY_Y1&&(G.stage||'law')==='law'&&S.week1Start(G)&&G.day===S.dayOfKey('2025-08-31')&&h(G)>=14&&F.KAI_MOVEIN){ void S.ceremonyY1(GM); return; }   /* 開學典禮（AA_195 4-4）*/
+    if(S.tut830On(G)&&G.day<=S.dayOfKey('2025-09-07')&&S.tut830Tick(GM)) return;   /* 8/30 新手教學的三個目標（AA_195 4-3）*/
     if(!F.EXCHANGE_ROUTE&&G.day>=0) S.routeBackfill(G);   /* 交換路線：志願表那一週過了還沒選的補 TW（AA_158 第 1 節）*/
     schedT-=dt; if(schedT<=0){ schedT=3; refreshSchedule(GM); }
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ CLS.tick(GM); }catch(e){ console.warn('CLS.tick',e); } }   /* 課表（D52）*/
@@ -777,7 +778,7 @@ const STORY = (function(){
     if(it.sleep){ await bedScene(GM); return true; }
     if(it.cafeRota){ GM.sceneBegin(); try{ for(const l of S.cafeRota(G)) await GM.say(null,l); } finally { GM.sceneEnd(); } return true; }   /* 兩點半 Café 牆上的班表（BB_159）*/
     if(it.counter==='cafe'){ await counter(GM,'兩點半 Café',CAFE_MENU); return true; }
-    if(it.shop==='cvs'){ await counter(GM,'便利商店',[['飯糰',35,12],['美式咖啡',45,8],['運動飲料',30,6],['微波義大利麵',75,22]].concat(typeof PARK!=='undefined'&&PARK.catName(G)?[['小罐貓罐頭',35,0,G=>{ G.daily=G.daily||{}; G.daily.catCans=(G.daily.catCans|0)+1; }]]:[])); return true; }   /* 貓罐頭（AA_164 5-4、AA_171 第 7 節）：取了名字以後才會想到要買 */
+    if(it.shop==='cvs'){ await counter(GM,'便利商店',[['飯糰',35,12],['美式咖啡',45,8],['運動飲料',30,6],['微波義大利麵',75,22]].concat(S.tut830Items(G)).concat(typeof PARK!=='undefined'&&PARK.catName(G)?[['小罐貓罐頭',35,0,G=>{ G.daily=G.daily||{}; G.daily.catCans=(G.daily.catCans|0)+1; }]]:[])); return true; }   /* 貓罐頭（AA_164 5-4、AA_171 第 7 節）：取了名字以後才會想到要買 */
     if(it.shop==='tea'){ await counter(GM,'清葉茶行',[['珍珠奶茶',60,10],['青茶 微糖',40,6]]); return true; }
     if(it.shop==='book'){ await bookshop(GM); return true; }
     if(it.eat==='noodle'){ await noodleScene(GM,it); return true; }
@@ -892,6 +893,19 @@ const STORY = (function(){
     const K=t=>({th:'p:kexin',from:'kexin',text:t}), y0=!!F.PLAYED_Y0;
     const ask={opts:[{t:'排好了，週四有民總。',say:[K('好。我週四也是滿堂。'),K('早點睡，明天不要遲到。')]},{t:'還在等加選。',say:[K('我也是，有一堂候補排第十二個。'),K('應該沒救了。早點睡。')]},{t:'有點緊張。',say:[K(y0?'我也是。明明是第二次了。':'我也是。'),K('早點睡。')]}]};
     PHONE.at(G,S.dayOfKey('2025-08-31'),22+10/60,[K('明天開學了。'),...(y0?[K('第二次的大一欸。')]:[]),Object.assign(K('你課表都排好了嗎？'),{ask})],'kx_eve'); return true; };
+  /* 8/30（六）新手教學（AA_195 4-3；AA-B 00:46 回覆 AA_195 4-11）：三個選做目標，各自算完成，任務欄顯示還沒做的第一項；都可以不做、不擋劇情。
+     ① 公館便利商店買三孔延長線 299、衣架一包 49、拖鞋 99（開學第一週以前都買得到；三樣都買了才算完成）② 走一次椰林大道到總圖（進總圖大廳）③ 找到霖澤館 201（二樓 201 門口或進教室）。②③ 只在 8/30 算。完成句照 AA 原文 */
+  const T830=[{k:'T830_BUY',goal:'去公館買缺的東西：延長線、衣架、拖鞋',line:'（延長線買了三孔的。阿凱的主機插頭是三孔的。）'},{k:'T830_LIB',goal:'走一次椰林大道到總圖',line:'（椰林大道還是那麼長。總圖門口有新生在拍照。）'},{k:'T830_201',goal:'找到霖澤館 201：星期一第一堂憲法在那裡',line:'（霖澤館 201 在二樓。去年一整年，你從來沒有走進這棟。）'}];
+  const T830_ITEMS=[['三孔延長線',299,'T830_EXT'],['衣架一包',49,'T830_HANGER'],['拖鞋',99,'T830_SLIPPER']];
+  S.tut830On=G=>!!(G&&G.flags&&G.flags.KAI_MOVEIN&&(G.stage||'law')==='law'&&S.week1Start(G));
+  S.tut830Items=G=>{ const F=G.flags; if(!S.tut830On(G)||F.T830_BUY||G.day>S.dayOfKey('2025-09-07')) return []; return T830_ITEMS.filter(([,,f])=>!F[f]).map(([n,p,f])=>[n,p,0,G=>{ G.flags[f]=true; if(T830_ITEMS.every(([,,k])=>G.flags[k])) G.flags.T830_BUY=true; }]); };
+  S.tut830Tick=function(GM){ const G=GM.G, F=G.flags, E=GM.E; if(!S.tut830On(G)||F.T830_RUN) return false; const d=S.dayOfKey('2025-08-30'), today=G.day===d;
+    if(today&&!F.T830_LIB&&G.zone==='library_hall') F.T830_LIB=true;
+    if(today&&!F.T830_201&&(G.zone==='classroom'||(G.zone==='linze'&&(E.player.lv|0)===1&&Math.abs(E.player.obj.position.x+2)<1.6&&E.player.obj.position.z<-5))) F.T830_201=true;
+    const due=T830.find(t=>F[t.k]&&!F[t.k+'_SAID']);
+    if(due){ F[due.k+'_SAID']=true; F.T830_RUN=true; (async()=>{ GM.sceneBegin(); try{ await GM.say(null,due.line); } finally { GM.sceneEnd(); F.T830_RUN=false; } if(today) S.tut830Goal(GM); })(); return true; }
+    if(today) S.tut830Goal(GM); return false; };
+  S.tut830Goal=function(GM){ const G=GM.G, F=G.flags, nx=T830.find(t=>!F[t.k]); if(nx){ if(G.goal!==nx.goal) GM.setGoal(nx.goal); } else if(T830.some(t=>G.goal===t.goal)){ if(typeof CLS!=='undefined'&&CLS.setGoal) CLS.setGoal(GM); else GM.setGoal('自由的一天。去圖書館、公館，或找人聊天'); } };
   /* 手機上照旗標排時間的訊息（內容照企劃組原文）。每 0.5 秒（S.tick）；同一則用 tag 只排一次 */
   /* 某學期第幾週星期幾是第幾天（wd：1＝週一…7＝週日）；沒有＝null */
   const termDayCache={}; function termDay(term,week,wd){ const k=term+'|'+week+'|'+wd; if(k in termDayCache) return termDayCache[k]; let r=null; if(typeof CALENDAR!=='undefined') for(let d=(/^Y0/.test(term)?-420:-30);d<1500;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===week&&CALENDAR.dateOf(d).wd===wd){ r=d; break; } } return termDayCache[k]=r; }

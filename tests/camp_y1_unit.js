@@ -66,6 +66,19 @@ const day=k=>STORY.dayOfKey(k);
     check('G3. 回了 → FAM_GROUP_REPLIED、Kevin「好，收到一個。」',G.flags.FAM_GROUP_REPLIED===true&&fam().some(m=>m.text==='好，收到一個。'),JSON.stringify(r&&r.out&&r.out.map(m=>m.text)));
     const n1=G.msgs.length; await STORY._v1.familyGroupD1(GM);
     check('G4. 9/3 introDorm 不再發舊的「第三週了」（已經發過）',G.msgs.length===n1&&!G.msgs.some(m=>/第三週了/.test(m.text))); }
+  // ---------- I 8/30 新手教學三個目標（AA_195 4-3、AA-B 00:46）----------
+  { const G0=G; G.day=day('2025-08-30'); G.weekday=6; G.hour=9; G.zone='dorm'; said=[]; STORY.tut830Tick(GM);
+    check('I1. 8/30 早上任務欄：「去公館買缺的東西：延長線、衣架、拖鞋」',G.goal==='去公館買缺的東西：延長線、衣架、拖鞋',G.goal);
+    const it=STORY.tut830Items(G);
+    check('I2. 便利商店多三樣：三孔延長線 299、衣架一包 49、拖鞋 99（合計 447）',it.map(x=>x[0]+x[1]).join('/')==='三孔延長線299/衣架一包49/拖鞋99'&&it.reduce((a,x)=>a+x[1],0)===447,it.map(x=>x[0]+x[1]).join('/'));
+    it[0][3](G); it[1][3](G); check('I3. 只買兩樣還不算完成、還剩一樣可以買',!G.flags.T830_BUY&&STORY.tut830Items(G).length===1);
+    STORY.tut830Items(G)[0][3](G); STORY.tut830Tick(GM); await flush();
+    check('I4. 三樣都買了 → 完成句①、任務欄換成「走一次椰林大道到總圖」',said.includes('（延長線買了三孔的。阿凱的主機插頭是三孔的。）')&&G.goal==='走一次椰林大道到總圖'&&STORY.tut830Items(G).length===0,G.goal);
+    G.zone='linze'; P.lv=1; P.obj.position.x=-2; P.obj.position.z=-6.3; STORY.tut830Tick(GM); await flush(); P.lv=0; P.obj.position.x=0; P.obj.position.z=0;
+    check('I5. 先找到 201 也算（每項各自算）→ 完成句③、任務欄還是「走一次椰林大道到總圖」',said.includes('（霖澤館 201 在二樓。去年一整年，你從來沒有走進這棟。）')&&G.goal==='走一次椰林大道到總圖',G.goal);
+    G.zone='library_hall'; STORY.tut830Tick(GM); await flush();
+    check('I6. 進總圖 → 完成句②；三項都完成，任務欄換回一般的',said.includes('（椰林大道還是那麼長。總圖門口有新生在拍照。）')&&!['去公館買缺的東西：延長線、衣架、拖鞋','走一次椰林大道到總圖','找到霖澤館 201：星期一第一堂憲法在那裡'].includes(G.goal),G.goal);
+    const n=said.length; STORY.tut830Tick(GM); await flush(); check('I7. 完成句不重複',said.length===n); }
   // ---------- H 8/31：開學典禮 14:00、班群（系學會茶會公告）、可昕開學前一晚 22:10（AA_195 4-4、BB_168 6-2）----------
   { const q=(G.phone.q||[]).map(x=>x.tag);
     check('H1. 搬宿舍時就排好 8/31 22:10 可昕開學前一晚（KX_EVE_MSG）',q.includes('kx_eve')&&G.flags.KX_EVE_MSG===true,q.join(' '));
