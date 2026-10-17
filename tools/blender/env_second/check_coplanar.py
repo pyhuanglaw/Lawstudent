@@ -175,4 +175,4 @@ else:
     vis = [r for r in res if r['visible']]
     print('faces', nf, 'overlap pairs', len(res), '一定會閃', len(vis), '遠處才閃', sum(1 for r in res if r['facing'] == 'same' and not r['visible']), '背對背雙面', sum(1 for r in res if r['facing'] != 'same' and r['ds']))
     for r in (vis + [r for r in res if not r['visible']])[:60]: print('  ' + line(r))
-    if OUT: json.dump(vis + [r for r in res if not r['visible']][:200], open(OUT, 'w'), ensure_ascii=False, indent=1)   # 一定會閃的全部列出＋背對背的前 200 對
+    if OUT: json.dump(vis + [r for r in res if not r['visible'] and r['facing'] == 'same'] + [r for r in res if r['facing'] != 'same'][:200], open(OUT, 'w'), ensure_ascii=False, indent=1)   # 一定會閃、遠處才閃的全部列出＋背對背的前 200 對
