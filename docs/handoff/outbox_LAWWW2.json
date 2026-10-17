@@ -322,6 +322,26 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "ART-HAIR-MATCAP",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "",
+   "files": [
+    "tools/char_strip_hair_matcap.py",
+    "assets/models/char/second_ai/bl_zhe.vrm",
+    "assets/models/char/second_ai/bl_classmate_bohan.vrm",
+    "assets/models/char/second_ai/bl_kexin.vrm",
+    "assets/models/char/second_ai/bl_npc_nf1..4.vrm",
+    "assets/models/char/second_ai/bl_npc_nm1..4.vrm",
+    "docs/art-rebuild/second_ai/char_review/hair_matcap/"
+   ],
+   "state": "已交付",
+   "remaining": "遊戲內近看再確認一次（整合後）",
+   "next": "LAWWW 取 11 個 VRM（只有頭髮材質的 _SphereAdd 拿掉，其他位元組不變），跑人物相關的回歸",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
   }
  ]
 }
