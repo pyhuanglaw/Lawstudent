@@ -35,7 +35,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // 2. 什麼都沒經歷過的玩家
   let L=STORY.roomY2Items(G), ks=L.map(r=>r[0]);
   check('2. 最少：民總課本、阿凱的泡麵＋大一房間的五件（沒有票根、彈片、報告、值班表、黃金葛、螢光筆、便利貼）',JSON.stringify(ks)===JSON.stringify(['civ','noodle','y1_0','y1_1','y1_2','y1_3','y1_4']),JSON.stringify(ks));
-  check('2. 舊《民法》用大二那句',JSON.stringify(L[2][2])===JSON.stringify(['現在知道，要先問是誰、向誰、依據什麼、要什麼。'])&&L[3][2][0]==='經濟系那一年的課本。邊角都翻軟了。',JSON.stringify(L[2]));
+  check('2. 舊《民法》用大二那句',JSON.stringify(L[2][2])===JSON.stringify(['現在知道，要先問是誰、向誰、依據什麼、要什麼。'])&&L[3][2][0]==='念了一個多月的課本。前六章有畫線，後面是新的。',JSON.stringify(L[2]));
   check('2. 泡麵的便條',L[1][2][0]==='紙箱裡夾著一張便條：「宵夜基金。過期前吃完。——凱」');
   // 3. 經歷過全部的玩家
   SOCIAL.remember('heroine_02','WATCHED_FILM',''); ACTIVITIES.markAttended(G,ACTIVITIES.list.find(a=>a.id==='club_guitar')); G.events.done.ev_an_report_feedback=1; G.flags.cafeView='B'; G.flags.LAWCLUB_SAT_VISITS=2;

@@ -30,10 +30,10 @@ const line=(id,re)=>ST(id).find(e=>(typeof e==='string'?e:e.t).match(re));
   check('只在 7～14 天前說，句子裡的天數是那一天算出來的（中文數字）',said.length>0&&said.every(t=>{ const n=+t.split(':')[0]; return n>=7&&n<=14&&t.includes('還有'+STORY.zhNum(n)+'天'); }),said.slice(0,3).join(' / '));
   fresh(mid-10); G.social.small={classmate_bohan:{day:0,used:[],last:null,once:{[e.t]:'Y1S1'}}}; let again=false; for(let k=0;k<3;k++){ G.day=mid-10+k; G.social.small.classmate_bohan.day=0; const L=STORY.smallTalk(G,'classmate_bohan'); if(L.say&&/期中還有/.test(L.say)) again=true; }
   check('同一學期說過就不再說（once:term）',!again); }
-{ const L=ST('classmate_xinci').filter(e=>typeof e==='object'&&/雙主修|自學過一點經濟|念過一年經濟系/.test(e.t));
+{ const L=ST('classmate_xinci').filter(e=>typeof e==='object'&&/雙主修|自學過一點經濟|念過經濟系，我只問/.test(e.t));
   check('芯慈：「經濟系那邊的課比較輕鬆」拿掉，換成三個版本（大一上、下；雙主修事件以後不說）',L.length===3&&L.every(e=>JSON.stringify(e.term)==='["Y1S1","Y1S2"]'&&e.if&&JSON.stringify(e.if.notEvents)==='["ev_xinci_double"]')&&!ST('classmate_xinci').some(q=>/比較輕鬆/.test(typeof q==='string'?q:q.t)));
   const pick=v=>{ fresh(dOf('Y1S1',6,3)); if(v) G.flags.ECON_PAST_SHARED=v; const out=[]; for(const e of L){ const ok=(!e.if||EVENTS.cond(e.if))&&(!e.unless||!EVENTS.cond(e.unless)); if(ok) out.push(e.t.slice(1,10)); } return out.join('|'); };
-  check('不知道／none：只有排三個版本那句；half：自學過那句；full：念過一年那句',pick(null)==='雙主修要多修好多學'&&pick('none')==='雙主修要多修好多學'&&pick('half')==='你說你自學過一點經'&&pick('full')==='你念過一年經濟系，',[pick(null),pick('half'),pick('full')].join(' / ')); }
+  check('不知道／none：只有排三個版本那句；half：自學過那句；full：念過經濟系那句（AA_224 第 2 組）',pick(null)==='雙主修要多修好多學'&&pick('none')==='雙主修要多修好多學'&&pick('half')==='你說你自學過一點經'&&pick('full')==='你念過經濟系，我只',[pick(null),pick('half'),pick('full')].join(' / ')); }
 { const ev=STORY_EVENTS.find(e=>e.id==='ev_xinci_double');
   check('ev_xinci_double：（AA_209：開頭一句旁白、（小聲）拿掉）「經濟的期中在債總的隔天。兩科我都還沒念完……我可能要放棄一科。」、大一下第 6～7 週＝2026-03-30～04-12（START-WEEK 選 1 起寫成週次，日期和原本的第 195～208 天一樣）',ev.dialogue[0].text==='（總圖裡，她壓低聲音。）'&&ev.dialogue[1].text==='經濟的期中在債總的隔天。兩科我都還沒念完……我可能要放棄一科。'&&JSON.stringify(ev.term)==='["Y1S2"]'&&JSON.stringify(ev.weeks)==='[6,7]'&&!ev.day_min&&!ev.day_max&&(()=>{ for(let d=180;d<=220;d++){ const t=CALENDAR.termOf(d), inW=!!t&&t.id==='Y1S2'&&(t.week===6||t.week===7); if(inW!==(d>=dayOf('2026-03-30')&&d<=dayOf('2026-04-12'))) return false; } return true; })());
   check('第 195、208 天是大一下第 6、7 週',CALENDAR.termOf(195).id==='Y1S2'&&CALENDAR.termOf(195).week===6&&CALENDAR.termOf(208).week===7,CALENDAR.termOf(195).week+'、'+CALENDAR.termOf(208).week); }
