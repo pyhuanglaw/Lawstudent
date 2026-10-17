@@ -1,3 +1,20 @@
+# 魏教授第六版（BB_201 第 8 節；LAWWW2-C 2026-10-17 14:2x UTC；等 BB-C 驗收）
+- 髮型：男性短髮——兩側、後腦剪短貼頭（`npc_hair_m.py` 加 `side_taper`：耳朵上面越靠髮尾越貼頭）、耳朵和後頸露出來，頭頂短、往旁邊梳的側分。
+- 髮色：灰黑夾雜——頭頂深灰黑；兩鬢、耳上、後腦下緣的髮片髮根深、往髮尾漸漸變灰白，一束一束深淺交錯（第五版整片灰，側面看像染了半邊）。
+- 身材：肩膀寬、脖子粗（1.10 倍）、腰有一點肚子（1.6 cm）。
+- 眼鏡：`assets/models/char/second_ai/glasses_wei.glb`——深槍灰細金屬、圓角方框 5.0 × 3.3 cm（`glasses_zhiruo.py --style wei`）。遊戲端是配件：`{name:'glasses', glb:'prop.glasses_wei'}`＋manifest 一筆，請 LAWWW-C 掛上。
+  ![](glasses_wei_preview.webp)
+- 遊戲渲染器（沒戴眼鏡）：![](look_sheet.webp)
+- 第五版（自己退件：側面一整片灰）：![](v5_look_sheet.webp)
+- 第四版：![](v4_look_sheet.webp)
+- 四個人並排（同一個鏡頭，看身高；左到右韋綸 176、唐睿 177、家豪 170、魏教授 172）：
+  ![](../econ_round4_lineup.webp)
+- 臉正面（同上順序）：
+  ![](../econ_round4_faces.webp)
+- 驗收照 BB_201 第 8 節：等 LAWWW-C 接進遊戲、拍經原教室講台的遠景。
+
+---
+
 # 魏教授 3D 第四版：年紀（BB_201 第 4 節「看起來像國中生」；LAWWW2-C 2026-10-17 13:5x UTC；等 BB-C 驗收）
 
 - 遠景看得出年紀的地方（`tools/blender/char_second/npc.py` 的 `pwei`）：

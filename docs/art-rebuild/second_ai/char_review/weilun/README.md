@@ -1,3 +1,28 @@
+# v12：衣服＋頭髮＋腿（BB_201 第 1、7 節；LAWWW2-C 2026-10-17 14:2x UTC；等 BB-C 驗收）
+- 衣服（BB_201 第 1 節）：
+  - 短袖連帽風衣、敞開不拉：袖子寬、到上臂一半，白色拼接只在袖子上半（第七版看起來像無袖，因為袖子很貼、大部分是白色拼接）；
+  - 肩膀照沛珊的做法往下沉 2 cm、袖子從肩關節往內 3.5 cm（手放下來時肩膀上面不會裂開）。
+- 頭髮（第 7 節）：
+  - 剪短、耳朵露出來；髮殼 64 → 128 格、髮片 14 → 22 段（瀏海下緣的鋸齒）；
+  - 耳朵上面的頭髮越靠髮尾越貼頭（`weilun_hair.py` 的 `side_taper`）：第十一版正面看太陽穴兩邊各一塊淡色，是髮尖的縫裡看到背景。
+- 腿（第 1 節「運動型」）：小腿肚 +13 mm、大腿 +7 mm（`weilun_face.py` 的 `CALF_MM`、`THIGH_MM`）。
+- 安全帽（第 1 節）：`assets/models/char/second_ai/helmet_bike.glb`（`tools/blender/char_second/helmet_bike.py`）：
+  - 黑色外殼、銀色細側條、長條通風孔、深灰內襯、下巴帶和扣環；
+  - 掛在後背包右側；遊戲端是配件（props3d），給 LAWWW-C 的片段：`docs/art-rebuild/second_ai/patches/props_helmet_weilun.js`。
+  - Blender：![](helmet_blender.webp)
+  - 遊戲渲染器（掛在背包右側，套 patch 預覽）：![](look_helmet.webp)
+- 遊戲渲染器：![](look_sheet.webp)
+- 上一版（表情一輪 v10）：![](v10_look_sheet.webp)
+- 四個人並排（同一個鏡頭，看身高；左到右韋綸 176、唐睿 177、家豪 170、魏教授 172）：
+  ![](../econ_round4_lineup.webp)
+- 臉正面（同上順序）：
+  ![](../econ_round4_faces.webp)
+- 還沒做：
+  - 鞋子再深一點（BB 第 1 節「可以」）；
+  - 遊戲裡的經原教室遠景（LAWWW-C 接進遊戲以後拍）。
+
+---
+
 # v10：表情一輪（BB_201 第 6 節；LAWWW2-C 2026-10-17 13:5x UTC；等 BB-C 驗收）
 - 嘴窄到瞳孔內側、唇色淡；眉毛直、濃、短。
 - 三人臉部近照和立繪頭部並排（左立繪、右 3D；韋綸、唐睿、家豪）：
