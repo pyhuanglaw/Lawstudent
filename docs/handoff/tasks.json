@@ -16273,7 +16273,7 @@
    "owner": "LAWWW2",
    "status": "待開工",
    "priority": "P1",
-   "next": "現在用深色底＋地點字幕（events.js ev_y0_kh_bus*）；有圖就加進 OUT.BG（outings3d.js）並在事件的 scene 行加 bg",
+   "next": "23:1x 派給 LAWWW2-C（機場＋亞洲超市 patch 交付以後先做這三張）；現在用深色底＋地點字幕（events.js ev_y0_kh_bus*）；有圖就加進 OUT.BG（outings3d.js）並在事件的 scene 行加 bg",
    "first": {
     "term": "Y0S2",
     "week": 0,
@@ -16293,7 +16293,7 @@
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "三張 2D 背景（同 assets/bg 規格，webp）；店名照 D77 用替代名",
     "receiver": "LAWWW",
-    "ack": "未派"
+    "ack": "SENT"
    }
   }
  ]
