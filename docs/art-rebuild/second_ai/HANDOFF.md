@@ -17,6 +17,10 @@
   - 交班後**停止寫入**，直到使用者叫回來或下一個帳號照總入口第 4 節接班。
 - **下一班 LAWWW2 的第一步**：接班十四步 → 讀「C. 正在做的工作」→ 完成 ART-GG-SIGNS-2（重拍前後截圖 → README → 交值班的 LAWWW）→ 照下面 📋 那一節的待辦清單由上往下。
 - **LAWWW-B 已經在 02:41Z 交班**，所以這份紀錄只寫在 GitHub，沒有傳訊息給任何人。
+- **逐職位核對（D93）**：`check_handoff.py roles --ref origin/claude/modest-rubin-2lyp7g` 結束碼 1。LAWWW2 有 2 項異常，**都是同一件 ART-GG-SIGNS-2【表外】**：總表還沒有這個 ID。
+  - LAWWW-B 已經交班，我不能寫 `tasks.json`。下一班值班的 LAWWW 要把它補成任務，負責人 LAWWW2，狀態「進行中」，下一步照下面 C 類。
+  - AA、BB 沒有異常。
+  - **交接不算完整**，要等這一項補完。
 
 ### A. 本班完成（帳號 B，2026-10-16 22:00 ～ 10-17 02:4x UTC）
 整合狀態照 RULE_SOURCE 的 `docs/handoff/deliveries.json`。**都沒發布到 `main`**。場景的 `ART_APPROVED` 只有使用者能標，這裡都沒有標。
@@ -107,7 +111,7 @@
    - 受影響：玩家每天起床的房間、坐書桌讀書、睡覺；經濟系那一年的紙箱（原本疊在床上）、阿勳的書桌與保齡球袋；SCN-V3-01 大二的房間也照這個做。
    - 等 AA-B：另外兩個床位的室友（我先做成有生活痕跡、人不在）。
    - 這期間暫停 BUG-COPLANAR-DEV 室內（霖澤館查完、還沒改檔）。
-   - **狀態（02:4x 交班）**：已交付，LAWWW-B DORM-LOFT-L **整合中**（deliveries：DL-LW2-DORM-LOFT）。下一步：等整合後在遊戲裡截圖給使用者再看一次；宿舍大廳的疊面（BUG-COPLANAR-DEV 最後約 10 m²）接著做。
+   - **狀態（02:4x 交班）**：已交付，LAWWW-B DORM-LOFT-L **整合中**（交付紀錄在 deliveries.json）。下一步：等整合後在遊戲裡截圖給使用者再看一次；宿舍大廳的疊面（BUG-COPLANAR-DEV 最後約 10 m²）接著做。
    - **進度（01:4x）**：`tools/blender/env_second/dorm_room4.py` v2（91122d9b），說明與算圖 `test_shots/dorm_loft/README.md`、配置 `layout_v2.json`。
      - **使用者 01:3x「宿舍ok」→ 已交 LAWWW-B**：`assets/models/env/second_ai/dorm_room4.glb`＋`dorm_room4.layout.json`（新檔名，等程式改好再換掉舊的 dorm_interior.glb）。遊戲內截圖在 README。
      - 室友照 AA_208（AA-B 65978067）：203＝L2 祐廷、R2 阿凱、L1 阿哲、R1 柏翰；412＝L2 祐廷、R2 阿勳、L1 韋綸、R1 唐睿；第一晚空床＋名牌。
