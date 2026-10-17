@@ -2376,7 +2376,8 @@ const STORY_EVENTS=[
   /* ★成績公布那天（AA_272 第 4 節 4-2、4-3，c8baae2b；使用者 21:4x：她家在高雄、那天是公布分數、他在客運上心情不好、後來和好）：7/25（五），不能快轉。
      KH_GO＝'bus'（7/24 選「好。我搭早上的客運。」）：早上在家（或在外面）就出發，一整天一段演完——10:00 客運上查到成績（SCORE_REPLY）→ 12:10 高雄客運站小吵架（KH_FIGHT）
        → 18:30 她的私訊 → 20:00 客運站外面的便利商店和好（KH_MADEUP）→ 21:00 的客運回臺北，00:10 到家。
-     KH_GO 不是 'bus'（在家查、沒回）：10:00 手機版（4-2 的訊息照用，客運的三句旁白拿掉）。晚上的電話版等 AA-C 回覆台詞（4-3 有幾句是當面才成立的）。
+     KH_GO 不是 'bus'（在家查、沒回）：10:00 手機版（4-2 的訊息照用，客運的三句旁白拿掉；第三個選項「先不要講分數。晚上打給妳。」AA-C 0cc64ec7）；
+       21:00 電話（AA_272 第 12 節 c0ee2822，KH_FIGHT；睡著＝21:00 叫醒）→ 22:30 她的私訊（story3d.js，KH_MADEUP）。肉粽、問車、九點客運只在客運版。
      底圖：客運車廂、高雄客運站（白天、晚上）還沒有，先用深色底＋地點字幕（LAWWW2 的任務）*/
   ...(()=>{ const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
     const atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
@@ -2388,7 +2389,7 @@ const STORY_EVENTS=[
       {speaker:null,text:'（手機震了一下。補習班傳來今年的落點預估表。你那個分數，在臺大法律那一格。）'},
       {speaker:null,text:'（又震了一下。是她。）'},
       {phone:'kexin',text:'查到了。'},{phone:'kexin',text:'（截圖：她的成績）'},{phone:'kexin',text:'……你呢。'},
-      {choice:[{text:'「（傳截圖給她。）」',set:{SCORE_REPLY:'shot'},goto:'s1'},{text:'「我的還好。」',set:{SCORE_REPLY:'fine'},goto:'s2'},{text:'「先不要講分數。我快到了。」',set:{SCORE_REPLY:'later'},goto:'s3',if:{custom:()=>bus}},{text:'「先不要講分數。」',set:{SCORE_REPLY:'later'},goto:'s3',unless:{custom:()=>bus}}]},
+      {choice:[{text:'「（傳截圖給她。）」',set:{SCORE_REPLY:'shot'},goto:'s1'},{text:'「我的還好。」',set:{SCORE_REPLY:'fine'},goto:'s2'},{text:'「先不要講分數。我快到了。」',set:{SCORE_REPLY:'later'},goto:'s3',if:{custom:()=>bus}},{text:'「先不要講分數。晚上打給妳。」',set:{SCORE_REPLY:'later'},goto:'s3',unless:{custom:()=>bus}}]},
       {label:'s1'},{phone:'kexin',text:'好。'},{speaker:null,text:'（很久沒有下一則。）'},{goto:'s9'},
       {label:'s2'},{phone:'kexin',text:'你騙人。我看得到表。'},{goto:'s9'},
       {label:'s3'},{phone:'kexin',text:'嗯。'},
@@ -2413,13 +2414,20 @@ const STORY_EVENTS=[
       {set:{KH_MADEUP:true,KH_DAY:'bus'}} ];
     const busAfter=(G,GM)=>{ if(G.hour<24+10/60) GM.advance(24+10/60-G.hour); if(!atHome(G)&&typeof HOME!=='undefined'&&HOME.go) void HOME.go(GM); };   /* 三小時的客運，00:10 到臺北的家 */
     const homeLines=[ to(10),{scene:'臺北的家'},...score(false),{set:{KH_DAY:'home'}} ];
+    const callLines=[ {scene:'電話'},{speaker:null,text:'（電話接通。她那邊很安靜。）'},
+      {speaker:'kexin',text:'……恭喜你。'},{speaker:'player',text:'嗯。'},{speaker:'kexin',text:'你可以高興一點。我又不會怎樣。'},{speaker:'player',text:'我沒有不高興。'},{speaker:'kexin',text:'你從接起來到現在，都只說「嗯」。'},
+      {choice:[{text:'「我只是在想，以後我們不在同一個學校了。」',set:{KH_FIGHT:'school'}},{text:'「妳那幾題，我們明明一起寫過。」',set:{KH_FIGHT:'questions'}},{text:'（沒有說話。）',set:{KH_FIGHT:'silent'}}]},
+      {speaker:'kexin',text:'……我知道我考不好。我不用你幫我難過。'},{speaker:'kexin',text:'我先掛了。'},{speaker:null,text:'（電話斷了。你看著手機很久。）'},{set:{KH_CALL_DONE:true}} ];
+    const callDue=G=>{ const d=DK('2025-07-25'); return d!=null&&G.day===d&&G.hour>=21&&G.flags.KH_DAY==='home'&&!G.flags.KH_CALL_DONE; };
     const d25=G=>{ const d=DK('2025-07-25'); return d!=null&&G.day===d&&!!G.flags.dating_kexin&&!G.flags.KH_DAY; };
     const busDue=G=>d25(G)&&G.hour>=6&&G.flags.KH_GO==='bus', homeDue=G=>d25(G)&&G.hour>=10&&G.flags.KH_GO!=='bus';
     return [
       { id:'ev_y0_kh_bus_h', stage:'econ', title:'成績公布', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:busDue}, dialogue:busLines, after:busAfter },
       { id:'ev_y0_kh_bus', stage:'econ', title:'成績公布', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>busDue(G)&&!atHome(G)}, dialogue:busLines, after:busAfter },
       { id:'ev_y0_kh_home_h', stage:'econ', title:'成績公布', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:homeDue}, dialogue:homeLines },
-      { id:'ev_y0_kh_home', stage:'econ', title:'成績公布', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'blur', prereq:{custom:G=>homeDue(G)&&!atHome(G)}, dialogue:homeLines } ]; })(),
+      { id:'ev_y0_kh_home', stage:'econ', title:'成績公布', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'blur', prereq:{custom:G=>homeDue(G)&&!atHome(G)}, dialogue:homeLines },
+      { id:'ev_y0_kh_call_h', stage:'econ', title:'電話', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:callDue}, dialogue:callLines },
+      { id:'ev_y0_kh_call', stage:'econ', title:'電話', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>callDue(G)&&!atHome(G)}, dialogue:callLines } ]; })(),
   /* ★E36 放榜（分發結果）8/13（三）：手機＋電話（AA_272 4-4，c8baae2b；取代 AA_224 6-6 的椰林大道見面）。10:00 兩句系統旁白照 AA_224 6-6（ev_y0_e36r／rh）；
      10:05 她的私訊在 story3d.js；20:00 電話（她在高雄）：「台大法律。恭喜你。真的。」→「只高 0.1。」→「上了就是上了。」→ KX_CAR only_me 兩句 →「政大的山比較多」E36_REPLY → E36_PACT
      → 最後一句「月底我就上去了。到時候你帶我去政大，我還不知道怎麼走。」（接 8/30 E37）。「一點點不甘心」不用（7/25 說過）；BB_104 的「我差一點點」「消化」和路燈旁白拿掉（問 AA-C 中）。

@@ -1342,6 +1342,9 @@ const STORY = (function(){
     if(S.isEcon(G)&&F.dating_kexin){ const d=S.dayOfKey('2025-07-24'), K=t=>({th:'p:kexin',from:'kexin',text:t});
       if(d!=null&&(G.day>d||(G.day===d&&G.hour>=21))&&G.day<=d+1&&!PHONE.sent(G,'y0_kh_ask')) PHONE.at(G,d,21,[K('明天公布成績。'),Object.assign(K('你要不要來高雄？我不想一個人查。'),{ask:{id:'y0_kh_ask',until:(d+1)*24+7,opts:[
         {t:'好。我搭早上的客運。',set:{KH_GO:'bus'}},{t:'我在家查就好。',set:{KH_GO:'home'},say:[K('好。')]}]}})],'y0_kh_ask'); }
+    /* 在家版的晚上（AA_272 第 12 節 c0ee2822）：21:00 電話（events.js ev_y0_kh_call*）以後，22:30 她的私訊（沒有選項），記 KH_MADEUP */
+    if(S.isEcon(G)&&F.KH_CALL_DONE&&!F.KH_MADEUP){ const d=S.dayOfKey('2025-07-25'), K=t=>({th:'p:kexin',from:'kexin',text:t}), Y=t=>({th:'p:kexin',from:'player',who:null,text:t});
+      if(d!=null&&(G.day>d||(G.day===d&&G.hour>=22.5))&&!PHONE.sent(G,'y0_kh_madeup')){ F.KH_MADEUP=true; PHONE.at(G,d,22.5,[K('剛剛那樣，對不起。'),Y('我也是。我不知道要講什麼。'),K('政大也是法律。四年以後，我們考同一個考試。'),K('而且政大到臺大，捷運不用一個小時。比高雄近多了。'),Y('嗯。'),K('早點睡。不要躺在床上難過。')],'y0_kh_madeup'); } }
     /* ★E36 放榜（分發結果）8/13（三）：手機＋電話（AA_272 4-4，c8baae2b）。10:00 兩句系統旁白（events.js ev_y0_e36r）以後，10:05 可昕私訊「政大法律。跟表上一樣。」「你的也是吧。」→「嗯。」；
        20:00 電話（events.js ev_y0_e36／ev_y0_e36h；睡著＝20:00 叫醒 coreCallAt）；22:00 經濟系群組四則（E36n 宵夜改群組）。椰林大道的出發選單、可昕站位、帶到場、23:30 宵夜照片拿掉 */
     if(S.isEcon(G)){ const d36=S.dayOfKey('2025-08-13'), K=t=>({th:'p:kexin',from:'kexin',text:t}), Y=t=>({th:'p:kexin',from:'player',who:null,text:t}), done36=!!(G.events&&G.events.done&&(G.events.done.ev_y0_e36||G.events.done.ev_y0_e36h));
@@ -2675,6 +2678,7 @@ const STORY = (function(){
     { const d=S.dayOfKey('2024-12-12'); if(d!=null&&G.day===d&&G.hour<22&&G.flags.dating_kexin&&!G.flags.KX_FIGHT_1212) return 22; }   /* AA_224 4-1：12/12 22:00 的電話，睡著也會接到 */
     { const d=S.dayOfKey('2025-01-28'); if(d!=null&&G.day===d&&G.hour<22&&!G.flags.E21_CALLED) return 22; }   /* E21 除夕 22:00 的電話 */
     const d35=S.dayOfKey('2025-07-10'); if(d35!=null&&G.day===d35&&!G.flags.E35_DONE&&G.hour<21) return 21;   /* E35（AA_224 6-5、AA_272 第 10 節）：睡著＝21:00 醒來，她在樓下 */
+    { const d=S.dayOfKey('2025-07-25'); if(d!=null&&G.day===d&&G.flags.KH_DAY==='home'&&!G.flags.KH_CALL_DONE&&G.hour<21) return 21; }   /* 7/25 在家版的電話（AA_272 第 12 節）：睡著＝21:00 手機響 */
     const d36=S.dayOfKey('2025-08-13'); if(d36!=null&&G.day===d36&&!G.flags.E36_RESULT&&G.hour<10) return 10;   /* E36 放榜：睡著也在 10:00 醒來看榜單 */
     if(d36!=null&&G.day===d36&&G.flags.E36_ASKED&&!(G.events&&G.events.done&&(G.events.done.ev_y0_e36||G.events.done.ev_y0_e36h))&&G.hour<20) return 20;   /* E36 電話（AA_272 4-4）：睡著＝20:00 手機響 */
     return null; };

@@ -103,6 +103,13 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     G.day=d25; G.hour=9.9; const h0=EVENTS.check(ev('ev_y0_kh_home_h')); G.hour=10; const h1=EVENTS.check(ev('ev_y0_kh_home_h'));
     said=[]; picks=['我的還好']; await EVENTS.run(ev('ev_y0_kh_home_h')); const L2=lines();
     check('4-2 在家版：10:00 才演；手機三則＋三選一＋「（差了一大截。）」；沒有客運的三句旁白；沒有客運站、和好',!h0&&h1&&L2.includes('（十點。成績公布了。）')&&L2.includes('（差了一大截。）')&&G.flags.SCORE_REPLY==='fine'&&!L2.some(t=>/國道|窗外是一片一片的田|還有兩個小時|客運站|肉粽/.test(t))&&!G.flags.KH_MADEUP,J(L2));
+    check('4-2 在家版第三個選項「先不要講分數。晚上打給妳。」（AA-C 0cc64ec7）',J(opts[opts.length-1])===J(['「（傳截圖給她。）」','「我的還好。」','「先不要講分數。晚上打給妳。」']),J(opts[opts.length-1]));
+    G.hour=20.9; const c0=EVENTS.check(ev('ev_y0_kh_call_h')); check('12 睡著：coreCallAt 停在 21:00',STORY.coreCallAt(G)===21); G.hour=21; const c1=EVENTS.check(ev('ev_y0_kh_call_h'));
+    said=[]; picks=['沒有說話']; await EVENTS.run(ev('ev_y0_kh_call_h')); const L3=lines();
+    check('12 在家版 21:00 電話：「（電話接通。她那邊很安靜。）」「……恭喜你。」…「你從接起來到現在，都只說「嗯」。」→ 三選一 →「我先掛了。」「（電話斷了。你看著手機很久。）」；沒有肉粽、客運',!c0&&c1&&L3[0]==='（電話接通。她那邊很安靜。）'&&L3.includes('杜可昕：你從接起來到現在，都只說「嗯」。')&&G.flags.KH_FIGHT==='silent'&&L3[L3.length-1]==='（電話斷了。你看著手機很久。）'&&!L3.some(t=>/肉粽|客運/.test(t)),J(L3));
+    run(22.3,22.45); check('12 22:30 以前沒有私訊',!G.flags.KH_MADEUP); run(22.5,22.6); const K3=txt('p:kexin');
+    check('12 22:30 私訊（沒有選項）：「剛剛那樣，對不起。」→「我也是。我不知道要講什麼。」…「早點睡。不要躺在床上難過。」、KH_MADEUP',J(K3.slice(-6))===J(['kexin:剛剛那樣，對不起。','player:我也是。我不知道要講什麼。','kexin:政大也是法律。四年以後，我們考同一個考試。','kexin:而且政大到臺大，捷運不用一個小時。比高雄近多了。','player:嗯。','kexin:早點睡。不要躺在床上難過。'])&&G.flags.KH_MADEUP===true,J(K3.slice(-6)));
+    check('12 電話演過不再演',!EVENTS.check(ev('ev_y0_kh_call_h'))&&!EVENTS.check(ev('ev_y0_kh_call')));
     G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.day=d25; G.hour=10; check('4-1 7/24 沒回：在家版',EVENTS.check(ev('ev_y0_kh_home_h'))&&!EVENTS.check(ev('ev_y0_kh_bus_h'))); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
