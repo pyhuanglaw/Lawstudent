@@ -108,8 +108,13 @@ async def main():
         for mode in ('formal', 'nobldg', 'broken'): R[mode] = await run_mode(p, run, mode)
     for zid, _, _ in ZONES:
         f, n, k = R['formal']['zones'][zid], R['nobldg']['zones'][zid], R['broken']['zones'][zid]
-        run.check(f'{zid}：導航格，正式模型＝?nobldg＝載入失敗', f['nav'] == n['nav'] == k['nav'], json.dumps([f['nav'], n['nav'], k['nav']]))
-        run.check(f'{zid}：互動點、座位，正式模型＝?nobldg', f['it'] == n['it'] and f['seats'] == n['seats'], json.dumps([len(f['it']), len(n['it']), len(f['seats']), len(n['seats'])]))
+        if zid == 'campus' and f['nav'] != n['nav']:   # 共同教學館有正式模型時，前面 4 棵大道樹換成模型裡的蒲葵（zones3d.js gtGLB、GT_PALMS）：導航格本來就不同，記下來不判定
+            run.note(f'campus：導航格 正式模型≠?nobldg（共同教學館正式模型的蒲葵取代 4 棵大道樹，設計如此）{json.dumps([f["nav"], n["nav"]])}')
+        else:
+            run.check(f'{zid}：導航格，正式模型＝?nobldg', f['nav'] == n['nav'], json.dumps([f['nav'], n['nav']]))
+        dif = lambda a, b: [x for x in a if x not in b][:8]   # 哪幾個不一樣（QA-HANDOFF-B1：校園 41／37、25／21，查是哪幾個）
+        run.check(f'{zid}：互動點、座位，正式模型＝?nobldg', f['it'] == n['it'] and f['seats'] == n['seats'], json.dumps({'n': [len(f['it']), len(n['it']), len(f['seats']), len(n['seats'])], 'itOnlyFormal': dif(f['it'], n['it']), 'itOnlyNobldg': dif(n['it'], f['it']), 'seatOnlyFormal': dif(f['seats'], n['seats']), 'seatOnlyNobldg': dif(n['seats'], f['seats'])}, ensure_ascii=False))
+        run.check(f'{zid}：下載失敗、網路恢復後＝正式模型（導航格、互動點、座位都一樣：玩家拿到的永遠是正式版）', f['nav'] == k['nav'] and f['it'] == k['it'] and f['seats'] == k['seats'], json.dumps([f['nav'], k['nav']]))
         run.check(f'{zid}：正式模型的材質出現在畫面上（下載失敗、網路恢復後也是）；?nobldg 沒有（照舊程序化）', f['formalMats'] > 0 and n['formalMats'] == 0 and k['formalMats'] > 0, json.dumps([f['formalMats'], n['formalMats'], k['formalMats']]))
         if zid == 'campus':
             run.check('campus：⑥花台、公告欄、販賣機的正式模型在畫面上（法學院廣場、椰林大道的花台；下載失敗後恢復也是）；?nobldg 沒有', sorted(f['props6']) == ['board_cork', 'planter_conc', 'vend_body'] and not n['props6'] and sorted(k['props6']) == sorted(f['props6']), json.dumps([f['props6'], n['props6'], k['props6']]))
