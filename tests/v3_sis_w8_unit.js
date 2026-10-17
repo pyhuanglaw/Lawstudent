@@ -36,11 +36,10 @@ GM.money=function(n){ G.money+=n; };
 (async()=>{
   const fs2=require('fs'); const NM={'溫書瑀':'學姊','溫學姊':'學姊','不認識的女生':'學姊'}; const L0=()=>lines().map(t=>t.replace(/^([^：]+)：/,(m,n)=>(NM[n]||n)+'：'));
   const W8=ev('ev_sis_collapse'), W9=ev('ev_sis_skip_interview');
-  check('0. W8 打開了（不是 off）、改名「今天先不改了」；W9 在',!!W8&&!W8.off&&W8.title==='今天先不改了'&&!!W9);
+  check('0. W8、W9 作廢（BB_207 第 1 節：W8 的熱水搬到大一上 ev_sis_hot_water；推甄整段取消）：retired，定義留給舊存檔',!!W8&&!!W8.retired&&W8.title==='今天先不改了'&&!!W9&&!!W9.retired);
   const mon=termDay('Y2S1',12,1), wed=termDay('Y2S1',12,3), thu=termDay('Y2S1',12,4);
   const at8=(day,hh,setup)=>{ fresh(day,hh,'cafe'); meet('heroine_05'); if(setup) setup(); return EVENTS.check(W8); };
-  check('1. 第 12 週週一 20:00 Café、朋友：會演；週三、第 11 週、18:30 不演',at8(mon,20,()=>R('heroine_05',...LV.FRI))&&!at8(wed,20,()=>R('heroine_05',...LV.FRI))&&!at8(termDay('Y2S1',11,1),20,()=>R('heroine_05',...LV.FRI))&&!at8(mon,18.5,()=>R('heroine_05',...LV.FRI)));
-  check('1. 有點熟：沒有記憶不演；有 HELPED（或 NOTICED_HER、GAVE_HER_NOTE）就演',!at8(thu,20,()=>R('heroine_05',...LV.FAM))&&at8(thu,20,()=>{ R('heroine_05',...LV.FAM); SOCIAL.remember('heroine_05','HELPED',''); })&&at8(thu,20,()=>{ R('heroine_05',...LV.FAM); SOCIAL.remember('heroine_05','GAVE_HER_NOTE',''); }));
+  check('1. W8 作廢：第 12 週週一 20:00 Café、朋友也不演',!at8(mon,20,()=>R('heroine_05',...LV.FRI)));
   const play8=async(pick,xu)=>{ fresh(thu,20,'cafe'); meet('heroine_05'); R('heroine_05',...LV.FRI); if(xu) SOCIAL.remember('heroine_05','HEARD_PROF_XU',''); said=[]; opts=[]; picks=[pick]; const cg=[]; const c0=ADV.cg; ADV.cg=id=>{ cg.push(id); }; try{ await EVENTS.run(W8); } finally { ADV.cg=c0; } return {L:L0(),O:opts[0]||[],cg}; };
   let r=await play8(0,true);
   check('2. 開場旁白、「你怎麼會在這。」；有 HEARD_PROF_XU＝「我改了七次。許老師說得對。」；四個選項',r.L[0]==='（吧檯旁的單人座。研究計畫攤開，紅筆劃了半頁。保溫瓶是空的。）'&&r.L[1]==='學姊：你怎麼會在這。'&&r.L.includes('學姊：我改了七次。許老師說得對。')&&r.O.length===4,JSON.stringify(r));
@@ -64,8 +63,8 @@ GM.money=function(n){ G.money+=n; };
   fresh(d27,20,'campus'); G.events.done.ev_sis_collapse=1; PHONE.join(G,'lawclub_study','法服讀書會'); run(20,21.2); check('6. 演過 W8：沒有那兩則',!txt('g:lawclub_study').some(t=>/請假/.test(t)));
   // 7. W9
   const d28=D('2026-11-28'); const at9=(hh,lv)=>{ fresh(d28,hh,'campus'); meet('heroine_05'); R('heroine_05',...lv); return EVENTS.check(W9); };
-  check('7. W9：11/28（六）是第 12 週；9:30 有點熟會演；10:30、只認識不演',CALENDAR.termOf(d28).week===12&&wdOf(d28)===6&&at9(9.5,LV.FAM)&&!at9(10.5,LV.FAM)&&!at9(9.5,LV.ACQ));
-  { fresh(d28,9.5,'campus'); const e=STORY.schedEnt(CHARACTERS.heroine_05,G); check('7. 那天 9～10 點她的作息在總圖門口的台階',e&&e.zone==='campus'&&e.act==='linger'&&e.at[0]===83,JSON.stringify(e)); }
+  check('7. W9 作廢：11/28 9:30 有點熟也不演',CALENDAR.termOf(d28).week===12&&wdOf(d28)===6&&!at9(9.5,LV.FAM));
+  { fresh(d28,9.5,'campus'); const e=STORY.schedEnt(CHARACTERS.heroine_05,G); check('7. 那天 9～10 點她不在總圖門口的台階（W9 的作息拿掉）',!e||!(e.at&&e.at[0]===83),JSON.stringify(e)); }
   const play9=async(pick)=>{ fresh(d28,9.5,'campus'); meet('heroine_05'); R('heroine_05',...LV.FAM); said=[]; opts=[]; picks=[pick]; await EVENTS.run(W9); return L0(); };
   let w=await play9(0); check('7. 「現在去還來得及。」→「我知道。」「她沒有動。」…；結尾「我會再考一次。一般考試，二月。」「這次，我要先想好為什麼。」；SKIPPED_INTERVIEW',w[0]==='學姊：面試九點半。'&&w.includes('學姊：我知道。')&&w.includes('她沒有動。')&&w.slice(-2).join('｜')==='學姊：我會再考一次。一般考試，二月。｜學姊：這次，我要先想好為什麼。'&&SOCIAL.has('heroine_05','SKIPPED_INTERVIEW'),JSON.stringify(w));
   w=await play9(2); check('7. 「我要進去念書。」→「我也進去。」、手錶放進口袋',w.includes('學姊：我也進去。')&&w.some(t=>/把手錶拿下來，放進口袋/.test(t)));

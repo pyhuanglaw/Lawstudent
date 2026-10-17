@@ -15617,9 +15617,9 @@
    "title": "學姊熱水鏈（BB_207 7025eccb、AA_261）：ev_sis_empty_flask 改大一上第 8～9 週法圖（旁白「她在寫考古題」）、新 ev_sis_hot_water（第 14～15 週一起念書 22:00 結束、自習室外飲水機；裝熱水＝BCG-01＋HOT_WATER；請一罐＝下次一起念書再一次、她第一句「……又空了。」）、停用 ev_sis_collapse／ev_sis_handover／ev_sis_prof_xu_door／ev_sis_skip_interview、W15 保溫瓶三版（HOT_WATER／HELPED／都沒有）、needed_msgs 學姊大二上兩則刪、大二下 2027-03-12 ev_family_dinner_y2s2",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "AA_261 已審 16919f86（AA 分支）＋BB_207 7b39f636：開工｜等 AA_261 已審 SHA；D81 大一上先做",
+   "next": "【13:4x LAWWW-C】做好：空的保溫瓶搬到大一上第 8～9 週法圖（旁白「她在寫考古題」、她那兩週平日下午在法圖）、已裝滿便條跟著搬；新 ev_sis_hot_water（大一上第 14～15 週週一～四 22:00 法圖、第 3 階＋W1、BCG-01、HOT_WATER、HELPED 多一句）＋ev_sis_hot_water_again（「……又空了。」）；W7／W8／W9 retired、W9 作息拿掉；tests/sis_hot_water_unit.js。還沒：W15 保溫瓶（2029-06-02 還沒有程式，大四做時照 AA_261 第 4 節三版）、needed_msgs 學姊大二上兩則（法服週六、推甄錯字）要查有沒有、BCG-01 背景改法圖走廊（LAWWW2／使用者看）、大二下 3/12 ev_family_dinner_y2s2｜AA_261 已審 16919f86（AA 分支）＋BB_207 7b39f636：開工｜等 AA_261 已審 SHA；D81 大一上先做",
    "first": {
     "term": "Y1S1",
     "week": 8,

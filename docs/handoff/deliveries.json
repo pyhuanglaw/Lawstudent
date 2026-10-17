@@ -6910,7 +6910,7 @@
    "what": "BB_207 學姊熱水鏈落地（AA_261 同意）：ev_sis_empty_flask 改大一上第 8～9 週法圖、新 ev_sis_hot_water 第 14～15 週（BCG-01、HOT_WATER／請一罐）、停用 W6／W7／W8／W9 舊事件、W15 保溫瓶三版、needed_msgs 學姊大二上兩則刪；AA_258 6-4 大二下 3/12 學姊家族聚餐 ev_family_dinner_y2s2",
    "task": "BB207-SIS-HOTWATER",
    "msg": "ACK",
-   "integration": "未整合",
+   "integration": "已整合待測試",
    "note": "台詞 AA_261（等已審 SHA）"
   },
   {
@@ -6962,7 +6962,7 @@
    "what": "AA_261 學姊熱水鏈台詞已審（ev_sis_hot_water、W4 旁白一句、W15 有／沒有 HOT_WATER、W7 作廢）；機制照 BB_207 7b39f636",
    "task": "BB207-SIS-HOTWATER",
    "msg": "ACK",
-   "integration": "未整合",
+   "integration": "已整合待測試",
    "note": ""
   },
   {

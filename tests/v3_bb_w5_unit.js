@@ -56,9 +56,6 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   fresh(tue5,14,'linze',{}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',...LV.FAM); G.events.done.ev_peishan_doubt=1; at(0,0); check('2. 13:00 以後不演',!tick());
   // W7
   const w6=termDay('Y2S1',6,3); fresh(w6,15.5,'linze',{}); G.stage='law'; meet('heroine_05'); R('heroine_05',...LV.ACQ); at(0,0); check('3. 學姊只是認識不演',!tick());
-  R('heroine_05',...LV.FAM); picks=[1]; tick(); await wait(); L=norm(lines());
-  check('3. 第 6 週平日 15～17 經過霖澤館：門外聽到（逐字）→「我要回總圖了。」、HEARD_PROF_XU',L[0]==='書瑀，你的研究計畫寫得很完整。'&&L[3]==='（很久的沉默）'&&L[4]==='重點是，這個題目推甄會過。'&&L[5]==='那不是我問的問題。'&&L[L.length-1]==='我要回總圖了。'&&SOCIAL.has('heroine_05','HEARD_PROF_XU'),JSON.stringify(L));
-  fresh(termDay('Y2S1',9,4),16,'linze',{}); G.stage='law'; meet('heroine_05'); R('heroine_05',...LV.FAM); at(0,0); check('3. 第 9 週也可以（第 6～9 週）',tick()); await wait();
-  fresh(termDay('Y2S1',10,4),16,'linze',{}); G.stage='law'; meet('heroine_05'); R('heroine_05',...LV.FAM); at(0,0); check('3. 第 10 週不演',!tick());
+  R('heroine_05',...LV.FAM); check('3. W7 許教授的門作廢（BB_207 第 1 節、AA_261 第 1 節：推甄整段取消）：retired、有點熟也不演',!!ev('ev_sis_prof_xu_door').retired&&!tick());
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

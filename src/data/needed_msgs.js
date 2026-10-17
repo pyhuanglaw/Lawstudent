@@ -53,8 +53,8 @@ const NEEDED_MSGS=(function(){
     {id:'zq_name',who:'heroine_04',term:'Y2S2',w:[6,8],msg:['幫我的新遊戲想一個名字。','不要太好聽。'],reply:'『存檔點』。',resp:['……好爛。我要用。']},
     {id:'zq_song',who:'heroine_04',term:'Y2S2',w:[11,13],tie:true,cond:G=>!!F(G).INVITED_CLUB,msg:['成發那首歌的第四句寫不出來。','給我一個詞。'],reply:'『重來』。',resp:['……可以。這個可以。']},
     // 學姊（BB_97 11-1；大二下第 15 週畢業後照碩一）
-    {id:'sis_duty',who:'heroine_05',term:'Y2S1',w:[2,4],tie:true,cond:lawclub,msg:['法服週六缺人。單週，上午。你可以嗎？'],reply:'可以。',resp:['好。兩件事：一，帶筆。二，不要給結論，記下來就好。']},
-    {id:'sis_typo',who:'heroine_05',term:'Y2S1',w:[9,11],tie:true,msg:['推甄的資料，幫我看錯字。只看錯字，不要看內容。'],reply:'第二頁第三行。',resp:['……謝謝。內容你也不准記得。']},
+    /* 'sis_duty'：刪（BB_207 第 2 節／BB-C 12:43：學姊大二上是碩一，不回法服、推甄整段取消）*/
+    /* 'sis_typo'：刪（BB_207 第 2 節／BB-C 12:43：學姊大二上是碩一，不回法服、推甄整段取消）*/
     {id:'sis_list',who:'heroine_05',term:'Y2S2',w:[1,3],msg:['家族的學弟妹名單，幫我核一次。交出去以前，我想確定沒有漏掉誰。'],reply:'沒有漏。',resp:['好。……那我放心交了。']},
     {id:'sis_report',who:'heroine_05',term:'Y2S2',w:[15,16],tie:true,cond:G=>lawclub(G)&&!!F(G).RENT_CONSULTATION,msg:['碩一第一份報告想寫租約。法服那個阿姨的案子，我可以拿來當例子嗎？匿名。'],reply:'先問阿姨。',resp:['……對。先問當事人。你學會了。']},
     // 沛珊（BB_97 11-1）
