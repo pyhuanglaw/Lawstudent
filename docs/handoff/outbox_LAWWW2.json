@@ -165,10 +165,14 @@
     "tools/blender/char_second/xun_hair.py",
     "tools/blender/char_second/xun_clothes.py",
     "tools/blender/char/h01_clothes.py",
-    "tools/blender/char_second/char_build.sh"
+    "tools/blender/char_second/char_build.sh",
+    "assets/models/char/second_ai/bl_econ_zhengxun.vrm",
+    "docs/art-rebuild/second_ai/char_review/xun/",
+    "LICENSES.md",
+    "tools/blender/char_second/review_pack.py"
    ],
-   "state": "WIP",
-   "remaining": "第三版建好、lookdev 拍了（褲子已直、臉接近），第四版建置中（上衣不要像毛衣、表情不要像難過、瀏海到眉毛、髮殼補到髮旋）；送 BB-C 驗收前還沒交（使用者 06:5x：恢復，照 AA-C 順序：阿勳→品妤→韋綸→唐睿→家豪→魏教授）",
+   "state": "已交付（等 BB-C 驗收，D59）",
+   "remaining": "第六版送 BB-C 驗收（D59）；通過後 LAWWW-C 接進遊戲（manifest 加 char.econ_zhengxun）。自動鉛筆配件之後做",
    "next": "使用者 05:0x 暫停人物；恢復後繼續",
    "noDirectIntegrate": true,
    "receiver": "BB",
