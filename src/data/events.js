@@ -2248,10 +2248,10 @@ const STORY_EVENTS=[
       {speaker:null,text:'三分鐘後，你打到自己的頭。'} ],
     after:(G,GM)=>{ GM.advance(1.5); } },
   /* E22 期末考週（BB_104 8b-13；AA_154 A38）：12/22（日）20:00 經濟系群組（韋綸、品妤，BB-B 草稿、AA-B 照用）＋出發選單「總圖 B1 22:00：期末通宵」（story3d.js）。
-     總圖 B1 的 24 小時自習室還沒有 3D：2D 出遊（沒有底圖，深色＋地點字幕）。01:00 演；02:00 收東西回宿舍、晚歸登記。隔天 12/23 是經原期末考。沒去：01:00 群組照片 */
+     總圖 B1 的 24 小時自習室還沒有 3D：2D 出遊（底圖 ntu_lib_b1，BB-B d4540129）。01:00 演；02:00 收東西回宿舍、晚歸登記。隔天 12/23 是經原期末考。沒去：01:00 群組照片 */
   { id:'ev_y0_e22', stage:'econ', title:'期末通宵', participants:['econ_pinyu','econ_zhengxun','kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1/60,
     beforeOuting:(G,GM)=>{ if(G.hour<25) GM.advance(25-G.hour); },
-    dialogue:[ {scene:'總圖 B1・24 小時自習室'},
+    dialogue:[ {scene:'總圖 B1・24 小時自習室',bg:'ntu_lib_b1'},
       {speaker:null,text:'（凌晨一點，總圖 B1 的自習室。整排的桌子都有人，只聽得到翻頁和鍵盤的聲音。）'},
       {speaker:'econ_pinyu',text:'（看你和可昕交換的筆記）你們兩個的筆記，經濟效益是零。'},
       {speaker:'econ_pinyu',text:'一個畫長頸鹿，一個畫箭頭。'},
@@ -2270,7 +2270,7 @@ const STORY_EVENTS=[
      也可以從出發選單「總圖 B1 19:00：期末衝刺」直接去。記 E21A_WENT。演完回宿舍（01:00）。沒去：00:05 群組人潮照片＋可昕私訊 */
   { id:'ev_y0_e21a', stage:'econ', title:'跨年', participants:['kexin'], location:'any', trigger:'auto', term:['Y0S1'], weeks:[18], weekday:[2], time:[19,22], once:true, background:'blur',
     prereq:{custom:G=>G.zone==='library'||G.zone==='library_hall'},
-    dialogue:[ {scene:'總圖 B1・24 小時自習室'},
+    dialogue:[ {scene:'總圖 B1・24 小時自習室',bg:'ntu_lib_b1'},
       {speaker:null,text:'（總圖 B1 的二十四小時自習室，大家讀到一半。十點總圖閉館以後，大家搬下來繼續讀。）',advance:G=>23-(G.hour%24)},
       {speaker:'韋綸',text:'（看手機）跨年還有一個小時。走啦！'},
       {speaker:'econ_pinyu',text:'後天考會計。'},
