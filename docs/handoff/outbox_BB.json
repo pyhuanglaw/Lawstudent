@@ -643,6 +643,22 @@
    "noDirectIntegrate": true,
    "receiver": "AA+LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "閒聊階梯套用 AA_234（學姊補三層、約 61 句、4-1 鋪陳、ZZ_DATING、可昕美國版、11 句短招呼）與 AA_235（經濟系那一年）；README 新欄位",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "6a01ecd4",
+   "files": [
+    "docs/story_planning/ladder/build_ladder_bb*.py",
+    "docs/story_planning/ladder/ladder_bb*.json",
+    "docs/story_planning/ladder/README.md"
+   ],
+   "state": "已交付（PROPOSAL；AA 已審）",
+   "remaining": "沛珊兩句「第一次寫教案」矛盾、4-1 第 5 句未放；LAWWW：skipAfterWeek、ZZ_DATING、extraIf.mem、workShifts、Y0_MOVED_OUT、dating_kexin 10/17",
+   "next": "LAWWW 重建 ladder.js（LIFE-LINE 之後）",
+   "noDirectIntegrate": false,
+   "receiver": "AA+LAWWW",
+   "ack": "SENT"
   }
  ]
 }
