@@ -121,12 +121,24 @@ def shop_building(b, idx):
             uc = 0.6 + (w - 1.2) * (i + 0.5) / nwin; wins.append((uc - 0.55, uc + 0.55, y0, y0 + 1.75)); holes.append(wins[-1])
     for (u0, u1, y0, y1) in facade_rects(w, top, holes): Q(brick, [(u0, y0, 0), (u1, y0, 0), (u1, y1, 0), (u0, y1, 0)])
     D = b['depth']
+    corner = b['x1'] > CR['x0'] - 3.0                                                          # 路口的轉角那棟：朝路口的側牆也有窗
     for (uu, sgn_) in ((0.0, -1), (w, 1)):                                                    # 兩側牆（鄰棟矮的時候看得到）
-        pts = [(uu, 0, 0), (uu, 0, -D), (uu, top, -D), (uu, top, 0)]
-        Q(brick, pts if sgn_ < 0 else pts[::-1])
+        sh_holes = []
+        if corner and sgn_ > 0:
+            for k_ in range(nf):
+                y0 = (0.9 if k_ == 0 else GH + (k_ - 1) * UH + 0.95); y1 = y0 + (1.9 if k_ == 0 else 1.75)
+                vv = 1.6
+                while vv < D - 1.2: sh_holes.append((vv - 0.55, vv + 0.55, y0, y1)); vv += 2.6
+        for (v0_, v1_, y0, y1) in facade_rects(D, top, sh_holes):
+            pts = [(uu, y0, -v0_), (uu, y0, -v1_), (uu, y1, -v1_), (uu, y1, -v0_)]; Q(brick, pts if sgn_ < 0 else pts[::-1])
+        for (v0_, v1_, y0, y1) in sh_holes:
+            Q(MS['glassD'], [(uu - 0.12, y0, -v0_), (uu - 0.12, y0, -v1_), (uu - 0.12, y1, -v1_), (uu - 0.12, y1, -v0_)][::-1])
+            BX(MS['wframe'], uu - 0.12, uu - 0.06, y0, y1, -v1_ - 0.06, -v1_); BX(MS['wframe'], uu - 0.12, uu - 0.06, y0, y1, -v0_, -v0_ + 0.06)
+            BX(MS['wframe'], uu - 0.12, uu - 0.06, (y0 + y1) / 2 - 0.03, (y0 + y1) / 2 + 0.03, -v1_, -v0_); BX(MS['wframe'], uu - 0.12, uu - 0.06, y1, y1 + 0.06, -v1_ - 0.06, -v0_ + 0.06)
+            BX(MS['stone'], uu - 0.12, uu + 0.1, y0 - 0.1, y0, -v1_ - 0.12, -v0_ + 0.12)
     Q(MS['roof'], [(0, H, -D), (w, H, -D), (w, H, 0), (0, H, 0)])
     BX(MS['roof'], 0.0, w, top - 0.02, top, -D, 0.0) if False else None
-    BX(brick, 0.0, w, H, top, -D, -D + 0.25); BX(brick, 0.0, 0.25, H, top, -D, 0.0); BX(brick, w - 0.25, w, H, top, -D, 0.0)   # 女兒牆（後、兩側）
+    BX(brick, 0.25, w - 0.25, H, top, -D + 0.01, -D + 0.25)   # 後面的女兒牆（兩側的女兒牆就是側牆往上延伸，不另外疊一層，避免同平面閃爍）
     # 一樓店面：深色框、櫥窗（踢腳板＋玻璃）、內凹的門、上方氣窗、招牌帶
     fr, gl = MS['frame'], MS['glass']
     sx0, sx1 = 0.45, w - 0.45; door_u = sx0 + (w - 0.9) * (0.25 if idx % 2 else 0.72); dw = 1.0
@@ -149,9 +161,10 @@ def shop_building(b, idx):
     # 招牌（招牌帶上）
     i = J['buildings'].index(b); sw = min(w - 1.4, 7.0); sh_ = sw / 16.0 * 1.0 * 2
     uc = w / 2; yv = GH - 0.3
-    pts = [(uc - sw / 2, yv - 0.28, 0.07), (uc + sw / 2, yv - 0.28, 0.07), (uc + sw / 2, yv + 0.28, 0.07), (uc - sw / 2, yv + 0.28, 0.07)]
+    a_, c_ = (uc - sw / 2, uc + sw / 2) if out > 0 else (uc + sw / 2, uc - sw / 2)       # 字從看的人的左邊寫到右邊（南側的店面朝北，u 要反過來）
+    pts = [(a_, yv - 0.28, 0.07), (c_, yv - 0.28, 0.07), (c_, yv + 0.28, 0.07), (a_, yv + 0.28, 0.07)]
     u0_, v0_, u1_, v1_ = sign_uv(i)
-    uv_quad(SG, [P(*p) for p in (pts if out > 0 else pts[::-1])], ([(u0_, v0_), (u1_, v0_), (u1_, v1_), (u0_, v1_)] if out > 0 else [(u0_, v1_), (u1_, v1_), (u1_, v0_), (u0_, v0_)][::-1]))
+    uv_quad(SG, [P(*p) for p in pts], [(u0_, v0_), (u1_, v0_), (u1_, v1_), (u0_, v1_)])
     BX(fr, uc - sw / 2 - 0.05, uc + sw / 2 + 0.05, yv - 0.33, yv + 0.33, 0.0, 0.065)
     # 帆布雨遮
     if b.get('awning'):
@@ -237,9 +250,10 @@ def house_shop(b, idx):
         for k_ in range(int((c - a) / 0.14)): uu = a + k_ * 0.14 + 0.05; BX(MS['wframe'], uu - 0.018, uu + 0.018, 0.66, 1.35, pd - 0.1, pd - 0.08)
     for k_ in range(3): BX(MS['wframe'], w / 2 + 0.4, w / 2 + 1.8, 0.0, 0.5 - k_ * 0.16, pd + k_ * 0.3, pd + (k_ + 1) * 0.3)
     i = J['buildings'].index(b); sw = min(w - 2.0, 5.5); yv = 2.6
-    pts = [(w / 2 - sw / 2, yv - 0.2, pd + 0.21), (w / 2 + sw / 2, yv - 0.2, pd + 0.21), (w / 2 + sw / 2, yv + 0.2, pd + 0.21), (w / 2 - sw / 2, yv + 0.2, pd + 0.21)]
+    a_, c_ = (w / 2 - sw / 2, w / 2 + sw / 2) if out > 0 else (w / 2 + sw / 2, w / 2 - sw / 2)
+    pts = [(a_, yv - 0.2, pd + 0.21), (c_, yv - 0.2, pd + 0.21), (c_, yv + 0.2, pd + 0.21), (a_, yv + 0.2, pd + 0.21)]
     u0_, v0_, u1_, v1_ = sign_uv(i)
-    uv_quad(SG, [P(*p) for p in (pts if out > 0 else pts[::-1])], ([(u0_, v0_), (u1_, v0_), (u1_, v1_), (u0_, v1_)] if out > 0 else [(u0_, v1_), (u1_, v1_), (u1_, v0_), (u0_, v0_)][::-1]))
+    uv_quad(SG, [P(*p) for p in pts], [(u0_, v0_), (u1_, v0_), (u1_, v1_), (u0_, v1_)])
     # 前院：草地（人行道和前廊之間）
     gz0, gz1 = b['front'], f
     gr.box(xa + 0.2, xa + w - 0.2, -0.02, 0.03, min(gz0, gz1), max(gz0, gz1))
@@ -261,7 +275,8 @@ bg.finish(root, uv=False)
 
 # ================= 街道 =================
 rz0, rz1 = RD['z0'], RD['z1']; FR = J['front']
-asp = Mesh('ust_asphalt', M['asph'], tile=3.0); asp.box(X0, X1, -0.06, -0.02, rz0, rz1); asp.box(CR['x0'], CR['x1'], -0.06, -0.02, Z0, Z1); asp.finish(root)
+asp = Mesh('ust_asphalt', M['asph'], tile=3.0); asp.box(X0, CR['x0'], -0.06, -0.02, rz0, rz1); asp.box(CR['x0'], CR['x1'], -0.06, -0.02, Z0, Z1); asp.finish(root)   # Kirkwood 到校門前就停（校門那邊是步行廣場）
+gb = Mesh('ust_ground_lawn', M['grass'], tile=3.0); gb.box(X0, X1, -0.09, -0.07, Z0, Z1); gb.box(J['gates_plaza']['x0'], X1, -0.06, -0.03, Z0, Z1); gb.finish(root)   # 底下整片草地（建築之間、校門那一側的草坪），不會看到黑色的洞
 wk = Mesh('ust_walk', M['walk'], tile=1.6)
 for sgn in (-1, 1):
     a, c = (rz1, FR) if sgn > 0 else (-FR, rz0)
@@ -302,7 +317,7 @@ def leaf_card(px, py, pz, sz, yaw, tilt):
     uv_quad(cards, [(px - ca * sz / 2, py - sz / 2 - tilt * sz / 2, pz - sa * sz / 2), (px + ca * sz / 2, py - sz / 2 + tilt * sz / 2, pz + sa * sz / 2),
                     (px + ca * sz / 2, py + sz / 2 + tilt * sz / 2, pz + sa * sz / 2), (px - ca * sz / 2, py + sz / 2 - tilt * sz / 2, pz - sa * sz / 2)], [(0, 0), (1, 0), (1, 1), (0, 1)])
 def crown(cx, cy, cz, rx, ry, rz, ncard, csz):
-    v0 = set(core.bm.verts); core.ell((cx, cy, cz), rx * 0.74, ry * 0.74, rz * 0.74, seg=8, rings=5)
+    v0 = set(core.bm.verts); core.ell((cx, cy, cz), rx * 0.62, ry * 0.62, rz * 0.62, seg=8, rings=5)
     for vv in core.bm.verts:
         if vv not in v0: c0 = Vector(g2b(cx, cy, cz)); vv.co = c0 + (vv.co - c0) * rng.uniform(0.88, 1.08)
     if cards is None: return
@@ -317,7 +332,7 @@ for p in J['props']:
         cr = h * 0.28
         for k in range(4):
             a_ = rng.uniform(0, 2 * math.pi); d_ = cr * rng.uniform(0.15, 0.55); r_ = cr * rng.uniform(0.55, 0.75)
-            crown(x + math.cos(a_) * d_, h * 0.66 + rng.uniform(-0.3, 0.6), z + math.sin(a_) * d_, r_, r_ * 0.8, r_, int(9 * r_ * r_), 1.3)
+            crown(x + math.cos(a_) * d_, h * 0.66 + rng.uniform(-0.3, 0.6), z + math.sin(a_) * d_, r_, r_ * 0.8, r_, int(24 * r_ * r_), 1.25)
     elif t == 'lamp':                                                                           # 古典路燈：凹槽燈桿＋球形燈罩
         bk.cyl((x, 0.1, z), (x, 0.6, z), 0.16, seg=12, r2=0.11); bk.cyl((x, 0.6, z), (x, 3.6, z), 0.065, seg=10, r2=0.05)
         bk.cyl((x, 3.6, z), (x, 3.75, z), 0.1, seg=10); lg.sphere((x, 4.0, z), 0.24, seg=12, rings=8, sy=1.15); bk.cyl((x, 4.24, z), (x, 4.32, z), 0.06, seg=8)
@@ -347,6 +362,12 @@ for p in J['props']:
             zz = z + face * 0.02; pts = [(x - 0.8, 2.75, zz), (x + 0.8, 2.75, zz), (x + 0.8, 2.95, zz), (x - 0.8, 2.95, zz)]
             u0_, u1_ = k * 0.5, k * 0.5 + 0.5; v0_, v1_ = 1 - 16 / 16 + 0.002, 1 - 15 / 16 - 0.002
             uv_quad(SG, pts if face > 0 else pts[::-1], [(u0_, v0_), (u1_, v0_), (u1_, v1_), (u0_, v1_)] if face > 0 else [(u1_, v0_), (u0_, v0_), (u0_, v1_), (u1_, v1_)][::-1])
+for (x, z, h) in ((16.0, -15.0, 15.0), (24.0, -20.0, 17.0), (18.0, 16.0, 14.0), (27.0, 21.0, 16.0), (28.0, -12.0, 13.0), (15.0, 22.0, 15.5)):   # 校門那一側草坪上的大樹（Old Crescent 的感覺）
+    bt = L.lathe([(0.45, 0.0), (0.32, 0.4), (0.26, h * 0.4), (0.16, h * 0.6)], seg=10); trunk.add_bm(bt, Matrix.Translation(g2b(x, 0.0, z))); bt.free()
+    cr = h * 0.3
+    for k in range(6):
+        a_ = rng.uniform(0, 2 * math.pi); d_ = cr * rng.uniform(0.2, 0.6); r_ = cr * rng.uniform(0.5, 0.7)
+        crown(x + math.cos(a_) * d_, h * 0.66 + rng.uniform(-0.4, 0.5) * cr, z + math.sin(a_) * d_, r_, r_ * 0.8, r_, int(14 * r_ * r_), 1.6)
 trunk.finish(root, uv=False); core.finish(root, uv=False, smooth=True)
 if cards is not None: cards.finish(root, uv=False, merge=False)
 for k_, m_ in MS.items():

@@ -114,7 +114,7 @@
     "docs/art-rebuild/second_ai/char_review/weilun/"
    ],
    "state": "WIP",
-   "remaining": "BB-C 04:57 要改八項（HANDOFF）；使用者 05:0x 暫停人物",
+   "remaining": "BB-C 04:57 要改八項（HANDOFF）；使用者 05:0x 暫停人物（使用者 06:5x：恢復，照 AA-C 順序：阿勳→品妤→韋綸→唐睿→家豪→魏教授）",
    "next": "人物恢復後做第三版",
    "noDirectIntegrate": true,
    "receiver": "BB",
@@ -131,7 +131,7 @@
     "tools/blender/char_second/tangrui_clothes.py"
    ],
    "state": "WIP",
-   "remaining": "第三版建好（scratchpad），lookdev 拍了；捲髮還要再蓬、POLO 領子不明顯；沒交",
+   "remaining": "第三版建好（scratchpad），lookdev 拍了；捲髮還要再蓬、POLO 領子不明顯；沒交（使用者 06:5x：恢復，照 AA-C 順序：阿勳→品妤→韋綸→唐睿→家豪→魏教授）",
    "next": "使用者 05:0x 暫停人物；恢復後繼續",
    "noDirectIntegrate": true,
    "receiver": "BB",
@@ -148,7 +148,7 @@
     "tools/blender/char_second/jiahao_clothes.py"
    ],
    "state": "WIP",
-   "remaining": "第一版建好（帽子像水桶帽）；第二版帽子腳本改了、沒建完",
+   "remaining": "第一版建好（帽子像水桶帽）；第二版帽子腳本改了、沒建完（使用者 06:5x：恢復，照 AA-C 順序：阿勳→品妤→韋綸→唐睿→家豪→魏教授）",
    "next": "使用者 05:0x 暫停人物；恢復後繼續",
    "noDirectIntegrate": true,
    "receiver": "BB",
@@ -165,7 +165,7 @@
     "tools/blender/char_second/xun_clothes.py"
    ],
    "state": "WIP",
-   "remaining": "腳本第一版；建置停在臉",
+   "remaining": "腳本第一版；建置停在臉（使用者 06:5x：恢復，照 AA-C 順序：阿勳→品妤→韋綸→唐睿→家豪→魏教授）",
    "next": "使用者 05:0x 暫停人物；恢復後繼續",
    "noDirectIntegrate": true,
    "receiver": "BB",
@@ -240,7 +240,7 @@
   {
    "task": "VAC-A2",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "",
+   "sha": "5aeb3220",
    "files": [
     "tools/blender/env_second/airport_layout_gen.py",
     "assets/models/env/second_ai/airport_t2.layout.json",
@@ -255,6 +255,29 @@
    "state": "已交付",
    "remaining": "遊戲內截圖（等 LAWWW 接成區域 airport_dep、airport_arr）；對照第二航廈真實照片（等使用者給）；下車處的車由遊戲放",
    "next": "LAWWW 照 airport_t2.layout.json 的 dep、arr 建兩個區域（blocks、spawn_hall／spawn_curb、farewell、dropoff、spawn_customs／spawn_wait、meet、seats、interact）；接好後 LAWWW2 拍遊戲內截圖",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
+  },
+  {
+   "task": "SCN-US-02",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "",
+   "files": [
+    "tools/blender/env_second/us_street_layout_gen.py",
+    "assets/models/env/second_ai/us_street.layout.json",
+    "tools/blender/env_second/us_street_tex.py",
+    "tools/blender/env_second/us_street.py",
+    "assets/models/env/second_ai/us_street.glb",
+    "assets/models/env/second_ai/us_street.json",
+    "tools/blender/env_second/textures/gen/ust_signs.png",
+    "docs/art-rebuild/second_ai/test_shots/us_street/",
+    "docs/art-rebuild/second_ai/research/us_campus_street.md",
+    "LICENSES.md"
+   ],
+   "state": "已交付（第一階段）",
+   "remaining": "第二階段：校門 Sample Gates 本體＋校園裡的石灰岩建築（等使用者給校門照片）；遊戲內截圖（等 LAWWW 接）",
+   "next": "LAWWW 照 us_street.layout.json 建區域 us_street；LAWWW2 等照片做第二階段",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT"
