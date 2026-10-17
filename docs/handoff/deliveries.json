@@ -6522,6 +6522,32 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 只拿 VRM 和 manifest 條目；npc_crowd_batch2.patch 的三項已由 cedb64dc 涵蓋，沒套。同一個 commit 的 AA185 背景（機車行、美國公寓早上）另外跟各自任務整合"
+  },
+  {
+   "id": "DL-LW2-PS-V2",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "e25fde92",
+   "what": "郭沛珊 3D 第二版（灰藍 T＋米白長裙）",
+   "task": "ART-05",
+   "msg": "ACK",
+   "integration": "取消／被取代",
+   "note": "使用者改成「照 2D 立繪」，第二版作廢，被 DL-LW2-PS-V3（b2d7c1a6）取代；沒有整合"
+  },
+  {
+   "id": "DL-LW2-PS-V3",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "b2d7c1a6",
+   "what": "郭沛珊 3D 第三版：顏色照 2D 立繪（遊戲裡 T 恤 #643b37≈#603835、裙子 #343841≈#343740）；README＋校正截圖",
+   "task": "ART-05",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 只拿 bl_classmate_peishan.vrm 和 char_review/peishan/；同 commit 的 nm16 臉參數等路人第三批一起交。款式（領口、坐下的裙子、髮型）是 LAWWW2 下一步。characters.js 的 outfit 顏色只給備用模型用，不影響 Blender 版"
   }
  ],
  "ignored": [

@@ -14635,9 +14635,9 @@
    "title": "法服沒有讀書會、沒有社課；以安的公法讀書會改到大一上第 10～16 週週四；沛珊、柏翰併入公法讀書會（AA_218 17-4；BB_191 §7、§8；台詞 AA_222）",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
-   "next": "規格 BB_191 §7、§8（claude/wonderful-mayer-7fm9g6 @5dcf26a1），台詞 AA_222（企劃線 bb83443d）。刪 W5_OK、ev_studygroup_wed／lawclub_study、lawclub_review_y1s2、W6 ev_sis_handover、y2_sis_shift、sis_study_eve、學姊讀書會招呼、S-L6；出席只算週六（FAFU_DAYS）；群組改名「法服」、SIS_CLUB_EXPO 時加入；SOCIAL_GRAPH 改；public_law_group 改 Y1S1 W10～16 週四 20:00（跳過 Y1S2 W11）；ev_an_yu_argument 移 Y1S2 W12 週四；沛珊／柏翰的觸發表 §8-7。v9.10 發布以後做（W5 便條已先刪，c8be3d82）",
+   "next": "程式已改（5756a653 WIP），剩舊單元測試照新規格改；AA_238 的台詞（社博歡迎、法服現場換人、學姊 S-L3／婉拒散步／W2b／研究所志向、以安八項）待 AA。規格 BB_191 §7、§8（claude/wonderful-mayer-7fm9g6 @5dcf26a1），台詞 AA_222（企劃線 bb83443d）。刪 W5_OK、ev_studygroup_wed／lawclub_study、lawclub_review_y1s2、W6 ev_sis_handover、y2_sis_shift、sis_study_eve、學姊讀書會招呼、S-L6；出席只算週六（FAFU_DAYS）；群組改名「法服」、SIS_CLUB_EXPO 時加入；SOCIAL_GRAPH 改；public_law_group 改 Y1S1 W10～16 週四 20:00（跳過 Y1S2 W11）；ev_an_yu_argument 移 Y1S2 W12 週四；沛珊／柏翰的觸發表 §8-7。v9.10 發布以後做（W5 便條已先刪，c8be3d82）",
    "first": {
     "term": "Y1S1",
     "week": 5,
@@ -14749,6 +14749,36 @@
     "spec": "LAWWW2-C 發現的畫面問題（髮梢白邊）",
     "acceptance": "VRM 載得起來；遊戲內近拍沒有白邊",
     "ack": "ACK"
+   }
+  },
+  {
+   "id": "SIS-A51-1017",
+   "title": "學姊相識經過 A5-1 新版（A 高二校慶回想、B 9/1 自介～9/4 直屬、C1 大一下 4 月通識課當場確認遇過、C2 交往中她家搬家的筆記本）",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P1",
+   "next": "使用者 10:3x「通過」（BB_188 @05571a45 A5-1 新版）。等 AA-C 定實作規格：B 的自介／留言放哪個手機群組；9/4 那三句和家族群組 (A)（8/30 成立、Kevin 置頂）與 17-12（學姊不在家族群組主動發言）怎麼接；C1 觸發（B 發生過＋她放榜後，提案 2026-04-08 法學院圖書館外台階）；C2（7/11 搬家、只限交往中）；A 的回想在哪裡出現。CG BCG-49 等使用者給圖，先空著。",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "9/1 晚上系上社群自我介紹",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_188 A5-1 新版（BB-C）",
+   "authorized": "使用者 2026-10-17 10:3x 直接對 LAWWW-C「通過」",
+   "pausedReason": "等 AA-C 對齊家族群組 (A) 與 17-12 的實作規格（D79）",
+   "resumeWhen": "AA-C 交規格 SHA",
+   "xai": {
+    "spec": "BB_188 @05571a45 A5-1 新版；AA 對齊規格待交",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "acceptance": "A、B、C1、C2 照稿；舊存檔已過 9/1～9/4 的不補 B 前段、只記已加好友；C2 只限交往中",
+    "receiver": "AA",
+    "ack": "SENT"
    }
   }
  ]
