@@ -7,8 +7,8 @@ pxcm_front=540/166.0
 back_k=0.94
 FRONT_Y=985; BACK_Y=920
 # (file, height cm, center x, row, extra scale)
-back=[('cg69_mingxuan',178,520,1.0),('cg69_youchen',175,745,1.0),('cg69_player',175,960,1.0),('cg69_bohan',172,1175,1.0),('cg69_zhe',178,1420,1.04)]
-front=[('cg69_peishan',163,630,1.0),('cg69_yu',163,850,1.0),('cg69_heroine_01',166,1068,1.0),('cg69_xinci',160,1290,1.0)]
+back=[('cg69_mingxuan',178,612,1.0),('cg69_youchen',175,782,1.0),('cg69_player',175,952,1.0),('cg69_bohan',172,1120,1.015),('cg69_zhe',178,1300,0.965)]
+front=[('cg69_peishan',163,690,1.0),('cg69_yu',163,872,1.0),('cg69_heroine_01',166,1052,1.0),('cg69_xinci',160,1232,1.0)]
 def warm(im):
     a=np.asarray(im).astype(np.float32)
     a[...,0]*=1.035; a[...,1]*=1.01; a[...,2]*=0.95
