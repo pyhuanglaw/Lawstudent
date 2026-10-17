@@ -2,12 +2,12 @@
 """大四下（Y4S2）的閒聊階梯：溫學姊（heroine_05）、沛珊（classmate_peishan）、可昕（kexin）→ ladder_bb_y4s2.json。
 作者：BB-B 2026-10-16（D81）。原稿說明：../BB_143_閒聊階梯_大四下_學姊沛珊可昕.md。格式同 ladder_bb_y4s1.json，term＝'Y4S2'。
 **芷若、子晴這學期沒有階梯**：芷若在英國念電影研究一年（畢業典禮那天只傳票根照片，BB_99 第 6 節）；子晴在工作室上班，只有手機。
-大四大家都在台灣；交換延畢的玩家（EXCHANGE_ROUTE 'JP'／'US'）6/2 照常參加畢業典禮、證書晚半年（BB_99 第 6 節），學姊 S7-L8 用 linesIf 換一句。
+大四下大家都在台灣（美國路線大四上在美國，2026-10-17 BB-C）；交換延畢的玩家（EXCHANGE_ROUTE 'JP'／'US'）6/2 照常參加畢業典禮、證書晚半年（BB_99 第 6 節），學姊 S7-L8 用 linesIf 換一句。
 依據 BB_99（大四下）：學姊 2-7c 自己放的一天假（第 10 週，交往中才有）、M9 口試（第 15 週 5/29）、W15 保溫瓶（6/2）；
 沛珊 P6 媽媽來看她的公開課（第 8 週）；可昕 春假（第 7 週）、生日（第 10 週 4/24）、K25 讀書會的最後一晚（第 13 週）、K24 兩個畢業典禮（6/2、6/9）、手機小事（9-20）。
 **防卡關**：`if` 只放階段；事件、記憶、旗標的差別放 linesIf／extraIf；週次放寬到第 16 週（2026-10-16 改 16 週制，AA_198）。
 **第 15 週以後是畢業以後**：週次放寬到 18 的層，台詞要在畢業前、畢業後都說得通（不寫「快畢業了」「還有幾天」）。
-**學姊**：單身、和祐廷交往、還和顧承遠在一起三種狀態都通（friendOnly）；戀人的戲在 2-7c、M9、W15。
+**學姊**：單身、和祐廷交往兩種狀態都通（friendOnly；2026-10-17 BB-C：她沒有別的男朋友）；戀人的戲在 2-7c、M9、W15。
 **不重複事件的台詞**（build 擋，見 BAN）。
 用法：python3 build_ladder_bb_y4s2.py → ladder_bb_y4s2.json；--check 只檢查。"""
 import json, sys, os
@@ -25,7 +25,7 @@ def ch(t, reply, rel=None, mem=None):
 SIS='heroine_05'; PS='classmate_peishan'; KX='kexin'
 D = {'_comment': __doc__, 'term': Y, 'characters': {}}
 
-# ───────── 溫書瑀（碩二下；論文最後一學期；第 15 週口試）─────────
+# ───────── 溫書瑀（碩三下，從美國回來；論文最後一學期；第 15 週口試）─────────
 D['characters']['heroine_05'] = {'friendOnly': True,
  'steps': [{'id': 'S7-L1',
             'if': {'stage': {'npc': 'heroine_05', 'min': 'ACQUAINTANCE'}},
@@ -47,8 +47,9 @@ D['characters']['heroine_05'] = {'friendOnly': True,
             'choices': [{'t': '「是誰寫的？」', 'reply': '不知道。我懷疑是全部的人。'}, {'t': '「學姊會緊張嗎？」', 'reply': '會。所以我每天看它一次，然後轉身寫論文。', 'rel': {'trust': 1}}],
             'rel': {'fam': 2},
             'mem': 'SIS7_COUNTDOWN',
-            'note': 'M9 口試（第 15 週）的前情；不說結果；2026-10-17 BB-C 照新年級搬層（BB_195）：原 S7-L1',
-            'week': [3, 18]},
+            'note': 'M9 口試（第 15 週）的前情；不說結果；2026-10-17 BB-C 照新年級搬層（BB_195）：原 S7-L1。2026-10-17 BB-C 稽核：「九十八天」＝口試 5/29 往前 98 天＝2/20（二），開學 2029-02-19 那週＝第 1 週 → 週次 [3,18] 改 [1,1]；過了第 1 週還沒推進的直接算過（skipAfterWeek，README）',
+            'week': [1, 1],
+            'skipAfterWeek': 1},
            {'id': 'S7-L4',
             'if': {'stage': {'npc': 'heroine_05', 'min': 'FAMILIAR'}},
             'lines': ['研究室來了一個碩一的學妹。她問我，論文怎麼開始。', '我說：先寫妳最想知道的那一句。'],
@@ -144,7 +145,7 @@ D['characters'][PS] = {'friendOnly': True, 'steps': [
          {'weather':'rain','t':'下雨天，書店的童書區會坐滿小孩。'},
          {'time':[6,8],'t':'早。……老師要比學生早到。今天也做到了。'},
          {'week':[15,16],'t':'期末。暑假我要上山帶營隊。'}]},
- 'note':'教育相關科系大二下；課輔班帶整班、週末舊路書房童書區；戀愛事件照 BB_100 2-5，階梯只有朋友的話'}
+ 'note':'教育相關科系大二下；課輔班帶整班、週末舊路書房童書區；戀愛事件照 BB_100 2-5，階梯只有朋友的話（2026-10-17 BB-C 稽核：base 第 2 句〔她在書店童書區貼畫〕應該移到 when location bookstore，但 base 要 5 句、沒有別的句子可以補，先留著）'}
 
 # ───────── 杜可昕（政大法律四下；準備律師考試；只在「我們的日子」推進——見面或視訊都算）─────────
 DK = {'flags': ['dating_kexin']}
@@ -218,7 +219,7 @@ def check(d):
             if cid==KX and cond!={'flags':['dating_kexin']}: err.append(s['id']+' 可昕的 if 只能是 dating_kexin')
             elif cid!=KX and bad: err.append(f"{s['id']} 的 if 只能放階段（防卡關）：{bad}")
             if cid==KX and False: pass
-            if 'week' in s and s['week'][1]<16 and not s.get('skipIf'): err.append(f"{s['id']} 週次沒有放寬到第 16 週（會卡關；16 週制，AA_198）")
+            if 'week' in s and s['week'][1]<16 and not s.get('skipIf') and not s.get('skipAfterWeek'): err.append(f"{s['id']} 週次沒有放寬到第 16 週（會卡關；16 週制，AA_198）")
         g=c.get('greet')
         if g and len(g['base'])!=5: err.append(cid+' 短招呼不是 5 句')
         if g:

@@ -1,11 +1,11 @@
 # 閒聊階梯資料（大一上；使用者 2026-10-15 全案通過，直接實作。大一下起一學期一個檔，2026-10-16）
 
-- **經濟系大一（Y0S1、Y0S2，v0）**：可昕、品妤、唐睿、阿勳、韋綸：`ladder_bb_y0s1.json`（K0／PY0／TR0／XN0／WL0-L1～8）、`ladder_bb_y0s2.json`（K0b／PY0b／TR0b／XN0b／WL0b-L1～8；可昕交往後才有，第 6 週起）；原稿說明 `../BB_146`；`build_ladder_bb_y0s1.py`、`build_ladder_bb_y0s2.py`；BB-B 2026-10-16（AB-20）。
+- **經濟系大一（Y0S1、Y0S2，v0）**：可昕、品妤、唐睿、阿勳、韋綸：`ladder_bb_y0s1.json`（K0／PY0／TR0／XN0／WL0-L1～8）、`ladder_bb_y0s2.json`（K0b／PY0b／TR0b／XN0b／WL0b-L1～8；可昕整學期都在交往，第 1 週起〔2026-10-17 BB-C，AA_218 第 10 節：2024-10-17 交往〕；大一上的可昕 K0 只到第 6 週）；原稿說明 `../BB_146`；`build_ladder_bb_y0s1.py`、`build_ladder_bb_y0s2.py`；BB-B 2026-10-16（AB-20）。
 
-- `ladder_bb.json`：BB-B 的芷若（heroine_02）、子晴（heroine_04）、溫學姊（heroine_05）、沛珊（classmate_peishan）、可昕（kexin）＋室友阿凱宿舍事件（`kaiDorm`）。原稿 `../BB_130_閒聊階梯_芷若子晴學姊沛珊_室友阿凱.md`；由 `build_ladder_bb.py` 產生（改台詞改 .py，再跑一次）。
+- `ladder_bb.json`：BB-B 的芷若（heroine_02）、子晴（heroine_04）、溫學姊（heroine_05；S-L3、S-L6 已刪，目前 6 層，AA 補 2 層）、沛珊（classmate_peishan）、可昕（kexin）＋室友阿凱宿舍事件（`kaiDorm`）。原稿 `../BB_130_閒聊階梯_芷若子晴學姊沛珊_室友阿凱.md`；由 `build_ladder_bb.py` 產生（改台詞改 .py，再跑一次）。
 - `ladder_aa.json`：AA-B 的以安（heroine_01）、語彤（heroine_03）。原稿 `../AA_135`、`../AA_136`；由 `build_ladder_aa.py` 產生。
 - **大一下（Y1S2）**：`ladder_aa_y1s2.json`（以安 A2-L1～8、語彤 Y2-L1～8；原稿說明 `../AA_139`；`build_ladder_aa_y1s2.py`）。芷若、子晴、學姊、沛珊、可昕的大一下：`ladder_bb_y1s2.json`（Z2／Q2／S2／P2／K2-L1～8；原稿說明 `../BB_133`；`build_ladder_bb_y1s2.py`；BB-B 2026-10-16）。
-- **大二上（Y2S1）**：`ladder_aa_y2s1.json`（以安 A3、語彤 Y3；`../AA_141`）；芷若、子晴、學姊、沛珊、可昕：`ladder_bb_y2s1.json`（Z3／Q3／S3／P3／K3-L1～8；原稿說明 `../BB_136`；`build_ladder_bb_y2s1.py`；BB-B 2026-10-16）。**大二下（Y2S2）**：`ladder_aa_y2s2.json`（以安 A4、語彤 Y4；`../AA_142`）；芷若、子晴、學姊、沛珊、可昕：`ladder_bb_y2s2.json`（Z4／Q4／S4／P4／K4-L1～8；原稿說明 `../BB_138`；`build_ladder_bb_y2s2.py`；BB-B 2026-10-16）。**大三上（Y3S1）**：`ladder_aa_y3s1.json`（以安 A5、語彤 Y5；`../AA_149`；路線差別用 `linesIf` 的 `flagIs:{EXCHANGE_ROUTE}`）；子晴、學姊、沛珊、可昕：`ladder_bb_y3s1.json`（Q5／S5／P5／K5-L1～8；芷若在英國沒有；原稿說明 `../BB_140`；`build_ladder_bb_y3s1.py`；BB-B 2026-10-16）。**大三下（Y3S2）**：`ladder_aa_y3s2.json`（只有語彤 Y6，給留在台灣的玩家；以安在日本，日本路線走 2D，`../AA_150`）；芷若、子晴、沛珊、可昕：`ladder_bb_y3s2.json`（Z5／Q6／P6／K6-L1～8；學姊在美國沒有；可昕三條路線都有、沒有 `dateOnly:'meet'`；原稿說明 `../BB_141`；`build_ladder_bb_y3s2.py`；BB-B 2026-10-16）。**大四上（Y4S1）**：`ladder_aa_y4s1.json`（以安 A7、語彤 Y7；`../AA_151`）；學姊、沛珊、可昕：`ladder_bb_y4s1.json`（S6／P7／K7-L1～8；芷若在英國、子晴已畢業只有手機；原稿說明 `../BB_142`；`build_ladder_bb_y4s1.py`；BB-B 2026-10-16）。**大四下（Y4S2）**：`ladder_aa_y4s2.json`（以安 A8、語彤 Y8；`../AA_152`）；學姊、沛珊、可昕：`ladder_bb_y4s2.json`（S7／P8／K8-L1～8；芷若在英國、子晴只有手機；第 16～18 週是畢業以後，台詞畢業前後都通；原稿說明 `../BB_143`；`build_ladder_bb_y4s2.py`；BB-B 2026-10-16）。以安、語彤四年八學期的階梯到這裡寫完。
+- **大二上（Y2S1）**：`ladder_aa_y2s1.json`（以安 A3、語彤 Y3；`../AA_141`）；芷若、子晴、學姊、沛珊、可昕：`ladder_bb_y2s1.json`（Z3／Q3／S3／P3／K3-L1～8；原稿說明 `../BB_136`；`build_ladder_bb_y2s1.py`；BB-B 2026-10-16）。**大二下（Y2S2）**：`ladder_aa_y2s2.json`（以安 A4、語彤 Y4；`../AA_142`）；芷若、子晴、學姊、沛珊、可昕：`ladder_bb_y2s2.json`（Z4／Q4／S4／P4／K4-L1～8；原稿說明 `../BB_138`；`build_ladder_bb_y2s2.py`；BB-B 2026-10-16）。**大三上（Y3S1）**：`ladder_aa_y3s1.json`（以安 A5、語彤 Y5；`../AA_149`；路線差別用 `linesIf` 的 `flagIs:{EXCHANGE_ROUTE}`）；子晴、學姊、沛珊、可昕：`ladder_bb_y3s1.json`（Q5／S5／P5／K5-L1～8，學姊 S5 目前 7 層、AA 補 1 層；芷若在英國沒有；原稿說明 `../BB_140`；`build_ladder_bb_y3s1.py`；BB-B 2026-10-16）。**大三下（Y3S2）**：`ladder_aa_y3s2.json`（只有語彤 Y6，給留在台灣的玩家；以安在日本，日本路線走 2D，`../AA_150`）；芷若、子晴、學姊、沛珊、可昕：`ladder_bb_y3s2.json`（Z5／Q6／S6／P6／K6-L1～8；學姊碩二下在台灣，只給台灣、美國路線〔每層 `unless` EXCHANGE_ROUTE＝JP〕；美國交換改到大四上〔BB_183〕，大三下美國路線的玩家在台灣；可昕三條路線都有、沒有 `dateOnly:'meet'`；原稿說明 `../BB_141`；`build_ladder_bb_y3s2.py`；BB-B 2026-10-16）。**大四上（Y4S1）**：`ladder_aa_y4s1.json`（以安 A7、語彤 Y7；`../AA_151`）；沛珊、可昕：`ladder_bb_y4s1.json`（P7／K7-L1～8；學姊碩三上在美國交換、美國路線的玩家也在美國，學姊沒有階梯〔2026-10-17 BB-C〕；芷若在英國、子晴已畢業只有手機；原稿說明 `../BB_142`；`build_ladder_bb_y4s1.py`；BB-B 2026-10-16）。**大四下（Y4S2）**：`ladder_aa_y4s2.json`（以安 A8、語彤 Y8；`../AA_152`）；學姊、沛珊、可昕：`ladder_bb_y4s2.json`（S7／P8／K8-L1～8；芷若在英國、子晴只有手機；第 16～18 週是畢業以後，台詞畢業前後都通；原稿說明 `../BB_143`；`build_ladder_bb_y4s2.py`；BB-B 2026-10-16）。以安、語彤四年八學期的階梯到這裡寫完。
 - **一學期一個檔（給 LAWWW-B）**：每個檔的 `term` 決定它在哪一學期推進；進度記在 `G.social.ladder[term][層 id 所屬角色]`（或用 `term:角色` 當 key），**換學期就從新檔的第 1 層開始**，上學期沒走完的層不帶過去（新學期的台詞不假設玩家聽過上學期哪一層，要接的用 `linesIf`／`extraIf` 看記憶）。舊存檔：沒有 term 的進度當成 Y1S1。
 
 ## 給 LAWWW-B：欄位
@@ -27,10 +27,11 @@
 | `dayMin` | （AA）遊戲第幾天以後（開局那天是第 1 天）；以安 A-L1＝第二天的事件之後 |
 | `locTime` | （AA）`{zone:{weekday,time}}`：在這個 zone 只有這些時段才推進（語彤在麵店只有週二、四 20:00～20:30 客人少的時候）；其他 zone 照一般條件 |
 | `greet.when[].weather`、`.week` | （AA）情境句也可以看天氣（`'rain'`）、週次範圍 |
-| `greet.when[].weekParity` | （BB 2026-10-16）`'odd'`＝只在單週（第 1、3、5…週）說，`'even'`＝只在雙週。例：學姊「今天法服值班」只在單週週六（法服方案 A，`AA_132`） |
+| `greet.when[].weekParity` | （BB 2026-10-16）`'odd'`＝只在單週（第 1、3、5…週）說，`'even'`＝只在雙週。目前沒有用到（學姊「今天法服值班」2026-10-17 已刪：她不參加法服週六服務） |
 | `linesIf` | （AA 2026-10-16）`[{if?／unless?, lines}]`：第一個條件成立的那一套**取代**這一層的 `lines`（選項照用）。例：語彤 Y-L1 只在麵店認識的玩家 |
 | `extraIf` | （AA 2026-10-16）`[{if?／unless?, lines}]`：條件成立時，在這一層的 `lines` 後面**多說**這幾句。例：語彤 Y-L5 傘給她的玩家 |
 | `skipIf` | （AA 2026-10-16 提議，BB 的 Q-L3 用）條件成立時，這一層**直接算過**（記層數、不播、不算今天推進），避免 `if` 用 `notMemory` 讓階梯永遠卡住 |
+| `skipAfterWeek` | （BB-C 2026-10-17）數字 N：這學期過了第 N 週、這一層還沒推進，就直接算過（同 `skipIf`：記層數、不播、不算今天推進）。給只在某一週說得通的層（`EVENTS.cond` 沒有週次，`skipIf` 擋不到）。例：學姊 S2-L3（放榜前，第 3～4 週）、S7-L3（口試倒數九十八天，第 1 週） |
 | `linesIf`／`extraIf` 的 `week`、`location`、`time`、`weekday` | （AA 2026-10-16）除了 `if`／`unless`（EVENTS.cond，沒有週次），每一套也可以放和層一樣的 `week` 等篩選；全部符合才用這一套。例：以安 A2-L3 第 7 週以後杜鵑花謝了，改說「三月拍了」 |
 | `note` | 實作提醒（**不放要播的台詞**；要播的變化用 `linesIf`／`extraIf`） |
 

@@ -154,8 +154,9 @@ D['characters']['heroine_05'] = {'friendOnly': True,
            {'id': 'S2-L2',
             'if': {'stage': {'npc': 'heroine_05', 'min': 'ACQUAINTANCE'}},
             'unlessWeekdayTime': {'weekday': [5], 'time': [17, 21]},
-            'lines': ['寒假我把計畫本從第一頁重寫。', '……寫到第三頁，發現前面兩頁都是問號。'],
-            'choices': [{'t': '「問號會變成句號嗎？」', 'reply': '會。……有些會。有些就留著。'}, {'t': '「學姊在準備考試？」', 'reply': '在準備。這次是我自己要考的。', 'rel': {'trust': 1}}],
+            'lines': ['考完以後，我買了一本新的計畫本。', '……寫到第三頁，發現前面兩頁都是問號。'],
+            'choices': [{'t': '「問號會變成句號嗎？」', 'reply': '會。……有些會。有些就留著。'}, {'t': '「學姊考得怎麼樣？」', 'reply': '不知道。三月底放榜。……現在先不要想。', 'rel': {'trust': 1}}],
+            'note': '2026-10-17 BB-C 照 AA-C（回 BB_195 §6）：她 2/2 已經考完，原本「在準備。這次是我自己要考的。」改掉；計畫本第一頁她自己寫（LOGIC-14）',
             'rel': {'fam': 2},
             'mem': 'SIS4_REWRITE',
             'note': '接大二上 S3-L8（計畫本上的問號）；不重複 M2（新的題目）的群組訊息；2026-10-17 BB-C 照新年級搬層（BB_195）：原 S4-L1'},
@@ -168,7 +169,8 @@ D['characters']['heroine_05'] = {'friendOnly': True,
             'mem': 'SIS4_HOT_NOODLES',
             'week': [3, 4],
             'skipIf': {'events': ['ev_sis_results']},
-            'note': '2026-10-17 BB-C 照新年級搬層（BB_195）：原 S4-L3。2026-10-17 BB-C（稽核）：「考得怎樣？→不知道」只在放榜（3/23（一），第 5 週）以前說得通 → 週次 [3,18] 改 [3,4]；放榜（ev_sis_results）以後 skipIf 算過。README 的 skipIf 沒有週次：沒收到放榜訊息的玩家，請 LAWWW-B 把「第 5 週以後、這層還沒推進」也當成算過，不然後面 S2-L4～L8 會卡住'},
+            'skipAfterWeek': 4,
+            'note': '2026-10-17 BB-C 照新年級搬層（BB_195）：原 S4-L3。2026-10-17 BB-C（稽核）：「考得怎樣？→不知道」只在放榜（3/23（一），第 5 週）以前說得通 → 週次 [3,18] 改 [3,4]；放榜（ev_sis_results）以後 skipIf 算過，過了第 4 週還沒推進的也算過（skipAfterWeek，README），後面 S2-L4～L8 不會卡住'},
            {'id': 'S2-L4',
             'if': {'stage': {'npc': 'heroine_05', 'min': 'ACQUAINTANCE'}},
             'unlessWeekdayTime': {'weekday': [5], 'time': [17, 21]},
@@ -346,7 +348,7 @@ def check(d):
             bad=[k for k in cond if k not in ('stage','any')]
             if cid==KX and cond!={'flags':['dating_kexin']}: err.append(s['id']+' 可昕的 if 只能是 dating_kexin')
             elif cid!=KX and bad: err.append(f"{s['id']} 的 if 只能放階段（防卡關）：{bad}")
-            if 'week' in s and s['week'][1]<16 and not s.get('skipIf'): err.append(f"{s['id']} 週次沒有放寬到第 16 週（會卡關；16 週制，AA_198）")
+            if 'week' in s and s['week'][1]<16 and not s.get('skipIf') and not s.get('skipAfterWeek'): err.append(f"{s['id']} 週次沒有放寬到第 16 週（會卡關；16 週制，AA_198）")
         g=c.get('greet')
         if g and not 4<=len(g['base'])<=5: err.append(cid+' 短招呼不是 4～5 句')   # 2026-10-17：AA_209 附錄 B 把芷若寫死地點的招呼移到 when，4 句也可以輪替
     return err
