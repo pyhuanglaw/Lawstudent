@@ -15311,7 +15311,7 @@
    "owner": "AA",
    "status": "待開工",
    "priority": "P2",
-   "next": "BB-C c562a25d 已改學姊招呼和 S4-L1；「被找去指導模擬法庭」等 BB 確認；可昕 K4 只改 note；AA 自己的已清（e8010267）。等 BB 通知重匯。",
+   "next": "BB-C c562a25d：學姊大二下 S4-L1 改成研究所同學的報告、短招呼也改（AA 審過）；ladder_bb_y2s2.json 可以重匯。BB-C c562a25d 已改學姊招呼和 S4-L1；「被找去指導模擬法庭」等 BB 確認；可昕 K4 只改 note；AA 自己的已清（e8010267）。等 BB 通知重匯。",
    "first": {
     "term": "Y2S2",
     "week": 1,
@@ -15389,6 +15389,63 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "BB204-EXROUTE",
+   "title": "交換去哪裡由大三上第 11 週填志願表那天和誰交往決定（學姊→美國、以安→日本；兩個都在交往＝第 10 週認識發現、逼他選一個、沒被選的分手；出發前分手照樣去、在那邊挽回；都沒有＝BB 先寫留在臺灣，等使用者確認）：EXCHANGE_ROUTE 改程式判斷、志願表不再有地點選項",
+   "area": "V4",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "BB_204 @10d3ab91（使用者新決定，P0；「都沒有」那一支等使用者確認）。和 ROUTE-DATES-1017（日本 3/25～8/5、美國大四上 8/2～12/23）一起做",
+   "first": {
+    "term": "Y3S1",
+    "week": 10,
+    "earliest": "大三上第 10 週",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "BB-C 11:09",
+   "authorized": "使用者（經 BB-C）",
+   "xai": {
+    "spec": "BB_204 @10d3ab91",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "acceptance": "四種情況各自單元測試",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "CHENGEN-DEL",
+   "title": "直屬學弟承恩整個刪除（使用者「他根本不重要 刪掉」）：《直屬學弟的咖啡》、大四跨年、聚餐、畢業的承恩都拿掉；大四「第四個房間」照留",
+   "area": "V5",
+   "owner": "AA",
+   "status": "已驗收",
+   "priority": "P2",
+   "next": "LAWWW-C 2026-10-17 查過：程式裡沒有承恩（src 搜尋 0 筆），不用停用；大四跨年 AA_210 第 3 節已改寫（芯慈先到頂樓），HOL-NYE-Y4 施工時照新版",
+   "first": {
+    "term": "Y4S1",
+    "week": 1,
+    "earliest": "大四開學",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 11:09",
+   "authorized": "使用者",
+   "xai": {
+    "spec": "AA_210 §3 @28800b95",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "程式沒有承恩",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "evidence": "grep -rn \"承恩\\|chengen\" src＝0 筆（LAWWW-C 2026-10-17 11:1x，HEAD c19fe8c4）"
   }
  ]
 }
