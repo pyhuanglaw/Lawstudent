@@ -13821,6 +13821,27 @@
    },
    "source": "AA-B 01:20 正式交付（AA_203 第 6 節 4473a62a；BB_179 9ebf6663）",
    "authorized": "企劃組互審完成的交付（D79 第 3 點：照定稿實作）"
+  },
+  {
+   "id": "CAMP-FIX-614",
+   "title": "宿營＋開學第一週驗收修正（AA_205 6-14，AA 分支 dc490ec7）：AA 定的 8 項台詞（8/29 群組 17:30、揭曉前叫凱文、夜遊小隊輔、第三天早餐旁白、茶會 19:10 Kevin 招手、W1 三句、明軒打球開頭）＋程式 8 項（阿哲 +1、Kevin FIRST_MET camp、記憶顯示日期＋中文地點、宿營推時間、闖關背景、茶會後 Kevin、BB_177 第 9 節括號、10/4 你幾年次的）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "next": "照 6-14 逐項改；烤肉「顧火」回應等 BB-B；經濟系路線宿營（2-3）做完前 ?start1 不當預設",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "8/22 新局宿營",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-17 02:02 send_message（AA_205 6-14，dc490ec7）",
+   "authorized": "AA、BB 互審過的定稿（CAMP-R1）"
   }
  ]
 }
