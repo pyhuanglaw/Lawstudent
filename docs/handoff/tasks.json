@@ -12780,7 +12780,7 @@
    "owner": "AA",
    "status": "進行中",
    "priority": "P1",
-   "next": "AA-B、BB-B 02:39～02:40 交班：第 3 批大一下 BB_180＋AA_209 已交 LAWWW-B（AB65-3-Y1S2-L）；大二上 AA_211 等 BB-B 口氣審（BB_181_..._WIP.md 還沒回 AA-B＝BB 下一班第一件），還沒交 LAWWW。｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "【交班補強】AA_211 大二上口語改稿 8f837d93 是 WIP（等 BB-B 口氣審 BB_181），還沒交 LAWWW，總表沒有 LAWWW 實作任務（交付時再建）。大一下階梯寫回 2fd0399d、34b1d21a 是 WIP，不要匯入。｜AA-B、BB-B 02:39～02:40 交班：第 3 批大一下 BB_180＋AA_209 已交 LAWWW-B（AB65-3-Y1S2-L）；大二上 AA_211 等 BB-B 口氣審（BB_181_..._WIP.md 還沒回 AA-B＝BB 下一班第一件），還沒交 LAWWW。｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y0S1",
     "week": null,
@@ -14028,6 +14028,27 @@
    },
    "source": "LAWWW-B 交班補強核對（子代理比對兩條分支）",
    "authorized": "既有授權（交班補登）"
+  },
+  {
+   "id": "V1-AA194-L",
+   "title": "AA_194 第 1～3 節：大一上 AA 人物的閒聊階梯與 rel_lines 改稿（AA 分支）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "交班補強核對發現總表沒有 LAWWW 任務：rel_lines.js 第 21 行以安的道別還是舊句。下一班先確認 AA_194 第 1～3 節是否已正式交付（第 4 節邀約台詞＝V1-INV-WORDING，定稿 6e94d8d7），再照表實作",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA 分支 AA_194；LAWWW-B 交班補強（子代理核對）",
+   "authorized": "AA、BB 企劃制度（D79 第 3 點：照定稿實作）"
   }
  ]
 }

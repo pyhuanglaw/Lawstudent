@@ -17,7 +17,57 @@
 
 LAWWW-B 沒有本機沒 push 的檔案、沒有 WIP 分支。
 
-## 2. AA（AA-B，分支 `claude/cool-heisenberg-o8kuqx`，已交班 `ec63dd53`）——核對中
+## 2. AA（AA-B，分支 `claude/cool-heisenberg-o8kuqx`，已交班 `ec63dd53`）——前半 63 筆已核對、後半 63 筆核對中
+
+### 2-1. 前半 63 筆（唯讀子代理逐筆打開 diff、grep 開發分支 src/；LAWWW-B 登記）
+
+- 63 筆都是 AA-B 的工作階段（subject 寫 BB_171 的 28cc392a 也是 AA-B 改 AA 文件）。
+- **未整合要注意的**（總表任務都在）：AB65-3-Y1S2-L（AA_209 本身補登；2-1 七處、第 4 節第 4、6、7、8、10、11 點、附錄逐句沒做）、V1-INV-WORDING（AA_194 第 4 節邀約台詞，invites.js 74、78～79 行還是舊句）、HOLIDAY-SYS（AA_198 等：TERMS 仍 18 週、SCHOOL 沒有 2024-11-22／2026-11-20、Y3S2 開學仍 2028-02-14、大一跨年信義區）、VAC-X2（日本 3 月底出發；ROUTE_DATES 仍 2028-01-08；AA_201 規格 218a0dba 補登 DL-AA-AA201）、V4-E10、DATE-S8、SYS-PHONE-CHAT（AA_202，程式沒有）、V1-BB168（AA_200 第 2 節 18 項）、AB65-2-L（AA_207 定稿 DL-AA-AB652，待開工）、V0-REWRITE-L 段 B～E。
+- **補建任務**：V1-AA194-L（AA_194 第 1～3 節大一上階梯與 rel_lines，總表原本沒有 LAWWW 任務）。
+- **登記修正**：DL-AA-CAMPL1 的 sha 欄原本是一段文字（工具比對不到），改成 `37e34086`、整合狀態改已整合待測試。
+- **拿不準、子代理自己的判斷**（9 筆，下一班可以複核）：be4e84e6（研究表，算參考用交付）、bbd6538d／43f5e1fa（使用者決定紀錄，算裁定交付）、c80c37c4（AA 裁定，算 WIP）、82488aea（互審紀錄，算一般）、b115c6d9／2bc88cb8（一半互審一半規格，算已涵蓋交付）、202dcd6c（交接紀錄夾草稿，算 WIP）、92fdf140（設定同步，算一般）。
+
+- 分類結果（out_aa1.json）：{'DELIVERY新登記': 21, 'DELIVERY已涵蓋': 20, 'WORK': 14, 'WIP': 8, '已登記略過': 0}
+
+**AA 前半的半成品（WIP）**
+
+| 任務 ID | 內容 | 檔案路徑 | 分支 | 最後 commit | 完成程度 | 剩餘工作 | 能不能整合 |
+|---|---|---|---|---|---|---|---|
+| AB65-3（大一下 BB 人物閒聊階梯；LAWWW 匯入是 AB65-3-Y1S2-L） | 大一下 BB 人物閒聊階梯照 AA_209 寫回 JSON（交班 CHECKPOINT） | `docs/story_planning/ladder/build_ladder_bb_y1s2.py`、`docs/story_planning/ladder/ladder_bb_y1s2.json` | `claude/cool-heisenberg-o8kuqx` | `2fd0399d` | 芷若、子晴、學姊、沛珊寫回完成；--check 通過、JSON 和產生器一致；可昕 K2 沒改；AA 還沒逐句看 diff | 補可昕 K2（K2-L5 公車改開車、K2-L8、K2-L6、K2-L2、K2-L1 寒假天數）；對照 AA_209 第 2 節、2-1、附錄 B 逐句看 git diff 646490c5；build＋--check；拿掉 WIP 字樣；SHA 交 LAWWW 用 tools/ladder/import_ladder.py 匯入 | 不行：WIP，commit 訊息與 AA 交班紀錄 C 類都寫「不要匯入」 |
+| NS-Y1S2（大一下以安、語彤閒聊階梯；LAWWW 匯入是 AB65-3-Y1S2-L） | 大一下以安、語彤閒聊階梯照 AA_209 寫回（產生器改到一半） | `docs/story_planning/ladder/build_ladder_aa_y1s2.py` | `claude/cool-heisenberg-o8kuqx` | `34b1d21a` | 這筆：產生器改一半、JSON 沒重新產生。AA 交班紀錄說後續 a853ef49 改完、--check 通過（a853ef49 不在本批） | 對照 AA_209、88585540 以後的版本逐句看 diff；重產 ladder_aa_y1s2.json；拿掉 WIP；SHA 交 LAWWW 匯入 | 不行：WIP，AA 註明不要匯入 |
+| AB65-3（大二上） | AA_211 大二上口語改稿（AA＋BB 人物）＋群戲三場新稿＋附錄 B 審稿原文；AA_143 指到 AA_211 | `docs/story_planning/AA_211_大二上口語改稿_AA與BB人物.md`、`docs/story_planning/AA_211_附錄_審稿原文.md`、`docs/story_planning/AA_143_大二的年度群戲與模擬法庭結果.md`、`docs/story_planning/AA_交接紀錄.md` | `claude/cool-heisenberg-o8kuqx` | `8f837d93` | AA 裁定與群戲三場新稿寫完；BB-B 口氣審（BB_181 WIP）沒回 | BB-B 口氣審 → AA 裁定（照 AA_209 2-1 做法）→ ladder_aa_y2s1／ladder_bb_y2s1 寫回 JSON → 交 LAWWW-B；總表要另開 LAWWW 實作任務（目前只有 AB65-3） | 不行：等 BB-B 口氣審，還沒交 LAWWW |
+| AA-103-SP | AA_交接紀錄：AA-103-SP 查證＋林教授回答的草稿一句（LEGAL_REVIEW_REQUIRED）；MSG-2 要先定生日；CAMP-L1 派驗收代理 | `docs/story_planning/AA_交接紀錄.md` | `claude/cool-heisenberg-o8kuqx` | `202dcd6c` | 草稿一句：「對。這種案子，被告自己沒有請，審判長要幫他指定一位，公設辯護人或律師。」 | BB-B 法律審查；併入 AB65-3 大三上那批一起交 LAWWW；MSG-2 先定 AA 六位生日 | 不行：還沒法律審查、還沒交 |
+| HOL-VA | AA_199 4-2：AA 六位的假期活動清單第一批 VA-01～VA-12（只規劃，不寫台詞） | `docs/story_planning/AA_199_寒暑假多活動行事曆_研究企劃與分工.md` | `claude/cool-heisenberg-o8kuqx` | `599deb38` | 規劃清單 12 項完成；VA-02、VA-03（12/29 海邊）的台詞已在 AA_204 | 其餘 VA 的台詞；照 VAC-S1 定稿接活動卡；交 LAWWW | 不行：只有規劃沒有台詞，VAC-S1 還是骨架 |
+| VAC-T1（兼 VAC-B2 的 AA 裁定） | AA_199 4-1：BB_173（VAC-B2）的五個 AA 決定（日本＝阿凱那團 8/24～28、KH 旅館雙床房、營隊 7/1～7/5 起、學姊交換時程同意、時段不撞 AA） | `docs/story_planning/AA_199_寒暑假多活動行事曆_研究企劃與分工.md` | `claude/cool-heisenberg-o8kuqx` | `c80c37c4` | 五個決定定案（AA 裁定） | VAC-T1 五年時間線補完；VAC-S1 定稿後和 BB_173 一起交 LAWWW（VAC-L1） | 不行：AA_199 還沒正式交 LAWWW（VAC-L1 待開工、VAC-S1 骨架） |
+| VAC-T1（兼 VAC-X1、VAC-D1） | AA_199 第 4 節五年時間線初稿、5-2 研究對照的衝突、第 6 節給使用者的五個決定 Q1～Q5 | `docs/story_planning/AA_199_寒暑假多活動行事曆_研究企劃與分工.md` | `claude/cool-heisenberg-o8kuqx` | `cc55bde2` | 五年時間線初稿；Q1～Q5 已由使用者 21:49 決定 | VAC-T1 每個寒暑假的保留／改期／重寫衝突表補完；VAC-X1 交換時間差核對；等 VAC-L1 | 不行：初稿 |
+| VAC-S1（兼 VAC-F1） | AA_199 第 3 節：多活動行事曆骨架 v0.1（活動卡、行事曆與衝突、推進選單、長期活動、沒錄取取消、和現有系統的接法）＋3-7 家庭補助方案 | `docs/story_planning/AA_199_寒暑假多活動行事曆_研究企劃與分工.md` | `claude/cool-heisenberg-o8kuqx` | `d6dd1f7c` | 骨架 v0.1；3-7 家庭補助初版（費用誰出已由使用者 21:49 Q1 決定） | 活動種類照 VAC-R1 定稿；等 VAC-L1 技術短評定資料結構；定稿後交 LAWWW | 不行：骨架，資料結構等 VAC-L1 |
+
+**新登記的交付**（未整合的要排進施工）
+
+| 交付 ID | 任務 | 整合 | 內容 |
+|---|---|---|---|
+| DL-AA-42b19dca | AB65-3-Y1S2-L | 已整合待測試 | AA_198 第 5 節更正：大一下成績約定的「一起看」、P4e 改在成績公布日 6/29（回 LAWWW-B 02:28 的問題） |
+| DL-AA-096136d2 | AB65-3-Y1S2-L | 未整合 | AA_209 2-1：BB_180 口氣審裁定（七處採用、KAI_TAPE 照 BB 擺法、重訪日沛珊不加句）＝AB65-3-Y1S2-L 正式交付 SHA；AA_205 6-14 茶會 Kevin 定字、烤肉顧火寫回 |
+| DL-AA-dc490ec7 | CAMP-FIX-614 | 已整合待測試 | AA_205 6-14：宿營＋開學第一週驗收修正（8/29 群組 17:30、揭曉前叫凱文、夜遊小隊輔帶、茶會 19:10、W1 漏的三句） |
+| DL-AA-262ff7dc | AB65-3-Y1S2-L | 未整合 | AA_209 初版：大一下口語改稿（AA 人物＋BB 人物）＋重訪日 1 麵店群戲；AA_197 阿哲改住 203 |
+| DL-AA-e1557b60 | START-WEEK | 已整合待測試 | AA_195 4-11：回 LAWWW-B START-WEEK 問題——8/29 書桌前、22:40 旁白、8/30 三項 447 元與完成句、W1 舊句 8 處新句、沛珊不補國文第一堂 |
+| DL-AA-4516159b | HOLIDAY-SYS | 未整合 | AA_198 第 2 節改定：經濟系寒假 12/23 放假、住宿舍到 1/5、1/6 才回家；A2 留 1/5 只換成日期 |
+| DL-AA-c0b8b917 | HOLIDAY-SYS | 參考用 | AA_197 1-7 每學期驗收單（七件共用＋十個學期各自要看的日期與事件＋回報格式） |
+| DL-AA-2fb697b2 | VAC-X2 | 未整合 | 日本路線 3 月底出發（AA_201）同步五份企劃：AA_144 X1／X2 與路線表、AA_180 起算日與送機、AA_113 以安新 16 送機 3/25、AA_71 杜鵑花、AA_158 狀態機日期 |
+| DL-AA-43f5e1fa | VAC-X2 | 未整合 | 使用者 22:2x 選甲（日本 3 月底出發），AA_201 解除暫停、可以施工；AA_199、交接紀錄同步 |
+| DL-AA-6e94d8d7 | V1-INV-WORDING | 未整合 | AA_194 第 4 節定稿：BB 互審通過，採用兩處建議（以安「好啊，剛好想走走。」、語彤「我阿姨的店喔。」）＝總表 V1-INV-WORDING 的來源 SHA |
+| DL-AA-24b7e147 | V1-INV-WORDING | 未整合 | AA_194 第 4 節：芯慈交換聯絡方式只留定稿（「我加你了。」「有缺講義的話跟我說，我都有拍。」） |
+| DL-AA-8fbb120f | V1-INV-WORDING | 未整合 | AA_194 第 4 節主體：AA 六位邀約、一起走、交換聯絡方式改稿 23 處＋兩處改規則（以安大一散步只問第一次、語彤第一次散步週六） |
+| DL-AA-21d7f681 | HOLIDAY-SYS | 未整合 | AA_154 1-1：經濟系那年照 16 週制（12/25、1/1 在寒假、E20 改寒假聚會、平行世界說明作廢、校定假日加 113～115 學年運動會停課、寒假 12/23 起） |
+| DL-AA-8faab5d2 | BUG-INVITE-WEEKEND | 已整合待測試 | AA_134：當面約人的開場改「你等一下有空嗎？」／「你明天有空嗎？」（使用者試玩回報） |
+| DL-AA-bbd6538d | VAC-X2 | 未整合 | 使用者 21:49 回 AA_199 第 6 節 Q1～Q5：出國機票家裡出、當地花費自己出；日本 3 月底出發；第一批活動 AA 定；機場 3D、旅館街景用使用者給的 CG；接待型交流虛構；開任務 VAC-A2、B3、X2 |
+| DL-AA-f6992746 | HOLIDAY-SYS | 未整合 | AA_197 1-6：大三下開學定 2028/2/21（附理由：113～115 學年春季開學都在 2 月中下旬） |
+| DL-AA-be4e84e6 |  | 參考用 | AA_199 第 2 節寒暑假活動研究表（VAC-R1）＋研究原文附錄（核心／可選／只當背景、重要事實、查不到的）。總表沒有 VAC-R1，應屬 VAC-S1 的前置 |
+| DL-AA-434c4040 | V4-E10 | 未整合 | 更正 AA-B 21:08 的裁定：交換志願表時學姊還在臺灣，反應改成下一次當面、截止前沒遇到才用 BB 的手機版（8f781b12） |
+| DL-AA-6812912b | HOLIDAY-SYS | 未整合 | AA_197 1-5：大一跨年改搭捷運去信義區、明軒在管制線當工作人員是掉頭的原因（BB_171 互審） |
+| DL-AA-28cc392a | DATE-S8 | 未整合 | BB_171 C1／C3／C7 對齊：AA_128 大一暑假芷若 7/1～8/25、以安 7/25～8/8 在台中、子晴學姊過年改已定案；AA_197 1-6 2028/12/31 是週日 |
+| DL-AA-9925f201 | ART-GYM-BG1 | 已整合待測試 | AA_195 4-4：開學典禮背景規格（新體育館內部典禮、畢業典禮共用、不放真實校徽；做好前用 ntu_avenue、不擋改預設） |
+
 
 ## 3. BB（BB-B，分支 `claude/elegant-brown-fcos7n`，已交班 `55717c12`）——核對中
 

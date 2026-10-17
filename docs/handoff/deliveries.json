@@ -5044,12 +5044,12 @@
    "from": "AA-B",
    "account": "B",
    "branch": "claude/cool-heisenberg-o8kuqx + claude/elegant-brown-fcos7n",
-   "sha": "AA_205 37e34086；BB_177 v5 eee886d8（含 e627d747）",
+   "sha": "37e34086",
    "what": "CAMP-L1 正式交付：開學前迎新宿營 8/22～24（強制參加、新遊戲從 8/22 開始、經濟系也強制）、每天兩個以上活動、臥底＝Kevin（凱文，四個破綻，CAMP_MOLE_CLUE 計數）、小隊七人 FIRST_MET where:'camp'、小語 CAMP_SEEN、以安不在；茶會（AA_195 4-5＋BB_168 第 7 節、6-3）；9/1 阿哲宿營版（AA_205 6-2）；拿掉舊 9/8 報名、9/26 名單、9/27～28 camp、9/28 阿哲私訊；沒去宿營的舊版本只當開發起點防呆",
    "task": "CAMP-L1",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "AA、BB 互審完成（AA_200 第 6 節）；驗收照 AA_197 1-7 大一上那一列"
+   "integration": "已整合待測試",
+   "note": "AA、BB 互審完成（AA_200 第 6 節）；驗收照 AA_197 1-7 大一上那一列｜原 sha 欄：AA_205 37e34086；BB_177 v5 eee886d8（含 e627d747）（交班補強改成單純 SHA，工具才比對得到）；宿營程式已整合（camp_y1.js、story3d.js；flow_camp_y1 ALL PASS 02:27）"
   },
   {
    "id": "DL-LW2-CAFEFLOOR",
@@ -5453,6 +5453,292 @@
    "msg": "ACK",
    "integration": "參考用",
    "note": "只在 funny 分支；示範案例 644a322f 同一筆（LAWWW-B 交班補強時逐筆核對登記）"
+  },
+  {
+   "id": "DL-AA-42b19dca",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "42b19dca",
+   "what": "AA_198 第 5 節更正：大一下成績約定的「一起看」、P4e 改在成績公布日 6/29（回 LAWWW-B 02:28 的問題）",
+   "task": "AB65-3-Y1S2-L",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "整合：已整合待測試｜證據：src/story3d.js:1606「6/29（一）成績公布那天（AA-B 02:28 確認：一起看、best_one 都在 6/29）」；總表 AB65-3-Y1S2-L 已做「P4e 6/29 10:00」（372c6512）（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-096136d2",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "096136d2",
+   "what": "AA_209 2-1：BB_180 口氣審裁定（七處採用、KAI_TAPE 照 BB 擺法、重訪日沛珊不加句）＝AB65-3-Y1S2-L 正式交付 SHA；AA_205 6-14 茶會 Kevin 定字、烤肉顧火寫回",
+   "task": "AB65-3-Y1S2-L",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：部分整合：AA_205 部分已整合待測試；AA_209 2-1 七處未整合｜證據：src/story3d.js:981「學弟！這邊，家族這桌。」、src/data/camp_y1.js:204 顧火「換手！你搧好久了。」；AA_209 2-1 的「去年還在被學長念」「不支薪，包飲料」「上次那杯黑咖啡，謝謝」等 src 都 grep 不到。DL-BB-BB180 只登記 BB 那邊的 BB_180，AA_209 本身沒有 DL（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-dc490ec7",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "dc490ec7",
+   "what": "AA_205 6-14：宿營＋開學第一週驗收修正（8/29 群組 17:30、揭曉前叫凱文、夜遊小隊輔帶、茶會 19:10、W1 漏的三句）",
+   "task": "CAMP-FIX-614",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "整合：已整合待測試（程式 8 經濟系路線宿營未做）｜證據：總表 CAMP-FIX-614 引用 dc490ec7，LAWWW dbb4d86e、038c0d0e、884d47d6、e39749d9、259a4c4f；src/story3d.js:103「我在高鐵上了」17:30、src/data/camp_y1.js:127「晚會七點，在草地。」（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-262ff7dc",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "262ff7dc",
+   "what": "AA_209 初版：大一下口語改稿（AA 人物＋BB 人物）＋重訪日 1 麵店群戲；AA_197 阿哲改住 203",
+   "task": "AB65-3-Y1S2-L",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：部分整合：第 3 節重訪日 1、第 4 節第 1、2、3、5 點已整合待測試；第 2 節與附錄逐句、第 4 節第 4、6、7、8、10、11 點未做｜證據：src/story3d.js:2003 S.revisitDay＝2026-06-12、:1999 重訪日群組；LAWWW 02dc4fda、2ff27acf、1376b5f8、301c9ad9、f6780e52、7a148c0d、372c6512；定稿是 096136d2（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-e1557b60",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "e1557b60",
+   "what": "AA_195 4-11：回 LAWWW-B START-WEEK 問題——8/29 書桌前、22:40 旁白、8/30 三項 447 元與完成句、W1 舊句 8 處新句、沛珊不補國文第一堂",
+   "task": "START-WEEK",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "整合：已整合待測試｜證據：src/story3d.js:858 22:40 旁白、:920 T830 三項完成句、:2631 talkProf 三句；src/data/events.js:3300「等第二階段退選」；總表 START-WEEK「aa195_411_unit 全過」（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-4516159b",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "4516159b",
+   "what": "AA_198 第 2 節改定：經濟系寒假 12/23 放假、住宿舍到 1/5、1/6 才回家；A2 留 1/5 只換成日期",
+   "task": "HOLIDAY-SYS",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：未整合｜證據：總表 HOLIDAY-SYS next 已列「AA 4516159b」；src/data/calendar.js:18 TERMS 仍 18 週、src/story3d.js:1329 仍用 termDay('Y0S1',18,2)（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-c0b8b917",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "c0b8b917",
+   "what": "AA_197 1-7 每學期驗收單（七件共用＋十個學期各自要看的日期與事件＋回報格式）",
+   "task": "HOLIDAY-SYS",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "整合：參考用（驗收單）｜證據：DL-AA-CAMPL1、DL-AA-AB652、DL-AA-V0-REWRITE 的 note 都寫「驗收照 AA_197 1-7」，但驗收單本身沒登記；HOLIDAY-SYS 進行中（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-2fb697b2",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "2fb697b2",
+   "what": "日本路線 3 月底出發（AA_201）同步五份企劃：AA_144 X1／X2 與路線表、AA_180 起算日與送機、AA_113 以安新 16 送機 3/25、AA_71 杜鵑花、AA_158 狀態機日期",
+   "task": "VAC-X2",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：未整合｜證據：src/story3d.js:2649 ROUTE_DATES JP 仍 dep 2028-01-08、ret 07-15；src/data/characters.js:16 以安 absentDates 仍 2028-01-08～07-15；總表 VAC-X2 待開工（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-43f5e1fa",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "43f5e1fa",
+   "what": "使用者 22:2x 選甲（日本 3 月底出發），AA_201 解除暫停、可以施工；AA_199、交接紀錄同步",
+   "task": "VAC-X2",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：未整合｜證據：同 2fb697b2：程式仍是 1/8 出發；AA_201 規格本身（218a0dba）不在本批、deliveries 也沒有（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-6e94d8d7",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "6e94d8d7",
+   "what": "AA_194 第 4 節定稿：BB 互審通過，採用兩處建議（以安「好啊，剛好想走走。」、語彤「我阿姨的店喔。」）＝總表 V1-INV-WORDING 的來源 SHA",
+   "task": "V1-INV-WORDING",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：未整合｜證據：src/data/invites.js:74「條件：我會帶東西來寫。」、:78「散步的目的是？」、:79「好。理由：今天想。」都還是舊句；總表 V1-INV-WORDING 待開工，但 deliveries 沒有這筆（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-24b7e147",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "24b7e147",
+   "what": "AA_194 第 4 節：芯慈交換聯絡方式只留定稿（「我加你了。」「有缺講義的話跟我說，我都有拍。」）",
+   "task": "V1-INV-WORDING",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：未整合｜證據：src/data/invites.js 芯慈 exchange 仍是舊句；定稿版是 6e94d8d7（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-8fbb120f",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "8fbb120f",
+   "what": "AA_194 第 4 節主體：AA 六位邀約、一起走、交換聯絡方式改稿 23 處＋兩處改規則（以安大一散步只問第一次、語彤第一次散步週六）",
+   "task": "V1-INV-WORDING",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：未整合｜證據：src/data/invites.js:74、78～79 仍是舊句；最終版是 6e94d8d7（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-21d7f681",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "21d7f681",
+   "what": "AA_154 1-1：經濟系那年照 16 週制（12/25、1/1 在寒假、E20 改寒假聚會、平行世界說明作廢、校定假日加 113～115 學年運動會停課、寒假 12/23 起）",
+   "task": "HOLIDAY-SYS",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：未整合｜證據：src/data/calendar.js:27 SCHOOL 只有 2025-11-15、2025-11-21，沒有 2024-11-22、2026-11-20；TERMS 仍 18 週（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-8faab5d2",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "8faab5d2",
+   "what": "AA_134：當面約人的開場改「你等一下有空嗎？」／「你明天有空嗎？」（使用者試玩回報）",
+   "task": "BUG-INVITE-WEEKEND",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "整合：已整合待測試｜證據：src/invites3d.js:248 照可選時間說「你等一下有空嗎？」／「你明天有空嗎？」（註解 AA-B 21:53 定稿）（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-bbd6538d",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "bbd6538d",
+   "what": "使用者 21:49 回 AA_199 第 6 節 Q1～Q5：出國機票家裡出、當地花費自己出；日本 3 月底出發；第一批活動 AA 定；機場 3D、旅館街景用使用者給的 CG；接待型交流虛構；開任務 VAC-A2、B3、X2",
+   "task": "VAC-X2",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：未整合｜證據：VAC-X2、VAC-L1 待開工；VAC-A2 已派 LAWWW2-B（待開工）；VAC-B3 五張背景已交（DL-BB-BG-*）（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-f6992746",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "f6992746",
+   "what": "AA_197 1-6：大三下開學定 2028/2/21（附理由：113～115 學年春季開學都在 2 月中下旬）",
+   "task": "HOLIDAY-SYS",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：未整合｜證據：src/data/calendar.js:20 Y3S2 start 仍 2028-02-14；總表 HOLIDAY-SYS next 已列「Y3S2 開學改 2028-02-21（AA-B 21:46）」（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-be4e84e6",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "be4e84e6",
+   "what": "AA_199 第 2 節寒暑假活動研究表（VAC-R1）＋研究原文附錄（核心／可選／只當背景、重要事實、查不到的）。總表沒有 VAC-R1，應屬 VAC-S1 的前置",
+   "task": "",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "整合：參考用（研究資料，不直接實作）｜證據：AA_199 任務表 VAC-R1「DELIVERED 21:4x」；規格要等 VAC-S1 定稿（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）｜任務 ID 對不到總表："
+  },
+  {
+   "id": "DL-AA-434c4040",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "434c4040",
+   "what": "更正 AA-B 21:08 的裁定：交換志願表時學姊還在臺灣，反應改成下一次當面、截止前沒遇到才用 BB 的手機版（8f781b12）",
+   "task": "V4-E10",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：未整合｜證據：總表 V4-E10 待開工（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-6812912b",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "6812912b",
+   "what": "AA_197 1-5：大一跨年改搭捷運去信義區、明軒在管制線當工作人員是掉頭的原因（BB_171 互審）",
+   "task": "HOLIDAY-SYS",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：未整合｜證據：src/data/events.js ev_nye_roof／ev_nye_river 沒有信義區、管制線（events.js:2276 的信義區是經濟系 E21a）；V1-BB171 T2～T5 等 16 週（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-28cc392a",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "28cc392a",
+   "what": "BB_171 C1／C3／C7 對齊：AA_128 大一暑假芷若 7/1～8/25、以安 7/25～8/8 在台中、子晴學姊過年改已定案；AA_197 1-6 2028/12/31 是週日",
+   "task": "DATE-S8",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "整合：未整合｜證據：DATE-S1～S8 待開工；src/data/characters.js 沒有大一暑假的 absentDates（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-9925f201",
+   "date": "2026-10-17",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "9925f201",
+   "what": "AA_195 4-4：開學典禮背景規格（新體育館內部典禮、畢業典禮共用、不放真實校徽；做好前用 ntu_avenue、不擋改預設）",
+   "task": "ART-GYM-BG1",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "整合：已整合待測試｜證據：src/outings3d.js:25 OUT.BG.ntu_gym_ceremony；src/story3d.js:904 有圖用圖、沒有用 ntu_avenue（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）"
+  },
+  {
+   "id": "DL-AA-AA201",
+   "date": "2026-10-16",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "218a0dba",
+   "what": "AA_201 日本交換路線改期規格（使用者 Q2 A：2/20 退宿、3 月底出發）",
+   "task": "VAC-X2",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "story3d.js ROUTE_DATES、characters.js 仍是 2028-01-08（交班補強核對：之前沒登記，VAC-X2 找不到規格來源）"
   }
  ],
  "ignored": [
@@ -6860,6 +7146,216 @@
    "sha": "8a1af723",
    "branch": "origin/claude/funny-albattani-iawshm",
    "why": "WIP 半成品（沒有交付）：ART-04 黃金葛 S1～S4＋SCN-V3-01 dorm_y2_items.glb 約 60%，登記在兩個任務的 next 與 WIP_INVENTORY 第 4 節"
+  },
+  {
+   "sha": "2fd0399d",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "WIP 半成品（沒有交付，登記在 WIP_INVENTORY_2026-10-17）：AB65-3（大一下 BB 人物閒聊階梯；LAWWW 匯入是 AB65-3-Y1S2-L）｜完成：芷若、子晴、學姊、沛珊寫回完成；--check 通過、JSON 和產生器一致；可昕 K2 沒改；AA 還沒逐句看 diff｜能否整合：不行：WIP，commit 訊息與 AA 交班紀錄 C 類都寫「不要匯入」"
+  },
+  {
+   "sha": "34b1d21a",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "WIP 半成品（沒有交付，登記在 WIP_INVENTORY_2026-10-17）：NS-Y1S2（大一下以安、語彤閒聊階梯；LAWWW 匯入是 AB65-3-Y1S2-L）｜完成：這筆：產生器改一半、JSON 沒重新產生。AA 交班紀錄說後續 a853ef49 改完、--check 通過（a853ef49 不在本批）｜能否整合：不行：WIP，AA 註明不要匯入"
+  },
+  {
+   "sha": "8f837d93",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "WIP 半成品（沒有交付，登記在 WIP_INVENTORY_2026-10-17）：AB65-3（大二上）｜完成：AA 裁定與群戲三場新稿寫完；BB-B 口氣審（BB_181 WIP）沒回｜能否整合：不行：等 BB-B 口氣審，還沒交 LAWWW"
+  },
+  {
+   "sha": "202dcd6c",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "WIP 半成品（沒有交付，登記在 WIP_INVENTORY_2026-10-17）：AA-103-SP｜完成：草稿一句：「對。這種案子，被告自己沒有請，審判長要幫他指定一位，公設辯護人或律師。」｜能否整合：不行：還沒法律審查、還沒交"
+  },
+  {
+   "sha": "35456305",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-V0-REWRITE｜V0-REWRITE-L｜整合：已整合待測試（段 A 部分）；段 B～E 未做｜AA_203 第 6 節補充裁定：BB_179【建議旁白，AA 決定】全部採用，和 AA 已寫的衝突以 AA 為準（回 LAWWW-B 01:34）"
+  },
+  {
+   "sha": "d4e76cf9",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-V0-REWRITE｜V0-REWRITE-L（兼 ART-CG-ECONCAMP）｜整合：部分：A54 已整合待測試；7-4 的 TR0-L1、小年夜選項未做｜AA_200 7-4：BB_179 第二版 18 項互審通過（TR0-L1、小年夜選項定案）；AA_154 A54 E15 CG 改成七個人自己拍的合照"
+  },
+  {
+   "sha": "fe4a5350",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-V0-REWRITE｜V0-REWRITE-L｜整合：未整合（段 B～E）｜AA_200 7-3＋附錄 D：BB_179 附錄逐句互審（BB 必須改 18、建議 13、AA 自己改 7）；E19 品妤改群組「我今天請假。」"
+  },
+  {
+   "sha": "98dce335",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "一般工作 commit：AA_交接紀錄「全部待辦」更新（D93）：ART-METHOD6、V2-SIS-BF 登記、AB65-2 已交、BB_179 互審中"
+  },
+  {
+   "sha": "d3737ceb",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-V0-REWRITE｜V0-REWRITE-L｜整合：部分：段 A（E02、經原第 1 週）已整合待測試；段 B～E 未做｜AA_200 第 7 節 7-1／7-2：BB_179 主檔第 2 節同意（E19 改 12/19）、第 3 節 17 項 AA 決定（E02「{name}，臺北。」、經原第一堂邊際效用、E19／E21a 出發選單、E35…）"
+  },
+  {
+   "sha": "0d872637",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-AB652｜AB65-2-L（AA 端 AB65-2）｜整合：未整合｜AA_207 初版＋附錄：大一上 BB 人物事件改稿（AB-65 第 2 批）"
+  },
+  {
+   "sha": "c0d12275",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1、DL-AA-V0-REWRITE｜CAMP-L1（兼 V0-REWRITE-L）｜整合：部分：A54 已整合待測試；經濟系路線的法律系宿營（2-3）未做｜使用者 23:4x 更正：法律系宿營所有玩家完整參加（AA_205 2-3 恢復）；AA_154 A54 經濟系那年 E15 宿營改 CG＋三句旁白"
+  },
+  {
+   "sha": "37e34086",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1｜CAMP-L1｜整合：已整合待測試（經濟系路線宿營未做）｜AA_200 6-2 BB_177 第五版通過；AA_205 任務表 CAMP-R1 完成、CAMP-L1 交付（DL-AA-CAMPL1 的 sha 欄寫的就是這筆，工具比對不到是因為那欄是文字）"
+  },
+  {
+   "sha": "92fdf140",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "一般工作 commit：設定同步：AA_147 背景用途表裡家族聚餐的 Kevin 改「家族的大二學長」（直屬只有學姊）；背景 yongkang_curry 已整合，ev_family_dinner 台詞不受影響"
+  },
+  {
+   "sha": "ba354d61",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1｜CAMP-L1｜整合：已整合待測試｜AA_200 6-1 BB_177 第四版互審；AA_205 6-12 破冰的 AA 句子（阿哲、芯慈、柏翰、祐廷），芯慈揭曉那句拿掉"
+  },
+  {
+   "sha": "33044032",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1｜CAMP-L1（茶會；START-WEEK 範圍）｜整合：已整合待測試｜AA_195 4-5 茶會改大二辦：Kevin 在簽到桌、直屬名單往上找到大三的溫學姊、學姊 19:10 來、19:10 前先走照沒見到分流"
+  },
+  {
+   "sha": "09ec00dc",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1｜CAMP-L1｜整合：已整合待測試｜使用者 23:3x「直屬只有一個」：溫學姊是直屬、宿營不出現；Kevin 改同家族大二學長；AA_205、AA_195 4-5、AA_100 同步"
+  },
+  {
+   "sha": "08feb329",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1｜CAMP-L1｜整合：已整合待測試｜AA_200 第 6 節 BB_177 第二版互審；AA_205 法律闖關改用 BB 的標錯價案例、6-11 祐廷三種說法、臥底說明改寫"
+  },
+  {
+   "sha": "b1f13bb4",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1｜CAMP-L1｜整合：已整合待測試（新局在 ?start1 後面，還不是預設）｜AA_205 強制參加版：新遊戲從 8/22 宿營開始，沒有報名、費用、不參加的分支；以安在別隊；AA_195、AA_197 同步"
+  },
+  {
+   "sha": "a33ead18",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1｜CAMP-L1｜整合：已整合待測試（8/18 序章、報名等已被後續版本取代）｜AA_205 初版：迎新宿營改開學前 8/22～24（骨架、誰在宿營認識的旗標、AA 台詞）；AA_195 4-8～4-10、AA_197 1-7 標改期"
+  },
+  {
+   "sha": "358405b7",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-V0-REWRITE｜V0-REWRITE-L｜整合：部分：2-1 E02 已整合待測試；第 3 節 30 處大多未做｜AA_203 初版：經濟系前傳自然口語檢查——結構層六點、AA 改稿 30 處、BB 單句清單、BB_167 未進程式的處理"
+  },
+  {
+   "sha": "7ae9e0f2",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-AA202-MSG｜SYS-PHONE-CHAT｜整合：未整合｜AA_202 補 3-1 條件與挑選順序、交往中友情版、開放門檻、AA 六位撞句改掉（同筆含 AA_200 第 5 節 BB_178 互審）"
+  },
+  {
+   "sha": "599deb38",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "WIP 半成品（沒有交付，登記在 WIP_INVENTORY_2026-10-17）：HOL-VA｜完成：規劃清單 12 項完成；VA-02、VA-03（12/29 海邊）的台詞已在 AA_204｜能否整合：不行：只有規劃沒有台詞，VAC-S1 還是骨架"
+  },
+  {
+   "sha": "c80c37c4",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "WIP 半成品（沒有交付，登記在 WIP_INVENTORY_2026-10-17）：VAC-T1（兼 VAC-B2 的 AA 裁定）｜完成：五個決定定案（AA 裁定）｜能否整合：不行：AA_199 還沒正式交 LAWWW（VAC-L1 待開工、VAC-S1 骨架）"
+  },
+  {
+   "sha": "b115c6d9",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1｜CAMP-L1｜整合：已整合待測試（句子沿用到 AA_205）｜迎新宿營互審：BB_177（9/27 版）通過；AA_195 4-9／4-10 地點改「山上的青年活動中心」、夜談開場改「感覺你比我們大一點」、小語不寫外型"
+  },
+  {
+   "sha": "539b029d",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1｜CAMP-L1｜整合：已整合待測試｜AA_195 4-10 遊覽車零食不寫真實品牌（D77）"
+  },
+  {
+   "sha": "17a4d02e",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1｜CAMP-L1｜整合：已整合待測試（以安部分、沒去的私訊已作廢）｜AA_195 4-10 迎新宿營 AA 台詞（遊覽車、晚餐、晚會、夜談「哥」的由來、早餐、回程、中秋補法）"
+  },
+  {
+   "sha": "87441fdf",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-AA-CAMPL1｜CAMP-L1（原 START-WEEK）｜整合：不整合（被 AA_205 取代：日期、報名、費用、沒去分支作廢；夜談、AA 人物位置沿用）｜AA_195 4-9：9/27～28 迎新宿營規格（報名、費用、兩天時程、大地遊戲、夜談、沒去的玩家）"
+  },
+  {
+   "sha": "eeef28f9",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "一般工作 commit：AA_200 狀態更新：BB_172 改好（20d0e9d6）AA 核過；交付本身是 DL-BB172"
+  },
+  {
+   "sha": "6f380816",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "一般工作 commit：AA_199 Q2 日本路線「暫停」標記；22:15 已由 43f5e1fa 解除"
+  },
+  {
+   "sha": "2b13cf43",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "一般工作 commit：AA_201「暫停，等使用者再確認」標記；22:15 已由 43f5e1fa 解除"
+  },
+  {
+   "sha": "93342d85",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "一般工作 commit：AA_199 任務表狀態更新（VAC-A2、VAC-B3）"
+  },
+  {
+   "sha": "82488aea",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "一般工作 commit：AA_200 第 3 節 BB_172 互審過程（17 項＋附錄 B）。定稿是 BB_172（DL-BB172）；AA 自己的部分另寫 AA_194 第 4 節；給 LAWWW 的開場白改由 AA_134 8faab5d2 定；fangyt_hint 週次已由 AB65-3-Y1S2-L 改 [15,16]；ev_ziqing_secret_game [11…18] 的 16 週制待 HOLIDAY-SYS"
+  },
+  {
+   "sha": "a37e5c72",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "一般工作 commit：AA_200 狀態更新：BB_168／BB_169 已交 LAWWW-B（a4ccf909＝DL-BB-A4CC）"
+  },
+  {
+   "sha": "d1e3d0b7",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "一般工作 commit：AA_199 排版：第 4 節移回原位、5-2 改成小節，內容沒變"
+  },
+  {
+   "sha": "cc55bde2",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "WIP 半成品（沒有交付，登記在 WIP_INVENTORY_2026-10-17）：VAC-T1（兼 VAC-X1、VAC-D1）｜完成：五年時間線初稿；Q1～Q5 已由使用者 21:49 決定｜能否整合：不行：初稿"
+  },
+  {
+   "sha": "95e59b83",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "一般工作 commit：AA_195 4-4 任務 ID 改名 ART-GYM-BG1（避開 3D 的 ART-GYM1）"
+  },
+  {
+   "sha": "2bc88cb8",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "交付（已涵蓋，不另登記）：DL-BB-A4CC｜V1-BB168｜整合：未整合｜AA_200 第 2 節：BB_169 第 10～16 節＋BB_168 互審 18 項（分 BB／LAWWW-B）＋AA 決定（備用學姊初遇 9/2 20:30 後才開、8/30 家族群組就算認識 Kevin、K-L5 真的排約、onFirst／offFirst 規格）；AA_194 第 3 節 AA 自己三句改字"
+  },
+  {
+   "sha": "eaa92b52",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "一般工作 commit：AA_199 記錄 LAWWW2-B 的 VAC-A1 盤點摘要；交件本身在 LAWWW2 分支 4e4f4f36"
+  },
+  {
+   "sha": "c176c322",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "一般工作 commit：AA_200 新檔：BB_175 手機小事互審（通過，D8 一處建議）；定稿是 BB_175（DL-BB175）"
+  },
+  {
+   "sha": "d7fffd70",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "一般工作 commit：AA_195 4-4 記錄 LAWWW2-B 21:31 的製作做法（用既有 gym_arena.glb 算圖）；規格本身是 9925f201"
+  },
+  {
+   "sha": "e0bfe32e",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "一般工作 commit：AA_199 時間標記、費用欄節號更正"
+  },
+  {
+   "sha": "d6dd1f7c",
+   "branch": "origin/claude/cool-heisenberg-o8kuqx",
+   "why": "WIP 半成品（沒有交付，登記在 WIP_INVENTORY_2026-10-17）：VAC-S1（兼 VAC-F1）｜完成：骨架 v0.1；3-7 家庭補助初版（費用誰出已由使用者 21:49 Q1 決定）｜能否整合：不行：骨架，資料結構等 VAC-L1"
   }
  ]
 }
