@@ -97,7 +97,11 @@ def apply(m):
     t = P['tip']; TIP_Z = [H.brow_z + t[0], H.brow_z + t[1], H.brow_z + t[2], eye_z + t[3], eye_z + t[4], eye_z + t[5], eye_z + t[6], ear_top + t[7], ear_top + t[8], ear_top + t[9]]   # 路人：照 P['tip']   # 明軒：瀏海到眉毛下緣、兩側蓋到耳朵上緣（阿哲在眉毛上方 1.2 cm）   # 阿哲：瀏海髮尾在眉毛上方 1.2 cm（參考圖看得到眉毛）
     def v_tip(a):           # 髮尾停在哪（v<0：超出髮際線）
         aa = az(a)
-        if aa < 112: return min(-0.02 if aa > 36 else 1.0, v_at_z(a, float(np.interp(aa, TIP_A, TIP_Z))))
+        if aa < 112:
+            v = min(-0.02 if aa > 36 else 1.0, v_at_z(a, float(np.interp(aa, TIP_A, TIP_Z))))
+            # 耳朵後面（84–112°）：往下找的髮尾會量到耳朵外緣，髮尾跑到離頭很遠的地方，遊戲裡變成一條細線或一片黑色翅膀
+            # （LAWWW2-C 2026-10-17：nm5、nm10、nm12、nm14、nm15、nm20）→ 最多超出髮際線 6%
+            return max(v, -0.06) if aa > 84 else v
         # 後頸：髮際線往下 1.5～2.5 cm（第二版固定 v＝-0.06～-0.10：後面的方向幾乎朝正下方，髮尾跑到頸背 10～20 cm 下面，側面看是一條細線掛到毛衣上）
         z_hl = surf(a, 0.0)[0][2]
         return min(-0.02, v_at_z(a, z_hl - P['nape'] - 0.012 * float(sstep(130, 170, aa)), lo=-0.15))   # 明軒：後頸長 1.5 cm（參考圖後面看髮尾蓋住脖子上段）   # 最多延伸 12%（正後方的方向再往下就是朝正下方，會穿進脖子）
@@ -144,7 +148,7 @@ def apply(m):
     for k in range(40):        # 外層：碎、長短不一（頭頂的層次）；阿哲 30 → 40 片、長短與翹的方向更亂
         a = -180 + 360 * (k + rng.uniform(0.1, 0.9)) / 40
         sk = (1 - 0.45 * float(sstep(50, 80, az(a))) * (1 - float(sstep(120, 150, az(a))))) * (1 - 0.4 * float(sstep(110, 150, az(a))))   # 兩側（耳朵附近）、後腦外層貼近一點
-        card(a, 0.86 - rng.uniform(0, 0.18), v_tip(a) * rng.uniform(0.45, 1.08), (0.009 + 0.003 * rng.random()) * sk, rng.uniform(1.0, 1.4), 'cardB',
+        card(a, 0.86 - rng.uniform(0, 0.18), v_tip(a) * rng.uniform(0.45, 1.08 if az(a) < 84 or az(a) > 125 else 1.0), (0.009 + 0.003 * rng.random()) * sk, rng.uniform(1.0, 1.4), 'cardB',
              bulge=(0.004 + 0.005 * rng.random()) * sk, arch=0.16, curl=rng.uniform(-14, 14))
     # （第一版在這裡加了 14 片往上翹的短髮束：遊戲裡變成頭頂一根根細的觸角，拿掉；亂的感覺靠外層的長短與方向）
     for sgn in (1.0, -1.0):    # 鬢角：太陽穴到耳朵前面，從髮際線上方往下梳（短、寬、不透明的部分多）
