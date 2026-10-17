@@ -75,7 +75,63 @@
      "rel": {
       "fam": 2
      },
-     "note": "她對每個客人都很好、自己不被記得（Z5「我在台北，對每個客人都很好」）的前情；不說破（2026-10-17 口語改稿：BB_167 SC1 #13）"
+     "extraIf": [
+      {
+       "if": {
+        "stage": {
+         "npc": "heroine_04",
+         "min": "ACQUAINTANCE"
+        },
+        "notFlags": [
+         "dating_heroine_02",
+         "dating_heroine_04"
+        ],
+        "notEvents": [
+         "ev_zz_home_together"
+        ],
+        "notMemory": [
+         {
+          "npc": "heroine_02",
+          "tag": "ZR_ZQ_SETUP_FILM"
+         }
+        ]
+       },
+       "mem": "ZR_ZQ_SETUP_FILM",
+       "lines": [
+        "……寒假看到一部片，我第一個想到要傳給子晴。",
+        "傳完才想到，我以前都先傳給自己的備忘錄。"
+       ]
+      },
+      {
+       "if": {
+        "notFlags": [
+         "dating_heroine_02",
+         "dating_heroine_04"
+        ],
+        "notEvents": [
+         "ev_zz_home_together"
+        ],
+        "notMemory": [
+         {
+          "npc": "heroine_02",
+          "tag": "ZR_ZQ_SETUP_FILM"
+         }
+        ]
+       },
+       "unless": {
+        "stage": {
+         "npc": "heroine_04",
+         "min": "ACQUAINTANCE"
+        }
+       },
+       "mem": "ZR_ZQ_SETUP_FILM",
+       "lines": [
+        "……寒假看到一部片，我第一個想到要傳給我室友。",
+        "傳完才想到，我以前都先傳給自己的備忘錄。"
+       ]
+      }
+     ],
+     "note": "她對每個客人都很好、自己不被記得（Z5「我在台北，對每個客人都很好」）的前情；不說破（2026-10-17 口語改稿：BB_167 SC1 #13）。2026-10-17 BB-C（照 AA_234 b7e7d445）：extraIf＝AA_232 4-1 第 2 句的備援（大一上 Z-L7 沒聽過的玩家；沒認識子晴改「我室友」）"
     },
     {
      "id": "Z2-L3",
@@ -119,7 +175,61 @@
        ]
       }
      ],
-     "note": "第 9 週以後推進的玩家不說「三月」（linesIf）（2026-10-17 口語改稿：兩個選項回覆照 AA_209 附錄 B）"
+     "extraIf": [
+      {
+       "if": {
+        "stage": {
+         "npc": "heroine_04",
+         "min": "ACQUAINTANCE"
+        },
+        "notFlags": [
+         "dating_heroine_02",
+         "dating_heroine_04"
+        ],
+        "notEvents": [
+         "ev_zz_home_together"
+        ],
+        "notMemory": [
+         {
+          "npc": "heroine_02",
+          "tag": "ZR_ZQ_SETUP_DOOR"
+         }
+        ]
+       },
+       "mem": "ZR_ZQ_SETUP_DOOR",
+       "lines": [
+        "……上禮拜三下大雨，子晴沒來。我九點半就一直看門口。"
+       ]
+      },
+      {
+       "if": {
+        "notFlags": [
+         "dating_heroine_02",
+         "dating_heroine_04"
+        ],
+        "notEvents": [
+         "ev_zz_home_together"
+        ],
+        "notMemory": [
+         {
+          "npc": "heroine_02",
+          "tag": "ZR_ZQ_SETUP_DOOR"
+         }
+        ]
+       },
+       "unless": {
+        "stage": {
+         "npc": "heroine_04",
+         "min": "ACQUAINTANCE"
+        }
+       },
+       "mem": "ZR_ZQ_SETUP_DOOR",
+       "lines": [
+        "……上禮拜三下大雨，我室友沒來。我九點半就一直看門口。"
+       ]
+      }
+     ],
+     "note": "第 9 週以後推進的玩家不說「三月」（linesIf）（2026-10-17 口語改稿：兩個選項回覆照 AA_209 附錄 B）。2026-10-17 BB-C（照 AA_234 b7e7d445）：extraIf＝AA_232 4-1 第 1 句的備援（大一上 Z-L4 沒聽過的玩家；沒認識子晴改「我室友」）"
     },
     {
      "id": "Z2-L4",
@@ -467,9 +577,35 @@
         "（寒假她傳過一張截圖：快捷鍵的設定畫面，下面只寫「不要問」。）",
         "……你看過了。我只是想再講一次。很得意。"
        ]
+      },
+      {
+       "if": {
+        "stage": {
+         "npc": "heroine_02",
+         "min": "ACQUAINTANCE"
+        },
+        "notFlags": [
+         "dating_heroine_02",
+         "dating_heroine_04"
+        ],
+        "notEvents": [
+         "ev_zz_home_together"
+        ],
+        "notMemory": [
+         {
+          "npc": "heroine_04",
+          "tag": "ZQ_ZR_SETUP_STUCK"
+         }
+        ]
+       },
+       "mem": "ZQ_ZR_SETUP_STUCK",
+       "lines": [
+        "……寫的時候一直在想，芷若會不會卡住。",
+        "她一定會卡住，然後說她沒有卡。"
+       ]
       }
      ],
-     "note": "家裡的壓力（大二以後「爸爸玩她的遊戲」那一場的前情）；不說爸爸要她做什麼（2026-10-17 口語改稿：選項②回覆 BB_167 SC1 #31）（2026-10-17 extraIf：和她交往中的玩家多兩句，BB-C 寫〔BB_187、AA_215〕）"
+     "note": "家裡的壓力（大二以後「爸爸玩她的遊戲」那一場的前情）；不說爸爸要她做什麼（2026-10-17 口語改稿：選項②回覆 BB_167 SC1 #31）（2026-10-17 extraIf：和她交往中的玩家多兩句，BB-C 寫〔BB_187、AA_215〕）。2026-10-17 BB-C（照 AA_234 b7e7d445）：第二套 extraIf＝AA_232 4-1 第 4 句的備援（大一上 Q-L7 沒聽過的玩家；要認識芷若）"
     },
     {
      "id": "Q2-L2",
@@ -500,7 +636,35 @@
      "rel": {
       "fam": 2
      },
-     "note": "（2026-10-17 口語改稿：選項②回覆照 AA_209 附錄 B，「上學期」照 AA_209 2-1 #1 改「去年」）"
+     "extraIf": [
+      {
+       "if": {
+        "stage": {
+         "npc": "heroine_02",
+         "min": "ACQUAINTANCE"
+        },
+        "notFlags": [
+         "dating_heroine_02",
+         "dating_heroine_04"
+        ],
+        "notEvents": [
+         "ev_zz_home_together"
+        ],
+        "notMemory": [
+         {
+          "npc": "heroine_04",
+          "tag": "ZQ_ZR_SETUP_ROUTE"
+         }
+        ]
+       },
+       "mem": "ZQ_ZR_SETUP_ROUTE",
+       "lines": [
+        "……社課完我還是會走去溫州街。",
+        "我跟芷若明明不同方向。我也不知道我為什麼每次都說順路。"
+       ]
+      }
+     ],
+     "note": "（2026-10-17 口語改稿：選項②回覆照 AA_209 附錄 B，「上學期」照 AA_209 2-1 #1 改「去年」）。2026-10-17 BB-C（照 AA_234 b7e7d445）：extraIf＝AA_232 4-1 第 3 句的備援（大一上 Q-L8 沒聽過的玩家；要認識芷若）"
     },
     {
      "id": "Q2-L3",
@@ -1107,8 +1271,8 @@
       ]
      },
      "lines": [
-      "最近我爸會剪報紙寄給我。法律扶助的新聞。",
-      "……他沒寫一個字。只有剪報。我收到第四張了。"
+      "最近我爸會把報紙剪下來，放在我書桌上。法律扶助的新聞。",
+      "……他沒寫一個字，也沒說什麼。已經第四張了。"
      ],
      "linesIf": [
       {
@@ -1118,7 +1282,7 @@
         ]
        },
        "lines": [
-        "放榜以後，我爸寄了一張剪報給我。法律扶助的新聞。",
+        "放榜以後，我爸剪了一張報紙放在我桌上。法律扶助的新聞。",
         "沒寫一個字。……我把它夾在計畫本的第一頁。"
        ]
       }
@@ -1132,8 +1296,8 @@
        }
       },
       {
-       "t": "「學姊要回信嗎？」",
-       "reply": "回了。我寄了一張我的書狀給他。……我們家很奇怪。"
+       "t": "「學姊有跟他說什麼嗎？」",
+       "reply": "有啊。吃飯的時候跟他說謝謝，他只說：吃飯。……我們家很奇怪。"
       }
      ],
      "rel": {
@@ -1141,7 +1305,7 @@
       "trust": 1
      },
      "mem": "SIS4_CLIPPINGS",
-     "note": "M3（放榜 3/23（一），第 5 週；2026-10-17 BB-C 照新年級更正，原本寫第 4 週週五 3/19）之後推進的玩家用 linesIf；不重複「換了題目的那個」。她爸爸是樸素的公務員（W10）；2026-10-17 BB-C 照新年級搬層（BB_195）：原 S4-L4",
+     "note": "M3（放榜 3/23（一），第 5 週；2026-10-17 BB-C 照新年級更正，原本寫第 4 週週五 3/19）之後推進的玩家用 linesIf；不重複「換了題目的那個」。她爸爸是樸素的公務員（W10）；2026-10-17 BB-C 照新年級搬層（BB_195）：原 S4-L4。2026-10-17 BB-C（照 AA_234 b7e7d445）：她住台北家裡，剪報改成放在她桌上（AA 審稿決定 3），選項②拿掉書狀；mem 不動",
      "week": [
       7,
       18
