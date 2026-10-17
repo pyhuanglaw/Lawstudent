@@ -13706,6 +13706,27 @@
     "acceptance": "街上鏡頭看得到盆栽；wz_street／gongguan 整合測試 ALL PASS",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "BUG-DORM-CAL",
+   "title": "宿舍牆上的月曆固定寫「10 月」：8/29 搬進來那晚就看得到（flow_camp_y1 07_desk.png）；應該跟著遊戲日期換月份",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "查月曆是程式畫的（canvas）還是 GLB 貼圖：程式畫的就照 G.day 換月份；GLB 的就請 LAWWW2 改成不寫月份或給 12 張",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "8/29 搬進宿舍",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-B 2026-10-17 看 flow_camp_y1 截圖發現",
+   "authorized": "一般 bug 修正（D87）"
   }
  ]
 }
