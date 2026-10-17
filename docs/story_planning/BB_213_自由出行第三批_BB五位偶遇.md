@@ -5,7 +5,7 @@
 >   - `free_trip/build_bb_walk.py` → `bb_walk_v1.json`：一起走一段、離開、重訪、之後在學校的一句，第三批是 `batch:3`。
 >   - `free_trip/build_solo_before_bb.py` → `solo_before_bb_v1.json`：你來過一次。
 >   - `date_system/wish/wish_bb.py` → `wish_bb.json`：心願的 `freeVisited`。
-> - 狀態 `PROPOSAL`，交 AA-C 核對。等級：第②級日常內容，不改任何戀愛、主線條件；擲骰照 `AA_160` 5-6，劇情事件不讀 `ENC_`（R7）。
+> - 狀態：**AA-C 核對通過，照用**（2026-10-17 17:59，AA_271 01e9d706：AA 六位避開 BB 的週次）；可以交 LAWWW。等級：第②級日常內容，不改任何戀愛、主線條件；擲骰照 `AA_160` 5-6，劇情事件不讀 `ENC_`（R7）。
 > - 台詞照 `AA_188`：句首不用「……」，不寫收尾梗。
 
 ## 0. 怎麼挑
