@@ -30,14 +30,14 @@ rng = random.Random(1017)
 B.reset(texres=512)
 root = B.group('socsci_bldg1f', props={'kind': 'socsci_bldg1f', 'layout': 'socsci_bldg1f.layout.json', 'world_center': json.dumps(J['world_center'])})
 M = {
-    'conc': L.pbr('sb_concrete', 'socsci_formwork', tile=2.4, target='#b9b6af', normal=0.35, maps=('diff', 'nor'), rough_value=0.82),
-    'concC': L.pbr('sb_concrete_ceiling', 'socsci_formwork', tile=2.4, target='#a9a6a0', maps=('diff',), res=256, rough_value=0.88),
+    'conc': L.pbr('sb_concrete', 'socsci_formwork', tile=2.4, target='#a9a59d', normal=0.35, maps=('diff', 'nor'), rough_value=0.82),
+    'concC': L.pbr('sb_concrete_ceiling', 'socsci_formwork', tile=2.4, target='#9d9a94', maps=('diff',), res=256, rough_value=0.88),
     'terr': L.pbr('sb_terrazzo', 'terrazzo_tiles', tile=1.4, target='#cfccc4', normal=0.25, maps=('diff', 'nor'), rough_value=0.32),
-    'plaster': L.pbr('sb_plaster', 'painted_plaster_wall', tile=1.8, target='#ece6d8', normal=0.12, maps=('diff', 'nor'), res=256, rough_value=0.86),
-    'vinyl': L.pbr('sb_vinyl', 'floor_tiles_06', tile=1.2, target='#c9c8c2', normal=0.2, maps=('diff', 'nor'), res=512, rough_value=0.42),
+    'plaster': L.pbr('sb_plaster', 'white_plaster_02', tile=1.8, target='#efe9dd', contrast=0.25, normal=0.08, maps=('diff', 'nor'), res=256, rough_value=0.86),   # 第一版 painted_plaster_wall：灰灰髒髒的一塊一塊
+    'vinyl': L.pbr('sb_vinyl', 'large_floor_tiles_02', tile=1.2, target='#d8d6cf', contrast=0.55, normal=0.2, maps=('diff', 'nor'), res=512, rough_value=0.36),   # 淺灰地磚（第一版 floor_tiles_06 是黑白棋盤格）
     'acoustic': L.pbr('sb_acoustic', 'ceiling_interior', tile=1.2, target='#eeece6', maps=('diff',), res=256, rough_value=0.95),
     'wood': L.pbr('sb_wood', 'walnut_veneer', tile=0.9, target='#b98f62', normal=0.2, maps=('diff', 'nor'), res=512, rough_value=0.5),
-    'woodL': L.pbr('sb_wood_light', 'fine_grained_wood', tile=0.8, target='#cfae84', maps=('diff',), res=512, rough_value=0.48),
+    'woodL': L.pbr('sb_wood_light', 'walnut_veneer', tile=0.6, target='#caa57a', contrast=0.8, maps=('diff',), res=512, rough_value=0.45),   # 第一版 fine_grained_wood 像粒片板、第二版 wood_table_001 拉長像稻草
     'cork': L.pbr('sb_cork', 'granular_concrete', tile=0.6, target='#b8895a', maps=('diff',), res=256, rough_value=0.9),
     'board': L.flat('sb_chalkboard', '#2f4a3c', rough=0.85),
     'alu': L.flat('sb_aluminium', '#9da1a5', rough=0.35, metal=0.4),
@@ -53,6 +53,8 @@ M = {
     'vlight': L.flat('GLOW_sb_vending', '#f4f7fb', rough=0.4, emit=B.srgb('#e8f0ff')),
     'sign': L.flat('sb_sign_face', '#ffffff', rough=0.7),
     'vc': L.vc_material('sb_vc', rough=0.62),
+    'exitg': L.flat('GLOW_sb_exit', '#3fbf6a', rough=0.4, emit=B.srgb('#33d46a')),
+    'screen': L.flat('GLOW_sb_screen', '#cfe3f2', rough=0.3, emit=B.srgb('#8fb8e0')),
 }
 FLOOR_Y = 0.0
 walls = {}
@@ -283,6 +285,13 @@ for (g_, key), m in walls.items():
 for (g_, key), m in list(walls.items()):
     if g_ == 'static': m.finish(root)
 
+# 系辦裡面的牆貼白色漆牆（2D soc_office：白牆＋木作；第一版裡面也是清水混凝土，從櫃台看進去又暗又冷）＋系辦自己的天花板
+pl = Mesh('office_lining', M['plaster'], tile=1.8); ox0, ox1, oz0, oz1 = OF['x0'] + WT / 2 + 0.003, OF['x1'] - WT / 2 - 0.003, OF['z0'] + WT / 2 + 0.003, OF['z1'] - WT / 2 - 0.003   # 往室內退 3 mm（第二版和牆面同一平面＝疊面閃爍）
+pl.box(ox0, ox0 + 0.01, 0.0, 2.9, oz0, oz1); pl.box(ox1 - 0.01, ox1, 0.0, 2.9, oz0, oz1); pl.box(ox0, ox1, 0.0, 2.9, oz1 - 0.01, oz1)
+pl.box(ox0, CNT['x0'], 0.0, 2.9, oz0, oz0 + 0.01); pl.box(CNT['x1'], ox1, 0.0, 2.9, oz0, oz0 + 0.01); pl.box(CNT['x0'], CNT['x1'], 0.0, CNT['y0'], oz0, oz0 + 0.01); pl.box(CNT['x0'], CNT['x1'], CNT['y1'], 2.9, oz0, oz0 + 0.01)
+pl.finish(root)
+face_down(Mesh('office_ceiling', M['acoustic'], tile=1.2).quad([(ox0, 2.9, oz0), (ox1, 2.9, oz0), (ox1, 2.9, oz1), (ox0, 2.9, oz1)]).finish(root))
+
 # ================= 柱子（倒角混凝土） =================
 cm = Mesh('sb_columns', M['conc'], tile=2.4)
 for c_ in J['columns']:
@@ -326,7 +335,7 @@ for it in J['office_items']:
     elif it['type'] == 'plant':
         vbox(ofi, x - 0.18, x + 0.18, 0.0, 0.42, z - 0.18, z + 0.18, '#e7e2d6')
 for x in (-0.6, 1.6):   # 系辦的日光燈
-    Mesh('GLOW_office_tube_%d' % int(x * 10), M['tube']).box(x - 0.6, x + 0.6, H - 0.06, H - 0.03, -0.2, 0.0).finish(root, uv=False)
+    Mesh('GLOW_office_tube_%d' % int(x * 10), M['tube']).box(x - 0.6, x + 0.6, 2.86, 2.89, -0.2, 0.0).finish(root, uv=False)
 ofi.finish(root, uv=False); ofw.finish(root); ofs.finish(root, uv=False)
 
 # ================= 教室 =================
@@ -384,23 +393,24 @@ for m_ in (chs, chl): bmesh.ops.recalc_face_normals(m_.bm, faces=m_.bm.faces)
 tb.finish(root); tl.finish(root, uv=False); chs.finish(root); chl.finish(root, uv=False)
 # 後牆的軟木公告板＋紙（斜釘）、時鐘、冷氣、置物櫃、窗台盆栽、日光燈
 ck = Mesh('class_cork', M['cork']); ckf = Mesh('class_cork_frame', M['woodL'])
-for (a0, a1) in ((8.0, 10.6), (11.2, 13.8)):
-    ck.box(a0, a1, 1.0, 2.0, Z1 - 0.025, Z1 - 0.005); ckf.box(a0 - 0.03, a1 + 0.03, 0.97, 2.03, Z1 - 0.03, Z1 - 0.004)
+CZN = CL['z0'] + WT / 2                 # 北牆（走廊那面牆）的教室側：軟木公告板（東、南兩面外牆都是窗）
+for (a0, a1) in ((9.8, 11.4), (11.7, 12.9)):
+    ck.box(a0, a1, 1.0, 2.0, CZN + 0.005, CZN + 0.025); ckf.box(a0 - 0.03, a1 + 0.03, 0.97, 2.03, CZN + 0.004, CZN + 0.03)
     for k in range(5):
         px = a0 + 0.2 + k * (a1 - a0 - 0.5) / 5 + rng.uniform(-0.05, 0.05); py = 1.15 + rng.uniform(0, 0.5)
         ang = rng.uniform(-0.12, 0.12); w_, h_ = rng.uniform(0.21, 0.3), rng.uniform(0.28, 0.4)
         col = rng.choice(['#f6f3ea', '#f2dda8', '#cfe2ea', '#f3c6b6', '#dfe9cf'])
         pts = [(px + math.cos(ang) * u - math.sin(ang) * v, py + math.sin(ang) * u + math.cos(ang) * v) for (u, v) in ((0, 0), (w_, 0), (w_, h_), (0, h_))]
-        ci.poly([(p[0], p[1], Z1 - 0.027) for p in pts[::-1]], col)
+        ci.poly([(p[0], p[1], CZN + 0.027) for p in pts], col)
 ck.finish(root); ckf.finish(root)
-vbox(ci, 9.4, 9.7, 2.6, 2.9, Z1 - 0.05, Z1 - 0.01, '#f4f2ec', dark=1.0)                                # 時鐘（面）
-vbox(ci, X1 - 0.3, X1 - 0.01, 2.75, 3.05, 1.2, 2.3, '#ecebe7')                                       # 壁掛冷氣
+vbox(ci, cx0 + WT / 2, cx0 + WT / 2 + 0.04, 2.5, 2.8, 2.25, 2.55, '#f4f2ec', dark=1.0)                 # 時鐘（黑板上面）
+vbox(ci, 11.0, 12.1, 2.75, 3.05, CZN + 0.01, CZN + 0.3, '#ecebe7')                                    # 壁掛冷氣（北牆）
 for f in J['furniture']:
     if f['type'] == 'lockers':
         x, z = f['x'], f['z']
-        for k in range(4):
-            vbox(ci, x - 0.25, x + 0.25, 0.0, 1.6, z - 1.0 + k * 0.5 + 0.01, z - 0.5 + k * 0.5 - 0.01, rng.choice(['#8ea2b5', '#93a7b9']))
-            ci.cbox(x - 0.26, x - 0.25, 1.1, 1.2, z - 0.6 + k * 0.5, z - 0.57 + k * 0.5, '#2a2b2d')
+        for k in range(4):   # 沿北牆（x 方向）四格
+            vbox(ci, x - 1.0 + k * 0.5 + 0.01, x - 0.5 + k * 0.5 - 0.01, 0.0, 1.6, z - 0.25, z + 0.25, rng.choice(['#8ea2b5', '#93a7b9']))
+            ci.cbox(x - 0.6 + k * 0.5, x - 0.57 + k * 0.5, 1.1, 1.2, z + 0.25, z + 0.26, '#2a2b2d')
 for (w0, w1) in WIN_S[:2]:   # 窗台盆栽（2D soc_classroom 窗邊的小盆栽）
     for k in range(2):
         x = w0 + 0.5 + k * 1.2; vbox(ci, x - 0.08, x + 0.08, 0.9, 1.04, Z1 - 0.16, Z1 - 0.02, '#c9a27a')
@@ -452,6 +462,54 @@ for f in J['furniture']:
     elif t == 'bins':   # 資源回收：三個桶（一般、紙類、塑膠）
         for k, col in enumerate(('#5b5e62', '#2e86c1', '#27ae60')):
             bx_ = x - 0.4 + k * 0.4; lb.crbox(bx_ - 0.17, bx_ + 0.17, 0.0, 0.85, z - 0.2, z + 0.2, col, r=0.02, seg=1); lb.cbox(bx_ - 0.17, bx_ + 0.17, 0.85, 0.88, z - 0.2, z + 0.2, '#2a2b2d')
+# ---- 生活痕跡（第二版：第一版的大廳空得像樣品屋，ART_SOP 第 0 節的退件理由 3）----
+E_w, E_n = E['west'], E['north']
+zc_ = (E_w['z0'] + E_w['z1']) / 2
+# 傘架（不鏽鋼圓筒）＋三把傘（收起來的：細長的錐＋把手），在主入口南邊
+f0 = set(lb.bm.faces); lb.cyl((X0 + 0.5, 0.0, E_w['z1'] + 0.6), (X0 + 0.5, 0.55, E_w['z1'] + 0.6), 0.16, seg=16); lb.paint([f for f in lb.bm.faces if f not in f0], '#9da1a5')
+for k, (dx, dz, col) in enumerate(((0.05, 0.03, '#1f2a36'), (-0.06, 0.02, '#8a3b3b'), (0.0, -0.06, '#c9a24a'))):
+    f0 = set(lb.bm.faces); lb.cyl((X0 + 0.5 + dx, 0.12, E_w['z1'] + 0.6 + dz), (X0 + 0.5 + dx * 2.2, 0.98, E_w['z1'] + 0.6 + dz * 2.2), 0.035, seg=8, r2=0.012)
+    lb.paint([f for f in lb.bm.faces if f not in f0], col)
+# 立牌（A 字型木框＋色塊的海報：迎新、社團）在主入口裡面
+for (ax, az_, cols) in ((X0 + 1.6, zc_ - 1.7, ('#f2dda8', '#e88a5a')), (E_n['x1'] + 0.9, Z0 + 1.3, ('#cfe2ea', '#2f4f6f'))):
+    for sgn in (-1, 1):
+        lw.rbox(ax - 0.32, ax + 0.32, 0.0, 1.25, az_ + sgn * 0.16 - 0.015, az_ + sgn * 0.16 + 0.015, r=0.006, seg=1)
+        lb.poly([(ax - 0.27, 0.3, az_ + sgn * 0.178), (ax + 0.27, 0.3, az_ + sgn * 0.178), (ax + 0.27, 1.15, az_ + sgn * 0.178), (ax - 0.27, 1.15, az_ + sgn * 0.178)][::(1 if sgn > 0 else -1)], cols[0])
+        lb.poly([(ax - 0.22, 0.75, az_ + sgn * 0.18), (ax + 0.22, 0.75, az_ + sgn * 0.18), (ax + 0.22, 1.05, az_ + sgn * 0.18), (ax - 0.22, 1.05, az_ + sgn * 0.18)][::(1 if sgn > 0 else -1)], cols[1])
+# 玻璃上貼的社團招募海報（色塊、斜貼；內面）
+for k in range(4):
+    zz = E_w['z1'] + 0.5 + k * 0.55; yy = 1.3 + rng.uniform(-0.1, 0.15); a_ = rng.uniform(-0.08, 0.08); w_, h_ = 0.3, 0.42
+    col = rng.choice(['#f6f3ea', '#f3c6b6', '#2f4f6f', '#f2dda8'])
+    pts = [(X0 + 0.066, yy + math.sin(a_) * u + math.cos(a_) * v, zz + math.cos(a_) * u - math.sin(a_) * v) for (u, v) in ((0, 0), (w_, 0), (w_, h_), (0, h_))]
+    lb.poly(pts, col)
+# 綠色的緊急出口燈：主入口、次入口、教室兩個門上
+ex = Mesh('GLOW_sb_exit_signs', M['exitg']); exb = Mesh('sb_exit_box', M['white'] if 'white' in M else M['sign'])
+for (x, z, along) in ((X0 + 0.12, zc_, 'z'), ((E_n['x0'] + E_n['x1']) / 2, Z0 + 0.12, 'x'), (6.55, CL['z0'] - WT / 2 - 0.05, 'x'), (13.75, CL['z0'] - WT / 2 - 0.05, 'x')):
+    if along == 'z': exb.box(x - 0.04, x + 0.04, 2.85, 3.05, z - 0.2, z + 0.2); ex.box(x + 0.041, x + 0.045, 2.88, 3.02, z - 0.17, z + 0.17)
+    else: exb.box(x - 0.2, x + 0.2, 2.42 if z > CL['z0'] - 1 else 2.85, 2.62 if z > CL['z0'] - 1 else 3.05, z - 0.04, z + 0.04); ex.box(x - 0.17, x + 0.17, 2.45 if z > CL['z0'] - 1 else 2.88, 2.59 if z > CL['z0'] - 1 else 3.02, z + 0.041, z + 0.045)
+ex.finish(root, uv=False); exb.finish(root, uv=False)
+# 消防栓箱（紅色鋼門）＋滅火器：核心西牆、樓梯間門的北邊
+fx = LOBBY_X1_ = J['rooms']['lobby']['x1'] - WT / 2
+lb.crbox(fx - 0.2, fx, 0.6, 1.6, 5.15, 5.85, '#b8322c', r=0.01, seg=1); lb.cbox(fx - 0.205, fx - 0.2, 1.05, 1.15, 5.75, 5.8, '#d9d9d4')
+f0 = set(lb.bm.faces); lb.cyl((fx - 0.15, 0.0, 5.0), (fx - 0.15, 0.55, 5.0), 0.08, seg=12); lb.paint([f for f in lb.bm.faces if f not in f0], '#c0392b')
+f0 = set(lb.bm.faces); lb.cyl((fx - 0.15, 0.55, 5.0), (fx - 0.15, 0.62, 5.0), 0.03, seg=8); lb.paint([f for f in lb.bm.faces if f not in f0], '#2a2b2d')
+# 傳單架（鐵絲架＋三層色塊傳單）：樓層指引旁邊
+for k in range(3):
+    lb.cbox(fx - 0.28, fx - 0.04, 0.9 + k * 0.32, 0.92 + k * 0.32, 1.9, 2.4, '#5b5e62')
+    for j in range(2): lb.cbox(fx - 0.22, fx - 0.06, 0.92 + k * 0.32, 1.2 + k * 0.32, 1.95 + j * 0.23, 2.15 + j * 0.23, rng.choice(['#f6f3ea', '#e88a5a', '#cfe2ea', '#dfe9cf', '#f2dda8']))
+# 資訊螢幕（公告欄上面、南牆）：深灰框＋發光面
+lb.crbox(-8.2, -6.6, 2.4, 3.3, Z1 - 0.07, Z1 - 0.01, '#202224', r=0.008, seg=1)
+Mesh('GLOW_sb_info_screen', M['screen']).quad([(-6.66, 2.46, Z1 - 0.071), (-8.14, 2.46, Z1 - 0.071), (-8.14, 3.24, Z1 - 0.071), (-6.66, 3.24, Z1 - 0.071)]).finish(root, uv=False)
+# 長椅上的東西：背包、紙杯（插吸管）、一疊傳單
+lb.crbox(X0 + 0.42, X0 + 0.72, 0.45, 0.85, -3.2, -2.85, '#2f3a4a', r=0.04, seg=2)
+f0 = set(lb.bm.faces); lb.cyl((X0 + 0.6, 0.45, 4.2), (X0 + 0.6, 0.6, 4.2), 0.04, seg=10, r2=0.045); lb.paint([f for f in lb.bm.faces if f not in f0], '#f4f1ea'); lb.cbox(X0 + 0.59, X0 + 0.61, 0.6, 0.7, 4.19, 4.21, '#e74c3c')
+lb.cbox(X0 + 0.45, X0 + 0.7, 0.45, 0.47, 5.0, 5.3, '#f2dda8')
+lb.cbox(1.6, 1.9, 0.45, 0.48, Z0 + 0.35, Z0 + 0.6, '#f6f3ea')
+# 天花板：煙霧偵測器、灑水頭（小圓盤，一格一個）
+for x in (-10.6, -7.4, -4.2, 0.0, 4.0, 8.0, 12.0):
+    for z in ((-4.4, 0.6, 5.6) if x < -2 else (-4.3,)):
+        f0 = set(lb.bm.faces); lb.cyl((x, H - 0.03, z), (x, H, z), 0.06, seg=12); lb.paint([f for f in lb.bm.faces if f not in f0], '#e9e9e6')
+        f0 = set(lb.bm.faces); lb.cyl((x + 0.8, H - 0.05, z + 0.4), (x + 0.8, H, z + 0.4), 0.015, seg=6); lb.paint([f for f in lb.bm.faces if f not in f0], '#b9bdc1')
 lb.finish(root, uv=False); lw.finish(root); ls.finish(root, uv=False)
 # 大盆栽的植物
 try:

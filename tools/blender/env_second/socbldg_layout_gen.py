@@ -89,7 +89,7 @@ for r in range(5):
     for z in cols:
         add('table2', x, z, 0.55, 1.3, yaw=-math.pi / 2)
         for s in (-0.33, 0.33): SEATS.append({'x': round(x + 0.45, 3), 'z': round(z + s, 3), 'yaw': round(-math.pi / 2, 4), 'kind': 'class'})
-add('lockers', X1 - 0.3, 6.6, 0.5, 2.0, yaw=-math.pi / 2)
+add('lockers', 8.4, CLASS['z0'] + WT / 2 + 0.3, 2.0, 0.5, yaw=0.0)            # 置物櫃靠北牆（東、南兩面外牆都是窗）
 L['walls'], L['doors'], L['counter'], L['furniture'], L['office_items'], L['seats'] = WALLS, DOORS, COUNTER, F, OFF_ITEMS, SEATS
 L['windows'] = {'class_east': {'x': X1 + WT, 'z0': -2.6, 'z1': 7.4, 'sill': 0.9, 'top': 3.0}, 'class_south': {'z': Z1 + WT, 'x0': 5.6, 'x1': 14.4, 'sill': 0.9, 'top': 3.0}}
 L['interact'] = [{'id': 'counter', 'x': 0.7, 'z': COR_Z1 - 0.7, 'r': 0.9, 'label': COUNTER['label']},

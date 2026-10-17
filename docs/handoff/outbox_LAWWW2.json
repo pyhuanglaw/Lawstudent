@@ -174,7 +174,7 @@
   {
    "task": "SCN-V0-01",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(下一個 commit)",
+   "sha": "0bce4614",
    "files": [
     "tools/blender/env_second/socbldg_layout_gen.py",
     "tools/blender/env_second/socbldg_interior.py",
@@ -186,6 +186,23 @@
    "state": "WIP",
    "remaining": "Blender 室內模型（大廳、電梯樓梯核心、走廊、經濟學系辦公室櫃台、101 教室）、渲染、八項；房間用途等 AA-C（D79）",
    "next": "LAWWW2-C 做 Blender 模型；之後 LAWWW 照 layout.json 建區域（導航、座位、互動點、出口）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派"
+  },
+  {
+   "task": "SCN-US-01",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(下一個 commit)",
+   "files": [
+    "tools/blender/env_second/us_cars.py",
+    "assets/models/env/second_ai/us_cars.glb",
+    "assets/models/env/second_ai/us_cars.json",
+    "docs/art-rebuild/second_ai/test_shots/us_cars/"
+   ],
+   "state": "WIP",
+   "remaining": "美式汽車五款（社區停車場、美國校園街道共用）：渲染檢查、八項；之後社區戶外（壁板公寓、開放樓梯間、停車場、樹林）",
+   "next": "LAWWW2-C；使用者 05:0x：經濟系之後做美國（季節細節照舊等 AA_213）",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "未派"
