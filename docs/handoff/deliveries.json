@@ -7029,6 +7029,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "BB-C 13:03 訊息；BB 記進 BB_200"
+  },
+  {
+   "id": "DL-BB-408398d7",
+   "date": "2026-10-17",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "408398d7",
+   "what": "BB_208 大三下口語審給 LAWWW 程式清單：重新匯入 y3s2（skipAfterWeek、記憶標籤改 6 補 3）、ROUTE_DATES、學姊 presence、芷若大三下作息（週三、週四晚班）、日本路線期末飯不發、期末飯 Y3S2 分支、Z13 6/8 邀約＋6/15 22:00 打烊後 Café",
+   "task": "ROUTE-DATES-1017",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "ROUTE_DATES、學姊 presence、日本路線期末飯已在 37135984 做好；其餘照 D81 排大三"
   }
  ],
  "ignored": [
