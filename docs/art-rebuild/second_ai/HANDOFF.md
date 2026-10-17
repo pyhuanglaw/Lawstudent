@@ -67,6 +67,17 @@
     - 用新分類掃全部 86 個 GLB；
     - 修我做的那幾個（小公園、涼亭、公館、118 巷、美國公寓、體育館）；
     - 萬才館、霖澤館、宿舍大廳只列清單給 LAWWW-B。
+- **（00:1x 更新）**
+  - **Café 地板**：P0 改成自流坪水泥（ef689b67），LAWWW-B 已整合。
+  - **疊面第三、四輪**：涼亭、體育館主球場、公館、118 巷（`patch_window_protos.py`），兩點半 Café 室內外（4faeec0b）。
+  - **開學典禮背景**：v1 被使用者退件——家長、幾何公仔「超醜」。
+    - v2 改用遊戲的學生正式人物坐姿（`vrm_crowd.py`），上層看台空著，大螢幕轉播講台。
+    - 預覽 `test_shots/bg_gym_ceremony/v2_preview.jpg`（b84f88a6）已給使用者，**等使用者點頭才算 1920×1080 正式版**。
+  - **使用者 00:0x（LAWWW-B 轉）**：美國篇 3D、機場 3D 都是 LAWWW2 的。順序：
+    1. SCN-US-01 美國公寓社區做到 MODEL_READY（家具 US1～US3 一起）
+    2. VAC-A2 桃園機場（AA_201：3/25 10:00 以安送機）
+    3. SCN-US-03 美式超市
+    4. SCN-US-02 美國校園街道
 - **小公園座位點**：同步 LAWWW-B 49bc617d（39f1c56d）。
 - **ART-GYM-BG1** 進行中：腳本 `tools/blender/env_second/bg_gym_ceremony.py`（WIP 4d270e83）。
   - 3F 主球場模型；
