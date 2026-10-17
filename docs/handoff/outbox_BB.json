@@ -104,6 +104,21 @@
    "noDirectIntegrate": true,
    "receiver": "USER",
    "ack": "SENT"
+  },
+  {
+   "task": "SCN-US-2D",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "b43784a5",
+   "files": [
+    "docs/story_planning/BB_183_美國交換改大四上_學姊與BB人物改法.md",
+    "docs/story_planning/待使用者生成圖片清單.md"
+   ],
+   "state": "WIP",
+   "remaining": "日子等 AA-C；BB_98 2-5～2-11、BB_99 2-1～2-3、學姊企劃、BB_90 還沒改；要重畫的 CG 提示詞還沒寫；新增台詞（入學許可、美國版接機）等 AA 同意",
+   "next": "AA-C 給日子 → BB 改 BB_98／BB_99；BB 重寫 us_bus_station 等提示詞",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
   }
  ]
 }
