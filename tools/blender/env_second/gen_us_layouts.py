@@ -18,9 +18,9 @@ for name, rel in SRC:
     d = json.load(open(os.path.join(ROOT, rel), encoding='utf-8'))
     parts.append('const %s=%s;' % (name, json.dumps(d, ensure_ascii=False, separators=(',', ':'))))
 # 公寓室內：手寫的 src/data/us_apartment_layout.js（Blender 的 us_apartment.py 讀它）也併進來，遊戲只載這一個資料檔（index.html 少一行）
-APT = os.path.join(ROOT, 'src', 'data', 'us_apartment_layout.js'); key = 'const US_APARTMENT_LAYOUT='
-src = open(APT, encoding='utf-8').read(); d = json.loads(src[src.rindex(key) + len(key):].rstrip().rstrip(';'))
-parts.append('const US_APARTMENT_LAYOUT=%s;' % json.dumps(d, ensure_ascii=False, separators=(',', ':')))
+for fn, name in (('us_apartment_layout.js', 'US_APARTMENT_LAYOUT'), ('us_shared_layout.js', 'US_SHARED_LAYOUT')):   # 學姊她們的 C 棟合租戶也一樣（從單人戶轉出來的手寫配置）
+    key = 'const %s=' % name; src = open(os.path.join(ROOT, 'src', 'data', fn), encoding='utf-8').read(); d = json.loads(src[src.rindex(key) + len(key):].rstrip().rstrip(';'))
+    parts.append('const %s=%s;' % (name, json.dumps(d, ensure_ascii=False, separators=(',', ':'))))
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 open(OUT, 'w', encoding='utf-8').write('\n'.join(parts) + '\n')
 print('wrote', OUT, os.path.getsize(OUT), 'bytes')

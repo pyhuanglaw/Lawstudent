@@ -9,23 +9,25 @@
   臥室＝BB-B 的 ART-US3（us_bedroom_props.glb）。衛浴（浴缸、馬桶、洗手台）現在是這裡做的簡單版，AA-B 的 ART-US4 交件以後換掉。
 - 戶外：陽台（內凹、咖啡色木欄杆、兩張椅子）、樓梯平台（屋頂、白柱子、白鐵欄杆、往下的樓梯第一段、壁燈、隔壁 213 的門）、外牆是灰褐色橫向壁板。
 - 窗外：社區的停車場、對面同樣的壁板公寓、遠一點的樹林（貼圖）；SEASON_SNOW_on／off 兩套（1～3 月雪景／4～6 月春天），遊戲照名字切換。
-會淡出的牆：WALL_<id>_*（props dir＝配置的 dir；隔間另加 partition＝1）。天花板朝下的單面。不放社區名、校名、校徽、真的門牌（D77；門牌 213、214 是虛構的）。"""
+會淡出的牆：WALL_<id>_*（props dir＝配置的 dir；隔間另加 partition＝1；南牆 WALL_S_* 另加 inside＝1：玩家在屋裡時才淡出）。天花板朝下的單面。不放社區名、校名、校徽、真的門牌（D77；門牌 213、214 是虛構的）。"""
 import json, math, os, random, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE); sys.path.insert(0, os.path.join(HERE, '..'))
 import lib2 as L   # noqa: E402
 from lib2 import B, Mesh, g2b, bpy, bmesh, Vector, Matrix   # noqa: E402
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 def arg(name, default=None): return ARGS[ARGS.index(name) + 1] if name in ARGS else default
-src = open(os.path.join(L.ROOT, 'src/data/us_apartment_layout.js'), encoding='utf-8').read()
-LAY = json.loads(src[src.rindex('const US_APARTMENT_LAYOUT=') + len('const US_APARTMENT_LAYOUT='):].rstrip().rstrip(';'))
-OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/us_apartment.glb')); GEN = os.path.join(HERE, 'textures', 'gen')
+# 同一支腳本做兩個單位（LAWWW2-C 2026-10-17 模板化）：祐廷的單人戶（預設）、學姊的 C 棟合租戶（--layout src/data/us_shared_layout.js --const US_SHARED_LAYOUT --root us_shared --out …/us_shared.glb）
+LAYPATH, LAYCONST, ROOTNAME = arg('--layout', 'src/data/us_apartment_layout.js'), arg('--const', 'US_APARTMENT_LAYOUT'), arg('--root', 'us_apartment')
+src = open(os.path.join(L.ROOT, LAYPATH), encoding='utf-8').read()
+LAY = json.loads(src[src.rindex('const %s=' % LAYCONST) + len('const %s=' % LAYCONST):].rstrip().rstrip(';'))
+OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/%s.glb' % ROOTNAME)); GEN = os.path.join(HERE, 'textures', 'gen')
 H, T = LAY['ceilY'], LAY['wallT']; U = LAY['unit']
 random.seed(47)
 B.reset(texres=512)
-root = B.group('us_apartment', props={'kind': 'us_apartment', 'layout': LAY['version']})
+root = B.group(ROOTNAME, props={'kind': ROOTNAME, 'layout': LAY['version']})
 
 
 def img_mat(name, fn, rough=0.6, emit=0.0, alpha=False):
@@ -53,6 +55,7 @@ def tex_view(path, snow, W=1600, Hh=800, seed=7):   # 窗外：停車場、對�
     for x in range(0, W, 9):   # 遠的樹林（冬天光禿的灰褐、春天嫩綠）
         h_ = r.randint(150, 230); col = (r.randint(120, 150), r.randint(110, 130), r.randint(100, 115)) if snow else (r.randint(70, 110), r.randint(120, 160), r.randint(60, 90))
         d.ellipse([x - 22, Hh * 0.52 - h_, x + 22, Hh * 0.52 + 20], fill=col)
+    d.rectangle([0, Hh * 0.52, W, Hh * 0.72], fill=(96, 112, 84) if not snow else (226, 230, 236))   # 樹林底下到停車場之間：草地（雪天：積雪）；不然這一段是天空的顏色、會被當成天空挖空
     for bx0, bx1, top in ((60, 640, 250), (760, 1500, 230)):   # 對面的公寓：灰褐色壁板、白色窗框、斜屋頂
         d.rectangle([bx0, top, bx1, Hh * 0.72], fill=(142, 132, 118))
         for yy in range(top, int(Hh * 0.72), 9): d.line([(bx0, yy), (bx1, yy)], fill=(128, 118, 106), width=2)
@@ -64,7 +67,15 @@ def tex_view(path, snow, W=1600, Hh=800, seed=7):   # 窗外：停車場、對�
         cx = 80 + k * 175 + r.randint(-20, 20); cy = int(Hh * 0.8); c = r.choice([(170, 30, 32), (40, 50, 70), (200, 200, 205), (30, 30, 34), (120, 124, 128)])
         d.rounded_rectangle([cx - 60, cy - 28, cx + 60, cy + 14], 12, fill=c); d.rounded_rectangle([cx - 38, cy - 50, cx + 34, cy - 24], 10, fill=tuple(int(v * 0.8) for v in c))
         if snow: d.rounded_rectangle([cx - 40, cy - 56, cx + 36, cy - 46], 6, fill=(240, 242, 246))
-    im.filter(ImageFilter.GaussianBlur(1.6)).save(path)
+    # 天空的部分透明（2026-10-17）：遊戲照時段畫的天空（黃昏是橘紅、晚上是暗藍）從景的上面、窗外透出來；
+    # 原本整張不透明：樓梯平台朝南的景上半是白天的淡藍、景外面是黃昏的橘紅，接不起來（合租戶截圖）
+    sky = lambda y: (int(176 + 40 * y / Hh), int(200 + 26 * y / Hh), int(228 + 14 * y / Hh)) if not snow else (int(196 + 30 * y / Hh), int(204 + 26 * y / Hh), int(214 + 20 * y / Hh))
+    px = im.load(); mk = Image.new('L', (W, Hh), 255); mp = mk.load()
+    for y in range(int(Hh * 0.72)):
+        c = sky(y)
+        for x in range(W):
+            if px[x, y] == c: mp[x, y] = 0
+    rgb = im.filter(ImageFilter.GaussianBlur(1.6)); rgb.putalpha(mk.filter(ImageFilter.GaussianBlur(1.2))); rgb.save(path)
 def tex_blinds(path):   # 白色百葉（一片一片的橫條，中間透一點光）
     im = Image.new('RGBA', (64, 256), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
     for y in range(0, 256, 8): d.rectangle([0, y, 63, y + 5], fill=(246, 246, 242, 255))
@@ -98,7 +109,7 @@ M = {
     'porcelain': L.flat(P + 'porcelain', '#f6f6f3', rough=0.15), 'rail_wood': L.flat(P + 'rail_wood', '#6a4630', rough=0.6),
     'rail_white': L.flat(P + 'rail_white', '#efefea', rough=0.4), 'roof': L.flat(P + 'roof_soffit', '#d9d6cf', rough=0.8),
     'curtain': img_mat(P + 'curtain', 'us_curtain.png', rough=0.85), 'blinds': img_mat(P + 'blinds', 'us_blinds.png', rough=0.6, alpha=True),
-    'view_spring': img_mat(P + 'view_spring', 'us_view_spring.png', rough=1.0, emit=1.0), 'view_snow': img_mat(P + 'view_snow', 'us_view_snow.png', rough=1.0, emit=1.0),
+    'view_spring': img_mat(P + 'view_spring', 'us_view_spring.png', rough=1.0, emit=1.0, alpha=True), 'view_snow': img_mat(P + 'view_snow', 'us_view_snow.png', rough=1.0, emit=1.0, alpha=True),
     'sconce': L.flat(P + 'sconce', '#fff1d6', rough=0.3, emit=B.srgb('#ffe2b0')), 'plate': L.flat(P + 'plate', '#2a2c30', rough=0.4),
 }
 _acc = {}
@@ -235,7 +246,7 @@ for d in LAY['doors']:
             acc('trim').box(u0, u1, v0, v1, at - 0.025, at + 0.025)
         acc('chrome').box(c + w_ / 2 - 0.14, c + w_ / 2 - 0.11, 0.95, 1.1, at + 0.03, at + 0.05)
         continue
-    wid = {'front': 'S', 'bedroom': 'bed_w', 'bath': 'bath_n', 'coat': 'lau_w', 'closet': 'bath_n', 'laundry': 'lau_w'}.get(d['id'], 'S')
+    wid = {'front': 'S', 'bedroom': 'bed_w', 'bedA': 'bed_w', 'bedB': 'bed_w', 'bath': 'bath_n', 'coat': 'lau_w', 'storage': 'lau_w', 'closet': 'bath_n', 'laundry': 'lau_w'}.get(d['id'], 'S')
     wframe(wid, axis, at, c - w_ / 2, c + w_ / 2, 0.0, DOOR_H, nrm)
     if d.get('style') == 'louverBifold':   # 洗衣機櫃的百葉摺門（關著）：四片、橫向百葉
         for k in range(4):
@@ -246,7 +257,9 @@ for d in LAY['doors']:
     m = wm(wid, 'door'); six_panel(m, axis, at, c, 0.0, w_ - 0.02, nrm, rot=(math.radians(95) if d.get('openDoor') else 0.0))
     if d.get('plate'):   # 門牌（虛構的號碼）：遊戲照 PLATE_FACE 畫字
         x_, z_ = (c + 0.0, at + 0.03 * nrm * -1) if axis == 'x' else (at, c)
-        pm = Mesh(f'PLATE_FACE_door_{d["id"]}', M['plate']); pm.quad([(c - 0.09, 1.55, at + 0.035), (c + 0.09, 1.55, at + 0.035), (c + 0.09, 1.67, at + 0.035), (c - 0.09, 1.67, at + 0.035)])
+        pm = Mesh(f'PLATE_FACE_door_{d["id"]}', M['plate'])
+        if axis == 'x': pm.quad([(c - 0.09, 1.55, at + 0.035), (c + 0.09, 1.55, at + 0.035), (c + 0.09, 1.67, at + 0.035), (c - 0.09, 1.67, at + 0.035)])
+        else: pm.quad([(at - 0.035, 1.55, c + 0.09), (at - 0.035, 1.55, c - 0.09), (at - 0.035, 1.67, c - 0.09), (at - 0.035, 1.67, c + 0.09)])   # 牆在 z 軸上（臥室 A、B 的門）：門牌在西邊（客廳那一面）
         L.uv01(pm.finish(root, uv=True, props={'plate': 'door', 'text': d['plate']})) if hasattr(L, 'uv01') else pm.finish(root, uv=True, props={'plate': 'door', 'text': d['plate']})
 
 # ======================== 廚房：backsplash（房間的一部分） ========================
@@ -374,8 +387,9 @@ if res:
     MAP3 = {'bed': 'US_BED', 'nightstand': 'US_NIGHTSTAND', 'desk': 'US_DESK', 'deskChair': 'US_DESKCHAIR', 'suitcase': 'US_SUITCASE'}
     for f in LAY['furniture']:
         nd = MAP3.get(f['type'])
-        if nd and f.get('room') == 'bedroom': place(tops, nd, f['x'], 0.0, f['z'], f.get('ry', 0.0))
-    cl = [f for f in LAY['furniture'] if f['type'] == 'ceilingLight'][0]; place(tops, 'US_CEILINGLIGHT', cl['x'], H, cl['z'], 0.0)
+        if nd and str(f.get('room', '')).startswith('bed'): place(tops, nd, f['x'], 0.0, f['z'], f.get('ry', 0.0))   # bedroom（單人戶）、bedA／bedB（合租戶的兩間）
+        if f['type'] == 'lifeSuitcase': place(tops, 'US_SUITCASE', f['x'], 0.0, f['z'], f.get('ry', 0.0))   # 合租戶：客廳裡沒收完的行李箱（BB_217）
+    for cl in [f for f in LAY['furniture'] if f['type'] == 'ceilingLight']: place(tops, 'US_CEILINGLIGHT', cl['x'], H, cl['z'], 0.0)
     for o in new:
         if o.name in bpy.data.objects: bpy.data.objects.remove(o)
 
@@ -411,14 +425,143 @@ if US4_OK:
         for o in new:
             if o.name in bpy.data.objects: bpy.data.objects.remove(o)
 
+# ======================== 冰箱門上的輪值表（合租戶；BB_98 2-6）========================
+def tex_chores(path):
+    """手寫的輪值表：三欄 TRASH／DISHES／TP（倒垃圾、洗碗、買衛生紙）、八列（第 1～8 週），格子裡 A／B／C 輪；前兩週打勾、這週一格打勾、一格被紅筆劃掉。
+    字只寫英文字母、數字（不寫名字；A／B／C＝房門上的字母）。2026-10-17 改：原本欄頭畫的是三角形、圓圈，遊戲裡看起來像亂碼"""
+    W_, H_ = 480, 640; im = Image.new('RGB', (W_, H_), (250, 248, 240)); d = ImageDraw.Draw(im); rr = random.Random(913)
+    ink, grid, green, red = (40, 60, 120), (150, 150, 160), (30, 120, 60), (200, 60, 50)
+    FONT = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
+    def fnt(sz): return ImageFont.truetype(FONT, sz)
+    def txt(x, y, s, sz, fill=ink, ang=0.0):   # 字置中在 (x, y)，稍微歪一點（手寫）
+        f = fnt(sz); bb = d.textbbox((0, 0), s, font=f); w, h = bb[2] - bb[0], bb[3] - bb[1]
+        t = Image.new('RGBA', (w + 8, h + 8), (0, 0, 0, 0)); ImageDraw.Draw(t).text((4 - bb[0], 4 - bb[1]), s, font=f, fill=fill + (255,))
+        t = t.rotate(ang, resample=Image.BICUBIC, expand=True); im.paste(t, (int(x - t.width / 2), int(y - t.height / 2)), t)
+    d.rectangle([0, 0, W_ - 1, 74], fill=(236, 206, 120)); txt(W_ / 2, 38, 'CHORES', 46, ang=1.5)
+    X = [10, 86, 218, 350, W_ - 10]; Y0, RH = 74, 70   # 第一欄週數，後三欄家事
+    for x in X: d.line([(x, Y0), (x, Y0 + RH * 8 + 6)], fill=grid, width=3)
+    for j in range(9): y = Y0 + 6 + j * RH if j else Y0; d.line([(10, y), (W_ - 10, y)], fill=grid, width=3)
+    # 第一列＝欄頭；第 2～8 列＝第 1～7 週
+    for k, s_ in enumerate(('TRASH', 'DISHES', 'TP')): txt((X[k + 1] + X[k + 2]) / 2, Y0 + 6 + RH / 2, s_, 34, ang=rr.uniform(-2, 2))
+    for j in range(1, 8):
+        yc = Y0 + 6 + j * RH + RH / 2; txt((X[0] + X[1]) / 2, yc, str(j), 34, ang=rr.uniform(-3, 3))
+        for k in range(3):
+            xc = (X[k + 1] + X[k + 2]) / 2; txt(xc - 18, yc, 'ABC'[(j + k) % 3], 38, ang=rr.uniform(-6, 6))
+            if j <= 2 or (j == 3 and k == 0): d.line([(xc + 12, yc), (xc + 22, yc + 14), (xc + 44, yc - 16)], fill=green, width=5)   # 做完打勾
+    xc, yc = (X[2] + X[3]) / 2, Y0 + 6 + 3 * RH + RH / 2; d.line([(xc - 40, yc + 14), (xc + 40, yc - 12)], fill=red, width=4)   # 這週洗碗那格被紅筆劃掉
+    im.filter(ImageFilter.GaussianBlur(0.6)).save(path)
+for cc in [f for f in LAY['furniture'] if f['type'] == 'choreChart']:
+    tex_chores(os.path.join(GEN, 'us_chores.png')); mt = img_mat(P + 'chores', 'us_chores.png', rough=0.8)
+    x, y, z, w_, h_ = cc['x'], cc['y'], cc['z'], cc['w'], cc['h']
+    ch = Mesh('chore_chart', mt); bm = ch.bm; ul = bm.loops.layers.uv.active or bm.loops.layers.uv.new('UVMap')
+    vs = [bm.verts.new(g2b(*p)) for p in ((x, y - h_ / 2, z + w_ / 2), (x, y - h_ / 2, z - w_ / 2), (x, y + h_ / 2, z - w_ / 2), (x, y + h_ / 2, z + w_ / 2))]; f = bm.faces.new(vs)
+    for lp, uv in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[ul].uv = uv
+    ch.finish(fur, uv=False)
+    acc('black').box(x - 0.004, x + 0.012, y + h_ / 2 - 0.03, y + h_ / 2 - 0.005, z + w_ / 2 - 0.05, z + w_ / 2 - 0.012)   # 磁鐵（壓在角落，不蓋住 CHORES）
+
+# ======================== 合租戶：房門的裝飾、冰箱的便條、生活痕跡、US2 的道具（BB_217）========================
+def tex_simple(path, W_, H_, draw, blur=0.5):
+    im = Image.new('RGB', (W_, H_), (250, 248, 240)); d = ImageDraw.Draw(im); draw(im, d); im.filter(ImageFilter.GaussianBlur(blur)).save(path); return os.path.basename(path)
+def card(name, mat, x, y, z, w_, h_, axis, side):
+    """貼在牆或門上的一張紙／板（axis：所在面的軸；side：朝向 +1／−1）"""
+    m = Mesh(name, mat); bm = m.bm; ul = bm.loops.layers.uv.active or bm.loops.layers.uv.new('UVMap')
+    if axis == 'x': pts = ((x - w_ / 2 * side, y - h_ / 2, z), (x + w_ / 2 * side, y - h_ / 2, z), (x + w_ / 2 * side, y + h_ / 2, z), (x - w_ / 2 * side, y + h_ / 2, z))
+    else: pts = ((x, y - h_ / 2, z + w_ / 2 * side), (x, y - h_ / 2, z - w_ / 2 * side), (x, y + h_ / 2, z - w_ / 2 * side), (x, y + h_ / 2, z + w_ / 2 * side))
+    vs = [bm.verts.new(g2b(*p)) for p in pts]; f = bm.faces.new(vs)
+    for lp, uv in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[ul].uv = uv
+    return m
+rr2 = random.Random(217)
+def deco_whiteboard(im, d):   # 小白板：黑、藍麥克筆的線（看不出字）
+    d.rectangle([0, 0, 239, 179], outline=(150, 150, 155), width=6)
+    for k in range(5): y = 30 + k * 28; d.line([(20, y), (20 + rr2.randint(80, 190), y + rr2.randint(-4, 4))], fill=rr2.choice([(30, 30, 40), (40, 60, 150)]), width=4)
+def deco_poster(im, d):       # 海報：色塊、圓（沒有字、沒有真的作品）
+    d.rectangle([0, 0, 179, 249], fill=(40, 52, 80)); d.ellipse([40, 40, 140, 140], fill=(232, 160, 70)); d.rectangle([0, 170, 179, 249], fill=(200, 80, 70))
+    for k in range(3): d.line([(20, 190 + k * 16), (150, 190 + k * 16)], fill=(240, 230, 210), width=3)
+def deco_sticker(im, d):      # 幾張圓形、星形貼紙
+    for (cx, cy, c) in ((50, 50, (240, 200, 60)), (130, 70, (90, 170, 220)), (80, 140, (230, 110, 140)), (150, 150, (120, 190, 110))):
+        d.ellipse([cx - 28, cy - 28, cx + 28, cy + 28], fill=c, outline=(255, 255, 255), width=4)
+DECO = {'whiteboard': (deco_whiteboard, 240, 180, 0.36, 0.27, 1.25), 'poster': (deco_poster, 180, 250, 0.3, 0.42, 1.2), 'sticker': (deco_sticker, 200, 200, 0.24, 0.24, 1.15)}
+for d_ in LAY['doors']:
+    if not d_.get('deco'): continue
+    fn, W_, H_, w_, h_, y_ = DECO[d_['deco']]
+    mt = img_mat(P + 'deco_' + d_['id'], tex_simple(os.path.join(GEN, 'us_deco_%s.png' % d_['deco']), W_, H_, fn), rough=0.7)
+    axis = d_.get('axis', 'x')
+    if axis == 'z': card('door_deco_' + d_['id'], mt, d_['x'] - 0.045, y_, d_['z'], w_, h_, 'z', 1).finish(root, uv=False)   # 牆在 z 軸上：貼在門的西面（客廳、走道那一面）
+    else: card('door_deco_' + d_['id'], mt, d_['x'], y_, d_['z'] - 0.045, w_, h_, 'x', -1).finish(root, uv=False)
+NOTE_MAT = None
+for cc in [f for f in LAY['furniture'] if f['type'] == 'choreChart']:   # 輪值表旁邊兩張便條（黃、粉紅）
+    for k, (dz, dy, col) in enumerate(((0.19, 0.08, '#f4dc6a'), (0.17, -0.12, '#f2a8b8'))):
+        nm = L.flat(P + 'note%d' % k, col, rough=0.8); card('fridge_note%d' % k, nm, cc['x'] + 0.002, cc['y'] + dy, cc['z'] + dz, 0.08, 0.08, 'z', -1).finish(fur, uv=False)
+FT = {f['type']: f for f in LAY['furniture']}
+if 'lifeBlanket' in FT:   # 沙發上的毯子：搭在椅背、垂到坐墊（兩片有厚度的布）
+    f = FT['lifeBlanket']; bmat = L.flat(P + 'blanket', '#8a6f9e', rough=0.95); bk = Mesh('life_blanket', bmat)
+    bk.rbox(-4.62, -4.35, 0.45, 0.95, f['z'] - 0.35, f['z'] + 0.35, r=0.03, seg=2); bk.rbox(-4.38, -3.85, 0.42, 0.47, f['z'] - 0.33, f['z'] + 0.37, r=0.02, seg=2); bk.finish(fur, uv=False, smooth=True)
+if 'lifePlant' in FT:   # 快乾的盆栽：陶盆＋下垂、偏黃褐的葉子
+    f = FT['lifePlant']; pm_ = Mesh('life_plant_pot', L.flat(P + 'pot', '#b8643e', rough=0.8)); bm_ = L.lathe([(0.0, 0.0), (0.1, 0.0), (0.13, 0.22), (0.12, 0.22), (0.0, 0.2)], seg=18)
+    pm_.add_bm(bm_, Matrix.Translation(g2b(f['x'], 0.0, f['z']))); bm_.free(); pm_.finish(fur, uv=False, smooth=True)
+    lf = Mesh('life_plant_leaves', L.flat(P + 'leaves_dry', '#857a3e', rough=0.85))   # 快乾：偏黃褐的橄欖綠
+    for k in range(9):
+        a_ = k * 2 * math.pi / 9 + rr2.uniform(-0.2, 0.2); ln = rr2.uniform(0.18, 0.3); droop = rr2.uniform(0.05, 0.16)
+        x0, z0 = f['x'] + 0.03 * math.cos(a_), f['z'] + 0.03 * math.sin(a_); x1, z1 = f['x'] + ln * math.cos(a_), f['z'] + ln * math.sin(a_)
+        lf.cyl((x0, 0.22, z0), (x1, 0.22 + 0.12 - droop, z1), 0.018, seg=4, r2=0.006)
+    lf.finish(fur, uv=False)
+if 'lifeRice' in FT:
+    f = FT['lifeRice']; rm = L.flat(P + 'ricebag', '#e8e0cc', rough=0.85); rb = Mesh('life_rice', rm); rb.rbox(f['x'] - 0.17, f['x'] + 0.17, 0.0, 0.42, f['z'] - 0.12, f['z'] + 0.12, r=0.05, seg=2); rb.finish(fur, uv=False, smooth=True)
+    Mesh('life_rice_band', L.flat(P + 'riceband', '#b8322a', rough=0.7)).box(f['x'] - 0.172, f['x'] + 0.172, 0.24, 0.3, f['z'] - 0.122, f['z'] + 0.122).finish(fur, uv=False)   # 米袋上的紅色色帶（沒有字）
+if 'lifeSoy' in FT:
+    f = FT['lifeSoy']; sb = Mesh('life_soy', L.flat(P + 'soy', '#2a1810', rough=0.25)); bm_ = L.lathe([(0.0, 0.0), (0.035, 0.0), (0.035, 0.14), (0.016, 0.19), (0.0, 0.19)], seg=14)
+    sb.add_bm(bm_, Matrix.Translation(g2b(f['x'], f['y'], f['z']))); bm_.free(); sb.finish(fur, uv=False, smooth=True)
+    Mesh('life_soy_cap', L.flat(P + 'soycap', '#c83a2c', rough=0.5)).cyl((f['x'], f['y'] + 0.19, f['z']), (f['x'], f['y'] + 0.215, f['z']), 0.018, seg=10).finish(fur, uv=False)
+def bowl(m, x, y, z, r_, h_):
+    bm_ = L.lathe([(0.0, 0.0), (r_ * 0.45, 0.0), (r_ * 0.5, 0.012), (r_, h_), (r_ - 0.006, h_), (r_ * 0.45, 0.016), (0.0, 0.016)], seg=20); m.add_bm(bm_, Matrix.Translation(g2b(x, y, z))); bm_.free()
+BOWLM = [L.flat(P + 'bowl_a', '#f2efe6', rough=0.3), L.flat(P + 'bowl_b', '#3b5f8a', rough=0.3), L.flat(P + 'bowl_c', '#c9a06a', rough=0.4)]   # 三種不同的碗：白瓷、藍、木頭色
+if 'lifeBowls' in FT:   # 瀝水架（鐵絲）＋三個不同的碗斜放
+    f = FT['lifeBowls']; rk = Mesh('life_rack', M['chrome'])
+    for k in range(5): rk.cyl((f['x'] - 0.2 + k * 0.1, f['y'], f['z'] - 0.1), (f['x'] - 0.2 + k * 0.1, f['y'] + 0.12, f['z'] - 0.1), 0.004, seg=4)
+    rk.cyl((f['x'] - 0.22, f['y'] + 0.02, f['z'] - 0.1), (f['x'] + 0.22, f['y'] + 0.02, f['z'] - 0.1), 0.004, seg=4); rk.finish(fur, uv=False)
+    for k, m_ in enumerate(BOWLM):
+        bw = Mesh('life_bowl%d' % k, m_); bowl(bw, f['x'] - 0.13 + k * 0.13, f['y'] + 0.005, f['z'] + 0.02, 0.065 + 0.01 * k, 0.06); bw.finish(fur, uv=False, smooth=True)
+if 'eventUS2' in FT:   # US2 的道具：一組，平常遊戲藏起來（EVENT_US2）
+    f = FT['eventUS2']; ev = B.group('EVENT_US2', root, {'kind': 'event', 'event': 'US2'})
+    p_ = f['pot']; pot = Mesh('EVENT_US2_pot', M['chrome']); bm_ = L.lathe([(0.0, 0.0), (0.11, 0.0), (0.12, 0.012), (0.12, 0.12), (0.115, 0.125), (0.0, 0.02)], seg=24)
+    pot.add_bm(bm_, Matrix.Translation(g2b(p_['x'], p_['y'], p_['z']))); bm_.free(); pot.cyl((p_['x'] + 0.12, p_['y'] + 0.1, p_['z']), (p_['x'] + 0.3, p_['y'] + 0.12, p_['z']), 0.012, seg=8); pot.finish(ev, uv=False, smooth=True)
+    soup = Mesh('EVENT_US2_soup', L.flat(P + 'soup', '#c98a3e', rough=0.2)); soup.cyl((p_['x'], p_['y'] + 0.085, p_['z']), (p_['x'], p_['y'] + 0.09, p_['z']), 0.112, seg=24); soup.finish(ev, uv=False)
+    sticks = Mesh('EVENT_US2_chopsticks', L.flat(P + 'chopstick', '#d8b98a', rough=0.6))   # 長筷子：斜靠在鍋邊
+    for dx in (-0.012, 0.012): sticks.cyl((p_['x'] + dx, p_['y'] + 0.12, p_['z'] - 0.1), (p_['x'] + dx + 0.05, p_['y'] + 0.25, p_['z'] + 0.22), 0.005, seg=5)
+    sticks.finish(ev, uv=False)
+    n_ = f['noodles']
+    for k, col in enumerate(('#c8322a', '#e2b52a')):   # 紅、黃兩包泡麵（沒有字）
+        pk = Mesh('EVENT_US2_noodle%d' % k, L.flat(P + 'noodle%d' % k, col, rough=0.5)); x_ = n_['x'] + k * 0.2
+        pk.rbox(x_ - 0.085, x_ + 0.085, n_['y'], n_['y'] + 0.035 + 0.035 * k, n_['z'] - 0.06, n_['z'] + 0.06, r=0.012, seg=2); pk.finish(ev, uv=False, smooth=True)
+    b_ = f['bowls']
+    for k, m_ in enumerate(BOWLM):
+        bw = Mesh('EVENT_US2_bowl%d' % k, m_); bowl(bw, b_['x'] + k * 0.17, b_['y'], b_['z'], 0.07, 0.065); bw.finish(ev, uv=False, smooth=True)
+    def tex_report(im, d):   # 英文報告：一行一行的灰線（看不出字）＋紅筆圈滿、劃線、旁邊的評語
+        for k in range(22):
+            y = 30 + k * 16; d.line([(24, y), (24 + rr2.randint(140, 196), y)], fill=(120, 120, 128), width=3)
+        for k in range(7):
+            cx, cy = rr2.randint(50, 200), rr2.randint(40, 360); d.ellipse([cx - rr2.randint(24, 46), cy - 12, cx + rr2.randint(24, 46), cy + 12], outline=(210, 30, 30), width=3)
+        for k in range(4): y = rr2.randint(60, 350); d.line([(10, y), (22, y + 30)], fill=(210, 30, 30), width=3)
+        d.line([(120, 372), (210, 360)], fill=(210, 30, 30), width=4); d.line([(150, 385), (230, 380)], fill=(210, 30, 30), width=3)
+    rmat = img_mat(P + 'report', tex_simple(os.path.join(GEN, 'us_report.png'), 240, 400, tex_report, blur=0.4), rough=0.85)
+    r_ = f['report']
+    for k in range(3):   # 三張微微錯開
+        a_ = (k - 1) * 0.08; rp = Mesh('EVENT_US2_report%d' % k, rmat); bm = rp.bm; ul = bm.loops.layers.uv.active or bm.loops.layers.uv.new('UVMap')
+        cxk, czk, w_, h_ = r_['x'] + k * 0.03, r_['z'] - k * 0.01, 0.215, 0.28; ca, sa = math.cos(a_), math.sin(a_)
+        pts = [(cxk + (u * w_ / 2) * ca - (v * h_ / 2) * sa, r_['y'] + 0.002 + k * 0.001, czk + (u * w_ / 2) * sa + (v * h_ / 2) * ca) for (u, v) in ((-1, 1), (1, 1), (1, -1), (-1, -1))]   # 字的上方朝吧台裡面（廚房），從祐廷那一側看是正的
+        vs = [bm.verts.new(g2b(*p)) for p in pts]; fc = bm.faces.new(vs)
+        for lp, uv in zip(fc.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[ul].uv = uv
+        rp.finish(ev, uv=False)
+
 # ======================== 收尾 ========================
 for k_, m in _acc.items(): m.finish(root, uv=True, smooth=k_ in ('porcelain', 'chrome'))
 for wid, ms in walls.items():
     w = WALLDEF.get(wid, {}); props = {'dir': w['dir']} if w.get('fade') else {}
     if w.get('fade') and wid not in OUTER: props['partition'] = 1
+    if w.get('fadeInside'): props['inside'] = 1   # 南牆（樓梯平台那一面）：遊戲只在玩家在屋裡、鏡頭在平台那一側時淡出（us3d.js）
     for key, m in ms.items():
         nm = (f'WALL_{wid}_{key}' if w.get('fade') else f'{wid}_{key}'); m.name = nm; m.finish(root, uv=True, props=props)
-L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or 'SEASON' in ob.name or (ob.parent is not None and ('SEASON' in ob.parent.name or ob.parent.name == 'furniture')) or ob.name.startswith('WALL_') or (ob.parent is not None and ob.parent.parent is not None and ob.parent.parent.name == 'furniture'),
+L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or 'SEASON' in ob.name or 'EVENT_' in ob.name or (ob.parent is not None and 'EVENT_' in ob.parent.name) or (ob.parent is not None and ('SEASON' in ob.parent.name or ob.parent.name == 'furniture')) or ob.name.startswith('WALL_') or (ob.parent is not None and ob.parent.parent is not None and ob.parent.parent.name == 'furniture'),
                     key=lambda ob: '')
 info = L.export(OUT, gpu_instances=True)
 info.update({'layout': LAY['version'], 'furniture': n_fur})

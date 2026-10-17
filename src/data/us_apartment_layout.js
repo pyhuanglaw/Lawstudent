@@ -46,7 +46,7 @@ const US_APARTMENT_LAYOUT={
   "walls":[
     {"note":"外牆＋隔間（遊戲依這些擋導航；Blender 照這些蓋）。open＝牆上的開口 [a,b]（沿牆的座標）；sill／head＝開口的下緣、上緣（沒寫就是落地、門高 2.05）","list":[
       {"id":"N","axis":"x","at":-3.0,"from":-4.6,"to":5.0,"open":[[-3.8,-2.6,"window"],[-1.4,-0.6,"patioDoor"],[2.6,3.8,"window"]],"fade":true,"dir":[0,0,1]},
-      {"id":"S","axis":"x","at":3.0,"from":-4.6,"to":5.0,"open":[[-1.4,-0.6,"frontDoor"]],"note":"南牆＝樓梯平台那一面（不淡出：鏡頭在平台時才看得到大門）"},
+      {"id":"S","axis":"x","at":3.0,"from":-4.6,"to":5.0,"open":[[-1.4,-0.6,"frontDoor"]],"fade":true,"dir":[0,0,-1],"fadeInside":true,"note":"南牆＝樓梯平台那一面：玩家在平台上時不淡出（看得到大門）；玩家在屋裡、鏡頭退到平台那一側時才淡出（us3d.js 的 fadeInside；之前一律不淡出，鏡頭會卡在壁板裡）"},
       {"id":"W","axis":"z","at":-4.6,"from":-3.0,"to":3.0,"fade":true,"dir":[1,0,0]},
       {"id":"E","axis":"z","at":5.0,"from":-3.0,"to":3.0,"fade":true,"dir":[-1,0,0]},
       {"id":"kit_n","axis":"x","at":1.0,"from":-4.6,"to":-1.8,"open":[[-4.2,-2.2,"passThrough"]],"sill":1.05,"head":2.05,"note":"廚房朝客廳的牆：窗口下緣 1.05（吧台），上緣 2.05；窗口上方看得到廚房的吊櫃"},
