@@ -47,20 +47,37 @@ def siding_mat(tint):
         im = Image.open(os.path.join(GEN, 'us_siding.png')).convert('RGB'); avg = (137, 126, 113)
         t = tuple(int(tint[i:i + 2], 16) for i in (1, 3, 5))
         im = Image.merge('RGB', [ch.point(lambda v, k=t[i] / avg[i]: min(255, int(v * k))) for i, ch in enumerate(im.split())]); im.save(fp)
-    return img_mat('usc_siding_' + tint[1:], fn, rough=0.7)
+    m = img_mat('usc_siding_' + tint[1:], fn, rough=0.7)
+    # 法線貼圖：每片板子下緣比上緣凸（面稍微朝下）、下緣一條朝下的唇（陽光下一條一條的陰影；照片）；和 us_siding.png 同一個週期（一公尺六片）
+    fpn = os.path.join(GEN, 'us_siding_nor.png')
+    if not os.path.exists(fpn):
+        from PIL import Image
+        W = 512; bh = W // 6; im = Image.new('RGB', (W, W))
+        for y in range(W):
+            t = (y % bh) / bh
+            ny = -0.72 if t > 1 - 4 / bh else -0.11
+            nz = math.sqrt(1 - ny * ny)
+            for x in range(W): im.putpixel((x, y), (128, int(128 + 127 * ny), int(128 + 127 * nz)))
+        im.save(fpn)
+    nt = m.node_tree; N = nt.nodes; bs = N['Principled BSDF']
+    tx = N.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(fpn, check_existing=True); tx.image.colorspace_settings.name = 'Non-Color'
+    nm = N.new('ShaderNodeNormalMap'); nm.inputs['Strength'].default_value = 1.0
+    nt.links.new(tx.outputs['Color'], nm.inputs['Color']); nt.links.new(nm.outputs['Normal'], bs.inputs['Normal'])
+    return m
 
 
 M = {
      'brick': L.pbr('usc_brick', 'red_brick_03', tile=1.2, target='#8a4a3a', normal=0.5, maps=('diff', 'nor'), rough_value=0.85),
-     'roof': L.pbr('usc_roof', 'grey_roof_tiles', tile=1.4, target='#4d4843', normal=0.6, maps=('diff', 'nor'), rough_value=0.85),
+     'roof': L.pbr('usc_roof', 'grey_roof_tiles', tile=1.4, target='#353433', sat=0.15, normal=0.6, maps=('diff', 'nor'), rough_value=0.85),
      'trim': L.flat('usc_trim', '#f1efe9', rough=0.45),
      'rail': L.flat('usc_rail_wood', '#6a4630', rough=0.6),
      'railw': L.flat('usc_rail_white', '#eeeeea', rough=0.4, metal=0.2),
      'glass': L.flat('ck_glass', '#3b4752', rough=0.06, metal=0.35),
+     'glassw': L.flat('usc_win_glass', '#2e3842', rough=0.05, metal=0.3, alpha=0.38),   # 窗：看得到裡面的白色百葉（照片）
      'blinds': img_mat('usc_blinds', 'us_blinds.png', rough=0.6),
      'conc': L.pbr('usc_concrete', 'concrete_wall_006', tile=2.0, target='#bdb8ae', normal=0.3, maps=('diff', 'nor'), rough_value=0.85),
      'asph': L.pbr('usc_asphalt', 'asphalt_02', tile=3.0, target='#6f6e6b', normal=0.4, maps=('diff', 'nor'), rough_value=0.9),
-     'grass': L.pbr('usc_grass', 'grass_ground', tile=3.0, target='#6f7f4a', normal=0.4, maps=('diff', 'nor'), rough_value=0.95),
+     'grass': L.pbr('usc_grass', 'grass_ground', tile=3.0, target='#5d6a44', normal=0.4, maps=('diff', 'nor'), rough_value=0.95),
      'paint': L.flat('usc_line_paint', '#ecebe6', rough=0.6),
      'door': L.flat('usc_door', '#f2f0ea', rough=0.35),
      'red': L.flat('usc_unit_plate', '#9b2a24', rough=0.5),
@@ -96,29 +113,28 @@ def building(b):
     g.location = (b['cx'], -b['cz'], 0.0); g.rotation_euler = (0.0, 0.0, b['yaw'])
     Lb, Db = b['len'], b['dep']; u0, u1, vF, vB = -Lb / 2, Lb / 2, Db / 2, -Db / 2
     M['siding'] = siding_mat(b.get('tint', '#8a8670'))
-    mk = {k: Mesh(f"b{b['id']}_{k}", M[k]) for k in ('siding', 'brick', 'roof', 'trim', 'rail', 'railw', 'glass', 'blinds', 'conc', 'door', 'red', 'dark', 'lamp')}
+    mk = {k: Mesh(f"b{b['id']}_{k}", M[k]) for k in ('siding', 'brick', 'roof', 'trim', 'rail', 'railw', 'glass', 'glassw', 'blinds', 'conc', 'door', 'red', 'dark', 'lamp')}
     vc = CMesh(f"b{b['id']}_vc", M['vc'])
-    # 一戶一個開間：正面扣掉樓梯間，剩下平分成 gables 個開間
+    # 一戶一個開間：正面扣掉樓梯間（兩側各留 0.6 m 紅磚柱），剩下的牆段各切成寬 6～8 m 的開間；相鄰兩戶左右鏡射（陽台＋一扇窗）
     bw = 4.4; bz = [(c - bw / 2, c + bw / 2) for c in b['breezeway']]
-    bays = []; nb = b['gables']; step = Lb / nb
-    for k in range(nb):
-        a, c = u0 + k * step, u0 + (k + 1) * step
-        bays.append((a, c))
+    edges = sorted([u0 + 0.5] + [v for (x0, x1) in bz for v in (x0 - 0.7, x1 + 0.7)] + [u1 - 0.5])
+    bays = []
+    for sa, sb in zip(edges[0::2], edges[1::2]):
+        if sb - sa < 4.4: continue
+        n = max(1, int(round((sb - sa) / 7.0)))
+        bays += [(sa + k * (sb - sa) / n, sa + (k + 1) * (sb - sa) / n) for k in range(n)]
     holes_front = []
     for (a, c) in bz: holes_front.append((a - u0, c - u0, 0.0, EAVE - 0.05))
     BAL_W, BAL_H, BAL_D = 2.6, 2.45, 1.6
     win_list = []; bal_list = []
-    for (a, c) in bays:
-        mid = (a + c) / 2
-        if any(x0 - 0.3 < mid < x1 + 0.3 for (x0, x1) in bz): mid = (a + mid) / 2 if mid > 0 else (mid + c) / 2
+    for i, (a, c) in enumerate(bays):
+        mid = (a + c) / 2; mir = (i % 2 == 1)
+        bx0, bx1 = (mid - 1.9, mid + 0.7) if not mir else (mid - 0.7, mid + 1.9)
+        wx0, wx1 = (mid + 1.0, mid + 2.0) if not mir else (mid - 2.0, mid - 1.0)
         for f in range(NF):
             y0 = f * FH
-            bx0 = mid - 0.4 - BAL_W; bx1 = mid - 0.4                     # 陽台在開間中間偏左、兩扇窗在右邊
-            if any(not (bx1 < x0 or bx0 > x1) for (x0, x1) in bz): bx0, bx1 = mid + 0.4, mid + 0.4 + BAL_W
             bal_list.append((bx0, bx1, y0 + 0.15, y0 + 0.15 + BAL_H))
-            for wx in ((mid + 0.6, mid + 1.6) if bx1 < mid + 0.5 else (mid - 1.6, mid - 0.6),):
-                if any(not (wx[1] < x0 - 0.2 or wx[0] > x1 + 0.2) for (x0, x1) in bz): continue
-                win_list.append((wx[0], wx[1], y0 + 0.95, y0 + 2.35))
+            win_list.append((wx0, wx1, y0 + 0.95, y0 + 2.35))
     for (x0, x1, y0, y1) in bal_list + win_list: holes_front.append((x0 - u0, x1 - u0, y0, y1))
     # ---- 牆：正面（有洞）、背面（窗）、兩端 ----
     def wall_quads(rects, plane):
@@ -139,12 +155,12 @@ def building(b):
         """窗：p0→p1 是牆面上的兩個點（局部 (u, v)）、n＝牆的外法線 (nu, nv)；白色窗框＋窗台、往內 depth 的玻璃、玻璃後面的百葉"""
         (ua, va), (ub, vb) = p0, p1; nu, nv = n
         def P(t, y, d): return (ua + (ub - ua) * t - nu * d, y, va + (vb - va) * t - nv * d)
-        mk['glass'].quad([P(0, y0, depth), P(1, y0, depth), P(1, y1, depth), P(0, y1, depth)][::(1 if (nv > 0 or nu < 0) else -1)])
+        mk['glassw'].quad([P(0, y0, depth), P(1, y0, depth), P(1, y1, depth), P(0, y1, depth)][::(1 if (nv > 0 or nu < 0) else -1)])
         mk['blinds'].quad([P(0.02, y0 + 0.05, depth + 0.05), P(0.98, y0 + 0.05, depth + 0.05), P(0.98, y1 - 0.02, depth + 0.05), P(0.02, y1 - 0.02, depth + 0.05)][::(1 if (nv > 0 or nu < 0) else -1)])
         for (t0, t1, ya, yb) in ((-0.06, 0.0, y0 - 0.06, y1 + 0.06), (1.0, 1.06, y0 - 0.06, y1 + 0.06)):   # 左右框
             pass
         wl = math.hypot(ub - ua, vb - va); e = 0.09 / max(wl, 1e-3)
-        for (t0, t1, ya, yb) in ((-e, 0.0, y0 - 0.08, y1 + 0.1), (1.0, 1.0 + e, y0 - 0.08, y1 + 0.1), (-e, 1.0 + e, y1, y1 + 0.1), (-e * 1.4, 1.0 + e * 1.4, y0 - 0.08, y0)):
+        for (t0, t1, ya, yb) in ((-e, 0.0, y0, y1), (1.0, 1.0 + e, y0, y1), (-e, 1.0 + e, y1, y1 + 0.1), (-e * 1.4, 1.0 + e * 1.4, y0 - 0.08, y0)):   # 四片不重疊（重疊會在角落出黑點）
             q0, q1 = P(t0, ya, -0.035), P(t1, ya, -0.035); q2, q3 = P(t1, yb, -0.035), P(t0, yb, -0.035)
             lo, hi = P(t0, ya, depth), P(t1, ya, depth)
             xs = [q0[0], q1[0], lo[0], hi[0]]; zs = [q0[2], q1[2], lo[2], hi[2]]
@@ -260,12 +276,7 @@ def building(b):
     for uu in (u0, u1):   # 兩端的山牆（三角形壁板）
         mk['siding'].bm.faces.new([mk['siding'].bm.verts.new(g2b(uu, EAVE, s_ * Db / 2)) for s_ in ((1, -1) if uu == u0 else (-1, 1))] + [mk['siding'].bm.verts.new(g2b(uu, EAVE + Db / 2 * math.tan(PITCH), 0.0))])
     # 朝前的山牆：每個樓梯間入口上面一個（照片）＋樓梯間之間、兩端剩下的牆段各放一到兩個（一戶一個）
-    gab = [((x0 + x1) / 2, (x1 - x0) + 1.2) for (x0, x1) in bz]
-    edges = sorted([u0 + 0.6] + [v for (x0, x1) in bz for v in (x0 - 0.6, x1 + 0.6)] + [u1 - 0.6])
-    for sa, sb in zip(edges[0::2], edges[1::2]):
-        n = max(1, int(round((sb - sa) / 7.5)))
-        if sb - sa < 3.6: continue
-        for k in range(n): gab.append((sa + (k + 0.5) * (sb - sa) / n, min((sb - sa) / n - 0.9, 6.2)))
+    gab = [((x0 + x1) / 2, (x1 - x0) + 1.2) for (x0, x1) in bz] + [((a + c) / 2, min(c - a - 0.8, 6.2)) for (a, c) in bays]
     for (mid, wg) in gab:
         ay = EAVE + wg / 2 * math.tan(math.radians(38))
         vf = vF + 0.02
@@ -313,47 +324,84 @@ for b in J['buildings']:   # 建築前的人行道（正面）＋接到停車場
         xs = [p[0] for p in pts]; zs = [p[1] for p in pts]
         cb.box(min(xs), max(xs), 0.0, 0.1, min(zs), max(zs))
 cb.finish(root)
-# 灌木帶（建築正面、人行道和牆之間）：一叢一叢的灌木（模型葉子的橢球團，顏色深淺不一）
-sh = CMesh('usc_shrubs', M['vc'])
+# 灌木帶（建築正面、人行道和牆之間）：每叢＝深綠色的芯（填洞）＋外面一圈葉片卡（和樹冠同一張葉子貼圖），大小、顏色深淺不一
+sh = Mesh('usc_shrub_core', L.flat('usc_shrub_core', '#1e2d19', rough=0.98))
+leaf_mat0 = PM['leaf_small'] if PL else L.flat('usc_leaf', '#4a6a3a', rough=0.8)
+shc = Mesh('usc_shrub_cards', leaf_mat0)
+def leaf_card(m, px, py, pz, sz, yaw, tilt):
+    ca, sa = math.cos(yaw), math.sin(yaw)
+    def P(du, dv): return (px + ca * du, py + dv + tilt * du, pz + sa * du)
+    f = m.bm.faces.new([m.bm.verts.new(g2b(*P(du, dv))) for (du, dv) in ((-sz / 2, -sz / 2), (sz / 2, -sz / 2), (sz / 2, sz / 2), (-sz / 2, sz / 2))])
+    uvl = m.bm.loops.layers.uv.verify()
+    for lp, uv in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[uvl].uv = uv
 for b in J['buildings']:
     yaw = b['yaw']; c, s_ = math.cos(yaw), math.sin(yaw)
     k = -b['len'] / 2 + 0.8
     while k < b['len'] / 2 - 0.6:
         if not any(abs(k - bx) < 3.4 for bx in b['breezeway']):
             u, v = k, b['dep'] / 2 + 0.6; x, z = b['cx'] + u * c + v * s_, b['cz'] - u * s_ + v * c
-            r = rng.uniform(0.45, 0.65); f0 = set(sh.bm.faces)
-            sh.ell((x, r * 0.75, z), r, r * 0.8, r * 0.9, seg=10, rings=6)
-            sh.paint([f for f in sh.bm.faces if f not in f0], rng.choice(['#3f5a33', '#4a6a3a', '#56743f', '#3b5230']))
-        k += rng.uniform(1.0, 1.4)
-sh.finish(root, uv=False)
-# 樹：小樹（樹穴）＋南邊樹林的大樹（樹幹旋轉體＋樹冠的葉片卡團）
-trunk = Mesh('usc_trunks', L.flat('usc_bark', '#5c4a3b', rough=0.9))
-leaf_mat = PM['leaf_small'] if PL else L.flat('usc_leaf', '#4a6a3a', rough=0.8)
-cards = Mesh('usc_tree_cards', leaf_mat)
-for t in J['trees']:
-    h = t['h']; x, z = t['x'], t['z']; big = t['kind'] == 'big'
-    rb = 0.08 if not big else rng.uniform(0.22, 0.35)
-    bt = L.lathe([(rb * 1.3, 0.0), (rb, 0.3), (rb * 0.75, h * 0.55), (rb * 0.45, h * 0.8)], seg=8 if big else 6)
-    trunk.add_bm(bt, Matrix.Translation(g2b(x, 0, z))); bt.free()
-    nc = 26 if big else 14; cr = (h * 0.32) if big else 1.2; cy = h * (0.68 if big else 0.72)
-    for k in range(nc):
-        a = rng.uniform(0, 2 * math.pi); e = rng.uniform(-0.4, 0.9); rr = cr * rng.uniform(0.35, 1.0)
-        px, py, pz = x + rr * math.cos(a) * math.cos(e), cy + rr * math.sin(e) * 0.7, z + rr * math.sin(a) * math.cos(e)
-        sz = (1.6 if big else 0.9) * rng.uniform(0.8, 1.2); yaw = rng.uniform(0, math.pi); tilt = rng.uniform(-0.4, 0.4)
-        ca, sa = math.cos(yaw), math.sin(yaw)
-        def P(du, dv): return (px + ca * du, py + dv + tilt * du, pz + sa * du)
-        q = [P(-sz / 2, -sz / 2), P(sz / 2, -sz / 2), P(sz / 2, sz / 2), P(-sz / 2, sz / 2)]
-        f = cards.bm.faces.new([cards.bm.verts.new(g2b(*p)) for p in q])
-        uvl = cards.bm.loops.layers.uv.verify()
-        for lp, uv in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[uvl].uv = uv
-trunk.finish(root, uv=False); cards.finish(root, uv=False, merge=False)
-# 樹林後面的剪影（走不到）：一排深綠色的起伏（遠景）
-bg = CMesh('usc_forest_wall', M['vc'])
-for k in range(40):
-    x0 = BD_['x0'] + k * (BD_['x1'] - BD_['x0']) / 40; x1 = x0 + (BD_['x1'] - BD_['x0']) / 40
-    h0 = 13 + 4 * math.sin(k * 1.7) + rng.uniform(-1, 1); h1 = 13 + 4 * math.sin((k + 1) * 1.7) + rng.uniform(-1, 1)
-    bg.poly([(x0, 0, BD_['z1']), (x1, 0, BD_['z1']), (x1, h1, BD_['z1']), (x0, h0, BD_['z1'])][::-1], rng.choice(['#2f4529', '#344b2c', '#2b3f26']))
-bg.finish(root, uv=False)
+            r = rng.uniform(0.42, 0.62); v0 = set(sh.bm.verts)
+            sh.ell((x, r * 0.62, z), r * 0.7, r * 0.56, r * 0.66, seg=8, rings=5)
+            for vv in sh.bm.verts:
+                if vv not in v0: vv.co *= 1.0; vv.co.x += rng.uniform(-0.05, 0.05); vv.co.y += rng.uniform(-0.05, 0.05); vv.co.z += rng.uniform(-0.04, 0.04)
+            for j in range(30):
+                a_ = rng.uniform(0, 2 * math.pi); e_ = rng.uniform(-0.1, 1.2); rr = r * rng.uniform(0.75, 1.05)
+                leaf_card(shc, x + rr * math.cos(a_) * math.cos(e_), r * 0.7 + rr * 0.7 * math.sin(e_), z + rr * math.sin(a_) * math.cos(e_), 0.55 * rng.uniform(0.8, 1.2) * (r / 0.5), rng.uniform(0, math.pi), rng.uniform(-0.5, 0.5))
+        k += rng.uniform(0.9, 1.3)
+sh.finish(root, uv=False, smooth=True); shc.finish(root, uv=False, merge=False)
+# 樹：小樹（樹穴，細樹幹＋小樹冠）＋南邊樹林前緣的大樹＋外圍一整圈樹林（走不到）
+#   樹冠＝幾團深綠色的芯（填洞、遠看是樹冠的體積）＋芯的表面一片一片的葉片卡（和灌木同一張葉子貼圖）；樹幹旋轉體、微微傾斜，大樹有兩三根主枝伸進樹冠
+trunk = Mesh('usc_trunks', L.flat('usc_bark', '#54473b', rough=0.9))
+cards = Mesh('usc_tree_cards', leaf_mat0)
+core = Mesh('usc_tree_core', L.flat('usc_tree_core', '#1c2a18', rough=0.98))   # 芯：很暗、不反光、平滑著色（從葉片卡的縫看進去是樹冠裡面的陰影）
+CORE_C = ['#24361f', '#283b22', '#2d4126', '#223320']
+def crown(cx, cy, cz, rx, ry, rz, ncard, csz, face=None):
+    """一團樹冠：芯（抖動過的橢球）＋表面的葉片卡；face＝(fx, fz) 時只在朝那邊的半邊放葉片卡（外圍樹林只做看得到的那一面）"""
+    v0 = set(core.bm.verts)
+    core.ell((cx, cy, cz), rx * 0.74, ry * 0.74, rz * 0.74, seg=8, rings=5)
+    for vv in core.bm.verts:
+        if vv not in v0:
+            k = rng.uniform(0.88, 1.08); c0 = Vector(g2b(cx, cy, cz)); vv.co = c0 + (vv.co - c0) * k
+    for j in range(ncard):
+        a_ = rng.uniform(0, 2 * math.pi)
+        if face is not None and math.cos(a_) * face[0] + math.sin(a_) * face[1] < -0.2: continue
+        e_ = math.asin(rng.uniform(-0.45, 1.0)); rr = rng.uniform(0.72, 1.02)
+        px, py, pz = cx + rx * rr * math.cos(a_) * math.cos(e_), cy + ry * rr * math.sin(e_), cz + rz * rr * math.sin(a_) * math.cos(e_)
+        leaf_card(cards, px, py, pz, csz * rng.uniform(0.8, 1.25), rng.uniform(0, math.pi), rng.uniform(-0.5, 0.5))
+def tree(x, z, h, big):
+    lean = (rng.uniform(-0.04, 0.04), rng.uniform(-0.04, 0.04)) if big else (0.0, 0.0)
+    rb = rng.uniform(0.2, 0.32) if big else 0.07
+    bt = L.lathe([(rb * 1.35, 0.0), (rb, 0.35), (rb * 0.8, h * 0.4), (rb * 0.55, h * 0.62)], seg=9 if big else 6)
+    sh_ = Matrix(((1, 0, lean[0]), (0, 1, -lean[1]), (0, 0, 1))).to_4x4()
+    trunk.add_bm(bt, Matrix.Translation(g2b(x, 0, z)) @ sh_); bt.free()
+    if big:
+        cr = h * 0.3; cy = h * 0.66
+        for k in range(rng.randint(2, 3)):                                                       # 主枝
+            a_ = rng.uniform(0, 2 * math.pi); y0 = h * rng.uniform(0.38, 0.5)
+            trunk.cyl((x + lean[0] * y0, y0, z + lean[1] * y0), (x + math.cos(a_) * cr * 0.6, cy + rng.uniform(-0.5, 1.0), z + math.sin(a_) * cr * 0.6), rb * 0.35, seg=6, r2=rb * 0.18)
+        for k in range(rng.randint(4, 6)):                                                       # 幾團樹冠
+            a_ = rng.uniform(0, 2 * math.pi); d_ = cr * rng.uniform(0.2, 0.62)
+            r_ = cr * rng.uniform(0.5, 0.72)
+            crown(x + lean[0] * cy + math.cos(a_) * d_, cy + rng.uniform(-0.25, 0.4) * cr, z + lean[1] * cy + math.sin(a_) * d_, r_, r_ * 0.78, r_, int(9 * r_ * r_), 1.5)
+    else:
+        for k in range(3):
+            a_ = k * 2.1 + rng.uniform(0, 0.6)
+            crown(x + math.cos(a_) * 0.35, h * 0.74 + rng.uniform(-0.15, 0.25), z + math.sin(a_) * 0.35, 0.8, 0.7, 0.8, 26, 0.6)
+for t in J['trees']: tree(t['x'], t['z'], t['h'], t['kind'] == 'big')
+# 外圍樹林（走不到）：區域四周一圈連續的樹冠（芯＋朝內那一面的葉片卡）；西邊出口車道留缺口；北邊在建築背後（從停車場看得到屋頂後面的樹，照片）
+BD_ = J['bounds']
+def belt(pts, face):
+    for (x, z) in pts:
+        h = rng.uniform(11, 17); r_ = rng.uniform(3.6, 5.0)
+        trunk.cyl((x, 0, z), (x, h * 0.55, z), rng.uniform(0.18, 0.28), seg=6, r2=0.14)
+        crown(x, h * 0.62, z, r_, h * 0.36, r_, int(5.5 * r_ * r_), 2.1, face)
+        crown(x + rng.uniform(-1.5, 1.5), h * 0.85, z + rng.uniform(-1, 1), r_ * 0.65, h * 0.2, r_ * 0.65, int(2.5 * r_ * r_), 1.8, face)
+step = 5.2
+belt([(BD_['x0'] + 2 + k * step + rng.uniform(-0.8, 0.8), BD_['z1'] - 1.5 + rng.uniform(-1, 1)) for k in range(int((BD_['x1'] - BD_['x0'] - 4) / step) + 1)], (0, -1))      # 南
+belt([(BD_['x0'] + 2 + k * step + rng.uniform(-0.8, 0.8), BD_['z0'] - 0.5 + rng.uniform(-0.6, 0.6)) for k in range(int((BD_['x1'] - BD_['x0'] - 4) / step) + 1)], (0, 1))      # 北（建築背後）
+belt([(BD_['x1'] + 0.5, BD_['z0'] + 4 + k * step + rng.uniform(-0.8, 0.8)) for k in range(int((BD_['z1'] - BD_['z0'] - 8) / step) + 1)], (-1, 0))                             # 東
+belt([(BD_['x0'] - 0.5, z) for z in [BD_['z0'] + 4 + k * step + rng.uniform(-0.8, 0.8) for k in range(int((BD_['z1'] - BD_['z0'] - 8) / step) + 1)] if abs(z) > 7.0], (1, 0))   # 西（出口車道留缺口）
+trunk.finish(root, uv=False); cards.finish(root, uv=False, merge=False); core.finish(root, uv=False, smooth=True)
 
 # ================= 小東西 =================
 pv = CMesh('usc_props', M['vc']); br = Mesh('usc_bronze_parts', M['bronze']); lp_ = Mesh('GLOW_usc_lamps', M['lamp'])
@@ -420,6 +468,8 @@ if PREVIEW:   # 驗收渲染用：把車停進去（每台一個顏色的材質�
                     if bs: bs.inputs['Base Color'].default_value = tuple(B.srgb(k)) + (1.0,) if len(B.srgb(k)) == 3 else B.srgb(k)
                     cols[k] = mt
                 o.data = o.data.copy(); o.data.materials[0] = cols[k]
-    for o in list(src.values()): o.hide_render = True; [setattr(ch, 'hide_render', True) for ch in o.children]
+    for o in list(src.values()):                       # 原本並排的那一組（沒上色）整組刪掉
+        for ch in list(o.children_recursive): bpy.data.objects.remove(ch, do_unlink=True)
+        bpy.data.objects.remove(o, do_unlink=True)
     bpy.ops.export_scene.gltf(filepath=PREVIEW, export_format='GLB', use_visible=False)
     print('preview', PREVIEW)

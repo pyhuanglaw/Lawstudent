@@ -21,9 +21,9 @@ FLOOR_H, FLOORS = 2.9, 2   # 使用者 2026-10-17 照片：兩層樓
 
 # 建築：中心、長（沿正面）、深、正面朝向（yaw：正面法線＝(sin, cos)；0＝朝南）、山牆數、樓梯間在正面的位置（沿正面的局部座標）
 BUILDINGS = [
-    {'id': 'A', 'cx': -25.0, 'cz': -22.5, 'len': 28.0, 'dep': 13.0, 'yaw': 0.0, 'gables': 3, 'breezeway': [-4.0], 'tint': '#8a8670'},
-    {'id': 'B', 'cx': 8.0, 'cz': -22.5, 'len': 32.0, 'dep': 13.0, 'yaw': 0.0, 'gables': 4, 'breezeway': [-8.0, 6.0], 'tint': '#7f7c66', 'home': True},
-    {'id': 'C', 'cx': 33.5, 'cz': 6.0, 'len': 26.0, 'dep': 13.0, 'yaw': -math.pi / 2, 'gables': 3, 'breezeway': [2.0], 'tint': '#b3a88f'},
+    {'id': 'A', 'cx': -25.0, 'cz': -22.5, 'len': 28.0, 'dep': 13.0, 'yaw': 0.0, 'gables': 3, 'breezeway': [-4.0], 'tint': '#777566'},
+    {'id': 'B', 'cx': 8.0, 'cz': -22.5, 'len': 32.0, 'dep': 13.0, 'yaw': 0.0, 'gables': 4, 'breezeway': [-8.0, 6.0], 'tint': '#6d6c5f', 'home': True},
+    {'id': 'C', 'cx': 33.5, 'cz': 6.0, 'len': 26.0, 'dep': 13.0, 'yaw': -math.pi / 2, 'gables': 3, 'breezeway': [2.0], 'tint': '#9a927f'},
 ]
 # 停車場：柏油範圍、兩排車位（車頭朝車道）、車道
 LOT = {'x0': -34.0, 'x1': 24.0, 'z0': -10.0, 'z1': 10.0}
