@@ -3,7 +3,8 @@ LAWWW2-C 2026-10-17 第一版：
   頭髮＝韋綸的 weilun_hair（黑色短髮）換亂數種子；帽子蓋住的髮片整片刪掉（只留帽緣下面露出來的）。
   帽子做在 VRM 裡（網格綁頭骨，跟著頭動），不用遊戲端的配件（props3d）：
     帽冠＝從頭頂往下一圈一圈到帽緣（前面在眉毛上方 1.5 cm、兩側在耳朵上面、後面在後腦中間），每個方向的半徑＝那個方向附近頭髮的最外面＋5 mm（不穿模）；
-    帽沿＝前面 ±72° 從帽緣往前伸 7.6 cm、往下彎 1.2 cm（雙面材質）；頂上一顆小鈕。顏色灰（參考圖 #6b6d70）。"""
+    帽沿＝前面 ±75° 從帽緣往前伸 7.6 cm、往下彎 2.4 cm、上下兩層 3 mm 厚（雙面材質）。顏色灰（參考圖 #6b6d70）。
+第二版：帽冠貼頭（第一版照頭髮外緣撐成水桶帽）、帽沿有厚度和弧度（第一版平視只剩一條線）。"""
 import math
 import numpy as np
 import bpy, bmesh
@@ -31,10 +32,11 @@ def build_cap(m, hair):
         return float(np.interp(az(a), [0, 40, 75, 110, 150, 180],
                                [H.brow_top + 0.016, H.brow_top + 0.012, H.brow_z + 0.026, H.brow_z + 0.022, c[2] - 0.004, c[2] - 0.018]))
 
-    def rad(d):     # 這個方向：頭皮＋1.2 cm，和附近（8° 以內）頭髮最外面＋5 mm，取大的
+    def rad(d, near_rim=1.0):     # 帽冠貼頭：頭皮＋1.4 cm（第一版照頭髮最外面＋5 mm：韋綸那頭往上翹的頭髮把帽冠撐成水桶帽）；
+        r0 = H.R(d) + 0.014                # 只有靠帽緣那一段（near_rim→1）讓到附近頭髮最外面＋4 mm、最多多 1.2 cm（帽緣下面露出來的頭髮不穿出帽子）
         near = Hd @ d > math.cos(math.radians(8.0))
-        rh = float(Hr[near].max()) + 0.005 if near.any() else 0.0
-        return max(H.R(d) + 0.012, rh)
+        rh = float(Hr[near].max()) + 0.004 if near.any() else 0.0
+        return r0 + min(max(rh - r0, 0.0), 0.012) * near_rim
 
     def e_rim(a):
         lo, hi = -45.0, 60.0
@@ -50,20 +52,26 @@ def build_cap(m, hair):
         t = j / NE; ring = []
         for i, a in enumerate(A):
             e = 88.0 - (88.0 - erim[i]) * t; d = sph(a, e)
-            V.append(c + d * rad(d) * (1.0 + 0.012 * math.sin(math.pi * t))); UV.append((i / NA, t)); ring.append(len(V) - 1)
+            V.append(c + d * rad(d, float(HB.sstep(0.55, 1.0, t))) * (1.0 + 0.010 * math.sin(math.pi * t))); UV.append((i / NA, t)); ring.append(len(V) - 1)
         rows.append(ring)
     top = c + np.array([0.0, 0.0, 1.0]) * rad(np.array([0.0, 0.0, 1.0])); apex = len(V); V.append(top + np.array([0, 0, 0.002])); UV.append((0.5, 0.0))
     for i in range(NA): F.append((apex, rows[0][(i + 1) % NA], rows[0][i]))
     for j in range(NE):
         for i in range(NA):
             i2 = (i + 1) % NA; F.append((rows[j][i], rows[j][i2], rows[j + 1][i2], rows[j + 1][i]))
-    rim = rows[-1]; bi = sorted([i for i, a in enumerate(A) if abs(a) <= 72.0], key=lambda i: A[i]); outer = []
+    # 帽沿（第二版：有厚度——上面、下面兩層相距 3 mm＋外緣一條邊；往前伸 7.6 cm、從根部到前緣往下彎 2.4 cm（第一版幾乎水平，平視時只剩一條線））
+    rim = rows[-1]; bi = sorted([i for i, a in enumerate(A) if abs(a) <= 75.0], key=lambda i: A[i]); top_o, bot_i, bot_o = [], [], []
     for i in bi:
         a = A[i]; p = np.array(V[rim[i]]); hd = _unit(np.array([p[0] - c[0], p[1] - c[1], 0.0]))
-        L = 0.072 * max(0.0, math.cos(math.radians(a) * 90.0 / 76.0)) ** 0.7 + 0.004
-        V.append(p + hd * L + np.array([0.0, 0.0, -0.012 * L / 0.076])); UV.append((a / 144.0 + 0.5, 1.0)); outer.append(len(V) - 1)
+        L = 0.072 * max(0.0, math.cos(math.radians(a) * 90.0 / 80.0)) ** 0.7 + 0.004; k_ = L / 0.076
+        q = p + hd * L + np.array([0.0, 0.0, -0.024 * k_])
+        V.append(q); UV.append((a / 150.0 + 0.5, 1.0)); top_o.append(len(V) - 1)
+        V.append(p + np.array([0.0, 0.0, -0.003])); UV.append((a / 150.0 + 0.5, 0.95)); bot_i.append(len(V) - 1)
+        V.append(q + np.array([0.0, 0.0, -0.003])); UV.append((a / 150.0 + 0.5, 0.95)); bot_o.append(len(V) - 1)
     for k in range(len(bi) - 1):
-        F.append((rim[bi[k]], rim[bi[k + 1]], outer[k + 1], outer[k]))
+        F.append((rim[bi[k]], rim[bi[k + 1]], top_o[k + 1], top_o[k]))          # 上面
+        F.append((bot_i[k], bot_o[k], bot_o[k + 1], bot_i[k + 1]))              # 下面
+        F.append((top_o[k], top_o[k + 1], bot_o[k + 1], bot_o[k]))              # 前緣
     me = bpy.data.meshes.new('Cap_J01'); me.from_pydata([list(map(float, v)) for v in V], [], F); me.validate(); me.update()
     uv = me.uv_layers.new(name='UVMap'); li = np.zeros(len(me.loops), int); me.loops.foreach_get('vertex_index', li)
     uv.data.foreach_set('uv', np.array(UV)[li].reshape(-1).astype(np.float32))
