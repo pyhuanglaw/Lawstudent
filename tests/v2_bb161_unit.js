@@ -76,7 +76,7 @@ GM.money=function(n){ G.money+=n; };
   { const d2=termDay('Y1S2',2,5); fresh(d2,22,'campus',{dating_kexin:true,KX_OUR_DAY:{day:'fri',mode:'ntu'}}); G.stage='law'; OUT.plan(G,{id:'kx_our_day1',ev:'ev_kexin_our_day',day:d2,h:19,place:'x',title:'x'}); OUT.get(G,'kx_our_day1').state='done';
     OUT.plan(G,{id:'kx_trip_y1s2',ev:'ev_kexin_trip_spring_y1',day:D('2026-04-03'),h:8,place:'x',title:'x'});
     const weeks=[]; for(let w=3;w<=12;w++){ G.day=termDay('Y1S2',w,1); G.hour=9; STORY.phoneRules(GM); for(const q of OUT.rec(G)) if(/^kx_od_/.test(q.id)&&q.state==='planned'){ weeks.push(CALENDAR.termOf(q.day).week); q.state='done'; } }
-    check('⑭ 選週五：第 4（K7）、6（春假旅行）、8（K6）、9（生日）週不排；其他照排',JSON.stringify(weeks)==='[3,5,7,10,11,12]',JSON.stringify(weeks)); }
+    check('⑭ 選週五：第 6（春假旅行）、8（K6）、9（生日）週不排；其他照排（K7 週年改到 10/17，第 4 週照排）',JSON.stringify(weeks)==='[3,4,5,7,10,11,12]',JSON.stringify(weeks)); }
   // ⑮⑯ 生日：豆花那兩句在山下那一家；老闆那句數實際吃過的次數
   { const b=EV('ev_kexin_birthday_y1s2').dialogue, is=b.findIndex(l=>l.bg==='nccu_food'), id=b.findIndex(l=>l.text==='你第一次跟我單獨吃的，是豆花。');
     check('⑮ 豆花那兩句在換到山下那一家的背景以後',is>0&&id>is);

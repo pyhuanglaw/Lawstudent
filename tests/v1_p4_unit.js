@@ -37,7 +37,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     L[0]==='這間教室，你一年前坐過。'&&L[1]==='這門課你選的？經濟學原理？'&&L[2]==='……我得修。'&&L[3]==='你看起來好像來過這間教室。'&&L.includes('所以你是留級生？')&&L[L.length-1]==='難怪。'&&G.flags.ECON_PAST_SHARED==='full',JSON.stringify(L));
   L=await p4({Y0_P1_SEAT:'window'},'自學'); check('1. 座位 window：「……那時候你坐在靠窗。」；② none → half、「……自學的人不會知道這間教室的冷氣很冷。」',L[0]==='這間教室，你一年前坐過。那時候你坐在靠窗。'&&G.flags.ECON_PAST_SHARED==='half'&&L[L.length-1]==='……自學的人不會知道這間教室的冷氣很冷。');
   L=await p4({ECON_PAST_SHARED:'half'},'笑一笑'); check('1. ③ 笑一笑：「好神祕。我喜歡。」；half 不降',L[L.length-1]==='好神祕。我喜歡。'&&G.flags.ECON_PAST_SHARED==='half');
-  L=await p4({ECON_PAST_SHARED:'full',Y0_P1_SEAT:'xun'}); check('2. 已經 full：不選，阿哲「對齁，你念過一年。所以你是留級生？」「是重修生。」芯慈「那你來幫我看這題。」',L[0].endsWith('那時候你坐在阿勳旁邊。')&&!L.includes('你看起來好像來過這間教室。')&&L.includes('對齁，你念過一年。所以你是留級生？')&&L[L.length-1]==='那你來幫我看這題。'&&G.flags.ECON_PAST_SHARED==='full',JSON.stringify(L));
+  L=await p4({ECON_PAST_SHARED:'full',Y0_P1_SEAT:'xun'}); check('2. 已經 full：不選，阿哲「對齁，你念過經濟。所以你是留級生？」「是重修生。」芯慈「那你來幫我看這題。」',L[0].endsWith('那時候你坐在阿勳旁邊。')&&!L.includes('你看起來好像來過這間教室。')&&L.includes('對齁，你念過經濟。所以你是留級生？')&&L[L.length-1]==='那你來幫我看這題。'&&G.flags.ECON_PAST_SHARED==='full',JSON.stringify(L));
   check('2. 只一次',(()=>{ const ok=EVENTS.check(e,{chain:true}); return !ok; })());
   // P4b
   const wk=w=>termDay('Y1S1',w,5);

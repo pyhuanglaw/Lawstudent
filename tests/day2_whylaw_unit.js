@@ -83,7 +83,7 @@ const after=(arr,q)=>{ const i=arr.indexOf(q); return i<0?[]:arr.slice(i+1); };
     check('3b 總圖的結尾（小聲版）：以安「（小聲）你的聯絡方式給我。筆記我拍給你。」、記 AN_CONTACT_DAY2',j>=0&&L2[j+1]==='（小聲）你的聯絡方式給我。筆記我拍給你。'&&G.flags.AN_CONTACT_DAY2===G.day,JSON.stringify(L2.slice(-3))); }
   // ---------- 4 以安的記憶：人物面板讀得出來（只在 econ）----------
   { fresh(); pick={law88:0,why:1}; await D2.cafeScene(GM); const d=SOCIAL.describe('heroine_01');
-    check('4 econ 之後：以安的人物面板寫「知道你念過一年經濟系」',/知道你念過一年經濟系/.test(d),d);
+    check('4 econ 之後：以安的人物面板寫「知道你念過經濟系」',/知道你念過經濟系/.test(d),d);
     fresh(); pick={law88:0,why:3}; await D2.cafeScene(GM); const d2=SOCIAL.describe('heroine_01');
     check('4 own 之後：以安的人物面板沒有經濟系',!/經濟/.test(d2),d2); }
   // ---------- 5 程式碼與資料：舊句子、以安的家庭欄 ----------

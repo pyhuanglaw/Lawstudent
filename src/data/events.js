@@ -31,7 +31,7 @@ const REVISIT_Y1_OPTS=[
 const REVISIT_Y1_SHOWN=G=>REVISIT_Y1_OPTS.filter(o=>o.ok(G)).slice(0,3).map(o=>o.k);
 /* 迎新的第 3 題（AA_177 第 9 節）：第二天 whyLaw 的鍵（舊存檔的 hero→help、ok／family／unknown→own：STORY.whyLawKey）*/
 const WHY_KEY=G=>typeof STORY!=='undefined'&&STORY.whyLawKey?STORY.whyLawKey(G.flags):null;
-const MENTOR_WHY_TEXT={curious:'小時候遇到事情就去翻民法。翻得到，看不懂。',econ:'我先念了一年經濟。後來想知道事情『應該』怎麼處理。',help:'想幫身邊的人把事情弄清楚。',own:'還在找怎麼說。但這是我自己選的。'};
+const MENTOR_WHY_TEXT={curious:'小時候遇到事情就去翻民法。翻得到，看不懂。',econ:'我先念了一個多月經濟。還是想念這個。',help:'想幫身邊的人把事情弄清楚。',own:'還在找怎麼說。但這是我自己選的。'};
 /* 學姊 W5（BB_96 2-6）：法服讀書會去過 3 次以上、還沒演過（兩個版本共用一次）；後半段兩個版本相同 */
 const W5_OK=G=>{ const A=G.acts&&G.acts.att||{}; const n=Object.keys(A).filter(k=>k.indexOf('lawclub_study@')===0).length; const D=G.events&&G.events.done||{}; return n>=3&&!D.ev_sis_sticky_notes&&!D.ev_sis_sticky_notes_late; };
 const W5_REST=[ {speaker:null,text:'會後你回萬才館拿忘記的東西，看到她一個人坐著，在每份書狀上貼便條。'},
@@ -386,7 +386,7 @@ const STORY_EVENTS=[
       {speaker:null,text:'輪到你。'},
       {choice:[{text:'「我叫{name}，臺北人。」',goto:'game'},{text:'「我比大家大一歲。」',goto:'older'},{text:'「我二十歲。念過經濟系，一個多月。」',goto:'econ'}]},
       {label:'older'},{speaker:'zhe',expression:'laugh',text:'那我們叫你哥？'},{speaker:'player',text:'不要。'},{goto:'game'},
-      {label:'econ'},{set:{ECON_PAST_SHARED:'full'}},{if:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_01','FIRST_MET')},mem:[{npc:'heroine_01',tag:'KNOWS_ECON_YEAR',note:'迎新的自我介紹：你說念過一年經濟'}]},
+      {label:'econ'},{set:{ECON_PAST_SHARED:'full'}},{if:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_01','FIRST_MET')},mem:[{npc:'heroine_01',tag:'KNOWS_ECON_YEAR',note:'迎新的自我介紹：你說念過經濟系'}]},
       {speaker:null,text:'全場「喔——」。'},{speaker:'zhe',expression:'laugh',text:'哥！'},
       {label:'game'},{speaker:null,text:'大地遊戲，你和沛珊同一組。最後一關：用一句話說為什麼念法律。'},
       {speaker:'classmate_peishan',expression:'neutral',text:'我可以問一個奇怪的問題嗎。……如果答不出來，可以算過關嗎？'},
@@ -468,7 +468,7 @@ const STORY_EVENTS=[
       {speaker:null,text:'你被分到顧火。火一直熄。'},
       {if:{flags:['ZHE_CALLS_GE']},goto:'ge_after'},   /* AA_195 4-9（CAMP-FIX-614 程式 7）：到中秋烤肉還沒有「哥」的玩家（夜談選「跟你們一樣啦」），阿哲問同一段；選項、效果同夜談 */
       {speaker:'zhe',text:'欸，你幾年次的？感覺你比我們大一點。'},
-      {choice:[{text:'「我大一歲。」',goto:'ge_old'},{text:'「我念過一年經濟，重考的。」',unless:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'ge_econ'},{text:'「我不是說過了嗎？」',if:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'ge_said'},{text:'「跟你們一樣啦。」',goto:'ge_same'}]},
+      {choice:[{text:'「我大一歲。」',goto:'ge_old'},{text:'「我念過一個多月經濟，重考的。」',unless:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'ge_econ'},{text:'「我不是說過了嗎？」',if:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'ge_said'},{text:'「跟你們一樣啦。」',goto:'ge_same'}]},
       {label:'ge_old'},{speaker:'zhe',text:'那我們叫你哥？'},{speaker:'player',text:'不要。'},{speaker:'zhe',text:'（把剛烤好的那串遞給你）哥，這串給你。'},{set:{ZHE_CALLS_GE:true}},{goto:'ge_after'},   /* AA-B 02:13：烤肉版不說「晚安」*/
       {label:'ge_econ'},{speaker:'zhe',text:'真假！那你是學長欸。'},{speaker:'zhe',text:'……不對，哥。'},{set:{ZHE_CALLS_GE:true,ECON_PAST_SHARED:'full'}},{goto:'ge_after'},
       {label:'ge_said'},{speaker:'zhe',text:'對齁。哥。'},{set:{ZHE_CALLS_GE:true}},{goto:'ge_after'},
@@ -677,11 +677,11 @@ const STORY_EVENTS=[
       {speaker:'zhe',text:'這門課你選的？經濟學原理？'},{speaker:'player',text:'……我得修。'},
       {if:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'known'},
       {speaker:'classmate_xinci',text:'你看起來好像來過這間教室。'},
-      {choice:[{text:'「我念過一年。重考進來的。」',set:{ECON_PAST_SHARED:'full'},goto:'a'},{text:'「我自學過。」',goto:'b'},{text:'（笑一笑）',goto:'c'}]},
+      {choice:[{text:'「我念過一個多月。重考進來的。」',set:{ECON_PAST_SHARED:'full'},goto:'a'},{text:'「我自學過。」',goto:'b'},{text:'（笑一笑）',goto:'c'}]},
       {label:'a'},{speaker:'zhe',text:'所以你是留級生？'},{speaker:'player',text:'是重修生。'},{speaker:'classmate_xinci',text:'難怪。'},{goto:'end'},
       {label:'b'},{if:{custom:G=>G.flags.ECON_PAST_SHARED!=='half'},set:{ECON_PAST_SHARED:'half'}},{speaker:'classmate_xinci',text:'……自學的人不會知道這間教室的冷氣很冷。'},{goto:'end'},
       {label:'c'},{speaker:'zhe',text:'好神祕。我喜歡。'},{goto:'end'},
-      {label:'known'},{speaker:'zhe',text:'對齁，你念過一年。所以你是留級生？'},{speaker:'player',text:'是重修生。'},{speaker:'classmate_xinci',text:'那你來幫我看這題。'},
+      {label:'known'},{speaker:'zhe',text:'對齁，你念過經濟。所以你是留級生？'},{speaker:'player',text:'是重修生。'},{speaker:'classmate_xinci',text:'那你來幫我看這題。'},
       {label:'end'} ] },
   /* P4b「你怎麼這麼熟？」（BB_105 P4b；台詞與機率 AA_154 A51）：大一上第 4、5、7 週經原下課，各 50%（同一週擲一次、最多一次）；ECON_PAST_SHARED 是 full 就不再觸發；觸發過記 P4B_SEEN（AA_40 慈 2 讀它）。
      「念過一年。重考進來的。」＝升 full；「……還好啦。」＝不變，芯慈照 half／none 說 BB_105 2-2 那一句（阿哲問的那週也是芯慈在旁邊說）*/
@@ -691,7 +691,7 @@ const STORY_EVENTS=[
     dialogue:[ {if:{custom:G=>(CALENDAR.termOf(G.day)||{}).week===4},speaker:'classmate_xinci',text:'你怎麼這麼熟？老師還沒講到的圖，你已經畫好了。'},
       {if:{custom:G=>(CALENDAR.termOf(G.day)||{}).week===5},speaker:'zhe',text:'欸，你怎麼都知道老師下一句要講什麼？'},
       {if:{custom:G=>(CALENDAR.termOf(G.day)||{}).week===7},speaker:'classmate_xinci',text:'期中考的範圍，你好像不用看。'},
-      {choice:[{text:'「念過一年。重考進來的。」',set:{ECON_PAST_SHARED:'full'},goto:'a'},{text:'「……還好啦。」',goto:'b'}]},
+      {choice:[{text:'「我念過一個多月。重考進來的。」',set:{ECON_PAST_SHARED:'full'},goto:'a'},{text:'「……還好啦。」',goto:'b'}]},
       {label:'a'},{speaker:'classmate_xinci',text:'……難怪。那你來幫我看這題。'},{goto:'end'},
       {label:'b'},{if:{flagIs:{ECON_PAST_SHARED:'half'}},speaker:'classmate_xinci',text:'你不是自學的吧。……沒關係，不用說。'},{unless:{flagIs:{ECON_PAST_SHARED:'half'}},speaker:'classmate_xinci',text:'你一定念過。……沒關係，不用說。'},
       {label:'end'},{set:{P4B_SEEN:true}} ],
@@ -752,7 +752,7 @@ const STORY_EVENTS=[
       {scene:'經濟系系辦',bg:'soc_office'},
       {speaker:'系辦助理',text:'學號給我。……這個學號，不在我們系的名單上了耶。'},
       {speaker:'player',text:'我現在是法律系的。'},
-      {speaker:'系辦助理',text:'那你走錯棟了。……開玩笑的。外套在這裡，等你半年了。'},
+      {speaker:'系辦助理',text:'那你走錯棟了。……開玩笑的。外套在這裡，等你快一年了。'},
       {if:{custom:G=>STORY.xunNear()&&!!G.flags.PLAYED_Y0},speaker:'阿勳',text:'家豪學長說得對。真的重三倍。'},
       {if:{custom:G=>STORY.xunNear()&&!G.flags.PLAYED_Y0},speaker:'阿勳',text:'……法律系的書，真的比較重。'},
       {choice:[{text:'（穿去霖澤館上課）',set:{ECON_JACKET:'wear'},goto:'end'},{text:'（送給阿勳）',set:{ECON_JACKET:'xun'},goto:'xun'},{text:'（收進衣櫃）',set:{ECON_JACKET:'closet'},goto:'end'}]},
@@ -1483,8 +1483,8 @@ const STORY_EVENTS=[
       {if:{custom:G=>!!G.flags.K7_GIFT&&G.flags.K7_GIFT!=='none'&&!!(G.flags.KX_ANNIV&&G.flags.KX_ANNIV[1]&&G.flags.KX_ANNIV[1]!=='missed')},set:{KX_GIFT_DESK:true}} ] },
   /* K7 準備的東西（AA-B 2026-10-16 裁定）：3/21（六）21:00 系統提示一次、四選一、記 K7_GIFT；那時在睡覺或跳過的，3/22 起床時再問；3/22 18:00 前都沒選＝什麼都沒準備（她照「你人來了就好。」，不扣分；AA_209 附錄B §2） */
   { id:'ev_k7_gift_prep', title:'週年的準備', participants:[], location:'any', trigger:'auto', once:true, background:'blur',
-    prereq:{custom:G=>{ if(!G.flags.dating_kexin||!G.flags.KX_ANNIV_PLACE||G.flags.K7_GIFT!=null||typeof STORY==='undefined'||!STORY.dayOfKey) return false; const a1=STORY.dayOfKey('2026-03-22'); return a1!=null&&((G.day===a1-1&&G.hour>=21)||(G.day===a1&&G.hour<18)); }},
-    dialogue:[ {if:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey('2026-03-22')-1},speaker:null,text:'明天是週年。你準備的東西：'},{if:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey('2026-03-22')},speaker:null,text:'今天是週年。你準備的東西：'},
+    prereq:{custom:G=>{ if(!G.flags.dating_kexin||!G.flags.KX_ANNIV_PLACE||G.flags.K7_GIFT!=null||typeof STORY==='undefined'||!STORY.dayOfKey) return false; const a1=STORY.dayOfKey(STORY.KX_ANNIV_DAY); return a1!=null&&((G.day===a1-1&&G.hour>=21)||(G.day===a1&&G.hour<18.5)); }},
+    dialogue:[ {if:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey(STORY.KX_ANNIV_DAY)-1},speaker:null,text:'明天是週年。你準備的東西：'},{if:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey(STORY.KX_ANNIV_DAY)},speaker:null,text:'今天是週年。你準備的東西：'},
       {choice:[{text:'摩天輪票根的影本，背面寫一題假設題',set:{K7_GIFT:'ticket'}},{text:'一本空白的行事曆，第一頁寫「我們的日子」',set:{K7_GIFT:'planner'}},{text:'山下那家的酸辣湯餃（外帶）',set:{K7_GIFT:'dumpling'}},{text:'什麼都沒準備',set:{K7_GIFT:'none'}}]} ] },
   /* 9-4 K7 交往週年（2026-03-22）：出門前選準備的東西（K7_GIFT，AA-B 確認中的提案：出發前選）→ 她收到的反應 → 她的卡片第一頁的假設題 → 旁白。記 KX_ANNIV {1:place}。不做 CG。
      沒去（婉拒、沒到）：卡片的照片「週年快樂。下次你準備。」、KX_ANNIV {1:'missed'}。卡片之後變成宿舍的房間物件「她的週年卡片」（AA-B 2026-10-16：說明用卡片第一頁那句，story3d.js roomItemList）*/
@@ -2767,11 +2767,11 @@ const STORY_EVENTS=[
       {scene:'霖澤館前',bg:'ntu_linze'},
       {speaker:'新生',text:'為什麼念法律？'},
       {choice:[{text:'「小時候遇到事情就去翻民法。翻得到，看不懂。」',if:{custom:G=>WHY_KEY(G)==='curious'},set:{MENTOR_WHY:'curious'},goto:'why'},
-        {text:'「我先念了一年經濟。後來想知道事情『應該』怎麼處理。」',if:{custom:G=>WHY_KEY(G)==='econ'},set:{MENTOR_WHY:'econ'},goto:'why'},
+        {text:'「我先念了一個多月經濟。還是想念這個。」',if:{custom:G=>WHY_KEY(G)==='econ'},set:{MENTOR_WHY:'econ'},goto:'why'},
         {text:'「想幫身邊的人把事情弄清楚。」',if:{custom:G=>WHY_KEY(G)==='help'},set:{MENTOR_WHY:'help'},goto:'why'},
         {text:'「還在找怎麼說。但這是我自己選的。」',if:{custom:G=>WHY_KEY(G)==='own'},set:{MENTOR_WHY:'own'},goto:'why'},
         {text:'「小時候遇到事情就去翻民法。翻得到，看不懂。」',unless:{custom:G=>WHY_KEY(G)==='curious'},set:{MENTOR_WHY:'curious'},goto:'why'},
-        {text:'「我先念了一年經濟。後來想知道事情『應該』怎麼處理。」',unless:{custom:G=>WHY_KEY(G)==='econ'},set:{MENTOR_WHY:'econ'},goto:'why'},
+        {text:'「我先念了一個多月經濟。還是想念這個。」',unless:{custom:G=>WHY_KEY(G)==='econ'},set:{MENTOR_WHY:'econ'},goto:'why'},
         {text:'「想幫身邊的人把事情弄清楚。」',unless:{custom:G=>WHY_KEY(G)==='help'},set:{MENTOR_WHY:'help'},goto:'why'},
         {text:'「還在找怎麼說。但這是我自己選的。」',unless:{custom:G=>WHY_KEY(G)==='own'},set:{MENTOR_WHY:'own'},goto:'why'}]},
       {label:'why'},{speaker:'新生',text:'……學長，那我還有四年可以想。'},
@@ -2817,7 +2817,7 @@ const STORY_EVENTS=[
       {speaker:'classmate_peishan',expression:'neutral',text:'我決定了。我要重考。去念教育。'},
       {speaker:'classmate_peishan',expression:'thinking',text:'……我還沒跟我爸媽說。'},
       {speaker:'classmate_peishan',expression:'neutral',text:'你覺得呢？'},
-      {choice:[{text:'「妳想去就去。」',goto:'a'},{text:'「妳爸媽會怎麼想？」',goto:'b'},{text:'「我念過一年經濟，後來重考進法律。考的時候很怕，考完就不怕了。」',goto:'c'}]},
+      {choice:[{text:'「妳想去就去。」',goto:'a'},{text:'「妳爸媽會怎麼想？」',goto:'b'},{text:'「我念過一個多月經濟，後來重考進法律。考的時候很怕，考完就不怕了。」',goto:'c'}]},
       {label:'a'},{speaker:null,text:'她點頭。'},{speaker:'classmate_peishan',expression:'neutral',text:'嗯。考試這件事不難。'},{speaker:'classmate_peishan',expression:'thinking',text:'難的是星期六回家，站在那張榜單前面。'},{goto:'end'},
       {label:'b'},{speaker:'classmate_peishan',expression:'neutral',text:'我爸會不講話。我媽會一直問我以後要做什麼。'},{speaker:'classmate_peishan',expression:'smile',text:'這次我答得出來：當老師。'},{goto:'end'},
       {label:'c'},{unless:{flagIs:{ECON_PAST_SHARED:'full'}},speaker:'classmate_peishan',expression:'surprised',text:'……你重考過？'},{unless:{flagIs:{ECON_PAST_SHARED:'full'}},speaker:null,text:'她眼睛亮起來。'},

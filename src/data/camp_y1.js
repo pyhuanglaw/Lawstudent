@@ -252,7 +252,7 @@ const CAMP_Y1_EVENTS=[
       {speaker:'classmate_mingxuan',text:'欸，你幾年次的？感覺你比我們大一點。'},
       {choice:[
         {text:'「我大一歲。」',goto:'old'},
-        {text:'「我念過一年經濟，重考的。」',unless:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'econ'},
+        {text:'「我念過經濟系，一個多月，重考的。」',unless:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'econ'},
         {text:'「我不是說過了嗎？」',if:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'said'},
         {text:'「跟你們一樣啦。」',goto:'same'}]},
       {label:'old'},{speaker:'zhe',text:'那我們叫你哥？'},{speaker:'player',text:'不要。'},{speaker:'zhe',text:'哥，晚安。'},{set:{ZHE_CALLS_GE:true}},{goto:'after'},
@@ -272,7 +272,7 @@ const CAMP_Y1_EVENTS=[
       {unless:{flags:['ZHE_CALLS_GE']},speaker:null,text:'（第三天早上，大家都很睏，餐廳裡沒什麼人講話。）'},   /* AA_205 6-14④ */
       {if:{flags:['ZHE_CALLS_GE']},speaker:'zhe',text:'（隔著桌子）哥，你的蛋。'},
       {if:{flags:['ZHE_CALLS_GE']},speaker:'classmate_xinci',text:'哥？'},
-      {if:{custom:G=>G.flags.ZHE_CALLS_GE&&G.flags.ECON_PAST_SHARED==='full'},speaker:'zhe',text:'他念過一年經濟。'},
+      {if:{custom:G=>G.flags.ZHE_CALLS_GE&&G.flags.ECON_PAST_SHARED==='full'},speaker:'zhe',text:'他念過經濟系。'},
       {if:{custom:G=>G.flags.ZHE_CALLS_GE&&G.flags.ECON_PAST_SHARED!=='full'},speaker:'zhe',text:'他大我們一歲。'},
       {if:{flags:['ZHE_CALLS_GE']},speaker:null,text:'（芯慈「喔」了一聲，繼續吃。）'},
       {if:{flags:['ZHE_CALLS_GE']},speaker:'classmate_mingxuan',text:'那顆蛋你不吃的話給我。'},
