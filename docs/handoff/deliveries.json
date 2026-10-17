@@ -5128,6 +5128,19 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "AA、BB 互審完成；驗收照 AA_154 第 6 節、AA_197 1-7 的 113 上下兩列"
+  },
+  {
+   "id": "DL-LW2-DORM-LOFT",
+   "date": "2026-10-17",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "a09ebf4d",
+   "what": "宿舍台大四人房 dorm_room4.glb（0.94 MB、88 物件、1.45 萬三角形）＋dorm_room4.layout.json（loft4-v2：四組座位、梯子前睡覺點、洗手間、窗 winXs [0]、月曆、傳單位置、203／412／412 第一晚 sets、v0_props）＋遊戲內截圖；使用者 01:3x「宿舍ok」",
+   "task": "DORM-LOFT-L",
+   "msg": "ACK",
+   "integration": "整合中",
+   "note": "新檔名，舊 dorm_interior.glb 沒動；LAWWW-B 01:44 ACK；場景 ART_APPROVED 等使用者在遊戲裡再看一次"
   }
  ],
  "ignored": [
