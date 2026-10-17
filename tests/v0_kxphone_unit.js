@@ -39,13 +39,18 @@ const days=(d0,n,weather)=>{ const out=[]; for(let d=d0;d<d0+n;d++){ G.day=d; G.
   fresh(termDay('Y0S1',5,1),8,'dorm',{}); G.stage='econ'; M=days(G.day,30).map(m=>m.text); check('1. E06 以前：可昕的不出現',!M.some(t=>/顯然|滷肉飯|笑場/.test(t)));
   // 大一下：交往中、3/26 以後
   const d26=STORY.dayOfKey('2025-03-26');
-  fresh(d26-10,8,'dorm',{Y0_DATING:true,LEAVE_WEEK:6,Y0_LEFT:true}); G.stage='econ'; let K=days(d26-10,9).filter(m=>m.from==='kexin').map(m=>m.text); check('2. 3/26 以前：可昕大一下那四則不出現',!K.some(t=>/同一張桌子|她說那是我的鬧鐘|新的語言|你買飲料/.test(t)),JSON.stringify(K));
+  fresh(d26-10,8,'dorm',{Y0_DATING:true,LEAVE_WEEK:6,Y0_LEFT:true}); G.stage='econ'; let K=days(d26-10,8).filter(m=>m.from==='kexin').map(m=>m.text); check('2. 大一下第 6 週（3/24）以前：可昕大一下那四則不出現（kx2 從 2/15 起算，AA_224 6-1；四則排在第 4～6 週）',!K.some(t=>/同一張桌子|她說那是我的鬧鐘|新的語言|你買飲料/.test(t)),JSON.stringify(K));
   fresh(d26,8,'dorm',{Y0_DATING:true,LEAVE_WEEK:6,Y0_LEFT:true}); G.stage='econ'; K=days(d26,60).filter(m=>m.from==='kexin').map(m=>m.text);
   check('2. 3/26 以後：四則都會出現',['同一張桌子，我把你的位子擦了。不是因為想你，是有咖啡漬。','品妤問我們幾點起床。我說八點。她說那是我的鬧鐘，不是我起床。','在博雅門口遇到經原的老師。他問我還好嗎。我說我在學新的語言。','晚安。明天的桌子，我比你早到的話，你買飲料。'].every(t=>K.includes(t)),JSON.stringify(K));
   // 暑假（重考期）接著跑；7/11 以後不跑
   const s0=STORY.dayOfKey('2025-06-25'), s1=STORY.dayOfKey('2025-07-12');
   check('3. 6/25（暑假）：學期週次接著第 18 週往下算；7/12 沒有',(()=>{ G.day=s0; const t=STORY.dpTerm(G); G.day=s1; const t2=STORY.dpTerm(G); return t&&t.id==='Y0S2'&&t.week===19&&!t2; })());
   fresh(s0,8,'dorm',{Y0_DATING:true,LEAVE_WEEK:6,Y0_LEFT:true,Y0_MOVED_OUT:true}); G.stage='econ'; M=days(s0,15).map(m=>m.text); check('3. 暑假 6/25～7/9 還會有手機小事',M.length>0,String(M.length));
+  // AA_269 第 8 節（1fb2e4cf）：照新時間線重排的五則
+  { const E=id=>STORY.DAILY_PHONE.find(d=>d.id===id), T=(k)=>CALENDAR.termOf(STORY.dayOfKey(k)), g=f=>({stage:'econ',flags:f});
+    check('5. 微積分第五題＝第 6 週；搬走的隔天 10/20 以後（Y0_MOVED_OUT）；老師問那個人呢＝第 8 週；韋綸、品妤＝第 9 週，品妤改讀 LEAVE_WEEK',
+      E('y0_xu_calc').term(T('2024-10-08'))&&!E('y0_xu_calc').term(T('2024-10-15'))&&E('y0_xu_lamp').term(T('2024-10-20'))&&E('y0_xu_lamp').ok(g({Y0_MOVED_OUT:true}),STORY.dayOfKey('2024-10-20'))&&!E('y0_xu_lamp').ok(g({Y0_MOVED_OUT:true}),STORY.dayOfKey('2024-10-19'))
+      &&E('y0_xu_seat').term(T('2024-10-22'))&&E('y0_wl_wait').term(T('2024-10-29'))&&E('y0_py_notes').term(T('2024-10-29'))&&E('y0_py_notes').ok(g({LEAVE_WEEK:7}),STORY.dayOfKey('2024-10-29'))&&!E('y0_py_notes').term(T('2025-03-24'))); }
   // 法律系的存檔不受影響
   fresh(termDay('Y1S1',6,2),8,'dorm',{}); G.stage='law'; M=days(G.day,10); check('4. 法律系：沒有經濟系的手機小事',!M.some(m=>/^econ_/.test(m.from||'')&&/dp_y0_/.test(m.tag||''))&&!(G.flags.dpN&&Object.keys(G.flags.dpN).some(k=>/^y0_/.test(k))));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
