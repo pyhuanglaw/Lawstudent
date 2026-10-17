@@ -13964,9 +13964,9 @@
    "title": "LAWWW-B 2026-10-17 02:3x 交班時沒跑完的測試（整合 LAWWW2-B 疊面修正、四人房、宿營修正、大一下日期之後）",
    "area": "QA",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P0",
-   "next": "①完整單元測試重跑（最後一次全跑在 01:57 前後：253 項 5 項失敗，之後已逐一修好、個別重跑通過，但 01:57 以後改過 story3d／events／camp_y1／zones3d，整套沒有再全跑）；②瀏覽器：flow_wancai_floors（02:32 開始跑，交班中斷）、zone_transitions、flow_library_floors、flow_library_scene、flow_linze_floors、法圖相關（interior_glb_integration 的萬才館／總圖／法圖／201 部分）；③flow_camp_y1 重跑看 b9eaacf3 的 8/29 室友坐姿；④大一下重訪日 1（6/12）瀏覽器流程沒有跑過，只有單元測試；已跑過：interior_glb_integration 宿舍 ALL PASS 42、flow_dorm_hall ALL PASS、flow_camp_y1 ALL PASS（02:27）。雲端 SwiftShader 一次只跑一個瀏覽器測試",
+   "next": "LAWWW-C 2026-10-17：①整套單元測試全部通過（修 B 交班留下的 4 個失敗：v3_batch1 路徑、bg_images、v2_b37、v2_b9，0402040b；之後新增測試一起 258／258）；②瀏覽器（乾淨 worktree 0402040b）：flow_camp_y1、flow_wancai_floors、zone_transitions、flow_library_floors、flow_library_scene、interior_glb_integration 全部 ALL PASS；flow_linze_floors 失敗是測試前提過期（第 8 天＝9/24 星期三，服務學習把玩家帶去法圖），改第 11 天（fd928d90）重跑排第五批；③8/29 室友坐姿：flow_camp_y1 已加檢查（37004d10），第二批重跑；④大一下重訪等階梯對話框的瀏覽器驗證還沒做。容器缺 Python Playwright 時：pip install playwright（不要 playwright install，用 /opt/pw-browsers/chromium）",
    "first": {
     "term": "Y1S1",
     "week": 0,
