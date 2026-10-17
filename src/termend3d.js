@@ -33,7 +33,9 @@ const TERMEND=(function(){
   S.heartWhy=function(G,id,w){ if(typeof DATE==='undefined'||!DATE.canConfess) return false; const Lx=L(); if(!Lx||!Lx.HEART[id]) return false;
     if(G.flags&&G.flags['dating_'+id]) return false;   /* C4：交往中＝女朋友的學期末約會 */
     if(typeof ROM!=='undefined'&&ROM.canStart&&!ROM.canStart(G,id)) return false;   /* C8：分手以後還不能重新開始 */
-    const c=DATE.canConfess(G,id);
+    let c=DATE.canConfess(G,id);
+    if(w&&w.id==='Y1S1'&&!c.ok&&(c.why==='count'||c.why==='wish')&&DATE.log&&(DATE.log(G,id).count|0)>=2){ const ww=DATE.willing?DATE.willing(G,id):{ok:true};   /* 使用者 2026-10-17 選 B（BB-C 93d4e0f4）：法律系大一上的學期末只要 2 次正式約會、不看心願地點；大一下起回到 4 次含心願地點 */
+      c=!ww.ok?{ok:false,why:ww.why}:(id==='heroine_05'&&DATE.sisPreexam&&DATE.sisPreexam(G)?{ok:true,decline:'preexam'}:(id==='heroine_05'&&DATE.sisPrerank&&DATE.sisPrerank(G)?{ok:true,decline:'prerank'}:{ok:true})); }
     if(!c.ok) return c.why==='low'||c.why==='knows'?{nope:c.why}:false;   /* C1～C3 只是還沒到、C5 她自己有伴侶：不傳 */
     if(c.decline==='preexam'||c.decline==='prerank') return {nope:'preexam'};   /* 學姊：放榜（2026-03-23）以前不發（5-3）*/
     const D=typeof CONFESS_LINES!=='undefined'?CONFESS_LINES[id]:null; if(D&&typeof D.hideIf==='function'&&D.hideIf(G,null)) return false;   /* 沛珊重考期：聯絡不到，不傳 */

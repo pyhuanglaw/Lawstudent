@@ -94,6 +94,13 @@ GM.money=function(n){ G.money+=n; };
   // 9. 約會收尾不再有告白
   { fresh(D('2025-11-01'),18,'campus',{}); const r=await DATE.confessOffer(GM,{who:'heroine_01'}); check('9. 正式約會的收尾不再有告白（DATE.confessOffer＝false）',r===false&&!opts.length); }
   DATE.canConfess=cc0;
+  // 9b. 使用者選 B：大一上的學期末只要 2 次正式約會、不看心願地點（大一下起回到 4 次含心願地點）
+  { fresh(D('2025-12-18'),9,'campus',{}); G.stage='law'; meet('heroine_04'); const r=SOCIAL.rel('heroine_04'); Object.assign(r,{fam:62,trust:46,comf:41,npcRom:62,rom:31});
+    const L=DATE.log(G,'heroine_04'); L.count=2; L.wish=false;
+    const P1=TERMEND.plan(G,TERMEND.windowOf('Y1S1')); L.count=1; G.termend.Y1S1={}; const P0=TERMEND.plan(G,TERMEND.windowOf('Y1S1'));
+    G.day=D('2026-06-11'); L.count=3; const P2=TERMEND.plan(G,TERMEND.windowOf('Y1S2'));
+    check('9b. 大一上：第 6 階＋答應線＋2 次正式約會（沒有心願地點）＝心意的邀約；1 次＝沒有；大一下 3 次沒心願地點＝沒有',P1.heart.includes('heroine_04')&&!P0.heart.includes('heroine_04')&&!P2.heart.includes('heroine_04'),JSON.stringify([P1.heart,P0.heart,P2.heart])); }
+  check('9c. 校園單獨約出來：第 3 階起她的戀愛 +1、祐廷的戀愛 +1（一天一次，AA_243 第 1 節）',/DATE\.stageNum\(iv\.who\)>=3&&iv\.who!=='kexin'\)\{ const DY=G\.daily\|\|\(G\.daily=\{\}\), k='romAlone_'\+iv\.who; if\(DY\[k\]!==G\.day\)\{ DY\[k\]=G\.day; SOCIAL\.adjust\(iv\.who,\{npcRom:1,rom:1\}\)/.test(fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8')));
   // 10. 存讀檔
   { fresh(D('2025-12-20'),10,'campus',{}); G.termend={think:{heroine_04:'Y1S1'},Y1S1:{plan:{heart:[],friend:['classmate_xinci'],fallback:null,gf:[],nope:{}},picked:{who:'classmate_xinci',kind:'friend',day:1}},contact:{Y1S1:{zhe:{pts:3,k:{chat:1}}}}};
     const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('10. 存讀檔：邀約、接了誰、讓我想想、分數都留著',G.termend.think.heroine_04==='Y1S1'&&G.termend.Y1S1.picked.who==='classmate_xinci'&&TERMEND.score(G,'Y1S1','zhe')===3); }
