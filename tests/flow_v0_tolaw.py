@@ -61,7 +61,7 @@ async def main():
         # 打字機效果下畫面上的字只抓得到開頭：另外記下 GM.say 收到的完整句子（只記錄、不改流程）
         await pg.evaluate("(()=>{ if(window.__said) return; window.__said=[]; const o=GAME.say; GAME.say=function(w,t){ window.__said.push(String(t||'')); return o.apply(this,arguments); }; })()")
         await pick(pg, cdp, ['睡覺'])
-        ok, log = await drive(pg, cdp, "GAME.G.stage==='law'&&GAME.G.zone==='dorm'&&!document.querySelector('#choices button')&&!(GAME.D&&GAME.D.active)", ['讀到一半。'], 300)
+        ok, log = await drive(pg, cdp, "GAME.G.stage==='law'&&GAME.G.zone==='dorm'&&!!GAME.E.zone&&!!GAME.E.zone.def&&GAME.E.zone.def.id==='dorm'&&!GAME.E.player.busy&&!document.querySelector('#choices button')&&!(GAME.D&&GAME.D.active)", ['讀到一半。'], 300)   # G.zone 在搬宿舍那兩句之前就設成 dorm 了：要等真的進了宿舍（E.zone）、劇情演完
         said = await pg.evaluate("window.__said||[]")
         text = ' | '.join(log + said)
         d29 = d28 + 1
