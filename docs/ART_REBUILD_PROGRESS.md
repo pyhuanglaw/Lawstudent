@@ -10,6 +10,8 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**交班（帳號 B LAWWW-B，2026-10-17 02:40 UTC，使用者正式換班）**：交出 `d11fc9d1`（之後只有交班紀錄 commit），快照 `docs/handoff/snapshots/2026-10-17T0240Z_B_LAWWW.json`；六類 A～F 在 `docs/HANDOFF_GAP_MATRIX.md` 第 1 節。沒有合併 main、沒有發布（線上 v9.9.1 `6d5c3279`）。下一班第一步：接班十四步後先做 QA-HANDOFF-B1（整套單元測試＋沒跑完的瀏覽器流程）。
+
 值班登記：帳號 B｜LAWWW-B｜session_01DvRVNNnivf7da7qqWuGmw6｜分支 claude/modest-rubin-2lyp7g｜接班基準 origin/claude/confident-ritchie-8rwh7t 的 c8b3eab（合併 commit 450ffdb）｜2026-10-15 23:02 UTC
 上一班：帳號 A｜LAWWW｜session_01Eds6msqpsuzNEw98sdw8JX｜最後 commit 78402e1（交班補記，2026-10-14 17:38 UTC；之後 c8b3eab／effb148 是使用者推的 P0 換班規則）｜正常交班
 

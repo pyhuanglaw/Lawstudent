@@ -12,11 +12,11 @@
   "B",
   "C"
  ],
- "onDuty": "B",
- "previous": "A",
+ "onDuty": null,
+ "previous": "B",
  "accountState": {
   "A": "off",
-  "B": "on",
+  "B": "off",
   "C": "unused"
  },
  "roles": {
@@ -24,10 +24,12 @@
    "account": "B",
    "session": "session_01DvRVNNnivf7da7qqWuGmw6",
    "branch": "claude/modest-rubin-2lyp7g",
-   "sha": "9266693c",
+   "sha": "d11fc9d1",
    "since": "2026-10-15",
-   "state": "on",
-   "progressFile": "docs/ART_REBUILD_PROGRESS.md"
+   "state": "handed-off",
+   "progressFile": "docs/ART_REBUILD_PROGRESS.md",
+   "handedOffAt": "2026-10-17T02:41Z",
+   "handoffSnapshot": "docs/handoff/snapshots/2026-10-17T0240Z_B_LAWWW.json"
   },
   "LAWWW2": {
    "account": "B",
@@ -61,14 +63,13 @@
   }
  },
  "lastHandoff": {
-  "from": "A",
-  "at": "2026-10-14T17:40Z",
+  "from": "B",
+  "at": "2026-10-17T02:41Z",
   "kind": "handoff",
-  "closed": true,
   "snapshots": {
-   "LAWWW": "2026-10-14T1740Z_A_LAWWW.json"
+   "LAWWW": "docs/handoff/snapshots/2026-10-17T0240Z_B_LAWWW.json"
   },
-  "note": "帳號 A 的交班快照是帳號 B 接班時重建的（reconstructed），只有 LAWWW 一份"
+  "closed": true
  },
  "history": [
   {
@@ -111,7 +112,7 @@
  ],
  "pending": null,
  "anomalies": [],
- "seq": 2,
+ "seq": 3,
  "chain": [
   {
    "seq": 1,
@@ -126,6 +127,13 @@
    "account": "B",
    "role": "LAWWW2,AA,BB",
    "event": "sync"
+  },
+  {
+   "seq": 3,
+   "at": "2026-10-17T02:41Z",
+   "account": "B",
+   "role": "LAWWW",
+   "event": "handoff"
   }
  ]
 }
