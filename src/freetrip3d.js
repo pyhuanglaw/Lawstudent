@@ -17,6 +17,13 @@ const TRIP=(function(){
   S.at=G=>!!(G&&G.trip&&G.trip.spot);
   S.sunset=G=>{ const T=(D().rules||{}).sunsetTable||{}; const m=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).m:6; return +T[String(m)]||18; };
   const rainy=G=>G.weather==='rain';
+  /* 第二批（spots_v2）的規則（rules 是 AA 寫的施工說明，照寫成程式）：
+     D09 貓空：週一纜車維修停駛（closedWd 的說明改「纜車今天停駛」）、大雨強風（rain、typhoon）整趟不能去「下雨，纜車停了」；
+     D24 礁溪、D25 外澳：考試週不能去（太遠，AA_126 1-1 的精神）。其他（下雨戶外的點灰掉、散步用 rain 那句、最晚離開時間＝open[1]）照第一批的做法 */
+  const SPOT_RULE={D09:{closedWhy:'纜車今天停駛',rainWhy:'下雨，纜車停了'},D24:{noExamWeek:true},D25:{noExamWeek:true}};
+  /* 交通：第一批 transit.line／to；第二批 transit.legs（[{mode,text,minutes}]）*/
+  const legLine=s=>s.transit.line||(s.transit.legs||[]).map(l=>l.text).join('→');
+  const legTo=s=>s.transit.to||s.name;
   const C=()=>typeof CLS!=='undefined'?CLS:null;
   /* 期末考：今天還沒考的期末考，開始時間落在這一趟可能的時間裡 */
   const examIn=(G,h0,h1)=>{ const c=C(); if(!c||!c.dayItems) return null; return c.dayItems(G).find(it=>it.exam==='final'&&!c.rec(G).done[it.key]&&it.t1>h0&&it.t0<h1)||null; };
@@ -24,14 +31,17 @@ const TRIP=(function(){
   S.check=function(G,s){ const h=G.hour, m=s.transit.minutes/60, arr=h+m, wd=(typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd:G.weekday)%7, c=C();
     if(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(G.day)) return {ok:false,why:'颱風假，捷運停駛'};
     if(c&&c.slotsOn&&c.slotsOn(G)&&c.slotLeft(G,c.periodAt(h),'trip')<=0) return {ok:false,why:'這個'+c.SLOT_NAME[c.periodAt(h)]+'已經排滿了'};
-    if((s.closedWd||[]).includes(wd)) return {ok:false,why:'今天休館'};
+    const R=SPOT_RULE[s.id]||{};
+    if((s.closedWd||[]).includes(wd)) return {ok:false,why:R.closedWhy||'今天休館'};
+    if(R.rainWhy&&(G.weather==='rain'||G.weather==='typhoon')) return {ok:false,why:R.rainWhy};
+    if(R.noExamWeek&&c&&c.examWeek&&c.examWeek(G)) return {ok:false,why:'考試週，太遠了'};
     if(arr<s.open[0]-1e-6&&arr+1<=s.open[1]){ /* 到得太早：在外面等到開門也行，看等多久 */ if(s.open[0]-arr>1) return {ok:false,why:'現在去還沒開（'+hm(s.open[0])+' 開）'}; }
     if(Math.max(arr,s.open[0])+1>s.open[1]+1e-6) return {ok:false,why:arr>=s.open[1]?'現在去，到了就關了':'現在去，待不到一小時就關了'};
     if(Math.max(arr,s.open[0])+1+m>24+1e-6) return {ok:false,why:'太晚了，回不來'};
     if((G.money|0)<s.transit.fareRound) return {ok:false,why:'錢不夠'};
     const ex=examIn(G,h,Math.min(24,Math.max(arr,s.open[0])+1+m)); if(ex) return {ok:false,why:'期末考（'+hm(ex.t0)+' '+ex.c.name+'）'};
     return {ok:true,why:''}; };
-  const how=s=>(s.transit.mode==='mrt'?'捷運 ':'')+s.transit.minutes+' 分鐘・來回 '+s.transit.fareRound+' 元・'+hm(s.open[0])+'–'+hm(s.open[1])+((s.closedWd||[]).length?'（週'+'日一二三四五六'[s.closedWd[0]]+'休）':'');
+  const how=s=>(s.transit.legs?(s.transit.legs.map(l=>l.text).join('＋')+' '):(s.transit.mode==='mrt'?'捷運 ':''))+s.transit.minutes+' 分鐘・來回 '+s.transit.fareRound+' 元・'+hm(s.open[0])+'–'+hm(s.open[1])+((s.closedWd||[]).length?'（週'+'日一二三四五六'[s.closedWd[0]]+'休）':'');
   /* R1：這一趟會錯過的事（沒上的課、約好的見面）——最多三件 */
   S.wouldMiss=function(G,h1){ const out=[], h0=G.hour, c=C(); if(c&&c.dayItems) for(const it of c.dayItems(G)){ const st=c.status(G,it); if((st==='open'||st==='upcoming')&&!c.storyClass(G,it)&&!(c.planSkip&&c.planSkip(G,it))&&it.t0<h1&&it.t1-0.5>h0) out.push(hm(it.t0)+' '+it.c.name); }
     for(const iv of (G.invites||[])) if(iv.day===G.day&&(iv.accepted||iv.state==='accepted')&&!iv.done&&iv.h>h0&&iv.h<h1) out.push(hm(iv.h)+' '+(iv.label||'約好的見面'));
@@ -46,7 +56,7 @@ const TRIP=(function(){
     const miss=S.wouldMiss(G,stay+m); if(miss.length){ let j=1; GM.sceneBegin(); try{ await GM.say(null,'這一趟會錯過：'+miss.join('、')+'。'); j=await GM.choose([{t:'照樣出發'},{t:'先不要'}]); } finally { GM.sceneEnd(); } if(j!==0) return false; }
     const c=C(), p=c&&c.periodAt?c.periodAt(G.hour):null; if(c&&c.slotsOn&&c.slotsOn(G)&&p) c.slotUse(G,[p]);
     G.trip={spot:s.id,depart:G.hour,arrive:null,done:[],walk:0,photo:false,p:p?[p]:[],from:G.zone};
-    GM.sceneBegin(); try{ await GM.fade(true); if(GM.titleCard) await GM.titleCard(s.transit.line,'公館 → '+s.transit.to+'　'+s.transit.minutes+' 分鐘',2200); GM.advance(m); GM.money(-Math.ceil(s.transit.fareRound/2)); if(G.hour<s.open[0]) GM.advance(s.open[0]-G.hour); G.trip.arrive=G.hour; } finally { GM.sceneEnd(); }
+    GM.sceneBegin(); try{ await GM.fade(true); if(GM.titleCard) await GM.titleCard(legLine(s),'公館 → '+legTo(s)+'　'+s.transit.minutes+' 分鐘',2200); GM.advance(m); GM.money(-Math.ceil(s.transit.fareRound/2)); if(G.hour<s.open[0]) GM.advance(s.open[0]-G.hour); G.trip.arrive=G.hour; } finally { GM.sceneEnd(); }
     if(GM.autosave) GM.autosave(); await S.loop(GM); return true; };
   /* 散步、互動點的台詞：lines[第幾次來]，超過用最後一句；散步的池照順序輪、同一趟不重複 */
   const visitIdx=(G,s)=>Math.max(0,(S.rec(G).free[s.id]|0)-1);
@@ -84,7 +94,7 @@ const TRIP=(function(){
     finally { busy=false; GM.sceneEnd(); } };
   /* 回程（4-6）：回公館（捷運站口）／直接回宿舍（多 10 分鐘的步行）*/
   S.back=async function(GM,s){ const G=GM.G; let j=0; if(typeof ENC!=='undefined'&&ENC.leave) await ENC.leave(GM,s);   /* 還一起走著：她先說離開的一句 */ j=await GM.choose([{t:'回公館',hint:'捷運站口'},{t:'直接回宿舍',hint:'多走 10 分鐘'}]); if(s.leave) await GM.say(null,s.leave);
-    await GM.fade(true); if(GM.titleCard) await GM.titleCard(s.transit.line,s.transit.to+' → 公館　'+s.transit.minutes+' 分鐘',2000); GM.advance(s.transit.minutes/60+(j===1?10/60:0)); GM.money(-Math.floor(s.transit.fareRound/2)); G.trip=null;
+    await GM.fade(true); if(GM.titleCard) await GM.titleCard(legLine(s),legTo(s)+' → 公館　'+s.transit.minutes+' 分鐘',2000); GM.advance(s.transit.minutes/60+(j===1?10/60:0)); GM.money(-Math.floor(s.transit.fareRound/2)); G.trip=null;
     if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); if(j===1) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); else await GM.enter('gongguan',{x:-35.6,z:13.2,yaw:0}); if(GM.autosave) GM.autosave(); };
   /* 讀檔時人在景點：回到景點的選單（story3d.js 的 S.tick）*/
   S.tick=function(GM){ const G=GM.G; if(!S.at(G)||busy) return; S.loop(GM).catch(e=>{ console.warn('TRIP.loop',e); busy=false; }); };

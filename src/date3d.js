@@ -98,7 +98,7 @@ const DATE=(function(){
      祐廷自己的課：可以排，提示錯過哪一堂（法律課不點名）或少一次出席（非法律課，AA_126 1-4）。
      誰約得到：學姊以外照 INV.whyNot（有聯絡方式、不是陌生人）＋AA_126 4-1「第 5 階以後的私下約會」（交往中不看階段）＋她自己沒有伴侶、沒有在等你說清楚；
      任一方有伴侶的完整規則是 DATE-S7（AA_128 4-5）。她指定的交通（DATE_PREFS，BB 填）、改交通時她的一句、改三次她的一句：BB 交了再接。 */
-  S.listable=function(locId){ const L=S.loc(locId); if(!L) return false; const bg=typeof OUT!=='undefined'&&OUT.BG?OUT.BG:{}, p=String(locId).toLowerCase()+'_base'; return Object.keys(bg).some(k=>k.startsWith(p)); };   /* 有底圖才出現在清單（DATE-L01～L32） */
+  S.listable=function(locId){ const L=S.loc(locId); if(!L) return false; const bg=typeof OUT!=='undefined'&&OUT.BG?OUT.BG:{}, p=String(locId).toLowerCase()+'_base'; return Object.keys(bg).some(k=>k.startsWith(p))&&!!((LN().loc||{})[locId]);   /* 有底圖才出現在清單（DATE-L01～L32）；底圖也給自由出行用（DL-06B 的貓空、九份…），約會要等那個地點的台詞審完匯入才列（不然到了現場她一句話都沒有）*/ };
   S.kindAt=function(locId,depart){ const K=((S.loc(locId)||{}).kinds||['half']).filter(k=>S.STAY[k]); if(!K.length) return null; return depart>=16&&K.includes('evening')?'evening':(K.includes('half')||K.includes('day')?K.find(k=>k!=='evening'):K[0]); };
   S.TIMES={half:[9,10,13,14,15],evening:[17,18,19],day:[8,9]};
   S.canAsk=function(G,id){ if(!S.HEROINES.includes(id)) return {ok:false,why:'不能約'}; const F=G.flags||{}, dating=!!F['dating_'+id];

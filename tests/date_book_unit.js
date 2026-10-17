@@ -106,7 +106,8 @@ const ADV2=global.ADV; ADV2.active=false;
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; G.flags.dating_heroine_03=true; said=[]; picks=['淡水','明天','15:00','就這樣約']; await DATE.menu(GM,'heroine_03',null);
   check('9. 和她交往中：「答應（和她交往中）」那一句',lines().some(x=>/阿姨說，那天她自己顧。/.test(x)),lines().join(' | '));
   // 交通偏好：語彤 D09 想搭捷運 → 預設選、排第一；改開車她說一句
-  OUT.BG.d09_base_dusk=OUT.BG.d09_base_dusk||{label:'貓空',image:'x'};
+  check('9. 有底圖但台詞還沒匯入的地點（貓空 D09：自由出行用得到底圖）不列在約會清單',!!OUT.BG.d09_base_dusk&&!DATE_LINES.loc.D09&&!DATE.listable('D09'));
+  DATE_LINES.loc.D09={lines:{}};   /* 測交通偏好用：假裝貓空的台詞到了 */
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; G.flags.dating_heroine_03=true; said=[]; opts=[]; picks=['貓空','開車','明天','14:00','就這樣約']; const tc=await DATE.menu(GM,'heroine_03',null);
   check('9. 交通：她的偏好（捷運）排第一、寫「（她想這樣去）」',opts[1]&&/（她想這樣去）/.test(opts[1][0])&&/捷運/.test(opts[1][0]),JSON.stringify(opts[1]));
   check('9. 玩家改開車：約成、她說「改交通」那一句（不扣分）',tc&&tc.transport==='car'&&lines().some(x=>/坐你的車也可以/.test(x)),lines().join(' | '));

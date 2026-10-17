@@ -9,7 +9,7 @@ global.window=global; global.location={search:''}; global.document={getElementBy
 for(const f of ['src/data/characters.js','src/data/places.js','src/data/calendar.js','src/data/courses.js','src/classes3d.js','src/outings3d.js','src/data/free_trips.js','src/freetrip3d.js'])
   vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (CHARACTERS|PLACES|SOCIAL_GRAPH|UNFAMILIAR_POOL|PORTRAITS|CALENDAR|COURSES|CLS|OUT|FREE_TRIPS|TRIP)\s*=/mg,'global.$1='),{filename:f});
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
-check('1. 有 TRIP.menu、go、loop、back、check、tick，第一批四個景點 D04、D06、D12、D13',typeof TRIP!=='undefined'&&['menu','go','loop','back','check','tick','at'].every(k=>typeof TRIP[k]==='function')&&TRIP.list().map(s=>s.id).join()==='D04,D06,D12,D13');
+check('1. 有 TRIP.menu、go、loop、back、check、tick，第一批四個景點 D04、D06、D12、D13＋第二批五個（DL-06B：D09、D18、D20、D24、D25）',typeof TRIP!=='undefined'&&['menu','go','loop','back','check','tick','at'].every(k=>typeof TRIP[k]==='function')&&TRIP.list().map(s=>s.id).join()==='D04,D06,D12,D13,D09,D18,D20,D24,D25',TRIP.list().map(s=>s.id).join());
 if(fails){ console.log('FAILED '+fails); process.exit(1); }
 check('1. 每個景點的底圖都接上（OUT.BG 有圖、檔案在 repo 裡）',TRIP.list().every(s=>OUT.BG[s.bg]&&OUT.BG[s.bg].image&&fs.existsSync(path.join(ROOT,OUT.BG[s.bg].image))));
 const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/DAY)+1; };
@@ -35,12 +35,22 @@ const sp=id=>TRIP.spot(id);
   let ex=null; for(let d=SAT;d<SAT+140&&!ex;d++){ const G2=mkG(d,8); const it=CLS.dayItems(G2).find(i=>i.exam==='final'&&i.t0>=10&&i.t0<=16); if(it&&CALENDAR.dateOf(d).wd%7!==1) ex={d,it}; }   /* 北美館週一休：找不是週一的 */
   if(ex){ const G3=mkG(ex.d,ex.it.t0-1); const ks=TRIP.list().map(q=>TRIP.check(G3,q).why); check('2. 期末考那一段時間：灰掉寫「期末考（時間 科目）」',ks.some(w=>/^期末考（/.test(w)),JSON.stringify(ks)); }
   else check('2. 找得到期末考的日子',false); }
+// 2b. 第二批（DL-06B，spots_v2＠32d11245）的規則
+{ check('2b. free_trips.js 第二批來自匯入白名單 spots_v2.json＠32d11245',/spots_v2\.json@32d11245/.test(FREE_TRIPS.source||''),FREE_TRIPS.source);
+  check('2b. 貓空週一：「纜車今天停駛」（不是「今天休館」）',TRIP.check(mkG(MON,14),sp('D09')).why==='纜車今天停駛',TRIP.check(mkG(MON,14),sp('D09')).why);
+  check('2b. 貓空下雨、颱風天氣：「下雨，纜車停了」',TRIP.check(mkG(SAT,14,{weather:'rain'}),sp('D09')).why==='下雨，纜車停了'&&TRIP.check(mkG(SAT,14,{weather:'typhoon'}),sp('D09')).why==='下雨，纜車停了');
+  check('2b. 九份下雨照樣能去',TRIP.check(mkG(SAT,14,{weather:'rain'}),sp('D18')).ok,TRIP.check(mkG(SAT,14,{weather:'rain'}),sp('D18')).why);
+  let xw=null; for(let d=SAT;d<SAT+80&&xw==null;d++){ if(CLS.examWeek(mkG(d,9))&&CALENDAR.dateOf(d).wd%7===6) xw=d; }
+  check('2b. 礁溪、外澳考試週不能去：「考試週，太遠了」；烏來照常',xw!=null&&TRIP.check(mkG(xw,10),sp('D24')).why==='考試週，太遠了'&&TRIP.check(mkG(xw,14),sp('D25')).why==='考試週，太遠了'&&TRIP.check(mkG(xw,10),sp('D20')).why!=='考試週，太遠了',String(xw));
+}
 // 3. 出發：扣次數、車資、到達時間；選單、回程
 (async()=>{
+  { const G=mkG(SAT,14), gm=mkGM(G,['回去','回公館']); await TRIP.go(gm,sp('D09')); if(TRIP.at(G)) await TRIP.loop(gm);
+    check('2b. 兩段交通（legs）：出發的標題卡「捷運到動物園站→貓空纜車｜公館 → 貓空纜車與茶館　60 分鐘」、回程反過來',gm.L.cards[0]==='捷運到動物園站→貓空纜車｜公館 → 貓空纜車與茶館　60 分鐘'&&/貓空纜車與茶館 → 公館/.test(gm.L.cards[gm.L.cards.length-1]||''),JSON.stringify(gm.L.cards)); }
   { const G=mkG(SAT,13); const gm=mkGM(G,[1, '到館外的草地走走', '看展', '看展', '回去', '回公館']);
     // 選單第 2 項（index 1）是北美館
     const r=await TRIP.menu(gm);
-    check('3. 「捷運公館站。要去哪裡？」四個景點＋不去了',gm.L.says[0]==='捷運公館站。要去哪裡？'&&gm.L.menus[0].length===5&&gm.L.menus[0][4]==='不去了',JSON.stringify(gm.L.menus[0]));
+    check('3. 「捷運公館站。要去哪裡？」九個景點（第一批四、第二批五）＋不去了',gm.L.says[0]==='捷運公館站。要去哪裡？'&&gm.L.menus[0].length===10&&gm.L.menus[0][9]==='不去了',JSON.stringify(gm.L.menus[0]));
     check('3. 出發扣下午 1 次',CLS.slotRec(G).used.pm===1,JSON.stringify(CLS.slotRec(G).used));
     check('3. 標題卡「捷運（中正紀念堂轉淡水信義線）｜公館 → 圓山　30 分鐘」',gm.L.cards[0]==='捷運（中正紀念堂轉淡水信義線）｜公館 → 圓山　30 分鐘',gm.L.cards[0]);
     check('3. 第一次來：arrive[0]',gm.L.says[1]===sp('D06').arrive[0],gm.L.says[1]);
