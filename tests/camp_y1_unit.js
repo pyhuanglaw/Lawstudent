@@ -57,6 +57,18 @@ const day=k=>STORY.dayOfKey(k);
     check('F5. 手機：阿凱的對話串有冷氣訊息和回覆',km2.some(m=>m.text==='你的冷氣遙控器在我這')&&km2.some(m=>/27 可以嗎|懶得拿下來/.test(m.text)),km2.map(m=>m.text).join(' | '));
     const n0=said.length; await STORY.lawMoveIn(GM);
     check('F6. 演過就不再演（KAI_MOVEIN）',said.length===n0); }
+  // ---------- G 家族群組 W0：8/30 21:00（BB_168 6-3、BB_177 11-1）----------
+  { const fam=()=>G.msgs.filter(m=>m.th==='g:family_law'), q=(G.phone.q||[]).map(x=>x.tag+'@'+x.day+'/'+x.h);
+    check('G1. 搬宿舍以後：已在家族群組、學姊置頂 8/25、Kevin 排在 8/30 21:00（還沒發）',PHONE.inGroup(G,'family_law')&&fam().some(m=>m.pin&&m.day===day('2025-08-25')&&/三件事/.test(m.text))&&q.includes('fam_w0@'+day('2025-08-30')+'/21')&&!fam().some(m=>m.from==='kevin'),q.join(' '));
+    G.day=day('2025-08-30'); G.hour=21.05; PHONE.tick(G); const kv=fam().filter(m=>m.from==='kevin'), last=kv[kv.length-1];
+    check('G2. 去過宿營的版本：Kevin 認出臥底那一隊（有玩家名字）、四則、最後一則可以回「是我。／（貼圖）」',kv.length===4&&kv[1].text==='欸 祐廷？我當臥底那一隊的？原來你是我們家族的'&&kv[3].text==='考古題茶會那天給你們。'&&last.ask&&last.ask.opts.map(o=>o.t).join('/')==='是我。/（貼圖）',kv.map(m=>m.text).join(' | '));
+    const r=PHONE.answer(G,last.ask.id,1);
+    check('G3. 回了 → FAM_GROUP_REPLIED、Kevin「好，收到一個。」',G.flags.FAM_GROUP_REPLIED===true&&fam().some(m=>m.text==='好，收到一個。'),JSON.stringify(r&&r.out&&r.out.map(m=>m.text)));
+    const n1=G.msgs.length; await STORY._v1.familyGroupD1(GM);
+    check('G4. 9/3 introDorm 不再發舊的「第三週了」（已經發過）',G.msgs.length===n1&&!G.msgs.some(m=>/第三週了/.test(m.text))); }
+  fresh(); G.flags.MAIN_D1=STORY.MAIN_D1_NEW; G.flags.LAW_START_DAY=day('2025-08-29'); G.day=day('2025-09-03'); STORY.familyW0(G,{now:true});
+  { const kv=G.msgs.filter(m=>m.th==='g:family_law'&&m.from==='kevin');
+    check('G5. 沒去宿營的版本（BB_168 6-3）：「有進來的舉個手，考古題茶會那天給你們。」、回「（舉手）／我在。」',kv.length===2&&kv[1].text==='有進來的舉個手，考古題茶會那天給你們。'&&kv[1].ask.opts.map(o=>o.t).join('/')==='（舉手）/我在。',kv.map(m=>m.text).join(' | ')); }
   fresh(); G.flags.CAMP_Y1=true; G.day=day('2025-08-29'); G.hour=9; picks=['我是']; await STORY.startLawWeek1(GM,null,{day:G.day,hour:15,econ:true});
   { const ix=t=>said.findIndex(x=>x.indexOf(t)>=0);
     check('F7. 經濟系轉過來：「你去年也搬過一次宿舍」在行李箱那句前面；錢不重設',ix('你去年也搬過一次宿舍，這次只有一個行李箱。')>=0&&ix('你去年也搬過一次宿舍')<ix('行李箱的輪子')&&G.money===22000,String(G.money));

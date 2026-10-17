@@ -83,7 +83,8 @@ const STORY = (function(){
     if(GM.titleCard){ const dt=S.dateOf(d); await GM.titleCard(dt.m+' 月 '+dt.d+' 日（'+'日一二三四五六'[G.weekday%7]+'）',hm(G.hour)+' · 男生宿舍',2000); }   /* 日期卡「8 月 29 日（五）16:05 · 男生宿舍」（AA_195 4-2）*/
     if(GM.say){ if(GM.sceneBegin) GM.sceneBegin(); try{ if(o.econ) await GM.say(null,'你去年也搬過一次宿舍，這次只有一個行李箱。'); await GM.say(null,'行李箱的輪子在宿舍走廊上一直卡到地磚的縫。'); } finally { if(GM.sceneEnd) GM.sceneEnd(); } }   /* 進房間前（AA_195 4-2 第 1 點；經濟系版前面多一句，AA-B 21:09）*/
     if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{});
-    if(GM.say) await kaiMoveIn(GM); };
+    if(GM.say) await kaiMoveIn(GM);
+    if(G.day<=S.dayOfKey('2025-08-30')) S.familyW0(G);   /* 8/30 晚上的家族群組（BB_168 6-3）；8/30 以後才轉過來的，9/3 introDorm 補 */ };
   /* 開學前迎新宿營 8/22～24（CAMP-L1；AA_205 第 2～4 節、BB_177 第五版；台詞在 src/data/camp_y1.js）：新遊戲第一段，三天兩夜全部在 2D 畫面演（人不在臺北）。
      一段一個事件，依 CAMP_SEQ 的日子（8/22 起第幾天）與時間跑；每段演完記 F.campStep 並自動存檔——中途被踢回標題或關掉，讀檔回來從下一段接著演（game3d.js applySave 呼叫 S.campY1 resume）。
      開頭：加入「法律系 114 新生（系學會）」群組（8/15 公告、8/21 小隊名單，AA_205 2-2）；演完：回家旁白（2-2）、小隊群組 camp_squad_y1（8/24 21:00 合照、BB_177 13-3、阿哲「29 號見」；8/29 18:00 阿哲，AA_205 6-4）。 */
@@ -849,11 +850,21 @@ const STORY = (function(){
     return true; }
   /* 家族群組（BB_95 4-1；ev_family_group_pin）：第一天晚上回宿舍後手機亮起。群組名「法律系直屬家族」（家族制度的叫法需查證）；置頂是學姊開學前發的；
      回「（舉手）」或「活著。」設 FAM_GROUP_REPLIED（學姊第一次見面 talkSis 會讀），Kevin：「很好，有一個活的。」；不回就是不回。舊存檔已經過了第一天的不補 */
-  function familyGroupD1(GM){ const G=GM.G, F=G.flags; if(F.FAM_GROUP_SENT||typeof PHONE==='undefined') return; F.FAM_GROUP_SENT=true; const th='g:family_law'; PHONE.join(G,'family_law','法律系直屬家族');
+  function familyGroupD1(GM){ const G=GM.G, F=G.flags; if(F.FAM_GROUP_SENT||typeof PHONE==='undefined') return; if(S.week1Start(G)){ S.familyW0(G,{now:true}); if(GM.toast) GM.toast('手機｜法律系直屬家族｜Kevin：新的家族學弟妹都進群了嗎？',4200); if(GM.phoneBadge) GM.phoneBadge(); return; }   /* 開學改 9/1 的局：開學前那一版（8/30 沒排到的舊存檔，到 9/3 立刻補）*/ F.FAM_GROUP_SENT=true; const th='g:family_law'; PHONE.join(G,'family_law','法律系直屬家族');
     const sis=t=>({th,from:'heroine_05',name:'溫學姊',text:t}), kv=t=>({th,from:'kevin',name:'Kevin',text:t});
     PHONE.postAt(G,Object.assign(sis('學弟妹好。三件事。一，開學第一週不要買二手書，先等學長姐的。二，民總很重要。三，有問題可以問，但先自己查。'),{pin:true}),-16,21);   /* 開學前（8/31）發的置頂 */
     PHONE.post(G,Object.assign(kv('第三週了，直屬學弟妹還活著嗎？要考古題的舉手'),{ask:{opts:[{t:'（舉手）',set:{FAM_GROUP_REPLIED:true},say:[kv('很好，有一個活的。')]},{t:'活著。',set:{FAM_GROUP_REPLIED:true},say:[kv('很好，有一個活的。')]}]}}));
     PHONE.post(G,sis('先看置頂。')); if(GM.toast) GM.toast('手機｜法律系直屬家族｜Kevin：第三週了，直屬學弟妹還活著嗎？',4200); if(GM.phoneBadge) GM.phoneBadge(); }
+  /* 家族群組 W0（BB_168 6-3、BB_177 11-1；AA_195 4-3）：開學改 9/1 的局提早到 8/30（六）晚上（21:00）。置頂是學姊開學前一週（8/25）發的、字照舊；
+     Kevin 是同家族的大二學長（不是直屬，直屬只有學姊）。去過宿營（CAMP_Y1）的玩家：Kevin 認出臥底那一隊的學弟（BB_177 11-1）；沒去的照 BB_168 6-3。回了設 FAM_GROUP_REPLIED（9/2 茶會、學姊第一次見面會讀）；不回就是不回 */
+  S.familyW0=function(G,o){ o=o||{}; const F=G.flags; if(F.FAM_GROUP_SENT||typeof PHONE==='undefined') return false; F.FAM_GROUP_SENT=true; const th='g:family_law'; PHONE.join(G,'family_law','法律系直屬家族');
+    const sis=t=>({th,from:'heroine_05',name:'溫學姊',text:t}), kv=t=>({th,from:'kevin',name:'Kevin',text:t}), nm=G.name||'祐廷';
+    PHONE.postAt(G,Object.assign(sis('學弟妹好。三件事。一，開學第一週不要買二手書，先等學長姐的。二，民總很重要。三，有問題可以問，但先自己查。'),{pin:true}),S.dayOfKey('2025-08-25'),21);
+    const camp=!!F.CAMP_Y1, L=camp?['新的家族學弟妹都進群了嗎？','欸 '+nm+'？我當臥底那一隊的？原來你是我們家族的','所以我宿營騙了自己家的學弟三天 好啦對不起','考古題茶會那天給你們。']:['新的家族學弟妹都進群了嗎？','有進來的舉個手，考古題茶會那天給你們。'];
+    const opts=(camp?['是我。','（貼圖）']:['（舉手）','我在。']).map(t=>({t,set:{FAM_GROUP_REPLIED:true},say:[kv('好，收到一個。')]}));
+    const items=L.map((t,k)=>k===L.length-1?Object.assign(kv(t),{ask:{opts}}):kv(t));
+    if(o.now) for(const it of items) PHONE.post(G,it); else PHONE.at(G,S.dayOfKey('2025-08-30'),21,items,'fam_w0');
+    return true; };
   /* 手機上照旗標排時間的訊息（內容照企劃組原文）。每 0.5 秒（S.tick）；同一則用 tag 只排一次 */
   /* 某學期第幾週星期幾是第幾天（wd：1＝週一…7＝週日）；沒有＝null */
   const termDayCache={}; function termDay(term,week,wd){ const k=term+'|'+week+'|'+wd; if(k in termDayCache) return termDayCache[k]; let r=null; if(typeof CALENDAR!=='undefined') for(let d=(/^Y0/.test(term)?-420:-30);d<1500;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===week&&CALENDAR.dateOf(d).wd===wd){ r=d; break; } } return termDayCache[k]=r; }
