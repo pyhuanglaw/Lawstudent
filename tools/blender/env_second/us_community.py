@@ -298,6 +298,115 @@ def building(b):
 
 for b in J['buildings']: building(b)
 
+
+def clubhouse(h):
+    """會所（社區辦公室＋交誼廳；BB_215「走到會所門口」）：一層樓（簷高 eave）、淺米色壁板＋一圈紅磚腰牆、正面中間的玻璃門（雙開＋兩側側窗）、
+    左右兩扇大窗（裡面亮著：暖色的室內＋沙發、桌子、盆栽的剪影）、門廊（兩根白方柱、小山牆、空白招牌——D77 不放名字）、門口兩盞壁燈、兩個花台。
+    局部座標同 building()：u 沿正面、v 往正面外（yaw π＝朝北）"""
+    g = B.group('BLDG_' + h['id'], root, {'kind': 'us_clubhouse', 'id': h['id']})
+    g.location = (h['cx'], -h['cz'], 0.0); g.rotation_euler = (0.0, 0.0, h['yaw'])
+    Lb, Db, EH = h['len'], h['dep'], h['eave']; u0, u1, vF, vB = -Lb / 2, Lb / 2, Db / 2, -Db / 2
+    M['siding_h'] = siding_mat(h.get('tint', '#b8ad95'))
+    M['club_in'] = L.flat('GLOW_usc_club_interior', '#f3dcb8', rough=0.8, emit=B.srgb('#ffd9a8'))   # 室內（亮著）：遊戲照 GLOW_.*interior 依時段調亮度
+    mk = {k: Mesh('bH_' + k, M[k]) for k in ('siding_h', 'brick', 'roof', 'trim', 'glassw', 'conc', 'dark', 'lamp', 'club_in')}
+    vc = CMesh('bH_vc', M['vc'])
+    def dq(m, q): m.quad(q); m.quad(q[::-1])
+    DOOR = (-1.5, 1.5, 0.0, 2.6); WINS_F = [(-5.4, -3.0, 0.75, 2.85), (3.0, 5.4, 0.75, 2.85)]
+    WINS_B = [(-4.0, -2.4, 1.0, 2.5), (2.4, 4.0, 1.0, 2.5)]; WINS_S = [(-1.0, 1.0, 1.0, 2.5)]
+    def wq(rects, plane):
+        m = mk['siding_h']
+        for (xa, xb, ya, yb) in rects:
+            if plane == 'F': m.quad([(u0 + xa, ya, vF), (u0 + xb, ya, vF), (u0 + xb, yb, vF), (u0 + xa, yb, vF)])
+            elif plane == 'B': m.quad([(u1 - xa, ya, vB), (u1 - xb, ya, vB), (u1 - xb, yb, vB), (u1 - xa, yb, vB)])
+            elif plane == 'L': m.quad([(u0, ya, vB + xa), (u0, ya, vB + xb), (u0, yb, vB + xb), (u0, yb, vB + xa)])
+            else: m.quad([(u1, ya, vF - xa), (u1, ya, vF - xb), (u1, yb, vF - xb), (u1, yb, vF - xa)])
+    wq(facade_rects(Lb, EH, [(a - u0, b_ - u0, y0, y1) for (a, b_, y0, y1) in [DOOR] + WINS_F]), 'F')
+    wq(facade_rects(Lb, EH, [(Lb / 2 - b_, Lb / 2 - a, y0, y1) for (a, b_, y0, y1) in WINS_B]), 'B')
+    for sd in ('L', 'R'): wq(facade_rects(Db, EH, [(Db / 2 + a, Db / 2 + b_, y0, y1) for (a, b_, y0, y1) in WINS_S]), sd)
+    # 紅磚腰牆（比壁板凸 4 cm，開口處不做）＋白色壓頂
+    for (a, b_) in ((u0 - 0.04, DOOR[0]), (DOOR[1], u1 + 0.04)):
+        segs = [(a, b_)]
+        for (wa, wb, _, _) in WINS_F: segs = [p for (x0, x1) in segs for p in ([(x0, x1)] if wb <= x0 or wa >= x1 else [(x0, wa), (wb, x1)]) if p[1] - p[0] > 0.01]
+        for (x0, x1) in segs: mk['brick'].box(x0, x1, 0.0, 1.0, vF - 0.02, vF + 0.04)
+    for (wa, wb, _, _) in WINS_F: mk['brick'].box(wa, wb, 0.0, 0.7, vF - 0.02, vF + 0.04)
+    mk['brick'].box(u0 - 0.04, u1 + 0.04, 0.0, 1.0, vB - 0.04, vB + 0.02)
+    for uu in (u0, u1): mk['brick'].box(uu - 0.04, uu + 0.04, 0.0, 1.0, vB, vF)
+    mk['trim'].box(u0 - 0.06, DOOR[0], 1.0, 1.06, vF, vF + 0.07); mk['trim'].box(DOOR[1], u1 + 0.06, 1.0, 1.06, vF, vF + 0.07)
+    mk['conc'].box(u0 - 0.03, u1 + 0.03, -0.05, 0.12, vB - 0.03, vF + 0.03)
+    for uu in (u0, u1):
+        for vv in (vF, vB): mk['trim'].box(uu - 0.07, uu + 0.07, 0.12, EH, vv - 0.07, vv + 0.07)
+    # 窗：白框＋玻璃，玻璃後面 1.2 m 是亮著的室內（暖色面）＋剪影
+    def win(a, b_, y0, y1, plane):
+        P = (lambda u, y, d: (u, y, vF - d)) if plane == 'F' else ((lambda u, y, d: (-u, y, vB + d)) if plane == 'B' else None)
+        if plane in ('L', 'R'):
+            uu = u0 if plane == 'L' else u1; sg = 1 if plane == 'L' else -1
+            P = lambda u, y, d: (uu + sg * d, y, u if plane == 'R' else -u)
+        q = [P(a, y0, 0.1), P(b_, y0, 0.1), P(b_, y1, 0.1), P(a, y1, 0.1)]; dq(mk['glassw'], q)   # 兩面（方向不用算）
+        dq(mk['club_in'], [P(a - 0.4, y0 - 0.6, 1.2), P(b_ + 0.4, y0 - 0.6, 1.2), P(b_ + 0.4, y1 + 0.5, 1.2), P(a - 0.4, y1 + 0.5, 1.2)])
+        for (pa, pb, ya, yb) in ((a - 0.09, a, y0, y1), (b_, b_ + 0.09, y0, y1), (a - 0.09, b_ + 0.09, y1, y1 + 0.1), (a - 0.12, b_ + 0.12, y0 - 0.08, y0)):
+            c0, c1 = P(pa, ya, -0.035), P(pb, yb, 0.1)
+            mk['trim'].box(min(c0[0], c1[0]), max(c0[0], c1[0]), ya, yb, min(c0[2], c1[2]), max(c0[2], c1[2]))
+    for w in WINS_F: win(*w, 'F')
+    for w in WINS_B: win(*w, 'B')
+    for w in WINS_S: win(*w, 'L'); win(*w, 'R')
+    # 室內的剪影（從正面的窗看得到）：沙發、矮桌、落地燈、大盆栽、交誼廳的長桌
+    for (cxu, kind) in ((-4.6, 'sofa'), (-3.6, 'plant'), (4.4, 'table'), (3.4, 'lamp')):
+        v_ = vF - 0.9
+        if kind == 'sofa': vc.crbox(cxu - 0.9, cxu + 0.9, 0.0, 0.85, v_ - 0.45, v_ + 0.1, '#5a4a40', r=0.05, seg=1)
+        elif kind == 'plant':
+            vc.crbox(cxu - 0.18, cxu + 0.18, 0.0, 0.4, v_ - 0.18, v_ + 0.18, '#7a5a44', r=0.02, seg=1)
+            f0 = set(vc.bm.faces); vc.ell((cxu, 1.05, v_), 0.4, 0.65, 0.4, seg=10, rings=6); vc.paint([f for f in vc.bm.faces if f not in f0], '#3e5a34')
+        elif kind == 'table':
+            vc.crbox(cxu - 1.0, cxu + 1.0, 0.72, 0.78, v_ - 0.45, v_ + 0.45, '#6a4a34', r=0.01, seg=1)
+            for du in (-0.9, 0.9): vc.cbox(cxu + du - 0.04, cxu + du + 0.04, 0.0, 0.72, v_ - 0.04, v_ + 0.04, '#3a2a20')
+        else: vc.cbox(cxu - 0.02, cxu + 0.02, 0.0, 1.5, v_ - 0.02, v_ + 0.02, '#2a2a2a'); mk['lamp'].box(cxu - 0.18, cxu + 0.18, 1.45, 1.75, v_ - 0.18, v_ + 0.18)
+    # 入口：雙開玻璃門＋兩側側窗＋上面的氣窗（白框）、門把、腳踏墊
+    a, b_, y0, y1 = DOOR
+    dq(mk['glassw'], [(a, y0, vF - 0.08), (b_, y0, vF - 0.08), (b_, y1, vF - 0.08), (a, y1, vF - 0.08)])
+    dq(mk['club_in'], [(a - 0.6, 0.0, vF - 1.6), (b_ + 0.6, 0.0, vF - 1.6), (b_ + 0.6, EH - 0.3, vF - 1.6), (a - 0.6, EH - 0.3, vF - 1.6)])
+    for uu in (a, a + 0.55, 0.0, b_ - 0.55, b_): mk['trim'].box(uu - 0.05, uu + 0.05, y0, y1, vF - 0.1, vF + 0.03)
+    for yy in (2.15, y1): mk['trim'].box(a - 0.05, b_ + 0.05, yy - 0.05, yy + 0.05, vF - 0.1, vF + 0.03)
+    for uu in (-0.12, 0.12): mk['dark'].box(uu - 0.015, uu + 0.015, 0.9, 1.3, vF + 0.03, vF + 0.07)   # 直的門把
+    vc.cbox(-1.0, 1.0, 0.12, 0.13, vF + 0.1, vF + 0.9, '#3e3a36')
+    # 門廊：水泥地坪、兩根白方柱、橫樑、小山牆屋頂、山牆上空白招牌（深綠底白框）
+    pw, pd = h['porch']['w'], h['porch']['d']; pv0, pv1 = vF, vF + pd
+    mk['conc'].box(-pw / 2, pw / 2, -0.05, 0.12, pv0, pv1)
+    for su in (-1, 1):
+        uu = su * (pw / 2 - 0.3); mk['trim'].rbox(uu - 0.14, uu + 0.14, 0.12, 3.1, pv1 - 0.34, pv1 - 0.06, r=0.015, seg=1)
+        mk['trim'].box(uu - 0.2, uu + 0.2, 0.12, 0.42, pv1 - 0.4, pv1)
+    mk['trim'].box(-pw / 2, pw / 2, 3.1, 3.35, pv1 - 0.36, pv1 - 0.04)
+    for su in (-1, 1): mk['trim'].box(su * pw / 2 - (0.12 if su > 0 else 0), su * pw / 2 + (0.0 if su > 0 else 0.12), 3.1, 3.35, pv0, pv1 - 0.04)
+    pp = math.radians(32); ay = 3.35 + (pw / 2 + 0.3) * math.tan(pp)
+    for su in (-1, 1):
+        mk['roof'].quad([(su * (pw / 2 + 0.3), 3.3, pv1 + 0.3), (su * (pw / 2 + 0.3), 3.3, pv0 - 0.4), (0.0, ay, pv0 - 0.4), (0.0, ay, pv1 + 0.3)][::(1 if su < 0 else -1)])
+        mk['trim'].cyl((su * (pw / 2 + 0.3), 3.28, pv1 + 0.32), (0.0, ay + 0.02, pv1 + 0.32), 0.06, seg=6)
+    gf = mk['siding_h'].bm; tri = [(-pw / 2, 3.35, pv1 - 0.02), (pw / 2, 3.35, pv1 - 0.02), (0.0, 3.35 + pw / 2 * math.tan(pp), pv1 - 0.02)]
+    for t_ in (tri, tri[::-1]): gf.faces.new([gf.verts.new(g2b(*p)) for p in t_])   # 門廊的山牆（兩面）
+    dq(mk['siding_h'], [(-pw / 2, 3.35, pv1 - 0.02), (-pw / 2, 3.35, pv0), (pw / 2, 3.35, pv0), (pw / 2, 3.35, pv1 - 0.02)])   # 門廊天花板
+    vc.crbox(-1.1, 1.1, 3.55, 4.05, pv1 + 0.0, pv1 + 0.04, '#24453a', r=0.01, seg=1)                                     # 空白招牌（D77）
+    for (ya, yb_) in ((3.58, 3.61), (3.99, 4.02)): mk['trim'].box(-1.05, 1.05, ya, yb_, pv1 + 0.04, pv1 + 0.05)
+    mk['lamp'].box(-0.15, 0.15, 3.2, 3.24, pv0 + 0.6, pv0 + 1.0)                                                         # 門廊頂燈
+    for su in (-1, 1):                                                                                                    # 門口兩側壁燈（黑框燈籠）
+        uu = su * 1.9; mk['dark'].box(uu - 0.11, uu + 0.11, 1.95, 2.4, vF + 0.04, vF + 0.22); mk['lamp'].box(uu - 0.08, uu + 0.08, 2.0, 2.35, vF + 0.06, vF + 0.2)
+    for su in (-1, 1):                                                                                                    # 花台（磚）＋灌木
+        uu = su * (pw / 2 + 0.9); mk['brick'].box(uu - 0.6, uu + 0.6, 0.0, 0.45, vF + 0.15, vF + 0.95)
+        f0 = set(vc.bm.faces); vc.ell((uu, 0.75, vF + 0.55), 0.6, 0.38, 0.4, seg=10, rings=6); vc.paint([f for f in vc.bm.faces if f not in f0], '#2f4a2a')
+    mk['conc'].box(-1.6, 1.6, -0.03, 0.1, pv1, vF + 2.85)                                                                # 接到停車場路緣的走道
+    # 主屋頂（脊沿 u）＋兩端山牆
+    PITCH = math.radians(25); ov = 0.5; rv = Db / 2 + ov; ry = EH + rv * math.tan(PITCH)
+    for s_ in (1, -1):
+        mk['roof'].quad([(u0 - ov, EH - ov * math.tan(PITCH) + 0.0, s_ * rv), (u1 + ov, EH - ov * math.tan(PITCH), s_ * rv), (u1 + ov, ry - ov * math.tan(PITCH), 0.0), (u0 - ov, ry - ov * math.tan(PITCH), 0.0)][::(1 if s_ > 0 else -1)])
+        mk['trim'].box(u0 - ov, u1 + ov, EH - ov * math.tan(PITCH) - 0.2, EH - ov * math.tan(PITCH), s_ * rv - 0.04, s_ * rv + 0.04)
+    for uu in (u0, u1):
+        gf = mk['siding_h'].bm; gf.faces.new([gf.verts.new(g2b(uu, EH, s_ * Db / 2)) for s_ in ((1, -1) if uu == u0 else (-1, 1))] + [gf.verts.new(g2b(uu, EH + Db / 2 * math.tan(PITCH), 0.0))])
+    for nm, m in mk.items():
+        if not m.empty(): m.finish(g, uv=(nm in ('siding_h', 'brick', 'roof', 'conc')))
+    vc.finish(g, uv=False)
+    return g
+
+
+if J.get('clubhouse'): clubhouse(J['clubhouse'])
+
 # ================= 地面 =================
 BD_ = J['bounds']; lot = J['lot']
 gr = Mesh('usc_grass', M['grass'], tile=3.0); gr.box(BD_['x0'], BD_['x1'], -0.06, -0.02, BD_['z0'], BD_['z1']); gr.finish(root)

@@ -25,6 +25,10 @@ BUILDINGS = [
     {'id': 'B', 'cx': 8.0, 'cz': -22.5, 'len': 32.0, 'dep': 13.0, 'yaw': 0.0, 'gables': 4, 'breezeway': [-8.0, 6.0], 'tint': '#6d6c5f', 'home': True},
     {'id': 'C', 'cx': 33.5, 'cz': 6.0, 'len': 26.0, 'dep': 13.0, 'yaw': -math.pi / 2, 'gables': 3, 'breezeway': [2.0], 'tint': '#8c8572'},
 ]
+# 會所（clubhouse：社區辦公室＋交誼廳；BB_215「社區走到 C 棟和會所門口」，會所晚餐是 2D）：停車場南邊、往西出口旁（美國社區的會所通常在入口附近）。
+# 一層樓、正面朝北（yaw π）、正中間有門廊（兩根白柱、小山牆）；門口的互動點在門廊下
+CLUB = {'id': 'H', 'cx': -28.0, 'cz': 16.8, 'len': 13.0, 'dep': 7.6, 'yaw': math.pi, 'eave': 3.8, 'porch': {'w': 4.8, 'd': 2.0}, 'tint': '#b8ad95',
+        'note': '會所（辦公室＋交誼廳）：一層、正面朝北；門廊兩根白柱；招牌空白（D77）'}
 # 停車場：柏油範圍、兩排車位（車頭朝車道）、車道
 LOT = {'x0': -34.0, 'x1': 24.0, 'z0': -10.0, 'z1': 10.0}
 STALL_W, STALL_D, AISLE = 2.7, 5.5, 7.0
@@ -73,6 +77,12 @@ for k in range(14):                                  # 停車場兩側的新種�
     TREES.append({'x': round(LOT['x0'] + 2.0 + k * 4.2, 3), 'z': round(LOT['z1'] + 2.2, 3), 'kind': 'young', 'h': round(rng.uniform(3.2, 4.4), 2)})
 for k in range(18):
     TREES.append({'x': round(X0 + 3.0 + k * 4.6 + rng.uniform(-1, 1), 3), 'z': round(L['forest']['z0'] + 3.0 + rng.uniform(0, 6), 3), 'kind': 'big', 'h': round(rng.uniform(11, 17), 1)})
+_cx0, _cx1 = CLUB['cx'] - CLUB['len'] / 2 - 1.5, CLUB['cx'] + CLUB['len'] / 2 + 1.5   # 會所前面的小樹拿掉、後面的大樹往後退（樹冠不插進屋頂）
+TREES = [t for t in TREES if not (t['kind'] == 'young' and _cx0 < t['x'] < _cx1)]
+for t in TREES:
+    if t['kind'] == 'big' and _cx0 - 2 < t['x'] < _cx1 + 2 and t['z'] < 24.5: t['z'] = round(24.5 + (t['z'] - 21.0) * 0.4, 3)
+CLUB['door'] = {'x': CLUB['cx'], 'z': round(CLUB['cz'] - CLUB['dep'] / 2 - 0.9, 3), 'r': 1.2, 'label': '會所'}
+L['clubhouse'] = CLUB
 L['props'], L['trees'] = PROPS, TREES
 
 
@@ -110,6 +120,11 @@ for b in BUILDINGS:
         k += 0.1
     if cur is not None: segs.append((cur, Lb / 2 - 0.5))
     for (a_, c_) in segs: BLOCKS.append(dict(rect_w(b, a_, c_, vF, vF + 1.15), why='shrubs'))
+_cf = CLUB['cz'] - CLUB['dep'] / 2   # 會所正面（朝北）的 z
+BLOCKS.append({'x0': CLUB['cx'] - CLUB['len'] / 2, 'x1': CLUB['cx'] + CLUB['len'] / 2, 'z0': round(_cf, 3), 'z1': round(CLUB['cz'] + CLUB['dep'] / 2, 3), 'why': 'building H (clubhouse)'})
+for _sx in (-1, 1):
+    _px = CLUB['cx'] + _sx * (CLUB['porch']['w'] / 2 - 0.3); _pz = _cf - CLUB['porch']['d'] + 0.2
+    BLOCKS.append({'x0': round(_px - 0.2, 3), 'x1': round(_px + 0.2, 3), 'z0': round(_pz - 0.2, 3), 'z1': round(_pz + 0.2, 3), 'why': 'clubhouse porch column'})
 for p in PROPS:
     if 'building' in p: continue
     hs = {'lamp': (0.3, 0.3), 'mailboxes': (1.35, 0.45), 'dumpster': (1.5, 1.35), 'bikerack': (1.15, 0.4), 'bench': (0.35, 1.0)}.get(p['type'], (0.4, 0.4))
@@ -134,8 +149,8 @@ def check(L):
         if abs(s['x'] - b['cx']) < hl and abs(s['z'] - b['cz']) < hd: bad.append(('spawn in building', b['id']))
     for c in L['cars']:
         if abs(c['x'] - s['x']) < 3.0 and abs(c['z'] - s['z']) < 3.5: bad.append(('car at spawn', c['x'], c['z']))
-    for k in ('spawn_home', 'to_home', 'exit_west'):
-        p = L[k]
+    for k in ('spawn_home', 'to_home', 'exit_west', 'club_door'):
+        p = L[k] if k != 'club_door' else L['clubhouse']['door']
         for r in L['blocks']:
             if r['x0'] < p['x'] < r['x1'] and r['z0'] < p['z'] < r['z1']: bad.append((k + ' blocked', r['why']))
     return bad
