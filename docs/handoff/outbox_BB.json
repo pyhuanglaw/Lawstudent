@@ -466,7 +466,7 @@
    "next": "LAWWW-C 實作（台詞 AA_222 bb83443d）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT"
+   "ack": "ACKNOWLEDGED（LAWWW-C 08:12：v9.10 發布後的下一版做）"
   },
   {
    "task": "D59 品妤第五版驗收（要改）",
@@ -494,6 +494,170 @@
    "next": "AA 確認 → BB 改 BB_95/97/107/125 → 交 LAWWW-C（根源 romance3d.js KEXIN_KNOWN）",
    "noDirectIntegrate": true,
    "receiver": "AA",
+   "ack": "SENT"
+  },
+  {
+   "task": "knowsGF 整包交 LAWWW-C（BB_191 §9-1～9-7）＋語彤不入法服",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "08429294",
+   "files": [
+    "docs/story_planning/BB_191_多線戀愛知情機制_女生聊天發現_語彤雙主修.md",
+    "docs/story_planning/BB_97_交接包v3_大二.md"
+   ],
+   "state": "已交付",
+   "remaining": "anRomancePre d 等使用者；AA 其他舊檔分批",
+   "next": "LAWWW-C 實作（AA 檔 bd51750b）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACKNOWLEDGED（LAWWW-C 08:12：v9.10 發布後的下一版做）"
+  },
+  {
+   "task": "學姊條件清理（AA_223 取代註記、SIS_HEALED 等作廢、沛珊她單身）＋★-8 不在群組主動說話",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "d929ddf1 / c053db1c",
+   "files": [
+    "docs/story_planning/BB_122_溫學姊戀愛線v2_分手前後與重新開始.md"
+   ],
+   "state": "已交付",
+   "remaining": "Kevin 置頂留不留等使用者",
+   "next": "AA",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
+  },
+  {
+   "task": "使用者 P0：子晴×芷若完整事件（BB_192）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "5e2556a5 / b10e9701",
+   "files": [
+    "docs/story_planning/使用者指示_20261017_子晴芷若_私下約會雙重交往友情挽回_原文.md",
+    "docs/story_planning/BB_192_子晴芷若_私下約會雙重交往友情挽回.md"
+   ],
+   "state": "已交付（PROPOSAL）",
+   "remaining": "芷若挽回線台詞下一批；使用者確認",
+   "next": "AA 核對日程 → 使用者確認 → LAWWW",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
+  },
+  {
+   "task": "使用者 P0：以安／書瑀／可昕完整事件（BB_193）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "257fe7f1 / d38829b9",
+   "files": [
+    "docs/story_planning/使用者指示_20261017_以安書瑀可昕_私下約會知情告白劈腿挽回_原文.md",
+    "docs/story_planning/BB_193_以安書瑀可昕_私下約會知情告白劈腿挽回.md"
+   ],
+   "state": "已交付（PROPOSAL）",
+   "remaining": "書瑀可昕的知情來源待使用者；以安稱呼、書卷獎紀錄待 AA",
+   "next": "AA 核對 → 使用者確認 → LAWWW",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
+  },
+  {
+   "task": "BB_190 第四節 BB-LOGIC-13～18（女主角人生是否圍繞祐廷、模板）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "df8fc8df",
+   "files": [
+    "docs/story_planning/BB_190_劇情審查_BB人物與口語.md"
+   ],
+   "state": "已交付",
+   "remaining": "13、14、16、18 待使用者",
+   "next": "AA 整合 AA_219",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
+  },
+  {
+   "task": "BB_194 機制總表＋§13～22（AA_227/228 機制、使用者回覆、子晴芷若兩人都離開、沛珊消失、子晴河堤乙）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "05571a45 … 163fd810",
+   "files": [
+    "docs/story_planning/BB_194_多線交往_知情_說謊承諾_挽回_機制總表.md"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW 盤點 §12 五題",
+   "next": "LAWWW 盤點 → 實作",
+   "noDirectIntegrate": false,
+   "receiver": "AA+LAWWW",
+   "ack": "ACKNOWLEDGED"
+  },
+  {
+   "task": "學姊閒聊階梯照新年級搬層（BB_195）＋沛珊 Y2S2 拿掉",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "efe389a9",
+   "files": [
+    "docs/story_planning/BB_195_溫書瑀閒聊階梯_年級平移表.md",
+    "docs/story_planning/ladder/build_ladder_bb_y1s2.py…y4s2.py",
+    "docs/story_planning/ladder/ladder_bb_y*.json"
+   ],
+   "state": "已交付",
+   "remaining": "AA 看 S4-L1 回覆、Y3S2 短招呼",
+   "next": "AA 審字 → LAWWW 重建 ladder.js",
+   "noDirectIntegrate": false,
+   "receiver": "AA+LAWWW",
+   "ack": "SENT"
+  },
+  {
+   "task": "芷若×子晴 摯友到戀人 機制（BB_194 §23；對齊 AA_232 4-0 使用者批准的日期，含 4-2 21:50、入場旁白、F3／4-2b 依狀態）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "bac109ce",
+   "files": [
+    "docs/story_planning/BB_194_多線交往_知情_說謊承諾_挽回_機制總表.md"
+   ],
+   "state": "已交付（PROPOSAL）",
+   "remaining": "AA 寫入場旁白各格、4-2b 情侶版、serious_again 開頭；使用者回 23-9 第 4、5 題",
+   "next": "使用者審 → LAWWW 盤點",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
+  },
+  {
+   "task": "BB 五人閒聊階梯稽核：給 AA 的台詞清單（BB_196）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "eef690ab",
+   "files": [
+    "docs/story_planning/BB_196_閒聊階梯稽核_BB五人_給AA的台詞清單.md"
+   ],
+   "state": "已交付",
+   "remaining": "機制約 38 項 BB 修改中",
+   "next": "AA 改台詞；BB 推機制修正",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
+  },
+  {
+   "task": "BB 五人閒聊階梯機制修正（稽核約 38 項；新欄位 skipAfterWeek；套用 AA 的 S2-L2、大三下短招呼）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "a2d49644",
+   "files": [
+    "docs/story_planning/ladder/build_ladder_bb*.py",
+    "docs/story_planning/ladder/ladder_bb*.json",
+    "docs/story_planning/ladder/README.md",
+    "docs/story_planning/BB_196_閒聊階梯稽核_BB五人_給AA的台詞清單.md"
+   ],
+   "state": "已交付（PROPOSAL）",
+   "remaining": "AA_234 補學姊 3 層、改句、綁地點短招呼的替代句；AA_235 經濟系那一年",
+   "next": "AA 審完 → LAWWW 重建 ladder.js（要支援 skipAfterWeek）",
+   "noDirectIntegrate": true,
+   "receiver": "AA+LAWWW",
+   "ack": "SENT"
+  },
+  {
+   "task": "閒聊階梯套用 AA_234（學姊補三層、約 61 句、4-1 鋪陳、ZZ_DATING、可昕美國版、11 句短招呼）與 AA_235（經濟系那一年）；README 新欄位",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "6a01ecd4",
+   "files": [
+    "docs/story_planning/ladder/build_ladder_bb*.py",
+    "docs/story_planning/ladder/ladder_bb*.json",
+    "docs/story_planning/ladder/README.md"
+   ],
+   "state": "已交付（PROPOSAL；AA 已審）",
+   "remaining": "沛珊兩句「第一次寫教案」矛盾、4-1 第 5 句未放；LAWWW：skipAfterWeek、ZZ_DATING、extraIf.mem、workShifts、Y0_MOVED_OUT、dating_kexin 10/17",
+   "next": "LAWWW 重建 ladder.js（LIFE-LINE 之後）",
+   "noDirectIntegrate": false,
+   "receiver": "AA+LAWWW",
    "ack": "SENT"
   }
  ]
