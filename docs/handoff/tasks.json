@@ -13958,9 +13958,9 @@
    "title": "LAWWW-B 2026-10-17 02:3x 交班時沒跑完的測試（整合 LAWWW2-B 疊面修正、四人房、宿營修正、大一下日期之後）",
    "area": "QA",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P0",
-   "next": "【06:3x 第七～九批：street_props_integration ALL PASS（測試照「不准退化」改、校園正式模型≠?nobldg 的蒲葵與社科院配置記錄不判定、下載失敗恢復後＝正式版）、map_canvas_leak／dorm_start_memory ALL PASS（59facb8b 洩漏修好）、zone_memory ALL PASS、flow_camp_y1 ALL PASS（8/29 室友坐好）；剩：flow_b4_lecture 跑中、大一下重訪等階梯對話框的瀏覽器驗證】LAWWW-C 2026-10-17 06:1x：瀏覽器第二～六批：gongguan_glb、wz_street、dorm_start_memory、zone_memory、flow_linze_floors（改第 11 天後）、reachability_all（3b6af99f 修鞦韆走近點、四人房書桌 deskScene 走 seatApproach 後）ALL PASS；修好：8/29 三個室友沒生出來（E.zone.id→G.zone，camp_y1_unit F4b）、場景小物重抓時載入畫面寫「重新下載中」；street_props_integration「載入失敗」照 10-17「不准退化」改測試（擋 30 秒＝還在載入畫面、恢復後用正式模型）重跑中；map_canvas_leak 強制 GC 後換區域仍多 19 張 canvas（4.8 百萬像素）＝真的留著，調查中（BUG-MAPBLACK）；大一下重訪等階梯對話框的瀏覽器驗證還沒做。｜LAWWW-C 2026-10-17：①整套單元測試全部通過（修 B 交班留下的 4 個失敗：v3_batch1 路徑、bg_images、v2_b37、v2_b9，0402040b；之後新增測試一起 258／258）；②瀏覽器（乾淨 worktree 0402040b）：flow_camp_y1、flow_wancai_floors、zone_transitions、flow_library_floors、flow_library_scene、interior_glb_integration 全部 ALL PASS；flow_linze_floors 失敗是測試前提過期（第 8 天＝9/24 星期三，服務學習把玩家帶去法圖），改第 11 天（fd928d90）重跑排第五批；③8/29 室友坐姿：flow_camp_y1 已加檢查（37004d10），第二批重跑；④大一下重訪等階梯對話框的瀏覽器驗證還沒做。容器缺 Python Playwright 時：pip install playwright（不要 playwright install，用 /opt/pw-browsers/chromium）",
+   "next": "【LAWWW-C 206159cd：最後一項「大一下階梯對話框」瀏覽器驗證 tests/flow_ladder_y1s2.py 橫向＋直向 ALL PASS（語彤 Y2-L1：對話框、選項在畫面裡、44px 以上、階梯前進、沒有 JS 錯誤；手機模擬，不是實機）。發現：升階那次只播門檻台詞、不走階梯（設計如此）。QA-HANDOFF-B1 的瀏覽器項目全部跑完】【06:3x 第七～九批：street_props_integration ALL PASS（測試照「不准退化」改、校園正式模型≠?nobldg 的蒲葵與社科院配置記錄不判定、下載失敗恢復後＝正式版）、map_canvas_leak／dorm_start_memory ALL PASS（59facb8b 洩漏修好）、zone_memory ALL PASS、flow_camp_y1 ALL PASS（8/29 室友坐好）；剩：flow_b4_lecture 跑中、大一下重訪等階梯對話框的瀏覽器驗證】LAWWW-C 2026-10-17 06:1x：瀏覽器第二～六批：gongguan_glb、wz_street、dorm_start_memory、zone_memory、flow_linze_floors（改第 11 天後）、reachability_all（3b6af99f 修鞦韆走近點、四人房書桌 deskScene 走 seatApproach 後）ALL PASS；修好：8/29 三個室友沒生出來（E.zone.id→G.zone，camp_y1_unit F4b）、場景小物重抓時載入畫面寫「重新下載中」；street_props_integration「載入失敗」照 10-17「不准退化」改測試（擋 30 秒＝還在載入畫面、恢復後用正式模型）重跑中；map_canvas_leak 強制 GC 後換區域仍多 19 張 canvas（4.8 百萬像素）＝真的留著，調查中（BUG-MAPBLACK）；大一下重訪等階梯對話框的瀏覽器驗證還沒做。｜LAWWW-C 2026-10-17：①整套單元測試全部通過（修 B 交班留下的 4 個失敗：v3_batch1 路徑、bg_images、v2_b37、v2_b9，0402040b；之後新增測試一起 258／258）；②瀏覽器（乾淨 worktree 0402040b）：flow_camp_y1、flow_wancai_floors、zone_transitions、flow_library_floors、flow_library_scene、interior_glb_integration 全部 ALL PASS；flow_linze_floors 失敗是測試前提過期（第 8 天＝9/24 星期三，服務學習把玩家帶去法圖），改第 11 天（fd928d90）重跑排第五批；③8/29 室友坐姿：flow_camp_y1 已加檢查（37004d10），第二批重跑；④大一下重訪等階梯對話框的瀏覽器驗證還沒做。容器缺 Python Playwright 時：pip install playwright（不要 playwright install，用 /opt/pw-browsers/chromium）",
    "first": {
     "term": "Y1S1",
     "week": 0,
@@ -13972,7 +13972,14 @@
     "confirmed": true
    },
    "source": "LAWWW-B 交班（使用者 2026-10-17 02:3x 正式換班）",
-   "authorized": "D83 三級測試"
+   "authorized": "D83 三級測試",
+   "evidence": [
+    {
+     "commit": "206159cd",
+     "test": "tests/flow_ladder_y1s2.py",
+     "result": "ALL PASS（橫向、直向，手機模擬）"
+    }
+   ]
   },
   {
    "id": "ART-GG-SIGNS-2",
