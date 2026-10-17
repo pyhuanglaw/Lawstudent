@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import playlib as L
 URL = (sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html') + '?start1'
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'shots', 'flow_camp_y1')
-SHOTS = {'（早上八點半，校門口停了兩台遊覽車': 'bus', '我是你們的小隊輔': 'ice', '各小隊的臥底，出列': 'reveal', '十二點半，遊覽車停在校門口': 'gate', '房間裡已經有一個人': 'kai', '以前遇到事情，你會去翻民法': 'desk', '你的冷氣遙控器在我這': 'ac'}
+SHOTS = {'（早上八點半，校門口停了兩台遊覽車': 'bus', '我是你們的小隊輔': 'ice', '各小隊的臥底，出列': 'reveal', '十二點半，遊覽車停在校門口': 'gate', '另一張書桌前也有人': 'kai', '門被撞開。阿哲拖著': 'zhe', '以前遇到事情，你會去翻民法': 'desk', '你的冷氣遙控器在我這': 'ac'}
 
 
 async def main():
