@@ -199,6 +199,21 @@
    "noDirectIntegrate": true,
    "receiver": "AA",
    "ack": "SENT"
+  },
+  {
+   "task": "AA215-ROMANCE",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "0297b1e0",
+   "files": [
+    "docs/story_planning/BB_185_告白門檻簡化_BB五位盤點.md",
+    "docs/story_planning/BB_122_溫學姊戀愛線v2_分手前後與重新開始.md"
+   ],
+   "state": "WIP",
+   "remaining": "盤點交 AA 分工；Q1 沛珊和柏翰、Q4 大一她們知不知道可昕、Q5 芷若的點法待定；BB 五位大一～大二交往版約 80～90 項未寫",
+   "next": "AA-C 分工 → BB 照 D81 從大一上開始補",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
   }
  ]
 }
